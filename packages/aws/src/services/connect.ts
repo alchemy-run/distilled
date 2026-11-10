@@ -354,20 +354,20 @@ export type AWSAccountId = string;
 export interface AssociateAnalyticsDataSetRequest {
   InstanceId: string;
   DataSetId: string;
-  TargetAccountId?: string;
+  TargetAccountId?: string | undefined;
 }
 export interface AssociateAnalyticsDataSetResponse {
-  DataSetId?: string;
-  TargetAccountId?: string;
-  ResourceShareId?: string;
-  ResourceShareArn?: string;
+  DataSetId?: string | undefined;
+  TargetAccountId?: string | undefined;
+  ResourceShareId?: string | undefined;
+  ResourceShareArn?: string | undefined;
 }
 export type Origin = string;
 export type ClientToken = string;
 export interface AssociateApprovedOriginRequest {
   InstanceId: string;
   Origin: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateApprovedOriginResponse {}
 export type BotName = string;
@@ -378,13 +378,13 @@ export interface LexBot {
 }
 export type AliasArn = string;
 export interface LexV2Bot {
-  AliasArn?: string;
+  AliasArn?: string | undefined;
 }
 export interface AssociateBotRequest {
   InstanceId: string;
-  LexBot?: LexBot;
-  LexV2Bot?: LexV2Bot;
-  ClientToken?: string;
+  LexBot?: LexBot | undefined;
+  LexV2Bot?: LexV2Bot | undefined;
+  ClientToken?: string | undefined;
 }
 export interface AssociateBotResponse {}
 export type ContactId = string;
@@ -434,7 +434,7 @@ export type VocabularyId = string;
 export interface AssociateDefaultVocabularyRequest {
   InstanceId: string;
   LanguageCode: VocabularyLanguageCode;
-  VocabularyId?: string;
+  VocabularyId?: string | undefined;
 }
 export interface AssociateDefaultVocabularyResponse {}
 export type EmailAddressId = string;
@@ -445,7 +445,7 @@ export interface AssociateEmailAddressAliasRequest {
   EmailAddressId: string;
   InstanceId: string;
   AliasConfiguration: AliasConfiguration;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateEmailAddressAliasResponse {}
 export type FlowAssociationResourceType =
@@ -464,7 +464,7 @@ export interface AssociateFlowRequest {
 export interface AssociateFlowResponse {}
 export type HoursOfOperationId = string;
 export interface ParentHoursOfOperationConfig {
-  HoursOfOperationId?: string;
+  HoursOfOperationId?: string | undefined;
 }
 export type ParentHoursOfOperationConfigList = ParentHoursOfOperationConfig[];
 export interface AssociateHoursOfOperationsRequest {
@@ -506,7 +506,7 @@ export interface EncryptionConfig {
 export interface S3Config {
   BucketName: string;
   BucketPrefix: string;
-  EncryptionConfig?: EncryptionConfig;
+  EncryptionConfig?: EncryptionConfig | undefined;
 }
 export type Hours = number;
 export interface KinesisVideoStreamConfig {
@@ -521,33 +521,33 @@ export interface KinesisFirehoseConfig {
   FirehoseArn: string;
 }
 export interface InstanceStorageConfig {
-  AssociationId?: string;
+  AssociationId?: string | undefined;
   StorageType: StorageType;
-  S3Config?: S3Config;
-  KinesisVideoStreamConfig?: KinesisVideoStreamConfig;
-  KinesisStreamConfig?: KinesisStreamConfig;
-  KinesisFirehoseConfig?: KinesisFirehoseConfig;
+  S3Config?: S3Config | undefined;
+  KinesisVideoStreamConfig?: KinesisVideoStreamConfig | undefined;
+  KinesisStreamConfig?: KinesisStreamConfig | undefined;
+  KinesisFirehoseConfig?: KinesisFirehoseConfig | undefined;
 }
 export interface AssociateInstanceStorageConfigRequest {
   InstanceId: string;
   ResourceType: InstanceStorageResourceType;
   StorageConfig: InstanceStorageConfig;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateInstanceStorageConfigResponse {
-  AssociationId?: string;
+  AssociationId?: string | undefined;
 }
 export type FunctionArn = string;
 export interface AssociateLambdaFunctionRequest {
   InstanceId: string;
   FunctionArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateLambdaFunctionResponse {}
 export interface AssociateLexBotRequest {
   InstanceId: string;
   LexBot: LexBot;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateLexBotResponse {}
 export type PhoneNumberId = string;
@@ -567,7 +567,7 @@ export interface AssociateQueueEmailAddressesRequest {
   InstanceId: string;
   QueueId: string;
   EmailAddressesConfig: EmailAddressConfig[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateQueueEmailAddressesResponse {}
 export type QuickConnectId = string;
@@ -600,22 +600,22 @@ export type RoutingProfileManualAssignmentQueueConfigList =
 export interface AssociateRoutingProfileQueuesRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  QueueConfigs?: RoutingProfileQueueConfig[];
-  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfig[];
+  QueueConfigs?: RoutingProfileQueueConfig[] | undefined;
+  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfig[] | undefined;
 }
 export interface AssociateRoutingProfileQueuesResponse {}
 export type PEM = string;
 export interface AssociateSecurityKeyRequest {
   InstanceId: string;
   Key: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateSecurityKeyResponse {
-  AssociationId?: string;
+  AssociationId?: string | undefined;
 }
 export type SecurityProfileId = string;
 export interface SecurityProfileItem {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type SecurityProfiles = SecurityProfileItem[];
 export type EntityType = "USER" | "AI_AGENT" | (string & {});
@@ -658,43 +658,43 @@ export interface AssociateWorkspaceRequest {
   ResourceArns: string[];
 }
 export interface SuccessfulBatchAssociationSummary {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type SuccessfulBatchAssociationSummaryList = SuccessfulBatchAssociationSummary[];
 export type WorkspaceErrorCode = string;
 export type WorkspaceBatchErrorMessage = string;
 export interface FailedBatchAssociationSummary {
-  ResourceArn?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ResourceArn?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedBatchAssociationSummaryList = FailedBatchAssociationSummary[];
 export interface AssociateWorkspaceResponse {
-  SuccessfulList?: SuccessfulBatchAssociationSummary[];
-  FailedList?: FailedBatchAssociationSummary[];
+  SuccessfulList?: SuccessfulBatchAssociationSummary[] | undefined;
+  FailedList?: FailedBatchAssociationSummary[] | undefined;
 }
 export type DataSetIds = string[];
 export interface BatchAssociateAnalyticsDataSetRequest {
   InstanceId: string;
   DataSetIds: string[];
-  TargetAccountId?: string;
+  TargetAccountId?: string | undefined;
 }
 export interface AnalyticsDataAssociationResult {
-  DataSetId?: string;
-  TargetAccountId?: string;
-  ResourceShareId?: string;
-  ResourceShareArn?: string;
-  ResourceShareStatus?: string;
+  DataSetId?: string | undefined;
+  TargetAccountId?: string | undefined;
+  ResourceShareId?: string | undefined;
+  ResourceShareArn?: string | undefined;
+  ResourceShareStatus?: string | undefined;
 }
 export type AnalyticsDataAssociationResults = AnalyticsDataAssociationResult[];
 export interface ErrorResult {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ErrorResults = ErrorResult[];
 export interface BatchAssociateAnalyticsDataSetResponse {
-  Created?: AnalyticsDataAssociationResult[];
-  Errors?: ErrorResult[];
+  Created?: AnalyticsDataAssociationResult[] | undefined;
+  Errors?: ErrorResult[] | undefined;
 }
 export type DataTableId = string;
 export type DataTableName = string;
@@ -704,19 +704,19 @@ export interface PrimaryValue {
 }
 export type PrimaryValuesSet = PrimaryValue[];
 export interface DataTableLockVersion {
-  DataTable?: string;
-  Attribute?: string;
-  PrimaryValues?: string;
-  Value?: string;
+  DataTable?: string | undefined;
+  Attribute?: string | undefined;
+  PrimaryValues?: string | undefined;
+  Value?: string | undefined;
 }
 export type RegionName = string;
 export interface DataTableValue {
-  PrimaryValues?: PrimaryValue[];
+  PrimaryValues?: PrimaryValue[] | undefined;
   AttributeName: string;
   Value: string;
-  LockVersion?: DataTableLockVersion;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  LockVersion?: DataTableLockVersion | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type DataTableValueList = DataTableValue[];
 export interface BatchCreateDataTableValueRequest {
@@ -742,7 +742,7 @@ export interface BatchCreateDataTableValueResponse {
   Failed: BatchCreateDataTableValueFailureResult[];
 }
 export interface DataTableDeleteValueIdentifier {
-  PrimaryValues?: PrimaryValue[];
+  PrimaryValues?: PrimaryValue[] | undefined;
   AttributeName: string;
   LockVersion: DataTableLockVersion;
 }
@@ -769,7 +769,7 @@ export interface BatchDeleteDataTableValueResponse {
   Failed: BatchDeleteDataTableValueFailureResult[];
 }
 export interface DataTableValueIdentifier {
-  PrimaryValues?: PrimaryValue[];
+  PrimaryValues?: PrimaryValue[] | undefined;
   AttributeName: string;
 }
 export type DataTableValueIdentifierList = DataTableValueIdentifier[];
@@ -779,9 +779,9 @@ export interface BatchDescribeDataTableValueRequest {
   Values: DataTableValueIdentifier[];
 }
 export interface PrimaryValueResponse {
-  AttributeName?: string;
-  AttributeId?: string;
-  Value?: string;
+  AttributeName?: string | undefined;
+  AttributeId?: string | undefined;
+  Value?: string | undefined;
 }
 export type PrimaryValuesResponseSet = PrimaryValueResponse[];
 export interface BatchDescribeDataTableValueSuccessResult {
@@ -789,10 +789,10 @@ export interface BatchDescribeDataTableValueSuccessResult {
   AttributeId: string;
   PrimaryValues: PrimaryValueResponse[];
   AttributeName: string;
-  Value?: string;
+  Value?: string | undefined;
   LockVersion: DataTableLockVersion;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type BatchDescribeDataTableValueSuccessResultList =
   BatchDescribeDataTableValueSuccessResult[];
@@ -810,11 +810,11 @@ export interface BatchDescribeDataTableValueResponse {
 export interface BatchDisassociateAnalyticsDataSetRequest {
   InstanceId: string;
   DataSetIds: string[];
-  TargetAccountId?: string;
+  TargetAccountId?: string | undefined;
 }
 export interface BatchDisassociateAnalyticsDataSetResponse {
-  Deleted?: string[];
-  Errors?: ErrorResult[];
+  Deleted?: string[] | undefined;
+  Errors?: ErrorResult[] | undefined;
 }
 export type FileId = string;
 export type FileIdList = string[];
@@ -834,8 +834,8 @@ export type FileStatusType =
   | "DRAFTING"
   | (string & {});
 export type CreatedByInfo =
-  | { ConnectUserArn: string; AWSIdentityArn?: never }
-  | { ConnectUserArn?: never; AWSIdentityArn: string };
+  | { ConnectUserArn: string; AWSIdentityArn?: undefined }
+  | { ConnectUserArn?: undefined; AWSIdentityArn: string };
 export type FileUseCaseType =
   | "CONTACT_ANALYSIS"
   | "EMAIL_MESSAGE"
@@ -855,23 +855,23 @@ export interface AttachedFile {
   FileName: string;
   FileSizeInBytes: number;
   FileStatus: FileStatusType;
-  CreatedBy?: CreatedByInfo;
-  FileUseCaseType?: FileUseCaseType;
-  AssociatedResourceArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  CreatedBy?: CreatedByInfo | undefined;
+  FileUseCaseType?: FileUseCaseType | undefined;
+  AssociatedResourceArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AttachedFilesList = AttachedFile[];
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface AttachedFileError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  FileId?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  FileId?: string | undefined;
 }
 export type AttachedFileErrorsList = AttachedFileError[];
 export interface BatchGetAttachedFileMetadataResponse {
-  Files?: AttachedFile[];
-  Errors?: AttachedFileError[];
+  Files?: AttachedFile[] | undefined;
+  Errors?: AttachedFileError[] | undefined;
 }
 export type ResourceArnListMaxLimit100 = string[];
 export type ListFlowAssociationResourceType =
@@ -884,16 +884,16 @@ export type ListFlowAssociationResourceType =
 export interface BatchGetFlowAssociationRequest {
   InstanceId: string;
   ResourceIds: string[];
-  ResourceType?: ListFlowAssociationResourceType;
+  ResourceType?: ListFlowAssociationResourceType | undefined;
 }
 export interface FlowAssociationSummary {
-  ResourceId?: string;
-  FlowId?: string;
-  ResourceType?: ListFlowAssociationResourceType;
+  ResourceId?: string | undefined;
+  FlowId?: string | undefined;
+  ResourceType?: ListFlowAssociationResourceType | undefined;
 }
 export type FlowAssociationSummaryList = FlowAssociationSummary[];
 export interface BatchGetFlowAssociationResponse {
-  FlowAssociationSummaryList?: FlowAssociationSummary[];
+  FlowAssociationSummaryList?: FlowAssociationSummary[] | undefined;
 }
 export type EndpointType =
   | "TELEPHONE_NUMBER"
@@ -904,8 +904,8 @@ export type EndpointType =
   | (string & {});
 export type EndpointAddress = string;
 export interface Endpoint {
-  Type?: EndpointType;
-  Address?: string;
+  Type?: EndpointType | undefined;
+  Address?: string | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c235, 0) as any as S.Schema<Endpoint>;
 export type RequestIdentifier = string;
@@ -914,7 +914,7 @@ export type AttributeValue = string;
 export type Attributes = { [key: string]: string | undefined };
 export type CampaignId = string;
 export interface Campaign {
-  CampaignId?: string;
+  CampaignId?: string | undefined;
 }
 export type OutboundStrategyType = "AGENT_FIRST" | (string & {});
 export type PostAcceptPreviewTimeoutDurationInSeconds = number;
@@ -928,33 +928,33 @@ export interface Preview {
   AllowedUserActions: AllowedUserAction[];
 }
 export interface AgentFirst {
-  Preview?: Preview;
+  Preview?: Preview | undefined;
 }
 export interface OutboundStrategyConfig {
-  AgentFirst?: AgentFirst;
+  AgentFirst?: AgentFirst | undefined;
 }
 export interface OutboundStrategy {
   Type: OutboundStrategyType;
-  Config?: OutboundStrategyConfig;
+  Config?: OutboundStrategyConfig | undefined;
 }
 export interface ContactDataRequest {
-  SystemEndpoint?: Endpoint;
-  CustomerEndpoint?: Endpoint;
-  RequestIdentifier?: string;
-  QueueId?: string;
-  Attributes?: { [key: string]: string | undefined };
-  Campaign?: Campaign;
-  OutboundStrategy?: OutboundStrategy;
+  SystemEndpoint?: Endpoint | undefined;
+  CustomerEndpoint?: Endpoint | undefined;
+  RequestIdentifier?: string | undefined;
+  QueueId?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Campaign?: Campaign | undefined;
+  OutboundStrategy?: OutboundStrategy | undefined;
 }
 export type ContactDataRequestList = ContactDataRequest[];
 export interface BatchPutContactRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   InstanceId: string;
   ContactDataRequestList: ContactDataRequest[];
 }
 export interface SuccessfulRequest {
-  RequestIdentifier?: string;
-  ContactId?: string;
+  RequestIdentifier?: string | undefined;
+  ContactId?: string | undefined;
 }
 export type SuccessfulRequestList = SuccessfulRequest[];
 export type FailureReasonCode =
@@ -971,14 +971,14 @@ export type FailureReasonCode =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface FailedRequest {
-  RequestIdentifier?: string;
-  FailureReasonCode?: FailureReasonCode;
-  FailureReasonMessage?: string;
+  RequestIdentifier?: string | undefined;
+  FailureReasonCode?: FailureReasonCode | undefined;
+  FailureReasonMessage?: string | undefined;
 }
 export type FailedRequestList = FailedRequest[];
 export interface BatchPutContactResponse {
-  SuccessfulRequestList?: SuccessfulRequest[];
-  FailedRequestList?: FailedRequest[];
+  SuccessfulRequestList?: SuccessfulRequest[] | undefined;
+  FailedRequestList?: FailedRequest[] | undefined;
 }
 export interface BatchUpdateDataTableValueRequest {
   InstanceId: string;
@@ -1004,16 +1004,16 @@ export interface BatchUpdateDataTableValueResponse {
 export type PhoneNumber = string;
 export type PhoneNumberDescription = string;
 export interface ClaimPhoneNumberRequest {
-  TargetArn?: string;
-  InstanceId?: string;
+  TargetArn?: string | undefined;
+  InstanceId?: string | undefined;
   PhoneNumber: string;
-  PhoneNumberDescription?: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  PhoneNumberDescription?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface ClaimPhoneNumberResponse {
-  PhoneNumberId?: string;
-  PhoneNumberArn?: string;
+  PhoneNumberId?: string | undefined;
+  PhoneNumberArn?: string | undefined;
 }
 export interface CompleteAttachedFileUploadRequest {
   InstanceId: string;
@@ -1028,56 +1028,56 @@ export type AgentStatusOrderNumber = number;
 export interface CreateAgentStatusRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   State: AgentStatusState;
-  DisplayOrder?: number;
-  Tags?: { [key: string]: string | undefined };
+  DisplayOrder?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AgentStatusId = string;
 export interface CreateAgentStatusResponse {
-  AgentStatusARN?: string;
-  AgentStatusId?: string;
+  AgentStatusARN?: string | undefined;
+  AgentStatusId?: string | undefined;
 }
 export type FileSourceUri = string;
 export interface CreateAttachedFileRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   InstanceId: string;
   FileUseCaseType: FileUseCaseType;
   FileSourceUri: string;
   AssociatedResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAttachedFileResponse {
-  FileArn?: string;
-  FileId?: string;
-  CreationTime?: string;
-  FileStatus?: FileStatusType;
+  FileArn?: string | undefined;
+  FileId?: string | undefined;
+  CreationTime?: string | undefined;
+  FileStatus?: FileStatusType | undefined;
 }
 export type SecurityProfileIds = string[];
 export type AuthCodeEntityType = "CUSTOMER_PROFILE" | (string & {});
 export type EntityId = string;
 export type CustomerProfilesDomainName = string;
 export interface AuthScope {
-  SecurityProfileIds?: string[];
+  SecurityProfileIds?: string[] | undefined;
   EntityType: AuthCodeEntityType;
-  EntityId?: string;
-  DomainName?: string;
+  EntityId?: string | undefined;
+  DomainName?: string | undefined;
 }
 export type MaxSessionDurationMinutes = number;
 export type SessionInactivityDurationMinutes = number;
 export interface CreateAuthCodeRequest {
   InstanceId: string;
   Scope: AuthScope;
-  MaxSessionDurationMinutes?: number;
+  MaxSessionDurationMinutes?: number | undefined;
   SessionInactivityDurationMinutes: number;
 }
 export type AuthCode = string | redacted.Redacted<string>;
 export type SessionId = string;
 export interface CreateAuthCodeResponse {
-  AuthCode?: string | redacted.Redacted<string>;
-  SessionId?: string;
-  EntityType?: AuthCodeEntityType;
-  EntityId?: string;
+  AuthCode?: string | redacted.Redacted<string> | undefined;
+  SessionId?: string | undefined;
+  EntityType?: AuthCodeEntityType | undefined;
+  EntityId?: string | undefined;
 }
 export type ReferenceKey = string;
 export type ReferenceValue = string;
@@ -1106,11 +1106,11 @@ export type ReferenceStatus =
 export type ReferenceArn = string;
 export type ReferenceStatusReason = string;
 export interface Reference {
-  Value?: string;
+  Value?: string | undefined;
   Type: ReferenceType;
-  Status?: ReferenceStatus;
-  Arn?: string;
-  StatusReason?: string;
+  Status?: ReferenceStatus | undefined;
+  Arn?: string | undefined;
+  StatusReason?: string | undefined;
 }
 export type ContactReferences = { [key: string]: Reference | undefined };
 export type ContactInitiationMethod =
@@ -1129,7 +1129,7 @@ export type ContactInitiationMethod =
   | (string & {});
 export type ExpiryDurationInMinutes = number;
 export interface UserInfo {
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export type InitiateAs = "CONNECTED_TO_USER" | "COMPLETED" | (string & {});
 export type Name = string | redacted.Redacted<string>;
@@ -1140,32 +1140,32 @@ export type SegmentAttributeValueMap = { [key: string]: SegmentAttributeValue | 
 export type SegmentAttributeValueInteger = number;
 export type SegmentAttributeValueList = SegmentAttributeValue[];
 export interface SegmentAttributeValue {
-  ValueString?: string;
-  ValueMap?: { [key: string]: SegmentAttributeValue | undefined };
-  ValueInteger?: number;
-  ValueList?: SegmentAttributeValue[];
-  ValueArn?: string;
+  ValueString?: string | undefined;
+  ValueMap?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
+  ValueInteger?: number | undefined;
+  ValueList?: SegmentAttributeValue[] | undefined;
+  ValueArn?: string | undefined;
 }
 export type SegmentAttributes = { [key: string]: SegmentAttributeValue | undefined };
 export interface CreateContactRequest {
   InstanceId: string;
-  ClientToken?: string;
-  RelatedContactId?: string;
-  Attributes?: { [key: string]: string | undefined };
-  References?: { [key: string]: Reference | undefined };
+  ClientToken?: string | undefined;
+  RelatedContactId?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  References?: { [key: string]: Reference | undefined } | undefined;
   Channel: Channel;
   InitiationMethod: ContactInitiationMethod;
-  ExpiryDurationInMinutes?: number;
-  UserInfo?: UserInfo;
-  InitiateAs?: InitiateAs;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
-  PreviousContactId?: string;
+  ExpiryDurationInMinutes?: number | undefined;
+  UserInfo?: UserInfo | undefined;
+  InitiateAs?: InitiateAs | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
+  PreviousContactId?: string | undefined;
 }
 export interface CreateContactResponse {
-  ContactId?: string;
-  ContactArn?: string;
+  ContactId?: string | undefined;
+  ContactArn?: string | undefined;
 }
 export type ContactFlowName = string;
 export type ContactFlowType =
@@ -1187,87 +1187,87 @@ export interface CreateContactFlowRequest {
   InstanceId: string;
   Name: string;
   Type: ContactFlowType;
-  Description?: string;
+  Description?: string | undefined;
   Content: string;
-  Status?: ContactFlowStatus;
-  Tags?: { [key: string]: string | undefined };
+  Status?: ContactFlowStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FlowContentSha256 = string;
 export interface CreateContactFlowResponse {
-  ContactFlowId?: string;
-  ContactFlowArn?: string;
-  FlowContentSha256?: string;
+  ContactFlowId?: string | undefined;
+  ContactFlowArn?: string | undefined;
+  FlowContentSha256?: string | undefined;
 }
 export type InstanceIdOrArn = string;
 export type ResourceVersion = number;
 export interface CreateContactFlowAliasRequest {
   InstanceId: string;
-  Description?: string;
+  Description?: string | undefined;
   ContactFlowId: string;
   ContactFlowVersion: number;
   AliasName: string;
 }
 export interface CreateContactFlowAliasResponse {
-  ContactFlowArn?: string;
-  Id?: string;
+  ContactFlowArn?: string | undefined;
+  Id?: string | undefined;
 }
 export type ContactFlowModuleName = string;
 export type ContactFlowModuleDescription = string;
 export type ContactFlowModuleContent = string;
 export type FlowModuleSettings = string;
 export interface ExternalInvocationConfiguration {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface CreateContactFlowModuleRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Content: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
-  Settings?: string;
-  ExternalInvocationConfiguration?: ExternalInvocationConfiguration;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+  Settings?: string | undefined;
+  ExternalInvocationConfiguration?: ExternalInvocationConfiguration | undefined;
 }
 export type ContactFlowModuleId = string;
 export interface CreateContactFlowModuleResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export type ContactFlowModuleAlias = string;
 export interface CreateContactFlowModuleAliasRequest {
   InstanceId: string;
-  Description?: string;
+  Description?: string | undefined;
   ContactFlowModuleId: string;
   ContactFlowModuleVersion: number;
   AliasName: string;
 }
 export interface CreateContactFlowModuleAliasResponse {
-  ContactFlowModuleArn?: string;
-  Id?: string;
+  ContactFlowModuleArn?: string | undefined;
+  Id?: string | undefined;
 }
 export type FlowModuleContentSha256 = string;
 export interface CreateContactFlowModuleVersionRequest {
   InstanceId: string;
-  Description?: string;
+  Description?: string | undefined;
   ContactFlowModuleId: string;
-  FlowModuleContentSha256?: string;
+  FlowModuleContentSha256?: string | undefined;
 }
 export interface CreateContactFlowModuleVersionResponse {
-  ContactFlowModuleArn?: string;
-  Version?: number;
+  ContactFlowModuleArn?: string | undefined;
+  Version?: number | undefined;
 }
 export interface CreateContactFlowVersionRequest {
   InstanceId: string;
-  Description?: string;
+  Description?: string | undefined;
   ContactFlowId: string;
-  FlowContentSha256?: string;
-  ContactFlowVersion?: number;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  FlowContentSha256?: string | undefined;
+  ContactFlowVersion?: number | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface CreateContactFlowVersionResponse {
-  ContactFlowArn?: string;
-  Version?: number;
+  ContactFlowArn?: string | undefined;
+  Version?: number | undefined;
 }
 export type DataTableDescription = string;
 export type TimeZone = string;
@@ -1282,11 +1282,11 @@ export type DataTableStatus = "PUBLISHED" | (string & {});
 export interface CreateDataTableRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   TimeZone: string;
   ValueLockLevel: DataTableLockLevel;
   Status: DataTableStatus;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDataTableResponse {
   Id: string;
@@ -1306,50 +1306,50 @@ export type PositiveAndNegativeDouble = number;
 export type PositiveDouble = number;
 export type ValidationEnumValues = string[];
 export interface ValidationEnum {
-  Strict?: boolean;
-  Values?: string[];
+  Strict?: boolean | undefined;
+  Values?: string[] | undefined;
 }
 export interface Validation {
-  MinLength?: number;
-  MaxLength?: number;
-  MinValues?: number;
-  MaxValues?: number;
-  IgnoreCase?: boolean;
-  Minimum?: number;
-  Maximum?: number;
-  ExclusiveMinimum?: number;
-  ExclusiveMaximum?: number;
-  MultipleOf?: number;
-  Enum?: ValidationEnum;
+  MinLength?: number | undefined;
+  MaxLength?: number | undefined;
+  MinValues?: number | undefined;
+  MaxValues?: number | undefined;
+  IgnoreCase?: boolean | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
+  ExclusiveMinimum?: number | undefined;
+  ExclusiveMaximum?: number | undefined;
+  MultipleOf?: number | undefined;
+  Enum?: ValidationEnum | undefined;
 }
 export interface CreateDataTableAttributeRequest {
   InstanceId: string;
   DataTableId: string;
   Name: string;
   ValueType: DataTableAttributeValueType;
-  Description?: string;
-  Primary?: boolean;
-  Validation?: Validation;
+  Description?: string | undefined;
+  Primary?: boolean | undefined;
+  Validation?: Validation | undefined;
 }
 export interface CreateDataTableAttributeResponse {
   Name: string;
-  AttributeId?: string;
+  AttributeId?: string | undefined;
   LockVersion: DataTableLockVersion;
 }
 export type EmailAddress = string | redacted.Redacted<string>;
 export type EmailAddressDisplayName = string | redacted.Redacted<string>;
 export interface CreateEmailAddressRequest {
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   InstanceId: string;
   EmailAddress: string | redacted.Redacted<string>;
-  DisplayName?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type EmailAddressArn = string;
 export interface CreateEmailAddressResponse {
-  EmailAddressId?: string;
-  EmailAddressArn?: string;
+  EmailAddressId?: string | undefined;
+  EmailAddressArn?: string | undefined;
 }
 export type EvaluationFormTitle = string;
 export type EvaluationFormDescription = string;
@@ -1361,18 +1361,18 @@ export type PerformanceCategoryName = "NEEDS_IMPROVEMENT" | "EXCEEDS_EXPECTATION
 export type EvaluationScorePercentage = number;
 export interface EvaluationFormScoreThreshold {
   PerformanceCategory: PerformanceCategoryName;
-  MinScorePercentage?: number;
-  MaxScorePercentage?: number;
+  MinScorePercentage?: number | undefined;
+  MaxScorePercentage?: number | undefined;
 }
 export type EvaluationFormScoreThresholdList = EvaluationFormScoreThreshold[];
 export interface EvaluationFormSection {
   Title: string;
   RefId: string;
-  Instructions?: string;
+  Instructions?: string | undefined;
   Items: EvaluationFormItem[];
-  Weight?: number;
-  IsExcludedFromScoring?: boolean;
-  ScoreThresholds?: EvaluationFormScoreThreshold[];
+  Weight?: number | undefined;
+  IsExcludedFromScoring?: boolean | undefined;
+  ScoreThresholds?: EvaluationFormScoreThreshold[] | undefined;
 }
 export type EvaluationFormQuestionTitle = string;
 export type EvaluationFormQuestionType =
@@ -1384,20 +1384,20 @@ export type EvaluationFormQuestionType =
   | (string & {});
 export type EvaluationFormQuestionAnswerScore = number;
 export interface AutomaticFailConfiguration {
-  TargetSection?: string;
+  TargetSection?: string | undefined;
 }
 export type PointValue = number;
 export interface QuestionOptionPointsConfiguration {
   PointValue: number;
-  IsBonus?: boolean;
+  IsBonus?: boolean | undefined;
 }
 export interface EvaluationFormNumericQuestionOption {
   MinValue: number;
   MaxValue: number;
-  Score?: number;
-  AutomaticFail?: boolean;
-  AutomaticFailConfiguration?: AutomaticFailConfiguration;
-  PointsConfiguration?: QuestionOptionPointsConfiguration;
+  Score?: number | undefined;
+  AutomaticFail?: boolean | undefined;
+  AutomaticFailConfiguration?: AutomaticFailConfiguration | undefined;
+  PointsConfiguration?: QuestionOptionPointsConfiguration | undefined;
 }
 export type EvaluationFormNumericQuestionOptionList = EvaluationFormNumericQuestionOption[];
 export type NumericQuestionPropertyAutomationLabel =
@@ -1426,22 +1426,22 @@ export interface EvaluationFormQuestionAutomationAnswerSource {
   SourceType: EvaluationFormQuestionAutomationAnswerSourceType;
 }
 export type EvaluationFormNumericQuestionAutomation =
-  | { PropertyValue: NumericQuestionPropertyValueAutomation; AnswerSource?: never }
-  | { PropertyValue?: never; AnswerSource: EvaluationFormQuestionAutomationAnswerSource };
+  | { PropertyValue: NumericQuestionPropertyValueAutomation; AnswerSource?: undefined }
+  | { PropertyValue?: undefined; AnswerSource: EvaluationFormQuestionAutomationAnswerSource };
 export interface EvaluationFormNumericQuestionProperties {
   MinValue: number;
   MaxValue: number;
-  Options?: EvaluationFormNumericQuestionOption[];
-  Automation?: EvaluationFormNumericQuestionAutomation;
+  Options?: EvaluationFormNumericQuestionOption[] | undefined;
+  Automation?: EvaluationFormNumericQuestionAutomation | undefined;
 }
 export type EvaluationFormSingleSelectQuestionOptionText = string;
 export interface EvaluationFormSingleSelectQuestionOption {
   RefId: string;
   Text: string;
-  Score?: number;
-  AutomaticFail?: boolean;
-  AutomaticFailConfiguration?: AutomaticFailConfiguration;
-  PointsConfiguration?: QuestionOptionPointsConfiguration;
+  Score?: number | undefined;
+  AutomaticFail?: boolean | undefined;
+  AutomaticFailConfiguration?: AutomaticFailConfiguration | undefined;
+  PointsConfiguration?: QuestionOptionPointsConfiguration | undefined;
 }
 export type EvaluationFormSingleSelectQuestionOptionList =
   EvaluationFormSingleSelectQuestionOption[];
@@ -1462,29 +1462,29 @@ export type EvaluationFormSingleSelectQuestionAutomationOption = {
 export type EvaluationFormSingleSelectQuestionAutomationOptionList =
   EvaluationFormSingleSelectQuestionAutomationOption[];
 export interface EvaluationFormSingleSelectQuestionAutomation {
-  Options?: EvaluationFormSingleSelectQuestionAutomationOption[];
-  DefaultOptionRefId?: string;
-  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
+  Options?: EvaluationFormSingleSelectQuestionAutomationOption[] | undefined;
+  DefaultOptionRefId?: string | undefined;
+  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource | undefined;
 }
 export interface EvaluationFormSingleSelectQuestionProperties {
   Options: EvaluationFormSingleSelectQuestionOption[];
-  DisplayAs?: EvaluationFormSingleSelectQuestionDisplayMode;
-  Automation?: EvaluationFormSingleSelectQuestionAutomation;
+  DisplayAs?: EvaluationFormSingleSelectQuestionDisplayMode | undefined;
+  Automation?: EvaluationFormSingleSelectQuestionAutomation | undefined;
 }
 export interface EvaluationFormTextQuestionAutomation {
-  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
+  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource | undefined;
 }
 export interface EvaluationFormTextQuestionProperties {
-  Automation?: EvaluationFormTextQuestionAutomation;
+  Automation?: EvaluationFormTextQuestionAutomation | undefined;
 }
 export type EvaluationFormMultiSelectQuestionOptionText = string;
 export interface EvaluationFormMultiSelectQuestionOption {
   RefId: string;
   Text: string;
-  Score?: number;
-  AutomaticFail?: boolean;
-  AutomaticFailConfiguration?: AutomaticFailConfiguration;
-  PointsConfiguration?: QuestionOptionPointsConfiguration;
+  Score?: number | undefined;
+  AutomaticFail?: boolean | undefined;
+  AutomaticFailConfiguration?: AutomaticFailConfiguration | undefined;
+  PointsConfiguration?: QuestionOptionPointsConfiguration | undefined;
 }
 export type EvaluationFormMultiSelectQuestionOptionList = EvaluationFormMultiSelectQuestionOption[];
 export type EvaluationFormMultiSelectQuestionDisplayMode = "DROPDOWN" | "CHECKBOX" | (string & {});
@@ -1505,49 +1505,49 @@ export type EvaluationFormMultiSelectQuestionAutomationOption = {
 export type EvaluationFormMultiSelectQuestionAutomationOptionList =
   EvaluationFormMultiSelectQuestionAutomationOption[];
 export interface EvaluationFormMultiSelectQuestionAutomation {
-  Options?: EvaluationFormMultiSelectQuestionAutomationOption[];
-  DefaultOptionRefIds?: string[];
-  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource;
+  Options?: EvaluationFormMultiSelectQuestionAutomationOption[] | undefined;
+  DefaultOptionRefIds?: string[] | undefined;
+  AnswerSource?: EvaluationFormQuestionAutomationAnswerSource | undefined;
 }
 export interface EvaluationFormMultiSelectQuestionProperties {
   Options: EvaluationFormMultiSelectQuestionOption[];
-  DisplayAs?: EvaluationFormMultiSelectQuestionDisplayMode;
-  Automation?: EvaluationFormMultiSelectQuestionAutomation;
+  DisplayAs?: EvaluationFormMultiSelectQuestionDisplayMode | undefined;
+  Automation?: EvaluationFormMultiSelectQuestionAutomation | undefined;
 }
 export type EvaluationFormQuestionTypeProperties =
   | {
       Numeric: EvaluationFormNumericQuestionProperties;
-      SingleSelect?: never;
-      Text?: never;
-      MultiSelect?: never;
+      SingleSelect?: undefined;
+      Text?: undefined;
+      MultiSelect?: undefined;
     }
   | {
-      Numeric?: never;
+      Numeric?: undefined;
       SingleSelect: EvaluationFormSingleSelectQuestionProperties;
-      Text?: never;
-      MultiSelect?: never;
+      Text?: undefined;
+      MultiSelect?: undefined;
     }
   | {
-      Numeric?: never;
-      SingleSelect?: never;
+      Numeric?: undefined;
+      SingleSelect?: undefined;
       Text: EvaluationFormTextQuestionProperties;
-      MultiSelect?: never;
+      MultiSelect?: undefined;
     }
   | {
-      Numeric?: never;
-      SingleSelect?: never;
-      Text?: never;
+      Numeric?: undefined;
+      SingleSelect?: undefined;
+      Text?: undefined;
       MultiSelect: EvaluationFormMultiSelectQuestionProperties;
     };
 export type EvaluationFormItemEnablementSourceType = "QUESTION_REF_ID" | (string & {});
 export interface EvaluationFormItemEnablementSource {
   Type: EvaluationFormItemEnablementSourceType;
-  RefId?: string;
+  RefId?: string | undefined;
 }
 export type EvaluationFormItemEnablementSourceValueType = "OPTION_REF_ID" | (string & {});
 export interface EvaluationFormItemEnablementSourceValue {
   Type: EvaluationFormItemEnablementSourceValueType;
-  RefId?: string;
+  RefId?: string | undefined;
 }
 export type EvaluationFormItemEnablementSourceValueList = EvaluationFormItemEnablementSourceValue[];
 export type EvaluationFormItemSourceValuesComparator =
@@ -1562,30 +1562,30 @@ export interface EvaluationFormItemEnablementExpression {
   Comparator: EvaluationFormItemSourceValuesComparator;
 }
 export type EvaluationFormItemEnablementConditionOperand =
-  | { Expression: EvaluationFormItemEnablementExpression; Condition?: never }
-  | { Expression?: never; Condition: EvaluationFormItemEnablementCondition };
+  | { Expression: EvaluationFormItemEnablementExpression; Condition?: undefined }
+  | { Expression?: undefined; Condition: EvaluationFormItemEnablementCondition };
 export type EvaluationFormItemEnablementConditionOperandList =
   EvaluationFormItemEnablementConditionOperand[];
 export type EvaluationFormItemEnablementOperator = "OR" | "AND" | (string & {});
 export interface EvaluationFormItemEnablementCondition {
   Operands: EvaluationFormItemEnablementConditionOperand[];
-  Operator?: EvaluationFormItemEnablementOperator;
+  Operator?: EvaluationFormItemEnablementOperator | undefined;
 }
 export type EvaluationFormItemEnablementAction = "DISABLE" | "ENABLE" | (string & {});
 export interface EvaluationFormItemEnablementConfiguration {
   Condition: EvaluationFormItemEnablementCondition;
   Action: EvaluationFormItemEnablementAction;
-  DefaultAction?: EvaluationFormItemEnablementAction;
+  DefaultAction?: EvaluationFormItemEnablementAction | undefined;
 }
 export interface QuestionPointsConfiguration {
-  MaxPointValue?: number;
-  MinPointValue?: number;
-  IsBonus?: boolean;
+  MaxPointValue?: number | undefined;
+  MinPointValue?: number | undefined;
+  IsBonus?: boolean | undefined;
 }
 export interface EvaluationFormQuestionScoringConfiguration {
-  PointsConfiguration?: QuestionPointsConfiguration;
-  IsExcludedFromScoring?: boolean;
-  ScoreThresholds?: EvaluationFormScoreThreshold[];
+  PointsConfiguration?: QuestionPointsConfiguration | undefined;
+  IsExcludedFromScoring?: boolean | undefined;
+  ScoreThresholds?: EvaluationFormScoreThreshold[] | undefined;
 }
 export type EvaluationFormMetricType = "BUSINESS_OUTCOME" | (string & {});
 export type EvaluationFormMetricName = string;
@@ -1595,19 +1595,19 @@ export interface EvaluationFormMetricConfiguration {
 }
 export interface EvaluationFormQuestion {
   Title: string;
-  Instructions?: string;
+  Instructions?: string | undefined;
   RefId: string;
-  NotApplicableEnabled?: boolean;
+  NotApplicableEnabled?: boolean | undefined;
   QuestionType: EvaluationFormQuestionType;
-  QuestionTypeProperties?: EvaluationFormQuestionTypeProperties;
-  Enablement?: EvaluationFormItemEnablementConfiguration;
-  Weight?: number;
-  ScoringConfiguration?: EvaluationFormQuestionScoringConfiguration;
-  MetricConfiguration?: EvaluationFormMetricConfiguration;
+  QuestionTypeProperties?: EvaluationFormQuestionTypeProperties | undefined;
+  Enablement?: EvaluationFormItemEnablementConfiguration | undefined;
+  Weight?: number | undefined;
+  ScoringConfiguration?: EvaluationFormQuestionScoringConfiguration | undefined;
+  MetricConfiguration?: EvaluationFormMetricConfiguration | undefined;
 }
 export type EvaluationFormItem =
-  | { Section: EvaluationFormSection; Question?: never }
-  | { Section?: never; Question: EvaluationFormQuestion };
+  | { Section: EvaluationFormSection; Question?: undefined }
+  | { Section?: undefined; Question: EvaluationFormQuestion };
 export type EvaluationFormItemsList = EvaluationFormItem[];
 export type EvaluationFormScoringMode =
   | "QUESTION_ONLY"
@@ -1618,7 +1618,7 @@ export type EvaluationFormScoringStatus = "ENABLED" | "DISABLED" | (string & {})
 export interface EvaluationFormScoringStrategy {
   Mode: EvaluationFormScoringMode;
   Status: EvaluationFormScoringStatus;
-  ScoreThresholds?: EvaluationFormScoreThreshold[];
+  ScoreThresholds?: EvaluationFormScoreThreshold[] | undefined;
 }
 export interface EvaluationFormAutoEvaluationConfiguration {
   Enabled: boolean;
@@ -1626,7 +1626,7 @@ export interface EvaluationFormAutoEvaluationConfiguration {
 export type BoxedBoolean = boolean;
 export type EvaluationReviewNotificationRecipientType = "USER_ID" | (string & {});
 export interface EvaluationReviewNotificationRecipientValue {
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export interface EvaluationReviewNotificationRecipient {
   Type: EvaluationReviewNotificationRecipientType;
@@ -1635,7 +1635,7 @@ export interface EvaluationReviewNotificationRecipient {
 export type EvaluationReviewNotificationRecipientList = EvaluationReviewNotificationRecipient[];
 export interface EvaluationReviewConfiguration {
   ReviewNotificationRecipients: EvaluationReviewNotificationRecipient[];
-  EligibilityDays?: number;
+  EligibilityDays?: number | undefined;
 }
 export type ContactInteractionType = "AGENT" | "AUTOMATED" | "CUSTOMER" | (string & {});
 export interface EvaluationFormTargetConfiguration {
@@ -1654,23 +1654,23 @@ export type EvaluationFormLanguageCode =
   | "ms-MY"
   | (string & {});
 export interface EvaluationFormLanguageConfiguration {
-  FormLanguage?: EvaluationFormLanguageCode;
+  FormLanguage?: EvaluationFormLanguageCode | undefined;
 }
 export type EvaluationFormAIVersion = string;
 export interface CreateEvaluationFormRequest {
   InstanceId: string;
   Title: string;
-  Description?: string;
+  Description?: string | undefined;
   Items: EvaluationFormItem[];
-  ScoringStrategy?: EvaluationFormScoringStrategy;
-  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
-  ClientToken?: string;
-  AsDraft?: boolean;
-  Tags?: { [key: string]: string | undefined };
-  ReviewConfiguration?: EvaluationReviewConfiguration;
-  TargetConfiguration?: EvaluationFormTargetConfiguration;
-  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
-  AIVersion?: string;
+  ScoringStrategy?: EvaluationFormScoringStrategy | undefined;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration | undefined;
+  ClientToken?: string | undefined;
+  AsDraft?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ReviewConfiguration?: EvaluationReviewConfiguration | undefined;
+  TargetConfiguration?: EvaluationFormTargetConfiguration | undefined;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration | undefined;
+  AIVersion?: string | undefined;
 }
 export interface CreateEvaluationFormResponse {
   EvaluationFormId: string;
@@ -1682,23 +1682,23 @@ export type NotFoundBehaviorType = "USE_DEFAULT_VALUE" | "OMIT" | (string & {});
 export type NotFoundDefaultValue = string;
 export interface ExtractionDefinitionNotFoundBehavior {
   Behavior: NotFoundBehaviorType;
-  DefaultValue?: string;
+  DefaultValue?: string | undefined;
 }
 export interface ExtractionConfiguration {
   PromptHint: string;
-  NotFoundBehavior?: ExtractionDefinitionNotFoundBehavior;
+  NotFoundBehavior?: ExtractionDefinitionNotFoundBehavior | undefined;
 }
 export type ExtractionDefinitionDisplayLabel = string;
 export interface ExtractionDefinitionDisplay {
-  Label?: string;
+  Label?: string | undefined;
 }
 export interface CreateExtractionDefinitionRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   InstanceId: string;
   Name: string;
   ExtractionConfiguration: ExtractionConfiguration;
-  Display?: ExtractionDefinitionDisplay;
-  Tags?: { [key: string]: string | undefined };
+  Display?: ExtractionDefinitionDisplay | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ExtractionDefinitionId = string;
 export interface CreateExtractionDefinitionResponse {
@@ -1731,15 +1731,15 @@ export type HoursOfOperationConfigList = HoursOfOperationConfig[];
 export interface CreateHoursOfOperationRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   TimeZone: string;
   Config: HoursOfOperationConfig[];
-  ParentHoursOfOperationConfigs?: ParentHoursOfOperationConfig[];
-  Tags?: { [key: string]: string | undefined };
+  ParentHoursOfOperationConfigs?: ParentHoursOfOperationConfig[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateHoursOfOperationResponse {
-  HoursOfOperationId?: string;
-  HoursOfOperationArn?: string;
+  HoursOfOperationId?: string | undefined;
+  HoursOfOperationArn?: string | undefined;
 }
 export type CommonHumanReadableName = string;
 export type CommonHumanReadableDescription = string;
@@ -1757,9 +1757,9 @@ export interface OverrideTimeSlice {
   Minutes: number;
 }
 export interface HoursOfOperationOverrideConfig {
-  Day?: OverrideDays;
-  StartTime?: OverrideTimeSlice;
-  EndTime?: OverrideTimeSlice;
+  Day?: OverrideDays | undefined;
+  StartTime?: OverrideTimeSlice | undefined;
+  EndTime?: OverrideTimeSlice | undefined;
 }
 export type HoursOfOperationOverrideConfigList = HoursOfOperationOverrideConfig[];
 export type HoursOfOperationOverrideYearMonthDayDateFormat = string;
@@ -1774,9 +1774,9 @@ export type WeekdayOccurrenceList = number[];
 export interface RecurrencePattern {
   Frequency: RecurrenceFrequency;
   Interval: number;
-  ByMonth?: number[];
-  ByMonthDay?: number[];
-  ByWeekdayOccurrence?: number[];
+  ByMonth?: number[] | undefined;
+  ByMonthDay?: number[] | undefined;
+  ByWeekdayOccurrence?: number[] | undefined;
 }
 export interface RecurrenceConfig {
   RecurrencePattern: RecurrencePattern;
@@ -1786,16 +1786,16 @@ export interface CreateHoursOfOperationOverrideRequest {
   InstanceId: string;
   HoursOfOperationId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Config: HoursOfOperationOverrideConfig[];
   EffectiveFrom: string;
   EffectiveTill: string;
-  RecurrenceConfig?: RecurrenceConfig;
-  OverrideType?: OverrideType;
+  RecurrenceConfig?: RecurrenceConfig | undefined;
+  OverrideType?: OverrideType | undefined;
 }
 export type HoursOfOperationOverrideId = string;
 export interface CreateHoursOfOperationOverrideResponse {
-  HoursOfOperationOverrideId?: string;
+  HoursOfOperationOverrideId?: string | undefined;
 }
 export type DirectoryType = "SAML" | "CONNECT_MANAGED" | "EXISTING_DIRECTORY" | (string & {});
 export type DirectoryAlias = string | redacted.Redacted<string>;
@@ -1803,17 +1803,17 @@ export type DirectoryId = string;
 export type InboundCallsEnabled = boolean;
 export type OutboundCallsEnabled = boolean;
 export interface CreateInstanceRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   IdentityManagementType: DirectoryType;
-  InstanceAlias?: string | redacted.Redacted<string>;
-  DirectoryId?: string;
+  InstanceAlias?: string | redacted.Redacted<string> | undefined;
+  DirectoryId?: string | undefined;
   InboundCallsEnabled: boolean;
   OutboundCallsEnabled: boolean;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateInstanceResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export type IntegrationType =
   | "EVENT"
@@ -1839,15 +1839,15 @@ export interface CreateIntegrationAssociationRequest {
   InstanceId: string;
   IntegrationType: IntegrationType;
   IntegrationArn: string;
-  SourceApplicationUrl?: string;
-  SourceApplicationName?: string;
-  SourceType?: SourceType;
-  Tags?: { [key: string]: string | undefined };
+  SourceApplicationUrl?: string | undefined;
+  SourceApplicationName?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IntegrationAssociationId = string;
 export interface CreateIntegrationAssociationResponse {
-  IntegrationAssociationId?: string;
-  IntegrationAssociationArn?: string;
+  IntegrationAssociationId?: string | undefined;
+  IntegrationAssociationArn?: string | undefined;
 }
 export type MetricName = string;
 export type ComponentAlias = string;
@@ -1876,17 +1876,17 @@ export interface MetricFilterBooleanCondition {
 }
 export interface MetricFilter {
   MetricFilterKey: string;
-  Negate?: boolean;
-  NumberCondition?: MetricFilterNumberCondition;
-  StringCondition?: MetricFilterStringCondition;
-  BooleanCondition?: MetricFilterBooleanCondition;
+  Negate?: boolean | undefined;
+  NumberCondition?: MetricFilterNumberCondition | undefined;
+  StringCondition?: MetricFilterStringCondition | undefined;
+  BooleanCondition?: MetricFilterBooleanCondition | undefined;
 }
 export type MetricFilterList = MetricFilter[];
 export interface CalculationComponent {
   Alias: string;
-  MetricName?: string;
-  MetricId?: string;
-  MetricFilters?: MetricFilter[];
+  MetricName?: string | undefined;
+  MetricId?: string | undefined;
+  MetricFilters?: MetricFilter[] | undefined;
 }
 export type CalculationComponentList = CalculationComponent[];
 export type CalculationExpression = string;
@@ -1903,11 +1903,11 @@ export interface CreateMetricRequest {
   Name: string;
   MetricCalculation: MetricCalculation;
   Unit: MetricUnit;
-  Status?: MetricStatus;
-  ClientToken?: string;
-  Description?: string;
-  PositiveTrendIndicator?: TrendIndicator;
-  Tags?: { [key: string]: string | undefined };
+  Status?: MetricStatus | undefined;
+  ClientToken?: string | undefined;
+  Description?: string | undefined;
+  PositiveTrendIndicator?: TrendIndicator | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMetricResponse {
   MetricArn: string;
@@ -1929,17 +1929,17 @@ export type LocaleCode =
   | "zh_TW"
   | (string & {});
 export type LocalizedString = string;
-export type NotificationContent = { [key in LocaleCode]?: string };
+export type NotificationContent = { [key in LocaleCode]?: string | undefined };
 export type NotificationId = string;
 export interface CreateNotificationRequest {
   InstanceId: string;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   Recipients: string[];
-  Priority?: ConfigurableNotificationPriority;
+  Priority?: ConfigurableNotificationPriority | undefined;
   Content: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  PredefinedNotificationId?: string;
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PredefinedNotificationId?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateNotificationResponse {
   NotificationId: string;
@@ -1956,29 +1956,29 @@ export type DisplayName = string;
 export type VideoCapability = "SEND" | (string & {});
 export type ScreenShareCapability = "SEND" | (string & {});
 export interface ParticipantCapabilities {
-  Video?: VideoCapability;
-  ScreenShare?: ScreenShareCapability;
+  Video?: VideoCapability | undefined;
+  ScreenShare?: ScreenShareCapability | undefined;
 }
 export interface ParticipantDetailsToAdd {
-  ParticipantRole?: ParticipantRole;
-  DisplayName?: string;
-  ParticipantCapabilities?: ParticipantCapabilities;
+  ParticipantRole?: ParticipantRole | undefined;
+  DisplayName?: string | undefined;
+  ParticipantCapabilities?: ParticipantCapabilities | undefined;
 }
 export interface CreateParticipantRequest {
   InstanceId: string;
   ContactId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ParticipantDetails: ParticipantDetailsToAdd;
 }
 export type ParticipantToken = string;
 export interface ParticipantTokenCredentials {
-  ParticipantToken?: string;
-  Expiry?: string;
+  ParticipantToken?: string | undefined;
+  Expiry?: string | undefined;
 }
 export type ParticipantId = string;
 export interface CreateParticipantResponse {
-  ParticipantCredentials?: ParticipantTokenCredentials;
-  ParticipantId?: string;
+  ParticipantCredentials?: ParticipantTokenCredentials | undefined;
+  ParticipantId?: string | undefined;
 }
 export type RehydrationType = "ENTIRE_PAST_SESSION" | "FROM_SEGMENT" | (string & {});
 export interface CreatePersistentContactAssociationRequest {
@@ -1986,10 +1986,10 @@ export interface CreatePersistentContactAssociationRequest {
   InitialContactId: string;
   RehydrationType: RehydrationType;
   SourceContactId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface CreatePersistentContactAssociationResponse {
-  ContinuedFromContactId?: string;
+  ContinuedFromContactId?: string | undefined;
 }
 export type PredefinedAttributeStringValuesList = string[];
 export type PredefinedAttributeValues = { StringList: string[] };
@@ -1997,14 +1997,14 @@ export type PredefinedAttributePurposeName = string;
 export type PredefinedAttributePurposeNameList = string[];
 export type EnableValueValidationOnAssociation = boolean;
 export interface InputPredefinedAttributeConfiguration {
-  EnableValueValidationOnAssociation?: boolean;
+  EnableValueValidationOnAssociation?: boolean | undefined;
 }
 export interface CreatePredefinedAttributeRequest {
   InstanceId: string;
   Name: string;
-  Values?: PredefinedAttributeValues;
-  Purposes?: string[];
-  AttributeConfiguration?: InputPredefinedAttributeConfiguration;
+  Values?: PredefinedAttributeValues | undefined;
+  Purposes?: string[] | undefined;
+  AttributeConfiguration?: InputPredefinedAttributeConfiguration | undefined;
 }
 export interface CreatePredefinedAttributeResponse {}
 export type PromptDescription = string;
@@ -2012,26 +2012,26 @@ export type S3Uri = string;
 export interface CreatePromptRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   S3Uri: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PromptId = string;
 export interface CreatePromptResponse {
-  PromptARN?: string;
-  PromptId?: string;
+  PromptARN?: string | undefined;
+  PromptId?: string | undefined;
 }
 export type DeviceToken = string;
 export type DeviceType = "GCM" | "APNS" | "APNS_SANDBOX" | (string & {});
 export type IncludeRawMessage = boolean;
 export interface ContactConfiguration {
   ContactId: string;
-  ParticipantRole?: ParticipantRole;
-  IncludeRawMessage?: boolean;
+  ParticipantRole?: ParticipantRole | undefined;
+  IncludeRawMessage?: boolean | undefined;
 }
 export interface CreatePushNotificationRegistrationRequest {
   InstanceId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   PinpointAppArn: string;
   DeviceToken: string;
   DeviceType: DeviceType;
@@ -2044,29 +2044,29 @@ export interface CreatePushNotificationRegistrationResponse {
 export type QueueDescription = string;
 export type OutboundCallerIdName = string;
 export interface OutboundCallerConfig {
-  OutboundCallerIdName?: string;
-  OutboundCallerIdNumberId?: string;
-  OutboundFlowId?: string;
+  OutboundCallerIdName?: string | undefined;
+  OutboundCallerIdNumberId?: string | undefined;
+  OutboundFlowId?: string | undefined;
 }
 export interface OutboundEmailConfig {
-  OutboundEmailAddressId?: string;
+  OutboundEmailAddressId?: string | undefined;
 }
 export type QueueMaxContacts = number;
 export interface CreateQueueRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
-  OutboundCallerConfig?: OutboundCallerConfig;
-  OutboundEmailConfig?: OutboundEmailConfig;
+  Description?: string | undefined;
+  OutboundCallerConfig?: OutboundCallerConfig | undefined;
+  OutboundEmailConfig?: OutboundEmailConfig | undefined;
   HoursOfOperationId: string;
-  MaxContacts?: number;
-  QuickConnectIds?: string[];
-  EmailAddressesConfig?: EmailAddressConfig[];
-  Tags?: { [key: string]: string | undefined };
+  MaxContacts?: number | undefined;
+  QuickConnectIds?: string[] | undefined;
+  EmailAddressesConfig?: EmailAddressConfig[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateQueueResponse {
-  QueueArn?: string;
-  QueueId?: string;
+  QueueArn?: string | undefined;
+  QueueId?: string | undefined;
 }
 export type QuickConnectName = string;
 export type QuickConnectDescription = string;
@@ -2087,21 +2087,21 @@ export interface FlowQuickConnectConfig {
 }
 export interface QuickConnectConfig {
   QuickConnectType: QuickConnectType;
-  UserConfig?: UserQuickConnectConfig;
-  QueueConfig?: QueueQuickConnectConfig;
-  PhoneConfig?: PhoneNumberQuickConnectConfig;
-  FlowConfig?: FlowQuickConnectConfig;
+  UserConfig?: UserQuickConnectConfig | undefined;
+  QueueConfig?: QueueQuickConnectConfig | undefined;
+  PhoneConfig?: PhoneNumberQuickConnectConfig | undefined;
+  FlowConfig?: FlowQuickConnectConfig | undefined;
 }
 export interface CreateQuickConnectRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   QuickConnectConfig: QuickConnectConfig;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateQuickConnectResponse {
-  QuickConnectARN?: string;
-  QuickConnectId?: string;
+  QuickConnectARN?: string | undefined;
+  QuickConnectId?: string | undefined;
 }
 export type RoutingProfileName = string;
 export type RoutingProfileDescription = string;
@@ -2118,19 +2118,19 @@ export type ChannelWorkloadBehaviorType =
   | "ROUTE_ANY_CHANNEL_ANY_WORKLOAD_TYPE"
   | (string & {});
 export interface CrossChannelWorkloadBehavior {
-  ChannelWorkloadBehaviorType?: ChannelWorkloadBehaviorType;
+  ChannelWorkloadBehaviorType?: ChannelWorkloadBehaviorType | undefined;
 }
 export interface WorkloadTypeConcurrency {
   WorkloadType: string;
   Concurrency: number;
-  CrossChannelWorkloadBehavior?: CrossChannelWorkloadBehavior;
+  CrossChannelWorkloadBehavior?: CrossChannelWorkloadBehavior | undefined;
 }
 export type WorkloadTypeConcurrencies = WorkloadTypeConcurrency[];
 export interface MediaConcurrency {
   Channel: Channel;
-  Concurrency?: number;
-  CrossChannelBehavior?: CrossChannelBehavior;
-  WorkloadTypeConcurrencies?: WorkloadTypeConcurrency[];
+  Concurrency?: number | undefined;
+  CrossChannelBehavior?: CrossChannelBehavior | undefined;
+  WorkloadTypeConcurrencies?: WorkloadTypeConcurrency[] | undefined;
 }
 export type MediaConcurrencies = MediaConcurrency[];
 export type AgentAvailabilityTimer =
@@ -2142,15 +2142,15 @@ export interface CreateRoutingProfileRequest {
   Name: string;
   Description: string;
   DefaultOutboundQueueId: string;
-  QueueConfigs?: RoutingProfileQueueConfig[];
-  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfig[];
+  QueueConfigs?: RoutingProfileQueueConfig[] | undefined;
+  ManualAssignmentQueueConfigs?: RoutingProfileManualAssignmentQueueConfig[] | undefined;
   MediaConcurrencies: MediaConcurrency[];
-  Tags?: { [key: string]: string | undefined };
-  AgentAvailabilityTimer?: AgentAvailabilityTimer;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AgentAvailabilityTimer?: AgentAvailabilityTimer | undefined;
 }
 export interface CreateRoutingProfileResponse {
-  RoutingProfileArn?: string;
-  RoutingProfileId?: string;
+  RoutingProfileArn?: string | undefined;
+  RoutingProfileId?: string | undefined;
 }
 export type RuleName = string;
 export type EventSourceName =
@@ -2176,7 +2176,7 @@ export type EventSourceName =
   | (string & {});
 export interface RuleTriggerEventSource {
   EventSourceName: EventSourceName;
-  IntegrationAssociationId?: string;
+  IntegrationAssociationId?: string | undefined;
 }
 export type RuleFunction = string;
 export type ActionType =
@@ -2197,9 +2197,9 @@ export type TaskNameExpression = string;
 export type TaskDescriptionExpression = string;
 export interface TaskActionDefinition {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ContactFlowId: string;
-  References?: { [key: string]: Reference | undefined };
+  References?: { [key: string]: Reference | undefined } | undefined;
 }
 export type EventBridgeActionName = string;
 export interface EventBridgeActionDefinition {
@@ -2213,25 +2213,25 @@ export type NotificationContentType = "PLAIN_TEXT" | (string & {});
 export type UserTagMap = { [key: string]: string | undefined };
 export type UserIdList = string[];
 export interface NotificationRecipientType {
-  UserTags?: { [key: string]: string | undefined };
-  UserIds?: string[];
+  UserTags?: { [key: string]: string | undefined } | undefined;
+  UserIds?: string[] | undefined;
 }
 export interface SendNotificationActionDefinition {
   DeliveryMethod: NotificationDeliveryType;
-  Subject?: string;
+  Subject?: string | undefined;
   Content: string;
   ContentType: NotificationContentType;
   Recipient: NotificationRecipientType;
-  Exclusion?: NotificationRecipientType;
+  Exclusion?: NotificationRecipientType | undefined;
 }
 export type FieldValueId = string;
 export interface EmptyFieldValue {}
 export type FieldStringValue = string;
 export interface FieldValueUnion {
-  BooleanValue?: boolean;
-  DoubleValue?: number;
-  EmptyValue?: EmptyFieldValue;
-  StringValue?: string;
+  BooleanValue?: boolean | undefined;
+  DoubleValue?: number | undefined;
+  EmptyValue?: EmptyFieldValue | undefined;
+  StringValue?: string | undefined;
 }
 export interface FieldValue {
   Id: string;
@@ -2254,13 +2254,13 @@ export type TargetSlaMinutes = number;
 export interface CaseSlaConfiguration {
   Name: string;
   Type: SlaType;
-  FieldId?: string;
-  TargetFieldValues?: FieldValueUnion[];
+  FieldId?: string | undefined;
+  TargetFieldValues?: FieldValueUnion[] | undefined;
   TargetSlaMinutes: number;
 }
 export interface AssignSlaActionDefinition {
   SlaAssignmentType: SlaAssignmentType;
-  CaseSlaConfiguration?: CaseSlaConfiguration;
+  CaseSlaConfiguration?: CaseSlaConfiguration | undefined;
 }
 export interface EndAssociatedTasksActionDefinition {}
 export interface EndAssociatedEmailsActionDefinition {}
@@ -2279,23 +2279,23 @@ export interface ExtractInformationActionDefinition {
 export interface SendInAppNotificationActionDefinition {
   Content: { [key: string]: string | undefined };
   Recipient: NotificationRecipientType;
-  Exclusion?: NotificationRecipientType;
-  Priority?: ConfigurableNotificationPriority;
+  Exclusion?: NotificationRecipientType | undefined;
+  Priority?: ConfigurableNotificationPriority | undefined;
 }
 export interface RuleAction {
   ActionType: ActionType;
-  TaskAction?: TaskActionDefinition;
-  EventBridgeAction?: EventBridgeActionDefinition;
-  AssignContactCategoryAction?: AssignContactCategoryActionDefinition;
-  SendNotificationAction?: SendNotificationActionDefinition;
-  CreateCaseAction?: CreateCaseActionDefinition;
-  UpdateCaseAction?: UpdateCaseActionDefinition;
-  AssignSlaAction?: AssignSlaActionDefinition;
-  EndAssociatedTasksAction?: EndAssociatedTasksActionDefinition;
-  EndAssociatedEmailsAction?: EndAssociatedEmailsActionDefinition;
-  SubmitAutoEvaluationAction?: SubmitAutoEvaluationActionDefinition;
-  ExtractInformationAction?: ExtractInformationActionDefinition;
-  SendInAppNotificationAction?: SendInAppNotificationActionDefinition;
+  TaskAction?: TaskActionDefinition | undefined;
+  EventBridgeAction?: EventBridgeActionDefinition | undefined;
+  AssignContactCategoryAction?: AssignContactCategoryActionDefinition | undefined;
+  SendNotificationAction?: SendNotificationActionDefinition | undefined;
+  CreateCaseAction?: CreateCaseActionDefinition | undefined;
+  UpdateCaseAction?: UpdateCaseActionDefinition | undefined;
+  AssignSlaAction?: AssignSlaActionDefinition | undefined;
+  EndAssociatedTasksAction?: EndAssociatedTasksActionDefinition | undefined;
+  EndAssociatedEmailsAction?: EndAssociatedEmailsActionDefinition | undefined;
+  SubmitAutoEvaluationAction?: SubmitAutoEvaluationActionDefinition | undefined;
+  ExtractInformationAction?: ExtractInformationActionDefinition | undefined;
+  SendInAppNotificationAction?: SendInAppNotificationActionDefinition | undefined;
 }
 export type RuleActions = RuleAction[];
 export type RulePublishStatus = "DRAFT" | "PUBLISHED" | (string & {});
@@ -2311,7 +2311,7 @@ export interface PreEvaluationFilter {
 }
 export type PreEvaluationFilterList = PreEvaluationFilter[];
 export interface PreEvaluationFilters {
-  AndConditions?: PreEvaluationFilter[];
+  AndConditions?: PreEvaluationFilter[] | undefined;
 }
 export interface CreateRuleRequest {
   InstanceId: string;
@@ -2320,9 +2320,9 @@ export interface CreateRuleRequest {
   Function: string;
   Actions: RuleAction[];
   PublishStatus: RulePublishStatus;
-  PreEvaluationFilters?: PreEvaluationFilters;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  PreEvaluationFilters?: PreEvaluationFilters | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleId = string;
 export interface CreateRuleResponse {
@@ -2343,9 +2343,9 @@ export type Permission = string;
 export type ApplicationPermissions = string[];
 export type ApplicationType = "MCP" | "THIRD_PARTY_APPLICATION" | (string & {});
 export interface Application {
-  Namespace?: string;
-  ApplicationPermissions?: string[];
-  Type?: ApplicationType;
+  Namespace?: string | undefined;
+  ApplicationPermissions?: string[] | undefined;
+  Type?: ApplicationType | undefined;
 }
 export type Applications = Application[];
 export type HierarchyRestrictedResourceName = string;
@@ -2354,14 +2354,14 @@ export type HierarchyGroupId = string;
 export type FlowModuleType = "MCP" | (string & {});
 export type FlowModuleId = string;
 export interface FlowModule {
-  Type?: FlowModuleType;
-  FlowModuleId?: string;
+  Type?: FlowModuleType | undefined;
+  FlowModuleId?: string | undefined;
 }
 export type AllowedFlowModules = FlowModule[];
 export type AIAgentType = "THIRD_PARTY" | (string & {});
 export interface AIAgent {
-  Arn?: string;
-  Type?: AIAgentType;
+  Arn?: string | undefined;
+  Type?: AIAgentType | undefined;
 }
 export type AllowedAIAgents = AIAgent[];
 export type AccessType = "ALLOW" | (string & {});
@@ -2369,73 +2369,75 @@ export type PrimaryAttributeContextKeyName = string;
 export type IAMRestrictedPrimaryValue = string;
 export type PrimaryValueList = string[];
 export interface PrimaryAttributeValue {
-  AccessType?: AccessType;
-  AttributeName?: string;
-  Values?: string[];
+  AccessType?: AccessType | undefined;
+  AttributeName?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type PrimaryAttributeValuesSet = PrimaryAttributeValue[];
 export interface PrimaryAttributeAccessControlConfigurationItem {
-  PrimaryAttributeValues?: PrimaryAttributeValue[];
+  PrimaryAttributeValues?: PrimaryAttributeValue[] | undefined;
 }
 export interface DataTableAccessControlConfiguration {
-  PrimaryAttributeAccessControlConfiguration?: PrimaryAttributeAccessControlConfigurationItem;
+  PrimaryAttributeAccessControlConfiguration?:
+    | PrimaryAttributeAccessControlConfigurationItem
+    | undefined;
 }
 export interface GranularAccessControlConfiguration {
-  DataTableAccessControlConfiguration?: DataTableAccessControlConfiguration;
+  DataTableAccessControlConfiguration?: DataTableAccessControlConfiguration | undefined;
 }
 export interface CreateSecurityProfileRequest {
   SecurityProfileName: string;
-  Description?: string;
-  Permissions?: string[];
+  Description?: string | undefined;
+  Permissions?: string[] | undefined;
   InstanceId: string;
-  Tags?: { [key: string]: string | undefined };
-  AllowedAccessControlTags?: { [key: string]: string | undefined };
-  TagRestrictedResources?: string[];
-  Applications?: Application[];
-  HierarchyRestrictedResources?: string[];
-  AllowedAccessControlHierarchyGroupId?: string;
-  AllowedFlowModules?: FlowModule[];
-  AllowedAIAgents?: AIAgent[];
-  GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AllowedAccessControlTags?: { [key: string]: string | undefined } | undefined;
+  TagRestrictedResources?: string[] | undefined;
+  Applications?: Application[] | undefined;
+  HierarchyRestrictedResources?: string[] | undefined;
+  AllowedAccessControlHierarchyGroupId?: string | undefined;
+  AllowedFlowModules?: FlowModule[] | undefined;
+  AllowedAIAgents?: AIAgent[] | undefined;
+  GranularAccessControlConfiguration?: GranularAccessControlConfiguration | undefined;
 }
 export interface CreateSecurityProfileResponse {
-  SecurityProfileId?: string;
-  SecurityProfileArn?: string;
+  SecurityProfileId?: string | undefined;
+  SecurityProfileArn?: string | undefined;
 }
 export type TaskTemplateName = string;
 export type TaskTemplateDescription = string;
 export interface TaskTemplateContactHooks {
-  WrapUpFlowId?: string;
+  WrapUpFlowId?: string | undefined;
 }
 export type TaskTemplateFieldName = string;
 export interface TaskTemplateFieldIdentifier {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface RequiredFieldInfo {
-  Id?: TaskTemplateFieldIdentifier;
+  Id?: TaskTemplateFieldIdentifier | undefined;
 }
 export type RequiredTaskTemplateFields = RequiredFieldInfo[];
 export interface ReadOnlyFieldInfo {
-  Id?: TaskTemplateFieldIdentifier;
+  Id?: TaskTemplateFieldIdentifier | undefined;
 }
 export type ReadOnlyTaskTemplateFields = ReadOnlyFieldInfo[];
 export interface InvisibleFieldInfo {
-  Id?: TaskTemplateFieldIdentifier;
+  Id?: TaskTemplateFieldIdentifier | undefined;
 }
 export type InvisibleTaskTemplateFields = InvisibleFieldInfo[];
 export interface TaskTemplateConstraints {
-  RequiredFields?: RequiredFieldInfo[];
-  ReadOnlyFields?: ReadOnlyFieldInfo[];
-  InvisibleFields?: InvisibleFieldInfo[];
+  RequiredFields?: RequiredFieldInfo[] | undefined;
+  ReadOnlyFields?: ReadOnlyFieldInfo[] | undefined;
+  InvisibleFields?: InvisibleFieldInfo[] | undefined;
 }
 export type TaskTemplateFieldValue = string;
 export interface TaskTemplateDefaultFieldValue {
-  Id?: TaskTemplateFieldIdentifier;
-  DefaultValue?: string;
+  Id?: TaskTemplateFieldIdentifier | undefined;
+  DefaultValue?: string | undefined;
 }
 export type TaskTemplateDefaultFieldValueList = TaskTemplateDefaultFieldValue[];
 export interface TaskTemplateDefaults {
-  DefaultFieldValues?: TaskTemplateDefaultFieldValue[];
+  DefaultFieldValues?: TaskTemplateDefaultFieldValue[] | undefined;
 }
 export type TaskTemplateStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export type TaskTemplateFieldDescription = string;
@@ -2459,23 +2461,23 @@ export type TaskTemplateSingleSelectOption = string;
 export type SingleSelectOptions = string[];
 export interface TaskTemplateField {
   Id: TaskTemplateFieldIdentifier;
-  Description?: string;
-  Type?: TaskTemplateFieldType;
-  SingleSelectOptions?: string[];
+  Description?: string | undefined;
+  Type?: TaskTemplateFieldType | undefined;
+  SingleSelectOptions?: string[] | undefined;
 }
 export type TaskTemplateFields = TaskTemplateField[];
 export interface CreateTaskTemplateRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
-  ContactFlowId?: string;
-  SelfAssignFlowId?: string;
-  ContactHooks?: TaskTemplateContactHooks;
-  Constraints?: TaskTemplateConstraints;
-  Defaults?: TaskTemplateDefaults;
-  Status?: TaskTemplateStatus;
+  Description?: string | undefined;
+  ContactFlowId?: string | undefined;
+  SelfAssignFlowId?: string | undefined;
+  ContactHooks?: TaskTemplateContactHooks | undefined;
+  Constraints?: TaskTemplateConstraints | undefined;
+  Defaults?: TaskTemplateDefaults | undefined;
+  Status?: TaskTemplateStatus | undefined;
   Fields: TaskTemplateField[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type TaskTemplateId = string;
 export type TaskTemplateArn = string;
@@ -2488,17 +2490,17 @@ export type TestCaseDescription = string;
 export type TestCaseContent = string;
 export type TestCaseEntryPointType = "VOICE_CALL" | "CHAT" | (string & {});
 export interface VoiceCallEntryPointParameters {
-  SourcePhoneNumber?: string;
-  DestinationPhoneNumber?: string;
-  FlowId?: string;
+  SourcePhoneNumber?: string | undefined;
+  DestinationPhoneNumber?: string | undefined;
+  FlowId?: string | undefined;
 }
 export interface ChatEntryPointParameters {
-  FlowId?: string;
+  FlowId?: string | undefined;
 }
 export interface TestCaseEntryPoint {
-  Type?: TestCaseEntryPointType;
-  VoiceCallEntryPointParameters?: VoiceCallEntryPointParameters;
-  ChatEntryPointParameters?: ChatEntryPointParameters;
+  Type?: TestCaseEntryPointType | undefined;
+  VoiceCallEntryPointParameters?: VoiceCallEntryPointParameters | undefined;
+  ChatEntryPointParameters?: ChatEntryPointParameters | undefined;
 }
 export type TestCaseInitializationData = string;
 export type TestCaseStatus = "PUBLISHED" | "SAVED" | (string & {});
@@ -2506,47 +2508,47 @@ export type TestCaseId = string;
 export interface CreateTestCaseRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Content: string;
-  EntryPoint?: TestCaseEntryPoint;
-  InitializationData?: string;
-  Status?: TestCaseStatus;
-  TestCaseId?: string;
-  Tags?: { [key: string]: string | undefined };
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  EntryPoint?: TestCaseEntryPoint | undefined;
+  InitializationData?: string | undefined;
+  Status?: TestCaseStatus | undefined;
+  TestCaseId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface CreateTestCaseResponse {
-  TestCaseId?: string;
-  TestCaseArn?: string;
+  TestCaseId?: string | undefined;
+  TestCaseArn?: string | undefined;
 }
 export type Name128 = string;
 export type Description250 = string;
 export type ACGRInstanceIdOrArn = string;
 export interface CreateTrafficDistributionGroupRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   InstanceId: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ACGRTrafficDistributionGroupId = string;
 export type ACGRTrafficDistributionGroupArn = string;
 export interface CreateTrafficDistributionGroupResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export type UseCaseType = "RULES_EVALUATION" | "CONNECT_CAMPAIGNS" | (string & {});
 export interface CreateUseCaseRequest {
   InstanceId: string;
   IntegrationAssociationId: string;
   UseCaseType: UseCaseType;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type UseCaseId = string;
 export interface CreateUseCaseResponse {
-  UseCaseId?: string;
-  UseCaseArn?: string;
+  UseCaseId?: string | undefined;
+  UseCaseArn?: string | undefined;
 }
 export type AgentUsername = string;
 export type Password = string | redacted.Redacted<string>;
@@ -2554,11 +2556,11 @@ export type AgentFirstName = string | redacted.Redacted<string>;
 export type AgentLastName = string | redacted.Redacted<string>;
 export type Email = string | redacted.Redacted<string>;
 export interface UserIdentityInfo {
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  Email?: string | redacted.Redacted<string>;
-  SecondaryEmail?: string | redacted.Redacted<string>;
-  Mobile?: string;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  SecondaryEmail?: string | redacted.Redacted<string> | undefined;
+  Mobile?: string | undefined;
 }
 export type PhoneType = "SOFT_PHONE" | "DESK_PHONE" | (string & {});
 export type AutoAccept = boolean;
@@ -2566,33 +2568,33 @@ export type AfterContactWorkTimeLimit = number;
 export type SensitivePhoneNumber = string | redacted.Redacted<string>;
 export type PersistentConnection = boolean;
 export interface UserPhoneConfig {
-  PhoneType?: PhoneType;
-  AutoAccept?: boolean;
-  AfterContactWorkTimeLimit?: number;
-  DeskPhoneNumber?: string | redacted.Redacted<string>;
-  PersistentConnection?: boolean;
+  PhoneType?: PhoneType | undefined;
+  AutoAccept?: boolean | undefined;
+  AfterContactWorkTimeLimit?: number | undefined;
+  DeskPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  PersistentConnection?: boolean | undefined;
 }
 export type DirectoryUserId = string;
 export type AgentFirstCallbackAutoAccept = boolean;
 export interface AutoAcceptConfig {
   Channel: Channel;
   AutoAccept: boolean;
-  AgentFirstCallbackAutoAccept?: boolean;
+  AgentFirstCallbackAutoAccept?: boolean | undefined;
 }
 export type AutoAcceptConfigs = AutoAcceptConfig[];
 export interface AfterContactWorkConfig {
-  AfterContactWorkTimeLimit?: number;
+  AfterContactWorkTimeLimit?: number | undefined;
 }
 export interface AfterContactWorkConfigPerChannel {
   Channel: Channel;
   AfterContactWorkConfig: AfterContactWorkConfig;
-  AgentFirstCallbackAfterContactWorkConfig?: AfterContactWorkConfig;
+  AgentFirstCallbackAfterContactWorkConfig?: AfterContactWorkConfig | undefined;
 }
 export type AfterContactWorkConfigs = AfterContactWorkConfigPerChannel[];
 export interface PhoneNumberConfig {
   Channel: Channel;
   PhoneType: PhoneType;
-  PhoneNumber?: string | redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
 }
 export type PhoneNumberConfigs = PhoneNumberConfig[];
 export interface PersistentConnectionConfig {
@@ -2608,35 +2610,35 @@ export interface VoiceEnhancementConfig {
 export type VoiceEnhancementConfigs = VoiceEnhancementConfig[];
 export interface CreateUserRequest {
   Username: string;
-  Password?: string | redacted.Redacted<string>;
-  IdentityInfo?: UserIdentityInfo;
-  PhoneConfig?: UserPhoneConfig;
-  DirectoryUserId?: string;
+  Password?: string | redacted.Redacted<string> | undefined;
+  IdentityInfo?: UserIdentityInfo | undefined;
+  PhoneConfig?: UserPhoneConfig | undefined;
+  DirectoryUserId?: string | undefined;
   SecurityProfileIds: string[];
   RoutingProfileId: string;
-  HierarchyGroupId?: string;
+  HierarchyGroupId?: string | undefined;
   InstanceId: string;
-  AutoAcceptConfigs?: AutoAcceptConfig[];
-  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
-  PhoneNumberConfigs?: PhoneNumberConfig[];
-  PersistentConnectionConfigs?: PersistentConnectionConfig[];
-  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
-  Tags?: { [key: string]: string | undefined };
+  AutoAcceptConfigs?: AutoAcceptConfig[] | undefined;
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[] | undefined;
+  PhoneNumberConfigs?: PhoneNumberConfig[] | undefined;
+  PersistentConnectionConfigs?: PersistentConnectionConfig[] | undefined;
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateUserResponse {
-  UserId?: string;
-  UserArn?: string;
+  UserId?: string | undefined;
+  UserArn?: string | undefined;
 }
 export type HierarchyGroupName = string;
 export interface CreateUserHierarchyGroupRequest {
   Name: string;
-  ParentGroupId?: string;
+  ParentGroupId?: string | undefined;
   InstanceId: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateUserHierarchyGroupResponse {
-  HierarchyGroupId?: string;
-  HierarchyGroupArn?: string;
+  HierarchyGroupId?: string | undefined;
+  HierarchyGroupArn?: string | undefined;
 }
 export type ViewsInstanceId = string;
 export type ViewsClientToken = string;
@@ -2645,66 +2647,66 @@ export type ViewTemplate = string;
 export type ViewAction = string | redacted.Redacted<string>;
 export type ViewActions = (string | redacted.Redacted<string>)[];
 export interface ViewInputContent {
-  Template?: string;
-  Actions?: (string | redacted.Redacted<string>)[];
+  Template?: string | undefined;
+  Actions?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type ViewDescription = string;
 export type ViewName = string | redacted.Redacted<string>;
 export interface CreateViewRequest {
   InstanceId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Status: ViewStatus;
   Content: ViewInputContent;
-  Description?: string;
+  Description?: string | undefined;
   Name: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ViewId = string;
 export type ViewType = "CUSTOMER_MANAGED" | "AWS_MANAGED" | (string & {});
 export type ViewVersion = number;
 export type ViewInputSchema = string | redacted.Redacted<string>;
 export interface ViewContent {
-  InputSchema?: string | redacted.Redacted<string>;
-  Template?: string;
-  Actions?: (string | redacted.Redacted<string>)[];
+  InputSchema?: string | redacted.Redacted<string> | undefined;
+  Template?: string | undefined;
+  Actions?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type ViewContentSha256 = string;
 export interface View {
-  Id?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Status?: ViewStatus;
-  Type?: ViewType;
-  Description?: string;
-  Version?: number;
-  VersionDescription?: string;
-  Content?: ViewContent;
-  Tags?: { [key: string]: string | undefined };
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
-  ViewContentSha256?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Status?: ViewStatus | undefined;
+  Type?: ViewType | undefined;
+  Description?: string | undefined;
+  Version?: number | undefined;
+  VersionDescription?: string | undefined;
+  Content?: ViewContent | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  ViewContentSha256?: string | undefined;
 }
 export interface CreateViewResponse {
-  View?: View;
+  View?: View | undefined;
 }
 export interface CreateViewVersionRequest {
   InstanceId: string;
   ViewId: string;
-  VersionDescription?: string;
-  ViewContentSha256?: string;
+  VersionDescription?: string | undefined;
+  ViewContentSha256?: string | undefined;
 }
 export interface CreateViewVersionResponse {
-  View?: View;
+  View?: View | undefined;
 }
 export type VocabularyName = string;
 export type VocabularyContent = string;
 export interface CreateVocabularyRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   InstanceId: string;
   VocabularyName: string;
   LanguageCode: VocabularyLanguageCode;
   Content: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VocabularyState =
   | "CREATION_IN_PROGRESS"
@@ -2721,43 +2723,43 @@ export type WorkspaceName = string;
 export type WorkspaceDescription = string;
 export type ThemeString = string;
 export interface PaletteHeader {
-  Background?: string;
-  Text?: string;
-  TextHover?: string;
-  InvertActionsColors?: boolean;
+  Background?: string | undefined;
+  Text?: string | undefined;
+  TextHover?: string | undefined;
+  InvertActionsColors?: boolean | undefined;
 }
 export interface PaletteNavigation {
-  Background?: string;
-  TextBackgroundHover?: string;
-  TextBackgroundActive?: string;
-  Text?: string;
-  TextHover?: string;
-  TextActive?: string;
-  InvertActionsColors?: boolean;
+  Background?: string | undefined;
+  TextBackgroundHover?: string | undefined;
+  TextBackgroundActive?: string | undefined;
+  Text?: string | undefined;
+  TextHover?: string | undefined;
+  TextActive?: string | undefined;
+  InvertActionsColors?: boolean | undefined;
 }
 export interface PaletteCanvas {
-  ContainerBackground?: string;
-  PageBackground?: string;
-  ActiveBackground?: string;
+  ContainerBackground?: string | undefined;
+  PageBackground?: string | undefined;
+  ActiveBackground?: string | undefined;
 }
 export interface PalettePrimary {
-  Default?: string;
-  Active?: string;
-  ContrastText?: string;
+  Default?: string | undefined;
+  Active?: string | undefined;
+  ContrastText?: string | undefined;
 }
 export interface WorkspaceThemePalette {
-  Header?: PaletteHeader;
-  Navigation?: PaletteNavigation;
-  Canvas?: PaletteCanvas;
-  Primary?: PalettePrimary;
+  Header?: PaletteHeader | undefined;
+  Navigation?: PaletteNavigation | undefined;
+  Canvas?: PaletteCanvas | undefined;
+  Primary?: PalettePrimary | undefined;
 }
 export type ThemeImageLink = string;
 export interface ImagesLogo {
-  Default?: string;
-  Favicon?: string;
+  Default?: string | undefined;
+  Favicon?: string | undefined;
 }
 export interface WorkspaceThemeImages {
-  Logo?: ImagesLogo;
+  Logo?: ImagesLogo | undefined;
 }
 export type WorkspaceFontFamily =
   | "Arial"
@@ -2768,28 +2770,28 @@ export type WorkspaceFontFamily =
   | "Verdana"
   | (string & {});
 export interface FontFamily {
-  Default?: WorkspaceFontFamily;
+  Default?: WorkspaceFontFamily | undefined;
 }
 export interface WorkspaceThemeTypography {
-  FontFamily?: FontFamily;
+  FontFamily?: FontFamily | undefined;
 }
 export interface WorkspaceThemeConfig {
-  Palette?: WorkspaceThemePalette;
-  Images?: WorkspaceThemeImages;
-  Typography?: WorkspaceThemeTypography;
+  Palette?: WorkspaceThemePalette | undefined;
+  Images?: WorkspaceThemeImages | undefined;
+  Typography?: WorkspaceThemeTypography | undefined;
 }
 export interface WorkspaceTheme {
-  Light?: WorkspaceThemeConfig;
-  Dark?: WorkspaceThemeConfig;
+  Light?: WorkspaceThemeConfig | undefined;
+  Dark?: WorkspaceThemeConfig | undefined;
 }
 export type WorkspaceTitle = string;
 export interface CreateWorkspaceRequest {
   InstanceId: string;
   Name: string;
-  Description?: string;
-  Theme?: WorkspaceTheme;
-  Title?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Theme?: WorkspaceTheme | undefined;
+  Title?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateWorkspaceResponse {
   WorkspaceId: string;
@@ -2803,8 +2805,8 @@ export interface CreateWorkspacePageRequest {
   WorkspaceId: string;
   ResourceArn: string;
   Page: string;
-  Slug?: string;
-  InputData?: string;
+  Slug?: string | undefined;
+  InputData?: string | undefined;
 }
 export interface CreateWorkspacePageResponse {}
 export interface DeactivateEvaluationFormRequest {
@@ -2895,7 +2897,7 @@ export interface DeleteEmailAddressResponse {}
 export interface DeleteEvaluationFormRequest {
   InstanceId: string;
   EvaluationFormId: string;
-  EvaluationFormVersion?: number;
+  EvaluationFormVersion?: number | undefined;
 }
 export interface DeleteEvaluationFormResponse {}
 export interface DeleteExtractionDefinitionRequest {
@@ -2916,7 +2918,7 @@ export interface DeleteHoursOfOperationOverrideRequest {
 export interface DeleteHoursOfOperationOverrideResponse {}
 export interface DeleteInstanceRequest {
   InstanceId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteInstanceResponse {}
 export interface DeleteIntegrationAssociationRequest {
@@ -3059,19 +3061,19 @@ export interface DescribeAgentStatusRequest {
 }
 export type AgentStatusType = "ROUTABLE" | "CUSTOM" | "OFFLINE" | (string & {});
 export interface AgentStatus {
-  AgentStatusARN?: string;
-  AgentStatusId?: string;
-  Name?: string;
-  Description?: string;
-  Type?: AgentStatusType;
-  DisplayOrder?: number;
-  State?: AgentStatusState;
-  Tags?: { [key: string]: string | undefined };
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  AgentStatusARN?: string | undefined;
+  AgentStatusId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Type?: AgentStatusType | undefined;
+  DisplayOrder?: number | undefined;
+  State?: AgentStatusState | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribeAgentStatusResponse {
-  AgentStatus?: AgentStatus;
+  AgentStatus?: AgentStatus | undefined;
 }
 export type AttachmentScope = "EMAIL" | "CHAT" | "CASE" | "TASK" | (string & {});
 export interface DescribeAttachedFilesConfigurationRequest {
@@ -3090,9 +3092,9 @@ export interface ExtensionConfiguration {
 export interface AttachedFilesConfiguration {
   InstanceId: string;
   AttachmentScope: AttachmentScope;
-  MaximumSizeLimitInBytes?: number;
-  ExtensionConfiguration?: ExtensionConfiguration;
-  LastModifiedTime?: Date;
+  MaximumSizeLimitInBytes?: number | undefined;
+  ExtensionConfiguration?: ExtensionConfiguration | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DescribeAttachedFilesConfigurationResponse {
   AttachedFilesConfiguration: AttachedFilesConfiguration;
@@ -3110,97 +3112,97 @@ export type AccessTokenDuration = number;
 export type RefreshTokenDuration = number;
 export type InactivityDuration = number;
 export interface AuthenticationProfile {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  AllowedIps?: string[];
-  BlockedIps?: string[];
-  IsDefault?: boolean;
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
-  PeriodicSessionDuration?: number;
-  MaxSessionDuration?: number;
-  SessionInactivityDuration?: number;
-  SessionInactivityHandlingEnabled?: boolean;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  AllowedIps?: string[] | undefined;
+  BlockedIps?: string[] | undefined;
+  IsDefault?: boolean | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  PeriodicSessionDuration?: number | undefined;
+  MaxSessionDuration?: number | undefined;
+  SessionInactivityDuration?: number | undefined;
+  SessionInactivityHandlingEnabled?: boolean | undefined;
 }
 export interface DescribeAuthenticationProfileResponse {
-  AuthenticationProfile?: AuthenticationProfile;
+  AuthenticationProfile?: AuthenticationProfile | undefined;
 }
 export interface DescribeContactRequest {
   InstanceId: string;
   ContactId: string;
 }
 export interface QueueInfo {
-  Id?: string;
-  EnqueueTimestamp?: Date;
+  Id?: string | undefined;
+  EnqueueTimestamp?: Date | undefined;
 }
 export type AgentPauseDurationInSeconds = number;
 export interface AgentHierarchyGroup {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface HierarchyGroups {
-  Level1?: AgentHierarchyGroup;
-  Level2?: AgentHierarchyGroup;
-  Level3?: AgentHierarchyGroup;
-  Level4?: AgentHierarchyGroup;
-  Level5?: AgentHierarchyGroup;
+  Level1?: AgentHierarchyGroup | undefined;
+  Level2?: AgentHierarchyGroup | undefined;
+  Level3?: AgentHierarchyGroup | undefined;
+  Level4?: AgentHierarchyGroup | undefined;
+  Level5?: AgentHierarchyGroup | undefined;
 }
 export type PlatformName = string;
 export type PlatformVersion = string;
 export type OperatingSystem = string;
 export interface DeviceInfo {
-  PlatformName?: string;
-  PlatformVersion?: string;
-  OperatingSystem?: string;
+  PlatformName?: string | undefined;
+  PlatformVersion?: string | undefined;
+  OperatingSystem?: string | undefined;
 }
 export type Duration = number;
 export type ParticipantState = "INITIAL" | "CONNECTED" | "DISCONNECTED" | "MISSED" | (string & {});
 export interface StateTransition {
-  State?: ParticipantState;
-  StateStartTimestamp?: Date;
-  StateEndTimestamp?: Date;
+  State?: ParticipantState | undefined;
+  StateStartTimestamp?: Date | undefined;
+  StateEndTimestamp?: Date | undefined;
 }
 export type StateTransitions = StateTransition[];
 export type ActiveRegion = string;
 export interface AgentInfo {
-  Id?: string;
-  AcceptedByAgentTimestamp?: Date;
-  PreviewEndTimestamp?: Date;
-  ConnectedToAgentTimestamp?: Date;
-  AgentPauseDurationInSeconds?: number;
-  HierarchyGroups?: HierarchyGroups;
-  DeviceInfo?: DeviceInfo;
-  Capabilities?: ParticipantCapabilities;
-  AfterContactWorkDuration?: number;
-  AfterContactWorkStartTimestamp?: Date;
-  AfterContactWorkEndTimestamp?: Date;
-  AgentInitiatedHoldDuration?: number;
-  StateTransitions?: StateTransition[];
-  VoiceEnhancementMode?: VoiceEnhancementMode;
-  ActiveRegion?: string;
+  Id?: string | undefined;
+  AcceptedByAgentTimestamp?: Date | undefined;
+  PreviewEndTimestamp?: Date | undefined;
+  ConnectedToAgentTimestamp?: Date | undefined;
+  AgentPauseDurationInSeconds?: number | undefined;
+  HierarchyGroups?: HierarchyGroups | undefined;
+  DeviceInfo?: DeviceInfo | undefined;
+  Capabilities?: ParticipantCapabilities | undefined;
+  AfterContactWorkDuration?: number | undefined;
+  AfterContactWorkStartTimestamp?: Date | undefined;
+  AfterContactWorkEndTimestamp?: Date | undefined;
+  AgentInitiatedHoldDuration?: number | undefined;
+  StateTransitions?: StateTransition[] | undefined;
+  VoiceEnhancementMode?: VoiceEnhancementMode | undefined;
+  ActiveRegion?: string | undefined;
 }
 export type TotalPauseCount = number;
 export type TotalPauseDurationInSeconds = number;
 export type AiUseCase = "AgentAssistance" | "SelfService" | (string & {});
 export type AiAgentVersionId = string;
 export interface AiAgentInfo {
-  AiUseCase?: AiUseCase;
-  AiAgentVersionId?: string;
-  AiAgentEscalated?: boolean;
+  AiUseCase?: AiUseCase | undefined;
+  AiAgentVersionId?: string | undefined;
+  AiAgentEscalated?: boolean | undefined;
 }
 export type AiAgents = AiAgentInfo[];
 export interface WisdomInfo {
-  SessionArn?: string;
-  AiAgents?: AiAgentInfo[];
+  SessionArn?: string | undefined;
+  AiAgents?: AiAgentInfo[] | undefined;
 }
 export type CustomerId = string;
 export type EndpointDisplayName = string;
 export interface EndpointInfo {
-  Type?: EndpointType;
-  Address?: string;
-  DisplayName?: string;
+  Type?: EndpointType | undefined;
+  Address?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export type QueueTimeAdjustmentSeconds = number;
 export type QueuePriority = number;
@@ -3209,38 +3211,38 @@ export type ContactTagValue = string;
 export type ContactTagMap = { [key: string]: string | undefined };
 export type DurationInSeconds = number;
 export interface Expiry {
-  DurationInSeconds?: number;
-  ExpiryTimestamp?: Date;
+  DurationInSeconds?: number | undefined;
+  ExpiryTimestamp?: Date | undefined;
 }
 export type ProficiencyValue = string;
 export type NullableProficiencyLevel = number;
 export interface Range {
-  MinProficiencyLevel?: number;
-  MaxProficiencyLevel?: number;
+  MinProficiencyLevel?: number | undefined;
+  MaxProficiencyLevel?: number | undefined;
 }
 export type AgentId = string;
 export type AgentIds = string[];
 export interface AgentsCriteria {
-  AgentIds?: string[];
+  AgentIds?: string[] | undefined;
 }
 export interface MatchCriteria {
-  AgentsCriteria?: AgentsCriteria;
+  AgentsCriteria?: AgentsCriteria | undefined;
 }
 export type ComparisonOperator = string;
 export interface AttributeCondition {
-  Name?: string;
-  Value?: string;
-  ProficiencyLevel?: number;
-  Range?: Range;
-  MatchCriteria?: MatchCriteria;
-  ComparisonOperator?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  ProficiencyLevel?: number | undefined;
+  Range?: Range | undefined;
+  MatchCriteria?: MatchCriteria | undefined;
+  ComparisonOperator?: string | undefined;
 }
 export type Expressions = Expression[];
 export interface Expression {
-  AttributeCondition?: AttributeCondition;
-  AndExpression?: Expression[];
-  OrExpression?: Expression[];
-  NotAttributeCondition?: AttributeCondition;
+  AttributeCondition?: AttributeCondition | undefined;
+  AndExpression?: Expression[] | undefined;
+  OrExpression?: Expression[] | undefined;
+  NotAttributeCondition?: AttributeCondition | undefined;
 }
 export type RoutingCriteriaStepStatus =
   | "ACTIVE"
@@ -3249,20 +3251,20 @@ export type RoutingCriteriaStepStatus =
   | "EXPIRED"
   | (string & {});
 export interface Step {
-  Expiry?: Expiry;
-  Expression?: Expression;
-  Status?: RoutingCriteriaStepStatus;
+  Expiry?: Expiry | undefined;
+  Expression?: Expression | undefined;
+  Status?: RoutingCriteriaStepStatus | undefined;
 }
 export type Steps = Step[];
 export type Index = number;
 export interface RoutingCriteria {
-  Steps?: Step[];
-  ActivationTimestamp?: Date;
-  Index?: number;
+  Steps?: Step[] | undefined;
+  ActivationTimestamp?: Date | undefined;
+  Index?: number | undefined;
 }
 export interface Customer {
-  DeviceInfo?: DeviceInfo;
-  Capabilities?: ParticipantCapabilities;
+  DeviceInfo?: DeviceInfo | undefined;
+  Capabilities?: ParticipantCapabilities | undefined;
 }
 export type AnsweringMachineDetectionStatus =
   | "ANSWERED"
@@ -3281,37 +3283,37 @@ export type AnsweringMachineDetectionStatus =
   | "AMD_NOT_APPLICABLE"
   | (string & {});
 export interface CustomerVoiceActivity {
-  GreetingStartTimestamp?: Date;
-  GreetingEndTimestamp?: Date;
+  GreetingStartTimestamp?: Date | undefined;
+  GreetingEndTimestamp?: Date | undefined;
 }
 export type AudioQualityScore = number;
 export type PotentialAudioQualityIssue = string;
 export type PotentialAudioQualityIssues = string[];
 export interface AudioQualityMetricsInfo {
-  QualityScore?: number;
-  PotentialQualityIssues?: string[];
+  QualityScore?: number | undefined;
+  PotentialQualityIssues?: string[] | undefined;
 }
 export interface AgentQualityMetrics {
-  Audio?: AudioQualityMetricsInfo;
+  Audio?: AudioQualityMetricsInfo | undefined;
 }
 export interface CustomerQualityMetrics {
-  Audio?: AudioQualityMetricsInfo;
+  Audio?: AudioQualityMetricsInfo | undefined;
 }
 export interface QualityMetrics {
-  Agent?: AgentQualityMetrics;
-  Customer?: CustomerQualityMetrics;
+  Agent?: AgentQualityMetrics | undefined;
+  Customer?: CustomerQualityMetrics | undefined;
 }
 export type Count = number;
 export type DurationMillis = number;
 export interface ChatContactMetrics {
-  MultiParty?: boolean;
-  TotalMessages?: number;
-  TotalBotMessages?: number;
-  TotalBotMessageLengthInChars?: number;
-  ConversationCloseTimeInMillis?: number;
-  ConversationTurnCount?: number;
-  AgentFirstResponseTimestamp?: Date;
-  AgentFirstResponseTimeInMillis?: number;
+  MultiParty?: boolean | undefined;
+  TotalMessages?: number | undefined;
+  TotalBotMessages?: number | undefined;
+  TotalBotMessageLengthInChars?: number | undefined;
+  ConversationCloseTimeInMillis?: number | undefined;
+  ConversationTurnCount?: number | undefined;
+  AgentFirstResponseTimestamp?: Date | undefined;
+  AgentFirstResponseTimeInMillis?: number | undefined;
 }
 export type ParticipantType =
   | "ALL"
@@ -3321,33 +3323,33 @@ export type ParticipantType =
   | "THIRDPARTY"
   | (string & {});
 export interface ParticipantMetrics {
-  ParticipantId?: string;
-  ParticipantType?: ParticipantType;
-  ConversationAbandon?: boolean;
-  MessagesSent?: number;
-  NumResponses?: number;
-  MessageLengthInChars?: number;
-  TotalResponseTimeInMillis?: number;
-  MaxResponseTimeInMillis?: number;
-  LastMessageTimestamp?: Date;
+  ParticipantId?: string | undefined;
+  ParticipantType?: ParticipantType | undefined;
+  ConversationAbandon?: boolean | undefined;
+  MessagesSent?: number | undefined;
+  NumResponses?: number | undefined;
+  MessageLengthInChars?: number | undefined;
+  TotalResponseTimeInMillis?: number | undefined;
+  MaxResponseTimeInMillis?: number | undefined;
+  LastMessageTimestamp?: Date | undefined;
 }
 export interface ChatMetrics {
-  ChatContactMetrics?: ChatContactMetrics;
-  AgentMetrics?: ParticipantMetrics;
-  CustomerMetrics?: ParticipantMetrics;
+  ChatContactMetrics?: ChatContactMetrics | undefined;
+  AgentMetrics?: ParticipantMetrics | undefined;
+  CustomerMetrics?: ParticipantMetrics | undefined;
 }
 export type PotentialDisconnectIssue = string;
 export interface DisconnectDetails {
-  PotentialDisconnectIssue?: string;
+  PotentialDisconnectIssue?: string | undefined;
 }
 export interface EmailRecipient {
-  Address?: string;
-  DisplayName?: string;
+  Address?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export type EmailRecipientsList = EmailRecipient[];
 export interface AdditionalEmailRecipients {
-  ToList?: EmailRecipient[];
-  CcList?: EmailRecipient[];
+  ToList?: EmailRecipient[] | undefined;
+  CcList?: EmailRecipient[] | undefined;
 }
 export type RecordingLocation = string;
 export type MediaStreamType = "AUDIO" | "VIDEO" | (string & {});
@@ -3356,17 +3358,17 @@ export type RecordingStatus = "AVAILABLE" | "DELETED" | (string & {});
 export type RecordingDeletionReason = string;
 export type UnprocessedTranscriptLocation = string;
 export interface RecordingInfo {
-  StorageType?: StorageType;
-  Location?: string;
-  MediaStreamType?: MediaStreamType;
-  ParticipantType?: ParticipantType;
-  FragmentStartNumber?: string;
-  FragmentStopNumber?: string;
-  StartTimestamp?: Date;
-  StopTimestamp?: Date;
-  Status?: RecordingStatus;
-  DeletionReason?: string;
-  UnprocessedTranscriptLocation?: string;
+  StorageType?: StorageType | undefined;
+  Location?: string | undefined;
+  MediaStreamType?: MediaStreamType | undefined;
+  ParticipantType?: ParticipantType | undefined;
+  FragmentStartNumber?: string | undefined;
+  FragmentStopNumber?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  StopTimestamp?: Date | undefined;
+  Status?: RecordingStatus | undefined;
+  DeletionReason?: string | undefined;
+  UnprocessedTranscriptLocation?: string | undefined;
 }
 export type Recordings = RecordingInfo[];
 export type EvaluationId = string;
@@ -3375,162 +3377,162 @@ export type EvaluationArn = string;
 export type Status = "COMPLETE" | "IN_PROGRESS" | "DELETED" | (string & {});
 export type ExportLocation = string;
 export interface ContactEvaluation {
-  FormId?: string;
-  EvaluationArn?: string;
-  Status?: Status;
-  StartTimestamp?: Date;
-  EndTimestamp?: Date;
-  DeleteTimestamp?: Date;
-  ExportLocation?: string;
+  FormId?: string | undefined;
+  EvaluationArn?: string | undefined;
+  Status?: Status | undefined;
+  StartTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
+  DeleteTimestamp?: Date | undefined;
+  ExportLocation?: string | undefined;
 }
 export type ContactEvaluations = { [key: string]: ContactEvaluation | undefined };
 export interface TaskTemplateInfoV2 {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type CaseId = string;
 export type CaseReferenceNumber = string;
 export interface CaseEntry {
-  CaseId?: string;
-  CaseReferenceNumber?: string;
+  CaseId?: string | undefined;
+  CaseReferenceNumber?: string | undefined;
 }
 export type CaseEntries = CaseEntry[];
 export type ContactDetailName = string;
 export type ContactDetailDescription = string;
 export interface ContactDetails {
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type NextContactType = "QUICK_CONNECT" | (string & {});
 export interface QuickConnectContactData {
-  ContactId?: string;
-  InitiationTimestamp?: Date;
-  QuickConnectId?: string;
-  QuickConnectName?: string;
-  QuickConnectType?: QuickConnectType;
+  ContactId?: string | undefined;
+  InitiationTimestamp?: Date | undefined;
+  QuickConnectId?: string | undefined;
+  QuickConnectName?: string | undefined;
+  QuickConnectType?: QuickConnectType | undefined;
 }
 export type NextContactMetadata = { QuickConnectContactData: QuickConnectContactData };
 export interface NextContactEntry {
-  Type?: NextContactType;
-  NextContactMetadata?: NextContactMetadata;
+  Type?: NextContactType | undefined;
+  NextContactMetadata?: NextContactMetadata | undefined;
 }
 export type NextContacts = NextContactEntry[];
 export type OriginRegion = string;
 export type TrafficDistributionGroupId = string;
 export interface GlobalResiliencyMetadata {
-  ActiveRegion?: string;
-  OriginRegion?: string;
-  TrafficDistributionGroupId?: string;
+  ActiveRegion?: string | undefined;
+  OriginRegion?: string | undefined;
+  TrafficDistributionGroupId?: string | undefined;
 }
 export interface Contact {
-  Arn?: string;
-  Id?: string;
-  InitialContactId?: string;
-  PreviousContactId?: string;
-  ContactAssociationId?: string;
-  InitiationMethod?: ContactInitiationMethod;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  Channel?: Channel;
-  QueueInfo?: QueueInfo;
-  AgentInfo?: AgentInfo;
-  InitiationTimestamp?: Date;
-  DisconnectTimestamp?: Date;
-  LastUpdateTimestamp?: Date;
-  LastPausedTimestamp?: Date;
-  LastResumedTimestamp?: Date;
-  RingStartTimestamp?: Date;
-  TotalPauseCount?: number;
-  TotalPauseDurationInSeconds?: number;
-  ScheduledTimestamp?: Date;
-  RelatedContactId?: string;
-  WisdomInfo?: WisdomInfo;
-  CustomerId?: string;
-  CustomerEndpoint?: EndpointInfo;
-  SystemEndpoint?: EndpointInfo;
-  QueueTimeAdjustmentSeconds?: number;
-  QueuePriority?: number;
-  Tags?: { [key: string]: string | undefined };
-  ConnectedToSystemTimestamp?: Date;
-  RoutingCriteria?: RoutingCriteria;
-  Customer?: Customer;
-  Campaign?: Campaign;
-  AnsweringMachineDetectionStatus?: AnsweringMachineDetectionStatus;
-  CustomerVoiceActivity?: CustomerVoiceActivity;
-  QualityMetrics?: QualityMetrics;
-  ChatMetrics?: ChatMetrics;
-  DisconnectDetails?: DisconnectDetails;
-  AdditionalEmailRecipients?: AdditionalEmailRecipients;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
-  Recordings?: RecordingInfo[];
-  DisconnectReason?: string;
-  ContactEvaluations?: { [key: string]: ContactEvaluation | undefined };
-  TaskTemplateInfo?: TaskTemplateInfoV2;
-  Cases?: CaseEntry[];
-  ContactDetails?: ContactDetails;
-  OutboundStrategy?: OutboundStrategy;
-  Attributes?: { [key: string]: string | undefined };
-  NextContacts?: NextContactEntry[];
-  GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  InitialContactId?: string | undefined;
+  PreviousContactId?: string | undefined;
+  ContactAssociationId?: string | undefined;
+  InitiationMethod?: ContactInitiationMethod | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Channel?: Channel | undefined;
+  QueueInfo?: QueueInfo | undefined;
+  AgentInfo?: AgentInfo | undefined;
+  InitiationTimestamp?: Date | undefined;
+  DisconnectTimestamp?: Date | undefined;
+  LastUpdateTimestamp?: Date | undefined;
+  LastPausedTimestamp?: Date | undefined;
+  LastResumedTimestamp?: Date | undefined;
+  RingStartTimestamp?: Date | undefined;
+  TotalPauseCount?: number | undefined;
+  TotalPauseDurationInSeconds?: number | undefined;
+  ScheduledTimestamp?: Date | undefined;
+  RelatedContactId?: string | undefined;
+  WisdomInfo?: WisdomInfo | undefined;
+  CustomerId?: string | undefined;
+  CustomerEndpoint?: EndpointInfo | undefined;
+  SystemEndpoint?: EndpointInfo | undefined;
+  QueueTimeAdjustmentSeconds?: number | undefined;
+  QueuePriority?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ConnectedToSystemTimestamp?: Date | undefined;
+  RoutingCriteria?: RoutingCriteria | undefined;
+  Customer?: Customer | undefined;
+  Campaign?: Campaign | undefined;
+  AnsweringMachineDetectionStatus?: AnsweringMachineDetectionStatus | undefined;
+  CustomerVoiceActivity?: CustomerVoiceActivity | undefined;
+  QualityMetrics?: QualityMetrics | undefined;
+  ChatMetrics?: ChatMetrics | undefined;
+  DisconnectDetails?: DisconnectDetails | undefined;
+  AdditionalEmailRecipients?: AdditionalEmailRecipients | undefined;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
+  Recordings?: RecordingInfo[] | undefined;
+  DisconnectReason?: string | undefined;
+  ContactEvaluations?: { [key: string]: ContactEvaluation | undefined } | undefined;
+  TaskTemplateInfo?: TaskTemplateInfoV2 | undefined;
+  Cases?: CaseEntry[] | undefined;
+  ContactDetails?: ContactDetails | undefined;
+  OutboundStrategy?: OutboundStrategy | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  NextContacts?: NextContactEntry[] | undefined;
+  GlobalResiliencyMetadata?: GlobalResiliencyMetadata | undefined;
 }
 export interface DescribeContactResponse {
-  Contact?: Contact;
+  Contact?: Contact | undefined;
 }
 export interface DescribeContactEvaluationRequest {
   InstanceId: string;
   EvaluationId: string;
 }
 export interface EvaluationScore {
-  Percentage?: number;
-  NotApplicable?: boolean;
-  AutomaticFail?: boolean;
-  AppliedWeight?: number;
-  EarnedPoints?: number;
-  MaxBasePoint?: number;
-  PerformanceCategory?: PerformanceCategoryName;
+  Percentage?: number | undefined;
+  NotApplicable?: boolean | undefined;
+  AutomaticFail?: boolean | undefined;
+  AppliedWeight?: number | undefined;
+  EarnedPoints?: number | undefined;
+  MaxBasePoint?: number | undefined;
+  PerformanceCategory?: PerformanceCategoryName | undefined;
 }
 export type AutoEvaluationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {});
 export interface AutoEvaluationDetails {
   AutoEvaluationEnabled: boolean;
-  AutoEvaluationStatus?: AutoEvaluationStatus;
+  AutoEvaluationStatus?: AutoEvaluationStatus | undefined;
 }
 export type EvaluationAcknowledgerCommentString = string;
 export interface EvaluationAcknowledgement {
   AcknowledgedTime: Date;
   AcknowledgedBy: string;
-  AcknowledgerComment?: string;
+  AcknowledgerComment?: string | undefined;
 }
 export type EvaluationReviewRequestCommentContent = string;
 export interface EvaluationReviewRequestComment {
-  Comment?: string;
-  CreatedTime?: Date;
-  CreatedBy?: string;
+  Comment?: string | undefined;
+  CreatedTime?: Date | undefined;
+  CreatedBy?: string | undefined;
 }
 export type EvaluationReviewRequestCommentList = EvaluationReviewRequestComment[];
 export interface EvaluationReviewMetadata {
-  ReviewId?: string;
-  RequestedTime?: Date;
-  RequestedBy?: string;
-  CreatedTime?: Date;
-  CreatedBy?: string;
+  ReviewId?: string | undefined;
+  RequestedTime?: Date | undefined;
+  RequestedBy?: string | undefined;
+  CreatedTime?: Date | undefined;
+  CreatedBy?: string | undefined;
   ReviewRequestComments: EvaluationReviewRequestComment[];
 }
 export type ContactParticipantRole = "AGENT" | "SYSTEM" | "CUSTOM_BOT" | "CUSTOMER" | (string & {});
 export interface EvaluationContactParticipant {
-  ContactParticipantRole?: ContactParticipantRole;
-  ContactParticipantId?: string;
+  ContactParticipantRole?: ContactParticipantRole | undefined;
+  ContactParticipantId?: string | undefined;
 }
 export interface EvaluationMetadata {
   ContactId: string;
   EvaluatorArn: string;
-  ContactAgentId?: string;
-  CalibrationSessionId?: string;
-  Score?: EvaluationScore;
-  AutoEvaluation?: AutoEvaluationDetails;
-  Acknowledgement?: EvaluationAcknowledgement;
-  Review?: EvaluationReviewMetadata;
-  ContactParticipant?: EvaluationContactParticipant;
-  SamplingJobId?: string;
+  ContactAgentId?: string | undefined;
+  CalibrationSessionId?: string | undefined;
+  Score?: EvaluationScore | undefined;
+  AutoEvaluation?: AutoEvaluationDetails | undefined;
+  Acknowledgement?: EvaluationAcknowledgement | undefined;
+  Review?: EvaluationReviewMetadata | undefined;
+  ContactParticipant?: EvaluationContactParticipant | undefined;
+  SamplingJobId?: string | undefined;
 }
 export type EvaluationAnswerDataStringValue = string;
 export type EvaluationAnswerDataNumericValue = number;
@@ -3538,37 +3540,37 @@ export type EvaluationAnswerDataStringValueList = string[];
 export type EvaluationAnswerData =
   | {
       StringValue: string;
-      NumericValue?: never;
-      StringValues?: never;
-      DateTimeValue?: never;
-      NotApplicable?: never;
+      NumericValue?: undefined;
+      StringValues?: undefined;
+      DateTimeValue?: undefined;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
+      StringValue?: undefined;
       NumericValue: number;
-      StringValues?: never;
-      DateTimeValue?: never;
-      NotApplicable?: never;
+      StringValues?: undefined;
+      DateTimeValue?: undefined;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
-      NumericValue?: never;
+      StringValue?: undefined;
+      NumericValue?: undefined;
       StringValues: string[];
-      DateTimeValue?: never;
-      NotApplicable?: never;
+      DateTimeValue?: undefined;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
-      NumericValue?: never;
-      StringValues?: never;
+      StringValue?: undefined;
+      NumericValue?: undefined;
+      StringValues?: undefined;
       DateTimeValue: string;
-      NotApplicable?: never;
+      NotApplicable?: undefined;
     }
   | {
-      StringValue?: never;
-      NumericValue?: never;
-      StringValues?: never;
-      DateTimeValue?: never;
+      StringValue?: undefined;
+      NumericValue?: undefined;
+      StringValues?: undefined;
+      DateTimeValue?: undefined;
       NotApplicable: boolean;
     };
 export type EvaluationSuggestedAnswerStatus =
@@ -3578,7 +3580,7 @@ export type EvaluationSuggestedAnswerStatus =
   | (string & {});
 export type EvaluationTranscriptType = "RAW" | "REDACTED" | (string & {});
 export interface EvaluationQuestionInputDetails {
-  TranscriptType?: EvaluationTranscriptType;
+  TranscriptType?: EvaluationTranscriptType | undefined;
 }
 export type EvaluationQuestionAnswerAnalysisType = "CONTACT_LENS_DATA" | "GEN_AI" | (string & {});
 export type EvaluationSuggestedAnswerJustification = string;
@@ -3588,45 +3590,45 @@ export interface EvaluationSuggestedAnswerTranscriptMillisecondOffsets {
 }
 export type EvaluationSuggestedAnswerTranscriptSegment = string;
 export interface EvaluationTranscriptPointOfInterest {
-  MillisecondOffsets?: EvaluationSuggestedAnswerTranscriptMillisecondOffsets;
-  TranscriptSegment?: string;
+  MillisecondOffsets?: EvaluationSuggestedAnswerTranscriptMillisecondOffsets | undefined;
+  TranscriptSegment?: string | undefined;
 }
 export type EvaluationTranscriptPointsOfInterest = EvaluationTranscriptPointOfInterest[];
 export interface EvaluationGenAIAnswerAnalysisDetails {
-  Justification?: string;
-  PointsOfInterest?: EvaluationTranscriptPointOfInterest[];
+  Justification?: string | undefined;
+  PointsOfInterest?: EvaluationTranscriptPointOfInterest[] | undefined;
 }
 export type QuestionRuleCategoryAutomationLabel = string;
 export type QuestionRuleCategoryAutomationCondition = "PRESENT" | "NOT_PRESENT" | (string & {});
 export interface EvaluationAutomationRuleCategory {
   Category: string;
   Condition: QuestionRuleCategoryAutomationCondition;
-  PointsOfInterest?: EvaluationTranscriptPointOfInterest[];
+  PointsOfInterest?: EvaluationTranscriptPointOfInterest[] | undefined;
 }
 export type EvaluationAutomationRuleCategoryList = EvaluationAutomationRuleCategory[];
 export interface EvaluationContactLensAnswerAnalysisDetails {
-  MatchedRuleCategories?: EvaluationAutomationRuleCategory[];
+  MatchedRuleCategories?: EvaluationAutomationRuleCategory[] | undefined;
 }
 export type EvaluationQuestionAnswerAnalysisDetails =
-  | { GenAI: EvaluationGenAIAnswerAnalysisDetails; ContactLens?: never }
-  | { GenAI?: never; ContactLens: EvaluationContactLensAnswerAnalysisDetails };
+  | { GenAI: EvaluationGenAIAnswerAnalysisDetails; ContactLens?: undefined }
+  | { GenAI?: undefined; ContactLens: EvaluationContactLensAnswerAnalysisDetails };
 export interface EvaluationSuggestedAnswer {
-  Value?: EvaluationAnswerData;
+  Value?: EvaluationAnswerData | undefined;
   Status: EvaluationSuggestedAnswerStatus;
-  Input?: EvaluationQuestionInputDetails;
+  Input?: EvaluationQuestionInputDetails | undefined;
   AnalysisType: EvaluationQuestionAnswerAnalysisType;
-  AnalysisDetails?: EvaluationQuestionAnswerAnalysisDetails;
+  AnalysisDetails?: EvaluationQuestionAnswerAnalysisDetails | undefined;
 }
 export type EvaluationSuggestedAnswersList = EvaluationSuggestedAnswer[];
 export interface EvaluationAnswerOutput {
-  Value?: EvaluationAnswerData;
-  SystemSuggestedValue?: EvaluationAnswerData;
-  SuggestedAnswers?: EvaluationSuggestedAnswer[];
+  Value?: EvaluationAnswerData | undefined;
+  SystemSuggestedValue?: EvaluationAnswerData | undefined;
+  SuggestedAnswers?: EvaluationSuggestedAnswer[] | undefined;
 }
 export type EvaluationAnswersOutputMap = { [key: string]: EvaluationAnswerOutput | undefined };
 export type EvaluationNoteString = string;
 export interface EvaluationNote {
-  Value?: string;
+  Value?: string | undefined;
 }
 export type EvaluationNotesMap = { [key: string]: EvaluationNote | undefined };
 export type EvaluationStatus =
@@ -3644,25 +3646,25 @@ export interface Evaluation {
   Answers: { [key: string]: EvaluationAnswerOutput | undefined };
   Notes: { [key: string]: EvaluationNote | undefined };
   Status: EvaluationStatus;
-  Scores?: { [key: string]: EvaluationScore | undefined };
+  Scores?: { [key: string]: EvaluationScore | undefined } | undefined;
   CreatedTime: Date;
   LastModifiedTime: Date;
-  EvaluationType?: EvaluationType;
-  Tags?: { [key: string]: string | undefined };
+  EvaluationType?: EvaluationType | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface EvaluationFormContent {
   EvaluationFormVersion: number;
   EvaluationFormId: string;
   EvaluationFormArn: string;
   Title: string;
-  Description?: string;
+  Description?: string | undefined;
   Items: EvaluationFormItem[];
-  ScoringStrategy?: EvaluationFormScoringStrategy;
-  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
-  TargetConfiguration?: EvaluationFormTargetConfiguration;
-  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
-  ReviewConfiguration?: EvaluationReviewConfiguration;
-  AIVersion?: string;
+  ScoringStrategy?: EvaluationFormScoringStrategy | undefined;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration | undefined;
+  TargetConfiguration?: EvaluationFormTargetConfiguration | undefined;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration | undefined;
+  ReviewConfiguration?: EvaluationReviewConfiguration | undefined;
+  AIVersion?: string | undefined;
 }
 export interface DescribeContactEvaluationResponse {
   Evaluation: Evaluation;
@@ -3674,23 +3676,23 @@ export interface DescribeContactFlowRequest {
 }
 export type ContactFlowState = "ACTIVE" | "ARCHIVED" | (string & {});
 export interface ContactFlow {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Type?: ContactFlowType;
-  State?: ContactFlowState;
-  Status?: ContactFlowStatus;
-  Description?: string;
-  Content?: string;
-  Tags?: { [key: string]: string | undefined };
-  FlowContentSha256?: string;
-  Version?: number;
-  VersionDescription?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Type?: ContactFlowType | undefined;
+  State?: ContactFlowState | undefined;
+  Status?: ContactFlowStatus | undefined;
+  Description?: string | undefined;
+  Content?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  FlowContentSha256?: string | undefined;
+  Version?: number | undefined;
+  VersionDescription?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribeContactFlowResponse {
-  ContactFlow?: ContactFlow;
+  ContactFlow?: ContactFlow | undefined;
 }
 export interface DescribeContactFlowAliasRequest {
   InstanceId: string;
@@ -3698,17 +3700,17 @@ export interface DescribeContactFlowAliasRequest {
   AliasId: string;
 }
 export interface ContactFlowAliasInfo {
-  ContactFlowId?: string;
-  ContactFlowArn?: string;
-  AliasId?: string;
-  Version?: number;
-  Name?: string;
-  Description?: string;
-  LastModifiedRegion?: string;
-  LastModifiedTime?: Date;
+  ContactFlowId?: string | undefined;
+  ContactFlowArn?: string | undefined;
+  AliasId?: string | undefined;
+  Version?: number | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LastModifiedRegion?: string | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DescribeContactFlowAliasResponse {
-  ContactFlowAlias?: ContactFlowAliasInfo;
+  ContactFlowAlias?: ContactFlowAliasInfo | undefined;
 }
 export interface DescribeContactFlowModuleRequest {
   InstanceId: string;
@@ -3717,22 +3719,22 @@ export interface DescribeContactFlowModuleRequest {
 export type ContactFlowModuleState = "ACTIVE" | "ARCHIVED" | (string & {});
 export type ContactFlowModuleStatus = "PUBLISHED" | "SAVED" | (string & {});
 export interface ContactFlowModule {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Content?: string;
-  Description?: string;
-  State?: ContactFlowModuleState;
-  Status?: ContactFlowModuleStatus;
-  Tags?: { [key: string]: string | undefined };
-  FlowModuleContentSha256?: string;
-  Version?: number;
-  VersionDescription?: string;
-  Settings?: string;
-  ExternalInvocationConfiguration?: ExternalInvocationConfiguration;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Content?: string | undefined;
+  Description?: string | undefined;
+  State?: ContactFlowModuleState | undefined;
+  Status?: ContactFlowModuleStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  FlowModuleContentSha256?: string | undefined;
+  Version?: number | undefined;
+  VersionDescription?: string | undefined;
+  Settings?: string | undefined;
+  ExternalInvocationConfiguration?: ExternalInvocationConfiguration | undefined;
 }
 export interface DescribeContactFlowModuleResponse {
-  ContactFlowModule?: ContactFlowModule;
+  ContactFlowModule?: ContactFlowModule | undefined;
 }
 export interface DescribeContactFlowModuleAliasRequest {
   InstanceId: string;
@@ -3740,17 +3742,17 @@ export interface DescribeContactFlowModuleAliasRequest {
   AliasId: string;
 }
 export interface ContactFlowModuleAliasInfo {
-  ContactFlowModuleId?: string;
-  ContactFlowModuleArn?: string;
-  AliasId?: string;
-  Version?: number;
-  Name?: string;
-  Description?: string;
-  LastModifiedRegion?: string;
-  LastModifiedTime?: Date;
+  ContactFlowModuleId?: string | undefined;
+  ContactFlowModuleArn?: string | undefined;
+  AliasId?: string | undefined;
+  Version?: number | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LastModifiedRegion?: string | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface DescribeContactFlowModuleAliasResponse {
-  ContactFlowModuleAlias?: ContactFlowModuleAliasInfo;
+  ContactFlowModuleAlias?: ContactFlowModuleAliasInfo | undefined;
 }
 export interface DescribeDataTableRequest {
   InstanceId: string;
@@ -3762,16 +3764,16 @@ export interface DataTable {
   Id: string;
   Arn: string;
   TimeZone: string;
-  Description?: string;
-  ValueLockLevel?: DataTableLockLevel;
-  LockVersion?: DataTableLockVersion;
-  Version?: string;
-  VersionDescription?: string;
-  Status?: DataTableStatus;
-  CreatedTime?: Date;
+  Description?: string | undefined;
+  ValueLockLevel?: DataTableLockLevel | undefined;
+  LockVersion?: DataTableLockVersion | undefined;
+  Version?: string | undefined;
+  VersionDescription?: string | undefined;
+  Status?: DataTableStatus | undefined;
+  CreatedTime?: Date | undefined;
   LastModifiedTime: Date;
-  LastModifiedRegion?: string;
-  Tags?: { [key: string]: string | undefined };
+  LastModifiedRegion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeDataTableResponse {
   DataTable: DataTable;
@@ -3782,18 +3784,18 @@ export interface DescribeDataTableAttributeRequest {
   AttributeName: string;
 }
 export interface DataTableAttribute {
-  AttributeId?: string;
+  AttributeId?: string | undefined;
   Name: string;
   ValueType: DataTableAttributeValueType;
-  Description?: string;
-  DataTableId?: string;
-  DataTableArn?: string;
-  Primary?: boolean;
-  Version?: string;
-  LockVersion?: DataTableLockVersion;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
-  Validation?: Validation;
+  Description?: string | undefined;
+  DataTableId?: string | undefined;
+  DataTableArn?: string | undefined;
+  Primary?: boolean | undefined;
+  Version?: string | undefined;
+  LockVersion?: DataTableLockVersion | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  Validation?: Validation | undefined;
 }
 export interface DescribeDataTableAttributeResponse {
   Attribute: DataTableAttribute;
@@ -3804,20 +3806,20 @@ export interface DescribeEmailAddressRequest {
 }
 export type AliasConfigurationList = AliasConfiguration[];
 export interface DescribeEmailAddressResponse {
-  EmailAddressId?: string;
-  EmailAddressArn?: string;
-  EmailAddress?: string | redacted.Redacted<string>;
-  DisplayName?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  CreateTimestamp?: string;
-  ModifiedTimestamp?: string;
-  AliasConfigurations?: AliasConfiguration[];
-  Tags?: { [key: string]: string | undefined };
+  EmailAddressId?: string | undefined;
+  EmailAddressArn?: string | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreateTimestamp?: string | undefined;
+  ModifiedTimestamp?: string | undefined;
+  AliasConfigurations?: AliasConfiguration[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeEvaluationFormRequest {
   InstanceId: string;
   EvaluationFormId: string;
-  EvaluationFormVersion?: number;
+  EvaluationFormVersion?: number | undefined;
 }
 export type EvaluationFormVersionIsLocked = boolean;
 export type EvaluationFormVersionStatus = "DRAFT" | "ACTIVE" | (string & {});
@@ -3828,22 +3830,22 @@ export interface EvaluationForm {
   Locked: boolean;
   EvaluationFormArn: string;
   Title: string;
-  Description?: string;
+  Description?: string | undefined;
   Status: EvaluationFormVersionStatus;
   Items: EvaluationFormItem[];
-  ScoringStrategy?: EvaluationFormScoringStrategy;
+  ScoringStrategy?: EvaluationFormScoringStrategy | undefined;
   CreatedTime: Date;
   CreatedBy: string;
   LastModifiedTime: Date;
   LastModifiedBy: string;
-  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
-  ReviewConfiguration?: EvaluationReviewConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  TargetConfiguration?: EvaluationFormTargetConfiguration;
-  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
-  LatestValidationStatus?: EvaluationFormValidationStatus;
-  LastValidationTime?: Date;
-  AIVersion?: string;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration | undefined;
+  ReviewConfiguration?: EvaluationReviewConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TargetConfiguration?: EvaluationFormTargetConfiguration | undefined;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration | undefined;
+  LatestValidationStatus?: EvaluationFormValidationStatus | undefined;
+  LastValidationTime?: Date | undefined;
+  AIVersion?: string | undefined;
 }
 export interface DescribeEvaluationFormResponse {
   EvaluationForm: EvaluationForm;
@@ -3857,11 +3859,11 @@ export interface ExtractionDefinition {
   ExtractionDefinitionId: string;
   ExtractionDefinitionArn: string;
   ExtractionConfiguration: ExtractionConfiguration;
-  Display?: ExtractionDefinitionDisplay;
+  Display?: ExtractionDefinitionDisplay | undefined;
   CreatedTime: Date;
   LastUpdatedTime: Date;
   LastUpdatedBy: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeExtractionDefinitionResponse {
   ExtractionDefinition: ExtractionDefinition;
@@ -3873,23 +3875,23 @@ export interface DescribeHoursOfOperationRequest {
 export interface HoursOfOperationsIdentifier {
   Name: string;
   Id: string;
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type ParentHoursOfOperationsList = HoursOfOperationsIdentifier[];
 export interface HoursOfOperation {
-  HoursOfOperationId?: string;
-  HoursOfOperationArn?: string;
-  Name?: string;
-  Description?: string;
-  TimeZone?: string;
-  Config?: HoursOfOperationConfig[];
-  ParentHoursOfOperations?: HoursOfOperationsIdentifier[];
-  Tags?: { [key: string]: string | undefined };
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  HoursOfOperationId?: string | undefined;
+  HoursOfOperationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  TimeZone?: string | undefined;
+  Config?: HoursOfOperationConfig[] | undefined;
+  ParentHoursOfOperations?: HoursOfOperationsIdentifier[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribeHoursOfOperationResponse {
-  HoursOfOperation?: HoursOfOperation;
+  HoursOfOperation?: HoursOfOperation | undefined;
 }
 export interface DescribeHoursOfOperationOverrideRequest {
   InstanceId: string;
@@ -3897,41 +3899,41 @@ export interface DescribeHoursOfOperationOverrideRequest {
   HoursOfOperationOverrideId: string;
 }
 export interface HoursOfOperationOverride {
-  HoursOfOperationOverrideId?: string;
-  HoursOfOperationId?: string;
-  HoursOfOperationArn?: string;
-  Name?: string;
-  Description?: string;
-  Config?: HoursOfOperationOverrideConfig[];
-  EffectiveFrom?: string;
-  EffectiveTill?: string;
-  RecurrenceConfig?: RecurrenceConfig;
-  OverrideType?: OverrideType;
+  HoursOfOperationOverrideId?: string | undefined;
+  HoursOfOperationId?: string | undefined;
+  HoursOfOperationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Config?: HoursOfOperationOverrideConfig[] | undefined;
+  EffectiveFrom?: string | undefined;
+  EffectiveTill?: string | undefined;
+  RecurrenceConfig?: RecurrenceConfig | undefined;
+  OverrideType?: OverrideType | undefined;
 }
 export interface DescribeHoursOfOperationOverrideResponse {
-  HoursOfOperationOverride?: HoursOfOperationOverride;
+  HoursOfOperationOverride?: HoursOfOperationOverride | undefined;
 }
 export interface DescribeInstanceRequest {
   InstanceId: string;
 }
 export type InstanceStatus = "CREATION_IN_PROGRESS" | "ACTIVE" | "CREATION_FAILED" | (string & {});
 export interface InstanceStatusReason {
-  Message?: string;
+  Message?: string | undefined;
 }
 export type Url = string;
 export interface Instance {
-  Id?: string;
-  Arn?: string;
-  IdentityManagementType?: DirectoryType;
-  InstanceAlias?: string | redacted.Redacted<string>;
-  CreatedTime?: Date;
-  ServiceRole?: string;
-  InstanceStatus?: InstanceStatus;
-  StatusReason?: InstanceStatusReason;
-  InboundCallsEnabled?: boolean;
-  OutboundCallsEnabled?: boolean;
-  InstanceAccessUrl?: string;
-  Tags?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  IdentityManagementType?: DirectoryType | undefined;
+  InstanceAlias?: string | redacted.Redacted<string> | undefined;
+  CreatedTime?: Date | undefined;
+  ServiceRole?: string | undefined;
+  InstanceStatus?: InstanceStatus | undefined;
+  StatusReason?: InstanceStatusReason | undefined;
+  InboundCallsEnabled?: boolean | undefined;
+  OutboundCallsEnabled?: boolean | undefined;
+  InstanceAccessUrl?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AwsRegion = string;
 export type InstanceReplicationStatus =
@@ -3944,20 +3946,20 @@ export type InstanceReplicationStatus =
   | (string & {});
 export type ReplicationStatusReason = string;
 export interface ReplicationStatusSummary {
-  Region?: string;
-  ReplicationStatus?: InstanceReplicationStatus;
-  ReplicationStatusReason?: string;
+  Region?: string | undefined;
+  ReplicationStatus?: InstanceReplicationStatus | undefined;
+  ReplicationStatusReason?: string | undefined;
 }
 export type ReplicationStatusSummaryList = ReplicationStatusSummary[];
 export type GlobalSignInEndpoint = string;
 export interface ReplicationConfiguration {
-  ReplicationStatusSummaryList?: ReplicationStatusSummary[];
-  SourceRegion?: string;
-  GlobalSignInEndpoint?: string;
+  ReplicationStatusSummaryList?: ReplicationStatusSummary[] | undefined;
+  SourceRegion?: string | undefined;
+  GlobalSignInEndpoint?: string | undefined;
 }
 export interface DescribeInstanceResponse {
-  Instance?: Instance;
-  ReplicationConfiguration?: ReplicationConfiguration;
+  Instance?: Instance | undefined;
+  ReplicationConfiguration?: ReplicationConfiguration | undefined;
 }
 export type InstanceAttributeType =
   | "INBOUND_CALLS"
@@ -3981,11 +3983,11 @@ export interface DescribeInstanceAttributeRequest {
 }
 export type InstanceAttributeValue = string;
 export interface Attribute {
-  AttributeType?: InstanceAttributeType;
-  Value?: string;
+  AttributeType?: InstanceAttributeType | undefined;
+  Value?: string | undefined;
 }
 export interface DescribeInstanceAttributeResponse {
-  Attribute?: Attribute;
+  Attribute?: Attribute | undefined;
 }
 export interface DescribeInstanceStorageConfigRequest {
   InstanceId: string;
@@ -3993,7 +3995,7 @@ export interface DescribeInstanceStorageConfigRequest {
   ResourceType: InstanceStorageResourceType;
 }
 export interface DescribeInstanceStorageConfigResponse {
-  StorageConfig?: InstanceStorageConfig;
+  StorageConfig?: InstanceStorageConfig | undefined;
 }
 export interface DescribeMetricRequest {
   InstanceId: string;
@@ -4005,8 +4007,8 @@ export type MetricGroupingList = string[];
 export type FilterId = string;
 export type AvailableFilterType = "METRIC_LEVEL" | "RESOURCE_LEVEL" | (string & {});
 export interface AvailableFilter {
-  Id?: string;
-  Type?: AvailableFilterType;
+  Id?: string | undefined;
+  Type?: AvailableFilterType | undefined;
 }
 export type AvailableFilterList = AvailableFilter[];
 export type RefreshRate = number;
@@ -4021,30 +4023,30 @@ export interface MetricDefinition {
   Arn: string;
   Id: string;
   Name: string;
-  Description?: string;
-  MetricCalculation?: MetricCalculation;
-  CreationMethod?: MetricCreationMethod;
-  Status?: MetricStatus;
+  Description?: string | undefined;
+  MetricCalculation?: MetricCalculation | undefined;
+  CreationMethod?: MetricCreationMethod | undefined;
+  Status?: MetricStatus | undefined;
   Type: MetricType;
   Unit: MetricUnit;
-  PositiveTrendIndicator?: TrendIndicator;
+  PositiveTrendIndicator?: TrendIndicator | undefined;
   Groupings: string[];
   Filters: AvailableFilter[];
-  EffectiveTime?: Date;
-  RefreshRate?: number;
+  EffectiveTime?: Date | undefined;
+  RefreshRate?: number | undefined;
   Category: string;
-  SupportedStats?: string[];
-  DefaultStat?: string;
+  SupportedStats?: string[] | undefined;
+  DefaultStat?: string | undefined;
   SupportsPreaggregateCalculation: boolean;
   SupportsCustomCalculation: boolean;
-  PrimaryEventSource?: string;
-  PrimaryEventSourceEffectiveTimestampType?: string;
-  CreatedTime?: Date;
-  CreatedUser?: CreatedByInfo;
-  LastModifiedRegion?: string;
-  LastModifiedTime?: Date;
-  LastModifiedUser?: CreatedByInfo;
-  Tags?: { [key: string]: string | undefined };
+  PrimaryEventSource?: string | undefined;
+  PrimaryEventSourceEffectiveTimestampType?: string | undefined;
+  CreatedTime?: Date | undefined;
+  CreatedUser?: CreatedByInfo | undefined;
+  LastModifiedRegion?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedUser?: CreatedByInfo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeMetricResponse {
   Metric: MetricDefinition;
@@ -4055,16 +4057,16 @@ export interface DescribeNotificationRequest {
 }
 export type NotificationPriority = "URGENT" | "HIGH" | "LOW" | (string & {});
 export interface Notification {
-  Content?: { [key: string]: string | undefined };
+  Content?: { [key: string]: string | undefined } | undefined;
   Id: string;
   Arn: string;
-  Priority?: NotificationPriority;
-  Recipients?: string[];
+  Priority?: NotificationPriority | undefined;
+  Recipients?: string[] | undefined;
   LastModifiedTime: Date;
-  CreatedAt?: Date;
-  ExpiresAt?: Date;
-  LastModifiedRegion?: string;
-  Tags?: { [key: string]: string | undefined };
+  CreatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeNotificationResponse {
   Notification: Notification;
@@ -4323,24 +4325,24 @@ export type PhoneNumberType =
 export type PhoneNumberWorkflowStatus = "CLAIMED" | "IN_PROGRESS" | "FAILED" | (string & {});
 export type PhoneNumberWorkflowMessage = string;
 export interface PhoneNumberStatus {
-  Status?: PhoneNumberWorkflowStatus;
-  Message?: string;
+  Status?: PhoneNumberWorkflowStatus | undefined;
+  Message?: string | undefined;
 }
 export interface ClaimedPhoneNumberSummary {
-  PhoneNumberId?: string;
-  PhoneNumberArn?: string;
-  PhoneNumber?: string;
-  PhoneNumberCountryCode?: PhoneNumberCountryCode;
-  PhoneNumberType?: PhoneNumberType;
-  PhoneNumberDescription?: string;
-  TargetArn?: string;
-  InstanceId?: string;
-  Tags?: { [key: string]: string | undefined };
-  PhoneNumberStatus?: PhoneNumberStatus;
-  SourcePhoneNumberArn?: string;
+  PhoneNumberId?: string | undefined;
+  PhoneNumberArn?: string | undefined;
+  PhoneNumber?: string | undefined;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode | undefined;
+  PhoneNumberType?: PhoneNumberType | undefined;
+  PhoneNumberDescription?: string | undefined;
+  TargetArn?: string | undefined;
+  InstanceId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PhoneNumberStatus?: PhoneNumberStatus | undefined;
+  SourcePhoneNumberArn?: string | undefined;
 }
 export interface DescribePhoneNumberResponse {
-  ClaimedPhoneNumberSummary?: ClaimedPhoneNumberSummary;
+  ClaimedPhoneNumberSummary?: ClaimedPhoneNumberSummary | undefined;
 }
 export interface DescribePredefinedAttributeRequest {
   InstanceId: string;
@@ -4348,35 +4350,35 @@ export interface DescribePredefinedAttributeRequest {
 }
 export type IsReadOnly = boolean;
 export interface PredefinedAttributeConfiguration {
-  EnableValueValidationOnAssociation?: boolean;
-  IsReadOnly?: boolean;
+  EnableValueValidationOnAssociation?: boolean | undefined;
+  IsReadOnly?: boolean | undefined;
 }
 export interface PredefinedAttribute {
-  Name?: string;
-  Values?: PredefinedAttributeValues;
-  Purposes?: string[];
-  AttributeConfiguration?: PredefinedAttributeConfiguration;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Name?: string | undefined;
+  Values?: PredefinedAttributeValues | undefined;
+  Purposes?: string[] | undefined;
+  AttributeConfiguration?: PredefinedAttributeConfiguration | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribePredefinedAttributeResponse {
-  PredefinedAttribute?: PredefinedAttribute;
+  PredefinedAttribute?: PredefinedAttribute | undefined;
 }
 export interface DescribePromptRequest {
   InstanceId: string;
   PromptId: string;
 }
 export interface Prompt {
-  PromptARN?: string;
-  PromptId?: string;
-  Name?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  PromptARN?: string | undefined;
+  PromptId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribePromptResponse {
-  Prompt?: Prompt;
+  Prompt?: Prompt | undefined;
 }
 export interface DescribeQueueRequest {
   InstanceId: string;
@@ -4384,38 +4386,38 @@ export interface DescribeQueueRequest {
 }
 export type QueueStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface Queue {
-  Name?: string;
-  QueueArn?: string;
-  QueueId?: string;
-  Description?: string;
-  OutboundCallerConfig?: OutboundCallerConfig;
-  OutboundEmailConfig?: OutboundEmailConfig;
-  HoursOfOperationId?: string;
-  MaxContacts?: number;
-  Status?: QueueStatus;
-  Tags?: { [key: string]: string | undefined };
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Name?: string | undefined;
+  QueueArn?: string | undefined;
+  QueueId?: string | undefined;
+  Description?: string | undefined;
+  OutboundCallerConfig?: OutboundCallerConfig | undefined;
+  OutboundEmailConfig?: OutboundEmailConfig | undefined;
+  HoursOfOperationId?: string | undefined;
+  MaxContacts?: number | undefined;
+  Status?: QueueStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribeQueueResponse {
-  Queue?: Queue;
+  Queue?: Queue | undefined;
 }
 export interface DescribeQuickConnectRequest {
   InstanceId: string;
   QuickConnectId: string;
 }
 export interface QuickConnect {
-  QuickConnectARN?: string;
-  QuickConnectId?: string;
-  Name?: string;
-  Description?: string;
-  QuickConnectConfig?: QuickConnectConfig;
-  Tags?: { [key: string]: string | undefined };
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  QuickConnectARN?: string | undefined;
+  QuickConnectId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  QuickConnectConfig?: QuickConnectConfig | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribeQuickConnectResponse {
-  QuickConnect?: QuickConnect;
+  QuickConnect?: QuickConnect | undefined;
 }
 export interface DescribeRoutingProfileRequest {
   InstanceId: string;
@@ -4423,26 +4425,26 @@ export interface DescribeRoutingProfileRequest {
 }
 export type AssociatedQueueIdList = string[];
 export interface RoutingProfile {
-  InstanceId?: string;
-  Name?: string;
-  RoutingProfileArn?: string;
-  RoutingProfileId?: string;
-  Description?: string;
-  MediaConcurrencies?: MediaConcurrency[];
-  DefaultOutboundQueueId?: string;
-  Tags?: { [key: string]: string | undefined };
-  NumberOfAssociatedQueues?: number;
-  NumberOfAssociatedManualAssignmentQueues?: number;
-  NumberOfAssociatedUsers?: number;
-  AgentAvailabilityTimer?: AgentAvailabilityTimer;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
-  IsDefault?: boolean;
-  AssociatedQueueIds?: string[];
-  AssociatedManualAssignmentQueueIds?: string[];
+  InstanceId?: string | undefined;
+  Name?: string | undefined;
+  RoutingProfileArn?: string | undefined;
+  RoutingProfileId?: string | undefined;
+  Description?: string | undefined;
+  MediaConcurrencies?: MediaConcurrency[] | undefined;
+  DefaultOutboundQueueId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NumberOfAssociatedQueues?: number | undefined;
+  NumberOfAssociatedManualAssignmentQueues?: number | undefined;
+  NumberOfAssociatedUsers?: number | undefined;
+  AgentAvailabilityTimer?: AgentAvailabilityTimer | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  IsDefault?: boolean | undefined;
+  AssociatedQueueIds?: string[] | undefined;
+  AssociatedManualAssignmentQueueIds?: string[] | undefined;
 }
 export interface DescribeRoutingProfileResponse {
-  RoutingProfile?: RoutingProfile;
+  RoutingProfile?: RoutingProfile | undefined;
 }
 export interface DescribeRuleRequest {
   InstanceId: string;
@@ -4455,15 +4457,15 @@ export interface Rule {
   RuleId: string;
   RuleArn: string;
   TriggerEventSource: RuleTriggerEventSource;
-  RuleCapabilityTiers?: RuleCapabilityTier[];
+  RuleCapabilityTiers?: RuleCapabilityTier[] | undefined;
   Function: string;
   Actions: RuleAction[];
   PublishStatus: RulePublishStatus;
-  PreEvaluationFilters?: PreEvaluationFilters;
+  PreEvaluationFilters?: PreEvaluationFilters | undefined;
   CreatedTime: Date;
   LastUpdatedTime: Date;
   LastUpdatedBy: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeRuleResponse {
   Rule: Rule;
@@ -4475,46 +4477,46 @@ export interface DescribeSecurityProfileRequest {
 export type SecurityProfileName = string;
 export type SecurityProfileType = "AWS_MANAGED" | "CUSTOMER_MANAGED" | (string & {});
 export interface SecurityProfile {
-  Id?: string;
-  OrganizationResourceId?: string;
-  Arn?: string;
-  SecurityProfileName?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  AllowedAccessControlTags?: { [key: string]: string | undefined };
-  TagRestrictedResources?: string[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
-  HierarchyRestrictedResources?: string[];
-  AllowedAccessControlHierarchyGroupId?: string;
-  GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
-  Type?: SecurityProfileType;
+  Id?: string | undefined;
+  OrganizationResourceId?: string | undefined;
+  Arn?: string | undefined;
+  SecurityProfileName?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AllowedAccessControlTags?: { [key: string]: string | undefined } | undefined;
+  TagRestrictedResources?: string[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  HierarchyRestrictedResources?: string[] | undefined;
+  AllowedAccessControlHierarchyGroupId?: string | undefined;
+  GranularAccessControlConfiguration?: GranularAccessControlConfiguration | undefined;
+  Type?: SecurityProfileType | undefined;
 }
 export interface DescribeSecurityProfileResponse {
-  SecurityProfile?: SecurityProfile;
+  SecurityProfile?: SecurityProfile | undefined;
 }
 export interface DescribeTestCaseRequest {
   InstanceId: string;
   TestCaseId: string;
-  Status?: TestCaseStatus;
+  Status?: TestCaseStatus | undefined;
 }
 export type TestCaseSha256 = string;
 export interface TestCase {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Content?: string;
-  EntryPoint?: TestCaseEntryPoint;
-  InitializationData?: string;
-  Description?: string;
-  Status?: TestCaseStatus;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
-  Tags?: { [key: string]: string | undefined };
-  TestCaseSha256?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Content?: string | undefined;
+  EntryPoint?: TestCaseEntryPoint | undefined;
+  InitializationData?: string | undefined;
+  Description?: string | undefined;
+  Status?: TestCaseStatus | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TestCaseSha256?: string | undefined;
 }
 export interface DescribeTestCaseResponse {
-  TestCase?: TestCase;
+  TestCase?: TestCase | undefined;
 }
 export interface DescribeTrafficDistributionGroupRequest {
   TrafficDistributionGroupId: string;
@@ -4529,43 +4531,43 @@ export type TrafficDistributionGroupStatus =
   | "UPDATE_IN_PROGRESS"
   | (string & {});
 export interface TrafficDistributionGroup {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  InstanceArn?: string;
-  Status?: TrafficDistributionGroupStatus;
-  Tags?: { [key: string]: string | undefined };
-  IsDefault?: boolean;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  InstanceArn?: string | undefined;
+  Status?: TrafficDistributionGroupStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  IsDefault?: boolean | undefined;
 }
 export interface DescribeTrafficDistributionGroupResponse {
-  TrafficDistributionGroup?: TrafficDistributionGroup;
+  TrafficDistributionGroup?: TrafficDistributionGroup | undefined;
 }
 export interface DescribeUserRequest {
   UserId: string;
   InstanceId: string;
 }
 export interface User {
-  Id?: string;
-  Arn?: string;
-  Username?: string;
-  IdentityInfo?: UserIdentityInfo;
-  PhoneConfig?: UserPhoneConfig;
-  DirectoryUserId?: string;
-  SecurityProfileIds?: string[];
-  RoutingProfileId?: string;
-  HierarchyGroupId?: string;
-  Tags?: { [key: string]: string | undefined };
-  AutoAcceptConfigs?: AutoAcceptConfig[];
-  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
-  PhoneNumberConfigs?: PhoneNumberConfig[];
-  PersistentConnectionConfigs?: PersistentConnectionConfig[];
-  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Username?: string | undefined;
+  IdentityInfo?: UserIdentityInfo | undefined;
+  PhoneConfig?: UserPhoneConfig | undefined;
+  DirectoryUserId?: string | undefined;
+  SecurityProfileIds?: string[] | undefined;
+  RoutingProfileId?: string | undefined;
+  HierarchyGroupId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AutoAcceptConfigs?: AutoAcceptConfig[] | undefined;
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[] | undefined;
+  PhoneNumberConfigs?: PhoneNumberConfig[] | undefined;
+  PersistentConnectionConfigs?: PersistentConnectionConfig[] | undefined;
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribeUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface DescribeUserHierarchyGroupRequest {
   HierarchyGroupId: string;
@@ -4573,59 +4575,59 @@ export interface DescribeUserHierarchyGroupRequest {
 }
 export type HierarchyLevelId = string;
 export interface HierarchyGroupSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface HierarchyPath {
-  LevelOne?: HierarchyGroupSummary;
-  LevelTwo?: HierarchyGroupSummary;
-  LevelThree?: HierarchyGroupSummary;
-  LevelFour?: HierarchyGroupSummary;
-  LevelFive?: HierarchyGroupSummary;
+  LevelOne?: HierarchyGroupSummary | undefined;
+  LevelTwo?: HierarchyGroupSummary | undefined;
+  LevelThree?: HierarchyGroupSummary | undefined;
+  LevelFour?: HierarchyGroupSummary | undefined;
+  LevelFive?: HierarchyGroupSummary | undefined;
 }
 export interface HierarchyGroup {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  LevelId?: string;
-  HierarchyPath?: HierarchyPath;
-  Tags?: { [key: string]: string | undefined };
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  LevelId?: string | undefined;
+  HierarchyPath?: HierarchyPath | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface DescribeUserHierarchyGroupResponse {
-  HierarchyGroup?: HierarchyGroup;
+  HierarchyGroup?: HierarchyGroup | undefined;
 }
 export interface DescribeUserHierarchyStructureRequest {
   InstanceId: string;
 }
 export type HierarchyLevelName = string;
 export interface HierarchyLevel {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface HierarchyStructure {
-  LevelOne?: HierarchyLevel;
-  LevelTwo?: HierarchyLevel;
-  LevelThree?: HierarchyLevel;
-  LevelFour?: HierarchyLevel;
-  LevelFive?: HierarchyLevel;
+  LevelOne?: HierarchyLevel | undefined;
+  LevelTwo?: HierarchyLevel | undefined;
+  LevelThree?: HierarchyLevel | undefined;
+  LevelFour?: HierarchyLevel | undefined;
+  LevelFive?: HierarchyLevel | undefined;
 }
 export interface DescribeUserHierarchyStructureResponse {
-  HierarchyStructure?: HierarchyStructure;
+  HierarchyStructure?: HierarchyStructure | undefined;
 }
 export interface DescribeViewRequest {
   InstanceId: string;
   ViewId: string;
 }
 export interface DescribeViewResponse {
-  View?: View;
+  View?: View | undefined;
 }
 export interface DescribeVocabularyRequest {
   InstanceId: string;
@@ -4640,9 +4642,9 @@ export interface Vocabulary {
   LanguageCode: VocabularyLanguageCode;
   State: VocabularyState;
   LastModifiedTime: Date;
-  FailureReason?: string;
-  Content?: string;
-  Tags?: { [key: string]: string | undefined };
+  FailureReason?: string | undefined;
+  Content?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeVocabularyResponse {
   Vocabulary: Vocabulary;
@@ -4653,16 +4655,16 @@ export interface DescribeWorkspaceRequest {
 }
 export type Visibility = "ALL" | "ASSIGNED" | "NONE" | (string & {});
 export interface Workspace {
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
   Id: string;
   Name: string;
   Arn: string;
-  Description?: string;
-  Theme?: WorkspaceTheme;
-  Title?: string;
+  Description?: string | undefined;
+  Theme?: WorkspaceTheme | undefined;
+  Title?: string | undefined;
   LastModifiedTime: Date;
-  LastModifiedRegion?: string;
-  Tags?: { [key: string]: string | undefined };
+  LastModifiedRegion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeWorkspaceResponse {
   Workspace: Workspace;
@@ -4670,27 +4672,27 @@ export interface DescribeWorkspaceResponse {
 export interface DisassociateAnalyticsDataSetRequest {
   InstanceId: string;
   DataSetId: string;
-  TargetAccountId?: string;
+  TargetAccountId?: string | undefined;
 }
 export interface DisassociateAnalyticsDataSetResponse {}
 export interface DisassociateApprovedOriginRequest {
   InstanceId: string;
   Origin: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateApprovedOriginResponse {}
 export interface DisassociateBotRequest {
   InstanceId: string;
-  LexBot?: LexBot;
-  LexV2Bot?: LexV2Bot;
-  ClientToken?: string;
+  LexBot?: LexBot | undefined;
+  LexV2Bot?: LexV2Bot | undefined;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateBotResponse {}
 export interface DisassociateEmailAddressAliasRequest {
   EmailAddressId: string;
   InstanceId: string;
   AliasConfiguration: AliasConfiguration;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateEmailAddressAliasResponse {}
 export interface DisassociateFlowRequest {
@@ -4710,20 +4712,20 @@ export interface DisassociateInstanceStorageConfigRequest {
   InstanceId: string;
   AssociationId: string;
   ResourceType: InstanceStorageResourceType;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateInstanceStorageConfigResponse {}
 export interface DisassociateLambdaFunctionRequest {
   InstanceId: string;
   FunctionArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateLambdaFunctionResponse {}
 export interface DisassociateLexBotRequest {
   InstanceId: string;
   BotName: string;
   LexRegion: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateLexBotResponse {}
 export interface DisassociatePhoneNumberContactFlowRequest {
@@ -4736,7 +4738,7 @@ export interface DisassociateQueueEmailAddressesRequest {
   InstanceId: string;
   QueueId: string;
   EmailAddressesId: string[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateQueueEmailAddressesResponse {}
 export interface DisassociateQueueQuickConnectsRequest {
@@ -4749,14 +4751,14 @@ export type RoutingProfileQueueReferenceList = RoutingProfileQueueReference[];
 export interface DisassociateRoutingProfileQueuesRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  QueueReferences?: RoutingProfileQueueReference[];
-  ManualAssignmentQueueReferences?: RoutingProfileQueueReference[];
+  QueueReferences?: RoutingProfileQueueReference[] | undefined;
+  ManualAssignmentQueueReferences?: RoutingProfileQueueReference[] | undefined;
 }
 export interface DisassociateRoutingProfileQueuesResponse {}
 export interface DisassociateSecurityKeyRequest {
   InstanceId: string;
   AssociationId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateSecurityKeyResponse {}
 export interface DisassociateSecurityProfilesRequest {
@@ -4789,8 +4791,8 @@ export interface DisassociateWorkspaceRequest {
   ResourceArns: string[];
 }
 export interface DisassociateWorkspaceResponse {
-  SuccessfulList?: SuccessfulBatchAssociationSummary[];
-  FailedList?: FailedBatchAssociationSummary[];
+  SuccessfulList?: SuccessfulBatchAssociationSummary[] | undefined;
+  FailedList?: FailedBatchAssociationSummary[] | undefined;
 }
 export interface DismissUserContactRequest {
   UserId: string;
@@ -4800,7 +4802,7 @@ export interface DismissUserContactRequest {
 export interface DismissUserContactResponse {}
 export type AttributeNameList = string[];
 export interface DataTableValueEvaluationSet {
-  PrimaryValues?: PrimaryValue[];
+  PrimaryValues?: PrimaryValue[] | undefined;
   AttributeNames: string[];
 }
 export type DataTableValueEvaluationSetList = DataTableValueEvaluationSet[];
@@ -4810,9 +4812,9 @@ export interface EvaluateDataTableValuesRequest {
   InstanceId: string;
   DataTableId: string;
   Values: DataTableValueEvaluationSet[];
-  TimeZone?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  TimeZone?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataTableEvaluatedValue {
   RecordId: string;
@@ -4826,41 +4828,41 @@ export interface DataTableEvaluatedValue {
 export type DataTableEvaluatedValueList = DataTableEvaluatedValue[];
 export interface EvaluateDataTableValuesResponse {
   Values: DataTableEvaluatedValue[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type URLExpiryInSeconds = number;
 export type ContentDisposition = "INLINE" | "ATTACHMENT" | (string & {});
 export interface GetAttachedFileRequest {
   InstanceId: string;
   FileId: string;
-  UrlExpiryInSeconds?: number;
+  UrlExpiryInSeconds?: number | undefined;
   AssociatedResourceArn: string;
-  UrlContentDisposition?: ContentDisposition;
+  UrlContentDisposition?: ContentDisposition | undefined;
 }
 export type MetadataUrl = string;
 export interface DownloadUrlMetadata {
-  Url?: string;
-  UrlExpiry?: string;
+  Url?: string | undefined;
+  UrlExpiry?: string | undefined;
 }
 export interface GetAttachedFileResponse {
-  FileArn?: string;
-  FileId?: string;
-  CreationTime?: string;
-  FileStatus?: FileStatusType;
-  FileName?: string;
+  FileArn?: string | undefined;
+  FileId?: string | undefined;
+  CreationTime?: string | undefined;
+  FileStatus?: FileStatusType | undefined;
+  FileName?: string | undefined;
   FileSizeInBytes: number;
-  AssociatedResourceArn?: string;
-  FileUseCaseType?: FileUseCaseType;
-  CreatedBy?: CreatedByInfo;
-  DownloadUrlMetadata?: DownloadUrlMetadata;
-  Tags?: { [key: string]: string | undefined };
+  AssociatedResourceArn?: string | undefined;
+  FileUseCaseType?: FileUseCaseType | undefined;
+  CreatedBy?: CreatedByInfo | undefined;
+  DownloadUrlMetadata?: DownloadUrlMetadata | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetContactAttributesRequest {
   InstanceId: string;
   InitialContactId: string;
 }
 export interface GetContactAttributesResponse {
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type ContactMetricName = "ESTIMATED_WAIT_TIME" | "POSITION_IN_QUEUE" | (string & {});
 export interface ContactMetricInfo {
@@ -4879,16 +4881,16 @@ export interface ContactMetricResult {
 }
 export type ContactMetricResults = ContactMetricResult[];
 export interface GetContactMetricsResponse {
-  MetricResults?: ContactMetricResult[];
-  Id?: string;
-  Arn?: string;
+  MetricResults?: ContactMetricResult[] | undefined;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface GetCrossRegionRoutingRequest {
   InstanceId: string;
 }
 export type IsolatedRegionsList = string[];
 export interface GetCrossRegionRoutingResponse {
-  IsolatedRegions?: string[];
+  IsolatedRegions?: string[] | undefined;
 }
 export type Queues = string[];
 export type Channels = Channel[];
@@ -4901,13 +4903,13 @@ export type Subtypes = string[];
 export type ValidationTestType = string;
 export type ValidationTestTypes = string[];
 export interface Filters {
-  Queues?: string[];
-  Channels?: Channel[];
-  RoutingProfiles?: string[];
-  RoutingStepExpressions?: string[];
-  AgentStatuses?: string[];
-  Subtypes?: string[];
-  ValidationTestTypes?: string[];
+  Queues?: string[] | undefined;
+  Channels?: Channel[] | undefined;
+  RoutingProfiles?: string[] | undefined;
+  RoutingStepExpressions?: string[] | undefined;
+  AgentStatuses?: string[] | undefined;
+  Subtypes?: string[] | undefined;
+  ValidationTestTypes?: string[] | undefined;
 }
 export type Grouping =
   | "QUEUE"
@@ -4938,64 +4940,64 @@ export type CurrentMetricName =
 export type CurrentMetricId = string;
 export type Unit = "SECONDS" | "COUNT" | "PERCENT" | (string & {});
 export interface CurrentMetric {
-  Name?: CurrentMetricName;
-  MetricId?: string;
-  Unit?: Unit;
+  Name?: CurrentMetricName | undefined;
+  MetricId?: string | undefined;
+  Unit?: Unit | undefined;
 }
 export type CurrentMetrics = CurrentMetric[];
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface CurrentMetricSortCriteria {
-  SortByMetric?: CurrentMetricName;
-  SortOrder?: SortOrder;
+  SortByMetric?: CurrentMetricName | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type CurrentMetricSortCriteriaMaxOne = CurrentMetricSortCriteria[];
 export interface GetCurrentMetricDataRequest {
   InstanceId: string;
   Filters: Filters;
-  Groupings?: Grouping[];
+  Groupings?: Grouping[] | undefined;
   CurrentMetrics: CurrentMetric[];
-  NextToken?: string;
-  MaxResults?: number;
-  SortCriteria?: CurrentMetricSortCriteria[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SortCriteria?: CurrentMetricSortCriteria[] | undefined;
 }
 export interface QueueReference {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface RoutingProfileReference {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface AgentStatusIdentifier {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export interface Dimensions {
-  Queue?: QueueReference;
-  Channel?: Channel;
-  RoutingProfile?: RoutingProfileReference;
-  RoutingStepExpression?: string;
-  AgentStatus?: AgentStatusIdentifier;
-  Subtype?: string;
-  ValidationTestType?: string;
+  Queue?: QueueReference | undefined;
+  Channel?: Channel | undefined;
+  RoutingProfile?: RoutingProfileReference | undefined;
+  RoutingStepExpression?: string | undefined;
+  AgentStatus?: AgentStatusIdentifier | undefined;
+  Subtype?: string | undefined;
+  ValidationTestType?: string | undefined;
 }
 export type Value = number;
 export interface CurrentMetricData {
-  Metric?: CurrentMetric;
-  Value?: number;
+  Metric?: CurrentMetric | undefined;
+  Value?: number | undefined;
 }
 export type CurrentMetricDataCollections = CurrentMetricData[];
 export interface CurrentMetricResult {
-  Dimensions?: Dimensions;
-  Collections?: CurrentMetricData[];
+  Dimensions?: Dimensions | undefined;
+  Collections?: CurrentMetricData[] | undefined;
 }
 export type CurrentMetricResults = CurrentMetricResult[];
 export type ApproximateTotalCount = number;
 export interface GetCurrentMetricDataResponse {
-  NextToken?: string;
-  MetricResults?: CurrentMetricResult[];
-  DataSnapshotTime?: Date;
-  ApproximateTotalCount?: number;
+  NextToken?: string | undefined;
+  MetricResults?: CurrentMetricResult[] | undefined;
+  DataSnapshotTime?: Date | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type ContactState =
   | "INCOMING"
@@ -5010,71 +5012,71 @@ export type ContactState =
   | (string & {});
 export type ContactStates = ContactState[];
 export interface ContactFilter {
-  ContactStates?: ContactState[];
+  ContactStates?: ContactState[] | undefined;
 }
 export type AgentsMinOneMaxHundred = string[];
 export type UserDataHierarchyGroups = string[];
 export interface UserDataFilters {
-  Queues?: string[];
-  ContactFilter?: ContactFilter;
-  RoutingProfiles?: string[];
-  Agents?: string[];
-  UserHierarchyGroups?: string[];
+  Queues?: string[] | undefined;
+  ContactFilter?: ContactFilter | undefined;
+  RoutingProfiles?: string[] | undefined;
+  Agents?: string[] | undefined;
+  UserHierarchyGroups?: string[] | undefined;
 }
 export interface GetCurrentUserDataRequest {
   InstanceId: string;
   Filters: UserDataFilters;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface UserReference {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface HierarchyGroupSummaryReference {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface HierarchyPathReference {
-  LevelOne?: HierarchyGroupSummaryReference;
-  LevelTwo?: HierarchyGroupSummaryReference;
-  LevelThree?: HierarchyGroupSummaryReference;
-  LevelFour?: HierarchyGroupSummaryReference;
-  LevelFive?: HierarchyGroupSummaryReference;
+  LevelOne?: HierarchyGroupSummaryReference | undefined;
+  LevelTwo?: HierarchyGroupSummaryReference | undefined;
+  LevelThree?: HierarchyGroupSummaryReference | undefined;
+  LevelFour?: HierarchyGroupSummaryReference | undefined;
+  LevelFive?: HierarchyGroupSummaryReference | undefined;
 }
 export interface AgentStatusReference {
-  StatusStartTimestamp?: Date;
-  StatusArn?: string;
-  StatusName?: string;
+  StatusStartTimestamp?: Date | undefined;
+  StatusArn?: string | undefined;
+  StatusName?: string | undefined;
 }
 export type IntegerCount = number;
-export type ChannelToCountMap = { [key in Channel]?: number };
+export type ChannelToCountMap = { [key in Channel]?: number | undefined };
 export interface AgentContactReference {
-  ContactId?: string;
-  Channel?: Channel;
-  InitiationMethod?: ContactInitiationMethod;
-  AgentContactState?: ContactState;
-  StateStartTimestamp?: Date;
-  ConnectedToAgentTimestamp?: Date;
-  Queue?: QueueReference;
+  ContactId?: string | undefined;
+  Channel?: Channel | undefined;
+  InitiationMethod?: ContactInitiationMethod | undefined;
+  AgentContactState?: ContactState | undefined;
+  StateStartTimestamp?: Date | undefined;
+  ConnectedToAgentTimestamp?: Date | undefined;
+  Queue?: QueueReference | undefined;
 }
 export type AgentContactReferenceList = AgentContactReference[];
 export interface UserData {
-  User?: UserReference;
-  RoutingProfile?: RoutingProfileReference;
-  HierarchyPath?: HierarchyPathReference;
-  Status?: AgentStatusReference;
-  AvailableSlotsByChannel?: { [key: string]: number | undefined };
-  MaxSlotsByChannel?: { [key: string]: number | undefined };
-  ActiveSlotsByChannel?: { [key: string]: number | undefined };
-  Contacts?: AgentContactReference[];
-  NextStatus?: string;
+  User?: UserReference | undefined;
+  RoutingProfile?: RoutingProfileReference | undefined;
+  HierarchyPath?: HierarchyPathReference | undefined;
+  Status?: AgentStatusReference | undefined;
+  AvailableSlotsByChannel?: { [key: string]: number | undefined } | undefined;
+  MaxSlotsByChannel?: { [key: string]: number | undefined } | undefined;
+  ActiveSlotsByChannel?: { [key: string]: number | undefined } | undefined;
+  Contacts?: AgentContactReference[] | undefined;
+  NextStatus?: string | undefined;
 }
 export type UserDataList = UserData[];
 export interface GetCurrentUserDataResponse {
-  NextToken?: string;
-  UserDataList?: UserData[];
-  ApproximateTotalCount?: number;
+  NextToken?: string | undefined;
+  UserDataList?: UserData[] | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface GetEffectiveHoursOfOperationsRequest {
   InstanceId: string;
@@ -5083,44 +5085,44 @@ export interface GetEffectiveHoursOfOperationsRequest {
   ToDate: string;
 }
 export interface OperationalHour {
-  Start?: OverrideTimeSlice;
-  End?: OverrideTimeSlice;
+  Start?: OverrideTimeSlice | undefined;
+  End?: OverrideTimeSlice | undefined;
 }
 export type OperationalHours = OperationalHour[];
 export interface EffectiveHoursOfOperations {
-  Date?: string;
-  OperationalHours?: OperationalHour[];
+  Date?: string | undefined;
+  OperationalHours?: OperationalHour[] | undefined;
 }
 export type EffectiveHoursOfOperationList = EffectiveHoursOfOperations[];
 export type OperationalStatus = "OPEN" | "CLOSED" | (string & {});
 export interface OverrideHour {
-  Start?: OverrideTimeSlice;
-  End?: OverrideTimeSlice;
-  OverrideName?: string;
-  OperationalStatus?: OperationalStatus;
+  Start?: OverrideTimeSlice | undefined;
+  End?: OverrideTimeSlice | undefined;
+  OverrideName?: string | undefined;
+  OperationalStatus?: OperationalStatus | undefined;
 }
 export type OverrideHours = OverrideHour[];
 export interface EffectiveOverrideHours {
-  Date?: string;
-  OverrideHours?: OverrideHour[];
+  Date?: string | undefined;
+  OverrideHours?: OverrideHour[] | undefined;
 }
 export type EffectiveOverrideHoursList = EffectiveOverrideHours[];
 export interface GetEffectiveHoursOfOperationsResponse {
-  EffectiveHoursOfOperationList?: EffectiveHoursOfOperations[];
-  EffectiveOverrideHoursList?: EffectiveOverrideHours[];
-  TimeZone?: string;
+  EffectiveHoursOfOperationList?: EffectiveHoursOfOperations[] | undefined;
+  EffectiveOverrideHoursList?: EffectiveOverrideHours[] | undefined;
+  TimeZone?: string | undefined;
 }
 export interface GetEvaluationFormValidationRequest {
   InstanceId: string;
   EvaluationFormId: string;
-  EvaluationFormVersion?: number;
+  EvaluationFormVersion?: number | undefined;
 }
 export type EvaluationFormValidationFailureReason = string;
 export type EvaluationFormValidationIssueCode = string;
 export type EvaluationFormValidationFindingItemProperty = string;
 export interface EvaluationFormValidationFindingItem {
-  RefId?: string;
-  Property?: string;
+  RefId?: string | undefined;
+  Property?: string | undefined;
 }
 export type EvaluationFormValidationFindingItemList = EvaluationFormValidationFindingItem[];
 export type EvaluationFormValidationFindingDescription = string;
@@ -5128,35 +5130,35 @@ export type EvaluationFormValidationFindingSuggestion = string;
 export type EvaluationFormValidationFindingSeverity = "WARNING" | "ERROR" | (string & {});
 export interface EvaluationFormValidationFinding {
   IssueCode: string;
-  Items?: EvaluationFormValidationFindingItem[];
+  Items?: EvaluationFormValidationFindingItem[] | undefined;
   Description: string;
-  Suggestion?: string;
+  Suggestion?: string | undefined;
   Severity: EvaluationFormValidationFindingSeverity;
 }
 export type EvaluationFormValidationFindingList = EvaluationFormValidationFinding[];
 export interface GetEvaluationFormValidationResponse {
   Status: EvaluationFormValidationStatus;
-  FailureReason?: string;
+  FailureReason?: string | undefined;
   EvaluationFormId: string;
   EvaluationFormVersion: number;
   StartedTime: Date;
-  Findings?: EvaluationFormValidationFinding[];
+  Findings?: EvaluationFormValidationFinding[] | undefined;
 }
 export interface GetFederationTokenRequest {
   InstanceId: string;
 }
 export type SecurityToken = string | redacted.Redacted<string>;
 export interface Credentials {
-  AccessToken?: string | redacted.Redacted<string>;
-  AccessTokenExpiration?: Date;
-  RefreshToken?: string | redacted.Redacted<string>;
-  RefreshTokenExpiration?: Date;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
+  AccessTokenExpiration?: Date | undefined;
+  RefreshToken?: string | redacted.Redacted<string> | undefined;
+  RefreshTokenExpiration?: Date | undefined;
 }
 export interface GetFederationTokenResponse {
-  UserId?: string;
-  UserArn?: string;
-  Credentials?: Credentials;
-  SignInUrl?: string;
+  UserId?: string | undefined;
+  UserArn?: string | undefined;
+  Credentials?: Credentials | undefined;
+  SignInUrl?: string | undefined;
 }
 export interface GetFlowAssociationRequest {
   InstanceId: string;
@@ -5164,9 +5166,9 @@ export interface GetFlowAssociationRequest {
   ResourceType: FlowAssociationResourceType;
 }
 export interface GetFlowAssociationResponse {
-  ResourceId?: string;
-  FlowId?: string;
-  ResourceType?: FlowAssociationResourceType;
+  ResourceId?: string | undefined;
+  FlowId?: string | undefined;
+  ResourceType?: FlowAssociationResourceType | undefined;
 }
 export type HistoricalMetricName =
   | "CONTACTS_QUEUED"
@@ -5198,15 +5200,15 @@ export type HistoricalMetricName =
 export type Comparison = "LT" | (string & {});
 export type ThresholdValue = number;
 export interface Threshold {
-  Comparison?: Comparison;
-  ThresholdValue?: number;
+  Comparison?: Comparison | undefined;
+  ThresholdValue?: number | undefined;
 }
 export type Statistic = "SUM" | "MAX" | "AVG" | (string & {});
 export interface HistoricalMetric {
-  Name?: HistoricalMetricName;
-  Threshold?: Threshold;
-  Statistic?: Statistic;
-  Unit?: Unit;
+  Name?: HistoricalMetricName | undefined;
+  Threshold?: Threshold | undefined;
+  Statistic?: Statistic | undefined;
+  Unit?: Unit | undefined;
 }
 export type HistoricalMetrics = HistoricalMetric[];
 export interface GetMetricDataRequest {
@@ -5214,24 +5216,24 @@ export interface GetMetricDataRequest {
   StartTime: Date;
   EndTime: Date;
   Filters: Filters;
-  Groupings?: Grouping[];
+  Groupings?: Grouping[] | undefined;
   HistoricalMetrics: HistoricalMetric[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface HistoricalMetricData {
-  Metric?: HistoricalMetric;
-  Value?: number;
+  Metric?: HistoricalMetric | undefined;
+  Value?: number | undefined;
 }
 export type HistoricalMetricDataCollections = HistoricalMetricData[];
 export interface HistoricalMetricResult {
-  Dimensions?: Dimensions;
-  Collections?: HistoricalMetricData[];
+  Dimensions?: Dimensions | undefined;
+  Collections?: HistoricalMetricData[] | undefined;
 }
 export type HistoricalMetricResults = HistoricalMetricResult[];
 export interface GetMetricDataResponse {
-  NextToken?: string;
-  MetricResults?: HistoricalMetricResult[];
+  NextToken?: string | undefined;
+  MetricResults?: HistoricalMetricResult[] | undefined;
 }
 export type IntervalPeriod =
   | "FIFTEEN_MIN"
@@ -5242,41 +5244,41 @@ export type IntervalPeriod =
   | "TOTAL"
   | (string & {});
 export interface IntervalDetails {
-  TimeZone?: string;
-  IntervalPeriod?: IntervalPeriod;
+  TimeZone?: string | undefined;
+  IntervalPeriod?: IntervalPeriod | undefined;
 }
 export type ResourceArnOrId = string;
 export type FilterValueList = string[];
 export type FilterV2StringConditionComparisonOperator = "NOT_EXISTS" | (string & {});
 export interface FilterV2StringCondition {
-  Comparison?: FilterV2StringConditionComparisonOperator;
+  Comparison?: FilterV2StringConditionComparisonOperator | undefined;
 }
 export interface FilterV2 {
-  FilterKey?: string;
-  FilterValues?: string[];
-  StringCondition?: FilterV2StringCondition;
+  FilterKey?: string | undefined;
+  FilterValues?: string[] | undefined;
+  StringCondition?: FilterV2StringCondition | undefined;
 }
 export type FiltersV2List = FilterV2[];
 export type GroupingV2 = string;
 export type GroupingsV2 = string[];
 export type MetricNameV2 = string;
 export interface ThresholdV2 {
-  Comparison?: string;
-  ThresholdValue?: number;
+  Comparison?: string | undefined;
+  ThresholdValue?: number | undefined;
 }
 export type ThresholdCollections = ThresholdV2[];
 export type MetricFilterValueList = string[];
 export interface MetricFilterV2 {
-  MetricFilterKey?: string;
-  MetricFilterValues?: string[];
-  Negate?: boolean;
+  MetricFilterKey?: string | undefined;
+  MetricFilterValues?: string[] | undefined;
+  Negate?: boolean | undefined;
 }
 export type MetricFiltersV2List = MetricFilterV2[];
 export interface MetricV2 {
-  Name?: string;
-  Threshold?: ThresholdV2[];
-  MetricId?: string;
-  MetricFilters?: MetricFilterV2[];
+  Name?: string | undefined;
+  Threshold?: ThresholdV2[] | undefined;
+  MetricId?: string | undefined;
+  MetricFilters?: MetricFilterV2[] | undefined;
 }
 export type MetricsV2 = MetricV2[];
 export type NextToken2500 = string;
@@ -5284,35 +5286,35 @@ export interface GetMetricDataV2Request {
   ResourceArn: string;
   StartTime: Date;
   EndTime: Date;
-  Interval?: IntervalDetails;
+  Interval?: IntervalDetails | undefined;
   Filters: FilterV2[];
-  Groupings?: string[];
+  Groupings?: string[] | undefined;
   Metrics: MetricV2[];
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DimensionsV2Key = string;
 export type DimensionsV2Value = string;
 export type DimensionsV2Map = { [key: string]: string | undefined };
 export interface MetricInterval {
-  Interval?: IntervalPeriod;
-  StartTime?: Date;
-  EndTime?: Date;
+  Interval?: IntervalPeriod | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface MetricDataV2 {
-  Metric?: MetricV2;
-  Value?: number;
+  Metric?: MetricV2 | undefined;
+  Value?: number | undefined;
 }
 export type MetricDataCollectionsV2 = MetricDataV2[];
 export interface MetricResultV2 {
-  Dimensions?: { [key: string]: string | undefined };
-  MetricInterval?: MetricInterval;
-  Collections?: MetricDataV2[];
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  MetricInterval?: MetricInterval | undefined;
+  Collections?: MetricDataV2[] | undefined;
 }
 export type MetricResultsV2 = MetricResultV2[];
 export interface GetMetricDataV2Response {
-  NextToken?: string;
-  MetricResults?: MetricResultV2[];
+  NextToken?: string | undefined;
+  MetricResults?: MetricResultV2[] | undefined;
 }
 export interface GetPromptFileRequest {
   InstanceId: string;
@@ -5320,32 +5322,32 @@ export interface GetPromptFileRequest {
 }
 export type PromptPresignedUrl = string;
 export interface GetPromptFileResponse {
-  PromptPresignedUrl?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  PromptPresignedUrl?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type SnapshotVersion = string;
 export interface GetTaskTemplateRequest {
   InstanceId: string;
   TaskTemplateId: string;
-  SnapshotVersion?: string;
+  SnapshotVersion?: string | undefined;
 }
 export interface GetTaskTemplateResponse {
-  InstanceId?: string;
+  InstanceId?: string | undefined;
   Id: string;
   Arn: string;
   Name: string;
-  Description?: string;
-  ContactFlowId?: string;
-  SelfAssignFlowId?: string;
-  ContactHooks?: TaskTemplateContactHooks;
-  Constraints?: TaskTemplateConstraints;
-  Defaults?: TaskTemplateDefaults;
-  Fields?: TaskTemplateField[];
-  Status?: TaskTemplateStatus;
-  LastModifiedTime?: Date;
-  CreatedTime?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  ContactFlowId?: string | undefined;
+  SelfAssignFlowId?: string | undefined;
+  ContactHooks?: TaskTemplateContactHooks | undefined;
+  Constraints?: TaskTemplateConstraints | undefined;
+  Defaults?: TaskTemplateDefaults | undefined;
+  Fields?: TaskTemplateField[] | undefined;
+  Status?: TaskTemplateStatus | undefined;
+  LastModifiedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TestCaseExecutionId = string;
 export interface GetTestCaseExecutionSummaryRequest {
@@ -5361,15 +5363,15 @@ export type TestCaseExecutionStatus =
   | "STOPPED"
   | (string & {});
 export interface ObservationSummary {
-  TotalObservations?: number;
-  ObservationsPassed?: number;
-  ObservationsFailed?: number;
+  TotalObservations?: number | undefined;
+  ObservationsPassed?: number | undefined;
+  ObservationsFailed?: number | undefined;
 }
 export interface GetTestCaseExecutionSummaryResponse {
-  StartTime?: Date;
-  EndTime?: Date;
-  Status?: TestCaseExecutionStatus;
-  ObservationSummary?: ObservationSummary;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Status?: TestCaseExecutionStatus | undefined;
+  ObservationSummary?: ObservationSummary | undefined;
 }
 export interface GetTrafficDistributionRequest {
   Id: string;
@@ -5395,23 +5397,23 @@ export interface AgentConfig {
   Distributions: Distribution[];
 }
 export interface GetTrafficDistributionResponse {
-  TelephonyConfig?: TelephonyConfig;
-  Id?: string;
-  Arn?: string;
-  SignInConfig?: SignInConfig;
-  AgentConfig?: AgentConfig;
-  LastFailoverTime?: Date;
+  TelephonyConfig?: TelephonyConfig | undefined;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  SignInConfig?: SignInConfig | undefined;
+  AgentConfig?: AgentConfig | undefined;
+  LastFailoverTime?: Date | undefined;
 }
 export interface ImportPhoneNumberRequest {
   InstanceId: string;
   SourcePhoneNumberArn: string;
-  PhoneNumberDescription?: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  PhoneNumberDescription?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface ImportPhoneNumberResponse {
-  PhoneNumberId?: string;
-  PhoneNumberArn?: string;
+  PhoneNumberId?: string | undefined;
+  PhoneNumberArn?: string | undefined;
 }
 export type MediaSource = string;
 export interface ImportWorkspaceMediaRequest {
@@ -5425,322 +5427,322 @@ export type MaxResult1000 = number;
 export type AgentStatusTypes = AgentStatusType[];
 export interface ListAgentStatusRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  AgentStatusTypes?: AgentStatusType[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AgentStatusTypes?: AgentStatusType[] | undefined;
 }
 export interface AgentStatusSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Type?: AgentStatusType;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Type?: AgentStatusType | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type AgentStatusSummaryList = AgentStatusSummary[];
 export interface ListAgentStatusResponse {
-  NextToken?: string;
-  AgentStatusSummaryList?: AgentStatusSummary[];
+  NextToken?: string | undefined;
+  AgentStatusSummaryList?: AgentStatusSummary[] | undefined;
 }
 export interface ListAnalyticsDataAssociationsRequest {
   InstanceId: string;
-  DataSetId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  DataSetId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAnalyticsDataAssociationsResponse {
-  Results?: AnalyticsDataAssociationResult[];
-  NextToken?: string;
+  Results?: AnalyticsDataAssociationResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAnalyticsDataLakeDataSetsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AnalyticsDataSetsResult {
-  DataSetId?: string;
-  DataSetName?: string;
+  DataSetId?: string | undefined;
+  DataSetName?: string | undefined;
 }
 export type AnalyticsDataSetsResults = AnalyticsDataSetsResult[];
 export interface ListAnalyticsDataLakeDataSetsResponse {
-  Results?: AnalyticsDataSetsResult[];
-  NextToken?: string;
+  Results?: AnalyticsDataSetsResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResult25 = number;
 export interface ListApprovedOriginsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type OriginsList = string[];
 export interface ListApprovedOriginsResponse {
-  Origins?: string[];
-  NextToken?: string;
+  Origins?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListAssociatedContactsRequestMaxResults = number;
 export interface ListAssociatedContactsRequest {
   InstanceId: string;
   ContactId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AssociatedContactSummary {
-  ContactId?: string;
-  ContactArn?: string;
-  InitiationTimestamp?: Date;
-  DisconnectTimestamp?: Date;
-  InitialContactId?: string;
-  PreviousContactId?: string;
-  RelatedContactId?: string;
-  InitiationMethod?: ContactInitiationMethod;
-  Channel?: Channel;
+  ContactId?: string | undefined;
+  ContactArn?: string | undefined;
+  InitiationTimestamp?: Date | undefined;
+  DisconnectTimestamp?: Date | undefined;
+  InitialContactId?: string | undefined;
+  PreviousContactId?: string | undefined;
+  RelatedContactId?: string | undefined;
+  InitiationMethod?: ContactInitiationMethod | undefined;
+  Channel?: Channel | undefined;
 }
 export type AssociatedContactSummaryList = AssociatedContactSummary[];
 export interface ListAssociatedContactsResponse {
-  ContactSummaryList?: AssociatedContactSummary[];
-  NextToken?: string;
+  ContactSummaryList?: AssociatedContactSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAttachedFilesConfigurationsRequest {
   InstanceId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AttachedFilesConfigurationSummary {
   InstanceId: string;
   AttachmentScope: AttachmentScope;
-  MaximumSizeLimitInBytes?: number;
-  ExtensionConfiguration?: ExtensionConfiguration;
+  MaximumSizeLimitInBytes?: number | undefined;
+  ExtensionConfiguration?: ExtensionConfiguration | undefined;
 }
 export type AttachedFilesConfigurationSummaryList = AttachedFilesConfigurationSummary[];
 export interface ListAttachedFilesConfigurationsResponse {
-  AttachedFilesConfigurations?: AttachedFilesConfigurationSummary[];
-  NextToken?: string;
+  AttachedFilesConfigurations?: AttachedFilesConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAuthenticationProfilesRequest {
   InstanceId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AuthenticationProfileSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  IsDefault?: boolean;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  IsDefault?: boolean | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type AuthenticationProfileSummaryList = AuthenticationProfileSummary[];
 export interface ListAuthenticationProfilesResponse {
-  AuthenticationProfileSummaryList?: AuthenticationProfileSummary[];
-  NextToken?: string;
+  AuthenticationProfileSummaryList?: AuthenticationProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LexVersion = "V1" | "V2" | (string & {});
 export interface ListBotsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   LexVersion: LexVersion;
 }
 export interface LexBotConfig {
-  LexBot?: LexBot;
-  LexV2Bot?: LexV2Bot;
+  LexBot?: LexBot | undefined;
+  LexV2Bot?: LexV2Bot | undefined;
 }
 export type LexBotConfigList = LexBotConfig[];
 export interface ListBotsResponse {
-  LexBots?: LexBotConfig[];
-  NextToken?: string;
+  LexBots?: LexBotConfig[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListChildHoursOfOperationsRequest {
   InstanceId: string;
   HoursOfOperationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ChildHoursOfOperationsList = HoursOfOperationsIdentifier[];
 export interface ListChildHoursOfOperationsResponse {
-  NextToken?: string;
-  ChildHoursOfOperationsSummaryList?: HoursOfOperationsIdentifier[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  NextToken?: string | undefined;
+  ChildHoursOfOperationsSummaryList?: HoursOfOperationsIdentifier[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListContactEvaluationsRequest {
   InstanceId: string;
   ContactId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface EvaluationAcknowledgementSummary {
-  AcknowledgedTime?: Date;
-  AcknowledgedBy?: string;
-  AcknowledgerComment?: string;
+  AcknowledgedTime?: Date | undefined;
+  AcknowledgedBy?: string | undefined;
+  AcknowledgerComment?: string | undefined;
 }
 export interface EvaluationSummary {
   EvaluationId: string;
   EvaluationArn: string;
   EvaluationFormTitle: string;
   EvaluationFormId: string;
-  CalibrationSessionId?: string;
+  CalibrationSessionId?: string | undefined;
   Status: EvaluationStatus;
-  AutoEvaluationEnabled?: boolean;
-  AutoEvaluationStatus?: AutoEvaluationStatus;
+  AutoEvaluationEnabled?: boolean | undefined;
+  AutoEvaluationStatus?: AutoEvaluationStatus | undefined;
   EvaluatorArn: string;
-  Score?: EvaluationScore;
-  Acknowledgement?: EvaluationAcknowledgementSummary;
-  EvaluationType?: EvaluationType;
+  Score?: EvaluationScore | undefined;
+  Acknowledgement?: EvaluationAcknowledgementSummary | undefined;
+  EvaluationType?: EvaluationType | undefined;
   CreatedTime: Date;
   LastModifiedTime: Date;
-  ContactParticipant?: EvaluationContactParticipant;
+  ContactParticipant?: EvaluationContactParticipant | undefined;
 }
 export type EvaluationSummaryList = EvaluationSummary[];
 export interface ListContactEvaluationsResponse {
   EvaluationSummaryList: EvaluationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListContactFlowAliasesRequest {
   InstanceId: string;
   ContactFlowId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ContactFlowAliasSummary {
-  Arn?: string;
-  AliasId?: string;
-  Version?: number;
-  AliasName?: string;
-  AliasDescription?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Arn?: string | undefined;
+  AliasId?: string | undefined;
+  Version?: number | undefined;
+  AliasName?: string | undefined;
+  AliasDescription?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type ContactFlowAliasSummaryList = ContactFlowAliasSummary[];
 export interface ListContactFlowAliasesResponse {
-  ContactFlowAliasSummaryList?: ContactFlowAliasSummary[];
-  NextToken?: string;
+  ContactFlowAliasSummaryList?: ContactFlowAliasSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContactFlowModuleAliasesRequest {
   InstanceId: string;
   ContactFlowModuleId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ContactFlowModuleAliasSummary {
-  Arn?: string;
-  AliasId?: string;
-  Version?: number;
-  AliasName?: string;
-  AliasDescription?: string;
-  LastModifiedTime?: Date;
+  Arn?: string | undefined;
+  AliasId?: string | undefined;
+  Version?: number | undefined;
+  AliasName?: string | undefined;
+  AliasDescription?: string | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type ContactFlowModuleAliasSummaryList = ContactFlowModuleAliasSummary[];
 export interface ListContactFlowModuleAliasesResponse {
-  ContactFlowModuleAliasSummaryList?: ContactFlowModuleAliasSummary[];
-  NextToken?: string;
+  ContactFlowModuleAliasSummaryList?: ContactFlowModuleAliasSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContactFlowModulesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ContactFlowModuleState?: ContactFlowModuleState;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ContactFlowModuleState?: ContactFlowModuleState | undefined;
 }
 export interface ContactFlowModuleSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  State?: ContactFlowModuleState;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  State?: ContactFlowModuleState | undefined;
 }
 export type ContactFlowModulesSummaryList = ContactFlowModuleSummary[];
 export interface ListContactFlowModulesResponse {
-  ContactFlowModulesSummaryList?: ContactFlowModuleSummary[];
-  NextToken?: string;
+  ContactFlowModulesSummaryList?: ContactFlowModuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContactFlowModuleVersionsRequest {
   InstanceId: string;
   ContactFlowModuleId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ContactFlowModuleVersionSummary {
-  Arn?: string;
-  VersionDescription?: string;
-  Version?: number;
+  Arn?: string | undefined;
+  VersionDescription?: string | undefined;
+  Version?: number | undefined;
 }
 export type ContactFlowModuleVersionSummaryList = ContactFlowModuleVersionSummary[];
 export interface ListContactFlowModuleVersionsResponse {
-  ContactFlowModuleVersionSummaryList?: ContactFlowModuleVersionSummary[];
-  NextToken?: string;
+  ContactFlowModuleVersionSummaryList?: ContactFlowModuleVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ContactFlowTypes = ContactFlowType[];
 export interface ListContactFlowsRequest {
   InstanceId: string;
-  ContactFlowTypes?: ContactFlowType[];
-  NextToken?: string;
-  MaxResults?: number;
+  ContactFlowTypes?: ContactFlowType[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ContactFlowSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  ContactFlowType?: ContactFlowType;
-  ContactFlowState?: ContactFlowState;
-  ContactFlowStatus?: ContactFlowStatus;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ContactFlowType?: ContactFlowType | undefined;
+  ContactFlowState?: ContactFlowState | undefined;
+  ContactFlowStatus?: ContactFlowStatus | undefined;
 }
 export type ContactFlowSummaryList = ContactFlowSummary[];
 export interface ListContactFlowsResponse {
-  ContactFlowSummaryList?: ContactFlowSummary[];
-  NextToken?: string;
+  ContactFlowSummaryList?: ContactFlowSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContactFlowVersionsRequest {
   InstanceId: string;
   ContactFlowId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ContactFlowVersionSummary {
-  Arn?: string;
-  VersionDescription?: string;
-  Version?: number;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Arn?: string | undefined;
+  VersionDescription?: string | undefined;
+  Version?: number | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type ContactFlowVersionSummaryList = ContactFlowVersionSummary[];
 export interface ListContactFlowVersionsResponse {
-  ContactFlowVersionSummaryList?: ContactFlowVersionSummary[];
-  NextToken?: string;
+  ContactFlowVersionSummaryList?: ContactFlowVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ReferenceTypes = ReferenceType[];
 export interface ListContactReferencesRequest {
   InstanceId: string;
   ContactId: string;
   ReferenceTypes: ReferenceType[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface UrlReference {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export interface AttachmentReference {
-  Name?: string;
-  Value?: string;
-  Status?: ReferenceStatus;
-  Arn?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Status?: ReferenceStatus | undefined;
+  Arn?: string | undefined;
 }
 export interface EmailMessageReference {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface StringReference {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export interface NumberReference {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export interface DateReference {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export interface EmailReference {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type AnalyticsMode =
   | "PostContact"
@@ -5749,173 +5751,173 @@ export type AnalyticsMode =
   | "AutomatedInteraction"
   | (string & {});
 export interface ContactAnalysisReference {
-  Name?: string;
-  Value?: string;
-  Status?: ReferenceStatus;
-  Arn?: string;
-  AnalyticsMode?: AnalyticsMode;
-  IsRedacted?: boolean;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Status?: ReferenceStatus | undefined;
+  Arn?: string | undefined;
+  AnalyticsMode?: AnalyticsMode | undefined;
+  IsRedacted?: boolean | undefined;
 }
 export type ReferenceSummary =
   | {
       Url: UrlReference;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
+      Url?: undefined;
       Attachment: AttachmentReference;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
+      Url?: undefined;
+      Attachment?: undefined;
       EmailMessage: EmailMessageReference;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
       EmailMessageRedacted: EmailMessageReference;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
       EmailMessagePlainText: EmailMessageReference;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
       EmailMessagePlainTextRedacted: EmailMessageReference;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
       String: StringReference;
-      Number?: never;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
       Number: NumberReference;
-      Date?: never;
-      Email?: never;
-      ContactAnalysis?: never;
+      Date?: undefined;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
       Date: DateReference;
-      Email?: never;
-      ContactAnalysis?: never;
+      Email?: undefined;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
       Email: EmailReference;
-      ContactAnalysis?: never;
+      ContactAnalysis?: undefined;
     }
   | {
-      Url?: never;
-      Attachment?: never;
-      EmailMessage?: never;
-      EmailMessageRedacted?: never;
-      EmailMessagePlainText?: never;
-      EmailMessagePlainTextRedacted?: never;
-      String?: never;
-      Number?: never;
-      Date?: never;
-      Email?: never;
+      Url?: undefined;
+      Attachment?: undefined;
+      EmailMessage?: undefined;
+      EmailMessageRedacted?: undefined;
+      EmailMessagePlainText?: undefined;
+      EmailMessagePlainTextRedacted?: undefined;
+      String?: undefined;
+      Number?: undefined;
+      Date?: undefined;
+      Email?: undefined;
       ContactAnalysis: ContactAnalysisReference;
     };
 export type ReferenceSummaryList = ReferenceSummary[];
 export interface ListContactReferencesResponse {
-  ReferenceSummaryList?: ReferenceSummary[];
-  NextToken?: string;
+  ReferenceSummaryList?: ReferenceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AttributeIds = string[];
 export interface ListDataTableAttributesRequest {
   InstanceId: string;
   DataTableId: string;
-  AttributeIds?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  AttributeIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AttributeList = DataTableAttribute[];
 export interface ListDataTableAttributesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Attributes: DataTableAttribute[];
 }
 export type RecordIds = string[];
@@ -5928,69 +5930,69 @@ export type PrimaryAttributeValueFilters = PrimaryAttributeValueFilter[];
 export interface ListDataTablePrimaryValuesRequest {
   InstanceId: string;
   DataTableId: string;
-  RecordIds?: string[];
-  PrimaryAttributeValues?: PrimaryAttributeValueFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  RecordIds?: string[] | undefined;
+  PrimaryAttributeValues?: PrimaryAttributeValueFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RecordPrimaryValue {
-  RecordId?: string;
-  PrimaryValues?: PrimaryValueResponse[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  RecordId?: string | undefined;
+  PrimaryValues?: PrimaryValueResponse[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type PrimaryValuesList = RecordPrimaryValue[];
 export interface ListDataTablePrimaryValuesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   PrimaryValuesList: RecordPrimaryValue[];
 }
 export interface ListDataTablesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataTableSummary {
-  Name?: string;
-  Id?: string;
-  Arn?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type DataTableSummaryList = DataTableSummary[];
 export interface ListDataTablesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   DataTableSummaryList: DataTableSummary[];
 }
 export interface ListDataTableValuesRequest {
   InstanceId: string;
   DataTableId: string;
-  RecordIds?: string[];
-  PrimaryAttributeValues?: PrimaryAttributeValueFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  RecordIds?: string[] | undefined;
+  PrimaryAttributeValues?: PrimaryAttributeValueFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataTableValueSummary {
-  RecordId?: string;
-  AttributeId?: string;
+  RecordId?: string | undefined;
+  AttributeId?: string | undefined;
   PrimaryValues: PrimaryValueResponse[];
   AttributeName: string;
   ValueType: DataTableAttributeValueType;
   Value: string;
-  LockVersion?: DataTableLockVersion;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  LockVersion?: DataTableLockVersion | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type DataTableValueSummaryList = DataTableValueSummary[];
 export interface ListDataTableValuesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Values: DataTableValueSummary[];
 }
 export type VocabularyNextToken = string;
 export interface ListDefaultVocabulariesRequest {
   InstanceId: string;
-  LanguageCode?: VocabularyLanguageCode;
-  MaxResults?: number;
-  NextToken?: string;
+  LanguageCode?: VocabularyLanguageCode | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DefaultVocabulary {
   InstanceId: string;
@@ -6001,25 +6003,25 @@ export interface DefaultVocabulary {
 export type DefaultVocabularyList = DefaultVocabulary[];
 export interface ListDefaultVocabulariesResponse {
   DefaultVocabularyList: DefaultVocabulary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListEntitySecurityProfilesRequest {
   InstanceId: string;
   EntityType: EntityType;
   EntityArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SecurityProfiles100 = SecurityProfileItem[];
 export interface ListEntitySecurityProfilesResponse {
-  SecurityProfiles?: SecurityProfileItem[];
-  NextToken?: string;
+  SecurityProfiles?: SecurityProfileItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEvaluationFormAIVersionsRequest {
   InstanceId: string;
   ContactInteractionType: ContactInteractionType;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EvaluationFormAIVersionStatus =
   | "LATEST"
@@ -6030,7 +6032,7 @@ export type EvaluationFormAIVersionStatus =
 export interface EvaluationFormAIVersionLifecycle {
   Status: EvaluationFormAIVersionStatus;
   StartOfLifeTime: Date;
-  EndOfLifeTime?: Date;
+  EndOfLifeTime?: Date | undefined;
 }
 export interface EvaluationFormAIVersionSummary {
   AIVersionName: string;
@@ -6039,12 +6041,12 @@ export interface EvaluationFormAIVersionSummary {
 export type EvaluationFormAIVersionSummaryList = EvaluationFormAIVersionSummary[];
 export interface ListEvaluationFormAIVersionsResponse {
   AIVersionSummaries: EvaluationFormAIVersionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListEvaluationFormsRequest {
   InstanceId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EvaluationFormSummary {
   EvaluationFormId: string;
@@ -6054,21 +6056,21 @@ export interface EvaluationFormSummary {
   CreatedBy: string;
   LastModifiedTime: Date;
   LastModifiedBy: string;
-  LastActivatedTime?: Date;
-  LastActivatedBy?: string;
+  LastActivatedTime?: Date | undefined;
+  LastActivatedBy?: string | undefined;
   LatestVersion: number;
-  ActiveVersion?: number;
+  ActiveVersion?: number | undefined;
 }
 export type EvaluationFormSummaryList = EvaluationFormSummary[];
 export interface ListEvaluationFormsResponse {
   EvaluationFormSummaryList: EvaluationFormSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListEvaluationFormVersionsRequest {
   InstanceId: string;
   EvaluationFormId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EvaluationFormVersionSummary {
   EvaluationFormArn: string;
@@ -6084,12 +6086,12 @@ export interface EvaluationFormVersionSummary {
 export type EvaluationFormVersionSummaryList = EvaluationFormVersionSummary[];
 export interface ListEvaluationFormVersionsResponse {
   EvaluationFormVersionSummaryList: EvaluationFormVersionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListExtractionDefinitionsRequest {
   InstanceId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExtractionDefinitionSummary {
   Name: string;
@@ -6102,140 +6104,140 @@ export interface ExtractionDefinitionSummary {
 export type ExtractionDefinitionSummaryList = ExtractionDefinitionSummary[];
 export interface ListExtractionDefinitionsResponse {
   ExtractionDefinitionSummaryList: ExtractionDefinitionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFlowAssociationsRequest {
   InstanceId: string;
-  ResourceType?: ListFlowAssociationResourceType;
-  NextToken?: string;
-  MaxResults?: number;
+  ResourceType?: ListFlowAssociationResourceType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListFlowAssociationsResponse {
-  FlowAssociationSummaryList?: FlowAssociationSummary[];
-  NextToken?: string;
+  FlowAssociationSummaryList?: FlowAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHoursOfOperationOverridesRequest {
   InstanceId: string;
   HoursOfOperationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type HoursOfOperationOverrideList = HoursOfOperationOverride[];
 export interface ListHoursOfOperationOverridesResponse {
-  NextToken?: string;
-  HoursOfOperationOverrideList?: HoursOfOperationOverride[];
-  LastModifiedRegion?: string;
-  LastModifiedTime?: Date;
+  NextToken?: string | undefined;
+  HoursOfOperationOverrideList?: HoursOfOperationOverride[] | undefined;
+  LastModifiedRegion?: string | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface ListHoursOfOperationsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type HoursOfOperationName = string;
 export interface HoursOfOperationSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type HoursOfOperationSummaryList = HoursOfOperationSummary[];
 export interface ListHoursOfOperationsResponse {
-  HoursOfOperationSummaryList?: HoursOfOperationSummary[];
-  NextToken?: string;
+  HoursOfOperationSummaryList?: HoursOfOperationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResult7 = number;
 export interface ListInstanceAttributesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AttributesList = Attribute[];
 export interface ListInstanceAttributesResponse {
-  Attributes?: Attribute[];
-  NextToken?: string;
+  Attributes?: Attribute[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResult10 = number;
 export interface ListInstancesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface InstanceSummary {
-  Id?: string;
-  Arn?: string;
-  IdentityManagementType?: DirectoryType;
-  InstanceAlias?: string | redacted.Redacted<string>;
-  CreatedTime?: Date;
-  ServiceRole?: string;
-  InstanceStatus?: InstanceStatus;
-  InboundCallsEnabled?: boolean;
-  OutboundCallsEnabled?: boolean;
-  InstanceAccessUrl?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  IdentityManagementType?: DirectoryType | undefined;
+  InstanceAlias?: string | redacted.Redacted<string> | undefined;
+  CreatedTime?: Date | undefined;
+  ServiceRole?: string | undefined;
+  InstanceStatus?: InstanceStatus | undefined;
+  InboundCallsEnabled?: boolean | undefined;
+  OutboundCallsEnabled?: boolean | undefined;
+  InstanceAccessUrl?: string | undefined;
 }
 export type InstanceSummaryList = InstanceSummary[];
 export interface ListInstancesResponse {
-  InstanceSummaryList?: InstanceSummary[];
-  NextToken?: string;
+  InstanceSummaryList?: InstanceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListInstanceStorageConfigsRequest {
   InstanceId: string;
   ResourceType: InstanceStorageResourceType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type InstanceStorageConfigs = InstanceStorageConfig[];
 export interface ListInstanceStorageConfigsResponse {
-  StorageConfigs?: InstanceStorageConfig[];
-  NextToken?: string;
+  StorageConfigs?: InstanceStorageConfig[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIntegrationAssociationsRequest {
   InstanceId: string;
-  IntegrationType?: IntegrationType;
-  NextToken?: string;
-  MaxResults?: number;
-  IntegrationArn?: string;
+  IntegrationType?: IntegrationType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IntegrationArn?: string | undefined;
 }
 export interface IntegrationAssociationSummary {
-  IntegrationAssociationId?: string;
-  IntegrationAssociationArn?: string;
-  InstanceId?: string;
-  IntegrationType?: IntegrationType;
-  IntegrationArn?: string;
-  SourceApplicationUrl?: string;
-  SourceApplicationName?: string;
-  SourceType?: SourceType;
+  IntegrationAssociationId?: string | undefined;
+  IntegrationAssociationArn?: string | undefined;
+  InstanceId?: string | undefined;
+  IntegrationType?: IntegrationType | undefined;
+  IntegrationArn?: string | undefined;
+  SourceApplicationUrl?: string | undefined;
+  SourceApplicationName?: string | undefined;
+  SourceType?: SourceType | undefined;
 }
 export type IntegrationAssociationSummaryList = IntegrationAssociationSummary[];
 export interface ListIntegrationAssociationsResponse {
-  IntegrationAssociationSummaryList?: IntegrationAssociationSummary[];
-  NextToken?: string;
+  IntegrationAssociationSummaryList?: IntegrationAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLambdaFunctionsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FunctionArnsList = string[];
 export interface ListLambdaFunctionsResponse {
-  LambdaFunctions?: string[];
-  NextToken?: string;
+  LambdaFunctions?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLexBotsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type LexBotsList = LexBot[];
 export interface ListLexBotsResponse {
-  LexBots?: LexBot[];
-  NextToken?: string;
+  LexBots?: LexBot[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMetricsRequest {
   InstanceId: string;
-  Type?: MetricType;
-  MaxResults?: number;
-  NextToken?: string;
+  Type?: MetricType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MetricSummary {
   Arn: string;
@@ -6243,176 +6245,176 @@ export interface MetricSummary {
   Name: string;
   Status: MetricStatus;
   Type: MetricType;
-  LastModifiedRegion?: string;
-  LastModifiedTime?: Date;
+  LastModifiedRegion?: string | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export type MetricSummaryList = MetricSummary[];
 export interface ListMetricsResponse {
   MetricSummaryList: MetricSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListNotificationsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type NotificationSummaryList = Notification[];
 export interface ListNotificationsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   NotificationSummaryList: Notification[];
 }
 export type PhoneNumberTypes = PhoneNumberType[];
 export type PhoneNumberCountryCodes = PhoneNumberCountryCode[];
 export interface ListPhoneNumbersRequest {
   InstanceId: string;
-  PhoneNumberTypes?: PhoneNumberType[];
-  PhoneNumberCountryCodes?: PhoneNumberCountryCode[];
-  NextToken?: string;
-  MaxResults?: number;
+  PhoneNumberTypes?: PhoneNumberType[] | undefined;
+  PhoneNumberCountryCodes?: PhoneNumberCountryCode[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface PhoneNumberSummary {
-  Id?: string;
-  Arn?: string;
-  PhoneNumber?: string;
-  PhoneNumberType?: PhoneNumberType;
-  PhoneNumberCountryCode?: PhoneNumberCountryCode;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  PhoneNumber?: string | undefined;
+  PhoneNumberType?: PhoneNumberType | undefined;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode | undefined;
 }
 export type PhoneNumberSummaryList = PhoneNumberSummary[];
 export interface ListPhoneNumbersResponse {
-  PhoneNumberSummaryList?: PhoneNumberSummary[];
-  NextToken?: string;
+  PhoneNumberSummaryList?: PhoneNumberSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LargeNextToken = string;
 export type PhoneNumberPrefix = string;
 export interface ListPhoneNumbersV2Request {
-  TargetArn?: string;
-  InstanceId?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  PhoneNumberCountryCodes?: PhoneNumberCountryCode[];
-  PhoneNumberTypes?: PhoneNumberType[];
-  PhoneNumberPrefix?: string;
+  TargetArn?: string | undefined;
+  InstanceId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  PhoneNumberCountryCodes?: PhoneNumberCountryCode[] | undefined;
+  PhoneNumberTypes?: PhoneNumberType[] | undefined;
+  PhoneNumberPrefix?: string | undefined;
 }
 export interface ListPhoneNumbersSummary {
-  PhoneNumberId?: string;
-  PhoneNumberArn?: string;
-  PhoneNumber?: string;
-  PhoneNumberCountryCode?: PhoneNumberCountryCode;
-  PhoneNumberType?: PhoneNumberType;
-  TargetArn?: string;
-  InstanceId?: string;
-  PhoneNumberDescription?: string;
-  SourcePhoneNumberArn?: string;
+  PhoneNumberId?: string | undefined;
+  PhoneNumberArn?: string | undefined;
+  PhoneNumber?: string | undefined;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode | undefined;
+  PhoneNumberType?: PhoneNumberType | undefined;
+  TargetArn?: string | undefined;
+  InstanceId?: string | undefined;
+  PhoneNumberDescription?: string | undefined;
+  SourcePhoneNumberArn?: string | undefined;
 }
 export type ListPhoneNumbersSummaryList = ListPhoneNumbersSummary[];
 export interface ListPhoneNumbersV2Response {
-  NextToken?: string;
-  ListPhoneNumbersSummaryList?: ListPhoneNumbersSummary[];
+  NextToken?: string | undefined;
+  ListPhoneNumbersSummaryList?: ListPhoneNumbersSummary[] | undefined;
 }
 export interface ListPredefinedAttributesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface PredefinedAttributeSummary {
-  Name?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Name?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type PredefinedAttributeSummaryList = PredefinedAttributeSummary[];
 export interface ListPredefinedAttributesResponse {
-  NextToken?: string;
-  PredefinedAttributeSummaryList?: PredefinedAttributeSummary[];
+  NextToken?: string | undefined;
+  PredefinedAttributeSummaryList?: PredefinedAttributeSummary[] | undefined;
 }
 export interface ListPromptsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PromptName = string;
 export interface PromptSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type PromptSummaryList = PromptSummary[];
 export interface ListPromptsResponse {
-  PromptSummaryList?: PromptSummary[];
-  NextToken?: string;
+  PromptSummaryList?: PromptSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListQueueEmailAddressesRequest {
   InstanceId: string;
   QueueId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EmailAddressSummary {
-  Id?: string;
-  Arn?: string;
-  IsDefaultOutboundEmail?: boolean;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  IsDefaultOutboundEmail?: boolean | undefined;
 }
 export type EmailAddressMetadataList = EmailAddressSummary[];
 export interface ListQueueEmailAddressesResponse {
-  NextToken?: string;
-  EmailAddressMetadataList?: EmailAddressSummary[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  NextToken?: string | undefined;
+  EmailAddressMetadataList?: EmailAddressSummary[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListQueueQuickConnectsRequest {
   InstanceId: string;
   QueueId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface QuickConnectSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  QuickConnectType?: QuickConnectType;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  QuickConnectType?: QuickConnectType | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type QuickConnectSummaryList = QuickConnectSummary[];
 export interface ListQueueQuickConnectsResponse {
-  NextToken?: string;
-  QuickConnectSummaryList?: QuickConnectSummary[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  NextToken?: string | undefined;
+  QuickConnectSummaryList?: QuickConnectSummary[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type QueueType = "STANDARD" | "AGENT" | (string & {});
 export type QueueTypes = QueueType[];
 export interface ListQueuesRequest {
   InstanceId: string;
-  QueueTypes?: QueueType[];
-  NextToken?: string;
-  MaxResults?: number;
+  QueueTypes?: QueueType[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type QueueName = string;
 export interface QueueSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  QueueType?: QueueType;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  QueueType?: QueueType | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type QueueSummaryList = QueueSummary[];
 export interface ListQueuesResponse {
-  QueueSummaryList?: QueueSummary[];
-  NextToken?: string;
+  QueueSummaryList?: QueueSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type QuickConnectTypes = QuickConnectType[];
 export interface ListQuickConnectsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  QuickConnectTypes?: QuickConnectType[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuickConnectTypes?: QuickConnectType[] | undefined;
 }
 export interface ListQuickConnectsResponse {
-  QuickConnectSummaryList?: QuickConnectSummary[];
-  NextToken?: string;
+  QuickConnectSummaryList?: QuickConnectSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RealTimeContactAnalysisOutputType = "Raw" | "Redacted" | (string & {});
 export type RealTimeContactAnalysisSegmentType =
@@ -6426,30 +6428,30 @@ export type RealTimeContactAnalysisSegmentType =
   | (string & {});
 export type RealTimeContactAnalysisSegmentTypes = RealTimeContactAnalysisSegmentType[];
 export interface TagCondition {
-  TagKey?: string;
-  TagValue?: string;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
 }
 export type TagAndConditionList = TagCondition[];
 export interface CategoriesAttributeAndCondition {
-  TagConditions?: TagCondition[];
+  TagConditions?: TagCondition[] | undefined;
 }
 export type CategoriesAttributeOrConditionList = CategoriesAttributeAndCondition[];
 export interface CategoriesAttributeFilter {
-  OrConditions?: CategoriesAttributeAndCondition[];
-  AndCondition?: CategoriesAttributeAndCondition;
-  TagCondition?: TagCondition;
+  OrConditions?: CategoriesAttributeAndCondition[] | undefined;
+  AndCondition?: CategoriesAttributeAndCondition | undefined;
+  TagCondition?: TagCondition | undefined;
 }
 export interface RealTimeContactAnalysisSegmentsFilter {
-  CategoriesAttributeFilter?: CategoriesAttributeFilter;
+  CategoriesAttributeFilter?: CategoriesAttributeFilter | undefined;
 }
 export interface ListRealtimeContactAnalysisSegmentsV2Request {
   InstanceId: string;
   ContactId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   OutputType: RealTimeContactAnalysisOutputType;
   SegmentTypes: RealTimeContactAnalysisSegmentType[];
-  ListFilter?: RealTimeContactAnalysisSegmentsFilter;
+  ListFilter?: RealTimeContactAnalysisSegmentsFilter | undefined;
 }
 export type RealTimeContactAnalysisSupportedChannel = "VOICE" | "CHAT" | (string & {});
 export type RealTimeContactAnalysisStatus = "IN_PROGRESS" | "FAILED" | "COMPLETED" | (string & {});
@@ -6465,7 +6467,7 @@ export interface RealTimeContactAnalysisCharacterInterval {
 }
 export type RealTimeContactAnalysisCharacterIntervals = RealTimeContactAnalysisCharacterInterval[];
 export interface RealTimeContactAnalysisTranscriptItemRedaction {
-  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval[];
+  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval[] | undefined;
 }
 export type RealTimeContactAnalysisSentimentLabel =
   | "POSITIVE"
@@ -6476,27 +6478,27 @@ export interface RealTimeContactAnalysisSegmentTranscript {
   Id: string;
   ParticipantId: string;
   ParticipantRole: ParticipantRole;
-  DisplayName?: string;
+  DisplayName?: string | undefined;
   Content: string;
-  ContentType?: string;
+  ContentType?: string | undefined;
   Time: RealTimeContactAnalysisTimeData;
-  Redaction?: RealTimeContactAnalysisTranscriptItemRedaction;
-  Sentiment?: RealTimeContactAnalysisSentimentLabel;
+  Redaction?: RealTimeContactAnalysisTranscriptItemRedaction | undefined;
+  Sentiment?: RealTimeContactAnalysisSentimentLabel | undefined;
 }
 export type RealTimeContactAnalysisCategoryName = string;
 export type RuleId256 = string;
 export interface RealTimeContactAnalysisTranscriptItemWithCharacterOffsets {
   Id: string;
-  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval;
+  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval | undefined;
 }
 export type RealTimeContactAnalysisTranscriptItemsWithCharacterOffsets =
   RealTimeContactAnalysisTranscriptItemWithCharacterOffsets[];
 export interface RealTimeContactAnalysisPointOfInterest {
-  TranscriptItems?: RealTimeContactAnalysisTranscriptItemWithCharacterOffsets[];
+  TranscriptItems?: RealTimeContactAnalysisTranscriptItemWithCharacterOffsets[] | undefined;
 }
 export type RealTimeContactAnalysisPointsOfInterest = RealTimeContactAnalysisPointOfInterest[];
 export interface RealTimeContactAnalysisCategoryDetails {
-  RuleId?: string;
+  RuleId?: string | undefined;
   PointsOfInterest: RealTimeContactAnalysisPointOfInterest[];
 }
 export type RealTimeContactAnalysisMatchedDetails = {
@@ -6506,9 +6508,9 @@ export interface RealTimeContactAnalysisSegmentCategories {
   MatchedDetails: { [key: string]: RealTimeContactAnalysisCategoryDetails | undefined };
 }
 export interface RealTimeContactAnalysisTranscriptItemWithContent {
-  Content?: string;
+  Content?: string | undefined;
   Id: string;
-  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval;
+  CharacterOffsets?: RealTimeContactAnalysisCharacterInterval | undefined;
 }
 export type RealTimeContactAnalysisTranscriptItemsWithContent =
   RealTimeContactAnalysisTranscriptItemWithContent[];
@@ -6522,9 +6524,9 @@ export interface RealTimeContactAnalysisSegmentIssues {
 export type RealTimeContactAnalysisEventType = string;
 export interface RealTimeContactAnalysisSegmentEvent {
   Id: string;
-  ParticipantId?: string;
-  ParticipantRole?: ParticipantRole;
-  DisplayName?: string;
+  ParticipantId?: string | undefined;
+  ParticipantRole?: ParticipantRole | undefined;
+  DisplayName?: string | undefined;
   EventType: string;
   Time: RealTimeContactAnalysisTimeData;
 }
@@ -6534,16 +6536,16 @@ export type ArtifactId = string;
 export type ArtifactStatus = "APPROVED" | "REJECTED" | "IN_PROGRESS" | (string & {});
 export interface RealTimeContactAnalysisAttachment {
   AttachmentName: string;
-  ContentType?: string;
+  ContentType?: string | undefined;
   AttachmentId: string;
-  Status?: ArtifactStatus;
+  Status?: ArtifactStatus | undefined;
 }
 export type RealTimeContactAnalysisAttachments = RealTimeContactAnalysisAttachment[];
 export interface RealTimeContactAnalysisSegmentAttachments {
   Id: string;
   ParticipantId: string;
   ParticipantRole: ParticipantRole;
-  DisplayName?: string;
+  DisplayName?: string | undefined;
   Attachments: RealTimeContactAnalysisAttachment[];
   Time: RealTimeContactAnalysisTimeData;
 }
@@ -6560,9 +6562,9 @@ export type RealTimeContactAnalysisPostContactSummaryFailureCode =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface RealTimeContactAnalysisSegmentPostContactSummary {
-  Content?: string;
+  Content?: string | undefined;
   Status: RealTimeContactAnalysisPostContactSummaryStatus;
-  FailureCode?: RealTimeContactAnalysisPostContactSummaryFailureCode;
+  FailureCode?: RealTimeContactAnalysisPostContactSummaryFailureCode | undefined;
 }
 export type RealTimeContactAnalysisExtractedInformationContent = string;
 export interface RealTimeContactAnalysisExtractedInformationValue {
@@ -6581,72 +6583,72 @@ export type RealTimeContactAnalysisExtractedInformationFailureCode =
 export interface RealTimeContactAnalysisSegmentExtractedInformation {
   ExtractionDefinitionId: string;
   ExtractionDefinitionName: string;
-  ExtractionDefinitionDisplayLabel?: string;
-  ExtractedValues?: RealTimeContactAnalysisExtractedInformationValue[];
-  FailureCode?: RealTimeContactAnalysisExtractedInformationFailureCode;
+  ExtractionDefinitionDisplayLabel?: string | undefined;
+  ExtractedValues?: RealTimeContactAnalysisExtractedInformationValue[] | undefined;
+  FailureCode?: RealTimeContactAnalysisExtractedInformationFailureCode | undefined;
 }
 export type RealtimeContactAnalysisSegment =
   | {
       Transcript: RealTimeContactAnalysisSegmentTranscript;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
+      Transcript?: undefined;
       Categories: RealTimeContactAnalysisSegmentCategories;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
       Issues: RealTimeContactAnalysisSegmentIssues;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
       Event: RealTimeContactAnalysisSegmentEvent;
-      Attachments?: never;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
       Attachments: RealTimeContactAnalysisSegmentAttachments;
-      PostContactSummary?: never;
-      ExtractedInformation?: never;
+      PostContactSummary?: undefined;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
       PostContactSummary: RealTimeContactAnalysisSegmentPostContactSummary;
-      ExtractedInformation?: never;
+      ExtractedInformation?: undefined;
     }
   | {
-      Transcript?: never;
-      Categories?: never;
-      Issues?: never;
-      Event?: never;
-      Attachments?: never;
-      PostContactSummary?: never;
+      Transcript?: undefined;
+      Categories?: undefined;
+      Issues?: undefined;
+      Event?: undefined;
+      Attachments?: undefined;
+      PostContactSummary?: undefined;
       ExtractedInformation: RealTimeContactAnalysisSegmentExtractedInformation;
     };
 export type RealtimeContactAnalysisSegments = RealtimeContactAnalysisSegment[];
@@ -6654,14 +6656,14 @@ export interface ListRealtimeContactAnalysisSegmentsV2Response {
   Channel: RealTimeContactAnalysisSupportedChannel;
   Status: RealTimeContactAnalysisStatus;
   Segments: RealtimeContactAnalysisSegment[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ReplicationFindingResourceType = string;
 export interface ListReplicationFindingsRequest {
   InstanceId: string;
   ResourceType: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ReplicationFindingResourceName = string;
 export type ReplicationFindingOperation = string;
@@ -6670,12 +6672,12 @@ export type ReplicationFindingMessage = string;
 export interface ReplicationFinding {
   Arn: string;
   Id: string;
-  Region?: string;
+  Region?: string | undefined;
   ResourceType: string;
-  Name?: string;
-  Operation?: string;
-  ReferenceCode?: string;
-  Message?: string;
+  Name?: string | undefined;
+  Operation?: string | undefined;
+  ReferenceCode?: string | undefined;
+  Message?: string | undefined;
 }
 export type ReplicationFindingsList = ReplicationFinding[];
 export interface ApproximateDriftedResourceCount {
@@ -6692,15 +6694,15 @@ export interface ResourceReplicationStatus {
 export type ResourceReplicationStatuses = ResourceReplicationStatus[];
 export interface ListReplicationFindingsResponse {
   ReplicationFindingsList: ReplicationFinding[];
-  ApproximateDriftedResourceCounts?: ApproximateDriftedResourceCount[];
-  NextToken?: string;
-  ResourceReplicationStatuses?: ResourceReplicationStatus[];
+  ApproximateDriftedResourceCounts?: ApproximateDriftedResourceCount[] | undefined;
+  NextToken?: string | undefined;
+  ResourceReplicationStatuses?: ResourceReplicationStatus[] | undefined;
 }
 export interface ListRoutingProfileManualAssignmentQueuesRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RoutingProfileManualAssignmentQueueConfigSummary {
   QueueId: string;
@@ -6711,16 +6713,18 @@ export interface RoutingProfileManualAssignmentQueueConfigSummary {
 export type RoutingProfileManualAssignmentQueueConfigSummaryList =
   RoutingProfileManualAssignmentQueueConfigSummary[];
 export interface ListRoutingProfileManualAssignmentQueuesResponse {
-  NextToken?: string;
-  RoutingProfileManualAssignmentQueueConfigSummaryList?: RoutingProfileManualAssignmentQueueConfigSummary[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  NextToken?: string | undefined;
+  RoutingProfileManualAssignmentQueueConfigSummaryList?:
+    | RoutingProfileManualAssignmentQueueConfigSummary[]
+    | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListRoutingProfileQueuesRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RoutingProfileQueueConfigSummary {
   QueueId: string;
@@ -6732,35 +6736,35 @@ export interface RoutingProfileQueueConfigSummary {
 }
 export type RoutingProfileQueueConfigSummaryList = RoutingProfileQueueConfigSummary[];
 export interface ListRoutingProfileQueuesResponse {
-  NextToken?: string;
-  RoutingProfileQueueConfigSummaryList?: RoutingProfileQueueConfigSummary[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  NextToken?: string | undefined;
+  RoutingProfileQueueConfigSummaryList?: RoutingProfileQueueConfigSummary[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListRoutingProfilesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RoutingProfileSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type RoutingProfileSummaryList = RoutingProfileSummary[];
 export interface ListRoutingProfilesResponse {
-  RoutingProfileSummaryList?: RoutingProfileSummary[];
-  NextToken?: string;
+  RoutingProfileSummaryList?: RoutingProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResult200 = number;
 export interface ListRulesRequest {
   InstanceId: string;
-  PublishStatus?: RulePublishStatus;
-  EventSourceName?: EventSourceName;
-  MaxResults?: number;
-  NextToken?: string;
+  PublishStatus?: RulePublishStatus | undefined;
+  EventSourceName?: EventSourceName | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ActionSummary {
   ActionType: ActionType;
@@ -6772,7 +6776,7 @@ export interface RuleSummary {
   RuleArn: string;
   EventSourceName: EventSourceName;
   PublishStatus: RulePublishStatus;
-  RuleCapabilityTiers?: RuleCapabilityTier[];
+  RuleCapabilityTiers?: RuleCapabilityTier[] | undefined;
   ActionSummaries: ActionSummary[];
   CreatedTime: Date;
   LastUpdatedTime: Date;
@@ -6780,376 +6784,376 @@ export interface RuleSummary {
 export type RuleSummaryList = RuleSummary[];
 export interface ListRulesResponse {
   RuleSummaryList: RuleSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxResult2 = number;
 export interface ListSecurityKeysRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SecurityKey {
-  AssociationId?: string;
-  Key?: string;
-  CreationTime?: Date;
+  AssociationId?: string | undefined;
+  Key?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export type SecurityKeysList = SecurityKey[];
 export interface ListSecurityKeysResponse {
-  SecurityKeys?: SecurityKey[];
-  NextToken?: string;
+  SecurityKeys?: SecurityKey[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSecurityProfileAIAgentsRequest {
   SecurityProfileId: string;
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListSecurityProfileAIAgentsResponse {
-  AllowedAIAgents?: AIAgent[];
-  NextToken?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  AllowedAIAgents?: AIAgent[] | undefined;
+  NextToken?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListSecurityProfileApplicationsRequest {
   SecurityProfileId: string;
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListSecurityProfileApplicationsResponse {
-  Applications?: Application[];
-  NextToken?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Applications?: Application[] | undefined;
+  NextToken?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListSecurityProfileFlowModulesRequest {
   SecurityProfileId: string;
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListSecurityProfileFlowModulesResponse {
-  AllowedFlowModules?: FlowModule[];
-  NextToken?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  AllowedFlowModules?: FlowModule[] | undefined;
+  NextToken?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListSecurityProfilePermissionsRequest {
   SecurityProfileId: string;
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListSecurityProfilePermissionsResponse {
-  Permissions?: string[];
-  NextToken?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Permissions?: string[] | undefined;
+  NextToken?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListSecurityProfilesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SecurityProfileSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
-  Type?: SecurityProfileType;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  Type?: SecurityProfileType | undefined;
 }
 export type SecurityProfileSummaryList = SecurityProfileSummary[];
 export interface ListSecurityProfilesResponse {
-  SecurityProfileSummaryList?: SecurityProfileSummary[];
-  NextToken?: string;
+  SecurityProfileSummaryList?: SecurityProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTaskTemplatesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: TaskTemplateStatus;
-  Name?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: TaskTemplateStatus | undefined;
+  Name?: string | undefined;
 }
 export interface TaskTemplateMetadata {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  Status?: TaskTemplateStatus;
-  LastModifiedTime?: Date;
-  CreatedTime?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: TaskTemplateStatus | undefined;
+  LastModifiedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type TaskTemplateList = TaskTemplateMetadata[];
 export interface ListTaskTemplatesResponse {
-  TaskTemplates?: TaskTemplateMetadata[];
-  NextToken?: string;
+  TaskTemplates?: TaskTemplateMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTestCaseExecutionRecordsRequest {
   InstanceId: string;
   TestCaseId: string;
   TestCaseExecutionId: string;
-  Status?: TestCaseExecutionStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: TestCaseExecutionStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TestCaseResourceId = string;
 export type ExecutionRecordStatus = "PASSED" | "FAILED" | "IN_PROGRESS" | "STOPPED" | (string & {});
 export type ExecutionRecordString = string;
 export interface ExecutionRecord {
-  ObservationId?: string;
-  Status?: ExecutionRecordStatus;
-  Timestamp?: Date;
-  Record?: string;
+  ObservationId?: string | undefined;
+  Status?: ExecutionRecordStatus | undefined;
+  Timestamp?: Date | undefined;
+  Record?: string | undefined;
 }
 export type ExecutionRecordList = ExecutionRecord[];
 export interface ListTestCaseExecutionRecordsResponse {
-  ExecutionRecords?: ExecutionRecord[];
-  NextToken?: string;
+  ExecutionRecords?: ExecutionRecord[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EpochMilliseconds = number;
 export interface ListTestCaseExecutionsRequest {
   InstanceId: string;
-  TestCaseId?: string;
-  TestCaseName?: string;
-  StartTime?: number;
-  EndTime?: number;
-  Status?: TestCaseExecutionStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  TestCaseId?: string | undefined;
+  TestCaseName?: string | undefined;
+  StartTime?: number | undefined;
+  EndTime?: number | undefined;
+  Status?: TestCaseExecutionStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TestCaseExecution {
-  StartTime?: Date;
-  EndTime?: Date;
-  TestCaseExecutionId?: string;
-  TestCaseId?: string;
-  TestCaseExecutionStatus?: TestCaseExecutionStatus;
-  Tags?: { [key: string]: string | undefined };
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  TestCaseExecutionId?: string | undefined;
+  TestCaseId?: string | undefined;
+  TestCaseExecutionStatus?: TestCaseExecutionStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TestCaseExecutionList = TestCaseExecution[];
 export interface ListTestCaseExecutionsResponse {
-  TestCaseExecutions?: TestCaseExecution[];
-  NextToken?: string;
+  TestCaseExecutions?: TestCaseExecution[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTestCasesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TestCaseSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Status?: TestCaseStatus;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Status?: TestCaseStatus | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type TestCaseSummaryList = TestCaseSummary[];
 export interface ListTestCasesResponse {
-  TestCaseSummaryList?: TestCaseSummary[];
-  NextToken?: string;
+  TestCaseSummaryList?: TestCaseSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTrafficDistributionGroupsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  InstanceId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  InstanceId?: string | undefined;
 }
 export interface TrafficDistributionGroupSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  InstanceArn?: string;
-  Status?: TrafficDistributionGroupStatus;
-  IsDefault?: boolean;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  InstanceArn?: string | undefined;
+  Status?: TrafficDistributionGroupStatus | undefined;
+  IsDefault?: boolean | undefined;
 }
 export type TrafficDistributionGroupSummaryList = TrafficDistributionGroupSummary[];
 export interface ListTrafficDistributionGroupsResponse {
-  NextToken?: string;
-  TrafficDistributionGroupSummaryList?: TrafficDistributionGroupSummary[];
+  NextToken?: string | undefined;
+  TrafficDistributionGroupSummaryList?: TrafficDistributionGroupSummary[] | undefined;
 }
 export interface ListTrafficDistributionGroupUsersRequest {
   TrafficDistributionGroupId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TrafficDistributionGroupUserSummary {
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export type TrafficDistributionGroupUserSummaryList = TrafficDistributionGroupUserSummary[];
 export interface ListTrafficDistributionGroupUsersResponse {
-  NextToken?: string;
-  TrafficDistributionGroupUserSummaryList?: TrafficDistributionGroupUserSummary[];
+  NextToken?: string | undefined;
+  TrafficDistributionGroupUserSummaryList?: TrafficDistributionGroupUserSummary[] | undefined;
 }
 export interface ListUseCasesRequest {
   InstanceId: string;
   IntegrationAssociationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface UseCase {
-  UseCaseId?: string;
-  UseCaseArn?: string;
-  UseCaseType?: UseCaseType;
+  UseCaseId?: string | undefined;
+  UseCaseArn?: string | undefined;
+  UseCaseType?: UseCaseType | undefined;
 }
 export type UseCaseSummaryList = UseCase[];
 export interface ListUseCasesResponse {
-  UseCaseSummaryList?: UseCase[];
-  NextToken?: string;
+  UseCaseSummaryList?: UseCase[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUserHierarchyGroupsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type HierarchyGroupSummaryList = HierarchyGroupSummary[];
 export interface ListUserHierarchyGroupsResponse {
-  UserHierarchyGroupSummaryList?: HierarchyGroupSummary[];
-  NextToken?: string;
+  UserHierarchyGroupSummaryList?: HierarchyGroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUserNotificationsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   UserId: string;
 }
 export type NotificationStatus = "READ" | "UNREAD" | "HIDDEN" | (string & {});
 export type NotificationSource = "CUSTOMER" | "RULES" | "SYSTEM" | (string & {});
 export interface UserNotificationSummary {
-  NotificationId?: string;
-  NotificationStatus?: NotificationStatus;
-  InstanceId?: string;
-  RecipientId?: string;
-  Content?: { [key: string]: string | undefined };
-  Priority?: NotificationPriority;
-  Source?: NotificationSource;
-  CreatedAt?: Date;
-  ExpiresAt?: Date;
+  NotificationId?: string | undefined;
+  NotificationStatus?: NotificationStatus | undefined;
+  InstanceId?: string | undefined;
+  RecipientId?: string | undefined;
+  Content?: { [key: string]: string | undefined } | undefined;
+  Priority?: NotificationPriority | undefined;
+  Source?: NotificationSource | undefined;
+  CreatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export type UserNotificationSummaryList = UserNotificationSummary[];
 export interface ListUserNotificationsResponse {
-  UserNotifications?: UserNotificationSummary[];
-  NextToken?: string;
+  UserNotifications?: UserNotificationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUserProficienciesRequest {
   InstanceId: string;
   UserId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListUserProficienciesResponse {
-  NextToken?: string;
-  UserProficiencyList?: UserProficiency[];
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  NextToken?: string | undefined;
+  UserProficiencyList?: UserProficiency[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface ListUsersRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface UserSummary {
-  Id?: string;
-  Arn?: string;
-  Username?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Username?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type UserSummaryList = UserSummary[];
 export interface ListUsersResponse {
-  UserSummaryList?: UserSummary[];
-  NextToken?: string;
+  UserSummaryList?: UserSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ViewsNextToken = string;
 export type MaxResults = number;
 export interface ListViewsRequest {
   InstanceId: string;
-  Type?: ViewType;
-  NextToken?: string;
-  MaxResults?: number;
+  Type?: ViewType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ViewSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Type?: ViewType;
-  Status?: ViewStatus;
-  Description?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Type?: ViewType | undefined;
+  Status?: ViewStatus | undefined;
+  Description?: string | undefined;
 }
 export type ViewsSummaryList = ViewSummary[];
 export interface ListViewsResponse {
-  ViewsSummaryList?: ViewSummary[];
-  NextToken?: string;
+  ViewsSummaryList?: ViewSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListViewVersionsRequest {
   InstanceId: string;
   ViewId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ViewVersionSummary {
-  Id?: string;
-  Arn?: string;
-  Description?: string;
-  Name?: string | redacted.Redacted<string>;
-  Type?: ViewType;
-  Version?: number;
-  VersionDescription?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Type?: ViewType | undefined;
+  Version?: number | undefined;
+  VersionDescription?: string | undefined;
 }
 export type ViewVersionSummaryList = ViewVersionSummary[];
 export interface ListViewVersionsResponse {
-  ViewVersionSummaryList?: ViewVersionSummary[];
-  NextToken?: string;
+  ViewVersionSummaryList?: ViewVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkspaceMediaRequest {
   InstanceId: string;
   WorkspaceId: string;
 }
 export interface MediaItem {
-  Type?: MediaType;
-  Source?: string;
+  Type?: MediaType | undefined;
+  Source?: string | undefined;
 }
 export type MediaList = MediaItem[];
 export interface ListWorkspaceMediaResponse {
-  Media?: MediaItem[];
+  Media?: MediaItem[] | undefined;
 }
 export interface ListWorkspacePagesRequest {
   InstanceId: string;
   WorkspaceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface WorkspacePage {
-  ResourceArn?: string;
-  Page?: string;
-  Slug?: string;
-  InputData?: string;
+  ResourceArn?: string | undefined;
+  Page?: string | undefined;
+  Slug?: string | undefined;
+  InputData?: string | undefined;
 }
 export type WorkspacePageList = WorkspacePage[];
 export interface ListWorkspacePagesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   WorkspacePageList: WorkspacePage[];
 }
 export interface ListWorkspacesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface WorkspaceSummary {
-  Id?: string;
-  Name?: string;
-  Arn?: string;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type WorkspaceSummaryList = WorkspaceSummary[];
 export interface ListWorkspacesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   WorkspaceSummaryList: WorkspaceSummary[];
 }
 export type MonitorCapability = "SILENT_MONITOR" | "BARGE" | (string & {});
@@ -7158,17 +7162,17 @@ export interface MonitorContactRequest {
   InstanceId: string;
   ContactId: string;
   UserId: string;
-  AllowedMonitorCapabilities?: MonitorCapability[];
-  ClientToken?: string;
+  AllowedMonitorCapabilities?: MonitorCapability[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface MonitorContactResponse {
-  ContactId?: string;
-  ContactArn?: string;
+  ContactId?: string | undefined;
+  ContactArn?: string | undefined;
 }
 export interface PauseContactRequest {
   ContactId: string;
   InstanceId: string;
-  ContactFlowId?: string;
+  ContactFlowId?: string | undefined;
 }
 export interface PauseContactResponse {}
 export interface PutUserStatusRequest {
@@ -7179,23 +7183,23 @@ export interface PutUserStatusRequest {
 export interface PutUserStatusResponse {}
 export interface ReleasePhoneNumberRequest {
   PhoneNumberId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface ReleasePhoneNumberResponse {}
 export interface ReplicateInstanceRequest {
   InstanceId: string;
   ReplicaRegion: string;
-  ClientToken?: string;
-  ReplicaAlias?: string | redacted.Redacted<string>;
+  ClientToken?: string | undefined;
+  ReplicaAlias?: string | redacted.Redacted<string> | undefined;
 }
 export interface ReplicateInstanceResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface ResumeContactRequest {
   ContactId: string;
   InstanceId: string;
-  ContactFlowId?: string;
+  ContactFlowId?: string | undefined;
 }
 export interface ResumeContactResponse {}
 export type ContactRecordingType = "AGENT" | "IVR" | "SCREEN" | (string & {});
@@ -7203,64 +7207,64 @@ export interface ResumeContactRecordingRequest {
   InstanceId: string;
   ContactId: string;
   InitialContactId: string;
-  ContactRecordingType?: ContactRecordingType;
+  ContactRecordingType?: ContactRecordingType | undefined;
 }
 export interface ResumeContactRecordingResponse {}
 export interface CommonAttributeAndCondition {
-  TagConditions?: TagCondition[];
+  TagConditions?: TagCondition[] | undefined;
 }
 export type CommonAttributeOrConditionList = CommonAttributeAndCondition[];
 export interface ControlPlaneAttributeFilter {
-  OrConditions?: CommonAttributeAndCondition[];
-  AndCondition?: CommonAttributeAndCondition;
-  TagCondition?: TagCondition;
+  OrConditions?: CommonAttributeAndCondition[] | undefined;
+  AndCondition?: CommonAttributeAndCondition | undefined;
+  TagCondition?: TagCondition | undefined;
 }
 export interface AgentStatusSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export type AgentStatusSearchConditionList = AgentStatusSearchCriteria[];
 export type StringComparisonType = "STARTS_WITH" | "CONTAINS" | "EXACT" | (string & {});
 export interface StringCondition {
-  FieldName?: string;
-  Value?: string;
-  ComparisonType?: StringComparisonType;
+  FieldName?: string | undefined;
+  Value?: string | undefined;
+  ComparisonType?: StringComparisonType | undefined;
 }
 export interface AgentStatusSearchCriteria {
-  OrConditions?: AgentStatusSearchCriteria[];
-  AndConditions?: AgentStatusSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: AgentStatusSearchCriteria[] | undefined;
+  AndConditions?: AgentStatusSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchAgentStatusesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: AgentStatusSearchFilter;
-  SearchCriteria?: AgentStatusSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: AgentStatusSearchFilter | undefined;
+  SearchCriteria?: AgentStatusSearchCriteria | undefined;
 }
 export type AgentStatusList = AgentStatus[];
 export interface SearchAgentStatusesResponse {
-  AgentStatuses?: AgentStatus[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  AgentStatuses?: AgentStatus[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface SearchAvailablePhoneNumbersRequest {
-  TargetArn?: string;
-  InstanceId?: string;
+  TargetArn?: string | undefined;
+  InstanceId?: string | undefined;
   PhoneNumberCountryCode: PhoneNumberCountryCode;
   PhoneNumberType: PhoneNumberType;
-  PhoneNumberPrefix?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  PhoneNumberPrefix?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AvailableNumberSummary {
-  PhoneNumber?: string;
-  PhoneNumberCountryCode?: PhoneNumberCountryCode;
-  PhoneNumberType?: PhoneNumberType;
+  PhoneNumber?: string | undefined;
+  PhoneNumberCountryCode?: PhoneNumberCountryCode | undefined;
+  PhoneNumberType?: PhoneNumberType | undefined;
 }
 export type AvailableNumbersList = AvailableNumberSummary[];
 export interface SearchAvailablePhoneNumbersResponse {
-  NextToken?: string;
-  AvailableNumbersList?: AvailableNumberSummary[];
+  NextToken?: string | undefined;
+  AvailableNumbersList?: AvailableNumberSummary[] | undefined;
 }
 export type EvaluationSearchConditionList = EvaluationSearchCriteria[];
 export type NullableProficiencyLimitValue = number;
@@ -7274,15 +7278,15 @@ export type NumberComparisonType =
   | "RANGE"
   | (string & {});
 export interface NumberCondition {
-  FieldName?: string;
-  MinValue?: number;
-  MaxValue?: number;
-  ComparisonType?: NumberComparisonType;
+  FieldName?: string | undefined;
+  MinValue?: number | undefined;
+  MaxValue?: number | undefined;
+  ComparisonType?: NumberComparisonType | undefined;
 }
 export type BooleanComparisonType = "IS_TRUE" | "IS_FALSE" | (string & {});
 export interface BooleanCondition {
-  FieldName?: string;
-  ComparisonType?: BooleanComparisonType;
+  FieldName?: string | undefined;
+  ComparisonType?: BooleanComparisonType | undefined;
 }
 export type DateTimeFormat = string;
 export type DateTimeComparisonType =
@@ -7294,10 +7298,10 @@ export type DateTimeComparisonType =
   | "RANGE"
   | (string & {});
 export interface DateTimeCondition {
-  FieldName?: string;
-  MinValue?: string;
-  MaxValue?: string;
-  ComparisonType?: DateTimeComparisonType;
+  FieldName?: string | undefined;
+  MinValue?: string | undefined;
+  MaxValue?: string | undefined;
+  ComparisonType?: DateTimeComparisonType | undefined;
 }
 export type DecimalComparisonType =
   | "GREATER_OR_EQUAL"
@@ -7309,162 +7313,162 @@ export type DecimalComparisonType =
   | "RANGE"
   | (string & {});
 export interface DecimalCondition {
-  FieldName?: string;
-  MinValue?: number;
-  MaxValue?: number;
-  ComparisonType?: DecimalComparisonType;
+  FieldName?: string | undefined;
+  MinValue?: number | undefined;
+  MaxValue?: number | undefined;
+  ComparisonType?: DecimalComparisonType | undefined;
 }
 export interface EvaluationSearchCriteria {
-  OrConditions?: EvaluationSearchCriteria[];
-  AndConditions?: EvaluationSearchCriteria[];
-  StringCondition?: StringCondition;
-  NumberCondition?: NumberCondition;
-  BooleanCondition?: BooleanCondition;
-  DateTimeCondition?: DateTimeCondition;
-  DecimalCondition?: DecimalCondition;
+  OrConditions?: EvaluationSearchCriteria[] | undefined;
+  AndConditions?: EvaluationSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  NumberCondition?: NumberCondition | undefined;
+  BooleanCondition?: BooleanCondition | undefined;
+  DateTimeCondition?: DateTimeCondition | undefined;
+  DecimalCondition?: DecimalCondition | undefined;
 }
 export type ContactEvaluationAttributeKey = "ContactAgentId" | (string & {});
 export interface ContactEvaluationAttributeValue {
-  StringValue?: string;
+  StringValue?: string | undefined;
 }
 export type ContactEvaluationAttributeComparisonType = "EXACT" | (string & {});
 export interface ContactEvaluationAttributeCondition {
-  AttributeKey?: ContactEvaluationAttributeKey;
-  AttributeValue?: ContactEvaluationAttributeValue;
-  ComparisonType?: ContactEvaluationAttributeComparisonType;
+  AttributeKey?: ContactEvaluationAttributeKey | undefined;
+  AttributeValue?: ContactEvaluationAttributeValue | undefined;
+  ComparisonType?: ContactEvaluationAttributeComparisonType | undefined;
 }
 export type ContactEvaluationAttributeConditionList = ContactEvaluationAttributeCondition[];
 export interface ContactEvaluationAttributeAndCondition {
-  TagConditions?: TagCondition[];
-  AttributeConditions?: ContactEvaluationAttributeCondition[];
+  TagConditions?: TagCondition[] | undefined;
+  AttributeConditions?: ContactEvaluationAttributeCondition[] | undefined;
 }
 export type ContactEvaluationAttributeOrConditionList = ContactEvaluationAttributeAndCondition[];
 export interface ContactEvaluationAttributeFilter {
-  OrConditions?: ContactEvaluationAttributeAndCondition[];
-  AndCondition?: ContactEvaluationAttributeAndCondition;
-  TagCondition?: TagCondition;
-  ContactEvaluationAttributeCondition?: ContactEvaluationAttributeCondition;
+  OrConditions?: ContactEvaluationAttributeAndCondition[] | undefined;
+  AndCondition?: ContactEvaluationAttributeAndCondition | undefined;
+  TagCondition?: TagCondition | undefined;
+  ContactEvaluationAttributeCondition?: ContactEvaluationAttributeCondition | undefined;
 }
 export interface EvaluationSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
-  ContactEvaluationAttributeFilter?: ContactEvaluationAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
+  ContactEvaluationAttributeFilter?: ContactEvaluationAttributeFilter | undefined;
 }
 export interface SearchContactEvaluationsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchCriteria?: EvaluationSearchCriteria;
-  SearchFilter?: EvaluationSearchFilter;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchCriteria?: EvaluationSearchCriteria | undefined;
+  SearchFilter?: EvaluationSearchFilter | undefined;
 }
 export interface EvaluationSearchMetadata {
   ContactId: string;
   EvaluatorArn: string;
-  ContactAgentId?: string;
-  CalibrationSessionId?: string;
-  ScorePercentage?: number;
-  ScoreAutomaticFail?: boolean;
-  ScoreNotApplicable?: boolean;
-  AutoEvaluationEnabled?: boolean;
-  AutoEvaluationStatus?: AutoEvaluationStatus;
-  AcknowledgedTime?: Date;
-  AcknowledgedBy?: string;
-  AcknowledgerComment?: string;
-  SamplingJobId?: string;
-  ReviewId?: string;
-  ContactParticipantRole?: ContactParticipantRole;
-  ContactParticipantId?: string;
-  EarnedPoints?: number;
-  MaxBasePoint?: number;
-  PerformanceCategory?: PerformanceCategoryName;
+  ContactAgentId?: string | undefined;
+  CalibrationSessionId?: string | undefined;
+  ScorePercentage?: number | undefined;
+  ScoreAutomaticFail?: boolean | undefined;
+  ScoreNotApplicable?: boolean | undefined;
+  AutoEvaluationEnabled?: boolean | undefined;
+  AutoEvaluationStatus?: AutoEvaluationStatus | undefined;
+  AcknowledgedTime?: Date | undefined;
+  AcknowledgedBy?: string | undefined;
+  AcknowledgerComment?: string | undefined;
+  SamplingJobId?: string | undefined;
+  ReviewId?: string | undefined;
+  ContactParticipantRole?: ContactParticipantRole | undefined;
+  ContactParticipantId?: string | undefined;
+  EarnedPoints?: number | undefined;
+  MaxBasePoint?: number | undefined;
+  PerformanceCategory?: PerformanceCategoryName | undefined;
 }
 export interface EvaluationSearchSummary {
   EvaluationId: string;
   EvaluationArn: string;
-  EvaluationFormId?: string;
+  EvaluationFormId?: string | undefined;
   EvaluationFormVersion: number;
-  EvaluationFormTitle?: string;
+  EvaluationFormTitle?: string | undefined;
   Metadata: EvaluationSearchMetadata;
   Status: EvaluationStatus;
-  EvaluationType?: EvaluationType;
+  EvaluationType?: EvaluationType | undefined;
   CreatedTime: Date;
   LastModifiedTime: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EvaluationSearchSummaryList = EvaluationSearchSummary[];
 export interface SearchContactEvaluationsResponse {
-  EvaluationSearchSummaryList?: EvaluationSearchSummary[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  EvaluationSearchSummaryList?: EvaluationSearchSummary[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type TagOrConditionList = TagCondition[][];
 export interface ControlPlaneTagFilter {
-  OrConditions?: TagCondition[][];
-  AndConditions?: TagCondition[];
-  TagCondition?: TagCondition;
+  OrConditions?: TagCondition[][] | undefined;
+  AndConditions?: TagCondition[] | undefined;
+  TagCondition?: TagCondition | undefined;
 }
 export interface ContactFlowModuleSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type ContactFlowModuleSearchConditionList = ContactFlowModuleSearchCriteria[];
 export interface ContactFlowModuleSearchCriteria {
-  OrConditions?: ContactFlowModuleSearchCriteria[];
-  AndConditions?: ContactFlowModuleSearchCriteria[];
-  StringCondition?: StringCondition;
-  StateCondition?: ContactFlowModuleState;
-  StatusCondition?: ContactFlowModuleStatus;
+  OrConditions?: ContactFlowModuleSearchCriteria[] | undefined;
+  AndConditions?: ContactFlowModuleSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  StateCondition?: ContactFlowModuleState | undefined;
+  StatusCondition?: ContactFlowModuleStatus | undefined;
 }
 export interface SearchContactFlowModulesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: ContactFlowModuleSearchFilter;
-  SearchCriteria?: ContactFlowModuleSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: ContactFlowModuleSearchFilter | undefined;
+  SearchCriteria?: ContactFlowModuleSearchCriteria | undefined;
 }
 export type ContactFlowModuleSearchSummaryList = ContactFlowModule[];
 export interface SearchContactFlowModulesResponse {
-  ContactFlowModules?: ContactFlowModule[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  ContactFlowModules?: ContactFlowModule[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface ContactFlowTypeCondition {
-  ContactFlowType?: ContactFlowType;
+  ContactFlowType?: ContactFlowType | undefined;
 }
 export interface ContactFlowAttributeAndCondition {
-  TagConditions?: TagCondition[];
-  ContactFlowTypeCondition?: ContactFlowTypeCondition;
+  TagConditions?: TagCondition[] | undefined;
+  ContactFlowTypeCondition?: ContactFlowTypeCondition | undefined;
 }
 export type ContactFlowAttributeOrConditionList = ContactFlowAttributeAndCondition[];
 export interface ContactFlowAttributeFilter {
-  OrConditions?: ContactFlowAttributeAndCondition[];
-  AndCondition?: ContactFlowAttributeAndCondition;
-  TagCondition?: TagCondition;
-  ContactFlowTypeCondition?: ContactFlowTypeCondition;
+  OrConditions?: ContactFlowAttributeAndCondition[] | undefined;
+  AndCondition?: ContactFlowAttributeAndCondition | undefined;
+  TagCondition?: TagCondition | undefined;
+  ContactFlowTypeCondition?: ContactFlowTypeCondition | undefined;
 }
 export interface ContactFlowSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
-  FlowAttributeFilter?: ContactFlowAttributeFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
+  FlowAttributeFilter?: ContactFlowAttributeFilter | undefined;
 }
 export type ContactFlowSearchConditionList = ContactFlowSearchCriteria[];
 export interface ContactFlowSearchCriteria {
-  OrConditions?: ContactFlowSearchCriteria[];
-  AndConditions?: ContactFlowSearchCriteria[];
-  StringCondition?: StringCondition;
-  TypeCondition?: ContactFlowType;
-  StateCondition?: ContactFlowState;
-  StatusCondition?: ContactFlowStatus;
+  OrConditions?: ContactFlowSearchCriteria[] | undefined;
+  AndConditions?: ContactFlowSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  TypeCondition?: ContactFlowType | undefined;
+  StateCondition?: ContactFlowState | undefined;
+  StatusCondition?: ContactFlowStatus | undefined;
 }
 export interface SearchContactFlowsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: ContactFlowSearchFilter;
-  SearchCriteria?: ContactFlowSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: ContactFlowSearchFilter | undefined;
+  SearchCriteria?: ContactFlowSearchCriteria | undefined;
 }
 export type ContactFlowSearchSummaryList = ContactFlow[];
 export interface SearchContactFlowsResponse {
-  ContactFlows?: ContactFlow[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  ContactFlows?: ContactFlow[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type SearchContactsTimeRangeType =
   | "INITIATION_TIMESTAMP"
@@ -7493,11 +7497,11 @@ export interface NameCriteria {
 export type AgentResourceIdList = string[];
 export type HierarchyGroupIdList = string[];
 export interface AgentHierarchyGroups {
-  L1Ids?: string[];
-  L2Ids?: string[];
-  L3Ids?: string[];
-  L4Ids?: string[];
-  L5Ids?: string[];
+  L1Ids?: string[] | undefined;
+  L2Ids?: string[] | undefined;
+  L3Ids?: string[] | undefined;
+  L4Ids?: string[] | undefined;
+  L5Ids?: string[] | undefined;
 }
 export type ChannelList = Channel[];
 export interface TranscriptCriteria {
@@ -7508,23 +7512,23 @@ export interface TranscriptCriteria {
 export type TranscriptCriteriaList = TranscriptCriteria[];
 export interface Transcript {
   Criteria: TranscriptCriteria[];
-  MatchType?: SearchContactsMatchType;
+  MatchType?: SearchContactsMatchType | undefined;
 }
 export interface ContactAnalysis {
-  Transcript?: Transcript;
+  Transcript?: Transcript | undefined;
 }
 export type InitiationMethodList = ContactInitiationMethod[];
 export type QueueIdList = string[];
 export interface SearchableAgentCriteriaStep {
-  AgentIds?: string[];
-  MatchType?: SearchContactsMatchType;
+  AgentIds?: string[] | undefined;
+  MatchType?: SearchContactsMatchType | undefined;
 }
 export interface SearchableRoutingCriteriaStep {
-  AgentCriteria?: SearchableAgentCriteriaStep;
+  AgentCriteria?: SearchableAgentCriteriaStep | undefined;
 }
 export type SearchableRoutingCriteriaStepList = SearchableRoutingCriteriaStep[];
 export interface SearchableRoutingCriteria {
-  Steps?: SearchableRoutingCriteriaStep[];
+  Steps?: SearchableRoutingCriteriaStep[] | undefined;
 }
 export type SearchContactsTimeRangeConditionType = "NOT_EXISTS" | (string & {});
 export interface SearchContactsTimestampCondition {
@@ -7532,8 +7536,8 @@ export interface SearchContactsTimestampCondition {
   ConditionType: SearchContactsTimeRangeConditionType;
 }
 export interface SearchContactsAdditionalTimeRangeCriteria {
-  TimeRange?: SearchContactsTimeRange;
-  TimestampCondition?: SearchContactsTimestampCondition;
+  TimeRange?: SearchContactsTimeRange | undefined;
+  TimestampCondition?: SearchContactsTimestampCondition | undefined;
 }
 export type SearchContactsAdditionalTimeRangeCriteriaList =
   SearchContactsAdditionalTimeRangeCriteria[];
@@ -7551,7 +7555,7 @@ export interface SearchableContactAttributesCriteria {
 export type SearchableContactAttributesCriteriaList = SearchableContactAttributesCriteria[];
 export interface SearchableContactAttributes {
   Criteria: SearchableContactAttributesCriteria[];
-  MatchType?: SearchContactsMatchType;
+  MatchType?: SearchContactsMatchType | undefined;
 }
 export type SearchableSegmentAttributeKey = string | redacted.Redacted<string>;
 export type SearchableSegmentAttributeValue = string | redacted.Redacted<string>;
@@ -7563,36 +7567,36 @@ export interface SearchableSegmentAttributesCriteria {
 export type SearchableSegmentAttributesCriteriaList = SearchableSegmentAttributesCriteria[];
 export interface SearchableSegmentAttributes {
   Criteria: SearchableSegmentAttributesCriteria[];
-  MatchType?: SearchContactsMatchType;
+  MatchType?: SearchContactsMatchType | undefined;
 }
 export type ActiveRegionList = string[];
 export type AiAgentId = string;
 export type AiAgentVersionNumber = number;
 export interface AiAgentSearchCriteria {
-  Id?: string;
-  VersionNumber?: number;
-  AiAgentEscalated?: boolean;
-  AiUseCase?: AiUseCase;
+  Id?: string | undefined;
+  VersionNumber?: number | undefined;
+  AiAgentEscalated?: boolean | undefined;
+  AiUseCase?: AiUseCase | undefined;
 }
 export type AiAgentSearchCriteriaList = AiAgentSearchCriteria[];
 export interface AiAgentsCriteria {
-  Criteria?: AiAgentSearchCriteria[];
+  Criteria?: AiAgentSearchCriteria[] | undefined;
 }
 export interface SearchCriteria {
-  Name?: NameCriteria;
-  AgentIds?: string[];
-  AgentHierarchyGroups?: AgentHierarchyGroups;
-  Channels?: Channel[];
-  ContactAnalysis?: ContactAnalysis;
-  InitiationMethods?: ContactInitiationMethod[];
-  QueueIds?: string[];
-  RoutingCriteria?: SearchableRoutingCriteria;
-  AdditionalTimeRange?: SearchContactsAdditionalTimeRange;
-  SearchableContactAttributes?: SearchableContactAttributes;
-  SearchableSegmentAttributes?: SearchableSegmentAttributes;
-  ActiveRegions?: string[];
-  ContactTags?: ControlPlaneTagFilter;
-  AiAgents?: AiAgentsCriteria;
+  Name?: NameCriteria | undefined;
+  AgentIds?: string[] | undefined;
+  AgentHierarchyGroups?: AgentHierarchyGroups | undefined;
+  Channels?: Channel[] | undefined;
+  ContactAnalysis?: ContactAnalysis | undefined;
+  InitiationMethods?: ContactInitiationMethod[] | undefined;
+  QueueIds?: string[] | undefined;
+  RoutingCriteria?: SearchableRoutingCriteria | undefined;
+  AdditionalTimeRange?: SearchContactsAdditionalTimeRange | undefined;
+  SearchableContactAttributes?: SearchableContactAttributes | undefined;
+  SearchableSegmentAttributes?: SearchableSegmentAttributes | undefined;
+  ActiveRegions?: string[] | undefined;
+  ContactTags?: ControlPlaneTagFilter | undefined;
+  AiAgents?: AiAgentsCriteria | undefined;
 }
 export type SortableFieldName =
   | "INITIATION_TIMESTAMP"
@@ -7610,157 +7614,159 @@ export interface Sort {
 export interface SearchContactsRequest {
   InstanceId: string;
   TimeRange: SearchContactsTimeRange;
-  SearchCriteria?: SearchCriteria;
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: Sort;
+  SearchCriteria?: SearchCriteria | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: Sort | undefined;
 }
 export interface ContactSearchSummaryQueueInfo {
-  Id?: string;
-  EnqueueTimestamp?: Date;
+  Id?: string | undefined;
+  EnqueueTimestamp?: Date | undefined;
 }
 export interface ContactSearchSummaryAgentInfo {
-  Id?: string;
-  ConnectedToAgentTimestamp?: Date;
+  Id?: string | undefined;
+  ConnectedToAgentTimestamp?: Date | undefined;
 }
 export interface ContactSearchSummarySegmentAttributeValue {
-  ValueString?: string;
-  ValueMap?: { [key: string]: SegmentAttributeValue | undefined };
+  ValueString?: string | undefined;
+  ValueMap?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
 }
 export type ContactSearchSummarySegmentAttributes = {
   [key: string]: ContactSearchSummarySegmentAttributeValue | undefined;
 };
 export interface ContactSearchSummaryAiAgentInfo {
-  AiAgentVersionId?: string;
-  AiAgentEscalated?: boolean;
-  AiUseCase?: AiUseCase;
+  AiAgentVersionId?: string | undefined;
+  AiAgentEscalated?: boolean | undefined;
+  AiUseCase?: AiUseCase | undefined;
 }
 export type ContactSearchSummaryAiAgentInfoList = ContactSearchSummaryAiAgentInfo[];
 export interface ContactSearchSummary {
-  Arn?: string;
-  Id?: string;
-  InitialContactId?: string;
-  PreviousContactId?: string;
-  InitiationMethod?: ContactInitiationMethod;
-  Channel?: Channel;
-  QueueInfo?: ContactSearchSummaryQueueInfo;
-  AgentInfo?: ContactSearchSummaryAgentInfo;
-  InitiationTimestamp?: Date;
-  DisconnectTimestamp?: Date;
-  ScheduledTimestamp?: Date;
-  SegmentAttributes?: { [key: string]: ContactSearchSummarySegmentAttributeValue | undefined };
-  Name?: string | redacted.Redacted<string>;
-  RoutingCriteria?: RoutingCriteria;
-  Tags?: { [key: string]: string | undefined };
-  GlobalResiliencyMetadata?: GlobalResiliencyMetadata;
-  AiAgentInfo?: ContactSearchSummaryAiAgentInfo[];
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  InitialContactId?: string | undefined;
+  PreviousContactId?: string | undefined;
+  InitiationMethod?: ContactInitiationMethod | undefined;
+  Channel?: Channel | undefined;
+  QueueInfo?: ContactSearchSummaryQueueInfo | undefined;
+  AgentInfo?: ContactSearchSummaryAgentInfo | undefined;
+  InitiationTimestamp?: Date | undefined;
+  DisconnectTimestamp?: Date | undefined;
+  ScheduledTimestamp?: Date | undefined;
+  SegmentAttributes?:
+    | { [key: string]: ContactSearchSummarySegmentAttributeValue | undefined }
+    | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  RoutingCriteria?: RoutingCriteria | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  GlobalResiliencyMetadata?: GlobalResiliencyMetadata | undefined;
+  AiAgentInfo?: ContactSearchSummaryAiAgentInfo[] | undefined;
 }
 export type Contacts = ContactSearchSummary[];
 export type TotalCount = number;
 export interface SearchContactsResponse {
   Contacts: ContactSearchSummary[];
-  NextToken?: string;
-  TotalCount?: number;
+  NextToken?: string | undefined;
+  TotalCount?: number | undefined;
 }
 export interface DataTableSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export type DataTableSearchConditionList = DataTableSearchCriteria[];
 export interface DataTableSearchCriteria {
-  OrConditions?: DataTableSearchCriteria[];
-  AndConditions?: DataTableSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: DataTableSearchCriteria[] | undefined;
+  AndConditions?: DataTableSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchDataTablesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: DataTableSearchFilter;
-  SearchCriteria?: DataTableSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: DataTableSearchFilter | undefined;
+  SearchCriteria?: DataTableSearchCriteria | undefined;
 }
 export type DataTableList = DataTable[];
 export interface SearchDataTablesResponse {
-  DataTables?: DataTable[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  DataTables?: DataTable[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type EmailAddressSearchConditionList = EmailAddressSearchCriteria[];
 export interface EmailAddressSearchCriteria {
-  OrConditions?: EmailAddressSearchCriteria[];
-  AndConditions?: EmailAddressSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: EmailAddressSearchCriteria[] | undefined;
+  AndConditions?: EmailAddressSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface EmailAddressSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export interface SearchEmailAddressesRequest {
   InstanceId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  SearchCriteria?: EmailAddressSearchCriteria;
-  SearchFilter?: EmailAddressSearchFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SearchCriteria?: EmailAddressSearchCriteria | undefined;
+  SearchFilter?: EmailAddressSearchFilter | undefined;
 }
 export interface EmailAddressMetadata {
-  EmailAddressId?: string;
-  EmailAddressArn?: string;
-  EmailAddress?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DisplayName?: string | redacted.Redacted<string>;
-  AliasConfigurations?: AliasConfiguration[];
+  EmailAddressId?: string | undefined;
+  EmailAddressArn?: string | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  AliasConfigurations?: AliasConfiguration[] | undefined;
 }
 export type EmailAddressList = EmailAddressMetadata[];
 export interface SearchEmailAddressesResponse {
-  NextToken?: string;
-  EmailAddresses?: EmailAddressMetadata[];
-  ApproximateTotalCount?: number;
+  NextToken?: string | undefined;
+  EmailAddresses?: EmailAddressMetadata[] | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type EvaluationFormSearchConditionList = EvaluationFormSearchCriteria[];
 export interface EvaluationFormSearchCriteria {
-  OrConditions?: EvaluationFormSearchCriteria[];
-  AndConditions?: EvaluationFormSearchCriteria[];
-  StringCondition?: StringCondition;
-  NumberCondition?: NumberCondition;
-  BooleanCondition?: BooleanCondition;
-  DateTimeCondition?: DateTimeCondition;
+  OrConditions?: EvaluationFormSearchCriteria[] | undefined;
+  AndConditions?: EvaluationFormSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  NumberCondition?: NumberCondition | undefined;
+  BooleanCondition?: BooleanCondition | undefined;
+  DateTimeCondition?: DateTimeCondition | undefined;
 }
 export interface EvaluationFormSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export interface SearchEvaluationFormsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchCriteria?: EvaluationFormSearchCriteria;
-  SearchFilter?: EvaluationFormSearchFilter;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchCriteria?: EvaluationFormSearchCriteria | undefined;
+  SearchFilter?: EvaluationFormSearchFilter | undefined;
 }
 export interface EvaluationFormSearchSummary {
   EvaluationFormId: string;
   EvaluationFormArn: string;
   Title: string;
   Status: EvaluationFormVersionStatus;
-  Description?: string;
+  Description?: string | undefined;
   CreatedTime: Date;
   CreatedBy: string;
   LastModifiedTime: Date;
   LastModifiedBy: string;
-  LastActivatedTime?: Date;
-  LastActivatedBy?: string;
+  LastActivatedTime?: Date | undefined;
+  LastActivatedBy?: string | undefined;
   LatestVersion: number;
-  ActiveVersion?: number;
-  AutoEvaluationEnabled?: boolean;
-  EvaluationFormLanguage?: EvaluationFormLanguageCode;
-  ContactInteractionType?: ContactInteractionType;
-  Tags?: { [key: string]: string | undefined };
-  AIVersion?: string;
+  ActiveVersion?: number | undefined;
+  AutoEvaluationEnabled?: boolean | undefined;
+  EvaluationFormLanguage?: EvaluationFormLanguageCode | undefined;
+  ContactInteractionType?: ContactInteractionType | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  AIVersion?: string | undefined;
 }
 export type EvaluationFormSearchSummaryList = EvaluationFormSearchSummary[];
 export interface SearchEvaluationFormsResponse {
-  EvaluationFormSearchSummaryList?: EvaluationFormSearchSummary[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  EvaluationFormSearchSummaryList?: EvaluationFormSearchSummary[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface HoursOfOperationSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type HoursOfOperationOverrideSearchConditionList = HoursOfOperationOverrideSearchCriteria[];
 export type DateYearMonthDayFormat = string;
@@ -7772,266 +7778,266 @@ export type DateComparisonType =
   | "EQUAL_TO"
   | (string & {});
 export interface DateCondition {
-  FieldName?: string;
-  Value?: string;
-  ComparisonType?: DateComparisonType;
+  FieldName?: string | undefined;
+  Value?: string | undefined;
+  ComparisonType?: DateComparisonType | undefined;
 }
 export interface HoursOfOperationOverrideSearchCriteria {
-  OrConditions?: HoursOfOperationOverrideSearchCriteria[];
-  AndConditions?: HoursOfOperationOverrideSearchCriteria[];
-  StringCondition?: StringCondition;
-  DateCondition?: DateCondition;
+  OrConditions?: HoursOfOperationOverrideSearchCriteria[] | undefined;
+  AndConditions?: HoursOfOperationOverrideSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  DateCondition?: DateCondition | undefined;
 }
 export interface SearchHoursOfOperationOverridesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: HoursOfOperationSearchFilter;
-  SearchCriteria?: HoursOfOperationOverrideSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: HoursOfOperationSearchFilter | undefined;
+  SearchCriteria?: HoursOfOperationOverrideSearchCriteria | undefined;
 }
 export interface SearchHoursOfOperationOverridesResponse {
-  HoursOfOperationOverrides?: HoursOfOperationOverride[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  HoursOfOperationOverrides?: HoursOfOperationOverride[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type HoursOfOperationSearchConditionList = HoursOfOperationSearchCriteria[];
 export interface HoursOfOperationSearchCriteria {
-  OrConditions?: HoursOfOperationSearchCriteria[];
-  AndConditions?: HoursOfOperationSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: HoursOfOperationSearchCriteria[] | undefined;
+  AndConditions?: HoursOfOperationSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchHoursOfOperationsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: HoursOfOperationSearchFilter;
-  SearchCriteria?: HoursOfOperationSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: HoursOfOperationSearchFilter | undefined;
+  SearchCriteria?: HoursOfOperationSearchCriteria | undefined;
 }
 export type HoursOfOperationList = HoursOfOperation[];
 export interface SearchHoursOfOperationsResponse {
-  HoursOfOperations?: HoursOfOperation[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  HoursOfOperations?: HoursOfOperation[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface MetricSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type MetricSearchConditionList = MetricSearchCriteria[];
 export interface MetricSearchCriteria {
-  OrConditions?: MetricSearchCriteria[];
-  AndConditions?: MetricSearchCriteria[];
-  StringCondition?: StringCondition;
-  BooleanCondition?: BooleanCondition;
+  OrConditions?: MetricSearchCriteria[] | undefined;
+  AndConditions?: MetricSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  BooleanCondition?: BooleanCondition | undefined;
 }
 export interface SearchMetricsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: MetricSearchFilter;
-  SearchCriteria?: MetricSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: MetricSearchFilter | undefined;
+  SearchCriteria?: MetricSearchCriteria | undefined;
 }
 export type MetricSearchSummaryList = MetricDefinition[];
 export interface SearchMetricsResponse {
-  Metrics?: MetricDefinition[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  Metrics?: MetricDefinition[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface NotificationSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export type NotificationSearchConditionList = NotificationSearchCriteria[];
 export interface NotificationSearchCriteria {
-  OrConditions?: NotificationSearchCriteria[];
-  AndConditions?: NotificationSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: NotificationSearchCriteria[] | undefined;
+  AndConditions?: NotificationSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchNotificationsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: NotificationSearchFilter;
-  SearchCriteria?: NotificationSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: NotificationSearchFilter | undefined;
+  SearchCriteria?: NotificationSearchCriteria | undefined;
 }
 export interface NotificationSearchSummary {
-  Id?: string;
-  Arn?: string;
-  InstanceId?: string;
-  Content?: { [key: string]: string | undefined };
-  Priority?: NotificationPriority;
-  Recipients?: string[];
-  CreatedAt?: Date;
-  ExpiresAt?: Date;
-  LastModifiedRegion?: string;
-  LastModifiedTime?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  InstanceId?: string | undefined;
+  Content?: { [key: string]: string | undefined } | undefined;
+  Priority?: NotificationPriority | undefined;
+  Recipients?: string[] | undefined;
+  CreatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NotificationSearchSummaryList = NotificationSearchSummary[];
 export interface SearchNotificationsResponse {
-  Notifications?: NotificationSearchSummary[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  Notifications?: NotificationSearchSummary[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type PredefinedAttributeSearchConditionList = PredefinedAttributeSearchCriteria[];
 export interface PredefinedAttributeSearchCriteria {
-  OrConditions?: PredefinedAttributeSearchCriteria[];
-  AndConditions?: PredefinedAttributeSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: PredefinedAttributeSearchCriteria[] | undefined;
+  AndConditions?: PredefinedAttributeSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchPredefinedAttributesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchCriteria?: PredefinedAttributeSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchCriteria?: PredefinedAttributeSearchCriteria | undefined;
 }
 export type PredefinedAttributeSearchSummaryList = PredefinedAttribute[];
 export interface SearchPredefinedAttributesResponse {
-  PredefinedAttributes?: PredefinedAttribute[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  PredefinedAttributes?: PredefinedAttribute[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface PromptSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type PromptSearchConditionList = PromptSearchCriteria[];
 export interface PromptSearchCriteria {
-  OrConditions?: PromptSearchCriteria[];
-  AndConditions?: PromptSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: PromptSearchCriteria[] | undefined;
+  AndConditions?: PromptSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchPromptsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: PromptSearchFilter;
-  SearchCriteria?: PromptSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: PromptSearchFilter | undefined;
+  SearchCriteria?: PromptSearchCriteria | undefined;
 }
 export type PromptList = Prompt[];
 export interface SearchPromptsResponse {
-  Prompts?: Prompt[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  Prompts?: Prompt[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type MaxResult500 = number;
 export interface QueueSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type QueueSearchConditionList = QueueSearchCriteria[];
 export type SearchableQueueType = "STANDARD" | (string & {});
 export interface QueueSearchCriteria {
-  OrConditions?: QueueSearchCriteria[];
-  AndConditions?: QueueSearchCriteria[];
-  StringCondition?: StringCondition;
-  QueueTypeCondition?: SearchableQueueType;
+  OrConditions?: QueueSearchCriteria[] | undefined;
+  AndConditions?: QueueSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  QueueTypeCondition?: SearchableQueueType | undefined;
 }
 export interface SearchQueuesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: QueueSearchFilter;
-  SearchCriteria?: QueueSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: QueueSearchFilter | undefined;
+  SearchCriteria?: QueueSearchCriteria | undefined;
 }
 export type QueueSearchSummaryList = Queue[];
 export interface SearchQueuesResponse {
-  Queues?: Queue[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  Queues?: Queue[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface QuickConnectSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type QuickConnectSearchConditionList = QuickConnectSearchCriteria[];
 export interface QuickConnectSearchCriteria {
-  OrConditions?: QuickConnectSearchCriteria[];
-  AndConditions?: QuickConnectSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: QuickConnectSearchCriteria[] | undefined;
+  AndConditions?: QuickConnectSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchQuickConnectsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: QuickConnectSearchFilter;
-  SearchCriteria?: QuickConnectSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: QuickConnectSearchFilter | undefined;
+  SearchCriteria?: QuickConnectSearchCriteria | undefined;
 }
 export type QuickConnectSearchSummaryList = QuickConnect[];
 export interface SearchQuickConnectsResponse {
-  QuickConnects?: QuickConnect[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  QuickConnects?: QuickConnect[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type ResourceTypeList = string[];
 export type TagKeyString = string;
 export type TagValueString = string;
 export interface TagSearchCondition {
-  tagKey?: string;
-  tagValue?: string;
-  tagKeyComparisonType?: StringComparisonType;
-  tagValueComparisonType?: StringComparisonType;
+  tagKey?: string | undefined;
+  tagValue?: string | undefined;
+  tagKeyComparisonType?: StringComparisonType | undefined;
+  tagValueComparisonType?: StringComparisonType | undefined;
 }
 export interface ResourceTagsSearchCriteria {
-  TagSearchCondition?: TagSearchCondition;
+  TagSearchCondition?: TagSearchCondition | undefined;
 }
 export interface SearchResourceTagsRequest {
   InstanceId: string;
-  ResourceTypes?: string[];
-  NextToken?: string;
-  MaxResults?: number;
-  SearchCriteria?: ResourceTagsSearchCriteria;
+  ResourceTypes?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchCriteria?: ResourceTagsSearchCriteria | undefined;
 }
 export interface TagSet {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagsList = TagSet[];
 export interface SearchResourceTagsResponse {
-  Tags?: TagSet[];
-  NextToken?: string;
+  Tags?: TagSet[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface RoutingProfileSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type RoutingProfileSearchConditionList = RoutingProfileSearchCriteria[];
 export interface RoutingProfileSearchCriteria {
-  OrConditions?: RoutingProfileSearchCriteria[];
-  AndConditions?: RoutingProfileSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: RoutingProfileSearchCriteria[] | undefined;
+  AndConditions?: RoutingProfileSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchRoutingProfilesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: RoutingProfileSearchFilter;
-  SearchCriteria?: RoutingProfileSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: RoutingProfileSearchFilter | undefined;
+  SearchCriteria?: RoutingProfileSearchCriteria | undefined;
 }
 export type RoutingProfileList = RoutingProfile[];
 export interface SearchRoutingProfilesResponse {
-  RoutingProfiles?: RoutingProfile[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  RoutingProfiles?: RoutingProfile[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type RulesSearchConditionList = RulesSearchCriteria[];
 export interface RulesSearchCriteria {
-  OrConditions?: RulesSearchCriteria[];
-  AndConditions?: RulesSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: RulesSearchCriteria[] | undefined;
+  AndConditions?: RulesSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface RuleAttributeAndCondition {
-  TagConditions?: TagCondition[];
+  TagConditions?: TagCondition[] | undefined;
 }
 export type RuleAttributeOrConditionList = RuleAttributeAndCondition[];
 export interface RuleAttributeFilter {
-  OrConditions?: RuleAttributeAndCondition[];
-  AndCondition?: RuleAttributeAndCondition;
-  TagCondition?: TagCondition;
+  OrConditions?: RuleAttributeAndCondition[] | undefined;
+  AndCondition?: RuleAttributeAndCondition | undefined;
+  TagCondition?: TagCondition | undefined;
 }
 export interface RulesSearchFilter {
-  AttributeFilter?: RuleAttributeFilter;
+  AttributeFilter?: RuleAttributeFilter | undefined;
 }
 export interface SearchRulesRequest {
   InstanceId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  SearchCriteria?: RulesSearchCriteria;
-  SearchFilter?: RulesSearchFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SearchCriteria?: RulesSearchCriteria | undefined;
+  SearchFilter?: RulesSearchFilter | undefined;
 }
 export interface RuleSearchSummary {
   Name: string;
@@ -8039,199 +8045,199 @@ export interface RuleSearchSummary {
   RuleArn: string;
   TriggerEventSource: RuleTriggerEventSource;
   ActionSummaries: ActionSummary[];
-  RuleCapabilityTiers?: RuleCapabilityTier[];
+  RuleCapabilityTiers?: RuleCapabilityTier[] | undefined;
   PublishStatus: RulePublishStatus;
-  PreEvaluationFilters?: PreEvaluationFilters;
+  PreEvaluationFilters?: PreEvaluationFilters | undefined;
   CreatedTime: Date;
   LastUpdatedTime: Date;
   LastUpdatedBy: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleSearchSummaryList = RuleSearchSummary[];
 export interface SearchRulesResponse {
   Rules: RuleSearchSummary[];
-  ApproximateTotalCount?: number;
-  NextToken?: string;
+  ApproximateTotalCount?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SecurityProfileSearchConditionList = SecurityProfileSearchCriteria[];
 export interface SecurityProfileSearchCriteria {
-  OrConditions?: SecurityProfileSearchCriteria[];
-  AndConditions?: SecurityProfileSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: SecurityProfileSearchCriteria[] | undefined;
+  AndConditions?: SecurityProfileSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SecurityProfilesSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export interface SearchSecurityProfilesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchCriteria?: SecurityProfileSearchCriteria;
-  SearchFilter?: SecurityProfilesSearchFilter;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchCriteria?: SecurityProfileSearchCriteria | undefined;
+  SearchFilter?: SecurityProfilesSearchFilter | undefined;
 }
 export interface SecurityProfileSearchSummary {
-  Id?: string;
-  OrganizationResourceId?: string;
-  Arn?: string;
-  SecurityProfileName?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  Type?: SecurityProfileType;
+  Id?: string | undefined;
+  OrganizationResourceId?: string | undefined;
+  Arn?: string | undefined;
+  SecurityProfileName?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Type?: SecurityProfileType | undefined;
 }
 export type SecurityProfilesSearchSummaryList = SecurityProfileSearchSummary[];
 export interface SearchSecurityProfilesResponse {
-  SecurityProfiles?: SecurityProfileSearchSummary[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  SecurityProfiles?: SecurityProfileSearchSummary[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface TestCaseSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
 }
 export type TestCaseSearchConditionList = TestCaseSearchCriteria[];
 export interface TestCaseSearchCriteria {
-  OrConditions?: TestCaseSearchCriteria[];
-  AndConditions?: TestCaseSearchCriteria[];
-  StringCondition?: StringCondition;
-  StatusCondition?: TestCaseStatus;
+  OrConditions?: TestCaseSearchCriteria[] | undefined;
+  AndConditions?: TestCaseSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  StatusCondition?: TestCaseStatus | undefined;
 }
 export interface SearchTestCasesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: TestCaseSearchFilter;
-  SearchCriteria?: TestCaseSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: TestCaseSearchFilter | undefined;
+  SearchCriteria?: TestCaseSearchCriteria | undefined;
 }
 export type TestCaseSearchSummaryList = TestCase[];
 export interface SearchTestCasesResponse {
-  TestCases?: TestCase[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  TestCases?: TestCase[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface UserHierarchyGroupSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export type UserHierarchyGroupSearchConditionList = UserHierarchyGroupSearchCriteria[];
 export interface UserHierarchyGroupSearchCriteria {
-  OrConditions?: UserHierarchyGroupSearchCriteria[];
-  AndConditions?: UserHierarchyGroupSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: UserHierarchyGroupSearchCriteria[] | undefined;
+  AndConditions?: UserHierarchyGroupSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchUserHierarchyGroupsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: UserHierarchyGroupSearchFilter;
-  SearchCriteria?: UserHierarchyGroupSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: UserHierarchyGroupSearchFilter | undefined;
+  SearchCriteria?: UserHierarchyGroupSearchCriteria | undefined;
 }
 export type UserHierarchyGroupList = HierarchyGroup[];
 export interface SearchUserHierarchyGroupsResponse {
-  UserHierarchyGroups?: HierarchyGroup[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  UserHierarchyGroups?: HierarchyGroup[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type HierarchyGroupMatchType = "EXACT" | "WITH_CHILD_GROUPS" | (string & {});
 export interface HierarchyGroupCondition {
-  Value?: string;
-  HierarchyGroupMatchType?: HierarchyGroupMatchType;
+  Value?: string | undefined;
+  HierarchyGroupMatchType?: HierarchyGroupMatchType | undefined;
 }
 export interface AttributeAndCondition {
-  TagConditions?: TagCondition[];
-  HierarchyGroupCondition?: HierarchyGroupCondition;
+  TagConditions?: TagCondition[] | undefined;
+  HierarchyGroupCondition?: HierarchyGroupCondition | undefined;
 }
 export type AttributeOrConditionList = AttributeAndCondition[];
 export interface ControlPlaneUserAttributeFilter {
-  OrConditions?: AttributeAndCondition[];
-  AndCondition?: AttributeAndCondition;
-  TagCondition?: TagCondition;
-  HierarchyGroupCondition?: HierarchyGroupCondition;
+  OrConditions?: AttributeAndCondition[] | undefined;
+  AndCondition?: AttributeAndCondition | undefined;
+  TagCondition?: TagCondition | undefined;
+  HierarchyGroupCondition?: HierarchyGroupCondition | undefined;
 }
 export interface UserSearchFilter {
-  TagFilter?: ControlPlaneTagFilter;
-  UserAttributeFilter?: ControlPlaneUserAttributeFilter;
+  TagFilter?: ControlPlaneTagFilter | undefined;
+  UserAttributeFilter?: ControlPlaneUserAttributeFilter | undefined;
 }
 export type UserSearchConditionList = UserSearchCriteria[];
 export type TargetListType = "PROFICIENCIES" | (string & {});
 export interface Condition {
-  StringCondition?: StringCondition;
-  NumberCondition?: NumberCondition;
+  StringCondition?: StringCondition | undefined;
+  NumberCondition?: NumberCondition | undefined;
 }
 export type Conditions = Condition[];
 export interface ListCondition {
-  TargetListType?: TargetListType;
-  Conditions?: Condition[];
+  TargetListType?: TargetListType | undefined;
+  Conditions?: Condition[] | undefined;
 }
 export interface UserSearchCriteria {
-  OrConditions?: UserSearchCriteria[];
-  AndConditions?: UserSearchCriteria[];
-  StringCondition?: StringCondition;
-  ListCondition?: ListCondition;
-  HierarchyGroupCondition?: HierarchyGroupCondition;
+  OrConditions?: UserSearchCriteria[] | undefined;
+  AndConditions?: UserSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  ListCondition?: ListCondition | undefined;
+  HierarchyGroupCondition?: HierarchyGroupCondition | undefined;
 }
 export interface SearchUsersRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: UserSearchFilter;
-  SearchCriteria?: UserSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: UserSearchFilter | undefined;
+  SearchCriteria?: UserSearchCriteria | undefined;
 }
 export interface UserIdentityInfoLite {
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UserSearchSummary {
-  Arn?: string;
-  DirectoryUserId?: string;
-  HierarchyGroupId?: string;
-  Id?: string;
-  IdentityInfo?: UserIdentityInfoLite;
-  PhoneConfig?: UserPhoneConfig;
-  RoutingProfileId?: string;
-  SecurityProfileIds?: string[];
-  Tags?: { [key: string]: string | undefined };
-  Username?: string;
-  AutoAcceptConfigs?: AutoAcceptConfig[];
-  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
-  PhoneNumberConfigs?: PhoneNumberConfig[];
-  PersistentConnectionConfigs?: PersistentConnectionConfig[];
-  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
+  Arn?: string | undefined;
+  DirectoryUserId?: string | undefined;
+  HierarchyGroupId?: string | undefined;
+  Id?: string | undefined;
+  IdentityInfo?: UserIdentityInfoLite | undefined;
+  PhoneConfig?: UserPhoneConfig | undefined;
+  RoutingProfileId?: string | undefined;
+  SecurityProfileIds?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Username?: string | undefined;
+  AutoAcceptConfigs?: AutoAcceptConfig[] | undefined;
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[] | undefined;
+  PhoneNumberConfigs?: PhoneNumberConfig[] | undefined;
+  PersistentConnectionConfigs?: PersistentConnectionConfig[] | undefined;
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[] | undefined;
 }
 export type UserSearchSummaryList = UserSearchSummary[];
 export interface SearchUsersResponse {
-  Users?: UserSearchSummary[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  Users?: UserSearchSummary[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface ViewSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export type ViewSearchConditionList = ViewSearchCriteria[];
 export interface ViewSearchCriteria {
-  OrConditions?: ViewSearchCriteria[];
-  AndConditions?: ViewSearchCriteria[];
-  StringCondition?: StringCondition;
-  ViewTypeCondition?: ViewType;
-  ViewStatusCondition?: ViewStatus;
+  OrConditions?: ViewSearchCriteria[] | undefined;
+  AndConditions?: ViewSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
+  ViewTypeCondition?: ViewType | undefined;
+  ViewStatusCondition?: ViewStatus | undefined;
 }
 export interface SearchViewsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: ViewSearchFilter;
-  SearchCriteria?: ViewSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: ViewSearchFilter | undefined;
+  SearchCriteria?: ViewSearchCriteria | undefined;
 }
 export type ViewSearchSummaryList = View[];
 export interface SearchViewsResponse {
-  Views?: View[];
-  NextToken?: string;
-  ApproximateTotalCount?: number;
+  Views?: View[] | undefined;
+  NextToken?: string | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface SearchVocabulariesRequest {
   InstanceId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  State?: VocabularyState;
-  NameStartsWith?: string;
-  LanguageCode?: VocabularyLanguageCode;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  State?: VocabularyState | undefined;
+  NameStartsWith?: string | undefined;
+  LanguageCode?: VocabularyLanguageCode | undefined;
 }
 export interface VocabularySummary {
   Name: string;
@@ -8240,77 +8246,77 @@ export interface VocabularySummary {
   LanguageCode: VocabularyLanguageCode;
   State: VocabularyState;
   LastModifiedTime: Date;
-  FailureReason?: string;
+  FailureReason?: string | undefined;
 }
 export type VocabularySummaryList = VocabularySummary[];
 export interface SearchVocabulariesResponse {
-  VocabularySummaryList?: VocabularySummary[];
-  NextToken?: string;
+  VocabularySummaryList?: VocabularySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface WorkspaceAssociationSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export type WorkspaceAssociationSearchConditionList = WorkspaceAssociationSearchCriteria[];
 export interface WorkspaceAssociationSearchCriteria {
-  OrConditions?: WorkspaceAssociationSearchCriteria[];
-  AndConditions?: WorkspaceAssociationSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: WorkspaceAssociationSearchCriteria[] | undefined;
+  AndConditions?: WorkspaceAssociationSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchWorkspaceAssociationsRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: WorkspaceAssociationSearchFilter;
-  SearchCriteria?: WorkspaceAssociationSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: WorkspaceAssociationSearchFilter | undefined;
+  SearchCriteria?: WorkspaceAssociationSearchCriteria | undefined;
 }
 export type WorkspaceAssociatedResourceId = string;
 export type WorkspaceAssociatedResourceType = string;
 export type WorkspaceAssociatedResourceName = string;
 export interface WorkspaceAssociationSearchSummary {
-  WorkspaceId?: string;
-  WorkspaceArn?: string;
-  ResourceId?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  ResourceName?: string;
+  WorkspaceId?: string | undefined;
+  WorkspaceArn?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceName?: string | undefined;
 }
 export type WorkspaceAssociationSearchSummaryList = WorkspaceAssociationSearchSummary[];
 export interface SearchWorkspaceAssociationsResponse {
-  NextToken?: string;
-  WorkspaceAssociations?: WorkspaceAssociationSearchSummary[];
-  ApproximateTotalCount?: number;
+  NextToken?: string | undefined;
+  WorkspaceAssociations?: WorkspaceAssociationSearchSummary[] | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export interface WorkspaceSearchFilter {
-  AttributeFilter?: ControlPlaneAttributeFilter;
+  AttributeFilter?: ControlPlaneAttributeFilter | undefined;
 }
 export type WorkspaceSearchConditionList = WorkspaceSearchCriteria[];
 export interface WorkspaceSearchCriteria {
-  OrConditions?: WorkspaceSearchCriteria[];
-  AndConditions?: WorkspaceSearchCriteria[];
-  StringCondition?: StringCondition;
+  OrConditions?: WorkspaceSearchCriteria[] | undefined;
+  AndConditions?: WorkspaceSearchCriteria[] | undefined;
+  StringCondition?: StringCondition | undefined;
 }
 export interface SearchWorkspacesRequest {
   InstanceId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SearchFilter?: WorkspaceSearchFilter;
-  SearchCriteria?: WorkspaceSearchCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SearchFilter?: WorkspaceSearchFilter | undefined;
+  SearchCriteria?: WorkspaceSearchCriteria | undefined;
 }
 export interface WorkspaceSearchSummary {
-  Id?: string;
-  Name?: string;
-  Visibility?: Visibility;
-  Description?: string;
-  Title?: string;
-  Arn?: string;
-  CreatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Visibility?: Visibility | undefined;
+  Description?: string | undefined;
+  Title?: string | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkspaceSearchSummaryList = WorkspaceSearchSummary[];
 export interface SearchWorkspacesResponse {
-  NextToken?: string;
-  Workspaces?: WorkspaceSearchSummary[];
-  ApproximateTotalCount?: number;
+  NextToken?: string | undefined;
+  Workspaces?: WorkspaceSearchSummary[] | undefined;
+  ApproximateTotalCount?: number | undefined;
 }
 export type SourceId = string;
 export type DestinationId = string;
@@ -8319,8 +8325,8 @@ export type ChatContentType = string;
 export type ChatContent = string;
 export interface ChatEvent {
   Type: ChatEventType;
-  ContentType?: string;
-  Content?: string;
+  ContentType?: string | undefined;
+  Content?: string | undefined;
 }
 export type SupportedMessagingContentType = string;
 export type SupportedMessagingContentTypes = string[];
@@ -8332,38 +8338,38 @@ export interface ChatStreamingConfiguration {
   StreamingEndpointArn: string;
 }
 export interface NewSessionDetails {
-  SupportedMessagingContentTypes?: string[];
-  ParticipantDetails?: ParticipantDetails;
-  Attributes?: { [key: string]: string | undefined };
-  StreamingConfiguration?: ChatStreamingConfiguration;
+  SupportedMessagingContentTypes?: string[] | undefined;
+  ParticipantDetails?: ParticipantDetails | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  StreamingConfiguration?: ChatStreamingConfiguration | undefined;
 }
 export interface SendChatIntegrationEventRequest {
   SourceId: string;
   DestinationId: string;
-  Subtype?: string;
+  Subtype?: string | undefined;
   Event: ChatEvent;
-  NewSessionDetails?: NewSessionDetails;
+  NewSessionDetails?: NewSessionDetails | undefined;
 }
 export type NewChatCreated = boolean;
 export interface SendChatIntegrationEventResponse {
-  InitialContactId?: string;
-  NewChatCreated?: boolean;
+  InitialContactId?: string | undefined;
+  NewChatCreated?: boolean | undefined;
 }
 export interface EmailAddressInfo {
   EmailAddress: string | redacted.Redacted<string>;
-  DisplayName?: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
 }
 export type EmailAddressRecipientList = EmailAddressInfo[];
 export interface OutboundAdditionalRecipients {
-  CcEmailAddresses?: EmailAddressInfo[];
+  CcEmailAddresses?: EmailAddressInfo[] | undefined;
 }
 export type OutboundMessageSourceType = "TEMPLATE" | "RAW" | (string & {});
 export type MessageTemplateKnowledgeBaseId = string;
 export type MessageTemplateId = string;
 export type CustomerProfileAttributesSerialized = string;
 export interface TemplateAttributes {
-  CustomAttributes?: { [key: string]: string | undefined };
-  CustomerProfileAttributes?: string;
+  CustomAttributes?: { [key: string]: string | undefined } | undefined;
+  CustomerProfileAttributes?: string | undefined;
 }
 export interface TemplatedMessageConfig {
   KnowledgeBaseId: string;
@@ -8380,24 +8386,24 @@ export interface OutboundRawMessage {
 }
 export interface OutboundEmailContent {
   MessageSourceType: OutboundMessageSourceType;
-  TemplatedMessageConfig?: TemplatedMessageConfig;
-  RawMessage?: OutboundRawMessage;
+  TemplatedMessageConfig?: TemplatedMessageConfig | undefined;
+  RawMessage?: OutboundRawMessage | undefined;
 }
 export type TrafficType = "GENERAL" | "CAMPAIGN" | (string & {});
 export type OutboundRequestId = string;
 export interface SourceCampaign {
-  CampaignId?: string;
-  OutboundRequestId?: string;
+  CampaignId?: string | undefined;
+  OutboundRequestId?: string | undefined;
 }
 export interface SendOutboundEmailRequest {
   InstanceId: string;
   FromEmailAddress: EmailAddressInfo;
   DestinationEmailAddress: EmailAddressInfo;
-  AdditionalRecipients?: OutboundAdditionalRecipients;
+  AdditionalRecipients?: OutboundAdditionalRecipients | undefined;
   EmailMessage: OutboundEmailContent;
   TrafficType: TrafficType;
-  SourceCampaign?: SourceCampaign;
-  ClientToken?: string;
+  SourceCampaign?: SourceCampaign | undefined;
+  ClientToken?: string | undefined;
 }
 export interface SendOutboundEmailResponse {}
 export type WebBrowserId = string;
@@ -8421,19 +8427,19 @@ export type RecommenderContext = { [key: string]: string | undefined };
 export interface RecommenderConfig {
   DomainName: string;
   RecommenderName: string;
-  Context?: { [key: string]: string | undefined };
+  Context?: { [key: string]: string | undefined } | undefined;
 }
 export interface ContentAttributes {
-  RecommenderConfig?: RecommenderConfig;
+  RecommenderConfig?: RecommenderConfig | undefined;
 }
 export interface WebNotificationContent {
   Type: NotificationType;
-  ViewArn?: string;
-  Attributes?: ContentAttributes;
+  ViewArn?: string | undefined;
+  Attributes?: ContentAttributes | undefined;
 }
 export interface SendOutboundWebNotificationRequest {
   InstanceId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   BrowserId: string;
   SessionId: string;
   ExpiresAt: Date;
@@ -8450,55 +8456,55 @@ export interface ChatMessage {
   Content: string;
 }
 export interface PersistentChat {
-  RehydrationType?: RehydrationType;
-  SourceContactId?: string;
+  RehydrationType?: RehydrationType | undefined;
+  SourceContactId?: string | undefined;
 }
 export interface StartAssistantContactRequest {
   InstanceId: string;
   AiAgent: AiAgentInput;
   ParticipantDetails: ParticipantDetails;
-  InitialMessage?: ChatMessage;
-  Attributes?: { [key: string]: string | undefined };
-  ClientToken?: string;
-  PersistentChat?: PersistentChat;
-  RelatedContactId?: string;
+  InitialMessage?: ChatMessage | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+  PersistentChat?: PersistentChat | undefined;
+  RelatedContactId?: string | undefined;
 }
 export interface StartAssistantContactResponse {
-  ContactId?: string;
-  ParticipantId?: string;
-  ParticipantToken?: string;
-  ContinuedFromContactId?: string;
+  ContactId?: string | undefined;
+  ParticipantId?: string | undefined;
+  ParticipantToken?: string | undefined;
+  ContinuedFromContactId?: string | undefined;
 }
 export interface StartAttachedFileUploadRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   InstanceId: string;
   FileName: string;
   FileSizeInBytes: number;
-  UrlExpiryInSeconds?: number;
+  UrlExpiryInSeconds?: number | undefined;
   FileUseCaseType: FileUseCaseType;
   AssociatedResourceArn: string;
-  CreatedBy?: CreatedByInfo;
-  Tags?: { [key: string]: string | undefined };
+  CreatedBy?: CreatedByInfo | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type UrlMetadataSignedHeadersKey = string;
 export type UrlMetadataSignedHeadersValue = string;
 export type UrlMetadataSignedHeaders = { [key: string]: string | undefined };
 export interface UploadUrlMetadata {
-  Url?: string;
-  UrlExpiry?: string;
-  HeadersToInclude?: { [key: string]: string | undefined };
+  Url?: string | undefined;
+  UrlExpiry?: string | undefined;
+  HeadersToInclude?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartAttachedFileUploadResponse {
-  FileArn?: string;
-  FileId?: string;
-  CreationTime?: string;
-  FileStatus?: FileStatusType;
-  CreatedBy?: CreatedByInfo;
-  UploadUrlMetadata?: UploadUrlMetadata;
+  FileArn?: string | undefined;
+  FileId?: string | undefined;
+  CreationTime?: string | undefined;
+  FileStatus?: FileStatusType | undefined;
+  CreatedBy?: CreatedByInfo | undefined;
+  UploadUrlMetadata?: UploadUrlMetadata | undefined;
 }
 export type ResponseMode = "INCREMENTAL" | "COMPLETE" | (string & {});
 export interface ParticipantConfiguration {
-  ResponseMode?: ResponseMode;
+  ResponseMode?: ResponseMode | undefined;
 }
 export type ChatDurationInMinutes = number;
 export type CustomerIdNonEmpty = string | redacted.Redacted<string>;
@@ -8514,44 +8520,44 @@ export type ConnectionTypeList = ConnectionType[];
 export interface StartChatContactRequest {
   InstanceId: string;
   ContactFlowId: string;
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
   ParticipantDetails: ParticipantDetails;
-  ParticipantConfiguration?: ParticipantConfiguration;
-  InitialMessage?: ChatMessage;
-  ClientToken?: string;
-  ChatDurationInMinutes?: number;
-  SupportedMessagingContentTypes?: string[];
-  PersistentChat?: PersistentChat;
-  RelatedContactId?: string;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
-  CustomerId?: string | redacted.Redacted<string>;
-  DisconnectOnCustomerExit?: DisconnectOnCustomerExitParticipantType[];
-  ConnectionTypes?: ConnectionType[];
-  ChatStreamingConfiguration?: ChatStreamingConfiguration;
+  ParticipantConfiguration?: ParticipantConfiguration | undefined;
+  InitialMessage?: ChatMessage | undefined;
+  ClientToken?: string | undefined;
+  ChatDurationInMinutes?: number | undefined;
+  SupportedMessagingContentTypes?: string[] | undefined;
+  PersistentChat?: PersistentChat | undefined;
+  RelatedContactId?: string | undefined;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
+  CustomerId?: string | redacted.Redacted<string> | undefined;
+  DisconnectOnCustomerExit?: DisconnectOnCustomerExitParticipantType[] | undefined;
+  ConnectionTypes?: ConnectionType[] | undefined;
+  ChatStreamingConfiguration?: ChatStreamingConfiguration | undefined;
 }
 export interface ConnectionCredentials {
-  ConnectionToken?: string;
-  Expiry?: string;
+  ConnectionToken?: string | undefined;
+  Expiry?: string | undefined;
 }
 export type PreSignedConnectionUrl = string;
 export interface Websocket {
-  Url?: string;
-  ConnectionExpiry?: string;
+  Url?: string | undefined;
+  ConnectionExpiry?: string | undefined;
 }
 export type StreamingId = string;
 export interface StartChatContactResponse {
-  ContactId?: string;
-  ParticipantId?: string;
-  ParticipantToken?: string;
-  ContinuedFromContactId?: string;
-  ConnectionCredentials?: ConnectionCredentials;
-  Websocket?: Websocket;
-  StreamingId?: string;
+  ContactId?: string | undefined;
+  ParticipantId?: string | undefined;
+  ParticipantToken?: string | undefined;
+  ContinuedFromContactId?: string | undefined;
+  ConnectionCredentials?: ConnectionCredentials | undefined;
+  Websocket?: Websocket | undefined;
+  StreamingId?: string | undefined;
 }
 export type AnalyticsModes = AnalyticsMode[];
 export type LanguageLocale = string;
 export interface LanguageConfiguration {
-  LanguageLocale?: string;
+  LanguageLocale?: string | undefined;
 }
 export type Behavior = "Enable" | "Disable" | (string & {});
 export type Policy = "None" | "RedactedOnly" | "RedactedAndOriginal" | (string & {});
@@ -8561,8 +8567,8 @@ export type MaskMode = "PII" | "EntityType" | (string & {});
 export interface RedactionConfiguration {
   Behavior: Behavior;
   Policy: Policy;
-  Entities?: string[];
-  MaskMode?: MaskMode;
+  Entities?: string[] | undefined;
+  MaskMode?: MaskMode | undefined;
 }
 export interface SentimentConfiguration {
   Behavior: Behavior;
@@ -8573,7 +8579,7 @@ export interface SummaryConfiguration {
   SummaryModes: SummaryMode[];
 }
 export interface RulesConfiguration {
-  Behavior?: Behavior;
+  Behavior?: Behavior | undefined;
 }
 export interface AnalyticsConfiguration {
   LanguageConfiguration: LanguageConfiguration;
@@ -8587,11 +8593,11 @@ export interface StartContactConversationalAnalyticsJobRequest {
   ContactId: string;
   AnalyticsModes: AnalyticsMode[];
   AnalyticsConfiguration: AnalyticsConfiguration;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface StartContactConversationalAnalyticsJobResponse {
-  InstanceId?: string;
-  ContactId?: string;
+  InstanceId?: string | undefined;
+  ContactId?: string | undefined;
 }
 export interface AutoEvaluationConfiguration {
   Enabled: boolean;
@@ -8600,9 +8606,9 @@ export interface StartContactEvaluationRequest {
   InstanceId: string;
   ContactId: string;
   EvaluationFormId: string;
-  AutoEvaluationConfiguration?: AutoEvaluationConfiguration;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  AutoEvaluationConfiguration?: AutoEvaluationConfiguration | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartContactEvaluationResponse {
   EvaluationId: string;
@@ -8613,17 +8619,17 @@ export type ContactMediaProcessingFailureMode =
   | "DO_NOT_DELIVER_UNPROCESSED_MESSAGE"
   | (string & {});
 export interface StartContactMediaProcessingRequest {
-  InstanceId?: string;
-  ContactId?: string;
-  ProcessorArn?: string;
-  FailureMode?: ContactMediaProcessingFailureMode;
+  InstanceId?: string | undefined;
+  ContactId?: string | undefined;
+  ProcessorArn?: string | undefined;
+  FailureMode?: ContactMediaProcessingFailureMode | undefined;
 }
 export interface StartContactMediaProcessingResponse {}
 export type VoiceRecordingTrack = "FROM_AGENT" | "TO_AGENT" | "ALL" | (string & {});
 export type IvrRecordingTrack = "ALL" | (string & {});
 export interface VoiceRecordingConfiguration {
-  VoiceRecordingTrack?: VoiceRecordingTrack;
-  IvrRecordingTrack?: IvrRecordingTrack;
+  VoiceRecordingTrack?: VoiceRecordingTrack | undefined;
+  IvrRecordingTrack?: IvrRecordingTrack | undefined;
 }
 export interface StartContactRecordingRequest {
   InstanceId: string;
@@ -8651,20 +8657,20 @@ export type EmailHeaderType =
   | "X_SES_VIRUS_VERDICT"
   | (string & {});
 export type EmailHeaderValue = string;
-export type EmailHeaders = { [key in EmailHeaderType]?: string };
+export type EmailHeaders = { [key in EmailHeaderType]?: string | undefined };
 export interface InboundRawMessage {
   Subject: string | redacted.Redacted<string>;
   Body: string | redacted.Redacted<string>;
   ContentType: string;
-  Headers?: { [key: string]: string | undefined };
+  Headers?: { [key: string]: string | undefined } | undefined;
 }
 export interface InboundEmailContent {
   MessageSourceType: InboundMessageSourceType;
-  RawMessage?: InboundRawMessage;
+  RawMessage?: InboundRawMessage | undefined;
 }
 export interface InboundAdditionalRecipients {
-  ToAddresses?: EmailAddressInfo[];
-  CcAddresses?: EmailAddressInfo[];
+  ToAddresses?: EmailAddressInfo[] | undefined;
+  CcAddresses?: EmailAddressInfo[] | undefined;
 }
 export type PreSignedAttachmentUrl = string;
 export interface EmailAttachment {
@@ -8676,20 +8682,20 @@ export interface StartEmailContactRequest {
   InstanceId: string;
   FromEmailAddress: EmailAddressInfo;
   DestinationEmailAddress: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference | undefined };
-  Name?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
+  References?: { [key: string]: Reference | undefined } | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
   EmailMessage: InboundEmailContent;
-  AdditionalRecipients?: InboundAdditionalRecipients;
-  Attachments?: EmailAttachment[];
-  ContactFlowId?: string;
-  RelatedContactId?: string;
-  Attributes?: { [key: string]: string | undefined };
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
-  ClientToken?: string;
+  AdditionalRecipients?: InboundAdditionalRecipients | undefined;
+  Attachments?: EmailAttachment[] | undefined;
+  ContactFlowId?: string | undefined;
+  RelatedContactId?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface StartEmailContactResponse {
-  ContactId?: string;
+  ContactId?: string | undefined;
 }
 export interface StartEvaluationFormValidationRequest {
   InstanceId: string;
@@ -8706,59 +8712,59 @@ export interface StartOutboundChatContactRequest {
   DestinationEndpoint: Endpoint;
   InstanceId: string;
   SegmentAttributes: { [key: string]: SegmentAttributeValue | undefined };
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
   ContactFlowId: string;
-  ChatDurationInMinutes?: number;
-  ParticipantDetails?: ParticipantDetails;
-  InitialSystemMessage?: ChatMessage;
-  InitialTemplatedSystemMessage?: TemplatedMessageConfig;
-  RelatedContactId?: string;
-  SupportedMessagingContentTypes?: string[];
-  ClientToken?: string;
+  ChatDurationInMinutes?: number | undefined;
+  ParticipantDetails?: ParticipantDetails | undefined;
+  InitialSystemMessage?: ChatMessage | undefined;
+  InitialTemplatedSystemMessage?: TemplatedMessageConfig | undefined;
+  RelatedContactId?: string | undefined;
+  SupportedMessagingContentTypes?: string[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface StartOutboundChatContactResponse {
-  ContactId?: string;
+  ContactId?: string | undefined;
 }
 export interface StartOutboundEmailContactRequest {
   InstanceId: string;
   ContactId: string;
-  FromEmailAddress?: EmailAddressInfo;
+  FromEmailAddress?: EmailAddressInfo | undefined;
   DestinationEmailAddress: EmailAddressInfo;
-  AdditionalRecipients?: OutboundAdditionalRecipients;
+  AdditionalRecipients?: OutboundAdditionalRecipients | undefined;
   EmailMessage: OutboundEmailContent;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface StartOutboundEmailContactResponse {
-  ContactId?: string;
+  ContactId?: string | undefined;
 }
 export interface AnswerMachineDetectionConfig {
-  EnableAnswerMachineDetection?: boolean;
-  AwaitAnswerMachinePrompt?: boolean;
+  EnableAnswerMachineDetection?: boolean | undefined;
+  AwaitAnswerMachinePrompt?: boolean | undefined;
 }
 export type RingTimeoutInSeconds = number;
 export interface StartOutboundVoiceContactRequest {
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference | undefined };
-  RelatedContactId?: string;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  References?: { [key: string]: Reference | undefined } | undefined;
+  RelatedContactId?: string | undefined;
   DestinationPhoneNumber: string;
   ContactFlowId: string;
   InstanceId: string;
-  ClientToken?: string;
-  SourcePhoneNumber?: string;
-  QueueId?: string;
-  Attributes?: { [key: string]: string | undefined };
-  AnswerMachineDetectionConfig?: AnswerMachineDetectionConfig;
-  CampaignId?: string;
-  TrafficType?: TrafficType;
-  OutboundStrategy?: OutboundStrategy;
-  RingTimeoutInSeconds?: number;
+  ClientToken?: string | undefined;
+  SourcePhoneNumber?: string | undefined;
+  QueueId?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  AnswerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
+  CampaignId?: string | undefined;
+  TrafficType?: TrafficType | undefined;
+  OutboundStrategy?: OutboundStrategy | undefined;
+  RingTimeoutInSeconds?: number | undefined;
 }
 export interface StartOutboundVoiceContactResponse {
-  ContactId?: string;
+  ContactId?: string | undefined;
 }
 export interface StartScreenSharingRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   InstanceId: string;
   ContactId: string;
 }
@@ -8770,107 +8776,107 @@ export interface TaskAttachment {
 export type TaskAttachments = TaskAttachment[];
 export interface StartTaskContactRequest {
   InstanceId: string;
-  PreviousContactId?: string;
-  ContactFlowId?: string;
-  Attributes?: { [key: string]: string | undefined };
+  PreviousContactId?: string | undefined;
+  ContactFlowId?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
   Name: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference | undefined };
-  Description?: string | redacted.Redacted<string>;
-  ClientToken?: string;
-  ScheduledTime?: Date;
-  TaskTemplateId?: string;
-  QuickConnectId?: string;
-  RelatedContactId?: string;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
-  Attachments?: TaskAttachment[];
+  References?: { [key: string]: Reference | undefined } | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ClientToken?: string | undefined;
+  ScheduledTime?: Date | undefined;
+  TaskTemplateId?: string | undefined;
+  QuickConnectId?: string | undefined;
+  RelatedContactId?: string | undefined;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
+  Attachments?: TaskAttachment[] | undefined;
 }
 export interface StartTaskContactResponse {
-  ContactId?: string;
+  ContactId?: string | undefined;
 }
 export interface StartTestCaseExecutionRequest {
   InstanceId: string;
   TestCaseId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface StartTestCaseExecutionResponse {
-  TestCaseExecutionId?: string;
-  TestCaseId?: string;
-  Status?: TestCaseExecutionStatus;
+  TestCaseExecutionId?: string | undefined;
+  TestCaseId?: string | undefined;
+  Status?: TestCaseExecutionStatus | undefined;
 }
 export interface AllowedCapabilities {
-  Customer?: ParticipantCapabilities;
-  Agent?: ParticipantCapabilities;
+  Customer?: ParticipantCapabilities | undefined;
+  Agent?: ParticipantCapabilities | undefined;
 }
 export interface StartWebRTCContactRequest {
-  Attributes?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
   ContactFlowId: string;
   InstanceId: string;
-  AllowedCapabilities?: AllowedCapabilities;
+  AllowedCapabilities?: AllowedCapabilities | undefined;
   ParticipantDetails: ParticipantDetails;
-  RelatedContactId?: string;
-  References?: { [key: string]: Reference | undefined };
-  Description?: string | redacted.Redacted<string>;
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
+  RelatedContactId?: string | undefined;
+  References?: { [key: string]: Reference | undefined } | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
 }
 export type AttendeeId = string;
 export type JoinToken = string | redacted.Redacted<string>;
 export interface Attendee {
-  AttendeeId?: string;
-  JoinToken?: string | redacted.Redacted<string>;
+  AttendeeId?: string | undefined;
+  JoinToken?: string | redacted.Redacted<string> | undefined;
 }
 export type MediaRegion = string;
 export interface MediaPlacement {
-  AudioHostUrl?: string;
-  AudioFallbackUrl?: string;
-  SignalingUrl?: string;
-  TurnControlUrl?: string;
-  EventIngestionUrl?: string;
+  AudioHostUrl?: string | undefined;
+  AudioFallbackUrl?: string | undefined;
+  SignalingUrl?: string | undefined;
+  TurnControlUrl?: string | undefined;
+  EventIngestionUrl?: string | undefined;
 }
 export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export interface AudioFeatures {
-  EchoReduction?: MeetingFeatureStatus;
+  EchoReduction?: MeetingFeatureStatus | undefined;
 }
 export interface MeetingFeaturesConfiguration {
-  Audio?: AudioFeatures;
+  Audio?: AudioFeatures | undefined;
 }
 export type MeetingId = string;
 export interface Meeting {
-  MediaRegion?: string;
-  MediaPlacement?: MediaPlacement;
-  MeetingFeatures?: MeetingFeaturesConfiguration;
-  MeetingId?: string;
+  MediaRegion?: string | undefined;
+  MediaPlacement?: MediaPlacement | undefined;
+  MeetingFeatures?: MeetingFeaturesConfiguration | undefined;
+  MeetingId?: string | undefined;
 }
 export interface ConnectionData {
-  Attendee?: Attendee;
-  Meeting?: Meeting;
+  Attendee?: Attendee | undefined;
+  Meeting?: Meeting | undefined;
 }
 export interface StartWebRTCContactResponse {
-  ConnectionData?: ConnectionData;
-  ContactId?: string;
-  ParticipantId?: string;
-  ParticipantToken?: string;
+  ConnectionData?: ConnectionData | undefined;
+  ContactId?: string | undefined;
+  ParticipantId?: string | undefined;
+  ParticipantToken?: string | undefined;
 }
 export type DisconnectReasonCode = string;
 export interface DisconnectReason {
-  Code?: string;
+  Code?: string | undefined;
 }
 export interface StopContactRequest {
   ContactId: string;
   InstanceId: string;
-  DisconnectReason?: DisconnectReason;
+  DisconnectReason?: DisconnectReason | undefined;
 }
 export interface StopContactResponse {}
 export interface StopContactMediaProcessingRequest {
-  InstanceId?: string;
-  ContactId?: string;
+  InstanceId?: string | undefined;
+  ContactId?: string | undefined;
 }
 export interface StopContactMediaProcessingResponse {}
 export interface StopContactRecordingRequest {
   InstanceId: string;
   ContactId: string;
   InitialContactId: string;
-  ContactRecordingType?: ContactRecordingType;
+  ContactRecordingType?: ContactRecordingType | undefined;
 }
 export interface StopContactRecordingResponse {}
 export interface StopContactStreamingRequest {
@@ -8883,20 +8889,20 @@ export interface StopTestCaseExecutionRequest {
   InstanceId: string;
   TestCaseExecutionId: string;
   TestCaseId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface StopTestCaseExecutionResponse {}
 export interface EvaluationAnswerInput {
-  Value?: EvaluationAnswerData;
+  Value?: EvaluationAnswerData | undefined;
 }
 export type EvaluationAnswersInputMap = { [key: string]: EvaluationAnswerInput | undefined };
 export type EvaluatorUserUnion = { ConnectUserArn: string };
 export interface SubmitContactEvaluationRequest {
   InstanceId: string;
   EvaluationId: string;
-  Answers?: { [key: string]: EvaluationAnswerInput | undefined };
-  Notes?: { [key: string]: EvaluationNote | undefined };
-  SubmittedBy?: EvaluatorUserUnion;
+  Answers?: { [key: string]: EvaluationAnswerInput | undefined } | undefined;
+  Notes?: { [key: string]: EvaluationNote | undefined } | undefined;
+  SubmittedBy?: EvaluatorUserUnion | undefined;
 }
 export interface SubmitContactEvaluationResponse {
   EvaluationId: string;
@@ -8906,7 +8912,7 @@ export interface SuspendContactRecordingRequest {
   InstanceId: string;
   ContactId: string;
   InitialContactId: string;
-  ContactRecordingType?: ContactRecordingType;
+  ContactRecordingType?: ContactRecordingType | undefined;
 }
 export interface SuspendContactRecordingResponse {}
 export interface TagContactRequest {
@@ -8923,14 +8929,14 @@ export interface TagResourceResponse {}
 export interface TransferContactRequest {
   InstanceId: string;
   ContactId: string;
-  QueueId?: string;
-  UserId?: string;
+  QueueId?: string | undefined;
+  UserId?: string | undefined;
   ContactFlowId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface TransferContactResponse {
-  ContactId?: string;
-  ContactArn?: string;
+  ContactId?: string | undefined;
+  ContactArn?: string | undefined;
 }
 export type ContactTagKeys = string[];
 export interface UntagContactRequest {
@@ -8949,57 +8955,57 @@ export type UpdateAgentStatusDescription = string;
 export interface UpdateAgentStatusRequest {
   InstanceId: string;
   AgentStatusId: string;
-  Name?: string;
-  Description?: string;
-  State?: AgentStatusState;
-  DisplayOrder?: number;
-  ResetOrderNumber?: boolean;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  State?: AgentStatusState | undefined;
+  DisplayOrder?: number | undefined;
+  ResetOrderNumber?: boolean | undefined;
 }
 export interface UpdateAgentStatusResponse {}
 export interface UpdateAttachedFilesConfigurationRequest {
   InstanceId: string;
   AttachmentScope: AttachmentScope;
-  MaximumSizeLimitInBytes?: number;
-  ExtensionConfiguration?: ExtensionConfiguration;
+  MaximumSizeLimitInBytes?: number | undefined;
+  ExtensionConfiguration?: ExtensionConfiguration | undefined;
 }
 export interface UpdateAttachedFilesConfigurationResponse {
   InstanceId: string;
   AttachmentScope: AttachmentScope;
-  MaximumSizeLimitInBytes?: number;
-  ExtensionConfiguration?: ExtensionConfiguration;
-  LastModifiedTime?: Date;
+  MaximumSizeLimitInBytes?: number | undefined;
+  ExtensionConfiguration?: ExtensionConfiguration | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface UpdateAuthenticationProfileRequest {
   AuthenticationProfileId: string;
   InstanceId: string;
-  Name?: string;
-  Description?: string;
-  AllowedIps?: string[];
-  BlockedIps?: string[];
-  PeriodicSessionDuration?: number;
-  SessionInactivityDuration?: number;
-  SessionInactivityHandlingEnabled?: boolean;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  AllowedIps?: string[] | undefined;
+  BlockedIps?: string[] | undefined;
+  PeriodicSessionDuration?: number | undefined;
+  SessionInactivityDuration?: number | undefined;
+  SessionInactivityHandlingEnabled?: boolean | undefined;
 }
 export interface UpdateAuthenticationProfileResponse {}
 export interface QueueInfoInput {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type OptionalEmailAddressRecipientList = EmailAddressInfo[];
 export interface NullableAdditionalRecipients {
-  CcEmailAddresses?: EmailAddressInfo[];
+  CcEmailAddresses?: EmailAddressInfo[] | undefined;
 }
 export interface UpdateContactRequest {
   InstanceId: string;
   ContactId: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  References?: { [key: string]: Reference | undefined };
-  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined };
-  QueueInfo?: QueueInfoInput;
-  UserInfo?: UserInfo;
-  CustomerEndpoint?: Endpoint;
-  SystemEndpoint?: Endpoint;
-  AdditionalRecipients?: NullableAdditionalRecipients;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  References?: { [key: string]: Reference | undefined } | undefined;
+  SegmentAttributes?: { [key: string]: SegmentAttributeValue | undefined } | undefined;
+  QueueInfo?: QueueInfoInput | undefined;
+  UserInfo?: UserInfo | undefined;
+  CustomerEndpoint?: Endpoint | undefined;
+  SystemEndpoint?: Endpoint | undefined;
+  AdditionalRecipients?: NullableAdditionalRecipients | undefined;
 }
 export interface UpdateContactResponse {}
 export interface UpdateContactAttributesRequest {
@@ -9011,9 +9017,9 @@ export interface UpdateContactAttributesResponse {}
 export interface UpdateContactEvaluationRequest {
   InstanceId: string;
   EvaluationId: string;
-  Answers?: { [key: string]: EvaluationAnswerInput | undefined };
-  Notes?: { [key: string]: EvaluationNote | undefined };
-  UpdatedBy?: EvaluatorUserUnion;
+  Answers?: { [key: string]: EvaluationAnswerInput | undefined } | undefined;
+  Notes?: { [key: string]: EvaluationNote | undefined } | undefined;
+  UpdatedBy?: EvaluatorUserUnion | undefined;
 }
 export interface UpdateContactEvaluationResponse {
   EvaluationId: string;
@@ -9023,9 +9029,9 @@ export interface UpdateContactFlowAliasRequest {
   InstanceId: string;
   ContactFlowId: string;
   AliasId: string;
-  Name?: string;
-  Description?: string;
-  ContactFlowVersion?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ContactFlowVersion?: number | undefined;
 }
 export interface UpdateContactFlowAliasResponse {}
 export interface UpdateContactFlowContentRequest {
@@ -9037,59 +9043,59 @@ export interface UpdateContactFlowContentResponse {}
 export interface UpdateContactFlowMetadataRequest {
   InstanceId: string;
   ContactFlowId: string;
-  Name?: string;
-  Description?: string;
-  ContactFlowState?: ContactFlowState;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ContactFlowState?: ContactFlowState | undefined;
 }
 export interface UpdateContactFlowMetadataResponse {}
 export interface UpdateContactFlowModuleAliasRequest {
   InstanceId: string;
   ContactFlowModuleId: string;
   AliasId: string;
-  Name?: string;
-  Description?: string;
-  ContactFlowModuleVersion?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ContactFlowModuleVersion?: number | undefined;
 }
 export interface UpdateContactFlowModuleAliasResponse {}
 export interface UpdateContactFlowModuleContentRequest {
   InstanceId: string;
   ContactFlowModuleId: string;
-  Content?: string;
-  Settings?: string;
+  Content?: string | undefined;
+  Settings?: string | undefined;
 }
 export interface UpdateContactFlowModuleContentResponse {}
 export interface UpdateContactFlowModuleMetadataRequest {
   InstanceId: string;
   ContactFlowModuleId: string;
-  Name?: string;
-  Description?: string;
-  State?: ContactFlowModuleState;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  State?: ContactFlowModuleState | undefined;
 }
 export interface UpdateContactFlowModuleMetadataResponse {}
 export interface UpdateContactFlowNameRequest {
   InstanceId: string;
   ContactFlowId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateContactFlowNameResponse {}
 export interface RoutingCriteriaInputStepExpiry {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export interface RoutingCriteriaInputStep {
-  Expiry?: RoutingCriteriaInputStepExpiry;
-  Expression?: Expression;
+  Expiry?: RoutingCriteriaInputStepExpiry | undefined;
+  Expression?: Expression | undefined;
 }
 export type RoutingCriteriaInputSteps = RoutingCriteriaInputStep[];
 export interface RoutingCriteriaInput {
-  Steps?: RoutingCriteriaInputStep[];
+  Steps?: RoutingCriteriaInputStep[] | undefined;
 }
 export interface UpdateContactRoutingDataRequest {
   InstanceId: string;
   ContactId: string;
-  QueueTimeAdjustmentSeconds?: number;
-  QueuePriority?: number;
-  RoutingCriteria?: RoutingCriteriaInput;
+  QueueTimeAdjustmentSeconds?: number | undefined;
+  QueuePriority?: number | undefined;
+  RoutingCriteria?: RoutingCriteriaInput | undefined;
 }
 export interface UpdateContactRoutingDataResponse {}
 export interface UpdateContactScheduleRequest {
@@ -9115,9 +9121,9 @@ export interface UpdateDataTableAttributeRequest {
   AttributeName: string;
   Name: string;
   ValueType: DataTableAttributeValueType;
-  Description?: string;
-  Primary?: boolean;
-  Validation?: Validation;
+  Description?: string | undefined;
+  Primary?: boolean | undefined;
+  Validation?: Validation | undefined;
 }
 export interface UpdateDataTableAttributeResponse {
   Name: string;
@@ -9127,7 +9133,7 @@ export interface UpdateDataTableMetadataRequest {
   InstanceId: string;
   DataTableId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ValueLockLevel: DataTableLockLevel;
   TimeZone: string;
 }
@@ -9147,30 +9153,30 @@ export interface UpdateDataTablePrimaryValuesResponse {
 export interface UpdateEmailAddressMetadataRequest {
   InstanceId: string;
   EmailAddressId: string;
-  Description?: string | redacted.Redacted<string>;
-  DisplayName?: string | redacted.Redacted<string>;
-  ClientToken?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateEmailAddressMetadataResponse {
-  EmailAddressId?: string;
-  EmailAddressArn?: string;
+  EmailAddressId?: string | undefined;
+  EmailAddressArn?: string | undefined;
 }
 export interface UpdateEvaluationFormRequest {
   InstanceId: string;
   EvaluationFormId: string;
   EvaluationFormVersion: number;
-  CreateNewVersion?: boolean;
+  CreateNewVersion?: boolean | undefined;
   Title: string;
-  Description?: string;
+  Description?: string | undefined;
   Items: EvaluationFormItem[];
-  ScoringStrategy?: EvaluationFormScoringStrategy;
-  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration;
-  ReviewConfiguration?: EvaluationReviewConfiguration;
-  AsDraft?: boolean;
-  ClientToken?: string;
-  TargetConfiguration?: EvaluationFormTargetConfiguration;
-  LanguageConfiguration?: EvaluationFormLanguageConfiguration;
-  AIVersion?: string;
+  ScoringStrategy?: EvaluationFormScoringStrategy | undefined;
+  AutoEvaluationConfiguration?: EvaluationFormAutoEvaluationConfiguration | undefined;
+  ReviewConfiguration?: EvaluationReviewConfiguration | undefined;
+  AsDraft?: boolean | undefined;
+  ClientToken?: string | undefined;
+  TargetConfiguration?: EvaluationFormTargetConfiguration | undefined;
+  LanguageConfiguration?: EvaluationFormLanguageConfiguration | undefined;
+  AIVersion?: string | undefined;
 }
 export interface UpdateEvaluationFormResponse {
   EvaluationFormId: string;
@@ -9178,42 +9184,42 @@ export interface UpdateEvaluationFormResponse {
   EvaluationFormVersion: number;
 }
 export interface UpdateExtractionDefinitionRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ExtractionDefinitionId: string;
   InstanceId: string;
   Name: string;
   ExtractionConfiguration: ExtractionConfiguration;
-  Display?: ExtractionDefinitionDisplay;
+  Display?: ExtractionDefinitionDisplay | undefined;
 }
 export interface UpdateExtractionDefinitionResponse {}
 export type UpdateHoursOfOperationDescription = string;
 export interface UpdateHoursOfOperationRequest {
   InstanceId: string;
   HoursOfOperationId: string;
-  Name?: string;
-  Description?: string;
-  TimeZone?: string;
-  Config?: HoursOfOperationConfig[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  TimeZone?: string | undefined;
+  Config?: HoursOfOperationConfig[] | undefined;
 }
 export interface UpdateHoursOfOperationResponse {}
 export interface UpdateHoursOfOperationOverrideRequest {
   InstanceId: string;
   HoursOfOperationId: string;
   HoursOfOperationOverrideId: string;
-  Name?: string;
-  Description?: string;
-  Config?: HoursOfOperationOverrideConfig[];
-  EffectiveFrom?: string;
-  EffectiveTill?: string;
-  RecurrenceConfig?: RecurrenceConfig;
-  OverrideType?: OverrideType;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Config?: HoursOfOperationOverrideConfig[] | undefined;
+  EffectiveFrom?: string | undefined;
+  EffectiveTill?: string | undefined;
+  RecurrenceConfig?: RecurrenceConfig | undefined;
+  OverrideType?: OverrideType | undefined;
 }
 export interface UpdateHoursOfOperationOverrideResponse {}
 export interface UpdateInstanceAttributeRequest {
   InstanceId: string;
   AttributeType: InstanceAttributeType;
   Value: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateInstanceAttributeResponse {}
 export interface UpdateInstanceStorageConfigRequest {
@@ -9221,22 +9227,22 @@ export interface UpdateInstanceStorageConfigRequest {
   AssociationId: string;
   ResourceType: InstanceStorageResourceType;
   StorageConfig: InstanceStorageConfig;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateInstanceStorageConfigResponse {}
 export interface UpdateMetricContentRequest {
   InstanceId: string;
   MetricId: string;
-  MetricCalculation?: MetricCalculation;
-  Unit?: MetricUnit;
-  PositiveTrendIndicator?: TrendIndicator;
+  MetricCalculation?: MetricCalculation | undefined;
+  Unit?: MetricUnit | undefined;
+  PositiveTrendIndicator?: TrendIndicator | undefined;
 }
 export interface UpdateMetricContentResponse {}
 export interface UpdateMetricMetadataRequest {
   InstanceId: string;
   MetricId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateMetricMetadataResponse {}
 export interface UpdateNotificationContentRequest {
@@ -9268,9 +9274,9 @@ export type AuthenticationErrorDescription = string | redacted.Redacted<string>;
 export interface UpdateParticipantAuthenticationRequest {
   State: string;
   InstanceId: string;
-  Code?: string | redacted.Redacted<string>;
-  Error?: string | redacted.Redacted<string>;
-  ErrorDescription?: string | redacted.Redacted<string>;
+  Code?: string | redacted.Redacted<string> | undefined;
+  Error?: string | redacted.Redacted<string> | undefined;
+  ErrorDescription?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateParticipantAuthenticationResponse {}
 export type TimerEligibleParticipantRoles = "CUSTOMER" | "AGENT" | (string & {});
@@ -9278,8 +9284,11 @@ export type ParticipantTimerType = "IDLE" | "DISCONNECT_NONCUSTOMER" | (string &
 export type ParticipantTimerAction = "Unset" | (string & {});
 export type ParticipantTimerDurationInMinutes = number;
 export type ParticipantTimerValue =
-  | { ParticipantTimerAction: ParticipantTimerAction; ParticipantTimerDurationInMinutes?: never }
-  | { ParticipantTimerAction?: never; ParticipantTimerDurationInMinutes: number };
+  | {
+      ParticipantTimerAction: ParticipantTimerAction;
+      ParticipantTimerDurationInMinutes?: undefined;
+    }
+  | { ParticipantTimerAction?: undefined; ParticipantTimerDurationInMinutes: number };
 export interface ParticipantTimerConfiguration {
   ParticipantRole: TimerEligibleParticipantRoles;
   TimerType: ParticipantTimerType;
@@ -9298,38 +9307,38 @@ export interface UpdateParticipantRoleConfigRequest {
 export interface UpdateParticipantRoleConfigResponse {}
 export interface UpdatePhoneNumberRequest {
   PhoneNumberId: string;
-  TargetArn?: string;
-  InstanceId?: string;
-  ClientToken?: string;
+  TargetArn?: string | undefined;
+  InstanceId?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdatePhoneNumberResponse {
-  PhoneNumberId?: string;
-  PhoneNumberArn?: string;
+  PhoneNumberId?: string | undefined;
+  PhoneNumberArn?: string | undefined;
 }
 export interface UpdatePhoneNumberMetadataRequest {
   PhoneNumberId: string;
-  PhoneNumberDescription?: string;
-  ClientToken?: string;
+  PhoneNumberDescription?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdatePhoneNumberMetadataResponse {}
 export interface UpdatePredefinedAttributeRequest {
   InstanceId: string;
   Name: string;
-  Values?: PredefinedAttributeValues;
-  Purposes?: string[];
-  AttributeConfiguration?: InputPredefinedAttributeConfiguration;
+  Values?: PredefinedAttributeValues | undefined;
+  Purposes?: string[] | undefined;
+  AttributeConfiguration?: InputPredefinedAttributeConfiguration | undefined;
 }
 export interface UpdatePredefinedAttributeResponse {}
 export interface UpdatePromptRequest {
   InstanceId: string;
   PromptId: string;
-  Name?: string;
-  Description?: string;
-  S3Uri?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  S3Uri?: string | undefined;
 }
 export interface UpdatePromptResponse {
-  PromptARN?: string;
-  PromptId?: string;
+  PromptARN?: string | undefined;
+  PromptId?: string | undefined;
 }
 export interface UpdateQueueHoursOfOperationRequest {
   InstanceId: string;
@@ -9340,14 +9349,14 @@ export interface UpdateQueueHoursOfOperationResponse {}
 export interface UpdateQueueMaxContactsRequest {
   InstanceId: string;
   QueueId: string;
-  MaxContacts?: number;
+  MaxContacts?: number | undefined;
 }
 export interface UpdateQueueMaxContactsResponse {}
 export interface UpdateQueueNameRequest {
   InstanceId: string;
   QueueId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateQueueNameResponse {}
 export interface UpdateQueueOutboundCallerConfigRequest {
@@ -9378,8 +9387,8 @@ export type UpdateQuickConnectDescription = string;
 export interface UpdateQuickConnectNameRequest {
   InstanceId: string;
   QuickConnectId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateQuickConnectNameResponse {}
 export interface UpdateRoutingProfileAgentAvailabilityTimerRequest {
@@ -9403,8 +9412,8 @@ export interface UpdateRoutingProfileDefaultOutboundQueueResponse {}
 export interface UpdateRoutingProfileNameRequest {
   InstanceId: string;
   RoutingProfileId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateRoutingProfileNameResponse {}
 export interface UpdateRoutingProfileQueuesRequest {
@@ -9420,85 +9429,85 @@ export interface UpdateRuleRequest {
   Function: string;
   Actions: RuleAction[];
   PublishStatus: RulePublishStatus;
-  PreEvaluationFilters?: PreEvaluationFilters;
+  PreEvaluationFilters?: PreEvaluationFilters | undefined;
 }
 export interface UpdateRuleResponse {}
 export interface UpdateSecurityProfileRequest {
-  Description?: string;
-  Permissions?: string[];
+  Description?: string | undefined;
+  Permissions?: string[] | undefined;
   SecurityProfileId: string;
   InstanceId: string;
-  AllowedAccessControlTags?: { [key: string]: string | undefined };
-  TagRestrictedResources?: string[];
-  Applications?: Application[];
-  HierarchyRestrictedResources?: string[];
-  AllowedAccessControlHierarchyGroupId?: string;
-  AllowedFlowModules?: FlowModule[];
-  AllowedAIAgents?: AIAgent[];
-  GranularAccessControlConfiguration?: GranularAccessControlConfiguration;
+  AllowedAccessControlTags?: { [key: string]: string | undefined } | undefined;
+  TagRestrictedResources?: string[] | undefined;
+  Applications?: Application[] | undefined;
+  HierarchyRestrictedResources?: string[] | undefined;
+  AllowedAccessControlHierarchyGroupId?: string | undefined;
+  AllowedFlowModules?: FlowModule[] | undefined;
+  AllowedAIAgents?: AIAgent[] | undefined;
+  GranularAccessControlConfiguration?: GranularAccessControlConfiguration | undefined;
 }
 export interface UpdateSecurityProfileResponse {}
 export interface UpdateTaskTemplateRequest {
   TaskTemplateId: string;
   InstanceId: string;
-  Name?: string;
-  Description?: string;
-  ContactFlowId?: string;
-  SelfAssignFlowId?: string;
-  ContactHooks?: TaskTemplateContactHooks;
-  Constraints?: TaskTemplateConstraints;
-  Defaults?: TaskTemplateDefaults;
-  Status?: TaskTemplateStatus;
-  Fields?: TaskTemplateField[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ContactFlowId?: string | undefined;
+  SelfAssignFlowId?: string | undefined;
+  ContactHooks?: TaskTemplateContactHooks | undefined;
+  Constraints?: TaskTemplateConstraints | undefined;
+  Defaults?: TaskTemplateDefaults | undefined;
+  Status?: TaskTemplateStatus | undefined;
+  Fields?: TaskTemplateField[] | undefined;
 }
 export interface UpdateTaskTemplateResponse {
-  InstanceId?: string;
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  ContactFlowId?: string;
-  SelfAssignFlowId?: string;
-  ContactHooks?: TaskTemplateContactHooks;
-  Constraints?: TaskTemplateConstraints;
-  Defaults?: TaskTemplateDefaults;
-  Fields?: TaskTemplateField[];
-  Status?: TaskTemplateStatus;
-  LastModifiedTime?: Date;
-  CreatedTime?: Date;
+  InstanceId?: string | undefined;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ContactFlowId?: string | undefined;
+  SelfAssignFlowId?: string | undefined;
+  ContactHooks?: TaskTemplateContactHooks | undefined;
+  Constraints?: TaskTemplateConstraints | undefined;
+  Defaults?: TaskTemplateDefaults | undefined;
+  Fields?: TaskTemplateField[] | undefined;
+  Status?: TaskTemplateStatus | undefined;
+  LastModifiedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface UpdateTestCaseRequest {
   InstanceId: string;
   TestCaseId: string;
-  Content?: string;
-  EntryPoint?: TestCaseEntryPoint;
-  InitializationData?: string;
-  Name?: string;
-  Description?: string;
-  Status?: TestCaseStatus;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  Content?: string | undefined;
+  EntryPoint?: TestCaseEntryPoint | undefined;
+  InitializationData?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: TestCaseStatus | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface UpdateTestCaseResponse {}
 export interface UpdateTrafficDistributionRequest {
   Id: string;
-  TelephonyConfig?: TelephonyConfig;
-  SignInConfig?: SignInConfig;
-  AgentConfig?: AgentConfig;
+  TelephonyConfig?: TelephonyConfig | undefined;
+  SignInConfig?: SignInConfig | undefined;
+  AgentConfig?: AgentConfig | undefined;
 }
 export interface UpdateTrafficDistributionResponse {}
 export interface UpdateUserConfigRequest {
-  AutoAcceptConfigs?: AutoAcceptConfig[];
-  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[];
-  PhoneNumberConfigs?: PhoneNumberConfig[];
-  PersistentConnectionConfigs?: PersistentConnectionConfig[];
-  VoiceEnhancementConfigs?: VoiceEnhancementConfig[];
+  AutoAcceptConfigs?: AutoAcceptConfig[] | undefined;
+  AfterContactWorkConfigs?: AfterContactWorkConfigPerChannel[] | undefined;
+  PhoneNumberConfigs?: PhoneNumberConfig[] | undefined;
+  PersistentConnectionConfigs?: PersistentConnectionConfig[] | undefined;
+  VoiceEnhancementConfigs?: VoiceEnhancementConfig[] | undefined;
   UserId: string;
   InstanceId: string;
 }
 export interface UpdateUserConfigResponse {}
 export interface UpdateUserHierarchyRequest {
-  HierarchyGroupId?: string;
+  HierarchyGroupId?: string | undefined;
   UserId: string;
   InstanceId: string;
 }
@@ -9513,11 +9522,11 @@ export interface HierarchyLevelUpdate {
   Name: string;
 }
 export interface HierarchyStructureUpdate {
-  LevelOne?: HierarchyLevelUpdate;
-  LevelTwo?: HierarchyLevelUpdate;
-  LevelThree?: HierarchyLevelUpdate;
-  LevelFour?: HierarchyLevelUpdate;
-  LevelFive?: HierarchyLevelUpdate;
+  LevelOne?: HierarchyLevelUpdate | undefined;
+  LevelTwo?: HierarchyLevelUpdate | undefined;
+  LevelThree?: HierarchyLevelUpdate | undefined;
+  LevelFour?: HierarchyLevelUpdate | undefined;
+  LevelFive?: HierarchyLevelUpdate | undefined;
 }
 export interface UpdateUserHierarchyStructureRequest {
   HierarchyStructure: HierarchyStructureUpdate;
@@ -9535,8 +9544,8 @@ export interface UpdateUserNotificationStatusRequest {
   NotificationId: string;
   UserId: string;
   Status: NotificationStatus;
-  LastModifiedTime?: Date;
-  LastModifiedRegion?: string;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export interface UpdateUserNotificationStatusResponse {}
 export interface UpdateUserPhoneConfigRequest {
@@ -9570,37 +9579,37 @@ export interface UpdateViewContentRequest {
   Content: ViewInputContent;
 }
 export interface UpdateViewContentResponse {
-  View?: View;
+  View?: View | undefined;
 }
 export interface UpdateViewMetadataRequest {
   InstanceId: string;
   ViewId: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateViewMetadataResponse {}
 export interface UpdateWorkspaceMetadataRequest {
   InstanceId: string;
   WorkspaceId: string;
-  Name?: string;
-  Description?: string;
-  Title?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Title?: string | undefined;
 }
 export interface UpdateWorkspaceMetadataResponse {}
 export interface UpdateWorkspacePageRequest {
   InstanceId: string;
   WorkspaceId: string;
   Page: string;
-  NewPage?: string;
-  ResourceArn?: string;
-  Slug?: string;
-  InputData?: string;
+  NewPage?: string | undefined;
+  ResourceArn?: string | undefined;
+  Slug?: string | undefined;
+  InputData?: string | undefined;
 }
 export interface UpdateWorkspacePageResponse {}
 export interface UpdateWorkspaceThemeRequest {
   InstanceId: string;
   WorkspaceId: string;
-  Theme?: WorkspaceTheme;
+  Theme?: WorkspaceTheme | undefined;
 }
 export interface UpdateWorkspaceThemeResponse {}
 export interface UpdateWorkspaceVisibilityRequest {
@@ -9627,7 +9636,7 @@ export type ServiceQuotaExceededExceptionReason = {
 };
 export type ProblemMessageString = string;
 export interface ProblemDetail {
-  message?: string;
+  message?: string | undefined;
 }
 export type Problems = ProblemDetail[];
 export type PropertyValidationExceptionReason =

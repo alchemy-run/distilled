@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -97,55 +97,55 @@ export type StringMap = { [key: string]: string | undefined };
 /** Individual files. */
 export interface File {
   /** Required. The file name including folder path, if applicable. The path should be relative to a local workspace (e.g. dataconnect/(schema|connector)/*.gql) and not an absolute path (e.g. /absolute/path/(schema|connector)/*.gql). */
-  path?: string;
+  path?: string | undefined;
   /** Required. The file's textual content. */
-  content?: string;
+  content?: string | undefined;
 }
 export type FileList = Array<File>;
 /** Used to represent a set of source files. */
 export interface Source {
   /** Required. The files that comprise the source set. */
-  files?: FileList;
+  files?: FileList | undefined;
 }
 /** Client caching settings of a connector. */
 export interface ClientCache {
   /** Optional. A field that, if true, means that responses served by this connector will include entityIds in GraphQL response extensions. This helps the client SDK cache responses in an improved way, known as "normalized caching", if caching is enabled on the client. Each entityId is a stable key based on primary key values. Therefore, this field should only be set to true if the primary keys of accessed tables do not contain sensitive information. */
-  entityIdIncluded?: boolean;
+  entityIdIncluded?: boolean | undefined;
   /** Optional. A field that, if true, enables stricter validation on the connector source code to make sure the operation response shapes are suitable for client-side caching. This can include additional errors and warnings. For example, using the same alias for different fields is disallowed, as it may cause conflicts or confusion with normalized caching. (This field is off by default for compatibility, but enabling it is highly recommended to catch common caching pitfalls.) */
-  strictValidationEnabled?: boolean;
+  strictValidationEnabled?: boolean | undefined;
 }
 /** Connector consists of a set of operations, i.e. queries and mutations. */
 export interface Connector {
   /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Optional. The client cache settings of the connector. */
-  clientCache?: ClientCache;
+  clientCache?: ClientCache | undefined;
   /** Identifier. The relative resource name of the connector, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. [Output only] Create time stamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. [Output only] Update time stamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. A field that if true, indicates that the system is working to compile and deploy the connector. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Required. The source files that comprise the connector. */
-  source?: Source;
+  source?: Source | undefined;
   /** Output only. System-assigned, unique identifier. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export type ConnectorList = Array<Connector>;
 /** Settings for HTTP GraphQL server webhook. */
 export interface HttpGraphql {
   /** Required. The endpoint of the HTTP GraphQL server. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. Timeout duration for the HTTP request. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 export type CloudSqlInstanceEditionEnum =
   | "EDITION_UNSPECIFIED"
@@ -155,9 +155,9 @@ export type CloudSqlInstanceEditionEnum =
 /** Settings for CloudSQL instance configuration. */
 export interface CloudSqlInstance {
   /** Output only. [Output only] The Cloud SQL instance edition. */
-  edition?: CloudSqlInstanceEditionEnum | (string & {});
+  edition?: CloudSqlInstanceEditionEnum | (string & {}) | undefined;
   /** Required. Name of the CloudSQL instance, in the format: ``` projects/{project}/locations/{location}/instances/{instance} ``` */
-  instance?: string;
+  instance?: string | undefined;
 }
 export type PostgreSqlSchemaValidationEnum =
   | "SQL_SCHEMA_VALIDATION_UNSPECIFIED"
@@ -170,144 +170,144 @@ export type PostgreSqlSchemaMigrationEnum =
 /** Settings for PostgreSQL data source. */
 export interface PostgreSql {
   /** Required. Name of the PostgreSQL database. */
-  database?: string;
+  database?: string | undefined;
   /** Cloud SQL configurations. */
-  cloudSql?: CloudSqlInstance;
+  cloudSql?: CloudSqlInstance | undefined;
   /** Optional. Configure how much PostgreSQL schema validation to perform against the live database before deploying the FDC schema. */
-  schemaValidation?: PostgreSqlSchemaValidationEnum | (string & {});
+  schemaValidation?: PostgreSqlSchemaValidationEnum | (string & {}) | undefined;
   /** Optional. Configure how to perform automatic PostgreSQL schema migration before deploying the FDC schema. This is an additive-only operation. */
-  schemaMigration?: PostgreSqlSchemaMigrationEnum | (string & {});
+  schemaMigration?: PostgreSqlSchemaMigrationEnum | (string & {}) | undefined;
   /** Optional. User-configured PostgreSQL schema. Defaults to "public" if not specified. */
-  schema?: string;
+  schema?: string | undefined;
   /** Output only. Ephemeral is true if this SQL Connect service is served from temporary in-memory emulation of Postgres. While Cloud SQL is being provisioned, the SQL Connect service provides the ephemeral service to help developers get started. Once the Cloud SQL is provisioned, SQL Connect service will transfer its data on a best-effort basis to the Cloud SQL instance. WARNING: Ephemeral data sources will expire after 24 hour. The data will be lost if they aren't transferred to the Cloud SQL instance. WARNING: When `ephemeral=true`, mutations to the database are not guaranteed to be durably persisted, even if an OK status code is returned. All or parts of the data may be lost or reverted to earlier versions. */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** No Postgres data source is linked. If set, don't allow `database` and `schema_validation` to be configured. */
-  unlinked?: boolean;
+  unlinked?: boolean | undefined;
 }
 /** A data source that backs Firebase SQL Connect services. */
 export interface Datasource {
   /** HTTP GraphQL server webhook configurations. */
-  httpGraphql?: HttpGraphql;
+  httpGraphql?: HttpGraphql | undefined;
   /** PostgreSQL configurations. */
-  postgresql?: PostgreSql;
+  postgresql?: PostgreSql | undefined;
 }
 export type DatasourceList = Array<Datasource>;
 /** The application schema of a Firebase SQL Connect service. */
 export interface Firebasedataconnect_Schema {
   /** Output only. A field that if true, indicates that the system is working to compile and deploy the schema. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. [Output only] Create time stamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The relative resource name of the schema, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` Right now, the only supported schema is "main". */
-  name?: string;
+  name?: string | undefined;
   /** Required. The data sources linked in the schema. */
-  datasources?: DatasourceList;
+  datasources?: DatasourceList | undefined;
   /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The source files that comprise the application schema. */
-  source?: Source;
+  source?: Source | undefined;
   /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. [Output only] Update time stamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. System-assigned, unique identifier. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export type Firebasedataconnect_SchemaList = Array<Firebasedataconnect_Schema>;
 /** A Firebase SQL Connect service. */
 export interface Service {
   /** Optional. Stores small amounts of arbitrary data. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Optional. Mutable human-readable name. 63 character limit. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. [AIP-154](https://google.aip.dev/154) */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. [Output only] Create time stamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The relative resource name of the Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` Note that the service ID is specific to Firebase SQL Connect and does not correspond to any of the instance IDs of the underlying data source connections. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Input only. The GraphQL source files like `dataconnect.yaml` and `*.gql`. */
-  graphqlSource?: Source;
+  graphqlSource?: Source | undefined;
   /** Output only. A field that if true, indicates that the system is working update the service. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. The list of connectors in this service. Connectors returned in this collection are a summary view. Authoritative lifecycle metadata and entity tags are omitted from embedded representations. Call `GetConnector` to retrieve the complete resource. */
-  connectors?: ConnectorList;
+  connectors?: ConnectorList | undefined;
   /** Optional. Input only. Deprecated: Use `sql_source` or `graphql_source` instead. The source files for service, schemas, and connectors. */
-  source?: Source;
+  source?: Source | undefined;
   /** Optional. The list of schemas in this service. Schemas returned in this collection are a summary view. Authoritative lifecycle metadata and entity tags are omitted from embedded representations. Call `GetSchema` to retrieve the complete resource. */
-  schemas?: Firebasedataconnect_SchemaList;
+  schemas?: Firebasedataconnect_SchemaList | undefined;
   /** Output only. System-assigned, unique identifier. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. [Output only] Update time stamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Input only. The SQL source files like `*.sql` for deploying a PostgREST service. */
-  sqlSource?: Source;
+  sqlSource?: Source | undefined;
 }
 export interface CreateProjectsLocationsServicesRequest {
   /** Required. Value of parent. */
   parent: string;
   /** Required. The ID to use for the service, which will become the final component of the service's resource name. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** Optional. If set, validate the request and preview the Service, but do not actually create it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Service;
+  body?: Service | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsServicesConnectorsRequest {
   /** Required. The ID to use for the connector, which will become the final component of the connector's resource name. */
-  connectorId?: string;
+  connectorId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Optional. If set, validate the request and preview the Connector, but do not actually create it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: Connector;
+  body?: Connector | undefined;
 }
 export interface CreateProjectsLocationsServicesSchemasRequest {
   /** Required. The ID to use for the schema, which will become the final component of the schema's resource name. Currently, only `main` is supported and any other schema ID will result in an error. */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Optional. If set, validate the request and preview the Schema, but do not actually update it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: Firebasedataconnect_Schema;
+  body?: Firebasedataconnect_Schema | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -315,76 +315,76 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsServicesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the service to delete, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
   /** Optional. The etag of the Service. If this is provided, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set, validate the request and preview the Service, but do not actually delete it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set to true, any child resources (i.e. Schema, SchemaRevisions, Connectors, and ConnectorRevisions) will also be deleted. Otherwise, the request will only work if the Service has no child resources. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. If true and the Service is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsServicesConnectorsRequest {
   /** Optional. If set, validate the request and preview the Connector, but do not actually delete it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If true and the Connector is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to true, any child resources (i.e. ConnectorRevisions) will also be deleted. Otherwise, the request will only work if the Connector has no child resources. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. The name of the connector to delete, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
   /** Optional. The etag of the Connector. If this is provided, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsServicesSchemasRequest {
   /** Optional. The etag of the Schema. If this is provided, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set to true, any child resources (i.e. SchemaRevisions) will also be deleted. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If true and the Schema is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the Schema, but do not actually delete it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The name of the schema to delete, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` */
   name: string;
 }
 /** Impersonation configures the Firebase Auth context to impersonate. */
 export interface Impersonation {
   /** Optional. If set, include debug details in GraphQL error extensions. */
-  includeDebugDetails?: boolean;
+  includeDebugDetails?: boolean | undefined;
   /** Evaluate the auth policy with a customized JWT auth token. Should follow the Firebase Auth token format. https://firebase.google.com/docs/rules/rules-and-auth For example: a verified user may have auth_claims of {"sub": , "email_verified": true} */
-  authClaims?: DocumentMap;
+  authClaims?: DocumentMap | undefined;
   /** Evaluate the auth policy as an unauthenticated request. Can only be set to true. */
-  unauthenticated?: boolean;
+  unauthenticated?: boolean | undefined;
 }
 /** GraphqlRequestExtensions contains additional information of `GraphqlRequest`. */
 export interface GraphqlRequestExtensions {
   /** Optional. If set, impersonate a request with given Firebase Auth context and evaluate the auth policies on the operation. If omitted, bypass any defined auth policies. */
-  impersonate?: Impersonation;
+  impersonate?: Impersonation | undefined;
 }
 /** The GraphQL request to Firebase SQL Connect. It strives to match the GraphQL over HTTP spec. https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md#post */
 export interface GraphqlRequest {
   /** Optional. The name of the GraphQL operation name. Required only if `query` contains multiple operations. See https://graphql.org/learn/queries/#operation-name. */
-  operationName?: string;
+  operationName?: string | undefined;
   /** Optional. Values for GraphQL variables provided in this request. */
-  variables?: DocumentMap;
+  variables?: DocumentMap | undefined;
   /** Required. The GraphQL query document source. */
-  query?: string;
+  query?: string | undefined;
   /** Optional. Additional GraphQL request information. */
-  extensions?: GraphqlRequestExtensions;
+  extensions?: GraphqlRequestExtensions | undefined;
 }
 export interface ExecuteGraphqlProjectsLocationsServicesRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
   /** Request body */
-  body?: GraphqlRequest;
+  body?: GraphqlRequest | undefined;
 }
 export type GraphqlErrorExtensionsWarningLevelEnum =
   | "WARNING_LEVEL_UNKNOWN"
@@ -395,11 +395,11 @@ export type GraphqlErrorExtensionsWarningLevelEnum =
 /** Workaround provides suggestions to address errors and warnings. */
 export interface Workaround {
   /** Why would this workaround address the error and warning. */
-  reason?: string;
+  reason?: string | undefined;
   /** A suggested code snippet to fix the error and warning. */
-  replace?: string;
+  replace?: string | undefined;
   /** Description of this workaround. */
-  description?: string;
+  description?: string | undefined;
 }
 export type WorkaroundList = Array<Workaround>;
 export type GraphqlErrorExtensionsCodeEnum =
@@ -423,91 +423,91 @@ export type GraphqlErrorExtensionsCodeEnum =
 /** GraphqlErrorExtensions contains additional information of `GraphqlError`. */
 export interface GraphqlErrorExtensions {
   /** Warning level describes the severity and required action to suppress this warning when Firebase CLI run into it. */
-  warningLevel?: GraphqlErrorExtensionsWarningLevelEnum;
+  warningLevel?: GraphqlErrorExtensionsWarningLevelEnum | undefined;
   /** Workarounds provide suggestions to address the compile errors or warnings. */
-  workarounds?: WorkaroundList;
+  workarounds?: WorkaroundList | undefined;
   /** Maps to canonical gRPC codes. If not specified, it represents `Code.INTERNAL`. */
-  code?: GraphqlErrorExtensionsCodeEnum;
+  code?: GraphqlErrorExtensionsCodeEnum | undefined;
   /** More detailed error message to assist debugging. It contains application business logic that are inappropriate to leak publicly. In the emulator, SQL Connect API always includes it to assist local development and debugging. In the backend, ConnectorService always hides it. GraphqlService without impersonation always include it. GraphqlService with impersonation includes it only if explicitly opted-in with `include_debug_details` in `GraphqlRequestExtensions`. */
-  debugDetails?: string;
+  debugDetails?: string | undefined;
   /** The source file name where the error occurred. Included only for `UpdateSchema` and `UpdateConnector`, it corresponds to `File.path` of the provided `Source`. */
-  file?: string;
+  file?: string | undefined;
 }
 export type DocumentList = Array<unknown>;
 /** SourceLocation references a location in a GraphQL source. */
 export interface SourceLocation {
   /** Line number starting at 1. */
-  line?: number;
+  line?: number | undefined;
   /** Column number starting at 1. */
-  column?: number;
+  column?: number | undefined;
 }
 export type SourceLocationList = Array<SourceLocation>;
 /** GraphqlError conforms to the GraphQL error spec. https://spec.graphql.org/draft/#sec-Errors Firebase SQL Connect API surfaces `GraphqlError` in various APIs: - Upon compile error, `UpdateSchema` and `UpdateConnector` return Code.Invalid_Argument with a list of `GraphqlError` in error details. - Upon query compile error, `ExecuteGraphql`, `ExecuteGraphqlRead` and `IntrospectGraphql` return Code.OK with a list of `GraphqlError` in response body. - Upon query execution error, `ExecuteGraphql`, `ExecuteGraphqlRead`, `ExecuteMutation`, `ExecuteQuery`, `IntrospectGraphql`, `ImpersonateQuery` and `ImpersonateMutation` all return Code.OK with a list of `GraphqlError` in response body. */
 export interface GraphqlError {
   /** Additional error information. */
-  extensions?: GraphqlErrorExtensions;
+  extensions?: GraphqlErrorExtensions | undefined;
   /** The detailed error message. The message should help developer understand the underlying problem without leaking internal data. */
-  message?: string;
+  message?: string | undefined;
   /** The result field which could not be populated due to error. Clients can use path to identify whether a null result is intentional or caused by a runtime error. It should be a list of string or index from the root of GraphQL query document. */
-  path?: DocumentList;
+  path?: DocumentList | undefined;
   /** The source locations where the error occurred. Locations should help developers and toolings identify the source of error quickly. Included in admin endpoints (`ExecuteGraphql`, `ExecuteGraphqlRead`, `IntrospectGraphql`, `ImpersonateQuery`, `ImpersonateMutation`, `UpdateSchema` and `UpdateConnector`) to reference the provided GraphQL GQL document. Omitted in `ExecuteMutation` and `ExecuteQuery` since the caller shouldn't have access access the underlying GQL source. */
-  locations?: SourceLocationList;
+  locations?: SourceLocationList | undefined;
 }
 export type GraphqlErrorList = Array<GraphqlError>;
 export type StringList = Array<string>;
 /** SQL Connect specific properties for a path under response.data. */
 export interface DataConnectProperties {
   /** The path under response.data where the rest of the fields apply. Each element may be a string (field name) or number (array index). The root of response.data is denoted by the empty list `[]`. */
-  path?: DocumentList;
+  path?: DocumentList | undefined;
   /** The server-suggested duration before data under path is considered stale. */
-  maxAge?: string;
+  maxAge?: string | undefined;
   /** A list of Entity IDs. Set if the path points to an array of entities. An ID is present for each element of the array at the corresponding index. */
-  entityIds?: StringList;
+  entityIds?: StringList | undefined;
   /** A single Entity ID. Set if the path points to a single entity. */
-  entityId?: string;
+  entityId?: string | undefined;
 }
 export type DataConnectPropertiesList = Array<DataConnectProperties>;
 /** GraphqlResponseExtensions contains additional information of `GraphqlResponse` or `ExecuteQueryResponse`. */
 export interface GraphqlResponseExtensions {
   /** SQL Connect specific GraphQL extension, a list of paths and properties. */
-  dataConnect?: DataConnectPropertiesList;
+  dataConnect?: DataConnectPropertiesList | undefined;
 }
 /** The GraphQL response from Firebase SQL Connect. It strives to match the GraphQL over HTTP spec. Note: Firebase SQL Connect always responds with `Content-Type: application/json`. https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md#body */
 export interface GraphqlResponse {
   /** Errors of this response. If the data entry in the response is not present, the errors entry must be present. It conforms to https://spec.graphql.org/draft/#sec-Errors . */
-  errors?: GraphqlErrorList;
+  errors?: GraphqlErrorList | undefined;
   /** The result of the execution of the requested operation. If an error was raised before execution begins, the data entry should not be present in the result. (a request error: https://spec.graphql.org/draft/#sec-Errors.Request-Errors) If an error was raised during the execution that prevented a valid response, the data entry in the response should be null. (a field error: https://spec.graphql.org/draft/#sec-Errors.Error-Result-Format) */
-  data?: DocumentMap;
+  data?: DocumentMap | undefined;
   /** Additional response information. It conforms to https://spec.graphql.org/draft/#sec-Extensions . */
-  extensions?: GraphqlResponseExtensions;
+  extensions?: GraphqlResponseExtensions | undefined;
 }
 export interface ExecuteGraphqlReadProjectsLocationsServicesRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
   /** Request body */
-  body?: GraphqlRequest;
+  body?: GraphqlRequest | undefined;
 }
 /** The ExecuteMutation request to Firebase SQL Connect. */
 export interface ExecuteMutationRequest {
   /** Optional. Values for GraphQL variables provided in this request. */
-  variables?: DocumentMap;
+  variables?: DocumentMap | undefined;
   /** Required. The name of the GraphQL operation name. Required because all Connector operations must be named. See https://graphql.org/learn/queries/#operation-name. */
-  operationName?: string;
+  operationName?: string | undefined;
 }
 export interface ExecuteMutationProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
   /** Request body */
-  body?: ExecuteMutationRequest;
+  body?: ExecuteMutationRequest | undefined;
 }
 /** The ExecuteMutation response from Firebase SQL Connect. */
 export interface ExecuteMutationResponse {
   /** The result of executing the requested operation. */
-  data?: DocumentMap;
+  data?: DocumentMap | undefined;
   /** Additional response information. */
-  extensions?: GraphqlResponseExtensions;
+  extensions?: GraphqlResponseExtensions | undefined;
   /** Errors of this response. */
-  errors?: GraphqlErrorList;
+  errors?: GraphqlErrorList | undefined;
 }
 /** The ExecuteQuery request to Firebase SQL Connect. */
 export type ExecuteQueryRequest = ExecuteMutationRequest;
@@ -515,29 +515,29 @@ export interface ExecuteQueryProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined query, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
   /** Request body */
-  body?: ExecuteMutationRequest;
+  body?: ExecuteMutationRequest | undefined;
 }
 /** The ExecuteQuery response from Firebase SQL Connect. */
 export interface ExecuteQueryResponse {
   /** Additional response information. */
-  extensions?: GraphqlResponseExtensions;
+  extensions?: GraphqlResponseExtensions | undefined;
   /** Errors of this response. */
-  errors?: GraphqlErrorList;
+  errors?: GraphqlErrorList | undefined;
   /** The result of executing the requested operation. */
-  data?: DocumentMap;
+  data?: DocumentMap | undefined;
 }
 /** Request message for GenerateQuery. */
 export interface GenerateQueryRequest {
   /** Optional. The user's locally defined FDC Schema(s). If not defined, the backend will fetch the user's deployed schema. */
-  schemas?: Firebasedataconnect_SchemaList;
+  schemas?: Firebasedataconnect_SchemaList | undefined;
   /** Required. The natural language description of the desired query. Example: "Find all users who signed up in the last 7 days." */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 export interface GenerateQueryProjectsLocationsServicesRequest {
   /** Required. The resource name of the service in which to generate the query. Format: projects/{project}/locations/{location}/services/{service} */
   name: string;
   /** Request body */
-  body?: GenerateQueryRequest;
+  body?: GenerateQueryRequest | undefined;
 }
 export type GenerationStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -547,53 +547,53 @@ export type GenerationStatusStateEnum =
 /** Represents the progress of the server side generation request. */
 export interface GenerationStatus {
   /** Output only. The state of generation. */
-  state?: GenerationStatusStateEnum;
+  state?: GenerationStatusStateEnum | undefined;
   /** Output only. A message providing more details about the state. */
-  message?: string;
+  message?: string | undefined;
 }
 /** A chunk of conversational text. */
 export interface TextChunk {
   /** Required. The text content string. */
-  text?: string;
+  text?: string | undefined;
 }
 /** A chunk of code. */
 export interface CodeChunk {
   /** Optional. Specifies the language if we expand support beyond GraphQL (e.g., SQL or JSON) The standard is BCP-47 language code. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Required. The code content string. */
-  code?: string;
+  code?: string | undefined;
 }
 /** Represents a chunk of content. */
 export interface Part {
   /** Optional. A chunk of text. */
-  textChunk?: TextChunk;
+  textChunk?: TextChunk | undefined;
   /** Optional. A chunk of code. */
-  codeChunk?: CodeChunk;
+  codeChunk?: CodeChunk | undefined;
 }
 /** Output for streaming generate query requests */
 export interface GenerateQueryResponse {
   /** Essential for providing responsive UI feedback (e.g., a spinner or "Analyzing schema..." step). */
-  status?: GenerationStatus;
+  status?: GenerationStatus | undefined;
   /** Required. The content from the current conversational turn. */
-  part?: Part;
+  part?: Part | undefined;
 }
 /** Request message for GenerateSchema. */
 export interface GenerateSchemaRequest {
   /** Required. The natural language description of the data model to generate. Example: "A blog system with Users, Posts, and Comments. Users can have multiple posts." */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 export interface GenerateSchemaProjectsLocationsServicesRequest {
   /** Required. The resource name of the service in which to generate the schema. Format: projects/{project}/locations/{location}/services/{service} */
   name: string;
   /** Request body */
-  body?: GenerateSchemaRequest;
+  body?: GenerateSchemaRequest | undefined;
 }
 /** Output for streaming generate schema requests */
 export interface GenerateSchemaResponse {
   /** Essential for providing responsive UI feedback (e.g., a spinner or "Analyzing schema..." step). */
-  status?: GenerationStatus;
+  status?: GenerationStatus | undefined;
   /** The content from the current conversational turn. */
-  part?: Part;
+  part?: Part | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -602,15 +602,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -631,39 +631,39 @@ export interface GetProjectsLocationsServicesSchemasRequest {
 /** The Impersonate request to Firebase SQL Connect. */
 export interface ImpersonateRequest {
   /** Optional. Additional GraphQL request information. */
-  extensions?: GraphqlRequestExtensions;
+  extensions?: GraphqlRequestExtensions | undefined;
   /** Required. The name of the GraphQL operation name. Required because all Connector operations must be named. See https://graphql.org/learn/queries/#operation-name. */
-  operationName?: string;
+  operationName?: string | undefined;
   /** Optional. Values for GraphQL variables provided in this request. */
-  variables?: DocumentMap;
+  variables?: DocumentMap | undefined;
 }
 export interface ImpersonateMutationProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
   /** Request body */
-  body?: ImpersonateRequest;
+  body?: ImpersonateRequest | undefined;
 }
 export interface ImpersonateQueryProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
   /** Request body */
-  body?: ImpersonateRequest;
+  body?: ImpersonateRequest | undefined;
 }
 export interface IntrospectGraphqlProjectsLocationsServicesRequest {
   /** Required. The relative resource name of Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
   /** Request body */
-  body?: GraphqlRequest;
+  body?: GraphqlRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -671,104 +671,104 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServicesRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListServices` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListServices` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Value of parent. */
   parent: string;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ServiceList = Array<Service>;
 /** Message for response to listing Services. */
 export interface ListServicesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Services. */
-  services?: ServiceList;
+  services?: ServiceList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServicesConnectorsRequest {
   /** Required. Value of parent. */
   parent: string;
   /** Optional. A page token, received from a previous `ListConnectors` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectors` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Message for response to listing Connectors. By default, `connectors.source` will not be included in the response. To specify the fields included in the response, the response field mask can be provided by using the query parameter `$fields` or the header `X-Goog-FieldMask`. */
 export interface ListConnectorsResponse {
   /** The list of Connectors. */
-  connectors?: ConnectorList;
+  connectors?: ConnectorList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsServicesSchemasRequest {
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Value of parent. */
   parent: string;
   /** Optional. A page token, received from a previous `ListSchemas` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSchemas` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Message for response to listing Schemas. By default, `schemas.source` will not be included in the response. To specify the fields included in the response, the response field mask can be provided by using the query parameter `$fields` or the header `X-Goog-FieldMask`. */
 export interface ListSchemasResponse {
   /** The list of Schemas. */
-  schemas?: Firebasedataconnect_SchemaList;
+  schemas?: Firebasedataconnect_SchemaList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 /** An individual unit of migration work. Next tag: 4 */
 export interface MigrationStep {
   /** Required. Raw multi-statement SQL script. The backend splits it into individual statements before execution; callers do not pre-split. Required whenever the request executes or records DDL, which is every publicly available execution mode; omitting it returns INVALID_ARGUMENT. */
-  sql?: string;
+  sql?: string | undefined;
   /** Optional. Descriptive migration label (e.g. "create_accounts_table"). If omitted, defaults to "adhoc". */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Monotonic 14-digit UTC timestamp (YYYYMMDDHHMMSS), matching the timestamp prefix of the developer's migration filename. Constrained to `^[0-9]{14}$`. - When specified (file migrations): If `version` is already recorded in `firebasesql.schema_migrations`, the backend verifies that `sql` matches the recorded statements and skips execution. If `version` is unapplied, the backend validates `version > MAX(applied_version)` and records the value unchanged, so the ledger row and the on-disk filename stay identical. - When omitted (Console/ad-hoc): Backend auto-generates a 14-digit UTC timestamp. */
-  version?: string;
+  version?: string | undefined;
 }
 export type MigrationStepList = Array<MigrationStep>;
 export type MigrateSchemaRequestExecutionModeEnum =
@@ -779,68 +779,68 @@ export type MigrateSchemaRequestExecutionModeEnum =
 /** Request message for `MigrateSchema`. Next tag: 7 */
 export interface MigrateSchemaRequest {
   /** Optional. When true, runs preflight validation (syntax, applied-step immutability, sequence ordering, CONCURRENTLY isolation, and SAVEPOINT catalog checks) without committing mutations to the database. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Ordered migration steps from `./sql/migrations/` (or a single ad-hoc step). Backend compares submitted versions against `firebasesql.schema_migrations`: already-applied steps are verified for SQL immutability and skipped, while unapplied steps (`version > MAX(applied_version)`) are executed. All unapplied transactional steps in a single request execute atomically within one database transaction (BEGIN ... COMMIT): either every unapplied step commits and is recorded in the ledger, or the entire request rolls back. An unapplied step containing CREATE INDEX CONCURRENTLY or DROP INDEX CONCURRENTLY cannot be mixed with other unapplied steps and must be the sole unapplied step executed in the request. */
-  migrationSteps?: MigrationStepList;
+  migrationSteps?: MigrationStepList | undefined;
   /** Optional. Execution mode controlling DDL execution and ledger recording. Defaults to EXECUTE_AND_RECORD. */
-  executionMode?: MigrateSchemaRequestExecutionModeEnum | (string & {});
+  executionMode?: MigrateSchemaRequestExecutionModeEnum | (string & {}) | undefined;
 }
 export interface MigrateProjectsLocationsServicesSchemasRequest {
   /** Required. Resource name of the target schema: projects/{project}/locations/{location}/services/{service}/schemas/{schema} Note: Only `schemas/main` is supported (singleton schema per service). */
   name: string;
   /** Request body */
-  body?: MigrateSchemaRequest;
+  body?: MigrateSchemaRequest | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. The relative resource name of the Firebase SQL Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` Note that the service ID is specific to Firebase SQL Connect and does not correspond to any of the instance IDs of the underlying data source connections. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If true and the Service is not found, a new Service will be created. In this case, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the Service, but do not actually update it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: Service;
+  body?: Service | undefined;
 }
 export interface PatchProjectsLocationsServicesConnectorsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The relative resource name of the connector, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set, validate the request and preview the Connector, but do not actually update it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If true and the Connector is not found, a new Connector will be created. In this case, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Request body */
-  body?: Connector;
+  body?: Connector | undefined;
 }
 export interface PatchProjectsLocationsServicesSchemasRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Schema resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set, validate the request and preview the Schema, but do not actually update it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If true and the Schema is not found, a new Schema will be created. In this case, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Identifier. The relative resource name of the schema, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` Right now, the only supported schema is "main". */
   name: string;
   /** Request body */
-  body?: Firebasedataconnect_Schema;
+  body?: Firebasedataconnect_Schema | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface PostgrestCallFunctionProjectsLocationsServicesPostgrestRpcRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
@@ -848,7 +848,7 @@ export interface PostgrestCallFunctionProjectsLocationsServicesPostgrestRpcReque
   /** Required. The name of the database function. */
   firebasedataconnectFunction: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface PostgrestDeleteProjectsLocationsServicesPostgrestRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
@@ -862,7 +862,7 @@ export interface PostgrestInsertProjectsLocationsServicesPostgrestRequest {
   /** Required. The name of the table to insert into. */
   firebasedataconnectTable: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface PostgrestQueryFunctionProjectsLocationsServicesPostgrestRpcRequest {
   /** Required. The name of the database function. */
@@ -882,7 +882,7 @@ export interface PostgrestUpdateProjectsLocationsServicesPostgrestRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface PostgrestUpsertProjectsLocationsServicesPostgrestRequest {
   /** Required. The name of the table to upsert into. */
@@ -890,7 +890,7 @@ export interface PostgrestUpsertProjectsLocationsServicesPostgrestRequest {
   /** Required. The resource name of the service, in the format: `projects/{project}/locations/{location}/services/{service}` */
   firebasedataconnectService: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

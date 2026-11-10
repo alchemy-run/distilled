@@ -174,10 +174,10 @@ export type NetworkProtocol = "IPv4" | "DualStack" | (string & {});
 export type ComputeResourceType = "MicroVm" | "WebFunction" | (string & {});
 export type AssociatedComputeResourceTypesList = ComputeResourceType[];
 export interface NetworkConnectorVpcEgressConfiguration {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  NetworkProtocol?: NetworkProtocol;
-  AssociatedComputeResourceTypes?: ComputeResourceType[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  NetworkProtocol?: NetworkProtocol | undefined;
+  AssociatedComputeResourceTypes?: ComputeResourceType[] | undefined;
 }
 export type NetworkConnectorConfiguration = {
   VpcEgressConfiguration: NetworkConnectorVpcEgressConfiguration;
@@ -190,9 +190,9 @@ export type NetworkConnectorTags = { [key: string]: string | undefined };
 export interface CreateNetworkConnectorRequest {
   Name: string;
   Configuration: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  OperatorRole?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type NetworkConnectorArn = string;
 export type NetworkConnectorId = string;
@@ -209,11 +209,11 @@ export interface CreateNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  State?: NetworkConnectorState;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  State?: NetworkConnectorState | undefined;
 }
 export type NetworkConnectorIdentifier = string;
 export interface DeleteNetworkConnectorRequest {
@@ -223,11 +223,11 @@ export interface DeleteNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  State?: NetworkConnectorState;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  State?: NetworkConnectorState | undefined;
 }
 export interface GetNetworkConnectorRequest {
   Identifier: string;
@@ -263,25 +263,25 @@ export interface GetNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  LatestVersionArn?: string;
-  LatestVersion?: number;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  State?: NetworkConnectorState;
-  StateReason?: string;
-  StateReasonCode?: NetworkConnectorStateReasonCode;
-  LastUpdateStatus?: NetworkConnectorLastUpdateStatus;
-  LastUpdateStatusReason?: string;
-  LastUpdateStatusReasonCode?: NetworkConnectorLastUpdateStatusReasonCode;
-  LastModified?: Date;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  LatestVersionArn?: string | undefined;
+  LatestVersion?: number | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  State?: NetworkConnectorState | undefined;
+  StateReason?: string | undefined;
+  StateReasonCode?: NetworkConnectorStateReasonCode | undefined;
+  LastUpdateStatus?: NetworkConnectorLastUpdateStatus | undefined;
+  LastUpdateStatusReason?: string | undefined;
+  LastUpdateStatusReasonCode?: NetworkConnectorLastUpdateStatusReasonCode | undefined;
+  LastModified?: Date | undefined;
 }
 export type MaxHundredListItems = number;
 export interface ListNetworkConnectorsRequest {
-  State?: NetworkConnectorState;
-  Marker?: string;
-  MaxItems?: number;
+  State?: NetworkConnectorState | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type NetworkConnectorType = "VPC_EGRESS" | (string & {});
 export interface NetworkConnectorSummary {
@@ -289,21 +289,21 @@ export interface NetworkConnectorSummary {
   Name: string;
   Id: string;
   Type: NetworkConnectorType;
-  State?: NetworkConnectorState;
-  LastModified?: Date;
-  LatestVersionArn?: string;
-  LatestVersion?: number;
+  State?: NetworkConnectorState | undefined;
+  LastModified?: Date | undefined;
+  LatestVersionArn?: string | undefined;
+  LatestVersion?: number | undefined;
 }
 export type NetworkConnectorsList = NetworkConnectorSummary[];
 export interface ListNetworkConnectorsResponse {
   NetworkConnectors: NetworkConnectorSummary[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface ListNetworkConnectorVersionsRequest {
   Identifier: string;
-  State?: NetworkConnectorState;
-  Marker?: string;
-  MaxItems?: number;
+  State?: NetworkConnectorState | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface NetworkConnectorVersionSummary {
   Arn: string;
@@ -312,33 +312,33 @@ export interface NetworkConnectorVersionSummary {
   Id: string;
   Version: number;
   State: NetworkConnectorState;
-  StateReason?: string;
-  StateReasonCode?: NetworkConnectorStateReasonCode;
-  LastModified?: Date;
+  StateReason?: string | undefined;
+  StateReasonCode?: NetworkConnectorStateReasonCode | undefined;
+  LastModified?: Date | undefined;
 }
 export type NetworkConnectorVersionsList = NetworkConnectorVersionSummary[];
 export interface ListNetworkConnectorVersionsResponse {
   NetworkConnectorVersions: NetworkConnectorVersionSummary[];
-  NextMarker?: string;
+  NextMarker?: string | undefined;
 }
 export interface UpdateNetworkConnectorRequest {
   Identifier: string;
-  Configuration?: NetworkConnectorConfiguration;
-  OperatorRole?: string;
-  ClientToken?: string;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  OperatorRole?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateNetworkConnectorResponse {
   Arn: string;
   Name: string;
   Id: string;
-  VersionArn?: string;
-  Version?: number;
-  OperatorRole?: string;
-  Configuration?: NetworkConnectorConfiguration;
-  State?: NetworkConnectorState;
-  LastUpdateStatus?: NetworkConnectorLastUpdateStatus;
-  LastUpdateStatusReason?: string;
-  LastModified?: Date;
+  VersionArn?: string | undefined;
+  Version?: number | undefined;
+  OperatorRole?: string | undefined;
+  Configuration?: NetworkConnectorConfiguration | undefined;
+  State?: NetworkConnectorState | undefined;
+  LastUpdateStatus?: NetworkConnectorLastUpdateStatus | undefined;
+  LastUpdateStatusReason?: string | undefined;
+  LastModified?: Date | undefined;
 }
 export type ThrottleReason =
   | "ConcurrentInvocationLimitExceeded"

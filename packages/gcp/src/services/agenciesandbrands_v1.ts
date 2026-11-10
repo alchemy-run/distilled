@@ -115,25 +115,25 @@ export type DateRangeRelativeEnum =
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Agenciesandbrands_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 /** A date range between two fixed dates (inclusive of end date). */
 export interface FixedDateRange {
   /** Required. The end date (inclusive) of this date range. */
-  endDate?: Agenciesandbrands_Date;
+  endDate?: Agenciesandbrands_Date | undefined;
   /** Required. The start date of this date range. */
-  startDate?: Agenciesandbrands_Date;
+  startDate?: Agenciesandbrands_Date | undefined;
 }
 /** A date range for a report. */
 export interface DateRange {
   /** A relative date range. */
-  relative?: DateRangeRelativeEnum | (string & {});
+  relative?: DateRangeRelativeEnum | (string & {}) | undefined;
   /** A fixed date range. */
-  fixed?: FixedDateRange;
+  fixed?: FixedDateRange | undefined;
 }
 export type ReportDefinitionDimensionsItemEnum =
   | "DIMENSION_UNSPECIFIED"
@@ -304,55 +304,55 @@ export type FieldDimensionEnum =
 /** A dimension or a metric in a report. */
 export interface Field {
   /** The metric this field represents. */
-  metric?: FieldMetricEnum | (string & {});
+  metric?: FieldMetricEnum | (string & {}) | undefined;
   /** The dimension this field represents. */
-  dimension?: FieldDimensionEnum | (string & {});
+  dimension?: FieldDimensionEnum | (string & {}) | undefined;
 }
 /** Represents a sorting in a report. */
 export interface Sort {
   /** Required. A field (dimension or metric) to sort by. */
-  field?: Field;
+  field?: Field | undefined;
   /** Optional. The sort order. If true the sort will be descending. */
-  descending?: boolean;
+  descending?: boolean | undefined;
 }
 export type SortList = Array<Sort>;
 /** A list of filters. */
 export interface FilterList {
   /** Required. A list of filters. */
-  filters?: FilterList_;
+  filters?: FilterList_ | undefined;
 }
 export type StringList_ = Array<string>;
 /** A list of integer values. */
 export interface IntList {
   /** The values */
-  values?: StringList_;
+  values?: StringList_ | undefined;
 }
 export type DoubleList_ = Array<number>;
 /** A list of double values. */
 export interface DoubleList {
   /** The values */
-  values?: DoubleList_;
+  values?: DoubleList_ | undefined;
 }
 /** A list of string values. */
 export type StringList = IntList;
 /** Represents a single value in a report. */
 export interface ReportValue {
   /** For lists of integer values. */
-  intListValue?: IntList;
+  intListValue?: IntList | undefined;
   /** For lists of double values. */
-  doubleListValue?: DoubleList;
+  doubleListValue?: DoubleList | undefined;
   /** For double values. */
-  doubleValue?: number;
+  doubleValue?: number | undefined;
   /** For lists of string values. */
-  stringListValue?: IntList;
+  stringListValue?: IntList | undefined;
   /** For integer values. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** For bytes values. */
-  bytesValue?: string;
+  bytesValue?: string | undefined;
   /** For string values. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** For boolean values. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
 }
 export type ReportValueList = Array<ReportValue>;
 export type FieldFilterOperationEnum =
@@ -370,65 +370,65 @@ export type FieldFilterOperationEnum =
 /** A filter on a specific field. */
 export interface FieldFilter {
   /** Required. Values to filter to. */
-  values?: ReportValueList;
+  values?: ReportValueList | undefined;
   /** Required. The operation of this filter. */
-  operation?: FieldFilterOperationEnum | (string & {});
+  operation?: FieldFilterOperationEnum | (string & {}) | undefined;
   /** Required. The field to filter on. */
-  field?: Field;
+  field?: Field | undefined;
 }
 /** A filter over one or more fields. */
 export interface Filter {
   /** A list of filters whose results are AND-ed. */
-  andFilter?: FilterList;
+  andFilter?: FilterList | undefined;
   /** A filter whose result is negated. */
-  notFilter?: Filter;
+  notFilter?: Filter | undefined;
   /** A list of filters whose results are OR-ed. */
-  orFilter?: FilterList;
+  orFilter?: FilterList | undefined;
   /** A filter on a single field. */
-  fieldFilter?: FieldFilter;
+  fieldFilter?: FieldFilter | undefined;
 }
 export type FilterList_ = Array<Filter>;
 /** The definition of how a report should be run. */
 export interface ReportDefinition {
   /** Required. The primary date range of this report. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
-  dimensions?: ReportDefinitionDimensionsItemEnumList;
+  dimensions?: ReportDefinitionDimensionsItemEnumList | undefined;
   /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Optional. Where to get the time zone for this report. Defaults to using the Pacific time zone (PT). If source is PROVIDED, the time_zone field in the report definition must also set a time zone. */
-  timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {});
+  timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {}) | undefined;
   /** Required. The list of metrics to report on. If empty, the report will have no metrics. */
-  metrics?: ReportDefinitionMetricsItemEnumList;
+  metrics?: ReportDefinitionMetricsItemEnumList | undefined;
   /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Optional. Default sorts to apply to this report. */
-  sorts?: SortList;
+  sorts?: SortList | undefined;
   /** Optional. The filters for this report. */
-  filters?: FilterList_;
+  filters?: FilterList_ | undefined;
 }
 /** The `Report` resource. */
 export interface Report {
   /** Optional. Display name for the report. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The instant this report was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Report ID. */
-  reportId?: string;
+  reportId?: string | undefined;
   /** Output only. The instant this report was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string;
+  locale?: string | undefined;
   /** Required. The report definition of the report. */
-  reportDefinition?: ReportDefinition;
+  reportDefinition?: ReportDefinition | undefined;
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateAgenciesReportsRequest {
   /** Required. The parent resource where this `Report` will be created. Format: `agencies/{account_id}` */
   parent: string;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 export interface DeleteAgenciesReportsRequest {
   /** Required. Resource name of the report to delete. Format: `agencies/{account_id}/reports/{report_id}` */
@@ -440,37 +440,37 @@ export interface FetchRowsAgenciesReportsResultsRequest {
   /** The report result being fetched. Format: `agencies/{account_id}/reports/{report_id}/results/{report_result_id}` */
   name: string;
   /** Optional. The maximum number of rows to return. The service may return fewer than this value. If unspecified, at most 1,000 rows will be returned. The maximum value is 10,000; values greater than 10,000 will be reduced to 10,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `FetchReportResultRows` call. Provide this to retrieve the second and subsequent batches of rows. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Contains all metric values requested for a single date range and set of column dimension values (returned in the columns field of the response). The order of the metrics in each field corresponds to the order of the metrics specified in the request. */
 export interface MetricValueGroup {
   /** Data for the PRIMARY MetricValueType. */
-  primaryValues?: ReportValueList;
+  primaryValues?: ReportValueList | undefined;
 }
 export type MetricValueGroupList = Array<MetricValueGroup>;
 /** A row of report data. */
 export interface Row {
   /** The length of the metric_value_groups field will be equal to the length of the date_ranges field in the fetch response. The metric_value_groups field is ordered such that each index corresponds to the date_range at the same index. For example, given date_ranges [x, y], metric_value_groups will have a length of two. The first entry in metric_value_groups represents the metrics for date x and the second entry in metric_value_groups represents the metrics for date y. */
-  metricValueGroups?: MetricValueGroupList;
+  metricValueGroups?: MetricValueGroupList | undefined;
   /** The order of the dimension values is the same as the order of the dimensions specified in the request. */
-  dimensionValues?: ReportValueList;
+  dimensionValues?: ReportValueList | undefined;
 }
 export type RowList = Array<Row>;
 export type FixedDateRangeList = Array<FixedDateRange>;
 /** The response message for the fetch report result rows endpoint. */
 export interface FetchReportResultRowsResponse {
   /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
-  runTime?: string;
+  runTime?: string | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Up to `page_size` rows of report data. */
-  rows?: RowList;
+  rows?: RowList | undefined;
   /** The total number of rows available from this report. Useful for pagination. Only returned with the first page of results (when page_token is not included in the request). */
-  totalRowCount?: number;
+  totalRowCount?: number | undefined;
   /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
-  dateRanges?: FixedDateRangeList;
+  dateRanges?: FixedDateRangeList | undefined;
 }
 export interface GetAgenciesReportsRequest {
   /** Required. The resource name of the report. Format: `agencies/{account_id}/reports/{report_id}` */
@@ -485,56 +485,56 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export interface ListAgenciesReportsRequest {
   /** Optional. Number of individual resources to skip while paginating. */
-  skip?: number;
+  skip?: number | undefined;
   /** Required. The parent, which owns this collection of reports. Format: `agencies/{account_id}` */
   parent: string;
   /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Expression to filter the response. See syntax details at https://developers.google.com/ad-manager/api/beta/filters */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ReportList = Array<Report>;
 /** Response object for `ListReportsResponse` containing matching `Report` objects. */
 export interface ListReportsResponse {
   /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The `Report` objects from the specified network. */
-  reports?: ReportList;
+  reports?: ReportList | undefined;
 }
 export interface PatchAgenciesReportsRequest {
   /** Identifier. The resource name of the report. Report resource name have the form: `agencies/{account_id}/reports/{report_id}` */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 /** Request message for a running a report. */
 export interface RunReportRequest {}
@@ -542,7 +542,7 @@ export interface RunAgenciesReportsRequest {
   /** Required. The report to run. Format: `agencies/{account_id}/reports/{report_id}` */
   name: string;
   /** Request body */
-  body?: RunReportRequest;
+  body?: RunReportRequest | undefined;
 }
 export type CreateAgenciesReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a `Report` object. */

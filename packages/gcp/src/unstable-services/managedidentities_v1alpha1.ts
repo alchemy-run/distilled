@@ -100,61 +100,61 @@ export type StringList = Array<string>;
 /** Represents a relationship between two domains which makes it possible for users in one domain to be authenticated by a dc in another domain. Refer https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc731335(v%3dws.10) If the trust is being changed, it will be placed into the UPDATING state, which indicates that the resource is being reconciled. At this point, Get will reflect an intermediate state. */
 export interface Trust {
   /** The trust authentication type which decides whether the trusted side has forest/domain wide access or selective access to approved set of resources. */
-  selectiveAuthentication?: boolean;
+  selectiveAuthentication?: boolean | undefined;
   /** Output only. Last update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The fully qualified target domain name which will be in trust with current domain. */
-  targetDomainName?: string;
+  targetDomainName?: string | undefined;
   /** The type of trust represented by the trust resource. */
-  trustType?: TrustTrustTypeEnum | (string & {});
+  trustType?: TrustTrustTypeEnum | (string & {}) | undefined;
   /** Output only. The last heartbeat time when the trust was known to be connected. */
-  lastKnownTrustConnectedHeartbeatTime?: string;
+  lastKnownTrustConnectedHeartbeatTime?: string | undefined;
   /** Input only, and will not be stored. The trust secret used for handshake with target domain. */
-  trustHandshakeSecret?: string;
+  trustHandshakeSecret?: string | undefined;
   /** Output only. The current state of this trust. */
-  state?: TrustStateEnum | (string & {});
+  state?: TrustStateEnum | (string & {}) | undefined;
   /** The trust direction decides the current domain is trusted, trusting or both. */
-  trustDirection?: TrustTrustDirectionEnum | (string & {});
+  trustDirection?: TrustTrustDirectionEnum | (string & {}) | undefined;
   /** Output only. The time the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Additional information about the current state of this trust, if available. */
-  stateDescription?: string;
+  stateDescription?: string | undefined;
   /** The target dns server ip addresses which can resolve the remote domain involved in trust. */
-  targetDnsIpAddresses?: StringList;
+  targetDnsIpAddresses?: StringList | undefined;
 }
 export interface AttachTrustRequest {
   /** The domain trust resource. */
-  trust?: Trust;
+  trust?: Trust | undefined;
 }
 export interface AttachTrustProjectsLocationsGlobalDomainsRequest {
   /** The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
   /** Request body */
-  body?: AttachTrustRequest;
+  body?: AttachTrustRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -162,7 +162,7 @@ export interface CancelProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -172,7 +172,7 @@ export interface CheckMigrationPermissionProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type CheckMigrationPermissionResponseStateEnum =
   | "STATE_UNSPECIFIED"
@@ -186,17 +186,17 @@ export type OnPremDomainSIDDetailsSidFilteringStateEnum =
 /** OnPremDomainDetails is the message which contains details of on-prem domain which is trusted and needs to be migrated. */
 export interface OnPremDomainSIDDetails {
   /** FQDN of the on-prem domain being migrated. */
-  name?: string;
+  name?: string | undefined;
   /** Current SID filtering state. */
-  sidFilteringState?: OnPremDomainSIDDetailsSidFilteringStateEnum;
+  sidFilteringState?: OnPremDomainSIDDetailsSidFilteringStateEnum | undefined;
 }
 export type OnPremDomainSIDDetailsList = Array<OnPremDomainSIDDetails>;
 /** CheckMigrationPermissionResponse is the response message for CheckMigrationPermission method. */
 export interface CheckMigrationPermissionResponse {
   /** The state of DomainMigration. */
-  state?: CheckMigrationPermissionResponseStateEnum;
+  state?: CheckMigrationPermissionResponseStateEnum | undefined;
   /** The state of SID filtering of all the domains which has trust established. */
-  onpremDomains?: OnPremDomainSIDDetailsList;
+  onpremDomains?: OnPremDomainSIDDetailsList | undefined;
 }
 export type DomainStateEnum =
   | "STATE_UNSPECIFIED"
@@ -212,68 +212,68 @@ export type StringMap = { [key: string]: string | undefined };
 /** If the domain is being changed, it will be placed into the UPDATING state, which indicates that the resource is being reconciled. At this point, Get will reflect an intermediate state. */
 export interface Domain {
   /** Output only. Last update time. Synthetic field is populated automatically by CCFE. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The current state of this domain. */
-  state?: DomainStateEnum | (string & {});
+  state?: DomainStateEnum | (string & {}) | undefined;
   /** Optional. Name of customer-visible admin used to perform Active Directory operations. If not specified `setupadmin` would be used. */
-  managedIdentitiesAdminName?: string;
+  managedIdentitiesAdminName?: string | undefined;
   /** Optional. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) to which the instance is connected. Network can be added using UpdateDomain later. Domain is only available on network part of authorized_networks. Caller needs to make sure that CIDR subnets do not overlap between networks, else domain creation will fail. */
-  authorizedNetworks?: StringList;
+  authorizedNetworks?: StringList | undefined;
   /** Output only. The time the instance was created. Synthetic field is populated automatically by CCFE. go/ccfe-synthetic-field-user-guide */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The CIDR range of internal addresses that are reserved for this domain. Reserved networks must be /24 or larger. Ranges must be unique and non-overlapping with existing subnets in [Domain].[authorized_networks]. */
-  reservedIpRange?: string;
+  reservedIpRange?: string | undefined;
   /** Output only. Unique name of the domain in this scope including projects and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The current trusts associated with the domain. */
-  trusts?: TrustList;
+  trusts?: TrustList | undefined;
   /** Required. Locations where domain needs to be provisioned. regions e.g. us-west1 or us-east4 Service supports up to 4 locations at once. Each location will use a /26 block. */
-  locations?: StringList;
+  locations?: StringList | undefined;
   /** Output only. Fully-qualified domain name of the exposed domain used by clients to connect to the service. Similar to what would be chosen for an Active Directory that is set up on an internal network. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Output only. Additional information about the current status of this domain, if available. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Optional. Configuration for audit logs. True if audit logs are enabled, else false. Default is audit logs disabled. */
-  auditLogsEnabled?: boolean;
+  auditLogsEnabled?: boolean | undefined;
   /** Optional. Resource labels to represent user provided metadata */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsGlobalDomainsRequest {
   /** Resource project name and location using the form: `projects/{project_id}/locations/global` */
   parent: string;
   /** The fully qualified domain name. e.g. mydomain.myorganization.com, with the following restrictions: * Must contain only lowercase letters, numbers, periods and hyphens. * Must start with a letter. * Must contain between 2-64 characters. * Must end with a number or a letter. * Must not start with period. * Must be unique within the project. * First segment length (mydomain form example above) shouldn't exceed 15 chars. * The last segment cannot be fully numeric. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Request body */
-  body?: Domain;
+  body?: Domain | undefined;
 }
 export type BackupTypeEnum = "TYPE_UNSPECIFIED" | "ON_DEMAND" | "SCHEDULED" | "SCHEMA_EXTENSION";
 export type BackupStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "FAILED" | "DELETING";
 /** Represents a Managed Microsoft Identities backup. */
 export interface Backup {
   /** Output only. Indicates whether it's an on-demand backup or scheduled. */
-  type?: BackupTypeEnum | (string & {});
+  type?: BackupTypeEnum | (string & {}) | undefined;
   /** Output only. Last update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Additional information about the current status of this backup, if available. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Optional. A short description of the backup. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Resource labels to represent user provided metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The current state of the backup. */
-  state?: BackupStateEnum | (string & {});
+  state?: BackupStateEnum | (string & {}) | undefined;
   /** Output only. The time the backups was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsGlobalDomainsBackupsRequest {
   /** Required. Backup Id, unique name to identify the backups with the following restrictions: * Must be lowercase letters, numbers, and hyphens * Must start with a letter. * Must contain between 1-63 characters. * Must end with a number or a letter. * Must be unique within the domain. */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   parent: string;
   /** Request body */
-  body?: Backup;
+  body?: Backup | undefined;
 }
 export type PeeringStateEnum =
   | "STATE_UNSPECIFIED"
@@ -284,29 +284,29 @@ export type PeeringStateEnum =
 /** Represents a Managed Microsoft Identities Peering. */
 export interface Peering {
   /** Output only. Additional information about the current status of this peering, if available. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Output only. The time the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Resource labels to represent user provided metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The current state of this Peering. */
-  state?: PeeringStateEnum | (string & {});
+  state?: PeeringStateEnum | (string & {}) | undefined;
   /** Required. The full names of the Google Compute Engine [networks](/compute/docs/networks-and-firewalls#networks) to which the instance is connected. Caller needs to make sure that CIDR subnets do not overlap between networks, else peering creation will fail. */
-  authorizedNetwork?: string;
+  authorizedNetwork?: string | undefined;
   /** Output only. Last update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Full domain resource path for the Managed AD Domain involved in peering. The resource path should be in the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
-  domainResource?: string;
+  domainResource?: string | undefined;
 }
 export interface CreateProjectsLocationsGlobalPeeringsRequest {
   /** Required. Resource project name and location using the form: `projects/{project_id}/locations/global` */
   parent: string;
   /** Required. Peering Id, unique name to identify peering. */
-  peeringId?: string;
+  peeringId?: string | undefined;
   /** Request body */
-  body?: Peering;
+  body?: Peering | undefined;
 }
 export interface DeleteProjectsLocationsGlobalDomainsRequest {
   /** Domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
@@ -326,13 +326,13 @@ export interface DeleteProjectsLocationsGlobalPeeringsRequest {
 }
 export interface DetachTrustRequest {
   /** The domain trust resource to removed. */
-  trust?: Trust;
+  trust?: Trust | undefined;
 }
 export interface DetachTrustProjectsLocationsGlobalDomainsRequest {
   /** The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
   /** Request body */
-  body?: DetachTrustRequest;
+  body?: DetachTrustRequest | undefined;
 }
 /** DisableMigrationRequest is the request message for DisableMigration method. */
 export type DisableMigrationRequest = CancelOperationRequest;
@@ -340,109 +340,109 @@ export interface DisableMigrationProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** DomainJoinMachineRequest is the request message for DomainJoinMachine method */
 export interface DomainJoinMachineRequest {
   /** Optional. force if True, forces domain join even if the computer account already exists. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Full instance id token of compute engine VM to verify instance identity. More about this: https://cloud.google.com/compute/docs/instances/verifying-instance-identity#request_signature */
-  vmIdToken?: string;
+  vmIdToken?: string | undefined;
   /** Optional. OU name where the VM needs to be domain joined */
-  ouName?: string;
+  ouName?: string | undefined;
 }
 export interface DomainJoinMachineProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: projects/{project_id}/locations/global/domains/{domain_name} */
   domain: string;
   /** Request body */
-  body?: DomainJoinMachineRequest;
+  body?: DomainJoinMachineRequest | undefined;
 }
 /** DomainJoinMachineResponse is the response message for DomainJoinMachine method */
 export interface DomainJoinMachineResponse {
   /** Offline domain join blob as the response */
-  domainJoinBlob?: string;
+  domainJoinBlob?: string | undefined;
 }
 /** OnPremDomainDetails is the message which contains details of on-prem domain which is trusted and needs to be migrated. */
 export interface OnPremDomainDetails {
   /** Required. FQDN of the on-prem domain being migrated. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Optional. Option to disable SID filtering. */
-  disableSidFiltering?: boolean;
+  disableSidFiltering?: boolean | undefined;
 }
 export type OnPremDomainDetailsList = Array<OnPremDomainDetails>;
 /** EnableMigrationRequest is the request message for EnableMigration method. */
 export interface EnableMigrationRequest {
   /** Required. List of the on-prem domains to be migrated. */
-  migratingDomains?: OnPremDomainDetailsList;
+  migratingDomains?: OnPremDomainDetailsList | undefined;
   /** Optional. Period after which the migration would be auto disabled. If unspecified, a default timeout of 48h is used. */
-  enableDuration?: string;
+  enableDuration?: string | undefined;
 }
 export interface EnableMigrationProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
   /** Request body */
-  body?: EnableMigrationRequest;
+  body?: EnableMigrationRequest | undefined;
 }
 /** ExtendSchemaRequest is the request message for ExtendSchema method. */
 export interface ExtendSchemaRequest {
   /** File uploaded as a byte stream input. */
-  fileContents?: string;
+  fileContents?: string | undefined;
   /** File stored in Cloud Storage bucket and represented in the form projects/{project_id}/buckets/{bucket_name}/objects/{object_name} File should be in the same project as the domain. */
-  gcsPath?: string;
+  gcsPath?: string | undefined;
   /** Required. Description for Schema Change. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ExtendSchemaProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
   /** Request body */
-  body?: ExtendSchemaRequest;
+  body?: ExtendSchemaRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsGlobalPeeringsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -454,30 +454,30 @@ export type LDAPSSettingsStateEnum = "STATE_UNSPECIFIED" | "UPDATING" | "ACTIVE"
 /** Certificate used to configure LDAPS. */
 export interface Certificate {
   /** The certificate expire time. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The certificate thumbprint which uniquely identifies the certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** The additional hostnames for the domain. */
-  subjectAlternativeName?: StringList;
+  subjectAlternativeName?: StringList | undefined;
   /** The certificate subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** The issuer of this certificate. */
-  issuingCertificate?: Certificate;
+  issuingCertificate?: Certificate | undefined;
 }
 /** LDAPSSettings represents the ldaps settings for domain resource. LDAP is the Lightweight Directory Access Protocol, defined in https://tools.ietf.org/html/rfc4511. The settings object configures LDAP over SSL/TLS, whether it is over port 636 or the StartTLS operation. If LDAPSSettings is being changed, it will be placed into the UPDATING state, which indicates that the resource is being reconciled. At this point, Get will reflect an intermediate state. */
 export interface LDAPSSettings {
   /** The resource name of the LDAPS settings. Uses the form: `projects/{project}/locations/{location}/domains/{domain}`. */
-  name?: string;
+  name?: string | undefined;
   /** Input only. The password used to encrypt the uploaded pfx certificate. */
-  certificatePassword?: string;
+  certificatePassword?: string | undefined;
   /** Output only. The current state of this LDAPS settings. */
-  state?: LDAPSSettingsStateEnum | (string & {});
+  state?: LDAPSSettingsStateEnum | (string & {}) | undefined;
   /** Output only. The certificate used to configure LDAPS. Certificates can be chained with a maximum length of 15. */
-  certificate?: Certificate;
+  certificate?: Certificate | undefined;
   /** Input only. The uploaded PKCS12-formatted certificate to configure LDAPS with. It will enable the domain controllers in this domain to accept LDAPS connections (either LDAP over SSL/TLS or the StartTLS operation). A valid certificate chain must form a valid x.509 certificate chain (or be comprised of a single self-signed certificate. It must be encrypted with either: 1) PBES2 + PBKDF2 + AES256 encryption and SHA256 PRF; or 2) pbeWithSHA1And3-KeyTripleDES-CBC Private key must be included for the leaf / single self-signed certificate. Note: For a fqdn your-example-domain.com, the wildcard fqdn is *.your-example-domain.com. Specifically the leaf certificate must have: - Either a blank subject or a subject with CN matching the wildcard fqdn. - Exactly two SANs - the fqdn and wildcard fqdn. - Encipherment and digital key signature key usages. - Server authentication extended key usage (OID=1.3.6.1.5.5.7.3.1) - Private key must be in one of the following formats: RSA, ECDSA, ED25519. - Private key must have appropriate key length: 2048 for RSA, 256 for ECDSA - Signature algorithm of the leaf certificate cannot be MD2, MD5 or SHA1. */
-  certificatePfx?: string;
+  certificatePfx?: string | undefined;
   /** Output only. Last update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -486,15 +486,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsGlobalDomainsRequest {
   /** Domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
@@ -512,15 +512,15 @@ export type SQLIntegrationStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "DELETI
 /** Represents the SQL instance integrated with AD. */
 export interface SQLIntegration {
   /** Output only. Last update time for this SQL instance. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The unique name of the sql integration in the form of `projects/{project_id}/locations/global/domains/{domain_name}/sqlIntegrations/{sql_integration}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The current state of the managed OU. */
-  state?: SQLIntegrationStateEnum;
+  state?: SQLIntegrationStateEnum | undefined;
   /** The full resource name of an integrated sql instance */
-  sqlInstance?: string;
+  sqlInstance?: string | undefined;
   /** Output only. The time the instance was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource. */
@@ -532,257 +532,257 @@ export interface GetProjectsLocationsGlobalPeeringsRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource name of the domain location using the form: `projects/{project_id}/locations/global` */
   parent: string;
   /** Optional. Filter specifying constraints of a list operation. For example, `Domain.fqdn="mydomain.myorginization"`. */
-  filter?: string;
+  filter?: string | undefined;
   /** If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type DomainList = Array<Domain>;
 export interface ListDomainsResponse {
   /** A list of Managed Identities Service domains in the project. */
-  domains?: DomainList;
+  domains?: DomainList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGlobalDomainsBackupsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   parent: string;
   /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter specifying constraints of a list operation. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type BackupList = Array<Backup>;
 /** ListBackupsResponse is the response message for ListBackups method. */
 export interface ListBackupsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of Cloud AD backups in the domain. */
-  backups?: BackupList;
+  backups?: BackupList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest {
   /** Required. The resource name of the SqlIntegrations using the form: `projects/{project_id}/locations/global/domains/*` */
   parent: string;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filter specifying constraints of a list operation. For example, `SqlIntegration.name="sql"`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response'ANIZATIONs next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type SQLIntegrationList = Array<SQLIntegration>;
 /** ListSQLIntegrationsResponse is the response message for ListSQLIntegrations method. */
 export interface ListSQLIntegrationsResponse {
   /** A list of SQLIntegrations of a domain. */
-  sqlIntegrations?: SQLIntegrationList;
+  sqlIntegrations?: SQLIntegrationList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsGlobalPeeringsRequest {
   /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Specifies the ordering of results following syntax at https://cloud.google.com/apis/design/design_patterns#sorting_order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the domain location using the form: `projects/{project_id}/locations/global` */
   parent: string;
   /** Optional. Filter specifying constraints of a list operation. For example, `peering.authoized_network ="/projects/myprojectid"`. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type PeeringList = Array<Peering>;
 /** ListPeeringsResponse is the response message for ListPeerings method. */
 export interface ListPeeringsResponse {
   /** A list of Managed Identities Service Peerings in the project. */
-  peerings?: PeeringList;
+  peerings?: PeeringList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface PatchProjectsLocationsGlobalDomainsRequest {
   /** Output only. Unique name of the domain in this scope including projects and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
   name: string;
   /** Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Domain: * `labels` * `locations` * `authorized_networks` * `audit_logs_enabled` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Domain;
+  body?: Domain | undefined;
 }
 export interface PatchProjectsLocationsGlobalDomainsBackupsRequest {
   /** Output only. The unique name of the Backup in the form of projects/{project_id}/locations/global/domains/{domain_name}/backups/{name} */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Backup: * `labels` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Backup;
+  body?: Backup | undefined;
 }
 export interface PatchProjectsLocationsGlobalPeeringsRequest {
   /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
   name: string;
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Peering: * `labels` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Peering;
+  body?: Peering | undefined;
 }
 export interface ReconfigureTrustRequest {
   /** The domain trust resource with updated dns conditional forwarder. */
-  trust?: Trust;
+  trust?: Trust | undefined;
 }
 export interface ReconfigureTrustProjectsLocationsGlobalDomainsRequest {
   /** The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
   /** Request body */
-  body?: ReconfigureTrustRequest;
+  body?: ReconfigureTrustRequest | undefined;
 }
 export type ResetAdminPasswordRequest = CancelOperationRequest;
 export interface ResetAdminPasswordProjectsLocationsGlobalDomainsRequest {
   /** The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface ResetAdminPasswordResponse {
   /** A random password. See admin for more information. */
-  password?: string;
+  password?: string | undefined;
 }
 /** RestoreDomainRequest is the request received by RestoreDomain rpc */
 export interface RestoreDomainRequest {
   /** Required. ID of the backup to be restored */
-  backupId?: string;
+  backupId?: string | undefined;
 }
 export interface RestoreProjectsLocationsGlobalDomainsRequest {
   /** Required. resource name for the domain to which the backup belongs */
   name: string;
   /** Request body */
-  body?: RestoreDomainRequest;
+  body?: RestoreDomainRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGlobalPeeringsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGlobalPeeringsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The resource name of the LDAPS settings. Uses the form: `projects/{project}/locations/{location}/domains/{domain}`. */
   name: string;
   /** Request body */
-  body?: LDAPSSettings;
+  body?: LDAPSSettings | undefined;
 }
 export interface ValidateTrustRequest {
   /** The domain trust to validate trust state for. */
-  trust?: Trust;
+  trust?: Trust | undefined;
 }
 export interface ValidateTrustProjectsLocationsGlobalDomainsRequest {
   /** The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
   /** Request body */
-  body?: ValidateTrustRequest;
+  body?: ValidateTrustRequest | undefined;
 }
 export type AttachTrustProjectsLocationsGlobalDomainsError =
   | NotFound

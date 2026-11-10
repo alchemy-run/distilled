@@ -66,15 +66,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsCloudLocationsRequest {
   /** Required. Name of the resource. */
@@ -84,7 +84,7 @@ export type GcpAttributesZoneTypeEnum = "GCP_ZONE_TYPE_UNSPECIFIED" | "GENERAL_P
 /** GCP-specific attributes. */
 export interface GcpAttributes {
   /** Optional. The type of the cloud zone. */
-  zoneType?: GcpAttributesZoneTypeEnum;
+  zoneType?: GcpAttributesZoneTypeEnum | undefined;
 }
 export type CloudLocationCloudLocationTypeEnum =
   | "CLOUD_LOCATION_TYPE_UNSPECIFIED"
@@ -101,79 +101,79 @@ export type CloudLocationCloudProviderEnum =
 /** Represents resource cloud locations. */
 export interface CloudLocation {
   /** Optional. The human-readable name of the cloud location. Example: us-east-2, us-east1. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. GCP-specific attributes. */
-  gcpAttributes?: GcpAttributes;
+  gcpAttributes?: GcpAttributes | undefined;
   /** Identifier. Name of the cloud location. Unique name of the cloud location including project and location using the form: `projects/{project_id}/locations/{location}/cloudLocations/{cloud_location}` */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The two-letter ISO 3166-1 alpha-2 code of the cloud location. Examples: US, JP, KR. */
-  territoryCode?: string;
+  territoryCode?: string | undefined;
   /** Optional. The type of the cloud location. */
-  cloudLocationType?: CloudLocationCloudLocationTypeEnum;
+  cloudLocationType?: CloudLocationCloudLocationTypeEnum | undefined;
   /** Optional. The provider of the cloud location. Values can be Google Cloud or third-party providers, including AWS, Azure, or Oracle Cloud Infrastructure. */
-  cloudProvider?: CloudLocationCloudProviderEnum;
+  cloudProvider?: CloudLocationCloudProviderEnum | undefined;
   /** Optional. The carbon free energy percentage of the cloud location. This represents the average percentage of time customers' application will be running on carbon-free energy. See https://cloud.google.com/sustainability/region-carbon for more details. There is a difference between default value 0 and unset value. 0 means the carbon free energy percentage is 0%, while unset value means the carbon footprint data is not available. */
-  carbonFreeEnergyPercentage?: number;
+  carbonFreeEnergyPercentage?: number | undefined;
   /** Output only. The containing cloud location in the strict nesting hierarchy. For example, the containing cloud location of a zone is a region. */
-  containingCloudLocation?: string;
+  containingCloudLocation?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsCloudLocationsRequest {
   /** Optional. A filter expression that filters resources listed in the response. The expression is in the form of field=value. For example, 'cloud_location_type=CLOUD_LOCATION_TYPE_REGION'. Multiple filter queries are space-separated. For example, 'cloud_location_type=CLOUD_LOCATION_TYPE_REGION territory_code="US"' By default, each expression is an AND expression. However, you can include AND and OR expressions explicitly. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of cloud locations to return per page. The service might return fewer cloud locations than this value. If unspecified, at most 500 cloud locations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. Provide page token returned by a previous 'ListCloudLocations' call to retrieve the next page of results. When paginating, all other parameters provided to 'ListCloudLocations' must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CloudLocationList = Array<CloudLocation>;
 /** Message for response to listing cloud locations. */
 export interface ListCloudLocationsResponse {
   /** Output only. List of cloud locations. */
-  cloudLocations?: CloudLocationList;
+  cloudLocations?: CloudLocationList | undefined;
   /** Output only. The continuation token, used to page through large result sets. Provide this value in a subsequent request as page_token in subsequent requests to retrieve the next page. If this field is not present, there are no subsequent results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchProjectsLocationsCloudLocationsRequest {
   /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The source cloud location to search from. Example search can be searching nearby cloud locations from the source cloud location by latency. */
-  sourceCloudLocation?: string;
+  sourceCloudLocation?: string | undefined;
   /** Optional. The query string in search query syntax. While filter is used to filter the search results by attributes, query is used to specify the search requirements. */
-  query?: string;
+  query?: string | undefined;
   /** Optional. The maximum number of cloud locations to return. The service might return fewer cloud locations than this value. If unspecified, at most 500 cloud locations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. Provide Page token returned by a previous 'ListCloudLocations' call to retrieve the next page of results. When paginating, all other parameters provided to 'ListCloudLocations' must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Message for response to searching cloud locations. */
 export interface SearchCloudLocationsResponse {
   /** Output only. The continuation token, used to page through large result sets. Provide this value in a subsequent request as page_token in subsequent requests to retrieve the next page. If this field is not present, there are no subsequent results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. List of cloud locations. */
-  cloudLocations?: CloudLocationList;
+  cloudLocations?: CloudLocationList | undefined;
 }
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
 /** Gets information about a location. */

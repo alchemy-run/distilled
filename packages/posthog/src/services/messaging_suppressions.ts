@@ -26,10 +26,10 @@ const TELEMETRY = {
 export interface GetMessagingSuppressionsSuppressionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  page?: number;
-  page_size?: number;
+  page?: number | undefined;
+  page_size?: number | undefined;
   /** Case-insensitive substring match on the recipient email address. */
-  search?: string;
+  search?: string | undefined;
 }
 /** * `BOUNCE` - Bounce * `MANUAL` - Manual * `COMPLAINT` - Complaint */
 export type SuppressionSourceEnum = "BOUNCE" | "MANUAL" | "COMPLAINT";
@@ -82,7 +82,7 @@ export interface MessagingSuppressionsBulkRemoveSuppressionsCreateRequest {
   /** The email addresses to remove, at most 100 per request. */
   identifiers: MessagingSuppressionsBulkRemoveSuppressionsCreateRequestIdentifiersList;
   /** Set to true to remove addresses that are suppressed because the recipient reported a message as spam. Mailing them again can hurt your sender reputation. Without it, a request that includes one removes nothing and returns 400. */
-  confirm_complaints?: boolean;
+  confirm_complaints?: boolean | undefined;
 }
 /** Addresses removed from the suppression list. */
 export type BulkRemoveSuppressionsResponseRemovedList = Array<string>;
@@ -100,7 +100,7 @@ export interface MessagingSuppressionsRemoveSuppressionCreateRequest {
   /** The email address to remove. */
   identifier: string;
   /** Set to true to remove addresses that are suppressed because the recipient reported a message as spam. Mailing them again can hurt your sender reputation. Without it, a request that includes one removes nothing and returns 400. */
-  confirm_complaints?: boolean;
+  confirm_complaints?: boolean | undefined;
 }
 export interface MessagingSuppressionsRemoveSuppressionCreateResponse {}
 export type GetMessagingSuppressionsSuppressionError = PosthogOpError;

@@ -30,45 +30,45 @@ export interface BillingActivateAuthorizeCreateRequest {
 }
 export interface BillingAuthorizationResponse {
   /** Stripe client secret for the authorization intent. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether authorization completed without a payment form. */
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface BillingActivateAuthorizeStatusCreateRequest {
   /** Organization selected when this payment flow started. */
   organization_id: string;
   /** Stripe payment intent created for this organization. */
-  payment_intent_id?: string | null;
+  payment_intent_id?: string | null | undefined;
 }
 export interface BillingAuthorizationStatusResponse {
   /** Authorization status: loading, success, or failed. */
-  status?: string;
+  status?: string | undefined;
   /** Reason authorization failed. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Whether authorization completed without a payment form. */
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface BillingActivateCreateRequest {
   /** Organization selected when this payment flow started. */
   organization_id: string;
   /** Product and plan keys to activate. */
-  products?: string;
+  products?: string | undefined;
   /** Product that prompted the subscription upgrade. */
-  intent_product?: string;
+  intent_product?: string | undefined;
   /** JSON-encoded custom product limits to apply on activation. */
-  custom_limits_usd?: string;
+  custom_limits_usd?: string | undefined;
 }
 /** Products activated by this request. */
 export type BillingActivationResponseProductsList = Array<string>;
 export interface BillingActivationResponse {
   /** Whether the subscription was activated. */
-  success?: boolean;
+  success?: boolean | undefined;
   /** Whether payment details are required. */
-  must_setup_payment?: boolean;
+  must_setup_payment?: boolean | undefined;
   /** Products activated by this request. */
-  products?: BillingActivationResponseProductsList;
+  products?: BillingActivationResponseProductsList | undefined;
   /** Reason activation failed. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface BillingDeactivateCreateRequest {
   plan: string;
@@ -81,48 +81,48 @@ export interface BillingProjectSpendExportDownloadRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** JSON-encoded array of breakdown dimensions. Omit it for one series across the project. Pass `["type"]` for a series per product. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingProjectSpendExportDownloadResponse {}
 export interface BillingProjectUsageExportDownloadRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** JSON-encoded array of breakdown dimensions. Omit it for one series across the project. Pass `["type"]` for a series per product. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingProjectUsageExportDownloadResponse {}
 export interface BillingSpendExportRetrieveRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingSpendExportRetrieveResponse {}
 export interface BillingStartupsApplyCreateRequest {
@@ -142,22 +142,22 @@ export interface BillingTrialsCancelCreateRequest {
 export interface BillingTrialsCancelCreateResponse {}
 export interface BillingUsageExportRetrieveRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingUsageExportRetrieveResponse {}
 export interface CreateBillingCouponsClaimRequest {
@@ -192,26 +192,26 @@ export interface GetBillingProjectSpendTimeseriesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** JSON-encoded array of breakdown dimensions. Omit it for one series across the project. Pass `["type"]` for a series per product. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export type BillingTimeSeriesPointDataList = Array<number>;
 export type BillingTimeSeriesPointDatesList = Array<string>;
 /** * `type` - type * `team` - team * `multiple` - multiple */
 export type BreakdownTypeEnum = "type" | "team" | "multiple";
 export interface BillingTimeSeriesPoint {
-  id?: number;
-  label?: string;
-  data?: BillingTimeSeriesPointDataList;
-  dates?: BillingTimeSeriesPointDatesList;
-  breakdown_type?: BreakdownTypeEnum | null;
-  breakdown_value?: unknown;
+  id?: number | undefined;
+  label?: string | undefined;
+  data?: BillingTimeSeriesPointDataList | undefined;
+  dates?: BillingTimeSeriesPointDatesList | undefined;
+  breakdown_type?: BreakdownTypeEnum | null | undefined;
+  breakdown_value?: unknown | undefined;
 }
 export type PaginatedBillingTimeSeriesPointListResultsList = Array<BillingTimeSeriesPoint>;
 export interface PaginatedBillingTimeSeriesPointList {
@@ -251,63 +251,63 @@ export interface GetBillingProjectUsageTimeseriesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** JSON-encoded array of breakdown dimensions. Omit it for one series across the project. Pass `["type"]` for a series per product. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface GetBillingSpendRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export type BillingTimeSeriesResponseResultsList = Array<BillingTimeSeriesPoint>;
 export type BillingTimeSeriesResponseTeamIdOptionsList = Array<number>;
 export interface BillingTimeSeriesResponse {
-  status?: string;
-  type?: string;
-  customer_id?: number;
+  status?: string | undefined;
+  type?: string | undefined;
+  customer_id?: number | undefined;
   results: BillingTimeSeriesResponseResultsList;
-  team_id_options?: BillingTimeSeriesResponseTeamIdOptionsList;
-  next?: string;
-  total_count?: number;
+  team_id_options?: BillingTimeSeriesResponseTeamIdOptionsList | undefined;
+  next?: string | undefined;
+  total_count?: number | undefined;
 }
 export interface GetBillingUsageRequest {
   /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
-  after?: string;
+  after?: string | undefined;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface GetBillingUsageTeamOptionRequest {}
 /** Project ids that appear in the organization's usage reports. */
@@ -318,9 +318,9 @@ export interface BillingTeamOptionsResponse {
 }
 export interface ListBillingRequest {
   /** Whether to include usage forecasting. */
-  include_forecasting?: boolean;
+  include_forecasting?: boolean | undefined;
   /** Explicit organization to refresh after payment. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 export type BillingOverviewResponseProductsItemMap = { [key: string]: unknown | undefined };
 /** Subscribed and available products/addons with pricing, plan, limit, usage, and entitlement metadata. */
@@ -331,43 +331,43 @@ export interface BillingManagedByPartner {
   partner_name: string;
 }
 export interface BillingOverviewResponse {
-  customer_id?: string | null;
-  billing_plan?: string | null;
-  subscription_level?: string | null;
-  has_active_subscription?: boolean;
-  is_annual_plan_customer?: boolean;
-  free_trial_until?: string | null;
-  current_total_amount_usd?: string | null;
-  current_total_amount_usd_after_discount?: string | null;
-  projected_total_amount_usd?: string | null;
-  projected_total_amount_usd_after_discount?: string | null;
-  projected_total_amount_usd_with_limit?: string | null;
-  projected_total_amount_usd_with_limit_after_discount?: string | null;
-  discount_amount_usd?: string | null;
-  discount_percent?: number | null;
-  amount_off_expires_at?: string | null;
-  startup_program_label?: string | null;
-  startup_program_label_previous?: string | null;
-  stripe_portal_url?: string;
-  external_billing_provider_invoices_url?: string;
+  customer_id?: string | null | undefined;
+  billing_plan?: string | null | undefined;
+  subscription_level?: string | null | undefined;
+  has_active_subscription?: boolean | undefined;
+  is_annual_plan_customer?: boolean | undefined;
+  free_trial_until?: string | null | undefined;
+  current_total_amount_usd?: string | null | undefined;
+  current_total_amount_usd_after_discount?: string | null | undefined;
+  projected_total_amount_usd?: string | null | undefined;
+  projected_total_amount_usd_after_discount?: string | null | undefined;
+  projected_total_amount_usd_with_limit?: string | null | undefined;
+  projected_total_amount_usd_with_limit_after_discount?: string | null | undefined;
+  discount_amount_usd?: string | null | undefined;
+  discount_percent?: number | null | undefined;
+  amount_off_expires_at?: string | null | undefined;
+  startup_program_label?: string | null | undefined;
+  startup_program_label_previous?: string | null | undefined;
+  stripe_portal_url?: string | undefined;
+  external_billing_provider_invoices_url?: string | undefined;
   /** Subscribed and available products/addons with pricing, plan, limit, usage, and entitlement metadata. */
-  products?: BillingOverviewResponseProductsList;
-  available_product_features?: BillingOverviewResponseAvailableProductFeaturesList;
-  usage_summary?: unknown;
-  billing_period?: unknown;
-  custom_limits_usd?: unknown;
-  next_period_custom_limits_usd?: unknown;
-  trial?: unknown;
-  license?: unknown;
-  account_owner?: unknown;
-  customer_trust_scores?: unknown;
-  never_drop_data?: boolean;
+  products?: BillingOverviewResponseProductsList | undefined;
+  available_product_features?: BillingOverviewResponseAvailableProductFeaturesList | undefined;
+  usage_summary?: unknown | undefined;
+  billing_period?: unknown | undefined;
+  custom_limits_usd?: unknown | undefined;
+  next_period_custom_limits_usd?: unknown | undefined;
+  trial?: unknown | undefined;
+  license?: unknown | undefined;
+  account_owner?: unknown | undefined;
+  customer_trust_scores?: unknown | undefined;
+  never_drop_data?: boolean | undefined;
   /** Set when a provisioning partner pays for this organization and the organization has no Stripe customer of its own. Self-serve subscription and payment changes are refused while it is set. Null otherwise. */
   billing_managed_by_partner: BillingManagedByPartner | null;
 }
 export interface UpdateBillingLicensePartialRequest {
-  plan?: string;
-  billing_limit?: number;
+  plan?: string | undefined;
+  billing_limit?: number | undefined;
 }
 export interface UpdateBillingLicensePartialResponse {}
 export type BillingActivateAuthorizeCreateError = PosthogOpError;

@@ -86,7 +86,7 @@ export class NotFound
 /** Request for the product.purchases.acknowledge API. */
 export interface ProductPurchasesAcknowledgeRequest {
   /** Payload to attach to the purchase. */
-  developerPayload?: string;
+  developerPayload?: string | undefined;
 }
 export interface AcknowledgePurchasesProductsRequest {
   /** The package name of the application the inapp product was sold in (for example, 'com.some.thing'). */
@@ -96,22 +96,22 @@ export interface AcknowledgePurchasesProductsRequest {
   /** The token provided to the user's device when the inapp product was purchased. */
   token: string;
   /** Request body */
-  body?: ProductPurchasesAcknowledgeRequest;
+  body?: ProductPurchasesAcknowledgeRequest | undefined;
 }
 export interface AcknowledgePurchasesProductsResponse {}
 /** User account identifier in your app. */
 export interface ExternalAccountIds {
   /** Optional. Specifies an optional obfuscated string that is uniquely associated with the purchaser's user account in your app. If you pass this value, Google Play can use it to detect irregular activity. Do not use this field to store any Personally Identifiable Information (PII) such as emails in cleartext. Attempting to store PII in this field will result in purchases being blocked. Google Play recommends that you use either encryption or a one-way hash to generate an obfuscated identifier to send to Google Play. This identifier is limited to 64 characters. This field can only be set for resubscription purchases. See https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedaccountid to set this field for purchases made using the standard in-app billing flow. */
-  obfuscatedAccountId?: string;
+  obfuscatedAccountId?: string | undefined;
   /** Optional. Specifies an optional obfuscated string that is uniquely associated with the purchaser's user profile in your app. If you pass this value, Google Play can use it to detect irregular activity. Do not use this field to store any Personally Identifiable Information (PII) such as emails in cleartext. Attempting to store PII in this field will result in purchases being blocked. Google Play recommends that you use either encryption or a one-way hash to generate an obfuscated identifier to send to Google Play. This identifier is limited to 64 characters. This field can only be set for resubscription purchases. See https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedprofileid to set this field for purchases made using the standard in-app billing flow. */
-  obfuscatedProfileId?: string;
+  obfuscatedProfileId?: string | undefined;
 }
 /** Request for the purchases.subscriptions.acknowledge API. */
 export interface SubscriptionPurchasesAcknowledgeRequest {
   /** Payload to attach to the purchase. */
-  developerPayload?: string;
+  developerPayload?: string | undefined;
   /** Optional. User account identifier in your app. */
-  externalAccountIds?: ExternalAccountIds;
+  externalAccountIds?: ExternalAccountIds | undefined;
 }
 export interface AcknowledgePurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
@@ -121,7 +121,7 @@ export interface AcknowledgePurchasesSubscriptionsRequest {
   /** The token provided to the user's device when the subscription was purchased. */
   token: string;
   /** Request body */
-  body?: SubscriptionPurchasesAcknowledgeRequest;
+  body?: SubscriptionPurchasesAcknowledgeRequest | undefined;
 }
 export interface AcknowledgePurchasesSubscriptionsResponse {}
 export type ActivateOneTimeProductOfferRequestLatencyToleranceEnum =
@@ -131,15 +131,18 @@ export type ActivateOneTimeProductOfferRequestLatencyToleranceEnum =
 /** Request message for ActivateOneTimeProductOffer. */
 export interface ActivateOneTimeProductOfferRequest {
   /** Required. The parent purchase option (ID) of the offer to activate. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this update. Defaults to latency-sensitive. */
-  latencyTolerance?: ActivateOneTimeProductOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | ActivateOneTimeProductOfferRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. The offer ID of the offer to activate. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Required. The parent app (package name) of the offer to activate. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The parent one-time product (ID) of the offer to activate. */
-  productId?: string;
+  productId?: string | undefined;
 }
 export interface ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent one-time product (ID) of the offer to activate. */
@@ -151,12 +154,12 @@ export interface ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest
   /** Required. The offer ID of the offer to activate. */
   offerId: string;
   /** Request body */
-  body?: ActivateOneTimeProductOfferRequest;
+  body?: ActivateOneTimeProductOfferRequest | undefined;
 }
 /** Configuration specific to game reward offers. */
 export interface OneTimeProductGameRewardOffer {
   /** Optional. The number of times this offer can be redeemed. If unset or set to 0, allows for unlimited offer redemptions. Otherwise must be a number between 1 and 50 inclusive. */
-  redemptionLimit?: string;
+  redemptionLimit?: string | undefined;
 }
 /** Options for one-time product offers without a regional price override. */
 export interface OneTimeProductOfferNoPriceOverrideOptions {}
@@ -167,26 +170,27 @@ export type OneTimeProductOfferRegionalPricingAndAvailabilityConfigAvailabilityE
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+  units?: string | undefined;
 }
 /** Regional pricing and availability configuration for a one-time product offer. */
 export interface OneTimeProductOfferRegionalPricingAndAvailabilityConfig {
   /** The price defined in the purchase option for this region will be used. */
-  noOverride?: OneTimeProductOfferNoPriceOverrideOptions;
+  noOverride?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The percentage discount subtracted from the purchase option price, specified as a fraction strictly larger than `0` and strictly smaller than `1`. For example, a value of `0.8` represents an 80% discount, meaning that if the purchase option price is $100, the offer price will be $20. The resulting price will be rounded to the nearest billable unit (e.g. cents for USD). The relative discount is considered invalid if the discounted price ends up being smaller than the minimum price allowed in this region. */
-  relativeDiscount?: number;
+  relativeDiscount?: number | undefined;
   /** Required. Region code this configuration applies to, as defined by ISO 3166-2, e.g., "US". */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Required. The availability for this region. */
   availability?:
     | OneTimeProductOfferRegionalPricingAndAvailabilityConfigAvailabilityEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The absolute value of the discount that is subtracted from the purchase option price. It should be between 0 and the purchase option price. */
-  absoluteDiscount?: Money;
+  absoluteDiscount?: Money | undefined;
 }
 export type OneTimeProductOfferRegionalPricingAndAvailabilityConfigList =
   Array<OneTimeProductOfferRegionalPricingAndAvailabilityConfig>;
@@ -199,16 +203,16 @@ export type OneTimeProductOfferStateEnum =
 /** Configuration specific to discounted offers. */
 export interface OneTimeProductDiscountedOffer {
   /** Time when the offer will start being available. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. The number of times this offer can be redeemed. If unset or set to 0, allows for unlimited offer redemptions. Otherwise must be a number between 1 and 50 inclusive. */
-  redemptionLimit?: string;
+  redemptionLimit?: string | undefined;
   /** Time when the offer will stop being available. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** The version of the available regions being used for the specified resource. */
 export interface RegionsVersion {
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
-  version?: string;
+  version?: string | undefined;
 }
 export type OneTimeProductPreOrderOfferPriceChangeBehaviorEnum =
   | "PRE_ORDER_PRICE_CHANGE_BEHAVIOR_UNSPECIFIED"
@@ -217,44 +221,49 @@ export type OneTimeProductPreOrderOfferPriceChangeBehaviorEnum =
 /** Configuration specific to pre-order offers. */
 export interface OneTimeProductPreOrderOffer {
   /** Required. Time when the pre-order will stop being available. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Required. Time when the pre-order will start being available. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Required. Immutable. Specifies how price changes affect pre-existing pre-orders. */
-  priceChangeBehavior?: OneTimeProductPreOrderOfferPriceChangeBehaviorEnum | (string & {});
+  priceChangeBehavior?:
+    | OneTimeProductPreOrderOfferPriceChangeBehaviorEnum
+    | (string & {})
+    | undefined;
   /** Required. Time on which the product associated with the pre-order will be released and the pre-order orders fulfilled. */
-  releaseTime?: string;
+  releaseTime?: string | undefined;
 }
 /** Represents a custom tag specified for a product offer. */
 export interface OfferTag {
   /** Must conform with RFC-1034. That is, this string can only contain lower-case letters (a-z), numbers (0-9), and hyphens (-), and be at most 20 characters. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type OfferTagList = Array<OfferTag>;
 /** A single offer for a one-time product. */
 export interface OneTimeProductOffer {
   /** A game reward offer. */
-  gameRewardOffer?: OneTimeProductGameRewardOffer;
+  gameRewardOffer?: OneTimeProductGameRewardOffer | undefined;
   /** Required. Immutable. The ID of the purchase option to which this offer is an extension. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Set of regional pricing and availability information for this offer. Must not have duplicate entries with the same region_code. */
-  regionalPricingAndAvailabilityConfigs?: OneTimeProductOfferRegionalPricingAndAvailabilityConfigList;
+  regionalPricingAndAvailabilityConfigs?:
+    | OneTimeProductOfferRegionalPricingAndAvailabilityConfigList
+    | undefined;
   /** Output only. The current state of this offer. This field cannot be changed by updating the resource. Use the dedicated endpoints instead. */
-  state?: OneTimeProductOfferStateEnum | (string & {});
+  state?: OneTimeProductOfferStateEnum | (string & {}) | undefined;
   /** Required. Immutable. The ID of this product offer. Must be unique within the purchase option. It must start with a number or lower-case letter, and can only contain lower-case letters (a-z), numbers (0-9), and hyphens (-). The maximum length is 63 characters. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** A discounted offer. */
-  discountedOffer?: OneTimeProductDiscountedOffer;
+  discountedOffer?: OneTimeProductDiscountedOffer | undefined;
   /** Output only. The version of the regions configuration that was used to generate the one-time product offer. */
-  regionsVersion?: RegionsVersion;
+  regionsVersion?: RegionsVersion | undefined;
   /** Required. Immutable. The ID of the parent product this offer belongs to. */
-  productId?: string;
+  productId?: string | undefined;
   /** A pre-order offer. */
-  preOrderOffer?: OneTimeProductPreOrderOffer;
+  preOrderOffer?: OneTimeProductPreOrderOffer | undefined;
   /** Required. Immutable. The package name of the app the parent product belongs to. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Optional. List of up to 20 custom tags specified for this offer, and returned to the app through the billing library. */
-  offerTags?: OfferTagList;
+  offerTags?: OfferTagList | undefined;
 }
 export type ActivateBasePlanRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -263,13 +272,13 @@ export type ActivateBasePlanRequestLatencyToleranceEnum =
 /** Request message for ActivateBasePlan. */
 export interface ActivateBasePlanRequest {
   /** Required. The parent app (package name) of the base plan to activate. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The parent subscription (ID) of the base plan to activate. */
-  productId?: string;
+  productId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: ActivateBasePlanRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: ActivateBasePlanRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The unique base plan ID of the base plan to activate. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
 }
 export interface ActivateMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent subscription (ID) of the base plan to activate. */
@@ -279,24 +288,24 @@ export interface ActivateMonetizationSubscriptionsBasePlansRequest {
   /** Required. The unique base plan ID of the base plan to activate. */
   basePlanId: string;
   /** Request body */
-  body?: ActivateBasePlanRequest;
+  body?: ActivateBasePlanRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Countries where the purchase of this product is restricted to payment methods registered in the same country. If empty, no payment location restrictions are imposed. */
 export interface RestrictedPaymentCountries {
   /** Required. Region codes to impose payment restrictions on, as defined by ISO 3166-2, e.g. "US". */
-  regionCodes?: StringList;
+  regionCodes?: StringList | undefined;
 }
 /** The consumer-visible metadata of a subscription. */
 export interface SubscriptionListing {
   /** The description of this subscription in the language of this listing. Maximum length - 200 characters. Plain text. */
-  description?: string;
+  description?: string | undefined;
   /** A list of benefits shown to the user on platforms such as the Play Store and in restoration flows in the language of this listing. Plain text. Ordered list of at most four benefits. */
-  benefits?: StringList;
+  benefits?: StringList | undefined;
   /** Required. The language of this listing, as defined by BCP-47, e.g. "en-US". */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Required. The title of this subscription in the language of this listing. Plain text. */
-  title?: string;
+  title?: string | undefined;
 }
 export type SubscriptionListingList = Array<SubscriptionListing>;
 export type AutoRenewingBasePlanTypeResubscribeStateEnum =
@@ -310,19 +319,19 @@ export type AutoRenewingBasePlanTypeProrationModeEnum =
 /** Represents a base plan that automatically renews at the end of its subscription period. */
 export interface AutoRenewingBasePlanType {
   /** Whether users should be able to resubscribe to this base plan in Google Play surfaces. Defaults to RESUBSCRIBE_STATE_ACTIVE if not specified. */
-  resubscribeState?: AutoRenewingBasePlanTypeResubscribeStateEnum | (string & {});
+  resubscribeState?: AutoRenewingBasePlanTypeResubscribeStateEnum | (string & {}) | undefined;
   /** Whether the renewing base plan is backward compatible. The backward compatible base plan is returned by the Google Play Billing Library deprecated method querySkuDetailsAsync(). Only one renewing base plan can be marked as legacy compatible for a given subscription. */
-  legacyCompatible?: boolean;
+  legacyCompatible?: boolean | undefined;
   /** The proration mode for the base plan determines what happens when a user switches to this plan from another base plan. If unspecified, defaults to CHARGE_ON_NEXT_BILLING_DATE. */
-  prorationMode?: AutoRenewingBasePlanTypeProrationModeEnum | (string & {});
+  prorationMode?: AutoRenewingBasePlanTypeProrationModeEnum | (string & {}) | undefined;
   /** Subscription offer id which is legacy compatible. The backward compatible subscription offer is returned by the Google Play Billing Library deprecated method querySkuDetailsAsync(). Only one subscription offer can be marked as legacy compatible for a given renewing base plan. To have no Subscription offer as legacy compatible set this field as empty string. */
-  legacyCompatibleSubscriptionOfferId?: string;
+  legacyCompatibleSubscriptionOfferId?: string | undefined;
   /** Grace period of the subscription, specified in ISO 8601 format. Acceptable values must be in days and between P0D and the lesser of 30D and base plan billing period. If not specified, a default value will be used based on the billing period. The sum of gracePeriodDuration and accountHoldDuration must be between P30D and P60D days, inclusive. */
-  gracePeriodDuration?: string;
+  gracePeriodDuration?: string | undefined;
   /** Required. Immutable. Subscription period, specified in ISO 8601 format. For a list of acceptable billing periods, refer to the help center. The duration is immutable after the base plan is created. */
-  billingPeriodDuration?: string;
+  billingPeriodDuration?: string | undefined;
   /** Optional. Custom account hold period of the subscription, specified in ISO 8601 format. Acceptable values must be in days and between P0D and P60D. An empty field represents a recommended account hold, calculated as 60 days minus grace period. The sum of gracePeriodDuration and accountHoldDuration must be between P30D and P60D days, inclusive. */
-  accountHoldDuration?: string;
+  accountHoldDuration?: string | undefined;
 }
 export type PrepaidBasePlanTypeTimeExtensionEnum =
   | "TIME_EXTENSION_UNSPECIFIED"
@@ -331,28 +340,28 @@ export type PrepaidBasePlanTypeTimeExtensionEnum =
 /** Represents a base plan that does not automatically renew at the end of the base plan, and must be manually renewed by the user. */
 export interface PrepaidBasePlanType {
   /** Required. Immutable. Subscription period, specified in ISO 8601 format. For a list of acceptable billing periods, refer to the help center. The duration is immutable after the base plan is created. */
-  billingPeriodDuration?: string;
+  billingPeriodDuration?: string | undefined;
   /** Whether users should be able to extend this prepaid base plan in Google Play surfaces. Defaults to TIME_EXTENSION_ACTIVE if not specified. */
-  timeExtension?: PrepaidBasePlanTypeTimeExtensionEnum | (string & {});
+  timeExtension?: PrepaidBasePlanTypeTimeExtensionEnum | (string & {}) | undefined;
 }
 /** Pricing information for any new locations Play may launch in. */
 export interface OtherRegionsBasePlanConfig {
   /** Required. Price in USD to use for any new locations Play may launch in. */
-  usdPrice?: Money;
+  usdPrice?: Money | undefined;
   /** Required. Price in EUR to use for any new locations Play may launch in. */
-  eurPrice?: Money;
+  eurPrice?: Money | undefined;
   /** Whether the base plan is available for new subscribers in any new locations Play may launch in. If not specified, this will default to false. */
-  newSubscriberAvailability?: boolean;
+  newSubscriberAvailability?: boolean | undefined;
 }
 export type BasePlanStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE" | "INACTIVE";
 /** Configuration for a base plan specific to a region. */
 export interface RegionalBasePlanConfig {
   /** The price of the base plan in the specified region. Must be set if the base plan is available to new subscribers. Must be set in the currency that is linked to the specified region. */
-  price?: Money;
+  price?: Money | undefined;
   /** Whether the base plan in the specified region is available for new subscribers. Existing subscribers will not have their subscription canceled if this value is set to false. If not specified, this will default to false. */
-  newSubscriberAvailability?: boolean;
+  newSubscriberAvailability?: boolean | undefined;
   /** Required. Region code this configuration applies to, as defined by ISO 3166-2, e.g. "US". */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export type RegionalBasePlanConfigList = Array<RegionalBasePlanConfig>;
 export type InstallmentsBasePlanTypeRenewalTypeEnum =
@@ -370,38 +379,38 @@ export type InstallmentsBasePlanTypeProrationModeEnum =
 /** Represents an installments base plan where a user commits to a specified number of payments. */
 export interface InstallmentsBasePlanType {
   /** Required. Immutable. Installments base plan renewal type. Determines the behavior at the end of the initial commitment. The renewal type is immutable after the base plan is created. */
-  renewalType?: InstallmentsBasePlanTypeRenewalTypeEnum | (string & {});
+  renewalType?: InstallmentsBasePlanTypeRenewalTypeEnum | (string & {}) | undefined;
   /** Grace period of the subscription, specified in ISO 8601 format. Acceptable values must be in days and between P0D and the lesser of 30D and base plan billing period. If not specified, a default value will be used based on the billing period. The sum of gracePeriodDuration and accountHoldDuration must be between P30D and P60D days, inclusive. */
-  gracePeriodDuration?: string;
+  gracePeriodDuration?: string | undefined;
   /** Whether users should be able to resubscribe to this base plan in Google Play surfaces. Defaults to RESUBSCRIBE_STATE_ACTIVE if not specified. */
-  resubscribeState?: InstallmentsBasePlanTypeResubscribeStateEnum | (string & {});
+  resubscribeState?: InstallmentsBasePlanTypeResubscribeStateEnum | (string & {}) | undefined;
   /** Required. Immutable. Subscription period, specified in ISO 8601 format. For a list of acceptable billing periods, refer to the help center. The duration is immutable after the base plan is created. */
-  billingPeriodDuration?: string;
+  billingPeriodDuration?: string | undefined;
   /** The proration mode for the base plan determines what happens when a user switches to this plan from another base plan. If unspecified, defaults to CHARGE_ON_NEXT_BILLING_DATE. */
-  prorationMode?: InstallmentsBasePlanTypeProrationModeEnum | (string & {});
+  prorationMode?: InstallmentsBasePlanTypeProrationModeEnum | (string & {}) | undefined;
   /** Optional. Custom account hold period of the subscription, specified in ISO 8601 format. Acceptable values must be in days and between P0D and P60D. An empty field represents a recommended account hold, calculated as 60 days minus grace period. The sum of gracePeriodDuration and accountHoldDuration must be between P30D and P60D days, inclusive. */
-  accountHoldDuration?: string;
+  accountHoldDuration?: string | undefined;
   /** Required. Immutable. The number of payments the user is committed to. It is immutable after the base plan is created. */
-  committedPaymentsCount?: number;
+  committedPaymentsCount?: number | undefined;
 }
 /** A single base plan for a subscription. */
 export interface BasePlan {
   /** Set when the base plan automatically renews at a regular interval. */
-  autoRenewingBasePlanType?: AutoRenewingBasePlanType;
+  autoRenewingBasePlanType?: AutoRenewingBasePlanType | undefined;
   /** Set when the base plan does not automatically renew at the end of the billing period. */
-  prepaidBasePlanType?: PrepaidBasePlanType;
+  prepaidBasePlanType?: PrepaidBasePlanType | undefined;
   /** Pricing information for any new locations Play may launch in the future. If omitted, the BasePlan will not be automatically available any new locations Play may launch in the future. */
-  otherRegionsConfig?: OtherRegionsBasePlanConfig;
+  otherRegionsConfig?: OtherRegionsBasePlanConfig | undefined;
   /** Output only. The state of the base plan, i.e. whether it's active. Draft and inactive base plans can be activated or deleted. Active base plans can be made inactive. Inactive base plans can be canceled. This field cannot be changed by updating the resource. Use the dedicated endpoints instead. */
-  state?: BasePlanStateEnum | (string & {});
+  state?: BasePlanStateEnum | (string & {}) | undefined;
   /** List of up to 20 custom tags specified for this base plan, and returned to the app through the billing library. Subscription offers for this base plan will also receive these offer tags in the billing library. */
-  offerTags?: OfferTagList;
+  offerTags?: OfferTagList | undefined;
   /** Region-specific information for this base plan. */
-  regionalConfigs?: RegionalBasePlanConfigList;
+  regionalConfigs?: RegionalBasePlanConfigList | undefined;
   /** Required. Immutable. The unique identifier of this base plan. Must be unique within the subscription, and conform with RFC-1034. That is, this ID can only contain lower-case letters (a-z), numbers (0-9), and hyphens (-), and be at most 63 characters. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Set for installments base plans where a user is committed to a specified number of payments. */
-  installmentsBasePlanType?: InstallmentsBasePlanType;
+  installmentsBasePlanType?: InstallmentsBasePlanType | undefined;
 }
 export type BasePlanList = Array<BasePlan>;
 export type SubscriptionTaxAndComplianceSettingsEeaWithdrawalRightTypeEnum =
@@ -426,11 +435,11 @@ export type RegionalTaxRateInfoStreamingTaxTypeEnum =
 /** Specified details about taxation in a given geographical region. */
 export interface RegionalTaxRateInfo {
   /** Tax tier to specify reduced tax rate. Developers who sell digital news, magazines, newspapers, books, or audiobooks in various regions may be eligible for reduced tax rates. [Learn more](https://support.google.com/googleplay/android-developer/answer/10463498). */
-  taxTier?: RegionalTaxRateInfoTaxTierEnum | (string & {});
+  taxTier?: RegionalTaxRateInfoTaxTierEnum | (string & {}) | undefined;
   /** You must tell us if your app contains streaming products to correctly charge US state and local sales tax. Field only supported in the United States. */
-  eligibleForStreamingServiceTaxRate?: boolean;
+  eligibleForStreamingServiceTaxRate?: boolean | undefined;
   /** To collect communications or amusement taxes in the United States, choose the appropriate tax category. [Learn more](https://support.google.com/googleplay/android-developer/answer/10463498#streaming_tax). */
-  streamingTaxType?: RegionalTaxRateInfoStreamingTaxTypeEnum | (string & {});
+  streamingTaxType?: RegionalTaxRateInfoStreamingTaxTypeEnum | (string & {}) | undefined;
 }
 export type RegionalTaxRateInfoMap = { [key: string]: RegionalTaxRateInfo | undefined };
 export type RegionalProductAgeRatingInfoProductAgeRatingTierEnum =
@@ -442,9 +451,12 @@ export type RegionalProductAgeRatingInfoProductAgeRatingTierEnum =
 /** Details about the age rating for a specific geographic region. */
 export interface RegionalProductAgeRatingInfo {
   /** The age rating tier of a product for the given region. */
-  productAgeRatingTier?: RegionalProductAgeRatingInfoProductAgeRatingTierEnum | (string & {});
+  productAgeRatingTier?:
+    | RegionalProductAgeRatingInfoProductAgeRatingTierEnum
+    | (string & {})
+    | undefined;
   /** Region code this configuration applies to, as defined by ISO 3166-2, e.g. "US". */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export type RegionalProductAgeRatingInfoList = Array<RegionalProductAgeRatingInfo>;
 /** Details about taxation, Google Play policy, and legal compliance for subscription products. */
@@ -452,32 +464,33 @@ export interface SubscriptionTaxAndComplianceSettings {
   /** Digital content or service classification for products distributed to users in the European Economic Area (EEA). The withdrawal regime under EEA consumer laws depends on this classification. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/10463498) for more information. */
   eeaWithdrawalRightType?:
     | SubscriptionTaxAndComplianceSettingsEeaWithdrawalRightTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** A mapping from region code to tax rate details. The keys are region codes as defined by Unicode's "CLDR". */
-  taxRateInfoByRegionCode?: RegionalTaxRateInfoMap;
+  taxRateInfoByRegionCode?: RegionalTaxRateInfoMap | undefined;
   /** Whether this subscription is declared as a product representing a tokenized digital asset. */
-  isTokenizedDigitalAsset?: boolean;
+  isTokenizedDigitalAsset?: boolean | undefined;
   /** Regional age rating information. Currently this field is only supported for region code `US`. */
-  regionalProductAgeRatingInfos?: RegionalProductAgeRatingInfoList;
+  regionalProductAgeRatingInfos?: RegionalProductAgeRatingInfoList | undefined;
   /** Product tax category code to assign to the subscription. Product tax category determines the transaction tax rates applied to the subscription. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/16408159) for more information. */
-  productTaxCategoryCode?: string;
+  productTaxCategoryCode?: string | undefined;
 }
 /** A single subscription for an app. */
 export interface Subscription {
   /** Optional. Countries where the purchase of this subscription is restricted to payment methods registered in the same country. If empty, no payment location restrictions are imposed. */
-  restrictedPaymentCountries?: RestrictedPaymentCountries;
+  restrictedPaymentCountries?: RestrictedPaymentCountries | undefined;
   /** Required. List of localized listings for this subscription. Must contain at least an entry for the default language of the parent app. */
-  listings?: SubscriptionListingList;
+  listings?: SubscriptionListingList | undefined;
   /** The set of base plans for this subscription. Represents the prices and duration of the subscription if no other offers apply. */
-  basePlans?: BasePlanList;
+  basePlans?: BasePlanList | undefined;
   /** Output only. Deprecated: subscription archiving is not supported. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Immutable. Package name of the parent app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must be composed of lower-case letters (a-z), numbers (0-9), underscores (_) and dots (.). It must start with a lower-case letter or number, and be between 1 and 40 (inclusive) characters in length. */
-  productId?: string;
+  productId?: string | undefined;
   /** Details about taxes and legal compliance. */
-  taxAndComplianceSettings?: SubscriptionTaxAndComplianceSettings;
+  taxAndComplianceSettings?: SubscriptionTaxAndComplianceSettings | undefined;
 }
 export type ActivateSubscriptionOfferRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -486,15 +499,18 @@ export type ActivateSubscriptionOfferRequestLatencyToleranceEnum =
 /** Request message for ActivateSubscriptionOffer. */
 export interface ActivateSubscriptionOfferRequest {
   /** Required. The parent base plan (ID) of the offer to activate. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Required. The unique offer ID of the offer to activate. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: ActivateSubscriptionOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | ActivateSubscriptionOfferRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. The parent app (package name) of the offer to activate. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The parent subscription (ID) of the offer to activate. */
-  productId?: string;
+  productId?: string | undefined;
 }
 export interface ActivateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the offer to activate. */
@@ -506,12 +522,12 @@ export interface ActivateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent subscription (ID) of the offer to activate. */
   productId: string;
   /** Request body */
-  body?: ActivateSubscriptionOfferRequest;
+  body?: ActivateSubscriptionOfferRequest | undefined;
 }
 /** Configuration for any new locations Play may launch in specified on a subscription offer. */
 export interface OtherRegionsSubscriptionOfferConfig {
   /** Whether the subscription offer in any new locations Play may launch in the future. If not specified, this will default to false. */
-  otherRegionsNewSubscriberAvailability?: boolean;
+  otherRegionsNewSubscriberAvailability?: boolean | undefined;
 }
 /** Represents the targeting rule scope corresponding to any subscription in the parent app. */
 export type TargetingRuleScopeAnySubscriptionInApp = OneTimeProductOfferNoPriceOverrideOptions;
@@ -520,32 +536,32 @@ export type TargetingRuleScopeThisSubscription = OneTimeProductOfferNoPriceOverr
 /** Defines the scope of subscriptions which a targeting rule can match to target offers to users based on past or current entitlement. */
 export interface TargetingRuleScope {
   /** The scope of the current targeting rule is any subscription in the parent app. */
-  anySubscriptionInApp?: OneTimeProductOfferNoPriceOverrideOptions;
+  anySubscriptionInApp?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The scope of the current targeting rule is the subscription in which this offer is defined. */
-  thisSubscription?: OneTimeProductOfferNoPriceOverrideOptions;
+  thisSubscription?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The scope of the current targeting rule is the subscription with the specified subscription ID. Must be a subscription within the same parent app. */
-  specificSubscriptionInApp?: string;
+  specificSubscriptionInApp?: string | undefined;
 }
 /** Represents a targeting rule of the form: User currently has {scope} [with billing period {billing_period}]. */
 export interface UpgradeTargetingRule {
   /** Required. The scope of subscriptions this rule considers. Only allows "this subscription" and "specific subscription in app". */
-  scope?: TargetingRuleScope;
+  scope?: TargetingRuleScope | undefined;
   /** Limit this offer to only once per user. If set to true, a user can never be eligible for this offer again if they ever subscribed to this offer. */
-  oncePerUser?: boolean;
+  oncePerUser?: boolean | undefined;
   /** The specific billing period duration, specified in ISO 8601 format, that a user must be currently subscribed to to be eligible for this rule. If not specified, users subscribed to any billing period are matched. */
-  billingPeriodDuration?: string;
+  billingPeriodDuration?: string | undefined;
 }
 /** Represents a targeting rule of the form: User never had {scope} before. */
 export interface AcquisitionTargetingRule {
   /** Required. The scope of subscriptions this rule considers. Only allows "this subscription" and "any subscription in app". */
-  scope?: TargetingRuleScope;
+  scope?: TargetingRuleScope | undefined;
 }
 /** Defines the rule a user needs to satisfy to receive this offer. */
 export interface SubscriptionOfferTargeting {
   /** Offer targeting rule for upgrading users' existing plans. */
-  upgradeRule?: UpgradeTargetingRule;
+  upgradeRule?: UpgradeTargetingRule | undefined;
   /** Offer targeting rule for new user acquisition. */
-  acquisitionRule?: AcquisitionTargetingRule;
+  acquisitionRule?: AcquisitionTargetingRule | undefined;
 }
 /** Represents the free price override configuration for a single phase of a subscription offer */
 export type RegionalSubscriptionOfferPhaseFreePriceOverride =
@@ -553,23 +569,23 @@ export type RegionalSubscriptionOfferPhaseFreePriceOverride =
 /** Configuration for a single phase of a subscription offer in a single region. */
 export interface RegionalSubscriptionOfferPhaseConfig {
   /** The absolute price the user pays for this offer phase. The price must not be smaller than the minimum price allowed for this region. */
-  price?: Money;
+  price?: Money | undefined;
   /** The absolute amount of money subtracted from the base plan price prorated over the phase duration. For example, if the base plan price for this region is $12 for a period of 1 year, then a $1 absolute discount for a phase of a duration of 3 months would correspond to a price of $2. The resulting price may not be smaller than the minimum price allowed for this region. */
-  absoluteDiscount?: Money;
+  absoluteDiscount?: Money | undefined;
   /** Required. Immutable. The region to which this config applies. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** The percentage discount subtracted from the base plan price prorated over the phase duration, specified as a fraction strictly larger than `0` and strictly smaller than `1`. For example, a value of `0.8` represents an 80% discount, meaning that if the prorated base plan price is $100, the offer price will be $20. The resulting price will be rounded to the nearest billable unit (e.g. cents for USD). The relative discount is considered invalid if the discounted price ends up being smaller than the minimum price allowed in this region. */
-  relativeDiscount?: number;
+  relativeDiscount?: number | undefined;
   /** Set to specify this offer is free to obtain. */
-  free?: OneTimeProductOfferNoPriceOverrideOptions;
+  free?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 export type RegionalSubscriptionOfferPhaseConfigList = Array<RegionalSubscriptionOfferPhaseConfig>;
 /** Pricing information for any new locations Play may launch in. */
 export interface OtherRegionsSubscriptionOfferPhasePrices {
   /** Required. Price in USD to use for any new locations Play may launch in. */
-  usdPrice?: Money;
+  usdPrice?: Money | undefined;
   /** Required. Price in EUR to use for any new locations Play may launch in. */
-  eurPrice?: Money;
+  eurPrice?: Money | undefined;
 }
 /** Represents the free price override configuration for any new locations Play may launch for a single offer phase. */
 export type OtherRegionsSubscriptionOfferPhaseFreePriceOverride =
@@ -577,103 +593,103 @@ export type OtherRegionsSubscriptionOfferPhaseFreePriceOverride =
 /** Configuration for any new locations Play may launch in for a single offer phase. */
 export interface OtherRegionsSubscriptionOfferPhaseConfig {
   /** The absolute amount of money subtracted from the base plan price prorated over the phase duration. For example, if the base plan price for this region is $12 for a period of 1 year, then a $1 absolute discount for a phase of a duration of 3 months would correspond to a price of $2. The resulting price may not be smaller than the minimum price allowed for any new locations Play may launch in. */
-  absoluteDiscounts?: OtherRegionsSubscriptionOfferPhasePrices;
+  absoluteDiscounts?: OtherRegionsSubscriptionOfferPhasePrices | undefined;
   /** Set to specify this offer is free to obtain. */
-  free?: OneTimeProductOfferNoPriceOverrideOptions;
+  free?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The absolute price the user pays for this offer phase. The price must not be smaller than the minimum price allowed for any new locations Play may launch in. */
-  otherRegionsPrices?: OtherRegionsSubscriptionOfferPhasePrices;
+  otherRegionsPrices?: OtherRegionsSubscriptionOfferPhasePrices | undefined;
   /** The percentage discount subtracted from the base plan price prorated over the phase duration, specified as a fraction strictly larger than `0` and strictly smaller than `1`. For example, a value of `0.8` represents an 80% discount, meaning that if the prorated base plan price is $100, the offer price will be $20. The resulting price will be rounded to the nearest billable unit (e.g. cents for USD). The relative discount is considered invalid if the discounted price ends up being smaller than the minimum price allowed in any new locations Play may launch in. */
-  relativeDiscount?: number;
+  relativeDiscount?: number | undefined;
 }
 /** A single phase of a subscription offer. */
 export interface SubscriptionOfferPhase {
   /** Required. The region-specific configuration of this offer phase. This list must contain exactly one entry for each region for which the subscription offer has a regional config. */
-  regionalConfigs?: RegionalSubscriptionOfferPhaseConfigList;
+  regionalConfigs?: RegionalSubscriptionOfferPhaseConfigList | undefined;
   /** Required. The duration of a single recurrence of this phase. Specified in ISO 8601 format. */
-  duration?: string;
+  duration?: string | undefined;
   /** Required. The number of times this phase repeats. If this offer phase is not free, each recurrence charges the user the price of this offer phase. */
-  recurrenceCount?: number;
+  recurrenceCount?: number | undefined;
   /** Pricing information for any new locations Play may launch in. */
-  otherRegionsConfig?: OtherRegionsSubscriptionOfferPhaseConfig;
+  otherRegionsConfig?: OtherRegionsSubscriptionOfferPhaseConfig | undefined;
 }
 export type SubscriptionOfferPhaseList = Array<SubscriptionOfferPhase>;
 export type SubscriptionOfferStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE" | "INACTIVE";
 /** Configuration for a subscription offer in a single region. */
 export interface RegionalSubscriptionOfferConfig {
   /** Whether the subscription offer in the specified region is available for new subscribers. Existing subscribers will not have their subscription cancelled if this value is set to false. If not specified, this will default to false. */
-  newSubscriberAvailability?: boolean;
+  newSubscriberAvailability?: boolean | undefined;
   /** Required. Immutable. Region code this configuration applies to, as defined by ISO 3166-2, e.g. "US". */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export type RegionalSubscriptionOfferConfigList = Array<RegionalSubscriptionOfferConfig>;
 /** A single, temporary offer */
 export interface SubscriptionOffer {
   /** The configuration for any new locations Play may launch in the future. */
-  otherRegionsConfig?: OtherRegionsSubscriptionOfferConfig;
+  otherRegionsConfig?: OtherRegionsSubscriptionOfferConfig | undefined;
   /** The requirements that users need to fulfil to be eligible for this offer. Represents the requirements that Play will evaluate to decide whether an offer should be returned. Developers may further filter these offers themselves. */
-  targeting?: SubscriptionOfferTargeting;
+  targeting?: SubscriptionOfferTargeting | undefined;
   /** Required. Immutable. Unique ID of this subscription offer. Must be unique within the base plan. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Required. The phases of this subscription offer. Must contain at least one and at most two entries. Users will always receive all these phases in the specified order. */
-  phases?: SubscriptionOfferPhaseList;
+  phases?: SubscriptionOfferPhaseList | undefined;
   /** Output only. The current state of this offer. Can be changed using Activate and Deactivate actions. NB: the base plan state supersedes this state, so an active offer may not be available if the base plan is not active. */
-  state?: SubscriptionOfferStateEnum | (string & {});
+  state?: SubscriptionOfferStateEnum | (string & {}) | undefined;
   /** Required. Immutable. The package name of the app the parent subscription belongs to. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The region-specific configuration of this offer. Must contain at least one entry. */
-  regionalConfigs?: RegionalSubscriptionOfferConfigList;
+  regionalConfigs?: RegionalSubscriptionOfferConfigList | undefined;
   /** Required. Immutable. The ID of the parent subscription this offer belongs to. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. Immutable. The ID of the base plan to which this offer is an extension. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** List of up to 20 custom tags specified for this offer, and returned to the app through the billing library. */
-  offerTags?: OfferTagList;
+  offerTags?: OfferTagList | undefined;
 }
 /** A permission used by this APK. */
 export interface UsesPermission {
   /** The name of the permission requested. */
-  name?: string;
+  name?: string | undefined;
   /** Optionally, the maximum SDK version for which the permission is required. */
-  maxSdkVersion?: number;
+  maxSdkVersion?: number | undefined;
 }
 export type UsesPermissionList = Array<UsesPermission>;
 /** Defines an APK available for this application that is hosted externally and not uploaded to Google Play. This function is only available to organizations using Managed Play whose application is configured to restrict distribution to the organizations. */
 export interface ExternallyHostedApk {
   /** The sha1 checksum of this APK, represented as a base64 encoded byte array. */
-  fileSha1Base64?: string;
+  fileSha1Base64?: string | undefined;
   /** The URL at which the APK is hosted. This must be an https URL. */
-  externallyHostedUrl?: string;
+  externallyHostedUrl?: string | undefined;
   /** A certificate (or array of certificates if a certificate-chain is used) used to sign this APK, represented as a base64 encoded byte array. */
-  certificateBase64s?: StringList;
+  certificateBase64s?: StringList | undefined;
   /** The features required by this APK (optional). */
-  usesFeatures?: StringList;
+  usesFeatures?: StringList | undefined;
   /** The sha256 checksum of this APK, represented as a base64 encoded byte array. */
-  fileSha256Base64?: string;
+  fileSha256Base64?: string | undefined;
   /** The minimum SDK targeted by this APK. */
-  minimumSdk?: number;
+  minimumSdk?: number | undefined;
   /** The permissions requested by this APK. */
-  usesPermissions?: UsesPermissionList;
+  usesPermissions?: UsesPermissionList | undefined;
   /** The maximum SDK supported by this APK (optional). */
-  maximumSdk?: number;
+  maximumSdk?: number | undefined;
   /** The package name. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** The version code of this APK. */
-  versionCode?: number;
+  versionCode?: number | undefined;
   /** The icon image from the APK, as a base64 encoded byte array. */
-  iconBase64?: string;
+  iconBase64?: string | undefined;
   /** The file size in bytes of this APK. */
-  fileSize?: string;
+  fileSize?: string | undefined;
   /** The application label. */
-  applicationLabel?: string;
+  applicationLabel?: string | undefined;
   /** The version name of this APK. */
-  versionName?: string;
+  versionName?: string | undefined;
   /** The native code environments supported by this APK (optional). */
-  nativeCodes?: StringList;
+  nativeCodes?: StringList | undefined;
 }
 /** Request to create a new externally hosted APK. */
 export interface ApksAddExternallyHostedRequest {
   /** The definition of the externally-hosted APK and where it is located. */
-  externallyHostedApk?: ExternallyHostedApk;
+  externallyHostedApk?: ExternallyHostedApk | undefined;
 }
 export interface AddexternallyhostedEditsApksRequest {
   /** Package name of the app. */
@@ -681,41 +697,41 @@ export interface AddexternallyhostedEditsApksRequest {
   /** Identifier of the edit. */
   editId: string;
   /** Request body */
-  body?: ApksAddExternallyHostedRequest;
+  body?: ApksAddExternallyHostedRequest | undefined;
 }
 /** Response for creating a new externally hosted APK. */
 export interface ApksAddExternallyHostedResponse {
   /** The definition of the externally-hosted APK and where it is located. */
-  externallyHostedApk?: ExternallyHostedApk;
+  externallyHostedApk?: ExternallyHostedApk | undefined;
 }
 /** Object representation to describe all set of users. */
 export interface AllUsers {
   /** Required. Set to true if all set of users are needed. */
-  isAllUsersRequested?: boolean;
+  isAllUsersRequested?: boolean | undefined;
 }
 /** Android api level targeting data for app recovery action targeting. */
 export interface AndroidSdks {
   /** Android api levels of devices targeted by recovery action. See https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels for different api levels in android. */
-  sdkLevels?: StringList;
+  sdkLevels?: StringList | undefined;
 }
 /** Region targeting data for app recovery action targeting. */
 export interface Regions {
   /** Regions targeted by the recovery action. Region codes are ISO 3166 Alpha-2 country codes. For example, US stands for United States of America. See https://www.iso.org/iso-3166-country-codes.html for the complete list of country codes. */
-  regionCode?: StringList;
+  regionCode?: StringList | undefined;
 }
 /** Update type for targeting. Note it is always a subset Targeting. */
 export interface TargetingUpdate {
   /** All users are targeted. */
-  allUsers?: AllUsers;
+  allUsers?: AllUsers | undefined;
   /** Additional android sdk levels are targeted by the recovery action. */
-  androidSdks?: AndroidSdks;
+  androidSdks?: AndroidSdks | undefined;
   /** Additional regions are targeted by the recovery action. */
-  regions?: Regions;
+  regions?: Regions | undefined;
 }
 /** Request message for AddTargeting. */
 export interface AddTargetingRequest {
   /** Specifies targeting updates such as regions, android sdk versions etc. */
-  targetingUpdate?: TargetingUpdate;
+  targetingUpdate?: TargetingUpdate | undefined;
 }
 export interface AddTargetingApprecoveryRequest {
   /** Required. ID corresponding to the app recovery action. */
@@ -723,7 +739,7 @@ export interface AddTargetingApprecoveryRequest {
   /** Required. Package name of the app for which recovery action is to be updated. */
   packageName: string;
   /** Request body */
-  body?: AddTargetingRequest;
+  body?: AddTargetingRequest | undefined;
 }
 /** Response message for AddTargeting. */
 export interface AddTargetingResponse {}
@@ -735,7 +751,7 @@ export interface ArchiveMonetizationSubscriptionsRequest {
   /** Required. The unique product ID of the subscription to delete. */
   productId: string;
   /** Request body */
-  body?: OneTimeProductOfferNoPriceOverrideOptions;
+  body?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 export type InappproductsDeleteRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -744,23 +760,23 @@ export type InappproductsDeleteRequestLatencyToleranceEnum =
 /** Request to delete an in-app product. */
 export interface InappproductsDeleteRequest {
   /** Package name of the app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Unique identifier for the in-app product. */
-  sku?: string;
+  sku?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: InappproductsDeleteRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: InappproductsDeleteRequestLatencyToleranceEnum | (string & {}) | undefined;
 }
 export type InappproductsDeleteRequestList = Array<InappproductsDeleteRequest>;
 /** Request to delete multiple in-app products. */
 export interface InappproductsBatchDeleteRequest {
   /** Individual delete requests. At least one request is required. Can contain up to 100 requests. All requests must correspond to different in-app products. */
-  requests?: InappproductsDeleteRequestList;
+  requests?: InappproductsDeleteRequestList | undefined;
 }
 export interface BatchDeleteInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: InappproductsBatchDeleteRequest;
+  body?: InappproductsBatchDeleteRequest | undefined;
 }
 export interface BatchDeleteInappproductsResponse {}
 export type DeleteOneTimeProductRequestLatencyToleranceEnum =
@@ -770,23 +786,23 @@ export type DeleteOneTimeProductRequestLatencyToleranceEnum =
 /** Request message for deleting a one-time product. */
 export interface DeleteOneTimeProductRequest {
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeleteOneTimeProductRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: DeleteOneTimeProductRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The one-time product ID of the one-time product to delete. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The parent app (package name) of the one-time product to delete. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export type DeleteOneTimeProductRequestList = Array<DeleteOneTimeProductRequest>;
 /** Request message for BatchDeleteOneTimeProduct. */
 export interface BatchDeleteOneTimeProductsRequest {
   /** Required. A list of delete requests of up to 100 elements. All requests must delete different one-time products. */
-  requests?: DeleteOneTimeProductRequestList;
+  requests?: DeleteOneTimeProductRequestList | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) for which the one-time products should be deleted. Must be equal to the package_name field on all the requests. */
   packageName: string;
   /** Request body */
-  body?: BatchDeleteOneTimeProductsRequest;
+  body?: BatchDeleteOneTimeProductsRequest | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsResponse {}
 export type DeletePurchaseOptionRequestLatencyToleranceEnum =
@@ -796,21 +812,21 @@ export type DeletePurchaseOptionRequestLatencyToleranceEnum =
 /** Request message for deleting a purchase option. */
 export interface DeletePurchaseOptionRequest {
   /** Required. The parent app (package name) of the purchase option to delete. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The parent one-time product (ID) of the purchase option to delete. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The purchase option ID of the purchase option to delete. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeletePurchaseOptionRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: DeletePurchaseOptionRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Optional. This field has no effect for purchase options with no offers under them. For purchase options with associated offers: * If `force` is set to false (default), an error will be returned. * If `force` is set to true, any associated offers under the purchase option will be deleted. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type DeletePurchaseOptionRequestList = Array<DeletePurchaseOptionRequest>;
 /** Request message for BatchDeletePurchaseOption. */
 export interface BatchDeletePurchaseOptionsRequest {
   /** Required. A list of delete requests of up to 100 elements. All requests must delete purchase options from different one-time products. */
-  requests?: DeletePurchaseOptionRequestList;
+  requests?: DeletePurchaseOptionRequestList | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsRequest {
   /** Required. The product ID of the parent one-time product, if all purchase options to delete belong to the same one-time product. If this batch delete spans multiple one-time products, set this field to "-". */
@@ -818,7 +834,7 @@ export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsRequest {
   /** Required. The parent app (package name) of the purchase options to delete. */
   packageName: string;
   /** Request body */
-  body?: BatchDeletePurchaseOptionsRequest;
+  body?: BatchDeletePurchaseOptionsRequest | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsResponse {}
 export type DeleteOneTimeProductOfferRequestLatencyToleranceEnum =
@@ -828,21 +844,24 @@ export type DeleteOneTimeProductOfferRequestLatencyToleranceEnum =
 /** Request message for deleting an one-time product offer. */
 export interface DeleteOneTimeProductOfferRequest {
   /** Required. The parent one-time product (ID) of the offer to delete. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The parent purchase option (ID) of the offer to delete. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeleteOneTimeProductOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | DeleteOneTimeProductOfferRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. The unique offer ID of the offer to delete. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Required. The parent app (package name) of the offer to delete. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export type DeleteOneTimeProductOfferRequestList = Array<DeleteOneTimeProductOfferRequest>;
 /** Request message for BatchDeleteOneTimeProductOffers. */
 export interface BatchDeleteOneTimeProductOffersRequest {
   /** Required. A list of delete requests of up to 100 elements. All requests must correspond to different offers. */
-  requests?: DeleteOneTimeProductOfferRequestList;
+  requests?: DeleteOneTimeProductOfferRequestList | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the offers to delete. Must be equal to the package_name field on all the requests. */
@@ -852,23 +871,23 @@ export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersRequ
   /** Required. The parent purchase option (ID) for which the offers should be deleted. May be specified as '-' to delete offers from multiple purchase options. */
   purchaseOptionId: string;
   /** Request body */
-  body?: BatchDeleteOneTimeProductOffersRequest;
+  body?: BatchDeleteOneTimeProductOffersRequest | undefined;
 }
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersResponse {}
 export interface BatchGetInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
   /** Unique identifier for the in-app products. */
-  sku?: StringList;
+  sku?: StringList | undefined;
 }
 /** Store listing of a single in-app product. */
 export interface InAppProductListing {
   /** Title for the store listing. */
-  title?: string;
+  title?: string | undefined;
   /** Description for the store listing. */
-  description?: string;
+  description?: string | undefined;
   /** Deprecated: Subscriptions are no longer supported in the InAppProducts API. Use the Subscriptions API instead. */
-  benefits?: StringList;
+  benefits?: StringList | undefined;
 }
 export type InAppProductListingMap = { [key: string]: InAppProductListing | undefined };
 export type ManagedProductTaxAndComplianceSettingsEeaWithdrawalRightTypeEnum =
@@ -878,25 +897,26 @@ export type ManagedProductTaxAndComplianceSettingsEeaWithdrawalRightTypeEnum =
 /** Details about taxation and legal compliance for managed products. */
 export interface ManagedProductTaxAndComplianceSettings {
   /** Regional age rating information. Currently this field is only supported for region code `US`. */
-  regionalProductAgeRatingInfos?: RegionalProductAgeRatingInfoList;
+  regionalProductAgeRatingInfos?: RegionalProductAgeRatingInfoList | undefined;
   /** Whether this in-app product is declared as a product representing a tokenized digital asset. */
-  isTokenizedDigitalAsset?: boolean;
+  isTokenizedDigitalAsset?: boolean | undefined;
   /** Digital content or service classification for products distributed to users in the European Economic Area (EEA). The withdrawal regime under EEA consumer laws depends on this classification. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/10463498) for more information. */
   eeaWithdrawalRightType?:
     | ManagedProductTaxAndComplianceSettingsEeaWithdrawalRightTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Product tax category code to assign to the in-app product. Product tax category determines the transaction tax rates applied to the product. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/16408159) for more information. */
-  productTaxCategoryCode?: string;
+  productTaxCategoryCode?: string | undefined;
   /** A mapping from region code to tax rate details. The keys are region codes as defined by Unicode's "CLDR". */
-  taxRateInfoByRegionCode?: RegionalTaxRateInfoMap;
+  taxRateInfoByRegionCode?: RegionalTaxRateInfoMap | undefined;
 }
 export type InAppProductStatusEnum = "statusUnspecified" | "active" | "inactive";
 /** Definition of a price, i.e. currency and units. */
 export interface Price {
   /** Price in 1/million of the currency base unit, represented as a string. */
-  priceMicros?: string;
+  priceMicros?: string | undefined;
   /** 3 letter Currency code, as defined by ISO 4217. See java/com/google/common/money/CurrencyCode.java */
-  currency?: string;
+  currency?: string | undefined;
 }
 export type PriceMap = { [key: string]: Price | undefined };
 export type InAppProductPurchaseTypeEnum =
@@ -906,43 +926,43 @@ export type InAppProductPurchaseTypeEnum =
 /** An in-app product. The resource for InappproductsService. */
 export interface InAppProduct {
   /** List of localized title and description data. Map key is the language of the localized data, as defined by BCP-47, e.g. "en-US". */
-  listings?: InAppProductListingMap;
+  listings?: InAppProductListingMap | undefined;
   /** Stock-keeping-unit (SKU) of the product, unique within an app. */
-  sku?: string;
+  sku?: string | undefined;
   /** Default language of the localized data, as defined by BCP-47. e.g. "en-US". */
-  defaultLanguage?: string;
+  defaultLanguage?: string | undefined;
   /** Deprecated: Subscriptions are no longer supported in the InAppProducts API. Use the Subscriptions API instead. */
-  subscriptionTaxesAndComplianceSettings?: SubscriptionTaxAndComplianceSettings;
+  subscriptionTaxesAndComplianceSettings?: SubscriptionTaxAndComplianceSettings | undefined;
   /** Deprecated: Subscriptions are no longer supported in the InAppProducts API. Use the Subscriptions API instead. */
-  subscriptionPeriod?: string;
+  subscriptionPeriod?: string | undefined;
   /** Deprecated: Subscriptions are no longer supported in the InAppProducts API. Use the Subscriptions API instead. */
-  gracePeriod?: string;
+  gracePeriod?: string | undefined;
   /** Details about taxes and legal compliance. Only applicable to managed products. */
-  managedProductTaxesAndComplianceSettings?: ManagedProductTaxAndComplianceSettings;
+  managedProductTaxesAndComplianceSettings?: ManagedProductTaxAndComplianceSettings | undefined;
   /** Deprecated: Subscriptions are no longer supported in the InAppProducts API. Use the Subscriptions API instead. */
-  trialPeriod?: string;
+  trialPeriod?: string | undefined;
   /** The status of the product, e.g. whether it's active. */
-  status?: InAppProductStatusEnum | (string & {});
+  status?: InAppProductStatusEnum | (string & {}) | undefined;
   /** Package name of the parent app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Prices per buyer region. None of these can be zero, as in-app products are never free. Map key is region code, as defined by ISO 3166-2. */
-  prices?: PriceMap;
+  prices?: PriceMap | undefined;
   /** The type of the product, e.g. a recurring subscription. */
-  purchaseType?: InAppProductPurchaseTypeEnum | (string & {});
+  purchaseType?: InAppProductPurchaseTypeEnum | (string & {}) | undefined;
   /** Default price. Cannot be zero, as in-app products are never free. Always in the developer's Checkout merchant currency. */
-  defaultPrice?: Price;
+  defaultPrice?: Price | undefined;
 }
 export type InAppProductList = Array<InAppProduct>;
 /** Response message for BatchGetSubscriptions endpoint. */
 export interface InappproductsBatchGetResponse {
   /** The list of requested in-app products, in the same order as the request. */
-  inappproduct?: InAppProductList;
+  inappproduct?: InAppProductList | undefined;
 }
 export interface BatchGetMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) for which the products should be retrieved. */
   packageName: string;
   /** Required. A list of up to 100 product IDs to retrieve. All IDs must be different. */
-  productIds?: StringList;
+  productIds?: StringList | undefined;
 }
 export type OneTimeProductPurchaseOptionNewRegionsConfigAvailabilityEnum =
   | "AVAILABILITY_UNSPECIFIED"
@@ -951,11 +971,14 @@ export type OneTimeProductPurchaseOptionNewRegionsConfigAvailabilityEnum =
 /** Pricing information for any new regions Play may launch in the future. */
 export interface OneTimeProductPurchaseOptionNewRegionsConfig {
   /** Required. The regional availability for the new regions config. When set to AVAILABLE, the pricing information will be used for any new regions Play may launch in the future. */
-  availability?: OneTimeProductPurchaseOptionNewRegionsConfigAvailabilityEnum | (string & {});
+  availability?:
+    | OneTimeProductPurchaseOptionNewRegionsConfigAvailabilityEnum
+    | (string & {})
+    | undefined;
   /** Required. Price in USD to use for any new regions Play may launch in. */
-  usdPrice?: Money;
+  usdPrice?: Money | undefined;
   /** Required. Price in EUR to use for any new regions Play may launch in. */
-  eurPrice?: Money;
+  eurPrice?: Money | undefined;
 }
 export type PurchaseOptionTaxAndComplianceSettingsWithdrawalRightTypeEnum =
   | "WITHDRAWAL_RIGHT_TYPE_UNSPECIFIED"
@@ -966,21 +989,22 @@ export interface PurchaseOptionTaxAndComplianceSettings {
   /** Optional. Digital content or service classification for products distributed to users in eligible regions. If unset, it defaults to `WITHDRAWAL_RIGHT_DIGITAL_CONTENT`. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/10463498) for more information. */
   withdrawalRightType?:
     | PurchaseOptionTaxAndComplianceSettingsWithdrawalRightTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** A purchase option that can be rented. */
 export interface OneTimeProductRentPurchaseOption {
   /** Required. The amount of time a user has the entitlement for. Starts at purchase flow completion. Specified in ISO 8601 format. */
-  rentalPeriod?: string;
+  rentalPeriod?: string | undefined;
   /** Optional. The amount of time the user has after starting consuming the entitlement before it is revoked. Specified in ISO 8601 format. */
-  expirationPeriod?: string;
+  expirationPeriod?: string | undefined;
 }
 /** A purchase option that can be bought. */
 export interface OneTimeProductBuyPurchaseOption {
   /** Optional. Whether this purchase option will be available in legacy PBL flows that do not support one-time products model. Up to one "buy" purchase option can be marked as backwards compatible. */
-  legacyCompatible?: boolean;
+  legacyCompatible?: boolean | undefined;
   /** Optional. Whether this purchase option allows multi-quantity. Multi-quantity allows buyer to purchase more than one item in a single checkout. */
-  multiQuantityEnabled?: boolean;
+  multiQuantityEnabled?: boolean | undefined;
 }
 export type OneTimeProductPurchaseOptionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -997,44 +1021,47 @@ export type OneTimeProductPurchaseOptionRegionalPricingAndAvailabilityConfigAvai
 /** Regional pricing and availability configuration for a purchase option. */
 export interface OneTimeProductPurchaseOptionRegionalPricingAndAvailabilityConfig {
   /** Required. Region code this configuration applies to, as defined by ISO 3166-2, e.g., "US". */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** The price of the purchase option in the specified region. Must be set in the currency that is linked to the specified region. */
-  price?: Money;
+  price?: Money | undefined;
   /** The availability of the purchase option. */
   availability?:
     | OneTimeProductPurchaseOptionRegionalPricingAndAvailabilityConfigAvailabilityEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type OneTimeProductPurchaseOptionRegionalPricingAndAvailabilityConfigList =
   Array<OneTimeProductPurchaseOptionRegionalPricingAndAvailabilityConfig>;
 /** A single purchase option for a one-time product. */
 export interface OneTimeProductPurchaseOption {
   /** Pricing information for any new locations Play may launch in the future. If omitted, the purchase option will not be automatically available in any new locations Play may launch in the future. */
-  newRegionsConfig?: OneTimeProductPurchaseOptionNewRegionsConfig;
+  newRegionsConfig?: OneTimeProductPurchaseOptionNewRegionsConfig | undefined;
   /** Optional. Details about taxes and legal compliance. */
-  taxAndComplianceSettings?: PurchaseOptionTaxAndComplianceSettings;
+  taxAndComplianceSettings?: PurchaseOptionTaxAndComplianceSettings | undefined;
   /** A purchase option that can be rented. */
-  rentOption?: OneTimeProductRentPurchaseOption;
+  rentOption?: OneTimeProductRentPurchaseOption | undefined;
   /** A purchase option that can be bought. */
-  buyOption?: OneTimeProductBuyPurchaseOption;
+  buyOption?: OneTimeProductBuyPurchaseOption | undefined;
   /** Optional. List of up to 20 custom tags specified for this purchase option, and returned to the app through the billing library. Offers for this purchase option will also receive these tags in the billing library. */
-  offerTags?: OfferTagList;
+  offerTags?: OfferTagList | undefined;
   /** Output only. The state of the purchase option, i.e., whether it's active. This field cannot be changed by updating the resource. Use the dedicated endpoints instead. */
-  state?: OneTimeProductPurchaseOptionStateEnum | (string & {});
+  state?: OneTimeProductPurchaseOptionStateEnum | (string & {}) | undefined;
   /** Required. Immutable. The unique identifier of this purchase option. Must be unique within the one-time product. It must start with a number or lower-case letter, and can only contain lower-case letters (a-z), numbers (0-9), and hyphens (-). The maximum length is 63 characters. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Regional pricing and availability information for this purchase option. */
-  regionalPricingAndAvailabilityConfigs?: OneTimeProductPurchaseOptionRegionalPricingAndAvailabilityConfigList;
+  regionalPricingAndAvailabilityConfigs?:
+    | OneTimeProductPurchaseOptionRegionalPricingAndAvailabilityConfigList
+    | undefined;
 }
 export type OneTimeProductPurchaseOptionList = Array<OneTimeProductPurchaseOption>;
 /** Regional store listing for a one-time product. */
 export interface OneTimeProductListing {
   /** Required. The language of this listing, as defined by BCP-47, e.g., "en-US". */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Required. The title of this product in the language of this listing. The maximum length is 55 characters. */
-  title?: string;
+  title?: string | undefined;
   /** Required. The description of this product in the language of this listing. The maximum length is 200 characters. */
-  description?: string;
+  description?: string | undefined;
 }
 export type OneTimeProductListingList = Array<OneTimeProductListing>;
 export type RegionalTaxConfigTaxTierEnum =
@@ -1055,67 +1082,67 @@ export type RegionalTaxConfigStreamingTaxTypeEnum =
 /** Details about taxation in a given geographical region. */
 export interface RegionalTaxConfig {
   /** Tax tier to specify reduced tax rate. Developers who sell digital news, magazines, newspapers, books, or audiobooks in various regions may be eligible for reduced tax rates. [Learn more](https://support.google.com/googleplay/android-developer/answer/10463498). */
-  taxTier?: RegionalTaxConfigTaxTierEnum | (string & {});
+  taxTier?: RegionalTaxConfigTaxTierEnum | (string & {}) | undefined;
   /** You must tell us if your app contains streaming products to correctly charge US state and local sales tax. Field only supported in the United States. */
-  eligibleForStreamingServiceTaxRate?: boolean;
+  eligibleForStreamingServiceTaxRate?: boolean | undefined;
   /** Required. Region code this configuration applies to, as defined by ISO 3166-2, e.g. "US". */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** To collect communications or amusement taxes in the United States, choose the appropriate tax category. [Learn more](https://support.google.com/googleplay/android-developer/answer/10463498#streaming_tax). */
-  streamingTaxType?: RegionalTaxConfigStreamingTaxTypeEnum | (string & {});
+  streamingTaxType?: RegionalTaxConfigStreamingTaxTypeEnum | (string & {}) | undefined;
 }
 export type RegionalTaxConfigList = Array<RegionalTaxConfig>;
 /** Details about taxation, Google Play policy and legal compliance for one-time products. */
 export interface OneTimeProductTaxAndComplianceSettings {
   /** Regional tax configuration. */
-  regionalTaxConfigs?: RegionalTaxConfigList;
+  regionalTaxConfigs?: RegionalTaxConfigList | undefined;
   /** Regional age rating information. Currently this field is only supported for region code `US`. */
-  regionalProductAgeRatingInfos?: RegionalProductAgeRatingInfoList;
+  regionalProductAgeRatingInfos?: RegionalProductAgeRatingInfoList | undefined;
   /** Whether this one-time product is declared as a product representing a tokenized digital asset. */
-  isTokenizedDigitalAsset?: boolean;
+  isTokenizedDigitalAsset?: boolean | undefined;
   /** Product tax category code to assign to the one-time product. Product tax category determines the transaction tax rates applied to the product. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/16408159) for more information. */
-  productTaxCategoryCode?: string;
+  productTaxCategoryCode?: string | undefined;
 }
 /** A single one-time product for an app. */
 export interface OneTimeProduct {
   /** Required. The set of purchase options for this one-time product. */
-  purchaseOptions?: OneTimeProductPurchaseOptionList;
+  purchaseOptions?: OneTimeProductPurchaseOptionList | undefined;
   /** Optional. Countries where the purchase of this one-time product is restricted to payment methods registered in the same country. If empty, no payment location restrictions are imposed. */
-  restrictedPaymentCountries?: RestrictedPaymentCountries;
+  restrictedPaymentCountries?: RestrictedPaymentCountries | undefined;
   /** Optional. List of up to 20 custom tags specified for this one-time product, and returned to the app through the billing library. Purchase options and offers for this product will also receive these tags in the billing library. */
-  offerTags?: OfferTagList;
+  offerTags?: OfferTagList | undefined;
   /** Required. Immutable. Package name of the parent app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. Set of localized title and description data. Must not have duplicate entries with the same language_code. */
-  listings?: OneTimeProductListingList;
+  listings?: OneTimeProductListingList | undefined;
   /** Required. Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must start with a number or lowercase letter, and can contain numbers (0-9), lowercase letters (a-z), underscores (_), and periods (.). */
-  productId?: string;
+  productId?: string | undefined;
   /** Output only. The version of the regions configuration that was used to generate the one-time product. */
-  regionsVersion?: RegionsVersion;
+  regionsVersion?: RegionsVersion | undefined;
   /** Details about taxes and legal compliance. */
-  taxAndComplianceSettings?: OneTimeProductTaxAndComplianceSettings;
+  taxAndComplianceSettings?: OneTimeProductTaxAndComplianceSettings | undefined;
 }
 export type OneTimeProductList = Array<OneTimeProduct>;
 /** Response message for the BatchGetOneTimeProducts endpoint. */
 export interface BatchGetOneTimeProductsResponse {
   /** The list of requested one-time products, in the same order as the request. */
-  oneTimeProducts?: OneTimeProductList;
+  oneTimeProducts?: OneTimeProductList | undefined;
 }
 /** Request message for GetOneTimeProductOffers. */
 export interface GetOneTimeProductOfferRequest {
   /** Required. The parent one-time product (ID) of the offer to get. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The parent purchase option (ID) of the offer to get. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Required. The parent app (package name) of the offer to get. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The unique offer ID of the offer to get. */
-  offerId?: string;
+  offerId?: string | undefined;
 }
 export type GetOneTimeProductOfferRequestList = Array<GetOneTimeProductOfferRequest>;
 /** Request message for the BatchGetOneTimeProductOffers endpoint. */
 export interface BatchGetOneTimeProductOffersRequest {
   /** Required. A list of get requests of up to 100 elements. All requests must retrieve different offers. */
-  requests?: GetOneTimeProductOfferRequestList;
+  requests?: GetOneTimeProductOfferRequestList | undefined;
 }
 export interface BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the offers to retrieve. Must be equal to the package_name field on all the requests. */
@@ -1125,42 +1152,42 @@ export interface BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersRequest
   /** Required. The product ID of the parent one-time product, if all offers belong to the same product. If this request spans multiple one-time products, set this field to "-". */
   productId: string;
   /** Request body */
-  body?: BatchGetOneTimeProductOffersRequest;
+  body?: BatchGetOneTimeProductOffersRequest | undefined;
 }
 export type OneTimeProductOfferList = Array<OneTimeProductOffer>;
 /** Response message for the BatchGetOneTimeProductOffers endpoint. */
 export interface BatchGetOneTimeProductOffersResponse {
   /** The list of requested one-time product offers, in the same order as the request. */
-  oneTimeProductOffers?: OneTimeProductOfferList;
+  oneTimeProductOffers?: OneTimeProductOfferList | undefined;
 }
 export interface BatchGetMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscriptions should be retrieved. Must be equal to the package_name field on all the requests. */
   packageName: string;
   /** Required. A list of up to 100 subscription product IDs to retrieve. All the IDs must be different. */
-  productIds?: StringList;
+  productIds?: StringList | undefined;
 }
 export type SubscriptionList = Array<Subscription>;
 /** Response message for BatchGetSubscriptions endpoint. */
 export interface BatchGetSubscriptionsResponse {
   /** The list of requested subscriptions, in the same order as the request. */
-  subscriptions?: SubscriptionList;
+  subscriptions?: SubscriptionList | undefined;
 }
 /** Request message for GetSubscriptionOffer. */
 export interface GetSubscriptionOfferRequest {
   /** Required. The parent base plan (ID) of the offer to get. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Required. The unique offer ID of the offer to get. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Required. The parent app (package name) of the offer to get. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The parent subscription (ID) of the offer to get. */
-  productId?: string;
+  productId?: string | undefined;
 }
 export type GetSubscriptionOfferRequestList = Array<GetSubscriptionOfferRequest>;
 /** Request message for BatchGetSubscriptionOffers endpoint. */
 export interface BatchGetSubscriptionOffersRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different subscriptions. */
-  requests?: GetSubscriptionOfferRequestList;
+  requests?: GetSubscriptionOfferRequestList | undefined;
 }
 export interface BatchGetMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this request spans multiple subscriptions, set this field to "-". Must be set. */
@@ -1170,50 +1197,50 @@ export interface BatchGetMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) for which the subscriptions should be created or updated. Must be equal to the package_name field on all the requests. */
   packageName: string;
   /** Request body */
-  body?: BatchGetSubscriptionOffersRequest;
+  body?: BatchGetSubscriptionOffersRequest | undefined;
 }
 export type SubscriptionOfferList = Array<SubscriptionOffer>;
 /** Response message for BatchGetSubscriptionOffers endpoint. */
 export interface BatchGetSubscriptionOffersResponse {
-  subscriptionOffers?: SubscriptionOfferList;
+  subscriptionOffers?: SubscriptionOfferList | undefined;
 }
 export interface BatchgetOrdersRequest {
   /** Required. The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
   packageName: string;
   /** Required. The list of order IDs to retrieve order details for. There must be between 1 and 1000 (inclusive) order IDs per request. If any order ID is not found or does not match the provided package, the entire request will fail with an error. The order IDs must be distinct. */
-  orderIds?: StringList;
+  orderIds?: StringList | undefined;
 }
 /** Address information for the customer, for use in tax computation. */
 export interface BuyerAddress {
   /** Two letter country code based on ISO-3166-1 Alpha-2 (UN country codes). */
-  buyerCountry?: string;
+  buyerCountry?: string | undefined;
   /** Postal code of an address. When Google is the Merchant of Record for the order, this information is not included. */
-  buyerPostcode?: string;
+  buyerPostcode?: string | undefined;
   /** Top-level administrative subdivision of the buyer address country. When Google is the Merchant of Record for the order, this information is not included. */
-  buyerState?: string;
+  buyerState?: string | undefined;
 }
 /** Details relating to any Play Points applied to an order. */
 export interface PointsDetails {
   /** The monetary value of a Play Points coupon. This is the discount the coupon provides, which may not be the total amount. Only set when Play Points coupons have been used. E.g. for a 100 points for $2 coupon, this is $2. */
-  pointsCouponValue?: Money;
+  pointsCouponValue?: Money | undefined;
   /** ID unique to the play points offer in use for this order. */
-  pointsOfferId?: string;
+  pointsOfferId?: string | undefined;
   /** The number of Play Points applied in this order. E.g. for a 100 points for $2 coupon, this is 100. For coupon stacked with base offer, this is the total points spent across both. */
-  pointsSpent?: string;
+  pointsSpent?: string | undefined;
   /** The percentage rate which the Play Points promotion reduces the cost by. E.g. for a 100 points for $2 coupon, this is 500,000. Since $2 has an estimate of 200 points, but the actual Points required, 100, is 50% of this, and 50% in micros is 500,000. Between 0 and 1,000,000. */
-  pointsDiscountRateMicros?: string;
+  pointsDiscountRateMicros?: string | undefined;
 }
 /** Detailed information about the order at creation time. */
 export interface OrderDetails {
   /** Indicates whether the listed price was tax inclusive or not. */
-  taxInclusive?: boolean;
+  taxInclusive?: boolean | undefined;
 }
 /** Details for a partial or full refund. */
 export interface RefundDetails {
   /** The amount of tax refunded. */
-  tax?: Money;
+  tax?: Money | undefined;
   /** The total amount refunded, including tax. */
-  total?: Money;
+  total?: Money | undefined;
 }
 export type PartialRefundEventStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1222,45 +1249,45 @@ export type PartialRefundEventStateEnum =
 /** Details of the partial refund events for this order. */
 export interface PartialRefundEvent {
   /** Details for the partial refund. */
-  refundDetails?: RefundDetails;
+  refundDetails?: RefundDetails | undefined;
   /** The state of the partial refund. */
-  state?: PartialRefundEventStateEnum;
+  state?: PartialRefundEventStateEnum | undefined;
   /** The time when the partial refund was processed. */
-  processTime?: string;
+  processTime?: string | undefined;
   /** The time when the partial refund was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export type PartialRefundEventList = Array<PartialRefundEvent>;
 /** Details of when the order was canceled. */
 export interface CancellationEvent {
   /** The time when the order was canceled. */
-  eventTime?: string;
+  eventTime?: string | undefined;
 }
 export type RefundEventRefundReasonEnum = "REFUND_REASON_UNSPECIFIED" | "OTHER" | "CHARGEBACK";
 /** Details of when the order was fully refunded. */
 export interface RefundEvent {
   /** Details for the full refund. */
-  refundDetails?: RefundDetails;
+  refundDetails?: RefundDetails | undefined;
   /** The time when the order was fully refunded. */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The reason the order was refunded. */
-  refundReason?: RefundEventRefundReasonEnum;
+  refundReason?: RefundEventRefundReasonEnum | undefined;
 }
 /** Details of when the order was processed. */
 export interface ProcessedEvent {
   /** The time when the order was processed. */
-  eventTime?: string;
+  eventTime?: string | undefined;
 }
 /** Details about events which modified the order. */
 export interface OrderHistory {
   /** Details of the partial refund events for this order. */
-  partialRefundEvents?: PartialRefundEventList;
+  partialRefundEvents?: PartialRefundEventList | undefined;
   /** Details of when the order was canceled. */
-  cancellationEvent?: CancellationEvent;
+  cancellationEvent?: CancellationEvent | undefined;
   /** Details of when the order was fully refunded. */
-  refundEvent?: RefundEvent;
+  refundEvent?: RefundEvent | undefined;
   /** Details of when the order was processed. */
-  processedEvent?: ProcessedEvent;
+  processedEvent?: ProcessedEvent | undefined;
 }
 export type OrderSalesChannelEnum =
   | "SALES_CHANNEL_UNSPECIFIED"
@@ -1291,20 +1318,20 @@ export type ProrationPeriodDetailsOriginalOfferPhaseEnum =
 /** Details of a proration period. A proration period can be a period calculated during a plan change to cover existing entitlements (For more information, see [Allow users to upgrade, downgrade, or change their subscription](https://developer.android.com/google/play/billing/subscriptions#allow-users-change), or a prorated period to align add-on renewal dates with the base (For more information, see [Rules applicable for items in the purchase](https://developer.android.com/google/play/billing/subscription-with-addons#rules-base-addons)). */
 export interface ProrationPeriodDetails {
   /** Represent the original offer phase from the purchased the line item if the proration period contains any of them. For example, a proration period from CHARGE_FULL_PRICE plan change may merge the 1st offer phase of the subscription offer of the new product user purchased. In this case, the original offer phase will be set here. */
-  originalOfferPhase?: ProrationPeriodDetailsOriginalOfferPhaseEnum;
+  originalOfferPhase?: ProrationPeriodDetailsOriginalOfferPhaseEnum | undefined;
 }
 /** Details of a free trial pricing phase. */
 export type FreeTrialDetails = OneTimeProductOfferNoPriceOverrideOptions;
 /** Details of a pricing phase for the entitlement period funded by this order. */
 export interface OfferPhaseDetails {
   /** The order funds an introductory pricing period. */
-  introductoryPriceDetails?: OneTimeProductOfferNoPriceOverrideOptions;
+  introductoryPriceDetails?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The order funds a base price period. */
-  baseDetails?: OneTimeProductOfferNoPriceOverrideOptions;
+  baseDetails?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The order funds a proration period. */
-  prorationPeriodDetails?: ProrationPeriodDetails;
+  prorationPeriodDetails?: ProrationPeriodDetails | undefined;
   /** The order funds a free trial period. */
-  freeTrialDetails?: OneTimeProductOfferNoPriceOverrideOptions;
+  freeTrialDetails?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 export type SubscriptionDetailsOfferPhaseEnum =
   | "OFFER_PHASE_UNSPECIFIED"
@@ -1314,17 +1341,17 @@ export type SubscriptionDetailsOfferPhaseEnum =
 /** Details of a subscription purchase. */
 export interface SubscriptionDetails {
   /** The start of the billing period funded by this order. This is a snapshot of the billing/service period start time at the moment the order was processed, and should be used only for accounting. */
-  servicePeriodStartTime?: string;
+  servicePeriodStartTime?: string | undefined;
   /** The end of the billing period funded by this order. This is a snapshot of the billing/service period end time at the moment the order was processed, and should be used only for accounting. To get the current end time of the subscription service period, use purchases.subscriptionsv2.get. */
-  servicePeriodEndTime?: string;
+  servicePeriodEndTime?: string | undefined;
   /** The offer ID for the current subscription offer. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The pricing phase details for the entitlement period funded by this order. */
-  offerPhaseDetails?: OfferPhaseDetails;
+  offerPhaseDetails?: OfferPhaseDetails | undefined;
   /** The base plan ID of the subscription. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Deprecated: Use offer_phase_details instead. The pricing phase for the billing period funded by this order. */
-  offerPhase?: SubscriptionDetailsOfferPhaseEnum;
+  offerPhase?: SubscriptionDetailsOfferPhaseEnum | undefined;
 }
 /** Details of a pre-order purchase. */
 export type PreorderDetails = OneTimeProductOfferNoPriceOverrideOptions;
@@ -1333,72 +1360,72 @@ export type RentalDetails = OneTimeProductOfferNoPriceOverrideOptions;
 /** Details of a one-time purchase. */
 export interface OneTimePurchaseDetails {
   /** The details of a pre-order purchase. Only set if it is a pre-order purchase. Note that this field will be set even after pre-order is fulfilled. */
-  preorderDetails?: OneTimeProductOfferNoPriceOverrideOptions;
+  preorderDetails?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The number of items purchased (for multi-quantity item purchases). */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The details of a rent purchase. Only set if it is a rent purchase. */
-  rentalDetails?: OneTimeProductOfferNoPriceOverrideOptions;
+  rentalDetails?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The offer ID of the one-time purchase offer. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** ID of the purchase option. This field is set for both purchase options and variant offers. For purchase options, this ID identifies the purchase option itself. For variant offers, this ID refers to the associated purchase option, and in conjunction with offer_id it identifies the variant offer. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
 }
 /** Details of a line item. */
 export interface LineItem {
   /** Details of a paid app purchase. */
-  paidAppDetails?: OneTimeProductOfferNoPriceOverrideOptions;
+  paidAppDetails?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The total amount paid by the user for this line item, taking into account discounts and tax. */
-  total?: Money;
+  total?: Money | undefined;
   /** Developer-specified name of the product. Displayed in buyer's locale. Example: coins, monthly subscription, etc. */
-  productTitle?: string;
+  productTitle?: string | undefined;
   /** The purchased product ID or in-app SKU (for example, 'monthly001' or 'com.some.thing.inapp1'). */
-  productId?: string;
+  productId?: string | undefined;
   /** Item's listed price on Play Store, this may or may not include tax. Excludes Google-funded discounts only. */
-  listingPrice?: Money;
+  listingPrice?: Money | undefined;
   /** Details of a subscription purchase. */
-  subscriptionDetails?: SubscriptionDetails;
+  subscriptionDetails?: SubscriptionDetails | undefined;
   /** Details of a one-time purchase. */
-  oneTimePurchaseDetails?: OneTimePurchaseDetails;
+  oneTimePurchaseDetails?: OneTimePurchaseDetails | undefined;
   /** The tax paid for this line item. */
-  tax?: Money;
+  tax?: Money | undefined;
 }
 export type LineItemList = Array<LineItem>;
 /** The Order resource encapsulates comprehensive information about a transaction made on Google Play. It includes a variety of attributes that provide details about the order itself, the products purchased, and the history of events related to the order. The Orders APIs provide real-time access to your order data within the Google Play ecosystem. You can retrieve detailed information and metadata for both one-time and recurring orders, including transaction details like charges, taxes, and refunds, as well as metadata such as pricing phases for subscriptions. The Orders APIs let you automate tasks related to order management, reducing the need for manual checks via the Play Developer Console. The following are some of the use cases for this API: + Real-time order data retrieval - Get order details and metadata immediately after a purchase using an order ID. + Order update synchronization - Periodically sync order updates to maintain an up-to-date record of order information. Note: + The Orders API calls count towards your Play Developer API quota, which defaults to 200K daily, and may be insufficient to sync extensive order histories. + A maximum of 1000 orders can be retrieved per call. Using larger page sizes is recommended to minimize quota usage. Check your quota in the Cloud Console and request more if required. */
 export interface Order {
   /** The token provided to the user's device when the subscription or item was purchased. */
-  purchaseToken?: string;
+  purchaseToken?: string | undefined;
   /** Address information for the customer, for use in tax computation. When Google is the Merchant of Record for the order, only country is shown. */
-  buyerAddress?: BuyerAddress;
+  buyerAddress?: BuyerAddress | undefined;
   /** The total tax paid as a part of this order. */
-  tax?: Money;
+  tax?: Money | undefined;
   /** The time of the last event that occurred on the order. */
-  lastEventTime?: string;
+  lastEventTime?: string | undefined;
   /** Play points applied to the order, including offer information, discount rate and point values. */
-  pointsDetails?: PointsDetails;
+  pointsDetails?: PointsDetails | undefined;
   /** The order ID. */
-  orderId?: string;
+  orderId?: string | undefined;
   /** The time when the order was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Detailed information about the order at creation time. */
-  orderDetails?: OrderDetails;
+  orderDetails?: OrderDetails | undefined;
   /** Details about events which modified the order. */
-  orderHistory?: OrderHistory;
+  orderHistory?: OrderHistory | undefined;
   /** The originating sales channel of the order. */
-  salesChannel?: OrderSalesChannelEnum;
+  salesChannel?: OrderSalesChannelEnum | undefined;
   /** The state of the order. */
-  state?: OrderStateEnum;
+  state?: OrderStateEnum | undefined;
   /** The final amount paid by the customer, taking into account discounts and taxes. */
-  total?: Money;
+  total?: Money | undefined;
   /** The individual line items making up this order. */
-  lineItems?: LineItemList;
+  lineItems?: LineItemList | undefined;
   /** Your revenue for this order in the buyer's currency, including deductions of partial refunds, taxes and fees. Google deducts standard transaction and third party fees from each sale, including VAT in some regions. */
-  developerRevenueInBuyerCurrency?: Money;
+  developerRevenueInBuyerCurrency?: Money | undefined;
 }
 export type OrderList = Array<Order>;
 /** Response for the orders.batchGet API. */
 export interface BatchGetOrdersResponse {
   /** Details for the requested order IDs. */
-  orders?: OrderList;
+  orders?: OrderList | undefined;
 }
 export type RegionalPriceMigrationConfigPriceIncreaseTypeEnum =
   | "PRICE_INCREASE_TYPE_UNSPECIFIED"
@@ -1407,11 +1434,11 @@ export type RegionalPriceMigrationConfigPriceIncreaseTypeEnum =
 /** Configuration for migration of a legacy price cohort. */
 export interface RegionalPriceMigrationConfig {
   /** Optional. The requested type of price increase */
-  priceIncreaseType?: RegionalPriceMigrationConfigPriceIncreaseTypeEnum | (string & {});
+  priceIncreaseType?: RegionalPriceMigrationConfigPriceIncreaseTypeEnum | (string & {}) | undefined;
   /** Required. Subscribers in all legacy price cohorts before this time will be migrated to the current price. Subscribers in any newer price cohorts are unaffected. Affected subscribers will receive one or more notifications from Google Play about the price change. Price decreases occur at the subscriber's next billing date. Price increases occur at the subscriber's next billing date following a notification period that varies by region and price increase type. */
-  oldestAllowedPriceVersionTime?: string;
+  oldestAllowedPriceVersionTime?: string | undefined;
   /** Required. Region code this configuration applies to, as defined by ISO 3166-2, e.g. "US". */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export type RegionalPriceMigrationConfigList = Array<RegionalPriceMigrationConfig>;
 export type MigrateBasePlanPricesRequestLatencyToleranceEnum =
@@ -1421,23 +1448,23 @@ export type MigrateBasePlanPricesRequestLatencyToleranceEnum =
 /** Request message for MigrateBasePlanPrices. */
 export interface MigrateBasePlanPricesRequest {
   /** Required. The ID of the subscription to update. Must be equal to the product_id field on the Subscription resource. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The regional prices to update. */
-  regionalPriceMigrations?: RegionalPriceMigrationConfigList;
+  regionalPriceMigrations?: RegionalPriceMigrationConfigList | undefined;
   /** Required. Package name of the parent app. Must be equal to the package_name field on the Subscription resource. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The unique base plan ID of the base plan to update prices on. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Required. The version of the available regions being used for the regional_price_migrations. */
-  regionsVersion?: RegionsVersion;
+  regionsVersion?: RegionsVersion | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: MigrateBasePlanPricesRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: MigrateBasePlanPricesRequestLatencyToleranceEnum | (string & {}) | undefined;
 }
 export type MigrateBasePlanPricesRequestList = Array<MigrateBasePlanPricesRequest>;
 /** Request message for BatchMigrateBasePlanPrices. */
 export interface BatchMigrateBasePlanPricesRequest {
   /** Required. Up to 100 price migration requests. All requests must update different base plans. */
-  requests?: MigrateBasePlanPricesRequestList;
+  requests?: MigrateBasePlanPricesRequestList | undefined;
 }
 export interface BatchMigratePricesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this batch update spans multiple subscriptions, set this field to "-". Must be set. */
@@ -1445,7 +1472,7 @@ export interface BatchMigratePricesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) for which the subscriptions should be created or updated. Must be equal to the package_name field on all the Subscription resources. */
   packageName: string;
   /** Request body */
-  body?: BatchMigrateBasePlanPricesRequest;
+  body?: BatchMigrateBasePlanPricesRequest | undefined;
 }
 /** Response message for MigrateBasePlanPrices. */
 export interface MigrateBasePlanPricesResponse {}
@@ -1453,7 +1480,7 @@ export type MigrateBasePlanPricesResponseList = Array<MigrateBasePlanPricesRespo
 /** Response message for BatchMigrateBasePlanPrices. */
 export interface BatchMigrateBasePlanPricesResponse {
   /** Contains one response per requested price migration, in the same order as the request. */
-  responses?: MigrateBasePlanPricesResponseList;
+  responses?: MigrateBasePlanPricesResponseList | undefined;
 }
 export type InappproductsUpdateRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1462,34 +1489,34 @@ export type InappproductsUpdateRequestLatencyToleranceEnum =
 /** Request to update an in-app product. */
 export interface InappproductsUpdateRequest {
   /** Package name of the app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: InappproductsUpdateRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: InappproductsUpdateRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** If set to true, and the in-app product with the given package_name and sku doesn't exist, the in-app product will be created. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** If true the prices for all regions targeted by the parent app that don't have a price specified for this in-app product will be auto converted to the target currency based on the default price. Defaults to false. */
-  autoConvertMissingPrices?: boolean;
+  autoConvertMissingPrices?: boolean | undefined;
   /** The new in-app product. */
-  inappproduct?: InAppProduct;
+  inappproduct?: InAppProduct | undefined;
   /** Unique identifier for the in-app product. */
-  sku?: string;
+  sku?: string | undefined;
 }
 export type InappproductsUpdateRequestList = Array<InappproductsUpdateRequest>;
 /** Request to update or insert one or more in-app products. */
 export interface InappproductsBatchUpdateRequest {
   /** Required. Individual update requests. At least one request is required. Can contain up to 100 requests. All requests must correspond to different in-app products. */
-  requests?: InappproductsUpdateRequestList;
+  requests?: InappproductsUpdateRequestList | undefined;
 }
 export interface BatchUpdateInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: InappproductsBatchUpdateRequest;
+  body?: InappproductsBatchUpdateRequest | undefined;
 }
 /** Response for a batch in-app product update. */
 export interface InappproductsBatchUpdateResponse {
   /** The updated or inserted in-app products. */
-  inappproducts?: InAppProductList;
+  inappproducts?: InAppProductList | undefined;
 }
 export type UpdateOneTimeProductRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1498,32 +1525,32 @@ export type UpdateOneTimeProductRequestLatencyToleranceEnum =
 /** Request message for UpdateOneTimeProduct. */
 export interface UpdateOneTimeProductRequest {
   /** Optional. If set to true, and the one-time product with the given package_name and product_id doesn't exist, the one-time product will be created. If a new one-time product is created, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. The one-time product to upsert. */
-  oneTimeProduct?: OneTimeProduct;
+  oneTimeProduct?: OneTimeProduct | undefined;
   /** Optional. The latency tolerance for the propagation of this product upsert. Defaults to latency-sensitive. */
-  latencyTolerance?: UpdateOneTimeProductRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: UpdateOneTimeProductRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The version of the available regions being used for the one-time product. */
-  regionsVersion?: RegionsVersion;
+  regionsVersion?: RegionsVersion | undefined;
   /** Required. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export type UpdateOneTimeProductRequestList = Array<UpdateOneTimeProductRequest>;
 /** Request message for BatchUpdateOneTimeProduct. */
 export interface BatchUpdateOneTimeProductsRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different one-time products. */
-  requests?: UpdateOneTimeProductRequestList;
+  requests?: UpdateOneTimeProductRequestList | undefined;
 }
 export interface BatchUpdateMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) for which the one-time products should be updated. Must be equal to the package_name field on all the OneTimeProduct resources. */
   packageName: string;
   /** Request body */
-  body?: BatchUpdateOneTimeProductsRequest;
+  body?: BatchUpdateOneTimeProductsRequest | undefined;
 }
 /** Response message for BatchUpdateOneTimeProduct. */
 export interface BatchUpdateOneTimeProductsResponse {
   /** The list of updated one-time products list, in the same order as the request. */
-  oneTimeProducts?: OneTimeProductList;
+  oneTimeProducts?: OneTimeProductList | undefined;
 }
 export type UpdateOneTimeProductOfferRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1532,21 +1559,24 @@ export type UpdateOneTimeProductOfferRequestLatencyToleranceEnum =
 /** Request message for UpdateOneTimeProductOffer. */
 export interface UpdateOneTimeProductOfferRequest {
   /** Optional. The latency tolerance for the propagation of this offer update. Defaults to latency-sensitive. */
-  latencyTolerance?: UpdateOneTimeProductOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | UpdateOneTimeProductOfferRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. The one-time product offer to update. */
-  oneTimeProductOffer?: OneTimeProductOffer;
+  oneTimeProductOffer?: OneTimeProductOffer | undefined;
   /** Required. The version of the available regions being used for the offer. */
-  regionsVersion?: RegionsVersion;
+  regionsVersion?: RegionsVersion | undefined;
   /** Required. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set to true, and the offer with the given package_name, product_id, purchase_option_id and offer_id doesn't exist, an offer will be created. If a new offer is created, the update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
 }
 export type UpdateOneTimeProductOfferRequestList = Array<UpdateOneTimeProductOfferRequest>;
 /** Request message for BatchUpdateOneTimeProductOffers. */
 export interface BatchUpdateOneTimeProductOffersRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different offers. */
-  requests?: UpdateOneTimeProductOfferRequestList;
+  requests?: UpdateOneTimeProductOfferRequestList | undefined;
 }
 export interface BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the updated offers. Must be equal to the package_name field on all the updated OneTimeProductOffer resources. */
@@ -1556,12 +1586,12 @@ export interface BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersRequ
   /** Required. The parent purchase option (ID) for which the offers should be updated. May be specified as '-' to update offers from multiple purchase options. */
   purchaseOptionId: string;
   /** Request body */
-  body?: BatchUpdateOneTimeProductOffersRequest;
+  body?: BatchUpdateOneTimeProductOffersRequest | undefined;
 }
 /** Response message for BatchUpdateOneTimeProductOffers. */
 export interface BatchUpdateOneTimeProductOffersResponse {
   /** The list of updated one-time product offers, in the same order as the request. */
-  oneTimeProductOffers?: OneTimeProductOfferList;
+  oneTimeProductOffers?: OneTimeProductOfferList | undefined;
 }
 export type UpdateSubscriptionRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1570,32 +1600,32 @@ export type UpdateSubscriptionRequestLatencyToleranceEnum =
 /** Request message for UpdateSubscription. */
 export interface UpdateSubscriptionRequest {
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: UpdateSubscriptionRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: UpdateSubscriptionRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Optional. If set to true, and the subscription with the given package_name and product_id doesn't exist, the subscription will be created. If a new subscription is created, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The version of the available regions being used for the subscription. */
-  regionsVersion?: RegionsVersion;
+  regionsVersion?: RegionsVersion | undefined;
   /** Required. The subscription to update. */
-  subscription?: Subscription;
+  subscription?: Subscription | undefined;
 }
 export type UpdateSubscriptionRequestList = Array<UpdateSubscriptionRequest>;
 /** Request message for BatchUpdateSubscription. */
 export interface BatchUpdateSubscriptionsRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different subscriptions. */
-  requests?: UpdateSubscriptionRequestList;
+  requests?: UpdateSubscriptionRequestList | undefined;
 }
 export interface BatchUpdateMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscriptions should be updated. Must be equal to the package_name field on all the Subscription resources. */
   packageName: string;
   /** Request body */
-  body?: BatchUpdateSubscriptionsRequest;
+  body?: BatchUpdateSubscriptionsRequest | undefined;
 }
 /** Response message for BatchUpdateSubscription. */
 export interface BatchUpdateSubscriptionsResponse {
   /** The updated subscriptions list. */
-  subscriptions?: SubscriptionList;
+  subscriptions?: SubscriptionList | undefined;
 }
 export type UpdateSubscriptionOfferRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1604,21 +1634,21 @@ export type UpdateSubscriptionOfferRequestLatencyToleranceEnum =
 /** Request message for UpdateSubscriptionOffer. */
 export interface UpdateSubscriptionOfferRequest {
   /** Optional. If set to true, and the subscription offer with the given package_name, product_id, base_plan_id and offer_id doesn't exist, an offer will be created. If a new offer is created, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The version of the available regions being used for the subscription_offer. */
-  regionsVersion?: RegionsVersion;
+  regionsVersion?: RegionsVersion | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: UpdateSubscriptionOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: UpdateSubscriptionOfferRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The subscription offer to update. */
-  subscriptionOffer?: SubscriptionOffer;
+  subscriptionOffer?: SubscriptionOffer | undefined;
 }
 export type UpdateSubscriptionOfferRequestList = Array<UpdateSubscriptionOfferRequest>;
 /** Request message for BatchUpdateSubscriptionOffers. */
 export interface BatchUpdateSubscriptionOffersRequest {
   /** Required. A list of update requests of up to 100 elements. All requests must update different subscription offers. */
-  requests?: UpdateSubscriptionOfferRequestList;
+  requests?: UpdateSubscriptionOfferRequestList | undefined;
 }
 export interface BatchUpdateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this request spans multiple subscriptions, set this field to "-". Must be set. */
@@ -1628,12 +1658,12 @@ export interface BatchUpdateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the updated subscription offers. Must be equal to the package_name field on all the updated SubscriptionOffer resources. */
   packageName: string;
   /** Request body */
-  body?: BatchUpdateSubscriptionOffersRequest;
+  body?: BatchUpdateSubscriptionOffersRequest | undefined;
 }
 /** Response message for BatchUpdateSubscriptionOffers. */
 export interface BatchUpdateSubscriptionOffersResponse {
   /** The updated subscription offers list. */
-  subscriptionOffers?: SubscriptionOfferList;
+  subscriptionOffers?: SubscriptionOfferList | undefined;
 }
 export type ActivatePurchaseOptionRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1642,13 +1672,13 @@ export type ActivatePurchaseOptionRequestLatencyToleranceEnum =
 /** Request message for UpdatePurchaseOptionState. */
 export interface ActivatePurchaseOptionRequest {
   /** Required. The parent one-time product (ID) of the purchase option to activate. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The purchase option ID of the purchase option to activate. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: ActivatePurchaseOptionRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: ActivatePurchaseOptionRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The parent app (package name) of the purchase option to activate. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export type DeactivatePurchaseOptionRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1657,26 +1687,29 @@ export type DeactivatePurchaseOptionRequestLatencyToleranceEnum =
 /** Request message for UpdatePurchaseOptionState. */
 export interface DeactivatePurchaseOptionRequest {
   /** Required. The parent app (package name) of the purchase option to deactivate. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The purchase option ID of the purchase option to deactivate. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeactivatePurchaseOptionRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | DeactivatePurchaseOptionRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. The parent one-time product (ID) of the purchase option to deactivate. */
-  productId?: string;
+  productId?: string | undefined;
 }
 /** Request message to update the state of a one-time product purchase option. */
 export interface UpdatePurchaseOptionStateRequest {
   /** Activates a purchase option. Once activated, the purchase option will be available. */
-  activatePurchaseOptionRequest?: ActivatePurchaseOptionRequest;
+  activatePurchaseOptionRequest?: ActivatePurchaseOptionRequest | undefined;
   /** Deactivates a purchase option. Once deactivated, the purchase option will become unavailable. */
-  deactivatePurchaseOptionRequest?: DeactivatePurchaseOptionRequest;
+  deactivatePurchaseOptionRequest?: DeactivatePurchaseOptionRequest | undefined;
 }
 export type UpdatePurchaseOptionStateRequestList = Array<UpdatePurchaseOptionStateRequest>;
 /** Request message for BatchUpdatePurchaseOptionStates. */
 export interface BatchUpdatePurchaseOptionStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different purchase options. */
-  requests?: UpdatePurchaseOptionStateRequestList;
+  requests?: UpdatePurchaseOptionStateRequestList | undefined;
 }
 export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsRequest {
   /** Required. The parent app (package name) of the updated purchase options. */
@@ -1684,12 +1717,12 @@ export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsRequ
   /** Required. The product ID of the parent one-time product, if all updated purchase options belong to the same one-time product. If this batch update spans multiple one-time products, set this field to "-". */
   productId: string;
   /** Request body */
-  body?: BatchUpdatePurchaseOptionStatesRequest;
+  body?: BatchUpdatePurchaseOptionStatesRequest | undefined;
 }
 /** Response message for BatchUpdatePurchaseOptionStates. */
 export interface BatchUpdatePurchaseOptionStatesResponse {
   /** The list of updated one-time products. This list will match the requests one to one, in the same order. */
-  oneTimeProducts?: OneTimeProductList;
+  oneTimeProducts?: OneTimeProductList | undefined;
 }
 export type CancelOneTimeProductOfferRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1698,15 +1731,18 @@ export type CancelOneTimeProductOfferRequestLatencyToleranceEnum =
 /** Request message for CancelOneTimeProductOffer. */
 export interface CancelOneTimeProductOfferRequest {
   /** Required. The parent app (package name) of the offer to cancel. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The parent one-time product (ID) of the offer to cancel. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The offer ID of the offer to cancel. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Required. The parent purchase option (ID) of the offer to cancel. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this update. Defaults to latency-sensitive. */
-  latencyTolerance?: CancelOneTimeProductOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | CancelOneTimeProductOfferRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
 }
 export type DeactivateOneTimeProductOfferRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1715,31 +1751,34 @@ export type DeactivateOneTimeProductOfferRequestLatencyToleranceEnum =
 /** Request message for DeactivateOneTimeProductOffer. */
 export interface DeactivateOneTimeProductOfferRequest {
   /** Required. The parent one-time product (ID) of the offer to deactivate. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The offer ID of the offer to deactivate. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Required. The parent app (package name) of the offer to deactivate. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The parent purchase option (ID) of the offer to deactivate. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeactivateOneTimeProductOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | DeactivateOneTimeProductOfferRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
 }
 /** Request message to update the state of a one-time product offer. */
 export interface UpdateOneTimeProductOfferStateRequest {
   /** Cancels an offer. Once cancelled, the offer is not available to users. Any pending orders related to this offer will be cancelled. This state transition is specific to pre-orders. */
-  cancelOneTimeProductOfferRequest?: CancelOneTimeProductOfferRequest;
+  cancelOneTimeProductOfferRequest?: CancelOneTimeProductOfferRequest | undefined;
   /** Activates an offer. Once activated, the offer is available to users, as long as its conditions are met. */
-  activateOneTimeProductOfferRequest?: ActivateOneTimeProductOfferRequest;
+  activateOneTimeProductOfferRequest?: ActivateOneTimeProductOfferRequest | undefined;
   /** Deactivates an offer. Once deactivated, the offer is no longer available to users. This state transition is specific to discounted and game reward offers. */
-  deactivateOneTimeProductOfferRequest?: DeactivateOneTimeProductOfferRequest;
+  deactivateOneTimeProductOfferRequest?: DeactivateOneTimeProductOfferRequest | undefined;
 }
 export type UpdateOneTimeProductOfferStateRequestList =
   Array<UpdateOneTimeProductOfferStateRequest>;
 /** Request message for BatchUpdateOneTimeProductOfferStates. */
 export interface BatchUpdateOneTimeProductOfferStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different offers. */
-  requests?: UpdateOneTimeProductOfferStateRequestList;
+  requests?: UpdateOneTimeProductOfferStateRequestList | undefined;
 }
 export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The product ID of the parent one-time product, if all updated offers belong to the same one-time product. If this batch update spans multiple one-time products, set this field to "-". */
@@ -1749,12 +1788,12 @@ export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffe
   /** Required. The purchase option ID of the parent purchase option, if all updated offers belong to the same purchase option. If this batch update spans multiple purchase options, set this field to "-". */
   purchaseOptionId: string;
   /** Request body */
-  body?: BatchUpdateOneTimeProductOfferStatesRequest;
+  body?: BatchUpdateOneTimeProductOfferStatesRequest | undefined;
 }
 /** Response message for BatchUpdateOneTimeProductOfferStates. */
 export interface BatchUpdateOneTimeProductOfferStatesResponse {
   /** The updated one-time product offers list, in the same order as the request. */
-  oneTimeProductOffers?: OneTimeProductOfferList;
+  oneTimeProductOffers?: OneTimeProductOfferList | undefined;
 }
 export type DeactivateBasePlanRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1763,26 +1802,26 @@ export type DeactivateBasePlanRequestLatencyToleranceEnum =
 /** Request message for DeactivateBasePlan. */
 export interface DeactivateBasePlanRequest {
   /** Required. The parent app (package name) of the base plan to deactivate. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The unique base plan ID of the base plan to deactivate. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeactivateBasePlanRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?: DeactivateBasePlanRequestLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The parent subscription (ID) of the base plan to deactivate. */
-  productId?: string;
+  productId?: string | undefined;
 }
 /** Request message to update the state of a subscription base plan. */
 export interface UpdateBasePlanStateRequest {
   /** Activates a base plan. Once activated, base plans will be available to new subscribers. */
-  activateBasePlanRequest?: ActivateBasePlanRequest;
+  activateBasePlanRequest?: ActivateBasePlanRequest | undefined;
   /** Deactivates a base plan. Once deactivated, the base plan will become unavailable to new subscribers, but existing subscribers will maintain their subscription */
-  deactivateBasePlanRequest?: DeactivateBasePlanRequest;
+  deactivateBasePlanRequest?: DeactivateBasePlanRequest | undefined;
 }
 export type UpdateBasePlanStateRequestList = Array<UpdateBasePlanStateRequest>;
 /** Request message for BatchUpdateBasePlanStates. */
 export interface BatchUpdateBasePlanStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different base plans. */
-  requests?: UpdateBasePlanStateRequestList;
+  requests?: UpdateBasePlanStateRequestList | undefined;
 }
 export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) of the updated base plans. */
@@ -1790,12 +1829,12 @@ export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The product ID of the parent subscription, if all updated base plans belong to the same subscription. If this batch update spans multiple subscriptions, set this field to "-". Must be set. */
   productId: string;
   /** Request body */
-  body?: BatchUpdateBasePlanStatesRequest;
+  body?: BatchUpdateBasePlanStatesRequest | undefined;
 }
 /** Response message for BatchUpdateBasePlanStates. */
 export interface BatchUpdateBasePlanStatesResponse {
   /** The list of updated subscriptions. This list will match the requests one to one, in the same order. */
-  subscriptions?: SubscriptionList;
+  subscriptions?: SubscriptionList | undefined;
 }
 export type DeactivateSubscriptionOfferRequestLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -1804,28 +1843,31 @@ export type DeactivateSubscriptionOfferRequestLatencyToleranceEnum =
 /** Request message for DeactivateSubscriptionOffer. */
 export interface DeactivateSubscriptionOfferRequest {
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeactivateSubscriptionOfferRequestLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | DeactivateSubscriptionOfferRequestLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. The parent base plan (ID) of the offer to deactivate. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Required. The parent subscription (ID) of the offer to deactivate. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. The parent app (package name) of the offer to deactivate. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The unique offer ID of the offer to deactivate. */
-  offerId?: string;
+  offerId?: string | undefined;
 }
 /** Request message to update the state of a subscription offer. */
 export interface UpdateSubscriptionOfferStateRequest {
   /** Activates an offer. Once activated, the offer will be available to new subscribers. */
-  activateSubscriptionOfferRequest?: ActivateSubscriptionOfferRequest;
+  activateSubscriptionOfferRequest?: ActivateSubscriptionOfferRequest | undefined;
   /** Deactivates an offer. Once deactivated, the offer will become unavailable to new subscribers, but existing subscribers will maintain their subscription */
-  deactivateSubscriptionOfferRequest?: DeactivateSubscriptionOfferRequest;
+  deactivateSubscriptionOfferRequest?: DeactivateSubscriptionOfferRequest | undefined;
 }
 export type UpdateSubscriptionOfferStateRequestList = Array<UpdateSubscriptionOfferStateRequest>;
 /** Request message for BatchUpdateSubscriptionOfferStates. */
 export interface BatchUpdateSubscriptionOfferStatesRequest {
   /** Required. The update request list of up to 100 elements. All requests must update different offers. */
-  requests?: UpdateSubscriptionOfferStateRequestList;
+  requests?: UpdateSubscriptionOfferStateRequestList | undefined;
 }
 export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The product ID of the parent subscription, if all updated offers belong to the same subscription. If this request spans multiple subscriptions, set this field to "-". Must be set. */
@@ -1835,12 +1877,12 @@ export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersReques
   /** Required. The parent app (package name) of the updated subscription offers. Must be equal to the package_name field on all the updated SubscriptionOffer resources. */
   packageName: string;
   /** Request body */
-  body?: BatchUpdateSubscriptionOfferStatesRequest;
+  body?: BatchUpdateSubscriptionOfferStatesRequest | undefined;
 }
 /** Response message for BatchUpdateSubscriptionOfferStates. */
 export interface BatchUpdateSubscriptionOfferStatesResponse {
   /** The updated subscription offers list. */
-  subscriptionOffers?: SubscriptionOfferList;
+  subscriptionOffers?: SubscriptionOfferList | undefined;
 }
 /** Request message for CancelAppRecovery. */
 export type CancelAppRecoveryRequest = OneTimeProductOfferNoPriceOverrideOptions;
@@ -1850,7 +1892,7 @@ export interface CancelApprecoveryRequest {
   /** Required. ID corresponding to the app recovery action. */
   appRecoveryId: string;
   /** Request body */
-  body?: OneTimeProductOfferNoPriceOverrideOptions;
+  body?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 /** Response message for CancelAppRecovery. */
 export interface CancelAppRecoveryResponse {}
@@ -1864,7 +1906,7 @@ export interface CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent purchase option (ID) of the offer to cancel. */
   purchaseOptionId: string;
   /** Request body */
-  body?: CancelOneTimeProductOfferRequest;
+  body?: CancelOneTimeProductOfferRequest | undefined;
 }
 export interface CancelPurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
@@ -1882,12 +1924,12 @@ export type CancellationContextCancellationTypeEnum =
 /** Cancellation context of the purchases.subscriptionsv2.cancel API. */
 export interface CancellationContext {
   /** Required. The type of cancellation for the purchased subscription. */
-  cancellationType?: CancellationContextCancellationTypeEnum | (string & {});
+  cancellationType?: CancellationContextCancellationTypeEnum | (string & {}) | undefined;
 }
 /** Request for the purchases.subscriptionsv2.cancel API. */
 export interface CancelSubscriptionPurchaseRequest {
   /** Required. Additional details around the subscription revocation. */
-  cancellationContext?: CancellationContext;
+  cancellationContext?: CancellationContext | undefined;
 }
 export interface CancelPurchasesSubscriptionsv2Request {
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
@@ -1895,7 +1937,7 @@ export interface CancelPurchasesSubscriptionsv2Request {
   /** Required. The token provided to the user's device when the subscription was purchased. */
   token: string;
   /** Request body */
-  body?: CancelSubscriptionPurchaseRequest;
+  body?: CancelSubscriptionPurchaseRequest | undefined;
 }
 /** Response for the purchases.subscriptionsv2.cancel API. */
 export interface CancelSubscriptionPurchaseResponse {}
@@ -1907,18 +1949,18 @@ export interface CommitEditsRequest {
   /** Identifier of the edit. */
   editId: string;
   /** Optional. Specify how the API should behave if there are changes currently in review. If this value is not set, it will default to "CANCEL_IN_REVIEW_AND_SUBMIT", which will cancel the changes in review and then send all the changes for publishing. */
-  changesInReviewBehavior?: CommitEditsChangesInReviewBehaviorEnum | (string & {});
+  changesInReviewBehavior?: CommitEditsChangesInReviewBehaviorEnum | (string & {}) | undefined;
   /** Package name of the app. */
   packageName: string;
   /** When a rejection happens, the parameter will make sure that the changes in this edit won't be reviewed until they are explicitly sent for review from within the Google Play Console UI. These changes will be added to any other changes that are not yet sent for review. */
-  changesNotSentForReview?: boolean;
+  changesNotSentForReview?: boolean | undefined;
 }
 /** An app edit. The resource for EditsService. */
 export interface AppEdit {
   /** Output only. The time (as seconds since Epoch) at which the edit will expire and will be no longer valid for use. */
-  expiryTimeSeconds?: string;
+  expiryTimeSeconds?: string | undefined;
   /** Output only. Identifier of the edit. Can be used in subsequent API calls. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface ConsumePurchasesProductsRequest {
   /** The inapp product SKU (for example, 'com.some.thing.inapp1'). */
@@ -1932,192 +1974,192 @@ export interface ConsumePurchasesProductsResponse {}
 /** Request message for ConvertRegionPrices. */
 export interface ConvertRegionPricesRequest {
   /** The intital price to convert other regions from. Tax exclusive. */
-  price?: Money;
+  price?: Money | undefined;
   /** Optional. Product tax category code in context. Product tax category determines the transaction tax rates applied to the product that will be factored into the price calculation. If not set, tax rates for the default product tax category will be used. Refer to the [Help Center article](https://support.google.com/googleplay/android-developer/answer/16408159) for more information. */
-  productTaxCategoryCode?: string;
+  productTaxCategoryCode?: string | undefined;
 }
 export interface ConvertRegionPricesMonetizationRequest {
   /** Required. The app package name. */
   packageName: string;
   /** Request body */
-  body?: ConvertRegionPricesRequest;
+  body?: ConvertRegionPricesRequest | undefined;
 }
 /** Converted other regions prices. */
 export interface ConvertedOtherRegionsPrice {
   /** Price in USD to use for the "Other regions" location exclusive of taxes. */
-  usdPrice?: Money;
+  usdPrice?: Money | undefined;
   /** Price in EUR to use for the "Other regions" location exclusive of taxes. */
-  eurPrice?: Money;
+  eurPrice?: Money | undefined;
 }
 /** A converted region price. */
 export interface ConvertedRegionPrice {
   /** The region code of the region. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** The tax amount of the converted price. */
-  taxAmount?: Money;
+  taxAmount?: Money | undefined;
   /** The converted price tax inclusive. */
-  price?: Money;
+  price?: Money | undefined;
 }
 export type ConvertedRegionPriceMap = { [key: string]: ConvertedRegionPrice | undefined };
 /** Response message for ConvertRegionPrices. */
 export interface ConvertRegionPricesResponse {
   /** The region version at which the prices were generated. */
-  regionVersion?: RegionsVersion;
+  regionVersion?: RegionsVersion | undefined;
   /** Converted other regions prices in USD and EUR, to use for countries where Play doesn't support a country's local currency. */
-  convertedOtherRegionsPrice?: ConvertedOtherRegionsPrice;
+  convertedOtherRegionsPrice?: ConvertedOtherRegionsPrice | undefined;
   /** Map from region code to converted region price. */
-  convertedRegionPrices?: ConvertedRegionPriceMap;
+  convertedRegionPrices?: ConvertedRegionPriceMap | undefined;
 }
 /** A single device tier. Devices matching any of the device groups in device_group_names are considered to match the tier. */
 export interface DeviceTier {
   /** The priority level of the tier. Tiers are evaluated in descending order of level: the highest level tier has the highest priority. The highest tier matching a given device is selected for that device. You should use a contiguous range of levels for your tiers in a tier set; tier levels in a tier set must be unique. For instance, if your tier set has 4 tiers (including the global fallback), you should define tiers 1, 2 and 3 in this configuration. Note: tier 0 is implicitly defined as a global fallback and selected for devices that don't match any of the tiers explicitly defined here. You mustn't define level 0 explicitly in this configuration. */
-  level?: number;
+  level?: number | undefined;
   /** Groups of devices included in this tier. These groups must be defined explicitly under device_groups in this configuration. */
-  deviceGroupNames?: StringList;
+  deviceGroupNames?: StringList | undefined;
 }
 export type DeviceTierList = Array<DeviceTier>;
 /** A set of device tiers. A tier set determines what variation of app content gets served to a specific device, for device-targeted content. You should assign a priority level to each tier, which determines the ordering by which they are evaluated by Play. See the documentation of DeviceTier.level for more details. */
 export interface DeviceTierSet {
   /** Device tiers belonging to the set. */
-  deviceTiers?: DeviceTierList;
+  deviceTiers?: DeviceTierList | undefined;
 }
 /** Identifier of a device. */
 export interface DeviceId {
   /** Value of Build.BRAND. */
-  buildBrand?: string;
+  buildBrand?: string | undefined;
   /** Value of Build.DEVICE. */
-  buildDevice?: string;
+  buildDevice?: string | undefined;
 }
 export type DeviceIdList = Array<DeviceId>;
 /** Representation of a system feature. */
 export interface SystemFeature {
   /** The name of the feature. */
-  name?: string;
+  name?: string | undefined;
 }
 export type SystemFeatureList = Array<SystemFeature>;
 /** Conditions about a device's RAM capabilities. */
 export interface DeviceRam {
   /** Maximum RAM in bytes (bound excluded). */
-  maxBytes?: string;
+  maxBytes?: string | undefined;
   /** Minimum RAM in bytes (bound included). */
-  minBytes?: string;
+  minBytes?: string | undefined;
 }
 /** Representation of a System-on-Chip (SoC) of an Android device. Can be used to target S+ devices. */
 export interface SystemOnChip {
   /** Required. The model of the SoC, eg. "Tensor" Value of build property "ro.soc.model" https://developer.android.com/reference/android/os/Build#SOC_MODEL Required. */
-  model?: string;
+  model?: string | undefined;
   /** Required. The designer of the SoC, eg. "Google" Value of build property "ro.soc.manufacturer" https://developer.android.com/reference/android/os/Build#SOC_MANUFACTURER Required. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
 }
 export type SystemOnChipList = Array<SystemOnChip>;
 /** Selector for a device group. A selector consists of a set of conditions on the device that should all match (logical AND) to determine a device group eligibility. For instance, if a selector specifies RAM conditions, device model inclusion and device model exclusion, a device is considered to match if: device matches RAM conditions AND device matches one of the included device models AND device doesn't match excluded device models */
 export interface DeviceSelector {
   /** Device models excluded by this selector, even if they match all other conditions. */
-  excludedDeviceIds?: DeviceIdList;
+  excludedDeviceIds?: DeviceIdList | undefined;
   /** A device needs to have all these system features to be included by the selector. */
-  requiredSystemFeatures?: SystemFeatureList;
+  requiredSystemFeatures?: SystemFeatureList | undefined;
   /** Conditions on the device's RAM. */
-  deviceRam?: DeviceRam;
+  deviceRam?: DeviceRam | undefined;
   /** Device models included by this selector. */
-  includedDeviceIds?: DeviceIdList;
+  includedDeviceIds?: DeviceIdList | undefined;
   /** Optional. The SoCs included by this selector. Only works for Android S+ devices. */
-  systemOnChips?: SystemOnChipList;
+  systemOnChips?: SystemOnChipList | undefined;
   /** A device that has any of these system features is excluded by this selector, even if it matches all other conditions. */
-  forbiddenSystemFeatures?: SystemFeatureList;
+  forbiddenSystemFeatures?: SystemFeatureList | undefined;
 }
 export type DeviceSelectorList = Array<DeviceSelector>;
 /** A group of devices. A group is defined by a set of device selectors. A device belongs to the group if it matches any selector (logical OR). */
 export interface DeviceGroup {
   /** Device selectors for this group. A device matching any of the selectors is included in this group. */
-  deviceSelectors?: DeviceSelectorList;
+  deviceSelectors?: DeviceSelectorList | undefined;
   /** The name of the group. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DeviceGroupList = Array<DeviceGroup>;
 /** A set of user countries. A country set determines what variation of app content gets served to a specific location. */
 export interface UserCountrySet {
   /** Country set name. */
-  name?: string;
+  name?: string | undefined;
   /** List of country codes representing countries. A Country code is represented in ISO 3166 alpha-2 format. For Example:- "IT" for Italy, "GE" for Georgia. */
-  countryCodes?: StringList;
+  countryCodes?: StringList | undefined;
 }
 export type UserCountrySetList = Array<UserCountrySet>;
 /** Configuration describing device targeting criteria for the content of an app. */
 export interface DeviceTierConfig {
   /** Output only. The device tier config ID. */
-  deviceTierConfigId?: string;
+  deviceTierConfigId?: string | undefined;
   /** Definition of the set of device tiers for the app. */
-  deviceTierSet?: DeviceTierSet;
+  deviceTierSet?: DeviceTierSet | undefined;
   /** Definition of device groups for the app. */
-  deviceGroups?: DeviceGroupList;
+  deviceGroups?: DeviceGroupList | undefined;
   /** Definition of user country sets for the app. */
-  userCountrySets?: UserCountrySetList;
+  userCountrySets?: UserCountrySetList | undefined;
 }
 export interface CreateApplicationsDeviceTierConfigsRequest {
   /** Whether the service should accept device IDs that are unknown to Play's device catalog. */
-  allowUnknownDevices?: boolean;
+  allowUnknownDevices?: boolean | undefined;
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: DeviceTierConfig;
+  body?: DeviceTierConfig | undefined;
 }
 /** Data format for a list of app versions. */
 export interface AppVersionList {
   /** List of app version codes. */
-  versionCodes?: StringList;
+  versionCodes?: StringList | undefined;
 }
 /** Data format for a continuous range of app versions. */
 export interface AppVersionRange {
   /** Lowest app version in the range, inclusive. */
-  versionCodeStart?: string;
+  versionCodeStart?: string | undefined;
   /** Highest app version in the range, inclusive. */
-  versionCodeEnd?: string;
+  versionCodeEnd?: string | undefined;
 }
 /** Targeting details for a recovery action such as regions, android sdk levels, app versions etc. */
 export interface Targeting {
   /** Target version codes as a list. */
-  versionList?: AppVersionList;
+  versionList?: AppVersionList | undefined;
   /** Target version codes as a range. */
-  versionRange?: AppVersionRange;
+  versionRange?: AppVersionRange | undefined;
   /** Targeting is based on the user account region. */
-  regions?: Regions;
+  regions?: Regions | undefined;
   /** Targeting is based on android api levels of devices. */
-  androidSdks?: AndroidSdks;
+  androidSdks?: AndroidSdks | undefined;
   /** All users are targeted. */
-  allUsers?: AllUsers;
+  allUsers?: AllUsers | undefined;
 }
 /** Object representation for Remote in-app update action type. */
 export interface RemoteInAppUpdate {
   /** Required. Set to true if Remote In-App Update action type is needed. */
-  isRemoteInAppUpdateRequested?: boolean;
+  isRemoteInAppUpdateRequested?: boolean | undefined;
 }
 /** Request message for CreateDraftAppRecovery. */
 export interface CreateDraftAppRecoveryRequest {
   /** Specifies targeting criteria for the recovery action such as regions, android sdk versions, app versions etc. */
-  targeting?: Targeting;
+  targeting?: Targeting | undefined;
   /** Action type is remote in-app update. As a consequence of this action, a downloadable recovery module is also created for testing purposes. */
-  remoteInAppUpdate?: RemoteInAppUpdate;
+  remoteInAppUpdate?: RemoteInAppUpdate | undefined;
 }
 export interface CreateApprecoveryRequest {
   /** Required. Package name of the app on which recovery action is performed. */
   packageName: string;
   /** Request body */
-  body?: CreateDraftAppRecoveryRequest;
+  body?: CreateDraftAppRecoveryRequest | undefined;
 }
 /** Data related to the recovery action at bundle level. */
 export interface RemoteInAppUpdateDataPerBundle {
   /** Total number of devices which have been rescued. */
-  recoveredDeviceCount?: string;
+  recoveredDeviceCount?: string | undefined;
   /** Total number of devices affected by this recovery action associated with bundle of the app. */
-  totalDeviceCount?: string;
+  totalDeviceCount?: string | undefined;
   /** Version Code corresponding to the target bundle. */
-  versionCode?: string;
+  versionCode?: string | undefined;
 }
 export type RemoteInAppUpdateDataPerBundleList = Array<RemoteInAppUpdateDataPerBundle>;
 /** Data related to Remote In-App Update action such as recovered user count, affected user count etc. */
 export interface RemoteInAppUpdateData {
   /** Data related to the recovery action at bundle level. */
-  remoteAppUpdateDataPerBundle?: RemoteInAppUpdateDataPerBundleList;
+  remoteAppUpdateDataPerBundle?: RemoteInAppUpdateDataPerBundleList | undefined;
 }
 export type AppRecoveryActionStatusEnum =
   | "RECOVERY_STATUS_UNSPECIFIED"
@@ -2129,32 +2171,32 @@ export type AppRecoveryActionStatusEnum =
 /** Information about an app recovery action. */
 export interface AppRecoveryAction {
   /** Timestamp of when the developer last updated recovery action. In case the action is cancelled, it corresponds to cancellation time. It is always set after creation of the recovery action. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** ID corresponding to the app recovery action. */
-  appRecoveryId?: string;
+  appRecoveryId?: string | undefined;
   /** Timestamp of when the app recovery action is deployed to the users. Only set if the recovery action has been deployed. */
-  deployTime?: string;
+  deployTime?: string | undefined;
   /** Data about the remote in-app update action such as such as recovered user base, recoverable user base etc. Set only if the recovery action type is Remote In-App Update. */
-  remoteInAppUpdateData?: RemoteInAppUpdateData;
+  remoteInAppUpdateData?: RemoteInAppUpdateData | undefined;
   /** Specifies targeting criteria for the recovery action such as regions, android sdk versions, app versions etc. */
-  targeting?: Targeting;
+  targeting?: Targeting | undefined;
   /** Timestamp of when the app recovery action is created by the developer. It is always set after creation of the recovery action. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The status of the recovery action. */
-  status?: AppRecoveryActionStatusEnum;
+  status?: AppRecoveryActionStatusEnum | undefined;
   /** Timestamp of when the app recovery action is canceled by the developer. Only set if the recovery action has been canceled. */
-  cancelTime?: string;
+  cancelTime?: string | undefined;
 }
 /** Request to create a new app record for an app store hosted app. */
 export interface CreateAppStoreHostedAppRequest {
   /** Required. Package name of the app. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export interface CreateappstorehostedappAppstoreappsreviewRequest {
   /** Required. Package name of the third-party app store. */
   appStorePackageName: string;
   /** Request body */
-  body?: CreateAppStoreHostedAppRequest;
+  body?: CreateAppStoreHostedAppRequest | undefined;
 }
 /** Response for creating a new app record for an app store hosted app. */
 export interface CreateAppStoreHostedAppResponse {}
@@ -2167,11 +2209,11 @@ export type TrackConfigTypeEnum = "TRACK_TYPE_UNSPECIFIED" | "CLOSED_TESTING";
 /** Configurations of the new track. */
 export interface TrackConfig {
   /** Required. Form factor of the new track. Defaults to the default track. */
-  formFactor?: TrackConfigFormFactorEnum | (string & {});
+  formFactor?: TrackConfigFormFactorEnum | (string & {}) | undefined;
   /** Required. Identifier of the new track. For default tracks, this field consists of the track alias only. Form factor tracks have a special prefix as an identifier, for example `wear:production`, `automotive:production`. This prefix must match the value of the `form_factor` field, if it is not a default track. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
-  track?: string;
+  track?: string | undefined;
   /** Required. Type of the new track. Currently, the only supported value is closedTesting. */
-  type?: TrackConfigTypeEnum | (string & {});
+  type?: TrackConfigTypeEnum | (string & {}) | undefined;
 }
 export interface CreateEditsTracksRequest {
   /** Required. Package name of the app. */
@@ -2179,14 +2221,14 @@ export interface CreateEditsTracksRequest {
   /** Required. Identifier of the edit. */
   editId: string;
   /** Request body */
-  body?: TrackConfig;
+  body?: TrackConfig | undefined;
 }
 /** Country targeting specification. */
 export interface CountryTargeting {
   /** Include "rest of world" as well as explicitly targeted countries. */
-  includeRestOfWorld?: boolean;
+  includeRestOfWorld?: boolean | undefined;
   /** Countries to target, specified as two letter [CLDR codes](https://unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html). */
-  countries?: StringList;
+  countries?: StringList | undefined;
 }
 export type TrackReleaseStatusEnum =
   | "statusUnspecified"
@@ -2197,42 +2239,42 @@ export type TrackReleaseStatusEnum =
 /** Localized text in given language. */
 export interface LocalizedText {
   /** Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
-  language?: string;
+  language?: string | undefined;
   /** The text in the given language. */
-  text?: string;
+  text?: string | undefined;
 }
 export type LocalizedTextList = Array<LocalizedText>;
 /** A release within a track. */
 export interface TrackRelease {
   /** Fraction of users who are eligible for a staged release. 0 < fraction < 1. Can only be set when status is "inProgress" or "halted". */
-  userFraction?: number;
+  userFraction?: number | undefined;
   /** Restricts a release to a specific set of countries. Note this is only allowed to be set for inProgress releases in the production track. */
-  countryTargeting?: CountryTargeting;
+  countryTargeting?: CountryTargeting | undefined;
   /** In-app update priority of the release. All newly added APKs in the release will be considered at this priority. Can take values in the range [0, 5], with 5 the highest priority. Defaults to 0. in_app_update_priority can not be updated once the release is rolled out. See https://developer.android.com/guide/playcore/in-app-updates. */
-  inAppUpdatePriority?: number;
+  inAppUpdatePriority?: number | undefined;
   /** Version codes of all APKs in the release. Must include version codes to retain from previous releases. */
-  versionCodes?: StringList;
+  versionCodes?: StringList | undefined;
   /** The status of the release. */
-  status?: TrackReleaseStatusEnum | (string & {});
+  status?: TrackReleaseStatusEnum | (string & {}) | undefined;
   /** A description of what is new in this release. */
-  releaseNotes?: LocalizedTextList;
+  releaseNotes?: LocalizedTextList | undefined;
   /** The release name. Not required to be unique. If not set, the name is generated from the APK's version_name. If the release contains multiple APKs, the name is generated from the date. */
-  name?: string;
+  name?: string | undefined;
 }
 export type TrackReleaseList = Array<TrackRelease>;
 /** A track configuration. The resource for TracksService. */
 export interface Track {
   /** In a read request, represents all active releases in the track. In an update request, represents desired changes. */
-  releases?: TrackReleaseList;
+  releases?: TrackReleaseList | undefined;
   /** Identifier of the track. Form factor tracks have a special prefix as an identifier, for example `wear:production`, `automotive:production`. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
-  track?: string;
+  track?: string | undefined;
 }
 /** User's address for the external transaction. */
 export interface ExternalTransactionAddress {
   /** Optional. Top-level administrative subdivision of the country/region. Only required for transactions in India. Valid values are "ANDAMAN AND NICOBAR ISLANDS", "ANDHRA PRADESH", "ARUNACHAL PRADESH", "ASSAM", "BIHAR", "CHANDIGARH", "CHHATTISGARH", "DADRA AND NAGAR HAVELI", "DADRA AND NAGAR HAVELI AND DAMAN AND DIU", "DAMAN AND DIU", "DELHI", "GOA", "GUJARAT", "HARYANA", "HIMACHAL PRADESH", "JAMMU AND KASHMIR", "JHARKHAND", "KARNATAKA", "KERALA", "LADAKH", "LAKSHADWEEP", "MADHYA PRADESH", "MAHARASHTRA", "MANIPUR", "MEGHALAYA", "MIZORAM", "NAGALAND", "ODISHA", "PUDUCHERRY", "PUNJAB", "RAJASTHAN", "SIKKIM", "TAMIL NADU", "TELANGANA", "TRIPURA", "UTTAR PRADESH", "UTTARAKHAND", and "WEST BENGAL". */
-  administrativeArea?: string;
+  administrativeArea?: string | undefined;
   /** Required. Two letter region code based on ISO-3166-1 Alpha-2 (UN region codes). */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export type ExternalOfferDetailsInstalledAppCategoryEnum =
   | "EXTERNAL_OFFER_APP_CATEGORY_UNSPECIFIED"
@@ -2245,13 +2287,13 @@ export type ExternalOfferDetailsLinkTypeEnum =
 /** Reporting details unique to the external offers program. */
 export interface ExternalOfferDetails {
   /** Optional. The external transaction id associated with the app download event through an external link. Required when reporting transactions made in externally installed apps. */
-  appDownloadEventExternalTransactionId?: string;
+  appDownloadEventExternalTransactionId?: string | undefined;
   /** Optional. The category of the downloaded app though this transaction. This must match the category provided in Play Console during the external app verification process. Only required for app downloads. */
-  installedAppCategory?: ExternalOfferDetailsInstalledAppCategoryEnum | (string & {});
+  installedAppCategory?: ExternalOfferDetailsInstalledAppCategoryEnum | (string & {}) | undefined;
   /** Optional. The package name of the app downloaded through this transaction. Required when link_type is LINK_TO_APP_DOWNLOAD. */
-  installedAppPackage?: string;
+  installedAppPackage?: string | undefined;
   /** Optional. The type of content being reported by this transaction. Required when reporting app downloads or purchased digital content offers made in app installed through Google Play. */
-  linkType?: ExternalOfferDetailsLinkTypeEnum | (string & {});
+  linkType?: ExternalOfferDetailsLinkTypeEnum | (string & {}) | undefined;
 }
 export type ExternalSubscriptionSubscriptionTypeEnum =
   | "SUBSCRIPTION_TYPE_UNSPECIFIED"
@@ -2260,7 +2302,7 @@ export type ExternalSubscriptionSubscriptionTypeEnum =
 /** Details of an external subscription. */
 export interface ExternalSubscription {
   /** Required. The type of the external subscription. */
-  subscriptionType?: ExternalSubscriptionSubscriptionTypeEnum | (string & {});
+  subscriptionType?: ExternalSubscriptionSubscriptionTypeEnum | (string & {}) | undefined;
 }
 /** Details of a recurring external transaction product which doesn't belong to any other more specific category. */
 export type OtherRecurringProduct = OneTimeProductOfferNoPriceOverrideOptions;
@@ -2271,22 +2313,23 @@ export type RecurringExternalTransactionMigratedTransactionProgramEnum =
 /** Represents a transaction that is part of a recurring series of payments. This can be a subscription or a one-time product with multiple payments (such as preorder). */
 export interface RecurringExternalTransaction {
   /** Input only. Provided during the call to Create. Retrieved from the client when the alternative billing flow is launched. Required only for the initial purchase. */
-  externalTransactionToken?: string;
+  externalTransactionToken?: string | undefined;
   /** Details of an external subscription. */
-  externalSubscription?: ExternalSubscription;
+  externalSubscription?: ExternalSubscription | undefined;
   /** The external transaction id of the first transaction of this recurring series of transactions. For example, for a subscription this would be the transaction id of the first payment. Required when creating recurring external transactions. */
-  initialExternalTransactionId?: string;
+  initialExternalTransactionId?: string | undefined;
   /** Details of a recurring external transaction product which doesn't belong to any other specific category. */
-  otherRecurringProduct?: OneTimeProductOfferNoPriceOverrideOptions;
+  otherRecurringProduct?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Input only. Provided during the call to Create. Must only be used when migrating a subscription from manual monthly reporting to automated reporting. */
   migratedTransactionProgram?:
     | RecurringExternalTransactionMigratedTransactionProgramEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Represents a one-time transaction. */
 export interface OneTimeExternalTransaction {
   /** Input only. Provided during the call to Create. Retrieved from the client when the alternative billing flow is launched. */
-  externalTransactionToken?: string;
+  externalTransactionToken?: string | undefined;
 }
 /** Represents a transaction performed using a test account. These transactions will not be charged by Google. */
 export type ExternalTransactionTestPurchase = OneTimeProductOfferNoPriceOverrideOptions;
@@ -2301,11 +2344,14 @@ export type ExternalContentLinkDetailsLinkTypeEnum =
 /** Reporting details unique to the external content link program. */
 export interface ExternalContentLinkDetails {
   /** Optional. The category of the downlaoded app. This must match the category provided in Play Console during the external app verification process. Only required for app installs. */
-  externalAppCategory?: ExternalContentLinkDetailsExternalAppCategoryEnum | (string & {});
+  externalAppCategory?:
+    | ExternalContentLinkDetailsExternalAppCategoryEnum
+    | (string & {})
+    | undefined;
   /** Optional. The package name of the app downloaded through this transaction. Only required for app installs. */
-  installedAppPackage?: string;
+  installedAppPackage?: string | undefined;
   /** Required. The type content being reported by this transaction. */
-  linkType?: ExternalContentLinkDetailsLinkTypeEnum | (string & {});
+  linkType?: ExternalContentLinkDetailsLinkTypeEnum | (string & {}) | undefined;
 }
 export type ExternalTransactionTransactionStateEnum =
   | "TRANSACTION_STATE_UNSPECIFIED"
@@ -2314,45 +2360,45 @@ export type ExternalTransactionTransactionStateEnum =
 /** The details of an external transaction. */
 export interface ExternalTransaction {
   /** Required. User address for tax computation. */
-  userTaxAddress?: ExternalTransactionAddress;
+  userTaxAddress?: ExternalTransactionAddress | undefined;
   /** Output only. The time when this transaction was created. This is the time when Google was notified of the transaction. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The original transaction amount before taxes. This represents the pre-tax amount originally notified to Google before any refunds were applied. */
-  originalPreTaxAmount?: Price;
+  originalPreTaxAmount?: Price | undefined;
   /** Output only. The current transaction amount before tax. This represents the current pre-tax amount including any refunds that may have been applied to this transaction. */
-  currentPreTaxAmount?: Price;
+  currentPreTaxAmount?: Price | undefined;
   /** Required. The time when the transaction was completed. */
-  transactionTime?: string;
+  transactionTime?: string | undefined;
   /** Optional. Details necessary to accurately report external offers transactions. */
-  externalOfferDetails?: ExternalOfferDetails;
+  externalOfferDetails?: ExternalOfferDetails | undefined;
   /** This transaction is part of a recurring series of transactions. */
-  recurringTransaction?: RecurringExternalTransaction;
+  recurringTransaction?: RecurringExternalTransaction | undefined;
   /** This is a one-time transaction and not part of a subscription. */
-  oneTimeTransaction?: OneTimeExternalTransaction;
+  oneTimeTransaction?: OneTimeExternalTransaction | undefined;
   /** Output only. The resource name of the external transaction. The package name of the application the inapp products were sold (for example, 'com.some.app'). */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Required. The original tax amount. This represents the tax amount originally notified to Google before any refunds were applied. */
-  originalTaxAmount?: Price;
+  originalTaxAmount?: Price | undefined;
   /** Output only. If set, this transaction was a test purchase. Google will not charge for a test transaction. */
-  testPurchase?: OneTimeProductOfferNoPriceOverrideOptions;
+  testPurchase?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Optional. Details necessary to accurately report external content link transactions. */
-  externalContentLinkDetails?: ExternalContentLinkDetails;
+  externalContentLinkDetails?: ExternalContentLinkDetails | undefined;
   /** Output only. The current tax amount. This represents the current tax amount including any refunds that may have been applied to this transaction. */
-  currentTaxAmount?: Price;
+  currentTaxAmount?: Price | undefined;
   /** Optional. The transaction program code, used to help determine service fee for eligible apps participating in partner programs. Developers participating in the Play Media Experience Program (https://play.google.com/console/about/programs/mediaprogram/) must provide the program code when reporting alternative billing transactions. If you are an eligible developer, please contact your BDM for more information on how to set this field. Note: this field can not be used for external offers transactions. */
-  transactionProgramCode?: number;
+  transactionProgramCode?: number | undefined;
   /** Output only. The id of this transaction. All transaction ids under the same package name must be unique. Set when creating the external transaction. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Output only. The current state of the transaction. */
-  transactionState?: ExternalTransactionTransactionStateEnum | (string & {});
+  transactionState?: ExternalTransactionTransactionStateEnum | (string & {}) | undefined;
 }
 export interface CreateexternaltransactionExternaltransactionsRequest {
   /** Required. The parent resource where this external transaction will be created. Format: applications/{package_name} */
   parent: string;
   /** Required. The id to use for the external transaction. Must be unique across all other transactions for the app. This value should be 1-63 characters and valid characters are /a-zA-Z0-9_-/. Do not use this field to store any Personally Identifiable Information (PII) such as emails. Attempting to store PII in this field may result in requests being blocked. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Request body */
-  body?: ExternalTransaction;
+  body?: ExternalTransaction | undefined;
 }
 export type GrantAppLevelPermissionsItemEnum =
   | "APP_LEVEL_PERMISSION_UNSPECIFIED"
@@ -2376,27 +2422,27 @@ export type GrantAppLevelPermissionsItemEnumList = Array<
 /** An access grant resource. */
 export interface Grant {
   /** Required. Resource name for this grant, following the pattern "developers/{developer}/users/{email}/grants/{package_name}". If this grant is for a draft app, the app ID will be used in this resource name instead of the package name. */
-  name?: string;
+  name?: string | undefined;
   /** The permissions granted to the user for this app. */
-  appLevelPermissions?: GrantAppLevelPermissionsItemEnumList;
+  appLevelPermissions?: GrantAppLevelPermissionsItemEnumList | undefined;
   /** Immutable. The package name of the app. This will be empty for draft apps. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export interface CreateGrantsRequest {
   /** Required. The user which needs permission. Format: developers/{developer}/users/{user} */
   parent: string;
   /** Request body */
-  body?: Grant;
+  body?: Grant | undefined;
 }
 export interface CreateMonetizationSubscriptionsRequest {
   /** Required. The ID to use for the subscription. For the requirements on this format, see the documentation of the product_id field on the Subscription resource. */
-  productId?: string;
+  productId?: string | undefined;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
-  "regionsVersion.version"?: string;
+  "regionsVersion.version"?: string | undefined;
   /** Required. The parent app (package name) for which the subscription should be created. Must be equal to the package_name field on the Subscription resource. */
   packageName: string;
   /** Request body */
-  body?: Subscription;
+  body?: Subscription | undefined;
 }
 export interface CreateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent subscription (ID) for which the offer should be created. Must be equal to the product_id field on the SubscriptionOffer resource. */
@@ -2406,38 +2452,38 @@ export interface CreateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) for which the offer should be created. Must be equal to the package_name field on the Subscription resource. */
   packageName: string;
   /** Required. The ID to use for the offer. For the requirements on this format, see the documentation of the offer_id field on the SubscriptionOffer resource. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
-  "regionsVersion.version"?: string;
+  "regionsVersion.version"?: string | undefined;
   /** Request body */
-  body?: SubscriptionOffer;
+  body?: SubscriptionOffer | undefined;
 }
 /** Options for system APKs. */
 export interface SystemApkOptions {
   /** Whether to use the rotated key for signing the system APK. */
-  rotated?: boolean;
+  rotated?: boolean | undefined;
   /** Whether system APK was generated with uncompressed native libraries. */
-  uncompressedNativeLibraries?: boolean;
+  uncompressedNativeLibraries?: boolean | undefined;
   /** Whether system APK was generated with uncompressed dex files. */
-  uncompressedDexFiles?: boolean;
+  uncompressedDexFiles?: boolean | undefined;
 }
 /** The device spec used to generate a system APK. */
 export interface DeviceSpec {
   /** All installed locales represented as BCP-47 strings, e.g. "en-US". */
-  supportedLocales?: StringList;
+  supportedLocales?: StringList | undefined;
   /** Supported ABI architectures in the order of preference. The values should be the string as reported by the platform, e.g. "armeabi-v7a", "x86_64". */
-  supportedAbis?: StringList;
+  supportedAbis?: StringList | undefined;
   /** Screen dpi. */
-  screenDensity?: number;
+  screenDensity?: number | undefined;
 }
 /** APK that is suitable for inclusion in a system image. The resource of SystemApksService. */
 export interface Variant {
   /** Output only. The ID of a previously created system APK variant. */
-  variantId?: number;
+  variantId?: number | undefined;
   /** Optional. Options applied to the generated APK. */
-  options?: SystemApkOptions;
+  options?: SystemApkOptions | undefined;
   /** The device spec used to generate the APK. */
-  deviceSpec?: DeviceSpec;
+  deviceSpec?: DeviceSpec | undefined;
 }
 export interface CreateSystemapksVariantsRequest {
   /** Package name of the app. */
@@ -2445,7 +2491,7 @@ export interface CreateSystemapksVariantsRequest {
   /** The version code of the App Bundle. */
   versionCode: string;
   /** Request body */
-  body?: Variant;
+  body?: Variant | undefined;
 }
 export type GrantList = Array<Grant>;
 export type UserAccessStateEnum =
@@ -2482,36 +2528,36 @@ export type UserDeveloperAccountPermissionsItemEnumList = Array<
 /** A user resource. */
 export interface User {
   /** Output only. Whether there are more permissions for the user that are not represented here. This can happen if the caller does not have permission to manage all apps in the account. This is also `true` if this user is the account owner. If this field is `true`, it should be taken as a signal that this user cannot be fully managed via the API. That is, the API caller is not be able to manage all of the permissions this user holds, either because it doesn't know about them or because the user is the account owner. */
-  partial?: boolean;
+  partial?: boolean | undefined;
   /** The time at which the user's access expires, if set. When setting this value, it must always be in the future. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Output only. Per-app permissions for the user. */
-  grants?: GrantList;
+  grants?: GrantList | undefined;
   /** Required. Resource name for this user, following the pattern "developers/{developer}/users/{email}". */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. The user's email address. */
-  email?: string;
+  email?: string | undefined;
   /** Output only. The state of the user's access to the Play Console. */
-  accessState?: UserAccessStateEnum | (string & {});
+  accessState?: UserAccessStateEnum | (string & {}) | undefined;
   /** Permissions for the user which apply across the developer account. */
-  developerAccountPermissions?: UserDeveloperAccountPermissionsItemEnumList;
+  developerAccountPermissions?: UserDeveloperAccountPermissionsItemEnumList | undefined;
 }
 export interface CreateUsersRequest {
   /** Required. The developer account to add the user to. Format: developers/{developer} */
   parent: string;
   /** Request body */
-  body?: User;
+  body?: User | undefined;
 }
 /** Request to update Safety Labels of an app. */
 export interface SafetyLabelsUpdateRequest {
   /** Required. Contents of the CSV file containing Data Safety responses. For the format of this file, see the Help Center documentation at https://support.google.com/googleplay/android-developer/answer/10787469?#zippy=%2Cunderstand-the-csv-format To download an up to date template, follow the steps at https://support.google.com/googleplay/android-developer/answer/10787469?#zippy=%2Cexport-to-a-csv-file */
-  safetyLabels?: string;
+  safetyLabels?: string | undefined;
 }
 export interface DataSafetyApplicationsRequest {
   /** Required. Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: SafetyLabelsUpdateRequest;
+  body?: SafetyLabelsUpdateRequest | undefined;
 }
 /** Response for SafetyLabelsUpdate rpc. */
 export interface SafetyLabelsUpdateResponse {}
@@ -2525,7 +2571,7 @@ export interface DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersReque
   /** Required. The parent one-time product (ID) of the offer to deactivate. */
   productId: string;
   /** Request body */
-  body?: DeactivateOneTimeProductOfferRequest;
+  body?: DeactivateOneTimeProductOfferRequest | undefined;
 }
 export interface DeactivateMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent subscription (ID) of the base plan to deactivate. */
@@ -2535,7 +2581,7 @@ export interface DeactivateMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) of the base plan to deactivate. */
   packageName: string;
   /** Request body */
-  body?: DeactivateBasePlanRequest;
+  body?: DeactivateBasePlanRequest | undefined;
 }
 export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The unique offer ID of the offer to deactivate. */
@@ -2547,19 +2593,19 @@ export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent base plan (ID) of the offer to deactivate. */
   basePlanId: string;
   /** Request body */
-  body?: DeactivateSubscriptionOfferRequest;
+  body?: DeactivateSubscriptionOfferRequest | undefined;
 }
 /** A SubscriptionDeferralInfo contains the data needed to defer a subscription purchase to a future expiry time. */
 export interface SubscriptionDeferralInfo {
   /** The desired next expiry time to assign to the subscription, in milliseconds since the Epoch. The given time must be later/greater than the current expiry time for the subscription. */
-  desiredExpiryTimeMillis?: string;
+  desiredExpiryTimeMillis?: string | undefined;
   /** The expected expiry time for the subscription. If the current expiry time for the subscription is not the value specified here, the deferral will not occur. */
-  expectedExpiryTimeMillis?: string;
+  expectedExpiryTimeMillis?: string | undefined;
 }
 /** Request for the purchases.subscriptions.defer API. */
 export interface SubscriptionPurchasesDeferRequest {
   /** The information about the new desired expiry time for the subscription. */
-  deferralInfo?: SubscriptionDeferralInfo;
+  deferralInfo?: SubscriptionDeferralInfo | undefined;
 }
 export interface DeferPurchasesSubscriptionsRequest {
   /** The purchased subscription ID (for example, 'monthly001'). */
@@ -2569,26 +2615,26 @@ export interface DeferPurchasesSubscriptionsRequest {
   /** The token provided to the user's device when the subscription was purchased. */
   token: string;
   /** Request body */
-  body?: SubscriptionPurchasesDeferRequest;
+  body?: SubscriptionPurchasesDeferRequest | undefined;
 }
 /** Response for the purchases.subscriptions.defer API. */
 export interface SubscriptionPurchasesDeferResponse {
   /** The new expiry time for the subscription in milliseconds since the Epoch. */
-  newExpiryTimeMillis?: string;
+  newExpiryTimeMillis?: string | undefined;
 }
 /** Deferral context of the purchases.subscriptionsv2.defer API. */
 export interface DeferralContext {
   /** Required. The duration by which all subscription items should be deferred. */
-  deferDuration?: string;
+  deferDuration?: string | undefined;
   /** If set to "true", the request is a dry run to validate the effect of Defer, the subscription would not be impacted. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The API will fail if the etag does not match the latest etag for this subscription. The etag is retrieved from purchases.subscriptionsv2.get: https://developers.google.com/android-publisher/api-ref/rest/v3/purchases.subscriptionsv2/get */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Request for the v2 purchases.subscriptions.defer API. */
 export interface DeferSubscriptionPurchaseRequest {
   /** Required. Details about the subscription deferral. */
-  deferralContext?: DeferralContext;
+  deferralContext?: DeferralContext | undefined;
 }
 export interface DeferPurchasesSubscriptionsv2Request {
   /** Required. The token provided to the user's device when the subscription was purchased. */
@@ -2596,20 +2642,20 @@ export interface DeferPurchasesSubscriptionsv2Request {
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
   /** Request body */
-  body?: DeferSubscriptionPurchaseRequest;
+  body?: DeferSubscriptionPurchaseRequest | undefined;
 }
 /** Expiry time details of a subscription item. */
 export interface ItemExpiryTimeDetails {
   /** The product ID of the subscription item (for example, 'premium_plan'). */
-  productId?: string;
+  productId?: string | undefined;
   /** The new expiry time for this subscription item. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
 }
 export type ItemExpiryTimeDetailsList = Array<ItemExpiryTimeDetails>;
 /** Response for the v2 purchases.subscriptions.defer API. */
 export interface DeferSubscriptionPurchaseResponse {
   /** The new expiry time for each subscription items. */
-  itemExpiryTimeDetails?: ItemExpiryTimeDetailsList;
+  itemExpiryTimeDetails?: ItemExpiryTimeDetailsList | undefined;
 }
 export type DeleteallEditsImagesImageTypeEnum =
   | "appImageTypeUnspecified"
@@ -2638,21 +2684,21 @@ export type ImageAiGeneratedStateEnum =
 /** An uploaded image. The resource for ImagesService. */
 export interface Image {
   /** Optional. Whether the image was generated by AI. Attested by the developer. */
-  aiGeneratedState?: ImageAiGeneratedStateEnum;
+  aiGeneratedState?: ImageAiGeneratedStateEnum | undefined;
   /** A URL that will serve a preview of the image. */
-  url?: string;
+  url?: string | undefined;
   /** A sha1 hash of the image. */
-  sha1?: string;
+  sha1?: string | undefined;
   /** A unique id representing this image. */
-  id?: string;
+  id?: string | undefined;
   /** A sha256 hash of the image. */
-  sha256?: string;
+  sha256?: string | undefined;
 }
 export type ImageList = Array<Image>;
 /** Response for deleting all images. */
 export interface ImagesDeleteAllResponse {
   /** The deleted images. */
-  deleted?: ImageList;
+  deleted?: ImageList | undefined;
 }
 export interface DeleteallEditsListingsRequest {
   /** Package name of the app. */
@@ -2711,7 +2757,7 @@ export type DeleteInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
 export interface DeleteInappproductsRequest {
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeleteInappproductsLatencyToleranceEnum | (string & {});
+  latencyTolerance?: DeleteInappproductsLatencyToleranceEnum | (string & {}) | undefined;
   /** Unique identifier for the in-app product. */
   sku: string;
   /** Package name of the app. */
@@ -2726,7 +2772,10 @@ export interface DeleteMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) of the one-time product to delete. */
   packageName: string;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: DeleteMonetizationOnetimeproductsLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | DeleteMonetizationOnetimeproductsLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. The one-time product ID of the one-time product to delete. */
   productId: string;
 }
@@ -2771,7 +2820,7 @@ export interface DeployApprecoveryRequest {
   /** Required. ID corresponding to the app recovery action to deploy. */
   appRecoveryId: string;
   /** Request body */
-  body?: OneTimeProductOfferNoPriceOverrideOptions;
+  body?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 /** Response message for DeployAppRecovery. */
 export interface DeployAppRecoveryResponse {}
@@ -2796,55 +2845,55 @@ export interface DownloadSystemapksVariantsResponse {}
 /** Reference to a private key hosted in developer-managed Google Cloud KMS. */
 export interface CloudKmsKey {
   /** Required. Resource identifier of the private key hosted in Google Cloud KMS. The Google Play service account must be granted Decrypt and Sign permissions on this resource. Format: projects//locations//keyRings//cryptoKeys//cryptoKeyVersions/ */
-  cryptoKeyVersionResource?: string;
+  cryptoKeyVersionResource?: string | undefined;
 }
 /** Enroll an existing app into Play signing. */
 export interface EnrollExistingApp {
   /** Required. Self-hosted key. Once enrolled, this key will be used to sign your app. */
-  cloudKmsKey?: CloudKmsKey;
+  cloudKmsKey?: CloudKmsKey | undefined;
 }
 /** Cloud KMS key and the certificate associated with the key. */
 export interface CloudKmsKeyAndCert {
   /** Required. Cloud KMS key. */
-  cloudKmsKey?: CloudKmsKey;
+  cloudKmsKey?: CloudKmsKey | undefined;
   /** Required. Certificate associated with the key. The bytes must contain the certificate in PEM format. */
-  pemCertificate?: string;
+  pemCertificate?: string | undefined;
 }
 /** Enroll a new app into Play signing. */
 export interface EnrollNewApp {
   /** Required. Self-hosted key. Once enrolled, this key will be used to sign your app. */
-  cloudKmsKeyAndCert?: CloudKmsKeyAndCert;
+  cloudKmsKeyAndCert?: CloudKmsKeyAndCert | undefined;
 }
 /** Request to enroll an app into Play App Signing using a self-hosted Cloud KMS key. */
 export interface EnrollAppRequest {
   /** Enrolls an existing app into Play signing using an external Cloud KMS key. */
-  enrollExistingApp?: EnrollExistingApp;
+  enrollExistingApp?: EnrollExistingApp | undefined;
   /** The certificate associated with the upload key, in PEM format. */
-  pemUploadCertificate?: string;
+  pemUploadCertificate?: string | undefined;
   /** Changes the signing key of a new app to an external Cloud KMS key. The app must not have published to Open testing or Production tracks. */
-  enrollNewApp?: EnrollNewApp;
+  enrollNewApp?: EnrollNewApp | undefined;
 }
 export interface EnrollAppAppsigningRequest {
   /** Required. Either package name or app ID of the app enrolling in Play Signing. */
   name: string;
   /** Request body */
-  body?: EnrollAppRequest;
+  body?: EnrollAppRequest | undefined;
 }
 /** Hash digests of a certificate. */
 export interface CertificateHashes {
   /** Hex-encoded SHA1 hash of the certificate. example: `86:61:97:1A:D5:EF:E5:74:1E:A7:5B:84:7C:68:37:65:CD:94:16:DE` */
-  certificateHashSha1?: string;
+  certificateHashSha1?: string | undefined;
   /** Hex-encoded SHA256 hash of the certificate. example: `94:49:C7:F3:A9:3C:F0:C5:5A:67:5D:DF:1C:83:73:2D:87:D5:62:55:E7:0B:15:0D:9E:6F:3C:F8:63:BB:7F:C1` */
-  certificateHashSha256?: string;
+  certificateHashSha256?: string | undefined;
   /** Hex-encoded MD5 hash of the certificate. example: `43:51:43:A1:B5:FC:8B:B7:0A:3A:A9:B1:0F:66:73:A8` */
-  certificateHashMd5?: string;
+  certificateHashMd5?: string | undefined;
 }
 /** Response to enroll an app into Play signing. */
 export interface EnrollAppResponse {
   /** The signing certificate hashes for the app. Always set. */
-  signingCertificate?: CertificateHashes;
+  signingCertificate?: CertificateHashes | undefined;
   /** The upload certificate hashes for the app. Set iff pem_upload_certificate was set in the request. */
-  uploadCertificate?: CertificateHashes;
+  uploadCertificate?: CertificateHashes | undefined;
 }
 export interface GetApplicationsDeviceTierConfigsRequest {
   /** Package name of the app. */
@@ -2861,19 +2910,19 @@ export interface GetAppstorecatalogRecentappviewsRequest {
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Androidpublisher_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
 }
 export type CatalogAppViewAppCategoryEnum = "APP_CATEGORY_UNSPECIFIED" | "GAME" | "APP";
 /** Defines a SOC selector for a device. This will match any device whose SoC (System on Chip) matches all fields in the selector. */
 export interface SocSelector {
   /** The model of the SoC. */
-  socModel?: string;
+  socModel?: string | undefined;
   /** The manufacturer of the SoC. */
-  socMake?: string;
+  socMake?: string | undefined;
 }
 export type SocSelectorList = Array<SocSelector>;
 export type CatalogDeviceSelectorDeviceTypeSelectorEnum =
@@ -2882,33 +2931,33 @@ export type CatalogDeviceSelectorDeviceTypeSelectorEnum =
 /** Defines a RAM selector for a device. */
 export interface RamSelector {
   /** This will match any device that has less than or equal ram_mb_less_than_or_equal mb of RAM. */
-  ramMbLessThanOrEqual?: string;
+  ramMbLessThanOrEqual?: string | undefined;
 }
 /** Defines a device selector for a device. A device is considered matched if it matches any of given the selectors. */
 export interface CatalogDeviceSelector {
   /** The SOC selectors. A device matches the device selector if it matches any of the SOC selectors. */
-  socSelectors?: SocSelectorList;
+  socSelectors?: SocSelectorList | undefined;
   /** The device type selector. */
-  deviceTypeSelector?: CatalogDeviceSelectorDeviceTypeSelectorEnum;
+  deviceTypeSelector?: CatalogDeviceSelectorDeviceTypeSelectorEnum | undefined;
   /** Defines a RAM selector for a device. */
-  ramSelector?: RamSelector;
+  ramSelector?: RamSelector | undefined;
 }
 export type CatalogDeviceSelectorList = Array<CatalogDeviceSelector>;
 /** Contact information for the app. */
 export interface AppContactInformation {
   /** The contact email for this app. Always set. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** The contact phone for this app. Optionally provided by the developer. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** The contact website url for this app. Optionally provided by the developer. */
-  websiteUrl?: string;
+  websiteUrl?: string | undefined;
 }
 /** Defines a device identifier for a device. */
 export interface DeviceIdentifier {
   /** The brand of the device. */
-  deviceBrand?: string;
+  deviceBrand?: string | undefined;
   /** The model of the device. */
-  deviceModel?: string;
+  deviceModel?: string | undefined;
 }
 export type DeviceIdentifierList = Array<DeviceIdentifier>;
 export type UsesConfigurationRequiredKeyboardTypeEnum =
@@ -2933,15 +2982,15 @@ export type UsesConfigurationRequiredNavigationTypeEnum =
 /** Represents all configurations marked as required by use of the uses-configuration manifest tag. */
 export interface UsesConfiguration {
   /** Whether or not the application requires a hardware keyboard. */
-  requiresHardwareKeyboard?: boolean;
+  requiresHardwareKeyboard?: boolean | undefined;
   /** Whether or not the application requires a five-way navigation control. */
-  requiresFiveWayNavigation?: boolean;
+  requiresFiveWayNavigation?: boolean | undefined;
   /** The type of keyboard required. */
-  requiredKeyboardType?: UsesConfigurationRequiredKeyboardTypeEnum;
+  requiredKeyboardType?: UsesConfigurationRequiredKeyboardTypeEnum | undefined;
   /** The type of touchscreen required. */
-  requiredTouchscreenType?: UsesConfigurationRequiredTouchscreenTypeEnum;
+  requiredTouchscreenType?: UsesConfigurationRequiredTouchscreenTypeEnum | undefined;
   /** The navigation device required. */
-  requiredNavigationType?: UsesConfigurationRequiredNavigationTypeEnum;
+  requiredNavigationType?: UsesConfigurationRequiredNavigationTypeEnum | undefined;
 }
 export type UsesConfigurationList = Array<UsesConfiguration>;
 export type CompatibleScreenScreenSizeEnum =
@@ -2968,9 +3017,9 @@ export type CompatibleScreenDensityEnum =
 /** Compatible screens as listed in the `compatible-screens` Manifest tag. */
 export interface CompatibleScreen {
   /** The screen size. */
-  screenSize?: CompatibleScreenScreenSizeEnum;
+  screenSize?: CompatibleScreenScreenSizeEnum | undefined;
   /** Screen density. */
-  density?: CompatibleScreenDensityEnum;
+  density?: CompatibleScreenDensityEnum | undefined;
 }
 export type CompatibleScreenList = Array<CompatibleScreen>;
 export type DeviceCompatibilityRequirementsSupportedScreensItemEnum =
@@ -2988,158 +3037,158 @@ export type DeviceCompatibilityRequirementsUse32BitAbiEnum =
 /** Defines a range of SDK versions. A device is considered compatible uf its\ SDK version falls within the min_sdk_version and max_sdk_version range. */
 export interface CatalogSdkVersion {
   /** The target SDK version for the app. */
-  targetSdkVersion?: string;
+  targetSdkVersion?: string | undefined;
   /** The minimum SDK version required for the app (inclusive). */
-  minSdkVersion?: string;
+  minSdkVersion?: string | undefined;
   /** The maximum SDK version required for the app (inclusive). */
-  maxSdkVersion?: string;
+  maxSdkVersion?: string | undefined;
 }
 /** Defines a set of device compatibility requirements for the app. A device must satisfy all of the requirements in a set to be considered compatible with the app. */
 export interface DeviceCompatibilityRequirements {
   /** Supported gl textures as specified by the `supported-gl-texture` Manifest tag. */
-  supportedGlTextures?: StringList;
+  supportedGlTextures?: StringList | undefined;
   /** Specifies the minimum smallest width required of the screen. */
-  requiresSmallestWidthDp?: string;
+  requiresSmallestWidthDp?: string | undefined;
   /** List of required ABIs (Application Binary Interface), e.g. `armeabi` or `x86`. */
-  nativePlatforms?: StringList;
+  nativePlatforms?: StringList | undefined;
   /** Required version of OpenGL ES. */
-  glEsVersion?: number;
+  glEsVersion?: number | undefined;
   /** The system features that the app requires. A device must have all of the system features to be considered compatible with the app. */
-  requiredSystemFeatures?: StringList;
+  requiredSystemFeatures?: StringList | undefined;
   /** Specifies if the app requires a screen. */
-  isScreenRequired?: boolean;
+  isScreenRequired?: boolean | undefined;
   /** Lists all configurations marked as required by use of the `uses-configuration` manifest tag. Each instance of this proto represents a single `uses-configuration` entry. See http://developer.android.com/guide/topics/manifest/uses-configuration-element.html */
-  usesConfigurations?: UsesConfigurationList;
+  usesConfigurations?: UsesConfigurationList | undefined;
   /** Compatible screens as listed in the `compatible-screens` Manifest tag. */
-  compatibleScreens?: CompatibleScreenList;
+  compatibleScreens?: CompatibleScreenList | undefined;
   /** Compatible screens as listed in the `supports-screens` Manifest tag. */
-  supportedScreens?: DeviceCompatibilityRequirementsSupportedScreensItemEnumList;
+  supportedScreens?: DeviceCompatibilityRequirementsSupportedScreensItemEnumList | undefined;
   /** List of required libraries as declared in the `uses-library` manifest tag. */
-  requiredSoftwareLibraries?: StringList;
+  requiredSoftwareLibraries?: StringList | undefined;
   /** Value of `android:use32BitAbi` flag retrieved from the Manifest. */
-  use32BitAbi?: DeviceCompatibilityRequirementsUse32BitAbiEnum;
+  use32BitAbi?: DeviceCompatibilityRequirementsUse32BitAbiEnum | undefined;
   /** Defines a range of SDK versions that the app is compatible with. */
-  sdkVersion?: CatalogSdkVersion;
+  sdkVersion?: CatalogSdkVersion | undefined;
 }
 export type DeviceCompatibilityRequirementsList = Array<DeviceCompatibilityRequirements>;
 /** An image asset. */
 export interface ImageAsset {
   /** The URL of the image asset. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
 }
 /** A video asset. */
 export interface VideoAsset {
   /** The URL of the video asset. */
-  videoUrl?: string;
+  videoUrl?: string | undefined;
 }
 export type ImageAssetList = Array<ImageAsset>;
 /** A set of screenshots. */
 export interface ScreenshotSet {
   /** The image assets of the screenshots. */
-  screenshots?: ImageAssetList;
+  screenshots?: ImageAssetList | undefined;
 }
 /** A localized store listings of the app. */
 export interface LocalizedStoreListing {
   /** The feature graphic of the app. */
-  featureGraphic?: ImageAsset;
+  featureGraphic?: ImageAsset | undefined;
   /** The video of the app. */
-  video?: VideoAsset;
+  video?: VideoAsset | undefined;
   /** A short description of the app in this localization. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** The phone screenshots of the app. */
-  phoneScreenshots?: ScreenshotSet;
+  phoneScreenshots?: ScreenshotSet | undefined;
   /** The regular tablet screenshots of the app. */
-  tabletRegularScreenshots?: ScreenshotSet;
+  tabletRegularScreenshots?: ScreenshotSet | undefined;
   /** The icon of the app. */
-  icon?: ImageAsset;
+  icon?: ImageAsset | undefined;
   /** A longer description of the app in this localization. */
-  fullDescription?: string;
+  fullDescription?: string | undefined;
   /** The BCP-47 language code for this localization. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The name of the app in this localization. */
-  appName?: string;
+  appName?: string | undefined;
   /** The small tablet screenshots of the app. */
-  tabletSmallScreenshots?: ScreenshotSet;
+  tabletSmallScreenshots?: ScreenshotSet | undefined;
 }
 export type LocalizedStoreListingList = Array<LocalizedStoreListing>;
 /** The localized store listings of an app. */
 export interface LocalizedStoreListings {
   /** The default language code of the app. If a localized store listing is not available for a given language, assets from the default language are used instead. */
-  defaultLanguageCode?: string;
-  localizedStoreListings?: LocalizedStoreListingList;
+  defaultLanguageCode?: string | undefined;
+  localizedStoreListings?: LocalizedStoreListingList | undefined;
 }
 /** The developer details of a Google Play app. */
 export interface DeveloperDetails {
   /** The developer name of the app. */
-  developerName?: string;
+  developerName?: string | undefined;
   /** The physical address of the developer. */
-  address?: string;
+  address?: string | undefined;
   /** The website of the developer. */
-  website?: string;
+  website?: string | undefined;
   /** The contact email of the developer. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** The phone number of the developer. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
 }
 /** A permission declared by an app. */
 export interface CatalogPermission {
   /** The `name` attribute indicating the permission name. */
-  name?: string;
+  name?: string | undefined;
   /** The `maxSdkVersion` attribute indicating up to which Android SDK version the permission is requested. */
-  maxSdkVersion?: number;
+  maxSdkVersion?: number | undefined;
 }
 export type CatalogPermissionList = Array<CatalogPermission>;
 /** LINT.IfChange A view of a Google Play app within the Catalog Export for app stores. */
 export interface CatalogAppView {
   /** The date when the app was first released. */
-  firstReleaseDate?: Androidpublisher_Date;
+  firstReleaseDate?: Androidpublisher_Date | undefined;
   /** The timestamp when the app was last published. */
-  lastPublishTime?: string;
+  lastPublishTime?: string | undefined;
   /** The subcategory of the app e.g. "GAME_ACTION". */
-  appSubcategory?: string;
+  appSubcategory?: string | undefined;
   /** The package name of the app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** The IARC certificate ID for the app. */
-  iarcCertificateId?: string;
+  iarcCertificateId?: string | undefined;
   /** The category of the app. */
-  appCategory?: CatalogAppViewAppCategoryEnum;
+  appCategory?: CatalogAppViewAppCategoryEnum | undefined;
   /** The price of the app in the United States. Empty if the app is free. */
-  priceInTheUnitedStates?: Money;
+  priceInTheUnitedStates?: Money | undefined;
   /** List of devices excluded from the app's distribution even if they are otherwise compatible with the requirements from device_compatibility_requirements. A device is excluded if it matches any of given the selectors. */
-  excludedDevicesBySelector?: CatalogDeviceSelectorList;
+  excludedDevicesBySelector?: CatalogDeviceSelectorList | undefined;
   /** Developer-provided contact information for the app. */
-  appContactInformation?: AppContactInformation;
+  appContactInformation?: AppContactInformation | undefined;
   /** List of devices excluded from the app's distribution even if they are otherwise compatible with the requirements from device_compatibility_requirements. These are OR-ed, i.e. a device is excluded if it matches any of the identifiers. */
-  excludedDevicesByIdentifier?: DeviceIdentifierList;
+  excludedDevicesByIdentifier?: DeviceIdentifierList | undefined;
   /** The token used for delivery of the app with the Google Play Inline Install API. The token is unique per Play app and per third-party app store combination and has a limited validity period of 7 days. */
-  deliveryToken?: string;
+  deliveryToken?: string | undefined;
   /** The app may specify multiple sets of device compatibility requirements, and a device is considered compatible with the app if it satisfies at least one of `DeviceCompatibilityRequirements`. */
-  deviceCompatibilityRequirements?: DeviceCompatibilityRequirementsList;
+  deviceCompatibilityRequirements?: DeviceCompatibilityRequirementsList | undefined;
   /** Whether the app is targeted to an adult-only (18+) audience. */
-  isAdultOnlyAudience?: boolean;
+  isAdultOnlyAudience?: boolean | undefined;
   /** The URL of the app's privacy policy. */
-  privacyPolicyUrl?: string;
+  privacyPolicyUrl?: string | undefined;
   /** Whether the app has in-app purchases through Google Play. */
-  hasInAppPurchases?: boolean;
+  hasInAppPurchases?: boolean | undefined;
   /** The localized store listings of the app which are shown on Google Play. */
-  localizedStoreListings?: LocalizedStoreListings;
+  localizedStoreListings?: LocalizedStoreListings | undefined;
   /** Active versions of the app mapped from `android:versionName` manifest attributes. */
-  activeVersionNames?: StringList;
+  activeVersionNames?: StringList | undefined;
   /** The developer details of the app. */
-  developerDetails?: DeveloperDetails;
+  developerDetails?: DeveloperDetails | undefined;
   /** The sale price of the app in the United States. Only populated for paid apps with an active US sale. */
-  salePriceInTheUnitedStates?: Money;
+  salePriceInTheUnitedStates?: Money | undefined;
   /** Whether the app has ads. */
-  hasInAppAds?: boolean;
+  hasInAppAds?: boolean | undefined;
   /** Required permissions declared by the app which apply for all Android SDK versions. */
-  permissions?: CatalogPermissionList;
+  permissions?: CatalogPermissionList | undefined;
   /** Required permissions declared by the app which apply for Android SDK versions SDK 23 and above. */
-  permissionsSdk23?: CatalogPermissionList;
+  permissionsSdk23?: CatalogPermissionList | undefined;
 }
 /** Metadata about a recently updated app. */
 export interface RecentAppView {
   /** Recently updated app view. */
-  appView?: CatalogAppView;
+  appView?: CatalogAppView | undefined;
 }
 export interface GetEditsRequest {
   /** Package name of the app. */
@@ -3158,17 +3207,17 @@ export interface GetEditsCountryavailabilityRequest {
 /** Representation of a single country where the contents of a track can be made available. */
 export interface TrackTargetedCountry {
   /** The country that can be targeted, as a two-letter CLDR code. */
-  countryCode?: string;
+  countryCode?: string | undefined;
 }
 export type TrackTargetedCountryList = Array<TrackTargetedCountry>;
 /** Resource for per-track country availability information. */
 export interface TrackCountryAvailability {
   /** Whether this track's availability is synced with the default production track. See https://support.google.com/googleplay/android-developer/answer/7550024 for more information on syncing country availability with production. Note that if this is true, the returned "countries" and "rest_of_world" fields will reflect the values for the default production track. */
-  syncWithProduction?: boolean;
+  syncWithProduction?: boolean | undefined;
   /** Whether artifacts in this track are available to "rest of the world" countries. */
-  restOfWorld?: boolean;
+  restOfWorld?: boolean | undefined;
   /** A list of one or more countries where artifacts in this track are available. This list includes all countries that are targeted by the track, even if only specific carriers are targeted in that country. */
-  countries?: TrackTargetedCountryList;
+  countries?: TrackTargetedCountryList | undefined;
 }
 export interface GetEditsDetailsRequest {
   /** Identifier of the edit. */
@@ -3179,13 +3228,13 @@ export interface GetEditsDetailsRequest {
 /** The app details. The resource for DetailsService. */
 export interface AppDetails {
   /** The user-visible support email for this app. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** The user-visible website for this app. */
-  contactWebsite?: string;
+  contactWebsite?: string | undefined;
   /** The user-visible support telephone number for this app. */
-  contactPhone?: string;
+  contactPhone?: string | undefined;
   /** Default language code, in BCP 47 format (eg "en-US"). */
-  defaultLanguage?: string;
+  defaultLanguage?: string | undefined;
 }
 export type GetEditsExpansionfilesExpansionFileTypeEnum =
   | "expansionFileTypeUnspecified"
@@ -3204,9 +3253,9 @@ export interface GetEditsExpansionfilesRequest {
 /** An expansion file. The resource for ExpansionFilesService. */
 export interface ExpansionFile {
   /** If set, this APK's expansion file references another APK's expansion file. The file_size field will not be set. */
-  referencesVersion?: number;
+  referencesVersion?: number | undefined;
   /** If set, this field indicates that this APK has an expansion file uploaded to it: this APK does not reference another APK's expansion file. The field's value is the size of the uploaded expansion file in bytes. */
-  fileSize?: string;
+  fileSize?: string | undefined;
 }
 export interface GetEditsListingsRequest {
   /** Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
@@ -3219,15 +3268,15 @@ export interface GetEditsListingsRequest {
 /** A localized store listing. The resource for ListingsService. */
 export interface Listing {
   /** Short description of the app. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
-  language?: string;
+  language?: string | undefined;
   /** Localized title of the app. */
-  title?: string;
+  title?: string | undefined;
   /** URL of a promotional YouTube video for the app. */
-  video?: string;
+  video?: string | undefined;
   /** Full description of the app. */
-  fullDescription?: string;
+  fullDescription?: string | undefined;
 }
 export interface GetEditsTestersRequest {
   /** Package name of the app. */
@@ -3240,7 +3289,7 @@ export interface GetEditsTestersRequest {
 /** The testers of an app. The resource for TestersService. Note: while it is possible in the Play Console UI to add testers via email lists, email lists are not supported by this resource. */
 export interface Testers {
   /** All testing Google Groups, as email addresses. */
-  googleGroups?: StringList;
+  googleGroups?: StringList | undefined;
 }
 export interface GetEditsTracksRequest {
   /** Identifier of the edit. */
@@ -3302,14 +3351,14 @@ export type PurchaseStateContextPurchaseStateEnum =
 /** Context about the purchase state. */
 export interface PurchaseStateContext {
   /** Output only. The purchase state of the purchase. */
-  purchaseState?: PurchaseStateContextPurchaseStateEnum;
+  purchaseState?: PurchaseStateContextPurchaseStateEnum | undefined;
 }
 /** Offer details information related to a rental line item. */
 export type RentOfferDetails = OneTimeProductOfferNoPriceOverrideOptions;
 /** Offer details information related to a preorder line item. */
 export interface PreorderOfferDetails {
   /** The time when a preordered item is released for a preorder purchase. */
-  preorderReleaseTime?: string;
+  preorderReleaseTime?: string | undefined;
 }
 export type ProductOfferDetailsConsumptionStateEnum =
   | "CONSUMPTION_STATE_UNSPECIFIED"
@@ -3318,30 +3367,30 @@ export type ProductOfferDetailsConsumptionStateEnum =
 /** Offer details information related to a purchase line item. */
 export interface ProductOfferDetails {
   /** The per-transaction offer token used to make this purchase line item. */
-  offerToken?: string;
+  offerToken?: string | undefined;
   /** The quantity associated with the purchase of the inapp product. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The offer ID. Only present for offers. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The latest offer tags associated with the offer. It includes tags inherited from the purchase option. */
-  offerTags?: StringList;
+  offerTags?: StringList | undefined;
   /** The quantity eligible for refund, i.e. quantity that hasn't been refunded. The value reflects quantity-based partial refunds and full refunds. */
-  refundableQuantity?: number;
+  refundableQuantity?: number | undefined;
   /** The purchase option ID. */
-  purchaseOptionId?: string;
+  purchaseOptionId?: string | undefined;
   /** Offer details about rent offers. This will only be set for rental line items. */
-  rentOfferDetails?: OneTimeProductOfferNoPriceOverrideOptions;
+  rentOfferDetails?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Offer details for a preorder offer. This will only be set for preorders. */
-  preorderOfferDetails?: PreorderOfferDetails;
+  preorderOfferDetails?: PreorderOfferDetails | undefined;
   /** Output only. The consumption state of the purchase. */
-  consumptionState?: ProductOfferDetailsConsumptionStateEnum;
+  consumptionState?: ProductOfferDetailsConsumptionStateEnum | undefined;
 }
 /** Contains item-level info for a ProductPurchaseV2. */
 export interface ProductLineItem {
   /** The purchased product ID (for example, 'monthly001'). */
-  productId?: string;
+  productId?: string | undefined;
   /** The offer details for this item. */
-  productOfferDetails?: ProductOfferDetails;
+  productOfferDetails?: ProductOfferDetails | undefined;
 }
 export type ProductLineItemList = Array<ProductLineItem>;
 export type ProductPurchaseV2AcknowledgementStateEnum =
@@ -3352,30 +3401,30 @@ export type TestPurchaseContextFopTypeEnum = "FOP_TYPE_UNSPECIFIED" | "TEST";
 /** Context about a test purchase. */
 export interface TestPurchaseContext {
   /** The fop type of the test purchase. */
-  fopType?: TestPurchaseContextFopTypeEnum;
+  fopType?: TestPurchaseContextFopTypeEnum | undefined;
 }
 /** A ProductPurchaseV2 resource indicates the status of a user's inapp product purchase. */
 export interface ProductPurchaseV2 {
   /** An obfuscated version of the id that is uniquely associated with the user's account in your app. Only present if specified using https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedaccountid when the purchase was made. */
-  obfuscatedExternalAccountId?: string;
+  obfuscatedExternalAccountId?: string | undefined;
   /** ISO 3166-1 alpha-2 billing region code of the user at the time the product was granted. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Information about the purchase state of the purchase. */
-  purchaseStateContext?: PurchaseStateContext;
+  purchaseStateContext?: PurchaseStateContext | undefined;
   /** Contains item-level info for a ProductPurchaseV2. */
-  productLineItem?: ProductLineItemList;
+  productLineItem?: ProductLineItemList | undefined;
   /** Output only. The acknowledgement state of the purchase. */
-  acknowledgementState?: ProductPurchaseV2AcknowledgementStateEnum;
+  acknowledgementState?: ProductPurchaseV2AcknowledgementStateEnum | undefined;
   /** The time when the purchase was successful, i.e., when the PurchaseState has changed to PURCHASED. This field will not be present until the payment is complete. For example, if the user initiated a pending transaction (https://developer.android.com/google/play/billing/integrate#pending), this field will not be populated until the user successfully completes the steps required to complete the transaction. */
-  purchaseCompletionTime?: string;
+  purchaseCompletionTime?: string | undefined;
   /** This kind represents a ProductPurchaseV2 object in the androidpublisher service. */
-  kind?: string;
+  kind?: string | undefined;
   /** The order id associated with the purchase of the inapp product. May not be set if there is no order associated with the purchase. */
-  orderId?: string;
+  orderId?: string | undefined;
   /** Information related to test purchases. This will only be set for test purchases. */
-  testPurchaseContext?: TestPurchaseContext;
+  testPurchaseContext?: TestPurchaseContext | undefined;
   /** An obfuscated version of the id that is uniquely associated with the user's profile in your app. Only present if specified using https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedprofileid when the purchase was made. */
-  obfuscatedExternalProfileId?: string;
+  obfuscatedExternalProfileId?: string | undefined;
 }
 export interface GetPurchasesProductsRequest {
   /** The inapp product SKU (for example, 'com.some.thing.inapp1'). */
@@ -3388,35 +3437,35 @@ export interface GetPurchasesProductsRequest {
 /** A ProductPurchase resource indicates the status of a user's inapp product purchase. */
 export interface ProductPurchase {
   /** The purchase state of the order. Possible values are: 0. Purchased 1. Canceled 2. Pending */
-  purchaseState?: number;
+  purchaseState?: number | undefined;
   /** The quantity associated with the purchase of the inapp product. If not present, the quantity is 1. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The time the product was purchased, in milliseconds since the epoch (Jan 1, 1970). */
-  purchaseTimeMillis?: string;
+  purchaseTimeMillis?: string | undefined;
   /** The consumption state of the inapp product. Possible values are: 0. Yet to be consumed 1. Consumed */
-  consumptionState?: number;
+  consumptionState?: number | undefined;
   /** The type of purchase of the inapp product. This field is only set if this purchase was not made using the standard in-app billing flow. Possible values are: 0. Test (i.e. purchased from a license testing account) 1. Promo (i.e. purchased using a promo code). Does not include Play Points purchases. 2. Rewarded (i.e. from watching a video ad instead of paying) */
-  purchaseType?: number;
+  purchaseType?: number | undefined;
   /** A developer-specified string that contains supplemental information about an order. */
-  developerPayload?: string;
+  developerPayload?: string | undefined;
   /** This kind represents an inappPurchase object in the androidpublisher service. */
-  kind?: string;
+  kind?: string | undefined;
   /** The inapp product SKU. May not be present. */
-  productId?: string;
+  productId?: string | undefined;
   /** The acknowledgement state of the inapp product. Possible values are: 0. Yet to be acknowledged 1. Acknowledged */
-  acknowledgementState?: number;
+  acknowledgementState?: number | undefined;
   /** The quantity eligible for refund, i.e. quantity that hasn't been refunded. The value reflects quantity-based partial refunds and full refunds. */
-  refundableQuantity?: number;
+  refundableQuantity?: number | undefined;
   /** An obfuscated version of the id that is uniquely associated with the user's account in your app. Only present if specified using https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedaccountid when the purchase was made. */
-  obfuscatedExternalAccountId?: string;
+  obfuscatedExternalAccountId?: string | undefined;
   /** An obfuscated version of the id that is uniquely associated with the user's profile in your app. Only present if specified using https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedprofileid when the purchase was made. */
-  obfuscatedExternalProfileId?: string;
+  obfuscatedExternalProfileId?: string | undefined;
   /** ISO 3166-1 alpha-2 billing region code of the user at the time the product was granted. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** The purchase token generated to identify this purchase. May not be present. */
-  purchaseToken?: string;
+  purchaseToken?: string | undefined;
   /** The order id associated with the purchase of the inapp product. */
-  orderId?: string;
+  orderId?: string | undefined;
 }
 export interface GetPurchasesSubscriptionsv2Request {
   /** Required. The token provided to the user's device when the subscription was purchased. */
@@ -3431,48 +3480,48 @@ export type SubscriptionPurchaseV2AcknowledgementStateEnum =
 /** Context related to renewal declined scenario. */
 export interface RenewalDeclinedContext {
   /** Required. The ID of the pending or failed order causing the state. */
-  pendingOrderId?: string;
+  pendingOrderId?: string | undefined;
 }
 /** Additional context around subscriptions in ON_HOLD state. */
 export interface OnHoldStateContext {
   /** Optional. The payment for the renewal was declined. */
-  renewalDeclined?: RenewalDeclinedContext;
+  renewalDeclined?: RenewalDeclinedContext | undefined;
 }
 /** Information associated with purchases made with 'Subscribe with Google'. */
 export interface SubscribeWithGoogleInfo {
   /** The email address of the user when the subscription was purchased. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** The profile name of the user when the subscription was purchased. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** The Google profile id of the user when the subscription was purchased. */
-  profileId?: string;
+  profileId?: string | undefined;
   /** The family name of the user when the subscription was purchased. */
-  familyName?: string;
+  familyName?: string | undefined;
   /** The given name of the user when the subscription was purchased. */
-  givenName?: string;
+  givenName?: string | undefined;
 }
 /** Whether this subscription purchase is a test purchase. */
 export type TestPurchase = OneTimeProductOfferNoPriceOverrideOptions;
 /** Information specific to a subscription in paused state. */
 export interface PausedStateContext {
   /** Time at which the subscription will be automatically resumed. */
-  autoResumeTime?: string;
+  autoResumeTime?: string | undefined;
 }
 /** Additional context around subscriptions in IN_GRACE_PERIOD state. */
 export type InGracePeriodStateContext = OnHoldStateContext;
 /** User account identifier in the third-party service. */
 export interface ExternalAccountIdentifiers {
   /** An obfuscated version of the id that is uniquely associated with the user's profile in your app. Only present if specified using https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedprofileid when the purchase was made. */
-  obfuscatedExternalProfileId?: string;
+  obfuscatedExternalProfileId?: string | undefined;
   /** An obfuscated version of the id that is uniquely associated with the user's account in your app. Present for the following purchases: * If account linking happened as part of the subscription purchase flow. * It was specified using https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setobfuscatedaccountid when the purchase was made. */
-  obfuscatedExternalAccountId?: string;
+  obfuscatedExternalAccountId?: string | undefined;
   /** User account identifier in the third-party service. Only present if account linking happened as part of the subscription purchase flow. */
-  externalAccountId?: string;
+  externalAccountId?: string | undefined;
 }
 /** Information related to deferred item replacement. */
 export interface DeferredItemReplacement {
   /** The product_id going to replace the existing product_id. */
-  productId?: string;
+  productId?: string | undefined;
 }
 /** Details about introductory price offer phase. */
 export type IntroductoryPriceOfferPhase = OneTimeProductOfferNoPriceOverrideOptions;
@@ -3484,7 +3533,7 @@ export type ProrationPeriodOfferPhaseOriginalOfferPhaseTypeEnum =
 /** Details about proration period offer phase. */
 export interface ProrationPeriodOfferPhase {
   /** The original offer phase type before the proration period. Only set when the proration period is updated from an existing offer phase. */
-  originalOfferPhaseType?: ProrationPeriodOfferPhaseOriginalOfferPhaseTypeEnum;
+  originalOfferPhaseType?: ProrationPeriodOfferPhaseOriginalOfferPhaseTypeEnum | undefined;
 }
 /** Details about free trial offer phase. */
 export type FreeTrialOfferPhase = OneTimeProductOfferNoPriceOverrideOptions;
@@ -3493,18 +3542,18 @@ export type BasePriceOfferPhase = OneTimeProductOfferNoPriceOverrideOptions;
 /** Offer phase details. */
 export interface OfferPhase {
   /** Set when the offer phase is an introductory price offer phase. */
-  introductoryPrice?: OneTimeProductOfferNoPriceOverrideOptions;
+  introductoryPrice?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Set when the offer phase is a proration period. */
-  prorationPeriod?: ProrationPeriodOfferPhase;
+  prorationPeriod?: ProrationPeriodOfferPhase | undefined;
   /** Set when the offer phase is a free trial. */
-  freeTrial?: OneTimeProductOfferNoPriceOverrideOptions;
+  freeTrial?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Set when the offer phase is a base plan pricing phase. */
-  basePrice?: OneTimeProductOfferNoPriceOverrideOptions;
+  basePrice?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 /** Information related to a prepaid plan. */
 export interface PrepaidPlan {
   /** If present, this is the time after which top up purchases are allowed for the prepaid plan. Will not be present for expired prepaid plans. */
-  allowExtendAfterTime?: string;
+  allowExtendAfterTime?: string | undefined;
 }
 /** Information related to deferred item replacement. */
 export type DeferredItemRemoval = OneTimeProductOfferNoPriceOverrideOptions;
@@ -3516,11 +3565,11 @@ export type PriceStepUpConsentDetailsStateEnum =
 /** Information related to a price step-up that requires user consent. */
 export interface PriceStepUpConsentDetails {
   /** The deadline by which the user must provide consent. If consent is not provided by this time, the subscription will be canceled. */
-  consentDeadlineTime?: string;
+  consentDeadlineTime?: string | undefined;
   /** Output only. The state of the price step-up consent. */
-  state?: PriceStepUpConsentDetailsStateEnum;
+  state?: PriceStepUpConsentDetailsStateEnum | undefined;
   /** The new price which requires user consent. */
-  newPrice?: Money;
+  newPrice?: Money | undefined;
 }
 export type SubscriptionItemPriceChangeDetailsPriceChangeStateEnum =
   | "PRICE_CHANGE_STATE_UNSPECIFIED"
@@ -3536,62 +3585,62 @@ export type SubscriptionItemPriceChangeDetailsPriceChangeModeEnum =
 /** Price change related information of a subscription item. */
 export interface SubscriptionItemPriceChangeDetails {
   /** New recurring price for the subscription item. */
-  newPrice?: Money;
+  newPrice?: Money | undefined;
   /** The renewal time at which the price change will become effective for the user. This is subject to change(to a future time) due to cases where the renewal time shifts like pause. This field is only populated if the price change has not taken effect. */
-  expectedNewPriceChargeTime?: string;
+  expectedNewPriceChargeTime?: string | undefined;
   /** State the price change is currently in. */
-  priceChangeState?: SubscriptionItemPriceChangeDetailsPriceChangeStateEnum;
+  priceChangeState?: SubscriptionItemPriceChangeDetailsPriceChangeStateEnum | undefined;
   /** Price change mode specifies how the subscription item price is changing. */
-  priceChangeMode?: SubscriptionItemPriceChangeDetailsPriceChangeModeEnum;
+  priceChangeMode?: SubscriptionItemPriceChangeDetailsPriceChangeModeEnum | undefined;
 }
 /** This is an indicator of whether there is a pending cancellation on the virtual installment plan. The cancellation will happen only after the user finished all committed payments. */
 export type PendingCancellation = OneTimeProductOfferNoPriceOverrideOptions;
 /** Information to a installment plan. */
 export interface InstallmentPlan {
   /** Total number of payments the user will be committed for after each commitment period. Empty means the installment plan will fall back to a normal auto-renew subscription after initial commitment. */
-  subsequentCommittedPaymentsCount?: number;
+  subsequentCommittedPaymentsCount?: number | undefined;
   /** If present, this installment plan is pending to be canceled. The cancellation will happen only after the user finished all committed payments. */
-  pendingCancellation?: OneTimeProductOfferNoPriceOverrideOptions;
+  pendingCancellation?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Total number of payments the user is initially committed for. */
-  initialCommittedPaymentsCount?: number;
+  initialCommittedPaymentsCount?: number | undefined;
   /** Total number of committed payments remaining to be paid for in this renewal cycle. */
-  remainingCommittedPaymentsCount?: number;
+  remainingCommittedPaymentsCount?: number | undefined;
 }
 /** Information related to an auto renewing plan. */
 export interface AutoRenewingPlan {
   /** If the subscription is currently set to auto-renew, e.g. the user has not canceled the subscription */
-  autoRenewEnabled?: boolean;
+  autoRenewEnabled?: boolean | undefined;
   /** The information of the latest price step-up consent. */
-  priceStepUpConsentDetails?: PriceStepUpConsentDetails;
+  priceStepUpConsentDetails?: PriceStepUpConsentDetails | undefined;
   /** The information of the last price change for the item since subscription signup. */
-  priceChangeDetails?: SubscriptionItemPriceChangeDetails;
+  priceChangeDetails?: SubscriptionItemPriceChangeDetails | undefined;
   /** The current recurring price of the auto renewing plan. Note that the price does not take into account discounts and does not include taxes. For tax-exclusive pricing, please call orders.get API instead if transaction details are needed. */
-  recurringPrice?: Money;
+  recurringPrice?: Money | undefined;
   /** The installment plan commitment and state related info for the auto renewing plan. */
-  installmentDetails?: InstallmentPlan;
+  installmentDetails?: InstallmentPlan | undefined;
 }
 /** Offer details information related to a purchase line item. */
 export interface OfferDetails {
   /** The base plan ID. Present for all base plan and offers. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** The latest offer tags associated with the offer. It includes tags inherited from the base plan. */
-  offerTags?: StringList;
+  offerTags?: StringList | undefined;
   /** The offer ID. Only present for discounted offers. */
-  offerId?: string;
+  offerId?: string | undefined;
 }
 /** A single use promotion code. */
 export type OneTimeCode = OneTimeProductOfferNoPriceOverrideOptions;
 /** A multiple use, predefined promotion code. */
 export interface VanityCode {
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
 }
 /** The promotion applied on this item when purchased. */
 export interface SignupPromotion {
   /** A one-time code was applied. */
-  oneTimeCode?: OneTimeProductOfferNoPriceOverrideOptions;
+  oneTimeCode?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** A vanity code was applied. */
-  vanityCode?: VanityCode;
+  vanityCode?: VanityCode | undefined;
 }
 export type ItemReplacementReplacementModeEnum =
   | "REPLACEMENT_MODE_UNSPECIFIED"
@@ -3604,38 +3653,38 @@ export type ItemReplacementReplacementModeEnum =
 /** Details about a subscription line item that is being replaced. */
 export interface ItemReplacement {
   /** The base plan ID of the subscription line item being replaced. */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** The product ID of the subscription line item being replaced. */
-  productId?: string;
+  productId?: string | undefined;
   /** The offer ID of the subscription line item being replaced, if applicable. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The replacement mode applied during the purchase. */
-  replacementMode?: ItemReplacementReplacementModeEnum;
+  replacementMode?: ItemReplacementReplacementModeEnum | undefined;
 }
 /** Item-level info for a subscription purchase. */
 export interface SubscriptionPurchaseLineItem {
   /** Time at which the subscription expired or will expire unless the access is extended (ex. renews). */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** The purchased product ID (for example, 'monthly001'). */
-  productId?: string;
+  productId?: string | undefined;
   /** Information for deferred item replacement. */
-  deferredItemReplacement?: DeferredItemReplacement;
+  deferredItemReplacement?: DeferredItemReplacement | undefined;
   /** Current offer phase details for this item. */
-  offerPhase?: OfferPhase;
+  offerPhase?: OfferPhase | undefined;
   /** The order id of the latest successful order associated with this item. Not present if the item is not owned by the user yet (e.g. the item being deferred replaced to). */
-  latestSuccessfulOrderId?: string;
+  latestSuccessfulOrderId?: string | undefined;
   /** The item is prepaid. */
-  prepaidPlan?: PrepaidPlan;
+  prepaidPlan?: PrepaidPlan | undefined;
   /** Information for deferred item removal. */
-  deferredItemRemoval?: OneTimeProductOfferNoPriceOverrideOptions;
+  deferredItemRemoval?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** The item is auto renewing. */
-  autoRenewingPlan?: AutoRenewingPlan;
+  autoRenewingPlan?: AutoRenewingPlan | undefined;
   /** The offer details for this item. */
-  offerDetails?: OfferDetails;
+  offerDetails?: OfferDetails | undefined;
   /** Promotion details about this item. Only set if a promotion was applied during signup. */
-  signupPromotion?: SignupPromotion;
+  signupPromotion?: SignupPromotion | undefined;
   /** Details of the item being replaced. This field is only populated if this item replaced another item in a previous subscription and is only available for 60 days after the purchase time. */
-  itemReplacement?: ItemReplacement;
+  itemReplacement?: ItemReplacement | undefined;
 }
 export type SubscriptionPurchaseLineItemList = Array<SubscriptionPurchaseLineItem>;
 /** Information specific to cancellations initiated by Google system. */
@@ -3650,16 +3699,16 @@ export type CancelSurveyResultReasonEnum =
 /** Result of the cancel survey when the subscription was canceled by the user. */
 export interface CancelSurveyResult {
   /** Only set for CANCEL_SURVEY_REASON_OTHERS. This is the user's freeform response to the survey. */
-  reasonUserInput?: string;
+  reasonUserInput?: string | undefined;
   /** The reason the user selected in the cancel survey. */
-  reason?: CancelSurveyResultReasonEnum;
+  reason?: CancelSurveyResultReasonEnum | undefined;
 }
 /** Information specific to cancellations initiated by users. */
 export interface UserInitiatedCancellation {
   /** Information provided by the user when they complete the subscription cancellation flow (cancellation reason survey). */
-  cancelSurveyResult?: CancelSurveyResult;
+  cancelSurveyResult?: CancelSurveyResult | undefined;
   /** The time at which the subscription was canceled by the user. The user might still have access to the subscription after this time. Use line_items.expiry_time to determine if a user still has access. */
-  cancelTime?: string;
+  cancelTime?: string | undefined;
 }
 /** Information specific to cancellations initiated by developers. */
 export type DeveloperInitiatedCancellation = OneTimeProductOfferNoPriceOverrideOptions;
@@ -3668,13 +3717,13 @@ export type ReplacementCancellation = OneTimeProductOfferNoPriceOverrideOptions;
 /** Information specific to a subscription in the SUBSCRIPTION_STATE_CANCELED or SUBSCRIPTION_STATE_EXPIRED state. */
 export interface CanceledStateContext {
   /** Subscription was canceled by the system, for example because of a billing problem. */
-  systemInitiatedCancellation?: OneTimeProductOfferNoPriceOverrideOptions;
+  systemInitiatedCancellation?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Subscription was canceled by user. */
-  userInitiatedCancellation?: UserInitiatedCancellation;
+  userInitiatedCancellation?: UserInitiatedCancellation | undefined;
   /** Subscription was canceled by the developer. */
-  developerInitiatedCancellation?: OneTimeProductOfferNoPriceOverrideOptions;
+  developerInitiatedCancellation?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Subscription was replaced by a new subscription. */
-  replacementCancellation?: OneTimeProductOfferNoPriceOverrideOptions;
+  replacementCancellation?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 export type SubscriptionPurchaseV2SubscriptionStateEnum =
   | "SUBSCRIPTION_STATE_UNSPECIFIED"
@@ -3689,135 +3738,135 @@ export type SubscriptionPurchaseV2SubscriptionStateEnum =
 /** Information specific to an out of app purchase. */
 export interface OutOfAppPurchaseContext {
   /** User account identifier from the last expired subscription for this SKU. */
-  expiredExternalAccountIdentifiers?: ExternalAccountIdentifiers;
+  expiredExternalAccountIdentifiers?: ExternalAccountIdentifiers | undefined;
   /** The purchase token of the last expired subscription. This purchase token must only be used to help identify the user if the link between the purchaseToken and user is stored in your database. This cannot be used to call the Google Developer API if it has been more than 60 days since expiry. */
-  expiredPurchaseToken?: string;
+  expiredPurchaseToken?: string | undefined;
 }
 /** Indicates the status of a user's subscription purchase. */
 export interface SubscriptionPurchaseV2 {
   /** The purchase token of the old subscription if this subscription is one of the following: * Re-signup of a canceled but non-lapsed subscription * Upgrade/downgrade from a previous subscription. * Convert from prepaid to auto renewing subscription. * Convert from an auto renewing subscription to prepaid. * Topup a prepaid subscription. */
-  linkedPurchaseToken?: string;
+  linkedPurchaseToken?: string | undefined;
   /** The acknowledgement state of the subscription. */
-  acknowledgementState?: SubscriptionPurchaseV2AcknowledgementStateEnum;
+  acknowledgementState?: SubscriptionPurchaseV2AcknowledgementStateEnum | undefined;
   /** Optional. Additional context around subscriptions in ON_HOLD state. Only present if the subscription currently has subscription_state SUBSCRIPTION_STATE_ON_HOLD. */
-  onHoldStateContext?: OnHoldStateContext;
+  onHoldStateContext?: OnHoldStateContext | undefined;
   /** User profile associated with purchases made with 'Subscribe with Google'. */
-  subscribeWithGoogleInfo?: SubscribeWithGoogleInfo;
+  subscribeWithGoogleInfo?: SubscribeWithGoogleInfo | undefined;
   /** Only present if this subscription purchase is a test purchase. */
-  testPurchase?: OneTimeProductOfferNoPriceOverrideOptions;
+  testPurchase?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Additional context around paused subscriptions. Only present if the subscription currently has subscription_state SUBSCRIPTION_STATE_PAUSED. */
-  pausedStateContext?: PausedStateContext;
+  pausedStateContext?: PausedStateContext | undefined;
   /** Optional. Additional context around subscriptions in IN_GRACE_PERIOD state. Only present if the subscription currently has subscription_state SUBSCRIPTION_STATE_IN_GRACE_PERIOD. */
-  inGracePeriodStateContext?: OnHoldStateContext;
+  inGracePeriodStateContext?: OnHoldStateContext | undefined;
   /** User account identifier in the third-party service. */
-  externalAccountIdentifiers?: ExternalAccountIdentifiers;
+  externalAccountIdentifiers?: ExternalAccountIdentifiers | undefined;
   /** Item-level info for a subscription purchase. The items in the same purchase should be either all with AutoRenewingPlan or all with PrepaidPlan. */
-  lineItems?: SubscriptionPurchaseLineItemList;
+  lineItems?: SubscriptionPurchaseLineItemList | undefined;
   /** Additional context around canceled subscriptions. Only present if the subscription currently has subscription_state SUBSCRIPTION_STATE_CANCELED or SUBSCRIPTION_STATE_EXPIRED. */
-  canceledStateContext?: CanceledStateContext;
+  canceledStateContext?: CanceledStateContext | undefined;
   /** This kind represents a SubscriptionPurchaseV2 object in the androidpublisher service. */
-  kind?: string;
+  kind?: string | undefined;
   /** Time at which the subscription was granted. Not set for pending subscriptions (subscription was created but awaiting payment during signup). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The current state of the subscription. */
-  subscriptionState?: SubscriptionPurchaseV2SubscriptionStateEnum;
+  subscriptionState?: SubscriptionPurchaseV2SubscriptionStateEnum | undefined;
   /** Additional context for out of app purchases. This information is only present for re-subscription purchases (subscription purchases made after the previous subscription of the same product has expired) made through the Google Play subscriptions center. This field will be removed after you acknowledge the subscription. */
-  outOfAppPurchaseContext?: OutOfAppPurchaseContext;
+  outOfAppPurchaseContext?: OutOfAppPurchaseContext | undefined;
   /** Entity tag representing the current state of the subscription. The developer will provide this etag for subscription actions. This etag is always present for auto-renewing and prepaid subscriptions. */
-  etag?: string;
+  etag?: string | undefined;
   /** ISO 3166-1 alpha-2 billing country/region code of the user at the time the subscription was granted. */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export interface GetReviewsRequest {
   /** Unique identifier for a review. */
   reviewId: string;
   /** Language localization code. */
-  translationLanguage?: string;
+  translationLanguage?: string | undefined;
   /** Package name of the app. */
   packageName: string;
 }
 /** Characteristics of the user's device. */
 export interface DeviceMetadata {
   /** Screen density in DPI */
-  screenDensityDpi?: number;
+  screenDensityDpi?: number | undefined;
   /** Device class (e.g. tablet) */
-  deviceClass?: string;
+  deviceClass?: string | undefined;
   /** Device CPU make, e.g. "Qualcomm" */
-  cpuMake?: string;
+  cpuMake?: string | undefined;
   /** Device RAM in Megabytes, e.g. "2048" */
-  ramMb?: number;
+  ramMb?: number | undefined;
   /** Screen height in pixels */
-  screenHeightPx?: number;
+  screenHeightPx?: number | undefined;
   /** Screen width in pixels */
-  screenWidthPx?: number;
+  screenWidthPx?: number | undefined;
   /** Device model name (e.g. Droid) */
-  productName?: string;
+  productName?: string | undefined;
   /** OpenGL version */
-  glEsVersion?: number;
+  glEsVersion?: number | undefined;
   /** Device CPU model, e.g. "MSM8974" */
-  cpuModel?: string;
+  cpuModel?: string | undefined;
   /** Device manufacturer (e.g. Motorola) */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Comma separated list of native platforms (e.g. "arm", "arm7") */
-  nativePlatform?: string;
+  nativePlatform?: string | undefined;
 }
 /** A Timestamp represents a point in time independent of any time zone or local calendar, encoded as a count of seconds and fractions of seconds at nanosecond resolution. The count is relative to an epoch at UTC midnight on January 1, 1970. */
 export interface Timestamp {
   /** Non-negative fractions of a second at nanosecond resolution. Must be from 0 to 999,999,999 inclusive. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Represents seconds of UTC time since Unix epoch. */
-  seconds?: string;
+  seconds?: string | undefined;
 }
 /** User entry from conversation between user and developer. */
 export interface UserComment {
   /** Information about the characteristics of the user's device. */
-  deviceMetadata?: DeviceMetadata;
+  deviceMetadata?: DeviceMetadata | undefined;
   /** Integer Android SDK version of the user's device at the time the review was written, e.g. 23 is Marshmallow. May be absent. */
-  androidOsVersion?: number;
+  androidOsVersion?: number | undefined;
   /** String version name of the app as installed at the time the review was written. May be absent. */
-  appVersionName?: string;
+  appVersionName?: string | undefined;
   /** Number of users who have given this review a thumbs up. */
-  thumbsUpCount?: number;
+  thumbsUpCount?: number | undefined;
   /** Integer version code of the app as installed at the time the review was written. May be absent. */
-  appVersionCode?: number;
+  appVersionCode?: number | undefined;
   /** Codename for the reviewer's device, e.g. klte, flounder. May be absent. */
-  device?: string;
+  device?: string | undefined;
   /** The content of the comment, i.e. review body. In some cases users have been able to write a review with separate title and body; in those cases the title and body are concatenated and separated by a tab character. */
-  text?: string;
+  text?: string | undefined;
   /** The star rating associated with the review, from 1 to 5. */
-  starRating?: number;
+  starRating?: number | undefined;
   /** The last time at which this comment was updated. */
-  lastModified?: Timestamp;
+  lastModified?: Timestamp | undefined;
   /** Untranslated text of the review, where the review was translated. If the review was not translated this is left blank. */
-  originalText?: string;
+  originalText?: string | undefined;
   /** Language code for the reviewer. This is taken from the device settings so is not guaranteed to match the language the review is written in. May be absent. */
-  reviewerLanguage?: string;
+  reviewerLanguage?: string | undefined;
   /** Number of users who have given this review a thumbs down. */
-  thumbsDownCount?: number;
+  thumbsDownCount?: number | undefined;
 }
 /** Developer entry from conversation between user and developer. */
 export interface DeveloperComment {
   /** The content of the comment, i.e. reply body. */
-  text?: string;
+  text?: string | undefined;
   /** The last time at which this comment was updated. */
-  lastModified?: Timestamp;
+  lastModified?: Timestamp | undefined;
 }
 /** An entry of conversation between user and developer. */
 export interface Comment {
   /** A comment from a user. */
-  userComment?: UserComment;
+  userComment?: UserComment | undefined;
   /** A comment from a developer. */
-  developerComment?: DeveloperComment;
+  developerComment?: DeveloperComment | undefined;
 }
 export type CommentList = Array<Comment>;
 /** An Android app review. */
 export interface Review {
   /** Unique identifier for this review. */
-  reviewId?: string;
+  reviewId?: string | undefined;
   /** The name of the user who wrote the review. */
-  authorName?: string;
+  authorName?: string | undefined;
   /** A repeated field containing comments for the review. */
-  comments?: CommentList;
+  comments?: CommentList | undefined;
 }
 export interface GetSystemapksVariantsRequest {
   /** The version code of the App Bundle. */
@@ -3831,21 +3880,21 @@ export interface InsertEditsRequest {
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: AppEdit;
+  body?: AppEdit | undefined;
 }
 export interface InsertInappproductsRequest {
   /** If true the prices for all regions targeted by the parent app that don't have a price specified for this in-app product will be auto converted to the target currency based on the default price. Defaults to false. */
-  autoConvertMissingPrices?: boolean;
+  autoConvertMissingPrices?: boolean | undefined;
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: InAppProduct;
+  body?: InAppProduct | undefined;
 }
 export interface ListApplicationsDeviceTierConfigsRequest {
   /** A page token, received from a previous `ListDeviceTierConfigs` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of device tier configs to return. The service may return fewer than this value. If unspecified, at most 10 device tier configs will be returned. The maximum value for this field is 100; values above 100 will be coerced to 100. Device tier configs will be ordered by descending creation time. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Package name of the app. */
   packageName: string;
 }
@@ -3853,9 +3902,9 @@ export type DeviceTierConfigList = Array<DeviceTierConfig>;
 /** Response listing existing device tier configs. */
 export interface ListDeviceTierConfigsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Device tier configs created by the developer. */
-  deviceTierConfigs?: DeviceTierConfigList;
+  deviceTierConfigs?: DeviceTierConfigList | undefined;
 }
 export interface ListApplicationsTracksReleasesRequest {
   /** Required. The parent track, which owns this collection of releases. Format: applications/{package_name}/tracks/{track} */
@@ -3864,7 +3913,7 @@ export interface ListApplicationsTracksReleasesRequest {
 /** Summary of an artifact. */
 export interface ArtifactSummary {
   /** Artifact's version code */
-  versionCode?: number;
+  versionCode?: number | undefined;
 }
 export type ArtifactSummaryList = Array<ArtifactSummary>;
 export type ReleaseSummaryReleaseLifecycleStateEnum =
@@ -3878,43 +3927,43 @@ export type ReleaseSummaryReleaseLifecycleStateEnum =
 /** Summary of a release. */
 export interface ReleaseSummary {
   /** List of active artifacts on this release */
-  activeArtifacts?: ArtifactSummaryList;
+  activeArtifacts?: ArtifactSummaryList | undefined;
   /** The lifecycle state of a release. */
-  releaseLifecycleState?: ReleaseSummaryReleaseLifecycleStateEnum;
+  releaseLifecycleState?: ReleaseSummaryReleaseLifecycleStateEnum | undefined;
   /** Identifier for the track. [Learn more about track names.](https://developers.google.com/android-publisher/tracks). */
-  track?: string;
+  track?: string | undefined;
   /** Name of the release. */
-  releaseName?: string;
+  releaseName?: string | undefined;
 }
 export type ReleaseSummaryList = Array<ReleaseSummary>;
 /** Response listing all releases for a given track that are either ready to be sent for review, in review, approved, not approved or available. */
 export interface ListReleaseSummariesResponse {
   /** List of releases for this track. A maximum of 20 releases can be returned. */
-  releases?: ReleaseSummaryList;
+  releases?: ReleaseSummaryList | undefined;
 }
 export interface ListApprecoveryRequest {
   /** Required. Package name of the app for which list of recovery actions is requested. */
   packageName: string;
   /** Required. Version code targeted by the list of recovery actions. */
-  versionCode?: string;
+  versionCode?: string | undefined;
 }
 export type AppRecoveryActionList = Array<AppRecoveryAction>;
 /** Response message for ListAppRecoveries. -- api-linter: core::0158::response-next-page-token-field=disabled */
 export interface ListAppRecoveriesResponse {
   /** List of recovery actions associated with the requested package name. */
-  recoveryActions?: AppRecoveryActionList;
+  recoveryActions?: AppRecoveryActionList | undefined;
 }
 export interface ListAppstorecatalogRecentupdateeventsRequest {
   /** Optional. A page token, received from a previous `ListRecentUpdateEvents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRecentUpdateEvents` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of update events to return. The service may return fewer than this value. If unspecified, at most 100 update events will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The end time of the range (exclusive). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Required. The package name of the app store on behalf of which the request is made. */
   appStorePackageName: string;
   /** Required. The start time of the range (inclusive). */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type RecentUpdateEventUpdateTypeEnum =
   | "UPDATE_TYPE_UNSPECIFIED"
@@ -3923,19 +3972,19 @@ export type RecentUpdateEventUpdateTypeEnum =
 /** A recent update event. */
 export interface RecentUpdateEvent {
   /** The package name of the app. */
-  playAppPackageName?: string;
+  playAppPackageName?: string | undefined;
   /** The type of the update event. */
-  updateType?: RecentUpdateEventUpdateTypeEnum;
+  updateType?: RecentUpdateEventUpdateTypeEnum | undefined;
   /** The timestamp of the update. */
-  eventTime?: string;
+  eventTime?: string | undefined;
 }
 export type RecentUpdateEventList = Array<RecentUpdateEvent>;
 /** Response message for ListRecentUpdateEvents. */
 export interface ListRecentUpdateEventsResponse {
   /** The list of recent update events. */
-  recentUpdateEvents?: RecentUpdateEventList;
+  recentUpdateEvents?: RecentUpdateEventList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListEditsApksRequest {
   /** Package name of the app. */
@@ -3946,24 +3995,24 @@ export interface ListEditsApksRequest {
 /** Represents the binary payload of an APK. */
 export interface ApkBinary {
   /** A sha256 hash of the APK payload, encoded as a hex string and matching the output of the sha256sum command. */
-  sha256?: string;
+  sha256?: string | undefined;
   /** A sha1 hash of the APK payload, encoded as a hex string and matching the output of the sha1sum command. */
-  sha1?: string;
+  sha1?: string | undefined;
 }
 /** Information about an APK. The resource for ApksService. */
 export interface Apk {
   /** The version code of the APK, as specified in the manifest file. */
-  versionCode?: number;
+  versionCode?: number | undefined;
   /** Information about the binary payload of this APK. */
-  binary?: ApkBinary;
+  binary?: ApkBinary | undefined;
 }
 export type ApkList = Array<Apk>;
 /** Response listing all APKs. */
 export interface ApksListResponse {
   /** The kind of this response ("androidpublisher#apksListResponse"). */
-  kind?: string;
+  kind?: string | undefined;
   /** All APKs. */
-  apks?: ApkList;
+  apks?: ApkList | undefined;
 }
 export interface ListEditsBundlesRequest {
   /** Identifier of the edit. */
@@ -3974,19 +4023,19 @@ export interface ListEditsBundlesRequest {
 /** Information about an app bundle. The resource for BundlesService. */
 export interface Bundle {
   /** The version code of the Android App Bundle, as specified in the Android App Bundle's base module APK manifest file. */
-  versionCode?: number;
+  versionCode?: number | undefined;
   /** A sha256 hash of the upload payload, encoded as a hex string and matching the output of the sha256sum command. */
-  sha256?: string;
+  sha256?: string | undefined;
   /** A sha1 hash of the upload payload, encoded as a hex string and matching the output of the sha1sum command. */
-  sha1?: string;
+  sha1?: string | undefined;
 }
 export type BundleList = Array<Bundle>;
 /** Response listing all app bundles. */
 export interface BundlesListResponse {
   /** The kind of this response ("androidpublisher#bundlesListResponse"). */
-  kind?: string;
+  kind?: string | undefined;
   /** All app bundles. */
-  bundles?: BundleList;
+  bundles?: BundleList | undefined;
 }
 export type ListEditsImagesImageTypeEnum =
   | "appImageTypeUnspecified"
@@ -4011,7 +4060,7 @@ export interface ListEditsImagesRequest {
 /** Response listing all images. */
 export interface ImagesListResponse {
   /** All listed Images. */
-  images?: ImageList;
+  images?: ImageList | undefined;
 }
 export interface ListEditsListingsRequest {
   /** Identifier of the edit. */
@@ -4023,9 +4072,9 @@ export type ListingList = Array<Listing>;
 /** Response listing all localized listings. */
 export interface ListingsListResponse {
   /** All localized listings. */
-  listings?: ListingList;
+  listings?: ListingList | undefined;
   /** The kind of this response ("androidpublisher#listingsListResponse"). */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListEditsTracksRequest {
   /** Package name of the app. */
@@ -4037,9 +4086,9 @@ export type TrackList = Array<Track>;
 /** Response listing all tracks. */
 export interface TracksListResponse {
   /** The kind of this response ("androidpublisher#tracksListResponse"). */
-  kind?: string;
+  kind?: string | undefined;
   /** All tracks (including tracks with no releases). */
-  tracks?: TrackList;
+  tracks?: TrackList | undefined;
 }
 export interface ListGeneratedapksRequest {
   /** Package name of the app. */
@@ -4050,26 +4099,26 @@ export interface ListGeneratedapksRequest {
 /** Download metadata for a universal APK. */
 export interface GeneratedUniversalApk {
   /** Download ID, which uniquely identifies the APK to download. Should be supplied to `generatedapks.download` method. */
-  downloadId?: string;
+  downloadId?: string | undefined;
 }
 /** Download metadata for a split APK. */
 export interface GeneratedSplitApk {
   /** Download ID, which uniquely identifies the APK to download. Should be supplied to `generatedapks.download` method. */
-  downloadId?: string;
+  downloadId?: string | undefined;
   /** Name of the module that this APK belongs to. */
-  moduleName?: string;
+  moduleName?: string | undefined;
   /** Split ID. Empty for the main split of the base module. */
-  splitId?: string;
+  splitId?: string | undefined;
   /** ID of the generated variant. */
-  variantId?: number;
+  variantId?: number | undefined;
 }
 export type GeneratedSplitApkList = Array<GeneratedSplitApk>;
 /** Download metadata for a standalone APK. */
 export interface GeneratedStandaloneApk {
   /** Download ID, which uniquely identifies the APK to download. Should be supplied to `generatedapks.download` method. */
-  downloadId?: string;
+  downloadId?: string | undefined;
   /** ID of the generated variant. */
-  variantId?: number;
+  variantId?: number | undefined;
 }
 export type GeneratedStandaloneApkList = Array<GeneratedStandaloneApk>;
 export type TextureCompressionFormatAliasEnum =
@@ -4087,28 +4136,28 @@ export type TextureCompressionFormatAliasEnum =
 /** Represents texture compression format. */
 export interface TextureCompressionFormat {
   /** Alias for texture compression format. */
-  alias?: TextureCompressionFormatAliasEnum;
+  alias?: TextureCompressionFormatAliasEnum | undefined;
 }
 export type TextureCompressionFormatList = Array<TextureCompressionFormat>;
 /** Targeting by a texture compression format. */
 export interface TextureCompressionFormatTargeting {
   /** List of alternative TCFs (TCFs targeted by the sibling splits). */
-  alternatives?: TextureCompressionFormatList;
+  alternatives?: TextureCompressionFormatList | undefined;
   /** The list of targeted TCFs. Should not be empty. */
-  value?: TextureCompressionFormatList;
+  value?: TextureCompressionFormatList | undefined;
 }
 /** Represents an sdk version. */
 export interface SdkVersion {
   /** Inclusive minimum value of an sdk version. */
-  min?: number;
+  min?: number | undefined;
 }
 export type SdkVersionList = Array<SdkVersion>;
 /** Targeting based on sdk version. */
 export interface SdkVersionTargeting {
   /** Value of an sdk version. */
-  value?: SdkVersionList;
+  value?: SdkVersionList | undefined;
   /** Targeting of other sibling directories that were in the Bundle. For main splits this is targeting of other main splits. */
-  alternatives?: SdkVersionList;
+  alternatives?: SdkVersionList | undefined;
 }
 export type AbiAliasEnum =
   | "UNSPECIFIED_CPU_ARCHITECTURE"
@@ -4121,28 +4170,28 @@ export type AbiAliasEnum =
 /** Represents an Abi. */
 export interface Abi {
   /** Alias for an abi. */
-  alias?: AbiAliasEnum;
+  alias?: AbiAliasEnum | undefined;
 }
 export type AbiList = Array<Abi>;
 /** Represents a list of ABIs. */
 export interface MultiAbi {
   /** A list of targeted ABIs, as represented by the Android Platform */
-  abi?: AbiList;
+  abi?: AbiList | undefined;
 }
 export type MultiAbiList = Array<MultiAbi>;
 /** Targeting based on multiple abis. */
 export interface MultiAbiTargeting {
   /** Targeting of other sibling directories that were in the Bundle. For main splits this is targeting of other main splits. */
-  alternatives?: MultiAbiList;
+  alternatives?: MultiAbiList | undefined;
   /** Value of a multi abi. */
-  value?: MultiAbiList;
+  value?: MultiAbiList | undefined;
 }
 /** Targeting based on Abi. */
 export interface AbiTargeting {
   /** Targeting of other sibling directories that were in the Bundle. For main splits this is targeting of other main splits. */
-  alternatives?: AbiList;
+  alternatives?: AbiList | undefined;
   /** Value of an abi. */
-  value?: AbiList;
+  value?: AbiList | undefined;
 }
 export type ScreenDensityDensityAliasEnum =
   | "DENSITY_UNSPECIFIED"
@@ -4157,30 +4206,30 @@ export type ScreenDensityDensityAliasEnum =
 /** Represents a screen density. */
 export interface ScreenDensity {
   /** Alias for a screen density. */
-  densityAlias?: ScreenDensityDensityAliasEnum;
+  densityAlias?: ScreenDensityDensityAliasEnum | undefined;
   /** Value for density dpi. */
-  densityDpi?: number;
+  densityDpi?: number | undefined;
 }
 export type ScreenDensityList = Array<ScreenDensity>;
 /** Targeting based on screen density. */
 export interface ScreenDensityTargeting {
   /** Targeting of other sibling directories that were in the Bundle. For main splits this is targeting of other main splits. */
-  alternatives?: ScreenDensityList;
+  alternatives?: ScreenDensityList | undefined;
   /** Value of a screen density. */
-  value?: ScreenDensityList;
+  value?: ScreenDensityList | undefined;
 }
 /** Targeting on the level of variants. */
 export interface VariantTargeting {
   /** Texture-compression-format-level targeting */
-  textureCompressionFormatTargeting?: TextureCompressionFormatTargeting;
+  textureCompressionFormatTargeting?: TextureCompressionFormatTargeting | undefined;
   /** The sdk version that the variant targets */
-  sdkVersionTargeting?: SdkVersionTargeting;
+  sdkVersionTargeting?: SdkVersionTargeting | undefined;
   /** Multi-api-level targeting */
-  multiAbiTargeting?: MultiAbiTargeting;
+  multiAbiTargeting?: MultiAbiTargeting | undefined;
   /** The abi that the variant targets */
-  abiTargeting?: AbiTargeting;
+  abiTargeting?: AbiTargeting | undefined;
   /** The screen densities that this variant supports */
-  screenDensityTargeting?: ScreenDensityTargeting;
+  screenDensityTargeting?: ScreenDensityTargeting | undefined;
 }
 export type ModuleMetadataDeliveryTypeEnum =
   | "UNKNOWN_DELIVERY_TYPE"
@@ -4191,111 +4240,111 @@ export type ModuleMetadataModuleTypeEnum = "UNKNOWN_MODULE_TYPE" | "FEATURE_MODU
 /** Describes an inclusive/exclusive list of country codes that module targets. */
 export interface UserCountriesTargeting {
   /** List of country codes in the two-letter CLDR territory format. */
-  countryCodes?: StringList;
+  countryCodes?: StringList | undefined;
   /** Indicates if the list above is exclusive. */
-  exclude?: boolean;
+  exclude?: boolean | undefined;
 }
 /** Represents a device feature. */
 export interface DeviceFeature {
   /** The feature version specified by android:glEsVersion or android:version in in the AndroidManifest. */
-  featureVersion?: number;
+  featureVersion?: number | undefined;
   /** Name of the feature. */
-  featureName?: string;
+  featureName?: string | undefined;
 }
 /** Targeting for a device feature. */
 export interface DeviceFeatureTargeting {
   /** Feature of the device. */
-  requiredFeature?: DeviceFeature;
+  requiredFeature?: DeviceFeature | undefined;
 }
 export type DeviceFeatureTargetingList = Array<DeviceFeatureTargeting>;
 /** Targeting on the module level. */
 export interface ModuleTargeting {
   /** The sdk version that the variant targets */
-  sdkVersionTargeting?: SdkVersionTargeting;
+  sdkVersionTargeting?: SdkVersionTargeting | undefined;
   /** Countries-level targeting */
-  userCountriesTargeting?: UserCountriesTargeting;
+  userCountriesTargeting?: UserCountriesTargeting | undefined;
   /** Targeting for device features. */
-  deviceFeatureTargeting?: DeviceFeatureTargetingList;
+  deviceFeatureTargeting?: DeviceFeatureTargetingList | undefined;
 }
 /** Metadata of a module. */
 export interface ModuleMetadata {
   /** Names of the modules that this module directly depends on. Each module implicitly depends on the base module. */
-  dependencies?: StringList;
+  dependencies?: StringList | undefined;
   /** Indicates the delivery type (e.g. on-demand) of the module. */
-  deliveryType?: ModuleMetadataDeliveryTypeEnum;
+  deliveryType?: ModuleMetadataDeliveryTypeEnum | undefined;
   /** Indicates the type of this feature module. */
-  moduleType?: ModuleMetadataModuleTypeEnum;
+  moduleType?: ModuleMetadataModuleTypeEnum | undefined;
   /** The targeting that makes a conditional module installed. Relevant only for Split APKs. */
-  targeting?: ModuleTargeting;
+  targeting?: ModuleTargeting | undefined;
   /** Module name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Holds data specific to Split APKs. */
 export interface SplitApkMetadata {
   /** Indicates whether this APK is the main split of the module. */
-  isMasterSplit?: boolean;
+  isMasterSplit?: boolean | undefined;
   /** Id of the split. */
-  splitId?: string;
+  splitId?: string | undefined;
 }
 /** Holds data specific to Standalone APKs. */
 export interface StandaloneApkMetadata {
   /** Names of the modules fused in this standalone APK. */
-  fusedModuleName?: StringList;
+  fusedModuleName?: StringList | undefined;
 }
 /** Targeting based on language. */
 export interface LanguageTargeting {
   /** ISO-639: 2 or 3 letter language code. */
-  value?: StringList;
+  value?: StringList | undefined;
   /** Alternative languages. */
-  alternatives?: StringList;
+  alternatives?: StringList | undefined;
 }
 /** Represents a set of apk-level targetings. */
 export interface ApkTargeting {
   /** The screen density that this apk supports. */
-  screenDensityTargeting?: ScreenDensityTargeting;
+  screenDensityTargeting?: ScreenDensityTargeting | undefined;
   /** The language that the apk targets */
-  languageTargeting?: LanguageTargeting;
+  languageTargeting?: LanguageTargeting | undefined;
   /** The sdk version that the apk targets */
-  sdkVersionTargeting?: SdkVersionTargeting;
+  sdkVersionTargeting?: SdkVersionTargeting | undefined;
   /** The abi that the apk targets */
-  abiTargeting?: AbiTargeting;
+  abiTargeting?: AbiTargeting | undefined;
   /** Texture-compression-format-level targeting */
-  textureCompressionFormatTargeting?: TextureCompressionFormatTargeting;
+  textureCompressionFormatTargeting?: TextureCompressionFormatTargeting | undefined;
   /** Multi-api-level targeting. */
-  multiAbiTargeting?: MultiAbiTargeting;
+  multiAbiTargeting?: MultiAbiTargeting | undefined;
 }
 /** Description of the created apks. */
 export interface ApkDescription {
   /** Path of the Apk, will be in the following format: .apk where DownloadId is the ID used to download the apk using GeneratedApks.Download API. */
-  path?: string;
+  path?: string | undefined;
   /** Set only for Split APKs. */
-  splitApkMetadata?: SplitApkMetadata;
+  splitApkMetadata?: SplitApkMetadata | undefined;
   /** Set only for Instant split APKs. */
-  instantApkMetadata?: SplitApkMetadata;
+  instantApkMetadata?: SplitApkMetadata | undefined;
   /** Set only for standalone APKs. */
-  standaloneApkMetadata?: StandaloneApkMetadata;
+  standaloneApkMetadata?: StandaloneApkMetadata | undefined;
   /** Apk-level targeting. */
-  targeting?: ApkTargeting;
+  targeting?: ApkTargeting | undefined;
   /** Set only for asset slices. */
-  assetSliceMetadata?: SplitApkMetadata;
+  assetSliceMetadata?: SplitApkMetadata | undefined;
 }
 export type ApkDescriptionList = Array<ApkDescription>;
 /** A set of apks representing a module. */
 export interface ApkSet {
   /** Metadata about the module represented by this ApkSet */
-  moduleMetadata?: ModuleMetadata;
+  moduleMetadata?: ModuleMetadata | undefined;
   /** Description of the generated apks. */
-  apkDescription?: ApkDescriptionList;
+  apkDescription?: ApkDescriptionList | undefined;
 }
 export type ApkSetList = Array<ApkSet>;
 /** Variant is a group of APKs that covers a part of the device configuration space. APKs from multiple variants are never combined on one device. */
 export interface SplitApkVariant {
   /** Variant-level targeting. */
-  targeting?: VariantTargeting;
+  targeting?: VariantTargeting | undefined;
   /** Number of the variant, starting at 0 (unless overridden). A device will receive APKs from the first variant that matches the device configuration, with higher variant numbers having priority over lower variant numbers. */
-  variantNumber?: number;
+  variantNumber?: number | undefined;
   /** Set of APKs, one set per module. */
-  apkSet?: ApkSetList;
+  apkSet?: ApkSetList | undefined;
 }
 export type SplitApkVariantList = Array<SplitApkVariant>;
 export type AssetModuleMetadataDeliveryTypeEnum =
@@ -4306,37 +4355,37 @@ export type AssetModuleMetadataDeliveryTypeEnum =
 /** Metadata of an asset module. */
 export interface AssetModuleMetadata {
   /** Module name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates the delivery type for persistent install. */
-  deliveryType?: AssetModuleMetadataDeliveryTypeEnum;
+  deliveryType?: AssetModuleMetadataDeliveryTypeEnum | undefined;
 }
 /** Set of asset slices belonging to a single asset module. */
 export interface AssetSliceSet {
   /** Module level metadata. */
-  assetModuleMetadata?: AssetModuleMetadata;
+  assetModuleMetadata?: AssetModuleMetadata | undefined;
   /** Asset slices. */
-  apkDescription?: ApkDescriptionList;
+  apkDescription?: ApkDescriptionList | undefined;
 }
 export type AssetSliceSetList = Array<AssetSliceSet>;
 /** Targeting information about the generated apks. */
 export interface TargetingInfo {
   /** List of the created variants. */
-  variant?: SplitApkVariantList;
+  variant?: SplitApkVariantList | undefined;
   /** The package name of this app. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** List of created asset slices. */
-  assetSliceSet?: AssetSliceSetList;
+  assetSliceSet?: AssetSliceSetList | undefined;
 }
 /** Download metadata for an asset pack slice. */
 export interface GeneratedAssetPackSlice {
   /** Asset slice ID. */
-  sliceId?: string;
+  sliceId?: string | undefined;
   /** Download ID, which uniquely identifies the APK to download. Should be supplied to `generatedapks.download` method. */
-  downloadId?: string;
+  downloadId?: string | undefined;
   /** Name of the module that this asset slice belongs to. */
-  moduleName?: string;
+  moduleName?: string | undefined;
   /** Asset module version. */
-  version?: string;
+  version?: string | undefined;
 }
 export type GeneratedAssetPackSliceList = Array<GeneratedAssetPackSlice>;
 export type GeneratedRecoveryApkRecoveryStatusEnum =
@@ -4349,96 +4398,96 @@ export type GeneratedRecoveryApkRecoveryStatusEnum =
 /** Download metadata for an app recovery module. */
 export interface GeneratedRecoveryApk {
   /** Download ID, which uniquely identifies the APK to download. Should be supplied to `generatedapks.download` method. */
-  downloadId?: string;
+  downloadId?: string | undefined;
   /** Name of the module which recovery apk belongs to. */
-  moduleName?: string;
+  moduleName?: string | undefined;
   /** ID of the recovery action. */
-  recoveryId?: string;
+  recoveryId?: string | undefined;
   /** The status of the recovery action corresponding to the recovery apk. */
-  recoveryStatus?: GeneratedRecoveryApkRecoveryStatusEnum;
+  recoveryStatus?: GeneratedRecoveryApkRecoveryStatusEnum | undefined;
 }
 export type GeneratedRecoveryApkList = Array<GeneratedRecoveryApk>;
 /** Download metadata for split, standalone and universal APKs, as well as asset pack slices, signed with a given key. */
 export interface GeneratedApksPerSigningKey {
   /** SHA256 hash of the APK signing public key certificate. */
-  certificateSha256Hash?: string;
+  certificateSha256Hash?: string | undefined;
   /** Generated universal APK, signed with a key corresponding to certificate_sha256_hash. This field is not set if no universal APK was generated for this signing key. */
-  generatedUniversalApk?: GeneratedUniversalApk;
+  generatedUniversalApk?: GeneratedUniversalApk | undefined;
   /** List of generated split APKs, signed with a key corresponding to certificate_sha256_hash. */
-  generatedSplitApks?: GeneratedSplitApkList;
+  generatedSplitApks?: GeneratedSplitApkList | undefined;
   /** List of generated standalone APKs, signed with a key corresponding to certificate_sha256_hash. */
-  generatedStandaloneApks?: GeneratedStandaloneApkList;
+  generatedStandaloneApks?: GeneratedStandaloneApkList | undefined;
   /** Contains targeting information about the generated apks. */
-  targetingInfo?: TargetingInfo;
+  targetingInfo?: TargetingInfo | undefined;
   /** List of asset pack slices which will be served for this app bundle, signed with a key corresponding to certificate_sha256_hash. */
-  generatedAssetPackSlices?: GeneratedAssetPackSliceList;
+  generatedAssetPackSlices?: GeneratedAssetPackSliceList | undefined;
   /** Generated recovery apks for recovery actions signed with a key corresponding to certificate_sha256_hash. This includes all generated recovery APKs, also those in draft or cancelled state. This field is not set if no recovery actions were created for this signing key. */
-  generatedRecoveryModules?: GeneratedRecoveryApkList;
+  generatedRecoveryModules?: GeneratedRecoveryApkList | undefined;
   /** List of generated standalone APKs without automatic protection, signed with a key corresponding to certificate_sha256_hash. This field is only present if the app uses automatic protection. In this case, `generated_standalone_apks` contains APKs with automatic protection enabled, whereas this field contains APKs without automatic protection. */
-  unprotectedGeneratedStandaloneApks?: GeneratedStandaloneApkList;
+  unprotectedGeneratedStandaloneApks?: GeneratedStandaloneApkList | undefined;
   /** List of generated split APKs without automatic protection, signed with a key corresponding to certificate_sha256_hash. This field is only present if the app uses automatic protection. In this case, `generated_split_apks` contains APKs with automatic protection enabled, whereas this field contains APKs without automatic protection. */
-  unprotectedGeneratedSplitApks?: GeneratedSplitApkList;
+  unprotectedGeneratedSplitApks?: GeneratedSplitApkList | undefined;
 }
 export type GeneratedApksPerSigningKeyList = Array<GeneratedApksPerSigningKey>;
 /** Response to list generated APKs. */
 export interface GeneratedApksListResponse {
   /** All generated APKs, grouped by the APK signing key. */
-  generatedApks?: GeneratedApksPerSigningKeyList;
+  generatedApks?: GeneratedApksPerSigningKeyList | undefined;
 }
 export interface ListInappproductsRequest {
   /** Pagination token. If empty, list starts at the first product. */
-  token?: string;
+  token?: string | undefined;
   /** Deprecated and ignored. Set the `token` parameter to retrieve the next page. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Deprecated and ignored. The page size is determined by the server. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Package name of the app. */
   packageName: string;
 }
 /** Information about the current page. List operations that supports paging return only one "page" of results. This protocol buffer message describes the page that has been returned. */
 export interface PageInfo {
   /** Index of the first result returned in the current page. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Maximum number of results returned in one page. ! The number of results included in the API response. */
-  resultPerPage?: number;
+  resultPerPage?: number | undefined;
   /** Total number of results available on the backend ! The total number of results in the result set. */
-  totalResults?: number;
+  totalResults?: number | undefined;
 }
 /** Pagination information returned by a List operation when token pagination is enabled. List operations that supports paging return only one "page" of results. This protocol buffer message describes the page that has been returned. When using token pagination, clients should use the next/previous token to get another page of the result. The presence or absence of next/previous token indicates whether a next/previous page is available and provides a mean of accessing this page. ListRequest.page_token should be set to either next_page_token or previous_page_token to access another page. */
 export interface TokenPagination {
   /** Tokens to pass to the standard list field 'page_token'. Whenever available, tokens are preferred over manipulating start_index. */
-  nextPageToken?: string;
-  previousPageToken?: string;
+  nextPageToken?: string | undefined;
+  previousPageToken?: string | undefined;
 }
 /** Response listing all in-app products. */
 export interface InappproductsListResponse {
   /** Deprecated and unset. */
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
   /** All in-app products. */
-  inappproduct?: InAppProductList;
+  inappproduct?: InAppProductList | undefined;
   /** The kind of this response ("androidpublisher#inappproductsListResponse"). */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token, to handle a number of products that is over one page. */
-  tokenPagination?: TokenPagination;
+  tokenPagination?: TokenPagination | undefined;
 }
 export interface ListMonetizationOnetimeproductsRequest {
   /** Optional. The maximum number of one-time product to return. The service may return fewer than this value. If unspecified, at most 50 one-time products will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent app (package name) for which the one-time product should be read. */
   packageName: string;
   /** Optional. A page token, received from a previous `ListOneTimeProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListOneTimeProducts` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for ListOneTimeProducts. */
 export interface ListOneTimeProductsResponse {
   /** The one-time products from the specified app. */
-  oneTimeProducts?: OneTimeProductList;
+  oneTimeProducts?: OneTimeProductList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Optional. The maximum number of offers to return. The service may return fewer than this value. If unspecified, at most 50 offers will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent one-time product (ID) for which the offers should be read. May be specified as '-' to read all offers under an app. */
   productId: string;
   /** Required. The parent purchase option (ID) for which the offers should be read. May be specified as '-' to read all offers under a one-time product or an app. Must be specified as '-' if product_id is specified as '-'. */
@@ -4446,31 +4495,31 @@ export interface ListMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) for which the offers should be read. */
   packageName: string;
   /** Optional. A page token, received from a previous `ListOneTimeProductOffers` call. Provide this to retrieve the subsequent page. When paginating, product_id, package_name and purchase_option_id provided to `ListOneTimeProductOffersRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for ListOneTimeProductOffers. */
 export interface ListOneTimeProductOffersResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The one_time_product offers from the specified request. */
-  oneTimeProductOffers?: OneTimeProductOfferList;
+  oneTimeProductOffers?: OneTimeProductOfferList | undefined;
 }
 export interface ListMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscriptions should be read. */
   packageName: string;
   /** Deprecated: subscription archiving is not supported. */
-  showArchived?: boolean;
+  showArchived?: boolean | undefined;
   /** The maximum number of subscriptions to return. The service may return fewer than this value. If unspecified, at most 50 subscriptions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListSubscriptions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubscriptions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for ListSubscriptions. */
 export interface ListSubscriptionsResponse {
   /** The subscriptions from the specified app. */
-  subscriptions?: SubscriptionList;
+  subscriptions?: SubscriptionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent subscription (ID) for which the offers should be read. May be specified as '-' to read all offers under an app. */
@@ -4480,84 +4529,84 @@ export interface ListMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent base plan (ID) for which the offers should be read. May be specified as '-' to read all offers under a subscription or an app. Must be specified as '-' if product_id is specified as '-'. */
   basePlanId: string;
   /** The maximum number of subscriptions to return. The service may return fewer than this value. If unspecified, at most 50 subscriptions will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListSubscriptionsOffers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubscriptionOffers` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for ListSubscriptionOffers. */
 export interface ListSubscriptionOffersResponse {
   /** The subscription offers from the specified subscription. */
-  subscriptionOffers?: SubscriptionOfferList;
+  subscriptionOffers?: SubscriptionOfferList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPurchasesVoidedpurchasesRequest {
   /** The time, in milliseconds since the Epoch, of the newest voided purchase that you want to see in the response. The value of this parameter cannot be greater than the current time and is ignored if a pagination token is set. Default value is current time. Note: This filter is applied on the time at which the record is seen as voided by our systems and not the actual voided time returned in the response. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The type of voided purchases that you want to see in the response. Possible values are: 0. Only voided in-app product purchases will be returned in the response. This is the default value. 1. Both voided in-app purchases and voided subscription purchases will be returned in the response. Note: Before requesting to receive voided subscription purchases, you must switch to use orderId in the response which uniquely identifies one-time purchases and subscriptions. Otherwise, you will receive multiple subscription orders with the same PurchaseToken, because subscription renewal orders share the same PurchaseToken. */
-  type?: number;
+  type?: number | undefined;
   /** The package name of the application for which voided purchases need to be returned (for example, 'com.some.thing'). */
   packageName: string;
   /** Defines the token of the page to return, usually taken from TokenPagination. This can only be used if token paging is enabled. */
-  token?: string;
+  token?: string | undefined;
   /** Defines how many results the list operation should return. The default number depends on the resource collection. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Defines the index of the first element to return. This can only be used if indexed paging is enabled. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Optional. Whether to include voided purchases of quantity-based partial refunds, which are applicable only to multi-quantity purchases. If true, additional voided purchases may be returned with voidedQuantity that indicates the refund quantity of a quantity-based partial refund. The default value is false. */
-  includeQuantityBasedPartialRefund?: boolean;
+  includeQuantityBasedPartialRefund?: boolean | undefined;
   /** The time, in milliseconds since the Epoch, of the oldest voided purchase that you want to see in the response. The value of this parameter cannot be older than 30 days and is ignored if a pagination token is set. Default value is current time minus 30 days. Note: This filter is applied on the time at which the record is seen as voided by our systems and not the actual voided time returned in the response. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** A VoidedPurchase resource indicates a purchase that was either canceled/refunded/charged-back. */
 export interface VoidedPurchase {
   /** The time at which the purchase was made, in milliseconds since the epoch (Jan 1, 1970). */
-  purchaseTimeMillis?: string;
+  purchaseTimeMillis?: string | undefined;
   /** The reason why the purchase was voided, possible values are: 0. Other 1. Remorse 2. Not_received 3. Defective 4. Accidental_purchase 5. Fraud 6. Friendly_fraud 7. Chargeback 8. Unacknowledged_purchase */
-  voidedReason?: number;
+  voidedReason?: number | undefined;
   /** The token which uniquely identifies a one-time purchase or subscription. To uniquely identify subscription renewals use order_id (available starting from version 3 of the API). */
-  purchaseToken?: string;
+  purchaseToken?: string | undefined;
   /** The initiator of voided purchase, possible values are: 0. User 1. Developer 2. Google */
-  voidedSource?: number;
+  voidedSource?: number | undefined;
   /** The time at which the purchase was canceled/refunded/charged-back, in milliseconds since the epoch (Jan 1, 1970). */
-  voidedTimeMillis?: string;
+  voidedTimeMillis?: string | undefined;
   /** This kind represents a voided purchase object in the androidpublisher service. */
-  kind?: string;
+  kind?: string | undefined;
   /** The order id which uniquely identifies a one-time purchase, subscription purchase, or subscription renewal. */
-  orderId?: string;
+  orderId?: string | undefined;
   /** The voided quantity as the result of a quantity-based partial refund. Voided purchases of quantity-based partial refunds may only be returned when includeQuantityBasedPartialRefund is set to true. */
-  voidedQuantity?: number;
+  voidedQuantity?: number | undefined;
 }
 export type VoidedPurchaseList = Array<VoidedPurchase>;
 /** Response for the voidedpurchases.list API. */
 export interface VoidedPurchasesListResponse {
   /** General pagination information. */
-  pageInfo?: PageInfo;
-  voidedPurchases?: VoidedPurchaseList;
+  pageInfo?: PageInfo | undefined;
+  voidedPurchases?: VoidedPurchaseList | undefined;
   /** Pagination information for token pagination. */
-  tokenPagination?: TokenPagination;
+  tokenPagination?: TokenPagination | undefined;
 }
 export interface ListReviewsRequest {
   /** Package name of the app. */
   packageName: string;
   /** How many results the list operation should return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The index of the first element to return. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Language localization code. */
-  translationLanguage?: string;
+  translationLanguage?: string | undefined;
   /** Pagination token. If empty, list starts at the first review. */
-  token?: string;
+  token?: string | undefined;
 }
 export type ReviewList = Array<Review>;
 /** Response listing reviews. */
 export interface ReviewsListResponse {
   /** Information about the current page. */
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
   /** Pagination token, to handle a number of products that is over one page. */
-  tokenPagination?: TokenPagination;
+  tokenPagination?: TokenPagination | undefined;
   /** List of reviews. */
-  reviews?: ReviewList;
+  reviews?: ReviewList | undefined;
 }
 export interface ListSystemapksVariantsRequest {
   /** Package name of the app. */
@@ -4569,23 +4618,23 @@ export type VariantList = Array<Variant>;
 /** Response to list previously created system APK variants. */
 export interface SystemApksListResponse {
   /** All system APK variants created. */
-  variants?: VariantList;
+  variants?: VariantList | undefined;
 }
 export interface ListUsersRequest {
   /** Required. The developer account to fetch users from. Format: developers/{developer} */
   parent: string;
   /** A token received from a previous call to this method, in order to retrieve further results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. This must be set to -1 to disable pagination. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type UserList = Array<User>;
 /** A response containing one or more users with access to an account. */
 export interface ListUsersResponse {
   /** A token to pass to subsequent calls in order to retrieve subsequent results. This will not be set if there are no more results to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The resulting users. */
-  users?: UserList;
+  users?: UserList | undefined;
 }
 export interface MigratePricesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The unique base plan ID of the base plan to update prices on. */
@@ -4595,7 +4644,7 @@ export interface MigratePricesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The ID of the subscription to update. Must be equal to the product_id field on the Subscription resource. */
   productId: string;
   /** Request body */
-  body?: MigrateBasePlanPricesRequest;
+  body?: MigrateBasePlanPricesRequest | undefined;
 }
 export interface PatchEditsDetailsRequest {
   /** Package name of the app. */
@@ -4603,7 +4652,7 @@ export interface PatchEditsDetailsRequest {
   /** Identifier of the edit. */
   editId: string;
   /** Request body */
-  body?: AppDetails;
+  body?: AppDetails | undefined;
 }
 export type PatchEditsExpansionfilesExpansionFileTypeEnum =
   | "expansionFileTypeUnspecified"
@@ -4619,7 +4668,7 @@ export interface PatchEditsExpansionfilesRequest {
   /** The version code of the APK whose expansion file configuration is being read or modified. */
   apkVersionCode: number;
   /** Request body */
-  body?: ExpansionFile;
+  body?: ExpansionFile | undefined;
 }
 export interface PatchEditsListingsRequest {
   /** Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
@@ -4629,7 +4678,7 @@ export interface PatchEditsListingsRequest {
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: Listing;
+  body?: Listing | undefined;
 }
 export interface PatchEditsTestersRequest {
   /** Package name of the app. */
@@ -4639,7 +4688,7 @@ export interface PatchEditsTestersRequest {
   /** Identifier of the edit. */
   editId: string;
   /** Request body */
-  body?: Testers;
+  body?: Testers | undefined;
 }
 export interface PatchEditsTracksRequest {
   /** Package name of the app. */
@@ -4649,15 +4698,15 @@ export interface PatchEditsTracksRequest {
   /** Identifier of the track. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
   track: string;
   /** Request body */
-  body?: Track;
+  body?: Track | undefined;
 }
 export interface PatchGrantsRequest {
   /** Required. Resource name for this grant, following the pattern "developers/{developer}/users/{email}/grants/{package_name}". If this grant is for a draft app, the app ID will be used in this resource name instead of the package name. */
   name: string;
   /** Optional. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Grant;
+  body?: Grant | undefined;
 }
 export type PatchInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4665,15 +4714,15 @@ export type PatchInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
 export interface PatchInappproductsRequest {
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: PatchInappproductsLatencyToleranceEnum | (string & {});
+  latencyTolerance?: PatchInappproductsLatencyToleranceEnum | (string & {}) | undefined;
   /** Unique identifier for the in-app product. */
   sku: string;
   /** If true the prices for all regions targeted by the parent app that don't have a price specified for this in-app product will be auto converted to the target currency based on the default price. Defaults to false. */
-  autoConvertMissingPrices?: boolean;
+  autoConvertMissingPrices?: boolean | undefined;
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: InAppProduct;
+  body?: InAppProduct | undefined;
 }
 export type PatchMonetizationOnetimeproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4681,19 +4730,22 @@ export type PatchMonetizationOnetimeproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT";
 export interface PatchMonetizationOnetimeproductsRequest {
   /** Optional. If set to true, and the one-time product with the given package_name and product_id doesn't exist, the one-time product will be created. If a new one-time product is created, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. Immutable. Package name of the parent app. */
   packageName: string;
   /** Optional. The latency tolerance for the propagation of this product upsert. Defaults to latency-sensitive. */
-  latencyTolerance?: PatchMonetizationOnetimeproductsLatencyToleranceEnum | (string & {});
+  latencyTolerance?:
+    | PatchMonetizationOnetimeproductsLatencyToleranceEnum
+    | (string & {})
+    | undefined;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
-  "regionsVersion.version"?: string;
+  "regionsVersion.version"?: string | undefined;
   /** Required. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must start with a number or lowercase letter, and can contain numbers (0-9), lowercase letters (a-z), underscores (_), and periods (.). */
   productId: string;
   /** Request body */
-  body?: OneTimeProduct;
+  body?: OneTimeProduct | undefined;
 }
 export type PatchMonetizationSubscriptionsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4703,17 +4755,17 @@ export interface PatchMonetizationSubscriptionsRequest {
   /** Immutable. Package name of the parent app. */
   packageName: string;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
-  "regionsVersion.version"?: string;
+  "regionsVersion.version"?: string | undefined;
   /** Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must be composed of lower-case letters (a-z), numbers (0-9), underscores (_) and dots (.). It must start with a lower-case letter or number, and be between 1 and 40 (inclusive) characters in length. */
   productId: string;
   /** Optional. If set to true, and the subscription with the given package_name and product_id doesn't exist, the subscription will be created. If a new subscription is created, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: PatchMonetizationSubscriptionsLatencyToleranceEnum | (string & {});
+  latencyTolerance?: PatchMonetizationSubscriptionsLatencyToleranceEnum | (string & {}) | undefined;
   /** Required. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Subscription;
+  body?: Subscription | undefined;
 }
 export type PatchMonetizationSubscriptionsBasePlansOffersLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4723,11 +4775,11 @@ export interface PatchMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. Immutable. The ID of the parent subscription this offer belongs to. */
   productId: string;
   /** Optional. If set to true, and the subscription offer with the given package_name, product_id, base_plan_id and offer_id doesn't exist, an offer will be created. If a new offer is created, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
-  "regionsVersion.version"?: string;
+  "regionsVersion.version"?: string | undefined;
   /** Required. Immutable. The package name of the app the parent subscription belongs to. */
   packageName: string;
   /** Required. Immutable. Unique ID of this subscription offer. Must be unique within the base plan. */
@@ -4737,41 +4789,42 @@ export interface PatchMonetizationSubscriptionsBasePlansOffersRequest {
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
   latencyTolerance?:
     | PatchMonetizationSubscriptionsBasePlansOffersLatencyToleranceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Request body */
-  body?: SubscriptionOffer;
+  body?: SubscriptionOffer | undefined;
 }
 export interface PatchUsersRequest {
   /** Optional. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Resource name for this user, following the pattern "developers/{developer}/users/{email}". */
   name: string;
   /** Request body */
-  body?: User;
+  body?: User | undefined;
 }
 /** A partial refund of a transaction. */
 export interface PartialRefund {
   /** Required. The pre-tax amount of the partial refund. Should be less than the remaining pre-tax amount of the transaction. */
-  refundPreTaxAmount?: Price;
+  refundPreTaxAmount?: Price | undefined;
   /** Required. A unique id distinguishing this partial refund. If the refund is successful, subsequent refunds with the same id will fail. Must be unique across refunds for one individual transaction. */
-  refundId?: string;
+  refundId?: string | undefined;
 }
 /** A full refund of the remaining amount of a transaction. */
 export type FullRefund = OneTimeProductOfferNoPriceOverrideOptions;
 /** A request to refund an existing external transaction. */
 export interface RefundExternalTransactionRequest {
   /** A partial refund. */
-  partialRefund?: PartialRefund;
+  partialRefund?: PartialRefund | undefined;
   /** A full-amount refund. */
-  fullRefund?: OneTimeProductOfferNoPriceOverrideOptions;
+  fullRefund?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Required. The time that the transaction was refunded. */
-  refundTime?: string;
+  refundTime?: string | undefined;
 }
 export interface RefundexternaltransactionExternaltransactionsRequest {
   /** Required. The name of the external transaction that will be refunded. Format: applications/{package_name}/externalTransactions/{external_transaction} */
   name: string;
   /** Request body */
-  body?: RefundExternalTransactionRequest;
+  body?: RefundExternalTransactionRequest | undefined;
 }
 export interface RefundOrdersRequest {
   /** The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
@@ -4779,13 +4832,13 @@ export interface RefundOrdersRequest {
   /** The order ID provided to the user when the subscription or in-app order was purchased. */
   orderId: string;
   /** Whether to revoke the purchased item. If set to true, access to the subscription or in-app item will be terminated immediately. If the item is a recurring subscription, all future payments will also be terminated. Consumed in-app items need to be handled by developer's app. (optional). */
-  revoke?: boolean;
+  revoke?: boolean | undefined;
 }
 export interface RefundOrdersResponse {}
 /** Request to reply to review or update existing reply. */
 export interface ReviewsReplyRequest {
   /** The text to set as the reply. Replies of more than approximately 350 characters will be rejected. HTML tags will be stripped. */
-  replyText?: string;
+  replyText?: string | undefined;
 }
 export interface ReplyReviewsRequest {
   /** Package name of the app. */
@@ -4793,19 +4846,19 @@ export interface ReplyReviewsRequest {
   /** Unique identifier for a review. */
   reviewId: string;
   /** Request body */
-  body?: ReviewsReplyRequest;
+  body?: ReviewsReplyRequest | undefined;
 }
 /** The result of replying/updating a reply to review. */
 export interface ReviewReplyResult {
   /** The time at which the reply took effect. */
-  lastEdited?: Timestamp;
+  lastEdited?: Timestamp | undefined;
   /** The reply text that was applied. */
-  replyText?: string;
+  replyText?: string | undefined;
 }
 /** Response on status of replying to a review. */
 export interface ReviewsReplyResponse {
   /** The result of replying/updating a reply to review. */
-  result?: ReviewReplyResult;
+  result?: ReviewReplyResult | undefined;
 }
 export type OrdersReviewRefundRequestRefundPreferenceEnum =
   | "REFUND_PREFERENCE_UNSPECIFIED"
@@ -4815,42 +4868,42 @@ export type OrdersReviewRefundRequestRefundPreferenceEnum =
 /** Coarse Geographic location details for where the consumption happened. */
 export interface CoarseLocation {
   /** Required. [CLDR region code](https://cldr.unicode.org/) of the country/region of the address. This value is never inferred and you must ensure the value is correct. Example: "CH" for Switzerland. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty. */
-  locality?: string;
+  locality?: string | undefined;
   /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. For most addresses, you can omit this. */
-  sublocality?: string;
+  sublocality?: string | undefined;
   /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string;
+  administrativeArea?: string | undefined;
 }
 /** List of events, each representing an instance where the user consumed or used the purchased item or service. */
 export interface ConsumptionUsageEvent {
   /** Optional. Obfuscated string that is uniquely associated with the purchaser's user profile in the app. https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setObfuscatedProfileId(java.lang.String) */
-  obfuscatedProfileId?: string;
+  obfuscatedProfileId?: string | undefined;
   /** Optional. The IP address from which the consumption occurred. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Optional. Free form text that allows developers to provide more info on the item consumed. Maximum length is 5000 characters. */
-  consumptionItemDescription?: string;
+  consumptionItemDescription?: string | undefined;
   /** Optional. Geographic location where the consumption occurred. */
-  location?: CoarseLocation;
+  location?: CoarseLocation | undefined;
   /** Optional. Time when the user consumed, used, downloaded, opened, or streamed the content. */
-  consumptionTime?: string;
+  consumptionTime?: string | undefined;
   /** Optional. Obfuscated string that is uniquely associated with the purchaser's user account in the app. https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.Builder#setObfuscatedAccountId(java.lang.String) */
-  obfuscatedAccountId?: string;
+  obfuscatedAccountId?: string | undefined;
 }
 export type ConsumptionUsageEventList = Array<ConsumptionUsageEvent>;
 /** Request for the orders.reviewrefund API. */
 export interface OrdersReviewRefundRequest {
   /** Required. The pending refund token included in the pending refund review notification. */
-  pendingRefundToken?: string;
+  pendingRefundToken?: string | undefined;
   /** Optional. Percentage of the In-App purchase the customer consumed, in milliunits. Minimum: 0 Maximum: 100,000. For paid apps, this can be omitted. Example : 45200 represents 45.2%. */
-  consumptionPercentageMilliunits?: number;
+  consumptionPercentageMilliunits?: number | undefined;
   /** Required. Indicates your preference, based on your operational logic, as to whether the Play Store should grant the refund. */
-  refundPreference?: OrdersReviewRefundRequestRefundPreferenceEnum | (string & {});
+  refundPreference?: OrdersReviewRefundRequestRefundPreferenceEnum | (string & {}) | undefined;
   /** Required. Indicates whether you provided a free sample, trial, or information about the functionality prior to the purchase. */
-  sampleContentProvided?: boolean;
+  sampleContentProvided?: boolean | undefined;
   /** Optional. List of events, each representing an instance where the user consumed or used the purchased item or service. Lists with over 1000 items will be rejected. */
-  consumptionUsageEvents?: ConsumptionUsageEventList;
+  consumptionUsageEvents?: ConsumptionUsageEventList | undefined;
 }
 export interface ReviewrefundOrdersRequest {
   /** Required. The order ID provided to the user when the subscription or in-app order was purchased. */
@@ -4858,7 +4911,7 @@ export interface ReviewrefundOrdersRequest {
   /** Required. The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
   packageName: string;
   /** Request body */
-  body?: OrdersReviewRefundRequest;
+  body?: OrdersReviewRefundRequest | undefined;
 }
 export interface ReviewrefundOrdersResponse {}
 /** Used to determine if the refund type in the RevocationContext is a prorated refund. */
@@ -4866,23 +4919,23 @@ export type RevocationContextProratedRefund = OneTimeProductOfferNoPriceOverride
 /** Used to determine what specific item to revoke in a subscription with multiple items. */
 export interface RevocationContextItemBasedRefund {
   /** Required. If the subscription is a subscription with add-ons, the product id of the subscription item to revoke. */
-  productId?: string;
+  productId?: string | undefined;
 }
 /** Used to determine if the refund type in the RevocationContext is a full refund. */
 export type RevocationContextFullRefund = OneTimeProductOfferNoPriceOverrideOptions;
 /** Revocation context of the purchases.subscriptionsv2.revoke API. */
 export interface RevocationContext {
   /** Optional. Used when users should be refunded a prorated amount they paid for their subscription based on the amount of time remaining in a subscription. */
-  proratedRefund?: OneTimeProductOfferNoPriceOverrideOptions;
+  proratedRefund?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
   /** Optional. Used when a specific item should be refunded in a subscription with add-on items. */
-  itemBasedRefund?: RevocationContextItemBasedRefund;
+  itemBasedRefund?: RevocationContextItemBasedRefund | undefined;
   /** Optional. Used when users should be refunded the full amount of latest charge on each item in the subscription. */
-  fullRefund?: OneTimeProductOfferNoPriceOverrideOptions;
+  fullRefund?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 /** Request for the purchases.subscriptionsv2.revoke API. */
 export interface RevokeSubscriptionPurchaseRequest {
   /** Required. Additional details around the subscription revocation. */
-  revocationContext?: RevocationContext;
+  revocationContext?: RevocationContext | undefined;
 }
 export interface RevokePurchasesSubscriptionsv2Request {
   /** Required. The token provided to the user's device when the subscription was purchased. */
@@ -4890,7 +4943,7 @@ export interface RevokePurchasesSubscriptionsv2Request {
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
   /** Request body */
-  body?: RevokeSubscriptionPurchaseRequest;
+  body?: RevokeSubscriptionPurchaseRequest | undefined;
 }
 /** Response for the purchases.subscriptionsv2.revoke API. */
 export interface RevokeSubscriptionPurchaseResponse {}
@@ -4904,192 +4957,192 @@ export type RotateAppSigningKeyRequestKeyRotationReasonEnum =
 /** Message representing rotated Cloud KMS key. Consists of the Cloud KMS key and its associated proof of rotation. */
 export interface RotatedCloudKmsKey {
   /** Required. Cloud KMS key and the certificate associated with the key. */
-  cloudKmsKeyAndCert?: CloudKmsKeyAndCert;
+  cloudKmsKeyAndCert?: CloudKmsKeyAndCert | undefined;
   /** Required. Proof-of-rotation. See [creating signing certificate lineages](https://developer.android.com/studio/command-line/apksigner#rotate_signing_keys_2). */
-  signingCertificateLineage?: string;
+  signingCertificateLineage?: string | undefined;
 }
 /** Request to rotate an app's signing key. */
 export interface RotateAppSigningKeyRequest {
   /** Required. Reason for rotating the app key. */
-  keyRotationReason?: RotateAppSigningKeyRequestKeyRotationReasonEnum | (string & {});
+  keyRotationReason?: RotateAppSigningKeyRequestKeyRotationReasonEnum | (string & {}) | undefined;
   /** Required. Self-hosted Cloud KMS key. */
-  rotatedCloudKmsKey?: RotatedCloudKmsKey;
+  rotatedCloudKmsKey?: RotatedCloudKmsKey | undefined;
 }
 export interface RotateAppSigningKeyAppsigningRequest {
   /** Required. Either package name or app ID of the app rotating the signing key. */
   name: string;
   /** Request body */
-  body?: RotateAppSigningKeyRequest;
+  body?: RotateAppSigningKeyRequest | undefined;
 }
 /** Response to rotate an app's signing key. */
 export interface RotateAppSigningKeyResponse {
   /** The rotated key certificate hashes for the app. Always set. */
-  rotatedKeyCertificate?: CertificateHashes;
+  rotatedKeyCertificate?: CertificateHashes | undefined;
 }
 /** An installable set of active APKs. All APKs in this set should belong to the same version of the app. A set of APKs might only contain 1 APK if the app in question publishes using APKs. If the app uses app bundles (or a similar technology), this set should contain all APKs (even optional ones) that might be installed for this app. A set of APKs should be installable together. If certain APKs are exclusive to one another and cannot be installed together, then a separate AppStoreAppActiveApkSet should be created. */
 export interface AppStoreAppActiveApkSet {
   /** Required. The ID for the main base application module. Example: base.apk or app.apk. */
-  baseApkId?: string;
+  baseApkId?: string | undefined;
   /** Optional. IDs for split modules that might be installed in combination with the base APK. Can be empty if app bundles (or a similar technology) are not used. Example: config.en.apk. */
-  splitApkId?: StringList;
+  splitApkId?: StringList | undefined;
   /** Optional. Version code for the version this APK set represents. */
-  versionCode?: string;
+  versionCode?: string | undefined;
   /** Optional. Whether all APKs referenced in this active APK set are published on Play Store (or derived from an app bundle published on Play Store). When this is set, version_code must be provided. */
-  alreadyPublishedOnPlay?: boolean;
+  alreadyPublishedOnPlay?: boolean | undefined;
 }
 export type AppStoreAppActiveApkSetList = Array<AppStoreAppActiveApkSet>;
 /** Information about active APKs of an app store hosted app. */
 export interface AppStoreAppActiveApks {
   /** Required. List specifying which APK sets are distributed together. This list should contain all APKs that you're distributing for this app. Add an entry for each individual installable set of APKs. */
-  activeApkSets?: AppStoreAppActiveApkSetList;
+  activeApkSets?: AppStoreAppActiveApkSetList | undefined;
 }
 /** Any response where multiple options can be chosen from several possibilities. */
 export interface PolicyMultipleChoiceResponse {
   /** Optional. Provided values. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 /** Any response where a single option is chosen from several possibilities. */
 export interface PolicySingleChoiceResponse {
   /** Required. Provided value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** An uploaded document. Must be a single logical document (e.g. a financial license). */
 export interface PolicyDocumentResponse {
   /** Required. ID of the uploaded document. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Optional. Expiry date for the document. */
-  expiryDate?: Androidpublisher_Date;
+  expiryDate?: Androidpublisher_Date | undefined;
   /** Optional. True if confirmed that the document does not have an expiry date. */
-  nonExpiring?: boolean;
+  nonExpiring?: boolean | undefined;
 }
 /** Any response best encoded as a string. Includes URLs and multiline text fields. */
 export interface PolicyStringResponse {
   /** Required. Provided string value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Responses that will only ever be a boolean. */
 export interface PolicyBooleanResponse {
   /** Required. Provided boolean value. */
-  value?: boolean;
+  value?: boolean | undefined;
 }
 /** An individual nested response to a policy question about an app. Nested responses are like regular responses but without groups. */
 export interface NestedPolicyResponse {
   /** Optional. A multiple choice response. */
-  multipleChoiceResponse?: PolicyMultipleChoiceResponse;
+  multipleChoiceResponse?: PolicyMultipleChoiceResponse | undefined;
   /** Optional. A single choice response. */
-  singleChoiceResponse?: PolicySingleChoiceResponse;
+  singleChoiceResponse?: PolicySingleChoiceResponse | undefined;
   /** Optional. A document response. */
-  documentResponse?: PolicyDocumentResponse;
+  documentResponse?: PolicyDocumentResponse | undefined;
   /** Optional. A string response. */
-  stringResponse?: PolicyStringResponse;
+  stringResponse?: PolicyStringResponse | undefined;
   /** Required. ID of the question being answered. */
-  questionId?: string;
+  questionId?: string | undefined;
   /** Optional. A boolean response. */
-  booleanResponse?: PolicyBooleanResponse;
+  booleanResponse?: PolicyBooleanResponse | undefined;
 }
 export type NestedPolicyResponseList = Array<NestedPolicyResponse>;
 /** A group of responses, with a key. */
 export interface KeyedGroup {
   /** Required. Responses in this group. */
-  responses?: NestedPolicyResponseList;
+  responses?: NestedPolicyResponseList | undefined;
   /** Required. Key for this group. */
-  key?: string;
+  key?: string | undefined;
 }
 export type KeyedGroupList = Array<KeyedGroup>;
 /** A group of responses each identified by a distinct key within an allowed set. */
 export interface PolicyKeyedGroupResponse {
   /** Optional. Groups of responses to questions. Each KeyedGroup.key must be unique within this list. */
-  groups?: KeyedGroupList;
+  groups?: KeyedGroupList | undefined;
 }
 /** A group of responses. */
 export interface Group {
   /** Required. Responses within a group. */
-  responses?: NestedPolicyResponseList;
+  responses?: NestedPolicyResponseList | undefined;
 }
 export type GroupList = Array<Group>;
 /** A repeated group of responses. */
 export interface PolicyGroupResponse {
   /** Optional. Groups of responses to questions. */
-  groups?: GroupList;
+  groups?: GroupList | undefined;
 }
 /** An individual response (answer) to a policy question about an app. */
 export interface PolicyResponse {
   /** Optional. A keyed group response. */
-  keyedGroupResponse?: PolicyKeyedGroupResponse;
+  keyedGroupResponse?: PolicyKeyedGroupResponse | undefined;
   /** Optional. A string response. */
-  stringResponse?: PolicyStringResponse;
+  stringResponse?: PolicyStringResponse | undefined;
   /** Optional. A single choice response. */
-  singleChoiceResponse?: PolicySingleChoiceResponse;
+  singleChoiceResponse?: PolicySingleChoiceResponse | undefined;
   /** Optional. A boolean response. */
-  booleanResponse?: PolicyBooleanResponse;
+  booleanResponse?: PolicyBooleanResponse | undefined;
   /** Optional. A multiple choice response. */
-  multipleChoiceResponse?: PolicyMultipleChoiceResponse;
+  multipleChoiceResponse?: PolicyMultipleChoiceResponse | undefined;
   /** Optional. A group response. */
-  groupResponse?: PolicyGroupResponse;
+  groupResponse?: PolicyGroupResponse | undefined;
   /** Required. ID of the question being answered. */
-  questionId?: string;
+  questionId?: string | undefined;
   /** Optional. A document response. */
-  documentResponse?: PolicyDocumentResponse;
+  documentResponse?: PolicyDocumentResponse | undefined;
 }
 export type PolicyResponseList = Array<PolicyResponse>;
 /** A policy declaration with its responses. */
 export interface AppStoreAppPolicyDeclaration {
   /** Required. ID of the policy declaration. */
-  declarationId?: string;
+  declarationId?: string | undefined;
   /** Required. Responses provided for this declaration. */
-  responses?: PolicyResponseList;
+  responses?: PolicyResponseList | undefined;
 }
 export type AppStoreAppPolicyDeclarationList = Array<AppStoreAppPolicyDeclaration>;
 /** Details about the app. */
 export interface AppStoreAppDetails {
   /** Required. The app developer's contact email address. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** Required. The app developer's name. */
-  developerName?: string;
+  developerName?: string | undefined;
   /** Optional. Website link for the developer or app. */
-  developerWebsite?: string;
+  developerWebsite?: string | undefined;
 }
 /** A localized store listing. These are the details about the app as shown in your app store. */
 export interface AppStoreAppStoreListing {
   /** Required. Language code (e.g., "en-US") of the listing. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Optional. Quick summary about the app. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** Required. Image ID generated from UploadImage for the main app icon. */
-  appIconId?: string;
+  appIconId?: string | undefined;
   /** Optional. Link to a video about the app. */
-  videoLink?: string;
+  videoLink?: string | undefined;
   /** Required. Multiple image IDs for screenshot galleries. */
-  screenshotId?: StringList;
+  screenshotId?: StringList | undefined;
   /** Required. The title of the app. */
-  appName?: string;
+  appName?: string | undefined;
   /** Required. Comprehensive description text about the app. */
-  fullDescription?: string;
+  fullDescription?: string | undefined;
 }
 export type AppStoreAppStoreListingList = Array<AppStoreAppStoreListing>;
 /** Request to update an app record for an app store hosted app. */
 export interface UpdateAppStoreHostedAppRequest {
   /** Required. Actively distributed APKs of the app. */
-  activeApks?: AppStoreAppActiveApks;
+  activeApks?: AppStoreAppActiveApks | undefined;
   /** Required. Policy declarations provided for the app. */
-  policyDeclarations?: AppStoreAppPolicyDeclarationList;
+  policyDeclarations?: AppStoreAppPolicyDeclarationList | undefined;
   /** Required. General developer details for the app. */
-  appDetails?: AppStoreAppDetails;
+  appDetails?: AppStoreAppDetails | undefined;
   /** Required. Localized store listings details of the update. */
-  activeLocalizedStoreListings?: AppStoreAppStoreListingList;
+  activeLocalizedStoreListings?: AppStoreAppStoreListingList | undefined;
   /** Required. Package name of the app. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 export interface UpdateappstorehostedappAppstoreappsreviewRequest {
   /** Required. Package name of the third-party app store. */
   appStorePackageName: string;
   /** Request body */
-  body?: UpdateAppStoreHostedAppRequest;
+  body?: UpdateAppStoreHostedAppRequest | undefined;
 }
 /** Response for updating an app record for an app store hosted app. */
 export interface UpdateAppStoreHostedAppResponse {
   /** Unique identifier for the specific version of the hosted app submitted in this update. This identifier can be used to correlate publishing signals (such as those returned by ListHostedAppsPublishingSignals) with this specific app update. */
-  updateId?: string;
+  updateId?: string | undefined;
 }
 export type UpdateAppStoreHostedAppPublishStatusRequestPublishStateEnum =
   | "APP_STORE_APP_PUBLISH_STATE_UNSPECIFIED"
@@ -5098,7 +5151,10 @@ export type UpdateAppStoreHostedAppPublishStatusRequestPublishStateEnum =
 /** Request to update the publish status of an app store hosted app. The default state for any app with an update is PUBLISHED. It is not necessary to call this RPC explicitly to set an app to PUBLISHED. */
 export interface UpdateAppStoreHostedAppPublishStatusRequest {
   /** Required. The new publish state for the hosted app. */
-  publishState?: UpdateAppStoreHostedAppPublishStatusRequestPublishStateEnum | (string & {});
+  publishState?:
+    | UpdateAppStoreHostedAppPublishStatusRequestPublishStateEnum
+    | (string & {})
+    | undefined;
 }
 export interface UpdateappstorehostedapppublishstatusAppstoreappsreviewRequest {
   /** Required. Package name of the third-party app store. */
@@ -5106,7 +5162,7 @@ export interface UpdateappstorehostedapppublishstatusAppstoreappsreviewRequest {
   /** Required. Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: UpdateAppStoreHostedAppPublishStatusRequest;
+  body?: UpdateAppStoreHostedAppPublishStatusRequest | undefined;
 }
 /** Response for updating the publish status of an app store hosted app. */
 export interface UpdateAppStoreHostedAppPublishStatusResponse {}
@@ -5116,7 +5172,7 @@ export interface UpdateEditsDetailsRequest {
   /** Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: AppDetails;
+  body?: AppDetails | undefined;
 }
 export type UpdateEditsExpansionfilesExpansionFileTypeEnum =
   | "expansionFileTypeUnspecified"
@@ -5132,7 +5188,7 @@ export interface UpdateEditsExpansionfilesRequest {
   /** Identifier of the edit. */
   editId: string;
   /** Request body */
-  body?: ExpansionFile;
+  body?: ExpansionFile | undefined;
 }
 export interface UpdateEditsListingsRequest {
   /** Package name of the app. */
@@ -5142,7 +5198,7 @@ export interface UpdateEditsListingsRequest {
   /** Identifier of the edit. */
   editId: string;
   /** Request body */
-  body?: Listing;
+  body?: Listing | undefined;
 }
 export interface UpdateEditsTestersRequest {
   /** Package name of the app. */
@@ -5152,7 +5208,7 @@ export interface UpdateEditsTestersRequest {
   /** The track to update. */
   track: string;
   /** Request body */
-  body?: Testers;
+  body?: Testers | undefined;
 }
 export interface UpdateEditsTracksRequest {
   /** Identifier of the edit. */
@@ -5162,7 +5218,7 @@ export interface UpdateEditsTracksRequest {
   /** Identifier of the track. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
   track: string;
   /** Request body */
-  body?: Track;
+  body?: Track | undefined;
 }
 export type UpdateInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -5174,13 +5230,13 @@ export interface UpdateInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
   /** If set to true, and the in-app product with the given package_name and sku doesn't exist, the in-app product will be created. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** If true the prices for all regions targeted by the parent app that don't have a price specified for this in-app product will be auto converted to the target currency based on the default price. Defaults to false. */
-  autoConvertMissingPrices?: boolean;
+  autoConvertMissingPrices?: boolean | undefined;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
-  latencyTolerance?: UpdateInappproductsLatencyToleranceEnum | (string & {});
+  latencyTolerance?: UpdateInappproductsLatencyToleranceEnum | (string & {}) | undefined;
   /** Request body */
-  body?: InAppProduct;
+  body?: InAppProduct | undefined;
 }
 /** Request to upload an APK. */
 export type UploadApkRequest = OneTimeProductOfferNoPriceOverrideOptions;
@@ -5190,12 +5246,12 @@ export interface UploadapkAppstoreappsreviewRequest {
   /** Required. Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: OneTimeProductOfferNoPriceOverrideOptions;
+  body?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 /** Response for uploading an APK. */
 export interface UploadApkResponse {
   /** The unique ID of the uploaded APK. */
-  apkId?: string;
+  apkId?: string | undefined;
 }
 export interface UploadapkInternalappsharingartifactsRequest {
   /** Package name of the app. */
@@ -5204,11 +5260,11 @@ export interface UploadapkInternalappsharingartifactsRequest {
 /** An artifact resource which gets created when uploading an APK or Android App Bundle through internal app sharing. */
 export interface InternalAppSharingArtifact {
   /** The sha256 fingerprint of the certificate used to sign the generated artifact. */
-  certificateFingerprint?: string;
+  certificateFingerprint?: string | undefined;
   /** The download URL generated for the uploaded artifact. Users that are authorized to download can follow the link to the Play Store app to install it. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** The sha256 hash of the artifact represented as a lowercase hexadecimal number, matching the output of the sha256sum command. */
-  sha256?: string;
+  sha256?: string | undefined;
 }
 export type UploadAppStoreAppPolicyDeclarationFileRequestFileTypeEnum =
   | "DECLARATION_FILE_TYPE_UNSPECIFIED"
@@ -5216,7 +5272,7 @@ export type UploadAppStoreAppPolicyDeclarationFileRequestFileTypeEnum =
 /** Request to upload a policy declaration file. */
 export interface UploadAppStoreAppPolicyDeclarationFileRequest {
   /** Required. Type of the policy declaration file. */
-  fileType?: UploadAppStoreAppPolicyDeclarationFileRequestFileTypeEnum | (string & {});
+  fileType?: UploadAppStoreAppPolicyDeclarationFileRequestFileTypeEnum | (string & {}) | undefined;
 }
 export interface UploadappstoreapppolicydeclarationfileAppstoreappsreviewRequest {
   /** Required. Package name of the app. */
@@ -5224,12 +5280,12 @@ export interface UploadappstoreapppolicydeclarationfileAppstoreappsreviewRequest
   /** Required. Package name of the third-party app store. */
   appStorePackageName: string;
   /** Request body */
-  body?: UploadAppStoreAppPolicyDeclarationFileRequest;
+  body?: UploadAppStoreAppPolicyDeclarationFileRequest | undefined;
 }
 /** Response for uploading a policy declaration file. */
 export interface UploadAppStoreAppPolicyDeclarationFileResponse {
   /** The unique ID of the uploaded file. */
-  fileId?: string;
+  fileId?: string | undefined;
 }
 export interface UploadbundleInternalappsharingartifactsRequest {
   /** Package name of the app. */
@@ -5243,11 +5299,11 @@ export interface UploadEditsApksRequest {
 }
 export interface UploadEditsBundlesRequest {
   /** Deprecated. The installation warning has been removed, it's not necessary to set this field anymore. */
-  ackBundleInstallationWarning?: boolean;
+  ackBundleInstallationWarning?: boolean | undefined;
   /** Package name of the app. */
   packageName: string;
   /** Device tier config (DTC) to be used for generating deliverables (APKs). Contains id of the DTC or "LATEST" for last uploaded DTC. */
-  deviceTierConfigId?: string;
+  deviceTierConfigId?: string | undefined;
   /** Identifier of the edit. */
   editId: string;
 }
@@ -5272,12 +5328,12 @@ export type DeobfuscationFileSymbolTypeEnum =
 /** Represents a deobfuscation file. */
 export interface DeobfuscationFile {
   /** The type of the deobfuscation file. */
-  symbolType?: DeobfuscationFileSymbolTypeEnum;
+  symbolType?: DeobfuscationFileSymbolTypeEnum | undefined;
 }
 /** Responses for the upload. */
 export interface DeobfuscationFilesUploadResponse {
   /** The uploaded Deobfuscation File configuration. */
-  deobfuscationFile?: DeobfuscationFile;
+  deobfuscationFile?: DeobfuscationFile | undefined;
 }
 export type UploadEditsExpansionfilesExpansionFileTypeEnum =
   | "expansionFileTypeUnspecified"
@@ -5296,7 +5352,7 @@ export interface UploadEditsExpansionfilesRequest {
 /** Response for uploading an expansion file. */
 export interface ExpansionFilesUploadResponse {
   /** The uploaded expansion file configuration. */
-  expansionFile?: ExpansionFile;
+  expansionFile?: ExpansionFile | undefined;
 }
 export type UploadEditsImagesImageTypeEnum =
   | "appImageTypeUnspecified"
@@ -5318,7 +5374,7 @@ export interface UploadEditsImagesRequest {
   /** Type of the Image. */
   imageType: UploadEditsImagesImageTypeEnum | (string & {});
   /** Optional. Whether the image was generated by AI. Attested by the developer. */
-  aiGeneratedState?: UploadEditsImagesAiGeneratedStateEnum | (string & {});
+  aiGeneratedState?: UploadEditsImagesAiGeneratedStateEnum | (string & {}) | undefined;
   /** Identifier of the edit. */
   editId: string;
   /** Package name of the app. */
@@ -5327,7 +5383,7 @@ export interface UploadEditsImagesRequest {
 /** Response for uploading an image. */
 export interface ImagesUploadResponse {
   /** The uploaded image. */
-  image?: Image;
+  image?: Image | undefined;
 }
 /** Request to upload an image. */
 export type UploadImageRequest = OneTimeProductOfferNoPriceOverrideOptions;
@@ -5337,12 +5393,12 @@ export interface UploadimageAppstoreappsreviewRequest {
   /** Required. Package name of the app. */
   packageName: string;
   /** Request body */
-  body?: OneTimeProductOfferNoPriceOverrideOptions;
+  body?: OneTimeProductOfferNoPriceOverrideOptions | undefined;
 }
 /** Response for uploading an image. */
 export interface UploadImageResponse {
   /** The unique ID of the uploaded image. */
-  imageId?: string;
+  imageId?: string | undefined;
 }
 export interface ValidateEditsRequest {
   /** Package name of the app. */

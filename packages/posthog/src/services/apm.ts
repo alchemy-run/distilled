@@ -27,13 +27,13 @@ export interface ListApmEndpointsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Start of the window, ISO 8601. Defaults to one hour before date_to. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the window, ISO 8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Environment to list, as resolved from span resource attributes. Defaults to 'default'. */
-  environment?: string;
+  environment?: string | undefined;
   /** Only list the endpoints of this service. */
-  service?: string;
+  service?: string | undefined;
 }
 /** * `good` - Good * `warning` - Warning * `serious` - Serious * `critical` - Critical */
 export type HealthStatusEnum = "good" | "warning" | "serious" | "critical";
@@ -79,11 +79,11 @@ export interface ListApmServiceMapRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Start of the window, ISO 8601. Defaults to one hour before date_to. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the window, ISO 8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Environment to list, as resolved from span resource attributes. Defaults to 'default'. */
-  environment?: string;
+  environment?: string | undefined;
 }
 export interface ServiceEdge {
   /** The calling service. */
@@ -115,11 +115,11 @@ export interface ListApmServicesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Start of the window, ISO 8601. Defaults to one hour before date_to. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the window, ISO 8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Environment to list, as resolved from span resource attributes. Defaults to 'default'. */
-  environment?: string;
+  environment?: string | undefined;
 }
 /** Request counts per bucket across the window, oldest first. */
 export type ServiceHealthSparklineList = Array<number>;

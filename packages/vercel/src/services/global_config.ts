@@ -73,15 +73,15 @@ export class PaymentRequired
 export type CreateEdgeConfigRequestItemsMap = { [key: string]: unknown | undefined };
 export interface CreateEdgeConfigRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  items?: CreateEdgeConfigRequestItemsMap;
+  slug?: string | undefined;
+  items?: CreateEdgeConfigRequestItemsMap | undefined;
 }
 export interface CreateEdgeConfigResponse {
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   digest: string;
   id: string;
   itemCount: number;
@@ -94,9 +94,9 @@ export interface CreateEdgeConfigResponse {
 export interface CreateEdgeConfigTokenRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   label: string;
 }
 export interface CreateEdgeConfigTokenResponse {
@@ -106,17 +106,17 @@ export interface CreateEdgeConfigTokenResponse {
 export interface DeleteEdgeConfigRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteEdgeConfigResponse {}
 export interface DeleteEdgeConfigSchemaRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteEdgeConfigSchemaResponse {}
 export type DeleteEdgeConfigTokensRequestTokensList = Array<string>;
@@ -124,24 +124,24 @@ export type DeleteEdgeConfigTokensRequestIdsList = Array<string>;
 export interface DeleteEdgeConfigTokensRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  tokens?: DeleteEdgeConfigTokensRequestTokensList;
-  ids?: DeleteEdgeConfigTokensRequestIdsList;
+  slug?: string | undefined;
+  tokens?: DeleteEdgeConfigTokensRequestTokensList | undefined;
+  ids?: DeleteEdgeConfigTokensRequestIdsList | undefined;
 }
 export interface DeleteEdgeConfigTokensResponse {}
 export interface GetEdgeConfigRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetEdgeConfigResponse {
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   digest: string;
   id: string;
   itemCount: number;
@@ -155,9 +155,9 @@ export interface GetEdgeConfigBackupRequest {
   edgeConfigId: string;
   edgeConfigBackupVersionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GlobalConfigItemValueCase2Map = { [key: string]: GlobalConfigItemValue | undefined };
 export type GlobalConfigItemValueCase3List = Array<GlobalConfigItemValue>;
@@ -169,7 +169,7 @@ export type GlobalConfigItemValue =
   | boolean;
 export interface GetEdgeConfigBackupResponseBodyCase0BackupItemsValue {
   createdAt: number;
-  description?: string;
+  description?: string | undefined;
   updatedAt: number;
   value: GlobalConfigItemValue | null;
 }
@@ -184,17 +184,17 @@ export interface GetEdgeConfigBackupResponseBodyCase0Backup {
   updatedAt: number;
 }
 export interface GetEdgeConfigBackupResponseBodyCase0Metadata {
-  itemsBytes?: number;
-  itemsCount?: number;
-  updatedAt?: string;
-  updatedBy?: string;
+  itemsBytes?: number | undefined;
+  itemsCount?: number | undefined;
+  updatedAt?: string | undefined;
+  updatedBy?: string | undefined;
 }
 /** Omitted when the caller cannot list team members. */
 export interface GetEdgeConfigBackupResponseBodyCase0User {
-  avatar?: string;
+  avatar?: string | undefined;
   email: string;
   id: string;
-  name?: string;
+  name?: string | undefined;
   username: string;
 }
 /** The object the API responds with when requesting a Global Config backup */
@@ -204,7 +204,7 @@ export interface GetEdgeConfigBackupResponseBodyCase0 {
   lastModified: number;
   metadata: GetEdgeConfigBackupResponseBodyCase0Metadata;
   /** Omitted when the caller cannot list team members. */
-  user?: GetEdgeConfigBackupResponseBodyCase0User;
+  user?: GetEdgeConfigBackupResponseBodyCase0User | undefined;
 }
 export type GetEdgeConfigBackupResponseBodyCase1BackupItemsValue =
   GetEdgeConfigBackupResponseBodyCase0BackupItemsValue;
@@ -234,18 +234,18 @@ export type GetEdgeConfigBackupResponseBody =
 export type GetEdgeConfigBackupResponse = GetEdgeConfigBackupResponseBody;
 export interface GetEdgeConfigBackupsRequest {
   edgeConfigId: string;
-  next?: string;
-  limit?: number;
-  metadata?: string;
+  next?: string | undefined;
+  limit?: number | undefined;
+  metadata?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetEdgeConfigBackupsResponseBackupsItemMetadata =
   GetEdgeConfigBackupResponseBodyCase0Metadata;
 export interface GetEdgeConfigBackupsResponseBackupsItem {
-  metadata?: GetEdgeConfigBackupResponseBodyCase0Metadata;
+  metadata?: GetEdgeConfigBackupResponseBodyCase0Metadata | undefined;
   id: string;
   lastModified: number;
 }
@@ -253,7 +253,7 @@ export type GetEdgeConfigBackupsResponseBackupsList =
   Array<GetEdgeConfigBackupsResponseBackupsItem>;
 export interface GetEdgeConfigBackupsResponsePagination {
   hasNext: boolean;
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetEdgeConfigBackupsResponse {
   backups: GetEdgeConfigBackupsResponseBackupsList;
@@ -263,14 +263,14 @@ export interface GetEdgeConfigItemRequest {
   edgeConfigId: string;
   edgeConfigItemKey: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The Global Config. */
 export interface GlobalConfigItem {
   createdAt: number;
-  description?: string;
+  description?: string | undefined;
   edgeConfigId: string;
   key: string;
   updatedAt: number;
@@ -279,23 +279,23 @@ export interface GlobalConfigItem {
 export interface GetEdgeConfigItemsRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetEdgeConfigItemsResponseBodyList = Array<GlobalConfigItem>;
 export type GetEdgeConfigItemsResponse = GetEdgeConfigItemsResponseBodyList;
 export interface GetEdgeConfigsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** A Global Config */
 export interface GetEdgeConfigsResponseBodyItem {
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   digest: string;
   id: string;
   itemCount: number;
@@ -310,18 +310,18 @@ export type GetEdgeConfigsResponse = GetEdgeConfigsResponseBodyList;
 export interface GetEdgeConfigSchemaRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetEdgeConfigSchemaResponse = unknown;
 export interface GetEdgeConfigTokenRequest {
   edgeConfigId: string;
   token: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The Global Config. */
 export interface GlobalConfigToken {
@@ -333,14 +333,14 @@ export interface GlobalConfigToken {
   /** A partially-masked representation of the token, safe to display in UIs. The format is the first 3 characters of the token followed by a fixed 8-character `*` mask (e.g. `550e8400-e29b-41d4-a716-446655440000` -> `550********`). The mask length is intentionally fixed (not proportional to the original token length) to avoid leaking the token length. Prefer this field for display/reference in UIs and logs. The full, plaintext token is only disclosed once at creation time via `POST /v1/edge-config/:edgeConfigId/token`; use `id` to reference a token in subsequent calls (e.g. when deleting). */
   partialToken: string;
   /** Deprecated: the full, plaintext token. - Returned once by `POST /v1/edge-config/:edgeConfigId/token` (create). - Still returned by `GET /v1/edge-config/:edgeConfigId/token/:token` (detail) for backwards compatibility, but scheduled for removal. - **Not** returned by `GET /v1/edge-config/:edgeConfigId/tokens` (list); use `partialToken` for display and `id` to reference tokens. Do not rely on this field being present on read operations. Prefer `partialToken` for display and `id` for references. */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetEdgeConfigTokensRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetEdgeConfigTokensResponseBodyList = Array<GlobalConfigToken>;
 export type GetEdgeConfigTokensResponse = GetEdgeConfigTokensResponseBodyList;
@@ -369,9 +369,9 @@ export type PatchEdgeConfigItemsRequestItemsList = Array<PatchEdgeConfigItemsReq
 export interface PatchEdgeConfigItemsRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   items: PatchEdgeConfigItemsRequestItemsList;
 }
 export interface PatchEdgeConfigItemsResponse {
@@ -379,11 +379,11 @@ export interface PatchEdgeConfigItemsResponse {
 }
 export interface PatchEdgeConfigSchemaRequest {
   edgeConfigId: string;
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   definition: unknown;
 }
 export type PatchEdgeConfigSchemaResponse = unknown;
@@ -391,9 +391,9 @@ export interface RestoreEdgeConfigBackupRequest {
   edgeConfigId: string;
   edgeConfigBackupVersionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type RestoreEdgeConfigBackupResponseStatus = "ok";
 export interface RestoreEdgeConfigBackupResponse {
@@ -405,14 +405,14 @@ export interface RestoreEdgeConfigBackupResponse {
 export interface UpdateEdgeConfigRequest {
   edgeConfigId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateEdgeConfigResponse {
   createdAt: number;
   /** The ID of the user who created the Global Config, optional because it is not always set. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   digest: string;
   id: string;
   itemCount: number;

@@ -107,15 +107,15 @@ export interface GetTransactionalEmailLogResultRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only sends queued at or after this time. Defaults to 7 days ago. The log keeps sends for 30 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only sends queued before this time. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** The event that counts as a conversion, such as `signed_up`. */
   event: string;
   /** An event property holding a revenue amount to add up. */
-  revenue_property?: string;
+  revenue_property?: string | undefined;
   /** How many days after the first send the event still counts. */
-  window_days?: number;
+  window_days?: number | undefined;
   /** The workflow behind the transactional email. */
   workflow_id: string;
 }
@@ -134,11 +134,11 @@ export interface GetTransactionalEmailLogStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only sends queued at or after this time. Defaults to 7 days ago. The log keeps sends for 30 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only sends queued before this time. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Count per template or per sending domain. * `template` - Template * `sending_domain` - Sending domain */
-  group_by?: GetTransactionalEmailLogStatRequestGroupBy | (string & {});
+  group_by?: GetTransactionalEmailLogStatRequestGroupBy | (string & {}) | undefined;
 }
 export interface TransactionalEmailStatsRow {
   /** The template ID or the sending domain. */
@@ -170,9 +170,9 @@ export interface GetTransactionalEmailLogStatsOverTimeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only sends queued at or after this time. Defaults to 7 days ago. The log keeps sends for 30 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only sends queued before this time. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 /** * `minute` - Minute * `hour` - Hour * `day` - Day */
 export type EmailStatsIntervalEnum = "minute" | "hour" | "day";
@@ -217,19 +217,19 @@ export interface ListTransactionalEmailLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only sends queued at or after this time. Defaults to 7 days ago. The log keeps sends for 30 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only sends queued before this time. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Page size. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sends to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** A `message_id` for an exact match, or part of the recipient's email address. */
-  search?: string;
+  search?: string | undefined;
   /** Only sends in this delivery status. * `queued` - Queued * `failed` - Failed * `sent` - Sent * `delivered` - Delivered * `bounced` - Bounced * `complained` - Complained */
-  status?: ListTransactionalEmailLogRequestStatus | (string & {});
+  status?: ListTransactionalEmailLogRequestStatus | (string & {}) | undefined;
   /** Only sends of the transactional email backed by this workflow. */
-  workflow_id?: string;
+  workflow_id?: string | undefined;
 }
 export interface TransactionalEmailLogEntry {
   /** The `message_id` that the send returned. */

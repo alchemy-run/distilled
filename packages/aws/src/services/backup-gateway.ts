@@ -129,7 +129,7 @@ export interface AssociateGatewayToServerInput {
   ServerArn: string;
 }
 export interface AssociateGatewayToServerOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export type ActivationKey = string;
 export type Name = string;
@@ -145,28 +145,28 @@ export interface CreateGatewayInput {
   ActivationKey: string;
   GatewayDisplayName: string;
   GatewayType: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateGatewayOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface DeleteGatewayInput {
   GatewayArn: string;
 }
 export interface DeleteGatewayOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface DeleteHypervisorInput {
   HypervisorArn: string;
 }
 export interface DeleteHypervisorOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export interface DisassociateGatewayFromServerInput {
   GatewayArn: string;
 }
 export interface DisassociateGatewayFromServerOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface GetBandwidthRateLimitScheduleInput {
   GatewayArn: string;
@@ -177,7 +177,7 @@ export type MinuteOfHour = number;
 export type DayOfWeek = number;
 export type DaysOfWeek = number[];
 export interface BandwidthRateLimitInterval {
-  AverageUploadRateLimitInBitsPerSec?: number;
+  AverageUploadRateLimitInBitsPerSec?: number | undefined;
   StartHourOfDay: number;
   EndHourOfDay: number;
   StartMinuteOfHour: number;
@@ -186,8 +186,8 @@ export interface BandwidthRateLimitInterval {
 }
 export type BandwidthRateLimitIntervals = BandwidthRateLimitInterval[];
 export interface GetBandwidthRateLimitScheduleOutput {
-  GatewayArn?: string;
-  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[];
+  GatewayArn?: string | undefined;
+  BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[] | undefined;
 }
 export interface GetGatewayInput {
   GatewayArn: string;
@@ -195,26 +195,26 @@ export interface GetGatewayInput {
 export type HypervisorId = string;
 export type DayOfMonth = number;
 export interface MaintenanceStartTime {
-  DayOfMonth?: number;
-  DayOfWeek?: number;
+  DayOfMonth?: number | undefined;
+  DayOfWeek?: number | undefined;
   HourOfDay: number;
   MinuteOfHour: number;
 }
 export type VpcEndpoint = string;
 export interface GatewayDetails {
-  GatewayArn?: string;
-  GatewayDisplayName?: string;
-  GatewayType?: string;
-  HypervisorId?: string;
-  LastSeenTime?: Date;
-  MaintenanceStartTime?: MaintenanceStartTime;
-  NextUpdateAvailabilityTime?: Date;
-  VpcEndpoint?: string;
-  DeprecationDate?: Date;
-  SoftwareVersion?: string;
+  GatewayArn?: string | undefined;
+  GatewayDisplayName?: string | undefined;
+  GatewayType?: string | undefined;
+  HypervisorId?: string | undefined;
+  LastSeenTime?: Date | undefined;
+  MaintenanceStartTime?: MaintenanceStartTime | undefined;
+  NextUpdateAvailabilityTime?: Date | undefined;
+  VpcEndpoint?: string | undefined;
+  DeprecationDate?: Date | undefined;
+  SoftwareVersion?: string | undefined;
 }
 export interface GetGatewayOutput {
-  Gateway?: GatewayDetails;
+  Gateway?: GatewayDetails | undefined;
 }
 export interface GetHypervisorInput {
   HypervisorArn: string;
@@ -225,18 +225,18 @@ export type LogGroupArn = string;
 export type HypervisorState = string;
 export type SyncMetadataStatus = string;
 export interface HypervisorDetails {
-  Host?: string;
-  HypervisorArn?: string;
-  KmsKeyArn?: string;
-  Name?: string;
-  LogGroupArn?: string;
-  State?: string;
-  LastSuccessfulMetadataSyncTime?: Date;
-  LatestMetadataSyncStatusMessage?: string;
-  LatestMetadataSyncStatus?: string;
+  Host?: string | undefined;
+  HypervisorArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  Name?: string | undefined;
+  LogGroupArn?: string | undefined;
+  State?: string | undefined;
+  LastSuccessfulMetadataSyncTime?: Date | undefined;
+  LatestMetadataSyncStatusMessage?: string | undefined;
+  LatestMetadataSyncStatus?: string | undefined;
 }
 export interface GetHypervisorOutput {
-  Hypervisor?: HypervisorDetails;
+  Hypervisor?: HypervisorDetails | undefined;
 }
 export interface GetHypervisorPropertyMappingsInput {
   HypervisorArn: string;
@@ -252,9 +252,9 @@ export interface VmwareToAwsTagMapping {
 export type VmwareToAwsTagMappings = VmwareToAwsTagMapping[];
 export type IamRoleArn = string;
 export interface GetHypervisorPropertyMappingsOutput {
-  HypervisorArn?: string;
-  VmwareToAwsTagMappings?: VmwareToAwsTagMapping[];
-  IamRoleArn?: string;
+  HypervisorArn?: string | undefined;
+  VmwareToAwsTagMappings?: VmwareToAwsTagMapping[] | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type ResourceArn = string;
 export interface GetVirtualMachineInput {
@@ -262,101 +262,101 @@ export interface GetVirtualMachineInput {
 }
 export type Path = string;
 export interface VmwareTag {
-  VmwareCategory?: string;
-  VmwareTagName?: string;
-  VmwareTagDescription?: string;
+  VmwareCategory?: string | undefined;
+  VmwareTagName?: string | undefined;
+  VmwareTagDescription?: string | undefined;
 }
 export type VmwareTags = VmwareTag[];
 export interface VirtualMachineDetails {
-  HostName?: string;
-  HypervisorId?: string;
-  Name?: string;
-  Path?: string;
-  ResourceArn?: string;
-  LastBackupDate?: Date;
-  VmwareTags?: VmwareTag[];
+  HostName?: string | undefined;
+  HypervisorId?: string | undefined;
+  Name?: string | undefined;
+  Path?: string | undefined;
+  ResourceArn?: string | undefined;
+  LastBackupDate?: Date | undefined;
+  VmwareTags?: VmwareTag[] | undefined;
 }
 export interface GetVirtualMachineOutput {
-  VirtualMachine?: VirtualMachineDetails;
+  VirtualMachine?: VirtualMachineDetails | undefined;
 }
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export interface ImportHypervisorConfigurationInput {
   Name: string;
   Host: string;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  KmsKeyArn?: string;
-  Tags?: Tag[];
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  KmsKeyArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportHypervisorConfigurationOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListGatewaysInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Gateway {
-  GatewayArn?: string;
-  GatewayDisplayName?: string;
-  GatewayType?: string;
-  HypervisorId?: string;
-  LastSeenTime?: Date;
+  GatewayArn?: string | undefined;
+  GatewayDisplayName?: string | undefined;
+  GatewayType?: string | undefined;
+  HypervisorId?: string | undefined;
+  LastSeenTime?: Date | undefined;
 }
 export type Gateways = Gateway[];
 export interface ListGatewaysOutput {
-  Gateways?: Gateway[];
-  NextToken?: string;
+  Gateways?: Gateway[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHypervisorsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Hypervisor {
-  Host?: string;
-  HypervisorArn?: string;
-  KmsKeyArn?: string;
-  Name?: string;
-  State?: string;
+  Host?: string | undefined;
+  HypervisorArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  Name?: string | undefined;
+  State?: string | undefined;
 }
 export type Hypervisors = Hypervisor[];
 export interface ListHypervisorsOutput {
-  Hypervisors?: Hypervisor[];
-  NextToken?: string;
+  Hypervisors?: Hypervisor[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  ResourceArn?: string;
-  Tags?: Tag[];
+  ResourceArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ListVirtualMachinesInput {
-  HypervisorArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  HypervisorArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface VirtualMachine {
-  HostName?: string;
-  HypervisorId?: string;
-  Name?: string;
-  Path?: string;
-  ResourceArn?: string;
-  LastBackupDate?: Date;
+  HostName?: string | undefined;
+  HypervisorId?: string | undefined;
+  Name?: string | undefined;
+  Path?: string | undefined;
+  ResourceArn?: string | undefined;
+  LastBackupDate?: Date | undefined;
 }
 export type VirtualMachines = VirtualMachine[];
 export interface ListVirtualMachinesOutput {
-  VirtualMachines?: VirtualMachine[];
-  NextToken?: string;
+  VirtualMachines?: VirtualMachine[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutBandwidthRateLimitScheduleInput {
   GatewayArn: string;
   BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
 export interface PutBandwidthRateLimitScheduleOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface PutHypervisorPropertyMappingsInput {
   HypervisorArn: string;
@@ -364,36 +364,36 @@ export interface PutHypervisorPropertyMappingsInput {
   IamRoleArn: string;
 }
 export interface PutHypervisorPropertyMappingsOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export interface PutMaintenanceStartTimeInput {
   GatewayArn: string;
   HourOfDay: number;
   MinuteOfHour: number;
-  DayOfWeek?: number;
-  DayOfMonth?: number;
+  DayOfWeek?: number | undefined;
+  DayOfMonth?: number | undefined;
 }
 export interface PutMaintenanceStartTimeOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface StartVirtualMachinesMetadataSyncInput {
   HypervisorArn: string;
 }
 export interface StartVirtualMachinesMetadataSyncOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export interface TagResourceInput {
   ResourceARN: string;
   Tags: Tag[];
 }
 export interface TagResourceOutput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface TestHypervisorConfigurationInput {
   GatewayArn: string;
   Host: string;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface TestHypervisorConfigurationOutput {}
 export type TagKeys = string[];
@@ -402,31 +402,31 @@ export interface UntagResourceInput {
   TagKeys: string[];
 }
 export interface UntagResourceOutput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface UpdateGatewayInformationInput {
   GatewayArn: string;
-  GatewayDisplayName?: string;
+  GatewayDisplayName?: string | undefined;
 }
 export interface UpdateGatewayInformationOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface UpdateGatewaySoftwareNowInput {
   GatewayArn: string;
 }
 export interface UpdateGatewaySoftwareNowOutput {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface UpdateHypervisorInput {
   HypervisorArn: string;
-  Host?: string;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  Name?: string;
-  LogGroupArn?: string;
+  Host?: string | undefined;
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
 export interface UpdateHypervisorOutput {
-  HypervisorArn?: string;
+  HypervisorArn?: string | undefined;
 }
 export type AssociateGatewayToServerError = ConflictException | CommonErrors;
 /**

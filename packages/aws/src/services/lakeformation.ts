@@ -218,46 +218,46 @@ export class WorkUnitsNotReadyYetException
   ) {}
 export type CatalogIdString = string;
 export interface CatalogResource {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type NameString = string;
 export interface DatabaseResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface TableWildcard {}
 export interface TableResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Name?: string;
-  TableWildcard?: TableWildcard;
+  Name?: string | undefined;
+  TableWildcard?: TableWildcard | undefined;
 }
 export type ColumnNames = string[];
 export interface ColumnWildcard {
-  ExcludedColumnNames?: string[];
+  ExcludedColumnNames?: string[] | undefined;
 }
 export interface TableWithColumnsResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   Name: string;
-  ColumnNames?: string[];
-  ColumnWildcard?: ColumnWildcard;
+  ColumnNames?: string[] | undefined;
+  ColumnWildcard?: ColumnWildcard | undefined;
 }
 export type ResourceArnString = string;
 export interface DataLocationResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ResourceArn: string;
 }
 export interface DataCellsFilterResource {
-  TableCatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  Name?: string;
+  TableCatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Name?: string | undefined;
 }
 export type LFTagValue = string;
 export type TagValueList = string[];
 export interface LFTagKeyResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
   TagValues: string[];
 }
@@ -269,54 +269,54 @@ export interface LFTag {
 }
 export type Expression = LFTag[];
 export interface LFTagPolicyResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ResourceType: ResourceType;
-  Expression?: LFTag[];
-  ExpressionName?: string;
+  Expression?: LFTag[] | undefined;
+  ExpressionName?: string | undefined;
 }
 export interface LFTagExpressionResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface RLSPolicyResource {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface Resource {
-  Catalog?: CatalogResource;
-  Database?: DatabaseResource;
-  Table?: TableResource;
-  TableWithColumns?: TableWithColumnsResource;
-  DataLocation?: DataLocationResource;
-  DataCellsFilter?: DataCellsFilterResource;
-  LFTag?: LFTagKeyResource;
-  LFTagPolicy?: LFTagPolicyResource;
-  LFTagExpression?: LFTagExpressionResource;
-  RLSPolicy?: RLSPolicyResource;
+  Catalog?: CatalogResource | undefined;
+  Database?: DatabaseResource | undefined;
+  Table?: TableResource | undefined;
+  TableWithColumns?: TableWithColumnsResource | undefined;
+  DataLocation?: DataLocationResource | undefined;
+  DataCellsFilter?: DataCellsFilterResource | undefined;
+  LFTag?: LFTagKeyResource | undefined;
+  LFTagPolicy?: LFTagPolicyResource | undefined;
+  LFTagExpression?: LFTagExpressionResource | undefined;
+  RLSPolicy?: RLSPolicyResource | undefined;
 }
 export interface LFTagPair {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
   TagValues: string[];
 }
 export type LFTagsList = LFTagPair[];
 export interface AddLFTagsToResourceRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Resource: Resource;
   LFTags: LFTagPair[];
 }
 export type DescriptionString = string;
 export interface ErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface LFTagError {
-  LFTag?: LFTagPair;
-  Error?: ErrorDetail;
+  LFTag?: LFTagPair | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type LFTagErrors = LFTagError[];
 export interface AddLFTagsToResourceResponse {
-  Failures?: LFTagError[];
+  Failures?: LFTagError[] | undefined;
 }
 export type SAMLAssertionString = string;
 export type IAMRoleArn = string;
@@ -326,32 +326,32 @@ export interface AssumeDecoratedRoleWithSAMLRequest {
   SAMLAssertion: string;
   RoleArn: string;
   PrincipalArn: string;
-  DurationSeconds?: number;
+  DurationSeconds?: number | undefined;
 }
 export type AccessKeyIdString = string;
 export type SecretAccessKeyString = string;
 export type SessionTokenString = string;
 export type ExpirationTimestamp = Date;
 export interface AssumeDecoratedRoleWithSAMLResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export type DataLakePrincipalString = string;
 export interface DataLakePrincipal {
-  DataLakePrincipalIdentifier?: string;
+  DataLakePrincipalIdentifier?: string | undefined;
 }
 export type ExpressionString = string;
 export interface Condition {
-  Expression?: string;
+  Expression?: string | undefined;
 }
 export interface AttachRLSPolicyRequest {
   Name: string;
   Resource: Resource;
-  Principal?: DataLakePrincipal;
-  Condition?: Condition;
-  SetDefault?: boolean;
+  Principal?: DataLakePrincipal | undefined;
+  Condition?: Condition | undefined;
+  SetDefault?: boolean | undefined;
 }
 export interface AttachRLSPolicyResponse {}
 export type Identifier = string;
@@ -376,31 +376,31 @@ export type Permission =
 export type PermissionList = Permission[];
 export interface BatchPermissionsRequestEntry {
   Id: string;
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  Permissions?: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  Permissions?: Permission[] | undefined;
+  Condition?: Condition | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
 }
 export type BatchPermissionsRequestEntryList = BatchPermissionsRequestEntry[];
 export interface BatchGrantPermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Entries: BatchPermissionsRequestEntry[];
 }
 export interface BatchPermissionsFailureEntry {
-  RequestEntry?: BatchPermissionsRequestEntry;
-  Error?: ErrorDetail;
+  RequestEntry?: BatchPermissionsRequestEntry | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type BatchPermissionsFailureList = BatchPermissionsFailureEntry[];
 export interface BatchGrantPermissionsResponse {
-  Failures?: BatchPermissionsFailureEntry[];
+  Failures?: BatchPermissionsFailureEntry[] | undefined;
 }
 export interface BatchRevokePermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Entries: BatchPermissionsRequestEntry[];
 }
 export interface BatchRevokePermissionsResponse {
-  Failures?: BatchPermissionsFailureEntry[];
+  Failures?: BatchPermissionsFailureEntry[] | undefined;
 }
 export type TransactionIdString = string;
 export interface CancelTransactionRequest {
@@ -417,13 +417,13 @@ export type TransactionStatus =
   | "COMMIT_IN_PROGRESS"
   | (string & {});
 export interface CommitTransactionResponse {
-  TransactionStatus?: TransactionStatus;
+  TransactionStatus?: TransactionStatus | undefined;
 }
 export type PredicateString = string;
 export interface AllRowsWildcard {}
 export interface RowFilter {
-  FilterExpression?: string;
-  AllRowsWildcard?: AllRowsWildcard;
+  FilterExpression?: string | undefined;
+  AllRowsWildcard?: AllRowsWildcard | undefined;
 }
 export type VersionString = string;
 export interface DataCellsFilter {
@@ -431,10 +431,10 @@ export interface DataCellsFilter {
   DatabaseName: string;
   TableName: string;
   Name: string;
-  RowFilter?: RowFilter;
-  ColumnNames?: string[];
-  ColumnWildcard?: ColumnWildcard;
-  VersionId?: string;
+  RowFilter?: RowFilter | undefined;
+  ColumnNames?: string[] | undefined;
+  ColumnWildcard?: ColumnWildcard | undefined;
+  VersionId?: string | undefined;
 }
 export interface CreateDataCellsFilterRequest {
   TableData: DataCellsFilter;
@@ -458,39 +458,39 @@ export type RedshiftServiceIntegrations = RedshiftScopeUnion[];
 export type ServiceIntegrationUnion = { Redshift: RedshiftScopeUnion[] };
 export type ServiceIntegrationList = ServiceIntegrationUnion[];
 export interface CreateLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
-  InstanceArn?: string;
-  ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
+  CatalogId?: string | undefined;
+  InstanceArn?: string | undefined;
+  ExternalFiltering?: ExternalFilteringConfiguration | undefined;
+  ShareRecipients?: DataLakePrincipal[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationUnion[] | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateLakeFormationIdentityCenterConfigurationResponse {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export interface CreateLakeFormationOptInRequest {
   Principal: DataLakePrincipal;
   Resource: Resource;
-  Condition?: Condition;
+  Condition?: Condition | undefined;
 }
 export interface CreateLakeFormationOptInResponse {}
 export interface CreateLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
   TagValues: string[];
 }
 export interface CreateLFTagResponse {}
 export interface CreateLFTagExpressionRequest {
   Name: string;
-  Description?: string;
-  CatalogId?: string;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface CreateLFTagExpressionResponse {}
 export type ColumnTypeString = string;
 export interface Column {
   Name: string;
-  Type?: string;
+  Type?: string | undefined;
 }
 export type ColumnList = Column[];
 export interface CreateRLSPolicyRequest {
@@ -500,41 +500,41 @@ export interface CreateRLSPolicyRequest {
 }
 export interface CreateRLSPolicyResponse {}
 export interface DeleteDataCellsFilterRequest {
-  TableCatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  Name?: string;
+  TableCatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Name?: string | undefined;
 }
 export interface DeleteDataCellsFilterResponse {}
 export interface DeleteLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface DeleteLakeFormationIdentityCenterConfigurationResponse {}
 export interface DeleteLakeFormationOptInRequest {
   Principal: DataLakePrincipal;
   Resource: Resource;
-  Condition?: Condition;
+  Condition?: Condition | undefined;
 }
 export interface DeleteLakeFormationOptInResponse {}
 export interface DeleteLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
 }
 export interface DeleteLFTagResponse {}
 export interface DeleteLFTagExpressionRequest {
   Name: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface DeleteLFTagExpressionResponse {}
 export type URI = string;
 export type ETagString = string;
 export interface VirtualObject {
   Uri: string;
-  ETag?: string;
+  ETag?: string | undefined;
 }
 export type VirtualObjectList = VirtualObject[];
 export interface DeleteObjectsOnCancelRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   TransactionId: string;
@@ -550,17 +550,17 @@ export interface DeregisterResourceRequest {
 }
 export interface DeregisterResourceResponse {}
 export interface DescribeLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export type RAMResourceShareArn = string;
 export interface DescribeLakeFormationIdentityCenterConfigurationResponse {
-  CatalogId?: string;
-  InstanceArn?: string;
-  ApplicationArn?: string;
-  ExternalFiltering?: ExternalFilteringConfiguration;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
-  ResourceShare?: string;
+  CatalogId?: string | undefined;
+  InstanceArn?: string | undefined;
+  ApplicationArn?: string | undefined;
+  ExternalFiltering?: ExternalFilteringConfiguration | undefined;
+  ShareRecipients?: DataLakePrincipal[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationUnion[] | undefined;
+  ResourceShare?: string | undefined;
 }
 export interface DescribeResourceRequest {
   ResourceArn: string;
@@ -573,40 +573,40 @@ export type VerificationStatus =
   | (string & {});
 export type AccountIdString = string;
 export interface ResourceInfo {
-  ResourceArn?: string;
-  RoleArn?: string;
-  LastModified?: Date;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  WithPrivilegedAccess?: boolean;
-  VerificationStatus?: VerificationStatus;
-  ExpectedResourceOwnerAccount?: string;
+  ResourceArn?: string | undefined;
+  RoleArn?: string | undefined;
+  LastModified?: Date | undefined;
+  WithFederation?: boolean | undefined;
+  HybridAccessEnabled?: boolean | undefined;
+  WithPrivilegedAccess?: boolean | undefined;
+  VerificationStatus?: VerificationStatus | undefined;
+  ExpectedResourceOwnerAccount?: string | undefined;
 }
 export interface DescribeResourceResponse {
-  ResourceInfo?: ResourceInfo;
+  ResourceInfo?: ResourceInfo | undefined;
 }
 export interface DescribeTransactionRequest {
   TransactionId: string;
 }
 export interface TransactionDescription {
-  TransactionId?: string;
-  TransactionStatus?: TransactionStatus;
-  TransactionStartTime?: Date;
-  TransactionEndTime?: Date;
+  TransactionId?: string | undefined;
+  TransactionStatus?: TransactionStatus | undefined;
+  TransactionStartTime?: Date | undefined;
+  TransactionEndTime?: Date | undefined;
 }
 export interface DescribeTransactionResponse {
-  TransactionDescription?: TransactionDescription;
+  TransactionDescription?: TransactionDescription | undefined;
 }
 export interface DetachRLSPolicyRequest {
   Name: string;
   Resource: Resource;
-  Principal?: DataLakePrincipal;
-  Condition?: Condition;
-  RemoveDefault?: boolean;
+  Principal?: DataLakePrincipal | undefined;
+  Condition?: Condition | undefined;
+  RemoveDefault?: boolean | undefined;
 }
 export interface DetachRLSPolicyResponse {}
 export interface ExtendTransactionRequest {
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface ExtendTransactionResponse {}
 export interface GetDataCellsFilterRequest {
@@ -616,19 +616,19 @@ export interface GetDataCellsFilterRequest {
   Name: string;
 }
 export interface GetDataCellsFilterResponse {
-  DataCellsFilter?: DataCellsFilter;
+  DataCellsFilter?: DataCellsFilter | undefined;
 }
 export interface GetDataLakePrincipalRequest {}
 export type IdentityString = string;
 export interface GetDataLakePrincipalResponse {
-  Identity?: string;
+  Identity?: string | undefined;
 }
 export interface GetDataLakeSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface PrincipalPermissions {
-  Principal?: DataLakePrincipal;
-  Permissions?: Permission[];
+  Principal?: DataLakePrincipal | undefined;
+  Permissions?: Permission[] | undefined;
 }
 export type PrincipalPermissionsList = PrincipalPermissions[];
 export type KeyString = string;
@@ -637,65 +637,65 @@ export type ParametersMap = { [key: string]: string | undefined };
 export type TrustedResourceOwners = string[];
 export type AuthorizedSessionTagValueList = string[];
 export interface DataLakeSettings {
-  DataLakeAdmins?: DataLakePrincipal[];
-  ReadOnlyAdmins?: DataLakePrincipal[];
-  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  Parameters?: { [key: string]: string | undefined };
-  TrustedResourceOwners?: string[];
-  AllowExternalDataFiltering?: boolean;
-  AllowFullTableExternalDataAccess?: boolean;
-  ExternalDataFilteringAllowList?: DataLakePrincipal[];
-  AuthorizedSessionTagValueList?: string[];
+  DataLakeAdmins?: DataLakePrincipal[] | undefined;
+  ReadOnlyAdmins?: DataLakePrincipal[] | undefined;
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[] | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  TrustedResourceOwners?: string[] | undefined;
+  AllowExternalDataFiltering?: boolean | undefined;
+  AllowFullTableExternalDataAccess?: boolean | undefined;
+  ExternalDataFilteringAllowList?: DataLakePrincipal[] | undefined;
+  AuthorizedSessionTagValueList?: string[] | undefined;
 }
 export interface GetDataLakeSettingsResponse {
-  DataLakeSettings?: DataLakeSettings;
+  DataLakeSettings?: DataLakeSettings | undefined;
 }
 export type Token = string;
 export type PageSize = number;
 export interface GetEffectivePermissionsForPathRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ResourceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceShareList = string[];
 export interface DetailsMap {
-  ResourceShare?: string[];
+  ResourceShare?: string[] | undefined;
 }
 export interface PrincipalResourcePermissions {
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  Condition?: Condition;
-  Permissions?: Permission[];
-  PermissionsWithGrantOption?: Permission[];
-  AdditionalDetails?: DetailsMap;
-  LastUpdated?: Date;
-  LastUpdatedBy?: string;
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  Condition?: Condition | undefined;
+  Permissions?: Permission[] | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
+  AdditionalDetails?: DetailsMap | undefined;
+  LastUpdated?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
 }
 export type PrincipalResourcePermissionsList = PrincipalResourcePermissions[];
 export interface GetEffectivePermissionsForPathResponse {
-  Permissions?: PrincipalResourcePermissions[];
-  NextToken?: string;
+  Permissions?: PrincipalResourcePermissions[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
 }
 export interface GetLFTagResponse {
-  CatalogId?: string;
-  TagKey?: string;
-  TagValues?: string[];
+  CatalogId?: string | undefined;
+  TagKey?: string | undefined;
+  TagValues?: string[] | undefined;
 }
 export interface GetLFTagExpressionRequest {
   Name: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface GetLFTagExpressionResponse {
-  Name?: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression?: LFTag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
+  Expression?: LFTag[] | undefined;
 }
 export type GetQueryStateRequestQueryIdString = string;
 export interface GetQueryStateRequest {
@@ -710,7 +710,7 @@ export type QueryStateString =
   | "EXPIRED"
   | (string & {});
 export interface GetQueryStateResponse {
-  Error?: string;
+  Error?: string | undefined;
   State: QueryStateString;
 }
 export type GetQueryStatisticsRequestQueryIdString = string;
@@ -721,101 +721,101 @@ export type NumberOfMilliseconds = number;
 export type NumberOfBytes = number;
 export type NumberOfItems = number;
 export interface ExecutionStatistics {
-  AverageExecutionTimeMillis?: number;
-  DataScannedBytes?: number;
-  WorkUnitsExecutedCount?: number;
+  AverageExecutionTimeMillis?: number | undefined;
+  DataScannedBytes?: number | undefined;
+  WorkUnitsExecutedCount?: number | undefined;
 }
 export interface PlanningStatistics {
-  EstimatedDataToScanBytes?: number;
-  PlanningTimeMillis?: number;
-  QueueTimeMillis?: number;
-  WorkUnitsGeneratedCount?: number;
+  EstimatedDataToScanBytes?: number | undefined;
+  PlanningTimeMillis?: number | undefined;
+  QueueTimeMillis?: number | undefined;
+  WorkUnitsGeneratedCount?: number | undefined;
 }
 export interface GetQueryStatisticsResponse {
-  ExecutionStatistics?: ExecutionStatistics;
-  PlanningStatistics?: PlanningStatistics;
-  QuerySubmissionTime?: Date;
+  ExecutionStatistics?: ExecutionStatistics | undefined;
+  PlanningStatistics?: PlanningStatistics | undefined;
+  QuerySubmissionTime?: Date | undefined;
 }
 export type BooleanNullable = boolean;
 export interface GetResourceLFTagsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Resource: Resource;
-  ShowAssignedLFTags?: boolean;
+  ShowAssignedLFTags?: boolean | undefined;
 }
 export interface ColumnLFTag {
-  Name?: string;
-  LFTags?: LFTagPair[];
+  Name?: string | undefined;
+  LFTags?: LFTagPair[] | undefined;
 }
 export type ColumnLFTagsList = ColumnLFTag[];
 export interface GetResourceLFTagsResponse {
-  LFTagOnDatabase?: LFTagPair[];
-  LFTagsOnTable?: LFTagPair[];
-  LFTagsOnColumns?: ColumnLFTag[];
+  LFTagOnDatabase?: LFTagPair[] | undefined;
+  LFTagsOnTable?: LFTagPair[] | undefined;
+  LFTagsOnColumns?: ColumnLFTag[] | undefined;
 }
 export interface GetRLSPolicyRequest {
   Name: string;
 }
 export interface RLSPolicy {
-  CatalogId?: string;
-  Name?: string;
-  AttachmentColumns?: Column[];
-  FilterExpression?: string;
+  CatalogId?: string | undefined;
+  Name?: string | undefined;
+  AttachmentColumns?: Column[] | undefined;
+  FilterExpression?: string | undefined;
 }
 export interface GetRLSPolicyResponse {
-  RLSPolicy?: RLSPolicy;
+  RLSPolicy?: RLSPolicy | undefined;
 }
 export type TokenString = string;
 export interface GetTableObjectsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  PartitionPredicate?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  PartitionPredicate?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PartitionValueString = string;
 export type PartitionValuesList = string[];
 export type ObjectSize = number;
 export interface TableObject {
-  Uri?: string;
-  ETag?: string;
-  Size?: number;
+  Uri?: string | undefined;
+  ETag?: string | undefined;
+  Size?: number | undefined;
 }
 export type TableObjectList = TableObject[];
 export interface PartitionObjects {
-  PartitionValues?: string[];
-  Objects?: TableObject[];
+  PartitionValues?: string[] | undefined;
+  Objects?: TableObject[] | undefined;
 }
 export type PartitionedTableObjectsList = PartitionObjects[];
 export interface GetTableObjectsResponse {
-  Objects?: PartitionObjects[];
-  NextToken?: string;
+  Objects?: PartitionObjects[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AuditContextString = string;
 export interface AuditContext {
-  AdditionalAuditContext?: string;
+  AdditionalAuditContext?: string | undefined;
 }
 export type PathString = string;
 export type PathStringList = string[];
 export type CredentialsScope = "READ" | "READWRITE" | (string & {});
 export interface GetTemporaryDataLocationCredentialsRequest {
-  DurationSeconds?: number;
-  AuditContext?: AuditContext;
-  DataLocations?: string[];
-  CredentialsScope?: CredentialsScope;
+  DurationSeconds?: number | undefined;
+  AuditContext?: AuditContext | undefined;
+  DataLocations?: string[] | undefined;
+  CredentialsScope?: CredentialsScope | undefined;
 }
 export interface TemporaryCredentials {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export interface GetTemporaryDataLocationCredentialsResponse {
-  Credentials?: TemporaryCredentials;
-  AccessibleDataLocations?: string[];
-  CredentialsScope?: CredentialsScope;
+  Credentials?: TemporaryCredentials | undefined;
+  AccessibleDataLocations?: string[] | undefined;
+  CredentialsScope?: CredentialsScope | undefined;
 }
 export type ValueString = string;
 export type ValueStringList = string[];
@@ -832,16 +832,16 @@ export type PermissionTypeList = PermissionType[];
 export interface GetTemporaryGluePartitionCredentialsRequest {
   TableArn: string;
   Partition: PartitionValueList;
-  Permissions?: Permission[];
-  DurationSeconds?: number;
-  AuditContext?: AuditContext;
-  SupportedPermissionTypes?: PermissionType[];
+  Permissions?: Permission[] | undefined;
+  DurationSeconds?: number | undefined;
+  AuditContext?: AuditContext | undefined;
+  SupportedPermissionTypes?: PermissionType[] | undefined;
 }
 export interface GetTemporaryGluePartitionCredentialsResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export type HashString = string;
 export type NullableString = string;
@@ -849,27 +849,27 @@ export type ContextKey = string;
 export type ContextValue = string;
 export type AdditionalContextMap = { [key: string]: string | undefined };
 export interface QuerySessionContext {
-  QueryId?: string;
-  QueryStartTime?: Date;
-  ClusterId?: string;
-  QueryAuthorizationId?: string;
-  AdditionalContext?: { [key: string]: string | undefined };
+  QueryId?: string | undefined;
+  QueryStartTime?: Date | undefined;
+  ClusterId?: string | undefined;
+  QueryAuthorizationId?: string | undefined;
+  AdditionalContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTemporaryGlueTableCredentialsRequest {
   TableArn: string;
-  Permissions?: Permission[];
-  DurationSeconds?: number;
-  AuditContext?: AuditContext;
-  SupportedPermissionTypes?: PermissionType[];
-  S3Path?: string;
-  QuerySessionContext?: QuerySessionContext;
+  Permissions?: Permission[] | undefined;
+  DurationSeconds?: number | undefined;
+  AuditContext?: AuditContext | undefined;
+  SupportedPermissionTypes?: PermissionType[] | undefined;
+  S3Path?: string | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface GetTemporaryGlueTableCredentialsResponse {
-  AccessKeyId?: string;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
-  VendedS3Path?: string[];
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
+  VendedS3Path?: string[] | undefined;
 }
 export type GetWorkUnitResultsRequestQueryIdString = string;
 export type GetWorkUnitResultsRequestWorkUnitIdLong = number;
@@ -882,12 +882,12 @@ export interface GetWorkUnitResultsRequest {
   WorkUnitToken: string | redacted.Redacted<string>;
 }
 export interface GetWorkUnitResultsResponse {
-  ResultStream?: T.StreamingOutputBody;
+  ResultStream?: T.StreamingOutputBody | undefined;
 }
 export type GetWorkUnitsRequestQueryIdString = string;
 export interface GetWorkUnitsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
   QueryId: string;
 }
 export type QueryIdString = string;
@@ -900,73 +900,73 @@ export interface WorkUnitRange {
 }
 export type WorkUnitRangeList = WorkUnitRange[];
 export interface GetWorkUnitsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   QueryId: string;
   WorkUnitRanges: WorkUnitRange[];
 }
 export interface GrantPermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Principal: DataLakePrincipal;
   Resource: Resource;
   Permissions: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
+  Condition?: Condition | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
 }
 export interface GrantPermissionsResponse {}
 export interface ListDataCellsFilterRequest {
-  Table?: TableResource;
-  NextToken?: string;
-  MaxResults?: number;
+  Table?: TableResource | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DataCellsFilterList = DataCellsFilter[];
 export interface ListDataCellsFilterResponse {
-  DataCellsFilters?: DataCellsFilter[];
-  NextToken?: string;
+  DataCellsFilters?: DataCellsFilter[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLakeFormationOptInsRequest {
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  MaxResults?: number;
-  NextToken?: string;
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LakeFormationOptInsInfo {
-  Resource?: Resource;
-  Principal?: DataLakePrincipal;
-  Condition?: Condition;
-  LastModified?: Date;
-  LastUpdatedBy?: string;
+  Resource?: Resource | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  Condition?: Condition | undefined;
+  LastModified?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
 }
 export type LakeFormationOptInsInfoList = LakeFormationOptInsInfo[];
 export interface ListLakeFormationOptInsResponse {
-  LakeFormationOptInsInfoList?: LakeFormationOptInsInfo[];
-  NextToken?: string;
+  LakeFormationOptInsInfoList?: LakeFormationOptInsInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLFTagExpressionsRequest {
-  CatalogId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  CatalogId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LFTagExpression {
-  Name?: string;
-  Description?: string;
-  CatalogId?: string;
-  Expression?: LFTag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
+  Expression?: LFTag[] | undefined;
 }
 export type LFTagExpressionsList = LFTagExpression[];
 export interface ListLFTagExpressionsResponse {
-  LFTagExpressions?: LFTagExpression[];
-  NextToken?: string;
+  LFTagExpressions?: LFTagExpression[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceShareType = "FOREIGN" | "ALL" | (string & {});
 export interface ListLFTagsRequest {
-  CatalogId?: string;
-  ResourceShareType?: ResourceShareType;
-  MaxResults?: number;
-  NextToken?: string;
+  CatalogId?: string | undefined;
+  ResourceShareType?: ResourceShareType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLFTagsResponse {
-  LFTags?: LFTagPair[];
-  NextToken?: string;
+  LFTags?: LFTagPair[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DataLakeResourceType =
   | "CATALOG"
@@ -981,17 +981,17 @@ export type DataLakeResourceType =
   | (string & {});
 export type TrueFalseString = string;
 export interface ListPermissionsRequest {
-  CatalogId?: string;
-  Principal?: DataLakePrincipal;
-  ResourceType?: DataLakeResourceType;
-  Resource?: Resource;
-  NextToken?: string;
-  MaxResults?: number;
-  IncludeRelated?: string;
+  CatalogId?: string | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  ResourceType?: DataLakeResourceType | undefined;
+  Resource?: Resource | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IncludeRelated?: string | undefined;
 }
 export interface ListPermissionsResponse {
-  PrincipalResourcePermissions?: PrincipalResourcePermissions[];
-  NextToken?: string;
+  PrincipalResourcePermissions?: PrincipalResourcePermissions[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FieldNameString = "RESOURCE_ARN" | "ROLE_ARN" | "LAST_MODIFIED" | (string & {});
 export type ComparisonOperator =
@@ -1010,74 +1010,74 @@ export type ComparisonOperator =
 export type StringValue = string;
 export type StringValueList = string[];
 export interface FilterCondition {
-  Field?: FieldNameString;
-  ComparisonOperator?: ComparisonOperator;
-  StringValueList?: string[];
+  Field?: FieldNameString | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  StringValueList?: string[] | undefined;
 }
 export type FilterConditionList = FilterCondition[];
 export interface ListResourcesRequest {
-  FilterConditionList?: FilterCondition[];
-  MaxResults?: number;
-  NextToken?: string;
+  FilterConditionList?: FilterCondition[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceInfoList = ResourceInfo[];
 export interface ListResourcesResponse {
-  ResourceInfoList?: ResourceInfo[];
-  NextToken?: string;
+  ResourceInfoList?: ResourceInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRLSPoliciesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RLSPolicyList = RLSPolicy[];
 export interface ListRLSPoliciesResponse {
-  RLSPolicies?: RLSPolicy[];
-  NextToken?: string;
+  RLSPolicies?: RLSPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRLSPolicyAttachmentsRequest {
-  Resource?: Resource;
-  Principal?: DataLakePrincipal;
-  PolicyName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Resource?: Resource | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  PolicyName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RLSPolicyAttachment {
-  CatalogId?: string;
-  PolicyName?: string;
-  Principal?: DataLakePrincipal;
-  Resource?: Resource;
-  Condition?: Condition;
-  DefaultRLSPolicy?: boolean;
+  CatalogId?: string | undefined;
+  PolicyName?: string | undefined;
+  Principal?: DataLakePrincipal | undefined;
+  Resource?: Resource | undefined;
+  Condition?: Condition | undefined;
+  DefaultRLSPolicy?: boolean | undefined;
 }
 export type RLSPolicyAttachmentList = RLSPolicyAttachment[];
 export interface ListRLSPolicyAttachmentsResponse {
-  RLSPolicyAttachments?: RLSPolicyAttachment[];
-  NextToken?: string;
+  RLSPolicyAttachments?: RLSPolicyAttachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OptimizerType = "COMPACTION" | "GARBAGE_COLLECTION" | "ALL" | (string & {});
 export interface ListTableStorageOptimizersRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  StorageOptimizerType?: OptimizerType;
-  MaxResults?: number;
-  NextToken?: string;
+  StorageOptimizerType?: OptimizerType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type StorageOptimizerConfigKey = string;
 export type StorageOptimizerConfigValue = string;
 export type StorageOptimizerConfig = { [key: string]: string | undefined };
 export type MessageString = string;
 export interface StorageOptimizer {
-  StorageOptimizerType?: OptimizerType;
-  Config?: { [key: string]: string | undefined };
-  ErrorMessage?: string;
-  Warnings?: string;
-  LastRunDetails?: string;
+  StorageOptimizerType?: OptimizerType | undefined;
+  Config?: { [key: string]: string | undefined } | undefined;
+  ErrorMessage?: string | undefined;
+  Warnings?: string | undefined;
+  LastRunDetails?: string | undefined;
 }
 export type StorageOptimizerList = StorageOptimizer[];
 export interface ListTableStorageOptimizersResponse {
-  StorageOptimizerList?: StorageOptimizer[];
-  NextToken?: string;
+  StorageOptimizerList?: StorageOptimizer[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TransactionStatusFilter =
   | "ALL"
@@ -1087,89 +1087,89 @@ export type TransactionStatusFilter =
   | "ABORTED"
   | (string & {});
 export interface ListTransactionsRequest {
-  CatalogId?: string;
-  StatusFilter?: TransactionStatusFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  CatalogId?: string | undefined;
+  StatusFilter?: TransactionStatusFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TransactionDescriptionList = TransactionDescription[];
 export interface ListTransactionsResponse {
-  Transactions?: TransactionDescription[];
-  NextToken?: string;
+  Transactions?: TransactionDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutDataLakeSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DataLakeSettings: DataLakeSettings;
 }
 export interface PutDataLakeSettingsResponse {}
 export interface RegisterResourceRequest {
   ResourceArn: string;
-  UseServiceLinkedRole?: boolean;
-  RoleArn?: string;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  WithPrivilegedAccess?: boolean;
-  ExpectedResourceOwnerAccount?: string;
+  UseServiceLinkedRole?: boolean | undefined;
+  RoleArn?: string | undefined;
+  WithFederation?: boolean | undefined;
+  HybridAccessEnabled?: boolean | undefined;
+  WithPrivilegedAccess?: boolean | undefined;
+  ExpectedResourceOwnerAccount?: string | undefined;
 }
 export interface RegisterResourceResponse {}
 export interface RemoveLFTagsFromResourceRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Resource: Resource;
   LFTags: LFTagPair[];
 }
 export interface RemoveLFTagsFromResourceResponse {
-  Failures?: LFTagError[];
+  Failures?: LFTagError[] | undefined;
 }
 export interface RevokePermissionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Principal: DataLakePrincipal;
   Resource: Resource;
   Permissions: Permission[];
-  Condition?: Condition;
-  PermissionsWithGrantOption?: Permission[];
+  Condition?: Condition | undefined;
+  PermissionsWithGrantOption?: Permission[] | undefined;
 }
 export interface RevokePermissionsResponse {}
 export type SearchPageSize = number;
 export interface SearchDatabasesByLFTagsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  CatalogId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface TaggedDatabase {
-  Database?: DatabaseResource;
-  LFTags?: LFTagPair[];
+  Database?: DatabaseResource | undefined;
+  LFTags?: LFTagPair[] | undefined;
 }
 export type DatabaseLFTagsList = TaggedDatabase[];
 export interface SearchDatabasesByLFTagsResponse {
-  NextToken?: string;
-  DatabaseList?: TaggedDatabase[];
+  NextToken?: string | undefined;
+  DatabaseList?: TaggedDatabase[] | undefined;
 }
 export interface SearchTablesByLFTagsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  CatalogId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface TaggedTable {
-  Table?: TableResource;
-  LFTagOnDatabase?: LFTagPair[];
-  LFTagsOnTable?: LFTagPair[];
-  LFTagsOnColumns?: ColumnLFTag[];
+  Table?: TableResource | undefined;
+  LFTagOnDatabase?: LFTagPair[] | undefined;
+  LFTagsOnTable?: LFTagPair[] | undefined;
+  LFTagsOnColumns?: ColumnLFTag[] | undefined;
 }
 export type TableLFTagsList = TaggedTable[];
 export interface SearchTablesByLFTagsResponse {
-  NextToken?: string;
-  TableList?: TaggedTable[];
+  NextToken?: string | undefined;
+  TableList?: TaggedTable[] | undefined;
 }
 export type QueryPlanningContextDatabaseNameString = string;
 export type QueryParameterMap = { [key: string]: string | undefined };
 export interface QueryPlanningContext {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  QueryAsOfTime?: Date;
-  QueryParameters?: { [key: string]: string | undefined };
-  TransactionId?: string;
+  QueryAsOfTime?: Date | undefined;
+  QueryParameters?: { [key: string]: string | undefined } | undefined;
+  TransactionId?: string | undefined;
 }
 export type SyntheticStartQueryPlanningRequestQueryString = string | redacted.Redacted<string>;
 export interface StartQueryPlanningRequest {
@@ -1181,10 +1181,10 @@ export interface StartQueryPlanningResponse {
 }
 export type TransactionType = "READ_AND_WRITE" | "READ_ONLY" | (string & {});
 export interface StartTransactionRequest {
-  TransactionType?: TransactionType;
+  TransactionType?: TransactionType | undefined;
 }
 export interface StartTransactionResponse {
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface UpdateDataCellsFilterRequest {
   TableData: DataCellsFilter;
@@ -1192,76 +1192,76 @@ export interface UpdateDataCellsFilterRequest {
 export interface UpdateDataCellsFilterResponse {}
 export type ApplicationStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface UpdateLakeFormationIdentityCenterConfigurationRequest {
-  CatalogId?: string;
-  ShareRecipients?: DataLakePrincipal[];
-  ServiceIntegrations?: ServiceIntegrationUnion[];
-  ApplicationStatus?: ApplicationStatus;
-  ExternalFiltering?: ExternalFilteringConfiguration;
+  CatalogId?: string | undefined;
+  ShareRecipients?: DataLakePrincipal[] | undefined;
+  ServiceIntegrations?: ServiceIntegrationUnion[] | undefined;
+  ApplicationStatus?: ApplicationStatus | undefined;
+  ExternalFiltering?: ExternalFilteringConfiguration | undefined;
 }
 export interface UpdateLakeFormationIdentityCenterConfigurationResponse {}
 export interface UpdateLFTagRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   TagKey: string;
-  TagValuesToDelete?: string[];
-  TagValuesToAdd?: string[];
+  TagValuesToDelete?: string[] | undefined;
+  TagValuesToAdd?: string[] | undefined;
 }
 export interface UpdateLFTagResponse {}
 export interface UpdateLFTagExpressionRequest {
   Name: string;
-  Description?: string;
-  CatalogId?: string;
+  Description?: string | undefined;
+  CatalogId?: string | undefined;
   Expression: LFTag[];
 }
 export interface UpdateLFTagExpressionResponse {}
 export interface UpdateResourceRequest {
   RoleArn: string;
   ResourceArn: string;
-  WithFederation?: boolean;
-  HybridAccessEnabled?: boolean;
-  ExpectedResourceOwnerAccount?: string;
+  WithFederation?: boolean | undefined;
+  HybridAccessEnabled?: boolean | undefined;
+  ExpectedResourceOwnerAccount?: string | undefined;
 }
 export interface UpdateResourceResponse {}
 export interface UpdateRLSPolicyRequest {
   Name: string;
-  FilterExpression?: string;
+  FilterExpression?: string | undefined;
 }
 export interface UpdateRLSPolicyResponse {}
 export interface AddObjectInput {
   Uri: string;
   ETag: string;
   Size: number;
-  PartitionValues?: string[];
+  PartitionValues?: string[] | undefined;
 }
 export interface DeleteObjectInput {
   Uri: string;
-  ETag?: string;
-  PartitionValues?: string[];
+  ETag?: string | undefined;
+  PartitionValues?: string[] | undefined;
 }
 export interface WriteOperation {
-  AddObject?: AddObjectInput;
-  DeleteObject?: DeleteObjectInput;
+  AddObject?: AddObjectInput | undefined;
+  DeleteObject?: DeleteObjectInput | undefined;
 }
 export type WriteOperationList = WriteOperation[];
 export interface UpdateTableObjectsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  TransactionId?: string;
+  TransactionId?: string | undefined;
   WriteOperations: WriteOperation[];
 }
 export interface UpdateTableObjectsResponse {}
 export type StorageOptimizerConfigMap = {
-  [key in OptimizerType]?: { [key: string]: string | undefined };
+  [key in OptimizerType]?: { [key: string]: string | undefined } | undefined;
 };
 export interface UpdateTableStorageOptimizerRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   StorageOptimizerConfig: { [key: string]: { [key: string]: string | undefined } | undefined };
 }
 export type Result = string;
 export interface UpdateTableStorageOptimizerResponse {
-  Result?: string;
+  Result?: string | undefined;
 }
 export type AddLFTagsToResourceError =
   | AccessDeniedException

@@ -31,7 +31,7 @@ export interface CreateMcpAnalyticsCustomHarnessRequest {
   /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
   match_pattern: string;
   /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
-  icon?: string;
+  icon?: string | undefined;
 }
 export interface MCPCustomHarness {
   id: string;
@@ -40,7 +40,7 @@ export interface MCPCustomHarness {
   /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
   match_pattern: string;
   /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
-  icon?: string;
+  icon?: string | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -55,25 +55,25 @@ export interface CreateMcpAnalyticsFeedbackRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The tool the user tried before leaving feedback, if known. */
-  attempted_tool?: string;
+  attempted_tool?: string | undefined;
   /** MCP client name, for example Claude Desktop or Cursor. */
-  mcp_client_name?: string;
+  mcp_client_name?: string | undefined;
   /** Version string for the MCP client when available. */
-  mcp_client_version?: string;
+  mcp_client_version?: string | undefined;
   /** MCP protocol version negotiated for the session when available. */
-  mcp_protocol_version?: string;
+  mcp_protocol_version?: string | undefined;
   /** Transport used for the MCP session, for example streamable_http or sse. */
-  mcp_transport?: string;
+  mcp_transport?: string | undefined;
   /** Stable MCP session identifier when available. */
-  mcp_session_id?: string;
+  mcp_session_id?: string | undefined;
   /** Trace identifier for the surrounding MCP workflow when available. */
-  mcp_trace_id?: string;
+  mcp_trace_id?: string | undefined;
   /** The user's intended outcome when using MCP. */
   goal: string;
   /** Concrete feedback about the MCP experience, tool result, or workflow friction. */
   feedback: string;
   /** High-level category for the feedback. * `results` - Results * `usability` - Usability * `bug` - Bug * `docs` - Docs * `other` - Other */
-  category?: MCPAnalyticsSubmissionFeedbackCategoryEnum | (string & {});
+  category?: MCPAnalyticsSubmissionFeedbackCategoryEnum | (string & {}) | undefined;
 }
 /** * `feedback` - Feedback * `missing_capability` - Missing capability */
 export type MCPAnalyticsSubmissionKindEnum = "feedback" | "missing_capability";
@@ -113,25 +113,25 @@ export interface CreateMcpAnalyticsMissingCapabilityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The tool the user tried before leaving feedback, if known. */
-  attempted_tool?: string;
+  attempted_tool?: string | undefined;
   /** MCP client name, for example Claude Desktop or Cursor. */
-  mcp_client_name?: string;
+  mcp_client_name?: string | undefined;
   /** Version string for the MCP client when available. */
-  mcp_client_version?: string;
+  mcp_client_version?: string | undefined;
   /** MCP protocol version negotiated for the session when available. */
-  mcp_protocol_version?: string;
+  mcp_protocol_version?: string | undefined;
   /** Transport used for the MCP session, for example streamable_http or sse. */
-  mcp_transport?: string;
+  mcp_transport?: string | undefined;
   /** Stable MCP session identifier when available. */
-  mcp_session_id?: string;
+  mcp_session_id?: string | undefined;
   /** Trace identifier for the surrounding MCP workflow when available. */
-  mcp_trace_id?: string;
+  mcp_trace_id?: string | undefined;
   /** The user's intended outcome when using MCP. */
   goal: string;
   /** Capability, tool, or workflow support that is currently missing. */
   missing_capability: string;
   /** Whether the missing capability blocked the user's progress. */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
 }
 export interface GenerateMcpAnalyticsSessionIntentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -139,7 +139,7 @@ export interface GenerateMcpAnalyticsSessionIntentRequest {
   /** A UUID string identifying this mcp analytics submission. */
   id: string;
   /** Absolute ISO timestamp lower bound for the intent scan -- pass the session's start so older sessions resolve. Defaults to a 7-day lookback when omitted. */
-  date_from?: string;
+  date_from?: string | undefined;
 }
 export interface MCPSessionIntent {
   /** $mcp_session_id the intent summary was generated for. */
@@ -157,7 +157,7 @@ export interface GetMcpAnalyticsIntentClusterRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Narrow the response to one tool: its pivot entry, the clusters it serves or switches with, and the overlap pairs it belongs to. Coverage meta stays whole-snapshot. Use this for single-tool views so they don't download every cluster and pivot to render one row. An unknown tool returns empty sections, not a 404. */
-  tool?: string;
+  tool?: string | undefined;
 }
 /** * `idle` - Idle * `computing` - Computing * `error` - Error */
 export type MCPIntentClusterSnapshotStatusEnum = "idle" | "computing" | "error";
@@ -378,46 +378,46 @@ export interface ListMcpAnalyticsFeedbackRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedMCPAnalyticsSubmissionListResultsList = Array<MCPAnalyticsSubmission>;
 export interface PaginatedMCPAnalyticsSubmissionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMCPAnalyticsSubmissionListResultsList;
 }
 export interface ListMcpAnalyticsMissingCapabilitiesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListMcpAnalyticsSessionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Start of the window to aggregate sessions over. PostHog date string -- relative (e.g. '-7d', '-24h') or an absolute ISO timestamp. Defaults to '-7d'. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the window. PostHog date string or absolute ISO timestamp. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`. */
-  filter_test_accounts?: boolean;
+  filter_test_accounts?: boolean | undefined;
   /** Filter by session outcome. true keeps sessions with at least one errored tool call ($mcp_is_error), false keeps sessions with none. Omit to list both. */
-  has_errors?: boolean;
+  has_errors?: boolean | undefined;
   /** Maximum number of sessions to return per page. Defaults to 100; values above 500 are rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of sessions to skip before returning results. Combine with limit to page through sessions; the response's has_next flag indicates whether more remain. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort column. Allowed: session_id, session_start, session_end, duration_seconds, tool_call_count, mcp_client_name, distinct_id. Prefix with '-' for descending. Defaults to '-session_start' (newest sessions first). */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{"key": "$mcp_tool_name", "value": ["query_run"], "operator": "exact", "type": "event"}] */
-  properties?: string;
+  properties?: string | undefined;
   /** Case-insensitive substring filter matched against session_id, distinct_id, mcp_client_name, and tools_used. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Distinct $mcp_tool_name values seen in the session. */
 export type MCPSessionToolsUsedList = Array<string>;
@@ -473,11 +473,11 @@ export interface McpAnalyticsSessionsActivityOverviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`. */
-  filter_test_accounts?: boolean;
+  filter_test_accounts?: boolean | undefined;
   /** Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{"key": "$mcp_tool_name", "value": ["query_run"], "operator": "exact", "type": "event"}] */
-  properties?: string;
+  properties?: string | undefined;
   /** Compute the overview again instead of serving the cached result, at most once every 5 seconds. The fresh result replaces the cached one. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 export interface MCPActivityStats {
   /** $mcp_tool_call events captured in the last 30 days. */
@@ -575,15 +575,15 @@ export interface McpAnalyticsSessionsToolCallsRequest {
   /** A UUID string identifying this mcp analytics submission. */
   id: string;
   /** Absolute ISO timestamp lower bound for the event scan -- pass the session's start so older sessions resolve. Defaults to a 7-day lookback when omitted or unparseable. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`. */
-  filter_test_accounts?: boolean;
+  filter_test_accounts?: boolean | undefined;
   /** Maximum tool calls to return per page (1-500). Defaults to 500 -- the whole page -- so a session's calls come back in one request; pass a smaller value for a lighter response. Values above the cap are rejected. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of tool calls to skip before returning results. Combine with limit to page through a session's calls; the response's has_next flag indicates whether more remain. */
-  offset?: number;
+  offset?: number | undefined;
   /** Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{"key": "$mcp_tool_name", "value": ["query_run"], "operator": "exact", "type": "event"}] */
-  properties?: string;
+  properties?: string | undefined;
 }
 /** Argument names the client sent ($mcp_input_keys), without values. Empty when not captured. */
 export type MCPToolCallInputKeysList = Array<string>;
@@ -643,7 +643,7 @@ export interface UpdateMcpAnalyticsCustomHarnessRequest {
   /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
   match_pattern: string;
   /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
-  icon?: string;
+  icon?: string | undefined;
 }
 export interface UpdateMcpAnalyticsCustomHarnessesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -651,11 +651,11 @@ export interface UpdateMcpAnalyticsCustomHarnessesPartialRequest {
   /** A UUID string identifying this mcp custom harness. */
   id: string;
   /** Name to show for calls from this harness. */
-  name?: string;
+  name?: string | undefined;
   /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
-  match_pattern?: string;
+  match_pattern?: string | undefined;
   /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
-  icon?: string;
+  icon?: string | undefined;
 }
 export type CreateMcpAnalyticsCustomHarnessError = PosthogOpError;
 /** A team's own harness names, shown in place of "Other" in MCP analytics. */

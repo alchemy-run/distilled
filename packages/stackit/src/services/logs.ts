@@ -67,24 +67,24 @@ export interface CreateAccessPolicyRequest {
   /** The Logs Instance UUID. */
   instanceId: string;
   /** The description of the access policy. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The email address of the STACKIT IAM subject (user, group, or service account). */
   email: string;
   /** Key-value pairs for resource labeling. Maximum 64 user labels per resource. Key format: - May contain an optional domain prefix separated by a slash (/). - Domain prefix must be <= 250 characters, a valid DNS subdomain containing only lowercase alphanumerics ([a-z0-9]) and dashes (-), separated by dots (.). - Key name (excluding prefix) must be between 1 and 63 characters, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. - Reserved prefixes: 'stackit.cloud/' (including all subdomains) and deprecated 'stackit-' are reserved for system labels and cannot be created, updated, or deleted by end-users. Value format: - Length must be <= 63 characters. - May be empty. - If not empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: CreateAccessPolicyRequestLabelsMap | null;
+  labels?: CreateAccessPolicyRequestLabelsMap | null | undefined;
   permissions: Permissions;
 }
 /** Labels as key-value pairs. */
 export type AccessPolicyLabelsMap = { [key: string]: string | undefined };
 export interface AccessPolicy {
   /** The description of the access policy. */
-  description?: string;
+  description?: string | undefined;
   /** The email address of the STACKIT IAM subject (user, group, or service account). */
   email: string;
   /** An auto generated unique id which identifies the access policy. */
   id: string;
   /** Labels as key-value pairs. */
-  labels?: AccessPolicyLabelsMap;
+  labels?: AccessPolicyLabelsMap | undefined;
   permissions: Permissions;
 }
 export type CreateAccessTokenRequestRegionId = "eu01" | "eu02";
@@ -98,13 +98,13 @@ export interface CreateAccessTokenRequest {
   /** The Logs Instance UUID. */
   instanceId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the access token. */
   displayName: string;
   /** Key-value pairs for resource labeling. Maximum 64 user labels per resource. Key format: - May contain an optional domain prefix separated by a slash (/). - Domain prefix must be <= 250 characters, a valid DNS subdomain containing only lowercase alphanumerics ([a-z0-9]) and dashes (-), separated by dots (.). - Key name (excluding prefix) must be between 1 and 63 characters, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. - Reserved prefixes: 'stackit.cloud/' (including all subdomains) and deprecated 'stackit-' are reserved for system labels and cannot be created, updated, or deleted by end-users. Value format: - Length must be <= 63 characters. - May be empty. - If not empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: CreateAccessTokenRequestLabelsMap;
+  labels?: CreateAccessTokenRequestLabelsMap | undefined;
   /** A lifetime period for an access token in days. If unset the token will not expire. */
-  lifetime?: number;
+  lifetime?: number | undefined;
   permissions: Permissions;
 }
 /** Labels as key-value pairs. */
@@ -112,11 +112,11 @@ export type AccessTokenLabelsMap = { [key: string]: string | undefined };
 export type AccessTokenStatus = "active" | "expired";
 export interface AccessToken {
   /** A generated access token. Only available on creation. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The user who created the access token. */
   creator: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the access token. */
   displayName: string;
   /** Indicates if the access token can expire. */
@@ -124,11 +124,11 @@ export interface AccessToken {
   /** An auto generated unique id which identifies the access token. */
   id: string;
   /** Labels as key-value pairs. */
-  labels?: AccessTokenLabelsMap;
+  labels?: AccessTokenLabelsMap | undefined;
   permissions: Permissions;
   status: AccessTokenStatus;
   /** The date and time util an access token is valid to (inclusively). */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 export type CreateLogsInstanceRequestRegionId = "eu01" | "eu02";
 /** The access control list for the Logs instance. */
@@ -141,13 +141,13 @@ export interface CreateLogsInstanceRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateLogsInstanceRequestRegionId | (string & {});
   /** The access control list for the Logs instance. */
-  acl?: CreateLogsInstanceRequestAclList;
+  acl?: CreateLogsInstanceRequestAclList | undefined;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name to distinguish multiple Logs instances. */
   displayName: string;
   /** Key-value pairs for resource labeling. Maximum 64 user labels per resource. Key format: - May contain an optional domain prefix separated by a slash (/). - Domain prefix must be <= 250 characters, a valid DNS subdomain containing only lowercase alphanumerics ([a-z0-9]) and dashes (-), separated by dots (.). - Key name (excluding prefix) must be between 1 and 63 characters, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. - Reserved prefixes: 'stackit.cloud/' (including all subdomains) and deprecated 'stackit-' are reserved for system labels and cannot be created, updated, or deleted by end-users. Value format: - Length must be <= 63 characters. - May be empty. - If not empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: CreateLogsInstanceRequestLabelsMap;
+  labels?: CreateLogsInstanceRequestLabelsMap | undefined;
   /** The log retention time in days. */
   retentionDays: number;
 }
@@ -159,27 +159,27 @@ export type LogsInstanceLabelsMap = { [key: string]: string | undefined };
 export type LogsInstanceStatus = "active" | "deleting" | "reconciling";
 export interface LogsInstance {
   /** The access control list for the Logs instance. */
-  acl?: LogsInstanceAclList;
+  acl?: LogsInstanceAclList | undefined;
   /** The date and time the creation of the Logs instance was triggered. */
   created: string;
   /** The Logs instance's datasource URL, can be used in Grafana as a datasource URL */
-  datasourceUrl?: string;
+  datasourceUrl?: string | undefined;
   /** The description of the Logs instance. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the Logs instance. */
   displayName: string;
   /** A auto generated unique id which identifies the Logs instance. */
   id: string;
   /** The Logs instance's ingest logs via OTLP URL */
-  ingestOtlpUrl?: string;
+  ingestOtlpUrl?: string | undefined;
   /** The Logs instance's ingest logs URL */
-  ingestUrl?: string;
+  ingestUrl?: string | undefined;
   /** Labels as key-value pairs. */
-  labels?: LogsInstanceLabelsMap;
+  labels?: LogsInstanceLabelsMap | undefined;
   /** The Logs instance's query range URL */
-  queryRangeUrl?: string;
+  queryRangeUrl?: string | undefined;
   /** The Logs instance's query URL */
-  queryUrl?: string;
+  queryUrl?: string | undefined;
   /** The log retention time in days. */
   retentionDays: number;
   /** The current status of the Logs instance. */
@@ -327,10 +327,10 @@ export interface UpdateAccessPolicyRequest {
   /** The access policy unique id. */
   pId: string;
   /** The updated description of the access policy. If not present will be ignored in update. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Key-value pairs for resource labeling. Maximum 64 user labels per resource. Key format: - May contain an optional domain prefix separated by a slash (/). - Domain prefix must be <= 250 characters, a valid DNS subdomain containing only lowercase alphanumerics ([a-z0-9]) and dashes (-), separated by dots (.). - Key name (excluding prefix) must be between 1 and 63 characters, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. - Reserved prefixes: 'stackit.cloud/' (including all subdomains) and deprecated 'stackit-' are reserved for system labels and cannot be created, updated, or deleted by end-users. Value format: - Length must be <= 63 characters. - May be empty. - If not empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: UpdateAccessPolicyRequestLabelsMap | null;
-  permissions?: Permissions;
+  labels?: UpdateAccessPolicyRequestLabelsMap | null | undefined;
+  permissions?: Permissions | undefined;
 }
 export type UpdateAccessTokenRequestRegionId = "eu01" | "eu02";
 /** Key-value pairs for resource labeling. Maximum 64 user labels per resource. Key format: - May contain an optional domain prefix separated by a slash (/). - Domain prefix must be <= 250 characters, a valid DNS subdomain containing only lowercase alphanumerics ([a-z0-9]) and dashes (-), separated by dots (.). - Key name (excluding prefix) must be between 1 and 63 characters, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. - Reserved prefixes: 'stackit.cloud/' (including all subdomains) and deprecated 'stackit-' are reserved for system labels and cannot be created, updated, or deleted by end-users. Value format: - Length must be <= 63 characters. - May be empty. - If not empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
@@ -345,11 +345,11 @@ export interface UpdateAccessTokenRequest {
   /** The access token UUID. */
   tId: string;
   /** The description of the access token. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the access token. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Key-value pairs for resource labeling. Maximum 64 user labels per resource. Key format: - May contain an optional domain prefix separated by a slash (/). - Domain prefix must be <= 250 characters, a valid DNS subdomain containing only lowercase alphanumerics ([a-z0-9]) and dashes (-), separated by dots (.). - Key name (excluding prefix) must be between 1 and 63 characters, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. - Reserved prefixes: 'stackit.cloud/' (including all subdomains) and deprecated 'stackit-' are reserved for system labels and cannot be created, updated, or deleted by end-users. Value format: - Length must be <= 63 characters. - May be empty. - If not empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: UpdateAccessTokenRequestLabelsMap;
+  labels?: UpdateAccessTokenRequestLabelsMap | undefined;
 }
 export interface UpdateAccessTokenResponse {}
 export type UpdateLogsInstanceRequestRegionId = "eu01" | "eu02";
@@ -365,15 +365,15 @@ export interface UpdateLogsInstanceRequest {
   /** The Logs Instance UUID. */
   instanceId: string;
   /** The access control list for the Logs instance. */
-  acl?: UpdateLogsInstanceRequestAclList;
+  acl?: UpdateLogsInstanceRequestAclList | undefined;
   /** The description of the Logs instance. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name to distinguish multiple Logs instances. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Key-value pairs for resource labeling. Maximum 64 user labels per resource. Key format: - May contain an optional domain prefix separated by a slash (/). - Domain prefix must be <= 250 characters, a valid DNS subdomain containing only lowercase alphanumerics ([a-z0-9]) and dashes (-), separated by dots (.). - Key name (excluding prefix) must be between 1 and 63 characters, begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. - Reserved prefixes: 'stackit.cloud/' (including all subdomains) and deprecated 'stackit-' are reserved for system labels and cannot be created, updated, or deleted by end-users. Value format: - Length must be <= 63 characters. - May be empty. - If not empty, must begin and end with an alphanumeric character ([a-z0-9A-Z]), and may contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: UpdateLogsInstanceRequestLabelsMap;
+  labels?: UpdateLogsInstanceRequestLabelsMap | undefined;
   /** The log retention time in days. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
 }
 export type CreateAccessPolicyError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Create Access Policy Create a new access policy for Logs instance */

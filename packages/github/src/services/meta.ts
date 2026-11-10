@@ -29,10 +29,10 @@ const TELEMETRY = {
 
 export interface GetRequest {}
 export interface ApiOverviewSshKeyFingerprints {
-  SHA256_RSA?: string;
-  SHA256_DSA?: string;
-  SHA256_ECDSA?: string;
-  SHA256_ED25519?: string;
+  SHA256_RSA?: string | undefined;
+  SHA256_DSA?: string | undefined;
+  SHA256_ECDSA?: string | undefined;
+  SHA256_ED25519?: string | undefined;
 }
 export type ApiOverviewSshKeysList = Array<string>;
 export type ApiOverviewHooksList = Array<string>;
@@ -60,53 +60,53 @@ export type ApiOverviewDomainsActionsList = Array<string>;
 export type ApiOverviewDomainsActionsInboundFullDomainsList = Array<string>;
 export type ApiOverviewDomainsActionsInboundWildcardDomainsList = Array<string>;
 export interface ApiOverviewDomainsActionsInbound {
-  full_domains?: ApiOverviewDomainsActionsInboundFullDomainsList;
-  wildcard_domains?: ApiOverviewDomainsActionsInboundWildcardDomainsList;
+  full_domains?: ApiOverviewDomainsActionsInboundFullDomainsList | undefined;
+  wildcard_domains?: ApiOverviewDomainsActionsInboundWildcardDomainsList | undefined;
 }
 export type ApiOverviewDomainsArtifactAttestationsServicesList = Array<string>;
 export interface ApiOverviewDomainsArtifactAttestations {
-  trust_domain?: string;
-  services?: ApiOverviewDomainsArtifactAttestationsServicesList;
+  trust_domain?: string | undefined;
+  services?: ApiOverviewDomainsArtifactAttestationsServicesList | undefined;
 }
 export interface ApiOverviewDomains {
-  website?: ApiOverviewDomainsWebsiteList;
-  codespaces?: ApiOverviewDomainsCodespacesList;
-  copilot?: ApiOverviewDomainsCopilotList;
-  packages?: ApiOverviewDomainsPackagesList;
-  storage?: ApiOverviewDomainsStorageList;
-  actions?: ApiOverviewDomainsActionsList;
-  actions_inbound?: ApiOverviewDomainsActionsInbound;
-  artifact_attestations?: ApiOverviewDomainsArtifactAttestations;
+  website?: ApiOverviewDomainsWebsiteList | undefined;
+  codespaces?: ApiOverviewDomainsCodespacesList | undefined;
+  copilot?: ApiOverviewDomainsCopilotList | undefined;
+  packages?: ApiOverviewDomainsPackagesList | undefined;
+  storage?: ApiOverviewDomainsStorageList | undefined;
+  actions?: ApiOverviewDomainsActionsList | undefined;
+  actions_inbound?: ApiOverviewDomainsActionsInbound | undefined;
+  artifact_attestations?: ApiOverviewDomainsArtifactAttestations | undefined;
 }
 /** Api Overview */
 export interface ApiOverview {
   verifiable_password_authentication: boolean;
-  ssh_key_fingerprints?: ApiOverviewSshKeyFingerprints;
-  ssh_keys?: ApiOverviewSshKeysList;
-  hooks?: ApiOverviewHooksList;
-  github_enterprise_importer?: ApiOverviewGithubEnterpriseImporterList;
-  web?: ApiOverviewWebList;
+  ssh_key_fingerprints?: ApiOverviewSshKeyFingerprints | undefined;
+  ssh_keys?: ApiOverviewSshKeysList | undefined;
+  hooks?: ApiOverviewHooksList | undefined;
+  github_enterprise_importer?: ApiOverviewGithubEnterpriseImporterList | undefined;
+  web?: ApiOverviewWebList | undefined;
   /** Public destination IP ranges in CIDR notation for shared GitHub-managed ingress infrastructure. These ranges may serve multiple GitHub services and are not outbound source ranges. Use them alongside the relevant product-specific network requirements. Omitted when no ranges are available. */
-  shared_ingress?: ApiOverviewSharedIngressList;
-  api?: ApiOverviewApiList;
-  git?: ApiOverviewGitList;
-  packages?: ApiOverviewPackagesList;
-  pages?: ApiOverviewPagesList;
-  importer?: ApiOverviewImporterList;
-  actions?: ApiOverviewActionsList;
-  actions_macos?: ApiOverviewActionsMacosList;
-  codespaces?: ApiOverviewCodespacesList;
-  dependabot?: ApiOverviewDependabotList;
-  copilot?: ApiOverviewCopilotList;
-  commit_signing_keys?: ApiOverviewCommitSigningKeysList;
-  domains?: ApiOverviewDomains;
+  shared_ingress?: ApiOverviewSharedIngressList | undefined;
+  api?: ApiOverviewApiList | undefined;
+  git?: ApiOverviewGitList | undefined;
+  packages?: ApiOverviewPackagesList | undefined;
+  pages?: ApiOverviewPagesList | undefined;
+  importer?: ApiOverviewImporterList | undefined;
+  actions?: ApiOverviewActionsList | undefined;
+  actions_macos?: ApiOverviewActionsMacosList | undefined;
+  codespaces?: ApiOverviewCodespacesList | undefined;
+  dependabot?: ApiOverviewDependabotList | undefined;
+  copilot?: ApiOverviewCopilotList | undefined;
+  commit_signing_keys?: ApiOverviewCommitSigningKeysList | undefined;
+  domains?: ApiOverviewDomains | undefined;
 }
 export interface GetAllVersionsRequest {}
 export type GetAllVersionsResponseBodyList = Array<string>;
 export type GetAllVersionsResponse = GetAllVersionsResponseBodyList;
 export interface GetOctocatRequest {
   /** The words to show in Octocat's speech bubble */
-  s?: string;
+  s?: string | undefined;
 }
 export interface GetOctocatResponse {}
 export interface GetZenRequest {}
@@ -125,7 +125,7 @@ export interface Root {
   followers_url: string;
   following_url: string;
   gists_url: string;
-  hub_url?: string;
+  hub_url?: string | undefined;
   issue_search_url: string;
   issues_url: string;
   keys_url: string;
@@ -141,7 +141,7 @@ export interface Root {
   current_user_repositories_url: string;
   starred_url: string;
   starred_gists_url: string;
-  topic_search_url?: string;
+  topic_search_url?: string | undefined;
   user_url: string;
   user_organizations_url: string;
   user_repositories_url: string;

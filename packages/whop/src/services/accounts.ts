@@ -66,27 +66,27 @@ export class NotFound
 export type CreateAccountRequestMetadataMap = { [key: string]: unknown | undefined };
 export interface CreateAccountRequest {
   /** A saved partner referral link code for this new business account. An existing primary user referral takes priority. Used with user tokens creating top-level accounts. */
-  affiliate_code?: string | null;
+  affiliate_code?: string | null | undefined;
   /** The blueprint App ID, prefixed `app_`. Creates a hosted website for the account and queues its deployment asynchronously; the Account response does not report deployment completion. */
-  blueprint_id?: string | null;
+  blueprint_id?: string | null | undefined;
   /** The ISO 3166-1 alpha-2 country code where the account's business is located (e.g. `US`). Defaults to the parent account's country for connected accounts. */
-  country?: string;
+  country?: string | undefined;
   /** Whether Whop assembles and files dispute evidence for this account. Enabling it opts into the success fee charged on disputes it wins. Requires payment:dispute. Omit to preserve the existing setting or creation default. */
-  dispute_fighter_enabled?: boolean;
+  dispute_fighter_enabled?: boolean | undefined;
   /** The email address of the account owner. Required when creating a connected account. */
-  email?: string;
+  email?: string | undefined;
   /** Arbitrary key/value metadata to store on the account. */
-  metadata?: CreateAccountRequestMetadataMap;
+  metadata?: CreateAccountRequestMetadataMap | undefined;
   /** Whether payment orchestration is enabled for this account. Requires payout:account:update. Omit to preserve the existing setting or creation default. */
-  orchestration_enabled?: boolean;
+  orchestration_enabled?: boolean | undefined;
   /** Whether Whop sends transactional emails to customers on behalf of the connected account. */
-  send_customer_emails?: boolean;
+  send_customer_emails?: boolean | undefined;
   /** The display name of the account. Defaults to `metadata.external_id` or the owner's email when omitted. */
-  title?: string;
+  title?: string | undefined;
   /** The account's business website, as an `http` or `https` URL of at most 255 characters. Also added to the account's `social_links` as a `website` entry. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountBalanceSettlement {
   /** Amount expected that day, in native units, as a decimal string. */
@@ -144,20 +144,20 @@ export interface File {
   /** The file's ID, prefixed `file_`. */
   id: string;
   /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
-  multipart_chunk_size?: number | null;
+  multipart_chunk_size?: number | null | undefined;
   /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
-  multipart_upload_id?: string | null;
-  multipart_upload_urls?: FileMultipartUploadUrlsList | null;
+  multipart_upload_id?: string | null | undefined;
+  multipart_upload_urls?: FileMultipartUploadUrlsList | null | undefined;
   /** The type of this object, always `file`. */
   object: string;
   /** The file size in bytes. `null` until the upload has finished. */
   size: number | null;
   /** Headers to send with the upload PUT. Present only on create. */
-  upload_headers?: unknown;
+  upload_headers?: unknown | undefined;
   /** Where the file is in its upload lifecycle. */
   upload_status: FileUploadStatus;
   /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
-  upload_url?: string | null;
+  upload_url?: string | null | undefined;
   /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
   url: string | null;
   /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
@@ -246,17 +246,17 @@ export type AccountCompanyFormationDocumentsList = Array<AccountCompanyFormation
 export type AccountCompanyFormationSignatureRequestStatus = "pending" | "unknown";
 export interface AccountCompanyFormationSignatureRequest {
   /** When the signing URL expires, as an ISO 8601 timestamp. Present only when the signing URL is included. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** `pending` when a signing session is ready for the founder; `unknown` when the signature state could not be determined. */
   status: AccountCompanyFormationSignatureRequestStatus;
   /** Hosted signing URL where the founder completes the form. Present while `status` is `pending` and the caller has `incorporation:write`. Omitted from webhooks. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface AccountCompanyFormationSignatures {
   /** Signature state for IRS Form 8821, the tax information authorization. Present only while the form still needs the founder's action. */
-  form8821?: AccountCompanyFormationSignatureRequest;
+  form8821?: AccountCompanyFormationSignatureRequest | undefined;
   /** Signature state for IRS Form SS-4, the EIN application. Present only while the form still needs the founder's action. */
-  ss4?: AccountCompanyFormationSignatureRequest;
+  ss4?: AccountCompanyFormationSignatureRequest | undefined;
   [key: string]: unknown;
 }
 export type AccountCompanyFormationStatus =
@@ -266,16 +266,16 @@ export type AccountCompanyFormationStatus =
   | "rejected"
   | "completed";
 export interface AccountCompanyFormation {
-  documents?: AccountCompanyFormationDocumentsList;
+  documents?: AccountCompanyFormationDocumentsList | undefined;
   /** Whether the company's EIN has been issued by the IRS. Present once `status` leaves `draft`. */
-  ein_registered?: boolean;
+  ein_registered?: boolean | undefined;
   /** Registered company name including the entity ending, for example `Acme, LLC`. Present once `status` leaves `draft`. */
-  legal_name?: string | null;
+  legal_name?: string | null | undefined;
   /** IRS forms still awaiting a founder's signature, each with a hosted signing URL. Present once `status` leaves `draft`; empty when nothing needs signing. */
-  signatures?: AccountCompanyFormationSignatures;
+  signatures?: AccountCompanyFormationSignatures | undefined;
   /** Whether the state formation filing is complete. Present once `status` leaves `draft`. */
-  state_registered?: boolean;
-  status?: AccountCompanyFormationStatus;
+  state_registered?: boolean | undefined;
+  status?: AccountCompanyFormationStatus | undefined;
   [key: string]: unknown;
 }
 /** Public account home page preferences. */
@@ -309,7 +309,7 @@ export interface AccountParentFeesValue {
 export type AccountParentFeesMap = { [key: string]: AccountParentFeesValue | undefined };
 export interface AccountParent {
   /** Markup rates this parent charges the connected account being read, keyed by fee type (for example `crypto_deposit_markup`), each with `percentage_fee` and `fixed_fee_usd`. Resolved with the connected account's own overrides winning over the platform default. */
-  fees?: AccountParentFeesMap;
+  fees?: AccountParentFeesMap | undefined;
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Account logo image URL. */
@@ -950,7 +950,7 @@ export interface Account {
   /** Parent account for connected accounts, or `null` for standalone accounts. */
   parent_account: AccountParent | null;
   /** The account's active first-tier partner. Present on retrieve responses; null when no active first-tier partner is attributed to the account. Omitted from other responses. */
-  partner?: AccountPartner | null;
+  partner?: AccountPartner | null | undefined;
   /** Payment health controls currently applied to the account. Computed only on `retrieve` and `me` for callers with `company:balance:read` scope; `null` otherwise. */
   payment_controls: AccountPaymentControls | null;
   /** The account's privacy policy document, or `null` if they have not published one. */
@@ -964,7 +964,7 @@ export interface Account {
   required_actions: AccountRequiredActionsList | null;
   /** The account's return policy document, or `null` if they have not published one. */
   return_policy: File | null;
-  rewards?: AccountRewardsList;
+  rewards?: AccountRewardsList | undefined;
   /** Account public route identifier. */
   route: string;
   /** Whether Whop sends transactional emails to customers on behalf of this account. */
@@ -1035,7 +1035,7 @@ export interface FormCompanyRequestBusinessAddress {
   /** First line of the street address. */
   line1: string;
   /** Second line of the street address. */
-  line2?: string;
+  line2?: string | undefined;
   /** Postal or ZIP code. */
   postal_code: string;
   /** State or region code, for example `CA`. */
@@ -1126,20 +1126,20 @@ export interface FormCompanyRequestFoundersItem {
   /** Founder's personal address. */
   address: FormCompanyRequestBusinessAddress;
   /** Formatted as `YYYY-MM-DD`. */
-  date_of_birth?: string;
+  date_of_birth?: string | undefined;
   email: string;
   first_name: string;
   /** Marks the responsible party for the filing. Exactly one founder must be primary. */
   is_primary: boolean;
   last_name: string;
   /** The founder's ownership share: greater than `0`, at most `100`. Shares across founders must total `100`. Required when `entity_type` is `llc`; ignored for C-Corps. */
-  ownership_percentage?: number;
+  ownership_percentage?: number | undefined;
   /** Phone number in E.164 format, for example `+12125550100`. */
   phone: string;
   /** Officer roles held by the member -- one member can hold several. Required (at least one role) for every member when `entity_type` is `c_corp`; ignored for LLCs. Across all members every role must be covered; `president`, `secretary` and `treasurer` may each be held by only one member, while `director` may repeat. */
-  roles?: FormCompanyRequestFoundersItemRolesList;
+  roles?: FormCompanyRequestFoundersItemRolesList | undefined;
   /** The founder's US Social Security Number. Leave empty if the founder is not a US resident. Non-US founders can request expedited EIN processing via the `expedite_ein` option. */
-  ssn?: string;
+  ssn?: string | undefined;
 }
 /** The company's founders. Exactly one must be marked `is_primary` -- the responsible party for the filing. */
 export type FormCompanyRequestFoundersList = Array<FormCompanyRequestFoundersItem>;
@@ -1154,21 +1154,21 @@ export interface FormCompanyRequest {
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Company mailing address. Required unless `use_registered_agent` is `true`. */
-  business_address?: FormCompanyRequestBusinessAddress;
+  business_address?: FormCompanyRequestBusinessAddress | undefined;
   /** Legal name for the new company. */
   business_name: string;
   /** Business phone number in E.164 format, for example `+12125550100`. Required unless `use_registered_agent` is `true`. */
-  business_phone?: string;
+  business_phone?: string | undefined;
   /** High-level business category, from the Whop business taxonomy. Valid values are listed on [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary). */
   business_type: string;
   /** Company website URL. */
-  business_website?: string;
+  business_website?: string | undefined;
   /** Legal entity ending appended to `business_name`. LLC formations accept `LLC`, `L.L.C`, `L.L.C.` or `Limited Liability Company` and default to `LLC`; C-Corp formations accept `Inc`, `Inc.`, `Incorporated`, `Corp.`, `Corporation`, `C Corp`, `C Corporation`, `CCorp` or `Company` and default to `Inc.`. Unrecognized values fall back to the default for the entity type. */
-  entity_suffix?: FormCompanyRequestEntitySuffix | (string & {});
+  entity_suffix?: FormCompanyRequestEntitySuffix | (string & {}) | undefined;
   /** Legal entity type to form. Defaults to `llc`. */
-  entity_type?: FormCompanyRequestEntityType | (string & {});
+  entity_type?: FormCompanyRequestEntityType | (string & {}) | undefined;
   /** Request expedited EIN processing for an additional fee. Available only when no founder supplies an SSN. */
-  expedite_ein?: boolean;
+  expedite_ein?: boolean | undefined;
   /** Two-letter code of the US state (or `DC`) to form the company in. We recommend `WY` because Wyoming formations are completed the same day. */
   formation_state: FormCompanyRequestFormationState | (string & {});
   /** The company's founders. Exactly one must be marked `is_primary` -- the responsible party for the filing. */
@@ -1178,11 +1178,11 @@ export interface FormCompanyRequest {
   /** Specific industry vertical, from the Whop business taxonomy. Valid values are listed on [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary). */
   industry_type: string;
   /** Authorized share structure. Required when `entity_type` is `c_corp`; ignored for LLCs. */
-  share_structure?: FormCompanyRequestShareStructure;
+  share_structure?: FormCompanyRequestShareStructure | undefined;
   /** Use the registered agent's address as the company address instead of `business_address`. */
-  use_registered_agent?: boolean;
+  use_registered_agent?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface FormCompanyResponse {
   /** Checkout session ID, prefixed `ch_`. */
@@ -1198,7 +1198,7 @@ export interface GetAccountRequest {
   /** Account ID, prefixed `biz_`, its public route, or `me` for the account associated with the current API key. */
   id: string;
   /** Also retrieve live trading state under `trading`. Requires crypto_wallet:trade:read, crypto_wallet:trade, or crypto_wallet:manage permission and an Ethereum wallet; null otherwise. Provider failures return 503. */
-  include_trading?: boolean;
+  include_trading?: boolean | undefined;
 }
 export interface GetAccountFeesRequest {
   /** Account ID, prefixed `biz_`. */
@@ -1468,19 +1468,19 @@ export type GetAccountPreferencesResponseAdsCertificationsList =
 export type GetAccountPreferencesResponseAdsPaymentMethodsBackupType = "platform_balance" | "card";
 export interface GetAccountPreferencesResponseAdsPaymentMethodsBackup {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: GetAccountPreferencesResponseAdsPaymentMethodsBackupType;
 }
@@ -1488,19 +1488,19 @@ export interface GetAccountPreferencesResponseAdsPaymentMethodsBackup {
 export type GetAccountPreferencesResponseAdsPaymentMethodsPrimaryType = "platform_balance" | "card";
 export interface GetAccountPreferencesResponseAdsPaymentMethodsPrimary {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: GetAccountPreferencesResponseAdsPaymentMethodsPrimaryType;
 }
@@ -1625,31 +1625,31 @@ export type ListAccountsRequestDirection = "asc" | "desc";
 export type ListAccountsRequestStatus = "active" | "suspended";
 export interface ListAccountsRequest {
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort accounts by. `volume` requires `stats:read` on the parent account. */
-  order?: ListAccountsRequestOrder | (string & {});
+  order?: ListAccountsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListAccountsRequestDirection | (string & {});
+  direction?: ListAccountsRequestDirection | (string & {}) | undefined;
   /** Return only accounts with this status: `active` (includes accounts that have not entered payments review) or `suspended`. */
-  status?: ListAccountsRequestStatus | (string & {});
+  status?: ListAccountsRequestStatus | (string & {}) | undefined;
   /** Free-text filter on account title or ID. `%` and `_` match literally. */
-  query?: string;
+  query?: string | undefined;
   /** Return only accounts created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Return only accounts created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Return only accounts whose lifetime USD volume is at least this value. Requires `stats:read` on the parent account. */
-  volume_min?: number;
+  volume_min?: number | undefined;
   /** Return only accounts whose lifetime USD volume is at most this value. Requires `stats:read` on the parent account. */
-  volume_max?: number;
+  volume_max?: number | undefined;
   /** For platforms: the parent account ID whose direct connected accounts to return. Requires `payout:account:read` on the parent account. */
-  parent_account_id?: string;
+  parent_account_id?: string | undefined;
 }
 export type ListAccountsResponseDataList = Array<Account>;
 export interface ListAccountsResponsePageInfo {
@@ -1666,7 +1666,7 @@ export interface RetryAccountAdsPaymentRequest {
   /** The account ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface RetryAccountAdsPaymentResponse {
   /** The account whose ads payments will be retried. */
@@ -1678,19 +1678,19 @@ export interface SuspendAccountRequest {
   /** Connected account ID, prefixed `biz_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TransferAccountOwnershipRequest {
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** If true, the current owner is credited as the account's Whop partner, earning partner commission on its sales. Requires the current owner to already be an enrolled Whop partner. Skipped if the account already has an active partner. */
-  as_partner?: boolean;
+  as_partner?: boolean | undefined;
   /** The user to transfer ownership to: a user ID (`user_*`) or an email address. An email address with no Whop account yet is sent an invite to create one. */
   identifier: string;
   /** A note from the partner, shown as a quote in the invite email and signed with their name. Requires `as_partner`; sending it on an ordinary transfer is a 400. Omit it and the email sends without a note. */
-  message?: string;
+  message?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TransferAccountOwnershipResponse {
   success: boolean;
@@ -1698,23 +1698,23 @@ export interface TransferAccountOwnershipResponse {
 /** Account banner image, used as the cover photo when creating a Whop-managed Facebook page. Image files up to 10 MB, except `image/gif`. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
 export interface UpdateAccountRequestBannerImage {
   /** ID of a file from [Create File](/api-reference/files/create-file), prefixed `file_`. */
-  id?: string;
+  id?: string | undefined;
   [key: string]: unknown;
 }
 /** Account business address used to calculate tax. A complete address in a supported country is required when `tax_remitted_by` is `self`. */
 export interface UpdateAccountRequestBusinessAddress {
   /** City name. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Two-letter ISO 3166-1 country code, for example `US`, `DE`, or `GB`. */
-  country?: string;
+  country?: string | undefined;
   /** First line of the street address. */
-  line1?: string;
+  line1?: string | undefined;
   /** Second line of the street address. */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** Postal or ZIP code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** State, province, or region code, for example `CA`. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 /** The account's cancellation policy document. Attached to new disputes as the cancellation policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
 export type UpdateAccountRequestCancellationPolicy = UpdateAccountRequestBannerImage;
@@ -1781,13 +1781,17 @@ export type UpdateAccountRequestStorePageConfigProfileVariant = "personal" | "bu
 /** Account store page display configuration. */
 export interface UpdateAccountRequestStorePageConfig {
   /** Accent color used on the account store page. */
-  accent_color?: UpdateAccountRequestStorePageConfigAccentColor | (string & {}) | null;
+  accent_color?: UpdateAccountRequestStorePageConfigAccentColor | (string & {}) | null | undefined;
   /** Layout used on the account store page. */
-  layout?: UpdateAccountRequestStorePageConfigLayout | (string & {}) | null;
+  layout?: UpdateAccountRequestStorePageConfigLayout | (string & {}) | null | undefined;
   /** Profile presentation used on the account store page. */
-  profile_variant?: UpdateAccountRequestStorePageConfigProfileVariant | (string & {}) | null;
+  profile_variant?:
+    | UpdateAccountRequestStorePageConfigProfileVariant
+    | (string & {})
+    | null
+    | undefined;
   /** Whether the account store page shows a Whop affiliate link. */
-  whop_affiliate_link?: boolean;
+  whop_affiliate_link?: boolean | undefined;
 }
 export type UpdateAccountRequestTaxCollectionEnabledStatesItem =
   | "AL"
@@ -1981,105 +1985,109 @@ export interface UpdateAccountRequest {
   /** Account ID, prefixed `biz_`. */
   id: string;
   /** Whether prospective affiliates must submit an application before promoting this account. */
-  affiliate_application_required?: boolean;
+  affiliate_application_required?: boolean | undefined;
   /** Guidelines shown to affiliates promoting this account. */
-  affiliate_instructions?: string | null;
+  affiliate_instructions?: string | null | undefined;
   /** Account banner image, used as the cover photo when creating a Whop-managed Facebook page. Image files up to 10 MB, except `image/gif`. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
-  banner_image?: UpdateAccountRequestBannerImage | null;
+  banner_image?: UpdateAccountRequestBannerImage | null | undefined;
   /** Account business address used to calculate tax. A complete address in a supported country is required when `tax_remitted_by` is `self`. */
-  business_address?: UpdateAccountRequestBusinessAddress;
+  business_address?: UpdateAccountRequestBusinessAddress | undefined;
   /** The legal business name used with the account's tax address. */
-  business_name?: string | null;
+  business_name?: string | null | undefined;
   /** High-level business category for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  business_type?: string | null;
+  business_type?: string | null | undefined;
   /** The account's cancellation policy document. Attached to new disputes as the cancellation policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  cancellation_policy?: UpdateAccountRequestBannerImage | null;
+  cancellation_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** Whether checkout shows a VAT/tax ID field for buyers to optionally enter. Does not require a VAT ID to purchase. */
-  collect_vat_id?: boolean;
+  collect_vat_id?: boolean | undefined;
   /** Country where the account is located. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Account promotional description. When creating a Whop-managed Facebook page, it is truncated to 155 characters and used as the About text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether Whop assembles and files dispute evidence for this account. Enabling it opts into the success fee charged on disputes it wins. Requires payment:dispute. Omit to preserve the existing setting or creation default. */
-  dispute_fighter_enabled?: boolean;
+  dispute_fighter_enabled?: boolean | undefined;
   /** The account's end-user license agreement document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  eula?: UpdateAccountRequestBannerImage | null;
+  eula?: UpdateAccountRequestBannerImage | null | undefined;
   /** The ID of the product to feature for affiliates. Pass `null` to clear. */
-  featured_affiliate_product_id?: string | null;
+  featured_affiliate_product_id?: string | null | undefined;
   /** Public account home page preferences. */
-  home_preferences?: UpdateAccountRequestHomePreferencesList;
+  home_preferences?: UpdateAccountRequestHomePreferencesList | undefined;
   /** Account industry group. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_group?: string | null;
+  industry_group?: string | null | undefined;
   /** Specific industry vertical for the account. See the [business types and industries glossary](/api-reference/beta/accounts/account#business-types-and-industries-glossary) for valid values. */
-  industry_type?: string | null;
+  industry_type?: string | null | undefined;
   /** Prefix used for account invoices. */
-  invoice_prefix?: string | null;
+  invoice_prefix?: string | null | undefined;
   /** Account logo, used as the profile picture when creating a Whop-managed Facebook page. Image files up to 5 MB. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
-  logo?: UpdateAccountRequestBannerImage | null;
+  logo?: UpdateAccountRequestBannerImage | null | undefined;
   /** Arbitrary key/value metadata to store on the account. */
-  metadata?: UpdateAccountRequestMetadataMap;
+  metadata?: UpdateAccountRequestMetadataMap | undefined;
   /** The type of onboarding the account has completed. */
-  onboarding_type?: UpdateAccountRequestOnboardingType | (string & {}) | null;
+  onboarding_type?: UpdateAccountRequestOnboardingType | (string & {}) | null | undefined;
   /** Open Graph preview media used when the account is shared. Image and video files up to 5 MB. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file). */
-  opengraph_image?: UpdateAccountRequestBannerImage | null;
+  opengraph_image?: UpdateAccountRequestBannerImage | null | undefined;
   /** The account Open Graph image variant. */
-  opengraph_image_variant?: UpdateAccountRequestOpengraphImageVariant | (string & {}) | null;
+  opengraph_image_variant?:
+    | UpdateAccountRequestOpengraphImageVariant
+    | (string & {})
+    | null
+    | undefined;
   /** Whether payment orchestration is enabled for this account. Requires payout:account:update. Omit to preserve the existing setting or creation default. */
-  orchestration_enabled?: boolean;
+  orchestration_enabled?: boolean | undefined;
   /** The description of the business type when business_type is other. */
-  other_business_description?: string | null;
+  other_business_description?: string | null | undefined;
   /** The description of the industry type when industry_type is other. */
-  other_industry_description?: string | null;
+  other_industry_description?: string | null | undefined;
   /** The account's privacy policy document. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  privacy_policy?: UpdateAccountRequestBannerImage | null;
+  privacy_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** ID of the tax classification code applied by default to the account's products. See the available [product categories](https://docs.numeral.com/essentials/product-categories). */
-  product_tax_code_id?: string | null;
+  product_tax_code_id?: string | null | undefined;
   /** Whether the account requires authorized users to have two-factor authentication enabled. */
-  require_2fa?: boolean;
+  require_2fa?: boolean | undefined;
   /** The account's return and refund policy document. Attached to new disputes as the refund policy evidence, with the terms of service as the fallback. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  return_policy?: UpdateAccountRequestBannerImage | null;
+  return_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** The unique URL slug for the account. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Whether Whop sends transactional emails to customers on behalf of this account. */
-  send_customer_emails?: boolean;
+  send_customer_emails?: boolean | undefined;
   /** The account's shipping policy document. Sent with physical-goods dispute evidence. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  shipping_policy?: UpdateAccountRequestBannerImage | null;
+  shipping_policy?: UpdateAccountRequestBannerImage | null | undefined;
   /** Whether the account appears in joined whops on other accounts. */
-  show_joined_whops?: boolean;
+  show_joined_whops?: boolean | undefined;
   /** Whether reviews are displayed on direct-to-consumer product pages. */
-  show_reviews_dtc?: boolean;
+  show_reviews_dtc?: boolean | undefined;
   /** Whether the account shows users in the user directory. */
-  show_user_directory?: boolean;
+  show_user_directory?: boolean | undefined;
   /** The full list of social links to display for the account. */
-  social_links?: UpdateAccountRequestSocialLinksList;
+  social_links?: UpdateAccountRequestSocialLinksList | undefined;
   /** Account store page display configuration. */
-  store_page_config?: UpdateAccountRequestStorePageConfig | null;
+  store_page_config?: UpdateAccountRequestStorePageConfig | null | undefined;
   /** The target audience for this account. */
-  target_audience?: string | null;
+  target_audience?: string | null | undefined;
   /** US state codes (50 states plus `DC`) where the account collects tax. Replaces the full set on update. Only settable when `tax_remitted_by` is `self`. */
-  tax_collection_enabled_states?: UpdateAccountRequestTaxCollectionEnabledStatesList;
+  tax_collection_enabled_states?: UpdateAccountRequestTaxCollectionEnabledStatesList | undefined;
   /** Account tax/VAT registrations to add or update. When `tax_remitted_by` is `self`, tax is calculated and collected only in the countries where the account holds a registration. */
-  tax_identifiers?: UpdateAccountRequestTaxIdentifiersList;
+  tax_identifiers?: UpdateAccountRequestTaxIdentifiersList | undefined;
   /** Determines whether Whop or the account calculates and remits tax. The account must provide a supported-country business address when it self-remits. */
-  tax_remitted_by?: UpdateAccountRequestTaxRemittedBy | (string & {});
+  tax_remitted_by?: UpdateAccountRequestTaxRemittedBy | (string & {}) | undefined;
   /** Determines whether tax is included in the listed price or added at checkout. */
-  tax_type?: UpdateAccountRequestTaxType | (string & {});
+  tax_type?: UpdateAccountRequestTaxType | (string & {}) | undefined;
   /** The account's terms of service document. Attached to new disputes as the cancellation policy evidence when no cancellation policy is set. PDF only. Pass a JSON object containing an `id` from [Create File](/api-reference/files/create-file), or `null` to remove it. */
-  terms_of_service?: UpdateAccountRequestBannerImage | null;
+  terms_of_service?: UpdateAccountRequestBannerImage | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. `null` uses the standard checkout flow. */
-  three_ds_level?: UpdateAccountRequestThreeDsLevel | (string & {}) | null;
+  three_ds_level?: UpdateAccountRequestThreeDsLevel | (string & {}) | null | undefined;
   /** The display name of the account. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Whether the account uses its logo as the fallback Open Graph image. */
-  use_logo_as_opengraph_image_fallback?: boolean;
+  use_logo_as_opengraph_image_fallback?: boolean | undefined;
   /** The account's business website, as an `http` or `https` URL of at most 255 characters. Also added to the account's `social_links` as a `website` entry. Pass `null` to clear the website; existing social links are left unchanged. */
-  website?: string | null;
+  website?: string | null | undefined;
 }
 export interface UpdateAccountFeesRequestBankDepositRegionsValue {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
 }
 /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
 export type UpdateAccountFeesRequestBankDepositRegionsMap = {
@@ -2088,11 +2096,11 @@ export type UpdateAccountFeesRequestBankDepositRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestBankDeposit {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestBankDepositRegionsMap;
+  regions?: UpdateAccountFeesRequestBankDepositRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestBillingRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2103,11 +2111,11 @@ export type UpdateAccountFeesRequestBillingRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestBilling {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestBillingRegionsMap;
+  regions?: UpdateAccountFeesRequestBillingRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestBuyerRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2118,11 +2126,11 @@ export type UpdateAccountFeesRequestBuyerRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestBuyer {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestBuyerRegionsMap;
+  regions?: UpdateAccountFeesRequestBuyerRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestCardProcessingRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2133,18 +2141,18 @@ export type UpdateAccountFeesRequestCardProcessingRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestCardProcessing {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestCardProcessingRegionsMap;
+  regions?: UpdateAccountFeesRequestCardProcessingRegionsMap | undefined;
 }
 /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
 export interface UpdateAccountFeesRequestChildMarkupsCardSpend {
   /** The amount the platform adds per event, in US dollars. */
-  fixed?: number;
+  fixed?: number | undefined;
   /** The percentage of the transaction the platform adds, where `2` means 2%. */
-  percentage?: number;
+  percentage?: number | undefined;
 }
 /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
 export type UpdateAccountFeesRequestChildMarkupsCryptoSwaps =
@@ -2172,26 +2180,26 @@ export type UpdateAccountFeesRequestChildMarkupsTransfers =
 /** Default markups for connected accounts. Available on accounts without a parent, even before any accounts connect. */
 export interface UpdateAccountFeesRequestChildMarkups {
   /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
-  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on deposits, keyed by rail: `bank` or `crypto`. */
-  deposits?: UpdateAccountFeesRequestChildMarkupsDepositsMap;
+  deposits?: UpdateAccountFeesRequestChildMarkupsDepositsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on withdrawals, keyed by payout method. */
-  payouts?: UpdateAccountFeesRequestChildMarkupsPayoutsMap;
+  payouts?: UpdateAccountFeesRequestChildMarkupsPayoutsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
 }
 /** Changes to the payout fees this account covers for connected accounts. Send either all or individual category keys. Omitted categories stay unchanged; category changes have no effect while all is true. */
 export interface UpdateAccountFeesRequestCoveredPayoutFees {
-  all?: boolean;
-  bank_wire?: boolean;
-  crypto?: boolean;
-  digital_wallet?: boolean;
-  next_day_bank?: boolean;
-  rtp?: boolean;
+  all?: boolean | undefined;
+  bank_wire?: boolean | undefined;
+  crypto?: boolean | undefined;
+  digital_wallet?: boolean | undefined;
+  next_day_bank?: boolean | undefined;
+  rtp?: boolean | undefined;
 }
 export type UpdateAccountFeesRequestCrossBorderRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2202,11 +2210,11 @@ export type UpdateAccountFeesRequestCrossBorderRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestCrossBorder {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestCrossBorderRegionsMap;
+  regions?: UpdateAccountFeesRequestCrossBorderRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2217,11 +2225,11 @@ export type UpdateAccountFeesRequestDisputeRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDispute {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2232,11 +2240,11 @@ export type UpdateAccountFeesRequestDisputeAlertRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlert {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertCdrnRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2247,11 +2255,11 @@ export type UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlertCdrn {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertCdrnRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertEthocaRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2262,11 +2270,11 @@ export type UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlertEthoca {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertEthocaRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeAlertRdrRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2277,11 +2285,11 @@ export type UpdateAccountFeesRequestDisputeAlertRdrRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeAlertRdr {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeAlertRdrRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeAlertRdrRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestDisputeRepresentmentRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2292,11 +2300,11 @@ export type UpdateAccountFeesRequestDisputeRepresentmentRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestDisputeRepresentment {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestDisputeRepresentmentRegionsMap;
+  regions?: UpdateAccountFeesRequestDisputeRepresentmentRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestForeignExchangeRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2307,11 +2315,11 @@ export type UpdateAccountFeesRequestForeignExchangeRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestForeignExchange {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestForeignExchangeRegionsMap;
+  regions?: UpdateAccountFeesRequestForeignExchangeRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestFraudScreeningRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2322,11 +2330,11 @@ export type UpdateAccountFeesRequestFraudScreeningRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestFraudScreening {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestFraudScreeningRegionsMap;
+  regions?: UpdateAccountFeesRequestFraudScreeningRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestHighRiskRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2337,11 +2345,11 @@ export type UpdateAccountFeesRequestHighRiskRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestHighRisk {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestHighRiskRegionsMap;
+  regions?: UpdateAccountFeesRequestHighRiskRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestMarketplaceRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2352,11 +2360,11 @@ export type UpdateAccountFeesRequestMarketplaceRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestMarketplace {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestMarketplaceRegionsMap;
+  regions?: UpdateAccountFeesRequestMarketplaceRegionsMap | undefined;
 }
 /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
 export type UpdateAccountFeesRequestMarkupsCardSpend =
@@ -2386,17 +2394,17 @@ export type UpdateAccountFeesRequestMarkupsTransfers =
 /** Markups on this connected account, set by the platform it is connected to. */
 export interface UpdateAccountFeesRequestMarkups {
   /** The markup on card purchases settled by the connected account. `null` clears the custom markup. */
-  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  card_spend?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  crypto_swaps?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on deposits, keyed by rail: `bank` or `crypto`. */
-  deposits?: UpdateAccountFeesRequestMarkupsDepositsMap;
+  deposits?: UpdateAccountFeesRequestMarkupsDepositsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  payments?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
   /** Markups on withdrawals, keyed by payout method. */
-  payouts?: UpdateAccountFeesRequestMarkupsPayoutsMap;
+  payouts?: UpdateAccountFeesRequestMarkupsPayoutsMap | undefined;
   /** The new markup. Fields left out keep their current value; `null` clears the row so the markup returns to its default. */
-  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null;
+  transfers?: UpdateAccountFeesRequestChildMarkupsCardSpend | null | undefined;
 }
 export type UpdateAccountFeesRequestOrchestrationRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2407,11 +2415,11 @@ export type UpdateAccountFeesRequestOrchestrationRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestOrchestration {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestOrchestrationRegionsMap;
+  regions?: UpdateAccountFeesRequestOrchestrationRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestPaymentMethodsValueRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2422,11 +2430,11 @@ export type UpdateAccountFeesRequestPaymentMethodsValueRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPaymentMethodsValue {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPaymentMethodsValueRegionsMap;
+  regions?: UpdateAccountFeesRequestPaymentMethodsValueRegionsMap | undefined;
 }
 /** Changes to non-card payment method fees, keyed by payment method type. */
 export type UpdateAccountFeesRequestPaymentMethodsMap = {
@@ -2441,11 +2449,11 @@ export type UpdateAccountFeesRequestPayoutsValueRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPayoutsValue {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPayoutsValueRegionsMap;
+  regions?: UpdateAccountFeesRequestPayoutsValueRegionsMap | undefined;
 }
 /** Changes to withdrawal fees, keyed by payout method. */
 export type UpdateAccountFeesRequestPayoutsMap = {
@@ -2460,11 +2468,11 @@ export type UpdateAccountFeesRequestPendingAutoTopupRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPendingAutoTopup {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPendingAutoTopupRegionsMap;
+  regions?: UpdateAccountFeesRequestPendingAutoTopupRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestPlatformProcessingRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2475,11 +2483,11 @@ export type UpdateAccountFeesRequestPlatformProcessingRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPlatformProcessing {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPlatformProcessingRegionsMap;
+  regions?: UpdateAccountFeesRequestPlatformProcessingRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestPoolPayoutRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2490,11 +2498,11 @@ export type UpdateAccountFeesRequestPoolPayoutRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestPoolPayout {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestPoolPayoutRegionsMap;
+  regions?: UpdateAccountFeesRequestPoolPayoutRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestRevshareRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2505,11 +2513,11 @@ export type UpdateAccountFeesRequestRevshareRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestRevshare {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestRevshareRegionsMap;
+  regions?: UpdateAccountFeesRequestRevshareRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestTaxCalculationRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2520,11 +2528,11 @@ export type UpdateAccountFeesRequestTaxCalculationRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestTaxCalculation {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestTaxCalculationRegionsMap;
+  regions?: UpdateAccountFeesRequestTaxCalculationRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestTaxServiceRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2535,11 +2543,11 @@ export type UpdateAccountFeesRequestTaxServiceRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestTaxService {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestTaxServiceRegionsMap;
+  regions?: UpdateAccountFeesRequestTaxServiceRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestThreeDsRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2550,11 +2558,11 @@ export type UpdateAccountFeesRequestThreeDsRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestThreeDs {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestThreeDsRegionsMap;
+  regions?: UpdateAccountFeesRequestThreeDsRegionsMap | undefined;
 }
 export type UpdateAccountFeesRequestTransfersRegionsValue =
   UpdateAccountFeesRequestBankDepositRegionsValue;
@@ -2565,75 +2573,75 @@ export type UpdateAccountFeesRequestTransfersRegionsMap = {
 /** The fields of a fee the caller may change. Only the keys sent are replaced. */
 export interface UpdateAccountFeesRequestTransfers {
   /** The new amount per event in US dollars. `null` clears the custom amount. */
-  fixed?: number | null;
+  fixed?: number | null | undefined;
   /** The new percentage, where `2` means 2%. `null` clears the custom rate so the fee returns to its default or inherited rate. */
-  percentage?: number | null;
+  percentage?: number | null | undefined;
   /** Changes for the other regions the fee varies by, keyed by region. Only accepted on a fee whose `regions` is non-empty. */
-  regions?: UpdateAccountFeesRequestTransfersRegionsMap;
+  regions?: UpdateAccountFeesRequestTransfersRegionsMap | undefined;
 }
 export interface UpdateAccountFeesRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  bank_deposit?: UpdateAccountFeesRequestBankDeposit;
+  bank_deposit?: UpdateAccountFeesRequestBankDeposit | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  billing?: UpdateAccountFeesRequestBilling;
+  billing?: UpdateAccountFeesRequestBilling | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  buyer?: UpdateAccountFeesRequestBuyer;
+  buyer?: UpdateAccountFeesRequestBuyer | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  card_processing?: UpdateAccountFeesRequestCardProcessing;
+  card_processing?: UpdateAccountFeesRequestCardProcessing | undefined;
   /** Default markups for connected accounts. Available on accounts without a parent, even before any accounts connect. */
-  child_markups?: UpdateAccountFeesRequestChildMarkups;
+  child_markups?: UpdateAccountFeesRequestChildMarkups | undefined;
   /** Changes to the payout fees this account covers for connected accounts. Send either all or individual category keys. Omitted categories stay unchanged; category changes have no effect while all is true. */
-  covered_payout_fees?: UpdateAccountFeesRequestCoveredPayoutFees;
+  covered_payout_fees?: UpdateAccountFeesRequestCoveredPayoutFees | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  cross_border?: UpdateAccountFeesRequestCrossBorder;
+  cross_border?: UpdateAccountFeesRequestCrossBorder | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute?: UpdateAccountFeesRequestDispute;
+  dispute?: UpdateAccountFeesRequestDispute | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert?: UpdateAccountFeesRequestDisputeAlert;
+  dispute_alert?: UpdateAccountFeesRequestDisputeAlert | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert_cdrn?: UpdateAccountFeesRequestDisputeAlertCdrn;
+  dispute_alert_cdrn?: UpdateAccountFeesRequestDisputeAlertCdrn | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert_ethoca?: UpdateAccountFeesRequestDisputeAlertEthoca;
+  dispute_alert_ethoca?: UpdateAccountFeesRequestDisputeAlertEthoca | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_alert_rdr?: UpdateAccountFeesRequestDisputeAlertRdr;
+  dispute_alert_rdr?: UpdateAccountFeesRequestDisputeAlertRdr | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  dispute_representment?: UpdateAccountFeesRequestDisputeRepresentment;
+  dispute_representment?: UpdateAccountFeesRequestDisputeRepresentment | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  foreign_exchange?: UpdateAccountFeesRequestForeignExchange;
+  foreign_exchange?: UpdateAccountFeesRequestForeignExchange | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  fraud_screening?: UpdateAccountFeesRequestFraudScreening;
+  fraud_screening?: UpdateAccountFeesRequestFraudScreening | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  high_risk?: UpdateAccountFeesRequestHighRisk;
+  high_risk?: UpdateAccountFeesRequestHighRisk | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  marketplace?: UpdateAccountFeesRequestMarketplace;
+  marketplace?: UpdateAccountFeesRequestMarketplace | undefined;
   /** Markups on this connected account, set by the platform it is connected to. */
-  markups?: UpdateAccountFeesRequestMarkups;
+  markups?: UpdateAccountFeesRequestMarkups | undefined;
   /** Why the fees are changing, recorded with the change. Required when a Whop Verified Partner edits the fee schedule; ignored for markups. */
-  notes?: string;
+  notes?: string | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  orchestration?: UpdateAccountFeesRequestOrchestration;
+  orchestration?: UpdateAccountFeesRequestOrchestration | undefined;
   /** Changes to non-card payment method fees, keyed by payment method type. */
-  payment_methods?: UpdateAccountFeesRequestPaymentMethodsMap;
+  payment_methods?: UpdateAccountFeesRequestPaymentMethodsMap | undefined;
   /** Changes to withdrawal fees, keyed by payout method. */
-  payouts?: UpdateAccountFeesRequestPayoutsMap;
+  payouts?: UpdateAccountFeesRequestPayoutsMap | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  pending_auto_topup?: UpdateAccountFeesRequestPendingAutoTopup;
+  pending_auto_topup?: UpdateAccountFeesRequestPendingAutoTopup | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  platform_processing?: UpdateAccountFeesRequestPlatformProcessing;
+  platform_processing?: UpdateAccountFeesRequestPlatformProcessing | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  pool_payout?: UpdateAccountFeesRequestPoolPayout;
+  pool_payout?: UpdateAccountFeesRequestPoolPayout | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  revshare?: UpdateAccountFeesRequestRevshare;
+  revshare?: UpdateAccountFeesRequestRevshare | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  tax_calculation?: UpdateAccountFeesRequestTaxCalculation;
+  tax_calculation?: UpdateAccountFeesRequestTaxCalculation | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  tax_service?: UpdateAccountFeesRequestTaxService;
+  tax_service?: UpdateAccountFeesRequestTaxService | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  three_ds?: UpdateAccountFeesRequestThreeDs;
+  three_ds?: UpdateAccountFeesRequestThreeDs | undefined;
   /** The fields of a fee the caller may change. Only the keys sent are replaced. */
-  transfers?: UpdateAccountFeesRequestTransfers;
+  transfers?: UpdateAccountFeesRequestTransfers | undefined;
 }
 /** Must be `pending_information`. */
 export type UpdateAccountPreferencesRequestAdsCertificationsValueStatus = "pending_information";
@@ -2652,7 +2660,7 @@ export type UpdateAccountPreferencesRequestAdsPaymentMethodsBackupType =
 /** Optional second method charged if the primary fails. Any pairing is allowed (two cards, card+balance, balance+card); omit it to run on a single method. Must differ from the primary. */
 export interface UpdateAccountPreferencesRequestAdsPaymentMethodsBackup {
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. Optional for `platform_balance` -- defaults to the account's default Whop balance. Required for `card`. */
-  id?: string;
+  id?: string | undefined;
   /** The funding source kind. */
   type: UpdateAccountPreferencesRequestAdsPaymentMethodsBackupType | (string & {});
 }
@@ -2662,22 +2670,22 @@ export type UpdateAccountPreferencesRequestAdsPaymentMethodsPrimaryType =
   | "card";
 export interface UpdateAccountPreferencesRequestAdsPaymentMethodsPrimary {
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. Optional for `platform_balance` -- defaults to the account's default Whop balance. Required for `card`. */
-  id?: string;
+  id?: string | undefined;
   /** The funding source kind. */
   type: UpdateAccountPreferencesRequestAdsPaymentMethodsPrimaryType | (string & {});
 }
 /** How the account pays for Whop Ads spend. Requires `primary`; `backup` is optional and covers the charge when the primary fails. Requires the `ad_campaign:create` scope on your API key. Configuring a `card` requires a user token; account API keys can configure only `platform_balance` sources. */
 export interface UpdateAccountPreferencesRequestAdsPaymentMethods {
   /** Optional second method charged if the primary fails. Any pairing is allowed (two cards, card+balance, balance+card); omit it to run on a single method. Must differ from the primary. */
-  backup?: UpdateAccountPreferencesRequestAdsPaymentMethodsBackup;
+  backup?: UpdateAccountPreferencesRequestAdsPaymentMethodsBackup | undefined;
   primary: UpdateAccountPreferencesRequestAdsPaymentMethodsPrimary;
 }
 /** Connects or disconnects the Triple Whale integration, or changes the shop it reports to. Requires the `ad_campaign:create` scope on your API key. Connecting requires a shop domain to report spend against -- either an explicit `shop_domain` (required for any merchant without a connected Shopify store, e.g. WooCommerce, a custom checkout, or a white-label platform's merchant) or a Shopify store connected on the Fulfillment page. */
 export interface UpdateAccountPreferencesRequestAdsTripleWhaleIntegration {
   /** A Triple Whale Data-In API key with the `Ads: Write` scope, validated against Triple Whale before it is stored. Pass `null` to disconnect. Connecting for the first time backfills the account's existing ad spend. Required unless you are only changing `shop_domain` on an already connected integration, in which case the stored key is reused. */
-  api_key?: string | Redacted.Redacted<string> | null;
+  api_key?: string | Redacted.Redacted<string> | null | undefined;
   /** The exact shop domain configured in Triple Whale's Settings -> Store (for Shopify this is the `.myshopify.com` domain; for a custom sales platform it's whatever domain Triple Whale assigned when the shop was set up there). A leading `https://` and trailing `/` are stripped, and what remains must be a bare hostname with no path or spaces. Validated against Triple Whale -- the API key must have access to it -- before it is stored. Changing it on a connected integration backfills the account's ad spend onto the new shop. Omit to fall back to a connected Shopify store's domain; there is no way to clear a stored value, only to overwrite it with a new domain. */
-  shop_domain?: string;
+  shop_domain?: string | undefined;
 }
 /** Turns on Economic Intelligence for the duration with this `key` in `economic_intelligence_offers`, at that duration's fee. It can't be changed or turned off until `economic_intelligence_ends_at`, and it can only be turned on once the account is off the Economic Intelligence waitlist. Requires the `company:update` scope on your API key. */
 export type UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey =
@@ -2690,29 +2698,33 @@ export interface UpdateAccountPreferencesRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Opens an advertising certification application. Keyed by certification type (`prescription_drug_ads`); set the entry's `status` to `pending_information` to start, then answer the requested fields via `PATCH /verifications/{id}`. Only one application per type can be open at a time; every other status is set by Whop's review. Requires the `ad_campaign:create` scope on your API key. */
-  ads_certifications?: UpdateAccountPreferencesRequestAdsCertificationsMap;
+  ads_certifications?: UpdateAccountPreferencesRequestAdsCertificationsMap | undefined;
   /** How the account pays for Whop Ads spend. Requires `primary`; `backup` is optional and covers the charge when the primary fails. Requires the `ad_campaign:create` scope on your API key. Configuring a `card` requires a user token; account API keys can configure only `platform_balance` sources. */
-  ads_payment_methods?: UpdateAccountPreferencesRequestAdsPaymentMethods;
+  ads_payment_methods?: UpdateAccountPreferencesRequestAdsPaymentMethods | undefined;
   /** Lowercase ISO currency code, such as `usd` or `eur`, used to display ad spend and stats. Defaults to `usd`. Requires the `ad_campaign:create` scope on your API key. */
-  ads_reporting_currency?: string;
+  ads_reporting_currency?: string | undefined;
   /** IANA timezone (e.g. `America/New_York`) used to interpret campaign start/end times and to bucket reports. Cannot be cleared once set -- pass a new value to change it. Requires the `ad_campaign:create` scope on your API key. */
-  ads_scheduling_timezone?: string;
+  ads_scheduling_timezone?: string | undefined;
   /** Connects or disconnects the Triple Whale integration, or changes the shop it reports to. Requires the `ad_campaign:create` scope on your API key. Connecting requires a shop domain to report spend against -- either an explicit `shop_domain` (required for any merchant without a connected Shopify store, e.g. WooCommerce, a custom checkout, or a white-label platform's merchant) or a Shopify store connected on the Fulfillment page. */
-  ads_triple_whale_integration?: UpdateAccountPreferencesRequestAdsTripleWhaleIntegration;
+  ads_triple_whale_integration?:
+    | UpdateAccountPreferencesRequestAdsTripleWhaleIntegration
+    | undefined;
   /** Whether incoming funds are automatically moved to the account's cards balance. Requires a cards balance on the account and the `payout:account:update` scope on your API key. */
-  cards_auto_top_up?: boolean;
+  cards_auto_top_up?: boolean | undefined;
   /** Whether Whop Card notifications reach this account's team. Set it to `false` to stop every card email and push notification for the account -- application status, verification and action-required alerts, card-ready alerts, declines, large charges, and cashback summaries. Cardholder onboarding invitations still send, because they carry the only link an invited cardholder can onboard with. Requesting a card is rejected while notifications are off, since the request reaches nobody. Cards on personal accounts are unaffected. Requires a cards balance on the account and the `payout:account:update` scope on your API key. */
-  cards_notifications?: boolean;
+  cards_notifications?: boolean | undefined;
   /** Whether Whop assembles and files the evidence response when this account's payments are disputed. Off by default; enabling it also opts the account into the success fee charged only on disputes it wins. Requires the `payment:dispute` scope on your API key. */
-  dispute_fighter_enabled?: boolean;
+  dispute_fighter_enabled?: boolean | undefined;
   /** Turns on Economic Intelligence for the duration with this `key` in `economic_intelligence_offers`, at that duration's fee. It can't be changed or turned off until `economic_intelligence_ends_at`, and it can only be turned on once the account is off the Economic Intelligence waitlist. Requires the `company:update` scope on your API key. */
   economic_intelligence_duration_key?:
     | UpdateAccountPreferencesRequestEconomicIntelligenceDurationKey
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** What happens to a subscription once every retry of a renewal payment has failed. `cancel` (the default) cancels it. `none` leaves it past due and keeps billing it each period; access follows the account's past-due access setting. Requires company:manage_checkout permission. */
   subscription_failure_behavior?:
     | UpdateAccountPreferencesRequestSubscriptionFailureBehavior
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Where the account's ads services agreement stands. */
 export type UpdateAccountPreferencesResponseAdsAgreementStatus =
@@ -2779,19 +2791,19 @@ export type UpdateAccountPreferencesResponseAdsPaymentMethodsBackupType =
   | "card";
 export interface UpdateAccountPreferencesResponseAdsPaymentMethodsBackup {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: UpdateAccountPreferencesResponseAdsPaymentMethodsBackupType;
 }
@@ -2801,19 +2813,19 @@ export type UpdateAccountPreferencesResponseAdsPaymentMethodsPrimaryType =
   | "card";
 export interface UpdateAccountPreferencesResponseAdsPaymentMethodsPrimary {
   /** Card brand, present for `card` entries. */
-  card_brand?: string | null;
+  card_brand?: string | null | undefined;
   /** Expiration month, present for `card` entries. */
-  exp_month?: number | null;
+  exp_month?: number | null | undefined;
   /** Expiration year, present for `card` entries. */
-  exp_year?: number | null;
+  exp_year?: number | null | undefined;
   /** Balance owner icon URL, present for `platform_balance` entries. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The funding source ID: a Whop balance (`ldgr_`) for `platform_balance`, or a payment method (`payt_`) for `card`. */
   id: string;
   /** Last four digits, present for `card` entries. */
-  last4?: string | null;
+  last4?: string | null | undefined;
   /** Balance name, present for account `platform_balance` entries (null for a personal balance). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The funding source kind: a Whop balance or a saved card. */
   type: UpdateAccountPreferencesResponseAdsPaymentMethodsPrimaryType;
 }

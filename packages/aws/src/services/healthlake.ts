@@ -160,26 +160,26 @@ export interface SampleDataSource {
 export type CreateDataTransformationProfileSource =
   | {
       StarterProfile: StarterProfileSource;
-      ExistingVersionedProfileId?: never;
-      ProfileMapping?: never;
-      SampleData?: never;
+      ExistingVersionedProfileId?: undefined;
+      ProfileMapping?: undefined;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
+      StarterProfile?: undefined;
       ExistingVersionedProfileId: ExistingVersionedProfileSource;
-      ProfileMapping?: never;
-      SampleData?: never;
+      ProfileMapping?: undefined;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
-      ExistingVersionedProfileId?: never;
+      StarterProfile?: undefined;
+      ExistingVersionedProfileId?: undefined;
       ProfileMapping: ProfileMappingSource;
-      SampleData?: never;
+      SampleData?: undefined;
     }
   | {
-      StarterProfile?: never;
-      ExistingVersionedProfileId?: never;
-      ProfileMapping?: never;
+      StarterProfile?: undefined;
+      ExistingVersionedProfileId?: undefined;
+      ProfileMapping?: undefined;
       SampleData: SampleDataSource;
     };
 export type KmsKeyId = string;
@@ -192,11 +192,11 @@ export type ClientToken = string;
 export interface CreateDataTransformationProfileRequest {
   SourceFormat: SourceFormat;
   Source: CreateDataTransformationProfileSource;
-  KmsKeyId?: string;
-  ProfileDescription?: string;
+  KmsKeyId?: string | undefined;
+  ProfileDescription?: string | undefined;
   ProfileName: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type ProfileIdString = string;
 export type ProfileVersion = number;
@@ -215,7 +215,7 @@ export type CmkType = "CUSTOMER_MANAGED_KMS_KEY" | "AWS_OWNED_KMS_KEY" | (string
 export type EncryptionKeyID = string;
 export interface KmsEncryptionConfig {
   CmkType: CmkType;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface SseConfiguration {
   KmsEncryptionConfig: KmsEncryptionConfig;
@@ -242,9 +242,9 @@ export type ConfigurationMetadata = string;
 export type LambdaArn = string;
 export interface IdentityProviderConfiguration {
   AuthorizationStrategy: AuthorizationStrategy;
-  FineGrainedAuthorizationEnabled?: boolean;
-  Metadata?: string;
-  IdpLambdaArn?: string;
+  FineGrainedAuthorizationEnabled?: boolean | undefined;
+  Metadata?: string | undefined;
+  IdpLambdaArn?: string | undefined;
 }
 export type AnalyticsStatus =
   | "ENABLED"
@@ -255,38 +255,38 @@ export type AnalyticsStatus =
   | "PAUSED"
   | (string & {});
 export interface AnalyticsConfiguration {
-  Status?: AnalyticsStatus;
+  Status?: AnalyticsStatus | undefined;
 }
 export type NlpStatus = "ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | (string & {});
 export interface NlpConfiguration {
-  Status?: NlpStatus;
+  Status?: NlpStatus | undefined;
 }
 export type HealthLakeString = string;
 export type DefaultProfiles = string[];
 export interface ProfileConfiguration {
-  DefaultProfiles?: string[];
+  DefaultProfiles?: string[] | undefined;
 }
 export type BackupStatus = "ENABLED" | "DISABLED" | (string & {});
 export type BackupType = "CONTINUOUS" | (string & {});
 export type BackupRetentionPeriodInDays = number;
 export interface BackupConfiguration {
-  Status?: BackupStatus;
-  BackupType?: BackupType;
-  RetentionPeriodInDays?: number;
-  BackupTagsEnabled?: boolean;
+  Status?: BackupStatus | undefined;
+  BackupType?: BackupType | undefined;
+  RetentionPeriodInDays?: number | undefined;
+  BackupTagsEnabled?: boolean | undefined;
 }
 export interface CreateFHIRDatastoreRequest {
-  DatastoreName?: string;
+  DatastoreName?: string | undefined;
   DatastoreTypeVersion: FHIRVersion;
-  SseConfiguration?: SseConfiguration;
-  PreloadDataConfig?: PreloadDataConfig;
-  ClientToken?: string;
-  Tags?: Tag[];
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  NlpConfiguration?: NlpConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
-  BackupConfiguration?: BackupConfiguration;
+  SseConfiguration?: SseConfiguration | undefined;
+  PreloadDataConfig?: PreloadDataConfig | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  BackupConfiguration?: BackupConfiguration | undefined;
 }
 export type DatastoreId = string;
 export type DatastoreArn = string;
@@ -311,7 +311,7 @@ export interface DeleteDataTransformationProfileRequest {
 }
 export interface DeleteDataTransformationProfileResponse {
   ProfileId: string;
-  ProfileName?: string;
+  ProfileName?: string | undefined;
   DeletionTime: Date;
 }
 export interface DeleteFHIRDatastoreRequest {
@@ -338,7 +338,7 @@ export type TransformationJobStatus =
 export type DataTransformationS3Uri = string;
 export interface TransformationInputDataConfig {
   S3Uri: string;
-  SourceFormat?: SourceFormat;
+  SourceFormat?: SourceFormat | undefined;
 }
 export interface DataTransformationS3Configuration {
   S3Uri: string;
@@ -363,15 +363,15 @@ export interface TransformationJobProperties {
   OutputDataConfig: TransformationOutputDataConfig;
   DataAccessRoleArn: string;
   SubmitTime: Date;
-  JobName?: string;
-  ProfileId?: string;
-  ProfileName?: string;
-  ProfileVersion?: number;
-  EndTime?: Date;
-  DriftDetectionEnabled?: boolean;
-  ProvenanceEnabled?: boolean;
-  Message?: string;
-  JobProgressReport?: TransformationJobProgressReport;
+  JobName?: string | undefined;
+  ProfileId?: string | undefined;
+  ProfileName?: string | undefined;
+  ProfileVersion?: number | undefined;
+  EndTime?: Date | undefined;
+  DriftDetectionEnabled?: boolean | undefined;
+  ProvenanceEnabled?: boolean | undefined;
+  Message?: string | undefined;
+  JobProgressReport?: TransformationJobProgressReport | undefined;
 }
 export interface DescribeDataTransformationJobResponse {
   TransformationJobProperties: TransformationJobProperties;
@@ -383,32 +383,32 @@ export type HealthLakeTimestamp = Date;
 export type ErrorMessage = string;
 export type ErrorCategory = "RETRYABLE_ERROR" | "NON_RETRYABLE_ERROR" | (string & {});
 export interface ErrorCause {
-  ErrorMessage?: string;
-  ErrorCategory?: ErrorCategory;
+  ErrorMessage?: string | undefined;
+  ErrorCategory?: ErrorCategory | undefined;
 }
 export interface DatastoreBackupStatus {
-  Configuration?: BackupConfiguration;
-  BackupEnabledAt?: Date;
-  EarliestRestorePoint?: Date;
-  LatestRestorePoint?: Date;
-  ScheduledPermanentDeletionTime?: Date;
+  Configuration?: BackupConfiguration | undefined;
+  BackupEnabledAt?: Date | undefined;
+  EarliestRestorePoint?: Date | undefined;
+  LatestRestorePoint?: Date | undefined;
+  ScheduledPermanentDeletionTime?: Date | undefined;
 }
 export interface DatastoreProperties {
   DatastoreId: string;
   DatastoreArn: string;
-  DatastoreName?: string;
+  DatastoreName?: string | undefined;
   DatastoreStatus: DatastoreStatus;
-  CreatedAt?: Date;
+  CreatedAt?: Date | undefined;
   DatastoreTypeVersion: FHIRVersion;
   DatastoreEndpoint: string;
-  SseConfiguration?: SseConfiguration;
-  PreloadDataConfig?: PreloadDataConfig;
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  ErrorCause?: ErrorCause;
-  NlpConfiguration?: NlpConfiguration;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
-  BackupStatusInfo?: DatastoreBackupStatus;
+  SseConfiguration?: SseConfiguration | undefined;
+  PreloadDataConfig?: PreloadDataConfig | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  ErrorCause?: ErrorCause | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  BackupStatusInfo?: DatastoreBackupStatus | undefined;
 }
 export interface DescribeFHIRDatastoreResponse {
   DatastoreProperties: DatastoreProperties;
@@ -441,14 +441,14 @@ export type IamRoleArn = string;
 export type Message = string;
 export interface ExportJobProperties {
   JobId: string;
-  JobName?: string;
+  JobName?: string | undefined;
   JobStatus: JobStatus;
   SubmitTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   DatastoreId: string;
   OutputDataConfig: OutputDataConfig;
-  DataAccessRoleArn?: string;
-  Message?: string;
+  DataAccessRoleArn?: string | undefined;
+  Message?: string | undefined;
 }
 export interface DescribeFHIRExportJobResponse {
   ExportJobProperties: ExportJobProperties;
@@ -459,45 +459,45 @@ export interface DescribeFHIRImportJobRequest {
 }
 export type InputDataConfig = { S3Uri: string };
 export interface JobProgressReport {
-  TotalNumberOfScannedFiles?: number;
-  TotalSizeOfScannedFilesInMB?: number;
-  TotalNumberOfImportedFiles?: number;
-  TotalNumberOfResourcesScanned?: number;
-  TotalNumberOfResourcesImported?: number;
-  TotalNumberOfResourcesWithCustomerError?: number;
-  TotalNumberOfFilesReadWithCustomerError?: number;
-  TotalNumberOfScannedNonFhirFiles?: number;
-  TotalSizeOfScannedNonFhirFilesInMB?: number;
-  TotalNumberOfImportedNonFhirFiles?: number;
-  TotalNumberOfNonFhirResourcesScanned?: number;
-  TotalNumberOfNonFhirResourcesImported?: number;
-  TotalNumberOfNonFhirResourcesWithCustomerError?: number;
-  TotalNumberOfNonFhirFilesReadWithCustomerError?: number;
-  Throughput?: number;
-  TotalFilesConverted?: number;
-  TotalResourcesGenerated?: number;
+  TotalNumberOfScannedFiles?: number | undefined;
+  TotalSizeOfScannedFilesInMB?: number | undefined;
+  TotalNumberOfImportedFiles?: number | undefined;
+  TotalNumberOfResourcesScanned?: number | undefined;
+  TotalNumberOfResourcesImported?: number | undefined;
+  TotalNumberOfResourcesWithCustomerError?: number | undefined;
+  TotalNumberOfFilesReadWithCustomerError?: number | undefined;
+  TotalNumberOfScannedNonFhirFiles?: number | undefined;
+  TotalSizeOfScannedNonFhirFilesInMB?: number | undefined;
+  TotalNumberOfImportedNonFhirFiles?: number | undefined;
+  TotalNumberOfNonFhirResourcesScanned?: number | undefined;
+  TotalNumberOfNonFhirResourcesImported?: number | undefined;
+  TotalNumberOfNonFhirResourcesWithCustomerError?: number | undefined;
+  TotalNumberOfNonFhirFilesReadWithCustomerError?: number | undefined;
+  Throughput?: number | undefined;
+  TotalFilesConverted?: number | undefined;
+  TotalResourcesGenerated?: number | undefined;
 }
 export type ValidationLevel = "strict" | "structure-only" | "minimal" | (string & {});
 export interface ImportJobProperties {
   JobId: string;
-  JobName?: string;
+  JobName?: string | undefined;
   JobStatus: JobStatus;
   SubmitTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   DatastoreId: string;
   InputDataConfig: InputDataConfig;
-  JobOutputDataConfig?: OutputDataConfig;
-  JobProgressReport?: JobProgressReport;
-  DataAccessRoleArn?: string;
-  Message?: string;
-  ValidationLevel?: ValidationLevel;
+  JobOutputDataConfig?: OutputDataConfig | undefined;
+  JobProgressReport?: JobProgressReport | undefined;
+  DataAccessRoleArn?: string | undefined;
+  Message?: string | undefined;
+  ValidationLevel?: ValidationLevel | undefined;
 }
 export interface DescribeFHIRImportJobResponse {
   ImportJobProperties: ImportJobProperties;
 }
 export interface GetDataTransformationProfileRequest {
   ProfileId: string;
-  ProfileVersion?: number;
+  ProfileVersion?: number | undefined;
 }
 export type ProfileMappingKey = string;
 export type ProfileMappingValue = string;
@@ -509,141 +509,141 @@ export interface GetDataTransformationProfileResponse {
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
   ProfileMapping: { [key: string]: string | undefined };
-  ProfileName?: string;
-  ProfileDescription?: string;
-  ChangeDescription?: string;
+  ProfileName?: string | undefined;
+  ProfileDescription?: string | undefined;
+  ChangeDescription?: string | undefined;
   LastUpdatedAt: Date;
 }
 export type MaxResults = number;
 export type DataTransformationNextToken = string;
 export interface ListDataTransformationJobsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  JobStatus?: TransformationJobStatus;
-  JobName?: string;
-  SubmittedAfter?: Date;
-  SubmittedBefore?: Date;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  JobStatus?: TransformationJobStatus | undefined;
+  JobName?: string | undefined;
+  SubmittedAfter?: Date | undefined;
+  SubmittedBefore?: Date | undefined;
 }
 export interface TransformationJobSummary {
   JobId: string;
   JobStatus: TransformationJobStatus;
   SubmitTime: Date;
-  JobName?: string;
-  EndTime?: Date;
-  SourceFormat?: SourceFormat;
+  JobName?: string | undefined;
+  EndTime?: Date | undefined;
+  SourceFormat?: SourceFormat | undefined;
 }
 export type TransformationJobSummaryList = TransformationJobSummary[];
 export interface ListDataTransformationJobsResponse {
   Items: TransformationJobSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListDataTransformationProfilesRequest {
   SourceFormat: SourceFormat;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataTransformationProfileSummary {
   ProfileId: string;
   Version: number;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
-  ProfileDescription?: string;
-  LastUpdatedAt?: Date;
+  ProfileName?: string | undefined;
+  ProfileDescription?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export type DataTransformationProfileSummaryList = DataTransformationProfileSummary[];
 export interface ListDataTransformationProfilesResponse {
   Items: DataTransformationProfileSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListDataTransformationProfileVersionsRequest {
   ProfileId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataTransformationProfileVersionSummary {
   ProfileId: string;
   Version: number;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
-  ChangeDescription?: string;
-  LastUpdatedAt?: Date;
+  ProfileName?: string | undefined;
+  ChangeDescription?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export type DataTransformationProfileVersionSummaryList = DataTransformationProfileVersionSummary[];
 export interface ListDataTransformationProfileVersionsResponse {
   Items: DataTransformationProfileVersionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DatastoreFilter {
-  DatastoreName?: string;
-  DatastoreStatus?: DatastoreStatus;
-  CreatedBefore?: Date;
-  CreatedAfter?: Date;
+  DatastoreName?: string | undefined;
+  DatastoreStatus?: DatastoreStatus | undefined;
+  CreatedBefore?: Date | undefined;
+  CreatedAfter?: Date | undefined;
 }
 export type NextToken = string;
 export type MaxResultsInteger = number;
 export interface ListFHIRDatastoresRequest {
-  Filter?: DatastoreFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DatastoreFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DatastorePropertiesList = DatastoreProperties[];
 export interface ListFHIRDatastoresResponse {
   DatastorePropertiesList: DatastoreProperties[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFHIRExportJobsRequest {
   DatastoreId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmittedBefore?: Date;
-  SubmittedAfter?: Date;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmittedBefore?: Date | undefined;
+  SubmittedAfter?: Date | undefined;
 }
 export type ExportJobPropertiesList = ExportJobProperties[];
 export interface ListFHIRExportJobsResponse {
   ExportJobPropertiesList: ExportJobProperties[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFHIRImportJobsRequest {
   DatastoreId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmittedBefore?: Date;
-  SubmittedAfter?: Date;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmittedBefore?: Date | undefined;
+  SubmittedAfter?: Date | undefined;
 }
 export type ImportJobPropertiesList = ImportJobProperties[];
 export interface ListFHIRImportJobsResponse {
   ImportJobPropertiesList: ImportJobProperties[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PublishDataTransformationProfileRequest {
   ProfileId: string;
   SourceFormat: SourceFormat;
-  FromExistingVersion?: number;
-  ChangeDescription?: string;
+  FromExistingVersion?: number | undefined;
+  ChangeDescription?: string | undefined;
 }
 export interface PublishDataTransformationProfileResponse {
   ProfileId: string;
   Version: number;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
+  ProfileName?: string | undefined;
   LastUpdatedAt: Date;
 }
 export interface ContinuousBackupRestoreConfiguration {
-  RestorePointTime?: Date;
+  RestorePointTime?: Date | undefined;
 }
 export type RestoreConfiguration = {
   ContinuousBackupRestoreConfiguration: ContinuousBackupRestoreConfiguration;
@@ -651,14 +651,14 @@ export type RestoreConfiguration = {
 export interface RestoreFHIRDatastoreRequest {
   SourceDatastoreId: string;
   RestoreConfiguration: RestoreConfiguration;
-  DatastoreName?: string;
-  SseConfiguration?: SseConfiguration;
-  ClientToken?: string;
-  Tags?: Tag[];
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  NlpConfiguration?: NlpConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
+  DatastoreName?: string | undefined;
+  SseConfiguration?: SseConfiguration | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
 }
 export interface RestoreFHIRDatastoreResponse {
   DatastoreId: string;
@@ -671,45 +671,45 @@ export interface StartDataTransformationJobRequest {
   OutputDataConfig: TransformationOutputDataConfig;
   DataAccessRoleArn: string;
   ClientToken: string;
-  JobName?: string;
+  JobName?: string | undefined;
   ProfileId: string;
-  DriftDetectionEnabled?: boolean;
-  ProvenanceEnabled?: boolean;
+  DriftDetectionEnabled?: boolean | undefined;
+  ProvenanceEnabled?: boolean | undefined;
 }
 export interface StartDataTransformationJobResponse {
   JobId: string;
   JobStatus: TransformationJobStatus;
 }
 export interface StartFHIRExportJobRequest {
-  JobName?: string;
+  JobName?: string | undefined;
   OutputDataConfig: OutputDataConfig;
   DatastoreId: string;
   DataAccessRoleArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface StartFHIRExportJobResponse {
   JobId: string;
   JobStatus: JobStatus;
-  DatastoreId?: string;
+  DatastoreId?: string | undefined;
 }
 export type DefaultEnabledBoolean = boolean;
 export interface StartFHIRImportJobRequest {
-  JobName?: string;
+  JobName?: string | undefined;
   InputDataConfig: InputDataConfig;
   JobOutputDataConfig: OutputDataConfig;
   DatastoreId: string;
   DataAccessRoleArn: string;
-  ClientToken?: string;
-  ValidationLevel?: ValidationLevel;
-  ProfileId?: string;
-  InputFormat?: string;
-  DriftDetectionEnabled?: boolean;
-  ProvenanceEnabled?: boolean;
+  ClientToken?: string | undefined;
+  ValidationLevel?: ValidationLevel | undefined;
+  ProfileId?: string | undefined;
+  InputFormat?: string | undefined;
+  DriftDetectionEnabled?: boolean | undefined;
+  ProvenanceEnabled?: boolean | undefined;
 }
 export interface StartFHIRImportJobResponse {
   JobId: string;
   JobStatus: JobStatus;
-  DatastoreId?: string;
+  DatastoreId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -725,23 +725,23 @@ export interface UntagResourceResponse {}
 export interface UpdateDataTransformationProfileRequest {
   ProfileId: string;
   ProfileMapping: { [key: string]: string | undefined };
-  ChangeDescription?: string;
+  ChangeDescription?: string | undefined;
 }
 export interface UpdateDataTransformationProfileResponse {
   ProfileId: string;
   SourceFormat: SourceFormat;
   TargetFormat: TargetFormat;
-  ProfileName?: string;
+  ProfileName?: string | undefined;
   LastUpdatedAt: Date;
 }
 export interface UpdateFHIRDatastoreRequest {
   DatastoreId: string;
-  DatastoreName?: string;
-  AnalyticsConfiguration?: AnalyticsConfiguration;
-  NlpConfiguration?: NlpConfiguration;
-  ProfileConfiguration?: ProfileConfiguration;
-  IdentityProviderConfiguration?: IdentityProviderConfiguration;
-  BackupConfiguration?: BackupConfiguration;
+  DatastoreName?: string | undefined;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
+  NlpConfiguration?: NlpConfiguration | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  IdentityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  BackupConfiguration?: BackupConfiguration | undefined;
 }
 export interface UpdateFHIRDatastoreResponse {
   DatastoreProperties: DatastoreProperties;
@@ -756,7 +756,7 @@ export type ConversationIdString = string;
 export interface UpdateProfileWithAgentRequest {
   ProfileId: string;
   InputMessage: AgentInputMessage;
-  ConversationId?: string;
+  ConversationId?: string | undefined;
 }
 export interface TextMessageEvent {
   Message: string | redacted.Redacted<string>;
@@ -780,43 +780,43 @@ export type DataTransformationChatOptionString = string | redacted.Redacted<stri
 export type DataTransformationChatOptionsList = (string | redacted.Redacted<string>)[];
 export interface EndOfOutputEvent {
   FinalResponseMessage: string | redacted.Redacted<string>;
-  Options?: (string | redacted.Redacted<string>)[];
-  ConversationId?: string;
+  Options?: (string | redacted.Redacted<string>)[] | undefined;
+  ConversationId?: string | undefined;
 }
 export type AgentOutputMessageStream =
   | {
       TextMessageEvent: TextMessageEvent;
-      ProgressEvent?: never;
-      HeartbeatEvent?: never;
-      ErrorEvent?: never;
-      EndOfOutputEvent?: never;
+      ProgressEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      ErrorEvent?: undefined;
+      EndOfOutputEvent?: undefined;
     }
   | {
-      TextMessageEvent?: never;
+      TextMessageEvent?: undefined;
       ProgressEvent: ProgressEvent;
-      HeartbeatEvent?: never;
-      ErrorEvent?: never;
-      EndOfOutputEvent?: never;
+      HeartbeatEvent?: undefined;
+      ErrorEvent?: undefined;
+      EndOfOutputEvent?: undefined;
     }
   | {
-      TextMessageEvent?: never;
-      ProgressEvent?: never;
+      TextMessageEvent?: undefined;
+      ProgressEvent?: undefined;
       HeartbeatEvent: HeartbeatEvent;
-      ErrorEvent?: never;
-      EndOfOutputEvent?: never;
+      ErrorEvent?: undefined;
+      EndOfOutputEvent?: undefined;
     }
   | {
-      TextMessageEvent?: never;
-      ProgressEvent?: never;
-      HeartbeatEvent?: never;
+      TextMessageEvent?: undefined;
+      ProgressEvent?: undefined;
+      HeartbeatEvent?: undefined;
       ErrorEvent: ErrorEvent;
-      EndOfOutputEvent?: never;
+      EndOfOutputEvent?: undefined;
     }
   | {
-      TextMessageEvent?: never;
-      ProgressEvent?: never;
-      HeartbeatEvent?: never;
-      ErrorEvent?: never;
+      TextMessageEvent?: undefined;
+      ProgressEvent?: undefined;
+      HeartbeatEvent?: undefined;
+      ErrorEvent?: undefined;
       EndOfOutputEvent: EndOfOutputEvent;
     };
 export interface UpdateProfileWithAgentResponse {

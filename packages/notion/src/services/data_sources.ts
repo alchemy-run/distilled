@@ -28,15 +28,15 @@ const TELEMETRY = {
 
 export interface ParentOfDataSourceRequest {
   /** Always `database_id` */
-  type?: string;
+  type?: string | undefined;
   /** The ID of the parent database (with or without dashes), for example, 195de9221179449fab8075a27c979105 */
   database_id: string;
 }
 export interface PropertyConfigurationRequestNumber {
-  format?: string;
+  format?: string | undefined;
 }
 export interface PropertyConfigurationRequestFormula {
-  expression?: string;
+  expression?: string | undefined;
 }
 /** One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red` */
 export type SelectColor =
@@ -52,44 +52,44 @@ export type SelectColor =
   | "red";
 export interface PropertyConfigurationRequestSelectOptionsItem {
   name: string;
-  color?: SelectColor | (string & {});
-  description?: string | null;
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
 }
 export type PropertyConfigurationRequestSelectOptionsList =
   Array<PropertyConfigurationRequestSelectOptionsItem>;
 export interface PropertyConfigurationRequestSelect {
-  options?: PropertyConfigurationRequestSelectOptionsList;
+  options?: PropertyConfigurationRequestSelectOptionsList | undefined;
 }
 export type PropertyConfigurationRequestMultiSelectOptionsItem =
   PropertyConfigurationRequestSelectOptionsItem;
 export type PropertyConfigurationRequestMultiSelectOptionsList =
   Array<PropertyConfigurationRequestSelectOptionsItem>;
 export interface PropertyConfigurationRequestMultiSelect {
-  options?: PropertyConfigurationRequestMultiSelectOptionsList;
+  options?: PropertyConfigurationRequestMultiSelectOptionsList | undefined;
 }
 /** One of: `To-do`, `In progress`, `Complete` */
 export type StatusOptionGroup = "To-do" | "In progress" | "Complete";
 export interface StatusOptionRequest {
   name: string;
-  color?: SelectColor | (string & {});
-  description?: string | null;
-  group?: StatusOptionGroup | (string & {});
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
+  group?: StatusOptionGroup | (string & {}) | undefined;
 }
 export type StatusOptionRequestArray = Array<StatusOptionRequest>;
 export interface StatusPropertyConfigRequest {
   /** The initial status options. If not provided, defaults are created. */
-  options?: StatusOptionRequestArray;
+  options?: StatusOptionRequestArray | undefined;
 }
 export interface PropertyConfigurationRequestRelationDualProperty {
-  synced_property_id?: string;
-  synced_property_name?: string;
+  synced_property_id?: string | undefined;
+  synced_property_name?: string | undefined;
 }
 export interface PropertyConfigurationRequestRelation {
   data_source_id: string;
   /** Always `single_property` */
-  type?: string;
-  single_property?: unknown;
-  dual_property?: PropertyConfigurationRequestRelationDualProperty;
+  type?: string | undefined;
+  single_property?: unknown | undefined;
+  dual_property?: PropertyConfigurationRequestRelationDualProperty | undefined;
 }
 export type RollupFunction =
   | "count"
@@ -119,45 +119,45 @@ export type RollupFunction =
 export interface PropertyConfigurationRequestRollup {
   /** The function to use for the rollup, e.g. count, count_values, percent_not_empty, max. */
   function: RollupFunction | (string & {});
-  relation_property_name?: string;
-  rollup_property_name?: string;
-  relation_property_id?: string;
-  rollup_property_id?: string;
+  relation_property_name?: string | undefined;
+  rollup_property_name?: string | undefined;
+  relation_property_id?: string | undefined;
+  rollup_property_id?: string | undefined;
 }
 export interface PropertyConfigurationRequestUniqueId {
-  prefix?: string | null;
+  prefix?: string | null | undefined;
 }
 export interface PropertyConfigurationRequest {
   /** The description of the property. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Always `number` */
-  type?: string;
-  number?: PropertyConfigurationRequestNumber;
-  formula?: PropertyConfigurationRequestFormula;
-  select?: PropertyConfigurationRequestSelect;
-  multi_select?: PropertyConfigurationRequestMultiSelect;
-  status?: StatusPropertyConfigRequest;
-  relation?: PropertyConfigurationRequestRelation;
-  rollup?: PropertyConfigurationRequestRollup;
-  unique_id?: PropertyConfigurationRequestUniqueId;
-  title?: unknown;
-  rich_text?: unknown;
-  url?: unknown;
-  people?: unknown;
-  files?: unknown;
-  email?: unknown;
-  phone_number?: unknown;
-  date?: unknown;
-  checkbox?: unknown;
-  created_by?: unknown;
-  created_time?: unknown;
-  last_edited_by?: unknown;
-  last_edited_time?: unknown;
-  button?: unknown;
-  location?: unknown;
-  verification?: unknown;
-  last_visited_time?: unknown;
-  place?: unknown;
+  type?: string | undefined;
+  number?: PropertyConfigurationRequestNumber | undefined;
+  formula?: PropertyConfigurationRequestFormula | undefined;
+  select?: PropertyConfigurationRequestSelect | undefined;
+  multi_select?: PropertyConfigurationRequestMultiSelect | undefined;
+  status?: StatusPropertyConfigRequest | undefined;
+  relation?: PropertyConfigurationRequestRelation | undefined;
+  rollup?: PropertyConfigurationRequestRollup | undefined;
+  unique_id?: PropertyConfigurationRequestUniqueId | undefined;
+  title?: unknown | undefined;
+  rich_text?: unknown | undefined;
+  url?: unknown | undefined;
+  people?: unknown | undefined;
+  files?: unknown | undefined;
+  email?: unknown | undefined;
+  phone_number?: unknown | undefined;
+  date?: unknown | undefined;
+  checkbox?: unknown | undefined;
+  created_by?: unknown | undefined;
+  created_time?: unknown | undefined;
+  last_edited_by?: unknown | undefined;
+  last_edited_time?: unknown | undefined;
+  button?: unknown | undefined;
+  location?: unknown | undefined;
+  verification?: unknown | undefined;
+  last_visited_time?: unknown | undefined;
+  place?: unknown | undefined;
 }
 /** Property schema of data source. */
 export type CreateDataSourceRequestPropertiesMap = {
@@ -187,17 +187,17 @@ export type ApiColor =
   | "red_background";
 export interface AnnotationRequest {
   /** Whether the text is formatted as bold. */
-  bold?: boolean;
+  bold?: boolean | undefined;
   /** Whether the text is formatted as italic. */
-  italic?: boolean;
+  italic?: boolean | undefined;
   /** Whether the text is formatted with a strikethrough. */
-  strikethrough?: boolean;
+  strikethrough?: boolean | undefined;
   /** Whether the text is formatted with an underline. */
-  underline?: boolean;
+  underline?: boolean | undefined;
   /** Whether the text is formatted as code. */
-  code?: boolean;
+  code?: boolean | undefined;
   /** The color of the text. */
-  color?: ApiColor | (string & {});
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface RichTextItemRequestTextLink {
   /** The URL of the link. */
@@ -208,17 +208,17 @@ export interface RichTextItemRequestText {
   /** The actual text content of the text. */
   content: string;
   /** An object with information about any inline link in this text, if included. */
-  link?: RichTextItemRequestTextLink | null;
+  link?: RichTextItemRequestTextLink | null | undefined;
 }
 export interface PartialUserObjectRequest {
   /** The ID of the user. */
   id: string;
   /** The user object type name. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase0 {
   /** Always `user` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the user mention. */
   user: PartialUserObjectRequest;
 }
@@ -226,13 +226,13 @@ export interface DateRequest {
   /** The start date of the date object. */
   start: string;
   /** The end date of the date object, if any. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The time zone of the date object, if any. E.g. America/Los_Angeles, Europe/London, etc. */
-  time_zone?: string | null;
+  time_zone?: string | null | undefined;
 }
 export interface RichTextItemRequestMentionCase1 {
   /** Always `date` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the date mention. */
   date: DateRequest;
 }
@@ -243,7 +243,7 @@ export interface RichTextItemRequestMentionCase2Page {
 }
 export interface RichTextItemRequestMentionCase2 {
   /** Always `page` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the page mention. */
   page: RichTextItemRequestMentionCase2Page;
 }
@@ -254,7 +254,7 @@ export interface RichTextItemRequestMentionCase3Database {
 }
 export interface RichTextItemRequestMentionCase3 {
   /** Always `database` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the database mention. */
   database: RichTextItemRequestMentionCase3Database;
 }
@@ -262,7 +262,7 @@ export interface RichTextItemRequestMentionCase3 {
 export type TemplateMentionDateTemplateMentionRequestTemplateMentionDate = "today" | "now";
 export interface TemplateMentionDateTemplateMentionRequest {
   /** Always `template_mention_date` */
-  type?: string;
+  type?: string | undefined;
   /** The date of the template mention. */
   template_mention_date:
     | TemplateMentionDateTemplateMentionRequestTemplateMentionDate
@@ -270,7 +270,7 @@ export interface TemplateMentionDateTemplateMentionRequest {
 }
 export interface TemplateMentionUserTemplateMentionRequest {
   /** Always `template_mention_user` */
-  type?: string;
+  type?: string | undefined;
   /** The user of the template mention. */
   template_mention_user: string;
 }
@@ -279,7 +279,7 @@ export type TemplateMentionRequest =
   | TemplateMentionUserTemplateMentionRequest;
 export interface RichTextItemRequestMentionCase4 {
   /** Always `template_mention` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the template mention. */
   template_mention: TemplateMentionRequest;
 }
@@ -288,13 +288,13 @@ export interface RichTextItemRequestMentionCase5CustomEmoji {
   /** The ID of the custom emoji. */
   id: string;
   /** The name of the custom emoji. */
-  name?: string;
+  name?: string | undefined;
   /** The URL of the custom emoji. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase5 {
   /** Always `custom_emoji` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the custom emoji mention. */
   custom_emoji: RichTextItemRequestMentionCase5CustomEmoji;
 }
@@ -313,15 +313,15 @@ export interface RichTextItemRequestEquation {
 }
 export interface RichTextItemRequest {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
-  annotations?: AnnotationRequest;
+  annotations?: AnnotationRequest | undefined;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemRequestText;
+  text?: RichTextItemRequestText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemRequestMention;
+  mention?: RichTextItemRequestMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 /** Title of data source as it appears in Notion. */
 export type CreateDataSourceRequestTitleList = Array<RichTextItemRequest>;
@@ -331,12 +331,12 @@ export interface FileUploadPageIconRequestFileUpload {
 }
 export interface FileUploadPageIconRequest {
   /** Always `file_upload` */
-  type?: string;
+  type?: string | undefined;
   file_upload: FileUploadPageIconRequestFileUpload;
 }
 export interface EmojiPageIconRequest {
   /** Always `emoji` */
-  type?: string;
+  type?: string | undefined;
   /** An emoji character. */
   emoji: string;
 }
@@ -346,13 +346,13 @@ export interface ExternalPageIconRequestExternal {
 }
 export interface ExternalPageIconRequest {
   /** Always `external` */
-  type?: string;
+  type?: string | undefined;
   external: ExternalPageIconRequestExternal;
 }
 export type CustomEmojiPageIconRequestCustomEmoji = RichTextItemRequestMentionCase5CustomEmoji;
 export interface CustomEmojiPageIconRequest {
   /** Always `custom_emoji` */
-  type?: string;
+  type?: string | undefined;
   custom_emoji: RichTextItemRequestMentionCase5CustomEmoji;
 }
 /** One of: `gray`, `lightgray`, `brown`, `yellow`, `orange`, `green`, `blue`, `purple`, `pink`, `red` */
@@ -372,11 +372,11 @@ export interface IconPageIconRequestIcon {
   /** The name of the Notion icon (e.g. pizza, meeting, home). See the Notion icon picker for valid names. */
   name: string;
   /** The color variant of the icon. Defaults to gray if not specified. Valid values: gray, lightgray, brown, yellow, orange, green, blue, purple, pink, red. */
-  color?: NoticonColor | (string & {});
+  color?: NoticonColor | (string & {}) | undefined;
 }
 export interface IconPageIconRequest {
   /** Always `icon` */
-  type?: string;
+  type?: string | undefined;
   /** A Notion native icon, specified by name and optional color. */
   icon: IconPageIconRequestIcon;
 }
@@ -392,9 +392,9 @@ export interface CreateDataSourceRequest {
   /** Property schema of data source. */
   properties: CreateDataSourceRequestPropertiesMap;
   /** Title of data source as it appears in Notion. */
-  title?: CreateDataSourceRequestTitleList;
+  title?: CreateDataSourceRequestTitleList | undefined;
   /** Page icon. */
-  icon?: PageIconRequest | null;
+  icon?: PageIconRequest | null | undefined;
 }
 export interface DatabasePropertyConfigResponseNumber {
   /** The number format for the property. */
@@ -462,9 +462,9 @@ export interface DatabasePropertyRelationConfigResponse {
   /** The maximum number of pages each page can relate to, or null when there is no limit. Read-only. */
   limit: number | null;
   /** Always `single_property` */
-  type?: string;
-  single_property?: unknown;
-  dual_property?: DatabasePropertyRelationConfigResponseDualProperty;
+  type?: string | undefined;
+  single_property?: unknown | undefined;
+  dual_property?: DatabasePropertyRelationConfigResponseDualProperty | undefined;
 }
 export interface DatabasePropertyConfigResponseRollup {
   /** The function to use for the rollup, e.g. count, count_values, percent_not_empty, max. */
@@ -486,28 +486,28 @@ export interface DatabasePropertyConfigResponse {
   /** The description of the property. */
   description: string | null;
   /** Always `number` */
-  type?: string;
-  number?: DatabasePropertyConfigResponseNumber;
-  formula?: DatabasePropertyConfigResponseFormula;
-  select?: DatabasePropertyConfigResponseSelect;
-  multi_select?: DatabasePropertyConfigResponseMultiSelect;
-  status?: DatabasePropertyConfigResponseStatus;
-  relation?: DatabasePropertyRelationConfigResponse;
-  rollup?: DatabasePropertyConfigResponseRollup;
-  unique_id?: DatabasePropertyConfigResponseUniqueId;
-  title?: unknown;
-  rich_text?: unknown;
-  url?: unknown;
-  people?: unknown;
-  files?: unknown;
-  email?: unknown;
-  phone_number?: unknown;
-  date?: unknown;
-  checkbox?: unknown;
-  created_by?: unknown;
-  created_time?: unknown;
-  last_edited_by?: unknown;
-  last_edited_time?: unknown;
+  type?: string | undefined;
+  number?: DatabasePropertyConfigResponseNumber | undefined;
+  formula?: DatabasePropertyConfigResponseFormula | undefined;
+  select?: DatabasePropertyConfigResponseSelect | undefined;
+  multi_select?: DatabasePropertyConfigResponseMultiSelect | undefined;
+  status?: DatabasePropertyConfigResponseStatus | undefined;
+  relation?: DatabasePropertyRelationConfigResponse | undefined;
+  rollup?: DatabasePropertyConfigResponseRollup | undefined;
+  unique_id?: DatabasePropertyConfigResponseUniqueId | undefined;
+  title?: unknown | undefined;
+  rich_text?: unknown | undefined;
+  url?: unknown | undefined;
+  people?: unknown | undefined;
+  files?: unknown | undefined;
+  email?: unknown | undefined;
+  phone_number?: unknown | undefined;
+  date?: unknown | undefined;
+  checkbox?: unknown | undefined;
+  created_by?: unknown | undefined;
+  created_time?: unknown | undefined;
+  last_edited_by?: unknown | undefined;
+  last_edited_time?: unknown | undefined;
 }
 /** The properties schema of the data source. */
 export type PartialDataSourceObjectResponsePropertiesMap = {
@@ -545,9 +545,9 @@ export interface PartialUserObjectResponse {
 /** Details about the person, when the `type` of the user is `person`. */
 export interface UserObjectResponsePerson {
   /** The email of the person. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the person's email is verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
 }
 /** The person info of the user. */
 export type BotInfoResponseOwnerCase0UserCase0Person = UserObjectResponsePerson;
@@ -610,11 +610,11 @@ export interface UserObjectResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: UserObjectResponsePerson;
+  person?: UserObjectResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: UserObjectResponseBot;
+  bot?: UserObjectResponseBot | undefined;
 }
 export type UserValueResponse = PartialUserObjectResponse | UserObjectResponse;
 export interface RichTextItemResponseMentionCase0 {
@@ -651,25 +651,25 @@ export interface LinkMentionResponse {
   /** The href of the link mention. */
   href: string;
   /** The title of the link. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the link. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the link. */
-  link_author?: string;
+  link_author?: string | undefined;
   /** The provider of the link. */
-  link_provider?: string;
+  link_provider?: string | undefined;
   /** The thumbnail URL of the link. */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /** The icon URL of the link. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The iframe URL of the link. */
-  iframe_url?: string;
+  iframe_url?: string | undefined;
   /** The height of the link preview iframe. */
-  height?: number;
+  height?: number | undefined;
   /** The padding of the link preview iframe. */
-  padding?: number;
+  padding?: number | undefined;
   /** The top padding of the link preview iframe. */
-  padding_top?: number;
+  padding_top?: number | undefined;
 }
 export interface RichTextItemResponseMentionCase3 {
   /** Always `link_mention` */
@@ -750,13 +750,13 @@ export interface RichTextItemResponse {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
   annotations: AnnotationResponse;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemResponseText;
+  text?: RichTextItemResponseText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemResponseMention;
+  mention?: RichTextItemResponseMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 /** The title of the data source. */
 export type DataSourceObjectResponseTitleList = Array<RichTextItemResponse>;
@@ -886,8 +886,8 @@ export interface ExternalPageCoverResponse {
 export type PageCoverResponse = FilePageCoverResponse | ExternalPageCoverResponse;
 export interface DataSourceObjectResponseSyncMetadataHealthCase0Checks {
   sync_version_updated_at: string;
-  delta_synced_through_at?: string;
-  last_execution_succeeded_at?: string;
+  delta_synced_through_at?: string | undefined;
+  last_execution_succeeded_at?: string | undefined;
 }
 export type DataSourceObjectResponseSyncMetadataHealthCase0ErrorSeverity =
   | "action_required"
@@ -949,30 +949,30 @@ export interface DataSourceObjectResponseSyncMetadataSyncState {
   /** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
   syncing: DataSourceObjectResponseSyncMetadataSyncStateSyncing;
   /** Stored legacy sync update time in UTC ISO 8601 format. This does not guarantee that all source changes have been imported. */
-  last_synced_at?: string;
+  last_synced_at?: string | undefined;
   /** Stored legacy sync checkpoint time in UTC ISO 8601 format. */
-  last_sync_checkpoint_at?: string;
+  last_sync_checkpoint_at?: string | undefined;
   /** Stored legacy sync heartbeat time in UTC ISO 8601 format. */
-  last_sync_heartbeat_at?: string;
+  last_sync_heartbeat_at?: string | undefined;
 }
 /** Sync identity and available health, included when listing or retrieving data sources. */
 export interface DataSourceObjectResponseSyncMetadata {
   /** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
-  health?: DataSourceObjectResponseSyncMetadataHealth | null;
+  health?: DataSourceObjectResponseSyncMetadataHealth | null | undefined;
   /** Notion user who owns the sync credential, included when health is available. */
-  owner_user_id?: string;
+  owner_user_id?: string | undefined;
   /** Provider resource synced to this data source, when available. */
-  resource?: string;
+  resource?: string | undefined;
   /** Stored identity of an external database sync. */
-  external_database_sync?: DataSourceObjectResponseSyncMetadataExternalDatabaseSync;
+  external_database_sync?: DataSourceObjectResponseSyncMetadataExternalDatabaseSync | undefined;
   /** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
-  external_collection_type?: DataSourceObjectResponseSyncMetadataExternalCollectionType;
+  external_collection_type?: DataSourceObjectResponseSyncMetadataExternalCollectionType | undefined;
   /** The stored sync ID when provider details are unavailable. This is not a credential. */
-  sync_id?: string;
+  sync_id?: string | undefined;
   /** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
-  sync_state?: DataSourceObjectResponseSyncMetadataSyncState;
+  sync_state?: DataSourceObjectResponseSyncMetadataSyncState | undefined;
   /** Opaque, developer-defined collection key for a worker sync. It is not a globally unique ID or a credential. Worker status is not included. */
-  synced_collection_key?: string;
+  synced_collection_key?: string | undefined;
 }
 export interface DataSourceObjectResponse {
   /** The data source object type name. */
@@ -1012,7 +1012,7 @@ export interface DataSourceObjectResponse {
   /** The public URL of the data source if it is publicly accessible. */
   public_url: string | null;
   /** Sync identity and available health, included when listing or retrieving data sources. */
-  sync_metadata?: DataSourceObjectResponseSyncMetadata;
+  sync_metadata?: DataSourceObjectResponseSyncMetadata | undefined;
 }
 export type CreateDataSourceResponseBody =
   | PartialDataSourceObjectResponse
@@ -1025,9 +1025,9 @@ export type GetDataSourceResponseBody = PartialDataSourceObjectResponse | DataSo
 export type GetDataSourceResponse = GetDataSourceResponseBody;
 export interface ListDataSourceTemplatesRequest {
   data_source_id: string;
-  name?: string;
-  start_cursor?: string;
-  page_size?: number;
+  name?: string | undefined;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
 }
 export interface ListDataSourceTemplatesResponseTemplatesItem {
   /** ID of the template page. */
@@ -1100,12 +1100,12 @@ export type TextPropertyFilter = TextPropertyFilterCase0 | ExistencePropertyFilt
 export interface PropertyFilterCase0 {
   title: TextPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase1 {
   rich_text: TextPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface NumberPropertyFilterCase0Case0 {
   equals: number;
@@ -1136,7 +1136,7 @@ export type NumberPropertyFilter = NumberPropertyFilterCase0 | ExistenceProperty
 export interface PropertyFilterCase2 {
   number: NumberPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface CheckboxPropertyFilterCase0 {
   equals: boolean;
@@ -1148,7 +1148,7 @@ export type CheckboxPropertyFilter = CheckboxPropertyFilterCase0 | CheckboxPrope
 export interface PropertyFilterCase3 {
   checkbox: CheckboxPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type StringOrStringArrayCase1List = Array<string>;
 export type StringOrStringArray = string | StringOrStringArrayCase1List;
@@ -1165,7 +1165,7 @@ export type SelectPropertyFilter = SelectPropertyFilterCase0 | ExistenceProperty
 export interface PropertyFilterCase4 {
   select: SelectPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface MultiSelectPropertyFilterCase0Case0 {
   contains: StringOrStringArray;
@@ -1180,7 +1180,7 @@ export type MultiSelectPropertyFilter = MultiSelectPropertyFilterCase0 | Existen
 export interface PropertyFilterCase5 {
   multi_select: MultiSelectPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type StatusValueFilterCase0 = SelectPropertyFilterCase0Case0;
 export type StatusValueFilterCase1 = SelectPropertyFilterCase0Case1;
@@ -1202,7 +1202,7 @@ export type StatusPropertyFilter = StatusValueFilter | ExistencePropertyFilter;
 export interface PropertyFilterCase6 {
   status: StatusPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type RelativeDateValue =
   | "today"
@@ -1266,7 +1266,7 @@ export type DatePropertyFilter = DatePropertyFilterCase0 | ExistencePropertyFilt
 export interface PropertyFilterCase7 {
   date: DatePropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type PeoplePropertyFilterCase0Case0 = TextPropertyFilterCase0Case2;
 export type PeoplePropertyFilterCase0Case1 = TextPropertyFilterCase0Case3;
@@ -1275,27 +1275,27 @@ export type PeoplePropertyFilter = PeoplePropertyFilterCase0 | ExistenceProperty
 export interface PropertyFilterCase8 {
   people: PeoplePropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase9 {
   files: ExistencePropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase10 {
   url: TextPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase11 {
   email: TextPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase12 {
   phone_number: TextPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type RelationPropertyFilterCase0Case0 = TextPropertyFilterCase0Case2;
 export type RelationPropertyFilterCase0Case1 = TextPropertyFilterCase0Case3;
@@ -1306,27 +1306,27 @@ export type RelationPropertyFilter = RelationPropertyFilterCase0 | ExistenceProp
 export interface PropertyFilterCase13 {
   relation: RelationPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase14 {
   created_by: PeoplePropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase15 {
   created_time: DatePropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase16 {
   last_edited_by: PeoplePropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase17 {
   last_edited_time: DatePropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface FormulaPropertyFilterCase0 {
   string: TextPropertyFilter;
@@ -1348,12 +1348,12 @@ export type FormulaPropertyFilter =
 export interface PropertyFilterCase18 {
   formula: FormulaPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PropertyFilterCase19 {
   unique_id: NumberPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface RollupSubfilterPropertyFilterCase0 {
   rich_text: TextPropertyFilter;
@@ -1410,7 +1410,7 @@ export type RollupPropertyFilter =
 export interface PropertyFilterCase20 {
   rollup: RollupPropertyFilter;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type VerificationPropertyStatusFilterStatus = "verified" | "expired" | "none";
 export interface VerificationPropertyStatusFilter {
@@ -1426,7 +1426,7 @@ export type PropertyFilterCase21Verification =
 export interface PropertyFilterCase21 {
   verification: PropertyFilterCase21Verification;
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type PropertyFilter =
   | PropertyFilterCase0
@@ -1454,12 +1454,12 @@ export type PropertyFilter =
 export interface TimestampCreatedTimeFilter {
   created_time: DatePropertyFilter;
   timestamp: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface TimestampLastEditedTimeFilter {
   last_edited_time: DatePropertyFilter;
   timestamp: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type TimestampFilter = TimestampCreatedTimeFilter | TimestampLastEditedTimeFilter;
 export type PropertyOrTimestampFilter = PropertyFilter | TimestampFilter;
@@ -1490,15 +1490,15 @@ export type ViewFilterRequest = ViewFilterRequestCase0 | PropertyFilter | Timest
 export type QueryDataSourceRequestResultType = "page" | "data_source";
 export interface QueryDataSourceRequest {
   data_source_id: string;
-  filter_properties?: QueryDataSourceRequestFilterPropertiesList;
-  sorts?: QueryDataSourceRequestSortsList;
-  filter?: ViewFilterRequest;
-  start_cursor?: string;
-  page_size?: number;
+  filter_properties?: QueryDataSourceRequestFilterPropertiesList | undefined;
+  sorts?: QueryDataSourceRequestSortsList | undefined;
+  filter?: ViewFilterRequest | undefined;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
   /** Whether to return archived pages. When omitted or false, returns non-archived pages. When true, returns archived pages. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   /** Optionally filter the results to only include pages or data sources. Regular, non-wiki databases only support page children. The default behavior is no result type filtering, in other words, returning both pages and data sources for wikis. */
-  result_type?: QueryDataSourceRequestResultType | (string & {});
+  result_type?: QueryDataSourceRequestResultType | (string & {}) | undefined;
 }
 export interface AgentIdParentForBlockBasedObjectResponse {
   /** The parent type. */
@@ -1539,11 +1539,11 @@ export interface InternalOrExternalFileWithNameResponse {
   /** The name of the file. */
   name: string;
   /** Type of attachment. In this case, a file uploaded to a Notion workspace. */
-  type?: string;
+  type?: string | undefined;
   /** The file URL. */
-  file?: InternalFileResponse;
+  file?: InternalFileResponse | undefined;
   /** The external URL. */
-  external?: ExternalPageIconResponseExternal;
+  external?: ExternalPageIconResponseExternal | undefined;
 }
 export type PagePropertyValueWithIdResponseFilesList =
   Array<InternalOrExternalFileWithNameResponse>;
@@ -1602,10 +1602,10 @@ export type VerificationPropertyValueResponse =
 export interface PlacePropertyValueResponse {
   lat: number;
   lon: number;
-  name?: string | null;
-  address?: string | null;
-  aws_place_id?: string | null;
-  google_place_id?: string | null;
+  name?: string | null | undefined;
+  address?: string | null | undefined;
+  aws_place_id?: string | null | undefined;
+  google_place_id?: string | null | undefined;
 }
 export type PagePropertyValueWithIdResponseTitleList = Array<RichTextItemResponse>;
 export type PagePropertyValueWithIdResponseRichTextList = Array<RichTextItemResponse>;
@@ -1777,40 +1777,40 @@ export interface PartialRollupValueResponse {
   /** The function used for the rollup, e.g. count, count_values, percent_not_empty, max. */
   function: RollupFunction;
   /** Always `number` */
-  type?: string;
-  number?: number | null;
-  date?: DateResponse | null;
-  array?: PartialRollupValueResponseArrayList;
-  unsupported?: unknown;
+  type?: string | undefined;
+  number?: number | null | undefined;
+  date?: DateResponse | null | undefined;
+  array?: PartialRollupValueResponseArrayList | undefined;
+  unsupported?: unknown | undefined;
 }
 export interface PagePropertyValueWithIdResponse {
   id: string;
   /** Always `number` */
-  type?: string;
-  number?: number | null;
-  url?: string | null;
-  select?: PartialSelectPropertyValueResponse | null;
-  multi_select?: PagePropertyValueWithIdResponseMultiSelectList;
-  status?: PartialSelectPropertyValueResponse | null;
-  date?: DateResponse | null;
-  email?: string | null;
-  phone_number?: string | null;
-  checkbox?: boolean;
-  files?: PagePropertyValueWithIdResponseFilesList;
-  created_by?: UserValueResponse;
-  created_time?: string;
-  last_edited_by?: UserValueResponse;
-  last_edited_time?: string;
-  formula?: FormulaPropertyValueResponse;
-  button?: unknown;
-  unique_id?: UniqueIdPropertyValueResponse;
-  verification?: VerificationPropertyValueResponse | null;
-  place?: PlacePropertyValueResponse | null;
-  title?: PagePropertyValueWithIdResponseTitleList;
-  rich_text?: PagePropertyValueWithIdResponseRichTextList;
-  people?: PagePropertyValueWithIdResponsePeopleList;
-  relation?: PagePropertyValueWithIdResponseRelationList;
-  rollup?: PartialRollupValueResponse;
+  type?: string | undefined;
+  number?: number | null | undefined;
+  url?: string | null | undefined;
+  select?: PartialSelectPropertyValueResponse | null | undefined;
+  multi_select?: PagePropertyValueWithIdResponseMultiSelectList | undefined;
+  status?: PartialSelectPropertyValueResponse | null | undefined;
+  date?: DateResponse | null | undefined;
+  email?: string | null | undefined;
+  phone_number?: string | null | undefined;
+  checkbox?: boolean | undefined;
+  files?: PagePropertyValueWithIdResponseFilesList | undefined;
+  created_by?: UserValueResponse | undefined;
+  created_time?: string | undefined;
+  last_edited_by?: UserValueResponse | undefined;
+  last_edited_time?: string | undefined;
+  formula?: FormulaPropertyValueResponse | undefined;
+  button?: unknown | undefined;
+  unique_id?: UniqueIdPropertyValueResponse | undefined;
+  verification?: VerificationPropertyValueResponse | null | undefined;
+  place?: PlacePropertyValueResponse | null | undefined;
+  title?: PagePropertyValueWithIdResponseTitleList | undefined;
+  rich_text?: PagePropertyValueWithIdResponseRichTextList | undefined;
+  people?: PagePropertyValueWithIdResponsePeopleList | undefined;
+  relation?: PagePropertyValueWithIdResponseRelationList | undefined;
+  rollup?: PartialRollupValueResponse | undefined;
 }
 /** Property values of this page. */
 export type PageObjectResponsePropertiesMap = {
@@ -1870,7 +1870,7 @@ export type PageOrDataSourceListResponseRequestStatusIncompleteReason =
   "query_result_limit_reached";
 export interface PageOrDataSourceListResponseRequestStatus {
   type: PageOrDataSourceListResponseRequestStatusType;
-  incomplete_reason?: PageOrDataSourceListResponseRequestStatusIncompleteReason;
+  incomplete_reason?: PageOrDataSourceListResponseRequestStatusIncompleteReason | undefined;
 }
 export interface PageOrDataSourceListResponse {
   type: string;
@@ -1879,7 +1879,7 @@ export interface PageOrDataSourceListResponse {
   next_cursor: string | null;
   has_more: boolean;
   results: PageOrDataSourceListResponseResultsList;
-  request_status?: PageOrDataSourceListResponseRequestStatus;
+  request_status?: PageOrDataSourceListResponseRequestStatus | undefined;
 }
 /** Title of data source as it appears in Notion. */
 export type UpdateDataSourceRequestTitleList = Array<RichTextItemRequest>;
@@ -1887,34 +1887,34 @@ export type UpdateDataSourceRequestPropertiesValueCase0Number = PropertyConfigur
 export type UpdateDataSourceRequestPropertiesValueCase0Formula =
   PropertyConfigurationRequestFormula;
 export interface UpdateDataSourceRequestPropertiesValueCase0SelectOptionsItem {
-  color?: SelectColor | (string & {});
-  description?: string | null;
-  name?: string;
-  id?: string;
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
+  name?: string | undefined;
+  id?: string | undefined;
 }
 export type UpdateDataSourceRequestPropertiesValueCase0SelectOptionsList =
   Array<UpdateDataSourceRequestPropertiesValueCase0SelectOptionsItem>;
 export interface UpdateDataSourceRequestPropertiesValueCase0Select {
-  options?: UpdateDataSourceRequestPropertiesValueCase0SelectOptionsList;
+  options?: UpdateDataSourceRequestPropertiesValueCase0SelectOptionsList | undefined;
 }
 export type UpdateDataSourceRequestPropertiesValueCase0MultiSelectOptionsItem =
   UpdateDataSourceRequestPropertiesValueCase0SelectOptionsItem;
 export type UpdateDataSourceRequestPropertiesValueCase0MultiSelectOptionsList =
   Array<UpdateDataSourceRequestPropertiesValueCase0SelectOptionsItem>;
 export interface UpdateDataSourceRequestPropertiesValueCase0MultiSelect {
-  options?: UpdateDataSourceRequestPropertiesValueCase0MultiSelectOptionsList;
+  options?: UpdateDataSourceRequestPropertiesValueCase0MultiSelectOptionsList | undefined;
 }
 export interface StatusOptionUpdateRequest {
-  color?: SelectColor | (string & {});
-  description?: string | null;
-  group?: StatusOptionGroup | (string & {});
-  name?: string;
-  id?: string;
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
+  group?: StatusOptionGroup | (string & {}) | undefined;
+  name?: string | undefined;
+  id?: string | undefined;
 }
 export type StatusOptionUpdateRequestArray = Array<StatusOptionUpdateRequest>;
 export interface StatusPropertyConfigUpdateRequest {
   /** Status options to add or update. Use group to assign an option to To-do, In progress, or Complete. Existing options keep their current group when group is omitted; new options use To-do when present, or the first existing group otherwise. */
-  options?: StatusOptionUpdateRequestArray;
+  options?: StatusOptionUpdateRequestArray | undefined;
 }
 export type UpdateDataSourceRequestPropertiesValueCase0RelationDualProperty =
   PropertyConfigurationRequestRelationDualProperty;
@@ -1925,33 +1925,33 @@ export type UpdateDataSourceRequestPropertiesValueCase0UniqueId =
   PropertyConfigurationRequestUniqueId;
 export interface UpdateDataSourceRequestPropertiesValueCase0 {
   /** The name of the property. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the property. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Always `number` */
-  type?: string;
-  number?: PropertyConfigurationRequestNumber;
-  formula?: PropertyConfigurationRequestFormula;
-  select?: UpdateDataSourceRequestPropertiesValueCase0Select;
-  multi_select?: UpdateDataSourceRequestPropertiesValueCase0MultiSelect;
-  status?: StatusPropertyConfigUpdateRequest;
-  relation?: PropertyConfigurationRequestRelation;
-  rollup?: PropertyConfigurationRequestRollup;
-  unique_id?: PropertyConfigurationRequestUniqueId;
-  title?: unknown;
-  rich_text?: unknown;
-  url?: unknown;
-  people?: unknown;
-  files?: unknown;
-  email?: unknown;
-  phone_number?: unknown;
-  date?: unknown;
-  checkbox?: unknown;
-  created_by?: unknown;
-  created_time?: unknown;
-  last_edited_by?: unknown;
-  last_edited_time?: unknown;
-  place?: unknown;
+  type?: string | undefined;
+  number?: PropertyConfigurationRequestNumber | undefined;
+  formula?: PropertyConfigurationRequestFormula | undefined;
+  select?: UpdateDataSourceRequestPropertiesValueCase0Select | undefined;
+  multi_select?: UpdateDataSourceRequestPropertiesValueCase0MultiSelect | undefined;
+  status?: StatusPropertyConfigUpdateRequest | undefined;
+  relation?: PropertyConfigurationRequestRelation | undefined;
+  rollup?: PropertyConfigurationRequestRollup | undefined;
+  unique_id?: PropertyConfigurationRequestUniqueId | undefined;
+  title?: unknown | undefined;
+  rich_text?: unknown | undefined;
+  url?: unknown | undefined;
+  people?: unknown | undefined;
+  files?: unknown | undefined;
+  email?: unknown | undefined;
+  phone_number?: unknown | undefined;
+  date?: unknown | undefined;
+  checkbox?: unknown | undefined;
+  created_by?: unknown | undefined;
+  created_time?: unknown | undefined;
+  last_edited_by?: unknown | undefined;
+  last_edited_time?: unknown | undefined;
+  place?: unknown | undefined;
 }
 export interface UpdateDataSourceRequestPropertiesValueCase1 {
   /** The new name of the property. */
@@ -1967,15 +1967,15 @@ export type UpdateDataSourceRequestPropertiesMap = {
 export interface UpdateDataSourceRequest {
   data_source_id: string;
   /** Title of data source as it appears in Notion. */
-  title?: UpdateDataSourceRequestTitleList;
+  title?: UpdateDataSourceRequestTitleList | undefined;
   /** Data source icon. */
-  icon?: PageIconRequest | null;
+  icon?: PageIconRequest | null | undefined;
   /** The property schema of the data source. The keys are property names or IDs, and the values are property configuration objects. Properties set to null will be removed. */
-  properties?: UpdateDataSourceRequestPropertiesMap;
+  properties?: UpdateDataSourceRequestPropertiesMap | undefined;
   /** Whether the data source should be moved to or from the trash. If not provided, the trash status will not be updated. */
-  in_trash?: boolean;
+  in_trash?: boolean | undefined;
   /** The parent of the data source, when moving it to a different database. If not provided, the parent will not be updated. */
-  parent?: ParentOfDataSourceRequest;
+  parent?: ParentOfDataSourceRequest | undefined;
 }
 export type UpdateDataSourceResponseBody =
   | PartialDataSourceObjectResponse

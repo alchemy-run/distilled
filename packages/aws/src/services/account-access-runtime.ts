@@ -119,35 +119,35 @@ export interface GetRoleCredentialsRequest {
   tenantId: string;
   roleArn: string;
   accessType: AccessType;
-  sessionName?: string;
-  sessionDuration?: number;
+  sessionName?: string | undefined;
+  sessionDuration?: number | undefined;
 }
 export interface ProgrammaticAccessDetails {
   accessKeyId: string;
   secretAccessKey: string;
   sessionToken: string;
-  expiresAt?: Date;
+  expiresAt?: Date | undefined;
 }
 export type CredentialsDetails = { programmaticAccess: ProgrammaticAccessDetails };
 export interface GetRoleCredentialsResponse {
-  credentialsDetails?: CredentialsDetails;
+  credentialsDetails?: CredentialsDetails | undefined;
 }
 export type Token = string;
 export interface ListRolesRequest {
   tenantId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Account = string;
 export interface AccessDetails {
   accountId: string;
-  accountName?: string;
+  accountName?: string | undefined;
   roleArn: string;
 }
 export type AccessDetailsList = AccessDetails[];
 export interface ListRolesResponse {
   roles: AccessDetails[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type GetRoleCredentialsError =
   | AccessDeniedException

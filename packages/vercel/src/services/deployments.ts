@@ -83,9 +83,9 @@ export interface CancelDeploymentRequest {
   /** The unique identifier of the deployment. */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
 export type CancelDeploymentResponseAliasList = Array<string>;
@@ -96,9 +96,9 @@ export interface CancelDeploymentResponseAliasError {
   message: string;
 }
 export interface CancelDeploymentResponseAliasWarning {
-  action?: string;
+  action?: string | undefined;
   code: string;
-  link?: string;
+  link?: string | undefined;
   message: string;
 }
 export interface CancelDeploymentResponseAtprotoCase0 {
@@ -115,8 +115,8 @@ export type CancelDeploymentResponseAtprotoCase1SubscriptionKindsList =
   Array<CancelDeploymentResponseAtprotoCase1SubscriptionKindsItem>;
 export interface CancelDeploymentResponseAtprotoCase1Subscription {
   collections: CancelDeploymentResponseAtprotoCase1SubscriptionCollectionsList;
-  dids?: CancelDeploymentResponseAtprotoCase1SubscriptionDidsList;
-  kinds?: CancelDeploymentResponseAtprotoCase1SubscriptionKindsList;
+  dids?: CancelDeploymentResponseAtprotoCase1SubscriptionDidsList | undefined;
+  kinds?: CancelDeploymentResponseAtprotoCase1SubscriptionKindsList | undefined;
   path: string;
 }
 export interface CancelDeploymentResponseAtprotoCase1 {
@@ -129,11 +129,11 @@ export type CancelDeploymentResponseAtproto =
 /** Commit metadata from the git commit author */
 export interface CancelDeploymentResponseAttributionCommitMeta {
   /** Email from git commit author */
-  email?: string;
+  email?: string | undefined;
   /** Whether the commit was signed/verified (GitHub only, others return undefined) */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** Name from git commit author */
-  name?: string;
+  name?: string | undefined;
 }
 export type CancelDeploymentResponseAttributionGitUserId = string | number;
 /** Git provider user associated with the commit author email (only set if resolved) */
@@ -142,9 +142,9 @@ export interface CancelDeploymentResponseAttributionGitUser {
   /** Git provider username/login */
   login: string;
   /** The git provider (github, gitlab, bitbucket) */
-  provider?: string;
+  provider?: string | undefined;
   /** User type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Team roles at time of deployment */
 export type CancelDeploymentResponseAttributionVercelUserTeamRolesList = Array<string>;
@@ -153,18 +153,18 @@ export interface CancelDeploymentResponseAttributionVercelUser {
   /** Vercel user ID */
   id: string;
   /** Team roles at time of deployment */
-  teamRoles?: CancelDeploymentResponseAttributionVercelUserTeamRolesList;
+  teamRoles?: CancelDeploymentResponseAttributionVercelUserTeamRolesList | undefined;
   /** Vercel username */
   username: string;
 }
 /** Attribution metadata for the deployment, linking commit author to git and Vercel users. Only populated when the `enable-deployment-attribution` flag is enabled. */
 export interface CancelDeploymentResponseAttribution {
   /** Commit metadata from the git commit author */
-  commitMeta?: CancelDeploymentResponseAttributionCommitMeta;
+  commitMeta?: CancelDeploymentResponseAttributionCommitMeta | undefined;
   /** Git provider user associated with the commit author email (only set if resolved) */
-  gitUser?: CancelDeploymentResponseAttributionGitUser;
+  gitUser?: CancelDeploymentResponseAttributionGitUser | undefined;
   /** Vercel user linked to the git provider account (only set if resolved) */
-  vercelUser?: CancelDeploymentResponseAttributionVercelUser;
+  vercelUser?: CancelDeploymentResponseAttributionVercelUser | undefined;
 }
 export type CancelDeploymentResponseAutomaticAliasesList = Array<string>;
 export type CancelDeploymentResponseBuildEnvList = Array<string>;
@@ -174,14 +174,14 @@ export interface CancelDeploymentResponseBuild {
 export type CancelDeploymentResponseBuildArtifactUrlsList = Array<string>;
 export type CancelDeploymentResponseBuildsItemConfigMap = { [key: string]: unknown | undefined };
 export interface CancelDeploymentResponseBuildsItem {
-  config?: CancelDeploymentResponseBuildsItemConfigMap;
-  src?: string;
+  config?: CancelDeploymentResponseBuildsItemConfigMap | undefined;
+  src?: string | undefined;
   use: string;
 }
 export type CancelDeploymentResponseBuildsList = Array<CancelDeploymentResponseBuildsItem>;
 export type CancelDeploymentResponseChecksDeploymentAliasState = "failed" | "pending" | "succeeded";
 export interface CancelDeploymentResponseChecksDeploymentAlias {
-  completedAt?: number;
+  completedAt?: number | undefined;
   startedAt: number;
   state: CancelDeploymentResponseChecksDeploymentAliasState;
 }
@@ -207,7 +207,7 @@ export type CancelDeploymentResponseConfigResourceConfigBuildQueueConfiguration 
 /** Build resource configuration snapshot for this deployment. */
 export interface CancelDeploymentResponseConfigResourceConfigBuildQueue {
   /** Build resource configuration snapshot for this deployment. */
-  configuration?: CancelDeploymentResponseConfigResourceConfigBuildQueueConfiguration;
+  configuration?: CancelDeploymentResponseConfigResourceConfigBuildQueueConfiguration | undefined;
 }
 /** When elastic concurrency is used for this deployment, a value is set. The value tells the reason where the setting was coming from. - TEAM_SETTING: Inherited from team settings - PROJECT_SETTING: Inherited from project settings - SKIP_QUEUE: Manually triggered by user to skip the queues */
 export type CancelDeploymentResponseConfigResourceConfigElasticConcurrency =
@@ -223,27 +223,30 @@ export type CancelDeploymentResponseConfigResourceConfigBuildMachinePurchaseType
   | "turbo";
 export interface CancelDeploymentResponseConfigResourceConfigBuildMachine {
   /** Machine type that was used for the build. */
-  purchaseType?: CancelDeploymentResponseConfigResourceConfigBuildMachinePurchaseType | null;
+  purchaseType?:
+    | CancelDeploymentResponseConfigResourceConfigBuildMachinePurchaseType
+    | null
+    | undefined;
 }
 /** Build resource configuration snapshot for this deployment. */
 export interface CancelDeploymentResponseConfigResourceConfig {
   /** Build resource configuration snapshot for this deployment. */
-  buildQueue?: CancelDeploymentResponseConfigResourceConfigBuildQueue;
+  buildQueue?: CancelDeploymentResponseConfigResourceConfigBuildQueue | undefined;
   /** When elastic concurrency is used for this deployment, a value is set. The value tells the reason where the setting was coming from. - TEAM_SETTING: Inherited from team settings - PROJECT_SETTING: Inherited from project settings - SKIP_QUEUE: Manually triggered by user to skip the queues */
-  elasticConcurrency?: CancelDeploymentResponseConfigResourceConfigElasticConcurrency;
-  buildMachine?: CancelDeploymentResponseConfigResourceConfigBuildMachine;
+  elasticConcurrency?: CancelDeploymentResponseConfigResourceConfigElasticConcurrency | undefined;
+  buildMachine?: CancelDeploymentResponseConfigResourceConfigBuildMachine | undefined;
 }
 /** Since February 2025 the configuration must include snapshot data at the time of deployment creation to capture properties for the /deployments/:id/config endpoint utilized for displaying Deployment Configuration on the frontend This is optional because older deployments may not have this data captured */
 export interface CancelDeploymentResponseConfig {
   functionMemoryType: CancelDeploymentResponseConfigFunctionMemoryType;
   functionTimeout: number | null;
   functionType: CancelDeploymentResponseConfigFunctionType;
-  isUsingActiveCPU?: boolean;
+  isUsingActiveCPU?: boolean | undefined;
   /** Build resource configuration snapshot for this deployment. */
-  resourceConfig?: CancelDeploymentResponseConfigResourceConfig;
+  resourceConfig?: CancelDeploymentResponseConfigResourceConfig | undefined;
   secureComputeFallbackRegion: string | null;
   secureComputePrimaryRegion: string | null;
-  version?: number;
+  version?: number | undefined;
 }
 /** Principal type of the deployment creator. */
 export type CancelDeploymentResponseCreatorType =
@@ -255,13 +258,13 @@ export type CancelDeploymentResponseCreatorType =
 /** Information about the deployment creator */
 export interface CancelDeploymentResponseCreator {
   /** The avatar of the user that created the deployment */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Principal type of the deployment creator. */
-  type?: CancelDeploymentResponseCreatorType;
+  type?: CancelDeploymentResponseCreatorType | undefined;
   /** Stable creator id across principal types (user id, app id, integration configuration id, or `system`). */
   uid: string;
   /** The username of the user that created the deployment */
-  username?: string;
+  username?: string | undefined;
 }
 export interface CancelDeploymentResponseCronsItem {
   path: string;
@@ -301,16 +304,21 @@ export type CancelDeploymentResponseCustomEnvironmentCase0DomainsItemVerificatio
 /** List of domains associated with this environment */
 export interface CancelDeploymentResponseCustomEnvironmentCase0DomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: CancelDeploymentResponseCustomEnvironmentCase0DomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | CancelDeploymentResponseCustomEnvironmentCase0DomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: CancelDeploymentResponseCustomEnvironmentCase0DomainsItemVerificationList;
+  verification?:
+    | CancelDeploymentResponseCustomEnvironmentCase0DomainsItemVerificationList
+    | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -325,15 +333,17 @@ export type CancelDeploymentResponseCustomEnvironmentCase0Type =
 /** If the deployment was created using a Custom Environment, then this property contains information regarding the environment used. */
 export interface CancelDeploymentResponseCustomEnvironmentCase0 {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: CancelDeploymentResponseCustomEnvironmentCase0BranchMatcher;
+  branchMatcher?: CancelDeploymentResponseCustomEnvironmentCase0BranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: CancelDeploymentResponseCustomEnvironmentCase0CurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | CancelDeploymentResponseCustomEnvironmentCase0CurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: CancelDeploymentResponseCustomEnvironmentCase0DomainsList;
+  domains?: CancelDeploymentResponseCustomEnvironmentCase0DomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -352,19 +362,19 @@ export type CancelDeploymentResponseCustomEnvironment =
   | CancelDeploymentResponseCustomEnvironmentCase1;
 export interface CancelDeploymentResponseDuration {
   /** Unix timestamp in milliseconds when the build container exited. */
-  endTime?: number;
+  endTime?: number | undefined;
   /** Build-container exit Unix timestamp in milliseconds, capped at 45 minutes after `startTime`. */
-  endTimeCapped?: number;
+  endTimeCapped?: number | undefined;
   /** Unix timestamp in milliseconds when the deployment entered BUILDING. */
-  startTime?: number;
+  startTime?: number | undefined;
   /** Billable build-container duration in milliseconds, capped at 45 minutes, rounded up to a whole minute, with a one-minute minimum. */
-  timeForBilling?: number;
+  timeForBilling?: number | undefined;
   /** Milliseconds from entering BUILDING until the build container exited, without the billing cap. */
-  timeToContainerExit?: number;
+  timeToContainerExit?: number | undefined;
   /** Build-container duration in milliseconds, capped at 45 minutes and without billing rounding. */
-  timeToContainerExitCapped?: number;
+  timeToContainerExitCapped?: number | undefined;
   /** Milliseconds from entering BUILDING until the deployment reached its current ready state. */
-  timeToReady?: number;
+  timeToReady?: number | undefined;
 }
 export type CancelDeploymentResponseEnvList = Array<string>;
 export type FlagJSONValueCase2List = Array<FlagJSONValue>;
@@ -376,15 +386,15 @@ export type FlagJSONValue =
   | FlagJSONValueCase3Map
   | boolean;
 export interface CancelDeploymentResponseFlagsCase0DefinitionsValueOptionsItem {
-  label?: string;
+  label?: string | undefined;
   value: FlagJSONValue | null;
 }
 export type CancelDeploymentResponseFlagsCase0DefinitionsValueOptionsList =
   Array<CancelDeploymentResponseFlagsCase0DefinitionsValueOptionsItem>;
 export interface CancelDeploymentResponseFlagsCase0DefinitionsValue {
-  description?: string;
-  options?: CancelDeploymentResponseFlagsCase0DefinitionsValueOptionsList;
-  url?: string;
+  description?: string | undefined;
+  options?: CancelDeploymentResponseFlagsCase0DefinitionsValueOptionsList | undefined;
+  url?: string | undefined;
 }
 export type CancelDeploymentResponseFlagsCase0DefinitionsMap = {
   [key: string]: CancelDeploymentResponseFlagsCase0DefinitionsValue | undefined;
@@ -411,13 +421,13 @@ export interface CancelDeploymentResponseFunctionsValueExperimentalTriggersItemC
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -429,13 +439,13 @@ export type CancelDeploymentResponseFunctionsValueExperimentalTriggersItemCase1T
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CancelDeploymentResponseFunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -461,20 +471,22 @@ export type CancelDeploymentResponseFunctionsValueMaxDuration =
   | CancelDeploymentResponseFunctionsValueMaxDurationCase1;
 export type CancelDeploymentResponseFunctionsValueRegionsList = Array<string>;
 export interface CancelDeploymentResponseFunctionsValue {
-  affinity?: CancelDeploymentResponseFunctionsValueAffinity;
-  architecture?: CancelDeploymentResponseFunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CancelDeploymentResponseFunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CancelDeploymentResponseFunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?: CancelDeploymentResponseFunctionsValueAffinity | undefined;
+  architecture?: CancelDeploymentResponseFunctionsValueArchitecture | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?: CancelDeploymentResponseFunctionsValueExperimentalTriggersList | undefined;
+  functionFailoverRegions?:
+    | CancelDeploymentResponseFunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CancelDeploymentResponseFunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CancelDeploymentResponseFunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?: CancelDeploymentResponseFunctionsValueMaxDuration | undefined;
+  memory?: number | undefined;
+  regions?: CancelDeploymentResponseFunctionsValueRegionsList | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type CancelDeploymentResponseFunctionsMap = {
   [key: string]: CancelDeploymentResponseFunctionsValue | undefined;
@@ -556,83 +568,83 @@ export type CancelDeploymentResponseGitRepo =
 export type CancelDeploymentResponseGitSourceCase0RepoId = string | number;
 export type CancelDeploymentResponseGitSourceCase0Type = "github";
 export interface CancelDeploymentResponseGitSourceCase0 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: CancelDeploymentResponseGitSourceCase0RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase0Type;
 }
 export type CancelDeploymentResponseGitSourceCase1Type = "github";
 export interface CancelDeploymentResponseGitSourceCase1 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase1Type;
 }
 export type CancelDeploymentResponseGitSourceCase2RepoId = string | number;
 export type CancelDeploymentResponseGitSourceCase2Type = "github-custom-host";
 export interface CancelDeploymentResponseGitSourceCase2 {
   host: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: CancelDeploymentResponseGitSourceCase2RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase2Type;
 }
 export type CancelDeploymentResponseGitSourceCase3Type = "github-custom-host";
 export interface CancelDeploymentResponseGitSourceCase3 {
   host: string;
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase3Type;
 }
 export type CancelDeploymentResponseGitSourceCase4RepoId = string | number;
 export type CancelDeploymentResponseGitSourceCase4Type = "github-limited";
 export interface CancelDeploymentResponseGitSourceCase4 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: CancelDeploymentResponseGitSourceCase4RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase4Type;
 }
 export type CancelDeploymentResponseGitSourceCase5Type = "github-limited";
 export interface CancelDeploymentResponseGitSourceCase5 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase5Type;
 }
 export type CancelDeploymentResponseGitSourceCase6ProjectId = string | number;
 export type CancelDeploymentResponseGitSourceCase6Type = "gitlab";
 export interface CancelDeploymentResponseGitSourceCase6 {
-  prId?: number | null;
+  prId?: number | null | undefined;
   projectId: CancelDeploymentResponseGitSourceCase6ProjectId;
-  ref?: string | null;
-  sha?: string;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase6Type;
 }
 export type CancelDeploymentResponseGitSourceCase7Type = "bitbucket";
 export interface CancelDeploymentResponseGitSourceCase7 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoUuid: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase7Type;
-  workspaceUuid?: string;
+  workspaceUuid?: string | undefined;
 }
 export type CancelDeploymentResponseGitSourceCase8Type = "bitbucket";
 export interface CancelDeploymentResponseGitSourceCase8 {
   owner: string;
-  prId?: number | null;
-  ref?: string | null;
-  sha?: string;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   slug: string;
   type: CancelDeploymentResponseGitSourceCase8Type;
 }
@@ -650,26 +662,26 @@ export interface CancelDeploymentResponseGitSourceCase9CommitMetadata {
 }
 export type CancelDeploymentResponseGitSourceCase9Type = "vercel";
 export interface CancelDeploymentResponseGitSourceCase9 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
-  org?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
+  org?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   repoId: string;
-  repoPushedAt?: number;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: CancelDeploymentResponseGitSourceCase9Type;
 }
 export type CancelDeploymentResponseGitSourceCase10Type = "cursor-origin";
 export interface CancelDeploymentResponseGitSourceCase10 {
   /** Owner (namespace) slug. */
-  owner?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  owner?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   /** Origin repository id. */
   repoId: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase10Type;
 }
 export type CancelDeploymentResponseGitSourceCase11Type = "custom";
@@ -682,9 +694,9 @@ export interface CancelDeploymentResponseGitSourceCase11 {
 }
 export type CancelDeploymentResponseGitSourceCase12Type = "github";
 export interface CancelDeploymentResponseGitSourceCase12 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: CancelDeploymentResponseGitSourceCase12Type;
@@ -692,18 +704,18 @@ export interface CancelDeploymentResponseGitSourceCase12 {
 export type CancelDeploymentResponseGitSourceCase13Type = "github-custom-host";
 export interface CancelDeploymentResponseGitSourceCase13 {
   host: string;
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: CancelDeploymentResponseGitSourceCase13Type;
 }
 export type CancelDeploymentResponseGitSourceCase14Type = "github-limited";
 export interface CancelDeploymentResponseGitSourceCase14 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: CancelDeploymentResponseGitSourceCase14Type;
@@ -717,11 +729,11 @@ export interface CancelDeploymentResponseGitSourceCase15 {
 }
 export type CancelDeploymentResponseGitSourceCase16Type = "bitbucket";
 export interface CancelDeploymentResponseGitSourceCase16 {
-  owner?: string;
+  owner?: string | undefined;
   ref: string;
   repoUuid: string;
   sha: string;
-  slug?: string;
+  slug?: string | undefined;
   type: CancelDeploymentResponseGitSourceCase16Type;
   workspaceUuid: string;
 }
@@ -733,12 +745,12 @@ export type CancelDeploymentResponseGitSourceCase17CommitMetadata =
   CancelDeploymentResponseGitSourceCase9CommitMetadata;
 export type CancelDeploymentResponseGitSourceCase17Type = "vercel";
 export interface CancelDeploymentResponseGitSourceCase17 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
   org: string;
   ref: string;
   repo: string;
-  repoId?: string;
-  repoPushedAt?: number;
+  repoId?: string | undefined;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: CancelDeploymentResponseGitSourceCase17Type;
 }
@@ -778,9 +790,9 @@ export type CancelDeploymentResponseImagesFormatsList =
   Array<CancelDeploymentResponseImagesFormatsItem>;
 export interface CancelDeploymentResponseImagesLocalPatternsItem {
   /** Can be literal or wildcard. Single `*` matches a single path segment. Double `**` matches any number of path segments. */
-  pathname?: string;
+  pathname?: string | undefined;
   /** Can be literal query string such as `?v=1` or empty string meaning no query string. */
-  search?: string;
+  search?: string | undefined;
 }
 export type CancelDeploymentResponseImagesLocalPatternsList =
   Array<CancelDeploymentResponseImagesLocalPatternsItem>;
@@ -791,28 +803,28 @@ export interface CancelDeploymentResponseImagesRemotePatternsItem {
   /** Can be literal or wildcard. Single `*` matches a single subdomain. Double `**` matches any number of subdomains. */
   hostname: string;
   /** Can be literal or wildcard. Single `*` matches a single path segment. Double `**` matches any number of path segments. */
-  pathname?: string;
+  pathname?: string | undefined;
   /** Can be literal port such as `8080` or empty string meaning no port. */
-  port?: string;
+  port?: string | undefined;
   /** Must be `http` or `https`. */
-  protocol?: CancelDeploymentResponseImagesRemotePatternsItemProtocol;
+  protocol?: CancelDeploymentResponseImagesRemotePatternsItemProtocol | undefined;
   /** Can be literal query string such as `?v=1` or empty string meaning no query string. */
-  search?: string;
+  search?: string | undefined;
 }
 export type CancelDeploymentResponseImagesRemotePatternsList =
   Array<CancelDeploymentResponseImagesRemotePatternsItem>;
 export type CancelDeploymentResponseImagesSizesList = Array<number>;
 export interface CancelDeploymentResponseImages {
-  contentDispositionType?: CancelDeploymentResponseImagesContentDispositionType;
-  contentSecurityPolicy?: string;
-  dangerouslyAllowSVG?: boolean;
-  domains?: CancelDeploymentResponseImagesDomainsList;
-  formats?: CancelDeploymentResponseImagesFormatsList;
-  localPatterns?: CancelDeploymentResponseImagesLocalPatternsList;
-  minimumCacheTTL?: number;
-  qualities?: CancelDeploymentResponseImagesQualitiesList;
-  remotePatterns?: CancelDeploymentResponseImagesRemotePatternsList;
-  sizes?: CancelDeploymentResponseImagesSizesList;
+  contentDispositionType?: CancelDeploymentResponseImagesContentDispositionType | undefined;
+  contentSecurityPolicy?: string | undefined;
+  dangerouslyAllowSVG?: boolean | undefined;
+  domains?: CancelDeploymentResponseImagesDomainsList | undefined;
+  formats?: CancelDeploymentResponseImagesFormatsList | undefined;
+  localPatterns?: CancelDeploymentResponseImagesLocalPatternsList | undefined;
+  minimumCacheTTL?: number | undefined;
+  qualities?: CancelDeploymentResponseImagesQualitiesList | undefined;
+  remotePatterns?: CancelDeploymentResponseImagesRemotePatternsList | undefined;
+  sizes?: CancelDeploymentResponseImagesSizesList | undefined;
 }
 export type CancelDeploymentResponseIntegrationsStatus =
   | "error"
@@ -821,10 +833,10 @@ export type CancelDeploymentResponseIntegrationsStatus =
   | "skipped"
   | "timeout";
 export interface CancelDeploymentResponseIntegrations {
-  claimedAt?: number;
-  completedAt?: number;
-  skippedAt?: number;
-  skippedBy?: string;
+  claimedAt?: number | undefined;
+  completedAt?: number | undefined;
+  skippedAt?: number | undefined;
+  skippedBy?: string | undefined;
   startedAt: number;
   status: CancelDeploymentResponseIntegrationsStatus;
 }
@@ -841,11 +853,11 @@ export type CancelDeploymentResponseLambdasItemOutputList =
   Array<CancelDeploymentResponseLambdasItemOutputItem>;
 /** A partial representation of a Build used by the deployment endpoint. */
 export interface CancelDeploymentResponseLambdasItem {
-  createdAt?: number;
-  entrypoint?: string | null;
+  createdAt?: number | undefined;
+  entrypoint?: string | null | undefined;
   id: string;
-  readyState?: CancelDeploymentResponseLambdasItemReadyState;
-  readyStateAt?: number;
+  readyState?: CancelDeploymentResponseLambdasItemReadyState | undefined;
+  readyStateAt?: number | undefined;
   output: CancelDeploymentResponseLambdasItemOutputList;
 }
 export type CancelDeploymentResponseLambdasList = Array<CancelDeploymentResponseLambdasItem>;
@@ -854,7 +866,7 @@ export type CancelDeploymentResponseManualProvisioningState = "COMPLETE" | "PEND
 /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
 export interface CancelDeploymentResponseManualProvisioning {
   /** Timestamp when manual provisioning completed */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** Current provisioning state */
   state: CancelDeploymentResponseManualProvisioningState;
 }
@@ -865,10 +877,10 @@ export interface CancelDeploymentResponseMicrofrontendsCase0 {
   /** The project name of the default app of this deployment's microfrontends group. */
   defaultAppProjectName: string;
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: CancelDeploymentResponseMicrofrontendsCase0GroupIdsList;
-  isDefaultApp?: boolean;
+  isDefaultApp?: boolean | undefined;
 }
 /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
 export type CancelDeploymentResponseMicrofrontendsCase1GroupIdsList = Array<string>;
@@ -881,12 +893,14 @@ export interface CancelDeploymentResponseMicrofrontendsCase1 {
   /** The project name of the default app of this deployment's microfrontends group. */
   defaultAppProjectName: string;
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: CancelDeploymentResponseMicrofrontendsCase1GroupIdsList;
   isDefaultApp: boolean;
   /** The result of the microfrontends config upload during deployment creation / build. Only set for default app deployments. The config upload is attempted during deployment create, and then again during the build. If the config is not in the root directory, or the deployment is prebuilt, the config cannot be uploaded during deployment create. The upload during deployment build finds the config even if it's not in the root directory, as it has access to all files. Uploading the config during create is ideal, as then all child deployments are guaranteed to have access to the default app deployment config even if the default app has not yet started building. If the config is not uploaded, the child app will show as building until the config has been uploaded during the default app build. - `success` - The config was uploaded successfully, either when the deployment was created or during the build. - `waiting_on_build` - The config could not be uploaded during deployment create, will be attempted again during the build. - `no_config` - No config was found. Only set once the build has not found the config in any of the deployment's files. - `undefined` - Legacy deployments, or there was an error uploading the config during deployment create. */
-  mfeConfigUploadState?: CancelDeploymentResponseMicrofrontendsCase1MfeConfigUploadState;
+  mfeConfigUploadState?:
+    | CancelDeploymentResponseMicrofrontendsCase1MfeConfigUploadState
+    | undefined;
 }
 export type CancelDeploymentResponseMicrofrontends =
   | CancelDeploymentResponseMicrofrontendsCase0
@@ -906,14 +920,14 @@ export type CancelDeploymentResponseNodeVersion =
 export type CancelDeploymentResponseOidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface CancelDeploymentResponseOidcTokenClaims {
   aud: string;
-  custom_environment_id?: string;
-  deployment_id?: string;
+  custom_environment_id?: string | undefined;
+  deployment_id?: string | undefined;
   environment: string;
   iss: string;
-  mfe_group_ids?: CancelDeploymentResponseOidcTokenClaimsMfeGroupIdsList;
+  mfe_group_ids?: CancelDeploymentResponseOidcTokenClaimsMfeGroupIdsList | undefined;
   owner: string;
   owner_id: string;
-  plan?: string;
+  plan?: string | undefined;
   project: string;
   project_id: string;
   scope: string;
@@ -926,7 +940,7 @@ export type CancelDeploymentResponsePlan = "enterprise" | "hobby" | "pro";
 /** The user on the external platform who triggered the deployment. */
 export interface CancelDeploymentResponsePlatformCreator {
   /** URL of the platform user's avatar image. */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Display name of the platform user. */
   name: string;
 }
@@ -951,7 +965,7 @@ export interface CancelDeploymentResponsePlatform {
   /** The user on the external platform who triggered the deployment. */
   creator: CancelDeploymentResponsePlatformCreator;
   /** Arbitrary key-value metadata provided by the platform. */
-  meta?: CancelDeploymentResponsePlatformMetaMap;
+  meta?: CancelDeploymentResponsePlatformMetaMap | undefined;
   /** Reference back to the entity on the platform that initiated the deployment. */
   origin: CancelDeploymentResponsePlatformOrigin;
   /** The external platform that created the deployment (e.g. its display name). */
@@ -959,7 +973,7 @@ export interface CancelDeploymentResponsePlatform {
 }
 /** The public project information associated with the deployment. */
 export interface CancelDeploymentResponseProject {
-  framework?: string | null;
+  framework?: string | null | undefined;
   id: string;
   name: string;
 }
@@ -1050,38 +1064,38 @@ export type CancelDeploymentResponseProjectSettingsNodeVersion =
   | "26.x"
   | "8.10.x";
 export interface CancelDeploymentResponseProjectSettingsSpeedInsights {
-  canceledAt?: number;
+  canceledAt?: number | undefined;
   /** When the first free (not Speed Insights Plus) production data point was observed, in ms. Set once by subscriber-analytics-events; projects that already had data before this field shipped get it backfilled on their next batch, so it reads "first free data point observed", not necessarily "first ever". */
-  dataReceivedAt?: number;
-  disabledAt?: number;
-  enabledAt?: number;
-  hasData?: boolean;
+  dataReceivedAt?: number | undefined;
+  disabledAt?: number | undefined;
+  enabledAt?: number | undefined;
+  hasData?: boolean | undefined;
   id: string;
-  paidAt?: number;
+  paidAt?: number | undefined;
 }
 /** Vercel Flags activation metadata copied from the project at deployment creation. */
 export interface CancelDeploymentResponseProjectSettingsVercelFlags {
-  enabledAt?: number;
+  enabledAt?: number | undefined;
 }
 export interface CancelDeploymentResponseProjectSettingsWebAnalytics {
-  canceledAt?: number;
-  disabledAt?: number;
-  enabledAt?: number;
-  hasData?: boolean;
+  canceledAt?: number | undefined;
+  disabledAt?: number | undefined;
+  enabledAt?: number | undefined;
+  hasData?: boolean | undefined;
   id: string;
 }
 export interface CancelDeploymentResponseProjectSettings {
-  buildCommand?: string | null;
-  commandForIgnoringBuildStep?: string | null;
-  devCommand?: string | null;
-  framework?: CancelDeploymentResponseProjectSettingsFramework | null;
-  installCommand?: string | null;
-  nodeVersion?: CancelDeploymentResponseProjectSettingsNodeVersion;
-  outputDirectory?: string | null;
-  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  buildCommand?: string | null | undefined;
+  commandForIgnoringBuildStep?: string | null | undefined;
+  devCommand?: string | null | undefined;
+  framework?: CancelDeploymentResponseProjectSettingsFramework | null | undefined;
+  installCommand?: string | null | undefined;
+  nodeVersion?: CancelDeploymentResponseProjectSettingsNodeVersion | undefined;
+  outputDirectory?: string | null | undefined;
+  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights | undefined;
   /** Vercel Flags activation metadata copied from the project at deployment creation. */
-  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
-  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags | undefined;
+  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics | undefined;
 }
 /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
 export type CancelDeploymentResponseReadyState =
@@ -1123,15 +1137,19 @@ export interface CancelDeploymentResponseResourceConfigBuildMachineCase0 {
   /** The build ran on an elastic machine. Drives billing. */
   machineSelectionType: CancelDeploymentResponseResourceConfigBuildMachineCase0MachineSelectionType;
   /** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
-  purchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase0PurchaseType;
+  purchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase0PurchaseType | undefined;
   /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
-  cores?: number;
+  cores?: number | undefined;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase0DefaultPurchaseType;
+  defaultPurchaseType?:
+    | CancelDeploymentResponseResourceConfigBuildMachineCase0DefaultPurchaseType
+    | undefined;
   /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
-  memory?: number;
+  memory?: number | undefined;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: CancelDeploymentResponseResourceConfigBuildMachineCase0SelectionSource;
+  selectionSource?:
+    | CancelDeploymentResponseResourceConfigBuildMachineCase0SelectionSource
+    | undefined;
 }
 /** The build ran on a fixed machine. Drives billing. */
 export type CancelDeploymentResponseResourceConfigBuildMachineCase1MachineSelectionType = "fixed";
@@ -1157,32 +1175,38 @@ export type CancelDeploymentResponseResourceConfigBuildMachineCase1SelectionSour
   | "team-setting";
 export interface CancelDeploymentResponseResourceConfigBuildMachineCase1 {
   /** The build ran on a fixed machine. Drives billing. */
-  machineSelectionType?: CancelDeploymentResponseResourceConfigBuildMachineCase1MachineSelectionType;
+  machineSelectionType?:
+    | CancelDeploymentResponseResourceConfigBuildMachineCase1MachineSelectionType
+    | undefined;
   /** Machine type purchased for this build. */
-  purchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase1PurchaseType;
+  purchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase1PurchaseType | undefined;
   /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
-  cores?: number;
+  cores?: number | undefined;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: CancelDeploymentResponseResourceConfigBuildMachineCase1DefaultPurchaseType;
+  defaultPurchaseType?:
+    | CancelDeploymentResponseResourceConfigBuildMachineCase1DefaultPurchaseType
+    | undefined;
   /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
-  memory?: number;
+  memory?: number | undefined;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: CancelDeploymentResponseResourceConfigBuildMachineCase1SelectionSource;
+  selectionSource?:
+    | CancelDeploymentResponseResourceConfigBuildMachineCase1SelectionSource
+    | undefined;
 }
 export type CancelDeploymentResponseResourceConfigBuildMachine =
   | CancelDeploymentResponseResourceConfigBuildMachineCase0
   | CancelDeploymentResponseResourceConfigBuildMachineCase1;
 export interface CancelDeploymentResponseResourceConfig {
-  buildMachine?: CancelDeploymentResponseResourceConfigBuildMachine;
+  buildMachine?: CancelDeploymentResponseResourceConfigBuildMachine | undefined;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
 export type CancelDeploymentResponseRoutesItemCase0DestinationCase1Type = "service";
 export interface CancelDeploymentResponseRoutesItemCase0DestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: CancelDeploymentResponseRoutesItemCase0DestinationCase1Type;
+  type?: CancelDeploymentResponseRoutesItemCase0DestinationCase1Type | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0Destination =
   | string
@@ -1193,17 +1217,17 @@ export type CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1Eq = st
 export type CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1IncList = Array<string>;
 export type CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1NincList = Array<string>;
 export interface CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: CancelDeploymentResponseRoutesItemCase0HasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0HasItemCase0Value =
   | string
@@ -1217,17 +1241,17 @@ export type CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1Eq = st
 export type CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1IncList = Array<string>;
 export type CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1NincList = Array<string>;
 export interface CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: CancelDeploymentResponseRoutesItemCase0HasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0HasItemCase1Value =
   | string
@@ -1235,7 +1259,7 @@ export type CancelDeploymentResponseRoutesItemCase0HasItemCase1Value =
 export interface CancelDeploymentResponseRoutesItemCase0HasItemCase1 {
   key: string;
   type: CancelDeploymentResponseRoutesItemCase0HasItemCase1Type;
-  value?: CancelDeploymentResponseRoutesItemCase0HasItemCase1Value;
+  value?: CancelDeploymentResponseRoutesItemCase0HasItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0HasItem =
   | CancelDeploymentResponseRoutesItemCase0HasItemCase0
@@ -1249,8 +1273,8 @@ export type CancelDeploymentResponseRoutesItemCase0LocaleRedirectMap = {
   [key: string]: string | undefined;
 };
 export interface CancelDeploymentResponseRoutesItemCase0Locale {
-  cookie?: string;
-  redirect?: CancelDeploymentResponseRoutesItemCase0LocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: CancelDeploymentResponseRoutesItemCase0LocaleRedirectMap | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0MethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -1262,17 +1286,17 @@ export type CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1Inc
 export type CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0MissingItemCase0Value =
   | string
@@ -1291,17 +1315,17 @@ export type CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1Inc
 export type CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0MissingItemCase1Value =
   | string
@@ -1309,7 +1333,7 @@ export type CancelDeploymentResponseRoutesItemCase0MissingItemCase1Value =
 export interface CancelDeploymentResponseRoutesItemCase0MissingItemCase1 {
   key: string;
   type: CancelDeploymentResponseRoutesItemCase0MissingItemCase1Type;
-  value?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1Value;
+  value?: CancelDeploymentResponseRoutesItemCase0MissingItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0MissingItem =
   | CancelDeploymentResponseRoutesItemCase0MissingItemCase0
@@ -1337,16 +1361,18 @@ export type CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyC
 export type CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1 {
-  eq?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase0TransformsItemCase0TargetKey =
   | string
@@ -1359,8 +1385,8 @@ export type CancelDeploymentResponseRoutesItemCase0TransformsItemCase0Type =
   | "request.query"
   | "response.headers";
 export interface CancelDeploymentResponseRoutesItemCase0TransformsItemCase0 {
-  args?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0Args;
-  env?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0EnvList;
+  args?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0Args | undefined;
+  env?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0EnvList | undefined;
   op: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0Op;
   target: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0Target;
   type: CancelDeploymentResponseRoutesItemCase0TransformsItemCase0Type;
@@ -1370,9 +1396,9 @@ export type CancelDeploymentResponseRoutesItemCase0TransformsItemCase1Op = "set"
 export type CancelDeploymentResponseRoutesItemCase0TransformsItemCase1Type = "request.path";
 export interface CancelDeploymentResponseRoutesItemCase0TransformsItemCase1 {
   args: string;
-  env?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase1EnvList;
+  env?: CancelDeploymentResponseRoutesItemCase0TransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: CancelDeploymentResponseRoutesItemCase0TransformsItemCase1Op;
   type: CancelDeploymentResponseRoutesItemCase0TransformsItemCase1Type;
 }
@@ -1382,33 +1408,33 @@ export type CancelDeploymentResponseRoutesItemCase0TransformsItem =
 export type CancelDeploymentResponseRoutesItemCase0TransformsList =
   Array<CancelDeploymentResponseRoutesItemCase0TransformsItem>;
 export interface CancelDeploymentResponseRoutesItemCase0 {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: CancelDeploymentResponseRoutesItemCase0Destination;
-  env?: CancelDeploymentResponseRoutesItemCase0EnvList;
-  has?: CancelDeploymentResponseRoutesItemCase0HasList;
-  headers?: CancelDeploymentResponseRoutesItemCase0HeadersMap;
-  important?: boolean;
-  locale?: CancelDeploymentResponseRoutesItemCase0Locale;
-  methods?: CancelDeploymentResponseRoutesItemCase0MethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: CancelDeploymentResponseRoutesItemCase0Destination | undefined;
+  env?: CancelDeploymentResponseRoutesItemCase0EnvList | undefined;
+  has?: CancelDeploymentResponseRoutesItemCase0HasList | undefined;
+  headers?: CancelDeploymentResponseRoutesItemCase0HeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: CancelDeploymentResponseRoutesItemCase0Locale | undefined;
+  methods?: CancelDeploymentResponseRoutesItemCase0MethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: CancelDeploymentResponseRoutesItemCase0MiddlewareRawSrcList;
-  missing?: CancelDeploymentResponseRoutesItemCase0MissingList;
-  mitigate?: CancelDeploymentResponseRoutesItemCase0Mitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?: CancelDeploymentResponseRoutesItemCase0MiddlewareRawSrcList | undefined;
+  missing?: CancelDeploymentResponseRoutesItemCase0MissingList | undefined;
+  mitigate?: CancelDeploymentResponseRoutesItemCase0Mitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: CancelDeploymentResponseRoutesItemCase0TransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: CancelDeploymentResponseRoutesItemCase0TransformsList | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase1Handle =
   | "error"
@@ -1418,10 +1444,10 @@ export type CancelDeploymentResponseRoutesItemCase1Handle =
   | "resource"
   | "rewrite";
 export interface CancelDeploymentResponseRoutesItemCase1 {
-  dest?: string;
+  dest?: string | undefined;
   handle: CancelDeploymentResponseRoutesItemCase1Handle;
-  src?: string;
-  status?: number;
+  src?: string | undefined;
+  status?: number | undefined;
 }
 export type CancelDeploymentResponseRoutesItemCase2Middleware = 0;
 export interface CancelDeploymentResponseRoutesItemCase2 {
@@ -1446,12 +1472,12 @@ export interface CancelDeploymentResponseSeatBlock {
   /** The NSNB decision code for the seat block. TODO: We should consolidate block types. */
   blockCode: CancelDeploymentResponseSeatBlockBlockCode;
   /** The git provider type associated with gitUserId. */
-  gitProvider?: CancelDeploymentResponseSeatBlockGitProvider;
-  gitUserId?: CancelDeploymentResponseSeatBlockGitUserId;
+  gitProvider?: CancelDeploymentResponseSeatBlockGitProvider | undefined;
+  gitUserId?: CancelDeploymentResponseSeatBlockGitUserId | undefined;
   /** Determines if the user was verified during the block. In the git integration case, the commit sender was the author. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The blocked vercel user ID. */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** Generated value shape, must be `"url"`. */
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItemFormat = "url";
@@ -1467,7 +1493,7 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBin
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItemType;
+  type?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsItemType | undefined;
 }
 /** Bindings to services in the same deployment. */
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsList =
@@ -1487,20 +1513,24 @@ export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLiveness
   | "HTTP"
   | "HTTPS";
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet {
-  host?: string;
-  httpHeaders?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
-  path?: string;
+  host?: string | undefined;
+  httpHeaders?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList
+    | undefined;
+  path?: string | undefined;
   port: number;
-  scheme?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme;
+  scheme?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme
+    | undefined;
 }
 /** A Kubernetes-style HTTP liveness probe. */
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbe {
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   httpGet: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet;
-  initialDelaySeconds?: number;
-  periodSeconds?: number;
-  successThreshold?: number;
-  timeoutSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  periodSeconds?: number | undefined;
+  successThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
 }
 /** Instance counts by region. */
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonReplicasMap = {
@@ -1520,18 +1550,20 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonRes
 /** Set when this build produces the named daemon. */
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfigDaemon {
   /** Bindings to services in the same deployment. */
-  bindings?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsList;
-  command?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonCommandList;
+  bindings?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonBindingsList | undefined;
+  command?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonCommandList | undefined;
   entrypoint: string;
   /** Instance counts by region. */
-  instances?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonInstancesMap;
+  instances?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonInstancesMap | undefined;
   /** A Kubernetes-style HTTP liveness probe. */
-  livenessProbe?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbe;
+  livenessProbe?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonLivenessProbe
+    | undefined;
   /** Instance counts by region. */
-  replicas?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonReplicasMap;
-  resources?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResources;
+  replicas?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonReplicasMap | undefined;
+  resources?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemonResources | undefined;
   root: string;
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   name: string;
 }
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigExcludeFilesCase1List =
@@ -1555,13 +1587,13 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigFunctions
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -1573,13 +1605,13 @@ export type CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValue
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -1608,20 +1640,32 @@ export type CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValue
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueRegionsList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValue {
-  affinity?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueAffinity;
-  architecture?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueAffinity
+    | undefined;
+  architecture?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValueRegionsList
+    | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsMap = {
   [key: string]: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsValue | undefined;
@@ -1645,21 +1689,21 @@ export type CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareRunt
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettingsVercelFlags =
   CancelDeploymentResponseProjectSettingsVercelFlags;
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings {
-  autoExposeSystemEnvs?: boolean;
-  buildCommand?: string | null;
-  commandForIgnoringBuildStep?: string | null;
-  createdAt?: number;
-  devCommand?: string | null;
-  directoryListing?: boolean;
-  framework?: string | null;
-  gitForkProtection?: boolean;
-  installCommand?: string | null;
-  monorepoManager?: string | null;
-  nodeVersion?: string;
-  outputDirectory?: string | null;
-  rootDirectory?: string | null;
-  sourceFilesOutsideRootDirectory?: boolean;
-  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
+  autoExposeSystemEnvs?: boolean | undefined;
+  buildCommand?: string | null | undefined;
+  commandForIgnoringBuildStep?: string | null | undefined;
+  createdAt?: number | undefined;
+  devCommand?: string | null | undefined;
+  directoryListing?: boolean | undefined;
+  framework?: string | null | undefined;
+  gitForkProtection?: boolean | undefined;
+  installCommand?: string | null | undefined;
+  monorepoManager?: string | null | undefined;
+  nodeVersion?: string | undefined;
+  outputDirectory?: string | null | undefined;
+  rootDirectory?: string | null | undefined;
+  sourceFilesOutsideRootDirectory?: boolean | undefined;
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags | undefined;
 }
 /** Names of the schedules that dispatch to this entrypoint, in config order. */
 export type CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunctionEntrypointsItemScheduleNamesList =
@@ -1681,41 +1725,49 @@ export interface CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleF
   outputPath: string;
 }
 export interface CancelDeploymentResponseServicesItemCase0BuilderConfig {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
-  buildpack?: string;
-  bundle?: boolean;
-  bunVersion?: string;
+  buildpack?: string | undefined;
+  bundle?: boolean | undefined;
+  bunVersion?: string | undefined;
   /** Set when this build produces the named daemon. */
-  daemon?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemon;
-  debug?: boolean;
-  devCommand?: string;
-  excludeFiles?: CancelDeploymentResponseServicesItemCase0BuilderConfigExcludeFiles;
-  framework?: string | null;
-  functions?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsMap;
-  helpers?: boolean;
-  import?: CancelDeploymentResponseServicesItemCase0BuilderConfigImportMap;
-  includeFiles?: CancelDeploymentResponseServicesItemCase0BuilderConfigIncludeFiles;
-  installCommand?: string;
-  ldsflags?: string;
-  maxLambdaSize?: string;
-  middleware?: boolean;
-  middlewareMatcher?: CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareMatcher;
+  daemon?: CancelDeploymentResponseServicesItemCase0BuilderConfigDaemon | undefined;
+  debug?: boolean | undefined;
+  devCommand?: string | undefined;
+  excludeFiles?: CancelDeploymentResponseServicesItemCase0BuilderConfigExcludeFiles | undefined;
+  framework?: string | null | undefined;
+  functions?: CancelDeploymentResponseServicesItemCase0BuilderConfigFunctionsMap | undefined;
+  helpers?: boolean | undefined;
+  import?: CancelDeploymentResponseServicesItemCase0BuilderConfigImportMap | undefined;
+  includeFiles?: CancelDeploymentResponseServicesItemCase0BuilderConfigIncludeFiles | undefined;
+  installCommand?: string | undefined;
+  ldsflags?: string | undefined;
+  maxLambdaSize?: string | undefined;
+  middleware?: boolean | undefined;
+  middlewareMatcher?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareMatcher
+    | undefined;
   /** Enforced runtime for explicitly configured Routing Middleware. */
-  middlewareRuntime?: CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareRuntime;
-  nodeVersion?: string;
-  outputDirectory?: string;
-  projectSettings?: CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-  rust?: string;
+  middlewareRuntime?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigMiddlewareRuntime
+    | undefined;
+  nodeVersion?: string | undefined;
+  outputDirectory?: string | undefined;
+  projectSettings?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
+    | undefined;
+  rust?: string | undefined;
   /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?: CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunction;
+  scheduleFunction?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigScheduleFunction
+    | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
-  serviceName?: string;
-  zeroConfig?: boolean;
+  serviceName?: string | undefined;
+  zeroConfig?: boolean | undefined;
 }
 export interface CancelDeploymentResponseServicesItemCase0Builder {
-  config?: CancelDeploymentResponseServicesItemCase0BuilderConfig;
-  src?: string;
+  config?: CancelDeploymentResponseServicesItemCase0BuilderConfig | undefined;
+  src?: string | undefined;
   use: string;
 }
 export type CancelDeploymentResponseServicesItemCase0EnvValueType = "service-ref";
@@ -1734,8 +1786,8 @@ export type CancelDeploymentResponseServicesItemCase0Schedule =
 export type CancelDeploymentResponseServicesItemCase0Schema = "experimentalServices";
 export type CancelDeploymentResponseServicesItemCase0TopicsCase0List = Array<string>;
 export interface CancelDeploymentResponseServicesItemCase0TopicsCase1Item {
-  initialDelaySeconds?: number;
-  retryAfterSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  retryAfterSeconds?: number | undefined;
   topic: string;
 }
 export type CancelDeploymentResponseServicesItemCase0TopicsCase1List =
@@ -1747,24 +1799,24 @@ export type CancelDeploymentResponseServicesItemCase0Trigger = "queue" | "schedu
 export type CancelDeploymentResponseServicesItemCase0Type = "cron" | "job" | "web" | "worker";
 /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
 export interface CancelDeploymentResponseServicesItemCase0 {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   builder: CancelDeploymentResponseServicesItemCase0Builder;
-  entrypoint?: string;
-  env?: CancelDeploymentResponseServicesItemCase0EnvMap;
-  framework?: string;
-  group?: string;
-  handlerFunction?: string;
-  installCommand?: string;
+  entrypoint?: string | undefined;
+  env?: CancelDeploymentResponseServicesItemCase0EnvMap | undefined;
+  framework?: string | undefined;
+  group?: string | undefined;
+  handlerFunction?: string | undefined;
+  installCommand?: string | undefined;
   name: string;
-  preDeployCommand?: string;
-  routePrefix?: string;
-  routePrefixSource?: CancelDeploymentResponseServicesItemCase0RoutePrefixSource;
-  runtime?: string;
-  schedule?: CancelDeploymentResponseServicesItemCase0Schedule;
+  preDeployCommand?: string | undefined;
+  routePrefix?: string | undefined;
+  routePrefixSource?: CancelDeploymentResponseServicesItemCase0RoutePrefixSource | undefined;
+  runtime?: string | undefined;
+  schedule?: CancelDeploymentResponseServicesItemCase0Schedule | undefined;
   schema: CancelDeploymentResponseServicesItemCase0Schema;
-  subdomain?: string;
-  topics?: CancelDeploymentResponseServicesItemCase0Topics;
-  trigger?: CancelDeploymentResponseServicesItemCase0Trigger;
+  subdomain?: string | undefined;
+  topics?: CancelDeploymentResponseServicesItemCase0Topics | undefined;
+  trigger?: CancelDeploymentResponseServicesItemCase0Trigger | undefined;
   type: CancelDeploymentResponseServicesItemCase0Type;
   workspace: string;
 }
@@ -1781,7 +1833,7 @@ export interface CancelDeploymentResponseServicesItemCase1BindingsItem {
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: CancelDeploymentResponseServicesItemCase1BindingsItemType;
+  type?: CancelDeploymentResponseServicesItemCase1BindingsItemType | undefined;
 }
 /** Caller-side bindings to other services. */
 export type CancelDeploymentResponseServicesItemCase1BindingsList =
@@ -1800,7 +1852,7 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBin
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItemType;
+  type?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsItemType | undefined;
 }
 /** Bindings to services in the same deployment. */
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsList =
@@ -1818,20 +1870,24 @@ export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLiveness
   | "HTTP"
   | "HTTPS";
 export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet {
-  host?: string;
-  httpHeaders?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
-  path?: string;
+  host?: string | undefined;
+  httpHeaders?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList
+    | undefined;
+  path?: string | undefined;
   port: number;
-  scheme?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme;
+  scheme?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme
+    | undefined;
 }
 /** A Kubernetes-style HTTP liveness probe. */
 export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbe {
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   httpGet: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet;
-  initialDelaySeconds?: number;
-  periodSeconds?: number;
-  successThreshold?: number;
-  timeoutSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  periodSeconds?: number | undefined;
+  successThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
 }
 /** Instance counts by region. */
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonReplicasMap = {
@@ -1851,18 +1907,20 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonRes
 /** Set when this build produces the named daemon. */
 export interface CancelDeploymentResponseServicesItemCase1BuilderConfigDaemon {
   /** Bindings to services in the same deployment. */
-  bindings?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsList;
-  command?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonCommandList;
+  bindings?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonBindingsList | undefined;
+  command?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonCommandList | undefined;
   entrypoint: string;
   /** Instance counts by region. */
-  instances?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonInstancesMap;
+  instances?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonInstancesMap | undefined;
   /** A Kubernetes-style HTTP liveness probe. */
-  livenessProbe?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbe;
+  livenessProbe?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonLivenessProbe
+    | undefined;
   /** Instance counts by region. */
-  replicas?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonReplicasMap;
-  resources?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResources;
+  replicas?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonReplicasMap | undefined;
+  resources?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemonResources | undefined;
   root: string;
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   name: string;
 }
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigExcludeFilesCase1List =
@@ -1886,13 +1944,13 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfigFunctions
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -1904,13 +1962,13 @@ export type CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValue
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -1939,20 +1997,32 @@ export type CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValue
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueRegionsList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValue {
-  affinity?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueAffinity;
-  architecture?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueAffinity
+    | undefined;
+  architecture?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValueRegionsList
+    | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsMap = {
   [key: string]: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsValue | undefined;
@@ -1997,42 +2067,50 @@ export interface CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleF
   outputPath: string;
 }
 export interface CancelDeploymentResponseServicesItemCase1BuilderConfig {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
-  buildpack?: string;
-  bundle?: boolean;
-  bunVersion?: string;
+  buildpack?: string | undefined;
+  bundle?: boolean | undefined;
+  bunVersion?: string | undefined;
   /** Set when this build produces the named daemon. */
-  daemon?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemon;
-  debug?: boolean;
-  devCommand?: string;
-  excludeFiles?: CancelDeploymentResponseServicesItemCase1BuilderConfigExcludeFiles;
-  framework?: string | null;
-  functions?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsMap;
-  helpers?: boolean;
-  import?: CancelDeploymentResponseServicesItemCase1BuilderConfigImportMap;
-  includeFiles?: CancelDeploymentResponseServicesItemCase1BuilderConfigIncludeFiles;
-  installCommand?: string;
-  ldsflags?: string;
-  maxLambdaSize?: string;
-  middleware?: boolean;
-  middlewareMatcher?: CancelDeploymentResponseServicesItemCase1BuilderConfigMiddlewareMatcher;
+  daemon?: CancelDeploymentResponseServicesItemCase1BuilderConfigDaemon | undefined;
+  debug?: boolean | undefined;
+  devCommand?: string | undefined;
+  excludeFiles?: CancelDeploymentResponseServicesItemCase1BuilderConfigExcludeFiles | undefined;
+  framework?: string | null | undefined;
+  functions?: CancelDeploymentResponseServicesItemCase1BuilderConfigFunctionsMap | undefined;
+  helpers?: boolean | undefined;
+  import?: CancelDeploymentResponseServicesItemCase1BuilderConfigImportMap | undefined;
+  includeFiles?: CancelDeploymentResponseServicesItemCase1BuilderConfigIncludeFiles | undefined;
+  installCommand?: string | undefined;
+  ldsflags?: string | undefined;
+  maxLambdaSize?: string | undefined;
+  middleware?: boolean | undefined;
+  middlewareMatcher?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigMiddlewareMatcher
+    | undefined;
   /** Enforced runtime for explicitly configured Routing Middleware. */
-  middlewareRuntime?: CancelDeploymentResponseServicesItemCase1BuilderConfigMiddlewareRuntime;
-  nodeVersion?: string;
-  outputDirectory?: string;
-  projectSettings?: CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-  rust?: string;
+  middlewareRuntime?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigMiddlewareRuntime
+    | undefined;
+  nodeVersion?: string | undefined;
+  outputDirectory?: string | undefined;
+  projectSettings?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
+    | undefined;
+  rust?: string | undefined;
   /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?: CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunction;
+  scheduleFunction?:
+    | CancelDeploymentResponseServicesItemCase1BuilderConfigScheduleFunction
+    | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
-  serviceName?: string;
-  zeroConfig?: boolean;
+  serviceName?: string | undefined;
+  zeroConfig?: boolean | undefined;
 }
 /** Builder selected by the resolver. */
 export interface CancelDeploymentResponseServicesItemCase1Builder {
-  config?: CancelDeploymentResponseServicesItemCase1BuilderConfig;
-  src?: string;
+  config?: CancelDeploymentResponseServicesItemCase1BuilderConfig | undefined;
+  src?: string | undefined;
   use: string;
 }
 /** Command override for `runtime: "container"` services. */
@@ -2052,13 +2130,13 @@ export interface CancelDeploymentResponseServicesItemCase1FunctionsValueExperime
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -2070,13 +2148,13 @@ export type CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalT
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -2104,20 +2182,24 @@ export type CancelDeploymentResponseServicesItemCase1FunctionsValueMaxDuration =
 export type CancelDeploymentResponseServicesItemCase1FunctionsValueRegionsList = Array<string>;
 /** Function configuration scoped to this service. */
 export interface CancelDeploymentResponseServicesItemCase1FunctionsValue {
-  affinity?: CancelDeploymentResponseServicesItemCase1FunctionsValueAffinity;
-  architecture?: CancelDeploymentResponseServicesItemCase1FunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CancelDeploymentResponseServicesItemCase1FunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?: CancelDeploymentResponseServicesItemCase1FunctionsValueAffinity | undefined;
+  architecture?: CancelDeploymentResponseServicesItemCase1FunctionsValueArchitecture | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | CancelDeploymentResponseServicesItemCase1FunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | CancelDeploymentResponseServicesItemCase1FunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CancelDeploymentResponseServicesItemCase1FunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CancelDeploymentResponseServicesItemCase1FunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?: CancelDeploymentResponseServicesItemCase1FunctionsValueMaxDuration | undefined;
+  memory?: number | undefined;
+  regions?: CancelDeploymentResponseServicesItemCase1FunctionsValueRegionsList | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 /** Function configuration scoped to this service. */
 export type CancelDeploymentResponseServicesItemCase1FunctionsMap = {
@@ -2132,17 +2214,21 @@ export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0Valu
 export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0Value =
   | string
@@ -2163,17 +2249,21 @@ export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1Valu
 export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1Value =
   | string
@@ -2181,7 +2271,7 @@ export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1Valu
 export interface CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1HeadersItemHasItem =
   | CancelDeploymentResponseServicesItemCase1HeadersItemHasItemCase0
@@ -2203,17 +2293,21 @@ export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0
 export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0Value =
   | string
@@ -2234,17 +2328,21 @@ export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1
 export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1Value =
   | string
@@ -2252,7 +2350,7 @@ export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1
 export interface CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItem =
   | CancelDeploymentResponseServicesItemCase1HeadersItemMissingItemCase0
@@ -2260,9 +2358,9 @@ export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingItem =
 export type CancelDeploymentResponseServicesItemCase1HeadersItemMissingList =
   Array<CancelDeploymentResponseServicesItemCase1HeadersItemMissingItem>;
 export interface CancelDeploymentResponseServicesItemCase1HeadersItem {
-  has?: CancelDeploymentResponseServicesItemCase1HeadersItemHasList;
+  has?: CancelDeploymentResponseServicesItemCase1HeadersItemHasList | undefined;
   headers: CancelDeploymentResponseServicesItemCase1HeadersItemHeadersList;
-  missing?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingList;
+  missing?: CancelDeploymentResponseServicesItemCase1HeadersItemMissingList | undefined;
   source: string;
 }
 export type CancelDeploymentResponseServicesItemCase1HeadersList =
@@ -2277,17 +2375,21 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0Va
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0Value =
   | string
@@ -2308,17 +2410,21 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1Va
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1Value =
   | string
@@ -2326,7 +2432,7 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1Va
 export interface CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemHasItem =
   | CancelDeploymentResponseServicesItemCase1RedirectsItemHasItemCase0
@@ -2342,17 +2448,23 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCas
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0Value =
   | string
@@ -2373,17 +2485,23 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCas
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1Value =
   | string
@@ -2391,7 +2509,7 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCas
 export interface CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItem =
   | CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItemCase0
@@ -2400,12 +2518,12 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsItemMissingList =
   Array<CancelDeploymentResponseServicesItemCase1RedirectsItemMissingItem>;
 export interface CancelDeploymentResponseServicesItemCase1RedirectsItem {
   destination: string;
-  env?: CancelDeploymentResponseServicesItemCase1RedirectsItemEnvList;
-  has?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasList;
-  missing?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingList;
-  permanent?: boolean;
+  env?: CancelDeploymentResponseServicesItemCase1RedirectsItemEnvList | undefined;
+  has?: CancelDeploymentResponseServicesItemCase1RedirectsItemHasList | undefined;
+  missing?: CancelDeploymentResponseServicesItemCase1RedirectsItemMissingList | undefined;
+  permanent?: boolean | undefined;
   source: string;
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RedirectsList =
   Array<CancelDeploymentResponseServicesItemCase1RedirectsItem>;
@@ -2413,10 +2531,10 @@ export type CancelDeploymentResponseServicesItemCase1RedirectsList =
 export type CancelDeploymentResponseServicesItemCase1RewritesItemDestinationCase1Type = "service";
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: CancelDeploymentResponseServicesItemCase1RewritesItemDestinationCase1Type;
+  type?: CancelDeploymentResponseServicesItemCase1RewritesItemDestinationCase1Type | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesItemDestination =
   | string
@@ -2431,17 +2549,21 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0Val
 export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0Value =
   | string
@@ -2462,17 +2584,21 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1Val
 export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1Value =
   | string
@@ -2480,7 +2606,7 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1Val
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesItemHasItem =
   | CancelDeploymentResponseServicesItemCase1RewritesItemHasItemCase0
@@ -2496,17 +2622,23 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase
 export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0Value =
   | string
@@ -2527,17 +2659,23 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase
 export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1Value =
   | string
@@ -2545,7 +2683,7 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesItemMissingItem =
   | CancelDeploymentResponseServicesItemCase1RewritesItemMissingItemCase0
@@ -2559,9 +2697,9 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemT
   "request.path";
 export interface CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItem {
   args: string;
-  env?: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemEnvList;
+  env?: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemEnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemOp;
   type: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItemType;
 }
@@ -2569,13 +2707,13 @@ export type CancelDeploymentResponseServicesItemCase1RewritesItemTransformsList 
   Array<CancelDeploymentResponseServicesItemCase1RewritesItemTransformsItem>;
 export interface CancelDeploymentResponseServicesItemCase1RewritesItem {
   destination: CancelDeploymentResponseServicesItemCase1RewritesItemDestination;
-  env?: CancelDeploymentResponseServicesItemCase1RewritesItemEnvList;
-  has?: CancelDeploymentResponseServicesItemCase1RewritesItemHasList;
-  missing?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingList;
-  respectOriginCacheControl?: boolean;
+  env?: CancelDeploymentResponseServicesItemCase1RewritesItemEnvList | undefined;
+  has?: CancelDeploymentResponseServicesItemCase1RewritesItemHasList | undefined;
+  missing?: CancelDeploymentResponseServicesItemCase1RewritesItemMissingList | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   source: string;
-  statusCode?: number;
-  transforms?: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsList;
+  statusCode?: number | undefined;
+  transforms?: CancelDeploymentResponseServicesItemCase1RewritesItemTransformsList | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RewritesList =
   Array<CancelDeploymentResponseServicesItemCase1RewritesItem>;
@@ -2584,10 +2722,10 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0DestinationC
   "service";
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0DestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0DestinationCase1Type;
+  type?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0DestinationCase1Type | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0Destination =
   | string
@@ -2602,17 +2740,21 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0Value =
   | string
@@ -2633,17 +2775,21 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1Value =
   | string
@@ -2651,7 +2797,7 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItem =
   | CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasItemCase0
@@ -2665,8 +2811,8 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0LocaleRedire
   [key: string]: string | undefined;
 };
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0Locale {
-  cookie?: string;
-  redirect?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0LocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0LocaleRedirectMap | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -2681,17 +2827,23 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemC
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0Value =
   | string
@@ -2712,17 +2864,23 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemC
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1Value =
   | string
@@ -2730,7 +2888,7 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemC
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1 {
   key: string;
   type: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1Type;
-  value?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1Value;
+  value?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase1Value | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItem =
   | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingItemCase0
@@ -2762,16 +2920,22 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsIt
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1 {
-  eq?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKey =
   | string
@@ -2784,8 +2948,12 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsIt
   | "request.query"
   | "response.headers";
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0 {
-  args?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0Args;
-  env?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0EnvList;
+  args?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0Args
+    | undefined;
+  env?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0EnvList
+    | undefined;
   op: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0Op;
   target: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0Target;
   type: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase0Type;
@@ -2797,9 +2965,11 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsIt
   "request.path";
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
-  env?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList;
+  env?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList
+    | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1Op;
   type: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -2809,33 +2979,35 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsIt
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsList =
   Array<CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsItem>;
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase0 {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0Destination;
-  env?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0EnvList;
-  has?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasList;
-  headers?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HeadersMap;
-  important?: boolean;
-  locale?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0Locale;
-  methods?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0Destination | undefined;
+  env?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0EnvList | undefined;
+  has?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HasList | undefined;
+  headers?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0HeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0Locale | undefined;
+  methods?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MiddlewareRawSrcList;
-  missing?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingList;
-  mitigate?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0Mitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?:
+    | CancelDeploymentResponseServicesItemCase1RoutesItemCase0MiddlewareRawSrcList
+    | undefined;
+  missing?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0MissingList | undefined;
+  mitigate?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0Mitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: CancelDeploymentResponseServicesItemCase1RoutesItemCase0TransformsList | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItemCase1Handle =
   | "error"
@@ -2845,10 +3017,10 @@ export type CancelDeploymentResponseServicesItemCase1RoutesItemCase1Handle =
   | "resource"
   | "rewrite";
 export interface CancelDeploymentResponseServicesItemCase1RoutesItemCase1 {
-  dest?: string;
+  dest?: string | undefined;
   handle: CancelDeploymentResponseServicesItemCase1RoutesItemCase1Handle;
-  src?: string;
-  status?: number;
+  src?: string | undefined;
+  status?: number | undefined;
 }
 export type CancelDeploymentResponseServicesItemCase1RoutesItem =
   | CancelDeploymentResponseServicesItemCase1RoutesItemCase0
@@ -2859,32 +3031,32 @@ export type CancelDeploymentResponseServicesItemCase1Schema = "experimentalServi
 /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
 export interface CancelDeploymentResponseServicesItemCase1 {
   /** Caller-side bindings to other services. */
-  bindings?: CancelDeploymentResponseServicesItemCase1BindingsList;
-  buildCommand?: string;
+  bindings?: CancelDeploymentResponseServicesItemCase1BindingsList | undefined;
+  buildCommand?: string | undefined;
   /** Builder selected by the resolver. */
   builder: CancelDeploymentResponseServicesItemCase1Builder;
-  cleanUrls?: boolean;
+  cleanUrls?: boolean | undefined;
   /** Command override for `runtime: "container"` services. */
-  command?: CancelDeploymentResponseServicesItemCase1CommandList;
-  devCommand?: string;
+  command?: CancelDeploymentResponseServicesItemCase1CommandList | undefined;
+  devCommand?: string | undefined;
   /** Resolved entrypoint, relative to the service root. */
-  entrypoint?: string;
-  framework?: string;
+  entrypoint?: string | undefined;
+  framework?: string | undefined;
   /** Function configuration scoped to this service. */
-  functions?: CancelDeploymentResponseServicesItemCase1FunctionsMap;
-  headers?: CancelDeploymentResponseServicesItemCase1HeadersList;
-  ignoreCommand?: string;
-  installCommand?: string;
+  functions?: CancelDeploymentResponseServicesItemCase1FunctionsMap | undefined;
+  headers?: CancelDeploymentResponseServicesItemCase1HeadersList | undefined;
+  ignoreCommand?: string | undefined;
+  installCommand?: string | undefined;
   name: string;
-  outputDirectory?: string;
-  redirects?: CancelDeploymentResponseServicesItemCase1RedirectsList;
-  rewrites?: CancelDeploymentResponseServicesItemCase1RewritesList;
+  outputDirectory?: string | undefined;
+  redirects?: CancelDeploymentResponseServicesItemCase1RedirectsList | undefined;
+  rewrites?: CancelDeploymentResponseServicesItemCase1RewritesList | undefined;
   /** Path to the service root, relative to the project root. */
   root: string;
-  routes?: CancelDeploymentResponseServicesItemCase1RoutesList;
-  runtime?: string;
+  routes?: CancelDeploymentResponseServicesItemCase1RoutesList | undefined;
+  runtime?: string | undefined;
   schema: CancelDeploymentResponseServicesItemCase1Schema;
-  trailingSlash?: boolean;
+  trailingSlash?: boolean | undefined;
 }
 export type CancelDeploymentResponseServicesItem =
   | CancelDeploymentResponseServicesItemCase0
@@ -2915,7 +3087,7 @@ export type CancelDeploymentResponseStatus =
 export type CancelDeploymentResponseTarget = "production" | "staging";
 /** The team that owns the deployment if any */
 export interface CancelDeploymentResponseTeam {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
   name: string;
   slug: string;
@@ -2927,133 +3099,133 @@ export type CancelDeploymentResponseUserAliasesList = Array<string>;
 export type CancelDeploymentResponseVersion = 2;
 export interface CancelDeploymentResponse {
   /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
-  alias?: CancelDeploymentResponseAliasList;
+  alias?: CancelDeploymentResponseAliasList | undefined;
   /** A boolean that will be true when the aliases from the alias property were assigned successfully */
   aliasAssigned: boolean;
-  aliasAssignedAt?: CancelDeploymentResponseAliasAssignedAt | null;
+  aliasAssignedAt?: CancelDeploymentResponseAliasAssignedAt | null | undefined;
   /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
-  aliasError?: CancelDeploymentResponseAliasError | null;
-  aliasFinal?: string | null;
-  aliasWarning?: CancelDeploymentResponseAliasWarning | null;
-  alwaysRefuseToBuild?: boolean;
-  atproto?: CancelDeploymentResponseAtproto;
+  aliasError?: CancelDeploymentResponseAliasError | null | undefined;
+  aliasFinal?: string | null | undefined;
+  aliasWarning?: CancelDeploymentResponseAliasWarning | null | undefined;
+  alwaysRefuseToBuild?: boolean | undefined;
+  atproto?: CancelDeploymentResponseAtproto | undefined;
   /** Attribution metadata for the deployment, linking commit author to git and Vercel users. Only populated when the `enable-deployment-attribution` flag is enabled. */
-  attribution?: CancelDeploymentResponseAttribution;
+  attribution?: CancelDeploymentResponseAttribution | undefined;
   /** applies to custom domains only, defaults to `true` */
-  autoAssignCustomDomains?: boolean;
-  automaticAliases?: CancelDeploymentResponseAutomaticAliasesList;
+  autoAssignCustomDomains?: boolean | undefined;
+  automaticAliases?: CancelDeploymentResponseAutomaticAliasesList | undefined;
   bootedAt: number;
   build: CancelDeploymentResponseBuild;
-  buildArtifactUrls?: CancelDeploymentResponseBuildArtifactUrlsList;
+  buildArtifactUrls?: CancelDeploymentResponseBuildArtifactUrlsList | undefined;
   /** Since April 2025 it necessary for On-Demand Concurrency Minutes calculation */
-  buildContainerFinishedAt?: number;
-  buildErrorAt?: number;
+  buildContainerFinishedAt?: number | undefined;
+  buildErrorAt?: number | undefined;
   buildingAt: number;
-  builds?: CancelDeploymentResponseBuildsList;
+  builds?: CancelDeploymentResponseBuildsList | undefined;
   buildSkipped: boolean;
-  canceledAt?: number;
-  checks?: CancelDeploymentResponseChecks;
-  checksConclusion?: CancelDeploymentResponseChecksConclusion;
-  checksState?: CancelDeploymentResponseChecksState;
+  canceledAt?: number | undefined;
+  checks?: CancelDeploymentResponseChecks | undefined;
+  checksConclusion?: CancelDeploymentResponseChecksConclusion | undefined;
+  checksState?: CancelDeploymentResponseChecksState | undefined;
   /** Since February 2025 the configuration must include snapshot data at the time of deployment creation to capture properties for the /deployments/:id/config endpoint utilized for displaying Deployment Configuration on the frontend This is optional because older deployments may not have this data captured */
-  config?: CancelDeploymentResponseConfig;
-  connectBuildsEnabled?: boolean;
-  connectConfigurationId?: string;
+  config?: CancelDeploymentResponseConfig | undefined;
+  connectBuildsEnabled?: boolean | undefined;
+  connectConfigurationId?: string | undefined;
   /** A number containing the date when the deployment was created in milliseconds */
   createdAt: number;
   createdIn: string;
   /** Information about the deployment creator */
   creator: CancelDeploymentResponseCreator;
-  crons?: CancelDeploymentResponseCronsList;
-  customEnvironment?: CancelDeploymentResponseCustomEnvironment;
+  crons?: CancelDeploymentResponseCronsList | undefined;
+  customEnvironment?: CancelDeploymentResponseCustomEnvironment | undefined;
   /** Computed field that is only available for deployments with a microfrontend configuration. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** A number containing the date when the deployment was deleted at milliseconds */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   duration: CancelDeploymentResponseDuration;
   env: CancelDeploymentResponseEnvList;
-  errorCode?: string;
-  errorLink?: string;
-  errorMessage?: string | null;
-  errorStep?: string;
-  flags?: CancelDeploymentResponseFlags;
-  functions?: CancelDeploymentResponseFunctionsMap | null;
-  gitRepo?: CancelDeploymentResponseGitRepo | null;
-  gitSource?: CancelDeploymentResponseGitSource;
+  errorCode?: string | undefined;
+  errorLink?: string | undefined;
+  errorMessage?: string | null | undefined;
+  errorStep?: string | undefined;
+  flags?: CancelDeploymentResponseFlags | undefined;
+  functions?: CancelDeploymentResponseFunctionsMap | null | undefined;
+  gitRepo?: CancelDeploymentResponseGitRepo | null | undefined;
+  gitSource?: CancelDeploymentResponseGitSource | undefined;
   /** A string holding the unique ID of the deployment */
   id: string;
-  images?: CancelDeploymentResponseImages;
-  initReadyAt?: number;
+  images?: CancelDeploymentResponseImages | undefined;
+  initReadyAt?: number | undefined;
   inspectorUrl: string | null;
-  integrations?: CancelDeploymentResponseIntegrations;
-  isFirstBranchDeployment?: boolean;
+  integrations?: CancelDeploymentResponseIntegrations | undefined;
+  isFirstBranchDeployment?: boolean | undefined;
   isInConcurrentBuildsQueue: boolean;
   /** Whether this deployment completed through the instant static fast path. */
-  isInstantStatic?: boolean;
+  isInstantStatic?: boolean | undefined;
   isInSystemBuildsQueue: boolean;
-  lambdas?: CancelDeploymentResponseLambdasList;
+  lambdas?: CancelDeploymentResponseLambdasList | undefined;
   /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
-  manualProvisioning?: CancelDeploymentResponseManualProvisioning;
+  manualProvisioning?: CancelDeploymentResponseManualProvisioning | undefined;
   meta: CancelDeploymentResponseMetaMap;
-  microfrontends?: CancelDeploymentResponseMicrofrontends;
-  monorepoManager?: string | null;
+  microfrontends?: CancelDeploymentResponseMicrofrontends | undefined;
+  monorepoManager?: string | null | undefined;
   /** The name of the project associated with the deployment at the time that the deployment was created */
   name: string;
   /** If set it overrides the `projectSettings.nodeVersion` for this deployment. */
-  nodeVersion?: CancelDeploymentResponseNodeVersion;
-  oidcTokenClaims?: CancelDeploymentResponseOidcTokenClaims;
-  oomReport?: CancelDeploymentResponseOomReport;
-  originCacheRegion?: string;
+  nodeVersion?: CancelDeploymentResponseNodeVersion | undefined;
+  oidcTokenClaims?: CancelDeploymentResponseOidcTokenClaims | undefined;
+  oomReport?: CancelDeploymentResponseOomReport | undefined;
+  originCacheRegion?: string | undefined;
   ownerId: string;
   /** Since November 2023 this field defines a Secure Compute network that will only be used to deploy passive lambdas to (as in passiveRegions) */
-  passiveConnectConfigurationId?: string;
+  passiveConnectConfigurationId?: string | undefined;
   /** Since November 2023 this field defines a set of regions that we will deploy the lambda to passively Lambdas will be deployed to these regions but only invoked if all of the primary `regions` are marked as out of service */
-  passiveRegions?: CancelDeploymentResponsePassiveRegionsList;
+  passiveRegions?: CancelDeploymentResponsePassiveRegionsList | undefined;
   plan: CancelDeploymentResponsePlan;
   /** Metadata about the source platform that triggered the deployment. Allows us to map a deployment back to a platform (e.g. the chat that created it) */
-  platform?: CancelDeploymentResponsePlatform;
-  prebuilt?: boolean;
+  platform?: CancelDeploymentResponsePlatform | undefined;
+  prebuilt?: boolean | undefined;
   /** Whether or not preview comments are enabled for the deployment */
-  previewCommentsEnabled?: boolean;
+  previewCommentsEnabled?: boolean | undefined;
   /** The public project information associated with the deployment. */
-  project?: CancelDeploymentResponseProject;
+  project?: CancelDeploymentResponseProject | undefined;
   projectId: string;
   projectSettings: CancelDeploymentResponseProjectSettings;
   /** A boolean representing if the deployment is public or not. By default this is `false` */
   public: boolean;
-  ready?: number;
+  ready?: number | undefined;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: CancelDeploymentResponseReadyState;
-  readyStateReason?: string;
+  readyStateReason?: string | undefined;
   /** Substate of deployment when readyState is 'READY' Tracks whether or not deployment has seen production traffic: - STAGED: never seen production traffic - ROLLING: in the process of having production traffic gradually transitioned. - PROMOTED: has seen production traffic */
-  readySubstate?: CancelDeploymentResponseReadySubstate;
+  readySubstate?: CancelDeploymentResponseReadySubstate | undefined;
   /** The regions the deployment exists in */
   regions: CancelDeploymentResponseRegionsList;
-  resourceConfig?: CancelDeploymentResponseResourceConfig;
+  resourceConfig?: CancelDeploymentResponseResourceConfig | undefined;
   routes: CancelDeploymentResponseRoutesList | null;
   /** NSNB Blocked metadata */
-  seatBlock?: CancelDeploymentResponseSeatBlock;
+  seatBlock?: CancelDeploymentResponseSeatBlock | undefined;
   /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
-  services?: CancelDeploymentResponseServicesList;
+  services?: CancelDeploymentResponseServicesList | undefined;
   /** flag to indicate if the deployment was deleted by retention policy */
-  softDeletedByRetention?: boolean;
+  softDeletedByRetention?: boolean | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: CancelDeploymentResponseSource;
+  source?: CancelDeploymentResponseSource | undefined;
   status: CancelDeploymentResponseStatus;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: CancelDeploymentResponseTarget | null;
+  target?: CancelDeploymentResponseTarget | null | undefined;
   /** The team that owns the deployment if any */
-  team?: CancelDeploymentResponseTeam;
-  ttyBuildLogs?: boolean;
+  team?: CancelDeploymentResponseTeam | undefined;
+  ttyBuildLogs?: boolean | undefined;
   type: CancelDeploymentResponseType;
   /** A number containing the date when the deployment was undeleted at milliseconds */
-  undeletedAt?: number;
+  undeletedAt?: number | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
   /** An array of domains that were provided by the user when creating the Deployment. */
-  userAliases?: CancelDeploymentResponseUserAliasesList;
+  userAliases?: CancelDeploymentResponseUserAliasesList | undefined;
   /** Since January 2025 User-configured deployment ID for skew protection with pre-built deployments. This is set when users configure a custom deploymentId in their next.config.js file. This allows Next.js to use skew protection even when deployments are pre-built outside of Vercel's build system. */
-  userConfiguredDeploymentId?: string;
+  userConfiguredDeploymentId?: string | undefined;
   /** The platform version that was used to create the deployment. */
   version: CancelDeploymentResponseVersion;
 }
@@ -3070,7 +3242,7 @@ export interface CreateDeploymentRequestFilesItemCase0 {
   /** The file content, it could be either a `base64` (useful for images, etc.) of the files or the plain content for source code */
   data: string;
   /** The file content encoding, it could be either a base64 (useful for images, etc.) of the files or the plain text for source code. */
-  encoding?: CreateDeploymentRequestFilesItemCase0Encoding | (string & {});
+  encoding?: CreateDeploymentRequestFilesItemCase0Encoding | (string & {}) | undefined;
   /** The file name including the whole path */
   file: string;
 }
@@ -3079,9 +3251,9 @@ export interface CreateDeploymentRequestFilesItemCase1 {
   /** The file path relative to the project root */
   file: string;
   /** The file contents hashed with SHA1, used to check the integrity */
-  sha?: string;
+  sha?: string | undefined;
   /** The file size in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export type CreateDeploymentRequestFilesItem =
   | CreateDeploymentRequestFilesItemCase0
@@ -3091,29 +3263,29 @@ export type CreateDeploymentRequestFilesList = Array<CreateDeploymentRequestFile
 /** Populates initial git metadata for different git providers. */
 export interface CreateDeploymentRequestGitMetadata {
   /** The git repository's remote origin url */
-  remoteUrl?: string;
+  remoteUrl?: string | undefined;
   /** The name of the author of the commit */
-  commitAuthorName?: string;
+  commitAuthorName?: string | undefined;
   /** The email of the author of the commit */
-  commitAuthorEmail?: string;
+  commitAuthorEmail?: string | undefined;
   /** The commit message */
-  commitMessage?: string;
+  commitMessage?: string | undefined;
   /** The branch on which the commit was made */
-  commitRef?: string;
+  commitRef?: string | undefined;
   /** The hash of the commit */
-  commitSha?: string;
+  commitSha?: string | undefined;
   /** Whether or not there have been modifications to the working tree since the latest commit */
-  dirty?: boolean;
+  dirty?: boolean | undefined;
   /** True if process.env.CI was set when deploying */
-  ci?: boolean;
+  ci?: boolean | undefined;
   /** The type of CI system used */
-  ciType?: string;
+  ciType?: string | undefined;
   /** The username used for the Git Provider (e.g. GitHub) if their CI (e.g. GitHub Actions) was used, if available */
-  ciGitProviderUsername?: string;
+  ciGitProviderUsername?: string | undefined;
   /** The visibility of the Git repository if their CI (e.g. GitHub Actions) was used, if available */
-  ciGitRepoVisibility?: string;
+  ciGitRepoVisibility?: string | undefined;
   /** Path of the deployed directory relative to the detected git repository root. Empty string when deploying from the repository root. */
-  rootDirectory?: string;
+  rootDirectory?: string | undefined;
 }
 export type CreateDeploymentRequestGitSourceCase0Type = "vercel";
 export interface CreateDeploymentRequestGitSourceCase0 {
@@ -3127,7 +3299,7 @@ export type CreateDeploymentRequestGitSourceCase1Type = "github";
 export interface CreateDeploymentRequestGitSourceCase1 {
   ref: string;
   repoId: CreateDeploymentRequestGitSourceCase1RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentRequestGitSourceCase1Type;
 }
 export type CreateDeploymentRequestGitSourceCase2Type = "github";
@@ -3135,7 +3307,7 @@ export interface CreateDeploymentRequestGitSourceCase2 {
   org: string;
   ref: string;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentRequestGitSourceCase2Type;
 }
 export type CreateDeploymentRequestGitSourceCase3RepoId = number | string;
@@ -3143,7 +3315,7 @@ export type CreateDeploymentRequestGitSourceCase3Type = "github-limited";
 export interface CreateDeploymentRequestGitSourceCase3 {
   ref: string;
   repoId: CreateDeploymentRequestGitSourceCase3RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentRequestGitSourceCase3Type;
 }
 export type CreateDeploymentRequestGitSourceCase4Type = "github-limited";
@@ -3151,7 +3323,7 @@ export interface CreateDeploymentRequestGitSourceCase4 {
   org: string;
   ref: string;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentRequestGitSourceCase4Type;
 }
 export type CreateDeploymentRequestGitSourceCase5ProjectId = number | string;
@@ -3159,22 +3331,22 @@ export type CreateDeploymentRequestGitSourceCase5Type = "gitlab";
 export interface CreateDeploymentRequestGitSourceCase5 {
   projectId: CreateDeploymentRequestGitSourceCase5ProjectId;
   ref: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentRequestGitSourceCase5Type;
 }
 export type CreateDeploymentRequestGitSourceCase6Type = "bitbucket";
 export interface CreateDeploymentRequestGitSourceCase6 {
   ref: string;
   repoUuid: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentRequestGitSourceCase6Type;
-  workspaceUuid?: string;
+  workspaceUuid?: string | undefined;
 }
 export type CreateDeploymentRequestGitSourceCase7Type = "bitbucket";
 export interface CreateDeploymentRequestGitSourceCase7 {
   owner: string;
   ref: string;
-  sha?: string;
+  sha?: string | undefined;
   slug: string;
   type: CreateDeploymentRequestGitSourceCase7Type;
 }
@@ -3182,15 +3354,15 @@ export type CreateDeploymentRequestGitSourceCase8Type = "cursor-origin";
 /** Deploys from the Cursor Origin repository linked to the target project. The repository ID must match the linked repository; Vercel resolves the owner and repository name from the project link. */
 export interface CreateDeploymentRequestGitSourceCase8 {
   /** The Origin workspace slug. Optional because Vercel resolves it from the linked project. */
-  owner?: string;
+  owner?: string | undefined;
   /** The branch or Git reference to deploy. */
   ref: string;
   /** The Origin repository name. Optional because Vercel resolves it from the linked project. */
-  repo?: string;
+  repo?: string | undefined;
   /** The stable Origin repository ID. Read it from the `link.repoId` field returned by the project API. */
   repoId: string;
   /** The commit SHA to deploy. When omitted, Vercel resolves the latest commit on `ref`. */
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentRequestGitSourceCase8Type;
 }
 /** Defines the Git Repository source to be deployed. This property can not be used in combination with `files`. */
@@ -3297,66 +3469,67 @@ export type CreateDeploymentRequestProjectSettingsNodeVersion =
 /** Project settings that will be applied to the deployment. It is required for the first deployment of a project and will be saved for any following deployments */
 export interface CreateDeploymentRequestProjectSettings {
   /** The build command for this project. When `null` is used this value will be automatically detected */
-  buildCommand?: string | null;
-  commandForIgnoringBuildStep?: string | null;
+  buildCommand?: string | null | undefined;
+  commandForIgnoringBuildStep?: string | null | undefined;
   /** The dev command for this project. When `null` is used this value will be automatically detected */
-  devCommand?: string | null;
+  devCommand?: string | null | undefined;
   /** The framework that is being used for this project. When `null` is used no framework is selected */
-  framework?: CreateDeploymentRequestProjectSettingsFramework | (string & {}) | null;
+  framework?: CreateDeploymentRequestProjectSettingsFramework | (string & {}) | null | undefined;
   /** The install command for this project. When `null` is used this value will be automatically detected */
-  installCommand?: string | null;
+  installCommand?: string | null | undefined;
   /** Override the Node.js version that should be used for this deployment */
-  nodeVersion?: CreateDeploymentRequestProjectSettingsNodeVersion | (string & {});
+  nodeVersion?: CreateDeploymentRequestProjectSettingsNodeVersion | (string & {}) | undefined;
   /** The output directory of the project. When `null` is used this value will be automatically detected */
-  outputDirectory?: string | null;
+  outputDirectory?: string | null | undefined;
   /** The name of a directory or relative path to the source code of your project. When `null` is used it will default to the project root */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
   /** The region to deploy Serverless Functions in this project */
-  serverlessFunctionRegion?: string | null;
+  serverlessFunctionRegion?: string | null | undefined;
   /** Opts-out of the message prompting a CLI user to connect a Git repository in `vercel link`. */
-  skipGitConnectDuringLink?: boolean;
+  skipGitConnectDuringLink?: boolean | undefined;
   /** Indicates if there are source files outside of the root directory, typically used for monorepos */
-  sourceFilesOutsideRootDirectory?: boolean;
+  sourceFilesOutsideRootDirectory?: boolean | undefined;
 }
 export interface CreateDeploymentRequest {
   /** Forces a new deployment even if there is a previous similar deployment. Set to `1` to bypass deployment deduplication and always trigger a fresh build. */
-  forceNew?: CreateDeploymentRequestForceNew | (string & {});
+  forceNew?: CreateDeploymentRequestForceNew | (string & {}) | undefined;
   /** Set to `1` to skip framework auto-detection and proceed without confirmation. By default, if Vercel detects a framework that differs from the project setting, the API returns a `400` asking you to confirm. Use this to suppress that check in automated pipelines. */
   skipAutoDetectionConfirmation?:
     | CreateDeploymentRequestSkipAutoDetectionConfirmation
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Selects a custom build machine for this deployment without changing project settings. */
-  buildMachine?: CreateDeploymentRequestBuildMachine | (string & {});
+  buildMachine?: CreateDeploymentRequestBuildMachine | (string & {}) | undefined;
   /** The slug or ID of a custom environment to deploy to, overriding the default target environment. When omitted, the deployment targets the environment inferred from the branch (production or preview). */
-  customEnvironmentSlugOrId?: string;
+  customEnvironmentSlugOrId?: string | undefined;
   /** The ID of an existing deployment to redeploy. All project settings and environment variables are inherited from the original unless explicitly overridden in this request. The redeployment gets a new ID, URL, and build. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** The files to include in the deployment. Each entry is either an inlined file (with `data` and `encoding`) or a reference to a previously uploaded file (with `sha` and `size`). Required for non-git deployments. Cannot be used together with `gitSource`. */
-  files?: CreateDeploymentRequestFilesList;
+  files?: CreateDeploymentRequestFilesList | undefined;
   /** Available only to Vercel platform accounts. A read-only GitHub access token scoped to the requested repository. Use a token with a lifetime of 24 hours or less that remains valid until source retrieval completes. */
-  gitAccessToken?: string;
+  gitAccessToken?: string | undefined;
   /** Populates initial git metadata for different git providers. */
-  gitMetadata?: CreateDeploymentRequestGitMetadata;
+  gitMetadata?: CreateDeploymentRequestGitMetadata | undefined;
   /** Defines the Git Repository source to be deployed. This property can not be used in combination with `files`. */
-  gitSource?: CreateDeploymentRequestGitSource;
+  gitSource?: CreateDeploymentRequestGitSource | undefined;
   /** An object containing the deployment's metadata. Multiple key-value pairs can be attached to a deployment. For deployments created with a Cursor Origin `gitSource`, Vercel automatically adds `cursorOriginDeployment`, `cursorOriginCommitSha`, `cursorOriginCommitRef`, `cursorOriginCommitMessage`, `cursorOriginCommitAuthorName`, `cursorOriginCommitAuthorEmail` when available, `cursorOriginOwner`, `cursorOriginRepo`, `cursorOriginRepoId`, and `cursorOriginPrId` for pull request deployments. */
-  meta?: CreateDeploymentRequestMetaMap;
+  meta?: CreateDeploymentRequestMetaMap | undefined;
   /** The monorepo manager that is being used for this deployment. When `null` is used no monorepo manager is selected */
-  monorepoManager?: string | null;
+  monorepoManager?: string | null | undefined;
   /** A string with the project name used in the deployment URL */
   name: string;
   /** The target project identifier in which the deployment will be created. When defined, this parameter overrides name */
-  project?: string;
+  project?: string | undefined;
   /** Project settings that will be applied to the deployment. It is required for the first deployment of a project and will be saved for any following deployments */
-  projectSettings?: CreateDeploymentRequestProjectSettings;
+  projectSettings?: CreateDeploymentRequestProjectSettings | undefined;
   /** Either not defined, `staging`, `production`, or a custom environment identifier. If `staging`, a staging alias in the format `<project>-<team>.vercel.app` will be assigned. If `production`, any aliases defined in `alias` will be assigned. If omitted, the target will be `preview`. */
-  target?: string;
+  target?: string | undefined;
   /** When `true` and `deploymentId` is passed in, the sha from the previous deployment's `gitSource` is removed forcing the latest commit to be used. */
-  withLatestCommit?: boolean;
+  withLatestCommit?: boolean | undefined;
 }
 export type CreateDeploymentResponseBodyCase0AliasList = Array<string>;
 /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
@@ -3376,20 +3549,20 @@ export type CreateDeploymentResponseBodyCase0ReadyState =
 export type CreateDeploymentResponseBodyCase0Target = "production" | "staging";
 /** Returns the reduced deployment view for anonymous (`vcn_`) callers. Pool-team details are withheld. */
 export interface CreateDeploymentResponseBodyCase0 {
-  alias?: CreateDeploymentResponseBodyCase0AliasList;
+  alias?: CreateDeploymentResponseBodyCase0AliasList | undefined;
   aliasAssigned: boolean;
   /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
-  aliasError?: CancelDeploymentResponseAliasError | null;
-  aliasWarning?: CancelDeploymentResponseAliasWarning | null;
+  aliasError?: CancelDeploymentResponseAliasError | null | undefined;
+  aliasWarning?: CancelDeploymentResponseAliasWarning | null | undefined;
   duration: CancelDeploymentResponseDuration;
-  errorCode?: string;
-  errorMessage?: string | null;
+  errorCode?: string | undefined;
+  errorMessage?: string | null | undefined;
   /** A string holding the unique ID of the deployment */
   id: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: CreateDeploymentResponseBodyCase0ReadyState;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: CreateDeploymentResponseBodyCase0Target | null;
+  target?: CreateDeploymentResponseBodyCase0Target | null | undefined;
 }
 /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
 export type CreateDeploymentResponseBodyCase1AliasList = Array<string>;
@@ -3410,8 +3583,8 @@ export type CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList =
   Array<CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsItem>;
 export interface CreateDeploymentResponseBodyCase1AtprotoCase1Subscription {
   collections: CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionCollectionsList;
-  dids?: CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList;
-  kinds?: CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList;
+  dids?: CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList | undefined;
+  kinds?: CreateDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList | undefined;
   path: string;
 }
 export interface CreateDeploymentResponseBodyCase1AtprotoCase1 {
@@ -3431,9 +3604,9 @@ export interface CreateDeploymentResponseBodyCase1AttributionGitUser {
   /** Git provider username/login */
   login: string;
   /** The git provider (github, gitlab, bitbucket) */
-  provider?: string;
+  provider?: string | undefined;
   /** User type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Team roles at time of deployment */
 export type CreateDeploymentResponseBodyCase1AttributionVercelUserTeamRolesList = Array<string>;
@@ -3442,18 +3615,18 @@ export interface CreateDeploymentResponseBodyCase1AttributionVercelUser {
   /** Vercel user ID */
   id: string;
   /** Team roles at time of deployment */
-  teamRoles?: CreateDeploymentResponseBodyCase1AttributionVercelUserTeamRolesList;
+  teamRoles?: CreateDeploymentResponseBodyCase1AttributionVercelUserTeamRolesList | undefined;
   /** Vercel username */
   username: string;
 }
 /** Attribution metadata for the deployment, linking commit author to git and Vercel users. Only populated when the `enable-deployment-attribution` flag is enabled. */
 export interface CreateDeploymentResponseBodyCase1Attribution {
   /** Commit metadata from the git commit author */
-  commitMeta?: CancelDeploymentResponseAttributionCommitMeta;
+  commitMeta?: CancelDeploymentResponseAttributionCommitMeta | undefined;
   /** Git provider user associated with the commit author email (only set if resolved) */
-  gitUser?: CreateDeploymentResponseBodyCase1AttributionGitUser;
+  gitUser?: CreateDeploymentResponseBodyCase1AttributionGitUser | undefined;
   /** Vercel user linked to the git provider account (only set if resolved) */
-  vercelUser?: CreateDeploymentResponseBodyCase1AttributionVercelUser;
+  vercelUser?: CreateDeploymentResponseBodyCase1AttributionVercelUser | undefined;
 }
 export type CreateDeploymentResponseBodyCase1AutomaticAliasesList = Array<string>;
 export type CreateDeploymentResponseBodyCase1BuildEnvList = Array<string>;
@@ -3465,8 +3638,8 @@ export type CreateDeploymentResponseBodyCase1BuildsItemConfigMap = {
   [key: string]: unknown | undefined;
 };
 export interface CreateDeploymentResponseBodyCase1BuildsItem {
-  config?: CreateDeploymentResponseBodyCase1BuildsItemConfigMap;
-  src?: string;
+  config?: CreateDeploymentResponseBodyCase1BuildsItemConfigMap | undefined;
+  src?: string | undefined;
   use: string;
 }
 export type CreateDeploymentResponseBodyCase1BuildsList =
@@ -3476,7 +3649,7 @@ export type CreateDeploymentResponseBodyCase1ChecksDeploymentAliasState =
   | "pending"
   | "succeeded";
 export interface CreateDeploymentResponseBodyCase1ChecksDeploymentAlias {
-  completedAt?: number;
+  completedAt?: number | undefined;
   startedAt: number;
   state: CreateDeploymentResponseBodyCase1ChecksDeploymentAliasState;
 }
@@ -3502,7 +3675,9 @@ export type CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildQueueConfi
 /** Build resource configuration snapshot for this deployment. */
 export interface CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildQueue {
   /** Build resource configuration snapshot for this deployment. */
-  configuration?: CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildQueueConfiguration;
+  configuration?:
+    | CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildQueueConfiguration
+    | undefined;
 }
 /** When elastic concurrency is used for this deployment, a value is set. The value tells the reason where the setting was coming from. - TEAM_SETTING: Inherited from team settings - PROJECT_SETTING: Inherited from project settings - SKIP_QUEUE: Manually triggered by user to skip the queues */
 export type CreateDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurrency =
@@ -3518,27 +3693,32 @@ export type CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePur
   | "turbo";
 export interface CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildMachine {
   /** Machine type that was used for the build. */
-  purchaseType?: CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePurchaseType | null;
+  purchaseType?:
+    | CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePurchaseType
+    | null
+    | undefined;
 }
 /** Build resource configuration snapshot for this deployment. */
 export interface CreateDeploymentResponseBodyCase1ConfigResourceConfig {
   /** Build resource configuration snapshot for this deployment. */
-  buildQueue?: CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildQueue;
+  buildQueue?: CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildQueue | undefined;
   /** When elastic concurrency is used for this deployment, a value is set. The value tells the reason where the setting was coming from. - TEAM_SETTING: Inherited from team settings - PROJECT_SETTING: Inherited from project settings - SKIP_QUEUE: Manually triggered by user to skip the queues */
-  elasticConcurrency?: CreateDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurrency;
-  buildMachine?: CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildMachine;
+  elasticConcurrency?:
+    | CreateDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurrency
+    | undefined;
+  buildMachine?: CreateDeploymentResponseBodyCase1ConfigResourceConfigBuildMachine | undefined;
 }
 /** Since February 2025 the configuration must include snapshot data at the time of deployment creation to capture properties for the /deployments/:id/config endpoint utilized for displaying Deployment Configuration on the frontend This is optional because older deployments may not have this data captured */
 export interface CreateDeploymentResponseBodyCase1Config {
   functionMemoryType: CreateDeploymentResponseBodyCase1ConfigFunctionMemoryType;
   functionTimeout: number | null;
   functionType: CreateDeploymentResponseBodyCase1ConfigFunctionType;
-  isUsingActiveCPU?: boolean;
+  isUsingActiveCPU?: boolean | undefined;
   /** Build resource configuration snapshot for this deployment. */
-  resourceConfig?: CreateDeploymentResponseBodyCase1ConfigResourceConfig;
+  resourceConfig?: CreateDeploymentResponseBodyCase1ConfigResourceConfig | undefined;
   secureComputeFallbackRegion: string | null;
   secureComputePrimaryRegion: string | null;
-  version?: number;
+  version?: number | undefined;
 }
 /** Principal type of the deployment creator. */
 export type CreateDeploymentResponseBodyCase1CreatorType =
@@ -3550,13 +3730,13 @@ export type CreateDeploymentResponseBodyCase1CreatorType =
 /** Information about the deployment creator */
 export interface CreateDeploymentResponseBodyCase1Creator {
   /** The avatar of the user that created the deployment */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Principal type of the deployment creator. */
-  type?: CreateDeploymentResponseBodyCase1CreatorType;
+  type?: CreateDeploymentResponseBodyCase1CreatorType | undefined;
   /** Stable creator id across principal types (user id, app id, integration configuration id, or `system`). */
   uid: string;
   /** The username of the user that created the deployment */
-  username?: string;
+  username?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1CronsItem = CancelDeploymentResponseCronsItem;
 export type CreateDeploymentResponseBodyCase1CronsList = Array<CancelDeploymentResponseCronsItem>;
@@ -3589,16 +3769,21 @@ export type CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemVe
 /** List of domains associated with this environment */
 export interface CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemVerificationList;
+  verification?:
+    | CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemVerificationList
+    | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -3613,15 +3798,17 @@ export type CreateDeploymentResponseBodyCase1CustomEnvironmentCase0Type =
 /** If the deployment was created using a Custom Environment, then this property contains information regarding the environment used. */
 export interface CreateDeploymentResponseBodyCase1CustomEnvironmentCase0 {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: CreateDeploymentResponseBodyCase1CustomEnvironmentCase0BranchMatcher;
+  branchMatcher?: CreateDeploymentResponseBodyCase1CustomEnvironmentCase0BranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: CreateDeploymentResponseBodyCase1CustomEnvironmentCase0CurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | CreateDeploymentResponseBodyCase1CustomEnvironmentCase0CurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsList;
+  domains?: CreateDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -3644,9 +3831,9 @@ export type CreateDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsIt
 export type CreateDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsList =
   Array<CancelDeploymentResponseFlagsCase0DefinitionsValueOptionsItem>;
 export interface CreateDeploymentResponseBodyCase1FlagsCase0DefinitionsValue {
-  description?: string;
-  options?: CreateDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsList;
-  url?: string;
+  description?: string | undefined;
+  options?: CreateDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsList | undefined;
+  url?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1FlagsCase0DefinitionsMap = {
   [key: string]: CreateDeploymentResponseBodyCase1FlagsCase0DefinitionsValue | undefined;
@@ -3673,13 +3860,13 @@ export interface CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTrig
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -3691,13 +3878,13 @@ export type CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersI
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -3724,20 +3911,24 @@ export type CreateDeploymentResponseBodyCase1FunctionsValueMaxDuration =
   | CreateDeploymentResponseBodyCase1FunctionsValueMaxDurationCase1;
 export type CreateDeploymentResponseBodyCase1FunctionsValueRegionsList = Array<string>;
 export interface CreateDeploymentResponseBodyCase1FunctionsValue {
-  affinity?: CreateDeploymentResponseBodyCase1FunctionsValueAffinity;
-  architecture?: CreateDeploymentResponseBodyCase1FunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CreateDeploymentResponseBodyCase1FunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?: CreateDeploymentResponseBodyCase1FunctionsValueAffinity | undefined;
+  architecture?: CreateDeploymentResponseBodyCase1FunctionsValueArchitecture | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | CreateDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | CreateDeploymentResponseBodyCase1FunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CreateDeploymentResponseBodyCase1FunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CreateDeploymentResponseBodyCase1FunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?: CreateDeploymentResponseBodyCase1FunctionsValueMaxDuration | undefined;
+  memory?: number | undefined;
+  regions?: CreateDeploymentResponseBodyCase1FunctionsValueRegionsList | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type CreateDeploymentResponseBodyCase1FunctionsMap = {
   [key: string]: CreateDeploymentResponseBodyCase1FunctionsValue | undefined;
@@ -3819,83 +4010,83 @@ export type CreateDeploymentResponseBodyCase1GitRepo =
 export type CreateDeploymentResponseBodyCase1GitSourceCase0RepoId = string | number;
 export type CreateDeploymentResponseBodyCase1GitSourceCase0Type = "github";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase0 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: CreateDeploymentResponseBodyCase1GitSourceCase0RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase0Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase1Type = "github";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase1 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase1Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase2RepoId = string | number;
 export type CreateDeploymentResponseBodyCase1GitSourceCase2Type = "github-custom-host";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase2 {
   host: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: CreateDeploymentResponseBodyCase1GitSourceCase2RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase2Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase3Type = "github-custom-host";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase3 {
   host: string;
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase3Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase4RepoId = string | number;
 export type CreateDeploymentResponseBodyCase1GitSourceCase4Type = "github-limited";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase4 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: CreateDeploymentResponseBodyCase1GitSourceCase4RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase4Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase5Type = "github-limited";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase5 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase5Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase6ProjectId = string | number;
 export type CreateDeploymentResponseBodyCase1GitSourceCase6Type = "gitlab";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase6 {
-  prId?: number | null;
+  prId?: number | null | undefined;
   projectId: CreateDeploymentResponseBodyCase1GitSourceCase6ProjectId;
-  ref?: string | null;
-  sha?: string;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase6Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase7Type = "bitbucket";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase7 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoUuid: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase7Type;
-  workspaceUuid?: string;
+  workspaceUuid?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase8Type = "bitbucket";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase8 {
   owner: string;
-  prId?: number | null;
-  ref?: string | null;
-  sha?: string;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   slug: string;
   type: CreateDeploymentResponseBodyCase1GitSourceCase8Type;
 }
@@ -3907,26 +4098,26 @@ export type CreateDeploymentResponseBodyCase1GitSourceCase9CommitMetadata =
   CancelDeploymentResponseGitSourceCase9CommitMetadata;
 export type CreateDeploymentResponseBodyCase1GitSourceCase9Type = "vercel";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase9 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
-  org?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
+  org?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   repoId: string;
-  repoPushedAt?: number;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: CreateDeploymentResponseBodyCase1GitSourceCase9Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase10Type = "cursor-origin";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase10 {
   /** Owner (namespace) slug. */
-  owner?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  owner?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   /** Origin repository id. */
   repoId: string;
-  sha?: string;
+  sha?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase10Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase11Type = "custom";
@@ -3939,9 +4130,9 @@ export interface CreateDeploymentResponseBodyCase1GitSourceCase11 {
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase12Type = "github";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase12 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: CreateDeploymentResponseBodyCase1GitSourceCase12Type;
@@ -3949,18 +4140,18 @@ export interface CreateDeploymentResponseBodyCase1GitSourceCase12 {
 export type CreateDeploymentResponseBodyCase1GitSourceCase13Type = "github-custom-host";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase13 {
   host: string;
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: CreateDeploymentResponseBodyCase1GitSourceCase13Type;
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase14Type = "github-limited";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase14 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: CreateDeploymentResponseBodyCase1GitSourceCase14Type;
@@ -3974,11 +4165,11 @@ export interface CreateDeploymentResponseBodyCase1GitSourceCase15 {
 }
 export type CreateDeploymentResponseBodyCase1GitSourceCase16Type = "bitbucket";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase16 {
-  owner?: string;
+  owner?: string | undefined;
   ref: string;
   repoUuid: string;
   sha: string;
-  slug?: string;
+  slug?: string | undefined;
   type: CreateDeploymentResponseBodyCase1GitSourceCase16Type;
   workspaceUuid: string;
 }
@@ -3990,12 +4181,12 @@ export type CreateDeploymentResponseBodyCase1GitSourceCase17CommitMetadata =
   CancelDeploymentResponseGitSourceCase9CommitMetadata;
 export type CreateDeploymentResponseBodyCase1GitSourceCase17Type = "vercel";
 export interface CreateDeploymentResponseBodyCase1GitSourceCase17 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
   org: string;
   ref: string;
   repo: string;
-  repoId?: string;
-  repoPushedAt?: number;
+  repoId?: string | undefined;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: CreateDeploymentResponseBodyCase1GitSourceCase17Type;
 }
@@ -4044,28 +4235,30 @@ export interface CreateDeploymentResponseBodyCase1ImagesRemotePatternsItem {
   /** Can be literal or wildcard. Single `*` matches a single subdomain. Double `**` matches any number of subdomains. */
   hostname: string;
   /** Can be literal or wildcard. Single `*` matches a single path segment. Double `**` matches any number of path segments. */
-  pathname?: string;
+  pathname?: string | undefined;
   /** Can be literal port such as `8080` or empty string meaning no port. */
-  port?: string;
+  port?: string | undefined;
   /** Must be `http` or `https`. */
-  protocol?: CreateDeploymentResponseBodyCase1ImagesRemotePatternsItemProtocol;
+  protocol?: CreateDeploymentResponseBodyCase1ImagesRemotePatternsItemProtocol | undefined;
   /** Can be literal query string such as `?v=1` or empty string meaning no query string. */
-  search?: string;
+  search?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ImagesRemotePatternsList =
   Array<CreateDeploymentResponseBodyCase1ImagesRemotePatternsItem>;
 export type CreateDeploymentResponseBodyCase1ImagesSizesList = Array<number>;
 export interface CreateDeploymentResponseBodyCase1Images {
-  contentDispositionType?: CreateDeploymentResponseBodyCase1ImagesContentDispositionType;
-  contentSecurityPolicy?: string;
-  dangerouslyAllowSVG?: boolean;
-  domains?: CreateDeploymentResponseBodyCase1ImagesDomainsList;
-  formats?: CreateDeploymentResponseBodyCase1ImagesFormatsList;
-  localPatterns?: CreateDeploymentResponseBodyCase1ImagesLocalPatternsList;
-  minimumCacheTTL?: number;
-  qualities?: CreateDeploymentResponseBodyCase1ImagesQualitiesList;
-  remotePatterns?: CreateDeploymentResponseBodyCase1ImagesRemotePatternsList;
-  sizes?: CreateDeploymentResponseBodyCase1ImagesSizesList;
+  contentDispositionType?:
+    | CreateDeploymentResponseBodyCase1ImagesContentDispositionType
+    | undefined;
+  contentSecurityPolicy?: string | undefined;
+  dangerouslyAllowSVG?: boolean | undefined;
+  domains?: CreateDeploymentResponseBodyCase1ImagesDomainsList | undefined;
+  formats?: CreateDeploymentResponseBodyCase1ImagesFormatsList | undefined;
+  localPatterns?: CreateDeploymentResponseBodyCase1ImagesLocalPatternsList | undefined;
+  minimumCacheTTL?: number | undefined;
+  qualities?: CreateDeploymentResponseBodyCase1ImagesQualitiesList | undefined;
+  remotePatterns?: CreateDeploymentResponseBodyCase1ImagesRemotePatternsList | undefined;
+  sizes?: CreateDeploymentResponseBodyCase1ImagesSizesList | undefined;
 }
 export type CreateDeploymentResponseBodyCase1IntegrationsStatus =
   | "error"
@@ -4074,10 +4267,10 @@ export type CreateDeploymentResponseBodyCase1IntegrationsStatus =
   | "skipped"
   | "timeout";
 export interface CreateDeploymentResponseBodyCase1Integrations {
-  claimedAt?: number;
-  completedAt?: number;
-  skippedAt?: number;
-  skippedBy?: string;
+  claimedAt?: number | undefined;
+  completedAt?: number | undefined;
+  skippedAt?: number | undefined;
+  skippedBy?: string | undefined;
   startedAt: number;
   status: CreateDeploymentResponseBodyCase1IntegrationsStatus;
 }
@@ -4092,11 +4285,11 @@ export type CreateDeploymentResponseBodyCase1LambdasItemOutputList =
   Array<CancelDeploymentResponseLambdasItemOutputItem>;
 /** A partial representation of a Build used by the deployment endpoint. */
 export interface CreateDeploymentResponseBodyCase1LambdasItem {
-  createdAt?: number;
-  entrypoint?: string | null;
+  createdAt?: number | undefined;
+  entrypoint?: string | null | undefined;
   id: string;
-  readyState?: CreateDeploymentResponseBodyCase1LambdasItemReadyState;
-  readyStateAt?: number;
+  readyState?: CreateDeploymentResponseBodyCase1LambdasItemReadyState | undefined;
+  readyStateAt?: number | undefined;
   output: CreateDeploymentResponseBodyCase1LambdasItemOutputList;
 }
 export type CreateDeploymentResponseBodyCase1LambdasList =
@@ -4109,7 +4302,7 @@ export type CreateDeploymentResponseBodyCase1ManualProvisioningState =
 /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
 export interface CreateDeploymentResponseBodyCase1ManualProvisioning {
   /** Timestamp when manual provisioning completed */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** Current provisioning state */
   state: CreateDeploymentResponseBodyCase1ManualProvisioningState;
 }
@@ -4120,10 +4313,10 @@ export interface CreateDeploymentResponseBodyCase1MicrofrontendsCase0 {
   /** The project name of the default app of this deployment's microfrontends group. */
   defaultAppProjectName: string;
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: CreateDeploymentResponseBodyCase1MicrofrontendsCase0GroupIdsList;
-  isDefaultApp?: boolean;
+  isDefaultApp?: boolean | undefined;
 }
 /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
 export type CreateDeploymentResponseBodyCase1MicrofrontendsCase1GroupIdsList = Array<string>;
@@ -4136,12 +4329,14 @@ export interface CreateDeploymentResponseBodyCase1MicrofrontendsCase1 {
   /** The project name of the default app of this deployment's microfrontends group. */
   defaultAppProjectName: string;
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: CreateDeploymentResponseBodyCase1MicrofrontendsCase1GroupIdsList;
   isDefaultApp: boolean;
   /** The result of the microfrontends config upload during deployment creation / build. Only set for default app deployments. The config upload is attempted during deployment create, and then again during the build. If the config is not in the root directory, or the deployment is prebuilt, the config cannot be uploaded during deployment create. The upload during deployment build finds the config even if it's not in the root directory, as it has access to all files. Uploading the config during create is ideal, as then all child deployments are guaranteed to have access to the default app deployment config even if the default app has not yet started building. If the config is not uploaded, the child app will show as building until the config has been uploaded during the default app build. - `success` - The config was uploaded successfully, either when the deployment was created or during the build. - `waiting_on_build` - The config could not be uploaded during deployment create, will be attempted again during the build. - `no_config` - No config was found. Only set once the build has not found the config in any of the deployment's files. - `undefined` - Legacy deployments, or there was an error uploading the config during deployment create. */
-  mfeConfigUploadState?: CreateDeploymentResponseBodyCase1MicrofrontendsCase1MfeConfigUploadState;
+  mfeConfigUploadState?:
+    | CreateDeploymentResponseBodyCase1MicrofrontendsCase1MfeConfigUploadState
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1Microfrontends =
   | CreateDeploymentResponseBodyCase1MicrofrontendsCase0
@@ -4161,14 +4356,14 @@ export type CreateDeploymentResponseBodyCase1NodeVersion =
 export type CreateDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface CreateDeploymentResponseBodyCase1OidcTokenClaims {
   aud: string;
-  custom_environment_id?: string;
-  deployment_id?: string;
+  custom_environment_id?: string | undefined;
+  deployment_id?: string | undefined;
   environment: string;
   iss: string;
-  mfe_group_ids?: CreateDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList;
+  mfe_group_ids?: CreateDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList | undefined;
   owner: string;
   owner_id: string;
-  plan?: string;
+  plan?: string | undefined;
   project: string;
   project_id: string;
   scope: string;
@@ -4202,7 +4397,7 @@ export interface CreateDeploymentResponseBodyCase1Platform {
   /** The user on the external platform who triggered the deployment. */
   creator: CancelDeploymentResponsePlatformCreator;
   /** Arbitrary key-value metadata provided by the platform. */
-  meta?: CreateDeploymentResponseBodyCase1PlatformMetaMap;
+  meta?: CreateDeploymentResponseBodyCase1PlatformMetaMap | undefined;
   /** Reference back to the entity on the platform that initiated the deployment. */
   origin: CreateDeploymentResponseBodyCase1PlatformOrigin;
   /** The external platform that created the deployment (e.g. its display name). */
@@ -4304,17 +4499,17 @@ export type CreateDeploymentResponseBodyCase1ProjectSettingsVercelFlags =
 export type CreateDeploymentResponseBodyCase1ProjectSettingsWebAnalytics =
   CancelDeploymentResponseProjectSettingsWebAnalytics;
 export interface CreateDeploymentResponseBodyCase1ProjectSettings {
-  buildCommand?: string | null;
-  commandForIgnoringBuildStep?: string | null;
-  devCommand?: string | null;
-  framework?: CreateDeploymentResponseBodyCase1ProjectSettingsFramework | null;
-  installCommand?: string | null;
-  nodeVersion?: CreateDeploymentResponseBodyCase1ProjectSettingsNodeVersion;
-  outputDirectory?: string | null;
-  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  buildCommand?: string | null | undefined;
+  commandForIgnoringBuildStep?: string | null | undefined;
+  devCommand?: string | null | undefined;
+  framework?: CreateDeploymentResponseBodyCase1ProjectSettingsFramework | null | undefined;
+  installCommand?: string | null | undefined;
+  nodeVersion?: CreateDeploymentResponseBodyCase1ProjectSettingsNodeVersion | undefined;
+  outputDirectory?: string | null | undefined;
+  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights | undefined;
   /** Vercel Flags activation metadata copied from the project at deployment creation. */
-  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
-  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags | undefined;
+  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics | undefined;
 }
 /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
 export type CreateDeploymentResponseBodyCase1ReadyState =
@@ -4357,15 +4552,21 @@ export interface CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase
   /** The build ran on an elastic machine. Drives billing. */
   machineSelectionType: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0MachineSelectionType;
   /** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
-  purchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType;
+  purchaseType?:
+    | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType
+    | undefined;
   /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
-  cores?: number;
+  cores?: number | undefined;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType;
+  defaultPurchaseType?:
+    | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType
+    | undefined;
   /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
-  memory?: number;
+  memory?: number | undefined;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource;
+  selectionSource?:
+    | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource
+    | undefined;
 }
 /** The build ran on a fixed machine. Drives billing. */
 export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType =
@@ -4392,32 +4593,40 @@ export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1Sele
   | "team-setting";
 export interface CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1 {
   /** The build ran on a fixed machine. Drives billing. */
-  machineSelectionType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType;
+  machineSelectionType?:
+    | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType
+    | undefined;
   /** Machine type purchased for this build. */
-  purchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType;
+  purchaseType?:
+    | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType
+    | undefined;
   /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
-  cores?: number;
+  cores?: number | undefined;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType;
+  defaultPurchaseType?:
+    | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType
+    | undefined;
   /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
-  memory?: number;
+  memory?: number | undefined;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource;
+  selectionSource?:
+    | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ResourceConfigBuildMachine =
   | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0
   | CreateDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1;
 export interface CreateDeploymentResponseBodyCase1ResourceConfig {
-  buildMachine?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachine;
+  buildMachine?: CreateDeploymentResponseBodyCase1ResourceConfigBuildMachine | undefined;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1Type = "service";
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: CreateDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1Type;
+  type?: CreateDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1Type | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0Destination =
   | string
@@ -4432,17 +4641,17 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCas
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0Value =
   | string
@@ -4463,17 +4672,17 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCas
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value =
   | string
@@ -4481,7 +4690,7 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value =
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value;
+  value?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0HasItem =
   | CreateDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0
@@ -4495,8 +4704,8 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0LocaleRedirectMap = 
   [key: string]: string | undefined;
 };
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0Locale {
-  cookie?: string;
-  redirect?: CreateDeploymentResponseBodyCase1RoutesItemCase0LocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: CreateDeploymentResponseBodyCase1RoutesItemCase0LocaleRedirectMap | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0MethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -4510,17 +4719,21 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0Valu
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0Value =
   | string
@@ -4541,17 +4754,21 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Valu
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Value =
   | string
@@ -4559,7 +4776,7 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Valu
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Value;
+  value?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Value | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItem =
   | CreateDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0
@@ -4589,16 +4806,22 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0T
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1 {
-  eq?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKey =
   | string
@@ -4611,8 +4834,8 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0T
   | "request.query"
   | "response.headers";
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0 {
-  args?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Args;
-  env?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0EnvList;
+  args?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Args | undefined;
+  env?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0EnvList | undefined;
   op: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Op;
   target: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Target;
   type: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Type;
@@ -4624,9 +4847,9 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1T
   "request.path";
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
-  env?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1EnvList;
+  env?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Op;
   type: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -4636,33 +4859,35 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItem =
 export type CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsList =
   Array<CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsItem>;
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase0 {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: CreateDeploymentResponseBodyCase1RoutesItemCase0Destination;
-  env?: CreateDeploymentResponseBodyCase1RoutesItemCase0EnvList;
-  has?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasList;
-  headers?: CreateDeploymentResponseBodyCase1RoutesItemCase0HeadersMap;
-  important?: boolean;
-  locale?: CreateDeploymentResponseBodyCase1RoutesItemCase0Locale;
-  methods?: CreateDeploymentResponseBodyCase1RoutesItemCase0MethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: CreateDeploymentResponseBodyCase1RoutesItemCase0Destination | undefined;
+  env?: CreateDeploymentResponseBodyCase1RoutesItemCase0EnvList | undefined;
+  has?: CreateDeploymentResponseBodyCase1RoutesItemCase0HasList | undefined;
+  headers?: CreateDeploymentResponseBodyCase1RoutesItemCase0HeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: CreateDeploymentResponseBodyCase1RoutesItemCase0Locale | undefined;
+  methods?: CreateDeploymentResponseBodyCase1RoutesItemCase0MethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: CreateDeploymentResponseBodyCase1RoutesItemCase0MiddlewareRawSrcList;
-  missing?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingList;
-  mitigate?: CreateDeploymentResponseBodyCase1RoutesItemCase0Mitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?:
+    | CreateDeploymentResponseBodyCase1RoutesItemCase0MiddlewareRawSrcList
+    | undefined;
+  missing?: CreateDeploymentResponseBodyCase1RoutesItemCase0MissingList | undefined;
+  mitigate?: CreateDeploymentResponseBodyCase1RoutesItemCase0Mitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: CreateDeploymentResponseBodyCase1RoutesItemCase0TransformsList | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase1Handle =
   | "error"
@@ -4672,10 +4897,10 @@ export type CreateDeploymentResponseBodyCase1RoutesItemCase1Handle =
   | "resource"
   | "rewrite";
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase1 {
-  dest?: string;
+  dest?: string | undefined;
   handle: CreateDeploymentResponseBodyCase1RoutesItemCase1Handle;
-  src?: string;
-  status?: number;
+  src?: string | undefined;
+  status?: number | undefined;
 }
 export type CreateDeploymentResponseBodyCase1RoutesItemCase2Middleware = 0;
 export interface CreateDeploymentResponseBodyCase1RoutesItemCase2 {
@@ -4704,12 +4929,12 @@ export interface CreateDeploymentResponseBodyCase1SeatBlock {
   /** The NSNB decision code for the seat block. TODO: We should consolidate block types. */
   blockCode: CreateDeploymentResponseBodyCase1SeatBlockBlockCode;
   /** The git provider type associated with gitUserId. */
-  gitProvider?: CreateDeploymentResponseBodyCase1SeatBlockGitProvider;
-  gitUserId?: CreateDeploymentResponseBodyCase1SeatBlockGitUserId;
+  gitProvider?: CreateDeploymentResponseBodyCase1SeatBlockGitProvider | undefined;
+  gitUserId?: CreateDeploymentResponseBodyCase1SeatBlockGitUserId | undefined;
   /** Determines if the user was verified during the block. In the git integration case, the commit sender was the author. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The blocked vercel user ID. */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** Generated value shape, must be `"url"`. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemFormat =
@@ -4726,7 +4951,9 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType;
+  type?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType
+    | undefined;
 }
 /** Bindings to services in the same deployment. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList =
@@ -4745,20 +4972,24 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemo
   | "HTTP"
   | "HTTPS";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet {
-  host?: string;
-  httpHeaders?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
-  path?: string;
+  host?: string | undefined;
+  httpHeaders?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList
+    | undefined;
+  path?: string | undefined;
   port: number;
-  scheme?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme;
+  scheme?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme
+    | undefined;
 }
 /** A Kubernetes-style HTTP liveness probe. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe {
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   httpGet: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet;
-  initialDelaySeconds?: number;
-  periodSeconds?: number;
-  successThreshold?: number;
-  timeoutSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  periodSeconds?: number | undefined;
+  successThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
 }
 /** Instance counts by region. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap = {
@@ -4778,18 +5009,30 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
 /** Set when this build produces the named daemon. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon {
   /** Bindings to services in the same deployment. */
-  bindings?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList;
-  command?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList;
+  bindings?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList
+    | undefined;
+  command?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList
+    | undefined;
   entrypoint: string;
   /** Instance counts by region. */
-  instances?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap;
+  instances?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap
+    | undefined;
   /** A Kubernetes-style HTTP liveness probe. */
-  livenessProbe?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe;
+  livenessProbe?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe
+    | undefined;
   /** Instance counts by region. */
-  replicas?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap;
-  resources?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources;
+  replicas?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap
+    | undefined;
+  resources?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources
+    | undefined;
   root: string;
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   name: string;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFilesCase1List =
@@ -4813,13 +5056,13 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -4831,13 +5074,13 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunct
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -4866,20 +5109,32 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunct
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValue {
-  affinity?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity;
-  architecture?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity
+    | undefined;
+  architecture?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList
+    | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsMap = {
   [key: string]:
@@ -4927,41 +5182,55 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig
   outputPath: string;
 }
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
-  buildpack?: string;
-  bundle?: boolean;
-  bunVersion?: string;
+  buildpack?: string | undefined;
+  bundle?: boolean | undefined;
+  bunVersion?: string | undefined;
   /** Set when this build produces the named daemon. */
-  daemon?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon;
-  debug?: boolean;
-  devCommand?: string;
-  excludeFiles?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles;
-  framework?: string | null;
-  functions?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsMap;
-  helpers?: boolean;
-  import?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigImportMap;
-  includeFiles?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigIncludeFiles;
-  installCommand?: string;
-  ldsflags?: string;
-  maxLambdaSize?: string;
-  middleware?: boolean;
-  middlewareMatcher?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareMatcher;
+  daemon?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon | undefined;
+  debug?: boolean | undefined;
+  devCommand?: string | undefined;
+  excludeFiles?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles
+    | undefined;
+  framework?: string | null | undefined;
+  functions?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsMap
+    | undefined;
+  helpers?: boolean | undefined;
+  import?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigImportMap | undefined;
+  includeFiles?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigIncludeFiles
+    | undefined;
+  installCommand?: string | undefined;
+  ldsflags?: string | undefined;
+  maxLambdaSize?: string | undefined;
+  middleware?: boolean | undefined;
+  middlewareMatcher?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareMatcher
+    | undefined;
   /** Enforced runtime for explicitly configured Routing Middleware. */
-  middlewareRuntime?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareRuntime;
-  nodeVersion?: string;
-  outputDirectory?: string;
-  projectSettings?: CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-  rust?: string;
+  middlewareRuntime?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareRuntime
+    | undefined;
+  nodeVersion?: string | undefined;
+  outputDirectory?: string | undefined;
+  projectSettings?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
+    | undefined;
+  rust?: string | undefined;
   /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction;
+  scheduleFunction?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction
+    | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
-  serviceName?: string;
-  zeroConfig?: boolean;
+  serviceName?: string | undefined;
+  zeroConfig?: boolean | undefined;
 }
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0Builder {
-  config?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig;
-  src?: string;
+  config?: CreateDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig | undefined;
+  src?: string | undefined;
   use: string;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase0EnvValueType = "service-ref";
@@ -4999,24 +5268,26 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase0Type =
   | "worker";
 /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase0 {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   builder: CreateDeploymentResponseBodyCase1ServicesItemCase0Builder;
-  entrypoint?: string;
-  env?: CreateDeploymentResponseBodyCase1ServicesItemCase0EnvMap;
-  framework?: string;
-  group?: string;
-  handlerFunction?: string;
-  installCommand?: string;
+  entrypoint?: string | undefined;
+  env?: CreateDeploymentResponseBodyCase1ServicesItemCase0EnvMap | undefined;
+  framework?: string | undefined;
+  group?: string | undefined;
+  handlerFunction?: string | undefined;
+  installCommand?: string | undefined;
   name: string;
-  preDeployCommand?: string;
-  routePrefix?: string;
-  routePrefixSource?: CreateDeploymentResponseBodyCase1ServicesItemCase0RoutePrefixSource;
-  runtime?: string;
-  schedule?: CreateDeploymentResponseBodyCase1ServicesItemCase0Schedule;
+  preDeployCommand?: string | undefined;
+  routePrefix?: string | undefined;
+  routePrefixSource?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase0RoutePrefixSource
+    | undefined;
+  runtime?: string | undefined;
+  schedule?: CreateDeploymentResponseBodyCase1ServicesItemCase0Schedule | undefined;
   schema: CreateDeploymentResponseBodyCase1ServicesItemCase0Schema;
-  subdomain?: string;
-  topics?: CreateDeploymentResponseBodyCase1ServicesItemCase0Topics;
-  trigger?: CreateDeploymentResponseBodyCase1ServicesItemCase0Trigger;
+  subdomain?: string | undefined;
+  topics?: CreateDeploymentResponseBodyCase1ServicesItemCase0Topics | undefined;
+  trigger?: CreateDeploymentResponseBodyCase1ServicesItemCase0Trigger | undefined;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase0Type;
   workspace: string;
 }
@@ -5033,7 +5304,7 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsItem 
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsItemType;
+  type?: CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsItemType | undefined;
 }
 /** Caller-side bindings to other services. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsList =
@@ -5053,7 +5324,9 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType;
+  type?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType
+    | undefined;
 }
 /** Bindings to services in the same deployment. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList =
@@ -5072,20 +5345,24 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemo
   | "HTTP"
   | "HTTPS";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet {
-  host?: string;
-  httpHeaders?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
-  path?: string;
+  host?: string | undefined;
+  httpHeaders?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList
+    | undefined;
+  path?: string | undefined;
   port: number;
-  scheme?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme;
+  scheme?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme
+    | undefined;
 }
 /** A Kubernetes-style HTTP liveness probe. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe {
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   httpGet: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet;
-  initialDelaySeconds?: number;
-  periodSeconds?: number;
-  successThreshold?: number;
-  timeoutSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  periodSeconds?: number | undefined;
+  successThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
 }
 /** Instance counts by region. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap = {
@@ -5105,18 +5382,30 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
 /** Set when this build produces the named daemon. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon {
   /** Bindings to services in the same deployment. */
-  bindings?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList;
-  command?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList;
+  bindings?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList
+    | undefined;
+  command?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList
+    | undefined;
   entrypoint: string;
   /** Instance counts by region. */
-  instances?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap;
+  instances?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap
+    | undefined;
   /** A Kubernetes-style HTTP liveness probe. */
-  livenessProbe?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe;
+  livenessProbe?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe
+    | undefined;
   /** Instance counts by region. */
-  replicas?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap;
-  resources?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources;
+  replicas?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap
+    | undefined;
+  resources?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources
+    | undefined;
   root: string;
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   name: string;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFilesCase1List =
@@ -5140,13 +5429,13 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -5158,13 +5447,13 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunct
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -5193,20 +5482,32 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunct
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValue {
-  affinity?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity;
-  architecture?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity
+    | undefined;
+  architecture?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList
+    | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsMap = {
   [key: string]:
@@ -5254,42 +5555,56 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig
   outputPath: string;
 }
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
-  buildpack?: string;
-  bundle?: boolean;
-  bunVersion?: string;
+  buildpack?: string | undefined;
+  bundle?: boolean | undefined;
+  bunVersion?: string | undefined;
   /** Set when this build produces the named daemon. */
-  daemon?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon;
-  debug?: boolean;
-  devCommand?: string;
-  excludeFiles?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles;
-  framework?: string | null;
-  functions?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsMap;
-  helpers?: boolean;
-  import?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigImportMap;
-  includeFiles?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigIncludeFiles;
-  installCommand?: string;
-  ldsflags?: string;
-  maxLambdaSize?: string;
-  middleware?: boolean;
-  middlewareMatcher?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareMatcher;
+  daemon?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon | undefined;
+  debug?: boolean | undefined;
+  devCommand?: string | undefined;
+  excludeFiles?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles
+    | undefined;
+  framework?: string | null | undefined;
+  functions?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsMap
+    | undefined;
+  helpers?: boolean | undefined;
+  import?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigImportMap | undefined;
+  includeFiles?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigIncludeFiles
+    | undefined;
+  installCommand?: string | undefined;
+  ldsflags?: string | undefined;
+  maxLambdaSize?: string | undefined;
+  middleware?: boolean | undefined;
+  middlewareMatcher?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareMatcher
+    | undefined;
   /** Enforced runtime for explicitly configured Routing Middleware. */
-  middlewareRuntime?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareRuntime;
-  nodeVersion?: string;
-  outputDirectory?: string;
-  projectSettings?: CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-  rust?: string;
+  middlewareRuntime?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareRuntime
+    | undefined;
+  nodeVersion?: string | undefined;
+  outputDirectory?: string | undefined;
+  projectSettings?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
+    | undefined;
+  rust?: string | undefined;
   /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction;
+  scheduleFunction?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction
+    | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
-  serviceName?: string;
-  zeroConfig?: boolean;
+  serviceName?: string | undefined;
+  zeroConfig?: boolean | undefined;
 }
 /** Builder selected by the resolver. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1Builder {
-  config?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig;
-  src?: string;
+  config?: CreateDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig | undefined;
+  src?: string | undefined;
   use: string;
 }
 /** Command override for `runtime: "container"` services. */
@@ -5309,13 +5624,13 @@ export interface CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValu
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -5327,13 +5642,13 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExpe
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -5363,20 +5678,28 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegi
   Array<string>;
 /** Function configuration scoped to this service. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValue {
-  affinity?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity;
-  architecture?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity | undefined;
+  architecture?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration;
-  memory?: number;
-  regions?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 /** Function configuration scoped to this service. */
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsMap = {
@@ -5391,17 +5714,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItem
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0Value =
   | string
@@ -5422,17 +5751,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItem
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Value =
   | string
@@ -5440,7 +5775,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItem
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0
@@ -5461,17 +5798,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissing
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0Value =
   | string
@@ -5492,17 +5835,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissing
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Value =
   | string
@@ -5510,7 +5859,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissing
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0
@@ -5518,9 +5869,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissing
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingList =
   Array<CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItem>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItem {
-  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasList;
+  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasList | undefined;
   headers: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHeadersList;
-  missing?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingList;
+  missing?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingList | undefined;
   source: string;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersList =
@@ -5536,17 +5887,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasIt
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0Value =
   | string
@@ -5567,17 +5924,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasIt
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Value =
   | string
@@ -5585,7 +5948,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasIt
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0
@@ -5602,17 +5967,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissi
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0Value =
   | string
@@ -5633,17 +6004,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissi
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Value =
   | string
@@ -5651,7 +6028,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissi
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0
@@ -5660,12 +6039,12 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissi
   Array<CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItem>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItem {
   destination: string;
-  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemEnvList;
-  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasList;
-  missing?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingList;
-  permanent?: boolean;
+  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemEnvList | undefined;
+  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasList | undefined;
+  missing?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingList | undefined;
+  permanent?: boolean | undefined;
   source: string;
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsList =
   Array<CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsItem>;
@@ -5674,10 +6053,12 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestin
   "service";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestinationCase1Type;
+  type?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestinationCase1Type
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestination =
   | string
@@ -5692,17 +6073,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasIte
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0Value =
   | string
@@ -5723,17 +6110,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasIte
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Value =
   | string
@@ -5741,7 +6134,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasIte
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0
@@ -5758,17 +6153,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissin
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0Value =
   | string
@@ -5789,17 +6190,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissin
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Value =
   | string
@@ -5807,7 +6214,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissin
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0
@@ -5821,9 +6230,11 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransf
   "request.path";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItem {
   args: string;
-  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemEnvList;
+  env?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemEnvList
+    | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemOp;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemType;
 }
@@ -5831,13 +6242,15 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransf
   Array<CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItem>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItem {
   destination: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestination;
-  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemEnvList;
-  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasList;
-  missing?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingList;
-  respectOriginCacheControl?: boolean;
+  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemEnvList | undefined;
+  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasList | undefined;
+  missing?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingList | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   source: string;
-  statusCode?: number;
-  transforms?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsList;
+  statusCode?: number | undefined;
+  transforms?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsList
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesList =
   Array<CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesItem>;
@@ -5846,10 +6259,12 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Des
   "service";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0DestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0DestinationCase1Type;
+  type?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0DestinationCase1Type
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Destination =
   | string
@@ -5866,17 +6281,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Has
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0Value =
   | string
@@ -5897,17 +6318,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Has
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Value =
   | string
@@ -5915,7 +6342,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Has
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0
@@ -5929,8 +6358,10 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Loc
   [key: string]: string | undefined;
 };
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Locale {
-  cookie?: string;
-  redirect?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0LocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0LocaleRedirectMap
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MethodsList =
   Array<string>;
@@ -5947,17 +6378,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Mis
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0Value =
   | string
@@ -5978,17 +6415,23 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Mis
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Value =
   | string
@@ -5996,7 +6439,9 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Mis
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1 {
   key: string;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Type;
-  value?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Value;
+  value?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Value
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0
@@ -6028,16 +6473,22 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Tra
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1 {
-  eq?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKey =
   | string
@@ -6050,8 +6501,12 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Tra
   | "request.query"
   | "response.headers";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0 {
-  args?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Args;
-  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0EnvList;
+  args?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Args
+    | undefined;
+  env?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0EnvList
+    | undefined;
   op: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Op;
   target: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Target;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Type;
@@ -6064,9 +6519,11 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Tra
   "request.path";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
-  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList;
+  env?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList
+    | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Op;
   type: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -6076,33 +6533,43 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Tra
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsList =
   Array<CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItem>;
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0 {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Destination;
-  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0EnvList;
-  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasList;
-  headers?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HeadersMap;
-  important?: boolean;
-  locale?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Locale;
-  methods?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Destination
+    | undefined;
+  env?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0EnvList | undefined;
+  has?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasList | undefined;
+  headers?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Locale | undefined;
+  methods?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MethodsList
+    | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MiddlewareRawSrcList;
-  missing?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingList;
-  mitigate?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Mitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MiddlewareRawSrcList
+    | undefined;
+  missing?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingList
+    | undefined;
+  mitigate?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Mitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?:
+    | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsList
+    | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1Handle =
   | "error"
@@ -6112,10 +6579,10 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1Han
   | "resource"
   | "rewrite";
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1 {
-  dest?: string;
+  dest?: string | undefined;
   handle: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1Handle;
-  src?: string;
-  status?: number;
+  src?: string | undefined;
+  status?: number | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0
@@ -6126,32 +6593,32 @@ export type CreateDeploymentResponseBodyCase1ServicesItemCase1Schema = "experime
 /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
 export interface CreateDeploymentResponseBodyCase1ServicesItemCase1 {
   /** Caller-side bindings to other services. */
-  bindings?: CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsList;
-  buildCommand?: string;
+  bindings?: CreateDeploymentResponseBodyCase1ServicesItemCase1BindingsList | undefined;
+  buildCommand?: string | undefined;
   /** Builder selected by the resolver. */
   builder: CreateDeploymentResponseBodyCase1ServicesItemCase1Builder;
-  cleanUrls?: boolean;
+  cleanUrls?: boolean | undefined;
   /** Command override for `runtime: "container"` services. */
-  command?: CreateDeploymentResponseBodyCase1ServicesItemCase1CommandList;
-  devCommand?: string;
+  command?: CreateDeploymentResponseBodyCase1ServicesItemCase1CommandList | undefined;
+  devCommand?: string | undefined;
   /** Resolved entrypoint, relative to the service root. */
-  entrypoint?: string;
-  framework?: string;
+  entrypoint?: string | undefined;
+  framework?: string | undefined;
   /** Function configuration scoped to this service. */
-  functions?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsMap;
-  headers?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersList;
-  ignoreCommand?: string;
-  installCommand?: string;
+  functions?: CreateDeploymentResponseBodyCase1ServicesItemCase1FunctionsMap | undefined;
+  headers?: CreateDeploymentResponseBodyCase1ServicesItemCase1HeadersList | undefined;
+  ignoreCommand?: string | undefined;
+  installCommand?: string | undefined;
   name: string;
-  outputDirectory?: string;
-  redirects?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsList;
-  rewrites?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesList;
+  outputDirectory?: string | undefined;
+  redirects?: CreateDeploymentResponseBodyCase1ServicesItemCase1RedirectsList | undefined;
+  rewrites?: CreateDeploymentResponseBodyCase1ServicesItemCase1RewritesList | undefined;
   /** Path to the service root, relative to the project root. */
   root: string;
-  routes?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesList;
-  runtime?: string;
+  routes?: CreateDeploymentResponseBodyCase1ServicesItemCase1RoutesList | undefined;
+  runtime?: string | undefined;
   schema: CreateDeploymentResponseBodyCase1ServicesItemCase1Schema;
-  trailingSlash?: boolean;
+  trailingSlash?: boolean | undefined;
 }
 export type CreateDeploymentResponseBodyCase1ServicesItem =
   | CreateDeploymentResponseBodyCase1ServicesItemCase0
@@ -6191,133 +6658,133 @@ export type CreateDeploymentResponseBodyCase1Version = 2;
 /** Returns the newly created deployment object. Poll `readyState` to track build progress. See https://vercel.com/docs/deployments/deployment-states for possible states. */
 export interface CreateDeploymentResponseBodyCase1 {
   /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
-  alias?: CreateDeploymentResponseBodyCase1AliasList;
+  alias?: CreateDeploymentResponseBodyCase1AliasList | undefined;
   /** A boolean that will be true when the aliases from the alias property were assigned successfully */
   aliasAssigned: boolean;
-  aliasAssignedAt?: CreateDeploymentResponseBodyCase1AliasAssignedAt | null;
+  aliasAssignedAt?: CreateDeploymentResponseBodyCase1AliasAssignedAt | null | undefined;
   /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
-  aliasError?: CancelDeploymentResponseAliasError | null;
-  aliasFinal?: string | null;
-  aliasWarning?: CancelDeploymentResponseAliasWarning | null;
-  alwaysRefuseToBuild?: boolean;
-  atproto?: CreateDeploymentResponseBodyCase1Atproto;
+  aliasError?: CancelDeploymentResponseAliasError | null | undefined;
+  aliasFinal?: string | null | undefined;
+  aliasWarning?: CancelDeploymentResponseAliasWarning | null | undefined;
+  alwaysRefuseToBuild?: boolean | undefined;
+  atproto?: CreateDeploymentResponseBodyCase1Atproto | undefined;
   /** Attribution metadata for the deployment, linking commit author to git and Vercel users. Only populated when the `enable-deployment-attribution` flag is enabled. */
-  attribution?: CreateDeploymentResponseBodyCase1Attribution;
+  attribution?: CreateDeploymentResponseBodyCase1Attribution | undefined;
   /** applies to custom domains only, defaults to `true` */
-  autoAssignCustomDomains?: boolean;
-  automaticAliases?: CreateDeploymentResponseBodyCase1AutomaticAliasesList;
+  autoAssignCustomDomains?: boolean | undefined;
+  automaticAliases?: CreateDeploymentResponseBodyCase1AutomaticAliasesList | undefined;
   bootedAt: number;
   build: CreateDeploymentResponseBodyCase1Build;
-  buildArtifactUrls?: CreateDeploymentResponseBodyCase1BuildArtifactUrlsList;
+  buildArtifactUrls?: CreateDeploymentResponseBodyCase1BuildArtifactUrlsList | undefined;
   /** Since April 2025 it necessary for On-Demand Concurrency Minutes calculation */
-  buildContainerFinishedAt?: number;
-  buildErrorAt?: number;
+  buildContainerFinishedAt?: number | undefined;
+  buildErrorAt?: number | undefined;
   buildingAt: number;
-  builds?: CreateDeploymentResponseBodyCase1BuildsList;
+  builds?: CreateDeploymentResponseBodyCase1BuildsList | undefined;
   buildSkipped: boolean;
-  canceledAt?: number;
-  checks?: CreateDeploymentResponseBodyCase1Checks;
-  checksConclusion?: CreateDeploymentResponseBodyCase1ChecksConclusion;
-  checksState?: CreateDeploymentResponseBodyCase1ChecksState;
+  canceledAt?: number | undefined;
+  checks?: CreateDeploymentResponseBodyCase1Checks | undefined;
+  checksConclusion?: CreateDeploymentResponseBodyCase1ChecksConclusion | undefined;
+  checksState?: CreateDeploymentResponseBodyCase1ChecksState | undefined;
   /** Since February 2025 the configuration must include snapshot data at the time of deployment creation to capture properties for the /deployments/:id/config endpoint utilized for displaying Deployment Configuration on the frontend This is optional because older deployments may not have this data captured */
-  config?: CreateDeploymentResponseBodyCase1Config;
-  connectBuildsEnabled?: boolean;
-  connectConfigurationId?: string;
+  config?: CreateDeploymentResponseBodyCase1Config | undefined;
+  connectBuildsEnabled?: boolean | undefined;
+  connectConfigurationId?: string | undefined;
   /** A number containing the date when the deployment was created in milliseconds */
   createdAt: number;
   createdIn: string;
   /** Information about the deployment creator */
   creator: CreateDeploymentResponseBodyCase1Creator;
-  crons?: CreateDeploymentResponseBodyCase1CronsList;
-  customEnvironment?: CreateDeploymentResponseBodyCase1CustomEnvironment;
+  crons?: CreateDeploymentResponseBodyCase1CronsList | undefined;
+  customEnvironment?: CreateDeploymentResponseBodyCase1CustomEnvironment | undefined;
   /** Computed field that is only available for deployments with a microfrontend configuration. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** A number containing the date when the deployment was deleted at milliseconds */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   duration: CancelDeploymentResponseDuration;
   env: CreateDeploymentResponseBodyCase1EnvList;
-  errorCode?: string;
-  errorLink?: string;
-  errorMessage?: string | null;
-  errorStep?: string;
-  flags?: CreateDeploymentResponseBodyCase1Flags;
-  functions?: CreateDeploymentResponseBodyCase1FunctionsMap | null;
-  gitRepo?: CreateDeploymentResponseBodyCase1GitRepo | null;
-  gitSource?: CreateDeploymentResponseBodyCase1GitSource;
+  errorCode?: string | undefined;
+  errorLink?: string | undefined;
+  errorMessage?: string | null | undefined;
+  errorStep?: string | undefined;
+  flags?: CreateDeploymentResponseBodyCase1Flags | undefined;
+  functions?: CreateDeploymentResponseBodyCase1FunctionsMap | null | undefined;
+  gitRepo?: CreateDeploymentResponseBodyCase1GitRepo | null | undefined;
+  gitSource?: CreateDeploymentResponseBodyCase1GitSource | undefined;
   /** A string holding the unique ID of the deployment */
   id: string;
-  images?: CreateDeploymentResponseBodyCase1Images;
-  initReadyAt?: number;
+  images?: CreateDeploymentResponseBodyCase1Images | undefined;
+  initReadyAt?: number | undefined;
   inspectorUrl: string | null;
-  integrations?: CreateDeploymentResponseBodyCase1Integrations;
-  isFirstBranchDeployment?: boolean;
+  integrations?: CreateDeploymentResponseBodyCase1Integrations | undefined;
+  isFirstBranchDeployment?: boolean | undefined;
   isInConcurrentBuildsQueue: boolean;
   /** Whether this deployment completed through the instant static fast path. */
-  isInstantStatic?: boolean;
+  isInstantStatic?: boolean | undefined;
   isInSystemBuildsQueue: boolean;
-  lambdas?: CreateDeploymentResponseBodyCase1LambdasList;
+  lambdas?: CreateDeploymentResponseBodyCase1LambdasList | undefined;
   /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
-  manualProvisioning?: CreateDeploymentResponseBodyCase1ManualProvisioning;
+  manualProvisioning?: CreateDeploymentResponseBodyCase1ManualProvisioning | undefined;
   meta: CreateDeploymentResponseBodyCase1MetaMap;
-  microfrontends?: CreateDeploymentResponseBodyCase1Microfrontends;
-  monorepoManager?: string | null;
+  microfrontends?: CreateDeploymentResponseBodyCase1Microfrontends | undefined;
+  monorepoManager?: string | null | undefined;
   /** The name of the project associated with the deployment at the time that the deployment was created */
   name: string;
   /** If set it overrides the `projectSettings.nodeVersion` for this deployment. */
-  nodeVersion?: CreateDeploymentResponseBodyCase1NodeVersion;
-  oidcTokenClaims?: CreateDeploymentResponseBodyCase1OidcTokenClaims;
-  oomReport?: CreateDeploymentResponseBodyCase1OomReport;
-  originCacheRegion?: string;
+  nodeVersion?: CreateDeploymentResponseBodyCase1NodeVersion | undefined;
+  oidcTokenClaims?: CreateDeploymentResponseBodyCase1OidcTokenClaims | undefined;
+  oomReport?: CreateDeploymentResponseBodyCase1OomReport | undefined;
+  originCacheRegion?: string | undefined;
   ownerId: string;
   /** Since November 2023 this field defines a Secure Compute network that will only be used to deploy passive lambdas to (as in passiveRegions) */
-  passiveConnectConfigurationId?: string;
+  passiveConnectConfigurationId?: string | undefined;
   /** Since November 2023 this field defines a set of regions that we will deploy the lambda to passively Lambdas will be deployed to these regions but only invoked if all of the primary `regions` are marked as out of service */
-  passiveRegions?: CreateDeploymentResponseBodyCase1PassiveRegionsList;
+  passiveRegions?: CreateDeploymentResponseBodyCase1PassiveRegionsList | undefined;
   plan: CreateDeploymentResponseBodyCase1Plan;
   /** Metadata about the source platform that triggered the deployment. Allows us to map a deployment back to a platform (e.g. the chat that created it) */
-  platform?: CreateDeploymentResponseBodyCase1Platform;
-  prebuilt?: boolean;
+  platform?: CreateDeploymentResponseBodyCase1Platform | undefined;
+  prebuilt?: boolean | undefined;
   /** Whether or not preview comments are enabled for the deployment */
-  previewCommentsEnabled?: boolean;
+  previewCommentsEnabled?: boolean | undefined;
   /** The public project information associated with the deployment. */
-  project?: CancelDeploymentResponseProject;
+  project?: CancelDeploymentResponseProject | undefined;
   projectId: string;
   projectSettings: CreateDeploymentResponseBodyCase1ProjectSettings;
   /** A boolean representing if the deployment is public or not. By default this is `false` */
   public: boolean;
-  ready?: number;
+  ready?: number | undefined;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: CreateDeploymentResponseBodyCase1ReadyState;
-  readyStateReason?: string;
+  readyStateReason?: string | undefined;
   /** Substate of deployment when readyState is 'READY' Tracks whether or not deployment has seen production traffic: - STAGED: never seen production traffic - ROLLING: in the process of having production traffic gradually transitioned. - PROMOTED: has seen production traffic */
-  readySubstate?: CreateDeploymentResponseBodyCase1ReadySubstate;
+  readySubstate?: CreateDeploymentResponseBodyCase1ReadySubstate | undefined;
   /** The regions the deployment exists in */
   regions: CreateDeploymentResponseBodyCase1RegionsList;
-  resourceConfig?: CreateDeploymentResponseBodyCase1ResourceConfig;
+  resourceConfig?: CreateDeploymentResponseBodyCase1ResourceConfig | undefined;
   routes: CreateDeploymentResponseBodyCase1RoutesList | null;
   /** NSNB Blocked metadata */
-  seatBlock?: CreateDeploymentResponseBodyCase1SeatBlock;
+  seatBlock?: CreateDeploymentResponseBodyCase1SeatBlock | undefined;
   /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
-  services?: CreateDeploymentResponseBodyCase1ServicesList;
+  services?: CreateDeploymentResponseBodyCase1ServicesList | undefined;
   /** flag to indicate if the deployment was deleted by retention policy */
-  softDeletedByRetention?: boolean;
+  softDeletedByRetention?: boolean | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: CreateDeploymentResponseBodyCase1Source;
+  source?: CreateDeploymentResponseBodyCase1Source | undefined;
   status: CreateDeploymentResponseBodyCase1Status;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: CreateDeploymentResponseBodyCase1Target | null;
+  target?: CreateDeploymentResponseBodyCase1Target | null | undefined;
   /** The team that owns the deployment if any */
-  team?: CancelDeploymentResponseTeam;
-  ttyBuildLogs?: boolean;
+  team?: CancelDeploymentResponseTeam | undefined;
+  ttyBuildLogs?: boolean | undefined;
   type: CreateDeploymentResponseBodyCase1Type;
   /** A number containing the date when the deployment was undeleted at milliseconds */
-  undeletedAt?: number;
+  undeletedAt?: number | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
   /** An array of domains that were provided by the user when creating the Deployment. */
-  userAliases?: CreateDeploymentResponseBodyCase1UserAliasesList;
+  userAliases?: CreateDeploymentResponseBodyCase1UserAliasesList | undefined;
   /** Since January 2025 User-configured deployment ID for skew protection with pre-built deployments. This is set when users configure a custom deploymentId in their next.config.js file. This allows Next.js to use skew protection even when deployments are pre-built outside of Vercel's build system. */
-  userConfiguredDeploymentId?: string;
+  userConfiguredDeploymentId?: string | undefined;
   /** The platform version that was used to create the deployment. */
   version: CreateDeploymentResponseBodyCase1Version;
 }
@@ -6329,11 +6796,11 @@ export interface DeleteDeploymentRequest {
   /** The ID of the deployment to be deleted */
   id: string;
   /** A Deployment or Alias URL. In case it is passed, the ID will be ignored */
-  url?: string;
+  url?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** A constant with the final state of the deployment. */
 export type DeleteDeploymentResponseState = "DELETED";
@@ -6347,11 +6814,11 @@ export interface GetDeploymentRequest {
   /** The unique identifier or hostname of the deployment. */
   idOrUrl: string;
   /** When `true`, the response includes the `gitSource` object with the commit SHA, branch name, and connected repository metadata. Defaults to `false`. */
-  withGitRepoInfo?: string;
+  withGitRepoInfo?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase0AliasList = Array<string>;
 /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
@@ -6371,20 +6838,20 @@ export type GetDeploymentResponseBodyCase0ReadyState =
 export type GetDeploymentResponseBodyCase0Target = "production" | "staging";
 /** Returns the reduced deployment view for anonymous (`vcn_`) callers. Pool-team details are withheld. */
 export interface GetDeploymentResponseBodyCase0 {
-  alias?: GetDeploymentResponseBodyCase0AliasList;
+  alias?: GetDeploymentResponseBodyCase0AliasList | undefined;
   aliasAssigned: boolean;
   /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
-  aliasError?: CancelDeploymentResponseAliasError | null;
-  aliasWarning?: CancelDeploymentResponseAliasWarning | null;
+  aliasError?: CancelDeploymentResponseAliasError | null | undefined;
+  aliasWarning?: CancelDeploymentResponseAliasWarning | null | undefined;
   duration: CancelDeploymentResponseDuration;
-  errorCode?: string;
-  errorMessage?: string | null;
+  errorCode?: string | undefined;
+  errorMessage?: string | null | undefined;
   /** A string holding the unique ID of the deployment */
   id: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: GetDeploymentResponseBodyCase0ReadyState;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: GetDeploymentResponseBodyCase0Target | null;
+  target?: GetDeploymentResponseBodyCase0Target | null | undefined;
 }
 /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
 export type GetDeploymentResponseBodyCase1AliasList = Array<string>;
@@ -6404,8 +6871,8 @@ export type GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList =
   Array<GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsItem>;
 export interface GetDeploymentResponseBodyCase1AtprotoCase1Subscription {
   collections: GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionCollectionsList;
-  dids?: GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList;
-  kinds?: GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList;
+  dids?: GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionDidsList | undefined;
+  kinds?: GetDeploymentResponseBodyCase1AtprotoCase1SubscriptionKindsList | undefined;
   path: string;
 }
 export interface GetDeploymentResponseBodyCase1AtprotoCase1 {
@@ -6425,9 +6892,9 @@ export interface GetDeploymentResponseBodyCase1AttributionGitUser {
   /** Git provider username/login */
   login: string;
   /** The git provider (github, gitlab, bitbucket) */
-  provider?: string;
+  provider?: string | undefined;
   /** User type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Team roles at time of deployment */
 export type GetDeploymentResponseBodyCase1AttributionVercelUserTeamRolesList = Array<string>;
@@ -6436,18 +6903,18 @@ export interface GetDeploymentResponseBodyCase1AttributionVercelUser {
   /** Vercel user ID */
   id: string;
   /** Team roles at time of deployment */
-  teamRoles?: GetDeploymentResponseBodyCase1AttributionVercelUserTeamRolesList;
+  teamRoles?: GetDeploymentResponseBodyCase1AttributionVercelUserTeamRolesList | undefined;
   /** Vercel username */
   username: string;
 }
 /** Attribution metadata for the deployment, linking commit author to git and Vercel users. Only populated when the `enable-deployment-attribution` flag is enabled. */
 export interface GetDeploymentResponseBodyCase1Attribution {
   /** Commit metadata from the git commit author */
-  commitMeta?: CancelDeploymentResponseAttributionCommitMeta;
+  commitMeta?: CancelDeploymentResponseAttributionCommitMeta | undefined;
   /** Git provider user associated with the commit author email (only set if resolved) */
-  gitUser?: GetDeploymentResponseBodyCase1AttributionGitUser;
+  gitUser?: GetDeploymentResponseBodyCase1AttributionGitUser | undefined;
   /** Vercel user linked to the git provider account (only set if resolved) */
-  vercelUser?: GetDeploymentResponseBodyCase1AttributionVercelUser;
+  vercelUser?: GetDeploymentResponseBodyCase1AttributionVercelUser | undefined;
 }
 export type GetDeploymentResponseBodyCase1AutomaticAliasesList = Array<string>;
 export type GetDeploymentResponseBodyCase1BuildEnvList = Array<string>;
@@ -6459,8 +6926,8 @@ export type GetDeploymentResponseBodyCase1BuildsItemConfigMap = {
   [key: string]: unknown | undefined;
 };
 export interface GetDeploymentResponseBodyCase1BuildsItem {
-  config?: GetDeploymentResponseBodyCase1BuildsItemConfigMap;
-  src?: string;
+  config?: GetDeploymentResponseBodyCase1BuildsItemConfigMap | undefined;
+  src?: string | undefined;
   use: string;
 }
 export type GetDeploymentResponseBodyCase1BuildsList =
@@ -6470,7 +6937,7 @@ export type GetDeploymentResponseBodyCase1ChecksDeploymentAliasState =
   | "pending"
   | "succeeded";
 export interface GetDeploymentResponseBodyCase1ChecksDeploymentAlias {
-  completedAt?: number;
+  completedAt?: number | undefined;
   startedAt: number;
   state: GetDeploymentResponseBodyCase1ChecksDeploymentAliasState;
 }
@@ -6496,7 +6963,9 @@ export type GetDeploymentResponseBodyCase1ConfigResourceConfigBuildQueueConfigur
 /** Build resource configuration snapshot for this deployment. */
 export interface GetDeploymentResponseBodyCase1ConfigResourceConfigBuildQueue {
   /** Build resource configuration snapshot for this deployment. */
-  configuration?: GetDeploymentResponseBodyCase1ConfigResourceConfigBuildQueueConfiguration;
+  configuration?:
+    | GetDeploymentResponseBodyCase1ConfigResourceConfigBuildQueueConfiguration
+    | undefined;
 }
 /** When elastic concurrency is used for this deployment, a value is set. The value tells the reason where the setting was coming from. - TEAM_SETTING: Inherited from team settings - PROJECT_SETTING: Inherited from project settings - SKIP_QUEUE: Manually triggered by user to skip the queues */
 export type GetDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurrency =
@@ -6512,27 +6981,32 @@ export type GetDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePurcha
   | "turbo";
 export interface GetDeploymentResponseBodyCase1ConfigResourceConfigBuildMachine {
   /** Machine type that was used for the build. */
-  purchaseType?: GetDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePurchaseType | null;
+  purchaseType?:
+    | GetDeploymentResponseBodyCase1ConfigResourceConfigBuildMachinePurchaseType
+    | null
+    | undefined;
 }
 /** Build resource configuration snapshot for this deployment. */
 export interface GetDeploymentResponseBodyCase1ConfigResourceConfig {
   /** Build resource configuration snapshot for this deployment. */
-  buildQueue?: GetDeploymentResponseBodyCase1ConfigResourceConfigBuildQueue;
+  buildQueue?: GetDeploymentResponseBodyCase1ConfigResourceConfigBuildQueue | undefined;
   /** When elastic concurrency is used for this deployment, a value is set. The value tells the reason where the setting was coming from. - TEAM_SETTING: Inherited from team settings - PROJECT_SETTING: Inherited from project settings - SKIP_QUEUE: Manually triggered by user to skip the queues */
-  elasticConcurrency?: GetDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurrency;
-  buildMachine?: GetDeploymentResponseBodyCase1ConfigResourceConfigBuildMachine;
+  elasticConcurrency?:
+    | GetDeploymentResponseBodyCase1ConfigResourceConfigElasticConcurrency
+    | undefined;
+  buildMachine?: GetDeploymentResponseBodyCase1ConfigResourceConfigBuildMachine | undefined;
 }
 /** Since February 2025 the configuration must include snapshot data at the time of deployment creation to capture properties for the /deployments/:id/config endpoint utilized for displaying Deployment Configuration on the frontend This is optional because older deployments may not have this data captured */
 export interface GetDeploymentResponseBodyCase1Config {
   functionMemoryType: GetDeploymentResponseBodyCase1ConfigFunctionMemoryType;
   functionTimeout: number | null;
   functionType: GetDeploymentResponseBodyCase1ConfigFunctionType;
-  isUsingActiveCPU?: boolean;
+  isUsingActiveCPU?: boolean | undefined;
   /** Build resource configuration snapshot for this deployment. */
-  resourceConfig?: GetDeploymentResponseBodyCase1ConfigResourceConfig;
+  resourceConfig?: GetDeploymentResponseBodyCase1ConfigResourceConfig | undefined;
   secureComputeFallbackRegion: string | null;
   secureComputePrimaryRegion: string | null;
-  version?: number;
+  version?: number | undefined;
 }
 /** Principal type of the deployment creator. */
 export type GetDeploymentResponseBodyCase1CreatorType =
@@ -6544,13 +7018,13 @@ export type GetDeploymentResponseBodyCase1CreatorType =
 /** Information about the deployment creator */
 export interface GetDeploymentResponseBodyCase1Creator {
   /** The avatar of the user that created the deployment */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Principal type of the deployment creator. */
-  type?: GetDeploymentResponseBodyCase1CreatorType;
+  type?: GetDeploymentResponseBodyCase1CreatorType | undefined;
   /** Stable creator id across principal types (user id, app id, integration configuration id, or `system`). */
   uid: string;
   /** The username of the user that created the deployment */
-  username?: string;
+  username?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1CronsItem = CancelDeploymentResponseCronsItem;
 export type GetDeploymentResponseBodyCase1CronsList = Array<CancelDeploymentResponseCronsItem>;
@@ -6583,16 +7057,21 @@ export type GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemVerif
 /** List of domains associated with this environment */
 export interface GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemVerificationList;
+  verification?:
+    | GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsItemVerificationList
+    | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -6607,15 +7086,17 @@ export type GetDeploymentResponseBodyCase1CustomEnvironmentCase0Type =
 /** If the deployment was created using a Custom Environment, then this property contains information regarding the environment used. */
 export interface GetDeploymentResponseBodyCase1CustomEnvironmentCase0 {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: GetDeploymentResponseBodyCase1CustomEnvironmentCase0BranchMatcher;
+  branchMatcher?: GetDeploymentResponseBodyCase1CustomEnvironmentCase0BranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: GetDeploymentResponseBodyCase1CustomEnvironmentCase0CurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | GetDeploymentResponseBodyCase1CustomEnvironmentCase0CurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsList;
+  domains?: GetDeploymentResponseBodyCase1CustomEnvironmentCase0DomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -6638,9 +7119,9 @@ export type GetDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsItem 
 export type GetDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsList =
   Array<CancelDeploymentResponseFlagsCase0DefinitionsValueOptionsItem>;
 export interface GetDeploymentResponseBodyCase1FlagsCase0DefinitionsValue {
-  description?: string;
-  options?: GetDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsList;
-  url?: string;
+  description?: string | undefined;
+  options?: GetDeploymentResponseBodyCase1FlagsCase0DefinitionsValueOptionsList | undefined;
+  url?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1FlagsCase0DefinitionsMap = {
   [key: string]: GetDeploymentResponseBodyCase1FlagsCase0DefinitionsValue | undefined;
@@ -6667,13 +7148,13 @@ export interface GetDeploymentResponseBodyCase1FunctionsValueExperimentalTrigger
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -6685,13 +7166,13 @@ export type GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItem
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -6717,20 +7198,24 @@ export type GetDeploymentResponseBodyCase1FunctionsValueMaxDuration =
   | GetDeploymentResponseBodyCase1FunctionsValueMaxDurationCase1;
 export type GetDeploymentResponseBodyCase1FunctionsValueRegionsList = Array<string>;
 export interface GetDeploymentResponseBodyCase1FunctionsValue {
-  affinity?: GetDeploymentResponseBodyCase1FunctionsValueAffinity;
-  architecture?: GetDeploymentResponseBodyCase1FunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: GetDeploymentResponseBodyCase1FunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?: GetDeploymentResponseBodyCase1FunctionsValueAffinity | undefined;
+  architecture?: GetDeploymentResponseBodyCase1FunctionsValueArchitecture | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | GetDeploymentResponseBodyCase1FunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | GetDeploymentResponseBodyCase1FunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: GetDeploymentResponseBodyCase1FunctionsValueMaxDuration;
-  memory?: number;
-  regions?: GetDeploymentResponseBodyCase1FunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?: GetDeploymentResponseBodyCase1FunctionsValueMaxDuration | undefined;
+  memory?: number | undefined;
+  regions?: GetDeploymentResponseBodyCase1FunctionsValueRegionsList | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type GetDeploymentResponseBodyCase1FunctionsMap = {
   [key: string]: GetDeploymentResponseBodyCase1FunctionsValue | undefined;
@@ -6812,83 +7297,83 @@ export type GetDeploymentResponseBodyCase1GitRepo =
 export type GetDeploymentResponseBodyCase1GitSourceCase0RepoId = string | number;
 export type GetDeploymentResponseBodyCase1GitSourceCase0Type = "github";
 export interface GetDeploymentResponseBodyCase1GitSourceCase0 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: GetDeploymentResponseBodyCase1GitSourceCase0RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase0Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase1Type = "github";
 export interface GetDeploymentResponseBodyCase1GitSourceCase1 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase1Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase2RepoId = string | number;
 export type GetDeploymentResponseBodyCase1GitSourceCase2Type = "github-custom-host";
 export interface GetDeploymentResponseBodyCase1GitSourceCase2 {
   host: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: GetDeploymentResponseBodyCase1GitSourceCase2RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase2Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase3Type = "github-custom-host";
 export interface GetDeploymentResponseBodyCase1GitSourceCase3 {
   host: string;
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase3Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase4RepoId = string | number;
 export type GetDeploymentResponseBodyCase1GitSourceCase4Type = "github-limited";
 export interface GetDeploymentResponseBodyCase1GitSourceCase4 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: GetDeploymentResponseBodyCase1GitSourceCase4RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase4Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase5Type = "github-limited";
 export interface GetDeploymentResponseBodyCase1GitSourceCase5 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase5Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase6ProjectId = string | number;
 export type GetDeploymentResponseBodyCase1GitSourceCase6Type = "gitlab";
 export interface GetDeploymentResponseBodyCase1GitSourceCase6 {
-  prId?: number | null;
+  prId?: number | null | undefined;
   projectId: GetDeploymentResponseBodyCase1GitSourceCase6ProjectId;
-  ref?: string | null;
-  sha?: string;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase6Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase7Type = "bitbucket";
 export interface GetDeploymentResponseBodyCase1GitSourceCase7 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoUuid: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase7Type;
-  workspaceUuid?: string;
+  workspaceUuid?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase8Type = "bitbucket";
 export interface GetDeploymentResponseBodyCase1GitSourceCase8 {
   owner: string;
-  prId?: number | null;
-  ref?: string | null;
-  sha?: string;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   slug: string;
   type: GetDeploymentResponseBodyCase1GitSourceCase8Type;
 }
@@ -6900,26 +7385,26 @@ export type GetDeploymentResponseBodyCase1GitSourceCase9CommitMetadata =
   CancelDeploymentResponseGitSourceCase9CommitMetadata;
 export type GetDeploymentResponseBodyCase1GitSourceCase9Type = "vercel";
 export interface GetDeploymentResponseBodyCase1GitSourceCase9 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
-  org?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
+  org?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   repoId: string;
-  repoPushedAt?: number;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: GetDeploymentResponseBodyCase1GitSourceCase9Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase10Type = "cursor-origin";
 export interface GetDeploymentResponseBodyCase1GitSourceCase10 {
   /** Owner (namespace) slug. */
-  owner?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  owner?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   /** Origin repository id. */
   repoId: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase10Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase11Type = "custom";
@@ -6932,9 +7417,9 @@ export interface GetDeploymentResponseBodyCase1GitSourceCase11 {
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase12Type = "github";
 export interface GetDeploymentResponseBodyCase1GitSourceCase12 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: GetDeploymentResponseBodyCase1GitSourceCase12Type;
@@ -6942,18 +7427,18 @@ export interface GetDeploymentResponseBodyCase1GitSourceCase12 {
 export type GetDeploymentResponseBodyCase1GitSourceCase13Type = "github-custom-host";
 export interface GetDeploymentResponseBodyCase1GitSourceCase13 {
   host: string;
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: GetDeploymentResponseBodyCase1GitSourceCase13Type;
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase14Type = "github-limited";
 export interface GetDeploymentResponseBodyCase1GitSourceCase14 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: GetDeploymentResponseBodyCase1GitSourceCase14Type;
@@ -6967,11 +7452,11 @@ export interface GetDeploymentResponseBodyCase1GitSourceCase15 {
 }
 export type GetDeploymentResponseBodyCase1GitSourceCase16Type = "bitbucket";
 export interface GetDeploymentResponseBodyCase1GitSourceCase16 {
-  owner?: string;
+  owner?: string | undefined;
   ref: string;
   repoUuid: string;
   sha: string;
-  slug?: string;
+  slug?: string | undefined;
   type: GetDeploymentResponseBodyCase1GitSourceCase16Type;
   workspaceUuid: string;
 }
@@ -6983,12 +7468,12 @@ export type GetDeploymentResponseBodyCase1GitSourceCase17CommitMetadata =
   CancelDeploymentResponseGitSourceCase9CommitMetadata;
 export type GetDeploymentResponseBodyCase1GitSourceCase17Type = "vercel";
 export interface GetDeploymentResponseBodyCase1GitSourceCase17 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
   org: string;
   ref: string;
   repo: string;
-  repoId?: string;
-  repoPushedAt?: number;
+  repoId?: string | undefined;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: GetDeploymentResponseBodyCase1GitSourceCase17Type;
 }
@@ -7037,28 +7522,28 @@ export interface GetDeploymentResponseBodyCase1ImagesRemotePatternsItem {
   /** Can be literal or wildcard. Single `*` matches a single subdomain. Double `**` matches any number of subdomains. */
   hostname: string;
   /** Can be literal or wildcard. Single `*` matches a single path segment. Double `**` matches any number of path segments. */
-  pathname?: string;
+  pathname?: string | undefined;
   /** Can be literal port such as `8080` or empty string meaning no port. */
-  port?: string;
+  port?: string | undefined;
   /** Must be `http` or `https`. */
-  protocol?: GetDeploymentResponseBodyCase1ImagesRemotePatternsItemProtocol;
+  protocol?: GetDeploymentResponseBodyCase1ImagesRemotePatternsItemProtocol | undefined;
   /** Can be literal query string such as `?v=1` or empty string meaning no query string. */
-  search?: string;
+  search?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ImagesRemotePatternsList =
   Array<GetDeploymentResponseBodyCase1ImagesRemotePatternsItem>;
 export type GetDeploymentResponseBodyCase1ImagesSizesList = Array<number>;
 export interface GetDeploymentResponseBodyCase1Images {
-  contentDispositionType?: GetDeploymentResponseBodyCase1ImagesContentDispositionType;
-  contentSecurityPolicy?: string;
-  dangerouslyAllowSVG?: boolean;
-  domains?: GetDeploymentResponseBodyCase1ImagesDomainsList;
-  formats?: GetDeploymentResponseBodyCase1ImagesFormatsList;
-  localPatterns?: GetDeploymentResponseBodyCase1ImagesLocalPatternsList;
-  minimumCacheTTL?: number;
-  qualities?: GetDeploymentResponseBodyCase1ImagesQualitiesList;
-  remotePatterns?: GetDeploymentResponseBodyCase1ImagesRemotePatternsList;
-  sizes?: GetDeploymentResponseBodyCase1ImagesSizesList;
+  contentDispositionType?: GetDeploymentResponseBodyCase1ImagesContentDispositionType | undefined;
+  contentSecurityPolicy?: string | undefined;
+  dangerouslyAllowSVG?: boolean | undefined;
+  domains?: GetDeploymentResponseBodyCase1ImagesDomainsList | undefined;
+  formats?: GetDeploymentResponseBodyCase1ImagesFormatsList | undefined;
+  localPatterns?: GetDeploymentResponseBodyCase1ImagesLocalPatternsList | undefined;
+  minimumCacheTTL?: number | undefined;
+  qualities?: GetDeploymentResponseBodyCase1ImagesQualitiesList | undefined;
+  remotePatterns?: GetDeploymentResponseBodyCase1ImagesRemotePatternsList | undefined;
+  sizes?: GetDeploymentResponseBodyCase1ImagesSizesList | undefined;
 }
 export type GetDeploymentResponseBodyCase1IntegrationsStatus =
   | "error"
@@ -7067,10 +7552,10 @@ export type GetDeploymentResponseBodyCase1IntegrationsStatus =
   | "skipped"
   | "timeout";
 export interface GetDeploymentResponseBodyCase1Integrations {
-  claimedAt?: number;
-  completedAt?: number;
-  skippedAt?: number;
-  skippedBy?: string;
+  claimedAt?: number | undefined;
+  completedAt?: number | undefined;
+  skippedAt?: number | undefined;
+  skippedBy?: string | undefined;
   startedAt: number;
   status: GetDeploymentResponseBodyCase1IntegrationsStatus;
 }
@@ -7085,11 +7570,11 @@ export type GetDeploymentResponseBodyCase1LambdasItemOutputList =
   Array<CancelDeploymentResponseLambdasItemOutputItem>;
 /** A partial representation of a Build used by the deployment endpoint. */
 export interface GetDeploymentResponseBodyCase1LambdasItem {
-  createdAt?: number;
-  entrypoint?: string | null;
+  createdAt?: number | undefined;
+  entrypoint?: string | null | undefined;
   id: string;
-  readyState?: GetDeploymentResponseBodyCase1LambdasItemReadyState;
-  readyStateAt?: number;
+  readyState?: GetDeploymentResponseBodyCase1LambdasItemReadyState | undefined;
+  readyStateAt?: number | undefined;
   output: GetDeploymentResponseBodyCase1LambdasItemOutputList;
 }
 export type GetDeploymentResponseBodyCase1LambdasList =
@@ -7102,7 +7587,7 @@ export type GetDeploymentResponseBodyCase1ManualProvisioningState =
 /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
 export interface GetDeploymentResponseBodyCase1ManualProvisioning {
   /** Timestamp when manual provisioning completed */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** Current provisioning state */
   state: GetDeploymentResponseBodyCase1ManualProvisioningState;
 }
@@ -7113,10 +7598,10 @@ export interface GetDeploymentResponseBodyCase1MicrofrontendsCase0 {
   /** The project name of the default app of this deployment's microfrontends group. */
   defaultAppProjectName: string;
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: GetDeploymentResponseBodyCase1MicrofrontendsCase0GroupIdsList;
-  isDefaultApp?: boolean;
+  isDefaultApp?: boolean | undefined;
 }
 /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
 export type GetDeploymentResponseBodyCase1MicrofrontendsCase1GroupIdsList = Array<string>;
@@ -7129,12 +7614,14 @@ export interface GetDeploymentResponseBodyCase1MicrofrontendsCase1 {
   /** The project name of the default app of this deployment's microfrontends group. */
   defaultAppProjectName: string;
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** The group of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: GetDeploymentResponseBodyCase1MicrofrontendsCase1GroupIdsList;
   isDefaultApp: boolean;
   /** The result of the microfrontends config upload during deployment creation / build. Only set for default app deployments. The config upload is attempted during deployment create, and then again during the build. If the config is not in the root directory, or the deployment is prebuilt, the config cannot be uploaded during deployment create. The upload during deployment build finds the config even if it's not in the root directory, as it has access to all files. Uploading the config during create is ideal, as then all child deployments are guaranteed to have access to the default app deployment config even if the default app has not yet started building. If the config is not uploaded, the child app will show as building until the config has been uploaded during the default app build. - `success` - The config was uploaded successfully, either when the deployment was created or during the build. - `waiting_on_build` - The config could not be uploaded during deployment create, will be attempted again during the build. - `no_config` - No config was found. Only set once the build has not found the config in any of the deployment's files. - `undefined` - Legacy deployments, or there was an error uploading the config during deployment create. */
-  mfeConfigUploadState?: GetDeploymentResponseBodyCase1MicrofrontendsCase1MfeConfigUploadState;
+  mfeConfigUploadState?:
+    | GetDeploymentResponseBodyCase1MicrofrontendsCase1MfeConfigUploadState
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1Microfrontends =
   | GetDeploymentResponseBodyCase1MicrofrontendsCase0
@@ -7154,14 +7641,14 @@ export type GetDeploymentResponseBodyCase1NodeVersion =
 export type GetDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface GetDeploymentResponseBodyCase1OidcTokenClaims {
   aud: string;
-  custom_environment_id?: string;
-  deployment_id?: string;
+  custom_environment_id?: string | undefined;
+  deployment_id?: string | undefined;
   environment: string;
   iss: string;
-  mfe_group_ids?: GetDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList;
+  mfe_group_ids?: GetDeploymentResponseBodyCase1OidcTokenClaimsMfeGroupIdsList | undefined;
   owner: string;
   owner_id: string;
-  plan?: string;
+  plan?: string | undefined;
   project: string;
   project_id: string;
   scope: string;
@@ -7191,7 +7678,7 @@ export interface GetDeploymentResponseBodyCase1Platform {
   /** The user on the external platform who triggered the deployment. */
   creator: CancelDeploymentResponsePlatformCreator;
   /** Arbitrary key-value metadata provided by the platform. */
-  meta?: GetDeploymentResponseBodyCase1PlatformMetaMap;
+  meta?: GetDeploymentResponseBodyCase1PlatformMetaMap | undefined;
   /** Reference back to the entity on the platform that initiated the deployment. */
   origin: GetDeploymentResponseBodyCase1PlatformOrigin;
   /** The external platform that created the deployment (e.g. its display name). */
@@ -7293,17 +7780,17 @@ export type GetDeploymentResponseBodyCase1ProjectSettingsVercelFlags =
 export type GetDeploymentResponseBodyCase1ProjectSettingsWebAnalytics =
   CancelDeploymentResponseProjectSettingsWebAnalytics;
 export interface GetDeploymentResponseBodyCase1ProjectSettings {
-  buildCommand?: string | null;
-  commandForIgnoringBuildStep?: string | null;
-  devCommand?: string | null;
-  framework?: GetDeploymentResponseBodyCase1ProjectSettingsFramework | null;
-  installCommand?: string | null;
-  nodeVersion?: GetDeploymentResponseBodyCase1ProjectSettingsNodeVersion;
-  outputDirectory?: string | null;
-  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  buildCommand?: string | null | undefined;
+  commandForIgnoringBuildStep?: string | null | undefined;
+  devCommand?: string | null | undefined;
+  framework?: GetDeploymentResponseBodyCase1ProjectSettingsFramework | null | undefined;
+  installCommand?: string | null | undefined;
+  nodeVersion?: GetDeploymentResponseBodyCase1ProjectSettingsNodeVersion | undefined;
+  outputDirectory?: string | null | undefined;
+  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights | undefined;
   /** Vercel Flags activation metadata copied from the project at deployment creation. */
-  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
-  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags | undefined;
+  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics | undefined;
 }
 /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
 export type GetDeploymentResponseBodyCase1ReadyState =
@@ -7346,15 +7833,21 @@ export interface GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0 {
   /** The build ran on an elastic machine. Drives billing. */
   machineSelectionType: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0MachineSelectionType;
   /** Machine type purchased for this build. `basic` is the 2vCPU tier, recorded so the build pipeline can detect a basic build without consulting the project. */
-  purchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType;
+  purchaseType?:
+    | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0PurchaseType
+    | undefined;
   /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
-  cores?: number;
+  cores?: number | undefined;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType;
+  defaultPurchaseType?:
+    | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0DefaultPurchaseType
+    | undefined;
   /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
-  memory?: number;
+  memory?: number | undefined;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource;
+  selectionSource?:
+    | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0SelectionSource
+    | undefined;
 }
 /** The build ran on a fixed machine. Drives billing. */
 export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType =
@@ -7381,32 +7874,40 @@ export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1Selecti
   | "team-setting";
 export interface GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1 {
   /** The build ran on a fixed machine. Drives billing. */
-  machineSelectionType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType;
+  machineSelectionType?:
+    | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1MachineSelectionType
+    | undefined;
   /** Machine type purchased for this build. */
-  purchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType;
+  purchaseType?:
+    | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1PurchaseType
+    | undefined;
   /** Build cores. Deployment creation sets the requested value; dispatch replaces it with the cores assigned by routing. */
-  cores?: number;
+  cores?: number | undefined;
   /** The build machine tier included with the customer's plan. For most customers this is standard; enhanced entitlements include enhanced, while `none` means every build is billed at its purchase type. */
-  defaultPurchaseType?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType;
+  defaultPurchaseType?:
+    | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1DefaultPurchaseType
+    | undefined;
   /** Build memory, in MiB. Deployment creation sets the requested value; dispatch replaces it with the memory assigned by routing. */
-  memory?: number;
+  memory?: number | undefined;
   /** The setting which selected the build machine when the deployment was created. Frozen here so later project or team changes do not rewrite its history. */
-  selectionSource?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource;
+  selectionSource?:
+    | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1SelectionSource
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ResourceConfigBuildMachine =
   | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase0
   | GetDeploymentResponseBodyCase1ResourceConfigBuildMachineCase1;
 export interface GetDeploymentResponseBodyCase1ResourceConfig {
-  buildMachine?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachine;
+  buildMachine?: GetDeploymentResponseBodyCase1ResourceConfigBuildMachine | undefined;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
 export type GetDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1Type = "service";
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: GetDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1Type;
+  type?: GetDeploymentResponseBodyCase1RoutesItemCase0DestinationCase1Type | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0Destination =
   | string
@@ -7419,17 +7920,17 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1I
 export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0Value =
   | string
@@ -7448,17 +7949,17 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1I
 export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value =
   | string
@@ -7466,7 +7967,7 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value =
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value;
+  value?: GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase1Value | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0HasItem =
   | GetDeploymentResponseBodyCase1RoutesItemCase0HasItemCase0
@@ -7480,8 +7981,8 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0LocaleRedirectMap = {
   [key: string]: string | undefined;
 };
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0Locale {
-  cookie?: string;
-  redirect?: GetDeploymentResponseBodyCase1RoutesItemCase0LocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: GetDeploymentResponseBodyCase1RoutesItemCase0LocaleRedirectMap | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0MethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -7495,17 +7996,19 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCa
 export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0Value =
   | string
@@ -7526,17 +8029,19 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCa
 export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Value =
   | string
@@ -7544,7 +8049,7 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Value =
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Value;
+  value?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase1Value | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0MissingItem =
   | GetDeploymentResponseBodyCase1RoutesItemCase0MissingItemCase0
@@ -7573,16 +8078,20 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Targ
 export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1 {
-  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0TargetKey =
   | string
@@ -7595,8 +8104,8 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Type
   | "request.query"
   | "response.headers";
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0 {
-  args?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Args;
-  env?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0EnvList;
+  args?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Args | undefined;
+  env?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0EnvList | undefined;
   op: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Op;
   target: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Target;
   type: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase0Type;
@@ -7606,9 +8115,9 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Op =
 export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Type = "request.path";
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
-  env?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1EnvList;
+  env?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Op;
   type: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -7618,33 +8127,33 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItem =
 export type GetDeploymentResponseBodyCase1RoutesItemCase0TransformsList =
   Array<GetDeploymentResponseBodyCase1RoutesItemCase0TransformsItem>;
 export interface GetDeploymentResponseBodyCase1RoutesItemCase0 {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: GetDeploymentResponseBodyCase1RoutesItemCase0Destination;
-  env?: GetDeploymentResponseBodyCase1RoutesItemCase0EnvList;
-  has?: GetDeploymentResponseBodyCase1RoutesItemCase0HasList;
-  headers?: GetDeploymentResponseBodyCase1RoutesItemCase0HeadersMap;
-  important?: boolean;
-  locale?: GetDeploymentResponseBodyCase1RoutesItemCase0Locale;
-  methods?: GetDeploymentResponseBodyCase1RoutesItemCase0MethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: GetDeploymentResponseBodyCase1RoutesItemCase0Destination | undefined;
+  env?: GetDeploymentResponseBodyCase1RoutesItemCase0EnvList | undefined;
+  has?: GetDeploymentResponseBodyCase1RoutesItemCase0HasList | undefined;
+  headers?: GetDeploymentResponseBodyCase1RoutesItemCase0HeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: GetDeploymentResponseBodyCase1RoutesItemCase0Locale | undefined;
+  methods?: GetDeploymentResponseBodyCase1RoutesItemCase0MethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: GetDeploymentResponseBodyCase1RoutesItemCase0MiddlewareRawSrcList;
-  missing?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingList;
-  mitigate?: GetDeploymentResponseBodyCase1RoutesItemCase0Mitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?: GetDeploymentResponseBodyCase1RoutesItemCase0MiddlewareRawSrcList | undefined;
+  missing?: GetDeploymentResponseBodyCase1RoutesItemCase0MissingList | undefined;
+  mitigate?: GetDeploymentResponseBodyCase1RoutesItemCase0Mitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: GetDeploymentResponseBodyCase1RoutesItemCase0TransformsList | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase1Handle =
   | "error"
@@ -7654,10 +8163,10 @@ export type GetDeploymentResponseBodyCase1RoutesItemCase1Handle =
   | "resource"
   | "rewrite";
 export interface GetDeploymentResponseBodyCase1RoutesItemCase1 {
-  dest?: string;
+  dest?: string | undefined;
   handle: GetDeploymentResponseBodyCase1RoutesItemCase1Handle;
-  src?: string;
-  status?: number;
+  src?: string | undefined;
+  status?: number | undefined;
 }
 export type GetDeploymentResponseBodyCase1RoutesItemCase2Middleware = 0;
 export interface GetDeploymentResponseBodyCase1RoutesItemCase2 {
@@ -7683,12 +8192,12 @@ export interface GetDeploymentResponseBodyCase1SeatBlock {
   /** The NSNB decision code for the seat block. TODO: We should consolidate block types. */
   blockCode: GetDeploymentResponseBodyCase1SeatBlockBlockCode;
   /** The git provider type associated with gitUserId. */
-  gitProvider?: GetDeploymentResponseBodyCase1SeatBlockGitProvider;
-  gitUserId?: GetDeploymentResponseBodyCase1SeatBlockGitUserId;
+  gitProvider?: GetDeploymentResponseBodyCase1SeatBlockGitProvider | undefined;
+  gitUserId?: GetDeploymentResponseBodyCase1SeatBlockGitUserId | undefined;
   /** Determines if the user was verified during the block. In the git integration case, the commit sender was the author. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The blocked vercel user ID. */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** Generated value shape, must be `"url"`. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemFormat =
@@ -7705,7 +8214,9 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDae
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType;
+  type?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsItemType
+    | undefined;
 }
 /** Bindings to services in the same deployment. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList =
@@ -7724,20 +8235,24 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLi
   | "HTTP"
   | "HTTPS";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet {
-  host?: string;
-  httpHeaders?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
-  path?: string;
+  host?: string | undefined;
+  httpHeaders?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList
+    | undefined;
+  path?: string | undefined;
   port: number;
-  scheme?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme;
+  scheme?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGetScheme
+    | undefined;
 }
 /** A Kubernetes-style HTTP liveness probe. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe {
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   httpGet: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbeHttpGet;
-  initialDelaySeconds?: number;
-  periodSeconds?: number;
-  successThreshold?: number;
-  timeoutSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  periodSeconds?: number | undefined;
+  successThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
 }
 /** Instance counts by region. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap = {
@@ -7757,18 +8272,30 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDae
 /** Set when this build produces the named daemon. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon {
   /** Bindings to services in the same deployment. */
-  bindings?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList;
-  command?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList;
+  bindings?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonBindingsList
+    | undefined;
+  command?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonCommandList
+    | undefined;
   entrypoint: string;
   /** Instance counts by region. */
-  instances?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap;
+  instances?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonInstancesMap
+    | undefined;
   /** A Kubernetes-style HTTP liveness probe. */
-  livenessProbe?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe;
+  livenessProbe?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonLivenessProbe
+    | undefined;
   /** Instance counts by region. */
-  replicas?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap;
-  resources?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources;
+  replicas?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonReplicasMap
+    | undefined;
+  resources?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemonResources
+    | undefined;
   root: string;
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   name: string;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFilesCase1List =
@@ -7792,13 +8319,13 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFun
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -7810,13 +8337,13 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunction
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -7845,20 +8372,32 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunction
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValue {
-  affinity?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity;
-  architecture?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueAffinity
+    | undefined;
+  architecture?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration;
-  memory?: number;
-  regions?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsValueRegionsList
+    | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsMap = {
   [key: string]:
@@ -7906,41 +8445,53 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigSch
   outputPath: string;
 }
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
-  buildpack?: string;
-  bundle?: boolean;
-  bunVersion?: string;
+  buildpack?: string | undefined;
+  bundle?: boolean | undefined;
+  bunVersion?: string | undefined;
   /** Set when this build produces the named daemon. */
-  daemon?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon;
-  debug?: boolean;
-  devCommand?: string;
-  excludeFiles?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles;
-  framework?: string | null;
-  functions?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsMap;
-  helpers?: boolean;
-  import?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigImportMap;
-  includeFiles?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigIncludeFiles;
-  installCommand?: string;
-  ldsflags?: string;
-  maxLambdaSize?: string;
-  middleware?: boolean;
-  middlewareMatcher?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareMatcher;
+  daemon?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigDaemon | undefined;
+  debug?: boolean | undefined;
+  devCommand?: string | undefined;
+  excludeFiles?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigExcludeFiles
+    | undefined;
+  framework?: string | null | undefined;
+  functions?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigFunctionsMap | undefined;
+  helpers?: boolean | undefined;
+  import?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigImportMap | undefined;
+  includeFiles?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigIncludeFiles
+    | undefined;
+  installCommand?: string | undefined;
+  ldsflags?: string | undefined;
+  maxLambdaSize?: string | undefined;
+  middleware?: boolean | undefined;
+  middlewareMatcher?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareMatcher
+    | undefined;
   /** Enforced runtime for explicitly configured Routing Middleware. */
-  middlewareRuntime?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareRuntime;
-  nodeVersion?: string;
-  outputDirectory?: string;
-  projectSettings?: CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-  rust?: string;
+  middlewareRuntime?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigMiddlewareRuntime
+    | undefined;
+  nodeVersion?: string | undefined;
+  outputDirectory?: string | undefined;
+  projectSettings?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
+    | undefined;
+  rust?: string | undefined;
   /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction;
+  scheduleFunction?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfigScheduleFunction
+    | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
-  serviceName?: string;
-  zeroConfig?: boolean;
+  serviceName?: string | undefined;
+  zeroConfig?: boolean | undefined;
 }
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0Builder {
-  config?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig;
-  src?: string;
+  config?: GetDeploymentResponseBodyCase1ServicesItemCase0BuilderConfig | undefined;
+  src?: string | undefined;
   use: string;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase0EnvValueType = "service-ref";
@@ -7974,24 +8525,24 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase0Trigger =
 export type GetDeploymentResponseBodyCase1ServicesItemCase0Type = "cron" | "job" | "web" | "worker";
 /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase0 {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   builder: GetDeploymentResponseBodyCase1ServicesItemCase0Builder;
-  entrypoint?: string;
-  env?: GetDeploymentResponseBodyCase1ServicesItemCase0EnvMap;
-  framework?: string;
-  group?: string;
-  handlerFunction?: string;
-  installCommand?: string;
+  entrypoint?: string | undefined;
+  env?: GetDeploymentResponseBodyCase1ServicesItemCase0EnvMap | undefined;
+  framework?: string | undefined;
+  group?: string | undefined;
+  handlerFunction?: string | undefined;
+  installCommand?: string | undefined;
   name: string;
-  preDeployCommand?: string;
-  routePrefix?: string;
-  routePrefixSource?: GetDeploymentResponseBodyCase1ServicesItemCase0RoutePrefixSource;
-  runtime?: string;
-  schedule?: GetDeploymentResponseBodyCase1ServicesItemCase0Schedule;
+  preDeployCommand?: string | undefined;
+  routePrefix?: string | undefined;
+  routePrefixSource?: GetDeploymentResponseBodyCase1ServicesItemCase0RoutePrefixSource | undefined;
+  runtime?: string | undefined;
+  schedule?: GetDeploymentResponseBodyCase1ServicesItemCase0Schedule | undefined;
   schema: GetDeploymentResponseBodyCase1ServicesItemCase0Schema;
-  subdomain?: string;
-  topics?: GetDeploymentResponseBodyCase1ServicesItemCase0Topics;
-  trigger?: GetDeploymentResponseBodyCase1ServicesItemCase0Trigger;
+  subdomain?: string | undefined;
+  topics?: GetDeploymentResponseBodyCase1ServicesItemCase0Topics | undefined;
+  trigger?: GetDeploymentResponseBodyCase1ServicesItemCase0Trigger | undefined;
   type: GetDeploymentResponseBodyCase1ServicesItemCase0Type;
   workspace: string;
 }
@@ -8008,7 +8559,7 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BindingsItem {
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: GetDeploymentResponseBodyCase1ServicesItemCase1BindingsItemType;
+  type?: GetDeploymentResponseBodyCase1ServicesItemCase1BindingsItemType | undefined;
 }
 /** Caller-side bindings to other services. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BindingsList =
@@ -8028,7 +8579,9 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDae
   /** Target service name from `services`. */
   service: string;
   /** If present, must be `"service"` for Service-to-Service HTTP bindings. */
-  type?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType;
+  type?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsItemType
+    | undefined;
 }
 /** Bindings to services in the same deployment. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList =
@@ -8047,20 +8600,24 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLi
   | "HTTP"
   | "HTTPS";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet {
-  host?: string;
-  httpHeaders?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList;
-  path?: string;
+  host?: string | undefined;
+  httpHeaders?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetHttpHeadersList
+    | undefined;
+  path?: string | undefined;
   port: number;
-  scheme?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme;
+  scheme?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGetScheme
+    | undefined;
 }
 /** A Kubernetes-style HTTP liveness probe. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe {
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   httpGet: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbeHttpGet;
-  initialDelaySeconds?: number;
-  periodSeconds?: number;
-  successThreshold?: number;
-  timeoutSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  periodSeconds?: number | undefined;
+  successThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
 }
 /** Instance counts by region. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap = {
@@ -8080,18 +8637,30 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDae
 /** Set when this build produces the named daemon. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon {
   /** Bindings to services in the same deployment. */
-  bindings?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList;
-  command?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList;
+  bindings?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonBindingsList
+    | undefined;
+  command?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonCommandList
+    | undefined;
   entrypoint: string;
   /** Instance counts by region. */
-  instances?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap;
+  instances?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonInstancesMap
+    | undefined;
   /** A Kubernetes-style HTTP liveness probe. */
-  livenessProbe?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe;
+  livenessProbe?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonLivenessProbe
+    | undefined;
   /** Instance counts by region. */
-  replicas?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap;
-  resources?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources;
+  replicas?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonReplicasMap
+    | undefined;
+  resources?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemonResources
+    | undefined;
   root: string;
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
   name: string;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFilesCase1List =
@@ -8115,13 +8684,13 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFun
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -8133,13 +8702,13 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunction
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -8168,20 +8737,32 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunction
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValue {
-  affinity?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity;
-  architecture?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueAffinity
+    | undefined;
+  architecture?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration;
-  memory?: number;
-  regions?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsValueRegionsList
+    | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsMap = {
   [key: string]:
@@ -8229,42 +8810,54 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigSch
   outputPath: string;
 }
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig {
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Buildpack runtime slug (e.g. "ruby"). */
-  buildpack?: string;
-  bundle?: boolean;
-  bunVersion?: string;
+  buildpack?: string | undefined;
+  bundle?: boolean | undefined;
+  bunVersion?: string | undefined;
   /** Set when this build produces the named daemon. */
-  daemon?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon;
-  debug?: boolean;
-  devCommand?: string;
-  excludeFiles?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles;
-  framework?: string | null;
-  functions?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsMap;
-  helpers?: boolean;
-  import?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigImportMap;
-  includeFiles?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigIncludeFiles;
-  installCommand?: string;
-  ldsflags?: string;
-  maxLambdaSize?: string;
-  middleware?: boolean;
-  middlewareMatcher?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareMatcher;
+  daemon?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigDaemon | undefined;
+  debug?: boolean | undefined;
+  devCommand?: string | undefined;
+  excludeFiles?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigExcludeFiles
+    | undefined;
+  framework?: string | null | undefined;
+  functions?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigFunctionsMap | undefined;
+  helpers?: boolean | undefined;
+  import?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigImportMap | undefined;
+  includeFiles?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigIncludeFiles
+    | undefined;
+  installCommand?: string | undefined;
+  ldsflags?: string | undefined;
+  maxLambdaSize?: string | undefined;
+  middleware?: boolean | undefined;
+  middlewareMatcher?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareMatcher
+    | undefined;
   /** Enforced runtime for explicitly configured Routing Middleware. */
-  middlewareRuntime?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareRuntime;
-  nodeVersion?: string;
-  outputDirectory?: string;
-  projectSettings?: CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings;
-  rust?: string;
+  middlewareRuntime?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigMiddlewareRuntime
+    | undefined;
+  nodeVersion?: string | undefined;
+  outputDirectory?: string | undefined;
+  projectSettings?:
+    | CancelDeploymentResponseServicesItemCase0BuilderConfigProjectSettings
+    | undefined;
+  rust?: string | undefined;
   /** Set when this build produces a function for schedule entrypoints. */
-  scheduleFunction?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction;
+  scheduleFunction?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfigScheduleFunction
+    | undefined;
   /** Owning service name; scopes per-function config such as the v2beta consumer. */
-  serviceName?: string;
-  zeroConfig?: boolean;
+  serviceName?: string | undefined;
+  zeroConfig?: boolean | undefined;
 }
 /** Builder selected by the resolver. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1Builder {
-  config?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig;
-  src?: string;
+  config?: GetDeploymentResponseBodyCase1ServicesItemCase1BuilderConfig | undefined;
+  src?: string | undefined;
   use: string;
 }
 /** Command override for `runtime: "container"` services. */
@@ -8284,13 +8877,13 @@ export interface GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueEx
   /** Name of the consumer group for this trigger (REQUIRED) */
   consumer: string;
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v1beta" (REQUIRED) */
@@ -8302,13 +8895,13 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperim
 /** Queue trigger input event for v2beta (from vercel.json config). Consumer name is implicitly derived from the function path. Only one trigger per function is allowed. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersItemCase1 {
   /** Initial delay in seconds before first execution attempt (OPTIONAL) Must be 0 or greater. Use 0 for no initial delay. Behavior when not specified depends on the server's default configuration. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Maximum number of concurrent executions for this consumer (OPTIONAL) Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** Maximum number of delivery attempts for message processing (OPTIONAL) This represents the total number of times a message can be delivered, not the number of retries. Must be at least 1 if specified. Behavior when not specified depends on the server's default configuration. */
-  maxDeliveries?: number;
+  maxDeliveries?: number | undefined;
   /** Delay in seconds before retrying failed executions (OPTIONAL) Behavior when not specified depends on the server's default configuration. */
-  retryAfterSeconds?: number;
+  retryAfterSeconds?: number | undefined;
   /** Name of the queue topic to consume from (REQUIRED) */
   topic: string;
   /** Event type - must be "queue/v2beta" (REQUIRED) */
@@ -8337,20 +8930,28 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegions
   Array<string>;
 /** Function configuration scoped to this service. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValue {
-  affinity?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity;
-  architecture?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueArchitecture;
-  excludeFiles?: string;
-  experimentalTriggers?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersList;
-  functionFailoverRegions?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueFunctionFailoverRegionsList;
-  includeFiles?: string;
+  affinity?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueAffinity | undefined;
+  architecture?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueArchitecture
+    | undefined;
+  excludeFiles?: string | undefined;
+  experimentalTriggers?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueExperimentalTriggersList
+    | undefined;
+  functionFailoverRegions?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueFunctionFailoverRegionsList
+    | undefined;
+  includeFiles?: string | undefined;
   /** Overrides how dependencies are installed for this function. An empty string skips the install. Only honored by `@vercel/node`. */
-  installCommand?: string;
-  maxConcurrency?: number;
-  maxDuration?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration;
-  memory?: number;
-  regions?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList;
-  runtime?: string;
-  supportsCancellation?: boolean;
+  installCommand?: string | undefined;
+  maxConcurrency?: number | undefined;
+  maxDuration?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueMaxDuration
+    | undefined;
+  memory?: number | undefined;
+  regions?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsValueRegionsList | undefined;
+  runtime?: string | undefined;
+  supportsCancellation?: boolean | undefined;
 }
 /** Function configuration scoped to this service. */
 export type GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsMap = {
@@ -8365,17 +8966,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCas
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0Value =
   | string
@@ -8396,17 +9003,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCas
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Value =
   | string
@@ -8414,7 +9027,7 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCas
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Value;
+  value?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase1Value | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasItemCase0
@@ -8434,17 +9047,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingIte
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0Value =
   | string
@@ -8465,17 +9084,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingIte
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Value =
   | string
@@ -8483,7 +9108,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingIte
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Value;
+  value?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase1Value
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItemCase0
@@ -8491,9 +9118,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingIte
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingList =
   Array<GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingItem>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItem {
-  has?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasList;
+  has?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHasList | undefined;
   headers: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemHeadersList;
-  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingList;
+  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersItemMissingList | undefined;
   source: string;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1HeadersList =
@@ -8508,17 +9135,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemC
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0Value =
   | string
@@ -8539,17 +9172,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemC
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Value =
   | string
@@ -8557,7 +9196,7 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemC
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Value;
+  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase1Value | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasItemCase0
@@ -8574,17 +9213,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingI
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0Value =
   | string
@@ -8605,17 +9250,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingI
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Value =
   | string
@@ -8623,7 +9274,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingI
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Value;
+  value?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase1Value
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItemCase0
@@ -8632,12 +9285,12 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingL
   Array<GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingItem>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItem {
   destination: string;
-  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemEnvList;
-  has?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasList;
-  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingList;
-  permanent?: boolean;
+  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemEnvList | undefined;
+  has?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemHasList | undefined;
+  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItemMissingList | undefined;
+  permanent?: boolean | undefined;
   source: string;
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsList =
   Array<GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsItem>;
@@ -8646,10 +9299,12 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestinati
   "service";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestinationCase1Type;
+  type?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestinationCase1Type
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestination =
   | string
@@ -8664,17 +9319,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCa
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0Value =
   | string
@@ -8695,17 +9356,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCa
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Value =
   | string
@@ -8713,7 +9380,7 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCa
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Value;
+  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase1Value | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasItemCase0
@@ -8730,17 +9397,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingIt
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0Value =
   | string
@@ -8761,17 +9434,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingIt
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Value =
   | string
@@ -8779,7 +9458,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingIt
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Value;
+  value?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase1Value
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingItemCase0
@@ -8793,9 +9474,11 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransform
   "request.path";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItem {
   args: string;
-  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemEnvList;
+  env?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemEnvList
+    | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemOp;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItemType;
 }
@@ -8803,13 +9486,15 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransform
   Array<GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsItem>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItem {
   destination: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemDestination;
-  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemEnvList;
-  has?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasList;
-  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingList;
-  respectOriginCacheControl?: boolean;
+  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemEnvList | undefined;
+  has?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemHasList | undefined;
+  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemMissingList | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   source: string;
-  statusCode?: number;
-  transforms?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsList;
+  statusCode?: number | undefined;
+  transforms?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItemTransformsList
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RewritesList =
   Array<GetDeploymentResponseBodyCase1ServicesItemCase1RewritesItem>;
@@ -8818,10 +9503,12 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Destin
   "service";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0DestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0DestinationCase1Type;
+  type?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0DestinationCase1Type
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Destination =
   | string
@@ -8836,17 +9523,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasIte
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0Value =
   | string
@@ -8867,17 +9560,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasIte
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Value =
   | string
@@ -8885,7 +9584,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasIte
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Value;
+  value?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase1Value
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasItemCase0
@@ -8899,8 +9600,10 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Locale
   [key: string]: string | undefined;
 };
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Locale {
-  cookie?: string;
-  redirect?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0LocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0LocaleRedirectMap
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MethodsList =
   Array<string>;
@@ -8917,17 +9620,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Missin
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0Value =
   | string
@@ -8948,17 +9657,23 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Missin
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1ValueCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Value =
   | string
@@ -8966,7 +9681,9 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Missin
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1 {
   key: string;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Type;
-  value?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Value;
+  value?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase1Value
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingItemCase0
@@ -8998,16 +9715,22 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Transf
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1 {
-  eq?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1Eq
+    | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0TargetKey =
   | string
@@ -9020,8 +9743,12 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Transf
   | "request.query"
   | "response.headers";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0 {
-  args?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Args;
-  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0EnvList;
+  args?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Args
+    | undefined;
+  env?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0EnvList
+    | undefined;
   op: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Op;
   target: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Target;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase0Type;
@@ -9034,9 +9761,11 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Transf
   "request.path";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1 {
   args: string;
-  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList;
+  env?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1EnvList
+    | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Op;
   type: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItemCase1Type;
 }
@@ -9046,33 +9775,39 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Transf
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsList =
   Array<GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsItem>;
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0 {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Destination;
-  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0EnvList;
-  has?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasList;
-  headers?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HeadersMap;
-  important?: boolean;
-  locale?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Locale;
-  methods?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Destination
+    | undefined;
+  env?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0EnvList | undefined;
+  has?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HasList | undefined;
+  headers?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0HeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Locale | undefined;
+  methods?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MiddlewareRawSrcList;
-  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingList;
-  mitigate?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Mitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MiddlewareRawSrcList
+    | undefined;
+  missing?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0MissingList | undefined;
+  mitigate?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0Mitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?:
+    | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0TransformsList
+    | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1Handle =
   | "error"
@@ -9082,10 +9817,10 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1Handle
   | "resource"
   | "rewrite";
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1 {
-  dest?: string;
+  dest?: string | undefined;
   handle: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase1Handle;
-  src?: string;
-  status?: number;
+  src?: string | undefined;
+  status?: number | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase1RoutesItemCase0
@@ -9096,32 +9831,32 @@ export type GetDeploymentResponseBodyCase1ServicesItemCase1Schema = "experimenta
 /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
 export interface GetDeploymentResponseBodyCase1ServicesItemCase1 {
   /** Caller-side bindings to other services. */
-  bindings?: GetDeploymentResponseBodyCase1ServicesItemCase1BindingsList;
-  buildCommand?: string;
+  bindings?: GetDeploymentResponseBodyCase1ServicesItemCase1BindingsList | undefined;
+  buildCommand?: string | undefined;
   /** Builder selected by the resolver. */
   builder: GetDeploymentResponseBodyCase1ServicesItemCase1Builder;
-  cleanUrls?: boolean;
+  cleanUrls?: boolean | undefined;
   /** Command override for `runtime: "container"` services. */
-  command?: GetDeploymentResponseBodyCase1ServicesItemCase1CommandList;
-  devCommand?: string;
+  command?: GetDeploymentResponseBodyCase1ServicesItemCase1CommandList | undefined;
+  devCommand?: string | undefined;
   /** Resolved entrypoint, relative to the service root. */
-  entrypoint?: string;
-  framework?: string;
+  entrypoint?: string | undefined;
+  framework?: string | undefined;
   /** Function configuration scoped to this service. */
-  functions?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsMap;
-  headers?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersList;
-  ignoreCommand?: string;
-  installCommand?: string;
+  functions?: GetDeploymentResponseBodyCase1ServicesItemCase1FunctionsMap | undefined;
+  headers?: GetDeploymentResponseBodyCase1ServicesItemCase1HeadersList | undefined;
+  ignoreCommand?: string | undefined;
+  installCommand?: string | undefined;
   name: string;
-  outputDirectory?: string;
-  redirects?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsList;
-  rewrites?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesList;
+  outputDirectory?: string | undefined;
+  redirects?: GetDeploymentResponseBodyCase1ServicesItemCase1RedirectsList | undefined;
+  rewrites?: GetDeploymentResponseBodyCase1ServicesItemCase1RewritesList | undefined;
   /** Path to the service root, relative to the project root. */
   root: string;
-  routes?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesList;
-  runtime?: string;
+  routes?: GetDeploymentResponseBodyCase1ServicesItemCase1RoutesList | undefined;
+  runtime?: string | undefined;
   schema: GetDeploymentResponseBodyCase1ServicesItemCase1Schema;
-  trailingSlash?: boolean;
+  trailingSlash?: boolean | undefined;
 }
 export type GetDeploymentResponseBodyCase1ServicesItem =
   | GetDeploymentResponseBodyCase1ServicesItemCase0
@@ -9160,133 +9895,133 @@ export type GetDeploymentResponseBodyCase1UserAliasesList = Array<string>;
 export type GetDeploymentResponseBodyCase1Version = 2;
 export interface GetDeploymentResponseBodyCase1 {
   /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
-  alias?: GetDeploymentResponseBodyCase1AliasList;
+  alias?: GetDeploymentResponseBodyCase1AliasList | undefined;
   /** A boolean that will be true when the aliases from the alias property were assigned successfully */
   aliasAssigned: boolean;
-  aliasAssignedAt?: GetDeploymentResponseBodyCase1AliasAssignedAt | null;
+  aliasAssignedAt?: GetDeploymentResponseBodyCase1AliasAssignedAt | null | undefined;
   /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
-  aliasError?: CancelDeploymentResponseAliasError | null;
-  aliasFinal?: string | null;
-  aliasWarning?: CancelDeploymentResponseAliasWarning | null;
-  alwaysRefuseToBuild?: boolean;
-  atproto?: GetDeploymentResponseBodyCase1Atproto;
+  aliasError?: CancelDeploymentResponseAliasError | null | undefined;
+  aliasFinal?: string | null | undefined;
+  aliasWarning?: CancelDeploymentResponseAliasWarning | null | undefined;
+  alwaysRefuseToBuild?: boolean | undefined;
+  atproto?: GetDeploymentResponseBodyCase1Atproto | undefined;
   /** Attribution metadata for the deployment, linking commit author to git and Vercel users. Only populated when the `enable-deployment-attribution` flag is enabled. */
-  attribution?: GetDeploymentResponseBodyCase1Attribution;
+  attribution?: GetDeploymentResponseBodyCase1Attribution | undefined;
   /** applies to custom domains only, defaults to `true` */
-  autoAssignCustomDomains?: boolean;
-  automaticAliases?: GetDeploymentResponseBodyCase1AutomaticAliasesList;
+  autoAssignCustomDomains?: boolean | undefined;
+  automaticAliases?: GetDeploymentResponseBodyCase1AutomaticAliasesList | undefined;
   bootedAt: number;
   build: GetDeploymentResponseBodyCase1Build;
-  buildArtifactUrls?: GetDeploymentResponseBodyCase1BuildArtifactUrlsList;
+  buildArtifactUrls?: GetDeploymentResponseBodyCase1BuildArtifactUrlsList | undefined;
   /** Since April 2025 it necessary for On-Demand Concurrency Minutes calculation */
-  buildContainerFinishedAt?: number;
-  buildErrorAt?: number;
+  buildContainerFinishedAt?: number | undefined;
+  buildErrorAt?: number | undefined;
   buildingAt: number;
-  builds?: GetDeploymentResponseBodyCase1BuildsList;
+  builds?: GetDeploymentResponseBodyCase1BuildsList | undefined;
   buildSkipped: boolean;
-  canceledAt?: number;
-  checks?: GetDeploymentResponseBodyCase1Checks;
-  checksConclusion?: GetDeploymentResponseBodyCase1ChecksConclusion;
-  checksState?: GetDeploymentResponseBodyCase1ChecksState;
+  canceledAt?: number | undefined;
+  checks?: GetDeploymentResponseBodyCase1Checks | undefined;
+  checksConclusion?: GetDeploymentResponseBodyCase1ChecksConclusion | undefined;
+  checksState?: GetDeploymentResponseBodyCase1ChecksState | undefined;
   /** Since February 2025 the configuration must include snapshot data at the time of deployment creation to capture properties for the /deployments/:id/config endpoint utilized for displaying Deployment Configuration on the frontend This is optional because older deployments may not have this data captured */
-  config?: GetDeploymentResponseBodyCase1Config;
-  connectBuildsEnabled?: boolean;
-  connectConfigurationId?: string;
+  config?: GetDeploymentResponseBodyCase1Config | undefined;
+  connectBuildsEnabled?: boolean | undefined;
+  connectConfigurationId?: string | undefined;
   /** A number containing the date when the deployment was created in milliseconds */
   createdAt: number;
   createdIn: string;
   /** Information about the deployment creator */
   creator: GetDeploymentResponseBodyCase1Creator;
-  crons?: GetDeploymentResponseBodyCase1CronsList;
-  customEnvironment?: GetDeploymentResponseBodyCase1CustomEnvironment;
+  crons?: GetDeploymentResponseBodyCase1CronsList | undefined;
+  customEnvironment?: GetDeploymentResponseBodyCase1CustomEnvironment | undefined;
   /** Computed field that is only available for deployments with a microfrontend configuration. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** A number containing the date when the deployment was deleted at milliseconds */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   duration: CancelDeploymentResponseDuration;
   env: GetDeploymentResponseBodyCase1EnvList;
-  errorCode?: string;
-  errorLink?: string;
-  errorMessage?: string | null;
-  errorStep?: string;
-  flags?: GetDeploymentResponseBodyCase1Flags;
-  functions?: GetDeploymentResponseBodyCase1FunctionsMap | null;
-  gitRepo?: GetDeploymentResponseBodyCase1GitRepo | null;
-  gitSource?: GetDeploymentResponseBodyCase1GitSource;
+  errorCode?: string | undefined;
+  errorLink?: string | undefined;
+  errorMessage?: string | null | undefined;
+  errorStep?: string | undefined;
+  flags?: GetDeploymentResponseBodyCase1Flags | undefined;
+  functions?: GetDeploymentResponseBodyCase1FunctionsMap | null | undefined;
+  gitRepo?: GetDeploymentResponseBodyCase1GitRepo | null | undefined;
+  gitSource?: GetDeploymentResponseBodyCase1GitSource | undefined;
   /** A string holding the unique ID of the deployment */
   id: string;
-  images?: GetDeploymentResponseBodyCase1Images;
-  initReadyAt?: number;
+  images?: GetDeploymentResponseBodyCase1Images | undefined;
+  initReadyAt?: number | undefined;
   inspectorUrl: string | null;
-  integrations?: GetDeploymentResponseBodyCase1Integrations;
-  isFirstBranchDeployment?: boolean;
+  integrations?: GetDeploymentResponseBodyCase1Integrations | undefined;
+  isFirstBranchDeployment?: boolean | undefined;
   isInConcurrentBuildsQueue: boolean;
   /** Whether this deployment completed through the instant static fast path. */
-  isInstantStatic?: boolean;
+  isInstantStatic?: boolean | undefined;
   isInSystemBuildsQueue: boolean;
-  lambdas?: GetDeploymentResponseBodyCase1LambdasList;
+  lambdas?: GetDeploymentResponseBodyCase1LambdasList | undefined;
   /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
-  manualProvisioning?: GetDeploymentResponseBodyCase1ManualProvisioning;
+  manualProvisioning?: GetDeploymentResponseBodyCase1ManualProvisioning | undefined;
   meta: GetDeploymentResponseBodyCase1MetaMap;
-  microfrontends?: GetDeploymentResponseBodyCase1Microfrontends;
-  monorepoManager?: string | null;
+  microfrontends?: GetDeploymentResponseBodyCase1Microfrontends | undefined;
+  monorepoManager?: string | null | undefined;
   /** The name of the project associated with the deployment at the time that the deployment was created */
   name: string;
   /** If set it overrides the `projectSettings.nodeVersion` for this deployment. */
-  nodeVersion?: GetDeploymentResponseBodyCase1NodeVersion;
-  oidcTokenClaims?: GetDeploymentResponseBodyCase1OidcTokenClaims;
-  oomReport?: GetDeploymentResponseBodyCase1OomReport;
-  originCacheRegion?: string;
+  nodeVersion?: GetDeploymentResponseBodyCase1NodeVersion | undefined;
+  oidcTokenClaims?: GetDeploymentResponseBodyCase1OidcTokenClaims | undefined;
+  oomReport?: GetDeploymentResponseBodyCase1OomReport | undefined;
+  originCacheRegion?: string | undefined;
   ownerId: string;
   /** Since November 2023 this field defines a Secure Compute network that will only be used to deploy passive lambdas to (as in passiveRegions) */
-  passiveConnectConfigurationId?: string;
+  passiveConnectConfigurationId?: string | undefined;
   /** Since November 2023 this field defines a set of regions that we will deploy the lambda to passively Lambdas will be deployed to these regions but only invoked if all of the primary `regions` are marked as out of service */
-  passiveRegions?: GetDeploymentResponseBodyCase1PassiveRegionsList;
+  passiveRegions?: GetDeploymentResponseBodyCase1PassiveRegionsList | undefined;
   plan: GetDeploymentResponseBodyCase1Plan;
   /** Metadata about the source platform that triggered the deployment. Allows us to map a deployment back to a platform (e.g. the chat that created it) */
-  platform?: GetDeploymentResponseBodyCase1Platform;
-  prebuilt?: boolean;
+  platform?: GetDeploymentResponseBodyCase1Platform | undefined;
+  prebuilt?: boolean | undefined;
   /** Whether or not preview comments are enabled for the deployment */
-  previewCommentsEnabled?: boolean;
+  previewCommentsEnabled?: boolean | undefined;
   /** The public project information associated with the deployment. */
-  project?: CancelDeploymentResponseProject;
+  project?: CancelDeploymentResponseProject | undefined;
   projectId: string;
   projectSettings: GetDeploymentResponseBodyCase1ProjectSettings;
   /** A boolean representing if the deployment is public or not. By default this is `false` */
   public: boolean;
-  ready?: number;
+  ready?: number | undefined;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: GetDeploymentResponseBodyCase1ReadyState;
-  readyStateReason?: string;
+  readyStateReason?: string | undefined;
   /** Substate of deployment when readyState is 'READY' Tracks whether or not deployment has seen production traffic: - STAGED: never seen production traffic - ROLLING: in the process of having production traffic gradually transitioned. - PROMOTED: has seen production traffic */
-  readySubstate?: GetDeploymentResponseBodyCase1ReadySubstate;
+  readySubstate?: GetDeploymentResponseBodyCase1ReadySubstate | undefined;
   /** The regions the deployment exists in */
   regions: GetDeploymentResponseBodyCase1RegionsList;
-  resourceConfig?: GetDeploymentResponseBodyCase1ResourceConfig;
+  resourceConfig?: GetDeploymentResponseBodyCase1ResourceConfig | undefined;
   routes: GetDeploymentResponseBodyCase1RoutesList | null;
   /** NSNB Blocked metadata */
-  seatBlock?: GetDeploymentResponseBodyCase1SeatBlock;
+  seatBlock?: GetDeploymentResponseBodyCase1SeatBlock | undefined;
   /** Services detected during build from vercel.json experimentalServices or auto-detected from project structure. Used to inject service URLs as environment variables at runtime. */
-  services?: GetDeploymentResponseBodyCase1ServicesList;
+  services?: GetDeploymentResponseBodyCase1ServicesList | undefined;
   /** flag to indicate if the deployment was deleted by retention policy */
-  softDeletedByRetention?: boolean;
+  softDeletedByRetention?: boolean | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: GetDeploymentResponseBodyCase1Source;
+  source?: GetDeploymentResponseBodyCase1Source | undefined;
   status: GetDeploymentResponseBodyCase1Status;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: GetDeploymentResponseBodyCase1Target | null;
+  target?: GetDeploymentResponseBodyCase1Target | null | undefined;
   /** The team that owns the deployment if any */
-  team?: CancelDeploymentResponseTeam;
-  ttyBuildLogs?: boolean;
+  team?: CancelDeploymentResponseTeam | undefined;
+  ttyBuildLogs?: boolean | undefined;
   type: GetDeploymentResponseBodyCase1Type;
   /** A number containing the date when the deployment was undeleted at milliseconds */
-  undeletedAt?: number;
+  undeletedAt?: number | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
   /** An array of domains that were provided by the user when creating the Deployment. */
-  userAliases?: GetDeploymentResponseBodyCase1UserAliasesList;
+  userAliases?: GetDeploymentResponseBodyCase1UserAliasesList | undefined;
   /** Since January 2025 User-configured deployment ID for skew protection with pre-built deployments. This is set when users configure a custom deploymentId in their next.config.js file. This allows Next.js to use skew protection even when deployments are pre-built outside of Vercel's build system. */
-  userConfiguredDeploymentId?: string;
+  userConfiguredDeploymentId?: string | undefined;
   /** The platform version that was used to create the deployment. */
   version: GetDeploymentResponseBodyCase1Version;
 }
@@ -9312,13 +10047,13 @@ export type GetDeploymentResponseBodyCase2CreatorType =
 /** Information about the deployment creator */
 export interface GetDeploymentResponseBodyCase2Creator {
   /** The avatar of the user that created the deployment */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Principal type of the deployment creator. */
-  type?: GetDeploymentResponseBodyCase2CreatorType;
+  type?: GetDeploymentResponseBodyCase2CreatorType | undefined;
   /** Stable creator id across principal types (user id, app id, integration configuration id, or `system`). */
   uid: string;
   /** The username of the user that created the deployment */
-  username?: string;
+  username?: string | undefined;
 }
 /** The type of matching to perform */
 export type GetDeploymentResponseBodyCase2CustomEnvironmentCase0BranchMatcherType =
@@ -9349,16 +10084,21 @@ export type GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsItemVerif
 /** List of domains associated with this environment */
 export interface GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsItemVerificationList;
+  verification?:
+    | GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsItemVerificationList
+    | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -9373,15 +10113,17 @@ export type GetDeploymentResponseBodyCase2CustomEnvironmentCase0Type =
 /** If the deployment was created using a Custom Environment, then this property contains information regarding the environment used. */
 export interface GetDeploymentResponseBodyCase2CustomEnvironmentCase0 {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: GetDeploymentResponseBodyCase2CustomEnvironmentCase0BranchMatcher;
+  branchMatcher?: GetDeploymentResponseBodyCase2CustomEnvironmentCase0BranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: GetDeploymentResponseBodyCase2CustomEnvironmentCase0CurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | GetDeploymentResponseBodyCase2CustomEnvironmentCase0CurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsList;
+  domains?: GetDeploymentResponseBodyCase2CustomEnvironmentCase0DomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -9402,83 +10144,83 @@ export type GetDeploymentResponseBodyCase2Duration = CancelDeploymentResponseDur
 export type GetDeploymentResponseBodyCase2GitSourceCase0RepoId = string | number;
 export type GetDeploymentResponseBodyCase2GitSourceCase0Type = "github";
 export interface GetDeploymentResponseBodyCase2GitSourceCase0 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: GetDeploymentResponseBodyCase2GitSourceCase0RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase0Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase1Type = "github";
 export interface GetDeploymentResponseBodyCase2GitSourceCase1 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase1Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase2RepoId = string | number;
 export type GetDeploymentResponseBodyCase2GitSourceCase2Type = "github-custom-host";
 export interface GetDeploymentResponseBodyCase2GitSourceCase2 {
   host: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: GetDeploymentResponseBodyCase2GitSourceCase2RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase2Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase3Type = "github-custom-host";
 export interface GetDeploymentResponseBodyCase2GitSourceCase3 {
   host: string;
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase3Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase4RepoId = string | number;
 export type GetDeploymentResponseBodyCase2GitSourceCase4Type = "github-limited";
 export interface GetDeploymentResponseBodyCase2GitSourceCase4 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoId: GetDeploymentResponseBodyCase2GitSourceCase4RepoId;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase4Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase5Type = "github-limited";
 export interface GetDeploymentResponseBodyCase2GitSourceCase5 {
   org: string;
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repo: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase5Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase6ProjectId = string | number;
 export type GetDeploymentResponseBodyCase2GitSourceCase6Type = "gitlab";
 export interface GetDeploymentResponseBodyCase2GitSourceCase6 {
-  prId?: number | null;
+  prId?: number | null | undefined;
   projectId: GetDeploymentResponseBodyCase2GitSourceCase6ProjectId;
-  ref?: string | null;
-  sha?: string;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase6Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase7Type = "bitbucket";
 export interface GetDeploymentResponseBodyCase2GitSourceCase7 {
-  prId?: number | null;
-  ref?: string | null;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
   repoUuid: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase7Type;
-  workspaceUuid?: string;
+  workspaceUuid?: string | undefined;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase8Type = "bitbucket";
 export interface GetDeploymentResponseBodyCase2GitSourceCase8 {
   owner: string;
-  prId?: number | null;
-  ref?: string | null;
-  sha?: string;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  sha?: string | undefined;
   slug: string;
   type: GetDeploymentResponseBodyCase2GitSourceCase8Type;
 }
@@ -9490,26 +10232,26 @@ export type GetDeploymentResponseBodyCase2GitSourceCase9CommitMetadata =
   CancelDeploymentResponseGitSourceCase9CommitMetadata;
 export type GetDeploymentResponseBodyCase2GitSourceCase9Type = "vercel";
 export interface GetDeploymentResponseBodyCase2GitSourceCase9 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
-  org?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
+  org?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   repoId: string;
-  repoPushedAt?: number;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: GetDeploymentResponseBodyCase2GitSourceCase9Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase10Type = "cursor-origin";
 export interface GetDeploymentResponseBodyCase2GitSourceCase10 {
   /** Owner (namespace) slug. */
-  owner?: string;
-  prId?: number | null;
-  ref?: string | null;
-  repo?: string;
+  owner?: string | undefined;
+  prId?: number | null | undefined;
+  ref?: string | null | undefined;
+  repo?: string | undefined;
   /** Origin repository id. */
   repoId: string;
-  sha?: string;
+  sha?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase10Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase11Type = "custom";
@@ -9522,9 +10264,9 @@ export interface GetDeploymentResponseBodyCase2GitSourceCase11 {
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase12Type = "github";
 export interface GetDeploymentResponseBodyCase2GitSourceCase12 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: GetDeploymentResponseBodyCase2GitSourceCase12Type;
@@ -9532,18 +10274,18 @@ export interface GetDeploymentResponseBodyCase2GitSourceCase12 {
 export type GetDeploymentResponseBodyCase2GitSourceCase13Type = "github-custom-host";
 export interface GetDeploymentResponseBodyCase2GitSourceCase13 {
   host: string;
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: GetDeploymentResponseBodyCase2GitSourceCase13Type;
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase14Type = "github-limited";
 export interface GetDeploymentResponseBodyCase2GitSourceCase14 {
-  org?: string;
+  org?: string | undefined;
   ref: string;
-  repo?: string;
+  repo?: string | undefined;
   repoId: number;
   sha: string;
   type: GetDeploymentResponseBodyCase2GitSourceCase14Type;
@@ -9557,11 +10299,11 @@ export interface GetDeploymentResponseBodyCase2GitSourceCase15 {
 }
 export type GetDeploymentResponseBodyCase2GitSourceCase16Type = "bitbucket";
 export interface GetDeploymentResponseBodyCase2GitSourceCase16 {
-  owner?: string;
+  owner?: string | undefined;
   ref: string;
   repoUuid: string;
   sha: string;
-  slug?: string;
+  slug?: string | undefined;
   type: GetDeploymentResponseBodyCase2GitSourceCase16Type;
   workspaceUuid: string;
 }
@@ -9573,12 +10315,12 @@ export type GetDeploymentResponseBodyCase2GitSourceCase17CommitMetadata =
   CancelDeploymentResponseGitSourceCase9CommitMetadata;
 export type GetDeploymentResponseBodyCase2GitSourceCase17Type = "vercel";
 export interface GetDeploymentResponseBodyCase2GitSourceCase17 {
-  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata;
+  commitMetadata?: CancelDeploymentResponseGitSourceCase9CommitMetadata | undefined;
   org: string;
   ref: string;
   repo: string;
-  repoId?: string;
-  repoPushedAt?: number;
+  repoId?: string | undefined;
+  repoPushedAt?: number | undefined;
   sha: string;
   type: GetDeploymentResponseBodyCase2GitSourceCase17Type;
 }
@@ -9622,11 +10364,11 @@ export type GetDeploymentResponseBodyCase2LambdasItemOutputList =
   Array<CancelDeploymentResponseLambdasItemOutputItem>;
 /** A partial representation of a Build used by the deployment endpoint. */
 export interface GetDeploymentResponseBodyCase2LambdasItem {
-  createdAt?: number;
-  entrypoint?: string | null;
+  createdAt?: number | undefined;
+  entrypoint?: string | null | undefined;
   id: string;
-  readyState?: GetDeploymentResponseBodyCase2LambdasItemReadyState;
-  readyStateAt?: number;
+  readyState?: GetDeploymentResponseBodyCase2LambdasItemReadyState | undefined;
+  readyStateAt?: number | undefined;
   output: GetDeploymentResponseBodyCase2LambdasItemOutputList;
 }
 export type GetDeploymentResponseBodyCase2LambdasList =
@@ -9639,7 +10381,7 @@ export type GetDeploymentResponseBodyCase2ManualProvisioningState =
 /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
 export interface GetDeploymentResponseBodyCase2ManualProvisioning {
   /** Timestamp when manual provisioning completed */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** Current provisioning state */
   state: GetDeploymentResponseBodyCase2ManualProvisioningState;
 }
@@ -9659,14 +10401,14 @@ export type GetDeploymentResponseBodyCase2NodeVersion =
 export type GetDeploymentResponseBodyCase2OidcTokenClaimsMfeGroupIdsList = Array<string>;
 export interface GetDeploymentResponseBodyCase2OidcTokenClaims {
   aud: string;
-  custom_environment_id?: string;
-  deployment_id?: string;
+  custom_environment_id?: string | undefined;
+  deployment_id?: string | undefined;
   environment: string;
   iss: string;
-  mfe_group_ids?: GetDeploymentResponseBodyCase2OidcTokenClaimsMfeGroupIdsList;
+  mfe_group_ids?: GetDeploymentResponseBodyCase2OidcTokenClaimsMfeGroupIdsList | undefined;
   owner: string;
   owner_id: string;
-  plan?: string;
+  plan?: string | undefined;
   project: string;
   project_id: string;
   scope: string;
@@ -9722,92 +10464,92 @@ export type GetDeploymentResponseBodyCase2Version = 2;
 /** Returns a reduced view of the deployment with public information only. Private fields are omitted when the requester is not the deployment owner. */
 export interface GetDeploymentResponseBodyCase2 {
   /** A list of all the aliases (default aliases, staging aliases and production aliases) that were assigned upon deployment creation */
-  alias?: GetDeploymentResponseBodyCase2AliasList;
+  alias?: GetDeploymentResponseBodyCase2AliasList | undefined;
   /** A boolean that will be true when the aliases from the alias property were assigned successfully */
   aliasAssigned: boolean;
   /** An object that will contain a `code` and a `message` when the aliasing fails, otherwise the value will be `null` */
-  aliasError?: CancelDeploymentResponseAliasError | null;
-  aliasFinal?: string | null;
-  aliasWarning?: CancelDeploymentResponseAliasWarning | null;
+  aliasError?: CancelDeploymentResponseAliasError | null | undefined;
+  aliasFinal?: string | null | undefined;
+  aliasWarning?: CancelDeploymentResponseAliasWarning | null | undefined;
   /** applies to custom domains only, defaults to `true` */
-  autoAssignCustomDomains?: boolean;
-  automaticAliases?: GetDeploymentResponseBodyCase2AutomaticAliasesList;
+  autoAssignCustomDomains?: boolean | undefined;
+  automaticAliases?: GetDeploymentResponseBodyCase2AutomaticAliasesList | undefined;
   bootedAt: number;
   /** Since April 2025 it necessary for On-Demand Concurrency Minutes calculation */
-  buildContainerFinishedAt?: number;
-  buildErrorAt?: number;
+  buildContainerFinishedAt?: number | undefined;
+  buildErrorAt?: number | undefined;
   buildingAt: number;
   buildSkipped: boolean;
-  canceledAt?: number;
-  checksConclusion?: GetDeploymentResponseBodyCase2ChecksConclusion;
-  checksState?: GetDeploymentResponseBodyCase2ChecksState;
+  canceledAt?: number | undefined;
+  checksConclusion?: GetDeploymentResponseBodyCase2ChecksConclusion | undefined;
+  checksState?: GetDeploymentResponseBodyCase2ChecksState | undefined;
   /** A number containing the date when the deployment was created in milliseconds */
   createdAt: number;
   /** Information about the deployment creator */
   creator: GetDeploymentResponseBodyCase2Creator;
-  customEnvironment?: GetDeploymentResponseBodyCase2CustomEnvironment;
+  customEnvironment?: GetDeploymentResponseBodyCase2CustomEnvironment | undefined;
   /** Computed field that is only available for deployments with a microfrontend configuration. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** A number containing the date when the deployment was deleted at milliseconds */
-  deletedAt?: number | null;
+  deletedAt?: number | null | undefined;
   /** Build timestamps, elapsed durations, and billing measurements. The object is always present, but fields are omitted when their source timestamps are unavailable, such as for running or legacy deployments. */
   duration: CancelDeploymentResponseDuration;
-  errorCode?: string;
-  errorLink?: string;
-  errorMessage?: string | null;
-  errorStep?: string;
-  gitSource?: GetDeploymentResponseBodyCase2GitSource;
+  errorCode?: string | undefined;
+  errorLink?: string | undefined;
+  errorMessage?: string | null | undefined;
+  errorStep?: string | undefined;
+  gitSource?: GetDeploymentResponseBodyCase2GitSource | undefined;
   /** A string holding the unique ID of the deployment */
   id: string;
-  initReadyAt?: number;
-  isFirstBranchDeployment?: boolean;
-  lambdas?: GetDeploymentResponseBodyCase2LambdasList;
+  initReadyAt?: number | undefined;
+  isFirstBranchDeployment?: boolean | undefined;
+  lambdas?: GetDeploymentResponseBodyCase2LambdasList | undefined;
   /** Present when deployment was created with manual provisioning enabled, either explicitly or via the experimental BYOC git flow. The deployment stays in INITIALIZING until /continue is called. */
-  manualProvisioning?: GetDeploymentResponseBodyCase2ManualProvisioning;
+  manualProvisioning?: GetDeploymentResponseBodyCase2ManualProvisioning | undefined;
   meta: GetDeploymentResponseBodyCase2MetaMap;
   /** The name of the project associated with the deployment at the time that the deployment was created */
   name: string;
   /** If set it overrides the `projectSettings.nodeVersion` for this deployment. */
-  nodeVersion?: GetDeploymentResponseBodyCase2NodeVersion;
-  oidcTokenClaims?: GetDeploymentResponseBodyCase2OidcTokenClaims;
-  oomReport?: GetDeploymentResponseBodyCase2OomReport;
-  originCacheRegion?: string;
+  nodeVersion?: GetDeploymentResponseBodyCase2NodeVersion | undefined;
+  oidcTokenClaims?: GetDeploymentResponseBodyCase2OidcTokenClaims | undefined;
+  oomReport?: GetDeploymentResponseBodyCase2OomReport | undefined;
+  originCacheRegion?: string | undefined;
   /** Since November 2023 this field defines a set of regions that we will deploy the lambda to passively Lambdas will be deployed to these regions but only invoked if all of the primary `regions` are marked as out of service */
-  passiveRegions?: GetDeploymentResponseBodyCase2PassiveRegionsList;
-  prebuilt?: boolean;
+  passiveRegions?: GetDeploymentResponseBodyCase2PassiveRegionsList | undefined;
+  prebuilt?: boolean | undefined;
   /** Whether or not preview comments are enabled for the deployment */
-  previewCommentsEnabled?: boolean;
+  previewCommentsEnabled?: boolean | undefined;
   /** The public project information associated with the deployment. */
-  project?: CancelDeploymentResponseProject;
+  project?: CancelDeploymentResponseProject | undefined;
   /** A boolean representing if the deployment is public or not. By default this is `false` */
   public: boolean;
-  ready?: number;
+  ready?: number | undefined;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: GetDeploymentResponseBodyCase2ReadyState;
-  readyStateReason?: string;
+  readyStateReason?: string | undefined;
   /** Substate of deployment when readyState is 'READY' Tracks whether or not deployment has seen production traffic: - STAGED: never seen production traffic - ROLLING: in the process of having production traffic gradually transitioned. - PROMOTED: has seen production traffic */
-  readySubstate?: GetDeploymentResponseBodyCase2ReadySubstate;
+  readySubstate?: GetDeploymentResponseBodyCase2ReadySubstate | undefined;
   /** The regions the deployment exists in */
   regions: GetDeploymentResponseBodyCase2RegionsList;
   /** flag to indicate if the deployment was deleted by retention policy */
-  softDeletedByRetention?: boolean;
+  softDeletedByRetention?: boolean | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: GetDeploymentResponseBodyCase2Source;
+  source?: GetDeploymentResponseBodyCase2Source | undefined;
   status: GetDeploymentResponseBodyCase2Status;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: GetDeploymentResponseBodyCase2Target | null;
+  target?: GetDeploymentResponseBodyCase2Target | null | undefined;
   /** The team that owns the deployment if any */
-  team?: CancelDeploymentResponseTeam;
-  ttyBuildLogs?: boolean;
+  team?: CancelDeploymentResponseTeam | undefined;
+  ttyBuildLogs?: boolean | undefined;
   type: GetDeploymentResponseBodyCase2Type;
   /** A number containing the date when the deployment was undeleted at milliseconds */
-  undeletedAt?: number;
+  undeletedAt?: number | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
   /** An array of domains that were provided by the user when creating the Deployment. */
-  userAliases?: GetDeploymentResponseBodyCase2UserAliasesList;
+  userAliases?: GetDeploymentResponseBodyCase2UserAliasesList | undefined;
   /** Since January 2025 User-configured deployment ID for skew protection with pre-built deployments. This is set when users configure a custom deploymentId in their next.config.js file. This allows Next.js to use skew protection even when deployments are pre-built outside of Vercel's build system. */
-  userConfiguredDeploymentId?: string;
+  userConfiguredDeploymentId?: string | undefined;
   /** The platform version that was used to create the deployment. */
   version: GetDeploymentResponseBodyCase2Version;
 }
@@ -9828,33 +10570,33 @@ export interface GetDeploymentEventsRequest {
   /** The unique identifier or hostname of the deployment. */
   idOrUrl: string;
   /** Order of the returned events based on the timestamp. */
-  direction?: GetDeploymentEventsRequestDirection | (string & {});
+  direction?: GetDeploymentEventsRequestDirection | (string & {}) | undefined;
   /** When enabled, this endpoint will return live events as they happen. */
-  follow?: GetDeploymentEventsRequestFollow | (number & {});
+  follow?: GetDeploymentEventsRequestFollow | (number & {}) | undefined;
   /** Maximum number of events to return. Provide `-1` to return all available logs. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deployment build ID. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp for when build logs should be pulled from. */
-  since?: number;
+  since?: number | undefined;
   /** Timestamp for when the build logs should be pulled up until. */
-  until?: number;
+  until?: number | undefined;
   /** HTTP status code range to filter events by. */
-  statusCode?: GetDeploymentEventsRequestStatusCode;
-  delimiter?: GetDeploymentEventsRequestDelimiter | (number & {});
-  builds?: GetDeploymentEventsRequestBuilds | (number & {});
+  statusCode?: GetDeploymentEventsRequestStatusCode | undefined;
+  delimiter?: GetDeploymentEventsRequestDelimiter | (number & {}) | undefined;
+  builds?: GetDeploymentEventsRequestBuilds | (number & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetDeploymentEventsResponseBodyItemCase0PayloadInfo {
-  entrypoint?: string;
+  entrypoint?: string | undefined;
   name: string;
-  path?: string;
-  readyState?: string;
-  serviceName?: string;
-  step?: string;
+  path?: string | undefined;
+  readyState?: string | undefined;
+  serviceName?: string | undefined;
+  step?: string | undefined;
   type: string;
 }
 export type GetDeploymentEventsResponseBodyItemCase0PayloadProxyUserAgentList = Array<string>;
@@ -9872,37 +10614,37 @@ export type GetDeploymentEventsResponseBodyItemCase0PayloadProxyWafAction =
   | "log"
   | "rate_limit";
 export interface GetDeploymentEventsResponseBodyItemCase0PayloadProxy {
-  cacheId?: string;
-  clientIp?: string;
+  cacheId?: string | undefined;
+  clientIp?: string | undefined;
   host: string;
-  lambdaRegion?: string;
+  lambdaRegion?: string | undefined;
   method: string;
-  path?: string;
-  pathType?: string;
-  pathTypeVariant?: string;
-  referer?: string;
-  region?: string;
-  responseByteSize?: number;
-  scheme?: string;
-  statusCode?: number;
+  path?: string | undefined;
+  pathType?: string | undefined;
+  pathTypeVariant?: string | undefined;
+  referer?: string | undefined;
+  region?: string | undefined;
+  responseByteSize?: number | undefined;
+  scheme?: string | undefined;
+  statusCode?: number | undefined;
   timestamp: number;
-  userAgent?: GetDeploymentEventsResponseBodyItemCase0PayloadProxyUserAgentList;
-  vercelCache?: GetDeploymentEventsResponseBodyItemCase0PayloadProxyVercelCache;
-  vercelId?: string;
-  wafAction?: GetDeploymentEventsResponseBodyItemCase0PayloadProxyWafAction;
-  wafRuleId?: string;
+  userAgent?: GetDeploymentEventsResponseBodyItemCase0PayloadProxyUserAgentList | undefined;
+  vercelCache?: GetDeploymentEventsResponseBodyItemCase0PayloadProxyVercelCache | undefined;
+  vercelId?: string | undefined;
+  wafAction?: GetDeploymentEventsResponseBodyItemCase0PayloadProxyWafAction | undefined;
+  wafRuleId?: string | undefined;
 }
 export interface GetDeploymentEventsResponseBodyItemCase0Payload {
-  created?: number;
+  created?: number | undefined;
   date: number;
   deploymentId: string;
   id: string;
-  info?: GetDeploymentEventsResponseBodyItemCase0PayloadInfo;
-  proxy?: GetDeploymentEventsResponseBodyItemCase0PayloadProxy;
-  requestId?: string;
+  info?: GetDeploymentEventsResponseBodyItemCase0PayloadInfo | undefined;
+  proxy?: GetDeploymentEventsResponseBodyItemCase0PayloadProxy | undefined;
+  requestId?: string | undefined;
   serial: string;
-  statusCode?: number;
-  text?: string;
+  statusCode?: number | undefined;
+  text?: string | undefined;
 }
 export type GetDeploymentEventsResponseBodyItemCase0Type =
   | "command"
@@ -9944,9 +10686,9 @@ export interface GetDeploymentEventsResponseBodyItemCase1 {
   deploymentId: string;
   id: string;
   info: GetDeploymentEventsResponseBodyItemCase0PayloadInfo;
-  level?: GetDeploymentEventsResponseBodyItemCase1Level;
+  level?: GetDeploymentEventsResponseBodyItemCase1Level | undefined;
   serial: string;
-  text?: string;
+  text?: string | undefined;
   type: GetDeploymentEventsResponseBodyItemCase1Type;
 }
 export type GetDeploymentEventsResponseBodyItemCase2Case0PayloadInfo =
@@ -9966,37 +10708,37 @@ export type GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxyWafAction =
   | "log"
   | "rate_limit";
 export interface GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxy {
-  cacheId?: string;
-  clientIp?: string;
+  cacheId?: string | undefined;
+  clientIp?: string | undefined;
   host: string;
-  lambdaRegion?: string;
+  lambdaRegion?: string | undefined;
   method: string;
-  path?: string;
-  pathType?: string;
-  pathTypeVariant?: string;
-  referer?: string;
-  region?: string;
-  responseByteSize?: number;
-  scheme?: string;
-  statusCode?: number;
+  path?: string | undefined;
+  pathType?: string | undefined;
+  pathTypeVariant?: string | undefined;
+  referer?: string | undefined;
+  region?: string | undefined;
+  responseByteSize?: number | undefined;
+  scheme?: string | undefined;
+  statusCode?: number | undefined;
   timestamp: number;
-  userAgent?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxyUserAgentList;
-  vercelCache?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxyVercelCache;
-  vercelId?: string;
-  wafAction?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxyWafAction;
-  wafRuleId?: string;
+  userAgent?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxyUserAgentList | undefined;
+  vercelCache?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxyVercelCache | undefined;
+  vercelId?: string | undefined;
+  wafAction?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxyWafAction | undefined;
+  wafRuleId?: string | undefined;
 }
 export interface GetDeploymentEventsResponseBodyItemCase2Case0Payload {
-  created?: number;
+  created?: number | undefined;
   date: number;
   deploymentId: string;
   id: string;
-  info?: GetDeploymentEventsResponseBodyItemCase0PayloadInfo;
-  proxy?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxy;
-  requestId?: string;
+  info?: GetDeploymentEventsResponseBodyItemCase0PayloadInfo | undefined;
+  proxy?: GetDeploymentEventsResponseBodyItemCase2Case0PayloadProxy | undefined;
+  requestId?: string | undefined;
   serial: string;
-  statusCode?: number;
-  text?: string;
+  statusCode?: number | undefined;
+  text?: string | undefined;
 }
 export type GetDeploymentEventsResponseBodyItemCase2Case0Type =
   | "command"
@@ -10038,9 +10780,9 @@ export interface GetDeploymentEventsResponseBodyItemCase2Case1 {
   deploymentId: string;
   id: string;
   info: GetDeploymentEventsResponseBodyItemCase0PayloadInfo;
-  level?: GetDeploymentEventsResponseBodyItemCase2Case1Level;
+  level?: GetDeploymentEventsResponseBodyItemCase2Case1Level | undefined;
   serial: string;
-  text?: string;
+  text?: string | undefined;
   type: GetDeploymentEventsResponseBodyItemCase2Case1Type;
 }
 export type GetDeploymentEventsResponseBodyItemCase2Case2Type = "alias-assigned";
@@ -10073,48 +10815,48 @@ export interface GetDeploymentFileContentsRequest {
   /** The unique file identifier */
   fileId: string;
   /** Path to the file to fetch (only for Git deployments) */
-  path?: string;
+  path?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetDeploymentFileContentsResponse {}
 /** Filter deployments from the given project IDs. Cannot be used when projectId is specified. */
 export type GetDeploymentsRequestProjectIdsList = Array<string>;
 export interface GetDeploymentsRequest {
   /** Name of the deployment. */
-  app?: string;
+  app?: string | undefined;
   /** Gets the deployment created after this Date timestamp. (default: current time) */
-  from?: number;
+  from?: number | undefined;
   /** Maximum number of deployments to list from a request. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter deployments from the given ID or name. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Filter deployments from the given project IDs. Cannot be used when projectId is specified. */
-  projectIds?: GetDeploymentsRequestProjectIdsList;
+  projectIds?: GetDeploymentsRequestProjectIdsList | undefined;
   /** Filter deployments based on the environment. */
-  target?: string;
+  target?: string | undefined;
   /** Gets the deployment created before this Date timestamp. (default: current time) */
-  to?: number;
+  to?: number | undefined;
   /** Filter out deployments based on users who have created the deployment. */
-  users?: string;
+  users?: string | undefined;
   /** Get Deployments created after this JavaScript timestamp. */
-  since?: number;
+  since?: number | undefined;
   /** Get Deployments created before this JavaScript timestamp. */
-  until?: number;
+  until?: number | undefined;
   /** Filter deployments based on their state (`BUILDING`, `ERROR`, `INITIALIZING`, `QUEUED`, `READY`, `CANCELED`, `BLOCKED`) */
-  state?: string;
+  state?: string | undefined;
   /** Filter deployments based on their rollback candidacy */
-  rollbackCandidate?: boolean;
+  rollbackCandidate?: boolean | undefined;
   /** Filter deployments based on the branch name */
-  branch?: string;
+  branch?: string | undefined;
   /** Filter deployments based on the SHA */
-  sha?: string;
+  sha?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetDeploymentsResponseDeploymentsItemAliasAssigned = number | boolean;
 /** An error object in case aliasing of the deployment failed. */
@@ -10129,9 +10871,9 @@ export interface GetDeploymentsResponseDeploymentsItemAttributionGitUser {
   /** Git provider username/login */
   login: string;
   /** The git provider (github, gitlab, bitbucket) */
-  provider?: string;
+  provider?: string | undefined;
   /** User type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Team roles at time of deployment */
 export type GetDeploymentsResponseDeploymentsItemAttributionVercelUserTeamRolesList = Array<string>;
@@ -10140,25 +10882,25 @@ export interface GetDeploymentsResponseDeploymentsItemAttributionVercelUser {
   /** Vercel user ID */
   id: string;
   /** Team roles at time of deployment */
-  teamRoles?: GetDeploymentsResponseDeploymentsItemAttributionVercelUserTeamRolesList;
+  teamRoles?: GetDeploymentsResponseDeploymentsItemAttributionVercelUserTeamRolesList | undefined;
   /** Vercel username */
   username: string;
 }
 /** Commit attribution metadata */
 export interface GetDeploymentsResponseDeploymentsItemAttribution {
   /** Commit metadata from the git commit author */
-  commitMeta?: CancelDeploymentResponseAttributionCommitMeta;
+  commitMeta?: CancelDeploymentResponseAttributionCommitMeta | undefined;
   /** Git provider user associated with the commit author email (only set if resolved) */
-  gitUser?: GetDeploymentsResponseDeploymentsItemAttributionGitUser;
+  gitUser?: GetDeploymentsResponseDeploymentsItemAttributionGitUser | undefined;
   /** Vercel user linked to the git provider account (only set if resolved) */
-  vercelUser?: GetDeploymentsResponseDeploymentsItemAttributionVercelUser;
+  vercelUser?: GetDeploymentsResponseDeploymentsItemAttributionVercelUser | undefined;
 }
 export type GetDeploymentsResponseDeploymentsItemChecksDeploymentAliasState =
   | "failed"
   | "pending"
   | "succeeded";
 export interface GetDeploymentsResponseDeploymentsItemChecksDeploymentAlias {
-  completedAt?: number;
+  completedAt?: number | undefined;
   startedAt: number;
   state: GetDeploymentsResponseDeploymentsItemChecksDeploymentAliasState;
 }
@@ -10187,22 +10929,22 @@ export type GetDeploymentsResponseDeploymentsItemCreatorType =
 /** Metadata information of the deployment creator. */
 export interface GetDeploymentsResponseDeploymentsItemCreator {
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The GitHub login of the user. */
-  githubLogin?: string;
+  githubLogin?: string | undefined;
   /** The GitLab login of the user. */
-  gitlabLogin?: string;
+  gitlabLogin?: string | undefined;
   /** Principal type of the deployment creator. Defaults to `"user"` if absent (legacy deployments created before principal attribution was recorded). */
-  type?: GetDeploymentsResponseDeploymentsItemCreatorType;
+  type?: GetDeploymentsResponseDeploymentsItemCreatorType | undefined;
   /** Stable creator id across principal types. This may be a user ID, an app ID, an integration configuration ID, or `system`. */
   uid: string;
   /** The username of the user. */
-  username?: string;
+  username?: string | undefined;
 }
 /** The custom environment used for this deployment, if any */
 export interface GetDeploymentsResponseDeploymentsItemCustomEnvironment {
   id: string;
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Current provisioning state */
 export type GetDeploymentsResponseDeploymentsItemManualProvisioningState =
@@ -10211,7 +10953,7 @@ export type GetDeploymentsResponseDeploymentsItemManualProvisioningState =
   | "TIMEOUT";
 export interface GetDeploymentsResponseDeploymentsItemManualProvisioning {
   /** Timestamp when manual provisioning completed */
-  completedAt?: number;
+  completedAt?: number | undefined;
   /** Current provisioning state */
   state: GetDeploymentsResponseDeploymentsItemManualProvisioningState;
 }
@@ -10243,7 +10985,7 @@ export interface GetDeploymentsResponseDeploymentsItemPlatform {
   /** The user on the external platform who triggered the deployment. */
   creator: CancelDeploymentResponsePlatformCreator;
   /** Arbitrary key-value metadata provided by the platform. */
-  meta?: GetDeploymentsResponseDeploymentsItemPlatformMetaMap;
+  meta?: GetDeploymentsResponseDeploymentsItemPlatformMetaMap | undefined;
   /** Reference back to the entity on the platform that initiated the deployment. */
   origin: GetDeploymentsResponseDeploymentsItemPlatformOrigin;
   /** The external platform that created the deployment (e.g. its display name). */
@@ -10351,26 +11093,26 @@ export type GetDeploymentsResponseDeploymentsItemProjectSettingsWebAnalytics =
   CancelDeploymentResponseProjectSettingsWebAnalytics;
 /** The project settings which was used for this deployment */
 export interface GetDeploymentsResponseDeploymentsItemProjectSettings {
-  buildCommand?: string | null;
-  commandForIgnoringBuildStep?: string | null;
-  createdAt?: number;
-  customerSupportCodeVisibility?: boolean;
-  devCommand?: string | null;
-  framework?: GetDeploymentsResponseDeploymentsItemProjectSettingsFramework | null;
+  buildCommand?: string | null | undefined;
+  commandForIgnoringBuildStep?: string | null | undefined;
+  createdAt?: number | undefined;
+  customerSupportCodeVisibility?: boolean | undefined;
+  devCommand?: string | null | undefined;
+  framework?: GetDeploymentsResponseDeploymentsItemProjectSettingsFramework | null | undefined;
   /** Since June '23 */
-  gitComments?: GetDeploymentsResponseDeploymentsItemProjectSettingsGitComments;
-  gitForkProtection?: boolean;
-  gitLFS?: boolean;
-  installCommand?: string | null;
-  nodeVersion?: GetDeploymentsResponseDeploymentsItemProjectSettingsNodeVersion;
-  outputDirectory?: string | null;
-  rootDirectory?: string | null;
-  skipGitConnectDuringLink?: boolean;
-  sourceFilesOutsideRootDirectory?: boolean;
-  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights;
+  gitComments?: GetDeploymentsResponseDeploymentsItemProjectSettingsGitComments | undefined;
+  gitForkProtection?: boolean | undefined;
+  gitLFS?: boolean | undefined;
+  installCommand?: string | null | undefined;
+  nodeVersion?: GetDeploymentsResponseDeploymentsItemProjectSettingsNodeVersion | undefined;
+  outputDirectory?: string | null | undefined;
+  rootDirectory?: string | null | undefined;
+  skipGitConnectDuringLink?: boolean | undefined;
+  sourceFilesOutsideRootDirectory?: boolean | undefined;
+  speedInsights?: CancelDeploymentResponseProjectSettingsSpeedInsights | undefined;
   /** Vercel Flags activation metadata copied from the project at deployment creation. */
-  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags;
-  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics;
+  vercelFlags?: CancelDeploymentResponseProjectSettingsVercelFlags | undefined;
+  webAnalytics?: CancelDeploymentResponseProjectSettingsWebAnalytics | undefined;
 }
 export type GetDeploymentsResponseDeploymentsItemReadyState =
   | "BLOCKED"
@@ -10398,12 +11140,12 @@ export interface GetDeploymentsResponseDeploymentsItemSeatBlock {
   /** The NSNB decision code for the seat block. TODO: We should consolidate block types. */
   blockCode: GetDeploymentsResponseDeploymentsItemSeatBlockBlockCode;
   /** The git provider type associated with gitUserId. */
-  gitProvider?: GetDeploymentsResponseDeploymentsItemSeatBlockGitProvider;
-  gitUserId?: GetDeploymentsResponseDeploymentsItemSeatBlockGitUserId;
+  gitProvider?: GetDeploymentsResponseDeploymentsItemSeatBlockGitProvider | undefined;
+  gitUserId?: GetDeploymentsResponseDeploymentsItemSeatBlockGitUserId | undefined;
   /** Determines if the user was verified during the block. In the git integration case, the commit sender was the author. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The blocked vercel user ID. */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** The source of the deployment. */
 export type GetDeploymentsResponseDeploymentsItemSource =
@@ -10432,83 +11174,83 @@ export type GetDeploymentsResponseDeploymentsItemTarget = "production" | "stagin
 /** The type of the deployment. */
 export type GetDeploymentsResponseDeploymentsItemType = "LAMBDAS";
 export interface GetDeploymentsResponseDeploymentsItem {
-  aliasAssigned?: GetDeploymentsResponseDeploymentsItemAliasAssigned | null;
+  aliasAssigned?: GetDeploymentsResponseDeploymentsItemAliasAssigned | null | undefined;
   /** An error object in case aliasing of the deployment failed. */
-  aliasError?: CancelDeploymentResponseAliasError | null;
+  aliasError?: CancelDeploymentResponseAliasError | null | undefined;
   /** Commit attribution metadata */
-  attribution?: GetDeploymentsResponseDeploymentsItemAttribution;
+  attribution?: GetDeploymentsResponseDeploymentsItemAttribution | undefined;
   /** Timestamp of when the deployment started building at. */
-  buildingAt?: number;
+  buildingAt?: number | undefined;
   /** Detailed information about v2 deployment checks. Includes information about blocked workflows in the deployment lifecycle. */
-  checks?: GetDeploymentsResponseDeploymentsItemChecks;
+  checks?: GetDeploymentsResponseDeploymentsItemChecks | undefined;
   /** Conclusion for checks */
-  checksConclusion?: GetDeploymentsResponseDeploymentsItemChecksConclusion;
+  checksConclusion?: GetDeploymentsResponseDeploymentsItemChecksConclusion | undefined;
   /** State of all registered checks */
-  checksState?: GetDeploymentsResponseDeploymentsItemChecksState;
+  checksState?: GetDeploymentsResponseDeploymentsItemChecksState | undefined;
   /** The flag saying if Secure Compute network is used for builds */
-  connectBuildsEnabled?: boolean;
+  connectBuildsEnabled?: boolean | undefined;
   /** The ID of Secure Compute network used for this deployment */
-  connectConfigurationId?: string;
+  connectConfigurationId?: string | undefined;
   /** Timestamp of when the deployment got created. */
   created: number;
   createdAt: number;
   /** Metadata information of the deployment creator. */
   creator: GetDeploymentsResponseDeploymentsItemCreator;
   /** The custom environment used for this deployment, if any */
-  customEnvironment?: GetDeploymentsResponseDeploymentsItemCustomEnvironment;
+  customEnvironment?: GetDeploymentsResponseDeploymentsItemCustomEnvironment | undefined;
   /** The default route that should be used for screenshots and links if configured with microfrontends. */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** Timestamp of when the deployment got deleted. */
-  deleted?: number;
+  deleted?: number | undefined;
   /** Error code when the deployment is in an error state. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Error message when the deployment is in an canceled or error state. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** The expiration configured by the project retention policy */
-  expiration?: number;
+  expiration?: number | undefined;
   /** Vercel URL to inspect the deployment. */
   inspectorUrl: string | null;
   /** Deployment can be used for instant rollback */
-  isRollbackCandidate?: boolean | null;
-  manualProvisioning?: GetDeploymentsResponseDeploymentsItemManualProvisioning;
+  isRollbackCandidate?: boolean | null | undefined;
+  manualProvisioning?: GetDeploymentsResponseDeploymentsItemManualProvisioning | undefined;
   /** Metadata information from the Git provider. */
-  meta?: GetDeploymentsResponseDeploymentsItemMetaMap;
+  meta?: GetDeploymentsResponseDeploymentsItemMetaMap | undefined;
   /** The name of the deployment. */
   name: string;
   /** Indicates if the deployment encountered an out-of-memory error. */
-  oomReport?: GetDeploymentsResponseDeploymentsItemOomReport;
+  oomReport?: GetDeploymentsResponseDeploymentsItemOomReport | undefined;
   /** The ID of Secure Compute network used for this deployment's passive functions */
-  passiveConnectConfigurationId?: string;
+  passiveConnectConfigurationId?: string | undefined;
   /** Metadata about the source platform that triggered the deployment. */
-  platform?: GetDeploymentsResponseDeploymentsItemPlatform;
-  prebuilt?: boolean;
+  platform?: GetDeploymentsResponseDeploymentsItemPlatform | undefined;
+  prebuilt?: boolean | undefined;
   /** The project ID of the deployment */
   projectId: string;
   /** The project settings which was used for this deployment */
-  projectSettings?: GetDeploymentsResponseDeploymentsItemProjectSettings;
+  projectSettings?: GetDeploymentsResponseDeploymentsItemProjectSettings | undefined;
   /** The expiration proposed to replace the existing expiration */
-  proposedExpiration?: number;
+  proposedExpiration?: number | undefined;
   /** Timestamp of when the deployment got ready. */
-  ready?: number;
+  ready?: number | undefined;
   readyState: GetDeploymentsResponseDeploymentsItemReadyState;
   /** Substate of deployment when readyState is 'READY' Tracks whether or not deployment has seen production traffic: - STAGED: never seen production traffic - ROLLING: in the process of gradually transitioning production traffic - PROMOTED: has seen production traffic */
-  readySubstate?: GetDeploymentsResponseDeploymentsItemReadySubstate;
+  readySubstate?: GetDeploymentsResponseDeploymentsItemReadySubstate | undefined;
   /** NSNB Blocked metadata */
-  seatBlock?: GetDeploymentsResponseDeploymentsItemSeatBlock;
+  seatBlock?: GetDeploymentsResponseDeploymentsItemSeatBlock | undefined;
   /** Optional flag to indicate if the deployment was soft deleted by retention policy. */
-  softDeletedByRetention?: boolean;
+  softDeletedByRetention?: boolean | undefined;
   /** The source of the deployment. */
-  source?: GetDeploymentsResponseDeploymentsItemSource;
+  source?: GetDeploymentsResponseDeploymentsItemSource | undefined;
   /** In which state is the deployment. */
-  state?: GetDeploymentsResponseDeploymentsItemState;
+  state?: GetDeploymentsResponseDeploymentsItemState | undefined;
   /** On which environment has the deployment been deployed to. */
-  target?: GetDeploymentsResponseDeploymentsItemTarget | null;
+  target?: GetDeploymentsResponseDeploymentsItemTarget | null | undefined;
   /** The type of the deployment. */
   type: GetDeploymentsResponseDeploymentsItemType;
   /** The unique identifier of the deployment. */
   uid: string;
   /** Timestamp of when the deployment was undeleted. */
-  undeleted?: number;
+  undeleted?: number | undefined;
   /** The URL of the deployment. */
   url: string;
 }
@@ -10530,9 +11272,9 @@ export interface ListDeploymentFilesRequest {
   /** The unique deployment identifier */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The list of children files of the directory (only valid for the `directory` type) */
 export type FileTreeChildrenList = Array<FileTree>;
@@ -10541,9 +11283,9 @@ export type FileTreeType = "directory" | "file" | "invalid" | "lambda" | "middle
 /** A deployment file tree entry */
 export interface FileTree {
   /** The list of children files of the directory (only valid for the `directory` type) */
-  children?: FileTreeChildrenList;
+  children?: FileTreeChildrenList | undefined;
   /** The content-type of the file (only valid for the `file` type) */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The file "mode" indicating file type and permissions. */
   mode: number;
   /** The name of the file tree entry */
@@ -10551,7 +11293,7 @@ export interface FileTree {
   /** String indicating the type of file tree entry. */
   type: FileTreeType;
   /** The unique identifier of the file (only valid for the `file` type) */
-  uid?: string;
+  uid?: string | undefined;
 }
 export type ListDeploymentFilesResponseBodyList = Array<FileTree>;
 export type ListDeploymentFilesResponse = ListDeploymentFilesResponseBodyList;
@@ -10572,9 +11314,13 @@ export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesI
   Array<string>;
 export interface UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhen {
   /** Applies only when the token is minted for one of these roles. */
-  role?: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhenRoleList;
+  role?:
+    | UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhenRoleList
+    | undefined;
   /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
-  environment?: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhenEnvironmentList;
+  environment?:
+    | UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhenEnvironmentList
+    | undefined;
 }
 export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsValueCase0 =
   | string
@@ -10592,7 +11338,7 @@ export type UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesI
     | undefined;
 };
 export interface UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItem {
-  when?: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhen;
+  when?: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemWhen | undefined;
   /** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
   claims: UpdateIntegrationDeploymentActionRequestOutcomesItemCase1ClaimRulesItemClaimsMap;
 }
@@ -10615,25 +11361,25 @@ export interface UpdateIntegrationDeploymentActionRequest {
   integrationConfigurationId: string;
   resourceId: string;
   action: string;
-  status?: UpdateIntegrationDeploymentActionRequestStatus | (string & {});
-  statusText?: string;
-  statusUrl?: string;
-  outcomes?: UpdateIntegrationDeploymentActionRequestOutcomesList;
+  status?: UpdateIntegrationDeploymentActionRequestStatus | (string & {}) | undefined;
+  statusText?: string | undefined;
+  statusUrl?: string | undefined;
+  outcomes?: UpdateIntegrationDeploymentActionRequestOutcomesList | undefined;
 }
 export interface UpdateIntegrationDeploymentActionResponse {}
 export interface UploadFileRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The file size in bytes */
-  contentLength?: number;
+  contentLength?: number | undefined;
   /** The file SHA1 used to check the integrity */
-  xVercelDigest?: string;
+  xVercelDigest?: string | undefined;
   /** The file SHA1 used to check the integrity */
-  xNowDigest?: string;
+  xNowDigest?: string | undefined;
   /** The file size as an alternative to `Content-Length` */
-  xNowSize?: number;
+  xNowSize?: number | undefined;
 }
 /** Array of URLs where the file was updated */
 export type UploadFileResponseBodyCase0UrlsList = Array<string>;

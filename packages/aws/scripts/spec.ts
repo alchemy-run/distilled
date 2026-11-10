@@ -310,8 +310,8 @@ export const applyAwsSpecPatches = (
 };
 
 /**
- * Discriminated union variant with `?: never` props for easier narrowing:
- * `{ S: string; N?: never; B?: never }` instead of just `{ S: string }`.
+ * Discriminated union variant with `?: undefined` props for easier narrowing:
+ * `{ S: string; N?: undefined; B?: undefined }` instead of just `{ S: string }`.
  */
 function generateUnionVariant(
   allMemberNames: string[],
@@ -319,7 +319,7 @@ function generateUnionVariant(
   activeMemberType: string,
 ): string {
   const props = allMemberNames.map((name) =>
-    name === activeMemberName ? `${name}: ${activeMemberType}` : `${name}?: never`,
+    name === activeMemberName ? `${name}: ${activeMemberType}` : `${name}?: undefined`,
   );
   return `{ ${props.join("; ")} }`;
 }
@@ -1892,7 +1892,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           const recordExpr = `S.Record(${wrappedKey}, ${wrappedValue}.pipe(S.optional))${sparsePipe}`;
           // Enum-key maps map over the (open) alias directly.
           const typeAlias = isKeyEnum
-            ? `export type ${name} = { [key in ${keyTargetName}]?: ${valueTsType} };`
+            ? `export type ${name} = { [key in ${keyTargetName}]?: ${valueTsType} | undefined };`
             : `export type ${name} = { [key: string]: ${valueTsType} | undefined };`;
           return [
             typeAlias,
@@ -1991,7 +1991,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           const interfaceFields = members
             .map((m) => {
               const showOptional = m.isOptional && !(isOperationOutput && m.isSoftRequired);
-              return `${m.name}${showOptional ? "?" : ""}: ${m.tsType}`;
+              return `${m.name}${showOptional ? "?" : ""}: ${m.tsType}${showOptional ? " | undefined" : ""}`;
             })
             .join("; ");
           const schemaFields = members.map((m) => `${m.name}: ${m.schemaExpr}`).join(", ");

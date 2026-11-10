@@ -208,23 +208,23 @@ export interface ApprovePlanExecutionStepRequest {
   executionId: string;
   stepName: string;
   approval: Approval;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface ApprovePlanExecutionStepResponse {}
 export interface CancelPlanExecutionRequest {
   planArn: string;
   executionId: string;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface CancelPlanExecutionResponse {}
 export type IamRoleArn = string;
 export type LambdaArn = string;
 export type LambdaPayload = string | redacted.Redacted<string>;
 export interface Lambdas {
-  crossAccountRole?: string;
-  externalId?: string;
-  arn?: string;
-  payload?: string | redacted.Redacted<string>;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
+  arn?: string | undefined;
+  payload?: string | redacted.Redacted<string> | undefined;
 }
 export type LambdaList = Lambdas[];
 export type RegionToRunIn =
@@ -235,20 +235,20 @@ export type RegionToRunIn =
   | (string & {});
 export type LambdaUngracefulBehavior = "skip" | (string & {});
 export interface LambdaUngraceful {
-  behavior?: LambdaUngracefulBehavior;
+  behavior?: LambdaUngracefulBehavior | undefined;
 }
 export interface CustomActionLambdaConfiguration {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
   lambdas: Lambdas[];
   retryIntervalMinutes: number;
   regionToRun: RegionToRunIn;
-  ungraceful?: LambdaUngraceful;
+  ungraceful?: LambdaUngraceful | undefined;
 }
 export type AsgArn = string;
 export interface Asg {
-  crossAccountRole?: string;
-  externalId?: string;
-  arn?: string;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
+  arn?: string | undefined;
 }
 export type AsgList = Asg[];
 export interface Ec2Ungraceful {
@@ -260,16 +260,16 @@ export type Ec2AsgCapacityMonitoringApproach =
   | (string & {});
 export type WaitELBTargetGroupHealthy = "enabled" | "disabled" | (string & {});
 export interface Ec2AsgCapacityIncreaseConfiguration {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
   asgs: Asg[];
-  ungraceful?: Ec2Ungraceful;
-  targetPercent?: number;
-  capacityMonitoringApproach?: Ec2AsgCapacityMonitoringApproach;
-  waitELBTargetGroupHealthy?: WaitELBTargetGroupHealthy;
+  ungraceful?: Ec2Ungraceful | undefined;
+  targetPercent?: number | undefined;
+  capacityMonitoringApproach?: Ec2AsgCapacityMonitoringApproach | undefined;
+  waitELBTargetGroupHealthy?: WaitELBTargetGroupHealthy | undefined;
 }
 export type RoleArn = string;
 export interface ExecutionApprovalConfiguration {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
   approvalRole: string;
 }
 export type RoutingControlArn = string;
@@ -281,25 +281,25 @@ export interface ArcRoutingControlState {
 export type ArcRoutingControlStates = ArcRoutingControlState[];
 export type RegionAndRoutingControls = { [key: string]: ArcRoutingControlState[] | undefined };
 export interface ArcRoutingControlConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   regionAndRoutingControls: { [key: string]: ArcRoutingControlState[] | undefined };
 }
 export type GlobalAuroraDefaultBehavior = "switchoverOnly" | "failover" | (string & {});
 export type GlobalAuroraUngracefulBehavior = "failover" | (string & {});
 export interface GlobalAuroraUngraceful {
-  ungraceful?: GlobalAuroraUngracefulBehavior;
+  ungraceful?: GlobalAuroraUngracefulBehavior | undefined;
 }
 export type GlobalClusterIdentifier = string;
 export type AuroraClusterArn = string;
 export type AuroraClusterArns = string[];
 export interface GlobalAuroraConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   behavior: GlobalAuroraDefaultBehavior;
-  ungraceful?: GlobalAuroraUngraceful;
+  ungraceful?: GlobalAuroraUngraceful | undefined;
   globalClusterIdentifier: string;
   databaseClusterArns: string[];
 }
@@ -307,17 +307,17 @@ export interface ParallelExecutionBlockConfiguration {
   steps: Step[];
 }
 export interface RegionSwitchPlanConfiguration {
-  crossAccountRole?: string;
-  externalId?: string;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   arn: string;
 }
 export type EcsClusterArn = string;
 export type EcsServiceArn = string;
 export interface Service {
-  crossAccountRole?: string;
-  externalId?: string;
-  clusterArn?: string;
-  serviceArn?: string;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
+  clusterArn?: string | undefined;
+  serviceArn?: string | undefined;
 }
 export type ServiceList = Service[];
 export interface EcsUngraceful {
@@ -328,12 +328,12 @@ export type EcsCapacityMonitoringApproach =
   | "containerInsightsMaxInLast24Hours"
   | (string & {});
 export interface EcsCapacityIncreaseConfiguration {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
   services: Service[];
-  ungraceful?: EcsUngraceful;
-  targetPercent?: number;
-  capacityMonitoringApproach?: EcsCapacityMonitoringApproach;
-  waitELBTargetGroupHealthy?: WaitELBTargetGroupHealthy;
+  ungraceful?: EcsUngraceful | undefined;
+  targetPercent?: number | undefined;
+  capacityMonitoringApproach?: EcsCapacityMonitoringApproach | undefined;
+  waitELBTargetGroupHealthy?: WaitELBTargetGroupHealthy | undefined;
 }
 export interface KubernetesResourceType {
   apiVersion: string;
@@ -344,7 +344,7 @@ export type KubernetesNamespace = string;
 export interface KubernetesScalingResource {
   namespace: string;
   name: string;
-  hpaName?: string;
+  hpaName?: string | undefined;
 }
 export type RegionalScalingResource = { [key: string]: KubernetesScalingResource | undefined };
 export type KubernetesScalingApplication = {
@@ -355,8 +355,8 @@ export type KubernetesScalingApps = {
 }[];
 export type EksClusterArn = string;
 export interface EksCluster {
-  crossAccountRole?: string;
-  externalId?: string;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   clusterArn: string;
 }
 export type EksClusters = EksCluster[];
@@ -365,96 +365,96 @@ export interface EksResourceScalingUngraceful {
 }
 export type EksCapacityMonitoringApproach = "sampledMaxInLast24Hours" | (string & {});
 export interface EksResourceScalingConfiguration {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
   kubernetesResourceType: KubernetesResourceType;
-  scalingResources?: {
-    [key: string]: { [key: string]: KubernetesScalingResource | undefined } | undefined;
-  }[];
-  eksClusters?: EksCluster[];
-  ungraceful?: EksResourceScalingUngraceful;
-  targetPercent?: number;
-  capacityMonitoringApproach?: EksCapacityMonitoringApproach;
+  scalingResources?:
+    | { [key: string]: { [key: string]: KubernetesScalingResource | undefined } | undefined }[]
+    | undefined;
+  eksClusters?: EksCluster[] | undefined;
+  ungraceful?: EksResourceScalingUngraceful | undefined;
+  targetPercent?: number | undefined;
+  capacityMonitoringApproach?: EksCapacityMonitoringApproach | undefined;
 }
 export type Route53HostedZoneId = string;
 export type Route53RecordName = string;
 export type Route53ResourceRecordSetIdentifier = string;
 export interface Route53ResourceRecordSet {
-  recordSetIdentifier?: string;
-  region?: string;
+  recordSetIdentifier?: string | undefined;
+  region?: string | undefined;
 }
 export type Route53ResourceRecordSetList = Route53ResourceRecordSet[];
 export interface Route53HealthCheckConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   hostedZoneId: string;
   recordName: string;
-  recordSets?: Route53ResourceRecordSet[];
+  recordSets?: Route53ResourceRecordSet[] | undefined;
 }
 export type DocumentDbDefaultBehavior = "switchoverOnly" | "failover" | (string & {});
 export type DocumentDbUngracefulBehavior = "failover" | (string & {});
 export interface DocumentDbUngraceful {
-  ungraceful?: DocumentDbUngracefulBehavior;
+  ungraceful?: DocumentDbUngracefulBehavior | undefined;
 }
 export type DocumentDbGlobalClusterIdentifier = string;
 export type DocumentDbClusterArn = string;
 export type DocumentDbClusterArns = string[];
 export interface DocumentDbConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   behavior: DocumentDbDefaultBehavior;
-  ungraceful?: DocumentDbUngraceful;
+  ungraceful?: DocumentDbUngraceful | undefined;
   globalClusterIdentifier: string;
   databaseClusterArns: string[];
 }
 export type RdsDbInstanceArn = string;
 export type RdsDbInstanceArnMap = { [key: string]: string | undefined };
 export interface RdsPromoteReadReplicaConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   dbInstanceArnMap: { [key: string]: string | undefined };
 }
 export interface RdsCreateCrossRegionReplicaConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   dbInstanceArnMap: { [key: string]: string | undefined };
 }
 export type EventSourceMappingAction = "enable" | "disable" | (string & {});
 export type EventSourceMappingArn = string;
 export interface EventSourceMapping {
-  crossAccountRole?: string;
-  externalId?: string;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   arn: string;
 }
 export type RegionEventSourceMappingMap = { [key: string]: EventSourceMapping | undefined };
 export type LambdaEventSourceMappingUngracefulBehavior = "skip" | (string & {});
 export interface LambdaEventSourceMappingUngraceful {
-  behavior?: LambdaEventSourceMappingUngracefulBehavior;
+  behavior?: LambdaEventSourceMappingUngracefulBehavior | undefined;
 }
 export interface LambdaEventSourceMappingConfiguration {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
   action: EventSourceMappingAction;
   regionEventSourceMappings: { [key: string]: EventSourceMapping | undefined };
-  ungraceful?: LambdaEventSourceMappingUngraceful;
+  ungraceful?: LambdaEventSourceMappingUngraceful | undefined;
 }
 export type RegionAuroraClusterMap = { [key: string]: string | undefined };
 export interface AuroraServerlessScalingConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   globalClusterIdentifier: string;
   regionDatabaseClusterArns: { [key: string]: string | undefined };
-  targetPercent?: number;
+  targetPercent?: number | undefined;
 }
 export type AuroraInstanceArn = string;
 export type RegionAuroraInstanceArnMap = { [key: string]: string | undefined };
 export interface AuroraProvisionedScalingConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   globalClusterIdentifier: string;
   regionDatabaseClusterArns: { [key: string]: string | undefined };
   instanceArns: { [key: string]: string | undefined };
@@ -462,30 +462,30 @@ export interface AuroraProvisionedScalingConfiguration {
 export type NeptuneDefaultBehavior = "switchoverOnly" | "failover" | (string & {});
 export type NeptuneUngracefulBehavior = "failover" | (string & {});
 export interface NeptuneUngraceful {
-  ungraceful?: NeptuneUngracefulBehavior;
+  ungraceful?: NeptuneUngracefulBehavior | undefined;
 }
 export type NeptuneGlobalClusterIdentifier = string;
 export type NeptuneClusterArn = string;
 export type RegionNeptuneClusterArnMap = { [key: string]: string | undefined };
 export interface NeptuneGlobalDatabaseConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   behavior: NeptuneDefaultBehavior;
-  ungraceful?: NeptuneUngraceful;
+  ungraceful?: NeptuneUngraceful | undefined;
   globalClusterIdentifier: string;
   regionDatabaseClusterArns: { [key: string]: string | undefined };
 }
 export type RdsUngracefulBehavior = "promoteReadReplica" | (string & {});
 export interface RdsUngraceful {
-  ungraceful?: RdsUngracefulBehavior;
+  ungraceful?: RdsUngracefulBehavior | undefined;
 }
 export interface RdsSwitchoverReadReplicaConfiguration {
-  timeoutMinutes?: number;
-  crossAccountRole?: string;
-  externalId?: string;
+  timeoutMinutes?: number | undefined;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   dbInstanceArnMap: { [key: string]: string | undefined };
-  ungraceful?: RdsUngraceful;
+  ungraceful?: RdsUngraceful | undefined;
 }
 export type SsmDocumentArn = string;
 export type SsmTargetKey = string;
@@ -502,422 +502,422 @@ export type SsmParameterValues = string[];
 export type SsmDocumentParameters = { [key: string]: string[] | undefined };
 export type SsmDocumentVersion = string;
 export interface SsmDocumentConfig {
-  crossAccountRole?: string;
-  externalId?: string;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   documentArn: string;
   targets: SsmTarget[];
-  parameters?: { [key: string]: string[] | undefined };
-  documentVersion?: string;
+  parameters?: { [key: string]: string[] | undefined } | undefined;
+  documentVersion?: string | undefined;
 }
 export type RegionSsmDocumentMap = { [key: string]: SsmDocumentConfig | undefined };
 export type SsmSendCommandUngracefulBehavior = "skip" | (string & {});
 export interface SsmSendCommandUngraceful {
-  behavior?: SsmSendCommandUngracefulBehavior;
+  behavior?: SsmSendCommandUngracefulBehavior | undefined;
 }
 export interface SsmSendCommandConfiguration {
-  timeoutMinutes?: number;
+  timeoutMinutes?: number | undefined;
   regionDocuments: { [key: string]: SsmDocumentConfig | undefined };
   retryIntervalMinutes: number;
-  ungraceful?: SsmSendCommandUngraceful;
+  ungraceful?: SsmSendCommandUngraceful | undefined;
 }
 export type ExecutionBlockConfiguration =
   | {
       customActionLambdaConfig: CustomActionLambdaConfiguration;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
+      customActionLambdaConfig?: undefined;
       ec2AsgCapacityIncreaseConfig: Ec2AsgCapacityIncreaseConfiguration;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
       executionApprovalConfig: ExecutionApprovalConfiguration;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
       arcRoutingControlConfig: ArcRoutingControlConfiguration;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
       globalAuroraConfig: GlobalAuroraConfiguration;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
       parallelConfig: ParallelExecutionBlockConfiguration;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
       regionSwitchPlanConfig: RegionSwitchPlanConfiguration;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
       ecsCapacityIncreaseConfig: EcsCapacityIncreaseConfiguration;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
       eksResourceScalingConfig: EksResourceScalingConfiguration;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
       route53HealthCheckConfig: Route53HealthCheckConfiguration;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
       documentDbConfig: DocumentDbConfiguration;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
       rdsPromoteReadReplicaConfig: RdsPromoteReadReplicaConfiguration;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
       rdsCreateCrossRegionReadReplicaConfig: RdsCreateCrossRegionReplicaConfiguration;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
       lambdaEventSourceMappingConfig: LambdaEventSourceMappingConfiguration;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
       auroraServerlessScalingConfig: AuroraServerlessScalingConfiguration;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
       auroraProvisionedScalingConfig: AuroraProvisionedScalingConfiguration;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
       neptuneGlobalDatabaseConfig: NeptuneGlobalDatabaseConfiguration;
-      rdsSwitchoverReadReplicaConfig?: never;
-      ssmSendCommandConfig?: never;
+      rdsSwitchoverReadReplicaConfig?: undefined;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
       rdsSwitchoverReadReplicaConfig: RdsSwitchoverReadReplicaConfiguration;
-      ssmSendCommandConfig?: never;
+      ssmSendCommandConfig?: undefined;
     }
   | {
-      customActionLambdaConfig?: never;
-      ec2AsgCapacityIncreaseConfig?: never;
-      executionApprovalConfig?: never;
-      arcRoutingControlConfig?: never;
-      globalAuroraConfig?: never;
-      parallelConfig?: never;
-      regionSwitchPlanConfig?: never;
-      ecsCapacityIncreaseConfig?: never;
-      eksResourceScalingConfig?: never;
-      route53HealthCheckConfig?: never;
-      documentDbConfig?: never;
-      rdsPromoteReadReplicaConfig?: never;
-      rdsCreateCrossRegionReadReplicaConfig?: never;
-      lambdaEventSourceMappingConfig?: never;
-      auroraServerlessScalingConfig?: never;
-      auroraProvisionedScalingConfig?: never;
-      neptuneGlobalDatabaseConfig?: never;
-      rdsSwitchoverReadReplicaConfig?: never;
+      customActionLambdaConfig?: undefined;
+      ec2AsgCapacityIncreaseConfig?: undefined;
+      executionApprovalConfig?: undefined;
+      arcRoutingControlConfig?: undefined;
+      globalAuroraConfig?: undefined;
+      parallelConfig?: undefined;
+      regionSwitchPlanConfig?: undefined;
+      ecsCapacityIncreaseConfig?: undefined;
+      eksResourceScalingConfig?: undefined;
+      route53HealthCheckConfig?: undefined;
+      documentDbConfig?: undefined;
+      rdsPromoteReadReplicaConfig?: undefined;
+      rdsCreateCrossRegionReadReplicaConfig?: undefined;
+      lambdaEventSourceMappingConfig?: undefined;
+      auroraServerlessScalingConfig?: undefined;
+      auroraProvisionedScalingConfig?: undefined;
+      neptuneGlobalDatabaseConfig?: undefined;
+      rdsSwitchoverReadReplicaConfig?: undefined;
       ssmSendCommandConfig: SsmSendCommandConfiguration;
     };
 export type ExecutionBlockType =
@@ -943,23 +943,23 @@ export type ExecutionBlockType =
   | (string & {});
 export interface Step {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionBlockConfiguration: ExecutionBlockConfiguration;
   executionBlockType: ExecutionBlockType;
 }
 export type Steps = Step[];
 export type WorkflowTargetAction = "activate" | "deactivate" | "postRecovery" | (string & {});
 export interface Workflow {
-  steps?: Step[];
+  steps?: Step[] | undefined;
   workflowTargetAction: WorkflowTargetAction;
-  workflowTargetRegion?: string;
-  workflowDescription?: string;
+  workflowTargetRegion?: string | undefined;
+  workflowDescription?: string | undefined;
 }
 export type WorkflowList = Workflow[];
 export type AlarmType = "applicationHealth" | "trigger" | (string & {});
 export interface AssociatedAlarm {
-  crossAccountRole?: string;
-  externalId?: string;
+  crossAccountRole?: string | undefined;
+  externalId?: string | undefined;
   resourceIdentifier: string;
   alarmType: AlarmType;
 }
@@ -971,7 +971,7 @@ export interface TriggerCondition {
 }
 export type TriggerConditionList = TriggerCondition[];
 export interface Trigger {
-  description?: string;
+  description?: string | undefined;
   targetRegion: string;
   action: WorkflowTargetAction;
   conditions: TriggerCondition[];
@@ -980,13 +980,13 @@ export interface Trigger {
 export type TriggerList = Trigger[];
 export type AccountId = string;
 export interface S3ReportOutputConfiguration {
-  bucketPath?: string;
-  bucketOwner?: string;
+  bucketPath?: string | undefined;
+  bucketOwner?: string | undefined;
 }
 export type ReportOutputConfiguration = { s3Configuration: S3ReportOutputConfiguration };
 export type ReportOutputList = ReportOutputConfiguration[];
 export interface ReportConfiguration {
-  reportOutput?: ReportOutputConfiguration[];
+  reportOutput?: ReportOutputConfiguration[] | undefined;
 }
 export type PlanName = string;
 export type RegionList = string[];
@@ -995,40 +995,40 @@ export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreatePlanRequest {
-  description?: string;
+  description?: string | undefined;
   workflows: Workflow[];
   executionRole: string;
-  recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
-  triggers?: Trigger[];
-  reportConfiguration?: ReportConfiguration;
-  serviceQuotaChecksEnabled?: boolean;
+  recoveryTimeObjectiveMinutes?: number | undefined;
+  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined } | undefined;
+  triggers?: Trigger[] | undefined;
+  reportConfiguration?: ReportConfiguration | undefined;
+  serviceQuotaChecksEnabled?: boolean | undefined;
   name: string;
   regions: string[];
   recoveryApproach: RecoveryApproach;
-  primaryRegion?: string;
-  tags?: { [key: string]: string | undefined };
+  primaryRegion?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface Plan {
   arn: string;
-  description?: string;
+  description?: string | undefined;
   workflows: Workflow[];
   executionRole: string;
-  recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
-  triggers?: Trigger[];
-  reportConfiguration?: ReportConfiguration;
-  serviceQuotaChecksEnabled?: boolean;
+  recoveryTimeObjectiveMinutes?: number | undefined;
+  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined } | undefined;
+  triggers?: Trigger[] | undefined;
+  reportConfiguration?: ReportConfiguration | undefined;
+  serviceQuotaChecksEnabled?: boolean | undefined;
   name: string;
   regions: string[];
   recoveryApproach: RecoveryApproach;
-  primaryRegion?: string;
+  primaryRegion?: string | undefined;
   owner: string;
-  version?: string;
-  updatedAt?: Date;
+  version?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreatePlanResponse {
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export interface DeletePlanRequest {
   arn: string;
@@ -1038,14 +1038,14 @@ export interface GetPlanRequest {
   arn: string;
 }
 export interface GetPlanResponse {
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetPlanEvaluationStatusRequest {
   planArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EvaluationStatus =
   | "passed"
@@ -1055,16 +1055,16 @@ export type EvaluationStatus =
   | (string & {});
 export type ExecutionAction = "activate" | "deactivate" | "postRecovery" | (string & {});
 export interface MinimalWorkflow {
-  action?: ExecutionAction;
-  name?: string;
+  action?: ExecutionAction | undefined;
+  name?: string | undefined;
 }
 export type ResourceArn = string;
 export type ResourceWarningStatus = "active" | "resolved" | (string & {});
 export interface ResourceWarning {
-  workflow?: MinimalWorkflow;
+  workflow?: MinimalWorkflow | undefined;
   version: string;
-  stepName?: string;
-  resourceArn?: string;
+  stepName?: string | undefined;
+  resourceArn?: string | undefined;
   warningStatus: ResourceWarningStatus;
   warningUpdatedTime: Date;
   warningMessage: string;
@@ -1072,19 +1072,19 @@ export interface ResourceWarning {
 export type PlanWarnings = ResourceWarning[];
 export interface GetPlanEvaluationStatusResponse {
   planArn: string;
-  lastEvaluationTime?: Date;
-  lastEvaluatedVersion?: string;
-  region?: string;
-  evaluationState?: EvaluationStatus;
-  warnings?: ResourceWarning[];
-  nextToken?: string;
+  lastEvaluationTime?: Date | undefined;
+  lastEvaluatedVersion?: string | undefined;
+  region?: string | undefined;
+  evaluationState?: EvaluationStatus | undefined;
+  warnings?: ResourceWarning[] | undefined;
+  nextToken?: string | undefined;
 }
 export type GetPlanExecutionStepStatesMaxResults = number;
 export interface GetPlanExecutionRequest {
   planArn: string;
   executionId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ExecutionMode = "graceful" | "ungraceful" | (string & {});
 export type ExecutionState =
@@ -1110,16 +1110,16 @@ export type StepStatus =
   | "pendingApproval"
   | (string & {});
 export interface StepState {
-  name?: string;
-  status?: StepStatus;
-  startTime?: Date;
-  endTime?: Date;
-  stepMode?: ExecutionMode;
+  name?: string | undefined;
+  status?: StepStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  stepMode?: ExecutionMode | undefined;
 }
 export type StepStates = StepState[];
 export type Duration = string;
 export interface S3ReportOutput {
-  s3ObjectKey?: string;
+  s3ObjectKey?: string | undefined;
 }
 export type FailedReportErrorCode =
   | "insufficientPermissions"
@@ -1127,49 +1127,49 @@ export type FailedReportErrorCode =
   | "configurationError"
   | (string & {});
 export interface FailedReportOutput {
-  errorCode?: FailedReportErrorCode;
-  errorMessage?: string;
+  errorCode?: FailedReportErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type ReportOutput =
-  | { s3ReportOutput: S3ReportOutput; failedReportOutput?: never }
-  | { s3ReportOutput?: never; failedReportOutput: FailedReportOutput };
+  | { s3ReportOutput: S3ReportOutput; failedReportOutput?: undefined }
+  | { s3ReportOutput?: undefined; failedReportOutput: FailedReportOutput };
 export interface GeneratedReport {
-  reportGenerationTime?: Date;
-  reportOutput?: ReportOutput;
+  reportGenerationTime?: Date | undefined;
+  reportOutput?: ReportOutput | undefined;
 }
 export type GeneratedReportDetails = GeneratedReport[];
 export interface GetPlanExecutionResponse {
   planArn: string;
   executionId: string;
-  version?: string;
-  updatedAt?: Date;
-  comment?: string;
+  version?: string | undefined;
+  updatedAt?: Date | undefined;
+  comment?: string | undefined;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   mode: ExecutionMode;
   executionState: ExecutionState;
   executionAction: ExecutionAction;
   executionRegion: string;
-  recoveryExecutionId?: string;
-  stepStates?: StepState[];
-  plan?: Plan;
-  actualRecoveryTime?: string;
-  generatedReportDetails?: GeneratedReport[];
-  nextToken?: string;
+  recoveryExecutionId?: string | undefined;
+  stepStates?: StepState[] | undefined;
+  plan?: Plan | undefined;
+  actualRecoveryTime?: string | undefined;
+  generatedReportDetails?: GeneratedReport[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetPlanInRegionRequest {
   arn: string;
 }
 export interface GetPlanInRegionResponse {
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export type ListExecutionEventsMaxResults = number;
 export interface ListPlanExecutionEventsRequest {
   planArn: string;
   executionId: string;
-  maxResults?: number;
-  nextToken?: string;
-  name?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  name?: string | undefined;
 }
 export type ExecutionEventType =
   | "unknown"
@@ -1201,51 +1201,51 @@ export type ExecutionEventType =
   | (string & {});
 export type Resources = string[];
 export interface ExecutionEvent {
-  timestamp?: Date;
-  type?: ExecutionEventType;
-  stepName?: string;
-  executionBlockType?: ExecutionBlockType;
-  resources?: string[];
-  error?: string;
-  description?: string;
+  timestamp?: Date | undefined;
+  type?: ExecutionEventType | undefined;
+  stepName?: string | undefined;
+  executionBlockType?: ExecutionBlockType | undefined;
+  resources?: string[] | undefined;
+  error?: string | undefined;
+  description?: string | undefined;
   eventId: string;
-  previousEventId?: string;
+  previousEventId?: string | undefined;
 }
 export type ExecutionEventList = ExecutionEvent[];
 export interface ListPlanExecutionEventsResponse {
-  items?: ExecutionEvent[];
-  nextToken?: string;
+  items?: ExecutionEvent[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListExecutionsMaxResults = number;
 export interface ListPlanExecutionsRequest {
   planArn: string;
-  maxResults?: number;
-  nextToken?: string;
-  state?: ExecutionState;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  state?: ExecutionState | undefined;
 }
 export interface AbbreviatedExecution {
   planArn: string;
   executionId: string;
-  version?: string;
-  updatedAt?: Date;
-  comment?: string;
+  version?: string | undefined;
+  updatedAt?: Date | undefined;
+  comment?: string | undefined;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
   mode: ExecutionMode;
   executionState: ExecutionState;
   executionAction: ExecutionAction;
   executionRegion: string;
-  recoveryExecutionId?: string;
-  actualRecoveryTime?: string;
+  recoveryExecutionId?: string | undefined;
+  actualRecoveryTime?: string | undefined;
 }
 export type AbbreviatedExecutionsList = AbbreviatedExecution[];
 export interface ListPlanExecutionsResponse {
-  items?: AbbreviatedExecution[];
-  nextToken?: string;
+  items?: AbbreviatedExecution[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPlansRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AbbreviatedPlan {
   arn: string;
@@ -1253,64 +1253,64 @@ export interface AbbreviatedPlan {
   name: string;
   regions: string[];
   recoveryApproach: RecoveryApproach;
-  primaryRegion?: string;
-  version?: string;
-  updatedAt?: Date;
-  description?: string;
-  executionRole?: string;
-  activePlanExecution?: string;
-  recoveryTimeObjectiveMinutes?: number;
+  primaryRegion?: string | undefined;
+  version?: string | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | undefined;
+  executionRole?: string | undefined;
+  activePlanExecution?: string | undefined;
+  recoveryTimeObjectiveMinutes?: number | undefined;
 }
 export type PlanList = AbbreviatedPlan[];
 export interface ListPlansResponse {
-  plans?: AbbreviatedPlan[];
-  nextToken?: string;
+  plans?: AbbreviatedPlan[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPlansInRegionRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPlansInRegionResponse {
-  plans?: AbbreviatedPlan[];
-  nextToken?: string;
+  plans?: AbbreviatedPlan[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRoute53HealthChecksRequest {
   arn: string;
-  hostedZoneId?: string;
-  recordName?: string;
-  maxResults?: number;
-  nextToken?: string;
+  hostedZoneId?: string | undefined;
+  recordName?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type Route53HealthCheckId = string;
 export type Route53HealthCheckStatus = "healthy" | "unhealthy" | "unknown" | (string & {});
 export interface Route53HealthCheck {
   hostedZoneId: string;
   recordName: string;
-  healthCheckId?: string;
-  status?: Route53HealthCheckStatus;
+  healthCheckId?: string | undefined;
+  status?: Route53HealthCheckStatus | undefined;
   region: string;
 }
 export type Route53HealthCheckList = Route53HealthCheck[];
 export interface ListRoute53HealthChecksResponse {
-  healthChecks?: Route53HealthCheck[];
-  nextToken?: string;
+  healthChecks?: Route53HealthCheck[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRoute53HealthChecksInRegionRequest {
   arn: string;
-  hostedZoneId?: string;
-  recordName?: string;
-  maxResults?: number;
-  nextToken?: string;
+  hostedZoneId?: string | undefined;
+  recordName?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRoute53HealthChecksInRegionResponse {
-  healthChecks?: Route53HealthCheck[];
-  nextToken?: string;
+  healthChecks?: Route53HealthCheck[] | undefined;
+  nextToken?: string | undefined;
 }
 export type PlanArnList = string[];
 export interface ListServiceQuotaWarningsRequest {
-  planArns?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  planArns?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ServiceQuotaWarningStatus =
   | "pending"
@@ -1322,45 +1322,45 @@ export type ServiceQuotaWarningStatus =
 export interface ServiceQuotaWarningSummary {
   accountId: string;
   quotaRegion: string;
-  serviceCode?: string;
-  quotaCode?: string;
-  quotaName?: string;
+  serviceCode?: string | undefined;
+  quotaCode?: string | undefined;
+  quotaName?: string | undefined;
   status: ServiceQuotaWarningStatus;
   planArn: string;
-  requestId?: string;
-  caseId?: string;
-  warningMessage?: string;
-  lastCheckedAt?: Date;
-  warningCreatedAt?: Date;
+  requestId?: string | undefined;
+  caseId?: string | undefined;
+  warningMessage?: string | undefined;
+  lastCheckedAt?: Date | undefined;
+  warningCreatedAt?: Date | undefined;
 }
 export type ServiceQuotaWarningSummaryList = ServiceQuotaWarningSummary[];
 export interface ListServiceQuotaWarningsResponse {
   serviceQuotaWarningSummaries: ServiceQuotaWarningSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  resourceTags?: { [key: string]: string | undefined };
+  resourceTags?: { [key: string]: string | undefined } | undefined;
 }
 export type RecoveryExecutionId = string;
 export interface StartPlanExecutionRequest {
   planArn: string;
   targetRegion: string;
   action: ExecutionAction;
-  mode?: ExecutionMode;
-  comment?: string;
-  latestVersion?: string;
-  recoveryExecutionId?: string;
-  clientToken?: string;
+  mode?: ExecutionMode | undefined;
+  comment?: string | undefined;
+  latestVersion?: string | undefined;
+  recoveryExecutionId?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartPlanExecutionResponse {
-  executionId?: string;
-  plan?: string;
-  planVersion?: string;
-  activateRegion?: string;
-  deactivateRegion?: string;
+  executionId?: string | undefined;
+  plan?: string | undefined;
+  planVersion?: string | undefined;
+  activateRegion?: string | undefined;
+  deactivateRegion?: string | undefined;
 }
 export interface TagResourceRequest {
   arn: string;
@@ -1375,17 +1375,17 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdatePlanRequest {
   arn: string;
-  description?: string;
+  description?: string | undefined;
   workflows: Workflow[];
   executionRole: string;
-  recoveryTimeObjectiveMinutes?: number;
-  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined };
-  triggers?: Trigger[];
-  reportConfiguration?: ReportConfiguration;
-  serviceQuotaChecksEnabled?: boolean;
+  recoveryTimeObjectiveMinutes?: number | undefined;
+  associatedAlarms?: { [key: string]: AssociatedAlarm | undefined } | undefined;
+  triggers?: Trigger[] | undefined;
+  reportConfiguration?: ReportConfiguration | undefined;
+  serviceQuotaChecksEnabled?: boolean | undefined;
 }
 export interface UpdatePlanResponse {
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export type UpdatePlanExecutionAction =
   | "switchToGraceful"
@@ -1397,7 +1397,7 @@ export interface UpdatePlanExecutionRequest {
   planArn: string;
   executionId: string;
   action: UpdatePlanExecutionAction;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface UpdatePlanExecutionResponse {}
 export type UpdatePlanExecutionStepAction = "switchToUngraceful" | "skip" | (string & {});

@@ -51,10 +51,10 @@ export type CancelBuildResultBuildOutcome =
   | "cancelled"
   | "terminated";
 export interface CancelBuildResult {
-  buildOutcome?: CancelBuildResultBuildOutcome | null;
+  buildOutcome?: CancelBuildResultBuildOutcome | null | undefined;
   /** Build UUID. */
-  buildUuid?: string | null;
-  stoppedOn?: string | null;
+  buildUuid?: string | null | undefined;
+  stoppedOn?: string | null | undefined;
 }
 export type CancelBuildResponse = CancelBuildResult;
 export interface CreateTokenRequest {
@@ -65,11 +65,11 @@ export interface CreateTokenRequest {
   cloudflareTokenId: string;
 }
 export interface CreateTokenResult {
-  buildTokenName?: string | null;
+  buildTokenName?: string | null | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string | null;
-  cloudflareTokenId?: string | null;
-  ownerType?: string | null;
+  buildTokenUuid?: string | null | undefined;
+  cloudflareTokenId?: string | null | undefined;
+  ownerType?: string | null | undefined;
 }
 export type CreateTokenResponse = CreateTokenResult;
 export type CreateTriggerRequestBranchExcludesList = Array<string>;
@@ -102,7 +102,7 @@ export interface CreateTriggerRequest {
   /** Human-readable name of the build trigger. */
   triggerName: string;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean;
+  buildCachingEnabled?: boolean | undefined;
 }
 export type CreateTriggerResultBranchExcludesList = Array<string>;
 export type CreateTriggerResultBranchIncludesList = Array<string>;
@@ -114,52 +114,52 @@ export type CreateTriggerResultRepoConnectionProviderType =
   | "gitlab_internal"
   | "origin";
 export interface CreateTriggerResultRepoConnection {
-  createdOn?: string | null;
-  deletedOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Provider-specific identifier of the account or namespace that owns the repository. */
-  providerAccountId?: string | null;
+  providerAccountId?: string | null | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: CreateTriggerResultRepoConnectionProviderType | null;
+  providerType?: CreateTriggerResultRepoConnectionProviderType | null | undefined;
   /** Repository connection UUID. */
-  repoConnectionUuid?: string | null;
+  repoConnectionUuid?: string | null | undefined;
   /** Provider-specific repository identifier. */
-  repoId?: string | null;
+  repoId?: string | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export interface CreateTriggerResult {
   /** Branch patterns that must not start builds. */
-  branchExcludes?: CreateTriggerResultBranchExcludesList | null;
+  branchExcludes?: CreateTriggerResultBranchExcludesList | null | undefined;
   /** Branch patterns that can start builds. */
-  branchIncludes?: CreateTriggerResultBranchIncludesList | null;
+  branchIncludes?: CreateTriggerResultBranchIncludesList | null | undefined;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean | null;
+  buildCachingEnabled?: boolean | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  buildTokenName?: string | null;
+  buildCommand?: string | null | undefined;
+  buildTokenName?: string | null | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string | null;
-  createdOn?: string | null;
-  deletedOn?: string | null;
+  buildTokenUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
+  deployCommand?: string | null | undefined;
   /** System-generated tag of the Worker. This is not the Worker name. */
-  externalScriptId?: string | null;
-  modifiedOn?: string | null;
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Path patterns that must not start builds. */
-  pathExcludes?: CreateTriggerResultPathExcludesList | null;
+  pathExcludes?: CreateTriggerResultPathExcludesList | null | undefined;
   /** Path patterns that can start builds. */
-  pathIncludes?: CreateTriggerResultPathIncludesList | null;
-  repoConnection?: CreateTriggerResultRepoConnection | null;
+  pathIncludes?: CreateTriggerResultPathIncludesList | null | undefined;
+  repoConnection?: CreateTriggerResultRepoConnection | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
   /** Human-readable name of the build trigger. */
-  triggerName?: string | null;
+  triggerName?: string | null | undefined;
   /** Trigger UUID. */
-  triggerUuid?: string | null;
+  triggerUuid?: string | null | undefined;
 }
 export type CreateTriggerResponse = CreateTriggerResult;
 export interface DeleteReposConnectionRequest {
@@ -204,15 +204,15 @@ export interface DeployHooksCreateRequest {
 }
 export interface DeployHooksCreateResult {
   /** Git branch name. */
-  branch?: string | null;
-  createdOn?: string | null;
+  branch?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Deploy hook name (1-58 characters). */
-  deployHookName?: string | null;
+  deployHookName?: string | null | undefined;
   /** Deploy hook UUID. */
-  deployHookUuid?: string | null;
+  deployHookUuid?: string | null | undefined;
   /** System-generated tag of the Worker. This is not the Worker name. */
-  externalScriptId?: string | null;
-  modifiedOn?: string | null;
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export type DeployHooksCreateResponse = DeployHooksCreateResult;
 export interface DeployHooksDeleteRequest {
@@ -249,11 +249,11 @@ export interface DeployHooksTriggerRequest {
 export type DeployHooksTriggerResultStatus = "queued" | "initializing" | "running" | "stopped";
 export interface DeployHooksTriggerResult {
   /** True if a pending build already exists for this branch */
-  alreadyExists?: boolean | null;
+  alreadyExists?: boolean | null | undefined;
   /** Build UUID. */
-  buildUuid?: string | null;
-  createdOn?: string | null;
-  status?: DeployHooksTriggerResultStatus | null;
+  buildUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  status?: DeployHooksTriggerResultStatus | null | undefined;
 }
 export type DeployHooksTriggerResponse = DeployHooksTriggerResult;
 export interface DeployHooksUpdateRequest {
@@ -276,9 +276,9 @@ export interface GetAccountLimitsRequest {
 }
 export interface GetAccountLimitsResult {
   /** When build minutes will refresh (only for non-paid plans) */
-  buildMinutesRefreshOn?: string | null;
+  buildMinutesRefreshOn?: string | null | undefined;
   /** Whether build minutes limit has been reached (only for non-paid plans) */
-  hasReachedBuildMinutesLimit?: boolean | null;
+  hasReachedBuildMinutesLimit?: boolean | null | undefined;
 }
 export type GetAccountLimitsResponse = GetAccountLimitsResult;
 export interface GetBuildRequest {
@@ -307,38 +307,41 @@ export type GetBuildResultBuildTriggerMetadataProviderType =
   | "gitlab_internal"
   | "origin";
 export interface GetBuildResultBuildTriggerMetadata {
-  author?: string | null;
+  author?: string | null | undefined;
   /** Git branch name. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  buildTokenName?: string | null;
+  buildCommand?: string | null | undefined;
+  buildTokenName?: string | null | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string | null;
-  buildTriggerSource?: GetBuildResultBuildTriggerMetadataBuildTriggerSource | null;
+  buildTokenUuid?: string | null | undefined;
+  buildTriggerSource?: GetBuildResultBuildTriggerMetadataBuildTriggerSource | null | undefined;
   /** Git commit hash */
-  commitHash?: string | null;
-  commitMessage?: string | null;
+  commitHash?: string | null | undefined;
+  commitMessage?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
-  environmentVariables?: GetBuildResultBuildTriggerMetadataEnvironmentVariablesMap | null;
+  deployCommand?: string | null | undefined;
+  environmentVariables?:
+    | GetBuildResultBuildTriggerMetadataEnvironmentVariablesMap
+    | null
+    | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: GetBuildResultBuildTriggerMetadataProviderType | null;
+  providerType?: GetBuildResultBuildTriggerMetadataProviderType | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
 }
 export interface GetBuildResultDeployHook {
   /** Deploy hook name (1-58 characters). */
-  deployHookName?: string | null;
+  deployHookName?: string | null | undefined;
 }
 export interface GetBuildResultPullRequest {
-  closedOn?: string | null;
-  createdOn?: string | null;
-  pullRequestUrl?: string | null;
+  closedOn?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  pullRequestUrl?: string | null | undefined;
 }
 export type GetBuildResultStatus = "queued" | "initializing" | "running" | "stopped";
 export type GetBuildResultTriggerBranchExcludesList = Array<string>;
@@ -351,67 +354,67 @@ export type GetBuildResultTriggerRepoConnectionProviderType =
   | "gitlab_internal"
   | "origin";
 export interface GetBuildResultTriggerRepoConnection {
-  createdOn?: string | null;
-  deletedOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Provider-specific identifier of the account or namespace that owns the repository. */
-  providerAccountId?: string | null;
+  providerAccountId?: string | null | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: GetBuildResultTriggerRepoConnectionProviderType | null;
+  providerType?: GetBuildResultTriggerRepoConnectionProviderType | null | undefined;
   /** Repository connection UUID. */
-  repoConnectionUuid?: string | null;
+  repoConnectionUuid?: string | null | undefined;
   /** Provider-specific repository identifier. */
-  repoId?: string | null;
+  repoId?: string | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export interface GetBuildResultTrigger {
   /** Branch patterns that must not start builds. */
-  branchExcludes?: GetBuildResultTriggerBranchExcludesList | null;
+  branchExcludes?: GetBuildResultTriggerBranchExcludesList | null | undefined;
   /** Branch patterns that can start builds. */
-  branchIncludes?: GetBuildResultTriggerBranchIncludesList | null;
+  branchIncludes?: GetBuildResultTriggerBranchIncludesList | null | undefined;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean | null;
+  buildCachingEnabled?: boolean | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  createdOn?: string | null;
-  deletedOn?: string | null;
+  buildCommand?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
+  deployCommand?: string | null | undefined;
   /** System-generated tag of the Worker. This is not the Worker name. */
-  externalScriptId?: string | null;
-  modifiedOn?: string | null;
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Path patterns that must not start builds. */
-  pathExcludes?: GetBuildResultTriggerPathExcludesList | null;
+  pathExcludes?: GetBuildResultTriggerPathExcludesList | null | undefined;
   /** Path patterns that can start builds. */
-  pathIncludes?: GetBuildResultTriggerPathIncludesList | null;
-  repoConnection?: GetBuildResultTriggerRepoConnection | null;
+  pathIncludes?: GetBuildResultTriggerPathIncludesList | null | undefined;
+  repoConnection?: GetBuildResultTriggerRepoConnection | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
   /** Human-readable name of the build trigger. */
-  triggerName?: string | null;
+  triggerName?: string | null | undefined;
   /** Trigger UUID. */
-  triggerUuid?: string | null;
+  triggerUuid?: string | null | undefined;
 }
 export interface GetBuildResult {
-  buildOutcome?: GetBuildResultBuildOutcome | null;
-  buildTriggerMetadata?: GetBuildResultBuildTriggerMetadata | null;
+  buildOutcome?: GetBuildResultBuildOutcome | null | undefined;
+  buildTriggerMetadata?: GetBuildResultBuildTriggerMetadata | null | undefined;
   /** Build UUID. */
-  buildUuid?: string | null;
-  createdOn?: string | null;
-  deployHook?: GetBuildResultDeployHook | null;
-  initializingOn?: string | null;
-  modifiedOn?: string | null;
+  buildUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deployHook?: GetBuildResultDeployHook | null | undefined;
+  initializingOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
-  previewUrl?: string | null;
-  pullRequest?: GetBuildResultPullRequest | null;
-  runningOn?: string | null;
-  status?: GetBuildResultStatus | null;
-  stoppedOn?: string | null;
+  previewUrl?: string | null | undefined;
+  pullRequest?: GetBuildResultPullRequest | null | undefined;
+  runningOn?: string | null | undefined;
+  status?: GetBuildResultStatus | null | undefined;
+  stoppedOn?: string | null | undefined;
   /** Trigger information without build_token_uuid */
-  trigger?: GetBuildResultTrigger | null;
+  trigger?: GetBuildResultTrigger | null | undefined;
 }
 export type GetBuildResponse = GetBuildResult;
 export interface GetBuildsByVersionRequest {
@@ -440,29 +443,38 @@ export type GetBuildsByVersionResultBuildsValueBuildTriggerMetadataProviderType 
   | "gitlab_internal"
   | "origin";
 export interface GetBuildsByVersionResultBuildsValueBuildTriggerMetadata {
-  author?: string | null;
+  author?: string | null | undefined;
   /** Git branch name. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  buildTokenName?: string | null;
+  buildCommand?: string | null | undefined;
+  buildTokenName?: string | null | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string | null;
-  buildTriggerSource?: GetBuildsByVersionResultBuildsValueBuildTriggerMetadataBuildTriggerSource | null;
+  buildTokenUuid?: string | null | undefined;
+  buildTriggerSource?:
+    | GetBuildsByVersionResultBuildsValueBuildTriggerMetadataBuildTriggerSource
+    | null
+    | undefined;
   /** Git commit hash */
-  commitHash?: string | null;
-  commitMessage?: string | null;
+  commitHash?: string | null | undefined;
+  commitMessage?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
-  environmentVariables?: GetBuildsByVersionResultBuildsValueBuildTriggerMetadataEnvironmentVariablesMap | null;
+  deployCommand?: string | null | undefined;
+  environmentVariables?:
+    | GetBuildsByVersionResultBuildsValueBuildTriggerMetadataEnvironmentVariablesMap
+    | null
+    | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: GetBuildsByVersionResultBuildsValueBuildTriggerMetadataProviderType | null;
+  providerType?:
+    | GetBuildsByVersionResultBuildsValueBuildTriggerMetadataProviderType
+    | null
+    | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
 }
 export type GetBuildsByVersionResultBuildsValueDeployHook = GetBuildResultDeployHook;
 export type GetBuildsByVersionResultBuildsValuePullRequest = GetBuildResultPullRequest;
@@ -481,73 +493,76 @@ export type GetBuildsByVersionResultBuildsValueTriggerRepoConnectionProviderType
   | "gitlab_internal"
   | "origin";
 export interface GetBuildsByVersionResultBuildsValueTriggerRepoConnection {
-  createdOn?: string | null;
-  deletedOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Provider-specific identifier of the account or namespace that owns the repository. */
-  providerAccountId?: string | null;
+  providerAccountId?: string | null | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: GetBuildsByVersionResultBuildsValueTriggerRepoConnectionProviderType | null;
+  providerType?:
+    | GetBuildsByVersionResultBuildsValueTriggerRepoConnectionProviderType
+    | null
+    | undefined;
   /** Repository connection UUID. */
-  repoConnectionUuid?: string | null;
+  repoConnectionUuid?: string | null | undefined;
   /** Provider-specific repository identifier. */
-  repoId?: string | null;
+  repoId?: string | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export interface GetBuildsByVersionResultBuildsValueTrigger {
   /** Branch patterns that must not start builds. */
-  branchExcludes?: GetBuildsByVersionResultBuildsValueTriggerBranchExcludesList | null;
+  branchExcludes?: GetBuildsByVersionResultBuildsValueTriggerBranchExcludesList | null | undefined;
   /** Branch patterns that can start builds. */
-  branchIncludes?: GetBuildsByVersionResultBuildsValueTriggerBranchIncludesList | null;
+  branchIncludes?: GetBuildsByVersionResultBuildsValueTriggerBranchIncludesList | null | undefined;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean | null;
+  buildCachingEnabled?: boolean | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  createdOn?: string | null;
-  deletedOn?: string | null;
+  buildCommand?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
+  deployCommand?: string | null | undefined;
   /** System-generated tag of the Worker. This is not the Worker name. */
-  externalScriptId?: string | null;
-  modifiedOn?: string | null;
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Path patterns that must not start builds. */
-  pathExcludes?: GetBuildsByVersionResultBuildsValueTriggerPathExcludesList | null;
+  pathExcludes?: GetBuildsByVersionResultBuildsValueTriggerPathExcludesList | null | undefined;
   /** Path patterns that can start builds. */
-  pathIncludes?: GetBuildsByVersionResultBuildsValueTriggerPathIncludesList | null;
-  repoConnection?: GetBuildsByVersionResultBuildsValueTriggerRepoConnection | null;
+  pathIncludes?: GetBuildsByVersionResultBuildsValueTriggerPathIncludesList | null | undefined;
+  repoConnection?: GetBuildsByVersionResultBuildsValueTriggerRepoConnection | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
   /** Human-readable name of the build trigger. */
-  triggerName?: string | null;
+  triggerName?: string | null | undefined;
   /** Trigger UUID. */
-  triggerUuid?: string | null;
+  triggerUuid?: string | null | undefined;
 }
 export interface GetBuildsByVersionResultBuildsValue {
-  buildOutcome?: GetBuildsByVersionResultBuildsValueBuildOutcome | null;
-  buildTriggerMetadata?: GetBuildsByVersionResultBuildsValueBuildTriggerMetadata | null;
+  buildOutcome?: GetBuildsByVersionResultBuildsValueBuildOutcome | null | undefined;
+  buildTriggerMetadata?: GetBuildsByVersionResultBuildsValueBuildTriggerMetadata | null | undefined;
   /** Build UUID. */
-  buildUuid?: string | null;
-  createdOn?: string | null;
-  deployHook?: GetBuildResultDeployHook | null;
-  initializingOn?: string | null;
-  modifiedOn?: string | null;
+  buildUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deployHook?: GetBuildResultDeployHook | null | undefined;
+  initializingOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
-  previewUrl?: string | null;
-  pullRequest?: GetBuildResultPullRequest | null;
-  runningOn?: string | null;
-  status?: GetBuildsByVersionResultBuildsValueStatus | null;
-  stoppedOn?: string | null;
+  previewUrl?: string | null | undefined;
+  pullRequest?: GetBuildResultPullRequest | null | undefined;
+  runningOn?: string | null | undefined;
+  status?: GetBuildsByVersionResultBuildsValueStatus | null | undefined;
+  stoppedOn?: string | null | undefined;
   /** Trigger information without build_token_uuid */
-  trigger?: GetBuildsByVersionResultBuildsValueTrigger | null;
+  trigger?: GetBuildsByVersionResultBuildsValueTrigger | null | undefined;
 }
 export type GetBuildsByVersionResultBuildsMap = {
   [key: string]: GetBuildsByVersionResultBuildsValue | undefined;
 };
 export interface GetBuildsByVersionResult {
-  builds?: GetBuildsByVersionResultBuildsMap | null;
+  builds?: GetBuildsByVersionResultBuildsMap | null | undefined;
 }
 export type GetBuildsByVersionResponse = GetBuildsByVersionResult;
 export interface GetBuildsLogRequest {
@@ -556,15 +571,15 @@ export interface GetBuildsLogRequest {
   /** Build UUID. */
   buildUuid: string;
   /** Pagination cursor for log retrieval. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type GetBuildsLogResultLinesItem = string | number;
 export type GetBuildsLogResultLinesList = Array<GetBuildsLogResultLinesItem>;
 export interface GetBuildsLogResult {
   /** Pagination cursor for log retrieval. */
-  cursor?: string | null;
-  lines?: GetBuildsLogResultLinesList | null;
-  truncated?: boolean | null;
+  cursor?: string | null | undefined;
+  lines?: GetBuildsLogResultLinesList | null | undefined;
+  truncated?: boolean | null | undefined;
 }
 export type GetBuildsLogResponse = GetBuildsLogResult;
 export interface GetLatestBuildsRequest {
@@ -593,29 +608,38 @@ export type GetLatestBuildsResultBuildsValueBuildTriggerMetadataProviderType =
   | "gitlab_internal"
   | "origin";
 export interface GetLatestBuildsResultBuildsValueBuildTriggerMetadata {
-  author?: string | null;
+  author?: string | null | undefined;
   /** Git branch name. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  buildTokenName?: string | null;
+  buildCommand?: string | null | undefined;
+  buildTokenName?: string | null | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string | null;
-  buildTriggerSource?: GetLatestBuildsResultBuildsValueBuildTriggerMetadataBuildTriggerSource | null;
+  buildTokenUuid?: string | null | undefined;
+  buildTriggerSource?:
+    | GetLatestBuildsResultBuildsValueBuildTriggerMetadataBuildTriggerSource
+    | null
+    | undefined;
   /** Git commit hash */
-  commitHash?: string | null;
-  commitMessage?: string | null;
+  commitHash?: string | null | undefined;
+  commitMessage?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
-  environmentVariables?: GetLatestBuildsResultBuildsValueBuildTriggerMetadataEnvironmentVariablesMap | null;
+  deployCommand?: string | null | undefined;
+  environmentVariables?:
+    | GetLatestBuildsResultBuildsValueBuildTriggerMetadataEnvironmentVariablesMap
+    | null
+    | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: GetLatestBuildsResultBuildsValueBuildTriggerMetadataProviderType | null;
+  providerType?:
+    | GetLatestBuildsResultBuildsValueBuildTriggerMetadataProviderType
+    | null
+    | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
 }
 export type GetLatestBuildsResultBuildsValueDeployHook = GetBuildResultDeployHook;
 export type GetLatestBuildsResultBuildsValuePullRequest = GetBuildResultPullRequest;
@@ -634,73 +658,76 @@ export type GetLatestBuildsResultBuildsValueTriggerRepoConnectionProviderType =
   | "gitlab_internal"
   | "origin";
 export interface GetLatestBuildsResultBuildsValueTriggerRepoConnection {
-  createdOn?: string | null;
-  deletedOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Provider-specific identifier of the account or namespace that owns the repository. */
-  providerAccountId?: string | null;
+  providerAccountId?: string | null | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: GetLatestBuildsResultBuildsValueTriggerRepoConnectionProviderType | null;
+  providerType?:
+    | GetLatestBuildsResultBuildsValueTriggerRepoConnectionProviderType
+    | null
+    | undefined;
   /** Repository connection UUID. */
-  repoConnectionUuid?: string | null;
+  repoConnectionUuid?: string | null | undefined;
   /** Provider-specific repository identifier. */
-  repoId?: string | null;
+  repoId?: string | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export interface GetLatestBuildsResultBuildsValueTrigger {
   /** Branch patterns that must not start builds. */
-  branchExcludes?: GetLatestBuildsResultBuildsValueTriggerBranchExcludesList | null;
+  branchExcludes?: GetLatestBuildsResultBuildsValueTriggerBranchExcludesList | null | undefined;
   /** Branch patterns that can start builds. */
-  branchIncludes?: GetLatestBuildsResultBuildsValueTriggerBranchIncludesList | null;
+  branchIncludes?: GetLatestBuildsResultBuildsValueTriggerBranchIncludesList | null | undefined;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean | null;
+  buildCachingEnabled?: boolean | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  createdOn?: string | null;
-  deletedOn?: string | null;
+  buildCommand?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
+  deployCommand?: string | null | undefined;
   /** System-generated tag of the Worker. This is not the Worker name. */
-  externalScriptId?: string | null;
-  modifiedOn?: string | null;
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Path patterns that must not start builds. */
-  pathExcludes?: GetLatestBuildsResultBuildsValueTriggerPathExcludesList | null;
+  pathExcludes?: GetLatestBuildsResultBuildsValueTriggerPathExcludesList | null | undefined;
   /** Path patterns that can start builds. */
-  pathIncludes?: GetLatestBuildsResultBuildsValueTriggerPathIncludesList | null;
-  repoConnection?: GetLatestBuildsResultBuildsValueTriggerRepoConnection | null;
+  pathIncludes?: GetLatestBuildsResultBuildsValueTriggerPathIncludesList | null | undefined;
+  repoConnection?: GetLatestBuildsResultBuildsValueTriggerRepoConnection | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
   /** Human-readable name of the build trigger. */
-  triggerName?: string | null;
+  triggerName?: string | null | undefined;
   /** Trigger UUID. */
-  triggerUuid?: string | null;
+  triggerUuid?: string | null | undefined;
 }
 export interface GetLatestBuildsResultBuildsValue {
-  buildOutcome?: GetLatestBuildsResultBuildsValueBuildOutcome | null;
-  buildTriggerMetadata?: GetLatestBuildsResultBuildsValueBuildTriggerMetadata | null;
+  buildOutcome?: GetLatestBuildsResultBuildsValueBuildOutcome | null | undefined;
+  buildTriggerMetadata?: GetLatestBuildsResultBuildsValueBuildTriggerMetadata | null | undefined;
   /** Build UUID. */
-  buildUuid?: string | null;
-  createdOn?: string | null;
-  deployHook?: GetBuildResultDeployHook | null;
-  initializingOn?: string | null;
-  modifiedOn?: string | null;
+  buildUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deployHook?: GetBuildResultDeployHook | null | undefined;
+  initializingOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
-  previewUrl?: string | null;
-  pullRequest?: GetBuildResultPullRequest | null;
-  runningOn?: string | null;
-  status?: GetLatestBuildsResultBuildsValueStatus | null;
-  stoppedOn?: string | null;
+  previewUrl?: string | null | undefined;
+  pullRequest?: GetBuildResultPullRequest | null | undefined;
+  runningOn?: string | null | undefined;
+  status?: GetLatestBuildsResultBuildsValueStatus | null | undefined;
+  stoppedOn?: string | null | undefined;
   /** Trigger information without build_token_uuid */
-  trigger?: GetLatestBuildsResultBuildsValueTrigger | null;
+  trigger?: GetLatestBuildsResultBuildsValueTrigger | null | undefined;
 }
 export type GetLatestBuildsResultBuildsMap = {
   [key: string]: GetLatestBuildsResultBuildsValue | undefined;
 };
 export interface GetLatestBuildsResult {
-  builds?: GetLatestBuildsResultBuildsMap | null;
+  builds?: GetLatestBuildsResultBuildsMap | null | undefined;
 }
 export type GetLatestBuildsResponse = GetLatestBuildsResult;
 export type GetReposConfigAutofillRequestProviderType =
@@ -720,18 +747,18 @@ export interface GetReposConfigAutofillRequest {
   /** Git branch name. */
   branch: string;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string;
+  rootDirectory?: string | undefined;
 }
 export type GetReposConfigAutofillResultEnvWorkerNamesMap = { [key: string]: string | undefined };
 export type GetReposConfigAutofillResultPackageManager = "npm" | "yarn" | "pnpm" | "bun" | "uv";
 export type GetReposConfigAutofillResultScriptsMap = { [key: string]: string | undefined };
 export interface GetReposConfigAutofillResult {
-  configFile?: string | null;
-  defaultWorkerName?: string | null;
-  envWorkerNames?: GetReposConfigAutofillResultEnvWorkerNamesMap | null;
+  configFile?: string | null | undefined;
+  defaultWorkerName?: string | null | undefined;
+  envWorkerNames?: GetReposConfigAutofillResultEnvWorkerNamesMap | null | undefined;
   /** Package manager inferred from repository lockfiles; defaults to npm when none is detected. */
-  packageManager?: GetReposConfigAutofillResultPackageManager | null;
-  scripts?: GetReposConfigAutofillResultScriptsMap | null;
+  packageManager?: GetReposConfigAutofillResultPackageManager | null | undefined;
+  scripts?: GetReposConfigAutofillResultScriptsMap | null | undefined;
 }
 export type GetReposConfigAutofillResponse = GetReposConfigAutofillResult;
 export interface ListBuildsRequest {
@@ -740,18 +767,18 @@ export interface ListBuildsRequest {
   /** System-generated tag of the Worker. This is not the Worker name. */
   externalScriptId: string;
   /** Page number for pagination */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListBuildsResponse = unknown;
 export interface ListTokensRequest {
   /** Account identifier. */
   accountId: string;
   /** Page number for pagination */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListTokensResponse = unknown;
 export interface ListTriggersRequest {
@@ -773,9 +800,9 @@ export interface TriggersCreateBuildRequestSeedRepoFilesItem {
   content: string;
   filename: string;
   /** Whether content is Base64-encoded. */
-  isBase64?: boolean;
+  isBase64?: boolean | undefined;
   /** Existing text in the target file to replace with content. */
-  replace?: string;
+  replace?: string | undefined;
 }
 export type TriggersCreateBuildRequestSeedRepoFilesList =
   Array<TriggersCreateBuildRequestSeedRepoFilesItem>;
@@ -787,11 +814,11 @@ export interface TriggersCreateBuildRequestSeedRepo {
   /** Repository name. */
   repository: string;
   /** Repository branch to seed. */
-  branch?: string;
+  branch?: string | undefined;
   /** Files to add or replace for this build. Maximum 2. */
-  files?: TriggersCreateBuildRequestSeedRepoFilesList;
+  files?: TriggersCreateBuildRequestSeedRepoFilesList | undefined;
   /** Path within the repository to seed. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface TriggersCreateBuildRequest {
   /** Account identifier. */
@@ -799,11 +826,11 @@ export interface TriggersCreateBuildRequest {
   /** Trigger UUID. */
   triggerUuid: string;
   /** Git branch name (required if commit_hash not provided) */
-  branch?: string;
+  branch?: string | undefined;
   /** Git commit hash (required if branch not provided) */
-  commitHash?: string;
+  commitHash?: string | undefined;
   /** Optional repository and file overrides used to seed this build. */
-  seedRepo?: TriggersCreateBuildRequestSeedRepo;
+  seedRepo?: TriggersCreateBuildRequestSeedRepo | undefined;
 }
 export type TriggersCreateBuildResultBuildOutcome =
   | "success"
@@ -825,29 +852,35 @@ export type TriggersCreateBuildResultBuildTriggerMetadataProviderType =
   | "gitlab_internal"
   | "origin";
 export interface TriggersCreateBuildResultBuildTriggerMetadata {
-  author?: string | null;
+  author?: string | null | undefined;
   /** Git branch name. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  buildTokenName?: string | null;
+  buildCommand?: string | null | undefined;
+  buildTokenName?: string | null | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string | null;
-  buildTriggerSource?: TriggersCreateBuildResultBuildTriggerMetadataBuildTriggerSource | null;
+  buildTokenUuid?: string | null | undefined;
+  buildTriggerSource?:
+    | TriggersCreateBuildResultBuildTriggerMetadataBuildTriggerSource
+    | null
+    | undefined;
   /** Git commit hash */
-  commitHash?: string | null;
-  commitMessage?: string | null;
+  commitHash?: string | null | undefined;
+  commitMessage?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
-  environmentVariables?: TriggersCreateBuildResultBuildTriggerMetadataEnvironmentVariablesMap | null;
+  deployCommand?: string | null | undefined;
+  environmentVariables?:
+    | TriggersCreateBuildResultBuildTriggerMetadataEnvironmentVariablesMap
+    | null
+    | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: TriggersCreateBuildResultBuildTriggerMetadataProviderType | null;
+  providerType?: TriggersCreateBuildResultBuildTriggerMetadataProviderType | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
 }
 export type TriggersCreateBuildResultDeployHook = GetBuildResultDeployHook;
 export type TriggersCreateBuildResultPullRequest = GetBuildResultPullRequest;
@@ -862,67 +895,67 @@ export type TriggersCreateBuildResultTriggerRepoConnectionProviderType =
   | "gitlab_internal"
   | "origin";
 export interface TriggersCreateBuildResultTriggerRepoConnection {
-  createdOn?: string | null;
-  deletedOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Provider-specific identifier of the account or namespace that owns the repository. */
-  providerAccountId?: string | null;
+  providerAccountId?: string | null | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: TriggersCreateBuildResultTriggerRepoConnectionProviderType | null;
+  providerType?: TriggersCreateBuildResultTriggerRepoConnectionProviderType | null | undefined;
   /** Repository connection UUID. */
-  repoConnectionUuid?: string | null;
+  repoConnectionUuid?: string | null | undefined;
   /** Provider-specific repository identifier. */
-  repoId?: string | null;
+  repoId?: string | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export interface TriggersCreateBuildResultTrigger {
   /** Branch patterns that must not start builds. */
-  branchExcludes?: TriggersCreateBuildResultTriggerBranchExcludesList | null;
+  branchExcludes?: TriggersCreateBuildResultTriggerBranchExcludesList | null | undefined;
   /** Branch patterns that can start builds. */
-  branchIncludes?: TriggersCreateBuildResultTriggerBranchIncludesList | null;
+  branchIncludes?: TriggersCreateBuildResultTriggerBranchIncludesList | null | undefined;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean | null;
+  buildCachingEnabled?: boolean | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  createdOn?: string | null;
-  deletedOn?: string | null;
+  buildCommand?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
+  deployCommand?: string | null | undefined;
   /** System-generated tag of the Worker. This is not the Worker name. */
-  externalScriptId?: string | null;
-  modifiedOn?: string | null;
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Path patterns that must not start builds. */
-  pathExcludes?: TriggersCreateBuildResultTriggerPathExcludesList | null;
+  pathExcludes?: TriggersCreateBuildResultTriggerPathExcludesList | null | undefined;
   /** Path patterns that can start builds. */
-  pathIncludes?: TriggersCreateBuildResultTriggerPathIncludesList | null;
-  repoConnection?: TriggersCreateBuildResultTriggerRepoConnection | null;
+  pathIncludes?: TriggersCreateBuildResultTriggerPathIncludesList | null | undefined;
+  repoConnection?: TriggersCreateBuildResultTriggerRepoConnection | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
   /** Human-readable name of the build trigger. */
-  triggerName?: string | null;
+  triggerName?: string | null | undefined;
   /** Trigger UUID. */
-  triggerUuid?: string | null;
+  triggerUuid?: string | null | undefined;
 }
 export interface TriggersCreateBuildResult {
-  buildOutcome?: TriggersCreateBuildResultBuildOutcome | null;
-  buildTriggerMetadata?: TriggersCreateBuildResultBuildTriggerMetadata | null;
+  buildOutcome?: TriggersCreateBuildResultBuildOutcome | null | undefined;
+  buildTriggerMetadata?: TriggersCreateBuildResultBuildTriggerMetadata | null | undefined;
   /** Build UUID. */
-  buildUuid?: string | null;
-  createdOn?: string | null;
-  deployHook?: GetBuildResultDeployHook | null;
-  initializingOn?: string | null;
-  modifiedOn?: string | null;
+  buildUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deployHook?: GetBuildResultDeployHook | null | undefined;
+  initializingOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** URL serving the Worker version this build deployed. Only returned by Get build by UUID, and only once the build has produced a preview artifact. */
-  previewUrl?: string | null;
-  pullRequest?: GetBuildResultPullRequest | null;
-  runningOn?: string | null;
-  status?: TriggersCreateBuildResultStatus | null;
-  stoppedOn?: string | null;
+  previewUrl?: string | null | undefined;
+  pullRequest?: GetBuildResultPullRequest | null | undefined;
+  runningOn?: string | null | undefined;
+  status?: TriggersCreateBuildResultStatus | null | undefined;
+  stoppedOn?: string | null | undefined;
   /** Trigger information without build_token_uuid */
-  trigger?: TriggersCreateBuildResultTrigger | null;
+  trigger?: TriggersCreateBuildResultTrigger | null | undefined;
 }
 export type TriggersCreateBuildResponse = TriggersCreateBuildResult;
 export interface TriggersPurgeCacheRequest {
@@ -942,25 +975,25 @@ export interface UpdateTriggerRequest {
   /** Trigger UUID. */
   triggerUuid: string;
   /** Branch patterns that must not start builds. */
-  branchExcludes?: UpdateTriggerRequestBranchExcludesList;
+  branchExcludes?: UpdateTriggerRequestBranchExcludesList | undefined;
   /** Branch patterns that can start builds. */
-  branchIncludes?: UpdateTriggerRequestBranchIncludesList;
+  branchIncludes?: UpdateTriggerRequestBranchIncludesList | undefined;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean;
+  buildCachingEnabled?: boolean | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string;
+  buildTokenUuid?: string | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string;
+  deployCommand?: string | undefined;
   /** Path patterns that must not start builds. */
-  pathExcludes?: UpdateTriggerRequestPathExcludesList;
+  pathExcludes?: UpdateTriggerRequestPathExcludesList | undefined;
   /** Path patterns that can start builds. */
-  pathIncludes?: UpdateTriggerRequestPathIncludesList;
+  pathIncludes?: UpdateTriggerRequestPathIncludesList | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string;
+  rootDirectory?: string | undefined;
   /** Human-readable name of the build trigger. */
-  triggerName?: string;
+  triggerName?: string | undefined;
 }
 export type UpdateTriggerResultBranchExcludesList = Array<string>;
 export type UpdateTriggerResultBranchIncludesList = Array<string>;
@@ -972,52 +1005,52 @@ export type UpdateTriggerResultRepoConnectionProviderType =
   | "gitlab_internal"
   | "origin";
 export interface UpdateTriggerResultRepoConnection {
-  createdOn?: string | null;
-  deletedOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Provider-specific identifier of the account or namespace that owns the repository. */
-  providerAccountId?: string | null;
+  providerAccountId?: string | null | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: UpdateTriggerResultRepoConnectionProviderType | null;
+  providerType?: UpdateTriggerResultRepoConnectionProviderType | null | undefined;
   /** Repository connection UUID. */
-  repoConnectionUuid?: string | null;
+  repoConnectionUuid?: string | null | undefined;
   /** Provider-specific repository identifier. */
-  repoId?: string | null;
+  repoId?: string | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export interface UpdateTriggerResult {
   /** Branch patterns that must not start builds. */
-  branchExcludes?: UpdateTriggerResultBranchExcludesList | null;
+  branchExcludes?: UpdateTriggerResultBranchExcludesList | null | undefined;
   /** Branch patterns that can start builds. */
-  branchIncludes?: UpdateTriggerResultBranchIncludesList | null;
+  branchIncludes?: UpdateTriggerResultBranchIncludesList | null | undefined;
   /** Whether builds reuse cached dependencies and build artifacts. */
-  buildCachingEnabled?: boolean | null;
+  buildCachingEnabled?: boolean | null | undefined;
   /** Command to build the Worker. */
-  buildCommand?: string | null;
-  buildTokenName?: string | null;
+  buildCommand?: string | null | undefined;
+  buildTokenName?: string | null | undefined;
   /** UUID of the build token used when deploying the Worker. */
-  buildTokenUuid?: string | null;
-  createdOn?: string | null;
-  deletedOn?: string | null;
+  buildTokenUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
   /** Command to deploy the Worker. */
-  deployCommand?: string | null;
+  deployCommand?: string | null | undefined;
   /** System-generated tag of the Worker. This is not the Worker name. */
-  externalScriptId?: string | null;
-  modifiedOn?: string | null;
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Path patterns that must not start builds. */
-  pathExcludes?: UpdateTriggerResultPathExcludesList | null;
+  pathExcludes?: UpdateTriggerResultPathExcludesList | null | undefined;
   /** Path patterns that can start builds. */
-  pathIncludes?: UpdateTriggerResultPathIncludesList | null;
-  repoConnection?: UpdateTriggerResultRepoConnection | null;
+  pathIncludes?: UpdateTriggerResultPathIncludesList | null | undefined;
+  repoConnection?: UpdateTriggerResultRepoConnection | null | undefined;
   /** Repository directory in which build and deploy commands run. */
-  rootDirectory?: string | null;
+  rootDirectory?: string | null | undefined;
   /** Human-readable name of the build trigger. */
-  triggerName?: string | null;
+  triggerName?: string | null | undefined;
   /** Trigger UUID. */
-  triggerUuid?: string | null;
+  triggerUuid?: string | null | undefined;
 }
 export type UpdateTriggerResponse = UpdateTriggerResult;
 export type UpsertReposConnectionRequestProviderType =
@@ -1045,21 +1078,21 @@ export type UpsertReposConnectionResultProviderType =
   | "gitlab_internal"
   | "origin";
 export interface UpsertReposConnectionResult {
-  createdOn?: string | null;
-  deletedOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Provider-specific identifier of the account or namespace that owns the repository. */
-  providerAccountId?: string | null;
+  providerAccountId?: string | null | undefined;
   /** Human-readable name of the account or namespace that owns the repository. */
-  providerAccountName?: string | null;
+  providerAccountName?: string | null | undefined;
   /** Source control provider. */
-  providerType?: UpsertReposConnectionResultProviderType | null;
+  providerType?: UpsertReposConnectionResultProviderType | null | undefined;
   /** Repository connection UUID. */
-  repoConnectionUuid?: string | null;
+  repoConnectionUuid?: string | null | undefined;
   /** Provider-specific repository identifier. */
-  repoId?: string | null;
+  repoId?: string | null | undefined;
   /** Human-readable repository name. */
-  repoName?: string | null;
+  repoName?: string | null | undefined;
 }
 export type UpsertReposConnectionResponse = UpsertReposConnectionResult;
 export interface UpsertTriggersEnvironmentVariableRequestBodyValue {

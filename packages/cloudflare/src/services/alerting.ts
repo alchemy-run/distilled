@@ -218,7 +218,7 @@ export interface CreateDestinationPagerdutyRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDestinationPagerdutyResponse {
   /** token in form of UUID */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface CreateDestinationWebhookRequest {
   /** The account id */
@@ -228,12 +228,12 @@ export interface CreateDestinationWebhookRequest {
   /** The POST endpoint to call when dispatching a notification. */
   url: string;
   /** Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body. */
-  secret?: string;
+  secret?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDestinationWebhookResponse {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type PoliciesCreateRequestAlertType =
   | "abuse_report_alert"
@@ -311,13 +311,13 @@ export type PoliciesCreateRequestAlertType =
   | "log_explorer_ingest_rate_limit";
 export interface PoliciesCreateRequestMechanismsEmailItem {
   /** The email address */
-  id?: string;
+  id?: string | undefined;
 }
 export type PoliciesCreateRequestMechanismsEmailList =
   Array<PoliciesCreateRequestMechanismsEmailItem>;
 export interface PoliciesCreateRequestMechanismsPagerdutyItem {
   /** UUID */
-  id?: string;
+  id?: string | undefined;
 }
 export type PoliciesCreateRequestMechanismsPagerdutyList =
   Array<PoliciesCreateRequestMechanismsPagerdutyItem>;
@@ -326,9 +326,9 @@ export type PoliciesCreateRequestMechanismsWebhooksItem =
 export type PoliciesCreateRequestMechanismsWebhooksList =
   Array<PoliciesCreateRequestMechanismsPagerdutyItem>;
 export interface PoliciesCreateRequestMechanisms {
-  email?: PoliciesCreateRequestMechanismsEmailList;
-  pagerduty?: PoliciesCreateRequestMechanismsPagerdutyList;
-  webhooks?: PoliciesCreateRequestMechanismsWebhooksList;
+  email?: PoliciesCreateRequestMechanismsEmailList | undefined;
+  pagerduty?: PoliciesCreateRequestMechanismsPagerdutyList | undefined;
+  webhooks?: PoliciesCreateRequestMechanismsWebhooksList | undefined;
 }
 export type PoliciesCreateRequestFiltersActionsList = Array<string>;
 export type PoliciesCreateRequestFiltersAffectedAsnsList = Array<string>;
@@ -387,105 +387,109 @@ export type PoliciesCreateRequestFiltersZonesList = Array<string>;
 export type PoliciesCreateRequestFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesCreateRequestFilters {
   /** Usage depends on specific alert type */
-  actions?: PoliciesCreateRequestFiltersActionsList;
+  actions?: PoliciesCreateRequestFiltersActionsList | undefined;
   /** Used for configuring radar_notification */
-  affectedAsns?: PoliciesCreateRequestFiltersAffectedAsnsList;
+  affectedAsns?: PoliciesCreateRequestFiltersAffectedAsnsList | undefined;
   /** Used for configuring incident_alert */
-  affectedComponents?: PoliciesCreateRequestFiltersAffectedComponentsList;
+  affectedComponents?: PoliciesCreateRequestFiltersAffectedComponentsList | undefined;
   /** Used for configuring radar_notification */
-  affectedLocations?: PoliciesCreateRequestFiltersAffectedLocationsList;
+  affectedLocations?: PoliciesCreateRequestFiltersAffectedLocationsList | undefined;
   /** Used for configuring maintenance_event_notification */
-  airportCode?: PoliciesCreateRequestFiltersAirportCodeList;
+  airportCode?: PoliciesCreateRequestFiltersAirportCodeList | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferences?: PoliciesCreateRequestFiltersAlertTriggerPreferencesList;
+  alertTriggerPreferences?: PoliciesCreateRequestFiltersAlertTriggerPreferencesList | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferencesValue?: PoliciesCreateRequestFiltersAlertTriggerPreferencesValueList;
+  alertTriggerPreferencesValue?:
+    | PoliciesCreateRequestFiltersAlertTriggerPreferencesValueList
+    | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
-  enabled?: PoliciesCreateRequestFiltersEnabledList;
+  enabled?: PoliciesCreateRequestFiltersEnabledList | undefined;
   /** Used for configuring pages_event_alert */
-  environment?: PoliciesCreateRequestFiltersEnvironmentList;
+  environment?: PoliciesCreateRequestFiltersEnvironmentList | undefined;
   /** Used for configuring pages_event_alert */
-  event?: PoliciesCreateRequestFiltersEventList;
+  event?: PoliciesCreateRequestFiltersEventList | undefined;
   /** Used for configuring load_balancing_health_alert */
-  eventSource?: PoliciesCreateRequestFiltersEventSourceList;
+  eventSource?: PoliciesCreateRequestFiltersEventSourceList | undefined;
   /** Usage depends on specific alert type */
-  eventType?: PoliciesCreateRequestFiltersEventTypeList;
+  eventType?: PoliciesCreateRequestFiltersEventTypeList | undefined;
   /** Usage depends on specific alert type */
-  groupBy?: PoliciesCreateRequestFiltersGroupByList;
+  groupBy?: PoliciesCreateRequestFiltersGroupByList | undefined;
   /** Used for configuring health_check_status_notification */
-  healthCheckId?: PoliciesCreateRequestFiltersHealthCheckIdList;
+  healthCheckId?: PoliciesCreateRequestFiltersHealthCheckIdList | undefined;
   /** Used for configuring incident_alert */
-  incidentImpact?: PoliciesCreateRequestFiltersIncidentImpactList;
+  incidentImpact?: PoliciesCreateRequestFiltersIncidentImpactList | undefined;
   /** Used for configuring stream_live_notifications */
-  inputId?: PoliciesCreateRequestFiltersInputIdList;
+  inputId?: PoliciesCreateRequestFiltersInputIdList | undefined;
   /** Used for configuring security_insights_alert */
-  insightClass?: PoliciesCreateRequestFiltersInsightClassList;
+  insightClass?: PoliciesCreateRequestFiltersInsightClassList | undefined;
   /** Used for configuring billing_usage_alert */
-  limit?: PoliciesCreateRequestFiltersLimitList;
+  limit?: PoliciesCreateRequestFiltersLimitList | undefined;
   /** Used for configuring logo_match_alert */
-  logoTag?: PoliciesCreateRequestFiltersLogoTagList;
+  logoTag?: PoliciesCreateRequestFiltersLogoTagList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  megabitsPerSecond?: PoliciesCreateRequestFiltersMegabitsPerSecondList;
+  megabitsPerSecond?: PoliciesCreateRequestFiltersMegabitsPerSecondList | undefined;
   /** Used for configuring load_balancing_health_alert */
-  newHealth?: PoliciesCreateRequestFiltersNewHealthList;
+  newHealth?: PoliciesCreateRequestFiltersNewHealthList | undefined;
   /** Used for configuring tunnel_health_event */
-  newStatus?: PoliciesCreateRequestFiltersNewStatusList;
+  newStatus?: PoliciesCreateRequestFiltersNewStatusList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  packetsPerSecond?: PoliciesCreateRequestFiltersPacketsPerSecondList;
+  packetsPerSecond?: PoliciesCreateRequestFiltersPacketsPerSecondList | undefined;
   /** Usage depends on specific alert type */
-  poolId?: PoliciesCreateRequestFiltersPoolIdList;
+  poolId?: PoliciesCreateRequestFiltersPoolIdList | undefined;
   /** Usage depends on specific alert type */
-  popNames?: PoliciesCreateRequestFiltersPopNamesList;
+  popNames?: PoliciesCreateRequestFiltersPopNamesList | undefined;
   /** Used for configuring billing_usage_alert */
-  product?: PoliciesCreateRequestFiltersProductList;
+  product?: PoliciesCreateRequestFiltersProductList | undefined;
   /** Used for configuring pages_event_alert */
-  projectId?: PoliciesCreateRequestFiltersProjectIdList;
+  projectId?: PoliciesCreateRequestFiltersProjectIdList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  protocol?: PoliciesCreateRequestFiltersProtocolList;
+  protocol?: PoliciesCreateRequestFiltersProtocolList | undefined;
   /** Usage depends on specific alert type */
-  queryTag?: PoliciesCreateRequestFiltersQueryTagList;
+  queryTag?: PoliciesCreateRequestFiltersQueryTagList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  requestsPerSecond?: PoliciesCreateRequestFiltersRequestsPerSecondList;
+  requestsPerSecond?: PoliciesCreateRequestFiltersRequestsPerSecondList | undefined;
   /** Usage depends on specific alert type */
-  selectors?: PoliciesCreateRequestFiltersSelectorsList;
+  selectors?: PoliciesCreateRequestFiltersSelectorsList | undefined;
   /** Used for configuring clickhouse_alert_fw_ent_anomaly */
-  services?: PoliciesCreateRequestFiltersServicesList;
+  services?: PoliciesCreateRequestFiltersServicesList | undefined;
   /** Usage depends on specific alert type */
-  slo?: PoliciesCreateRequestFiltersSloList;
+  slo?: PoliciesCreateRequestFiltersSloList | undefined;
   /** Used for configuring health_check_status_notification */
-  status?: PoliciesCreateRequestFiltersStatusList;
+  status?: PoliciesCreateRequestFiltersStatusList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetHostname?: PoliciesCreateRequestFiltersTargetHostnameList;
+  targetHostname?: PoliciesCreateRequestFiltersTargetHostnameList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  targetIp?: PoliciesCreateRequestFiltersTargetIpList;
+  targetIp?: PoliciesCreateRequestFiltersTargetIpList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetZoneName?: PoliciesCreateRequestFiltersTargetZoneNameList;
+  targetZoneName?: PoliciesCreateRequestFiltersTargetZoneNameList | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
-  tokenId?: PoliciesCreateRequestFiltersTokenIdList;
+  tokenId?: PoliciesCreateRequestFiltersTokenIdList | undefined;
   /** Used for configuring traffic_anomalies_alert */
-  trafficExclusions?: PoliciesCreateRequestFiltersTrafficExclusionsList;
+  trafficExclusions?: PoliciesCreateRequestFiltersTrafficExclusionsList | undefined;
   /** Used for configuring tunnel_health_event */
-  tunnelId?: PoliciesCreateRequestFiltersTunnelIdList;
+  tunnelId?: PoliciesCreateRequestFiltersTunnelIdList | undefined;
   /** Usage depends on specific alert type */
-  tunnelName?: PoliciesCreateRequestFiltersTunnelNameList;
+  tunnelName?: PoliciesCreateRequestFiltersTunnelNameList | undefined;
   /** Usage depends on specific alert type */
-  type?: PoliciesCreateRequestFiltersTypeList;
+  type?: PoliciesCreateRequestFiltersTypeList | undefined;
   /** Usage depends on specific alert type */
-  where?: PoliciesCreateRequestFiltersWhereList;
+  where?: PoliciesCreateRequestFiltersWhereList | undefined;
   /** Usage depends on specific alert type */
-  zones?: PoliciesCreateRequestFiltersZonesList;
+  zones?: PoliciesCreateRequestFiltersZonesList | undefined;
   /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?: PoliciesCreateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesOperator?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
   /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesShortWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
   /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesLongWindow?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
   /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?: PoliciesCreateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesCreateRequestFiltersCustomAnalyticsList
+    | undefined;
   /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesCreateRequestFiltersCustomAnalyticsList;
+  source?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
   /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesCreateRequestFiltersCustomAnalyticsList;
+  executionInterval?: PoliciesCreateRequestFiltersCustomAnalyticsList | undefined;
 }
 export interface CreatePolicyRequest {
   /** The account id */
@@ -499,24 +503,24 @@ export interface CreatePolicyRequest {
   /** Name of the policy. */
   name: string;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
-  alertInterval?: string;
+  alertInterval?: string | undefined;
   /** Optional description for the Notification policy. */
-  description?: string;
+  description?: string | undefined;
   /** Optional filters that allow you to be alerted only on a subset of events for that alert type based on some criteria. This is only available for select alert types. See alert type documentation for more details. */
-  filters?: PoliciesCreateRequestFilters;
+  filters?: PoliciesCreateRequestFilters | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePolicyResponse {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface SilencesCreateRequestBodyItem {
   /** When the silence ends. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The unique identifier of a notification policy */
-  policyId?: string;
+  policyId?: string | undefined;
   /** When the silence starts. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type SilencesCreateRequestBodyList = Array<SilencesCreateRequestBodyItem>;
 export interface CreateSilenceRequest {
@@ -558,11 +562,11 @@ export interface GetDestinationEligibleRequest {
 export type DestinationsEligibleGetResultValueItemType = "email" | "pagerduty" | "webhook";
 export interface DestinationsEligibleGetResultValueItem {
   /** Determines whether or not the account is eligible for the delivery mechanism. */
-  eligible?: boolean | null;
+  eligible?: boolean | null | undefined;
   /** Beta flag. Users can create a policy with a mechanism that is not ready, but we cannot guarantee successful delivery of notifications. */
-  ready?: boolean | null;
+  ready?: boolean | null | undefined;
   /** Determines type of delivery mechanism. */
-  type?: DestinationsEligibleGetResultValueItemType | null;
+  type?: DestinationsEligibleGetResultValueItemType | null | undefined;
 }
 export type DestinationsEligibleGetResultValueList = Array<DestinationsEligibleGetResultValueItem>;
 export type DestinationsEligibleGetResultMap = {
@@ -575,16 +579,16 @@ export interface GetDestinationPagerdutyRequest {
 }
 export interface DestinationsPagerdutyGetResultItem {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the pagerduty service. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type DestinationsPagerdutyGetResultList = Array<DestinationsPagerdutyGetResultItem>;
 export interface GetDestinationPagerdutyResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DestinationsPagerdutyGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDestinationWebhookRequest {
   /** The account id */
@@ -604,21 +608,21 @@ export type DestinationsWebhooksGetResponseType =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDestinationWebhookResponse {
   /** The unique identifier of a webhook */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp of when the webhook destination was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Timestamp of the last time an attempt to dispatch a notification to this webhook failed. */
-  lastFailure?: string | null;
+  lastFailure?: string | null | undefined;
   /** Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook. */
-  lastSuccess?: string | null;
+  lastSuccess?: string | null | undefined;
   /** The name of the webhook destination. This will be included in the request body when you receive a webhook notification. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of webhook endpoint. */
-  type?: DestinationsWebhooksGetResponseType | null;
+  type?: DestinationsWebhooksGetResponseType | null | undefined;
   /** The POST endpoint to call when dispatching a notification. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GetPolicyRequest {
   /** The account id */
@@ -755,114 +759,132 @@ export type PoliciesGetResponseFiltersZonesList = Array<string>;
 export type PoliciesGetResponseFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesGetResponseFilters {
   /** Usage depends on specific alert type */
-  actions?: PoliciesGetResponseFiltersActionsList | null;
+  actions?: PoliciesGetResponseFiltersActionsList | null | undefined;
   /** Used for configuring radar_notification */
-  affectedAsns?: PoliciesGetResponseFiltersAffectedAsnsList | null;
+  affectedAsns?: PoliciesGetResponseFiltersAffectedAsnsList | null | undefined;
   /** Used for configuring incident_alert */
-  affectedComponents?: PoliciesGetResponseFiltersAffectedComponentsList | null;
+  affectedComponents?: PoliciesGetResponseFiltersAffectedComponentsList | null | undefined;
   /** Used for configuring radar_notification */
-  affectedLocations?: PoliciesGetResponseFiltersAffectedLocationsList | null;
+  affectedLocations?: PoliciesGetResponseFiltersAffectedLocationsList | null | undefined;
   /** Used for configuring maintenance_event_notification */
-  airportCode?: PoliciesGetResponseFiltersAirportCodeList | null;
+  airportCode?: PoliciesGetResponseFiltersAirportCodeList | null | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferences?: PoliciesGetResponseFiltersAlertTriggerPreferencesList | null;
+  alertTriggerPreferences?:
+    | PoliciesGetResponseFiltersAlertTriggerPreferencesList
+    | null
+    | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferencesValue?: PoliciesGetResponseFiltersAlertTriggerPreferencesValueList | null;
+  alertTriggerPreferencesValue?:
+    | PoliciesGetResponseFiltersAlertTriggerPreferencesValueList
+    | null
+    | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
-  enabled?: PoliciesGetResponseFiltersEnabledList | null;
+  enabled?: PoliciesGetResponseFiltersEnabledList | null | undefined;
   /** Used for configuring pages_event_alert */
-  environment?: PoliciesGetResponseFiltersEnvironmentList | null;
+  environment?: PoliciesGetResponseFiltersEnvironmentList | null | undefined;
   /** Used for configuring pages_event_alert */
-  event?: PoliciesGetResponseFiltersEventList | null;
+  event?: PoliciesGetResponseFiltersEventList | null | undefined;
   /** Used for configuring load_balancing_health_alert */
-  eventSource?: PoliciesGetResponseFiltersEventSourceList | null;
+  eventSource?: PoliciesGetResponseFiltersEventSourceList | null | undefined;
   /** Usage depends on specific alert type */
-  eventType?: PoliciesGetResponseFiltersEventTypeList | null;
+  eventType?: PoliciesGetResponseFiltersEventTypeList | null | undefined;
   /** Usage depends on specific alert type */
-  groupBy?: PoliciesGetResponseFiltersGroupByList | null;
+  groupBy?: PoliciesGetResponseFiltersGroupByList | null | undefined;
   /** Used for configuring health_check_status_notification */
-  healthCheckId?: PoliciesGetResponseFiltersHealthCheckIdList | null;
+  healthCheckId?: PoliciesGetResponseFiltersHealthCheckIdList | null | undefined;
   /** Used for configuring incident_alert */
-  incidentImpact?: PoliciesGetResponseFiltersIncidentImpactList | null;
+  incidentImpact?: PoliciesGetResponseFiltersIncidentImpactList | null | undefined;
   /** Used for configuring stream_live_notifications */
-  inputId?: PoliciesGetResponseFiltersInputIdList | null;
+  inputId?: PoliciesGetResponseFiltersInputIdList | null | undefined;
   /** Used for configuring security_insights_alert */
-  insightClass?: PoliciesGetResponseFiltersInsightClassList | null;
+  insightClass?: PoliciesGetResponseFiltersInsightClassList | null | undefined;
   /** Used for configuring billing_usage_alert */
-  limit?: PoliciesGetResponseFiltersLimitList | null;
+  limit?: PoliciesGetResponseFiltersLimitList | null | undefined;
   /** Used for configuring logo_match_alert */
-  logoTag?: PoliciesGetResponseFiltersLogoTagList | null;
+  logoTag?: PoliciesGetResponseFiltersLogoTagList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  megabitsPerSecond?: PoliciesGetResponseFiltersMegabitsPerSecondList | null;
+  megabitsPerSecond?: PoliciesGetResponseFiltersMegabitsPerSecondList | null | undefined;
   /** Used for configuring load_balancing_health_alert */
-  newHealth?: PoliciesGetResponseFiltersNewHealthList | null;
+  newHealth?: PoliciesGetResponseFiltersNewHealthList | null | undefined;
   /** Used for configuring tunnel_health_event */
-  newStatus?: PoliciesGetResponseFiltersNewStatusList | null;
+  newStatus?: PoliciesGetResponseFiltersNewStatusList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  packetsPerSecond?: PoliciesGetResponseFiltersPacketsPerSecondList | null;
+  packetsPerSecond?: PoliciesGetResponseFiltersPacketsPerSecondList | null | undefined;
   /** Usage depends on specific alert type */
-  poolId?: PoliciesGetResponseFiltersPoolIdList | null;
+  poolId?: PoliciesGetResponseFiltersPoolIdList | null | undefined;
   /** Usage depends on specific alert type */
-  popNames?: PoliciesGetResponseFiltersPopNamesList | null;
+  popNames?: PoliciesGetResponseFiltersPopNamesList | null | undefined;
   /** Used for configuring billing_usage_alert */
-  product?: PoliciesGetResponseFiltersProductList | null;
+  product?: PoliciesGetResponseFiltersProductList | null | undefined;
   /** Used for configuring pages_event_alert */
-  projectId?: PoliciesGetResponseFiltersProjectIdList | null;
+  projectId?: PoliciesGetResponseFiltersProjectIdList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  protocol?: PoliciesGetResponseFiltersProtocolList | null;
+  protocol?: PoliciesGetResponseFiltersProtocolList | null | undefined;
   /** Usage depends on specific alert type */
-  queryTag?: PoliciesGetResponseFiltersQueryTagList | null;
+  queryTag?: PoliciesGetResponseFiltersQueryTagList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  requestsPerSecond?: PoliciesGetResponseFiltersRequestsPerSecondList | null;
+  requestsPerSecond?: PoliciesGetResponseFiltersRequestsPerSecondList | null | undefined;
   /** Usage depends on specific alert type */
-  selectors?: PoliciesGetResponseFiltersSelectorsList | null;
+  selectors?: PoliciesGetResponseFiltersSelectorsList | null | undefined;
   /** Used for configuring clickhouse_alert_fw_ent_anomaly */
-  services?: PoliciesGetResponseFiltersServicesList | null;
+  services?: PoliciesGetResponseFiltersServicesList | null | undefined;
   /** Usage depends on specific alert type */
-  slo?: PoliciesGetResponseFiltersSloList | null;
+  slo?: PoliciesGetResponseFiltersSloList | null | undefined;
   /** Used for configuring health_check_status_notification */
-  status?: PoliciesGetResponseFiltersStatusList | null;
+  status?: PoliciesGetResponseFiltersStatusList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetHostname?: PoliciesGetResponseFiltersTargetHostnameList | null;
+  targetHostname?: PoliciesGetResponseFiltersTargetHostnameList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  targetIp?: PoliciesGetResponseFiltersTargetIpList | null;
+  targetIp?: PoliciesGetResponseFiltersTargetIpList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetZoneName?: PoliciesGetResponseFiltersTargetZoneNameList | null;
+  targetZoneName?: PoliciesGetResponseFiltersTargetZoneNameList | null | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
-  tokenId?: PoliciesGetResponseFiltersTokenIdList | null;
+  tokenId?: PoliciesGetResponseFiltersTokenIdList | null | undefined;
   /** Used for configuring traffic_anomalies_alert */
-  trafficExclusions?: PoliciesGetResponseFiltersTrafficExclusionsList | null;
+  trafficExclusions?: PoliciesGetResponseFiltersTrafficExclusionsList | null | undefined;
   /** Used for configuring tunnel_health_event */
-  tunnelId?: PoliciesGetResponseFiltersTunnelIdList | null;
+  tunnelId?: PoliciesGetResponseFiltersTunnelIdList | null | undefined;
   /** Usage depends on specific alert type */
-  tunnelName?: PoliciesGetResponseFiltersTunnelNameList | null;
+  tunnelName?: PoliciesGetResponseFiltersTunnelNameList | null | undefined;
   /** Usage depends on specific alert type */
-  type?: PoliciesGetResponseFiltersTypeList | null;
+  type?: PoliciesGetResponseFiltersTypeList | null | undefined;
   /** Usage depends on specific alert type */
-  where?: PoliciesGetResponseFiltersWhereList | null;
+  where?: PoliciesGetResponseFiltersWhereList | null | undefined;
   /** Usage depends on specific alert type */
-  zones?: PoliciesGetResponseFiltersZonesList | null;
+  zones?: PoliciesGetResponseFiltersZonesList | null | undefined;
   /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?: PoliciesGetResponseFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesOperator?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?: PoliciesGetResponseFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesShortWindow?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?: PoliciesGetResponseFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesLongWindow?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?: PoliciesGetResponseFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesGetResponseFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesGetResponseFiltersCustomAnalyticsList | null;
+  source?: PoliciesGetResponseFiltersCustomAnalyticsList | null | undefined;
   /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesGetResponseFiltersCustomAnalyticsList | null;
+  executionInterval?: PoliciesGetResponseFiltersCustomAnalyticsList | null | undefined;
 }
 export interface PoliciesGetResponseMechanismsEmailItem {
   /** The email address */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type PoliciesGetResponseMechanismsEmailList = Array<PoliciesGetResponseMechanismsEmailItem>;
 export interface PoliciesGetResponseMechanismsPagerdutyItem {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type PoliciesGetResponseMechanismsPagerdutyList =
   Array<PoliciesGetResponseMechanismsPagerdutyItem>;
@@ -870,30 +892,30 @@ export type PoliciesGetResponseMechanismsWebhooksItem = PoliciesGetResponseMecha
 export type PoliciesGetResponseMechanismsWebhooksList =
   Array<PoliciesGetResponseMechanismsPagerdutyItem>;
 export interface PoliciesGetResponseMechanisms {
-  email?: PoliciesGetResponseMechanismsEmailList | null;
-  pagerduty?: PoliciesGetResponseMechanismsPagerdutyList | null;
-  webhooks?: PoliciesGetResponseMechanismsWebhooksList | null;
+  email?: PoliciesGetResponseMechanismsEmailList | null | undefined;
+  pagerduty?: PoliciesGetResponseMechanismsPagerdutyList | null | undefined;
+  webhooks?: PoliciesGetResponseMechanismsWebhooksList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPolicyResponse {
   /** The unique identifier of a notification policy */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
-  alertInterval?: string | null;
+  alertInterval?: string | null | undefined;
   /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
-  alertType?: PoliciesGetResponseAlertType | null;
-  created?: string | null;
+  alertType?: PoliciesGetResponseAlertType | null | undefined;
+  created?: string | null | undefined;
   /** Optional description for the Notification policy. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether or not the Notification policy is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Optional filters that allow you to be alerted only on a subset of events for that alert type based on some criteria. This is only available for select alert types. See alert type documentation for more details. */
-  filters?: PoliciesGetResponseFilters | null;
+  filters?: PoliciesGetResponseFilters | null | undefined;
   /** List of IDs that will be used when dispatching a notification. IDs for email type will be the email address. */
-  mechanisms?: PoliciesGetResponseMechanisms | null;
-  modified?: string | null;
+  mechanisms?: PoliciesGetResponseMechanisms | null | undefined;
+  modified?: string | null | undefined;
   /** Name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface GetSilenceRequest {
   /** The account id */
@@ -904,17 +926,17 @@ export interface GetSilenceRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSilenceResponse {
   /** Silence ID */
-  id?: string | null;
+  id?: string | null | undefined;
   /** When the silence was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** When the silence ends. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** The unique identifier of a notification policy */
-  policyId?: string | null;
+  policyId?: string | null | undefined;
   /** When the silence starts. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** When the silence was modified. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface LinkDestinationPagerdutyRequest {
   /** The account id */
@@ -925,7 +947,7 @@ export interface LinkDestinationPagerdutyRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface LinkDestinationPagerdutyResponse {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface ListAvailableAlertsRequest {
   /** The account id */
@@ -934,13 +956,13 @@ export interface ListAvailableAlertsRequest {
 export type AvailableAlertsListResultValueItemFilterOptionsList = Array<unknown>;
 export interface AvailableAlertsListResultValueItem {
   /** Describes the alert type. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Alert type name. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Format of additional configuration options (filters) for the alert type. Data type of filters during policy creation: Array of strings. */
-  filterOptions?: AvailableAlertsListResultValueItemFilterOptionsList | null;
+  filterOptions?: AvailableAlertsListResultValueItemFilterOptionsList | null | undefined;
   /** Use this value when creating and updating a notification policy. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type AvailableAlertsListResultValueList = Array<AvailableAlertsListResultValueItem>;
 export type AvailableAlertsListResultMap = {
@@ -962,68 +984,68 @@ export type DestinationsWebhooksListResultItemType =
   | "splunk";
 export interface DestinationsWebhooksListResultItem {
   /** The unique identifier of a webhook */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp of when the webhook destination was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Timestamp of the last time an attempt to dispatch a notification to this webhook failed. */
-  lastFailure?: string | null;
+  lastFailure?: string | null | undefined;
   /** Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook. */
-  lastSuccess?: string | null;
+  lastSuccess?: string | null | undefined;
   /** The name of the webhook destination. This will be included in the request body when you receive a webhook notification. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of webhook endpoint. */
-  type?: DestinationsWebhooksListResultItemType | null;
+  type?: DestinationsWebhooksListResultItemType | null | undefined;
   /** The POST endpoint to call when dispatching a notification. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type DestinationsWebhooksListResultList = Array<DestinationsWebhooksListResultItem>;
 export interface ListDestinationWebhooksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DestinationsWebhooksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListHistoriesRequest {
   /** The account id */
   accountId: string;
   /** Limit the returned results to history records older than the specified date. This must be a timestamp that conforms to RFC3339. */
-  before?: string;
+  before?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Limit the returned results to history records newer than the specified date. This must be a timestamp that conforms to RFC3339. */
-  since?: string;
+  since?: string | undefined;
 }
 export type HistoryListResultItemMechanismType = "email" | "pagerduty" | "webhook";
 export interface HistoryListResultItem {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Message body included in the notification sent. */
-  alertBody?: string | null;
+  alertBody?: string | null | undefined;
   /** Type of notification that has been dispatched. */
-  alertType?: string | null;
+  alertType?: string | null | undefined;
   /** Description of the notification policy (if present). */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The mechanism to which the notification has been dispatched. */
-  mechanism?: string | null;
+  mechanism?: string | null | undefined;
   /** The type of mechanism to which the notification has been dispatched. This can be email/pagerduty/webhook based on the mechanism configured. */
-  mechanismType?: HistoryListResultItemMechanismType | null;
+  mechanismType?: HistoryListResultItemMechanismType | null | undefined;
   /** Name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The unique identifier of a notification policy */
-  policyId?: string | null;
+  policyId?: string | null | undefined;
   /** Timestamp of when the notification was dispatched in ISO 8601 format. */
-  sent?: string | null;
+  sent?: string | null | undefined;
 }
 export type HistoryListResultList = Array<HistoryListResultItem>;
 export interface ListHistoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HistoryListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPoliciesRequest {
   /** The account id */
@@ -1158,105 +1180,123 @@ export type PoliciesListResultItemFiltersZonesList = Array<string>;
 export type PoliciesListResultItemFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesListResultItemFilters {
   /** Usage depends on specific alert type */
-  actions?: PoliciesListResultItemFiltersActionsList | null;
+  actions?: PoliciesListResultItemFiltersActionsList | null | undefined;
   /** Used for configuring radar_notification */
-  affectedAsns?: PoliciesListResultItemFiltersAffectedAsnsList | null;
+  affectedAsns?: PoliciesListResultItemFiltersAffectedAsnsList | null | undefined;
   /** Used for configuring incident_alert */
-  affectedComponents?: PoliciesListResultItemFiltersAffectedComponentsList | null;
+  affectedComponents?: PoliciesListResultItemFiltersAffectedComponentsList | null | undefined;
   /** Used for configuring radar_notification */
-  affectedLocations?: PoliciesListResultItemFiltersAffectedLocationsList | null;
+  affectedLocations?: PoliciesListResultItemFiltersAffectedLocationsList | null | undefined;
   /** Used for configuring maintenance_event_notification */
-  airportCode?: PoliciesListResultItemFiltersAirportCodeList | null;
+  airportCode?: PoliciesListResultItemFiltersAirportCodeList | null | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferences?: PoliciesListResultItemFiltersAlertTriggerPreferencesList | null;
+  alertTriggerPreferences?:
+    | PoliciesListResultItemFiltersAlertTriggerPreferencesList
+    | null
+    | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferencesValue?: PoliciesListResultItemFiltersAlertTriggerPreferencesValueList | null;
+  alertTriggerPreferencesValue?:
+    | PoliciesListResultItemFiltersAlertTriggerPreferencesValueList
+    | null
+    | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
-  enabled?: PoliciesListResultItemFiltersEnabledList | null;
+  enabled?: PoliciesListResultItemFiltersEnabledList | null | undefined;
   /** Used for configuring pages_event_alert */
-  environment?: PoliciesListResultItemFiltersEnvironmentList | null;
+  environment?: PoliciesListResultItemFiltersEnvironmentList | null | undefined;
   /** Used for configuring pages_event_alert */
-  event?: PoliciesListResultItemFiltersEventList | null;
+  event?: PoliciesListResultItemFiltersEventList | null | undefined;
   /** Used for configuring load_balancing_health_alert */
-  eventSource?: PoliciesListResultItemFiltersEventSourceList | null;
+  eventSource?: PoliciesListResultItemFiltersEventSourceList | null | undefined;
   /** Usage depends on specific alert type */
-  eventType?: PoliciesListResultItemFiltersEventTypeList | null;
+  eventType?: PoliciesListResultItemFiltersEventTypeList | null | undefined;
   /** Usage depends on specific alert type */
-  groupBy?: PoliciesListResultItemFiltersGroupByList | null;
+  groupBy?: PoliciesListResultItemFiltersGroupByList | null | undefined;
   /** Used for configuring health_check_status_notification */
-  healthCheckId?: PoliciesListResultItemFiltersHealthCheckIdList | null;
+  healthCheckId?: PoliciesListResultItemFiltersHealthCheckIdList | null | undefined;
   /** Used for configuring incident_alert */
-  incidentImpact?: PoliciesListResultItemFiltersIncidentImpactList | null;
+  incidentImpact?: PoliciesListResultItemFiltersIncidentImpactList | null | undefined;
   /** Used for configuring stream_live_notifications */
-  inputId?: PoliciesListResultItemFiltersInputIdList | null;
+  inputId?: PoliciesListResultItemFiltersInputIdList | null | undefined;
   /** Used for configuring security_insights_alert */
-  insightClass?: PoliciesListResultItemFiltersInsightClassList | null;
+  insightClass?: PoliciesListResultItemFiltersInsightClassList | null | undefined;
   /** Used for configuring billing_usage_alert */
-  limit?: PoliciesListResultItemFiltersLimitList | null;
+  limit?: PoliciesListResultItemFiltersLimitList | null | undefined;
   /** Used for configuring logo_match_alert */
-  logoTag?: PoliciesListResultItemFiltersLogoTagList | null;
+  logoTag?: PoliciesListResultItemFiltersLogoTagList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  megabitsPerSecond?: PoliciesListResultItemFiltersMegabitsPerSecondList | null;
+  megabitsPerSecond?: PoliciesListResultItemFiltersMegabitsPerSecondList | null | undefined;
   /** Used for configuring load_balancing_health_alert */
-  newHealth?: PoliciesListResultItemFiltersNewHealthList | null;
+  newHealth?: PoliciesListResultItemFiltersNewHealthList | null | undefined;
   /** Used for configuring tunnel_health_event */
-  newStatus?: PoliciesListResultItemFiltersNewStatusList | null;
+  newStatus?: PoliciesListResultItemFiltersNewStatusList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  packetsPerSecond?: PoliciesListResultItemFiltersPacketsPerSecondList | null;
+  packetsPerSecond?: PoliciesListResultItemFiltersPacketsPerSecondList | null | undefined;
   /** Usage depends on specific alert type */
-  poolId?: PoliciesListResultItemFiltersPoolIdList | null;
+  poolId?: PoliciesListResultItemFiltersPoolIdList | null | undefined;
   /** Usage depends on specific alert type */
-  popNames?: PoliciesListResultItemFiltersPopNamesList | null;
+  popNames?: PoliciesListResultItemFiltersPopNamesList | null | undefined;
   /** Used for configuring billing_usage_alert */
-  product?: PoliciesListResultItemFiltersProductList | null;
+  product?: PoliciesListResultItemFiltersProductList | null | undefined;
   /** Used for configuring pages_event_alert */
-  projectId?: PoliciesListResultItemFiltersProjectIdList | null;
+  projectId?: PoliciesListResultItemFiltersProjectIdList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  protocol?: PoliciesListResultItemFiltersProtocolList | null;
+  protocol?: PoliciesListResultItemFiltersProtocolList | null | undefined;
   /** Usage depends on specific alert type */
-  queryTag?: PoliciesListResultItemFiltersQueryTagList | null;
+  queryTag?: PoliciesListResultItemFiltersQueryTagList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  requestsPerSecond?: PoliciesListResultItemFiltersRequestsPerSecondList | null;
+  requestsPerSecond?: PoliciesListResultItemFiltersRequestsPerSecondList | null | undefined;
   /** Usage depends on specific alert type */
-  selectors?: PoliciesListResultItemFiltersSelectorsList | null;
+  selectors?: PoliciesListResultItemFiltersSelectorsList | null | undefined;
   /** Used for configuring clickhouse_alert_fw_ent_anomaly */
-  services?: PoliciesListResultItemFiltersServicesList | null;
+  services?: PoliciesListResultItemFiltersServicesList | null | undefined;
   /** Usage depends on specific alert type */
-  slo?: PoliciesListResultItemFiltersSloList | null;
+  slo?: PoliciesListResultItemFiltersSloList | null | undefined;
   /** Used for configuring health_check_status_notification */
-  status?: PoliciesListResultItemFiltersStatusList | null;
+  status?: PoliciesListResultItemFiltersStatusList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetHostname?: PoliciesListResultItemFiltersTargetHostnameList | null;
+  targetHostname?: PoliciesListResultItemFiltersTargetHostnameList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  targetIp?: PoliciesListResultItemFiltersTargetIpList | null;
+  targetIp?: PoliciesListResultItemFiltersTargetIpList | null | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetZoneName?: PoliciesListResultItemFiltersTargetZoneNameList | null;
+  targetZoneName?: PoliciesListResultItemFiltersTargetZoneNameList | null | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
-  tokenId?: PoliciesListResultItemFiltersTokenIdList | null;
+  tokenId?: PoliciesListResultItemFiltersTokenIdList | null | undefined;
   /** Used for configuring traffic_anomalies_alert */
-  trafficExclusions?: PoliciesListResultItemFiltersTrafficExclusionsList | null;
+  trafficExclusions?: PoliciesListResultItemFiltersTrafficExclusionsList | null | undefined;
   /** Used for configuring tunnel_health_event */
-  tunnelId?: PoliciesListResultItemFiltersTunnelIdList | null;
+  tunnelId?: PoliciesListResultItemFiltersTunnelIdList | null | undefined;
   /** Usage depends on specific alert type */
-  tunnelName?: PoliciesListResultItemFiltersTunnelNameList | null;
+  tunnelName?: PoliciesListResultItemFiltersTunnelNameList | null | undefined;
   /** Usage depends on specific alert type */
-  type?: PoliciesListResultItemFiltersTypeList | null;
+  type?: PoliciesListResultItemFiltersTypeList | null | undefined;
   /** Usage depends on specific alert type */
-  where?: PoliciesListResultItemFiltersWhereList | null;
+  where?: PoliciesListResultItemFiltersWhereList | null | undefined;
   /** Usage depends on specific alert type */
-  zones?: PoliciesListResultItemFiltersZonesList | null;
+  zones?: PoliciesListResultItemFiltersZonesList | null | undefined;
   /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?: PoliciesListResultItemFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesOperator?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?: PoliciesListResultItemFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesShortWindow?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?: PoliciesListResultItemFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesLongWindow?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?: PoliciesListResultItemFiltersCustomAnalyticsList | null;
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesListResultItemFiltersCustomAnalyticsList
+    | null
+    | undefined;
   /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesListResultItemFiltersCustomAnalyticsList | null;
+  source?: PoliciesListResultItemFiltersCustomAnalyticsList | null | undefined;
   /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesListResultItemFiltersCustomAnalyticsList | null;
+  executionInterval?: PoliciesListResultItemFiltersCustomAnalyticsList | null | undefined;
 }
 export type PoliciesListResultItemMechanismsEmailItem = PoliciesGetResponseMechanismsEmailItem;
 export type PoliciesListResultItemMechanismsEmailList =
@@ -1270,36 +1310,36 @@ export type PoliciesListResultItemMechanismsWebhooksItem =
 export type PoliciesListResultItemMechanismsWebhooksList =
   Array<PoliciesGetResponseMechanismsPagerdutyItem>;
 export interface PoliciesListResultItemMechanisms {
-  email?: PoliciesListResultItemMechanismsEmailList | null;
-  pagerduty?: PoliciesListResultItemMechanismsPagerdutyList | null;
-  webhooks?: PoliciesListResultItemMechanismsWebhooksList | null;
+  email?: PoliciesListResultItemMechanismsEmailList | null | undefined;
+  pagerduty?: PoliciesListResultItemMechanismsPagerdutyList | null | undefined;
+  webhooks?: PoliciesListResultItemMechanismsWebhooksList | null | undefined;
 }
 export interface PoliciesListResultItem {
   /** The unique identifier of a notification policy */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
-  alertInterval?: string | null;
+  alertInterval?: string | null | undefined;
   /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
-  alertType?: PoliciesListResultItemAlertType | null;
-  created?: string | null;
+  alertType?: PoliciesListResultItemAlertType | null | undefined;
+  created?: string | null | undefined;
   /** Optional description for the Notification policy. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether or not the Notification policy is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Optional filters that allow you to be alerted only on a subset of events for that alert type based on some criteria. This is only available for select alert types. See alert type documentation for more details. */
-  filters?: PoliciesListResultItemFilters | null;
+  filters?: PoliciesListResultItemFilters | null | undefined;
   /** List of IDs that will be used when dispatching a notification. IDs for email type will be the email address. */
-  mechanisms?: PoliciesListResultItemMechanisms | null;
-  modified?: string | null;
+  mechanisms?: PoliciesListResultItemMechanisms | null | undefined;
+  modified?: string | null | undefined;
   /** Name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type PoliciesListResultList = Array<PoliciesListResultItem>;
 export interface ListPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSilencesRequest {
   /** The account id */
@@ -1307,24 +1347,24 @@ export interface ListSilencesRequest {
 }
 export interface SilencesListResultItem {
   /** Silence ID */
-  id?: string | null;
+  id?: string | null | undefined;
   /** When the silence was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** When the silence ends. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** The unique identifier of a notification policy */
-  policyId?: string | null;
+  policyId?: string | null | undefined;
   /** When the silence starts. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** When the silence was modified. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type SilencesListResultList = Array<SilencesListResultItem>;
 export interface ListSilencesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SilencesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateDestinationWebhookRequest {
   /** The account id */
@@ -1336,12 +1376,12 @@ export interface UpdateDestinationWebhookRequest {
   /** The POST endpoint to call when dispatching a notification. */
   url: string;
   /** Optional secret that will be passed in the `cf-webhook-auth` header when dispatching generic webhook notifications or formatted for supported destinations. Secrets are not returned in any API response body. */
-  secret?: string;
+  secret?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateDestinationWebhookResponse {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type PoliciesUpdateRequestAlertType =
   | "abuse_report_alert"
@@ -1474,105 +1514,109 @@ export type PoliciesUpdateRequestFiltersZonesList = Array<string>;
 export type PoliciesUpdateRequestFiltersCustomAnalyticsList = Array<string>;
 export interface PoliciesUpdateRequestFilters {
   /** Usage depends on specific alert type */
-  actions?: PoliciesUpdateRequestFiltersActionsList;
+  actions?: PoliciesUpdateRequestFiltersActionsList | undefined;
   /** Used for configuring radar_notification */
-  affectedAsns?: PoliciesUpdateRequestFiltersAffectedAsnsList;
+  affectedAsns?: PoliciesUpdateRequestFiltersAffectedAsnsList | undefined;
   /** Used for configuring incident_alert */
-  affectedComponents?: PoliciesUpdateRequestFiltersAffectedComponentsList;
+  affectedComponents?: PoliciesUpdateRequestFiltersAffectedComponentsList | undefined;
   /** Used for configuring radar_notification */
-  affectedLocations?: PoliciesUpdateRequestFiltersAffectedLocationsList;
+  affectedLocations?: PoliciesUpdateRequestFiltersAffectedLocationsList | undefined;
   /** Used for configuring maintenance_event_notification */
-  airportCode?: PoliciesUpdateRequestFiltersAirportCodeList;
+  airportCode?: PoliciesUpdateRequestFiltersAirportCodeList | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferences?: PoliciesUpdateRequestFiltersAlertTriggerPreferencesList;
+  alertTriggerPreferences?: PoliciesUpdateRequestFiltersAlertTriggerPreferencesList | undefined;
   /** Usage depends on specific alert type */
-  alertTriggerPreferencesValue?: PoliciesUpdateRequestFiltersAlertTriggerPreferencesValueList;
+  alertTriggerPreferencesValue?:
+    | PoliciesUpdateRequestFiltersAlertTriggerPreferencesValueList
+    | undefined;
   /** Used for configuring load_balancing_pool_enablement_alert */
-  enabled?: PoliciesUpdateRequestFiltersEnabledList;
+  enabled?: PoliciesUpdateRequestFiltersEnabledList | undefined;
   /** Used for configuring pages_event_alert */
-  environment?: PoliciesUpdateRequestFiltersEnvironmentList;
+  environment?: PoliciesUpdateRequestFiltersEnvironmentList | undefined;
   /** Used for configuring pages_event_alert */
-  event?: PoliciesUpdateRequestFiltersEventList;
+  event?: PoliciesUpdateRequestFiltersEventList | undefined;
   /** Used for configuring load_balancing_health_alert */
-  eventSource?: PoliciesUpdateRequestFiltersEventSourceList;
+  eventSource?: PoliciesUpdateRequestFiltersEventSourceList | undefined;
   /** Usage depends on specific alert type */
-  eventType?: PoliciesUpdateRequestFiltersEventTypeList;
+  eventType?: PoliciesUpdateRequestFiltersEventTypeList | undefined;
   /** Usage depends on specific alert type */
-  groupBy?: PoliciesUpdateRequestFiltersGroupByList;
+  groupBy?: PoliciesUpdateRequestFiltersGroupByList | undefined;
   /** Used for configuring health_check_status_notification */
-  healthCheckId?: PoliciesUpdateRequestFiltersHealthCheckIdList;
+  healthCheckId?: PoliciesUpdateRequestFiltersHealthCheckIdList | undefined;
   /** Used for configuring incident_alert */
-  incidentImpact?: PoliciesUpdateRequestFiltersIncidentImpactList;
+  incidentImpact?: PoliciesUpdateRequestFiltersIncidentImpactList | undefined;
   /** Used for configuring stream_live_notifications */
-  inputId?: PoliciesUpdateRequestFiltersInputIdList;
+  inputId?: PoliciesUpdateRequestFiltersInputIdList | undefined;
   /** Used for configuring security_insights_alert */
-  insightClass?: PoliciesUpdateRequestFiltersInsightClassList;
+  insightClass?: PoliciesUpdateRequestFiltersInsightClassList | undefined;
   /** Used for configuring billing_usage_alert */
-  limit?: PoliciesUpdateRequestFiltersLimitList;
+  limit?: PoliciesUpdateRequestFiltersLimitList | undefined;
   /** Used for configuring logo_match_alert */
-  logoTag?: PoliciesUpdateRequestFiltersLogoTagList;
+  logoTag?: PoliciesUpdateRequestFiltersLogoTagList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  megabitsPerSecond?: PoliciesUpdateRequestFiltersMegabitsPerSecondList;
+  megabitsPerSecond?: PoliciesUpdateRequestFiltersMegabitsPerSecondList | undefined;
   /** Used for configuring load_balancing_health_alert */
-  newHealth?: PoliciesUpdateRequestFiltersNewHealthList;
+  newHealth?: PoliciesUpdateRequestFiltersNewHealthList | undefined;
   /** Used for configuring tunnel_health_event */
-  newStatus?: PoliciesUpdateRequestFiltersNewStatusList;
+  newStatus?: PoliciesUpdateRequestFiltersNewStatusList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  packetsPerSecond?: PoliciesUpdateRequestFiltersPacketsPerSecondList;
+  packetsPerSecond?: PoliciesUpdateRequestFiltersPacketsPerSecondList | undefined;
   /** Usage depends on specific alert type */
-  poolId?: PoliciesUpdateRequestFiltersPoolIdList;
+  poolId?: PoliciesUpdateRequestFiltersPoolIdList | undefined;
   /** Usage depends on specific alert type */
-  popNames?: PoliciesUpdateRequestFiltersPopNamesList;
+  popNames?: PoliciesUpdateRequestFiltersPopNamesList | undefined;
   /** Used for configuring billing_usage_alert */
-  product?: PoliciesUpdateRequestFiltersProductList;
+  product?: PoliciesUpdateRequestFiltersProductList | undefined;
   /** Used for configuring pages_event_alert */
-  projectId?: PoliciesUpdateRequestFiltersProjectIdList;
+  projectId?: PoliciesUpdateRequestFiltersProjectIdList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  protocol?: PoliciesUpdateRequestFiltersProtocolList;
+  protocol?: PoliciesUpdateRequestFiltersProtocolList | undefined;
   /** Usage depends on specific alert type */
-  queryTag?: PoliciesUpdateRequestFiltersQueryTagList;
+  queryTag?: PoliciesUpdateRequestFiltersQueryTagList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  requestsPerSecond?: PoliciesUpdateRequestFiltersRequestsPerSecondList;
+  requestsPerSecond?: PoliciesUpdateRequestFiltersRequestsPerSecondList | undefined;
   /** Usage depends on specific alert type */
-  selectors?: PoliciesUpdateRequestFiltersSelectorsList;
+  selectors?: PoliciesUpdateRequestFiltersSelectorsList | undefined;
   /** Used for configuring clickhouse_alert_fw_ent_anomaly */
-  services?: PoliciesUpdateRequestFiltersServicesList;
+  services?: PoliciesUpdateRequestFiltersServicesList | undefined;
   /** Usage depends on specific alert type */
-  slo?: PoliciesUpdateRequestFiltersSloList;
+  slo?: PoliciesUpdateRequestFiltersSloList | undefined;
   /** Used for configuring health_check_status_notification */
-  status?: PoliciesUpdateRequestFiltersStatusList;
+  status?: PoliciesUpdateRequestFiltersStatusList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetHostname?: PoliciesUpdateRequestFiltersTargetHostnameList;
+  targetHostname?: PoliciesUpdateRequestFiltersTargetHostnameList | undefined;
   /** Used for configuring advanced_ddos_attack_l4_alert */
-  targetIp?: PoliciesUpdateRequestFiltersTargetIpList;
+  targetIp?: PoliciesUpdateRequestFiltersTargetIpList | undefined;
   /** Used for configuring advanced_ddos_attack_l7_alert */
-  targetZoneName?: PoliciesUpdateRequestFiltersTargetZoneNameList;
+  targetZoneName?: PoliciesUpdateRequestFiltersTargetZoneNameList | undefined;
   /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
-  tokenId?: PoliciesUpdateRequestFiltersTokenIdList;
+  tokenId?: PoliciesUpdateRequestFiltersTokenIdList | undefined;
   /** Used for configuring traffic_anomalies_alert */
-  trafficExclusions?: PoliciesUpdateRequestFiltersTrafficExclusionsList;
+  trafficExclusions?: PoliciesUpdateRequestFiltersTrafficExclusionsList | undefined;
   /** Used for configuring tunnel_health_event */
-  tunnelId?: PoliciesUpdateRequestFiltersTunnelIdList;
+  tunnelId?: PoliciesUpdateRequestFiltersTunnelIdList | undefined;
   /** Usage depends on specific alert type */
-  tunnelName?: PoliciesUpdateRequestFiltersTunnelNameList;
+  tunnelName?: PoliciesUpdateRequestFiltersTunnelNameList | undefined;
   /** Usage depends on specific alert type */
-  type?: PoliciesUpdateRequestFiltersTypeList;
+  type?: PoliciesUpdateRequestFiltersTypeList | undefined;
   /** Usage depends on specific alert type */
-  where?: PoliciesUpdateRequestFiltersWhereList;
+  where?: PoliciesUpdateRequestFiltersWhereList | undefined;
   /** Usage depends on specific alert type */
-  zones?: PoliciesUpdateRequestFiltersZonesList;
+  zones?: PoliciesUpdateRequestFiltersZonesList | undefined;
   /** Comparison operator for a `threshold` trigger on a `custom_analytics` alert: one of `<`, `>`, `<=`, `>=`, `==`, `!=`. */
-  alertTriggerPreferencesOperator?: PoliciesUpdateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesOperator?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
   /** Short evaluation window for a `custom_analytics` alert (e.g. `5m`). */
-  alertTriggerPreferencesShortWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesShortWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
   /** Long evaluation window for a `custom_analytics` alert (e.g. `1h`). */
-  alertTriggerPreferencesLongWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesLongWindow?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
   /** Minimum value below which a `custom_analytics` anomaly or SLO trigger does not fire. */
-  alertTriggerPreferencesMinimumThreshold?: PoliciesUpdateRequestFiltersCustomAnalyticsList;
+  alertTriggerPreferencesMinimumThreshold?:
+    | PoliciesUpdateRequestFiltersCustomAnalyticsList
+    | undefined;
   /** Data source of a `custom_analytics` alert: `sql_api` (the condition in `selectors` is a SQL API query) or `workers_analytics_engine`. */
-  source?: PoliciesUpdateRequestFiltersCustomAnalyticsList;
+  source?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
   /** How often a `custom_analytics` alert evaluates its query (e.g. `5m`). */
-  executionInterval?: PoliciesUpdateRequestFiltersCustomAnalyticsList;
+  executionInterval?: PoliciesUpdateRequestFiltersCustomAnalyticsList | undefined;
 }
 export type PoliciesUpdateRequestMechanismsEmailItem = PoliciesCreateRequestMechanismsEmailItem;
 export type PoliciesUpdateRequestMechanismsEmailList =
@@ -1586,9 +1630,9 @@ export type PoliciesUpdateRequestMechanismsWebhooksItem =
 export type PoliciesUpdateRequestMechanismsWebhooksList =
   Array<PoliciesCreateRequestMechanismsPagerdutyItem>;
 export interface PoliciesUpdateRequestMechanisms {
-  email?: PoliciesUpdateRequestMechanismsEmailList;
-  pagerduty?: PoliciesUpdateRequestMechanismsPagerdutyList;
-  webhooks?: PoliciesUpdateRequestMechanismsWebhooksList;
+  email?: PoliciesUpdateRequestMechanismsEmailList | undefined;
+  pagerduty?: PoliciesUpdateRequestMechanismsPagerdutyList | undefined;
+  webhooks?: PoliciesUpdateRequestMechanismsWebhooksList | undefined;
 }
 export interface UpdatePolicyRequest {
   /** The account id */
@@ -1596,32 +1640,32 @@ export interface UpdatePolicyRequest {
   /** The unique identifier of a notification policy */
   policyId: string;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
-  alertInterval?: string;
+  alertInterval?: string | undefined;
   /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
-  alertType?: PoliciesUpdateRequestAlertType | (string & {});
+  alertType?: PoliciesUpdateRequestAlertType | (string & {}) | undefined;
   /** Optional description for the Notification policy. */
-  description?: string;
+  description?: string | undefined;
   /** Whether or not the Notification policy is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Optional filters that allow you to be alerted only on a subset of events for that alert type based on some criteria. This is only available for select alert types. See alert type documentation for more details. */
-  filters?: PoliciesUpdateRequestFilters;
+  filters?: PoliciesUpdateRequestFilters | undefined;
   /** List of IDs that will be used when dispatching a notification. IDs for email type will be the email address. */
-  mechanisms?: PoliciesUpdateRequestMechanisms;
+  mechanisms?: PoliciesUpdateRequestMechanisms | undefined;
   /** Name of the policy. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdatePolicyResponse {
   /** UUID */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface SilencesUpdateRequestBodyItem {
   /** Silence ID */
-  id?: string;
+  id?: string | undefined;
   /** When the silence ends. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** When the silence starts. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type SilencesUpdateRequestBodyList = Array<SilencesUpdateRequestBodyItem>;
 export interface UpdateSilenceRequest {
@@ -1635,7 +1679,7 @@ export interface UpdateSilenceResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SilencesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateDestinationPagerdutyError = InvalidRoute | CloudflareOpError;
 /** Creates a new token for integrating with PagerDuty. */

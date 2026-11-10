@@ -86,7 +86,7 @@ export class NotFound
 export type StringList = Array<string>;
 export interface BatchGetProjectsLocationsSessionsRequest {
   /** Required. The names of the sessions to retrieve. A maximum of 500 sessions can be retrieved in a batch. Format: `projects/{project}/locations/{location}/sessions/{session}`. */
-  names?: StringList;
+  names?: StringList | undefined;
   /** Required. The parent resource shared by all sessions being retrieved. Format: `projects/{project}/locations/{location}`. The `parent` field in the `BatchGetSessionsRequest` message must match the `parent` of all `Session` resource names in `names`. */
   parent: string;
 }
@@ -102,25 +102,25 @@ export type StringMap = { [key: string]: string | undefined };
 /** Describes the summary of an issue (error or warning) with structured details. */
 export interface IssueSummary {
   /** Output only. Human-readable explanation of the issue in English. */
-  message?: string;
+  message?: string | undefined;
   /** Output only. The issue classification based on responsibility. */
-  type?: IssueSummaryTypeEnum | (string & {});
+  type?: IssueSummaryTypeEnum | (string & {}) | undefined;
   /** Output only. Additional metadata about the issue. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Output only. The reason of the issue. This is a constant value that identifies the proximate cause of the issue. This should be at most 63 characters and match a regular expression of `A-Z*[A-Z0-9]`, which represents UPPER_SNAKE_CASE. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Describes the cause of the non-passed result occurred during the execution. */
 export interface ResultCause {
   /** Output only. Structured cause detail. */
-  summary?: IssueSummary;
+  summary?: IssueSummary | undefined;
 }
 /** The result of a session/job/execution. */
 export interface Result {
   /** Output only. The result type of the session/job/execution. */
-  resultType?: ResultResultTypeEnum | (string & {});
+  resultType?: ResultResultTypeEnum | (string & {}) | undefined;
   /** Output only. Detailed result cause diagnostics. Set if type is not PASSED. */
-  cause?: ResultCause;
+  cause?: ResultCause | undefined;
 }
 export type StatusStatusTypeEnum =
   | "STATUS_TYPE_UNSPECIFIED"
@@ -131,335 +131,335 @@ export type StatusStatusTypeEnum =
 /** The status of a session/job/execution. */
 export interface Status {
   /** Output only. The status type of the session/job/execution. */
-  statusType?: StatusStatusTypeEnum | (string & {});
+  statusType?: StatusStatusTypeEnum | (string & {}) | undefined;
   /** Output only. Human-readable, detailed descriptions of the session/job/execution's progress. For example: "Provisioning a device", "Starting Test". Each message should contain only one line of text. During the course of execution new data may be appended to the end of progress_messages. */
-  progressMessages?: StringList;
+  progressMessages?: StringList | undefined;
 }
 /** Non-fatal operational anomaly, lint observation, or execution insight. */
 export interface Warning {
   /** Output only. Detailed warning summary. */
-  summary?: IssueSummary;
+  summary?: IssueSummary | undefined;
 }
 export type WarningList = Array<Warning>;
 /** A path to a file or directory in Google Cloud Storage. */
 export interface GcsPath {
   /** Required. The Google Cloud Storage path of the file or directory. Format: `gs:///`. */
-  path?: string;
+  path?: string | undefined;
 }
 /** Output file. */
 export interface OutputFile {
   /** An output file in Google Cloud Storage. */
-  gcsOutputFile?: GcsPath;
+  gcsOutputFile?: GcsPath | undefined;
 }
 export type OutputFileList = Array<OutputFile>;
 /** The runtime information and result report of a single on-device execution attempt. */
 export interface ExecutionReport {
   /** Output only. The unique identifier of the execution. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Non-fatal warnings collected during the execution. */
-  warnings?: WarningList;
+  warnings?: WarningList | undefined;
   /** Output only. The output files of the execution. */
-  outputFiles?: OutputFileList;
+  outputFiles?: OutputFileList | undefined;
   /** Output only. The start time of the execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The result of the execution. */
-  result?: Result;
+  result?: Result | undefined;
   /** Output only. The display_name set by users in the ExecutionConfig. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The end time of the execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The status of the execution. */
-  status?: Status;
+  status?: Status | undefined;
 }
 export type ExecutionReportList = Array<ExecutionReport>;
 /** The runtime information and result report of a job. */
 export interface JobReport {
   /** Output only. The status of the job. */
-  status?: Status;
+  status?: Status | undefined;
   /** Output only. Non-fatal warnings collected during the job. */
-  warnings?: WarningList;
+  warnings?: WarningList | undefined;
   /** Output only. The output files of the job. */
-  outputFiles?: OutputFileList;
+  outputFiles?: OutputFileList | undefined;
   /** Output only. Reports of the execution attempts of the job. */
-  executionReports?: ExecutionReportList;
+  executionReports?: ExecutionReportList | undefined;
   /** Output only. The unique identifier of the job. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The end time of the job. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The display_name set by users in the JobConfig. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The result of the job. */
-  result?: Result;
+  result?: Result | undefined;
   /** Output only. The start time of the job. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The original labels provided by the user during job creation. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type JobReportList = Array<JobReport>;
 /** The runtime information and result report of a session. */
 export interface SessionReport {
   /** Output only. The result of the session. */
-  result?: Result;
+  result?: Result | undefined;
   /** Output only. Reports of the jobs in the session. */
-  jobReports?: JobReportList;
+  jobReports?: JobReportList | undefined;
   /** Output only. The status of the session. */
-  status?: Status;
+  status?: Status | undefined;
   /** Output only. The start time of the session. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The end time of the session. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The unique identifier of the session. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Input file. */
 export interface InputFile {
   /** An input file in Google Cloud Storage. */
-  gcsInputFile?: GcsPath;
+  gcsInputFile?: GcsPath | undefined;
 }
 /** The configuration of an Android native binary execution. */
 export interface AndroidNativeBinary {
   /** Optional. A map of environment variables to set for the binary process. The keys are the variable names and the values are the variable values. Limits: - Maximum number of entries: 32 - Maximum key size: 64 bytes (UTF-8) - Key regex: `a-zA-Z_*` - Maximum value size: 1024 bytes (UTF-8) */
-  envVars?: StringMap;
+  envVars?: StringMap | undefined;
   /** Required. The file path of the Android native binary. */
-  androidNativeBinary?: InputFile;
+  androidNativeBinary?: InputFile | undefined;
   /** Optional. Arguments for running the binary file. The flags will be appended to the command line that invokes the binary. Limits: - Maximum number of entries: 64 - Maximum entry size: 1024 bytes (UTF-8) */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Optional. The timeout of the execution. Default value: 5 min. Range: [1 min, 3 hours]. */
-  executionTimeout?: string;
+  executionTimeout?: string | undefined;
 }
 /** The smart sharding strategy to split the job into multiple shards based on the test methods and their recorded execution time. */
 export interface SmartSharding {
   /** Required. The timing record file to use for smart sharding. If the file does not exist, smart sharding will use default test time (30s) for each test method to shard the job into multiple shards. This file will be overwritten with the latest timing record after the job is completed. */
-  timingRecord?: InputFile;
+  timingRecord?: InputFile | undefined;
   /** Optional. The maximum number of shards to create. If unset or less than 1, system-defined max limits are used. This limit takes precedence if the targeted_shard_duration cannot be satisfied. Limits: - For physical devices, the number of shards must be <= 20. - For virtual devices, the number of shards must be <= 200. */
-  maxShardCount?: number;
+  maxShardCount?: number | undefined;
   /** Required. The targeted duration of each shard. Limits: - Must be at least 2 minutes. - Must be at most 3 hours. Shard duration is not guaranteed because smart sharding uses test case history and default durations which may not be accurate. Durations are calculated based on the following inputs: - Timing records from previous runs of the same test case. - For new test cases, the average duration of other known test cases. - A system-chosen, default duration if there are no previous timing records available. Because the actual shard duration can exceed the targeted shard duration, we recommend that you set the targeted value at least 5 minutes less than the maximum allowed test timeout. This approach avoids cancelling the shard before all tests can finish. */
-  targetedShardDuration?: string;
+  targetedShardDuration?: string | undefined;
 }
 /** Uniformly shards test cases given a total number of shards. For Android instrumentation tests, it will be translated to `-e numShard` and `-e shardIndex` AndroidJUnitRunner arguments. With uniform sharding enabled, specifying either of these sharding arguments via `environment_variables` is invalid. There is no guarantee that test cases will be distributed uniformly across all shards. */
 export interface UniformSharding {
   /** Required. The total number of shards to create. This must always be a positive number that is no greater than the total number of test cases. Limits: - For physical devices, the number of shards must be <= 20. - For virtual devices, the number of shards must be <= 200. */
-  shardCount?: number;
+  shardCount?: number | undefined;
 }
 /** The configuration of an iOS XCTest. */
 export interface IosXcTest {
   /** Required. The .zip containing the .xctestrun file and the contents of the DerivedData/Build/Products directory. */
-  testsZip?: InputFile;
+  testsZip?: InputFile | undefined;
   /** Optional. Smart sharding strategy to split the job into multiple shards based on the test methods and their execution time. */
-  smartSharding?: SmartSharding;
+  smartSharding?: SmartSharding | undefined;
   /** Optional. The Xcode version that should be used for the test. If not set, a system-default Xcode version is used. The available Xcode versions can be retrieved from the catalog service. */
-  xcodeVersion?: string;
+  xcodeVersion?: string | undefined;
   /** Optional. Uniform sharding strategy to split the job into multiple shards with equal number of test methods. */
-  uniformSharding?: UniformSharding;
+  uniformSharding?: UniformSharding | undefined;
   /** Optional. An .xctestrun file that will override the .xctestrun file in the tests zip. */
-  xctestrun?: InputFile;
+  xctestrun?: InputFile | undefined;
   /** Optional. The timeout of the test. Default value: 5 min. Range: [1 min, 3 hours]. */
-  xcTestTimeout?: string;
+  xcTestTimeout?: string | undefined;
 }
 export type InputFileList = Array<InputFile>;
 /** An Android Installable represents the file(s) for installing an Android package on a device. This can be an APK, an Android App Bundle (AAB), or an APK Set. */
 export interface AndroidInstallable {
   /** Required. Files that make up the package. Supported formats are distinguished by their file extension: - APK: One or more files with extension `.apk`. - App Bundle: A single file with extension `.aab`. - APK Set: A single file with extension `.apks`. */
-  files?: InputFileList;
+  files?: InputFileList | undefined;
 }
 /** The configuration of an Android instrumentation test. See https://developer.android.com/training/testing/instrumented-tests for more information on Android instrumentation tests. */
 export interface AndroidInstrumentationTest {
   /** Required. The test package to install and run the test. */
-  testInstallable?: AndroidInstallable;
+  testInstallable?: AndroidInstallable | undefined;
   /** Optional. A list of test targets or target filters to run. Each target must be fully qualified with the package name or class name, in one of these formats: - `package package_name` - `notPackage com.package.to.skip` - `class package_name.class_name` - `class package_name.class_name#method_name` - `notClass com.foo.ClassToSkip` - `notClass com.foo.ClassName#testMethodToSkip` - `annotation com.foo.AnnotationToRun` - `notAnnotation com.foo.AnnotationToSkip` - `size [small|medium|large]` Formats like `testfile` or `notTestfile` won't be supported. If empty, all targets in the module will be run. Limits: - Maximum number of entries: 1024. */
-  testTargets?: StringList;
+  testTargets?: StringList | undefined;
   /** Optional. Uniform sharding strategy to split the job into multiple shards with equal number of test methods. */
-  uniformSharding?: UniformSharding;
+  uniformSharding?: UniformSharding | undefined;
   /** Optional. The version of the Android Test Orchestrator to use for the test. The available orchestrator versions can be retrieved from the catalog service. If set to "auto", the default orchestrator is used. If not set, no orchestrator is used. */
-  orchestratorVersion?: string;
+  orchestratorVersion?: string | undefined;
   /** Optional. Additional test options to pass to the test runner. Passed to `am instrument` command as `-e` options, which will be passed to the instrumentation test runner using its `onCreate()` method. Formats supported in test_targets are not allowed to be used here. Limits: - Maximum number of entries: 32. - Maximum key size: 64 bytes (UTF-8). - Maximum value size: 1024 bytes (UTF-8). */
-  additionalTestOptions?: StringMap;
+  additionalTestOptions?: StringMap | undefined;
   /** Optional. The timeout of the instrumentation test. Default value: 5 min. Range: [1 min, 3 hours]. */
-  instrumentationTimeout?: string;
+  instrumentationTimeout?: string | undefined;
   /** Optional. Smart sharding strategy to split the job into multiple shards based on the test methods and their execution time. */
-  smartSharding?: SmartSharding;
+  smartSharding?: SmartSharding | undefined;
   /** Optional. Whether to enable code coverage collection for the test. A coverage file `coverage.ec` will be uploaded to the results folder. For this to work, your classes have to be instrumented offline (build time) by EMMA/JaCoCo. */
-  enableCodeCoverage?: boolean;
+  enableCodeCoverage?: boolean | undefined;
   /** Optional. Full class name of the test runner class. The class must be `androidx.test.runner.AndroidJUnitRunner` or a subclass of it. The default value is determined by examining the application's manifest. If multiple instrumentations are found, the first one in the manifest will be used. */
-  testRunnerClass?: string;
+  testRunnerClass?: string | undefined;
 }
 /** The action to be performed in a job. */
 export interface JobAction {
   /** Android native binary execution. */
-  androidNativeBinary?: AndroidNativeBinary;
+  androidNativeBinary?: AndroidNativeBinary | undefined;
   /** iOS XCTest. */
-  iosXcTest?: IosXcTest;
+  iosXcTest?: IosXcTest | undefined;
   /** Android instrumentation test. */
-  androidInstrumentationTest?: AndroidInstrumentationTest;
+  androidInstrumentationTest?: AndroidInstrumentationTest | undefined;
 }
 /** Switches the locale (language and region) of the device. */
 export interface AndroidSwitchLocaleDeviceAction {
   /** Required. The locale (language and region) to switch the device to. The format is `language-region`, e.g. "en-US", "zh-CN", etc. The typical language value is a two or three-letter language code as defined in ISO639. The typical region value is a two-letter ISO 3166 code or a three-digit UN M.49 area code. */
-  localeCode?: string;
+  localeCode?: string | undefined;
 }
 /** The configuration of pushing a file to the device. */
 export interface AndroidPushFilesDeviceActionFileConfig {
   /** Required. The destination path on the device. */
-  destinationPath?: string;
+  destinationPath?: string | undefined;
   /** Required. The file to be pushed to the device. */
-  sourceFile?: InputFile;
+  sourceFile?: InputFile | undefined;
 }
 export type AndroidPushFilesDeviceActionFileConfigList =
   Array<AndroidPushFilesDeviceActionFileConfig>;
 /** Pushes files to the device at the beginning of the run. Files are overwritten if a file with the same path already exists on the device, if device permissions allow. */
 export interface AndroidPushFilesDeviceAction {
   /** Required. Configs of pushing files to the device. Limits: - A maximum of 50 files are allowed. */
-  fileConfigs?: AndroidPushFilesDeviceActionFileConfigList;
+  fileConfigs?: AndroidPushFilesDeviceActionFileConfigList | undefined;
 }
 /** Collects the exported iOS App Privacy Report during the test run. When enabled, the iOS device records application activity (such as network access, domain requests, and sensitive resource access like photos, camera, or location) and exports Apple's official App Privacy Report. The report will be written to a file named `AppActivityReport.ndjson` in the execution output directory. */
 export interface IosAppPrivacyReportDeviceAction {}
 /** Records a video of the device screen during the run. The video will be written to a file named `video.mp4` in the execution output directory. */
 export interface AndroidRecordVideoDeviceAction {
   /** Optional. Whether to discard and not upload the recording when the test passes. Default is `false`. */
-  discardOnPass?: boolean;
+  discardOnPass?: boolean | undefined;
 }
 /** The configuration of pulling a file or directory from the iOS device. */
 export interface IosPullFilesDeviceActionPathConfig {
   /** Required. The bundle ID of the application sandbox. */
-  bundleId?: string;
+  bundleId?: string | undefined;
   /** Required. The device path relative to the app sandbox, e.g. "/Documents/output/". */
-  devicePath?: string;
+  devicePath?: string | undefined;
 }
 export type IosPullFilesDeviceActionPathConfigList = Array<IosPullFilesDeviceActionPathConfig>;
 /** Pulls directories and files from the iOS device sandbox at the end of the run. */
 export interface IosPullFilesDeviceAction {
   /** Required. Absolute directory or file paths to pull from the device. Limits: - A maximum of 10 paths are allowed. */
-  paths?: IosPullFilesDeviceActionPathConfigList;
+  paths?: IosPullFilesDeviceActionPathConfigList | undefined;
 }
 export type AndroidInstallableList = Array<AndroidInstallable>;
 /** Installs Android packages on the device. At least one installable is specified when using this device action. Limits: - A maximum of 20 installables in total are allowed. - A maximum of 100 files are allowed in total across all installables. */
 export interface AndroidInstallPackagesDeviceAction {
   /** Optional. The Android packages to install on the device after `target_app` (if specified) is installed. The installation will be performed in the order specified. */
-  postTargetAppInstallables?: AndroidInstallableList;
+  postTargetAppInstallables?: AndroidInstallableList | undefined;
   /** Optional. Deprecated: use `pre_target_app_installables`, `target_app` and `post_target_app_installables` instead. The Android packages to install on the device. The installation will be performed in the order specified, before the installables of all other fields. */
-  installables?: AndroidInstallableList;
+  installables?: AndroidInstallableList | undefined;
   /** Optional. The Android packages to install on the device before `target_app` (if specified) is installed. The installation will be performed in the order specified. */
-  preTargetAppInstallables?: AndroidInstallableList;
+  preTargetAppInstallables?: AndroidInstallableList | undefined;
   /** Optional. The primary Android package to install, serving as the target package for subsequent actions and as the installation ordering anchor. Whether this package is treated as the application under test depends on the job action: - Actions that require an explicit target package (such as performance metrics collection, or accessibility scans) use this package to identify the application to inspect or drive. - Actions that discover or manage targets independently (such as Android instrumentation tests, where target packages are defined in the test runner manifest) treat this field primarily as an installation order anchor between pre- and post-installables. Optional. If omitted, all packages in `pre_target_app_installables` and `post_target_app_installables` are installed without a designated target package. */
-  targetApp?: AndroidInstallable;
+  targetApp?: AndroidInstallable | undefined;
 }
 /** Installs iOS packages on the device. */
 export interface IosInstallPackagesDeviceAction {
   /** Required. Additional iOS packages (IPAs) to install on the device. Limits: - A maximum of 20 IPAs are allowed. */
-  ipas?: InputFileList;
+  ipas?: InputFileList | undefined;
 }
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
 export interface LatLng {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number;
+  longitude?: number | undefined;
 }
 /** Mocks the location of the Android device. */
 export interface AndroidMockLocationDeviceAction {
   /** Required. The mock location to set on the device. */
-  location?: LatLng;
+  location?: LatLng | undefined;
 }
 /** Sets the orientation of the device. */
 export interface AndroidOrientationDeviceAction {
   /** Required. The orientation to set the device to. One of `portrait` or `landscape`. */
-  orientation?: string;
+  orientation?: string | undefined;
 }
 /** Switches the locale (language and region) of the iOS application. */
 export interface IosSwitchLocaleDeviceAction {
   /** Required. The locale (language and region) to switch the app to. The format is `language-region` or `language`, e.g. "en-US", "zh-CN", "ja", etc. */
-  localeCode?: string;
+  localeCode?: string | undefined;
 }
 /** The configuration of pushing a file to the iOS device. */
 export interface IosPushFilesDeviceActionFileConfig {
   /** Required. The bundle ID of the application sandbox. */
-  bundleId?: string;
+  bundleId?: string | undefined;
   /** Required. The destination path relative to the app sandbox, e.g. "/Documents/file.txt". It must be in the app's "/Documents" directory or under "/private/var/mobile/Media/". This is the path of the pushed file, and missing parent directories are created. If the path is an existing directory, such as "/Documents", the file is placed in it under the file name of `source_file`. A trailing "/" does not create a directory: "/Documents/foo/" pushes the file to "/Documents/foo" unless that directory already exists. */
-  destinationPath?: string;
+  destinationPath?: string | undefined;
   /** Required. The file to be pushed. */
-  sourceFile?: InputFile;
+  sourceFile?: InputFile | undefined;
 }
 export type IosPushFilesDeviceActionFileConfigList = Array<IosPushFilesDeviceActionFileConfig>;
 /** Pushes files to the iOS device sandbox at the beginning of the run. */
 export interface IosPushFilesDeviceAction {
   /** Required. Configs of pushing files to the device. Limits: - A maximum of 50 files are allowed. */
-  fileConfigs?: IosPushFilesDeviceActionFileConfigList;
+  fileConfigs?: IosPushFilesDeviceActionFileConfigList | undefined;
 }
 /** Records videos of the iOS device screen, one per UI test case. Each video covers only the execution of its test case, and will be written to `testcases/{test_class}/{test_method}/video.mp4` in the execution output directory. No video is recorded for unit tests, or on devices running a version earlier than iOS 17. */
 export interface IosRecordVideoDeviceAction {
   /** Optional. Whether to discard the video of a test case when it passes. If not specified, the default is `false` (videos of all test cases are kept). */
-  discardOnPass?: boolean;
+  discardOnPass?: boolean | undefined;
 }
 /** Captures a bugreport from the device. The output will be written to a file named `bugreport.zip` in the execution output directory. */
 export interface AndroidBugreportDeviceAction {
   /** Optional. Whether to deliver the bugreport when the test passes. If `false`, the bugreport is skipped on pass to save time (default behavior). If `true`, the bugreport is always delivered. */
-  collectOnPass?: boolean;
+  collectOnPass?: boolean | undefined;
 }
 /** Captures dumpsys output from the device. The output will be written to a file named `dumpsys.log` in the execution output directory. */
 export interface AndroidDumpsysDeviceAction {
   /** Optional. Whether to deliver the dumpsys when the test passes. If `false`, the dumpsys is skipped on pass to save time (default behavior). If `true`, the dumpsys is always delivered. */
-  collectOnPass?: boolean;
+  collectOnPass?: boolean | undefined;
 }
 /** Pulls directories and files from the device at the end of the run. Files will be copied to the '/artifacts' directory, with the absolute path structure preserved. Note that: 1. A clean device is provided for the run. 2. Any existing files in the output directory may be overwritten. 3. Pulling files is best effort. Will skip files if they don't exist on the device. */
 export interface AndroidPullFilesDeviceAction {
   /** Required. Absolute directory or file paths to pull from the device. Limits: - A maximum of 10 paths are allowed. */
-  paths?: StringList;
+  paths?: StringList | undefined;
 }
 /** Collects logcat output from the device. The output will be written to a file named `logcat.txt` in the execution output directory. */
 export type AndroidLogcatDeviceAction = IosAppPrivacyReportDeviceAction;
 /** The action to be performed on a device. */
 export interface DeviceAction {
   /** Switches the locale (language and region) of the device. */
-  androidSwitchLocale?: AndroidSwitchLocaleDeviceAction;
+  androidSwitchLocale?: AndroidSwitchLocaleDeviceAction | undefined;
   /** Pushes files to the device at the beginning of the run. */
-  androidPushFiles?: AndroidPushFilesDeviceAction;
+  androidPushFiles?: AndroidPushFilesDeviceAction | undefined;
   /** Collects the exported iOS App Privacy Report during the run. */
-  iosAppPrivacyReport?: IosAppPrivacyReportDeviceAction;
+  iosAppPrivacyReport?: IosAppPrivacyReportDeviceAction | undefined;
   /** Records a video of the device screen during the run. */
-  androidRecordVideo?: AndroidRecordVideoDeviceAction;
+  androidRecordVideo?: AndroidRecordVideoDeviceAction | undefined;
   /** Pulls directories and files from the iOS device sandbox at the end of the run. */
-  iosPullFiles?: IosPullFilesDeviceAction;
+  iosPullFiles?: IosPullFilesDeviceAction | undefined;
   /** Installs Android packages on the device. */
-  androidInstallPackages?: AndroidInstallPackagesDeviceAction;
+  androidInstallPackages?: AndroidInstallPackagesDeviceAction | undefined;
   /** Installs additional iOS packages on the device. */
-  iosInstallPackages?: IosInstallPackagesDeviceAction;
+  iosInstallPackages?: IosInstallPackagesDeviceAction | undefined;
   /** Mocks the location of the device. */
-  androidMockLocation?: AndroidMockLocationDeviceAction;
+  androidMockLocation?: AndroidMockLocationDeviceAction | undefined;
   /** Sets the orientation of the device. */
-  androidOrientation?: AndroidOrientationDeviceAction;
+  androidOrientation?: AndroidOrientationDeviceAction | undefined;
   /** Switches the locale (language and region) of the iOS application. */
-  iosSwitchLocale?: IosSwitchLocaleDeviceAction;
+  iosSwitchLocale?: IosSwitchLocaleDeviceAction | undefined;
   /** Pushes files to the iOS device sandbox at the beginning of the run. */
-  iosPushFiles?: IosPushFilesDeviceAction;
+  iosPushFiles?: IosPushFilesDeviceAction | undefined;
   /** Records videos of the iOS device screen, one per UI test case. */
-  iosRecordVideo?: IosRecordVideoDeviceAction;
+  iosRecordVideo?: IosRecordVideoDeviceAction | undefined;
   /** Captures a bugreport from the device unless the test result is pass. */
-  androidBugreport?: AndroidBugreportDeviceAction;
+  androidBugreport?: AndroidBugreportDeviceAction | undefined;
   /** Captures a dumpsys from the device. */
-  androidDumpsys?: AndroidDumpsysDeviceAction;
+  androidDumpsys?: AndroidDumpsysDeviceAction | undefined;
   /** Pulls directories and files from the device at the end of the run. */
-  androidPullFiles?: AndroidPullFilesDeviceAction;
+  androidPullFiles?: AndroidPullFilesDeviceAction | undefined;
   /** Collects logcat output from the device. */
-  androidLogcat?: IosAppPrivacyReportDeviceAction;
+  androidLogcat?: IosAppPrivacyReportDeviceAction | undefined;
 }
 export type DeviceActionList = Array<DeviceAction>;
 /** The requirement of a device. */
 export interface DeviceRequirement {
   /** The device ID of a device in the catalog. The device ID is the last part of a device's resource name. */
-  deviceId?: string;
+  deviceId?: string | undefined;
 }
 /** The configuration of a run on a device. */
 export interface DeviceConfig {
   /** Optional. The actions to be performed on the device. Actions will be executed in the order they are specified in the list. Each action type can at most have 1 instance in the list. */
-  actions?: DeviceActionList;
+  actions?: DeviceActionList | undefined;
   /** Required. The requirement of the device. */
-  requirement?: DeviceRequirement;
+  requirement?: DeviceRequirement | undefined;
 }
 export type DeviceConfigList = Array<DeviceConfig>;
 /** Allocation config. */
 export interface AllocationConfig {
   /** Required. At least one device config is required. If more than one device config is required, the multiple devices are allocated to each shard of the OmniLab job to run multi-device-interaction tests. */
-  deviceConfigs?: DeviceConfigList;
+  deviceConfigs?: DeviceConfigList | undefined;
 }
 export type RetrySettingsFlakyTestRetryStrategyTestReductionModeEnum =
   | "TEST_REDUCTION_MODE_UNSPECIFIED"
@@ -468,75 +468,78 @@ export type RetrySettingsFlakyTestRetryStrategyTestReductionModeEnum =
 /** Default retry strategy. It will retry on test failures for up to flaky_test_attempts (including the initial run). It also retries on infra issues for up to 2 attempts (including the initial run). So in total, an execution can run up to flaky_test_attempts * 2 times in the worst case. */
 export interface RetrySettingsFlakyTestRetryStrategy {
   /** Optional. Whether to retry the test failures in parallel. By default, the test is retried sequentially. If true, when the initial attempt fails, (flaky_test_attempts - 1) attempts will be triggered at the same time to run in parallel. */
-  parallelRetry?: boolean;
+  parallelRetry?: boolean | undefined;
   /** Required. The total attempts for flaky tests, including the initial run. Default value: 1 (no retry). Range: [1, 5]. */
-  flakyTestAttempts?: number;
+  flakyTestAttempts?: number | undefined;
   /** Optional. The mode of test reduction for retry. If the test runner doesn't support the specified test reduction mode, the request will be rejected with an `INVALID_ARGUMENT` error. */
-  testReductionMode?: RetrySettingsFlakyTestRetryStrategyTestReductionModeEnum | (string & {});
+  testReductionMode?:
+    | RetrySettingsFlakyTestRetryStrategyTestReductionModeEnum
+    | (string & {})
+    | undefined;
 }
 /** Retry settings. */
 export interface RetrySettings {
   /** Optional. The default retry strategy. Allows an Execution to retry on test failures and infrastructure errors. */
-  flakyTestRetryStrategy?: RetrySettingsFlakyTestRetryStrategy;
+  flakyTestRetryStrategy?: RetrySettingsFlakyTestRetryStrategy | undefined;
 }
 /** Job settings to control the job execution. */
 export interface JobSettings {
   /** Optional. The retry settings of the job. */
-  retrySettings?: RetrySettings;
+  retrySettings?: RetrySettings | undefined;
 }
 /** The configuration of a job. */
 export interface JobConfig {
   /** Required. Job action. */
-  action?: JobAction;
+  action?: JobAction | undefined;
   /** Required. Allocation config. */
-  allocationConfig?: AllocationConfig;
+  allocationConfig?: AllocationConfig | undefined;
   /** Optional. Job settings. */
-  settings?: JobSettings;
+  settings?: JobSettings | undefined;
   /** Optional. User-settable, human-readable name for the job. If set, it must be unique within the session. If not set, the display name will default to `job-`, where `` is the 0-based index of the job in the session formatted as three digits (e.g., job-000, job-001, ...). Maximum size is 63 bytes when encoded as UTF-8. If set, must match regex: `^A-Za-z0-9*$`. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. User-defined metadata for tracking or categorization. These labels do not affect job execution and are surfaced in the JobReport. Limits: - Maximum number of entries: 16. - Maximum key size: 32 bytes (UTF-8). - Maximum value size: 1024 bytes (UTF-8). */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type JobConfigList = Array<JobConfig>;
 /** Config to control session notification. */
 export interface SessionConfigSessionNotificationConfig {
   /** Optional. The Pub/Sub topics to which session events are published. Format: `projects/{project}/topics/{topic}`. See https://cloud.google.com/pubsub/docs/admin#topic_and_subscription_name_restrictions */
-  pubsubTopic?: StringList;
+  pubsubTopic?: StringList | undefined;
 }
 /** Config to control session output file directory. */
 export interface SessionConfigSessionOutputFileDirectoryConfig {
   /** The Google Cloud Storage path of the output directory (e.g. `gs://my-bucket/output`). The bucket must exist. If the bucket is located in another project or uses fine-grained access controls, ensure the Device Run Service Agent of the project (`service-@gcp-sa-devicerun.iam.gserviceaccount.com`) is granted access to the bucket (such as `roles/storage.objectUser`). */
-  gcsOutputDirectory?: GcsPath;
+  gcsOutputDirectory?: GcsPath | undefined;
   /** Optional. Whether to write output files directly under the output directory instead of nesting them under service-generated subdirectories. By default (`false`), output files are stored under `////`. When `true`, the session ID subdirectory is never appended, and the job display name subdirectory is appended only when the session has more than one job. Output files are therefore stored under: - `//` for a single-job session. - `///` for a multi-job session. Set this to `true` when the output directory is already unique per session (for example, when a CI system generates it), to avoid redundant nesting. */
-  flatDirectoryStructure?: boolean;
+  flatDirectoryStructure?: boolean | undefined;
 }
 /** SessionConfig is used to create a session. */
 export interface SessionConfig {
   /** Required. Configs of the jobs in the session. */
-  jobConfigs?: JobConfigList;
+  jobConfigs?: JobConfigList | undefined;
   /** Optional. Notification config for the session. */
-  notificationConfig?: SessionConfigSessionNotificationConfig;
+  notificationConfig?: SessionConfigSessionNotificationConfig | undefined;
   /** Required. Output file directory config for the session. */
-  outputDirectoryConfig?: SessionConfigSessionOutputFileDirectoryConfig;
+  outputDirectoryConfig?: SessionConfigSessionOutputFileDirectoryConfig | undefined;
   /** Optional. User-settable, human-readable name for the session. Maximum size is 63 bytes when encoded as UTF-8. If set, must match regex: `^A-Za-z0-9*$`. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A session resource in the AutomationSession API. At a high level, `Session` describes the configuration of one or multiple jobs, the state transitions it goes through, and the results. */
 export interface Session {
   /** Identifier. The resource name of the session. Format: `projects/{project}/locations/{location}/sessions/{session}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The runtime information and result report of the session. */
-  sessionReport?: SessionReport;
+  sessionReport?: SessionReport | undefined;
   /** Required. Configuration used to create the session. */
-  sessionConfig?: SessionConfig;
+  sessionConfig?: SessionConfig | undefined;
   /** Output only. The time when the session was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export type SessionList = Array<Session>;
 /** Response including the requested sessions. */
 export interface BatchGetSessionsResponse {
   /** The requested sessions, in the same order as the `names` in the request. */
-  sessions?: SessionList;
+  sessions?: SessionList | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export type GoogleLongrunningCancelOperationRequest = IosAppPrivacyReportDeviceAction;
@@ -544,7 +547,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: IosAppPrivacyReportDeviceAction;
+  body?: IosAppPrivacyReportDeviceAction | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -554,7 +557,7 @@ export interface CancelProjectsLocationsSessionsRequest {
   /** Required. The name of the session. Format: "projects/{project}/locations/{location}/sessions/{session}" */
   name: string;
   /** Request body */
-  body?: IosAppPrivacyReportDeviceAction;
+  body?: IosAppPrivacyReportDeviceAction | undefined;
 }
 export type CancelSessionResponseCancelResultEnum =
   | "CANCEL_RESULT_UNSPECIFIED"
@@ -563,41 +566,41 @@ export type CancelSessionResponseCancelResultEnum =
 /** Response of the cancel session request. */
 export interface CancelSessionResponse {
   /** The result of the request. */
-  cancelResult?: CancelSessionResponseCancelResultEnum;
+  cancelResult?: CancelSessionResponseCancelResultEnum | undefined;
 }
 export interface CreateProjectsLocationsSessionsRequest {
   /** Optional. A unique identifier for this request. This request is only idempotent if both `request_id` and `session_id` are provided. If a retry with the same `request_id` and `session_id` is received, then the previous result will be returned. The server will guarantee that for at least 60 minutes after the first request. If `request_id` is provided without `session_id`, the server generates a new `session_id` on each attempt, and retries with the same `request_id` will fail with `INVALID_ARGUMENT`. The value must be a UUID (e.g., 123e4567-e89b-12d3-a456-426655440000). See github.com/google/uuid for more details. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The ID to use for the session, which will become the final component of the resource name. If not provided, the server will generate a value for this field. To make the request idempotent when `request_id` is specified, callers must also provide `session_id` so that retries target the same resource name. When provided, this value must be between 4 and 63 characters, and match the following regex: ^a-z{2,61}[a-z0-9]$. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Required. The parent resource where this session will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: Session;
+  body?: Session | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -605,7 +608,7 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsSessionsRequest {
   /** Optional. A unique identifier for this request. This request is only idempotent if a `request_id` is provided, i.e. if a request with the same `request_id` is received, then the previous result will be returned. The server will guarantee that for at least 60 minutes after the first request. The value must be a UUID (e.g., 123e4567-e89b-12d3-a456-426655440000). See github.com/google/uuid for more details. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the session. Format: `projects/{project}/locations/{location}/sessions/{session}`. */
   name: string;
 }
@@ -616,15 +619,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsDevicesRequest {
   /** Required. The name of the device. Format: `projects/{project}/locations/global/devices/{device}`. */
@@ -639,36 +642,36 @@ export type CatalogDeviceFormFactorEnum =
 /** Screen measurements of a device. */
 export interface CatalogScreenMetrics {
   /** Output only. Height in pixels. */
-  heightPx?: number;
+  heightPx?: number | undefined;
   /** Output only. Pixel density in dots per inch (dpi). */
-  densityDpi?: number;
+  densityDpi?: number | undefined;
   /** Output only. Width in pixels. */
-  widthPx?: number;
+  widthPx?: number | undefined;
 }
 export type CatalogLifecycleStateEnum = "STATE_UNSPECIFIED" | "PREVIEW" | "ACTIVE" | "DEPRECATED";
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Devicerun_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 /** Catalog resource lifecycle: maturity state plus key lifecycle dates. */
 export interface CatalogLifecycle {
   /** Output only. Specifies the current maturity state of the resource. */
-  state?: CatalogLifecycleStateEnum;
+  state?: CatalogLifecycleStateEnum | undefined;
   /** Output only. Specifies the date the resource is scheduled to be removed from the catalog. Only set when `state == DEPRECATED`. */
-  removalDate?: Devicerun_Date;
+  removalDate?: Devicerun_Date | undefined;
 }
 export type CatalogDevicePlatformEnum = "PLATFORM_UNSPECIFIED" | "ANDROID" | "IOS";
 /** Android-specific device attributes. */
 export interface CatalogAndroidDeviceDetails {
   /** Output only. Lists ABIs supported by the device (android.os.Build.SUPPORTED_ABIS), most preferred first, e.g. "arm64-v8a". */
-  supportedAbis?: StringList;
+  supportedAbis?: StringList | undefined;
   /** Output only. Mirrors the AOSP `ro.build.type` property, e.g. "user", "userdebug", "eng". Empty if unknown. */
-  buildType?: string;
+  buildType?: string | undefined;
 }
 export type CatalogDeviceAvailabilityAvailableEnum =
   | "AVAILABILITY_UNSPECIFIED"
@@ -685,18 +688,18 @@ export type CatalogDeviceAvailabilityCapacityEnum =
 /** Fleet availability for a device configuration. */
 export interface CatalogDeviceAvailability {
   /** Output only. Specifies the current availability bucket (idle, immediately allocatable devices) for this device configuration. This is a best-effort snapshot, refreshed periodically. It fluctuates depending on traffic as other requests allocate devices. */
-  available?: CatalogDeviceAvailabilityAvailableEnum;
+  available?: CatalogDeviceAvailabilityAvailableEnum | undefined;
   /** Output only. Specifies the current capacity bucket for this device configuration. Represents the total number of online devices (idle or in use). */
-  capacity?: CatalogDeviceAvailabilityCapacityEnum;
+  capacity?: CatalogDeviceAvailabilityCapacityEnum | undefined;
 }
 /** iOS-specific device attributes. Reserved for future iOS-only fields. */
 export type CatalogIosDeviceDetails = IosAppPrivacyReportDeviceAction;
 /** The lab hosting a device. */
 export interface CatalogLabInfo {
   /** Output only. Display name of the lab where the device is hosted. If empty, the device is hosted in a Google owned lab. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The Unicode country/region code (CLDR) of the lab where the device is hosted, e.g. "US" for United States, "KR" for South Korea. Empty when the hosting region is not published. */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export type CatalogDeviceAccessDeniedReasonsItemEnum =
   | "ACCESS_DENIED_REASON_UNSPECIFIED"
@@ -707,54 +710,54 @@ export type CatalogDeviceHardwareTypeEnum = "HARDWARE_TYPE_UNSPECIFIED" | "PHYSI
 /** Per-product metadata for the DeviceStreaming product. */
 export interface CatalogDeviceStreamingSupport {
   /** Output only. Specifies the minimum Android Studio version that supports this device. Optional; only set when the device is known to work only at or above a certain Android Studio version. Expected format "major.minor.micro.patch", e.g. "5921.22.2211.8881706". */
-  minimumAndroidStudioVersion?: string;
+  minimumAndroidStudioVersion?: string | undefined;
 }
 /** Per-product metadata for the Automation (DeviceRun) product. */
 export type CatalogAutomationSupport = IosAppPrivacyReportDeviceAction;
 /** Declares that a device supports a given Device Cloud product, with optional per-product metadata. Discriminated by which product-specific message is set; adding a new product = new oneof arm + new per-product message. */
 export interface CatalogSupportedProduct {
   /** Output only. Represents DeviceStreaming, which is interactive remote device streaming. */
-  deviceStreaming?: CatalogDeviceStreamingSupport;
+  deviceStreaming?: CatalogDeviceStreamingSupport | undefined;
   /** Output only. Represents Automation, which is DeviceRun-backed automated test execution. */
-  automation?: IosAppPrivacyReportDeviceAction;
+  automation?: IosAppPrivacyReportDeviceAction | undefined;
 }
 export type CatalogSupportedProductList = Array<CatalogSupportedProduct>;
 /** A single routable device configuration in the catalog. */
 export interface CatalogDevice {
   /** Output only. Provides a human-readable model identifier for this device, independent of OS version. May be empty. Platform-dependent: * Android physical: hardware codename (android.os.Build.DEVICE), e.g. "shiba". * Android virtual: AVD model identifier, e.g. "MediumPhone.arm". * iOS: model identifier, e.g. "iphone14pro". */
-  modelCode?: string;
+  modelCode?: string | undefined;
   /** Output only. Specifies the OS version, e.g. "30" (Android API level) or "17.4" (iOS). */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** Output only. Specifies the form factor of the device. */
-  formFactor?: CatalogDeviceFormFactorEnum;
+  formFactor?: CatalogDeviceFormFactorEnum | undefined;
   /** Identifier. Identifies the device resource. Format: `projects/{project}/locations/{location}/devices/{device}`. The {device} segment is an opaque, stable string. Clients must not parse it to derive or assume device-specific details. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Specifies the hardware manufacturer of the device. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Output only. Measurements of the primary device screen. Informational only. Unset for devices without a screen (e.g. some wearables). */
-  primaryScreen?: CatalogScreenMetrics;
+  primaryScreen?: CatalogScreenMetrics | undefined;
   /** Output only. The device lifecycle (maturity stage and removal date). */
-  lifecycle?: CatalogLifecycle;
+  lifecycle?: CatalogLifecycle | undefined;
   /** Output only. Provides a human-readable display name, e.g. "Pixel 5". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Specifies the platform of the device. */
-  platform?: CatalogDevicePlatformEnum;
+  platform?: CatalogDevicePlatformEnum | undefined;
   /** Output only. Contains Android-specific attributes (set when platform == ANDROID). */
-  androidDetails?: CatalogAndroidDeviceDetails;
+  androidDetails?: CatalogAndroidDeviceDetails | undefined;
   /** Output only. Reports the current fleet availability for this device configuration. */
-  availability?: CatalogDeviceAvailability;
+  availability?: CatalogDeviceAvailability | undefined;
   /** Output only. Contains iOS-specific attributes (set when platform == IOS). */
-  iosDetails?: IosAppPrivacyReportDeviceAction;
+  iosDetails?: IosAppPrivacyReportDeviceAction | undefined;
   /** Output only. The lab hosting this device. */
-  labInfo?: CatalogLabInfo;
+  labInfo?: CatalogLabInfo | undefined;
   /** Output only. Reasons for access denial. This model is accessible/usable if this list is empty, otherwise the model is viewable only. */
-  accessDeniedReasons?: CatalogDeviceAccessDeniedReasonsItemEnumList;
+  accessDeniedReasons?: CatalogDeviceAccessDeniedReasonsItemEnumList | undefined;
   /** Output only. Additional information. Informational only. May change over the lifecycle of a device. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Indicates whether the device is physical or virtual. */
-  hardwareType?: CatalogDeviceHardwareTypeEnum;
+  hardwareType?: CatalogDeviceHardwareTypeEnum | undefined;
   /** Output only. Products/Services supported by this device. */
-  supportedProducts?: CatalogSupportedProductList;
+  supportedProducts?: CatalogSupportedProductList | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -768,7 +771,7 @@ export interface GetProjectsLocationsSessionsRequest {
   /** Required. The name of the session. Format: `projects/{project}/locations/{location}/sessions/{session}`. */
   name: string;
   /** Optional. The view of the session to return. If not set, the `FULL` view will be returned. */
-  view?: GetProjectsLocationsSessionsViewEnum | (string & {});
+  view?: GetProjectsLocationsSessionsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsSoftwareVersionsRequest {
   /** Required. The name of the software version. Format: `projects/{project}/locations/global/softwareVersions/{software_version}`. */
@@ -783,86 +786,86 @@ export type CatalogSoftwareVersionSoftwareTypeEnum =
 /** Xcode-specific attributes. */
 export interface CatalogXcodeDetails {
   /** Output only. Lists the iOS versions this Xcode can run tests against, e.g. "16.6". This is a property of the toolchain, so it says nothing about whether a device on that iOS version is available; list the `Device` collection to find out. */
-  supportedIosVersions?: StringList;
+  supportedIosVersions?: StringList | undefined;
 }
 /** A single software version in the catalog. */
 export interface CatalogSoftwareVersion {
   /** Output only. Specifies the version identifier, e.g. "1.4.1". Unique within a `software_type`. */
-  version?: string;
+  version?: string | undefined;
   /** Output only. Provides a human-readable name for this version, e.g. "AndroidX Test Orchestrator 1.4.1". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The version lifecycle (maturity stage and removal date). */
-  lifecycle?: CatalogLifecycle;
+  lifecycle?: CatalogLifecycle | undefined;
   /** Identifier. Identifies the software version resource. Format: `projects/{project}/locations/{location}/softwareVersions/{software_version}`. The {software_version} segment is an opaque, stable string. Clients must not parse it to derive or assume the version. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Contains AndroidX Test Orchestrator-specific attributes (set when software_type == ANDROIDX_TEST_ORCHESTRATOR). */
-  androidxTestOrchestratorDetails?: IosAppPrivacyReportDeviceAction;
+  androidxTestOrchestratorDetails?: IosAppPrivacyReportDeviceAction | undefined;
   /** Output only. Specifies which software this is a version of. Filter on this field to narrow the collection to a single kind of software, for example `software_type = "ANDROIDX_TEST_ORCHESTRATOR"`. */
-  softwareType?: CatalogSoftwareVersionSoftwareTypeEnum;
+  softwareType?: CatalogSoftwareVersionSoftwareTypeEnum | undefined;
   /** Output only. Indicates whether the system uses this version when a request does not select one explicitly. Exactly one version per `software_type` is the default, and it may change over time. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Output only. Contains Xcode-specific attributes (set when software_type == XCODE). */
-  xcodeDetails?: CatalogXcodeDetails;
+  xcodeDetails?: CatalogXcodeDetails | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsDevicesRequest {
   /** Required. The parent of the collection of devices. Format: `projects/{project}/locations/global`. */
   parent: string;
   /** Optional. An AIP-160 (https://google.aip.dev/160) filter expression restricting which devices are returned. An empty filter returns all devices. Filtering is supported over the `Device` fields, including nested fields via dot-path. Enum and string values must be double-quoted. Examples: * `platform = "ANDROID"` * `platform = "ANDROID" AND os_version = "34"` * `hardware_type = "PHYSICAL" AND form_factor = "PHONE"` * `android_details.build_type = "userdebug"` * `availability.capacity = "HIGH"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListDevices` call. Provide this to receive the subsequent page. When paginating, all other parameters provided to `ListDevices` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of devices to return. The server may return fewer items than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type CatalogDeviceList = Array<CatalogDevice>;
 /** Response including listed devices. */
 export interface CatalogListDevicesResponse {
   /** Token to receive the next page of devices. This will be absent if the end of the response list has been reached. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of devices. */
-  devices?: CatalogDeviceList;
+  devices?: CatalogDeviceList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsSessionsViewEnum =
   | "SESSION_VIEW_UNSPECIFIED"
@@ -870,44 +873,44 @@ export type ListProjectsLocationsSessionsViewEnum =
   | "SESSION_VIEW_FULL";
 export interface ListProjectsLocationsSessionsRequest {
   /** Optional. The order to sort results by. Supported values: `name`, `name desc`, `create_time`, `create_time desc`. Values must use the snake_case field name; `createTime` is not accepted. Ordering by `create_time` is not supported when listing across all locations (`locations/-`). If unspecified, results are returned in an unspecified order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The raw filter text to constrain the results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListSessions` call. Provide this to receive the subsequent page. When paginating, all other parameters provided to `ListSessions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of sessions to return. The server may return fewer items than this value. If unspecified, at most 500 sessions will be returned. The maximum value is 1000, values above will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The view of the sessions to return. If not set, the `FULL` view will be returned. */
-  view?: ListProjectsLocationsSessionsViewEnum | (string & {});
+  view?: ListProjectsLocationsSessionsViewEnum | (string & {}) | undefined;
   /** Required. Parent value for ListSessionsRequest The parent of the collection of sessions. Format: `projects/{project}/locations/{location}`. */
   parent: string;
 }
 /** Response including listed sessions. */
 export interface ListSessionsResponse {
   /** Token to receive the next page of sessions. This will be absent if the end of the response list has been reached. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Sessions that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of sessions. */
-  sessions?: SessionList;
+  sessions?: SessionList | undefined;
 }
 export interface ListProjectsLocationsSoftwareVersionsRequest {
   /** Optional. A page token, received from a previous `ListSoftwareVersions` call. Provide this to receive the subsequent page. When paginating, all other parameters provided to `ListSoftwareVersions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent of the collection of software versions. Format: `projects/{project}/locations/global`. */
   parent: string;
   /** Optional. An AIP-160 (https://google.aip.dev/160) filter expression restricting which software versions are returned. An empty filter returns all software versions. Filtering is supported over the `SoftwareVersion` fields, including nested fields via dot-path. Enum and string values must be double-quoted. Examples: * `software_type = "ANDROIDX_TEST_ORCHESTRATOR"` * `software_type = "ANDROIDX_TEST_ORCHESTRATOR" AND is_default = true` * `lifecycle.state = "ACTIVE"` * `version = "1.4.1"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of software versions to return. The server may return fewer items than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type CatalogSoftwareVersionList = Array<CatalogSoftwareVersion>;
 /** Response including listed software versions. */
 export interface CatalogListSoftwareVersionsResponse {
   /** The list of software versions. */
-  softwareVersions?: CatalogSoftwareVersionList;
+  softwareVersions?: CatalogSoftwareVersionList | undefined;
   /** Token to receive the next page of software versions. This will be absent if the end of the response list has been reached. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type BatchGetProjectsLocationsSessionsError = NotFound | Forbidden | GcpOpError;
 /** Retrieves multiple automation sessions in a single batch request. Sessions are returned in the same order as the `names` in the request. If any of the requested sessions does not exist, the whole request fails with `NOT_FOUND` and no sessions are returned. When calling this method over HTTP/REST with a large number of `names`, the request URL may exceed the maximum URL length (about 16 KB) and be rejected. In that case, send a `POST` request to the same URL with the `X-HTTP-Method-Override: GET` header and pass the request parameters in a JSON (`application/json`) or form-encoded (`application/x-www-form-urlencoded`) body. See https://cloud.google.com/apis/docs/http#long_request_urls. */

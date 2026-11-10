@@ -83,9 +83,9 @@ export interface CreateFlagRequestVariantsItem {
   /** The id of the variant */
   id: string;
   /** A label for the variant */
-  label?: string;
+  label?: string | undefined;
   /** A description of the variant */
-  description?: string;
+  description?: string | undefined;
   value: CreateFlagRequestVariantsItemValue;
 }
 /** The variants of the flag */
@@ -98,7 +98,7 @@ export interface CreateFlagRequestEnvironmentsValueReuse {
   environment: string;
 }
 export interface CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem {
-  note?: string;
+  note?: string | undefined;
   value: string;
 }
 export type CreateFlagRequestEnvironmentsValueTargetsValueValueValueList =
@@ -156,13 +156,13 @@ export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0Typ
   | "list/inline"
   | "list";
 export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase0 {
-  label?: string;
-  note?: string;
+  label?: string | undefined;
+  note?: string | undefined;
   value: number;
 }
 export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItemCase1 {
-  label?: string;
-  note?: string;
+  label?: string | undefined;
+  note?: string | undefined;
   value: string;
 }
 export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhsCase0ItemsItem =
@@ -186,13 +186,13 @@ export type CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs =
   | number
   | boolean;
 export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions {
-  ignoreCase?: boolean;
+  ignoreCase?: boolean | undefined;
 }
 export interface CreateFlagRequestEnvironmentsValueRulesItemConditionsItem {
   lhs: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemLhs;
   cmp: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmp | (string & {});
-  rhs?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  rhs?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
 }
 export type CreateFlagRequestEnvironmentsValueRulesItemConditionsList =
   Array<CreateFlagRequestEnvironmentsValueRulesItemConditionsItem>;
@@ -237,7 +237,7 @@ export interface CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2 {
   /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
   slots: CreateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsList;
   /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
-  finalPromille?: number;
+  finalPromille?: number | undefined;
 }
 export type CreateFlagRequestEnvironmentsValueRulesItemOutcome =
   | CreateFlagRequestEnvironmentsValuePausedOutcome
@@ -287,7 +287,7 @@ export interface CreateFlagRequestEnvironmentsValueFallthroughCase2 {
   /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
   slots: CreateFlagRequestEnvironmentsValueFallthroughCase2SlotsList;
   /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
-  finalPromille?: number;
+  finalPromille?: number | undefined;
 }
 export type CreateFlagRequestEnvironmentsValueFallthrough =
   | CreateFlagRequestEnvironmentsValuePausedOutcome
@@ -296,14 +296,14 @@ export type CreateFlagRequestEnvironmentsValueFallthrough =
 export interface CreateFlagRequestEnvironmentsValue {
   active: boolean;
   /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
-  reuse?: CreateFlagRequestEnvironmentsValueReuse;
+  reuse?: CreateFlagRequestEnvironmentsValueReuse | undefined;
   /** Allows assigning targets to variants while bypassing the flag's rules */
-  targets?: CreateFlagRequestEnvironmentsValueTargetsMap;
+  targets?: CreateFlagRequestEnvironmentsValueTargetsMap | undefined;
   pausedOutcome: CreateFlagRequestEnvironmentsValuePausedOutcome;
   rules: CreateFlagRequestEnvironmentsValueRulesList;
   fallthrough: CreateFlagRequestEnvironmentsValueFallthrough;
   /** The revision of the environment config */
-  revision?: number;
+  revision?: number | undefined;
 }
 /** The configuration for the flag in different environments */
 export type CreateFlagRequestEnvironmentsMap = {
@@ -318,26 +318,26 @@ export interface CreateFlagRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The kind of flag */
   kind: CreateFlagRequestKind | (string & {});
   /** The variants of the flag */
-  variants?: CreateFlagRequestVariantsList;
+  variants?: CreateFlagRequestVariantsList | undefined;
   /** The configuration for the flag in different environments */
   environments: CreateFlagRequestEnvironmentsMap;
   /** A random seed to prevent split points in different flags from having the same targets */
-  seed?: number;
+  seed?: number | undefined;
   /** A description of the flag */
-  description?: string;
-  state?: CreateFlagRequestState | (string & {});
+  description?: string | undefined;
+  state?: CreateFlagRequestState | (string & {}) | undefined;
   /** The user ids of the maintainers of the flag */
-  maintainerIds?: CreateFlagRequestMaintainerIdsList;
+  maintainerIds?: CreateFlagRequestMaintainerIdsList | undefined;
   /** Whether this flag is marked as permanent, indicating it should not be removed */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
   /** Tags for categorizing the flag */
-  tags?: CreateFlagRequestTagsList;
+  tags?: CreateFlagRequestTagsList | undefined;
 }
 export type CreateFlagResponseEnvironmentsValueFallthroughCase0Type = "variant";
 export interface CreateFlagResponseEnvironmentsValueFallthroughCase0 {
@@ -376,7 +376,7 @@ export type CreateFlagResponseEnvironmentsValueFallthroughCase2Type = "rollout";
 export interface CreateFlagResponseEnvironmentsValueFallthroughCase2 {
   base: CreateFlagResponseEnvironmentsValueFallthroughCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: CreateFlagResponseEnvironmentsValueFallthroughCase2SlotsList;
@@ -470,9 +470,9 @@ export type CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs =
   | boolean;
 export interface CreateFlagResponseEnvironmentsValueRulesItemConditionsItem {
   cmp: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
   lhs: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs;
-  rhs?: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs;
+  rhs?: CreateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs | undefined;
 }
 export type CreateFlagResponseEnvironmentsValueRulesItemConditionsList =
   Array<CreateFlagResponseEnvironmentsValueRulesItemConditionsItem>;
@@ -511,7 +511,7 @@ export type CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Type = "roll
 export interface CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2 {
   base: CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: CreateFlagResponseEnvironmentsValueRulesItemOutcomeCase2SlotsList;
@@ -551,10 +551,10 @@ export interface CreateFlagResponseEnvironmentsValue {
   active: boolean;
   fallthrough: CreateFlagResponseEnvironmentsValueFallthrough;
   pausedOutcome: CreateFlagResponseEnvironmentsValuePausedOutcome;
-  reuse?: CreateFlagResponseEnvironmentsValueReuse;
-  revision?: number;
+  reuse?: CreateFlagResponseEnvironmentsValueReuse | undefined;
+  revision?: number | undefined;
   rules: CreateFlagResponseEnvironmentsValueRulesList;
-  targets?: CreateFlagResponseEnvironmentsValueTargetsMap;
+  targets?: CreateFlagResponseEnvironmentsValueTargetsMap | undefined;
 }
 export type CreateFlagResponseEnvironmentsMap = {
   [key: string]: CreateFlagResponseEnvironmentsValue | undefined;
@@ -573,32 +573,32 @@ export type CreateFlagResponseVariantsItemValue =
   | CreateFlagResponseVariantsItemValueCase3List
   | boolean;
 export interface CreateFlagResponseVariantsItem {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  label?: string;
+  label?: string | undefined;
   value: CreateFlagResponseVariantsItemValue | null;
 }
 export type CreateFlagResponseVariantsList = Array<CreateFlagResponseVariantsItem>;
 export interface CreateFlagResponse {
   createdAt: number;
   createdBy: string;
-  description?: string;
+  description?: string | undefined;
   environments: CreateFlagResponseEnvironmentsMap;
   id: string;
   kind: CreateFlagResponseKind;
-  maintainerIds?: CreateFlagResponseMaintainerIdsList;
+  maintainerIds?: CreateFlagResponseMaintainerIdsList | undefined;
   ownerId: string;
-  permanent?: boolean;
+  permanent?: boolean | undefined;
   projectId: string;
   revision: number;
   seed: number;
-  seenInProduction?: boolean;
+  seenInProduction?: boolean | undefined;
   slug: string;
   state: CreateFlagResponseState;
-  tags?: CreateFlagResponseTagsList;
+  tags?: CreateFlagResponseTagsList | undefined;
   typeName: CreateFlagResponseTypeName;
   updatedAt: number;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   variants: CreateFlagResponseVariantsList;
 }
 export type CreateFlagSegmentRequestDataRulesItemConditionsItemLhsCase0 =
@@ -661,8 +661,8 @@ export type CreateFlagSegmentRequestDataRulesItemConditionsItemCmpOptions =
 export interface CreateFlagSegmentRequestDataRulesItemConditionsItem {
   lhs: CreateFlagSegmentRequestDataRulesItemConditionsItemLhs;
   cmp: CreateFlagSegmentRequestDataRulesItemConditionsItemCmp | (string & {});
-  rhs?: CreateFlagSegmentRequestDataRulesItemConditionsItemRhs;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  rhs?: CreateFlagSegmentRequestDataRulesItemConditionsItemRhs | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
 }
 export type CreateFlagSegmentRequestDataRulesItemConditionsList =
   Array<CreateFlagSegmentRequestDataRulesItemConditionsItem>;
@@ -706,21 +706,21 @@ export type CreateFlagSegmentRequestDataExcludeMap = {
 };
 /** The data of the segment */
 export interface CreateFlagSegmentRequestData {
-  rules?: CreateFlagSegmentRequestDataRulesList;
-  include?: CreateFlagSegmentRequestDataIncludeMap;
-  exclude?: CreateFlagSegmentRequestDataExcludeMap;
+  rules?: CreateFlagSegmentRequestDataRulesList | undefined;
+  include?: CreateFlagSegmentRequestDataIncludeMap | undefined;
+  exclude?: CreateFlagSegmentRequestDataExcludeMap | undefined;
 }
 export interface CreateFlagSegmentRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The entity who created the segment */
-  createdBy?: string;
+  createdBy?: string | undefined;
   label: string;
-  description?: string;
+  description?: string | undefined;
   /** The data of the segment */
   data: CreateFlagSegmentRequestData;
   hint: string;
@@ -814,9 +814,9 @@ export type CreateFlagSegmentResponseDataRulesItemConditionsItemRhs =
   | boolean;
 export interface CreateFlagSegmentResponseDataRulesItemConditionsItem {
   cmp: CreateFlagSegmentResponseDataRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
   lhs: CreateFlagSegmentResponseDataRulesItemConditionsItemLhs;
-  rhs?: CreateFlagSegmentResponseDataRulesItemConditionsItemRhs;
+  rhs?: CreateFlagSegmentResponseDataRulesItemConditionsItemRhs | undefined;
 }
 export type CreateFlagSegmentResponseDataRulesItemConditionsList =
   Array<CreateFlagSegmentResponseDataRulesItemConditionsItem>;
@@ -846,18 +846,18 @@ export interface CreateFlagSegmentResponseDataRulesItem {
 }
 export type CreateFlagSegmentResponseDataRulesList = Array<CreateFlagSegmentResponseDataRulesItem>;
 export interface CreateFlagSegmentResponseData {
-  exclude?: CreateFlagSegmentResponseDataExcludeMap;
-  include?: CreateFlagSegmentResponseDataIncludeMap;
-  rules?: CreateFlagSegmentResponseDataRulesList;
+  exclude?: CreateFlagSegmentResponseDataExcludeMap | undefined;
+  include?: CreateFlagSegmentResponseDataIncludeMap | undefined;
+  rules?: CreateFlagSegmentResponseDataRulesList | undefined;
 }
 export type CreateFlagSegmentResponseTypeName = "segment";
 export type CreateFlagSegmentResponseUsedByFlagsList = Array<string>;
 export type CreateFlagSegmentResponseUsedBySegmentsList = Array<string>;
 export interface CreateFlagSegmentResponse {
   createdAt: number;
-  createdBy?: string;
+  createdBy?: string | undefined;
   data: CreateFlagSegmentResponseData;
-  description?: string;
+  description?: string | undefined;
   hint: string;
   id: string;
   label: string;
@@ -865,16 +865,16 @@ export interface CreateFlagSegmentResponse {
   slug: string;
   typeName: CreateFlagSegmentResponseTypeName;
   updatedAt: number;
-  usedByFlags?: CreateFlagSegmentResponseUsedByFlagsList;
-  usedBySegments?: CreateFlagSegmentResponseUsedBySegmentsList;
+  usedByFlags?: CreateFlagSegmentResponseUsedByFlagsList | undefined;
+  usedBySegments?: CreateFlagSegmentResponseUsedBySegmentsList | undefined;
 }
 export interface CreateFlagsProjectConnectionRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The project in the same team that may read the flags of this project */
   consumerProjectId: string;
 }
@@ -891,22 +891,22 @@ export interface CreateSdkKeyRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   sdkKeyType: CreateSdkKeyRequestSdkKeyType | (string & {});
   environment: string;
-  label?: string;
+  label?: string | undefined;
 }
 export type FlagsSdkKeyWithSecretsType = "client" | "mobile" | "server";
 /** Representation of a Flags SDK key returned by CREATE. Includes cleartext secrets (`keyValue`, `tokenValue`, `connectionString`) which are only ever disclosed once, on creation. */
 export interface FlagsSdkKeyWithSecrets {
   createdAt: number;
   createdBy: string;
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   environment: string;
   hashKey: string;
-  label?: string;
+  label?: string | undefined;
   /** Partially-masked representation of the SDK key value, safe to display in UIs. The value is the `vf_<type>_` prefix followed by the first 3 characters of the secret portion and a fixed 8-character `*` mask (e.g. `vf_server_abc********`). */
   partialKeyValue: string;
   projectId: string;
@@ -915,7 +915,7 @@ export interface FlagsSdkKeyWithSecrets {
   /** Cleartext value of the SDK key. */
   keyValue: string;
   /** Cleartext value of the Global Config token, when the project has a Global Config connection. */
-  tokenValue?: string;
+  tokenValue?: string | undefined;
 }
 export interface DeleteFlagRequest {
   /** The project id or name */
@@ -923,13 +923,13 @@ export interface DeleteFlagRequest {
   /** The flag id or name */
   flagIdOrSlug: string;
   /** Etag to match, can be used interchangeably with the `if-match` header */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   /** Whether to include metadata in the response */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteFlagResponse {}
 export interface DeleteFlagSegmentRequest {
@@ -938,11 +938,11 @@ export interface DeleteFlagSegmentRequest {
   /** The segment slug */
   segmentIdOrSlug: string;
   /** Whether to include metadata */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteFlagSegmentResponse {}
 export interface DeleteFlagsProjectConnectionRequest {
@@ -951,9 +951,9 @@ export interface DeleteFlagsProjectConnectionRequest {
   /** The connected consumer project id */
   consumerProjectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteFlagsProjectConnectionResponse {}
 export interface DeleteSdkKeyRequest {
@@ -962,17 +962,17 @@ export interface DeleteSdkKeyRequest {
   /** The SDK key hash key to delete */
   hashKey: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteSdkKeyResponse {}
 export interface GetDeploymentFeatureFlagsRequest {
   deploymentId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetDeploymentFeatureFlagsResponseFlagsList = Array<unknown>;
 export interface GetDeploymentFeatureFlagsResponseStatus {
@@ -994,13 +994,13 @@ export interface GetFlagRequest {
   /** The flag id or name */
   flagIdOrSlug: string;
   /** Etag to match, can be used interchangeably with the `if-match` header */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   /** Whether to include metadata in the response */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type FlagEnvironmentsValueFallthroughCase0Type = "variant";
 export interface FlagEnvironmentsValueFallthroughCase0 {
@@ -1035,7 +1035,7 @@ export type FlagEnvironmentsValueFallthroughCase2Type = "rollout";
 export interface FlagEnvironmentsValueFallthroughCase2 {
   base: FlagEnvironmentsValueFallthroughCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: FlagEnvironmentsValueFallthroughCase2SlotsList;
@@ -1124,9 +1124,9 @@ export type FlagEnvironmentsValueRulesItemConditionsItemRhs =
   | boolean;
 export interface FlagEnvironmentsValueRulesItemConditionsItem {
   cmp: FlagEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
   lhs: FlagEnvironmentsValueRulesItemConditionsItemLhs;
-  rhs?: FlagEnvironmentsValueRulesItemConditionsItemRhs;
+  rhs?: FlagEnvironmentsValueRulesItemConditionsItemRhs | undefined;
 }
 export type FlagEnvironmentsValueRulesItemConditionsList =
   Array<FlagEnvironmentsValueRulesItemConditionsItem>;
@@ -1165,7 +1165,7 @@ export type FlagEnvironmentsValueRulesItemOutcomeCase2Type = "rollout";
 export interface FlagEnvironmentsValueRulesItemOutcomeCase2 {
   base: FlagEnvironmentsValueRulesItemOutcomeCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: FlagEnvironmentsValueRulesItemOutcomeCase2SlotsList;
@@ -1204,10 +1204,10 @@ export interface FlagEnvironmentsValue {
   active: boolean;
   fallthrough: FlagEnvironmentsValueFallthrough;
   pausedOutcome: FlagEnvironmentsValuePausedOutcome;
-  reuse?: CreateFlagResponseEnvironmentsValueReuse;
-  revision?: number;
+  reuse?: CreateFlagResponseEnvironmentsValueReuse | undefined;
+  revision?: number | undefined;
   rules: FlagEnvironmentsValueRulesList;
-  targets?: FlagEnvironmentsValueTargetsMap;
+  targets?: FlagEnvironmentsValueTargetsMap | undefined;
 }
 export type FlagEnvironmentsMap = { [key: string]: FlagEnvironmentsValue | undefined };
 export type FlagKind = "boolean" | "json" | "number" | "string";
@@ -1224,9 +1224,9 @@ export type FlagVariantsItemValue =
   | FlagVariantsItemValueCase3List
   | boolean;
 export interface FlagVariantsItem {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  label?: string;
+  label?: string | undefined;
   value: FlagVariantsItemValue | null;
 }
 export type FlagVariantsList = Array<FlagVariantsItem>;
@@ -1235,30 +1235,30 @@ export interface FlagMetadataCreator {
   name: string;
 }
 export interface FlagMetadata {
-  creator?: FlagMetadataCreator;
+  creator?: FlagMetadataCreator | undefined;
 }
 export interface Flag {
   createdAt: number;
   createdBy: string;
-  description?: string;
+  description?: string | undefined;
   environments: FlagEnvironmentsMap;
   id: string;
   kind: FlagKind;
-  maintainerIds?: FlagMaintainerIdsList;
+  maintainerIds?: FlagMaintainerIdsList | undefined;
   ownerId: string;
-  permanent?: boolean;
+  permanent?: boolean | undefined;
   projectId: string;
   revision: number;
   seed: number;
-  seenInProduction?: boolean;
+  seenInProduction?: boolean | undefined;
   slug: string;
   state: FlagState;
-  tags?: FlagTagsList;
+  tags?: FlagTagsList | undefined;
   typeName: FlagTypeName;
   updatedAt: number;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   variants: FlagVariantsList;
-  metadata?: FlagMetadata;
+  metadata?: FlagMetadata | undefined;
 }
 export interface GetFlagSegmentRequest {
   /** The project id or name */
@@ -1266,11 +1266,11 @@ export interface GetFlagSegmentRequest {
   /** The segment slug */
   segmentIdOrSlug: string;
   /** Whether to include metadata */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type SegmentDataExcludeValueValueItem =
   CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
@@ -1355,9 +1355,9 @@ export type SegmentDataRulesItemConditionsItemRhs =
   | boolean;
 export interface SegmentDataRulesItemConditionsItem {
   cmp: SegmentDataRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
   lhs: SegmentDataRulesItemConditionsItemLhs;
-  rhs?: SegmentDataRulesItemConditionsItemRhs;
+  rhs?: SegmentDataRulesItemConditionsItemRhs | undefined;
 }
 export type SegmentDataRulesItemConditionsList = Array<SegmentDataRulesItemConditionsItem>;
 export type SegmentDataRulesItemOutcomeCase0Type = "all";
@@ -1386,9 +1386,9 @@ export interface SegmentDataRulesItem {
 }
 export type SegmentDataRulesList = Array<SegmentDataRulesItem>;
 export interface SegmentData {
-  exclude?: SegmentDataExcludeMap;
-  include?: SegmentDataIncludeMap;
-  rules?: SegmentDataRulesList;
+  exclude?: SegmentDataExcludeMap | undefined;
+  include?: SegmentDataIncludeMap | undefined;
+  rules?: SegmentDataRulesList | undefined;
 }
 export type SegmentTypeName = "segment";
 export type SegmentUsedByFlagsList = Array<string>;
@@ -1397,9 +1397,9 @@ export type SegmentMetadataCreator = FlagMetadataCreator;
 export type SegmentMetadata = FlagMetadata;
 export interface Segment {
   createdAt: number;
-  createdBy?: string;
+  createdBy?: string | undefined;
   data: SegmentData;
-  description?: string;
+  description?: string | undefined;
   hint: string;
   id: string;
   label: string;
@@ -1407,17 +1407,17 @@ export interface Segment {
   slug: string;
   typeName: SegmentTypeName;
   updatedAt: number;
-  usedByFlags?: SegmentUsedByFlagsList;
-  usedBySegments?: SegmentUsedBySegmentsList;
-  metadata?: FlagMetadata;
+  usedByFlags?: SegmentUsedByFlagsList | undefined;
+  usedBySegments?: SegmentUsedBySegmentsList | undefined;
+  metadata?: FlagMetadata | undefined;
 }
 export interface GetFlagSettingsRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetFlagSettingsResponseEntitiesItemAttributesItemLabelsItem {
   label: string;
@@ -1427,7 +1427,7 @@ export type GetFlagSettingsResponseEntitiesItemAttributesItemLabelsList =
   Array<GetFlagSettingsResponseEntitiesItemAttributesItemLabelsItem>;
 export interface GetFlagSettingsResponseEntitiesItemAttributesItem {
   key: string;
-  labels?: GetFlagSettingsResponseEntitiesItemAttributesItemLabelsList;
+  labels?: GetFlagSettingsResponseEntitiesItemAttributesItemLabelsList | undefined;
   type: string;
 }
 export type GetFlagSettingsResponseEntitiesItemAttributesList =
@@ -1442,22 +1442,22 @@ export type GetFlagSettingsResponseEnvironmentsList = Array<string>;
 export interface GetFlagSettingsResponseMetadata {
   activeFlagCount: number;
   archivedFlagCount: number;
-  configUpdatedAt?: number;
-  packRevision?: number;
+  configUpdatedAt?: number | undefined;
+  packRevision?: number | undefined;
   packSizeInBytes: number;
   segmentCount: number;
 }
 export type GetFlagSettingsResponseTypeName = "settings";
 export interface GetFlagSettingsResponse {
-  createdAt?: number;
+  createdAt?: number | undefined;
   enabled: boolean;
   entities: GetFlagSettingsResponseEntitiesList;
   environments: GetFlagSettingsResponseEnvironmentsList;
   metadata: GetFlagSettingsResponseMetadata;
-  ownerId?: string;
+  ownerId?: string | undefined;
   projectId: string;
   typeName: GetFlagSettingsResponseTypeName;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 /** List connections where this project is the source (default) or the consumer */
 export type GetFlagsProjectConnectionsRequestRole = "source" | "consumer";
@@ -1465,19 +1465,19 @@ export interface GetFlagsProjectConnectionsRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** List connections where this project is the source (default) or the consumer */
-  role?: GetFlagsProjectConnectionsRequestRole | (string & {});
+  role?: GetFlagsProjectConnectionsRequestRole | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetFlagsProjectConnectionsResponseBodyCase1DataItem {
   consumerProjectId: string;
-  consumerProjectName?: string;
+  consumerProjectName?: string | undefined;
   createdAt: number;
   createdBy: string;
   sourceProjectId: string;
-  sourceProjectName?: string;
+  sourceProjectName?: string | undefined;
 }
 export type GetFlagsProjectConnectionsResponseBodyCase1DataList =
   Array<GetFlagsProjectConnectionsResponseBodyCase1DataItem>;
@@ -1492,19 +1492,19 @@ export interface GetSdkKeysRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetSdkKeysResponseDataItemType = "client" | "mobile" | "server";
 /** Shared metadata for a Flags SDK key, safe to return on both LIST and CREATE. Never contains cleartext secrets. */
 export interface GetSdkKeysResponseDataItem {
   createdAt: number;
   createdBy: string;
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   environment: string;
   hashKey: string;
-  label?: string;
+  label?: string | undefined;
   /** Partially-masked representation of the SDK key value, safe to display in UIs. The value is the `vf_<type>_` prefix followed by the first 3 characters of the secret portion and a fixed 8-character `*` mask (e.g. `vf_server_abc********`). */
   partialKeyValue: string;
   projectId: string;
@@ -1517,14 +1517,14 @@ export interface GetSdkKeysResponse {
 }
 export interface ListFlagLabelCountsRequest {
   projectIdOrName: string;
-  entityKind?: string;
-  limit?: number;
+  entityKind?: string | undefined;
+  limit?: number | undefined;
   /** The continuation cursor from the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListFlagLabelCountsResponseDataItem {
   attributeKey: string;
@@ -1541,17 +1541,17 @@ export interface ListFlagLabelCountsResponse {
 }
 export interface ListFlagLabelsRequest {
   projectIdOrName: string;
-  limit?: number;
+  limit?: number | undefined;
   /** The continuation cursor from the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Case-insensitive substring search on the value and label. */
-  search?: string;
+  search?: string | undefined;
   entityKind: string;
   attributeKey: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListFlagLabelsResponseDataItem {
   attributeKey: string;
@@ -1573,21 +1573,21 @@ export interface ListFlagsRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The state of the flags to retrieve. Defaults to `active`. */
-  state?: ListFlagsRequestState | (string & {});
+  state?: ListFlagsRequestState | (string & {}) | undefined;
   /** Deprecated. Whether to include creator metadata in each flag in the response. Resolve creator identity client-side (e.g. via the team members endpoint) instead; this parameter will be removed in a future release. Use `GET /v1/projects/:id/feature-flags/flags/:flagIdOrSlug?withMetadata=true` for single-flag lookups that need creator metadata. */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** Maximum number of flags to return. When not set, all flags are returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to continue from. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Search flags by their slug or description. Case-insensitive. */
-  search?: string;
+  search?: string | undefined;
   /** Filter flags by tag. Repeat the parameter for multiple tags (all must match). */
-  tags?: ListFlagsRequestTagsList;
+  tags?: ListFlagsRequestTagsList | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListFlagsResponseDataList = Array<Flag>;
 export type ListFlagsResponsePagination = ListFlagLabelCountsResponsePagination;
@@ -1599,11 +1599,11 @@ export interface ListFlagSegmentsRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** Whether to include metadata */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListFlagSegmentsResponseDataList = Array<Segment>;
 export interface ListFlagSegmentsResponse {
@@ -1619,38 +1619,38 @@ export interface ListFlagsV2Request {
   /** The project id or name */
   projectIdOrName: string;
   /** The state of the flags to retrieve. Defaults to `active`. */
-  state?: ListFlagsV2RequestState | (string & {});
+  state?: ListFlagsV2RequestState | (string & {}) | undefined;
   /** Maximum number of flags to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to continue from. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Search flags by their slug or description. Case-insensitive. */
-  search?: string;
+  search?: string | undefined;
   /** Filter flags by tag. Repeat the parameter for multiple tags (all must match). */
-  tags?: ListFlagsV2RequestTagsList;
+  tags?: ListFlagsV2RequestTagsList | undefined;
   /** Filter flags by the id of the entity that created them (a user or team id). */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Filter flags by maintainer user id. Repeat the parameter for multiple maintainers (any may match). */
-  maintainerIds?: ListFlagsV2RequestMaintainerIdsList;
+  maintainerIds?: ListFlagsV2RequestMaintainerIdsList | undefined;
   /** Whether to include Marketplace experimentation items in the paginated response. Defaults to false. */
-  includeMarketplaceFlags?: boolean;
+  includeMarketplaceFlags?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListFlagsV2ResponsePagination = ListFlagLabelCountsResponsePagination;
 export type MarketplaceFlagCategory = "experiment" | "flag";
 export type MarketplaceFlagState = "active" | "archived";
 export type MarketplaceFlagTypeName = "marketplaceFlag";
 export interface MarketplaceFlag {
-  category?: MarketplaceFlagCategory;
-  createdAt?: number;
-  description?: string;
+  category?: MarketplaceFlagCategory | undefined;
+  createdAt?: number | undefined;
+  description?: string | undefined;
   externalId: string;
   id: string;
   integrationConfigurationId: string;
-  name?: string;
+  name?: string | undefined;
   origin: string;
   ownerId: string;
   projectId: string;
@@ -1658,7 +1658,7 @@ export interface MarketplaceFlag {
   slug: string;
   state: MarketplaceFlagState;
   typeName: MarketplaceFlagTypeName;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type ListFlagsV2ResponseDataItem = Flag | MarketplaceFlag;
 export type ListFlagsV2ResponseDataList = Array<ListFlagsV2ResponseDataItem>;
@@ -1669,17 +1669,17 @@ export interface ListFlagsV2Response {
 export interface ListFlagVersionsRequest {
   projectIdOrName: string;
   flagIdOrSlug: string;
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Environment to filter by */
-  environment?: string;
+  environment?: string | undefined;
   /** Whether to include metadata */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListFlagVersionsResponseVersionsItemChangedEnvironmentsList = Array<string>;
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase0Type =
@@ -1721,7 +1721,7 @@ export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthrough
 export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase2 {
   base: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthroughCase2SlotsList;
@@ -1817,9 +1817,11 @@ export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemCo
   | boolean;
 export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItem {
   cmp: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
   lhs: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemLhs;
-  rhs?: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhs;
+  rhs?:
+    | ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItemRhs
+    | undefined;
 }
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsList =
   Array<ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemConditionsItem>;
@@ -1862,7 +1864,7 @@ export type ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOu
 export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase2 {
   base: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesItemOutcomeCase2SlotsList;
@@ -1909,10 +1911,10 @@ export interface ListFlagVersionsResponseVersionsItemDataEnvironmentsValue {
   active: boolean;
   fallthrough: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueFallthrough;
   pausedOutcome: ListFlagVersionsResponseVersionsItemDataEnvironmentsValuePausedOutcome;
-  reuse?: CreateFlagResponseEnvironmentsValueReuse;
-  revision?: number;
+  reuse?: CreateFlagResponseEnvironmentsValueReuse | undefined;
+  revision?: number | undefined;
   rules: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueRulesList;
-  targets?: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueTargetsMap;
+  targets?: ListFlagVersionsResponseVersionsItemDataEnvironmentsValueTargetsMap | undefined;
 }
 export type ListFlagVersionsResponseVersionsItemDataEnvironmentsMap = {
   [key: string]: ListFlagVersionsResponseVersionsItemDataEnvironmentsValue | undefined;
@@ -1931,21 +1933,21 @@ export type ListFlagVersionsResponseVersionsItemDataVariantsItemValue =
   | ListFlagVersionsResponseVersionsItemDataVariantsItemValueCase3List
   | boolean;
 export interface ListFlagVersionsResponseVersionsItemDataVariantsItem {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  label?: string;
+  label?: string | undefined;
   value: ListFlagVersionsResponseVersionsItemDataVariantsItemValue | null;
 }
 export type ListFlagVersionsResponseVersionsItemDataVariantsList =
   Array<ListFlagVersionsResponseVersionsItemDataVariantsItem>;
 export interface ListFlagVersionsResponseVersionsItemData {
-  description?: string;
+  description?: string | undefined;
   environments: ListFlagVersionsResponseVersionsItemDataEnvironmentsMap;
-  maintainerIds?: ListFlagVersionsResponseVersionsItemDataMaintainerIdsList;
-  permanent?: boolean;
+  maintainerIds?: ListFlagVersionsResponseVersionsItemDataMaintainerIdsList | undefined;
+  permanent?: boolean | undefined;
   seed: number;
   state: ListFlagVersionsResponseVersionsItemDataState;
-  tags?: ListFlagVersionsResponseVersionsItemDataTagsList;
+  tags?: ListFlagVersionsResponseVersionsItemDataTagsList | undefined;
   variants: ListFlagVersionsResponseVersionsItemDataVariantsList;
 }
 export type ListFlagVersionsResponseVersionsItemMetadataCreator = FlagMetadataCreator;
@@ -1953,13 +1955,13 @@ export type ListFlagVersionsResponseVersionsItemMetadata = FlagMetadata;
 export interface ListFlagVersionsResponseVersionsItem {
   changedEnvironments: ListFlagVersionsResponseVersionsItemChangedEnvironmentsList;
   createdAt: number;
-  createdBy?: string;
+  createdBy?: string | undefined;
   flagId: string;
   id: string;
-  message?: string;
+  message?: string | undefined;
   revision: number;
   data: ListFlagVersionsResponseVersionsItemData;
-  metadata?: FlagMetadata;
+  metadata?: FlagMetadata | undefined;
 }
 export type ListFlagVersionsResponseVersionsList = Array<ListFlagVersionsResponseVersionsItem>;
 export interface ListFlagVersionsResponse {
@@ -1976,21 +1978,21 @@ export interface ListTeamFlagsRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** The state of the flags to retrieve. Defaults to `active`. */
-  state?: ListTeamFlagsRequestState | (string & {});
+  state?: ListTeamFlagsRequestState | (string & {}) | undefined;
   /** Deprecated. Whether to include creator metadata in each flag in the response. Resolve creator identity client-side (e.g. via the team members endpoint) instead; this parameter will be removed in a future release. */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** Maximum number of flags to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to continue from. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Search flags by their slug or description. Case-insensitive. */
-  search?: string;
+  search?: string | undefined;
   /** The kind of flags to retrieve. */
-  kind?: ListTeamFlagsRequestKind | (string & {});
+  kind?: ListTeamFlagsRequestKind | (string & {}) | undefined;
   /** Filter flags by tag. Repeat the parameter for multiple tags (all must match). */
-  tags?: ListTeamFlagsRequestTagsList;
+  tags?: ListTeamFlagsRequestTagsList | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListTeamFlagsResponseDataList = Array<Flag>;
 export type ListTeamFlagsResponsePagination = ListFlagLabelCountsResponsePagination;
@@ -2002,11 +2004,11 @@ export interface ListTeamFlagSettingsRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** Maximum number of settings to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to continue from. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListTeamFlagSettingsResponseBodyCase1DataItemEntitiesItemAttributesItemLabelsItem =
   GetFlagSettingsResponseEntitiesItemAttributesItemLabelsItem;
@@ -2014,7 +2016,9 @@ export type ListTeamFlagSettingsResponseBodyCase1DataItemEntitiesItemAttributesI
   Array<GetFlagSettingsResponseEntitiesItemAttributesItemLabelsItem>;
 export interface ListTeamFlagSettingsResponseBodyCase1DataItemEntitiesItemAttributesItem {
   key: string;
-  labels?: ListTeamFlagSettingsResponseBodyCase1DataItemEntitiesItemAttributesItemLabelsList;
+  labels?:
+    | ListTeamFlagSettingsResponseBodyCase1DataItemEntitiesItemAttributesItemLabelsList
+    | undefined;
   type: string;
 }
 export type ListTeamFlagSettingsResponseBodyCase1DataItemEntitiesItemAttributesList =
@@ -2030,15 +2034,15 @@ export type ListTeamFlagSettingsResponseBodyCase1DataItemEnvironmentsList = Arra
 export type ListTeamFlagSettingsResponseBodyCase1DataItemMetadata = GetFlagSettingsResponseMetadata;
 export type ListTeamFlagSettingsResponseBodyCase1DataItemTypeName = "settings";
 export interface ListTeamFlagSettingsResponseBodyCase1DataItem {
-  createdAt?: number;
+  createdAt?: number | undefined;
   enabled: boolean;
   entities: ListTeamFlagSettingsResponseBodyCase1DataItemEntitiesList;
   environments: ListTeamFlagSettingsResponseBodyCase1DataItemEnvironmentsList;
   metadata: GetFlagSettingsResponseMetadata;
-  ownerId?: string;
+  ownerId?: string | undefined;
   projectId: string;
   typeName: ListTeamFlagSettingsResponseBodyCase1DataItemTypeName;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type ListTeamFlagSettingsResponseBodyCase1DataList =
   Array<ListTeamFlagSettingsResponseBodyCase1DataItem>;
@@ -2061,25 +2065,25 @@ export interface ListTeamFlagsV2Request {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** The state of the flags to retrieve. Defaults to `active`. */
-  state?: ListTeamFlagsV2RequestState | (string & {});
+  state?: ListTeamFlagsV2RequestState | (string & {}) | undefined;
   /** Maximum number of flags to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to continue from. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Search flags by their slug or description. Case-insensitive. */
-  search?: string;
+  search?: string | undefined;
   /** The kind of flags to retrieve. */
-  kind?: ListTeamFlagsV2RequestKind | (string & {});
+  kind?: ListTeamFlagsV2RequestKind | (string & {}) | undefined;
   /** Filter flags by tag. Repeat the parameter for multiple tags (all must match). */
-  tags?: ListTeamFlagsV2RequestTagsList;
+  tags?: ListTeamFlagsV2RequestTagsList | undefined;
   /** Filter flags by the id of the entity that created them (a user or team id). */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Filter flags by maintainer user id. Repeat the parameter for multiple maintainers (any may match). */
-  maintainerIds?: ListTeamFlagsV2RequestMaintainerIdsList;
+  maintainerIds?: ListTeamFlagsV2RequestMaintainerIdsList | undefined;
   /** Whether to include Marketplace experimentation items in the paginated response. Defaults to false. */
-  includeMarketplaceFlags?: boolean;
+  includeMarketplaceFlags?: boolean | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListTeamFlagsV2ResponsePagination = ListFlagLabelCountsResponsePagination;
 export type ListTeamFlagsV2ResponseDataItem = Flag | MarketplaceFlag;
@@ -2097,9 +2101,9 @@ export type LookupFlagLabelsRequestItemsList = Array<LookupFlagLabelsRequestItem
 export interface LookupFlagLabelsRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   items: LookupFlagLabelsRequestItemsList;
 }
 export type LookupFlagLabelsResponseDataItem = ListFlagLabelsResponseDataItem;
@@ -2125,9 +2129,9 @@ export interface UpdateFlagRequestVariantsItem {
   /** The id of the variant */
   id: string;
   /** A label for the variant */
-  label?: string;
+  label?: string | undefined;
   /** A description of the variant */
-  description?: string;
+  description?: string | undefined;
   value: UpdateFlagRequestVariantsItemValue;
 }
 /** The variants of the flag */
@@ -2210,8 +2214,8 @@ export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions 
 export interface UpdateFlagRequestEnvironmentsValueRulesItemConditionsItem {
   lhs: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemLhs;
   cmp: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemCmp | (string & {});
-  rhs?: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  rhs?: UpdateFlagRequestEnvironmentsValueRulesItemConditionsItemRhs | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
 }
 export type UpdateFlagRequestEnvironmentsValueRulesItemConditionsList =
   Array<UpdateFlagRequestEnvironmentsValueRulesItemConditionsItem>;
@@ -2252,7 +2256,7 @@ export interface UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2 {
   /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
   slots: UpdateFlagRequestEnvironmentsValueRulesItemOutcomeCase2SlotsList;
   /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
-  finalPromille?: number;
+  finalPromille?: number | undefined;
 }
 export type UpdateFlagRequestEnvironmentsValueRulesItemOutcome =
   | CreateFlagRequestEnvironmentsValuePausedOutcome
@@ -2302,7 +2306,7 @@ export interface UpdateFlagRequestEnvironmentsValueFallthroughCase2 {
   /** Each slot defines a promille and how long it is served for. After all slots expire, finalPromille is served indefinitely (100% when omitted). The final percentage does not need its own slot. */
   slots: UpdateFlagRequestEnvironmentsValueFallthroughCase2SlotsList;
   /** Traffic for rollToVariant after all slots expire (0-100_000, where 1_000 = 1%). Defaults to 100_000 (100%). Set 50_000 to end at 50%. */
-  finalPromille?: number;
+  finalPromille?: number | undefined;
 }
 export type UpdateFlagRequestEnvironmentsValueFallthrough =
   | CreateFlagRequestEnvironmentsValuePausedOutcome
@@ -2311,14 +2315,14 @@ export type UpdateFlagRequestEnvironmentsValueFallthrough =
 export interface UpdateFlagRequestEnvironmentsValue {
   active: boolean;
   /** Allows linking this environment to another environment so this flag will be evaluated with the other flag's configuration */
-  reuse?: CreateFlagRequestEnvironmentsValueReuse;
+  reuse?: CreateFlagRequestEnvironmentsValueReuse | undefined;
   /** Allows assigning targets to variants while bypassing the flag's rules */
-  targets?: UpdateFlagRequestEnvironmentsValueTargetsMap;
+  targets?: UpdateFlagRequestEnvironmentsValueTargetsMap | undefined;
   pausedOutcome: CreateFlagRequestEnvironmentsValuePausedOutcome;
   rules: UpdateFlagRequestEnvironmentsValueRulesList;
   fallthrough: UpdateFlagRequestEnvironmentsValueFallthrough;
   /** The revision of the environment config */
-  revision?: number;
+  revision?: number | undefined;
 }
 /** The configuration for the flag in different environments */
 export type UpdateFlagRequestEnvironmentsMap = {
@@ -2335,32 +2339,32 @@ export interface UpdateFlagRequest {
   /** The flag id or name */
   flagIdOrSlug: string;
   /** Etag to match, can be used interchangeably with the `if-match` header */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
   /** Whether to include metadata in the response */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The user who created this patch */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Additional message for this version */
-  message?: string;
+  message?: string | undefined;
   /** The variants of the flag */
-  variants?: UpdateFlagRequestVariantsList;
+  variants?: UpdateFlagRequestVariantsList | undefined;
   /** The configuration for the flag in different environments */
-  environments?: UpdateFlagRequestEnvironmentsMap;
+  environments?: UpdateFlagRequestEnvironmentsMap | undefined;
   /** A random seed to prevent split points in different flags from having the same targets */
-  seed?: number;
+  seed?: number | undefined;
   /** A description of the flag */
-  description?: string;
-  state?: UpdateFlagRequestState | (string & {});
+  description?: string | undefined;
+  state?: UpdateFlagRequestState | (string & {}) | undefined;
   /** The user ids of the maintainers of the flag */
-  maintainerIds?: UpdateFlagRequestMaintainerIdsList;
+  maintainerIds?: UpdateFlagRequestMaintainerIdsList | undefined;
   /** Whether this flag is marked as permanent, indicating it should not be removed */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
   /** Tags for categorizing the flag */
-  tags?: UpdateFlagRequestTagsList;
+  tags?: UpdateFlagRequestTagsList | undefined;
 }
 export type UpdateFlagResponseEnvironmentsValueFallthroughCase0Type = "variant";
 export interface UpdateFlagResponseEnvironmentsValueFallthroughCase0 {
@@ -2397,7 +2401,7 @@ export type UpdateFlagResponseEnvironmentsValueFallthroughCase2Type = "rollout";
 export interface UpdateFlagResponseEnvironmentsValueFallthroughCase2 {
   base: UpdateFlagResponseEnvironmentsValueFallthroughCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: UpdateFlagResponseEnvironmentsValueFallthroughCase2SlotsList;
@@ -2488,9 +2492,9 @@ export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs =
   | boolean;
 export interface UpdateFlagResponseEnvironmentsValueRulesItemConditionsItem {
   cmp: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
   lhs: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemLhs;
-  rhs?: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs;
+  rhs?: UpdateFlagResponseEnvironmentsValueRulesItemConditionsItemRhs | undefined;
 }
 export type UpdateFlagResponseEnvironmentsValueRulesItemConditionsList =
   Array<UpdateFlagResponseEnvironmentsValueRulesItemConditionsItem>;
@@ -2529,7 +2533,7 @@ export type UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Type = "roll
 export interface UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2 {
   base: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2Base;
   defaultVariantId: string;
-  finalPromille?: number;
+  finalPromille?: number | undefined;
   rollFromVariantId: string;
   rollToVariantId: string;
   slots: UpdateFlagResponseEnvironmentsValueRulesItemOutcomeCase2SlotsList;
@@ -2569,10 +2573,10 @@ export interface UpdateFlagResponseEnvironmentsValue {
   active: boolean;
   fallthrough: UpdateFlagResponseEnvironmentsValueFallthrough;
   pausedOutcome: UpdateFlagResponseEnvironmentsValuePausedOutcome;
-  reuse?: CreateFlagResponseEnvironmentsValueReuse;
-  revision?: number;
+  reuse?: CreateFlagResponseEnvironmentsValueReuse | undefined;
+  revision?: number | undefined;
   rules: UpdateFlagResponseEnvironmentsValueRulesList;
-  targets?: UpdateFlagResponseEnvironmentsValueTargetsMap;
+  targets?: UpdateFlagResponseEnvironmentsValueTargetsMap | undefined;
 }
 export type UpdateFlagResponseEnvironmentsMap = {
   [key: string]: UpdateFlagResponseEnvironmentsValue | undefined;
@@ -2591,32 +2595,32 @@ export type UpdateFlagResponseVariantsItemValue =
   | UpdateFlagResponseVariantsItemValueCase3List
   | boolean;
 export interface UpdateFlagResponseVariantsItem {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  label?: string;
+  label?: string | undefined;
   value: UpdateFlagResponseVariantsItemValue | null;
 }
 export type UpdateFlagResponseVariantsList = Array<UpdateFlagResponseVariantsItem>;
 export interface UpdateFlagResponse {
   createdAt: number;
   createdBy: string;
-  description?: string;
+  description?: string | undefined;
   environments: UpdateFlagResponseEnvironmentsMap;
   id: string;
   kind: UpdateFlagResponseKind;
-  maintainerIds?: UpdateFlagResponseMaintainerIdsList;
+  maintainerIds?: UpdateFlagResponseMaintainerIdsList | undefined;
   ownerId: string;
-  permanent?: boolean;
+  permanent?: boolean | undefined;
   projectId: string;
   revision: number;
   seed: number;
-  seenInProduction?: boolean;
+  seenInProduction?: boolean | undefined;
   slug: string;
   state: UpdateFlagResponseState;
-  tags?: UpdateFlagResponseTagsList;
+  tags?: UpdateFlagResponseTagsList | undefined;
   typeName: UpdateFlagResponseTypeName;
   updatedAt: number;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   variants: UpdateFlagResponseVariantsList;
 }
 export type UpdateFlagSegmentRequestOperationsItemAction = "add" | "remove";
@@ -2691,8 +2695,8 @@ export type UpdateFlagSegmentRequestDataRulesItemConditionsItemCmpOptions =
 export interface UpdateFlagSegmentRequestDataRulesItemConditionsItem {
   lhs: UpdateFlagSegmentRequestDataRulesItemConditionsItemLhs;
   cmp: UpdateFlagSegmentRequestDataRulesItemConditionsItemCmp | (string & {});
-  rhs?: UpdateFlagSegmentRequestDataRulesItemConditionsItemRhs;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  rhs?: UpdateFlagSegmentRequestDataRulesItemConditionsItemRhs | undefined;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
 }
 export type UpdateFlagSegmentRequestDataRulesItemConditionsList =
   Array<UpdateFlagSegmentRequestDataRulesItemConditionsItem>;
@@ -2733,9 +2737,9 @@ export type UpdateFlagSegmentRequestDataExcludeMap = {
 };
 /** The data of the segment */
 export interface UpdateFlagSegmentRequestData {
-  rules?: UpdateFlagSegmentRequestDataRulesList;
-  include?: UpdateFlagSegmentRequestDataIncludeMap;
-  exclude?: UpdateFlagSegmentRequestDataExcludeMap;
+  rules?: UpdateFlagSegmentRequestDataRulesList | undefined;
+  include?: UpdateFlagSegmentRequestDataIncludeMap | undefined;
+  exclude?: UpdateFlagSegmentRequestDataExcludeMap | undefined;
 }
 export interface UpdateFlagSegmentRequest {
   /** The project id or name */
@@ -2743,17 +2747,17 @@ export interface UpdateFlagSegmentRequest {
   /** The segment slug */
   segmentIdOrSlug: string;
   /** Whether to include metadata */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  operations?: UpdateFlagSegmentRequestOperationsList;
-  label?: string;
-  description?: string;
+  slug?: string | undefined;
+  operations?: UpdateFlagSegmentRequestOperationsList | undefined;
+  label?: string | undefined;
+  description?: string | undefined;
   /** The data of the segment */
-  data?: UpdateFlagSegmentRequestData;
-  hint?: string;
+  data?: UpdateFlagSegmentRequestData | undefined;
+  hint?: string | undefined;
 }
 export type UpdateFlagSegmentResponseBodyCase0DataExcludeValueValueItem =
   CreateFlagRequestEnvironmentsValueTargetsValueValueValueItem;
@@ -2844,9 +2848,9 @@ export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhs =
   | boolean;
 export interface UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItem {
   cmp: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemCmp;
-  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions;
+  cmpOptions?: CreateFlagRequestEnvironmentsValueRulesItemConditionsItemCmpOptions | undefined;
   lhs: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemLhs;
-  rhs?: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhs;
+  rhs?: UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItemRhs | undefined;
 }
 export type UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsList =
   Array<UpdateFlagSegmentResponseBodyCase0DataRulesItemConditionsItem>;
@@ -2877,18 +2881,18 @@ export interface UpdateFlagSegmentResponseBodyCase0DataRulesItem {
 export type UpdateFlagSegmentResponseBodyCase0DataRulesList =
   Array<UpdateFlagSegmentResponseBodyCase0DataRulesItem>;
 export interface UpdateFlagSegmentResponseBodyCase0Data {
-  exclude?: UpdateFlagSegmentResponseBodyCase0DataExcludeMap;
-  include?: UpdateFlagSegmentResponseBodyCase0DataIncludeMap;
-  rules?: UpdateFlagSegmentResponseBodyCase0DataRulesList;
+  exclude?: UpdateFlagSegmentResponseBodyCase0DataExcludeMap | undefined;
+  include?: UpdateFlagSegmentResponseBodyCase0DataIncludeMap | undefined;
+  rules?: UpdateFlagSegmentResponseBodyCase0DataRulesList | undefined;
 }
 export type UpdateFlagSegmentResponseBodyCase0TypeName = "segment";
 export type UpdateFlagSegmentResponseBodyCase0UsedByFlagsList = Array<string>;
 export type UpdateFlagSegmentResponseBodyCase0UsedBySegmentsList = Array<string>;
 export interface UpdateFlagSegmentResponseBodyCase0 {
   createdAt: number;
-  createdBy?: string;
+  createdBy?: string | undefined;
   data: UpdateFlagSegmentResponseBodyCase0Data;
-  description?: string;
+  description?: string | undefined;
   hint: string;
   id: string;
   label: string;
@@ -2896,8 +2900,8 @@ export interface UpdateFlagSegmentResponseBodyCase0 {
   slug: string;
   typeName: UpdateFlagSegmentResponseBodyCase0TypeName;
   updatedAt: number;
-  usedByFlags?: UpdateFlagSegmentResponseBodyCase0UsedByFlagsList;
-  usedBySegments?: UpdateFlagSegmentResponseBodyCase0UsedBySegmentsList;
+  usedByFlags?: UpdateFlagSegmentResponseBodyCase0UsedByFlagsList | undefined;
+  usedBySegments?: UpdateFlagSegmentResponseBodyCase0UsedBySegmentsList | undefined;
 }
 export type UpdateFlagSegmentResponseBody = UpdateFlagSegmentResponseBodyCase0 | Segment;
 export type UpdateFlagSegmentResponse = UpdateFlagSegmentResponseBody;
@@ -2908,7 +2912,7 @@ export type UpdateFlagSettingsRequestEntitiesItemAttributesItemLabelsList =
 export interface UpdateFlagSettingsRequestEntitiesItemAttributesItem {
   key: string;
   type: string;
-  labels?: UpdateFlagSettingsRequestEntitiesItemAttributesItemLabelsList;
+  labels?: UpdateFlagSettingsRequestEntitiesItemAttributesItemLabelsList | undefined;
 }
 export type UpdateFlagSettingsRequestEntitiesItemAttributesList =
   Array<UpdateFlagSettingsRequestEntitiesItemAttributesItem>;
@@ -2924,13 +2928,13 @@ export interface UpdateFlagSettingsRequest {
   /** The project id or name */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  enabled?: boolean;
-  entities?: UpdateFlagSettingsRequestEntitiesList;
+  slug?: string | undefined;
+  enabled?: boolean | undefined;
+  entities?: UpdateFlagSettingsRequestEntitiesList | undefined;
   /** The environments to sync */
-  environments?: UpdateFlagSettingsRequestEnvironmentsList;
+  environments?: UpdateFlagSettingsRequestEnvironmentsList | undefined;
 }
 export type UpdateFlagSettingsResponseEntitiesItemAttributesItemLabelsItem =
   GetFlagSettingsResponseEntitiesItemAttributesItemLabelsItem;
@@ -2938,7 +2942,7 @@ export type UpdateFlagSettingsResponseEntitiesItemAttributesItemLabelsList =
   Array<GetFlagSettingsResponseEntitiesItemAttributesItemLabelsItem>;
 export interface UpdateFlagSettingsResponseEntitiesItemAttributesItem {
   key: string;
-  labels?: UpdateFlagSettingsResponseEntitiesItemAttributesItemLabelsList;
+  labels?: UpdateFlagSettingsResponseEntitiesItemAttributesItemLabelsList | undefined;
   type: string;
 }
 export type UpdateFlagSettingsResponseEntitiesItemAttributesList =
@@ -2953,15 +2957,15 @@ export type UpdateFlagSettingsResponseEnvironmentsList = Array<string>;
 export type UpdateFlagSettingsResponseMetadata = GetFlagSettingsResponseMetadata;
 export type UpdateFlagSettingsResponseTypeName = "settings";
 export interface UpdateFlagSettingsResponse {
-  createdAt?: number;
+  createdAt?: number | undefined;
   enabled: boolean;
   entities: UpdateFlagSettingsResponseEntitiesList;
   environments: UpdateFlagSettingsResponseEnvironmentsList;
   metadata: GetFlagSettingsResponseMetadata;
-  ownerId?: string;
+  ownerId?: string | undefined;
   projectId: string;
   typeName: UpdateFlagSettingsResponseTypeName;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type CreateFlagError =
   | BadRequest

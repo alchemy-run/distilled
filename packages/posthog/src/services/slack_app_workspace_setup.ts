@@ -67,7 +67,7 @@ export interface CreateSlackAppWorkspaceSetupJoinChannelRequest {
   /** IDs of the public channels that PostHog joins. */
   channel_ids: CreateSlackAppWorkspaceSetupJoinChannelRequestChannelIdsList;
   /** Whether PostHog posts its welcome message in each channel it joins. When false, it joins quietly. */
-  post_welcome?: boolean;
+  post_welcome?: boolean | undefined;
 }
 export interface SlackAppChannelJoinResult {
   /** Slack channel ID. */
@@ -87,7 +87,7 @@ export interface GetSlackAppWorkspaceSetupRequest {
   project_id: string;
   id: string;
   /** Where the Slack install started. slack_page adds the steps for a person who sets up Slack on purpose. * `slack_page` - The Slack page in PostHog * `other` - Another place, such as a channel picker */
-  entry?: GetSlackAppWorkspaceSetupRequestEntry | (string & {});
+  entry?: GetSlackAppWorkspaceSetupRequestEntry | (string & {}) | undefined;
 }
 export interface GetSlackAppWorkspaceSetupChannelRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

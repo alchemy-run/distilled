@@ -109,10 +109,10 @@ export interface PayoutMethod {
   nickname: string | null;
 }
 export interface ListPayoutMethodRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   account_id: string;
 }
 /** The company associated with this payout destination. Null if not linked to a specific company. */

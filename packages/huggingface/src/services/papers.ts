@@ -33,7 +33,7 @@ export interface ClaimPaperAuthorshipRequest {
   /** Author entry on the paper being claimed. */
   claimAuthorId: string;
   /** HF user who should receive the claim. */
-  targetUserId?: string;
+  targetUserId?: string | undefined;
 }
 export interface ClaimPaperAuthorshipResponse {
   ok: boolean;
@@ -41,13 +41,13 @@ export interface ClaimPaperAuthorshipResponse {
 }
 export type GetDailyPapersRequestSort = "publishedAt" | "trending";
 export interface GetDailyPapersRequest {
-  p?: number;
-  limit?: number;
-  date?: string;
-  week?: string;
-  month?: string;
-  submitter?: string;
-  sort?: GetDailyPapersRequestSort | (string & {});
+  p?: number | undefined;
+  limit?: number | undefined;
+  date?: string | undefined;
+  week?: string | undefined;
+  month?: string | undefined;
+  submitter?: string | undefined;
+  sort?: GetDailyPapersRequestSort | (string & {}) | undefined;
 }
 /** User overview information */
 export interface GetDailyPapersResponseBodyItemPaperAuthorsItemUser {
@@ -57,20 +57,20 @@ export interface GetDailyPapersResponseBodyItemPaperAuthorsItemUser {
   isPro: boolean;
   name: string;
   type: string;
-  user?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
+  user?: string | undefined;
+  isHf?: boolean | undefined;
+  isHfAdmin?: boolean | undefined;
+  isMod?: boolean | undefined;
+  followerCount?: number | undefined;
 }
 /** Paper author information */
 export interface GetDailyPapersResponseBodyItemPaperAuthorsItem {
   _id: string;
   name: string;
-  status?: string;
-  statusLastChangedAt?: string;
+  status?: string | undefined;
+  statusLastChangedAt?: string | undefined;
   /** User overview information */
-  user?: GetDailyPapersResponseBodyItemPaperAuthorsItemUser;
+  user?: GetDailyPapersResponseBodyItemPaperAuthorsItemUser | undefined;
   hidden: boolean;
 }
 export type GetDailyPapersResponseBodyItemPaperAuthorsList =
@@ -84,22 +84,22 @@ export type GetDailyPapersResponseBodyItemPaperAiKeywordsList = Array<string>;
 export interface GetDailyPapersResponseBodyItemPaper {
   id: string;
   authors: GetDailyPapersResponseBodyItemPaperAuthorsList;
-  mediaUrls?: GetDailyPapersResponseBodyItemPaperMediaUrlsList;
+  mediaUrls?: GetDailyPapersResponseBodyItemPaperMediaUrlsList | undefined;
   publishedAt: string;
-  submittedOnDailyAt?: string;
+  submittedOnDailyAt?: string | undefined;
   title: string;
   /** User overview information */
-  submittedOnDailyBy?: GetDailyPapersResponseBodyItemPaperAuthorsItemUser;
+  submittedOnDailyBy?: GetDailyPapersResponseBodyItemPaperAuthorsItemUser | undefined;
   summary: string;
   upvotes: number;
-  withdrawnAt?: string;
+  withdrawnAt?: string | undefined;
   discussionId: string;
-  projectPage?: string;
-  githubRepo?: string;
-  ai_summary?: string;
-  ai_keywords?: GetDailyPapersResponseBodyItemPaperAiKeywordsList;
-  ai_summary_model?: string;
-  githubStars?: number;
+  projectPage?: string | undefined;
+  githubRepo?: string | undefined;
+  ai_summary?: string | undefined;
+  ai_keywords?: GetDailyPapersResponseBodyItemPaperAiKeywordsList | undefined;
+  ai_summary_model?: string | undefined;
+  githubStars?: number | undefined;
 }
 export type GetDailyPapersResponseBodyItemMediaUrlsList = Array<string>;
 /** User overview information */
@@ -112,7 +112,7 @@ export interface GetDailyPapersResponseBodyItem {
   publishedAt: string;
   title: string;
   summary: string;
-  mediaUrls?: GetDailyPapersResponseBodyItemMediaUrlsList;
+  mediaUrls?: GetDailyPapersResponseBodyItemMediaUrlsList | undefined;
   thumbnail: string;
   numComments: number;
   /** User overview information */
@@ -127,7 +127,7 @@ export type GetPaperRequestFieldCase1List = Array<GetPaperRequestFieldCase1Item 
 export type GetPaperRequestField = GetPaperRequestFieldCase0 | GetPaperRequestFieldCase1List;
 export interface GetPaperRequest {
   paperId: string;
-  field?: GetPaperRequestField;
+  field?: GetPaperRequestField | undefined;
 }
 /** User overview information */
 export type GetPaperResponseAuthorsItemUser = GetDailyPapersResponseBodyItemPaperAuthorsItemUser;
@@ -228,7 +228,7 @@ export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemTask 
   | "other"
   | "conversational";
 export interface GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemFeatures {
-  toolCalling?: boolean;
+  toolCalling?: boolean | undefined;
 }
 export interface GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItem {
   provider: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemProvider;
@@ -236,15 +236,15 @@ export interface GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItem
   modelStatus: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemTask;
-  adapterType?: string;
-  adapterWeightsPath?: string;
-  features?: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemFeatures;
+  adapterType?: string | undefined;
+  adapterWeightsPath?: string | undefined;
+  features?: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemFeatures | undefined;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
-  tokensPerSecond?: number;
-  pricingOutput?: number;
-  freeUntil?: string;
+  tokensPerSecond?: number | undefined;
+  pricingOutput?: number | undefined;
+  freeUntil?: string | undefined;
 }
 export type GetPaperResponseLinkedModelsItemAvailableInferenceProvidersList =
   Array<GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItem>;
@@ -256,7 +256,7 @@ export interface GetPaperResponseLinkedModelsItemResourceGroup {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export type GetPaperResponseLinkedModelsItemAuthorDataCase0Plan =
   | "team"
@@ -272,10 +272,10 @@ export interface GetPaperResponseLinkedModelsItemAuthorDataCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetPaperResponseLinkedModelsItemAuthorDataCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetPaperResponseLinkedModelsItemAuthorDataCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrgPlan =
   | "team"
@@ -294,12 +294,12 @@ export interface GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetPaperResponseLinkedModelsItemAuthorDataCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -310,11 +310,11 @@ export interface GetPaperResponseLinkedModelsItemAuthorDataCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg | undefined;
 }
 export type GetPaperResponseLinkedModelsItemAuthorData =
   | GetPaperResponseLinkedModelsItemAuthorDataCase0
@@ -328,15 +328,15 @@ export interface GetPaperResponseLinkedModelsItem {
   isLikedByUser: boolean;
   lastModified: string;
   likes: number;
-  pipeline_tag?: string;
+  pipeline_tag?: string | undefined;
   private: boolean;
   repoType: string;
   gated: GetPaperResponseLinkedModelsItemGated;
-  resourceGroup?: GetPaperResponseLinkedModelsItemResourceGroup;
-  numParameters?: number;
-  authorData?: GetPaperResponseLinkedModelsItemAuthorData;
-  widgetOutputUrls?: GetPaperResponseLinkedModelsItemWidgetOutputUrlsList;
-  isPreRelease?: boolean;
+  resourceGroup?: GetPaperResponseLinkedModelsItemResourceGroup | undefined;
+  numParameters?: number | undefined;
+  authorData?: GetPaperResponseLinkedModelsItemAuthorData | undefined;
+  widgetOutputUrls?: GetPaperResponseLinkedModelsItemWidgetOutputUrlsList | undefined;
+  isPreRelease?: boolean | undefined;
 }
 export type GetPaperResponseLinkedModelsList = Array<GetPaperResponseLinkedModelsItem>;
 export type GetPaperResponseLinkedDatasetsItemDatasetsServerInfoViewer =
@@ -407,23 +407,23 @@ export interface GetPaperResponseLinkedDatasetsItem {
   id: string;
   isLikedByUser: boolean;
   likes: number;
-  datasetsServerInfo?: GetPaperResponseLinkedDatasetsItemDatasetsServerInfo;
+  datasetsServerInfo?: GetPaperResponseLinkedDatasetsItemDatasetsServerInfo | undefined;
   private: boolean;
   repoType: string;
   downloads: number;
   gated: GetPaperResponseLinkedDatasetsItemGated;
   lastModified: string;
-  resourceGroup?: GetPaperResponseLinkedModelsItemResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  isEnvironment?: boolean;
+  resourceGroup?: GetPaperResponseLinkedModelsItemResourceGroup | undefined;
+  isBenchmark?: boolean | undefined;
+  isTraces?: boolean | undefined;
+  isEnvironment?: boolean | undefined;
 }
 export type GetPaperResponseLinkedDatasetsList = Array<GetPaperResponseLinkedDatasetsItem>;
 export interface GetPaperResponseLinkedSpacesItem {
   id: string;
   emoji: string;
   running: boolean;
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   featured: boolean;
 }
 export type GetPaperResponseLinkedSpacesList = Array<GetPaperResponseLinkedSpacesItem>;
@@ -433,9 +433,9 @@ export interface GetPaperResponseCommentsItemAuthorCase0OauthAppImageData {
   colorTo: string;
 }
 export interface GetPaperResponseCommentsItemAuthorCase0OauthApp {
-  imageUrl?: string;
-  imageData?: GetPaperResponseCommentsItemAuthorCase0OauthAppImageData;
-  url?: string;
+  imageUrl?: string | undefined;
+  imageData?: GetPaperResponseCommentsItemAuthorCase0OauthAppImageData | undefined;
+  url?: string | undefined;
   name: string;
 }
 export type GetPaperResponseCommentsItemAuthorCase0Plan =
@@ -444,10 +444,10 @@ export type GetPaperResponseCommentsItemAuthorCase0Plan =
   | "plus"
   | "academia";
 export interface GetPaperResponseCommentsItemAuthorCase0 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: GetPaperResponseCommentsItemAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: GetPaperResponseCommentsItemAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -456,10 +456,10 @@ export interface GetPaperResponseCommentsItemAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetPaperResponseCommentsItemAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetPaperResponseCommentsItemAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetPaperResponseCommentsItemAuthorCase1OauthAppImageData =
   GetPaperResponseCommentsItemAuthorCase0OauthAppImageData;
@@ -482,18 +482,18 @@ export interface GetPaperResponseCommentsItemAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetPaperResponseCommentsItemAuthorCase1 {
-  isOwner?: boolean;
-  isOrgMember?: boolean;
-  isBlockedByMe?: boolean;
-  oauthApp?: GetPaperResponseCommentsItemAuthorCase0OauthApp;
+  isOwner?: boolean | undefined;
+  isOrgMember?: boolean | undefined;
+  isBlockedByMe?: boolean | undefined;
+  oauthApp?: GetPaperResponseCommentsItemAuthorCase0OauthApp | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
@@ -502,11 +502,11 @@ export interface GetPaperResponseCommentsItemAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrg | undefined;
 }
 export type GetPaperResponseCommentsItemAuthor =
   | GetPaperResponseCommentsItemAuthorCase0
@@ -532,10 +532,10 @@ export interface GetPaperResponseCommentsItemDataLatestAuthorCase0 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
-  plan?: GetPaperResponseCommentsItemDataLatestAuthorCase0Plan;
-  isUserFollowing?: boolean;
+  plan?: GetPaperResponseCommentsItemDataLatestAuthorCase0Plan | undefined;
+  isUserFollowing?: boolean | undefined;
 }
 export type GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrgPlan =
   | "team"
@@ -554,12 +554,12 @@ export interface GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface GetPaperResponseCommentsItemDataLatestAuthorCase1 {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -570,11 +570,11 @@ export interface GetPaperResponseCommentsItemDataLatestAuthorCase1 {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg | undefined;
 }
 export type GetPaperResponseCommentsItemDataLatestAuthor =
   | GetPaperResponseCommentsItemDataLatestAuthorCase0
@@ -583,7 +583,7 @@ export interface GetPaperResponseCommentsItemDataLatest {
   raw: string;
   html: string;
   updatedAt: string;
-  author?: GetPaperResponseCommentsItemDataLatestAuthor;
+  author?: GetPaperResponseCommentsItemDataLatestAuthor | undefined;
 }
 export type GetPaperResponseCommentsItemDataEditorsList = Array<string>;
 export type GetPaperResponseCommentsItemDataEditorAvatarUrlsList = Array<string>;
@@ -615,22 +615,22 @@ export interface GetPaperResponseCommentsItemDataIdentifiedLanguage {
 export interface GetPaperResponseCommentsItemData {
   edited: boolean;
   hidden: boolean;
-  hiddenBy?: string;
-  hiddenReason?: GetPaperResponseCommentsItemDataHiddenReason;
+  hiddenBy?: string | undefined;
+  hiddenReason?: GetPaperResponseCommentsItemDataHiddenReason | undefined;
   latest: GetPaperResponseCommentsItemDataLatest;
   numEdits: number;
   editors: GetPaperResponseCommentsItemDataEditorsList;
   editorAvatarUrls: GetPaperResponseCommentsItemDataEditorAvatarUrlsList;
   reactions: GetPaperResponseCommentsItemDataReactionsList;
-  identifiedLanguage?: GetPaperResponseCommentsItemDataIdentifiedLanguage;
-  relatedEventId?: string;
-  isReport?: boolean;
-  parentCommentId?: string;
+  identifiedLanguage?: GetPaperResponseCommentsItemDataIdentifiedLanguage | undefined;
+  relatedEventId?: string | undefined;
+  isReport?: boolean | undefined;
+  parentCommentId?: string | undefined;
 }
 export interface GetPaperResponseCommentsItem {
   id: string;
   createdAt: string;
-  author?: GetPaperResponseCommentsItemAuthor;
+  author?: GetPaperResponseCommentsItemAuthor | undefined;
   type: string;
   data: GetPaperResponseCommentsItemData;
 }
@@ -639,24 +639,24 @@ export type GetPaperResponseCommentsList = Array<GetPaperResponseCommentsItem>;
 export interface GetPaperResponse {
   id: string;
   authors: GetPaperResponseAuthorsList;
-  mediaUrls?: GetPaperResponseMediaUrlsList;
+  mediaUrls?: GetPaperResponseMediaUrlsList | undefined;
   publishedAt: string;
-  submittedOnDailyAt?: string;
+  submittedOnDailyAt?: string | undefined;
   title: string;
   /** User overview information */
-  submittedOnDailyBy?: GetDailyPapersResponseBodyItemPaperAuthorsItemUser;
+  submittedOnDailyBy?: GetDailyPapersResponseBodyItemPaperAuthorsItemUser | undefined;
   summary: string;
   upvotes: number;
-  withdrawnAt?: string;
+  withdrawnAt?: string | undefined;
   discussionId: string;
-  projectPage?: string;
-  githubRepo?: string;
-  ai_summary?: string;
-  ai_keywords?: GetPaperResponseAiKeywordsList;
-  ai_summary_model?: string;
-  githubStars?: number;
+  projectPage?: string | undefined;
+  githubRepo?: string | undefined;
+  ai_summary?: string | undefined;
+  ai_keywords?: GetPaperResponseAiKeywordsList | undefined;
+  ai_summary_model?: string | undefined;
+  githubStars?: number | undefined;
   /** only available when field contains 'submissionDeadline' */
-  submissionDeadline?: string;
+  submissionDeadline?: string | undefined;
   linkedModels: GetPaperResponseLinkedModelsList;
   numTotalModels: number;
   linkedDatasets: GetPaperResponseLinkedDatasetsList;
@@ -664,7 +664,7 @@ export interface GetPaperResponse {
   linkedSpaces: GetPaperResponseLinkedSpacesList;
   numTotalSpaces: number;
   /** only available when field contains 'comments' */
-  comments?: GetPaperResponseCommentsList;
+  comments?: GetPaperResponseCommentsList | undefined;
 }
 export interface IndexPaperRequest {
   /** The arXiv ID of the paper to index (e.g. 2301.00001) */
@@ -672,8 +672,8 @@ export interface IndexPaperRequest {
 }
 export type IndexPaperResponse = unknown;
 export interface ListPapersRequest {
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
 }
 /** User overview information */
 export type ListPapersResponseBodyItemAuthorsItemUser =
@@ -685,34 +685,34 @@ export type ListPapersResponseBodyItemAuthorsList =
 export interface ListPapersResponseBodyItemOrganization {
   _id: string;
   name: string;
-  fullname?: string;
-  avatar?: string;
+  fullname?: string | undefined;
+  avatar?: string | undefined;
 }
 export interface ListPapersResponseBodyItem {
   id: string;
   title: string;
   upvotes: number;
   publishedAt: string;
-  thumbnailUrl?: string;
+  thumbnailUrl?: string | undefined;
   authors: ListPapersResponseBodyItemAuthorsList;
   summary: string;
-  projectPage?: string;
-  githubRepo?: string;
-  ai_summary?: string;
-  organization?: ListPapersResponseBodyItemOrganization;
+  projectPage?: string | undefined;
+  githubRepo?: string | undefined;
+  ai_summary?: string | undefined;
+  organization?: ListPapersResponseBodyItemOrganization | undefined;
 }
 export type ListPapersResponseBodyList = Array<ListPapersResponseBodyItem>;
 export type ListPapersResponse = ListPapersResponseBodyList;
 export interface SearchPapersRequest {
-  q?: string;
-  limit?: number;
+  q?: string | undefined;
+  limit?: number | undefined;
 }
 export interface SearchPapersResponse {}
 export interface UpdatePaperLinksRequest {
   paperId: string;
-  projectPage?: string | null;
-  githubRepo?: string | null;
-  organizationId?: string | null;
+  projectPage?: string | null | undefined;
+  githubRepo?: string | null | undefined;
+  organizationId?: string | null | undefined;
 }
 export type UpdatePaperLinksResponse = unknown;
 /** Media URLs, in display order */

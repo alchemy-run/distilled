@@ -86,43 +86,43 @@ export class NotFound
 /** Request message for 'ApplyConversionWorkspace' request. */
 export interface ApplyConversionWorkspaceRequest {
   /** Optional. Fully qualified (Uri) name of the destination connection profile. */
-  connectionProfile?: string;
+  connectionProfile?: string | undefined;
   /** Optional. Filter which entities to apply. Leaving this field empty will apply all of the entities. Supports Google AIP 160 based filtering. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Specifies whether the conversion workspace is to be committed automatically after the apply. */
-  autoCommit?: boolean;
+  autoCommit?: boolean | undefined;
   /** Optional. Only validates the apply process, but doesn't change the destination database. Only works for PostgreSQL destination connection profile. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface ApplyProjectsLocationsConversionWorkspacesRequest {
   /** Required. The name of the conversion workspace resource for which to apply the draft tree. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
   /** Request body */
-  body?: ApplyConversionWorkspaceRequest;
+  body?: ApplyConversionWorkspaceRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -130,35 +130,35 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** Request message for 'CommitConversionWorkspace' request. */
 export interface CommitConversionWorkspaceRequest {
   /** Optional. Optional name of the commit. */
-  commitName?: string;
+  commitName?: string | undefined;
 }
 export interface CommitProjectsLocationsConversionWorkspacesRequest {
   /** Required. Name of the conversion workspace resource to commit. */
   name: string;
   /** Request body */
-  body?: CommitConversionWorkspaceRequest;
+  body?: CommitConversionWorkspaceRequest | undefined;
 }
 /** Request message for 'ConvertConversionWorkspace' request. */
 export interface ConvertConversionWorkspaceRequest {
   /** Optional. Specifies whether the conversion workspace is to be committed automatically after the conversion. */
-  autoCommit?: boolean;
+  autoCommit?: boolean | undefined;
   /** Optional. Filter the entities to convert. Leaving this field empty will convert all of the entities. Supports Google AIP-160 style filtering. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Automatically convert the full entity path for each entity specified by the filter. For example, if the filter specifies a table, that table schema (and database if there is one) will also be converted. */
-  convertFullPath?: boolean;
+  convertFullPath?: boolean | undefined;
 }
 export interface ConvertProjectsLocationsConversionWorkspacesRequest {
   /** Name of the conversion workspace resource to convert in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
   /** Request body */
-  body?: ConvertConversionWorkspaceRequest;
+  body?: ConvertConversionWorkspaceRequest | undefined;
 }
 export type SslConfigTypeEnum =
   | "SSL_TYPE_UNSPECIFIED"
@@ -170,105 +170,105 @@ export type StringMap = { [key: string]: string | undefined };
 /** SSL configuration information. */
 export interface SslConfig {
   /** Input only. The unencrypted PKCS#1 or PKCS#8 PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' field is mandatory. */
-  clientKey?: string;
+  clientKey?: string | undefined;
   /** Optional. The ssl config type according to 'client_key', 'client_certificate' and 'ca_certificate'. */
-  type?: SslConfigTypeEnum | (string & {});
+  type?: SslConfigTypeEnum | (string & {}) | undefined;
   /** Required. Input only. The x509 PEM-encoded certificate of the CA that signed the source database server's certificate. The replica will use this certificate to verify it's connecting to the right host. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** Input only. The x509 PEM-encoded certificate that will be used by the replica to authenticate against the source database server.If this field is used then the 'client_key' field is mandatory. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** Optional. SSL flags used for establishing SSL connection to the source database. Only source specific flags are supported. An object containing a list of "key": "value" pairs. Examples: { "server_certificate_dn": "CN=server.com,OU=RDS,O=Amazon.com,C=US"} or { "server_certificate_hostname": "server.com"}. */
-  sslFlags?: StringMap;
+  sslFlags?: StringMap | undefined;
 }
 /** Private Connectivity. */
 export interface PrivateConnectivity {
   /** Required. The resource name (URI) of the private connection. */
-  privateConnection?: string;
+  privateConnection?: string | undefined;
 }
 /** Static IP address connectivity configured on service project. */
 export type StaticServiceIpConnectivity = CancelOperationRequest;
 /** [Private Service Connect connectivity](https://cloud.google.com/vpc/docs/private-service-connect#service-attachments) */
 export interface PrivateServiceConnectConnectivity {
   /** Required. A service attachment that exposes a database, and has the following format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment_name} */
-  serviceAttachment?: string;
+  serviceAttachment?: string | undefined;
 }
 /** Specifies connection parameters required specifically for MySQL databases. */
 export interface MySqlConnectionProfile {
   /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string;
+  password?: string | undefined;
   /** SSL configuration for the destination to connect to the source database. */
-  ssl?: SslConfig;
+  ssl?: SslConfig | undefined;
   /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
-  cloudSqlId?: string;
+  cloudSqlId?: string | undefined;
   /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity;
+  privateConnectivity?: PrivateConnectivity | undefined;
   /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest;
+  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
   /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string;
+  username?: string | undefined;
   /** Output only. Indicates If this connection profile password is stored. */
-  passwordSet?: boolean;
+  passwordSet?: boolean | undefined;
   /** Private Service Connect connectivity. */
-  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity;
+  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
   /** Required. The IP or hostname of the source MySQL database. */
-  host?: string;
+  host?: string | undefined;
   /** Required. The network port of the source MySQL database. */
-  port?: number;
+  port?: number | undefined;
 }
 export type ConnectionProfileRoleEnum = "ROLE_UNSPECIFIED" | "SOURCE" | "DESTINATION";
 /** The username/password for a database user. Used for specifying initial users at cluster creation time. */
 export interface UserPassword {
   /** Output only. Indicates if the initial_user.password field has been set. */
-  passwordSet?: boolean;
+  passwordSet?: boolean | undefined;
   /** The initial password for the user. */
-  password?: string;
+  password?: string | undefined;
   /** The database username. */
-  user?: string;
+  user?: string | undefined;
 }
 /** EncryptionConfig describes the encryption config of a cluster that is encrypted with a CMEK (customer-managed encryption key). */
 export interface EncryptionConfig {
   /** The fully-qualified resource name of the KMS key. Each Cloud KMS key is regionalized and has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME] */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 export type StringList = Array<string>;
 /** MachineConfig describes the configuration of a machine. */
 export interface MachineConfig {
   /** Optional. Machine type of the VM instance. E.g. "n2-highmem-4", "n2-highmem-8", "c4a-highmem-4-lssd". cpu_count must match the number of vCPUs in the machine type. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** The number of CPU's in the VM instance. */
-  cpuCount?: number;
+  cpuCount?: number | undefined;
 }
 /** AuthorizedNetwork contains metadata for an authorized network. */
 export interface AuthorizedNetwork {
   /** Optional. CIDR range for one authorzied network of the instance. */
-  cidrRange?: string;
+  cidrRange?: string | undefined;
 }
 export type AuthorizedNetworkList = Array<AuthorizedNetwork>;
 /** Metadata related to instance level network configuration. */
 export interface InstanceNetworkConfig {
   /** Optional. Enabling public ip for the instance. */
-  enablePublicIp?: boolean;
+  enablePublicIp?: boolean | undefined;
   /** Optional. Enabling an outbound public IP address to support a database server sending requests out into the internet. */
-  enableOutboundPublicIp?: boolean;
+  enableOutboundPublicIp?: boolean | undefined;
   /** Optional. A list of external network authorized to access this instance. */
-  authorizedExternalNetworks?: AuthorizedNetworkList;
+  authorizedExternalNetworks?: AuthorizedNetworkList | undefined;
 }
 /** Settings for the cluster's primary instance */
 export interface PrimaryInstanceSettings {
   /** Output only. All outbound public IP addresses configured for the instance. */
-  outboundPublicIpAddresses?: StringList;
+  outboundPublicIpAddresses?: StringList | undefined;
   /** Configuration for the machines that host the underlying database engine. */
-  machineConfig?: MachineConfig;
+  machineConfig?: MachineConfig | undefined;
   /** Database flags to pass to AlloyDB when DMS is creating the AlloyDB cluster and instances. See the AlloyDB documentation for how these can be used. */
-  databaseFlags?: StringMap;
+  databaseFlags?: StringMap | undefined;
   /** Labels for the AlloyDB primary instance created by DMS. An object containing a list of 'key', 'value' pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The private IP address for the Instance. This is the connection endpoint for an end-user application. */
-  privateIp?: string;
+  privateIp?: string | undefined;
   /** Optional. Metadata related to instance level network configuration. */
-  instanceNetworkConfig?: InstanceNetworkConfig;
+  instanceNetworkConfig?: InstanceNetworkConfig | undefined;
   /** Required. The ID of the AlloyDB primary instance. The ID must satisfy the regex expression "[a-z0-9-]+". */
-  id?: string;
+  id?: string | undefined;
 }
 export type AlloyDbSettingsDatabaseVersionEnum =
   | "DATABASE_VERSION_UNSPECIFIED"
@@ -281,24 +281,24 @@ export type AlloyDbSettingsDatabaseVersionEnum =
 /** Settings for creating an AlloyDB cluster. */
 export interface AlloyDbSettings {
   /** Required. Input only. Initial user to setup during cluster creation. Required. */
-  initialUser?: UserPassword;
+  initialUser?: UserPassword | undefined;
   /** Required. The resource link for the VPC network in which cluster resources are created and from which they are accessible via Private IP. The network must belong to the same project as the cluster. It is specified in the form: "projects/{project_number}/global/networks/{network_id}". This is required to create a cluster. */
-  vpcNetwork?: string;
+  vpcNetwork?: string | undefined;
   /** Optional. The encryption config can be specified to encrypt the data disks and other persistent data resources of a cluster with a customer-managed encryption key (CMEK). When this field is not specified, the cluster will then use default encryption scheme to protect the user data. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** Settings for the cluster's primary instance */
-  primaryInstanceSettings?: PrimaryInstanceSettings;
+  primaryInstanceSettings?: PrimaryInstanceSettings | undefined;
   /** Labels for the AlloyDB cluster created by DMS. An object containing a list of 'key', 'value' pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. The database engine major version. This is an optional field. If a database version is not supplied at cluster creation time, then a default database version will be used. */
-  databaseVersion?: AlloyDbSettingsDatabaseVersionEnum | (string & {});
+  databaseVersion?: AlloyDbSettingsDatabaseVersionEnum | (string & {}) | undefined;
 }
 /** Specifies required connection parameters, and the parameters required to create an AlloyDB destination cluster. */
 export interface AlloyDbConnectionProfile {
   /** Required. The AlloyDB cluster ID that this connection profile is associated with. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Immutable. Metadata used to create the destination AlloyDB cluster. */
-  settings?: AlloyDbSettings;
+  settings?: AlloyDbSettings | undefined;
 }
 export type CloudSqlSettingsDatabaseVersionEnum =
   | "SQL_DATABASE_VERSION_UNSPECIFIED"
@@ -342,150 +342,150 @@ export type CloudSqlSettingsAvailabilityTypeEnum =
 /** An entry for an Access Control list. */
 export interface SqlAclEntry {
   /** The allowlisted value for the access control list. */
-  value?: string;
+  value?: string | undefined;
   /** The time when this access control entry expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example: `2012-11-15T16:19:00.094Z`. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** A label to identify this entry. */
-  label?: string;
+  label?: string | undefined;
   /** Input only. The time-to-leave of this access control entry. */
-  ttl?: string;
+  ttl?: string | undefined;
 }
 export type SqlAclEntryList = Array<SqlAclEntry>;
 /** IP Management configuration. */
 export interface SqlIpConfig {
   /** Whether the instance should be assigned an IPv4 address or not. */
-  enableIpv4?: boolean;
+  enableIpv4?: boolean | undefined;
   /** The list of external networks that are allowed to connect to the instance using the IP. See https://en.wikipedia.org/wiki/CIDR_notation#CIDR_notation, also known as 'slash' notation (e.g. `192.168.100.0/24`). */
-  authorizedNetworks?: SqlAclEntryList;
+  authorizedNetworks?: SqlAclEntryList | undefined;
   /** Optional. The name of the allocated IP address range for the private IP Cloud SQL instance. This name refers to an already allocated IP range address. If set, the instance IP address will be created in the allocated range. Note that this IP address range can't be modified after the instance is created. If you change the VPC when configuring connectivity settings for the migration job, this field is not relevant. */
-  allocatedIpRange?: string;
+  allocatedIpRange?: string | undefined;
   /** Whether SSL connections over IP should be enforced or not. */
-  requireSsl?: boolean;
+  requireSsl?: boolean | undefined;
   /** The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `projects/myProject/global/networks/default`. This setting can be updated, but it cannot be removed after it is set. */
-  privateNetwork?: string;
+  privateNetwork?: string | undefined;
 }
 export type CloudSqlSettingsEditionEnum = "EDITION_UNSPECIFIED" | "ENTERPRISE" | "ENTERPRISE_PLUS";
 /** Data cache is an optional feature available for Cloud SQL for MySQL Enterprise Plus edition only. For more information on data cache, see [Data cache overview](https://cloud.google.com/sql/help/mysql-data-cache) in Cloud SQL documentation. */
 export interface DataCacheConfig {
   /** Optional. Whether data cache is enabled for the instance. */
-  dataCacheEnabled?: boolean;
+  dataCacheEnabled?: boolean | undefined;
 }
 /** Settings for creating a Cloud SQL database instance. */
 export interface CloudSqlSettings {
   /** The Google Cloud Platform zone where your Cloud SQL database instance is located. */
-  zone?: string;
+  zone?: string | undefined;
   /** The Database Migration Service source connection profile ID, in the format: `projects/my_project_name/locations/us-central1/connectionProfiles/connection_profile_ID` */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The tier (or machine type) for this instance, for example: `db-n1-standard-1` (MySQL instances) or `db-custom-1-3840` (PostgreSQL instances). For more information, see [Cloud SQL Instance Settings](https://cloud.google.com/sql/docs/mysql/instance-settings). */
-  tier?: string;
+  tier?: string | undefined;
   /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
-  storageAutoResizeLimit?: string;
+  storageAutoResizeLimit?: string | undefined;
   /** Output only. Indicates If this connection profile root password is stored. */
-  rootPasswordSet?: boolean;
+  rootPasswordSet?: boolean | undefined;
   /** The Cloud SQL default instance level collation. */
-  collation?: string;
+  collation?: string | undefined;
   /** The database flags passed to the Cloud SQL instance at startup. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
-  databaseFlags?: StringMap;
+  databaseFlags?: StringMap | undefined;
   /** The database engine type and version. Deprecated. Use database_version_name instead. */
-  databaseVersion?: CloudSqlSettingsDatabaseVersionEnum | (string & {});
+  databaseVersion?: CloudSqlSettingsDatabaseVersionEnum | (string & {}) | undefined;
   /** The KMS key name used for the csql instance. */
-  cmekKeyName?: string;
+  cmekKeyName?: string | undefined;
   /** The storage capacity available to the database, in GB. The minimum (and default) size is 10GB. */
-  dataDiskSizeGb?: string;
+  dataDiskSizeGb?: string | undefined;
   /** Optional. Provisioned number of I/O operations per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
-  dataDiskProvisionedIops?: string;
+  dataDiskProvisionedIops?: string | undefined;
   /** The type of storage: `PD_SSD` (default) or `PD_HDD` or `HYPERDISK_BALANCED`. */
-  dataDiskType?: CloudSqlSettingsDataDiskTypeEnum | (string & {});
+  dataDiskType?: CloudSqlSettingsDataDiskTypeEnum | (string & {}) | undefined;
   /** Optional. The Google Cloud Platform zone where the failover Cloud SQL database instance is located. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available). */
-  secondaryZone?: string;
+  secondaryZone?: string | undefined;
   /** Input only. Initial root password. */
-  rootPassword?: string;
+  rootPassword?: string | undefined;
   /** The activation policy specifies when the instance is activated; it is applicable only when the instance state is 'RUNNABLE'. Valid values: 'ALWAYS': The instance is on, and remains so even in the absence of connection requests. `NEVER`: The instance is off; it is not activated, even if a connection request arrives. */
-  activationPolicy?: CloudSqlSettingsActivationPolicyEnum | (string & {});
+  activationPolicy?: CloudSqlSettingsActivationPolicyEnum | (string & {}) | undefined;
   /** Optional. Availability type. Potential values: * `ZONAL`: The instance serves data from only one zone. Outages in that zone affect data availability. * `REGIONAL`: The instance can serve data from more than one zone in a region (it is highly available). */
-  availabilityType?: CloudSqlSettingsAvailabilityTypeEnum | (string & {});
+  availabilityType?: CloudSqlSettingsAvailabilityTypeEnum | (string & {}) | undefined;
   /** The resource labels for a Cloud SQL instance to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "18kg", "count": "3" }`. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled. */
-  ipConfig?: SqlIpConfig;
+  ipConfig?: SqlIpConfig | undefined;
   /** Optional. The edition of the given Cloud SQL instance. */
-  edition?: CloudSqlSettingsEditionEnum | (string & {});
+  edition?: CloudSqlSettingsEditionEnum | (string & {}) | undefined;
   /** Optional. Provisioned throughput measured in MiB per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
-  dataDiskProvisionedThroughput?: string;
+  dataDiskProvisionedThroughput?: string | undefined;
   /** Optional. Data cache is an optional feature available for Cloud SQL for MySQL Enterprise Plus edition only. For more information on data cache, see [Data cache overview](https://cloud.google.com/sql/help/mysql-data-cache) in Cloud SQL documentation. */
-  dataCacheConfig?: DataCacheConfig;
+  dataCacheConfig?: DataCacheConfig | undefined;
   /** [default: ON] If you enable this setting, Cloud SQL checks your available storage every 30 seconds. If the available storage falls below a threshold size, Cloud SQL automatically adds additional storage capacity. If the available storage repeatedly falls below the threshold size, Cloud SQL continues to add storage until it reaches the maximum of 30 TB. */
-  autoStorageIncrease?: boolean;
+  autoStorageIncrease?: boolean | undefined;
   /** Optional. The database engine type and version name. */
-  databaseVersionName?: string;
+  databaseVersionName?: string | undefined;
 }
 /** Specifies required connection parameters, and, optionally, the parameters required to create a Cloud SQL destination database instance. */
 export interface CloudSqlConnectionProfile {
   /** Output only. The Cloud SQL instance ID that this connection profile is associated with. */
-  cloudSqlId?: string;
+  cloudSqlId?: string | undefined;
   /** Output only. The Cloud SQL database instance's private IP. */
-  privateIp?: string;
+  privateIp?: string | undefined;
   /** Output only. The Cloud SQL database instance's additional (outgoing) public IP. Used when the Cloud SQL database availability type is REGIONAL (i.e. multiple zones / highly available). */
-  additionalPublicIp?: string;
+  additionalPublicIp?: string | undefined;
   /** Immutable. Metadata used to create the destination Cloud SQL database. */
-  settings?: CloudSqlSettings;
+  settings?: CloudSqlSettings | undefined;
   /** Output only. The Cloud SQL database instance's public IP. */
-  publicIp?: string;
+  publicIp?: string | undefined;
 }
 /** Forward SSH Tunnel connectivity. */
 export interface ForwardSshTunnelConnectivity {
   /** Port for the SSH tunnel, default value is 22. */
-  port?: number;
+  port?: number | undefined;
   /** Required. Hostname for the SSH tunnel. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Required. Username for the SSH tunnel. */
-  username?: string;
+  username?: string | undefined;
   /** Input only. SSH password. */
-  password?: string;
+  password?: string | undefined;
   /** Input only. SSH private key. */
-  privateKey?: string;
+  privateKey?: string | undefined;
 }
 /** Configuration for Oracle Automatic Storage Management (ASM) connection. */
 export interface OracleAsmConfig {
   /** Optional. SSL configuration for the Oracle connection. */
-  ssl?: SslConfig;
+  ssl?: SslConfig | undefined;
   /** Required. Input only. Password for the Oracle ASM connection. */
-  password?: string;
+  password?: string | undefined;
   /** Required. ASM service name for the Oracle ASM connection. */
-  asmService?: string;
+  asmService?: string | undefined;
   /** Required. Port for the Oracle ASM connection. */
-  port?: number;
+  port?: number | undefined;
   /** Required. Hostname for the Oracle ASM connection. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Required. Username for the Oracle ASM connection. */
-  username?: string;
+  username?: string | undefined;
   /** Output only. Indicates whether a new password is included in the request. */
-  passwordSet?: boolean;
+  passwordSet?: boolean | undefined;
 }
 /** Specifies connection parameters required specifically for Oracle databases. */
 export interface OracleConnectionProfile {
   /** SSL configuration for the connection to the source Oracle database. * Only `SERVER_ONLY` configuration is supported for Oracle SSL. * SSL is supported for Oracle versions 12 and above. */
-  ssl?: SslConfig;
+  ssl?: SslConfig | undefined;
   /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string;
+  username?: string | undefined;
   /** Required. Database service for the Oracle connection. */
-  databaseService?: string;
+  databaseService?: string | undefined;
   /** Output only. Indicates whether a new password is included in the request. */
-  passwordSet?: boolean;
+  passwordSet?: boolean | undefined;
   /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
   /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity;
+  privateConnectivity?: PrivateConnectivity | undefined;
   /** Required. The IP or hostname of the source Oracle database. */
-  host?: string;
+  host?: string | undefined;
   /** Required. The network port of the source Oracle database. */
-  port?: number;
+  port?: number | undefined;
   /** Optional. Configuration for Oracle ASM connection. */
-  oracleAsmConfig?: OracleAsmConfig;
+  oracleAsmConfig?: OracleAsmConfig | undefined;
   /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest;
+  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
   /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string;
+  password?: string | undefined;
 }
 export type ConnectionProfileProviderEnum =
   | "DATABASE_PROVIDER_UNSPECIFIED"
@@ -497,44 +497,44 @@ export type ConnectionProfileProviderEnum =
 /** Specifies the backup details in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
 export interface SqlServerBackups {
   /** Required. The Cloud Storage bucket that stores backups for all replicated databases. */
-  gcsBucket?: string;
+  gcsBucket?: string | undefined;
   /** Optional. Cloud Storage path inside the bucket that stores backups. */
-  gcsPrefix?: string;
+  gcsPrefix?: string | undefined;
 }
 /** The source database will allow incoming connections from the public IP of the destination database. You can retrieve the public IP of the Cloud SQL instance from the Cloud SQL console or using Cloud SQL APIs. No additional configuration is required. */
 export type StaticIpConnectivity = CancelOperationRequest;
 /** Specifies connection parameters required specifically for SQL Server databases. */
 export interface SqlServerConnectionProfile {
   /** The backup details in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
-  backups?: SqlServerBackups;
+  backups?: SqlServerBackups | undefined;
   /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
-  cloudSqlId?: string;
+  cloudSqlId?: string | undefined;
   /** Optional. The Database Mirroring (DBM) port of the source SQL Server instance. */
-  dbmPort?: number;
+  dbmPort?: number | undefined;
   /** Optional. The project id of the Cloud SQL instance. If not provided, the project id of the connection profile will be used. */
-  cloudSqlProjectId?: string;
+  cloudSqlProjectId?: string | undefined;
   /** Required. The IP or hostname of the source SQL Server database. */
-  host?: string;
+  host?: string | undefined;
   /** Required. The network port of the source SQL Server database. */
-  port?: number;
+  port?: number | undefined;
   /** Private Service Connect connectivity. */
-  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity;
+  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
   /** Output only. Indicates whether a new password is included in the request. */
-  passwordSet?: boolean;
+  passwordSet?: boolean | undefined;
   /** SSL configuration for the destination to connect to the source database. */
-  ssl?: SslConfig;
+  ssl?: SslConfig | undefined;
   /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string;
+  username?: string | undefined;
   /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
   /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity;
+  privateConnectivity?: PrivateConnectivity | undefined;
   /** Required. The name of the specific database within the host. */
-  database?: string;
+  database?: string | undefined;
   /** Static IP connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest;
+  staticIpConnectivity?: CancelOperationRequest | undefined;
   /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string;
+  password?: string | undefined;
 }
 export type PostgreSqlConnectionProfileNetworkArchitectureEnum =
   | "NETWORK_ARCHITECTURE_UNSPECIFIED"
@@ -543,35 +543,38 @@ export type PostgreSqlConnectionProfileNetworkArchitectureEnum =
 /** Specifies connection parameters required specifically for PostgreSQL databases. */
 export interface PostgreSqlConnectionProfile {
   /** Output only. If the source is a Cloud SQL database, this field indicates the network architecture it's associated with. */
-  networkArchitecture?: PostgreSqlConnectionProfileNetworkArchitectureEnum | (string & {});
+  networkArchitecture?:
+    | PostgreSqlConnectionProfileNetworkArchitectureEnum
+    | (string & {})
+    | undefined;
   /** SSL configuration for the destination to connect to the source database. */
-  ssl?: SslConfig;
+  ssl?: SslConfig | undefined;
   /** Required. The IP or hostname of the source PostgreSQL database. */
-  host?: string;
+  host?: string | undefined;
   /** Required. The network port of the source PostgreSQL database. */
-  port?: number;
+  port?: number | undefined;
   /** Static ip connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest;
+  staticIpConnectivity?: CancelOperationRequest | undefined;
   /** Optional. If the destination is an AlloyDB database, use this field to provide the AlloyDB cluster ID. */
-  alloydbClusterId?: string;
+  alloydbClusterId?: string | undefined;
   /** Required. The username that Database Migration Service will use to connect to the database. The value is encrypted when stored in Database Migration Service. */
-  username?: string;
+  username?: string | undefined;
   /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
   /** Optional. If true, Database Migration Service will use IAM database authentication to connect to the database. */
-  enableIamAuthentication?: boolean;
+  enableIamAuthentication?: boolean | undefined;
   /** Optional. The name of the specific database within the host. */
-  database?: string;
+  database?: string | undefined;
   /** Private Service Connect connectivity. */
-  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity;
+  privateServiceConnectConnectivity?: PrivateServiceConnectConnectivity | undefined;
   /** Output only. Indicates If this connection profile password is stored. */
-  passwordSet?: boolean;
+  passwordSet?: boolean | undefined;
   /** If the source is a Cloud SQL database, use this field to provide the Cloud SQL instance ID of the source. */
-  cloudSqlId?: string;
+  cloudSqlId?: string | undefined;
   /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity;
+  privateConnectivity?: PrivateConnectivity | undefined;
   /** Required. Input only. The password for the user that Database Migration Service will be using to connect to the database. This field is not returned on request, and the value is encrypted when stored in Database Migration Service. */
-  password?: string;
+  password?: string | undefined;
 }
 export type ConnectionProfileStateEnum =
   | "STATE_UNSPECIFIED"
@@ -585,53 +588,53 @@ export type ConnectionProfileStateEnum =
 /** A connection profile definition. */
 export interface ConnectionProfile {
   /** A MySQL database connection profile. */
-  mysql?: MySqlConnectionProfile;
+  mysql?: MySqlConnectionProfile | undefined;
   /** Optional. The connection profile role. */
-  role?: ConnectionProfileRoleEnum | (string & {});
+  role?: ConnectionProfileRoleEnum | (string & {}) | undefined;
   /** An AlloyDB cluster connection profile. */
-  alloydb?: AlloyDbConnectionProfile;
+  alloydb?: AlloyDbConnectionProfile | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** A CloudSQL database connection profile. */
-  cloudsql?: CloudSqlConnectionProfile;
+  cloudsql?: CloudSqlConnectionProfile | undefined;
   /** An Oracle database connection profile. */
-  oracle?: OracleConnectionProfile;
+  oracle?: OracleConnectionProfile | undefined;
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The timestamp when the resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The database provider. */
-  provider?: ConnectionProfileProviderEnum | (string & {});
+  provider?: ConnectionProfileProviderEnum | (string & {}) | undefined;
   /** Connection profile for a SQL Server data source. */
-  sqlserver?: SqlServerConnectionProfile;
+  sqlserver?: SqlServerConnectionProfile | undefined;
   /** Output only. The timestamp when the resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The connection profile display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The resource labels for connection profile to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** A PostgreSQL database connection profile. */
-  postgresql?: PostgreSqlConnectionProfile;
+  postgresql?: PostgreSqlConnectionProfile | undefined;
   /** The current connection profile state (e.g. DRAFT, READY, or FAILED). */
-  state?: ConnectionProfileStateEnum | (string & {});
+  state?: ConnectionProfileStateEnum | (string & {}) | undefined;
   /** Output only. The error details in case of state FAILED. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export interface CreateProjectsLocationsConnectionProfilesRequest {
   /** Optional. Create the connection profile without validating it. The default is false. Only supported for Oracle connection profiles. */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The parent which owns this collection of connection profiles. */
   parent: string;
   /** Optional. Only validate the connection profile, but don't create any resources. The default is false. Only supported for Oracle connection profiles. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The connection profile identifier. */
-  connectionProfileId?: string;
+  connectionProfileId?: string | undefined;
   /** Request body */
-  body?: ConnectionProfile;
+  body?: ConnectionProfile | undefined;
 }
 export type DatabaseEngineInfoEngineEnum =
   | "DATABASE_ENGINE_UNSPECIFIED"
@@ -642,9 +645,9 @@ export type DatabaseEngineInfoEngineEnum =
 /** The type and version of a source or destination database. */
 export interface DatabaseEngineInfo {
   /** Required. Engine type. */
-  engine?: DatabaseEngineInfoEngineEnum | (string & {});
+  engine?: DatabaseEngineInfoEngineEnum | (string & {}) | undefined;
   /** Required. Engine version, for example "12.c.1". */
-  version?: string;
+  version?: string | undefined;
 }
 export type ConversionWorkspaceDestinationProviderEnum =
   | "DATABASE_PROVIDER_UNSPECIFIED"
@@ -663,70 +666,70 @@ export type ConversionWorkspaceSourceProviderEnum =
 /** The main conversion workspace resource entity. */
 export interface ConversionWorkspace {
   /** Optional. A generic list of settings for the workspace. The settings are database pair dependant and can indicate default behavior for the mapping rules engine or turn on or off specific features. Such examples can be: convert_foreign_key_to_interleave=true, skip_triggers=false, ignore_non_table_synonyms=true */
-  globalSettings?: StringMap;
+  globalSettings?: StringMap | undefined;
   /** Required. The destination engine details. */
-  destination?: DatabaseEngineInfo;
+  destination?: DatabaseEngineInfo | undefined;
   /** Optional. The provider for the destination database. */
-  destinationProvider?: ConversionWorkspaceDestinationProviderEnum | (string & {});
+  destinationProvider?: ConversionWorkspaceDestinationProviderEnum | (string & {}) | undefined;
   /** Output only. The latest commit ID. */
-  latestCommitId?: string;
+  latestCommitId?: string | undefined;
   /** Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether the workspace has uncommitted changes (changes which were made after the workspace was committed). */
-  hasUncommittedChanges?: boolean;
+  hasUncommittedChanges?: boolean | undefined;
   /** Optional. The provider for the source database. */
-  sourceProvider?: ConversionWorkspaceSourceProviderEnum | (string & {});
+  sourceProvider?: ConversionWorkspaceSourceProviderEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the workspace resource was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Output only. The timestamp when the workspace was last converted. */
-  latestConvertTime?: string;
+  latestConvertTime?: string | undefined;
   /** Optional. Output only. The timestamp when the workspace was last applied. */
-  latestApplyTime?: string;
+  latestApplyTime?: string | undefined;
   /** Output only. The timestamp when the workspace resource was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The source engine details. */
-  source?: DatabaseEngineInfo;
+  source?: DatabaseEngineInfo | undefined;
   /** Optional. The display name for the workspace. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The timestamp when the workspace was committed. */
-  latestCommitTime?: string;
+  latestCommitTime?: string | undefined;
 }
 export interface CreateProjectsLocationsConversionWorkspacesRequest {
   /** Required. The parent which owns this collection of conversion workspaces. */
   parent: string;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ID of the conversion workspace to create. */
-  conversionWorkspaceId?: string;
+  conversionWorkspaceId?: string | undefined;
   /** Request body */
-  body?: ConversionWorkspace;
+  body?: ConversionWorkspace | undefined;
 }
 /** A filter defining the entities that a mapping rule should be applied to. When more than one field is specified, the rule is applied only to entities which match all the fields. */
 export interface MappingRuleFilter {
   /** Optional. The rule should be applied to entities whose non-qualified name starts with the given prefix. */
-  entityNamePrefix?: string;
+  entityNamePrefix?: string | undefined;
   /** Optional. The rule should be applied to entities whose non-qualified name ends with the given suffix. */
-  entityNameSuffix?: string;
+  entityNameSuffix?: string | undefined;
   /** Optional. The rule should be applied to entities whose non-qualified name contains the given string. */
-  entityNameContains?: string;
+  entityNameContains?: string | undefined;
   /** Optional. The rule should be applied to specific entities defined by their fully qualified names. */
-  entities?: StringList;
+  entities?: StringList | undefined;
   /** Optional. The rule should be applied to entities whose parent entity (fully qualified name) matches the given value. For example, if the rule applies to a table entity, the expected value should be a schema (schema). If the rule applies to a column or index entity, the expected value can be either a schema (schema) or a table (schema.table) */
-  parentEntity?: string;
+  parentEntity?: string | undefined;
 }
 /** Options to configure rule type SinglePackageChange. The rule is used to alter the sql code for a package entities. The rule filter field can refer to one entity. The rule scope can be: Package */
 export interface SinglePackageChange {
   /** Optional. Sql code for package description */
-  packageDescription?: string;
+  packageDescription?: string | undefined;
   /** Optional. Sql code for package body */
-  packageBody?: string;
+  packageBody?: string | undefined;
 }
 /** Filter for text-based data types like varchar. */
 export interface SourceTextFilter {
   /** Optional. The filter will match columns with length smaller than or equal to this number. */
-  sourceMaxLengthFilter?: string;
+  sourceMaxLengthFilter?: string | undefined;
   /** Optional. The filter will match columns with length greater than or equal to this number. */
-  sourceMinLengthFilter?: string;
+  sourceMinLengthFilter?: string | undefined;
 }
 export type SourceNumericFilterNumericFilterOptionEnum =
   | "NUMERIC_FILTER_OPTION_UNSPECIFIED"
@@ -736,81 +739,81 @@ export type SourceNumericFilterNumericFilterOptionEnum =
 /** Filter for fixed point number data types such as NUMERIC/NUMBER */
 export interface SourceNumericFilter {
   /** Optional. The filter will match columns with precision smaller than or equal to this number. */
-  sourceMaxPrecisionFilter?: number;
+  sourceMaxPrecisionFilter?: number | undefined;
   /** Optional. The filter will match columns with scale smaller than or equal to this number. */
-  sourceMaxScaleFilter?: number;
+  sourceMaxScaleFilter?: number | undefined;
   /** Optional. The filter will match columns with precision greater than or equal to this number. */
-  sourceMinPrecisionFilter?: number;
+  sourceMinPrecisionFilter?: number | undefined;
   /** Required. Enum to set the option defining the datatypes numeric filter has to be applied to */
-  numericFilterOption?: SourceNumericFilterNumericFilterOptionEnum | (string & {});
+  numericFilterOption?: SourceNumericFilterNumericFilterOptionEnum | (string & {}) | undefined;
   /** Optional. The filter will match columns with scale greater than or equal to this number. */
-  sourceMinScaleFilter?: number;
+  sourceMinScaleFilter?: number | undefined;
 }
 /** Options to configure rule type MultiColumnDatatypeChange. The rule is used to change the data type and associated properties of multiple columns at once. The rule filter field can refer to one or more entities. The rule scope can be one of:Column. This rule requires additional filters to be specified beyond the basic rule filter field, which is the source data type, but the rule supports additional filtering capabilities such as the minimum and maximum field length. All additional filters which are specified are required to be met in order for the rule to be applied (logical AND between the fields). */
 export interface MultiColumnDatatypeChange {
   /** Required. Filter on source data type. */
-  sourceDataTypeFilter?: string;
+  sourceDataTypeFilter?: string | undefined;
   /** Optional. Column precision - when relevant - if not specified and relevant uses the source column precision. */
-  overridePrecision?: number;
+  overridePrecision?: number | undefined;
   /** Optional. Column length - e.g. varchar (50) - if not specified and relevant uses the source column length. */
-  overrideLength?: string;
+  overrideLength?: string | undefined;
   /** Optional. Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** Optional. Filter for text-based data types like varchar. */
-  sourceTextFilter?: SourceTextFilter;
+  sourceTextFilter?: SourceTextFilter | undefined;
   /** Required. New data type. */
-  newDataType?: string;
+  newDataType?: string | undefined;
   /** Optional. Column scale - when relevant - if not specified and relevant uses the source column scale. */
-  overrideScale?: number;
+  overrideScale?: number | undefined;
   /** Optional. Filter for fixed point number data types such as NUMERIC/NUMBER. */
-  sourceNumericFilter?: SourceNumericFilter;
+  sourceNumericFilter?: SourceNumericFilter | undefined;
   /** Optional. Column fractional seconds precision - used only for timestamp based datatypes - if not specified and relevant uses the source column fractional seconds precision. */
-  overrideFractionalSecondsPrecision?: number;
+  overrideFractionalSecondsPrecision?: number | undefined;
 }
 /** Options to configure rule type SingleEntityRename. The rule is used to rename an entity. The rule filter field can refer to only one entity. The rule scope can be one of: Database, Schema, Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT, Synonym */
 export interface SingleEntityRename {
   /** Required. The new name of the destination entity */
-  newName?: string;
+  newName?: string | undefined;
 }
 /** Options to configure rule type SingleColumnChange. The rule is used to change the properties of a column. The rule filter field can refer to one entity. The rule scope can be one of: Column. When using this rule, if a field is not specified than the destination column's configuration will be the same as the one in the source column.. */
 export interface SingleColumnChange {
   /** Optional. Column fractional seconds precision - e.g. 2 as in timestamp (2) - when relevant. */
-  fractionalSecondsPrecision?: number;
+  fractionalSecondsPrecision?: number | undefined;
   /** Optional. Is the column nullable. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** Optional. Charset override - instead of table level charset. */
-  charset?: string;
+  charset?: string | undefined;
   /** Optional. The length of the array, only relevant if the column type is an array. */
-  arrayLength?: number;
+  arrayLength?: number | undefined;
   /** Optional. Collation override - instead of table level collation. */
-  collation?: string;
+  collation?: string | undefined;
   /** Optional. Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** Optional. Column precision - e.g. 8 as in double (8,2) - when relevant. */
-  precision?: number;
+  precision?: number | undefined;
   /** Optional. Is the column auto-generated/identity. */
-  autoGenerated?: boolean;
+  autoGenerated?: boolean | undefined;
   /** Optional. Column scale - e.g. 2 as in double (8,2) - when relevant. */
-  scale?: number;
+  scale?: number | undefined;
   /** Optional. Column length - e.g. 50 as in varchar (50) - when relevant. */
-  length?: string;
+  length?: string | undefined;
   /** Optional. Specifies the list of values allowed in the column. */
-  setValues?: StringList;
+  setValues?: StringList | undefined;
   /** Optional. Is the column a UDT (User-defined Type). */
-  udt?: boolean;
+  udt?: boolean | undefined;
   /** Optional. Column data type name. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Optional. Is the column of array type. */
-  array?: boolean;
+  array?: boolean | undefined;
   /** Optional. Comment associated with the column. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Options to configure rule type FilterTableColumns. The rule is used to filter the list of columns to include or exclude from a table. The rule filter field can refer to one entity. The rule scope can be: Table Only one of the two lists can be specified for the rule. */
 export interface FilterTableColumns {
   /** Optional. List of columns to be included for a particular table. */
-  includeColumns?: StringList;
+  includeColumns?: StringList | undefined;
   /** Optional. List of columns to be excluded for a particular table. */
-  excludeColumns?: StringList;
+  excludeColumns?: StringList | undefined;
 }
 export type MappingRuleStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED" | "DELETED";
 export type DoubleComparisonFilterValueComparisonEnum =
@@ -822,24 +825,24 @@ export type DoubleComparisonFilterValueComparisonEnum =
 /** Filter based on relation between source value and compare value of type double in ConditionalColumnSetValue */
 export interface DoubleComparisonFilter {
   /** Required. Relation between source value and compare value */
-  valueComparison?: DoubleComparisonFilterValueComparisonEnum | (string & {});
+  valueComparison?: DoubleComparisonFilterValueComparisonEnum | (string & {}) | undefined;
   /** Required. Double compare value to be used */
-  value?: number;
+  value?: number | undefined;
 }
 /** Set to a specific value (value is converted to fit the target data type) */
 export interface AssignSpecificValue {
   /** Required. Specific value to be assigned */
-  value?: string;
+  value?: string | undefined;
 }
 /** This allows the data to change scale, for example if the source is 2 digits after the decimal point, specify round to scale value = 2. If for example the value needs to be converted to an integer, use round to scale value = 0. */
 export interface RoundToScale {
   /** Required. Scale value to be used */
-  scale?: number;
+  scale?: number | undefined;
 }
 /** Apply a hash function on the value. */
 export interface ApplyHash {
   /** Optional. Generate UUID from the data's byte array */
-  uuidFromBytes?: Empty;
+  uuidFromBytes?: Empty | undefined;
 }
 export type IntComparisonFilterValueComparisonEnum =
   | "VALUE_COMPARISON_UNSPECIFIED"
@@ -850,9 +853,9 @@ export type IntComparisonFilterValueComparisonEnum =
 /** Filter based on relation between source value and compare value of type integer in ConditionalColumnSetValue */
 export interface IntComparisonFilter {
   /** Required. Relation between source value and compare value */
-  valueComparison?: IntComparisonFilterValueComparisonEnum | (string & {});
+  valueComparison?: IntComparisonFilterValueComparisonEnum | (string & {}) | undefined;
   /** Required. Integer compare value to be used */
-  value?: string;
+  value?: string | undefined;
 }
 export type ValueListFilterValuePresentListEnum =
   | "VALUE_PRESENT_IN_LIST_UNSPECIFIED"
@@ -861,55 +864,55 @@ export type ValueListFilterValuePresentListEnum =
 /** A list of values to filter by in ConditionalColumnSetValue */
 export interface ValueListFilter {
   /** Required. Indicates whether the filter matches rows with values that are present in the list or those with values not present in it. */
-  valuePresentList?: ValueListFilterValuePresentListEnum | (string & {});
+  valuePresentList?: ValueListFilterValuePresentListEnum | (string & {}) | undefined;
   /** Required. The list to be used to filter by */
-  values?: StringList;
+  values?: StringList | undefined;
   /** Required. Whether to ignore case when filtering by values. Defaults to false */
-  ignoreCase?: boolean;
+  ignoreCase?: boolean | undefined;
 }
 /** Description of data transformation during migration as part of the ConditionalColumnSetValue. */
 export interface ValueTransformation {
   /** Optional. Filter on relation between source value and compare value of type double. */
-  doubleComparison?: DoubleComparisonFilter;
+  doubleComparison?: DoubleComparisonFilter | undefined;
   /** Optional. Set to min_value - if integer or numeric, will use int.minvalue, etc */
-  assignMinValue?: Empty;
+  assignMinValue?: Empty | undefined;
   /** Optional. Set to a specific value (value is converted to fit the target data type) */
-  assignSpecificValue?: AssignSpecificValue;
+  assignSpecificValue?: AssignSpecificValue | undefined;
   /** Optional. Allows the data to change scale */
-  roundScale?: RoundToScale;
+  roundScale?: RoundToScale | undefined;
   /** Optional. Applies a hash function on the data */
-  applyHash?: ApplyHash;
+  applyHash?: ApplyHash | undefined;
   /** Optional. Filter on relation between source value and compare value of type integer. */
-  intComparison?: IntComparisonFilter;
+  intComparison?: IntComparisonFilter | undefined;
   /** Optional. Set to null */
-  assignNull?: Empty;
+  assignNull?: Empty | undefined;
   /** Optional. Set to max_value - if integer or numeric, will use int.maxvalue, etc */
-  assignMaxValue?: Empty;
+  assignMaxValue?: Empty | undefined;
   /** Optional. Value is found in the specified list. */
-  valueList?: ValueListFilter;
+  valueList?: ValueListFilter | undefined;
   /** Optional. Value is null */
-  isNull?: Empty;
+  isNull?: Empty | undefined;
 }
 /** Options to configure rule type ConditionalColumnSetValue. The rule is used to transform the data which is being replicated/migrated. The rule filter field can refer to one or more entities. The rule scope can be one of: Column. */
 export interface ConditionalColumnSetValue {
   /** Optional. Optional filter on source column precision and scale. Used for fixed point numbers such as NUMERIC/NUMBER data types. */
-  sourceNumericFilter?: SourceNumericFilter;
+  sourceNumericFilter?: SourceNumericFilter | undefined;
   /** Optional. Optional filter on source column length. Used for text based data types like varchar. */
-  sourceTextFilter?: SourceTextFilter;
+  sourceTextFilter?: SourceTextFilter | undefined;
   /** Optional. Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** Required. Description of data transformation during migration. */
-  valueTransformation?: ValueTransformation;
+  valueTransformation?: ValueTransformation | undefined;
 }
 /** Options to configure rule type EntityMove. The rule is used to move an entity to a new schema. The rule filter field can refer to one or more entities. The rule scope can be one of: Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT */
 export interface EntityMove {
   /** Required. The new schema */
-  newSchema?: string;
+  newSchema?: string | undefined;
 }
 /** Options to configure rule type SourceSqlChange. The rule is used to alter the sql code for database entities. The rule filter field can refer to one entity. The rule scope can be: StoredProcedure, Function, Trigger, View */
 export interface SourceSqlChange {
   /** Required. Sql code for source (stored procedure, function, trigger or view) */
-  sqlCode?: string;
+  sqlCode?: string | undefined;
 }
 export type MappingRuleRuleScopeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
@@ -937,72 +940,75 @@ export type MultiEntityRenameSourceNameTransformationEnum =
 /** Options to configure rule type MultiEntityRename. The rule is used to rename multiple entities. The rule filter field can refer to one or more entities. The rule scope can be one of: Database, Schema, Table, Column, Constraint, Index, View, Function, Stored Procedure, Materialized View, Sequence, UDT */
 export interface MultiEntityRename {
   /** Optional. Additional transformation that can be done on the source entity name before it is being used by the new_name_pattern, for example lower case. If no transformation is desired, use NO_TRANSFORMATION */
-  sourceNameTransformation?: MultiEntityRenameSourceNameTransformationEnum | (string & {});
+  sourceNameTransformation?:
+    | MultiEntityRenameSourceNameTransformationEnum
+    | (string & {})
+    | undefined;
   /** Optional. The pattern used to generate the new entity's name. This pattern must include the characters '{name}', which will be replaced with the name of the original entity. For example, the pattern 't_{name}' for an entity name jobs would be converted to 't_jobs'. If unspecified, the default value for this field is '{name}' */
-  newNamePattern?: string;
+  newNamePattern?: string | undefined;
 }
 /** Options to configure rule type ConvertROWIDToColumn. The rule is used to add column rowid to destination tables based on an Oracle rowid function/property. The rule filter field can refer to one or more entities. The rule scope can be one of: Table. This rule requires additional filter to be specified beyond the basic rule filter field, which is whether or not to work on tables which already have a primary key defined. */
 export interface ConvertRowIdToColumn {
   /** Required. Only work on tables without primary key defined */
-  onlyIfNoPrimaryKey?: boolean;
+  onlyIfNoPrimaryKey?: boolean | undefined;
 }
 /** Deprecated: Options to configure rule type SetTablePrimaryKey. The rule is used to specify the columns and name to configure/alter the primary key of a table. The rule filter field can refer to one entity. The rule scope can be one of: Table. */
 export interface SetTablePrimaryKey {
   /** Optional. Name for the primary key */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Required. List of column names for the primary key */
-  primaryKeyColumns?: StringList;
+  primaryKeyColumns?: StringList | undefined;
 }
 /** Definition of a transformation that is to be applied to a group of entities in the source schema. Several such transformations can be applied to an entity sequentially to define the corresponding entity in the target schema. */
 export interface MappingRule {
   /** Full name of the mapping rule resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{set}/mappingRule/{rule}. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The rule filter */
-  filter?: MappingRuleFilter;
+  filter?: MappingRuleFilter | undefined;
   /** Optional. Rule to specify how a single package is converted. */
-  singlePackageChange?: SinglePackageChange;
+  singlePackageChange?: SinglePackageChange | undefined;
   /** Required. The order in which the rule is applied. Lower order rules are applied before higher value rules so they may end up being overridden. */
-  ruleOrder?: string;
+  ruleOrder?: string | undefined;
   /** Optional. Rule to specify how multiple columns should be converted to a different data type. */
-  multiColumnDataTypeChange?: MultiColumnDatatypeChange;
+  multiColumnDataTypeChange?: MultiColumnDatatypeChange | undefined;
   /** Optional. Rule to specify how a single entity should be renamed. */
-  singleEntityRename?: SingleEntityRename;
+  singleEntityRename?: SingleEntityRename | undefined;
   /** Optional. A human readable name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Rule to specify how a single column is converted. */
-  singleColumnChange?: SingleColumnChange;
+  singleColumnChange?: SingleColumnChange | undefined;
   /** Optional. Rule to specify the list of columns to include or exclude from a table. */
-  filterTableColumns?: FilterTableColumns;
+  filterTableColumns?: FilterTableColumns | undefined;
   /** Output only. The revision ID of the mapping rule. A new revision is committed whenever the mapping rule is changed in any way. The format is an 8-character hexadecimal string. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string;
+  revisionCreateTime?: string | undefined;
   /** Optional. The mapping rule state */
-  state?: MappingRuleStateEnum | (string & {});
+  state?: MappingRuleStateEnum | (string & {}) | undefined;
   /** Optional. Rule to specify how the data contained in a column should be transformed (such as trimmed, rounded, etc) provided that the data meets certain criteria. */
-  conditionalColumnSetValue?: ConditionalColumnSetValue;
+  conditionalColumnSetValue?: ConditionalColumnSetValue | undefined;
   /** Optional. Rule to specify how multiple entities should be relocated into a different schema. */
-  entityMove?: EntityMove;
+  entityMove?: EntityMove | undefined;
   /** Optional. Rule to change the sql code for an entity, for example, function, procedure. */
-  sourceSqlChange?: SourceSqlChange;
+  sourceSqlChange?: SourceSqlChange | undefined;
   /** Required. The rule scope */
-  ruleScope?: MappingRuleRuleScopeEnum | (string & {});
+  ruleScope?: MappingRuleRuleScopeEnum | (string & {}) | undefined;
   /** Optional. Rule to specify how multiple entities should be renamed. */
-  multiEntityRename?: MultiEntityRename;
+  multiEntityRename?: MultiEntityRename | undefined;
   /** Optional. Rule to specify how multiple tables should be converted with an additional rowid column. */
-  convertRowidColumn?: ConvertRowIdToColumn;
+  convertRowidColumn?: ConvertRowIdToColumn | undefined;
   /** Optional. Deprecated: This rule is no longer supported. */
-  setTablePrimaryKey?: SetTablePrimaryKey;
+  setTablePrimaryKey?: SetTablePrimaryKey | undefined;
 }
 export interface CreateProjectsLocationsConversionWorkspacesMappingRulesRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The parent which owns this collection of mapping rules. */
   parent: string;
   /** Required. The ID of the rule to create. */
-  mappingRuleId?: string;
+  mappingRuleId?: string | undefined;
   /** Request body */
-  body?: MappingRule;
+  body?: MappingRule | undefined;
 }
 export type MigrationJobPhaseEnum =
   | "PHASE_UNSPECIFIED"
@@ -1029,14 +1035,14 @@ export type DatabaseTypeProviderEnum =
 /** A message defining the database engine and provider. */
 export interface DatabaseType {
   /** The database engine. */
-  engine?: DatabaseTypeEngineEnum | (string & {});
+  engine?: DatabaseTypeEngineEnum | (string & {}) | undefined;
   /** The database provider. */
-  provider?: DatabaseTypeProviderEnum | (string & {});
+  provider?: DatabaseTypeProviderEnum | (string & {}) | undefined;
 }
 /** Configuration for MySQL to MySQL migrations. */
 export interface MySqlHomogeneousConfig {
   /** Optional. Whether the destination for the migration job is a primary instance. */
-  isPrimaryDestination?: boolean;
+  isPrimaryDestination?: boolean | undefined;
 }
 export type MigrationJobDumpTypeEnum = "DUMP_TYPE_UNSPECIFIED" | "LOGICAL" | "PHYSICAL";
 export type PerformanceConfigDumpParallelLevelEnum =
@@ -1052,9 +1058,9 @@ export type PerformanceConfigLoadParallelLevelEnum =
 /** Performance configuration definition. */
 export interface PerformanceConfig {
   /** Initial dump parallelism level. */
-  dumpParallelLevel?: PerformanceConfigDumpParallelLevelEnum | (string & {});
+  dumpParallelLevel?: PerformanceConfigDumpParallelLevelEnum | (string & {}) | undefined;
   /** Optional. Initial load parallelism level. */
-  loadParallelLevel?: PerformanceConfigLoadParallelLevelEnum | (string & {});
+  loadParallelLevel?: PerformanceConfigLoadParallelLevelEnum | (string & {}) | undefined;
 }
 export type MigrationJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1076,147 +1082,147 @@ export type MigrationJobStateEnum =
 /** Dump flag definition. */
 export interface DumpFlag {
   /** The value of the flag. */
-  value?: string;
+  value?: string | undefined;
   /** The name of the flag */
-  name?: string;
+  name?: string | undefined;
 }
 export type DumpFlagList = Array<DumpFlag>;
 /** Dump flags definition. */
 export interface DumpFlags {
   /** The flags for the initial dump. */
-  dumpFlags?: DumpFlagList;
+  dumpFlags?: DumpFlagList | undefined;
 }
 /** Encryption settings for the SQL Server database. */
 export interface SqlServerEncryptionOptions {
   /** Required. Input only. Password that encrypts the private key. */
-  pvkPassword?: string;
+  pvkPassword?: string | undefined;
   /** Required. Path to the Certificate Private Key (.pvk) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
-  pvkPath?: string;
+  pvkPath?: string | undefined;
   /** Required. Path to the Certificate (.cer) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
-  certPath?: string;
+  certPath?: string | undefined;
 }
 /** Specifies the backup details for a single database in Cloud Storage for homogeneous migration to Cloud SQL for SQL Server. */
 export interface SqlServerDatabaseBackup {
   /** Required. Name of a SQL Server database for which to define backup configuration. */
-  database?: string;
+  database?: string | undefined;
   /** Optional. Encryption settings for the database. Required if provided database backups are encrypted. Encryption settings include path to certificate, path to certificate private key, and key password. */
-  encryptionOptions?: SqlServerEncryptionOptions;
+  encryptionOptions?: SqlServerEncryptionOptions | undefined;
 }
 export type SqlServerDatabaseBackupList = Array<SqlServerDatabaseBackup>;
 /** Configuration for distributed availability group (DAG) for the SQL Server homogeneous migration. */
 export interface SqlServerDagConfig {
   /** Required. The name of the linked server that points to the source SQL Server instance. Only used by DAG migrations. */
-  linkedServer?: string;
+  linkedServer?: string | undefined;
   /** Required. The name of the source availability group. Only used by DAG migrations. */
-  sourceAg?: string;
+  sourceAg?: string | undefined;
 }
 /** Configuration for homogeneous migration to Cloud SQL for SQL Server. */
 export interface SqlServerHomogeneousMigrationJobConfig {
   /** Optional. Enable differential backups. */
-  useDiffBackup?: boolean;
+  useDiffBackup?: boolean | undefined;
   /** Required. Backup details per database in Cloud Storage. */
-  databaseBackups?: SqlServerDatabaseBackupList;
+  databaseBackups?: SqlServerDatabaseBackupList | undefined;
   /** Required. Pattern that describes the default backup naming strategy. The specified pattern should ensure lexicographical order of backups. The pattern must define one of the following capture group sets: Capture group set #1 yy/yyyy - year, 2 or 4 digits mm - month number, 1-12 dd - day of month, 1-31 hh - hour of day, 00-23 mi - minutes, 00-59 ss - seconds, 00-59 Example: For backup file TestDB_20230802_155400.trn, use pattern: (?.*)_backup_(?\d{4})(?\d{2})(?\d{2})_(?\d{2})(?\d{2})(?\d{2}).trn Capture group set #2 timestamp - unix timestamp Example: For backup file TestDB.1691448254.trn, use pattern: (?.*)\.(?\d*).trn or (?.*)\.(?\d*).trn */
-  backupFilePattern?: string;
+  backupFilePattern?: string | undefined;
   /** Optional. Configuration for distributed availability group (DAG) for the SQL Server homogeneous migration. */
-  dagConfig?: SqlServerDagConfig;
+  dagConfig?: SqlServerDagConfig | undefined;
   /** Optional. Promote databases when ready. */
-  promoteWhenReady?: boolean;
+  promoteWhenReady?: boolean | undefined;
 }
 /** The details needed to configure a reverse SSH tunnel between the source and destination databases. These details will be used when calling the generateSshScript method (see https://cloud.google.com/database-migration/docs/reference/rest/v1/projects.locations.migrationJobs/generateSshScript) to produce the script that will help set up the reverse SSH tunnel, and to set up the VPC peering between the Cloud SQL private network and the VPC. */
 export interface ReverseSshConnectivity {
   /** Required. The forwarding port of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vmPort?: number;
+  vmPort?: number | undefined;
   /** The name of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vm?: string;
+  vm?: string | undefined;
   /** Required. The IP of the virtual machine (Compute Engine) used as the bastion server for the SSH tunnel. */
-  vmIp?: string;
+  vmIp?: string | undefined;
   /** The name of the VPC to peer with the Cloud SQL private network. */
-  vpc?: string;
+  vpc?: string | undefined;
 }
 /** Configuration for SQL Server as a destination in a migration. */
 export interface SqlServerDestinationConfig {
   /** Optional. Maximum number of connections Database Migration Service will open to the destination for data migration. */
-  maxConcurrentConnections?: number;
+  maxConcurrentConnections?: number | undefined;
   /** Optional. Timeout for data migration transactions. */
-  transactionTimeout?: string;
+  transactionTimeout?: string | undefined;
 }
 /** Configuration for Postgres as a source in a migration. */
 export interface PostgresSourceConfig {
   /** Optional. Whether to skip full dump or not. */
-  skipFullDump?: boolean;
+  skipFullDump?: boolean | undefined;
 }
 /** Configuration for heterogeneous failback migrations from **PostgreSQL to SQL Server**. */
 export interface PostgresToSqlServerConfig {
   /** Optional. Configuration for SQL Server destination. */
-  sqlserverDestinationConfig?: SqlServerDestinationConfig;
+  sqlserverDestinationConfig?: SqlServerDestinationConfig | undefined;
   /** Optional. Configuration for PostgreSQL source. */
-  postgresSourceConfig?: PostgresSourceConfig;
+  postgresSourceConfig?: PostgresSourceConfig | undefined;
 }
 /** Configuration for SQL Server as a source in a migration. */
 export interface SqlServerSourceConfig {
   /** Optional. Maximum number of connections Database Migration Service will open to the source for CDC phase. */
-  maxConcurrentCdcConnections?: number;
+  maxConcurrentCdcConnections?: number | undefined;
   /** Optional. The log sequence number (LSN) to start CDC data migration from. */
-  cdcStartPosition?: string;
+  cdcStartPosition?: string | undefined;
   /** Optional. Whether to skip full dump or not. */
-  skipFullDump?: boolean;
+  skipFullDump?: boolean | undefined;
   /** Optional. Maximum number of connections Database Migration Service will open to the source for full dump phase. */
-  maxConcurrentFullDumpConnections?: number;
+  maxConcurrentFullDumpConnections?: number | undefined;
 }
 /** Configuration for Postgres as a destination in a migration. */
 export interface PostgresDestinationConfig {
   /** Optional. Timeout for data migration transactions. */
-  transactionTimeout?: string;
+  transactionTimeout?: string | undefined;
   /** Optional. Maximum number of connections Database Migration Service will open to the destination for data migration. */
-  maxConcurrentConnections?: number;
+  maxConcurrentConnections?: number | undefined;
 }
 /** Configuration for heterogeneous **SQL Server to Cloud SQL for PostgreSQL** migrations. */
 export interface SqlServerToPostgresConfig {
   /** Optional. Configuration for SQL Server source. */
-  sqlserverSourceConfig?: SqlServerSourceConfig;
+  sqlserverSourceConfig?: SqlServerSourceConfig | undefined;
   /** Optional. Configuration for Postgres destination. */
-  postgresDestinationConfig?: PostgresDestinationConfig;
+  postgresDestinationConfig?: PostgresDestinationConfig | undefined;
 }
 /** Configuration to use LogMiner CDC method. */
 export type LogMiner = CancelOperationRequest;
 /** Configuration to specify the Oracle directories to access the log files. */
 export interface LogFileDirectories {
   /** Required. Oracle directory for archived logs. */
-  archivedLogDirectory?: string;
+  archivedLogDirectory?: string | undefined;
   /** Required. Oracle directory for online logs. */
-  onlineLogDirectory?: string;
+  onlineLogDirectory?: string | undefined;
 }
 /** Configuration to use Oracle ASM to access the log files. */
 export type OracleAsmLogFileAccess = CancelOperationRequest;
 /** Configuration to use Binary Log Parser CDC technique. */
 export interface BinaryLogParser {
   /** Use Oracle directories. */
-  logFileDirectories?: LogFileDirectories;
+  logFileDirectories?: LogFileDirectories | undefined;
   /** Use Oracle ASM. */
-  oracleAsmLogFileAccess?: CancelOperationRequest;
+  oracleAsmLogFileAccess?: CancelOperationRequest | undefined;
 }
 /** Configuration for Oracle as a source in a migration. */
 export interface OracleSourceConfig {
   /** Optional. Whether to skip full dump or not. */
-  skipFullDump?: boolean;
+  skipFullDump?: boolean | undefined;
   /** Use LogMiner. */
-  logMiner?: CancelOperationRequest;
+  logMiner?: CancelOperationRequest | undefined;
   /** Use Binary Log Parser. */
-  binaryLogParser?: BinaryLogParser;
+  binaryLogParser?: BinaryLogParser | undefined;
   /** Optional. The schema change number (SCN) to start CDC data migration from. */
-  cdcStartPosition?: string;
+  cdcStartPosition?: string | undefined;
   /** Optional. Maximum number of connections Database Migration Service will open to the source for CDC phase. */
-  maxConcurrentCdcConnections?: number;
+  maxConcurrentCdcConnections?: number | undefined;
   /** Optional. Maximum number of connections Database Migration Service will open to the source for full dump phase. */
-  maxConcurrentFullDumpConnections?: number;
+  maxConcurrentFullDumpConnections?: number | undefined;
 }
 /** Configuration for heterogeneous **Oracle to Cloud SQL for PostgreSQL** and **Oracle to AlloyDB for PostgreSQL** migrations. */
 export interface OracleToPostgresConfig {
   /** Optional. Configuration for Postgres destination. */
-  postgresDestinationConfig?: PostgresDestinationConfig;
+  postgresDestinationConfig?: PostgresDestinationConfig | undefined;
   /** Optional. Configuration for Oracle source. */
-  oracleSourceConfig?: OracleSourceConfig;
+  oracleSourceConfig?: OracleSourceConfig | undefined;
 }
 export type MigrationJobPurposeEnum = "PURPOSE_UNSPECIFIED" | "MIGRATE" | "FAILBACK";
 export type SourceObjectIdentifierTypeEnum =
@@ -1227,18 +1233,18 @@ export type SourceObjectIdentifierTypeEnum =
 /** An identifier for the Migration Job Object. */
 export interface SourceObjectIdentifier {
   /** Optional. The schema name. This will be required only if the object uses a schema name as part of its unique identifier. */
-  schema?: string;
+  schema?: string | undefined;
   /** Required. The type of the migration job object. */
-  type?: SourceObjectIdentifierTypeEnum | (string & {});
+  type?: SourceObjectIdentifierTypeEnum | (string & {}) | undefined;
   /** Optional. The database name. This will be required only if the object uses a database name as part of its unique identifier. */
-  database?: string;
+  database?: string | undefined;
   /** Optional. The table name. This will be required only if the object is a level below database or schema. */
-  table?: string;
+  table?: string | undefined;
 }
 /** Config for a single migration job object. */
 export interface SourceObjectConfig {
   /** Optional. The object identifier. */
-  objectIdentifier?: SourceObjectIdentifier;
+  objectIdentifier?: SourceObjectIdentifier | undefined;
 }
 export type SourceObjectConfigList = Array<SourceObjectConfig>;
 export type SourceObjectsConfigObjectsSelectionTypeEnum =
@@ -1248,133 +1254,133 @@ export type SourceObjectsConfigObjectsSelectionTypeEnum =
 /** List of configurations for the source objects to be migrated. */
 export interface SourceObjectsConfig {
   /** Optional. The list of the objects to be excluded from the migration. Exclusion takes precedence over inclusion in `object_configs`. */
-  excludedObjectConfigs?: SourceObjectConfigList;
+  excludedObjectConfigs?: SourceObjectConfigList | undefined;
   /** Optional. The list of the objects to be included in the migration. */
-  objectConfigs?: SourceObjectConfigList;
+  objectConfigs?: SourceObjectConfigList | undefined;
   /** Optional. The objects selection type of the migration job. */
-  objectsSelectionType?: SourceObjectsConfigObjectsSelectionTypeEnum | (string & {});
+  objectsSelectionType?: SourceObjectsConfigObjectsSelectionTypeEnum | (string & {}) | undefined;
 }
 /** Configuration for the objects to be migrated. */
 export interface MigrationJobObjectsConfig {
   /** The list of the migration job objects. */
-  sourceObjectsConfig?: SourceObjectsConfig;
+  sourceObjectsConfig?: SourceObjectsConfig | undefined;
 }
 /** A conversion workspace's version. */
 export interface ConversionWorkspaceInfo {
   /** The resource name (URI) of the conversion workspace. */
-  name?: string;
+  name?: string | undefined;
   /** The commit ID of the conversion workspace. */
-  commitId?: string;
+  commitId?: string | undefined;
 }
 export type MigrationJobTypeEnum = "TYPE_UNSPECIFIED" | "ONE_TIME" | "CONTINUOUS";
 /** The details of the VPC where the source database is located in Google Cloud. We will use this information to set up the VPC peering connection between Cloud SQL and this VPC. */
 export interface VpcPeeringConnectivity {
   /** The name of the VPC network to peer with the Cloud SQL private network. */
-  vpc?: string;
+  vpc?: string | undefined;
 }
 /** Configuration for PostgreSQL to PostgreSQL migrations. */
 export interface PostgresHomogeneousConfig {
   /** Required. Whether the migration is native logical. */
-  isNativeLogical?: boolean;
+  isNativeLogical?: boolean | undefined;
   /** Optional. Maximum number of additional subscriptions to use for the migration job. */
-  maxAdditionalSubscriptions?: number;
+  maxAdditionalSubscriptions?: number | undefined;
 }
 /** Represents a Database Migration Service migration job object. */
 export interface MigrationJob {
   /** Output only. The duration of the migration job (in seconds). A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". */
-  duration?: string;
+  duration?: string | undefined;
   /** Output only. The current migration job phase. */
-  phase?: MigrationJobPhaseEnum | (string & {});
+  phase?: MigrationJobPhaseEnum | (string & {}) | undefined;
   /** The database engine type and provider of the destination. */
-  destinationDatabase?: DatabaseType;
+  destinationDatabase?: DatabaseType | undefined;
   /** Output only. The timestamp when the migration job resource was last updated. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Configuration for MySQL homogeneous migration. */
-  mysqlHomogeneousConfig?: MySqlHomogeneousConfig;
+  mysqlHomogeneousConfig?: MySqlHomogeneousConfig | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** The path to the dump file in Google Cloud Storage, in the format: (gs://[BUCKET_NAME]/[OBJECT_NAME]). This field and the "dump_flags" field are mutually exclusive. */
-  dumpPath?: string;
+  dumpPath?: string | undefined;
   /** Optional. The type of the data dump. Supported for MySQL to CloudSQL for MySQL migrations only. */
-  dumpType?: MigrationJobDumpTypeEnum | (string & {});
+  dumpType?: MigrationJobDumpTypeEnum | (string & {}) | undefined;
   /** Optional. A failback replication pointer to the resource name (URI) of the original migration job. */
-  originalMigrationName?: string;
+  originalMigrationName?: string | undefined;
   /** Optional. Data dump and load parallelism settings used by the migration. */
-  performanceConfig?: PerformanceConfig;
+  performanceConfig?: PerformanceConfig | undefined;
   /** Output only. The error details in case of state FAILED. */
-  error?: Status;
+  error?: Status | undefined;
   /** The current migration job state. */
-  state?: MigrationJobStateEnum | (string & {});
+  state?: MigrationJobStateEnum | (string & {}) | undefined;
   /** This field can be used to select the entities to migrate as part of the migration job. It uses AIP-160 notation to select a subset of the entities configured on the associated conversion-workspace. This field should not be set on migration-jobs that are not associated with a conversion workspace. */
-  filter?: string;
+  filter?: string | undefined;
   /** Output only. The timestamp when the migration job resource was created. A timestamp in RFC3339 UTC "Zulu" format, accurate to nanoseconds. Example: "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The resource labels for migration job to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The initial dump flags. This field and the "dump_path" field are mutually exclusive. */
-  dumpFlags?: DumpFlags;
+  dumpFlags?: DumpFlags | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. If the migration job is completed, the time when it was completed. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Required. The resource name (URI) of the source connection profile. */
-  source?: string;
+  source?: string | undefined;
   /** The database engine type and provider of the source. */
-  sourceDatabase?: DatabaseType;
+  sourceDatabase?: DatabaseType | undefined;
   /** Optional. Configuration for SQL Server homogeneous migration. */
-  sqlserverHomogeneousMigrationJobConfig?: SqlServerHomogeneousMigrationJobConfig;
+  sqlserverHomogeneousMigrationJobConfig?: SqlServerHomogeneousMigrationJobConfig | undefined;
   /** The details needed to communicate to the source over Reverse SSH tunnel connectivity. */
-  reverseSshConnectivity?: ReverseSshConnectivity;
+  reverseSshConnectivity?: ReverseSshConnectivity | undefined;
   /** static ip connectivity data (default, no additional details needed). */
-  staticIpConnectivity?: CancelOperationRequest;
+  staticIpConnectivity?: CancelOperationRequest | undefined;
   /** Configuration for heterogeneous failback migrations from **PostgreSQL to SQL Server**. */
-  postgresToSqlserverConfig?: PostgresToSqlServerConfig;
+  postgresToSqlserverConfig?: PostgresToSqlServerConfig | undefined;
   /** Configuration for heterogeneous **SQL Server to Cloud SQL for PostgreSQL** migrations. */
-  sqlserverToPostgresConfig?: SqlServerToPostgresConfig;
+  sqlserverToPostgresConfig?: SqlServerToPostgresConfig | undefined;
   /** Configuration for heterogeneous **Oracle to Cloud SQL for PostgreSQL** and **Oracle to AlloyDB for PostgreSQL** migrations. */
-  oracleToPostgresConfig?: OracleToPostgresConfig;
+  oracleToPostgresConfig?: OracleToPostgresConfig | undefined;
   /** The migration job display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Migration job mode. Migration jobs can be standard forward jobs or failback migration jobs. */
-  purpose?: MigrationJobPurposeEnum | (string & {});
+  purpose?: MigrationJobPurposeEnum | (string & {}) | undefined;
   /** Optional. The objects that need to be migrated. */
-  objectsConfig?: MigrationJobObjectsConfig;
+  objectsConfig?: MigrationJobObjectsConfig | undefined;
   /** The conversion workspace used by the migration. */
-  conversionWorkspace?: ConversionWorkspaceInfo;
+  conversionWorkspace?: ConversionWorkspaceInfo | undefined;
   /** Required. The migration job type. */
-  type?: MigrationJobTypeEnum | (string & {});
+  type?: MigrationJobTypeEnum | (string & {}) | undefined;
   /** The CMEK (customer-managed encryption key) fully qualified key name used for the migration job. This field supports all migration jobs types except for: * Mysql to Mysql (use the cmek field in the cloudsql connection profile instead). * PostrgeSQL to PostgreSQL (use the cmek field in the cloudsql connection profile instead). * PostgreSQL to AlloyDB (use the kms_key_name field in the alloydb connection profile instead). Each Cloud CMEK key has the following format: projects/[PROJECT]/locations/[REGION]/keyRings/[RING]/cryptoKeys/[KEY_NAME] */
-  cmekKeyName?: string;
+  cmekKeyName?: string | undefined;
   /** The details of the VPC network that the source database is located in. */
-  vpcPeeringConnectivity?: VpcPeeringConnectivity;
+  vpcPeeringConnectivity?: VpcPeeringConnectivity | undefined;
   /** Optional. Configuration for PostgreSQL homogeneous migration. */
-  postgresHomogeneousConfig?: PostgresHomogeneousConfig;
+  postgresHomogeneousConfig?: PostgresHomogeneousConfig | undefined;
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The resource name (URI) of the destination connection profile. */
-  destination?: string;
+  destination?: string | undefined;
 }
 export interface CreateProjectsLocationsMigrationJobsRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The parent which owns this collection of migration jobs. */
   parent: string;
   /** Required. The ID of the instance to create. */
-  migrationJobId?: string;
+  migrationJobId?: string | undefined;
   /** Request body */
-  body?: MigrationJob;
+  body?: MigrationJob | undefined;
 }
 /** The VPC peering configuration is used to create VPC peering with the consumer's VPC. */
 export interface VpcPeeringConfig {
   /** Required. A free subnet for peering. (CIDR of /29) */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Required. Fully qualified name of the VPC that Database Migration Service will peer to. */
-  vpcName?: string;
+  vpcName?: string | undefined;
 }
 /** The PSC Interface configuration is used to create PSC Interface between DMS's internal VPC and the consumer's PSC. */
 export interface PscInterfaceConfig {
   /** Required. Fully qualified name of the Network Attachment that DMS will connect to. Format: `projects/{{project}}/regions/{{region}}/networkAttachments/{{name}}` */
-  networkAttachment?: string;
+  networkAttachment?: string | undefined;
 }
 export type PrivateConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1387,78 +1393,78 @@ export type PrivateConnectionStateEnum =
 /** Reserved Public IP configuration. */
 export interface ReservedPublicIpConfig {
   /** Output only. The reserved public IPs. */
-  egressPublicIps?: StringList;
+  egressPublicIps?: StringList | undefined;
   /** Optional. Number of static public IP addresses to reserve. */
-  natIpsCount?: number;
+  natIpsCount?: number | undefined;
 }
 /** The PrivateConnection resource is used to establish private connectivity with the customer's network. */
 export interface PrivateConnection {
   /** The resource labels for private connections to use to annotate any related underlying resources such as Compute Engine VMs. An object containing a list of "key": "value" pairs. Example: `{ "name": "wrench", "mass": "1.3kg", "count": "3" }`. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The create time of the resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** VPC peering configuration. */
-  vpcPeeringConfig?: VpcPeeringConfig;
+  vpcPeeringConfig?: VpcPeeringConfig | undefined;
   /** Output only. The error details in case of state FAILED. */
-  error?: Status;
+  error?: Status | undefined;
   /** PSC Interface configuration. */
-  pscInterfaceConfig?: PscInterfaceConfig;
+  pscInterfaceConfig?: PscInterfaceConfig | undefined;
   /** Output only. The state of the private connection. */
-  state?: PrivateConnectionStateEnum | (string & {});
+  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
   /** The private connection display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Reserved Public IP configuration. */
-  reservedPublicIpConfig?: ReservedPublicIpConfig;
+  reservedPublicIpConfig?: ReservedPublicIpConfig | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. The last update time of the resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The private connection identifier. */
-  privateConnectionId?: string;
+  privateConnectionId?: string | undefined;
   /** Optional. If set to true, will skip validations. */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
   /** Optional. For PSC Interface only - get the tenant project before creating the resource. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
   /** Request body */
-  body?: PrivateConnection;
+  body?: PrivateConnection | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the connection profile resource to delete. */
   name: string;
   /** In case of force delete, the CloudSQL replica database is also deleted (only for CloudSQL connection profile). */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsConversionWorkspacesRequest {
   /** Required. Name of the conversion workspace resource to delete. */
   name: string;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Force delete the conversion workspace, even if there's a running migration that is using the workspace. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsConversionWorkspacesMappingRulesRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the mapping rule resource to delete. */
   name: string;
 }
 export interface DeleteProjectsLocationsMigrationJobsRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The destination CloudSQL connection profile is always deleted with the migration job. In case of force delete, the destination CloudSQL replica database is also deleted. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Name of the migration job resource to delete. */
   name: string;
 }
@@ -1470,7 +1476,7 @@ export interface DeleteProjectsLocationsPrivateConnectionsRequest {
   /** Required. The name of the private connection to delete. */
   name: string;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Request message for 'DemoteDestination' request. */
 export type DemoteDestinationRequest = CancelOperationRequest;
@@ -1478,11 +1484,11 @@ export interface DemoteDestinationProjectsLocationsMigrationJobsRequest {
   /** Required. Name of the migration job resource to demote its destination. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesRequest {
   /** Optional. Optional filter to request a specific commit ID. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** Required. Name of the conversion workspace resource whose revisions are listed. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
 }
@@ -1490,7 +1496,7 @@ export type ConversionWorkspaceList = Array<ConversionWorkspace>;
 /** Response message for 'DescribeConversionWorkspaceRevisions' request. */
 export interface DescribeConversionWorkspaceRevisionsResponse {
   /** The list of conversion workspace revisions. */
-  revisions?: ConversionWorkspaceList;
+  revisions?: ConversionWorkspaceList | undefined;
 }
 export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesTreeEnum =
   | "DB_TREE_TYPE_UNSPECIFIED"
@@ -1505,132 +1511,138 @@ export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesViewEnu
   | "DATABASE_ENTITY_VIEW_FULL_COMPACT";
 export interface DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesRequest {
   /** Optional. The nextPageToken value received in the previous call to conversionWorkspace.describeDatabaseEntities, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspace.describeDatabaseEntities must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The tree to fetch. */
-  tree?: DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesTreeEnum | (string & {});
+  tree?:
+    | DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesTreeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Request a specific commit ID. If not specified, the entities from the latest commit are returned. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** Required. Name of the conversion workspace resource whose database entities are described. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
   /** Optional. Filter the returned entities based on AIP-160 standard. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Whether to retrieve the latest committed version of the entities or the latest version. This field is ignored if a specific commit_id is specified. */
-  uncommitted?: boolean;
+  uncommitted?: boolean | undefined;
   /** Optional. Results view based on AIP-157 */
-  view?: DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesViewEnum | (string & {});
+  view?:
+    | DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesViewEnum
+    | (string & {})
+    | undefined;
   /** Optional. The maximum number of entities to return. The service may return fewer entities than the value specifies. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Trigger is not used as an independent entity, it is retrieved as part of a Table entity. */
 export interface TriggerEntity {
   /** The SQL code which creates the trigger. */
-  sqlCode?: string;
+  sqlCode?: string | undefined;
   /** The DML, DDL, or database events that fire the trigger, for example INSERT, UPDATE. */
-  triggeringEvents?: StringList;
+  triggeringEvents?: StringList | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** The name of the trigger. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates when the trigger fires, for example BEFORE STATEMENT, AFTER EACH ROW. */
-  triggerType?: string;
+  triggerType?: string | undefined;
 }
 export type TriggerEntityList = Array<TriggerEntity>;
 /** Column is not used as an independent entity, it is retrieved as part of a Table entity. */
 export interface ColumnEntity {
   /** Column length - e.g. varchar (50). */
-  length?: string;
+  length?: string | undefined;
   /** Charset override - instead of table level charset. */
-  charset?: string;
+  charset?: string | undefined;
   /** Column precision - when relevant. */
-  precision?: number;
+  precision?: number | undefined;
   /** Column fractional second precision - used for timestamp based datatypes. */
-  fractionalSecondsPrecision?: number;
+  fractionalSecondsPrecision?: number | undefined;
   /** Collation override - instead of table level collation. */
-  collation?: string;
+  collation?: string | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** Column name. */
-  name?: string;
+  name?: string | undefined;
   /** Column scale - when relevant. */
-  scale?: number;
+  scale?: number | undefined;
   /** If the column is array, of which length. */
-  arrayLength?: number;
+  arrayLength?: number | undefined;
   /** Default value of the column. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Is the column auto-generated/identity. */
-  autoGenerated?: boolean;
+  autoGenerated?: boolean | undefined;
   /** Is the column nullable. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** Column data type. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Column order in the table. */
-  ordinalPosition?: number;
+  ordinalPosition?: number | undefined;
   /** Is the column a UDT. */
-  udt?: boolean;
+  udt?: boolean | undefined;
   /** Is the column a computed column. */
-  computed?: boolean;
+  computed?: boolean | undefined;
   /** Specifies the list of values allowed in the column. Only used for set data type. */
-  setValues?: StringList;
+  setValues?: StringList | undefined;
   /** Is the column of array type. */
-  array?: boolean;
+  array?: boolean | undefined;
   /** Comment associated with the column. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type ColumnEntityList = Array<ColumnEntity>;
 /** Constraint is not used as an independent entity, it is retrieved as part of another entity such as Table or View. */
 export interface ConstraintEntity {
   /** Table which is associated with the constraint. In case the constraint is defined on a table, this field is left empty as this information is stored in parent_name. However, if constraint is defined on a view, this field stores the table name on which the view is defined. */
-  tableName?: string;
+  tableName?: string | undefined;
   /** Table columns used as part of the Constraint, for example primary key constraint should list the columns which constitutes the key. */
-  tableColumns?: StringList;
+  tableColumns?: StringList | undefined;
   /** Reference columns which may be associated with the constraint. For example, if the constraint is a FOREIGN_KEY, this represents the list of full names of referenced columns by the foreign key. */
-  referenceColumns?: StringList;
+  referenceColumns?: StringList | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** The name of the table constraint. */
-  name?: string;
+  name?: string | undefined;
   /** Type of constraint, for example unique, primary key, foreign key (currently only primary key is supported). */
-  type?: string;
+  type?: string | undefined;
   /** Reference table which may be associated with the constraint. For example, if the constraint is a FOREIGN_KEY, this represents the list of full name of the referenced table by the foreign key. */
-  referenceTable?: string;
+  referenceTable?: string | undefined;
 }
 export type ConstraintEntityList = Array<ConstraintEntity>;
 export type BooleanList = Array<boolean>;
 /** Index is not used as an independent entity, it is retrieved as part of a Table entity. */
 export interface IndexEntity {
   /** Table columns used as part of the Index, for example B-TREE index should list the columns which constitutes the index. */
-  tableColumns?: StringList;
+  tableColumns?: StringList | undefined;
   /** The name of the index. */
-  name?: string;
+  name?: string | undefined;
   /** Type of index, for example B-TREE. */
-  type?: string;
+  type?: string | undefined;
   /** Boolean value indicating whether the index is unique. */
-  unique?: boolean;
+  unique?: boolean | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** For each table_column, mark whether it's sorting order is ascending (false) or descending (true). If no value is defined, assume all columns are sorted in ascending order. Otherwise, the number of items must match that of table_columns with each value specifying the direction of the matched column by its index. */
-  tableColumnsDescending?: BooleanList;
+  tableColumnsDescending?: BooleanList | undefined;
 }
 export type IndexEntityList = Array<IndexEntity>;
 /** Table's parent is a schema. */
 export interface TableEntity {
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** Table triggers. */
-  triggers?: TriggerEntityList;
+  triggers?: TriggerEntityList | undefined;
   /** Table columns. */
-  columns?: ColumnEntityList;
+  columns?: ColumnEntityList | undefined;
   /** Table constraints. */
-  constraints?: ConstraintEntityList;
+  constraints?: ConstraintEntityList | undefined;
   /** Table indices. */
-  indices?: IndexEntityList;
+  indices?: IndexEntityList | undefined;
   /** Comment associated with the table. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Schema typically has no parent entity, but can have a parent entity DatabaseInstance (for database engines which support it). For some database engines, the terms schema and user can be used interchangeably when they refer to a namespace or a collection of other database entities. Can store additional information which is schema specific. */
 export interface SchemaEntity {
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
 }
 export type EntityDdlEditedDdlKindEnum =
   | "DDL_KIND_UNSPECIFIED"
@@ -1664,19 +1676,19 @@ export type EntityDdlDdlKindEnum =
 /** A single DDL statement for a specific entity */
 export interface EntityDdl {
   /** If ddl_kind is USER_EDIT, this holds the DDL kind of the original content - DETERMINISTIC or AI. Otherwise, this is DDL_KIND_UNSPECIFIED. */
-  editedDdlKind?: EntityDdlEditedDdlKindEnum;
+  editedDdlKind?: EntityDdlEditedDdlKindEnum | undefined;
   /** The entity type (if the DDL is for a sub entity). */
-  entityType?: EntityDdlEntityTypeEnum;
+  entityType?: EntityDdlEntityTypeEnum | undefined;
   /** Type of DDL (Create, Alter). */
-  ddlType?: string;
+  ddlType?: string | undefined;
   /** The DDL Kind selected for apply, or UNSPECIFIED if the entity wasn't converted yet. */
-  ddlKind?: EntityDdlDdlKindEnum;
+  ddlKind?: EntityDdlDdlKindEnum | undefined;
   /** The name of the database entity the ddl refers to. */
-  entity?: string;
+  entity?: string | undefined;
   /** EntityIssues found for this ddl. */
-  issueId?: StringList;
+  issueId?: StringList | undefined;
   /** The actual ddl code. */
-  ddl?: string;
+  ddl?: string | undefined;
 }
 export type EntityDdlList = Array<EntityDdl>;
 export type SynonymEntitySourceTypeEnum =
@@ -1699,56 +1711,56 @@ export type SynonymEntitySourceTypeEnum =
 /** Synonym's parent is a schema. */
 export interface SynonymEntity {
   /** The name of the entity for which the synonym is being created (the source). */
-  sourceEntity?: string;
+  sourceEntity?: string | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** The type of the entity for which the synonym is being created (usually a table or a sequence). */
-  sourceType?: SynonymEntitySourceTypeEnum;
+  sourceType?: SynonymEntitySourceTypeEnum | undefined;
 }
 export type DatabaseEntityTreeEnum = "TREE_TYPE_UNSPECIFIED" | "SOURCE" | "DRAFT" | "DESTINATION";
 /** UDT's parent is a schema. */
 export interface UDTEntity {
   /** The SQL code which creates the udt. */
-  udtSqlCode?: string;
+  udtSqlCode?: string | undefined;
   /** The SQL code which creates the udt body. */
-  udtBody?: string;
+  udtBody?: string | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
 }
 /** Sequence's parent is a schema. */
 export interface SequenceEntity {
   /** Start number for the sequence represented as bytes to accommodate large. numbers */
-  startValue?: string;
+  startValue?: string | undefined;
   /** Maximum number for the sequence represented as bytes to accommodate large. numbers */
-  maxValue?: string;
+  maxValue?: string | undefined;
   /** Indicates number of entries to cache / precreate. */
-  cache?: string;
+  cache?: string | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** Increment value for the sequence. */
-  increment?: string;
+  increment?: string | undefined;
   /** Minimum number for the sequence represented as bytes to accommodate large. numbers */
-  minValue?: string;
+  minValue?: string | undefined;
   /** Indicates whether the sequence value should cycle through. */
-  cycle?: boolean;
+  cycle?: boolean | undefined;
 }
 /** Stored procedure's parent is a schema. */
 export interface StoredProcedureEntity {
   /** The SQL code which creates the stored procedure. */
-  sqlCode?: string;
+  sqlCode?: string | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
 }
 /** DatabaseInstance acts as a parent entity to other database entities. */
 export type DatabaseInstanceEntity = SchemaEntity;
 /** A single record of a rule which was used for a mapping. */
 export interface EntityMappingLogEntry {
   /** Rule revision ID. */
-  ruleRevisionId?: string;
+  ruleRevisionId?: string | undefined;
   /** Which rule caused this log entry. */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Comment. */
-  mappingComment?: string;
+  mappingComment?: string | undefined;
 }
 export type EntityMappingLogEntryList = Array<EntityMappingLogEntry>;
 export type EntityMappingSourceTypeEnum =
@@ -1788,32 +1800,32 @@ export type EntityMappingDraftTypeEnum =
 /** Details of the mappings of a database entity. */
 export interface EntityMapping {
   /** Source entity full name. The source entity can also be a column, index or constraint using the same naming notation schema.table.column. */
-  sourceEntity?: string;
+  sourceEntity?: string | undefined;
   /** Entity mapping log entries. Multiple rules can be effective and contribute changes to a converted entity, such as a rule can handle the entity name, another rule can handle an entity type. In addition, rules which did not change the entity are also logged along with the reason preventing them to do so. */
-  mappingLog?: EntityMappingLogEntryList;
+  mappingLog?: EntityMappingLogEntryList | undefined;
   /** Target entity full name. The draft entity can also include a column, index or constraint using the same naming notation schema.table.column. */
-  draftEntity?: string;
+  draftEntity?: string | undefined;
   /** Type of source entity. */
-  sourceType?: EntityMappingSourceTypeEnum;
+  sourceType?: EntityMappingSourceTypeEnum | undefined;
   /** Type of draft entity. */
-  draftType?: EntityMappingDraftTypeEnum;
+  draftType?: EntityMappingDraftTypeEnum | undefined;
 }
 export type EntityMappingList = Array<EntityMapping>;
 /** Function's parent is a schema. */
 export interface FunctionEntity {
   /** The SQL code which creates the function. */
-  sqlCode?: string;
+  sqlCode?: string | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
 }
 /** View's parent is a schema. */
 export interface ViewEntity {
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** View constraints. */
-  constraints?: ConstraintEntityList;
+  constraints?: ConstraintEntityList | undefined;
   /** The SQL code which creates the view. */
-  sqlCode?: string;
+  sqlCode?: string | undefined;
 }
 export type DatabaseEntityEntityTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
@@ -1835,11 +1847,11 @@ export type DatabaseEntityEntityTypeEnum =
 /** MaterializedView's parent is a schema. */
 export interface MaterializedViewEntity {
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** The SQL code which creates the view. */
-  sqlCode?: string;
+  sqlCode?: string | undefined;
   /** View indices. */
-  indices?: IndexEntityList;
+  indices?: IndexEntityList | undefined;
 }
 export type EntityIssueSeverityEnum =
   | "ISSUE_SEVERITY_UNSPECIFIED"
@@ -1872,89 +1884,89 @@ export type EntityIssueEntityTypeEnum =
 /** Issue position. */
 export interface Position {
   /** Issue offset */
-  offset?: number;
+  offset?: number | undefined;
   /** Issue length */
-  length?: number;
+  length?: number | undefined;
   /** Issue line number */
-  line?: number;
+  line?: number | undefined;
   /** Issue column number */
-  column?: number;
+  column?: number | undefined;
 }
 /** Issue related to the entity. */
 export interface EntityIssue {
   /** Severity of the issue */
-  severity?: EntityIssueSeverityEnum;
+  severity?: EntityIssueSeverityEnum | undefined;
   /** Error/Warning code */
-  code?: string;
+  code?: string | undefined;
   /** The ddl which caused the issue, if relevant. */
-  ddl?: string;
+  ddl?: string | undefined;
   /** The type of the issue. */
-  type?: EntityIssueTypeEnum;
+  type?: EntityIssueTypeEnum | undefined;
   /** Unique Issue ID. */
-  id?: string;
+  id?: string | undefined;
   /** The entity type (if the DDL is for a sub entity). */
-  entityType?: EntityIssueEntityTypeEnum;
+  entityType?: EntityIssueEntityTypeEnum | undefined;
   /** Issue detailed message */
-  message?: string;
+  message?: string | undefined;
   /** The position of the issue found, if relevant. */
-  position?: Position;
+  position?: Position | undefined;
 }
 export type EntityIssueList = Array<EntityIssue>;
 /** Package's parent is a schema. */
 export interface PackageEntity {
   /** The SQL code which creates the package. */
-  packageSqlCode?: string;
+  packageSqlCode?: string | undefined;
   /** Custom engine specific features. */
-  customFeatures?: DocumentMap;
+  customFeatures?: DocumentMap | undefined;
   /** The SQL code which creates the package body. If the package specification has cursors or subprograms, then the package body is mandatory. */
-  packageBody?: string;
+  packageBody?: string | undefined;
 }
 /** The base entity type for all the database related entities. The message contains the entity name, the name of its parent, the entity type, and the specific details per entity type. */
 export interface DatabaseEntity {
   /** Table. */
-  table?: TableEntity;
+  table?: TableEntity | undefined;
   /** Schema. */
-  schema?: SchemaEntity;
+  schema?: SchemaEntity | undefined;
   /** Details about the entity DDL script. Multiple DDL scripts are provided for child entities such as a table entity will have one DDL for the table with additional DDLs for each index, constraint and such. */
-  entityDdl?: EntityDdlList;
+  entityDdl?: EntityDdlList | undefined;
   /** Synonym. */
-  synonym?: SynonymEntity;
+  synonym?: SynonymEntity | undefined;
   /** The type of tree the entity belongs to. */
-  tree?: DatabaseEntityTreeEnum;
+  tree?: DatabaseEntityTreeEnum | undefined;
   /** UDT. */
-  udt?: UDTEntity;
+  udt?: UDTEntity | undefined;
   /** Sequence. */
-  sequence?: SequenceEntity;
+  sequence?: SequenceEntity | undefined;
   /** Stored procedure. */
-  storedProcedure?: StoredProcedureEntity;
+  storedProcedure?: StoredProcedureEntity | undefined;
   /** Database. */
-  database?: SchemaEntity;
+  database?: SchemaEntity | undefined;
   /** Details about entity mappings. For source tree entities, this holds the draft entities which were generated by the mapping rules. For draft tree entities, this holds the source entities which were converted to form the draft entity. Destination entities will have no mapping details. */
-  mappings?: EntityMappingList;
+  mappings?: EntityMappingList | undefined;
   /** Function. */
-  databaseFunction?: FunctionEntity;
+  databaseFunction?: FunctionEntity | undefined;
   /** View. */
-  view?: ViewEntity;
+  view?: ViewEntity | undefined;
   /** The type of the database entity (table, view, index, ...). */
-  entityType?: DatabaseEntityEntityTypeEnum;
+  entityType?: DatabaseEntityEntityTypeEnum | undefined;
   /** The short name (e.g. table name) of the entity. */
-  shortName?: string;
+  shortName?: string | undefined;
   /** Materialized view. */
-  materializedView?: MaterializedViewEntity;
+  materializedView?: MaterializedViewEntity | undefined;
   /** The full name of the parent entity (e.g. schema name). */
-  parentEntity?: string;
+  parentEntity?: string | undefined;
   /** Details about the various issues found for the entity. */
-  issues?: EntityIssueList;
+  issues?: EntityIssueList | undefined;
   /** Package. */
-  databasePackage?: PackageEntity;
+  databasePackage?: PackageEntity | undefined;
 }
 export type DatabaseEntityList = Array<DatabaseEntity>;
 /** Response message for 'DescribeDatabaseEntities' request. */
 export interface DescribeDatabaseEntitiesResponse {
   /** The list of database entities for the conversion workspace. */
-  databaseEntities?: DatabaseEntityList;
+  databaseEntities?: DatabaseEntityList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesFetchViewEnum =
   | "FETCH_VIEW_UNSPECIFIED"
@@ -1969,15 +1981,19 @@ export interface FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesReq
   /** Optional. The view to fetch. If not specified, FULL is used. */
   fetchView?:
     | FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesFetchViewEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The tree to fetch. */
-  tree?: FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesTreeEnum | (string & {});
+  tree?:
+    | FetchEntitiesStatusViewProjectsLocationsConversionWorkspacesTreeEnum
+    | (string & {})
+    | undefined;
   /** Optional. The nextPageToken value received in the previous call to conversionWorkspace.FetchEntitiesStatusView, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspace.FetchEntitiesStatusView must match the call that provided the page token, except for the page_size parameter. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of entities to return. The service may return fewer entities than the value specifies. Default is 100000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter the returned entities based on AIP-160 standard. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Name of the conversion workspace resource whose database entities are described. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
 }
@@ -1990,11 +2006,11 @@ export type EntityStatusViewDraftDdlKindEnum =
 /** Aggregate issue information. */
 export interface IssueAggregateData {
   /** Number of error issues. */
-  errorCount?: number;
+  errorCount?: number | undefined;
   /** Number of warning issues. */
-  warningCount?: number;
+  warningCount?: number | undefined;
   /** Number of info issues. */
-  infoCount?: number;
+  infoCount?: number | undefined;
 }
 export type EntityIdTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
@@ -2033,13 +2049,13 @@ export type EntityIdParentTypeEnum =
 /** An entity identifier. */
 export interface EntityId {
   /** The parent entity full name. */
-  parentName?: string;
+  parentName?: string | undefined;
   /** The short name (e.g. table name) of the entity. */
-  shortName?: string;
+  shortName?: string | undefined;
   /** The type of the database entity (schema, table, view, index, ...). */
-  type?: EntityIdTypeEnum;
+  type?: EntityIdTypeEnum | undefined;
   /** The type of the database entity (schema, table, view, ...). */
-  parentType?: EntityIdParentTypeEnum;
+  parentType?: EntityIdParentTypeEnum | undefined;
 }
 export type EntityIdList = Array<EntityId>;
 export type EntityStatusViewEditedDdlKindEnum =
@@ -2051,31 +2067,31 @@ export type EntityStatusViewEditedDdlKindEnum =
 /** A single entity for the UI view. */
 export interface EntityStatusView {
   /** The DDL Kind selected for apply. If UNSPECIFIED, the entity wasn't converted yet. For SUMMARY view, this rolls up from descendants with the logic of UNSPECIFIED < DETERMINISTIC < AI. USER_EDIT is not propagated. */
-  draftDdlKind?: EntityStatusViewDraftDdlKindEnum;
+  draftDdlKind?: EntityStatusViewDraftDdlKindEnum | undefined;
   /** Resolved issues information according to the current Draft DdlKind. */
-  resolvedIssues?: IssueAggregateData;
+  resolvedIssues?: IssueAggregateData | undefined;
   /** Unresolved issues information according to the current Draft DdlKind. */
-  issues?: IssueAggregateData;
+  issues?: IssueAggregateData | undefined;
   /** The entity short name and type from the DRAFT tree. */
-  draftEntity?: EntityId;
+  draftEntity?: EntityId | undefined;
   /** Optional. The set of entities that this entity directly depends on, i.e., it does not include transitive dependencies. Provided only for FULL_WITH_DEPENDENCIES view. Dependencies are provided according to the request tree type. */
-  dependencies?: EntityIdList;
+  dependencies?: EntityIdList | undefined;
   /** If ddl_kind is USER_EDIT, this holds the DDL kind of the original content - DETERMINISTIC or AI. Otherwise, this is DDL_KIND_UNSPECIFIED. Relevant only for FULL view. */
-  editedDdlKind?: EntityStatusViewEditedDdlKindEnum;
+  editedDdlKind?: EntityStatusViewEditedDdlKindEnum | undefined;
   /** The entity short name and type from the SOURCE tree. */
-  sourceEntity?: EntityId;
+  sourceEntity?: EntityId | undefined;
   /** Was the entity applied on the destination. Relevant only for FULL view. */
-  wasApplied?: boolean;
+  wasApplied?: boolean | undefined;
   /** Optional. Whether the entity has successfully generated and executed validation tests. */
-  testedEntity?: boolean;
+  testedEntity?: boolean | undefined;
 }
 export type EntityStatusViewList = Array<EntityStatusView>;
 /** Response message for DataMigrationService.FetchEntitiesStatusView. */
 export interface FetchEntitiesStatusViewResponse {
   /** A list of the entities matching the request, sorted by their full name (source name if requested the SOURCE tree, draft name if requested the DRAFT tree). Sub-entities (such as indexes) always appear immediately after their parent element. */
-  entities?: EntityStatusViewList;
+  entities?: EntityStatusViewList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type FetchIssuesProjectsLocationsConversionWorkspacesTreeEnum =
   | "DB_TREE_TYPE_UNSPECIFIED"
@@ -2083,17 +2099,17 @@ export type FetchIssuesProjectsLocationsConversionWorkspacesTreeEnum =
   | "DRAFT";
 export interface FetchIssuesProjectsLocationsConversionWorkspacesRequest {
   /** Optional. The maximum number of issues to return. The service may return fewer issues than the value specifies. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The tree to fetch issues from. If not specified, source tree is assumed. */
-  tree?: FetchIssuesProjectsLocationsConversionWorkspacesTreeEnum | (string & {});
+  tree?: FetchIssuesProjectsLocationsConversionWorkspacesTreeEnum | (string & {}) | undefined;
   /** Optional. AIP-160 standard filter. Supporting both entity and issue fields. Supported fields: - `name` / `fullname`: The entity full name. - `type`: The entity type (e.g. `TABLE`, `VIEW`, `INDEX`, `TRIGGER`). - `ddlkind`: The kind of DDL (e.g. `DDL_KIND_SOURCE`, `DDL_KIND_AI`, `DDL_KIND_DETERMINISTIC`). - `issue.severity`: The severity of the issue (e.g. `INFO`, `WARNING`, `ERROR`). - `issue.state`: The state of the issue (e.g. `OPEN`, `RESOLVED`). - `issue.origin`: The origin of the issue (e.g. `DETERMINISTIC`, `AI`). - `issue.category_id`: The category ID of the issue. - `issue.group_id`: The group ID of the issue. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Conversion workspace with issues to fetch. Must be in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
   /** Optional. If 'true', gets all issues matching the filter. Otherwise, for each entity only the issues matching the DdlKind chosen for application on the destination are returned. */
-  allIssues?: boolean;
+  allIssues?: boolean | undefined;
   /** Optional. The FetchIssuesResponse.next_page_token value received in the previous call to FetchIssues, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to FetchIssues must match the call that provided the page token, except for the page_size parameter. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type IssueEntityTypeEnum =
   | "DATABASE_ENTITY_TYPE_UNSPECIFIED"
@@ -2216,13 +2232,13 @@ export type IssueGroupIdEnum =
 /** Issue position. */
 export interface FetchIssuesResponseIssuePosition {
   /** Issue line number. */
-  line?: number;
+  line?: number | undefined;
   /** Issue offset. */
-  offset?: number;
+  offset?: number | undefined;
   /** Issue length. */
-  length?: number;
+  length?: number | undefined;
   /** Issue column number. */
-  column?: number;
+  column?: number | undefined;
 }
 export type IssueCategoryIdEnum =
   | "ISSUE_CATEGORY_ID_UNSPECIFIED"
@@ -2260,35 +2276,35 @@ export type IssueTypeEnum =
 /** Issue related to the entity. */
 export interface Issue {
   /** The entity type (if the DDL is for a sub entity). */
-  entityType?: IssueEntityTypeEnum;
+  entityType?: IssueEntityTypeEnum | undefined;
   /** Unique Issue ID. Use this ID when referencing a specific issue in other API calls, such as DataMigrationService.SetIssuesState. */
-  id?: string;
+  id?: string | undefined;
   /** The group ID. */
-  groupId?: IssueGroupIdEnum;
+  groupId?: IssueGroupIdEnum | undefined;
   /** The position of the issue found, if relevant. */
-  position?: FetchIssuesResponseIssuePosition;
+  position?: FetchIssuesResponseIssuePosition | undefined;
   /** The category ID. */
-  categoryId?: IssueCategoryIdEnum;
+  categoryId?: IssueCategoryIdEnum | undefined;
   /** Severity of the issue. */
-  severity?: IssueSeverityEnum;
+  severity?: IssueSeverityEnum | undefined;
   /** Output only. The state of the issue (open, resolved, etc). */
-  issueState?: IssueIssueStateEnum;
+  issueState?: IssueIssueStateEnum | undefined;
   /** The source of the issue (deterministic, gemini, etc). */
-  issueOrigin?: IssueIssueOriginEnum;
+  issueOrigin?: IssueIssueOriginEnum | undefined;
   /** The type of the issue. */
-  type?: IssueTypeEnum;
+  type?: IssueTypeEnum | undefined;
   /** Entity full name. */
-  entityFullName?: string;
+  entityFullName?: string | undefined;
   /** Issue detailed message. */
-  message?: string;
+  message?: string | undefined;
 }
 export type IssueList = Array<Issue>;
 /** Response for fetching issues of a conversion workspace. */
 export interface FetchIssuesResponse {
   /** The list of issues for the conversion workspace. */
-  issues?: IssueList;
+  issues?: IssueList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface FetchSourceObjectsProjectsLocationsMigrationJobsRequest {
   /** Required. The resource name for the migration job for which source objects should be returned. */
@@ -2296,104 +2312,104 @@ export interface FetchSourceObjectsProjectsLocationsMigrationJobsRequest {
 }
 export interface FetchStaticIpsProjectsLocationsRequest {
   /** Optional. Indicates whether to fetch the reserved public IP addresses allocated for private connections in this location. If false or not set, fetches the shared external static IP addresses instead. */
-  fetchReservedPublicIps?: boolean;
+  fetchReservedPublicIps?: boolean | undefined;
   /** Required. The resource name for the location for which static IPs should be returned. Must be in the format `projects/*\/locations/*`. */
   name: string;
   /** Optional. A page token, received from a previous `FetchStaticIps` call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of IPs to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message for a 'FetchStaticIps' request. */
 export interface FetchStaticIpsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of static IPs. */
-  staticIps?: StringList;
+  staticIps?: StringList | undefined;
 }
 /** VM creation configuration message */
 export interface VmCreationConfig {
   /** Required. VM instance machine type to create. */
-  vmMachineType?: string;
+  vmMachineType?: string | undefined;
   /** The Google Cloud Platform zone to create the VM in. */
-  vmZone?: string;
+  vmZone?: string | undefined;
   /** The subnet name the vm needs to be created in. */
-  subnet?: string;
+  subnet?: string | undefined;
 }
 /** VM selection configuration message */
 export interface VmSelectionConfig {
   /** Required. The Google Cloud Platform zone the VM is located. */
-  vmZone?: string;
+  vmZone?: string | undefined;
 }
 /** Request message for 'GenerateSshScript' request. */
 export interface GenerateSshScriptRequest {
   /** The VM creation configuration */
-  vmCreationConfig?: VmCreationConfig;
+  vmCreationConfig?: VmCreationConfig | undefined;
   /** Required. Bastion VM Instance name to use or to create. */
-  vm?: string;
+  vm?: string | undefined;
   /** The VM selection configuration */
-  vmSelectionConfig?: VmSelectionConfig;
+  vmSelectionConfig?: VmSelectionConfig | undefined;
   /** The port that will be open on the bastion host. */
-  vmPort?: number;
+  vmPort?: number | undefined;
 }
 export interface GenerateSshScriptProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to generate the SSH script. */
   migrationJob: string;
   /** Request body */
-  body?: GenerateSshScriptRequest;
+  body?: GenerateSshScriptRequest | undefined;
 }
 /** Response message for 'GenerateSshScript' request. */
 export interface SshScript {
   /** The ssh configuration script. */
-  script?: string;
+  script?: string | undefined;
 }
 /** Request message for 'GenerateTcpProxyScript' request. */
 export interface GenerateTcpProxyScriptRequest {
   /** Required. The name of the subnet the Compute instance will use for private connectivity. Must be supplied in the form of projects/{project}/regions/{region}/subnetworks/{subnetwork}. Note: the region for the subnet must match the Compute instance region. */
-  vmSubnet?: string;
+  vmSubnet?: string | undefined;
   /** Required. The type of the Compute instance that will host the proxy. */
-  vmMachineType?: string;
+  vmMachineType?: string | undefined;
   /** Optional. The Google Cloud Platform zone to create the VM in. The fully qualified name of the zone must be specified, including the region name, for example "us-central1-b". If not specified, uses the "-b" zone of the destination Connection Profile's region. */
-  vmZone?: string;
+  vmZone?: string | undefined;
   /** Required. The name of the Compute instance that will host the proxy. */
-  vmName?: string;
+  vmName?: string | undefined;
 }
 export interface GenerateTcpProxyScriptProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to generate the TCP Proxy script. */
   migrationJob: string;
   /** Request body */
-  body?: GenerateTcpProxyScriptRequest;
+  body?: GenerateTcpProxyScriptRequest | undefined;
 }
 /** Response message for 'GenerateTcpProxyScript' request. */
 export interface TcpProxyScript {
   /** The TCP Proxy configuration script. */
-  script?: string;
+  script?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsConnectionProfilesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -2404,53 +2420,53 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsConversionWorkspacesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsMigrationJobsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsMigrationJobsObjectsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsPrivateConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -2459,15 +2475,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsConnectionProfilesRequest {
   /** Required. Name of the connection profile resource to get. */
@@ -2502,7 +2518,7 @@ export type MigrationJobObjectPhaseEnum =
 /** Metadata for heterogeneous migration jobs objects. */
 export interface HeterogeneousMetadata {
   /** The number of unsupported events. */
-  unsupportedEventsCount?: string;
+  unsupportedEventsCount?: string | undefined;
 }
 export type MigrationJobObjectStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2518,21 +2534,21 @@ export type MigrationJobObjectStateEnum =
 /** A specific Migration Job Object (e.g. a specifc DB Table) */
 export interface MigrationJobObject {
   /** Output only. The last update time of the migration job object. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The object's name. */
-  name?: string;
+  name?: string | undefined;
   /** The object identifier in the data source. */
-  sourceObject?: SourceObjectIdentifier;
+  sourceObject?: SourceObjectIdentifier | undefined;
   /** Output only. The creation time of the migration job object. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The error details in case of failure. */
-  error?: Status;
+  error?: Status | undefined;
   /** Output only. The phase of the migration job object. */
-  phase?: MigrationJobObjectPhaseEnum;
+  phase?: MigrationJobObjectPhaseEnum | undefined;
   /** Output only. Metadata for heterogeneous migration jobs objects. */
-  heterogeneousMetadata?: HeterogeneousMetadata;
+  heterogeneousMetadata?: HeterogeneousMetadata | undefined;
   /** The state of the migration job object. */
-  state?: MigrationJobObjectStateEnum;
+  state?: MigrationJobObjectStateEnum | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -2545,9 +2561,9 @@ export interface GetProjectsLocationsPrivateConnectionsRequest {
 /** Details of a single rules file. */
 export interface RulesFile {
   /** Required. The filename of the rules that needs to be converted. The filename is used mainly so that future logs of the import rules job contain it, and can therefore be searched by it. */
-  rulesSourceFilename?: string;
+  rulesSourceFilename?: string | undefined;
   /** Required. The text content of the rules that needs to be converted. */
-  rulesContent?: string;
+  rulesContent?: string | undefined;
 }
 export type RulesFileList = Array<RulesFile>;
 export type ImportMappingRulesRequestRulesFormatEnum =
@@ -2557,27 +2573,27 @@ export type ImportMappingRulesRequestRulesFormatEnum =
 /** Request message for 'ImportMappingRules' request. */
 export interface ImportMappingRulesRequest {
   /** Required. One or more rules files. */
-  rulesFiles?: RulesFileList;
+  rulesFiles?: RulesFileList | undefined;
   /** Required. The format of the rules content file. */
-  rulesFormat?: ImportMappingRulesRequestRulesFormatEnum | (string & {});
+  rulesFormat?: ImportMappingRulesRequestRulesFormatEnum | (string & {}) | undefined;
   /** Required. Should the conversion workspace be committed automatically after the import operation. */
-  autoCommit?: boolean;
+  autoCommit?: boolean | undefined;
 }
 export interface ImportProjectsLocationsConversionWorkspacesMappingRulesRequest {
   /** Required. Name of the conversion workspace resource to import the rules to in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   parent: string;
   /** Request body */
-  body?: ImportMappingRulesRequest;
+  body?: ImportMappingRulesRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -2585,56 +2601,56 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsConnectionProfilesRequest {
   /** Optional. A filter expression that filters connection profiles listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list connection profiles created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z**. You can also filter nested fields. For example, you could specify **mySql.username = %lt;my_username%gt;** to list all connection profiles configured to connect with a specific username. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent which owns this collection of connection profiles. */
   parent: string;
   /** The maximum number of connection profiles to return. The service may return fewer than this value. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A comma-separated list of fields to order results according to. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ConnectionProfileList = Array<ConnectionProfile>;
 /** Response message for 'ListConnectionProfiles' request. */
 export interface ListConnectionProfilesResponse {
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The response list of connection profiles. */
-  connectionProfiles?: ConnectionProfileList;
+  connectionProfiles?: ConnectionProfileList | undefined;
 }
 export interface ListProjectsLocationsConversionWorkspacesRequest {
   /** Optional. The nextPageToken value received in the previous call to conversionWorkspaces.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to conversionWorkspaces.list must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A filter expression that filters conversion workspaces listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list conversion workspaces created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z.** You can also filter nested fields. For example, you could specify **source.version = "12.c.1"** to select all conversion workspaces with source database version equal to 12.c.1. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of conversion workspaces to return. The service may return fewer than this value. If unspecified, at most 50 sets are returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent which owns this collection of conversion workspaces. */
   parent: string;
 }
 /** Response message for 'ListConversionWorkspaces' request. */
 export interface ListConversionWorkspacesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of conversion workspace objects. */
-  conversionWorkspaces?: ConversionWorkspaceList;
+  conversionWorkspaces?: ConversionWorkspaceList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConversionWorkspacesMappingRulesRequest {
   /** Optional. The maximum number of rules to return. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The nextPageToken value received in the previous call to mappingRules.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to mappingRules.list must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Name of the conversion workspace resource whose mapping rules are listed in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   parent: string;
 }
@@ -2642,175 +2658,175 @@ export type MappingRuleList = Array<MappingRule>;
 /** Response message for 'ListMappingRulesRequest' request. */
 export interface ListMappingRulesResponse {
   /** The list of conversion workspace mapping rules. */
-  mappingRules?: MappingRuleList;
+  mappingRules?: MappingRuleList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMigrationJobsRequest {
   /** Optional. The maximum number of migration jobs to return. The service may return fewer than this value. If unspecified, at most 50 migration jobs will be returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A filter expression that filters migration jobs listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list migration jobs created this year by specifying **createTime %gt; 2020-01-01T00:00:00.000000000Z.** You can also filter nested fields. For example, you could specify **reverseSshConnectivity.vmIp = "1.2.3.4"** to select all migration jobs connecting through the specific SSH tunnel bastion. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent which owns this collection of migrationJobs. */
   parent: string;
   /** Optional. The nextPageToken value received in the previous call to migrationJobs.list, used in the subsequent request to retrieve the next page of results. On first call this should be left blank. When paginating, all other parameters provided to migrationJobs.list must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Sort the results based on the migration job name. Valid values are: "name", "name asc", and "name desc". */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type MigrationJobList = Array<MigrationJob>;
 /** Response message for 'ListMigrationJobs' request. */
 export interface ListMigrationJobsResponse {
   /** The list of migration jobs objects. */
-  migrationJobs?: MigrationJobList;
+  migrationJobs?: MigrationJobList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMigrationJobsObjectsRequest {
   /** Required. The parent migration job that owns the collection of objects. */
   parent: string;
   /** Optional. Maximum number of objects to return. Default is 50. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `ListMigrationJObObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMigrationJobObjectsRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type MigrationJobObjectList = Array<MigrationJobObject>;
 /** Response containing the objects for a migration job. */
 export interface ListMigrationJobObjectsResponse {
   /** List of migration job objects. */
-  migrationJobObjects?: MigrationJobObjectList;
+  migrationJobObjects?: MigrationJobObjectList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRequest {
   /** Optional. Page token received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A filter expression that filters private connections listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be either =, !=, >, or <. For example, list private connections created this year by specifying **createTime %gt; 2021-01-01T00:00:00.000000000Z**. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of private connections to return. If unspecified, at most 50 private connections that are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent that owns the collection of private connections. */
   parent: string;
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type PrivateConnectionList = Array<PrivateConnection>;
 /** Response message for 'ListPrivateConnections' request. */
 export interface ListPrivateConnectionsResponse {
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of private connections. */
-  privateConnections?: PrivateConnectionList;
+  privateConnections?: PrivateConnectionList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 /** Request for looking up a specific migration job object by its source object identifier. */
 export interface LookupMigrationJobObjectRequest {
   /** Required. The source object identifier which maps to the migration job object. */
-  sourceObjectIdentifier?: SourceObjectIdentifier;
+  sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
 export interface LookupProjectsLocationsMigrationJobsObjectsRequest {
   /** Required. The parent migration job that owns the collection of objects. */
   parent: string;
   /** Request body */
-  body?: LookupMigrationJobObjectRequest;
+  body?: LookupMigrationJobObjectRequest | undefined;
 }
 export interface PatchProjectsLocationsConnectionProfilesRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The name of this connection profile resource in the form of projects/{project}/locations/{location}/connectionProfiles/{connectionProfile}. */
   name: string;
   /** Optional. Update the connection profile without validating it. The default is false. Only supported for Oracle connection profiles. */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
   /** Optional. Only validate the connection profile, but don't update any resources. The default is false. Only supported for Oracle connection profiles. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: ConnectionProfile;
+  body?: ConnectionProfile | undefined;
 }
 export interface PatchProjectsLocationsConversionWorkspacesRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Full name of the workspace resource, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
   /** Request body */
-  body?: ConversionWorkspace;
+  body?: ConversionWorkspace | undefined;
 }
 export interface PatchProjectsLocationsMigrationJobsRequest {
   /** The name (URI) of this migration job resource, in the form of: projects/{project}/locations/{location}/migrationJobs/{migrationJob}. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten by the update in the conversion workspace resource. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two requests with the same ID, then the second request is ignored. It is recommended to always set this value to a UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: MigrationJob;
+  body?: MigrationJob | undefined;
 }
 /** Request message for 'PromoteMigrationJob' request. */
 export interface PromoteMigrationJobRequest {
   /** Optional. If true, the promote operation will perform a failback promote from destination back to source (only supported when the migration job is in FAILBACK phase). */
-  failback?: boolean;
+  failback?: boolean | undefined;
   /** Optional. The object filter to apply to the migration job. */
-  objectsFilter?: MigrationJobObjectsConfig;
+  objectsFilter?: MigrationJobObjectsConfig | undefined;
 }
 export interface PromoteProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to promote. */
   name: string;
   /** Request body */
-  body?: PromoteMigrationJobRequest;
+  body?: PromoteMigrationJobRequest | undefined;
 }
 /** Request message for 'RestartMigrationJob' request. */
 export interface RestartMigrationJobRequest {
   /** Optional. The object filter to apply to the migration job. */
-  objectsFilter?: MigrationJobObjectsConfig;
+  objectsFilter?: MigrationJobObjectsConfig | undefined;
   /** Optional. Restart the migration job without running prior configuration verification. Defaults to `false`. */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
   /** Optional. If true, only failed objects will be restarted. */
-  restartFailedObjects?: boolean;
+  restartFailedObjects?: boolean | undefined;
 }
 export interface RestartProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to restart. */
   name: string;
   /** Request body */
-  body?: RestartMigrationJobRequest;
+  body?: RestartMigrationJobRequest | undefined;
 }
 /** Request message for 'ResumeMigrationJob' request. */
 export interface ResumeMigrationJobRequest {
   /** Optional. Resume the migration job without running prior configuration verification. Defaults to `false`. */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
 }
 export interface ResumeProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to resume. */
   name: string;
   /** Request body */
-  body?: ResumeMigrationJobRequest;
+  body?: ResumeMigrationJobRequest | undefined;
 }
 /** Request message for 'RollbackConversionWorkspace' request. */
 export type RollbackConversionWorkspaceRequest = CancelOperationRequest;
@@ -2818,22 +2834,22 @@ export interface RollbackProjectsLocationsConversionWorkspacesRequest {
   /** Required. Name of the conversion workspace resource to roll back to. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface SearchBackgroundJobsProjectsLocationsConversionWorkspacesRequest {
   /** Optional. Whether or not to return just the most recent job per job type, */
-  returnMostRecentPerJobType?: boolean;
+  returnMostRecentPerJobType?: boolean | undefined;
   /** Required. Name of the conversion workspace resource whose jobs are listed, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
   /** Optional. If provided, only returns jobs that completed until (not including) the given timestamp. */
-  completedUntilTime?: string;
+  completedUntilTime?: string | undefined;
   /** Optional. The maximum number of jobs to return. The service may return fewer than this value. If unspecified, at most 100 jobs are returned. The maximum value is 100; values above 100 are coerced to 100. */
-  maxSize?: number;
+  maxSize?: number | undefined;
 }
 /** Details regarding a Convert background job. */
 export interface ConvertJobDetails {
   /** Output only. AIP-160 based filter used to specify the entities to convert */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type BackgroundJobLogEntryJobTypeEnum =
   | "BACKGROUND_JOB_TYPE_UNSPECIFIED"
@@ -2844,9 +2860,9 @@ export type BackgroundJobLogEntryJobTypeEnum =
 /** Details regarding an Apply background job. */
 export interface ApplyJobDetails {
   /** Output only. The connection profile which was used for the apply job. */
-  connectionProfile?: string;
+  connectionProfile?: string | undefined;
   /** Output only. AIP-160 based filter used to specify the entities to apply */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type BackgroundJobLogEntryCompletionStateEnum =
   | "JOB_COMPLETION_STATE_UNSPECIFIED"
@@ -2859,69 +2875,69 @@ export type ImportRulesJobDetailsFileFormatEnum =
 /** Details regarding an Import Rules background job. */
 export interface ImportRulesJobDetails {
   /** Output only. The requested file format. */
-  fileFormat?: ImportRulesJobDetailsFileFormatEnum;
+  fileFormat?: ImportRulesJobDetailsFileFormatEnum | undefined;
   /** Output only. File names used for the import rules job. */
-  files?: StringList;
+  files?: StringList | undefined;
 }
 /** Details regarding a Seed background job. */
 export interface SeedJobDetails {
   /** Output only. The connection profile which was used for the seed job. */
-  connectionProfile?: string;
+  connectionProfile?: string | undefined;
 }
 /** Execution log of a background job. */
 export interface BackgroundJobLogEntry {
   /** Output only. Job completion comment, such as how many entities were seeded, how many warnings were found during conversion, and similar information. */
-  completionComment?: string;
+  completionComment?: string | undefined;
   /** Output only. Convert job details. */
-  convertJobDetails?: ConvertJobDetails;
+  convertJobDetails?: ConvertJobDetails | undefined;
   /** The type of job that was executed. */
-  jobType?: BackgroundJobLogEntryJobTypeEnum;
+  jobType?: BackgroundJobLogEntryJobTypeEnum | undefined;
   /** The background job log entry ID. */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp when the background job was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Apply job details. */
-  applyJobDetails?: ApplyJobDetails;
+  applyJobDetails?: ApplyJobDetails | undefined;
   /** The timestamp when the background job was finished. */
-  finishTime?: string;
+  finishTime?: string | undefined;
   /** Output only. Job completion state, i.e. the final state after the job completed. */
-  completionState?: BackgroundJobLogEntryCompletionStateEnum;
+  completionState?: BackgroundJobLogEntryCompletionStateEnum | undefined;
   /** Output only. Import rules job details. */
-  importRulesJobDetails?: ImportRulesJobDetails;
+  importRulesJobDetails?: ImportRulesJobDetails | undefined;
   /** Output only. Seed job details. */
-  seedJobDetails?: SeedJobDetails;
+  seedJobDetails?: SeedJobDetails | undefined;
   /** Output only. Whether the client requested the conversion workspace to be committed after a successful completion of the job. */
-  requestAutocommit?: boolean;
+  requestAutocommit?: boolean | undefined;
 }
 export type BackgroundJobLogEntryList = Array<BackgroundJobLogEntry>;
 /** Response message for 'SearchBackgroundJobs' request. */
 export interface SearchBackgroundJobsResponse {
   /** The list of conversion workspace mapping rules. */
-  jobs?: BackgroundJobLogEntryList;
+  jobs?: BackgroundJobLogEntryList | undefined;
 }
 /** Cloud Storage source details for seeding. */
 export interface GcsSource {
   /** Required. The Cloud Storage bucket containing the schema report files. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Required. The prefix for the report paths in the bucket. Different seed versions (report versions) might reside in the same bucket, the prefix allows to identify the correct seed version. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 /** Request message for 'SeedConversionWorkspace' request. */
 export interface SeedConversionWorkspaceRequest {
   /** Should the conversion workspace be committed automatically after the seed operation. */
-  autoCommit?: boolean;
+  autoCommit?: boolean | undefined;
   /** Optional. Fully qualified (Uri) name of the destination connection profile. */
-  destinationConnectionProfile?: string;
+  destinationConnectionProfile?: string | undefined;
   /** Optional. Fully qualified (Uri) name of the source connection profile. */
-  sourceConnectionProfile?: string;
+  sourceConnectionProfile?: string | undefined;
   /** Optional. Cloud Storage source details for seeding. */
-  gcsSource?: GcsSource;
+  gcsSource?: GcsSource | undefined;
 }
 export interface SeedProjectsLocationsConversionWorkspacesRequest {
   /** Name of the conversion workspace resource to seed with new database structure, in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   name: string;
   /** Request body */
-  body?: SeedConversionWorkspaceRequest;
+  body?: SeedConversionWorkspaceRequest | undefined;
 }
 export type SetDraftEntityDdlRequestBasedOnDdlKindEnum =
   | "DDL_KIND_UNSPECIFIED"
@@ -2955,73 +2971,73 @@ export type SetDraftEntityDdlRequestDdlKindEnum =
 /** Request message for DataMigrationService.SetDraftEntityDdl. */
 export interface SetDraftEntityDdlRequest {
   /** Required. The DDL to set. */
-  ddl?: string;
+  ddl?: string | undefined;
   /** Optional. Which DDL (Deterministic/AI) the updated DDL is based on. Defaults to DETERMINISTIC if not specified. */
-  basedOnDdlKind?: SetDraftEntityDdlRequestBasedOnDdlKindEnum | (string & {});
+  basedOnDdlKind?: SetDraftEntityDdlRequestBasedOnDdlKindEnum | (string & {}) | undefined;
   /** Required. The type of the database entity (table, view, index, ...). */
-  entityType?: SetDraftEntityDdlRequestEntityTypeEnum | (string & {});
+  entityType?: SetDraftEntityDdlRequestEntityTypeEnum | (string & {}) | undefined;
   /** Optional. The updated DDL Kind. Can be either USER_EDIT (default) or AI. */
-  ddlKind?: SetDraftEntityDdlRequestDdlKindEnum | (string & {});
+  ddlKind?: SetDraftEntityDdlRequestDdlKindEnum | (string & {}) | undefined;
   /** Optional. An optional explanation of the generated DDL if ddl_kind is AI. */
-  explanation?: string;
+  explanation?: string | undefined;
   /** Required. The draft entity full name from the tree. . */
-  entityName?: string;
+  entityName?: string | undefined;
 }
 export interface SetDraftEntityDdlProjectsLocationsConversionWorkspacesRequest {
   /** Required. Name of the conversion workspace resource in the form of: projects/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace}. */
   conversionWorkspace: string;
   /** Request body */
-  body?: SetDraftEntityDdlRequest;
+  body?: SetDraftEntityDdlRequest | undefined;
 }
 /** Response message for DataMigrationService.SetDraftEntityDdl. */
 export interface SetDraftEntityDdlResponse {}
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsConnectionProfilesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsConversionWorkspacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsMigrationJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsMigrationJobsObjectsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsPrivateConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for 'StartMigrationJob' request. */
 export interface StartMigrationJobRequest {
   /** Optional. Start the migration job without running prior configuration verification. Defaults to `false`. */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
 }
 export interface StartProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to start. */
   name: string;
   /** Request body */
-  body?: StartMigrationJobRequest;
+  body?: StartMigrationJobRequest | undefined;
 }
 /** Request message for 'StopMigrationJob' request. */
 export type StopMigrationJobRequest = CancelOperationRequest;
@@ -3029,60 +3045,60 @@ export interface StopProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to stop. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsConnectionProfilesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsConversionWorkspacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsMigrationJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsMigrationJobsObjectsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsPrivateConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for 'VerifyMigrationJob' request. */
 export interface VerifyMigrationJobRequest {
   /** Optional. Field mask is used to specify the changed fields to be verified. It will not update the migration job. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. The changed migration job parameters to verify. It will not update the migration job. */
-  migrationJob?: MigrationJob;
+  migrationJob?: MigrationJob | undefined;
 }
 export interface VerifyProjectsLocationsMigrationJobsRequest {
   /** Name of the migration job resource to verify. */
   name: string;
   /** Request body */
-  body?: VerifyMigrationJobRequest;
+  body?: VerifyMigrationJobRequest | undefined;
 }
 export type ApplyProjectsLocationsConversionWorkspacesError =
   | NotFound

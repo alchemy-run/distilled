@@ -100,34 +100,34 @@ export interface GetAchievementConfigurationsRequest {
 /** A localized string resource. */
 export interface LocalizedString {
   /** The string value. */
-  value?: string;
+  value?: string | undefined;
   /** The locale string. */
-  locale?: string;
+  locale?: string | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#localizedString`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type LocalizedStringList = Array<LocalizedString>;
 /** A localized string bundle resource. */
 export interface LocalizedStringBundle {
   /** The locale strings. */
-  translations?: LocalizedStringList;
+  translations?: LocalizedStringList | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#localizedStringBundle`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** An achievement configuration detail. */
 export interface AchievementConfigurationDetail {
   /** The sort rank of this achievement. Writes to this field are ignored. */
-  sortRank?: number;
+  sortRank?: number | undefined;
   /** Localized strings for the achievement description. */
-  description?: LocalizedStringBundle;
+  description?: LocalizedStringBundle | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationDetail`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Localized strings for the achievement name. */
-  name?: LocalizedStringBundle;
+  name?: LocalizedStringBundle | undefined;
   /** The icon url of this achievement. Writes to this field are ignored. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** Point value for the achievement. */
-  pointValue?: number;
+  pointValue?: number | undefined;
 }
 export type AchievementConfigurationAchievementTypeEnum =
   | "ACHIEVEMENT_TYPE_UNSPECIFIED"
@@ -140,21 +140,21 @@ export type AchievementConfigurationInitialStateEnum =
 /** An achievement configuration resource. */
 export interface AchievementConfiguration {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The read-only published data of the achievement. */
-  published?: AchievementConfigurationDetail;
+  published?: AchievementConfigurationDetail | undefined;
   /** The token for this resource. */
-  token?: string;
+  token?: string | undefined;
   /** The draft data of the achievement. */
-  draft?: AchievementConfigurationDetail;
+  draft?: AchievementConfigurationDetail | undefined;
   /** The type of the achievement. */
-  achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {});
+  achievementType?: AchievementConfigurationAchievementTypeEnum | (string & {}) | undefined;
   /** The ID of the achievement. */
-  id?: string;
+  id?: string | undefined;
   /** The initial state of the achievement. */
-  initialState?: AchievementConfigurationInitialStateEnum | (string & {});
+  initialState?: AchievementConfigurationInitialStateEnum | (string & {}) | undefined;
   /** Steps to unlock. Only applicable to incremental achievements. */
-  stepsToUnlock?: number;
+  stepsToUnlock?: number | undefined;
 }
 export interface GetLeaderboardConfigurationsRequest {
   /** The ID of the leaderboard. */
@@ -168,41 +168,41 @@ export type GamesNumberFormatConfigurationNumberFormatTypeEnum =
 /** A number affix resource. */
 export interface GamesNumberAffixConfiguration {
   /** When the language requires special treatment of numbers like two (as with 2 in Welsh, or 102 in Slovenian). */
-  two?: LocalizedStringBundle;
+  two?: LocalizedStringBundle | undefined;
   /** When the language requires special treatment of "large" numbers (as with numbers ending 11-99 in Maltese). */
-  many?: LocalizedStringBundle;
+  many?: LocalizedStringBundle | undefined;
   /** When the language does not require special treatment of the given quantity (as with all numbers in Chinese, or 42 in English). */
-  other?: LocalizedStringBundle;
+  other?: LocalizedStringBundle | undefined;
   /** When the language requires special treatment of "small" numbers (as with 2, 3, and 4 in Czech; or numbers ending 2, 3, or 4 but not 12, 13, or 14 in Polish). */
-  few?: LocalizedStringBundle;
+  few?: LocalizedStringBundle | undefined;
   /** When the language requires special treatment of the number 0 (as in Arabic). */
-  zero?: LocalizedStringBundle;
+  zero?: LocalizedStringBundle | undefined;
   /** When the language requires special treatment of numbers like one (as with the number 1 in English and most other languages; in Russian, any number ending in 1 but not ending in 11 is in this class). */
-  one?: LocalizedStringBundle;
+  one?: LocalizedStringBundle | undefined;
 }
 /** A number format resource. */
 export interface GamesNumberFormatConfiguration {
   /** The number of decimal places for number. Only used for NUMERIC format type. */
-  numDecimalPlaces?: number;
+  numDecimalPlaces?: number | undefined;
   /** The formatting for the number. */
-  numberFormatType?: GamesNumberFormatConfigurationNumberFormatTypeEnum | (string & {});
+  numberFormatType?: GamesNumberFormatConfigurationNumberFormatTypeEnum | (string & {}) | undefined;
   /** An optional suffix for the NUMERIC format type. These strings follow the same plural rules as all Android string resources. */
-  suffix?: GamesNumberAffixConfiguration;
+  suffix?: GamesNumberAffixConfiguration | undefined;
   /** The curreny code string. Only used for CURRENCY format type. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
 }
 /** A leaderboard configuration detail. */
 export interface LeaderboardConfigurationDetail {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationDetail`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Localized strings for the leaderboard name. */
-  name?: LocalizedStringBundle;
+  name?: LocalizedStringBundle | undefined;
   /** The sort rank of this leaderboard. Writes to this field are ignored. */
-  sortRank?: number;
+  sortRank?: number | undefined;
   /** The icon url of this leaderboard. Writes to this field are ignored. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** The score formatting for the leaderboard. */
-  scoreFormat?: GamesNumberFormatConfiguration;
+  scoreFormat?: GamesNumberFormatConfiguration | undefined;
 }
 export type LeaderboardConfigurationScoreOrderEnum =
   | "SCORE_ORDER_UNSPECIFIED"
@@ -211,56 +211,56 @@ export type LeaderboardConfigurationScoreOrderEnum =
 /** An leaderboard configuration resource. */
 export interface LeaderboardConfiguration {
   /** Maximum score that can be posted to this leaderboard. */
-  scoreMax?: string;
+  scoreMax?: string | undefined;
   /** The draft data of the leaderboard. */
-  draft?: LeaderboardConfigurationDetail;
+  draft?: LeaderboardConfigurationDetail | undefined;
   /** The read-only published data of the leaderboard. */
-  published?: LeaderboardConfigurationDetail;
+  published?: LeaderboardConfigurationDetail | undefined;
   /** The token for this resource. */
-  token?: string;
-  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {});
+  token?: string | undefined;
+  scoreOrder?: LeaderboardConfigurationScoreOrderEnum | (string & {}) | undefined;
   /** The ID of the leaderboard. */
-  id?: string;
+  id?: string | undefined;
   /** Minimum score that can be posted to this leaderboard. */
-  scoreMin?: string;
+  scoreMin?: string | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface InsertAchievementConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
   /** Request body */
-  body?: AchievementConfiguration;
+  body?: AchievementConfiguration | undefined;
 }
 export interface InsertLeaderboardConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
   /** Request body */
-  body?: LeaderboardConfiguration;
+  body?: LeaderboardConfiguration | undefined;
 }
 export interface ListAchievementConfigurationsRequest {
   /** The token returned by the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The application ID from the Google Play developer console. */
   applicationId: string;
   /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type AchievementConfigurationList = Array<AchievementConfiguration>;
 /** A ListConfigurations response. */
 export interface AchievementConfigurationListResponse {
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#achievementConfigurationListResponse`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The achievement configurations. */
   items: AchievementConfigurationList;
   /** The pagination token for the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListLeaderboardConfigurationsRequest {
   /** The token returned by the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of resource configurations to return in the response, used for paging. For any response, the actual number of resources returned may be less than the specified `maxResults`. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The application ID from the Google Play developer console. */
   applicationId: string;
 }
@@ -268,9 +268,9 @@ export type LeaderboardConfigurationList = Array<LeaderboardConfiguration>;
 /** A ListConfigurations response. */
 export interface LeaderboardConfigurationListResponse {
   /** The pagination token for the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Uniquely identifies the type of this resource. Value is always the fixed string `gamesConfiguration#leaderboardConfigurationListResponse`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The leaderboard configurations. */
   items: LeaderboardConfigurationList;
 }
@@ -278,13 +278,13 @@ export interface UpdateAchievementConfigurationsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
   /** Request body */
-  body?: AchievementConfiguration;
+  body?: AchievementConfiguration | undefined;
 }
 export interface UpdateLeaderboardConfigurationsRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
   /** Request body */
-  body?: LeaderboardConfiguration;
+  body?: LeaderboardConfiguration | undefined;
 }
 export type DeleteAchievementConfigurationsError =
   | NotFound

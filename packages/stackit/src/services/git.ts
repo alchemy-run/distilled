@@ -65,13 +65,13 @@ export interface CreateAuthenticationRequest {
   /** The IDP client secret to use. */
   client_secret: string | Redacted.Redacted<string>;
   /** The url of the icon to use for this authentication definition. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The name to identify an authentication definition associated with a STACKIT Git instance. */
   name: string;
   /** The Oauth2 provider to use. */
-  provider?: string;
+  provider?: string | undefined;
   /** Scopes defines the OIDC scopes to request. */
-  scopes?: string;
+  scopes?: string | undefined;
 }
 /** The current status of the authentication definition. */
 export type AuthenticationStatus = "Creating" | "Updating" | "Deleting" | "Ready" | "Error";
@@ -96,7 +96,7 @@ export interface Authentication {
   /** The current status of the authentication definition. */
   status: AuthenticationStatus;
   /** Provides additional information or error details when the status is 'Error'. */
-  status_message?: string;
+  status_message?: string | undefined;
 }
 /** A list of CIDR network addresses that are allowed to access the instance. */
 export type Acl = Array<string>;
@@ -104,8 +104,8 @@ export type CreateInstanceRequestFlavor = "git-10" | "git-100";
 export interface CreateInstanceRequest {
   /** Project identifier. */
   projectId: string;
-  acl?: Acl;
-  flavor?: CreateInstanceRequestFlavor | (string & {});
+  acl?: Acl | undefined;
+  flavor?: CreateInstanceRequestFlavor | (string & {}) | undefined;
   /** A user chosen name to distinguish multiple STACKIT Git instances. */
   name: string;
 }
@@ -120,17 +120,21 @@ export type FeatureToggleDefaultEmailNotifications =
 /** Feature toggles for instance pipelines */
 export interface Pipelines {
   /** The action URL for the pipelines */
-  action_url?: string | null;
+  action_url?: string | null | undefined;
   /** Enable pipelines for this instance */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 /** Feature toggles for the instance. */
 export interface FeatureToggle {
   /** Default email notifications. */
-  default_email_notifications?: FeatureToggleDefaultEmailNotifications | (string & {}) | null;
+  default_email_notifications?:
+    | FeatureToggleDefaultEmailNotifications
+    | (string & {})
+    | null
+    | undefined;
   /** Enable local login. */
-  enable_local_login?: boolean | null;
-  pipelines?: Pipelines;
+  enable_local_login?: boolean | null | undefined;
+  pipelines?: Pipelines | undefined;
 }
 /** Object that represents the labels of an object. Regex for keys: `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. The `stackit-` prefix is reserved and cannot be used for Keys. */
 export type Labels = { [key: string]: string | undefined };
@@ -159,7 +163,7 @@ export interface Instance {
   flavor: string;
   /** A auto generated unique id which identifies the STACKIT Git instances. */
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   /** A user chosen name to distinguish multiple STACKIT Git instances. */
   name: string;
   /** The current state of the STACKIT Git instance. */
@@ -176,7 +180,7 @@ export interface CreateRunnerRequest {
   /** Instance identifier. */
   instanceId: string;
   /** The runner's job family name. */
-  familyName?: string;
+  familyName?: string | undefined;
   labels: CreateRunnerRequestLabelsList;
 }
 export type RunnerLabelsList = Array<string>;
@@ -184,7 +188,7 @@ export type RunnerLabelsList = Array<string>;
 export interface Runner {
   created_at: string;
   /** The runner's job family name. */
-  familyName?: string;
+  familyName?: string | undefined;
   id: string;
   labels: RunnerLabelsList;
   /** The current status of the runner. */
@@ -198,7 +202,7 @@ export interface CreateUserRequest {
   /** A user chosen email to distinguish multiple STACKIT Git instance Users. */
   email: string;
   /** Whether to force sending a reset password email. */
-  force_send_reset_password?: boolean;
+  force_send_reset_password?: boolean | undefined;
   /** Name of the user. */
   name: string;
   /** A user password to allow user/pass instance login. */
@@ -211,7 +215,7 @@ export interface User {
   /** A user chosen email to distinguish multiple STACKIT Git instance Users. */
   email: string;
   /** A auto generated unique id which identifies the STACKIT Git instances. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the user. */
   name: string;
   /** A user chosen username to distinguish multiple STACKIT Git instance Users. */
@@ -269,7 +273,7 @@ export interface GetOrganizationsRequest {
   /** Instance identifier. */
   instanceId: string;
   /** Page number for pagination (1-indexed). Each page contains up to 50 organizations. */
-  page?: number;
+  page?: number | undefined;
 }
 /** Describes a STACKIT Git instance Organization. */
 export interface Organization {
@@ -295,7 +299,7 @@ export interface GetOrganizationTeamsRequest {
   /** Organization name. */
   org: string;
   /** Page number for pagination (1-indexed). Each page contains up to 50 teams. */
-  page?: number;
+  page?: number | undefined;
 }
 /** Describes a STACKIT Git instance Organization Team. */
 export interface OrganizationTeam {
@@ -334,7 +338,7 @@ export interface GetUsersRequest {
   /** Instance identifier. */
   instanceId: string;
   /** Page number for pagination (1-indexed). Each page contains up to 50 users. */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListUsersUsersList = Array<User>;
 /** A paginated list of STACKIT Git instance Users. */
@@ -449,28 +453,28 @@ export interface PatchAuthenticationRequest {
   /** Authentication Source identifier. */
   authenticationId: string;
   /** The well-known configuration url to use for this authentication definition. */
-  auto_discover_url?: string;
+  auto_discover_url?: string | undefined;
   /** The IDP client id to use. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The IDP client secret to use. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The url of the icon to use for this authentication definition. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The Oauth2 provider to use. */
-  provider?: string;
+  provider?: string | undefined;
   /** Scopes defines the OIDC scopes to request. */
-  scopes?: string;
+  scopes?: string | undefined;
 }
 export interface PatchInstanceRequest {
   /** Project identifier. */
   projectId: string;
   /** Instance identifier. */
   instanceId: string;
-  acl?: Acl | null;
+  acl?: Acl | null | undefined;
   /** Enable Admin IdP */
-  admin_login?: boolean;
-  feature_toggle?: FeatureToggle;
-  labels?: Labels;
+  admin_login?: boolean | undefined;
+  feature_toggle?: FeatureToggle | undefined;
+  labels?: Labels | undefined;
 }
 export interface UpdateUserRequest {
   /** Project identifier. */
@@ -480,11 +484,11 @@ export interface UpdateUserRequest {
   /** Instance User identifier. */
   username: string;
   /** A user chosen email to distinguish multiple STACKIT Git instance Users. */
-  email?: string;
+  email?: string | undefined;
   /** Name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** A user password to allow user/pass instance login. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateAuthenticationError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Creates an authentication source Creates an authentication source for the corresponding STACKIT Git instance */

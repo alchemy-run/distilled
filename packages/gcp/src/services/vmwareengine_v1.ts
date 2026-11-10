@@ -87,29 +87,29 @@ export type StringList = Array<string>;
 /** Google service file service configuration */
 export interface GoogleFileService {
   /** Google netapp volume resource name e.g. projects/my-project/locations/me-west1-b/volumes/my-volume */
-  netappVolume?: string;
+  netappVolume?: string | undefined;
   /** Google filestore instance resource name e.g. projects/my-project/locations/me-west1-b/instances/my-instance */
-  filestoreInstance?: string;
+  filestoreInstance?: string | undefined;
 }
 /** Third party file service configuration */
 export interface ThirdPartyFileService {
   /** Required. Server IP addresses of the NFS file service. NFS v3, provide a single IP address or DNS name. Multiple servers can be supported in future when NFS 4.1 protocol support is enabled. */
-  servers?: StringList;
+  servers?: StringList | undefined;
   /** Required. Required to identify vpc peering used for NFS access network name of NFS's vpc e.g. projects/project-id/global/networks/my-network_id */
-  network?: string;
+  network?: string | undefined;
   /** Required. Required Mount Folder name */
-  fileShare?: string;
+  fileShare?: string | undefined;
 }
 /** Volume message captures user inputs for creation of file services managed by GCVE */
 export interface GoogleVmwareFileService {}
 /** The NFS datastore configuration. */
 export interface NfsDatastore {
   /** Google file service configuration */
-  googleFileService?: GoogleFileService;
+  googleFileService?: GoogleFileService | undefined;
   /** Third party file service configuration */
-  thirdPartyFileService?: ThirdPartyFileService;
+  thirdPartyFileService?: ThirdPartyFileService | undefined;
   /** GCVE file service configuration */
-  googleVmwareFileService?: GoogleVmwareFileService;
+  googleVmwareFileService?: GoogleVmwareFileService | undefined;
 }
 export type DatastoreStateEnum =
   | "STATE_UNSPECIFIED"
@@ -120,57 +120,57 @@ export type DatastoreStateEnum =
 /** Represents a datastore resource. */
 export interface Datastore {
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Clusters to which the datastore is attached. */
-  clusters?: StringList;
+  clusters?: StringList | undefined;
   /** Optional. Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. User-provided description for this datastore */
-  description?: string;
+  description?: string | undefined;
   /** Required. Settings for the NFS datastore. */
-  nfsDatastore?: NfsDatastore;
+  nfsDatastore?: NfsDatastore | undefined;
   /** Output only. The state of the Datastore. */
-  state?: DatastoreStateEnum | (string & {});
+  state?: DatastoreStateEnum | (string & {}) | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsDatastoresRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The user-provided identifier of the datastore to be created. This identifier must be unique among each `Datastore` within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  datastoreId?: string;
+  datastoreId?: string | undefined;
   /** Required. The resource name of the location to create the new datastore in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
   /** Request body */
-  body?: Datastore;
+  body?: Datastore | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export type NetworkPeeringPeerNetworkTypeEnum =
   | "PEER_NETWORK_TYPE_UNSPECIFIED"
@@ -191,49 +191,49 @@ export type NetworkPeeringStateEnum =
 /** Details of a network peering. */
 export interface NetworkPeering {
   /** Optional. True if custom routes are exported to the peered network; false otherwise. The default value is true. */
-  exportCustomRoutes?: boolean;
+  exportCustomRoutes?: boolean | undefined;
   /** Optional. User-provided description for this network peering. */
-  description?: string;
+  description?: string | undefined;
   /** Required. The type of the network to peer with the VMware Engine network. */
-  peerNetworkType?: NetworkPeeringPeerNetworkTypeEnum | (string & {});
+  peerNetworkType?: NetworkPeeringPeerNetworkTypeEnum | (string & {}) | undefined;
   /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
-  name?: string;
+  name?: string | undefined;
   /** Required. The relative resource name of the network to peer with a standard VMware Engine network. The provided network can be a consumer VPC network or another standard VMware Engine network. If the `peer_network_type` is VMWARE_ENGINE_NETWORK, specify the name in the form: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. Otherwise specify the name in the form: `projects/{project}/global/networks/{network_id}`, where `{project}` can either be a project number or a project ID. */
-  peerNetwork?: string;
+  peerNetwork?: string | undefined;
   /** Optional. True if full mesh connectivity is created and managed automatically between peered networks; false otherwise. Currently this field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when peering state is 'ACTIVE'. */
-  exchangeSubnetRoutes?: boolean;
+  exchangeSubnetRoutes?: boolean | undefined;
   /** Optional. True if custom routes are imported from the peered network; false otherwise. The default value is true. */
-  importCustomRoutes?: boolean;
+  importCustomRoutes?: boolean | undefined;
   /** Output only. State of the network peering. This field has a value of 'ACTIVE' when there's a matching configuration in the peer network. New values may be added to this enum when appropriate. */
-  state?: NetworkPeeringStateEnum | (string & {});
+  state?: NetworkPeeringStateEnum | (string & {}) | undefined;
   /** Optional. Maximum transmission unit (MTU) in bytes. The default value is `1500`. If a value of `0` is provided for this field, VMware Engine uses the default value instead. */
-  peerMtu?: number;
+  peerMtu?: number | undefined;
   /** Required. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string;
+  vmwareEngineNetwork?: string | undefined;
   /** Output only. Output Only. Details about the current state of the network peering. */
-  stateDetails?: string;
+  stateDetails?: string | undefined;
   /** Optional. True if all subnet routes with a public IP address range are exported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always exported to peers and are not controlled by this field. */
-  exportCustomRoutesWithPublicIp?: boolean;
+  exportCustomRoutesWithPublicIp?: boolean | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always imported to peers and are not controlled by this field. */
-  importCustomRoutesWithPublicIp?: boolean;
+  importCustomRoutesWithPublicIp?: boolean | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface CreateProjectsLocationsNetworkPeeringsRequest {
   /** Required. The resource name of the location to create the new network peering in. This value is always `global`, because `NetworkPeering` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The user-provided identifier of the new `NetworkPeering`. This identifier must be unique among `NetworkPeering` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  networkPeeringId?: string;
+  networkPeeringId?: string | undefined;
   /** Request body */
-  body?: NetworkPeering;
+  body?: NetworkPeering | undefined;
 }
 export type NetworkServiceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -243,44 +243,44 @@ export type NetworkServiceStateEnum =
 /** Represents a network service that is managed by a `NetworkPolicy` resource. A network service provides a way to control an aspect of external access to VMware workloads. For example, whether the VMware workloads in the private clouds governed by a network policy can access or be accessed from the internet. */
 export interface NetworkService {
   /** True if the service is enabled; false otherwise. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Output only. State of the service. New values may be added to this enum when appropriate. */
-  state?: NetworkServiceStateEnum | (string & {});
+  state?: NetworkServiceStateEnum | (string & {}) | undefined;
 }
 /** Represents a network policy resource. Network policies are regional resources. You can use a network policy to enable or disable internet access and external IP access. Network policies are associated with a VMware Engine network, which might span across regions. For a given region, a network policy applies to all private clouds in the VMware Engine network associated with the policy. */
 export interface NetworkPolicy {
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Optional. User-provided description for this network policy. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string;
+  vmwareEngineNetwork?: string | undefined;
   /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string;
+  vmwareEngineNetworkCanonical?: string | undefined;
   /** Required. IP address range in CIDR notation used to create internet access and external IP access. An RFC 1918 CIDR block, with a "/26" prefix, is required. The range cannot overlap with any prefixes either in the consumer VPC network or in use by the private clouds attached to that VPC network. */
-  edgeServicesCidr?: string;
+  edgeServicesCidr?: string | undefined;
   /** Output only. Identifier. The resource name of this network policy. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
-  name?: string;
+  name?: string | undefined;
   /** Network service that allows VMware workloads to access the internet. */
-  internetAccess?: NetworkService;
+  internetAccess?: NetworkService | undefined;
   /** Network service that allows External IP addresses to be assigned to VMware workloads. This service can only be enabled when `internet_access` is also enabled. */
-  externalIp?: NetworkService;
+  externalIp?: NetworkService | undefined;
 }
 export interface CreateProjectsLocationsNetworkPoliciesRequest {
   /** Required. The resource name of the location (region) to create the new network policy in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The user-provided identifier of the network policy to be created. This identifier must be unique within parent `projects/{my-project}/locations/{us-central1}/networkPolicies` and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  networkPolicyId?: string;
+  networkPolicyId?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: NetworkPolicy;
+  body?: NetworkPolicy | undefined;
 }
 export type ExternalAccessRuleStateEnum =
   | "STATE_UNSPECIFIED"
@@ -291,118 +291,118 @@ export type ExternalAccessRuleStateEnum =
 /** An IP range provided in any one of the supported formats. */
 export interface IpRange {
   /** An IP address range in the CIDR format. For example: `10.0.0.0/24`. */
-  ipAddressRange?: string;
+  ipAddressRange?: string | undefined;
   /** The name of an `ExternalAddress` resource. The external address must have been reserved in the scope of this external access rule's parent network policy. Provide the external address name in the form of `projects/{project}/locations/{location}/privateClouds/{private_cloud}/externalAddresses/{external_address}`. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address`. */
-  externalAddress?: string;
+  externalAddress?: string | undefined;
   /** A single IP address. For example: `10.0.0.5`. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type IpRangeList = Array<IpRange>;
 export type ExternalAccessRuleActionEnum = "ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
 /** External access firewall rules for filtering incoming traffic destined to `ExternalAddress` resources. */
 export interface ExternalAccessRule {
   /** Output only. The state of the resource. */
-  state?: ExternalAccessRuleStateEnum | (string & {});
+  state?: ExternalAccessRuleStateEnum | (string & {}) | undefined;
   /** A list of destination ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all destination ports, specify `["0-65535"]`. */
-  destinationPorts?: StringList;
+  destinationPorts?: StringList | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** If destination ranges are specified, the external access rule applies only to the traffic that has a destination IP address in these ranges. The specified IP addresses must have reserved external IP addresses in the scope of the parent network policy. To match all external IP addresses in the scope of the parent network policy, specify `0.0.0.0/0`. To match a specific external IP address, specify it using the `IpRange.external_address` property. */
-  destinationIpRanges?: IpRangeList;
+  destinationIpRanges?: IpRangeList | undefined;
   /** A list of source ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all source ports, specify `["0-65535"]`. */
-  sourcePorts?: StringList;
+  sourcePorts?: StringList | undefined;
   /** The IP protocol to which the external access rule applies. This value can be one of the following three protocol strings (not case-sensitive): `tcp`, `udp`, or `icmp`. */
-  ipProtocol?: string;
+  ipProtocol?: string | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
-  name?: string;
+  name?: string | undefined;
   /** User-provided description for this external access rule. */
-  description?: string;
+  description?: string | undefined;
   /** External access rule priority, which determines the external access rule to use when multiple rules apply. If multiple rules have the same priority, their ordering is non-deterministic. If specific ordering is required, assign unique priorities to enforce such ordering. The external access rule priority is an integer from 100 to 4096, both inclusive. Lower integers indicate higher precedence. For example, a rule with priority `100` has higher precedence than a rule with priority `101`. */
-  priority?: number;
+  priority?: number | undefined;
   /** If source ranges are specified, the external access rule applies only to traffic that has a source IP address in these ranges. These ranges can either be expressed in the CIDR format or as an IP address. As only inbound rules are supported, `ExternalAddress` resources cannot be the source IP addresses of an external access rule. To match all source addresses, specify `0.0.0.0/0`. */
-  sourceIpRanges?: IpRangeList;
+  sourceIpRanges?: IpRangeList | undefined;
   /** The action that the external access rule performs. */
-  action?: ExternalAccessRuleActionEnum | (string & {});
+  action?: ExternalAccessRuleActionEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The user-provided identifier of the `ExternalAccessRule` to be created. This identifier must be unique among `ExternalAccessRule` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  externalAccessRuleId?: string;
+  externalAccessRuleId?: string | undefined;
   /** Required. The resource name of the network policy to create a new external access firewall rule in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
   parent: string;
   /** Request body */
-  body?: ExternalAccessRule;
+  body?: ExternalAccessRule | undefined;
 }
 export type VcenterStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING";
 /** Details about a vCenter Server management appliance. */
 export interface Vcenter {
   /** Internal IP address of the appliance. */
-  internalIp?: string;
+  internalIp?: string | undefined;
   /** Version of the appliance. */
-  version?: string;
+  version?: string | undefined;
   /** Fully qualified domain name of the appliance. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Output only. The state of the appliance. */
-  state?: VcenterStateEnum | (string & {});
+  state?: VcenterStateEnum | (string & {}) | undefined;
 }
 export type PrivateCloudTypeEnum = "STANDARD" | "TIME_LIMITED" | "STRETCHED";
 /** Information about the type and number of nodes associated with the cluster. */
 export interface NodeTypeConfig {
   /** Required. The number of nodes of this type in the cluster */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** Optional. Customized number of cores available to each node of the type. This number must always be one of `nodeType.availableCustomCoreCounts`. If zero is provided max value from `nodeType.availableCustomCoreCounts` will be used. */
-  customCoreCount?: number;
+  customCoreCount?: number | undefined;
 }
 export type NodeTypeConfigMap = { [key: string]: NodeTypeConfig | undefined };
 /** Configuration of a stretched cluster. */
 export interface StretchedClusterConfig {
   /** Optional. The identifier of the placement group for preferred location cluster nodes. A placement group is an internal Google identifier for a group of resources that are physically located within the same fault domain. If provided, nodes for this cluster are placed within the specified placement group. If this field is omitted, the system selects an appropriate placement group. */
-  preferredLocationPlacementGroup?: string;
+  preferredLocationPlacementGroup?: string | undefined;
   /** Required. Zone that will remain operational when connection between the two zones is lost. Specify the resource name or ID of a zone that belongs to the region of the private cloud. For example: `projects/{project}/locations/europe-west3-a` or `europe-west3-a`, where `{project}` can either be a project number or a project ID. */
-  preferredLocation?: string;
+  preferredLocation?: string | undefined;
   /** Required. Additional zone for a higher level of availability and load balancing. Specify the resource name or ID of a zone that belongs to the region of the private cloud. For example: `projects/{project}/locations/europe-west3-b` or `europe-west3-b`, where `{project}` can either be a project number or a project ID. */
-  secondaryLocation?: string;
+  secondaryLocation?: string | undefined;
   /** Optional. The identifier of the placement group for secondary location cluster nodes. A placement group is an internal Google identifier for a group of resources that are physically located within the same fault domain. If provided, nodes for this cluster are placed within the specified placement group. If this field is omitted, the system selects an appropriate placement group. */
-  secondaryLocationPlacementGroup?: string;
+  secondaryLocationPlacementGroup?: string | undefined;
 }
 /** Management cluster configuration. */
 export interface ManagementCluster {
   /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
-  nodeTypeConfigs?: NodeTypeConfigMap;
+  nodeTypeConfigs?: NodeTypeConfigMap | undefined;
   /** Optional. Configuration of a stretched cluster. Required for STRETCHED private clouds. */
-  stretchedClusterConfig?: StretchedClusterConfig;
+  stretchedClusterConfig?: StretchedClusterConfig | undefined;
   /** Optional. The identifier of the placement group for management cluster nodes. A placement group is an internal Google identifier for a group of resources that are physically located within the same fault domain. If provided, nodes for this cluster are placed within the specified placement group. If this field is omitted, the system selects an appropriate placement group. */
-  placementGroup?: string;
+  placementGroup?: string | undefined;
   /** Required. The user-provided identifier of the new `Cluster`. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  clusterId?: string;
+  clusterId?: string | undefined;
 }
 /** Network configuration in the consumer project with which the peering has to be done. */
 export interface NetworkConfig {
   /** Output only. The IP address layout version of the management IP address range. Possible versions include: * `managementIpAddressLayoutVersion=1`: Indicates the legacy IP address layout used by some existing private clouds. This is no longer supported for new private clouds as it does not support all features. * `managementIpAddressLayoutVersion=2`: Indicates the latest IP address layout used by all newly created private clouds. This version supports all current features. */
-  managementIpAddressLayoutVersion?: number;
+  managementIpAddressLayoutVersion?: number | undefined;
   /** Required. Management CIDR used by VMware management appliances. */
-  managementCidr?: string;
+  managementCidr?: string | undefined;
   /** Optional. The relative resource name of the VMware Engine network attached to the private cloud. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string;
+  vmwareEngineNetwork?: string | undefined;
   /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string;
+  vmwareEngineNetworkCanonical?: string | undefined;
   /** Output only. DNS Server IP of the Private Cloud. All DNS queries can be forwarded to this address for name resolution of Private Cloud's management entities like vCenter, NSX-T Manager and ESXi hosts. */
-  dnsServerIp?: string;
+  dnsServerIp?: string | undefined;
 }
 export type EncryptionConfigTypeEnum = "TYPE_UNSPECIFIED" | "CMEK" | "LEGACY_CMEK" | "OTHER";
 /** Encryption configuration for a private cloud. */
 export interface EncryptionConfig {
   /** Required. The encryption type of the private cloud. */
-  type?: EncryptionConfigTypeEnum | (string & {});
+  type?: EncryptionConfigTypeEnum | (string & {}) | undefined;
   /** Optional. The resource name of the Cloud KMS key to be used for CMEK encryption. The format of this field is `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}`. The key must be in the same region as the private cloud. This key is used for wrapping the key-encrypting key of vSAN clusters. This field must be provided when `type` is `CMEK` or `LEGACY_CMEK`, and must not be set when `type` is `OTHER`. */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
 }
 export type PrivateCloudStateEnum =
   | "STATE_UNSPECIFIED"
@@ -416,70 +416,70 @@ export type NsxStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING";
 /** Details about a NSX Manager appliance. */
 export interface Nsx {
   /** Version of the appliance. */
-  version?: string;
+  version?: string | undefined;
   /** Internal IP address of the appliance. */
-  internalIp?: string;
+  internalIp?: string | undefined;
   /** Fully qualified domain name of the appliance. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Output only. The state of the appliance. */
-  state?: NsxStateEnum | (string & {});
+  state?: NsxStateEnum | (string & {}) | undefined;
 }
 export type HcxStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "ACTIVATING";
 /** Details about a HCX Cloud Manager appliance. */
 export interface Hcx {
   /** Fully qualified domain name of the appliance. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Internal IP address of the appliance. */
-  internalIp?: string;
+  internalIp?: string | undefined;
   /** Version of the appliance. */
-  version?: string;
+  version?: string | undefined;
   /** Output only. The state of the appliance. */
-  state?: HcxStateEnum | (string & {});
+  state?: HcxStateEnum | (string & {}) | undefined;
 }
 /** Represents a private cloud resource. Private clouds of type `STANDARD` and `TIME_LIMITED` are zonal resources, `STRETCHED` private clouds are regional. */
 export interface PrivateCloud {
   /** Output only. Vcenter appliance. */
-  vcenter?: Vcenter;
+  vcenter?: Vcenter | undefined;
   /** Optional. Type of the private cloud. Defaults to STANDARD. */
-  type?: PrivateCloudTypeEnum | (string & {});
+  type?: PrivateCloudTypeEnum | (string & {}) | undefined;
   /** Required. Input only. The management cluster for this private cloud. This field is required during creation of the private cloud to provide details for the default cluster. The following fields can't be changed after private cloud creation: `ManagementCluster.clusterId`, `ManagementCluster.nodeTypeId`. */
-  managementCluster?: ManagementCluster;
+  managementCluster?: ManagementCluster | undefined;
   /** User-provided description for this private cloud. */
-  description?: string;
+  description?: string | undefined;
   /** Required. Network configuration of the private cloud. */
-  networkConfig?: NetworkConfig;
+  networkConfig?: NetworkConfig | undefined;
   /** Optional. Encryption configuration for the private cloud. If this field is left unspecified, Google default encryption is used. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: PrivateCloudStateEnum | (string & {});
+  state?: PrivateCloudStateEnum | (string & {}) | undefined;
   /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Time when the resource was scheduled for deletion. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Output only. NSX appliance. */
-  nsx?: Nsx;
+  nsx?: Nsx | undefined;
   /** Output only. Time when the resource will be irreversibly deleted. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. HCX appliance. */
-  hcx?: Hcx;
+  hcx?: Hcx | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface CreateProjectsLocationsPrivateCloudsRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the location to create the new private cloud in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
   parent: string;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The user-provided identifier of the private cloud to be created. This identifier must be unique among each `PrivateCloud` within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  privateCloudId?: string;
+  privateCloudId?: string | undefined;
   /** Request body */
-  body?: PrivateCloud;
+  body?: PrivateCloud | undefined;
 }
 export type ClusterStateEnum =
   | "STATE_UNSPECIFIED"
@@ -491,36 +491,36 @@ export type ClusterStateEnum =
 /** Thresholds define the utilization of resources triggering scale-out and scale-in operations. */
 export interface Thresholds {
   /** Required. The utilization triggering the scale-out operation in percent. */
-  scaleOut?: number;
+  scaleOut?: number | undefined;
   /** Required. The utilization triggering the scale-in operation in percent. */
-  scaleIn?: number;
+  scaleIn?: number | undefined;
 }
 /** Autoscaling policy describes the behavior of the autoscaling with respect to the resource utilization. The scale-out operation is initiated if the utilization exceeds ANY of the respective thresholds. The scale-in operation is initiated if the utilization is below ALL of the respective thresholds. */
 export interface AutoscalingPolicy {
   /** Optional. Utilization thresholds pertaining to amount of granted memory. */
-  grantedMemoryThresholds?: Thresholds;
+  grantedMemoryThresholds?: Thresholds | undefined;
   /** Optional. Utilization thresholds pertaining to amount of consumed storage. */
-  storageThresholds?: Thresholds;
+  storageThresholds?: Thresholds | undefined;
   /** Required. Number of nodes to add to a cluster during a scale-out operation. Must be divisible by 2 for stretched clusters. During a scale-in operation only one node (or 2 for stretched clusters) are removed in a single iteration. */
-  scaleOutSize?: number;
+  scaleOutSize?: number | undefined;
   /** Optional. Utilization thresholds pertaining to amount of consumed memory. */
-  consumedMemoryThresholds?: Thresholds;
+  consumedMemoryThresholds?: Thresholds | undefined;
   /** Required. The canonical identifier of the node type to add or remove. Corresponds to the `NodeType`. */
-  nodeTypeId?: string;
+  nodeTypeId?: string | undefined;
   /** Optional. Utilization thresholds pertaining to CPU utilization. */
-  cpuThresholds?: Thresholds;
+  cpuThresholds?: Thresholds | undefined;
 }
 export type AutoscalingPolicyMap = { [key: string]: AutoscalingPolicy | undefined };
 /** Autoscaling settings define the rules used by VMware Engine to automatically scale-out and scale-in the clusters in a private cloud. */
 export interface AutoscalingSettings {
   /** Optional. Minimum number of nodes of any type in a cluster. If not specified the default limits apply. */
-  minClusterNodeCount?: number;
+  minClusterNodeCount?: number | undefined;
   /** Optional. Maximum number of nodes of any type in a cluster. If not specified the default limits apply. */
-  maxClusterNodeCount?: number;
+  maxClusterNodeCount?: number | undefined;
   /** Required. The map with autoscaling policies applied to the cluster. The key is the identifier of the policy. It must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) Currently there map must contain only one element that describes the autoscaling policy for compute nodes. */
-  autoscalingPolicies?: AutoscalingPolicyMap;
+  autoscalingPolicies?: AutoscalingPolicyMap | undefined;
   /** Optional. The minimum duration between consecutive autoscale operations. It starts once addition or removal of nodes is fully completed. Defaults to 30 minutes if not specified. Cool down period must be in whole minutes (for example, 30, 31, 50, 180 minutes). */
-  coolDownPeriod?: string;
+  coolDownPeriod?: string | undefined;
 }
 export type DatastoreMountConfigAccessModeEnum =
   | "ACCESS_MODE_UNSPECIFIED"
@@ -530,66 +530,66 @@ export type DatastoreMountConfigNfsVersionEnum = "NFS_VERSION_UNSPECIFIED" | "NF
 /** The network configuration for the datastore. */
 export interface DatastoreNetwork {
   /** Required. The resource name of the subnet Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. e.g. projects/my-project/locations/us-central1/subnets/my-subnet */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Optional. MTU value is set on the VMKernel adapter for the NFS traffic. By default standard 1500 MTU size is set in MountDatastore API which is good for typical setups. However google VPC networks supports jumbo MTU 8896. We recommend to tune this value based on the NFS traffic performance. Performance can be determined using benchmarking I/O tools like fio (Flexible I/O Tester) utility. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Optional. connection_count is used to set multiple connections from NFS client on ESXi host to NFS server. A higher number of connections results in better performance on datastores. In MountDatastore API by default max 4 connections are configured. User can set value of connection_count between 1 to 4. Connection_count is supported from vsphere 8.0u1 for earlier version 1 connection count is set on the ESXi hosts. */
-  connectionCount?: number;
+  connectionCount?: number | undefined;
   /** Output only. The resource name of the network peering, used to access the file share by clients on private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. e.g. projects/my-project/locations/us-central1/networkPeerings/my-network-peering */
-  networkPeering?: string;
+  networkPeering?: string | undefined;
 }
 /** The Datastore Mount configuration */
 export interface DatastoreMountConfig {
   /** Required. The resource name of the datastore to mount. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
-  datastore?: string;
+  datastore?: string | undefined;
   /** Optional. The access mode of the NFS volume. Optional. Default value used will be READ_WRITE */
-  accessMode?: DatastoreMountConfigAccessModeEnum | (string & {});
+  accessMode?: DatastoreMountConfigAccessModeEnum | (string & {}) | undefined;
   /** Optional. The NFS protocol supported by the NFS volume. Default value used will be NFS_V3 */
-  nfsVersion?: DatastoreMountConfigNfsVersionEnum | (string & {});
+  nfsVersion?: DatastoreMountConfigNfsVersionEnum | (string & {}) | undefined;
   /** Output only. Server IP addresses of the NFS volume. For NFS 3, you can only provide a single server IP address or DNS names. */
-  servers?: StringList;
+  servers?: StringList | undefined;
   /** Required. The network configuration for the datastore. */
-  datastoreNetwork?: DatastoreNetwork;
+  datastoreNetwork?: DatastoreNetwork | undefined;
   /** Output only. File share name. */
-  fileShare?: string;
+  fileShare?: string | undefined;
 }
 export type DatastoreMountConfigList = Array<DatastoreMountConfig>;
 /** A cluster in a private cloud. */
 export interface Cluster {
   /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
-  nodeTypeConfigs?: NodeTypeConfigMap;
+  nodeTypeConfigs?: NodeTypeConfigMap | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. State of the resource. */
-  state?: ClusterStateEnum | (string & {});
+  state?: ClusterStateEnum | (string & {}) | undefined;
   /** Optional. Configuration of the autoscaling applied to this cluster. */
-  autoscalingSettings?: AutoscalingSettings;
+  autoscalingSettings?: AutoscalingSettings | undefined;
   /** Optional. The identifier of the placement group for cluster nodes. A placement group is an internal Google identifier for a group of resources that are physically located within the same fault domain. If provided, nodes for this cluster are placed within the specified placement group. If this field is omitted, the system selects an appropriate placement group. */
-  placementGroup?: string;
+  placementGroup?: string | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. True if the cluster is a management cluster; false otherwise. There can only be one management cluster in a private cloud and it has to be the first one. */
-  management?: boolean;
+  management?: boolean | undefined;
   /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Configuration of a mounted datastore. */
-  datastoreMountConfig?: DatastoreMountConfigList;
+  datastoreMountConfig?: DatastoreMountConfigList | undefined;
   /** Optional. Configuration of a stretched cluster. Required for clusters that belong to a STRETCHED private cloud. */
-  stretchedClusterConfig?: StretchedClusterConfig;
+  stretchedClusterConfig?: StretchedClusterConfig | undefined;
 }
 export interface CreateProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The user-provided identifier of the new `Cluster`. This identifier must be unique among clusters within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the private cloud to create a new cluster in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** Request body */
-  body?: Cluster;
+  body?: Cluster | undefined;
 }
 export type ExternalAddressStateEnum =
   | "STATE_UNSPECIFIED"
@@ -600,57 +600,57 @@ export type ExternalAddressStateEnum =
 /** Represents an allocated external IP address and its corresponding internal IP address in a private cloud. */
 export interface ExternalAddress {
   /** Output only. The state of the resource. */
-  state?: ExternalAddressStateEnum | (string & {});
+  state?: ExternalAddressStateEnum | (string & {}) | undefined;
   /** Output only. The external IP address of a workload VM. */
-  externalIp?: string;
+  externalIp?: string | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** User-provided description for this resource. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Identifier. The resource name of this external IP address. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address` */
-  name?: string;
+  name?: string | undefined;
   /** The internal IP address of a workload VM. */
-  internalIp?: string;
+  internalIp?: string | undefined;
 }
 export interface CreateProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The resource name of the private cloud to create a new external IP address in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The user-provided identifier of the `ExternalAddress` to be created. This identifier must be unique among `ExternalAddress` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  externalAddressId?: string;
+  externalAddressId?: string | undefined;
   /** Request body */
-  body?: ExternalAddress;
+  body?: ExternalAddress | undefined;
 }
 export type HcxActivationKeyStateEnum = "STATE_UNSPECIFIED" | "AVAILABLE" | "CONSUMED" | "CREATING";
 /** HCX activation key. A default key is created during private cloud provisioning, but this behavior is subject to change and you should always verify active keys. Use VmwareEngine.ListHcxActivationKeys to retrieve existing keys and VmwareEngine.CreateHcxActivationKey to create new ones. */
 export interface HcxActivationKey {
   /** Output only. HCX activation key. */
-  activationKey?: string;
+  activationKey?: string | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. State of HCX activation key. */
-  state?: HcxActivationKeyStateEnum | (string & {});
+  state?: HcxActivationKeyStateEnum | (string & {}) | undefined;
   /** Output only. Creation time of HCX activation key. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The resource name of this HcxActivationKey. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud/hcxActivationKeys/my-key` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** Required. The user-provided identifier of the `HcxActivationKey` to be created. This identifier must be unique among `HcxActivationKey` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  hcxActivationKeyId?: string;
+  hcxActivationKeyId?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the private cloud to create the key for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud` */
   parent: string;
   /** Request body */
-  body?: HcxActivationKey;
+  body?: HcxActivationKey | undefined;
 }
 export type LoggingServerProtocolEnum =
   | "PROTOCOL_UNSPECIFIED"
@@ -663,31 +663,31 @@ export type LoggingServerSourceTypeEnum = "SOURCE_TYPE_UNSPECIFIED" | "ESXI" | "
 /** Logging server to receive vCenter or ESXi logs. */
 export interface LoggingServer {
   /** Required. Protocol used by vCenter to send logs to a logging server. */
-  protocol?: LoggingServerProtocolEnum | (string & {});
+  protocol?: LoggingServerProtocolEnum | (string & {}) | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. Fully-qualified domain name (FQDN) or IP Address of the logging server. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Required. Port number at which the logging server receives logs. */
-  port?: number;
+  port?: number | undefined;
   /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
-  name?: string;
+  name?: string | undefined;
   /** Required. The type of component that produces logs that will be forwarded to this logging server. */
-  sourceType?: LoggingServerSourceTypeEnum | (string & {});
+  sourceType?: LoggingServerSourceTypeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the private cloud to create a new Logging Server in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** Required. The user-provided identifier of the `LoggingServer` to be created. This identifier must be unique among `LoggingServer` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  loggingServerId?: string;
+  loggingServerId?: string | undefined;
   /** Request body */
-  body?: LoggingServer;
+  body?: LoggingServer | undefined;
 }
 export type ManagementDnsZoneBindingStateEnum =
   | "STATE_UNSPECIFIED"
@@ -699,31 +699,31 @@ export type ManagementDnsZoneBindingStateEnum =
 /** Represents a binding between a network and the management DNS zone. A management DNS zone is the Cloud DNS cross-project binding zone that VMware Engine creates for each private cloud. It contains FQDNs and corresponding IP addresses for the private cloud's ESXi hosts and management VM appliances like vCenter and NSX Manager. */
 export interface ManagementDnsZoneBinding {
   /** Network to bind is a standard consumer VPC. Specify the name in the following form for consumer VPC network: `projects/{project}/global/networks/{network_id}`. `{project}` can either be a project number or a project ID. */
-  vpcNetwork?: string;
+  vpcNetwork?: string | undefined;
   /** User-provided description for this resource. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
-  name?: string;
+  name?: string | undefined;
   /** Network to bind is a VMware Engine network. Specify the name in the following form for VMware engine network: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string;
+  vmwareEngineNetwork?: string | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The state of the resource. */
-  state?: ManagementDnsZoneBindingStateEnum | (string & {});
+  state?: ManagementDnsZoneBindingStateEnum | (string & {}) | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The user-provided identifier of the `ManagementDnsZoneBinding` resource to be created. This identifier must be unique among `ManagementDnsZoneBinding` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  managementDnsZoneBindingId?: string;
+  managementDnsZoneBindingId?: string | undefined;
   /** Required. The resource name of the private cloud to create a new management DNS zone binding for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** Request body */
-  body?: ManagementDnsZoneBinding;
+  body?: ManagementDnsZoneBinding | undefined;
 }
 export type PrivateConnectionRoutingModeEnum = "ROUTING_MODE_UNSPECIFIED" | "GLOBAL" | "REGIONAL";
 export type PrivateConnectionTypeEnum =
@@ -747,52 +747,52 @@ export type PrivateConnectionStateEnum =
 /** Private connection resource that provides connectivity for VMware Engine private clouds. */
 export interface PrivateConnection {
   /** Optional. Routing Mode. Default value is set to GLOBAL. For type = PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. */
-  routingMode?: PrivateConnectionRoutingModeEnum | (string & {});
+  routingMode?: PrivateConnectionRoutingModeEnum | (string & {}) | undefined;
   /** Required. Private connection type. */
-  type?: PrivateConnectionTypeEnum | (string & {});
+  type?: PrivateConnectionTypeEnum | (string & {}) | undefined;
   /** Output only. VPC network peering id between given network VPC and VMwareEngineNetwork. */
-  peeringId?: string;
+  peeringId?: string | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. The relative resource name of Legacy VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}`, `{location}` will be same as specified in private connection resource name and `{vmware_engine_network_id}` will be in the form of `{location}`-default e.g. projects/project/locations/us-central1/vmwareEngineNetworks/us-central1-default. */
-  vmwareEngineNetwork?: string;
+  vmwareEngineNetwork?: string | undefined;
   /** Optional. User-provided description for this private connection. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string;
+  vmwareEngineNetworkCanonical?: string | undefined;
   /** Output only. Peering state between service network and VMware Engine network. */
-  peeringState?: PrivateConnectionPeeringStateEnum | (string & {});
+  peeringState?: PrivateConnectionPeeringStateEnum | (string & {}) | undefined;
   /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. State of the private connection. */
-  state?: PrivateConnectionStateEnum | (string & {});
+  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
   /** Required. Service network to create private connection. Specify the name in the following form: `projects/{project}/global/networks/{network_id}` For type = PRIVATE_SERVICE_ACCESS, this field represents servicenetworking VPC, e.g. projects/project-tp/global/networks/servicenetworking. For type = NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC, e.g. projects/project-tp/global/networks/netapp-tenant-vpc. For type = DELL_POWERSCALE, this field represent Dell service VPC, e.g. projects/project-tp/global/networks/dell-tenant-vpc. For type= THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected, e.g. projects/project/global/networks/vpc. */
-  serviceNetwork?: string;
+  serviceNetwork?: string | undefined;
 }
 export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Required. The user-provided identifier of the new private connection. This identifier must be unique among private connection resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  privateConnectionId?: string;
+  privateConnectionId?: string | undefined;
   /** Required. The resource name of the location to create the new private connection in. Private connection is a regional resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: PrivateConnection;
+  body?: PrivateConnection | undefined;
 }
 export type VmwareEngineNetworkTypeEnum = "TYPE_UNSPECIFIED" | "LEGACY" | "STANDARD";
 export type VpcNetworkTypeEnum = "TYPE_UNSPECIFIED" | "INTRANET" | "INTERNET" | "GOOGLE_CLOUD";
 /** Represents a VMware Engine VPC network that is managed by a VMware Engine network resource. */
 export interface VpcNetwork {
   /** Output only. Type of VPC network (INTRANET, INTERNET, or GOOGLE_CLOUD) */
-  type?: VpcNetworkTypeEnum | (string & {});
+  type?: VpcNetworkTypeEnum | (string & {}) | undefined;
   /** Output only. The relative resource name of the service VPC network this VMware Engine network is attached to. For example: `projects/123123/global/networks/my-network` */
-  network?: string;
+  network?: string | undefined;
 }
 export type VpcNetworkList = Array<VpcNetwork>;
 export type VmwareEngineNetworkStateEnum =
@@ -804,53 +804,53 @@ export type VmwareEngineNetworkStateEnum =
 /** VMware Engine network resource that provides connectivity for VMware Engine private clouds. */
 export interface VmwareEngineNetwork {
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. VMware Engine network type. */
-  type?: VmwareEngineNetworkTypeEnum | (string & {});
+  type?: VmwareEngineNetworkTypeEnum | (string & {}) | undefined;
   /** User-provided description for this VMware Engine network. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. VMware Engine service VPC networks that provide connectivity from a private cloud to customer projects, the internet, and other Google Cloud services. */
-  vpcNetworks?: VpcNetworkList;
+  vpcNetworks?: VpcNetworkList | undefined;
   /** Output only. Identifier. The resource name of the VMware Engine network. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
-  name?: string;
+  name?: string | undefined;
   /** Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. State of the VMware Engine network. */
-  state?: VmwareEngineNetworkStateEnum | (string & {});
+  state?: VmwareEngineNetworkStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsVmwareEngineNetworksRequest {
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The user-provided identifier of the new VMware Engine network. This identifier must be unique among VMware Engine network resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * For networks of type LEGACY, adheres to the format: `{region-id}-default`. Replace `{region-id}` with the region where you want to create the VMware Engine network. For example, "us-central1-default". * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  vmwareEngineNetworkId?: string;
+  vmwareEngineNetworkId?: string | undefined;
   /** Required. The resource name of the location to create the new VMware Engine network in. A VMware Engine network of type `LEGACY` is a regional resource, and a VMware Engine network of type `STANDARD` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
   parent: string;
   /** Request body */
-  body?: VmwareEngineNetwork;
+  body?: VmwareEngineNetwork | undefined;
 }
 export interface DeleteProjectsLocationsDatastoresRequest {
   /** Required. The resource name of the Datastore to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastore/my-datastore` */
   name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsNetworkPeeringsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the network peering to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   name: string;
 }
 export interface DeleteProjectsLocationsNetworkPoliciesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the network policy to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
   name: string;
 }
@@ -858,7 +858,7 @@ export interface DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesReques
   /** Required. The resource name of the external access firewall rule to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -868,17 +868,17 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export interface Empty {}
 export interface DeleteProjectsLocationsPrivateCloudsRequest {
   /** Optional. Time delay of the deletion specified in hours. The default value is `3`. Specifying a non-zero value for this field changes the value of `PrivateCloud.state` to `DELETED` and sets `expire_time` to the planned deletion time. Deletion can be cancelled before `expire_time` elapses using VmwareEngine.UndeletePrivateCloud. Specifying a value of `0` for this field instead begins the deletion process and ceases billing immediately. During the final deletion process, the value of `PrivateCloud.state` becomes `PURGING`. */
-  delayHours?: number;
+  delayHours?: number | undefined;
   /** Optional. If set to true, cascade delete is enabled and all children of this private cloud resource are also deleted. When this flag is set to false, the private cloud will not be deleted if there are any children other than the management cluster. The management cluster is always deleted. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. The resource name of the private cloud to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the cluster to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
 }
@@ -886,49 +886,49 @@ export interface DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. The resource name of the external IP address to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-ip` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Required. The resource name of the logging server to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The resource name of the management DNS zone binding to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsPrivateConnectionsRequest {
   /** Required. The resource name of the private connection to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsVmwareEngineNetworksRequest {
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The resource name of the VMware Engine network to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest {
   /** The maximum number of external IP addresses to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The resource name of the network policy to query for assigned external IP addresses. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
   networkPolicy: string;
   /** A page token, received from a previous `FetchNetworkPolicyExternalAddresses` call. Provide this to retrieve the subsequent page. When paginating, all parameters provided to `FetchNetworkPolicyExternalAddresses`, except for `page_size` and `page_token`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ExternalAddressList = Array<ExternalAddress>;
 /** Response message for VmwareEngine.FetchNetworkPolicyExternalAddresses */
 export interface FetchNetworkPolicyExternalAddressesResponse {
   /** A list of external IP addresses assigned to VMware workload VMs within the scope of the given network policy. */
-  externalAddresses?: ExternalAddressList;
+  externalAddresses?: ExternalAddressList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface GetDnsBindPermissionProjectsLocationsRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
@@ -937,17 +937,17 @@ export interface GetDnsBindPermissionProjectsLocationsRequest {
 /** Users/Service accounts which have access for DNS binding on the intranet VPC corresponding to the consumer project. Principal can be a user or a service account. For example: For specifying user `user@example.com` use `{"user": "user@example.com"}` and for specifying service account `service-account@gserviceaccount.com` use `{"serviceAccount": "service-account@gserviceaccount.com"}`. */
 export interface Principal {
   /** The service account which needs to be granted the permission. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** The user who needs to be granted permission. */
-  user?: string;
+  user?: string | undefined;
 }
 export type PrincipalList = Array<Principal>;
 /** DnsBindPermission resource that contains the accounts having the consumer DNS bind permission on the corresponding intranet VPC of the consumer project. */
 export interface DnsBindPermission {
   /** Required. Output only. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource and location can only be global. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Users/Service accounts which have access for binding on the intranet VPC project corresponding to the consumer project. */
-  principals?: PrincipalList;
+  principals?: PrincipalList | undefined;
 }
 export interface GetDnsForwardingProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of a `DnsForwarding` to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
@@ -956,47 +956,47 @@ export interface GetDnsForwardingProjectsLocationsPrivateCloudsRequest {
 /** A forwarding rule is a mapping of a `domain` to `name_servers`. This mapping allows VMware Engine to resolve domains for attached private clouds by forwarding DNS requests for a given domain to the specified nameservers. */
 export interface ForwardingRule {
   /** Required. List of DNS servers to use for domain resolution */
-  nameServers?: StringList;
+  nameServers?: StringList | undefined;
   /** Required. Domain used to resolve a `name_servers` list. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type ForwardingRuleList = Array<ForwardingRule>;
 /** DNS forwarding config. This config defines a list of domain to name server mappings, and is attached to the private cloud for custom domain resolution. */
 export interface DnsForwarding {
   /** Output only. Identifier. The resource name of this DNS profile. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
-  name?: string;
+  name?: string | undefined;
   /** Required. List of domain mappings to configure */
-  forwardingRules?: ForwardingRuleList;
+  forwardingRules?: ForwardingRuleList | undefined;
   /** Output only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsPrivateCloudsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -1007,33 +1007,33 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -1041,7 +1041,7 @@ export interface GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequ
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetNsxCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to be queried for credentials. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
@@ -1050,9 +1050,9 @@ export interface GetNsxCredentialsProjectsLocationsPrivateCloudsRequest {
 /** Credentials for a private cloud. */
 export interface Vmwareengine_Credentials {
   /** Initial username. */
-  username?: string;
+  username?: string | undefined;
   /** Initial password. */
-  password?: string;
+  password?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1062,15 +1062,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsAnnouncementsRequest {
   /** Required. The resource name of the announcement to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/announcements/announcement-uuid` */
@@ -1085,27 +1085,27 @@ export type AnnouncementStateEnum =
 /** Announcement for the resources of Vmware Engine. */
 export interface Announcement {
   /** Output only. Additional structured details about this announcement. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Required. Code of the announcement. Indicates the presence of a VMware Engine related announcement and corresponds to a related message in the `description` field. */
-  code?: string;
+  code?: string | undefined;
   /** A Private Cloud resource name. */
-  privateCloud?: string;
+  privateCloud?: string | undefined;
   /** Output only. Target Resource Type defines the type of the target for the announcement */
-  targetResourceType?: string;
+  targetResourceType?: string | undefined;
   /** Output only. Creation time of this resource. It also serves as start time of notification. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: AnnouncementStateEnum;
+  state?: AnnouncementStateEnum | undefined;
   /** A Cluster resource name. */
-  cluster?: string;
+  cluster?: string | undefined;
   /** Optional. Activity type of the announcement There can be only one active announcement for a given activity type and target resource. */
-  activityType?: string;
+  activityType?: string | undefined;
   /** Output only. Description of the announcement. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The resource name of the announcement. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/announcements/my-announcement-id` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsDatastoresRequest {
   /** Required. The resource name of the Datastore to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
@@ -1134,27 +1134,27 @@ export type IntegerList = Array<number>;
 /** Describes node type. */
 export interface NodeType {
   /** Output only. Families of the node type. For node types to be in the same cluster they must share at least one element in the `families`. */
-  families?: StringList;
+  families?: StringList | undefined;
   /** Output only. The resource name of this node type. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-proj/locations/us-central1-a/nodeTypes/standard-72` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Capabilities of this node type. */
-  capabilities?: NodeTypeCapabilitiesItemEnumList;
+  capabilities?: NodeTypeCapabilitiesItemEnumList | undefined;
   /** Output only. The type of the resource. */
-  kind?: NodeTypeKindEnum;
+  kind?: NodeTypeKindEnum | undefined;
   /** Output only. The amount of physical memory available, defined in GB. */
-  memoryGb?: number;
+  memoryGb?: number | undefined;
   /** Output only. The canonical identifier of the node type (corresponds to the `NodeType`). For example: standard-72. */
-  nodeTypeId?: string;
+  nodeTypeId?: string | undefined;
   /** Output only. List of possible values of custom core count. */
-  availableCustomCoreCounts?: IntegerList;
+  availableCustomCoreCounts?: IntegerList | undefined;
   /** Output only. The amount of storage available, defined in GB. */
-  diskSizeGb?: number;
+  diskSizeGb?: number | undefined;
   /** Output only. The total number of virtual CPUs in a single node. */
-  virtualCpuCount?: number;
+  virtualCpuCount?: number | undefined;
   /** Output only. The total number of CPU cores in a single node. */
-  totalCoreCount?: number;
+  totalCoreCount?: number | undefined;
   /** Output only. The friendly name for this node type. For example: ve1-standard-72 */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1176,19 +1176,19 @@ export type NodeStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "FAILE
 /** Node in a cluster. */
 export interface Node {
   /** Output only. The version number of the VMware ESXi management component in this cluster. */
-  version?: string;
+  version?: string | undefined;
   /** Output only. The canonical identifier of the node type (corresponds to the `NodeType`). For example: standard-72. */
-  nodeTypeId?: string;
+  nodeTypeId?: string | undefined;
   /** Output only. Internal IP address of the node. */
-  internalIp?: string;
+  internalIp?: string | undefined;
   /** Output only. The resource name of this node. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster/nodes/my-node */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The state of the appliance. */
-  state?: NodeStateEnum;
+  state?: NodeStateEnum | undefined;
   /** Output only. Customized number of cores */
-  customCoreCount?: string;
+  customCoreCount?: string | undefined;
   /** Output only. Fully qualified domain name of the node. */
-  fqdn?: string;
+  fqdn?: string | undefined;
 }
 export interface GetProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. The resource name of the external IP address to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-ip` */
@@ -1221,17 +1221,17 @@ export type SubnetStateEnum =
 /** Subnet in a private cloud. Either `management` subnets (such as vMotion) that are read-only, or `userDefined`, which can also be updated. */
 export interface Subnet {
   /** Output only. Identifier. The resource name of this subnet. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
-  name?: string;
+  name?: string | undefined;
   /** The IP address range of the subnet in CIDR format '10.0.0.0/24'. */
-  ipCidrRange?: string;
+  ipCidrRange?: string | undefined;
   /** The IP address of the gateway of this subnet. Must fall within the IP prefix defined above. */
-  gatewayIp?: string;
+  gatewayIp?: string | undefined;
   /** Output only. VLAN ID of the VLAN on which the subnet is configured */
-  vlanId?: number;
+  vlanId?: number | undefined;
   /** Output only. The state of the resource. */
-  state?: SubnetStateEnum | (string & {});
+  state?: SubnetStateEnum | (string & {}) | undefined;
   /** Output only. The type of the subnet. For example "management" or "userDefined". */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetProjectsLocationsPrivateCloudsUpgradesRequest {
   /** Required. The name of the `Upgrade` resource to be retrieved. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
@@ -1241,20 +1241,20 @@ export type ScheduleLastEditorEnum = "EDITOR_UNSPECIFIED" | "SYSTEM" | "USER";
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
+  seconds?: number | undefined;
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  hours?: number | undefined;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
+  minutes?: number | undefined;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
+  nanos?: number | undefined;
 }
 export type WeeklyTimeIntervalEndDayEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -1277,25 +1277,25 @@ export type WeeklyTimeIntervalStartDayEnum =
 /** Represents a time interval, spanning across days of the week. Until local timezones are supported, this interval is in UTC. */
 export interface WeeklyTimeInterval {
   /** Output only. The time on the start day at which the interval starts. */
-  startTime?: TimeOfDay;
+  startTime?: TimeOfDay | undefined;
   /** Output only. The time on the end day at which the interval ends. */
-  endTime?: TimeOfDay;
+  endTime?: TimeOfDay | undefined;
   /** Output only. The day on which the interval ends. Can be same as start day. */
-  endDay?: WeeklyTimeIntervalEndDayEnum | (string & {});
+  endDay?: WeeklyTimeIntervalEndDayEnum | (string & {}) | undefined;
   /** Output only. The day on which the interval starts. */
-  startDay?: WeeklyTimeIntervalStartDayEnum | (string & {});
+  startDay?: WeeklyTimeIntervalStartDayEnum | (string & {}) | undefined;
 }
 export type WeeklyTimeIntervalList = Array<WeeklyTimeInterval>;
 /** Constraints to be applied while editing a schedule. These constraints ensure that `Upgrade` specific requirements are met. */
 export interface Constraints {
   /** Output only. Output Only. A list of intervals in which maintenance windows are not allowed. Any time window that overlaps with any of these intervals will be considered invalid. */
-  disallowedIntervals?: WeeklyTimeIntervalList;
+  disallowedIntervals?: WeeklyTimeIntervalList | undefined;
   /** Output only. The minimum number of weekly hours must be allotted for the upgrade activities. This is just a minimum; the schedule can assign more weekly hours. */
-  minHoursWeek?: number;
+  minHoursWeek?: number | undefined;
   /** Output only. Output Only. The user can only reschedule an upgrade that starts within this range. */
-  rescheduleDateRange?: Interval;
+  rescheduleDateRange?: Interval | undefined;
   /** Output only. Minimum number of hours must be allotted for the upgrade activities for each selected day. This is a minimum; the upgrade schedule can allot more hours for the given day. */
-  minHoursDay?: number;
+  minHoursDay?: number | undefined;
 }
 export type TimeWindowDayOfWeekEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -1309,25 +1309,25 @@ export type TimeWindowDayOfWeekEnum =
 /** Represents the time window to perform upgrade activities. */
 export interface TimeWindow {
   /** Required. Day of the week for this window. */
-  dayOfWeek?: TimeWindowDayOfWeekEnum | (string & {});
+  dayOfWeek?: TimeWindowDayOfWeekEnum | (string & {}) | undefined;
   /** Required. Time in UTC when the window starts. */
-  startTime?: TimeOfDay;
+  startTime?: TimeOfDay | undefined;
   /** Required. The duration of the window. The max allowed duration for any window is 24 hours. */
-  duration?: string;
+  duration?: string | undefined;
 }
 export type TimeWindowList = Array<TimeWindow>;
 /** Schedule for the upgrade. */
 export interface Schedule {
   /** Required. The scheduled start time for the upgrade. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Output Only. Indicates who most recently edited the upgrade schedule. The value is updated whenever the upgrade is rescheduled. */
-  lastEditor?: ScheduleLastEditorEnum | (string & {});
+  lastEditor?: ScheduleLastEditorEnum | (string & {}) | undefined;
   /** Output only. Output Only. The schedule is open for edits during this time interval or window. */
-  editWindow?: Interval;
+  editWindow?: Interval | undefined;
   /** Output only. Output Only. Constraints applied to the schedule. These constraints should be applicable at the time of any rescheduling. */
-  constraints?: Constraints;
+  constraints?: Constraints | undefined;
   /** Required. Weekly time windows for upgrade activities. The server performs upgrade activities during these time windows to minimize disruptions. */
-  weeklyWindows?: TimeWindowList;
+  weeklyWindows?: TimeWindowList | undefined;
 }
 export type UpgradeTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -1365,9 +1365,9 @@ export type VmwareUpgradeComponentComponentTypeEnum =
 /** Per component upgrade resource */
 export interface VmwareUpgradeComponent {
   /** Output only. Component's upgrade state. */
-  state?: VmwareUpgradeComponentStateEnum | (string & {});
+  state?: VmwareUpgradeComponentStateEnum | (string & {}) | undefined;
   /** Output only. Type of component */
-  componentType?: VmwareUpgradeComponentComponentTypeEnum | (string & {});
+  componentType?: VmwareUpgradeComponentComponentTypeEnum | (string & {}) | undefined;
 }
 export type VmwareUpgradeComponentList = Array<VmwareUpgradeComponent>;
 export type UpgradeStateEnum =
@@ -1383,35 +1383,35 @@ export type UpgradeStateEnum =
 /** Describes Private cloud Upgrade. */
 export interface Upgrade {
   /** Output only. Output Only. The description of the upgrade. This is used to provide additional information about the private cloud upgrade, such as the upgrade's purpose, the changes included in the upgrade, or any other relevant information about the upgrade. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Output Only. End time of the upgrade. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Schedule details for the upgrade. */
-  schedule?: Schedule;
+  schedule?: Schedule | undefined;
   /** Output only. Output Only. The start version */
-  startVersion?: string;
+  startVersion?: string | undefined;
   /** Output only. Output Only. The estimated total duration of the upgrade. This information can be used to plan or schedule upgrades to minimize disruptions. Please note that the estimated duration is only an estimate. The actual upgrade duration may vary. */
-  estimatedDuration?: string;
+  estimatedDuration?: string | undefined;
   /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Output Only. The type of upgrade. */
-  type?: UpgradeTypeEnum | (string & {});
+  type?: UpgradeTypeEnum | (string & {}) | undefined;
   /** Output only. Output Only. The list of component upgrades. */
-  componentUpgrades?: VmwareUpgradeComponentList;
+  componentUpgrades?: VmwareUpgradeComponentList | undefined;
   /** Output only. Output Only. The target version */
-  targetVersion?: string;
+  targetVersion?: string | undefined;
   /** Output only. */
-  version?: string;
+  version?: string | undefined;
   /** Output only. The current state of the upgrade. */
-  state?: UpgradeStateEnum | (string & {});
+  state?: UpgradeStateEnum | (string & {}) | undefined;
   /** The etag for the upgrade resource. If this is provided on update, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. Output Only. Creation time of this resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Output Only. Last update time of this resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface GetProjectsLocationsPrivateConnectionsRequest {
   /** Required. The resource name of the private connection to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
@@ -1425,153 +1425,153 @@ export interface GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to be queried for credentials. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
   /** Optional. The username of the user to be queried for credentials. The default value of this field is CloudOwner@gve.local. The provided value must be one of the following: CloudOwner@gve.local, solution-user-01@gve.local, solution-user-02@gve.local, solution-user-03@gve.local, solution-user-04@gve.local, solution-user-05@gve.local, zertoadmin@gve.local. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Request message for VmwareEngine.GrantDnsBindPermission */
 export interface GrantDnsBindPermissionRequest {
   /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. Principal can be a user or a service account. For example, to specify the user `user@example.com`, use `"principal": {"user": "user@example.com"}` and to specify the service account `service-account@gserviceaccount.com`, use `"principal": {"serviceAccount": "service-account@gserviceaccount.com"}`. */
-  principal?: Principal;
+  principal?: Principal | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface GrantProjectsLocationsDnsBindPermissionRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
   name: string;
   /** Request body */
-  body?: GrantDnsBindPermissionRequest;
+  body?: GrantDnsBindPermissionRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsAnnouncementsRequest {
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of announcement runs, you can exclude the ones named `example-announcement` by specifying `name != "example-announcement"`. You can also filter nested fields. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-announcement") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "announcement-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "announcement-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The resource name of the location to be queried for announcements. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a` */
   parent: string;
   /** A page token, received from a previous `ListAnnouncements` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAnnouncements` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of announcements to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AnnouncementList = Array<Announcement>;
 /** Response message for VmwareEngine.ListAnnouncements */
 export interface ListAnnouncementsResponse {
   /** list of unreachable locations */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of announcement runs. */
-  announcements?: AnnouncementList;
+  announcements?: AnnouncementList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCapacityAllocationsRequest {
   /** Optional. A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string or a number. The comparison operator must be `=`, `!=`, `>`, `>=`, `<`, or `<=`. The has operator `:` is also supported. Supported fields include `name`, `display_name` (or `placement_group`), `machine_family`, `allocated_capacity_count`, `consumed_capacity_count`, and `connected_placement_group` (using `=`). For example, if you are filtering a list of capacity allocations, you can exclude the ones named `example-capacity-allocation` by specifying `name != "example-capacity-allocation"`. You can also filter on other fields, such as machine family (`"ve1"`, `"ve2"`, or `"ve3"`) or connected placement group: ``` machine_family = "ve1" connected_placement_group = "example-placement-group" ``` To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (machine_family = "ve1") (allocated_capacity_count > 10) ``` By default, each expression is an `AND` expression. However, you can include `AND`, `OR`, and `NOT` expressions explicitly. For example: ``` ((machine_family = "ve1") AND (allocated_capacity_count > 10)) OR (consumed_capacity_count > 0) ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of capacity allocations to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The resource name of the location to query for capacity allocations. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
   parent: string;
   /** Optional. A page token, received from a previous `ListCapacityAllocations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCapacityAllocations` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Represents a capacity allocation. Capacity allocation is zonal. */
 export interface CapacityAllocation {
   /** Output only. The allocated capacity for the capacity allocation. */
-  allocatedCapacityCount?: number;
+  allocatedCapacityCount?: number | undefined;
   /** Output only. The machine family of the capacity allocation. */
-  machineFamily?: string;
+  machineFamily?: string | undefined;
   /** Output only. The consumed capacity for the capacity allocation. */
-  consumedCapacityCount?: number;
+  consumedCapacityCount?: number | undefined;
   /** Output only. Identifier. The resource name of the capacity allocation. The last segment of the name is the placement group name. For example: `projects/my-project/locations/us-central1-a/capacityAllocations/pg-123` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The private cloud names using the capacity allocation. */
-  privateClouds?: StringList;
+  privateClouds?: StringList | undefined;
 }
 export type CapacityAllocationList = Array<CapacityAllocation>;
 /** Response message for VmwareEngine.ListCapacityAllocations */
 export interface ListCapacityAllocationsResponse {
   /** A list of capacity allocations. */
-  capacityAllocations?: CapacityAllocationList;
+  capacityAllocations?: CapacityAllocationList | undefined;
   /** Unordered list. Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatastoresRequest {
   /** Optional. Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListDatastores` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatastores` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The resource name of the location to query for Datastores. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of datastores, you can exclude the ones named `example-datastore` by specifying `name != "example-datastore"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-datastore") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-datastore-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-datastore-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type DatastoreList = Array<Datastore>;
 /** Response message for VmwareEngine.ListDatastores */
 export interface ListDatastoresResponse {
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of Datastores. */
-  datastores?: DatastoreList;
+  datastores?: DatastoreList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsNetworkPeeringsRequest {
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network peerings, you can exclude the ones named `example-peering` by specifying `name != "example-peering"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-peering") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-peering-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-peering-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token, received from a previous `ListNetworkPeerings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNetworkPeerings` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the location (global) to query for network peerings. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
   parent: string;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of network peerings to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type NetworkPeeringList = Array<NetworkPeering>;
 /** Response message for VmwareEngine.ListNetworkPeerings */
 export interface ListNetworkPeeringsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of network peerings. */
-  networkPeerings?: NetworkPeeringList;
+  networkPeerings?: NetworkPeeringList | undefined;
 }
 export interface ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest {
   /** A page token, received from a previous `ListPeeringRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPeeringRoutes` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the network peering to retrieve peering routes from. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   parent: string;
   /** The maximum number of peering routes to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter expression that matches resources returned in the response. Currently, only filtering on the `direction` field is supported. To return routes imported from the peer network, provide "direction=INCOMING". To return routes exported from the VMware Engine network, provide "direction=OUTGOING". Other filter expressions return an error. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type PeeringRouteDirectionEnum = "DIRECTION_UNSPECIFIED" | "INCOMING" | "OUTGOING";
 export type PeeringRouteTypeEnum =
@@ -1582,35 +1582,35 @@ export type PeeringRouteTypeEnum =
 /** Exchanged network peering route. */
 export interface PeeringRoute {
   /** Output only. The priority of the peering route. */
-  priority?: string;
+  priority?: string | undefined;
   /** Output only. True if the peering route has been imported from a peered VPC network; false otherwise. The import happens if the field `NetworkPeering.importCustomRoutes` is true for this network, `NetworkPeering.exportCustomRoutes` is true for the peer VPC network, and the import does not result in a route conflict. */
-  imported?: boolean;
+  imported?: boolean | undefined;
   /** Output only. Region containing the next hop of the peering route. This field only applies to dynamic routes in the peer VPC network. */
-  nextHopRegion?: string;
+  nextHopRegion?: string | undefined;
   /** Output only. Destination range of the peering route in CIDR notation. */
-  destRange?: string;
+  destRange?: string | undefined;
   /** Output only. Direction of the routes exchanged with the peer network, from the VMware Engine network perspective: * Routes of direction `INCOMING` are imported from the peer network. * Routes of direction `OUTGOING` are exported from the intranet VPC network of the VMware Engine network. */
-  direction?: PeeringRouteDirectionEnum;
+  direction?: PeeringRouteDirectionEnum | undefined;
   /** Output only. Type of the route in the peer VPC network. */
-  type?: PeeringRouteTypeEnum;
+  type?: PeeringRouteTypeEnum | undefined;
 }
 export type PeeringRouteList = Array<PeeringRoute>;
 /** Response message for VmwareEngine.ListPeeringRoutes */
 export interface ListPeeringRoutesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of peering routes. */
-  peeringRoutes?: PeeringRouteList;
+  peeringRoutes?: PeeringRouteList | undefined;
 }
 export interface ListProjectsLocationsNetworkPoliciesRequest {
   /** A page token, received from a previous `ListNetworkPolicies` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNetworkPolicies` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of network policies to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network policies, you can exclude the ones named `example-policy` by specifying `name != "example-policy"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-policy") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-policy-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-policy-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The resource name of the location (region) to query for network policies. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
 }
@@ -1618,63 +1618,63 @@ export type NetworkPolicyList = Array<NetworkPolicy>;
 /** Response message for VmwareEngine.ListNetworkPolicies */
 export interface ListNetworkPoliciesResponse {
   /** A list of network policies. */
-  networkPolicies?: NetworkPolicyList;
+  networkPolicies?: NetworkPolicyList | undefined;
   /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The resource name of the network policy to query for external access firewall rules. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
   parent: string;
   /** A page token, received from a previous `ListExternalAccessRulesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExternalAccessRulesRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of external access rules, you can exclude the ones named `example-rule` by specifying `name != "example-rule"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-rule") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-rule-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-rule-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of external access rules to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ExternalAccessRuleList = Array<ExternalAccessRule>;
 /** Response message for VmwareEngine.ListExternalAccessRules */
 export interface ListExternalAccessRulesResponse {
   /** A list of external access firewall rules. */
-  externalAccessRules?: ExternalAccessRuleList;
+  externalAccessRules?: ExternalAccessRuleList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsNodeTypesRequest {
   /** Required. The resource name of the location to be queried for node types. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of node types, you can exclude the ones named `standard-72` by specifying `name != "standard-72"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "standard-72") (virtual_cpu_count > 2) ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "standard-96") AND (virtual_cpu_count > 2) OR (name = "standard-72") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token, received from a previous `ListNodeTypes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNodeTypes` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of node types to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type NodeTypeList = Array<NodeType>;
 /** Response message for VmwareEngine.ListNodeTypes */
 export interface ListNodeTypesResponse {
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of Node Types. */
-  nodeTypes?: NodeTypeList;
+  nodeTypes?: NodeTypeList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -1682,61 +1682,61 @@ export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of private clouds, you can exclude the ones named `example-pc` by specifying `name != "example-pc"`. You can also filter nested fields. For example, you could specify `networkConfig.managementCidr = "192.168.0.0/24"` to include private clouds only if they have a matching address in their network configuration. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-pc") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "private-cloud-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "private-cloud-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The resource name of the private cloud to be queried for clusters. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
   parent: string;
   /** The maximum number of private clouds to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListPrivateClouds` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateClouds` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type PrivateCloudList = Array<PrivateCloud>;
 /** Response message for VmwareEngine.ListPrivateClouds */
 export interface ListPrivateCloudsResponse {
   /** A list of private clouds. */
-  privateClouds?: PrivateCloudList;
+  privateClouds?: PrivateCloudList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsClustersRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The resource name of the private cloud to query for clusters. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-cluster") (nodeCount = "3") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-cluster-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-cluster-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of clusters to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListClusters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClusters` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ClusterList = Array<Cluster>;
 /** Response message for VmwareEngine.ListClusters */
 export interface ListClustersResponse {
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of private cloud clusters. */
-  clusters?: ClusterList;
+  clusters?: ClusterList | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsClustersNodesRequest {
   /** The maximum number of nodes to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListNodes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNodes` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the cluster to be queried for nodes. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   parent: string;
 }
@@ -1744,415 +1744,415 @@ export type NodeList = Array<Node>;
 /** Response message for VmwareEngine.ListNodes */
 export interface ListNodesResponse {
   /** The nodes. */
-  nodes?: NodeList;
+  nodes?: NodeList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of external IP addresses to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The resource name of the private cloud to be queried for external IP addresses. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of IP addresses, you can exclude the ones named `example-ip` by specifying `name != "example-ip"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-ip") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-ip-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-ip-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token, received from a previous `ListExternalAddresses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExternalAddresses` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for VmwareEngine.ListExternalAddresses */
 export interface ListExternalAddressesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of external IP addresses. */
-  externalAddresses?: ExternalAddressList;
+  externalAddresses?: ExternalAddressList | undefined;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** A page token, received from a previous `ListHcxActivationKeys` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListHcxActivationKeys` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the private cloud to be queried for HCX activation keys. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud` */
   parent: string;
   /** The maximum number of HCX activation keys to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type HcxActivationKeyList = Array<HcxActivationKey>;
 /** Response message for VmwareEngine.ListHcxActivationKeys */
 export interface ListHcxActivationKeysResponse {
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of HCX activation keys. */
-  hcxActivationKeys?: HcxActivationKeyList;
+  hcxActivationKeys?: HcxActivationKeyList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The resource name of the private cloud to be queried for logging servers. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of logging servers, you can exclude the ones named `example-server` by specifying `name != "example-server"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-server") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-server-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-server-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of logging servers to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListLoggingServersRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLoggingServersRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LoggingServerList = Array<LoggingServer>;
 /** Response message for VmwareEngine.ListLoggingServers */
 export interface ListLoggingServersResponse {
   /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of Logging Servers. */
-  loggingServers?: LoggingServerList;
+  loggingServers?: LoggingServerList | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** A page token, received from a previous `ListManagementDnsZoneBindings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListManagementDnsZoneBindings` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of management DNS zone bindings to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The resource name of the private cloud to be queried for management DNS zone bindings. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of Management DNS Zone Bindings, you can exclude the ones named `example-management-dns-zone-binding` by specifying `name != "example-management-dns-zone-binding"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-management-dns-zone-binding") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-management-dns-zone-binding-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-management-dns-zone-binding-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ManagementDnsZoneBindingList = Array<ManagementDnsZoneBinding>;
 /** Response message for VmwareEngine.ListManagementDnsZoneBindings */
 export interface ListManagementDnsZoneBindingsResponse {
   /** A list of management DNS zone bindings. */
-  managementDnsZoneBindings?: ManagementDnsZoneBindingList;
+  managementDnsZoneBindings?: ManagementDnsZoneBindingList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsSubnetsRequest {
   /** Required. The resource name of the private cloud to be queried for subnets. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
   /** The maximum number of subnets to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListSubnetsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubnetsRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SubnetList = Array<Subnet>;
 /** Response message for VmwareEngine.ListSubnets */
 export interface ListSubnetsResponse {
   /** A list of subnets. */
-  subnets?: SubnetList;
+  subnets?: SubnetList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPrivateCloudsUpgradesRequest {
   /** Required. Query a list of `Upgrades` for the given private cloud resource name. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of upgrades, you can exclude the ones named `example-upgrade1` by specifying `name != "example-upgrade1"`. You can also filter nested fields. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-upgrade") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "upgrade-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "upgrade-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of `Upgrades` to return in one page. The service may return fewer resources than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListUpgrades` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUpgrades` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type UpgradeList = Array<Upgrade>;
 /** Response message for VmwareEngine.ListUpgrades. */
 export interface ListUpgradesResponse {
   /** List of unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of `Upgrades`. */
-  upgrades?: UpgradeList;
+  upgrades?: UpgradeList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRequest {
   /** Required. The resource name of the location to query for private connections. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of private connections, you can exclude the ones named `example-connection` by specifying `name != "example-connection"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-connection") (createTime > "2022-09-22T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-connection-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-connection-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of private connections to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type PrivateConnectionList = Array<PrivateConnection>;
 /** Response message for VmwareEngine.ListPrivateConnections */
 export interface ListPrivateConnectionsResponse {
   /** A list of private connections. */
-  privateConnections?: PrivateConnectionList;
+  privateConnections?: PrivateConnectionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest {
   /** The maximum number of peering routes to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The resource name of the private connection to retrieve peering routes from. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1/privateConnections/my-connection` */
   parent: string;
   /** A page token, received from a previous `ListPrivateConnectionPeeringRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnectionPeeringRoutes` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for VmwareEngine.ListPrivateConnectionPeeringRoutes */
 export interface ListPrivateConnectionPeeringRoutesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of peering routes. */
-  peeringRoutes?: PeeringRouteList;
+  peeringRoutes?: PeeringRouteList | undefined;
 }
 export interface ListProjectsLocationsVmwareEngineNetworksRequest {
   /** Required. The resource name of the location to query for VMware Engine networks. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network peerings, you can exclude the ones named `example-network` by specifying `name != "example-network"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-network") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-network-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-network-2") ``` */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token, received from a previous `ListVmwareEngineNetworks` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListVmwareEngineNetworks` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of results to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type VmwareEngineNetworkList = Array<VmwareEngineNetwork>;
 /** Response message for VmwareEngine.ListVmwareEngineNetworks */
 export interface ListVmwareEngineNetworksResponse {
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of VMware Engine networks. */
-  vmwareEngineNetworks?: VmwareEngineNetworkList;
+  vmwareEngineNetworks?: VmwareEngineNetworkList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message for VmwareEngine.MigrateManagementVms */
 export interface MigrateManagementVmsRequest {
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The user-provided identifier of the workload cluster to which the management VMs are to be migrated. The cluster must be in the same private cloud as the one specified in `name`, and must be a workload cluster. The eventual cluster name will be constructed from the private cloud name and this cluster ID. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface MigrateManagementVmsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud whose management vms are getting migrated. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
   /** Request body */
-  body?: MigrateManagementVmsRequest;
+  body?: MigrateManagementVmsRequest | undefined;
 }
 /** Mount Datastore Request message */
 export interface MountDatastoreRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to true, the colocation requirement will be ignored. If set to false, the colocation requirement will be enforced. If not set, the colocation requirement will be enforced. Colocation requirement is the requirement that the cluster must be in the same region/zone of datastore(regional/zonal datastore). */
-  ignoreColocation?: boolean;
+  ignoreColocation?: boolean | undefined;
   /** Required. The datastore mount configuration. */
-  datastoreMountConfig?: DatastoreMountConfig;
+  datastoreMountConfig?: DatastoreMountConfig | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface MountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The resource name of the cluster to mount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
   /** Request body */
-  body?: MountDatastoreRequest;
+  body?: MountDatastoreRequest | undefined;
 }
 export interface PatchProjectsLocationsDatastoresRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Datastore resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
   name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Datastore;
+  body?: Datastore | undefined;
 }
 export interface PatchProjectsLocationsNetworkPeeringsRequest {
   /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `NetworkPeering` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: NetworkPeering;
+  body?: NetworkPeering | undefined;
 }
 export interface PatchProjectsLocationsNetworkPoliciesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Output only. Identifier. The resource name of this network policy. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `NetworkPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: NetworkPolicy;
+  body?: NetworkPolicy | undefined;
 }
 export interface PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Optional. If set to `true`, only validates the request but doesn't execute the// request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `ExternalAccessRule` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: ExternalAccessRule;
+  body?: ExternalAccessRule | undefined;
 }
 export interface PatchProjectsLocationsPrivateCloudsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateCloud` resource by the update. The fields specified in `updateMask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the description field will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: PrivateCloud;
+  body?: PrivateCloud | undefined;
 }
 export interface PatchProjectsLocationsPrivateCloudsClustersRequest {
   /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Cluster` resource by the update. The fields specified in the `updateMask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: Cluster;
+  body?: Cluster | undefined;
 }
 export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `ExternalAddress` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Identifier. The resource name of this external IP address. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: ExternalAddress;
+  body?: ExternalAddress | undefined;
 }
 export interface PatchProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `LoggingServer` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: LoggingServer;
+  body?: LoggingServer | undefined;
 }
 export interface PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `ManagementDnsZoneBinding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
   /** Request body */
-  body?: ManagementDnsZoneBinding;
+  body?: ManagementDnsZoneBinding | undefined;
 }
 export interface PatchProjectsLocationsPrivateCloudsSubnetsRequest {
   /** Output only. Identifier. The resource name of this subnet. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Subnet` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Subnet;
+  body?: Subnet | undefined;
 }
 export interface PatchProjectsLocationsPrivateCloudsUpgradesRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `Upgrade` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
   name: string;
   /** Request body */
-  body?: Upgrade;
+  body?: Upgrade | undefined;
 }
 export interface PatchProjectsLocationsPrivateConnectionsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateConnection` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: PrivateConnection;
+  body?: PrivateConnection | undefined;
 }
 export interface PatchProjectsLocationsVmwareEngineNetworksRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the VMware Engine network resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. Only the following fields can be updated: `description`. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Output only. Identifier. The resource name of the VMware Engine network. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: VmwareEngineNetwork;
+  body?: VmwareEngineNetwork | undefined;
 }
 /** Request message for VmwareEngine.AcceleratePrivateCloudDeletion */
 export interface AcceleratePrivateCloudDeletionRequest {
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud in softdeletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
   /** Request body */
-  body?: AcceleratePrivateCloudDeletionRequest;
+  body?: AcceleratePrivateCloudDeletionRequest | undefined;
 }
 /** Request message for VmwareEngine.RepairManagementDnsZoneBindings */
 export interface RepairManagementDnsZoneBindingRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The resource name of the management DNS zone binding to repair. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
   /** Request body */
-  body?: RepairManagementDnsZoneBindingRequest;
+  body?: RepairManagementDnsZoneBindingRequest | undefined;
 }
 /** Request message for VmwareEngine.ResetNsxCredentials */
 export interface ResetNsxCredentialsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to reset credentials for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
   /** Request body */
-  body?: ResetNsxCredentialsRequest;
+  body?: ResetNsxCredentialsRequest | undefined;
 }
 /** Request message for VmwareEngine.ResetVcenterCredentials */
 export interface ResetVcenterCredentialsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The username of the user to be to reset the credentials. The default value of this field is CloudOwner@gve.local. The provided value should be one of the following: solution-user-01@gve.local, solution-user-02@gve.local, solution-user-03@gve.local, solution-user-04@gve.local, solution-user-05@gve.local, zertoadmin@gve.local. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to reset credentials for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
   /** Request body */
-  body?: ResetVcenterCredentialsRequest;
+  body?: ResetVcenterCredentialsRequest | undefined;
 }
 /** Request message for VmwareEngine.RevokeDnsBindPermission */
 export type RevokeDnsBindPermissionRequest = GrantDnsBindPermissionRequest;
@@ -2160,96 +2160,96 @@ export interface RevokeProjectsLocationsDnsBindPermissionRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
   name: string;
   /** Request body */
-  body?: GrantDnsBindPermissionRequest;
+  body?: GrantDnsBindPermissionRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsPrivateCloudsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsPrivateCloudsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for VmwareEngine.UndeletePrivateCloud */
 export interface UndeletePrivateCloudRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface UndeleteProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud scheduled for deletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
   /** Request body */
-  body?: UndeletePrivateCloudRequest;
+  body?: UndeletePrivateCloudRequest | undefined;
 }
 /** Unmount Datastore Request messag */
 export interface UnmountDatastoreRequest {
   /** Optional. If set to `true`, only validates the request but doesn't execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The resource name of the datastore to unmount. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
-  datastore?: string;
+  datastore?: string | undefined;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The resource name of the cluster to unmount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
   /** Request body */
-  body?: UnmountDatastoreRequest;
+  body?: UnmountDatastoreRequest | undefined;
 }
 export interface UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. Identifier. The resource name of this DNS profile. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `DnsForwarding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: DnsForwarding;
+  body?: DnsForwarding | undefined;
 }
 export type CreateProjectsLocationsDatastoresError =
   | NotFound

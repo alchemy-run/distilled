@@ -59,8 +59,8 @@ export type PullRequestStackPullRequestBase = PullRequestStackPullRequestHead;
 export type PullRequestStackPullRequestState = "open" | "closed";
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -79,8 +79,8 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export interface PullRequestStackPullRequest {
   id: number;
@@ -123,21 +123,21 @@ export interface CreateRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The title of the new pull request. Required unless `issue` is specified. */
-  title?: string;
+  title?: string | undefined;
   /** The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`. */
   head: string;
   /** The name of the repository where the changes in the pull request were made. This field is required for cross-repository pull requests if both repositories are owned by the same organization. */
-  head_repo?: string;
+  head_repo?: string | undefined;
   /** The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository. */
   base: string;
   /** The contents of the pull request. */
-  body?: string;
+  body?: string | undefined;
   /** Indicates whether [maintainers can modify](https://docs.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request. */
-  maintainer_can_modify?: boolean;
+  maintainer_can_modify?: boolean | undefined;
   /** Indicates whether the pull request is a draft. See "[Draft Pull Requests](https://docs.github.com/articles/about-pull-requests#draft-pull-requests)" in the GitHub Help documentation to learn more. */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** An issue in the repository to convert to a pull request. The issue title, body, and comments will become the title, body, and comments on the new pull request. Required unless `title` is specified. */
-  issue?: number;
+  issue?: number | undefined;
 }
 /** State of this Pull Request. Either `open` or `closed`. */
 export type PullRequestState = "open" | "closed";
@@ -198,20 +198,20 @@ export interface TeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: TeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 export type PullRequestRequestedTeamsList = Array<TeamSimple>;
 /** License Simple */
@@ -221,14 +221,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -243,8 +243,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -256,7 +256,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -316,8 +316,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -328,56 +328,56 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
+  allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 export interface PullRequestHead {
   label: string;
@@ -433,13 +433,13 @@ export interface PullRequestStackBase {
 export interface PullRequestStack {
   base: PullRequestStackBase;
   /** The total number of pull requests in the stack. */
-  size?: number;
+  size?: number | undefined;
   /** The one-based position of this pull request within the stack, where 1 is the bottom of the stack. */
-  position?: number;
+  position?: number | undefined;
   /** The ID of the stack that this pull request belongs to. */
-  id?: number;
+  id?: number | undefined;
   /** The number of the stack that this pull request belongs to. */
-  number?: number;
+  number?: number | undefined;
 }
 /** Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary. */
 export interface PullRequest {
@@ -466,27 +466,27 @@ export interface PullRequest {
   body: string | null;
   labels: PullRequestLabelsList;
   milestone: NullableMilestone | null;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   created_at: string;
   updated_at: string;
   closed_at: string | null;
   merged_at: string | null;
   merge_commit_sha: string | null;
   assignee: NullableSimpleUser | null;
-  assignees?: PullRequestAssigneesList;
-  requested_reviewers?: PullRequestRequestedReviewersList;
-  requested_teams?: PullRequestRequestedTeamsList;
+  assignees?: PullRequestAssigneesList | undefined;
+  requested_reviewers?: PullRequestRequestedReviewersList | undefined;
+  requested_teams?: PullRequestRequestedTeamsList | undefined;
   head: PullRequestHead;
   base: PullRequestHead;
   _links: PullRequestLinks;
   author_association: AuthorAssociation;
   auto_merge: AutoMerge | null;
-  stack?: PullRequestStack | null;
+  stack?: PullRequestStack | null | undefined;
   /** Indicates whether or not the pull request is a draft. */
-  draft?: boolean;
+  draft?: boolean | undefined;
   merged: boolean;
   mergeable: boolean | null;
-  rebaseable?: boolean | null;
+  rebaseable?: boolean | null | undefined;
   mergeable_state: string;
   merged_by: NullableSimpleUser | null;
   comments: number;
@@ -544,7 +544,7 @@ export interface PullRequestReviewCommentCopilotCodeReviewSourcesItem {
   /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
   name: string;
   /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
-  path?: string;
+  path?: string | undefined;
 }
 /** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
 export type PullRequestReviewCommentCopilotCodeReviewSourcesList =
@@ -578,9 +578,9 @@ export interface ReactionRollup {
 /** Pull Request Review Comments are comments on a portion of the Pull Request's diff. */
 export interface PullRequestReviewComment {
   /** Whether this comment was produced by Copilot code review. Not returned for issue timeline events. */
-  is_copilot_code_review?: boolean;
+  is_copilot_code_review?: boolean | undefined;
   /** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
-  copilot_code_review_sources?: PullRequestReviewCommentCopilotCodeReviewSourcesList;
+  copilot_code_review_sources?: PullRequestReviewCommentCopilotCodeReviewSourcesList | undefined;
   /** URL for the pull request review comment */
   url: string;
   /** The ID of the pull request review to which the comment belongs. */
@@ -594,15 +594,15 @@ export interface PullRequestReviewComment {
   /** The relative path of the file to which the comment applies. */
   path: string;
   /** The line index in the diff to which the comment applies. This field is closing down; use `line` instead. */
-  position?: number;
+  position?: number | undefined;
   /** The index of the original line in the diff to which the comment applies. This field is closing down; use `original_line` instead. */
-  original_position?: number;
+  original_position?: number | undefined;
   /** The SHA of the commit to which the comment applies. */
   commit_id: string;
   /** The SHA of the original commit to which the comment applies. */
   original_commit_id: string;
   /** The comment ID to reply to. */
-  in_reply_to_id?: number;
+  in_reply_to_id?: number | undefined;
   user: NullableSimpleUser | null;
   /** The text of the comment. */
   body: string;
@@ -615,22 +615,22 @@ export interface PullRequestReviewComment {
   author_association: AuthorAssociation;
   _links: PullRequestReviewCommentLinks;
   /** The first line of the range for a multi-line comment. */
-  start_line?: number | null;
+  start_line?: number | null | undefined;
   /** The first line of the range for a multi-line comment. */
-  original_start_line?: number | null;
+  original_start_line?: number | null | undefined;
   /** The side of the first line of the range for a multi-line comment. */
-  start_side?: PullRequestReviewCommentStartSide | null;
+  start_side?: PullRequestReviewCommentStartSide | null | undefined;
   /** The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  line?: number;
+  line?: number | undefined;
   /** The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  original_line?: number;
+  original_line?: number | undefined;
   /** The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment */
-  side?: PullRequestReviewCommentSide;
+  side?: PullRequestReviewCommentSide | undefined;
   /** The level at which the comment is targeted, can be a diff line or a file. */
-  subject_type?: PullRequestReviewCommentSubjectType;
-  reactions?: ReactionRollup;
-  body_html?: string;
-  body_text?: string;
+  subject_type?: PullRequestReviewCommentSubjectType | undefined;
+  reactions?: ReactionRollup | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
 }
 /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request) when you are ready. */
 export type CreateReviewRequestEvent = "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
@@ -638,13 +638,13 @@ export interface CreateReviewRequestCommentsItem {
   /** The relative path to the file that necessitates a review comment. */
   path: string;
   /** The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. The `position` value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file. */
-  position?: number;
+  position?: number | undefined;
   /** Text of the review comment. */
   body: string;
-  line?: number;
-  side?: string;
-  start_line?: number;
-  start_side?: string;
+  line?: number | undefined;
+  side?: string | undefined;
+  start_line?: number | undefined;
+  start_side?: string | undefined;
 }
 /** Use the following table to specify the location, destination, and contents of the draft review comment. */
 export type CreateReviewRequestCommentsList = Array<CreateReviewRequestCommentsItem>;
@@ -656,13 +656,13 @@ export interface CreateReviewRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value. */
-  commit_id?: string;
+  commit_id?: string | undefined;
   /** **Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review. */
-  body?: string;
+  body?: string | undefined;
   /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request) when you are ready. */
-  event?: CreateReviewRequestEvent | (string & {});
+  event?: CreateReviewRequestEvent | (string & {}) | undefined;
   /** Use the following table to specify the location, destination, and contents of the draft review comment. */
-  comments?: CreateReviewRequestCommentsList;
+  comments?: CreateReviewRequestCommentsList | undefined;
 }
 export type PullRequestReviewLinksHtml = Link;
 export type PullRequestReviewLinksPullRequest = Link;
@@ -680,17 +680,17 @@ export interface PullRequestReview {
   body: string;
   state: string;
   /** Whether this review was produced by Copilot code review. Bot authorship alone does not establish provenance. */
-  is_copilot_code_review?: boolean;
+  is_copilot_code_review?: boolean | undefined;
   /** The persisted effective effort used to produce this Copilot code review, or null if unavailable. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
-  copilot_code_review_effort?: string | null;
+  copilot_code_review_effort?: string | null | undefined;
   html_url: string;
   pull_request_url: string;
   _links: PullRequestReviewLinks;
-  submitted_at?: string;
+  submitted_at?: string | undefined;
   /** A commit SHA for the review. If the commit object was garbage collected or forcibly deleted, then it no longer exists in Git and this value will be `null`. */
   commit_id: string | null;
-  body_html?: string;
-  body_text?: string;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
   author_association: AuthorAssociation;
 }
 /** In a split diff view, the side of the diff that the pull request's changes appear on. Can be `LEFT` or `RIGHT`. Use `LEFT` for deletions that appear in red. Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are shown for context. For a multi-line comment, side represents whether the last line of the comment range is a deletion or addition. For more information, see "[Diff view options](https://docs.github.com/articles/about-comparing-branches-in-pull-requests#diff-view-options)" in the GitHub Help documentation. */
@@ -713,19 +713,19 @@ export interface CreateReviewCommentRequest {
   /** The relative path to the file that necessitates a comment. */
   path: string;
   /** **This parameter is closing down. Use `line` instead**. The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. The position value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file. */
-  position?: number;
+  position?: number | undefined;
   /** In a split diff view, the side of the diff that the pull request's changes appear on. Can be `LEFT` or `RIGHT`. Use `LEFT` for deletions that appear in red. Use `RIGHT` for additions that appear in green or unchanged lines that appear in white and are shown for context. For a multi-line comment, side represents whether the last line of the comment range is a deletion or addition. For more information, see "[Diff view options](https://docs.github.com/articles/about-comparing-branches-in-pull-requests#diff-view-options)" in the GitHub Help documentation. */
-  side?: CreateReviewCommentRequestSide | (string & {});
+  side?: CreateReviewCommentRequestSide | (string & {}) | undefined;
   /** **Required unless using `subject_type:file`**. The line of the blob in the pull request diff that the comment applies to. For a multi-line comment, the last line of the range that your comment applies to. */
-  line?: number;
+  line?: number | undefined;
   /** **Required when using multi-line comments unless using `in_reply_to`**. The `start_line` is the first line in the pull request diff that your multi-line comment applies to. To learn more about multi-line comments, see "[Commenting on a pull request](https://docs.github.com/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the GitHub Help documentation. */
-  start_line?: number;
+  start_line?: number | undefined;
   /** **Required when using multi-line comments unless using `in_reply_to`**. The `start_side` is the starting side of the diff that the comment applies to. Can be `LEFT` or `RIGHT`. To learn more about multi-line comments, see "[Commenting on a pull request](https://docs.github.com/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request)" in the GitHub Help documentation. See `side` in this table for additional context. */
-  start_side?: CreateReviewCommentRequestStartSide | (string & {});
+  start_side?: CreateReviewCommentRequestStartSide | (string & {}) | undefined;
   /** The ID of the review comment to reply to. To find the ID of a review comment with ["List review comments on a pull request"](#list-review-comments-on-a-pull-request). When specified, all parameters other than `body` in the request body are ignored. */
-  in_reply_to?: number;
+  in_reply_to?: number | undefined;
   /** The level at which the comment is targeted. */
-  subject_type?: CreateReviewCommentRequestSubjectType | (string & {});
+  subject_type?: CreateReviewCommentRequestSubjectType | (string & {}) | undefined;
 }
 export interface DeletePendingReviewRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -758,7 +758,7 @@ export interface DismissReviewRequest {
   review_id: number;
   /** The message for the pull request review dismissal */
   message: string;
-  event?: DismissReviewRequestEvent | (string & {});
+  event?: DismissReviewRequestEvent | (string & {}) | undefined;
 }
 export type GetRequestAccept =
   | "application/vnd.github+json"
@@ -772,7 +772,7 @@ export interface GetRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** A media type that returns text instead of JSON: `application/vnd.github.diff`, `application/vnd.github.patch`. */
-  accept?: GetRequestAccept | (string & {});
+  accept?: GetRequestAccept | (string & {}) | undefined;
 }
 export type GetResponseBody = PullRequest | string;
 export type GetResponse = GetResponseBody;
@@ -805,7 +805,7 @@ export interface PullRequestMergeAsyncResultDetailsCase0 {
   /** SHA that the pull request head must match for the enqueued merge to proceed. */
   expected_head_sha: string;
   /** Whether the asynchronous merge request will attempt to bypass repository rules that the authenticated actor is permitted to bypass. */
-  bypass_rules?: boolean;
+  bypass_rules?: boolean | undefined;
 }
 /** When the pull request is in a merge queue */
 export interface PullRequestMergeAsyncResultDetailsCase1 {
@@ -876,19 +876,19 @@ export interface ListRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Either `open`, `closed`, or `all` to filter by state. */
-  state?: ListRequestState | (string & {});
+  state?: ListRequestState | (string & {}) | undefined;
   /** Filter pulls by head user or head organization and branch name in the format of `user:ref-name` or `organization:ref-name`. For example: `github:new-script-format` or `octocat:test-branch`. */
-  head?: string;
+  head?: string | undefined;
   /** Filter pulls by base branch name. Example: `gh-pages`. */
-  base?: string;
+  base?: string | undefined;
   /** What to sort results by. `popularity` will sort by the number of comments. `long-running` will sort by date created and will limit the results to pull requests that have been open for more than a month and have had activity within the past month. */
-  sort?: ListRequestSort | (string & {});
+  sort?: ListRequestSort | (string & {}) | undefined;
   /** The direction of the sort. Default: `desc` when sort is `created` or sort is not specified, otherwise `asc`. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface PullRequestSimpleLabelsItem {
   id: number;
@@ -932,20 +932,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -954,10 +954,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -965,11 +965,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export type PullRequestSimpleRequestedTeamsList = Array<Team>;
@@ -1004,24 +1004,24 @@ export interface PullRequestSimple {
   body: string | null;
   labels: PullRequestSimpleLabelsList;
   milestone: NullableMilestone | null;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   created_at: string;
   updated_at: string;
   closed_at: string | null;
   merged_at: string | null;
   merge_commit_sha: string | null;
   assignee: NullableSimpleUser | null;
-  assignees?: PullRequestSimpleAssigneesList;
-  requested_reviewers?: PullRequestSimpleRequestedReviewersList;
-  requested_teams?: PullRequestSimpleRequestedTeamsList;
+  assignees?: PullRequestSimpleAssigneesList | undefined;
+  requested_reviewers?: PullRequestSimpleRequestedReviewersList | undefined;
+  requested_teams?: PullRequestSimpleRequestedTeamsList | undefined;
   head: PullRequestSimpleHead;
   base: PullRequestSimpleHead;
   _links: PullRequestLinks;
   author_association: AuthorAssociation;
   auto_merge: AutoMerge | null;
-  stack?: PullRequestStack | null;
+  stack?: PullRequestStack | null | undefined;
   /** Indicates whether or not the pull request is a draft. */
-  draft?: boolean;
+  draft?: boolean | undefined;
 }
 export type ListResponseBodyList = Array<PullRequestSimple>;
 export type ListResponse = ListResponseBodyList;
@@ -1035,9 +1035,9 @@ export interface ListCommentsForReviewRequest {
   /** The unique identifier of the review. */
   review_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** The kind of contributing source. */
 export type ReviewCommentCopilotCodeReviewSourcesItemKind = "SKILL" | "MCP" | "CUSTOM_INSTRUCTIONS";
@@ -1047,7 +1047,7 @@ export interface ReviewCommentCopilotCodeReviewSourcesItem {
   /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
   name: string;
   /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
-  path?: string;
+  path?: string | undefined;
 }
 /** Sources reported as contributing to this comment; may be incomplete. */
 export type ReviewCommentCopilotCodeReviewSourcesList =
@@ -1062,9 +1062,9 @@ export type ReviewCommentSubjectType = "line" | "file";
 /** Legacy Review Comment */
 export interface ReviewComment {
   /** Whether this comment was produced by Copilot code review. */
-  is_copilot_code_review?: boolean;
+  is_copilot_code_review?: boolean | undefined;
   /** Sources reported as contributing to this comment; may be incomplete. */
-  copilot_code_review_sources?: ReviewCommentCopilotCodeReviewSourcesList;
+  copilot_code_review_sources?: ReviewCommentCopilotCodeReviewSourcesList | undefined;
   url: string;
   pull_request_review_id: number | null;
   id: number;
@@ -1075,7 +1075,7 @@ export interface ReviewComment {
   original_position: number;
   commit_id: string;
   original_commit_id: string;
-  in_reply_to_id?: number;
+  in_reply_to_id?: number | undefined;
   user: NullableSimpleUser | null;
   body: string;
   created_at: string;
@@ -1084,23 +1084,23 @@ export interface ReviewComment {
   pull_request_url: string;
   author_association: AuthorAssociation;
   _links: PullRequestReviewCommentLinks;
-  body_text?: string;
-  body_html?: string;
-  reactions?: ReactionRollup;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
+  reactions?: ReactionRollup | undefined;
   /** The side of the first line of the range for a multi-line comment. */
-  side?: ReviewCommentSide;
+  side?: ReviewCommentSide | undefined;
   /** The side of the first line of the range for a multi-line comment. */
-  start_side?: ReviewCommentStartSide | null;
+  start_side?: ReviewCommentStartSide | null | undefined;
   /** The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  line?: number;
+  line?: number | undefined;
   /** The original line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  original_line?: number;
+  original_line?: number | undefined;
   /** The first line of the range for a multi-line comment. */
-  start_line?: number | null;
+  start_line?: number | null | undefined;
   /** The original first line of the range for a multi-line comment. */
-  original_start_line?: number | null;
+  original_start_line?: number | null | undefined;
   /** The level at which the comment is targeted, can be a diff line or a file. */
-  subject_type?: ReviewCommentSubjectType;
+  subject_type?: ReviewCommentSubjectType | undefined;
 }
 export type ListCommentsForReviewResponseBodyList = Array<ReviewComment>;
 export type ListCommentsForReviewResponse = ListCommentsForReviewResponseBodyList;
@@ -1112,15 +1112,15 @@ export interface ListCommitsRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Metaproperties for Git author/committer information. */
 export interface NullableGitUser {
-  name?: string;
-  email?: string;
-  date?: string;
+  name?: string | undefined;
+  email?: string | undefined;
+  date?: string | undefined;
 }
 export interface CommitCommitTree {
   sha: string;
@@ -1140,20 +1140,20 @@ export interface CommitCommit {
   message: string;
   comment_count: number;
   tree: CommitCommitTree;
-  verification?: Verification;
+  verification?: Verification | undefined;
 }
 export type CommitAuthor = NullableSimpleUser | unknown;
 export type CommitCommitter = NullableSimpleUser | unknown;
 export interface CommitParentsItem {
   sha: string;
   url: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export type CommitParentsList = Array<CommitParentsItem>;
 export interface CommitStats {
-  additions?: number;
-  deletions?: number;
-  total?: number;
+  additions?: number | undefined;
+  deletions?: number | undefined;
+  total?: number | undefined;
 }
 export type DiffEntryStatus =
   | "added"
@@ -1174,8 +1174,8 @@ export interface DiffEntry {
   blob_url: string;
   raw_url: string;
   contents_url: string;
-  patch?: string;
-  previous_filename?: string;
+  patch?: string | undefined;
+  previous_filename?: string | undefined;
 }
 export type CommitFilesList = Array<DiffEntry>;
 /** Commit */
@@ -1189,8 +1189,8 @@ export interface Commit {
   author: CommitAuthor | null;
   committer: CommitCommitter | null;
   parents: CommitParentsList;
-  stats?: CommitStats;
-  files?: CommitFilesList;
+  stats?: CommitStats | undefined;
+  files?: CommitFilesList | undefined;
 }
 export type ListCommitsResponseBodyList = Array<Commit>;
 export type ListCommitsResponse = ListCommitsResponseBodyList;
@@ -1202,9 +1202,9 @@ export interface ListFilesRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListFilesResponseBodyList = Array<DiffEntry>;
 export type ListFilesResponse = ListFilesResponseBodyList;
@@ -1214,11 +1214,11 @@ export interface ListPullRequestStacksRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Filter to the stack containing this repository pull request number. */
-  pull_request?: number;
+  pull_request?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type PullRequestStackMinimalBase = AddPullRequestStackResponseBase;
 export type PullRequestStackMinimalPullRequestsItemState = "open" | "closed";
@@ -1273,15 +1273,15 @@ export interface ListReviewCommentsRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The property to sort the results by. */
-  sort?: ListReviewCommentsRequestSort | (string & {});
+  sort?: ListReviewCommentsRequestSort | (string & {}) | undefined;
   /** The direction to sort results. Ignored without `sort` parameter. */
-  direction?: ListReviewCommentsRequestDirection | (string & {});
+  direction?: ListReviewCommentsRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReviewCommentsResponseBodyList = Array<PullRequestReviewComment>;
 export type ListReviewCommentsResponse = ListReviewCommentsResponseBodyList;
@@ -1292,15 +1292,15 @@ export interface ListReviewCommentsForRepoRequest {
   owner: string;
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
-  sort?: ListReviewCommentsForRepoRequestSort | (string & {});
+  sort?: ListReviewCommentsForRepoRequestSort | (string & {}) | undefined;
   /** The direction to sort results. Ignored without `sort` parameter. */
-  direction?: ListReviewCommentsForRepoRequestDirection | (string & {});
+  direction?: ListReviewCommentsForRepoRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReviewCommentsForRepoResponseBodyList = Array<PullRequestReviewComment>;
 export type ListReviewCommentsForRepoResponse = ListReviewCommentsForRepoResponseBodyList;
@@ -1312,9 +1312,9 @@ export interface ListReviewsRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReviewsResponseBodyList = Array<PullRequestReview>;
 export type ListReviewsResponse = ListReviewsResponseBodyList;
@@ -1328,13 +1328,13 @@ export interface MergeRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** Title for the automatic commit message. */
-  commit_title?: string;
+  commit_title?: string | undefined;
   /** Extra detail to append to automatic commit message. */
-  commit_message?: string;
+  commit_message?: string | undefined;
   /** SHA that pull request head must match to allow merge. */
-  sha?: string;
+  sha?: string | undefined;
   /** The merge method to use. */
-  merge_method?: MergeRequestMergeMethod | (string & {});
+  merge_method?: MergeRequestMergeMethod | (string & {}) | undefined;
 }
 /** Pull Request Merge Result */
 export interface PullRequestMergeResult {
@@ -1354,17 +1354,17 @@ export interface MergeAsyncRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** Title for the automatic commit message. Only supported for direct merges. */
-  commit_title?: string;
+  commit_title?: string | undefined;
   /** Extra detail to append to automatic commit message. Only supported for direct merges. */
-  commit_message?: string;
+  commit_message?: string | undefined;
   /** SHA that pull request head must match to allow merge. If not provided, the current head of the PR at the time of the request will be used; if the PR is pushed in between the merge being requested and being executed, the merge will be cancelled. */
-  sha?: string;
+  sha?: string | undefined;
   /** The merge method to use for a direct merge. Only supported for direct merges. */
-  merge_method?: MergeAsyncRequestMergeMethod | (string & {});
+  merge_method?: MergeAsyncRequestMergeMethod | (string & {}) | undefined;
   /** The action that will be taken to merge the pull request. `direct_merge` merges the pull request directly without using a merge queue; `merge_queue` adds the pull request to a merge queue; `default` uses a merge queue if one is configured for the target branch, or merges directly otherwise. If omitted, defaults to `default`. */
-  merge_action?: MergeAsyncRequestMergeAction | (string & {});
+  merge_action?: MergeAsyncRequestMergeAction | (string & {}) | undefined;
   /** Whether to bypass repository rules that the authenticated actor is permitted to bypass. */
-  bypass_rules?: boolean;
+  bypass_rules?: boolean | undefined;
 }
 export interface PullRequestStacksUnstackRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1401,7 +1401,7 @@ export interface RemoveRequestedReviewersRequest {
   /** An array of user `login`s that will be removed. */
   reviewers: RemoveRequestedReviewersRequestReviewersList;
   /** An array of team `slug`s that will be removed. */
-  team_reviewers?: RemoveRequestedReviewersRequestTeamReviewersList;
+  team_reviewers?: RemoveRequestedReviewersRequestTeamReviewersList | undefined;
 }
 export interface RequestCopilotCodeReviewRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1411,7 +1411,7 @@ export interface RequestCopilotCodeReviewRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The effort level to use for the Copilot code review. Omit to use the default effort level. Only effort levels available for the repository and actor are accepted. For more information, see [Review effort level](https://docs.github.com/copilot/concepts/agent-capabilities/agent-powered-workflows-and-operations/code-review#review-effort-level). */
-  review_effort?: string;
+  review_effort?: string | undefined;
 }
 /** The current state of the review request. */
 export type CopilotCodeReviewRequestState = "PENDING";
@@ -1434,9 +1434,9 @@ export interface RequestReviewersRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** An array of user `login`s that will be requested. */
-  reviewers?: RequestReviewersRequestReviewersList;
+  reviewers?: RequestReviewersRequestReviewersList | undefined;
   /** An array of team `slug`s that will be requested. */
-  team_reviewers?: RequestReviewersRequestTeamReviewersList;
+  team_reviewers?: RequestReviewersRequestTeamReviewersList | undefined;
 }
 /** An array of user `login`s whose reviews will be rerequested. */
 export type RerequestReviewersRequestReviewersList = Array<string>;
@@ -1450,9 +1450,9 @@ export interface RerequestReviewersRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** An array of user `login`s whose reviews will be rerequested. */
-  reviewers?: RerequestReviewersRequestReviewersList;
+  reviewers?: RerequestReviewersRequestReviewersList | undefined;
   /** An array of team `slug`s whose reviews will be rerequested. */
-  team_reviewers?: RerequestReviewersRequestTeamReviewersList;
+  team_reviewers?: RerequestReviewersRequestTeamReviewersList | undefined;
 }
 /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. When you leave this blank, the API returns _HTTP 422 (Unrecognizable entity)_ and sets the review action state to `PENDING`, which means you will need to re-submit the pull request review using a review action. */
 export type SubmitReviewRequestEvent = "APPROVE" | "REQUEST_CHANGES" | "COMMENT";
@@ -1466,7 +1466,7 @@ export interface SubmitReviewRequest {
   /** The unique identifier of the review. */
   review_id: number;
   /** The body text of the pull request review */
-  body?: string;
+  body?: string | undefined;
   /** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. When you leave this blank, the API returns _HTTP 422 (Unrecognizable entity)_ and sets the review action state to `PENDING`, which means you will need to re-submit the pull request review using a review action. */
   event: SubmitReviewRequestEvent | (string & {});
 }
@@ -1480,15 +1480,15 @@ export interface UpdateRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The title of the pull request. */
-  title?: string;
+  title?: string | undefined;
   /** The contents of the pull request. */
-  body?: string;
+  body?: string | undefined;
   /** State of this Pull Request. Either `open` or `closed`. */
-  state?: UpdateRequestState | (string & {});
+  state?: UpdateRequestState | (string & {}) | undefined;
   /** The name of the branch you want your changes pulled into. This should be an existing branch on the current repository. You cannot update the base branch on a pull request to point to another repository. */
-  base?: string;
+  base?: string | undefined;
   /** Indicates whether [maintainers can modify](https://docs.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request. */
-  maintainer_can_modify?: boolean;
+  maintainer_can_modify?: boolean | undefined;
 }
 export interface UpdateBranchRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1498,7 +1498,7 @@ export interface UpdateBranchRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
   /** The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a `422 Unprocessable Entity` status. You can use the "[List commits](https://docs.github.com/rest/commits/commits#list-commits)" endpoint to find the most recent commit SHA. Default: SHA of the pull request's current HEAD ref. */
-  expected_head_sha?: string;
+  expected_head_sha?: string | undefined;
 }
 export interface UpdateBranchResponse {}
 export interface UpdateReviewRequest {
@@ -1692,7 +1692,7 @@ export const dismissReview: API.OperationMethod<
 export type GetError = GithubOpError;
 /** Get a pull request Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. Lists details of a pull request by providing its number. When you get, [create](https://docs.github.com/rest/pulls/pulls/#create-a-pull-request), or [edit](https://docs.github.com/rest/pulls/pulls#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)". The value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit. The value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before merging a pull request, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After merging a pull request, the `merge_commit_sha` attribute changes depending on how you merged the pull request: * If merged as a [merge commit](https://docs.github.com/articles/about-merge-methods-on-github/), `merge_commit_sha` represents the SHA of the merge commit. * If merged via a [squash](https://docs.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch. * If [rebased](https://docs.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to. Pass the appropriate [media type](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types) to fetch diff and patch formats. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. - **`application/vnd.github.diff`**: For more information, see "[git-diff](https://git-scm.com/docs/git-diff)" in the Git documentation. If a diff is corrupt, contact us through the [GitHub Support portal](https://support.github.com/). Include the repository name and pull request ID in your message. */
 export const get: API.OperationMethod<
-  GetRequest & { readonly accept?: "application/vnd.github+json" },
+  GetRequest & { readonly accept?: "application/vnd.github+json" | undefined },
   PullRequest,
   GetError,
   GithubOpContext

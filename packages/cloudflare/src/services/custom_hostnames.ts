@@ -133,40 +133,40 @@ export type CreateRequestSslSettingsMinTlsVersion = "1.0" | "1.1" | "1.2" | "1.3
 export type CreateRequestSslSettingsTls13 = "on" | "off";
 export interface CreateRequestSslSettings {
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: CreateRequestSslSettingsCiphersList;
+  ciphers?: CreateRequestSslSettingsCiphersList | undefined;
   /** Whether or not Early Hints is enabled. */
-  earlyHints?: CreateRequestSslSettingsEarlyHints | (string & {});
+  earlyHints?: CreateRequestSslSettingsEarlyHints | (string & {}) | undefined;
   /** Whether or not HTTP2 is enabled. */
-  http2?: CreateRequestSslSettingsHttp2 | (string & {});
+  http2?: CreateRequestSslSettingsHttp2 | (string & {}) | undefined;
   /** The minimum TLS version supported. */
-  minTlsVersion?: CreateRequestSslSettingsMinTlsVersion | (string & {});
+  minTlsVersion?: CreateRequestSslSettingsMinTlsVersion | (string & {}) | undefined;
   /** Whether or not TLS 1.3 is enabled. */
-  tls_1_3?: CreateRequestSslSettingsTls13 | (string & {});
+  tls_1_3?: CreateRequestSslSettingsTls13 | (string & {}) | undefined;
 }
 export type CreateRequestSslType = "dv";
 export interface CreateRequestSsl {
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: CreateRequestSslBundleMethod | (string & {});
+  bundleMethod?: CreateRequestSslBundleMethod | (string & {}) | undefined;
   /** The Certificate Authority that will issue the certificate. */
-  certificateAuthority?: CreateRequestSslCertificateAuthority | (string & {});
+  certificateAuthority?: CreateRequestSslCertificateAuthority | (string & {}) | undefined;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean;
+  cloudflareBranding?: boolean | undefined;
   /** Array of custom certificate and key pairs (1 or 2 pairs allowed). */
-  customCertBundle?: CreateRequestSslCustomCertBundleList;
+  customCertBundle?: CreateRequestSslCustomCertBundleList | undefined;
   /** If a custom uploaded certificate is used. */
-  customCertificate?: string;
+  customCertificate?: string | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string;
+  customCsrId?: string | undefined;
   /** The key for a custom uploaded certificate. */
-  customKey?: string;
+  customKey?: string | undefined;
   /** Domain control validation (DCV) method used for this hostname. */
-  method?: CreateRequestSslMethod | (string & {});
+  method?: CreateRequestSslMethod | (string & {}) | undefined;
   /** SSL specific settings. */
-  settings?: CreateRequestSslSettings;
+  settings?: CreateRequestSslSettings | undefined;
   /** Level of validation to be used for this hostname. Domain validation (dv) must be used. */
-  type?: CreateRequestSslType | (string & {});
+  type?: CreateRequestSslType | (string & {}) | undefined;
   /** Indicates whether the certificate covers a wildcard. */
-  wildcard?: boolean;
+  wildcard?: boolean | undefined;
 }
 export interface CreateCustomHostnameRequest {
   /** Identifier. */
@@ -174,29 +174,29 @@ export interface CreateCustomHostnameRequest {
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: CreateRequestCustomMetadataMap;
+  customMetadata?: CreateRequestCustomMetadataMap | undefined;
   /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
-  customOriginServer?: string;
+  customOriginServer?: string | undefined;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
-  customOriginSni?: string;
+  customOriginSni?: string | undefined;
   /** SSL properties used when creating the custom hostname. */
-  ssl?: CreateRequestSsl;
+  ssl?: CreateRequestSsl | undefined;
 }
 export type CreateResponseCustomMetadataMap = { [key: string]: unknown | undefined };
 export type CreateResponseOwnershipVerificationType = "txt";
 export interface CreateResponseOwnershipVerification {
   /** DNS Name for record. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** DNS Record type. */
-  type?: CreateResponseOwnershipVerificationType | null;
+  type?: CreateResponseOwnershipVerificationType | null | undefined;
   /** Content for the record. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface CreateResponseOwnershipVerificationHttp {
   /** Token to be served. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The HTTP URL that will be checked during custom hostname verification and where the customer should host the token. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
 }
 export type CreateResponseSslBundleMethod = "ubiquitous" | "optimal" | "force";
 export type CreateResponseSslCertificateAuthority =
@@ -207,21 +207,21 @@ export type CreateResponseSslCertificateAuthority =
 export type CreateResponseSslDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface CreateResponseSslDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CreateResponseSslDcvDelegationRecordsItemEmailsList | null;
+  emails?: CreateResponseSslDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CreateResponseSslDcvDelegationRecordsList =
   Array<CreateResponseSslDcvDelegationRecordsItem>;
@@ -234,15 +234,15 @@ export type CreateResponseSslSettingsMinTlsVersion = "1.0" | "1.1" | "1.2" | "1.
 export type CreateResponseSslSettingsTls13 = "on" | "off";
 export interface CreateResponseSslSettings {
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: CreateResponseSslSettingsCiphersList | null;
+  ciphers?: CreateResponseSslSettingsCiphersList | null | undefined;
   /** Whether or not Early Hints is enabled. */
-  earlyHints?: CreateResponseSslSettingsEarlyHints | null;
+  earlyHints?: CreateResponseSslSettingsEarlyHints | null | undefined;
   /** Whether or not HTTP2 is enabled. */
-  http2?: CreateResponseSslSettingsHttp2 | null;
+  http2?: CreateResponseSslSettingsHttp2 | null | undefined;
   /** The minimum TLS version supported. */
-  minTlsVersion?: CreateResponseSslSettingsMinTlsVersion | null;
+  minTlsVersion?: CreateResponseSslSettingsMinTlsVersion | null | undefined;
   /** Whether or not TLS 1.3 is enabled. */
-  tls_1_3?: CreateResponseSslSettingsTls13 | null;
+  tls_1_3?: CreateResponseSslSettingsTls13 | null | undefined;
 }
 export type CreateResponseSslStatus =
   | "initializing"
@@ -269,64 +269,64 @@ export type CreateResponseSslStatus =
 export type CreateResponseSslType = "dv";
 export interface CreateResponseSslValidationErrorsItem {
   /** A domain validation error. */
-  message?: string | null;
+  message?: string | null | undefined;
 }
 export type CreateResponseSslValidationErrorsList = Array<CreateResponseSslValidationErrorsItem>;
 export type CreateResponseSslValidationRecordsItemEmailsList = Array<string>;
 export interface CreateResponseSslValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CreateResponseSslValidationRecordsItemEmailsList | null;
+  emails?: CreateResponseSslValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CreateResponseSslValidationRecordsList = Array<CreateResponseSslValidationRecordsItem>;
 export interface CreateResponseSsl {
   /** Custom hostname SSL identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: CreateResponseSslBundleMethod | null;
+  bundleMethod?: CreateResponseSslBundleMethod | null | undefined;
   /** The Certificate Authority that will issue the certificate. */
-  certificateAuthority?: CreateResponseSslCertificateAuthority | null;
+  certificateAuthority?: CreateResponseSslCertificateAuthority | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: CreateResponseSslDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: CreateResponseSslDcvDelegationRecordsList | null | undefined;
   /** The time the custom certificate expires on. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** A list of Hostnames on a custom uploaded certificate. */
-  hosts?: CreateResponseSslHostsList | null;
+  hosts?: CreateResponseSslHostsList | null | undefined;
   /** The issuer on a custom uploaded certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Domain control validation (DCV) method used for this hostname. */
-  method?: CreateResponseSslMethod | null;
+  method?: CreateResponseSslMethod | null | undefined;
   /** The serial number on a custom uploaded certificate. */
-  serialNumber?: string | null;
-  settings?: CreateResponseSslSettings | null;
+  serialNumber?: string | null | undefined;
+  settings?: CreateResponseSslSettings | null | undefined;
   /** The signature on a custom uploaded certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the hostname's SSL certificates. */
-  status?: CreateResponseSslStatus | null;
+  status?: CreateResponseSslStatus | null | undefined;
   /** Level of validation to be used for this hostname. Domain validation (dv) must be used. */
-  type?: CreateResponseSslType | null;
+  type?: CreateResponseSslType | null | undefined;
   /** The time the custom certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: CreateResponseSslValidationErrorsList | null;
-  validationRecords?: CreateResponseSslValidationRecordsList | null;
+  validationErrors?: CreateResponseSslValidationErrorsList | null | undefined;
+  validationRecords?: CreateResponseSslValidationRecordsList | null | undefined;
   /** Indicates whether the certificate covers a wildcard. */
-  wildcard?: boolean | null;
+  wildcard?: boolean | null | undefined;
 }
 export type CreateResponseStatus =
   | "active"
@@ -353,22 +353,22 @@ export interface CreateCustomHostnameResponse {
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
   /** This is the time the hostname was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: CreateResponseCustomMetadataMap | null;
+  customMetadata?: CreateResponseCustomMetadataMap | null | undefined;
   /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
-  customOriginServer?: string | null;
+  customOriginServer?: string | null | undefined;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
-  customOriginSni?: string | null;
+  customOriginSni?: string | null | undefined;
   /** This is a record which can be placed to activate a hostname. */
-  ownershipVerification?: CreateResponseOwnershipVerification | null;
+  ownershipVerification?: CreateResponseOwnershipVerification | null | undefined;
   /** This presents the token to be served by the given http url to activate a hostname. */
-  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null;
-  ssl?: CreateResponseSsl | null;
+  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null | undefined;
+  ssl?: CreateResponseSsl | null | undefined;
   /** Status of the hostname's activation. */
-  status?: CreateResponseStatus | null;
+  status?: CreateResponseStatus | null | undefined;
   /** These are errors that were encountered while trying to activate a hostname. */
-  verificationErrors?: CreateResponseVerificationErrorsList | null;
+  verificationErrors?: CreateResponseVerificationErrorsList | null | undefined;
 }
 export interface DeleteCertificatePackCertificateRequest {
   /** Identifier. */
@@ -383,7 +383,7 @@ export interface DeleteCertificatePackCertificateRequest {
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteCertificatePackCertificateResponse {
   /** Custom hostname identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteCustomHostnameRequest {
   /** Identifier. */
@@ -394,7 +394,7 @@ export interface DeleteCustomHostnameRequest {
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteCustomHostnameResponse {
   /** Custom hostname identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteFallbackOriginRequest {
   /** Identifier. */
@@ -411,15 +411,15 @@ export type FallbackOriginDeleteResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteFallbackOriginResponse {
   /** This is the time the fallback origin was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** These are errors that were encountered while trying to activate a fallback origin. */
-  errors?: FallbackOriginDeleteResponseErrorsList | null;
+  errors?: FallbackOriginDeleteResponseErrorsList | null | undefined;
   /** Your origin hostname that requests to your custom hostnames will be sent to. */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** Status of the fallback origin's activation. */
-  status?: FallbackOriginDeleteResponseStatus | null;
+  status?: FallbackOriginDeleteResponseStatus | null | undefined;
   /** This is the time the fallback origin was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetCustomHostnameRequest {
   /** Identifier. */
@@ -431,11 +431,11 @@ export type GetResponseCustomMetadataMap = { [key: string]: unknown | undefined 
 export type GetResponseOwnershipVerificationType = "txt";
 export interface GetResponseOwnershipVerification {
   /** DNS Name for record. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** DNS Record type. */
-  type?: GetResponseOwnershipVerificationType | null;
+  type?: GetResponseOwnershipVerificationType | null | undefined;
   /** Content for the record. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type GetResponseOwnershipVerificationHttp = CreateResponseOwnershipVerificationHttp;
 export type GetResponseSslBundleMethod = "ubiquitous" | "optimal" | "force";
@@ -443,21 +443,21 @@ export type GetResponseSslCertificateAuthority = "digicert" | "google" | "lets_e
 export type GetResponseSslDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface GetResponseSslDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: GetResponseSslDcvDelegationRecordsItemEmailsList | null;
+  emails?: GetResponseSslDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type GetResponseSslDcvDelegationRecordsList = Array<GetResponseSslDcvDelegationRecordsItem>;
 export type GetResponseSslHostsList = Array<string>;
@@ -469,15 +469,15 @@ export type GetResponseSslSettingsMinTlsVersion = "1.0" | "1.1" | "1.2" | "1.3";
 export type GetResponseSslSettingsTls13 = "on" | "off";
 export interface GetResponseSslSettings {
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: GetResponseSslSettingsCiphersList | null;
+  ciphers?: GetResponseSslSettingsCiphersList | null | undefined;
   /** Whether or not Early Hints is enabled. */
-  earlyHints?: GetResponseSslSettingsEarlyHints | null;
+  earlyHints?: GetResponseSslSettingsEarlyHints | null | undefined;
   /** Whether or not HTTP2 is enabled. */
-  http2?: GetResponseSslSettingsHttp2 | null;
+  http2?: GetResponseSslSettingsHttp2 | null | undefined;
   /** The minimum TLS version supported. */
-  minTlsVersion?: GetResponseSslSettingsMinTlsVersion | null;
+  minTlsVersion?: GetResponseSslSettingsMinTlsVersion | null | undefined;
   /** Whether or not TLS 1.3 is enabled. */
-  tls_1_3?: GetResponseSslSettingsTls13 | null;
+  tls_1_3?: GetResponseSslSettingsTls13 | null | undefined;
 }
 export type GetResponseSslStatus =
   | "initializing"
@@ -507,58 +507,58 @@ export type GetResponseSslValidationErrorsList = Array<CreateResponseSslValidati
 export type GetResponseSslValidationRecordsItemEmailsList = Array<string>;
 export interface GetResponseSslValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: GetResponseSslValidationRecordsItemEmailsList | null;
+  emails?: GetResponseSslValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type GetResponseSslValidationRecordsList = Array<GetResponseSslValidationRecordsItem>;
 export interface GetResponseSsl {
   /** Custom hostname SSL identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: GetResponseSslBundleMethod | null;
+  bundleMethod?: GetResponseSslBundleMethod | null | undefined;
   /** The Certificate Authority that will issue the certificate. */
-  certificateAuthority?: GetResponseSslCertificateAuthority | null;
+  certificateAuthority?: GetResponseSslCertificateAuthority | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: GetResponseSslDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: GetResponseSslDcvDelegationRecordsList | null | undefined;
   /** The time the custom certificate expires on. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** A list of Hostnames on a custom uploaded certificate. */
-  hosts?: GetResponseSslHostsList | null;
+  hosts?: GetResponseSslHostsList | null | undefined;
   /** The issuer on a custom uploaded certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Domain control validation (DCV) method used for this hostname. */
-  method?: GetResponseSslMethod | null;
+  method?: GetResponseSslMethod | null | undefined;
   /** The serial number on a custom uploaded certificate. */
-  serialNumber?: string | null;
-  settings?: GetResponseSslSettings | null;
+  serialNumber?: string | null | undefined;
+  settings?: GetResponseSslSettings | null | undefined;
   /** The signature on a custom uploaded certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the hostname's SSL certificates. */
-  status?: GetResponseSslStatus | null;
+  status?: GetResponseSslStatus | null | undefined;
   /** Level of validation to be used for this hostname. Domain validation (dv) must be used. */
-  type?: GetResponseSslType | null;
+  type?: GetResponseSslType | null | undefined;
   /** The time the custom certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: GetResponseSslValidationErrorsList | null;
-  validationRecords?: GetResponseSslValidationRecordsList | null;
+  validationErrors?: GetResponseSslValidationErrorsList | null | undefined;
+  validationRecords?: GetResponseSslValidationRecordsList | null | undefined;
   /** Indicates whether the certificate covers a wildcard. */
-  wildcard?: boolean | null;
+  wildcard?: boolean | null | undefined;
 }
 export type GetResponseStatus =
   | "active"
@@ -585,22 +585,22 @@ export interface GetCustomHostnameResponse {
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
   /** This is the time the hostname was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: GetResponseCustomMetadataMap | null;
+  customMetadata?: GetResponseCustomMetadataMap | null | undefined;
   /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
-  customOriginServer?: string | null;
+  customOriginServer?: string | null | undefined;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
-  customOriginSni?: string | null;
+  customOriginSni?: string | null | undefined;
   /** This is a record which can be placed to activate a hostname. */
-  ownershipVerification?: GetResponseOwnershipVerification | null;
+  ownershipVerification?: GetResponseOwnershipVerification | null | undefined;
   /** This presents the token to be served by the given http url to activate a hostname. */
-  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null;
-  ssl?: GetResponseSsl | null;
+  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null | undefined;
+  ssl?: GetResponseSsl | null | undefined;
   /** Status of the hostname's activation. */
-  status?: GetResponseStatus | null;
+  status?: GetResponseStatus | null | undefined;
   /** These are errors that were encountered while trying to activate a hostname. */
-  verificationErrors?: GetResponseVerificationErrorsList | null;
+  verificationErrors?: GetResponseVerificationErrorsList | null | undefined;
 }
 export interface GetFallbackOriginRequest {
   /** Identifier. */
@@ -617,15 +617,15 @@ export type FallbackOriginGetResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetFallbackOriginResponse {
   /** This is the time the fallback origin was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** These are errors that were encountered while trying to activate a fallback origin. */
-  errors?: FallbackOriginGetResponseErrorsList | null;
+  errors?: FallbackOriginGetResponseErrorsList | null | undefined;
   /** Your origin hostname that requests to your custom hostnames will be sent to. */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** Status of the fallback origin's activation. */
-  status?: FallbackOriginGetResponseStatus | null;
+  status?: FallbackOriginGetResponseStatus | null | undefined;
   /** This is the time the fallback origin was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetQuotaRequest {
   /** Identifier. */
@@ -646,11 +646,11 @@ export type ListRequestCertificateAuthority = "google" | "lets_encrypt" | "ssl_c
 export type ListRequestDirection = "asc" | "desc";
 export interface ListRequestHostname {
   /** Filters hostnames by a substring match on the hostname value. This parameter cannot be used with the 'id', 'hostname', 'hostname.exact', or 'hostname.startsWith' parameters. */
-  contain?: string;
+  contain?: string | undefined;
   /** Fully qualified domain name to match against. This parameter cannot be used with the 'id', 'hostname', 'hostname.contain', or 'hostname.startsWith' parameters. */
-  exact?: string;
+  exact?: string | undefined;
   /** Filters hostnames by a prefix match on the hostname value. This parameter cannot be used with the 'id', 'hostname', 'hostname.exact', or 'hostname.contain' parameters. */
-  startsWith?: string;
+  startsWith?: string | undefined;
 }
 export type ListRequestHostnameStatus =
   | "active"
@@ -696,38 +696,38 @@ export interface ListCustomHostnamesRequest {
   /** Identifier. */
   zoneId: string;
   /** Hostname ID to match against. This ID was generated and returned during the initial custom_hostname creation. This parameter cannot be used with the 'hostname', 'hostname.exact', 'hostname.contain', or 'hostname.startsWith' parameters. */
-  id?: string;
+  id?: string | undefined;
   /** Filter by the certificate authority that issued the SSL certificate. */
-  certificateAuthority?: ListRequestCertificateAuthority | (string & {});
+  certificateAuthority?: ListRequestCertificateAuthority | (string & {}) | undefined;
   /** Filter by custom origin server name. */
-  customOriginServer?: string;
+  customOriginServer?: string | undefined;
   /** Direction to order hostnames. */
-  direction?: ListRequestDirection | (string & {});
-  hostname?: ListRequestHostname;
+  direction?: ListRequestDirection | (string & {}) | undefined;
+  hostname?: ListRequestHostname | undefined;
   /** Filter by the hostname's activation status. */
-  hostnameStatus?: ListRequestHostnameStatus | (string & {});
+  hostnameStatus?: ListRequestHostnameStatus | (string & {}) | undefined;
   /** Field to order hostnames by. */
-  order?: ListRequestOrder | (string & {});
+  order?: ListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of hostnames per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Whether to filter hostnames based on if they have SSL enabled. */
-  ssl?: string;
+  ssl?: string | undefined;
   /** Filter by SSL certificate status. */
-  sslStatus?: ListRequestSslStatus | (string & {});
+  sslStatus?: ListRequestSslStatus | (string & {}) | undefined;
   /** Filter by whether the custom hostname is a wildcard hostname. */
-  wildcard?: boolean;
+  wildcard?: boolean | undefined;
 }
 export type ListResultItemCustomMetadataMap = { [key: string]: unknown | undefined };
 export type ListResultItemOwnershipVerificationType = "txt";
 export interface ListResultItemOwnershipVerification {
   /** DNS Name for record. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** DNS Record type. */
-  type?: ListResultItemOwnershipVerificationType | null;
+  type?: ListResultItemOwnershipVerificationType | null | undefined;
   /** Content for the record. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type ListResultItemOwnershipVerificationHttp = CreateResponseOwnershipVerificationHttp;
 export type ListResultItemSslBundleMethod = "ubiquitous" | "optimal" | "force";
@@ -739,21 +739,21 @@ export type ListResultItemSslCertificateAuthority =
 export type ListResultItemSslDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface ListResultItemSslDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: ListResultItemSslDcvDelegationRecordsItemEmailsList | null;
+  emails?: ListResultItemSslDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type ListResultItemSslDcvDelegationRecordsList =
   Array<ListResultItemSslDcvDelegationRecordsItem>;
@@ -766,15 +766,15 @@ export type ListResultItemSslSettingsMinTlsVersion = "1.0" | "1.1" | "1.2" | "1.
 export type ListResultItemSslSettingsTls13 = "on" | "off";
 export interface ListResultItemSslSettings {
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: ListResultItemSslSettingsCiphersList | null;
+  ciphers?: ListResultItemSslSettingsCiphersList | null | undefined;
   /** Whether or not Early Hints is enabled. */
-  earlyHints?: ListResultItemSslSettingsEarlyHints | null;
+  earlyHints?: ListResultItemSslSettingsEarlyHints | null | undefined;
   /** Whether or not HTTP2 is enabled. */
-  http2?: ListResultItemSslSettingsHttp2 | null;
+  http2?: ListResultItemSslSettingsHttp2 | null | undefined;
   /** The minimum TLS version supported. */
-  minTlsVersion?: ListResultItemSslSettingsMinTlsVersion | null;
+  minTlsVersion?: ListResultItemSslSettingsMinTlsVersion | null | undefined;
   /** Whether or not TLS 1.3 is enabled. */
-  tls_1_3?: ListResultItemSslSettingsTls13 | null;
+  tls_1_3?: ListResultItemSslSettingsTls13 | null | undefined;
 }
 export type ListResultItemSslStatus =
   | "initializing"
@@ -804,58 +804,58 @@ export type ListResultItemSslValidationErrorsList = Array<CreateResponseSslValid
 export type ListResultItemSslValidationRecordsItemEmailsList = Array<string>;
 export interface ListResultItemSslValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: ListResultItemSslValidationRecordsItemEmailsList | null;
+  emails?: ListResultItemSslValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type ListResultItemSslValidationRecordsList = Array<ListResultItemSslValidationRecordsItem>;
 export interface ListResultItemSsl {
   /** Custom hostname SSL identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: ListResultItemSslBundleMethod | null;
+  bundleMethod?: ListResultItemSslBundleMethod | null | undefined;
   /** The Certificate Authority that will issue the certificate. */
-  certificateAuthority?: ListResultItemSslCertificateAuthority | null;
+  certificateAuthority?: ListResultItemSslCertificateAuthority | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: ListResultItemSslDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: ListResultItemSslDcvDelegationRecordsList | null | undefined;
   /** The time the custom certificate expires on. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** A list of Hostnames on a custom uploaded certificate. */
-  hosts?: ListResultItemSslHostsList | null;
+  hosts?: ListResultItemSslHostsList | null | undefined;
   /** The issuer on a custom uploaded certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Domain control validation (DCV) method used for this hostname. */
-  method?: ListResultItemSslMethod | null;
+  method?: ListResultItemSslMethod | null | undefined;
   /** The serial number on a custom uploaded certificate. */
-  serialNumber?: string | null;
-  settings?: ListResultItemSslSettings | null;
+  serialNumber?: string | null | undefined;
+  settings?: ListResultItemSslSettings | null | undefined;
   /** The signature on a custom uploaded certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the hostname's SSL certificates. */
-  status?: ListResultItemSslStatus | null;
+  status?: ListResultItemSslStatus | null | undefined;
   /** Level of validation to be used for this hostname. Domain validation (dv) must be used. */
-  type?: ListResultItemSslType | null;
+  type?: ListResultItemSslType | null | undefined;
   /** The time the custom certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: ListResultItemSslValidationErrorsList | null;
-  validationRecords?: ListResultItemSslValidationRecordsList | null;
+  validationErrors?: ListResultItemSslValidationErrorsList | null | undefined;
+  validationRecords?: ListResultItemSslValidationRecordsList | null | undefined;
   /** Indicates whether the certificate covers a wildcard. */
-  wildcard?: boolean | null;
+  wildcard?: boolean | null | undefined;
 }
 export type ListResultItemStatus =
   | "active"
@@ -881,29 +881,29 @@ export interface ListResultItem {
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
   /** This is the time the hostname was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: ListResultItemCustomMetadataMap | null;
+  customMetadata?: ListResultItemCustomMetadataMap | null | undefined;
   /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
-  customOriginServer?: string | null;
+  customOriginServer?: string | null | undefined;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
-  customOriginSni?: string | null;
+  customOriginSni?: string | null | undefined;
   /** This is a record which can be placed to activate a hostname. */
-  ownershipVerification?: ListResultItemOwnershipVerification | null;
+  ownershipVerification?: ListResultItemOwnershipVerification | null | undefined;
   /** This presents the token to be served by the given http url to activate a hostname. */
-  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null;
-  ssl?: ListResultItemSsl | null;
+  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null | undefined;
+  ssl?: ListResultItemSsl | null | undefined;
   /** Status of the hostname's activation. */
-  status?: ListResultItemStatus | null;
+  status?: ListResultItemStatus | null | undefined;
   /** These are errors that were encountered while trying to activate a hostname. */
-  verificationErrors?: ListResultItemVerificationErrorsList | null;
+  verificationErrors?: ListResultItemVerificationErrorsList | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListCustomHostnamesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type EditRequestCustomMetadataMap = { [key: string]: unknown | undefined };
 export type EditRequestSslBundleMethod = "ubiquitous" | "optimal" | "force";
@@ -918,40 +918,40 @@ export type EditRequestSslSettingsMinTlsVersion = "1.0" | "1.1" | "1.2" | "1.3";
 export type EditRequestSslSettingsTls13 = "on" | "off";
 export interface EditRequestSslSettings {
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: EditRequestSslSettingsCiphersList;
+  ciphers?: EditRequestSslSettingsCiphersList | undefined;
   /** Whether or not Early Hints is enabled. */
-  earlyHints?: EditRequestSslSettingsEarlyHints | (string & {});
+  earlyHints?: EditRequestSslSettingsEarlyHints | (string & {}) | undefined;
   /** Whether or not HTTP2 is enabled. */
-  http2?: EditRequestSslSettingsHttp2 | (string & {});
+  http2?: EditRequestSslSettingsHttp2 | (string & {}) | undefined;
   /** The minimum TLS version supported. */
-  minTlsVersion?: EditRequestSslSettingsMinTlsVersion | (string & {});
+  minTlsVersion?: EditRequestSslSettingsMinTlsVersion | (string & {}) | undefined;
   /** Whether or not TLS 1.3 is enabled. */
-  tls_1_3?: EditRequestSslSettingsTls13 | (string & {});
+  tls_1_3?: EditRequestSslSettingsTls13 | (string & {}) | undefined;
 }
 export type EditRequestSslType = "dv";
 export interface EditRequestSsl {
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: EditRequestSslBundleMethod | (string & {});
+  bundleMethod?: EditRequestSslBundleMethod | (string & {}) | undefined;
   /** The Certificate Authority that will issue the certificate. */
-  certificateAuthority?: EditRequestSslCertificateAuthority | (string & {});
+  certificateAuthority?: EditRequestSslCertificateAuthority | (string & {}) | undefined;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean;
+  cloudflareBranding?: boolean | undefined;
   /** Array of custom certificate and key pairs (1 or 2 pairs allowed). */
-  customCertBundle?: EditRequestSslCustomCertBundleList;
+  customCertBundle?: EditRequestSslCustomCertBundleList | undefined;
   /** If a custom uploaded certificate is used. */
-  customCertificate?: string;
+  customCertificate?: string | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string;
+  customCsrId?: string | undefined;
   /** The key for a custom uploaded certificate. */
-  customKey?: string;
+  customKey?: string | undefined;
   /** Domain control validation (DCV) method used for this hostname. */
-  method?: EditRequestSslMethod | (string & {});
+  method?: EditRequestSslMethod | (string & {}) | undefined;
   /** SSL specific settings. */
-  settings?: EditRequestSslSettings;
+  settings?: EditRequestSslSettings | undefined;
   /** Level of validation to be used for this hostname. Domain validation (dv) must be used. */
-  type?: EditRequestSslType | (string & {});
+  type?: EditRequestSslType | (string & {}) | undefined;
   /** Indicates whether the certificate covers a wildcard. */
-  wildcard?: boolean;
+  wildcard?: boolean | undefined;
 }
 export interface PatchCustomHostnameRequest {
   /** Identifier. */
@@ -959,23 +959,23 @@ export interface PatchCustomHostnameRequest {
   /** Custom hostname identifier tag. */
   customHostnameId: string;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: EditRequestCustomMetadataMap;
+  customMetadata?: EditRequestCustomMetadataMap | undefined;
   /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
-  customOriginServer?: string;
+  customOriginServer?: string | undefined;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
-  customOriginSni?: string;
+  customOriginSni?: string | undefined;
   /** SSL properties used when creating the custom hostname. */
-  ssl?: EditRequestSsl;
+  ssl?: EditRequestSsl | undefined;
 }
 export type EditResponseCustomMetadataMap = { [key: string]: unknown | undefined };
 export type EditResponseOwnershipVerificationType = "txt";
 export interface EditResponseOwnershipVerification {
   /** DNS Name for record. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** DNS Record type. */
-  type?: EditResponseOwnershipVerificationType | null;
+  type?: EditResponseOwnershipVerificationType | null | undefined;
   /** Content for the record. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type EditResponseOwnershipVerificationHttp = CreateResponseOwnershipVerificationHttp;
 export type EditResponseSslBundleMethod = "ubiquitous" | "optimal" | "force";
@@ -987,21 +987,21 @@ export type EditResponseSslCertificateAuthority =
 export type EditResponseSslDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface EditResponseSslDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: EditResponseSslDcvDelegationRecordsItemEmailsList | null;
+  emails?: EditResponseSslDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type EditResponseSslDcvDelegationRecordsList =
   Array<EditResponseSslDcvDelegationRecordsItem>;
@@ -1014,15 +1014,15 @@ export type EditResponseSslSettingsMinTlsVersion = "1.0" | "1.1" | "1.2" | "1.3"
 export type EditResponseSslSettingsTls13 = "on" | "off";
 export interface EditResponseSslSettings {
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: EditResponseSslSettingsCiphersList | null;
+  ciphers?: EditResponseSslSettingsCiphersList | null | undefined;
   /** Whether or not Early Hints is enabled. */
-  earlyHints?: EditResponseSslSettingsEarlyHints | null;
+  earlyHints?: EditResponseSslSettingsEarlyHints | null | undefined;
   /** Whether or not HTTP2 is enabled. */
-  http2?: EditResponseSslSettingsHttp2 | null;
+  http2?: EditResponseSslSettingsHttp2 | null | undefined;
   /** The minimum TLS version supported. */
-  minTlsVersion?: EditResponseSslSettingsMinTlsVersion | null;
+  minTlsVersion?: EditResponseSslSettingsMinTlsVersion | null | undefined;
   /** Whether or not TLS 1.3 is enabled. */
-  tls_1_3?: EditResponseSslSettingsTls13 | null;
+  tls_1_3?: EditResponseSslSettingsTls13 | null | undefined;
 }
 export type EditResponseSslStatus =
   | "initializing"
@@ -1052,58 +1052,58 @@ export type EditResponseSslValidationErrorsList = Array<CreateResponseSslValidat
 export type EditResponseSslValidationRecordsItemEmailsList = Array<string>;
 export interface EditResponseSslValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: EditResponseSslValidationRecordsItemEmailsList | null;
+  emails?: EditResponseSslValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type EditResponseSslValidationRecordsList = Array<EditResponseSslValidationRecordsItem>;
 export interface EditResponseSsl {
   /** Custom hostname SSL identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: EditResponseSslBundleMethod | null;
+  bundleMethod?: EditResponseSslBundleMethod | null | undefined;
   /** The Certificate Authority that will issue the certificate. */
-  certificateAuthority?: EditResponseSslCertificateAuthority | null;
+  certificateAuthority?: EditResponseSslCertificateAuthority | null | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: EditResponseSslDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: EditResponseSslDcvDelegationRecordsList | null | undefined;
   /** The time the custom certificate expires on. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** A list of Hostnames on a custom uploaded certificate. */
-  hosts?: EditResponseSslHostsList | null;
+  hosts?: EditResponseSslHostsList | null | undefined;
   /** The issuer on a custom uploaded certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Domain control validation (DCV) method used for this hostname. */
-  method?: EditResponseSslMethod | null;
+  method?: EditResponseSslMethod | null | undefined;
   /** The serial number on a custom uploaded certificate. */
-  serialNumber?: string | null;
-  settings?: EditResponseSslSettings | null;
+  serialNumber?: string | null | undefined;
+  settings?: EditResponseSslSettings | null | undefined;
   /** The signature on a custom uploaded certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the hostname's SSL certificates. */
-  status?: EditResponseSslStatus | null;
+  status?: EditResponseSslStatus | null | undefined;
   /** Level of validation to be used for this hostname. Domain validation (dv) must be used. */
-  type?: EditResponseSslType | null;
+  type?: EditResponseSslType | null | undefined;
   /** The time the custom certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: EditResponseSslValidationErrorsList | null;
-  validationRecords?: EditResponseSslValidationRecordsList | null;
+  validationErrors?: EditResponseSslValidationErrorsList | null | undefined;
+  validationRecords?: EditResponseSslValidationRecordsList | null | undefined;
   /** Indicates whether the certificate covers a wildcard. */
-  wildcard?: boolean | null;
+  wildcard?: boolean | null | undefined;
 }
 export type EditResponseStatus =
   | "active"
@@ -1130,22 +1130,22 @@ export interface PatchCustomHostnameResponse {
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
   /** This is the time the hostname was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: EditResponseCustomMetadataMap | null;
+  customMetadata?: EditResponseCustomMetadataMap | null | undefined;
   /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
-  customOriginServer?: string | null;
+  customOriginServer?: string | null | undefined;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
-  customOriginSni?: string | null;
+  customOriginSni?: string | null | undefined;
   /** This is a record which can be placed to activate a hostname. */
-  ownershipVerification?: EditResponseOwnershipVerification | null;
+  ownershipVerification?: EditResponseOwnershipVerification | null | undefined;
   /** This presents the token to be served by the given http url to activate a hostname. */
-  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null;
-  ssl?: EditResponseSsl | null;
+  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null | undefined;
+  ssl?: EditResponseSsl | null | undefined;
   /** Status of the hostname's activation. */
-  status?: EditResponseStatus | null;
+  status?: EditResponseStatus | null | undefined;
   /** These are errors that were encountered while trying to activate a hostname. */
-  verificationErrors?: EditResponseVerificationErrorsList | null;
+  verificationErrors?: EditResponseVerificationErrorsList | null | undefined;
 }
 export interface PutCertificatePackCertificateRequest {
   /** Identifier. */
@@ -1167,11 +1167,11 @@ export type CertificatePackCertificatesUpdateResponseCustomMetadataMap = {
 export type CertificatePackCertificatesUpdateResponseOwnershipVerificationType = "txt";
 export interface CertificatePackCertificatesUpdateResponseOwnershipVerification {
   /** DNS Name for record. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** DNS Record type. */
-  type?: CertificatePackCertificatesUpdateResponseOwnershipVerificationType | null;
+  type?: CertificatePackCertificatesUpdateResponseOwnershipVerificationType | null | undefined;
   /** Content for the record. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type CertificatePackCertificatesUpdateResponseOwnershipVerificationHttp =
   CreateResponseOwnershipVerificationHttp;
@@ -1188,21 +1188,24 @@ export type CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsItem
   Array<string>;
 export interface CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsItemEmailsList | null;
+  emails?:
+    | CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsItemEmailsList
+    | null
+    | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsList =
   Array<CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsItem>;
@@ -1219,15 +1222,18 @@ export type CertificatePackCertificatesUpdateResponseSslSettingsMinTlsVersion =
 export type CertificatePackCertificatesUpdateResponseSslSettingsTls13 = "on" | "off";
 export interface CertificatePackCertificatesUpdateResponseSslSettings {
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: CertificatePackCertificatesUpdateResponseSslSettingsCiphersList | null;
+  ciphers?: CertificatePackCertificatesUpdateResponseSslSettingsCiphersList | null | undefined;
   /** Whether or not Early Hints is enabled. */
-  earlyHints?: CertificatePackCertificatesUpdateResponseSslSettingsEarlyHints | null;
+  earlyHints?: CertificatePackCertificatesUpdateResponseSslSettingsEarlyHints | null | undefined;
   /** Whether or not HTTP2 is enabled. */
-  http2?: CertificatePackCertificatesUpdateResponseSslSettingsHttp2 | null;
+  http2?: CertificatePackCertificatesUpdateResponseSslSettingsHttp2 | null | undefined;
   /** The minimum TLS version supported. */
-  minTlsVersion?: CertificatePackCertificatesUpdateResponseSslSettingsMinTlsVersion | null;
+  minTlsVersion?:
+    | CertificatePackCertificatesUpdateResponseSslSettingsMinTlsVersion
+    | null
+    | undefined;
   /** Whether or not TLS 1.3 is enabled. */
-  tls_1_3?: CertificatePackCertificatesUpdateResponseSslSettingsTls13 | null;
+  tls_1_3?: CertificatePackCertificatesUpdateResponseSslSettingsTls13 | null | undefined;
 }
 export type CertificatePackCertificatesUpdateResponseSslStatus =
   | "initializing"
@@ -1260,59 +1266,74 @@ export type CertificatePackCertificatesUpdateResponseSslValidationRecordsItemEma
   Array<string>;
 export interface CertificatePackCertificatesUpdateResponseSslValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePackCertificatesUpdateResponseSslValidationRecordsItemEmailsList | null;
+  emails?:
+    | CertificatePackCertificatesUpdateResponseSslValidationRecordsItemEmailsList
+    | null
+    | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePackCertificatesUpdateResponseSslValidationRecordsList =
   Array<CertificatePackCertificatesUpdateResponseSslValidationRecordsItem>;
 export interface CertificatePackCertificatesUpdateResponseSsl {
   /** Custom hostname SSL identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: CertificatePackCertificatesUpdateResponseSslBundleMethod | null;
+  bundleMethod?: CertificatePackCertificatesUpdateResponseSslBundleMethod | null | undefined;
   /** The Certificate Authority that will issue the certificate. */
-  certificateAuthority?: CertificatePackCertificatesUpdateResponseSslCertificateAuthority | null;
+  certificateAuthority?:
+    | CertificatePackCertificatesUpdateResponseSslCertificateAuthority
+    | null
+    | undefined;
   /** The identifier for the Custom CSR that was used. */
-  customCsrId?: string | null;
+  customCsrId?: string | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsList | null;
+  dcvDelegationRecords?:
+    | CertificatePackCertificatesUpdateResponseSslDcvDelegationRecordsList
+    | null
+    | undefined;
   /** The time the custom certificate expires on. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** A list of Hostnames on a custom uploaded certificate. */
-  hosts?: CertificatePackCertificatesUpdateResponseSslHostsList | null;
+  hosts?: CertificatePackCertificatesUpdateResponseSslHostsList | null | undefined;
   /** The issuer on a custom uploaded certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** Domain control validation (DCV) method used for this hostname. */
-  method?: CertificatePackCertificatesUpdateResponseSslMethod | null;
+  method?: CertificatePackCertificatesUpdateResponseSslMethod | null | undefined;
   /** The serial number on a custom uploaded certificate. */
-  serialNumber?: string | null;
-  settings?: CertificatePackCertificatesUpdateResponseSslSettings | null;
+  serialNumber?: string | null | undefined;
+  settings?: CertificatePackCertificatesUpdateResponseSslSettings | null | undefined;
   /** The signature on a custom uploaded certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the hostname's SSL certificates. */
-  status?: CertificatePackCertificatesUpdateResponseSslStatus | null;
+  status?: CertificatePackCertificatesUpdateResponseSslStatus | null | undefined;
   /** Level of validation to be used for this hostname. Domain validation (dv) must be used. */
-  type?: CertificatePackCertificatesUpdateResponseSslType | null;
+  type?: CertificatePackCertificatesUpdateResponseSslType | null | undefined;
   /** The time the custom certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: CertificatePackCertificatesUpdateResponseSslValidationErrorsList | null;
-  validationRecords?: CertificatePackCertificatesUpdateResponseSslValidationRecordsList | null;
+  validationErrors?:
+    | CertificatePackCertificatesUpdateResponseSslValidationErrorsList
+    | null
+    | undefined;
+  validationRecords?:
+    | CertificatePackCertificatesUpdateResponseSslValidationRecordsList
+    | null
+    | undefined;
   /** Indicates whether the certificate covers a wildcard. */
-  wildcard?: boolean | null;
+  wildcard?: boolean | null | undefined;
 }
 export type CertificatePackCertificatesUpdateResponseStatus =
   | "active"
@@ -1339,22 +1360,28 @@ export interface PutCertificatePackCertificateResponse {
   /** The custom hostname that will point to your hostname via CNAME. */
   hostname: string;
   /** This is the time the hostname was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
-  customMetadata?: CertificatePackCertificatesUpdateResponseCustomMetadataMap | null;
+  customMetadata?: CertificatePackCertificatesUpdateResponseCustomMetadataMap | null | undefined;
   /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
-  customOriginServer?: string | null;
+  customOriginServer?: string | null | undefined;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
-  customOriginSni?: string | null;
+  customOriginSni?: string | null | undefined;
   /** This is a record which can be placed to activate a hostname. */
-  ownershipVerification?: CertificatePackCertificatesUpdateResponseOwnershipVerification | null;
+  ownershipVerification?:
+    | CertificatePackCertificatesUpdateResponseOwnershipVerification
+    | null
+    | undefined;
   /** This presents the token to be served by the given http url to activate a hostname. */
-  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null;
-  ssl?: CertificatePackCertificatesUpdateResponseSsl | null;
+  ownershipVerificationHttp?: CreateResponseOwnershipVerificationHttp | null | undefined;
+  ssl?: CertificatePackCertificatesUpdateResponseSsl | null | undefined;
   /** Status of the hostname's activation. */
-  status?: CertificatePackCertificatesUpdateResponseStatus | null;
+  status?: CertificatePackCertificatesUpdateResponseStatus | null | undefined;
   /** These are errors that were encountered while trying to activate a hostname. */
-  verificationErrors?: CertificatePackCertificatesUpdateResponseVerificationErrorsList | null;
+  verificationErrors?:
+    | CertificatePackCertificatesUpdateResponseVerificationErrorsList
+    | null
+    | undefined;
 }
 export interface PutFallbackOriginRequest {
   /** Identifier. */
@@ -1373,15 +1400,15 @@ export type FallbackOriginUpdateResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutFallbackOriginResponse {
   /** This is the time the fallback origin was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** These are errors that were encountered while trying to activate a fallback origin. */
-  errors?: FallbackOriginUpdateResponseErrorsList | null;
+  errors?: FallbackOriginUpdateResponseErrorsList | null | undefined;
   /** Your origin hostname that requests to your custom hostnames will be sent to. */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** Status of the fallback origin's activation. */
-  status?: FallbackOriginUpdateResponseStatus | null;
+  status?: FallbackOriginUpdateResponseStatus | null | undefined;
   /** This is the time the fallback origin was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type CreateCustomHostnameError = SaasQuotaNotAllocated | CloudflareOpError;
 /** Add a new custom hostname and request that an SSL certificate be issued for it. One of three validation methods--http, txt, email--should be used, with 'http' recommended if the CNAME is already in place (or will be soon). Specifying 'email' will send an email to the WHOIS contacts on file for the base domain plus hostmaster, postmaster, webmaster, admin, administrator. If http is used and the domain is not already pointing to the Managed CNAME host, the PATCH method must be used once it is (to complete validation). Enable bundling of certificates using the custom_cert_bundle field. The bundling process requires the following condition One certificate in the bundle must use an RSA, and the other must use an ECDSA. */

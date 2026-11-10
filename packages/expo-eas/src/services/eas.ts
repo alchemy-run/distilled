@@ -29,16 +29,16 @@ export type PermissionList = Array<Permission | (string & {})>;
 export type AccessTokenScopeType = "ACCOUNT" | "ALL_ACCOUNTS";
 export interface AccessTokenScopeInput {
   /** The account this scope applies to. Required for ACCOUNT scopes and must be omitted for ALL_ACCOUNTS scopes. */
-  accountID?: string | null;
+  accountID?: string | null | undefined;
   permissions: PermissionList;
   type: AccessTokenScopeType | (string & {});
 }
 export type AccessTokenScopeInputList = Array<AccessTokenScopeInput>;
 export interface CreateAccessTokenInput {
   actorID: string;
-  note?: string | null;
+  note?: string | null | undefined;
   /** When given, requests authenticated with the new token are restricted to these scopes instead of the actor's full access. Either a single ALL_ACCOUNTS scope or one ACCOUNT scope per account. */
-  scopes?: AccessTokenScopeInputList | null;
+  scopes?: AccessTokenScopeInputList | null | undefined;
 }
 export interface AccessTokenCreateAccessTokenRequest {
   createAccessTokenData: CreateAccessTokenInput;
@@ -85,7 +85,7 @@ export interface AccessTokenDeleteAccessTokenResponse {
 }
 export interface AccessTokenSetAccessTokenRevokedRequest {
   id: string;
-  revoked?: boolean | null;
+  revoked?: boolean | null | undefined;
 }
 export type AccessTokenSetAccessTokenRevokedResponseOwnerAccountsItemEnvironmentVariableEnvironmentsList =
   Array<unknown>;
@@ -1408,7 +1408,7 @@ export interface AccountByNameResponse {
   viewerUserPermission2: AccountByNameResponseViewerUserPermission2;
 }
 export interface AccountCancelAllSubscriptionsImmediatelyRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
 }
 export type AccountCancelAllSubscriptionsImmediatelyResponseAgentProviderConnectionsItemCreatedByActor =
@@ -1941,7 +1941,7 @@ export interface AccountCancelAllSubscriptionsImmediatelyResponse {
   viewerUserPermission2: AccountCancelAllSubscriptionsImmediatelyResponseViewerUserPermission2;
 }
 export interface AccountCancelScheduledSubscriptionChangeRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
 }
 export type AccountCancelScheduledSubscriptionChangeResponseAgentProviderConnectionsItemCreatedByActor =
@@ -2474,7 +2474,7 @@ export interface AccountCancelScheduledSubscriptionChangeResponse {
   viewerUserPermission2: AccountCancelScheduledSubscriptionChangeResponseViewerUserPermission2;
 }
 export interface AccountChangeAdditionalConcurrenciesCountRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   newAdditionalConcurrenciesCount: number;
 }
@@ -3008,9 +3008,9 @@ export interface AccountChangeAdditionalConcurrenciesCountResponse {
   viewerUserPermission2: AccountChangeAdditionalConcurrenciesCountResponseViewerUserPermission2;
 }
 export interface AccountChangePlanRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
-  couponCode?: string | null;
+  couponCode?: string | null | undefined;
   newPlanIdentifier: string;
 }
 export type AccountChangePlanResponseAgentProviderConnectionsItemCreatedByActor =
@@ -3520,10 +3520,10 @@ export interface AccountChangePlanResponse {
 }
 export type PermissionList2 = (Permission | null)[];
 export interface AccountGrantActorPermissionsRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   actorID: string;
-  permissions?: PermissionList2 | null;
+  permissions?: PermissionList2 | null | undefined;
 }
 export type AccountGrantActorPermissionsResponseAgentProviderConnectionsItemCreatedByActor =
   AccessTokenCreateAccessTokenResponseAccessTokenOwner;
@@ -4051,7 +4051,7 @@ export interface AccountGrantActorPermissionsResponse {
   viewerUserPermission2: AccountGrantActorPermissionsResponseViewerUserPermission2;
 }
 export interface AccountRemoveProfileImageRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
 }
 export type AccountRemoveProfileImageResponseAgentProviderConnectionsItemCreatedByActor =
@@ -4573,10 +4573,10 @@ export interface AccountRemoveProfileImageResponse {
   viewerUserPermission2: AccountRemoveProfileImageResponseViewerUserPermission2;
 }
 export interface AccountRevokeActorPermissionsRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   actorID: string;
-  permissions?: PermissionList2 | null;
+  permissions?: PermissionList2 | null | undefined;
 }
 export type AccountRevokeActorPermissionsResponseAgentProviderConnectionsItemCreatedByActor =
   AccessTokenCreateAccessTokenResponseAccessTokenOwner;
@@ -5105,7 +5105,7 @@ export interface AccountRevokeActorPermissionsResponse {
   viewerUserPermission2: AccountRevokeActorPermissionsResponseViewerUserPermission2;
 }
 export interface AccountSetCredentialsProtectionEnabledRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   credentialsProtectionEnabled: boolean;
 }
@@ -5639,9 +5639,9 @@ export interface AccountSetCredentialsProtectionEnabledResponse {
   viewerUserPermission2: AccountSetCredentialsProtectionEnabledResponseViewerUserPermission2;
 }
 export interface AccountSetDisplayNameRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
-  displayName?: string | null;
+  displayName?: string | null | undefined;
 }
 export type AccountSetDisplayNameResponseAgentProviderConnectionsItemCreatedByActor =
   AccessTokenCreateAccessTokenResponseAccessTokenOwner;
@@ -6155,7 +6155,7 @@ export interface AccountSetDisplayNameResponse {
   viewerUserPermission2: AccountSetDisplayNameResponseViewerUserPermission2;
 }
 export interface AccountSetEnvironmentVariableProtectionEnabledRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   environmentVariableProtectionEnabled: boolean;
 }
@@ -6689,7 +6689,7 @@ export interface AccountSetEnvironmentVariableProtectionEnabledResponse {
   viewerUserPermission2: AccountSetEnvironmentVariableProtectionEnabledResponseViewerUserPermission2;
 }
 export interface AccountSetObserveIngestionPausedRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   paused: boolean;
 }
@@ -7220,7 +7220,7 @@ export interface AccountSetObserveIngestionPausedResponse {
   viewerUserPermission2: AccountSetObserveIngestionPausedResponseViewerUserPermission2;
 }
 export interface AccountSetPushSecurityEnabledRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   pushSecurityEnabled: boolean;
 }
@@ -7751,7 +7751,7 @@ export interface AccountSetPushSecurityEnabledResponse {
   viewerUserPermission2: AccountSetPushSecurityEnabledResponseViewerUserPermission2;
 }
 export interface AccountSetRequireTwoFactorRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   requireTwoFactor: boolean;
 }
@@ -8277,7 +8277,7 @@ export interface AccountSetRequireTwoFactorResponse {
   viewerUserPermission2: AccountSetRequireTwoFactorResponseViewerUserPermission2;
 }
 export interface AccountSetUserSpecifiedAccountUsageRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   userSpecifiedAccountUsage: UserSpecifiedAccountUsage | (string & {});
 }
@@ -9490,7 +9490,7 @@ export interface AgentProviderConnectionStartCodexConnectionResponse {
   verificationUrl: string;
 }
 export interface UpdateAgentProviderConnectionInput {
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface AgentProviderConnectionUpdateAgentProviderConnectionRequest {
   id: string;
@@ -10108,9 +10108,9 @@ export interface AndroidAppBuildCredentialsSetNameResponse {
   name: string;
 }
 export interface AndroidAppCredentialsInput {
-  fcmId?: string | null;
-  googleServiceAccountKeyForFcmV1Id?: string | null;
-  googleServiceAccountKeyForSubmissionsId?: string | null;
+  fcmId?: string | null | undefined;
+  googleServiceAccountKeyForFcmV1Id?: string | null | undefined;
+  googleServiceAccountKeyForSubmissionsId?: string | null | undefined;
 }
 export interface AndroidAppCredentialsCreateAndroidAppCredentialsRequest {
   androidAppCredentialsInput: AndroidAppCredentialsInput;
@@ -11579,7 +11579,7 @@ export interface AndroidFcmDeleteAndroidFcmResponse {
 export interface AndroidKeystoreInput {
   base64EncodedKeystore: string;
   keyAlias: string;
-  keyPassword?: string | null;
+  keyPassword?: string | null | undefined;
   keystorePassword: string;
 }
 export interface AndroidKeystoreCreateAndroidKeystoreRequest {
@@ -13078,9 +13078,9 @@ export interface AppByIdResponse {
   workflowCachingConfig: AndroidAppCredentialsCreateAndroidAppCredentialsResponseAppWorkflowCachingConfig;
 }
 export interface AppleAppIdentifierInput {
-  appleTeamId?: string | null;
+  appleTeamId?: string | null | undefined;
   bundleIdentifier: string;
-  parentAppleAppId?: string | null;
+  parentAppleAppId?: string | null | undefined;
 }
 export interface AppleAppIdentifierCreateAppleAppIdentifierRequest {
   accountId: string;
@@ -13312,12 +13312,12 @@ export interface AppleAppIdentifierCreateAppleAppIdentifierResponse {
 export type AppleDeviceClass = "IPAD" | "IPHONE" | "MAC" | "UNKNOWN";
 export interface AppleDeviceInput {
   appleTeamId: string;
-  deviceClass?: AppleDeviceClass | (string & {}) | null;
-  enabled?: boolean | null;
+  deviceClass?: AppleDeviceClass | (string & {}) | null | undefined;
+  enabled?: boolean | null | undefined;
   identifier: string;
-  model?: string | null;
-  name?: string | null;
-  softwareVersion?: string | null;
+  model?: string | null | undefined;
+  name?: string | null | undefined;
+  softwareVersion?: string | null | undefined;
 }
 export interface AppleDeviceCreateAppleDeviceRequest {
   accountId: string;
@@ -14093,7 +14093,7 @@ export interface AppleDeviceRegistrationRequestByIdResponse {
 export interface AppleDeviceRegistrationRequestCreateAppleDeviceRegistrationRequestRequest {
   accountId: string;
   appleTeamId: string;
-  singleUse?: boolean | null;
+  singleUse?: boolean | null | undefined;
 }
 export type AppleDeviceRegistrationRequestCreateAppleDeviceRegistrationRequestResponseAccountAgentProviderConnectionsItem =
   AndroidKeystoreCreateAndroidKeystoreResponseAccountAgentProviderConnectionsItem;
@@ -15019,11 +15019,11 @@ export interface AppleDistributionCertificateByIdResponse {
   validityNotBefore: string;
 }
 export interface AppleDistributionCertificateInput {
-  appleTeamId?: string | null;
+  appleTeamId?: string | null | undefined;
   certP12: string;
   certPassword: string;
-  certPrivateSigningKey?: string | null;
-  developerPortalIdentifier?: string | null;
+  certPrivateSigningKey?: string | null | undefined;
+  developerPortalIdentifier?: string | null | undefined;
 }
 export interface AppleDistributionCertificateCreateAppleDistributionCertificateRequest {
   accountId: string;
@@ -15575,7 +15575,7 @@ export interface AppleProvisioningProfileByIdResponse {
 }
 export interface AppleProvisioningProfileInput {
   appleProvisioningProfile: string;
-  developerPortalIdentifier?: string | null;
+  developerPortalIdentifier?: string | null | undefined;
 }
 export interface AppleProvisioningProfileCreateAppleProvisioningProfileRequest {
   accountId: string;
@@ -16801,8 +16801,8 @@ export interface AppleTeamByAppleTeamIdentifierResponse {
 }
 export interface AppleTeamInput {
   appleTeamIdentifier: string;
-  appleTeamName?: string | null;
-  appleTeamType?: AppleTeamType | (string & {}) | null;
+  appleTeamName?: string | null | undefined;
+  appleTeamType?: AppleTeamType | (string & {}) | null | undefined;
 }
 export interface AppleTeamCreateAppleTeamRequest {
   accountId: string;
@@ -17273,8 +17273,8 @@ export interface AppleTeamScheduleAppleTeamDeletionResponse {
   willRetry: boolean;
 }
 export interface AppleTeamUpdateInput {
-  appleTeamName?: string | null;
-  appleTeamType?: AppleTeamType | (string & {}) | null;
+  appleTeamName?: string | null | undefined;
+  appleTeamType?: AppleTeamType | (string & {}) | null | undefined;
 }
 export interface AppleTeamUpdateAppleTeamRequest {
   appleTeamUpdateInput: AppleTeamUpdateInput;
@@ -17548,7 +17548,7 @@ export interface AppleTeamUpdateAppleTeamResponse {
   lastDeletionAttemptTime: string | null;
 }
 export interface AppRemoveProfileImageRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   removeProfileImageAppId: string;
 }
 export type AppRemoveProfileImageResponseAppStoreConnectAppAppStoreConnectApiKeyRolesList =
@@ -17960,7 +17960,7 @@ export interface AppRemoveProfileImageResponse {
   workflowCachingConfig: AndroidAppCredentialsCreateAndroidAppCredentialsResponseAppWorkflowCachingConfig;
 }
 export interface AppScheduleAppDeletionRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   scheduleAppDeletionAppId: string;
 }
 export type AppScheduleAppDeletionResponseAccountAgentProviderConnectionsItem =
@@ -18148,10 +18148,10 @@ export interface AppScheduleAppDeletionResponse {
   willRetry: boolean;
 }
 export interface AppInfoInput {
-  displayName?: string | null;
+  displayName?: string | null | undefined;
 }
 export interface AppSetAppInfoRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   setAppInfoAppId: string;
   appInfo: AppInfoInput;
 }
@@ -18553,7 +18553,7 @@ export interface AppSetAppInfoResponse {
   workflowCachingConfig: AndroidAppCredentialsCreateAndroidAppCredentialsResponseAppWorkflowCachingConfig;
 }
 export interface AppSetObserveIngestionPausedRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   setObserveIngestionPausedAppId: string;
   paused: boolean;
 }
@@ -18975,7 +18975,7 @@ export interface AppSetObserveIngestionPausedResponse {
   workflowCachingConfig: AndroidAppCredentialsCreateAndroidAppCredentialsResponseAppWorkflowCachingConfig;
 }
 export interface AppSetPushSecurityEnabledRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   setPushSecurityEnabledAppId: string;
   pushSecurityEnabled: boolean;
 }
@@ -19394,9 +19394,9 @@ export interface AppSetPushSecurityEnabledResponse {
   workflowCachingConfig: AndroidAppCredentialsCreateAndroidAppCredentialsResponseAppWorkflowCachingConfig;
 }
 export interface AppSetResourceClassExperimentRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   setResourceClassExperimentAppId: string;
-  resourceClassExperiment?: ResourceClassExperiment | (string & {}) | null;
+  resourceClassExperiment?: ResourceClassExperiment | (string & {}) | null | undefined;
 }
 export type AppSetResourceClassExperimentResponseAppStoreConnectAppAppStoreConnectApiKeyRolesList =
   Array<AppStoreConnectUserRole>;
@@ -19817,12 +19817,12 @@ export interface AppSetResourceClassExperimentResponse {
 }
 export interface WorkflowCachingConfigInput {
   /** Pass true or false to explicitly enable or disable, null to reset to the account-level default, or omit the field to leave it unchanged. */
-  ccacheEnabled?: boolean | null;
+  ccacheEnabled?: boolean | null | undefined;
   /** Pass true or false to explicitly enable or disable, null to reset to the default (disabled), or omit the field to leave it unchanged. */
-  gradleCacheEnabled?: boolean | null;
+  gradleCacheEnabled?: boolean | null | undefined;
 }
 export interface AppSetWorkflowCachingConfigRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   setWorkflowCachingConfigAppId: string;
   config: WorkflowCachingConfigInput;
 }
@@ -20458,13 +20458,13 @@ export interface AppStoreConnectApiKeyByIdResponse {
 }
 export type AppStoreConnectUserRoleList = Array<AppStoreConnectUserRole | (string & {})>;
 export interface AppStoreConnectApiKeyInput {
-  appleTeamId?: string | null;
+  appleTeamId?: string | null | undefined;
   /** Omit for individual (user-scoped) keys, which have no issuer ID and only support submissions. */
-  issuerIdentifier?: string | null;
+  issuerIdentifier?: string | null | undefined;
   keyIdentifier: string;
   keyP8: string;
-  name?: string | null;
-  roles?: AppStoreConnectUserRoleList | null;
+  name?: string | null | undefined;
+  roles?: AppStoreConnectUserRoleList | null | undefined;
 }
 export interface AppStoreConnectApiKeyCreateAppStoreConnectApiKeyRequest {
   accountId: string;
@@ -20694,7 +20694,7 @@ export interface AppStoreConnectApiKeyDeleteAppStoreConnectApiKeyResponse {
   id: string;
 }
 export interface AppStoreConnectApiKeyUpdateInput {
-  appleTeamId?: string | null;
+  appleTeamId?: string | null | undefined;
 }
 export interface AppStoreConnectApiKeyUpdateAppStoreConnectApiKeyRequest {
   appStoreConnectApiKeyUpdateInput: AppStoreConnectApiKeyUpdateInput;
@@ -21118,7 +21118,7 @@ export interface AppVersionInput {
   applicationIdentifier: string;
   buildVersion: string;
   platform: AppPlatform | (string & {});
-  runtimeVersion?: string | null;
+  runtimeVersion?: string | null | undefined;
   storeVersion: string;
 }
 export interface AppVersionCreateAppVersionRequest {
@@ -21226,8 +21226,8 @@ export interface AuditLogExportInput {
   createdAfter: string;
   createdBefore: string;
   format: AuditLogsExportFormat | (string & {});
-  targetEntityMutationType?: TargetEntityMutationTypeList | null;
-  targetEntityTypeName?: EntityTypeNameList | null;
+  targetEntityMutationType?: TargetEntityMutationTypeList | null | undefined;
+  targetEntityTypeName?: EntityTypeNameList | null | undefined;
 }
 export interface AuditLogExportAuditLogsRequest {
   exportInput: AuditLogExportInput;
@@ -21760,7 +21760,7 @@ export interface BranchesByIdResponse {
   updatedAt: string;
 }
 export interface BuildRequest {
-  buildId?: string | null;
+  buildId?: string | null | undefined;
 }
 export type BuildResponseCancelActor = AccessTokenCreateAccessTokenResponseAccessTokenOwner;
 export type BuildResponseCancelAppBuildProfilesList = Array<string>;
@@ -22028,10 +22028,10 @@ export interface BuildResponse {
 export type BuildAnnotationType = "ERROR" | "INFO" | "WARNING";
 export interface BuildAnnotationDataInput {
   buildPhase: string;
-  exampleBuildLog?: string | null;
-  internalNotes?: string | null;
+  exampleBuildLog?: string | null | undefined;
+  internalNotes?: string | null | undefined;
   message: string;
-  regexFlags?: string | null;
+  regexFlags?: string | null | undefined;
   regexString: string;
   title: string;
   type: BuildAnnotationType | (string & {});
@@ -22063,7 +22063,7 @@ export interface BuildAnnotationFiltersInput {
   buildPhases: StringList;
 }
 export interface BuildAnnotationsAllRequest {
-  filters?: BuildAnnotationFiltersInput | null;
+  filters?: BuildAnnotationFiltersInput | null | undefined;
 }
 export interface BuildAnnotationsAllResultItem {
   authorUsername: string | null;
@@ -23812,11 +23812,11 @@ export type ExitInterviewOutcome =
 export interface ExitInterviewTagsInput {
   actionableInsight: boolean;
   category: string;
-  competitorMention?: string | null;
-  confidence?: string | null;
-  productArea?: string | null;
+  competitorMention?: string | null | undefined;
+  confidence?: string | null | undefined;
+  productArea?: string | null | undefined;
   sentiment: string;
-  summary?: string | null;
+  summary?: string | null | undefined;
 }
 export interface ExitInterviewCompleteInput {
   accountId: string;
@@ -23824,7 +23824,7 @@ export interface ExitInterviewCompleteInput {
   messages: ExitInterviewMessageInputList;
   outcome: ExitInterviewOutcome | (string & {});
   /** Optional classification tags. Present when the website's tagging call succeeded; omitted when it failed or when the user dismissed without engaging. When present, drives the conversation-tagged event and the tagged Slack notification. */
-  tags?: ExitInterviewTagsInput | null;
+  tags?: ExitInterviewTagsInput | null | undefined;
 }
 export interface CompleteExitInterviewRequest {
   input: ExitInterviewCompleteInput;
@@ -23845,7 +23845,7 @@ export type ConvexProjectDeleteConvexProjectResponse = string;
 export interface SetupConvexProjectInput {
   appId: string;
   convexTeamConnectionId: string;
-  deploymentRegion?: string | null;
+  deploymentRegion?: string | null | undefined;
   projectName: string;
 }
 export interface ConvexProjectSetupConvexProjectRequest {
@@ -23907,7 +23907,7 @@ export interface ConvexProjectSetupConvexProjectResponse {
 }
 export interface CreateConvexTeamConnectionInput {
   accountId: string;
-  convexTeamName?: string | null;
+  convexTeamName?: string | null | undefined;
   deploymentRegion: string;
 }
 export interface ConvexTeamConnectionCreateConvexTeamConnectionRequest {
@@ -24379,11 +24379,11 @@ export interface ConvexTeamConnectionSendConvexTeamInviteToVerifiedEmailRequest 
 export type ConvexTeamConnectionSendConvexTeamInviteToVerifiedEmailResponse = boolean;
 export interface AppInput {
   accountId: string;
-  appInfo?: AppInfoInput | null;
+  appInfo?: AppInfoInput | null | undefined;
   projectName: string;
 }
 export interface CreateAppRequest {
-  appId?: string | null;
+  appId?: string | null | undefined;
   appInput: AppInput;
 }
 export type CreateAppResponseAppStoreConnectAppAppStoreConnectApiKeyRolesList =
@@ -24783,7 +24783,7 @@ export type RobotDataInput = UpdateAgentProviderConnectionInput;
 export interface CreateRobotForAccountRequest {
   accountID: string;
   permissions: PermissionList2;
-  robotData?: UpdateAgentProviderConnectionInput | null;
+  robotData?: UpdateAgentProviderConnectionInput | null | undefined;
 }
 export type CreateRobotForAccountResponseAccessTokensItemOwner =
   AccessTokenCreateAccessTokenResponseAccessTokenOwner;
@@ -25042,17 +25042,17 @@ export interface CreateRobotForAccountResponse {
 }
 export type SandboxOperatingSystem = "LINUX" | "MACOS";
 export interface SandboxProjectArchiveInput {
-  gitRef?: string | null;
-  url?: string | null;
+  gitRef?: string | null | undefined;
+  url?: string | null | undefined;
 }
 export type SandboxResourceClass = "LARGE" | "MEDIUM";
 export interface CreateSandboxInput {
-  agentRunId?: string | null;
+  agentRunId?: string | null | undefined;
   appId: string;
-  image?: string | null;
-  maxDurationSeconds?: number | null;
+  image?: string | null | undefined;
+  maxDurationSeconds?: number | null | undefined;
   operatingSystem: SandboxOperatingSystem | (string & {});
-  projectArchive?: SandboxProjectArchiveInput | null;
+  projectArchive?: SandboxProjectArchiveInput | null | undefined;
   resourceClass: SandboxResourceClass | (string & {});
 }
 export interface CreateSandboxRequest {
@@ -25388,7 +25388,7 @@ export interface CustomDomainRefreshCustomDomainResponse {
   verificationRecord: AppByDevDomainNameResponseWorkerCustomDomainDcvDelegationRecord | null;
 }
 export interface CustomDomainRegisterCustomDomainRequest {
-  aliasName?: unknown | null;
+  aliasName?: unknown | null | undefined;
   appId: string;
   hostname: string;
 }
@@ -25443,7 +25443,7 @@ export interface DeleteWebhookResponse {
   id: string;
 }
 export interface DeploymentsAssignAliasRequest {
-  aliasName?: unknown | null;
+  aliasName?: unknown | null | undefined;
   appId: string;
   deploymentIdentifier: string;
 }
@@ -25616,7 +25616,7 @@ export interface DeploymentsByIdResponse {
 }
 export interface DeploymentsCreateSignedDeploymentUrlRequest {
   appId: string;
-  deploymentIdentifier?: string | null;
+  deploymentIdentifier?: string | null | undefined;
 }
 /** Selection set for `deployments.createSignedDeploymentUrl` (unwrapped from the GraphQL `data` envelope). */
 export interface DeploymentsCreateSignedDeploymentUrlResponse {
@@ -25625,7 +25625,7 @@ export interface DeploymentsCreateSignedDeploymentUrlResponse {
   url: string;
 }
 export interface DeploymentsDeleteAliasRequest {
-  aliasName?: unknown | null;
+  aliasName?: unknown | null | undefined;
   appId: string;
 }
 /** Selection set for `deployments.deleteAlias` (unwrapped from the GraphQL `data` envelope). */
@@ -26110,67 +26110,67 @@ export interface DeviceRunSessionArtifactsByIdResponse {
 }
 export interface CreateAndroidDeviceRunSessionInput {
   /** AVD hardware profile id to use for the emulator (e.g. "pixel_9"). */
-  deviceIdentifier?: string | null;
+  deviceIdentifier?: string | null | undefined;
   /** Android SDK system image package to use for the emulator (e.g. "system-images;android-35;google_apis;x86_64"). */
-  systemImagePackage?: string | null;
+  systemImagePackage?: string | null | undefined;
 }
 export type DeviceRunSessionEgress = "LOCAL";
 export interface CreateIosDeviceRunSessionInput {
   /** Simulator device name or UDID to use for the session (e.g. "iPhone 16 Pro"). */
-  deviceIdentifier?: string | null;
+  deviceIdentifier?: string | null | undefined;
 }
 export type DeviceRunSessionRequestOrigin = "EAS_CLI" | "MCP" | "WEBSITE";
 export type DeviceRunSessionResourceClass = "LARGE" | "MEDIUM";
 export interface CreateDeviceRunSessionInput {
   /** The coding agent sending this request, recorded for analytics only and never used for authorization. Surrounding whitespace is trimmed, and a blank value or one over 200 characters is treated as omitted. */
-  agentId?: string | null;
+  agentId?: string | null | undefined;
   /** The coding agent's own session identifier, recorded for analytics only and never used for authorization. Surrounding whitespace is trimmed, and a blank value or one over 200 characters is treated as omitted. */
-  agentSessionId?: string | null;
+  agentSessionId?: string | null | undefined;
   /** Android emulator options. Only supported when platform is ANDROID. */
-  android?: CreateAndroidDeviceRunSessionInput | null;
+  android?: CreateAndroidDeviceRunSessionInput | null | undefined;
   appId: string;
   /** Application archive URL to download, install, and launch before the simulator session becomes available. Mutually exclusive with buildId, buildFingerprint, and expoGo. */
-  applicationArchiveUrl?: string | null;
+  applicationArchiveUrl?: string | null | undefined;
   /** Fingerprint hash of an EAS Build to install and launch before the simulator session becomes available; the server resolves it to the most recent installable build with this fingerprint. Mutually exclusive with buildId, applicationArchiveUrl, and expoGo. */
-  buildFingerprint?: string | null;
+  buildFingerprint?: string | null | undefined;
   /** EAS Build to install and launch before the simulator session becomes available. Mutually exclusive with buildFingerprint, applicationArchiveUrl, and expoGo. */
-  buildId?: string | null;
+  buildId?: string | null | undefined;
   /** Origins of pages that may call the session's preview host API cross-origin, for example to render the device with @expo/hub-client. Framing the preview does not need this. Same value rules as frameAncestors. At most 10. The page still needs the preview token from remoteConfig. If omitted, only expo.dev may call the preview API cross-origin. Available on Production and Enterprise plans. */
-  corsOrigins?: StringList | null;
+  corsOrigins?: StringList | null | undefined;
   /** Where the virtual device's proxied network traffic exits to the internet. If omitted, all traffic exits from EAS infrastructure. */
-  egress?: DeviceRunSessionEgress | (string & {}) | null;
+  egress?: DeviceRunSessionEgress | (string & {}) | null | undefined;
   /** Install and launch Expo Go before the simulator session becomes available. The server resolves the platform-specific application archive. Mutually exclusive with buildId, buildFingerprint, and applicationArchiveUrl. */
-  expoGo?: boolean | null;
+  expoGo?: boolean | null | undefined;
   /** Origins of pages that may embed the session's preview host in a frame, next to expo.dev. Each value is an https origin such as https://app.example.com or a subdomain wildcard such as https://*.example.com; plain http is accepted for localhost only. At most 10. The embedding page still needs the preview token from remoteConfig, and whoever embeds the preview can also control the device. If omitted, only expo.dev may embed the preview. Available on Production and Enterprise plans. */
-  frameAncestors?: StringList | null;
+  frameAncestors?: StringList | null | undefined;
   /** iOS Simulator options. Only supported when platform is IOS. */
-  ios?: CreateIosDeviceRunSessionInput | null;
+  ios?: CreateIosDeviceRunSessionInput | null | undefined;
   /** Arguments passed to the installed application when it is launched. Requires buildId, applicationArchiveUrl, or expoGo. */
-  launchArgs?: StringList | null;
+  launchArgs?: StringList | null | undefined;
   /** Stop the session automatically after this many minutes without observed session activity. Must be positive and no greater than the session's maximum duration (maxRunTimeMinutes when set). Only supported for agent-device, argent, and Appium sessions. If omitted, the session has no idle timeout. */
-  maxIdleTimeMinutes?: number | null;
+  maxIdleTimeMinutes?: number | null | undefined;
   /** Maximum usable session duration, in minutes, starting when the remote session is ready. Must be non-negative and no greater than 40 for normal-priority accounts or 115 for high-priority accounts. The backing job receives an additional five minutes for cleanup. */
-  maxRunTimeMinutes?: number | null;
+  maxRunTimeMinutes?: number | null | undefined;
   /** Human-readable label for the session, at most 255 characters after leading and trailing whitespace is trimmed. If omitted, the session is unnamed and clients fall back to identifying it by id. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Record HTTP(S) traffic from apps on the device for the whole session. iOS only. HTTPS is decrypted, so recordings contain credentials and cookies in cleartext. If omitted, no traffic is recorded. */
-  networkCapture?: boolean | null;
+  networkCapture?: boolean | null | undefined;
   /** What network capture may keep beyond method, URL, status, timing and size: header, query, request-body, response-body. Each can carry credentials, so nothing here is recorded unless it is asked for. Requires networkCapture. */
-  networkCaptureFields?: StringList | null;
+  networkCaptureFields?: StringList | null | undefined;
   /** Expo or development-client URL to open after launching the installed application. Requires buildId, applicationArchiveUrl, or expoGo. */
-  openUrl?: string | null;
+  openUrl?: string | null | undefined;
   /** The version of the package backing the device run session (e.g. "0.1.3-alpha.3"). If omitted, consumers treat the session as pinned to "latest". */
-  packageVersion?: string | null;
+  packageVersion?: string | null | undefined;
   platform: AppPlatform | (string & {});
   /** Prefer public preview links and show the preview host's Share button. Defaults to false. This is a presentation preference and does not change access to bearer links. */
-  publicPreview?: boolean | null;
+  publicPreview?: boolean | null | undefined;
   /** The client sending this request, recorded for analytics only. Omit it when the client is not one of the listed values; the session is then reported as unknown. */
-  requestOrigin?: DeviceRunSessionRequestOrigin | (string & {}) | null;
-  resourceClass?: DeviceRunSessionResourceClass | (string & {}) | null;
+  requestOrigin?: DeviceRunSessionRequestOrigin | (string & {}) | null | undefined;
+  resourceClass?: DeviceRunSessionResourceClass | (string & {}) | null | undefined;
   /** Expo SDK version used to select an Expo Go application archive. Only supported when expoGo is true. If omitted, the current Expo Go archive for the platform is used. */
-  sdkVersion?: string | null;
+  sdkVersion?: string | null | undefined;
   /** Free-form labels for grouping sessions, for example one per app variant. */
-  tags?: StringList | null;
+  tags?: StringList | null | undefined;
   type: DeviceRunSessionType | (string & {});
 }
 export interface DeviceRunSessionCreateDeviceRunSessionRequest {
@@ -27761,9 +27761,9 @@ export interface DeviceRunSessionsProfilesResponse {
 }
 export interface UpdateDeviceRunSessionInput {
   /** New human-readable label for the session, at most 255 characters after leading and trailing whitespace is trimmed. Pass null to clear the name so clients fall back to identifying the session by id. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Replace the session tags. Tags are trimmed, lowercased and deduplicated. Pass an empty list or null to clear them. Omit to leave tags unchanged. */
-  tags?: StringList | null;
+  tags?: StringList | null | undefined;
 }
 export interface DeviceRunSessionUpdateDeviceRunSessionRequest {
   deviceRunSessionId: string;
@@ -28529,7 +28529,7 @@ export interface UploadEmbeddedUpdateInput {
   embeddedUpdateId: string;
   platform: AppPlatform | (string & {});
   runtimeVersion: string;
-  turtleBuildId?: string | null;
+  turtleBuildId?: string | null | undefined;
 }
 export interface EmbeddedUpdateUploadEmbeddedUpdateRequest {
   input: UploadEmbeddedUpdateInput;
@@ -28753,7 +28753,7 @@ export interface EmbeddedUpdateUploadEmbeddedUpdateResponse {
 export type EnvironmentSecretType = "FILE_BASE64" | "STRING";
 export interface CreateEnvironmentSecretInput {
   name: string;
-  type?: EnvironmentSecretType | (string & {}) | null;
+  type?: EnvironmentSecretType | (string & {}) | null | undefined;
   value: string;
 }
 export interface EnvironmentSecretCreateEnvironmentSecretForAccountRequest {
@@ -28790,11 +28790,11 @@ export interface EnvironmentSecretDeleteEnvironmentSecretResponse {
 export type DocumentList = Array<unknown>;
 export type EnvironmentVariableVisibility = "PUBLIC" | "SECRET" | "SENSITIVE";
 export interface CreateSharedEnvironmentVariableInput {
-  environments?: DocumentList | null;
-  fileName?: string | null;
+  environments?: DocumentList | null | undefined;
+  fileName?: string | null | undefined;
   name: string;
-  overwrite?: boolean | null;
-  type?: EnvironmentSecretType | (string & {}) | null;
+  overwrite?: boolean | null | undefined;
+  type?: EnvironmentSecretType | (string & {}) | null | undefined;
   value: string;
   visibility: EnvironmentVariableVisibility | (string & {});
 }
@@ -28901,13 +28901,13 @@ export interface EnvironmentVariableDeleteEnvironmentVariableResponse {
   id: string;
 }
 export interface UpdateEnvironmentVariableInput {
-  environments?: DocumentList | null;
-  fileName?: string | null;
+  environments?: DocumentList | null | undefined;
+  fileName?: string | null | undefined;
   id: string;
-  name?: string | null;
-  type?: EnvironmentSecretType | (string & {}) | null;
-  value?: string | null;
-  visibility?: EnvironmentVariableVisibility | (string & {}) | null;
+  name?: string | null | undefined;
+  type?: EnvironmentSecretType | (string & {}) | null | undefined;
+  value?: string | null | undefined;
+  visibility?: EnvironmentVariableVisibility | (string & {}) | null | undefined;
 }
 export type UpdateEnvironmentVariableInputList = Array<UpdateEnvironmentVariableInput>;
 export interface EnvironmentVariableUpdateBulkEnvironmentVariablesRequest {
@@ -28994,13 +28994,13 @@ export interface ExpoGoBuildResponse {
   supportedSdkVersions: ExpoGoBuildResponseSupportedSdkVersionsList;
 }
 export interface FingerprintSourceInput {
-  bucketKey?: string | null;
-  isDebugFingerprint?: boolean | null;
-  type?: FingerprintSourceType | (string & {}) | null;
+  bucketKey?: string | null | undefined;
+  isDebugFingerprint?: boolean | null | undefined;
+  type?: FingerprintSourceType | (string & {}) | null | undefined;
 }
 export interface CreateFingerprintInput {
   hash: string;
-  source?: FingerprintSourceInput | null;
+  source?: FingerprintSourceInput | null | undefined;
 }
 export interface FingerprintCreateOrGetExistingFingerprintRequest {
   appId: string;
@@ -29178,15 +29178,15 @@ export interface GithubAppResponse {
 }
 export interface GitHubBuildInput {
   appId: string;
-  autoSubmit?: boolean | null;
-  baseDirectory?: string | null;
+  autoSubmit?: boolean | null | undefined;
+  baseDirectory?: string | null | undefined;
   buildProfile: string;
-  environment?: unknown | null;
+  environment?: unknown | null | undefined;
   gitRef: string;
   platform: AppPlatform | (string & {});
   /** Refresh the ad hoc provisioning profile before building. Supported for iOS builds with a build profile that uses internal distribution and remote credentials. */
-  refreshAdHocProvisioningProfile?: boolean | null;
-  submitProfile?: string | null;
+  refreshAdHocProvisioningProfile?: boolean | null | undefined;
+  submitProfile?: string | null | undefined;
 }
 export interface GithubAppCreateGitHubBuildRequest {
   buildInput: GitHubBuildInput;
@@ -29377,7 +29377,7 @@ export interface GithubAppCreateGitHubBuildResponse {
 }
 export interface CreateGitHubAppInstallationInput {
   accountId: string;
-  githubAppRegistrationId?: string | null;
+  githubAppRegistrationId?: string | null | undefined;
   installationIdentifier: number;
 }
 export interface GithubAppInstallationCreateGitHubAppInstallationForAccountRequest {
@@ -30487,7 +30487,7 @@ export interface GithubAppRegistrationsByIdResponse {
 export interface StartGitHubAppRegistrationInput {
   accountId: string;
   /** Organization to register the app under; omit to register under the signed-in user's account. */
-  org?: string | null;
+  org?: string | null | undefined;
   /** URL of the GitHub Enterprise instance, e.g. https://github.example.com or https://example.ghe.com. */
   origin: string;
 }
@@ -30504,15 +30504,15 @@ export interface CreateGitHubBuildTriggerInput {
   appId: string;
   autoSubmit: boolean;
   buildProfile: string;
-  environment?: unknown | null;
+  environment?: unknown | null | undefined;
   executionBehavior: GitHubBuildTriggerExecutionBehavior | (string & {});
   isActive: boolean;
   platform: AppPlatform | (string & {});
   /** A branch or tag name, or a wildcard pattern where the code change originates from. For example, `main` or `release/*`. */
   sourcePattern: string;
-  submitProfile?: string | null;
+  submitProfile?: string | null | undefined;
   /** A branch name or a wildcard pattern that the pull request targets. For example, `main` or `release/*`. */
-  targetPattern?: string | null;
+  targetPattern?: string | null | undefined;
   type: GitHubBuildTriggerType | (string & {});
 }
 export interface GithubBuildTriggerCreateGitHubBuildTriggerRequest {
@@ -31166,13 +31166,13 @@ export interface GithubBuildTriggerDeleteGitHubBuildTriggerResponse {
 export interface UpdateGitHubBuildTriggerInput {
   autoSubmit: boolean;
   buildProfile: string;
-  environment?: unknown | null;
+  environment?: unknown | null | undefined;
   executionBehavior: GitHubBuildTriggerExecutionBehavior | (string & {});
   isActive: boolean;
   platform: AppPlatform | (string & {});
   sourcePattern: string;
-  submitProfile?: string | null;
-  targetPattern?: string | null;
+  submitProfile?: string | null | undefined;
+  targetPattern?: string | null | undefined;
   type: GitHubBuildTriggerType | (string & {});
 }
 export interface GithubBuildTriggerUpdateGitHubBuildTriggerRequest {
@@ -31505,7 +31505,7 @@ export interface CreateGitHubJobRunTriggerInput {
   isActive: boolean;
   jobType: GitHubJobRunJobType | (string & {});
   sourcePattern: string;
-  targetPattern?: string | null;
+  targetPattern?: string | null | undefined;
   triggerType: GitHubJobRunTriggerType | (string & {});
 }
 export interface GithubJobRunTriggerCreateGitHubJobRunTriggerRequest {
@@ -31811,7 +31811,7 @@ export interface GithubJobRunTriggerDeleteGitHubJobRunTriggerResponse {
 export interface UpdateGitHubJobRunTriggerInput {
   isActive: boolean;
   sourcePattern: string;
-  targetPattern?: string | null;
+  targetPattern?: string | null | undefined;
 }
 export interface GithubJobRunTriggerUpdateGitHubJobRunTriggerRequest {
   gitHubJobRunTriggerData: UpdateGitHubJobRunTriggerInput;
@@ -34090,10 +34090,10 @@ export interface IosAppBuildCredentialsSetProvisioningProfileResponse {
   provisioningProfile: IosAppBuildCredentialsSetProvisioningProfileResponseProvisioningProfile | null;
 }
 export interface IosAppCredentialsInput {
-  appStoreConnectApiKeyForBuildsId?: string | null;
-  appStoreConnectApiKeyForSubmissionsId?: string | null;
-  appleTeamId?: string | null;
-  pushKeyId?: string | null;
+  appStoreConnectApiKeyForBuildsId?: string | null | undefined;
+  appStoreConnectApiKeyForSubmissionsId?: string | null | undefined;
+  appleTeamId?: string | null | undefined;
+  pushKeyId?: string | null | undefined;
 }
 export interface IosAppCredentialsCreateIosAppCredentialsRequest {
   appId: string;
@@ -38821,10 +38821,10 @@ export interface PosthogOrganizationConnectionCreatePostHogAccountRequestRespons
 export type PostHogDeepLinkPurpose = "DASHBOARD" | "OBSERVABILITY" | "PROJECT";
 export interface CreatePostHogDeepLinkInput {
   /** When set, deep-links to this app's linked PostHog project; otherwise lands on the organization home. */
-  appId?: string | null;
+  appId?: string | null | undefined;
   posthogOrganizationConnectionId: string;
   /** Which EAS surface opened the link; omitted lets PostHog apply its own default. */
-  purpose?: PostHogDeepLinkPurpose | (string & {}) | null;
+  purpose?: PostHogDeepLinkPurpose | (string & {}) | null | undefined;
 }
 export interface PosthogOrganizationConnectionCreatePostHogDeepLinkRequest {
   input: CreatePostHogDeepLinkInput;
@@ -39041,15 +39041,15 @@ export interface RealtimeLogsResponse {
   generateCentrifugoConnectionToken: RealtimeLogsResponseGenerateCentrifugoConnectionToken;
 }
 export interface RefundAccountRequestRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   chargeID: string;
-  description?: string | null;
-  reason?: string | null;
+  description?: string | null | undefined;
+  reason?: string | null | undefined;
 }
 export type RefundAccountRequestResponse = boolean | null;
 export interface RenameAccountRequest {
-  accountName?: string | null;
+  accountName?: string | null | undefined;
   accountID: string;
   newName: string;
 }
@@ -40219,15 +40219,15 @@ export interface SandboxCreateArtifactUploadSessionResponse {
 }
 export type SandboxStatusList = Array<SandboxStatus | (string & {})>;
 export interface SandboxFilterInput {
-  statuses?: SandboxStatusList | null;
+  statuses?: SandboxStatusList | null | undefined;
 }
 export interface SandboxesByAppIdPaginatedRequest {
-  after?: string | null;
+  after?: string | null | undefined;
   appId: string;
-  before?: string | null;
-  filter?: SandboxFilterInput | null;
-  first?: number | null;
-  last?: number | null;
+  before?: string | null | undefined;
+  filter?: SandboxFilterInput | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
 }
 export type SandboxesByAppIdPaginatedResponseEdgesItemNode =
   SandboxCreateArtifactUploadSessionResponseArtifactSandbox;
@@ -41933,27 +41933,27 @@ export type SubmissionArchiveSourceType =
   | "URL";
 export interface SubmissionArchiveSourceInput {
   /** Required if the archive source type is GCS_BUILD_APPLICATION_ARCHIVE, GCS_BUILD_APPLICATION_ARCHIVE_ORCHESTRATOR or GCS_SUBMIT_ARCHIVE */
-  bucketKey?: string | null;
+  bucketKey?: string | null | undefined;
   type: SubmissionArchiveSourceType | (string & {});
   /** Required if the archive source type is URL */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface AndroidSubmissionConfigInput {
-  applicationIdentifier?: string | null;
-  changelog?: string | null;
-  changesNotSentForReview?: boolean | null;
-  googleServiceAccountKeyId?: string | null;
-  googleServiceAccountKeyJson?: string | null;
-  isVerboseFastlaneEnabled?: boolean | null;
-  releaseStatus?: SubmissionAndroidReleaseStatus | (string & {}) | null;
-  rollout?: number | null;
+  applicationIdentifier?: string | null | undefined;
+  changelog?: string | null | undefined;
+  changesNotSentForReview?: boolean | null | undefined;
+  googleServiceAccountKeyId?: string | null | undefined;
+  googleServiceAccountKeyJson?: string | null | undefined;
+  isVerboseFastlaneEnabled?: boolean | null | undefined;
+  releaseStatus?: SubmissionAndroidReleaseStatus | (string & {}) | null | undefined;
+  rollout?: number | null | undefined;
   track: unknown;
 }
 export interface CreateAndroidSubmissionInput {
   appId: string;
-  archiveSource?: SubmissionArchiveSourceInput | null;
+  archiveSource?: SubmissionArchiveSourceInput | null | undefined;
   config: AndroidSubmissionConfigInput;
-  submittedBuildId?: string | null;
+  submittedBuildId?: string | null | undefined;
 }
 export interface SubmissionCreateAndroidSubmissionRequest {
   input: CreateAndroidSubmissionInput;
@@ -42137,25 +42137,25 @@ export interface SubmissionCreateAndroidSubmissionResponse {
 }
 export interface AscApiKeyInput {
   /** Omit for individual (user-scoped) keys, which have no issuer ID. */
-  issuerIdentifier?: string | null;
+  issuerIdentifier?: string | null | undefined;
   keyIdentifier: string;
   keyP8: string;
 }
 export interface IosSubmissionConfigInput {
-  appleAppSpecificPassword?: string | null;
-  appleIdUsername?: string | null;
-  ascApiKey?: AscApiKeyInput | null;
-  ascApiKeyId?: string | null;
+  appleAppSpecificPassword?: string | null | undefined;
+  appleIdUsername?: string | null | undefined;
+  ascApiKey?: AscApiKeyInput | null | undefined;
+  ascApiKeyId?: string | null | undefined;
   ascAppIdentifier: string;
-  changelog?: string | null;
-  groups?: StringList | null;
-  isVerboseFastlaneEnabled?: boolean | null;
+  changelog?: string | null | undefined;
+  groups?: StringList | null | undefined;
+  isVerboseFastlaneEnabled?: boolean | null | undefined;
 }
 export interface CreateIosSubmissionInput {
   appId: string;
-  archiveSource?: SubmissionArchiveSourceInput | null;
+  archiveSource?: SubmissionArchiveSourceInput | null | undefined;
   config: IosSubmissionConfigInput;
-  submittedBuildId?: string | null;
+  submittedBuildId?: string | null | undefined;
 }
 export interface SubmissionCreateIosSubmissionRequest {
   input: CreateIosSubmissionInput;
@@ -44132,7 +44132,7 @@ export interface CreateBrownfieldArtifactInput {
   /** Size of the artifact in bytes. Required for generating the signed upload URL. */
   size: number;
   /** Optional. If omitted, the version is auto-incremented from the latest artifact for the same platform and bundle name. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export interface TurtleBrownfieldArtifactsCreateTurtleBrownfieldArtifactRequest {
   input: CreateBrownfieldArtifactInput;
@@ -44170,7 +44170,7 @@ export interface TurtleBrownfieldArtifactsLatestForAppResponse {
   version: string;
 }
 export interface TurtleSshConnectionConfigInput {
-  reconnecting?: boolean | null;
+  reconnecting?: boolean | null | undefined;
   secret: string;
   type: TurtleSshTransportType | (string & {});
 }
@@ -44655,9 +44655,9 @@ export interface UpdateBranchCreateUpdateBranchForAppResponse {
   updatedAt: string;
 }
 export interface EditUpdateBranchInput {
-  appId?: string | null;
-  id?: string | null;
-  name?: string | null;
+  appId?: string | null | undefined;
+  id?: string | null | undefined;
+  name?: string | null | undefined;
   newName: string;
 }
 export interface UpdateBranchEditUpdateBranchRequest {
@@ -44811,18 +44811,18 @@ export interface UpdateBranchEditUpdateBranchResponse {
 }
 export type AssetMapSourceType = "GCS";
 export interface AssetMapSourceInput {
-  bucketKey?: string | null;
-  type?: AssetMapSourceType | (string & {}) | null;
+  bucketKey?: string | null | undefined;
+  type?: AssetMapSourceType | (string & {}) | null | undefined;
 }
 export interface AssetMapGroup {
-  android?: AssetMapSourceInput | null;
-  ios?: AssetMapSourceInput | null;
-  web?: AssetMapSourceInput | null;
+  android?: AssetMapSourceInput | null | undefined;
+  ios?: AssetMapSourceInput | null | undefined;
+  web?: AssetMapSourceInput | null | undefined;
 }
 export interface PartialManifestAsset {
   bundleKey: string;
   contentType: string;
-  fileExtension?: string | null;
+  fileExtension?: string | null | undefined;
   fileSHA256: string;
   storageKey: string;
 }
@@ -44832,28 +44832,28 @@ export interface FingerprintInfo {
   fingerprintSource: FingerprintSourceInput;
 }
 export interface FingerprintInfoGroup {
-  android?: FingerprintInfo | null;
-  ios?: FingerprintInfo | null;
-  web?: FingerprintInfo | null;
+  android?: FingerprintInfo | null | undefined;
+  ios?: FingerprintInfo | null | undefined;
+  web?: FingerprintInfo | null | undefined;
 }
 export interface UpdateIdGroup {
-  android?: string | null;
-  ios?: string | null;
-  web?: string | null;
+  android?: string | null | undefined;
+  ios?: string | null | undefined;
+  web?: string | null | undefined;
 }
 export interface UpdateRollBackToEmbeddedGroup {
-  android?: boolean | null;
-  ios?: boolean | null;
-  web?: boolean | null;
+  android?: boolean | null | undefined;
+  ios?: boolean | null | undefined;
+  web?: boolean | null | undefined;
 }
 export interface UpdateRolloutInfo {
-  rolloutControlUpdateId?: string | null;
+  rolloutControlUpdateId?: string | null | undefined;
   rolloutPercentage: number;
 }
 export interface UpdateRolloutInfoGroup {
-  android?: UpdateRolloutInfo | null;
-  ios?: UpdateRolloutInfo | null;
-  web?: UpdateRolloutInfo | null;
+  android?: UpdateRolloutInfo | null | undefined;
+  ios?: UpdateRolloutInfo | null | undefined;
+  web?: UpdateRolloutInfo | null | undefined;
 }
 export type SourceMapSourceType = "GCS";
 export interface SourceMapSourceInput {
@@ -44861,39 +44861,39 @@ export interface SourceMapSourceInput {
   type: SourceMapSourceType | (string & {});
 }
 export interface SourceMapGroup {
-  android?: SourceMapSourceInput | null;
-  ios?: SourceMapSourceInput | null;
+  android?: SourceMapSourceInput | null | undefined;
+  ios?: SourceMapSourceInput | null | undefined;
 }
 export type PartialManifestAssetList2 = (PartialManifestAsset | null)[];
 export interface PartialManifest {
   assets: PartialManifestAssetList2;
-  extra?: unknown | null;
+  extra?: unknown | null | undefined;
   launchAsset: PartialManifestAsset;
 }
 export interface UpdateInfoGroup {
-  android?: PartialManifest | null;
-  ios?: PartialManifest | null;
-  web?: PartialManifest | null;
+  android?: PartialManifest | null | undefined;
+  ios?: PartialManifest | null | undefined;
+  web?: PartialManifest | null | undefined;
 }
 export interface PublishUpdateGroupInput {
-  assetHostOverride?: string | null;
-  assetMapGroup?: AssetMapGroup | null;
-  awaitingCodeSigningInfo?: boolean | null;
+  assetHostOverride?: string | null | undefined;
+  assetMapGroup?: AssetMapGroup | null | undefined;
+  awaitingCodeSigningInfo?: boolean | null | undefined;
   branchId: string;
-  environment?: unknown | null;
-  excludedAssets?: PartialManifestAssetList | null;
-  fingerprintInfoGroup?: FingerprintInfoGroup | null;
-  gitCommitHash?: string | null;
-  isGitWorkingTreeDirty?: boolean | null;
-  manifestHostOverride?: string | null;
-  message?: string | null;
-  previousRolloutUpdateToClobberIdGroup?: UpdateIdGroup | null;
-  rollBackToEmbeddedInfoGroup?: UpdateRollBackToEmbeddedGroup | null;
-  rolloutInfoGroup?: UpdateRolloutInfoGroup | null;
+  environment?: unknown | null | undefined;
+  excludedAssets?: PartialManifestAssetList | null | undefined;
+  fingerprintInfoGroup?: FingerprintInfoGroup | null | undefined;
+  gitCommitHash?: string | null | undefined;
+  isGitWorkingTreeDirty?: boolean | null | undefined;
+  manifestHostOverride?: string | null | undefined;
+  message?: string | null | undefined;
+  previousRolloutUpdateToClobberIdGroup?: UpdateIdGroup | null | undefined;
+  rollBackToEmbeddedInfoGroup?: UpdateRollBackToEmbeddedGroup | null | undefined;
+  rolloutInfoGroup?: UpdateRolloutInfoGroup | null | undefined;
   runtimeVersion: string;
-  sourceMapGroup?: SourceMapGroup | null;
-  turtleJobRunId?: string | null;
-  updateInfoGroup?: UpdateInfoGroup | null;
+  sourceMapGroup?: SourceMapGroup | null | undefined;
+  turtleJobRunId?: string | null | undefined;
+  updateInfoGroup?: UpdateInfoGroup | null | undefined;
 }
 export type PublishUpdateGroupInputList = Array<PublishUpdateGroupInput>;
 export interface UpdateBranchPublishUpdateGroupsRequest {
@@ -45743,7 +45743,7 @@ export interface UpdateBranchScheduleUpdateBranchDeletionResponse {
 }
 export interface UpdateChannelCreateUpdateChannelForAppRequest {
   appId: string;
-  branchMapping?: string | null;
+  branchMapping?: string | null | undefined;
   name: string;
 }
 export type UpdateChannelCreateUpdateChannelForAppResponseAppAppStoreConnectAppWebhookEventTypesList =
@@ -46921,7 +46921,7 @@ export interface UpdateInvoicePreviewInvoiceForAdditionalConcurrenciesCountRespo
 }
 export interface UpdateInvoicePreviewInvoiceForSubscriptionRequest {
   accountId: string;
-  couponCode?: string | null;
+  couponCode?: string | null | undefined;
   newPlanIdentifier: string;
 }
 export type UpdateInvoicePreviewInvoiceForSubscriptionResponseDiscount =
@@ -47200,7 +47200,7 @@ export interface UpdateRobotResponse {
 }
 export interface UpdatesByGroupRequest {
   group: string;
-  platform?: string | null;
+  platform?: string | null | undefined;
 }
 export type UpdatesByGroupResultItemActorAccessTokensItem =
   AccountByIdResponseOwnerAccessTokensItem;
@@ -49916,7 +49916,7 @@ export type UploadSessionType =
   | "EAS_UPDATE_FINGERPRINT"
   | "EAS_UPDATE_SOURCE_MAPS";
 export interface UploadSessionCreateUploadSessionRequest {
-  filename?: string | null;
+  filename?: string | null | undefined;
   type: UploadSessionType | (string & {});
 }
 export type UploadSessionCreateUploadSessionResponse = unknown;
@@ -49937,10 +49937,10 @@ export interface UsageBudgetByIdResponse {
   remaining: UsageBudgetByIdResponseLimits;
 }
 export interface UsageBudgetLimitsInput {
-  builds?: number | null;
-  concurrentSandboxes?: number | null;
-  sandboxMinutes?: number | null;
-  simulatorMinutes?: number | null;
+  builds?: number | null | undefined;
+  concurrentSandboxes?: number | null | undefined;
+  sandboxMinutes?: number | null | undefined;
+  simulatorMinutes?: number | null | undefined;
 }
 export interface UsageBudgetCreateUsageBudgetRequest {
   limits: UsageBudgetLimitsInput;
@@ -49990,8 +49990,8 @@ export interface UserAuditLogExportInput {
   createdAfter: string;
   createdBefore: string;
   format: AuditLogsExportFormat | (string & {});
-  targetEntityMutationType?: TargetEntityMutationTypeList | null;
-  targetEntityTypeName?: UserEntityTypeNameList | null;
+  targetEntityMutationType?: TargetEntityMutationTypeList | null | undefined;
+  targetEntityTypeName?: UserEntityTypeNameList | null | undefined;
   userId: string;
 }
 export interface UserAuditLogExportUserAuditLogsRequest {
@@ -51019,8 +51019,8 @@ export interface VexoAccountConnectionRevokeAndDeleteVexoAccountConnectionRespon
 }
 export interface CreateVexoAppInput {
   appId: string;
-  domain?: string | null;
-  iconUrl?: string | null;
+  domain?: string | null | undefined;
+  iconUrl?: string | null | undefined;
   name: string;
   owner: string;
   slug: string;
@@ -51313,11 +51313,11 @@ export interface VexoAppDeleteVexoAppResponse {
   vexoIdentifier: string;
 }
 export interface UpdateVexoAppInput {
-  domain?: string | null;
-  iconUrl?: string | null;
-  name?: string | null;
-  owner?: string | null;
-  slug?: string | null;
+  domain?: string | null | undefined;
+  iconUrl?: string | null | undefined;
+  name?: string | null | undefined;
+  owner?: string | null | undefined;
+  slug?: string | null | undefined;
 }
 export interface VexoAppUpdateVexoAppRequest {
   vexoAppData: UpdateVexoAppInput;
@@ -52846,21 +52846,21 @@ export interface WorkflowCacheDeleteWorkflowCacheResponse {
 }
 export interface WorkflowDeviceTestCaseResultInput {
   /** Execution time in milliseconds. Must be non-negative. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Error message if failed. Truncated to 4096 characters. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** Test case name (e.g., "login", "checkout"). Max 255 characters. */
   name: string;
   /** Path to the test file (e.g., "flows/login.yaml"). Max 1024 characters. Used as natural key for deduplication. */
   path: string;
   /** Custom properties from test configuration. Stored as key-value pairs. */
-  properties?: unknown | null;
+  properties?: unknown | null | undefined;
   /** 0-indexed attempt number for this test case. 0 = first attempt, 1 = first retry, etc. */
-  retryCount?: number | null;
+  retryCount?: number | null | undefined;
   /** Execution result. */
   status: WorkflowDeviceTestCaseStatus | (string & {});
   /** Tags defined in the test config. Each tag max 255 characters. */
-  tags?: StringList | null;
+  tags?: StringList | null | undefined;
 }
 export type WorkflowDeviceTestCaseResultInputList = Array<WorkflowDeviceTestCaseResultInput>;
 export interface CreateWorkflowDeviceTestCaseResultsInput {
@@ -55672,7 +55672,7 @@ export interface WorkflowReferencedFileInput {
 export type WorkflowReferencedFileInputList = Array<WorkflowReferencedFileInput>;
 export interface WorkflowRevisionValidateWorkflowYamlConfigRequest {
   appId: string;
-  referencedFiles?: WorkflowReferencedFileInputList | null;
+  referencedFiles?: WorkflowReferencedFileInputList | null | undefined;
   yamlConfig: string;
 }
 export type WorkflowRevisionValidateWorkflowYamlConfigResponse = boolean;
@@ -56358,16 +56358,16 @@ export interface WorkflowRunCancelWorkflowRunResponse {
 }
 export type WorkflowProjectSourceType = "GCS";
 export interface WorkflowProjectSourceInput {
-  easJsonBucketKey?: string | null;
-  packageJsonBucketKey?: string | null;
+  easJsonBucketKey?: string | null | undefined;
+  packageJsonBucketKey?: string | null | undefined;
   projectArchiveBucketKey: string;
-  projectRootDirectory?: string | null;
+  projectRootDirectory?: string | null | undefined;
   type: WorkflowProjectSourceType | (string & {});
 }
 export interface WorkflowRunCreateExpoGoRepackWorkflowRunRequest {
   appId: string;
   projectSource: WorkflowProjectSourceInput;
-  sdkVersion?: string | null;
+  sdkVersion?: string | null | undefined;
 }
 export type WorkflowRunCreateExpoGoRepackWorkflowRunResponseActorAccessTokensItem =
   AccountByIdResponseOwnerAccessTokensItem;
@@ -57056,17 +57056,17 @@ export interface WorkflowRunCreateExpoGoRepackWorkflowRunResponse {
 export interface WorkflowRevisionInput {
   fileName: string;
   /** Other workflow files of the project that `uses` jobs reference, by bare file name. Required when the workflow has `uses` jobs. Every uploaded file is stored as a revision and pinned on the run, whether or not a job calls it. */
-  referencedFiles?: WorkflowReferencedFileInputList | null;
+  referencedFiles?: WorkflowReferencedFileInputList | null | undefined;
   yamlConfig: string;
 }
 /** Enables ssh on the run's VM jobs. Presence turns ssh on; idleTimeoutSeconds is optional, defaults server-side, and is validated against a supported range. */
 export interface WorkflowRunSshInput {
-  idleTimeoutSeconds?: number | null;
+  idleTimeoutSeconds?: number | null | undefined;
 }
 export interface WorkflowRunInput {
-  inputs?: unknown | null;
+  inputs?: unknown | null | undefined;
   projectSource: WorkflowProjectSourceInput;
-  ssh?: WorkflowRunSshInput | null;
+  ssh?: WorkflowRunSshInput | null | undefined;
 }
 export interface WorkflowRunCreateWorkflowRunRequest {
   appId: string;
@@ -57752,8 +57752,8 @@ export interface WorkflowRunCreateWorkflowRunResponse {
 }
 export interface WorkflowRunCreateWorkflowRunFromGitRefRequest {
   gitRef: string;
-  inputs?: unknown | null;
-  ssh?: WorkflowRunSshInput | null;
+  inputs?: unknown | null | undefined;
+  ssh?: WorkflowRunSshInput | null | undefined;
   workflowRevisionId: string;
 }
 export type WorkflowRunCreateWorkflowRunFromGitRefResponseActorAccessTokensItem =
@@ -58441,8 +58441,8 @@ export interface WorkflowRunCreateWorkflowRunFromGitRefResponse {
   workflowRevision: WorkflowRunCreateWorkflowRunFromGitRefResponseWorkflowRevision | null;
 }
 export interface WorkflowRunRetryWorkflowRunRequest {
-  fromFailedJobs?: boolean | null;
-  ssh?: WorkflowRunSshInput | null;
+  fromFailedJobs?: boolean | null | undefined;
+  ssh?: WorkflowRunSshInput | null | undefined;
   workflowRunId: string;
 }
 export type WorkflowRunRetryWorkflowRunResponseActorAccessTokensItem =
@@ -60076,17 +60076,17 @@ export interface WorkflowsByIdResponse {
 export type WorkflowRunStatusList = Array<WorkflowRunStatus | (string & {})>;
 export type WorkflowRunTriggerEventTypeList = Array<WorkflowRunTriggerEventType | (string & {})>;
 export interface WorkflowsInsightsFiltersInput {
-  gitRefRequested?: StringList | null;
-  statuses?: WorkflowRunStatusList | null;
-  triggerEventTypes?: WorkflowRunTriggerEventTypeList | null;
-  workflowIds?: StringList | null;
+  gitRefRequested?: StringList | null | undefined;
+  statuses?: WorkflowRunStatusList | null | undefined;
+  triggerEventTypes?: WorkflowRunTriggerEventTypeList | null | undefined;
+  workflowIds?: StringList | null | undefined;
 }
 export type WorkflowsInsightsExportFormat = "CSV" | "NDJSON";
 export type WorkflowsInsightsTimespanInput =
   UpdateInvoicePreviewInvoiceForAdditionalConcurrenciesCountResponseLineItemsItemPeriod;
 export interface WorkflowsInsightsExportInput {
   appId: string;
-  filters?: WorkflowsInsightsFiltersInput | null;
+  filters?: WorkflowsInsightsFiltersInput | null | undefined;
   format: WorkflowsInsightsExportFormat | (string & {});
   timespan: UpdateInvoicePreviewInvoiceForAdditionalConcurrenciesCountResponseLineItemsItemPeriod;
 }

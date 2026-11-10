@@ -86,72 +86,72 @@ export class NotFound
 export type GetItemsProjectionEnum = "DRAFT" | "PUBLISHED";
 export interface GetItemsRequest {
   /** Determines which subset of the item information to return. */
-  projection?: GetItemsProjectionEnum | (string & {});
+  projection?: GetItemsProjectionEnum | (string & {}) | undefined;
   /** Unique identifier representing the Chrome App, Chrome Extension, or the Chrome Theme. */
   itemId: string;
 }
 /** Error of the item */
 export interface ItemError {
   /** The error code. */
-  error_code?: string;
+  error_code?: string | undefined;
   /** The human-readable detail message of the error. */
-  error_detail?: string;
+  error_detail?: string | undefined;
 }
 export type ItemErrorList = Array<ItemError>;
 export interface Item {
   /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
-  kind?: string;
+  kind?: string | undefined;
   /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
-  crxVersion?: string;
+  crxVersion?: string | undefined;
   /** Unique ID of the item. */
-  id?: string;
+  id?: string | undefined;
   /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
-  itemError?: ItemErrorList;
+  itemError?: ItemErrorList | undefined;
   /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
-  uploadState?: string;
+  uploadState?: string | undefined;
   /** Public key of this item. */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export interface InsertItemsRequest {
   /** The email of the publisher who owns the items. Defaults to the caller's email address. */
-  publisherEmail?: string;
+  publisherEmail?: string | undefined;
 }
 export interface PublishRequest {
   /** The target deploy percentage of the item. It's only useful for items with big user base. */
-  deployPercentage?: number;
+  deployPercentage?: number | undefined;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
-  reviewExemption?: boolean;
+  reviewExemption?: boolean | undefined;
   /** The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target="trustedTesters" or target="default". The default value, if none is supplied, is target="default". Recommended usage is to use the URL query parameter to specificy the value. */
-  target?: string;
+  target?: string | undefined;
 }
 export interface PublishItemsRequest {
   /** The ID of the item to publish. */
   itemId: string;
   /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
-  publishTarget?: string;
+  publishTarget?: string | undefined;
   /** The deploy percentage you want to set for your item. Valid values are [0, 100]. If set to any number less than 100, only that many percentage of users will be allowed to get the update. */
-  deployPercentage?: number;
+  deployPercentage?: number | undefined;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
-  reviewExemption?: boolean;
+  reviewExemption?: boolean | undefined;
   /** Request body */
-  body?: PublishRequest;
+  body?: PublishRequest | undefined;
 }
 export type StringList = Array<string>;
 export interface Item2 {
   /** Static string value is always "chromewebstore#item". */
-  kind?: string;
+  kind?: string | undefined;
   /** The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED. */
-  status?: StringList;
+  status?: StringList | undefined;
   /** Detailed human-comprehensible explanation of the status code above. */
-  statusDetail?: StringList;
+  statusDetail?: StringList | undefined;
   /** The ID of this item. */
-  item_id?: string;
+  item_id?: string | undefined;
 }
 export interface UpdateItemsRequest {
   /** The ID of the item to upload. */
   itemId: string;
   /** Request body */
-  body?: Item;
+  body?: Item | undefined;
 }
 export type GetItemsError = NotFound | Forbidden | GcpOpError;
 /** Gets your own Chrome Web Store item. */

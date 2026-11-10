@@ -31,9 +31,9 @@ export type CreateDatabaseRequestParentType = "page_id" | "workspace";
 export interface CreateDatabaseRequestParent {
   /** The type of parent. */
   type: CreateDatabaseRequestParentType | (string & {});
-  page_id?: string;
+  page_id?: string | undefined;
   /** Always `true` */
-  workspace?: boolean;
+  workspace?: boolean | undefined;
 }
 /** One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red`, `default_background`, `gray_background`, `brown_background`, `orange_background`, `yellow_background`, `green_background`, `blue_background`, `purple_background`, `pink_background`, `red_background` */
 export type ApiColor =
@@ -59,17 +59,17 @@ export type ApiColor =
   | "red_background";
 export interface AnnotationRequest {
   /** Whether the text is formatted as bold. */
-  bold?: boolean;
+  bold?: boolean | undefined;
   /** Whether the text is formatted as italic. */
-  italic?: boolean;
+  italic?: boolean | undefined;
   /** Whether the text is formatted with a strikethrough. */
-  strikethrough?: boolean;
+  strikethrough?: boolean | undefined;
   /** Whether the text is formatted with an underline. */
-  underline?: boolean;
+  underline?: boolean | undefined;
   /** Whether the text is formatted as code. */
-  code?: boolean;
+  code?: boolean | undefined;
   /** The color of the text. */
-  color?: ApiColor | (string & {});
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface RichTextItemRequestTextLink {
   /** The URL of the link. */
@@ -80,17 +80,17 @@ export interface RichTextItemRequestText {
   /** The actual text content of the text. */
   content: string;
   /** An object with information about any inline link in this text, if included. */
-  link?: RichTextItemRequestTextLink | null;
+  link?: RichTextItemRequestTextLink | null | undefined;
 }
 export interface PartialUserObjectRequest {
   /** The ID of the user. */
   id: string;
   /** The user object type name. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase0 {
   /** Always `user` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the user mention. */
   user: PartialUserObjectRequest;
 }
@@ -98,13 +98,13 @@ export interface DateRequest {
   /** The start date of the date object. */
   start: string;
   /** The end date of the date object, if any. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The time zone of the date object, if any. E.g. America/Los_Angeles, Europe/London, etc. */
-  time_zone?: string | null;
+  time_zone?: string | null | undefined;
 }
 export interface RichTextItemRequestMentionCase1 {
   /** Always `date` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the date mention. */
   date: DateRequest;
 }
@@ -115,7 +115,7 @@ export interface RichTextItemRequestMentionCase2Page {
 }
 export interface RichTextItemRequestMentionCase2 {
   /** Always `page` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the page mention. */
   page: RichTextItemRequestMentionCase2Page;
 }
@@ -126,7 +126,7 @@ export interface RichTextItemRequestMentionCase3Database {
 }
 export interface RichTextItemRequestMentionCase3 {
   /** Always `database` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the database mention. */
   database: RichTextItemRequestMentionCase3Database;
 }
@@ -134,7 +134,7 @@ export interface RichTextItemRequestMentionCase3 {
 export type TemplateMentionDateTemplateMentionRequestTemplateMentionDate = "today" | "now";
 export interface TemplateMentionDateTemplateMentionRequest {
   /** Always `template_mention_date` */
-  type?: string;
+  type?: string | undefined;
   /** The date of the template mention. */
   template_mention_date:
     | TemplateMentionDateTemplateMentionRequestTemplateMentionDate
@@ -142,7 +142,7 @@ export interface TemplateMentionDateTemplateMentionRequest {
 }
 export interface TemplateMentionUserTemplateMentionRequest {
   /** Always `template_mention_user` */
-  type?: string;
+  type?: string | undefined;
   /** The user of the template mention. */
   template_mention_user: string;
 }
@@ -151,7 +151,7 @@ export type TemplateMentionRequest =
   | TemplateMentionUserTemplateMentionRequest;
 export interface RichTextItemRequestMentionCase4 {
   /** Always `template_mention` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the template mention. */
   template_mention: TemplateMentionRequest;
 }
@@ -160,13 +160,13 @@ export interface RichTextItemRequestMentionCase5CustomEmoji {
   /** The ID of the custom emoji. */
   id: string;
   /** The name of the custom emoji. */
-  name?: string;
+  name?: string | undefined;
   /** The URL of the custom emoji. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase5 {
   /** Always `custom_emoji` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the custom emoji mention. */
   custom_emoji: RichTextItemRequestMentionCase5CustomEmoji;
 }
@@ -185,25 +185,25 @@ export interface RichTextItemRequestEquation {
 }
 export interface RichTextItemRequest {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
-  annotations?: AnnotationRequest;
+  annotations?: AnnotationRequest | undefined;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemRequestText;
+  text?: RichTextItemRequestText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemRequestMention;
+  mention?: RichTextItemRequestMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 /** The title of the database. */
 export type CreateDatabaseRequestTitleList = Array<RichTextItemRequest>;
 /** The description of the database. */
 export type CreateDatabaseRequestDescriptionList = Array<RichTextItemRequest>;
 export interface PropertyConfigurationRequestNumber {
-  format?: string;
+  format?: string | undefined;
 }
 export interface PropertyConfigurationRequestFormula {
-  expression?: string;
+  expression?: string | undefined;
 }
 /** One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red` */
 export type SelectColor =
@@ -219,44 +219,44 @@ export type SelectColor =
   | "red";
 export interface PropertyConfigurationRequestSelectOptionsItem {
   name: string;
-  color?: SelectColor | (string & {});
-  description?: string | null;
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
 }
 export type PropertyConfigurationRequestSelectOptionsList =
   Array<PropertyConfigurationRequestSelectOptionsItem>;
 export interface PropertyConfigurationRequestSelect {
-  options?: PropertyConfigurationRequestSelectOptionsList;
+  options?: PropertyConfigurationRequestSelectOptionsList | undefined;
 }
 export type PropertyConfigurationRequestMultiSelectOptionsItem =
   PropertyConfigurationRequestSelectOptionsItem;
 export type PropertyConfigurationRequestMultiSelectOptionsList =
   Array<PropertyConfigurationRequestSelectOptionsItem>;
 export interface PropertyConfigurationRequestMultiSelect {
-  options?: PropertyConfigurationRequestMultiSelectOptionsList;
+  options?: PropertyConfigurationRequestMultiSelectOptionsList | undefined;
 }
 /** One of: `To-do`, `In progress`, `Complete` */
 export type StatusOptionGroup = "To-do" | "In progress" | "Complete";
 export interface StatusOptionRequest {
   name: string;
-  color?: SelectColor | (string & {});
-  description?: string | null;
-  group?: StatusOptionGroup | (string & {});
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
+  group?: StatusOptionGroup | (string & {}) | undefined;
 }
 export type StatusOptionRequestArray = Array<StatusOptionRequest>;
 export interface StatusPropertyConfigRequest {
   /** The initial status options. If not provided, defaults are created. */
-  options?: StatusOptionRequestArray;
+  options?: StatusOptionRequestArray | undefined;
 }
 export interface PropertyConfigurationRequestRelationDualProperty {
-  synced_property_id?: string;
-  synced_property_name?: string;
+  synced_property_id?: string | undefined;
+  synced_property_name?: string | undefined;
 }
 export interface PropertyConfigurationRequestRelation {
   data_source_id: string;
   /** Always `single_property` */
-  type?: string;
-  single_property?: unknown;
-  dual_property?: PropertyConfigurationRequestRelationDualProperty;
+  type?: string | undefined;
+  single_property?: unknown | undefined;
+  dual_property?: PropertyConfigurationRequestRelationDualProperty | undefined;
 }
 export type RollupFunction =
   | "count"
@@ -286,45 +286,45 @@ export type RollupFunction =
 export interface PropertyConfigurationRequestRollup {
   /** The function to use for the rollup, e.g. count, count_values, percent_not_empty, max. */
   function: RollupFunction | (string & {});
-  relation_property_name?: string;
-  rollup_property_name?: string;
-  relation_property_id?: string;
-  rollup_property_id?: string;
+  relation_property_name?: string | undefined;
+  rollup_property_name?: string | undefined;
+  relation_property_id?: string | undefined;
+  rollup_property_id?: string | undefined;
 }
 export interface PropertyConfigurationRequestUniqueId {
-  prefix?: string | null;
+  prefix?: string | null | undefined;
 }
 export interface PropertyConfigurationRequest {
   /** The description of the property. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Always `number` */
-  type?: string;
-  number?: PropertyConfigurationRequestNumber;
-  formula?: PropertyConfigurationRequestFormula;
-  select?: PropertyConfigurationRequestSelect;
-  multi_select?: PropertyConfigurationRequestMultiSelect;
-  status?: StatusPropertyConfigRequest;
-  relation?: PropertyConfigurationRequestRelation;
-  rollup?: PropertyConfigurationRequestRollup;
-  unique_id?: PropertyConfigurationRequestUniqueId;
-  title?: unknown;
-  rich_text?: unknown;
-  url?: unknown;
-  people?: unknown;
-  files?: unknown;
-  email?: unknown;
-  phone_number?: unknown;
-  date?: unknown;
-  checkbox?: unknown;
-  created_by?: unknown;
-  created_time?: unknown;
-  last_edited_by?: unknown;
-  last_edited_time?: unknown;
-  button?: unknown;
-  location?: unknown;
-  verification?: unknown;
-  last_visited_time?: unknown;
-  place?: unknown;
+  type?: string | undefined;
+  number?: PropertyConfigurationRequestNumber | undefined;
+  formula?: PropertyConfigurationRequestFormula | undefined;
+  select?: PropertyConfigurationRequestSelect | undefined;
+  multi_select?: PropertyConfigurationRequestMultiSelect | undefined;
+  status?: StatusPropertyConfigRequest | undefined;
+  relation?: PropertyConfigurationRequestRelation | undefined;
+  rollup?: PropertyConfigurationRequestRollup | undefined;
+  unique_id?: PropertyConfigurationRequestUniqueId | undefined;
+  title?: unknown | undefined;
+  rich_text?: unknown | undefined;
+  url?: unknown | undefined;
+  people?: unknown | undefined;
+  files?: unknown | undefined;
+  email?: unknown | undefined;
+  phone_number?: unknown | undefined;
+  date?: unknown | undefined;
+  checkbox?: unknown | undefined;
+  created_by?: unknown | undefined;
+  created_time?: unknown | undefined;
+  last_edited_by?: unknown | undefined;
+  last_edited_time?: unknown | undefined;
+  button?: unknown | undefined;
+  location?: unknown | undefined;
+  verification?: unknown | undefined;
+  last_visited_time?: unknown | undefined;
+  place?: unknown | undefined;
 }
 /** Property schema for the initial data source, if you'd like to create one. */
 export type InitialDataSourceRequestPropertiesMap = {
@@ -332,7 +332,7 @@ export type InitialDataSourceRequestPropertiesMap = {
 };
 export interface InitialDataSourceRequest {
   /** Property schema for the initial data source, if you'd like to create one. */
-  properties?: InitialDataSourceRequestPropertiesMap;
+  properties?: InitialDataSourceRequestPropertiesMap | undefined;
 }
 /** Create a typed database with Notion's canonical schema. One of `tasks`, `projects`, or `skills`. Cannot be combined with `initial_data_source`. When `title` is omitted, the database is named after the type. */
 export type CreateDatabaseRequestDatabaseType = "tasks" | "projects" | "skills";
@@ -342,12 +342,12 @@ export interface FileUploadPageIconRequestFileUpload {
 }
 export interface FileUploadPageIconRequest {
   /** Always `file_upload` */
-  type?: string;
+  type?: string | undefined;
   file_upload: FileUploadPageIconRequestFileUpload;
 }
 export interface EmojiPageIconRequest {
   /** Always `emoji` */
-  type?: string;
+  type?: string | undefined;
   /** An emoji character. */
   emoji: string;
 }
@@ -357,13 +357,13 @@ export interface ExternalPageIconRequestExternal {
 }
 export interface ExternalPageIconRequest {
   /** Always `external` */
-  type?: string;
+  type?: string | undefined;
   external: ExternalPageIconRequestExternal;
 }
 export type CustomEmojiPageIconRequestCustomEmoji = RichTextItemRequestMentionCase5CustomEmoji;
 export interface CustomEmojiPageIconRequest {
   /** Always `custom_emoji` */
-  type?: string;
+  type?: string | undefined;
   custom_emoji: RichTextItemRequestMentionCase5CustomEmoji;
 }
 /** One of: `gray`, `lightgray`, `brown`, `yellow`, `orange`, `green`, `blue`, `purple`, `pink`, `red` */
@@ -383,11 +383,11 @@ export interface IconPageIconRequestIcon {
   /** The name of the Notion icon (e.g. pizza, meeting, home). See the Notion icon picker for valid names. */
   name: string;
   /** The color variant of the icon. Defaults to gray if not specified. Valid values: gray, lightgray, brown, yellow, orange, green, blue, purple, pink, red. */
-  color?: NoticonColor | (string & {});
+  color?: NoticonColor | (string & {}) | undefined;
 }
 export interface IconPageIconRequest {
   /** Always `icon` */
-  type?: string;
+  type?: string | undefined;
   /** A Notion native icon, specified by name and optional color. */
   icon: IconPageIconRequestIcon;
 }
@@ -401,7 +401,7 @@ export type PageIconRequest =
 export type FileUploadPageCoverRequestFileUpload = FileUploadPageIconRequestFileUpload;
 export interface FileUploadPageCoverRequest {
   /** Always `file_upload` */
-  type?: string;
+  type?: string | undefined;
   /** The file upload for the cover. */
   file_upload: FileUploadPageIconRequestFileUpload;
 }
@@ -409,7 +409,7 @@ export interface FileUploadPageCoverRequest {
 export type ExternalPageCoverRequestExternal = ExternalPageIconRequestExternal;
 export interface ExternalPageCoverRequest {
   /** Always `external` */
-  type?: string;
+  type?: string | undefined;
   /** External URL for the cover. */
   external: ExternalPageIconRequestExternal;
 }
@@ -418,21 +418,21 @@ export interface CreateDatabaseRequest {
   /** The parent page or workspace where the database will be created. */
   parent: CreateDatabaseRequestParent;
   /** The title of the database. */
-  title?: CreateDatabaseRequestTitleList;
+  title?: CreateDatabaseRequestTitleList | undefined;
   /** The description of the database. */
-  description?: CreateDatabaseRequestDescriptionList;
+  description?: CreateDatabaseRequestDescriptionList | undefined;
   /** Whether the database should be displayed inline in the parent page. Defaults to false. */
-  is_inline?: boolean;
+  is_inline?: boolean | undefined;
   /** Initial data source configuration for the database. */
-  initial_data_source?: InitialDataSourceRequest;
+  initial_data_source?: InitialDataSourceRequest | undefined;
   /** Create a typed database with Notion's canonical schema. One of `tasks`, `projects`, or `skills`. Cannot be combined with `initial_data_source`. When `title` is omitted, the database is named after the type. */
-  database_type?: CreateDatabaseRequestDatabaseType | (string & {});
+  database_type?: CreateDatabaseRequestDatabaseType | (string & {}) | undefined;
   /** The icon for the database. */
-  icon?: PageIconRequest;
+  icon?: PageIconRequest | undefined;
   /** The cover image for the database. */
-  cover?: PageCoverRequest;
+  cover?: PageCoverRequest | undefined;
   /** Whether to show the data source title above the database's views. Matches the Show data source title toggle in the Notion app. Defaults to true. Full-page databases with one data source don't show this title. */
-  show_data_source_title?: boolean;
+  show_data_source_title?: boolean | undefined;
 }
 export interface PartialDatabaseObjectResponse {
   /** The database object type name. */
@@ -464,9 +464,9 @@ export interface PartialUserObjectResponse {
 /** Details about the person, when the `type` of the user is `person`. */
 export interface UserObjectResponsePerson {
   /** The email of the person. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the person's email is verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
 }
 /** The person info of the user. */
 export type BotInfoResponseOwnerCase0UserCase0Person = UserObjectResponsePerson;
@@ -529,11 +529,11 @@ export interface UserObjectResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: UserObjectResponsePerson;
+  person?: UserObjectResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: UserObjectResponseBot;
+  bot?: UserObjectResponseBot | undefined;
 }
 export type UserValueResponse = PartialUserObjectResponse | UserObjectResponse;
 export interface RichTextItemResponseMentionCase0 {
@@ -570,25 +570,25 @@ export interface LinkMentionResponse {
   /** The href of the link mention. */
   href: string;
   /** The title of the link. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the link. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the link. */
-  link_author?: string;
+  link_author?: string | undefined;
   /** The provider of the link. */
-  link_provider?: string;
+  link_provider?: string | undefined;
   /** The thumbnail URL of the link. */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /** The icon URL of the link. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The iframe URL of the link. */
-  iframe_url?: string;
+  iframe_url?: string | undefined;
   /** The height of the link preview iframe. */
-  height?: number;
+  height?: number | undefined;
   /** The padding of the link preview iframe. */
-  padding?: number;
+  padding?: number | undefined;
   /** The top padding of the link preview iframe. */
-  padding_top?: number;
+  padding_top?: number | undefined;
 }
 export interface RichTextItemResponseMentionCase3 {
   /** Always `link_mention` */
@@ -669,13 +669,13 @@ export interface RichTextItemResponse {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
   annotations: AnnotationResponse;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemResponseText;
+  text?: RichTextItemResponseText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemResponseMention;
+  mention?: RichTextItemResponseMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 /** The title of the database. */
 export type DatabaseObjectResponseTitleList = Array<RichTextItemResponse>;
@@ -723,8 +723,8 @@ export type DatabaseObjectResponseDatabaseType =
   | "github_prs";
 export interface DataSourceReferenceResponseSyncMetadataHealthCase0Checks {
   sync_version_updated_at: string;
-  delta_synced_through_at?: string;
-  last_execution_succeeded_at?: string;
+  delta_synced_through_at?: string | undefined;
+  last_execution_succeeded_at?: string | undefined;
 }
 export type DataSourceReferenceResponseSyncMetadataHealthCase0ErrorSeverity =
   | "action_required"
@@ -786,30 +786,32 @@ export interface DataSourceReferenceResponseSyncMetadataSyncState {
   /** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
   syncing: DataSourceReferenceResponseSyncMetadataSyncStateSyncing;
   /** Stored legacy sync update time in UTC ISO 8601 format. This does not guarantee that all source changes have been imported. */
-  last_synced_at?: string;
+  last_synced_at?: string | undefined;
   /** Stored legacy sync checkpoint time in UTC ISO 8601 format. */
-  last_sync_checkpoint_at?: string;
+  last_sync_checkpoint_at?: string | undefined;
   /** Stored legacy sync heartbeat time in UTC ISO 8601 format. */
-  last_sync_heartbeat_at?: string;
+  last_sync_heartbeat_at?: string | undefined;
 }
 /** Sync identity and available health, included when retrieving a database. */
 export interface DataSourceReferenceResponseSyncMetadata {
   /** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
-  health?: DataSourceReferenceResponseSyncMetadataHealth | null;
+  health?: DataSourceReferenceResponseSyncMetadataHealth | null | undefined;
   /** Notion user who owns the sync credential, included when health is available. */
-  owner_user_id?: string;
+  owner_user_id?: string | undefined;
   /** Provider resource synced to this data source, when available. */
-  resource?: string;
+  resource?: string | undefined;
   /** Stored identity of an external database sync. */
-  external_database_sync?: DataSourceReferenceResponseSyncMetadataExternalDatabaseSync;
+  external_database_sync?: DataSourceReferenceResponseSyncMetadataExternalDatabaseSync | undefined;
   /** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
-  external_collection_type?: DataSourceReferenceResponseSyncMetadataExternalCollectionType;
+  external_collection_type?:
+    | DataSourceReferenceResponseSyncMetadataExternalCollectionType
+    | undefined;
   /** The stored sync ID when provider details are unavailable. This is not a credential. */
-  sync_id?: string;
+  sync_id?: string | undefined;
   /** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
-  sync_state?: DataSourceReferenceResponseSyncMetadataSyncState;
+  sync_state?: DataSourceReferenceResponseSyncMetadataSyncState | undefined;
   /** Opaque, developer-defined collection key for a worker sync. It is not a globally unique ID or a credential. Worker status is not included. */
-  synced_collection_key?: string;
+  synced_collection_key?: string | undefined;
 }
 export interface DataSourceReferenceResponse {
   /** The ID of the data source. */
@@ -817,7 +819,7 @@ export interface DataSourceReferenceResponse {
   /** The name of the data source. */
   name: string;
   /** Sync identity and available health, included when retrieving a database. */
-  sync_metadata?: DataSourceReferenceResponseSyncMetadata;
+  sync_metadata?: DataSourceReferenceResponseSyncMetadata | undefined;
 }
 /** The data sources of the database. */
 export type DatabaseObjectResponseDataSourcesList = Array<DataSourceReferenceResponse>;
@@ -938,9 +940,9 @@ export type UpdateDatabaseRequestParentType = "page_id" | "workspace";
 export interface UpdateDatabaseRequestParent {
   /** The type of parent. */
   type: UpdateDatabaseRequestParentType | (string & {});
-  page_id?: string;
+  page_id?: string | undefined;
   /** Always `true` */
-  workspace?: boolean;
+  workspace?: boolean | undefined;
 }
 /** The updated title of the database, if any. If not provided, the title will not be updated. */
 export type UpdateDatabaseRequestTitleList = Array<RichTextItemRequest>;
@@ -949,23 +951,23 @@ export type UpdateDatabaseRequestDescriptionList = Array<RichTextItemRequest>;
 export interface UpdateDatabaseRequest {
   database_id: string;
   /** The parent page or workspace to move the database to. If not provided, the database will not be moved. */
-  parent?: UpdateDatabaseRequestParent;
+  parent?: UpdateDatabaseRequestParent | undefined;
   /** The updated title of the database, if any. If not provided, the title will not be updated. */
-  title?: UpdateDatabaseRequestTitleList;
+  title?: UpdateDatabaseRequestTitleList | undefined;
   /** The updated description of the database, if any. If not provided, the description will not be updated. */
-  description?: UpdateDatabaseRequestDescriptionList;
+  description?: UpdateDatabaseRequestDescriptionList | undefined;
   /** Whether the database should be displayed inline in the parent page. If not provided, the inline status will not be updated. */
-  is_inline?: boolean;
+  is_inline?: boolean | undefined;
   /** The updated icon for the database, if any. If not provided, the icon will not be updated. */
-  icon?: PageIconRequest;
+  icon?: PageIconRequest | undefined;
   /** The updated cover image for the database, if any. If not provided, the cover will not be updated. */
-  cover?: PageCoverRequest;
+  cover?: PageCoverRequest | undefined;
   /** Whether the database should be moved to or from the trash. If not provided, the trash status will not be updated. */
-  in_trash?: boolean;
+  in_trash?: boolean | undefined;
   /** Whether the database should be locked from editing in the Notion app UI. If not provided, the locked state will not be updated. */
-  is_locked?: boolean;
+  is_locked?: boolean | undefined;
   /** Whether to show the data source title above the database's views. Matches the Show data source title toggle in the Notion app. If not provided, the setting will not be updated. */
-  show_data_source_title?: boolean;
+  show_data_source_title?: boolean | undefined;
 }
 export type UpdateDatabaseResponseBody = PartialDatabaseObjectResponse | DatabaseObjectResponse;
 export type UpdateDatabaseResponse = UpdateDatabaseResponseBody;

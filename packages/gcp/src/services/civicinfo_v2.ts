@@ -58,7 +58,7 @@ export class NotFound
 
 export interface ElectionQueryElectionsRequest {
   /** Whether to include data that has not been allowlisted yet */
-  productionDataOnly?: boolean;
+  productionDataOnly?: boolean | undefined;
 }
 export type CivicinfoSchemaElectionTypeEnum = "streetAddress" | "nationalId";
 export type CivicinfoSchemaDeadlineTypeEnum =
@@ -68,11 +68,11 @@ export type CivicinfoSchemaDeadlineTypeEnum =
 /** Message that encapsulates a deadline. */
 export interface CivicinfoSchemaDeadline {
   /** Type of deadline. */
-  type?: CivicinfoSchemaDeadlineTypeEnum;
+  type?: CivicinfoSchemaDeadlineTypeEnum | undefined;
   /** Date in ISO format (yyyy-MM-dd) e.g. 2012-11-06 */
-  date?: string;
+  date?: string | undefined;
   /** Time in ISO format (HH:mm:ss['Z'|('+'|'-')HH:mm]) e.g. 06:00:00-07:00 */
-  time?: string;
+  time?: string | undefined;
 }
 export type CivicinfoSchemaDeadlineList = Array<CivicinfoSchemaDeadline>;
 export type CivicinfoSchemaElectionDataSourceTypeEnum = "electionsFeed" | "static" | "apiProxy";
@@ -106,30 +106,30 @@ export type CivicinfoSchemaEntityAllowlistExpectLowCoverageItemEnumList =
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface GoogleTypeTimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
+  id?: string | undefined;
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
+  version?: string | undefined;
 }
 /** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
 export interface GoogleTypeDateTime {
   /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string;
+  utcOffset?: string | undefined;
   /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
-  month?: number;
+  month?: number | undefined;
   /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
-  day?: number;
+  day?: number | undefined;
   /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  hours?: number | undefined;
   /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number;
+  minutes?: number | undefined;
   /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
+  seconds?: number | undefined;
   /** Time zone. */
-  timeZone?: GoogleTypeTimeZone;
+  timeZone?: GoogleTypeTimeZone | undefined;
 }
 export type CivicinfoSchemaSurfaceScopeSurfaceItemEnum =
   | "surfaceUnspecified"
@@ -141,38 +141,38 @@ export type CivicinfoSchemaSurfaceScopeSurfaceItemEnumList =
 /** Specifies which surfaces this allowlist applies to. If no SurfaceScope is specified, the default is API only, with no start or end date. */
 export interface CivicinfoSchemaSurfaceScope {
   /** Set these fields to block these entities before and/or after the specified dates for the specified surfaces. This can be used to automatically take data live at a future date, and to automatically take it down after an election is over. */
-  startDate?: GoogleTypeDateTime;
+  startDate?: GoogleTypeDateTime | undefined;
   /** Surfaces to which this entity applies. Required. */
-  surface?: CivicinfoSchemaSurfaceScopeSurfaceItemEnumList;
-  endDate?: GoogleTypeDateTime;
+  surface?: CivicinfoSchemaSurfaceScopeSurfaceItemEnumList | undefined;
+  endDate?: GoogleTypeDateTime | undefined;
 }
 export interface CivicinfoSchemaEntityAllowlist {
   /** Whether to serve regions. */
-  regions?: boolean;
+  regions?: boolean | undefined;
   /** Which scopes of contest to serve. If missing, and contests above is true, we will serve all contests */
-  contestScope?: CivicinfoSchemaEntityAllowlistContestScopeItemEnumList;
+  contestScope?: CivicinfoSchemaEntityAllowlistContestScopeItemEnumList | undefined;
   /** Whether to serve early-vote locations. */
-  earlyVote?: boolean;
+  earlyVote?: boolean | undefined;
   /** The dataset(s) to which this allowlist applies. If unset, applies to all datasets. Datasets control which entities are served, *not* which street segments are looked up. So you don't need to include the Targetsmart dataset ID to get voter-file-based objects. As a special case, 0 means "all positive-numbered datasets," to allow allowlisting all VIP data at once without having to worry about specific dataset IDs. */
-  entityDatasetId?: StringList;
+  entityDatasetId?: StringList | undefined;
   /** Whether to serve drop-off locations. */
-  dropOff?: boolean;
+  dropOff?: boolean | undefined;
   /** Entity types for expectation coverage. Does not affect what's served, but instructs our coverage monitoring to not alert for low coverage. */
-  expectLowCoverage?: CivicinfoSchemaEntityAllowlistExpectLowCoverageItemEnumList;
+  expectLowCoverage?: CivicinfoSchemaEntityAllowlistExpectLowCoverageItemEnumList | undefined;
   /** Whether to serve contests. This is further restricted by contest_scopes if set. */
-  contests?: boolean;
+  contests?: boolean | undefined;
   /** Whether to serve election-day polling locations. */
-  pollingLocations?: boolean;
+  pollingLocations?: boolean | undefined;
   /** The US state(s) to which this allowlist applies. If unset, applies to all states. */
-  state?: StringList;
+  state?: StringList | undefined;
   /** The surfaces to which this allowlist applies. */
-  surfaceScope?: CivicinfoSchemaSurfaceScope;
+  surfaceScope?: CivicinfoSchemaSurfaceScope | undefined;
 }
 export type CivicinfoSchemaEntityAllowlistList = Array<CivicinfoSchemaEntityAllowlist>;
 /** Specifies rules such that only certain responses are returned. Currently only used in US elections. Allows for testing voter info data on prod URLs on a state by state basis before making them generally available. */
 export interface CivicinfoSchemaResponseAllowlist {
   /** Allowlist controls by dataset and/or US state. These allowlists are effectively OR'd together -- an entity is served if any applicable entry clears it -- so you can mix varying levels of specificity in any order. */
-  allowlistEntry?: CivicinfoSchemaEntityAllowlistList;
+  allowlistEntry?: CivicinfoSchemaEntityAllowlistList | undefined;
 }
 export type CivicinfoSchemaElectionShapeLookupBehaviorEnum =
   | "shapeLookupDefault"
@@ -186,71 +186,71 @@ export type CivicinfoSchemaElectionVoterInfoStatusEnum =
 /** Information about the election that was queried. */
 export interface CivicinfoSchemaElection {
   /** Early vote start date in YYYY-MM-DD format. This field is only populated if there is a consistent start date for all regions covered by this election. */
-  earlyVoteStartDate?: string;
+  earlyVoteStartDate?: string | undefined;
   /** The qps limit to send to the API. If qps to the API exceeds this amount send a 503. This provides the Big Red Button. Just set to 0 to stop proxying. */
-  apiProxyQpsLimit?: number;
-  id?: string;
+  apiProxyQpsLimit?: number | undefined;
+  id?: string | undefined;
   /** Early vote start date in YYYY-MM-DD format. This field is only populated if there is a consistent end date for all regions covered by this election. */
-  earlyVoteEndDate?: string;
+  earlyVoteEndDate?: string | undefined;
   /** How are voters assigned to jurisdictions in this election Not exposed publicly as it is irrelevant given that we have version separation */
-  type?: CivicinfoSchemaElectionTypeEnum;
+  type?: CivicinfoSchemaElectionTypeEnum | undefined;
   /** Voter registration deadline. Only populated if there is a consistent deadline for all regions covered by this election. */
-  voterRegistrationDeadline?: CivicinfoSchemaDeadlineList;
+  voterRegistrationDeadline?: CivicinfoSchemaDeadlineList | undefined;
   /** The political division of the election. Represented as an OCD Division ID. Voters within these political jurisdictions are covered by this election. This is typically a state such as ocd-division/country:us/state:ca or for the midterms or general election the entire US (i.e. ocd-division/country:us). */
-  ocdDivisionId?: string;
+  ocdDivisionId?: string | undefined;
   /** How is the election specified */
-  dataSourceType?: CivicinfoSchemaElectionDataSourceTypeEnum;
+  dataSourceType?: CivicinfoSchemaElectionDataSourceTypeEnum | undefined;
   /** If specified, restrict results according to the allowlist criteria */
-  voterInfoAllowlist?: CivicinfoSchemaResponseAllowlist;
+  voterInfoAllowlist?: CivicinfoSchemaResponseAllowlist | undefined;
   /** If set, restrict the referers to these allowed URLs. */
-  allowedReferer?: StringList;
-  shapeLookupBehavior?: CivicinfoSchemaElectionShapeLookupBehaviorEnum;
+  allowedReferer?: StringList | undefined;
+  shapeLookupBehavior?: CivicinfoSchemaElectionShapeLookupBehaviorEnum | undefined;
   /** What is the default language for responses for this election */
-  defaultLanguage?: string;
+  defaultLanguage?: string | undefined;
   /** What is the status of the voter information for this election. */
-  voterInfoStatus?: CivicinfoSchemaElectionVoterInfoStatusEnum;
-  name?: string;
+  voterInfoStatus?: CivicinfoSchemaElectionVoterInfoStatusEnum | undefined;
+  name?: string | undefined;
   /** Should not be specified in config. This is a modified version of voter_info_allowlist, computed by the API server at serving time, which results from intersecting voter_info_allowlist with the publish_types fields from datafeed.txt. That new allowlist is what gets enforced. */
-  voterInfoAllowlistAfterDatafeedApplication?: CivicinfoSchemaResponseAllowlist;
+  voterInfoAllowlistAfterDatafeedApplication?: CivicinfoSchemaResponseAllowlist | undefined;
   /** A list of states whose free-form early voting hours are known to fully specify their early vote dates, making the dates redundant to render in the UI. */
-  redundantEvDatesStates?: StringList;
+  redundantEvDatesStates?: StringList | undefined;
   /** If we have a proxy election, what is the URL */
-  apiProxyUrlBase?: string;
+  apiProxyUrlBase?: string | undefined;
   /** Day of the election in YYYY-MM-DD format. */
-  electionDay?: string;
+  electionDay?: string | undefined;
   /** Absentee ballot deadline. Only populated if there is a consistent deadline for all regions covered by this election. */
-  absenteeBallotDeadline?: CivicinfoSchemaDeadlineList;
+  absenteeBallotDeadline?: CivicinfoSchemaDeadlineList | undefined;
   /** Last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
 }
 export type CivicinfoSchemaElectionList = Array<CivicinfoSchemaElection>;
 /** The list of elections available for this version of the API. */
 export interface CivicinfoApiprotosV2ElectionsQueryResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "civicinfo#electionsQueryResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** A list of available elections */
-  elections?: CivicinfoSchemaElectionList;
+  elections?: CivicinfoSchemaElectionList | undefined;
 }
 export interface QueryDivisionByAddressDivisionsRequest {
-  address?: string;
+  address?: string | undefined;
 }
 /** A simple representation of an address. */
 export interface CivicinfoSchemaSimpleAddressType {
-  state?: string;
-  zip?: string;
-  addressLine?: StringList;
+  state?: string | undefined;
+  zip?: string | undefined;
+  addressLine?: StringList | undefined;
   /** The name of the location. */
-  locationName?: string;
+  locationName?: string | undefined;
   /** The second line the address, if needed. */
-  line2?: string;
-  country?: string;
+  line2?: string | undefined;
+  country?: string | undefined;
   /** The third line of the address, if needed. */
-  line3?: string;
+  line3?: string | undefined;
   /** The following fields are only used in countries that provide this sort of information */
-  county?: string;
-  city?: string;
-  line1?: string;
-  worldRegion?: string;
+  county?: string | undefined;
+  city?: string | undefined;
+  line1?: string | undefined;
+  worldRegion?: string | undefined;
 }
 export type CivicinfoSchemaGeographicDivisionScopeEnum =
   | "statewide"
@@ -270,32 +270,32 @@ export type CivicinfoSchemaGeographicDivisionScopeEnum =
 export type IntegerList = Array<number>;
 /** A social media or web channel for a candidate. */
 export interface CivicinfoSchemaChannel {
-  type?: string;
-  id?: string;
+  type?: string | undefined;
+  id?: string | undefined;
 }
 export type CivicinfoSchemaChannelList = Array<CivicinfoSchemaChannel>;
 /** Encapsulates the information needed for blocklisting an entry. */
 export interface CivicinfoSchemaBlocklistEntry {
-  reason?: string;
-  reportedBy?: string;
+  reason?: string | undefined;
+  reportedBy?: string | undefined;
 }
 export type CivicinfoSchemaSimpleAddressTypeList = Array<CivicinfoSchemaSimpleAddressType>;
 /** Metadata fields for Knowledge Panel syndication restrictions. */
 export interface StorageGraphBfgKnowledgePanelSyndicationPolicyMetadata {
-  isTripleInScope?: boolean;
+  isTripleInScope?: boolean | undefined;
 }
 /** This is proto2's version of MessageSet. DEPRECATED: DO NOT USE FOR NEW FIELDS. If you are using editions or proto2, please make your own extendable messages for your use case. If you are using proto3, please use `Any` instead. MessageSet was the implementation of extensions for proto1. When proto2 was introduced, extensions were implemented as a first-class feature. This schema for MessageSet was meant to be a "bridge" solution to migrate MessageSet-bearing messages from proto1 to proto2. This schema has been open-sourced only to facilitate the migration of Google products with MessageSet-bearing messages to open-source environments. */
 export interface Proto2BridgeMessageSet {
-  messageSetExtension?: StorageGraphBfgKnowledgePanelSyndicationPolicyMetadata;
+  messageSetExtension?: StorageGraphBfgKnowledgePanelSyndicationPolicyMetadata | undefined;
 }
 /** A globally unique identifier associated with each feature. We use 128-bit identifiers so that we have lots of bits available to distinguish between features. The feature id currently consists of a 64-bit "cell id" that **sometimes** corresponds to the approximate centroid of the feature, plus a 64-bit fingerprint of other identifying information. See more on each respective field in its comments. Feature ids are first assigned when the data is created in MapFacts. After initial creation of the feature, they are immutable. This means that the only properties that you should rely on are that they are unique, and that cell_ids often - but not always - preserve spatial locality. The degree of locality varies as the feature undergoes geometry changes, and should not in general be considered a firm guarantee of the location of any particular feature. In fact, some locationless features have randomized cell IDs! Consumers of FeatureProtos from Mapfacts are guaranteed that fprints in the id field of features will be globally unique. Using the fprint allows consumers who don't need the spatial benefit of cell ids to uniquely identify features in a 64-bit address space. This property is not guaranteed for other sources of FeatureProtos. */
 export interface GeostoreFeatureIdProto {
   /** A 64-bit fingerprint used to identify features. Most clients should rely on MapFacts or OneRing to choose fingerprints. If creating new fprints, the strategy should be chosen so that the chance of collision is remote or non-existent, and the distribution should be reasonably uniform. For example, if the source data assigns unique ids to features, then a fingerprint of the provider name, version, and source id is sufficient. */
-  fprint?: string;
+  fprint?: string | undefined;
   /** A place for clients to attach arbitrary data to a feature ID. Never set in MapFacts. */
-  temporaryData?: Proto2BridgeMessageSet;
+  temporaryData?: Proto2BridgeMessageSet | undefined;
   /** The S2CellId corresponding to the approximate location of this feature as of when it was first created. This can be of variable accuracy, ranging from the exact centroid of the feature at creation, a very large S2 Cell, or even being completely randomized for locationless features. Cell ids have the nice property that they follow a space-filling curve over the surface of the earth. (See s2cellid.h for details.) WARNING: Clients should only use cell IDs to perform spatial locality optimizations. There is no strict guarantee that the cell ID of a feature is related to the current geometry of the feature in any way. */
-  cellId?: string;
+  cellId?: string | undefined;
 }
 export type CivicinfoCommonGeocodingSummaryFeatureTypeEnum =
   | "typeAny"
@@ -672,67 +672,67 @@ export type CivicinfoCommonGeocodingSummaryFeatureTypeEnum =
 /** Detailed summary of the result from geocoding an address */
 export interface CivicinfoCommonGeocodingSummary {
   /** Precision of the center point (lat/long) of the geocoded FeatureProto */
-  positionPrecisionMeters?: number;
+  positionPrecisionMeters?: number | undefined;
   /** Represents the best estimate of whether or not the input address was fully understood and the address is correctly componentized. Mirrors the same-name field in geostore.staging.AddressLinkupScoringProto. */
-  addressUnderstood?: boolean;
+  addressUnderstood?: boolean | undefined;
   /** The ID of the FeatureProto returned by the geocoder */
-  featureId?: GeostoreFeatureIdProto;
+  featureId?: GeostoreFeatureIdProto | undefined;
   /** The feature type for the FeatureProto returned by the geocoder */
-  featureType?: CivicinfoCommonGeocodingSummaryFeatureTypeEnum;
+  featureType?: CivicinfoCommonGeocodingSummaryFeatureTypeEnum | undefined;
   /** The query sent to the geocoder */
-  queryString?: string;
+  queryString?: string | undefined;
 }
 export type CivicinfoCommonGeocodingSummaryList = Array<CivicinfoCommonGeocodingSummary>;
 /** Information about a person holding an elected office. */
 export interface CivicinfoSchemaOfficial {
   /** Date when the officeholder first entered office in ISO format (yyyy-MM-dd) e.g. 2012-11-06 */
-  startDate?: string;
-  name?: string;
+  startDate?: string | undefined;
+  name?: string | undefined;
   /** A raw, unverified URL for a photo of the official, taken directly from the source feed. */
-  rawPhotoUrl?: string;
+  rawPhotoUrl?: string | undefined;
   /** The official's Freebase ID. */
-  freebaseId?: string;
+  freebaseId?: string | undefined;
   /** If present, indicates that the proto was manually updated and should not be overwritten by the pipeline. This message contains the original contents from the pipeline, useful for comparing upstream data to our corrections. */
-  beforeManualUpdate?: CivicinfoSchemaOfficial;
+  beforeManualUpdate?: CivicinfoSchemaOfficial | undefined;
   /** A list of known (social) media channels for this official. */
-  channels?: CivicinfoSchemaChannelList;
+  channels?: CivicinfoSchemaChannelList | undefined;
   /** A URL for a photo of the official. This represents the verified version of the raw_photo_url field and will be populated only if the raw photo URL is successfully validated. This URL will be be equal to the raw photo URL. */
-  photoUrl?: string;
+  photoUrl?: string | undefined;
   /** The direct email addresses for the official. */
-  emails?: StringList;
+  emails?: StringList | undefined;
   /** A unique identifier for this official, within the context of this request. Identifiers are *not* long-lived: the same official may get different IDs on different requests. */
-  mapId?: string;
+  mapId?: string | undefined;
   /** Raw, unverified URLs of the official's public websites, taken directly from the source feed. */
-  rawUrls?: StringList;
+  rawUrls?: StringList | undefined;
   /** The official's public contact phone numbers. */
-  phones?: StringList;
+  phones?: StringList | undefined;
   /** The official's Open Civic Data ID. This field is reserved in case the spec is completed. */
-  ocdId?: string;
+  ocdId?: string | undefined;
   /** The full name of the party the official belongs to. */
-  party?: string;
+  party?: string | undefined;
   /** If this is present, the official has been blocklisted, and will never be returned in API responses. */
-  blocklisted?: CivicinfoSchemaBlocklistEntry;
+  blocklisted?: CivicinfoSchemaBlocklistEntry | undefined;
   /** Addresses at which to contact the official. This represents the normalized version of the raw_addresses field and will only be populated if raw addresses are successfully normalized by the geocoder. */
-  address?: CivicinfoSchemaSimpleAddressTypeList;
+  address?: CivicinfoSchemaSimpleAddressTypeList | undefined;
   /** Detailed summary about the official's address's geocoding */
-  geocodingSummaries?: CivicinfoCommonGeocodingSummaryList;
-  officialExt?: CivicinfoSchemaOfficial;
+  geocodingSummaries?: CivicinfoCommonGeocodingSummaryList | undefined;
+  officialExt?: CivicinfoSchemaOfficial | undefined;
   /** A unique identifier for this official. */
-  id?: string;
+  id?: string | undefined;
   /** Raw, unnormalized addresses of the official taken directly from the source feed. */
-  rawAddresses?: StringList;
+  rawAddresses?: StringList | undefined;
   /** The official's public website URLs. This represents the verified version of the raw_urls field and will be populated only if raw URLs are successfully validated. Each URL will be be equal to its corresponding raw URL. */
-  urls?: StringList;
+  urls?: StringList | undefined;
 }
 export type CivicinfoSchemaOfficialList = Array<CivicinfoSchemaOfficial>;
 /** Contains information about the data source for the element containing it. */
 export interface CivicinfoSchemaSource {
-  name?: string;
-  official?: boolean;
+  name?: string | undefined;
+  official?: boolean | undefined;
   /** The hash of the dataset this information came from */
-  hash?: string;
+  hash?: string | undefined;
   /** The url that describes this source. */
-  url?: string;
+  url?: string | undefined;
 }
 export type CivicinfoSchemaSourceList = Array<CivicinfoSchemaSource>;
 export type CivicinfoSchemaOfficeLevelEnum = "federal" | "state" | "county" | "city" | "other";
@@ -764,56 +764,56 @@ export type CivicinfoSchemaOfficeLevelsItemEnumList = Array<CivicinfoSchemaOffic
 /** Information about an Office held by one or more Officials. */
 export interface CivicinfoSchemaOffice {
   /** A unique identifier for this office, within the context of this request. Identifiers are *not* long-lived: the same office may get different IDs on different requests. */
-  mapId?: string;
+  mapId?: string | undefined;
   /** The office's Freebase ID. */
-  freebaseId?: string;
+  freebaseId?: string | undefined;
   /** Only present in query responses. List of indices in the officials array of people who presently hold this office. */
-  officialIndices?: IntegerList;
+  officialIndices?: IntegerList | undefined;
   /** A list of people who presently hold the office. Only present in megastore. */
-  official?: CivicinfoSchemaOfficialList;
+  official?: CivicinfoSchemaOfficialList | undefined;
   /** Only present in query responses. List of keys in the officials object of people who presently hold this office. */
-  officialId?: StringList;
+  officialId?: StringList | undefined;
   /** A list of sources for this office. If multiple sources are listed, the data has been aggregated from those sources. */
-  sources?: CivicinfoSchemaSourceList;
+  sources?: CivicinfoSchemaSourceList | undefined;
   /** The OCD ID of the division with which this office is associated. */
-  divisionId?: string;
+  divisionId?: string | undefined;
   /** The level of this elected office. One of: federal, state, county, city, other */
-  level?: CivicinfoSchemaOfficeLevelEnum;
+  level?: CivicinfoSchemaOfficeLevelEnum | undefined;
   /** If this is present, the office has been blocklisted, and will never be returned in API responses. */
-  blocklisted?: CivicinfoSchemaBlocklistEntry;
-  name?: string;
+  blocklisted?: CivicinfoSchemaBlocklistEntry | undefined;
+  name?: string | undefined;
   /** If present, indicates that the proto was manually updated and should not be overwritten by the pipeline. This does *not* apply to any contained Officials, which track their own manual updates: it is possible for an Office to be manually updated and not its contained Officials, or vice versa. This message contains the original contents from the pipeline, useful for comparing upstream data to our corrections. Any Officials from the original will be cleared. */
-  beforeManualUpdate?: CivicinfoSchemaOffice;
+  beforeManualUpdate?: CivicinfoSchemaOffice | undefined;
   /** A unique identifier for this office. */
-  id?: string;
+  id?: string | undefined;
   /** The roles which this office fulfills. Roles are not meant to be exhaustive, or to exactly specify the entire set of responsibilities of a given office, but are meant to be rough categories that are useful for general selection from or sorting of a list of offices. */
-  roles?: CivicinfoSchemaOfficeRolesItemEnumList;
+  roles?: CivicinfoSchemaOfficeRolesItemEnumList | undefined;
   /** The office's Open Civic Data ID. */
-  ocdId?: string;
+  ocdId?: string | undefined;
   /** The levels of government of which this office is part. There may be more than one in cases where a jurisdiction effectively acts at two different levels of government; for example, the mayor of the District of Columbia acts at "locality" level, but also effectively at both "administrative-area-2" and "administrative-area-1". */
-  levels?: CivicinfoSchemaOfficeLevelsItemEnumList;
+  levels?: CivicinfoSchemaOfficeLevelsItemEnumList | undefined;
 }
 export type CivicinfoSchemaOfficeList = Array<CivicinfoSchemaOffice>;
 /** go/entity-authority NB: currently all facts associated with Authority Feedback are externally traceable to the requests from which they originate. */
 export interface StorageGraphBfgAuthorityFeedbackMetadata {}
 export interface StorageGraphBfgLegalRequestMetadata {
   /** The buganizer ID associated with this legal request. This is required. */
-  bugId?: string;
+  bugId?: string | undefined;
 }
 export interface StorageGraphBfgPublicInformationMetadata {
   /** Most recent date at which 'attribution_url's were verified, as UNIX epoch time in milliseconds. This is required. */
-  lastVerifiedDate?: string;
+  lastVerifiedDate?: string | undefined;
   /** Publicly-visible URLs claiming this fact. Can not be empty -- at least one URL must be provided. */
-  attributionUrl?: StringList;
+  attributionUrl?: StringList | undefined;
 }
 /** A fact about potentially sensitive personal info (http://what/SPII) can be "certified" iff it meets specific requirements. See go/kg-spii-certification for details. */
 export interface StorageGraphBfgSpiiCertification {
   /** This fact was provided via KGO / Entity Authority. */
-  authorityFeedback?: StorageGraphBfgAuthorityFeedbackMetadata;
+  authorityFeedback?: StorageGraphBfgAuthorityFeedbackMetadata | undefined;
   /** This fact was provided via a legal request. */
-  legalRequest?: StorageGraphBfgLegalRequestMetadata;
+  legalRequest?: StorageGraphBfgLegalRequestMetadata | undefined;
   /** This fact is public information. (See go/kg-spii-certification for a description of what qualifies as public information -- simply finding a fact online is not sufficient to certify a fact as public.) */
-  publicInformation?: StorageGraphBfgPublicInformationMetadata;
+  publicInformation?: StorageGraphBfgPublicInformationMetadata | undefined;
 }
 export type StorageGraphBfgProvenanceRestrictionsItemEnum =
   | "requiresCitation"
@@ -824,9 +824,9 @@ export type StorageGraphBfgProvenanceRestrictionsItemEnumList =
   Array<StorageGraphBfgProvenanceRestrictionsItemEnum>;
 /** External Reference keys for use in tracing data back to its source. It is intended to provide generic data linage support between client source data and triples in SCP. See go/takedown-reporting-in-scp:reference for more details. */
 export interface KnowledgeGraphSourceContentReference {
-  idNamespace?: string;
+  idNamespace?: string | undefined;
   /** An identifier which uniquely identifies the piece of content in source data within the namespace provided. To clients who ingest source data to SCP: Clients should rely on this ID to link SCP triples back to their source data. To SCP systems: This id is an opaque large string. SCP systems should not try to interpret it. Required. */
-  id?: string;
+  id?: string | undefined;
 }
 export type StorageGraphBfgProvenanceSourceCategoryItemEnum =
   | "thirdParty"
@@ -838,15 +838,15 @@ export type StorageGraphBfgProvenanceSourceCategoryItemEnumList =
 /** Metadata on source assertions that isn't part of the user-visible Triple payload, and that doesn't really represent data provenance, but that's used to affect the way Livegraph and possibly other horizontal KG infra systems *process* the triple. Read: fields below really shouldn't be part of the cross-system Triple proto at all. But because Triple is used both as an internal and an external KG API, we at least want to "hide" those fields that ought to be purely part of the internal source <-> LG contract. Next id: 6 */
 export interface StorageGraphBfgLivegraphProvenanceMetadata {
   /** If one triple is directly-written after recon by LG without going through Composer, we add the record id it's from. Otherwise, it's empty. Note: 1) LG will dedup record ids before updating it. So this field shouldn't see duplicated record ids. 2) This is used internally by LG only. So if set by clients, they will be dropped by LG. */
-  directWriteRecordIds?: StringList;
+  directWriteRecordIds?: StringList | undefined;
   /** Triples typically have a single triangulation key. This field supports > 1 keys to allow staged transition to a different key scheme. To successfully triangulate in the Livegraph Composer, the triple must have >=3 instances and each triple instance having a pairwise disjoint set of triangulation keys. The triangulation keys supplied for a single input triple are treated part of the same set, so a single triple cannot self-triangulate, regardless of how many triangulation keys it has. Note2: If a triple has multiple provenances, each one is expected to set the same triangulation_keys. */
-  triangulationKey?: StringList;
+  triangulationKey?: StringList | undefined;
   /** Identifies the LG internal writers that asserted the triple. This is the same as 'origin_id' in LG. This will only be populated by the LG writers to FactStore */
-  lgInternalWriterId?: string;
+  lgInternalWriterId?: string | undefined;
   /** WARNING! The feature is still under active development and the exact semantics may be subject to change pending KE Design Review. Data marked as weak will be less preferred to regular data which does not have the marker. This allows ingesting data with a lower chance of negatively affecting existing features and products, at the cost of potentially not showing the data when competing data is available. Specifically, weak data is less preferred by conflict resolution inside of Livegraph composition. Additionally, RefX triggering will prefer to trigger based on signals computed from regular data. Aside from data providers choosing to mark their data as weak, Livegraph and RefX are the only horizontal systems expected to use this information. Please contact livegraph-team@ if you see a need for this to change. See go/weak-data for more information. */
-  weakData?: boolean;
+  weakData?: boolean | undefined;
   /** Whether this provenance is a provenance only addition or not. A provenance is considered an "addition" if it belongs to a triple that we expect FactStore to contain on its own (i.e through some inference), and thus we will *not* attempt to write it explicitly. This is a composer only populated field. Clients are not expected to populate this field. */
-  provenanceOnlyAddition?: boolean;
+  provenanceOnlyAddition?: boolean | undefined;
 }
 export type KeGovernanceTypedRegionsRegionTypeEnum =
   | "unknown"
@@ -855,40 +855,40 @@ export type KeGovernanceTypedRegionsRegionTypeEnum =
 /** Wrapper message containing list of regions and their corresponding type of region signal to use in data governance. */
 export interface KeGovernanceTypedRegions {
   /** The particular type of region should be explicitly set to disambiguate. */
-  regionType?: KeGovernanceTypedRegionsRegionTypeEnum;
+  regionType?: KeGovernanceTypedRegionsRegionTypeEnum | undefined;
   /** Values are go/iii RegionCode in capital case. It is a good practice to keep elements in this list unique, although not enforced. In case of duplicated entries, they'll be treated as if there were only one entry of the same value. */
-  regions?: StringList;
+  regions?: StringList | undefined;
 }
 /** Metadata fields for LMS. See go/lms-online-restrictions for details. */
 export interface StorageGraphBfgLmsPolicyMetadata {
-  requiresLinkback?: boolean;
-  requiresAttribution?: boolean;
-  requiresShareAlike?: boolean;
-  requiresFirstPartyOnly?: boolean;
-  isEditorial?: boolean;
-  clientIdsAllowed?: StringList;
-  regionsDisallowed?: KeGovernanceTypedRegions;
-  regionsAllowed?: KeGovernanceTypedRegions;
+  requiresLinkback?: boolean | undefined;
+  requiresAttribution?: boolean | undefined;
+  requiresShareAlike?: boolean | undefined;
+  requiresFirstPartyOnly?: boolean | undefined;
+  isEditorial?: boolean | undefined;
+  clientIdsAllowed?: StringList | undefined;
+  regionsDisallowed?: KeGovernanceTypedRegions | undefined;
+  regionsAllowed?: KeGovernanceTypedRegions | undefined;
   /** Int values corresponds to the values of image_repository.licensed.api.restrictions.Modification enum. */
-  modificationsAllowed?: StringList;
+  modificationsAllowed?: StringList | undefined;
 }
 /** Metadata fields for LLM related data usage restrictions. See go/bard-kg-data-acl for more details. */
 export interface StorageGraphBfgLlmPolicyMetadata {
   /** Bitmap of LlmDataAccessRestriction. */
-  dataAccessRestrictions?: number;
+  dataAccessRestrictions?: number | undefined;
 }
 /** Metadata fields for Real World Journey. See go/rwj-kg-dg for details. */
 export interface StorageGraphBfgRwjPolicyMetadata {
   /** Int values correspond to the usecases used in CDS. See: google3/googlebase/verticals/model/usecase_id.proto. */
-  eligibleSurfaces?: StringList;
+  eligibleSurfaces?: StringList | undefined;
 }
 /** Metadata fields for UMP. A piece of data satisfies UMP policy if: (data access region is in the `regions_allowed` list) AND (data access time >= availability_start_timestamp) AND (data access time < availability_end_timestamp) */
 export interface StorageGraphBfgUmpPolicyMetadata {
   /** Timestamp after which data with this policy cannot be used. */
-  availabilityEnds?: string;
+  availabilityEnds?: string | undefined;
   /** Timestamp before which data with this policy cannot be used. */
-  availabilityStarts?: string;
-  regionsAllowed?: KeGovernanceTypedRegions;
+  availabilityStarts?: string | undefined;
+  regionsAllowed?: KeGovernanceTypedRegions | undefined;
 }
 export type StorageGraphBfgPolicyMetadataPolicySourceTypeEnum =
   | "unknown"
@@ -898,27 +898,29 @@ export type KeGovernanceTypedRegionsList = Array<KeGovernanceTypedRegions>;
 /** Metadata about data governance policies. For more context, see go/ke-triple-dg-policy-and-metadata. If any attribute is not set, then there's no specific restrictions associated with the missing attribute. For example, if `availability_start_timestamp` is not set, the data won't be embargoed automatically; if `availability_end_timestamp` is not set, they won't expire automatically. LINT.IfChange */
 export interface StorageGraphBfgPolicyMetadata {
   /** Policy metadata fields for LMS data. Only expected to be used by LMS providers -- please consult ke-data-governance@ before populating this field. */
-  lmsPolicyMetadata?: StorageGraphBfgLmsPolicyMetadata;
+  lmsPolicyMetadata?: StorageGraphBfgLmsPolicyMetadata | undefined;
   /** Policy metadata fields for LLM related data usage restrictions. Only expected to be used by SCP internally -- please consult ke-data-governance@ before populating this field. */
-  llmPolicyMetadata?: StorageGraphBfgLlmPolicyMetadata;
+  llmPolicyMetadata?: StorageGraphBfgLlmPolicyMetadata | undefined;
   /** Policy metadata fields for Knowledge Panel syndication restrictions. Only expected to be used by SCP internally -- please consult ke-data-governance@ before populating this field. */
-  knowledgePanelSyndicationPolicyMetadata?: StorageGraphBfgKnowledgePanelSyndicationPolicyMetadata;
+  knowledgePanelSyndicationPolicyMetadata?:
+    | StorageGraphBfgKnowledgePanelSyndicationPolicyMetadata
+    | undefined;
   /** Policy metadata fields for Real World Journey (RWJ) data. Only expected to be used by RWJ providers -- please consult ke-data-governance@ before populating this field. */
-  rwjPolicyMetadata?: StorageGraphBfgRwjPolicyMetadata;
+  rwjPolicyMetadata?: StorageGraphBfgRwjPolicyMetadata | undefined;
   /** Policy metadata fields for UMP data. Only expected to be used by UMP providers -- please consult ke-data-governance@ before populating this field. */
-  umpPolicyMetadata?: StorageGraphBfgUmpPolicyMetadata;
+  umpPolicyMetadata?: StorageGraphBfgUmpPolicyMetadata | undefined;
   /** This triple is protected by the policies with PolicyDataScope identified by these global unique ids. */
-  policyDataScopeKeys?: IntegerList;
+  policyDataScopeKeys?: IntegerList | undefined;
   /** Timestamp after which data with this policy cannot be used. This value must be strictly larger/later than availability_start_time, if both are set. */
-  availabilityEndTimestamp?: string;
+  availabilityEndTimestamp?: string | undefined;
   /** Timestamp before which data with this policy cannot be used. This value must be strictly smaller/earlier than availability_end_time, if both are set. */
-  availabilityStartTimestamp?: string;
+  availabilityStartTimestamp?: string | undefined;
   /** Policy metadata are VERTICAL by default. Vertical policy makers / providers does not need to set this field explicitly. */
-  policySourceType?: StorageGraphBfgPolicyMetadataPolicySourceTypeEnum;
+  policySourceType?: StorageGraphBfgPolicyMetadataPolicySourceTypeEnum | undefined;
   /** List of regions in which the data with this policy need to be removed according to legal request. WARNING: This field is for legal purposes only. Please do not populate it without consulting ke-data-governance@. */
-  legalRemovalRegions?: KeGovernanceTypedRegionsList;
+  legalRemovalRegions?: KeGovernanceTypedRegionsList | undefined;
   /** List of regions in which the data with this policy is allowed to be used, while the data need to be removed in all regions outside this list according to legal request. This field should be used when the data is only allowed in a few regions and it is inconvenient to enumerate all of the regions in `legal_removal_regions` field. `legal_allowed_regions` and `legal_removal_region` together should include all possible regions, setting one field implies the other. Please set only one of them so the other field's values are implied. See details: http://go/ke-allowed-countries-policy-1p WARNING: This field is for legal purposes only. Please do not populate it without consulting ke-data-governance@. */
-  legalAllowedRegions?: KeGovernanceTypedRegionsList;
+  legalAllowedRegions?: KeGovernanceTypedRegionsList | undefined;
 }
 export type StorageGraphBfgProvenanceAccessRequiredEnum =
   | "accessRequirementUnspecified"
@@ -1122,165 +1124,165 @@ export type StorageGraphBfgProvenanceAccessRequiredEnum =
 /** a message containing information about the source of this triple. Note for freebase data: that this is an unpacking of the creator/attribution chain. The creator below is the actual creator of the attribution node, and the rest of the attribution data sits along side. Next id: 23 */
 export interface StorageGraphBfgProvenance {
   /** Freebase: the freebase user id in the form '/user/userid' KG: the Google LDAP of the developer or MDB group that set up the triplification and import pipeline for this data source. */
-  creator?: string;
+  creator?: string | undefined;
   /** For KE internal use only. Data providers shall *not* set this. At ingress, LG Record service will read access_required and properly translate it to access_required_int. KE horizontal systems shall use this field instead of access_required; so that binaries would not depend on the release of a newly introduced AccessRequirement enum. (go/easy-ar-onboarding) */
-  accessRequiredInt?: number;
-  spiiCertification?: StorageGraphBfgSpiiCertification;
-  restrictions?: StorageGraphBfgProvenanceRestrictionsItemEnumList;
+  accessRequiredInt?: number | undefined;
+  spiiCertification?: StorageGraphBfgSpiiCertification | undefined;
+  restrictions?: StorageGraphBfgProvenanceRestrictionsItemEnumList | undefined;
   /** Below are deprecated Provenance fields. They are not indexed or served in KE infrastructure (they are stripped at ingress in Livegraph). */
-  freebaseAttribution?: string;
-  sourceDocId?: StringList;
+  freebaseAttribution?: string | undefined;
+  sourceDocId?: StringList | undefined;
   /** Freebase & KG: if the triples were extracted from the web, the source URL where the assertion was found. (generally empty in freebase-sourced triples) TopicServer will serve/populate/retain if REQUIRES_CITATION is also set, or if the process is explicitly allowed. http://g/topic-server/vn9PBWtVKqI/arQEDqKTAgAJ */
-  source?: string;
+  source?: string | undefined;
   /** Used to uniquely identify data sources. Freebase: the OAuth application KG: the name of the source directory the triple was loaded from (eg, "amg", "tms ", "collections"). KV: identifier of an extraction system, e.g., SAFT or Tractzor. */
-  process?: string;
+  process?: string | undefined;
   /** Client provided reference to the particular piece of source data content this triple is linked to. It is intended to provide generic data linage support between client source data and triples in SCP. WARNING: This field is WIP and please do not populate or consume it without consulting ke-data-governance@. */
-  sourceContentReference?: KnowledgeGraphSourceContentReference;
-  sourceCategory?: StorageGraphBfgProvenanceSourceCategoryItemEnumList;
+  sourceContentReference?: KnowledgeGraphSourceContentReference | undefined;
+  sourceCategory?: StorageGraphBfgProvenanceSourceCategoryItemEnumList | undefined;
   /** Indicates that the corresponding data is supporting evidence for reconciliation only, and is *not* an assertion that should be visible to other systems or to external users. Note that this also means that no provenances indicating supporting data will be visible in the composed graph. Please see go/supporting-kg-triples-design-doc for additional details and background. If a triple is sent to Livegraph with multiple provenances each of them must have is_supporting_data bit set for it to be considered valid supporting evidence triple. */
-  isSupportingData?: boolean;
+  isSupportingData?: boolean | undefined;
   /** Internal metadata used by Livegraph and possibly other horizontal KG infra systems. This is not part of the logical triple or its provenance, and contents may not be visible downstream of LG. */
-  lgMetadata?: StorageGraphBfgLivegraphProvenanceMetadata;
-  extractionPattern?: string;
+  lgMetadata?: StorageGraphBfgLivegraphProvenanceMetadata | undefined;
+  extractionPattern?: string | undefined;
   /** When specified as part of triples input to Livegraph (go/livegraph), this indicates that the triple needs to be triangulated by 3 different sources before it can be served in production. A triple's source is identified by its URL(provenance.source).host(). Please see go/baike-triangulation for more background on this. WARNING: If you're a new client trying to enable triangulation for your feed, please contact lg-composition@/kashk@ before using this feature. */
-  requiresTriangulation?: boolean;
-  authoringTimestamp?: string;
+  requiresTriangulation?: boolean | undefined;
+  authoringTimestamp?: string | undefined;
   /** 'ranking_token' (which must be accompanied by the 'process' field above or will be ignored) is used to distinguish subsets of data within a single process, solely for the purposes of composition in Livegraph. This field is useful when partitioning of data is needed, but using a separate process is intractable due to organizational or infrastructure limitations. For example, if a process such as "geo" wishes to distinguish some of their /type/object/name triples as higher priority in Composer's conflict resolution rules, then they can add a config entry with a dedicated ranking_token and tag the relevant triples with that ranking_token. This field should only be used in conjunction with a Composer-side configuration to use it for value selection. It is not appropriate to use this field as free-form metadata. This value must match [[:alnum:]][[:alnum:]_-]{0,127} (i.e., [a-zA-Z0-9]+[a-zA-Z0-9_-]* and must be less than 128 characters in length) , or else its containing triple will be considered malformed and will be rejected by Livegraph at ingress. As of 2018-02-14, this field is used within Livegraph's Composer and is exposed in Livegraph's Lookup APIs to aid debugging, but it is not indexed or served by TopicServer. */
-  rankingToken?: string;
+  rankingToken?: string | undefined;
   /** Metadata specifying data governance policies. This information will be processed and enforced in KE systems. For more context, see go/ke-triple-dg-policy-and-metadata. WARNING: This field is WIP and please do not populate it without consulting ke-data-governance@. */
-  policyMetadata?: StorageGraphBfgPolicyMetadata;
+  policyMetadata?: StorageGraphBfgPolicyMetadata | undefined;
   /** Freebase & KG: the dataset the assertion was loaded from */
-  dataset?: string;
-  provenanceExtension?: Proto2BridgeMessageSet;
+  dataset?: string | undefined;
+  provenanceExtension?: Proto2BridgeMessageSet | undefined;
   /** Data providers shall use this to specify access requirement. */
-  accessRequired?: StorageGraphBfgProvenanceAccessRequiredEnum;
-  extractionTimestamp?: string;
+  accessRequired?: StorageGraphBfgProvenanceAccessRequiredEnum | undefined;
+  extractionTimestamp?: string | undefined;
 }
 /** Describes a political geography. */
 export interface CivicinfoSchemaGeographicDivision {
   /** If present, indicates that the proto was manually updated and should not be overwritten by the pipeline. This does *not* apply to any contained Offices, which track their own manual updates: it is possible for a GeographicDivision to be manually updated and not its contained Offices, or vice versa. This message contains the original contents from the pipeline, useful for comparing upstream data to our corrections. Any Offices from the original will be cleared. */
-  beforeManualUpdate?: CivicinfoSchemaGeographicDivision;
+  beforeManualUpdate?: CivicinfoSchemaGeographicDivision | undefined;
   /** The division's Freebase ID. */
-  freebaseId?: string;
+  freebaseId?: string | undefined;
   /** The geographic scope of the division. If unspecified, the division's geography is not known. One of: national, statewide, congressional, stateUpper, stateLower, countywide, judicial, schoolBoard, cityWide, township, countyCouncil, cityCouncil, ward, special */
-  scope?: CivicinfoSchemaGeographicDivisionScopeEnum;
+  scope?: CivicinfoSchemaGeographicDivisionScopeEnum | undefined;
   /** The unique Open Civic Data identifier for this division. */
-  ocdId?: string;
+  ocdId?: string | undefined;
   /** List of offices elected from this division. Only present in megastore. */
-  office?: CivicinfoSchemaOfficeList;
+  office?: CivicinfoSchemaOfficeList | undefined;
   /** DEPRECATED We do not triplify feed data, so this should not be used. Provenance information about the data contained in this record, if available. Depending on the value of dataset_id, this may not be set. */
-  provenance?: StorageGraphBfgProvenance;
+  provenance?: StorageGraphBfgProvenance | undefined;
   /** Only present in query responses. List of keys in the offices object, one for each office elected from this division. Will only be present if includeOffices was true (or absent) in the request. */
-  officeId?: StringList;
+  officeId?: StringList | undefined;
   /** The name of the division. */
-  name?: string;
+  name?: string | undefined;
   /** This field is used for indexing */
-  datasetId?: string;
-  geographicDivisionExt?: CivicinfoSchemaGeographicDivision;
+  datasetId?: string | undefined;
+  geographicDivisionExt?: CivicinfoSchemaGeographicDivision | undefined;
   /** Numerical value between 0 and 1 that expresses level of confidence that the location looked up is actually part of this district. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** Only present in query responses. List of indices in the offices array, one for each office elected from this division. Will only be present if includeOffices was true (or absent) in the request. */
-  officeIndices?: IntegerList;
+  officeIndices?: IntegerList | undefined;
   /** Any other valid OCD IDs that refer to the same division. Because OCD IDs are meant to be human-readable and at least somewhat predictable, there are occasionally several identifiers for a single division. These identifiers are defined to be equivalent to one another, and one is always indicated as the primary identifier. The primary identifier will be returned in ocd_id above, and any other equivalent valid identifiers will be returned in this list. For example, if this division's OCD ID is ocd-division/country:us/district:dc, this will contain ocd-division/country:us/state:dc. */
-  alsoKnownAs?: StringList;
+  alsoKnownAs?: StringList | undefined;
   /** If this is present, the division has been blocklisted, and will never be returned in API responses. */
-  blocklisted?: CivicinfoSchemaBlocklistEntry;
+  blocklisted?: CivicinfoSchemaBlocklistEntry | undefined;
 }
 export type CivicinfoSchemaGeographicDivisionMap = {
   [key: string]: CivicinfoSchemaGeographicDivision | undefined;
 };
 export interface CivicinfoApiprotosV2DivisionByAddressResponse {
   /** The normalized version of the requested address. */
-  normalizedInput?: CivicinfoSchemaSimpleAddressType;
-  divisions?: CivicinfoSchemaGeographicDivisionMap;
+  normalizedInput?: CivicinfoSchemaSimpleAddressType | undefined;
+  divisions?: CivicinfoSchemaGeographicDivisionMap | undefined;
 }
 export interface SearchDivisionsRequest {
   /** The search query. Queries can cover any parts of a OCD ID or a human readable division name. All words given in the query are treated as required patterns. In addition to that, most query operators of the Apache Lucene library are supported. See http://lucene.apache.org/core/2_9_4/queryparsersyntax.html */
-  query?: string;
+  query?: string | undefined;
 }
 /** Represents a political geographic division that matches the requested query. */
 export interface CivicinfoApiprotosV2DivisionSearchResult {
   /** The unique Open Civic Data identifier for this division */
-  ocdId?: string;
+  ocdId?: string | undefined;
   /** Other Open Civic Data identifiers that refer to the same division -- for example, those that refer to other political divisions whose boundaries are defined to be coterminous with this one. For example, ocd-division/country:us/state:wy will include an alias of ocd-division/country:us/state:wy/cd:1, since Wyoming has only one Congressional district. */
-  aliases?: StringList;
+  aliases?: StringList | undefined;
   /** The name of the division. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CivicinfoApiprotosV2DivisionSearchResultList =
   Array<CivicinfoApiprotosV2DivisionSearchResult>;
 /** The result of a division search query. */
 export interface CivicinfoApiprotosV2DivisionSearchResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "civicinfo#divisionSearchResponse". */
-  kind?: string;
-  results?: CivicinfoApiprotosV2DivisionSearchResultList;
+  kind?: string | undefined;
+  results?: CivicinfoApiprotosV2DivisionSearchResultList | undefined;
 }
 export interface VoterInfoQueryElectionsRequest {
   /** If set to true, only data from official state sources will be returned. */
-  officialOnly?: boolean;
+  officialOnly?: boolean | undefined;
   /** The unique ID of the election to look up. A list of election IDs can be obtained at https://www.googleapis.com/civicinfo/{version}/elections. If no election ID is specified in the query and there is more than one election with data for the given voter, the additional elections are provided in the otherElections response field. */
-  electionId?: string;
+  electionId?: string | undefined;
   /** The registered address of the voter to look up. */
-  address?: string;
+  address?: string | undefined;
   /** Whether to include data that has not been vetted yet. Should only be made available to internal IPs or trusted partners. This is a non-discoverable parameter in the One Platform API config. */
-  productionDataOnly?: boolean;
+  productionDataOnly?: boolean | undefined;
   /** If set to true, the query will return the success code and include any partial information when it is unable to determine a matching address or unable to determine the election for electionId=0 queries. */
-  returnAllAvailableData?: boolean;
+  returnAllAvailableData?: boolean | undefined;
 }
 /** Information pertaining to the version/history of an entity */
 export interface CivicinfoSchemaVersion {
   /** Epoch millis when the entity was first created */
-  createdAtMillis?: string;
+  createdAtMillis?: string | undefined;
   /** Epoch millis when the data feed that contains the entity was last processed by the pipeline */
-  lastProcessedAtMillis?: string;
+  lastProcessedAtMillis?: string | undefined;
   /** Epoch millis when the entity was last modified */
-  lastModifiedAtMillis?: string;
+  lastModifiedAtMillis?: string | undefined;
 }
 export interface CivicinfoSchemaPrecinct {
   /** ID(s) of the SpatialBoundary message(s) for this precinct. Used to specify a geometrical boundary of the precinct. */
-  spatialBoundaryId?: StringList;
+  spatialBoundaryId?: StringList | undefined;
   /** ID(s) of the PollingLocation message(s) for this precinct. */
-  earlyVoteSiteId?: StringList;
+  earlyVoteSiteId?: StringList | undefined;
   /** If present, this proto corresponds to one portion of split precinct. Other portions of this precinct are guaranteed to have the same `name`. If not present, this proto represents a full precicnt. */
-  splitName?: string;
+  splitName?: string | undefined;
   /** Required. Dataset ID. What datasets our Precincts come from. */
-  datasetId?: string;
+  datasetId?: string | undefined;
   /** ID(s) of the Contest message(s) for this precinct. */
-  contestId?: StringList;
+  contestId?: StringList | undefined;
   /** ID(s) of the PollingLocation message(s) for this precinct. */
-  pollingLocationId?: StringList;
+  pollingLocationId?: StringList | undefined;
   /** ID(s) of the ElectoralDistrict message(s) for this precinct. */
-  electoralDistrictId?: StringList;
+  electoralDistrictId?: StringList | undefined;
   /** The number of the precinct. */
-  number?: string;
+  number?: string | undefined;
   /** Specifies the ward the precinct is contained within. */
-  ward?: string;
+  ward?: string | undefined;
   /** Encouraged. The OCD ID of the precinct */
-  ocdId?: StringList;
+  ocdId?: StringList | undefined;
   /** Specifies if the precinct runs mail-only elections. */
-  mailOnly?: boolean;
+  mailOnly?: boolean | undefined;
   /** Required. The name of the precinct. */
-  name?: string;
+  name?: string | undefined;
   /** Versioning metadata */
-  version?: CivicinfoSchemaVersion;
+  version?: CivicinfoSchemaVersion | undefined;
   /** ID of the AdministrationRegion message for this precinct. Corresponds to LocalityId xml tag. */
-  administrationRegionId?: string;
+  administrationRegionId?: string | undefined;
   /** Required. A unique identifier for this precinct. */
-  id?: string;
+  id?: string | undefined;
 }
 export type CivicinfoSchemaPrecinctList = Array<CivicinfoSchemaPrecinct>;
 /** Statistics about the proximity between a polling location and the street segments that map to it. */
 export interface CivicinfoSchemaVoterProximityStats {
   /** Mean distance between each street segment and the polling location */
-  meanDistanceMiles?: number;
+  meanDistanceMiles?: number | undefined;
   /** Normalized distance (by population density) to the polling location */
-  normalizedDistanceByPopulationDensity?: number;
+  normalizedDistanceByPopulationDensity?: number | undefined;
   /** Number of segments that map to the polling location */
-  streetSegmentCount?: string;
+  streetSegmentCount?: string | undefined;
   /** Max distance between any street segment */
-  maxDistanceMiles?: number;
+  maxDistanceMiles?: number | undefined;
   /** Min distance between any street segment and the polling location */
-  minDistanceMiles?: number;
+  minDistanceMiles?: number | undefined;
 }
 export type CivicinfoSchemaPollingLocationGeocodingValidationStatusEnum =
   | "unknown"
@@ -1292,86 +1294,88 @@ export type CivicinfoSchemaPollingLocationGeocodingValidationStatusEnum =
   | "rejectedVoterProximity"
   | "uncertainThirdParty";
 export interface GeostorePointProto {
-  lngE7?: number;
-  latE7?: number;
+  lngE7?: number | undefined;
+  latE7?: number | undefined;
   /** A place for clients to attach arbitrary data to a point. Never set in MapFacts. */
-  temporaryData?: Proto2BridgeMessageSet;
+  temporaryData?: Proto2BridgeMessageSet | undefined;
 }
 /** Message that encapsulates a time interval. */
 export interface CivicinfoSchemaTimeInterval {
   /** Closing time in ISO format (HH:mm:ss['Z'|('+'|'-')HH:mm]) e.g. 20:00:00-07:00 */
-  end?: string;
+  end?: string | undefined;
   /** Open time in ISO format (HH:mm:ss['Z'|('+'|'-')HH:mm]) e.g. 06:00:00-07:00 */
-  start?: string;
+  start?: string | undefined;
 }
 export type CivicinfoSchemaTimeIntervalList = Array<CivicinfoSchemaTimeInterval>;
 /** Message that encapsulates polling hours. */
 export interface CivicinfoSchemaPollingHours {
   /** Or by appointment */
-  oba?: boolean;
-  time?: CivicinfoSchemaTimeIntervalList;
+  oba?: boolean | undefined;
+  time?: CivicinfoSchemaTimeIntervalList | undefined;
   /** Start date in ISO format (yyyy-MM-dd) e.g. 2012-11-06 */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Start date in ISO format (yyyy-MM-dd) e.g. 2012-11-06 */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export type CivicinfoSchemaPollingHoursList = Array<CivicinfoSchemaPollingHours>;
 /** A location where a voter can vote. This may be an early vote site, an election day voting location, or a drop off location for a completed ballot. */
 export interface CivicinfoSchemaPollingLocation {
-  datasetId?: string;
+  datasetId?: string | undefined;
   /** If this is not null, the polling location has been blocklisted, and will never be returned in API responses. */
-  blocklisted?: CivicinfoSchemaBlocklistEntry;
+  blocklisted?: CivicinfoSchemaBlocklistEntry | undefined;
   /** Statistics about the proximity of the polling location and the street segments that map to it. */
-  voterProximityStats?: CivicinfoSchemaVoterProximityStats;
+  voterProximityStats?: CivicinfoSchemaVoterProximityStats | undefined;
   /** Latitude of the location, in degrees north of the equator. Only some locations -- generally, ballot drop boxes for vote-by-mail elections -- will have this set; for others, use a geocoding service like the Google Maps API to resolve the address to a geographic point. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** The first date that this early vote site or drop off location may be used. This field is not populated for polling locations. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Validation status of the geocoding for the polling location */
-  geocodingValidationStatus?: CivicinfoSchemaPollingLocationGeocodingValidationStatusEnum;
+  geocodingValidationStatus?:
+    | CivicinfoSchemaPollingLocationGeocodingValidationStatusEnum
+    | undefined;
   /** A list of sources for this location. If multiple sources are listed the data has been aggregated from those sources. */
-  sources?: CivicinfoSchemaSourceList;
+  sources?: CivicinfoSchemaSourceList | undefined;
   /** The name of the early vote site or drop off location. This field is not populated for polling locations. */
-  name?: string;
+  name?: string | undefined;
   /** Is this site a ballot drop off location. This is true if the site is a ballot drop off location, regardless of whether it is also an early vote location. */
-  isDropOffLocation?: boolean;
+  isDropOffLocation?: boolean | undefined;
   /** The address of the polling location as a list of address lines. These come from the source data in VIP 5.0 and are geocoded to populate the structured address field above that is ultimately returned in the API. */
-  addressLine?: StringList;
-  version?: CivicinfoSchemaVersion;
+  addressLine?: StringList | undefined;
+  version?: CivicinfoSchemaVersion | undefined;
   /** OCD IDs for this polling location constructed from the geocoding result */
-  geocodedOcdId?: StringList;
+  geocodedOcdId?: StringList | undefined;
   /** Dates included in unstructured polling hours. */
-  startEndDatesAreRedundant?: boolean;
+  startEndDatesAreRedundant?: boolean | undefined;
   /** Lat/Lng obtained from geocoding the polling location address. */
-  geocodedPoint?: GeostorePointProto;
+  geocodedPoint?: GeostorePointProto | undefined;
   /** Lat/Lng provided by the raw data source. */
-  thirdPartyPoint?: GeostorePointProto;
+  thirdPartyPoint?: GeostorePointProto | undefined;
   /** Polling hours in structured form. */
-  structuredPollingHours?: CivicinfoSchemaPollingHoursList;
+  structuredPollingHours?: CivicinfoSchemaPollingHoursList | undefined;
   /** The OCD IDs for this polling location. Only used for unofficially sourced EV locations. */
-  ocdId?: StringList;
+  ocdId?: StringList | undefined;
   /** These are additional fields related to the Early Vote Site objects. Surface in API as a separate list. No need to expose publicly. This is true if the location is an early vote location, regardless of whether it is also a drop off location. */
-  isEarlyVoteSite?: boolean;
+  isEarlyVoteSite?: boolean | undefined;
   /** A description of when this location is open. */
-  pollingHours?: string;
+  pollingHours?: string | undefined;
   /** Indicates that the proto was manually updated and should not be overwritten by the pipeline. */
-  manuallyUpdated?: boolean;
+  manuallyUpdated?: boolean | undefined;
   /** The name of the polling location, as provided by the data provider. */
-  providedLocationName?: string;
+  providedLocationName?: string | undefined;
   /** Notes about this location (e.g. accessibility ramp or entrance to use). */
-  notes?: string;
+  notes?: string | undefined;
   /** The last date that this early vote site or drop off location may be used. This field is not populated for polling locations. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Detailed summary about the polling location's geocoding */
-  geocodingSummary?: CivicinfoCommonGeocodingSummary;
+  geocodingSummary?: CivicinfoCommonGeocodingSummary | undefined;
   /** Longitude of the location, in degrees east of the Prime Meridian. Only some locations -- generally, ballot drop boxes for vote-by-mail elections -- will have this set; for others, use a geocoding service like the Google Maps API to resolve the address to a geographic point. */
-  longitude?: number;
+  longitude?: number | undefined;
   /** The address of the location. */
-  address?: CivicinfoSchemaSimpleAddressType;
-  internal_id?: string;
-  electionId?: string;
+  address?: CivicinfoSchemaSimpleAddressType | undefined;
+  internal_id?: string | undefined;
+  electionId?: string | undefined;
   /** The services provided by this early vote site or drop off location. This field is not populated for polling locations. */
-  voterServices?: string;
+  voterServices?: string | undefined;
 }
 export type CivicinfoSchemaPollingLocationList = Array<CivicinfoSchemaPollingLocation>;
 export type CivicinfoSchemaElectoralDistrictScopeEnum =
@@ -1392,20 +1396,20 @@ export type CivicinfoSchemaElectoralDistrictScopeEnum =
 /** Describes the geographic scope of a contest. */
 export interface CivicinfoSchemaElectoralDistrict {
   /** Foreign key (e.g. object of /type/object/key predicate) for this district in KG, if available. KG foreign keys for districts take the form /authority/civics/$canonical_ocd_id, with the specific exception that if the district is being used in the context of a Congressional election, the alias that has a /cd: component is preferred. */
-  kgForeignKey?: string;
+  kgForeignKey?: string | undefined;
   /** An unverified OCD Division ID for this district. This could be an OCD ID we don't know about yet. We were unable to find it in our copy of the master repository. */
-  unverifiedOcdId?: string;
+  unverifiedOcdId?: string | undefined;
   /** The OCD Division ID for this district. */
-  ocdId?: string;
+  ocdId?: string | undefined;
   /** An identifier for this district, relative to its scope. For example, the 34th State Senate district would have id "34" and a scope of stateUpper. */
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   /** The state that this district is in. This is not returned in the API for now. This should be a lower case 2 digit abbreviation. */
-  state?: string;
+  state?: string | undefined;
   /** The geographic scope of this district. If unspecified the district's geography is not known. One of: national, statewide, congressional, stateUpper, stateLower, countywide, judicial, schoolBoard, cityWide, township, countyCouncil, cityCouncil, ward, special */
-  scope?: CivicinfoSchemaElectoralDistrictScopeEnum;
+  scope?: CivicinfoSchemaElectoralDistrictScopeEnum | undefined;
   /** The id from the XML feed. */
-  feedId?: string;
+  feedId?: string | undefined;
 }
 export type CivicinfoSchemaContestLevelItemEnum =
   | "international"
@@ -1421,59 +1425,59 @@ export type CivicinfoSchemaContestLevelItemEnumList = Array<CivicinfoSchemaConte
 /** A localized string stored in the CIS DB. */
 export interface CivicinfoSchemaLocalizedString {
   /** The actual text of this string. */
-  text?: string;
+  text?: string | undefined;
   /** The ISO 639-1 language code for this string, e.g. "en" */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type CivicinfoSchemaLocalizedStringList = Array<CivicinfoSchemaLocalizedString>;
 /** Information about a candidate running for elected office. */
 export interface CivicinfoSchemaCandidate {
   /** Upstream identifier, if they use a string */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** A URL for a photo of the candidate. */
-  photoUrl?: string;
+  photoUrl?: string | undefined;
   /** The URL for the candidate's campaign web site. */
-  candidateUrl?: string;
+  candidateUrl?: string | undefined;
   /** Whether the candidate is an incumbent (i.e., currently holds the same office this contest elects). If absent, this was unspecified in the source data. */
-  isIncumbent?: boolean;
-  name?: string;
+  isIncumbent?: boolean | undefined;
+  name?: string | undefined;
   /** A list of known (social) media channels for this candidate. */
-  channels?: CivicinfoSchemaChannelList;
+  channels?: CivicinfoSchemaChannelList | undefined;
   /** The candidate's profession (e.g. businessman, lawyer), presumably pre-politics. */
-  profession?: string;
+  profession?: string | undefined;
   /** Next ID: 23 A unique id from the connected Person object. */
-  personId?: string;
+  personId?: string | undefined;
   /** The email address for the candidate's campaign. */
-  email?: string;
-  id?: string;
+  email?: string | undefined;
+  id?: string | undefined;
   /** A URL for a photo of the candidate, to be used only with Search. */
-  searchImageUrl?: string;
+  searchImageUrl?: string | undefined;
   /** The officially filed mailing address of the candidate. */
-  filedMailingAddress?: CivicinfoSchemaSimpleAddressType;
+  filedMailingAddress?: CivicinfoSchemaSimpleAddressType | undefined;
   /** The order the candidate appears on the ballot for this contest. */
-  orderOnBallot?: string;
+  orderOnBallot?: string | undefined;
   /** Foreign key (e.g. object of /type/object/key predicate) for this candidate in KG, if available. Foreign keys for candidates are based on the candidate's identifier in the source dataset; right now, only BIP candidates get one, and the FKs take the form /authority/civics/bip_candidate/$ctcl_uuid. */
-  kgForeignKey?: string;
-  biography?: string;
+  kgForeignKey?: string | undefined;
+  biography?: string | undefined;
   /** This is always populated with the name of a single candidate, as opposed to the name field above that may be a concatenation of names in a ticket. In a joint ticket this field either refers to the name of the top ticket candidate or the name of the running mate. */
-  candidateName?: string;
+  candidateName?: string | undefined;
   /** The voice phone number for the candidate's campaign office. */
-  phone?: string;
+  phone?: string | undefined;
   /** MID of candidate in knowledge graph, when available. */
-  mid?: string;
+  mid?: string | undefined;
   /** The full name of the party the candidate is a member of. */
-  party?: string;
+  party?: string | undefined;
   /** The source-specified order of this candidate on the ballot for this contest. */
-  sortOrder?: number;
+  sortOrder?: number | undefined;
   /** A list of proto fields that came from unofficial sources This is not surfaced back in the API. We will use this to trim out the response if only official data is requested. */
-  unofficiallySourcedField?: StringList;
+  unofficiallySourcedField?: StringList | undefined;
   /** If the race is a joint ticket, this contains a pointer to the candidate's running mate. */
-  runningMate?: CivicinfoSchemaCandidate;
+  runningMate?: CivicinfoSchemaCandidate | undefined;
 }
 export type CivicinfoSchemaCandidateList = Array<CivicinfoSchemaCandidate>;
 export interface CivicinfoSchemaReferendumTopic {
   /** The name of the topic. For example, "State Budget" or "Healthcare". */
-  name?: string;
+  name?: string | undefined;
 }
 export type CivicinfoSchemaReferendumTopicList = Array<CivicinfoSchemaReferendumTopic>;
 export type CivicinfoSchemaContestLevel_v1Enum = "federal" | "state" | "county" | "city" | "other";
@@ -1493,204 +1497,204 @@ export type CivicinfoSchemaContestRolesItemEnum =
 export type CivicinfoSchemaContestRolesItemEnumList = Array<CivicinfoSchemaContestRolesItemEnum>;
 export interface CivicinfoSchemaBallot {
   /** The candidate choices for this contest. This field used to be flattened up to the Contest message with the "flatten_message" annotation. Now, the candidates are explicitly flattened in code to Contest.candidate. */
-  ballotCandidates?: CivicinfoSchemaCandidateList;
+  ballotCandidates?: CivicinfoSchemaCandidateList | undefined;
 }
 /** Information about a contest that appears on a voter's ballot. */
 export interface CivicinfoSchemaContest {
-  contestExt?: CivicinfoSchemaContest;
+  contestExt?: CivicinfoSchemaContest | undefined;
   /** Specifies a short summary of the referendum that is typically on the ballot below the title but above the text. This field is only populated for contests of type 'Referendum'. */
-  referendumBrief?: string;
+  referendumBrief?: string | undefined;
   /** The number of candidates that a voter may vote for in this contest. */
-  numberVotingFor?: string;
+  numberVotingFor?: string | undefined;
   /** Information about the jurisdiction that this office has (as opposed to the set of voters that elect the office). */
-  jurisdiction?: CivicinfoSchemaElectoralDistrict;
+  jurisdiction?: CivicinfoSchemaElectoralDistrict | undefined;
   /** The levels of government of the office for this contest. There may be more than one in cases where a jurisdiction effectively acts at two different levels of government; for example, the mayor of the District of Columbia acts at "locality" level, but also effectively at both "administrative-area-2" and "administrative-area-1". */
-  level?: CivicinfoSchemaContestLevelItemEnumList;
+  level?: CivicinfoSchemaContestLevelItemEnumList | undefined;
   /** The set of ballot responses for the referendum. A ballot response represents a line on the ballot. Common examples might include "yes" or "no" for referenda. This field is only populated for contests of type 'Referendum'. */
-  referendumBallotResponses?: StringList;
+  referendumBallotResponses?: StringList | undefined;
   /** If this is a partisan election, the name of the party/parties it is for. */
-  primaryParties?: StringList;
+  primaryParties?: StringList | undefined;
   /** The KG MID (type:/government/election) of this contest. */
-  contestMid?: string;
+  contestMid?: string | undefined;
   /** A description of any additional eligibility requirements for voting in this contest. */
-  electorateSpecifications?: string;
+  electorateSpecifications?: string | undefined;
   /** When does the winner take office? "yyyy-MM-dd" */
-  startDate?: string;
-  isRetention?: boolean;
+  startDate?: string | undefined;
+  isRetention?: boolean | undefined;
   /** The title of the referendum (e.g. 'Proposition 42'). This field is only populated for contests of type 'Referendum'. */
-  referendumTitle?: string;
+  referendumTitle?: string | undefined;
   /** The full text of the referendum. This field is only populated for contests of type 'Referendum'. */
-  referendumText?: string;
+  referendumText?: string | undefined;
   /** A description of the office this candidate is running for in 300 characters or less. The language is in the user's locale (obtained from the request). If the locale cannot be determined, an available English description is returned. */
-  officeDescription?: string;
+  officeDescription?: string | undefined;
   /** Localized descriptions of the office this candidate is running for in 300 characters or less. The entries should be treated as a map. The same locale should not occur more than once. */
-  localizedOfficeDescription?: CivicinfoSchemaLocalizedStringList;
+  localizedOfficeDescription?: CivicinfoSchemaLocalizedStringList | undefined;
   /** The official title on the ballot for this contest, only where available. */
-  ballotTitle?: string;
+  ballotTitle?: string | undefined;
   /** The candidate choices for this contest. This field is populated by a manual flattening in code of the Ballot.candidate field. */
-  candidates?: CivicinfoSchemaCandidateList;
+  candidates?: CivicinfoSchemaCandidateList | undefined;
   /** The contest id for the general election. This is a vendor-specific identifier that doesn't correspond to a CIS identifier. */
-  generalElectionContestId?: string;
+  generalElectionContestId?: string | undefined;
   /** A list of topics of a referendum. This field is only populated for contests of the type 'Referendum'. */
-  referendumTopic?: CivicinfoSchemaReferendumTopicList;
+  referendumTopic?: CivicinfoSchemaReferendumTopicList | undefined;
   /** The level of office for this contest. One of: federal, state, county, city, other */
-  level_v1?: CivicinfoSchemaContestLevel_v1Enum;
+  level_v1?: CivicinfoSchemaContestLevel_v1Enum | undefined;
   /** The name of the office for this contest. */
-  office?: string;
+  office?: string | undefined;
   /** Extra disambiguating text for distinct seats within the same office (and district, where applicable). */
-  seat?: string;
+  seat?: string | undefined;
   /** This is basically never populated and is implied by the type being "Primary" in most cases. We'll add this back if it proves to be useful. */
-  partisan?: string;
+  partisan?: string | undefined;
   /** "Yes" or "No" depending on whether this a contest being held outside the normal election cycle. */
-  special?: string;
-  internal_id?: string;
-  datasetId?: string;
+  special?: string | undefined;
+  internal_id?: string | undefined;
+  datasetId?: string | undefined;
   /** Specifies what effect abstaining (not voting) on the proposition will have (i.e. whether abstaining is considered a vote against it). This field is only populated for contests of type 'Referendum'. */
-  referendumEffectOfAbstain?: string;
+  referendumEffectOfAbstain?: string | undefined;
   /** A link to the referendum. This field is only populated for contests of type 'Referendum'. */
-  referendumUrl?: string;
+  referendumUrl?: string | undefined;
   /** A list of sources for this contest. If multiple sources are listed, the data has been aggregated from those sources. */
-  sources?: CivicinfoSchemaSourceList;
+  sources?: CivicinfoSchemaSourceList | undefined;
   /** A number specifying the position of this contest on the voter's ballot. */
-  ballotPlacement?: string;
-  electionId?: string;
+  ballotPlacement?: string | undefined;
+  electionId?: string | undefined;
   /** If this is not null, the contest has been blocklisted, and will never be returned in API responses. */
-  blocklisted?: CivicinfoSchemaBlocklistEntry;
+  blocklisted?: CivicinfoSchemaBlocklistEntry | undefined;
   /** The roles which this office fulfills. */
-  roles?: CivicinfoSchemaContestRolesItemEnumList;
+  roles?: CivicinfoSchemaContestRolesItemEnumList | undefined;
   /** Indicates that the proto was manually updated and should not be overwritten by the pipeline. */
-  manuallyUpdated?: boolean;
+  manuallyUpdated?: boolean | undefined;
   /** The number of candidates that will be elected to office in this contest. */
-  numberElected?: string;
+  numberElected?: string | undefined;
   /** The category of the office. This should describe the governmental body w/o geographic identifiers. For example, the NC State Senate might be described as "State Senate". For now this is a string but we may deprecate it for an enumeration in the future. */
-  officeCategory?: string;
+  officeCategory?: string | undefined;
   /** The threshold of votes that the referendum needs in order to pass, e.g. "two-thirds". This field is only populated for contests of type 'Referendum'. */
-  referendumPassageThreshold?: string;
-  version?: CivicinfoSchemaVersion;
+  referendumPassageThreshold?: string | undefined;
+  version?: CivicinfoSchemaVersion | undefined;
   /** The specific governmental body the office is a part of, including the jurisdiction. */
-  officeBody?: string;
+  officeBody?: string | undefined;
   /** The candidates. The Ballot object is flattened in code to the Contest.candidate field when it is returned through the API so this field doesn't need to be exposed. */
-  ballot?: CivicinfoSchemaBallot;
+  ballot?: CivicinfoSchemaBallot | undefined;
   /** A brief description of the referendum. This field is only populated for contests of type 'Referendum'. */
-  referendumSubtitle?: string;
+  referendumSubtitle?: string | undefined;
   /** A statement in favor of the referendum. It does not necessarily appear on the ballot. This field is only populated for contests of type 'Referendum'. */
-  referendumProStatement?: string;
+  referendumProStatement?: string | undefined;
   /** A statement in opposition to the referendum. It does not necessarily appear on the ballot. This field is only populated for contests of type 'Referendum'. */
-  referendumConStatement?: string;
+  referendumConStatement?: string | undefined;
   /** Information about the electoral district that this contest is in. */
-  district?: CivicinfoSchemaElectoralDistrict;
-  type?: string;
+  district?: CivicinfoSchemaElectoralDistrict | undefined;
+  type?: string | undefined;
 }
 export type CivicinfoSchemaContestList = Array<CivicinfoSchemaContest>;
 /** Information about individual election officials. */
 export interface CivicinfoSchemaElectionOfficial {
   /** The email address of the election official. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** The full name of the election official. */
-  name?: string;
+  name?: string | undefined;
   /** The title of the election official. */
-  title?: string;
+  title?: string | undefined;
   /** The office phone number of the election official. */
-  officePhoneNumber?: string;
+  officePhoneNumber?: string | undefined;
   /** The fax number of the election official. */
-  faxNumber?: string;
-  id?: string;
+  faxNumber?: string | undefined;
+  id?: string | undefined;
 }
 export type CivicinfoSchemaElectionOfficialList = Array<CivicinfoSchemaElectionOfficial>;
 /** Information about an election administrative body (e.g. County Board of Elections). */
 export interface CivicinfoSchemaAdministrativeBody {
   /** A URL provided by this administrative body describing election rules to the voter. */
-  electionRulesUrl?: string;
+  electionRulesUrl?: string | undefined;
   /** A URL provided by this administrative body for information on absentee voting. */
-  absenteeVotingInfoUrl?: string;
+  absenteeVotingInfoUrl?: string | undefined;
   /** The election officials for this election administrative body. */
-  electionOfficials?: CivicinfoSchemaElectionOfficialList;
+  electionOfficials?: CivicinfoSchemaElectionOfficialList | undefined;
   /** A URL provided by this administrative body for looking up general election information. */
-  electionInfoUrl?: string;
+  electionInfoUrl?: string | undefined;
   /** A description of the hours of operation for this administrative body. */
-  hoursOfOperation?: string;
-  id?: string;
+  hoursOfOperation?: string | undefined;
+  id?: string | undefined;
   /** A URL provided by this administrative body to give contest information to the voter. */
-  ballotInfoUrl?: string;
+  ballotInfoUrl?: string | undefined;
   /** The mailing address of this administrative body. */
-  correspondenceAddress?: CivicinfoSchemaSimpleAddressType;
+  correspondenceAddress?: CivicinfoSchemaSimpleAddressType | undefined;
   /** An optional url for additional information related to the election notice. */
-  electionNoticeUrl?: string;
+  electionNoticeUrl?: string | undefined;
   /** A URL provided by this administrative body for confirming that the voter is registered to vote. */
-  electionRegistrationConfirmationUrl?: string;
+  electionRegistrationConfirmationUrl?: string | undefined;
   /** A URL provided by this administrative body for looking up how to register to vote. */
-  electionRegistrationUrl?: string;
+  electionRegistrationUrl?: string | undefined;
   /** The address of the administrative body as a list of address lines. These come from the source data in VIP 5.0 and are geocoded to populate the structured physical_address field above that is ultimately returned in the API. */
-  addressLine?: StringList;
+  addressLine?: StringList | undefined;
   /** A URL provided by this administrative body for looking up where to vote. */
-  votingLocationFinderUrl?: string;
+  votingLocationFinderUrl?: string | undefined;
   /** A description of the services this administrative body may provide. */
-  voter_services?: StringList;
+  voter_services?: StringList | undefined;
   /** A last minute or emergency notification text would be placed here. */
-  electionNoticeText?: string;
+  electionNoticeText?: string | undefined;
   /** The physical address of this administrative body. */
-  physicalAddress?: CivicinfoSchemaSimpleAddressType;
+  physicalAddress?: CivicinfoSchemaSimpleAddressType | undefined;
   /** A URL provided by this administrative body to provide tracking information for a ballot cast by mail. */
-  ballotTrackingUrl?: string;
+  ballotTrackingUrl?: string | undefined;
   /** The name of this election administrative body. */
-  name?: string;
+  name?: string | undefined;
   /** A URL provided by this administrative body to provide tracking information for a provisional ballot. To support EAC guidelines for "Processing Provisional Ballots" */
-  ballotProvisionalTrackingUrl?: string;
+  ballotProvisionalTrackingUrl?: string | undefined;
 }
 /** Describes information about a regional election administrative area. */
 export interface CivicinfoSchemaAdministrationRegion {
-  encompassingRegionCode?: string;
-  internal_id?: string;
+  encompassingRegionCode?: string | undefined;
+  internal_id?: string | undefined;
   /** Indicates that the proto was manually updated and should not be overwritten by the pipeline. */
-  manuallyUpdated?: boolean;
-  version?: CivicinfoSchemaVersion;
+  manuallyUpdated?: boolean | undefined;
+  version?: CivicinfoSchemaVersion | undefined;
   /** The unique governmental code assigned for this region. In the US this is a FIPS code */
-  code?: string;
+  code?: string | undefined;
   /** These fields are used for indexing */
-  datasetId?: string;
+  datasetId?: string | undefined;
   /** The list of all polling location IDs for this region, including day-of. */
-  pollingLocationId?: StringList;
+  pollingLocationId?: StringList | undefined;
   /** TODO(csabnis) Remove this as we shouldn't need it. */
-  electionId?: string;
+  electionId?: string | undefined;
   /** If this is not null, the region has been blocklisted, and will never be returned in API responses. */
-  blocklisted?: CivicinfoSchemaBlocklistEntry;
-  encompassingRegionId?: string;
+  blocklisted?: CivicinfoSchemaBlocklistEntry | undefined;
+  encompassingRegionId?: string | undefined;
   /** The following fields are only used during serving, are not persisted. */
-  local_jurisdiction?: CivicinfoSchemaAdministrationRegion;
+  local_jurisdiction?: CivicinfoSchemaAdministrationRegion | undefined;
   /** The election administration body for this area. */
-  electionAdministrationBody?: CivicinfoSchemaAdministrativeBody;
-  name?: string;
+  electionAdministrationBody?: CivicinfoSchemaAdministrativeBody | undefined;
+  name?: string | undefined;
   /** A list of sources for this area. If multiple sources are listed the data has been aggregated from those sources. */
-  sources?: CivicinfoSchemaSourceList;
+  sources?: CivicinfoSchemaSourceList | undefined;
   /** The list of unofficial early vote site IDs for this region, if any. */
-  earlyVoteSiteId?: StringList;
+  earlyVoteSiteId?: StringList | undefined;
 }
 export type CivicinfoSchemaAdministrationRegionList = Array<CivicinfoSchemaAdministrationRegion>;
 /** The result of a voter info lookup query. */
 export interface CivicinfoApiprotosV2VoterInfoResponse {
   /** The precincts that match this voter's address. Will only be returned for project IDs which have been allowlisted as "partner projects". */
-  precincts?: CivicinfoSchemaPrecinctList;
+  precincts?: CivicinfoSchemaPrecinctList | undefined;
   /** Locations where a voter is eligible to drop off a completed ballot. The voter must have received and completed a ballot prior to arriving at the location. The location may not have ballots available on the premises. These locations could be open on or before election day as indicated in the pollingHours field. */
-  dropOffLocations?: CivicinfoSchemaPollingLocationList;
+  dropOffLocations?: CivicinfoSchemaPollingLocationList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "civicinfo#voterInfoResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Specifies whether voters in the precinct vote only by mailing their ballots (with the possible option of dropping off their ballots as well). */
-  mailOnly?: boolean;
+  mailOnly?: boolean | undefined;
   /** The election that was queried. */
-  election?: CivicinfoSchemaElection;
-  precinctId?: string;
+  election?: CivicinfoSchemaElection | undefined;
+  precinctId?: string | undefined;
   /** When there are multiple elections for a voter address, the otherElections field is populated in the API response and there are two possibilities: 1. If the earliest election is not the intended election, specify the election ID of the desired election in a second API request using the electionId field. 2. If these elections occur on the same day, the API doesn?t return any polling location, contest, or election official information to ensure that an additional query is made. For user-facing applications, we recommend displaying these elections to the user to disambiguate. A second API request using the electionId field should be made for the election that is relevant to the user. */
-  otherElections?: CivicinfoSchemaElectionList;
+  otherElections?: CivicinfoSchemaElectionList | undefined;
   /** Contests that will appear on the voter's ballot. */
-  contests?: CivicinfoSchemaContestList;
+  contests?: CivicinfoSchemaContestList | undefined;
   /** Locations where the voter is eligible to vote early, prior to election day. */
-  earlyVoteSites?: CivicinfoSchemaPollingLocationList;
+  earlyVoteSites?: CivicinfoSchemaPollingLocationList | undefined;
   /** The normalized version of the requested address */
-  normalizedInput?: CivicinfoSchemaSimpleAddressType;
+  normalizedInput?: CivicinfoSchemaSimpleAddressType | undefined;
   /** Locations where the voter is eligible to vote on election day. */
-  pollingLocations?: CivicinfoSchemaPollingLocationList;
+  pollingLocations?: CivicinfoSchemaPollingLocationList | undefined;
   /** Local Election Information for the state that the voter votes in. For the US, there will only be one element in this array. */
-  state?: CivicinfoSchemaAdministrationRegionList;
+  state?: CivicinfoSchemaAdministrationRegionList | undefined;
 }
 export type ElectionQueryElectionsError = NotFound | Forbidden | GcpOpError;
 /** List of available elections to query. */

@@ -39,7 +39,7 @@ export interface ApproverInput {
   /** Entra ObjectID of the approver */
   approverEntraId: string;
   /** Action Performed by approver */
-  actionPerformed?: ActionPerformed | (string & {});
+  actionPerformed?: ActionPerformed | (string & {}) | undefined;
   /** approval request last updated at */
   lastUpdatedAt: string;
 }
@@ -57,26 +57,26 @@ export interface RequestMetadata {
   /** Resource Action of the item being approved or declined. */
   resourceAction: string;
   /** Route name for the approval callback */
-  approvalCallbackRoute?: string;
+  approvalCallbackRoute?: string | undefined;
   /** Payload to be sent upon any action on approval request */
-  approvalCallbackPayload?: string;
+  approvalCallbackPayload?: string | undefined;
   /** Status of the approval. Uses ApprovalStatus enum. */
-  approvalStatus?: RequestMetadataApprovalStatus | (string & {});
+  approvalStatus?: RequestMetadataApprovalStatus | (string & {}) | undefined;
 }
 /** Approval Base model. */
 export interface ApprovalPropertiesInput {
   /** Parameter for optimizing query results */
-  parentResourceId?: string;
+  parentResourceId?: string | undefined;
   /** Parameter for optimizing query results */
-  grandparentResourceId?: string;
+  grandparentResourceId?: string | undefined;
   /** List of approvers for the approval request */
-  approvers?: ApprovalPropertiesInputApproversList;
+  approvers?: ApprovalPropertiesInputApproversList | undefined;
   /** Ticket ID for the approval request */
-  ticketId?: string;
+  ticketId?: string | undefined;
   /** Approval request creation time */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Approval request state change time, time at which approval request state changed from pending to approved or rejected. */
-  stateChangedAt?: string;
+  stateChangedAt?: string | undefined;
   /** Request metadata for the approval request. */
   requestMetadata: RequestMetadata;
 }
@@ -86,7 +86,7 @@ export interface ApprovalCreateOrUpdateRequest {
   /** The name of the approvals resource. */
   approvalName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ApprovalPropertiesInput;
+  properties?: ApprovalPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -95,17 +95,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning status of the resource. */
 export type ProvisioningState =
@@ -125,11 +125,11 @@ export interface Approver {
   /** Entra ObjectID of the approver */
   approverEntraId: string;
   /** Action Performed by approver */
-  actionPerformed?: ActionPerformed;
+  actionPerformed?: ActionPerformed | undefined;
   /** approval request last updated at */
   lastUpdatedAt: string;
   /** Indicates if this approver is part of a mandatory approver group with list of Entra IDs */
-  mandatoryApprovalGroupMembershipIds?: ApproverMandatoryApprovalGroupMembershipIdsList;
+  mandatoryApprovalGroupMembershipIds?: ApproverMandatoryApprovalGroupMembershipIdsList | undefined;
 }
 /** List of approvers for the approval request */
 export type ApprovalPropertiesApproversList = Array<Approver>;
@@ -145,47 +145,47 @@ export type ApprovalPropertiesApprovedByEntraIdsList = Array<string>;
 /** Approval Base model. */
 export interface ApprovalProperties {
   /** Provisioning State. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Parameter for optimizing query results */
-  parentResourceId?: string;
+  parentResourceId?: string | undefined;
   /** Parameter for optimizing query results */
-  grandparentResourceId?: string;
+  grandparentResourceId?: string | undefined;
   /** List of approvers for the approval request */
-  approvers?: ApprovalPropertiesApproversList;
+  approvers?: ApprovalPropertiesApproversList | undefined;
   /** Ticket ID for the approval request */
-  ticketId?: string;
+  ticketId?: string | undefined;
   /** Approval request creation time */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Approval request state change time, time at which approval request state changed from pending to approved or rejected. */
-  stateChangedAt?: string;
+  stateChangedAt?: string | undefined;
   /** List of mandatory approvers for the approval request */
-  mandatoryApprovers?: ApprovalPropertiesMandatoryApproversList;
+  mandatoryApprovers?: ApprovalPropertiesMandatoryApproversList | undefined;
   /** Minimum number of approvers required for the approval request */
-  minimumApproversRequired?: number;
+  minimumApproversRequired?: number | undefined;
   /** Current count of minimum approvers required */
-  approversApprovedCount?: number;
+  approversApprovedCount?: number | undefined;
   /** Current count of mandatory approvers that have approved */
-  mandatoryApproversApprovedCount?: number;
+  mandatoryApproversApprovedCount?: number | undefined;
   /** Array of Entra IDs of approvers who have approved the approval request */
-  approvedByEntraIds?: ApprovalPropertiesApprovedByEntraIdsList;
+  approvedByEntraIds?: ApprovalPropertiesApprovedByEntraIdsList | undefined;
   /** Request metadata for the approval request. */
   requestMetadata: RequestMetadata;
 }
 export interface ApprovalCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApprovalProperties;
+  properties?: ApprovalProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Subnet Configuration */
 export interface SubnetConfigurationInput {
@@ -194,7 +194,7 @@ export interface SubnetConfigurationInput {
   /** Network prefix size. */
   networkPrefixSize: number;
   /** Subnet delegation. */
-  subnetDelegation?: string;
+  subnetDelegation?: string | undefined;
 }
 /** Subnet Configurations. */
 export type EnclaveVirtualNetworkModelInputSubnetConfigurationsList =
@@ -202,15 +202,15 @@ export type EnclaveVirtualNetworkModelInputSubnetConfigurationsList =
 /** Enclave Virtual Network Properties */
 export interface EnclaveVirtualNetworkModelInput {
   /** Network Name. */
-  networkName?: string;
+  networkName?: string | undefined;
   /** Network Size. */
-  networkSize?: string;
+  networkSize?: string | undefined;
   /** Custom CIDR Range. */
-  customCidrRange?: string;
+  customCidrRange?: string | undefined;
   /** Subnet Configurations. */
-  subnetConfigurations?: EnclaveVirtualNetworkModelInputSubnetConfigurationsList;
+  subnetConfigurations?: EnclaveVirtualNetworkModelInputSubnetConfigurationsList | undefined;
   /** Allow Subnet Communication. */
-  allowSubnetCommunication?: boolean;
+  allowSubnetCommunication?: boolean | undefined;
 }
 export interface CheckCommunityAddressSpaceAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -261,11 +261,11 @@ export interface GovernedServiceItemInput {
   /** Service ID */
   serviceId: ServiceIdentifier | (string & {});
   /** Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable). */
-  option?: GovernedServiceItemOption | (string & {});
+  option?: GovernedServiceItemOption | (string & {}) | undefined;
   /** Initiative enforcement (Enabled or Disabled). */
-  enforcement?: GovernedServiceItemEnforcement | (string & {});
+  enforcement?: GovernedServiceItemEnforcement | (string & {}) | undefined;
   /** Enforcement mode for policy. AuditOnly, Enforce, or None. */
-  policyAction?: GovernedServiceItemPolicyAction | (string & {});
+  policyAction?: GovernedServiceItemPolicyAction | (string & {}) | undefined;
 }
 /** List of services governed by a community. */
 export type CommunityPropertiesInputGovernedServiceListList = Array<GovernedServiceItemInput>;
@@ -287,9 +287,9 @@ export interface RoleAssignmentItem {
   /** Role definition identifier */
   roleDefinitionId: string;
   /** List of principal IDs to which to assign this role definition */
-  principals?: RoleAssignmentItemPrincipalsList;
+  principals?: RoleAssignmentItemPrincipalsList | undefined;
   /** Condition under which the principal can be granted permission */
-  condition?: string;
+  condition?: string | undefined;
 }
 /** Community role assignments */
 export type CommunityPropertiesInputCommunityRoleAssignmentsList = Array<RoleAssignmentItem>;
@@ -302,28 +302,28 @@ export type ApprovalSettingConfigurationMandatoryApproversList = Array<Mandatory
 /** Granular approval setting configuration with policy, minimum approvers, and mandatory approvers. */
 export interface ApprovalSettingConfiguration {
   /** Approval policy (Required or NotRequired). */
-  approvalPolicy?: ApprovalPolicy | (string & {});
+  approvalPolicy?: ApprovalPolicy | (string & {}) | undefined;
   /** Minimum number of approvers required for this approval setting. */
-  minimumApproversRequired?: number;
+  minimumApproversRequired?: number | undefined;
   /** List of mandatory approvers for this approval setting. */
-  mandatoryApprovers?: ApprovalSettingConfigurationMandatoryApproversList;
+  mandatoryApprovers?: ApprovalSettingConfigurationMandatoryApproversList | undefined;
 }
 /** Granular ApprovalSettings Properties for 2025-11-01-preview and later versions */
 export interface ApprovalSettings {
   /** Approval configuration for community endpoint updates. */
-  communityEndpointUpdate?: ApprovalSettingConfiguration;
+  communityEndpointUpdate?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for enclave endpoint updates. */
-  enclaveEndpointUpdate?: ApprovalSettingConfiguration;
+  enclaveEndpointUpdate?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for enclave creation. */
-  enclaveCreation?: ApprovalSettingConfiguration;
+  enclaveCreation?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for connection creation. */
-  connectionCreation?: ApprovalSettingConfiguration;
+  connectionCreation?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for connection updates. */
-  connectionUpdate?: ApprovalSettingConfiguration;
+  connectionUpdate?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for community maintenance mode. */
-  communityMaintenanceMode?: ApprovalSettingConfiguration;
+  communityMaintenanceMode?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for enclave maintenance mode. */
-  enclaveMaintenanceMode?: ApprovalSettingConfiguration;
+  enclaveMaintenanceMode?: ApprovalSettingConfiguration | undefined;
 }
 /** Current mode of Maintenance Mode Configuration */
 export type MaintenanceModeConfigurationModelMode =
@@ -341,9 +341,9 @@ export interface MaintenanceModeConfigurationModel {
   /** Current mode of Maintenance Mode Configuration */
   mode: MaintenanceModeConfigurationModelMode | (string & {});
   /** The user, group or service principal object affected by Maintenance Mode */
-  principals?: MaintenanceModeConfigurationModelPrincipalsList;
+  principals?: MaintenanceModeConfigurationModelPrincipalsList | undefined;
   /** Justification for entering or exiting Maintenance Mode */
-  justification?: MaintenanceModeConfigurationModelJustification | (string & {});
+  justification?: MaintenanceModeConfigurationModelJustification | (string & {}) | undefined;
 }
 /** The type of monitoring workspace destination */
 export type MonitoringDestinationDestinationType =
@@ -355,43 +355,43 @@ export interface MonitoringDestination {
   /** The type of monitoring workspace destination */
   destinationType: MonitoringDestinationDestinationType | (string & {});
   /** Log analytics workspace resource ID for custom workspace */
-  customWorkspaceResourceId?: string;
+  customWorkspaceResourceId?: string | undefined;
   /** Custom name for diagnostic settings */
-  diagnosticSettingsName?: string;
+  diagnosticSettingsName?: string | undefined;
 }
 /** Log Analytics workspace destinations where diagnostic logs will be stored. */
 export type MonitoringSettingsModelDiagnosticDestinationsList = Array<MonitoringDestination>;
 /** Monitoring Settings */
 export interface MonitoringSettingsModel {
   /** Log Analytics workspace destinations where diagnostic logs will be stored. */
-  diagnosticDestinations?: MonitoringSettingsModelDiagnosticDestinationsList;
+  diagnosticDestinations?: MonitoringSettingsModelDiagnosticDestinationsList | undefined;
   /** Log Analytics workspace destination where virtual network flow logs will be stored. */
-  flowLogDestination?: MonitoringDestination;
+  flowLogDestination?: MonitoringDestination | undefined;
 }
 /** Address spaces list */
 export type CommunityPropertiesInputAddressSpacesList = Array<string>;
 /** Community Resource Properties */
 export interface CommunityPropertiesInput {
   /** Address Space. */
-  addressSpace?: string;
+  addressSpace?: string | undefined;
   /** DNS Servers. */
-  dnsServers?: CommunityPropertiesInputDnsServersList;
+  dnsServers?: CommunityPropertiesInputDnsServersList | undefined;
   /** List of services governed by a community. */
-  governedServiceList?: CommunityPropertiesInputGovernedServiceListList;
+  governedServiceList?: CommunityPropertiesInputGovernedServiceListList | undefined;
   /** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-  policyOverride?: CommunityPropertiesPolicyOverride | (string & {});
+  policyOverride?: CommunityPropertiesPolicyOverride | (string & {}) | undefined;
   /** Community role assignments */
-  communityRoleAssignments?: CommunityPropertiesInputCommunityRoleAssignmentsList;
+  communityRoleAssignments?: CommunityPropertiesInputCommunityRoleAssignmentsList | undefined;
   /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
-  firewallSku?: CommunityPropertiesInputFirewallSku | (string & {});
+  firewallSku?: CommunityPropertiesInputFirewallSku | (string & {}) | undefined;
   /** Granular approval requirements for various actions on the community's resources. */
-  approvalSettings?: ApprovalSettings;
+  approvalSettings?: ApprovalSettings | undefined;
   /** Maintenance Mode configuration. */
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel | undefined;
   /** Community Monitoring Settings for diagnostic and virtual network flow logs */
-  monitoringSettings?: MonitoringSettingsModel;
+  monitoringSettings?: MonitoringSettingsModel | undefined;
   /** Address spaces list */
-  addressSpaces?: CommunityPropertiesInputAddressSpacesList;
+  addressSpaces?: CommunityPropertiesInputAddressSpacesList | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -408,7 +408,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CommunityCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface CommunityCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -418,13 +418,13 @@ export interface CommunityCreateOrUpdateRequest {
   /** The name of the communityResource Resource */
   communityName: string;
   /** Resource tags. */
-  tags?: CommunityCreateOrUpdateRequestTagsMap;
+  tags?: CommunityCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityPropertiesInput;
+  properties?: CommunityPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateRequestIdentity;
+  identity?: CommunityCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CommunityCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -435,7 +435,7 @@ export type CommunityPropertiesResourceCollectionList = Array<string>;
 /** Managed-On-Behalf-Of broker resource. This resource is created by the Resource Provider to manage some resources on behalf of the user. */
 export interface MoboBrokerResource {
   /** Resource identifier of a Managed-On-Behalf-Of broker resource */
-  id?: string;
+  id?: string | undefined;
 }
 /** Managed-On-Behalf-Of broker resources */
 export type CommunityPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList =
@@ -443,7 +443,9 @@ export type CommunityPropertiesManagedOnBehalfOfConfigurationMoboBrokerResources
 /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
 export interface CommunityPropertiesManagedOnBehalfOfConfiguration {
   /** Managed-On-Behalf-Of broker resources */
-  moboBrokerResources?: CommunityPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList;
+  moboBrokerResources?:
+    | CommunityPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList
+    | undefined;
 }
 /** Initiatives associated with this service. */
 export type GovernedServiceItemInitiativesList = Array<string>;
@@ -452,15 +454,15 @@ export interface GovernedServiceItem {
   /** Service ID */
   serviceId: ServiceIdentifier;
   /** Service name. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Governance option for this service (Allow, Deny, ExceptionOnly, or NotApplicable). */
-  option?: GovernedServiceItemOption;
+  option?: GovernedServiceItemOption | undefined;
   /** Initiative enforcement (Enabled or Disabled). */
-  enforcement?: GovernedServiceItemEnforcement;
+  enforcement?: GovernedServiceItemEnforcement | undefined;
   /** Enforcement mode for policy. AuditOnly, Enforce, or None. */
-  policyAction?: GovernedServiceItemPolicyAction;
+  policyAction?: GovernedServiceItemPolicyAction | undefined;
   /** Initiatives associated with this service. */
-  initiatives?: GovernedServiceItemInitiativesList;
+  initiatives?: GovernedServiceItemInitiativesList | undefined;
 }
 /** List of services governed by a community. */
 export type CommunityPropertiesGovernedServiceListList = Array<GovernedServiceItem>;
@@ -475,32 +477,32 @@ export type Designation = "Pooled" | "Reserved";
 /** Describes the properties of a Dedicated Hub. */
 export interface DedicatedHubProperties {
   /** Virtual Hub Resource ID */
-  vHubResourceId?: string;
+  vHubResourceId?: string | undefined;
   /** Firewall Resource ID */
-  firewallResourceId?: string;
+  firewallResourceId?: string | undefined;
   /** Firewall Policy Resource ID */
-  firewallPolicyResourceId?: string;
+  firewallPolicyResourceId?: string | undefined;
   /** Designation of hub resource allocation (Pooled or Reserved) */
-  designation?: Designation;
+  designation?: Designation | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** DedicatedHub Model Resource */
 export interface DedicatedHubResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DedicatedHubResourceTagsMap;
+  tags?: DedicatedHubResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DedicatedHubProperties;
+  properties?: DedicatedHubProperties | undefined;
 }
 /** DedicatedHub List. */
 export type CommunityPropertiesDedicatedHubListList = Array<DedicatedHubResource>;
@@ -509,75 +511,75 @@ export type CommunityPropertiesAddressSpacesList = Array<string>;
 /** Community Resource Properties */
 export interface CommunityProperties {
   /** Address Space. */
-  addressSpace?: string;
+  addressSpace?: string | undefined;
   /** DNS Servers. */
-  dnsServers?: CommunityPropertiesDnsServersList;
+  dnsServers?: CommunityPropertiesDnsServersList | undefined;
   /** Provisioning State. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of resource ids created by communities. */
-  resourceCollection?: CommunityPropertiesResourceCollectionList;
+  resourceCollection?: CommunityPropertiesResourceCollectionList | undefined;
   /** Managed resource group name. */
-  managedResourceGroupName?: string;
+  managedResourceGroupName?: string | undefined;
   /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
-  managedOnBehalfOfConfiguration?: CommunityPropertiesManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?: CommunityPropertiesManagedOnBehalfOfConfiguration | undefined;
   /** List of services governed by a community. */
-  governedServiceList?: CommunityPropertiesGovernedServiceListList;
+  governedServiceList?: CommunityPropertiesGovernedServiceListList | undefined;
   /** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-  policyOverride?: CommunityPropertiesPolicyOverride;
+  policyOverride?: CommunityPropertiesPolicyOverride | undefined;
   /** Community role assignments */
-  communityRoleAssignments?: CommunityPropertiesCommunityRoleAssignmentsList;
+  communityRoleAssignments?: CommunityPropertiesCommunityRoleAssignmentsList | undefined;
   /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
-  firewallSku?: CommunityPropertiesFirewallSku;
+  firewallSku?: CommunityPropertiesFirewallSku | undefined;
   /** Granular approval requirements for various actions on the community's resources. */
-  approvalSettings?: ApprovalSettings;
+  approvalSettings?: ApprovalSettings | undefined;
   /** Maintenance Mode configuration. */
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel | undefined;
   /** DedicatedHub List. */
-  dedicatedHubList?: CommunityPropertiesDedicatedHubListList;
+  dedicatedHubList?: CommunityPropertiesDedicatedHubListList | undefined;
   /** Community Monitoring Settings for diagnostic and virtual network flow logs */
-  monitoringSettings?: MonitoringSettingsModel;
+  monitoringSettings?: MonitoringSettingsModel | undefined;
   /** Address spaces list */
-  addressSpaces?: CommunityPropertiesAddressSpacesList;
+  addressSpaces?: CommunityPropertiesAddressSpacesList | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CommunityCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface CommunityCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CommunityCreateOrUpdateResponseTagsMap;
+  tags?: CommunityCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityProperties;
+  properties?: CommunityProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CommunityEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -600,17 +602,17 @@ export type CommunityEndpointDestinationRuleProtocolsList = Array<
 /** Base type for destination rules. */
 export interface CommunityEndpointDestinationRule {
   /** Destination Type. */
-  destinationType?: DestinationType | (string & {});
+  destinationType?: DestinationType | (string & {}) | undefined;
   /** Protocols. Options specified by Endpoint Protocol Enum. */
-  protocols?: CommunityEndpointDestinationRuleProtocolsList;
+  protocols?: CommunityEndpointDestinationRuleProtocolsList | undefined;
   /** Transit Hub Resource Id. */
-  transitHubResourceId?: string;
+  transitHubResourceId?: string | undefined;
   /** Endpoint Rule Name. */
-  endpointRuleName?: string;
+  endpointRuleName?: string | undefined;
   /** Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas. */
-  destination?: string;
+  destination?: string | undefined;
   /** Port. Can include multiple ports separated by commas or a range indicated by a hyphen. */
-  ports?: string;
+  ports?: string | undefined;
 }
 /** Community Endpoint Rule Collection. */
 export type CommunityEndpointPropertiesInputRuleCollectionList =
@@ -622,7 +624,7 @@ export interface CommunityEndpointPropertiesInput {
   /** Community Endpoint Rule Collection. */
   ruleCollection: CommunityEndpointPropertiesInputRuleCollectionList;
   /** Whether update mode is automatic or manual. */
-  updateMode?: UpdateMode | (string & {});
+  updateMode?: UpdateMode | (string & {}) | undefined;
 }
 export interface CommunityEndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -634,11 +636,11 @@ export interface CommunityEndpointsCreateOrUpdateRequest {
   /** The name of the Community Endpoint Resource */
   communityEndpointName: string;
   /** Resource tags. */
-  tags?: CommunityEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: CommunityEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityEndpointPropertiesInput;
+  properties?: CommunityEndpointPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CommunityEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -651,31 +653,31 @@ export interface CommunityEndpointProperties {
   /** Community Endpoint Rule Collection. */
   ruleCollection: CommunityEndpointPropertiesRuleCollectionList;
   /** List of resource ids created by community endpoint. */
-  resourceCollection?: CommunityEndpointPropertiesResourceCollectionList;
+  resourceCollection?: CommunityEndpointPropertiesResourceCollectionList | undefined;
   /** Provisioning State. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Whether update mode is automatic or manual. */
-  updateMode?: UpdateMode;
+  updateMode?: UpdateMode | undefined;
 }
 export interface CommunityEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CommunityEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: CommunityEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityEndpointProperties;
+  properties?: CommunityEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The resource action for an approval callback. */
 export type ApprovalCallbackRequestResourceRequestAction = "Create" | "Delete" | "Update" | "Reset";
@@ -695,16 +697,16 @@ export interface CommunityEndpointsHandleApprovalCreationRequest {
   /** Approval status indicating 'Approved' or 'Rejected' */
   approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
-  approvalCallbackPayload?: string;
+  approvalCallbackPayload?: string | undefined;
 }
 /** Response body after handling of approvalCallbackRequest */
 export interface ApprovalActionResponse {
   /** Confirmation message indicating the result of the operation. */
   message: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The resource action for an approval deletion callback. */
 export type ApprovalDeletionCallbackRequestResourceRequestAction = "Create" | "Delete" | "Update";
@@ -725,7 +727,7 @@ export type DedicatedHubCreateOrUpdateRequestTagsMap = { [key: string]: string |
 /** Describes the properties of a Dedicated Hub. */
 export interface DedicatedHubPropertiesInput {
   /** Designation of hub resource allocation (Pooled or Reserved) */
-  designation?: Designation | (string & {});
+  designation?: Designation | (string & {}) | undefined;
 }
 export interface DedicatedHubCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -737,33 +739,33 @@ export interface DedicatedHubCreateOrUpdateRequest {
   /** The name of the Dedicated Hub Resource */
   dedicatedHubName: string;
   /** Resource tags. */
-  tags?: DedicatedHubCreateOrUpdateRequestTagsMap;
+  tags?: DedicatedHubCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DedicatedHubPropertiesInput;
+  properties?: DedicatedHubPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type DedicatedHubCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface DedicatedHubCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DedicatedHubCreateOrUpdateResponseTagsMap;
+  tags?: DedicatedHubCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DedicatedHubProperties;
+  properties?: DedicatedHubProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteApprovalRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -773,9 +775,9 @@ export interface DeleteApprovalRequest {
 }
 export interface DeleteApprovalResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -787,9 +789,9 @@ export interface DeleteCommunityRequest {
 }
 export interface DeleteCommunityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCommunityEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -803,9 +805,9 @@ export interface DeleteCommunityEndpointRequest {
 }
 export interface DeleteCommunityEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDedicatedHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -819,9 +821,9 @@ export interface DeleteDedicatedHubRequest {
 }
 export interface DeleteDedicatedHubResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEnclaveConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -833,9 +835,9 @@ export interface DeleteEnclaveConnectionRequest {
 }
 export interface DeleteEnclaveConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEnclaveEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -849,9 +851,9 @@ export interface DeleteEnclaveEndpointRequest {
 }
 export interface DeleteEnclaveEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTransitHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -865,9 +867,9 @@ export interface DeleteTransitHubRequest {
 }
 export interface DeleteTransitHubResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualEnclaveRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -879,9 +881,9 @@ export interface DeleteVirtualEnclaveRequest {
 }
 export interface DeleteVirtualEnclaveResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkloadRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -895,9 +897,9 @@ export interface DeleteWorkloadRequest {
 }
 export interface DeleteWorkloadResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type EnclaveConnectionCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -908,7 +910,7 @@ export interface EnclaveConnectionPropertiesInput {
   /** Source Resource Id. */
   sourceResourceId: string;
   /** Source CIDR. */
-  sourceCidr?: string;
+  sourceCidr?: string | undefined;
   /** Destination Endpoint Resource Id. */
   destinationEndpointId: string;
 }
@@ -920,11 +922,11 @@ export interface EnclaveConnectionCreateOrUpdateRequest {
   /** The name of the Enclave Connection Resource */
   enclaveConnectionName: string;
   /** Resource tags. */
-  tags?: EnclaveConnectionCreateOrUpdateRequestTagsMap;
+  tags?: EnclaveConnectionCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveConnectionPropertiesInput;
+  properties?: EnclaveConnectionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type EnclaveConnectionCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -942,41 +944,41 @@ export type EnclaveConnectionPropertiesResourceCollectionList = Array<string>;
 /** Enclave Connection Resource properties */
 export interface EnclaveConnectionProperties {
   /** The state of the enclaveConnection. */
-  state?: EnclaveConnectionState;
+  state?: EnclaveConnectionState | undefined;
   /** Community Resource Id. */
   communityResourceId: string;
   /** Source Resource Id. */
   sourceResourceId: string;
   /** Source CIDR. */
-  sourceCidr?: string;
+  sourceCidr?: string | undefined;
   /** Destination Endpoint Resource Id. */
   destinationEndpointId: string;
   /** Provisioning State. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of resource ids modified by enclave Connections. */
-  resourceCollection?: EnclaveConnectionPropertiesResourceCollectionList;
+  resourceCollection?: EnclaveConnectionPropertiesResourceCollectionList | undefined;
   /** Destination Endpoint supports automatic or manual updates. */
-  updateMode?: UpdateMode;
+  updateMode?: UpdateMode | undefined;
 }
 export interface EnclaveConnectionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnclaveConnectionCreateOrUpdateResponseTagsMap;
+  tags?: EnclaveConnectionCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveConnectionProperties;
+  properties?: EnclaveConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface EnclaveConnectionHandleApprovalCreationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -990,7 +992,7 @@ export interface EnclaveConnectionHandleApprovalCreationRequest {
   /** Approval status indicating 'Approved' or 'Rejected' */
   approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
-  approvalCallbackPayload?: string;
+  approvalCallbackPayload?: string | undefined;
 }
 export interface EnclaveConnectionHandleApprovalDeletionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1013,13 +1015,13 @@ export type EnclaveEndpointDestinationRuleProtocolsList = Array<
 /** Enclave Endpoint Rule Properties */
 export interface EnclaveEndpointDestinationRule {
   /** Protocols. Options specified by Endpoint Protocol Enum. */
-  protocols?: EnclaveEndpointDestinationRuleProtocolsList;
+  protocols?: EnclaveEndpointDestinationRuleProtocolsList | undefined;
   /** Endpoint Rule Name. */
-  endpointRuleName?: string;
+  endpointRuleName?: string | undefined;
   /** Destination address. Can include multiple CIDR/IP Addresses or fqdn tags or fqdns (for community endpoint) separated by commas. */
-  destination?: string;
+  destination?: string | undefined;
   /** Port. Can include multiple ports separated by commas or a range indicated by a hyphen. */
-  ports?: string;
+  ports?: string | undefined;
 }
 /** Enclave Endpoint Rule Collection. */
 export type EnclaveEndpointPropertiesInputRuleCollectionList =
@@ -1029,7 +1031,7 @@ export interface EnclaveEndpointPropertiesInput {
   /** Enclave Endpoint Rule Collection. */
   ruleCollection: EnclaveEndpointPropertiesInputRuleCollectionList;
   /** Whether update mode is automatic or manual. */
-  updateMode?: UpdateMode | (string & {});
+  updateMode?: UpdateMode | (string & {}) | undefined;
 }
 export interface EnclaveEndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1041,11 +1043,11 @@ export interface EnclaveEndpointsCreateOrUpdateRequest {
   /** The name of the Enclave Endpoint Resource */
   enclaveEndpointName: string;
   /** Resource tags. */
-  tags?: EnclaveEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: EnclaveEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveEndpointPropertiesInput;
+  properties?: EnclaveEndpointPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type EnclaveEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1058,31 +1060,31 @@ export interface EnclaveEndpointProperties {
   /** Enclave Endpoint Rule Collection. */
   ruleCollection: EnclaveEndpointPropertiesRuleCollectionList;
   /** List of resource ids created by community endpoint. */
-  resourceCollection?: EnclaveEndpointPropertiesResourceCollectionList;
+  resourceCollection?: EnclaveEndpointPropertiesResourceCollectionList | undefined;
   /** Provisioning State. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Whether update mode is automatic or manual. */
-  updateMode?: UpdateMode;
+  updateMode?: UpdateMode | undefined;
 }
 export interface EnclaveEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnclaveEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: EnclaveEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveEndpointProperties;
+  properties?: EnclaveEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface EnclaveEndpointsHandleApprovalCreationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1098,7 +1100,7 @@ export interface EnclaveEndpointsHandleApprovalCreationRequest {
   /** Approval status indicating 'Approved' or 'Rejected' */
   approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
-  approvalCallbackPayload?: string;
+  approvalCallbackPayload?: string | undefined;
 }
 export interface EnclaveEndpointsHandleApprovalDeletionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1120,15 +1122,15 @@ export interface GetApprovalRequest {
 }
 export interface GetApprovalResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApprovalProperties;
+  properties?: ApprovalProperties | undefined;
 }
 export interface GetCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1144,21 +1146,21 @@ export type GetCommunityResponseTagsMap = { [key: string]: string | undefined };
 export type GetCommunityResponseIdentity = CommunityCreateOrUpdateResponseIdentity;
 export interface GetCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCommunityResponseTagsMap;
+  tags?: GetCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityProperties;
+  properties?: CommunityProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetCommunityEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1174,19 +1176,19 @@ export interface GetCommunityEndpointRequest {
 export type GetCommunityEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCommunityEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCommunityEndpointResponseTagsMap;
+  tags?: GetCommunityEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityEndpointProperties;
+  properties?: CommunityEndpointProperties | undefined;
 }
 export interface GetDedicatedHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1202,19 +1204,19 @@ export interface GetDedicatedHubRequest {
 export type GetDedicatedHubResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDedicatedHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDedicatedHubResponseTagsMap;
+  tags?: GetDedicatedHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DedicatedHubProperties;
+  properties?: DedicatedHubProperties | undefined;
 }
 export interface GetEnclaveConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1228,19 +1230,19 @@ export interface GetEnclaveConnectionRequest {
 export type GetEnclaveConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEnclaveConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEnclaveConnectionResponseTagsMap;
+  tags?: GetEnclaveConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveConnectionProperties;
+  properties?: EnclaveConnectionProperties | undefined;
 }
 export interface GetEnclaveEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1256,19 +1258,19 @@ export interface GetEnclaveEndpointRequest {
 export type GetEnclaveEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEnclaveEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEnclaveEndpointResponseTagsMap;
+  tags?: GetEnclaveEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveEndpointProperties;
+  properties?: EnclaveEndpointProperties | undefined;
 }
 export interface GetTransitHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1294,16 +1296,16 @@ export type TransitOptionType = "ExpressRoute" | "Gateway" | "Peering";
 /** TransitOptionParams Properties */
 export interface TransitOptionParams {
   /** Transit Option Params scaleUnits. */
-  scaleUnits?: number;
+  scaleUnits?: number | undefined;
   /** Transit Option Params remoteVirtualNetworkId. */
-  remoteVirtualNetworkId?: string;
+  remoteVirtualNetworkId?: string | undefined;
 }
 /** TransitOption Properties */
 export interface TransitOption {
   /** Transit Option Type. */
-  type?: TransitOptionType | (string & {});
+  type?: TransitOptionType | (string & {}) | undefined;
   /** Transit Option Params */
-  params?: TransitOptionParams;
+  params?: TransitOptionParams | undefined;
 }
 /** List of resource ids modified by transitHubs. */
 export type TransitHubPropertiesResourceCollectionList = Array<string>;
@@ -1312,31 +1314,31 @@ export type SecurityProvider = "None" | "AzureFirewall";
 /** Describes the properties of an Transit Hub. */
 export interface TransitHubProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The state of the transitHub. */
-  state?: TransitHubState;
+  state?: TransitHubState | undefined;
   /** The TransitOption of the transitHub. */
-  transitOption?: TransitOption;
+  transitOption?: TransitOption | undefined;
   /** List of resource ids modified by transitHubs. */
-  resourceCollection?: TransitHubPropertiesResourceCollectionList;
+  resourceCollection?: TransitHubPropertiesResourceCollectionList | undefined;
   /** Specifies the security provider for the transit hub. */
-  securityProvider?: SecurityProvider;
+  securityProvider?: SecurityProvider | undefined;
 }
 export interface GetTransitHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetTransitHubResponseTagsMap;
+  tags?: GetTransitHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TransitHubProperties;
+  properties?: TransitHubProperties | undefined;
 }
 export interface GetVirtualEnclaveRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1353,37 +1355,37 @@ export interface SubnetConfiguration {
   /** Subnet name. */
   subnetName: string;
   /** Subnet Resource ID. */
-  subnetResourceId?: string;
+  subnetResourceId?: string | undefined;
   /** Network prefix size. */
   networkPrefixSize: number;
   /** Subnet delegation. */
-  subnetDelegation?: string;
+  subnetDelegation?: string | undefined;
   /** Address prefix. */
-  addressPrefix?: string;
+  addressPrefix?: string | undefined;
   /** Network security group ID. */
-  networkSecurityGroupResourceId?: string;
+  networkSecurityGroupResourceId?: string | undefined;
 }
 /** Subnet Configurations. */
 export type EnclaveVirtualNetworkModelSubnetConfigurationsList = Array<SubnetConfiguration>;
 /** Enclave Virtual Network Properties */
 export interface EnclaveVirtualNetworkModel {
   /** Network Name. */
-  networkName?: string;
+  networkName?: string | undefined;
   /** Network Size. */
-  networkSize?: string;
+  networkSize?: string | undefined;
   /** Custom CIDR Range. */
-  customCidrRange?: string;
+  customCidrRange?: string | undefined;
   /** Subnet Configurations. */
-  subnetConfigurations?: EnclaveVirtualNetworkModelSubnetConfigurationsList;
+  subnetConfigurations?: EnclaveVirtualNetworkModelSubnetConfigurationsList | undefined;
   /** Allow Subnet Communication. */
-  allowSubnetCommunication?: boolean;
+  allowSubnetCommunication?: boolean | undefined;
 }
 /** Enclave Address Spaces */
 export interface EnclaveAddressSpacesModel {
   /** Enclave Address Space */
-  enclaveAddressSpace?: string;
+  enclaveAddressSpace?: string | undefined;
   /** Managed Address Space */
-  managedAddressSpace?: string;
+  managedAddressSpace?: string | undefined;
 }
 /** List of resource ids created by Virtual Enclave. */
 export type VirtualEnclavePropertiesResourceCollectionList = Array<string>;
@@ -1393,7 +1395,9 @@ export type VirtualEnclavePropertiesManagedOnBehalfOfConfigurationMoboBrokerReso
 /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
 export interface VirtualEnclavePropertiesManagedOnBehalfOfConfiguration {
   /** Managed-On-Behalf-Of broker resources */
-  moboBrokerResources?: VirtualEnclavePropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList;
+  moboBrokerResources?:
+    | VirtualEnclavePropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList
+    | undefined;
 }
 /** Specifies whether resources in the workload resource group(s) are visible through standard RBAC */
 export type VirtualEnclavePropertiesWorkloadResourceVisibility = "Enabled" | "Disabled";
@@ -1415,83 +1419,87 @@ export type EnclaveDefaultSettingsModelDiagnosticDestination =
 /** Virtual Enclave Default Settings */
 export interface EnclaveDefaultSettingsModel {
   /** Key Vault Resource Id. */
-  keyVaultResourceId?: string;
+  keyVaultResourceId?: string | undefined;
   /** Storage Account Resource Id. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Log Analytics Resource Ids. */
-  logAnalyticsResourceIdCollection?: EnclaveDefaultSettingsModelLogAnalyticsResourceIdCollectionList;
+  logAnalyticsResourceIdCollection?:
+    | EnclaveDefaultSettingsModelLogAnalyticsResourceIdCollectionList
+    | undefined;
   /** Diagnostic Destination. */
-  diagnosticDestination?: EnclaveDefaultSettingsModelDiagnosticDestination;
+  diagnosticDestination?: EnclaveDefaultSettingsModelDiagnosticDestination | undefined;
 }
 /** Virtual Enclave ApprovalSettings Properties for 2025-11-01-preview and later versions */
 export interface VirtualEnclaveApprovalSettings {
   /** Approval configuration for enclave endpoint updates. */
-  enclaveEndpointUpdate?: ApprovalSettingConfiguration;
+  enclaveEndpointUpdate?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for connection creation. */
-  connectionCreation?: ApprovalSettingConfiguration;
+  connectionCreation?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for connection updates. */
-  connectionUpdate?: ApprovalSettingConfiguration;
+  connectionUpdate?: ApprovalSettingConfiguration | undefined;
   /** Approval configuration for enclave maintenance mode. */
-  enclaveMaintenanceMode?: ApprovalSettingConfiguration;
+  enclaveMaintenanceMode?: ApprovalSettingConfiguration | undefined;
 }
 /** Virtual Enclave Resource properties */
 export interface VirtualEnclaveProperties {
   /** Provisioning State. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Virtual Network. */
   enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
   /** Enclave Address Spaces */
-  enclaveAddressSpaces?: EnclaveAddressSpacesModel;
+  enclaveAddressSpaces?: EnclaveAddressSpacesModel | undefined;
   /** Community Resource Id. */
   communityResourceId: string;
   /** List of resource ids created by Virtual Enclave. */
-  resourceCollection?: VirtualEnclavePropertiesResourceCollectionList;
+  resourceCollection?: VirtualEnclavePropertiesResourceCollectionList | undefined;
   /** Managed resource group name. */
-  managedResourceGroupName?: string;
+  managedResourceGroupName?: string | undefined;
   /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
-  managedOnBehalfOfConfiguration?: VirtualEnclavePropertiesManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?:
+    | VirtualEnclavePropertiesManagedOnBehalfOfConfiguration
+    | undefined;
   /** Deploy Bastion service (True or False). */
-  bastionEnabled?: boolean;
+  bastionEnabled?: boolean | undefined;
   /** Specifies whether resources in the workload resource group(s) are visible through standard RBAC */
-  workloadResourceVisibility?: VirtualEnclavePropertiesWorkloadResourceVisibility;
+  workloadResourceVisibility?: VirtualEnclavePropertiesWorkloadResourceVisibility | undefined;
   /** Controls whether standard Azure RBAC role inheritance applies to the workload resource group(s) */
-  rbacInheritance?: VirtualEnclavePropertiesRbacInheritance;
+  rbacInheritance?: VirtualEnclavePropertiesRbacInheritance | undefined;
   /** Enclave role assignments */
-  enclaveRoleAssignments?: VirtualEnclavePropertiesEnclaveRoleAssignmentsList;
+  enclaveRoleAssignments?: VirtualEnclavePropertiesEnclaveRoleAssignmentsList | undefined;
   /** Workload role assignments */
-  workloadRoleAssignments?: VirtualEnclavePropertiesWorkloadRoleAssignmentsList;
+  workloadRoleAssignments?: VirtualEnclavePropertiesWorkloadRoleAssignmentsList | undefined;
   /** Enclave specific policies */
-  governedServiceList?: VirtualEnclavePropertiesGovernedServiceListList;
+  governedServiceList?: VirtualEnclavePropertiesGovernedServiceListList | undefined;
   /** Enclave default settings. */
-  enclaveDefaultSettings?: EnclaveDefaultSettingsModel;
+  enclaveDefaultSettings?: EnclaveDefaultSettingsModel | undefined;
   /** Maintenance Mode configuration. */
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel | undefined;
   /** DedicatedHub Resource ID. */
-  dedicatedHubResourceId?: string;
+  dedicatedHubResourceId?: string | undefined;
   /** Approval requirements for various actions on the enclave's resources. */
-  approvalSettings?: VirtualEnclaveApprovalSettings;
+  approvalSettings?: VirtualEnclaveApprovalSettings | undefined;
   /** Virtual Enclave Monitoring Settings for diagnostic and virtual network flow logs */
-  monitoringSettings?: MonitoringSettingsModel;
+  monitoringSettings?: MonitoringSettingsModel | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetVirtualEnclaveResponseIdentity = CommunityCreateOrUpdateResponseIdentity;
 export interface GetVirtualEnclaveResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualEnclaveResponseTagsMap;
+  tags?: GetVirtualEnclaveResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VirtualEnclaveProperties;
+  properties?: VirtualEnclaveProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetWorkloadRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1513,32 +1521,34 @@ export type WorkloadPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesL
 /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
 export interface WorkloadPropertiesManagedOnBehalfOfConfiguration {
   /** Managed-On-Behalf-Of broker resources */
-  moboBrokerResources?: WorkloadPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList;
+  moboBrokerResources?:
+    | WorkloadPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList
+    | undefined;
 }
 /** Workload Resource properties */
 export interface WorkloadProperties {
   /** Provisioning State. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of resource group ids. */
-  resourceGroupCollection?: WorkloadPropertiesResourceGroupCollectionList;
+  resourceGroupCollection?: WorkloadPropertiesResourceGroupCollectionList | undefined;
   /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
-  managedOnBehalfOfConfiguration?: WorkloadPropertiesManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?: WorkloadPropertiesManagedOnBehalfOfConfiguration | undefined;
 }
 export interface GetWorkloadResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkloadResponseTagsMap;
+  tags?: GetWorkloadResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkloadProperties;
+  properties?: WorkloadProperties | undefined;
 }
 export interface ListApprovalByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1547,15 +1557,15 @@ export interface ListApprovalByParentRequest {
 /** Approval Model Resource */
 export interface ApprovalResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApprovalProperties;
+  properties?: ApprovalProperties | undefined;
 }
 /** The ApprovalResource items on this page */
 export type ApprovalResourceListResultValueList = Array<ApprovalResource>;
@@ -1564,7 +1574,7 @@ export interface ApprovalResourceListResult {
   /** The ApprovalResource items on this page */
   value: ApprovalResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCommunityByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1579,21 +1589,21 @@ export type CommunityResourceIdentity = CommunityCreateOrUpdateResponseIdentity;
 /** Community Model Resource */
 export interface CommunityResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CommunityResourceTagsMap;
+  tags?: CommunityResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityProperties;
+  properties?: CommunityProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
 }
 /** The CommunityResource items on this page */
 export type CommunityResourceListResultValueList = Array<CommunityResource>;
@@ -1602,7 +1612,7 @@ export interface CommunityResourceListResult {
   /** The CommunityResource items on this page */
   value: CommunityResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCommunityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1621,19 +1631,19 @@ export type CommunityEndpointResourceTagsMap = { [key: string]: string | undefin
 /** CommunityEndpoint Model Resource */
 export interface CommunityEndpointResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CommunityEndpointResourceTagsMap;
+  tags?: CommunityEndpointResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityEndpointProperties;
+  properties?: CommunityEndpointProperties | undefined;
 }
 /** The CommunityEndpointResource items on this page */
 export type CommunityEndpointResourceListResultValueList = Array<CommunityEndpointResource>;
@@ -1642,7 +1652,7 @@ export interface CommunityEndpointResourceListResult {
   /** The CommunityEndpointResource items on this page */
   value: CommunityEndpointResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCommunityEndpointBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1665,7 +1675,7 @@ export interface DedicatedHubResourceListResult {
   /** The DedicatedHubResource items on this page */
   value: DedicatedHubResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDedicatedHubBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1684,19 +1694,19 @@ export type EnclaveConnectionResourceTagsMap = { [key: string]: string | undefin
 /** EnclaveConnection Model Resource */
 export interface EnclaveConnectionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnclaveConnectionResourceTagsMap;
+  tags?: EnclaveConnectionResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveConnectionProperties;
+  properties?: EnclaveConnectionProperties | undefined;
 }
 /** The EnclaveConnectionResource items on this page */
 export type EnclaveConnectionResourceListResultValueList = Array<EnclaveConnectionResource>;
@@ -1705,7 +1715,7 @@ export interface EnclaveConnectionResourceListResult {
   /** The EnclaveConnectionResource items on this page */
   value: EnclaveConnectionResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnclaveConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1724,19 +1734,19 @@ export type EnclaveEndpointResourceTagsMap = { [key: string]: string | undefined
 /** EnclaveEndpoint Model Resource */
 export interface EnclaveEndpointResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnclaveEndpointResourceTagsMap;
+  tags?: EnclaveEndpointResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveEndpointProperties;
+  properties?: EnclaveEndpointProperties | undefined;
 }
 /** The EnclaveEndpointResource items on this page */
 export type EnclaveEndpointResourceListResultValueList = Array<EnclaveEndpointResource>;
@@ -1745,7 +1755,7 @@ export interface EnclaveEndpointResourceListResult {
   /** The EnclaveEndpointResource items on this page */
   value: EnclaveEndpointResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnclaveEndpointBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1757,13 +1767,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1772,23 +1782,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTransitHubByCommunityResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1803,19 +1813,19 @@ export type TransitHubResourceTagsMap = { [key: string]: string | undefined };
 /** TransitHub Model Resource */
 export interface TransitHubResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TransitHubResourceTagsMap;
+  tags?: TransitHubResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TransitHubProperties;
+  properties?: TransitHubProperties | undefined;
 }
 /** The TransitHubResource items on this page */
 export type TransitHubResourceListResultValueList = Array<TransitHubResource>;
@@ -1824,7 +1834,7 @@ export interface TransitHubResourceListResult {
   /** The TransitHubResource items on this page */
   value: TransitHubResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTransitHubBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1845,21 +1855,21 @@ export type EnclaveResourceIdentity = CommunityCreateOrUpdateResponseIdentity;
 /** Virtual Enclave Model Resource */
 export interface EnclaveResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EnclaveResourceTagsMap;
+  tags?: EnclaveResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VirtualEnclaveProperties;
+  properties?: VirtualEnclaveProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
 }
 /** The EnclaveResource items on this page */
 export type EnclaveResourceListResultValueList = Array<EnclaveResource>;
@@ -1868,7 +1878,7 @@ export interface EnclaveResourceListResult {
   /** The EnclaveResource items on this page */
   value: EnclaveResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualEnclaveBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1887,19 +1897,19 @@ export type WorkloadResourceTagsMap = { [key: string]: string | undefined };
 /** Workload Model Resource */
 export interface WorkloadResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkloadResourceTagsMap;
+  tags?: WorkloadResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkloadProperties;
+  properties?: WorkloadProperties | undefined;
 }
 /** The WorkloadResource items on this page */
 export type WorkloadResourceListResultValueList = Array<WorkloadResource>;
@@ -1908,7 +1918,7 @@ export interface WorkloadResourceListResult {
   /** The WorkloadResource items on this page */
   value: WorkloadResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkloadBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1931,11 +1941,11 @@ export type TransitHubCreateOrUpdateRequestTagsMap = { [key: string]: string | u
 /** Describes the properties of an Transit Hub. */
 export interface TransitHubPropertiesInput {
   /** The state of the transitHub. */
-  state?: TransitHubState | (string & {});
+  state?: TransitHubState | (string & {}) | undefined;
   /** The TransitOption of the transitHub. */
-  transitOption?: TransitOption;
+  transitOption?: TransitOption | undefined;
   /** Specifies the security provider for the transit hub. */
-  securityProvider?: SecurityProvider | (string & {});
+  securityProvider?: SecurityProvider | (string & {}) | undefined;
 }
 export interface TransitHubCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1947,33 +1957,33 @@ export interface TransitHubCreateOrUpdateRequest {
   /** The name of the TransitHub Resource */
   transitHubName: string;
   /** Resource tags. */
-  tags?: TransitHubCreateOrUpdateRequestTagsMap;
+  tags?: TransitHubCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TransitHubPropertiesInput;
+  properties?: TransitHubPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type TransitHubCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface TransitHubCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TransitHubCreateOrUpdateResponseTagsMap;
+  tags?: TransitHubCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TransitHubProperties;
+  properties?: TransitHubProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of approvers for the approval request */
 export type ApprovalPatchPropertiesInputApproversList = Array<ApproverInput>;
@@ -1982,30 +1992,30 @@ export type ApprovalStatus = "Approved" | "Rejected" | "Pending" | "Deleted" | "
 /** Request Metadata patch properties. */
 export interface RequestMetadataUpdatableProperties {
   /** Resource Action of the item being approved or declined. */
-  resourceAction?: string;
+  resourceAction?: string | undefined;
   /** Route name for the approval callback */
-  approvalCallbackRoute?: string;
+  approvalCallbackRoute?: string | undefined;
   /** Payload to be sent upon any action on approval request */
-  approvalCallbackPayload?: string;
+  approvalCallbackPayload?: string | undefined;
   /** Status of the approval. Uses ApprovalStatus enum. */
-  approvalStatus?: ApprovalStatus | (string & {});
+  approvalStatus?: ApprovalStatus | (string & {}) | undefined;
 }
 /** Approvals patch properties. */
 export interface ApprovalPatchPropertiesInput {
   /** Parameter for optimizing query results */
-  parentResourceId?: string;
+  parentResourceId?: string | undefined;
   /** Parameter for optimizing query results */
-  grandparentResourceId?: string;
+  grandparentResourceId?: string | undefined;
   /** List of approvers for the approval request */
-  approvers?: ApprovalPatchPropertiesInputApproversList;
+  approvers?: ApprovalPatchPropertiesInputApproversList | undefined;
   /** Ticket ID for the approval request */
-  ticketId?: string;
+  ticketId?: string | undefined;
   /** Approval request creation time */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Approval request state change time, time at which approval request state changed from pending to approved or rejected. */
-  stateChangedAt?: string;
+  stateChangedAt?: string | undefined;
   /** Request metadata for the approval request. */
-  requestMetadata?: RequestMetadataUpdatableProperties;
+  requestMetadata?: RequestMetadataUpdatableProperties | undefined;
 }
 export interface UpdateApprovalRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2013,23 +2023,23 @@ export interface UpdateApprovalRequest {
   /** The name of the approvals resource. */
   approvalName: string;
   /** Approval Patch properties */
-  properties?: ApprovalPatchPropertiesInput;
+  properties?: ApprovalPatchPropertiesInput | undefined;
 }
 export interface UpdateApprovalResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApprovalProperties;
+  properties?: ApprovalProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** DNS Servers. */
 export type CommunityPatchPropertiesInputDnsServersList = Array<string>;
@@ -2055,11 +2065,11 @@ export type MaintenanceModeConfigurationModelJustification2 = "Networking" | "Go
 /** Maintenance Mode Patch Model */
 export interface MaintenanceModeConfigurationPatchModel {
   /** Current mode of Maintenance Mode Configuration */
-  mode?: MaintenanceModeConfigurationModelMode2 | (string & {});
+  mode?: MaintenanceModeConfigurationModelMode2 | (string & {}) | undefined;
   /** The user, group or service principal object affected by Maintenance Mode */
-  principals?: MaintenanceModeConfigurationPatchModelPrincipalsList;
+  principals?: MaintenanceModeConfigurationPatchModelPrincipalsList | undefined;
   /** Justification for entering or exiting Maintenance Mode */
-  justification?: MaintenanceModeConfigurationModelJustification2 | (string & {});
+  justification?: MaintenanceModeConfigurationModelJustification2 | (string & {}) | undefined;
 }
 /** List of destination types for monitoring logs */
 export type MonitoringDestinationType =
@@ -2071,9 +2081,9 @@ export interface MonitoringDestinationPatchModel {
   /** The type of monitoring workspace destination */
   destinationType: MonitoringDestinationType | (string & {});
   /** Log analytics workspace resource ID for custom workspace */
-  customWorkspaceResourceId?: string;
+  customWorkspaceResourceId?: string | undefined;
   /** Custom name for diagnostic settings */
-  diagnosticSettingsName?: string;
+  diagnosticSettingsName?: string | undefined;
 }
 /** Log Analytics workspace destinations where diagnostic logs will be stored. */
 export type MonitoringSettingsPatchModelDiagnosticDestinationsList =
@@ -2081,41 +2091,41 @@ export type MonitoringSettingsPatchModelDiagnosticDestinationsList =
 /** Monitoring Destination Patch Model */
 export interface MonitoringDestinationPatchModelUpdate {
   /** The type of monitoring workspace destination */
-  destinationType?: MonitoringDestinationType | (string & {});
+  destinationType?: MonitoringDestinationType | (string & {}) | undefined;
   /** Log analytics workspace resource ID for custom workspace */
-  customWorkspaceResourceId?: string;
+  customWorkspaceResourceId?: string | undefined;
   /** Custom name for diagnostic settings */
-  diagnosticSettingsName?: string;
+  diagnosticSettingsName?: string | undefined;
 }
 /** Monitoring Settings Patch Model */
 export interface MonitoringSettingsPatchModel {
   /** Log Analytics workspace destinations where diagnostic logs will be stored. */
-  diagnosticDestinations?: MonitoringSettingsPatchModelDiagnosticDestinationsList;
+  diagnosticDestinations?: MonitoringSettingsPatchModelDiagnosticDestinationsList | undefined;
   /** Log Analytics workspace destination where virtual network flow logs will be stored. */
-  flowLogDestination?: MonitoringDestinationPatchModelUpdate;
+  flowLogDestination?: MonitoringDestinationPatchModelUpdate | undefined;
 }
 /** Address spaces list */
 export type CommunityPatchPropertiesInputAddressSpacesList = Array<string>;
 /** Community Resource Properties without default values */
 export interface CommunityPatchPropertiesInput {
   /** DNS Servers. */
-  dnsServers?: CommunityPatchPropertiesInputDnsServersList;
+  dnsServers?: CommunityPatchPropertiesInputDnsServersList | undefined;
   /** List of services governed by a community. */
-  governedServiceList?: CommunityPatchPropertiesInputGovernedServiceListList;
+  governedServiceList?: CommunityPatchPropertiesInputGovernedServiceListList | undefined;
   /** Policy override setting for the community. Specifies whether to apply enclave-specific policies or disable policy enforcement. */
-  policyOverride?: CommunityPropertiesPolicyOverride | (string & {});
+  policyOverride?: CommunityPropertiesPolicyOverride | (string & {}) | undefined;
   /** Community role assignments */
-  communityRoleAssignments?: CommunityPatchPropertiesInputCommunityRoleAssignmentsList;
+  communityRoleAssignments?: CommunityPatchPropertiesInputCommunityRoleAssignmentsList | undefined;
   /** SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default */
-  firewallSku?: FirewallSKU | (string & {});
+  firewallSku?: FirewallSKU | (string & {}) | undefined;
   /** Granular approval requirements for various actions on the community's resources. */
-  approvalSettings?: ApprovalSettings;
+  approvalSettings?: ApprovalSettings | undefined;
   /** Maintenance Mode configuration. */
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel | undefined;
   /** Community Monitoring Settings for diagnostic and virtual network flow logs */
-  monitoringSettings?: MonitoringSettingsPatchModel;
+  monitoringSettings?: MonitoringSettingsPatchModel | undefined;
   /** Address spaces list */
-  addressSpaces?: CommunityPatchPropertiesInputAddressSpacesList;
+  addressSpaces?: CommunityPatchPropertiesInputAddressSpacesList | undefined;
 }
 /** Resource tags. */
 export type UpdateCommunityRequestTagsMap = { [key: string]: string | undefined };
@@ -2134,9 +2144,14 @@ export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUser
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType | (string & {});
+  type?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType
+    | (string & {})
+    | undefined;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2146,11 +2161,11 @@ export interface UpdateCommunityRequest {
   /** The name of the communityResource Resource */
   communityName: string;
   /** Community Patch properties */
-  properties?: CommunityPatchPropertiesInput;
+  properties?: CommunityPatchPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateCommunityRequestTagsMap;
+  tags?: UpdateCommunityRequestTagsMap | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
 }
 /** Resource tags. */
 export type UpdateCommunityResponseTagsMap = { [key: string]: string | undefined };
@@ -2158,25 +2173,25 @@ export type UpdateCommunityResponseTagsMap = { [key: string]: string | undefined
 export type UpdateCommunityResponseIdentity = CommunityCreateOrUpdateResponseIdentity;
 export interface UpdateCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCommunityResponseTagsMap;
+  tags?: UpdateCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityProperties;
+  properties?: CommunityProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Community Endpoint Rule Collection. */
 export type CommunityEndpointPatchPropertiesRuleCollectionList =
@@ -2184,9 +2199,9 @@ export type CommunityEndpointPatchPropertiesRuleCollectionList =
 /** Community Endpoint patchable Properties */
 export interface CommunityEndpointPatchProperties {
   /** Community Endpoint Rule Collection. */
-  ruleCollection?: CommunityEndpointPatchPropertiesRuleCollectionList;
+  ruleCollection?: CommunityEndpointPatchPropertiesRuleCollectionList | undefined;
   /** Whether update mode is automatic or manual. */
-  updateMode?: UpdateMode | (string & {});
+  updateMode?: UpdateMode | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateCommunityEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -2200,31 +2215,31 @@ export interface UpdateCommunityEndpointRequest {
   /** The name of the Community Endpoint Resource */
   communityEndpointName: string;
   /** Community Endpoint Patch properties */
-  properties?: CommunityEndpointPatchProperties;
+  properties?: CommunityEndpointPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateCommunityEndpointRequestTagsMap;
+  tags?: UpdateCommunityEndpointRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCommunityEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCommunityEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCommunityEndpointResponseTagsMap;
+  tags?: UpdateCommunityEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CommunityEndpointProperties;
+  properties?: CommunityEndpointProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Dedicated Hub patchable Properties */
 export type DedicatedHubPatchProperties = DedicatedHubPropertiesInput;
@@ -2240,36 +2255,36 @@ export interface UpdateDedicatedHubRequest {
   /** The name of the Dedicated Hub Resource */
   dedicatedHubName: string;
   /** The DedicatedHub resource. */
-  properties?: DedicatedHubPropertiesInput;
+  properties?: DedicatedHubPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateDedicatedHubRequestTagsMap;
+  tags?: UpdateDedicatedHubRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDedicatedHubResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDedicatedHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDedicatedHubResponseTagsMap;
+  tags?: UpdateDedicatedHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DedicatedHubProperties;
+  properties?: DedicatedHubProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Enclave Connection patchable Properties */
 export interface EnclaveConnectionPatchProperties {
   /** Source CIDR. */
-  sourceCidr?: string;
+  sourceCidr?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateEnclaveConnectionRequestTagsMap = { [key: string]: string | undefined };
@@ -2281,31 +2296,31 @@ export interface UpdateEnclaveConnectionRequest {
   /** The name of the Enclave Connection Resource */
   enclaveConnectionName: string;
   /** Enclave Connection Patch properties */
-  properties?: EnclaveConnectionPatchProperties;
+  properties?: EnclaveConnectionPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateEnclaveConnectionRequestTagsMap;
+  tags?: UpdateEnclaveConnectionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEnclaveConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEnclaveConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateEnclaveConnectionResponseTagsMap;
+  tags?: UpdateEnclaveConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveConnectionProperties;
+  properties?: EnclaveConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Enclave Endpoint Rule Collection. */
 export type EnclaveEndpointPatchPropertiesRuleCollectionList =
@@ -2313,9 +2328,9 @@ export type EnclaveEndpointPatchPropertiesRuleCollectionList =
 /** Enclave Endpoint patchable Properties */
 export interface EnclaveEndpointPatchProperties {
   /** Enclave Endpoint Rule Collection. */
-  ruleCollection?: EnclaveEndpointPatchPropertiesRuleCollectionList;
+  ruleCollection?: EnclaveEndpointPatchPropertiesRuleCollectionList | undefined;
   /** Whether update mode is automatic or manual. */
-  updateMode?: UpdateMode | (string & {});
+  updateMode?: UpdateMode | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateEnclaveEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -2329,31 +2344,31 @@ export interface UpdateEnclaveEndpointRequest {
   /** The name of the Enclave Endpoint Resource */
   enclaveEndpointName: string;
   /** Enclave Endpoint Patch properties */
-  properties?: EnclaveEndpointPatchProperties;
+  properties?: EnclaveEndpointPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateEnclaveEndpointRequestTagsMap;
+  tags?: UpdateEnclaveEndpointRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEnclaveEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEnclaveEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateEnclaveEndpointResponseTagsMap;
+  tags?: UpdateEnclaveEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnclaveEndpointProperties;
+  properties?: EnclaveEndpointProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Transit Hub patchable Properties */
 export type TransitHubPatchProperties = TransitHubPropertiesInput;
@@ -2369,31 +2384,31 @@ export interface UpdateTransitHubRequest {
   /** The name of the TransitHub Resource */
   transitHubName: string;
   /** The TransitHub resource. */
-  properties?: TransitHubPropertiesInput;
+  properties?: TransitHubPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateTransitHubRequestTagsMap;
+  tags?: UpdateTransitHubRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateTransitHubResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateTransitHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateTransitHubResponseTagsMap;
+  tags?: UpdateTransitHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TransitHubProperties;
+  properties?: TransitHubProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource Visibility Mode */
 export type ResourceVisibilityMode = "Enabled" | "Disabled";
@@ -2413,36 +2428,38 @@ export type DiagnosticDestination = "CommunityOnly" | "EnclaveOnly" | "Both";
 /** Virtual Enclave Default Settings */
 export interface EnclaveDefaultSettingsPatchModel {
   /** Diagnostic Destination. */
-  diagnosticDestination?: DiagnosticDestination | (string & {});
+  diagnosticDestination?: DiagnosticDestination | (string & {}) | undefined;
 }
 /** Virtual Enclave ApprovalSettings Patch Properties */
 export type VirtualEnclaveApprovalSettingsPatchProperties = VirtualEnclaveApprovalSettings;
 /** Virtual Enclave Patchable Properties */
 export interface VirtualEnclavePatchPropertiesInput {
   /** Virtual Network. */
-  enclaveVirtualNetwork?: EnclaveVirtualNetworkModelInput;
+  enclaveVirtualNetwork?: EnclaveVirtualNetworkModelInput | undefined;
   /** Deploy Bastion service (True or False). */
-  bastionEnabled?: boolean;
+  bastionEnabled?: boolean | undefined;
   /** Specifies whether resources in the workload resource group(s) are visible through standard RBAC */
-  workloadResourceVisibility?: ResourceVisibilityMode | (string & {});
+  workloadResourceVisibility?: ResourceVisibilityMode | (string & {}) | undefined;
   /** Controls whether standard Azure RBAC role inheritance applies to the workload resource group(s) */
-  rbacInheritance?: RbacInheritanceMode | (string & {});
+  rbacInheritance?: RbacInheritanceMode | (string & {}) | undefined;
   /** Enclave role assignments */
-  enclaveRoleAssignments?: VirtualEnclavePatchPropertiesInputEnclaveRoleAssignmentsList;
+  enclaveRoleAssignments?: VirtualEnclavePatchPropertiesInputEnclaveRoleAssignmentsList | undefined;
   /** Workload role assignments */
-  workloadRoleAssignments?: VirtualEnclavePatchPropertiesInputWorkloadRoleAssignmentsList;
+  workloadRoleAssignments?:
+    | VirtualEnclavePatchPropertiesInputWorkloadRoleAssignmentsList
+    | undefined;
   /** Enclave specific policies */
-  governedServiceList?: VirtualEnclavePatchPropertiesInputGovernedServiceListList;
+  governedServiceList?: VirtualEnclavePatchPropertiesInputGovernedServiceListList | undefined;
   /** Enclave default settings. */
-  enclaveDefaultSettings?: EnclaveDefaultSettingsPatchModel;
+  enclaveDefaultSettings?: EnclaveDefaultSettingsPatchModel | undefined;
   /** Maintenance Mode configuration. */
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel | undefined;
   /** DedicatedHub Resource ID. */
-  dedicatedHubResourceId?: string;
+  dedicatedHubResourceId?: string | undefined;
   /** Approval requirements for various actions on the enclave's resources. */
-  approvalSettings?: VirtualEnclaveApprovalSettings;
+  approvalSettings?: VirtualEnclaveApprovalSettings | undefined;
   /** Virtual Enclave Monitoring Settings for diagnostic and virtual network flow logs */
-  monitoringSettings?: MonitoringSettingsPatchModel;
+  monitoringSettings?: MonitoringSettingsPatchModel | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualEnclaveRequestTagsMap = { [key: string]: string | undefined };
@@ -2454,11 +2471,11 @@ export interface UpdateVirtualEnclaveRequest {
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
   /** Virtual Enclave Patch properties */
-  properties?: VirtualEnclavePatchPropertiesInput;
+  properties?: VirtualEnclavePatchPropertiesInput | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualEnclaveRequestTagsMap;
+  tags?: UpdateVirtualEnclaveRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualEnclaveResponseTagsMap = { [key: string]: string | undefined };
@@ -2466,32 +2483,32 @@ export type UpdateVirtualEnclaveResponseTagsMap = { [key: string]: string | unde
 export type UpdateVirtualEnclaveResponseIdentity = CommunityCreateOrUpdateResponseIdentity;
 export interface UpdateVirtualEnclaveResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualEnclaveResponseTagsMap;
+  tags?: UpdateVirtualEnclaveResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VirtualEnclaveProperties;
+  properties?: VirtualEnclaveProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of resource group ids. */
 export type WorkloadPatchPropertiesResourceGroupCollectionList = Array<string>;
 /** Workload patchable Properties */
 export interface WorkloadPatchProperties {
   /** List of resource group ids. */
-  resourceGroupCollection?: WorkloadPatchPropertiesResourceGroupCollectionList;
+  resourceGroupCollection?: WorkloadPatchPropertiesResourceGroupCollectionList | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkloadRequestTagsMap = { [key: string]: string | undefined };
@@ -2505,31 +2522,31 @@ export interface UpdateWorkloadRequest {
   /** The name of the workloadResource Resource */
   workloadName: string;
   /** Workload Patch properties */
-  properties?: WorkloadPatchProperties;
+  properties?: WorkloadPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkloadRequestTagsMap;
+  tags?: UpdateWorkloadRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkloadResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkloadResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkloadResponseTagsMap;
+  tags?: UpdateWorkloadResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkloadProperties;
+  properties?: WorkloadProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualEnclaveCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2551,7 +2568,10 @@ export type EnclaveDefaultSettingsModelInputDiagnosticDestination =
 /** Virtual Enclave Default Settings */
 export interface EnclaveDefaultSettingsModelInput {
   /** Diagnostic Destination. */
-  diagnosticDestination?: EnclaveDefaultSettingsModelInputDiagnosticDestination | (string & {});
+  diagnosticDestination?:
+    | EnclaveDefaultSettingsModelInputDiagnosticDestination
+    | (string & {})
+    | undefined;
 }
 /** Virtual Enclave Resource properties */
 export interface VirtualEnclavePropertiesInput {
@@ -2560,29 +2580,30 @@ export interface VirtualEnclavePropertiesInput {
   /** Community Resource Id. */
   communityResourceId: string;
   /** Deploy Bastion service (True or False). */
-  bastionEnabled?: boolean;
+  bastionEnabled?: boolean | undefined;
   /** Specifies whether resources in the workload resource group(s) are visible through standard RBAC */
   workloadResourceVisibility?:
     | VirtualEnclavePropertiesInputWorkloadResourceVisibility
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Controls whether standard Azure RBAC role inheritance applies to the workload resource group(s) */
-  rbacInheritance?: VirtualEnclavePropertiesInputRbacInheritance | (string & {});
+  rbacInheritance?: VirtualEnclavePropertiesInputRbacInheritance | (string & {}) | undefined;
   /** Enclave role assignments */
-  enclaveRoleAssignments?: VirtualEnclavePropertiesInputEnclaveRoleAssignmentsList;
+  enclaveRoleAssignments?: VirtualEnclavePropertiesInputEnclaveRoleAssignmentsList | undefined;
   /** Workload role assignments */
-  workloadRoleAssignments?: VirtualEnclavePropertiesInputWorkloadRoleAssignmentsList;
+  workloadRoleAssignments?: VirtualEnclavePropertiesInputWorkloadRoleAssignmentsList | undefined;
   /** Enclave specific policies */
-  governedServiceList?: VirtualEnclavePropertiesInputGovernedServiceListList;
+  governedServiceList?: VirtualEnclavePropertiesInputGovernedServiceListList | undefined;
   /** Enclave default settings. */
-  enclaveDefaultSettings?: EnclaveDefaultSettingsModelInput;
+  enclaveDefaultSettings?: EnclaveDefaultSettingsModelInput | undefined;
   /** Maintenance Mode configuration. */
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel | undefined;
   /** DedicatedHub Resource ID. */
-  dedicatedHubResourceId?: string;
+  dedicatedHubResourceId?: string | undefined;
   /** Approval requirements for various actions on the enclave's resources. */
-  approvalSettings?: VirtualEnclaveApprovalSettings;
+  approvalSettings?: VirtualEnclaveApprovalSettings | undefined;
   /** Virtual Enclave Monitoring Settings for diagnostic and virtual network flow logs */
-  monitoringSettings?: MonitoringSettingsModel;
+  monitoringSettings?: MonitoringSettingsModel | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type VirtualEnclaveCreateOrUpdateRequestIdentity = CommunityCreateOrUpdateRequestIdentity;
@@ -2594,13 +2615,13 @@ export interface VirtualEnclaveCreateOrUpdateRequest {
   /** The name of the enclaveResource Resource */
   virtualEnclaveName: string;
   /** Resource tags. */
-  tags?: VirtualEnclaveCreateOrUpdateRequestTagsMap;
+  tags?: VirtualEnclaveCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VirtualEnclavePropertiesInput;
+  properties?: VirtualEnclavePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateRequestIdentity;
+  identity?: CommunityCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type VirtualEnclaveCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2608,25 +2629,25 @@ export type VirtualEnclaveCreateOrUpdateResponseTagsMap = { [key: string]: strin
 export type VirtualEnclaveCreateOrUpdateResponseIdentity = CommunityCreateOrUpdateResponseIdentity;
 export interface VirtualEnclaveCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualEnclaveCreateOrUpdateResponseTagsMap;
+  tags?: VirtualEnclaveCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VirtualEnclaveProperties;
+  properties?: VirtualEnclaveProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CommunityCreateOrUpdateResponseIdentity;
+  identity?: CommunityCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualEnclaveHandleApprovalCreationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2640,7 +2661,7 @@ export interface VirtualEnclaveHandleApprovalCreationRequest {
   /** Approval status indicating 'Approved' or 'Rejected' */
   approvalStatus: ApprovalCallbackRequestApprovalStatus | (string & {});
   /** Payload requested by client upon approval action */
-  approvalCallbackPayload?: string;
+  approvalCallbackPayload?: string | undefined;
 }
 export interface VirtualEnclaveHandleApprovalDeletionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2659,7 +2680,7 @@ export type WorkloadPropertiesInputResourceGroupCollectionList = Array<string>;
 /** Workload Resource properties */
 export interface WorkloadPropertiesInput {
   /** List of resource group ids. */
-  resourceGroupCollection?: WorkloadPropertiesInputResourceGroupCollectionList;
+  resourceGroupCollection?: WorkloadPropertiesInputResourceGroupCollectionList | undefined;
 }
 export interface WorkloadCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2671,33 +2692,33 @@ export interface WorkloadCreateOrUpdateRequest {
   /** The name of the workloadResource Resource */
   workloadName: string;
   /** Resource tags. */
-  tags?: WorkloadCreateOrUpdateRequestTagsMap;
+  tags?: WorkloadCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkloadPropertiesInput;
+  properties?: WorkloadPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type WorkloadCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkloadCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkloadCreateOrUpdateResponseTagsMap;
+  tags?: WorkloadCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkloadProperties;
+  properties?: WorkloadProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ApprovalCreateOrUpdateError = AzureOpError;
 /** Create a ApprovalResource */

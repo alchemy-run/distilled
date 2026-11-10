@@ -138,11 +138,11 @@ export interface GetLatestConfigurationRequest {
   ConfigurationToken: string;
 }
 export interface GetLatestConfigurationResponse {
-  NextPollConfigurationToken?: string;
-  NextPollIntervalInSeconds?: number;
-  ContentType?: string;
-  Configuration?: T.StreamingOutputBody;
-  VersionLabel?: string;
+  NextPollConfigurationToken?: string | undefined;
+  NextPollIntervalInSeconds?: number | undefined;
+  ContentType?: string | undefined;
+  Configuration?: T.StreamingOutputBody | undefined;
+  VersionLabel?: string | undefined;
 }
 export type Identifier = string;
 export type OptionalPollSeconds = number;
@@ -150,15 +150,15 @@ export interface StartConfigurationSessionRequest {
   ApplicationIdentifier: string;
   EnvironmentIdentifier: string;
   ConfigurationProfileIdentifier: string;
-  RequiredMinimumPollIntervalInSeconds?: number;
+  RequiredMinimumPollIntervalInSeconds?: number | undefined;
 }
 export interface StartConfigurationSessionResponse {
-  InitialConfigurationToken?: string;
+  InitialConfigurationToken?: string | undefined;
 }
 export type BadRequestReason = string;
 export type InvalidParameterProblem = string;
 export interface InvalidParameterDetail {
-  Problem?: string;
+  Problem?: string | undefined;
 }
 export type InvalidParameterMap = { [key: string]: InvalidParameterDetail | undefined };
 export type BadRequestDetails = {

@@ -235,9 +235,9 @@ export interface OtelConfig {
   /** Endpoint */
   endpoint: string;
   /** Headers */
-  headers?: OtelConfigHeadersMap | null;
+  headers?: OtelConfigHeadersMap | null | undefined;
   /** Organization ID the config belongs to */
-  organizationId?: string;
+  organizationId?: string | undefined;
 }
 export interface Organization {
   /** Organization ID */
@@ -285,15 +285,15 @@ export interface Organization {
   /** Whether this organization may use SCIM directory sync */
   scimEnabled: boolean;
   /** Default region ID */
-  defaultRegionId?: string;
+  defaultRegionId?: string | undefined;
   /** ID of the WorkOS organization mirrored from this organization (absent for personal organizations, which are never mirrored) */
-  workosOrgId?: string;
+  workosOrgId?: string | undefined;
   /** Connection state of the WorkOS SCIM directory, as last reported by WorkOS (absent when no directory has ever reported in) */
-  directorySyncStatus?: DirectorySyncStatus;
+  directorySyncStatus?: DirectorySyncStatus | undefined;
   /** When the directory sync status last changed */
-  directorySyncStatusChangedAt?: string;
+  directorySyncStatusChangedAt?: string | undefined;
   /** When the directory bearer token was revoked; absent while a valid token exists. A revoked token stops provisioning even if the directory is still active. */
-  directorySyncTokenRevokedAt?: string;
+  directorySyncTokenRevokedAt?: string | undefined;
   /** Authenticated rate limit per minute */
   authenticatedRateLimit: number | null;
   /** Sandbox create rate limit per minute */
@@ -319,7 +319,7 @@ export interface OidcIdPConfig {
   /** OAuth Client Secret */
   clientSecret: string | Redacted.Redacted<string>;
   /** OAuth scopes */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. Required and must be non-empty unless `allowAnyDomain` is true. */
 export type CreateOrganizationIdentityProviderRequestEmailDomainsList = Array<string>;
@@ -335,13 +335,15 @@ export interface CreateOrganizationIdentityProviderRequest {
   /** Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. Required and must be non-empty unless `allowAnyDomain` is true. */
   emailDomains: CreateOrganizationIdentityProviderRequestEmailDomainsList;
   /** When true, the IdP accepts any email domain returned by the external provider. Disables the post-callback domain check and allows `emailDomains` to be empty. Only enable for trusted IdPs that strictly control which users can authenticate. */
-  allowAnyDomain?: boolean;
+  allowAnyDomain?: boolean | undefined;
   /** When true, skip the `email_verified` claim check on SSO logins through this identity provider. Only intended for providers that never emit the claim (e.g. Microsoft Entra ID). Risky: only enable if the IdP strictly controls its users' email addresses. */
-  trustEmailVerified?: boolean;
+  trustEmailVerified?: boolean | undefined;
   /** Organization role IDs assigned to users who join the organization via SSO through this identity provider. Roles must be global or belong to this organization. Empty (default) grants the lowest access: membership with no resource permissions. */
-  defaultAssignedRoleIds?: CreateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList;
+  defaultAssignedRoleIds?:
+    | CreateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList
+    | undefined;
   /** Whether the identity provider is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface OidcIdPConfigResponse {
   /** OIDC Issuer URL */
@@ -349,7 +351,7 @@ export interface OidcIdPConfigResponse {
   /** OAuth Client ID */
   clientId: string;
   /** OAuth scopes */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Email domains used for IdP discovery on the login form. May be empty when `allowAnyDomain` is true. */
 export type IdentityProviderEmailDomainsList = Array<string>;
@@ -393,7 +395,7 @@ export interface CreateOrganizationInvitationRequest {
   /** Array of assigned role IDs for the invitee */
   assignedRoleIds: CreateOrganizationInvitationRequestAssignedRoleIdsList;
   /** Expiration date of the invitation */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
 }
 export type CreateOrganizationRoleRequestPermissionsItem =
   | "write:registries"
@@ -433,35 +435,35 @@ export interface CreateOrganizationRoleRequest {
 }
 export interface CreateRegionRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Region name */
   name: string;
   /** Proxy URL for the region */
-  proxyUrl?: string | null;
+  proxyUrl?: string | null | undefined;
   /** SSH Gateway URL for the region */
-  sshGatewayUrl?: string | null;
+  sshGatewayUrl?: string | null | undefined;
   /** Snapshot Manager URL for the region */
-  snapshotManagerUrl?: string | null;
+  snapshotManagerUrl?: string | null | undefined;
   /** OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard. */
-  otelEndpoint?: string | null;
+  otelEndpoint?: string | null | undefined;
   /** S3 bucket in your AWS account that declarative-build context is uploaded to for this region. Requires buildContextBucketRegion and buildContextRoleArn. */
-  buildContextBucket?: string | null;
+  buildContextBucket?: string | null | undefined;
   /** AWS region of buildContextBucket (standard aws partition only) */
-  buildContextBucketRegion?: string | null;
+  buildContextBucketRegion?: string | null | undefined;
   /** IAM role Daytona assumes (with your organization ID as ExternalId) to issue upload credentials for buildContextBucket */
-  buildContextRoleArn?: string | null;
+  buildContextRoleArn?: string | null | undefined;
 }
 export interface CreateRegionResponse {
   /** ID of the created region */
   id: string;
   /** Proxy API key for the region */
-  proxyApiKey?: string | Redacted.Redacted<string> | null;
+  proxyApiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** SSH Gateway API key for the region */
-  sshGatewayApiKey?: string | Redacted.Redacted<string> | null;
+  sshGatewayApiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Snapshot Manager username for the region */
-  snapshotManagerUsername?: string | null;
+  snapshotManagerUsername?: string | null | undefined;
   /** Snapshot Manager password for the region */
-  snapshotManagerPassword?: string | Redacted.Redacted<string> | null;
+  snapshotManagerPassword?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface DeclineOrganizationInvitationRequest {
   /** Invitation ID */
@@ -503,7 +505,7 @@ export interface DeleteRegionRequest {
   /** Region ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteRegionResponse {}
 /** Which setup flow to open: sso for a single sign-on connection, dsync for SCIM directory sync */
@@ -581,7 +583,7 @@ export interface RegionUsageOverview {
   currentDiskUsage: number;
   totalGpuQuota: number;
   currentGpuUsage: number;
-  allowedGpuTypes?: RegionUsageOverviewAllowedGpuTypesList;
+  allowedGpuTypes?: RegionUsageOverviewAllowedGpuTypesList | undefined;
   maxCpuPerSandbox: number | null;
   maxMemoryPerSandbox: number | null;
   maxDiskPerSandbox: number | null;
@@ -605,7 +607,7 @@ export interface GetRegionRequest {
   /** Region ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** The type of the region */
 export type RegionType = "shared" | "dedicated" | "custom";
@@ -615,7 +617,7 @@ export interface Region {
   /** Region name */
   name: string;
   /** Organization ID */
-  organizationId?: string | null;
+  organizationId?: string | null | undefined;
   /** The type of the region */
   regionType: RegionType;
   /** Creation timestamp */
@@ -623,19 +625,19 @@ export interface Region {
   /** Last update timestamp */
   updatedAt: string;
   /** Proxy URL for the region */
-  proxyUrl?: string | null;
+  proxyUrl?: string | null | undefined;
   /** SSH Gateway URL for the region */
-  sshGatewayUrl?: string | null;
+  sshGatewayUrl?: string | null | undefined;
   /** Snapshot Manager URL for the region */
-  snapshotManagerUrl?: string | null;
+  snapshotManagerUrl?: string | null | undefined;
   /** OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard. */
-  otelEndpoint?: string | null;
+  otelEndpoint?: string | null | undefined;
   /** S3 bucket in your AWS account that declarative-build context is uploaded to for this region. Requires buildContextBucketRegion and buildContextRoleArn. */
-  buildContextBucket?: string | null;
+  buildContextBucket?: string | null | undefined;
   /** AWS region of buildContextBucket (standard aws partition only) */
-  buildContextBucketRegion?: string | null;
+  buildContextBucketRegion?: string | null | undefined;
   /** IAM role Daytona assumes (with your organization ID as ExternalId) to issue upload credentials for buildContextBucket */
-  buildContextRoleArn?: string | null;
+  buildContextRoleArn?: string | null | undefined;
 }
 export interface GetSandboxIdentityBySandboxAuthTokenRequest {
   /** Sandbox Auth Token */
@@ -654,7 +656,7 @@ export interface LeaveOrganizationRequest {
 export interface LeaveOrganizationResponse {}
 export interface ListAvailableRegionsRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListAvailableRegionsResponseBodyList = Array<Region>;
 export type ListAvailableRegionsResponse = ListAvailableRegionsResponseBodyList;
@@ -667,7 +669,7 @@ export interface AvailableSandboxClass {
   regionId: string;
   sandboxClass: SandboxClass;
   gpuAvailable: boolean;
-  allowedGpuTypes?: AvailableSandboxClassAllowedGpuTypesList;
+  allowedGpuTypes?: AvailableSandboxClassAllowedGpuTypesList | undefined;
 }
 export type ListAvailableSandboxClassesResponseBodyList = Array<AvailableSandboxClass>;
 export type ListAvailableSandboxClassesResponse = ListAvailableSandboxClassesResponseBodyList;
@@ -754,7 +756,7 @@ export interface RegenerateProxyApiKeyRequest {
   /** Region ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface RegenerateApiKeyResponse {
   /** The newly generated API key */
@@ -764,7 +766,7 @@ export interface RegenerateSnapshotManagerCredentialsRequest {
   /** Region ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SnapshotManagerCredentials {
   /** Snapshot Manager username for the region */
@@ -776,7 +778,7 @@ export interface RegenerateSshGatewayApiKeyRequest {
   /** Region ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SetOrganizationDefaultRegionRequest {
   /** Organization ID */
@@ -795,9 +797,9 @@ export interface TestIdentityProviderConnectionResponse {
   /** Whether the connection test was successful */
   success: boolean;
   /** The discovered issuer from the OIDC configuration */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Error message if the connection test failed */
-  error?: string;
+  error?: string | undefined;
 }
 /** Organization member role */
 export type UpdateAccessForOrganizationMemberRequestRole = "owner" | "member";
@@ -817,7 +819,7 @@ export type UpdateExperimentalConfigRequestBodyMap = { [key: string]: unknown | 
 export interface UpdateExperimentalConfigRequest {
   /** Organization ID */
   organizationId: string;
-  body?: UpdateExperimentalConfigRequestBodyMap;
+  body?: UpdateExperimentalConfigRequestBodyMap | undefined;
 }
 export interface UpdateExperimentalConfigResponse {}
 export interface UpdateOrganizationDefaultQueueTimeoutRequest {
@@ -829,13 +831,13 @@ export interface UpdateOrganizationDefaultQueueTimeoutRequest {
 export interface UpdateOrganizationDefaultQueueTimeoutResponse {}
 export interface UpdateOidcIdPConfig {
   /** OIDC Issuer URL */
-  issuerUrl?: string;
+  issuerUrl?: string | undefined;
   /** OAuth Client ID */
-  clientId?: string;
+  clientId?: string | undefined;
   /** OAuth Client Secret */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. If provided and `allowAnyDomain` is not being set to true, must contain at least one domain. To clear domains in the same request, set `allowAnyDomain: true` and `emailDomains: []`. */
 export type UpdateOrganizationIdentityProviderRequestEmailDomainsList = Array<string>;
@@ -847,19 +849,21 @@ export interface UpdateOrganizationIdentityProviderRequest {
   /** Identity provider ID */
   id: string;
   /** Display name for the identity provider */
-  name?: string;
+  name?: string | undefined;
   /** OIDC configuration */
-  oidcConfig?: UpdateOidcIdPConfig;
+  oidcConfig?: UpdateOidcIdPConfig | undefined;
   /** Email domains used for IdP discovery on the login form and to validate the user identity returned by the IdP. If provided and `allowAnyDomain` is not being set to true, must contain at least one domain. To clear domains in the same request, set `allowAnyDomain: true` and `emailDomains: []`. */
-  emailDomains?: UpdateOrganizationIdentityProviderRequestEmailDomainsList;
+  emailDomains?: UpdateOrganizationIdentityProviderRequestEmailDomainsList | undefined;
   /** When true, the IdP accepts any email domain returned by the external provider. Disables the post-callback domain check and allows `emailDomains` to be empty. Only enable for trusted IdPs that strictly control which users can authenticate. */
-  allowAnyDomain?: boolean;
+  allowAnyDomain?: boolean | undefined;
   /** When true, skip the `email_verified` claim check on SSO logins through this identity provider. Only intended for providers that never emit the claim (e.g. Microsoft Entra ID). Risky: only enable if the IdP strictly controls its users' email addresses. */
-  trustEmailVerified?: boolean;
+  trustEmailVerified?: boolean | undefined;
   /** Organization role IDs assigned to users who join the organization via SSO through this identity provider. Roles must be global or belong to this organization. Empty grants the lowest access: membership with no resource permissions. */
-  defaultAssignedRoleIds?: UpdateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList;
+  defaultAssignedRoleIds?:
+    | UpdateOrganizationIdentityProviderRequestDefaultAssignedRoleIdsList
+    | undefined;
   /** Whether the identity provider is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Organization member role */
 export type UpdateOrganizationInvitationRequestRole = "owner" | "member";
@@ -875,7 +879,7 @@ export interface UpdateOrganizationInvitationRequest {
   /** Array of role IDs */
   assignedRoleIds: UpdateOrganizationInvitationRequestAssignedRoleIdsList;
   /** Expiration date of the invitation */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
 }
 /** Headers */
 export type UpdateOrganizationOtelConfigRequestHeadersMap = { [key: string]: string | undefined };
@@ -885,7 +889,7 @@ export interface UpdateOrganizationOtelConfigRequest {
   /** Endpoint */
   endpoint: string;
   /** Headers */
-  headers?: UpdateOrganizationOtelConfigRequestHeadersMap | null;
+  headers?: UpdateOrganizationOtelConfigRequestHeadersMap | null | undefined;
 }
 export interface UpdateOrganizationOtelConfigResponse {}
 export type UpdateOrganizationRoleRequestPermissionsItem =
@@ -930,21 +934,21 @@ export interface UpdateRegionRequest {
   /** Region ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Proxy URL for the region */
-  proxyUrl?: string | null;
+  proxyUrl?: string | null | undefined;
   /** SSH Gateway URL for the region */
-  sshGatewayUrl?: string | null;
+  sshGatewayUrl?: string | null | undefined;
   /** Snapshot Manager URL for the region */
-  snapshotManagerUrl?: string | null;
+  snapshotManagerUrl?: string | null | undefined;
   /** OTel collector endpoint for sandboxes created in this region. When set, sandbox OTel data is sent to this endpoint instead of the Daytona-hosted collector and will not be available in the Daytona analytics API or dashboard. */
-  otelEndpoint?: string | null;
+  otelEndpoint?: string | null | undefined;
   /** S3 bucket in your AWS account that declarative-build context is uploaded to for this region. Requires buildContextBucketRegion and buildContextRoleArn. */
-  buildContextBucket?: string | null;
+  buildContextBucket?: string | null | undefined;
   /** AWS region of buildContextBucket (standard aws partition only) */
-  buildContextBucketRegion?: string | null;
+  buildContextBucketRegion?: string | null | undefined;
   /** IAM role Daytona assumes (with your organization ID as ExternalId) to issue upload credentials for buildContextBucket */
-  buildContextRoleArn?: string | null;
+  buildContextRoleArn?: string | null | undefined;
 }
 export interface UpdateRegionResponse {}
 export type AcceptOrganizationInvitationError = OrganizationInvitationNotFound | DaytonaOpError;

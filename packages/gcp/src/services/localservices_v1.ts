@@ -58,94 +58,94 @@ export class NotFound
 
 export interface SearchAccountReportsRequest {
   /** The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  "endDate.day"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "startDate.year"?: number | undefined;
   /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Account Report for Manager with id 123. | Required. */
-  query?: string;
+  query?: string | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  "startDate.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "endDate.year"?: number | undefined;
   /** The `next_page_token` value returned from a previous request to SearchAccountReports that indicates where listing should continue. Optional. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  "endDate.month"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "startDate.day"?: number | undefined;
 }
 /** Conatiner for aggregator specific information if lead is for an aggregator GLS account. */
 export interface GoogleAdsHomeservicesLocalservicesV1AggregatorInfo {
   /** Provider id (listed in aggregator system) which maps to a account id in GLS system. */
-  aggregatorProviderId?: string;
+  aggregatorProviderId?: string | undefined;
 }
 /** An Account Report of a GLS account identified by their account id containing aggregate data gathered from a particular date range. Next ID: 18 */
 export interface GoogleAdsHomeservicesLocalservicesV1AccountReport {
   /** Currency code of the account. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Total cost of the account in previous specified period in the account's specified currency. */
-  previousPeriodTotalCost?: number;
+  previousPeriodTotalCost?: number | undefined;
   /** Unique identifier of the GLS account. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Number of charged leads the account received in current specified period. */
-  currentPeriodChargedLeads?: string;
+  currentPeriodChargedLeads?: string | undefined;
   /** Average weekly budget in the currency code of the account. */
-  averageWeeklyBudget?: number;
+  averageWeeklyBudget?: number | undefined;
   /** Number of charged leads the account received in previous specified period. */
-  previousPeriodChargedLeads?: string;
+  previousPeriodChargedLeads?: string | undefined;
   /** Aggregator specific information related to the account. */
-  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo;
+  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo | undefined;
   /** Phone lead responsiveness of the account for the past 90 days from current date. This is computed by taking the total number of connected calls from charged phone leads and dividing by the total number of calls received. */
-  phoneLeadResponsiveness?: number;
+  phoneLeadResponsiveness?: number | undefined;
   /** Number of impressions that customers have had in the past 2 days. */
-  impressionsLastTwoDays?: string;
+  impressionsLastTwoDays?: string | undefined;
   /** Total number of reviews the account has up to current date. */
-  totalReview?: number;
+  totalReview?: number | undefined;
   /** Business name of the account. */
-  businessName?: string;
+  businessName?: string | undefined;
   /** Number of connected phone calls (duration over 30s) in current specified period. */
-  currentPeriodConnectedPhoneCalls?: string;
+  currentPeriodConnectedPhoneCalls?: string | undefined;
   /** Average review rating score from 1-5 stars. */
-  averageFiveStarRating?: number;
+  averageFiveStarRating?: number | undefined;
   /** Number of phone calls in previous specified period, including both connected and unconnected calls. */
-  previousPeriodPhoneCalls?: string;
+  previousPeriodPhoneCalls?: string | undefined;
   /** Number of phone calls in current specified period, including both connected and unconnected calls. */
-  currentPeriodPhoneCalls?: string;
+  currentPeriodPhoneCalls?: string | undefined;
   /** Total cost of the account in current specified period in the account's specified currency. */
-  currentPeriodTotalCost?: number;
+  currentPeriodTotalCost?: number | undefined;
   /** Number of connected phone calls (duration over 30s) in previous specified period. */
-  previousPeriodConnectedPhoneCalls?: string;
+  previousPeriodConnectedPhoneCalls?: string | undefined;
 }
 export type GoogleAdsHomeservicesLocalservicesV1AccountReportList =
   Array<GoogleAdsHomeservicesLocalservicesV1AccountReport>;
 /** A page of the response received from the SearchAccountReports method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next request page. */
 export interface GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse {
   /** Pagination token to retrieve the next page of results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of account reports which maps 1:1 to a particular linked GLS account. */
-  accountReports?: GoogleAdsHomeservicesLocalservicesV1AccountReportList;
+  accountReports?: GoogleAdsHomeservicesLocalservicesV1AccountReportList | undefined;
 }
 export interface SearchDetailedLeadReportsRequest {
   /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Detailed Lead Report for Manager with id | | | 123. | Required. */
-  query?: string;
+  query?: string | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "startDate.day"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  "endDate.day"?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  "endDate.month"?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  "startDate.month"?: number | undefined;
   /** The `next_page_token` value returned from a previous request to SearchDetailedLeadReports that indicates where listing should continue. Optional. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "endDate.year"?: number | undefined;
   /** The maximum number of accounts to return. If the page size is unset, page size will default to 1000. Maximum page_size is 10000. Optional. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "startDate.year"?: number | undefined;
 }
 export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum =
   | "CHARGE_STATUS_UNSPECIFIED"
@@ -154,15 +154,15 @@ export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEn
 /** Container for booking lead specific information. */
 export interface GoogleAdsHomeservicesLocalservicesV1BookingLead {
   /** The job type of the specified lead. */
-  jobType?: string;
+  jobType?: string | undefined;
   /** Timestamp of when service is provided by advertiser. */
-  bookingAppointmentTimestamp?: string;
+  bookingAppointmentTimestamp?: string | undefined;
   /** Name of the customer who created the lead. */
-  customerName?: string;
+  customerName?: string | undefined;
   /** Consumer phone number associated with the booking lead. */
-  consumerPhoneNumber?: string;
+  consumerPhoneNumber?: string | undefined;
   /** Consumer email associated with the booking lead. */
-  consumerEmail?: string;
+  consumerEmail?: string | undefined;
 }
 export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum =
   | "LEAD_TYPE_UNSPECIFIED"
@@ -172,75 +172,75 @@ export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum =
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface GoogleTypeTimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
+  id?: string | undefined;
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
+  version?: string | undefined;
 }
 /** Container for phone lead specific information. */
 export interface GoogleAdsHomeservicesLocalservicesV1PhoneLead {
   /** Duration of the charged phone call in seconds. */
-  chargedConnectedCallDurationSeconds?: string;
+  chargedConnectedCallDurationSeconds?: string | undefined;
   /** Timestamp of the phone call which resulted in a charged phone lead. */
-  chargedCallTimestamp?: string;
+  chargedCallTimestamp?: string | undefined;
   /** Consumer phone number associated with the phone lead. */
-  consumerPhoneNumber?: string;
+  consumerPhoneNumber?: string | undefined;
 }
 /** Container for message lead specific information. */
 export interface GoogleAdsHomeservicesLocalservicesV1MessageLead {
   /** The job type of the specified lead. */
-  jobType?: string;
+  jobType?: string | undefined;
   /** Consumer phone number associated with the message lead. */
-  consumerPhoneNumber?: string;
+  consumerPhoneNumber?: string | undefined;
   /** The postal code of the customer who created the lead. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** Name of the customer who created the lead. */
-  customerName?: string;
+  customerName?: string | undefined;
 }
 /** A Detailed Lead Report of a lead identified by their lead id and contains consumer, account, monetization, and lead data. */
 export interface GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport {
   /** Timestamp of when the lead was created. */
-  leadCreationTimestamp?: string;
+  leadCreationTimestamp?: string | undefined;
   /** Aggregator specific information related to the lead. */
-  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo;
+  aggregatorInfo?: GoogleAdsHomeservicesLocalservicesV1AggregatorInfo | undefined;
   /** Deprecated in favor of google_ads_lead_id. Unique identifier of a Detailed Lead Report. */
-  leadId?: string;
+  leadId?: string | undefined;
   /** Currency code. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Whether the lead has been charged. */
-  chargeStatus?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum;
+  chargeStatus?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportChargeStatusEnum | undefined;
   /** Identifies account that received the lead. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Price of the lead (available only after it has been charged). */
-  leadPrice?: number;
+  leadPrice?: number | undefined;
   /** More information associated to only booking leads. */
-  bookingLead?: GoogleAdsHomeservicesLocalservicesV1BookingLead;
+  bookingLead?: GoogleAdsHomeservicesLocalservicesV1BookingLead | undefined;
   /** Location of the associated account's home city. */
-  geo?: string;
+  geo?: string | undefined;
   /** Lead type. */
-  leadType?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum;
+  leadType?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportLeadTypeEnum | undefined;
   /** Business name associated to the account. */
-  businessName?: string;
+  businessName?: string | undefined;
   /** Unique identifier of a Detailed Lead Report. */
-  googleAdsLeadId?: string;
+  googleAdsLeadId?: string | undefined;
   /** Timezone of the particular provider associated to a lead. */
-  timezone?: GoogleTypeTimeZone;
+  timezone?: GoogleTypeTimeZone | undefined;
   /** Dispute status related to the lead. */
-  disputeStatus?: string;
+  disputeStatus?: string | undefined;
   /** Lead category (e.g. hvac, plumber) */
-  leadCategory?: string;
+  leadCategory?: string | undefined;
   /** More information associated to only phone leads. */
-  phoneLead?: GoogleAdsHomeservicesLocalservicesV1PhoneLead;
+  phoneLead?: GoogleAdsHomeservicesLocalservicesV1PhoneLead | undefined;
   /** More information associated to only message leads. */
-  messageLead?: GoogleAdsHomeservicesLocalservicesV1MessageLead;
+  messageLead?: GoogleAdsHomeservicesLocalservicesV1MessageLead | undefined;
 }
 export type GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportList =
   Array<GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport>;
 /** A page of the response received from the SearchDetailedLeadReports method. A paginated response where more pages are available has `next_page_token` set. This token can be used in a subsequent request to retrieve the next request page. */
 export interface GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse {
   /** List of detailed lead reports uniquely identified by external lead id. */
-  detailedLeadReports?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportList;
+  detailedLeadReports?: GoogleAdsHomeservicesLocalservicesV1DetailedLeadReportList | undefined;
   /** Pagination token to retrieve the next page of results. When `next_page_token` is not filled in, there is no next page and the list returned is the last page in the result set. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchAccountReportsError = NotFound | Forbidden | GcpOpError;
 /** Get account reports containing aggregate account data of all linked GLS accounts. Caller needs to provide their manager customer id and the associated auth credential that allows them read permissions on their linked accounts. */

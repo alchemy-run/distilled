@@ -87,52 +87,52 @@ export type StringList = Array<string>;
 /** Lists the asset IDs of all assets. */
 export interface AssetList {
   /** Required. A list of asset IDs */
-  assetIds?: StringList;
+  assetIds?: StringList | undefined;
 }
 /** A request to add assets to a group. */
 export interface AddAssetsToGroupRequest {
   /** Required. List of assets to be added. The maximum number of assets that can be added in a single request is 2000. */
-  assets?: AssetList;
+  assets?: AssetList | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. When this value is set to `false` and one of the given assets is already an existing member of the group, the operation fails with an `Already Exists` error. When set to `true` this situation is silently ignored by the server. Default value is `false`. */
-  allowExisting?: boolean;
+  allowExisting?: boolean | undefined;
 }
 export interface AddAssetsProjectsLocationsGroupsRequest {
   /** Required. Group reference. */
   group: string;
   /** Request body */
-  body?: AddAssetsToGroupRequest;
+  body?: AddAssetsToGroupRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type DoubleList = Array<number>;
 /** Histogram of bucketed assets counts by field value. */
 export interface AggregationHistogram {
   /** Lower bounds of buckets. The response will contain `n+1` buckets for `n` bounds. The first bucket will count all assets for which the field value is smaller than the first bound. Subsequent buckets will count assets for which the field value is greater or equal to a lower bound and smaller than the next one. The last bucket will count assets for which the field value is greater or equal to the final lower bound. You can define up to 20 lower bounds. */
-  lowerBounds?: DoubleList;
+  lowerBounds?: DoubleList | undefined;
 }
 /** Object count. */
 export interface AggregationCount {}
@@ -143,149 +143,149 @@ export type AggregationFrequency = AggregationCount;
 /** Message describing an aggregation. The message includes the aggregation type, parameters, and the field on which to perform the aggregation. */
 export interface Aggregation {
   /** Creates a bucketed histogram of field values. */
-  histogram?: AggregationHistogram;
+  histogram?: AggregationHistogram | undefined;
   /** The name of the field on which to aggregate. */
-  field?: string;
+  field?: string | undefined;
   /** Count the number of matching objects. */
-  count?: AggregationCount;
+  count?: AggregationCount | undefined;
   /** Sum over a numeric field. */
-  sum?: AggregationCount;
+  sum?: AggregationCount | undefined;
   /** Creates a frequency distribution of all field values. */
-  frequency?: AggregationCount;
+  frequency?: AggregationCount | undefined;
 }
 export type AggregationList = Array<Aggregation>;
 /** A request to aggregate one or more values. */
 export interface AggregateAssetsValuesRequest {
   /** Array of aggregations to perform. Up to 25 aggregations can be defined. */
-  aggregations?: AggregationList;
+  aggregations?: AggregationList | undefined;
   /** Optional. The aggregation will be performed on assets that match the provided filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. When this value is set to 'true' the response will include all assets, including those that are hidden. */
-  showHidden?: boolean;
+  showHidden?: boolean | undefined;
 }
 export interface AggregateValuesProjectsLocationsAssetsRequest {
   /** Required. Parent value for `AggregateAssetsValuesRequest`. */
   parent: string;
   /** Request body */
-  body?: AggregateAssetsValuesRequest;
+  body?: AggregateAssetsValuesRequest | undefined;
 }
 /** The result of a sum aggregation. */
 export interface AggregationResultSum {
-  value?: number;
+  value?: number | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** The result of a frequency distribution aggregation. */
 export interface AggregationResultFrequency {
-  values?: StringMap;
+  values?: StringMap | undefined;
 }
 /** The result of a count aggregation. */
 export interface AggregationResultCount {
-  value?: string;
+  value?: string | undefined;
 }
 /** A histogram bucket with a lower and upper bound, and a count of items with a field value between those bounds. The lower bound is inclusive and the upper bound is exclusive. Lower bound may be -infinity and upper bound may be infinity. */
 export interface AggregationResultHistogramBucket {
   /** Count of items in the bucket. */
-  count?: string;
+  count?: string | undefined;
   /** Lower bound - inclusive. */
-  lowerBound?: number;
+  lowerBound?: number | undefined;
   /** Upper bound - exclusive. */
-  upperBound?: number;
+  upperBound?: number | undefined;
 }
 export type AggregationResultHistogramBucketList = Array<AggregationResultHistogramBucket>;
 /** The result of a bucketed histogram aggregation. */
 export interface AggregationResultHistogram {
   /** Buckets in the histogram. There will be `n+1` buckets matching `n` lower bounds in the request. The first bucket will be from -infinity to the first bound. Subsequent buckets will be between one bound and the next. The final bucket will be from the final bound to infinity. */
-  buckets?: AggregationResultHistogramBucketList;
+  buckets?: AggregationResultHistogramBucketList | undefined;
 }
 /** Message describing a result of an aggregation. */
 export interface AggregationResult {
-  sum?: AggregationResultSum;
-  frequency?: AggregationResultFrequency;
-  field?: string;
-  count?: AggregationResultCount;
-  histogram?: AggregationResultHistogram;
+  sum?: AggregationResultSum | undefined;
+  frequency?: AggregationResultFrequency | undefined;
+  field?: string | undefined;
+  count?: AggregationResultCount | undefined;
+  histogram?: AggregationResultHistogram | undefined;
 }
 export type AggregationResultList = Array<AggregationResult>;
 /** A response to a request to aggregated assets values. */
 export interface AggregateAssetsValuesResponse {
   /** The aggregation results. */
-  results?: AggregationResultList;
+  results?: AggregationResultList | undefined;
 }
 /** Cascading rule for related logical DBs. */
 export type CascadeLogicalDBsRule = AggregationCount;
 /** Specifies cascading rules for traversing relations. */
 export interface CascadingRule {
   /** Cascading rule for related logical DBs. */
-  cascadeLogicalDbs?: AggregationCount;
+  cascadeLogicalDbs?: AggregationCount | undefined;
 }
 export type CascadingRuleList = Array<CascadingRule>;
 /** A request to delete a list of asset. */
 export interface BatchDeleteAssetsRequest {
   /** Required. The IDs of the assets to delete. A maximum of 1000 assets can be deleted in a batch. Format: projects/{project}/locations/{location}/assets/{name}. */
-  names?: StringList;
+  names?: StringList | undefined;
   /** Optional. When this value is set to `true` the request is a no-op for non-existing assets. See https://google.aip.dev/135#delete-if-existing for additional details. Default value is `false`. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. Optional cascading rules for deleting related assets. */
-  cascadingRules?: CascadingRuleList;
+  cascadingRules?: CascadingRuleList | undefined;
 }
 export interface BatchDeleteProjectsLocationsAssetsRequest {
   /** Required. Parent value for batch asset delete. */
   parent: string;
   /** Request body */
-  body?: BatchDeleteAssetsRequest;
+  body?: BatchDeleteAssetsRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** Disk Partition details. */
 export interface DiskPartition {
   /** Partition free space. */
-  freeBytes?: string;
+  freeBytes?: string | undefined;
   /** Partition type. */
-  type?: string;
+  type?: string | undefined;
   /** Partition capacity. */
-  capacityBytes?: string;
+  capacityBytes?: string | undefined;
   /** Partition file system. */
-  fileSystem?: string;
+  fileSystem?: string | undefined;
   /** Mount point (Linux/Windows) or drive letter (Windows). */
-  mountPoint?: string;
+  mountPoint?: string | undefined;
   /** Sub-partitions. */
-  subPartitions?: DiskPartitionList;
+  subPartitions?: DiskPartitionList | undefined;
   /** Partition UUID. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type DiskPartitionList_ = Array<DiskPartition>;
 /** Disk partition list. */
 export interface DiskPartitionList {
   /** Partition entries. */
-  entries?: DiskPartitionList_;
+  entries?: DiskPartitionList_ | undefined;
 }
 /** Disk partition details. */
 export interface DiskPartitionDetails {
   /** Output only. Total free space of all partitions. */
-  freeSpaceBytes?: string;
+  freeSpaceBytes?: string | undefined;
   /** Optional. List of partitions. */
-  partitions?: DiskPartitionList;
+  partitions?: DiskPartitionList | undefined;
   /** Output only. Total capacity of all partitions. */
-  totalCapacityBytes?: string;
+  totalCapacityBytes?: string | undefined;
 }
 /** Guest OS running process details. */
 export interface RunningProcess {
   /** Process binary path. */
-  exePath?: string;
+  exePath?: string | undefined;
   /** Process ID. */
-  pid?: string;
+  pid?: string | undefined;
   /** User running the process. */
-  user?: string;
+  user?: string | undefined;
   /** Process full command line. */
-  cmdline?: string;
+  cmdline?: string | undefined;
   /** Process extended attributes. */
-  attributes?: StringMap;
+  attributes?: StringMap | undefined;
 }
 export type RunningProcessList_ = Array<RunningProcess>;
 /** List of running guest OS processes. */
 export interface RunningProcessList {
   /** Running process entries. */
-  entries?: RunningProcessList_;
+  entries?: RunningProcessList_ | undefined;
 }
 export type NetworkConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -296,34 +296,34 @@ export type NetworkConnectionStateEnum =
   | "CLOSED";
 export interface NetworkConnection {
   /** Local IP address. */
-  localIpAddress?: string;
+  localIpAddress?: string | undefined;
   /** Local port. */
-  localPort?: number;
+  localPort?: number | undefined;
   /** Connection protocol (e.g. TCP/UDP). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** Process ID. */
-  pid?: string;
+  pid?: string | undefined;
   /** Network connection state. */
-  state?: NetworkConnectionStateEnum | (string & {});
+  state?: NetworkConnectionStateEnum | (string & {}) | undefined;
   /** Process or service name. */
-  processName?: string;
+  processName?: string | undefined;
   /** Remote IP address. */
-  remoteIpAddress?: string;
+  remoteIpAddress?: string | undefined;
   /** Remote port. */
-  remotePort?: number;
+  remotePort?: number | undefined;
 }
 export type NetworkConnectionList_ = Array<NetworkConnection>;
 /** Network connection list. */
 export interface NetworkConnectionList {
   /** Network connection entries. */
-  entries?: NetworkConnectionList_;
+  entries?: NetworkConnectionList_ | undefined;
 }
 /** Runtime networking information. */
 export interface RuntimeNetworkInfo {
   /** Network connections. */
-  connections?: NetworkConnectionList;
+  connections?: NetworkConnectionList | undefined;
   /** Time of the last network scan. */
-  scanTime?: string;
+  scanTime?: string | undefined;
 }
 export type RunningServiceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "PAUSED" | "STOPPED";
 export type RunningServiceStartModeEnum =
@@ -336,127 +336,127 @@ export type RunningServiceStartModeEnum =
 /** Guest OS running service details. */
 export interface RunningService {
   /** Service state (OS-agnostic). */
-  state?: RunningServiceStateEnum | (string & {});
+  state?: RunningServiceStateEnum | (string & {}) | undefined;
   /** Service binary path. */
-  exePath?: string;
+  exePath?: string | undefined;
   /** Service start mode (OS-agnostic). */
-  startMode?: RunningServiceStartModeEnum | (string & {});
+  startMode?: RunningServiceStartModeEnum | (string & {}) | undefined;
   /** Service name. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Service pid. */
-  pid?: string;
+  pid?: string | undefined;
   /** Service command line. */
-  cmdline?: string;
+  cmdline?: string | undefined;
 }
 export type RunningServiceList_ = Array<RunningService>;
 /** List of running guest OS services. */
 export interface RunningServiceList {
   /** Running service entries. */
-  entries?: RunningServiceList_;
+  entries?: RunningServiceList_ | undefined;
 }
 /** Open file Information. */
 export interface OpenFileDetails {
   /** Opened file file type. */
-  fileType?: string;
+  fileType?: string | undefined;
   /** Opened file file path. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Opened file user. */
-  user?: string;
+  user?: string | undefined;
   /** Opened file command. */
-  command?: string;
+  command?: string | undefined;
 }
 export type OpenFileDetailsList = Array<OpenFileDetails>;
 /** Open file list. */
 export interface OpenFileList {
   /** Open file details entries. */
-  entries?: OpenFileDetailsList;
+  entries?: OpenFileDetailsList | undefined;
 }
 /** Guest installed application information. */
 export interface GuestInstalledApplication {
   /** The time when the application was installed. */
-  installTime?: string;
+  installTime?: string | undefined;
   /** Installed application vendor. */
-  vendor?: string;
+  vendor?: string | undefined;
   /** License strings associated with the installed application. */
-  licenses?: StringList;
+  licenses?: StringList | undefined;
   /** Source path. */
-  path?: string;
+  path?: string | undefined;
   /** Installed application name. */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** Installed application version. */
-  version?: string;
+  version?: string | undefined;
 }
 export type GuestInstalledApplicationList_ = Array<GuestInstalledApplication>;
 /** Guest installed application list. */
 export interface GuestInstalledApplicationList {
   /** Application entries. */
-  entries?: GuestInstalledApplicationList_;
+  entries?: GuestInstalledApplicationList_ | undefined;
 }
 /** Guest OS runtime information. */
 export interface GuestRuntimeDetails {
   /** Domain, e.g. c.stratozone-development.internal. */
-  domain?: string;
+  domain?: string | undefined;
   /** Running processes. */
-  processes?: RunningProcessList;
+  processes?: RunningProcessList | undefined;
   /** Runtime network information (connections, ports). */
-  network?: RuntimeNetworkInfo;
+  network?: RuntimeNetworkInfo | undefined;
   /** Running background services. */
-  services?: RunningServiceList;
+  services?: RunningServiceList | undefined;
   /** Last time the OS was booted. */
-  lastBootTime?: string;
+  lastBootTime?: string | undefined;
   /** Open files information. */
-  openFileList?: OpenFileList;
+  openFileList?: OpenFileList | undefined;
   /** Machine name. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** Installed applications information. */
-  installedApps?: GuestInstalledApplicationList;
+  installedApps?: GuestInstalledApplicationList | undefined;
 }
 /** Single fstab entry. */
 export interface FstabEntry {
   /** The mount point for the filesystem. */
-  file?: string;
+  file?: string | undefined;
   /** The block special device or remote filesystem to be mounted. */
-  spec?: string;
+  spec?: string | undefined;
   /** Used by the fsck(8) program to determine the order in which filesystem checks are done at reboot time. */
-  passno?: number;
+  passno?: number | undefined;
   /** The type of the filesystem. */
-  vfstype?: string;
+  vfstype?: string | undefined;
   /** Used by dump to determine which filesystems need to be dumped. */
-  freq?: number;
+  freq?: number | undefined;
   /** Mount options associated with the filesystem. */
-  mntops?: string;
+  mntops?: string | undefined;
 }
 export type FstabEntryList_ = Array<FstabEntry>;
 /** Fstab content. */
 export interface FstabEntryList {
   /** Fstab entries. */
-  entries?: FstabEntryList_;
+  entries?: FstabEntryList_ | undefined;
 }
 /** Single /etc/hosts entry. */
 export interface HostsEntry {
   /** IP (raw, IPv4/6 agnostic). */
-  ip?: string;
+  ip?: string | undefined;
   /** List of host names / aliases. */
-  hostNames?: StringList;
+  hostNames?: StringList | undefined;
 }
 export type HostsEntryList_ = Array<HostsEntry>;
 /** Hosts content. */
 export interface HostsEntryList {
   /** Hosts entries. */
-  entries?: HostsEntryList_;
+  entries?: HostsEntryList_ | undefined;
 }
 /** NFS export. */
 export interface NfsExport {
   /** The hosts or networks to which the export is being shared. */
-  hosts?: StringList;
+  hosts?: StringList | undefined;
   /** The directory being exported. */
-  exportDirectory?: string;
+  exportDirectory?: string | undefined;
 }
 export type NfsExportList_ = Array<NfsExport>;
 /** NFS exports. */
 export interface NfsExportList {
   /** NFS export entries. */
-  entries?: NfsExportList_;
+  entries?: NfsExportList_ | undefined;
 }
 export type GuestConfigDetailsSelinuxModeEnum =
   | "SE_LINUX_MODE_UNSPECIFIED"
@@ -466,15 +466,15 @@ export type GuestConfigDetailsSelinuxModeEnum =
 /** Guest OS config information. */
 export interface GuestConfigDetails {
   /** Mount list (Linux fstab). */
-  fstab?: FstabEntryList;
+  fstab?: FstabEntryList | undefined;
   /** OS issue (typically /etc/issue in Linux). */
-  issue?: string;
+  issue?: string | undefined;
   /** Hosts file (/etc/hosts). */
-  hosts?: HostsEntryList;
+  hosts?: HostsEntryList | undefined;
   /** NFS exports. */
-  nfsExports?: NfsExportList;
+  nfsExports?: NfsExportList | undefined;
   /** Security-Enhanced Linux (SELinux) mode. */
-  selinuxMode?: GuestConfigDetailsSelinuxModeEnum | (string & {});
+  selinuxMode?: GuestConfigDetailsSelinuxModeEnum | (string & {}) | undefined;
 }
 export type GuestOsDetailsFamilyEnum =
   | "OS_FAMILY_UNKNOWN"
@@ -484,15 +484,15 @@ export type GuestOsDetailsFamilyEnum =
 /** Information from Guest-level collections. */
 export interface GuestOsDetails {
   /** Runtime information. */
-  runtime?: GuestRuntimeDetails;
+  runtime?: GuestRuntimeDetails | undefined;
   /** OS and app configuration. */
-  config?: GuestConfigDetails;
+  config?: GuestConfigDetails | undefined;
   /** The name of the operating system. */
-  osName?: string;
+  osName?: string | undefined;
   /** What family the OS belong to, if known. */
-  family?: GuestOsDetailsFamilyEnum | (string & {});
+  family?: GuestOsDetailsFamilyEnum | (string & {}) | undefined;
   /** The version of the operating system. */
-  version?: string;
+  version?: string | undefined;
 }
 export type MachineArchitectureDetailsHyperthreadingEnum =
   | "CPU_HYPER_THREADING_UNSPECIFIED"
@@ -505,47 +505,47 @@ export type MachineArchitectureDetailsFirmwareTypeEnum =
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Migrationcenter_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
 }
 /** Details about the BIOS. */
 export interface BiosDetails {
   /** BIOS release date. */
-  releaseDate?: Migrationcenter_Date;
+  releaseDate?: Migrationcenter_Date | undefined;
   /** BIOS name. This fields is deprecated. Please use the `id` field instead. */
-  biosName?: string;
+  biosName?: string | undefined;
   /** BIOS ID. */
-  id?: string;
+  id?: string | undefined;
   /** BIOS version. */
-  version?: string;
+  version?: string | undefined;
   /** SMBIOS UUID. */
-  smbiosUuid?: string;
+  smbiosUuid?: string | undefined;
   /** BIOS manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
 }
 /** Details of the machine architecture. */
 export interface MachineArchitectureDetails {
   /** Deprecated: use MachineDetails.core_count instead. Number of CPU threads allocated to the machine. */
-  cpuThreadCount?: number;
+  cpuThreadCount?: number | undefined;
   /** CPU architecture, e.g., "x64-based PC", "x86_64", "i686" etc. */
-  cpuArchitecture?: string;
+  cpuArchitecture?: string | undefined;
   /** Number of processor sockets allocated to the machine. */
-  cpuSocketCount?: number;
+  cpuSocketCount?: number | undefined;
   /** CPU name, e.g., "Intel Xeon E5-2690", "AMD EPYC 7571" etc. */
-  cpuName?: string;
+  cpuName?: string | undefined;
   /** CPU hyper-threading support. */
-  hyperthreading?: MachineArchitectureDetailsHyperthreadingEnum | (string & {});
+  hyperthreading?: MachineArchitectureDetailsHyperthreadingEnum | (string & {}) | undefined;
   /** Firmware type. */
-  firmwareType?: MachineArchitectureDetailsFirmwareTypeEnum | (string & {});
+  firmwareType?: MachineArchitectureDetailsFirmwareTypeEnum | (string & {}) | undefined;
   /** Optional. CPU manufacturer, e.g., "Intel", "AMD". */
-  cpuManufacturer?: string;
+  cpuManufacturer?: string | undefined;
   /** Hardware vendor. */
-  vendor?: string;
+  vendor?: string | undefined;
   /** BIOS Details. */
-  bios?: BiosDetails;
+  bios?: BiosDetails | undefined;
 }
 export type AzureVmPlatformDetailsHyperthreadingEnum =
   | "HYPERTHREADING_STATUS_UNSPECIFIED"
@@ -554,13 +554,13 @@ export type AzureVmPlatformDetailsHyperthreadingEnum =
 /** Azure VM specific details. */
 export interface AzureVmPlatformDetails {
   /** Azure platform's machine type label. */
-  machineTypeLabel?: string;
+  machineTypeLabel?: string | undefined;
   /** The location of the machine in the Azure format. */
-  location?: string;
+  location?: string | undefined;
   /** Whether the machine is hyperthreaded. */
-  hyperthreading?: AzureVmPlatformDetailsHyperthreadingEnum | (string & {});
+  hyperthreading?: AzureVmPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
   /** Azure platform's provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export type VmwarePlatformDetailsEsxHyperthreadingEnum =
   | "HYPERTHREADING_STATUS_UNSPECIFIED"
@@ -569,19 +569,19 @@ export type VmwarePlatformDetailsEsxHyperthreadingEnum =
 /** VMware specific details. */
 export interface VmwarePlatformDetails {
   /** Whether the ESX is hyperthreaded. */
-  esxHyperthreading?: VmwarePlatformDetailsEsxHyperthreadingEnum | (string & {});
+  esxHyperthreading?: VmwarePlatformDetailsEsxHyperthreadingEnum | (string & {}) | undefined;
   /** vCenter VM ID. */
-  vcenterVmId?: string;
+  vcenterVmId?: string | undefined;
   /** vCenter URI used in collection. */
-  vcenterUri?: string;
+  vcenterUri?: string | undefined;
   /** vCenter version. */
-  vcenterVersion?: string;
+  vcenterVersion?: string | undefined;
   /** VMware os enum - https://vdc-repo.vmware.com/vmwb-repository/dcr-public/da47f910-60ac-438b-8b9b-6122f4d14524/16b7274a-bf8b-4b4c-a05e-746f2aa93c8c/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html. */
-  osid?: string;
+  osid?: string | undefined;
   /** Folder name in vCenter where asset resides. */
-  vcenterFolder?: string;
+  vcenterFolder?: string | undefined;
   /** ESX version. */
-  esxVersion?: string;
+  esxVersion?: string | undefined;
 }
 export type GenericPlatformDetailsHyperthreadingEnum =
   | "HYPERTHREADING_STATUS_UNSPECIFIED"
@@ -590,9 +590,9 @@ export type GenericPlatformDetailsHyperthreadingEnum =
 /** Generic platform details. */
 export interface GenericPlatformDetails {
   /** Whether the machine is hyperthreaded. */
-  hyperthreading?: GenericPlatformDetailsHyperthreadingEnum | (string & {});
+  hyperthreading?: GenericPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
   /** Free text representation of the machine location. The format of this field should not be relied on. Different VMs in the same location may have different string values for this field. */
-  location?: string;
+  location?: string | undefined;
 }
 export type PhysicalPlatformDetailsHyperthreadingEnum =
   | "HYPERTHREADING_STATUS_UNSPECIFIED"
@@ -601,9 +601,9 @@ export type PhysicalPlatformDetailsHyperthreadingEnum =
 /** Platform specific details for Physical Machines. */
 export interface PhysicalPlatformDetails {
   /** Whether the machine is hyperthreaded. */
-  hyperthreading?: PhysicalPlatformDetailsHyperthreadingEnum | (string & {});
+  hyperthreading?: PhysicalPlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
   /** Free text representation of the machine location. The format of this field should not be relied on. Different machines in the same location may have different string values for this field. */
-  location?: string;
+  location?: string | undefined;
 }
 export type AwsEc2PlatformDetailsHyperthreadingEnum =
   | "HYPERTHREADING_STATUS_UNSPECIFIED"
@@ -612,24 +612,24 @@ export type AwsEc2PlatformDetailsHyperthreadingEnum =
 /** AWS EC2 specific details. */
 export interface AwsEc2PlatformDetails {
   /** AWS platform's machine type label. */
-  machineTypeLabel?: string;
+  machineTypeLabel?: string | undefined;
   /** Optional. Whether the machine is hyperthreaded. */
-  hyperthreading?: AwsEc2PlatformDetailsHyperthreadingEnum | (string & {});
+  hyperthreading?: AwsEc2PlatformDetailsHyperthreadingEnum | (string & {}) | undefined;
   /** The location of the machine in the AWS format. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Information about the platform. */
 export interface PlatformDetails {
   /** Azure VM specific details. */
-  azureVmDetails?: AzureVmPlatformDetails;
+  azureVmDetails?: AzureVmPlatformDetails | undefined;
   /** VMware specific details. */
-  vmwareDetails?: VmwarePlatformDetails;
+  vmwareDetails?: VmwarePlatformDetails | undefined;
   /** Generic platform details. */
-  genericDetails?: GenericPlatformDetails;
+  genericDetails?: GenericPlatformDetails | undefined;
   /** Physical machines platform details. */
-  physicalDetails?: PhysicalPlatformDetails;
+  physicalDetails?: PhysicalPlatformDetails | undefined;
   /** AWS EC2 specific details. */
-  awsEc2Details?: AwsEc2PlatformDetails;
+  awsEc2Details?: AwsEc2PlatformDetails | undefined;
 }
 export type VmwareDiskConfigRdmCompatibilityEnum =
   | "RDM_COMPATIBILITY_UNSPECIFIED"
@@ -653,13 +653,13 @@ export type VmwareDiskConfigBackingTypeEnum =
 /** VMware disk config details. */
 export interface VmwareDiskConfig {
   /** RDM compatibility mode. */
-  rdmCompatibility?: VmwareDiskConfigRdmCompatibilityEnum | (string & {});
+  rdmCompatibility?: VmwareDiskConfigRdmCompatibilityEnum | (string & {}) | undefined;
   /** VMDK disk mode. */
-  vmdkMode?: VmwareDiskConfigVmdkModeEnum | (string & {});
+  vmdkMode?: VmwareDiskConfigVmdkModeEnum | (string & {}) | undefined;
   /** VMDK backing type. */
-  backingType?: VmwareDiskConfigBackingTypeEnum | (string & {});
+  backingType?: VmwareDiskConfigBackingTypeEnum | (string & {}) | undefined;
   /** Is VMDK shared with other VMs. */
-  shared?: boolean;
+  shared?: boolean | undefined;
 }
 export type DiskEntryInterfaceTypeEnum =
   | "INTERFACE_TYPE_UNSPECIFIED"
@@ -673,36 +673,36 @@ export type DiskEntryInterfaceTypeEnum =
 /** Single disk entry. */
 export interface DiskEntry {
   /** Disk capacity. */
-  capacityBytes?: string;
+  capacityBytes?: string | undefined;
   /** Disk hardware address (e.g. 0:1 for SCSI). */
-  hwAddress?: string;
+  hwAddress?: string | undefined;
   /** Disk label type (e.g. BIOS/GPT) */
-  diskLabelType?: string;
+  diskLabelType?: string | undefined;
   /** VMware disk details. */
-  vmware?: VmwareDiskConfig;
+  vmware?: VmwareDiskConfig | undefined;
   /** Partition layout. */
-  partitions?: DiskPartitionList;
+  partitions?: DiskPartitionList | undefined;
   /** Disks interface type. */
-  interfaceType?: DiskEntryInterfaceTypeEnum | (string & {});
+  interfaceType?: DiskEntryInterfaceTypeEnum | (string & {}) | undefined;
   /** Disk label. */
-  diskLabel?: string;
+  diskLabel?: string | undefined;
   /** Disk free space. */
-  freeBytes?: string;
+  freeBytes?: string | undefined;
 }
 export type DiskEntryList_ = Array<DiskEntry>;
 /** VM disks. */
 export interface DiskEntryList {
   /** Disk entries. */
-  entries?: DiskEntryList_;
+  entries?: DiskEntryList_ | undefined;
 }
 /** Details of machine disks. */
 export interface MachineDiskDetails {
   /** Total disk free space. */
-  totalFreeBytes?: string;
+  totalFreeBytes?: string | undefined;
   /** List of disks. */
-  disks?: DiskEntryList;
+  disks?: DiskEntryList | undefined;
   /** Disk total Capacity. */
-  totalCapacityBytes?: string;
+  totalCapacityBytes?: string | undefined;
 }
 export type NetworkAddressAssignmentEnum =
   | "ADDRESS_ASSIGNMENT_UNSPECIFIED"
@@ -711,49 +711,49 @@ export type NetworkAddressAssignmentEnum =
 /** Details of network address. */
 export interface NetworkAddress {
   /** Assigned or configured IP Address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Fully qualified domain name. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Whether DHCP is used to assign addresses. */
-  assignment?: NetworkAddressAssignmentEnum | (string & {});
+  assignment?: NetworkAddressAssignmentEnum | (string & {}) | undefined;
   /** Subnet mask. */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
   /** Broadcast address. */
-  bcast?: string;
+  bcast?: string | undefined;
 }
 export type NetworkAddressList_ = Array<NetworkAddress>;
 /** List of allocated/assigned network addresses. */
 export interface NetworkAddressList {
   /** Network address entries. */
-  entries?: NetworkAddressList_;
+  entries?: NetworkAddressList_ | undefined;
 }
 /** Details of network adapter. */
 export interface NetworkAdapterDetails {
   /** NetworkAddressList */
-  addresses?: NetworkAddressList;
+  addresses?: NetworkAddressList | undefined;
   /** Network adapter type (e.g. VMXNET3). */
-  adapterType?: string;
+  adapterType?: string | undefined;
   /** MAC address. */
-  macAddress?: string;
+  macAddress?: string | undefined;
 }
 export type NetworkAdapterDetailsList = Array<NetworkAdapterDetails>;
 /** List of network adapters. */
 export interface NetworkAdapterList {
   /** Network adapter entries. */
-  entries?: NetworkAdapterDetailsList;
+  entries?: NetworkAdapterDetailsList | undefined;
 }
 /** Details of network adapters and settings. */
 export interface MachineNetworkDetails {
   /** The primary IP address of the machine. */
-  primaryIpAddress?: string;
+  primaryIpAddress?: string | undefined;
   /** Optional. Default gateway address. */
-  defaultGateway?: string;
+  defaultGateway?: string | undefined;
   /** MAC address of the machine. This property is used to uniqly identify the machine. */
-  primaryMacAddress?: string;
+  primaryMacAddress?: string | undefined;
   /** The public IP address of the machine. */
-  publicIpAddress?: string;
+  publicIpAddress?: string | undefined;
   /** List of network adapters. */
-  adapters?: NetworkAdapterList;
+  adapters?: NetworkAdapterList | undefined;
 }
 export type MachineDetailsPowerStateEnum =
   | "POWER_STATE_UNSPECIFIED"
@@ -766,280 +766,280 @@ export type MachineDetailsPowerStateEnum =
 /** Details of a machine. */
 export interface MachineDetails {
   /** Optional. Disk partitions details. Note: Partitions are not necessarily mounted on local disks and therefore might not have a one-to-one correspondence with local disks. */
-  diskPartitions?: DiskPartitionDetails;
+  diskPartitions?: DiskPartitionDetails | undefined;
   /** Guest OS information. */
-  guestOs?: GuestOsDetails;
+  guestOs?: GuestOsDetails | undefined;
   /** Number of logical CPU cores in the machine. Must be non-negative. */
-  coreCount?: number;
+  coreCount?: number | undefined;
   /** Architecture details (vendor, CPU architecture). */
-  architecture?: MachineArchitectureDetails;
+  architecture?: MachineArchitectureDetails | undefined;
   /** Platform specific information. */
-  platform?: PlatformDetails;
+  platform?: PlatformDetails | undefined;
   /** The amount of memory in the machine. Must be non-negative. */
-  memoryMb?: number;
+  memoryMb?: number | undefined;
   /** Disk details. */
-  disks?: MachineDiskDetails;
+  disks?: MachineDiskDetails | undefined;
   /** Machine name. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** Network details. */
-  network?: MachineNetworkDetails;
+  network?: MachineNetworkDetails | undefined;
   /** Machine unique identifier. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Power state of the machine. */
-  powerState?: MachineDetailsPowerStateEnum | (string & {});
+  powerState?: MachineDetailsPowerStateEnum | (string & {}) | undefined;
   /** Machine creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 /** MySql variable. */
 export interface MySqlVariable {
   /** Required. The variable value. */
-  value?: string;
+  value?: string | undefined;
   /** Required. The variable name. */
-  variable?: string;
+  variable?: string | undefined;
   /** Required. The variable category. */
-  category?: string;
+  category?: string | undefined;
 }
 export type MySqlVariableList = Array<MySqlVariable>;
 /** MySql plugin. */
 export interface MySqlPlugin {
   /** Required. The plugin is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Required. The plugin version. */
-  version?: string;
+  version?: string | undefined;
   /** Required. The plugin name. */
-  plugin?: string;
+  plugin?: string | undefined;
 }
 export type MySqlPluginList = Array<MySqlPlugin>;
 /** MySql property. */
 export interface MySqlProperty {
   /** Required. The property numeric value. */
-  numericValue?: string;
+  numericValue?: string | undefined;
   /** Required. The property name. */
-  property?: string;
+  property?: string | undefined;
   /** Required. The property is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type MySqlPropertyList = Array<MySqlProperty>;
 /** Specific details for a Mysql database deployment. */
 export interface MysqlDatabaseDeployment {
   /** Optional. List of MySql variables. */
-  variables?: MySqlVariableList;
+  variables?: MySqlVariableList | undefined;
   /** Optional. Number of resource groups. */
-  resourceGroupsCount?: number;
+  resourceGroupsCount?: number | undefined;
   /** Optional. List of MySql plugins. */
-  plugins?: MySqlPluginList;
+  plugins?: MySqlPluginList | undefined;
   /** Optional. List of MySql properties. */
-  properties?: MySqlPropertyList;
+  properties?: MySqlPropertyList | undefined;
 }
 /** PostgreSql property. */
 export interface PostgreSqlProperty {
   /** Required. The property is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Required. The property name. */
-  property?: string;
+  property?: string | undefined;
   /** Required. The property numeric value. */
-  numericValue?: string;
+  numericValue?: string | undefined;
 }
 export type PostgreSqlPropertyList = Array<PostgreSqlProperty>;
 /** PostgreSql setting. */
 export interface PostgreSqlSetting {
   /** Required. The setting int value. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** Required. The setting name. */
-  setting?: string;
+  setting?: string | undefined;
   /** Required. The setting real value. */
-  realValue?: number;
+  realValue?: number | undefined;
   /** Required. The setting source. */
-  source?: string;
+  source?: string | undefined;
   /** Required. The setting string value. Notice that enum values are stored as strings. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Required. The setting boolean value. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** Optional. The setting unit. */
-  unit?: string;
+  unit?: string | undefined;
 }
 export type PostgreSqlSettingList = Array<PostgreSqlSetting>;
 /** Specific details for a PostgreSQL database deployment. */
 export interface PostgreSqlDatabaseDeployment {
   /** Optional. List of PostgreSql properties. */
-  properties?: PostgreSqlPropertyList;
+  properties?: PostgreSqlPropertyList | undefined;
   /** Optional. List of PostgreSql settings. */
-  settings?: PostgreSqlSettingList;
+  settings?: PostgreSqlSettingList | undefined;
 }
 export type DatabaseInstanceRoleEnum = "ROLE_UNSPECIFIED" | "PRIMARY" | "SECONDARY" | "ARBITER";
 /** Network details of a database instance. */
 export interface DatabaseInstanceNetwork {
   /** Optional. The instance's host names. */
-  hostNames?: StringList;
+  hostNames?: StringList | undefined;
   /** Optional. The instance's IP addresses. */
-  ipAddresses?: StringList;
+  ipAddresses?: StringList | undefined;
   /** Optional. The instance's primary MAC address. */
-  primaryMacAddress?: string;
+  primaryMacAddress?: string | undefined;
 }
 /** Details of a database instance. */
 export interface DatabaseInstance {
   /** Optional. The instance role in the database engine. */
-  role?: DatabaseInstanceRoleEnum | (string & {});
+  role?: DatabaseInstanceRoleEnum | (string & {}) | undefined;
   /** Optional. Networking details. */
-  network?: DatabaseInstanceNetwork;
+  network?: DatabaseInstanceNetwork | undefined;
   /** Optional. The instance's name. */
-  instanceName?: string;
+  instanceName?: string | undefined;
 }
 export type DatabaseInstanceList = Array<DatabaseInstance>;
 /** Details of database deployment's topology. */
 export interface DatabaseDeploymentTopology {
   /** Optional. Number of total logical cores limited by db deployment. */
-  coreLimit?: number;
+  coreLimit?: number | undefined;
   /** Optional. Total memory in bytes. */
-  memoryBytes?: string;
+  memoryBytes?: string | undefined;
   /** Optional. Disk allocated in bytes. */
-  diskAllocatedBytes?: string;
+  diskAllocatedBytes?: string | undefined;
   /** Optional. Disk used in bytes. */
-  diskUsedBytes?: string;
+  diskUsedBytes?: string | undefined;
   /** Optional. Number of total logical cores. */
-  coreCount?: number;
+  coreCount?: number | undefined;
   /** Optional. Total memory in bytes limited by db deployment. */
-  memoryLimitBytes?: string;
+  memoryLimitBytes?: string | undefined;
   /** Optional. Number of total physical cores limited by db deployment. */
-  physicalCoreLimit?: number;
+  physicalCoreLimit?: number | undefined;
   /** Optional. List of database instances. */
-  instances?: DatabaseInstanceList;
+  instances?: DatabaseInstanceList | undefined;
   /** Optional. Number of total physical cores. */
-  physicalCoreCount?: number;
+  physicalCoreCount?: number | undefined;
 }
 /** Specific details for an AWS RDS database deployment. */
 export type AwsRds = AggregationCount;
 /** SQL Server server flag details. */
 export interface SqlServerServerFlag {
   /** Required. The server flag value set by the user. */
-  value?: string;
+  value?: string | undefined;
   /** Required. The server flag name. */
-  serverFlagName?: string;
+  serverFlagName?: string | undefined;
   /** Required. The server flag actual value. If `value_in_use` is different from `value` it means that either the configuration change was not applied or it is an expected behavior. See SQL Server documentation for more details. */
-  valueInUse?: string;
+  valueInUse?: string | undefined;
 }
 export type SqlServerServerFlagList = Array<SqlServerServerFlag>;
 /** SQL Server feature details. */
 export interface SqlServerFeature {
   /** Required. The feature name. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** Required. Field enabled is set when a feature is used on the source deployment. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type SqlServerFeatureList = Array<SqlServerFeature>;
 export type SqlServerTraceFlagScopeEnum = "SCOPE_UNSPECIFIED" | "OFF" | "GLOBAL" | "SESSION";
 /** SQL Server trace flag details. */
 export interface SqlServerTraceFlag {
   /** Required. The trace flag name. */
-  traceFlagName?: string;
+  traceFlagName?: string | undefined;
   /** Required. The trace flag scope. */
-  scope?: SqlServerTraceFlagScopeEnum | (string & {});
+  scope?: SqlServerTraceFlagScopeEnum | (string & {}) | undefined;
 }
 export type SqlServerTraceFlagList = Array<SqlServerTraceFlag>;
 /** Specific details for a Microsoft SQL Server database deployment. */
 export interface SqlServerDatabaseDeployment {
   /** Optional. List of SQL Server server flags. */
-  serverFlags?: SqlServerServerFlagList;
+  serverFlags?: SqlServerServerFlagList | undefined;
   /** Optional. List of SQL Server features. */
-  features?: SqlServerFeatureList;
+  features?: SqlServerFeatureList | undefined;
   /** Optional. List of SQL Server trace flags. */
-  traceFlags?: SqlServerTraceFlagList;
+  traceFlags?: SqlServerTraceFlagList | undefined;
 }
 /** Aggregated stats for the database deployment. */
 export interface DatabaseDeploymentDetailsAggregatedStats {
   /** Output only. The number of databases in the deployment. */
-  databaseCount?: number;
+  databaseCount?: number | undefined;
 }
 /** The details of a database deployment asset. */
 export interface DatabaseDeploymentDetails {
   /** Optional. The database deployment version. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. Details of a MYSQL database deployment. */
-  mysql?: MysqlDatabaseDeployment;
+  mysql?: MysqlDatabaseDeployment | undefined;
   /** Optional. Details of a PostgreSQL database deployment. */
-  postgresql?: PostgreSqlDatabaseDeployment;
+  postgresql?: PostgreSqlDatabaseDeployment | undefined;
   /** Optional. A manual unique ID set by the user. */
-  manualUniqueId?: string;
+  manualUniqueId?: string | undefined;
   /** Optional. Details of the database deployment topology. */
-  topology?: DatabaseDeploymentTopology;
+  topology?: DatabaseDeploymentTopology | undefined;
   /** Optional. Details of an AWS RDS instance. */
-  awsRds?: AggregationCount;
+  awsRds?: AggregationCount | undefined;
   /** Optional. The database deployment generated ID. */
-  generatedId?: string;
+  generatedId?: string | undefined;
   /** Optional. Details of a Microsoft SQL Server database deployment. */
-  sqlServer?: SqlServerDatabaseDeployment;
+  sqlServer?: SqlServerDatabaseDeployment | undefined;
   /** Output only. Aggregated stats for the database deployment. */
-  aggregatedStats?: DatabaseDeploymentDetailsAggregatedStats;
+  aggregatedStats?: DatabaseDeploymentDetailsAggregatedStats | undefined;
   /** Optional. The database deployment edition. */
-  edition?: string;
+  edition?: string | undefined;
 }
 /** Statistical aggregation of samples for a single resource usage. */
 export interface DailyResourceUsageAggregationStats {
   /** Median usage value. */
-  median?: number;
+  median?: number | undefined;
   /** Peak usage value. */
-  peak?: number;
+  peak?: number | undefined;
   /** Average usage value. */
-  average?: number;
+  average?: number | undefined;
   /** 95th percentile usage value. */
-  ninteyFifthPercentile?: number;
+  ninteyFifthPercentile?: number | undefined;
 }
 /** Statistical aggregation of CPU usage. */
 export interface DailyResourceUsageAggregationCPU {
   /** CPU utilization percentage. */
-  utilizationPercentage?: DailyResourceUsageAggregationStats;
+  utilizationPercentage?: DailyResourceUsageAggregationStats | undefined;
 }
 /** Statistical aggregation of memory usage. */
 export interface DailyResourceUsageAggregationMemory {
   /** Memory utilization percentage. */
-  utilizationPercentage?: DailyResourceUsageAggregationStats;
+  utilizationPercentage?: DailyResourceUsageAggregationStats | undefined;
 }
 /** Statistical aggregation of network usage. */
 export interface DailyResourceUsageAggregationNetwork {
   /** Network ingress in B/s. */
-  ingressBps?: DailyResourceUsageAggregationStats;
+  ingressBps?: DailyResourceUsageAggregationStats | undefined;
   /** Network egress in B/s. */
-  egressBps?: DailyResourceUsageAggregationStats;
+  egressBps?: DailyResourceUsageAggregationStats | undefined;
 }
 /** Statistical aggregation of disk usage. */
 export interface DailyResourceUsageAggregationDisk {
   /** Optional. Disk I/O operations per second. */
-  iops?: DailyResourceUsageAggregationStats;
+  iops?: DailyResourceUsageAggregationStats | undefined;
   /** Optional. Disk write I/O operations per second. */
-  writeIops?: DailyResourceUsageAggregationStats;
+  writeIops?: DailyResourceUsageAggregationStats | undefined;
   /** Optional. Disk read I/O operations per second. */
-  readIops?: DailyResourceUsageAggregationStats;
+  readIops?: DailyResourceUsageAggregationStats | undefined;
 }
 /** Usage data aggregation for a single day. */
 export interface DailyResourceUsageAggregation {
   /** CPU usage. */
-  cpu?: DailyResourceUsageAggregationCPU;
+  cpu?: DailyResourceUsageAggregationCPU | undefined;
   /** Memory usage. */
-  memory?: DailyResourceUsageAggregationMemory;
+  memory?: DailyResourceUsageAggregationMemory | undefined;
   /** Network usage. */
-  network?: DailyResourceUsageAggregationNetwork;
+  network?: DailyResourceUsageAggregationNetwork | undefined;
   /** Aggregation date. Day boundaries are at midnight UTC. */
-  date?: Migrationcenter_Date;
+  date?: Migrationcenter_Date | undefined;
   /** Disk usage. */
-  disk?: DailyResourceUsageAggregationDisk;
+  disk?: DailyResourceUsageAggregationDisk | undefined;
 }
 export type DailyResourceUsageAggregationList = Array<DailyResourceUsageAggregation>;
 /** Performance data for an asset. */
 export interface AssetPerformanceData {
   /** Daily resource usage aggregations. Contains all of the data available for an asset, up to the last 420 days. Aggregations are sorted from oldest to most recent. */
-  dailyResourceUsageAggregations?: DailyResourceUsageAggregationList;
+  dailyResourceUsageAggregations?: DailyResourceUsageAggregationList | undefined;
 }
 /** The identifiers of the parent database deployment. */
 export interface DatabaseDetailsParentDatabaseDeployment {
   /** Optional. The parent database deployment generated ID. */
-  generatedId?: string;
+  generatedId?: string | undefined;
   /** Optional. The parent database deployment optional manual unique ID set by the user. */
-  manualUniqueId?: string;
+  manualUniqueId?: string | undefined;
 }
 /** Specific details for a SqlServer database. */
 export interface SqlServerSchemaDetails {
   /** Optional. SqlServer number of CLR objects. */
-  clrObjectCount?: number;
+  clrObjectCount?: number | undefined;
 }
 export type DatabaseObjectsCategoryEnum =
   | "CATEGORY_UNSPECIFIED"
@@ -1052,9 +1052,9 @@ export type DatabaseObjectsCategoryEnum =
 /** Details of a group of database objects. */
 export interface DatabaseObjects {
   /** Optional. The category of the objects. */
-  category?: DatabaseObjectsCategoryEnum | (string & {});
+  category?: DatabaseObjectsCategoryEnum | (string & {}) | undefined;
   /** Optional. The number of objects. */
-  count?: string;
+  count?: string | undefined;
 }
 export type DatabaseObjectsList = Array<DatabaseObjects>;
 export type MySqlStorageEngineDetailsEngineEnum =
@@ -1073,68 +1073,68 @@ export type MySqlStorageEngineDetailsEngineEnum =
 /** Mysql storage engine tables. */
 export interface MySqlStorageEngineDetails {
   /** Optional. The number of encrypted tables. */
-  encryptedTableCount?: number;
+  encryptedTableCount?: number | undefined;
   /** Optional. The number of tables. */
-  tableCount?: number;
+  tableCount?: number | undefined;
   /** Required. The storage engine. */
-  engine?: MySqlStorageEngineDetailsEngineEnum | (string & {});
+  engine?: MySqlStorageEngineDetailsEngineEnum | (string & {}) | undefined;
 }
 export type MySqlStorageEngineDetailsList = Array<MySqlStorageEngineDetails>;
 /** Specific details for a Mysql database. */
 export interface MySqlSchemaDetails {
   /** Optional. Mysql storage engine tables. */
-  storageEngines?: MySqlStorageEngineDetailsList;
+  storageEngines?: MySqlStorageEngineDetailsList | undefined;
 }
 /** PostgreSql extension. */
 export interface PostgreSqlExtension {
   /** Required. The extension version. */
-  version?: string;
+  version?: string | undefined;
   /** Required. The extension name. */
-  extension?: string;
+  extension?: string | undefined;
 }
 export type PostgreSqlExtensionList = Array<PostgreSqlExtension>;
 /** Specific details for a PostgreSql schema. */
 export interface PostgreSqlSchemaDetails {
   /** Optional. PostgreSql foreign tables. */
-  foreignTablesCount?: number;
+  foreignTablesCount?: number | undefined;
   /** Optional. PostgreSql extensions. */
-  postgresqlExtensions?: PostgreSqlExtensionList;
+  postgresqlExtensions?: PostgreSqlExtensionList | undefined;
 }
 /** Details of a database schema. */
 export interface DatabaseSchema {
   /** Required. The name of the schema. */
-  schemaName?: string;
+  schemaName?: string | undefined;
   /** Optional. The total size of tables in bytes. */
-  tablesSizeBytes?: string;
+  tablesSizeBytes?: string | undefined;
   /** Optional. Details of a SqlServer schema. */
-  sqlServer?: SqlServerSchemaDetails;
+  sqlServer?: SqlServerSchemaDetails | undefined;
   /** Optional. List of details of objects by category. */
-  objects?: DatabaseObjectsList;
+  objects?: DatabaseObjectsList | undefined;
   /** Optional. Details of a Mysql schema. */
-  mysql?: MySqlSchemaDetails;
+  mysql?: MySqlSchemaDetails | undefined;
   /** Optional. Details of a PostgreSql schema. */
-  postgresql?: PostgreSqlSchemaDetails;
+  postgresql?: PostgreSqlSchemaDetails | undefined;
 }
 export type DatabaseSchemaList = Array<DatabaseSchema>;
 /** Details of a logical database. */
 export interface DatabaseDetails {
   /** Required. The parent database deployment that contains the logical database. */
-  parentDatabaseDeployment?: DatabaseDetailsParentDatabaseDeployment;
+  parentDatabaseDeployment?: DatabaseDetailsParentDatabaseDeployment | undefined;
   /** Optional. The allocated storage for the database in bytes. */
-  allocatedStorageBytes?: string;
+  allocatedStorageBytes?: string | undefined;
   /** Optional. The database schemas. */
-  schemas?: DatabaseSchemaList;
+  schemas?: DatabaseSchemaList | undefined;
   /** Required. The name of the database. */
-  databaseName?: string;
+  databaseName?: string | undefined;
 }
 /** A generic insight about an asset. */
 export interface GenericInsight {
   /** Output only. Represents a globally unique message id for this insight, can be used for localization purposes, in case message_code is not yet known by the client use default_message instead. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** Output only. In case message_code is not yet known by the client default_message will be the message to be used instead. */
-  defaultMessage?: string;
+  defaultMessage?: string | undefined;
   /** Output only. Additional information about the insight, each entry can be a logical entry and must make sense if it is displayed with line breaks between each entry. Text can contain md style links. */
-  additionalInformation?: StringList;
+  additionalInformation?: StringList | undefined;
 }
 export type ComputeStorageDescriptorTypeEnum =
   | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
@@ -1144,30 +1144,30 @@ export type ComputeStorageDescriptorTypeEnum =
 /** Compute Engine storage option descriptor. */
 export interface ComputeStorageDescriptor {
   /** Output only. Disk size in GiB. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
   /** Output only. Disk type backing the storage. */
-  type?: ComputeStorageDescriptorTypeEnum | (string & {});
+  type?: ComputeStorageDescriptorTypeEnum | (string & {}) | undefined;
 }
 export type ComputeStorageDescriptorList = Array<ComputeStorageDescriptor>;
 /** Compute Engine target shape descriptor. */
 export interface ComputeEngineShapeDescriptor {
   /** Output only. Compute Engine machine type. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Memory in mebibytes. */
-  memoryMb?: number;
+  memoryMb?: number | undefined;
   /** Output only. Compute Engine storage. Never empty. */
-  storage?: ComputeStorageDescriptorList;
+  storage?: ComputeStorageDescriptorList | undefined;
   /** Output only. Number of logical cores. */
-  logicalCoreCount?: number;
+  logicalCoreCount?: number | undefined;
   /** Output only. Compute Engine machine series. */
-  series?: string;
+  series?: string | undefined;
   /** Number of physical cores. */
-  physicalCoreCount?: number;
+  physicalCoreCount?: number | undefined;
 }
 /** Compute engine migration target. */
 export interface ComputeEngineMigrationTarget {
   /** Description of the suggested shape for the migration target. */
-  shape?: ComputeEngineShapeDescriptor;
+  shape?: ComputeEngineShapeDescriptor | undefined;
 }
 export type FitDescriptorFitLevelEnum =
   | "FIT_LEVEL_UNSPECIFIED"
@@ -1177,91 +1177,91 @@ export type FitDescriptorFitLevelEnum =
 /** Describes the fit level of an asset for migration to a specific target. */
 export interface FitDescriptor {
   /** Output only. Fit level. */
-  fitLevel?: FitDescriptorFitLevelEnum | (string & {});
+  fitLevel?: FitDescriptorFitLevelEnum | (string & {}) | undefined;
 }
 /** An insight about potential migrations for an asset. */
 export interface MigrationInsight {
   /** Output only. A Google Compute Engine target. */
-  computeEngineTarget?: ComputeEngineMigrationTarget;
+  computeEngineTarget?: ComputeEngineMigrationTarget | undefined;
   /** Output only. Description of how well the asset this insight is associated with fits the proposed migration. */
-  fit?: FitDescriptor;
+  fit?: FitDescriptor | undefined;
 }
 /** An insight about an asset. */
 export interface Insight {
   /** Output only. A generic insight about an asset. */
-  genericInsight?: GenericInsight;
+  genericInsight?: GenericInsight | undefined;
   /** Output only. An insight about potential migrations for an asset. */
-  migrationInsight?: MigrationInsight;
+  migrationInsight?: MigrationInsight | undefined;
 }
 export type InsightList_ = Array<Insight>;
 /** Message containing insights list. */
 export interface InsightList {
   /** Output only. Insights of the list. */
-  insights?: InsightList_;
+  insights?: InsightList_ | undefined;
   /** Output only. Update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 /** An asset represents a resource in your environment. Asset types include virtual machines and databases. */
 export interface Asset {
   /** Generic asset attributes. */
-  attributes?: StringMap;
+  attributes?: StringMap | undefined;
   /** Optional. An optional reason for marking this asset as hidden. */
-  hideReason?: string;
+  hideReason?: string | undefined;
   /** Optional. Indicates if the asset is hidden. */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
   /** Output only. The timestamp when the asset was marked as hidden. */
-  hideTime?: string;
+  hideTime?: string | undefined;
   /** Output only. The timestamp when the asset was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The timestamp when the asset was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Asset information specific for virtual and physical machines. */
-  machineDetails?: MachineDetails;
+  machineDetails?: MachineDetails | undefined;
   /** Output only. The list of groups that the asset is assigned to. */
-  assignedGroups?: StringList;
+  assignedGroups?: StringList | undefined;
   /** Output only. The full name of the asset. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Asset information specific for database deployments. */
-  databaseDeploymentDetails?: DatabaseDeploymentDetails;
+  databaseDeploymentDetails?: DatabaseDeploymentDetails | undefined;
   /** Output only. The list of sources contributing to the asset. */
-  sources?: StringList;
+  sources?: StringList | undefined;
   /** Output only. Server generated human readable name of the asset. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. Performance data for the asset. */
-  performanceData?: AssetPerformanceData;
+  performanceData?: AssetPerformanceData | undefined;
   /** Output only. Asset information specific for logical databases. */
-  databaseDetails?: DatabaseDetails;
+  databaseDetails?: DatabaseDetails | undefined;
   /** Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The list of insights associated with the asset. */
-  insightList?: InsightList;
+  insightList?: InsightList | undefined;
 }
 /** A request to update an asset. */
 export interface UpdateAssetRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The resource being updated. */
-  asset?: Asset;
+  asset?: Asset | undefined;
 }
 export type UpdateAssetRequestList = Array<UpdateAssetRequest>;
 /** A request to update a list of assets. */
 export interface BatchUpdateAssetsRequest {
   /** Required. The request message specifying the resources to update. A maximum of 1000 assets can be modified in a batch. */
-  requests?: UpdateAssetRequestList;
+  requests?: UpdateAssetRequestList | undefined;
 }
 export interface BatchUpdateProjectsLocationsAssetsRequest {
   /** Required. Parent value for batch asset update. */
   parent: string;
   /** Request body */
-  body?: BatchUpdateAssetsRequest;
+  body?: BatchUpdateAssetsRequest | undefined;
 }
 export type AssetList_ = Array<Asset>;
 /** Response for updating a list of assets. */
 export interface BatchUpdateAssetsResponse {
   /** Update asset content. The content only includes values after field mask being applied. */
-  assets?: AssetList_;
+  assets?: AssetList_ | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export type CancelOperationRequest = AggregationCount;
@@ -1269,12 +1269,12 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: AggregationCount;
+  body?: AggregationCount | undefined;
 }
 /** Conditions for selecting assets to export. */
 export interface AssetsExportJobExportCondition {
   /** Optional. Assets filter, supports the same syntax as asset listing. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Configuration for asset inventory details exports. */
 export type AssetsExportJobInventory = AggregationCount;
@@ -1284,114 +1284,114 @@ export type SignedUriDestinationFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "CS
 /** Signed URI destination configuration. */
 export interface SignedUriDestination {
   /** Required. The file format to export. */
-  fileFormat?: SignedUriDestinationFileFormatEnum | (string & {});
+  fileFormat?: SignedUriDestinationFileFormatEnum | (string & {}) | undefined;
 }
 /** Contains a signed URI. */
 export interface SignedUri {
   /** Output only. Download URI for the file. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. Name of the file the Signed URI references. */
-  file?: string;
+  file?: string | undefined;
 }
 /** Contains a single output file of type XLSX. */
 export interface XlsxOutputFile {
   /** Output only. Signed URI destination. */
-  signedUri?: SignedUri;
+  signedUri?: SignedUri | undefined;
 }
 /** Contains a single output file of type CSV. */
 export interface CsvOutputFile {
   /** Output only. Signed URI destination. */
-  signedUri?: SignedUri;
+  signedUri?: SignedUri | undefined;
   /** Output only. Number of rows in the file. */
-  rowCount?: number;
+  rowCount?: number | undefined;
   /** Output only. Number of columns in the file. */
-  columnsCount?: number;
+  columnsCount?: number | undefined;
 }
 /** Contains a single output file. */
 export interface OutputFile {
   /** Output only. XLSX output file. */
-  xlsxOutputFile?: XlsxOutputFile;
+  xlsxOutputFile?: XlsxOutputFile | undefined;
   /** Output only. CSV output file. */
-  csvOutputFile?: CsvOutputFile;
+  csvOutputFile?: CsvOutputFile | undefined;
   /** Output only. File size in bytes. */
-  fileSizeBytes?: string;
+  fileSizeBytes?: string | undefined;
 }
 export type OutputFileList_ = Array<OutputFile>;
 /** Contains a list of output files. */
 export interface OutputFileList {
   /** Output only. List of output files. */
-  entries?: OutputFileList_;
+  entries?: OutputFileList_ | undefined;
 }
 export type SignedUriList = Array<SignedUri>;
 /** Contains a list of Signed URIs. */
 export interface SignedUris {
   /** Output only. List of signed URIs. */
-  signedUris?: SignedUriList;
+  signedUris?: SignedUriList | undefined;
 }
 /** Contains the result of the assets export. */
 export interface AssetsExportJobExecutionResult {
   /** Output only. List of output files. */
-  outputFiles?: OutputFileList;
+  outputFiles?: OutputFileList | undefined;
   /** Output only. Signed URLs for downloading export artifacts. */
-  signedUris?: SignedUris;
+  signedUris?: SignedUris | undefined;
   /** Output only. Error encountered during export. */
-  error?: Status;
+  error?: Status | undefined;
 }
 /** Execution status of assets export job. */
 export interface AssetsExportJobExecution {
   /** Output only. Number of assets requested for export after resolving the requested filters. */
-  requestedAssetCount?: number;
+  requestedAssetCount?: number | undefined;
   /** Output only. Expiration time for the export and artifacts. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. Execution timestamp. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Result of the export execution. */
-  result?: AssetsExportJobExecutionResult;
+  result?: AssetsExportJobExecutionResult | undefined;
   /** Output only. Globally unique identifier of the execution. */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Output only. Completion time of the export. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type AssetsExportJobExecutionList = Array<AssetsExportJobExecution>;
 /** Configuration for performance data exports. */
 export interface AssetsExportJobPerformanceData {
   /** Optional. When this value is set to a positive integer, performance data will be returned for the most recent days for which data is available. When this value is unset (or set to zero), all available data is returned. The maximum value is 420; values above 420 will be coerced to 420. If unset (0 value) a default value of 40 will be used. */
-  maxDays?: number;
+  maxDays?: number | undefined;
 }
 /** Assets export job message. */
 export interface AssetsExportJob {
   /** Optional. When this value is set to 'true' the response will include all assets, including those that are hidden. */
-  showHidden?: boolean;
+  showHidden?: boolean | undefined;
   /** Output only. Identifier. Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Conditions for selecting assets to export. */
-  condition?: AssetsExportJobExportCondition;
+  condition?: AssetsExportJobExportCondition | undefined;
   /** Optional. Labels as key value pairs. Labels must meet the following constraints: * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. * All characters must use UTF-8 encoding, and international characters are allowed. * Keys must start with a lowercase letter or international character. * Each resource is limited to a maximum of 64 labels. Both keys and values are additionally constrained to be <= 128 bytes. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Resource update time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Export asset inventory details. */
-  inventory?: AggregationCount;
+  inventory?: AggregationCount | undefined;
   /** Output only. Resource creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Export data regarding asset network dependencies. */
-  networkDependencies?: AggregationCount;
+  networkDependencies?: AggregationCount | undefined;
   /** Export to Cloud Storage files downloadable using signed URIs. */
-  signedUriDestination?: SignedUriDestination;
+  signedUriDestination?: SignedUriDestination | undefined;
   /** Output only. Recent non expired executions of the job. */
-  recentExecutions?: AssetsExportJobExecutionList;
+  recentExecutions?: AssetsExportJobExecutionList | undefined;
   /** Export asset with performance data. */
-  performanceData?: AssetsExportJobPerformanceData;
+  performanceData?: AssetsExportJobPerformanceData | undefined;
 }
 export interface CreateProjectsLocationsAssetsExportJobsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ID to use for the asset export job. */
-  assetsExportJobId?: string;
+  assetsExportJobId?: string | undefined;
   /** Required. The parent resource where the assts export job will be created. */
   parent: string;
   /** Request body */
-  body?: AssetsExportJob;
+  body?: AssetsExportJob | undefined;
 }
 export type DiscoveryClientStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1403,146 +1403,146 @@ export type StatusList = Array<Status>;
 /** Represents an installed Migration Center Discovery Client instance. */
 export interface DiscoveryClient {
   /** Output only. Time when the discovery client was last updated. This value is not updated by heartbeats, to view the last heartbeat time please refer to the `heartbeat_time` field. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Time when the discovery client was first created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Immutable. Full name of the source object associated with this discovery client. */
-  source?: string;
+  source?: string | undefined;
   /** Output only. Client version, as reported in recent heartbeat. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. Service account used by the discovery client for various operation. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Free text description. Maximum length is 1000 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Current state of the discovery client. */
-  state?: DiscoveryClientStateEnum | (string & {});
+  state?: DiscoveryClientStateEnum | (string & {}) | undefined;
   /** Output only. Last heartbeat time. Healthy clients are expected to send heartbeats regularly (normally every few minutes). */
-  heartbeatTime?: string;
+  heartbeatTime?: string | undefined;
   /** Output only. This field is intended for internal use. */
-  signalsEndpoint?: string;
+  signalsEndpoint?: string | undefined;
   /** Output only. Identifier. Full name of this discovery client. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Free text display name. Maximum length is 63 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Errors affecting client functionality. */
-  errors?: StatusList;
+  errors?: StatusList | undefined;
   /** Optional. Client expiration time in UTC. If specified, the backend will not accept new frames after this time. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Optional. Input only. Client time-to-live. If specified, the backend will not accept new frames after this time. This field is input only. The derived expiration time is provided as output through the `expire_time` field. */
-  ttl?: string;
+  ttl?: string | undefined;
 }
 export interface CreateProjectsLocationsDiscoveryClientsRequest {
   /** Required. User specified ID for the discovery client. It will become the last component of the discovery client name. The ID must be unique within the project, is restricted to lower-cased letters and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  discoveryClientId?: string;
+  discoveryClientId?: string | undefined;
   /** Required. Parent resource. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: DiscoveryClient;
+  body?: DiscoveryClient | undefined;
 }
 /** A resource that represents an asset group. The purpose of an asset group is to bundle a set of assets that have something in common, while allowing users to add annotations to the group. An asset can belong to multiple groups. */
 export interface Group {
   /** Optional. The description of the group. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The timestamp when the group was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The name of the group. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. User-friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The timestamp when the group was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsGroupsRequest {
   /** Required. User specified ID for the group. It will become the last component of the group name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Group;
+  body?: Group | undefined;
 }
 export type ImportErrorSeverityEnum = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
 /** A resource that reports the errors encountered while processing an import job. */
 export interface ImportError {
   /** The severity of the error. */
-  severity?: ImportErrorSeverityEnum | (string & {});
+  severity?: ImportErrorSeverityEnum | (string & {}) | undefined;
   /** The error information. */
-  errorDetails?: string;
+  errorDetails?: string | undefined;
 }
 export type ImportErrorList = Array<ImportError>;
 /** Error details for an XLSX file. */
 export interface ImportRowErrorXlsxErrorDetails {
   /** The row number where the error was detected. */
-  rowNumber?: number;
+  rowNumber?: number | undefined;
   /** The name of the sheet where the error was detected. */
-  sheet?: string;
+  sheet?: string | undefined;
 }
 /** Error details for a CSV file. */
 export interface ImportRowErrorCsvErrorDetails {
   /** The row number where the error was detected. */
-  rowNumber?: number;
+  rowNumber?: number | undefined;
 }
 /** Error details for an archive file. */
 export interface ImportRowErrorArchiveErrorDetails {
   /** Output only. The file path inside the archive where the error was detected. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Error details for a CSV file. */
-  csvError?: ImportRowErrorCsvErrorDetails;
+  csvError?: ImportRowErrorCsvErrorDetails | undefined;
 }
 /** A resource that reports the import job errors at row level. */
 export interface ImportRowError {
   /** The name of the VM in the row. */
-  vmName?: string;
+  vmName?: string | undefined;
   /** The list of errors detected in the row. */
-  errors?: ImportErrorList;
+  errors?: ImportErrorList | undefined;
   /** The row number where the error was detected. */
-  rowNumber?: number;
+  rowNumber?: number | undefined;
   /** Error details for an XLSX file. */
-  xlsxError?: ImportRowErrorXlsxErrorDetails;
+  xlsxError?: ImportRowErrorXlsxErrorDetails | undefined;
   /** Error details for a CSV file. */
-  csvError?: ImportRowErrorCsvErrorDetails;
+  csvError?: ImportRowErrorCsvErrorDetails | undefined;
   /** Output only. The asset title. */
-  assetTitle?: string;
+  assetTitle?: string | undefined;
   /** The VM UUID. */
-  vmUuid?: string;
+  vmUuid?: string | undefined;
   /** Error details for an archive file. */
-  archiveError?: ImportRowErrorArchiveErrorDetails;
+  archiveError?: ImportRowErrorArchiveErrorDetails | undefined;
 }
 export type ImportRowErrorList = Array<ImportRowError>;
 /** A resource that aggregates the validation errors found in an import job file. */
 export interface FileValidationReport {
   /** Partial list of rows that encountered validation error. */
-  rowErrors?: ImportRowErrorList;
+  rowErrors?: ImportRowErrorList | undefined;
   /** List of file level errors. */
-  fileErrors?: ImportErrorList;
+  fileErrors?: ImportErrorList | undefined;
   /** Flag indicating that processing was aborted due to maximum number of errors. */
-  partialReport?: boolean;
+  partialReport?: boolean | undefined;
   /** The name of the file. */
-  fileName?: string;
+  fileName?: string | undefined;
 }
 export type FileValidationReportList = Array<FileValidationReport>;
 /** A resource that aggregates errors across import job files. */
 export interface ValidationReport {
   /** List of job level errors. */
-  jobErrors?: ImportErrorList;
+  jobErrors?: ImportErrorList | undefined;
   /** List of errors found in files. */
-  fileValidations?: FileValidationReportList;
+  fileValidations?: FileValidationReportList | undefined;
 }
 /** A resource that reports result of the import job execution. */
 export interface ExecutionReport {
   /** Total number of asset frames reported for the import job. */
-  framesReported?: number;
+  framesReported?: number | undefined;
   /** Output only. Total number of rows in the import job. */
-  totalRowsCount?: number;
+  totalRowsCount?: number | undefined;
   /** Validation errors encountered during the execution of the import job. */
-  executionErrors?: ValidationReport;
+  executionErrors?: ValidationReport | undefined;
 }
 export type ImportJobStateEnum =
   | "IMPORT_JOB_STATE_UNSPECIFIED"
@@ -1556,35 +1556,35 @@ export type ImportJobStateEnum =
 /** A resource that represents the background job that imports asset frames. */
 export interface ImportJob {
   /** Output only. The report with the results of running the import job. */
-  executionReport?: ExecutionReport;
+  executionReport?: ExecutionReport | undefined;
   /** Output only. The timestamp when the import job was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The state of the import job. */
-  state?: ImportJobStateEnum | (string & {});
+  state?: ImportJobStateEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the import job was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The full name of the import job. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Reference to a source. */
-  assetSource?: string;
+  assetSource?: string | undefined;
   /** Output only. The report with the validation results of the import job. */
-  validationReport?: ValidationReport;
+  validationReport?: ValidationReport | undefined;
   /** Output only. The timestamp when the import job was completed. */
-  completeTime?: string;
+  completeTime?: string | undefined;
   /** Optional. User-friendly display name. Maximum length is 256 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsImportJobsRequest {
   /** Required. ID of the import job. */
-  importJobId?: string;
+  importJobId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: ImportJob;
+  body?: ImportJob | undefined;
 }
 export type ImportDataFileFormatEnum =
   | "IMPORT_JOB_FORMAT_UNSPECIFIED"
@@ -1597,42 +1597,42 @@ export type ImportDataFileFormatEnum =
 /** A resource that contains a URI to which a data file can be uploaded. */
 export interface UploadFileInfo {
   /** Output only. Expiration time of the upload URI. */
-  uriExpirationTime?: string;
+  uriExpirationTime?: string | undefined;
   /** Output only. Upload URI for the file. */
-  signedUri?: string;
+  signedUri?: string | undefined;
   /** Output only. The headers that were used to sign the URI. */
-  headers?: StringMap;
+  headers?: StringMap | undefined;
 }
 export type ImportDataFileStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE";
 /** A resource that represents a payload file in an import job. */
 export interface ImportDataFile {
   /** Required. The payload format. */
-  format?: ImportDataFileFormatEnum | (string & {});
+  format?: ImportDataFileFormatEnum | (string & {}) | undefined;
   /** Optional. User-friendly display name. Maximum length is 63 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Information about a file that is uploaded to a storage service. */
-  uploadFileInfo?: UploadFileInfo;
+  uploadFileInfo?: UploadFileInfo | undefined;
   /** Output only. The state of the import data file. */
-  state?: ImportDataFileStateEnum | (string & {});
+  state?: ImportDataFileStateEnum | (string & {}) | undefined;
   /** Output only. The name of the file. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The timestamp when the file was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsImportJobsImportDataFilesRequest {
   /** Required. Name of the parent of the ImportDataFile. */
   parent: string;
   /** Required. The ID of the new data file. */
-  importDataFileId?: string;
+  importDataFileId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: ImportDataFile;
+  body?: ImportDataFile | undefined;
 }
 /** The user preferences relating to target regions. */
 export interface RegionPreferences {
   /** A list of preferred regions, ordered by the most preferred region first. Set only valid Google Cloud region names. See https://cloud.google.com/compute/docs/regions-zones for available regions. */
-  preferredRegions?: StringList;
+  preferredRegions?: StringList | undefined;
 }
 export type VmwareEnginePreferencesCommitmentPlanEnum =
   | "COMMITMENT_PLAN_UNSPECIFIED"
@@ -1644,13 +1644,13 @@ export type VmwareEnginePreferencesCommitmentPlanEnum =
 /** The user preferences relating to Google Cloud VMware Engine target platform. */
 export interface VmwareEnginePreferences {
   /** CPU overcommit ratio. Acceptable values are between 1.0 and 8.0, with 0.1 increment. */
-  cpuOvercommitRatio?: number;
+  cpuOvercommitRatio?: number | undefined;
   /** Memory overcommit ratio. Acceptable values are 1.0, 1.25, 1.5, 1.75 and 2.0. */
-  memoryOvercommitRatio?: number;
+  memoryOvercommitRatio?: number | undefined;
   /** The Deduplication and Compression ratio is based on the logical (Used Before) space required to store data before applying deduplication and compression, in relation to the physical (Used After) space required after applying deduplication and compression. Specifically, the ratio is the Used Before space divided by the Used After space. For example, if the Used Before space is 3 GB, but the physical Used After space is 1 GB, the deduplication and compression ratio is 3x. Acceptable values are between 1.0 and 4.0. */
-  storageDeduplicationCompressionRatio?: number;
+  storageDeduplicationCompressionRatio?: number | undefined;
   /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
-  commitmentPlan?: VmwareEnginePreferencesCommitmentPlanEnum | (string & {});
+  commitmentPlan?: VmwareEnginePreferencesCommitmentPlanEnum | (string & {}) | undefined;
 }
 export type VirtualMachinePreferencesCommitmentPlanEnum =
   | "COMMITMENT_PLAN_UNSPECIFIED"
@@ -1665,13 +1665,13 @@ export type ComputeEnginePreferencesPersistentDiskTypeEnum =
 /** A machine series, for a target product (e.g. Compute Engine, Google Cloud VMware Engine). */
 export interface MachineSeries {
   /** Code to identify a machine series. Consult this for more details on the available series for Compute Engine: https://cloud.google.com/compute/docs/machine-resource#machine_type_comparison Consult this for more details on the available series for Google Cloud VMware Engine: https://cloud.google.com/vmware-engine/pricing */
-  code?: string;
+  code?: string | undefined;
 }
 export type MachineSeriesList = Array<MachineSeries>;
 /** The type of machines to consider when calculating virtual machine migration insights and recommendations. Not all machine types are available in all zones and regions. */
 export interface MachinePreferences {
   /** Compute Engine machine series to consider for insights and recommendations. If empty, no restriction is applied on the machine series. */
-  allowedMachineSeries?: MachineSeriesList;
+  allowedMachineSeries?: MachineSeriesList | undefined;
 }
 export type ComputeEnginePreferencesLicenseTypeEnum =
   | "LICENSE_TYPE_UNSPECIFIED"
@@ -1680,11 +1680,11 @@ export type ComputeEnginePreferencesLicenseTypeEnum =
 /** The user preferences relating to Compute Engine target platform. */
 export interface ComputeEnginePreferences {
   /** Persistent disk type to use. If unspecified (default), all types are considered, based on available usage data. */
-  persistentDiskType?: ComputeEnginePreferencesPersistentDiskTypeEnum | (string & {});
+  persistentDiskType?: ComputeEnginePreferencesPersistentDiskTypeEnum | (string & {}) | undefined;
   /** Preferences concerning the machine types to consider on Compute Engine. */
-  machinePreferences?: MachinePreferences;
+  machinePreferences?: MachinePreferences | undefined;
   /** License type to consider when calculating costs for virtual machine insights and recommendations. If unspecified, costs are calculated based on the default licensing plan. */
-  licenseType?: ComputeEnginePreferencesLicenseTypeEnum | (string & {});
+  licenseType?: ComputeEnginePreferencesLicenseTypeEnum | (string & {}) | undefined;
 }
 export type VirtualMachinePreferencesTargetProductEnum =
   | "COMPUTE_MIGRATION_TARGET_PRODUCT_UNSPECIFIED"
@@ -1709,167 +1709,171 @@ export type SoleTenancyPreferencesHostMaintenancePolicyEnum =
 /** A Sole Tenant node type. */
 export interface SoleTenantNodeType {
   /** Name of the Sole Tenant node. Consult https://cloud.google.com/compute/docs/nodes/sole-tenant-nodes */
-  nodeName?: string;
+  nodeName?: string | undefined;
 }
 export type SoleTenantNodeTypeList = Array<SoleTenantNodeType>;
 /** Preferences concerning Sole Tenancy nodes and VMs. */
 export interface SoleTenancyPreferences {
   /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
-  commitmentPlan?: SoleTenancyPreferencesCommitmentPlanEnum | (string & {});
+  commitmentPlan?: SoleTenancyPreferencesCommitmentPlanEnum | (string & {}) | undefined;
   /** Sole Tenancy nodes maintenance policy. */
-  hostMaintenancePolicy?: SoleTenancyPreferencesHostMaintenancePolicyEnum | (string & {});
+  hostMaintenancePolicy?:
+    | SoleTenancyPreferencesHostMaintenancePolicyEnum
+    | (string & {})
+    | undefined;
   /** CPU overcommit ratio. Acceptable values are between 1.0 and 2.0 inclusive. */
-  cpuOvercommitRatio?: number;
+  cpuOvercommitRatio?: number | undefined;
   /** A list of sole tenant node types. An empty list means that all possible node types will be considered. */
-  nodeTypes?: SoleTenantNodeTypeList;
+  nodeTypes?: SoleTenantNodeTypeList | undefined;
 }
 /** VirtualMachinePreferences enables you to create sets of assumptions, for example, a geographical location and pricing track, for your migrated virtual machines. The set of preferences influence recommendations for migrating virtual machine assets. */
 export interface VirtualMachinePreferences {
   /** Region preferences for assets using this preference set. If you are unsure which value to set, the migration service API region is often a good value to start with. */
-  regionPreferences?: RegionPreferences;
+  regionPreferences?: RegionPreferences | undefined;
   /** Preferences concerning insights and recommendations for Google Cloud VMware Engine. */
-  vmwareEnginePreferences?: VmwareEnginePreferences;
+  vmwareEnginePreferences?: VmwareEnginePreferences | undefined;
   /** Commitment plan to consider when calculating costs for virtual machine insights and recommendations. If you are unsure which value to set, a 3 year commitment plan is often a good value to start with. */
-  commitmentPlan?: VirtualMachinePreferencesCommitmentPlanEnum | (string & {});
+  commitmentPlan?: VirtualMachinePreferencesCommitmentPlanEnum | (string & {}) | undefined;
   /** Compute Engine preferences concern insights and recommendations for Compute Engine target. */
-  computeEnginePreferences?: ComputeEnginePreferences;
+  computeEnginePreferences?: ComputeEnginePreferences | undefined;
   /** Target product for assets using this preference set. Specify either target product or business goal, but not both. */
-  targetProduct?: VirtualMachinePreferencesTargetProductEnum | (string & {});
+  targetProduct?: VirtualMachinePreferencesTargetProductEnum | (string & {}) | undefined;
   /** Sizing optimization strategy specifies the preferred strategy used when extrapolating usage data to calculate insights and recommendations for a virtual machine. If you are unsure which value to set, a moderate sizing optimization strategy is often a good value to start with. */
   sizingOptimizationStrategy?:
     | VirtualMachinePreferencesSizingOptimizationStrategyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Preferences concerning Sole Tenant nodes and virtual machines. */
-  soleTenancyPreferences?: SoleTenancyPreferences;
+  soleTenancyPreferences?: SoleTenancyPreferences | undefined;
 }
 /** The preferences that apply to all assets in a given context. */
 export interface PreferenceSet {
   /** Optional. A set of preferences that applies to all virtual machines in the context. */
-  virtualMachinePreferences?: VirtualMachinePreferences;
+  virtualMachinePreferences?: VirtualMachinePreferences | undefined;
   /** User-friendly display name. Maximum length is 63 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The timestamp when the preference set was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Name of the preference set. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the preference set. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The timestamp when the preference set was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsPreferenceSetsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Required. User specified ID for the preference set. It will become the last component of the preference set name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  preferenceSetId?: string;
+  preferenceSetId?: string | undefined;
   /** Request body */
-  body?: PreferenceSet;
+  body?: PreferenceSet | undefined;
 }
 /** Represents a combination of a group with a preference set. */
 export interface ReportConfigGroupPreferenceSetAssignment {
   /** Required. Name of the Preference Set. */
-  preferenceSet?: string;
+  preferenceSet?: string | undefined;
   /** Required. Name of the group. */
-  group?: string;
+  group?: string | undefined;
 }
 export type ReportConfigGroupPreferenceSetAssignmentList =
   Array<ReportConfigGroupPreferenceSetAssignment>;
 /** The groups and associated preference sets on which we can generate reports. */
 export interface ReportConfig {
   /** Output only. The timestamp when the resource was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The timestamp when the resource was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Free-text description. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Name of resource. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Collection of combinations of groups and preference sets. */
-  groupPreferencesetAssignments?: ReportConfigGroupPreferenceSetAssignmentList;
+  groupPreferencesetAssignments?: ReportConfigGroupPreferenceSetAssignmentList | undefined;
   /** User-friendly display name. Maximum length is 63 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsReportConfigsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Required. User specified ID for the report config. It will become the last component of the report config name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  reportConfigId?: string;
+  reportConfigId?: string | undefined;
   /** Request body */
-  body?: ReportConfig;
+  body?: ReportConfig | undefined;
 }
 /** A histogram bucket with a lower and upper bound, and a count of items with a field value between those bounds. The lower bound is inclusive and the upper bound is exclusive. Lower bound may be -infinity and upper bound may be infinity. */
 export interface ReportSummaryHistogramChartDataBucket {
   /** Lower bound - inclusive. */
-  lowerBound?: string;
+  lowerBound?: string | undefined;
   /** Upper bound - exclusive. */
-  upperBound?: string;
+  upperBound?: string | undefined;
   /** Count of items in the bucket. */
-  count?: string;
+  count?: string | undefined;
 }
 export type ReportSummaryHistogramChartDataBucketList =
   Array<ReportSummaryHistogramChartDataBucket>;
 /** A Histogram Chart shows a distribution of values into buckets, showing a count of values which fall into a bucket. */
 export interface ReportSummaryHistogramChartData {
   /** Buckets in the histogram. There will be `n+1` buckets matching `n` lower bounds in the request. The first bucket will be from -infinity to the first bound. Subsequent buckets will be between one bound and the next. The final bucket will be from the final bound to infinity. */
-  buckets?: ReportSummaryHistogramChartDataBucketList;
+  buckets?: ReportSummaryHistogramChartDataBucketList | undefined;
 }
 /** Utilization Chart is a specific type of visualization which displays a metric classified into "Used" and "Free" buckets. */
 export interface ReportSummaryUtilizationChartData {
   /** Aggregate value which falls into the "Free" bucket. */
-  free?: string;
+  free?: string | undefined;
   /** Aggregate value which falls into the "Used" bucket. */
-  used?: string;
+  used?: string | undefined;
 }
 /** Describes a single data point in the Chart. */
 export interface ReportSummaryChartDataDataPoint {
   /** The X-axis label for this data point. */
-  label?: string;
+  label?: string | undefined;
   /** The Y-axis value for this data point. */
-  value?: number;
+  value?: number | undefined;
 }
 export type ReportSummaryChartDataDataPointList = Array<ReportSummaryChartDataDataPoint>;
 /** Describes a collection of data points rendered as a Chart. */
 export interface ReportSummaryChartData {
   /** Each data point in the chart is represented as a name-value pair with the name being the x-axis label, and the value being the y-axis value. */
-  dataPoints?: ReportSummaryChartDataDataPointList;
+  dataPoints?: ReportSummaryChartDataDataPointList | undefined;
 }
 /** Aggregate statistics for a collection of assets. */
 export interface ReportSummaryAssetAggregateStats {
   /** Histogram showing a distribution of logical CPU core counts. */
-  coreCountHistogram?: ReportSummaryHistogramChartData;
+  coreCountHistogram?: ReportSummaryHistogramChartData | undefined;
   /** Total memory split into Used/Free buckets. */
-  memoryUtilizationChart?: ReportSummaryUtilizationChartData;
+  memoryUtilizationChart?: ReportSummaryUtilizationChartData | undefined;
   /** Sum of the CPU core count of all the assets in this collection. */
-  totalCores?: string;
+  totalCores?: string | undefined;
   /** Sum of persistent storage in bytes of all the assets in this collection. */
-  totalStorageBytes?: string;
+  totalStorageBytes?: string | undefined;
   /** Count of the number of unique assets in this collection. */
-  totalAssets?: string;
+  totalAssets?: string | undefined;
   /** Output only. Count of assets grouped by software name. Only present for virtual machines. */
-  softwareInstances?: ReportSummaryChartData;
+  softwareInstances?: ReportSummaryChartData | undefined;
   /** Sum of the memory in bytes of all the assets in this collection. */
-  totalMemoryBytes?: string;
+  totalMemoryBytes?: string | undefined;
   /** Total memory split into Used/Free buckets. */
-  storageUtilizationChart?: ReportSummaryUtilizationChartData;
+  storageUtilizationChart?: ReportSummaryUtilizationChartData | undefined;
   /** Histogram showing a distribution of memory sizes. */
-  memoryBytesHistogram?: ReportSummaryHistogramChartData;
+  memoryBytesHistogram?: ReportSummaryHistogramChartData | undefined;
   /** Count of assets grouped by Operating System families. */
-  operatingSystem?: ReportSummaryChartData;
+  operatingSystem?: ReportSummaryChartData | undefined;
   /** Histogram showing a distribution of storage sizes. */
-  storageBytesHistogram?: ReportSummaryHistogramChartData;
+  storageBytesHistogram?: ReportSummaryHistogramChartData | undefined;
 }
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+  units?: string | undefined;
 }
 export type ReportSummaryComputeEngineFindingAllocatedDiskTypesItemEnum =
   | "PERSISTENT_DISK_TYPE_UNSPECIFIED"
@@ -1882,146 +1886,146 @@ export type ReportSummaryComputeEngineFindingAllocatedDiskTypesItemEnumList = Ar
 /** Represents a data point tracking the count of assets allocated for a specific Machine Series. */
 export interface ReportSummaryMachineSeriesAllocation {
   /** The Machine Series (e.g. "E2", "N2") */
-  machineSeries?: MachineSeries;
+  machineSeries?: MachineSeries | undefined;
   /** Count of assets allocated to this machine series. */
-  allocatedAssetCount?: string;
+  allocatedAssetCount?: string | undefined;
 }
 export type ReportSummaryMachineSeriesAllocationList = Array<ReportSummaryMachineSeriesAllocation>;
 /** A set of findings that applies to assets destined for Compute Engine. */
 export interface ReportSummaryComputeEngineFinding {
   /** Set of disk types allocated to assets. */
-  allocatedDiskTypes?: ReportSummaryComputeEngineFindingAllocatedDiskTypesItemEnumList;
+  allocatedDiskTypes?: ReportSummaryComputeEngineFindingAllocatedDiskTypesItemEnumList | undefined;
   /** Distribution of assets based on the Machine Series. */
-  machineSeriesAllocations?: ReportSummaryMachineSeriesAllocationList;
+  machineSeriesAllocations?: ReportSummaryMachineSeriesAllocationList | undefined;
   /** Count of assets which were allocated. */
-  allocatedAssetCount?: string;
+  allocatedAssetCount?: string | undefined;
   /** Set of regions in which the assets were allocated. */
-  allocatedRegions?: StringList;
+  allocatedRegions?: StringList | undefined;
 }
 /** Represents the assets allocated to a specific Sole-Tenant node type. */
 export interface ReportSummarySoleTenantNodeAllocation {
   /** Count of assets allocated to these nodes */
-  allocatedAssetCount?: string;
+  allocatedAssetCount?: string | undefined;
   /** Count of this node type to be provisioned */
-  nodeCount?: string;
+  nodeCount?: string | undefined;
   /** Sole Tenant node type, e.g. "m3-node-128-3904" */
-  node?: SoleTenantNodeType;
+  node?: SoleTenantNodeType | undefined;
 }
 export type ReportSummarySoleTenantNodeAllocationList =
   Array<ReportSummarySoleTenantNodeAllocation>;
 /** A set of findings that applies to assets destined for Sole-Tenant nodes. */
 export interface ReportSummarySoleTenantFinding {
   /** Set of regions in which the assets are allocated */
-  allocatedRegions?: StringList;
+  allocatedRegions?: StringList | undefined;
   /** Count of assets which are allocated */
-  allocatedAssetCount?: string;
+  allocatedAssetCount?: string | undefined;
   /** Set of per-nodetype allocation records */
-  nodeAllocations?: ReportSummarySoleTenantNodeAllocationList;
+  nodeAllocations?: ReportSummarySoleTenantNodeAllocationList | undefined;
 }
 /** A VMWare Engine Node */
 export interface ReportSummaryVmwareNode {
   /** Code to identify VMware Engine node series, e.g. "ve1-standard-72". Based on the displayName of cloud.google.com/vmware-engine/docs/reference/rest/v1/projects.locations.nodeTypes */
-  code?: string;
+  code?: string | undefined;
 }
 /** Represents assets allocated to a specific VMWare Node type. */
 export interface ReportSummaryVmwareNodeAllocation {
   /** VMWare node type, e.g. "ve1-standard-72" */
-  vmwareNode?: ReportSummaryVmwareNode;
+  vmwareNode?: ReportSummaryVmwareNode | undefined;
   /** Count of assets allocated to these nodes */
-  allocatedAssetCount?: string;
+  allocatedAssetCount?: string | undefined;
   /** Count of this node type to be provisioned */
-  nodeCount?: string;
+  nodeCount?: string | undefined;
 }
 export type ReportSummaryVmwareNodeAllocationList = Array<ReportSummaryVmwareNodeAllocation>;
 /** A set of findings that applies to assets destined for VMWare Engine. */
 export interface ReportSummaryVmwareEngineFinding {
   /** Count of assets which are allocated */
-  allocatedAssetCount?: string;
+  allocatedAssetCount?: string | undefined;
   /** Set of regions in which the assets were allocated */
-  allocatedRegions?: StringList;
+  allocatedRegions?: StringList | undefined;
   /** Set of per-nodetype allocation records */
-  nodeAllocations?: ReportSummaryVmwareNodeAllocationList;
+  nodeAllocations?: ReportSummaryVmwareNodeAllocationList | undefined;
 }
 /** Summary Findings for a specific Group/PreferenceSet combination. */
 export interface ReportSummaryGroupPreferenceSetFinding {
   /** A set of preferences that applies to all machines in the context. */
-  machinePreferences?: VirtualMachinePreferences;
+  machinePreferences?: VirtualMachinePreferences | undefined;
   /** Storage monthly cost for this preference set. */
-  monthlyCostStorage?: Money;
+  monthlyCostStorage?: Money | undefined;
   /** Description for the Preference Set. */
-  description?: string;
+  description?: string | undefined;
   /** Total monthly cost for this preference set. */
-  monthlyCostTotal?: Money;
+  monthlyCostTotal?: Money | undefined;
   /** A set of findings that applies to Compute Engine machines in the input. */
-  computeEngineFinding?: ReportSummaryComputeEngineFinding;
+  computeEngineFinding?: ReportSummaryComputeEngineFinding | undefined;
   /** Display Name of the Preference Set */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Licensing monthly cost for this preference set. */
-  monthlyCostOsLicense?: Money;
+  monthlyCostOsLicense?: Money | undefined;
   /** Network Egress monthly cost for this preference set. */
-  monthlyCostNetworkEgress?: Money;
+  monthlyCostNetworkEgress?: Money | undefined;
   /** A set of findings that applies to Sole-Tenant machines in the input. */
-  soleTenantFinding?: ReportSummarySoleTenantFinding;
+  soleTenantFinding?: ReportSummarySoleTenantFinding | undefined;
   /** Compute monthly cost for this preference set. */
-  monthlyCostCompute?: Money;
+  monthlyCostCompute?: Money | undefined;
   /** Miscellaneous monthly cost for this preference set. */
-  monthlyCostOther?: Money;
+  monthlyCostOther?: Money | undefined;
   /** A set of findings that applies to VMWare machines in the input. */
-  vmwareEngineFinding?: ReportSummaryVmwareEngineFinding;
+  vmwareEngineFinding?: ReportSummaryVmwareEngineFinding | undefined;
 }
 export type ReportSummaryGroupPreferenceSetFindingList =
   Array<ReportSummaryGroupPreferenceSetFinding>;
 /** Summary Findings for a specific Group. */
 export interface ReportSummaryGroupFinding {
   /** This field is deprecated, do not rely on it having a value. */
-  overlappingAssetCount?: string;
+  overlappingAssetCount?: string | undefined;
   /** Summary statistics for all the assets in this group. */
-  assetAggregateStats?: ReportSummaryAssetAggregateStats;
+  assetAggregateStats?: ReportSummaryAssetAggregateStats | undefined;
   /** Description for the Group. */
-  description?: string;
+  description?: string | undefined;
   /** Findings for each of the PreferenceSets for this group. */
-  preferenceSetFindings?: ReportSummaryGroupPreferenceSetFindingList;
+  preferenceSetFindings?: ReportSummaryGroupPreferenceSetFindingList | undefined;
   /** Display Name for the Group. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type ReportSummaryGroupFindingList = Array<ReportSummaryGroupFinding>;
 /** Describes the Summary view of a Report, which contains aggregated values for all the groups and preference sets included in this Report. */
 export interface ReportSummary {
   /** Aggregate statistics for all the assets across all the groups. */
-  allAssetsStats?: ReportSummaryAssetAggregateStats;
+  allAssetsStats?: ReportSummaryAssetAggregateStats | undefined;
   /** Findings for each Group included in this report. */
-  groupFindings?: ReportSummaryGroupFindingList;
+  groupFindings?: ReportSummaryGroupFindingList | undefined;
 }
 export type ReportTypeEnum = "TYPE_UNSPECIFIED" | "TOTAL_COST_OF_OWNERSHIP";
 export type ReportStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "SUCCEEDED" | "FAILED";
 /** Report represents a point-in-time rendering of the ReportConfig results. */
 export interface Report {
   /** Output only. Summary view of the Report. */
-  summary?: ReportSummary;
+  summary?: ReportSummary | undefined;
   /** Output only. Name of resource. */
-  name?: string;
+  name?: string | undefined;
   /** Report type. */
-  type?: ReportTypeEnum | (string & {});
+  type?: ReportTypeEnum | (string & {}) | undefined;
   /** User-friendly display name. Maximum length is 63 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Last update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Report creation state. */
-  state?: ReportStateEnum | (string & {});
+  state?: ReportStateEnum | (string & {}) | undefined;
   /** Output only. Creation timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Free-text description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectsLocationsReportConfigsReportsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. User specified id for the report. It will become the last component of the report name. The id must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The id must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  reportId?: string;
+  reportId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 export type SourceTypeEnum =
   | "SOURCE_TYPE_UNKNOWN"
@@ -2034,43 +2038,43 @@ export type SourceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DELETING" | "INV
 /** Source represents an object from which asset information is streamed to Migration Center. */
 export interface Source {
   /** If `true`, the source is managed by other service(s). */
-  managed?: boolean;
+  managed?: boolean | undefined;
   /** The information confidence of the source. The higher the value, the higher the confidence. */
-  priority?: number;
+  priority?: number | undefined;
   /** Output only. The timestamp when the source was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The timestamp when the source was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Number of frames that are still being processed. */
-  pendingFrameCount?: number;
+  pendingFrameCount?: number | undefined;
   /** Output only. The full name of the source. */
-  name?: string;
+  name?: string | undefined;
   /** Data source type. */
-  type?: SourceTypeEnum | (string & {});
+  type?: SourceTypeEnum | (string & {}) | undefined;
   /** Free-text description. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The number of frames that were reported by the source and contained errors. */
-  errorFrameCount?: number;
+  errorFrameCount?: number | undefined;
   /** Output only. The state of the source. */
-  state?: SourceStateEnum | (string & {});
+  state?: SourceStateEnum | (string & {}) | undefined;
   /** User-friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsSourcesRequest {
   /** Required. Value for parent. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. User specified ID for the source. It will become the last component of the source name. The ID must be unique within the project, must conform with RFC-1034, is restricted to lower-cased letters, and has a maximum length of 63 characters. The ID must match the regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 export interface DeleteProjectsLocationsAssetsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsAssetsExportJobsRequest {
   /** Required. The name of the assets export job to delete. */
@@ -2080,25 +2084,25 @@ export interface DeleteProjectsLocationsDiscoveryClientsRequest {
   /** Required. The discovery client name. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the group resource. */
   name: string;
 }
 export interface DeleteProjectsLocationsImportJobsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to `true`, any `ImportDataFiles` of this job will also be deleted If set to `false`, the request only works if the job has no data files. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Name of the resource. */
   name: string;
 }
 export interface DeleteProjectsLocationsImportJobsImportDataFilesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the ImportDataFile to delete. */
   name: string;
 }
@@ -2108,29 +2112,29 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsPreferenceSetsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the group resource. */
   name: string;
 }
 export interface DeleteProjectsLocationsReportConfigsRequest {
   /** Optional. If set to `true`, any child `Reports` of this entity will also be deleted. If set to `false`, the request only works if the resource has no children. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsReportConfigsReportsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsSourcesRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -2139,15 +2143,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type GetProjectsLocationsAssetsViewEnum =
   | "ASSET_VIEW_UNSPECIFIED"
@@ -2160,7 +2164,7 @@ export interface GetProjectsLocationsAssetsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** View of the assets. Defaults to BASIC. */
-  view?: GetProjectsLocationsAssetsViewEnum | (string & {});
+  view?: GetProjectsLocationsAssetsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsAssetsExportJobsRequest {
   /** Required. Name of the resource. */
@@ -2182,7 +2186,7 @@ export interface GetProjectsLocationsImportJobsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. The level of details of the import job. Default value is FULL. */
-  view?: GetProjectsLocationsImportJobsViewEnum | (string & {});
+  view?: GetProjectsLocationsImportJobsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsImportJobsImportDataFilesRequest {
   /** Required. Name of the ImportDataFile. */
@@ -2207,15 +2211,15 @@ export type RelationTypeEnum =
 /** Message representing a relation between 2 resource. */
 export interface Relation {
   /** Output only. Identifier. The identifier of the relation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The type of the relation. */
-  type?: RelationTypeEnum;
+  type?: RelationTypeEnum | undefined;
   /** Output only. The source asset name in the relation. */
-  srcAsset?: string;
+  srcAsset?: string | undefined;
   /** Output only. The timestamp when the relation was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The destination asset name in the relation. */
-  dstAsset?: string;
+  dstAsset?: string | undefined;
 }
 export interface GetProjectsLocationsReportConfigsRequest {
   /** Required. Name of the resource. */
@@ -2230,7 +2234,7 @@ export interface GetProjectsLocationsReportConfigsReportsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Determines what information to retrieve for the Report. */
-  view?: GetProjectsLocationsReportConfigsReportsViewEnum | (string & {});
+  view?: GetProjectsLocationsReportConfigsReportsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsSourcesRequest {
   /** Required. Name of the resource. */
@@ -2244,54 +2248,54 @@ export interface GetProjectsLocationsSourcesErrorFramesRequest {
   /** Required. The name of the frame to retrieve. Format: projects/{project}/locations/{location}/sources/{source}/errorFrames/{error_frame} */
   name: string;
   /** Optional. An optional view mode to control the level of details for the frame. The default is a basic frame view. */
-  view?: GetProjectsLocationsSourcesErrorFramesViewEnum | (string & {});
+  view?: GetProjectsLocationsSourcesErrorFramesViewEnum | (string & {}) | undefined;
 }
 /** A resource that contains a single violation of a reported `AssetFrame` resource. */
 export interface FrameViolationEntry {
   /** The field of the original frame where the violation occurred. */
-  field?: string;
+  field?: string | undefined;
   /** A message describing the violation. */
-  violation?: string;
+  violation?: string | undefined;
 }
 export type FrameViolationEntryList = Array<FrameViolationEntry>;
 /** Disk usage sample. Values are across all disks. */
 export interface DiskUsageSample {
   /** Optional. Average read IOPS sampled over a short window. Must be non-negative. If both read and write are zero they are ignored. */
-  averageReadIops?: number;
+  averageReadIops?: number | undefined;
   /** Optional. Average IOPS sampled over a short window. Must be non-negative. If read or write are set, the sum of read and write will override the value of the average_iops. */
-  averageIops?: number;
+  averageIops?: number | undefined;
   /** Optional. Average write IOPS sampled over a short window. Must be non-negative. If both read and write are zero they are ignored. */
-  averageWriteIops?: number;
+  averageWriteIops?: number | undefined;
 }
 /** CPU usage sample. */
 export interface CpuUsageSample {
   /** Percentage of total CPU capacity utilized. Must be in the interval [0, 100]. On most systems can be calculated using 100 - idle percentage. */
-  utilizedPercentage?: number;
+  utilizedPercentage?: number | undefined;
 }
 /** Network usage sample. Values are across all network interfaces. */
 export interface NetworkUsageSample {
   /** Average network ingress in B/s sampled over a short window. Must be non-negative. */
-  averageIngressBps?: number;
+  averageIngressBps?: number | undefined;
   /** Average network egress in B/s sampled over a short window. Must be non-negative. */
-  averageEgressBps?: number;
+  averageEgressBps?: number | undefined;
 }
 /** Memory usage sample. */
 export interface MemoryUsageSample {
   /** Percentage of system memory utilized. Must be in the interval [0, 100]. */
-  utilizedPercentage?: number;
+  utilizedPercentage?: number | undefined;
 }
 /** Performance data sample. */
 export interface PerformanceSample {
   /** Disk usage sample. */
-  disk?: DiskUsageSample;
+  disk?: DiskUsageSample | undefined;
   /** CPU usage sample. */
-  cpu?: CpuUsageSample;
+  cpu?: CpuUsageSample | undefined;
   /** Network usage sample. */
-  network?: NetworkUsageSample;
+  network?: NetworkUsageSample | undefined;
   /** Memory usage sample. */
-  memory?: MemoryUsageSample;
+  memory?: MemoryUsageSample | undefined;
   /** Time the sample was collected. If omitted, the frame report time will be used. */
-  sampleTime?: string;
+  sampleTime?: string | undefined;
 }
 export type PerformanceSampleList = Array<PerformanceSample>;
 export type AssetFrameCollectionTypeEnum =
@@ -2304,34 +2308,34 @@ export type AssetFrameCollectionTypeEnum =
 /** Contains data reported from an inventory source on an asset. */
 export interface AssetFrame {
   /** Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Trace token is optionally provided to assist with debugging and traceability. */
-  traceToken?: string;
+  traceToken?: string | undefined;
   /** Asset information specific for logical databases. */
-  databaseDetails?: DatabaseDetails;
+  databaseDetails?: DatabaseDetails | undefined;
   /** Asset information specific for database deployments. */
-  databaseDeploymentDetails?: DatabaseDeploymentDetails;
+  databaseDeploymentDetails?: DatabaseDeploymentDetails | undefined;
   /** Asset performance data samples. Samples that are from more than 40 days ago or after tomorrow are ignored. */
-  performanceSamples?: PerformanceSampleList;
+  performanceSamples?: PerformanceSampleList | undefined;
   /** Asset information specific for virtual machines. */
-  machineDetails?: MachineDetails;
+  machineDetails?: MachineDetails | undefined;
   /** The time the data was reported. */
-  reportTime?: string;
+  reportTime?: string | undefined;
   /** Generic asset attributes. */
-  attributes?: StringMap;
+  attributes?: StringMap | undefined;
   /** Optional. Frame collection type, if not specified the collection type will be based on the source type of the source the frame was reported on. */
-  collectionType?: AssetFrameCollectionTypeEnum | (string & {});
+  collectionType?: AssetFrameCollectionTypeEnum | (string & {}) | undefined;
 }
 /** Message representing a frame which failed to be processed due to an error. */
 export interface ErrorFrame {
   /** Output only. All the violations that were detected for the frame. */
-  violations?: FrameViolationEntryList;
+  violations?: FrameViolationEntryList | undefined;
   /** Output only. Frame ingestion time. */
-  ingestionTime?: string;
+  ingestionTime?: string | undefined;
   /** Output only. The frame that was originally reported. */
-  originalFrame?: AssetFrame;
+  originalFrame?: AssetFrame | undefined;
   /** Output only. The identifier of the ErrorFrame. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetSettingsProjectsLocationsRequest {
   /** Required. Name of the resource. */
@@ -2340,31 +2344,31 @@ export interface GetSettingsProjectsLocationsRequest {
 /** Describes the Migration Center settings related to the project. */
 export interface Settings {
   /** The preference set used by default for a project. */
-  preferenceSet?: string;
+  preferenceSet?: string | undefined;
   /** Disable Cloud Logging for the Migration Center API. Users are billed for the logs. */
-  disableCloudLogging?: boolean;
+  disableCloudLogging?: boolean | undefined;
   /** Output only. The name of the resource. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export type ListProjectsLocationsAssetsViewEnum =
   | "ASSET_VIEW_UNSPECIFIED"
@@ -2375,34 +2379,34 @@ export type ListProjectsLocationsAssetsViewEnum =
   | "ASSET_VIEW_LABELS";
 export interface ListProjectsLocationsAssetsRequest {
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** View of the assets. Defaults to BASIC. */
-  view?: ListProjectsLocationsAssetsViewEnum | (string & {});
+  view?: ListProjectsLocationsAssetsViewEnum | (string & {}) | undefined;
   /** Optional. When this value is set to 'true,' the response will include all assets, including those that are hidden. */
-  showHidden?: boolean;
+  showHidden?: boolean | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent value for `ListAssetsRequest`. */
   parent: string;
 }
 /** Response message for listing assets. */
 export interface ListAssetsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of assets. */
-  assets?: AssetList_;
+  assets?: AssetList_ | undefined;
 }
 export interface ListProjectsLocationsAssetsExportJobsRequest {
   /** Optional. Requested page size. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results that the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent resource. */
   parent: string;
 }
@@ -2410,53 +2414,53 @@ export type AssetsExportJobList = Array<AssetsExportJob>;
 /** Response message for listing assets export jobs. */
 export interface ListAssetsExportJobsResponse {
   /** Output only. A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The list of assets export jobs. */
-  assetsExportJobs?: AssetsExportJobList;
+  assetsExportJobs?: AssetsExportJobList | undefined;
 }
 export interface ListProjectsLocationsDiscoveryClientsRequest {
   /** Optional. The maximum number of items to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent resource. */
   parent: string;
   /** Optional. A page token, received from a previous `ListDiscoveryClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDiscoveryClients` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Field to sort by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter expression to filter results by. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type DiscoveryClientList = Array<DiscoveryClient>;
 /** Response message for listing discovery clients. */
 export interface ListDiscoveryClientsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of discovery clients. */
-  discoveryClients?: DiscoveryClientList;
+  discoveryClients?: DiscoveryClientList | undefined;
 }
 export interface ListProjectsLocationsGroupsRequest {
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent value for `ListGroupsRequest`. */
   parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GroupList = Array<Group>;
 /** A response for listing groups. */
 export interface ListGroupsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Group */
-  groups?: GroupList;
+  groups?: GroupList | undefined;
 }
 export type ListProjectsLocationsImportJobsViewEnum =
   | "IMPORT_JOB_VIEW_UNSPECIFIED"
@@ -2466,131 +2470,131 @@ export interface ListProjectsLocationsImportJobsRequest {
   /** Required. Parent value for `ListImportJobsRequest`. */
   parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The level of details of each import job. Default value is BASIC. */
-  view?: ListProjectsLocationsImportJobsViewEnum | (string & {});
+  view?: ListProjectsLocationsImportJobsViewEnum | (string & {}) | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ImportJobList = Array<ImportJob>;
 /** A response for listing import jobs. */
 export interface ListImportJobsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of import jobs. */
-  importJobs?: ImportJobList;
+  importJobs?: ImportJobList | undefined;
 }
 export interface ListProjectsLocationsImportJobsImportDataFilesRequest {
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of data files to return. The service may return fewer than this value. If unspecified, at most 500 data files will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Name of the parent of the `ImportDataFiles` resource. */
   parent: string;
   /** A page token, received from a previous `ListImportDataFiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImportDataFiles` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ImportDataFileList = Array<ImportDataFile>;
 /** Response for listing payload files of an import job. */
 export interface ListImportDataFilesResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of import data files. */
-  importDataFiles?: ImportDataFileList;
+  importDataFiles?: ImportDataFileList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPreferenceSetsRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, at most 500 preference sets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent value for `ListPreferenceSetsRequest`. */
   parent: string;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type PreferenceSetList = Array<PreferenceSet>;
 /** Response message for listing preference sets. */
 export interface ListPreferenceSetsResponse {
   /** The list of PreferenceSets */
-  preferenceSets?: PreferenceSetList;
+  preferenceSets?: PreferenceSetList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsRelationsRequest {
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent value for `ListRelationsRequest`. */
   parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type RelationList = Array<Relation>;
 /** Response message for listing relations. */
 export interface ListRelationsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of relations. */
-  relations?: RelationList;
+  relations?: RelationList | undefined;
 }
 export interface ListProjectsLocationsReportConfigsRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent value for `ListReportConfigsRequest`. */
   parent: string;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ReportConfigList = Array<ReportConfig>;
 /** Response message for listing report configs. */
 export interface ListReportConfigsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of report configs. */
-  reportConfigs?: ReportConfigList;
+  reportConfigs?: ReportConfigList | undefined;
 }
 export type ListProjectsLocationsReportConfigsReportsViewEnum =
   | "REPORT_VIEW_UNSPECIFIED"
@@ -2599,37 +2603,37 @@ export type ListProjectsLocationsReportConfigsReportsViewEnum =
   | "REPORT_VIEW_STANDARD";
 export interface ListProjectsLocationsReportConfigsReportsRequest {
   /** Determines what information to retrieve for each Report. */
-  view?: ListProjectsLocationsReportConfigsReportsViewEnum | (string & {});
+  view?: ListProjectsLocationsReportConfigsReportsViewEnum | (string & {}) | undefined;
   /** Required. Parent value for `ListReportsRequest`. */
   parent: string;
   /** A token identifying a page of results that the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Requested page size. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ReportList = Array<Report>;
 /** Response message for listing Reports. */
 export interface ListReportsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Reports. */
-  reports?: ReportList;
+  reports?: ReportList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsSourcesRequest {
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** A token identifying a page of results that the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Requested page size. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent value for `ListSourcesRequest`. */
   parent: string;
 }
@@ -2637,11 +2641,11 @@ export type SourceList = Array<Source>;
 /** Response message for listing sources. */
 export interface ListSourcesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of sources. */
-  sources?: SourceList;
+  sources?: SourceList | undefined;
 }
 export type ListProjectsLocationsSourcesErrorFramesViewEnum =
   | "ERROR_FRAME_VIEW_UNSPECIFIED"
@@ -2651,123 +2655,123 @@ export interface ListProjectsLocationsSourcesErrorFramesRequest {
   /** Required. Parent value (the source) for `ListErrorFramesRequest`. */
   parent: string;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. An optional view mode to control the level of details of each error frame. The default is a BASIC frame view. */
-  view?: ListProjectsLocationsSourcesErrorFramesViewEnum | (string & {});
+  view?: ListProjectsLocationsSourcesErrorFramesViewEnum | (string & {}) | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ErrorFrameList = Array<ErrorFrame>;
 /** A response for listing error frames. */
 export interface ListErrorFramesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of error frames. */
-  errorFrames?: ErrorFrameList;
+  errorFrames?: ErrorFrameList | undefined;
 }
 export interface PatchProjectsLocationsAssetsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The full name of the asset. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Asset;
+  body?: Asset | undefined;
 }
 export interface PatchProjectsLocationsDiscoveryClientsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Update mask is used to specify the fields to be overwritten in the `DiscoveryClient` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Identifier. Full name of this discovery client. */
   name: string;
   /** Request body */
-  body?: DiscoveryClient;
+  body?: DiscoveryClient | undefined;
 }
 export interface PatchProjectsLocationsGroupsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `Group` resource by the update. The values specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The name of the group. */
   name: string;
   /** Request body */
-  body?: Group;
+  body?: Group | undefined;
 }
 export interface PatchProjectsLocationsImportJobsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `Asset` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The full name of the import job. */
   name: string;
   /** Request body */
-  body?: ImportJob;
+  body?: ImportJob | undefined;
 }
 export interface PatchProjectsLocationsPreferenceSetsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. Name of the preference set. */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `PreferenceSet` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: PreferenceSet;
+  body?: PreferenceSet | undefined;
 }
 export interface PatchProjectsLocationsSourcesRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `Source` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The full name of the source. */
   name: string;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 /** A request to remove assets from a group. */
 export interface RemoveAssetsFromGroupRequest {
   /** Optional. When this value is set to `false` and one of the given assets is not an existing member of the group, the operation fails with a `Not Found` error. When set to `true` this situation is silently ignored by the server. Default value is `false`. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. List of assets to be removed. The maximum number of assets that can be removed in a single request is 1000. */
-  assets?: AssetList;
+  assets?: AssetList | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface RemoveAssetsProjectsLocationsGroupsRequest {
   /** Required. Group reference. */
   group: string;
   /** Request body */
-  body?: RemoveAssetsFromGroupRequest;
+  body?: RemoveAssetsFromGroupRequest | undefined;
 }
 export type AssetFrameList = Array<AssetFrame>;
 /** Collection of frame data. */
 export interface Frames {
   /** A repeated field of asset data. */
-  framesData?: AssetFrameList;
+  framesData?: AssetFrameList | undefined;
 }
 export interface ReportAssetFramesProjectsLocationsAssetsRequest {
   /** Required. Parent of the resource. */
   parent: string;
   /** Required. Reference to a source. */
-  source?: string;
+  source?: string | undefined;
   /** Request body */
-  body?: Frames;
+  body?: Frames | undefined;
 }
 /** A response to a call to `ReportAssetFrame`. */
 export interface ReportAssetFramesResponse {}
 /** A request to run an assets export job. */
 export interface RunAssetsExportJobRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface RunProjectsLocationsAssetsExportJobsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Request body */
-  body?: RunAssetsExportJobRequest;
+  body?: RunAssetsExportJobRequest | undefined;
 }
 /** A request to run an import job. */
 export type RunImportJobRequest = RunAssetsExportJobRequest;
@@ -2775,30 +2779,30 @@ export interface RunProjectsLocationsImportJobsRequest {
   /** Required. The name of the import job to run. */
   name: string;
   /** Request body */
-  body?: RunAssetsExportJobRequest;
+  body?: RunAssetsExportJobRequest | undefined;
 }
 /** A request to send a discovery client heartbeat. */
 export interface SendDiscoveryClientHeartbeatRequest {
   /** Optional. Errors affecting client functionality. */
-  errors?: StatusList;
+  errors?: StatusList | undefined;
   /** Optional. Client application version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface SendHeartbeatProjectsLocationsDiscoveryClientsRequest {
   /** Required. The discovery client name. */
   name: string;
   /** Request body */
-  body?: SendDiscoveryClientHeartbeatRequest;
+  body?: SendDiscoveryClientHeartbeatRequest | undefined;
 }
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Output only. The name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Settings` resource by the update. The values specified in the `update_mask` field are relative to the resource, not the full request. A field will be overwritten if it is in the mask. A single * value in the mask lets you to overwrite all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Settings;
+  body?: Settings | undefined;
 }
 /** A request to validate an import job. */
 export type ValidateImportJobRequest = RunAssetsExportJobRequest;
@@ -2806,7 +2810,7 @@ export interface ValidateProjectsLocationsImportJobsRequest {
   /** Required. The name of the import job to validate. */
   name: string;
   /** Request body */
-  body?: RunAssetsExportJobRequest;
+  body?: RunAssetsExportJobRequest | undefined;
 }
 export type AddAssetsProjectsLocationsGroupsError =
   | NotFound

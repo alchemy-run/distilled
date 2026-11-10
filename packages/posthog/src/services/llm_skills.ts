@@ -50,11 +50,11 @@ export type CreateLlmSkillRequestMetadataMap = { [key: string]: unknown | undefi
 export type CreateLlmSkillRequestOwnersList = Array<string>;
 export interface LLMSkillFileInput {
   /** File path relative to skill root, e.g. 'scripts/setup.sh' or 'references/guide.md'. */
-  path?: string;
+  path?: string | undefined;
   /** Text content of the file. */
-  content?: string;
+  content?: string | undefined;
   /** MIME type of the file content. */
-  content_type?: string;
+  content_type?: string | undefined;
 }
 /** Bundled files to include with the initial version (scripts, references, assets). */
 export type CreateLlmSkillRequestFilesList = Array<LLMSkillFileInput>;
@@ -62,23 +62,23 @@ export interface CreateLlmSkillRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. Cannot be the name of a skill PostHog ships. */
-  name?: string;
+  name?: string | undefined;
   /** What this skill does and when to use it. Max 1024 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The SKILL.md instruction content (markdown). */
-  body?: string;
+  body?: string | undefined;
   /** License name or reference to a bundled license file. */
-  license?: string;
+  license?: string | undefined;
   /** Environment requirements (intended product, system packages, network access, etc.). */
-  compatibility?: string;
+  compatibility?: string | undefined;
   /** Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant. */
-  allowed_tools?: CreateLlmSkillRequestAllowedToolsList;
+  allowed_tools?: CreateLlmSkillRequestAllowedToolsList | undefined;
   /** Arbitrary key-value metadata. */
-  metadata?: CreateLlmSkillRequestMetadataMap;
+  metadata?: CreateLlmSkillRequestMetadataMap | undefined;
   /** User UUIDs to set as the skill's owners. Each must be a member of this project. Defaults to the creating user when omitted; pass an empty list to create with no owners. */
-  owners?: CreateLlmSkillRequestOwnersList;
+  owners?: CreateLlmSkillRequestOwnersList | undefined;
   /** Bundled files to include with the initial version (scripts, references, assets). */
-  files?: CreateLlmSkillRequestFilesList;
+  files?: CreateLlmSkillRequestFilesList | undefined;
 }
 /** Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant. */
 export type LLMSkillAllowedToolsList = Array<string>;
@@ -99,37 +99,37 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Users who own this skill, seed-creator first. Ownership is keyed on the logical skill (not a version), so it's stable across edits. Prefer this over created_by to learn who to route reviews or questions to. Set via the owners field on create/update (a list of user UUIDs). Empty for scout sandbox fetches of skills that haven't opted into the report channel. */
 export type LLMSkillOwnersList = Array<UserBasic>;
 export interface LLMSkillFileManifest {
-  path?: string;
-  content_type?: string;
+  path?: string | undefined;
+  content_type?: string | undefined;
   /** Number of lines in the file content. */
-  line_count?: number;
+  line_count?: number | undefined;
   /** Number of characters in the file content. */
-  char_count?: number;
+  char_count?: number | undefined;
   /** Size of the file content in bytes. Null on rows written before digests were stamped. */
-  size?: number | null;
+  size?: number | null | undefined;
   /** Hex SHA-256 of the file content. Null on rows written before digests were stamped. */
-  sha256?: string | null;
+  sha256?: string | null | undefined;
 }
 /** Bundled files manifest. Each entry carries path, content_type, and line/char counts -- no content; fetch content via /llm_skills/name/{name}/files/{path}/. */
 export type LLMSkillFilesList = Array<LLMSkillFileManifest>;
 export interface LLMSkillOutlineEntry {
   /** Markdown heading level (1-6). */
-  level?: number;
+  level?: number | undefined;
   /** Heading text. */
-  text?: string;
+  text?: string | undefined;
 }
 /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
 export type LLMSkillOutlineList = Array<LLMSkillOutlineEntry>;
@@ -144,68 +144,68 @@ export interface LLMSkillSpecProblem {
 /** Why this skill is left out of the skills bundle and the plugin marketplace, as stable codes with author-facing messages. Empty when the skill packages cleanly. */
 export type LLMSkillSpecProblemsList = Array<LLMSkillSpecProblem>;
 export interface LLMSkill {
-  id?: string;
+  id?: string | undefined;
   /** Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. */
-  name?: string;
+  name?: string | undefined;
   /** What this skill does and when to use it. */
-  description?: string;
+  description?: string | undefined;
   /** Total length of the full body in characters, independent of any body_offset/body_length paging. Compare against the length of the returned body to detect a truncated response. */
-  body_total_length?: number;
+  body_total_length?: number | undefined;
   /** When body_length paging stops before the end of the body, the character offset to request next (pass as body_offset). Null when the returned body reaches the end. */
-  body_next_offset?: number | null;
+  body_next_offset?: number | null | undefined;
   /** The SKILL.md instruction content (markdown). */
-  body?: string;
+  body?: string | undefined;
   /** License name or reference to a bundled license file. */
-  license?: string;
+  license?: string | undefined;
   /** Environment requirements (intended product, system packages, network access, etc.). */
-  compatibility?: string;
+  compatibility?: string | undefined;
   /** Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant. */
-  allowed_tools?: LLMSkillAllowedToolsList;
+  allowed_tools?: LLMSkillAllowedToolsList | undefined;
   /** Arbitrary key-value metadata. */
-  metadata?: LLMSkillMetadataMap;
+  metadata?: LLMSkillMetadataMap | undefined;
   /** Server-owned classification -- set by the producing system (the Signals harness stamps "scout"), not writable via the API. Empty for an ordinary skill. Groups skills into their own surface (e.g. the Scouts tab) independently of the skill name. */
-  category?: string;
+  category?: string | undefined;
   /** Users who own this skill, seed-creator first. Ownership is keyed on the logical skill (not a version), so it's stable across edits. Prefer this over created_by to learn who to route reviews or questions to. Set via the owners field on create/update (a list of user UUIDs). Empty for scout sandbox fetches of skills that haven't opted into the report channel. */
-  owners?: LLMSkillOwnersList;
+  owners?: LLMSkillOwnersList | undefined;
   /** Bundled files manifest. Each entry carries path, content_type, and line/char counts -- no content; fetch content via /llm_skills/name/{name}/files/{path}/. */
-  files?: LLMSkillFilesList;
+  files?: LLMSkillFilesList | undefined;
   /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
-  outline?: LLMSkillOutlineList;
+  outline?: LLMSkillOutlineList | undefined;
   /** Why this skill is left out of the skills bundle and the plugin marketplace, as stable codes with author-facing messages. Empty when the skill packages cleanly. */
-  spec_problems?: LLMSkillSpecProblemsList;
-  version?: number;
+  spec_problems?: LLMSkillSpecProblemsList | undefined;
+  version?: number | undefined;
   /** Optional note describing what changed in this version. Set when the version is published. */
-  version_description?: string | null;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
-  deleted?: boolean;
-  is_latest?: boolean;
-  latest_version?: number;
-  version_count?: number;
-  first_version_created_at?: string;
+  version_description?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  deleted?: boolean | undefined;
+  is_latest?: boolean | undefined;
+  latest_version?: number | undefined;
+  version_count?: number | undefined;
+  first_version_created_at?: string | undefined;
 }
 export interface CreateLlmSkillsNameFileRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** File path relative to skill root, e.g. 'scripts/setup.sh' or 'references/guide.md'. */
-  path?: string;
+  path?: string | undefined;
   /** Text content of the file. */
-  content?: string;
+  content?: string | undefined;
   /** MIME type of the file content. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Latest version you are editing from. If provided, the request fails with 409 when another write has landed in the meantime. */
-  base_version?: number;
+  base_version?: number | undefined;
 }
 export type GetLlmSkillsBundleRequestContent = "stub" | "full";
 export interface GetLlmSkillsBundleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** What each skill directory in the zip contains. 'stub' (default) writes a SKILL.md with the name, description and instructions to fetch the skill over the PostHog MCP when it is invoked. 'full' writes the rendered SKILL.md, every bundled file and the Codex sidecar. * `stub` - stub * `full` - full */
-  content?: GetLlmSkillsBundleRequestContent | (string & {});
+  content?: GetLlmSkillsBundleRequestContent | (string & {}) | undefined;
   /** Maximum number of skills in the zip, newest first; default 50, at most 100. Every skill in the zip costs the agent prompt context on each turn, so pick what the harness can usefully carry. Skills past the limit are reported in X-Skills-Dropped. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface GetLlmSkillsBundleResponse {}
 export interface GetLlmSkillsNameRequest {
@@ -213,11 +213,11 @@ export interface GetLlmSkillsNameRequest {
   project_id: string;
   skill_name: string;
   /** Maximum number of characters of the body to return starting at body_offset. Omit to return the whole body from the offset onwards. When the slice stops before the end, body_next_offset is the offset to request next. */
-  body_length?: number;
+  body_length?: number | undefined;
   /** Zero-based character offset to start the returned body from. Use with body_length to page through a large body that a client would otherwise truncate. Compare the returned body length against body_total_length to detect truncation, then re-fetch from body_next_offset. Defaults to 0 (start of body). */
-  body_offset?: number;
+  body_offset?: number | undefined;
   /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetLlmSkillsNameFileRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -225,29 +225,29 @@ export interface GetLlmSkillsNameFileRequest {
   skill_name: string;
   file_path: string;
   /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface LLMSkillFile {
-  path?: string;
-  content?: string;
-  content_type?: string;
+  path?: string | undefined;
+  content?: string | undefined;
+  content_type?: string | undefined;
 }
 export interface GetLlmSkillsNameManifestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
 }
 export type LLMSkillManifestFrontmatterMetadataMap = { [key: string]: string | undefined };
 /** The frontmatter of the served SKILL.md as a JSON object, equal to the frontmatter field of the skill-md endpoint for the same version. */
 export interface LLMSkillManifestFrontmatter {
   name: string;
   description: string;
-  license?: string;
-  compatibility?: string;
+  license?: string | undefined;
+  compatibility?: string | undefined;
   metadata: LLMSkillManifestFrontmatterMetadataMap;
-  allowed_tools?: string;
+  allowed_tools?: string | undefined;
 }
 export interface LLMSkillManifestResource {
   /** Path of the file relative to the skill directory. SKILL.md for the rendered skill file. */
@@ -292,17 +292,17 @@ export interface GetLlmSkillsNameSkillMdRequest {
   project_id: string;
   skill_name: string;
   /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
 }
 export type LLMSkillMarkdownFrontmatterMetadataMap = { [key: string]: string | undefined };
 /** The frontmatter block of content as a JSON object. Equal to yaml.safe_load of that block, so a listing can carry the same fields the file carries. */
 export interface LLMSkillMarkdownFrontmatter {
   name: string;
   description: string;
-  license?: string;
-  compatibility?: string;
+  license?: string | undefined;
+  compatibility?: string | undefined;
   metadata: LLMSkillMarkdownFrontmatterMetadataMap;
-  allowed_tools?: string;
+  allowed_tools?: string | undefined;
 }
 export interface LLMSkillMarkdown {
   /** Name of the skill, which is also its directory name. */
@@ -319,45 +319,45 @@ export interface GetLlmSkillsResolveNameRequest {
   project_id: string;
   skill_name: string;
   /** Return versions older than this version number. Mutually exclusive with offset. */
-  before_version?: number;
+  before_version?: number | undefined;
   /** Maximum number of versions to return per page (1-100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Zero-based offset into version history for pagination. Mutually exclusive with before_version. */
-  offset?: number;
+  offset?: number | undefined;
   /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
   /** Exact skill version UUID to resolve. */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 export interface LLMSkillVersionSummary {
-  id?: string;
-  version?: number;
-  version_description?: string | null;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  is_latest?: boolean;
+  id?: string | undefined;
+  version?: number | undefined;
+  version_description?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  is_latest?: boolean | undefined;
 }
 export type LLMSkillResolveResponseVersionsList = Array<LLMSkillVersionSummary>;
 export interface LLMSkillResolveResponse {
-  skill?: LLMSkill;
-  versions?: LLMSkillResolveResponseVersionsList;
-  has_more?: boolean;
+  skill?: LLMSkill | undefined;
+  versions?: LLMSkillResolveResponseVersionsList | undefined;
+  has_more?: boolean | undefined;
 }
 export interface ListLlmSkillsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter skills to this exact category. Pass "scout" for Signals scouts, or an empty string to return only uncategorized skills. Omit the parameter entirely to return skills of every category. */
-  category?: string;
+  category?: string | undefined;
   /** Filter skills by the ID of the user who created them. */
-  created_by_id?: number;
+  created_by_id?: number | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter skills by the ID of a user who owns them. Ownership is keyed on the logical skill, so this is stable across versions -- unlike created_by_id, which tracks whoever published the latest version. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** Optional substring filter applied to skill names and descriptions. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant. */
 export type LLMSkillListAllowedToolsList = Array<string>;
@@ -371,69 +371,69 @@ export type LLMSkillListOutlineList = Array<LLMSkillOutlineEntry>;
 export type LLMSkillListSpecProblemsList = Array<LLMSkillSpecProblem>;
 /** List serializer that omits body and file manifest -- progressive disclosure (Level 1). */
 export interface LLMSkillList {
-  id?: string;
+  id?: string | undefined;
   /** Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. */
-  name?: string;
+  name?: string | undefined;
   /** What this skill does and when to use it. */
-  description?: string;
+  description?: string | undefined;
   /** License name or reference to a bundled license file. */
-  license?: string;
+  license?: string | undefined;
   /** Environment requirements (intended product, system packages, network access, etc.). */
-  compatibility?: string;
+  compatibility?: string | undefined;
   /** Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant. */
-  allowed_tools?: LLMSkillListAllowedToolsList;
+  allowed_tools?: LLMSkillListAllowedToolsList | undefined;
   /** Arbitrary key-value metadata. */
-  metadata?: LLMSkillListMetadataMap;
+  metadata?: LLMSkillListMetadataMap | undefined;
   /** Server-owned classification -- set by the producing system (the Signals harness stamps "scout"), not writable via the API. Empty for an ordinary skill. Groups skills into their own surface (e.g. the Scouts tab) independently of the skill name. */
-  category?: string;
+  category?: string | undefined;
   /** Users who own this skill, seed-creator first. Ownership is keyed on the logical skill (not a version), so it's stable across edits. Prefer this over created_by to learn who to route reviews or questions to. Set via the owners field on create/update (a list of user UUIDs). Empty for scout sandbox fetches of skills that haven't opted into the report channel. */
-  owners?: LLMSkillListOwnersList;
+  owners?: LLMSkillListOwnersList | undefined;
   /** Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents. */
-  outline?: LLMSkillListOutlineList;
+  outline?: LLMSkillListOutlineList | undefined;
   /** Why this skill is left out of the skills bundle and the plugin marketplace, as stable codes with author-facing messages. Empty when the skill packages cleanly. */
-  spec_problems?: LLMSkillListSpecProblemsList;
-  version?: number;
+  spec_problems?: LLMSkillListSpecProblemsList | undefined;
+  version?: number | undefined;
   /** Optional note describing what changed in this version. Set when the version is published. */
-  version_description?: string | null;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
-  deleted?: boolean;
-  is_latest?: boolean;
-  latest_version?: number;
-  version_count?: number;
-  first_version_created_at?: string;
+  version_description?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  deleted?: boolean | undefined;
+  is_latest?: boolean | undefined;
+  latest_version?: number | undefined;
+  version_count?: number | undefined;
+  first_version_created_at?: string | undefined;
 }
 export type PaginatedLLMSkillListListResultsList = Array<LLMSkillList>;
 export interface PaginatedLLMSkillListList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLLMSkillListListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLLMSkillListListResultsList | undefined;
 }
 export interface ListLlmSkillsManifestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter skills to this exact category. Pass "scout" for Signals scouts, or an empty string to return only uncategorized skills. Omit the parameter entirely to return skills of every category. */
-  category?: string;
+  category?: string | undefined;
   /** Filter skills by the ID of the user who created them. */
-  created_by_id?: number;
+  created_by_id?: number | undefined;
   /** Leave out skills in this exact category, e.g. "scout" to skip Signals scouts. An empty string leaves out uncategorized skills. */
-  exclude_category?: string;
+  exclude_category?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter skills by the ID of a user who owns them. Ownership is keyed on the logical skill, so this is stable across versions -- unlike created_by_id, which tracks whoever published the latest version. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** Optional substring filter applied to skill names and descriptions. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedLLMSkillManifestListResultsList = Array<LLMSkillManifest>;
 export interface PaginatedLLMSkillManifestList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLLMSkillManifestListResultsList;
 }
 export interface LlmSkillsImportCreateRequest {
@@ -446,7 +446,7 @@ export interface LlmSkillsMarketplaceInstallCommandCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Roll the existing marketplace credential to issue a fresh token, replacing the old one (this invalidates any setup using the previous token). Ignored when no credential exists yet -- the first call always mints one. Only affects this user's own credential. */
-  rotate?: boolean;
+  rotate?: boolean | undefined;
 }
 /** * `absent` - absent * `exists` - exists * `created` - created * `rotated` - rotated */
 export type LLMSkillMarketplaceCommandStatusEnum = "absent" | "exists" | "created" | "rotated";
@@ -495,14 +495,14 @@ export interface LlmSkillsNameDuplicateCreateRequest {
   project_id: string;
   skill_name: string;
   /** Name for the duplicated skill. Must be unique, and cannot be the name of a skill PostHog ships. */
-  new_name?: string;
+  new_name?: string | undefined;
 }
 export interface LlmSkillsNameExportRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Specific skill version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface LlmSkillsNameExportRetrieveResponse {}
 export interface LlmSkillsNameFilesDestroyRequest {
@@ -511,31 +511,31 @@ export interface LlmSkillsNameFilesDestroyRequest {
   skill_name: string;
   file_path: string;
   /** Latest version you are editing from. If provided, the request fails with 409 when another write has landed in the meantime. */
-  base_version?: number;
+  base_version?: number | undefined;
 }
 export interface LlmSkillsNameFilesRenameCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Current file path to rename. */
-  old_path?: string;
+  old_path?: string | undefined;
   /** New file path. Must not already exist in the skill. */
-  new_path?: string;
+  new_path?: string | undefined;
   /** Latest version you are editing from. If provided, the request fails with 409 when another write has landed in the meantime. */
-  base_version?: number;
+  base_version?: number | undefined;
 }
 /** Tags used to group the scout in the fleet. */
 export type CommunitySkillScoutConfigTagsList = Array<string>;
 /** The scout settings a published scout travels with. Every field is optional. An omitted field means the scout-create form's own default applies. */
 export interface CommunitySkillScoutConfig {
   /** How often the scout runs, in minutes. Ignored when run_cron_schedule is set. */
-  run_interval_minutes?: number;
+  run_interval_minutes?: number | undefined;
   /** Five-field cron expression for the scout's schedule, which takes precedence over the interval. */
-  run_cron_schedule?: string;
+  run_cron_schedule?: string | undefined;
   /** Whether the scout writes its reports to the inbox. False means it runs as a dry run. */
-  emit?: boolean;
+  emit?: boolean | undefined;
   /** Tags used to group the scout in the fleet. */
-  tags?: CommunitySkillScoutConfigTagsList;
+  tags?: CommunitySkillScoutConfigTagsList | undefined;
 }
 /** Tags used for filtering and discovery in the marketplace, e.g. ['web-analytics', 'triage']. */
 export type LlmSkillsNamePublishCommunityCreateRequestTagsList = Array<string>;
@@ -548,15 +548,15 @@ export interface LlmSkillsNamePublishCommunityCreateRequest {
   /** Skill version that the publisher reviewed. The request returns 409 if the latest version changed. */
   expected_version: number;
   /** Category of the skill the publisher reviewed. Registering a skill as a scout changes its category without raising its version, so the version alone would let a skill reviewed as an ordinary one publish as a scout. The request returns 409 if the category changed. Omit it to skip that check. */
-  expected_category?: string;
+  expected_category?: string | undefined;
   /** Schedule, emit posture and tags to publish alongside a scout, so it arrives in another project with its cadence intact. Rejected for a skill that is not a scout. */
-  scout_config?: CommunitySkillScoutConfig;
+  scout_config?: CommunitySkillScoutConfig | undefined;
   /** Human-friendly display name for the community listing. Defaults to a title-cased skill slug. Must be a single line: it is used as the pull request title and commit message. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Tags used for filtering and discovery in the marketplace, e.g. ['web-analytics', 'triage']. */
-  tags?: LlmSkillsNamePublishCommunityCreateRequestTagsList;
+  tags?: LlmSkillsNamePublishCommunityCreateRequestTagsList | undefined;
   /** The publisher's GitHub username, used for public attribution on the listing and PR. Optional, and self-reported: it is not verified against the publisher's PostHog account. */
-  author_handle?: string;
+  author_handle?: string | undefined;
 }
 export interface CommunitySkillPublishResult {
   /** URL of the pull request opened in the community-skills repo for maintainer review. */
@@ -585,9 +585,9 @@ export interface LLMSkillSearchMatch {
   /** Skill field that matched the search query. * `name` - name * `description` - description * `body` - body * `file_path` - file_path * `file_content` - file_content */
   matched_field: MatchedFieldEnum;
   /** Skill-relative file path for body or bundled-file matches. Omitted for name and description matches. */
-  path?: string;
+  path?: string | undefined;
   /** One-based line containing the match when the result came from a body or bundled file. */
-  line?: number;
+  line?: number | undefined;
   /** Short excerpt showing why this skill matched. */
   excerpt: string;
 }
@@ -613,9 +613,9 @@ export interface LLMSkillSearchResponse {
 }
 export interface LLMSkillEditOperation {
   /** Text to find in the target content. Must match exactly once. */
-  old?: string;
+  old?: string | undefined;
   /** Replacement text. */
-  new?: string;
+  new?: string | undefined;
 }
 /** List of find/replace operations to apply to the current skill body. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with body. */
 export type UpdateLlmSkillsNamePartialRequestEditsList = Array<LLMSkillEditOperation>;
@@ -629,9 +629,9 @@ export type UpdateLlmSkillsNamePartialRequestFilesList = Array<LLMSkillFileInput
 export type LLMSkillFileEditEditsList = Array<LLMSkillEditOperation>;
 export interface LLMSkillFileEdit {
   /** Path of the bundled file to edit. Must match an existing file on the current skill version. */
-  path?: string;
+  path?: string | undefined;
   /** Sequential find/replace operations to apply to this file's content. */
-  edits?: LLMSkillFileEditEditsList;
+  edits?: LLMSkillFileEditEditsList | undefined;
 }
 /** Per-file find/replace updates. Each entry targets one existing file by path and applies sequential edits to its content. Non-targeted files carry forward unchanged. Cannot add, remove, or rename files -- use 'files' for that. Mutually exclusive with files. */
 export type UpdateLlmSkillsNamePartialRequestFileEditsList = Array<LLMSkillFileEdit>;
@@ -642,29 +642,29 @@ export interface UpdateLlmSkillsNamePartialRequest {
   project_id: string;
   skill_name: string;
   /** Full skill body (SKILL.md instruction content) to publish as a new version. Mutually exclusive with edits. */
-  body?: string;
+  body?: string | undefined;
   /** List of find/replace operations to apply to the current skill body. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with body. */
-  edits?: UpdateLlmSkillsNamePartialRequestEditsList;
+  edits?: UpdateLlmSkillsNamePartialRequestEditsList | undefined;
   /** Updated description for the new version. */
-  description?: string;
+  description?: string | undefined;
   /** License name or reference. */
-  license?: string;
+  license?: string | undefined;
   /** Environment requirements. */
-  compatibility?: string;
+  compatibility?: string | undefined;
   /** Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant. */
-  allowed_tools?: UpdateLlmSkillsNamePartialRequestAllowedToolsList;
+  allowed_tools?: UpdateLlmSkillsNamePartialRequestAllowedToolsList | undefined;
   /** Arbitrary key-value metadata. */
-  metadata?: UpdateLlmSkillsNamePartialRequestMetadataMap;
+  metadata?: UpdateLlmSkillsNamePartialRequestMetadataMap | undefined;
   /** Bundled files to include with this version. Replaces all files from the previous version. Mutually exclusive with file_edits. */
-  files?: UpdateLlmSkillsNamePartialRequestFilesList;
+  files?: UpdateLlmSkillsNamePartialRequestFilesList | undefined;
   /** Per-file find/replace updates. Each entry targets one existing file by path and applies sequential edits to its content. Non-targeted files carry forward unchanged. Cannot add, remove, or rename files -- use 'files' for that. Mutually exclusive with files. */
-  file_edits?: UpdateLlmSkillsNamePartialRequestFileEditsList;
+  file_edits?: UpdateLlmSkillsNamePartialRequestFileEditsList | undefined;
   /** Replace the skill's owners with these user UUIDs (each a member of this project). Omit to leave owners unchanged; pass an empty list to clear them. Owners are keyed on the logical skill, so setting them is independent of the version being published -- a body edit alone never changes ownership. */
-  owners?: UpdateLlmSkillsNamePartialRequestOwnersList;
+  owners?: UpdateLlmSkillsNamePartialRequestOwnersList | undefined;
   /** Latest version you are editing from. Used for optimistic concurrency checks. Required when publishing content changes; optional for an owner-only update (when omitted, owners are replaced without a concurrency check). */
-  base_version?: number;
+  base_version?: number | undefined;
   /** Optional note describing what changed in this version. Shown in the version history. */
-  version_description?: string;
+  version_description?: string | undefined;
 }
 export type CreateLlmSkillError = PosthogOpError;
 export const createLlmSkill: API.OperationMethod<

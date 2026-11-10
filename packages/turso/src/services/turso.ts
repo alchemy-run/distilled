@@ -73,21 +73,21 @@ export interface AddLocationToGroupRequest {
 export type GroupLocationsList = Array<string>;
 export interface Group {
   /** The group name, unique across your organization. */
-  name?: string;
+  name?: string | undefined;
   /** The current libSQL server version the databases in that group are running. */
-  version?: string;
+  version?: string | undefined;
   /** The group universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** An array of location keys the group is located. */
-  locations?: GroupLocationsList;
+  locations?: GroupLocationsList | undefined;
   /** The primary location key. */
-  primary?: string;
+  primary?: string | undefined;
   /** The current status for delete protection. If enabled, the group and all its databases cannot be deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface AddLocationToGroupResponse {
   /** The group with the added location */
-  group?: Group;
+  group?: Group | undefined;
 }
 /** The role given to the user. */
 export type AddOrganizationMemberRequestRole = "admin" | "member" | "viewer";
@@ -95,15 +95,15 @@ export interface AddOrganizationMemberRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The username of an existing Turso user. */
-  username?: string;
+  username?: string | undefined;
   /** The role given to the user. */
-  role?: AddOrganizationMemberRequestRole | (string & {});
+  role?: AddOrganizationMemberRequestRole | (string & {}) | undefined;
 }
 /** The role assigned to the member. */
 export type Role = "owner" | "admin" | "member" | "viewer";
 export interface AddOrganizationMemberResponse {
-  member?: string;
-  role?: Role;
+  member?: string | undefined;
+  role?: Role | undefined;
 }
 export type CreateAPITokenRequestScopesItem =
   | "read"
@@ -128,27 +128,27 @@ export interface CreateAPITokenRequest {
   /** The name of the api token. */
   tokenName: string;
   /** The organization slug to restrict this token to. Required when `group` is set. */
-  organization?: string;
+  organization?: string | undefined;
   /** The group name (inside `organization`) to restrict this token to. Requires `organization` and a non-empty `scopes` list. */
-  group?: string;
+  group?: string | undefined;
   /** Permissions to grant the token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every group scope, without `group:create`, `group:delete`, and `org:read`). Required and must be non-empty when `group` is set. Optional for an org-scoped token: without `scopes`, the token can do everything that its user can do in the organization. `group:create`, `group:delete`, and `org:read` are valid only on org-scoped tokens. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
-  scopes?: CreateAPITokenRequestScopesList;
+  scopes?: CreateAPITokenRequestScopesList | undefined;
 }
 export interface CreateAPITokenResponse {
-  name?: string;
-  id?: string;
+  name?: string | undefined;
+  id?: string | undefined;
   /** The actual token contents as a JWT. This is used with the `Bearer` header, see [Authentication](/authentication) for more details. **This token is never revealed again.** */
-  token?: Redacted.Redacted<string>;
+  token?: Redacted.Redacted<string> | undefined;
 }
 /** The type of seed to be used to create a new database. Use `database` to copy from an existing database, or `database_upload` to [upload a SQLite database file](/api-reference/databases/upload). */
 export type CreateDatabaseRequestSeedType = "database" | "database_upload";
 export interface CreateDatabaseRequestSeed {
   /** The type of seed to be used to create a new database. Use `database` to copy from an existing database, or `database_upload` to [upload a SQLite database file](/api-reference/databases/upload). */
-  type?: CreateDatabaseRequestSeedType | (string & {});
+  type?: CreateDatabaseRequestSeedType | (string & {}) | undefined;
   /** The name of the existing database when `database` is used as a seed type. */
-  name?: string;
+  name?: string | undefined;
   /** A formatted [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) recovery point to create a database from. This must be within the last 24 hours, or 30 days on the scaler plan. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** The encryption cipher to use. */
 export type CreateDatabaseRequestRemoteEncryptionEncryptionCipher =
@@ -164,9 +164,12 @@ export type CreateDatabaseRequestRemoteEncryptionEncryptionCipher =
 /** Encryption configuration for the database. Can be used when creating a new encrypted database, creating a encrypted database from upload (`seed.type = "database_upload"`), or forking from an encrypted database (required when the source database is encrypted). */
 export interface CreateDatabaseRequestRemoteEncryption {
   /** Base64-encoded encryption key. Key size depends on cipher: 32 bytes for aes256gcm, chacha20poly1305, aegis256 variants; 16 bytes for aes128gcm, aegis128l variants. */
-  encryption_key?: string;
+  encryption_key?: string | undefined;
   /** The encryption cipher to use. */
-  encryption_cipher?: CreateDatabaseRequestRemoteEncryptionEncryptionCipher | (string & {});
+  encryption_cipher?:
+    | CreateDatabaseRequestRemoteEncryptionEncryptionCipher
+    | (string & {})
+    | undefined;
 }
 export interface CreateDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -175,31 +178,31 @@ export interface CreateDatabaseRequest {
   name: string;
   /** The name of the group where the database should be created. **The group must already exist.** */
   group: string;
-  seed?: CreateDatabaseRequestSeed;
+  seed?: CreateDatabaseRequestSeed | undefined;
   /** The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb. */
-  size_limit?: string;
+  size_limit?: string | undefined;
   /** Encryption configuration for the database. Can be used when creating a new encrypted database, creating a encrypted database from upload (`seed.type = "database_upload"`), or forking from an encrypted database (required when the source database is encrypted). */
-  remote_encryption?: CreateDatabaseRequestRemoteEncryption;
+  remote_encryption?: CreateDatabaseRequestRemoteEncryption | undefined;
 }
 export interface CreateDatabaseOutput {
-  DbId?: string;
-  Hostname?: string;
-  Name?: string;
+  DbId?: string | undefined;
+  Hostname?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateDatabaseResponse {
   /** The newly created database */
-  database?: CreateDatabaseOutput;
+  database?: CreateDatabaseOutput | undefined;
 }
 export type CreateDatabaseTokenRequestAuthorization = "full-access" | "read-only";
 export type CreateDatabaseTokenRequestPermissionsReadAttachDatabasesList = Array<string>;
 /** Read `ATTACH` permission for the token. */
 export interface CreateDatabaseTokenRequestPermissionsReadAttach {
-  databases?: CreateDatabaseTokenRequestPermissionsReadAttachDatabasesList;
+  databases?: CreateDatabaseTokenRequestPermissionsReadAttachDatabasesList | undefined;
 }
 /** The permissions for the token. */
 export interface CreateDatabaseTokenRequestPermissions {
   /** Read `ATTACH` permission for the token. */
-  read_attach?: CreateDatabaseTokenRequestPermissionsReadAttach;
+  read_attach?: CreateDatabaseTokenRequestPermissionsReadAttach | undefined;
 }
 export interface CreateDatabaseTokenRequest {
   /** The slug of the organization or user account. */
@@ -207,15 +210,15 @@ export interface CreateDatabaseTokenRequest {
   /** The name of the database. */
   databaseName: string;
   /** Expiration time for the token (e.g., 2w1d30m). */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Authorization level for the token (full-access or read-only). */
-  authorization?: CreateDatabaseTokenRequestAuthorization | (string & {});
+  authorization?: CreateDatabaseTokenRequestAuthorization | (string & {}) | undefined;
   /** The permissions for the token. */
-  permissions?: CreateDatabaseTokenRequestPermissions;
+  permissions?: CreateDatabaseTokenRequestPermissions | undefined;
 }
 export interface CreateDatabaseTokenResponse {
   /** The generated authorization token (JWT). */
-  jwt?: Redacted.Redacted<string>;
+  jwt?: Redacted.Redacted<string> | undefined;
 }
 /** Set to `all` to enable all extensions. */
 export type ExtensionsCase0 = "all";
@@ -241,22 +244,22 @@ export interface CreateGroupRequest {
   name: string;
   /** The location key for the new group. */
   location: string;
-  extensions?: Extensions;
+  extensions?: Extensions | undefined;
 }
 export interface CreateGroupResponse {
   /** The newly created group */
-  group?: Group;
+  group?: Group | undefined;
 }
 export type CreateGroupTokenRequestAuthorization = "full-access" | "read-only";
 export type CreateGroupTokenRequestPermissionsReadAttachDatabasesList = Array<string>;
 /** Read `ATTACH` permission for the token. */
 export interface CreateGroupTokenRequestPermissionsReadAttach {
-  databases?: CreateGroupTokenRequestPermissionsReadAttachDatabasesList;
+  databases?: CreateGroupTokenRequestPermissionsReadAttachDatabasesList | undefined;
 }
 /** The permissions for the token. */
 export interface CreateGroupTokenRequestPermissions {
   /** Read `ATTACH` permission for the token. */
-  read_attach?: CreateGroupTokenRequestPermissionsReadAttach;
+  read_attach?: CreateGroupTokenRequestPermissionsReadAttach | undefined;
 }
 export interface CreateGroupTokenRequest {
   /** The slug of the organization or user account. */
@@ -264,15 +267,15 @@ export interface CreateGroupTokenRequest {
   /** The name of the group. */
   groupName: string;
   /** Expiration time for the token (e.g., 2w1d30m). */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Authorization level for the token (full-access or read-only). */
-  authorization?: CreateGroupTokenRequestAuthorization | (string & {});
+  authorization?: CreateGroupTokenRequestAuthorization | (string & {}) | undefined;
   /** The permissions for the token. */
-  permissions?: CreateGroupTokenRequestPermissions;
+  permissions?: CreateGroupTokenRequestPermissions | undefined;
 }
 export interface CreateGroupTokenResponse {
   /** The generated authorization token (JWT). */
-  jwt?: Redacted.Redacted<string>;
+  jwt?: Redacted.Redacted<string> | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -282,7 +285,7 @@ export interface DeleteDatabaseRequest {
 }
 export interface DeleteDatabaseResponse {
   /** The name of the database that was deleted. */
-  database?: string;
+  database?: string | undefined;
 }
 export interface DeleteGroupRequest {
   /** The slug of the organization or user account. */
@@ -291,7 +294,7 @@ export interface DeleteGroupRequest {
   groupName: string;
 }
 export interface DeleteGroupResponse {
-  group?: Group;
+  group?: Group | undefined;
 }
 export interface DeleteOrganizationInviteByEmailV2Request {
   /** The slug of the organization or user account. */
@@ -302,22 +305,22 @@ export interface DeleteOrganizationInviteByEmailV2Response {}
 export interface GetCurrentUserRequest {}
 export interface GetCurrentUserResponseUser {
   /** The username of the user. */
-  username?: string;
+  username?: string | undefined;
   /** The display name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** The primary email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** URL to the user's avatar image. */
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
   /** The user's current plan. */
-  plan?: string;
+  plan?: string | undefined;
   /** Whether the user has multi-factor authentication enabled. */
-  mfa?: boolean;
+  mfa?: boolean | undefined;
   /** Whether the user has pending organization invites waiting to be accepted or declined. */
-  has_pending_invites?: boolean;
+  has_pending_invites?: boolean | undefined;
 }
 export interface GetCurrentUserResponse {
-  user?: GetCurrentUserResponseUser;
+  user?: GetCurrentUserResponseUser | undefined;
 }
 export interface GetDatabaseRequest {
   /** The slug of the organization or user account. */
@@ -329,37 +332,37 @@ export interface GetDatabaseRequest {
 export type DatabaseRegionsList = Array<string>;
 export interface DatabaseParent {
   /** The parent database identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the parent database. */
-  name?: string;
+  name?: string | undefined;
   /** The timestamp when the database was branched from the parent. */
-  branched_at?: string;
+  branched_at?: string | undefined;
 }
 export interface Database {
   /** The database name, **unique** across your organization. */
-  Name?: string;
+  Name?: string | undefined;
   /** The database universal unique identifier (UUID). */
-  DbId?: string;
+  DbId?: string | undefined;
   /** The DNS hostname used for client libSQL and HTTP connections. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The current status for blocked reads. */
-  block_reads?: boolean;
+  block_reads?: boolean | undefined;
   /** The current status for blocked writes. */
-  block_writes?: boolean;
+  block_writes?: boolean | undefined;
   /** A list of regions for the group the database belongs to. */
-  regions?: DatabaseRegionsList;
+  regions?: DatabaseRegionsList | undefined;
   /** The primary region location code the group the database belongs to. */
-  primaryRegion?: string;
+  primaryRegion?: string | undefined;
   /** The name of the group the database belongs to. */
-  group?: string;
+  group?: string | undefined;
   /** The current status for delete protection. If enabled, the database cannot be deleted. */
-  delete_protection?: boolean;
-  parent?: DatabaseParent | null;
+  delete_protection?: boolean | undefined;
+  parent?: DatabaseParent | null | undefined;
   /** Whether other databases may be attached to this database with `ATTACH`. */
-  allow_attach?: boolean;
+  allow_attach?: boolean | undefined;
 }
 export interface GetDatabaseResponse {
-  database?: Database;
+  database?: Database | undefined;
 }
 export interface GetDatabaseConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -373,19 +376,19 @@ export type DatabaseConfigurationResponseAllowedIpsList = Array<string>;
 export type DatabaseConfigurationResponseAllowedAwsVpcIdsList = Array<string>;
 export interface DatabaseConfigurationResponse {
   /** The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb. */
-  size_limit?: string;
+  size_limit?: string | undefined;
   /** Allow or disallow attaching databases to the current database. */
-  allow_attach?: boolean;
+  allow_attach?: boolean | undefined;
   /** The current status for blocked reads. */
-  block_reads?: boolean;
+  block_reads?: boolean | undefined;
   /** The current status for blocked writes. */
-  block_writes?: boolean;
+  block_writes?: boolean | undefined;
   /** Prevent the database from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
   /** List of allowed IP addresses and CIDR blocks. Empty means no IP restriction. */
-  allowed_ips?: DatabaseConfigurationResponseAllowedIpsList;
+  allowed_ips?: DatabaseConfigurationResponseAllowedIpsList | undefined;
   /** List of allowed AWS VPC endpoint IDs. Empty means no VPC endpoint restriction. */
-  allowed_aws_vpc_ids?: DatabaseConfigurationResponseAllowedAwsVpcIdsList;
+  allowed_aws_vpc_ids?: DatabaseConfigurationResponseAllowedAwsVpcIdsList | undefined;
 }
 export interface GetDatabaseInstanceRequest {
   /** The slug of the organization or user account. */
@@ -399,18 +402,18 @@ export interface GetDatabaseInstanceRequest {
 export type InstanceType = "primary" | "replica";
 export interface Instance {
   /** The instance universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The name of the instance (location code). */
-  name?: string;
+  name?: string | undefined;
   /** The type of database instance this, will be `primary` or `replica`. */
-  type?: InstanceType;
+  type?: InstanceType | undefined;
   /** The location code for the region this instance is located. */
-  region?: string;
+  region?: string | undefined;
   /** The DNS hostname used for client libSQL and HTTP connections (specific to this instance only). */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 export interface GetDatabaseInstanceResponse {
-  instance?: Instance;
+  instance?: Instance | undefined;
 }
 export interface GetDatabaseStatsRequest {
   /** The slug of the organization or user account. */
@@ -420,17 +423,17 @@ export interface GetDatabaseStatsRequest {
 }
 export interface DatabaseStatsOutput {
   /** A string representing the SQL query executed. */
-  query?: string;
+  query?: string | undefined;
   /** An integer indicating the number of rows read by the query, which reflects the volume of data the query processed from the database. */
-  rows_read?: number;
+  rows_read?: number | undefined;
   /** An integer indicating the number of rows written (inserted, updated, or deleted) by the query, which reflects the impact of the query on the database data. */
-  rows_written?: number;
+  rows_written?: number | undefined;
 }
 /** The top queries performed on the given database as well as the total rows read and written. */
 export type GetDatabaseStatsResponseTopQueriesList = Array<DatabaseStatsOutput>;
 export interface GetDatabaseStatsResponse {
   /** The top queries performed on the given database as well as the total rows read and written. */
-  top_queries?: GetDatabaseStatsResponseTopQueriesList | null;
+  top_queries?: GetDatabaseStatsResponseTopQueriesList | null | undefined;
 }
 export interface GetDatabaseUsageRequest {
   /** The slug of the organization or user account. */
@@ -438,38 +441,38 @@ export interface GetDatabaseUsageRequest {
   /** The name of the database. */
   databaseName: string;
   /** The datetime to retrieve usage **from** in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. Defaults to the current calendar month if not provided. Example: `2023-01-01T00:00:00Z` */
-  from?: string;
+  from?: string | undefined;
   /** The datetime to retrieve usage **to** in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. Defaults to the current calendar month if not provided. Example: `2023-02-01T00:00:00Z` */
-  to?: string;
+  to?: string | undefined;
 }
 export interface DatabaseUsageObject {
   /** The total rows read in the time period. */
-  rows_read?: number;
+  rows_read?: number | undefined;
   /** The total rows written in the time period. */
-  rows_written?: number;
+  rows_written?: number | undefined;
   /** The total storage used. */
-  storage_bytes?: number;
+  storage_bytes?: number | undefined;
   /** The total bytes synced. */
-  bytes_synced?: number;
+  bytes_synced?: number | undefined;
 }
 export interface DatabaseUsageOutputInstancesItem {
   /** The instance universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The usage for the current database instance. */
-  usage?: DatabaseUsageObject;
+  usage?: DatabaseUsageObject | undefined;
 }
 /** The usage objects for instances of the current database. */
 export type DatabaseUsageOutputInstancesList = Array<DatabaseUsageOutputInstancesItem>;
 export interface DatabaseUsageOutput {
-  uuid?: string;
+  uuid?: string | undefined;
   /** The usage objects for instances of the current database. */
-  instances?: DatabaseUsageOutputInstancesList;
+  instances?: DatabaseUsageOutputInstancesList | undefined;
   /** The total usage for the database. */
-  total?: DatabaseUsageObject;
+  total?: DatabaseUsageObject | undefined;
 }
 export interface GetDatabaseUsageResponse {
   /** The database usage object, containg the total and individual instance usage for rows read and written, as well as the total storage size (in bytes). */
-  database?: DatabaseUsageOutput;
+  database?: DatabaseUsageOutput | undefined;
 }
 export interface GetGroupRequest {
   /** The slug of the organization or user account. */
@@ -478,7 +481,7 @@ export interface GetGroupRequest {
   groupName: string;
 }
 export interface GetGroupResponse {
-  group?: Group;
+  group?: Group | undefined;
 }
 export interface GetGroupConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -488,7 +491,7 @@ export interface GetGroupConfigurationRequest {
 }
 export interface GroupConfigurationResponse {
   /** Prevent the group from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface GetOrganizationRequest {
   /** The slug of the organization or user account. */
@@ -498,30 +501,30 @@ export interface GetOrganizationRequest {
 export type OrganizationType = "personal" | "team";
 export interface Organization {
   /** The organization name. Every user has a `personal` organization for their own account. */
-  name?: string;
+  name?: string | undefined;
   /** The organization slug. This will be your username for `personal` accounts. */
-  slug?: string;
+  slug?: string | undefined;
   /** The type of account this organization is. Will always be `personal` or `team`. */
-  type?: OrganizationType;
+  type?: OrganizationType | undefined;
   /** The name of the organization. Every user has a `personal` organization for their own account. */
-  overages?: boolean;
+  overages?: boolean | undefined;
   /** Whether all members of the organization are required to have multi-factor authentication enabled. */
-  require_mfa?: boolean;
+  require_mfa?: boolean | undefined;
   /** Returns the current status for blocked reads. */
-  blocked_reads?: boolean;
+  blocked_reads?: boolean | undefined;
   /** Returns the current status for blocked writes. */
-  blocked_writes?: boolean;
+  blocked_writes?: boolean | undefined;
   /** The pricing plan identifier this organization is subscribed to. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** The billing cycle for the paid plan, if any. */
-  plan_timeline?: string;
+  plan_timeline?: string | undefined;
   /** The external platform this organization is managed by. Will be empty for Turso managed organizations. */
-  platform?: string;
+  platform?: string | undefined;
   /** Whether deleted database and group recovery is enabled for the organization. Returned when retrieving a single organization. */
-  restore_enabled?: boolean;
+  restore_enabled?: boolean | undefined;
 }
 export interface GetOrganizationResponse {
-  organization?: Organization;
+  organization?: Organization | undefined;
 }
 export interface GetOrganizationMemberRequest {
   /** The slug of the organization or user account. */
@@ -533,14 +536,14 @@ export interface GetOrganizationMemberRequest {
 export type MemberRole = "owner" | "admin" | "member" | "viewer";
 export interface Member {
   /** The username for the member. */
-  username?: string;
+  username?: string | undefined;
   /** The role assigned to the member. */
-  role?: MemberRole;
+  role?: MemberRole | undefined;
   /** The email for the member. */
-  email?: string;
+  email?: string | undefined;
 }
 export interface GetOrganizationMemberResponse {
-  member?: Member;
+  member?: Member | undefined;
 }
 export interface GetOrganizationSubscriptionRequest {
   /** The slug of the organization or user account. */
@@ -548,16 +551,16 @@ export interface GetOrganizationSubscriptionRequest {
 }
 export interface GetOrganizationSubscriptionResponseSubscription {
   /** The name of the plan for the current subscription. */
-  name?: string;
+  name?: string | undefined;
   /** Whether overages are enabled for the organization. */
-  overages?: boolean;
+  overages?: boolean | undefined;
   /** The name of the plan for the current subscription. */
-  plan?: string;
+  plan?: string | undefined;
   /** Whether the plan is billed monthly or yearly. */
-  timeline?: string;
+  timeline?: string | undefined;
 }
 export interface GetOrganizationSubscriptionResponse {
-  subscription?: GetOrganizationSubscriptionResponseSubscription;
+  subscription?: GetOrganizationSubscriptionResponseSubscription | undefined;
 }
 export interface GetOrganizationUsageRequest {
   /** The slug of the organization or user account. */
@@ -566,34 +569,34 @@ export interface GetOrganizationUsageRequest {
 /** The usage object for the organization. */
 export interface GetOrganizationUsageResponseOrganizationUsage {
   /** The number of rows read allowed for the specific plan. */
-  rows_read?: number;
+  rows_read?: number | undefined;
   /** The number of rows written allowed for the specific plan. */
-  rows_written?: number;
+  rows_written?: number | undefined;
   /** The number of databases allowed for the specific plan. */
-  databases?: number;
+  databases?: number | undefined;
   /** The number of locations allowed for the specific plan. */
-  locations?: number;
+  locations?: number | undefined;
   /** The amount of storage allowed for the specific plan, in bytes. */
-  storage_bytes?: number;
+  storage_bytes?: number | undefined;
   /** The number of groups allowed for the specific plan. */
-  groups?: number;
+  groups?: number | undefined;
   /** The number of bytes synced allowed for the specific plan, in bytes. */
-  bytes_synced?: number;
+  bytes_synced?: number | undefined;
 }
 /** The databases for the organization and their usage. */
 export type GetOrganizationUsageResponseOrganizationDatabasesList = Array<DatabaseUsageOutput>;
 /** The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes). */
 export interface GetOrganizationUsageResponseOrganization {
   /** The UUID of the organization. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The usage object for the organization. */
-  usage?: GetOrganizationUsageResponseOrganizationUsage;
+  usage?: GetOrganizationUsageResponseOrganizationUsage | undefined;
   /** The databases for the organization and their usage. */
-  databases?: GetOrganizationUsageResponseOrganizationDatabasesList;
+  databases?: GetOrganizationUsageResponseOrganizationDatabasesList | undefined;
 }
 export interface GetOrganizationUsageResponse {
   /** The organization usage object, containing the total usage for rows read and written, as well as the total storage size (in bytes). */
-  organization?: GetOrganizationUsageResponseOrganization;
+  organization?: GetOrganizationUsageResponseOrganization | undefined;
 }
 export interface InvalidateDatabaseTokensRequest {
   /** The slug of the organization or user account. */
@@ -615,45 +618,45 @@ export interface InviteOrganizationMemberV2Request {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The email of the user you want to invite. Exactly one of email or username must be provided. */
-  email?: string;
+  email?: string | undefined;
   /** The username of an existing Turso user you want to invite. Exactly one of email or username must be provided. */
-  username?: string;
+  username?: string | undefined;
   /** The role given to the user. */
-  role?: InviteOrganizationMemberV2RequestRole | (string & {});
+  role?: InviteOrganizationMemberV2RequestRole | (string & {}) | undefined;
 }
 /** The assigned role for the invited user. */
 export type InviteCreatedV2Role = "admin" | "member" | "viewer";
 export interface InviteCreatedV2 {
   /** The email of the person invited. */
-  email?: string;
+  email?: string | undefined;
   /** The assigned role for the invited user. */
-  role?: InviteCreatedV2Role;
+  role?: InviteCreatedV2Role | undefined;
   /** The name of the organization the user was invited to. */
-  organization?: string;
+  organization?: string | undefined;
 }
 export interface InviteOrganizationMemberV2Response {
-  invited?: InviteCreatedV2;
+  invited?: InviteCreatedV2 | undefined;
 }
 export interface ListAPITokensRequest {}
 /** The expanded list of scopes granted to this token. Present only for tokens with scopes. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
 export type APITokenScopesList = Array<string>;
 export interface APIToken {
   /** The name given to the API Token. */
-  name?: string;
+  name?: string | undefined;
   /** The ID generated by Turso for the API Token. */
-  id?: string;
+  id?: string | undefined;
   /** The organization slug this token is restricted to. Omitted if the token has access to all organizations. */
-  organization?: string;
+  organization?: string | undefined;
   /** The group name this token is pinned to. Present only for group-scoped tokens. */
-  group?: string;
+  group?: string | undefined;
   /** The expanded list of scopes granted to this token. Present only for tokens with scopes. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
-  scopes?: APITokenScopesList;
+  scopes?: APITokenScopesList | undefined;
   /** The date the token was created, in `YYYY-MM-DD` format. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type ListAPITokensResponseTokensList = Array<APIToken>;
 export interface ListAPITokensResponse {
-  tokens?: ListAPITokensResponseTokensList;
+  tokens?: ListAPITokensResponseTokensList | undefined;
 }
 export interface ListDatabaseInstancesRequest {
   /** The slug of the organization or user account. */
@@ -663,21 +666,21 @@ export interface ListDatabaseInstancesRequest {
 }
 export type ListDatabaseInstancesResponseInstancesList = Array<Instance>;
 export interface ListDatabaseInstancesResponse {
-  instances?: ListDatabaseInstancesResponseInstancesList;
+  instances?: ListDatabaseInstancesResponseInstancesList | undefined;
 }
 export interface ListDatabasesRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** Filter databases by group name. */
-  group?: string;
+  group?: string | undefined;
   /** The schema database name that can be used to get databases that belong to that parent schema. */
-  schema?: string;
+  schema?: string | undefined;
   /** Filter database branches by using their parent database ID. */
-  parent?: string;
+  parent?: string | undefined;
 }
 export type ListDatabasesResponseDatabasesList = Array<Database>;
 export interface ListDatabasesResponse {
-  databases?: ListDatabasesResponseDatabasesList;
+  databases?: ListDatabasesResponseDatabasesList | undefined;
 }
 export interface ListDeletedDatabasesRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
@@ -685,69 +688,69 @@ export interface ListDeletedDatabasesRequest {
   /** Must be `true` to list deleted databases. */
   deleted: boolean;
   /** Filter deleted databases by name. */
-  search?: string;
+  search?: string | undefined;
   /** Page size, from 1 to 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from the previous page's `pagination.next`. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** The regions the database was located in. */
 export type DeletedDatabaseRegionsList = Array<string>;
 export interface DeletedDatabase {
   /** The database name. */
-  Name?: string;
+  Name?: string | undefined;
   /** The database UUID. Use it to restore the database. */
-  DbId?: string;
+  DbId?: string | undefined;
   /** The DNS hostname the database had, used for client and HTTP connections. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The name of the group the database belonged to. */
-  group?: string;
+  group?: string | undefined;
   /** The UUID of the group the database belonged to. */
-  group_id?: string;
+  group_id?: string | undefined;
   /** The UUID of the organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The regions the database was located in. */
-  regions?: DeletedDatabaseRegionsList;
+  regions?: DeletedDatabaseRegionsList | undefined;
   /** The primary region of the database. */
-  primaryRegion?: string;
+  primaryRegion?: string | undefined;
   /** Whether delete protection was enabled for the database. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
   /** When the database was deleted. */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** Set when the database's group was deleted with it. Restoring the database also restores the group. */
-  group_deleted_at?: string;
+  group_deleted_at?: string | undefined;
 }
 export type ListDeletedDatabasesResponseDatabasesList = Array<DeletedDatabase>;
 export interface Pagination {
   /** Opaque cursor for the next page. Pass it back as the `cursor` query parameter. Absent on the last page. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface ListDeletedDatabasesResponse {
-  databases?: ListDeletedDatabasesResponseDatabasesList;
-  pagination?: Pagination;
+  databases?: ListDeletedDatabasesResponseDatabasesList | undefined;
+  pagination?: Pagination | undefined;
 }
 export interface ListDeletedGroupsRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
   organizationId: string;
   /** Page size, from 1 to 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from the previous page's `pagination.next`. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface DeletedGroup {
   /** The group UUID. Use it to restore the group. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The group name. */
-  name?: string;
+  name?: string | undefined;
   /** When the group was deleted. */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** The number of member databases that restoring the group would bring back with it. */
-  cascade_databases?: number;
+  cascade_databases?: number | undefined;
 }
 export type ListDeletedGroupsResponseGroupsList = Array<DeletedGroup>;
 export interface ListDeletedGroupsResponse {
-  groups?: ListDeletedGroupsResponseGroupsList;
-  pagination?: Pagination;
+  groups?: ListDeletedGroupsResponseGroupsList | undefined;
+  pagination?: Pagination | undefined;
 }
 export interface ListGroupsRequest {
   /** The slug of the organization or user account. */
@@ -755,14 +758,14 @@ export interface ListGroupsRequest {
 }
 export type ListGroupsResponseGroupsList = Array<Group>;
 export interface ListGroupsResponse {
-  groups?: ListGroupsResponseGroupsList;
+  groups?: ListGroupsResponseGroupsList | undefined;
 }
 export interface ListLocationsRequest {}
 /** A mapping of location codes to location names. */
 export type ListLocationsResponseLocationsMap = { [key: string]: string | undefined };
 export interface ListLocationsResponse {
   /** A mapping of location codes to location names. */
-  locations?: ListLocationsResponseLocationsMap;
+  locations?: ListLocationsResponseLocationsMap | undefined;
 }
 export interface ListOrganizationAPITokensRequest {
   /** The slug of the organization or user account. */
@@ -772,37 +775,37 @@ export interface ListOrganizationAPITokensRequest {
 export type ListOrganizationAPITokensResponseTokensItemScopesList = Array<string>;
 /** The user who minted the token. Returned to admins and owners so they can see who provisioned each token. */
 export interface ListOrganizationAPITokensResponseTokensItemOwner {
-  username?: string;
-  email?: string;
+  username?: string | undefined;
+  email?: string | undefined;
 }
 export interface ListOrganizationAPITokensResponseTokensItem {
   /** The token name. */
-  name?: string;
+  name?: string | undefined;
   /** The token ID. Pass this to the revoke endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The organization slug. Always equal to the path parameter for tokens returned here. */
-  organization?: string;
+  organization?: string | undefined;
   /** The group name. Present only for group-scoped tokens. */
-  group?: string;
+  group?: string | undefined;
   /** The expanded scope list. Present only for tokens with scopes. */
-  scopes?: ListOrganizationAPITokensResponseTokensItemScopesList;
+  scopes?: ListOrganizationAPITokensResponseTokensItemScopesList | undefined;
   /** The user who minted the token. Returned to admins and owners so they can see who provisioned each token. */
-  owner?: ListOrganizationAPITokensResponseTokensItemOwner;
+  owner?: ListOrganizationAPITokensResponseTokensItemOwner | undefined;
   /** The date the token was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type ListOrganizationAPITokensResponseTokensList =
   Array<ListOrganizationAPITokensResponseTokensItem>;
 export interface ListOrganizationAPITokensResponse {
-  tokens?: ListOrganizationAPITokensResponseTokensList;
+  tokens?: ListOrganizationAPITokensResponseTokensList | undefined;
 }
 export interface ListOrganizationAuditLogsRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The limit of items to return per page. Defaults to 100. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The page number to return. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
 }
 /** The code associated to the action taken. */
 export type AuditLogCode =
@@ -832,32 +835,32 @@ export type AuditLogCode =
   | "user-delete";
 export interface AuditLog {
   /** The code associated to the action taken. */
-  code?: AuditLogCode;
+  code?: AuditLogCode | undefined;
   /** Additional context from the performed action. */
-  message?: string;
+  message?: string | undefined;
   /** Where this action was performed. Will be either `cli` or `web` depending on the `User-Agent` sent to the API. */
-  origin?: string;
+  origin?: string | undefined;
   /** The username of the user who performed the action. */
-  author?: string;
+  author?: string | undefined;
   /** A formatted [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp this action was performed. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The payload of the action performed. */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export type ListOrganizationAuditLogsResponseAuditLogsList = Array<AuditLog>;
 export interface ListOrganizationAuditLogsResponsePagination {
   /** The current page number. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
+  total_pages?: number | undefined;
   /** The total number of items. */
-  total_rows?: number;
+  total_rows?: number | undefined;
 }
 export interface ListOrganizationAuditLogsResponse {
-  audit_logs?: ListOrganizationAuditLogsResponseAuditLogsList;
-  pagination?: ListOrganizationAuditLogsResponsePagination;
+  audit_logs?: ListOrganizationAuditLogsResponseAuditLogsList | undefined;
+  pagination?: ListOrganizationAuditLogsResponsePagination | undefined;
 }
 export interface ListOrganizationInvitesV2Request {
   /** The slug of the organization or user account. */
@@ -867,45 +870,45 @@ export interface ListOrganizationInvitesV2Request {
 export type InviteV2Role = "admin" | "member" | "viewer";
 export interface InviteV2 {
   /** The unique ID for the invite. */
-  id?: number;
+  id?: number | undefined;
   /** The email of the person invited. */
-  email?: string;
+  email?: string | undefined;
   /** The assigned role for the invited user. */
-  role?: InviteV2Role;
+  role?: InviteV2Role | undefined;
   /** The datetime the invite was created in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type ListOrganizationInvitesV2ResponseInvitesList = Array<InviteV2>;
 export interface ListOrganizationInvitesV2Response {
-  invites?: ListOrganizationInvitesV2ResponseInvitesList;
+  invites?: ListOrganizationInvitesV2ResponseInvitesList | undefined;
 }
 export type ListOrganizationInvoicesRequestType = "all" | "upcoming" | "issued";
 export interface ListOrganizationInvoicesRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** The type of invoice to retrieve. */
-  type?: ListOrganizationInvoicesRequestType | (string & {});
+  type?: ListOrganizationInvoicesRequestType | (string & {}) | undefined;
 }
 export interface ListOrganizationInvoicesResponseInvoicesItem {
   /** The unique ID for the invoice. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** The formatted price in USD for the invoice. */
-  amount_due?: string;
+  amount_due?: string | undefined;
   /** The due date for the invoice. */
-  due_date?: string;
+  due_date?: string | undefined;
   /** The date the invoice was paid. */
-  paid_at?: string;
+  paid_at?: string | undefined;
   /** The date the invoice payment last failed. */
-  payment_failed_at?: string;
+  payment_failed_at?: string | undefined;
   /** The link to the invoice PDF you can download. */
-  invoice_pdf?: string;
+  invoice_pdf?: string | undefined;
 }
 /** The list of invoices for the organization. */
 export type ListOrganizationInvoicesResponseInvoicesList =
   Array<ListOrganizationInvoicesResponseInvoicesItem>;
 export interface ListOrganizationInvoicesResponse {
   /** The list of invoices for the organization. */
-  invoices?: ListOrganizationInvoicesResponseInvoicesList;
+  invoices?: ListOrganizationInvoicesResponseInvoicesList | undefined;
 }
 export interface ListOrganizationMembersRequest {
   /** The slug of the organization or user account. */
@@ -913,7 +916,7 @@ export interface ListOrganizationMembersRequest {
 }
 export type ListOrganizationMembersResponseMembersList = Array<Member>;
 export interface ListOrganizationMembersResponse {
-  members?: ListOrganizationMembersResponseMembersList;
+  members?: ListOrganizationMembersResponseMembersList | undefined;
 }
 export interface ListOrganizationPlansRequest {
   /** The slug of the organization or user account. */
@@ -921,40 +924,40 @@ export interface ListOrganizationPlansRequest {
 }
 export interface PlanPrice {
   /** Price of the available plan. */
-  value?: string;
+  value?: string | undefined;
   /** Payment regularity. */
-  timeline?: string;
+  timeline?: string | undefined;
 }
 export type OrganizationPlanPricesList = Array<PlanPrice>;
 export interface PlanQuotas {
   /** The number of rows read allowed for the specific plan. */
-  rowsRead?: number;
+  rowsRead?: number | undefined;
   /** The number of rows written allowed for the specific plan. */
-  rowsWritten?: number;
+  rowsWritten?: number | undefined;
   /** The number of databases allowed for the specific plan. */
-  databases?: number | null;
+  databases?: number | null | undefined;
   /** The number of locations allowed for the specific plan. */
-  locations?: number;
+  locations?: number | undefined;
   /** The amount of storage allowed for the specific plan, in bytes. */
-  storage?: number;
+  storage?: number | undefined;
   /** The number of groups allowed for the specific plan. */
-  groups?: number;
+  groups?: number | undefined;
   /** The number of bytes synced allowed for the specific plan, in bytes. */
-  bytesSynced?: number;
+  bytesSynced?: number | undefined;
 }
 export interface OrganizationPlan {
   /** The name of the plan. */
-  name?: string;
+  name?: string | undefined;
   /** The monthly price of the plan. */
-  price?: string;
-  prices?: OrganizationPlanPricesList;
-  quotas?: PlanQuotas;
+  price?: string | undefined;
+  prices?: OrganizationPlanPricesList | undefined;
+  quotas?: PlanQuotas | undefined;
 }
 /** List of available plans. */
 export type ListOrganizationPlansResponsePlansList = Array<OrganizationPlan>;
 export interface ListOrganizationPlansResponse {
   /** List of available plans. */
-  plans?: ListOrganizationPlansResponsePlansList;
+  plans?: ListOrganizationPlansResponsePlansList | undefined;
 }
 export interface ListOrganizationsRequest {}
 export type ListOrganizationsResponseBodyList = Array<Organization>;
@@ -969,7 +972,7 @@ export interface RemoveLocationFromGroupRequest {
 }
 export interface RemoveLocationFromGroupResponse {
   /** The group with the removed location */
-  group?: Group;
+  group?: Group | undefined;
 }
 export interface RemoveOrganizationMemberRequest {
   /** The slug of the organization or user account. */
@@ -978,7 +981,7 @@ export interface RemoveOrganizationMemberRequest {
   username: string;
 }
 export interface RemoveOrganizationMemberResponse {
-  member?: string;
+  member?: string | undefined;
 }
 export interface RestoreDatabaseRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
@@ -986,11 +989,11 @@ export interface RestoreDatabaseRequest {
   /** The UUID of the database, as returned when listing deleted databases (the `DbId` field). */
   databaseId: string;
   /** Optional new name for the restored database. If omitted, the original name is reused. The hostname is re-derived from the name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RestoreDatabaseResponse {
   /** The restored database. */
-  database?: DeletedDatabase;
+  database?: DeletedDatabase | undefined;
 }
 export interface RestoreGroupRequest {
   /** The UUID of the organization. Retrieve it with the Retrieve Organization endpoint (the `id` field). */
@@ -1004,11 +1007,11 @@ export type RestoreGroupResponseDatabasesList = Array<DeletedDatabase>;
 export type RestoreGroupResponseFailuresMap = { [key: string]: string | undefined };
 export interface RestoreGroupResponse {
   /** The restored group. */
-  group?: Group;
+  group?: Group | undefined;
   /** The member databases restored with the group, in restore order. */
-  databases?: RestoreGroupResponseDatabasesList;
+  databases?: RestoreGroupResponseDatabasesList | undefined;
   /** Maps database UUID to error message for members whose restore failed. Retry them individually with Restore Database. */
-  failures?: RestoreGroupResponseFailuresMap;
+  failures?: RestoreGroupResponseFailuresMap | undefined;
 }
 export interface RevokeAPITokenRequest {
   /** The name of the api token. */
@@ -1016,7 +1019,7 @@ export interface RevokeAPITokenRequest {
 }
 export interface RevokeAPITokenResponse {
   /** The revoked token name. */
-  token?: string;
+  token?: string | undefined;
 }
 export interface RevokeOrganizationAPITokenRequest {
   /** The slug of the organization or user account. */
@@ -1026,7 +1029,7 @@ export interface RevokeOrganizationAPITokenRequest {
 }
 export interface RevokeOrganizationAPITokenResponse {
   /** The ID of the revoked token. */
-  token?: string;
+  token?: string | undefined;
 }
 export interface TransferGroupRequest {
   /** The slug of the organization or user account. */
@@ -1034,23 +1037,23 @@ export interface TransferGroupRequest {
   /** The name of the group. */
   groupName: string;
   /** The slug of the organization to transfer the group to. */
-  organization?: string;
+  organization?: string | undefined;
 }
 /** An array of location keys the group is located. */
 export type TransferGroupResponseLocationsList = Array<string>;
 export interface TransferGroupResponse {
   /** The group name, unique across your organization. */
-  name?: string;
+  name?: string | undefined;
   /** The current libSQL server version the databases in that group are running. */
-  version?: string;
+  version?: string | undefined;
   /** The group universal unique identifier (UUID). */
-  uuid?: string;
+  uuid?: string | undefined;
   /** An array of location keys the group is located. */
-  locations?: TransferGroupResponseLocationsList;
+  locations?: TransferGroupResponseLocationsList | undefined;
   /** The primary location key. */
-  primary?: string;
+  primary?: string | undefined;
   /** The current status for delete protection. If enabled, the group and all its databases cannot be deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface UnarchiveGroupRequest {
   /** The slug of the organization or user account. */
@@ -1060,7 +1063,7 @@ export interface UnarchiveGroupRequest {
 }
 export interface UnarchiveGroupResponse {
   /** The group that was unarchived */
-  group?: Group;
+  group?: Group | undefined;
 }
 /** List of allowed IP addresses and CIDR blocks. Only connections from these sources are accepted. Pass an empty array to clear the list. Omit to leave unchanged. */
 export type UpdateDatabaseConfigurationRequestAllowedIpsList = Array<string>;
@@ -1072,19 +1075,19 @@ export interface UpdateDatabaseConfigurationRequest {
   /** The name of the database. */
   databaseName: string;
   /** The maximum size of the database in bytes. Values with units are also accepted, e.g. 1mb, 256mb, 1gb. */
-  size_limit?: string;
+  size_limit?: string | undefined;
   /** Allow or disallow attaching databases to the current database. */
-  allow_attach?: boolean;
+  allow_attach?: boolean | undefined;
   /** Block all database reads. */
-  block_reads?: boolean;
+  block_reads?: boolean | undefined;
   /** Block all database writes. */
-  block_writes?: boolean;
+  block_writes?: boolean | undefined;
   /** Prevent the database from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
   /** List of allowed IP addresses and CIDR blocks. Only connections from these sources are accepted. Pass an empty array to clear the list. Omit to leave unchanged. */
-  allowed_ips?: UpdateDatabaseConfigurationRequestAllowedIpsList;
+  allowed_ips?: UpdateDatabaseConfigurationRequestAllowedIpsList | undefined;
   /** List of allowed AWS VPC endpoint IDs (vpce-...). Only connections arriving through these endpoints are accepted. Pass an empty array to clear the list. Omit to leave unchanged. */
-  allowed_aws_vpc_ids?: UpdateDatabaseConfigurationRequestAllowedAwsVpcIdsList;
+  allowed_aws_vpc_ids?: UpdateDatabaseConfigurationRequestAllowedAwsVpcIdsList | undefined;
 }
 export interface UpdateGroupConfigurationRequest {
   /** The slug of the organization or user account. */
@@ -1092,7 +1095,7 @@ export interface UpdateGroupConfigurationRequest {
   /** The name of the group. */
   groupName: string;
   /** Prevent the group from being deleted. */
-  delete_protection?: boolean;
+  delete_protection?: boolean | undefined;
 }
 export interface UpdateGroupDatabasesRequest {
   /** The slug of the organization or user account. */
@@ -1115,33 +1118,33 @@ export interface UpdateMemberRoleRequest {
 export type UpdateMemberRoleResponseMemberRole = "admin" | "member" | "viewer";
 export interface UpdateMemberRoleResponseMember {
   /** The username of the updated member. */
-  username?: string;
+  username?: string | undefined;
   /** The email of the updated member. */
-  email?: string;
+  email?: string | undefined;
   /** The new role of the updated member. */
-  role?: UpdateMemberRoleResponseMemberRole;
+  role?: UpdateMemberRoleResponseMemberRole | undefined;
 }
 export interface UpdateMemberRoleResponse {
-  member?: UpdateMemberRoleResponseMember;
+  member?: UpdateMemberRoleResponseMember | undefined;
 }
 export interface UpdateOrganizationRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
   /** Enable or disable overages for the organization. */
-  overages?: boolean;
+  overages?: boolean | undefined;
   /** Require all members of the organization to have multi-factor authentication enabled. The requesting user must have MFA enabled on their own account before enabling this requirement. */
-  require_mfa?: boolean;
+  require_mfa?: boolean | undefined;
   /** Enable or disable deleted database and group recovery for the organization. Must be updated separately from other organization settings. Requires an admin or owner. */
-  restore_enabled?: boolean;
+  restore_enabled?: boolean | undefined;
 }
 export interface UpdateOrganizationResponse {
   /** The updated organization. */
-  organization?: Organization;
+  organization?: Organization | undefined;
 }
 export interface ValidateAPITokenRequest {}
 export interface ValidateAPITokenResponse {
   /** The time of expiration for the provided token in unix epoch seconds, or `-1` if there is no expiration. */
-  exp?: number;
+  exp?: number | undefined;
 }
 export type AddLocationToGroupError = BadRequest | NotFound | TursoOpError;
 /** Add Location to Group Adds a location to the specified group. */

@@ -105,27 +105,27 @@ export interface CreateActionModuleRequest {
   /** The source code of the action module. */
   code: string;
   /** The secrets to associate with the action module. */
-  secrets?: CreateActionModuleRequestSecretsList;
+  secrets?: CreateActionModuleRequestSecretsList | undefined;
   /** The npm dependencies of the action module. */
-  dependencies?: CreateActionModuleRequestDependenciesList;
+  dependencies?: CreateActionModuleRequestDependenciesList | undefined;
   /** The API version of the module. */
-  api_version?: string;
+  api_version?: string | undefined;
   /** Whether to publish the module immediately after creation. */
-  publish?: boolean;
+  publish?: boolean | undefined;
 }
 export interface ActionModuleDependency {
   /** The name of the npm dependency. */
-  name?: string;
+  name?: string | undefined;
   /** The version of the npm dependency. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The npm dependencies from the module's draft version. */
 export type CreateActionModuleResponseContentDependenciesList = Array<ActionModuleDependency>;
 export interface ActionModuleSecret {
   /** The name of the secret. */
-  name?: string;
+  name?: string | undefined;
   /** The time when the secret was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The secrets from the module's draft version (names and timestamps only, values never returned). */
 export type CreateActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
@@ -136,40 +136,40 @@ export type ActionModuleVersionReferenceSecretsList = Array<ActionModuleSecret>;
 /** The latest published version as a reference object. Omitted if no versions have been published. */
 export interface ActionModuleVersionReference {
   /** The unique ID of the version. */
-  id?: string;
+  id?: string | undefined;
   /** The version number. */
-  version_number?: number;
+  version_number?: number | undefined;
   /** The source code from this version. */
-  code?: string;
+  code?: string | undefined;
   /** The npm dependencies from this version. */
-  dependencies?: ActionModuleVersionReferenceDependenciesList;
+  dependencies?: ActionModuleVersionReferenceDependenciesList | undefined;
   /** The secrets from this version (names and timestamps only, values never returned). */
-  secrets?: ActionModuleVersionReferenceSecretsList;
+  secrets?: ActionModuleVersionReferenceSecretsList | undefined;
   /** Timestamp when the version was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface CreateActionModuleResponseContent {
   /** The unique ID of the module. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the module. */
-  name?: string;
+  name?: string | undefined;
   /** The source code from the module's draft version. */
-  code?: string;
+  code?: string | undefined;
   /** The npm dependencies from the module's draft version. */
-  dependencies?: CreateActionModuleResponseContentDependenciesList;
+  dependencies?: CreateActionModuleResponseContentDependenciesList | undefined;
   /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: CreateActionModuleResponseContentSecretsList;
+  secrets?: CreateActionModuleResponseContentSecretsList | undefined;
   /** The number of deployed actions using this module. */
-  actions_using_module_total?: number;
+  actions_using_module_total?: number | undefined;
   /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean;
+  all_changes_published?: boolean | undefined;
   /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number;
+  latest_version_number?: number | undefined;
   /** Timestamp when the module was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the module was last updated. */
-  updated_at?: string;
-  latest_version?: ActionModuleVersionReference;
+  updated_at?: string | undefined;
+  latest_version?: ActionModuleVersionReference | undefined;
 }
 export interface CreateActionModuleRollbackRequest {
   /** The unique ID of the module to roll back. */
@@ -183,26 +183,26 @@ export type RollbackActionModuleResponseContentDependenciesList = Array<ActionMo
 export type RollbackActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
 export interface RollbackActionModuleResponseContent {
   /** The unique ID of the module. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the module. */
-  name?: string;
+  name?: string | undefined;
   /** The source code from the module's draft version. */
-  code?: string;
+  code?: string | undefined;
   /** The npm dependencies from the module's draft version. */
-  dependencies?: RollbackActionModuleResponseContentDependenciesList;
+  dependencies?: RollbackActionModuleResponseContentDependenciesList | undefined;
   /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: RollbackActionModuleResponseContentSecretsList;
+  secrets?: RollbackActionModuleResponseContentSecretsList | undefined;
   /** The number of deployed actions using this module. */
-  actions_using_module_total?: number;
+  actions_using_module_total?: number | undefined;
   /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean;
+  all_changes_published?: boolean | undefined;
   /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number;
+  latest_version_number?: number | undefined;
   /** Timestamp when the module was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the module was last updated. */
-  updated_at?: string;
-  latest_version?: ActionModuleVersionReference;
+  updated_at?: string | undefined;
+  latest_version?: ActionModuleVersionReference | undefined;
 }
 export interface CreateActionModuleVersionRequest {
   /** The ID of the action module to create a version for. */
@@ -215,19 +215,19 @@ export type CreateActionModuleVersionResponseContentDependenciesList =
   Array<ActionModuleDependency>;
 export interface CreateActionModuleVersionResponseContent {
   /** The unique ID for this version. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the parent module. */
-  module_id?: string;
+  module_id?: string | undefined;
   /** The sequential version number. */
-  version_number?: number;
+  version_number?: number | undefined;
   /** The exact source code that was published with this version. */
-  code?: string;
+  code?: string | undefined;
   /** Secrets available to this version (name and updated_at only, values never returned). */
-  secrets?: CreateActionModuleVersionResponseContentSecretsList;
+  secrets?: CreateActionModuleVersionResponseContentSecretsList | undefined;
   /** Dependencies locked to this version. */
-  dependencies?: CreateActionModuleVersionResponseContentDependenciesList;
+  dependencies?: CreateActionModuleVersionResponseContentDependenciesList | undefined;
   /** The timestamp when this version was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Arbitrary key-value metadata for the agent */
 export type AgentMetadata = { [key: string]: unknown | undefined };
@@ -235,10 +235,10 @@ export interface CreateAgentRequest {
   /** The agent name. Cannot contain <, >, or null bytes. */
   name: string;
   /** Optional client ID to associate with the agent */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Optional external identifier for the agent. Immutable after creation. Must be unique within the tenant. */
-  external_agent_id?: string;
-  metadata?: AgentMetadata;
+  external_agent_id?: string | undefined;
+  metadata?: AgentMetadata | undefined;
 }
 export interface AgentResponseContent {
   /** The agent ID */
@@ -250,7 +250,7 @@ export interface AgentResponseContent {
   /** When the agent was last updated */
   updated_at: string;
   /** External identifier for the agent, if set. Omitted when not set. */
-  external_agent_id?: string;
+  external_agent_id?: string | undefined;
   metadata: AgentMetadata;
 }
 /** Buttons style */
@@ -279,12 +279,12 @@ export interface BrandingThemeBorders {
 export type BrandingThemeColorsCaptchaWidgetThemeEnum = "auto" | "dark" | "light";
 export interface BrandingThemeColors {
   /** Base Focus Color */
-  base_focus_color?: string;
+  base_focus_color?: string | undefined;
   /** Base Hover Color */
-  base_hover_color?: string;
+  base_hover_color?: string | undefined;
   /** Body text */
   body_text: string;
-  captcha_widget_theme?: BrandingThemeColorsCaptchaWidgetThemeEnum | (string & {});
+  captcha_widget_theme?: BrandingThemeColorsCaptchaWidgetThemeEnum | (string & {}) | undefined;
   /** Error */
   error: string;
   /** Header */
@@ -306,7 +306,7 @@ export interface BrandingThemeColors {
   /** Primary button label */
   primary_button_label: string;
   /** Read only background */
-  read_only_background?: string;
+  read_only_background?: string | undefined;
   /** Secondary button border */
   secondary_button_border: string;
   /** Secondary button label */
@@ -423,9 +423,9 @@ export interface CreateBrandingThemeRequest {
   borders: BrandingThemeBorders;
   colors: BrandingThemeColors;
   /** Display Name */
-  displayName?: string;
+  displayName?: string | undefined;
   fonts: BrandingThemeFonts;
-  identifiers?: BrandingThemeIdentifiers;
+  identifiers?: BrandingThemeIdentifiers | undefined;
   page_background: BrandingThemePageBackground;
   widget: BrandingThemeWidget;
 }
@@ -435,7 +435,7 @@ export interface CreateBrandingThemeResponseContent {
   /** Display Name */
   displayName: string;
   fonts: BrandingThemeFonts;
-  identifiers?: BrandingThemeIdentifiers;
+  identifiers?: BrandingThemeIdentifiers | undefined;
   page_background: BrandingThemePageBackground;
   /** Theme Id */
   themeId: string;
@@ -464,22 +464,27 @@ export type ClientOIDCBackchannelLogoutInitiatorsSelectedInitiatorsList = Array<
 >;
 /** Configuration for OIDC backchannel logout initiators */
 export interface ClientOIDCBackchannelLogoutInitiators {
-  mode?: ClientOIDCBackchannelLogoutInitiatorsModeEnum | (string & {});
-  selected_initiators?: ClientOIDCBackchannelLogoutInitiatorsSelectedInitiatorsList;
+  mode?: ClientOIDCBackchannelLogoutInitiatorsModeEnum | (string & {}) | undefined;
+  selected_initiators?: ClientOIDCBackchannelLogoutInitiatorsSelectedInitiatorsList | undefined;
   [key: string]: unknown;
 }
 /** Controls whether session metadata is included in the logout token. Default value is null. */
 export interface ClientOIDCBackchannelLogoutSessionMetadata {
   /** The `include` property determines whether session metadata is included in the logout token. */
-  include?: boolean;
+  include?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Configuration for OIDC backchannel logout */
 export interface ClientOIDCBackchannelLogoutSettings {
   /** Comma-separated list of URLs that are valid to call back from Auth0 for OIDC backchannel logout. Currently only one URL is allowed. */
-  backchannel_logout_urls?: ClientOIDCBackchannelLogoutSettingsBackchannelLogoutUrlsList;
-  backchannel_logout_initiators?: ClientOIDCBackchannelLogoutInitiators;
-  backchannel_logout_session_metadata?: ClientOIDCBackchannelLogoutSessionMetadata | null;
+  backchannel_logout_urls?:
+    | ClientOIDCBackchannelLogoutSettingsBackchannelLogoutUrlsList
+    | undefined;
+  backchannel_logout_initiators?: ClientOIDCBackchannelLogoutInitiators | undefined;
+  backchannel_logout_session_metadata?:
+    | ClientOIDCBackchannelLogoutSessionMetadata
+    | null
+    | undefined;
   [key: string]: unknown;
 }
 export type ClientSessionTransferAllowedAuthenticationMethodsEnum = "cookie" | "query";
@@ -494,23 +499,29 @@ export type ClientSessionTransferDelegationDeviceBindingEnum = "ip";
 /** Configuration for delegation (impersonation) access using Session Transfer Tokens */
 export interface ClientSessionTransferDelegationConfiguration {
   /** Indicates whether delegation (impersonation) access is allowed using Session Transfer Tokens. Default value is `false`. */
-  allow_delegated_access?: boolean;
-  enforce_device_binding?: ClientSessionTransferDelegationDeviceBindingEnum | (string & {});
+  allow_delegated_access?: boolean | undefined;
+  enforce_device_binding?:
+    | ClientSessionTransferDelegationDeviceBindingEnum
+    | (string & {})
+    | undefined;
 }
 /** Native to Web SSO Configuration */
 export interface ClientSessionTransferConfiguration {
   /** Indicates whether an app can issue a Session Transfer Token through Token Exchange. If set to 'false', the app will not be able to issue a Session Transfer Token. Usually configured in the native application. Default value is `false`. */
-  can_create_session_transfer_token?: boolean;
+  can_create_session_transfer_token?: boolean | undefined;
   /** Indicates whether revoking the parent Refresh Token that initiated a Native to Web flow and was used to issue a Session Transfer Token should trigger a cascade revocation affecting its dependent child entities. Usually configured in the native application. Default value is `true`, applicable only in Native to Web SSO context. */
-  enforce_cascade_revocation?: boolean;
+  enforce_cascade_revocation?: boolean | undefined;
   /** Indicates whether an app can create a session from a Session Transfer Token received via indicated methods. Can include `cookie` and/or `query`. Usually configured in the web application. Default value is an empty array []. */
-  allowed_authentication_methods?: ClientSessionTransferConfigurationAllowedAuthenticationMethodsList | null;
-  enforce_device_binding?: ClientSessionTransferDeviceBindingEnum | (string & {});
+  allowed_authentication_methods?:
+    | ClientSessionTransferConfigurationAllowedAuthenticationMethodsList
+    | null
+    | undefined;
+  enforce_device_binding?: ClientSessionTransferDeviceBindingEnum | (string & {}) | undefined;
   /** Indicates whether Refresh Tokens are allowed to be issued when authenticating with a Session Transfer Token. Usually configured in the web application. Default value is `false`. */
-  allow_refresh_token?: boolean;
+  allow_refresh_token?: boolean | undefined;
   /** Indicates whether Refresh Tokens created during a Native to Web session are tied to that session's lifetime. This determines if such refresh tokens should be automatically revoked when their corresponding sessions are. Usually configured in the web application. Default value is `true`, applicable only in Native to Web SSO context. */
-  enforce_online_refresh_tokens?: boolean;
-  delegation?: ClientSessionTransferDelegationConfiguration | null;
+  enforce_online_refresh_tokens?: boolean | undefined;
+  delegation?: ClientSessionTransferDelegationConfiguration | null | undefined;
 }
 /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
 export type CreateClientRequestAllowedOriginsList = Array<string>;
@@ -563,75 +574,75 @@ export type SigningAlgorithmEnum = "HS256" | "RS256" | "RS512" | "PS256";
 /** Configuration related to JWTs for the client. */
 export interface ClientJwtConfiguration {
   /** Number of seconds the JWT will be valid for (affects `exp` claim). */
-  lifetime_in_seconds?: number;
+  lifetime_in_seconds?: number | undefined;
   /** Whether the client secret is base64 encoded (true) or unencoded (false). */
-  secret_encoded?: boolean;
-  scopes?: ClientJwtConfigurationScopes;
-  alg?: SigningAlgorithmEnum | (string & {});
+  secret_encoded?: boolean | undefined;
+  scopes?: ClientJwtConfigurationScopes | undefined;
+  alg?: SigningAlgorithmEnum | (string & {}) | undefined;
   [key: string]: unknown;
 }
 /** Encryption used for WsFed responses with this client. */
 export interface ClientEncryptionKey {
   /** Encryption Public RSA Key. */
-  pub?: string;
+  pub?: string | undefined;
   /** Encryption certificate for public key in X.509 (.CER) format. */
-  cert?: string;
+  cert?: string | undefined;
   /** Encryption certificate name for this certificate in the format `/CN={domain}`. */
-  subject?: string;
+  subject?: string | undefined;
   [key: string]: unknown;
 }
 /** AWS addon configuration. */
 export interface ClientAddonAWS {
   /** AWS principal ARN, e.g. `arn:aws:iam::010616021751:saml-provider/idpname` */
-  principal?: string;
+  principal?: string | undefined;
   /** AWS role ARN, e.g. `arn:aws:iam::010616021751:role/foo` */
-  role?: string;
+  role?: string | undefined;
   /** AWS token lifetime in seconds */
-  lifetime_in_seconds?: number;
+  lifetime_in_seconds?: number | undefined;
   [key: string]: unknown;
 }
 /** Azure Blob Storage addon configuration. */
 export interface ClientAddonAzureBlob {
   /** Your Azure storage account name. Usually first segment in your Azure storage URL. e.g. `https://acme-org.blob.core.windows.net` would be the account name `acme-org`. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Access key associated with this storage account. */
-  storageAccessKey?: string;
+  storageAccessKey?: string | undefined;
   /** Container to request a token for. e.g. `my-container`. */
-  containerName?: string;
+  containerName?: string | undefined;
   /** Entity to request a token for. e.g. `my-blob`. If blank the computed SAS will apply to the entire storage container. */
-  blobName?: string;
+  blobName?: string | undefined;
   /** Expiration in minutes for the generated token (default of 5 minutes). */
-  expiration?: number;
+  expiration?: number | undefined;
   /** Shared access policy identifier defined in your storage account resource. */
-  signedIdentifier?: string;
+  signedIdentifier?: string | undefined;
   /** Indicates if the issued token has permission to read the content, properties, metadata and block list. Use the blob as the source of a copy operation. */
-  blob_read?: boolean;
+  blob_read?: boolean | undefined;
   /** Indicates if the issued token has permission to create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation within the same account. */
-  blob_write?: boolean;
+  blob_write?: boolean | undefined;
   /** Indicates if the issued token has permission to delete the blob. */
-  blob_delete?: boolean;
+  blob_delete?: boolean | undefined;
   /** Indicates if the issued token has permission to read the content, properties, metadata or block list of any blob in the container. Use any blob in the container as the source of a copy operation */
-  container_read?: boolean;
+  container_read?: boolean | undefined;
   /** Indicates that for any blob in the container if the issued token has permission to create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation within the same account. */
-  container_write?: boolean;
+  container_write?: boolean | undefined;
   /** Indicates if issued token has permission to delete any blob in the container. */
-  container_delete?: boolean;
+  container_delete?: boolean | undefined;
   /** Indicates if the issued token has permission to list blobs in the container. */
-  container_list?: boolean;
+  container_list?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Azure Storage Bus addon configuration. */
 export interface ClientAddonAzureSB {
   /** Your Azure Service Bus namespace. Usually the first segment of your Service Bus URL (e.g. `https://acme-org.servicebus.windows.net` would be `acme-org`). */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Your shared access policy name defined in your Service Bus entity. */
-  sasKeyName?: string;
+  sasKeyName?: string | undefined;
   /** Primary Key associated with your shared access policy. */
-  sasKey?: string;
+  sasKey?: string | undefined;
   /** Entity you want to request a token for. e.g. `my-queue`.' */
-  entityPath?: string;
+  entityPath?: string | undefined;
   /** Optional expiration in minutes for the generated token. Defaults to 5 minutes. */
-  expiration?: number;
+  expiration?: number | undefined;
   [key: string]: unknown;
 }
 /** Active Directory Rights Management Service SSO configuration. */
@@ -655,9 +666,9 @@ export interface ClientAddonSlack {
 /** Sentry SSO configuration. */
 export interface ClientAddonSentry {
   /** Generated slug for your Sentry organization. Found in your Sentry URL. e.g. `https://sentry.acme.com/acme-org/` would be `acme-org`. */
-  org_slug?: string;
+  org_slug?: string | undefined;
   /** URL prefix only if running Sentry Community Edition, otherwise leave should be blank. */
-  base_url?: string;
+  base_url?: string | undefined;
   [key: string]: unknown;
 }
 /** Box SSO indicator (no configuration settings needed for Box SSO). */
@@ -671,59 +682,59 @@ export type ClientAddonDropbox = { [key: string]: unknown | undefined };
 /** Adobe EchoSign SSO configuration. */
 export interface ClientAddonEchoSign {
   /** Your custom domain found in your EchoSign URL. e.g. `https://acme-org.echosign.com` would be `acme-org`. */
-  domain?: string;
+  domain?: string | undefined;
   [key: string]: unknown;
 }
 /** Egnyte SSO configuration. */
 export interface ClientAddonEgnyte {
   /** Your custom domain found in your Egnyte URL. e.g. `https://acme-org.egnyte.com` would be `acme-org`. */
-  domain?: string;
+  domain?: string | undefined;
   [key: string]: unknown;
 }
 /** Google Firebase addon configuration. */
 export interface ClientAddonFirebase {
   /** Google Firebase Secret. (SDK 2 only). */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Optional ID of the private key to obtain kid header in the issued token (SDK v3+ tokens only). */
-  private_key_id?: string;
+  private_key_id?: string | undefined;
   /** Private Key for signing the token (SDK v3+ tokens only). */
-  private_key?: string | Redacted.Redacted<string>;
+  private_key?: string | Redacted.Redacted<string> | undefined;
   /** ID of the Service Account you have created (shown as `client_email` in the generated JSON file, SDK v3+ tokens only). */
-  client_email?: string;
+  client_email?: string | undefined;
   /** Optional expiration in seconds for the generated token. Defaults to 3600 seconds (SDK v3+ tokens only). */
-  lifetime_in_seconds?: number;
+  lifetime_in_seconds?: number | undefined;
   [key: string]: unknown;
 }
 /** New Relic SSO configuration. */
 export interface ClientAddonNewRelic {
   /** Your New Relic Account ID found in your New Relic URL after the `/accounts/` path. e.g. `https://rpm.newrelic.com/accounts/123456/query` would be `123456`. */
-  account?: string;
+  account?: string | undefined;
   [key: string]: unknown;
 }
 /** Microsoft Office 365 SSO configuration. */
 export interface ClientAddonOffice365 {
   /** Your Office 365 domain name. e.g. `acme-org.com`. */
-  domain?: string;
+  domain?: string | undefined;
   /** Optional Auth0 database connection for testing an already-configured Office 365 tenant. */
-  connection?: string;
+  connection?: string | undefined;
   [key: string]: unknown;
 }
 /** Salesforce SSO configuration. */
 export interface ClientAddonSalesforce {
   /** Arbitrary logical URL that identifies the Saleforce resource. e.g. `https://acme-org.com`. */
-  entity_id?: string;
+  entity_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Salesforce API addon configuration. */
 export interface ClientAddonSalesforceAPI {
   /** Consumer Key assigned by Salesforce to the Connected App. */
-  clientid?: string;
+  clientid?: string | undefined;
   /** Name of the property in the user object that maps to a Salesforce username. e.g. `email`. */
-  principal?: string;
+  principal?: string | undefined;
   /** Community name. */
-  communityName?: string;
+  communityName?: string | undefined;
   /** Community url section. */
-  community_url_section?: string;
+  community_url_section?: string | undefined;
   [key: string]: unknown;
 }
 /** Salesforce Sandbox addon configuration. */
@@ -732,22 +743,22 @@ export type ClientAddonSAMLMapping = { [key: string]: unknown | undefined };
 export type ClientAddonSAMLNameIdentifierProbesList = Array<string>;
 /** SAML2 addon indicator (no configuration settings needed for SAML2 addon). */
 export interface ClientAddonSAML {
-  mappings?: ClientAddonSAMLMapping;
-  audience?: string;
-  recipient?: string;
-  createUpnClaim?: boolean;
-  mapUnknownClaimsAsIs?: boolean;
-  passthroughClaimsWithNoMapping?: boolean;
-  mapIdentities?: boolean;
-  signatureAlgorithm?: string;
-  digestAlgorithm?: string;
-  issuer?: string;
-  destination?: string;
-  lifetimeInSeconds?: number;
-  signResponse?: boolean;
-  nameIdentifierFormat?: string;
-  nameIdentifierProbes?: ClientAddonSAMLNameIdentifierProbesList;
-  authnContextClassRef?: string;
+  mappings?: ClientAddonSAMLMapping | undefined;
+  audience?: string | undefined;
+  recipient?: string | undefined;
+  createUpnClaim?: boolean | undefined;
+  mapUnknownClaimsAsIs?: boolean | undefined;
+  passthroughClaimsWithNoMapping?: boolean | undefined;
+  mapIdentities?: boolean | undefined;
+  signatureAlgorithm?: string | undefined;
+  digestAlgorithm?: string | undefined;
+  issuer?: string | undefined;
+  destination?: string | undefined;
+  lifetimeInSeconds?: number | undefined;
+  signResponse?: boolean | undefined;
+  nameIdentifierFormat?: string | undefined;
+  nameIdentifierProbes?: ClientAddonSAMLNameIdentifierProbesList | undefined;
+  authnContextClassRef?: string | undefined;
   [key: string]: unknown;
 }
 /** Layer addon configuration. */
@@ -759,25 +770,25 @@ export interface ClientAddonLayer {
   /** Private key for signing the Layer token. */
   privateKey: string | Redacted.Redacted<string>;
   /** Name of the property used as the unique user id in Layer. If not specified `user_id` is used. */
-  principal?: string;
+  principal?: string | undefined;
   /** Optional expiration in minutes for the generated token. Defaults to 5 minutes. */
-  expiration?: number;
+  expiration?: number | undefined;
   [key: string]: unknown;
 }
 /** SAP API addon configuration. */
 export interface ClientAddonSAPAPI {
   /** If activated in the OAuth 2.0 client configuration (transaction SOAUTH2) the SAML attribute client_id must be set and equal the client_id form parameter of the access token request. */
-  clientid?: string;
+  clientid?: string | undefined;
   /** Name of the property in the user object that maps to a SAP username. e.g. `email`. */
-  usernameAttribute?: string;
+  usernameAttribute?: string | undefined;
   /** Your SAP OData server OAuth2 token endpoint URL. */
-  tokenEndpointUrl?: string;
+  tokenEndpointUrl?: string | undefined;
   /** Requested scope for SAP APIs. */
-  scope?: string;
+  scope?: string | undefined;
   /** Service account password to use to authenticate API calls to the token endpoint. */
-  servicePassword?: string | Redacted.Redacted<string>;
+  servicePassword?: string | Redacted.Redacted<string> | undefined;
   /** NameID element of the Subject which can be used to express the user's identity. Defaults to `urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified`. */
-  nameIdentifierFormat?: string;
+  nameIdentifierFormat?: string | undefined;
   [key: string]: unknown;
 }
 export type ClientAddonSharePointExternalURLCase0List = Array<string>;
@@ -786,20 +797,20 @@ export type ClientAddonSharePointExternalURL = ClientAddonSharePointExternalURLC
 /** SharePoint SSO configuration. */
 export interface ClientAddonSharePoint {
   /** Internal SharePoint application URL. */
-  url?: string;
-  external_url?: ClientAddonSharePointExternalURL;
+  url?: string | undefined;
+  external_url?: ClientAddonSharePointExternalURL | undefined;
   [key: string]: unknown;
 }
 /** SpringCM SSO configuration. */
 export interface ClientAddonSpringCM {
   /** SpringCM ACS URL, e.g. `https://na11.springcm.com/atlas/sso/SSOEndpoint.ashx`. */
-  acsurl?: string;
+  acsurl?: string | undefined;
   [key: string]: unknown;
 }
 /** Windows Azure Mobile Services addon configuration. */
 export interface ClientAddonWAMS {
   /** Your master key for Windows Azure Mobile Services. */
-  masterkey?: string;
+  masterkey?: string | undefined;
   [key: string]: unknown;
 }
 /** WS-Fed (WIF) addon indicator. Actual configuration is stored in `callback` and `client_aliases` properties on the client. */
@@ -807,54 +818,54 @@ export type ClientAddonWSFed = { [key: string]: unknown | undefined };
 /** Zendesk SSO configuration. */
 export interface ClientAddonZendesk {
   /** Zendesk account name usually first segment in your Zendesk URL. e.g. `https://acme-org.zendesk.com` would be `acme-org`. */
-  accountName?: string;
+  accountName?: string | undefined;
   [key: string]: unknown;
 }
 /** Zoom SSO configuration. */
 export interface ClientAddonZoom {
   /** Zoom account name usually first segment of your Zoom URL, e.g. `https://acme-org.zoom.us` would be `acme-org`. */
-  account?: string;
+  account?: string | undefined;
   [key: string]: unknown;
 }
 export interface ClientAddonSSOIntegration {
   /** SSO integration name */
-  name?: string;
+  name?: string | undefined;
   /** SSO integration version installed */
-  version?: string;
+  version?: string | undefined;
   [key: string]: unknown;
 }
 /** Addons enabled for this client and their associated configurations. */
 export interface ClientAddons {
-  aws?: ClientAddonAWS;
-  azure_blob?: ClientAddonAzureBlob;
-  azure_sb?: ClientAddonAzureSB;
-  rms?: ClientAddonRMS;
-  mscrm?: ClientAddonMSCRM;
-  slack?: ClientAddonSlack;
-  sentry?: ClientAddonSentry;
-  box?: ClientAddonBox;
-  cloudbees?: ClientAddonCloudBees;
-  concur?: ClientAddonConcur;
-  dropbox?: ClientAddonDropbox;
-  echosign?: ClientAddonEchoSign;
-  egnyte?: ClientAddonEgnyte;
-  firebase?: ClientAddonFirebase;
-  newrelic?: ClientAddonNewRelic;
-  office365?: ClientAddonOffice365;
-  salesforce?: ClientAddonSalesforce;
-  salesforce_api?: ClientAddonSalesforceAPI;
-  salesforce_sandbox_api?: ClientAddonSalesforceAPI;
-  samlp?: ClientAddonSAML;
-  layer?: ClientAddonLayer;
-  sap_api?: ClientAddonSAPAPI;
-  sharepoint?: ClientAddonSharePoint;
-  springcm?: ClientAddonSpringCM;
-  wams?: ClientAddonWAMS;
-  wsfed?: ClientAddonWSFed;
-  zendesk?: ClientAddonZendesk;
-  zoom?: ClientAddonZoom;
-  sso_integration?: ClientAddonSSOIntegration;
-  oag?: unknown | null;
+  aws?: ClientAddonAWS | undefined;
+  azure_blob?: ClientAddonAzureBlob | undefined;
+  azure_sb?: ClientAddonAzureSB | undefined;
+  rms?: ClientAddonRMS | undefined;
+  mscrm?: ClientAddonMSCRM | undefined;
+  slack?: ClientAddonSlack | undefined;
+  sentry?: ClientAddonSentry | undefined;
+  box?: ClientAddonBox | undefined;
+  cloudbees?: ClientAddonCloudBees | undefined;
+  concur?: ClientAddonConcur | undefined;
+  dropbox?: ClientAddonDropbox | undefined;
+  echosign?: ClientAddonEchoSign | undefined;
+  egnyte?: ClientAddonEgnyte | undefined;
+  firebase?: ClientAddonFirebase | undefined;
+  newrelic?: ClientAddonNewRelic | undefined;
+  office365?: ClientAddonOffice365 | undefined;
+  salesforce?: ClientAddonSalesforce | undefined;
+  salesforce_api?: ClientAddonSalesforceAPI | undefined;
+  salesforce_sandbox_api?: ClientAddonSalesforceAPI | undefined;
+  samlp?: ClientAddonSAML | undefined;
+  layer?: ClientAddonLayer | undefined;
+  sap_api?: ClientAddonSAPAPI | undefined;
+  sharepoint?: ClientAddonSharePoint | undefined;
+  springcm?: ClientAddonSpringCM | undefined;
+  wams?: ClientAddonWAMS | undefined;
+  wsfed?: ClientAddonWSFed | undefined;
+  zendesk?: ClientAddonZendesk | undefined;
+  zoom?: ClientAddonZoom | undefined;
+  sso_integration?: ClientAddonSSOIntegration | undefined;
+  oag?: unknown | null | undefined;
 }
 /** Metadata associated with the client, in the form of an object with string values (max 255 chars). Maximum of 10 metadata properties allowed. Field names (max 255 chars) are alphanumeric and may only include the following special characters: :,-+=_*?"/\()<>@ [Tab] [Space] */
 export type ClientMetadata = { [key: string]: unknown | undefined };
@@ -863,54 +874,54 @@ export type ClientMobileAndroidSha256CertFingerprintsList = Array<string>;
 /** Android native app configuration. */
 export interface ClientMobileAndroid {
   /** App package name found in AndroidManifest.xml. */
-  app_package_name?: string;
+  app_package_name?: string | undefined;
   /** SHA256 fingerprints of the app's signing certificate. Multiple fingerprints can be used to support different versions of your app, such as debug and production builds. */
-  sha256_cert_fingerprints?: ClientMobileAndroidSha256CertFingerprintsList;
+  sha256_cert_fingerprints?: ClientMobileAndroidSha256CertFingerprintsList | undefined;
   [key: string]: unknown;
 }
 /** iOS native app configuration. */
 export interface ClientMobileiOS {
   /** Identifier assigned to the Apple account that signs and uploads the app to the store. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Assigned by developer to the app as its unique identifier inside the store. Usually this is a reverse domain plus the app name, e.g. `com.you.MyApp`. */
-  app_bundle_identifier?: string;
+  app_bundle_identifier?: string | undefined;
   [key: string]: unknown;
 }
 /** Additional configuration for native mobile apps. */
 export interface ClientMobile {
-  android?: ClientMobileAndroid;
-  ios?: ClientMobileiOS;
+  android?: ClientMobileAndroid | undefined;
+  ios?: ClientMobileiOS | undefined;
   [key: string]: unknown;
 }
 /** Native Social Login support for the Apple connection */
 export interface NativeSocialLoginApple {
   /** Determine whether or not to allow signing in natively using an Apple authorization code */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Native Social Login support for the Facebook connection */
 export interface NativeSocialLoginFacebook {
   /** Determine whether or not to allow signing in natively using Facebook */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Native Social Login support for the google-oauth2 connection */
 export interface NativeSocialLoginGoogle {
   /** Determine whether or not to allow signing in natively using a Google ID token */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Configure native social settings */
 export interface NativeSocialLogin {
-  apple?: NativeSocialLoginApple;
-  facebook?: NativeSocialLoginFacebook;
-  google?: NativeSocialLoginGoogle;
+  apple?: NativeSocialLoginApple | undefined;
+  facebook?: NativeSocialLoginFacebook | undefined;
+  google?: NativeSocialLoginGoogle | undefined;
 }
 /** Google FedCM configuration for this client */
 export interface FedCMLoginGoogle {
   /** When true, shows the Google FedCM prompt on New Universal Login for this client */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 /** Configure FedCM login settings for New Universal Login */
 export interface FedCMLogin {
-  google?: FedCMLoginGoogle;
+  google?: FedCMLoginGoogle | undefined;
 }
 /** Refresh token rotation types, one of: rotating, non-rotating */
 export type RefreshTokenRotationTypeEnum = "rotating" | "non-rotating";
@@ -931,17 +942,17 @@ export interface ClientRefreshTokenConfiguration {
   rotation_type: RefreshTokenRotationTypeEnum | (string & {});
   expiration_type: RefreshTokenExpirationTypeEnum | (string & {});
   /** Period in seconds where the previous refresh token can be exchanged without triggering breach detection */
-  leeway?: number;
+  leeway?: number | undefined;
   /** Period (in seconds) for which refresh tokens will remain valid */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Prevents tokens from having a set lifetime when `true` (takes precedence over `token_lifetime` values) */
-  infinite_token_lifetime?: boolean;
+  infinite_token_lifetime?: boolean | undefined;
   /** Period (in seconds) for which refresh tokens will remain valid without use */
-  idle_token_lifetime?: number;
+  idle_token_lifetime?: number | undefined;
   /** Prevents tokens from expiring without use when `true` (takes precedence over `idle_token_lifetime` values) */
-  infinite_idle_token_lifetime?: boolean;
+  infinite_idle_token_lifetime?: boolean | undefined;
   /** A collection of policies governing multi-resource refresh token exchange (MRRT), defining how refresh tokens can be used across different resource servers */
-  policies?: ClientRefreshTokenConfigurationPoliciesList | null;
+  policies?: ClientRefreshTokenConfigurationPoliciesList | null | undefined;
 }
 export type ClientDefaultOrganizationFlowsEnum = "client_credentials";
 /** The default Organization usage */
@@ -975,16 +986,16 @@ export type PublicKeyCredentialAlgorithmEnum = "RS256" | "RS384" | "PS256";
 export interface PublicKeyCredential {
   credential_type: PublicKeyCredentialTypeEnum | (string & {});
   /** Friendly name for a credential. */
-  name?: string;
+  name?: string | undefined;
   /** PEM-formatted public key (SPKI and PKCS1) or X509 certificate. Must be JSON escaped. */
   pem: string;
-  alg?: PublicKeyCredentialAlgorithmEnum | (string & {});
+  alg?: PublicKeyCredentialAlgorithmEnum | (string & {}) | undefined;
   /** Parse expiry from x509 certificate. If true, attempts to parse the expiry date from the provided PEM. Applies to `public_key` credential type. */
-  parse_expiry_from_cert?: boolean;
+  parse_expiry_from_cert?: boolean | undefined;
   /** The ISO 8601 formatted date representing the expiration of the credential. If not specified (not recommended), the credential never expires. Applies to `public_key` credential type. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Optional kid (Key ID), used to uniquely identify the credential. If not specified, a kid value will be auto-generated. The kid header parameter in JWTs sent by your client should match this value. Valid format is [0-9a-zA-Z-_]{10,64} */
-  kid?: string;
+  kid?: string | undefined;
 }
 /** Fully defined credentials that will be enabled on the client for Private Key JWT authentication. */
 export type ClientCreateAuthenticationMethodPrivateKeyJWTCredentials = Array<PublicKeyCredential>;
@@ -996,11 +1007,11 @@ export type CertificateSubjectDNCredentialTypeEnum = "cert_subject_dn";
 export interface CertificateSubjectDNCredential {
   credential_type: CertificateSubjectDNCredentialTypeEnum | (string & {});
   /** Friendly name for a credential. */
-  name?: string;
+  name?: string | undefined;
   /** Subject Distinguished Name. Mutually exclusive with `pem` property. Applies to `cert_subject_dn` credential type. */
-  subject_dn?: string;
+  subject_dn?: string | undefined;
   /** PEM-formatted X509 certificate. Must be JSON escaped. Mutually exclusive with `subject_dn` property. */
-  pem?: string;
+  pem?: string | undefined;
 }
 /** Fully defined credentials that will be enabled on the client for CA-based mTLS authentication. */
 export type ClientCreateAuthenticationMethodTLSClientAuthCredentials =
@@ -1013,7 +1024,7 @@ export type X509CertificateCredentialTypeEnum = "x509_cert";
 export interface X509CertificateCredential {
   credential_type: X509CertificateCredentialTypeEnum | (string & {});
   /** Friendly name for a credential. */
-  name?: string;
+  name?: string | undefined;
   /** PEM-formatted X509 certificate. Must be JSON escaped. */
   pem: string;
 }
@@ -1026,16 +1037,16 @@ export interface CreateClientAuthenticationMethodSelfSignedTLSClientAuth {
 }
 /** Defines client authentication methods. */
 export interface ClientCreateAuthenticationMethod {
-  private_key_jwt?: ClientCreateAuthenticationMethodPrivateKeyJWT;
-  tls_client_auth?: ClientCreateAuthenticationMethodTLSClientAuth;
-  self_signed_tls_client_auth?: CreateClientAuthenticationMethodSelfSignedTLSClientAuth;
+  private_key_jwt?: ClientCreateAuthenticationMethodPrivateKeyJWT | undefined;
+  tls_client_auth?: ClientCreateAuthenticationMethodTLSClientAuth | undefined;
+  self_signed_tls_client_auth?: CreateClientAuthenticationMethodSelfSignedTLSClientAuth | undefined;
 }
 export type ClientSignedRequestObjectWithPublicKeyCredentialsList = Array<PublicKeyCredential>;
 /** JWT-secured Authorization Requests (JAR) settings. */
 export interface ClientSignedRequestObjectWithPublicKey {
   /** Indicates whether the JAR requests are mandatory */
-  required?: boolean;
-  credentials?: ClientSignedRequestObjectWithPublicKeyCredentialsList;
+  required?: boolean | undefined;
+  credentials?: ClientSignedRequestObjectWithPublicKeyCredentialsList | undefined;
 }
 export type ClientTokenVaultPrivilegedAccessWithPublicKeyCredentialsList =
   Array<PublicKeyCredential>;
@@ -1050,8 +1061,8 @@ export type ClientTokenVaultPrivilegedAccessWithPublicKeyGrantsList =
 /** Settings for Token Vault Privileged Access. */
 export interface ClientTokenVaultPrivilegedAccessWithPublicKey {
   credentials: ClientTokenVaultPrivilegedAccessWithPublicKeyCredentialsList;
-  ip_allowlist?: ClientTokenVaultPrivilegedAccessWithPublicKeyIpAllowlistList;
-  grants?: ClientTokenVaultPrivilegedAccessWithPublicKeyGrantsList;
+  ip_allowlist?: ClientTokenVaultPrivilegedAccessWithPublicKeyIpAllowlistList | undefined;
+  grants?: ClientTokenVaultPrivilegedAccessWithPublicKeyGrantsList | undefined;
 }
 /** Defines the compliance level for this client, which may restrict it's capabilities */
 export type ClientComplianceLevelEnum =
@@ -1069,16 +1080,16 @@ export type ClientTokenExchangeConfigurationAllowAnyProfileOfTypeList = Array<
 /** Configuration for token exchange. */
 export interface ClientTokenExchangeConfiguration {
   /** List the enabled token exchange types for this client. */
-  allow_any_profile_of_type?: ClientTokenExchangeConfigurationAllowAnyProfileOfTypeList;
+  allow_any_profile_of_type?: ClientTokenExchangeConfigurationAllowAnyProfileOfTypeList | undefined;
 }
 /** The token quota configuration */
 export interface TokenQuotaClientCredentials {
   /** If enabled, the quota will be enforced and requests in excess of the quota will fail. If disabled, the quota will not be enforced, but notifications for requests exceeding the quota will be available in logs. */
-  enforce?: boolean;
+  enforce?: boolean | undefined;
   /** Maximum number of issued tokens per day */
-  per_day?: number;
+  per_day?: number | undefined;
   /** Maximum number of issued tokens per hour */
-  per_hour?: number;
+  per_hour?: number | undefined;
 }
 export interface CreateTokenQuota {
   client_credentials: TokenQuotaClientCredentials;
@@ -1119,13 +1130,13 @@ export interface ExpressConfiguration {
   /** When true, all connections made via express configuration will have the associated organization enabled. */
   enable_organization: boolean;
   /** List of client IDs that are linked to this express configuration (e.g. web or mobile clients). */
-  linked_clients?: ExpressConfigurationLinkedClientsList;
+  linked_clients?: ExpressConfigurationLinkedClientsList | undefined;
   /** This is the unique identifier for the Okta OIN Express Configuration Client, which Okta will use for this application. */
   okta_oin_client_id: string;
   /** This is the domain that admins are expected to log in via for authenticating for express configuration. It can be either the canonical domain or a registered custom domain. */
   admin_login_domain: string;
   /** The identifier of the published application in the OKTA OIN. */
-  oin_submission_id?: string;
+  oin_submission_id?: string | undefined;
 }
 /** List of SSO profile IDs linked to this B2B integration client. Maximum 1 entry. */
 export type B2bIntegrationConfigurationSsoProfilesList = Array<string>;
@@ -1137,8 +1148,8 @@ export type B2bIntegrationConfigurationIntegrationTypeEnum =
 /** Configuration for B2B Integration clients. */
 export interface B2bIntegrationConfiguration {
   /** List of SSO profile IDs linked to this B2B integration client. Maximum 1 entry. */
-  sso_profiles?: B2bIntegrationConfigurationSsoProfilesList;
-  integration_type?: B2bIntegrationConfigurationIntegrationTypeEnum | (string & {});
+  sso_profiles?: B2bIntegrationConfigurationSsoProfilesList | undefined;
+  integration_type?: B2bIntegrationConfigurationIntegrationTypeEnum | (string & {}) | undefined;
 }
 /** The allowed connection strategy values for the My Organization Configuration. */
 export type ClientMyOrganizationConfigurationAllowedStrategiesEnum =
@@ -1176,19 +1187,19 @@ export type ClientMyOrganizationDeletionBehaviorEnum = "allow" | "allow_if_empty
 /** Configuration related to the My Organization Configuration for the client. */
 export interface ClientMyOrganizationPostConfiguration {
   /** The connection profile ID that this client should validate against. */
-  connection_profile_id?: string;
+  connection_profile_id?: string | undefined;
   /** The user attribute profile ID that this client should validate against. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
   /** The allowed connection strategies for the My Organization Configuration. */
   allowed_strategies: ClientMyOrganizationPostConfigurationAllowedStrategiesList;
-  third_party_client_access?: ClientMyOrganizationThirdPartyClientAccessConfiguration;
+  third_party_client_access?: ClientMyOrganizationThirdPartyClientAccessConfiguration | undefined;
   connection_deletion_behavior: ClientMyOrganizationDeletionBehaviorEnum | (string & {});
   /** The client ID this client uses while creating invitations through My Organization API. */
-  invitation_landing_client_id?: string;
+  invitation_landing_client_id?: string | undefined;
   /** When true, limits the permissions that organization admins can assign to members to only those held by the admin themselves. */
-  enforce_permission_ceiling?: boolean;
+  enforce_permission_ceiling?: boolean | undefined;
   /** When true, prevents organization admins from assigning permissions to themselves. */
-  enforce_self_assignment_restriction?: boolean;
+  enforce_self_assignment_restriction?: boolean | undefined;
 }
 export type AsyncApprovalNotificationsChannelsEnum = "guardian-push" | "email" | "my-account";
 /** Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`, `my-account`. */
@@ -1202,103 +1213,106 @@ export type ClientOidcSupportPostAllowedScopesList = Array<
 /** OIDC support configuration for a client. Controls whether OIDC flows are allowed and which scopes the client may request. */
 export interface ClientOidcSupportPost {
   is_allowed: boolean;
-  allow_all_scopes?: boolean;
-  allowed_scopes?: ClientOidcSupportPostAllowedScopesList;
+  allow_all_scopes?: boolean | undefined;
+  allowed_scopes?: ClientOidcSupportPostAllowedScopesList | undefined;
 }
 export interface CreateClientRequest {
   /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
   name: string;
   /** Free text description of this client (max length: 140 characters). */
-  description?: string;
+  description?: string | undefined;
   /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: CreateClientRequestCallbacksList;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  callbacks?: CreateClientRequestCallbacksList | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** Configuration for OIDC backchannel logout (deprecated, in favor of oidc_logout) */
-  oidc_backchannel_logout?: ClientOIDCBackchannelLogoutSettings;
-  session_transfer?: ClientSessionTransferConfiguration | null;
+  oidc_backchannel_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
   /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: CreateClientRequestAllowedOriginsList;
+  allowed_origins?: CreateClientRequestAllowedOriginsList | undefined;
   /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: CreateClientRequestWebOriginsList;
+  web_origins?: CreateClientRequestWebOriginsList | undefined;
   /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: CreateClientRequestClientAliasesList;
+  client_aliases?: CreateClientRequestClientAliasesList | undefined;
   /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: CreateClientRequestAllowedClientsList;
+  allowed_clients?: CreateClientRequestAllowedClientsList | undefined;
   /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: CreateClientRequestAllowedLogoutUrlsList;
+  allowed_logout_urls?: CreateClientRequestAllowedLogoutUrlsList | undefined;
   /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: CreateClientRequestGrantTypesList;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | (string & {});
+  grant_types?: CreateClientRequestGrantTypesList | undefined;
+  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | (string & {}) | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  app_type?: ClientAppTypeEnum | (string & {});
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  app_type?: ClientAppTypeEnum | (string & {}) | undefined;
   /** Whether this client a first party client or not */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean;
-  jwt_configuration?: ClientJwtConfiguration;
-  encryption_key?: ClientEncryptionKey | null;
+  oidc_conformant?: boolean | undefined;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
+  encryption_key?: ClientEncryptionKey | null | undefined;
   /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string;
+  cross_origin_loc?: string | undefined;
   /** <code>true</code> to disable Single Sign On, <code>false</code> otherwise (default: <code>false</code>) */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** <code>true</code> if the custom login page is to be used, <code>false</code> otherwise. Defaults to <code>true</code> */
-  custom_login_page_on?: boolean;
+  custom_login_page_on?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string;
+  custom_login_page?: string | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string;
+  custom_login_page_preview?: string | undefined;
   /** HTML form template to be used for WS-Federation. */
-  form_template?: string;
-  addons?: ClientAddons;
-  client_metadata?: ClientMetadata;
-  mobile?: ClientMobile;
+  form_template?: string | undefined;
+  addons?: ClientAddons | undefined;
+  client_metadata?: ClientMetadata | undefined;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLogin;
-  fedcm_login?: FedCMLogin;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsageEnum | (string & {});
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | (string & {});
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLogin | undefined;
+  fedcm_login?: FedCMLogin | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsageEnum | (string & {}) | undefined;
+  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | (string & {}) | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: CreateClientRequestOrganizationDiscoveryMethodsList;
-  client_authentication_methods?: ClientCreateAuthenticationMethod;
+  organization_discovery_methods?: CreateClientRequestOrganizationDiscoveryMethodsList | undefined;
+  client_authentication_methods?: ClientCreateAuthenticationMethod | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithPublicKey;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithPublicKey;
-  compliance_level?: ClientComplianceLevelEnum | (string & {}) | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithPublicKey | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithPublicKey | undefined;
+  compliance_level?: ClientComplianceLevelEnum | (string & {}) | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean;
-  token_exchange?: ClientTokenExchangeConfiguration;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
+  token_exchange?: ClientTokenExchangeConfiguration | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  token_quota?: CreateTokenQuota;
+  par_request_expiry?: number | null | undefined;
+  token_quota?: CreateTokenQuota | undefined;
   /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant;
-  anonymous_sessions?: CreateAnonymousSessions;
+  resource_server_identifier?: string | undefined;
+  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | undefined;
   enforce_anon_session_transfer_network_binding?:
     | ClientAnonymousSessionTransferNetworkBindingEnum
-    | (string & {});
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum | (string & {});
-  redirection_policy?: ClientRedirectionPolicyEnum | (string & {});
-  express_configuration?: ExpressConfiguration;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationPostConfiguration;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration;
+    | (string & {})
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | (string & {}) | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | (string & {}) | undefined;
+  express_configuration?: ExpressConfiguration | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationPostConfiguration | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
+    | undefined;
   /** ID of the agent to associate with this client. */
-  agent_id?: string | null;
-  oidc_support?: ClientOidcSupportPost;
+  agent_id?: string | null | undefined;
+  oidc_support?: ClientOidcSupportPost | undefined;
 }
 /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
 export type CreateClientResponseContentCallbacksList = Array<string>;
@@ -1316,11 +1330,11 @@ export type CreateClientResponseContentAllowedLogoutUrlsList = Array<string>;
 export type CreateClientResponseContentGrantTypesList = Array<string>;
 export interface ClientSigningKey {
   /** Signing certificate public key and chain in PKCS#7 (.P7B) format. */
-  pkcs7?: string;
+  pkcs7?: string | undefined;
   /** Signing certificate public key in X.509 (.CER) format. */
-  cert?: string;
+  cert?: string | undefined;
   /** Subject name for this certificate in the format `/CN={domain}`. */
-  subject?: string;
+  subject?: string | undefined;
   [key: string]: unknown;
 }
 /** Signing certificates associated with this client. */
@@ -1352,16 +1366,16 @@ export interface ClientAuthenticationMethodSelfSignedTLSClientAuth {
 }
 /** Defines client authentication methods. */
 export interface ClientAuthenticationMethod {
-  private_key_jwt?: ClientAuthenticationMethodPrivateKeyJWT;
-  tls_client_auth?: ClientAuthenticationMethodTLSClientAuth;
-  self_signed_tls_client_auth?: ClientAuthenticationMethodSelfSignedTLSClientAuth;
+  private_key_jwt?: ClientAuthenticationMethodPrivateKeyJWT | undefined;
+  tls_client_auth?: ClientAuthenticationMethodTLSClientAuth | undefined;
+  self_signed_tls_client_auth?: ClientAuthenticationMethodSelfSignedTLSClientAuth | undefined;
 }
 export type ClientSignedRequestObjectWithCredentialIdCredentialsList = Array<CredentialId>;
 /** JWT-secured Authorization Requests (JAR) settings. */
 export interface ClientSignedRequestObjectWithCredentialId {
   /** Indicates whether the JAR requests are mandatory */
-  required?: boolean;
-  credentials?: ClientSignedRequestObjectWithCredentialIdCredentialsList;
+  required?: boolean | undefined;
+  credentials?: ClientSignedRequestObjectWithCredentialIdCredentialsList | undefined;
 }
 export type ClientTokenVaultPrivilegedAccessWithCredentialIdCredentialsList = Array<CredentialId>;
 export type ClientTokenVaultPrivilegedAccessWithCredentialIdIpAllowlistList = Array<string>;
@@ -1370,8 +1384,8 @@ export type ClientTokenVaultPrivilegedAccessWithCredentialIdGrantsList =
 /** Settings for Token Vault Privileged Access. */
 export interface ClientTokenVaultPrivilegedAccessWithCredentialId {
   credentials: ClientTokenVaultPrivilegedAccessWithCredentialIdCredentialsList;
-  ip_allowlist?: ClientTokenVaultPrivilegedAccessWithCredentialIdIpAllowlistList;
-  grants?: ClientTokenVaultPrivilegedAccessWithCredentialIdGrantsList;
+  ip_allowlist?: ClientTokenVaultPrivilegedAccessWithCredentialIdIpAllowlistList | undefined;
+  grants?: ClientTokenVaultPrivilegedAccessWithCredentialIdGrantsList | undefined;
 }
 export type TokenQuota = CreateTokenQuota;
 /** The allowed connection strategies for the My Organization Configuration. */
@@ -1380,19 +1394,19 @@ export type ClientMyOrganizationResponseConfigurationAllowedStrategiesList =
 /** Configuration related to the My Organization Configuration for the client. */
 export interface ClientMyOrganizationResponseConfiguration {
   /** The connection profile ID that this client should validate against. */
-  connection_profile_id?: string;
+  connection_profile_id?: string | undefined;
   /** The user attribute profile ID that this client should validate against. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
   /** The allowed connection strategies for the My Organization Configuration. */
   allowed_strategies: ClientMyOrganizationResponseConfigurationAllowedStrategiesList;
-  third_party_client_access?: ClientMyOrganizationThirdPartyClientAccessConfiguration;
+  third_party_client_access?: ClientMyOrganizationThirdPartyClientAccessConfiguration | undefined;
   connection_deletion_behavior: ClientMyOrganizationDeletionBehaviorEnum;
   /** The client ID this client uses while creating invitations through My Organization API. */
-  invitation_landing_client_id?: string;
+  invitation_landing_client_id?: string | undefined;
   /** When true, limits the permissions that organization admins can assign to members to only those held by the admin themselves. */
-  enforce_permission_ceiling?: boolean;
+  enforce_permission_ceiling?: boolean | undefined;
   /** When true, prevents organization admins from assigning permissions to themselves. */
-  enforce_self_assignment_restriction?: boolean;
+  enforce_self_assignment_restriction?: boolean | undefined;
 }
 /** Configuration on the use of ID-JAGs for Cross App Access. */
 export type IdentityAssertionAuthorizationGrant = CreateIdentityAssertionAuthorizationGrant;
@@ -1401,9 +1415,9 @@ export type AnonymousSessions = CreateAnonymousSessions;
 export type ClientOidcSupportAllowedScopesList = Array<ClientOidcSupportAllowedScopesEnum>;
 /** OIDC support configuration for this client. */
 export interface ClientOidcSupport {
-  is_allowed?: boolean;
-  allow_all_scopes?: boolean;
-  allowed_scopes?: ClientOidcSupportAllowedScopesList;
+  is_allowed?: boolean | undefined;
+  allow_all_scopes?: boolean | undefined;
+  allowed_scopes?: ClientOidcSupportAllowedScopesList | undefined;
   [key: string]: unknown;
 }
 /** Indicates the type of external metadata used to register the client. This field is omitted for regular clients. The value <code>cimd</code> identifies clients registered via a Client ID Metadata Document. The value <code>dcr</code> identifies clients registered via Dynamic Client Registration. */
@@ -1414,114 +1428,120 @@ export type ClientExternalMetadataCreatedByEnum = "admin" | "client";
 export type ClientExternalMetadataStatusEnum = "available" | "unavailable";
 export interface CreateClientResponseContent {
   /** ID of this client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ISO 8601 timestamp of when this client was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 timestamp of when this client was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Name of the tenant this client belongs to. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
-  name?: string;
+  name?: string | undefined;
   /** Free text description of this client (max length: 140 characters). */
-  description?: string;
+  description?: string | undefined;
   /** Whether this is your global 'All Applications' client representing legacy tenant settings (true) or a regular client (false). */
-  global?: boolean;
+  global?: boolean | undefined;
   /** Client secret (which you must not make public). */
-  client_secret?: string | Redacted.Redacted<string>;
-  app_type?: ClientAppTypeEnum;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  app_type?: ClientAppTypeEnum | undefined;
   /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether this client a first party client (true) or not (false). */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean;
+  oidc_conformant?: boolean | undefined;
   /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: CreateClientResponseContentCallbacksList;
+  callbacks?: CreateClientResponseContentCallbacksList | undefined;
   /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: CreateClientResponseContentAllowedOriginsList;
+  allowed_origins?: CreateClientResponseContentAllowedOriginsList | undefined;
   /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: CreateClientResponseContentWebOriginsList;
+  web_origins?: CreateClientResponseContentWebOriginsList | undefined;
   /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: CreateClientResponseContentClientAliasesList;
+  client_aliases?: CreateClientResponseContentClientAliasesList | undefined;
   /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: CreateClientResponseContentAllowedClientsList;
+  allowed_clients?: CreateClientResponseContentAllowedClientsList | undefined;
   /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: CreateClientResponseContentAllowedLogoutUrlsList;
-  session_transfer?: ClientSessionTransferConfiguration | null;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  allowed_logout_urls?: CreateClientResponseContentAllowedLogoutUrlsList | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: CreateClientResponseContentGrantTypesList;
-  jwt_configuration?: ClientJwtConfiguration;
-  signing_keys?: ClientSigningKeys | null;
-  encryption_key?: ClientEncryptionKey | null;
+  grant_types?: CreateClientResponseContentGrantTypesList | undefined;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
+  signing_keys?: ClientSigningKeys | null | undefined;
+  encryption_key?: ClientEncryptionKey | null | undefined;
   /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether Single Sign On is disabled (true) or enabled (true). Defaults to true. */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string;
+  cross_origin_loc?: string | undefined;
   /** Whether a custom login page is to be used (true) or the default provided login page (false). */
-  custom_login_page_on?: boolean;
+  custom_login_page_on?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string;
+  custom_login_page?: string | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string;
+  custom_login_page_preview?: string | undefined;
   /** HTML form template to be used for WS-Federation. */
-  form_template?: string;
-  addons?: ClientAddons;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum;
+  form_template?: string | undefined;
+  addons?: ClientAddons | undefined;
+  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  client_metadata?: ClientMetadata;
-  mobile?: ClientMobile;
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  client_metadata?: ClientMetadata | undefined;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLogin;
-  fedcm_login?: FedCMLogin;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsageEnum;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum;
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLogin | undefined;
+  fedcm_login?: FedCMLogin | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsageEnum | undefined;
+  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: CreateClientResponseContentOrganizationDiscoveryMethodsList;
-  client_authentication_methods?: ClientAuthenticationMethod | null;
+  organization_discovery_methods?:
+    | CreateClientResponseContentOrganizationDiscoveryMethodsList
+    | undefined;
+  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId;
-  compliance_level?: ClientComplianceLevelEnum | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
+  compliance_level?: ClientComplianceLevelEnum | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean;
-  token_exchange?: ClientTokenExchangeConfiguration;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
+  token_exchange?: ClientTokenExchangeConfiguration | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  token_quota?: CreateTokenQuota;
-  express_configuration?: ExpressConfiguration;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationResponseConfiguration;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant;
-  anonymous_sessions?: CreateAnonymousSessions;
-  enforce_anon_session_transfer_network_binding?: ClientAnonymousSessionTransferNetworkBindingEnum;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum;
-  oidc_support?: ClientOidcSupport;
-  redirection_policy?: ClientRedirectionPolicyEnum;
+  par_request_expiry?: number | null | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  express_configuration?: ExpressConfiguration | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | undefined;
+  enforce_anon_session_transfer_network_binding?:
+    | ClientAnonymousSessionTransferNetworkBindingEnum
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | undefined;
+  oidc_support?: ClientOidcSupport | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | undefined;
   /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration;
-  external_metadata_type?: ClientExternalMetadataTypeEnum;
-  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum;
-  external_metadata_status?: ClientExternalMetadataStatusEnum;
+  resource_server_identifier?: string | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
+    | undefined;
+  external_metadata_type?: ClientExternalMetadataTypeEnum | undefined;
+  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum | undefined;
+  external_metadata_status?: ClientExternalMetadataStatusEnum | undefined;
   /** ID of the agent associated with this client. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** An alternate client identifier to be used during authorization flows. Only supports CIMD-based client identifiers. */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** URL for the JSON Web Key Set (JWKS) containing the public keys used for private_key_jwt authentication. Only present for CIMD clients using private_key_jwt authentication. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   [key: string]: unknown;
 }
 /** Applies this client grant as the default for all clients in the specified group. The only accepted value is <a href="https://auth0.com/docs/get-started/applications/application-access-to-apis-client-grants#default-permissions-for-third-party-applications">`third_party_clients`</a>, which applies the grant to all third-party clients. Per-client grants for the same audience take precedence. Mutually exclusive with `client_id`. */
@@ -1536,20 +1556,20 @@ export type ClientGrantSubjectTypeEnum = "client" | "user" | "anonymous_user";
 export type CreateClientGrantRequestAuthorizationDetailsTypesList = Array<string>;
 export interface CreateClientGrantRequest {
   /** ID of the client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The audience (API identifier) of this client grant */
   audience: string;
-  default_for?: ClientGrantDefaultForEnum | (string & {});
-  organization_usage?: ClientGrantOrganizationUsageEnum | (string & {});
+  default_for?: ClientGrantDefaultForEnum | (string & {}) | undefined;
+  organization_usage?: ClientGrantOrganizationUsageEnum | (string & {}) | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
-  allow_any_organization?: boolean;
+  allow_any_organization?: boolean | undefined;
   /** Scopes allowed for this client grant. */
-  scope?: CreateClientGrantRequestScopeList;
-  subject_type?: ClientGrantSubjectTypeEnum | (string & {});
+  scope?: CreateClientGrantRequestScopeList | undefined;
+  subject_type?: ClientGrantSubjectTypeEnum | (string & {}) | undefined;
   /** Types of authorization_details allowed for this client grant. */
-  authorization_details_types?: CreateClientGrantRequestAuthorizationDetailsTypesList;
+  authorization_details_types?: CreateClientGrantRequestAuthorizationDetailsTypesList | undefined;
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
-  allow_all_scopes?: boolean;
+  allow_all_scopes?: boolean | undefined;
 }
 /** Scopes allowed for this client grant. */
 export type CreateClientGrantResponseContentScopeList = Array<string>;
@@ -1557,28 +1577,30 @@ export type CreateClientGrantResponseContentScopeList = Array<string>;
 export type CreateClientGrantResponseContentAuthorizationDetailsTypesList = Array<string>;
 export interface CreateClientGrantResponseContent {
   /** ID of the client grant. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The audience (API identifier) of this client grant. */
-  audience?: string;
+  audience?: string | undefined;
   /** Scopes allowed for this client grant. */
-  scope?: CreateClientGrantResponseContentScopeList;
-  organization_usage?: ClientGrantOrganizationUsageEnum;
+  scope?: CreateClientGrantResponseContentScopeList | undefined;
+  organization_usage?: ClientGrantOrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
-  allow_any_organization?: boolean;
-  default_for?: ClientGrantDefaultForEnum;
+  allow_any_organization?: boolean | undefined;
+  default_for?: ClientGrantDefaultForEnum | undefined;
   /** If enabled, this grant is a special grant created by Auth0. It cannot be modified or deleted directly. */
-  is_system?: boolean;
-  subject_type?: ClientGrantSubjectTypeEnum;
+  is_system?: boolean | undefined;
+  subject_type?: ClientGrantSubjectTypeEnum | undefined;
   /** Types of authorization_details allowed for this client grant. */
-  authorization_details_types?: CreateClientGrantResponseContentAuthorizationDetailsTypesList;
+  authorization_details_types?:
+    | CreateClientGrantResponseContentAuthorizationDetailsTypesList
+    | undefined;
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
-  allow_all_scopes?: boolean;
+  allow_all_scopes?: boolean | undefined;
 }
 /** Default refresh token lifetime, in seconds, applied to matched clients. */
 export interface ClientProfileRefreshTokenTokenLifetime {
-  default_value?: number;
+  default_value?: number | undefined;
 }
 /** Default idle refresh token lifetime, in seconds, applied to matched clients. */
 export type ClientProfileRefreshTokenIdleTokenLifetime = ClientProfileRefreshTokenTokenLifetime;
@@ -1586,15 +1608,15 @@ export type ClientProfileRefreshTokenIdleTokenLifetime = ClientProfileRefreshTok
 export type ClientProfileRefreshTokenLeeway = ClientProfileRefreshTokenTokenLifetime;
 /** Refresh token settings. Omit any sub-field to use the client's own value. */
 export interface ClientProfileClientConfigurationRefreshToken {
-  token_lifetime?: ClientProfileRefreshTokenTokenLifetime;
-  idle_token_lifetime?: ClientProfileRefreshTokenTokenLifetime;
-  leeway?: ClientProfileRefreshTokenTokenLifetime;
+  token_lifetime?: ClientProfileRefreshTokenTokenLifetime | undefined;
+  idle_token_lifetime?: ClientProfileRefreshTokenTokenLifetime | undefined;
+  leeway?: ClientProfileRefreshTokenTokenLifetime | undefined;
 }
 /** How matched clients handle organizations. */
 export type ClientProfileClientConfigurationOrganizationUsageEnum = "deny" | "allow" | "require";
 /** Default organization usage applied to matched clients. */
 export interface ClientProfileClientConfigurationOrganizationUsage {
-  default_value?: ClientProfileClientConfigurationOrganizationUsageEnum | (string & {});
+  default_value?: ClientProfileClientConfigurationOrganizationUsageEnum | (string & {}) | undefined;
 }
 /** When an organization is required, how matched clients prompt for it. */
 export type ClientProfileClientConfigurationOrganizationRequireBehaviorEnum =
@@ -1603,7 +1625,10 @@ export type ClientProfileClientConfigurationOrganizationRequireBehaviorEnum =
   | "post_login_prompt";
 /** Default organization prompt behavior applied to matched clients. */
 export interface ClientProfileClientConfigurationOrganizationRequireBehavior {
-  default_value?: ClientProfileClientConfigurationOrganizationRequireBehaviorEnum | (string & {});
+  default_value?:
+    | ClientProfileClientConfigurationOrganizationRequireBehaviorEnum
+    | (string & {})
+    | undefined;
 }
 /** A method used to discover a user's organization. */
 export type ClientProfileClientConfigurationOrganizationDiscoveryMethodEnum =
@@ -1614,11 +1639,13 @@ export type ClientProfileClientConfigurationOrganizationDiscoveryMethodsDefaultV
 >;
 /** Default organization discovery methods applied to matched clients. */
 export interface ClientProfileClientConfigurationOrganizationDiscoveryMethods {
-  default_value?: ClientProfileClientConfigurationOrganizationDiscoveryMethodsDefaultValueList;
+  default_value?:
+    | ClientProfileClientConfigurationOrganizationDiscoveryMethodsDefaultValueList
+    | undefined;
 }
 /** Whether matched clients default to requiring proof of possession. */
 export interface ClientProfileClientConfigurationRequireProofOfPossession {
-  default_value?: boolean;
+  default_value?: boolean | undefined;
 }
 /** Optional OIDC scope that matched clients may be granted. */
 export type ClientProfileClientConfigurationOidcSupportAllowedScopesEnum =
@@ -1635,9 +1662,11 @@ export interface ClientProfileClientConfigurationOidcSupportDefaultValue {
   /** Whether matched clients may use OIDC. */
   is_allowed: boolean;
   /** Whether matched clients may request all optional OIDC scopes. Cannot be combined with allowed_scopes. */
-  allow_all_scopes?: boolean;
+  allow_all_scopes?: boolean | undefined;
   /** Optional OIDC scopes that matched clients may request. */
-  allowed_scopes?: ClientProfileClientConfigurationOidcSupportDefaultValueAllowedScopesList;
+  allowed_scopes?:
+    | ClientProfileClientConfigurationOidcSupportDefaultValueAllowedScopesList
+    | undefined;
 }
 /** Default OIDC support applied to matched clients. */
 export interface ClientProfileClientConfigurationOidcSupport {
@@ -1645,12 +1674,18 @@ export interface ClientProfileClientConfigurationOidcSupport {
 }
 /** Runtime policy applied to matched clients. Omitted fields fall back to each client's own setting. */
 export interface ClientProfileClientConfiguration {
-  refresh_token?: ClientProfileClientConfigurationRefreshToken;
-  organization_usage?: ClientProfileClientConfigurationOrganizationUsage;
-  organization_require_behavior?: ClientProfileClientConfigurationOrganizationRequireBehavior;
-  organization_discovery_methods?: ClientProfileClientConfigurationOrganizationDiscoveryMethods;
-  require_proof_of_possession?: ClientProfileClientConfigurationRequireProofOfPossession;
-  oidc_support?: ClientProfileClientConfigurationOidcSupport;
+  refresh_token?: ClientProfileClientConfigurationRefreshToken | undefined;
+  organization_usage?: ClientProfileClientConfigurationOrganizationUsage | undefined;
+  organization_require_behavior?:
+    | ClientProfileClientConfigurationOrganizationRequireBehavior
+    | undefined;
+  organization_discovery_methods?:
+    | ClientProfileClientConfigurationOrganizationDiscoveryMethods
+    | undefined;
+  require_proof_of_possession?:
+    | ClientProfileClientConfigurationRequireProofOfPossession
+    | undefined;
+  oidc_support?: ClientProfileClientConfigurationOidcSupport | undefined;
 }
 /** The client's type of external metadata to match. The value <code>cimd</code> identifies clients registered via a Client ID Metadata Document. */
 export type ClientProfileApplyPolicyExternalMetadataTypeEnum = "cimd";
@@ -1665,20 +1700,20 @@ export interface ClientProfileApplyPolicy {
 }
 export interface CreateClientProfileRequest {
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   client_configuration: ClientProfileClientConfiguration;
   apply_policy: ClientProfileApplyPolicy;
 }
 export interface ClientProfile {
   id: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   client_configuration: ClientProfileClientConfiguration;
   apply_policy: ClientProfileApplyPolicy;
   /** Timestamp of creation. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of last update. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateClientsCimdPreviewRequest {
   /** URL to the Client ID Metadata Document */
@@ -1726,40 +1761,40 @@ export interface CimdMappedClientAuthenticationMethodsPrivateKeyJwt {
 }
 /** Client authentication methods derived from the JWKS document */
 export interface CimdMappedClientAuthenticationMethods {
-  private_key_jwt?: CimdMappedClientAuthenticationMethodsPrivateKeyJwt;
+  private_key_jwt?: CimdMappedClientAuthenticationMethodsPrivateKeyJwt | undefined;
   [key: string]: unknown;
 }
 /** Auth0 client fields mapped from the Client ID Metadata Document */
 export interface CimdMappedClientFields {
   /** The URL of the Client ID Metadata Document */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** Client name */
-  name?: string;
+  name?: string | undefined;
   /** Application type (e.g., web, native) */
-  app_type?: string;
+  app_type?: string | undefined;
   /** Callback URLs */
-  callbacks?: CimdMappedClientFieldsCallbacksList;
+  callbacks?: CimdMappedClientFieldsCallbacksList | undefined;
   /** Logo URI */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Human-readable brief description of this client presentable to the end-user */
-  description?: string;
+  description?: string | undefined;
   /** List of grant types */
-  grant_types?: CimdMappedClientFieldsGrantTypesList;
+  grant_types?: CimdMappedClientFieldsGrantTypesList | undefined;
   /** Token endpoint authentication method */
-  token_endpoint_auth_method?: string;
+  token_endpoint_auth_method?: string | undefined;
   /** URL for the JSON Web Key Set containing the public keys for private_key_jwt authentication */
-  jwks_uri?: string;
-  client_authentication_methods?: CimdMappedClientAuthenticationMethods;
+  jwks_uri?: string | undefined;
+  client_authentication_methods?: CimdMappedClientAuthenticationMethods | undefined;
   [key: string]: unknown;
 }
 export interface PreviewCimdMetadataResponseContent {
   /** The client_id of an existing client registered with this external_client_id, if one exists. */
-  client_id?: string;
-  external_metadata_created_by?: CimdExternalMetadataCreatedByEnum;
+  client_id?: string | undefined;
+  external_metadata_created_by?: CimdExternalMetadataCreatedByEnum | undefined;
   /** Array of retrieval errors (populated when the metadata document could not be fetched). When present, validation is omitted. */
-  errors?: PreviewCimdMetadataResponseContentErrorsList;
-  validation?: CimdValidationResult;
-  mapped_fields?: CimdMappedClientFields;
+  errors?: PreviewCimdMetadataResponseContentErrorsList | undefined;
+  validation?: CimdValidationResult | undefined;
+  mapped_fields?: CimdMappedClientFields | undefined;
   [key: string]: unknown;
 }
 export interface CreateClientsCimdRegisterRequest {
@@ -1846,7 +1881,7 @@ export interface ConnectionUsernameValidationOptions {
 }
 /** Options for validation */
 export interface ConnectionValidationOptions {
-  username?: ConnectionUsernameValidationOptions | null;
+  username?: ConnectionUsernameValidationOptions | null | undefined;
 }
 /** An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist) */
 export type ConnectionPropertiesOptionsNonPersistentAttrsList = Array<string>;
@@ -1860,73 +1895,73 @@ export type ConnectionPropertiesOptionsPrecedenceList = Array<
 export type DefaultMethodEmailIdentifierEnum = "password" | "email_otp";
 export interface EmailAttributeIdentifier {
   /** Determines if the attribute is used for identification */
-  active?: boolean;
-  default_method?: DefaultMethodEmailIdentifierEnum | (string & {});
+  active?: boolean | undefined;
+  default_method?: DefaultMethodEmailIdentifierEnum | (string & {}) | undefined;
 }
 export type VerificationMethodEnum = "link" | "otp";
 export type SignupStatusEnum = "required" | "optional" | "inactive";
 export interface SignupVerification {
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface SignupVerified {
-  status?: SignupStatusEnum | (string & {});
-  verification?: SignupVerification;
+  status?: SignupStatusEnum | (string & {}) | undefined;
+  verification?: SignupVerification | undefined;
 }
 /** Configuration for the email attribute for users. */
 export interface EmailAttribute {
-  identifier?: EmailAttributeIdentifier;
+  identifier?: EmailAttributeIdentifier | undefined;
   /** Determines if the attribute is unique in a given connection */
-  unique?: boolean;
+  unique?: boolean | undefined;
   /** Determines if property should be required for users */
-  profile_required?: boolean;
-  verification_method?: VerificationMethodEnum | (string & {});
-  signup?: SignupVerified;
+  profile_required?: boolean | undefined;
+  verification_method?: VerificationMethodEnum | (string & {}) | undefined;
+  signup?: SignupVerified | undefined;
 }
 /** Default authentication method for phone_number identifier */
 export type DefaultMethodPhoneNumberIdentifierEnum = "password" | "phone_otp";
 export interface PhoneAttributeIdentifier {
   /** Determines if the attribute is used for identification */
-  active?: boolean;
-  default_method?: DefaultMethodPhoneNumberIdentifierEnum | (string & {});
+  active?: boolean | undefined;
+  default_method?: DefaultMethodPhoneNumberIdentifierEnum | (string & {}) | undefined;
 }
 /** Configuration for the phone number attribute for users. */
 export interface PhoneAttribute {
-  identifier?: PhoneAttributeIdentifier;
+  identifier?: PhoneAttributeIdentifier | undefined;
   /** Determines if property should be required for users */
-  profile_required?: boolean;
-  signup?: SignupVerified;
+  profile_required?: boolean | undefined;
+  signup?: SignupVerified | undefined;
 }
 export interface UsernameAttributeIdentifier {
   /** Determines if the attribute is used for identification */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface SignupSchema {
-  status?: SignupStatusEnum | (string & {});
+  status?: SignupStatusEnum | (string & {}) | undefined;
 }
 export interface UsernameAllowedTypes {
-  email?: boolean;
-  phone_number?: boolean;
+  email?: boolean | undefined;
+  phone_number?: boolean | undefined;
 }
 export interface UsernameValidation {
   /** Minimum allowed length */
-  min_length?: number;
+  min_length?: number | undefined;
   /** Maximum allowed length */
-  max_length?: number;
-  allowed_types?: UsernameAllowedTypes;
+  max_length?: number | undefined;
+  allowed_types?: UsernameAllowedTypes | undefined;
 }
 /** Configuration for the username attribute for users. */
 export interface UsernameAttribute {
-  identifier?: UsernameAttributeIdentifier;
+  identifier?: UsernameAttributeIdentifier | undefined;
   /** Determines if property should be required for users */
-  profile_required?: boolean;
-  signup?: SignupSchema;
-  validation?: UsernameValidation;
+  profile_required?: boolean | undefined;
+  signup?: SignupSchema | undefined;
+  validation?: UsernameValidation | undefined;
 }
 /** Attribute configuration */
 export interface ConnectionAttributes {
-  email?: EmailAttribute;
-  phone_number?: PhoneAttribute;
-  username?: UsernameAttribute;
+  email?: EmailAttribute | undefined;
+  phone_number?: PhoneAttribute | undefined;
+  username?: UsernameAttribute | undefined;
 }
 /** Stores encrypted string only configurations for connections */
 export type ConnectionPropertiesOptionsConfigurationMap = {
@@ -1934,28 +1969,28 @@ export type ConnectionPropertiesOptionsConfigurationMap = {
 };
 /** A map of scripts used to integrate with a custom database. */
 export interface ConnectionCustomScripts {
-  login?: string;
-  get_user?: string;
-  delete?: string;
-  change_password?: string | Redacted.Redacted<string>;
-  verify?: string;
-  create?: string;
-  change_username?: string;
-  change_email?: string;
-  change_phone_number?: string;
+  login?: string | undefined;
+  get_user?: string | undefined;
+  delete?: string | undefined;
+  change_password?: string | Redacted.Redacted<string> | undefined;
+  verify?: string | undefined;
+  create?: string | undefined;
+  change_username?: string | undefined;
+  change_email?: string | undefined;
+  change_phone_number?: string | undefined;
   [key: string]: unknown;
 }
 /** OTP settings for a delivery channel. */
 export interface ConnectionOtpChannelSettings {
   /** Number of digits in the generated one-time password. */
-  otp_length?: number;
+  otp_length?: number | undefined;
   /** Number of seconds before the one-time password expires. */
-  otp_expiry?: number;
+  otp_expiry?: number | undefined;
 }
 /** One-time password settings, configurable per delivery channel. */
 export interface ConnectionOtpSettings {
-  email?: ConnectionOtpChannelSettings;
-  phone?: ConnectionOtpChannelSettings;
+  email?: ConnectionOtpChannelSettings | undefined;
+  phone?: ConnectionOtpChannelSettings | undefined;
 }
 /** Specifies the API behavior for password authentication */
 export type ConnectionApiBehaviorEnum = "required" | "optional";
@@ -1964,53 +1999,53 @@ export type ConnectionSignupBehaviorEnum = "allow" | "block";
 /** Password authentication enablement */
 export interface ConnectionPasswordAuthenticationMethod {
   /** Determines whether passwords are enabled */
-  enabled?: boolean;
-  api_behavior?: ConnectionApiBehaviorEnum | (string & {});
-  signup_behavior?: ConnectionSignupBehaviorEnum | (string & {});
+  enabled?: boolean | undefined;
+  api_behavior?: ConnectionApiBehaviorEnum | (string & {}) | undefined;
+  signup_behavior?: ConnectionSignupBehaviorEnum | (string & {}) | undefined;
 }
 /** Passkey authentication enablement */
 export interface ConnectionPasskeyAuthenticationMethod {
   /** Determines whether passkeys are enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Email OTP authentication enablement */
 export interface ConnectionEmailOtpAuthenticationMethod {
   /** Determines whether email OTP is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Phone OTP authentication enablement */
 export interface ConnectionPhoneOtpAuthenticationMethod {
   /** Determines whether phone OTP is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Options for enabling authentication methods. */
 export interface ConnectionAuthenticationMethods {
-  password?: ConnectionPasswordAuthenticationMethod;
-  passkey?: ConnectionPasskeyAuthenticationMethod;
-  email_otp?: ConnectionEmailOtpAuthenticationMethod;
-  phone_otp?: ConnectionPhoneOtpAuthenticationMethod;
+  password?: ConnectionPasswordAuthenticationMethod | undefined;
+  passkey?: ConnectionPasskeyAuthenticationMethod | undefined;
+  email_otp?: ConnectionEmailOtpAuthenticationMethod | undefined;
+  phone_otp?: ConnectionPhoneOtpAuthenticationMethod | undefined;
 }
 /** Controls the UI used to challenge the user for their passkey. */
 export type ConnectionPasskeyChallengeUIEnum = "both" | "autofill" | "button";
 /** Options for the passkey authentication method */
 export interface ConnectionPasskeyOptions {
-  challenge_ui?: ConnectionPasskeyChallengeUIEnum | (string & {});
+  challenge_ui?: ConnectionPasskeyChallengeUIEnum | (string & {}) | undefined;
   /** Enables or disables progressive enrollment of passkeys for the connection. */
-  progressive_enrollment_enabled?: boolean;
+  progressive_enrollment_enabled?: boolean | undefined;
   /** Enables or disables enrollment prompt for local passkey when user authenticates using a cross-device passkey for the connection. */
-  local_enrollment_enabled?: boolean;
+  local_enrollment_enabled?: boolean | undefined;
 }
 /** Password strength level */
 export type ConnectionPasswordPolicyEnum = "none" | "low" | "fair" | "good" | "excellent";
 /** Password complexity options */
 export interface ConnectionPasswordComplexityOptions {
   /** Minimum password length */
-  min_length?: number;
+  min_length?: number | undefined;
 }
 /** Options for password history policy */
 export interface ConnectionPasswordHistoryOptions {
   enable: boolean;
-  size?: number;
+  size?: number | undefined;
 }
 /** Options for personal info in passwords policy */
 export interface ConnectionPasswordNoPersonalInfoOptions {
@@ -2022,7 +2057,7 @@ export type ConnectionPasswordDictionaryOptionsDictionaryList = Array<string>;
 export interface ConnectionPasswordDictionaryOptions {
   enable: boolean;
   /** Custom Password Dictionary. An array of up to 200 entries. */
-  dictionary?: ConnectionPasswordDictionaryOptionsDictionaryList;
+  dictionary?: ConnectionPasswordDictionaryOptionsDictionaryList | undefined;
 }
 export type ConnectionUpstreamAliasEnum =
   | "acr_values"
@@ -2038,10 +2073,10 @@ export type ConnectionUpstreamAliasEnum =
   | "response_type"
   | "ui_locales";
 export interface ConnectionUpstreamAlias {
-  alias?: ConnectionUpstreamAliasEnum | (string & {});
+  alias?: ConnectionUpstreamAliasEnum | (string & {}) | undefined;
 }
 export interface ConnectionUpstreamValue {
-  value?: string;
+  value?: string | undefined;
 }
 export type ConnectionUpstreamAdditionalProperties =
   | ConnectionUpstreamAlias
@@ -2060,13 +2095,13 @@ export interface ConnectionGatewayAuthentication {
   /** The Authorization header type. */
   method: string;
   /** The subject to be added to the JWT payload. */
-  subject?: string;
+  subject?: string | undefined;
   /** The audience to be added to the JWT payload. */
   audience: string;
   /** The secret to be used for signing tokens. */
   secret: string | Redacted.Redacted<string>;
   /** Set to true if the provided secret is base64 encoded. */
-  secret_base64_encoded?: boolean;
+  secret_base64_encoded?: boolean | undefined;
   [key: string]: unknown;
 }
 export type PasswordCharacterTypeEnum = "uppercase" | "lowercase" | "number" | "special";
@@ -2085,13 +2120,13 @@ export type PasswordMaxLengthExceededPolicyEnum = "truncate" | "error";
 /** Password complexity requirements configuration */
 export interface ConnectionPasswordOptionsComplexity {
   /** Minimum password length required (1-72 characters) */
-  min_length?: number;
+  min_length?: number | undefined;
   /** Required character types that must be present in passwords. Valid options: uppercase, lowercase, number, special */
-  character_types?: ConnectionPasswordOptionsComplexityCharacterTypesList;
-  character_type_rule?: PasswordCharacterTypeRulePolicyEnum | (string & {});
-  identical_characters?: PasswordIdenticalCharactersPolicyEnum | (string & {});
-  sequential_characters?: PasswordSequentialCharactersPolicyEnum | (string & {});
-  max_length_exceeded?: PasswordMaxLengthExceededPolicyEnum | (string & {});
+  character_types?: ConnectionPasswordOptionsComplexityCharacterTypesList | undefined;
+  character_type_rule?: PasswordCharacterTypeRulePolicyEnum | (string & {}) | undefined;
+  identical_characters?: PasswordIdenticalCharactersPolicyEnum | (string & {}) | undefined;
+  sequential_characters?: PasswordSequentialCharactersPolicyEnum | (string & {}) | undefined;
+  max_length_exceeded?: PasswordMaxLengthExceededPolicyEnum | (string & {}) | undefined;
 }
 /** Array of custom words to block in passwords. Maximum 200 items, each up to 50 characters */
 export type ConnectionPasswordOptionsDictionaryCustomList = Array<string>;
@@ -2100,33 +2135,33 @@ export type PasswordDefaultDictionariesEnum = "en_10k" | "en_100k";
 /** Dictionary-based password restriction policy to prevent common passwords */
 export interface ConnectionPasswordOptionsDictionary {
   /** Enables dictionary checking to prevent use of common passwords and custom blocked words */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Array of custom words to block in passwords. Maximum 200 items, each up to 50 characters */
-  custom?: ConnectionPasswordOptionsDictionaryCustomList;
-  default?: PasswordDefaultDictionariesEnum | (string & {});
+  custom?: ConnectionPasswordOptionsDictionaryCustomList | undefined;
+  default?: PasswordDefaultDictionariesEnum | (string & {}) | undefined;
 }
 /** Password history policy configuration to prevent password reuse */
 export interface ConnectionPasswordOptionsHistory {
   /** Enables password history checking to prevent users from reusing recent passwords */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Number of previous passwords to remember and prevent reuse (1-24) */
-  size?: number;
+  size?: number | undefined;
 }
 /** Blocked profile fields. An array of up to 12 entries. */
 export type ConnectionPasswordOptionsProfileDataBlockedFieldsList = Array<string>;
 /** Personal information restriction policy to prevent use of profile data in passwords */
 export interface ConnectionPasswordOptionsProfileData {
   /** Prevents users from including profile data (like name, email) in their passwords */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Blocked profile fields. An array of up to 12 entries. */
-  blocked_fields?: ConnectionPasswordOptionsProfileDataBlockedFieldsList;
+  blocked_fields?: ConnectionPasswordOptionsProfileDataBlockedFieldsList | undefined;
 }
 /** Password policy options for flexible password policy configuration */
 export interface ConnectionPasswordOptions {
-  complexity?: ConnectionPasswordOptionsComplexity;
-  dictionary?: ConnectionPasswordOptionsDictionary;
-  history?: ConnectionPasswordOptionsHistory;
-  profile_data?: ConnectionPasswordOptionsProfileData;
+  complexity?: ConnectionPasswordOptionsComplexity | undefined;
+  dictionary?: ConnectionPasswordOptionsDictionary | undefined;
+  history?: ConnectionPasswordOptionsHistory | undefined;
+  profile_data?: ConnectionPasswordOptionsProfileData | undefined;
 }
 /** The algorithm profile to use for decrypting SAML assertions. */
 export type ConnectionAssertionDecryptionAlgorithmProfileEnum = "v2026-1";
@@ -2136,7 +2171,7 @@ export type ConnectionAssertionDecryptionSettingsAlgorithmExceptionsList = Array
 export interface ConnectionAssertionDecryptionSettings {
   algorithm_profile: ConnectionAssertionDecryptionAlgorithmProfileEnum | (string & {});
   /** A list of insecure algorithms to allow for SAML assertion decryption. */
-  algorithm_exceptions?: ConnectionAssertionDecryptionSettingsAlgorithmExceptionsList;
+  algorithm_exceptions?: ConnectionAssertionDecryptionSettingsAlgorithmExceptionsList | undefined;
 }
 /** Algorithm allowed to verify the ID tokens. */
 export type ConnectionIdTokenSignedResponseAlgEnum =
@@ -2215,83 +2250,107 @@ export type ConnectionsOIDCMetadataDpopSigningAlgValuesSupportedList = Array<str
 /** Additional OIDC metadata to include in the discovery document. Only applicable when strategy=oidc, okta, or samlp. */
 export interface ConnectionsOIDCMetadata {
   /** The identity provider's unique issuer identifier URL (e.g., https://accounts.google.com). Must match the 'iss' claim in ID tokens from the identity provider. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** URL of the identity provider's OAuth 2.0 authorization endpoint where users are redirected for authentication. Must be a valid HTTPS URL. This endpoint initiates the OAuth 2.0 authorization code flow. */
-  authorization_endpoint?: string;
+  authorization_endpoint?: string | undefined;
   /** URL of the identity provider's OAuth 2.0 token endpoint where authorization codes are exchanged for access tokens. Must be a valid HTTPS URL. Required for authorization code flow but optional for implicit flow. */
-  token_endpoint?: string;
+  token_endpoint?: string | undefined;
   /** Optional URL of the identity provider's UserInfo endpoint. When configured with attribute mapping, Auth0 calls this endpoint to retrieve additional user profile claims using the access token. */
-  userinfo_endpoint?: string;
+  userinfo_endpoint?: string | undefined;
   /** URL of the identity provider's JSON Web Key Set (JWKS) endpoint containing public keys for signature verification. Auth0 retrieves these keys to validate ID token signatures. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   /** URL of the OPs Dynamic Client Registration Endpoint. RECOMMENDED but not REQUIRED. https://openid.net/specs/openid-connect-discovery-1_0.html#OpenID.Registration */
-  registration_endpoint?: string;
+  registration_endpoint?: string | undefined;
   /** A list of the OAuth 2.0 [RFC6749] scope values that this server supports. The server MUST support the openid scope value. Servers MAY choose not to advertise some supported scope values even when this parameter is used, although those defined in [OpenID.Core] SHOULD be listed, if supported. RECOMMENDED but not REQUIRED */
-  scopes_supported?: ConnectionsOIDCMetadataScopesSupportedList | null;
+  scopes_supported?: ConnectionsOIDCMetadataScopesSupportedList | null | undefined;
   /** A list of the OAuth 2.0 response_mode values that this OP supports. If omitted, the default for Dynamic OpenID Providers is ["query", "fragment"] */
-  response_modes_supported?: ConnectionsOIDCMetadataResponseModesSupportedList;
+  response_modes_supported?: ConnectionsOIDCMetadataResponseModesSupportedList | undefined;
   /** A list of the OAuth 2.0 response_type values that this OP supports. Dynamic OpenID Providers MUST support the code, id_token, and the token id_token Response Type values */
-  response_types_supported?: ConnectionsOIDCMetadataResponseTypesSupportedList;
+  response_types_supported?: ConnectionsOIDCMetadataResponseTypesSupportedList | undefined;
   /** A list of the OAuth 2.0 Grant Type values that this OP supports. Dynamic OpenID Providers MUST support the authorization_code and implicit Grant Type values and MAY support other Grant Types. If omitted, the default value is ["authorization_code", "implicit"]. */
-  grant_types_supported?: ConnectionsOIDCMetadataGrantTypesSupportedList;
+  grant_types_supported?: ConnectionsOIDCMetadataGrantTypesSupportedList | undefined;
   /** A list of the Authentication Context Class References that this OP supports */
-  acr_values_supported?: ConnectionsOIDCMetadataAcrValuesSupportedList;
+  acr_values_supported?: ConnectionsOIDCMetadataAcrValuesSupportedList | undefined;
   /** A list of the Subject Identifier types that this OP supports. Valid types include pairwise and public */
-  subject_types_supported?: ConnectionsOIDCMetadataSubjectTypesSupportedList | null;
+  subject_types_supported?: ConnectionsOIDCMetadataSubjectTypesSupportedList | null | undefined;
   /** A list of the JWS signing algorithms (alg values) supported by the OP for the ID Token to encode the Claims in a JWT. The algorithm RS256 MUST be included. The value none MAY be supported, but MUST NOT be used unless the Response Type used returns no ID Token from the Authorization Endpoint (such as when using the Authorization Code Flow). https://datatracker.ietf.org/doc/html/rfc7518 */
-  id_token_signing_alg_values_supported?: ConnectionsOIDCMetadataIdTokenSigningAlgValuesSupportedList;
+  id_token_signing_alg_values_supported?:
+    | ConnectionsOIDCMetadataIdTokenSigningAlgValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWE encryption algorithms (alg values) supported by the OP for the ID Token to encode the Claims in a JWT */
-  id_token_encryption_alg_values_supported?: ConnectionsOIDCMetadataIdTokenEncryptionAlgValuesSupportedList;
+  id_token_encryption_alg_values_supported?:
+    | ConnectionsOIDCMetadataIdTokenEncryptionAlgValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWE encryption algorithms (enc values) supported by the OP for the ID Token to encode the Claims in a JWT [JWT]. */
-  id_token_encryption_enc_values_supported?: ConnectionsOIDCMetadataIdTokenEncryptionEncValuesSupportedList;
+  id_token_encryption_enc_values_supported?:
+    | ConnectionsOIDCMetadataIdTokenEncryptionEncValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWS [JWS] signing algorithms (alg values) [JWA] supported by the UserInfo Endpoint to encode the Claims in a JWT [JWT]. The value none MAY be included. */
-  userinfo_signing_alg_values_supported?: ConnectionsOIDCMetadataUserinfoSigningAlgValuesSupportedList;
+  userinfo_signing_alg_values_supported?:
+    | ConnectionsOIDCMetadataUserinfoSigningAlgValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWE [JWE] encryption algorithms (alg values) [JWA] supported by the UserInfo Endpoint to encode the Claims in a JWT [JWT]. */
-  userinfo_encryption_alg_values_supported?: ConnectionsOIDCMetadataUserinfoEncryptionAlgValuesSupportedList;
+  userinfo_encryption_alg_values_supported?:
+    | ConnectionsOIDCMetadataUserinfoEncryptionAlgValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWE encryption algorithms (enc values) [JWA] supported by the UserInfo Endpoint to encode the Claims in a JWT [JWT]. */
-  userinfo_encryption_enc_values_supported?: ConnectionsOIDCMetadataUserinfoEncryptionEncValuesSupportedList;
+  userinfo_encryption_enc_values_supported?:
+    | ConnectionsOIDCMetadataUserinfoEncryptionEncValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWS signing algorithms (alg values) supported by the OP for Request Objects, which are described in Section 6.1 of OpenID Connect Core 1.0 [OpenID.Core]. These algorithms are used both when the Request Object is passed by value (using the request parameter) and when it is passed by reference (using the request_uri parameter). Servers SHOULD support none and RS256. */
-  request_object_signing_alg_values_supported?: ConnectionsOIDCMetadataRequestObjectSigningAlgValuesSupportedList;
+  request_object_signing_alg_values_supported?:
+    | ConnectionsOIDCMetadataRequestObjectSigningAlgValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWE encryption algorithms (alg values) supported by the OP for Request Objects. These algorithms are used both when the Request Object is passed by value and when it is passed by reference. */
-  request_object_encryption_alg_values_supported?: ConnectionsOIDCMetadataRequestObjectEncryptionAlgValuesSupportedList;
+  request_object_encryption_alg_values_supported?:
+    | ConnectionsOIDCMetadataRequestObjectEncryptionAlgValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the JWE encryption algorithms (enc values) supported by the OP for Request Objects. These algorithms are used both when the Request Object is passed by value and when it is passed by reference. */
-  request_object_encryption_enc_values_supported?: ConnectionsOIDCMetadataRequestObjectEncryptionEncValuesSupportedList;
+  request_object_encryption_enc_values_supported?:
+    | ConnectionsOIDCMetadataRequestObjectEncryptionEncValuesSupportedList
+    | undefined;
   /** JSON array containing a list of Client Authentication methods supported by this Token Endpoint. The options are client_secret_post, client_secret_basic, client_secret_jwt, and private_key_jwt, as described in Section 9 of OpenID Connect Core 1.0 [OpenID.Core]. Other authentication methods MAY be defined by extensions. If omitted, the default is client_secret_basic -- the HTTP Basic Authentication Scheme specified in Section 2.3.1 of OAuth 2.0 [RFC6749]. */
-  token_endpoint_auth_methods_supported?: ConnectionsOIDCMetadataTokenEndpointAuthMethodsSupportedList;
+  token_endpoint_auth_methods_supported?:
+    | ConnectionsOIDCMetadataTokenEndpointAuthMethodsSupportedList
+    | undefined;
   /** JSON array containing a list of the JWS signing algorithms (alg values) supported by the Token Endpoint for the signature on the JWT [JWT] used to authenticate the Client at the Token Endpoint for the private_key_jwt and client_secret_jwt authentication methods. Servers SHOULD support RS256. The value none MUST NOT be used. */
-  token_endpoint_auth_signing_alg_values_supported?: ConnectionsOIDCMetadataTokenEndpointAuthSigningAlgValuesSupportedList;
+  token_endpoint_auth_signing_alg_values_supported?:
+    | ConnectionsOIDCMetadataTokenEndpointAuthSigningAlgValuesSupportedList
+    | undefined;
   /** JSON array containing a list of the display parameter values that the OpenID Provider supports. These values are described in Section 3.1.2.1 of OpenID Connect Core 1.0 [OpenID.Core] */
-  display_values_supported?: ConnectionsOIDCMetadataDisplayValuesSupportedList;
+  display_values_supported?: ConnectionsOIDCMetadataDisplayValuesSupportedList | undefined;
   /** JSON array containing a list of the Claim Types that the OpenID Provider supports. These Claim Types are described in Section 5.6 of OpenID Connect Core 1.0 [OpenID.Core]. If omitted, the implementation supports only normal Claims. */
-  claim_types_supported?: ConnectionsOIDCMetadataClaimTypesSupportedList;
+  claim_types_supported?: ConnectionsOIDCMetadataClaimTypesSupportedList | undefined;
   /** JSON array containing a list of the Claim Names of the Claims that the OpenID Provider MAY be able to supply values for. Note that for privacy or other reasons, this might not be an exhaustive list. */
-  claims_supported?: ConnectionsOIDCMetadataClaimsSupportedList;
+  claims_supported?: ConnectionsOIDCMetadataClaimsSupportedList | undefined;
   /** URL of a page containing human-readable information that developers might want or need to know when using the OpenID Provider. In particular, if the OpenID Provider does not support Dynamic Client Registration, then information on how to register Clients needs to be provided in this documentation. */
-  service_documentation?: string;
+  service_documentation?: string | undefined;
   /** Languages and scripts supported for values in Claims being returned, represented as a JSON array of BCP47 [RFC5646] language tag values. Not all languages and scripts are necessarily supported for all Claim values. */
-  claims_locales_supported?: ConnectionsOIDCMetadataClaimsLocalesSupportedList;
+  claims_locales_supported?: ConnectionsOIDCMetadataClaimsLocalesSupportedList | undefined;
   /** Languages and scripts supported for the user interface, represented as a JSON array of BCP47 [RFC5646] language tag values. */
-  ui_locales_supported?: ConnectionsOIDCMetadataUiLocalesSupportedList;
+  ui_locales_supported?: ConnectionsOIDCMetadataUiLocalesSupportedList | undefined;
   /** Boolean value specifying whether the OP supports use of the claims parameter, with true indicating support. If omitted, the default value is false. */
-  claims_parameter_supported?: boolean;
+  claims_parameter_supported?: boolean | undefined;
   /** Boolean value specifying whether the OP supports use of the request parameter, with true indicating support. If omitted, the default value is false. */
-  request_parameter_supported?: boolean;
+  request_parameter_supported?: boolean | undefined;
   /** Boolean value specifying whether the OP supports use of the request_uri parameter, with true indicating support. If omitted, the default value is false. */
-  request_uri_parameter_supported?: boolean;
+  request_uri_parameter_supported?: boolean | undefined;
   /** Boolean value specifying whether the OP requires use of the request_uri parameter. If omitted, the default value is false. */
-  require_request_uri_registration?: boolean;
+  require_request_uri_registration?: boolean | undefined;
   /** URL that the OpenID Provider provides to the person registering the Client to read about the OPs requirements on how the Relying Party can use the data provided by the OP. The registration process SHOULD display this URL to the person registering the Client if it is given. */
-  op_policy_uri?: string;
+  op_policy_uri?: string | undefined;
   /** URL that the OpenID Provider provides to the person registering the Client to read about OpenID Providers terms of service. The registration process SHOULD display this URL to the person registering the Client if it is given. */
-  op_tos_uri?: string;
+  op_tos_uri?: string | undefined;
   /** URL of the identity provider's logout/end session endpoint. When configured as a static URL, users are redirected here after logging out from Auth0. Must use HTTPS scheme. */
-  end_session_endpoint?: string;
+  end_session_endpoint?: string | undefined;
   /** URL of the identity provider's Pushed Authorization Request (PAR) endpoint, as per https://datatracker.ietf.org/doc/html/rfc9126. Must use HTTPS scheme. */
-  pushed_authorization_request_endpoint?: string;
+  pushed_authorization_request_endpoint?: string | undefined;
   /** Boolean parameter indicating whether the identity provider requires Pushed Authorization Requests (PAR), as per https://datatracker.ietf.org/doc/html/rfc9126. Discovered from the identity provider's metadata; not used to decide whether the server performs PAR. */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** JSON array containing a list of the JWS signing algorithms (alg values) supported for DPoP proof JWT signing. */
-  dpop_signing_alg_values_supported?: ConnectionsOIDCMetadataDpopSigningAlgValuesSupportedList;
+  dpop_signing_alg_values_supported?:
+    | ConnectionsOIDCMetadataDpopSigningAlgValuesSupportedList
+    | undefined;
   [key: string]: unknown;
 }
 /** Array of certificate thumbprints (SHA-128 hex hashes) for validating SAML signatures. Used with WS-Federation protocol. Maximum 20 thumbprints. Each thumbprint must be a hexadecimal string. */
@@ -2300,60 +2359,68 @@ export type ConnectionThumbprints = Array<string>;
 export type ConnectionThumbprintsSha384 = Array<string>;
 /** The connection's options (depend on the connection strategy) */
 export interface ConnectionPropertiesOptions {
-  validation?: ConnectionValidationOptions | null;
+  validation?: ConnectionValidationOptions | null | undefined;
   /** An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist) */
-  non_persistent_attrs?: ConnectionPropertiesOptionsNonPersistentAttrsList | null;
+  non_persistent_attrs?: ConnectionPropertiesOptionsNonPersistentAttrsList | null | undefined;
   /** Order of precedence for attribute types. If the property is not specified, the default precedence of attributes will be used. */
-  precedence?: ConnectionPropertiesOptionsPrecedenceList;
-  attributes?: ConnectionAttributes;
+  precedence?: ConnectionPropertiesOptionsPrecedenceList | undefined;
+  attributes?: ConnectionAttributes | undefined;
   /** Set to true to inject context into custom DB scripts (warning: cannot be disabled once enabled) */
-  enable_script_context?: boolean;
+  enable_script_context?: boolean | undefined;
   /** Set to true to use a legacy user store */
-  enabledDatabaseCustomization?: boolean;
+  enabledDatabaseCustomization?: boolean | undefined;
   /** Enable this if you have a legacy user store and you want to gradually migrate those users to the Auth0 user store */
-  import_mode?: boolean;
+  import_mode?: boolean | undefined;
   /** Stores encrypted string only configurations for connections */
-  configuration?: ConnectionPropertiesOptionsConfigurationMap | null;
-  customScripts?: ConnectionCustomScripts;
-  otp_settings?: ConnectionOtpSettings;
-  authentication_methods?: ConnectionAuthenticationMethods | null;
-  passkey_options?: ConnectionPasskeyOptions | null;
-  passwordPolicy?: ConnectionPasswordPolicyEnum | (string & {}) | null;
-  password_complexity_options?: ConnectionPasswordComplexityOptions | null;
-  password_history?: ConnectionPasswordHistoryOptions | null;
-  password_no_personal_info?: ConnectionPasswordNoPersonalInfoOptions | null;
-  password_dictionary?: ConnectionPasswordDictionaryOptions | null;
-  api_enable_users?: boolean;
-  api_enable_groups?: boolean;
-  basic_profile?: boolean;
-  ext_admin?: boolean;
-  ext_is_suspended?: boolean;
-  ext_agreed_terms?: boolean;
-  ext_groups?: boolean;
-  ext_assigned_plans?: boolean;
-  ext_profile?: boolean;
-  disable_self_service_change_password?: boolean;
-  upstream_params?: ConnectionUpstreamParams | null;
-  set_user_root_attributes?: ConnectionSetUserRootAttributesEnum | (string & {});
-  gateway_authentication?: ConnectionGatewayAuthentication | null;
-  password_options?: ConnectionPasswordOptions;
-  assertion_decryption_settings?: ConnectionAssertionDecryptionSettings;
-  id_token_signed_response_algs?: ConnectionIdTokenSignedResponseAlgs | null;
-  dpop_signing_alg?: ConnectionDpopSigningAlgEnum | (string & {});
-  enable_pushed_authorization_requests?: boolean;
-  pushed_authorization_request_endpoint?: string;
-  token_endpoint_auth_method?: ConnectionTokenEndpointAuthMethodEnum | (string & {}) | null;
+  configuration?: ConnectionPropertiesOptionsConfigurationMap | null | undefined;
+  customScripts?: ConnectionCustomScripts | undefined;
+  otp_settings?: ConnectionOtpSettings | undefined;
+  authentication_methods?: ConnectionAuthenticationMethods | null | undefined;
+  passkey_options?: ConnectionPasskeyOptions | null | undefined;
+  passwordPolicy?: ConnectionPasswordPolicyEnum | (string & {}) | null | undefined;
+  password_complexity_options?: ConnectionPasswordComplexityOptions | null | undefined;
+  password_history?: ConnectionPasswordHistoryOptions | null | undefined;
+  password_no_personal_info?: ConnectionPasswordNoPersonalInfoOptions | null | undefined;
+  password_dictionary?: ConnectionPasswordDictionaryOptions | null | undefined;
+  api_enable_users?: boolean | undefined;
+  api_enable_groups?: boolean | undefined;
+  basic_profile?: boolean | undefined;
+  ext_admin?: boolean | undefined;
+  ext_is_suspended?: boolean | undefined;
+  ext_agreed_terms?: boolean | undefined;
+  ext_groups?: boolean | undefined;
+  ext_assigned_plans?: boolean | undefined;
+  ext_profile?: boolean | undefined;
+  disable_self_service_change_password?: boolean | undefined;
+  upstream_params?: ConnectionUpstreamParams | null | undefined;
+  set_user_root_attributes?: ConnectionSetUserRootAttributesEnum | (string & {}) | undefined;
+  gateway_authentication?: ConnectionGatewayAuthentication | null | undefined;
+  password_options?: ConnectionPasswordOptions | undefined;
+  assertion_decryption_settings?: ConnectionAssertionDecryptionSettings | undefined;
+  id_token_signed_response_algs?: ConnectionIdTokenSignedResponseAlgs | null | undefined;
+  dpop_signing_alg?: ConnectionDpopSigningAlgEnum | (string & {}) | undefined;
+  enable_pushed_authorization_requests?: boolean | undefined;
+  pushed_authorization_request_endpoint?: string | undefined;
+  token_endpoint_auth_method?:
+    | ConnectionTokenEndpointAuthMethodEnum
+    | (string & {})
+    | null
+    | undefined;
   token_endpoint_auth_signing_alg?:
     | ConnectionTokenEndpointAuthSigningAlgEnum
     | (string & {})
-    | null;
-  token_endpoint_jwtca_aud_format?: ConnectionTokenEndpointJwtcaAudFormatEnumOIDC | (string & {});
-  id_token_session_expiry_supported?: boolean;
-  useOauthSpecScope?: boolean;
-  discovery_url?: string | null;
-  oidc_metadata?: ConnectionsOIDCMetadata | null;
-  thumbprints?: ConnectionThumbprints;
-  thumbprints_sha384?: ConnectionThumbprintsSha384;
+    | null
+    | undefined;
+  token_endpoint_jwtca_aud_format?:
+    | ConnectionTokenEndpointJwtcaAudFormatEnumOIDC
+    | (string & {})
+    | undefined;
+  id_token_session_expiry_supported?: boolean | undefined;
+  useOauthSpecScope?: boolean | undefined;
+  discovery_url?: string | null | undefined;
+  oidc_metadata?: ConnectionsOIDCMetadata | null | undefined;
+  thumbprints?: ConnectionThumbprints | undefined;
+  thumbprints_sha384?: ConnectionThumbprintsSha384 | undefined;
   [key: string]: unknown;
 }
 /** Use of this property is NOT RECOMMENDED. Use the PATCH /v2/connections/{id}/clients endpoint to enable the connection for a set of clients. */
@@ -2369,9 +2436,9 @@ export interface ConnectionAuthenticationPurpose {
 /** Configure the purpose of a connection to be used for connected accounts and Token Vault. */
 export interface ConnectionConnectedAccountsPurpose {
   active: boolean;
-  cross_app_access?: boolean;
+  cross_app_access?: boolean | undefined;
   /** When true, allows storing a connected account without an upstream identity provider user id. At most one such connected account is allowed per user per connection. Default false preserves the strict behaviour (an upstream user id is required). */
-  allow_missing_user_id?: boolean;
+  allow_missing_user_id?: boolean | undefined;
 }
 /** Configure the connection to be used as a Requesting Application for Cross App Access. */
 export interface CrossAppAccessRequestingApp {
@@ -2388,22 +2455,22 @@ export interface CreateConnectionRequest {
   /** The name of the connection. Must start and end with an alphanumeric character and can only contain alphanumeric characters and '-'. Max length 128 */
   name: string;
   /** Connection name used in the new universal login experience */
-  display_name?: string;
+  display_name?: string | undefined;
   strategy: ConnectionIdentityProviderEnum | (string & {});
-  options?: ConnectionPropertiesOptions;
+  options?: ConnectionPropertiesOptions | undefined;
   /** Use of this property is NOT RECOMMENDED. Use the PATCH /v2/connections/{id}/clients endpoint to enable the connection for a set of clients. */
-  enabled_clients?: CreateConnectionRequestEnabledClientsList;
+  enabled_clients?: CreateConnectionRequestEnabledClientsList | undefined;
   /** <code>true</code> promotes to a domain-level connection so that third-party applications can use it. <code>false</code> does not promote the connection, so only first-party applications with the connection enabled can use it. (Defaults to <code>false</code>.) */
-  is_domain_connection?: boolean;
+  is_domain_connection?: boolean | undefined;
   /** Enables showing a button for the connection in the login page (new experience only). If false, it will be usable only by HRD. (Defaults to <code>false</code>.) */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
-  realms?: CreateConnectionRequestRealmsList;
-  metadata?: ConnectionsMetadata;
-  authentication?: ConnectionAuthenticationPurpose;
-  connected_accounts?: ConnectionConnectedAccountsPurpose;
-  cross_app_access_requesting_app?: CrossAppAccessRequestingApp;
-  cross_app_access_resource_app?: CreateCrossAppAccessResourceApp;
+  realms?: CreateConnectionRequestRealmsList | undefined;
+  metadata?: ConnectionsMetadata | undefined;
+  authentication?: ConnectionAuthenticationPurpose | undefined;
+  connected_accounts?: ConnectionConnectedAccountsPurpose | undefined;
+  cross_app_access_requesting_app?: CrossAppAccessRequestingApp | undefined;
+  cross_app_access_resource_app?: CreateCrossAppAccessResourceApp | undefined;
 }
 /** In order to return options in the response, the `read:connections_options` scope must be present */
 export type ConnectionOptions = { [key: string]: unknown | undefined };
@@ -2417,27 +2484,27 @@ export interface CrossAppAccessResourceApp {
 }
 export interface CreateConnectionResponseContent {
   /** The name of the connection */
-  name?: string;
+  name?: string | undefined;
   /** Connection name used in login screen */
-  display_name?: string;
-  options?: ConnectionOptions;
+  display_name?: string | undefined;
+  options?: ConnectionOptions | undefined;
   /** The connection's identifier */
-  id?: string;
+  id?: string | undefined;
   /** The type of the connection, related to the identity provider */
-  strategy?: string;
+  strategy?: string | undefined;
   /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
-  realms?: CreateConnectionResponseContentRealmsList;
+  realms?: CreateConnectionResponseContentRealmsList | undefined;
   /** DEPRECATED property. Use the GET /connections/:id/clients endpoint to get the ids of the clients for which the connection is enabled */
-  enabled_clients?: CreateConnectionResponseContentEnabledClientsList;
+  enabled_clients?: CreateConnectionResponseContentEnabledClientsList | undefined;
   /** True if the connection is domain level */
-  is_domain_connection?: boolean;
+  is_domain_connection?: boolean | undefined;
   /** Enables showing a button for the connection in the login page (new experience only). If false, it will be usable only by HRD. */
-  show_as_button?: boolean;
-  metadata?: ConnectionsMetadata;
-  authentication?: ConnectionAuthenticationPurpose;
-  connected_accounts?: ConnectionConnectedAccountsPurpose;
-  cross_app_access_requesting_app?: CrossAppAccessRequestingApp;
-  cross_app_access_resource_app?: CrossAppAccessResourceApp;
+  show_as_button?: boolean | undefined;
+  metadata?: ConnectionsMetadata | undefined;
+  authentication?: ConnectionAuthenticationPurpose | undefined;
+  connected_accounts?: ConnectionConnectedAccountsPurpose | undefined;
+  cross_app_access_requesting_app?: CrossAppAccessRequestingApp | undefined;
+  cross_app_access_resource_app?: CrossAppAccessResourceApp | undefined;
 }
 /** Indicates if the organization should be shown as a button. */
 export type ConnectionProfileOrganizationShowAsButtonEnum = "none" | "optional" | "required";
@@ -2448,10 +2515,11 @@ export type ConnectionProfileOrganizationAssignMembershipOnLoginEnum =
   | "required";
 /** The organization of the connection profile. */
 export interface ConnectionProfileOrganization {
-  show_as_button?: ConnectionProfileOrganizationShowAsButtonEnum | (string & {});
+  show_as_button?: ConnectionProfileOrganizationShowAsButtonEnum | (string & {}) | undefined;
   assign_membership_on_login?:
     | ConnectionProfileOrganizationAssignMembershipOnLoginEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Enum for enabled features. */
 export type EnabledFeaturesEnum = "scim" | "universal_logout" | "directory_sync";
@@ -2475,8 +2543,8 @@ export type ConnectionProfileProvisioningScimTokenScopes = Array<
 /** SCIM token settings for connections created from this profile. */
 export interface ConnectionProfileProvisioningScimTokens {
   scopes: ConnectionProfileProvisioningScimTokenScopes;
-  default_expiry?: number | null;
-  max_allowed_expiry?: number | null;
+  default_expiry?: number | null | undefined;
+  max_allowed_expiry?: number | null | undefined;
 }
 /** SCIM provisioning settings. */
 export interface ConnectionProfileProvisioningScim {
@@ -2488,25 +2556,25 @@ export interface ConnectionProfileProvisioningGoogleWorkspace {
 }
 /** Provisioning settings for a connection profile strategy override. */
 export interface ConnectionProfileStrategyOverridesProvisioning {
-  scim?: ConnectionProfileProvisioningScim;
-  google_workspace?: ConnectionProfileProvisioningGoogleWorkspace;
+  scim?: ConnectionProfileProvisioningScim | undefined;
+  google_workspace?: ConnectionProfileProvisioningGoogleWorkspace | undefined;
 }
 /** Connection Profile Strategy Override */
 export interface ConnectionProfileStrategyOverride {
-  enabled_features?: ConnectionProfileStrategyOverridesEnabledFeatures;
-  connection_config?: unknown;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
+  enabled_features?: ConnectionProfileStrategyOverridesEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
 }
 /** Strategy-specific overrides for this attribute */
 export interface ConnectionProfileStrategyOverrides {
-  pingfederate?: ConnectionProfileStrategyOverride;
-  ad?: ConnectionProfileStrategyOverride;
-  adfs?: ConnectionProfileStrategyOverride;
-  waad?: ConnectionProfileStrategyOverride;
-  google_apps?: ConnectionProfileStrategyOverride;
-  okta?: ConnectionProfileStrategyOverride;
-  oidc?: ConnectionProfileStrategyOverride;
-  samlp?: ConnectionProfileStrategyOverride;
+  pingfederate?: ConnectionProfileStrategyOverride | undefined;
+  ad?: ConnectionProfileStrategyOverride | undefined;
+  adfs?: ConnectionProfileStrategyOverride | undefined;
+  waad?: ConnectionProfileStrategyOverride | undefined;
+  google_apps?: ConnectionProfileStrategyOverride | undefined;
+  okta?: ConnectionProfileStrategyOverride | undefined;
+  oidc?: ConnectionProfileStrategyOverride | undefined;
+  samlp?: ConnectionProfileStrategyOverride | undefined;
 }
 /** Provisioning settings for connections created from this profile. */
 export type ConnectionProfileProvisioning = ConnectionProfileStrategyOverridesProvisioning;
@@ -2523,7 +2591,7 @@ export type ConnectionProfileCrossAppAccessResourceAppStatusAllowedValuesEnum = 
 /** The Cross App Access resource app status configuration. */
 export interface ConnectionProfileCrossAppAccessResourceAppStatus {
   default_value: ConnectionProfileCrossAppAccessResourceAppStatusDefaultValueEnum | (string & {});
-  allowed_values?: ConnectionProfileCrossAppAccessResourceAppStatusAllowedValuesEnum;
+  allowed_values?: ConnectionProfileCrossAppAccessResourceAppStatusAllowedValuesEnum | undefined;
 }
 /** Controls whether organization admins may enable Cross App Access (XAA) on their Identity Providers. */
 export interface ConnectionProfileCrossAppAccessResourceApp {
@@ -2531,24 +2599,24 @@ export interface ConnectionProfileCrossAppAccessResourceApp {
 }
 export interface CreateConnectionProfileRequest {
   name: string;
-  organization?: ConnectionProfileOrganization;
-  connection_name_prefix_template?: string;
-  enabled_features?: ConnectionProfileEnabledFeatures;
-  connection_config?: unknown;
-  strategy_overrides?: ConnectionProfileStrategyOverrides;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
-  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp;
+  organization?: ConnectionProfileOrganization | undefined;
+  connection_name_prefix_template?: string | undefined;
+  enabled_features?: ConnectionProfileEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  strategy_overrides?: ConnectionProfileStrategyOverrides | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
+  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp | undefined;
 }
 export interface CreateConnectionProfileResponseContent {
-  id?: string;
-  name?: string;
-  organization?: ConnectionProfileOrganization;
-  connection_name_prefix_template?: string;
-  enabled_features?: ConnectionProfileEnabledFeatures;
-  connection_config?: unknown;
-  strategy_overrides?: ConnectionProfileStrategyOverrides;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
-  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp;
+  id?: string | undefined;
+  name?: string | undefined;
+  organization?: ConnectionProfileOrganization | undefined;
+  connection_name_prefix_template?: string | undefined;
+  enabled_features?: ConnectionProfileEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  strategy_overrides?: ConnectionProfileStrategyOverrides | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
+  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp | undefined;
 }
 /** Custom domain provisioning type. Must be `auth0_managed_certs` or `self_managed_certs`. */
 export type CustomDomainProvisioningTypeEnum = "auth0_managed_certs" | "self_managed_certs";
@@ -2569,12 +2637,12 @@ export interface CreateCustomDomainRequest {
   /** Domain name. */
   domain: string;
   type: CustomDomainProvisioningTypeEnum | (string & {});
-  verification_method?: CustomDomainVerificationMethodEnum | (string & {});
-  tls_policy?: CustomDomainTlsPolicyEnum | (string & {});
-  custom_client_ip_header?: CustomDomainCustomClientIpHeaderEnum | (string & {}) | null;
-  domain_metadata?: DomainMetadata;
+  verification_method?: CustomDomainVerificationMethodEnum | (string & {}) | undefined;
+  tls_policy?: CustomDomainTlsPolicyEnum | (string & {}) | undefined;
+  custom_client_ip_header?: CustomDomainCustomClientIpHeaderEnum | (string & {}) | null | undefined;
+  domain_metadata?: DomainMetadata | undefined;
   /** Relying Party ID (rpId) to be used for Passkeys on this custom domain. If not provided, the full domain will be used. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
 }
 /** Custom domain configuration status. Can be `failed`, `pending_verification`, or `ready`. */
 export type CustomDomainStatusFilterEnum = "pending_verification" | "ready" | "failed";
@@ -2587,7 +2655,7 @@ export interface DomainVerificationMethod {
   /** Value used to verify the domain. */
   record: string;
   /** The name of the txt record for verification */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** Domain verification methods. */
 export type DomainVerificationMethodsList = Array<DomainVerificationMethod>;
@@ -2596,12 +2664,12 @@ export type DomainVerificationStatusEnum = "verified" | "pending" | "failed";
 /** Domain verification settings. */
 export interface DomainVerification {
   /** Domain verification methods. */
-  methods?: DomainVerificationMethodsList;
-  status?: DomainVerificationStatusEnum;
+  methods?: DomainVerificationMethodsList | undefined;
+  status?: DomainVerificationStatusEnum | undefined;
   /** The user0-friendly error message in case of failed verification. This field is relevant only for Custom Domains with Auth0-Managed Certificates. */
-  error_msg?: string;
+  error_msg?: string | undefined;
   /** The date and time when the custom domain was last verified. This field is relevant only for Custom Domains with Auth0-Managed Certificates. */
-  last_verified_at?: string;
+  last_verified_at?: string | undefined;
 }
 /** The provisioning status of the certificate. */
 export type DomainCertificateStatusEnum =
@@ -2613,12 +2681,12 @@ export type DomainCertificateStatusEnum =
 export type DomainCertificateAuthorityEnum = "letsencrypt" | "googletrust";
 /** Certificate information. This object is relevant only for Custom Domains with Auth0-Managed Certificates. */
 export interface DomainCertificate {
-  status?: DomainCertificateStatusEnum;
+  status?: DomainCertificateStatusEnum | undefined;
   /** A user-friendly error message will be presented if the certificate status is provisioning_failed or renewing_failed. */
-  error_msg?: string;
-  certificate_authority?: DomainCertificateAuthorityEnum;
+  error_msg?: string | undefined;
+  certificate_authority?: DomainCertificateAuthorityEnum | undefined;
   /** The certificate will be renewed prior to this date. */
-  renews_before?: string;
+  renews_before?: string | undefined;
 }
 export interface CreateCustomDomainResponseContent {
   /** ID of the custom domain. */
@@ -2628,18 +2696,18 @@ export interface CreateCustomDomainResponseContent {
   /** Whether this is a primary domain (true) or not (false). */
   primary: boolean;
   /** Whether this is the default custom domain (true) or not (false). */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   status: CustomDomainStatusFilterEnum;
   type: CustomDomainTypeEnum;
   verification: DomainVerification;
   /** The HTTP header to fetch the client's IP address */
-  custom_client_ip_header?: string | null;
+  custom_client_ip_header?: string | null | undefined;
   /** The TLS version policy */
-  tls_policy?: string;
-  domain_metadata?: DomainMetadata;
-  certificate?: DomainCertificate;
+  tls_policy?: string | undefined;
+  domain_metadata?: DomainMetadata | undefined;
+  certificate?: DomainCertificate | undefined;
   /** Relying Party ID (rpId) to be used for Passkeys on this custom domain. If not present, the full domain will be used. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
 }
 /** Type of credential. Must be `public_key`. */
 export type DeviceCredentialPublicKeyTypeEnum = "public_key";
@@ -2652,7 +2720,7 @@ export interface CreateDeviceCredentialsRequest {
   /** Unique identifier for the device. Recommend using <a href="http://developer.android.com/reference/android/provider/Settings.Secure.html#ANDROID_ID">Android_ID</a> on Android and <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIDevice_Class/index.html#//apple_ref/occ/instp/UIDevice/identifierForVendor">identifierForVendor</a>. */
   device_id: string;
   /** client_id of the client (application) this credential is for. */
-  client_id?: string;
+  client_id?: string | undefined;
 }
 export interface CreatePublicKeyDeviceCredentialResponseContent {
   /** The credential's identifier */
@@ -2682,15 +2750,15 @@ export interface CreateEmailTemplateRequest {
   /** Senders `from` email address. */
   from: string | null;
   /** URL to redirect the user to after a successful action. */
-  resultUrl?: string | null;
+  resultUrl?: string | null | undefined;
   /** Subject line of the email. */
   subject: string | null;
   /** Syntax of the template body. */
   syntax: string | null;
   /** Lifetime in seconds that the link within the email will be valid for. */
-  urlLifetimeInSeconds?: number | null;
+  urlLifetimeInSeconds?: number | null | undefined;
   /** Whether the `reset_email` and `verify_email` templates should include the user's email address as the `email` parameter in the returnUrl (true) or whether no email address should be included in the redirect (false). Defaults to true. */
-  includeEmailInRedirect?: boolean;
+  includeEmailInRedirect?: boolean | undefined;
   /** Whether the template is enabled (true) or disabled (false). */
   enabled: boolean | null;
 }
@@ -2701,21 +2769,21 @@ export interface CreateEmailTemplateResponseContent {
   /** Senders `from` email address. */
   from: string | null;
   /** URL to redirect the user to after a successful action. */
-  resultUrl?: string | null;
+  resultUrl?: string | null | undefined;
   /** Subject line of the email. */
   subject: string | null;
   /** Syntax of the template body. */
   syntax: string | null;
   /** Lifetime in seconds that the link within the email will be valid for. */
-  urlLifetimeInSeconds?: number | null;
+  urlLifetimeInSeconds?: number | null | undefined;
   /** Whether the `reset_email` and `verify_email` templates should include the user's email address as the `email` parameter in the returnUrl (true) or whether no email address should be included in the redirect (false). Defaults to true. */
-  includeEmailInRedirect?: boolean;
+  includeEmailInRedirect?: boolean | undefined;
   /** Whether the template is enabled (true) or disabled (false). */
   enabled: boolean | null;
 }
 /** Event types */
 export interface EventStreamSubscription {
-  event_type?: string;
+  event_type?: string | undefined;
 }
 /** List of event types subscribed to in this stream. */
 export type CreateEventStreamWebHookRequestContentSubscriptionsList =
@@ -2761,11 +2829,11 @@ export interface EventStreamWebhookDestination {
 export type EventStreamStatusEnum = "enabled" | "disabled";
 export interface CreateEventStreamWebHookRequestContent {
   /** Name of the event stream. */
-  name?: string;
+  name?: string | undefined;
   /** List of event types subscribed to in this stream. */
-  subscriptions?: CreateEventStreamWebHookRequestContentSubscriptionsList;
+  subscriptions?: CreateEventStreamWebHookRequestContentSubscriptionsList | undefined;
   destination: EventStreamWebhookDestination;
-  status?: EventStreamStatusEnum | (string & {});
+  status?: EventStreamStatusEnum | (string & {}) | undefined;
 }
 /** List of event types subscribed to in this stream. */
 export type CreateEventStreamEventBridgeRequestContentSubscriptionsList =
@@ -2815,7 +2883,7 @@ export interface EventStreamEventBridgeConfiguration {
   aws_account_id: string;
   aws_region: EventStreamEventBridgeAWSRegionEnum | (string & {});
   /** AWS Partner Event Source for EventBridge destination. */
-  aws_partner_event_source?: string;
+  aws_partner_event_source?: string | undefined;
 }
 export interface EventStreamEventBridgeDestination {
   type: EventStreamEventBridgeDestinationTypeEnum | (string & {});
@@ -2823,11 +2891,11 @@ export interface EventStreamEventBridgeDestination {
 }
 export interface CreateEventStreamEventBridgeRequestContent {
   /** Name of the event stream. */
-  name?: string;
+  name?: string | undefined;
   /** List of event types subscribed to in this stream. */
-  subscriptions?: CreateEventStreamEventBridgeRequestContentSubscriptionsList;
+  subscriptions?: CreateEventStreamEventBridgeRequestContentSubscriptionsList | undefined;
   destination: EventStreamEventBridgeDestination;
-  status?: EventStreamStatusEnum | (string & {});
+  status?: EventStreamStatusEnum | (string & {}) | undefined;
 }
 /** List of event types subscribed to in this stream. */
 export type CreateEventStreamActionRequestContentSubscriptionsList = Array<EventStreamSubscription>;
@@ -2843,66 +2911,66 @@ export interface EventStreamActionDestination {
 }
 export interface CreateEventStreamActionRequestContent {
   /** Name of the event stream. */
-  name?: string;
+  name?: string | undefined;
   /** List of event types subscribed to in this stream. */
-  subscriptions?: CreateEventStreamActionRequestContentSubscriptionsList;
+  subscriptions?: CreateEventStreamActionRequestContentSubscriptionsList | undefined;
   destination: EventStreamActionDestination;
-  status?: EventStreamStatusEnum | (string & {});
+  status?: EventStreamStatusEnum | (string & {}) | undefined;
 }
 export type CreateEventStreamRequestBody =
   | CreateEventStreamWebHookRequestContent
   | CreateEventStreamEventBridgeRequestContent
   | CreateEventStreamActionRequestContent;
 export interface CreateEventStreamRequest {
-  body?: CreateEventStreamRequestBody;
+  body?: CreateEventStreamRequestBody | undefined;
 }
 /** List of event types subscribed to in this stream. */
 export type EventStreamWebhookResponseContentSubscriptionsList = Array<EventStreamSubscription>;
 export interface EventStreamWebhookResponseContent {
   /** Unique identifier for the event stream. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the event stream. */
-  name?: string;
+  name?: string | undefined;
   /** List of event types subscribed to in this stream. */
-  subscriptions?: EventStreamWebhookResponseContentSubscriptionsList;
-  destination?: EventStreamWebhookDestination;
-  status?: EventStreamStatusEnum;
+  subscriptions?: EventStreamWebhookResponseContentSubscriptionsList | undefined;
+  destination?: EventStreamWebhookDestination | undefined;
+  status?: EventStreamStatusEnum | undefined;
   /** Timestamp when the event stream was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the event stream was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** List of event types subscribed to in this stream. */
 export type EventStreamEventBridgeResponseContentSubscriptionsList = Array<EventStreamSubscription>;
 export interface EventStreamEventBridgeResponseContent {
   /** Unique identifier for the event stream. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the event stream. */
-  name?: string;
+  name?: string | undefined;
   /** List of event types subscribed to in this stream. */
-  subscriptions?: EventStreamEventBridgeResponseContentSubscriptionsList;
-  destination?: EventStreamEventBridgeDestination;
-  status?: EventStreamStatusEnum;
+  subscriptions?: EventStreamEventBridgeResponseContentSubscriptionsList | undefined;
+  destination?: EventStreamEventBridgeDestination | undefined;
+  status?: EventStreamStatusEnum | undefined;
   /** Timestamp when the event stream was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the event stream was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** List of event types subscribed to in this stream. */
 export type EventStreamActionResponseContentSubscriptionsList = Array<EventStreamSubscription>;
 export interface EventStreamActionResponseContent {
   /** Unique identifier for the event stream. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the event stream. */
-  name?: string;
+  name?: string | undefined;
   /** List of event types subscribed to in this stream. */
-  subscriptions?: EventStreamActionResponseContentSubscriptionsList;
-  destination?: EventStreamActionDestination;
-  status?: EventStreamStatusEnum;
+  subscriptions?: EventStreamActionResponseContentSubscriptionsList | undefined;
+  destination?: EventStreamActionDestination | undefined;
+  status?: EventStreamStatusEnum | undefined;
   /** Timestamp when the event stream was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the event stream was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type CreateEventStreamResponseContent =
   | EventStreamWebhookResponseContent
@@ -2924,15 +2992,15 @@ export interface AllocationRequestItem {
   /** The ID of the variation to allocate */
   variation_id: string;
   /** Percentage weight for this allocation (percentage strategy only) */
-  weight?: number;
+  weight?: number | undefined;
   /** The segment this allocation targets (segment strategy only) */
-  segment_id?: string;
+  segment_id?: string | undefined;
   /** Evaluation order; 1 = highest priority (segment strategy only) */
-  priority?: number;
+  priority?: number | undefined;
   /** Whether this allocation is the control group */
   is_control: boolean;
   /** Whether this allocation is the default fallback (segment strategy only) */
-  is_fallback?: boolean;
+  is_fallback?: boolean | undefined;
 }
 /** Traffic allocations mapping variations to weights or segments */
 export type CreateExperimentRequestAllocationsList = Array<AllocationRequestItem>;
@@ -2942,18 +3010,18 @@ export interface CreateExperimentRequest {
   /** A human-readable name for the experiment */
   name: string;
   /** A description of the experiment */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the feature flag this experiment is based on */
   feature_flag_id: string;
   authentication_flow: AuthenticationFlowEnum | (string & {});
   /** Applies only to Auth0-managed flags. Controls where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config so the experiment overlays only its changes, 'flag' uses the flag's frozen defaults for a complete config. Optional; defaults to 'tenant' when omitted. Rejected for customer-defined flags. */
-  default_config?: DefaultConfigEnum | (string & {});
+  default_config?: DefaultConfigEnum | (string & {}) | undefined;
   /** The traffic allocation strategy for this experiment */
   allocation_strategy: AllocationStrategyEnum | (string & {});
   /** Traffic allocations mapping variations to weights or segments */
-  allocations?: CreateExperimentRequestAllocationsList;
+  allocations?: CreateExperimentRequestAllocationsList | undefined;
   /** Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. */
-  levels?: CreateExperimentRequestLevelsList;
+  levels?: CreateExperimentRequestLevelsList | undefined;
 }
 /** Filter by status. Exact match. */
 export type ExperimentStatusEnum = "draft" | "active" | "paused" | "completed" | "archived";
@@ -2963,16 +3031,16 @@ export type CreateExperimentResponseContentFeatureFlagSnapshotMap = {
 export type AllocationItemVariationSnapshotMap = { [key: string]: unknown | undefined };
 export type AllocationItemSegmentSnapshotMap = { [key: string]: unknown | undefined };
 export interface AllocationItem {
-  variation_id?: string;
-  variation_name?: string;
-  segment_id?: string;
-  segment_name?: string;
-  weight?: number;
-  priority?: number;
-  is_control?: boolean;
-  is_fallback?: boolean;
-  variation_snapshot?: AllocationItemVariationSnapshotMap | null;
-  segment_snapshot?: AllocationItemSegmentSnapshotMap | null;
+  variation_id?: string | undefined;
+  variation_name?: string | undefined;
+  segment_id?: string | undefined;
+  segment_name?: string | undefined;
+  weight?: number | undefined;
+  priority?: number | undefined;
+  is_control?: boolean | undefined;
+  is_fallback?: boolean | undefined;
+  variation_snapshot?: AllocationItemVariationSnapshotMap | null | undefined;
+  segment_snapshot?: AllocationItemSegmentSnapshotMap | null | undefined;
 }
 export type CreateExperimentResponseContentAllocationsList = Array<AllocationItem>;
 /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
@@ -2982,25 +3050,25 @@ export type CreateExperimentResponseContentLevelsList = Array<number>;
 export interface CreateExperimentResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   feature_flag_id: string;
-  feature_flag_name?: string;
+  feature_flag_name?: string | undefined;
   authentication_flow: string;
   allocation_strategy: AllocationStrategyEnum;
   status: ExperimentStatusEnum;
   /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
   is_valid: boolean;
-  default_config?: DefaultConfigEnum;
-  feature_flag_snapshot?: CreateExperimentResponseContentFeatureFlagSnapshotMap | null;
+  default_config?: DefaultConfigEnum | undefined;
+  feature_flag_snapshot?: CreateExperimentResponseContentFeatureFlagSnapshotMap | null | undefined;
   allocations: CreateExperimentResponseContentAllocationsList;
   /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
   editable_fields: CreateExperimentResponseContentEditableFieldsList;
   /** Ramp experiment levels configuration. */
-  levels?: CreateExperimentResponseContentLevelsList;
+  levels?: CreateExperimentResponseContentLevelsList | undefined;
   /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null;
-  started_at?: string;
-  ended_at?: string;
+  current_level?: number | null | undefined;
+  started_at?: string | undefined;
+  ended_at?: string | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -3011,7 +3079,7 @@ export interface FeatureFlagConfigParam {
   /** The parameter value */
   value: unknown;
   /** A human-readable description of the parameter */
-  description?: string;
+  description?: string | undefined;
 }
 /** Configuration parameters for this feature flag */
 export type CreateFeatureFlagParameters = { [key: string]: FeatureFlagConfigParam | undefined };
@@ -3019,7 +3087,7 @@ export interface CreateFeatureFlagRequest {
   /** A human-readable name for the feature flag */
   name: string;
   /** A description of what this feature flag controls */
-  description?: string;
+  description?: string | undefined;
   parameters: CreateFeatureFlagParameters;
 }
 /** Filter by type. Exact match. */
@@ -3031,10 +3099,10 @@ export type FeatureFlagConfigParams = { [key: string]: FeatureFlagConfigParam | 
 export interface CreateFeatureFlagResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: FeatureFlagTypeEnum;
   status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams;
+  parameters?: FeatureFlagConfigParams | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -3046,11 +3114,11 @@ export interface FlowActionActivecampaignListContactsParams {
 }
 export interface FlowActionActivecampaignListContacts {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionActivecampaignListContactsType;
   action: FlowActionActivecampaignListContactsAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionActivecampaignListContactsParams;
 }
 export type FlowActionActivecampaignUpsertContactType = "ACTIVECAMPAIGN";
@@ -3061,18 +3129,18 @@ export type FlowActionActivecampaignUpsertContactParamsCustomFields = {
 export interface FlowActionActivecampaignUpsertContactParams {
   connection_id: string;
   email: string;
-  first_name?: string;
-  last_name?: string;
-  phone?: string;
-  custom_fields?: FlowActionActivecampaignUpsertContactParamsCustomFields;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  phone?: string | undefined;
+  custom_fields?: FlowActionActivecampaignUpsertContactParamsCustomFields | undefined;
 }
 export interface FlowActionActivecampaignUpsertContact {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionActivecampaignUpsertContactType;
   action: FlowActionActivecampaignUpsertContactAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionActivecampaignUpsertContactParams;
 }
 export type FlowActionActivecampaign =
@@ -3085,15 +3153,15 @@ export interface FlowActionAirtableCreateRecordParams {
   connection_id: string;
   base_id: string;
   table_name: string;
-  fields?: FlowActionAirtableCreateRecordParamsFields;
+  fields?: FlowActionAirtableCreateRecordParamsFields | undefined;
 }
 export interface FlowActionAirtableCreateRecord {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAirtableCreateRecordType;
   action: FlowActionAirtableCreateRecordAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAirtableCreateRecordParams;
 }
 export type FlowActionAirtableListRecordsType = "AIRTABLE";
@@ -3102,16 +3170,16 @@ export interface FlowActionAirtableListRecordsParams {
   connection_id: string;
   base_id: string;
   table_name: string;
-  query?: string;
-  view?: string;
+  query?: string | undefined;
+  view?: string | undefined;
 }
 export interface FlowActionAirtableListRecords {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAirtableListRecordsType;
   action: FlowActionAirtableListRecordsAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAirtableListRecordsParams;
 }
 export type FlowActionAirtableUpdateRecordType = "AIRTABLE";
@@ -3122,15 +3190,15 @@ export interface FlowActionAirtableUpdateRecordParams {
   base_id: string;
   table_name: string;
   record_id: string;
-  fields?: FlowActionAirtableUpdateRecordParamsFields;
+  fields?: FlowActionAirtableUpdateRecordParamsFields | undefined;
 }
 export interface FlowActionAirtableUpdateRecord {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAirtableUpdateRecordType;
   action: FlowActionAirtableUpdateRecordAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAirtableUpdateRecordParams;
 }
 export type FlowActionAirtable =
@@ -3146,11 +3214,11 @@ export interface FlowActionAuth0CreateUserParams {
 }
 export interface FlowActionAuth0CreateUser {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAuth0CreateUserType;
   action: FlowActionAuth0CreateUserAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAuth0CreateUserParams;
 }
 export type FlowActionAuth0GetUserType = "AUTH0";
@@ -3161,11 +3229,11 @@ export interface FlowActionAuth0GetUserParams {
 }
 export interface FlowActionAuth0GetUser {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAuth0GetUserType;
   action: FlowActionAuth0GetUserAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAuth0GetUserParams;
 }
 export type FlowActionAuth0UpdateUserType = "AUTH0";
@@ -3178,11 +3246,11 @@ export interface FlowActionAuth0UpdateUserParams {
 }
 export interface FlowActionAuth0UpdateUser {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAuth0UpdateUserType;
   action: FlowActionAuth0UpdateUserAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAuth0UpdateUserParams;
 }
 export type FlowActionAuth0SendRequestType = "AUTH0";
@@ -3202,77 +3270,77 @@ export type FlowActionAuth0SendRequestParamsPayload =
 export interface FlowActionAuth0SendRequestParams {
   connection_id: string;
   pathname: string;
-  method?: FlowActionAuth0SendRequestParamsMethod | (string & {});
-  headers?: FlowActionAuth0SendRequestParamsHeaders;
-  params?: FlowActionAuth0SendRequestParamsQueryParams;
-  payload?: FlowActionAuth0SendRequestParamsPayload;
+  method?: FlowActionAuth0SendRequestParamsMethod | (string & {}) | undefined;
+  headers?: FlowActionAuth0SendRequestParamsHeaders | undefined;
+  params?: FlowActionAuth0SendRequestParamsQueryParams | undefined;
+  payload?: FlowActionAuth0SendRequestParamsPayload | undefined;
 }
 export interface FlowActionAuth0SendRequest {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAuth0SendRequestType;
   action: FlowActionAuth0SendRequestAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAuth0SendRequestParams;
 }
 export type FlowActionAuth0SendEmailType = "AUTH0";
 export type FlowActionAuth0SendEmailAction = "SEND_EMAIL";
 export interface FlowActionAuth0SendEmailParamsFrom {
-  name?: string;
+  name?: string | undefined;
   email: string;
 }
 export type FlowActionAuth0SendRequestParamsCustomVars = { [key: string]: unknown | undefined };
 export interface FlowActionAuth0SendEmailParams {
-  from?: FlowActionAuth0SendEmailParamsFrom;
+  from?: FlowActionAuth0SendEmailParamsFrom | undefined;
   to: string;
   subject: string;
   body: string;
-  custom_vars?: FlowActionAuth0SendRequestParamsCustomVars;
+  custom_vars?: FlowActionAuth0SendRequestParamsCustomVars | undefined;
 }
 export interface FlowActionAuth0SendEmail {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAuth0SendEmailType;
   action: FlowActionAuth0SendEmailAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAuth0SendEmailParams;
 }
 export type FlowActionAuth0SendSmsType = "AUTH0";
 export type FlowActionAuth0SendSmsAction = "SEND_SMS";
 export type FlowActionAuth0SendSmsParamsCustomVars = { [key: string]: unknown | undefined };
 export interface FlowActionAuth0SendSmsParams {
-  from?: string;
+  from?: string | undefined;
   to: string;
   message: string;
-  custom_vars?: FlowActionAuth0SendSmsParamsCustomVars;
+  custom_vars?: FlowActionAuth0SendSmsParamsCustomVars | undefined;
 }
 export interface FlowActionAuth0SendSms {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAuth0SendSmsType;
   action: FlowActionAuth0SendSmsAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAuth0SendSmsParams;
 }
 export type FlowActionAuth0MakeCallType = "AUTH0";
 export type FlowActionAuth0MakeCallAction = "MAKE_CALL";
 export type FlowActionAuth0MakeCallParamsCustomVars = { [key: string]: unknown | undefined };
 export interface FlowActionAuth0MakeCallParams {
-  from?: string;
+  from?: string | undefined;
   to: string;
   message: string;
-  custom_vars?: FlowActionAuth0MakeCallParamsCustomVars;
+  custom_vars?: FlowActionAuth0MakeCallParamsCustomVars | undefined;
 }
 export interface FlowActionAuth0MakeCall {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionAuth0MakeCallType;
   action: FlowActionAuth0MakeCallAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionAuth0MakeCallParams;
 }
 export type FlowActionAuth0 =
@@ -3290,15 +3358,15 @@ export interface FlowActionBigqueryInsertRowsParams {
   connection_id: string;
   dataset_id: string;
   table_id: string;
-  data?: FlowActionBigqueryInsertRowsParamsData;
+  data?: FlowActionBigqueryInsertRowsParamsData | undefined;
 }
 export interface FlowActionBigqueryInsertRows {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionBigqueryInsertRowsType;
   action: FlowActionBigqueryInsertRowsAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionBigqueryInsertRowsParams;
 }
 export type FlowActionClearbitFindPersonType = "CLEARBIT";
@@ -3306,11 +3374,11 @@ export type FlowActionClearbitFindPersonAction = "FIND_PERSON";
 export type FlowActionClearbitFindPersonParams = FlowActionActivecampaignListContactsParams;
 export interface FlowActionClearbitFindPerson {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionClearbitFindPersonType;
   action: FlowActionClearbitFindPersonAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionActivecampaignListContactsParams;
 }
 export type FlowActionClearbitFindCompanyType = "CLEARBIT";
@@ -3321,11 +3389,11 @@ export interface FlowActionClearbitFindCompanyParams {
 }
 export interface FlowActionClearbitFindCompany {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionClearbitFindCompanyType;
   action: FlowActionClearbitFindCompanyAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionClearbitFindCompanyParams;
 }
 export type FlowActionClearbit = FlowActionClearbitFindPerson | FlowActionClearbitFindCompany;
@@ -3334,24 +3402,24 @@ export type FlowActionEmailVerifyEmailAction = "VERIFY_EMAIL";
 export type FlowActionEmailVerifyEmailParamsRulesBlocklistList = Array<string>;
 export type FlowActionEmailVerifyEmailParamsRulesAllowlistList = Array<string>;
 export interface FlowActionEmailVerifyEmailParamsRules {
-  require_mx_record?: boolean;
-  block_aliases?: boolean;
-  block_free_emails?: boolean;
-  block_disposable_emails?: boolean;
-  blocklist?: FlowActionEmailVerifyEmailParamsRulesBlocklistList;
-  allowlist?: FlowActionEmailVerifyEmailParamsRulesAllowlistList;
+  require_mx_record?: boolean | undefined;
+  block_aliases?: boolean | undefined;
+  block_free_emails?: boolean | undefined;
+  block_disposable_emails?: boolean | undefined;
+  blocklist?: FlowActionEmailVerifyEmailParamsRulesBlocklistList | undefined;
+  allowlist?: FlowActionEmailVerifyEmailParamsRulesAllowlistList | undefined;
 }
 export interface FlowActionEmailVerifyEmailParams {
   email: string;
-  rules?: FlowActionEmailVerifyEmailParamsRules;
+  rules?: FlowActionEmailVerifyEmailParamsRules | undefined;
 }
 export interface FlowActionEmailVerifyEmail {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionEmailVerifyEmailType;
   action: FlowActionEmailVerifyEmailAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionEmailVerifyEmailParams;
 }
 export type FlowActionFlowBooleanConditionType = "FLOW";
@@ -3360,16 +3428,16 @@ export type FlowActionFlowBooleanConditionParamsThenList = Array<FlowAction>;
 export type FlowActionFlowBooleanConditionParamsElseList = Array<FlowAction>;
 export interface FlowActionFlowBooleanConditionParams {
   if: unknown;
-  then?: FlowActionFlowBooleanConditionParamsThenList;
-  else?: FlowActionFlowBooleanConditionParamsElseList;
+  then?: FlowActionFlowBooleanConditionParamsThenList | undefined;
+  else?: FlowActionFlowBooleanConditionParamsElseList | undefined;
 }
 export interface FlowActionFlowBooleanCondition {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionFlowBooleanConditionType;
   action: FlowActionFlowBooleanConditionAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionFlowBooleanConditionParams;
 }
 export type FlowActionFlowDelayFlowType = "FLOW";
@@ -3378,27 +3446,27 @@ export type FlowActionFlowDelayFlowParamsNumber = number | string;
 export type FlowActionFlowDelayFlowParamsUnits = "SECONDS" | "MINUTES" | "HOURS" | "DAYS";
 export interface FlowActionFlowDelayFlowParams {
   number: FlowActionFlowDelayFlowParamsNumber;
-  units?: FlowActionFlowDelayFlowParamsUnits | (string & {});
+  units?: FlowActionFlowDelayFlowParamsUnits | (string & {}) | undefined;
 }
 export interface FlowActionFlowDelayFlow {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionFlowDelayFlowType;
   action: FlowActionFlowDelayFlowAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionFlowDelayFlowParams;
 }
 export type FlowActionFlowDoNothingType = "FLOW";
 export type FlowActionFlowDoNothingAction = "DO_NOTHING";
 export interface FlowActionFlowDoNothing {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionFlowDoNothingType;
   action: FlowActionFlowDoNothingAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
-  params?: unknown;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
+  params?: unknown | undefined;
 }
 export type FlowActionFlowErrorMessageType = "FLOW";
 export type FlowActionFlowErrorMessageAction = "ERROR_MESSAGE";
@@ -3407,11 +3475,11 @@ export interface FlowActionFlowErrorMessageParams {
 }
 export interface FlowActionFlowErrorMessage {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionFlowErrorMessageType;
   action: FlowActionFlowErrorMessageAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionFlowErrorMessageParams;
 }
 export type FlowActionFlowMapValueType = "FLOW";
@@ -3427,16 +3495,16 @@ export type FlowActionFlowMapValueParamsFallback =
   | FlowActionFlowMapValueParamsFallbackCase3List;
 export interface FlowActionFlowMapValueParams {
   input: FlowActionFlowMapValueParamsInput;
-  cases?: FlowActionFlowMapValueParamsCases;
-  fallback?: FlowActionFlowMapValueParamsFallback | null;
+  cases?: FlowActionFlowMapValueParamsCases | undefined;
+  fallback?: FlowActionFlowMapValueParamsFallback | null | undefined;
 }
 export interface FlowActionFlowMapValue {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionFlowMapValueType;
   action: FlowActionFlowMapValueAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionFlowMapValueParams;
 }
 export type FlowActionFlowReturnJsonType = "FLOW";
@@ -3450,11 +3518,11 @@ export interface FlowActionFlowReturnJsonParams {
 }
 export interface FlowActionFlowReturnJson {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionFlowReturnJsonType;
   action: FlowActionFlowReturnJsonAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionFlowReturnJsonParams;
 }
 export type FlowActionFlowStoreVarsType = "FLOW";
@@ -3465,11 +3533,11 @@ export interface FlowActionFlowStoreVarsParams {
 }
 export interface FlowActionFlowStoreVars {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionFlowStoreVarsType;
   action: FlowActionFlowStoreVarsAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionFlowStoreVarsParams;
 }
 export type FlowActionFlow =
@@ -3487,16 +3555,16 @@ export type FlowActionGoogleSheetsAddRowParamsValues = Array<string | null>;
 export interface FlowActionGoogleSheetsAddRowParams {
   connection_id: string;
   spreadsheet_id: string;
-  sheet_id?: FlowActionGoogleSheetsAddRowParamsSheetId;
-  values?: FlowActionGoogleSheetsAddRowParamsValues;
+  sheet_id?: FlowActionGoogleSheetsAddRowParamsSheetId | undefined;
+  values?: FlowActionGoogleSheetsAddRowParamsValues | undefined;
 }
 export interface FlowActionGoogleSheetsAddRow {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionGoogleSheetsAddRowType;
   action: FlowActionGoogleSheetsAddRowAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionGoogleSheetsAddRowParams;
 }
 export type FlowActionHttpSendRequestType = "HTTP";
@@ -3504,8 +3572,8 @@ export type FlowActionHttpSendRequestAction = "SEND_REQUEST";
 export type FlowActionHttpSendRequestParamsMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export type FlowActionHttpSendRequestParamsHeaders = { [key: string]: unknown | undefined };
 export interface FlowActionHttpSendRequestParamsBasicAuth {
-  username?: string;
-  password?: string | Redacted.Redacted<string>;
+  username?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export type FlowActionHttpSendRequestParamsQueryParamsValue = number | string;
 export type FlowActionHttpSendRequestParamsQueryParams = {
@@ -3519,22 +3587,22 @@ export type FlowActionHttpSendRequestParamsPayload =
   | FlowActionHttpSendRequestParamsPayloadObject;
 export type FlowActionHttpSendRequestParamsContentType = "JSON" | "FORM" | "XML";
 export interface FlowActionHttpSendRequestParams {
-  connection_id?: string;
+  connection_id?: string | undefined;
   url: string;
-  method?: FlowActionHttpSendRequestParamsMethod | (string & {});
-  headers?: FlowActionHttpSendRequestParamsHeaders;
-  basic?: FlowActionHttpSendRequestParamsBasicAuth;
-  params?: FlowActionHttpSendRequestParamsQueryParams;
-  payload?: FlowActionHttpSendRequestParamsPayload;
-  content_type?: FlowActionHttpSendRequestParamsContentType | (string & {});
+  method?: FlowActionHttpSendRequestParamsMethod | (string & {}) | undefined;
+  headers?: FlowActionHttpSendRequestParamsHeaders | undefined;
+  basic?: FlowActionHttpSendRequestParamsBasicAuth | undefined;
+  params?: FlowActionHttpSendRequestParamsQueryParams | undefined;
+  payload?: FlowActionHttpSendRequestParamsPayload | undefined;
+  content_type?: FlowActionHttpSendRequestParamsContentType | (string & {}) | undefined;
 }
 export interface FlowActionHttpSendRequest {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionHttpSendRequestType;
   action: FlowActionHttpSendRequestAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionHttpSendRequestParams;
 }
 export type FlowActionHubspotEnrollContactType = "HUBSPOT";
@@ -3547,11 +3615,11 @@ export interface FlowActionHubspotEnrollContactParams {
 }
 export interface FlowActionHubspotEnrollContact {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionHubspotEnrollContactType;
   action: FlowActionHubspotEnrollContactAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionHubspotEnrollContactParams;
 }
 export type FlowActionHubspotGetContactType = "HUBSPOT";
@@ -3559,34 +3627,34 @@ export type FlowActionHubspotGetContactAction = "GET_CONTACT";
 export type FlowActionHubspotGetContactParams = FlowActionActivecampaignListContactsParams;
 export interface FlowActionHubspotGetContact {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionHubspotGetContactType;
   action: FlowActionHubspotGetContactAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionActivecampaignListContactsParams;
 }
 export type FlowActionHubspotUpsertContactType = "HUBSPOT";
 export type FlowActionHubspotUpsertContactAction = "UPSERT_CONTACT";
 export interface FlowActionHubspotUpsertContactParamsProperty {
   property: string;
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type FlowActionHubspotUpsertContactParamsPropertiesList =
   Array<FlowActionHubspotUpsertContactParamsProperty>;
 export interface FlowActionHubspotUpsertContactParams {
   connection_id: string;
   email: string;
-  properties?: FlowActionHubspotUpsertContactParamsPropertiesList;
+  properties?: FlowActionHubspotUpsertContactParamsPropertiesList | undefined;
   [key: string]: unknown;
 }
 export interface FlowActionHubspotUpsertContact {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionHubspotUpsertContactType;
   action: FlowActionHubspotUpsertContactAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionHubspotUpsertContactParams;
 }
 export type FlowActionHubspot =
@@ -3601,11 +3669,11 @@ export interface FlowActionJsonCreateJsonParams {
 }
 export interface FlowActionJsonCreateJson {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionJsonCreateJsonType;
   action: FlowActionJsonCreateJsonAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionJsonCreateJsonParams;
 }
 export type FlowActionJsonParseJsonType = "JSON";
@@ -3615,11 +3683,11 @@ export interface FlowActionJsonParseJsonParams {
 }
 export interface FlowActionJsonParseJson {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionJsonParseJsonType;
   action: FlowActionJsonParseJsonAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionJsonParseJsonParams;
 }
 export type FlowActionJsonSerializeJsonType = "JSON";
@@ -3633,11 +3701,11 @@ export interface FlowActionJsonSerializeJsonParams {
 }
 export interface FlowActionJsonSerializeJson {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionJsonSerializeJsonType;
   action: FlowActionJsonSerializeJsonAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionJsonSerializeJsonParams;
 }
 export type FlowActionJson =
@@ -3651,11 +3719,11 @@ export interface FlowActionJwtDecodeJwtParams {
 }
 export interface FlowActionJwtDecodeJwt {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionJwtDecodeJwtType;
   action: FlowActionJwtDecodeJwtAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionJwtDecodeJwtParams;
 }
 export type FlowActionJwtSignJwtType = "JWT";
@@ -3663,19 +3731,19 @@ export type FlowActionJwtSignJwtAction = "SIGN_JWT";
 export type FlowActionJwtSignJwtParamsPayload = { [key: string]: unknown | undefined };
 export interface FlowActionJwtSignJwtParams {
   connection_id: string;
-  payload?: FlowActionJwtSignJwtParamsPayload;
-  subject?: string;
-  issuer?: string;
-  audience?: string;
-  expires_in?: string;
+  payload?: FlowActionJwtSignJwtParamsPayload | undefined;
+  subject?: string | undefined;
+  issuer?: string | undefined;
+  audience?: string | undefined;
+  expires_in?: string | undefined;
 }
 export interface FlowActionJwtSignJwt {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionJwtSignJwtType;
   action: FlowActionJwtSignJwtAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionJwtSignJwtParams;
 }
 export type FlowActionJwtVerifyJwtType = "JWT";
@@ -3683,16 +3751,16 @@ export type FlowActionJwtVerifyJwtAction = "VERIFY_JWT";
 export interface FlowActionJwtVerifyJwtParams {
   connection_id: string;
   token: string;
-  audience?: string;
-  issuer?: string;
+  audience?: string | undefined;
+  issuer?: string | undefined;
 }
 export interface FlowActionJwtVerifyJwt {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionJwtVerifyJwtType;
   action: FlowActionJwtVerifyJwtAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionJwtVerifyJwtParams;
 }
 export type FlowActionJwt = FlowActionJwtDecodeJwt | FlowActionJwtSignJwt | FlowActionJwtVerifyJwt;
@@ -3704,7 +3772,7 @@ export type FlowActionMailchimpUpsertMemberParamsMemberMergeFields = {
 export interface FlowActionMailchimpUpsertMemberParamsMember {
   email_address: string;
   status_if_new: string;
-  merge_fields?: FlowActionMailchimpUpsertMemberParamsMemberMergeFields;
+  merge_fields?: FlowActionMailchimpUpsertMemberParamsMemberMergeFields | undefined;
 }
 export interface FlowActionMailchimpUpsertMemberParams {
   connection_id: string;
@@ -3713,11 +3781,11 @@ export interface FlowActionMailchimpUpsertMemberParams {
 }
 export interface FlowActionMailchimpUpsertMember {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionMailchimpUpsertMemberType;
   action: FlowActionMailchimpUpsertMemberAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionMailchimpUpsertMemberParams;
 }
 export type FlowActionMailjetSendEmailType = "MAILJET";
@@ -3731,7 +3799,7 @@ export type FlowActionMailjetSendEmailParamsCase1VariablesMap = {
 };
 export interface FlowActionMailjetSendEmailParamsCase1 {
   template_id: number;
-  variables?: FlowActionMailjetSendEmailParamsCase1VariablesMap;
+  variables?: FlowActionMailjetSendEmailParamsCase1VariablesMap | undefined;
   [key: string]: unknown;
 }
 export type FlowActionMailjetSendEmailParams =
@@ -3739,11 +3807,11 @@ export type FlowActionMailjetSendEmailParams =
   | FlowActionMailjetSendEmailParamsCase1;
 export interface FlowActionMailjetSendEmail {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionMailjetSendEmailType;
   action: FlowActionMailjetSendEmailAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionMailjetSendEmailParams;
 }
 export type FlowActionOtpGenerateCodeType = "OTP";
@@ -3754,11 +3822,11 @@ export interface FlowActionOtpGenerateCodeParams {
 }
 export interface FlowActionOtpGenerateCode {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionOtpGenerateCodeType;
   action: FlowActionOtpGenerateCodeAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionOtpGenerateCodeParams;
 }
 export type FlowActionOtpVerifyCodeType = "OTP";
@@ -3770,11 +3838,11 @@ export interface FlowActionOtpVerifyCodeParams {
 }
 export interface FlowActionOtpVerifyCode {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionOtpVerifyCodeType;
   action: FlowActionOtpVerifyCodeAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionOtpVerifyCodeParams;
 }
 export type FlowActionOtp = FlowActionOtpGenerateCode | FlowActionOtpVerifyCode;
@@ -3788,20 +3856,20 @@ export type FlowActionPipedriveAddDealParamsFields = { [key: string]: unknown | 
 export interface FlowActionPipedriveAddDealParams {
   connection_id: string;
   title: string;
-  value?: string;
-  user_id?: FlowActionPipedriveAddDealParamsUserId;
-  person_id?: FlowActionPipedriveAddDealParamsPersonId;
-  organization_id?: FlowActionPipedriveAddDealParamsOrganizationId;
-  stage_id?: FlowActionPipedriveAddDealParamsStageId;
-  fields?: FlowActionPipedriveAddDealParamsFields;
+  value?: string | undefined;
+  user_id?: FlowActionPipedriveAddDealParamsUserId | undefined;
+  person_id?: FlowActionPipedriveAddDealParamsPersonId | undefined;
+  organization_id?: FlowActionPipedriveAddDealParamsOrganizationId | undefined;
+  stage_id?: FlowActionPipedriveAddDealParamsStageId | undefined;
+  fields?: FlowActionPipedriveAddDealParamsFields | undefined;
 }
 export interface FlowActionPipedriveAddDeal {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionPipedriveAddDealType;
   action: FlowActionPipedriveAddDealAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionPipedriveAddDealParams;
 }
 export type FlowActionPipedriveAddOrganizationType = "PIPEDRIVE";
@@ -3811,16 +3879,16 @@ export type FlowActionPipedriveAddOrganizationParamsFields = { [key: string]: un
 export interface FlowActionPipedriveAddOrganizationParams {
   connection_id: string;
   name: string;
-  owner_id?: FlowActionPipedriveAddOrganizationParamsOwnerId;
-  fields?: FlowActionPipedriveAddOrganizationParamsFields;
+  owner_id?: FlowActionPipedriveAddOrganizationParamsOwnerId | undefined;
+  fields?: FlowActionPipedriveAddOrganizationParamsFields | undefined;
 }
 export interface FlowActionPipedriveAddOrganization {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionPipedriveAddOrganizationType;
   action: FlowActionPipedriveAddOrganizationAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionPipedriveAddOrganizationParams;
 }
 export type FlowActionPipedriveAddPersonType = "PIPEDRIVE";
@@ -3831,19 +3899,19 @@ export type FlowActionPipedriveAddPersonParamsFields = { [key: string]: unknown 
 export interface FlowActionPipedriveAddPersonParams {
   connection_id: string;
   name: string;
-  email?: string;
-  phone?: string;
-  owner_id?: FlowActionPipedriveAddPersonParamsOwnerId;
-  organization_id?: FlowActionPipedriveAddPersonParamsOrganizationId;
-  fields?: FlowActionPipedriveAddPersonParamsFields;
+  email?: string | undefined;
+  phone?: string | undefined;
+  owner_id?: FlowActionPipedriveAddPersonParamsOwnerId | undefined;
+  organization_id?: FlowActionPipedriveAddPersonParamsOrganizationId | undefined;
+  fields?: FlowActionPipedriveAddPersonParamsFields | undefined;
 }
 export interface FlowActionPipedriveAddPerson {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionPipedriveAddPersonType;
   action: FlowActionPipedriveAddPersonAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionPipedriveAddPersonParams;
 }
 export type FlowActionPipedrive =
@@ -3855,20 +3923,20 @@ export type FlowActionSalesforceCreateLeadAction = "CREATE_LEAD";
 export type FlowActionSalesforceCreateLeadParamsPayload = { [key: string]: unknown | undefined };
 export interface FlowActionSalesforceCreateLeadParams {
   connection_id: string;
-  first_name?: string;
+  first_name?: string | undefined;
   last_name: string;
   company: string;
-  email?: string;
-  phone?: string;
-  payload?: FlowActionSalesforceCreateLeadParamsPayload;
+  email?: string | undefined;
+  phone?: string | undefined;
+  payload?: FlowActionSalesforceCreateLeadParamsPayload | undefined;
 }
 export interface FlowActionSalesforceCreateLead {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionSalesforceCreateLeadType;
   action: FlowActionSalesforceCreateLeadAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionSalesforceCreateLeadParams;
 }
 export type FlowActionSalesforceGetLeadType = "SALESFORCE";
@@ -3879,11 +3947,11 @@ export interface FlowActionSalesforceGetLeadParams {
 }
 export interface FlowActionSalesforceGetLead {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionSalesforceGetLeadType;
   action: FlowActionSalesforceGetLeadAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionSalesforceGetLeadParams;
 }
 export type FlowActionSalesforceSearchLeadsType = "SALESFORCE";
@@ -3898,11 +3966,11 @@ export interface FlowActionSalesforceSearchLeadsParams {
 }
 export interface FlowActionSalesforceSearchLeads {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionSalesforceSearchLeadsType;
   action: FlowActionSalesforceSearchLeadsAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionSalesforceSearchLeadsParams;
 }
 export type FlowActionSalesforceUpdateLeadType = "SALESFORCE";
@@ -3911,15 +3979,15 @@ export type FlowActionSalesforceUpdateLeadParamsPayload = { [key: string]: unkno
 export interface FlowActionSalesforceUpdateLeadParams {
   connection_id: string;
   lead_id: string;
-  payload?: FlowActionSalesforceUpdateLeadParamsPayload;
+  payload?: FlowActionSalesforceUpdateLeadParamsPayload | undefined;
 }
 export interface FlowActionSalesforceUpdateLead {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionSalesforceUpdateLeadType;
   action: FlowActionSalesforceUpdateLeadAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionSalesforceUpdateLeadParams;
 }
 export type FlowActionSalesforce =
@@ -3939,11 +4007,11 @@ export interface FlowActionSendgridSendEmailParams {
 }
 export interface FlowActionSendgridSendEmail {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionSendgridSendEmailType;
   action: FlowActionSendgridSendEmailAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionSendgridSendEmailParams;
 }
 export type FlowActionSlackPostMessageType = "SLACK";
@@ -3951,31 +4019,31 @@ export type FlowActionSlackPostMessageAction = "POST_MESSAGE";
 export type FlowActionSlackPostMessageParamsAttachmentColor = "GOOD" | "WARNING" | "DANGER";
 export interface FlowActionSlackPostMessageParamsAttachmentField {
   title: string;
-  value?: string;
-  short?: boolean;
+  value?: string | undefined;
+  short?: boolean | undefined;
 }
 export type FlowActionSlackPostMessageParamsAttachmentFieldsList =
   Array<FlowActionSlackPostMessageParamsAttachmentField>;
 export interface FlowActionSlackPostMessageParamsAttachment {
-  color?: FlowActionSlackPostMessageParamsAttachmentColor | (string & {});
-  pretext?: string;
-  text?: string;
-  fields?: FlowActionSlackPostMessageParamsAttachmentFieldsList;
+  color?: FlowActionSlackPostMessageParamsAttachmentColor | (string & {}) | undefined;
+  pretext?: string | undefined;
+  text?: string | undefined;
+  fields?: FlowActionSlackPostMessageParamsAttachmentFieldsList | undefined;
 }
 export type FlowActionSlackPostMessageParamsAttachmentsList =
   Array<FlowActionSlackPostMessageParamsAttachment>;
 export interface FlowActionSlackPostMessageParams {
   connection_id: string;
-  text?: string;
-  attachments?: FlowActionSlackPostMessageParamsAttachmentsList;
+  text?: string | undefined;
+  attachments?: FlowActionSlackPostMessageParamsAttachmentsList | undefined;
 }
 export interface FlowActionSlackPostMessage {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionSlackPostMessageType;
   action: FlowActionSlackPostMessageAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionSlackPostMessageParams;
 }
 export type FlowActionStripeAddTaxIdType = "STRIPE";
@@ -3988,11 +4056,11 @@ export interface FlowActionStripeAddTaxIdParams {
 }
 export interface FlowActionStripeAddTaxId {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionStripeAddTaxIdType;
   action: FlowActionStripeAddTaxIdAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionStripeAddTaxIdParams;
 }
 export type FlowActionStripeCreateCustomerType = "STRIPE";
@@ -4002,32 +4070,32 @@ export interface FlowActionStripeTaxId {
   value: string;
 }
 export interface FlowActionStripeAddress {
-  line1?: string;
-  line2?: string;
-  postalCode?: string;
-  city?: string;
-  state?: string;
-  country?: string;
+  line1?: string | undefined;
+  line2?: string | undefined;
+  postalCode?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
+  country?: string | undefined;
 }
 export type FlowActionStripeMetadata = { [key: string]: string | undefined };
 export interface FlowActionStripeCreateCustomerParams {
   connection_id: string;
-  tax_id?: FlowActionStripeTaxId;
-  name?: string;
-  description?: string;
-  email?: string;
-  phone?: string;
-  tax_exempt?: string;
-  address?: FlowActionStripeAddress;
-  metadata?: FlowActionStripeMetadata;
+  tax_id?: FlowActionStripeTaxId | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  phone?: string | undefined;
+  tax_exempt?: string | undefined;
+  address?: FlowActionStripeAddress | undefined;
+  metadata?: FlowActionStripeMetadata | undefined;
 }
 export interface FlowActionStripeCreateCustomer {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionStripeCreateCustomerType;
   action: FlowActionStripeCreateCustomerAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionStripeCreateCustomerParams;
 }
 export type FlowActionStripeCreatePortalSessionType = "STRIPE";
@@ -4035,15 +4103,15 @@ export type FlowActionStripeCreatePortalSessionAction = "CREATE_PORTAL_SESSION";
 export interface FlowActionStripeCreatePortalSessionParams {
   connection_id: string;
   customer_id: string;
-  return_url?: string;
+  return_url?: string | undefined;
 }
 export interface FlowActionStripeCreatePortalSession {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionStripeCreatePortalSessionType;
   action: FlowActionStripeCreatePortalSessionAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionStripeCreatePortalSessionParams;
 }
 export type FlowActionStripeDeleteTaxIdType = "STRIPE";
@@ -4055,11 +4123,11 @@ export interface FlowActionStripeDeleteTaxIdParams {
 }
 export interface FlowActionStripeDeleteTaxId {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionStripeDeleteTaxIdType;
   action: FlowActionStripeDeleteTaxIdAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionStripeDeleteTaxIdParams;
 }
 export type FlowActionStripeFindCustomersType = "STRIPE";
@@ -4067,11 +4135,11 @@ export type FlowActionStripeFindCustomersAction = "FIND_CUSTOMERS";
 export type FlowActionStripeFindCustomersParams = FlowActionActivecampaignListContactsParams;
 export interface FlowActionStripeFindCustomers {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionStripeFindCustomersType;
   action: FlowActionStripeFindCustomersAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionActivecampaignListContactsParams;
 }
 export type FlowActionStripeGetCustomerType = "STRIPE";
@@ -4082,11 +4150,11 @@ export interface FlowActionStripeGetCustomerParams {
 }
 export interface FlowActionStripeGetCustomer {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionStripeGetCustomerType;
   action: FlowActionStripeGetCustomerAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionStripeGetCustomerParams;
 }
 export type FlowActionStripeUpdateCustomerType = "STRIPE";
@@ -4094,21 +4162,21 @@ export type FlowActionStripeUpdateCustomerAction = "UPDATE_CUSTOMER";
 export interface FlowActionStripeUpdateCustomerParams {
   connection_id: string;
   id: string;
-  name?: string;
-  description?: string;
-  email?: string;
-  phone?: string;
-  tax_exempt?: string;
-  address?: FlowActionStripeAddress;
-  metadata?: FlowActionStripeMetadata;
+  name?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  phone?: string | undefined;
+  tax_exempt?: string | undefined;
+  address?: FlowActionStripeAddress | undefined;
+  metadata?: FlowActionStripeMetadata | undefined;
 }
 export interface FlowActionStripeUpdateCustomer {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionStripeUpdateCustomerType;
   action: FlowActionStripeUpdateCustomerAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionStripeUpdateCustomerParams;
 }
 export type FlowActionStripe =
@@ -4128,11 +4196,11 @@ export interface FlowActionTelegramSendMessageParams {
 }
 export interface FlowActionTelegramSendMessage {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionTelegramSendMessageType;
   action: FlowActionTelegramSendMessageAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionTelegramSendMessageParams;
 }
 export type FlowActionTwilioMakeCallType = "TWILIO";
@@ -4145,11 +4213,11 @@ export interface FlowActionTwilioMakeCallParams {
 }
 export interface FlowActionTwilioMakeCall {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionTwilioMakeCallType;
   action: FlowActionTwilioMakeCallAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionTwilioMakeCallParams;
 }
 export type FlowActionTwilioSendSmsType = "TWILIO";
@@ -4162,11 +4230,11 @@ export interface FlowActionTwilioSendSmsParams {
 }
 export interface FlowActionTwilioSendSms {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionTwilioSendSmsType;
   action: FlowActionTwilioSendSmsAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionTwilioSendSmsParams;
 }
 export type FlowActionTwilio = FlowActionTwilioMakeCall | FlowActionTwilioSendSms;
@@ -4197,11 +4265,11 @@ export interface FlowActionWhatsappSendMessageParams {
 }
 export interface FlowActionWhatsappSendMessage {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionWhatsappSendMessageType;
   action: FlowActionWhatsappSendMessageAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionWhatsappSendMessageParams;
 }
 export type FlowActionXmlParseXmlType = "XML";
@@ -4211,11 +4279,11 @@ export interface FlowActionXmlParseXmlParams {
 }
 export interface FlowActionXmlParseXml {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionXmlParseXmlType;
   action: FlowActionXmlParseXmlAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionXmlParseXmlParams;
 }
 export type FlowActionXmlSerializeXmlType = "XML";
@@ -4229,11 +4297,11 @@ export interface FlowActionXmlSerializeXmlParams {
 }
 export interface FlowActionXmlSerializeXml {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionXmlSerializeXmlType;
   action: FlowActionXmlSerializeXmlAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionXmlSerializeXmlParams;
 }
 export type FlowActionXml = FlowActionXmlParseXml | FlowActionXmlSerializeXml;
@@ -4242,16 +4310,16 @@ export type FlowActionZapierTriggerWebhookAction = "TRIGGER_WEBHOOK";
 export type FlowActionZapierTriggerWebhookParamsMethod = "GET" | "POST" | "PUT";
 export interface FlowActionZapierTriggerWebhookParams {
   connection_id: string;
-  method?: FlowActionZapierTriggerWebhookParamsMethod | (string & {});
+  method?: FlowActionZapierTriggerWebhookParamsMethod | (string & {}) | undefined;
   [key: string]: unknown;
 }
 export interface FlowActionZapierTriggerWebhook {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   type: FlowActionZapierTriggerWebhookType;
   action: FlowActionZapierTriggerWebhookAction;
-  allow_failure?: boolean;
-  mask_output?: boolean;
+  allow_failure?: boolean | undefined;
+  mask_output?: boolean | undefined;
   params: FlowActionZapierTriggerWebhookParams;
 }
 export type FlowAction =
@@ -4283,16 +4351,16 @@ export type FlowAction =
 export type CreateFlowRequestActionsList = Array<FlowAction>;
 export interface CreateFlowRequest {
   name: string;
-  actions?: CreateFlowRequestActionsList;
+  actions?: CreateFlowRequestActionsList | undefined;
 }
 export type CreateFlowResponseContentActionsList = Array<FlowAction>;
 export interface CreateFlowResponseContent {
   id: string;
   name: string;
-  actions?: CreateFlowResponseContentActionsList;
+  actions?: CreateFlowResponseContentActionsList | undefined;
   created_at: string;
   updated_at: string;
-  executed_at?: string;
+  executed_at?: string | undefined;
 }
 /** Flows Vault Connection app identifier. */
 export type FlowsVaultConnectionAppIdActivecampaignEnum = "ACTIVECAMPAIGN";
@@ -4344,7 +4412,7 @@ export interface FlowsVaultConnectioSetupOauthApp {
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
   domain: string;
-  audience?: string;
+  audience?: string | undefined;
 }
 export interface CreateFlowsVaultConnectionAuth0OauthApp {
   /** Flows Vault Connection name. */
@@ -4364,10 +4432,10 @@ export type CreateFlowsVaultConnectionAuth0 =
 export type FlowsVaultConnectionAppIdBigqueryEnum = "BIGQUERY";
 export type FlowsVaultConnectioSetupTypeOauthJwtEnum = "OAUTH_JWT";
 export interface FlowsVaultConnectioSetupBigqueryOauthJwt {
-  type?: FlowsVaultConnectioSetupTypeOauthJwtEnum | (string & {});
-  project_id?: string;
-  private_key?: string | Redacted.Redacted<string>;
-  client_email?: string;
+  type?: FlowsVaultConnectioSetupTypeOauthJwtEnum | (string & {}) | undefined;
+  project_id?: string | undefined;
+  private_key?: string | Redacted.Redacted<string> | undefined;
+  client_email?: string | undefined;
 }
 export interface CreateFlowsVaultConnectionBigqueryJwt {
   /** Flows Vault Connection name. */
@@ -4407,8 +4475,8 @@ export type CreateFlowsVaultConnectionClearbit =
 export type FlowsVaultConnectionAppIdDocusignEnum = "DOCUSIGN";
 export type FlowsVaultConnectioSetupTypeOauthCodeEnum = "OAUTH_CODE";
 export interface FlowsVaultConnectioSetupOauthCode {
-  type?: FlowsVaultConnectioSetupTypeOauthCodeEnum | (string & {});
-  code?: string;
+  type?: FlowsVaultConnectioSetupTypeOauthCodeEnum | (string & {}) | undefined;
+  code?: string | undefined;
   [key: string]: unknown;
 }
 export interface CreateFlowsVaultConnectionDocusignOauthCode {
@@ -4458,7 +4526,7 @@ export type FlowsVaultConnectionSetupTypeBasicAuthEnum = "BASIC_AUTH";
 export interface FlowsVaultConnectionHttpBasicAuthSetup {
   type: FlowsVaultConnectionSetupTypeBasicAuthEnum;
   username: string;
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateFlowsVaultConnectionHttpBasicAuth {
   /** Flows Vault Connection name. */
@@ -4486,9 +4554,9 @@ export interface FlowsVaultConnectionHttpOauthClientCredentialsSetup {
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
   token_endpoint: string;
-  audience?: string;
-  resource?: string;
-  scope?: string;
+  audience?: string | undefined;
+  resource?: string | undefined;
+  scope?: string | undefined;
 }
 export interface CreateFlowsVaultConnectionHttpOauthClientCredentials {
   /** Flows Vault Connection name. */
@@ -4818,7 +4886,7 @@ export type CreateFlowsVaultConnectionRequestContent =
   | CreateFlowsVaultConnectionWhatsapp
   | CreateFlowsVaultConnectionZapier;
 export interface CreateFlowsVaultConnectionRequest {
-  body?: CreateFlowsVaultConnectionRequestContent;
+  body?: CreateFlowsVaultConnectionRequestContent | undefined;
 }
 export interface CreateFlowsVaultConnectionResponseContent {
   /** Flows Vault Connection identifier. */
@@ -4826,11 +4894,11 @@ export interface CreateFlowsVaultConnectionResponseContent {
   /** Flows Vault Connection app identifier. */
   app_id: string;
   /** Flows Vault Connection environment. */
-  environment?: string;
+  environment?: string | undefined;
   /** Flows Vault Connection name. */
   name: string;
   /** Flows Vault Connection custom account name. */
-  account_name?: string;
+  account_name?: string | undefined;
   /** Whether the Flows Vault Connection is configured. */
   ready: boolean;
   /** The ISO 8601 formatted date when this Flows Vault Connection was created. */
@@ -4838,18 +4906,18 @@ export interface CreateFlowsVaultConnectionResponseContent {
   /** The ISO 8601 formatted date when this Flows Vault Connection was updated. */
   updated_at: string;
   /** The ISO 8601 formatted date when this Flows Vault Connection was refreshed. */
-  refreshed_at?: string;
+  refreshed_at?: string | undefined;
   fingerprint: string;
 }
 export type FormMessagesError = { [key: string]: string | undefined };
 export type FormMessagesCustom = { [key: string]: string | undefined };
 export interface FormMessages {
-  errors?: FormMessagesError;
-  custom?: FormMessagesCustom;
+  errors?: FormMessagesError | undefined;
+  custom?: FormMessagesCustom | undefined;
 }
 export interface FormLanguages {
-  primary?: string;
-  default?: string;
+  primary?: string | undefined;
+  default?: string | undefined;
 }
 export type FormTranslationsValueMap = { [key: string]: unknown | undefined };
 export type FormTranslations = { [key: string]: FormTranslationsValueMap | undefined };
@@ -4862,77 +4930,77 @@ export type FormEndingNodeId = "$ending";
 export type FormNodePointer = string | FormEndingNodeId;
 export interface FormFlowConfig {
   flow_id: string;
-  next_node?: FormNodePointer;
+  next_node?: FormNodePointer | undefined;
 }
 export interface FormFlow {
   id: string;
   type: FormNodeTypeFlowConst;
-  coordinates?: FormNodeCoordinates;
-  alias?: string;
+  coordinates?: FormNodeCoordinates | undefined;
+  alias?: string | undefined;
   config: FormFlowConfig;
 }
 export type FormNodeTypeRouterConst = "ROUTER";
 export interface FormRouterRule {
   id: string;
-  alias?: string;
+  alias?: string | undefined;
   condition: unknown;
-  next_node?: FormNodePointer;
+  next_node?: FormNodePointer | undefined;
 }
 export type FormRouterConfigRulesList = Array<FormRouterRule>;
 export interface FormRouterConfig {
-  rules?: FormRouterConfigRulesList;
-  fallback?: FormNodePointer;
+  rules?: FormRouterConfigRulesList | undefined;
+  fallback?: FormNodePointer | undefined;
 }
 export interface FormRouter {
   id: string;
   type: FormNodeTypeRouterConst;
-  coordinates?: FormNodeCoordinates;
-  alias?: string;
-  config?: FormRouterConfig;
+  coordinates?: FormNodeCoordinates | undefined;
+  alias?: string | undefined;
+  config?: FormRouterConfig | undefined;
 }
 export type FormNodeTypeStepConst = "STEP";
 export type FormComponentCategoryBlockConst = "BLOCK";
 export type FormBlockTypeDividerConst = "DIVIDER";
 export interface FormBlockDividerConfig {
-  text?: string;
+  text?: string | undefined;
 }
 export interface FormBlockDivider {
   id: string;
   category: FormComponentCategoryBlockConst;
   type: FormBlockTypeDividerConst;
-  config?: FormBlockDividerConfig;
+  config?: FormBlockDividerConfig | undefined;
 }
 export type FormBlockTypeHtmlConst = "HTML";
 export interface FormBlockHtmlConfig {
-  content?: string;
+  content?: string | undefined;
 }
 export interface FormBlockHtml {
   id: string;
   category: FormComponentCategoryBlockConst;
   type: FormBlockTypeHtmlConst;
-  config?: FormBlockHtmlConfig;
+  config?: FormBlockHtmlConfig | undefined;
 }
 export type FormBlockTypeImageConst = "IMAGE";
 export type FormBlockImageConfigPositionEnum = "LEFT" | "CENTER" | "RIGHT";
 export interface FormBlockImageConfig {
   src: string;
-  position?: FormBlockImageConfigPositionEnum | (string & {});
-  height?: number;
+  position?: FormBlockImageConfigPositionEnum | (string & {}) | undefined;
+  height?: number | undefined;
 }
 export interface FormBlockImage {
   id: string;
   category: FormComponentCategoryBlockConst;
   type: FormBlockTypeImageConst;
-  config?: FormBlockImageConfig;
+  config?: FormBlockImageConfig | undefined;
 }
 export type FormBlockTypeJumpButtonConst = "JUMP_BUTTON";
 export interface FormBlockJumpButtonConfigStyle {
-  background_color?: string;
+  background_color?: string | undefined;
 }
 export interface FormBlockJumpButtonConfig {
   text: string;
   next_node: FormNodePointer;
-  style?: FormBlockJumpButtonConfigStyle;
+  style?: FormBlockJumpButtonConfigStyle | undefined;
 }
 export interface FormBlockJumpButton {
   id: string;
@@ -4946,10 +5014,10 @@ export interface FormBlockResendButtonConfig {
   active_text: string;
   button_text: string;
   waiting_text: string;
-  text_alignment?: FormBlockResendButtonConfigTextAlignmentEnum | (string & {});
+  text_alignment?: FormBlockResendButtonConfigTextAlignmentEnum | (string & {}) | undefined;
   flow_id: string;
-  max_attempts?: number;
-  waiting_time?: number;
+  max_attempts?: number | undefined;
+  waiting_time?: number | undefined;
 }
 export interface FormBlockResendButton {
   id: string;
@@ -4981,7 +5049,7 @@ export interface FormBlockRichText {
   id: string;
   category: FormComponentCategoryBlockConst;
   type: FormBlockTypeRichTextConst;
-  config?: FormBlockHtmlConfig;
+  config?: FormBlockHtmlConfig | undefined;
 }
 export type FormBlock =
   | FormBlockDivider
@@ -4996,36 +5064,36 @@ export type FormComponentCategoryWidgetConst = "WIDGET";
 export type FormWidgetTypeAuth0VerifiableCredentialsConst = "AUTH0_VERIFIABLE_CREDENTIALS";
 export interface FormWidgetAuth0VerifiableCredentialsConfig {
   url: string;
-  size?: number;
+  size?: number | undefined;
   alternate_text: string;
   access_token: string | Redacted.Redacted<string>;
   verification_id: string;
-  max_wait?: number;
+  max_wait?: number | undefined;
 }
 export interface FormWidgetAuth0VerifiableCredentials {
   id: string;
   category: FormComponentCategoryWidgetConst;
   type: FormWidgetTypeAuth0VerifiableCredentialsConst;
   config: FormWidgetAuth0VerifiableCredentialsConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormWidgetTypeGMapsAddressConst = "GMAPS_ADDRESS";
 export interface FormWidgetGMapsAddressConfig {
   api_key: string | Redacted.Redacted<string>;
-  server_key?: string;
+  server_key?: string | undefined;
 }
 export interface FormWidgetGMapsAddress {
   id: string;
   category: FormComponentCategoryWidgetConst;
   type: FormWidgetTypeGMapsAddressConst;
   config: FormWidgetGMapsAddressConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormWidgetTypeRecaptchaConst = "RECAPTCHA";
 export interface FormWidgetRecaptchaConfig {
@@ -5037,10 +5105,10 @@ export interface FormWidgetRecaptcha {
   category: FormComponentCategoryWidgetConst;
   type: FormWidgetTypeRecaptchaConst;
   config: FormWidgetRecaptchaConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormWidget =
   | FormWidgetAuth0VerifiableCredentials
@@ -5049,22 +5117,22 @@ export type FormWidget =
 export type FormComponentCategoryFieldConst = "FIELD";
 export type FormFieldTypeBooleanConst = "BOOLEAN";
 export interface FormFieldBooleanConfigOptions {
-  true?: string;
-  false?: string;
+  true?: string | undefined;
+  false?: string | undefined;
 }
 export interface FormFieldBooleanConfig {
-  default_value?: boolean;
-  options?: FormFieldBooleanConfigOptions;
+  default_value?: boolean | undefined;
+  options?: FormFieldBooleanConfigOptions | undefined;
 }
 export interface FormFieldBoolean {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeBooleanConst;
   config: FormFieldBooleanConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeCardsConst = "CARDS";
 export interface FormFieldCardsConfigOption {
@@ -5074,20 +5142,20 @@ export interface FormFieldCardsConfigOption {
 }
 export type FormFieldCardsConfigOptionsList = Array<FormFieldCardsConfigOption>;
 export interface FormFieldCardsConfig {
-  hide_labels?: boolean;
-  multiple?: boolean;
-  options?: FormFieldCardsConfigOptionsList;
-  default_value?: unknown;
+  hide_labels?: boolean | undefined;
+  multiple?: boolean | undefined;
+  options?: FormFieldCardsConfigOptionsList | undefined;
+  default_value?: unknown | undefined;
 }
 export interface FormFieldCards {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeCardsConst;
-  config?: FormFieldCardsConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldCardsConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeChoiceConst = "CHOICE";
 export interface FormFieldChoiceConfigOption {
@@ -5096,25 +5164,25 @@ export interface FormFieldChoiceConfigOption {
 }
 export type FormFieldChoiceConfigOptionsList = Array<FormFieldChoiceConfigOption>;
 export interface FormFieldChoiceConfigAllowOther {
-  enabled?: boolean;
-  label?: string;
-  placeholder?: string;
+  enabled?: boolean | undefined;
+  label?: string | undefined;
+  placeholder?: string | undefined;
 }
 export interface FormFieldChoiceConfig {
-  multiple?: boolean;
-  options?: FormFieldChoiceConfigOptionsList;
-  allow_other?: FormFieldChoiceConfigAllowOther;
-  default_value?: unknown;
+  multiple?: boolean | undefined;
+  options?: FormFieldChoiceConfigOptionsList | undefined;
+  allow_other?: FormFieldChoiceConfigAllowOther | undefined;
+  default_value?: unknown | undefined;
 }
 export interface FormFieldChoice {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeChoiceConst;
-  config?: FormFieldChoiceConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldChoiceConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeCustomConst = "CUSTOM";
 export type FormFieldCustomConfigSchema = { [key: string]: unknown | undefined };
@@ -5122,68 +5190,68 @@ export type FormFieldCustomConfigParams = { [key: string]: string | undefined };
 export interface FormFieldCustomConfig {
   schema: FormFieldCustomConfigSchema;
   code: string;
-  css?: string;
-  params?: FormFieldCustomConfigParams;
+  css?: string | undefined;
+  params?: FormFieldCustomConfigParams | undefined;
 }
 export interface FormFieldCustom {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeCustomConst;
   config: FormFieldCustomConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeDateConst = "DATE";
 export type FormFieldDateConfigFormatEnum = "DATE" | "TIME";
 export interface FormFieldDateConfig {
-  format?: FormFieldDateConfigFormatEnum | (string & {});
-  default_value?: string;
+  format?: FormFieldDateConfigFormatEnum | (string & {}) | undefined;
+  default_value?: string | undefined;
 }
 export interface FormFieldDate {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeDateConst;
   config: FormFieldDateConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeDropdownConst = "DROPDOWN";
 export type FormFieldDropdownConfigOption = FormFieldChoiceConfigOption;
 export type FormFieldDropdownConfigOptionsList = Array<FormFieldChoiceConfigOption>;
 export interface FormFieldDropdownConfig {
-  multiple?: boolean;
-  options?: FormFieldDropdownConfigOptionsList;
-  default_value?: unknown;
-  placeholder?: string;
+  multiple?: boolean | undefined;
+  options?: FormFieldDropdownConfigOptionsList | undefined;
+  default_value?: unknown | undefined;
+  placeholder?: string | undefined;
 }
 export interface FormFieldDropdown {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeDropdownConst;
-  config?: FormFieldDropdownConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldDropdownConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeEmailConst = "EMAIL";
 export interface FormFieldEmailConfig {
-  default_value?: string;
-  placeholder?: string;
+  default_value?: string | undefined;
+  placeholder?: string | undefined;
 }
 export interface FormFieldEmail {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeEmailConst;
-  config?: FormFieldEmailConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldEmailConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeFileConst = "FILE";
 export type FormFieldFileConfigStorageTypeEnum = "MANAGED" | "CUSTOM";
@@ -5197,22 +5265,22 @@ export type FormFieldFileConfigCategoriesList = Array<
 >;
 export type FormFieldFileConfigExtensionsList = Array<string>;
 export interface FormFieldFileConfig {
-  multiple?: boolean;
-  storage?: FormFieldFileConfigStorage;
-  categories?: FormFieldFileConfigCategoriesList;
-  extensions?: FormFieldFileConfigExtensionsList;
-  maxSize?: number;
-  maxFiles?: number;
+  multiple?: boolean | undefined;
+  storage?: FormFieldFileConfigStorage | undefined;
+  categories?: FormFieldFileConfigCategoriesList | undefined;
+  extensions?: FormFieldFileConfigExtensionsList | undefined;
+  maxSize?: number | undefined;
+  maxFiles?: number | undefined;
 }
 export interface FormFieldFile {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeFileConst;
-  config?: FormFieldFileConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldFileConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeLegalConst = "LEGAL";
 export type FormFieldLegalConfig = FormBlockDividerConfig;
@@ -5220,49 +5288,49 @@ export interface FormFieldLegal {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeLegalConst;
-  config?: FormBlockDividerConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormBlockDividerConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeNumberConst = "NUMBER";
 export interface FormFieldNumberConfig {
-  default_value?: number;
-  placeholder?: string;
-  min_value?: number;
-  max_value?: number;
+  default_value?: number | undefined;
+  placeholder?: string | undefined;
+  min_value?: number | undefined;
+  max_value?: number | undefined;
 }
 export interface FormFieldNumber {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeNumberConst;
-  config?: FormFieldNumberConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldNumberConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypePasswordConst = "PASSWORD";
 export type FormFieldPasswordConfigHashEnum = "NONE" | "MD5" | "SHA1" | "SHA256" | "SHA512";
 export interface FormFieldPasswordConfig {
-  hash?: FormFieldPasswordConfigHashEnum | (string & {});
-  placeholder?: string;
-  min_length?: number;
-  max_length?: number;
-  complexity?: boolean;
-  nist?: boolean;
-  strength_meter?: boolean;
+  hash?: FormFieldPasswordConfigHashEnum | (string & {}) | undefined;
+  placeholder?: string | undefined;
+  min_length?: number | undefined;
+  max_length?: number | undefined;
+  complexity?: boolean | undefined;
+  nist?: boolean | undefined;
+  strength_meter?: boolean | undefined;
 }
 export interface FormFieldPassword {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypePasswordConst;
   config: FormFieldPasswordConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypePaymentConst = "PAYMENT";
 export type FormFieldPaymentConfigProviderEnum = "STRIPE";
@@ -5302,84 +5370,84 @@ export interface FormFieldPaymentConfigCredentials {
 }
 export type FormFieldPaymentConfigCustomer = { [key: string]: unknown | undefined };
 export interface FormFieldPaymentConfigFieldProperties {
-  label?: string;
-  placeholder?: string;
+  label?: string | undefined;
+  placeholder?: string | undefined;
 }
 export interface FormFieldPaymentConfigFields {
-  card_number?: FormFieldPaymentConfigFieldProperties;
-  expiration_date?: FormFieldPaymentConfigFieldProperties;
-  security_code?: FormFieldPaymentConfigFieldProperties;
-  trustmarks?: boolean;
+  card_number?: FormFieldPaymentConfigFieldProperties | undefined;
+  expiration_date?: FormFieldPaymentConfigFieldProperties | undefined;
+  security_code?: FormFieldPaymentConfigFieldProperties | undefined;
+  trustmarks?: boolean | undefined;
 }
 export interface FormFieldPaymentConfig {
-  provider?: FormFieldPaymentConfigProviderEnum | (string & {});
+  provider?: FormFieldPaymentConfigProviderEnum | (string & {}) | undefined;
   charge: FormFieldPaymentConfigCharge;
   credentials: FormFieldPaymentConfigCredentials;
-  customer?: FormFieldPaymentConfigCustomer;
-  fields?: FormFieldPaymentConfigFields;
+  customer?: FormFieldPaymentConfigCustomer | undefined;
+  fields?: FormFieldPaymentConfigFields | undefined;
 }
 export interface FormFieldPayment {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypePaymentConst;
   config: FormFieldPaymentConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeSocialConst = "SOCIAL";
 export interface FormFieldSocial {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeSocialConst;
-  config?: unknown;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: unknown | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeTelConst = "TEL";
 export interface FormFieldTelConfigStrings {
-  filter_placeholder?: string;
+  filter_placeholder?: string | undefined;
 }
 export interface FormFieldTelConfig {
-  default_value?: string;
-  placeholder?: string;
-  min_length?: number;
-  max_length?: number;
-  country_picker?: boolean;
-  strings?: FormFieldTelConfigStrings;
+  default_value?: string | undefined;
+  placeholder?: string | undefined;
+  min_length?: number | undefined;
+  max_length?: number | undefined;
+  country_picker?: boolean | undefined;
+  strings?: FormFieldTelConfigStrings | undefined;
   [key: string]: unknown;
 }
 export interface FormFieldTel {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeTelConst;
-  config?: FormFieldTelConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldTelConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeTextConst = "TEXT";
 export interface FormFieldTextConfig {
-  multiline?: boolean;
-  default_value?: string;
-  placeholder?: string;
-  min_length?: number;
-  max_length?: number;
+  multiline?: boolean | undefined;
+  default_value?: string | undefined;
+  placeholder?: string | undefined;
+  min_length?: number | undefined;
+  max_length?: number | undefined;
   [key: string]: unknown;
 }
 export interface FormFieldText {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeTextConst;
-  config?: FormFieldTextConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldTextConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormFieldTypeUrlConst = "URL";
 export type FormFieldUrlConfig = FormFieldEmailConfig;
@@ -5387,11 +5455,11 @@ export interface FormFieldUrl {
   id: string;
   category: FormComponentCategoryFieldConst;
   type: FormFieldTypeUrlConst;
-  config?: FormFieldEmailConfig;
-  label?: string;
-  hint?: string;
-  required?: boolean;
-  sensitive?: boolean;
+  config?: FormFieldEmailConfig | undefined;
+  label?: string | undefined;
+  hint?: string | undefined;
+  required?: boolean | undefined;
+  sensitive?: boolean | undefined;
 }
 export type FormField =
   | FormFieldBoolean
@@ -5413,68 +5481,68 @@ export type FormField =
 export type FormComponent = FormBlock | FormWidget | FormField;
 export type FormStepComponentList = Array<FormComponent>;
 export interface FormStepConfig {
-  components?: FormStepComponentList;
-  next_node?: FormNodePointer;
+  components?: FormStepComponentList | undefined;
+  next_node?: FormNodePointer | undefined;
 }
 export interface FormStep {
   id: string;
   type: FormNodeTypeStepConst;
-  coordinates?: FormNodeCoordinates;
-  alias?: string;
-  config?: FormStepConfig;
+  coordinates?: FormNodeCoordinates | undefined;
+  alias?: string | undefined;
+  config?: FormStepConfig | undefined;
 }
 export type FormNode = FormFlow | FormRouter | FormStep;
 export type FormNodeList = Array<FormNode>;
 export interface FormHiddenField {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type FormStartNodeHiddenFieldsList = Array<FormHiddenField>;
 export interface FormStartNode {
-  hidden_fields?: FormStartNodeHiddenFieldsList;
-  next_node?: FormNodePointer;
-  coordinates?: FormNodeCoordinates;
+  hidden_fields?: FormStartNodeHiddenFieldsList | undefined;
+  next_node?: FormNodePointer | undefined;
+  coordinates?: FormNodeCoordinates | undefined;
 }
 export interface FormEndingNodeRedirection {
-  delay?: number;
+  delay?: number | undefined;
   target: string;
 }
 export interface FormEndingNodeAfterSubmit {
-  flow_id?: string;
+  flow_id?: string | undefined;
 }
 export interface FormEndingNode {
-  redirection?: FormEndingNodeRedirection;
-  after_submit?: FormEndingNodeAfterSubmit;
-  coordinates?: FormNodeCoordinates;
-  resume_flow?: boolean;
+  redirection?: FormEndingNodeRedirection | undefined;
+  after_submit?: FormEndingNodeAfterSubmit | undefined;
+  coordinates?: FormNodeCoordinates | undefined;
+  resume_flow?: boolean | undefined;
 }
 export interface FormStyle {
-  css?: string;
+  css?: string | undefined;
 }
 export interface CreateFormRequest {
   name: string;
-  messages?: FormMessages;
-  languages?: FormLanguages;
-  translations?: FormTranslations;
-  nodes?: FormNodeList;
-  start?: FormStartNode;
-  ending?: FormEndingNode;
-  style?: FormStyle;
+  messages?: FormMessages | undefined;
+  languages?: FormLanguages | undefined;
+  translations?: FormTranslations | undefined;
+  nodes?: FormNodeList | undefined;
+  start?: FormStartNode | undefined;
+  ending?: FormEndingNode | undefined;
+  style?: FormStyle | undefined;
 }
 export interface CreateFormResponseContent {
   id: string;
   name: string;
-  messages?: FormMessages;
-  languages?: FormLanguages;
-  translations?: FormTranslations;
-  nodes?: FormNodeList;
-  start?: FormStartNode;
-  ending?: FormEndingNode;
-  style?: FormStyle;
+  messages?: FormMessages | undefined;
+  languages?: FormLanguages | undefined;
+  translations?: FormTranslations | undefined;
+  nodes?: FormNodeList | undefined;
+  start?: FormStartNode | undefined;
+  ending?: FormEndingNode | undefined;
+  style?: FormStyle | undefined;
   created_at: string;
   updated_at: string;
-  embedded_at?: string;
-  submitted_at?: string;
+  embedded_at?: string | undefined;
+  submitted_at?: string | undefined;
 }
 /** Array of role IDs to assign to the group. */
 export type CreateGroupRoleRequestRolesList = Array<string>;
@@ -5500,23 +5568,23 @@ export interface CreateHookRequest {
   /** Code to be executed when this hook runs. */
   script: string;
   /** Whether this hook will be executed (true) or ignored (false). */
-  enabled?: boolean;
-  dependencies?: HookDependencies;
+  enabled?: boolean | undefined;
+  dependencies?: HookDependencies | undefined;
   /** Execution stage of this rule. Can be `credentials-exchange`, `pre-user-registration`, `post-user-registration`, `post-change-password`, or `send-phone-message`. */
   triggerId: HookTriggerIdEnum | (string & {});
 }
 export interface CreateHookResponseContent {
   /** Trigger ID */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** ID of this hook. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this hook. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this hook will be executed (true) or ignored (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this hook runs. */
-  script?: string;
-  dependencies?: HookDependencies;
+  script?: string | undefined;
+  dependencies?: HookDependencies | undefined;
 }
 /** Signing algorithm used to verify the signature. Currently only HMAC-SHA256 is supported. */
 export type NetworkAclKeyAlgorithmEnum = "hmac-sha256";
@@ -5566,8 +5634,8 @@ export type LogStreamFilterGroupNameEnum =
   | "actions"
   | "other";
 export interface LogStreamFilter {
-  type?: LogStreamFilterTypeEnum | (string & {});
-  name?: LogStreamFilterGroupNameEnum | (string & {});
+  type?: LogStreamFilterTypeEnum | (string & {}) | undefined;
+  name?: LogStreamFilterGroupNameEnum | (string & {}) | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5584,43 +5652,43 @@ export type LogStreamPiiMethodEnum = "mask" | "hash";
 export type LogStreamPiiAlgorithmEnum = "xxhash";
 export interface LogStreamPiiConfig {
   log_fields: LogStreamPiiConfigLogFieldsList;
-  method?: LogStreamPiiMethodEnum | (string & {});
-  algorithm?: LogStreamPiiAlgorithmEnum | (string & {});
+  method?: LogStreamPiiMethodEnum | (string & {}) | undefined;
+  algorithm?: LogStreamPiiAlgorithmEnum | (string & {}) | undefined;
 }
 /** HTTP JSON format */
 export type LogStreamHttpContentFormatEnum = "JSONARRAY" | "JSONLINES" | "JSONOBJECT";
 export interface HttpCustomHeader {
   /** HTTP header name */
-  header?: string;
+  header?: string | undefined;
   /** HTTP header value */
-  value?: string;
+  value?: string | undefined;
   [key: string]: unknown;
 }
 /** custom HTTP headers */
 export type LogStreamHttpSinkHttpCustomHeadersList = Array<HttpCustomHeader>;
 export interface LogStreamHttpSink {
   /** HTTP Authorization header */
-  httpAuthorization?: string;
-  httpContentFormat?: LogStreamHttpContentFormatEnum | (string & {});
+  httpAuthorization?: string | undefined;
+  httpContentFormat?: LogStreamHttpContentFormatEnum | (string & {}) | undefined;
   /** HTTP Content-Type header */
-  httpContentType?: string;
+  httpContentType?: string | undefined;
   /** HTTP endpoint */
   httpEndpoint: string;
   /** custom HTTP headers */
-  httpCustomHeaders?: LogStreamHttpSinkHttpCustomHeadersList;
+  httpCustomHeaders?: LogStreamHttpSinkHttpCustomHeadersList | undefined;
 }
 export interface CreateLogStreamHttpRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamHttpEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamHttpRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamHttpRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamHttpSink;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type LogStreamEventBridgeEnum = "eventbridge";
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5668,20 +5736,20 @@ export interface LogStreamEventBridgeSink {
   awsAccountId: string;
   awsRegion: LogStreamEventBridgeSinkRegionEnum | (string & {});
   /** AWS EventBridge partner event source */
-  awsPartnerEventSource?: string;
+  awsPartnerEventSource?: string | undefined;
 }
 export interface CreateLogStreamEventBridgeRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamEventBridgeEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamEventBridgeRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamEventBridgeRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamEventBridgeSink;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type LogStreamEventGridEnum = "eventgrid";
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5729,20 +5797,20 @@ export interface LogStreamEventGridSink {
   /** Resource Group */
   azureResourceGroup: string;
   /** Partner Topic */
-  azurePartnerTopic?: string;
+  azurePartnerTopic?: string | undefined;
 }
 export interface CreateLogStreamEventGridRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamEventGridEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamEventGridRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamEventGridRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamEventGridSink;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type LogStreamDatadogEnum = "datadog";
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5756,16 +5824,16 @@ export interface LogStreamDatadogSink {
 }
 export interface CreateLogStreamDatadogRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamDatadogEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamDatadogRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamDatadogRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamDatadogSink;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type LogStreamSplunkEnum = "splunk";
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5782,16 +5850,16 @@ export interface LogStreamSplunkSink {
 }
 export interface CreateLogStreamSplunkRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamSplunkEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamSplunkRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamSplunkRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamSplunkSink;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type LogStreamSumoEnum = "sumo";
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5802,16 +5870,16 @@ export interface LogStreamSumoSink {
 }
 export interface CreateLogStreamSumoRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamSumoEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamSumoRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamSumoRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamSumoSink;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type LogStreamSegmentEnum = "segment";
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5822,16 +5890,16 @@ export interface LogStreamSegmentSinkWriteKey {
 }
 export interface CreateLogStreamSegmentRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamSegmentEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamSegmentRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamSegmentRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamSegmentSinkWriteKey;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type LogStreamMixpanelEnum = "mixpanel";
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
@@ -5849,16 +5917,16 @@ export interface LogStreamMixpanelSink {
 }
 export interface CreateLogStreamMixpanelRequestBody {
   /** log stream name */
-  name?: string;
+  name?: string | undefined;
   type: LogStreamMixpanelEnum;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: CreateLogStreamMixpanelRequestBodyFiltersList;
-  pii_config?: LogStreamPiiConfig;
+  filters?: CreateLogStreamMixpanelRequestBodyFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
   sink: LogStreamMixpanelSink;
   /** The optional datetime (ISO 8601) to start streaming logs from */
-  startFrom?: string;
+  startFrom?: string | undefined;
 }
 export type CreateLogStreamRequestContent =
   | CreateLogStreamHttpRequestBody
@@ -5870,7 +5938,7 @@ export type CreateLogStreamRequestContent =
   | CreateLogStreamSegmentRequestBody
   | CreateLogStreamMixpanelRequestBody;
 export interface CreateLogStreamRequest {
-  body?: CreateLogStreamRequestContent;
+  body?: CreateLogStreamRequestContent | undefined;
 }
 /** The status of the log stream. Possible values: `active`, `paused`, `suspended` */
 export type LogStreamStatusEnum = "active" | "paused" | "suspended";
@@ -5878,136 +5946,136 @@ export type LogStreamStatusEnum = "active" | "paused" | "suspended";
 export type LogStreamHttpResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamHttpResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamHttpEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamHttpEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamHttpResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamHttpSink;
+  filters?: LogStreamHttpResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamHttpSink | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type LogStreamEventBridgeResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamEventBridgeResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamEventBridgeEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamEventBridgeEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamEventBridgeResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamEventBridgeSink;
+  filters?: LogStreamEventBridgeResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamEventBridgeSink | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type LogStreamEventGridResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamEventGridResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamEventGridEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamEventGridEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamEventGridResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamEventGridSink;
+  filters?: LogStreamEventGridResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamEventGridSink | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type LogStreamDatadogResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamDatadogResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamDatadogEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamDatadogEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamDatadogResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamDatadogSink;
+  filters?: LogStreamDatadogResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamDatadogSink | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type LogStreamSplunkResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamSplunkResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamSplunkEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamSplunkEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamSplunkResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamSplunkSink;
+  filters?: LogStreamSplunkResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamSplunkSink | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type LogStreamSumoResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamSumoResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamSumoEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamSumoEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamSumoResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamSumoSink;
+  filters?: LogStreamSumoResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamSumoSink | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type LogStreamSegmentResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamSegmentResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamSegmentEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamSegmentEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamSegmentResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamSegmentSinkWriteKey;
+  filters?: LogStreamSegmentResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamSegmentSinkWriteKey | undefined;
   [key: string]: unknown;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type LogStreamMixpanelResponseSchemaFiltersList = Array<LogStreamFilter>;
 export interface LogStreamMixpanelResponseSchema {
   /** The id of the log stream */
-  id?: string;
+  id?: string | undefined;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum;
-  type?: LogStreamMixpanelEnum;
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | undefined;
+  type?: LogStreamMixpanelEnum | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: LogStreamMixpanelResponseSchemaFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamMixpanelSink;
+  filters?: LogStreamMixpanelResponseSchemaFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamMixpanelSink | undefined;
   [key: string]: unknown;
 }
 export type CreateLogStreamResponseContent =
@@ -6021,12 +6089,12 @@ export type CreateLogStreamResponseContent =
   | LogStreamMixpanelResponseSchema;
 export type CreateLogStreamResponse = CreateLogStreamResponseContent;
 export interface NetworkAclAction {
-  block?: boolean;
-  allow?: boolean;
-  log?: boolean;
-  redirect?: boolean;
+  block?: boolean | undefined;
+  allow?: boolean | undefined;
+  log?: boolean | undefined;
+  redirect?: boolean | undefined;
   /** The URI to which the match or not_match requests will be routed */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
 }
 export type NetworkAclMatchAsnsList = Array<number>;
 export type NetworkAclMatchAuth0ManagedList = Array<string>;
@@ -6051,19 +6119,19 @@ export interface NetworkAclHttpMessageSignature {
   keys: NetworkAclHttpMessageSignatureKeys;
 }
 export interface NetworkAclMatch {
-  asns?: NetworkAclMatchAsnsList;
-  auth0_managed?: NetworkAclMatchAuth0ManagedList;
-  geo_country_codes?: NetworkAclMatchGeoCountryCodesList;
-  geo_subdivision_codes?: NetworkAclMatchGeoSubdivisionCodesList;
-  ipv4_cidrs?: NetworkAclMatchIpv4CidrsList;
-  ipv6_cidrs?: NetworkAclMatchIpv6CidrsList;
-  ja3_fingerprints?: NetworkAclMatchJa3FingerprintsList;
-  ja4_fingerprints?: NetworkAclMatchJa4FingerprintsList;
-  user_agents?: NetworkAclMatchUserAgentsList;
-  hostnames?: NetworkAclMatchHostnamesList;
-  connecting_ipv4_cidrs?: NetworkAclMatchConnectingIpv4CidrsList;
-  connecting_ipv6_cidrs?: NetworkAclMatchConnectingIpv6CidrsList;
-  http_message_signature?: NetworkAclHttpMessageSignature;
+  asns?: NetworkAclMatchAsnsList | undefined;
+  auth0_managed?: NetworkAclMatchAuth0ManagedList | undefined;
+  geo_country_codes?: NetworkAclMatchGeoCountryCodesList | undefined;
+  geo_subdivision_codes?: NetworkAclMatchGeoSubdivisionCodesList | undefined;
+  ipv4_cidrs?: NetworkAclMatchIpv4CidrsList | undefined;
+  ipv6_cidrs?: NetworkAclMatchIpv6CidrsList | undefined;
+  ja3_fingerprints?: NetworkAclMatchJa3FingerprintsList | undefined;
+  ja4_fingerprints?: NetworkAclMatchJa4FingerprintsList | undefined;
+  user_agents?: NetworkAclMatchUserAgentsList | undefined;
+  hostnames?: NetworkAclMatchHostnamesList | undefined;
+  connecting_ipv4_cidrs?: NetworkAclMatchConnectingIpv4CidrsList | undefined;
+  connecting_ipv6_cidrs?: NetworkAclMatchConnectingIpv6CidrsList | undefined;
+  http_message_signature?: NetworkAclHttpMessageSignature | undefined;
 }
 /** Identifies the origin of the request as the Management API (management), Authentication API (authentication), Dynamic Client Registration API (dynamic_client_registration), or any (tenant) */
 export type NetworkAclRuleScopeEnum =
@@ -6073,9 +6141,9 @@ export type NetworkAclRuleScopeEnum =
   | "dynamic_client_registration";
 export interface NetworkAclRule {
   action: NetworkAclAction;
-  match?: NetworkAclMatch;
-  not_match?: NetworkAclMatch;
-  match_all?: boolean;
+  match?: NetworkAclMatch | undefined;
+  not_match?: NetworkAclMatch | undefined;
+  match_all?: boolean | undefined;
   scope: NetworkAclRuleScopeEnum | (string & {});
 }
 export interface CreateNetworkAclRequest {
@@ -6083,7 +6151,7 @@ export interface CreateNetworkAclRequest {
   /** Indicates whether or not this access control list is actively being used */
   active: boolean;
   /** Indicates the order in which the ACL will be evaluated relative to other ACL rules. */
-  priority?: number;
+  priority?: number | undefined;
   rule: NetworkAclRule;
 }
 export interface CreateNetworkAclResponse {}
@@ -6097,8 +6165,8 @@ export interface OrganizationBrandingColors {
 /** Theme defines how to style the login pages. */
 export interface OrganizationBranding {
   /** URL of logo to display on login page. */
-  logo_url?: string;
-  colors?: OrganizationBrandingColors;
+  logo_url?: string | undefined;
+  colors?: OrganizationBrandingColors | undefined;
 }
 /** Metadata associated with the organization, in the form of an object with string values (max 255 chars). Maximum of 25 metadata properties allowed. */
 export type OrganizationMetadata = { [key: string]: string | null | undefined };
@@ -6107,11 +6175,11 @@ export interface ConnectionForOrganization {
   /** ID of the connection. */
   connection_id: string;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
+  is_signup_enabled?: boolean | undefined;
 }
 /** Connections that will be enabled for this organization. See POST enabled_connections endpoint for the object format. (Max of 10 connections allowed) */
 export type CreateOrganizationRequestEnabledConnectionsList = Array<ConnectionForOrganization>;
@@ -6121,57 +6189,57 @@ export interface CreateOrganizationRequest {
   /** The name of this organization. */
   name: string;
   /** Friendly name of this organization. */
-  display_name?: string;
-  branding?: OrganizationBranding;
-  metadata?: OrganizationMetadata;
+  display_name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  metadata?: OrganizationMetadata | undefined;
   /** Connections that will be enabled for this organization. See POST enabled_connections endpoint for the object format. (Max of 10 connections allowed) */
-  enabled_connections?: CreateOrganizationRequestEnabledConnectionsList;
-  token_quota?: CreateTokenQuota;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | (string & {});
+  enabled_connections?: CreateOrganizationRequestEnabledConnectionsList | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | (string & {}) | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
+  is_app_entitlement_active?: boolean | undefined;
 }
 /** The organization's association with the client passed in the <code>include_client_association_for</code> query parameter. */
 export interface OrganizationClientAssociation {
   /** Whether this client is used for member access to the organization. */
-  use_for_member_access?: boolean;
+  use_for_member_access?: boolean | undefined;
 }
 export interface OrganizationConnectionInformation {
   /** The name of the enabled connection. */
-  name?: string;
+  name?: string | undefined;
   /** The strategy of the enabled connection. */
-  strategy?: string;
+  strategy?: string | undefined;
   [key: string]: unknown;
 }
 export interface OrganizationEnabledConnection {
   /** ID of the connection. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  connection?: OrganizationConnectionInformation;
+  is_signup_enabled?: boolean | undefined;
+  connection?: OrganizationConnectionInformation | undefined;
   [key: string]: unknown;
 }
 export type CreateOrganizationResponseContentEnabledConnectionsList =
   Array<OrganizationEnabledConnection>;
 export interface CreateOrganizationResponseContent {
   /** Organization identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of this organization. */
-  name?: string;
+  name?: string | undefined;
   /** Friendly name of this organization. */
-  display_name?: string;
-  branding?: OrganizationBranding;
-  metadata?: OrganizationMetadata;
-  token_quota?: CreateTokenQuota;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum;
+  display_name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  metadata?: OrganizationMetadata | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
-  client?: OrganizationClientAssociation;
-  enabled_connections?: CreateOrganizationResponseContentEnabledConnectionsList;
+  is_app_entitlement_active?: boolean | undefined;
+  client?: OrganizationClientAssociation | undefined;
+  enabled_connections?: CreateOrganizationResponseContentEnabledConnectionsList | undefined;
   [key: string]: unknown;
 }
 export interface CreateOrganizationClientRequestItem {
@@ -6195,16 +6263,16 @@ export type OrganizationClientMetadataOrganizationUsageEnum = "deny" | "allow" |
 /** Metadata about the associated client. */
 export interface OrganizationClientMetadata {
   /** The name of the client. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the client application. */
-  app_type?: string;
+  app_type?: string | undefined;
   /** The URI of the client logo. */
-  logo_uri?: string | null;
+  logo_uri?: string | null | undefined;
   /** Whether this client is a first-party client (true) or not (false). */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** The grant types enabled for the client. */
-  grant_types?: OrganizationClientMetadataGrantTypesList;
-  organization_usage?: OrganizationClientMetadataOrganizationUsageEnum;
+  grant_types?: OrganizationClientMetadataGrantTypesList | undefined;
+  organization_usage?: OrganizationClientMetadataOrganizationUsageEnum | undefined;
 }
 export interface OrganizationClient {
   /** The identifier of the client associated with the organization. */
@@ -6227,16 +6295,16 @@ export type AssociateOrganizationClientGrantResponseContentScopeList = Array<str
 export type OrganizationUsageEnum = "deny" | "allow" | "require";
 export interface AssociateOrganizationClientGrantResponseContent {
   /** ID of the client grant. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The audience (API identifier) of this client grant */
-  audience?: string;
+  audience?: string | undefined;
   /** Scopes allowed for this client grant. */
-  scope?: AssociateOrganizationClientGrantResponseContentScopeList;
-  organization_usage?: OrganizationUsageEnum;
+  scope?: AssociateOrganizationClientGrantResponseContentScopeList | undefined;
+  organization_usage?: OrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
-  allow_any_organization?: boolean;
+  allow_any_organization?: boolean | undefined;
 }
 /** Access level for the organization (e.g., "none", "full"). */
 export type OrganizationAccessLevelEnum = "none" | "readonly" | "limited" | "full";
@@ -6246,36 +6314,36 @@ export interface CreateOrganizationConnectionRequest {
   /** Organization identifier. */
   id: string;
   /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string;
+  organization_connection_name?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  organization_access_level?: OrganizationAccessLevelEnum | (string & {});
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum | (string & {});
+  is_signup_enabled?: boolean | undefined;
+  organization_access_level?: OrganizationAccessLevelEnum | (string & {}) | undefined;
+  organization_member_access_level?: OrganizationMemberAccessLevelEnum | (string & {}) | undefined;
   /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Connection identifier. */
   connection_id: string;
 }
 export interface CreateOrganizationAllConnectionResponseContent {
   /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string;
+  organization_connection_name?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  organization_access_level?: OrganizationAccessLevelEnum;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum;
+  is_signup_enabled?: boolean | undefined;
+  organization_access_level?: OrganizationAccessLevelEnum | undefined;
+  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
   /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Connection identifier. */
   connection_id: string;
-  connection?: OrganizationConnectionInformation;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 /** Array of role IDs to assign to organization group. */
 export type CreateOrganizationGroupRoleRequestRolesList = Array<string>;
@@ -6306,8 +6374,8 @@ export type TwilioProviderConfigurationDeliveryMethodsList = Array<
   TwilioProviderDeliveryMethodEnum | (string & {})
 >;
 export interface TwilioProviderConfiguration {
-  default_from?: string;
-  mssid?: string;
+  default_from?: string | undefined;
+  mssid?: string | undefined;
   sid: string;
   delivery_methods: TwilioProviderConfigurationDeliveryMethodsList;
 }
@@ -6327,26 +6395,26 @@ export type PhoneProviderCredentials = TwilioProviderCredentials | unknown;
 export interface CreatePhoneProviderRequest {
   name: PhoneProviderNameEnum | (string & {});
   /** Whether the provider is enabled (false) or disabled (true). */
-  disabled?: boolean;
-  configuration?: PhoneProviderConfiguration;
+  disabled?: boolean | undefined;
+  configuration?: PhoneProviderConfiguration | undefined;
   credentials: PhoneProviderCredentials;
 }
 /** This depicts the type of notifications this provider can receive. */
 export type PhoneProviderChannelEnum = "phone";
 /** Phone provider configuration schema */
 export interface CreateBrandingPhoneProviderResponseContent {
-  id?: string;
+  id?: string | undefined;
   /** The name of the tenant */
-  tenant?: string;
+  tenant?: string | undefined;
   name: PhoneProviderNameEnum;
-  channel?: PhoneProviderChannelEnum;
+  channel?: PhoneProviderChannelEnum | undefined;
   /** Whether the provider is enabled (false) or disabled (true). */
-  disabled?: boolean;
-  configuration?: PhoneProviderConfiguration;
+  disabled?: boolean | undefined;
+  configuration?: PhoneProviderConfiguration | undefined;
   /** The provider's creation date and time in ISO 8601 format */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time of the last update to the provider in ISO 8601 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type PhoneTemplateNotificationTypeEnum =
   | "otp_verify"
@@ -6356,27 +6424,27 @@ export type PhoneTemplateNotificationTypeEnum =
   | "password_breach";
 export interface PhoneTemplateBody {
   /** Content of the phone template for text notifications */
-  text?: string;
+  text?: string | undefined;
   /** Content of the phone template for voice notifications */
-  voice?: string;
+  voice?: string | undefined;
 }
 export interface PhoneTemplateContent {
-  syntax?: string;
+  syntax?: string | undefined;
   /** Default phone number to be used as 'from' when sending a phone notification */
-  from?: string;
-  body?: PhoneTemplateBody;
+  from?: string | undefined;
+  body?: PhoneTemplateBody | undefined;
 }
 export interface CreatePhoneTemplateRequest {
-  type?: PhoneTemplateNotificationTypeEnum | (string & {});
+  type?: PhoneTemplateNotificationTypeEnum | (string & {}) | undefined;
   /** Whether the template is enabled (false) or disabled (true). */
-  disabled?: boolean;
-  content?: PhoneTemplateContent;
+  disabled?: boolean | undefined;
+  content?: PhoneTemplateContent | undefined;
 }
 export interface CreatePhoneTemplateResponseContent {
-  id?: string;
-  channel?: string;
-  customizable?: boolean;
-  tenant?: string;
+  id?: string | undefined;
+  channel?: string | undefined;
+  customizable?: boolean | undefined;
+  tenant?: string | undefined;
   content: PhoneTemplateContent;
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
@@ -6393,7 +6461,7 @@ export interface SidebarComponentAuth0ExternalLinkConfig {
   /** External URL to navigate to. */
   url: string;
   /** Name of the icon displayed next to the link label. */
-  icon?: string;
+  icon?: string | undefined;
 }
 /** Deprecated. Use "sidebar:component:auth0:external_link:v2" instead. */
 export interface SidebarComponentAuth0ExternalLink {
@@ -6406,7 +6474,7 @@ export interface SidebarComponentAuth0InternalLinkConfig {
   /** Slug of the internal portal page to navigate to. */
   to: string;
   /** Name of the icon displayed next to the link label. */
-  icon?: string;
+  icon?: string | undefined;
 }
 /** Deprecated. Use "sidebar:component:auth0:internal_link:v2" instead. */
 export interface SidebarComponentAuth0InternalLink {
@@ -6419,7 +6487,7 @@ export interface SidebarComponentAuth0ExternalLinkV2Config {
   /** External URL to navigate to. */
   href: string;
   /** Name of the icon displayed next to the link label. */
-  icon?: string;
+  icon?: string | undefined;
 }
 export interface SidebarComponentAuth0ExternalLinkV2 {
   type: string;
@@ -6431,7 +6499,7 @@ export interface SidebarComponentAuth0InternalLinkV2Config {
   /** Slug of the internal portal page to navigate to. */
   page_slug: string;
   /** Name of the icon displayed next to the link label. */
-  icon?: string;
+  icon?: string | undefined;
 }
 export interface SidebarComponentAuth0InternalLinkV2 {
   type: string;
@@ -6444,10 +6512,10 @@ export type SidebarComponent =
   | SidebarComponentAuth0InternalLinkV2;
 export type SidebarComponentsList = Array<SidebarComponent>;
 export interface Sidebar {
-  components?: SidebarComponentsList;
+  components?: SidebarComponentsList | undefined;
 }
 export interface PortalNavigation {
-  sidebar?: Sidebar;
+  sidebar?: Sidebar | undefined;
 }
 export interface PageComponentAuth0FormConfig {
   /** The identifier of the form you want to render. */
@@ -6463,7 +6531,7 @@ export interface PageComponentAuth0TypographyHeadingConfig {
   /** Heading displayed. */
   title: string;
   /** Optional description displayed below the title. Supports basic HTML formatting: links, bold, italic, and underline. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PageComponentAuth0TypographyHeading {
   type: string;
@@ -6474,9 +6542,9 @@ export type PageComponentAuth0MediaImagePositionEnum = "left" | "center" | "righ
 export interface PageComponentAuth0MediaImageConfig {
   /** URL of the image to display. */
   src: string;
-  position?: PageComponentAuth0MediaImagePositionEnum | (string & {});
+  position?: PageComponentAuth0MediaImagePositionEnum | (string & {}) | undefined;
   /** Height of the image in pixels. Width scales automatically to preserve aspect ratio. */
-  height?: number;
+  height?: number | undefined;
 }
 export interface PageComponentAuth0MediaImage {
   type: string;
@@ -6495,17 +6563,17 @@ export type PageComponentAuth0StructureSectionVariantEnum = "card" | "none";
 /** Controls the line style. Defaults to "solid". */
 export type PageComponentAuth0StructureSeparatorVariantEnum = "dashed" | "none" | "solid";
 export interface PageComponentAuth0StructureSeparatorConfig {
-  variant?: PageComponentAuth0StructureSeparatorVariantEnum | (string & {});
+  variant?: PageComponentAuth0StructureSeparatorVariantEnum | (string & {}) | undefined;
   /** Optional label centered within the separator line (ignored when variant is "none"). */
-  text?: string;
+  text?: string | undefined;
 }
 export interface PageComponentAuth0StructureSeparator {
   type: string;
-  config?: PageComponentAuth0StructureSeparatorConfig;
+  config?: PageComponentAuth0StructureSeparatorConfig | undefined;
 }
 export interface PageComponentAuth0MyOrganizationDomainTable {
   type: string;
-  config?: unknown;
+  config?: unknown | undefined;
 }
 export type PageComponentAuth0MyOrganizationMemberManagement =
   PageComponentAuth0MyOrganizationDomainTable;
@@ -6529,9 +6597,9 @@ export type PageComponentNoChildren =
 export type PageComponentAuth0StructureSectionConfigChildrenList = Array<PageComponentNoChildren>;
 export interface PageComponentAuth0StructureSectionConfig {
   /** Heading displayed at the top of the section. */
-  title?: string;
+  title?: string | undefined;
   /** Optional description displayed below the title. */
-  description?: string;
+  description?: string | undefined;
   variant: PageComponentAuth0StructureSectionVariantEnum | (string & {});
   /** Components to render inside the section. */
   children: PageComponentAuth0StructureSectionConfigChildrenList;
@@ -6556,24 +6624,24 @@ export type PortalPageComponentsList = Array<PageComponent>;
 export interface PortalPage {
   title: string;
   slug: string;
-  components?: PortalPageComponentsList;
+  components?: PortalPageComponentsList | undefined;
 }
 export type PortalPagesByTypeStandardList = Array<PortalPage>;
 export interface PortalPagesByType {
-  default?: string;
-  standard?: PortalPagesByTypeStandardList;
+  default?: string | undefined;
+  standard?: PortalPagesByTypeStandardList | undefined;
 }
 export interface PortalCustomCode {
   /** Custom code injected into the <head> of the portal. Only injected when the portal is accessed via a custom domain; it is not injected on canonical domains. */
-  head?: string;
+  head?: string | undefined;
 }
 export interface CreatePortalRequest {
   slug: string;
   name: string;
   client: PortalClientSecretPostRequest;
-  navigation?: PortalNavigation;
-  pages?: PortalPagesByType;
-  custom_code?: PortalCustomCode;
+  navigation?: PortalNavigation | undefined;
+  pages?: PortalPagesByType | undefined;
+  custom_code?: PortalCustomCode | undefined;
 }
 export interface PortalClientSecretPost {
   token_endpoint_auth_method: unknown;
@@ -6582,11 +6650,11 @@ export interface PortalClientSecretPost {
 export interface Portal {
   id: string;
   name: string;
-  navigation?: PortalNavigation;
-  pages?: PortalPagesByType;
+  navigation?: PortalNavigation | undefined;
+  pages?: PortalPagesByType | undefined;
   slug: string;
-  client?: PortalClientSecretPost;
-  custom_code?: PortalCustomCode;
+  client?: PortalClientSecretPost | undefined;
+  custom_code?: PortalCustomCode | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -6639,15 +6707,15 @@ export interface CreateRateLimitPolicyResponseContent {
   consumer_selector: string;
   configuration: RateLimitPolicyConfiguration;
   /** The date and time when the rate limit policy was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface ResourceServerScope {
   /** Value of this scope. */
   value: string;
   /** User-friendly description of this scope. */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
 export type CreateResourceServerRequestScopesList = Array<ResourceServerScope>;
@@ -6668,11 +6736,11 @@ export type ResourceServerAccessTokenCustomClaimsMapping =
   Array<ResourceServerAccessTokenCustomClaimsMappingRule>;
 /** Custom configuration for claims in access tokens */
 export interface ResourceServerAccessTokenClaimsMapping {
-  custom_claims?: ResourceServerAccessTokenCustomClaimsMapping;
+  custom_claims?: ResourceServerAccessTokenCustomClaimsMapping | undefined;
 }
 /** Custom configuration for access tokens */
 export interface ResourceServerAccessToken {
-  claims_mapping?: ResourceServerAccessTokenClaimsMapping;
+  claims_mapping?: ResourceServerAccessTokenClaimsMapping | undefined;
 }
 /** Format of the encrypted JWT payload. */
 export type ResourceServerTokenEncryptionFormatEnum = "compact-nested-jwe";
@@ -6683,10 +6751,10 @@ export type ResourceServerTokenEncryptionAlgorithmEnum =
   | "RSA-OAEP-512";
 export interface ResourceServerTokenEncryptionKey {
   /** Name of the encryption key. */
-  name?: string;
+  name?: string | undefined;
   alg: ResourceServerTokenEncryptionAlgorithmEnum | (string & {});
   /** Key ID. */
-  kid?: string;
+  kid?: string | undefined;
   /** PEM-formatted public key. Must be JSON escaped. */
   pem: string;
 }
@@ -6705,7 +6773,7 @@ export interface ResourceServerProofOfPossession {
   mechanism: ResourceServerProofOfPossessionMechanismEnum | (string & {});
   /** Whether the use of Proof-of-Possession is required for the resource server */
   required: boolean;
-  required_for?: ResourceServerProofOfPossessionRequiredForEnum | (string & {});
+  required_for?: ResourceServerProofOfPossessionRequiredForEnum | (string & {}) | undefined;
 }
 /** Defines the user flows policy for the resource server */
 export type ResourceServerSubjectTypeAuthorizationUserPolicyEnum =
@@ -6714,7 +6782,7 @@ export type ResourceServerSubjectTypeAuthorizationUserPolicyEnum =
   | "require_client_grant";
 /** Access Permissions for user flows */
 export interface ResourceServerSubjectTypeAuthorizationUser {
-  policy?: ResourceServerSubjectTypeAuthorizationUserPolicyEnum | (string & {});
+  policy?: ResourceServerSubjectTypeAuthorizationUserPolicyEnum | (string & {}) | undefined;
   [key: string]: unknown;
 }
 /** Defines the client flows policy for the resource server */
@@ -6723,7 +6791,7 @@ export type ResourceServerSubjectTypeAuthorizationClientPolicyEnum =
   | "require_client_grant";
 /** Access Permissions for client flows */
 export interface ResourceServerSubjectTypeAuthorizationClient {
-  policy?: ResourceServerSubjectTypeAuthorizationClientPolicyEnum | (string & {});
+  policy?: ResourceServerSubjectTypeAuthorizationClientPolicyEnum | (string & {}) | undefined;
   [key: string]: unknown;
 }
 /** Defines the anonymous user flows policy for the resource server */
@@ -6732,14 +6800,17 @@ export type ResourceServerSubjectTypeAuthorizationAnonymousUserPolicyEnum =
   | "require_client_grant";
 /** Access Permissions for anonymous user flows */
 export interface ResourceServerSubjectTypeAuthorizationAnonymousUser {
-  policy?: ResourceServerSubjectTypeAuthorizationAnonymousUserPolicyEnum | (string & {});
+  policy?:
+    | ResourceServerSubjectTypeAuthorizationAnonymousUserPolicyEnum
+    | (string & {})
+    | undefined;
   [key: string]: unknown;
 }
 /** Defines application access permission for a resource server */
 export interface ResourceServerSubjectTypeAuthorization {
-  user?: ResourceServerSubjectTypeAuthorizationUser;
-  client?: ResourceServerSubjectTypeAuthorizationClient;
-  anonymous_user?: ResourceServerSubjectTypeAuthorizationAnonymousUser;
+  user?: ResourceServerSubjectTypeAuthorizationUser | undefined;
+  client?: ResourceServerSubjectTypeAuthorizationClient | undefined;
+  anonymous_user?: ResourceServerSubjectTypeAuthorizationAnonymousUser | undefined;
 }
 /** Authorization policy for the resource server. */
 export interface ResourceServerAuthorizationPolicy {
@@ -6752,40 +6823,40 @@ export type ResourceServerAgentSubjectClaimsSchemaEnum = "off" | "auth0-v1";
 export type ResourceServerTypeEnum = "universal_commerce_protocol_server";
 export interface CreateResourceServerRequest {
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set. */
   identifier: string;
   /** List of permissions (scopes) that this API uses. */
-  scopes?: CreateResourceServerRequestScopesList;
-  signing_alg?: SigningAlgorithmEnum | (string & {});
+  scopes?: CreateResourceServerRequestScopesList | undefined;
+  signing_alg?: SigningAlgorithmEnum | (string & {}) | undefined;
   /** Secret used to sign tokens when using symmetric algorithms (HS256). */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean;
+  allow_offline_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean;
+  allow_online_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean;
+  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number | null;
-  token_dialect?: ResourceServerTokenDialectSchemaEnum | (string & {});
+  token_lifetime_for_anonymous_access_tokens?: number | null | undefined;
+  token_dialect?: ResourceServerTokenDialectSchemaEnum | (string & {}) | undefined;
   /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean;
+  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
   /** Whether to enforce authorization policies (true) or to ignore them (false). */
-  enforce_policies?: boolean;
-  access_token?: ResourceServerAccessToken | null;
-  token_encryption?: ResourceServerTokenEncryption | null;
-  consent_policy?: ResourceServerConsentPolicyEnum | (string & {}) | null;
+  enforce_policies?: boolean | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  token_encryption?: ResourceServerTokenEncryption | null | undefined;
+  consent_policy?: ResourceServerConsentPolicyEnum | (string & {}) | null | undefined;
   /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean;
-  authorization_details?: CreateResourceServerRequestAuthorizationDetailsList | null;
-  proof_of_possession?: ResourceServerProofOfPossession | null;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsSchemaEnum | (string & {});
-  type?: ResourceServerTypeEnum | (string & {}) | null;
+  require_consent_non_repudiation?: boolean | undefined;
+  authorization_details?: CreateResourceServerRequestAuthorizationDetailsList | null | undefined;
+  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
+  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
+  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
+  agent_subject_claims?: ResourceServerAgentSubjectClaimsSchemaEnum | (string & {}) | undefined;
+  type?: ResourceServerTypeEnum | (string & {}) | null | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
 export type CreateResourceServerResponseContentScopesList = Array<ResourceServerScope>;
@@ -6800,48 +6871,51 @@ export type CreateResourceServerResponseContentAuthorizationDetailsList = Array<
 export type ResourceServerAgentSubjectClaimsResponseEnum = "off" | "auth0-v1";
 export interface CreateResourceServerResponseContent {
   /** ID of the API (resource server). */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is an Auth0 system API (true) or a custom API (false). */
-  is_system?: boolean;
+  is_system?: boolean | undefined;
   /** Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** List of permissions (scopes) that this API uses. */
-  scopes?: CreateResourceServerResponseContentScopesList;
-  signing_alg?: SigningAlgorithmEnum;
+  scopes?: CreateResourceServerResponseContentScopesList | undefined;
+  signing_alg?: SigningAlgorithmEnum | undefined;
   /** Secret used to sign tokens when using symmetric algorithms (HS256). */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean;
+  allow_offline_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean;
+  allow_online_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean;
+  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
   /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean;
+  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API via Implicit or Hybrid Flows. Cannot be greater than the `token_lifetime` value. */
-  token_lifetime_for_web?: number;
+  token_lifetime_for_web?: number | undefined;
   /** Whether authorization polices are enforced (true) or unenforced (false). */
-  enforce_policies?: boolean;
+  enforce_policies?: boolean | undefined;
   /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number;
-  token_dialect?: ResourceServerTokenDialectResponseEnum;
-  access_token?: ResourceServerAccessToken | null;
-  token_encryption?: ResourceServerTokenEncryption | null;
-  consent_policy?: ResourceServerConsentPolicyEnum | null;
+  token_lifetime_for_anonymous_access_tokens?: number | undefined;
+  token_dialect?: ResourceServerTokenDialectResponseEnum | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  token_encryption?: ResourceServerTokenEncryption | null | undefined;
+  consent_policy?: ResourceServerConsentPolicyEnum | null | undefined;
   /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean;
-  authorization_details?: CreateResourceServerResponseContentAuthorizationDetailsList | null;
-  proof_of_possession?: ResourceServerProofOfPossession | null;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null;
+  require_consent_non_repudiation?: boolean | undefined;
+  authorization_details?:
+    | CreateResourceServerResponseContentAuthorizationDetailsList
+    | null
+    | undefined;
+  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
+  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
+  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
   /** The client ID of the client that this resource server is linked to */
-  client_id?: string;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum;
-  type?: ResourceServerTypeEnum | null;
+  client_id?: string | undefined;
+  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  type?: ResourceServerTypeEnum | null | undefined;
 }
 /** The type of the role */
 export type RoleTypeEnum = "tenant" | "organization";
@@ -6849,24 +6923,24 @@ export interface CreateRoleRequest {
   /** Name of the role. */
   name: string;
   /** Description of the role. */
-  description?: string;
+  description?: string | undefined;
   /** The type of the role. Defaults to tenant. */
-  type?: RoleTypeEnum | (string & {});
+  type?: RoleTypeEnum | (string & {}) | undefined;
   /** The ID of the organization that owns this role. Required when type is "organization". */
-  owner_id?: string;
+  owner_id?: string | undefined;
 }
 export type SystemRoleOwnerId = "auth0";
 /** The id of the entity that owns this role: an organization id, or "auth0" for Auth0-managed System Roles. */
 export type RoleOwnerId = string | SystemRoleOwnerId;
 export interface CreateRoleResponseContent {
   /** ID for this role. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this role. */
-  name?: string;
+  name?: string | undefined;
   /** Description of this role. */
-  description?: string;
-  type?: RoleTypeEnum;
-  owner_id?: RoleOwnerId;
+  description?: string | undefined;
+  type?: RoleTypeEnum | undefined;
+  owner_id?: RoleOwnerId | undefined;
 }
 /** Array of group IDs to assign to the role. */
 export type CreateRoleGroupRequestGroupsList = Array<string>;
@@ -6892,23 +6966,23 @@ export interface CreateRuleRequest {
   /** Code to be executed when this rule runs. */
   script: string;
   /** Order that this rule should execute in relative to other rules. Lower-valued rules execute first. */
-  order?: number;
+  order?: number | undefined;
   /** Whether the rule is enabled (true), or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateRuleResponseContent {
   /** Name of this rule. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this rule. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the rule is enabled (true), or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this rule runs. */
-  script?: string;
+  script?: string | undefined;
   /** Order that this rule should execute in relative to other rules. Lower-valued rules execute first. */
-  order?: number;
+  order?: number | undefined;
   /** Execution stage of this rule. Can be `login_success`, `login_failure`, or `pre_authorize`. */
-  stage?: string;
+  stage?: string | undefined;
 }
 export type SegmentMatchExpressionCase0List = Array<string>;
 export type SegmentContainsExpressionContainsList = Array<string>;
@@ -6934,24 +7008,24 @@ export type SegmentMatchExpression =
   | SegmentExistsExpression;
 /** Attribute conditions that must match. */
 export interface SegmentMatchConditions {
-  client_id?: SegmentMatchExpression;
-  connection?: SegmentMatchExpression;
-  connection_type?: SegmentMatchExpression;
-  organization_id?: SegmentMatchExpression;
-  domain?: SegmentMatchExpression;
-  device_type?: SegmentMatchExpression;
-  browser?: SegmentMatchExpression;
-  platform?: SegmentMatchExpression;
-  user_agent?: SegmentMatchExpression;
-  country?: SegmentMatchExpression;
-  region?: SegmentMatchExpression;
+  client_id?: SegmentMatchExpression | undefined;
+  connection?: SegmentMatchExpression | undefined;
+  connection_type?: SegmentMatchExpression | undefined;
+  organization_id?: SegmentMatchExpression | undefined;
+  domain?: SegmentMatchExpression | undefined;
+  device_type?: SegmentMatchExpression | undefined;
+  browser?: SegmentMatchExpression | undefined;
+  platform?: SegmentMatchExpression | undefined;
+  user_agent?: SegmentMatchExpression | undefined;
+  country?: SegmentMatchExpression | undefined;
+  region?: SegmentMatchExpression | undefined;
   [key: string]: unknown;
 }
 /** Attribute conditions that must not match. */
 export type SegmentNotMatchConditions = SegmentMatchConditions;
 export interface SegmentRule {
-  match?: SegmentMatchConditions;
-  not_match?: SegmentMatchConditions;
+  match?: SegmentMatchConditions | undefined;
+  not_match?: SegmentMatchConditions | undefined;
 }
 /** An ordered list of rules. A segment matches if any rule matches. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
 export type CreateSegmentRequestRulesList = Array<SegmentRule>;
@@ -6959,7 +7033,7 @@ export interface CreateSegmentRequest {
   /** A human-readable name for the segment */
   name: string;
   /** A description of the segment */
-  description?: string;
+  description?: string | undefined;
   /** An ordered list of rules. A segment matches if any rule matches. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
   rules: CreateSegmentRequestRulesList;
 }
@@ -6970,7 +7044,7 @@ export type CreateSegmentResponseContentRulesList = Array<SegmentRule>;
 export interface CreateSegmentResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: SegmentTypeEnum;
   status: SegmentStatusEnum;
   rules: CreateSegmentResponseContentRulesList;
@@ -6982,8 +7056,8 @@ export interface SelfServiceProfileBrandingColors {
   [key: string]: unknown;
 }
 export interface SelfServiceProfileBrandingProperties {
-  logo_url?: string;
-  colors?: SelfServiceProfileBrandingColors;
+  logo_url?: string | undefined;
+  colors?: SelfServiceProfileBrandingColors | undefined;
   [key: string]: unknown;
 }
 export type SelfServiceProfileAllowedStrategyEnum =
@@ -7016,14 +7090,14 @@ export interface CreateSelfServiceProfileRequest {
   /** The name of the self-service Profile. */
   name: string;
   /** The description of the self-service Profile. */
-  description?: string;
-  branding?: SelfServiceProfileBrandingProperties;
+  description?: string | undefined;
+  branding?: SelfServiceProfileBrandingProperties | undefined;
   /** List of IdP strategies that will be shown to users during the Self-Service Enterprise Configuration flow. Possible values: [`oidc`, `samlp`, `waad`, `google-apps`, `adfs`, `okta`, `auth0-samlp`, `okta-samlp`, `keycloak-samlp`, `pingfederate`] */
-  allowed_strategies?: CreateSelfServiceProfileRequestAllowedStrategiesList;
+  allowed_strategies?: CreateSelfServiceProfileRequestAllowedStrategiesList | undefined;
   /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
-  user_attributes?: CreateSelfServiceProfileRequestUserAttributesList;
+  user_attributes?: CreateSelfServiceProfileRequestUserAttributesList | undefined;
   /** ID of the user-attribute-profile to associate with this self-service profile. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
 }
 /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
 export type CreateSelfServiceProfileResponseContentUserAttributesList =
@@ -7033,22 +7107,22 @@ export type CreateSelfServiceProfileResponseContentAllowedStrategiesList =
   Array<SelfServiceProfileAllowedStrategyEnum>;
 export interface CreateSelfServiceProfileResponseContent {
   /** The unique ID of the self-service Profile. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the self-service Profile. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the self-service Profile. */
-  description?: string;
+  description?: string | undefined;
   /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
-  user_attributes?: CreateSelfServiceProfileResponseContentUserAttributesList;
+  user_attributes?: CreateSelfServiceProfileResponseContentUserAttributesList | undefined;
   /** The time when this self-service Profile was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this self-service Profile was updated. */
-  updated_at?: string;
-  branding?: SelfServiceProfileBrandingProperties;
+  updated_at?: string | undefined;
+  branding?: SelfServiceProfileBrandingProperties | undefined;
   /** List of IdP strategies that will be shown to users during the Self-Service Enterprise Configuration flow. Possible values: [`oidc`, `samlp`, `waad`, `google-apps`, `adfs`, `okta`, `auth0-samlp`, `okta-samlp`, `keycloak-samlp`, `pingfederate`] */
-  allowed_strategies?: CreateSelfServiceProfileResponseContentAllowedStrategiesList;
+  allowed_strategies?: CreateSelfServiceProfileResponseContentAllowedStrategiesList | undefined;
   /** ID of the user-attribute-profile to associate with this self-service profile. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
 }
 /** The type of the profile, which controls how the profile will be executed when receiving a token exchange request. */
 export type TokenExchangeProfileTypeEnum = "custom_authentication";
@@ -7063,18 +7137,18 @@ export interface CreateTokenExchangeProfileRequest {
 }
 export interface CreateTokenExchangeProfileResponseContent {
   /** The unique ID of the token exchange profile. */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name of this profile. */
-  name?: string;
+  name?: string | undefined;
   /** Subject token type for this profile. When receiving a token exchange request on the Authentication API, the corresponding token exchange profile with a matching subject_token_type will be executed. This must be a URI. */
-  subject_token_type?: string;
+  subject_token_type?: string | undefined;
   /** The ID of the Custom Token Exchange action to execute for this profile, in order to validate the subject_token. The action must use the custom-token-exchange trigger. */
-  action_id?: string;
-  type?: TokenExchangeProfileTypeEnum;
+  action_id?: string | undefined;
+  type?: TokenExchangeProfileTypeEnum | undefined;
   /** The time when this profile was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this profile was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 /** Data related to the user that does not affect the application's core functionality. */
@@ -7083,37 +7157,37 @@ export type UserMetadata = { [key: string]: unknown | undefined };
 export type AppMetadata = { [key: string]: unknown | undefined };
 export interface CreateUserRequest {
   /** The user's email. */
-  email?: string;
+  email?: string | undefined;
   /** The user's phone number (following the E.164 recommendation). */
-  phone_number?: string;
-  user_metadata?: UserMetadata;
+  phone_number?: string | undefined;
+  user_metadata?: UserMetadata | undefined;
   /** Whether this user was blocked by an administrator (true) or not (false). */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
   /** Whether this email address is verified (true) or unverified (false). User will receive a verification email after creation if `email_verified` is false or not specified */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Whether this phone number has been verified (true) or not (false). */
-  phone_verified?: boolean;
-  app_metadata?: AppMetadata;
+  phone_verified?: boolean | undefined;
+  app_metadata?: AppMetadata | undefined;
   /** The user's given name(s). */
-  given_name?: string;
+  given_name?: string | undefined;
   /** The user's family name(s). */
-  family_name?: string;
+  family_name?: string | undefined;
   /** The user's full name. */
-  name?: string;
+  name?: string | undefined;
   /** The user's nickname. */
-  nickname?: string;
+  nickname?: string | undefined;
   /** A URI pointing to the user's picture. */
-  picture?: string;
+  picture?: string | undefined;
   /** The external user's id provided by the identity provider. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Name of the connection this user should be created in. */
   connection: string;
   /** Initial password for this user. Only valid for auth0 connection strategy. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Whether the user will receive a verification email after creation (true) or no email (false). Overrides behavior of `email_verified` parameter. */
-  verify_email?: boolean;
+  verify_email?: boolean | undefined;
   /** The user's username. Only valid if the connection requires a username. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Unique identifier of the user for this identity. */
 export type UserId = string | number;
@@ -7176,37 +7250,37 @@ export type UserIdentityProviderEnum =
   | "yandex";
 export interface UserProfileData {
   /** Email address of this user. */
-  email?: string;
+  email?: string | undefined;
   /** Whether this email address is verified (true) or unverified (false). */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Username of this user. */
-  username?: string;
+  username?: string | undefined;
   /** Given name/first name/forename of this user. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** Phone number for this user. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Whether this phone number is verified (true) or unverified (false). */
-  phone_verified?: boolean;
+  phone_verified?: boolean | undefined;
   /** Family name/last name/surname of this user. */
-  family_name?: string;
+  family_name?: string | undefined;
   [key: string]: unknown;
 }
 export interface UserIdentitySchema {
   /** Name of the connection containing this identity. */
-  connection?: string;
-  user_id?: UserId;
-  provider?: UserIdentityProviderEnum;
+  connection?: string | undefined;
+  user_id?: UserId | undefined;
+  provider?: UserIdentityProviderEnum | undefined;
   /** Whether this identity is from a social provider (true) or not (false). */
-  isSocial?: boolean;
+  isSocial?: boolean | undefined;
   /** IDP access token returned only if scope read:user_idp_tokens is defined. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** IDP access token secret returned only if scope read:user_idp_tokens is defined. */
-  access_token_secret?: string | Redacted.Redacted<string>;
+  access_token_secret?: string | Redacted.Redacted<string> | undefined;
   /** IDP refresh token returned only if scope read:user_idp_tokens is defined. */
-  refresh_token?: string | Redacted.Redacted<string>;
-  profileData?: UserProfileData;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
+  profileData?: UserProfileData | undefined;
 }
 /** Array of user identity objects when accounts are linked. */
 export type CreateUserResponseContentIdentitiesList = Array<UserIdentitySchema>;
@@ -7218,49 +7292,49 @@ export type UserMetadataSchema = { [key: string]: unknown | undefined };
 export type CreateUserResponseContentMultifactorList = Array<string>;
 export interface CreateUserResponseContent {
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Email address of this user. */
-  email?: string;
+  email?: string | undefined;
   /** Whether this email address is verified (true) or unverified (false). */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Username of this user. */
-  username?: string;
+  username?: string | undefined;
   /** Phone number for this user. Follows the <a href="https://en.wikipedia.org/wiki/E.164">E.164 recommendation</a>. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Whether this phone number has been verified (true) or not (false). */
-  phone_verified?: boolean;
+  phone_verified?: boolean | undefined;
   /** Date and time when this user was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Date and time when this user was last updated/modified. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Array of user identity objects when accounts are linked. */
-  identities?: CreateUserResponseContentIdentitiesList;
-  app_metadata?: UserAppMetadataSchema;
-  user_metadata?: UserMetadataSchema;
+  identities?: CreateUserResponseContentIdentitiesList | undefined;
+  app_metadata?: UserAppMetadataSchema | undefined;
+  user_metadata?: UserMetadataSchema | undefined;
   /** URL to picture, photo, or avatar of this user. */
-  picture?: string;
+  picture?: string | undefined;
   /** Name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Preferred nickname or alias of this user. */
-  nickname?: string;
+  nickname?: string | undefined;
   /** List of multi-factor authentication providers with which this user has enrolled. */
-  multifactor?: CreateUserResponseContentMultifactorList;
+  multifactor?: CreateUserResponseContentMultifactorList | undefined;
   /** Last date and time this user's multi-factor authentication providers were updated. */
-  multifactor_last_modified?: string;
+  multifactor_last_modified?: string | undefined;
   /** Last IP address from which this user logged in. */
-  last_ip?: string;
+  last_ip?: string | undefined;
   /** Last date and time this user logged in. */
-  last_login?: string;
+  last_login?: string | undefined;
   /** Last date and time this user had their password reset. */
-  last_password_reset?: string | Redacted.Redacted<string>;
+  last_password_reset?: string | Redacted.Redacted<string> | undefined;
   /** Total number of logins this user has performed. */
-  logins_count?: number;
+  logins_count?: number | undefined;
   /** Whether this user was blocked by an administrator (true) or is not (false). */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
   /** Given name/first name/forename of this user. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** Family name/last name/surname of this user. */
-  family_name?: string;
+  family_name?: string | undefined;
   [key: string]: unknown;
 }
 /** OIDC mapping for user ID */
@@ -7272,54 +7346,54 @@ export type UserAttributeProfileUserIdOidcStrategyOverrideMapping = "sub" | "oid
 /** SAML mapping override for this strategy */
 export type UserAttributeProfileSamlMapping = Array<string>;
 export interface UserAttributeProfileStrategyOverridesUserIdMapping {
-  oidc_mapping?: UserAttributeProfileUserIdOidcStrategyOverrideMapping | (string & {});
-  saml_mapping?: UserAttributeProfileSamlMapping;
+  oidc_mapping?: UserAttributeProfileUserIdOidcStrategyOverrideMapping | (string & {}) | undefined;
+  saml_mapping?: UserAttributeProfileSamlMapping | undefined;
   /** SCIM mapping override for this strategy */
-  scim_mapping?: string;
+  scim_mapping?: string | undefined;
 }
 /** Strategy-specific overrides for user ID */
 export interface UserAttributeProfileStrategyOverridesUserId {
-  pingfederate?: UserAttributeProfileStrategyOverridesUserIdMapping;
-  ad?: UserAttributeProfileStrategyOverridesUserIdMapping;
-  adfs?: UserAttributeProfileStrategyOverridesUserIdMapping;
-  waad?: UserAttributeProfileStrategyOverridesUserIdMapping;
-  google_apps?: UserAttributeProfileStrategyOverridesUserIdMapping;
-  okta?: UserAttributeProfileStrategyOverridesUserIdMapping;
-  oidc?: UserAttributeProfileStrategyOverridesUserIdMapping;
-  samlp?: UserAttributeProfileStrategyOverridesUserIdMapping;
+  pingfederate?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
+  ad?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
+  adfs?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
+  waad?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
+  google_apps?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
+  okta?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
+  oidc?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
+  samlp?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
 }
 /** User ID mapping configuration */
 export interface UserAttributeProfileUserId {
-  oidc_mapping?: UserAttributeProfileUserIdOidcMappingEnum | (string & {});
-  saml_mapping?: UserAttributeProfileUserIdSamlMapping;
+  oidc_mapping?: UserAttributeProfileUserIdOidcMappingEnum | (string & {}) | undefined;
+  saml_mapping?: UserAttributeProfileUserIdSamlMapping | undefined;
   /** SCIM mapping for user ID */
-  scim_mapping?: string;
-  strategy_overrides?: UserAttributeProfileStrategyOverridesUserId;
+  scim_mapping?: string | undefined;
+  strategy_overrides?: UserAttributeProfileStrategyOverridesUserId | undefined;
 }
 /** OIDC mapping for this attribute */
 export interface UserAttributeProfileOidcMapping {
   /** OIDC mapping field */
   mapping: string;
   /** Display name for the OIDC mapping */
-  display_name?: string;
+  display_name?: string | undefined;
 }
 export interface UserAttributeProfileStrategyOverridesMapping {
   /** OIDC mapping override for this strategy */
-  oidc_mapping?: UserAttributeProfileOidcMapping;
-  saml_mapping?: UserAttributeProfileSamlMapping;
+  oidc_mapping?: UserAttributeProfileOidcMapping | undefined;
+  saml_mapping?: UserAttributeProfileSamlMapping | undefined;
   /** SCIM mapping override for this strategy */
-  scim_mapping?: string;
+  scim_mapping?: string | undefined;
 }
 /** Strategy-specific overrides for this attribute */
 export interface UserAttributeProfileStrategyOverrides {
-  pingfederate?: UserAttributeProfileStrategyOverridesMapping;
-  ad?: UserAttributeProfileStrategyOverridesMapping;
-  adfs?: UserAttributeProfileStrategyOverridesMapping;
-  waad?: UserAttributeProfileStrategyOverridesMapping;
-  google_apps?: UserAttributeProfileStrategyOverridesMapping;
-  okta?: UserAttributeProfileStrategyOverridesMapping;
-  oidc?: UserAttributeProfileStrategyOverridesMapping;
-  samlp?: UserAttributeProfileStrategyOverridesMapping;
+  pingfederate?: UserAttributeProfileStrategyOverridesMapping | undefined;
+  ad?: UserAttributeProfileStrategyOverridesMapping | undefined;
+  adfs?: UserAttributeProfileStrategyOverridesMapping | undefined;
+  waad?: UserAttributeProfileStrategyOverridesMapping | undefined;
+  google_apps?: UserAttributeProfileStrategyOverridesMapping | undefined;
+  okta?: UserAttributeProfileStrategyOverridesMapping | undefined;
+  oidc?: UserAttributeProfileStrategyOverridesMapping | undefined;
+  samlp?: UserAttributeProfileStrategyOverridesMapping | undefined;
 }
 export interface UserAttributeProfileUserAttributeAdditionalProperties {
   /** Description of this attribute */
@@ -7330,12 +7404,12 @@ export interface UserAttributeProfileUserAttributeAdditionalProperties {
   profile_required: boolean;
   /** Auth0 mapping for this attribute */
   auth0_mapping: string;
-  oidc_mapping?: UserAttributeProfileOidcMapping;
+  oidc_mapping?: UserAttributeProfileOidcMapping | undefined;
   /** SAML mapping for this attribute */
-  saml_mapping?: UserAttributeProfileSamlMapping;
+  saml_mapping?: UserAttributeProfileSamlMapping | undefined;
   /** SCIM mapping for this attribute */
-  scim_mapping?: string;
-  strategy_overrides?: UserAttributeProfileStrategyOverrides;
+  scim_mapping?: string | undefined;
+  strategy_overrides?: UserAttributeProfileStrategyOverrides | undefined;
 }
 /** User attributes configuration map. Keys are attribute names, values are the mapping configuration for each attribute. */
 export type UserAttributeProfileUserAttributes = {
@@ -7343,14 +7417,14 @@ export type UserAttributeProfileUserAttributes = {
 };
 export interface CreateUserAttributeProfileRequest {
   name: string;
-  user_id?: UserAttributeProfileUserId;
+  user_id?: UserAttributeProfileUserId | undefined;
   user_attributes: UserAttributeProfileUserAttributes;
 }
 export interface CreateUserAttributeProfileResponseContent {
-  id?: string;
-  name?: string;
-  user_id?: UserAttributeProfileUserId;
-  user_attributes?: UserAttributeProfileUserAttributes;
+  id?: string | undefined;
+  name?: string | undefined;
+  user_id?: UserAttributeProfileUserId | undefined;
+  user_attributes?: UserAttributeProfileUserAttributes | undefined;
 }
 /** List of roles IDs to associated with the user. */
 export type CreateUserRoleRequestRolesList = Array<string>;
@@ -7369,7 +7443,7 @@ export interface CreateVariationRequest {
   /** A human-readable name for the variation */
   name: string;
   /** A description of what this variation controls */
-  description?: string;
+  description?: string | undefined;
   /** Configuration overrides for this variation; keys must exist in the parent flag parameters. Empty {} is the baseline (control) variation that overrides nothing. */
   overrides: VariationOverridesMap;
 }
@@ -7377,7 +7451,7 @@ export interface CreateVariationResponseContent {
   id: string;
   feature_flag_id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   overrides: VariationOverridesMap;
   created_at: string;
   updated_at: string;
@@ -7386,7 +7460,7 @@ export interface DeleteActionRequest {
   /** The ID of the action to delete. */
   id: string;
   /** Force action deletion detaching bindings */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteActionResponse {}
 export interface DeleteActionModuleRequest {
@@ -7747,7 +7821,7 @@ export type DeleteHookSecretRequestContent = Array<string>;
 export interface DeleteSecretsRequest {
   /** ID of the hook whose secrets to delete. */
   id: string;
-  body?: DeleteHookSecretRequestContent;
+  body?: DeleteHookSecretRequestContent | undefined;
 }
 export interface DeleteSecretsResponse {}
 export interface DeleteSegmentRequest {
@@ -7897,14 +7971,14 @@ export interface DeleteUserIdentityResponseContentItem {
   /** The type of identity provider. */
   provider: string;
   /** <code>true</code> if the identity provider is a social provider, <code>false</code>s otherwise */
-  isSocial?: boolean;
+  isSocial?: boolean | undefined;
   /** IDP access token returned only if scope read:user_idp_tokens is defined */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** IDP access token secret returned only if scope read:user_idp_tokens is defined. */
-  access_token_secret?: string | Redacted.Redacted<string>;
+  access_token_secret?: string | Redacted.Redacted<string> | undefined;
   /** IDP refresh token returned only if scope read:user_idp_tokens is defined. */
-  refresh_token?: string | Redacted.Redacted<string>;
-  profileData?: UserProfileData;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
+  profileData?: UserProfileData | undefined;
 }
 /** An array of objects with information about the user's identities. */
 export type DeleteUserIdentityResponseContent = Array<DeleteUserIdentityResponseContentItem>;
@@ -7973,35 +8047,35 @@ export type ActionBindingTypeEnum = "trigger-bound" | "entity-bound";
 export interface ActionTrigger {
   id: ActionTriggerTypeEnum | (string & {});
   /** The version of a trigger. v1, v2, etc. */
-  version?: string;
+  version?: string | undefined;
   /** status points to the trigger status. */
-  status?: string;
+  status?: string | undefined;
   /** runtimes supported by this trigger. */
-  runtimes?: ActionTriggerRuntimesList;
+  runtimes?: ActionTriggerRuntimesList | undefined;
   /** Runtime that will be used when none is specified when creating an action. */
-  default_runtime?: string;
+  default_runtime?: string | undefined;
   /** compatible_triggers informs which other trigger supports the same event and api. */
-  compatible_triggers?: ActionTriggerCompatibleTriggersList;
-  binding_policy?: ActionBindingTypeEnum | (string & {});
+  compatible_triggers?: ActionTriggerCompatibleTriggersList | undefined;
+  binding_policy?: ActionBindingTypeEnum | (string & {}) | undefined;
 }
 /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
 export type GetActionResponseContentSupportedTriggersList = Array<ActionTrigger>;
 /** Dependency is an npm module. These values are used to produce an immutable artifact, which manifests as a layer_id. */
 export interface ActionVersionDependency {
   /** name is the name of the npm module, e.g. lodash */
-  name?: string;
+  name?: string | undefined;
   /** description is the version of the npm module, e.g. 4.17.1 */
-  version?: string;
+  version?: string | undefined;
   /** registry_url is an optional value used primarily for private npm registries. */
-  registry_url?: string;
+  registry_url?: string | undefined;
 }
 /** The list of third party npm modules, and their versions, that this action depends on. */
 export type GetActionResponseContentDependenciesList = Array<ActionVersionDependency>;
 export interface ActionSecretResponse {
   /** The name of the particular secret, e.g. API_KEY. */
-  name?: string;
+  name?: string | undefined;
   /** The time when the secret was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of secrets that are included in an action or a version of an action. */
@@ -8020,9 +8094,9 @@ export type ActionVersionBuildStatusEnum =
   | "failed";
 /** Error is a generic error with a human readable id which should be easily referenced in support tickets. */
 export interface ActionError {
-  id?: string;
-  msg?: string;
-  url?: string;
+  id?: string | undefined;
+  msg?: string | undefined;
+  url?: string | undefined;
 }
 /** Any errors that occurred while the version was being built. */
 export type ActionDeployedVersionErrorsList = Array<ActionError>;
@@ -8031,65 +8105,65 @@ export type ActionBaseSupportedTriggersList = Array<ActionTrigger>;
 /** The action to which this version belongs. */
 export interface ActionBase {
   /** The unique ID of the action. */
-  id?: string;
+  id?: string | undefined;
   /** The name of an action. */
-  name?: string;
+  name?: string | undefined;
   /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
-  supported_triggers?: ActionBaseSupportedTriggersList;
+  supported_triggers?: ActionBaseSupportedTriggersList | undefined;
   /** True if all of an Action's contents have been deployed. */
-  all_changes_deployed?: boolean;
+  all_changes_deployed?: boolean | undefined;
   /** The time when this action was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this action was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The list of triggers that this version supports. At this time, a version can only target a single trigger at a time. */
 export type ActionDeployedVersionSupportedTriggersList = Array<ActionTrigger>;
 /** Reference to a module and its version used by an action. */
 export interface ActionModuleReference {
   /** The unique ID of the module. */
-  module_id?: string;
+  module_id?: string | undefined;
   /** The name of the module. */
-  module_name?: string;
+  module_name?: string | undefined;
   /** The ID of the specific module version. */
-  module_version_id?: string;
+  module_version_id?: string | undefined;
   /** The version number of the module. */
-  module_version_number?: number;
+  module_version_number?: number | undefined;
 }
 /** The list of action modules and their versions used by this action version. */
 export type ActionDeployedVersionModulesList = Array<ActionModuleReference>;
 /** The version of the action that is currently deployed. */
 export interface ActionDeployedVersion {
   /** The unique id of an action version. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the action to which this version belongs. */
-  action_id?: string;
+  action_id?: string | undefined;
   /** The source code of this specific version of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this specific version depends on. */
-  dependencies?: ActionDeployedVersionDependenciesList;
+  dependencies?: ActionDeployedVersionDependenciesList | undefined;
   /** Indicates if this specific version is the currently one deployed. */
-  deployed?: boolean;
+  deployed?: boolean | undefined;
   /** The Node runtime. For example: `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: ActionDeployedVersionSecretsList;
-  status?: ActionVersionBuildStatusEnum;
+  secrets?: ActionDeployedVersionSecretsList | undefined;
+  status?: ActionVersionBuildStatusEnum | undefined;
   /** The index of this version in list of versions for the action. */
-  number?: number;
+  number?: number | undefined;
   /** Any errors that occurred while the version was being built. */
-  errors?: ActionDeployedVersionErrorsList;
-  action?: ActionBase;
+  errors?: ActionDeployedVersionErrorsList | undefined;
+  action?: ActionBase | undefined;
   /** The time when this version was built successfully. */
-  built_at?: string;
+  built_at?: string | undefined;
   /** The time when this version was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when a version was updated. Versions are never updated externally. Only Auth0 will update an action version as it is being built. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The list of triggers that this version supports. At this time, a version can only target a single trigger at a time. */
-  supported_triggers?: ActionDeployedVersionSupportedTriggersList;
+  supported_triggers?: ActionDeployedVersionSupportedTriggersList | undefined;
   /** The list of action modules and their versions used by this action version. */
-  modules?: ActionDeployedVersionModulesList;
+  modules?: ActionDeployedVersionModulesList | undefined;
 }
 /** feature_type is the type of the integration. */
 export type IntegrationFeatureTypeEnum =
@@ -8102,38 +8176,38 @@ export type IntegrationFeatureTypeEnum =
 /** Semver denotes the major.minor version of an integration release */
 export interface IntegrationSemVer {
   /** Major is the major number of a semver */
-  major?: number;
+  major?: number | undefined;
   /** Minior is the minior number of a semver */
-  minor?: number;
+  minor?: number | undefined;
 }
 export type IntegrationRequiredParamTypeEnum = "UNSPECIFIED" | "STRING";
 export interface IntegrationRequiredParamOption {
   /** The value of an option that will be used within the application. */
-  value?: string;
+  value?: string | undefined;
   /** The display value of an option suitable for displaying in a UI. */
-  label?: string;
+  label?: string | undefined;
 }
 /** The allowable options for this param. */
 export type IntegrationRequiredParamOptionsList = Array<IntegrationRequiredParamOption>;
 /** Param are form input values, primarily utilized when specifying secrets and configuration values for actions. These are especially important for partner integrations -- but can be exposed to tenant admins as well if they want to parameterize their custom actions. */
 export interface IntegrationRequiredParam {
-  type?: IntegrationRequiredParamTypeEnum;
+  type?: IntegrationRequiredParamTypeEnum | undefined;
   /** The name of the parameter. */
-  name?: string;
+  name?: string | undefined;
   /** The flag for if this parameter is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** The temp flag for if this parameter is required (experimental; for Labs use only). */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** The short label for this parameter. */
-  label?: string;
+  label?: string | undefined;
   /** The lengthier description for this parameter. */
-  description?: string;
+  description?: string | undefined;
   /** The default value for this parameter. */
-  default_value?: string;
+  default_value?: string | undefined;
   /** Placeholder text for this parameter. */
-  placeholder?: string;
+  placeholder?: string | undefined;
   /** The allowable options for this param. */
-  options?: IntegrationRequiredParamOptionsList;
+  options?: IntegrationRequiredParamOptionsList | undefined;
 }
 /** required_secrets declares all the necessary secrets for an integration to work. */
 export type IntegrationReleaseRequiredSecretsList = Array<IntegrationRequiredParam>;
@@ -8141,39 +8215,39 @@ export type IntegrationReleaseRequiredSecretsList = Array<IntegrationRequiredPar
 export type IntegrationReleaseRequiredConfigurationList = Array<IntegrationRequiredParam>;
 export interface IntegrationRelease {
   /** The id of the associated IntegrationRelease */
-  id?: string;
-  trigger?: ActionTrigger;
-  semver?: IntegrationSemVer;
+  id?: string | undefined;
+  trigger?: ActionTrigger | undefined;
+  semver?: IntegrationSemVer | undefined;
   /** required_secrets declares all the necessary secrets for an integration to work. */
-  required_secrets?: IntegrationReleaseRequiredSecretsList;
+  required_secrets?: IntegrationReleaseRequiredSecretsList | undefined;
   /** required_configuration declares all the necessary configuration fields for an integration to work. */
-  required_configuration?: IntegrationReleaseRequiredConfigurationList;
+  required_configuration?: IntegrationReleaseRequiredConfigurationList | undefined;
   [key: string]: unknown;
 }
 /** Integration defines a self contained functioning unit which partners publish. A partner may create one or many of these integrations. */
 export interface Integration {
   /** id is a system generated GUID. This same ID is designed to be federated in all the applicable localities. */
-  id?: string;
+  id?: string | undefined;
   /** catalog_id refers to the ID in the marketplace catalog */
-  catalog_id?: string;
+  catalog_id?: string | undefined;
   /** url_slug refers to the url_slug in the marketplace catalog */
-  url_slug?: string;
+  url_slug?: string | undefined;
   /** partner_id is the foreign key reference to the partner account this integration belongs to. */
-  partner_id?: string;
+  partner_id?: string | undefined;
   /** name is the integration name, which will be used for display purposes in the marketplace. To start we're going to make sure the display name is at least 3 characters. Can adjust this easily later. */
-  name?: string;
+  name?: string | undefined;
   /** description adds more text for the integration name -- also relevant for the marketplace listing. */
-  description?: string;
+  description?: string | undefined;
   /** short_description is the brief description of the integration, which is used for display purposes in cards */
-  short_description?: string;
-  logo?: string;
-  feature_type?: IntegrationFeatureTypeEnum;
-  terms_of_use_url?: string;
-  privacy_policy_url?: string;
-  public_support_link?: string;
-  current_release?: IntegrationRelease;
-  created_at?: string;
-  updated_at?: string;
+  short_description?: string | undefined;
+  logo?: string | undefined;
+  feature_type?: IntegrationFeatureTypeEnum | undefined;
+  terms_of_use_url?: string | undefined;
+  privacy_policy_url?: string | undefined;
+  public_support_link?: string | undefined;
+  current_release?: IntegrationRelease | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** The build status of this action. */
 export type ActionBuildStatusEnum =
@@ -8187,36 +8261,36 @@ export type ActionBuildStatusEnum =
 export type GetActionResponseContentModulesList = Array<ActionModuleReference>;
 export interface GetActionResponseContent {
   /** The unique ID of the action. */
-  id?: string;
+  id?: string | undefined;
   /** The name of an action. */
-  name?: string;
+  name?: string | undefined;
   /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
-  supported_triggers?: GetActionResponseContentSupportedTriggersList;
+  supported_triggers?: GetActionResponseContentSupportedTriggersList | undefined;
   /** True if all of an Action's contents have been deployed. */
-  all_changes_deployed?: boolean;
+  all_changes_deployed?: boolean | undefined;
   /** The time when this action was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this action was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The source code of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this action depends on. */
-  dependencies?: GetActionResponseContentDependenciesList;
+  dependencies?: GetActionResponseContentDependenciesList | undefined;
   /** The Node runtime. For example: `node22`, defaults to `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: GetActionResponseContentSecretsList;
-  deployed_version?: ActionDeployedVersion;
+  secrets?: GetActionResponseContentSecretsList | undefined;
+  deployed_version?: ActionDeployedVersion | undefined;
   /** installed_integration_id is the fk reference to the InstalledIntegration entity. */
-  installed_integration_id?: string;
-  integration?: Integration;
-  status?: ActionBuildStatusEnum;
+  installed_integration_id?: string | undefined;
+  integration?: Integration | undefined;
+  status?: ActionBuildStatusEnum | undefined;
   /** The time when this action was built successfully. */
-  built_at?: string;
+  built_at?: string | undefined;
   /** True if the action should be deployed after creation. */
-  deploy?: boolean;
+  deploy?: boolean | undefined;
   /** The list of action modules and their versions used by this action. */
-  modules?: GetActionResponseContentModulesList;
+  modules?: GetActionResponseContentModulesList | undefined;
 }
 export interface GetActionModuleRequest {
   /** The ID of the action module to retrieve. */
@@ -8228,66 +8302,66 @@ export type GetActionModuleResponseContentDependenciesList = Array<ActionModuleD
 export type GetActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
 export interface GetActionModuleResponseContent {
   /** The unique ID of the module. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the module. */
-  name?: string;
+  name?: string | undefined;
   /** The source code from the module's draft version. */
-  code?: string;
+  code?: string | undefined;
   /** The npm dependencies from the module's draft version. */
-  dependencies?: GetActionModuleResponseContentDependenciesList;
+  dependencies?: GetActionModuleResponseContentDependenciesList | undefined;
   /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: GetActionModuleResponseContentSecretsList;
+  secrets?: GetActionModuleResponseContentSecretsList | undefined;
   /** The number of deployed actions using this module. */
-  actions_using_module_total?: number;
+  actions_using_module_total?: number | undefined;
   /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean;
+  all_changes_published?: boolean | undefined;
   /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number;
+  latest_version_number?: number | undefined;
   /** Timestamp when the module was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the module was last updated. */
-  updated_at?: string;
-  latest_version?: ActionModuleVersionReference;
+  updated_at?: string | undefined;
+  latest_version?: ActionModuleVersionReference | undefined;
 }
 export interface GetActionModuleActionsRequest {
   /** The unique ID of the module. */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The triggers that this action supports. */
 export type ActionModuleActionSupportedTriggersList = Array<ActionTrigger>;
 export interface ActionModuleAction {
   /** The unique ID of the action. */
-  action_id?: string;
+  action_id?: string | undefined;
   /** The name of the action. */
-  action_name?: string;
+  action_name?: string | undefined;
   /** The ID of the module version this action is using. */
-  module_version_id?: string;
+  module_version_id?: string | undefined;
   /** The version number of the module this action is using. */
-  module_version_number?: number;
+  module_version_number?: number | undefined;
   /** The triggers that this action supports. */
-  supported_triggers?: ActionModuleActionSupportedTriggersList;
+  supported_triggers?: ActionModuleActionSupportedTriggersList | undefined;
 }
 /** A list of action references. */
 export type GetActionModuleActionsResponseContentActionsList = Array<ActionModuleAction>;
 export interface GetActionModuleActionsResponseContent {
   /** A list of action references. */
-  actions?: GetActionModuleActionsResponseContentActionsList;
+  actions?: GetActionModuleActionsResponseContentActionsList | undefined;
   /** The total number of actions using this module. */
-  total?: number;
+  total?: number | undefined;
   /** The page index of the returned results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results requested per page. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface GetActionModulesRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Paging is disabled if parameter not sent. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The npm dependencies from the module's draft version. */
 export type ActionModuleListItemDependenciesList = Array<ActionModuleDependency>;
@@ -8295,37 +8369,37 @@ export type ActionModuleListItemDependenciesList = Array<ActionModuleDependency>
 export type ActionModuleListItemSecretsList = Array<ActionModuleSecret>;
 export interface ActionModuleListItem {
   /** The unique ID of the module. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the module. */
-  name?: string;
+  name?: string | undefined;
   /** The source code from the module's draft version. */
-  code?: string;
+  code?: string | undefined;
   /** The npm dependencies from the module's draft version. */
-  dependencies?: ActionModuleListItemDependenciesList;
+  dependencies?: ActionModuleListItemDependenciesList | undefined;
   /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: ActionModuleListItemSecretsList;
+  secrets?: ActionModuleListItemSecretsList | undefined;
   /** The number of deployed actions using this module. */
-  actions_using_module_total?: number;
+  actions_using_module_total?: number | undefined;
   /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean;
+  all_changes_published?: boolean | undefined;
   /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number;
+  latest_version_number?: number | undefined;
   /** Timestamp when the module was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the module was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** A list of ActionsModule objects. */
 export type GetActionModulesResponseContentModulesList = Array<ActionModuleListItem>;
 export interface GetActionModulesResponseContent {
   /** A list of ActionsModule objects. */
-  modules?: GetActionModulesResponseContentModulesList;
+  modules?: GetActionModulesResponseContentModulesList | undefined;
   /** The total number of modules in the tenant. */
-  total?: number;
+  total?: number | undefined;
   /** The page index of the returned results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results requested per page. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface GetActionModuleVersionRequest {
   /** The unique ID of the module. */
@@ -8339,27 +8413,27 @@ export type GetActionModuleVersionResponseContentSecretsList = Array<ActionModul
 export type GetActionModuleVersionResponseContentDependenciesList = Array<ActionModuleDependency>;
 export interface GetActionModuleVersionResponseContent {
   /** The unique ID for this version. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the parent module. */
-  module_id?: string;
+  module_id?: string | undefined;
   /** The sequential version number. */
-  version_number?: number;
+  version_number?: number | undefined;
   /** The exact source code that was published with this version. */
-  code?: string;
+  code?: string | undefined;
   /** Secrets available to this version (name and updated_at only, values never returned). */
-  secrets?: GetActionModuleVersionResponseContentSecretsList;
+  secrets?: GetActionModuleVersionResponseContentSecretsList | undefined;
   /** Dependencies locked to this version. */
-  dependencies?: GetActionModuleVersionResponseContentDependenciesList;
+  dependencies?: GetActionModuleVersionResponseContentDependenciesList | undefined;
   /** The timestamp when this version was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface GetActionModuleVersionsRequest {
   /** The unique ID of the module. */
   id: string;
   /** Use this field to request a specific page of the list results. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of results to be returned by the server in a single response. 20 by default. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Secrets available to this version (name and updated_at only, values never returned). */
 export type ActionModuleVersionSecretsList = Array<ActionModuleSecret>;
@@ -8367,45 +8441,45 @@ export type ActionModuleVersionSecretsList = Array<ActionModuleSecret>;
 export type ActionModuleVersionDependenciesList = Array<ActionModuleDependency>;
 export interface ActionModuleVersion {
   /** The unique ID for this version. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the parent module. */
-  module_id?: string;
+  module_id?: string | undefined;
   /** The sequential version number. */
-  version_number?: number;
+  version_number?: number | undefined;
   /** The exact source code that was published with this version. */
-  code?: string;
+  code?: string | undefined;
   /** Secrets available to this version (name and updated_at only, values never returned). */
-  secrets?: ActionModuleVersionSecretsList;
+  secrets?: ActionModuleVersionSecretsList | undefined;
   /** Dependencies locked to this version. */
-  dependencies?: ActionModuleVersionDependenciesList;
+  dependencies?: ActionModuleVersionDependenciesList | undefined;
   /** The timestamp when this version was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** A list of ActionsModuleVersion objects. */
 export type GetActionModuleVersionsResponseContentVersionsList = Array<ActionModuleVersion>;
 export interface GetActionModuleVersionsResponseContent {
   /** A list of ActionsModuleVersion objects. */
-  versions?: GetActionModuleVersionsResponseContentVersionsList;
+  versions?: GetActionModuleVersionsResponseContentVersionsList | undefined;
   /** The total number of versions for this module. */
-  total?: number;
+  total?: number | undefined;
   /** The page index of the returned results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results requested per page. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface GetActionsRequest {
   /** An actions extensibility point. */
-  triggerId?: ActionTriggerTypeEnum | (string & {});
+  triggerId?: ActionTriggerTypeEnum | (string & {}) | undefined;
   /** The name of the action to retrieve. */
-  actionName?: string;
+  actionName?: string | undefined;
   /** Optional filter to only retrieve actions that are deployed. */
-  deployed?: boolean;
+  deployed?: boolean | undefined;
   /** Use this field to request a specific page of the list results. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of results to be returned by the server in single response. 20 by default */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Optional. When true, return only installed actions. When false, return only custom actions. Returns all actions by default. */
-  installed?: boolean;
+  installed?: boolean | undefined;
 }
 /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
 export type ActionSupportedTriggersList = Array<ActionTrigger>;
@@ -8417,48 +8491,48 @@ export type ActionSecretsList = Array<ActionSecretResponse>;
 export type ActionModulesList = Array<ActionModuleReference>;
 export interface Action {
   /** The unique ID of the action. */
-  id?: string;
+  id?: string | undefined;
   /** The name of an action. */
-  name?: string;
+  name?: string | undefined;
   /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
-  supported_triggers?: ActionSupportedTriggersList;
+  supported_triggers?: ActionSupportedTriggersList | undefined;
   /** True if all of an Action's contents have been deployed. */
-  all_changes_deployed?: boolean;
+  all_changes_deployed?: boolean | undefined;
   /** The time when this action was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this action was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The source code of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this action depends on. */
-  dependencies?: ActionDependenciesList;
+  dependencies?: ActionDependenciesList | undefined;
   /** The Node runtime. For example: `node22`, defaults to `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: ActionSecretsList;
-  deployed_version?: ActionDeployedVersion;
+  secrets?: ActionSecretsList | undefined;
+  deployed_version?: ActionDeployedVersion | undefined;
   /** installed_integration_id is the fk reference to the InstalledIntegration entity. */
-  installed_integration_id?: string;
-  integration?: Integration;
-  status?: ActionBuildStatusEnum;
+  installed_integration_id?: string | undefined;
+  integration?: Integration | undefined;
+  status?: ActionBuildStatusEnum | undefined;
   /** The time when this action was built successfully. */
-  built_at?: string;
+  built_at?: string | undefined;
   /** True if the action should be deployed after creation. */
-  deploy?: boolean;
+  deploy?: boolean | undefined;
   /** The list of action modules and their versions used by this action. */
-  modules?: ActionModulesList;
+  modules?: ActionModulesList | undefined;
 }
 /** The list of actions. */
 export type ListActionsPaginatedResponseContentActionsList = Array<Action>;
 export interface ListActionsPaginatedResponseContent {
   /** The total result count. */
-  total?: number;
+  total?: number | undefined;
   /** Page index of the results being returned. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The list of actions. */
-  actions?: ListActionsPaginatedResponseContentActionsList;
+  actions?: ListActionsPaginatedResponseContentActionsList | undefined;
 }
 export interface GetActionVersionRequest {
   /** The ID of the action. */
@@ -8478,43 +8552,43 @@ export type GetActionVersionResponseContentSupportedTriggersList = Array<ActionT
 export type GetActionVersionResponseContentModulesList = Array<ActionModuleReference>;
 export interface GetActionVersionResponseContent {
   /** The unique id of an action version. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the action to which this version belongs. */
-  action_id?: string;
+  action_id?: string | undefined;
   /** The source code of this specific version of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this specific version depends on. */
-  dependencies?: GetActionVersionResponseContentDependenciesList;
+  dependencies?: GetActionVersionResponseContentDependenciesList | undefined;
   /** Indicates if this specific version is the currently one deployed. */
-  deployed?: boolean;
+  deployed?: boolean | undefined;
   /** The Node runtime. For example: `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: GetActionVersionResponseContentSecretsList;
-  status?: ActionVersionBuildStatusEnum;
+  secrets?: GetActionVersionResponseContentSecretsList | undefined;
+  status?: ActionVersionBuildStatusEnum | undefined;
   /** The index of this version in list of versions for the action. */
-  number?: number;
+  number?: number | undefined;
   /** Any errors that occurred while the version was being built. */
-  errors?: GetActionVersionResponseContentErrorsList;
-  action?: ActionBase;
+  errors?: GetActionVersionResponseContentErrorsList | undefined;
+  action?: ActionBase | undefined;
   /** The time when this version was built successfully. */
-  built_at?: string;
+  built_at?: string | undefined;
   /** The time when this version was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when a version was updated. Versions are never updated externally. Only Auth0 will update an action version as it is being built. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The list of triggers that this version supports. At this time, a version can only target a single trigger at a time. */
-  supported_triggers?: GetActionVersionResponseContentSupportedTriggersList;
+  supported_triggers?: GetActionVersionResponseContentSupportedTriggersList | undefined;
   /** The list of action modules and their versions used by this action version. */
-  modules?: GetActionVersionResponseContentModulesList;
+  modules?: GetActionVersionResponseContentModulesList | undefined;
 }
 export interface GetActionVersionsRequest {
   /** The ID of the action. */
   actionId: string;
   /** Use this field to request a specific page of the list results. */
-  page?: number;
+  page?: number | undefined;
   /** This field specify the maximum number of results to be returned by the server. 20 by default */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The list of third party npm modules, and their versions, that this specific version depends on. */
 export type ActionVersionDependenciesList = Array<ActionVersionDependency>;
@@ -8528,45 +8602,45 @@ export type ActionVersionSupportedTriggersList = Array<ActionTrigger>;
 export type ActionVersionModulesList = Array<ActionModuleReference>;
 export interface ActionVersion {
   /** The unique id of an action version. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the action to which this version belongs. */
-  action_id?: string;
+  action_id?: string | undefined;
   /** The source code of this specific version of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this specific version depends on. */
-  dependencies?: ActionVersionDependenciesList;
+  dependencies?: ActionVersionDependenciesList | undefined;
   /** Indicates if this specific version is the currently one deployed. */
-  deployed?: boolean;
+  deployed?: boolean | undefined;
   /** The Node runtime. For example: `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: ActionVersionSecretsList;
-  status?: ActionVersionBuildStatusEnum;
+  secrets?: ActionVersionSecretsList | undefined;
+  status?: ActionVersionBuildStatusEnum | undefined;
   /** The index of this version in list of versions for the action. */
-  number?: number;
+  number?: number | undefined;
   /** Any errors that occurred while the version was being built. */
-  errors?: ActionVersionErrorsList;
-  action?: ActionBase;
+  errors?: ActionVersionErrorsList | undefined;
+  action?: ActionBase | undefined;
   /** The time when this version was built successfully. */
-  built_at?: string;
+  built_at?: string | undefined;
   /** The time when this version was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when a version was updated. Versions are never updated externally. Only Auth0 will update an action version as it is being built. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The list of triggers that this version supports. At this time, a version can only target a single trigger at a time. */
-  supported_triggers?: ActionVersionSupportedTriggersList;
+  supported_triggers?: ActionVersionSupportedTriggersList | undefined;
   /** The list of action modules and their versions used by this action version. */
-  modules?: ActionVersionModulesList;
+  modules?: ActionVersionModulesList | undefined;
 }
 export type ListActionVersionsPaginatedResponseContentVersionsList = Array<ActionVersion>;
 export interface ListActionVersionsPaginatedResponseContent {
   /** The total result count. */
-  total?: number;
+  total?: number | undefined;
   /** Page index of the results being returned. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
-  versions?: ListActionVersionsPaginatedResponseContentVersionsList;
+  per_page?: number | undefined;
+  versions?: ListActionVersionsPaginatedResponseContentVersionsList | undefined;
 }
 export interface GetActiveUsersRequest {}
 export type GetActiveUsersResponse = number;
@@ -8576,15 +8650,15 @@ export interface GetAgentRequest {
 }
 export interface GetAgentsRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListAgentsResponseContentAgentsList = Array<AgentResponseContent>;
 export interface ListAgentsResponseContent {
   agents: ListAgentsResponseContentAgentsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. Omitted when there are no further results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetAllKeysNetworkAclsRequest {}
 export interface NetworkAclKey {
@@ -8610,21 +8684,21 @@ export interface GetAllKeysNetworkAclsResponseContent {
 export type AculRenderingModeEnum = "advanced" | "standard";
 export interface GetAllRenderingRequest {
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (default: true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Maximum value is 100, default value is 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total configuration count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Name of the prompt to filter by */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Name of the screen to filter by */
-  screen?: string;
+  screen?: string | undefined;
   /** Rendering mode to filter by */
-  rendering_mode?: AculRenderingModeEnum | (string & {});
+  rendering_mode?: AculRenderingModeEnum | (string & {}) | undefined;
 }
 /** Static context values */
 export type AculContextEnum =
@@ -8654,9 +8728,9 @@ export type AculContextConfiguration = Array<AculContextConfigurationItem>;
 export type AculHeadTagAttributes = { [key: string]: unknown | undefined };
 export interface AculHeadTag {
   /** Any HTML element valid for use in the head tag */
-  tag?: string;
-  attributes?: AculHeadTagAttributes;
-  content?: string;
+  tag?: string | undefined;
+  attributes?: AculHeadTagAttributes | undefined;
+  content?: string | undefined;
   [key: string]: unknown;
 }
 /** An array of head tags */
@@ -8704,44 +8778,44 @@ export type AculDomainFilter = AculDomainFilterById | AculDomainFilterByMetadata
 export type AculFiltersDomainsList = Array<AculDomainFilter>;
 /** Optional filters to apply rendering rules to specific entities */
 export interface AculFilters {
-  match_type?: AculMatchTypeEnum | (string & {});
+  match_type?: AculMatchTypeEnum | (string & {}) | undefined;
   /** Clients filter */
-  clients?: AculFiltersClientsList;
+  clients?: AculFiltersClientsList | undefined;
   /** Organizations filter */
-  organizations?: AculFiltersOrganizationsList;
+  organizations?: AculFiltersOrganizationsList | undefined;
   /** Domains filter */
-  domains?: AculFiltersDomainsList;
+  domains?: AculFiltersDomainsList | undefined;
 }
 export interface ListAculsResponseContentItem {
   /** Tenant ID */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of the prompt */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Name of the screen */
-  screen?: string;
+  screen?: string | undefined;
   /** Rendering mode */
-  rendering_mode?: AculRenderingModeEnum;
-  context_configuration?: AculContextConfiguration | null;
+  rendering_mode?: AculRenderingModeEnum | undefined;
+  context_configuration?: AculContextConfiguration | null | undefined;
   /** Override Universal Login default head tags */
-  default_head_tags_disabled?: boolean | null;
+  default_head_tags_disabled?: boolean | null | undefined;
   /** Use page template with ACUL */
-  use_page_template?: boolean | null;
+  use_page_template?: boolean | null | undefined;
   /** An array of head tags */
-  head_tags?: ListAculsResponseContentItemHeadTagsList | null;
-  filters?: AculFilters | null;
+  head_tags?: ListAculsResponseContentItemHeadTagsList | null | undefined;
+  filters?: AculFilters | null | undefined;
   [key: string]: unknown;
 }
 export type ListAculsResponseContentCase0List = Array<ListAculsResponseContentItem>;
 export type ListAculsOffsetPaginatedResponseContentConfigsList =
   Array<ListAculsResponseContentItem>;
 export interface ListAculsOffsetPaginatedResponseContent {
-  configs?: ListAculsOffsetPaginatedResponseContentConfigsList;
+  configs?: ListAculsOffsetPaginatedResponseContentConfigsList | undefined;
   /** the index of the first configuration in the response (before filtering) */
-  start?: number;
+  start?: number | undefined;
   /** the maximum number of configurations shown per page (before filtering) */
-  limit?: number;
+  limit?: number | undefined;
   /** the total number of configurations on this tenant */
-  total?: number;
+  total?: number | undefined;
 }
 export type ListAculsResponseContent =
   | ListAculsResponseContentCase0List
@@ -8749,19 +8823,19 @@ export type ListAculsResponseContent =
 export type GetAllRenderingResponse = ListAculsResponseContent;
 export interface GetApnsRequest {}
 export interface GetGuardianFactorsProviderApnsResponseContent {
-  bundle_id?: string | null;
-  sandbox?: boolean;
-  enabled?: boolean;
+  bundle_id?: string | null | undefined;
+  sandbox?: boolean | undefined;
+  enabled?: boolean | undefined;
 }
 export interface GetAuthenticationMethodsRequest {
   /** The ID of the user in question. */
   id: string;
   /** Page index of the results to return. First page is 0. Default is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Default is 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export type AuthenticationMethodTypeEnum =
   | "recovery-code"
@@ -8777,8 +8851,8 @@ export type AuthenticationMethodTypeEnum =
   | "password";
 export type UserAuthenticationMethodPropertiesEnum = "totp" | "push" | "sms" | "voice";
 export interface UserAuthenticationMethodProperties {
-  type?: UserAuthenticationMethodPropertiesEnum;
-  id?: string;
+  type?: UserAuthenticationMethodPropertiesEnum | undefined;
+  id?: string | undefined;
   [key: string]: unknown;
 }
 export type UserAuthenticationMethodAuthenticationMethodsList =
@@ -8792,43 +8866,43 @@ export interface UserAuthenticationMethod {
   id: string;
   type: AuthenticationMethodTypeEnum;
   /** The authentication method status */
-  confirmed?: boolean;
+  confirmed?: boolean | undefined;
   /** A human-readable label to identify the authentication method */
-  name?: string;
-  authentication_methods?: UserAuthenticationMethodAuthenticationMethodsList;
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum;
+  name?: string | undefined;
+  authentication_methods?: UserAuthenticationMethodAuthenticationMethodsList | undefined;
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | undefined;
   /** The ID of a linked authentication method. Linked authentication methods will be deleted together. */
-  link_id?: string;
+  link_id?: string | undefined;
   /** Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Applies to email and email-verification authentication methods only. The email address used to send verification messages. */
-  email?: string;
+  email?: string | undefined;
   /** Applies to webauthn authentication methods only. The ID of the generated credential. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Applies to webauthn authentication methods only. The public key. */
-  public_key?: string;
+  public_key?: string | undefined;
   /** Authenticator creation date */
   created_at: string;
   /** Enrollment date */
-  enrolled_at?: string;
+  enrolled_at?: string | undefined;
   /** Last authentication */
-  last_auth_at?: string;
+  last_auth_at?: string | undefined;
   /** Applies to passkeys only. The kind of device the credential is stored on as defined by backup eligibility. "single_device" credentials cannot be backed up and synced to another device, "multi_device" credentials can be backed up if enabled by the end-user. */
-  credential_device_type?: string;
+  credential_device_type?: string | undefined;
   /** Applies to passkeys only. Whether the credential was backed up. */
-  credential_backed_up?: boolean;
+  credential_backed_up?: boolean | undefined;
   /** Applies to passkeys only. The ID of the user identity linked with the authentication method. */
-  identity_user_id?: string;
+  identity_user_id?: string | undefined;
   /** Applies to passkeys only. The user-agent of the browser used to create the passkey. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** Applies to passkeys only. The user handle of the user identity. */
-  user_handle?: string;
+  user_handle?: string | undefined;
   /** Applies to passkeys only. The transports used by clients to communicate with the authenticator. */
-  transports?: UserAuthenticationMethodTransportsList;
+  transports?: UserAuthenticationMethodTransportsList | undefined;
   /** Applies to passkey authentication methods only. Authenticator Attestation Globally Unique Identifier. */
-  aaguid?: string;
+  aaguid?: string | undefined;
   /** Applies to webauthn/passkey authentication methods only. The credential's relying party identifier. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
 }
 /** The paginated authentication methods. Returned in this structure when include_totals is false. */
 export type ListUserAuthenticationMethodsResponseContentCase0List = Array<UserAuthenticationMethod>;
@@ -8837,13 +8911,15 @@ export type ListUserAuthenticationMethodsOffsetPaginatedResponseContentAuthentic
   Array<UserAuthenticationMethod>;
 export interface ListUserAuthenticationMethodsOffsetPaginatedResponseContent {
   /** Index of the starting record. Derived from the page and per_page parameters. */
-  start?: number;
+  start?: number | undefined;
   /** Maximum amount of records to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Total number of pageable records. */
-  total?: number;
+  total?: number | undefined;
   /** The paginated authentication methods. Returned in this structure when include_totals is true. */
-  authenticators?: ListUserAuthenticationMethodsOffsetPaginatedResponseContentAuthenticatorsList;
+  authenticators?:
+    | ListUserAuthenticationMethodsOffsetPaginatedResponseContentAuthenticatorsList
+    | undefined;
 }
 export type ListUserAuthenticationMethodsResponseContent =
   | ListUserAuthenticationMethodsResponseContentCase0List
@@ -8864,43 +8940,45 @@ export interface GetUserAuthenticationMethodResponseContent {
   id: string;
   type: AuthenticationMethodTypeEnum;
   /** The authentication method status */
-  confirmed?: boolean;
+  confirmed?: boolean | undefined;
   /** A human-readable label to identify the authentication method */
-  name?: string;
-  authentication_methods?: GetUserAuthenticationMethodResponseContentAuthenticationMethodsList;
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum;
+  name?: string | undefined;
+  authentication_methods?:
+    | GetUserAuthenticationMethodResponseContentAuthenticationMethodsList
+    | undefined;
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | undefined;
   /** The ID of a linked authentication method. Linked authentication methods will be deleted together. */
-  link_id?: string;
+  link_id?: string | undefined;
   /** Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Applies to email and email-verification authentication methods only. The email address used to send verification messages. */
-  email?: string;
+  email?: string | undefined;
   /** Applies to webauthn authentication methods only. The ID of the generated credential. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Applies to webauthn authentication methods only. The public key. */
-  public_key?: string;
+  public_key?: string | undefined;
   /** Authenticator creation date */
   created_at: string;
   /** Enrollment date */
-  enrolled_at?: string;
+  enrolled_at?: string | undefined;
   /** Last authentication */
-  last_auth_at?: string;
+  last_auth_at?: string | undefined;
   /** Applies to passkeys only. The kind of device the credential is stored on as defined by backup eligibility. "single_device" credentials cannot be backed up and synced to another device, "multi_device" credentials can be backed up if enabled by the end-user. */
-  credential_device_type?: string;
+  credential_device_type?: string | undefined;
   /** Applies to passkeys only. Whether the credential was backed up. */
-  credential_backed_up?: boolean;
+  credential_backed_up?: boolean | undefined;
   /** Applies to passkeys only. The ID of the user identity linked with the authentication method. */
-  identity_user_id?: string;
+  identity_user_id?: string | undefined;
   /** Applies to passkeys only. The user-agent of the browser used to create the passkey. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** Applies to passkeys only. The user handle of the user identity. */
-  user_handle?: string;
+  user_handle?: string | undefined;
   /** Applies to passkeys only. The transports used by clients to communicate with the authenticator. */
-  transports?: GetUserAuthenticationMethodResponseContentTransportsList;
+  transports?: GetUserAuthenticationMethodResponseContentTransportsList | undefined;
   /** Applies to passkey authentication methods only. Authenticator Attestation Globally Unique Identifier. */
-  aaguid?: string;
+  aaguid?: string | undefined;
   /** Applies to webauthn/passkey authentication methods only. The credential's relying party identifier. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
 }
 /** An actions extensibility point. */
 export type GetBindingsRequestTriggerId =
@@ -8923,34 +9001,34 @@ export interface GetBindingsRequest {
   /** An actions extensibility point. */
   triggerId: GetBindingsRequestTriggerId | (string & {});
   /** Use this field to request a specific page of the list results. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of results to be returned in a single request. 20 by default */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Binding is the associative entity joining a trigger, and an action together. */
 export interface ActionBinding {
   /** The unique ID of this binding. */
-  id?: string;
-  trigger_id?: ActionTriggerTypeEnum;
+  id?: string | undefined;
+  trigger_id?: ActionTriggerTypeEnum | undefined;
   /** The name of the binding. */
-  display_name?: string;
-  action?: Action;
+  display_name?: string | undefined;
+  action?: Action | undefined;
   /** The time when the binding was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when the binding was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The list of actions that are bound to this trigger in the order in which they will be executed. */
 export type ListActionBindingsPaginatedResponseContentBindingsList = Array<ActionBinding>;
 export interface ListActionBindingsPaginatedResponseContent {
   /** The total result count. */
-  total?: number;
+  total?: number | undefined;
   /** Page index of the results being returned. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The list of actions that are bound to this trigger in the order in which they will be executed. */
-  bindings?: ListActionBindingsPaginatedResponseContentBindingsList;
+  bindings?: ListActionBindingsPaginatedResponseContentBindingsList | undefined;
 }
 export interface GetBotDetectionRequest {}
 /** The level of bot detection sensitivity */
@@ -8978,46 +9056,46 @@ export type BrandingPageBackground = string | BrandingPageBackgroundCase1Map;
 /** Custom color settings. */
 export interface BrandingColors {
   /** Accent color. */
-  primary?: string;
-  page_background?: BrandingPageBackground;
+  primary?: string | undefined;
+  page_background?: BrandingPageBackground | undefined;
 }
 /** Custom font settings. */
 export interface BrandingFont {
   /** URL for the custom font. The URL must point to a font file and not a stylesheet. Must use HTTPS. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetBrandingResponseContent {
-  colors?: BrandingColors;
+  colors?: BrandingColors | undefined;
   /** URL for the favicon. Must use HTTPS. */
-  favicon_url?: string;
+  favicon_url?: string | undefined;
   /** URL for the logo. Must use HTTPS. */
-  logo_url?: string;
-  font?: BrandingFont;
+  logo_url?: string | undefined;
+  font?: BrandingFont | undefined;
   [key: string]: unknown;
 }
 export interface GetBrandingPhoneProvidersRequest {
   /** Whether the provider is enabled (false) or disabled (true). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Phone provider configuration schema */
 export interface PhoneProviderSchemaMasked {
-  id?: string;
+  id?: string | undefined;
   /** The name of the tenant */
-  tenant?: string;
+  tenant?: string | undefined;
   name: PhoneProviderNameEnum;
-  channel?: PhoneProviderChannelEnum;
+  channel?: PhoneProviderChannelEnum | undefined;
   /** Whether the provider is enabled (false) or disabled (true). */
-  disabled?: boolean;
-  configuration?: PhoneProviderConfiguration;
+  disabled?: boolean | undefined;
+  configuration?: PhoneProviderConfiguration | undefined;
   /** The provider's creation date and time in ISO 8601 format */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time of the last update to the provider in ISO 8601 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type ListBrandingPhoneProvidersResponseContentProvidersList =
   Array<PhoneProviderSchemaMasked>;
 export interface ListBrandingPhoneProvidersResponseContent {
-  providers?: ListBrandingPhoneProvidersResponseContentProvidersList;
+  providers?: ListBrandingPhoneProvidersResponseContentProvidersList | undefined;
 }
 export interface GetBrandingThemeRequest {
   /** The ID of the theme */
@@ -9029,7 +9107,7 @@ export interface GetBrandingThemeResponseContent {
   /** Display Name */
   displayName: string;
   fonts: BrandingThemeFonts;
-  identifiers?: BrandingThemeIdentifiers;
+  identifiers?: BrandingThemeIdentifiers | undefined;
   page_background: BrandingThemePageBackground;
   /** Theme Id */
   themeId: string;
@@ -9062,7 +9140,7 @@ export type BreachedPasswordDetectionPreUserRegistrationStageShieldsList = Array
 >;
 export interface BreachedPasswordDetectionPreUserRegistrationStage {
   /** Action to take when a breached password is detected during a signup. Possible values: <code>block</code>, <code>admin_notification</code>. */
-  shields?: BreachedPasswordDetectionPreUserRegistrationStageShieldsList;
+  shields?: BreachedPasswordDetectionPreUserRegistrationStageShieldsList | undefined;
 }
 export type BreachedPasswordDetectionPreChangePasswordShieldsEnum = "block" | "admin_notification";
 /** Action to take when a breached password is detected during a password reset. Possible values: <code>block</code>, <code>admin_notification</code>. */
@@ -9071,21 +9149,23 @@ export type BreachedPasswordDetectionPreChangePasswordStageShieldsList = Array<
 >;
 export interface BreachedPasswordDetectionPreChangePasswordStage {
   /** Action to take when a breached password is detected during a password reset. Possible values: <code>block</code>, <code>admin_notification</code>. */
-  shields?: BreachedPasswordDetectionPreChangePasswordStageShieldsList;
+  shields?: BreachedPasswordDetectionPreChangePasswordStageShieldsList | undefined;
 }
 export interface BreachedPasswordDetectionStage {
-  pre_user_registration?: BreachedPasswordDetectionPreUserRegistrationStage;
-  pre_change_password?: BreachedPasswordDetectionPreChangePasswordStage;
+  pre_user_registration?: BreachedPasswordDetectionPreUserRegistrationStage | undefined;
+  pre_change_password?: BreachedPasswordDetectionPreChangePasswordStage | undefined;
 }
 export interface GetBreachedPasswordDetectionSettingsResponseContent {
   /** Whether or not breached password detection is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a breached password is detected during a login. Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>. */
-  shields?: GetBreachedPasswordDetectionSettingsResponseContentShieldsList;
+  shields?: GetBreachedPasswordDetectionSettingsResponseContentShieldsList | undefined;
   /** When "admin_notification" is enabled, determines how often email notifications are sent. Possible values: <code>immediately</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>. */
-  admin_notification_frequency?: GetBreachedPasswordDetectionSettingsResponseContentAdminNotificationFrequencyList;
-  method?: BreachedPasswordDetectionMethodEnum;
-  stage?: BreachedPasswordDetectionStage;
+  admin_notification_frequency?:
+    | GetBreachedPasswordDetectionSettingsResponseContentAdminNotificationFrequencyList
+    | undefined;
+  method?: BreachedPasswordDetectionMethodEnum | undefined;
+  stage?: BreachedPasswordDetectionStage | undefined;
 }
 export interface GetBruteForceProtectionRequest {}
 export type BruteForceProtectionShieldsEnum = "block" | "user_notification";
@@ -9100,76 +9180,76 @@ export type BruteForceProtectionModeEnum = "count_per_identifier_and_ip" | "coun
 export type BruteForceProtectionFormSubmissionModeEnum = "auto" | "manual";
 export interface GetBruteForceSettingsResponseContent {
   /** Whether or not brute force attack protections are active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a brute force protection threshold is violated. Possible values: <code>block</code>, <code>user_notification</code>. */
-  shields?: GetBruteForceSettingsResponseContentShieldsList;
+  shields?: GetBruteForceSettingsResponseContentShieldsList | undefined;
   /** List of trusted IP addresses that will not have attack protection enforced against them. */
-  allowlist?: GetBruteForceSettingsResponseContentAllowlistList;
-  mode?: BruteForceProtectionModeEnum;
-  form_submission_mode?: BruteForceProtectionFormSubmissionModeEnum;
+  allowlist?: GetBruteForceSettingsResponseContentAllowlistList | undefined;
+  mode?: BruteForceProtectionModeEnum | undefined;
+  form_submission_mode?: BruteForceProtectionFormSubmissionModeEnum | undefined;
   /** Maximum number of unsuccessful attempts. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
 }
 export interface GetCaptchaRequest {}
 export interface AttackProtectionCaptchaArkoseResponseContent {
   /** The site key for the Arkose captcha provider. */
-  site_key?: string;
+  site_key?: string | undefined;
   /** Whether the captcha should fail open. */
-  fail_open?: boolean;
+  fail_open?: boolean | undefined;
   /** The subdomain used for client requests to the Arkose captcha provider. */
-  client_subdomain?: string;
+  client_subdomain?: string | undefined;
   /** The subdomain used for server-side verification requests to the Arkose captcha provider. */
-  verify_subdomain?: string;
+  verify_subdomain?: string | undefined;
   [key: string]: unknown;
 }
 export interface AttackProtectionCaptchaAuthChallengeResponseContent {
   /** Whether the auth challenge should fail open. */
-  fail_open?: boolean;
+  fail_open?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface AttackProtectionCaptchaHcaptchaResponseContent {
   /** The site key for the hCaptcha provider. */
-  site_key?: string;
+  site_key?: string | undefined;
   [key: string]: unknown;
 }
 export interface AttackProtectionCaptchaFriendlyCaptchaResponseContent {
   /** The site key for the Friendly Captcha provider. */
-  site_key?: string;
+  site_key?: string | undefined;
   [key: string]: unknown;
 }
 export interface AttackProtectionCaptchaRecaptchaEnterpriseResponseContent {
   /** The site key for the reCAPTCHA Enterprise provider. */
-  site_key?: string;
+  site_key?: string | undefined;
   /** The project ID for the reCAPTCHA Enterprise provider. */
-  project_id?: string;
+  project_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface AttackProtectionCaptchaRecaptchaV2ResponseContent {
   /** The site key for the reCAPTCHA v2 provider. */
-  site_key?: string;
+  site_key?: string | undefined;
   [key: string]: unknown;
 }
 export type AttackProtectionCaptchaSimpleCaptchaResponseContent = {
   [key: string]: unknown | undefined;
 };
 export interface GetAttackProtectionCaptchaResponseContent {
-  active_provider_id?: string;
-  arkose?: AttackProtectionCaptchaArkoseResponseContent;
-  auth_challenge?: AttackProtectionCaptchaAuthChallengeResponseContent;
-  hcaptcha?: AttackProtectionCaptchaHcaptchaResponseContent;
-  friendly_captcha?: AttackProtectionCaptchaFriendlyCaptchaResponseContent;
-  recaptcha_enterprise?: AttackProtectionCaptchaRecaptchaEnterpriseResponseContent;
-  recaptcha_v2?: AttackProtectionCaptchaRecaptchaV2ResponseContent;
-  simple_captcha?: AttackProtectionCaptchaSimpleCaptchaResponseContent;
+  active_provider_id?: string | undefined;
+  arkose?: AttackProtectionCaptchaArkoseResponseContent | undefined;
+  auth_challenge?: AttackProtectionCaptchaAuthChallengeResponseContent | undefined;
+  hcaptcha?: AttackProtectionCaptchaHcaptchaResponseContent | undefined;
+  friendly_captcha?: AttackProtectionCaptchaFriendlyCaptchaResponseContent | undefined;
+  recaptcha_enterprise?: AttackProtectionCaptchaRecaptchaEnterpriseResponseContent | undefined;
+  recaptcha_v2?: AttackProtectionCaptchaRecaptchaV2ResponseContent | undefined;
+  simple_captcha?: AttackProtectionCaptchaSimpleCaptchaResponseContent | undefined;
   [key: string]: unknown;
 }
 export interface GetClientRequest {
   /** ID of the client to retrieve. */
   id: string;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
 export type GetClientResponseContentCallbacksList = Array<string>;
@@ -9190,114 +9270,120 @@ export type GetClientResponseContentOrganizationDiscoveryMethodsList =
   Array<ClientOrganizationDiscoveryEnum>;
 export interface GetClientResponseContent {
   /** ID of this client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ISO 8601 timestamp of when this client was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 timestamp of when this client was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Name of the tenant this client belongs to. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
-  name?: string;
+  name?: string | undefined;
   /** Free text description of this client (max length: 140 characters). */
-  description?: string;
+  description?: string | undefined;
   /** Whether this is your global 'All Applications' client representing legacy tenant settings (true) or a regular client (false). */
-  global?: boolean;
+  global?: boolean | undefined;
   /** Client secret (which you must not make public). */
-  client_secret?: string | Redacted.Redacted<string>;
-  app_type?: ClientAppTypeEnum;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  app_type?: ClientAppTypeEnum | undefined;
   /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether this client a first party client (true) or not (false). */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean;
+  oidc_conformant?: boolean | undefined;
   /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: GetClientResponseContentCallbacksList;
+  callbacks?: GetClientResponseContentCallbacksList | undefined;
   /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: GetClientResponseContentAllowedOriginsList;
+  allowed_origins?: GetClientResponseContentAllowedOriginsList | undefined;
   /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: GetClientResponseContentWebOriginsList;
+  web_origins?: GetClientResponseContentWebOriginsList | undefined;
   /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: GetClientResponseContentClientAliasesList;
+  client_aliases?: GetClientResponseContentClientAliasesList | undefined;
   /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: GetClientResponseContentAllowedClientsList;
+  allowed_clients?: GetClientResponseContentAllowedClientsList | undefined;
   /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: GetClientResponseContentAllowedLogoutUrlsList;
-  session_transfer?: ClientSessionTransferConfiguration | null;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  allowed_logout_urls?: GetClientResponseContentAllowedLogoutUrlsList | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: GetClientResponseContentGrantTypesList;
-  jwt_configuration?: ClientJwtConfiguration;
-  signing_keys?: ClientSigningKeys | null;
-  encryption_key?: ClientEncryptionKey | null;
+  grant_types?: GetClientResponseContentGrantTypesList | undefined;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
+  signing_keys?: ClientSigningKeys | null | undefined;
+  encryption_key?: ClientEncryptionKey | null | undefined;
   /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether Single Sign On is disabled (true) or enabled (true). Defaults to true. */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string;
+  cross_origin_loc?: string | undefined;
   /** Whether a custom login page is to be used (true) or the default provided login page (false). */
-  custom_login_page_on?: boolean;
+  custom_login_page_on?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string;
+  custom_login_page?: string | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string;
+  custom_login_page_preview?: string | undefined;
   /** HTML form template to be used for WS-Federation. */
-  form_template?: string;
-  addons?: ClientAddons;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum;
+  form_template?: string | undefined;
+  addons?: ClientAddons | undefined;
+  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  client_metadata?: ClientMetadata;
-  mobile?: ClientMobile;
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  client_metadata?: ClientMetadata | undefined;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLogin;
-  fedcm_login?: FedCMLogin;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsageEnum;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum;
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLogin | undefined;
+  fedcm_login?: FedCMLogin | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsageEnum | undefined;
+  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: GetClientResponseContentOrganizationDiscoveryMethodsList;
-  client_authentication_methods?: ClientAuthenticationMethod | null;
+  organization_discovery_methods?:
+    | GetClientResponseContentOrganizationDiscoveryMethodsList
+    | undefined;
+  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId;
-  compliance_level?: ClientComplianceLevelEnum | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
+  compliance_level?: ClientComplianceLevelEnum | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean;
-  token_exchange?: ClientTokenExchangeConfiguration;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
+  token_exchange?: ClientTokenExchangeConfiguration | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  token_quota?: CreateTokenQuota;
-  express_configuration?: ExpressConfiguration;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationResponseConfiguration;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant;
-  anonymous_sessions?: CreateAnonymousSessions;
-  enforce_anon_session_transfer_network_binding?: ClientAnonymousSessionTransferNetworkBindingEnum;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum;
-  oidc_support?: ClientOidcSupport;
-  redirection_policy?: ClientRedirectionPolicyEnum;
+  par_request_expiry?: number | null | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  express_configuration?: ExpressConfiguration | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | undefined;
+  enforce_anon_session_transfer_network_binding?:
+    | ClientAnonymousSessionTransferNetworkBindingEnum
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | undefined;
+  oidc_support?: ClientOidcSupport | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | undefined;
   /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration;
-  external_metadata_type?: ClientExternalMetadataTypeEnum;
-  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum;
-  external_metadata_status?: ClientExternalMetadataStatusEnum;
+  resource_server_identifier?: string | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
+    | undefined;
+  external_metadata_type?: ClientExternalMetadataTypeEnum | undefined;
+  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum | undefined;
+  external_metadata_status?: ClientExternalMetadataStatusEnum | undefined;
   /** ID of the agent associated with this client. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** An alternate client identifier to be used during authorization flows. Only supports CIMD-based client identifiers. */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** URL for the JSON Web Key Set (JWKS) containing the public keys used for private_key_jwt authentication. Only present for CIMD clients using private_key_jwt authentication. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   [key: string]: unknown;
 }
 export type ConnectionStrategyEnum =
@@ -9371,45 +9457,45 @@ export interface GetClientConnectionsRequest {
   /** ID of the client for which to retrieve enabled connections. */
   id: string;
   /** Provide strategies to only retrieve connections with such strategies */
-  strategy?: GetClientConnectionsRequestStrategyList;
+  strategy?: GetClientConnectionsRequestStrategyList | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields */
-  fields?: string;
+  fields?: string | undefined;
   /** <code>true</code> if the fields specified are to be included in the result, <code>false</code> otherwise (defaults to <code>true</code>) */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
 export type ConnectionForListRealmsList = Array<string>;
 export interface ConnectionForList {
   /** The name of the connection */
-  name?: string;
+  name?: string | undefined;
   /** Connection name used in login screen */
-  display_name?: string;
-  options?: ConnectionOptions;
+  display_name?: string | undefined;
+  options?: ConnectionOptions | undefined;
   /** The connection's identifier */
-  id?: string;
+  id?: string | undefined;
   /** The type of the connection, related to the identity provider */
-  strategy?: string;
+  strategy?: string | undefined;
   /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
-  realms?: ConnectionForListRealmsList;
+  realms?: ConnectionForListRealmsList | undefined;
   /** True if the connection is domain level */
-  is_domain_connection?: boolean;
+  is_domain_connection?: boolean | undefined;
   /** Enables showing a button for the connection in the login page (new experience only). If false, it will be usable only by HRD. */
-  show_as_button?: boolean;
-  metadata?: ConnectionsMetadata;
-  authentication?: ConnectionAuthenticationPurpose;
-  connected_accounts?: ConnectionConnectedAccountsPurpose;
-  cross_app_access_requesting_app?: CrossAppAccessRequestingApp;
-  cross_app_access_resource_app?: CrossAppAccessResourceApp;
+  show_as_button?: boolean | undefined;
+  metadata?: ConnectionsMetadata | undefined;
+  authentication?: ConnectionAuthenticationPurpose | undefined;
+  connected_accounts?: ConnectionConnectedAccountsPurpose | undefined;
+  cross_app_access_requesting_app?: CrossAppAccessRequestingApp | undefined;
+  cross_app_access_resource_app?: CrossAppAccessResourceApp | undefined;
 }
 export type ListClientConnectionsResponseContentConnectionsList = Array<ConnectionForList>;
 export interface ListClientConnectionsResponseContent {
   connections: ListClientConnectionsResponseContentConnectionsList;
   /** Encoded next token */
-  next?: string;
+  next?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetClientGrantRequest {
@@ -9422,70 +9508,74 @@ export type GetClientGrantResponseContentScopeList = Array<string>;
 export type GetClientGrantResponseContentAuthorizationDetailsTypesList = Array<string>;
 export interface GetClientGrantResponseContent {
   /** ID of the client grant. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The audience (API identifier) of this client grant. */
-  audience?: string;
+  audience?: string | undefined;
   /** Scopes allowed for this client grant. */
-  scope?: GetClientGrantResponseContentScopeList;
-  organization_usage?: ClientGrantOrganizationUsageEnum;
+  scope?: GetClientGrantResponseContentScopeList | undefined;
+  organization_usage?: ClientGrantOrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
-  allow_any_organization?: boolean;
-  default_for?: ClientGrantDefaultForEnum;
+  allow_any_organization?: boolean | undefined;
+  default_for?: ClientGrantDefaultForEnum | undefined;
   /** If enabled, this grant is a special grant created by Auth0. It cannot be modified or deleted directly. */
-  is_system?: boolean;
-  subject_type?: ClientGrantSubjectTypeEnum;
+  is_system?: boolean | undefined;
+  subject_type?: ClientGrantSubjectTypeEnum | undefined;
   /** Types of authorization_details allowed for this client grant. */
-  authorization_details_types?: GetClientGrantResponseContentAuthorizationDetailsTypesList;
+  authorization_details_types?:
+    | GetClientGrantResponseContentAuthorizationDetailsTypesList
+    | undefined;
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
-  allow_all_scopes?: boolean;
+  allow_all_scopes?: boolean | undefined;
 }
 export interface GetClientGrantOrganizationsRequest {
   /** ID of the client grant */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface Organization {
   /** Organization identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of this organization. */
-  name?: string;
+  name?: string | undefined;
   /** Friendly name of this organization. */
-  display_name?: string;
-  branding?: OrganizationBranding;
-  metadata?: OrganizationMetadata;
-  token_quota?: CreateTokenQuota;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum;
+  display_name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  metadata?: OrganizationMetadata | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
-  client?: OrganizationClientAssociation;
+  is_app_entitlement_active?: boolean | undefined;
+  client?: OrganizationClientAssociation | undefined;
   [key: string]: unknown;
 }
 export type ListClientGrantOrganizationsResponseContentCase0List = Array<Organization>;
 export type ListClientGrantOrganizationsOffsetPaginatedResponseContentOrganizationsList =
   Array<Organization>;
 export interface ListClientGrantOrganizationsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  organizations?: ListClientGrantOrganizationsOffsetPaginatedResponseContentOrganizationsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  organizations?:
+    | ListClientGrantOrganizationsOffsetPaginatedResponseContentOrganizationsList
+    | undefined;
 }
 export type ListClientGrantOrganizationsPaginatedResponseContentOrganizationsList =
   Array<Organization>;
 export interface ListClientGrantOrganizationsPaginatedResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results.<br/>This identifier is valid for 24 hours. */
-  next?: string;
-  organizations?: ListClientGrantOrganizationsPaginatedResponseContentOrganizationsList;
+  next?: string | undefined;
+  organizations?: ListClientGrantOrganizationsPaginatedResponseContentOrganizationsList | undefined;
 }
 export type ListClientGrantOrganizationsResponseContent =
   | ListClientGrantOrganizationsResponseContentCase0List
@@ -9494,25 +9584,25 @@ export type ListClientGrantOrganizationsResponseContent =
 export type GetClientGrantOrganizationsResponse = ListClientGrantOrganizationsResponseContent;
 export interface GetClientGrantsRequest {
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Optional filter on audience. */
-  audience?: string;
+  audience?: string | undefined;
   /** Optional filter on client_id. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Optional filter on allow_any_organization. */
-  allow_any_organization?: boolean;
+  allow_any_organization?: boolean | undefined;
   /** The type of application access the client grant allows. */
-  subject_type?: ClientGrantSubjectTypeEnum | (string & {});
+  subject_type?: ClientGrantSubjectTypeEnum | (string & {}) | undefined;
   /** Applies this client grant as the default for all clients in the specified group. The only accepted value is <a href="https://auth0.com/docs/get-started/applications/application-access-to-apis-client-grants#default-permissions-for-third-party-applications">`third_party_clients`</a>, which applies the grant to all third-party clients. Per-client grants for the same audience take precedence. Mutually exclusive with `client_id`. */
-  default_for?: ClientGrantDefaultForEnum | (string & {});
+  default_for?: ClientGrantDefaultForEnum | (string & {}) | undefined;
 }
 /** Scopes allowed for this client grant. */
 export type ClientGrantResponseContentScopeList = Array<string>;
@@ -9520,40 +9610,40 @@ export type ClientGrantResponseContentScopeList = Array<string>;
 export type ClientGrantResponseContentAuthorizationDetailsTypesList = Array<string>;
 export interface ClientGrantResponseContent {
   /** ID of the client grant. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The audience (API identifier) of this client grant. */
-  audience?: string;
+  audience?: string | undefined;
   /** Scopes allowed for this client grant. */
-  scope?: ClientGrantResponseContentScopeList;
-  organization_usage?: ClientGrantOrganizationUsageEnum;
+  scope?: ClientGrantResponseContentScopeList | undefined;
+  organization_usage?: ClientGrantOrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
-  allow_any_organization?: boolean;
-  default_for?: ClientGrantDefaultForEnum;
+  allow_any_organization?: boolean | undefined;
+  default_for?: ClientGrantDefaultForEnum | undefined;
   /** If enabled, this grant is a special grant created by Auth0. It cannot be modified or deleted directly. */
-  is_system?: boolean;
-  subject_type?: ClientGrantSubjectTypeEnum;
+  is_system?: boolean | undefined;
+  subject_type?: ClientGrantSubjectTypeEnum | undefined;
   /** Types of authorization_details allowed for this client grant. */
-  authorization_details_types?: ClientGrantResponseContentAuthorizationDetailsTypesList;
+  authorization_details_types?: ClientGrantResponseContentAuthorizationDetailsTypesList | undefined;
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
-  allow_all_scopes?: boolean;
+  allow_all_scopes?: boolean | undefined;
 }
 export type ListClientGrantResponseContentCase0List = Array<ClientGrantResponseContent>;
 export type ListClientGrantOffsetPaginatedResponseContentClientGrantsList =
   Array<ClientGrantResponseContent>;
 export interface ListClientGrantOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  client_grants?: ListClientGrantOffsetPaginatedResponseContentClientGrantsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  client_grants?: ListClientGrantOffsetPaginatedResponseContentClientGrantsList | undefined;
 }
 export type ListClientGrantPaginatedResponseContentClientGrantsList =
   Array<ClientGrantResponseContent>;
 export interface ListClientGrantPaginatedResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results.<br/>This identifier is valid for 24 hours. */
-  next?: string;
-  client_grants?: ListClientGrantPaginatedResponseContentClientGrantsList;
+  next?: string | undefined;
+  client_grants?: ListClientGrantPaginatedResponseContentClientGrantsList | undefined;
 }
 export type ListClientGrantResponseContent =
   | ListClientGrantResponseContentCase0List
@@ -9566,19 +9656,19 @@ export type SearchParserEnum = "scim" | "lucene";
 export type ClientGrantSortFieldEnum = "audience" | "updated_at";
 export interface GetClientGrantsSearchRequest {
   /** Filter expression in SCIM or Lucene syntax (depending on parser parameter). SCIM examples: `audience eq "https://api.example.com"`, `client_id eq "cli_abc"`, `subject_type eq "client"`, `allow_any_organization eq true`, `default_for eq "third_party_clients"`, `audience co "example" and organization_id eq "org_123"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>audience</i> - Filter by audience (eq, ne, sw, co, ew, pr)</li><li><i>client_id</i> - Filter by client ID (eq, ne, sw, pr)</li><li><i>subject_type</i> - Filter by subject type (eq, ne, sw, pr)</li><li><i>allow_any_organization</i> - Filter by allow_any_organization (eq, ne, pr)</li><li><i>organization_id</i> - Filter by organization ID (eq, ne, sw, pr)</li><li><i>updated_at</i> - Filter by last update date (eq, ne, gt, ge, lt, le, pr)</li><li><i>default_for</i> - Filter by default grant group (eq, ne, sw, pr)</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string;
+  q?: string | undefined;
   /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {});
+  parser?: SearchParserEnum | (string & {}) | undefined;
   /** Comma-separated list of fields to include or exclude in the response. Works with the include_fields parameter to control projection mode. */
-  fields?: string;
+  fields?: string | undefined;
   /** Controls field projection mode. Set to true to include only fields specified in the fields parameter. Set to false to exclude fields specified in the fields parameter. Defaults to true if not specified. */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string;
+  from?: string | undefined;
   /** Field name to sort results by in ascending order. Defaults to insertion order (oldest first) if not provided. */
-  sort?: ClientGrantSortFieldEnum | (string & {});
+  sort?: ClientGrantSortFieldEnum | (string & {}) | undefined;
 }
 /** Array of client grant objects matching the search criteria. */
 export type SearchClientGrantsResponseContentClientGrantsList = Array<ClientGrantResponseContent>;
@@ -9586,7 +9676,7 @@ export interface SearchClientGrantsResponseContent {
   /** Array of client grant objects matching the search criteria. */
   client_grants: SearchClientGrantsResponseContentClientGrantsList;
   /** Cursor for retrieving the next page of results. Omitted if there are no more results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetClientProfileRequest {
   /** ID of the client profile. */
@@ -9594,44 +9684,44 @@ export interface GetClientProfileRequest {
 }
 export interface GetClientProfilesRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListClientProfilesPaginatedResponseContentClientProfilesList = Array<ClientProfile>;
 /** Checkpoint paginated list of client profiles. */
 export interface ListClientProfilesPaginatedResponseContent {
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
   client_profiles: ListClientProfilesPaginatedResponseContentClientProfilesList;
 }
 export interface GetClientsRequest {
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Default value is 50, maximum value is 100 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Optional filter on the global client parameter. */
-  is_global?: boolean;
+  is_global?: boolean | undefined;
   /** Optional filter on whether or not a client is a first-party client. */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Optional filter by a comma-separated list of application types. */
-  app_type?: string;
+  app_type?: string | undefined;
   /** Optional filter by the <a href="https://drafts.oauth.net/draft-ietf-oauth-client-id-metadata-document/draft-ietf-oauth-client-id-metadata-document.html">Client ID Metadata Document</a> URI for CIMD-registered clients. */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** Optional filter by the agent associated with the client.<br /><b>Additional Restrictions</b>:<br /><ul><li>Cannot be used in combination with other filters</li><li>Only <i>fields</i>, <i>include_fields</i>, <i>page</i>, <i>per_page</i>, and <i>include_totals</i> are supported alongside it</li><li>Checkpoint pagination (<i>from</i>, <i>take</i>) is not supported</li></ul> */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** Advanced Query in <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene</a> syntax.<br /><b>Permitted Queries</b>:<br /><ul><li><i>client_grant.organization_id:{organization_id}</i></li><li><i>client_grant.allow_any_organization:true</i></li></ul><b>Additional Restrictions</b>:<br /><ul><li>Cannot be used in combination with other filters</li><li>Requires use of the <i>from</i> and <i>take</i> paging parameters (checkpoint paginatinon)</li><li>Reduced rate limits apply. See <a href="https://auth0.com/docs/troubleshoot/customer-support/operational-policies/rate-limit-policy/rate-limit-configurations/enterprise-public">Rate Limit Configurations</a></li></ul><i><b>Note</b>: Recent updates may not be immediately reflected in query results</i> */
-  q?: string;
+  q?: string | undefined;
 }
 /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
 export type ClientCallbacksList = Array<string>;
@@ -9651,129 +9741,133 @@ export type ClientGrantTypesList = Array<string>;
 export type ClientOrganizationDiscoveryMethodsList = Array<ClientOrganizationDiscoveryEnum>;
 export interface Client {
   /** ID of this client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ISO 8601 timestamp of when this client was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 timestamp of when this client was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Name of the tenant this client belongs to. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
-  name?: string;
+  name?: string | undefined;
   /** Free text description of this client (max length: 140 characters). */
-  description?: string;
+  description?: string | undefined;
   /** Whether this is your global 'All Applications' client representing legacy tenant settings (true) or a regular client (false). */
-  global?: boolean;
+  global?: boolean | undefined;
   /** Client secret (which you must not make public). */
-  client_secret?: string | Redacted.Redacted<string>;
-  app_type?: ClientAppTypeEnum;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  app_type?: ClientAppTypeEnum | undefined;
   /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether this client a first party client (true) or not (false). */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean;
+  oidc_conformant?: boolean | undefined;
   /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: ClientCallbacksList;
+  callbacks?: ClientCallbacksList | undefined;
   /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: ClientAllowedOriginsList;
+  allowed_origins?: ClientAllowedOriginsList | undefined;
   /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: ClientWebOriginsList;
+  web_origins?: ClientWebOriginsList | undefined;
   /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: ClientClientAliasesList;
+  client_aliases?: ClientClientAliasesList | undefined;
   /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: ClientAllowedClientsList;
+  allowed_clients?: ClientAllowedClientsList | undefined;
   /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: ClientAllowedLogoutUrlsList;
-  session_transfer?: ClientSessionTransferConfiguration | null;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  allowed_logout_urls?: ClientAllowedLogoutUrlsList | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: ClientGrantTypesList;
-  jwt_configuration?: ClientJwtConfiguration;
-  signing_keys?: ClientSigningKeys | null;
-  encryption_key?: ClientEncryptionKey | null;
+  grant_types?: ClientGrantTypesList | undefined;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
+  signing_keys?: ClientSigningKeys | null | undefined;
+  encryption_key?: ClientEncryptionKey | null | undefined;
   /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether Single Sign On is disabled (true) or enabled (true). Defaults to true. */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string;
+  cross_origin_loc?: string | undefined;
   /** Whether a custom login page is to be used (true) or the default provided login page (false). */
-  custom_login_page_on?: boolean;
+  custom_login_page_on?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string;
+  custom_login_page?: string | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string;
+  custom_login_page_preview?: string | undefined;
   /** HTML form template to be used for WS-Federation. */
-  form_template?: string;
-  addons?: ClientAddons;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum;
+  form_template?: string | undefined;
+  addons?: ClientAddons | undefined;
+  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  client_metadata?: ClientMetadata;
-  mobile?: ClientMobile;
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  client_metadata?: ClientMetadata | undefined;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLogin;
-  fedcm_login?: FedCMLogin;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsageEnum;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum;
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLogin | undefined;
+  fedcm_login?: FedCMLogin | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsageEnum | undefined;
+  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: ClientOrganizationDiscoveryMethodsList;
-  client_authentication_methods?: ClientAuthenticationMethod | null;
+  organization_discovery_methods?: ClientOrganizationDiscoveryMethodsList | undefined;
+  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId;
-  compliance_level?: ClientComplianceLevelEnum | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
+  compliance_level?: ClientComplianceLevelEnum | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean;
-  token_exchange?: ClientTokenExchangeConfiguration;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
+  token_exchange?: ClientTokenExchangeConfiguration | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  token_quota?: CreateTokenQuota;
-  express_configuration?: ExpressConfiguration;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationResponseConfiguration;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant;
-  anonymous_sessions?: CreateAnonymousSessions;
-  enforce_anon_session_transfer_network_binding?: ClientAnonymousSessionTransferNetworkBindingEnum;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum;
-  oidc_support?: ClientOidcSupport;
-  redirection_policy?: ClientRedirectionPolicyEnum;
+  par_request_expiry?: number | null | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  express_configuration?: ExpressConfiguration | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | undefined;
+  enforce_anon_session_transfer_network_binding?:
+    | ClientAnonymousSessionTransferNetworkBindingEnum
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | undefined;
+  oidc_support?: ClientOidcSupport | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | undefined;
   /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration;
-  external_metadata_type?: ClientExternalMetadataTypeEnum;
-  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum;
-  external_metadata_status?: ClientExternalMetadataStatusEnum;
+  resource_server_identifier?: string | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
+    | undefined;
+  external_metadata_type?: ClientExternalMetadataTypeEnum | undefined;
+  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum | undefined;
+  external_metadata_status?: ClientExternalMetadataStatusEnum | undefined;
   /** ID of the agent associated with this client. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** An alternate client identifier to be used during authorization flows. Only supports CIMD-based client identifiers. */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** URL for the JSON Web Key Set (JWKS) containing the public keys used for private_key_jwt authentication. Only present for CIMD clients using private_key_jwt authentication. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   [key: string]: unknown;
 }
 export type GetClientsResponseBodyCase0List = Array<Client>;
 export type ListClientsOffsetPaginatedResponseContentClientsList = Array<Client>;
 export interface ListClientsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  clients?: ListClientsOffsetPaginatedResponseContentClientsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  clients?: ListClientsOffsetPaginatedResponseContentClientsList | undefined;
 }
 export type ListClientsPaginatedResponseContentClientsList = Array<Client>;
 export interface ListClientsPaginatedResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results.<br/>This identifier is valid for 24 hours. */
-  next?: string;
-  clients?: ListClientsPaginatedResponseContentClientsList;
+  next?: string | undefined;
+  clients?: ListClientsPaginatedResponseContentClientsList | undefined;
 }
 export type GetClientsResponseBody =
   | GetClientsResponseBodyCase0List
@@ -9784,19 +9878,19 @@ export type GetClientsResponse = GetClientsResponseBody;
 export type ClientSortFieldEnum = "name" | "updated_at";
 export interface GetClientsSearchRequest {
   /** Filter expression in SCIM or Lucene syntax (depending on parser parameter). SCIM examples: `name eq "Auth0"`, `name sw "auth" and app_type eq "spa"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<br /><ul><li><i>client_id</i> - Auth0 client ID (case-sensitive, exact match)</li><li><i>external_client_id</i> - URL of the Client ID Metadata Document (CIMD); case-sensitive, exact match</li><li><i>name</i> - Client name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>app_type</i> - Application type (e.g. "spa", "native", "non_interactive")</li><li><i>is_first_party</i> - Whether the client is first-party (boolean)</li><li><i>updated_at</i> - Last update timestamp (supports date range operators; sortable)</li><li><i>metadata.{key}</i> - Filter by client metadata key-value pairs (max 2-level key depth, values indexed up to 64 characters)</li><li><i>client_grant.organization_id</i> - Filter by associated organization ID</li><li><i>client_grant.allow_any_organization</i> - Filter by allow any organization setting</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string;
+  q?: string | undefined;
   /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {});
+  parser?: SearchParserEnum | (string & {}) | undefined;
   /** Comma-separated list of fields to include or exclude in the response. Works with the include_fields parameter to control projection mode. Maximum 50 fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Controls field projection mode. Set to true to include only fields specified in the fields parameter. Set to false to exclude fields specified in the fields parameter. Defaults to true if not specified. */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string;
+  from?: string | undefined;
   /** Field name to sort results by in ascending order. Defaults to insertion order (oldest first) if not provided. */
-  sort?: ClientSortFieldEnum | (string & {});
+  sort?: ClientSortFieldEnum | (string & {}) | undefined;
 }
 /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
 export type ClientSearchResponseCallbacksList = Array<string>;
@@ -9817,109 +9911,113 @@ export type ClientSearchResponseOrganizationDiscoveryMethodsList =
   Array<ClientOrganizationDiscoveryEnum>;
 export interface ClientSearchResponse {
   /** ID of this client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ISO 8601 timestamp of when this client was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 timestamp of when this client was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Name of the tenant this client belongs to. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
-  name?: string;
+  name?: string | undefined;
   /** Free text description of this client (max length: 140 characters). */
-  description?: string;
+  description?: string | undefined;
   /** Whether this is your global 'All Applications' client representing legacy tenant settings (true) or a regular client (false). */
-  global?: boolean;
-  app_type?: ClientAppTypeEnum;
+  global?: boolean | undefined;
+  app_type?: ClientAppTypeEnum | undefined;
   /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether this client a first party client (true) or not (false). */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean;
+  oidc_conformant?: boolean | undefined;
   /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: ClientSearchResponseCallbacksList;
+  callbacks?: ClientSearchResponseCallbacksList | undefined;
   /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: ClientSearchResponseAllowedOriginsList;
+  allowed_origins?: ClientSearchResponseAllowedOriginsList | undefined;
   /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: ClientSearchResponseWebOriginsList;
+  web_origins?: ClientSearchResponseWebOriginsList | undefined;
   /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: ClientSearchResponseClientAliasesList;
+  client_aliases?: ClientSearchResponseClientAliasesList | undefined;
   /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: ClientSearchResponseAllowedClientsList;
+  allowed_clients?: ClientSearchResponseAllowedClientsList | undefined;
   /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: ClientSearchResponseAllowedLogoutUrlsList;
-  session_transfer?: ClientSessionTransferConfiguration | null;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  allowed_logout_urls?: ClientSearchResponseAllowedLogoutUrlsList | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: ClientSearchResponseGrantTypesList;
-  jwt_configuration?: ClientJwtConfiguration;
+  grant_types?: ClientSearchResponseGrantTypesList | undefined;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
   /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether Single Sign On is disabled (true) or enabled (true). Defaults to true. */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string;
+  cross_origin_loc?: string | undefined;
   /** Whether a custom login page is to be used (true) or the default provided login page (false). */
-  custom_login_page_on?: boolean;
+  custom_login_page_on?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string;
+  custom_login_page?: string | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string;
+  custom_login_page_preview?: string | undefined;
   /** HTML form template to be used for WS-Federation. */
-  form_template?: string;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum;
+  form_template?: string | undefined;
+  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  client_metadata?: ClientMetadata;
-  mobile?: ClientMobile;
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  client_metadata?: ClientMetadata | undefined;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLogin;
-  fedcm_login?: FedCMLogin;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsageEnum;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum;
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLogin | undefined;
+  fedcm_login?: FedCMLogin | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsageEnum | undefined;
+  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: ClientSearchResponseOrganizationDiscoveryMethodsList;
-  client_authentication_methods?: ClientAuthenticationMethod | null;
+  organization_discovery_methods?: ClientSearchResponseOrganizationDiscoveryMethodsList | undefined;
+  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId;
-  compliance_level?: ClientComplianceLevelEnum | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
+  compliance_level?: ClientComplianceLevelEnum | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean;
-  token_exchange?: ClientTokenExchangeConfiguration;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
+  token_exchange?: ClientTokenExchangeConfiguration | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  token_quota?: CreateTokenQuota;
-  express_configuration?: ExpressConfiguration;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationResponseConfiguration;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant;
-  anonymous_sessions?: CreateAnonymousSessions;
-  enforce_anon_session_transfer_network_binding?: ClientAnonymousSessionTransferNetworkBindingEnum;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum;
-  oidc_support?: ClientOidcSupport;
-  redirection_policy?: ClientRedirectionPolicyEnum;
+  par_request_expiry?: number | null | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  express_configuration?: ExpressConfiguration | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | undefined;
+  enforce_anon_session_transfer_network_binding?:
+    | ClientAnonymousSessionTransferNetworkBindingEnum
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | undefined;
+  oidc_support?: ClientOidcSupport | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | undefined;
   /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration;
-  external_metadata_type?: ClientExternalMetadataTypeEnum;
-  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum;
-  external_metadata_status?: ClientExternalMetadataStatusEnum;
+  resource_server_identifier?: string | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
+    | undefined;
+  external_metadata_type?: ClientExternalMetadataTypeEnum | undefined;
+  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum | undefined;
+  external_metadata_status?: ClientExternalMetadataStatusEnum | undefined;
   /** ID of the agent associated with this client. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** An alternate client identifier to be used during authorization flows. Only supports CIMD-based client identifiers. */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** URL for the JSON Web Key Set (JWKS) containing the public keys used for private_key_jwt authentication. Only present for CIMD clients using private_key_jwt authentication. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   [key: string]: unknown;
 }
 /** Array of client objects matching the search criteria. */
@@ -9928,15 +10026,15 @@ export interface SearchClientsResponseContent {
   /** Array of client objects matching the search criteria. */
   clients: SearchClientsResponseContentClientsList;
   /** Cursor for retrieving the next page of results. Absent when no more results are available. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetConnectedAccountsRequest {
   /** ID of the user to list connected accounts for. */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results to return. Defaults to 10 with a maximum of 20 */
-  take?: number;
+  take?: number | undefined;
 }
 /** The access type for the connected account. */
 export type ConnectedAccountAccessTypeEnum = "offline";
@@ -9953,27 +10051,27 @@ export interface ConnectedAccount {
   strategy: string;
   access_type: ConnectedAccountAccessTypeEnum;
   /** The scopes granted for this connected account. */
-  scopes?: ConnectedAccountScopesList;
+  scopes?: ConnectedAccountScopesList | undefined;
   /** ISO 8601 timestamp when the connected account was created. */
   created_at: string;
   /** ISO 8601 timestamp when the connected account expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The identifier of the organization associated with the connected account. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 export type ListUserConnectedAccountsResponseContentConnectedAccountsList = Array<ConnectedAccount>;
 export interface ListUserConnectedAccountsResponseContent {
   connected_accounts: ListUserConnectedAccountsResponseContentConnectedAccountsList;
   /** The token to retrieve the next page of connected accounts (if there is one) */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetConnectionRequest {
   /** The id of the connection to retrieve */
   id: string;
   /** A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields */
-  fields?: string;
+  fields?: string | undefined;
   /** <code>true</code> if the fields specified are to be included in the result, <code>false</code> otherwise (defaults to <code>true</code>) */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
 export type GetConnectionResponseContentRealmsList = Array<string>;
@@ -9981,35 +10079,35 @@ export type GetConnectionResponseContentRealmsList = Array<string>;
 export type GetConnectionResponseContentEnabledClientsList = Array<string>;
 export interface GetConnectionResponseContent {
   /** The name of the connection */
-  name?: string;
+  name?: string | undefined;
   /** Connection name used in login screen */
-  display_name?: string;
-  options?: ConnectionOptions;
+  display_name?: string | undefined;
+  options?: ConnectionOptions | undefined;
   /** The connection's identifier */
-  id?: string;
+  id?: string | undefined;
   /** The type of the connection, related to the identity provider */
-  strategy?: string;
+  strategy?: string | undefined;
   /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
-  realms?: GetConnectionResponseContentRealmsList;
+  realms?: GetConnectionResponseContentRealmsList | undefined;
   /** DEPRECATED property. Use the GET /connections/:id/clients endpoint to get the ids of the clients for which the connection is enabled */
-  enabled_clients?: GetConnectionResponseContentEnabledClientsList;
+  enabled_clients?: GetConnectionResponseContentEnabledClientsList | undefined;
   /** True if the connection is domain level */
-  is_domain_connection?: boolean;
+  is_domain_connection?: boolean | undefined;
   /** Enables showing a button for the connection in the login page (new experience only). If false, it will be usable only by HRD. */
-  show_as_button?: boolean;
-  metadata?: ConnectionsMetadata;
-  authentication?: ConnectionAuthenticationPurpose;
-  connected_accounts?: ConnectionConnectedAccountsPurpose;
-  cross_app_access_requesting_app?: CrossAppAccessRequestingApp;
-  cross_app_access_resource_app?: CrossAppAccessResourceApp;
+  show_as_button?: boolean | undefined;
+  metadata?: ConnectionsMetadata | undefined;
+  authentication?: ConnectionAuthenticationPurpose | undefined;
+  connected_accounts?: ConnectionConnectedAccountsPurpose | undefined;
+  cross_app_access_requesting_app?: CrossAppAccessRequestingApp | undefined;
+  cross_app_access_resource_app?: CrossAppAccessResourceApp | undefined;
 }
 export interface GetConnectionClientsRequest {
   /** The id of the connection for which enabled clients are to be retrieved */
   id: string;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
 }
 export interface ConnectionEnabledClient {
   /** The client id */
@@ -10022,7 +10120,7 @@ export interface GetConnectionEnabledClientsResponseContent {
   /** Clients for which the connection is enabled */
   clients: GetConnectionEnabledClientsResponseContentClientsList;
   /** Encoded next token */
-  next?: string;
+  next?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetConnectionProfileRequest {
@@ -10030,39 +10128,41 @@ export interface GetConnectionProfileRequest {
   id: string;
 }
 export interface GetConnectionProfileResponseContent {
-  id?: string;
-  name?: string;
-  organization?: ConnectionProfileOrganization;
-  connection_name_prefix_template?: string;
-  enabled_features?: ConnectionProfileEnabledFeatures;
-  connection_config?: unknown;
-  strategy_overrides?: ConnectionProfileStrategyOverrides;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
-  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp;
+  id?: string | undefined;
+  name?: string | undefined;
+  organization?: ConnectionProfileOrganization | undefined;
+  connection_name_prefix_template?: string | undefined;
+  enabled_features?: ConnectionProfileEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  strategy_overrides?: ConnectionProfileStrategyOverrides | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
+  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp | undefined;
 }
 export interface GetConnectionProfilesRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 5. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface ConnectionProfile {
-  id?: string;
-  name?: string;
-  organization?: ConnectionProfileOrganization;
-  connection_name_prefix_template?: string;
-  enabled_features?: ConnectionProfileEnabledFeatures;
-  connection_config?: unknown;
-  strategy_overrides?: ConnectionProfileStrategyOverrides;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
-  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp;
+  id?: string | undefined;
+  name?: string | undefined;
+  organization?: ConnectionProfileOrganization | undefined;
+  connection_name_prefix_template?: string | undefined;
+  enabled_features?: ConnectionProfileEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  strategy_overrides?: ConnectionProfileStrategyOverrides | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
+  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp | undefined;
 }
 export type ListConnectionProfilesPaginatedResponseContentConnectionProfilesList =
   Array<ConnectionProfile>;
 export interface ListConnectionProfilesPaginatedResponseContent {
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
-  connection_profiles?: ListConnectionProfilesPaginatedResponseContentConnectionProfilesList;
+  next?: string | undefined;
+  connection_profiles?:
+    | ListConnectionProfilesPaginatedResponseContentConnectionProfilesList
+    | undefined;
 }
 export interface GetConnectionProfileTemplateRequest {
   /** ID of the connection-profile-template to retrieve. */
@@ -10070,69 +10170,71 @@ export interface GetConnectionProfileTemplateRequest {
 }
 /** The structure of the template, which can be used as the payload for creating or updating a Connection Profile. */
 export interface ConnectionProfileTemplate {
-  name?: string;
-  organization?: ConnectionProfileOrganization;
-  connection_name_prefix_template?: string;
-  enabled_features?: ConnectionProfileEnabledFeatures;
-  connection_config?: unknown;
-  strategy_overrides?: ConnectionProfileStrategyOverrides;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
+  name?: string | undefined;
+  organization?: ConnectionProfileOrganization | undefined;
+  connection_name_prefix_template?: string | undefined;
+  enabled_features?: ConnectionProfileEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  strategy_overrides?: ConnectionProfileStrategyOverrides | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
 }
 export interface GetConnectionProfileTemplateResponseContent {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The user-friendly name of the template displayed in the UI. */
-  display_name?: string;
-  template?: ConnectionProfileTemplate;
+  display_name?: string | undefined;
+  template?: ConnectionProfileTemplate | undefined;
 }
 export interface GetConnectionProfileTemplatesRequest {}
 export interface ConnectionProfileTemplateItem {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The user-friendly name of the template displayed in the UI. */
-  display_name?: string;
-  template?: ConnectionProfileTemplate;
+  display_name?: string | undefined;
+  template?: ConnectionProfileTemplate | undefined;
 }
 export type ListConnectionProfileTemplateResponseContentConnectionProfileTemplatesList =
   Array<ConnectionProfileTemplateItem>;
 export interface ListConnectionProfileTemplateResponseContent {
-  connection_profile_templates?: ListConnectionProfileTemplateResponseContentConnectionProfileTemplatesList;
+  connection_profile_templates?:
+    | ListConnectionProfileTemplateResponseContentConnectionProfileTemplatesList
+    | undefined;
 }
 export type GetConnectionsRequestStrategyList = Array<ConnectionStrategyEnum | (string & {})>;
 export interface GetConnectionsRequest {
   /** The amount of entries per page. Defaults to 100 if not provided */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number. Zero based */
-  page?: number;
+  page?: number | undefined;
   /** true if a query summary must be included in the result, false otherwise. Not returned when using checkpoint pagination. Default <code>false</code>. */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Provide strategies to only retrieve connections with such strategies */
-  strategy?: GetConnectionsRequestStrategyList;
+  strategy?: GetConnectionsRequestStrategyList | undefined;
   /** Provide the name of the connection to retrieve */
-  name?: string;
+  name?: string | undefined;
   /** A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields */
-  fields?: string;
+  fields?: string | undefined;
   /** <code>true</code> if the fields specified are to be included in the result, <code>false</code> otherwise (defaults to <code>true</code>) */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 export type ListConnectionsResponseContentCase0List = Array<ConnectionForList>;
 export type ListConnectionsOffsetPaginatedResponseContentConnectionsList = Array<ConnectionForList>;
 export interface ListConnectionsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  connections?: ListConnectionsOffsetPaginatedResponseContentConnectionsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  connections?: ListConnectionsOffsetPaginatedResponseContentConnectionsList | undefined;
 }
 export type ListConnectionsCheckpointPaginatedResponseContentConnectionsList =
   Array<ConnectionForList>;
 export interface ListConnectionsCheckpointPaginatedResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results. */
-  next?: string;
-  connections?: ListConnectionsCheckpointPaginatedResponseContentConnectionsList;
+  next?: string | undefined;
+  connections?: ListConnectionsCheckpointPaginatedResponseContentConnectionsList | undefined;
 }
 export type ListConnectionsResponseContent =
   | ListConnectionsResponseContentCase0List
@@ -10141,9 +10243,9 @@ export type ListConnectionsResponseContent =
 export type GetConnectionsResponse = ListConnectionsResponseContent;
 export interface GetConnectionsDirectoryProvisioningsRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface DirectoryProvisioningMappingItem {
   /** The field location in the Auth0 schema */
@@ -10166,17 +10268,17 @@ export interface DirectoryProvisioning {
   mapping: DirectoryProvisioningMappingList;
   /** Whether periodic automatic synchronization is enabled */
   synchronize_automatically: boolean;
-  synchronize_groups?: SynchronizeGroupsEnum;
+  synchronize_groups?: SynchronizeGroupsEnum | undefined;
   /** The timestamp at which the directory provisioning configuration was created */
   created_at: string;
   /** The timestamp at which the directory provisioning configuration was last updated */
   updated_at: string;
   /** The timestamp at which the connection was last synchronized */
-  last_synchronization_at?: string;
+  last_synchronization_at?: string | undefined;
   /** The status of the last synchronization */
-  last_synchronization_status?: string;
+  last_synchronization_status?: string | undefined;
   /** The error message of the last synchronization, if any */
-  last_synchronization_error?: string;
+  last_synchronization_error?: string | undefined;
 }
 /** List of directory provisioning configurations */
 export type ListDirectoryProvisioningsResponseContentDirectoryProvisioningsList =
@@ -10185,19 +10287,19 @@ export interface ListDirectoryProvisioningsResponseContent {
   /** List of directory provisioning configurations */
   directory_provisionings: ListDirectoryProvisioningsResponseContentDirectoryProvisioningsList;
   /** The cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetConnectionsScimConfigurationsRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface ScimMappingItem {
   /** The field location in the auth0 schema */
-  auth0?: string;
+  auth0?: string | undefined;
   /** The field location in the SCIM schema */
-  scim?: string;
+  scim?: string | undefined;
   [key: string]: unknown;
 }
 /** The mapping between auth0 and SCIM */
@@ -10226,7 +10328,7 @@ export interface ListSCIMConfigurationsResponseContent {
   /** List of SCIM configurations */
   scim_configurations: ListSCIMConfigurationsResponseContentScimConfigurationsList;
   /** The cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetCredentialsRequest {
   /** ID of the client. */
@@ -10238,23 +10340,23 @@ export type ClientCredentialAlgorithmEnum = "RS256" | "RS384" | "PS256";
 export type ClientCredentialTypeEnum = "public_key" | "cert_subject_dn" | "x509_cert";
 export interface ClientCredential {
   /** ID of the credential. Generated on creation. */
-  id?: string;
+  id?: string | undefined;
   /** The name given to the credential by the user. */
-  name?: string;
+  name?: string | undefined;
   /** The key identifier of the credential, generated on creation. */
-  kid?: string;
-  alg?: ClientCredentialAlgorithmEnum;
-  credential_type?: ClientCredentialTypeEnum;
+  kid?: string | undefined;
+  alg?: ClientCredentialAlgorithmEnum | undefined;
+  credential_type?: ClientCredentialTypeEnum | undefined;
   /** The X509 certificate's Subject Distinguished Name */
-  subject_dn?: string;
+  subject_dn?: string | undefined;
   /** The X509 certificate's SHA256 thumbprint */
-  thumbprint_sha256?: string;
+  thumbprint_sha256?: string | undefined;
   /** The ISO 8601 formatted date the credential was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 formatted date the credential was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The ISO 8601 formatted date representing the expiration of the credential. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   [key: string]: unknown;
 }
 export type GetCredentialsResponseBodyList = Array<ClientCredential>;
@@ -10267,23 +10369,23 @@ export interface GetCredentialsByCredentialIdRequest {
 }
 export interface GetClientCredentialResponseContent {
   /** ID of the credential. Generated on creation. */
-  id?: string;
+  id?: string | undefined;
   /** The name given to the credential by the user. */
-  name?: string;
+  name?: string | undefined;
   /** The key identifier of the credential, generated on creation. */
-  kid?: string;
-  alg?: ClientCredentialAlgorithmEnum;
-  credential_type?: ClientCredentialTypeEnum;
+  kid?: string | undefined;
+  alg?: ClientCredentialAlgorithmEnum | undefined;
+  credential_type?: ClientCredentialTypeEnum | undefined;
   /** The X509 certificate's Subject Distinguished Name */
-  subject_dn?: string;
+  subject_dn?: string | undefined;
   /** The X509 certificate's SHA256 thumbprint */
-  thumbprint_sha256?: string;
+  thumbprint_sha256?: string | undefined;
   /** The ISO 8601 formatted date the credential was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 formatted date the credential was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The ISO 8601 formatted date representing the expiration of the credential. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetCustomDomainRequest {
@@ -10298,34 +10400,34 @@ export interface GetCustomDomainResponseContent {
   /** Whether this is a primary domain (true) or not (false). */
   primary: boolean;
   /** Whether this is the default custom domain (true) or not (false). */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   status: CustomDomainStatusFilterEnum;
   type: CustomDomainTypeEnum;
   /** Intermediate address. */
-  origin_domain_name?: string;
-  verification?: DomainVerification;
+  origin_domain_name?: string | undefined;
+  verification?: DomainVerification | undefined;
   /** The HTTP header to fetch the client's IP address */
-  custom_client_ip_header?: string | null;
+  custom_client_ip_header?: string | null | undefined;
   /** The TLS version policy */
-  tls_policy?: string;
-  domain_metadata?: DomainMetadata;
-  certificate?: DomainCertificate;
+  tls_policy?: string | undefined;
+  domain_metadata?: DomainMetadata | undefined;
+  certificate?: DomainCertificate | undefined;
   /** Relying Party ID (rpId) to be used for Passkeys on this custom domain. If not present, the full domain will be used. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
 }
 export interface GetCustomDomainsRequest {
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Query in <a href ="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene query string syntax</a>. */
-  q?: string;
+  q?: string | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Field to sort by. Only <code>domain:1</code> (ascending order by domain) is supported at this time. */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface CustomDomain {
   /** ID of the custom domain. */
@@ -10335,27 +10437,27 @@ export interface CustomDomain {
   /** Whether this is a primary domain (true) or not (false). */
   primary: boolean;
   /** Whether this is the default custom domain (true) or not (false). */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   status: CustomDomainStatusFilterEnum;
   type: CustomDomainTypeEnum;
   /** Intermediate address. */
-  origin_domain_name?: string;
-  verification?: DomainVerification;
+  origin_domain_name?: string | undefined;
+  verification?: DomainVerification | undefined;
   /** The HTTP header to fetch the client's IP address */
-  custom_client_ip_header?: string | null;
+  custom_client_ip_header?: string | null | undefined;
   /** The TLS version policy */
-  tls_policy?: string;
-  domain_metadata?: DomainMetadata;
-  certificate?: DomainCertificate;
+  tls_policy?: string | undefined;
+  domain_metadata?: DomainMetadata | undefined;
+  certificate?: DomainCertificate | undefined;
   /** Relying Party ID (rpId) to be used for Passkeys on this custom domain. If not present, the full domain will be used. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
 }
 export type ListCustomDomainsResponseContentCase0List = Array<CustomDomain>;
 export type ListCustomDomainsPaginatedResponseContentCustomDomainsList = Array<CustomDomain>;
 export interface ListCustomDomainsPaginatedResponseContent {
   custom_domains: ListCustomDomainsPaginatedResponseContentCustomDomainsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export type ListCustomDomainsResponseContent =
   | ListCustomDomainsResponseContentCase0List
@@ -10388,35 +10490,35 @@ export type CustomSigningKeyJWKX5cList = Array<string>;
 export interface CustomSigningKeyJWK {
   kty: CustomSigningKeyTypeEnum | (string & {});
   /** Key identifier */
-  kid?: string;
-  use?: CustomSigningKeyUseEnum | (string & {});
+  kid?: string | undefined;
+  use?: CustomSigningKeyUseEnum | (string & {}) | undefined;
   /** Key operations */
-  key_ops?: CustomSigningKeyJWKKeyOpsList;
-  alg?: CustomSigningKeyAlgorithmEnum | (string & {});
+  key_ops?: CustomSigningKeyJWKKeyOpsList | undefined;
+  alg?: CustomSigningKeyAlgorithmEnum | (string & {}) | undefined;
   /** Key modulus */
-  n?: string;
+  n?: string | undefined;
   /** Key exponent */
-  e?: string;
-  crv?: CustomSigningKeyCurveEnum | (string & {});
+  e?: string | undefined;
+  crv?: CustomSigningKeyCurveEnum | (string & {}) | undefined;
   /** X coordinate */
-  x?: string;
+  x?: string | undefined;
   /** Y coordinate */
-  y?: string;
+  y?: string | undefined;
   /** X.509 URL */
-  x5u?: string;
+  x5u?: string | undefined;
   /** X.509 certificate chain */
-  x5c?: CustomSigningKeyJWKX5cList;
+  x5c?: CustomSigningKeyJWKX5cList | undefined;
   /** X.509 certificate SHA-1 thumbprint */
-  x5t?: string;
+  x5t?: string | undefined;
   /** X.509 certificate SHA-256 thumbprint */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 /** An array of custom public signing keys. */
 export type GetCustomSigningKeysResponseContentKeysList = Array<CustomSigningKeyJWK>;
 /** JWKS representing an array of custom public signing keys. */
 export interface GetCustomSigningKeysResponseContent {
   /** An array of custom public signing keys. */
-  keys?: GetCustomSigningKeysResponseContentKeysList;
+  keys?: GetCustomSigningKeysResponseContentKeysList | undefined;
 }
 /** Name of the prompt */
 export type GetCustomTextByLanguageRequestPrompt =
@@ -10552,23 +10654,23 @@ export type GetCustomTextsByLanguageResponseContent = { [key: string]: unknown |
 export type GetCustomTextByLanguageResponse = GetCustomTextsByLanguageResponseContent;
 export interface GetDailyRequest {
   /** Optional first day of the date range (inclusive) in YYYYMMDD format. */
-  from?: string;
+  from?: string | undefined;
   /** Optional last day of the date range (inclusive) in YYYYMMDD format. */
-  to?: string;
+  to?: string | undefined;
 }
 export interface DailyStats {
   /** Date these events occurred in ISO 8601 format. */
-  date?: string;
+  date?: string | undefined;
   /** Number of logins on this date. */
-  logins?: number;
+  logins?: number | undefined;
   /** Number of signups on this date. */
-  signups?: number;
+  signups?: number | undefined;
   /** Number of breached-password detections on this date (subscription required). */
-  leaked_passwords?: number;
+  leaked_passwords?: number | undefined;
   /** Date and time this stats entry was last updated in ISO 8601 format. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Approximate date and time the first event occurred in ISO 8601 format. */
-  created_at?: string;
+  created_at?: string | undefined;
   [key: string]: unknown;
 }
 export type GetDailyResponseBodyList = Array<DailyStats>;
@@ -10590,7 +10692,7 @@ export interface GetBrandingDefaultThemeResponseContent {
   /** Display Name */
   displayName: string;
   fonts: BrandingThemeFonts;
-  identifiers?: BrandingThemeIdentifiers;
+  identifiers?: BrandingThemeIdentifiers | undefined;
   page_background: BrandingThemePageBackground;
   /** Theme Id */
   themeId: string;
@@ -10604,7 +10706,7 @@ export interface GetDefaultMappingRequest {
 export type GetScimConfigurationDefaultMappingResponseContentMappingList = Array<ScimMappingItem>;
 export interface GetScimConfigurationDefaultMappingResponseContent {
   /** The mapping between auth0 and SCIM */
-  mapping?: GetScimConfigurationDefaultMappingResponseContentMappingList;
+  mapping?: GetScimConfigurationDefaultMappingResponseContentMappingList | undefined;
 }
 export interface GetDeliveriesByEventIdRequest {
   /** Unique identifier for the event stream. */
@@ -10646,9 +10748,9 @@ export interface EventStreamDeliveryAttempt {
   /** Timestamp of delivery attempt */
   timestamp: string;
   /** Delivery error message, if applicable */
-  error_message?: string;
+  error_message?: string | undefined;
   /** Duration of the delivery attempt in milliseconds */
-  duration?: number;
+  duration?: number | undefined;
 }
 /** Results of delivery attempts */
 export type GetEventStreamDeliveryHistoryResponseContentAttemptsList =
@@ -10658,16 +10760,16 @@ export type EventStreamCloudEventData = { [key: string]: unknown | undefined };
 /** Event content. This will only be set if delivery failed. */
 export interface EventStreamCloudEvent {
   /** Unique identifier for the event */
-  id?: string;
+  id?: string | undefined;
   /** Where the event originated */
-  source?: string;
+  source?: string | undefined;
   /** Version of CloudEvents spec */
-  specversion?: string;
+  specversion?: string | undefined;
   /** Type of the event (e.g., user.created) */
-  type?: string;
+  type?: string | undefined;
   /** Timestamp at which the event was generated */
-  time?: string;
-  data?: EventStreamCloudEventData;
+  time?: string | undefined;
+  data?: EventStreamCloudEventData | undefined;
 }
 /** Metadata about a specific attempt to deliver an event */
 export interface GetEventStreamDeliveryHistoryResponseContent {
@@ -10679,50 +10781,52 @@ export interface GetEventStreamDeliveryHistoryResponseContent {
   event_type: EventStreamDeliveryEventTypeEnum;
   /** Results of delivery attempts */
   attempts: GetEventStreamDeliveryHistoryResponseContentAttemptsList;
-  event?: EventStreamCloudEvent;
+  event?: EventStreamCloudEvent | undefined;
 }
 /** Type of credentials to retrieve. Must be `public_key`, `refresh_token` or `rotating_refresh_token`. If none is provided a combined list of `refresh_tokens` and `public_keys` will be returned (and no `rotating_refresh_token`), in this case `page`, `per_page` and `include_totals` will be ignored. */
 export type DeviceCredentialTypeEnum = "public_key" | "refresh_token" | "rotating_refresh_token";
 export interface GetDeviceCredentialsRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. There is a maximum of 1000 results allowed from this endpoint. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** user_id of the devices to retrieve. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** client_id of the devices to retrieve. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Type of credentials to retrieve. Must be `public_key`, `refresh_token` or `rotating_refresh_token`. If none is provided a combined list of `refresh_tokens` and `public_keys` will be returned (and no `rotating_refresh_token`), in this case `page`, `per_page` and `include_totals` will be ignored. */
-  type?: DeviceCredentialTypeEnum | (string & {});
+  type?: DeviceCredentialTypeEnum | (string & {}) | undefined;
 }
 export interface DeviceCredential {
   /** ID of this device. */
-  id?: string;
+  id?: string | undefined;
   /** User agent for this device */
-  device_name?: string;
+  device_name?: string | undefined;
   /** Unique identifier for the device. NOTE: This field is generally not populated for refresh_tokens and rotating_refresh_tokens */
-  device_id?: string;
+  device_id?: string | undefined;
   /** Type of credential. Can be `public_key`, `refresh_token`, or `rotating_refresh_token`. */
-  type?: DeviceCredentialTypeEnum;
+  type?: DeviceCredentialTypeEnum | undefined;
   /** user_id this credential is associated with. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** client_id of the client (application) this credential is for. */
-  client_id?: string;
+  client_id?: string | undefined;
 }
 export type ListDeviceCredentialsResponseContentCase0List = Array<DeviceCredential>;
 export type ListDeviceCredentialsOffsetPaginatedResponseContentDeviceCredentialsList =
   Array<DeviceCredential>;
 export interface ListDeviceCredentialsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  device_credentials?: ListDeviceCredentialsOffsetPaginatedResponseContentDeviceCredentialsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  device_credentials?:
+    | ListDeviceCredentialsOffsetPaginatedResponseContentDeviceCredentialsList
+    | undefined;
 }
 export type ListDeviceCredentialsResponseContent =
   | ListDeviceCredentialsResponseContentCase0List
@@ -10746,17 +10850,17 @@ export interface GetDirectoryProvisioningResponseContent {
   mapping: GetDirectoryProvisioningResponseContentMappingList;
   /** Whether periodic automatic synchronization is enabled */
   synchronize_automatically: boolean;
-  synchronize_groups?: SynchronizeGroupsEnum;
+  synchronize_groups?: SynchronizeGroupsEnum | undefined;
   /** The timestamp at which the directory provisioning configuration was created */
   created_at: string;
   /** The timestamp at which the directory provisioning configuration was last updated */
   updated_at: string;
   /** The timestamp at which the connection was last synchronized */
-  last_synchronization_at?: string;
+  last_synchronization_at?: string | undefined;
   /** The status of the last synchronization */
-  last_synchronization_status?: string;
+  last_synchronization_status?: string | undefined;
   /** The error message of the last synchronization, if any */
-  last_synchronization_error?: string;
+  last_synchronization_error?: string | undefined;
 }
 export interface GetDirectoryProvisioningDefaultMappingRequest {
   /** The id of the connection to retrieve its directory provisioning configuration */
@@ -10767,15 +10871,15 @@ export type GetDirectoryProvisioningDefaultMappingResponseContentMappingList =
   Array<DirectoryProvisioningMappingItem>;
 export interface GetDirectoryProvisioningDefaultMappingResponseContent {
   /** The mapping between Auth0 and IDP user attributes */
-  mapping?: GetDirectoryProvisioningDefaultMappingResponseContentMappingList;
+  mapping?: GetDirectoryProvisioningDefaultMappingResponseContentMappingList | undefined;
 }
 export interface GetDiscoveryDomainsRequest {
   /** ID of the organization. */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 /** The verification status of the discovery domain. */
 export type OrganizationDiscoveryDomainStatus = "pending" | "verified";
@@ -10786,7 +10890,7 @@ export interface OrganizationDiscoveryDomain {
   domain: string;
   status: OrganizationDiscoveryDomainStatus;
   /** Indicates whether this domain should be used for organization discovery. */
-  use_for_organization_discovery?: boolean;
+  use_for_organization_discovery?: boolean | undefined;
   /** A unique token generated for the discovery domain. This must be placed in a DNS TXT record at the location specified by the verification_host field to prove domain ownership. */
   verification_txt: string;
   /** The full domain where the TXT record should be added. */
@@ -10795,7 +10899,7 @@ export interface OrganizationDiscoveryDomain {
 export type ListOrganizationDiscoveryDomainsResponseContentDomainsList =
   Array<OrganizationDiscoveryDomain>;
 export interface ListOrganizationDiscoveryDomainsResponseContent {
-  next?: string;
+  next?: string | undefined;
   domains: ListOrganizationDiscoveryDomainsResponseContentDomainsList;
 }
 export interface GetDiscoveryDomainsByDiscoveryDomainIdRequest {
@@ -10811,7 +10915,7 @@ export interface GetOrganizationDiscoveryDomainResponseContent {
   domain: string;
   status: OrganizationDiscoveryDomainStatus;
   /** Indicates whether this domain should be used for organization discovery. */
-  use_for_organization_discovery?: boolean;
+  use_for_organization_discovery?: boolean | undefined;
   /** A unique token generated for the discovery domain. This must be placed in a DNS TXT record at the location specified by the verification_host field to prove domain ownership. */
   verification_txt: string;
   /** The full domain where the TXT record should be added. */
@@ -10845,53 +10949,55 @@ export interface GetEmailTemplateRequest {
   templateName: GetEmailTemplateRequestTemplateName | (string & {});
 }
 export interface GetEmailTemplateResponseContent {
-  template?: EmailTemplateNameEnum;
+  template?: EmailTemplateNameEnum | undefined;
   /** Body of the email template. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** Senders `from` email address. */
-  from?: string | null;
+  from?: string | null | undefined;
   /** URL to redirect the user to after a successful action. */
-  resultUrl?: string | null;
+  resultUrl?: string | null | undefined;
   /** Subject line of the email. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Syntax of the template body. */
-  syntax?: string | null;
+  syntax?: string | null | undefined;
   /** Lifetime in seconds that the link within the email will be valid for. */
-  urlLifetimeInSeconds?: number | null;
+  urlLifetimeInSeconds?: number | null | undefined;
   /** Whether the `reset_email` and `verify_email` templates should include the user's email address as the `email` parameter in the returnUrl (true) or whether no email address should be included in the redirect (false). Defaults to true. */
-  includeEmailInRedirect?: boolean;
+  includeEmailInRedirect?: boolean | undefined;
   /** Whether the template is enabled (true) or disabled (false). */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface GetEnabledConnectionsRequest {
   /** Organization identifier. */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export interface OrganizationConnection {
   /** ID of the connection. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  connection?: OrganizationConnectionInformation;
+  is_signup_enabled?: boolean | undefined;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 export type ListOrganizationConnectionsResponseContentCase0List = Array<OrganizationConnection>;
 export type ListOrganizationConnectionsOffsetPaginatedResponseContentEnabledConnectionsList =
   Array<OrganizationConnection>;
 export interface ListOrganizationConnectionsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  enabled_connections?: ListOrganizationConnectionsOffsetPaginatedResponseContentEnabledConnectionsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  enabled_connections?:
+    | ListOrganizationConnectionsOffsetPaginatedResponseContentEnabledConnectionsList
+    | undefined;
 }
 export type ListOrganizationConnectionsResponseContent =
   | ListOrganizationConnectionsResponseContentCase0List
@@ -10905,14 +11011,14 @@ export interface GetEnabledConnectionsByConnectionIdRequest {
 }
 export interface GetOrganizationConnectionResponseContent {
   /** ID of the connection. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  connection?: OrganizationConnectionInformation;
+  is_signup_enabled?: boolean | undefined;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 export interface GetEncryptionKeyRequest {
   /** Encryption key ID */
@@ -10937,17 +11043,17 @@ export interface GetEncryptionKeyResponseContent {
   /** Key update timestamp */
   updated_at: string;
   /** ID of parent wrapping key */
-  parent_kid?: string | null;
+  parent_kid?: string | null | undefined;
   /** Public key in PEM format */
-  public_key?: string | null;
+  public_key?: string | null | undefined;
 }
 export interface GetEncryptionKeysRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Default value is 50, maximum value is 100. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 /** Encryption key */
 export interface EncryptionKey {
@@ -10960,9 +11066,9 @@ export interface EncryptionKey {
   /** Key update timestamp */
   updated_at: string;
   /** ID of parent wrapping key */
-  parent_kid?: string | null;
+  parent_kid?: string | null | undefined;
   /** Public key in PEM format */
-  public_key?: string | null;
+  public_key?: string | null | undefined;
 }
 /** Encryption keys. */
 export type ListEncryptionKeysResponseContentCase0List = Array<EncryptionKey>;
@@ -10970,13 +11076,13 @@ export type ListEncryptionKeysResponseContentCase0List = Array<EncryptionKey>;
 export type ListEncryptionKeyOffsetPaginatedResponseContentKeysList = Array<EncryptionKey>;
 export interface ListEncryptionKeyOffsetPaginatedResponseContent {
   /** Page index of the results to return. First page is 0. */
-  start?: number;
+  start?: number | undefined;
   /** Number of results per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Total amount of encryption keys. */
-  total?: number;
+  total?: number | undefined;
   /** Encryption keys. */
-  keys?: ListEncryptionKeyOffsetPaginatedResponseContentKeysList;
+  keys?: ListEncryptionKeyOffsetPaginatedResponseContentKeysList | undefined;
 }
 export type ListEncryptionKeysResponseContent =
   | ListEncryptionKeysResponseContentCase0List
@@ -10997,21 +11103,21 @@ export type UserEnrollmentAuthMethodEnum =
   | "webauthn-roaming";
 export interface UsersEnrollment {
   /** ID of this enrollment. */
-  id?: string;
-  status?: UserEnrollmentStatusEnum;
+  id?: string | undefined;
+  status?: UserEnrollmentStatusEnum | undefined;
   /** Type of enrollment. */
-  type?: string;
+  type?: string | undefined;
   /** Name of enrollment (usually phone number). */
-  name?: string;
+  name?: string | undefined;
   /** Device identifier (usually phone identifier) of this enrollment. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Phone number for this enrollment. */
-  phone_number?: string;
-  auth_method?: UserEnrollmentAuthMethodEnum;
+  phone_number?: string | undefined;
+  auth_method?: UserEnrollmentAuthMethodEnum | undefined;
   /** Start date and time of this enrollment. */
-  enrolled_at?: string;
+  enrolled_at?: string | undefined;
   /** Last authentication date and time of this enrollment. */
-  last_auth?: string;
+  last_auth?: string | undefined;
   [key: string]: unknown;
 }
 export type GetEnrollmentsResponseBodyList = Array<UsersEnrollment>;
@@ -11025,15 +11131,15 @@ export type GuardianEnrollmentStatus = "pending" | "confirmed";
 export interface GetGuardianEnrollmentResponseContent {
   /** ID for this enrollment. */
   id: string;
-  status?: GuardianEnrollmentStatus;
+  status?: GuardianEnrollmentStatus | undefined;
   /** Device name (only for push notification). */
-  name?: string;
+  name?: string | undefined;
   /** Device identifier. This is usually the phone identifier. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Phone number. */
-  phone_number?: string;
-  enrolled_at?: string;
-  last_auth?: string;
+  phone_number?: string | undefined;
+  enrolled_at?: string | undefined;
+  last_auth?: string | undefined;
 }
 export interface GetErrorsRequest {
   /** ID of the job. */
@@ -11043,19 +11149,19 @@ export interface GetErrorsRequest {
 export type GetJobUserError = { [key: string]: unknown | undefined };
 export interface GetJobImportUserError {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message. */
-  message?: string;
+  message?: string | undefined;
   /** Error field. */
-  path?: string;
+  path?: string | undefined;
   [key: string]: unknown;
 }
 /** Errors importing the user. */
 export type GetJobErrorResponseContentErrorsList = Array<GetJobImportUserError>;
 export interface GetJobErrorResponseContent {
-  user?: GetJobUserError;
+  user?: GetJobUserError | undefined;
   /** Errors importing the user. */
-  errors?: GetJobErrorResponseContentErrorsList;
+  errors?: GetJobErrorResponseContentErrorsList | undefined;
 }
 export type GetErrorsResponseBodyCase0List = Array<GetJobErrorResponseContent>;
 export interface GetJobGenericErrorResponseContent {
@@ -11064,13 +11170,13 @@ export interface GetJobGenericErrorResponseContent {
   /** Type of job this is. */
   type: string;
   /** When this job was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** ID of this job. */
   id: string;
   /** connection_id of the connection this job uses. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Status details. */
-  status_details?: string;
+  status_details?: string | undefined;
   [key: string]: unknown;
 }
 export type GetErrorsResponseBody =
@@ -11081,17 +11187,17 @@ export interface GetEventDeliveriesRequest {
   /** Unique identifier for the event stream. */
   id: string;
   /** Comma-separated list of statuses by which to filter */
-  statuses?: string;
+  statuses?: string | undefined;
   /** Comma-separated list of event types by which to filter */
-  event_types?: string;
+  event_types?: string | undefined;
   /** An RFC-3339 date-time for redelivery start, inclusive. Does not allow sub-second precision. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** An RFC-3339 date-time for redelivery end, exclusive. Does not allow sub-second precision. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 /** Results of delivery attempts */
 export type EventStreamDeliveryAttemptsList = Array<EventStreamDeliveryAttempt>;
@@ -11105,7 +11211,7 @@ export interface EventStreamDelivery {
   event_type: EventStreamDeliveryEventTypeEnum;
   /** Results of delivery attempts */
   attempts: EventStreamDeliveryAttemptsList;
-  event?: EventStreamCloudEvent;
+  event?: EventStreamCloudEvent | undefined;
 }
 /** List of event stream deliveries */
 export type ListEventStreamDeliveriesResponseContentDeliveriesList = Array<EventStreamDelivery>;
@@ -11113,7 +11219,7 @@ export interface ListEventStreamDeliveriesResponseContent {
   /** List of event stream deliveries */
   deliveries: ListEventStreamDeliveriesResponseContentDeliveriesList;
   /** The cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetEventStreamRequest {
   /** Unique identifier for the event stream. */
@@ -11126,9 +11232,9 @@ export type GetEventStreamResponseContent =
 export type GetEventStreamResponse = GetEventStreamResponseContent;
 export interface GetEventStreamsRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type EventStreamResponseContent =
   | EventStreamWebhookResponseContent
@@ -11136,9 +11242,9 @@ export type EventStreamResponseContent =
   | EventStreamActionResponseContent;
 export type ListEventStreamsResponseContentEventStreamsList = Array<EventStreamResponseContent>;
 export interface ListEventStreamsResponseContent {
-  eventStreams?: ListEventStreamsResponseContentEventStreamsList;
+  eventStreams?: ListEventStreamsResponseContentEventStreamsList | undefined;
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetExecutionRequest {
@@ -11156,25 +11262,25 @@ export type ActionExecutionStatusEnum =
 /** Captures the results of a single action being executed. */
 export interface ActionExecutionResult {
   /** The name of the action that was executed. */
-  action_name?: string;
-  error?: ActionError;
+  action_name?: string | undefined;
+  error?: ActionError | undefined;
   /** The time when the action was started. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** The time when the action finished executing. */
-  ended_at?: string;
+  ended_at?: string | undefined;
 }
 export type GetActionExecutionResponseContentResultsList = Array<ActionExecutionResult>;
 /** The result of a specific execution of a trigger. */
 export interface GetActionExecutionResponseContent {
   /** ID identifies this specific execution simulation. These IDs would resemble real executions in production. */
-  id?: string;
-  trigger_id?: ActionTriggerTypeEnum;
-  status?: ActionExecutionStatusEnum;
-  results?: GetActionExecutionResponseContentResultsList;
+  id?: string | undefined;
+  trigger_id?: ActionTriggerTypeEnum | undefined;
+  status?: ActionExecutionStatusEnum | undefined;
+  results?: GetActionExecutionResponseContentResultsList | undefined;
   /** The time that the execution was started. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time that the exeution finished executing. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetExperimentRequest {
   /** The ID of the experiment to retrieve. */
@@ -11191,39 +11297,39 @@ export type GetExperimentResponseContentLevelsList = Array<number>;
 export interface GetExperimentResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   feature_flag_id: string;
-  feature_flag_name?: string;
+  feature_flag_name?: string | undefined;
   authentication_flow: string;
   allocation_strategy: AllocationStrategyEnum;
   status: ExperimentStatusEnum;
   /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
   is_valid: boolean;
-  default_config?: DefaultConfigEnum;
-  feature_flag_snapshot?: GetExperimentResponseContentFeatureFlagSnapshotMap | null;
+  default_config?: DefaultConfigEnum | undefined;
+  feature_flag_snapshot?: GetExperimentResponseContentFeatureFlagSnapshotMap | null | undefined;
   allocations: GetExperimentResponseContentAllocationsList;
   /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
   editable_fields: GetExperimentResponseContentEditableFieldsList;
   /** Ramp experiment levels configuration. */
-  levels?: GetExperimentResponseContentLevelsList;
+  levels?: GetExperimentResponseContentLevelsList | undefined;
   /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null;
-  started_at?: string;
-  ended_at?: string;
+  current_level?: number | null | undefined;
+  started_at?: string | undefined;
+  ended_at?: string | undefined;
   created_at: string;
   updated_at: string;
 }
 export interface GetExperimentsRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of experiments to return per page. Defaults to 25, maximum 50. */
-  take?: number;
+  take?: number | undefined;
   /** Filter by status. Exact match. */
-  status?: ExperimentStatusEnum | (string & {});
+  status?: ExperimentStatusEnum | (string & {}) | undefined;
   /** Filter by authentication flow. Exact match. */
-  authentication_flow?: string;
+  authentication_flow?: string | undefined;
   /** Filter by feature flag ID. Exact match. */
-  feature_flag_id?: string;
+  feature_flag_id?: string | undefined;
 }
 export type ExperimentListItemFeatureFlagSnapshotMap = { [key: string]: unknown | undefined };
 export type ExperimentListItemAllocationsList = Array<AllocationItem>;
@@ -11234,25 +11340,25 @@ export type ExperimentListItemLevelsList = Array<number>;
 export interface ExperimentListItem {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   feature_flag_id: string;
-  feature_flag_name?: string;
+  feature_flag_name?: string | undefined;
   authentication_flow: string;
   allocation_strategy: AllocationStrategyEnum;
   status: ExperimentStatusEnum;
   /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
   is_valid: boolean;
-  default_config?: DefaultConfigEnum;
-  feature_flag_snapshot?: ExperimentListItemFeatureFlagSnapshotMap | null;
+  default_config?: DefaultConfigEnum | undefined;
+  feature_flag_snapshot?: ExperimentListItemFeatureFlagSnapshotMap | null | undefined;
   allocations: ExperimentListItemAllocationsList;
   /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
   editable_fields: ExperimentListItemEditableFieldsList;
   /** Ramp experiment levels configuration. */
-  levels?: ExperimentListItemLevelsList;
+  levels?: ExperimentListItemLevelsList | undefined;
   /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null;
-  started_at?: string;
-  ended_at?: string;
+  current_level?: number | null | undefined;
+  started_at?: string | undefined;
+  ended_at?: string | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -11260,13 +11366,13 @@ export type ListExperimentsResponseContentExperimentsList = Array<ExperimentList
 export interface ListExperimentsResponseContent {
   experiments: ListExperimentsResponseContentExperimentsList;
   /** Checkpoint token for the next page. Omitted when there are no further results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetFactorDuoSettingsRequest {}
 export interface GetGuardianFactorDuoSettingsResponseContent {
-  ikey?: string;
-  skey?: string;
-  host?: string;
+  ikey?: string | undefined;
+  skey?: string | undefined;
+  host?: string | undefined;
 }
 export interface GetFactorPhoneTemplatesRequest {}
 export interface GetGuardianFactorPhoneTemplatesResponseContent {
@@ -11290,18 +11396,18 @@ export type GuardianFactorNameEnum =
 /** Factor-specific settings. Only returned when include_settings=true. */
 export interface GuardianFactorSettings {
   /** The length of the OTP code. */
-  otp_length?: number;
+  otp_length?: number | undefined;
   /** The OTP expiration time in seconds. */
-  otp_expiration_time?: number;
+  otp_expiration_time?: number | undefined;
   [key: string]: unknown;
 }
 export interface GuardianFactor {
   /** Whether this factor is enabled (true) or disabled (false). */
   enabled: boolean;
   /** Whether trial limits have been exceeded. */
-  trial_expired?: boolean;
-  name?: GuardianFactorNameEnum;
-  settings?: GuardianFactorSettings;
+  trial_expired?: boolean | undefined;
+  name?: GuardianFactorNameEnum | undefined;
+  settings?: GuardianFactorSettings | undefined;
 }
 export type GetFactorsResponseBodyList = Array<GuardianFactor>;
 export type GetFactorsResponse = GetFactorsResponseBodyList;
@@ -11319,30 +11425,30 @@ export interface GetFeatureFlagRequest {
 export interface GetFeatureFlagResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: FeatureFlagTypeEnum;
   status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams;
+  parameters?: FeatureFlagConfigParams | undefined;
   created_at: string;
   updated_at: string;
 }
 export interface GetFeatureFlagsRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of feature flags to return per page. Defaults to 25, maximum 50. */
-  take?: number;
+  take?: number | undefined;
   /** Filter by type. Exact match. */
-  type?: FeatureFlagTypeEnum | (string & {});
+  type?: FeatureFlagTypeEnum | (string & {}) | undefined;
   /** Filter by status. Exact match. */
-  status?: FeatureFlagStatusEnum | (string & {});
+  status?: FeatureFlagStatusEnum | (string & {}) | undefined;
 }
 export interface FeatureFlag {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: FeatureFlagTypeEnum;
   status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams;
+  parameters?: FeatureFlagConfigParams | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -11350,7 +11456,7 @@ export type ListFeatureFlagsResponseContentFeatureFlagsList = Array<FeatureFlag>
 export interface ListFeatureFlagsResponseContent {
   feature_flags: ListFeatureFlagsResponseContentFeatureFlagsList;
   /** Checkpoint token for the next page. Omitted when there are no further results. */
-  next?: string;
+  next?: string | undefined;
 }
 export type GetFlowRequestParametersHydrateEnum = "form_count" | "forms";
 export type GetFlowRequestHydrateList = Array<GetFlowRequestParametersHydrateEnum | (string & {})>;
@@ -11358,16 +11464,16 @@ export interface GetFlowRequest {
   /** Flow identifier */
   id: string;
   /** hydration param */
-  hydrate?: GetFlowRequestHydrateList;
+  hydrate?: GetFlowRequestHydrateList | undefined;
 }
 export type GetFlowResponseContentActionsList = Array<FlowAction>;
 export interface GetFlowResponseContent {
   id: string;
   name: string;
-  actions?: GetFlowResponseContentActionsList;
+  actions?: GetFlowResponseContentActionsList | undefined;
   created_at: string;
   updated_at: string;
-  executed_at?: string;
+  executed_at?: string | undefined;
 }
 export type ListFlowsRequestParametersHydrateEnum = "form_count";
 export type GetFlowsRequestHydrateList = Array<
@@ -11375,30 +11481,30 @@ export type GetFlowsRequestHydrateList = Array<
 >;
 export interface GetFlowsRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** hydration param */
-  hydrate?: GetFlowsRequestHydrateList;
+  hydrate?: GetFlowsRequestHydrateList | undefined;
   /** flag to filter by sync/async flows */
-  synchronous?: boolean;
+  synchronous?: boolean | undefined;
 }
 export interface FlowSummary {
   id: string;
   name: string;
   created_at: string;
   updated_at: string;
-  executed_at?: string;
+  executed_at?: string | undefined;
 }
 export type ListFlowsResponseContentCase0List = Array<FlowSummary>;
 export type ListFlowsOffsetPaginatedResponseContentFlowsList = Array<FlowSummary>;
 export interface ListFlowsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  flows?: ListFlowsOffsetPaginatedResponseContentFlowsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  flows?: ListFlowsOffsetPaginatedResponseContentFlowsList | undefined;
 }
 export type ListFlowsResponseContent =
   | ListFlowsResponseContentCase0List
@@ -11414,7 +11520,7 @@ export interface GetFlowsExecutionRequest {
   /** Flow execution id */
   execution_id: string;
   /** Hydration param */
-  hydrate?: GetFlowsExecutionRequestHydrateList;
+  hydrate?: GetFlowsExecutionRequestHydrateList | undefined;
 }
 /** Flow execution debug. */
 export type FlowExecutionDebug = { [key: string]: unknown | undefined };
@@ -11424,32 +11530,32 @@ export interface GetFlowExecutionResponseContent {
   /** Trace id */
   trace_id: string;
   /** Journey id */
-  journey_id?: string;
+  journey_id?: string | undefined;
   /** Execution status */
   status: string;
-  debug?: FlowExecutionDebug;
+  debug?: FlowExecutionDebug | undefined;
   /** The ISO 8601 formatted date when this flow execution was created. */
   created_at: string;
   /** The ISO 8601 formatted date when this flow execution was updated. */
   updated_at: string;
   /** The ISO 8601 formatted date when this flow execution started. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** The ISO 8601 formatted date when this flow execution ended. */
-  ended_at?: string;
+  ended_at?: string | undefined;
 }
 export interface GetFlowsExecutionsRequest {
   /** Flow id */
   flow_id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface FlowExecutionSummary {
   /** Flow execution identifier */
@@ -11457,7 +11563,7 @@ export interface FlowExecutionSummary {
   /** Trace id */
   trace_id: string;
   /** Journey id */
-  journey_id?: string;
+  journey_id?: string | undefined;
   /** Execution status */
   status: string;
   /** The ISO 8601 formatted date when this flow execution was created. */
@@ -11465,24 +11571,24 @@ export interface FlowExecutionSummary {
   /** The ISO 8601 formatted date when this flow execution was updated. */
   updated_at: string;
   /** The ISO 8601 formatted date when this flow execution started. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** The ISO 8601 formatted date when this flow execution ended. */
-  ended_at?: string;
+  ended_at?: string | undefined;
 }
 export type ListFlowExecutionsResponseContent = Array<FlowExecutionSummary>;
 export type ListFlowExecutionsOffsetPaginatedResponseContentExecutionsList =
   Array<FlowExecutionSummary>;
 export interface ListFlowExecutionsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  executions?: ListFlowExecutionsOffsetPaginatedResponseContentExecutionsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  executions?: ListFlowExecutionsOffsetPaginatedResponseContentExecutionsList | undefined;
 }
 export type ListFlowExecutionsPaginatedResponseContentExecutionsList = Array<FlowExecutionSummary>;
 export interface ListFlowExecutionsPaginatedResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results.<br/>This identifier is valid for 24 hours. */
-  next?: string;
-  executions?: ListFlowExecutionsPaginatedResponseContentExecutionsList;
+  next?: string | undefined;
+  executions?: ListFlowExecutionsPaginatedResponseContentExecutionsList | undefined;
 }
 export type GetFlowsExecutionsResponseContent =
   | ListFlowExecutionsResponseContent
@@ -11499,11 +11605,11 @@ export interface GetFlowsVaultConnectionResponseContent {
   /** Flows Vault Connection app identifier. */
   app_id: string;
   /** Flows Vault Connection environment. */
-  environment?: string;
+  environment?: string | undefined;
   /** Flows Vault Connection name. */
   name: string;
   /** Flows Vault Connection custom account name. */
-  account_name?: string;
+  account_name?: string | undefined;
   /** Whether the Flows Vault Connection is configured. */
   ready: boolean;
   /** The ISO 8601 formatted date when this Flows Vault Connection was created. */
@@ -11511,16 +11617,16 @@ export interface GetFlowsVaultConnectionResponseContent {
   /** The ISO 8601 formatted date when this Flows Vault Connection was updated. */
   updated_at: string;
   /** The ISO 8601 formatted date when this Flows Vault Connection was refreshed. */
-  refreshed_at?: string;
+  refreshed_at?: string | undefined;
   fingerprint: string;
 }
 export interface GetFlowsVaultConnectionsRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export interface FlowsVaultConnectionSummary {
   /** Flows Vault Connection identifier. */
@@ -11530,7 +11636,7 @@ export interface FlowsVaultConnectionSummary {
   /** Flows Vault Connection name. */
   name: string;
   /** Flows Vault Connection custom account name. */
-  account_name?: string;
+  account_name?: string | undefined;
   /** Whether the Flows Vault Connection is configured. */
   ready: boolean;
   /** The ISO 8601 formatted date when this Flows Vault Connection was created. */
@@ -11538,17 +11644,17 @@ export interface FlowsVaultConnectionSummary {
   /** The ISO 8601 formatted date when this Flows Vault Connection was updated. */
   updated_at: string;
   /** The ISO 8601 formatted date when this Flows Vault Connection was refreshed. */
-  refreshed_at?: string;
+  refreshed_at?: string | undefined;
   fingerprint: string;
 }
 export type ListFlowsVaultConnectionsResponseContentCase0List = Array<FlowsVaultConnectionSummary>;
 export type ListFlowsVaultConnectionsOffsetPaginatedResponseContentConnectionsList =
   Array<FlowsVaultConnectionSummary>;
 export interface ListFlowsVaultConnectionsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  connections?: ListFlowsVaultConnectionsOffsetPaginatedResponseContentConnectionsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  connections?: ListFlowsVaultConnectionsOffsetPaginatedResponseContentConnectionsList | undefined;
 }
 export type ListFlowsVaultConnectionsResponseContent =
   | ListFlowsVaultConnectionsResponseContentCase0List
@@ -11560,49 +11666,49 @@ export interface GetFormRequest {
   /** The ID of the form to retrieve. */
   id: string;
   /** Query parameter to hydrate the response with additional data */
-  hydrate?: GetFormRequestHydrateList;
+  hydrate?: GetFormRequestHydrateList | undefined;
 }
 export interface GetFormResponseContent {
   id: string;
   name: string;
-  messages?: FormMessages;
-  languages?: FormLanguages;
-  translations?: FormTranslations;
-  nodes?: FormNodeList;
-  start?: FormStartNode;
-  ending?: FormEndingNode;
-  style?: FormStyle;
+  messages?: FormMessages | undefined;
+  languages?: FormLanguages | undefined;
+  translations?: FormTranslations | undefined;
+  nodes?: FormNodeList | undefined;
+  start?: FormStartNode | undefined;
+  ending?: FormEndingNode | undefined;
+  style?: FormStyle | undefined;
   created_at: string;
   updated_at: string;
-  embedded_at?: string;
-  submitted_at?: string;
+  embedded_at?: string | undefined;
+  submitted_at?: string | undefined;
 }
 export type GetFormsRequestHydrateList = Array<FormsRequestParametersHydrateEnum | (string & {})>;
 export interface GetFormsRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Query parameter to hydrate the response with additional data */
-  hydrate?: GetFormsRequestHydrateList;
+  hydrate?: GetFormsRequestHydrateList | undefined;
 }
 export interface FormSummary {
   id: string;
   name: string;
   created_at: string;
   updated_at: string;
-  embedded_at?: string;
-  submitted_at?: string;
+  embedded_at?: string | undefined;
+  submitted_at?: string | undefined;
 }
 export type ListFormsResponseContentCase0List = Array<FormSummary>;
 export type ListFormsOffsetPaginatedResponseContentFormsList = Array<FormSummary>;
 export interface ListFormsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  forms?: ListFormsOffsetPaginatedResponseContentFormsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  forms?: ListFormsOffsetPaginatedResponseContentFormsList | undefined;
 }
 export type ListFormsResponseContent =
   | ListFormsResponseContentCase0List
@@ -11610,41 +11716,41 @@ export type ListFormsResponseContent =
 export type GetFormsResponse = ListFormsResponseContent;
 export interface GetGrantsRequest {
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** user_id of the grants to retrieve. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** client_id of the grants to retrieve. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** audience of the grants to retrieve. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** Scopes included in this grant. */
 export type UserGrantScopeList = Array<string>;
 export interface UserGrant {
   /** ID of the grant. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the client. */
-  clientID?: string;
+  clientID?: string | undefined;
   /** ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Audience of the grant. */
-  audience?: string;
+  audience?: string | undefined;
   /** Scopes included in this grant. */
-  scope?: UserGrantScopeList;
+  scope?: UserGrantScopeList | undefined;
   /** ID of the organization associated with the grant. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 export type ListUserGrantsResponseContentCase0List = Array<UserGrant>;
 export type ListUserGrantsOffsetPaginatedResponseContentGrantsList = Array<UserGrant>;
 export interface ListUserGrantsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  grants?: ListUserGrantsOffsetPaginatedResponseContentGrantsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  grants?: ListUserGrantsOffsetPaginatedResponseContentGrantsList | undefined;
 }
 export type ListUserGrantsResponseContent =
   | ListUserGrantsResponseContentCase0List
@@ -11661,9 +11767,9 @@ export interface GetGroupResponseContent {
   /** Name of the group. Must be unique within its connection. Must contain between 1 and 128 printable ASCII characters. */
   name: string;
   /** External identifier for the group, often used for SCIM synchronization. Max length of 256 characters. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Identifier for the connection this group belongs to (if a connection group). */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Identifier for the tenant this group belongs to. */
   tenant_name: string;
   /** Timestamp of when the group was created. */
@@ -11676,13 +11782,13 @@ export interface GetGroupMembersRequest {
   /** Unique identifier for the group (service-generated). */
   id: string;
   /** A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 /** Type of the member. */
 export type GroupMemberTypeEnum = "user" | "group";
@@ -11691,85 +11797,85 @@ export type GroupTypeEnum = "connection" | "organization" | "tenant";
 /** Represents the metadata of a group membership. */
 export interface GroupMember {
   /** Unique identifier for the member. */
-  id?: string;
-  member_type?: GroupMemberTypeEnum;
-  type?: GroupTypeEnum;
+  id?: string | undefined;
+  member_type?: GroupMemberTypeEnum | undefined;
+  type?: GroupTypeEnum | undefined;
   /** Identifier for the connection this group belongs to (if a connection group). */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Timestamp of when the membership was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   [key: string]: unknown;
 }
 export type GetGroupMembersResponseContentMembersList = Array<GroupMember>;
 export interface GetGroupMembersResponseContent {
   members: GetGroupMembersResponseContentMembersList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetGroupRolesRequest {
   /** Unique identifier for the group (service-generated). */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface Role {
   /** ID for this role. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this role. */
-  name?: string;
+  name?: string | undefined;
   /** Description of this role. */
-  description?: string;
-  type?: RoleTypeEnum;
-  owner_id?: RoleOwnerId;
+  description?: string | undefined;
+  type?: RoleTypeEnum | undefined;
+  owner_id?: RoleOwnerId | undefined;
 }
 export type ListGroupRolesResponseContentRolesList = Array<Role>;
 export interface ListGroupRolesResponseContent {
   roles: ListGroupRolesResponseContentRolesList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetGroupsRequest {
   /** Filter groups by connection ID. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Filter groups by name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter groups by external ID. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Search for groups by name or external ID. */
-  search?: string;
+  search?: string | undefined;
   /** A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Page index of the results to return. First page is 0. Offset-based pagination is limited to a maximum of 1,000 results; use checkpoint pagination (`from` and `take`) instead. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. Offset-based pagination is limited to a maximum of 1,000 results; use checkpoint pagination (`from` and `take`) instead. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). The returned total reflects at most 1,000 results. */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 /** Represents the metadata of a group. Member lists are retrieved via a separate endpoint. */
 export interface Group {
   /** Unique identifier for the group (service-generated). */
-  id?: string;
+  id?: string | undefined;
   /** Name of the group. Must be unique within its connection. Must contain between 1 and 128 printable ASCII characters. */
-  name?: string;
+  name?: string | undefined;
   /** External identifier for the group, often used for SCIM synchronization. Max length of 256 characters. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Identifier for the connection this group belongs to (if a connection group). */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Identifier for the tenant this group belongs to. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Timestamp of when the group was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the group was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export type ListGroupsResponseContentCase0List = Array<Group>;
@@ -11777,10 +11883,10 @@ export type ListGroupsPaginatedResponseContentGroupsList = Array<Group>;
 export interface ListGroupsPaginatedResponseContent {
   groups: ListGroupsPaginatedResponseContentGroupsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
-  start?: number;
-  limit?: number;
-  total?: number;
+  next?: string | undefined;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
 }
 export type ListGroupsResponseContent =
   | ListGroupsResponseContentCase0List
@@ -11789,7 +11895,7 @@ export type GetGroupsResponse = ListGroupsResponseContent;
 export interface GetGuardianPhoneProvidersRequest {}
 export type GuardianFactorsProviderSmsProviderEnum = "auth0" | "twilio" | "phone-message-hook";
 export interface GetGuardianFactorsProviderPhoneResponseContent {
-  provider?: GuardianFactorsProviderSmsProviderEnum;
+  provider?: GuardianFactorsProviderSmsProviderEnum | undefined;
 }
 export interface GetGuardianSettingsRequest {}
 export interface GetGuardianSettingsResponseContent {
@@ -11806,55 +11912,55 @@ export interface GetHookRequest {
   /** ID of the hook to retrieve. */
   id: string;
   /** Comma-separated list of fields to include in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
 }
 export interface GetHookResponseContent {
   /** Trigger ID */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** ID of this hook. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this hook. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this hook will be executed (true) or ignored (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this hook runs. */
-  script?: string;
-  dependencies?: HookDependencies;
+  script?: string | undefined;
+  dependencies?: HookDependencies | undefined;
 }
 export interface GetHooksRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional filter on whether a hook is enabled (true) or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Comma-separated list of fields to include in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Retrieves hooks that match the trigger */
-  triggerId?: HookTriggerIdEnum | (string & {});
+  triggerId?: HookTriggerIdEnum | (string & {}) | undefined;
 }
 export interface Hook {
   /** Trigger ID */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** ID of this hook. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this hook. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this hook will be executed (true) or ignored (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this hook runs. */
-  script?: string;
-  dependencies?: HookDependencies;
+  script?: string | undefined;
+  dependencies?: HookDependencies | undefined;
 }
 export type ListHooksResponseContentCase0List = Array<Hook>;
 export type ListHooksOffsetPaginatedResponseContentHooksList = Array<Hook>;
 export interface ListHooksOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  hooks?: ListHooksOffsetPaginatedResponseContentHooksList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  hooks?: ListHooksOffsetPaginatedResponseContentHooksList | undefined;
 }
 export type ListHooksResponseContent =
   | ListHooksResponseContentCase0List
@@ -11864,17 +11970,17 @@ export interface GetInvitationsRequest {
   /** Organization identifier. */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** When true, return results inside an object that also contains the start and limit. When false (default), a direct array of results is returned. We do not yet support returning the total invitations count. */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). Defaults to true. */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Field to sort by. Use field:order where order is 1 for ascending and -1 for descending Defaults to created_at:-1. */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface OrganizationInvitationInviter {
   /** The inviter's name. */
@@ -11888,35 +11994,37 @@ export interface OrganizationInvitationInvitee {
 export type OrganizationInvitationRolesList = Array<string>;
 export interface OrganizationInvitation {
   /** The id of the user invitation. */
-  id?: string;
+  id?: string | undefined;
   /** Organization identifier. */
-  organization_id?: string;
-  inviter?: OrganizationInvitationInviter;
-  invitee?: OrganizationInvitationInvitee;
+  organization_id?: string | undefined;
+  inviter?: OrganizationInvitationInviter | undefined;
+  invitee?: OrganizationInvitationInvitee | undefined;
   /** The invitation url to be send to the invitee. */
-  invitation_url?: string;
+  invitation_url?: string | undefined;
   /** The ISO 8601 formatted timestamp representing the creation time of the invitation. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 formatted timestamp representing the expiration time of the invitation. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Auth0 client ID. Used to resolve the application's login initiation endpoint. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The id of the connection to force invitee to authenticate with. */
-  connection_id?: string;
-  app_metadata?: AppMetadata;
-  user_metadata?: UserMetadata;
+  connection_id?: string | undefined;
+  app_metadata?: AppMetadata | undefined;
+  user_metadata?: UserMetadata | undefined;
   /** List of roles IDs to associated with the user. */
-  roles?: OrganizationInvitationRolesList;
+  roles?: OrganizationInvitationRolesList | undefined;
   /** The id of the invitation ticket */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
 }
 export type ListOrganizationInvitationsResponseContentCase0List = Array<OrganizationInvitation>;
 export type ListOrganizationInvitationsOffsetPaginatedResponseContentInvitationsList =
   Array<OrganizationInvitation>;
 export interface ListOrganizationInvitationsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  invitations?: ListOrganizationInvitationsOffsetPaginatedResponseContentInvitationsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  invitations?:
+    | ListOrganizationInvitationsOffsetPaginatedResponseContentInvitationsList
+    | undefined;
 }
 export type ListOrganizationInvitationsResponseContent =
   | ListOrganizationInvitationsResponseContentCase0List
@@ -11928,35 +12036,35 @@ export interface GetInvitationsByInvitationIdRequest {
   /** The id of the user invitation. */
   invitation_id: string;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). Defaults to true. */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** List of roles IDs to associated with the user. */
 export type GetOrganizationInvitationResponseContentRolesList = Array<string>;
 export interface GetOrganizationInvitationResponseContent {
   /** The id of the user invitation. */
-  id?: string;
+  id?: string | undefined;
   /** Organization identifier. */
-  organization_id?: string;
-  inviter?: OrganizationInvitationInviter;
-  invitee?: OrganizationInvitationInvitee;
+  organization_id?: string | undefined;
+  inviter?: OrganizationInvitationInviter | undefined;
+  invitee?: OrganizationInvitationInvitee | undefined;
   /** The invitation url to be send to the invitee. */
-  invitation_url?: string;
+  invitation_url?: string | undefined;
   /** The ISO 8601 formatted timestamp representing the creation time of the invitation. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 formatted timestamp representing the expiration time of the invitation. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Auth0 client ID. Used to resolve the application's login initiation endpoint. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The id of the connection to force invitee to authenticate with. */
-  connection_id?: string;
-  app_metadata?: AppMetadata;
-  user_metadata?: UserMetadata;
+  connection_id?: string | undefined;
+  app_metadata?: AppMetadata | undefined;
+  user_metadata?: UserMetadata | undefined;
   /** List of roles IDs to associated with the user. */
-  roles?: GetOrganizationInvitationResponseContentRolesList;
+  roles?: GetOrganizationInvitationResponseContentRolesList | undefined;
   /** The id of the invitation ticket */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
 }
 export interface GetIpsByIdRequest {
   /** IP address to check. */
@@ -11972,13 +12080,13 @@ export type JobFileFormatEnum = "json" | "csv";
 /** Job execution summary. */
 export interface GetJobSummary {
   /** Number of failed operations. */
-  failed?: number;
+  failed?: number | undefined;
   /** Number of updated records. */
-  updated?: number;
+  updated?: number | undefined;
   /** Number of inserted records. */
-  inserted?: number;
+  inserted?: number | undefined;
   /** Total number of operations. */
-  total?: number;
+  total?: number | undefined;
   [key: string]: unknown;
 }
 export interface GetJobResponseContent {
@@ -11987,21 +12095,21 @@ export interface GetJobResponseContent {
   /** Type of job this is. */
   type: string;
   /** When this job was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** ID of this job. */
   id: string;
   /** connection_id of the connection this job uses. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** URL to download the result of this job. */
-  location?: string;
+  location?: string | undefined;
   /** Completion percentage of this job. */
-  percentage_done?: number;
+  percentage_done?: number | undefined;
   /** Estimated time remaining before job completes. */
-  time_left_seconds?: number;
-  format?: JobFileFormatEnum;
+  time_left_seconds?: number | undefined;
+  format?: JobFileFormatEnum | undefined;
   /** Status details. */
-  status_details?: string;
-  summary?: GetJobSummary;
+  status_details?: string | undefined;
+  summary?: GetJobSummary | undefined;
   [key: string]: unknown;
 }
 export interface GetKeysRequest {
@@ -12016,23 +12124,23 @@ export interface ConnectionKey {
   /** The public certificate of the signing key */
   cert: string;
   /** The public certificate of the signing key in pkcs7 format */
-  pkcs?: string;
+  pkcs?: string | undefined;
   /** True if the key is the the current key */
-  current?: boolean;
+  current?: boolean | undefined;
   /** True if the key is the the next key */
-  next?: boolean;
+  next?: boolean | undefined;
   /** True if the key is the the previous key */
-  previous?: boolean;
+  previous?: boolean | undefined;
   /** The date and time when the key became the current key */
-  current_since?: string;
+  current_since?: string | undefined;
   /** The cert fingerprint */
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
   /** Signing key algorithm */
-  algorithm?: string;
-  key_use?: ConnectionKeyUseEnum;
-  subject_dn?: string;
+  algorithm?: string | undefined;
+  key_use?: ConnectionKeyUseEnum | undefined;
+  subject_dn?: string | undefined;
   [key: string]: unknown;
 }
 export type GetKeysResponseBodyList = Array<ConnectionKey>;
@@ -12053,141 +12161,141 @@ export type LogDetails = { [key: string]: unknown | undefined };
 /** Information about security-related signals. */
 export interface LogSecurityContext {
   /** JA3 fingerprint value. */
-  ja3?: string;
+  ja3?: string | undefined;
   /** JA4 fingerprint value. */
-  ja4?: string;
+  ja4?: string | undefined;
   [key: string]: unknown;
 }
 /** Information about the location that triggered this event based on the `ip`. */
 export interface LogLocationInfo {
   /** Two-letter <a href="https://www.iso.org/iso-3166-country-codes.html">Alpha-2 ISO 3166-1</a> country code. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Three-letter <a href="https://www.iso.org/iso-3166-country-codes.html">Alpha-3 ISO 3166-1</a> country code. */
-  country_code3?: string;
+  country_code3?: string | undefined;
   /** Full country name in English. */
-  country_name?: string;
+  country_name?: string | undefined;
   /** Full city name in English. */
-  city_name?: string;
+  city_name?: string | undefined;
   /** Global latitude (horizontal) position. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** Global longitude (vertical) position. */
-  longitude?: number;
+  longitude?: number | undefined;
   /** Time zone name as found in the <a href="https://www.iana.org/time-zones">tz database</a>. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Continent the country is located within. Can be `AF` (Africa), `AN` (Antarctica), `AS` (Asia), `EU` (Europe), `NA` (North America), `OC` (Oceania) or `SA` (South America). */
-  continent_code?: string;
+  continent_code?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetLogResponseContent {
-  date?: LogDate;
+  date?: LogDate | undefined;
   /** Type of event. */
-  type?: string;
+  type?: string | undefined;
   /** Description of this event. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the connection the event relates to. */
-  connection?: string;
+  connection?: string | undefined;
   /** ID of the connection the event relates to. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** ID of the client (application). */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Name of the client (application). */
-  client_name?: string;
+  client_name?: string | undefined;
   /** IP address of the log event source. */
-  ip?: string;
+  ip?: string | undefined;
   /** Hostname the event applies to. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** ID of the user involved in the event. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Name of the user involved in the event. */
-  user_name?: string;
+  user_name?: string | undefined;
   /** API audience the event applies to. */
-  audience?: string;
+  audience?: string | undefined;
   /** Scope permissions applied to the event. */
-  scope?: string;
+  scope?: string | undefined;
   /** Name of the strategy involved in the event. */
-  strategy?: string;
+  strategy?: string | undefined;
   /** Type of strategy involved in the event. */
-  strategy_type?: string;
+  strategy_type?: string | undefined;
   /** Unique ID of the event. */
-  log_id?: string;
+  log_id?: string | undefined;
   /** Whether the client was a mobile device (true) or desktop/laptop/server (false). */
-  isMobile?: boolean;
-  details?: LogDetails;
+  isMobile?: boolean | undefined;
+  details?: LogDetails | undefined;
   /** User agent string from the client device that caused the event. */
-  user_agent?: string;
-  security_context?: LogSecurityContext;
-  location_info?: LogLocationInfo;
+  user_agent?: string | undefined;
+  security_context?: LogSecurityContext | undefined;
+  location_info?: LogLocationInfo | undefined;
   [key: string]: unknown;
 }
 export interface GetLogsRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Paging is disabled if parameter not sent. Default: <code>50</code>. Max value: <code>100</code> */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to use for sorting appended with <code>:1</code> for ascending and <code>:-1</code> for descending. e.g. <code>date:-1</code> */
-  sort?: string;
+  sort?: string | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for <code>include_fields</code>) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (<code>true</code>) or excluded (<code>false</code>) */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Return results as an array when false (default). Return results inside an object that also contains a total result count when true. */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Log Event Id from which to start selection from. */
-  from?: string;
+  from?: string | undefined;
   /** Number of entries to retrieve when using the <code>from</code> parameter. Default <code>50</code>, max <code>100</code> */
-  take?: number;
+  take?: number | undefined;
   /** Retrieves logs that match the specified search criteria. This parameter can be combined with all the others in the /api/logs endpoint but is specified separately for clarity. If no fields are provided a case insensitive 'starts with' search is performed on all of the following fields: client_name, connection, user_name. Otherwise, you can specify multiple fields and specify the search using the %field%:%search%, for example: application:node user:"John@contoso.com". Values specified without quotes are matched using a case insensitive 'starts with' search. If quotes are used a case insensitve exact search is used. If multiple fields are used, the AND operator is used to join the clauses. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface Log {
-  date?: LogDate;
+  date?: LogDate | undefined;
   /** Type of event. */
-  type?: string;
+  type?: string | undefined;
   /** Description of this event. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the connection the event relates to. */
-  connection?: string;
+  connection?: string | undefined;
   /** ID of the connection the event relates to. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** ID of the client (application). */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Name of the client (application). */
-  client_name?: string;
+  client_name?: string | undefined;
   /** IP address of the log event source. */
-  ip?: string;
+  ip?: string | undefined;
   /** Hostname the event applies to. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** ID of the user involved in the event. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Name of the user involved in the event. */
-  user_name?: string;
+  user_name?: string | undefined;
   /** API audience the event applies to. */
-  audience?: string;
+  audience?: string | undefined;
   /** Scope permissions applied to the event. */
-  scope?: string;
+  scope?: string | undefined;
   /** Name of the strategy involved in the event. */
-  strategy?: string;
+  strategy?: string | undefined;
   /** Type of strategy involved in the event. */
-  strategy_type?: string;
+  strategy_type?: string | undefined;
   /** Unique ID of the event. */
-  log_id?: string;
+  log_id?: string | undefined;
   /** Whether the client was a mobile device (true) or desktop/laptop/server (false). */
-  isMobile?: boolean;
-  details?: LogDetails;
+  isMobile?: boolean | undefined;
+  details?: LogDetails | undefined;
   /** User agent string from the client device that caused the event. */
-  user_agent?: string;
-  security_context?: LogSecurityContext;
-  location_info?: LogLocationInfo;
+  user_agent?: string | undefined;
+  security_context?: LogSecurityContext | undefined;
+  location_info?: LogLocationInfo | undefined;
   [key: string]: unknown;
 }
 export type ListLogResponseContentCase0List = Array<Log>;
 export type ListLogOffsetPaginatedResponseContentLogsList = Array<Log>;
 export interface ListLogOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  length?: number;
-  total?: number;
-  logs?: ListLogOffsetPaginatedResponseContentLogsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  length?: number | undefined;
+  total?: number | undefined;
+  logs?: ListLogOffsetPaginatedResponseContentLogsList | undefined;
 }
 export type ListLogResponseContent =
   | ListLogResponseContentCase0List
@@ -12197,22 +12305,22 @@ export interface GetLogsByUserRequest {
   /** ID of the user of the logs to retrieve */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Paging is disabled if parameter not sent. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Field to sort by. Use `fieldname:1` for ascending order and `fieldname:-1` for descending. */
-  sort?: string;
+  sort?: string | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export type UserListLogResponseContentCase0List = Array<Log>;
 export type UserListLogOffsetPaginatedResponseContentLogsList = Array<Log>;
 export interface UserListLogOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  length?: number;
-  total?: number;
-  logs?: UserListLogOffsetPaginatedResponseContentLogsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  length?: number | undefined;
+  total?: number | undefined;
+  logs?: UserListLogOffsetPaginatedResponseContentLogsList | undefined;
 }
 export type UserListLogResponseContent =
   | UserListLogResponseContentCase0List
@@ -12251,7 +12359,7 @@ export type GetGuardianFactorPhoneMessageTypesResponseContentMessageTypesList =
   Array<GuardianFactorPhoneFactorMessageTypeEnum>;
 export interface GetGuardianFactorPhoneMessageTypesResponseContent {
   /** The list of phone factors to enable on the tenant. Can include `sms` and `voice`. */
-  message_types?: GetGuardianFactorPhoneMessageTypesResponseContentMessageTypesList;
+  message_types?: GetGuardianFactorPhoneMessageTypesResponseContentMessageTypesList | undefined;
 }
 export interface GetNameByDiscoveryDomainRequest {
   /** ID of the organization. */
@@ -12266,7 +12374,7 @@ export interface GetOrganizationDiscoveryDomainByNameResponseContent {
   domain: string;
   status: OrganizationDiscoveryDomainStatus;
   /** Indicates whether this domain should be used for organization discovery. */
-  use_for_organization_discovery?: boolean;
+  use_for_organization_discovery?: boolean | undefined;
   /** A unique token generated for the discovery domain. This must be placed in a DNS TXT record at the location specified by the verification_host field to prove domain ownership. */
   verification_txt: string;
   /** The full domain where the TXT record should be added. */
@@ -12278,18 +12386,18 @@ export interface GetNameByNameRequest {
 }
 export interface GetOrganizationByNameResponseContent {
   /** Organization identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of this organization. */
-  name?: string;
+  name?: string | undefined;
   /** Friendly name of this organization. */
-  display_name?: string;
-  branding?: OrganizationBranding;
-  metadata?: OrganizationMetadata;
-  token_quota?: CreateTokenQuota;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum;
+  display_name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  metadata?: OrganizationMetadata | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
-  client?: OrganizationClientAssociation;
+  is_app_entitlement_active?: boolean | undefined;
+  client?: OrganizationClientAssociation | undefined;
   [key: string]: unknown;
 }
 export interface GetNetworkAclRequest {
@@ -12297,44 +12405,44 @@ export interface GetNetworkAclRequest {
   id: string;
 }
 export interface GetNetworkAclsResponseContent {
-  id?: string;
-  description?: string;
-  active?: boolean;
-  priority?: number;
-  rule?: NetworkAclRule;
+  id?: string | undefined;
+  description?: string | undefined;
+  active?: boolean | undefined;
+  priority?: number | undefined;
+  rule?: NetworkAclRule | undefined;
   /** The timestamp when the Network ACL Configuration was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp when the Network ACL Configuration was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetNetworkAclsRequest {
   /** Use this field to request a specific page of the list results. */
-  page?: number;
+  page?: number | undefined;
   /** The amount of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export interface NetworkAclsResponseContent {
-  id?: string;
-  description?: string;
-  active?: boolean;
-  priority?: number;
-  rule?: NetworkAclRule;
+  id?: string | undefined;
+  description?: string | undefined;
+  active?: boolean | undefined;
+  priority?: number | undefined;
+  rule?: NetworkAclRule | undefined;
   /** The timestamp when the Network ACL Configuration was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp when the Network ACL Configuration was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export type ListNetworkAclsOffsetPaginatedResponseContentNetworkAclsList =
   Array<NetworkAclsResponseContent>;
 export interface ListNetworkAclsOffsetPaginatedResponseContent {
-  network_acls?: ListNetworkAclsOffsetPaginatedResponseContentNetworkAclsList;
-  start?: number;
-  limit?: number;
-  total?: number;
+  network_acls?: ListNetworkAclsOffsetPaginatedResponseContentNetworkAclsList | undefined;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
 }
 export type ListNetworkAclsResponseContentCase1List = Array<NetworkAclsResponseContent>;
 export type ListNetworkAclsResponseContent =
@@ -12352,18 +12460,18 @@ export interface GetOrganizationRequest {
 }
 export interface GetOrganizationResponseContent {
   /** Organization identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of this organization. */
-  name?: string;
+  name?: string | undefined;
   /** Friendly name of this organization. */
-  display_name?: string;
-  branding?: OrganizationBranding;
-  metadata?: OrganizationMetadata;
-  token_quota?: CreateTokenQuota;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum;
+  display_name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  metadata?: OrganizationMetadata | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
-  client?: OrganizationClientAssociation;
+  is_app_entitlement_active?: boolean | undefined;
+  client?: OrganizationClientAssociation | undefined;
   [key: string]: unknown;
 }
 export interface GetOrganizationClientRequest {
@@ -12384,41 +12492,43 @@ export interface GetOrganizationClientGrantsRequest {
   /** Organization identifier. */
   id: string;
   /** Optional filter on audience of the client grant. */
-  audience?: string;
+  audience?: string | undefined;
   /** Optional filter on client_id of the client grant. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Optional filter on the ID of the client grant. Must be URL encoded and may be specified multiple times (max 10).<br /><b>e.g.</b> <i>../client-grants?grant_ids=id1&grant_ids=id2</i> */
-  grant_ids?: GetOrganizationClientGrantsRequestGrantIdsList;
+  grant_ids?: GetOrganizationClientGrantsRequestGrantIdsList | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 /** Scopes allowed for this client grant. */
 export type OrganizationClientGrantScopeList = Array<string>;
 export interface OrganizationClientGrant {
   /** ID of the client grant. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The audience (API identifier) of this client grant */
-  audience?: string;
+  audience?: string | undefined;
   /** Scopes allowed for this client grant. */
-  scope?: OrganizationClientGrantScopeList;
-  organization_usage?: OrganizationUsageEnum;
+  scope?: OrganizationClientGrantScopeList | undefined;
+  organization_usage?: OrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
-  allow_any_organization?: boolean;
+  allow_any_organization?: boolean | undefined;
 }
 export type ListOrganizationClientGrantsResponseContentCase0List = Array<OrganizationClientGrant>;
 export type ListOrganizationClientGrantsOffsetPaginatedResponseContentClientGrantsList =
   Array<OrganizationClientGrant>;
 export interface ListOrganizationClientGrantsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  client_grants?: ListOrganizationClientGrantsOffsetPaginatedResponseContentClientGrantsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  client_grants?:
+    | ListOrganizationClientGrantsOffsetPaginatedResponseContentClientGrantsList
+    | undefined;
 }
 export type ListOrganizationClientGrantsResponseContent =
   | ListOrganizationClientGrantsResponseContentCase0List
@@ -12428,9 +12538,9 @@ export interface GetOrganizationClientsRequest {
   /** ID of the organization. */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. Values greater than the maximum of 100 are capped at 100. */
-  take?: number;
+  take?: number | undefined;
 }
 /** The list of clients associated with the organization. */
 export type ListOrganizationClientsResponseContentClientsList = Array<OrganizationClient>;
@@ -12438,7 +12548,7 @@ export interface ListOrganizationClientsResponseContent {
   /** The list of clients associated with the organization. */
   clients: ListOrganizationClientsResponseContentClientsList;
   /** An opaque token that, when present, can be passed as the `from` query parameter to retrieve the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetOrganizationConnectionRequest {
   /** Organization identifier. */
@@ -12448,59 +12558,61 @@ export interface GetOrganizationConnectionRequest {
 }
 export interface GetOrganizationAllConnectionResponseContent {
   /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string;
+  organization_connection_name?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  organization_access_level?: OrganizationAccessLevelEnum;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum;
+  is_signup_enabled?: boolean | undefined;
+  organization_access_level?: OrganizationAccessLevelEnum | undefined;
+  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
   /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Connection identifier. */
   connection_id: string;
-  connection?: OrganizationConnectionInformation;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 export interface GetOrganizationConnectionsRequest {
   /** Organization identifier. */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Filter connections by enabled status. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 export interface OrganizationAllConnectionPost {
   /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string;
+  organization_connection_name?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  organization_access_level?: OrganizationAccessLevelEnum;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum;
+  is_signup_enabled?: boolean | undefined;
+  organization_access_level?: OrganizationAccessLevelEnum | undefined;
+  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
   /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Connection identifier. */
   connection_id: string;
-  connection?: OrganizationConnectionInformation;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 export type ListOrganizationAllConnectionsResponseContentCase0List =
   Array<OrganizationAllConnectionPost>;
 export type ListOrganizationAllConnectionsOffsetPaginatedResponseContentConnectionsList =
   Array<OrganizationAllConnectionPost>;
 export interface ListOrganizationAllConnectionsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  connections?: ListOrganizationAllConnectionsOffsetPaginatedResponseContentConnectionsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  connections?:
+    | ListOrganizationAllConnectionsOffsetPaginatedResponseContentConnectionsList
+    | undefined;
 }
 export type ListOrganizationAllConnectionsResponseContent =
   | ListOrganizationAllConnectionsResponseContentCase0List
@@ -12512,29 +12624,29 @@ export interface GetOrganizationGroupRolesRequest {
   /** ID of the group */
   group_id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListOrganizationGroupRolesResponseContentRolesList = Array<Role>;
 export interface ListOrganizationGroupRolesResponseContent {
   roles: ListOrganizationGroupRolesResponseContentRolesList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetOrganizationGroupsRequest {
   /** ID of the organization */
   organization_id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListOrganizationGroupsResponseContentGroupsList = Array<Group>;
 export interface ListOrganizationGroupsResponseContent {
   groups: ListOrganizationGroupsResponseContentGroupsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetOrganizationMemberEffectiveRolesRequest {
   /** Organization identifier. */
@@ -12542,9 +12654,9 @@ export interface GetOrganizationMemberEffectiveRolesRequest {
   /** ID of the user to list effective roles for. */
   user_id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type OrganizationMemberEffectiveRoleSource = "direct" | "groups";
 /** Sources of the role assignment (direct or through group membership) */
@@ -12565,7 +12677,7 @@ export type ListOrganizationMemberEffectiveRolesResponseContentRolesList =
 export interface ListOrganizationMemberEffectiveRolesResponseContent {
   roles: ListOrganizationMemberEffectiveRolesResponseContentRolesList;
   /** Cursor for the next page of results */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetOrganizationMemberRolesRequest {
   /** Organization identifier. */
@@ -12573,19 +12685,19 @@ export interface GetOrganizationMemberRolesRequest {
   /** ID of the user to associate roles with. */
   user_id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export type ListOrganizationMemberRolesResponseContentCase0List = Array<Role>;
 export type ListOrganizationMemberRolesOffsetPaginatedResponseContentRolesList = Array<Role>;
 export interface ListOrganizationMemberRolesOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  roles?: ListOrganizationMemberRolesOffsetPaginatedResponseContentRolesList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  roles?: ListOrganizationMemberRolesOffsetPaginatedResponseContentRolesList | undefined;
 }
 export type ListOrganizationMemberRolesResponseContent =
   | ListOrganizationMemberRolesResponseContentCase0List
@@ -12597,9 +12709,9 @@ export interface GetOrganizationMemberRoleSourceGroupsRequest {
   /** ID of the user to list role source groups for. */
   user_id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** The role ID to get group sources for. */
   role_id: string;
 }
@@ -12607,57 +12719,57 @@ export type ListOrganizationMemberRoleSourceGroupsResponseContentGroupsList = Ar
 export interface ListOrganizationMemberRoleSourceGroupsResponseContent {
   groups: ListOrganizationMemberRoleSourceGroupsResponseContentGroupsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetOrganizationMembersRequest {
   /** Organization identifier. */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 export interface OrganizationMemberRole {
   /** ID for this role. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this role. */
-  name?: string;
+  name?: string | undefined;
 }
 export type OrganizationMemberRolesList = Array<OrganizationMemberRole>;
 export interface OrganizationMember {
   /** ID of this user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** URL to a picture for this user. */
-  picture?: string;
+  picture?: string | undefined;
   /** Name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Email address of this user. */
-  email?: string;
-  roles?: OrganizationMemberRolesList;
+  email?: string | undefined;
+  roles?: OrganizationMemberRolesList | undefined;
 }
 export type ListOrganizationMembersResponseContentCase0List = Array<OrganizationMember>;
 export type ListOrganizationMembersOffsetPaginatedResponseContentMembersList =
   Array<OrganizationMember>;
 export interface ListOrganizationMembersOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  members?: ListOrganizationMembersOffsetPaginatedResponseContentMembersList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  members?: ListOrganizationMembersOffsetPaginatedResponseContentMembersList | undefined;
 }
 export type ListOrganizationMembersPaginatedResponseContentMembersList = Array<OrganizationMember>;
 export interface ListOrganizationMembersPaginatedResponseContent {
-  next?: string;
-  members?: ListOrganizationMembersPaginatedResponseContentMembersList;
+  next?: string | undefined;
+  members?: ListOrganizationMembersPaginatedResponseContentMembersList | undefined;
   [key: string]: unknown;
 }
 export type ListOrganizationMembersResponseContent =
@@ -12671,9 +12783,9 @@ export interface GetOrganizationRoleGroupsRequest {
   /** ID of the role. */
   role_id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 /** A group assigned to a role in the context of an organization. */
 export interface RoleGroup {
@@ -12682,26 +12794,26 @@ export interface RoleGroup {
   /** Name of the group. Must be unique within its connection. Must contain between 1 and 128 printable ASCII characters. */
   name: string;
   /** External identifier for the group, often used for SCIM synchronization. Max length of 256 characters. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Identifier for the connection this group belongs to (if a connection group). */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Identifier for the organization this group belongs to (if an organization group). */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Identifier for the tenant this group belongs to. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Description of the group. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Timestamp of when the group was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the group was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type ListOrganizationRoleGroupsResponseContentGroupsList = Array<RoleGroup>;
 /** Checkpoint paginated list of groups assigned to a role within an organization. */
 export interface ListOrganizationRoleGroupsResponseContent {
   groups: ListOrganizationRoleGroupsResponseContentGroupsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetOrganizationRoleMembersRequest {
   /** ID of the organization. */
@@ -12709,23 +12821,23 @@ export interface GetOrganizationRoleMembersRequest {
   /** ID of the role to retrieve the assigned members for. */
   role_id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. Values above the maximum permitted size are capped. */
-  take?: number;
+  take?: number | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). Defaults to true. */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 export interface RoleMember {
   /** ID of this user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** URL to a picture for this user. */
-  picture?: string;
+  picture?: string | undefined;
   /** Name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Email address of this user. */
-  email?: string;
+  email?: string | undefined;
 }
 /** List of members assigned to the role within the organization. */
 export type ListOrganizationRoleMembersResponseContentMembersList = Array<RoleMember>;
@@ -12733,36 +12845,36 @@ export interface ListOrganizationRoleMembersResponseContent {
   /** List of members assigned to the role within the organization. */
   members: ListOrganizationRoleMembersResponseContentMembersList;
   /** Cursor for the next page of results. Absent when there are no more results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetOrganizationsRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Field to sort by. Use <code>field:order</code> where order is <code>1</code> for ascending and <code>-1</code> for descending. e.g. <code>created_at:1</code>. We currently support sorting by the following fields: <code>name</code>, <code>display_name</code> and <code>created_at</code>. */
-  sort?: string;
+  sort?: string | undefined;
   /** Client ID. When set, each returned organization that has an association with this client gains a <code>client</code> object describing it; organizations without one omit the field. */
-  include_client_association_for?: string;
+  include_client_association_for?: string | undefined;
 }
 export type ListOrganizationsResponseContentCase0List = Array<Organization>;
 export type ListOrganizationsOffsetPaginatedResponseContentOrganizationsList = Array<Organization>;
 export interface ListOrganizationsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  organizations?: ListOrganizationsOffsetPaginatedResponseContentOrganizationsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  organizations?: ListOrganizationsOffsetPaginatedResponseContentOrganizationsList | undefined;
 }
 export type ListOrganizationsPaginatedResponseContentOrganizationsList = Array<Organization>;
 export interface ListOrganizationsPaginatedResponseContent {
-  next?: string;
-  organizations?: ListOrganizationsPaginatedResponseContentOrganizationsList;
+  next?: string | undefined;
+  organizations?: ListOrganizationsPaginatedResponseContentOrganizationsList | undefined;
 }
 export type ListOrganizationsResponseContent =
   | ListOrganizationsResponseContentCase0List
@@ -12792,31 +12904,31 @@ export interface GetPermissionsRequest {
   /** ID of the user to retrieve the permissions for. */
   id: string;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export interface UserPermissionSchema {
-  sources?: unknown;
+  sources?: unknown | undefined;
   /** Resource server (API) identifier that this permission is for. */
-  resource_server_identifier?: string;
+  resource_server_identifier?: string | undefined;
   /** Name of this permission. */
-  permission_name?: string;
+  permission_name?: string | undefined;
   /** Resource server (API) name this permission is for. */
-  resource_server_name?: string;
+  resource_server_name?: string | undefined;
   /** Description of this permission. */
-  description?: string;
+  description?: string | undefined;
 }
 export type ListUserPermissionsResponseContentCase0List = Array<UserPermissionSchema>;
 export type ListUserPermissionsOffsetPaginatedResponseContentPermissionsList =
   Array<UserPermissionSchema>;
 export interface ListUserPermissionsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  permissions?: ListUserPermissionsOffsetPaginatedResponseContentPermissionsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  permissions?: ListUserPermissionsOffsetPaginatedResponseContentPermissionsList | undefined;
 }
 export type ListUserPermissionsResponseContent =
   | ListUserPermissionsResponseContentCase0List
@@ -12834,18 +12946,18 @@ export interface GetPhoneProviderRequest {
 }
 /** Phone provider configuration schema */
 export interface GetBrandingPhoneProviderResponseContent {
-  id?: string;
+  id?: string | undefined;
   /** The name of the tenant */
-  tenant?: string;
+  tenant?: string | undefined;
   name: PhoneProviderNameEnum;
-  channel?: PhoneProviderChannelEnum;
+  channel?: PhoneProviderChannelEnum | undefined;
   /** Whether the provider is enabled (false) or disabled (true). */
-  disabled?: boolean;
-  configuration?: PhoneProviderConfiguration;
+  disabled?: boolean | undefined;
+  configuration?: PhoneProviderConfiguration | undefined;
   /** The provider's creation date and time in ISO 8601 format */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time of the last update to the provider in ISO 8601 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetPhoneProviderProtectionRequest {}
 /** The type of backoff strategy to use. */
@@ -12858,10 +12970,10 @@ export interface GetPhoneTemplateRequest {
   id: string;
 }
 export interface GetPhoneTemplateResponseContent {
-  id?: string;
-  channel?: string;
-  customizable?: boolean;
-  tenant?: string;
+  id?: string | undefined;
+  channel?: string | undefined;
+  customizable?: boolean | undefined;
+  tenant?: string | undefined;
   content: PhoneTemplateContent;
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
@@ -12869,13 +12981,13 @@ export interface GetPhoneTemplateResponseContent {
 }
 export interface GetPhoneTemplatesRequest {
   /** Whether the template is enabled (false) or disabled (true). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export interface PhoneTemplate {
-  id?: string;
-  channel?: string;
-  customizable?: boolean;
-  tenant?: string;
+  id?: string | undefined;
+  channel?: string | undefined;
+  customizable?: boolean | undefined;
+  tenant?: string | undefined;
   content: PhoneTemplateContent;
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
@@ -12883,23 +12995,23 @@ export interface PhoneTemplate {
 }
 export type ListPhoneTemplatesResponseContentTemplatesList = Array<PhoneTemplate>;
 export interface ListPhoneTemplatesResponseContent {
-  templates?: ListPhoneTemplatesResponseContentTemplatesList;
+  templates?: ListPhoneTemplatesResponseContentTemplatesList | undefined;
 }
 export interface GetPhoneTwilioFactorProviderRequest {}
 export interface GetGuardianFactorsProviderPhoneTwilioResponseContent {
   /** From number */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Copilot SID */
-  messaging_service_sid?: string | null;
+  messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null;
+  auth_token?: string | null | undefined;
   /** Twilio SID */
-  sid?: string | null;
+  sid?: string | null | undefined;
 }
 export interface GetPnProvidersRequest {}
 export type GuardianFactorsProviderPushNotificationProviderDataEnum = "guardian" | "sns" | "direct";
 export interface GetGuardianFactorsProviderPushNotificationResponseContent {
-  provider?: GuardianFactorsProviderPushNotificationProviderDataEnum;
+  provider?: GuardianFactorsProviderPushNotificationProviderDataEnum | undefined;
 }
 export interface GetPoliciesRequest {}
 /** The MFA policy */
@@ -12913,55 +13025,55 @@ export interface GetPromptsRequest {}
 /** Which login experience to use. Can be `new` or `classic`. */
 export type UniversalLoginExperienceEnum = "new" | "classic";
 export interface GetSettingsResponseContent {
-  universal_login_experience?: UniversalLoginExperienceEnum;
+  universal_login_experience?: UniversalLoginExperienceEnum | undefined;
   /** Whether identifier first is enabled or not */
-  identifier_first?: boolean;
+  identifier_first?: boolean | undefined;
   /** Use WebAuthn with Device Biometrics as the first authentication factor */
-  webauthn_platform_first_factor?: boolean;
+  webauthn_platform_first_factor?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface GetProviderRequest {
   /** Comma-separated list of fields to include or exclude (dependent upon include_fields) from the result. Leave empty to retrieve `name` and `enabled`. Additional fields available include `credentials`, `default_from_address`, and `settings`. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** Credentials required to use the provider. */
 export interface EmailProviderCredentials {
   /** API User. */
-  api_user?: string;
+  api_user?: string | undefined;
   /** AWS or SparkPost region. */
-  region?: string;
+  region?: string | undefined;
   /** SMTP host. */
-  smtp_host?: string;
+  smtp_host?: string | undefined;
   /** SMTP port. */
-  smtp_port?: number;
+  smtp_port?: number | undefined;
   /** SMTP username. */
-  smtp_user?: string;
+  smtp_user?: string | undefined;
 }
 /** Specific provider setting */
 export type EmailProviderSettings = { [key: string]: unknown | undefined };
 export interface GetEmailProviderResponseContent {
   /** Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `resend`, `ses`, `sparkpost`, `smtp`, `azure_cs`, `ms365`, or `custom`. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the provider is enabled (true) or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Email address to use as "from" when no other address specified. */
-  default_from_address?: string;
-  credentials?: EmailProviderCredentials;
-  settings?: EmailProviderSettings;
+  default_from_address?: string | undefined;
+  credentials?: EmailProviderCredentials | undefined;
+  settings?: EmailProviderSettings | undefined;
 }
 export interface GetRateLimitPoliciesRequest {
   /** The API protected by the Rate Limit Policy. */
-  resource?: RateLimitPolicyResourceEnum | (string & {});
+  resource?: RateLimitPolicyResourceEnum | (string & {}) | undefined;
   /** The consumer to which the rate limit policy applies. */
-  consumer?: RateLimitPolicyConsumerEnum | (string & {});
+  consumer?: RateLimitPolicyConsumerEnum | (string & {}) | undefined;
   /** Identifier or category within the consumer to which the policy applies. Supported values: `client_id:<client_id>` to target a specific client by ID, `client_id:<cimd_uri>` to target a CIMD client by URI, `cimd_clients` to target all CIMD clients, `third_party_clients` to target all third-party clients, or `default` to apply the policy to any consumer identifier not otherwise explicitly targeted. */
-  consumer_selector?: string;
+  consumer_selector?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Cursor for pagination. */
-  from?: string;
+  from?: string | undefined;
 }
 export interface RateLimitPolicy {
   /** Unique identifier for the Rate Limit Policy. */
@@ -12972,16 +13084,18 @@ export interface RateLimitPolicy {
   consumer_selector: string;
   configuration: RateLimitPolicyConfiguration;
   /** The date and time when the rate limit policy was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type ListRateLimitPoliciesPaginatedResponseContentRateLimitPoliciesList =
   Array<RateLimitPolicy>;
 export interface ListRateLimitPoliciesPaginatedResponseContent {
-  rate_limit_policies?: ListRateLimitPoliciesPaginatedResponseContentRateLimitPoliciesList;
+  rate_limit_policies?:
+    | ListRateLimitPoliciesPaginatedResponseContentRateLimitPoliciesList
+    | undefined;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetRateLimitPolicyRequest {
   /** Unique identifier for the Rate Limit Policy. */
@@ -12996,9 +13110,9 @@ export interface GetRateLimitPolicyResponseContent {
   consumer_selector: string;
   configuration: RateLimitPolicyConfiguration;
   /** The date and time when the rate limit policy was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetRefreshTokenRequest {
   /** ID refresh token to retrieve */
@@ -13010,24 +13124,24 @@ export type RefreshTokenDate = string | RefreshTokenDateObject;
 /** Device used while issuing/exchanging the refresh token */
 export interface RefreshTokenDevice {
   /** First IP address associated with the refresh token */
-  initial_ip?: string;
+  initial_ip?: string | undefined;
   /** First autonomous system number associated with the refresh token */
-  initial_asn?: string;
+  initial_asn?: string | undefined;
   /** First user agent associated with the refresh token */
-  initial_user_agent?: string;
+  initial_user_agent?: string | undefined;
   /** Last IP address associated with the refresh token */
-  last_ip?: string;
+  last_ip?: string | undefined;
   /** Last autonomous system number associated with the refresh token */
-  last_asn?: string;
+  last_asn?: string | undefined;
   /** Last user agent associated with the refresh token */
-  last_user_agent?: string;
+  last_user_agent?: string | undefined;
   [key: string]: unknown;
 }
 export interface RefreshTokenResourceServer {
   /** Resource server ID */
-  audience?: string;
+  audience?: string | undefined;
   /** List of scopes for the refresh token */
-  scopes?: string;
+  scopes?: string | undefined;
   [key: string]: unknown;
 }
 /** A list of the resource server IDs associated to this refresh-token and their granted scopes */
@@ -13036,84 +13150,84 @@ export type GetRefreshTokenResponseContentResourceServersList = Array<RefreshTok
 export type RefreshTokenMetadata = { [key: string]: unknown | undefined };
 export interface GetRefreshTokenResponseContent {
   /** The ID of the refresh token */
-  id?: string;
+  id?: string | undefined;
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
-  created_at?: RefreshTokenDate | null;
-  idle_expires_at?: RefreshTokenDate | null;
-  expires_at?: RefreshTokenDate | null;
-  device?: RefreshTokenDevice;
+  user_id?: string | undefined;
+  created_at?: RefreshTokenDate | null | undefined;
+  idle_expires_at?: RefreshTokenDate | null | undefined;
+  expires_at?: RefreshTokenDate | null | undefined;
+  device?: RefreshTokenDevice | undefined;
   /** ID of the client application granted with this refresh token */
-  client_id?: string;
-  session_id?: string | null;
+  client_id?: string | undefined;
+  session_id?: string | null | undefined;
   /** True if the token is a rotating refresh token */
-  rotating?: boolean;
+  rotating?: boolean | undefined;
   /** A list of the resource server IDs associated to this refresh-token and their granted scopes */
-  resource_servers?: GetRefreshTokenResponseContentResourceServersList;
-  refresh_token_metadata?: RefreshTokenMetadata | null;
-  last_exchanged_at?: RefreshTokenDate | null;
+  resource_servers?: GetRefreshTokenResponseContentResourceServersList | undefined;
+  refresh_token_metadata?: RefreshTokenMetadata | null | undefined;
+  last_exchanged_at?: RefreshTokenDate | null | undefined;
   [key: string]: unknown;
 }
 export interface GetRefreshTokensRequest {
   /** ID of the user whose refresh tokens to retrieve. Required. */
   user_id: string;
   /** Filter results by client ID. Only valid when user_id is provided. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** An opaque cursor from which to start the selection (exclusive). Expires after 24 hours. Obtained from the next property of a previous response. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** A list of the resource server IDs associated to this refresh-token and their granted scopes */
 export type RefreshTokenResponseContentResourceServersList = Array<RefreshTokenResourceServer>;
 export interface RefreshTokenResponseContent {
   /** The ID of the refresh token */
-  id?: string;
+  id?: string | undefined;
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
-  created_at?: RefreshTokenDate | null;
-  idle_expires_at?: RefreshTokenDate | null;
-  expires_at?: RefreshTokenDate | null;
-  device?: RefreshTokenDevice;
+  user_id?: string | undefined;
+  created_at?: RefreshTokenDate | null | undefined;
+  idle_expires_at?: RefreshTokenDate | null | undefined;
+  expires_at?: RefreshTokenDate | null | undefined;
+  device?: RefreshTokenDevice | undefined;
   /** ID of the client application granted with this refresh token */
-  client_id?: string;
-  session_id?: string | null;
+  client_id?: string | undefined;
+  session_id?: string | null | undefined;
   /** True if the token is a rotating refresh token */
-  rotating?: boolean;
+  rotating?: boolean | undefined;
   /** A list of the resource server IDs associated to this refresh-token and their granted scopes */
-  resource_servers?: RefreshTokenResponseContentResourceServersList;
-  refresh_token_metadata?: RefreshTokenMetadata | null;
-  last_exchanged_at?: RefreshTokenDate | null;
+  resource_servers?: RefreshTokenResponseContentResourceServersList | undefined;
+  refresh_token_metadata?: RefreshTokenMetadata | null | undefined;
+  last_exchanged_at?: RefreshTokenDate | null | undefined;
   [key: string]: unknown;
 }
 export type GetRefreshTokensPaginatedResponseContentRefreshTokensList =
   Array<RefreshTokenResponseContent>;
 export interface GetRefreshTokensPaginatedResponseContent {
-  refresh_tokens?: GetRefreshTokensPaginatedResponseContentRefreshTokensList;
+  refresh_tokens?: GetRefreshTokensPaginatedResponseContentRefreshTokensList | undefined;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetRefreshTokensForUserRequest {
   /** ID of the user to get refresh tokens for */
   user_id: string;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** An optional cursor from which to start the selection (exclusive). */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListRefreshTokensPaginatedResponseContentTokensList =
   Array<RefreshTokenResponseContent>;
 export interface ListRefreshTokensPaginatedResponseContent {
-  tokens?: ListRefreshTokensPaginatedResponseContentTokensList;
+  tokens?: ListRefreshTokensPaginatedResponseContentTokensList | undefined;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
   [key: string]: unknown;
 }
 /** Name of the prompt */
@@ -13259,146 +13373,151 @@ export interface GetRenderingRequest {
 export type GetAculResponseContentHeadTagsList = Array<AculHeadTag>;
 export interface GetAculResponseContent {
   /** Tenant ID */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of the prompt */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Name of the screen */
-  screen?: string;
+  screen?: string | undefined;
   /** Rendering mode */
-  rendering_mode?: AculRenderingModeEnum;
-  context_configuration?: AculContextConfiguration | null;
+  rendering_mode?: AculRenderingModeEnum | undefined;
+  context_configuration?: AculContextConfiguration | null | undefined;
   /** Override Universal Login default head tags */
-  default_head_tags_disabled?: boolean | null;
+  default_head_tags_disabled?: boolean | null | undefined;
   /** Use page template with ACUL */
-  use_page_template?: boolean | null;
+  use_page_template?: boolean | null | undefined;
   /** An array of head tags */
-  head_tags?: GetAculResponseContentHeadTagsList | null;
-  filters?: AculFilters | null;
+  head_tags?: GetAculResponseContentHeadTagsList | null | undefined;
+  filters?: AculFilters | null | undefined;
   [key: string]: unknown;
 }
 export interface GetResourceServerRequest {
   /** ID or audience of the resource server to retrieve. */
   id: string;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
 export type GetResourceServerResponseContentScopesList = Array<ResourceServerScope>;
 export type GetResourceServerResponseContentAuthorizationDetailsList = Array<unknown>;
 export interface GetResourceServerResponseContent {
   /** ID of the API (resource server). */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is an Auth0 system API (true) or a custom API (false). */
-  is_system?: boolean;
+  is_system?: boolean | undefined;
   /** Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** List of permissions (scopes) that this API uses. */
-  scopes?: GetResourceServerResponseContentScopesList;
-  signing_alg?: SigningAlgorithmEnum;
+  scopes?: GetResourceServerResponseContentScopesList | undefined;
+  signing_alg?: SigningAlgorithmEnum | undefined;
   /** Secret used to sign tokens when using symmetric algorithms (HS256). */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean;
+  allow_offline_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean;
+  allow_online_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean;
+  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
   /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean;
+  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API via Implicit or Hybrid Flows. Cannot be greater than the `token_lifetime` value. */
-  token_lifetime_for_web?: number;
+  token_lifetime_for_web?: number | undefined;
   /** Whether authorization polices are enforced (true) or unenforced (false). */
-  enforce_policies?: boolean;
+  enforce_policies?: boolean | undefined;
   /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number;
-  token_dialect?: ResourceServerTokenDialectResponseEnum;
-  access_token?: ResourceServerAccessToken | null;
-  token_encryption?: ResourceServerTokenEncryption | null;
-  consent_policy?: ResourceServerConsentPolicyEnum | null;
+  token_lifetime_for_anonymous_access_tokens?: number | undefined;
+  token_dialect?: ResourceServerTokenDialectResponseEnum | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  token_encryption?: ResourceServerTokenEncryption | null | undefined;
+  consent_policy?: ResourceServerConsentPolicyEnum | null | undefined;
   /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean;
-  authorization_details?: GetResourceServerResponseContentAuthorizationDetailsList | null;
-  proof_of_possession?: ResourceServerProofOfPossession | null;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null;
+  require_consent_non_repudiation?: boolean | undefined;
+  authorization_details?:
+    | GetResourceServerResponseContentAuthorizationDetailsList
+    | null
+    | undefined;
+  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
+  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
+  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
   /** The client ID of the client that this resource server is linked to */
-  client_id?: string;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum;
-  type?: ResourceServerTypeEnum | null;
+  client_id?: string | undefined;
+  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  type?: ResourceServerTypeEnum | null | undefined;
 }
 export type GetResourceServersRequestIdentifiersList = Array<string>;
 export interface GetResourceServersRequest {
   /** An optional filter on the resource server identifier. Must be URL encoded and may be specified multiple times (max 10).<br /><b>e.g.</b> <i>../resource-servers?identifiers=id1&identifiers=id2</i> */
-  identifiers?: GetResourceServersRequestIdentifiersList;
+  identifiers?: GetResourceServersRequestIdentifiersList | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
 export type ResourceServerScopesList = Array<ResourceServerScope>;
 export type ResourceServerAuthorizationDetailsList = Array<unknown>;
 export interface ResourceServer {
   /** ID of the API (resource server). */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is an Auth0 system API (true) or a custom API (false). */
-  is_system?: boolean;
+  is_system?: boolean | undefined;
   /** Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** List of permissions (scopes) that this API uses. */
-  scopes?: ResourceServerScopesList;
-  signing_alg?: SigningAlgorithmEnum;
+  scopes?: ResourceServerScopesList | undefined;
+  signing_alg?: SigningAlgorithmEnum | undefined;
   /** Secret used to sign tokens when using symmetric algorithms (HS256). */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean;
+  allow_offline_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean;
+  allow_online_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean;
+  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
   /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean;
+  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API via Implicit or Hybrid Flows. Cannot be greater than the `token_lifetime` value. */
-  token_lifetime_for_web?: number;
+  token_lifetime_for_web?: number | undefined;
   /** Whether authorization polices are enforced (true) or unenforced (false). */
-  enforce_policies?: boolean;
+  enforce_policies?: boolean | undefined;
   /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number;
-  token_dialect?: ResourceServerTokenDialectResponseEnum;
-  access_token?: ResourceServerAccessToken | null;
-  token_encryption?: ResourceServerTokenEncryption | null;
-  consent_policy?: ResourceServerConsentPolicyEnum | null;
+  token_lifetime_for_anonymous_access_tokens?: number | undefined;
+  token_dialect?: ResourceServerTokenDialectResponseEnum | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  token_encryption?: ResourceServerTokenEncryption | null | undefined;
+  consent_policy?: ResourceServerConsentPolicyEnum | null | undefined;
   /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean;
-  authorization_details?: ResourceServerAuthorizationDetailsList | null;
-  proof_of_possession?: ResourceServerProofOfPossession | null;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null;
+  require_consent_non_repudiation?: boolean | undefined;
+  authorization_details?: ResourceServerAuthorizationDetailsList | null | undefined;
+  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
+  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
+  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
   /** The client ID of the client that this resource server is linked to */
-  client_id?: string;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum;
-  type?: ResourceServerTypeEnum | null;
+  client_id?: string | undefined;
+  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  type?: ResourceServerTypeEnum | null | undefined;
 }
 export type ListResourceServerResponseContentCase0List = Array<ResourceServer>;
 export type ListResourceServerOffsetPaginatedResponseContentResourceServersList =
   Array<ResourceServer>;
 export interface ListResourceServerOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  resource_servers?: ListResourceServerOffsetPaginatedResponseContentResourceServersList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  resource_servers?:
+    | ListResourceServerOffsetPaginatedResponseContentResourceServersList
+    | undefined;
 }
 export type ListResourceServerResponseContent =
   | ListResourceServerResponseContentCase0List
@@ -13408,65 +13527,65 @@ export type GetResourceServersResponse = ListResourceServerResponseContent;
 export type ResourceServerSortFieldEnum = "identifier" | "name" | "updated_at";
 export interface GetResourceServersSearchRequest {
   /** Filter expression in SCIM or Lucene syntax (depending on parser parameter). SCIM examples: `name eq "My API"`, `identifier sw "https://"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>id</i> - Filter by resource server ID</li><li><i>identifier</i> - Filter by resource server identifier</li><li><i>name</i> - Filter by resource server name</li><li><i>updated_at</i> - Filter by last update date</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string;
+  q?: string | undefined;
   /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {});
+  parser?: SearchParserEnum | (string & {}) | undefined;
   /** Comma-separated list of fields to include or exclude in the response. Works with the include_fields parameter to control projection mode. */
-  fields?: string;
+  fields?: string | undefined;
   /** Controls field projection mode. Set to true to include only fields specified in the fields parameter. Set to false to exclude fields specified in the fields parameter. Defaults to true if not specified. */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string;
+  from?: string | undefined;
   /** Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided. */
-  sort?: ResourceServerSortFieldEnum | (string & {});
+  sort?: ResourceServerSortFieldEnum | (string & {}) | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
 export type ResourceServerSearchResponseScopesList = Array<ResourceServerScope>;
 export type ResourceServerSearchResponseAuthorizationDetailsList = Array<unknown>;
 export interface ResourceServerSearchResponse {
   /** ID of the API (resource server). */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is an Auth0 system API (true) or a custom API (false). */
-  is_system?: boolean;
+  is_system?: boolean | undefined;
   /** Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** List of permissions (scopes) that this API uses. */
-  scopes?: ResourceServerSearchResponseScopesList;
-  signing_alg?: SigningAlgorithmEnum;
+  scopes?: ResourceServerSearchResponseScopesList | undefined;
+  signing_alg?: SigningAlgorithmEnum | undefined;
   /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean;
+  allow_offline_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean;
+  allow_online_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean;
+  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
   /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean;
+  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API via Implicit or Hybrid Flows. Cannot be greater than the `token_lifetime` value. */
-  token_lifetime_for_web?: number;
+  token_lifetime_for_web?: number | undefined;
   /** Whether authorization polices are enforced (true) or unenforced (false). */
-  enforce_policies?: boolean;
+  enforce_policies?: boolean | undefined;
   /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number;
-  token_dialect?: ResourceServerTokenDialectResponseEnum;
-  access_token?: ResourceServerAccessToken | null;
-  token_encryption?: ResourceServerTokenEncryption | null;
-  consent_policy?: ResourceServerConsentPolicyEnum | null;
+  token_lifetime_for_anonymous_access_tokens?: number | undefined;
+  token_dialect?: ResourceServerTokenDialectResponseEnum | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  token_encryption?: ResourceServerTokenEncryption | null | undefined;
+  consent_policy?: ResourceServerConsentPolicyEnum | null | undefined;
   /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean;
-  authorization_details?: ResourceServerSearchResponseAuthorizationDetailsList | null;
-  proof_of_possession?: ResourceServerProofOfPossession | null;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null;
+  require_consent_non_repudiation?: boolean | undefined;
+  authorization_details?: ResourceServerSearchResponseAuthorizationDetailsList | null | undefined;
+  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
+  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
+  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
   /** The client ID of the client that this resource server is linked to */
-  client_id?: string;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum;
-  type?: ResourceServerTypeEnum | null;
+  client_id?: string | undefined;
+  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  type?: ResourceServerTypeEnum | null | undefined;
 }
 /** Array of resource server objects matching the search criteria. */
 export type SearchResourceServersResponseContentResourceServersList =
@@ -13475,7 +13594,7 @@ export interface SearchResourceServersResponseContent {
   /** Array of resource server objects matching the search criteria. */
   resource_servers: SearchResourceServersResponseContentResourceServersList;
   /** Cursor for retrieving the next page of results. Omitted if there are no more results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetRiskAssessmentsSettingsRequest {}
 export interface GetRiskAssessmentsSettingsResponseContent {
@@ -13488,56 +13607,56 @@ export interface GetRoleRequest {
 }
 export interface GetRoleResponseContent {
   /** ID for this role. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this role. */
-  name?: string;
+  name?: string | undefined;
   /** Description of this role. */
-  description?: string;
-  type?: RoleTypeEnum;
-  owner_id?: RoleOwnerId;
+  description?: string | undefined;
+  type?: RoleTypeEnum | undefined;
+  owner_id?: RoleOwnerId | undefined;
 }
 export interface GetRoleGroupsRequest {
   /** Unique identifier for the role (service-generated). */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListRoleGroupsResponseContentGroupsList = Array<Group>;
 export interface ListRoleGroupsResponseContent {
   groups: ListRoleGroupsResponseContentGroupsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetRolePermissionRequest {
   /** ID of the role to list granted permissions. */
   id: string;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export interface PermissionsResponsePayload {
   /** Resource server (API) identifier that this permission is for. */
-  resource_server_identifier?: string;
+  resource_server_identifier?: string | undefined;
   /** Name of this permission. */
-  permission_name?: string;
+  permission_name?: string | undefined;
   /** Resource server (API) name this permission is for. */
-  resource_server_name?: string;
+  resource_server_name?: string | undefined;
   /** Description of this permission. */
-  description?: string;
+  description?: string | undefined;
 }
 export type ListRolePermissionsResponseContentCase0List = Array<PermissionsResponsePayload>;
 export type ListRolePermissionsOffsetPaginatedResponseContentPermissionsList =
   Array<PermissionsResponsePayload>;
 export interface ListRolePermissionsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  permissions?: ListRolePermissionsOffsetPaginatedResponseContentPermissionsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  permissions?: ListRolePermissionsOffsetPaginatedResponseContentPermissionsList | undefined;
 }
 export type ListRolePermissionsResponseContent =
   | ListRolePermissionsResponseContentCase0List
@@ -13547,21 +13666,21 @@ export type GetRolePermissionResponse = ListRolePermissionsResponseContent;
 export type RoleOwnerIdFilter = string | SystemRoleOwnerId;
 export interface GetRolesRequest {
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional filter on name (case-insensitive). */
-  name_filter?: string;
+  name_filter?: string | undefined;
   /** Optional filter on the type of the role */
-  type?: RoleTypeEnum | (string & {});
+  type?: RoleTypeEnum | (string & {}) | undefined;
   /** Filter organization-level roles by owner ID. Use an organization ID to filter that organization's roles, or "auth0" to retrieve Auth0-managed System Roles. Required when type is "organization". */
-  owner_id?: RoleOwnerIdFilter;
+  owner_id?: RoleOwnerIdFilter | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListRolesResponseContentCase0List = Array<Role>;
 export type ListRolesOffsetPaginatedResponseContentRolesList = Array<Role>;
@@ -13569,12 +13688,12 @@ export interface ListRolesOffsetPaginatedResponseContent {
   start: number;
   limit: number;
   total: number;
-  roles?: ListRolesOffsetPaginatedResponseContentRolesList;
+  roles?: ListRolesOffsetPaginatedResponseContentRolesList | undefined;
 }
 export type ListRolesCheckpointPaginatedResponseContentRolesList = Array<Role>;
 export interface ListRolesCheckpointPaginatedResponseContent {
-  next?: string;
-  roles?: ListRolesCheckpointPaginatedResponseContentRolesList;
+  next?: string | undefined;
+  roles?: ListRolesCheckpointPaginatedResponseContentRolesList | undefined;
 }
 export type ListRolesResponseContent =
   | ListRolesResponseContentCase0List
@@ -13585,29 +13704,29 @@ export interface GetRoleUserRequest {
   /** ID of the role to retrieve a list of users associated with. */
   id: string;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type RoleUser = RoleMember;
 export type ListRoleUsersResponseContentCase0List = Array<RoleMember>;
 export type ListRoleUsersOffsetPaginatedResponseContentUsersList = Array<RoleMember>;
 export interface ListRoleUsersOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  users?: ListRoleUsersOffsetPaginatedResponseContentUsersList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  users?: ListRoleUsersOffsetPaginatedResponseContentUsersList | undefined;
 }
 export type ListRoleUsersPaginatedResponseContentUsersList = Array<RoleMember>;
 export interface ListRoleUsersPaginatedResponseContent {
-  next?: string;
-  users?: ListRoleUsersPaginatedResponseContentUsersList;
+  next?: string | undefined;
+  users?: ListRoleUsersPaginatedResponseContentUsersList | undefined;
 }
 export type ListRoleUsersResponseContent =
   | ListRoleUsersResponseContentCase0List
@@ -13618,59 +13737,59 @@ export interface GetRuleRequest {
   /** ID of the rule to retrieve. */
   id: string;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 export interface GetRuleResponseContent {
   /** Name of this rule. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this rule. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the rule is enabled (true), or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this rule runs. */
-  script?: string;
+  script?: string | undefined;
   /** Order that this rule should execute in relative to other rules. Lower-valued rules execute first. */
-  order?: number;
+  order?: number | undefined;
   /** Execution stage of this rule. Can be `login_success`, `login_failure`, or `pre_authorize`. */
-  stage?: string;
+  stage?: string | undefined;
 }
 export interface GetRulesRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional filter on whether a rule is enabled (true) or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 export interface Rule {
   /** Name of this rule. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this rule. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the rule is enabled (true), or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this rule runs. */
-  script?: string;
+  script?: string | undefined;
   /** Order that this rule should execute in relative to other rules. Lower-valued rules execute first. */
-  order?: number;
+  order?: number | undefined;
   /** Execution stage of this rule. Can be `login_success`, `login_failure`, or `pre_authorize`. */
-  stage?: string;
+  stage?: string | undefined;
 }
 export type ListRulesResponseContentCase0List = Array<Rule>;
 export type ListRulesOffsetPaginatedResponseContentRulesList = Array<Rule>;
 export interface ListRulesOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  rules?: ListRulesOffsetPaginatedResponseContentRulesList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  rules?: ListRulesOffsetPaginatedResponseContentRulesList | undefined;
 }
 export type ListRulesResponseContent =
   | ListRulesResponseContentCase0List
@@ -13679,7 +13798,7 @@ export type GetRulesResponse = ListRulesResponseContent;
 export interface GetRulesConfigsRequest {}
 export interface RulesConfig {
   /** Key for a rules config variable. */
-  key?: string;
+  key?: string | undefined;
   [key: string]: unknown;
 }
 export type GetRulesConfigsResponseBodyList = Array<RulesConfig>;
@@ -13716,15 +13835,15 @@ export interface GetScimTokensRequest {
 export type ScimTokenItemScopesList = Array<string>;
 export interface ScimTokenItem {
   /** The token's identifier */
-  token_id?: string;
+  token_id?: string | undefined;
   /** The scopes of the scim token */
-  scopes?: ScimTokenItemScopesList;
+  scopes?: ScimTokenItemScopesList | undefined;
   /** The token's created at timestamp */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The token's valid until timestamp */
-  valid_until?: string;
+  valid_until?: string | undefined;
   /** The token's last used at timestamp */
-  last_used_at?: string;
+  last_used_at?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of scim tokens for scim clients */
@@ -13734,28 +13853,28 @@ export type GetScimTokensResponse = GetScimTokensResponseContent;
 export type OrganizationSortFieldEnum = "name" | "display_name" | "created_at";
 export interface GetSearchRequest {
   /** Filter expression in SCIM or Lucene syntax (depending on parser parameter, default: Lucene). Lucene examples: `name:acme*`, `display_name:*auth*`. SCIM examples: `name eq "Auth0"`, `display_name sw "auth" and created_at gt "2024-01-01"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>id</i> - Organization ID (case-sensitive, exact match)</li><li><i>name</i> - Organization name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>display_name</i> - Organization display name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>created_at</i> - Creation timestamp (supports date range operators; sortable)</li><li><i>metadata.{key}</i> - Filter by organization metadata key-value pairs</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string;
+  q?: string | undefined;
   /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {});
+  parser?: SearchParserEnum | (string & {}) | undefined;
   /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string;
+  from?: string | undefined;
   /** Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided. */
-  sort?: OrganizationSortFieldEnum | (string & {});
+  sort?: OrganizationSortFieldEnum | (string & {}) | undefined;
 }
 export interface SearchOrganization {
   /** Organization identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of this organization. */
-  name?: string;
+  name?: string | undefined;
   /** Friendly name of this organization. */
-  display_name?: string;
-  branding?: OrganizationBranding;
-  token_quota?: CreateTokenQuota;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum;
+  display_name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
+  is_app_entitlement_active?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Array of organization objects matching the search criteria. */
@@ -13765,7 +13884,7 @@ export interface SearchOrganizationsPaginatedResponseContent {
   /** Array of organization objects matching the search criteria. */
   organizations: SearchOrganizationsPaginatedResponseContentOrganizationsList;
   /** Cursor for retrieving the next page of results. Absent when no more results are available. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetSecretsRequest {
   /** ID of the hook to retrieve secrets from. */
@@ -13782,7 +13901,7 @@ export type GetSegmentResponseContentRulesList = Array<SegmentRule>;
 export interface GetSegmentResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: SegmentTypeEnum;
   status: SegmentStatusEnum;
   rules: GetSegmentResponseContentRulesList;
@@ -13793,19 +13912,19 @@ export interface GetSegmentResponseContent {
 export type SegmentTypeFilterEnum = "auth0" | "self";
 export interface GetSegmentsRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of segments to return per page. Defaults to 25, maximum 50. */
-  take?: number;
+  take?: number | undefined;
   /** Filter by type. Exact match. */
-  type?: SegmentTypeFilterEnum | (string & {});
+  type?: SegmentTypeFilterEnum | (string & {}) | undefined;
   /** Filter by status. Exact match. */
-  status?: SegmentStatusEnum | (string & {});
+  status?: SegmentStatusEnum | (string & {}) | undefined;
 }
 export type SegmentRulesList = Array<SegmentRule>;
 export interface Segment {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: SegmentTypeEnum;
   status: SegmentStatusEnum;
   rules: SegmentRulesList;
@@ -13816,7 +13935,7 @@ export type ListSegmentsResponseContentSegmentsList = Array<Segment>;
 export interface ListSegmentsResponseContent {
   segments: ListSegmentsResponseContentSegmentsList;
   /** Checkpoint token for the next page. Omitted when there are no further results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetSelfServiceProfileRequest {
   /** The id of the self-service profile to retrieve */
@@ -13830,22 +13949,22 @@ export type GetSelfServiceProfileResponseContentAllowedStrategiesList =
   Array<SelfServiceProfileAllowedStrategyEnum>;
 export interface GetSelfServiceProfileResponseContent {
   /** The unique ID of the self-service Profile. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the self-service Profile. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the self-service Profile. */
-  description?: string;
+  description?: string | undefined;
   /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
-  user_attributes?: GetSelfServiceProfileResponseContentUserAttributesList;
+  user_attributes?: GetSelfServiceProfileResponseContentUserAttributesList | undefined;
   /** The time when this self-service Profile was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this self-service Profile was updated. */
-  updated_at?: string;
-  branding?: SelfServiceProfileBrandingProperties;
+  updated_at?: string | undefined;
+  branding?: SelfServiceProfileBrandingProperties | undefined;
   /** List of IdP strategies that will be shown to users during the Self-Service Enterprise Configuration flow. Possible values: [`oidc`, `samlp`, `waad`, `google-apps`, `adfs`, `okta`, `auth0-samlp`, `okta-samlp`, `keycloak-samlp`, `pingfederate`] */
-  allowed_strategies?: GetSelfServiceProfileResponseContentAllowedStrategiesList;
+  allowed_strategies?: GetSelfServiceProfileResponseContentAllowedStrategiesList | undefined;
   /** ID of the user-attribute-profile to associate with this self-service profile. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
 }
 /** The language of the custom text. */
 export type GetSelfServiceProfileCustomTextRequestLanguage = "en";
@@ -13865,11 +13984,11 @@ export type GetSelfServiceProfileCustomTextResponse =
   ListSelfServiceProfileCustomTextResponseContent;
 export interface GetSelfServiceProfilesRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
 export type SelfServiceProfileUserAttributesList = Array<SelfServiceProfileUserAttribute>;
@@ -13877,31 +13996,33 @@ export type SelfServiceProfileUserAttributesList = Array<SelfServiceProfileUserA
 export type SelfServiceProfileAllowedStrategiesList = Array<SelfServiceProfileAllowedStrategyEnum>;
 export interface SelfServiceProfile {
   /** The unique ID of the self-service Profile. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the self-service Profile. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the self-service Profile. */
-  description?: string;
+  description?: string | undefined;
   /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
-  user_attributes?: SelfServiceProfileUserAttributesList;
+  user_attributes?: SelfServiceProfileUserAttributesList | undefined;
   /** The time when this self-service Profile was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this self-service Profile was updated. */
-  updated_at?: string;
-  branding?: SelfServiceProfileBrandingProperties;
+  updated_at?: string | undefined;
+  branding?: SelfServiceProfileBrandingProperties | undefined;
   /** List of IdP strategies that will be shown to users during the Self-Service Enterprise Configuration flow. Possible values: [`oidc`, `samlp`, `waad`, `google-apps`, `adfs`, `okta`, `auth0-samlp`, `okta-samlp`, `keycloak-samlp`, `pingfederate`] */
-  allowed_strategies?: SelfServiceProfileAllowedStrategiesList;
+  allowed_strategies?: SelfServiceProfileAllowedStrategiesList | undefined;
   /** ID of the user-attribute-profile to associate with this self-service profile. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
 }
 export type ListSelfServiceProfilesResponseContentCase0List = Array<SelfServiceProfile>;
 export type ListSelfServiceProfilesPaginatedResponseContentSelfServiceProfilesList =
   Array<SelfServiceProfile>;
 export interface ListSelfServiceProfilesPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  self_service_profiles?: ListSelfServiceProfilesPaginatedResponseContentSelfServiceProfilesList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  self_service_profiles?:
+    | ListSelfServiceProfilesPaginatedResponseContentSelfServiceProfilesList
+    | undefined;
 }
 export type ListSelfServiceProfilesResponseContent =
   | ListSelfServiceProfilesResponseContentCase0List
@@ -13917,21 +14038,21 @@ export type SessionDate = string | SessionDateCase1Map;
 /** Metadata related to the device used in the session */
 export interface SessionDeviceMetadata {
   /** First user agent of the device from which this user logged in */
-  initial_user_agent?: string;
-  initial_ip?: string | null;
+  initial_user_agent?: string | undefined;
+  initial_ip?: string | null | undefined;
   /** First autonomous system number associated with this session */
-  initial_asn?: string;
+  initial_asn?: string | undefined;
   /** Last user agent of the device from which this user logged in */
-  last_user_agent?: string;
-  last_ip?: string | null;
+  last_user_agent?: string | undefined;
+  last_ip?: string | null | undefined;
   /** Last autonomous system number from which this user logged in */
-  last_asn?: string;
+  last_asn?: string | undefined;
   [key: string]: unknown;
 }
 /** Client details */
 export interface SessionClientMetadata {
   /** ID of client for the session */
-  client_id?: string;
+  client_id?: string | undefined;
   [key: string]: unknown;
 }
 /** List of client details for the session */
@@ -13939,10 +14060,10 @@ export type GetSessionResponseContentClientsList = Array<SessionClientMetadata>;
 /** Authentication signal details */
 export interface SessionAuthenticationSignal {
   /** One of: "federated", "passkey", "pwd", "sms", "email", "mfa", "mock" or a custom method denoted by a URL */
-  name?: string;
-  timestamp?: SessionDate | null;
+  name?: string | undefined;
+  timestamp?: SessionDate | null | undefined;
   /** A specific MFA factor. Only present when "name" is set to "mfa" */
-  type?: string;
+  type?: string | undefined;
   [key: string]: unknown;
 }
 /** Contains the authentication methods a user has completed during their session */
@@ -13950,14 +14071,14 @@ export type SessionAuthenticationSignalsMethodsList = Array<SessionAuthenticatio
 /** Details about authentication signals obtained during the login flow */
 export interface SessionAuthenticationSignals {
   /** Contains the authentication methods a user has completed during their session */
-  methods?: SessionAuthenticationSignalsMethodsList;
+  methods?: SessionAuthenticationSignalsMethodsList | undefined;
   [key: string]: unknown;
 }
 /** [Private Early Access] The persistence mode of the session cookie. When set to "non-persistent" (ephemeral), the cookie will be deleted when the browser is closed. When set to "persistent", the cookie will be stored until it expires or is deleted by the user. */
 export type SessionCookieMetadataModeEnum = "non-persistent" | "persistent";
 /** [Private Early Access] Session cookie configuration. */
 export interface SessionCookieMetadata {
-  mode?: SessionCookieMetadataModeEnum;
+  mode?: SessionCookieMetadataModeEnum | undefined;
   [key: string]: unknown;
 }
 /** Metadata associated with the session, in the form of an object with string values (max 255 chars). Maximum of 25 metadata properties allowed. */
@@ -13970,61 +14091,61 @@ export interface SessionActorMetadata {
 }
 export interface GetSessionResponseContent {
   /** The ID of the session */
-  id?: string;
+  id?: string | undefined;
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
-  created_at?: SessionDate | null;
-  updated_at?: SessionDate | null;
-  authenticated_at?: SessionDate | null;
-  idle_expires_at?: SessionDate | null;
-  expires_at?: SessionDate | null;
-  last_interacted_at?: SessionDate | null;
-  device?: SessionDeviceMetadata;
+  user_id?: string | undefined;
+  created_at?: SessionDate | null | undefined;
+  updated_at?: SessionDate | null | undefined;
+  authenticated_at?: SessionDate | null | undefined;
+  idle_expires_at?: SessionDate | null | undefined;
+  expires_at?: SessionDate | null | undefined;
+  last_interacted_at?: SessionDate | null | undefined;
+  device?: SessionDeviceMetadata | undefined;
   /** List of client details for the session */
-  clients?: GetSessionResponseContentClientsList;
-  authentication?: SessionAuthenticationSignals;
-  cookie?: SessionCookieMetadata;
-  session_metadata?: SessionMetadata | null;
-  actor?: SessionActorMetadata;
+  clients?: GetSessionResponseContentClientsList | undefined;
+  authentication?: SessionAuthenticationSignals | undefined;
+  cookie?: SessionCookieMetadata | undefined;
+  session_metadata?: SessionMetadata | null | undefined;
+  actor?: SessionActorMetadata | undefined;
   [key: string]: unknown;
 }
 export interface GetSessionsForUserRequest {
   /** ID of the user to get sessions for */
   user_id: string;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** An optional cursor from which to start the selection (exclusive). */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 /** List of client details for the session */
 export type SessionResponseContentClientsList = Array<SessionClientMetadata>;
 export interface SessionResponseContent {
   /** The ID of the session */
-  id?: string;
+  id?: string | undefined;
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
-  created_at?: SessionDate | null;
-  updated_at?: SessionDate | null;
-  authenticated_at?: SessionDate | null;
-  idle_expires_at?: SessionDate | null;
-  expires_at?: SessionDate | null;
-  last_interacted_at?: SessionDate | null;
-  device?: SessionDeviceMetadata;
+  user_id?: string | undefined;
+  created_at?: SessionDate | null | undefined;
+  updated_at?: SessionDate | null | undefined;
+  authenticated_at?: SessionDate | null | undefined;
+  idle_expires_at?: SessionDate | null | undefined;
+  expires_at?: SessionDate | null | undefined;
+  last_interacted_at?: SessionDate | null | undefined;
+  device?: SessionDeviceMetadata | undefined;
   /** List of client details for the session */
-  clients?: SessionResponseContentClientsList;
-  authentication?: SessionAuthenticationSignals;
-  cookie?: SessionCookieMetadata;
-  session_metadata?: SessionMetadata | null;
-  actor?: SessionActorMetadata;
+  clients?: SessionResponseContentClientsList | undefined;
+  authentication?: SessionAuthenticationSignals | undefined;
+  cookie?: SessionCookieMetadata | undefined;
+  session_metadata?: SessionMetadata | null | undefined;
+  actor?: SessionActorMetadata | undefined;
   [key: string]: unknown;
 }
 export type ListUserSessionsPaginatedResponseContentSessionsList = Array<SessionResponseContent>;
 export interface ListUserSessionsPaginatedResponseContent {
-  sessions?: ListUserSessionsPaginatedResponseContentSessionsList;
+  sessions?: ListUserSessionsPaginatedResponseContentSessionsList | undefined;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetSigningKeyRequest {
@@ -14040,22 +14161,22 @@ export interface GetSigningKeysResponseContent {
   /** The public certificate of the signing key */
   cert: string;
   /** The public certificate of the signing key in pkcs7 format */
-  pkcs7?: string;
+  pkcs7?: string | undefined;
   /** True if the key is the the current key */
-  current?: boolean;
+  current?: boolean | undefined;
   /** True if the key is the the next key */
-  next?: boolean;
+  next?: boolean | undefined;
   /** True if the key is the the previous key */
-  previous?: boolean;
-  current_since?: SigningKeysDate;
-  current_until?: SigningKeysDate;
+  previous?: boolean | undefined;
+  current_since?: SigningKeysDate | undefined;
+  current_until?: SigningKeysDate | undefined;
   /** The cert fingerprint */
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
   /** True if the key is revoked */
-  revoked?: boolean;
-  revoked_at?: SigningKeysDate;
+  revoked?: boolean | undefined;
+  revoked_at?: SigningKeysDate | undefined;
 }
 export interface GetSigningKeysRequest {}
 export interface SigningKeys {
@@ -14064,47 +14185,47 @@ export interface SigningKeys {
   /** The public certificate of the signing key */
   cert: string;
   /** The public certificate of the signing key in pkcs7 format */
-  pkcs7?: string;
+  pkcs7?: string | undefined;
   /** True if the key is the the current key */
-  current?: boolean;
+  current?: boolean | undefined;
   /** True if the key is the the next key */
-  next?: boolean;
+  next?: boolean | undefined;
   /** True if the key is the the previous key */
-  previous?: boolean;
-  current_since?: SigningKeysDate;
-  current_until?: SigningKeysDate;
+  previous?: boolean | undefined;
+  current_since?: SigningKeysDate | undefined;
+  current_until?: SigningKeysDate | undefined;
   /** The cert fingerprint */
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
   /** True if the key is revoked */
-  revoked?: boolean;
-  revoked_at?: SigningKeysDate;
+  revoked?: boolean | undefined;
+  revoked_at?: SigningKeysDate | undefined;
 }
 export type GetSigningKeysResponseBodyList = Array<SigningKeys>;
 export type GetSigningKeysResponse = GetSigningKeysResponseBodyList;
 export interface GetSmsProvidersRequest {}
 export interface GetGuardianFactorsProviderSmsResponseContent {
-  provider?: GuardianFactorsProviderSmsProviderEnum;
+  provider?: GuardianFactorsProviderSmsProviderEnum | undefined;
 }
 export interface GetSmsTwilioFactorProviderRequest {}
 export interface GetGuardianFactorsProviderSmsTwilioResponseContent {
   /** From number */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Copilot SID */
-  messaging_service_sid?: string | null;
+  messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null;
+  auth_token?: string | null | undefined;
   /** Twilio SID */
-  sid?: string | null;
+  sid?: string | null | undefined;
 }
 export interface GetSnsRequest {}
 export interface GetGuardianFactorsProviderSnsResponseContent {
-  aws_access_key_id?: string | null;
-  aws_secret_access_key?: string | null;
-  aws_region?: string | null;
-  sns_apns_platform_application_arn?: string | null;
-  sns_gcm_platform_application_arn?: string | null;
+  aws_access_key_id?: string | null | undefined;
+  aws_secret_access_key?: string | null | undefined;
+  aws_region?: string | null | undefined;
+  sns_apns_platform_application_arn?: string | null | undefined;
+  sns_gcm_platform_application_arn?: string | null | undefined;
 }
 export interface GetStatusRequest {
   /** ID of the connection to check */
@@ -14114,7 +14235,7 @@ export interface GetStatusResponse {}
 export interface GetSupplementalSignalsRequest {}
 export interface GetSupplementalSignalsResponseContent {
   /** Indicates if incoming Akamai Headers should be processed */
-  akamai_enabled?: boolean;
+  akamai_enabled?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface GetSuspiciousIpThrottlingRequest {}
@@ -14127,53 +14248,53 @@ export type SuspiciousIPThrottlingAllowlist = Array<string>;
 /** Configuration options that apply before every login attempt. */
 export interface SuspiciousIPThrottlingPreLoginStage {
   /** Total number of attempts allowed per day. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
   /** Interval of time, given in milliseconds, at which new attempts are granted. */
-  rate?: number;
+  rate?: number | undefined;
 }
 /** Configuration options that apply before every user registration attempt. */
 export interface SuspiciousIPThrottlingPreUserRegistrationStage {
   /** Total number of attempts allowed. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
   /** Interval of time, given in milliseconds, at which new attempts are granted. */
-  rate?: number;
+  rate?: number | undefined;
 }
 /** Configuration options that apply before every custom token exchange attempt. */
 export type SuspiciousIPThrottlingPreCustomTokenExchangeStage =
   SuspiciousIPThrottlingPreUserRegistrationStage;
 /** Holds per-stage configuration options (max_attempts and rate). */
 export interface SuspiciousIPThrottlingStage {
-  pre_login?: SuspiciousIPThrottlingPreLoginStage;
-  pre_user_registration?: SuspiciousIPThrottlingPreUserRegistrationStage;
-  pre_custom_token_exchange?: SuspiciousIPThrottlingPreUserRegistrationStage;
+  pre_login?: SuspiciousIPThrottlingPreLoginStage | undefined;
+  pre_user_registration?: SuspiciousIPThrottlingPreUserRegistrationStage | undefined;
+  pre_custom_token_exchange?: SuspiciousIPThrottlingPreUserRegistrationStage | undefined;
 }
 export interface GetSuspiciousIPThrottlingSettingsResponseContent {
   /** Whether or not suspicious IP throttling attack protections are active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a suspicious IP throttling threshold is violated. Possible values: <code>block</code>, <code>admin_notification</code>. */
-  shields?: GetSuspiciousIPThrottlingSettingsResponseContentShieldsList;
-  allowlist?: SuspiciousIPThrottlingAllowlist;
-  stage?: SuspiciousIPThrottlingStage;
+  shields?: GetSuspiciousIPThrottlingSettingsResponseContentShieldsList | undefined;
+  allowlist?: SuspiciousIPThrottlingAllowlist | undefined;
+  stage?: SuspiciousIPThrottlingStage | undefined;
 }
 export interface GetSynchronizedGroupsRequest {
   /** The id of the connection to list synchronized groups for. */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** Query in <a target='_new' href ='https://lucene.apache.org/core/2_9_4/queryparsersyntax.html'>Lucene query string syntax</a>. Only prefix search on "name" or "email" fields are allowed, with a single wildcard suffix. Operators, modifiers, and groupings are not allowed. Terms are treated as case-insensitive. Example query: "name:engineering*". */
-  q?: string;
+  q?: string | undefined;
 }
 export interface SynchronizedGroupPayload {
   /** Google Workspace Directory group ID. */
   id: string;
   /** Google Workspace Directory group name. */
-  name?: string;
+  name?: string | undefined;
   /** Google Workspace Directory group email. */
-  email?: string;
+  email?: string | undefined;
   /** Number of direct members in the Google Workspace Directory group. */
-  direct_members_count?: number;
+  direct_members_count?: number | undefined;
 }
 /** Array of Google Workspace group ids configured for synchronization. */
 export type ListSynchronizedGroupsResponseContentGroupsList = Array<SynchronizedGroupPayload>;
@@ -14181,7 +14302,7 @@ export interface ListSynchronizedGroupsResponseContent {
   /** Array of Google Workspace group ids configured for synchronization. */
   groups: ListSynchronizedGroupsResponseContentGroupsList;
   /** The cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetTokenExchangeProfileRequest {
   /** ID of the Token Exchange Profile to retrieve. */
@@ -14189,58 +14310,60 @@ export interface GetTokenExchangeProfileRequest {
 }
 export interface GetTokenExchangeProfileResponseContent {
   /** The unique ID of the token exchange profile. */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name of this profile. */
-  name?: string;
+  name?: string | undefined;
   /** Subject token type for this profile. When receiving a token exchange request on the Authentication API, the corresponding token exchange profile with a matching subject_token_type will be executed. This must be a URI. */
-  subject_token_type?: string;
+  subject_token_type?: string | undefined;
   /** The ID of the Custom Token Exchange action to execute for this profile, in order to validate the subject_token. The action must use the custom-token-exchange trigger. */
-  action_id?: string;
-  type?: TokenExchangeProfileTypeEnum;
+  action_id?: string | undefined;
+  type?: TokenExchangeProfileTypeEnum | undefined;
   /** The time when this profile was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this profile was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetTokenExchangeProfilesRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface TokenExchangeProfileResponseContent {
   /** The unique ID of the token exchange profile. */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name of this profile. */
-  name?: string;
+  name?: string | undefined;
   /** Subject token type for this profile. When receiving a token exchange request on the Authentication API, the corresponding token exchange profile with a matching subject_token_type will be executed. This must be a URI. */
-  subject_token_type?: string;
+  subject_token_type?: string | undefined;
   /** The ID of the Custom Token Exchange action to execute for this profile, in order to validate the subject_token. The action must use the custom-token-exchange trigger. */
-  action_id?: string;
-  type?: TokenExchangeProfileTypeEnum;
+  action_id?: string | undefined;
+  type?: TokenExchangeProfileTypeEnum | undefined;
   /** The time when this profile was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this profile was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export type ListTokenExchangeProfileResponseContentTokenExchangeProfilesList =
   Array<TokenExchangeProfileResponseContent>;
 export interface ListTokenExchangeProfileResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results.<br/>This identifier is valid for 24 hours. */
-  next?: string;
-  token_exchange_profiles?: ListTokenExchangeProfileResponseContentTokenExchangeProfilesList;
+  next?: string | undefined;
+  token_exchange_profiles?:
+    | ListTokenExchangeProfileResponseContentTokenExchangeProfilesList
+    | undefined;
 }
 export interface GetTriggersRequest {}
 export type ListActionTriggersResponseContentTriggersList = Array<ActionTrigger>;
 export interface ListActionTriggersResponseContent {
-  triggers?: ListActionTriggersResponseContentTriggersList;
+  triggers?: ListActionTriggersResponseContentTriggersList | undefined;
 }
 export interface GetUniversalLoginRequest {}
 export interface GetUniversalLoginTemplate {
   /** The custom page template for the New Universal Login Experience */
-  body?: string;
+  body?: string | undefined;
 }
 export type GetUniversalLoginTemplateResponseContent = GetUniversalLoginTemplate | string;
 export type GetUniversalLoginResponse = GetUniversalLoginTemplateResponseContent;
@@ -14248,9 +14371,9 @@ export interface GetUserRequest {
   /** ID of the user to retrieve. */
   id: string;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** Array of user identity objects when accounts are linked. */
 export type GetUserResponseContentIdentitiesList = Array<UserIdentitySchema>;
@@ -14258,49 +14381,49 @@ export type GetUserResponseContentIdentitiesList = Array<UserIdentitySchema>;
 export type GetUserResponseContentMultifactorList = Array<string>;
 export interface GetUserResponseContent {
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Email address of this user. */
-  email?: string;
+  email?: string | undefined;
   /** Whether this email address is verified (true) or unverified (false). */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Username of this user. */
-  username?: string;
+  username?: string | undefined;
   /** Phone number for this user. Follows the <a href="https://en.wikipedia.org/wiki/E.164">E.164 recommendation</a>. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Whether this phone number has been verified (true) or not (false). */
-  phone_verified?: boolean;
+  phone_verified?: boolean | undefined;
   /** Date and time when this user was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Date and time when this user was last updated/modified. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Array of user identity objects when accounts are linked. */
-  identities?: GetUserResponseContentIdentitiesList;
-  app_metadata?: UserAppMetadataSchema;
-  user_metadata?: UserMetadataSchema;
+  identities?: GetUserResponseContentIdentitiesList | undefined;
+  app_metadata?: UserAppMetadataSchema | undefined;
+  user_metadata?: UserMetadataSchema | undefined;
   /** URL to picture, photo, or avatar of this user. */
-  picture?: string;
+  picture?: string | undefined;
   /** Name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Preferred nickname or alias of this user. */
-  nickname?: string;
+  nickname?: string | undefined;
   /** List of multi-factor authentication providers with which this user has enrolled. */
-  multifactor?: GetUserResponseContentMultifactorList;
+  multifactor?: GetUserResponseContentMultifactorList | undefined;
   /** Last date and time this user's multi-factor authentication providers were updated. */
-  multifactor_last_modified?: string;
+  multifactor_last_modified?: string | undefined;
   /** Last IP address from which this user logged in. */
-  last_ip?: string;
+  last_ip?: string | undefined;
   /** Last date and time this user logged in. */
-  last_login?: string;
+  last_login?: string | undefined;
   /** Last date and time this user had their password reset. */
-  last_password_reset?: string | Redacted.Redacted<string>;
+  last_password_reset?: string | Redacted.Redacted<string> | undefined;
   /** Total number of logins this user has performed. */
-  logins_count?: number;
+  logins_count?: number | undefined;
   /** Whether this user was blocked by an administrator (true) or is not (false). */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
   /** Given name/first name/forename of this user. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** Family name/last name/surname of this user. */
-  family_name?: string;
+  family_name?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetUserAttributeProfileRequest {
@@ -14308,29 +14431,31 @@ export interface GetUserAttributeProfileRequest {
   id: string;
 }
 export interface GetUserAttributeProfileResponseContent {
-  id?: string;
-  name?: string;
-  user_id?: UserAttributeProfileUserId;
-  user_attributes?: UserAttributeProfileUserAttributes;
+  id?: string | undefined;
+  name?: string | undefined;
+  user_id?: UserAttributeProfileUserId | undefined;
+  user_attributes?: UserAttributeProfileUserAttributes | undefined;
 }
 export interface GetUserAttributeProfilesRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 5. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface UserAttributeProfile {
-  id?: string;
-  name?: string;
-  user_id?: UserAttributeProfileUserId;
-  user_attributes?: UserAttributeProfileUserAttributes;
+  id?: string | undefined;
+  name?: string | undefined;
+  user_id?: UserAttributeProfileUserId | undefined;
+  user_attributes?: UserAttributeProfileUserAttributes | undefined;
 }
 export type ListUserAttributeProfilesPaginatedResponseContentUserAttributeProfilesList =
   Array<UserAttributeProfile>;
 export interface ListUserAttributeProfilesPaginatedResponseContent {
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
-  user_attribute_profiles?: ListUserAttributeProfilesPaginatedResponseContentUserAttributeProfilesList;
+  next?: string | undefined;
+  user_attribute_profiles?:
+    | ListUserAttributeProfilesPaginatedResponseContentUserAttributeProfilesList
+    | undefined;
 }
 export interface GetUserAttributeProfileTemplateRequest {
   /** ID of the user-attribute-profile-template to retrieve. */
@@ -14338,62 +14463,64 @@ export interface GetUserAttributeProfileTemplateRequest {
 }
 /** The structure of the template, which can be used as the payload for creating or updating a User Attribute Profile. */
 export interface UserAttributeProfileTemplate {
-  name?: string;
-  user_id?: UserAttributeProfileUserId;
-  user_attributes?: UserAttributeProfileUserAttributes;
+  name?: string | undefined;
+  user_id?: UserAttributeProfileUserId | undefined;
+  user_attributes?: UserAttributeProfileUserAttributes | undefined;
 }
 export interface GetUserAttributeProfileTemplateResponseContent {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The user-friendly name of the template displayed in the UI. */
-  display_name?: string;
-  template?: UserAttributeProfileTemplate;
+  display_name?: string | undefined;
+  template?: UserAttributeProfileTemplate | undefined;
 }
 export interface GetUserAttributeProfileTemplatesRequest {}
 export interface UserAttributeProfileTemplateItem {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The user-friendly name of the template displayed in the UI. */
-  display_name?: string;
-  template?: UserAttributeProfileTemplate;
+  display_name?: string | undefined;
+  template?: UserAttributeProfileTemplate | undefined;
 }
 export type ListUserAttributeProfileTemplateResponseContentUserAttributeProfileTemplatesList =
   Array<UserAttributeProfileTemplateItem>;
 export interface ListUserAttributeProfileTemplateResponseContent {
-  user_attribute_profile_templates?: ListUserAttributeProfileTemplateResponseContentUserAttributeProfileTemplatesList;
+  user_attribute_profile_templates?:
+    | ListUserAttributeProfileTemplateResponseContentUserAttributeProfileTemplatesList
+    | undefined;
 }
 export interface GetUserBlockRequest {
   /** user_id of the user blocks to retrieve. */
   id: string;
   /** If true, returns only blocks that are currently enforced (e.g. subject to protection status, IP allowlist, etc.). If false or omitted, returns all blocks regardless of enforcement state. */
-  consider_brute_force_enablement?: boolean;
+  consider_brute_force_enablement?: boolean | undefined;
 }
 export interface UserBlockIdentifier {
   /** Identifier (should be any of an `email`, `username`, or `phone_number`) */
-  identifier?: string;
+  identifier?: string | undefined;
   /** IP Address */
-  ip?: string;
+  ip?: string | undefined;
   /** Connection identifier */
-  connection?: string;
+  connection?: string | undefined;
   [key: string]: unknown;
 }
 /** Array of identifier + IP address pairs. IP address is optional, and may be omitted in certain circumstances (such as Account Lockout mode). */
 export type ListUserBlocksResponseContentBlockedForList = Array<UserBlockIdentifier>;
 export interface ListUserBlocksResponseContent {
   /** Array of identifier + IP address pairs. IP address is optional, and may be omitted in certain circumstances (such as Account Lockout mode). */
-  blocked_for?: ListUserBlocksResponseContentBlockedForList;
+  blocked_for?: ListUserBlocksResponseContentBlockedForList | undefined;
 }
 export interface GetUserBlocksRequest {
   /** Should be any of a username, phone number, or email. */
   identifier: string;
   /** If true, returns only blocks that are currently enforced (e.g. subject to protection status, IP allowlist, etc.). If false or omitted, returns all blocks regardless of enforcement state. */
-  consider_brute_force_enablement?: boolean;
+  consider_brute_force_enablement?: boolean | undefined;
 }
 /** Array of identifier + IP address pairs. IP address is optional, and may be omitted in certain circumstances (such as Account Lockout mode). */
 export type ListUserBlocksByIdentifierResponseContentBlockedForList = Array<UserBlockIdentifier>;
 export interface ListUserBlocksByIdentifierResponseContent {
   /** Array of identifier + IP address pairs. IP address is optional, and may be omitted in certain circumstances (such as Account Lockout mode). */
-  blocked_for?: ListUserBlocksByIdentifierResponseContentBlockedForList;
+  blocked_for?: ListUserBlocksByIdentifierResponseContentBlockedForList | undefined;
 }
 export interface GetUserConsentSigningKeyRequest {
   /** The ID of the user. */
@@ -14425,9 +14552,9 @@ export interface GetUserEffectivePermissionRoleSourcesRequest {
   /** ID of the user to retrieve the permissions for. */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** The identifier of the resource server for which to calculate user permissions. */
   resource_server_identifier: string;
   /** Name of this permission */
@@ -14440,15 +14567,15 @@ export type UserEffectivePermissionRoleSourceResponseContentSourcesList =
   Array<UserEffectivePermissionRoleSourceEnum>;
 export interface UserEffectivePermissionRoleSourceResponseContent {
   /** ID for this role. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this role. */
-  name?: string;
+  name?: string | undefined;
   /** Description of this role. */
-  description?: string;
-  type?: RoleTypeEnum;
-  owner_id?: RoleOwnerId;
+  description?: string | undefined;
+  type?: RoleTypeEnum | undefined;
+  owner_id?: RoleOwnerId | undefined;
   /** List of sources where this role is coming from. */
-  sources?: UserEffectivePermissionRoleSourceResponseContentSourcesList;
+  sources?: UserEffectivePermissionRoleSourceResponseContentSourcesList | undefined;
 }
 /** Roles with the specified permission assigned to the user, both directly and via groups. */
 export type ListUserEffectivePermissionRoleSourcesResponseContentRolesList =
@@ -14457,15 +14584,15 @@ export interface ListUserEffectivePermissionRoleSourcesResponseContent {
   /** Roles with the specified permission assigned to the user, both directly and via groups. */
   roles: ListUserEffectivePermissionRoleSourcesResponseContentRolesList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetUserEffectivePermissionsRequest {
   /** ID of the user to retrieve the permissions for. */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
   /** The identifier of the resource server for which to calculate user permissions. */
   resource_server_identifier: string;
 }
@@ -14476,15 +14603,15 @@ export type UserEffectivePermissionResponseContentSourcesList =
   Array<UserEffectivePermissionSourceEnum>;
 export interface UserEffectivePermissionResponseContent {
   /** Resource server (API) identifier that this permission is for. */
-  resource_server_identifier?: string;
+  resource_server_identifier?: string | undefined;
   /** Name of this permission. */
-  permission_name?: string;
+  permission_name?: string | undefined;
   /** Resource server (API) name this permission is for. */
-  resource_server_name?: string;
+  resource_server_name?: string | undefined;
   /** Description of this permission. */
-  description?: string;
+  description?: string | undefined;
   /** List of sources where this permission is coming from. */
-  sources?: UserEffectivePermissionResponseContentSourcesList;
+  sources?: UserEffectivePermissionResponseContentSourcesList | undefined;
 }
 /** List of permissions assigned to the user. */
 export type ListUserEffectivePermissionsResponseContentPermissionsList =
@@ -14493,15 +14620,15 @@ export interface ListUserEffectivePermissionsResponseContent {
   /** List of permissions assigned to the user. */
   permissions: ListUserEffectivePermissionsResponseContentPermissionsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetUserEffectiveRolesRequest {
   /** ID of the user to list effective roles for. */
   id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type UserEffectiveRoleSource = "direct" | "groups";
 /** Sources of the role assignment (direct or through group membership) */
@@ -14520,43 +14647,43 @@ export type ListUserEffectiveRolesResponseContentRolesList = Array<UserEffective
 export interface ListUserEffectiveRolesResponseContent {
   roles: ListUserEffectiveRolesResponseContentRolesList;
   /** Cursor for the next page of results */
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetUserGroupsRequest {
   /** ID of the user to list groups for. */
   id: string;
   /** A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface UserGroupsResponseSchema {
   /** Unique identifier for the group (service-generated). */
-  id?: string;
+  id?: string | undefined;
   /** Name of the group. Must be unique within its connection. Must contain between 1 and 128 printable ASCII characters. */
-  name?: string;
+  name?: string | undefined;
   /** External identifier for the group, often used for SCIM synchronization. Max length of 256 characters. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Identifier for the connection this group belongs to (if a connection group). */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Identifier for the tenant this group belongs to. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Timestamp of when the group was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp of when the group was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Timestamp of when the group membership was added. */
-  membership_created_at?: string;
+  membership_created_at?: string | undefined;
   [key: string]: unknown;
 }
 export type GetUserGroupsResponseContentCase0List = Array<UserGroupsResponseSchema>;
@@ -14564,10 +14691,10 @@ export type GetUserGroupsPaginatedResponseContentGroupsList = Array<UserGroupsRe
 export interface GetUserGroupsPaginatedResponseContent {
   groups: GetUserGroupsPaginatedResponseContentGroupsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
-  start?: number;
-  limit?: number;
-  total?: number;
+  next?: string | undefined;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
 }
 export type GetUserGroupsResponseContent =
   | GetUserGroupsResponseContentCase0List
@@ -14577,30 +14704,30 @@ export interface GetUserOrganizationsRequest {
   /** ID of the user to retrieve the organizations for. */
   id: string;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListUserOrganizationsResponseContentCase0List = Array<Organization>;
 export type ListUserOrganizationsOffsetPaginatedResponseContentOrganizationsList =
   Array<Organization>;
 export interface ListUserOrganizationsOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  organizations?: ListUserOrganizationsOffsetPaginatedResponseContentOrganizationsList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  organizations?: ListUserOrganizationsOffsetPaginatedResponseContentOrganizationsList | undefined;
 }
 export type ListUserOrganizationsPaginatedResponseContentOrganizationsList = Array<Organization>;
 export interface ListUserOrganizationsPaginatedResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results.<br/>This identifier is valid for 24 hours. */
-  next?: string;
-  organizations?: ListUserOrganizationsPaginatedResponseContentOrganizationsList;
+  next?: string | undefined;
+  organizations?: ListUserOrganizationsPaginatedResponseContentOrganizationsList | undefined;
 }
 export type ListUserOrganizationsResponseContent =
   | ListUserOrganizationsResponseContentCase0List
@@ -14611,19 +14738,19 @@ export interface GetUserRolesRequest {
   /** ID of the user to list roles for. */
   id: string;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
 }
 export type ListUserRolesResponseContentCase0List = Array<Role>;
 export type ListUserRolesOffsetPaginatedResponseContentRolesList = Array<Role>;
 export interface ListUserRolesOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  total?: number;
-  roles?: ListUserRolesOffsetPaginatedResponseContentRolesList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  total?: number | undefined;
+  roles?: ListUserRolesOffsetPaginatedResponseContentRolesList | undefined;
 }
 export type ListUserRolesResponseContent =
   | ListUserRolesResponseContentCase0List
@@ -14635,39 +14762,39 @@ export interface GetUserRoleSourceGroupsRequest {
   /** ID of the role to get source groups for. */
   role_id: string;
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListUserRoleSourceGroupsResponseContentGroupsList = Array<Group>;
 export interface ListUserRoleSourceGroupsResponseContent {
   groups: ListUserRoleSourceGroupsResponseContentGroupsList;
   /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string;
+  next?: string | undefined;
 }
 /** The version of the search engine */
 export type SearchEngineVersionsEnum = "v1" | "v2" | "v3";
 export interface GetUsersRequest {
   /** Page index of the results to return. First page is 0. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean;
+  include_totals?: boolean | undefined;
   /** Field to sort by. Use <code>field:order</code> where order is <code>1</code> for ascending and <code>-1</code> for descending. e.g. <code>created_at:1</code> */
-  sort?: string;
+  sort?: string | undefined;
   /** Connection filter. Only applies when using <code>search_engine=v1</code>. To filter by connection with <code>search_engine=v2|v3</code>, use <code>q=identities.connection:"connection_name"</code> */
-  connection?: string;
+  connection?: string | undefined;
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Query in <a target='_new' href ='https://lucene.apache.org/core/2_9_4/queryparsersyntax.html'>Lucene query string syntax</a>. Some query types cannot be used on metadata fields, for details see <a href='https://auth0.com/docs/users/search/v3/query-syntax#searchable-fields'>Searchable Fields</a>. */
-  q?: string;
+  q?: string | undefined;
   /** The version of the search engine */
-  search_engine?: SearchEngineVersionsEnum | (string & {});
+  search_engine?: SearchEngineVersionsEnum | (string & {}) | undefined;
   /** If true (default), results are returned in a deterministic order. If false, results may be returned in a non-deterministic order, which can enhance performance for complex queries targeting a small number of users. Set to false only when consistent ordering and pagination is not required. */
-  primary_order?: boolean;
+  primary_order?: boolean | undefined;
 }
 /** Array of user identity objects when accounts are linked. */
 export type UserResponseSchemaIdentitiesList = Array<UserIdentitySchema>;
@@ -14675,59 +14802,59 @@ export type UserResponseSchemaIdentitiesList = Array<UserIdentitySchema>;
 export type UserResponseSchemaMultifactorList = Array<string>;
 export interface UserResponseSchema {
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Email address of this user. */
-  email?: string;
+  email?: string | undefined;
   /** Whether this email address is verified (true) or unverified (false). */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Username of this user. */
-  username?: string;
+  username?: string | undefined;
   /** Phone number for this user. Follows the <a href="https://en.wikipedia.org/wiki/E.164">E.164 recommendation</a>. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Whether this phone number has been verified (true) or not (false). */
-  phone_verified?: boolean;
+  phone_verified?: boolean | undefined;
   /** Date and time when this user was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Date and time when this user was last updated/modified. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Array of user identity objects when accounts are linked. */
-  identities?: UserResponseSchemaIdentitiesList;
-  app_metadata?: UserAppMetadataSchema;
-  user_metadata?: UserMetadataSchema;
+  identities?: UserResponseSchemaIdentitiesList | undefined;
+  app_metadata?: UserAppMetadataSchema | undefined;
+  user_metadata?: UserMetadataSchema | undefined;
   /** URL to picture, photo, or avatar of this user. */
-  picture?: string;
+  picture?: string | undefined;
   /** Name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Preferred nickname or alias of this user. */
-  nickname?: string;
+  nickname?: string | undefined;
   /** List of multi-factor authentication providers with which this user has enrolled. */
-  multifactor?: UserResponseSchemaMultifactorList;
+  multifactor?: UserResponseSchemaMultifactorList | undefined;
   /** Last date and time this user's multi-factor authentication providers were updated. */
-  multifactor_last_modified?: string;
+  multifactor_last_modified?: string | undefined;
   /** Last IP address from which this user logged in. */
-  last_ip?: string;
+  last_ip?: string | undefined;
   /** Last date and time this user logged in. */
-  last_login?: string;
+  last_login?: string | undefined;
   /** Last date and time this user had their password reset. */
-  last_password_reset?: string | Redacted.Redacted<string>;
+  last_password_reset?: string | Redacted.Redacted<string> | undefined;
   /** Total number of logins this user has performed. */
-  logins_count?: number;
+  logins_count?: number | undefined;
   /** Whether this user was blocked by an administrator (true) or is not (false). */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
   /** Given name/first name/forename of this user. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** Family name/last name/surname of this user. */
-  family_name?: string;
+  family_name?: string | undefined;
   [key: string]: unknown;
 }
 export type ListUsersResponseContentCase0List = Array<UserResponseSchema>;
 export type ListUsersOffsetPaginatedResponseContentUsersList = Array<UserResponseSchema>;
 export interface ListUsersOffsetPaginatedResponseContent {
-  start?: number;
-  limit?: number;
-  length?: number;
-  total?: number;
-  users?: ListUsersOffsetPaginatedResponseContentUsersList;
+  start?: number | undefined;
+  limit?: number | undefined;
+  length?: number | undefined;
+  total?: number | undefined;
+  users?: ListUsersOffsetPaginatedResponseContentUsersList | undefined;
 }
 export type ListUsersResponseContent =
   | ListUsersResponseContentCase0List
@@ -14735,9 +14862,9 @@ export type ListUsersResponseContent =
 export type GetUsersResponse = ListUsersResponseContent;
 export interface GetUsersByEmailRequest {
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). Defaults to true. */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
   /** Email address to search for (case-sensitive). */
   email: string;
 }
@@ -14753,7 +14880,7 @@ export interface GetVariationResponseContent {
   id: string;
   feature_flag_id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   overrides: VariationOverridesMap;
   created_at: string;
   updated_at: string;
@@ -14766,7 +14893,7 @@ export interface Variation {
   id: string;
   feature_flag_id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   overrides: VariationOverridesMap;
   created_at: string;
   updated_at: string;
@@ -14777,53 +14904,53 @@ export interface ListVariationsResponseContent {
 }
 export interface GetVcTemplatesRequest {
   /** Optional Id from which to start selection. */
-  from?: string;
+  from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
-  take?: number;
+  take?: number | undefined;
 }
 export interface MdlPresentationProperties {
   /** Family Name */
-  family_name?: boolean;
+  family_name?: boolean | undefined;
   /** Given Name */
-  given_name?: boolean;
+  given_name?: boolean | undefined;
   /** Birth Date */
-  birth_date?: boolean;
+  birth_date?: boolean | undefined;
   /** Issue Date */
-  issue_date?: boolean;
+  issue_date?: boolean | undefined;
   /** Expiry Date */
-  expiry_date?: boolean;
+  expiry_date?: boolean | undefined;
   /** Issuing Country */
-  issuing_country?: boolean;
+  issuing_country?: boolean | undefined;
   /** Issuing Authority */
-  issuing_authority?: boolean;
+  issuing_authority?: boolean | undefined;
   /** Portrait */
-  portrait?: boolean;
+  portrait?: boolean | undefined;
   /** Driving Privileges */
-  driving_privileges?: boolean;
+  driving_privileges?: boolean | undefined;
   /** Resident Address */
-  resident_address?: boolean;
+  resident_address?: boolean | undefined;
   /** Portrait Capture Date */
-  portrait_capture_date?: boolean;
+  portrait_capture_date?: boolean | undefined;
   /** Age in Years */
-  age_in_years?: boolean;
+  age_in_years?: boolean | undefined;
   /** Age Birth Year */
-  age_birth_year?: boolean;
+  age_birth_year?: boolean | undefined;
   /** Issuing Jurisdiction */
-  issuing_jurisdiction?: boolean;
+  issuing_jurisdiction?: boolean | undefined;
   /** Nationality */
-  nationality?: boolean;
+  nationality?: boolean | undefined;
   /** Resident City */
-  resident_city?: boolean;
+  resident_city?: boolean | undefined;
   /** Resident State */
-  resident_state?: boolean;
+  resident_state?: boolean | undefined;
   /** Resident Postal Code */
-  resident_postal_code?: boolean;
+  resident_postal_code?: boolean | undefined;
   /** Resident Country */
-  resident_country?: boolean;
+  resident_country?: boolean | undefined;
   /** Family Name National Character */
-  family_name_national_character?: boolean;
+  family_name_national_character?: boolean | undefined;
   /** Given Name National Character */
-  given_name_national_character?: boolean;
+  given_name_national_character?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface MdlPresentationRequestProperties {
@@ -14835,30 +14962,30 @@ export interface MdlPresentationRequest {
 }
 export interface VerifiableCredentialTemplateResponse {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the template. */
-  type?: string;
+  type?: string | undefined;
   /** The dialect of the template. */
-  dialect?: string;
-  presentation?: MdlPresentationRequest;
+  dialect?: string | undefined;
+  presentation?: MdlPresentationRequest | undefined;
   /** The custom certificate authority. */
-  custom_certificate_authority?: string | null;
+  custom_certificate_authority?: string | null | undefined;
   /** The well-known trusted issuers, comma separated. */
-  well_known_trusted_issuers?: string | null;
+  well_known_trusted_issuers?: string | null | undefined;
   /** The date and time the template was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the template was created. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export type ListVerifiableCredentialTemplatesPaginatedResponseContentTemplatesList =
   Array<VerifiableCredentialTemplateResponse>;
 export interface ListVerifiableCredentialTemplatesPaginatedResponseContent {
   /** Opaque identifier for use with the <i>from</i> query parameter for the next page of results.<br/>This identifier is valid for 24 hours. */
-  next?: string | null;
-  templates?: ListVerifiableCredentialTemplatesPaginatedResponseContentTemplatesList;
+  next?: string | null | undefined;
+  templates?: ListVerifiableCredentialTemplatesPaginatedResponseContentTemplatesList | undefined;
 }
 export interface GetVcTemplatesByIdRequest {
   /** ID of the template to retrieve. */
@@ -14866,22 +14993,22 @@ export interface GetVcTemplatesByIdRequest {
 }
 export interface GetVerifiableCredentialTemplateResponseContent {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the template. */
-  type?: string;
+  type?: string | undefined;
   /** The dialect of the template. */
-  dialect?: string;
-  presentation?: MdlPresentationRequest;
+  dialect?: string | undefined;
+  presentation?: MdlPresentationRequest | undefined;
   /** The custom certificate authority. */
-  custom_certificate_authority?: string | null;
+  custom_certificate_authority?: string | null | undefined;
   /** The well-known trusted issuers, comma separated. */
-  well_known_trusted_issuers?: string | null;
+  well_known_trusted_issuers?: string | null | undefined;
   /** The date and time the template was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the template was created. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListPortalsRequest {}
@@ -14902,9 +15029,9 @@ export type PatchActionRequestSupportedTriggersList = Array<ActionTrigger>;
 export type PatchActionRequestDependenciesList = Array<ActionVersionDependency>;
 export interface ActionSecretRequest {
   /** The name of the particular secret, e.g. API_KEY. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the particular secret, e.g. secret123. A secret's value can only be set upon creation. A secret's value will never be returned by the API. */
-  value?: string;
+  value?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of secrets that are included in an action or a version of an action. */
@@ -14915,19 +15042,19 @@ export interface PatchActionRequest {
   /** The id of the action to update. */
   id: string;
   /** The name of an action. */
-  name?: string;
+  name?: string | undefined;
   /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
-  supported_triggers?: PatchActionRequestSupportedTriggersList;
+  supported_triggers?: PatchActionRequestSupportedTriggersList | undefined;
   /** The source code of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this action depends on. */
-  dependencies?: PatchActionRequestDependenciesList;
+  dependencies?: PatchActionRequestDependenciesList | undefined;
   /** The Node runtime. For example: `node22`, defaults to `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: PatchActionRequestSecretsList;
+  secrets?: PatchActionRequestSecretsList | undefined;
   /** The list of action modules and their versions used by this action. */
-  modules?: PatchActionRequestModulesList;
+  modules?: PatchActionRequestModulesList | undefined;
 }
 /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
 export type UpdateActionResponseContentSupportedTriggersList = Array<ActionTrigger>;
@@ -14939,45 +15066,45 @@ export type UpdateActionResponseContentSecretsList = Array<ActionSecretResponse>
 export type UpdateActionResponseContentModulesList = Array<ActionModuleReference>;
 export interface UpdateActionResponseContent {
   /** The unique ID of the action. */
-  id?: string;
+  id?: string | undefined;
   /** The name of an action. */
-  name?: string;
+  name?: string | undefined;
   /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
-  supported_triggers?: UpdateActionResponseContentSupportedTriggersList;
+  supported_triggers?: UpdateActionResponseContentSupportedTriggersList | undefined;
   /** True if all of an Action's contents have been deployed. */
-  all_changes_deployed?: boolean;
+  all_changes_deployed?: boolean | undefined;
   /** The time when this action was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this action was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The source code of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this action depends on. */
-  dependencies?: UpdateActionResponseContentDependenciesList;
+  dependencies?: UpdateActionResponseContentDependenciesList | undefined;
   /** The Node runtime. For example: `node22`, defaults to `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: UpdateActionResponseContentSecretsList;
-  deployed_version?: ActionDeployedVersion;
+  secrets?: UpdateActionResponseContentSecretsList | undefined;
+  deployed_version?: ActionDeployedVersion | undefined;
   /** installed_integration_id is the fk reference to the InstalledIntegration entity. */
-  installed_integration_id?: string;
-  integration?: Integration;
-  status?: ActionBuildStatusEnum;
+  installed_integration_id?: string | undefined;
+  integration?: Integration | undefined;
+  status?: ActionBuildStatusEnum | undefined;
   /** The time when this action was built successfully. */
-  built_at?: string;
+  built_at?: string | undefined;
   /** True if the action should be deployed after creation. */
-  deploy?: boolean;
+  deploy?: boolean | undefined;
   /** The list of action modules and their versions used by this action. */
-  modules?: UpdateActionResponseContentModulesList;
+  modules?: UpdateActionResponseContentModulesList | undefined;
 }
 export interface PatchApnsRequest {
-  sandbox?: boolean;
-  bundle_id?: string | null;
-  p12?: string | null;
+  sandbox?: boolean | undefined;
+  bundle_id?: string | null | undefined;
+  p12?: string | null | undefined;
 }
 export interface UpdateGuardianFactorsProviderPushNotificationApnsResponseContent {
-  sandbox?: boolean;
-  bundle_id?: string | null;
+  sandbox?: boolean | undefined;
+  bundle_id?: string | null | undefined;
 }
 export interface PatchAuthenticationMethodsByAuthenticationMethodIdRequest {
   /** The ID of the user in question. */
@@ -14985,9 +15112,9 @@ export interface PatchAuthenticationMethodsByAuthenticationMethodIdRequest {
   /** The ID of the authentication method to update. */
   authentication_method_id: string;
   /** A human-readable label to identify the authentication method. */
-  name?: string;
+  name?: string | undefined;
   /** Preferred phone authentication method */
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum | (string & {});
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | (string & {}) | undefined;
 }
 export type CreatedAuthenticationMethodTypeEnum = "phone" | "email" | "totp" | "webauthn-roaming";
 export type UpdateUserAuthenticationMethodResponseContentAuthenticationMethodsList =
@@ -14995,30 +15122,32 @@ export type UpdateUserAuthenticationMethodResponseContentAuthenticationMethodsLi
 /** The successfully created authentication method. */
 export interface UpdateUserAuthenticationMethodResponseContent {
   /** The ID of the newly created authentication method (automatically generated by the application) */
-  id?: string;
+  id?: string | undefined;
   type: CreatedAuthenticationMethodTypeEnum;
   /** A human-readable label to identify the authentication method. */
-  name?: string;
+  name?: string | undefined;
   /** Base32 encoded secret for TOTP generation */
-  totp_secret?: string | Redacted.Redacted<string>;
+  totp_secret?: string | Redacted.Redacted<string> | undefined;
   /** Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Applies to email authentication methods only. The email address used to send verification messages. */
-  email?: string;
-  authentication_methods?: UpdateUserAuthenticationMethodResponseContentAuthenticationMethodsList;
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum;
+  email?: string | undefined;
+  authentication_methods?:
+    | UpdateUserAuthenticationMethodResponseContentAuthenticationMethodsList
+    | undefined;
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | undefined;
   /** Applies to webauthn authentication methods only. The id of the credential. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Applies to webauthn authentication methods only. The public key. */
-  public_key?: string;
+  public_key?: string | undefined;
   /** Applies to passkey authentication methods only. Authenticator Attestation Globally Unique Identifier. */
-  aaguid?: string;
+  aaguid?: string | undefined;
   /** Applies to webauthn authentication methods only. The relying party identifier. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
   /** Whether the authentication method has been confirmed. */
-  confirmed?: boolean;
+  confirmed?: boolean | undefined;
   /** Authentication method creation date */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** An actions extensibility point. */
 export type PatchBindingsRequestTriggerId =
@@ -15041,9 +15170,9 @@ export type PatchBindingsRequestTriggerId =
 export type ActionBindingRefTypeEnum = "binding_id" | "action_id" | "action_name";
 /** A reference to an action. An action can be referred to by ID or by Name. */
 export interface ActionBindingRef {
-  type?: ActionBindingRefTypeEnum | (string & {});
+  type?: ActionBindingRefTypeEnum | (string & {}) | undefined;
   /** The id or name of an action that is being bound to a trigger. */
-  value?: string;
+  value?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of secrets that are included in an action or a version of an action. */
@@ -15051,9 +15180,9 @@ export type ActionBindingWithRefSecretsList = Array<ActionSecretRequest>;
 export interface ActionBindingWithRef {
   ref: ActionBindingRef;
   /** The name of the binding. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: ActionBindingWithRefSecretsList;
+  secrets?: ActionBindingWithRefSecretsList | undefined;
 }
 /** The actions that will be bound to this trigger. The order in which they are included will be the order in which they are executed. */
 export type PatchBindingsRequestBindingsList = Array<ActionBindingWithRef>;
@@ -15061,29 +15190,36 @@ export interface PatchBindingsRequest {
   /** An actions extensibility point. */
   triggerId: PatchBindingsRequestTriggerId | (string & {});
   /** The actions that will be bound to this trigger. The order in which they are included will be the order in which they are executed. */
-  bindings?: PatchBindingsRequestBindingsList;
+  bindings?: PatchBindingsRequestBindingsList | undefined;
 }
 export type UpdateActionBindingsResponseContentBindingsList = Array<ActionBinding>;
 export interface UpdateActionBindingsResponseContent {
-  bindings?: UpdateActionBindingsResponseContentBindingsList;
+  bindings?: UpdateActionBindingsResponseContentBindingsList | undefined;
 }
 export interface PatchBotDetectionRequest {
-  bot_detection_level?: BotDetectionLevelEnum | (string & {});
-  challenge_password_policy?: BotDetectionChallengePolicyPasswordFlowEnum | (string & {});
-  challenge_passwordless_policy?: BotDetectionChallengePolicyPasswordlessFlowEnum | (string & {});
+  bot_detection_level?: BotDetectionLevelEnum | (string & {}) | undefined;
+  challenge_password_policy?:
+    | BotDetectionChallengePolicyPasswordFlowEnum
+    | (string & {})
+    | undefined;
+  challenge_passwordless_policy?:
+    | BotDetectionChallengePolicyPasswordlessFlowEnum
+    | (string & {})
+    | undefined;
   challenge_password_reset_policy?:
     | BotDetectionChallengePolicyPasswordResetFlowEnum
-    | (string & {});
-  allowlist?: BotDetectionAllowlist;
-  monitoring_mode_enabled?: boolean;
+    | (string & {})
+    | undefined;
+  allowlist?: BotDetectionAllowlist | undefined;
+  monitoring_mode_enabled?: boolean | undefined;
 }
 export interface UpdateBotDetectionSettingsResponseContent {
-  bot_detection_level?: BotDetectionLevelEnum;
-  challenge_password_policy?: BotDetectionChallengePolicyPasswordFlowEnum;
-  challenge_passwordless_policy?: BotDetectionChallengePolicyPasswordlessFlowEnum;
-  challenge_password_reset_policy?: BotDetectionChallengePolicyPasswordResetFlowEnum;
-  allowlist?: BotDetectionAllowlist;
-  monitoring_mode_enabled?: boolean;
+  bot_detection_level?: BotDetectionLevelEnum | undefined;
+  challenge_password_policy?: BotDetectionChallengePolicyPasswordFlowEnum | undefined;
+  challenge_passwordless_policy?: BotDetectionChallengePolicyPasswordlessFlowEnum | undefined;
+  challenge_password_reset_policy?: BotDetectionChallengePolicyPasswordResetFlowEnum | undefined;
+  allowlist?: BotDetectionAllowlist | undefined;
+  monitoring_mode_enabled?: boolean | undefined;
 }
 /** Action to take when a breached password is detected during a login. Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>. */
 export type PatchBreachedPasswordDetectionRequestShieldsList = Array<
@@ -15095,13 +15231,15 @@ export type PatchBreachedPasswordDetectionRequestAdminNotificationFrequencyList 
 >;
 export interface PatchBreachedPasswordDetectionRequest {
   /** Whether or not breached password detection is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a breached password is detected during a login. Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>. */
-  shields?: PatchBreachedPasswordDetectionRequestShieldsList;
+  shields?: PatchBreachedPasswordDetectionRequestShieldsList | undefined;
   /** When "admin_notification" is enabled, determines how often email notifications are sent. Possible values: <code>immediately</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>. */
-  admin_notification_frequency?: PatchBreachedPasswordDetectionRequestAdminNotificationFrequencyList;
-  method?: BreachedPasswordDetectionMethodEnum | (string & {});
-  stage?: BreachedPasswordDetectionStage;
+  admin_notification_frequency?:
+    | PatchBreachedPasswordDetectionRequestAdminNotificationFrequencyList
+    | undefined;
+  method?: BreachedPasswordDetectionMethodEnum | (string & {}) | undefined;
+  stage?: BreachedPasswordDetectionStage | undefined;
 }
 /** Action to take when a breached password is detected during a login. Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>. */
 export type UpdateBreachedPasswordDetectionSettingsResponseContentShieldsList =
@@ -15111,13 +15249,15 @@ export type UpdateBreachedPasswordDetectionSettingsResponseContentAdminNotificat
   Array<BreachedPasswordDetectionAdminNotificationFrequencyEnum>;
 export interface UpdateBreachedPasswordDetectionSettingsResponseContent {
   /** Whether or not breached password detection is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a breached password is detected during a login. Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>. */
-  shields?: UpdateBreachedPasswordDetectionSettingsResponseContentShieldsList;
+  shields?: UpdateBreachedPasswordDetectionSettingsResponseContentShieldsList | undefined;
   /** When "admin_notification" is enabled, determines how often email notifications are sent. Possible values: <code>immediately</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>. */
-  admin_notification_frequency?: UpdateBreachedPasswordDetectionSettingsResponseContentAdminNotificationFrequencyList;
-  method?: BreachedPasswordDetectionMethodEnum;
-  stage?: BreachedPasswordDetectionStage;
+  admin_notification_frequency?:
+    | UpdateBreachedPasswordDetectionSettingsResponseContentAdminNotificationFrequencyList
+    | undefined;
+  method?: BreachedPasswordDetectionMethodEnum | undefined;
+  stage?: BreachedPasswordDetectionStage | undefined;
 }
 /** Action to take when a brute force protection threshold is violated. Possible values: <code>block</code>, <code>user_notification</code>. */
 export type PatchBruteForceProtectionRequestShieldsList = Array<
@@ -15127,15 +15267,15 @@ export type PatchBruteForceProtectionRequestShieldsList = Array<
 export type PatchBruteForceProtectionRequestAllowlistList = Array<string>;
 export interface PatchBruteForceProtectionRequest {
   /** Whether or not brute force attack protections are active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a brute force protection threshold is violated. Possible values: <code>block</code>, <code>user_notification</code>. */
-  shields?: PatchBruteForceProtectionRequestShieldsList;
+  shields?: PatchBruteForceProtectionRequestShieldsList | undefined;
   /** List of trusted IP addresses that will not have attack protection enforced against them. */
-  allowlist?: PatchBruteForceProtectionRequestAllowlistList;
-  mode?: BruteForceProtectionModeEnum | (string & {});
-  form_submission_mode?: BruteForceProtectionFormSubmissionModeEnum | (string & {});
+  allowlist?: PatchBruteForceProtectionRequestAllowlistList | undefined;
+  mode?: BruteForceProtectionModeEnum | (string & {}) | undefined;
+  form_submission_mode?: BruteForceProtectionFormSubmissionModeEnum | (string & {}) | undefined;
   /** Maximum number of unsuccessful attempts. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
 }
 /** Action to take when a brute force protection threshold is violated. Possible values: <code>block</code>, <code>user_notification</code>. */
 export type UpdateBruteForceSettingsResponseContentShieldsList =
@@ -15144,15 +15284,15 @@ export type UpdateBruteForceSettingsResponseContentShieldsList =
 export type UpdateBruteForceSettingsResponseContentAllowlistList = Array<string>;
 export interface UpdateBruteForceSettingsResponseContent {
   /** Whether or not brute force attack protections are active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a brute force protection threshold is violated. Possible values: <code>block</code>, <code>user_notification</code>. */
-  shields?: UpdateBruteForceSettingsResponseContentShieldsList;
+  shields?: UpdateBruteForceSettingsResponseContentShieldsList | undefined;
   /** List of trusted IP addresses that will not have attack protection enforced against them. */
-  allowlist?: UpdateBruteForceSettingsResponseContentAllowlistList;
-  mode?: BruteForceProtectionModeEnum;
-  form_submission_mode?: BruteForceProtectionFormSubmissionModeEnum;
+  allowlist?: UpdateBruteForceSettingsResponseContentAllowlistList | undefined;
+  mode?: BruteForceProtectionModeEnum | undefined;
+  form_submission_mode?: BruteForceProtectionFormSubmissionModeEnum | undefined;
   /** Maximum number of unsuccessful attempts. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
 }
 /** Name of the prompt */
 export type PromptGroupNameEnum =
@@ -15293,15 +15433,15 @@ export interface AculConfigsItem {
   prompt: PromptGroupNameEnum | (string & {});
   screen: ScreenGroupNameEnum | (string & {});
   /** Rendering mode */
-  rendering_mode?: AculRenderingModeEnum | (string & {});
-  context_configuration?: AculContextConfiguration | null;
+  rendering_mode?: AculRenderingModeEnum | (string & {}) | undefined;
+  context_configuration?: AculContextConfiguration | null | undefined;
   /** Override Universal Login default head tags */
-  default_head_tags_disabled?: boolean | null;
+  default_head_tags_disabled?: boolean | null | undefined;
   /** Use page template with ACUL */
-  use_page_template?: boolean | null;
+  use_page_template?: boolean | null | undefined;
   /** An array of head tags */
-  head_tags?: AculConfigsItemHeadTagsList | null;
-  filters?: AculFilters | null;
+  head_tags?: AculConfigsItemHeadTagsList | null | undefined;
+  filters?: AculFilters | null | undefined;
 }
 /** Array of screen configurations to update */
 export type AculConfigs = Array<AculConfigsItem>;
@@ -15327,11 +15467,11 @@ export interface AttackProtectionUpdateCaptchaArkose {
   /** The secret key for the Arkose captcha provider. */
   secret: string | Redacted.Redacted<string>;
   /** The subdomain used for client requests to the Arkose captcha provider. */
-  client_subdomain?: string;
+  client_subdomain?: string | undefined;
   /** The subdomain used for server-side verification requests to the Arkose captcha provider. */
-  verify_subdomain?: string;
+  verify_subdomain?: string | undefined;
   /** Whether the captcha should fail open. */
-  fail_open?: boolean;
+  fail_open?: boolean | undefined;
 }
 export interface AttackProtectionCaptchaAuthChallengeRequest {
   /** Whether the auth challenge should fail open. */
@@ -15364,24 +15504,24 @@ export interface AttackProtectionUpdateCaptchaRecaptchaV2 {
   secret: string | Redacted.Redacted<string>;
 }
 export interface PatchCaptchaRequest {
-  active_provider_id?: AttackProtectionCaptchaProviderId | (string & {});
-  arkose?: AttackProtectionUpdateCaptchaArkose;
-  auth_challenge?: AttackProtectionCaptchaAuthChallengeRequest;
-  hcaptcha?: AttackProtectionUpdateCaptchaHcaptcha;
-  friendly_captcha?: AttackProtectionUpdateCaptchaFriendlyCaptcha;
-  recaptcha_enterprise?: AttackProtectionUpdateCaptchaRecaptchaEnterprise;
-  recaptcha_v2?: AttackProtectionUpdateCaptchaRecaptchaV2;
-  simple_captcha?: AttackProtectionCaptchaSimpleCaptchaResponseContent;
+  active_provider_id?: AttackProtectionCaptchaProviderId | (string & {}) | undefined;
+  arkose?: AttackProtectionUpdateCaptchaArkose | undefined;
+  auth_challenge?: AttackProtectionCaptchaAuthChallengeRequest | undefined;
+  hcaptcha?: AttackProtectionUpdateCaptchaHcaptcha | undefined;
+  friendly_captcha?: AttackProtectionUpdateCaptchaFriendlyCaptcha | undefined;
+  recaptcha_enterprise?: AttackProtectionUpdateCaptchaRecaptchaEnterprise | undefined;
+  recaptcha_v2?: AttackProtectionUpdateCaptchaRecaptchaV2 | undefined;
+  simple_captcha?: AttackProtectionCaptchaSimpleCaptchaResponseContent | undefined;
 }
 export interface UpdateAttackProtectionCaptchaResponseContent {
-  active_provider_id?: string;
-  arkose?: AttackProtectionCaptchaArkoseResponseContent;
-  auth_challenge?: AttackProtectionCaptchaAuthChallengeResponseContent;
-  hcaptcha?: AttackProtectionCaptchaHcaptchaResponseContent;
-  friendly_captcha?: AttackProtectionCaptchaFriendlyCaptchaResponseContent;
-  recaptcha_enterprise?: AttackProtectionCaptchaRecaptchaEnterpriseResponseContent;
-  recaptcha_v2?: AttackProtectionCaptchaRecaptchaV2ResponseContent;
-  simple_captcha?: AttackProtectionCaptchaSimpleCaptchaResponseContent;
+  active_provider_id?: string | undefined;
+  arkose?: AttackProtectionCaptchaArkoseResponseContent | undefined;
+  auth_challenge?: AttackProtectionCaptchaAuthChallengeResponseContent | undefined;
+  hcaptcha?: AttackProtectionCaptchaHcaptchaResponseContent | undefined;
+  friendly_captcha?: AttackProtectionCaptchaFriendlyCaptchaResponseContent | undefined;
+  recaptcha_enterprise?: AttackProtectionCaptchaRecaptchaEnterpriseResponseContent | undefined;
+  recaptcha_v2?: AttackProtectionCaptchaRecaptchaV2ResponseContent | undefined;
+  simple_captcha?: AttackProtectionCaptchaSimpleCaptchaResponseContent | undefined;
   [key: string]: unknown;
 }
 export interface UpdateEnabledClientConnectionsRequestContentItem {
@@ -15395,7 +15535,7 @@ export type UpdateEnabledClientConnectionsRequestContent =
 export interface PatchClientsRequest {
   /** The id of the connection to modify */
   id: string;
-  body?: UpdateEnabledClientConnectionsRequestContent;
+  body?: UpdateEnabledClientConnectionsRequestContent | undefined;
 }
 export interface PatchClientsResponse {}
 export interface PatchCredentialsByCredentialIdRequest {
@@ -15404,27 +15544,27 @@ export interface PatchCredentialsByCredentialIdRequest {
   /** ID of the credential. */
   credential_id: string;
   /** The ISO 8601 formatted date representing the expiration of the credential. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
 }
 export interface PatchClientCredentialResponseContent {
   /** ID of the credential. Generated on creation. */
-  id?: string;
+  id?: string | undefined;
   /** The name given to the credential by the user. */
-  name?: string;
+  name?: string | undefined;
   /** The key identifier of the credential, generated on creation. */
-  kid?: string;
-  alg?: ClientCredentialAlgorithmEnum;
-  credential_type?: ClientCredentialTypeEnum;
+  kid?: string | undefined;
+  alg?: ClientCredentialAlgorithmEnum | undefined;
+  credential_type?: ClientCredentialTypeEnum | undefined;
   /** The X509 certificate's Subject Distinguished Name */
-  subject_dn?: string;
+  subject_dn?: string | undefined;
   /** The X509 certificate's SHA256 thumbprint */
-  thumbprint_sha256?: string;
+  thumbprint_sha256?: string | undefined;
   /** The ISO 8601 formatted date the credential was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 formatted date the credential was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The ISO 8601 formatted date representing the expiration of the credential. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface PatchDefaultRequest {
@@ -15443,10 +15583,10 @@ export interface PatchDirectoryProvisioningRequest {
   /** The id of the connection to create its directory provisioning configuration */
   id: string;
   /** The mapping between Auth0 and IDP user attributes */
-  mapping?: PatchDirectoryProvisioningRequestMappingList;
+  mapping?: PatchDirectoryProvisioningRequestMappingList | undefined;
   /** Whether periodic automatic synchronization is enabled */
-  synchronize_automatically?: boolean;
-  synchronize_groups?: SynchronizeGroupsEnum | (string & {});
+  synchronize_automatically?: boolean | undefined;
+  synchronize_groups?: SynchronizeGroupsEnum | (string & {}) | undefined;
 }
 /** The mapping between Auth0 and IDP user attributes */
 export type UpdateDirectoryProvisioningResponseContentMappingList =
@@ -15462,26 +15602,26 @@ export interface UpdateDirectoryProvisioningResponseContent {
   mapping: UpdateDirectoryProvisioningResponseContentMappingList;
   /** Whether periodic automatic synchronization is enabled */
   synchronize_automatically: boolean;
-  synchronize_groups?: SynchronizeGroupsEnum;
+  synchronize_groups?: SynchronizeGroupsEnum | undefined;
   /** The timestamp at which the directory provisioning configuration was created */
   created_at: string;
   /** The timestamp at which the directory provisioning configuration was last updated */
   updated_at: string;
   /** The timestamp at which the connection was last synchronized */
-  last_synchronization_at?: string;
+  last_synchronization_at?: string | undefined;
   /** The status of the last synchronization */
-  last_synchronization_status?: string;
+  last_synchronization_status?: string | undefined;
   /** The error message of the last synchronization, if any */
-  last_synchronization_error?: string;
+  last_synchronization_error?: string | undefined;
 }
 export interface PatchDiscoveryDomainsByDiscoveryDomainIdRequest {
   /** ID of the organization. */
   id: string;
   /** ID of the discovery domain to update. */
   discovery_domain_id: string;
-  status?: OrganizationDiscoveryDomainStatus | (string & {});
+  status?: OrganizationDiscoveryDomainStatus | (string & {}) | undefined;
   /** Indicates whether this domain should be used for organization discovery. */
-  use_for_organization_discovery?: boolean;
+  use_for_organization_discovery?: boolean | undefined;
 }
 export interface UpdateOrganizationDiscoveryDomainResponseContent {
   /** Organization discovery domain identifier. */
@@ -15490,7 +15630,7 @@ export interface UpdateOrganizationDiscoveryDomainResponseContent {
   domain: string;
   status: OrganizationDiscoveryDomainStatus;
   /** Indicates whether this domain should be used for organization discovery. */
-  use_for_organization_discovery?: boolean;
+  use_for_organization_discovery?: boolean | undefined;
   /** A unique token generated for the discovery domain. This must be placed in a DNS TXT record at the location specified by the verification_host field to prove domain ownership. */
   verification_txt: string;
   /** The full domain where the TXT record should be added. */
@@ -15502,42 +15642,42 @@ export interface PatchEnabledConnectionsByConnectionIdRequest {
   /** Connection identifier. */
   connectionId: string;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
+  is_signup_enabled?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
 }
 export interface UpdateOrganizationConnectionResponseContent {
   /** ID of the connection. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  connection?: OrganizationConnectionInformation;
+  is_signup_enabled?: boolean | undefined;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 export interface PatchFactorDuoSettingsRequest {
-  ikey?: string;
-  skey?: string;
-  host?: string;
+  ikey?: string | undefined;
+  skey?: string | undefined;
+  host?: string | undefined;
 }
 export interface UpdateGuardianFactorDuoSettingsResponseContent {
-  ikey?: string;
-  skey?: string;
-  host?: string;
+  ikey?: string | undefined;
+  skey?: string | undefined;
+  host?: string | undefined;
 }
 export interface PatchFcmRequest {
-  server_key?: string | null;
+  server_key?: string | null | undefined;
 }
 export type UpdateGuardianFactorsProviderPushNotificationFcmResponseContent = {
   [key: string]: unknown | undefined;
 };
 export type PatchFcmResponse = UpdateGuardianFactorsProviderPushNotificationFcmResponseContent;
 export interface PatchFcmv1Request {
-  server_credentials?: string | null;
+  server_credentials?: string | null | undefined;
 }
 export type UpdateGuardianFactorsProviderPushNotificationFcmv1ResponseContent = {
   [key: string]: unknown | undefined;
@@ -15576,48 +15716,48 @@ export interface EmailProviderCredentialsSchemaCase0 {
 }
 export interface EmailProviderCredentialsSchemaCase1 {
   /** AWS Access Key ID. */
-  accessKeyId?: string | Redacted.Redacted<string>;
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
   /** AWS Secret Access Key. */
-  secretAccessKey?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** AWS region. */
-  region?: string;
+  region?: string | undefined;
 }
 export interface EmailProviderCredentialsSchemaCase2 {
-  smtp_host?: string;
+  smtp_host?: string | undefined;
   /** SMTP port. */
-  smtp_port?: number;
+  smtp_port?: number | undefined;
   /** SMTP username. */
-  smtp_user?: string;
+  smtp_user?: string | undefined;
   /** SMTP password. */
-  smtp_pass?: string;
+  smtp_pass?: string | undefined;
 }
 /** Set to <code>eu</code> to use SparkPost service hosted in Western Europe. To use SparkPost hosted in North America, set it to <code>null</code>. */
 export type EmailSparkPostRegionEnum = "eu";
 export interface EmailProviderCredentialsSchemaCase3 {
   /** API Key */
-  api_key?: string | Redacted.Redacted<string>;
-  region?: EmailSparkPostRegionEnum | (string & {});
+  api_key?: string | Redacted.Redacted<string> | undefined;
+  region?: EmailSparkPostRegionEnum | (string & {}) | undefined;
 }
 /** Set to <code>eu</code> if your domain is provisioned to use Mailgun's EU region. Otherwise, set to <code>null</code>. */
 export type EmailMailgunRegionEnum = "eu";
 export interface EmailProviderCredentialsSchemaCase4 {
   /** API Key */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
   /** Domain */
-  domain?: string;
-  region?: EmailMailgunRegionEnum | (string & {});
+  domain?: string | undefined;
+  region?: EmailMailgunRegionEnum | (string & {}) | undefined;
 }
 export interface EmailProviderCredentialsSchemaCase5 {
   /** Azure Communication Services Connection String. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export interface EmailProviderCredentialsSchemaCase6 {
   /** Microsoft 365 Tenant ID. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Microsoft 365 Client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Microsoft 365 Client Secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Credentials required to use the provider. */
 export type EmailProviderCredentialsSchema =
@@ -15634,23 +15774,23 @@ export type EmailSpecificProviderSettingsWithAdditionalProperties = {
   [key: string]: unknown | undefined;
 };
 export interface PatchProviderRequest {
-  name?: EmailProviderNameEnum | (string & {});
+  name?: EmailProviderNameEnum | (string & {}) | undefined;
   /** Whether the provider is enabled (true) or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Email address to use as "from" when no other address specified. */
-  default_from_address?: string;
-  credentials?: EmailProviderCredentialsSchema;
-  settings?: EmailSpecificProviderSettingsWithAdditionalProperties | null;
+  default_from_address?: string | undefined;
+  credentials?: EmailProviderCredentialsSchema | undefined;
+  settings?: EmailSpecificProviderSettingsWithAdditionalProperties | null | undefined;
 }
 export interface UpdateEmailProviderResponseContent {
   /** Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `resend`, `ses`, `sparkpost`, `smtp`, `azure_cs`, `ms365`, or `custom`. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the provider is enabled (true) or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Email address to use as "from" when no other address specified. */
-  default_from_address?: string;
-  credentials?: EmailProviderCredentials;
-  settings?: EmailProviderSettings;
+  default_from_address?: string | undefined;
+  credentials?: EmailProviderCredentials | undefined;
+  settings?: EmailProviderSettings | undefined;
 }
 /** Name of the prompt */
 export type PatchRenderingRequestPrompt =
@@ -15793,29 +15933,29 @@ export interface PatchRenderingRequest {
   /** Name of the screen */
   screen: PatchRenderingRequestScreen | (string & {});
   /** Rendering mode */
-  rendering_mode?: AculRenderingModeEnum | (string & {});
-  context_configuration?: AculContextConfiguration | null;
+  rendering_mode?: AculRenderingModeEnum | (string & {}) | undefined;
+  context_configuration?: AculContextConfiguration | null | undefined;
   /** Override Universal Login default head tags */
-  default_head_tags_disabled?: boolean | null;
+  default_head_tags_disabled?: boolean | null | undefined;
   /** Use page template with ACUL */
-  use_page_template?: boolean | null;
+  use_page_template?: boolean | null | undefined;
   /** An array of head tags */
-  head_tags?: PatchRenderingRequestHeadTagsList | null;
-  filters?: AculFilters | null;
+  head_tags?: PatchRenderingRequestHeadTagsList | null | undefined;
+  filters?: AculFilters | null | undefined;
 }
 /** An array of head tags */
 export type UpdateAculResponseContentHeadTagsList = Array<AculHeadTag>;
 export interface UpdateAculResponseContent {
   /** Rendering mode */
-  rendering_mode?: AculRenderingModeEnum;
-  context_configuration?: AculContextConfiguration | null;
+  rendering_mode?: AculRenderingModeEnum | undefined;
+  context_configuration?: AculContextConfiguration | null | undefined;
   /** Override Universal Login default head tags */
-  default_head_tags_disabled?: boolean | null;
+  default_head_tags_disabled?: boolean | null | undefined;
   /** Use page template with ACUL */
-  use_page_template?: boolean | null;
+  use_page_template?: boolean | null | undefined;
   /** An array of head tags */
-  head_tags?: UpdateAculResponseContentHeadTagsList | null;
-  filters?: AculFilters | null;
+  head_tags?: UpdateAculResponseContentHeadTagsList | null | undefined;
+  filters?: AculFilters | null | undefined;
   [key: string]: unknown;
 }
 /** The mapping between auth0 and SCIM */
@@ -15853,39 +15993,39 @@ export type UpdateHookSecretRequestContent = { [key: string]: string | undefined
 export interface PatchSecretsRequest {
   /** ID of the hook whose secrets to update. */
   id: string;
-  body?: UpdateHookSecretRequestContent;
+  body?: UpdateHookSecretRequestContent | undefined;
 }
 export interface PatchSecretsResponse {}
 /** Change Password page customization. */
 export interface TenantSettingsPasswordPage {
   /** Whether to use the custom change password HTML (true) or the default Auth0 page (false). Default is to use the Auth0 page. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Custom change password HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> supported). */
-  html?: string;
+  html?: string | undefined;
 }
 /** Character set used to generate a User Code. Can be `base20` or `digits`. */
 export type TenantSettingsDeviceFlowCharset = "base20" | "digits";
 /** Device Flow configuration */
 export interface TenantSettingsDeviceFlow {
-  charset?: TenantSettingsDeviceFlowCharset | (string & {});
+  charset?: TenantSettingsDeviceFlowCharset | (string & {}) | undefined;
   /** Mask used to format a generated User Code into a friendly, readable format. */
-  mask?: string;
+  mask?: string | undefined;
 }
 /** Guardian page customization. */
 export interface TenantSettingsGuardianPage {
   /** Whether to use the custom Guardian HTML (true) or the default Auth0 page (false, default) */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Custom Guardian HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported). */
-  html?: string;
+  html?: string | undefined;
 }
 /** Error page customization. */
 export interface TenantSettingsErrorPage {
   /** Custom Error HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported). */
-  html?: string;
+  html?: string | undefined;
   /** Whether to show the link to log as part of the default error page (true, default) or not to show the link (false). */
-  show_log_link?: boolean;
+  show_log_link?: boolean | undefined;
   /** URL to redirect to when an error occurs instead of showing the default error page. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface TokenQuotaConfiguration {
   client_credentials: TokenQuotaClientCredentials;
@@ -15893,71 +16033,71 @@ export interface TokenQuotaConfiguration {
 }
 /** Token Quota configuration, to configure quotas for token issuance for clients and organizations. Applied to all clients and organizations unless overridden in individual client or organization settings. */
 export interface DefaultTokenQuota {
-  clients?: TokenQuotaConfiguration;
-  organizations?: TokenQuotaConfiguration;
+  clients?: TokenQuotaConfiguration | undefined;
+  organizations?: TokenQuotaConfiguration | undefined;
 }
 /** Flags used to change the behavior of this tenant. */
 export interface TenantSettingsFlags {
   /** Whether to use the older v1 change password flow (true, not recommended except for backward compatibility) or the newer safer flow (false, recommended). */
-  change_pwd_flow_v1?: boolean;
+  change_pwd_flow_v1?: boolean | undefined;
   /** Whether the APIs section is enabled (true) or disabled (false). */
-  enable_apis_section?: boolean;
+  enable_apis_section?: boolean | undefined;
   /** Whether the impersonation functionality has been disabled (true) or not (false). Read-only. */
-  disable_impersonation?: boolean;
+  disable_impersonation?: boolean | undefined;
   /** Whether all current connections should be enabled when a new client (application) is created (true, default) or not (false). */
-  enable_client_connections?: boolean;
+  enable_client_connections?: boolean | undefined;
   /** Whether advanced API Authorization scenarios are enabled (true) or disabled (false). */
-  enable_pipeline2?: boolean;
+  enable_pipeline2?: boolean | undefined;
   /** If enabled, clients are able to add legacy delegation grants. */
-  allow_legacy_delegation_grant_types?: boolean;
+  allow_legacy_delegation_grant_types?: boolean | undefined;
   /** If enabled, clients are able to add legacy RO grants. */
-  allow_legacy_ro_grant_types?: boolean;
+  allow_legacy_ro_grant_types?: boolean | undefined;
   /** Whether the legacy `/tokeninfo` endpoint is enabled for your account (true) or unavailable (false). */
-  allow_legacy_tokeninfo_endpoint?: boolean;
+  allow_legacy_tokeninfo_endpoint?: boolean | undefined;
   /** Whether ID tokens and the userinfo endpoint includes a complete user profile (true) or only OpenID Connect claims (false). */
-  enable_legacy_profile?: boolean;
+  enable_legacy_profile?: boolean | undefined;
   /** Whether ID tokens can be used to authorize some types of requests to API v2 (true) not not (false). */
-  enable_idtoken_api2?: boolean;
+  enable_idtoken_api2?: boolean | undefined;
   /** Whether the public sign up process shows a user_exists error (true) or a generic error (false) if the user already exists. */
-  enable_public_signup_user_exists_error?: boolean;
+  enable_public_signup_user_exists_error?: boolean | undefined;
   /** Whether users are prompted to confirm log in before SSO redirection (false) or are not prompted (true). */
-  enable_sso?: boolean;
+  enable_sso?: boolean | undefined;
   /** Whether the `enable_sso` setting can be changed (true) or not (false). */
-  allow_changing_enable_sso?: boolean;
+  allow_changing_enable_sso?: boolean | undefined;
   /** Whether classic Universal Login prompts include additional security headers to prevent clickjacking (true) or no safeguard (false). */
-  disable_clickjack_protection_headers?: boolean;
+  disable_clickjack_protection_headers?: boolean | undefined;
   /** Do not Publish Enterprise Connections Information with IdP domains on the lock configuration file. */
-  no_disclose_enterprise_connections?: boolean;
+  no_disclose_enterprise_connections?: boolean | undefined;
   /** Enforce client authentication for passwordless start. */
-  enforce_client_authentication_on_passwordless_start?: boolean;
+  enforce_client_authentication_on_passwordless_start?: boolean | undefined;
   /** Enables the email verification flow during login for Azure AD and ADFS connections */
-  enable_adfs_waad_email_verification?: boolean;
+  enable_adfs_waad_email_verification?: boolean | undefined;
   /** Delete underlying grant when a Refresh Token is revoked via the Authentication API. */
-  revoke_refresh_token_grant?: boolean;
+  revoke_refresh_token_grant?: boolean | undefined;
   /** Enables beta access to log streaming changes */
-  dashboard_log_streams_next?: boolean;
+  dashboard_log_streams_next?: boolean | undefined;
   /** Deprecated. This flag has no effect and is retained only for backward compatibility */
-  dashboard_insights_view?: boolean;
+  dashboard_insights_view?: boolean | undefined;
   /** Disables SAML fields map fix for bad mappings with repeated attributes */
-  disable_fields_map_fix?: boolean;
+  disable_fields_map_fix?: boolean | undefined;
   /** Used to allow users to pick what factor to enroll of the available MFA factors. */
-  mfa_show_factor_list_on_enrollment?: boolean;
+  mfa_show_factor_list_on_enrollment?: boolean | undefined;
   /** Removes alg property from jwks .well-known endpoint */
-  remove_alg_from_jwks?: boolean;
+  remove_alg_from_jwks?: boolean | undefined;
   /** Improves bot detection during signup in classic universal login */
-  improved_signup_bot_detection_in_classic?: boolean;
+  improved_signup_bot_detection_in_classic?: boolean | undefined;
   /** This tenant signed up for the Auth4GenAI trail */
-  genai_trial?: boolean;
+  genai_trial?: boolean | undefined;
   /** Whether the Local Resource Discovery endpoint is enabled (true) or disabled (false). */
-  local_resource_discovery?: boolean;
+  local_resource_discovery?: boolean | undefined;
   /** Whether third-party developers can <a href="https://auth0.com/docs/api-auth/dynamic-client-registration">dynamically register</a> applications for your APIs (true) or not (false). This flag enables dynamic client registration. */
-  enable_dynamic_client_registration?: boolean;
+  enable_dynamic_client_registration?: boolean | undefined;
   /** If true, SMS phone numbers will not be obfuscated in Management API GET calls. */
-  disable_management_api_sms_obfuscation?: boolean;
+  disable_management_api_sms_obfuscation?: boolean | undefined;
   /** Changes email_verified behavior for Azure AD/ADFS connections when enabled. Sets email_verified to false otherwise. */
-  trust_azure_adfs_email_verified_connection_property?: boolean;
+  trust_azure_adfs_email_verified_connection_property?: boolean | undefined;
   /** If true, custom domains feature will be enabled for tenant. */
-  custom_domains_provisioning?: boolean;
+  custom_domains_provisioning?: boolean | undefined;
 }
 /** URLs that are valid to redirect to after logout from Auth0. */
 export type PatchSettingsRequestAllowedLogoutUrlsList = Array<string>;
@@ -16059,62 +16199,62 @@ export type CspFlags = Array<CspFlag | (string & {})>;
 /** Per-policy reporting configuration. */
 export interface CspPolicyReporting {
   /** HTTPS endpoint for CSP violation reports. */
-  report_uri?: string;
+  report_uri?: string | undefined;
   /** Report-To group name for modern reporting. Letters, digits, underscores and hyphens only; enforced on write by the request validator. */
-  report_to_group?: string;
+  report_to_group?: string | undefined;
 }
 /** A single CSP policy with mode, directives, flags, and optional reporting. */
 export interface CspPolicy {
-  mode?: CspPolicyMode | (string & {});
-  directives?: CspDirectives;
-  flags?: CspFlags;
-  reporting?: CspPolicyReporting | null;
+  mode?: CspPolicyMode | (string & {}) | undefined;
+  directives?: CspDirectives | undefined;
+  flags?: CspFlags | undefined;
+  reporting?: CspPolicyReporting | null | undefined;
 }
 /** Array of CSP policies (enforcing and/or reporting). */
 export type CspPolicies = Array<CspPolicy>;
 /** A single reporting endpoint. */
 export interface CspReportToEndpoint {
   /** HTTPS URL for the reporting endpoint. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of reporting endpoints. */
 export type CspReportToEndpoints = Array<CspReportToEndpoint>;
 /** Report-To header configuration. */
 export interface CspReportTo {
   /** Reporting group identifier. */
-  group?: string;
+  group?: string | undefined;
   /** Maximum age in seconds for the Report-To header. */
-  max_age?: number;
-  endpoints?: CspReportToEndpoints;
+  max_age?: number | undefined;
+  endpoints?: CspReportToEndpoints | undefined;
 }
 /** Reporting-Endpoints header configuration (key-value pairs). */
 export type CspReportingEndpoints = { [key: string]: string | undefined };
 /** Global reporting infrastructure configuration. */
 export interface CspReportingInfrastructure {
-  report_to?: CspReportTo | null;
-  reporting_endpoints?: CspReportingEndpoints;
+  report_to?: CspReportTo | null | undefined;
+  reporting_endpoints?: CspReportingEndpoints | undefined;
 }
 /** Content Security Policy configuration with multi-policy support. */
 export interface ContentSecurityPolicyConfig {
   /** Whether CSP is enabled. */
-  enabled?: boolean;
-  policies?: CspPolicies;
-  reporting_infrastructure?: CspReportingInfrastructure | null;
+  enabled?: boolean | undefined;
+  policies?: CspPolicies | undefined;
+  reporting_infrastructure?: CspReportingInfrastructure | null | undefined;
 }
 /** X-XSS-Protection mode: block. */
 export type XssProtectionMode = "block";
 /** X-XSS-Protection header configuration (deprecated header, use CSP instead). */
 export interface XssProtectionConfig {
   /** Whether X-XSS-Protection header is enabled. */
-  enabled?: boolean;
-  mode?: XssProtectionMode | (string & {});
+  enabled?: boolean | undefined;
+  mode?: XssProtectionMode | (string & {}) | undefined;
   /** HTTPS endpoint for X-XSS-Protection violation reports. */
-  report_uri?: string;
+  report_uri?: string | undefined;
 }
 /** Security headers configuration for tenant responses. */
 export interface TenantSettingsNullableSecurityHeaders {
-  content_security_policy?: ContentSecurityPolicyConfig | null;
-  x_xss_protection?: XssProtectionConfig | null;
+  content_security_policy?: ContentSecurityPolicyConfig | null | undefined;
+  x_xss_protection?: XssProtectionConfig | null | undefined;
 }
 /** Behavior of the session cookie */
 export type SessionCookieModeEnum = "persistent" | "non-persistent";
@@ -16125,27 +16265,27 @@ export interface SessionCookieSchema {
 /** Anonymous session settings for tenant. */
 export interface TenantSettingsSessionsAnonymous {
   /** Anonymous session lifetime, in minutes. Defaults to 43200 (30 days); maximum 525600 (1 year). */
-  lifetime_in_minutes?: number;
+  lifetime_in_minutes?: number | undefined;
   /** Whether anonymous session requests return the `auth0_anon` cookie. Defaults to enabled; set to false to stop issuing the cookie. */
-  activate_cookie?: boolean;
+  activate_cookie?: boolean | undefined;
 }
 /** Sessions related settings for tenant */
 export interface TenantSettingsSessions {
   /** Whether to bypass prompting logic (false) when performing OIDC Logout */
-  oidc_logout_prompt_enabled?: boolean;
-  anonymous?: TenantSettingsSessionsAnonymous | null;
+  oidc_logout_prompt_enabled?: boolean | undefined;
+  anonymous?: TenantSettingsSessionsAnonymous | null | undefined;
 }
 /** Settings related to OIDC RP-initiated Logout */
 export interface TenantOIDCLogoutSettings {
   /** Enable the end_session_endpoint URL in the .well-known discovery configuration */
-  rp_logout_end_session_endpoint_discovery?: boolean;
+  rp_logout_end_session_endpoint_discovery?: boolean | undefined;
 }
 /** Supported ACR values */
 export type PatchSettingsRequestAcrValuesSupportedList = Array<string>;
 /** mTLS configuration. */
 export interface TenantSettingsMTLS {
   /** If true, enables mTLS endpoint aliases */
-  enable_endpoint_aliases?: boolean;
+  enable_endpoint_aliases?: boolean | undefined;
 }
 /** Profile that determines how the identity of the protected resource (i.e., API) can be specified in the OAuth endpoints when access is being requested. When set to audience (default), the audience parameter is used to specify the resource server. When set to compatibility, the audience parameter is still checked first, but if it not provided, then the resource parameter can be used to specify the resource server. */
 export type TenantSettingsResourceParameterProfile = "audience" | "compatibility";
@@ -16158,90 +16298,91 @@ export type TenantSettingsCountryCodesMode = "allow" | "deny";
 /** Phone country code configuration for identifier input. */
 export interface TenantSettingsCountryCodes {
   /** Array of ISO 3166-1 alpha-2 country codes. */
-  list?: TenantSettingsCountryCodesListList;
-  mode?: TenantSettingsCountryCodesMode | (string & {});
+  list?: TenantSettingsCountryCodesListList | undefined;
+  mode?: TenantSettingsCountryCodesMode | (string & {}) | undefined;
 }
 export interface PatchSettingsRequest {
-  change_password?: TenantSettingsPasswordPage | null;
+  change_password?: TenantSettingsPasswordPage | null | undefined;
   /** Device Flow configuration. */
-  device_flow?: TenantSettingsDeviceFlow | null;
-  guardian_mfa_page?: TenantSettingsGuardianPage | null;
+  device_flow?: TenantSettingsDeviceFlow | null | undefined;
+  guardian_mfa_page?: TenantSettingsGuardianPage | null | undefined;
   /** Default audience for API Authorization. */
-  default_audience?: string;
+  default_audience?: string | undefined;
   /** Name of connection used for password grants at the `/token` endpoint. The following connection types are supported: LDAP, AD, Database Connections, Passwordless, Windows Azure Active Directory, ADFS. */
-  default_directory?: string;
-  error_page?: TenantSettingsErrorPage | null;
-  default_token_quota?: DefaultTokenQuota | null;
-  flags?: TenantSettingsFlags;
+  default_directory?: string | undefined;
+  error_page?: TenantSettingsErrorPage | null | undefined;
+  default_token_quota?: DefaultTokenQuota | null | undefined;
+  flags?: TenantSettingsFlags | undefined;
   /** Friendly name for this tenant. */
-  friendly_name?: string;
+  friendly_name?: string | undefined;
   /** URL of logo to be shown for this tenant (recommended size: 150x150) */
-  picture_url?: string;
+  picture_url?: string | undefined;
   /** End-user support email. */
-  support_email?: string;
+  support_email?: string | undefined;
   /** End-user support url. */
-  support_url?: string;
+  support_url?: string | undefined;
   /** URLs that are valid to redirect to after logout from Auth0. */
-  allowed_logout_urls?: PatchSettingsRequestAllowedLogoutUrlsList;
+  allowed_logout_urls?: PatchSettingsRequestAllowedLogoutUrlsList | undefined;
   /** Number of hours a session will stay valid. */
-  session_lifetime?: number;
+  session_lifetime?: number | undefined;
   /** Number of minutes a session will stay valid. Cannot be specified together with `session_lifetime`. */
-  session_lifetime_in_minutes?: number;
+  session_lifetime_in_minutes?: number | undefined;
   /** Number of hours for which a session can be inactive before the user must log in again. */
-  idle_session_lifetime?: number;
+  idle_session_lifetime?: number | undefined;
   /** Number of minutes a session can be inactive before the user must log in again. Cannot be specified together with `idle_session_lifetime`. */
-  idle_session_lifetime_in_minutes?: number;
+  idle_session_lifetime_in_minutes?: number | undefined;
   /** Number of hours an ephemeral (non-persistent) session will stay valid. */
-  ephemeral_session_lifetime?: number;
+  ephemeral_session_lifetime?: number | undefined;
   /** Number of hours for which an ephemeral (non-persistent) session can be inactive before the user must log in again. */
-  idle_ephemeral_session_lifetime?: number;
+  idle_ephemeral_session_lifetime?: number | undefined;
   /** Number of minutes an ephemeral (non-persistent) session will stay valid. Cannot be specified together with `ephemeral_session_lifetime`. */
-  ephemeral_session_lifetime_in_minutes?: number;
+  ephemeral_session_lifetime_in_minutes?: number | undefined;
   /** Number of minutes an ephemeral (non-persistent) session can be inactive before the user must log in again. Cannot be specified together with `idle_ephemeral_session_lifetime`. */
-  idle_ephemeral_session_lifetime_in_minutes?: number;
+  idle_ephemeral_session_lifetime_in_minutes?: number | undefined;
   /** Selected sandbox version for the extensibility environment */
-  sandbox_version?: string;
+  sandbox_version?: string | undefined;
   /** Selected legacy sandbox version for the extensibility environment */
-  legacy_sandbox_version?: string;
+  legacy_sandbox_version?: string | undefined;
   /** The default absolute redirection uri, must be https */
-  default_redirection_uri?: string;
+  default_redirection_uri?: string | undefined;
   /** Supported locales for the user interface */
-  enabled_locales?: PatchSettingsRequestEnabledLocalesList;
-  access_token?: ResourceServerAccessToken | null;
-  security_headers?: TenantSettingsNullableSecurityHeaders | null;
-  session_cookie?: SessionCookieSchema | null;
-  sessions?: TenantSettingsSessions | null;
-  oidc_logout?: TenantOIDCLogoutSettings;
+  enabled_locales?: PatchSettingsRequestEnabledLocalesList | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  security_headers?: TenantSettingsNullableSecurityHeaders | null | undefined;
+  session_cookie?: SessionCookieSchema | null | undefined;
+  sessions?: TenantSettingsSessions | null | undefined;
+  oidc_logout?: TenantOIDCLogoutSettings | undefined;
   /** Whether to enable flexible factors for MFA in the PostLogin action */
-  customize_mfa_in_postlogin_action?: boolean | null;
+  customize_mfa_in_postlogin_action?: boolean | null | undefined;
   /** Whether to accept an organization name instead of an ID on auth endpoints */
-  allow_organization_name_in_authentication_api?: boolean | null;
+  allow_organization_name_in_authentication_api?: boolean | null | undefined;
   /** Supported ACR values */
-  acr_values_supported?: PatchSettingsRequestAcrValuesSupportedList | null;
-  mtls?: TenantSettingsMTLS | null;
+  acr_values_supported?: PatchSettingsRequestAcrValuesSupportedList | null | undefined;
+  mtls?: TenantSettingsMTLS | null | undefined;
   /** Enables the use of Pushed Authorization Requests */
-  pushed_authorization_requests_supported?: boolean | null;
+  pushed_authorization_requests_supported?: boolean | null | undefined;
   /** Supports iss parameter in authorization responses */
-  authorization_response_iss_parameter_supported?: boolean | null;
+  authorization_response_iss_parameter_supported?: boolean | null | undefined;
   /** Enables strict DPoP refresh token binding per RFC 9449: all refresh tokens issued to public clients that present a DPoP proof are bound to the sender's key, and the binding is validated on every subsequent exchange. When disabled, DPoP refresh token binding may still apply for specific audiences for backwards compatibility. */
-  dpop_strict_refresh_token_binding?: boolean | null;
+  dpop_strict_refresh_token_binding?: boolean | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null;
-  resource_parameter_profile?: TenantSettingsResourceParameterProfile | (string & {});
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null | undefined;
+  resource_parameter_profile?: TenantSettingsResourceParameterProfile | (string & {}) | undefined;
   /** Whether the authorization server supports retrieving client metadata from a client_id URL. */
-  client_id_metadata_document_supported?: boolean;
+  client_id_metadata_document_supported?: boolean | undefined;
   /** Whether the authorization server supports registering clients dynamically from a client_id URL. Requires client_id_metadata_document_supported to be enabled. */
-  client_id_metadata_document_dynamic_registration_supported?: boolean;
+  client_id_metadata_document_dynamic_registration_supported?: boolean | undefined;
   /** Whether Auth0 Guide (AI-powered assistance) is enabled for this tenant. */
-  enable_ai_guide?: boolean;
+  enable_ai_guide?: boolean | undefined;
   /** Whether Phone Consolidated Experience is enabled for this tenant. */
-  phone_consolidated_experience?: boolean;
+  phone_consolidated_experience?: boolean | undefined;
   /** Whether session metadata is included in specific tenant logs (slo, oidc_backchannel_logout_failed, oidc_backchannel_logout_succeeded). */
-  include_session_metadata_in_tenant_logs?: boolean;
+  include_session_metadata_in_tenant_logs?: boolean | undefined;
   dynamic_client_registration_security_mode?:
     | TenantSettingsDynamicClientRegistrationSecurityMode
-    | (string & {});
-  country_codes?: TenantSettingsCountryCodes | null;
+    | (string & {})
+    | undefined;
+  country_codes?: TenantSettingsCountryCodes | null | undefined;
 }
 /** URLs that are valid to redirect to after logout from Auth0. */
 export type UpdateTenantSettingsResponseContentAllowedLogoutUrlsList = Array<string>;
@@ -16341,95 +16482,102 @@ export type TenantSettingsCountryCodesModeResponse = "allow" | "deny";
 /** Phone country code configuration for identifier input. */
 export interface TenantSettingsCountryCodesResponse {
   /** Array of ISO 3166-1 alpha-2 country codes. */
-  list?: TenantSettingsCountryCodesResponseListList;
-  mode?: TenantSettingsCountryCodesModeResponse;
+  list?: TenantSettingsCountryCodesResponseListList | undefined;
+  mode?: TenantSettingsCountryCodesModeResponse | undefined;
 }
 export interface UpdateTenantSettingsResponseContent {
-  change_password?: TenantSettingsPasswordPage | null;
-  guardian_mfa_page?: TenantSettingsGuardianPage | null;
+  change_password?: TenantSettingsPasswordPage | null | undefined;
+  guardian_mfa_page?: TenantSettingsGuardianPage | null | undefined;
   /** Default audience for API authorization. */
-  default_audience?: string;
+  default_audience?: string | undefined;
   /** Name of connection used for password grants at the `/token`endpoint. The following connection types are supported: LDAP, AD, Database Connections, Passwordless, Windows Azure Active Directory, ADFS. */
-  default_directory?: string;
-  error_page?: TenantSettingsErrorPage | null;
-  device_flow?: TenantSettingsDeviceFlow | null;
-  default_token_quota?: DefaultTokenQuota | null;
-  flags?: TenantSettingsFlags;
+  default_directory?: string | undefined;
+  error_page?: TenantSettingsErrorPage | null | undefined;
+  device_flow?: TenantSettingsDeviceFlow | null | undefined;
+  default_token_quota?: DefaultTokenQuota | null | undefined;
+  flags?: TenantSettingsFlags | undefined;
   /** Friendly name for this tenant. */
-  friendly_name?: string;
+  friendly_name?: string | undefined;
   /** URL of logo to be shown for this tenant (recommended size: 150x150) */
-  picture_url?: string;
+  picture_url?: string | undefined;
   /** End-user support email address. */
-  support_email?: string;
+  support_email?: string | undefined;
   /** End-user support URL. */
-  support_url?: string;
+  support_url?: string | undefined;
   /** URLs that are valid to redirect to after logout from Auth0. */
-  allowed_logout_urls?: UpdateTenantSettingsResponseContentAllowedLogoutUrlsList;
+  allowed_logout_urls?: UpdateTenantSettingsResponseContentAllowedLogoutUrlsList | undefined;
   /** Number of hours a session will stay valid. */
-  session_lifetime?: number;
+  session_lifetime?: number | undefined;
   /** Number of hours for which a session can be inactive before the user must log in again. */
-  idle_session_lifetime?: number;
+  idle_session_lifetime?: number | undefined;
   /** Number of hours an ephemeral (non-persistent) session will stay valid. */
-  ephemeral_session_lifetime?: number;
+  ephemeral_session_lifetime?: number | undefined;
   /** Number of hours for which an ephemeral (non-persistent) session can be inactive before the user must log in again. */
-  idle_ephemeral_session_lifetime?: number;
+  idle_ephemeral_session_lifetime?: number | undefined;
   /** Selected sandbox version for the extensibility environment. */
-  sandbox_version?: string;
+  sandbox_version?: string | undefined;
   /** Selected sandbox version for rules and hooks extensibility. */
-  legacy_sandbox_version?: string;
+  legacy_sandbox_version?: string | undefined;
   /** Available sandbox versions for the extensibility environment. */
-  sandbox_versions_available?: UpdateTenantSettingsResponseContentSandboxVersionsAvailableList;
+  sandbox_versions_available?:
+    | UpdateTenantSettingsResponseContentSandboxVersionsAvailableList
+    | undefined;
   /** The default absolute redirection uri, must be https */
-  default_redirection_uri?: string;
+  default_redirection_uri?: string | undefined;
   /** Supported locales for the user interface. */
-  enabled_locales?: UpdateTenantSettingsResponseContentEnabledLocalesList;
-  access_token?: ResourceServerAccessToken | null;
-  security_headers?: TenantSettingsNullableSecurityHeaders | null;
-  session_cookie?: SessionCookieSchema | null;
-  sessions?: TenantSettingsSessions | null;
-  oidc_logout?: TenantOIDCLogoutSettings;
+  enabled_locales?: UpdateTenantSettingsResponseContentEnabledLocalesList | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  security_headers?: TenantSettingsNullableSecurityHeaders | null | undefined;
+  session_cookie?: SessionCookieSchema | null | undefined;
+  sessions?: TenantSettingsSessions | null | undefined;
+  oidc_logout?: TenantOIDCLogoutSettings | undefined;
   /** Whether to accept an organization name instead of an ID on auth endpoints */
-  allow_organization_name_in_authentication_api?: boolean;
+  allow_organization_name_in_authentication_api?: boolean | undefined;
   /** Whether to enable flexible factors for MFA in the PostLogin action */
-  customize_mfa_in_postlogin_action?: boolean;
+  customize_mfa_in_postlogin_action?: boolean | undefined;
   /** Supported ACR values */
-  acr_values_supported?: UpdateTenantSettingsResponseContentAcrValuesSupportedList | null;
-  mtls?: TenantSettingsMTLS | null;
+  acr_values_supported?:
+    | UpdateTenantSettingsResponseContentAcrValuesSupportedList
+    | null
+    | undefined;
+  mtls?: TenantSettingsMTLS | null | undefined;
   /** Enables the use of Pushed Authorization Requests */
-  pushed_authorization_requests_supported?: boolean;
+  pushed_authorization_requests_supported?: boolean | undefined;
   /** Supports iss parameter in authorization responses */
-  authorization_response_iss_parameter_supported?: boolean | null;
+  authorization_response_iss_parameter_supported?: boolean | null | undefined;
   /** Enables strict DPoP refresh token binding per RFC 9449: all refresh tokens issued to public clients that present a DPoP proof are bound to the sender's key, and the binding is validated on every subsequent exchange. When disabled, DPoP refresh token binding may still apply for specific audiences for backwards compatibility. */
-  dpop_strict_refresh_token_binding?: boolean | null;
+  dpop_strict_refresh_token_binding?: boolean | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null;
-  resource_parameter_profile?: TenantSettingsResourceParameterProfile;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null | undefined;
+  resource_parameter_profile?: TenantSettingsResourceParameterProfile | undefined;
   /** Whether the authorization server supports retrieving client metadata from a client_id URL. */
-  client_id_metadata_document_supported?: boolean;
+  client_id_metadata_document_supported?: boolean | undefined;
   /** Whether the authorization server supports registering clients dynamically from a client_id URL. Requires client_id_metadata_document_supported to be enabled. */
-  client_id_metadata_document_dynamic_registration_supported?: boolean;
+  client_id_metadata_document_dynamic_registration_supported?: boolean | undefined;
   /** Whether Phone Consolidated Experience is enabled for this tenant. */
-  phone_consolidated_experience?: boolean;
+  phone_consolidated_experience?: boolean | undefined;
   /** Whether Auth0 Guide (AI-powered assistance) is enabled for this tenant. */
-  enable_ai_guide?: boolean;
+  enable_ai_guide?: boolean | undefined;
   /** Whether session metadata is included in specific tenant logs (slo, oidc_backchannel_logout_failed, oidc_backchannel_logout_succeeded). */
-  include_session_metadata_in_tenant_logs?: boolean;
-  dynamic_client_registration_security_mode?: TenantSettingsDynamicClientRegistrationSecurityMode;
-  country_codes?: TenantSettingsCountryCodesResponse;
+  include_session_metadata_in_tenant_logs?: boolean | undefined;
+  dynamic_client_registration_security_mode?:
+    | TenantSettingsDynamicClientRegistrationSecurityMode
+    | undefined;
+  country_codes?: TenantSettingsCountryCodesResponse | undefined;
 }
 export interface PatchSnsRequest {
-  aws_access_key_id?: string | null;
-  aws_secret_access_key?: string | null;
-  aws_region?: string | null;
-  sns_apns_platform_application_arn?: string | null;
-  sns_gcm_platform_application_arn?: string | null;
+  aws_access_key_id?: string | null | undefined;
+  aws_secret_access_key?: string | null | undefined;
+  aws_region?: string | null | undefined;
+  sns_apns_platform_application_arn?: string | null | undefined;
+  sns_gcm_platform_application_arn?: string | null | undefined;
 }
 export interface UpdateGuardianFactorsProviderPushNotificationSnsResponseContent {
-  aws_access_key_id?: string | null;
-  aws_secret_access_key?: string | null;
-  aws_region?: string | null;
-  sns_apns_platform_application_arn?: string | null;
-  sns_gcm_platform_application_arn?: string | null;
+  aws_access_key_id?: string | null | undefined;
+  aws_secret_access_key?: string | null | undefined;
+  aws_region?: string | null | undefined;
+  sns_apns_platform_application_arn?: string | null | undefined;
+  sns_gcm_platform_application_arn?: string | null | undefined;
 }
 /** Action to take when a suspicious IP throttling threshold is violated. Possible values: <code>block</code>, <code>admin_notification</code>. */
 export type PatchSuspiciousIpThrottlingRequestShieldsList = Array<
@@ -16437,51 +16585,51 @@ export type PatchSuspiciousIpThrottlingRequestShieldsList = Array<
 >;
 export interface PatchSuspiciousIpThrottlingRequest {
   /** Whether or not suspicious IP throttling attack protections are active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a suspicious IP throttling threshold is violated. Possible values: <code>block</code>, <code>admin_notification</code>. */
-  shields?: PatchSuspiciousIpThrottlingRequestShieldsList;
-  allowlist?: SuspiciousIPThrottlingAllowlist;
-  stage?: SuspiciousIPThrottlingStage;
+  shields?: PatchSuspiciousIpThrottlingRequestShieldsList | undefined;
+  allowlist?: SuspiciousIPThrottlingAllowlist | undefined;
+  stage?: SuspiciousIPThrottlingStage | undefined;
 }
 /** Action to take when a suspicious IP throttling threshold is violated. Possible values: <code>block</code>, <code>admin_notification</code>. */
 export type UpdateSuspiciousIPThrottlingSettingsResponseContentShieldsList =
   Array<SuspiciousIPThrottlingShieldsEnum>;
 export interface UpdateSuspiciousIPThrottlingSettingsResponseContent {
   /** Whether or not suspicious IP throttling attack protections are active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Action to take when a suspicious IP throttling threshold is violated. Possible values: <code>block</code>, <code>admin_notification</code>. */
-  shields?: UpdateSuspiciousIPThrottlingSettingsResponseContentShieldsList;
-  allowlist?: SuspiciousIPThrottlingAllowlist;
-  stage?: SuspiciousIPThrottlingStage;
+  shields?: UpdateSuspiciousIPThrottlingSettingsResponseContentShieldsList | undefined;
+  allowlist?: SuspiciousIPThrottlingAllowlist | undefined;
+  stage?: SuspiciousIPThrottlingStage | undefined;
 }
 export interface PatchVcTemplatesByIdRequest {
   /** ID of the template to retrieve. */
   id: string;
-  name?: string | null;
-  type?: string | null;
-  dialect?: string | null;
-  presentation?: MdlPresentationRequest;
-  well_known_trusted_issuers?: string | null;
-  version?: number | null;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
+  dialect?: string | null | undefined;
+  presentation?: MdlPresentationRequest | undefined;
+  well_known_trusted_issuers?: string | null | undefined;
+  version?: number | null | undefined;
 }
 export interface UpdateVerifiableCredentialTemplateResponseContent {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the template. */
-  type?: string;
+  type?: string | undefined;
   /** The dialect of the template. */
-  dialect?: string;
-  presentation?: MdlPresentationRequest;
+  dialect?: string | undefined;
+  presentation?: MdlPresentationRequest | undefined;
   /** The custom certificate authority. */
-  custom_certificate_authority?: string | null;
+  custom_certificate_authority?: string | null | undefined;
   /** The well-known trusted issuers, comma separated. */
-  well_known_trusted_issuers?: string | null;
+  well_known_trusted_issuers?: string | null | undefined;
   /** The date and time the template was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the template was created. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
@@ -16498,17 +16646,17 @@ export interface PostActionRequest {
   /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
   supported_triggers: PostActionRequestSupportedTriggersList;
   /** The source code of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this action depends on. */
-  dependencies?: PostActionRequestDependenciesList;
+  dependencies?: PostActionRequestDependenciesList | undefined;
   /** The Node runtime. For example: `node22`, defaults to `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: PostActionRequestSecretsList;
+  secrets?: PostActionRequestSecretsList | undefined;
   /** The list of action modules and their versions used by this action. */
-  modules?: PostActionRequestModulesList;
+  modules?: PostActionRequestModulesList | undefined;
   /** True if the action should be deployed after creation. */
-  deploy?: boolean;
+  deploy?: boolean | undefined;
 }
 /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
 export type CreateActionResponseContentSupportedTriggersList = Array<ActionTrigger>;
@@ -16520,36 +16668,36 @@ export type CreateActionResponseContentSecretsList = Array<ActionSecretResponse>
 export type CreateActionResponseContentModulesList = Array<ActionModuleReference>;
 export interface CreateActionResponseContent {
   /** The unique ID of the action. */
-  id?: string;
+  id?: string | undefined;
   /** The name of an action. */
-  name?: string;
+  name?: string | undefined;
   /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
-  supported_triggers?: CreateActionResponseContentSupportedTriggersList;
+  supported_triggers?: CreateActionResponseContentSupportedTriggersList | undefined;
   /** True if all of an Action's contents have been deployed. */
-  all_changes_deployed?: boolean;
+  all_changes_deployed?: boolean | undefined;
   /** The time when this action was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this action was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The source code of the action. */
-  code?: string;
+  code?: string | undefined;
   /** The list of third party npm modules, and their versions, that this action depends on. */
-  dependencies?: CreateActionResponseContentDependenciesList;
+  dependencies?: CreateActionResponseContentDependenciesList | undefined;
   /** The Node runtime. For example: `node22`, defaults to `node22` */
-  runtime?: string;
+  runtime?: string | undefined;
   /** The list of secrets that are included in an action or a version of an action. */
-  secrets?: CreateActionResponseContentSecretsList;
-  deployed_version?: ActionDeployedVersion;
+  secrets?: CreateActionResponseContentSecretsList | undefined;
+  deployed_version?: ActionDeployedVersion | undefined;
   /** installed_integration_id is the fk reference to the InstalledIntegration entity. */
-  installed_integration_id?: string;
-  integration?: Integration;
-  status?: ActionBuildStatusEnum;
+  installed_integration_id?: string | undefined;
+  integration?: Integration | undefined;
+  status?: ActionBuildStatusEnum | undefined;
   /** The time when this action was built successfully. */
-  built_at?: string;
+  built_at?: string | undefined;
   /** True if the action should be deployed after creation. */
-  deploy?: boolean;
+  deploy?: boolean | undefined;
   /** The list of action modules and their versions used by this action. */
-  modules?: CreateActionResponseContentModulesList;
+  modules?: CreateActionResponseContentModulesList | undefined;
 }
 export type CreatedUserAuthenticationMethodTypeEnum =
   | "phone"
@@ -16566,33 +16714,33 @@ export interface PostAuthenticationMethodsRequest {
   id: string;
   type: CreatedUserAuthenticationMethodTypeEnum | (string & {});
   /** A human-readable label to identify the authentication method. */
-  name?: string;
+  name?: string | undefined;
   /** Base32 encoded secret for TOTP generation. */
-  totp_secret?: string | Redacted.Redacted<string>;
+  totp_secret?: string | Redacted.Redacted<string> | undefined;
   /** Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Applies to email authentication methods only. The email address used to send verification messages. */
-  email?: string;
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum | (string & {});
+  email?: string | undefined;
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | (string & {}) | undefined;
   /** Applies to webauthn/passkey authentication methods only. The id of the credential. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Applies to webauthn/passkey authentication methods only. The public key, which is encoded as base64. */
-  public_key?: string;
+  public_key?: string | undefined;
   /** Applies to passkeys only. Authenticator Attestation Globally Unique Identifier */
-  aaguid?: string;
+  aaguid?: string | undefined;
   /** Applies to webauthn authentication methods only. The relying party identifier. */
-  relying_party_identifier?: string;
-  credential_device_type?: CredentialDeviceTypeEnum | (string & {});
+  relying_party_identifier?: string | undefined;
+  credential_device_type?: CredentialDeviceTypeEnum | (string & {}) | undefined;
   /** Applies to passkeys only. Whether the credential was backed up. */
-  credential_backed_up?: boolean;
+  credential_backed_up?: boolean | undefined;
   /** Applies to passkeys only. The ID of the user identity linked with the authentication method. */
-  identity_user_id?: string;
+  identity_user_id?: string | undefined;
   /** Applies to passkeys only. The user-agent of the browser used to create the passkey. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** Applies to passkeys only. The user handle of the user identity. */
-  user_handle?: string;
+  user_handle?: string | undefined;
   /** Applies to passkeys only. The transports used by clients to communicate with the authenticator. */
-  transports?: PostAuthenticationMethodsRequestTransportsList;
+  transports?: PostAuthenticationMethodsRequestTransportsList | undefined;
 }
 export type CreateUserAuthenticationMethodResponseContentAuthenticationMethodsList =
   Array<UserAuthenticationMethodProperties>;
@@ -16601,40 +16749,42 @@ export type CreateUserAuthenticationMethodResponseContentTransportsList = Array<
 /** The successfully created authentication method. */
 export interface CreateUserAuthenticationMethodResponseContent {
   /** The ID of the newly created authentication method (automatically generated by the application) */
-  id?: string;
+  id?: string | undefined;
   type: CreatedUserAuthenticationMethodTypeEnum;
   /** A human-readable label to identify the authentication method. */
-  name?: string;
+  name?: string | undefined;
   /** Base32 encoded secret for TOTP generation */
-  totp_secret?: string | Redacted.Redacted<string>;
+  totp_secret?: string | Redacted.Redacted<string> | undefined;
   /** Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Applies to email authentication methods only. The email address used to send verification messages. */
-  email?: string;
-  authentication_methods?: CreateUserAuthenticationMethodResponseContentAuthenticationMethodsList;
+  email?: string | undefined;
+  authentication_methods?:
+    | CreateUserAuthenticationMethodResponseContentAuthenticationMethodsList
+    | undefined;
   /** Preferred phone authentication method */
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum;
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | undefined;
   /** Applies to webauthn authenticators only. The id of the credential. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Applies to webauthn authenticators only. The public key. */
-  public_key?: string;
+  public_key?: string | undefined;
   /** Applies to passkeys only. Authenticator Attestation Globally Unique Identifier. */
-  aaguid?: string;
+  aaguid?: string | undefined;
   /** Applies to webauthn authenticators only. The relying party identifier. */
-  relying_party_identifier?: string;
-  credential_device_type?: CredentialDeviceTypeEnum;
+  relying_party_identifier?: string | undefined;
+  credential_device_type?: CredentialDeviceTypeEnum | undefined;
   /** Applies to passkeys only. Whether the credential was backed up. */
-  credential_backed_up?: boolean;
+  credential_backed_up?: boolean | undefined;
   /** Applies to passkeys only. The ID of the user identity linked with the authentication method. */
-  identity_user_id?: string;
+  identity_user_id?: string | undefined;
   /** Applies to passkeys only. The user-agent of the browser used to create the passkey. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** Applies to passkeys only. The user handle of the user identity. */
-  user_handle?: string;
+  user_handle?: string | undefined;
   /** Applies to passkeys only. The transports used by clients to communicate with the authenticator. */
-  transports?: CreateUserAuthenticationMethodResponseContentTransportsList;
+  transports?: CreateUserAuthenticationMethodResponseContentTransportsList | undefined;
   /** Authentication method creation date */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Assessors to clear. */
 export type AssessorsTypeEnum = "new-device";
@@ -16654,38 +16804,38 @@ export interface PostCredentialsRequest {
   client_id: string;
   credential_type: ClientCredentialTypeEnum | (string & {});
   /** Friendly name for a credential. */
-  name?: string;
+  name?: string | undefined;
   /** Subject Distinguished Name. Mutually exclusive with `pem` property. Applies to `cert_subject_dn` credential type. */
-  subject_dn?: string;
+  subject_dn?: string | undefined;
   /** PEM-formatted public key (SPKI and PKCS1) or X509 certificate. Must be JSON escaped. */
-  pem?: string;
-  alg?: PublicKeyCredentialAlgorithmEnum | (string & {});
+  pem?: string | undefined;
+  alg?: PublicKeyCredentialAlgorithmEnum | (string & {}) | undefined;
   /** Parse expiry from x509 certificate. If true, attempts to parse the expiry date from the provided PEM. Applies to `public_key` credential type. */
-  parse_expiry_from_cert?: boolean;
+  parse_expiry_from_cert?: boolean | undefined;
   /** The ISO 8601 formatted date representing the expiration of the credential. If not specified (not recommended), the credential never expires. Applies to `public_key` credential type. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Optional kid (Key ID), used to uniquely identify the credential. If not specified, a kid value will be auto-generated. The kid header parameter in JWTs sent by your client should match this value. Valid format is [0-9a-zA-Z-_]{10,64} */
-  kid?: string;
+  kid?: string | undefined;
 }
 export interface PostClientCredentialResponseContent {
   /** ID of the credential. Generated on creation. */
-  id?: string;
+  id?: string | undefined;
   /** The name given to the credential by the user. */
-  name?: string;
+  name?: string | undefined;
   /** The key identifier of the credential, generated on creation. */
-  kid?: string;
-  alg?: ClientCredentialAlgorithmEnum;
-  credential_type?: ClientCredentialTypeEnum;
+  kid?: string | undefined;
+  alg?: ClientCredentialAlgorithmEnum | undefined;
+  credential_type?: ClientCredentialTypeEnum | undefined;
   /** The X509 certificate's Subject Distinguished Name */
-  subject_dn?: string;
+  subject_dn?: string | undefined;
   /** The X509 certificate's SHA256 thumbprint */
-  thumbprint_sha256?: string;
+  thumbprint_sha256?: string | undefined;
   /** The ISO 8601 formatted date the credential was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 formatted date the credential was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The ISO 8601 formatted date representing the expiration of the credential. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface PostDeployActionRequest {
@@ -16699,7 +16849,7 @@ export interface PostDeployDraftVersionRequest {
   /** The ID of an action version. */
   id: string;
   /** True if the draft of the action should be updated with the reverted version. */
-  update_draft?: boolean;
+  update_draft?: boolean | undefined;
 }
 export interface PostDeployDraftVersionResponse {}
 /** The mapping between Auth0 and IDP user attributes */
@@ -16708,10 +16858,10 @@ export interface PostDirectoryProvisioningRequest {
   /** The id of the connection to create its directory provisioning configuration */
   id: string;
   /** The mapping between Auth0 and IDP user attributes */
-  mapping?: PostDirectoryProvisioningRequestMappingList;
+  mapping?: PostDirectoryProvisioningRequestMappingList | undefined;
   /** Whether periodic automatic synchronization is enabled */
-  synchronize_automatically?: boolean;
-  synchronize_groups?: SynchronizeGroupsEnum | (string & {});
+  synchronize_automatically?: boolean | undefined;
+  synchronize_groups?: SynchronizeGroupsEnum | (string & {}) | undefined;
 }
 /** The mapping between Auth0 and IDP user attributes */
 export type CreateDirectoryProvisioningResponseContentMappingList =
@@ -16727,26 +16877,26 @@ export interface CreateDirectoryProvisioningResponseContent {
   mapping: CreateDirectoryProvisioningResponseContentMappingList;
   /** Whether periodic automatic synchronization is enabled */
   synchronize_automatically: boolean;
-  synchronize_groups?: SynchronizeGroupsEnum;
+  synchronize_groups?: SynchronizeGroupsEnum | undefined;
   /** The timestamp at which the directory provisioning configuration was created */
   created_at: string;
   /** The timestamp at which the directory provisioning configuration was last updated */
   updated_at: string;
   /** The timestamp at which the connection was last synchronized */
-  last_synchronization_at?: string;
+  last_synchronization_at?: string | undefined;
   /** The status of the last synchronization */
-  last_synchronization_status?: string;
+  last_synchronization_status?: string | undefined;
   /** The error message of the last synchronization, if any */
-  last_synchronization_error?: string;
+  last_synchronization_error?: string | undefined;
 }
 export interface PostDiscoveryDomainsRequest {
   /** ID of the organization. */
   id: string;
   /** The domain name to associate with the organization e.g. acme.com. */
   domain: string;
-  status?: OrganizationDiscoveryDomainStatus | (string & {});
+  status?: OrganizationDiscoveryDomainStatus | (string & {}) | undefined;
   /** Indicates whether this domain should be used for organization discovery. */
-  use_for_organization_discovery?: boolean;
+  use_for_organization_discovery?: boolean | undefined;
 }
 export interface CreateOrganizationDiscoveryDomainResponseContent {
   /** Organization discovery domain identifier. */
@@ -16755,7 +16905,7 @@ export interface CreateOrganizationDiscoveryDomainResponseContent {
   domain: string;
   status: OrganizationDiscoveryDomainStatus;
   /** Indicates whether this domain should be used for organization discovery. */
-  use_for_organization_discovery?: boolean;
+  use_for_organization_discovery?: boolean | undefined;
   /** A unique token generated for the discovery domain. This must be placed in a DNS TXT record at the location specified by the verification_host field to prove domain ownership. */
   verification_txt: string;
   /** The full domain where the TXT record should be added. */
@@ -16824,22 +16974,22 @@ export interface Identity {
   user_id: string;
   provider: IdentityProviderEnum | (string & {});
   /** connection_id of the identity. */
-  connection_id?: string;
+  connection_id?: string | undefined;
 }
 export interface PostEmailVerificationRequest {
   /** URL the user will be redirected to in the classic Universal Login experience once the ticket is used. Cannot be specified when using client_id or organization_id. */
-  result_url?: string;
+  result_url?: string | undefined;
   /** user_id of for whom the ticket should be created. */
   user_id: string;
   /** ID of the client (application). If provided for tenants using the New Universal Login experience, the email template and UI displays application details, and the user is prompted to redirect to the application's <a target='' href='https://auth0.com/docs/authenticate/login/auth0-universal-login/configure-default-login-routes#completing-the-password-reset-flow'>default login route</a> after the ticket is used. client_id is required to use the <a target='' href='https://auth0.com/docs/customize/actions/flows-and-triggers/post-change-password-flow'>Password Reset Post Challenge</a> trigger. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** (Optional) Organization ID - the ID of the Organization. If provided, organization parameters will be made available to the email template and organization branding will be applied to the prompt. In addition, the redirect link in the prompt will include organization_id and organization_name query string parameters. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Number of seconds for which the ticket is valid before expiration. If unspecified or set to 0, this value defaults to 432000 seconds (5 days). */
-  ttl_sec?: number;
+  ttl_sec?: number | undefined;
   /** Whether to include the email address as part of the returnUrl in the reset_email (true), or not (false). */
-  includeEmailInRedirect?: boolean;
-  identity?: Identity;
+  includeEmailInRedirect?: boolean | undefined;
+  identity?: Identity | undefined;
 }
 export interface VerifyEmailTicketResponseContent {
   /** URL representing the ticket. */
@@ -16852,22 +17002,22 @@ export interface PostEnabledConnectionsRequest {
   /** Single connection ID to add to the organization. */
   connection_id: string;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
+  is_signup_enabled?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
 }
 export interface AddOrganizationConnectionResponseContent {
   /** ID of the connection. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  connection?: OrganizationConnectionInformation;
+  is_signup_enabled?: boolean | undefined;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 /** Type of the encryption key to be created. */
 export type CreateEncryptionKeyType = "customer-provided-root-key" | "tenant-encryption-key";
@@ -16885,9 +17035,9 @@ export interface CreateEncryptionKeyResponseContent {
   /** Key update timestamp */
   updated_at: string;
   /** ID of parent wrapping key */
-  parent_kid?: string | null;
+  parent_kid?: string | null | undefined;
   /** Public key in PEM format */
-  public_key?: string | null;
+  public_key?: string | null | undefined;
 }
 export interface PostEncryptionKeyRequest {
   /** Encryption key ID */
@@ -16906,9 +17056,9 @@ export interface ImportEncryptionKeyResponseContent {
   /** Key update timestamp */
   updated_at: string;
   /** ID of parent wrapping key */
-  parent_kid?: string | null;
+  parent_kid?: string | null | undefined;
   /** Public key in PEM format */
-  public_key?: string | null;
+  public_key?: string | null | undefined;
 }
 export interface PostEncryptionRekeyRequest {}
 export interface PostEncryptionRekeyResponse {}
@@ -16928,13 +17078,13 @@ export interface PostIdentitiesRequest {
   /** ID of the primary user account to link a second user account to. */
   id: string;
   /** Identity provider of the secondary user account being linked. */
-  provider?: UserIdentityProviderEnum | (string & {});
+  provider?: UserIdentityProviderEnum | (string & {}) | undefined;
   /** connection_id of the secondary user account being linked when more than one `auth0` database provider exists. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** user_id of the secondary user account being linked. */
-  user_id?: UserId;
+  user_id?: UserId | undefined;
   /** JWT for the secondary account being linked. If sending this parameter, `provider`, `user_id`, and `connection_id` must not be sent. */
-  link_with?: string;
+  link_with?: string | undefined;
 }
 export interface UserIdentity {
   /** Connection name of this identity. */
@@ -16943,15 +17093,15 @@ export interface UserIdentity {
   user_id: UserId;
   /** Type of identity provider. */
   provider: string;
-  profileData?: UserProfileData;
+  profileData?: UserProfileData | undefined;
   /** Whether the identity provider is a social provider (true) or not (false). */
-  isSocial?: boolean;
+  isSocial?: boolean | undefined;
   /** IDP access token returned if scope `read:user_idp_tokens` is defined. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** IDP access token secret returned only if `scope read:user_idp_tokens` is defined. */
-  access_token_secret?: string | Redacted.Redacted<string>;
+  access_token_secret?: string | Redacted.Redacted<string> | undefined;
   /** IDP refresh token returned only if scope `read:user_idp_tokens` is defined. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** An array of objects with information about the user's identities. */
 export type PostIdentitiesResponseBodyList = Array<UserIdentity>;
@@ -16971,41 +17121,41 @@ export interface PostInvitationsRequest {
   /** Auth0 client ID. Used to resolve the application's login initiation endpoint. */
   client_id: string;
   /** The id of the connection to force invitee to authenticate with. */
-  connection_id?: string;
-  app_metadata?: AppMetadata;
-  user_metadata?: UserMetadata;
+  connection_id?: string | undefined;
+  app_metadata?: AppMetadata | undefined;
+  user_metadata?: UserMetadata | undefined;
   /** Number of seconds for which the invitation is valid before expiration. If unspecified or set to 0, this value defaults to 604800 seconds (7 days). Max value: 2592000 seconds (30 days). */
-  ttl_sec?: number;
+  ttl_sec?: number | undefined;
   /** List of roles IDs to associated with the user. */
-  roles?: PostInvitationsRequestRolesList;
+  roles?: PostInvitationsRequestRolesList | undefined;
   /** Whether the user will receive an invitation email (true) or no email (false), true by default */
-  send_invitation_email?: boolean;
+  send_invitation_email?: boolean | undefined;
 }
 /** List of roles IDs to associated with the user. */
 export type CreateOrganizationInvitationResponseContentRolesList = Array<string>;
 export interface CreateOrganizationInvitationResponseContent {
   /** The id of the user invitation. */
-  id?: string;
+  id?: string | undefined;
   /** Organization identifier. */
-  organization_id?: string;
-  inviter?: OrganizationInvitationInviter;
-  invitee?: OrganizationInvitationInvitee;
+  organization_id?: string | undefined;
+  inviter?: OrganizationInvitationInviter | undefined;
+  invitee?: OrganizationInvitationInvitee | undefined;
   /** The invitation url to be send to the invitee. */
-  invitation_url?: string;
+  invitation_url?: string | undefined;
   /** The ISO 8601 formatted timestamp representing the creation time of the invitation. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 formatted timestamp representing the expiration time of the invitation. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Auth0 client ID. Used to resolve the application's login initiation endpoint. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The id of the connection to force invitee to authenticate with. */
-  connection_id?: string;
-  app_metadata?: AppMetadata;
-  user_metadata?: UserMetadata;
+  connection_id?: string | undefined;
+  app_metadata?: AppMetadata | undefined;
+  user_metadata?: UserMetadata | undefined;
   /** List of roles IDs to associated with the user. */
-  roles?: CreateOrganizationInvitationResponseContentRolesList;
+  roles?: CreateOrganizationInvitationResponseContentRolesList | undefined;
   /** The id of the invitation ticket */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
 }
 /** Selected Signing Algorithm */
 export type PostConnectionKeysAlgEnum =
@@ -17019,7 +17169,7 @@ export type PostConnectionKeysAlgEnum =
 export interface PostKeysRequest {
   /** ID of the connection */
   id: string;
-  signing_alg?: PostConnectionKeysAlgEnum | (string & {});
+  signing_alg?: PostConnectionKeysAlgEnum | (string & {}) | undefined;
 }
 export interface PostConnectionsKeysResponseContentItem {
   /** The key id of the signing key */
@@ -17027,21 +17177,21 @@ export interface PostConnectionsKeysResponseContentItem {
   /** The public certificate of the signing key */
   cert: string;
   /** The public certificate of the signing key in pkcs7 format */
-  pkcs?: string;
+  pkcs?: string | undefined;
   /** True if the key is the current key */
-  current?: boolean;
+  current?: boolean | undefined;
   /** True if the key is the next key */
-  next?: boolean;
+  next?: boolean | undefined;
   /** The date and time when the key became the current key */
-  current_since?: string;
+  current_since?: string | undefined;
   /** The cert fingerprint */
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
   /** Signing key algorithm */
-  algorithm?: string;
-  key_use?: ConnectionKeyUseEnum;
-  subject_dn?: string;
+  algorithm?: string | undefined;
+  key_use?: ConnectionKeyUseEnum | undefined;
+  subject_dn?: string | undefined;
   [key: string]: unknown;
 }
 export type PostConnectionsKeysResponseContent = Array<PostConnectionsKeysResponseContentItem>;
@@ -17063,28 +17213,28 @@ export interface ChangePasswordTicketIdentity {
   user_id: string;
   provider: IdentityProviderOnlyAuth0Enum | (string & {});
   /** connection_id of the identity. */
-  connection_id?: string;
+  connection_id?: string | undefined;
 }
 export interface PostPasswordChangeRequest {
   /** URL the user will be redirected to in the classic Universal Login experience once the ticket is used. Cannot be specified when using organization_id. May be specified together with client_id when the tenant has a custom password reset page enabled and a password-reset-post-challenge Action bound. */
-  result_url?: string;
+  result_url?: string | undefined;
   /** user_id of for whom the ticket should be created. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** ID of the client (application). If provided for tenants using the New Universal Login experience, the email template and UI displays application details, and the user is prompted to redirect to the application's <a target='' href='https://auth0.com/docs/authenticate/login/auth0-universal-login/configure-default-login-routes#completing-the-password-reset-flow'>default login route</a> after the ticket is used. client_id is required to use the <a target='' href='https://auth0.com/docs/customize/actions/flows-and-triggers/post-change-password-flow'>Password Reset Post Challenge</a> trigger. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** (Optional) Organization ID - the ID of the Organization. If provided, organization parameters will be made available to the email template and organization branding will be applied to the prompt. In addition, the redirect link in the prompt will include organization_id and organization_name query string parameters. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** ID of the connection. If provided, allows the user to be specified using email instead of user_id. If you set this value, you must also send the email parameter. You cannot send user_id when specifying a connection_id. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Email address of the user for whom the tickets should be created. Requires the connection_id parameter. Cannot be specified when using user_id. */
-  email?: string;
+  email?: string | undefined;
   /** Number of seconds for which the ticket is valid before expiration. If unspecified or set to 0, this value defaults to 432000 seconds (5 days). */
-  ttl_sec?: number;
+  ttl_sec?: number | undefined;
   /** Whether to set the email_verified attribute to true (true) or whether it should not be updated (false). */
-  mark_email_as_verified?: boolean;
+  mark_email_as_verified?: boolean | undefined;
   /** Whether to include the email address as part of the returnUrl in the reset_email (true), or not (false). */
-  includeEmailInRedirect?: boolean;
-  identity?: ChangePasswordTicketIdentity;
+  includeEmailInRedirect?: boolean | undefined;
+  identity?: ChangePasswordTicketIdentity | undefined;
 }
 export interface ChangePasswordTicketResponseContent {
   /** URL representing the ticket. */
@@ -17103,21 +17253,21 @@ export interface PostPermissionsResponse {}
 export interface PostProviderRequest {
   name: EmailProviderNameEnum | (string & {});
   /** Whether the provider is enabled (true) or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Email address to use as "from" when no other address specified. */
-  default_from_address?: string;
+  default_from_address?: string | undefined;
   credentials: EmailProviderCredentialsSchema;
-  settings?: EmailSpecificProviderSettingsWithAdditionalProperties | null;
+  settings?: EmailSpecificProviderSettingsWithAdditionalProperties | null | undefined;
 }
 export interface CreateEmailProviderResponseContent {
   /** Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `resend`, `ses`, `sparkpost`, `smtp`, `azure_cs`, `ms365`, or `custom`. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the provider is enabled (true) or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Email address to use as "from" when no other address specified. */
-  default_from_address?: string;
-  credentials?: EmailProviderCredentials;
-  settings?: EmailProviderSettings;
+  default_from_address?: string | undefined;
+  credentials?: EmailProviderCredentials | undefined;
+  settings?: EmailProviderSettings | undefined;
 }
 export interface PostRecoveryCodeRegenerationRequest {
   /** ID of the user to regenerate a multi-factor authentication recovery code for. */
@@ -17125,7 +17275,7 @@ export interface PostRecoveryCodeRegenerationRequest {
 }
 export interface RegenerateUsersRecoveryCodeResponseContent {
   /** New account recovery code. */
-  recovery_code?: string;
+  recovery_code?: string | undefined;
   [key: string]: unknown;
 }
 /** Filter by status */
@@ -17162,13 +17312,13 @@ export interface PostRedeliverRequest {
   /** Unique identifier for the event stream. */
   id: string;
   /** An RFC-3339 date-time for redelivery start, inclusive. Does not allow sub-second precision. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** An RFC-3339 date-time for redelivery end, exclusive. Does not allow sub-second precision. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter by status */
-  statuses?: PostRedeliverRequestStatusesList;
+  statuses?: PostRedeliverRequestStatusesList | undefined;
   /** Filter by event type */
-  event_types?: PostRedeliverRequestEventTypesList;
+  event_types?: PostRedeliverRequestEventTypesList | undefined;
 }
 export interface PostRedeliverResponse {}
 export interface PostRedeliverByEventIdRequest {
@@ -17206,7 +17356,7 @@ export type RotateConnectionKeysSigningAlgEnum =
 export interface PostRotateRequest {
   /** ID of the connection */
   id: string;
-  signing_alg?: RotateConnectionKeysSigningAlgEnum | (string & {});
+  signing_alg?: RotateConnectionKeysSigningAlgEnum | (string & {}) | undefined;
 }
 export interface RotateConnectionsKeysResponseContent {
   /** The key id of the signing key */
@@ -17214,17 +17364,17 @@ export interface RotateConnectionsKeysResponseContent {
   /** The public certificate of the signing key */
   cert: string;
   /** The public certificate of the signing key in pkcs7 format */
-  pkcs?: string;
+  pkcs?: string | undefined;
   /** True if the key is the the next key */
-  next?: boolean;
+  next?: boolean | undefined;
   /** The cert fingerprint */
   fingerprint: string;
   /** The cert thumbprint */
   thumbprint: string;
   /** Signing key algorithm */
-  algorithm?: string;
-  key_use?: ConnectionKeyUseEnum;
-  subject_dn?: string;
+  algorithm?: string | undefined;
+  key_use?: ConnectionKeyUseEnum | undefined;
+  subject_dn?: string | undefined;
   [key: string]: unknown;
 }
 export interface PostRotateSecretRequest {
@@ -17250,114 +17400,120 @@ export type RotateClientSecretResponseContentOrganizationDiscoveryMethodsList =
   Array<ClientOrganizationDiscoveryEnum>;
 export interface RotateClientSecretResponseContent {
   /** ID of this client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ISO 8601 timestamp of when this client was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 timestamp of when this client was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Name of the tenant this client belongs to. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
-  name?: string;
+  name?: string | undefined;
   /** Free text description of this client (max length: 140 characters). */
-  description?: string;
+  description?: string | undefined;
   /** Whether this is your global 'All Applications' client representing legacy tenant settings (true) or a regular client (false). */
-  global?: boolean;
+  global?: boolean | undefined;
   /** Client secret (which you must not make public). */
-  client_secret?: string | Redacted.Redacted<string>;
-  app_type?: ClientAppTypeEnum;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  app_type?: ClientAppTypeEnum | undefined;
   /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether this client a first party client (true) or not (false). */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean;
+  oidc_conformant?: boolean | undefined;
   /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: RotateClientSecretResponseContentCallbacksList;
+  callbacks?: RotateClientSecretResponseContentCallbacksList | undefined;
   /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: RotateClientSecretResponseContentAllowedOriginsList;
+  allowed_origins?: RotateClientSecretResponseContentAllowedOriginsList | undefined;
   /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: RotateClientSecretResponseContentWebOriginsList;
+  web_origins?: RotateClientSecretResponseContentWebOriginsList | undefined;
   /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: RotateClientSecretResponseContentClientAliasesList;
+  client_aliases?: RotateClientSecretResponseContentClientAliasesList | undefined;
   /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: RotateClientSecretResponseContentAllowedClientsList;
+  allowed_clients?: RotateClientSecretResponseContentAllowedClientsList | undefined;
   /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: RotateClientSecretResponseContentAllowedLogoutUrlsList;
-  session_transfer?: ClientSessionTransferConfiguration | null;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  allowed_logout_urls?: RotateClientSecretResponseContentAllowedLogoutUrlsList | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: RotateClientSecretResponseContentGrantTypesList;
-  jwt_configuration?: ClientJwtConfiguration;
-  signing_keys?: ClientSigningKeys | null;
-  encryption_key?: ClientEncryptionKey | null;
+  grant_types?: RotateClientSecretResponseContentGrantTypesList | undefined;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
+  signing_keys?: ClientSigningKeys | null | undefined;
+  encryption_key?: ClientEncryptionKey | null | undefined;
   /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether Single Sign On is disabled (true) or enabled (true). Defaults to true. */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string;
+  cross_origin_loc?: string | undefined;
   /** Whether a custom login page is to be used (true) or the default provided login page (false). */
-  custom_login_page_on?: boolean;
+  custom_login_page_on?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string;
+  custom_login_page?: string | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string;
+  custom_login_page_preview?: string | undefined;
   /** HTML form template to be used for WS-Federation. */
-  form_template?: string;
-  addons?: ClientAddons;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum;
+  form_template?: string | undefined;
+  addons?: ClientAddons | undefined;
+  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  client_metadata?: ClientMetadata;
-  mobile?: ClientMobile;
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  client_metadata?: ClientMetadata | undefined;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLogin;
-  fedcm_login?: FedCMLogin;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsageEnum;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum;
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLogin | undefined;
+  fedcm_login?: FedCMLogin | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsageEnum | undefined;
+  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: RotateClientSecretResponseContentOrganizationDiscoveryMethodsList;
-  client_authentication_methods?: ClientAuthenticationMethod | null;
+  organization_discovery_methods?:
+    | RotateClientSecretResponseContentOrganizationDiscoveryMethodsList
+    | undefined;
+  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId;
-  compliance_level?: ClientComplianceLevelEnum | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
+  compliance_level?: ClientComplianceLevelEnum | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean;
-  token_exchange?: ClientTokenExchangeConfiguration;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
+  token_exchange?: ClientTokenExchangeConfiguration | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  token_quota?: CreateTokenQuota;
-  express_configuration?: ExpressConfiguration;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationResponseConfiguration;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant;
-  anonymous_sessions?: CreateAnonymousSessions;
-  enforce_anon_session_transfer_network_binding?: ClientAnonymousSessionTransferNetworkBindingEnum;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum;
-  oidc_support?: ClientOidcSupport;
-  redirection_policy?: ClientRedirectionPolicyEnum;
+  par_request_expiry?: number | null | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  express_configuration?: ExpressConfiguration | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | undefined;
+  enforce_anon_session_transfer_network_binding?:
+    | ClientAnonymousSessionTransferNetworkBindingEnum
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | undefined;
+  oidc_support?: ClientOidcSupport | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | undefined;
   /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration;
-  external_metadata_type?: ClientExternalMetadataTypeEnum;
-  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum;
-  external_metadata_status?: ClientExternalMetadataStatusEnum;
+  resource_server_identifier?: string | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
+    | undefined;
+  external_metadata_type?: ClientExternalMetadataTypeEnum | undefined;
+  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum | undefined;
+  external_metadata_status?: ClientExternalMetadataStatusEnum | undefined;
   /** ID of the agent associated with this client. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** An alternate client identifier to be used during authorization flows. Only supports CIMD-based client identifiers. */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** URL for the JSON Web Key Set (JWKS) containing the public keys used for private_key_jwt authentication. Only present for CIMD clients using private_key_jwt authentication. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   [key: string]: unknown;
 }
 /** The mapping between auth0 and SCIM */
@@ -17366,9 +17522,9 @@ export interface PostScimConfigurationRequest {
   /** The id of the connection to create its SCIM configuration */
   id: string;
   /** User ID attribute for generating unique user ids */
-  user_id_attribute?: string;
+  user_id_attribute?: string | undefined;
   /** The mapping between auth0 and SCIM */
-  mapping?: PostScimConfigurationRequestMappingList;
+  mapping?: PostScimConfigurationRequestMappingList | undefined;
 }
 /** The mapping between auth0 and SCIM */
 export type CreateScimConfigurationResponseContentMappingList = Array<ScimMappingItem>;
@@ -17396,30 +17552,30 @@ export interface PostScimTokenRequest {
   /** The id of the connection to create its SCIM token */
   id: string;
   /** The scopes of the scim token */
-  scopes?: PostScimTokenRequestScopesList;
+  scopes?: PostScimTokenRequestScopesList | undefined;
   /** Lifetime of the token in seconds. Must be greater than 900 */
-  token_lifetime?: number | null;
+  token_lifetime?: number | null | undefined;
 }
 /** The scopes of the scim token */
 export type CreateScimTokenResponseContentScopesList = Array<string>;
 export interface CreateScimTokenResponseContent {
   /** The token's identifier */
-  token_id?: string;
+  token_id?: string | undefined;
   /** The scim client's token */
-  token?: string;
+  token?: string | undefined;
   /** The scopes of the scim token */
-  scopes?: CreateScimTokenResponseContentScopesList;
+  scopes?: CreateScimTokenResponseContentScopesList | undefined;
   /** The token's created at timestamp */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The token's valid until at timestamp */
-  valid_until?: string;
+  valid_until?: string | undefined;
 }
 /** Hashmap of key-value pairs where the value must be a string. */
 export type CreateHookSecretRequestContent = { [key: string]: string | undefined };
 export interface PostSecretsRequest {
   /** The id of the hook to retrieve */
   id: string;
-  body?: CreateHookSecretRequestContent;
+  body?: CreateHookSecretRequestContent | undefined;
 }
 export interface PostSecretsResponse {}
 export interface PostSigningKeysRequest {}
@@ -17440,33 +17596,36 @@ export type SelfServiceProfileSsoTicketIdpInitiatedClientProtocolEnum =
 /** Allows IdP-initiated login */
 export interface SelfServiceProfileSsoTicketIdpInitiatedOptions {
   /** Enables IdP-initiated login for this connection */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Default application <code>client_id</code> user is redirected to after validated SAML response */
-  client_id?: string;
-  client_protocol?: SelfServiceProfileSsoTicketIdpInitiatedClientProtocolEnum | (string & {});
+  client_id?: string | undefined;
+  client_protocol?:
+    | SelfServiceProfileSsoTicketIdpInitiatedClientProtocolEnum
+    | (string & {})
+    | undefined;
   /** Query string options to customize the behaviour for OpenID Connect when <code>idpinitiated.client_protocol</code> is <code>oauth2</code>. Allowed parameters: <code>redirect_uri</code>, <code>scope</code>, <code>response_type</code>. For example, <code>redirect_uri=https://jwt.io&scope=openid email&response_type=token</code> */
-  client_authorizequery?: string;
+  client_authorizequery?: string | undefined;
 }
 /** The connection's options (depend on the connection strategy) */
 export interface SelfServiceProfileSsoTicketConnectionOptions {
   /** URL for the icon. Must use HTTPS. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** List of domain_aliases that can be authenticated in the Identity Provider */
-  domain_aliases?: SelfServiceProfileSsoTicketConnectionOptionsDomainAliasesList | null;
-  idpinitiated?: SelfServiceProfileSsoTicketIdpInitiatedOptions | null;
+  domain_aliases?: SelfServiceProfileSsoTicketConnectionOptionsDomainAliasesList | null | undefined;
+  idpinitiated?: SelfServiceProfileSsoTicketIdpInitiatedOptions | null | undefined;
 }
 /** If provided, this will create a new connection for the Self-Service Enterprise Configuration flow with the given configuration */
 export interface SelfServiceProfileSsoTicketConnectionConfig {
   /** The name of the connection that will be created as a part of the Self-Service Enterprise Configuration flow. */
   name: string;
   /** Connection name used in the new universal login experience */
-  display_name?: string;
+  display_name?: string | undefined;
   /** <code>true</code> promotes to a domain-level connection so that third-party applications can use it. <code>false</code> does not promote the connection, so only first-party applications with the connection enabled can use it. (Defaults to <code>false</code>.) */
-  is_domain_connection?: boolean;
+  is_domain_connection?: boolean | undefined;
   /** Enables showing a button for the connection in the login page (new experience only). If false, it will be usable only by HRD. (Defaults to <code>false</code>.) */
-  show_as_button?: boolean;
-  metadata?: ConnectionsMetadata;
-  options?: SelfServiceProfileSsoTicketConnectionOptions | null;
+  show_as_button?: boolean | undefined;
+  metadata?: ConnectionsMetadata | undefined;
+  options?: SelfServiceProfileSsoTicketConnectionOptions | null | undefined;
 }
 /** List of client_ids that the connection will be enabled for. */
 export type PostSsoTicketRequestEnabledClientsList = Array<string>;
@@ -17474,9 +17633,9 @@ export interface SelfServiceProfileSsoTicketEnabledOrganization {
   /** Organization identifier. */
   organization_id: string;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
 }
 /** List of organizations that the connection will be enabled for. */
 export type PostSsoTicketRequestEnabledOrganizationsList =
@@ -17489,7 +17648,7 @@ export type SelfServiceProfileSsoTicketDomainAliasesConfigPendingDomainsList = A
 export interface SelfServiceProfileSsoTicketDomainAliasesConfig {
   domain_verification: SelfServiceProfileSsoTicketDomainVerificationEnum | (string & {});
   /** List of domains that will be submitted for verification during the Self-Service Enterprise Configuration flow. */
-  pending_domains?: SelfServiceProfileSsoTicketDomainAliasesConfigPendingDomainsList;
+  pending_domains?: SelfServiceProfileSsoTicketDomainAliasesConfigPendingDomainsList | undefined;
 }
 export type SelfServiceProfileSsoTicketProvisioningScopeEnum =
   | "get:users"
@@ -17511,15 +17670,15 @@ export interface SelfServiceProfileSsoTicketGoogleWorkspaceConfig {
   /** Whether to enable Google Workspace Directory Sync for users during the self-service flow. */
   sync_users: boolean;
   /** Whether to enable Google Workspace Directory Sync for groups during the self-service flow. */
-  sync_groups?: boolean;
+  sync_groups?: boolean | undefined;
 }
 /** Configuration for the setup of Provisioning in the self-service flow. */
 export interface SelfServiceProfileSsoTicketProvisioningConfig {
   /** The scopes of the SCIM tokens generated during the self-service flow. */
-  scopes?: SelfServiceProfileSsoTicketProvisioningConfigScopesList;
-  google_workspace?: SelfServiceProfileSsoTicketGoogleWorkspaceConfig;
+  scopes?: SelfServiceProfileSsoTicketProvisioningConfigScopesList | undefined;
+  google_workspace?: SelfServiceProfileSsoTicketGoogleWorkspaceConfig | undefined;
   /** Lifetime of the tokens in seconds. Must be greater than 900. If not provided, the tokens don't expire. */
-  token_lifetime?: number | null;
+  token_lifetime?: number | null | undefined;
 }
 /** Configuration for Third Party Client Access during the Self-Service Enterprise Configuration flow. */
 export interface ThirdPartyClientAccessConfig {
@@ -17529,34 +17688,34 @@ export interface ThirdPartyClientAccessConfig {
 /** Specifies which features are enabled for an "edit connection" ticket. Only applicable when connection ID is provided. */
 export interface SelfServiceProfileSsoTicketEnabledFeatures {
   /** Whether SSO configuration is enabled in this ticket. */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether domain verification is enabled in this ticket. */
-  domain_verification?: boolean;
+  domain_verification?: boolean | undefined;
   /** Whether provisioning configuration is enabled in this ticket. */
-  provisioning?: boolean;
+  provisioning?: boolean | undefined;
 }
 export interface PostSsoTicketRequest {
   /** The id of the self-service profile to retrieve */
   id: string;
   /** If provided, this will allow editing of the provided connection during the Self-Service Enterprise Configuration flow */
-  connection_id?: string;
-  connection_config?: SelfServiceProfileSsoTicketConnectionConfig;
+  connection_id?: string | undefined;
+  connection_config?: SelfServiceProfileSsoTicketConnectionConfig | undefined;
   /** List of client_ids that the connection will be enabled for. */
-  enabled_clients?: PostSsoTicketRequestEnabledClientsList;
+  enabled_clients?: PostSsoTicketRequestEnabledClientsList | undefined;
   /** List of organizations that the connection will be enabled for. */
-  enabled_organizations?: PostSsoTicketRequestEnabledOrganizationsList;
+  enabled_organizations?: PostSsoTicketRequestEnabledOrganizationsList | undefined;
   /** Number of seconds for which the ticket is valid before expiration. If unspecified or set to 0, this value defaults to 432000 seconds (5 days). */
-  ttl_sec?: number;
-  domain_aliases_config?: SelfServiceProfileSsoTicketDomainAliasesConfig;
-  provisioning_config?: SelfServiceProfileSsoTicketProvisioningConfig;
+  ttl_sec?: number | undefined;
+  domain_aliases_config?: SelfServiceProfileSsoTicketDomainAliasesConfig | undefined;
+  provisioning_config?: SelfServiceProfileSsoTicketProvisioningConfig | undefined;
   /** Indicates whether a verified domain should be used for organization discovery during authentication. */
-  use_for_organization_discovery?: boolean;
-  third_party_client_access_config?: ThirdPartyClientAccessConfig;
-  enabled_features?: SelfServiceProfileSsoTicketEnabledFeatures;
+  use_for_organization_discovery?: boolean | undefined;
+  third_party_client_access_config?: ThirdPartyClientAccessConfig | undefined;
+  enabled_features?: SelfServiceProfileSsoTicketEnabledFeatures | undefined;
 }
 export interface CreateSelfServiceProfileSsoTicketResponseContent {
   /** The URL for the created ticket. */
-  ticket?: string;
+  ticket?: string | undefined;
 }
 export interface PostSynchronizationsRequest {
   /** The id of the connection to trigger synchronization for */
@@ -17589,7 +17748,7 @@ export interface PostTestActionRequest {
 /** The resulting payload after an action was executed. */
 export type TestActionResultPayload = { [key: string]: unknown | undefined };
 export interface TestActionResponseContent {
-  payload?: TestActionResultPayload;
+  payload?: TestActionResultPayload | undefined;
 }
 export interface PostTestDomainRequest {
   /** ID of the custom domain to test. */
@@ -17599,7 +17758,7 @@ export interface TestCustomDomainResponseContent {
   /** Result of the operation. */
   success: boolean;
   /** Message describing the operation status. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The type of event this test event represents. */
 export type EventStreamTestEventTypeEnum =
@@ -17634,7 +17793,7 @@ export interface PostTestEventRequest {
   /** Unique identifier for the event stream. */
   id: string;
   event_type: EventStreamTestEventTypeEnum | (string & {});
-  data?: TestEventDataContent;
+  data?: TestEventDataContent | undefined;
 }
 export interface PostTestEventResponse {}
 /** Optional. Specifies which factor the user must enroll with.<br />Note: Parameter can only be used with Universal Login; it cannot be used with Classic Login or custom MFA pages. */
@@ -17649,38 +17808,38 @@ export interface PostTicketRequest {
   /** user_id for the enrollment ticket */
   user_id: string;
   /** alternate email to which the enrollment email will be sent. Optional - by default, the email will be sent to the user's default address */
-  email?: string;
+  email?: string | undefined;
   /** Send an email to the user to start the enrollment */
-  send_mail?: boolean;
+  send_mail?: boolean | undefined;
   /** Optional. Specify the locale of the enrollment email. Used with send_email. */
-  email_locale?: string;
-  factor?: GuardianEnrollmentFactorEnum | (string & {});
+  email_locale?: string | undefined;
+  factor?: GuardianEnrollmentFactorEnum | (string & {}) | undefined;
   /** Optional. Allows a user who has previously enrolled in MFA to enroll with additional factors.<br />Note: Parameter can only be used with Universal Login; it cannot be used with Classic Login or custom MFA pages. */
-  allow_multiple_enrollments?: boolean;
+  allow_multiple_enrollments?: boolean | undefined;
 }
 export interface CreateGuardianEnrollmentTicketResponseContent {
   /** The ticket_id used to identify the enrollment */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
   /** The url you can use to start enrollment */
-  ticket_url?: string;
+  ticket_url?: string | undefined;
   [key: string]: unknown;
 }
 export interface CreateExportUsersFields {
   /** Name of the field in the profile. */
   name: string;
   /** Title of the column in the exported CSV. */
-  export_as?: string;
+  export_as?: string | undefined;
 }
 /** List of fields to be included in the CSV. Defaults to a predefined set of fields. */
 export type PostUsersExportsRequestFieldsList = Array<CreateExportUsersFields>;
 export interface PostUsersExportsRequest {
   /** connection_id of the connection from which users will be exported. */
-  connection_id?: string;
-  format?: JobFileFormatEnum | (string & {});
+  connection_id?: string | undefined;
+  format?: JobFileFormatEnum | (string & {}) | undefined;
   /** Limit the number of records. */
-  limit?: number;
+  limit?: number | undefined;
   /** List of fields to be included in the CSV. Defaults to a predefined set of fields. */
-  fields?: PostUsersExportsRequestFieldsList;
+  fields?: PostUsersExportsRequestFieldsList | undefined;
 }
 /** List of fields to be included in the CSV. Defaults to a predefined set of fields. */
 export type CreateExportUsersResponseContentFieldsList = Array<CreateExportUsersFields>;
@@ -17690,16 +17849,16 @@ export interface CreateExportUsersResponseContent {
   /** Type of job this is. */
   type: string;
   /** When this job was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** ID of this job. */
   id: string;
   /** connection_id of the connection from which users will be exported. */
-  connection_id?: string;
-  format?: JobFileFormatEnum;
+  connection_id?: string | undefined;
+  format?: JobFileFormatEnum | undefined;
   /** Limit the number of records. */
-  limit?: number;
+  limit?: number | undefined;
   /** List of fields to be included in the CSV. Defaults to a predefined set of fields. */
-  fields?: CreateExportUsersResponseContentFieldsList;
+  fields?: CreateExportUsersResponseContentFieldsList | undefined;
   [key: string]: unknown;
 }
 export interface PostUsersImportsRequest {
@@ -17707,11 +17866,11 @@ export interface PostUsersImportsRequest {
   /** connection_id of the connection to which users will be imported. */
   connection_id: string;
   /** Whether to update users if they already exist (true) or to ignore them (false). */
-  upsert?: boolean;
+  upsert?: boolean | undefined;
   /** Customer-defined ID. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Whether to send a completion email to all tenant owners when the job is finished (true) or not (false). */
-  send_completion_email?: boolean;
+  send_completion_email?: boolean | undefined;
 }
 export interface PostUsersImportsResponse {}
 export interface PostVcTemplatesRequest {
@@ -17719,37 +17878,37 @@ export interface PostVcTemplatesRequest {
   type: string;
   dialect: string;
   presentation: MdlPresentationRequest;
-  custom_certificate_authority?: string | null;
+  custom_certificate_authority?: string | null | undefined;
   well_known_trusted_issuers: string;
 }
 export interface CreateVerifiableCredentialTemplateResponseContent {
   /** The id of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the template. */
-  type?: string;
+  type?: string | undefined;
   /** The dialect of the template. */
-  dialect?: string;
-  presentation?: MdlPresentationRequest;
+  dialect?: string | undefined;
+  presentation?: MdlPresentationRequest | undefined;
   /** The custom certificate authority. */
-  custom_certificate_authority?: string | null;
+  custom_certificate_authority?: string | null | undefined;
   /** The well-known trusted issuers, comma separated. */
-  well_known_trusted_issuers?: string | null;
+  well_known_trusted_issuers?: string | null | undefined;
   /** The date and time the template was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the template was created. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface PostVerificationEmailRequest {
   /** user_id of the user to send the verification email to. */
   user_id: string;
   /** client_id of the client (application). If no value provided, the global Client ID will be used. */
-  client_id?: string;
-  identity?: Identity;
+  client_id?: string | undefined;
+  identity?: Identity | undefined;
   /** (Optional) Organization ID - the ID of the Organization. If provided, organization parameters will be made available to the email template and organization branding will be applied to the prompt. In addition, the redirect link in the prompt will include organization_id and organization_name query string parameters. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 export interface CreateVerificationEmailResponseContent {
   /** Status of this job. */
@@ -17757,7 +17916,7 @@ export interface CreateVerificationEmailResponseContent {
   /** Type of job this is. */
   type: string;
   /** When this job was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** ID of this job. */
   id: string;
   [key: string]: unknown;
@@ -17776,73 +17935,75 @@ export interface VerifyCustomDomainResponseContent {
   status: CustomDomainStatusFilterEnum;
   type: CustomDomainTypeEnum;
   /** CNAME API key header. */
-  cname_api_key?: string;
+  cname_api_key?: string | undefined;
   /** Intermediate address. */
-  origin_domain_name?: string;
-  verification?: DomainVerification;
+  origin_domain_name?: string | undefined;
+  verification?: DomainVerification | undefined;
   /** The HTTP header to fetch the client's IP address */
-  custom_client_ip_header?: string | null;
+  custom_client_ip_header?: string | null | undefined;
   /** The TLS version policy */
-  tls_policy?: string;
-  domain_metadata?: DomainMetadata;
-  certificate?: DomainCertificate;
+  tls_policy?: string | undefined;
+  domain_metadata?: DomainMetadata | undefined;
+  certificate?: DomainCertificate | undefined;
 }
 export interface PutApnsRequest {
-  sandbox?: boolean;
-  bundle_id?: string | null;
-  p12?: string | null;
+  sandbox?: boolean | undefined;
+  bundle_id?: string | null | undefined;
+  p12?: string | null | undefined;
 }
 export interface SetGuardianFactorsProviderPushNotificationApnsResponseContent {
-  sandbox?: boolean;
-  bundle_id?: string | null;
+  sandbox?: boolean | undefined;
+  bundle_id?: string | null | undefined;
 }
 export type AuthenticationTypeEnum = "phone" | "email" | "totp";
 export interface SetUserAuthenticationMethods {
   type: AuthenticationTypeEnum | (string & {});
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum | (string & {});
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | (string & {}) | undefined;
   /** AA human-readable label to identify the authentication method. */
-  name?: string;
+  name?: string | undefined;
   /** Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Applies to email authentication methods only. The email address used to send verification messages. */
-  email?: string;
+  email?: string | undefined;
   /** Applies to totp authentication methods only. The base32 encoded secret for TOTP generation. */
-  totp_secret?: string | Redacted.Redacted<string>;
+  totp_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type SetUserAuthenticationMethodsRequestContent = Array<SetUserAuthenticationMethods>;
 export interface PutAuthenticationMethodsRequest {
   /** The ID of the user in question. */
   id: string;
-  body?: SetUserAuthenticationMethodsRequestContent;
+  body?: SetUserAuthenticationMethodsRequestContent | undefined;
 }
 export type SetUserAuthenticationMethodResponseContentAuthenticationMethodsList =
   Array<UserAuthenticationMethodProperties>;
 /** The successfully created authentication method. */
 export interface SetUserAuthenticationMethodResponseContent {
   /** The ID of the newly created authentication method (automatically generated by the application) */
-  id?: string;
+  id?: string | undefined;
   type: CreatedAuthenticationMethodTypeEnum;
   /** A human-readable label to identify the authentication method. */
-  name?: string;
+  name?: string | undefined;
   /** Base32 encoded secret for TOTP generation */
-  totp_secret?: string | Redacted.Redacted<string>;
+  totp_secret?: string | Redacted.Redacted<string> | undefined;
   /** Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Applies to email authentication methods only. The email address used to send verification messages. */
-  email?: string;
-  authentication_methods?: SetUserAuthenticationMethodResponseContentAuthenticationMethodsList;
+  email?: string | undefined;
+  authentication_methods?:
+    | SetUserAuthenticationMethodResponseContentAuthenticationMethodsList
+    | undefined;
   /** Preferred phone authentication method */
-  preferred_authentication_method?: PreferredAuthenticationMethodEnum;
+  preferred_authentication_method?: PreferredAuthenticationMethodEnum | undefined;
   /** Applies to webauthn authenticators only. The id of the credential. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Applies to webauthn authenticators only. The public key. */
-  public_key?: string;
+  public_key?: string | undefined;
   /** Applies to passkeys only. Authenticator Attestation Globally Unique Identifier. */
-  aaguid?: string;
+  aaguid?: string | undefined;
   /** Applies to webauthn authenticators only. The relying party identifier. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
   /** Authentication method creation date */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type PutAuthenticationMethodsResponseBodyList =
   Array<SetUserAuthenticationMethodResponseContent>;
@@ -17858,7 +18019,7 @@ export type SetCustomSigningKeysResponseContentKeysList = Array<CustomSigningKey
 /** JWKS representing an array of custom public signing keys. */
 export interface SetCustomSigningKeysResponseContent {
   /** An array of custom public signing keys. */
-  keys?: SetCustomSigningKeysResponseContentKeysList;
+  keys?: SetCustomSigningKeysResponseContentKeysList | undefined;
 }
 /** Name of the prompt */
 export type PutCustomTextByLanguageRequestPrompt =
@@ -17990,7 +18151,7 @@ export interface PutCustomTextByLanguageRequest {
   prompt: PutCustomTextByLanguageRequestPrompt | (string & {});
   /** Language to update. */
   language: PutCustomTextByLanguageRequestLanguage | (string & {});
-  body?: SetsCustomTextsByLanguageRequestContent;
+  body?: SetsCustomTextsByLanguageRequestContent | undefined;
 }
 export interface PutCustomTextByLanguageResponse {}
 /** Template name. Can be `verify_email`, `verify_email_by_code`, `auth_email_by_code`, `reset_email`, `reset_email_by_code`, `welcome_email`, `blocked_account`, `stolen_credentials`, `enrollment_email`, `mfa_oob_code`, `user_invitation`, `async_approval`, `change_password` (legacy), or `password_reset` (legacy). */
@@ -18018,15 +18179,15 @@ export interface PutEmailTemplateRequest {
   /** Senders `from` email address. */
   from: string | null;
   /** URL to redirect the user to after a successful action. */
-  resultUrl?: string | null;
+  resultUrl?: string | null | undefined;
   /** Subject line of the email. */
   subject: string | null;
   /** Syntax of the template body. */
   syntax: string | null;
   /** Lifetime in seconds that the link within the email will be valid for. */
-  urlLifetimeInSeconds?: number | null;
+  urlLifetimeInSeconds?: number | null | undefined;
   /** Whether the `reset_email` and `verify_email` templates should include the user's email address as the `email` parameter in the returnUrl (true) or whether no email address should be included in the redirect (false). Defaults to true. */
-  includeEmailInRedirect?: boolean;
+  includeEmailInRedirect?: boolean | undefined;
   /** Whether the template is enabled (true) or disabled (false). */
   enabled: boolean | null;
 }
@@ -18037,27 +18198,27 @@ export interface SetEmailTemplateResponseContent {
   /** Senders `from` email address. */
   from: string | null;
   /** URL to redirect the user to after a successful action. */
-  resultUrl?: string | null;
+  resultUrl?: string | null | undefined;
   /** Subject line of the email. */
   subject: string | null;
   /** Syntax of the template body. */
   syntax: string | null;
   /** Lifetime in seconds that the link within the email will be valid for. */
-  urlLifetimeInSeconds?: number | null;
+  urlLifetimeInSeconds?: number | null | undefined;
   /** Whether the `reset_email` and `verify_email` templates should include the user's email address as the `email` parameter in the returnUrl (true) or whether no email address should be included in the redirect (false). Defaults to true. */
-  includeEmailInRedirect?: boolean;
+  includeEmailInRedirect?: boolean | undefined;
   /** Whether the template is enabled (true) or disabled (false). */
   enabled: boolean | null;
 }
 export interface PutFactorDuoSettingsRequest {
-  ikey?: string;
-  skey?: string;
-  host?: string;
+  ikey?: string | undefined;
+  skey?: string | undefined;
+  host?: string | undefined;
 }
 export interface SetGuardianFactorDuoSettingsResponseContent {
-  ikey?: string;
-  skey?: string;
-  host?: string;
+  ikey?: string | undefined;
+  skey?: string | undefined;
+  host?: string | undefined;
 }
 export interface PutFactorPhoneTemplatesRequest {
   /** Message sent to the user when they are invited to enroll with a phone number. */
@@ -18105,14 +18266,14 @@ export interface SetGuardianFactorSmsTemplatesResponseContent {
   verification_message: string;
 }
 export interface PutFcmRequest {
-  server_key?: string | null;
+  server_key?: string | null | undefined;
 }
 export type SetGuardianFactorsProviderPushNotificationFcmResponseContent = {
   [key: string]: unknown | undefined;
 };
 export type PutFcmResponse = SetGuardianFactorsProviderPushNotificationFcmResponseContent;
 export interface PutFcmv1Request {
-  server_credentials?: string | null;
+  server_credentials?: string | null | undefined;
 }
 export type SetGuardianFactorsProviderPushNotificationFcmv1ResponseContent = {
   [key: string]: unknown | undefined;
@@ -18131,7 +18292,7 @@ export type SetGuardianFactorPhoneMessageTypesResponseContentMessageTypesList =
   Array<GuardianFactorPhoneFactorMessageTypeEnum>;
 export interface SetGuardianFactorPhoneMessageTypesResponseContent {
   /** The list of phone factors to enable on the tenant. Can include `sms` and `voice`. */
-  message_types?: SetGuardianFactorPhoneMessageTypesResponseContentMessageTypesList;
+  message_types?: SetGuardianFactorPhoneMessageTypesResponseContentMessageTypesList | undefined;
 }
 export interface PutNetworkAclRequest {
   /** The id of the ACL to update. */
@@ -18140,19 +18301,19 @@ export interface PutNetworkAclRequest {
   /** Indicates whether or not this access control list is actively being used */
   active: boolean;
   /** Indicates the order in which the ACL will be evaluated relative to other ACL rules. */
-  priority?: number;
+  priority?: number | undefined;
   rule: NetworkAclRule;
 }
 export interface SetNetworkAclsResponseContent {
-  id?: string;
-  description?: string;
-  active?: boolean;
-  priority?: number;
-  rule?: NetworkAclRule;
+  id?: string | undefined;
+  description?: string | undefined;
+  active?: boolean | undefined;
+  priority?: number | undefined;
+  rule?: NetworkAclRule | undefined;
   /** The timestamp when the Network ACL Configuration was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp when the Network ACL Configuration was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 /** Name of the prompt. */
@@ -18172,24 +18333,24 @@ export type SetPartialsRequestContent = { [key: string]: unknown | undefined };
 export interface PutPartialsRequest {
   /** Name of the prompt. */
   prompt: PutPartialsRequestPrompt | (string & {});
-  body?: SetPartialsRequestContent;
+  body?: SetPartialsRequestContent | undefined;
 }
 export interface PutPartialsResponse {}
 export interface PutPhoneProvidersRequest {
   provider: GuardianFactorsProviderSmsProviderEnum | (string & {});
 }
 export interface SetGuardianFactorsProviderPhoneResponseContent {
-  provider?: GuardianFactorsProviderSmsProviderEnum;
+  provider?: GuardianFactorsProviderSmsProviderEnum | undefined;
 }
 export interface PutPnProvidersRequest {
   provider: GuardianFactorsProviderPushNotificationProviderDataEnum | (string & {});
 }
 export interface SetGuardianFactorsProviderPushNotificationResponseContent {
-  provider?: GuardianFactorsProviderPushNotificationProviderDataEnum;
+  provider?: GuardianFactorsProviderPushNotificationProviderDataEnum | undefined;
 }
 export type SetGuardianPoliciesRequestContent = Array<MFAPolicyEnum | (string & {})>;
 export interface PutPoliciesRequest {
-  body?: SetGuardianPoliciesRequestContent;
+  body?: SetGuardianPoliciesRequestContent | undefined;
 }
 export type SetGuardianPoliciesResponseContent = Array<MFAPolicyEnum>;
 export type PutPoliciesResponse = SetGuardianPoliciesResponseContent;
@@ -18219,7 +18380,7 @@ export interface PutSelfServiceProfileCustomTextRequest {
   language: PutSelfServiceProfileCustomTextRequestLanguage | (string & {});
   /** The page where the custom text is shown. */
   page: PutSelfServiceProfileCustomTextRequestPage | (string & {});
-  body?: SetSelfServiceProfileCustomTextRequestContent;
+  body?: SetSelfServiceProfileCustomTextRequestContent | undefined;
 }
 /** The resulting list of custom text keys and values. */
 export type SetSelfServiceProfileCustomTextResponseContent = { [key: string]: string | undefined };
@@ -18240,41 +18401,41 @@ export interface PutSmsProvidersRequest {
   provider: GuardianFactorsProviderSmsProviderEnum | (string & {});
 }
 export interface SetGuardianFactorsProviderSmsResponseContent {
-  provider?: GuardianFactorsProviderSmsProviderEnum;
+  provider?: GuardianFactorsProviderSmsProviderEnum | undefined;
 }
 export interface PutSmsTwilioFactorProviderRequest {
   /** From number */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Copilot SID */
-  messaging_service_sid?: string | null;
+  messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null;
+  auth_token?: string | null | undefined;
   /** Twilio SID */
-  sid?: string | null;
+  sid?: string | null | undefined;
 }
 export interface SetGuardianFactorsProviderSmsTwilioResponseContent {
   /** From number */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Copilot SID */
-  messaging_service_sid?: string | null;
+  messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null;
+  auth_token?: string | null | undefined;
   /** Twilio SID */
-  sid?: string | null;
+  sid?: string | null | undefined;
 }
 export interface PutSnsRequest {
-  aws_access_key_id?: string | null;
-  aws_secret_access_key?: string | null;
-  aws_region?: string | null;
-  sns_apns_platform_application_arn?: string | null;
-  sns_gcm_platform_application_arn?: string | null;
+  aws_access_key_id?: string | null | undefined;
+  aws_secret_access_key?: string | null | undefined;
+  aws_region?: string | null | undefined;
+  sns_apns_platform_application_arn?: string | null | undefined;
+  sns_gcm_platform_application_arn?: string | null | undefined;
 }
 export interface SetGuardianFactorsProviderPushNotificationSnsResponseContent {
-  aws_access_key_id?: string | null;
-  aws_secret_access_key?: string | null;
-  aws_region?: string | null;
-  sns_apns_platform_application_arn?: string | null;
-  sns_gcm_platform_application_arn?: string | null;
+  aws_access_key_id?: string | null | undefined;
+  aws_secret_access_key?: string | null | undefined;
+  aws_region?: string | null | undefined;
+  sns_apns_platform_application_arn?: string | null | undefined;
+  sns_gcm_platform_application_arn?: string | null | undefined;
 }
 /** Array of Google Workspace Directory group objects to synchronize. */
 export type PutSynchronizedGroupsRequestGroupsList = Array<SynchronizedGroupPayload>;
@@ -18287,23 +18448,23 @@ export interface PutSynchronizedGroupsRequest {
 export interface PutSynchronizedGroupsResponse {}
 export interface PutTwilioRequest {
   /** From number */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Copilot SID */
-  messaging_service_sid?: string | null;
+  messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null;
+  auth_token?: string | null | undefined;
   /** Twilio SID */
-  sid?: string | null;
+  sid?: string | null | undefined;
 }
 export interface SetGuardianFactorsProviderPhoneTwilioResponseContent {
   /** From number */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Copilot SID */
-  messaging_service_sid?: string | null;
+  messaging_service_sid?: string | null | undefined;
   /** Twilio Authentication token */
-  auth_token?: string | null;
+  auth_token?: string | null | undefined;
   /** Twilio SID */
-  sid?: string | null;
+  sid?: string | null | undefined;
 }
 export interface UpdateUniversalLoginTemplateRequestContentCase1 {
   template: string;
@@ -18312,17 +18473,17 @@ export type UpdateUniversalLoginTemplateRequestContent =
   | string
   | UpdateUniversalLoginTemplateRequestContentCase1;
 export interface PutUniversalLoginRequest {
-  body?: UpdateUniversalLoginTemplateRequestContent;
+  body?: UpdateUniversalLoginTemplateRequestContent | undefined;
 }
 export interface PutUniversalLoginResponse {}
 export interface ResetPhoneTemplateRequest {
   id: string;
 }
 export interface ResetPhoneTemplateResponseContent {
-  id?: string;
-  channel?: string;
-  customizable?: boolean;
-  tenant?: string;
+  id?: string | undefined;
+  channel?: string | undefined;
+  customizable?: boolean | undefined;
+  tenant?: string | undefined;
   content: PhoneTemplateContent;
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
@@ -18332,13 +18493,13 @@ export interface ResetPhoneTemplateResponseContent {
 export type RevokeRefreshTokensRequestIdsList = Array<string>;
 export interface RevokeRefreshTokensRequest {
   /** Array of refresh token IDs to revoke. Limited to 100 at a time. */
-  ids?: RevokeRefreshTokensRequestIdsList;
+  ids?: RevokeRefreshTokensRequestIdsList | undefined;
   /** Revoke all refresh tokens for this user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Revoke refresh tokens for this client. Must be paired with `user_id`; optionally narrowed further with `audience`. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Resource server identifier (audience) to scope the revocation. Must be used with both `user_id` and `client_id`. */
-  audience?: string;
+  audience?: string | undefined;
 }
 export interface RevokeRefreshTokensResponse {}
 export interface RevokeSessionRequest {
@@ -18350,9 +18511,9 @@ export interface RevokeUserAccessRequest {
   /** ID of the user. */
   id: string;
   /** ID of the session to revoke. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Whether to preserve the refresh tokens associated with the session. */
-  preserve_refresh_tokens?: boolean;
+  preserve_refresh_tokens?: boolean | undefined;
 }
 export interface RevokeUserAccessResponse {}
 export interface SetEmailFactorSettingsRequest {
@@ -18431,18 +18592,18 @@ export type EventStreamSubscribeEventsEventTypeParam = Array<
 >;
 export interface SubscribeEventsRequest {
   /** Opaque token representing position in the stream. If not provided, stream will start from the latest events. */
-  from?: string;
+  from?: string | undefined;
   /** RFC-3339 timestamp indicating where to start streaming events from. This should only be used on the initial query when a cursor may not be available. Subsequent requests should use the cursor (from) as it will be more accurate. */
-  from_timestamp?: string;
+  from_timestamp?: string | undefined;
   /** Event type(s) to listen for. Specify multiple times for multiple types (e.g., ?event_type=user.created&event_type=user.updated). If not provided, all event types will be streamed. */
-  event_type?: EventStreamSubscribeEventsEventTypeParam;
+  event_type?: EventStreamSubscribeEventsEventTypeParam | undefined;
 }
 export interface SubscribeEventsResponse {}
 export interface TenantSettingsRouteRequest {
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean;
+  include_fields?: boolean | undefined;
 }
 /** URLs that are valid to redirect to after logout from Auth0. */
 export type GetTenantSettingsResponseContentAllowedLogoutUrlsList = Array<string>;
@@ -18453,77 +18614,81 @@ export type GetTenantSettingsResponseContentEnabledLocalesList = Array<Supported
 /** Supported ACR values */
 export type GetTenantSettingsResponseContentAcrValuesSupportedList = Array<string>;
 export interface GetTenantSettingsResponseContent {
-  change_password?: TenantSettingsPasswordPage | null;
-  guardian_mfa_page?: TenantSettingsGuardianPage | null;
+  change_password?: TenantSettingsPasswordPage | null | undefined;
+  guardian_mfa_page?: TenantSettingsGuardianPage | null | undefined;
   /** Default audience for API authorization. */
-  default_audience?: string;
+  default_audience?: string | undefined;
   /** Name of connection used for password grants at the `/token`endpoint. The following connection types are supported: LDAP, AD, Database Connections, Passwordless, Windows Azure Active Directory, ADFS. */
-  default_directory?: string;
-  error_page?: TenantSettingsErrorPage | null;
-  device_flow?: TenantSettingsDeviceFlow | null;
-  default_token_quota?: DefaultTokenQuota | null;
-  flags?: TenantSettingsFlags;
+  default_directory?: string | undefined;
+  error_page?: TenantSettingsErrorPage | null | undefined;
+  device_flow?: TenantSettingsDeviceFlow | null | undefined;
+  default_token_quota?: DefaultTokenQuota | null | undefined;
+  flags?: TenantSettingsFlags | undefined;
   /** Friendly name for this tenant. */
-  friendly_name?: string;
+  friendly_name?: string | undefined;
   /** URL of logo to be shown for this tenant (recommended size: 150x150) */
-  picture_url?: string;
+  picture_url?: string | undefined;
   /** End-user support email address. */
-  support_email?: string;
+  support_email?: string | undefined;
   /** End-user support URL. */
-  support_url?: string;
+  support_url?: string | undefined;
   /** URLs that are valid to redirect to after logout from Auth0. */
-  allowed_logout_urls?: GetTenantSettingsResponseContentAllowedLogoutUrlsList;
+  allowed_logout_urls?: GetTenantSettingsResponseContentAllowedLogoutUrlsList | undefined;
   /** Number of hours a session will stay valid. */
-  session_lifetime?: number;
+  session_lifetime?: number | undefined;
   /** Number of hours for which a session can be inactive before the user must log in again. */
-  idle_session_lifetime?: number;
+  idle_session_lifetime?: number | undefined;
   /** Number of hours an ephemeral (non-persistent) session will stay valid. */
-  ephemeral_session_lifetime?: number;
+  ephemeral_session_lifetime?: number | undefined;
   /** Number of hours for which an ephemeral (non-persistent) session can be inactive before the user must log in again. */
-  idle_ephemeral_session_lifetime?: number;
+  idle_ephemeral_session_lifetime?: number | undefined;
   /** Selected sandbox version for the extensibility environment. */
-  sandbox_version?: string;
+  sandbox_version?: string | undefined;
   /** Selected sandbox version for rules and hooks extensibility. */
-  legacy_sandbox_version?: string;
+  legacy_sandbox_version?: string | undefined;
   /** Available sandbox versions for the extensibility environment. */
-  sandbox_versions_available?: GetTenantSettingsResponseContentSandboxVersionsAvailableList;
+  sandbox_versions_available?:
+    | GetTenantSettingsResponseContentSandboxVersionsAvailableList
+    | undefined;
   /** The default absolute redirection uri, must be https */
-  default_redirection_uri?: string;
+  default_redirection_uri?: string | undefined;
   /** Supported locales for the user interface. */
-  enabled_locales?: GetTenantSettingsResponseContentEnabledLocalesList;
-  access_token?: ResourceServerAccessToken | null;
-  security_headers?: TenantSettingsNullableSecurityHeaders | null;
-  session_cookie?: SessionCookieSchema | null;
-  sessions?: TenantSettingsSessions | null;
-  oidc_logout?: TenantOIDCLogoutSettings;
+  enabled_locales?: GetTenantSettingsResponseContentEnabledLocalesList | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  security_headers?: TenantSettingsNullableSecurityHeaders | null | undefined;
+  session_cookie?: SessionCookieSchema | null | undefined;
+  sessions?: TenantSettingsSessions | null | undefined;
+  oidc_logout?: TenantOIDCLogoutSettings | undefined;
   /** Whether to accept an organization name instead of an ID on auth endpoints */
-  allow_organization_name_in_authentication_api?: boolean;
+  allow_organization_name_in_authentication_api?: boolean | undefined;
   /** Whether to enable flexible factors for MFA in the PostLogin action */
-  customize_mfa_in_postlogin_action?: boolean;
+  customize_mfa_in_postlogin_action?: boolean | undefined;
   /** Supported ACR values */
-  acr_values_supported?: GetTenantSettingsResponseContentAcrValuesSupportedList | null;
-  mtls?: TenantSettingsMTLS | null;
+  acr_values_supported?: GetTenantSettingsResponseContentAcrValuesSupportedList | null | undefined;
+  mtls?: TenantSettingsMTLS | null | undefined;
   /** Enables the use of Pushed Authorization Requests */
-  pushed_authorization_requests_supported?: boolean;
+  pushed_authorization_requests_supported?: boolean | undefined;
   /** Supports iss parameter in authorization responses */
-  authorization_response_iss_parameter_supported?: boolean | null;
+  authorization_response_iss_parameter_supported?: boolean | null | undefined;
   /** Enables strict DPoP refresh token binding per RFC 9449: all refresh tokens issued to public clients that present a DPoP proof are bound to the sender's key, and the binding is validated on every subsequent exchange. When disabled, DPoP refresh token binding may still apply for specific audiences for backwards compatibility. */
-  dpop_strict_refresh_token_binding?: boolean | null;
+  dpop_strict_refresh_token_binding?: boolean | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null;
-  resource_parameter_profile?: TenantSettingsResourceParameterProfile;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null | undefined;
+  resource_parameter_profile?: TenantSettingsResourceParameterProfile | undefined;
   /** Whether the authorization server supports retrieving client metadata from a client_id URL. */
-  client_id_metadata_document_supported?: boolean;
+  client_id_metadata_document_supported?: boolean | undefined;
   /** Whether the authorization server supports registering clients dynamically from a client_id URL. Requires client_id_metadata_document_supported to be enabled. */
-  client_id_metadata_document_dynamic_registration_supported?: boolean;
+  client_id_metadata_document_dynamic_registration_supported?: boolean | undefined;
   /** Whether Phone Consolidated Experience is enabled for this tenant. */
-  phone_consolidated_experience?: boolean;
+  phone_consolidated_experience?: boolean | undefined;
   /** Whether Auth0 Guide (AI-powered assistance) is enabled for this tenant. */
-  enable_ai_guide?: boolean;
+  enable_ai_guide?: boolean | undefined;
   /** Whether session metadata is included in specific tenant logs (slo, oidc_backchannel_logout_failed, oidc_backchannel_logout_succeeded). */
-  include_session_metadata_in_tenant_logs?: boolean;
-  dynamic_client_registration_security_mode?: TenantSettingsDynamicClientRegistrationSecurityMode;
-  country_codes?: TenantSettingsCountryCodesResponse;
+  include_session_metadata_in_tenant_logs?: boolean | undefined;
+  dynamic_client_registration_security_mode?:
+    | TenantSettingsDynamicClientRegistrationSecurityMode
+    | undefined;
+  country_codes?: TenantSettingsCountryCodesResponse | undefined;
 }
 /** The delivery method for the notification */
 export type PhoneProviderDeliveryMethodEnum = "text" | "voice";
@@ -18531,7 +18696,7 @@ export interface TryPhoneProviderRequest {
   id: string;
   /** The recipient phone number to receive a given notification. */
   to: string;
-  delivery_method?: PhoneProviderDeliveryMethodEnum | (string & {});
+  delivery_method?: PhoneProviderDeliveryMethodEnum | (string & {}) | undefined;
 }
 export interface TryPhoneProviderResponse {}
 export interface TryPhoneTemplateRequest {
@@ -18539,7 +18704,7 @@ export interface TryPhoneTemplateRequest {
   /** Destination of the testing phone notification */
   to: string;
   /** Medium to use to send the notification */
-  delivery_method?: PhoneProviderDeliveryMethodEnum | (string & {});
+  delivery_method?: PhoneProviderDeliveryMethodEnum | (string & {}) | undefined;
 }
 export interface TryPhoneTemplateResponse {}
 /** The secrets to associate with the action module. */
@@ -18550,11 +18715,11 @@ export interface UpdateActionModuleRequest {
   /** The ID of the action module to update. */
   id: string;
   /** The source code of the action module. */
-  code?: string;
+  code?: string | undefined;
   /** The secrets to associate with the action module. */
-  secrets?: UpdateActionModuleRequestSecretsList;
+  secrets?: UpdateActionModuleRequestSecretsList | undefined;
   /** The npm dependencies of the action module. */
-  dependencies?: UpdateActionModuleRequestDependenciesList;
+  dependencies?: UpdateActionModuleRequestDependenciesList | undefined;
 }
 /** The npm dependencies from the module's draft version. */
 export type UpdateActionModuleResponseContentDependenciesList = Array<ActionModuleDependency>;
@@ -18562,26 +18727,26 @@ export type UpdateActionModuleResponseContentDependenciesList = Array<ActionModu
 export type UpdateActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
 export interface UpdateActionModuleResponseContent {
   /** The unique ID of the module. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the module. */
-  name?: string;
+  name?: string | undefined;
   /** The source code from the module's draft version. */
-  code?: string;
+  code?: string | undefined;
   /** The npm dependencies from the module's draft version. */
-  dependencies?: UpdateActionModuleResponseContentDependenciesList;
+  dependencies?: UpdateActionModuleResponseContentDependenciesList | undefined;
   /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: UpdateActionModuleResponseContentSecretsList;
+  secrets?: UpdateActionModuleResponseContentSecretsList | undefined;
   /** The number of deployed actions using this module. */
-  actions_using_module_total?: number;
+  actions_using_module_total?: number | undefined;
   /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean;
+  all_changes_published?: boolean | undefined;
   /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number;
+  latest_version_number?: number | undefined;
   /** Timestamp when the module was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the module was last updated. */
-  updated_at?: string;
-  latest_version?: ActionModuleVersionReference;
+  updated_at?: string | undefined;
+  latest_version?: ActionModuleVersionReference | undefined;
 }
 /** Arbitrary key-value metadata for the agent. Pass null to clear all metadata. */
 export type UpdateAgentRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -18589,9 +18754,9 @@ export interface UpdateAgentRequest {
   /** The agent ID */
   id: string;
   /** The agent name. Cannot contain <, >, or null bytes. */
-  name?: string;
+  name?: string | undefined;
   /** Arbitrary key-value metadata for the agent. Pass null to clear all metadata. */
-  metadata?: UpdateAgentRequestMetadataMap | null;
+  metadata?: UpdateAgentRequestMetadataMap | null | undefined;
 }
 export type UpdateBrandingPageBackgroundCase1Map = { [key: string]: unknown | undefined };
 /** Page Background Color or Gradient. Property contains either `null` to unset, a solid color as a string value `#FFFFFF`, or a gradient as an object. ```js { type: 'linear-gradient', start: '#FFFFFF', end: '#000000', angle_deg: 35 } ``` */
@@ -18599,29 +18764,29 @@ export type UpdateBrandingPageBackground = string | UpdateBrandingPageBackground
 /** Custom color settings. */
 export interface UpdateBrandingColors {
   /** Accent color. */
-  primary?: string | null;
-  page_background?: UpdateBrandingPageBackground;
+  primary?: string | null | undefined;
+  page_background?: UpdateBrandingPageBackground | undefined;
 }
 /** Custom font settings. */
 export interface UpdateBrandingFont {
   /** URL for the custom font. The URL must point to a font file and not a stylesheet. Must use HTTPS. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface UpdateBrandingRequest {
-  colors?: UpdateBrandingColors | null;
+  colors?: UpdateBrandingColors | null | undefined;
   /** URL for the favicon. Must use HTTPS. */
-  favicon_url?: string | null;
+  favicon_url?: string | null | undefined;
   /** URL for the logo. Must use HTTPS. */
-  logo_url?: string | null;
-  font?: UpdateBrandingFont | null;
+  logo_url?: string | null | undefined;
+  font?: UpdateBrandingFont | null | undefined;
 }
 export interface UpdateBrandingResponseContent {
-  colors?: BrandingColors;
+  colors?: BrandingColors | undefined;
   /** URL for the favicon. Must use HTTPS. */
-  favicon_url?: string;
+  favicon_url?: string | undefined;
   /** URL for the logo. Must use HTTPS. */
-  logo_url?: string;
-  font?: BrandingFont;
+  logo_url?: string | undefined;
+  font?: BrandingFont | undefined;
   [key: string]: unknown;
 }
 export interface UpdateBrandingThemeRequest {
@@ -18630,9 +18795,9 @@ export interface UpdateBrandingThemeRequest {
   borders: BrandingThemeBorders;
   colors: BrandingThemeColors;
   /** Display Name */
-  displayName?: string;
+  displayName?: string | undefined;
   fonts: BrandingThemeFonts;
-  identifiers?: BrandingThemeIdentifiers;
+  identifiers?: BrandingThemeIdentifiers | undefined;
   page_background: BrandingThemePageBackground;
   widget: BrandingThemeWidget;
 }
@@ -18642,7 +18807,7 @@ export interface UpdateBrandingThemeResponseContent {
   /** Display Name */
   displayName: string;
   fonts: BrandingThemeFonts;
-  identifiers?: BrandingThemeIdentifiers;
+  identifiers?: BrandingThemeIdentifiers | undefined;
   page_background: BrandingThemePageBackground;
   /** Theme Id */
   themeId: string;
@@ -18680,15 +18845,15 @@ export type NativeSocialLoginFacebookPatch = NativeSocialLoginFacebook;
 export type NativeSocialLoginGooglePatch = NativeSocialLoginGoogle;
 /** Configure native social settings */
 export interface NativeSocialLoginPatch {
-  apple?: NativeSocialLoginApple | null;
-  facebook?: NativeSocialLoginFacebook | null;
-  google?: NativeSocialLoginGoogle | null;
+  apple?: NativeSocialLoginApple | null | undefined;
+  facebook?: NativeSocialLoginFacebook | null | undefined;
+  google?: NativeSocialLoginGoogle | null | undefined;
 }
 /** Google FedCM configuration for this client */
 export type FedCMLoginGooglePatch = FedCMLoginGoogle;
 /** Configure FedCM login settings for New Universal Login */
 export interface FedCMLoginPatch {
-  google?: FedCMLoginGoogle | null;
+  google?: FedCMLoginGoogle | null | undefined;
 }
 /** Defines how to proceed during an authentication transaction with regards an organization. Can be `deny` (default), `allow` or `require`. */
 export type ClientOrganizationUsagePatchEnum = "deny" | "allow" | "require";
@@ -18708,7 +18873,9 @@ export type ClientTokenExchangeConfigurationOrNullAllowAnyProfileOfTypeList = Ar
 /** Configuration for token exchange. */
 export interface ClientTokenExchangeConfigurationOrNull {
   /** List the enabled token exchange types for this client. */
-  allow_any_profile_of_type?: ClientTokenExchangeConfigurationOrNullAllowAnyProfileOfTypeList;
+  allow_any_profile_of_type?:
+    | ClientTokenExchangeConfigurationOrNullAllowAnyProfileOfTypeList
+    | undefined;
 }
 /** List of client IDs that are linked to this express configuration (e.g. web or mobile clients). */
 export type ExpressConfigurationOrNullLinkedClientsList = Array<LinkedClientConfiguration>;
@@ -18725,13 +18892,13 @@ export interface ExpressConfigurationOrNull {
   /** When true, all connections made via express configuration will have the associated organization enabled. */
   enable_organization: boolean;
   /** List of client IDs that are linked to this express configuration (e.g. web or mobile clients). */
-  linked_clients?: ExpressConfigurationOrNullLinkedClientsList;
+  linked_clients?: ExpressConfigurationOrNullLinkedClientsList | undefined;
   /** This is the unique identifier for the Okta OIN Express Configuration Client, which Okta will use for this application. */
   okta_oin_client_id: string;
   /** This is the domain that admins are expected to log in via for authenticating for express configuration. It can be either the canonical domain or a registered custom domain. */
   admin_login_domain: string;
   /** The identifier of the published application in the OKTA OIN. */
-  oin_submission_id?: string;
+  oin_submission_id?: string | undefined;
 }
 /** The allowed connection strategies for the My Organization Configuration. */
 export type ClientMyOrganizationPatchConfigurationAllowedStrategiesList = Array<
@@ -18740,19 +18907,19 @@ export type ClientMyOrganizationPatchConfigurationAllowedStrategiesList = Array<
 /** Configuration related to the My Organization Configuration for the client. */
 export interface ClientMyOrganizationPatchConfiguration {
   /** The connection profile ID that this client should validate against. */
-  connection_profile_id?: string;
+  connection_profile_id?: string | undefined;
   /** The user attribute profile ID that this client should validate against. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
   /** The allowed connection strategies for the My Organization Configuration. */
   allowed_strategies: ClientMyOrganizationPatchConfigurationAllowedStrategiesList;
-  third_party_client_access?: ClientMyOrganizationThirdPartyClientAccessConfiguration;
+  third_party_client_access?: ClientMyOrganizationThirdPartyClientAccessConfiguration | undefined;
   connection_deletion_behavior: ClientMyOrganizationDeletionBehaviorEnum | (string & {});
   /** The client ID this client uses while creating invitations through My Organization API. */
-  invitation_landing_client_id?: string;
+  invitation_landing_client_id?: string | undefined;
   /** When true, limits the permissions that organization admins can assign to members to only those held by the admin themselves. */
-  enforce_permission_ceiling?: boolean;
+  enforce_permission_ceiling?: boolean | undefined;
   /** When true, prevents organization admins from assigning permissions to themselves. */
-  enforce_self_assignment_restriction?: boolean;
+  enforce_self_assignment_restriction?: boolean | undefined;
 }
 /** Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`, `my-account`. */
 export type ClientAsyncApprovalNotificationsChannelsAPIPatchConfiguration = Array<
@@ -18764,107 +18931,125 @@ export type ClientOidcSupportPatchAllowedScopesList = Array<
 /** OIDC support configuration for a client. Replaces the stored object entirely; send null to unset it. */
 export interface ClientOidcSupportPatch {
   is_allowed: boolean;
-  allow_all_scopes?: boolean;
-  allowed_scopes?: ClientOidcSupportPatchAllowedScopesList;
+  allow_all_scopes?: boolean | undefined;
+  allowed_scopes?: ClientOidcSupportPatchAllowedScopesList | undefined;
 }
 export interface UpdateClientRequest {
   /** ID of the client to update. */
   id: string;
   /** The name of the client. Must contain at least one character. Does not allow '<' or '>'. */
-  name?: string;
+  name?: string | undefined;
   /** Free text description of the purpose of the Client. (Max character length: <code>140</code>) */
-  description?: string;
+  description?: string | undefined;
   /** The secret used to sign tokens for the client */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** The URL of the client logo (recommended size: 150x150) */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** A set of URLs that are valid to call back from Auth0 when authenticating users */
-  callbacks?: UpdateClientRequestCallbacksList;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  callbacks?: UpdateClientRequestCallbacksList | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** Configuration for OIDC backchannel logout (deprecated, in favor of oidc_logout) */
-  oidc_backchannel_logout?: ClientOIDCBackchannelLogoutSettings;
-  session_transfer?: ClientSessionTransferConfiguration | null;
+  oidc_backchannel_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
   /** A set of URLs that represents valid origins for CORS */
-  allowed_origins?: UpdateClientRequestAllowedOriginsList;
+  allowed_origins?: UpdateClientRequestAllowedOriginsList | undefined;
   /** A set of URLs that represents valid web origins for use with web message response mode */
-  web_origins?: UpdateClientRequestWebOriginsList;
+  web_origins?: UpdateClientRequestWebOriginsList | undefined;
   /** A set of grant types that the client is authorized to use. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: UpdateClientRequestGrantTypesList;
+  grant_types?: UpdateClientRequestGrantTypesList | undefined;
   /** List of audiences for SAML protocol */
-  client_aliases?: UpdateClientRequestClientAliasesList;
+  client_aliases?: UpdateClientRequestClientAliasesList | undefined;
   /** Ids of clients that will be allowed to perform delegation requests. Clients that will be allowed to make delegation request. By default, all your clients will be allowed. This field allows you to specify specific clients */
-  allowed_clients?: UpdateClientRequestAllowedClientsList;
+  allowed_clients?: UpdateClientRequestAllowedClientsList | undefined;
   /** URLs that are valid to redirect to after logout from Auth0 */
-  allowed_logout_urls?: UpdateClientRequestAllowedLogoutUrlsList;
+  allowed_logout_urls?: UpdateClientRequestAllowedLogoutUrlsList | undefined;
   /** An object that holds settings related to how JWTs are created */
-  jwt_configuration?: ClientJwtConfiguration;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
   /** The client's encryption key */
-  encryption_key?: ClientEncryptionKey | null;
+  encryption_key?: ClientEncryptionKey | null | undefined;
   /** <code>true</code> to use Auth0 instead of the IdP to do Single Sign On, <code>false</code> otherwise (default: <code>false</code>) */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** <code>true</code> if this client can be used to make cross-origin authentication requests, <code>false</code> otherwise if cross origin is disabled */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL for the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string | null;
+  cross_origin_loc?: string | null | undefined;
   /** <code>true</code> to disable Single Sign On, <code>false</code> otherwise (default: <code>false</code>) */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** <code>true</code> if the custom login page is to be used, <code>false</code> otherwise. */
-  custom_login_page_on?: boolean;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodOrNullEnum | (string & {}) | null;
+  custom_login_page_on?: boolean | undefined;
+  token_endpoint_auth_method?:
+    | ClientTokenEndpointAuthMethodOrNullEnum
+    | (string & {})
+    | null
+    | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  app_type?: ClientAppTypeEnum | (string & {});
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  app_type?: ClientAppTypeEnum | (string & {}) | undefined;
   /** Whether this client a first party client or not */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client will conform to strict OIDC specifications */
-  oidc_conformant?: boolean;
+  oidc_conformant?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page */
-  custom_login_page?: string;
-  custom_login_page_preview?: string;
-  token_quota?: CreateTokenQuota | null;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | null;
-  anonymous_sessions?: CreateAnonymousSessions | null;
+  custom_login_page?: string | undefined;
+  custom_login_page_preview?: string | undefined;
+  token_quota?: CreateTokenQuota | null | undefined;
+  identity_assertion_authorization_grant?:
+    | CreateIdentityAssertionAuthorizationGrant
+    | null
+    | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | null | undefined;
   enforce_anon_session_transfer_network_binding?:
     | ClientAnonymousSessionTransferNetworkBindingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Form template for WS-Federation protocol */
-  form_template?: string;
-  addons?: ClientAddons;
-  client_metadata?: ClientMetadata;
+  form_template?: string | undefined;
+  addons?: ClientAddons | undefined;
+  client_metadata?: ClientMetadata | undefined;
   /** Configuration related to native mobile apps */
-  mobile?: ClientMobile;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLoginPatch | null;
-  fedcm_login?: FedCMLoginPatch | null;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsagePatchEnum | (string & {}) | null;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorPatchEnum | (string & {}) | null;
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLoginPatch | null | undefined;
+  fedcm_login?: FedCMLoginPatch | null | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsagePatchEnum | (string & {}) | null | undefined;
+  organization_require_behavior?:
+    | ClientOrganizationRequireBehaviorPatchEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: UpdateClientRequestOrganizationDiscoveryMethodsList | null;
-  client_authentication_methods?: ClientAuthenticationMethod | null;
+  organization_discovery_methods?:
+    | UpdateClientRequestOrganizationDiscoveryMethodsList
+    | null
+    | undefined;
+  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId;
-  compliance_level?: ClientComplianceLevelEnum | (string & {}) | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
+  compliance_level?: ClientComplianceLevelEnum | (string & {}) | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null;
-  token_exchange?: ClientTokenExchangeConfigurationOrNull | null;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | null | undefined;
+  token_exchange?: ClientTokenExchangeConfigurationOrNull | null | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  express_configuration?: ExpressConfigurationOrNull | null;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationPatchConfiguration | null;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPatchConfiguration | null;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum | (string & {});
-  redirection_policy?: ClientRedirectionPolicyEnum | (string & {});
+  par_request_expiry?: number | null | undefined;
+  express_configuration?: ExpressConfigurationOrNull | null | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationPatchConfiguration | null | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPatchConfiguration
+    | null
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | (string & {}) | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | (string & {}) | undefined;
   /** ID of the agent to associate with this client, or null to remove the association. */
-  agent_id?: string | null;
-  oidc_support?: ClientOidcSupportPatch | null;
+  agent_id?: string | null | undefined;
+  oidc_support?: ClientOidcSupportPatch | null | undefined;
 }
 /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
 export type UpdateClientResponseContentCallbacksList = Array<string>;
@@ -18885,114 +19070,120 @@ export type UpdateClientResponseContentOrganizationDiscoveryMethodsList =
   Array<ClientOrganizationDiscoveryEnum>;
 export interface UpdateClientResponseContent {
   /** ID of this client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The ISO 8601 timestamp of when this client was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO 8601 timestamp of when this client was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Name of the tenant this client belongs to. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
-  name?: string;
+  name?: string | undefined;
   /** Free text description of this client (max length: 140 characters). */
-  description?: string;
+  description?: string | undefined;
   /** Whether this is your global 'All Applications' client representing legacy tenant settings (true) or a regular client (false). */
-  global?: boolean;
+  global?: boolean | undefined;
   /** Client secret (which you must not make public). */
-  client_secret?: string | Redacted.Redacted<string>;
-  app_type?: ClientAppTypeEnum;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  app_type?: ClientAppTypeEnum | undefined;
   /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string;
+  logo_uri?: string | undefined;
   /** Whether this client a first party client (true) or not (false). */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean;
+  oidc_conformant?: boolean | undefined;
   /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: UpdateClientResponseContentCallbacksList;
+  callbacks?: UpdateClientResponseContentCallbacksList | undefined;
   /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: UpdateClientResponseContentAllowedOriginsList;
+  allowed_origins?: UpdateClientResponseContentAllowedOriginsList | undefined;
   /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: UpdateClientResponseContentWebOriginsList;
+  web_origins?: UpdateClientResponseContentWebOriginsList | undefined;
   /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: UpdateClientResponseContentClientAliasesList;
+  client_aliases?: UpdateClientResponseContentClientAliasesList | undefined;
   /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: UpdateClientResponseContentAllowedClientsList;
+  allowed_clients?: UpdateClientResponseContentAllowedClientsList | undefined;
   /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: UpdateClientResponseContentAllowedLogoutUrlsList;
-  session_transfer?: ClientSessionTransferConfiguration | null;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings;
+  allowed_logout_urls?: UpdateClientResponseContentAllowedLogoutUrlsList | undefined;
+  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
+  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
   /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: UpdateClientResponseContentGrantTypesList;
-  jwt_configuration?: ClientJwtConfiguration;
-  signing_keys?: ClientSigningKeys | null;
-  encryption_key?: ClientEncryptionKey | null;
+  grant_types?: UpdateClientResponseContentGrantTypesList | undefined;
+  jwt_configuration?: ClientJwtConfiguration | undefined;
+  signing_keys?: ClientSigningKeys | null | undefined;
+  encryption_key?: ClientEncryptionKey | null | undefined;
   /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean;
+  sso?: boolean | undefined;
   /** Whether Single Sign On is disabled (true) or enabled (true). Defaults to true. */
-  sso_disabled?: boolean;
+  sso_disabled?: boolean | undefined;
   /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean;
+  cross_origin_authentication?: boolean | undefined;
   /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string;
+  cross_origin_loc?: string | undefined;
   /** Whether a custom login page is to be used (true) or the default provided login page (false). */
-  custom_login_page_on?: boolean;
+  custom_login_page_on?: boolean | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string;
+  custom_login_page?: string | undefined;
   /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string;
+  custom_login_page_preview?: string | undefined;
   /** HTML form template to be used for WS-Federation. */
-  form_template?: string;
-  addons?: ClientAddons;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum;
+  form_template?: string | undefined;
+  addons?: ClientAddons | undefined;
+  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | undefined;
   /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean;
-  client_metadata?: ClientMetadata;
-  mobile?: ClientMobile;
+  is_token_endpoint_ip_header_trusted?: boolean | undefined;
+  client_metadata?: ClientMetadata | undefined;
+  mobile?: ClientMobile | undefined;
   /** Initiate login uri, must be https */
-  initiate_login_uri?: string;
-  native_social_login?: NativeSocialLogin;
-  fedcm_login?: FedCMLogin;
-  refresh_token?: ClientRefreshTokenConfiguration | null;
-  default_organization?: ClientDefaultOrganization | null;
-  organization_usage?: ClientOrganizationUsageEnum;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum;
+  initiate_login_uri?: string | undefined;
+  native_social_login?: NativeSocialLogin | undefined;
+  fedcm_login?: FedCMLogin | undefined;
+  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
+  default_organization?: ClientDefaultOrganization | null | undefined;
+  organization_usage?: ClientOrganizationUsageEnum | undefined;
+  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | undefined;
   /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: UpdateClientResponseContentOrganizationDiscoveryMethodsList;
-  client_authentication_methods?: ClientAuthenticationMethod | null;
+  organization_discovery_methods?:
+    | UpdateClientResponseContentOrganizationDiscoveryMethodsList
+    | undefined;
+  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
   /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean;
+  require_pushed_authorization_requests?: boolean | undefined;
   /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId;
-  compliance_level?: ClientComplianceLevelEnum | null;
+  require_proof_of_possession?: boolean | undefined;
+  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
+  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
+  compliance_level?: ClientComplianceLevelEnum | null | undefined;
   /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean;
-  token_exchange?: ClientTokenExchangeConfiguration;
+  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
+  token_exchange?: ClientTokenExchangeConfiguration | undefined;
   /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null;
-  token_quota?: CreateTokenQuota;
-  express_configuration?: ExpressConfiguration;
-  b2b_integration_configuration?: B2bIntegrationConfiguration;
-  my_organization_configuration?: ClientMyOrganizationResponseConfiguration;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant;
-  anonymous_sessions?: CreateAnonymousSessions;
-  enforce_anon_session_transfer_network_binding?: ClientAnonymousSessionTransferNetworkBindingEnum;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum;
-  oidc_support?: ClientOidcSupport;
-  redirection_policy?: ClientRedirectionPolicyEnum;
+  par_request_expiry?: number | null | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  express_configuration?: ExpressConfiguration | undefined;
+  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
+  my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
+  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
+  anonymous_sessions?: CreateAnonymousSessions | undefined;
+  enforce_anon_session_transfer_network_binding?:
+    | ClientAnonymousSessionTransferNetworkBindingEnum
+    | undefined;
+  third_party_security_mode?: ClientThirdPartySecurityModeEnum | undefined;
+  oidc_support?: ClientOidcSupport | undefined;
+  redirection_policy?: ClientRedirectionPolicyEnum | undefined;
   /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string;
-  async_approval_notification_channels?: ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration;
-  external_metadata_type?: ClientExternalMetadataTypeEnum;
-  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum;
-  external_metadata_status?: ClientExternalMetadataStatusEnum;
+  resource_server_identifier?: string | undefined;
+  async_approval_notification_channels?:
+    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
+    | undefined;
+  external_metadata_type?: ClientExternalMetadataTypeEnum | undefined;
+  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum | undefined;
+  external_metadata_status?: ClientExternalMetadataStatusEnum | undefined;
   /** ID of the agent associated with this client. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** An alternate client identifier to be used during authorization flows. Only supports CIMD-based client identifiers. */
-  external_client_id?: string;
+  external_client_id?: string | undefined;
   /** URL for the JSON Web Key Set (JWKS) containing the public keys used for private_key_jwt authentication. Only present for CIMD clients using private_key_jwt authentication. */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   [key: string]: unknown;
 }
 /** Scopes allowed for this client grant. */
@@ -19005,14 +19196,14 @@ export interface UpdateClientGrantRequest {
   /** ID of the client grant to update. */
   id: string;
   /** Scopes allowed for this client grant. */
-  scope?: UpdateClientGrantRequestScopeList | null;
-  organization_usage?: ClientGrantOrganizationNullableUsageEnum | (string & {}) | null;
+  scope?: UpdateClientGrantRequestScopeList | null | undefined;
+  organization_usage?: ClientGrantOrganizationNullableUsageEnum | (string & {}) | null | undefined;
   /** Controls allowing any organization to be used with this grant */
-  allow_any_organization?: boolean | null;
+  allow_any_organization?: boolean | null | undefined;
   /** Types of authorization_details allowed for this client grant. */
-  authorization_details_types?: UpdateClientGrantRequestAuthorizationDetailsTypesList;
+  authorization_details_types?: UpdateClientGrantRequestAuthorizationDetailsTypesList | undefined;
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
-  allow_all_scopes?: boolean | null;
+  allow_all_scopes?: boolean | null | undefined;
 }
 /** Scopes allowed for this client grant. */
 export type UpdateClientGrantResponseContentScopeList = Array<string>;
@@ -19020,32 +19211,34 @@ export type UpdateClientGrantResponseContentScopeList = Array<string>;
 export type UpdateClientGrantResponseContentAuthorizationDetailsTypesList = Array<string>;
 export interface UpdateClientGrantResponseContent {
   /** ID of the client grant. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the client. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The audience (API identifier) of this client grant. */
-  audience?: string;
+  audience?: string | undefined;
   /** Scopes allowed for this client grant. */
-  scope?: UpdateClientGrantResponseContentScopeList;
-  organization_usage?: ClientGrantOrganizationUsageEnum;
+  scope?: UpdateClientGrantResponseContentScopeList | undefined;
+  organization_usage?: ClientGrantOrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
-  allow_any_organization?: boolean;
-  default_for?: ClientGrantDefaultForEnum;
+  allow_any_organization?: boolean | undefined;
+  default_for?: ClientGrantDefaultForEnum | undefined;
   /** If enabled, this grant is a special grant created by Auth0. It cannot be modified or deleted directly. */
-  is_system?: boolean;
-  subject_type?: ClientGrantSubjectTypeEnum;
+  is_system?: boolean | undefined;
+  subject_type?: ClientGrantSubjectTypeEnum | undefined;
   /** Types of authorization_details allowed for this client grant. */
-  authorization_details_types?: UpdateClientGrantResponseContentAuthorizationDetailsTypesList;
+  authorization_details_types?:
+    | UpdateClientGrantResponseContentAuthorizationDetailsTypesList
+    | undefined;
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
-  allow_all_scopes?: boolean;
+  allow_all_scopes?: boolean | undefined;
 }
 export interface UpdateClientProfileRequest {
   /** ID of the client profile. */
   id: string;
-  name?: string;
-  description?: string | null;
-  client_configuration?: ClientProfileClientConfiguration;
-  apply_policy?: ClientProfileApplyPolicy;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  client_configuration?: ClientProfileClientConfiguration | undefined;
+  apply_policy?: ClientProfileApplyPolicy | undefined;
 }
 /** An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist) */
 export type UpdateConnectionOptionsNonPersistentAttrsList = Array<string>;
@@ -19057,60 +19250,68 @@ export type UpdateConnectionOptionsPrecedenceList = Array<
 export type UpdateConnectionOptionsConfigurationMap = { [key: string]: string | null | undefined };
 /** The connection's options (depend on the connection strategy). To update these options, the `update:connections_options` scope must be present. To verify your changes, also include the `read:connections_options` scope. If this scope is not specified, you will not be able to review the updated object. */
 export interface UpdateConnectionOptions {
-  validation?: ConnectionValidationOptions | null;
+  validation?: ConnectionValidationOptions | null | undefined;
   /** An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist) */
-  non_persistent_attrs?: UpdateConnectionOptionsNonPersistentAttrsList | null;
+  non_persistent_attrs?: UpdateConnectionOptionsNonPersistentAttrsList | null | undefined;
   /** Order of precedence for attribute types. If the property is not specified, the default precedence of attributes will be used. */
-  precedence?: UpdateConnectionOptionsPrecedenceList;
-  attributes?: ConnectionAttributes;
+  precedence?: UpdateConnectionOptionsPrecedenceList | undefined;
+  attributes?: ConnectionAttributes | undefined;
   /** Set to true to inject context into custom DB scripts (warning: cannot be disabled once enabled) */
-  enable_script_context?: boolean;
+  enable_script_context?: boolean | undefined;
   /** Set to true to use a legacy user store */
-  enabledDatabaseCustomization?: boolean;
+  enabledDatabaseCustomization?: boolean | undefined;
   /** Enable this if you have a legacy user store and you want to gradually migrate those users to the Auth0 user store */
-  import_mode?: boolean;
+  import_mode?: boolean | undefined;
   /** Stores encrypted string only configurations for connections */
-  configuration?: UpdateConnectionOptionsConfigurationMap | null;
-  customScripts?: ConnectionCustomScripts;
-  otp_settings?: ConnectionOtpSettings;
-  authentication_methods?: ConnectionAuthenticationMethods | null;
-  passkey_options?: ConnectionPasskeyOptions | null;
-  passwordPolicy?: ConnectionPasswordPolicyEnum | (string & {}) | null;
-  password_complexity_options?: ConnectionPasswordComplexityOptions | null;
-  password_history?: ConnectionPasswordHistoryOptions | null;
-  password_no_personal_info?: ConnectionPasswordNoPersonalInfoOptions | null;
-  password_dictionary?: ConnectionPasswordDictionaryOptions | null;
-  api_enable_users?: boolean;
-  api_enable_groups?: boolean;
-  basic_profile?: boolean;
-  ext_admin?: boolean;
-  ext_is_suspended?: boolean;
-  ext_agreed_terms?: boolean;
-  ext_groups?: boolean;
-  ext_assigned_plans?: boolean;
-  ext_profile?: boolean;
-  disable_self_service_change_password?: boolean;
-  upstream_params?: ConnectionUpstreamParams | null;
-  set_user_root_attributes?: ConnectionSetUserRootAttributesEnum | (string & {});
-  gateway_authentication?: ConnectionGatewayAuthentication | null;
-  password_options?: ConnectionPasswordOptions;
-  assertion_decryption_settings?: ConnectionAssertionDecryptionSettings;
-  id_token_signed_response_algs?: ConnectionIdTokenSignedResponseAlgs | null;
-  dpop_signing_alg?: ConnectionDpopSigningAlgEnum | (string & {});
-  enable_pushed_authorization_requests?: boolean;
-  pushed_authorization_request_endpoint?: string;
-  token_endpoint_auth_method?: ConnectionTokenEndpointAuthMethodEnum | (string & {}) | null;
+  configuration?: UpdateConnectionOptionsConfigurationMap | null | undefined;
+  customScripts?: ConnectionCustomScripts | undefined;
+  otp_settings?: ConnectionOtpSettings | undefined;
+  authentication_methods?: ConnectionAuthenticationMethods | null | undefined;
+  passkey_options?: ConnectionPasskeyOptions | null | undefined;
+  passwordPolicy?: ConnectionPasswordPolicyEnum | (string & {}) | null | undefined;
+  password_complexity_options?: ConnectionPasswordComplexityOptions | null | undefined;
+  password_history?: ConnectionPasswordHistoryOptions | null | undefined;
+  password_no_personal_info?: ConnectionPasswordNoPersonalInfoOptions | null | undefined;
+  password_dictionary?: ConnectionPasswordDictionaryOptions | null | undefined;
+  api_enable_users?: boolean | undefined;
+  api_enable_groups?: boolean | undefined;
+  basic_profile?: boolean | undefined;
+  ext_admin?: boolean | undefined;
+  ext_is_suspended?: boolean | undefined;
+  ext_agreed_terms?: boolean | undefined;
+  ext_groups?: boolean | undefined;
+  ext_assigned_plans?: boolean | undefined;
+  ext_profile?: boolean | undefined;
+  disable_self_service_change_password?: boolean | undefined;
+  upstream_params?: ConnectionUpstreamParams | null | undefined;
+  set_user_root_attributes?: ConnectionSetUserRootAttributesEnum | (string & {}) | undefined;
+  gateway_authentication?: ConnectionGatewayAuthentication | null | undefined;
+  password_options?: ConnectionPasswordOptions | undefined;
+  assertion_decryption_settings?: ConnectionAssertionDecryptionSettings | undefined;
+  id_token_signed_response_algs?: ConnectionIdTokenSignedResponseAlgs | null | undefined;
+  dpop_signing_alg?: ConnectionDpopSigningAlgEnum | (string & {}) | undefined;
+  enable_pushed_authorization_requests?: boolean | undefined;
+  pushed_authorization_request_endpoint?: string | undefined;
+  token_endpoint_auth_method?:
+    | ConnectionTokenEndpointAuthMethodEnum
+    | (string & {})
+    | null
+    | undefined;
   token_endpoint_auth_signing_alg?:
     | ConnectionTokenEndpointAuthSigningAlgEnum
     | (string & {})
-    | null;
-  token_endpoint_jwtca_aud_format?: ConnectionTokenEndpointJwtcaAudFormatEnumOIDC | (string & {});
-  id_token_session_expiry_supported?: boolean;
-  useOauthSpecScope?: boolean;
-  discovery_url?: string | null;
-  oidc_metadata?: ConnectionsOIDCMetadata | null;
-  thumbprints?: ConnectionThumbprints;
-  thumbprints_sha384?: ConnectionThumbprintsSha384;
+    | null
+    | undefined;
+  token_endpoint_jwtca_aud_format?:
+    | ConnectionTokenEndpointJwtcaAudFormatEnumOIDC
+    | (string & {})
+    | undefined;
+  id_token_session_expiry_supported?: boolean | undefined;
+  useOauthSpecScope?: boolean | undefined;
+  discovery_url?: string | null | undefined;
+  oidc_metadata?: ConnectionsOIDCMetadata | null | undefined;
+  thumbprints?: ConnectionThumbprints | undefined;
+  thumbprints_sha384?: ConnectionThumbprintsSha384 | undefined;
   [key: string]: unknown;
 }
 /** DEPRECATED property. Use the PATCH /v2/connections/{id}/clients endpoint to enable or disable the connection for any clients. */
@@ -19123,21 +19324,21 @@ export interface UpdateConnectionRequest {
   /** The id of the connection to update */
   id: string;
   /** The connection name used in the new universal login experience. If display_name is not included in the request, the field will be overwritten with the name value. */
-  display_name?: string;
-  options?: UpdateConnectionOptions | null;
+  display_name?: string | undefined;
+  options?: UpdateConnectionOptions | null | undefined;
   /** DEPRECATED property. Use the PATCH /v2/connections/{id}/clients endpoint to enable or disable the connection for any clients. */
-  enabled_clients?: UpdateConnectionRequestEnabledClientsList | null;
+  enabled_clients?: UpdateConnectionRequestEnabledClientsList | null | undefined;
   /** <code>true</code> promotes to a domain-level connection so that third-party applications can use it. <code>false</code> does not promote the connection, so only first-party applications with the connection enabled can use it. (Defaults to <code>false</code>.) */
-  is_domain_connection?: boolean;
+  is_domain_connection?: boolean | undefined;
   /** Enables showing a button for the connection in the login page (new experience only). If false, it will be usable only by HRD. (Defaults to <code>false</code>.) */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
-  realms?: UpdateConnectionRequestRealmsList;
-  metadata?: ConnectionsMetadata;
-  authentication?: ConnectionAuthenticationPurpose;
-  connected_accounts?: ConnectionConnectedAccountsPurpose;
-  cross_app_access_requesting_app?: CrossAppAccessRequestingApp;
-  cross_app_access_resource_app?: CreateCrossAppAccessResourceApp | null;
+  realms?: UpdateConnectionRequestRealmsList | undefined;
+  metadata?: ConnectionsMetadata | undefined;
+  authentication?: ConnectionAuthenticationPurpose | undefined;
+  connected_accounts?: ConnectionConnectedAccountsPurpose | undefined;
+  cross_app_access_requesting_app?: CrossAppAccessRequestingApp | undefined;
+  cross_app_access_resource_app?: CreateCrossAppAccessResourceApp | null | undefined;
 }
 /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
 export type UpdateConnectionResponseContentRealmsList = Array<string>;
@@ -19145,60 +19346,60 @@ export type UpdateConnectionResponseContentRealmsList = Array<string>;
 export type UpdateConnectionResponseContentEnabledClientsList = Array<string>;
 export interface UpdateConnectionResponseContent {
   /** The name of the connection */
-  name?: string;
+  name?: string | undefined;
   /** Connection name used in login screen */
-  display_name?: string;
-  options?: ConnectionOptions;
+  display_name?: string | undefined;
+  options?: ConnectionOptions | undefined;
   /** The connection's identifier */
-  id?: string;
+  id?: string | undefined;
   /** The type of the connection, related to the identity provider */
-  strategy?: string;
+  strategy?: string | undefined;
   /** Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm. */
-  realms?: UpdateConnectionResponseContentRealmsList;
+  realms?: UpdateConnectionResponseContentRealmsList | undefined;
   /** DEPRECATED property. Use the GET /connections/:id/clients endpoint to get the ids of the clients for which the connection is enabled */
-  enabled_clients?: UpdateConnectionResponseContentEnabledClientsList;
+  enabled_clients?: UpdateConnectionResponseContentEnabledClientsList | undefined;
   /** True if the connection is domain level */
-  is_domain_connection?: boolean;
+  is_domain_connection?: boolean | undefined;
   /** Enables showing a button for the connection in the login page (new experience only). If false, it will be usable only by HRD. */
-  show_as_button?: boolean;
-  metadata?: ConnectionsMetadata;
-  authentication?: ConnectionAuthenticationPurpose;
-  connected_accounts?: ConnectionConnectedAccountsPurpose;
-  cross_app_access_requesting_app?: CrossAppAccessRequestingApp;
-  cross_app_access_resource_app?: CrossAppAccessResourceApp;
+  show_as_button?: boolean | undefined;
+  metadata?: ConnectionsMetadata | undefined;
+  authentication?: ConnectionAuthenticationPurpose | undefined;
+  connected_accounts?: ConnectionConnectedAccountsPurpose | undefined;
+  cross_app_access_requesting_app?: CrossAppAccessRequestingApp | undefined;
+  cross_app_access_resource_app?: CrossAppAccessResourceApp | undefined;
 }
 export interface UpdateConnectionProfileRequest {
   /** ID of the connection profile to update. */
   id: string;
-  name?: string;
-  organization?: ConnectionProfileOrganization;
-  connection_name_prefix_template?: string;
-  enabled_features?: ConnectionProfileEnabledFeatures;
-  connection_config?: unknown;
-  strategy_overrides?: ConnectionProfileStrategyOverrides;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
-  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp;
+  name?: string | undefined;
+  organization?: ConnectionProfileOrganization | undefined;
+  connection_name_prefix_template?: string | undefined;
+  enabled_features?: ConnectionProfileEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  strategy_overrides?: ConnectionProfileStrategyOverrides | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
+  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp | undefined;
 }
 export interface UpdateConnectionProfileResponseContent {
-  id?: string;
-  name?: string;
-  organization?: ConnectionProfileOrganization;
-  connection_name_prefix_template?: string;
-  enabled_features?: ConnectionProfileEnabledFeatures;
-  connection_config?: unknown;
-  strategy_overrides?: ConnectionProfileStrategyOverrides;
-  provisioning?: ConnectionProfileStrategyOverridesProvisioning;
-  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp;
+  id?: string | undefined;
+  name?: string | undefined;
+  organization?: ConnectionProfileOrganization | undefined;
+  connection_name_prefix_template?: string | undefined;
+  enabled_features?: ConnectionProfileEnabledFeatures | undefined;
+  connection_config?: unknown | undefined;
+  strategy_overrides?: ConnectionProfileStrategyOverrides | undefined;
+  provisioning?: ConnectionProfileStrategyOverridesProvisioning | undefined;
+  cross_app_access_resource_app?: ConnectionProfileCrossAppAccessResourceApp | undefined;
 }
 export interface UpdateCustomDomainRequest {
   /** The id of the custom domain to update */
   id: string;
   /** recommended includes TLS 1.2 */
-  tls_policy?: CustomDomainTlsPolicyEnum | (string & {});
-  custom_client_ip_header?: CustomDomainCustomClientIpHeaderEnum | (string & {}) | null;
-  domain_metadata?: DomainMetadata;
+  tls_policy?: CustomDomainTlsPolicyEnum | (string & {}) | undefined;
+  custom_client_ip_header?: CustomDomainCustomClientIpHeaderEnum | (string & {}) | null | undefined;
+  domain_metadata?: DomainMetadata | undefined;
   /** Relying Party ID (rpId) to be used for Passkeys on this custom domain. Set to null to remove the rpId and fall back to using the full domain. */
-  relying_party_identifier?: string | null;
+  relying_party_identifier?: string | null | undefined;
 }
 export interface UpdateCustomDomainResponseContent {
   /** ID of the custom domain. */
@@ -19208,18 +19409,18 @@ export interface UpdateCustomDomainResponseContent {
   /** Whether this is a primary domain (true) or not (false). */
   primary: boolean;
   /** Whether this is the default custom domain (true) or not (false). */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   status: CustomDomainStatusFilterEnum;
   type: CustomDomainTypeEnum;
   verification: DomainVerification;
   /** The HTTP header to fetch the client's IP address */
-  custom_client_ip_header?: string | null;
+  custom_client_ip_header?: string | null | undefined;
   /** The TLS version policy */
-  tls_policy?: string;
-  domain_metadata?: DomainMetadata;
-  certificate?: DomainCertificate;
+  tls_policy?: string | undefined;
+  domain_metadata?: DomainMetadata | undefined;
+  certificate?: DomainCertificate | undefined;
   /** Relying Party ID (rpId) to be used for Passkeys on this custom domain. If not present, the full domain will be used. */
-  relying_party_identifier?: string;
+  relying_party_identifier?: string | undefined;
 }
 /** Template name. Can be `verify_email`, `verify_email_by_code`, `auth_email_by_code`, `reset_email`, `reset_email_by_code`, `welcome_email`, `blocked_account`, `stolen_credentials`, `enrollment_email`, `mfa_oob_code`, `user_invitation`, `async_approval`, `change_password` (legacy), or `password_reset` (legacy). */
 export type UpdateEmailTemplateRequestTemplateName =
@@ -19240,42 +19441,42 @@ export type UpdateEmailTemplateRequestTemplateName =
 export interface UpdateEmailTemplateRequest {
   /** Template name. Can be `verify_email`, `verify_email_by_code`, `auth_email_by_code`, `reset_email`, `reset_email_by_code`, `welcome_email`, `blocked_account`, `stolen_credentials`, `enrollment_email`, `mfa_oob_code`, `user_invitation`, `async_approval`, `change_password` (legacy), or `password_reset` (legacy). */
   templateName: UpdateEmailTemplateRequestTemplateName | (string & {});
-  template?: EmailTemplateNameEnum | (string & {});
+  template?: EmailTemplateNameEnum | (string & {}) | undefined;
   /** Body of the email template. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** Senders `from` email address. */
-  from?: string | null;
+  from?: string | null | undefined;
   /** URL to redirect the user to after a successful action. */
-  resultUrl?: string | null;
+  resultUrl?: string | null | undefined;
   /** Subject line of the email. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Syntax of the template body. */
-  syntax?: string | null;
+  syntax?: string | null | undefined;
   /** Lifetime in seconds that the link within the email will be valid for. */
-  urlLifetimeInSeconds?: number | null;
+  urlLifetimeInSeconds?: number | null | undefined;
   /** Whether the `reset_email` and `verify_email` templates should include the user's email address as the `email` parameter in the returnUrl (true) or whether no email address should be included in the redirect (false). Defaults to true. */
-  includeEmailInRedirect?: boolean;
+  includeEmailInRedirect?: boolean | undefined;
   /** Whether the template is enabled (true) or disabled (false). */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface UpdateEmailTemplateResponseContent {
-  template?: EmailTemplateNameEnum;
+  template?: EmailTemplateNameEnum | undefined;
   /** Body of the email template. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** Senders `from` email address. */
-  from?: string | null;
+  from?: string | null | undefined;
   /** URL to redirect the user to after a successful action. */
-  resultUrl?: string | null;
+  resultUrl?: string | null | undefined;
   /** Subject line of the email. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Syntax of the template body. */
-  syntax?: string | null;
+  syntax?: string | null | undefined;
   /** Lifetime in seconds that the link within the email will be valid for. */
-  urlLifetimeInSeconds?: number | null;
+  urlLifetimeInSeconds?: number | null | undefined;
   /** Whether the `reset_email` and `verify_email` templates should include the user's email address as the `email` parameter in the returnUrl (true) or whether no email address should be included in the redirect (false). Defaults to true. */
-  includeEmailInRedirect?: boolean;
+  includeEmailInRedirect?: boolean | undefined;
   /** Whether the template is enabled (true) or disabled (false). */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 /** List of event types subscribed to in this stream. */
 export type UpdateEventStreamRequestSubscriptionsList = Array<EventStreamSubscription>;
@@ -19286,11 +19487,11 @@ export interface UpdateEventStreamRequest {
   /** Unique identifier for the event stream. */
   id: string;
   /** Name of the event stream. */
-  name?: string;
+  name?: string | undefined;
   /** List of event types subscribed to in this stream. */
-  subscriptions?: UpdateEventStreamRequestSubscriptionsList;
-  destination?: EventStreamDestinationPatch;
-  status?: EventStreamStatusEnum | (string & {});
+  subscriptions?: UpdateEventStreamRequestSubscriptionsList | undefined;
+  destination?: EventStreamDestinationPatch | undefined;
+  status?: EventStreamStatusEnum | (string & {}) | undefined;
 }
 export type UpdateEventStreamResponseContent =
   | EventStreamWebhookResponseContent
@@ -19307,18 +19508,18 @@ export interface UpdateExperimentRequest {
   /** The ID of the experiment to update. */
   id: string;
   /** A human-readable name for the experiment */
-  name?: string;
+  name?: string | undefined;
   /** A description of the experiment */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specifies the target authentication flow for this experiment. This field can only be modified on draft experiments. Must be one of: authentication, mfa_enrollment, mfa_challenge, password_reset, passkey_enrollment, or all. Note that the all value targets every flow at once, but requires that this is the only active experiment. */
-  authentication_flow?: AuthenticationFlowEnum | (string & {});
+  authentication_flow?: AuthenticationFlowEnum | (string & {}) | undefined;
   /** Replaces all traffic allocations. Cannot be modified while the experiment is active. */
-  allocations?: UpdateExperimentRequestAllocationsList;
+  allocations?: UpdateExperimentRequestAllocationsList | undefined;
   /** Applies only to Auth0-managed flags. Controls where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config, 'flag' uses the flag's frozen defaults. Can only be modified on draft experiments. Rejected for customer-defined flags. */
-  default_config?: DefaultConfigEnum | (string & {});
+  default_config?: DefaultConfigEnum | (string & {}) | undefined;
   /** Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. Can only be modified on draft experiments. */
-  levels?: UpdateExperimentRequestLevelsList;
-  status?: ExperimentTransitionStatusEnum | (string & {});
+  levels?: UpdateExperimentRequestLevelsList | undefined;
+  status?: ExperimentTransitionStatusEnum | (string & {}) | undefined;
 }
 export type UpdateExperimentResponseContentFeatureFlagSnapshotMap = {
   [key: string]: unknown | undefined;
@@ -19331,25 +19532,25 @@ export type UpdateExperimentResponseContentLevelsList = Array<number>;
 export interface UpdateExperimentResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   feature_flag_id: string;
-  feature_flag_name?: string;
+  feature_flag_name?: string | undefined;
   authentication_flow: string;
   allocation_strategy: AllocationStrategyEnum;
   status: ExperimentStatusEnum;
   /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
   is_valid: boolean;
-  default_config?: DefaultConfigEnum;
-  feature_flag_snapshot?: UpdateExperimentResponseContentFeatureFlagSnapshotMap | null;
+  default_config?: DefaultConfigEnum | undefined;
+  feature_flag_snapshot?: UpdateExperimentResponseContentFeatureFlagSnapshotMap | null | undefined;
   allocations: UpdateExperimentResponseContentAllocationsList;
   /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
   editable_fields: UpdateExperimentResponseContentEditableFieldsList;
   /** Ramp experiment levels configuration. */
-  levels?: UpdateExperimentResponseContentLevelsList;
+  levels?: UpdateExperimentResponseContentLevelsList | undefined;
   /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null;
-  started_at?: string;
-  ended_at?: string;
+  current_level?: number | null | undefined;
+  started_at?: string | undefined;
+  ended_at?: string | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -19359,20 +19560,20 @@ export interface UpdateFeatureFlagRequest {
   /** The ID of the feature flag to update. */
   id: string;
   /** A human-readable name for the feature flag */
-  name?: string;
+  name?: string | undefined;
   /** A description of what this feature flag controls */
-  description?: string | null;
-  parameters?: UpdateFeatureFlagParameters;
+  description?: string | null | undefined;
+  parameters?: UpdateFeatureFlagParameters | undefined;
   /** Target lifecycle status (draft -> active, draft -> archived, active -> archived). Activating a flag requires at least 2 variations. When combined with field edits, the edits and the transition are applied together; if the transition is rejected, no edits are applied. */
-  status?: FeatureFlagStatusEnum | (string & {});
+  status?: FeatureFlagStatusEnum | (string & {}) | undefined;
 }
 export interface UpdateFeatureFlagResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: FeatureFlagTypeEnum;
   status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams;
+  parameters?: FeatureFlagConfigParams | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -19380,17 +19581,17 @@ export type UpdateFlowRequestActionsList = Array<FlowAction>;
 export interface UpdateFlowRequest {
   /** Flow identifier */
   id: string;
-  name?: string;
-  actions?: UpdateFlowRequestActionsList | null;
+  name?: string | undefined;
+  actions?: UpdateFlowRequestActionsList | null | undefined;
 }
 export type UpdateFlowResponseContentActionsList = Array<FlowAction>;
 export interface UpdateFlowResponseContent {
   id: string;
   name: string;
-  actions?: UpdateFlowResponseContentActionsList;
+  actions?: UpdateFlowResponseContentActionsList | undefined;
   created_at: string;
   updated_at: string;
-  executed_at?: string;
+  executed_at?: string | undefined;
 }
 /** Flows Vault Connection configuration. */
 export type UpdateFlowsVaultConnectionSetup =
@@ -19414,8 +19615,8 @@ export interface UpdateFlowsVaultConnectionRequest {
   /** Flows Vault connection ID */
   id: string;
   /** Flows Vault Connection name. */
-  name?: string;
-  setup?: UpdateFlowsVaultConnectionSetup;
+  name?: string | undefined;
+  setup?: UpdateFlowsVaultConnectionSetup | undefined;
 }
 export interface UpdateFlowsVaultConnectionResponseContent {
   /** Flows Vault Connection identifier. */
@@ -19423,11 +19624,11 @@ export interface UpdateFlowsVaultConnectionResponseContent {
   /** Flows Vault Connection app identifier. */
   app_id: string;
   /** Flows Vault Connection environment. */
-  environment?: string;
+  environment?: string | undefined;
   /** Flows Vault Connection name. */
   name: string;
   /** Flows Vault Connection custom account name. */
-  account_name?: string;
+  account_name?: string | undefined;
   /** Whether the Flows Vault Connection is configured. */
   ready: boolean;
   /** The ISO 8601 formatted date when this Flows Vault Connection was created. */
@@ -19435,65 +19636,65 @@ export interface UpdateFlowsVaultConnectionResponseContent {
   /** The ISO 8601 formatted date when this Flows Vault Connection was updated. */
   updated_at: string;
   /** The ISO 8601 formatted date when this Flows Vault Connection was refreshed. */
-  refreshed_at?: string;
+  refreshed_at?: string | undefined;
   fingerprint: string;
 }
 export interface UpdateFormRequest {
   /** The ID of the form to update. */
   id: string;
-  name?: string;
-  messages?: FormMessages | null;
-  languages?: FormLanguages | null;
-  translations?: FormTranslations | null;
-  nodes?: FormNodeList | null;
-  start?: FormStartNode | null;
-  ending?: FormEndingNode | null;
-  style?: FormStyle | null;
+  name?: string | undefined;
+  messages?: FormMessages | null | undefined;
+  languages?: FormLanguages | null | undefined;
+  translations?: FormTranslations | null | undefined;
+  nodes?: FormNodeList | null | undefined;
+  start?: FormStartNode | null | undefined;
+  ending?: FormEndingNode | null | undefined;
+  style?: FormStyle | null | undefined;
 }
 export interface UpdateFormResponseContent {
   id: string;
   name: string;
-  messages?: FormMessages;
-  languages?: FormLanguages;
-  translations?: FormTranslations;
-  nodes?: FormNodeList;
-  start?: FormStartNode;
-  ending?: FormEndingNode;
-  style?: FormStyle;
+  messages?: FormMessages | undefined;
+  languages?: FormLanguages | undefined;
+  translations?: FormTranslations | undefined;
+  nodes?: FormNodeList | undefined;
+  start?: FormStartNode | undefined;
+  ending?: FormEndingNode | undefined;
+  style?: FormStyle | undefined;
   created_at: string;
   updated_at: string;
-  embedded_at?: string;
-  submitted_at?: string;
+  embedded_at?: string | undefined;
+  submitted_at?: string | undefined;
 }
 export interface UpdateHookRequest {
   /** ID of the hook to update. */
   id: string;
   /** Name of this hook. */
-  name?: string;
+  name?: string | undefined;
   /** Code to be executed when this hook runs. */
-  script?: string;
+  script?: string | undefined;
   /** Whether this hook will be executed (true) or ignored (false). */
-  enabled?: boolean;
-  dependencies?: HookDependencies;
+  enabled?: boolean | undefined;
+  dependencies?: HookDependencies | undefined;
 }
 export interface UpdateHookResponseContent {
   /** Trigger ID */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** ID of this hook. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this hook. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this hook will be executed (true) or ignored (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this hook runs. */
-  script?: string;
-  dependencies?: HookDependencies;
+  script?: string | undefined;
+  dependencies?: HookDependencies | undefined;
 }
 /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
 export type UpdateLogStreamRequestFiltersList = Array<LogStreamFilter>;
 export interface LogStreamSegmentSink {
   /** Segment write key */
-  segmentWriteKey?: string;
+  segmentWriteKey?: string | undefined;
 }
 export interface LogStreamMixpanelSinkPatch {
   mixpanelRegion: LogStreamMixpanelRegionEnum | (string & {});
@@ -19502,7 +19703,7 @@ export interface LogStreamMixpanelSinkPatch {
   /** Mixpanel Service Account Username */
   mixpanelServiceAccountUsername: string;
   /** Mixpanel Service Account Password */
-  mixpanelServiceAccountPassword?: string | Redacted.Redacted<string>;
+  mixpanelServiceAccountPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export type LogStreamSinkPatch =
   | LogStreamHttpSink
@@ -19515,14 +19716,14 @@ export interface UpdateLogStreamRequest {
   /** The id of the log stream to get */
   id: string;
   /** log stream name */
-  name?: string;
-  status?: LogStreamStatusEnum | (string & {});
+  name?: string | undefined;
+  status?: LogStreamStatusEnum | (string & {}) | undefined;
   /** True for priority log streams, false for non-priority */
-  isPriority?: boolean;
+  isPriority?: boolean | undefined;
   /** Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered. */
-  filters?: UpdateLogStreamRequestFiltersList;
-  pii_config?: LogStreamPiiConfig;
-  sink?: LogStreamSinkPatch;
+  filters?: UpdateLogStreamRequestFiltersList | undefined;
+  pii_config?: LogStreamPiiConfig | undefined;
+  sink?: LogStreamSinkPatch | undefined;
 }
 export type UpdateLogStreamResponseContent =
   | LogStreamHttpResponseSchema
@@ -19537,53 +19738,53 @@ export type UpdateLogStreamResponse = UpdateLogStreamResponseContent;
 export interface UpdateNetworkAclRequest {
   /** The id of the ACL to update. */
   id: string;
-  description?: string;
+  description?: string | undefined;
   /** Indicates whether or not this access control list is actively being used */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Indicates the order in which the ACL will be evaluated relative to other ACL rules. */
-  priority?: number;
-  rule?: NetworkAclRule;
+  priority?: number | undefined;
+  rule?: NetworkAclRule | undefined;
 }
 export interface UpdateNetworkAclResponseContent {
-  id?: string;
-  description?: string;
-  active?: boolean;
-  priority?: number;
-  rule?: NetworkAclRule;
+  id?: string | undefined;
+  description?: string | undefined;
+  active?: boolean | undefined;
+  priority?: number | undefined;
+  rule?: NetworkAclRule | undefined;
   /** The timestamp when the Network ACL Configuration was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp when the Network ACL Configuration was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   [key: string]: unknown;
 }
 export interface UpdateOrganizationRequest {
   /** ID of the organization to update. */
   id: string;
   /** Friendly name of this organization. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** The name of this organization. */
-  name?: string;
-  branding?: OrganizationBranding;
-  metadata?: OrganizationMetadata;
-  token_quota?: CreateTokenQuota | null;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | (string & {});
+  name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  metadata?: OrganizationMetadata | undefined;
+  token_quota?: CreateTokenQuota | null | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | (string & {}) | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
+  is_app_entitlement_active?: boolean | undefined;
 }
 export interface UpdateOrganizationResponseContent {
   /** Organization identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of this organization. */
-  name?: string;
+  name?: string | undefined;
   /** Friendly name of this organization. */
-  display_name?: string;
-  branding?: OrganizationBranding;
-  metadata?: OrganizationMetadata;
-  token_quota?: CreateTokenQuota;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum;
+  display_name?: string | undefined;
+  branding?: OrganizationBranding | undefined;
+  metadata?: OrganizationMetadata | undefined;
+  token_quota?: CreateTokenQuota | undefined;
+  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | undefined;
   /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean;
-  client?: OrganizationClientAssociation;
+  is_app_entitlement_active?: boolean | undefined;
+  client?: OrganizationClientAssociation | undefined;
   [key: string]: unknown;
 }
 export interface UpdateOrganizationClientRequest {
@@ -19592,14 +19793,14 @@ export interface UpdateOrganizationClientRequest {
   /** ID of the client association to update. */
   client_id: string;
   /** Whether this client is used for member access to the organization. */
-  use_for_member_access?: boolean;
+  use_for_member_access?: boolean | undefined;
 }
 export interface UpdateOrganizationClientResponseContent {
   /** The identifier of the client associated with the organization. */
   client_id: string;
   /** Whether this client is used for member access to the organization. */
   use_for_member_access: boolean;
-  client?: OrganizationClientMetadata;
+  client?: OrganizationClientMetadata | undefined;
 }
 /** Access level for the organization (e.g., "none", "full"). */
 export type OrganizationAccessLevelEnumWithNull = "none" | "readonly" | "limited" | "full";
@@ -19611,77 +19812,82 @@ export interface UpdateOrganizationConnectionRequest {
   /** Connection identifier. */
   connection_id: string;
   /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string | null;
+  organization_connection_name?: string | null | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  organization_access_level?: OrganizationAccessLevelEnumWithNull | (string & {}) | null;
+  is_signup_enabled?: boolean | undefined;
+  organization_access_level?:
+    | OrganizationAccessLevelEnumWithNull
+    | (string & {})
+    | null
+    | undefined;
   organization_member_access_level?:
     | OrganizationMemberAccessLevelEnumWithNull
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean | null;
+  is_enabled?: boolean | null | undefined;
 }
 export interface UpdateOrganizationAllConnectionResponseContent {
   /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string;
+  organization_connection_name?: string | undefined;
   /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean;
+  assign_membership_on_login?: boolean | undefined;
   /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean;
+  show_as_button?: boolean | undefined;
   /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean;
-  organization_access_level?: OrganizationAccessLevelEnum;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum;
+  is_signup_enabled?: boolean | undefined;
+  organization_access_level?: OrganizationAccessLevelEnum | undefined;
+  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
   /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Connection identifier. */
   connection_id: string;
-  connection?: OrganizationConnectionInformation;
+  connection?: OrganizationConnectionInformation | undefined;
 }
 export interface UpdatePhoneProviderRequest {
   id: string;
-  name?: PhoneProviderNameEnum | (string & {});
+  name?: PhoneProviderNameEnum | (string & {}) | undefined;
   /** Whether the provider is enabled (false) or disabled (true). */
-  disabled?: boolean;
-  credentials?: PhoneProviderCredentials;
-  configuration?: PhoneProviderConfiguration;
+  disabled?: boolean | undefined;
+  credentials?: PhoneProviderCredentials | undefined;
+  configuration?: PhoneProviderConfiguration | undefined;
 }
 /** Phone provider configuration schema */
 export interface UpdateBrandingPhoneProviderResponseContent {
-  id?: string;
+  id?: string | undefined;
   /** The name of the tenant */
-  tenant?: string;
+  tenant?: string | undefined;
   name: PhoneProviderNameEnum;
-  channel?: PhoneProviderChannelEnum;
+  channel?: PhoneProviderChannelEnum | undefined;
   /** Whether the provider is enabled (false) or disabled (true). */
-  disabled?: boolean;
-  configuration?: PhoneProviderConfiguration;
+  disabled?: boolean | undefined;
+  configuration?: PhoneProviderConfiguration | undefined;
   /** The provider's creation date and time in ISO 8601 format */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time of the last update to the provider in ISO 8601 format */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface PartialPhoneTemplateContent {
   /** Default phone number to be used as 'from' when sending a phone notification */
-  from?: string;
-  body?: PhoneTemplateBody;
+  from?: string | undefined;
+  body?: PhoneTemplateBody | undefined;
 }
 export interface UpdatePhoneTemplateRequest {
   id: string;
-  content?: PartialPhoneTemplateContent;
+  content?: PartialPhoneTemplateContent | undefined;
   /** Whether the template is enabled (false) or disabled (true). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export interface UpdatePhoneTemplateResponseContent {
-  id?: string;
-  channel?: string;
-  customizable?: boolean;
-  tenant?: string;
+  id?: string | undefined;
+  channel?: string | undefined;
+  customizable?: boolean | undefined;
+  tenant?: string | undefined;
   content: PhoneTemplateContent;
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
@@ -19689,26 +19895,26 @@ export interface UpdatePhoneTemplateResponseContent {
 }
 export interface UpdatePortalRequest {
   id: string;
-  slug?: string;
-  name?: string;
-  client?: PortalClientSecretPostRequest;
-  navigation?: PortalNavigation | null;
-  pages?: PortalPagesByType | null;
-  custom_code?: PortalCustomCode | null;
+  slug?: string | undefined;
+  name?: string | undefined;
+  client?: PortalClientSecretPostRequest | undefined;
+  navigation?: PortalNavigation | null | undefined;
+  pages?: PortalPagesByType | null | undefined;
+  custom_code?: PortalCustomCode | null | undefined;
 }
 export interface UpdatePromptsRequest {
-  universal_login_experience?: UniversalLoginExperienceEnum | (string & {});
+  universal_login_experience?: UniversalLoginExperienceEnum | (string & {}) | undefined;
   /** Whether identifier first is enabled or not */
-  identifier_first?: boolean | null;
+  identifier_first?: boolean | null | undefined;
   /** Use WebAuthn with Device Biometrics as the first authentication factor */
-  webauthn_platform_first_factor?: boolean | null;
+  webauthn_platform_first_factor?: boolean | null | undefined;
 }
 export interface UpdateSettingsResponseContent {
-  universal_login_experience?: UniversalLoginExperienceEnum;
+  universal_login_experience?: UniversalLoginExperienceEnum | undefined;
   /** Whether identifier first is enabled or not */
-  identifier_first?: boolean;
+  identifier_first?: boolean | undefined;
   /** Use WebAuthn with Device Biometrics as the first authentication factor */
-  webauthn_platform_first_factor?: boolean;
+  webauthn_platform_first_factor?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Determines the action to take when the rate limit is exceeded. */
@@ -19753,37 +19959,37 @@ export interface UpdateRateLimitPolicyResponseContent {
   consumer_selector: string;
   configuration: RateLimitPolicyConfiguration;
   /** The date and time when the rate limit policy was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface UpdateRefreshTokenRequest {
   /** ID of the refresh token to update. */
   id: string;
   /** Metadata associated with the refresh token. Pass null or {} to remove all metadata. */
-  refresh_token_metadata?: RefreshTokenMetadata | null;
+  refresh_token_metadata?: RefreshTokenMetadata | null | undefined;
 }
 /** A list of the resource server IDs associated to this refresh-token and their granted scopes */
 export type UpdateRefreshTokenResponseContentResourceServersList =
   Array<RefreshTokenResourceServer>;
 export interface UpdateRefreshTokenResponseContent {
   /** The ID of the refresh token */
-  id?: string;
+  id?: string | undefined;
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
-  created_at?: RefreshTokenDate | null;
-  idle_expires_at?: RefreshTokenDate | null;
-  expires_at?: RefreshTokenDate | null;
-  device?: RefreshTokenDevice;
+  user_id?: string | undefined;
+  created_at?: RefreshTokenDate | null | undefined;
+  idle_expires_at?: RefreshTokenDate | null | undefined;
+  expires_at?: RefreshTokenDate | null | undefined;
+  device?: RefreshTokenDevice | undefined;
   /** ID of the client application granted with this refresh token */
-  client_id?: string;
-  session_id?: string | null;
+  client_id?: string | undefined;
+  session_id?: string | null | undefined;
   /** True if the token is a rotating refresh token */
-  rotating?: boolean;
+  rotating?: boolean | undefined;
   /** A list of the resource server IDs associated to this refresh-token and their granted scopes */
-  resource_servers?: UpdateRefreshTokenResponseContentResourceServersList;
-  refresh_token_metadata?: RefreshTokenMetadata | null;
-  last_exchanged_at?: RefreshTokenDate | null;
+  resource_servers?: UpdateRefreshTokenResponseContentResourceServersList | undefined;
+  refresh_token_metadata?: RefreshTokenMetadata | null | undefined;
+  last_exchanged_at?: RefreshTokenDate | null | undefined;
   [key: string]: unknown;
 }
 /** List of permissions (scopes) that this API uses. */
@@ -19793,86 +19999,89 @@ export interface UpdateResourceServerRequest {
   /** ID or audience of the resource server to update. */
   id: string;
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string;
+  name?: string | undefined;
   /** List of permissions (scopes) that this API uses. */
-  scopes?: UpdateResourceServerRequestScopesList;
-  signing_alg?: SigningAlgorithmEnum | (string & {});
+  scopes?: UpdateResourceServerRequestScopesList | undefined;
+  signing_alg?: SigningAlgorithmEnum | (string & {}) | undefined;
   /** Secret used to sign tokens when using symmetric algorithms (HS256). */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean;
+  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
   /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean;
+  allow_offline_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean;
+  allow_online_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean;
+  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number | null;
-  token_dialect?: ResourceServerTokenDialectSchemaEnum | (string & {});
+  token_lifetime_for_anonymous_access_tokens?: number | null | undefined;
+  token_dialect?: ResourceServerTokenDialectSchemaEnum | (string & {}) | undefined;
   /** Whether authorization policies are enforced (true) or not enforced (false). */
-  enforce_policies?: boolean;
-  access_token?: ResourceServerAccessToken | null;
-  token_encryption?: ResourceServerTokenEncryption | null;
-  consent_policy?: ResourceServerConsentPolicyEnum | (string & {}) | null;
+  enforce_policies?: boolean | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  token_encryption?: ResourceServerTokenEncryption | null | undefined;
+  consent_policy?: ResourceServerConsentPolicyEnum | (string & {}) | null | undefined;
   /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean;
-  authorization_details?: UpdateResourceServerRequestAuthorizationDetailsList | null;
-  proof_of_possession?: ResourceServerProofOfPossession | null;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsSchemaEnum | (string & {});
-  type?: ResourceServerTypeEnum | (string & {}) | null;
+  require_consent_non_repudiation?: boolean | undefined;
+  authorization_details?: UpdateResourceServerRequestAuthorizationDetailsList | null | undefined;
+  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
+  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
+  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
+  agent_subject_claims?: ResourceServerAgentSubjectClaimsSchemaEnum | (string & {}) | undefined;
+  type?: ResourceServerTypeEnum | (string & {}) | null | undefined;
 }
 /** List of permissions (scopes) that this API uses. */
 export type UpdateResourceServerResponseContentScopesList = Array<ResourceServerScope>;
 export type UpdateResourceServerResponseContentAuthorizationDetailsList = Array<unknown>;
 export interface UpdateResourceServerResponseContent {
   /** ID of the API (resource server). */
-  id?: string;
+  id?: string | undefined;
   /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is an Auth0 system API (true) or a custom API (false). */
-  is_system?: boolean;
+  is_system?: boolean | undefined;
   /** Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** List of permissions (scopes) that this API uses. */
-  scopes?: UpdateResourceServerResponseContentScopesList;
-  signing_alg?: SigningAlgorithmEnum;
+  scopes?: UpdateResourceServerResponseContentScopesList | undefined;
+  signing_alg?: SigningAlgorithmEnum | undefined;
   /** Secret used to sign tokens when using symmetric algorithms (HS256). */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean;
+  allow_offline_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean;
+  allow_online_access?: boolean | undefined;
   /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean;
+  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
   /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean;
+  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number;
+  token_lifetime?: number | undefined;
   /** Expiration value (in seconds) for access tokens issued for this API via Implicit or Hybrid Flows. Cannot be greater than the `token_lifetime` value. */
-  token_lifetime_for_web?: number;
+  token_lifetime_for_web?: number | undefined;
   /** Whether authorization polices are enforced (true) or unenforced (false). */
-  enforce_policies?: boolean;
+  enforce_policies?: boolean | undefined;
   /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number;
-  token_dialect?: ResourceServerTokenDialectResponseEnum;
-  access_token?: ResourceServerAccessToken | null;
-  token_encryption?: ResourceServerTokenEncryption | null;
-  consent_policy?: ResourceServerConsentPolicyEnum | null;
+  token_lifetime_for_anonymous_access_tokens?: number | undefined;
+  token_dialect?: ResourceServerTokenDialectResponseEnum | undefined;
+  access_token?: ResourceServerAccessToken | null | undefined;
+  token_encryption?: ResourceServerTokenEncryption | null | undefined;
+  consent_policy?: ResourceServerConsentPolicyEnum | null | undefined;
   /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean;
-  authorization_details?: UpdateResourceServerResponseContentAuthorizationDetailsList | null;
-  proof_of_possession?: ResourceServerProofOfPossession | null;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null;
+  require_consent_non_repudiation?: boolean | undefined;
+  authorization_details?:
+    | UpdateResourceServerResponseContentAuthorizationDetailsList
+    | null
+    | undefined;
+  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
+  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
+  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
   /** The client ID of the client that this resource server is linked to */
-  client_id?: string;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum;
-  type?: ResourceServerTypeEnum | null;
+  client_id?: string | undefined;
+  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
+  type?: ResourceServerTypeEnum | null | undefined;
 }
 export interface UpdateRiskAssessmentsSettingsRequest {
   /** Whether or not risk assessment is enabled. */
@@ -19886,45 +20095,45 @@ export interface UpdateRoleRequest {
   /** ID of the role to update. */
   id: string;
   /** Name of this role. */
-  name?: string;
+  name?: string | undefined;
   /** Description of this role. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateRoleResponseContent {
   /** ID for this role. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this role. */
-  name?: string;
+  name?: string | undefined;
   /** Description of this role. */
-  description?: string;
-  type?: RoleTypeEnum;
-  owner_id?: RoleOwnerId;
+  description?: string | undefined;
+  type?: RoleTypeEnum | undefined;
+  owner_id?: RoleOwnerId | undefined;
 }
 export interface UpdateRuleRequest {
   /** ID of the rule to retrieve. */
   id: string;
   /** Code to be executed when this rule runs. */
-  script?: string;
+  script?: string | undefined;
   /** Name of this rule. */
-  name?: string;
+  name?: string | undefined;
   /** Order that this rule should execute in relative to other rules. Lower-valued rules execute first. */
-  order?: number;
+  order?: number | undefined;
   /** Whether the rule is enabled (true), or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdateRuleResponseContent {
   /** Name of this rule. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this rule. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the rule is enabled (true), or disabled (false). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Code to be executed when this rule runs. */
-  script?: string;
+  script?: string | undefined;
   /** Order that this rule should execute in relative to other rules. Lower-valued rules execute first. */
-  order?: number;
+  order?: number | undefined;
   /** Execution stage of this rule. Can be `login_success`, `login_failure`, or `pre_authorize`. */
-  stage?: string;
+  stage?: string | undefined;
 }
 /** Replaces the entire rules array. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
 export type UpdateSegmentRequestRulesList = Array<SegmentRule>;
@@ -19932,19 +20141,19 @@ export interface UpdateSegmentRequest {
   /** The ID of the segment to update. */
   id: string;
   /** A human-readable name for the segment */
-  name?: string;
+  name?: string | undefined;
   /** A description of the segment */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Replaces the entire rules array. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
-  rules?: UpdateSegmentRequestRulesList;
+  rules?: UpdateSegmentRequestRulesList | undefined;
   /** Target lifecycle status. Archiving removes the segment from the active pool and is terminal (an archived segment cannot return to active). When combined with field edits, the edits apply first and the transition follows. */
-  status?: SegmentStatusEnum | (string & {});
+  status?: SegmentStatusEnum | (string & {}) | undefined;
 }
 export type UpdateSegmentResponseContentRulesList = Array<SegmentRule>;
 export interface UpdateSegmentResponseContent {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: SegmentTypeEnum;
   status: SegmentStatusEnum;
   rules: UpdateSegmentResponseContentRulesList;
@@ -19961,14 +20170,14 @@ export interface UpdateSelfServiceProfileRequest {
   /** The id of the self-service profile to update */
   id: string;
   /** The name of the self-service Profile. */
-  name?: string;
-  description?: string | null;
-  branding?: SelfServiceProfileBrandingProperties | null;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  branding?: SelfServiceProfileBrandingProperties | null | undefined;
   /** List of IdP strategies that will be shown to users during the Self-Service Enterprise Configuration flow. Possible values: [`oidc`, `samlp`, `waad`, `google-apps`, `adfs`, `okta`, `auth0-samlp`, `okta-samlp`, `keycloak-samlp`, `pingfederate`] */
-  allowed_strategies?: UpdateSelfServiceProfileRequestAllowedStrategiesList;
-  user_attributes?: SelfServiceProfileUserAttributes | null;
+  allowed_strategies?: UpdateSelfServiceProfileRequestAllowedStrategiesList | undefined;
+  user_attributes?: SelfServiceProfileUserAttributes | null | undefined;
   /** ID of the user-attribute-profile to associate with this self-service profile. */
-  user_attribute_profile_id?: string | null;
+  user_attribute_profile_id?: string | null | undefined;
 }
 /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
 export type UpdateSelfServiceProfileResponseContentUserAttributesList =
@@ -19978,49 +20187,49 @@ export type UpdateSelfServiceProfileResponseContentAllowedStrategiesList =
   Array<SelfServiceProfileAllowedStrategyEnum>;
 export interface UpdateSelfServiceProfileResponseContent {
   /** The unique ID of the self-service Profile. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the self-service Profile. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the self-service Profile. */
-  description?: string;
+  description?: string | undefined;
   /** List of attributes to be mapped that will be shown to the user during the Self-Service Enterprise Configuration flow. */
-  user_attributes?: UpdateSelfServiceProfileResponseContentUserAttributesList;
+  user_attributes?: UpdateSelfServiceProfileResponseContentUserAttributesList | undefined;
   /** The time when this self-service Profile was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time when this self-service Profile was updated. */
-  updated_at?: string;
-  branding?: SelfServiceProfileBrandingProperties;
+  updated_at?: string | undefined;
+  branding?: SelfServiceProfileBrandingProperties | undefined;
   /** List of IdP strategies that will be shown to users during the Self-Service Enterprise Configuration flow. Possible values: [`oidc`, `samlp`, `waad`, `google-apps`, `adfs`, `okta`, `auth0-samlp`, `okta-samlp`, `keycloak-samlp`, `pingfederate`] */
-  allowed_strategies?: UpdateSelfServiceProfileResponseContentAllowedStrategiesList;
+  allowed_strategies?: UpdateSelfServiceProfileResponseContentAllowedStrategiesList | undefined;
   /** ID of the user-attribute-profile to associate with this self-service profile. */
-  user_attribute_profile_id?: string;
+  user_attribute_profile_id?: string | undefined;
 }
 export interface UpdateSessionRequest {
   /** ID of the session to update. */
   id: string;
   /** Metadata associated with the session. Pass null or {} to remove all session_metadata. */
-  session_metadata?: SessionMetadata | null;
+  session_metadata?: SessionMetadata | null | undefined;
 }
 /** List of client details for the session */
 export type UpdateSessionResponseContentClientsList = Array<SessionClientMetadata>;
 export interface UpdateSessionResponseContent {
   /** The ID of the session */
-  id?: string;
+  id?: string | undefined;
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
-  created_at?: SessionDate | null;
-  updated_at?: SessionDate | null;
-  authenticated_at?: SessionDate | null;
-  idle_expires_at?: SessionDate | null;
-  expires_at?: SessionDate | null;
-  last_interacted_at?: SessionDate | null;
-  device?: SessionDeviceMetadata;
+  user_id?: string | undefined;
+  created_at?: SessionDate | null | undefined;
+  updated_at?: SessionDate | null | undefined;
+  authenticated_at?: SessionDate | null | undefined;
+  idle_expires_at?: SessionDate | null | undefined;
+  expires_at?: SessionDate | null | undefined;
+  last_interacted_at?: SessionDate | null | undefined;
+  device?: SessionDeviceMetadata | undefined;
   /** List of client details for the session */
-  clients?: UpdateSessionResponseContentClientsList;
-  authentication?: SessionAuthenticationSignals;
-  cookie?: SessionCookieMetadata;
-  session_metadata?: SessionMetadata | null;
-  actor?: SessionActorMetadata;
+  clients?: UpdateSessionResponseContentClientsList | undefined;
+  authentication?: SessionAuthenticationSignals | undefined;
+  cookie?: SessionCookieMetadata | undefined;
+  session_metadata?: SessionMetadata | null | undefined;
+  actor?: SessionActorMetadata | undefined;
   [key: string]: unknown;
 }
 export interface UpdateSupplementalSignalsRequest {
@@ -20029,57 +20238,57 @@ export interface UpdateSupplementalSignalsRequest {
 }
 export interface PatchSupplementalSignalsResponseContent {
   /** Indicates if incoming Akamai Headers should be processed */
-  akamai_enabled?: boolean;
+  akamai_enabled?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface UpdateTokenExchangeProfileRequest {
   /** ID of the Token Exchange Profile to update. */
   id: string;
   /** Friendly name of this profile. */
-  name?: string;
+  name?: string | undefined;
   /** Subject token type for this profile. When receiving a token exchange request on the Authentication API, the corresponding token exchange profile with a matching subject_token_type will be executed. This must be a URI. */
-  subject_token_type?: string;
+  subject_token_type?: string | undefined;
 }
 export interface UpdateTokenExchangeProfileResponse {}
 export interface UpdateUserRequest {
   /** ID of the user to update. */
   id: string;
   /** Whether this user was blocked by an administrator (true) or not (false). */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
   /** Whether this email address is verified (true) or unverified (false). If set to false the user will not receive a verification email unless `verify_email` is set to true. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Email address of this user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The user's phone number (following the E.164 recommendation). */
-  phone_number?: string | null;
+  phone_number?: string | null | undefined;
   /** Whether this phone number has been verified (true) or not (false). */
-  phone_verified?: boolean;
+  phone_verified?: boolean | undefined;
   /** User metadata to which this user has read/write access. */
-  user_metadata?: UserMetadata;
+  user_metadata?: UserMetadata | undefined;
   /** User metadata to which this user has read-only access. */
-  app_metadata?: AppMetadata;
+  app_metadata?: AppMetadata | undefined;
   /** Given name/first name/forename of this user. */
-  given_name?: string | null;
+  given_name?: string | null | undefined;
   /** Family name/last name/surname of this user. */
-  family_name?: string | null;
+  family_name?: string | null | undefined;
   /** Name of this user. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Preferred nickname or alias of this user. */
-  nickname?: string | null;
+  nickname?: string | null | undefined;
   /** URL to picture, photo, or avatar of this user. */
-  picture?: string | null;
+  picture?: string | null | undefined;
   /** Whether this user will receive a verification email after creation (true) or no email (false). Overrides behavior of `email_verified` parameter. */
-  verify_email?: boolean;
+  verify_email?: boolean | undefined;
   /** Whether this user will receive a text after changing the phone number (true) or no text (false). Only valid when changing phone number for SMS connections. */
-  verify_phone_number?: boolean;
+  verify_phone_number?: boolean | undefined;
   /** New password for this user. Only valid for database connections. */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** Name of the connection to target for this user update. */
-  connection?: string;
+  connection?: string | undefined;
   /** Auth0 client ID. Only valid when updating email address. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The user's username. Only valid if the connection requires a username. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 /** Array of user identity objects when accounts are linked. */
 export type UpdateUserResponseContentIdentitiesList = Array<UserIdentitySchema>;
@@ -20087,63 +20296,63 @@ export type UpdateUserResponseContentIdentitiesList = Array<UserIdentitySchema>;
 export type UpdateUserResponseContentMultifactorList = Array<string>;
 export interface UpdateUserResponseContent {
   /** ID of the user which can be used when interacting with other APIs. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Email address of this user. */
-  email?: string;
+  email?: string | undefined;
   /** Whether this email address is verified (true) or unverified (false). */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Username of this user. */
-  username?: string;
+  username?: string | undefined;
   /** Phone number for this user. Follows the <a href="https://en.wikipedia.org/wiki/E.164">E.164 recommendation</a>. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Whether this phone number has been verified (true) or not (false). */
-  phone_verified?: boolean;
+  phone_verified?: boolean | undefined;
   /** Date and time when this user was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Date and time when this user was last updated/modified. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Array of user identity objects when accounts are linked. */
-  identities?: UpdateUserResponseContentIdentitiesList;
-  app_metadata?: UserAppMetadataSchema;
-  user_metadata?: UserMetadataSchema;
+  identities?: UpdateUserResponseContentIdentitiesList | undefined;
+  app_metadata?: UserAppMetadataSchema | undefined;
+  user_metadata?: UserMetadataSchema | undefined;
   /** URL to picture, photo, or avatar of this user. */
-  picture?: string;
+  picture?: string | undefined;
   /** Name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Preferred nickname or alias of this user. */
-  nickname?: string;
+  nickname?: string | undefined;
   /** List of multi-factor authentication providers with which this user has enrolled. */
-  multifactor?: UpdateUserResponseContentMultifactorList;
+  multifactor?: UpdateUserResponseContentMultifactorList | undefined;
   /** Last date and time this user's multi-factor authentication providers were updated. */
-  multifactor_last_modified?: string;
+  multifactor_last_modified?: string | undefined;
   /** Last IP address from which this user logged in. */
-  last_ip?: string;
+  last_ip?: string | undefined;
   /** Last date and time this user logged in. */
-  last_login?: string;
+  last_login?: string | undefined;
   /** Last date and time this user had their password reset. */
-  last_password_reset?: string | Redacted.Redacted<string>;
+  last_password_reset?: string | Redacted.Redacted<string> | undefined;
   /** Total number of logins this user has performed. */
-  logins_count?: number;
+  logins_count?: number | undefined;
   /** Whether this user was blocked by an administrator (true) or is not (false). */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
   /** Given name/first name/forename of this user. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** Family name/last name/surname of this user. */
-  family_name?: string;
+  family_name?: string | undefined;
   [key: string]: unknown;
 }
 export interface UpdateUserAttributeProfileRequest {
   /** ID of the user attribute profile to update. */
   id: string;
-  name?: string;
-  user_id?: UserAttributeProfileUserId | null;
-  user_attributes?: UserAttributeProfileUserAttributes;
+  name?: string | undefined;
+  user_id?: UserAttributeProfileUserId | null | undefined;
+  user_attributes?: UserAttributeProfileUserAttributes | undefined;
 }
 export interface UpdateUserAttributeProfileResponseContent {
-  id?: string;
-  name?: string;
-  user_id?: UserAttributeProfileUserId;
-  user_attributes?: UserAttributeProfileUserAttributes;
+  id?: string | undefined;
+  name?: string | undefined;
+  user_id?: UserAttributeProfileUserId | undefined;
+  user_attributes?: UserAttributeProfileUserAttributes | undefined;
 }
 /** Top-level keys merge into the stored overrides. Set a key to `null` to remove it. Set `overrides` to `null` or `{}` to clear all. Keys must exist in the parent flag parameters. */
 export type UpdateVariationOverridesMap = { [key: string]: unknown | undefined };
@@ -20153,16 +20362,16 @@ export interface UpdateVariationRequest {
   /** The ID of the variation to update. */
   vid: string;
   /** A human-readable name for the variation */
-  name?: string;
+  name?: string | undefined;
   /** A description of what this variation controls */
-  description?: string | null;
-  overrides?: UpdateVariationOverridesMap | null;
+  description?: string | null | undefined;
+  overrides?: UpdateVariationOverridesMap | null | undefined;
 }
 export interface UpdateVariationResponseContent {
   id: string;
   feature_flag_id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   overrides: VariationOverridesMap;
   created_at: string;
   updated_at: string;

@@ -36,11 +36,11 @@ export class BadRequest
   ) {}
 
 export interface AssetReportAuditCopyCreateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   asset_report_token: string;
   /** The `auditor_id` of the third party with whom you would like to share the Asset Report. */
-  auditor_id?: string;
+  auditor_id?: string | undefined;
 }
 /** AssetReportAuditCopyCreateResponse defines the response schema for `/asset_report/audit_copy/create` */
 export interface AssetReportAuditCopyCreateResponse {
@@ -50,34 +50,34 @@ export interface AssetReportAuditCopyCreateResponse {
   [key: string]: unknown;
 }
 export interface AssetReportAuditCopyGetRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to get. */
   audit_copy_token: string;
 }
 /** The monthly average amount calculated by dividing the total by the number of calendar months in the time period. */
 export interface MonthlyAverage {
   /** The monthly average amount of all the aggregated transactions of the given category, across all the accounts for the given time window. The average is calculated by dividing the total amount of the transactions by the number of calendar months in the given time window. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
+  unofficial_currency_code?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Detailed expense information for a specific credit category, including transaction count and total amount spent. */
 export interface CategoryExpenses {
   /** The ID of the credit category. See the [category taxonomy](https://plaid.com/documents/credit-category-taxonomy.csv) for a full listing of category IDs. */
-  id?: string;
+  id?: string | undefined;
   /** The total number of transactions that fall into this credit category within the given time window. */
-  transactions_count?: number | null;
+  transactions_count?: number | null | undefined;
   /** The total value for all the transactions that fall into this category within the given time window. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
-  monthly_average?: MonthlyAverage | null;
+  unofficial_currency_code?: string | null | undefined;
+  monthly_average?: MonthlyAverage | null | undefined;
   [key: string]: unknown;
 }
 /** Detailed categories view of all the transactions that fall into the `BANK_PENALTIES` credit category within the given time window, across all the accounts in the report. */
@@ -85,20 +85,20 @@ export type BankPenaltiesIndicatorsCategoryDetailsList = Array<CategoryExpenses 
 /** A monetary amount with its associated currency information, supporting both official and unofficial currency codes. */
 export interface AmountWithCurrency {
   /** If the parent object represents a category of transactions, such as `total_amount`, `transfers_in`, `total_income`, etc. the `amount` represents the sum of all of the transactions in the group. If the parent object is `cash_flow`, the `amount` represents the total value of all the inflows minus all the outflows across all the accounts in the report in the given time window. If the parent object is `minimum_balance`, the `amount` represents the lowest balance of the account during the given time window. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
+  unofficial_currency_code?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Monthly summary of transactions within a specific time period, showing aggregated amounts. */
 export interface MonthlySummary {
   /** The start date of the month for the given report time window. Will be provided in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The end date of the month for the given report time window. Will be provided in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). */
-  end_date?: string | null;
-  total_amount?: AmountWithCurrency | null;
+  end_date?: string | null | undefined;
+  total_amount?: AmountWithCurrency | null | undefined;
   [key: string]: unknown;
 }
 /** The monthly summaries of the transactions that fall into the `BANK_PENALTIES` credit category within the given time window, across all the accounts in the report. */
@@ -106,22 +106,22 @@ export type BankPenaltiesIndicatorsMonthlySummariesList = Array<MonthlySummary |
 /** Insights into bank penalties and fees, including overdraft fees, NSF fees, and other bank-imposed charges. */
 export interface BankPenaltiesIndicators {
   /** The total value of outflow transactions categorized as `BANK_PENALTIES`, across all the accounts in the report within the requested time window. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
-  monthly_average?: MonthlyAverage | null;
+  unofficial_currency_code?: string | null | undefined;
+  monthly_average?: MonthlyAverage | null | undefined;
   /** Detailed categories view of all the transactions that fall into the `BANK_PENALTIES` credit category within the given time window, across all the accounts in the report. */
-  category_details?: BankPenaltiesIndicatorsCategoryDetailsList;
+  category_details?: BankPenaltiesIndicatorsCategoryDetailsList | undefined;
   /** The total number of transactions that fall into the `BANK_PENALTIES` credit category, across all the accounts in the report. */
-  transactions_count?: number | null;
+  transactions_count?: number | null | undefined;
   /** The monthly summaries of the transactions that fall into the `BANK_PENALTIES` credit category within the given time window, across all the accounts in the report. */
-  monthly_summaries?: BankPenaltiesIndicatorsMonthlySummariesList;
+  monthly_summaries?: BankPenaltiesIndicatorsMonthlySummariesList | undefined;
   /** The number of days since the last transaction that falls into the `BANK_PENALTIES` credit category, across all the accounts in the report. */
-  days_since_last_occurrence?: number | null;
+  days_since_last_occurrence?: number | null | undefined;
   /** The percentage of the user's monthly inflows that was spent on transactions that fall into the `BANK_PENALTIES` credit category within the given time window, across all the accounts in the report. For example, a value of 100 represents that 100% of the inflows were spent on transactions that fall into the `BANK_PENALTIES` credit category. If there's no available income for the given time period, this field value will be `-1`. */
-  percentage_of_income?: number | null;
+  percentage_of_income?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Up to 3 top merchants that the user had the most transactions for in the given time window, in descending order of total spend. If the user has not spent money on any merchants in the given time window, this list will be empty. */
@@ -131,22 +131,22 @@ export type GamblingIndicatorsMonthlySummariesList = Array<MonthlySummary | null
 /** Insights into gambling-related transactions, including frequency, amounts, and top merchants. */
 export interface GamblingIndicators {
   /** The total value of transactions that fall into the `GAMBLING` credit category, across all the accounts in the report. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
-  monthly_average?: MonthlyAverage | null;
+  unofficial_currency_code?: string | null | undefined;
+  monthly_average?: MonthlyAverage | null | undefined;
   /** Up to 3 top merchants that the user had the most transactions for in the given time window, in descending order of total spend. If the user has not spent money on any merchants in the given time window, this list will be empty. */
-  top_merchants?: GamblingIndicatorsTopMerchantsList;
+  top_merchants?: GamblingIndicatorsTopMerchantsList | undefined;
   /** The total number of transactions that fall into the `GAMBLING` credit category, across all the accounts in the report. */
-  transactions_count?: number | null;
+  transactions_count?: number | null | undefined;
   /** The monthly summaries of the transactions that fall into the `GAMBLING` category within the given time window, across all the accounts in the report. */
-  monthly_summaries?: GamblingIndicatorsMonthlySummariesList;
+  monthly_summaries?: GamblingIndicatorsMonthlySummariesList | undefined;
   /** The number of days since the last transaction that falls into the `GAMBLING` category, across all the accounts in the report. */
-  days_since_last_occurrence?: number | null;
+  days_since_last_occurrence?: number | null | undefined;
   /** The percentage of the user's monthly inflows that was spent on transactions that fall into the `GAMBLING` category within the given time window, across all the accounts in the report. For example, a value of 100 indicates that 100% of the inflows were spent on transactions that fall into the `GAMBLING` credit category. If there's no available income for the given time period, this field value will be `-1` */
-  percentage_of_income?: number | null;
+  percentage_of_income?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Detailed categories view of all the transactions that fall into the `LOAN_DISBURSEMENTS` credit category within the given time window, across all the accounts in the report. */
@@ -158,24 +158,24 @@ export type LoanDisbursementsIndicatorsMonthlySummariesList = Array<MonthlySumma
 /** Insights into loan disbursement transactions received by the user, tracking incoming funds from loan providers. */
 export interface LoanDisbursementsIndicators {
   /** The total value of inflow transactions categorized as `LOAN_DISBURSEMENTS`, across all the accounts in the report within the requested time window. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
+  unofficial_currency_code?: string | null | undefined;
   /** Detailed categories view of all the transactions that fall into the `LOAN_DISBURSEMENTS` credit category within the given time window, across all the accounts in the report. */
-  category_details?: LoanDisbursementsIndicatorsCategoryDetailsList;
-  monthly_average?: MonthlyAverage | null;
+  category_details?: LoanDisbursementsIndicatorsCategoryDetailsList | undefined;
+  monthly_average?: MonthlyAverage | null | undefined;
   /** Up to 3 top service providers that the user had the most transactions for in the given time window, in descending order of total spend. If the user has not received money from any provider in the given time window, this list will be empty. */
-  top_providers?: LoanDisbursementsIndicatorsTopProvidersList;
+  top_providers?: LoanDisbursementsIndicatorsTopProvidersList | undefined;
   /** The total number of transactions that fall into the `LOAN_DISBURSEMENTS` credit category, across all the accounts in the report. */
-  transactions_count?: number | null;
+  transactions_count?: number | null | undefined;
   /** The monthly summaries of the transactions that fall into the `LOAN_DISBURSEMENTS` category within the given time window, across all the accounts in the report. */
-  monthly_summaries?: LoanDisbursementsIndicatorsMonthlySummariesList;
+  monthly_summaries?: LoanDisbursementsIndicatorsMonthlySummariesList | undefined;
   /** The number of days since the last transaction that falls into the `LOAN_DISBURSEMENTS` credit category, across all the accounts in the report. */
-  days_since_last_occurrence?: number | null;
+  days_since_last_occurrence?: number | null | undefined;
   /** The percentage of the user's monthly inflows that was received on transactions that fall into the `LOAN_DISBURSEMENTS` credit category within the given time window, across all the accounts in the report. For example, a value of 100 indicates that 100% of the inflows were spent on transactions that fall into the `LOAN_DISBURSEMENTS` credit category. If there's no available income for the given time period, this field value will be `-1`. */
-  percentage_of_income?: number | null;
+  percentage_of_income?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Detailed categories view of all the transactions that fall into the `LOAN_PAYMENTS` credit category within the given time window, across all the accounts in the report. */
@@ -187,33 +187,33 @@ export type LoanPaymentsIndicatorsMonthlySummariesList = Array<MonthlySummary | 
 /** Insights into loan payment transactions made by the user, tracking outgoing payments to loan providers. */
 export interface LoanPaymentsIndicators {
   /** The total value of outflow transactions categorized as `LOAN_PAYMENTS`, across all the accounts in the report within the requested time window. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
-  monthly_average?: MonthlyAverage | null;
+  unofficial_currency_code?: string | null | undefined;
+  monthly_average?: MonthlyAverage | null | undefined;
   /** Detailed categories view of all the transactions that fall into the `LOAN_PAYMENTS` credit category within the given time window, across all the accounts in the report. */
-  category_details?: LoanPaymentsIndicatorsCategoryDetailsList;
+  category_details?: LoanPaymentsIndicatorsCategoryDetailsList | undefined;
   /** Up to 3 top service providers that the user had the most transactions for in the given time window, in descending order of total spend. If the user has not spent money on any provider in the given time window, this list will be empty. */
-  top_providers?: LoanPaymentsIndicatorsTopProvidersList;
+  top_providers?: LoanPaymentsIndicatorsTopProvidersList | undefined;
   /** The total number of transactions that fall into the `LOAN_PAYMENTS` credit category, across all the accounts in the report. */
-  transactions_count?: number | null;
+  transactions_count?: number | null | undefined;
   /** The monthly summaries of the transactions that fall into the `LOAN_PAYMENTS` credit category within the given time window, across all the accounts in the report. */
-  monthly_summaries?: LoanPaymentsIndicatorsMonthlySummariesList;
+  monthly_summaries?: LoanPaymentsIndicatorsMonthlySummariesList | undefined;
   /** The number of days since the last transaction that falls into the `LOAN_PAYMENTS` credit category, across all the accounts in the report. */
-  days_since_last_occurrence?: number | null;
+  days_since_last_occurrence?: number | null | undefined;
   /** The percentage of the user's monthly inflows that was spent on transactions that fall into the `LOAN_PAYMENTS` credit category within the given time window, across all the accounts in the report. For example, a value of 100 indicates that 100% of the inflows were spent on transactions that fall into the `LOAN_PAYMENTS` credit category. If there's no available income for the given time period, this field value will be `-1` */
-  percentage_of_income?: number | null;
+  percentage_of_income?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Details about a specific occurrence of a negative balance period, including start and end dates. */
 export interface NegativeBalanceOccurrence {
   /** The date of the first transaction that caused the account to have a negative balance. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The date of the last transaction that caused the account to have a negative balance. The date will be returned in an ISO 8601 format (YYYY-MM-DD). This date is inclusive, meaning that this was the last date that the account had a negative balance. */
-  end_date?: string | null;
-  minimum_balance?: AmountWithCurrency | null;
+  end_date?: string | null | undefined;
+  minimum_balance?: AmountWithCurrency | null | undefined;
   [key: string]: unknown;
 }
 /** The summary of the negative balance occurrences for this account. If the user has not had a negative balance in the account in the given time window, this list will be empty. */
@@ -221,21 +221,21 @@ export type NegativeBalanceInsightsOccurrencesList = Array<NegativeBalanceOccurr
 /** Insights into negative balance occurrences, including frequency, duration, and minimum balance details. */
 export interface NegativeBalanceInsights {
   /** The number of days since the last transaction that caused any account in the report to have a negative balance. This value is inclusive of the date of the last negative balance, meaning that if the last negative balance occurred today, this value will be `0`. */
-  days_since_last_occurrence?: number | null;
+  days_since_last_occurrence?: number | null | undefined;
   /** The number of aggregated days that the accounts in the report has had a negative balance within the given time window. */
-  days_with_negative_balance?: number | null;
-  minimum_balance?: AmountWithCurrency | null;
+  days_with_negative_balance?: number | null | undefined;
+  minimum_balance?: AmountWithCurrency | null | undefined;
   /** The summary of the negative balance occurrences for this account. If the user has not had a negative balance in the account in the given time window, this list will be empty. */
-  occurrences?: NegativeBalanceInsightsOccurrencesList;
+  occurrences?: NegativeBalanceInsightsOccurrencesList | undefined;
   [key: string]: unknown;
 }
 /** Risk indicators focus on providing signal on the possibility of a borrower defaulting on their loan repayments by providing data points related to its payment behavior, debt, and other relevant financial information, helping lenders gauge the level of risk involved in a certain operation. */
 export interface RiskIndicators {
-  bank_penalties?: BankPenaltiesIndicators | null;
-  gambling?: GamblingIndicators | null;
-  loan_disbursements?: LoanDisbursementsIndicators | null;
-  loan_payments?: LoanPaymentsIndicators | null;
-  negative_balance?: NegativeBalanceInsights | null;
+  bank_penalties?: BankPenaltiesIndicators | null | undefined;
+  gambling?: GamblingIndicators | null | undefined;
+  loan_disbursements?: LoanDisbursementsIndicators | null | undefined;
+  loan_payments?: LoanPaymentsIndicators | null | undefined;
+  negative_balance?: NegativeBalanceInsights | null | undefined;
   [key: string]: unknown;
 }
 /** Represents an amount and a monthly average */
@@ -245,18 +245,18 @@ export type ExpenditureSummaryTopCategoriesList = Array<CategoryExpenses | null>
 /** Summary statistics for a specific expenditure category, including total amount, monthly average, and percentage of income. */
 export interface ExpenditureSummary {
   /** The total value of all the aggregated transactions in this expenditure category. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount. Always `null` if `iso_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
-  unofficial_currency_code?: string | null;
-  monthly_average?: MonthlyAverage | null;
+  unofficial_currency_code?: string | null | undefined;
+  monthly_average?: MonthlyAverage | null | undefined;
   /** The total number of outflow transactions in this expenses group, within the given time window across all the accounts in the report. */
-  transactions_count?: number | null;
+  transactions_count?: number | null | undefined;
   /** The percentage of the total inflows that was spent in this expenses group, within the given time window across all the accounts in the report. For example, a value of 100 represents that 100% of the inflows were spent on transactions that fall into this expenditure group. If there's no available income for the given time period, this field value will be `-1`. */
-  percentage_of_income?: number | null;
+  percentage_of_income?: number | null | undefined;
   /** The primary credit categories of the expenses within the given time window, across all the accounts in the report. The categories are sorted in descending order by the total value spent. See the [category taxonomy](https://plaid.com/documents/credit-category-taxonomy.csv) for a full listing of category IDs. */
-  top_categories?: ExpenditureSummaryTopCategoriesList;
+  top_categories?: ExpenditureSummaryTopCategoriesList | undefined;
   [key: string]: unknown;
 }
 /** Up to 3 top categories of expenses in this group. */
@@ -264,62 +264,62 @@ export type OutlierTransactionsInsightsTopCategoriesList = Array<CategoryExpense
 /** Insights into unusually large transactions that exceed typical spending patterns for the account. */
 export interface OutlierTransactionsInsights {
   /** The total number of transactions whose value is above the threshold of normal amounts for a given account. */
-  transactions_count?: number | null;
-  total_amount?: AmountWithCurrency | null;
+  transactions_count?: number | null | undefined;
+  total_amount?: AmountWithCurrency | null | undefined;
   /** Up to 3 top categories of expenses in this group. */
-  top_categories?: OutlierTransactionsInsightsTopCategoriesList;
+  top_categories?: OutlierTransactionsInsightsTopCategoriesList | undefined;
   [key: string]: unknown;
 }
 /** Comprehensive analysis of spending patterns, categorizing expenses into essential, non-essential, and other categories. */
 export interface ExpenditureInsights {
   /** Net cash flow for the period (inflows minus outflows), including a monthly average. */
-  cash_flow?: AmountWithCurrency | null;
-  total_expenditure?: ExpenditureSummary | null;
-  essential_expenditure?: ExpenditureSummary | null;
-  non_essential_expenditure?: ExpenditureSummary | null;
-  other?: ExpenditureSummary | null;
-  transfers_out?: ExpenditureSummary | null;
-  outlier_transactions?: OutlierTransactionsInsights | null;
+  cash_flow?: AmountWithCurrency | null | undefined;
+  total_expenditure?: ExpenditureSummary | null | undefined;
+  essential_expenditure?: ExpenditureSummary | null | undefined;
+  non_essential_expenditure?: ExpenditureSummary | null | undefined;
+  other?: ExpenditureSummary | null | undefined;
+  transfers_out?: ExpenditureSummary | null | undefined;
+  outlier_transactions?: OutlierTransactionsInsights | null | undefined;
   [key: string]: unknown;
 }
 /** Comprehensive income analysis including total income, income excluding transfers, and inbound transfer amounts. */
 export interface IncomeInsights {
   /** The total amount of all income transactions in the given time period. */
-  total_income?: AmountWithCurrency | null;
+  total_income?: AmountWithCurrency | null | undefined;
   /** Income excluding account transfer transactions for the period, including a monthly average. */
-  income_excluding_transfers?: AmountWithCurrency | null;
+  income_excluding_transfers?: AmountWithCurrency | null | undefined;
   /** Sum of inbound transfer transactions for the period, including a monthly average. */
-  transfers_in?: AmountWithCurrency | null;
+  transfers_in?: AmountWithCurrency | null | undefined;
   [key: string]: unknown;
 }
 /** Affordability insights focus on providing signal on the ability of a borrower to repay their loan without experiencing financial strain. It provides insights on factors such as a user's monthly income and expenses, disposable income, average expenditure, etc., helping lenders gauge the level of affordability of a borrower. */
 export interface AffordabilityInsights {
-  expenditure?: ExpenditureInsights | null;
-  income?: IncomeInsights | null;
+  expenditure?: ExpenditureInsights | null | undefined;
+  income?: IncomeInsights | null | undefined;
   [key: string]: unknown;
 }
 /** This is a container object for all lending-related insights. This field will be returned only for European customers. */
 export interface AccountInsights {
-  risk?: RiskIndicators | null;
-  affordability?: AffordabilityInsights | null;
+  risk?: RiskIndicators | null | undefined;
+  affordability?: AffordabilityInsights | null | undefined;
   [key: string]: unknown;
 }
 /** The user object allows you to provide additional information about the user to be appended to the Asset Report. All fields are optional. The `first_name`, `last_name`, and `ssn` fields are required if you would like the Report to be eligible for Fannie Mae's Day 1 Certainty(TM) program. */
 export interface AssetReportUser {
   /** An identifier you determine and submit for the user. */
-  client_user_id?: string | null;
+  client_user_id?: string | null | undefined;
   /** The user's first name. Required for the Fannie Mae Day 1 Certainty(TM) program. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The user's middle name */
-  middle_name?: string | null;
+  middle_name?: string | null | undefined;
   /** The user's last name. Required for the Fannie Mae Day 1 Certainty(TM) program. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The user's Social Security Number. Required for the Fannie Mae Day 1 Certainty(TM) program. Format: "ddd-dd-dddd" */
-  ssn?: string | null;
+  ssn?: string | null | undefined;
   /** The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567". Phone numbers provided in other formats will be parsed on a best-effort basis. */
-  phone_number?: string | null;
+  phone_number?: string | null | undefined;
   /** The user's email address. */
-  email?: string | null;
+  email?: string | null | undefined;
   [key: string]: unknown;
 }
 /** A set of fields describing the balance for an account. Balance information may be cached unless the balance object was returned by `/accounts/balance/get`. */
@@ -337,7 +337,7 @@ export interface AssetReportAccountBalance {
   /** The unofficial currency code associated with the balance. Always null if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** Timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the oldest acceptable balance when making a request to `/accounts/balance/get`. This field is only used and expected when the institution is `ins_128026` (Capital One) and the Item contains one or more accounts with a non-depository account type, in which case a value must be provided or an `INVALID_REQUEST` error with the code of `INVALID_FIELD` will be returned. For Capital One depository accounts as well as all other account types on all other institutions, this field is ignored. See [account type schema](https://plaid.com/docs/api/accounts/#account-type-schema) for a full list of account types. If the balance that is pulled is older than the given timestamp for Items with this field required, an `INVALID_RESULT` error with the code of `LAST_UPDATED_DATETIME_OUT_OF_RANGE` will be returned with the most recent timestamp for the requested account contained in the response. */
-  last_updated_datetime?: string | null;
+  last_updated_datetime?: string | null | undefined;
   [key: string]: unknown;
 }
 /** `investment:` Investment account. In API versions 2018-05-22 and earlier, this type is called `brokerage` instead. `credit:` Credit card `depository:` Depository account `loan:` Loan account `other:` Non-specified account type See the [Account type schema](https://plaid.com/docs/api/accounts#account-type-schema) for a full listing of account types and corresponding subtypes. */
@@ -499,33 +499,33 @@ export interface AssetReportTransaction {
   /** The string returned by the financial institution to describe the transaction. */
   original_description: string | null;
   /** A hierarchical array of the categories to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). This field will only appear in an Asset Report with Insights. */
-  category?: AssetReportTransactionCategoryList | null;
+  category?: AssetReportTransactionCategoryList | null | undefined;
   /** The ID of the category to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). This field will only appear in an Asset Report with Insights. */
-  category_id?: string | null;
-  credit_category?: CreditCategory | null;
+  category_id?: string | null | undefined;
+  credit_category?: CreditCategory | null | undefined;
   /** The check number of the transaction. This field is only populated for check transactions. */
-  check_number?: string | null;
+  check_number?: string | null | undefined;
   /** For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DD` ). */
   date: string;
   /** The date on which the transaction took place, in ISO 8601 format. */
-  date_transacted?: string | null;
-  location?: Location;
+  date_transacted?: string | null | undefined;
+  location?: Location | undefined;
   /** The merchant name or transaction description. This is a legacy field that is no longer maintained. For merchant name, use the `merchant_name` field. For description, use the `original_description` field. This field will only appear in an Asset Report with Insights. */
-  name?: string;
+  name?: string | undefined;
   /** The merchant name, as enriched by Plaid. This is typically a more human-readable version of the merchant counterparty in the transaction. For some bank transactions (such as checks or account transfers) where there is no meaningful merchant name, this value will be `null`. */
-  merchant_name?: string | null;
-  payment_meta?: PaymentMeta;
+  merchant_name?: string | null | undefined;
+  payment_meta?: PaymentMeta | undefined;
   /** When `true`, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled. */
   pending: boolean;
   /** The ID of a posted transaction's associated pending transaction, where applicable. */
-  pending_transaction_id?: string | null;
+  pending_transaction_id?: string | null | undefined;
   /** The name of the account owner. This field is not typically populated and only relevant when dealing with sub-accounts. */
-  account_owner?: string | null;
+  account_owner?: string | null | undefined;
   /** The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive. */
   transaction_id: string;
-  transaction_type?: AssetReportTransactionType;
+  transaction_type?: AssetReportTransactionType | undefined;
   /** A unique identifier for an income source. */
-  income_source_id?: string;
+  income_source_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Transaction history associated with the account. */
@@ -562,21 +562,21 @@ export interface AssetReportInvestmentHolding {
   /** The last price given by the institution for this security. */
   institution_price: number;
   /** The date at which `institution_price` was current. */
-  institution_price_as_of?: string | null;
+  institution_price_as_of?: string | null | undefined;
   /** The value of the holding, as reported by the institution. */
   institution_value: number;
   /** The total quantity of the asset held, as reported by the financial institution. If the security is an option, `quantity` will reflect the total number of options (typically the number of contracts multiplied by 100), not the number of contracts. */
   quantity: number;
   /** The total quantity of vested assets held, as reported by the financial institution. Vested assets are only associated with [equities](https://plaid.com/docs/api/products/investments/#investments-holdings-get-response-securities-type). */
-  vested_quantity?: number | null;
+  vested_quantity?: number | null | undefined;
   /** The value of the vested holdings as reported by the institution. */
-  vested_value?: number | null;
+  vested_value?: number | null | undefined;
   /** The ISO-4217 currency code of the holding. Always `null` if `unofficial_currency_code` is non-`null`. */
   iso_currency_code: string | null;
   /** The unofficial currency code associated with the holding. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** Per-lot acquisition data for this holding. This field is absent when lot-level data is not available for the holding -- either the institution does not provide it, or the report was generated before lot-level data was supported. Refresh the report if you expect lots. */
-  tax_lots?: AssetReportInvestmentHoldingTaxLotsList;
+  tax_lots?: AssetReportInvestmentHoldingTaxLotsList | undefined;
   [key: string]: unknown;
 }
 /** Quantities and values of securities held in the investment account. Map to the `securities` array for security details. */
@@ -677,11 +677,11 @@ export type AssetReportInvestmentsTransactionsList = Array<AssetReportInvestment
 /** A set of fields describing the investments data on an account. */
 export interface AssetReportInvestments {
   /** Quantities and values of securities held in the investment account. Map to the `securities` array for security details. */
-  holdings?: AssetReportInvestmentsHoldingsList;
+  holdings?: AssetReportInvestmentsHoldingsList | undefined;
   /** Details of specific securities held in on the investment account. */
-  securities?: AssetReportInvestmentsSecuritiesList;
+  securities?: AssetReportInvestmentsSecuritiesList | undefined;
   /** Transaction history on the investment account. */
-  transactions?: AssetReportInvestmentsTransactionsList;
+  transactions?: AssetReportInvestmentsTransactionsList | undefined;
   [key: string]: unknown;
 }
 /** A list of names associated with the account by the financial institution. In the case of a joint account, Plaid will make a best effort to report the names of all account holders. If an Item contains multiple accounts with different owner names, some institutions will report all names associated with the Item in each account's `names` array. */
@@ -732,7 +732,7 @@ export interface AddressData {
 export interface Address {
   data: AddressData;
   /** When `true`, identifies the address as the primary address on an account. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Data about the various addresses associated with the account by the financial institution. May be an empty array if no relevant information is returned from the financial institution. */
@@ -781,20 +781,20 @@ export interface AccountAssets {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** The current verification status of an Auth Item initiated through Automated or Manual micro-deposits. Returned for Auth Items only. `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the micro-deposit. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. */
-  verification_status?: AccountAssetsVerificationStatus;
+  verification_status?: AccountAssetsVerificationStatus | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This is currently an opt-in field and only supported for Chase Items. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The duration of transaction history available within this report for this Item, typically defined as the time since the date of the earliest transaction in that account. */
   days_available: number;
   /** Transaction history associated with the account. */
   transactions: AccountAssetsTransactionsList;
-  investments?: AssetReportInvestments;
+  investments?: AssetReportInvestments | undefined;
   /** Data returned by the financial institution about the account owner or owners. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. Multiple owners on a single account will be represented in the same `owner` object, not in multiple owner objects within the array. In API versions 2018-05-22 and earlier, the `owners` object is not returned, and instead identity information is returned in the top level `identity` object. For more details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2019-05-29) */
   owners: AccountAssetsOwnersList;
-  ownership_type?: OwnershipType | null;
+  ownership_type?: OwnershipType | null | undefined;
   /** Calculated data about the historical balances on the account. Available for `credit` and `depository` type accounts. */
   historical_balances: AccountAssetsHistoricalBalancesList;
-  account_insights?: AccountInsights | null;
+  account_insights?: AccountInsights | null | undefined;
   [key: string]: unknown;
 }
 /** Data about each of the accounts open on the Item. */
@@ -817,7 +817,7 @@ export type AssetReportItemsList = Array<AssetReportItem>;
 /** An object representing an Asset Report */
 export interface AssetReport {
   asset_report_id: string;
-  insights?: AccountInsights | null;
+  insights?: AccountInsights | null | undefined;
   /** An identifier you determine and submit for the Asset Report. */
   client_report_id: string | null;
   /** The date and time when the Asset Report was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (e.g. "2018-04-12T03:32:11Z"). */
@@ -893,25 +893,25 @@ export interface Cause {
   /** The particular error code. Safe for programmatic use. */
   error_code: string;
   /** The specific reason for the error code. Currently, reasons are only supported for OAuth-based item errors; the field is omitted otherwise. Safe for programmatic use. Possible values: `OAUTH_INVALID_TOKEN`: The user's OAuth connection to this institution has been invalidated. `OAUTH_CONSENT_EXPIRED`: The user's access consent for this OAuth connection to this institution has expired. `OAUTH_USER_REVOKED`: The user's OAuth connection to this institution is invalid because the user revoked their connection. */
-  error_code_reason?: string | null;
+  error_code_reason?: string | null | undefined;
   /** A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use. */
   error_message: string;
   /** A user-friendly representation of the error code. `null` if the error is not related to user action. This may change over time and is not safe for programmatic use. */
   display_message: string | null;
   /** A unique ID identifying the request, to be used for troubleshooting purposes. This field will be omitted in errors provided by webhooks. */
-  request_id?: string;
+  request_id?: string | undefined;
   /** In this product, a request can pertain to more than one Item. If an error is returned for such a request, `causes` will return an array of errors containing a breakdown of these errors on the individual Item level, if any can be identified. `causes` will be provided for the `error_type` `ASSET_REPORT_ERROR` or `CHECK_REPORT_ERROR`, and for the `USER_ERROR` codes `USER_ITEM_ASSOCIATION_FAILED` and `USER_ITEM_REMOVAL_FAILED`. `causes` will also not be populated inside an error nested within a `warning` object. */
-  causes?: CauseCausesList;
+  causes?: CauseCausesList | undefined;
   /** The HTTP status code associated with the error. This will only be returned in the response body when the error information is provided via a webhook. */
-  status?: number | null;
+  status?: number | null | undefined;
   /** The URL of a Plaid documentation page with more information about the error */
-  documentation_url?: string;
+  documentation_url?: string | undefined;
   /** Suggested steps for resolving the error */
-  suggested_action?: string | null;
+  suggested_action?: string | null | undefined;
   /** A list of the account subtypes that were requested via the `account_filters` parameter in `/link/token/create`. Currently only populated for `NO_ACCOUNTS` errors from Items with `investments_auth` as an enabled product. */
-  required_account_subtypes?: CauseRequiredAccountSubtypesList;
+  required_account_subtypes?: CauseRequiredAccountSubtypesList | undefined;
   /** A list of the account subtypes that were extracted but did not match the requested subtypes via the `account_filters` parameter in `/link/token/create`. Currently only populated for `NO_ACCOUNTS` errors from Items with `investments_auth` as an enabled product. */
-  provided_account_subtypes?: CauseProvidedAccountSubtypesList;
+  provided_account_subtypes?: CauseProvidedAccountSubtypesList | undefined;
   item_id: string;
   [key: string]: unknown;
 }
@@ -937,19 +937,19 @@ export interface AssetReportGetResponse {
 /** An optional object to filter or add data to `/asset_report/get` results. If provided, must be non-`null`. */
 export interface AssetReportPDFGetRequestOptions {
   /** The maximum integer number of days of history to include in the Asset Report. */
-  days_to_include?: number | null;
+  days_to_include?: number | null | undefined;
 }
 export interface AssetReportAuditCopyPdfGetRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to get as a PDF. */
   audit_copy_token: string;
-  options?: AssetReportPDFGetRequestOptions;
+  options?: AssetReportPDFGetRequestOptions | undefined;
 }
 export interface AssetReportAuditCopyPdfGetResponse {}
 export interface AssetReportAuditCopyRemoveRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to revoke. */
   audit_copy_token: string;
 }
@@ -963,8 +963,8 @@ export interface AssetReportAuditCopyRemoveResponse {
 /** The accounts to exclude from the Asset Report, identified by `account_id`. */
 export type AssetReportFilterRequestAccountIdsToExcludeList = Array<string>;
 export interface AssetReportFilterRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   asset_report_token: string;
   /** The accounts to exclude from the Asset Report, identified by `account_id`. */
   account_ids_to_exclude: AssetReportFilterRequestAccountIdsToExcludeList;
@@ -983,8 +983,8 @@ export type BetaIssuesV1MatchIdentifierType =
   | "LINK_SESSION_ID"
   | "ACCOUNT_ID";
 export interface BetaIssuesV1MatchRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   identifier_type: BetaIssuesV1MatchIdentifierType | (string & {});
   /** The Item, request, Link session, or Account identifier to match. */
   identifier: string;
@@ -1136,12 +1136,12 @@ export type ReasonCode =
   | "RR04"
   | "RUTA";
 export interface CancelTransferRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   transfer_id: string;
   /** The Plaid client ID of the transfer originator. Should only be present if `client_id` is a third-party sender (TPS). */
-  originator_client_id?: string | null;
-  reason_code?: ReasonCode | (string & {});
+  originator_client_id?: string | null | undefined;
+  reason_code?: ReasonCode | (string & {}) | undefined;
 }
 /** Defines the response schema for `/transfer/cancel` */
 export interface TransferCancelResponse {
@@ -1149,8 +1149,8 @@ export interface TransferCancelResponse {
   [key: string]: unknown;
 }
 export interface CancelTransferAuthorizationRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   authorization_id: string;
 }
 /** Defines the response schema for `/transfer/authorization/cancel` */
@@ -1159,8 +1159,8 @@ export interface TransferAuthorizationCancelResponse {
   [key: string]: unknown;
 }
 export interface CancelTransferRecurringRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   recurring_transfer_id: string;
 }
 /** Defines the response schema for `/transfer/recurring/cancel` */
@@ -1169,8 +1169,8 @@ export interface TransferRecurringCancelResponse {
   [key: string]: unknown;
 }
 export interface CancelTransferRefundRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   refund_id: string;
 }
 /** Defines the response schema for `/transfer/refund/cancel` */
@@ -1189,27 +1189,27 @@ export type AssetReportCreateRequestOptionsAddOnsList = Array<AssetReportAddOns 
 /** An optional object to filter `/asset_report/create` results. If provided, must be non-`null`. The optional `user` object is required for the report to be eligible for Fannie Mae's Day 1 Certainty program. */
 export interface AssetReportCreateRequestOptions {
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
   /** URL to which Plaid will send Assets webhooks, for example when the requested Asset Report is ready. */
-  webhook?: string | null;
+  webhook?: string | null | undefined;
   /** true to return balance and identity earlier as a fast report. Defaults to false if omitted. */
-  include_fast_report?: boolean | null;
+  include_fast_report?: boolean | null | undefined;
   /** Additional information that can be included in the asset report. Possible values: `"investments"` */
-  products?: AssetReportCreateRequestOptionsProductsList;
+  products?: AssetReportCreateRequestOptionsProductsList | undefined;
   /** A list of add-ons that should be included in the Asset Report. When Fast Assets is requested, Plaid will create two versions of the Asset Report: the Fast Asset Report, which will contain only Identity and Balance information, and the Full Asset Report, which will also contain Transactions information. A `PRODUCT_READY` webhook will be fired for each Asset Report when it is ready, and the `report_type` field will indicate whether the webhook is firing for the `FULL` or `FAST` Asset Report. To retrieve the Fast Asset Report, call `/asset_report/get` with `fast_report` set to `true`. There is no additional charge for using Fast Assets. To create a Fast Asset Report, Plaid must successfully retrieve both Identity and Balance data; if Plaid encounters an error obtaining this data, the Fast Asset Report will not be created. However, as long as Plaid can obtain Transactions data, the Full Asset Report will still be available. When Investments is requested, `investments` must be specified in the `optional_products` array when initializing Link. */
-  add_ons?: AssetReportCreateRequestOptionsAddOnsList;
-  user?: AssetReportUser;
+  add_ons?: AssetReportCreateRequestOptionsAddOnsList | undefined;
+  user?: AssetReportUser | undefined;
   /** By default (`true`), the asynchronous report generation fails unless all Items extract successfully. If set to `false`, the report will still be generated as long as at least one Item extracts successfully; extraction failures on the remaining Items are tolerated. This setting applies only to failures that occur during asynchronous extraction. It does not relax the synchronous check at call time: if any Item is already unhealthy when `/asset_report/create` is invoked, the request fails immediately regardless of this value. */
-  require_all_items?: boolean | null;
+  require_all_items?: boolean | null | undefined;
 }
 export interface CreateAssetReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** An array of access tokens corresponding to the Items that will be included in the report. The `assets` product must have been initialized for the Items during Link; the Assets product cannot be added after initialization. */
-  access_tokens?: CreateAssetReportRequestAccessTokensList;
+  access_tokens?: CreateAssetReportRequestAccessTokensList | undefined;
   /** The maximum integer number of days of history to include in the Asset Report. If using Fannie Mae Day 1 Certainty, `days_requested` must be at least 61 for new originations or at least 31 for refinancings. An Asset Report requested with "Additional History" (that is, with more than 61 days of transaction history) will incur an Additional History fee. */
   days_requested: number;
-  options?: AssetReportCreateRequestOptions;
+  options?: AssetReportCreateRequestOptions | undefined;
 }
 /** AssetReportCreateResponse defines the response schema for `/asset_report/create` */
 export interface AssetReportCreateResponse {
@@ -1222,9 +1222,9 @@ export interface AssetReportCreateResponse {
 export type CreateBetaPartnerCustomerV1RequestProductsList = Array<Products | (string & {})>;
 /** The technical contact for the end customer. Defaults to partner's technical contact if omitted. */
 export interface PartnerEndCustomerTechnicalContact {
-  given_name?: string;
-  family_name?: string;
-  email?: string;
+  given_name?: string | undefined;
+  family_name?: string | undefined;
+  email?: string | undefined;
   [key: string]: unknown;
 }
 /** The billing contact for the end customer. Defaults to partner's billing contact if omitted. */
@@ -1232,20 +1232,20 @@ export type PartnerEndCustomerBillingContact = PartnerEndCustomerTechnicalContac
 /** This information is public. Users of your app will see this information when managing connections between your app and their bank accounts in Plaid Portal. Defaults to partner's customer support info if omitted. This field is mandatory for partners whose Plaid accounts were created after November 26, 2024 and will be mandatory for all partners by the 1033 compliance deadline. */
 export interface PartnerEndCustomerCustomerSupportInfo {
   /** This field is mandatory for partners whose Plaid accounts were created after November 26, 2024 and will be mandatory for all partners by the 1033 compliance deadline. */
-  email?: string;
-  phone_number?: string;
-  contact_url?: string;
-  link_update_url?: string;
+  email?: string | undefined;
+  phone_number?: string | undefined;
+  contact_url?: string | undefined;
+  link_update_url?: string | undefined;
   [key: string]: unknown;
 }
 /** The end customer's address. */
 export interface PartnerEndCustomerAddress {
-  city?: string;
-  street?: string;
-  region?: string;
-  postal_code?: string;
+  city?: string | undefined;
+  street?: string | undefined;
+  region?: string | undefined;
+  postal_code?: string | undefined;
   /** ISO-3166-1 alpha-2 country code standard. */
-  country_code?: string;
+  country_code?: string | undefined;
   [key: string]: unknown;
 }
 /** A list of URIs indicating the destination(s) where a user can be forwarded after completing the Link flow; used to support OAuth authentication flows when launching Link in the browser or another app. URIs should not contain any query parameters. When used in Production, URIs must use https. To modify redirect URIs for an end customer after creating them, go to the end customer's [API page](https://dashboard.plaid.com/team/api) in the Dashboard. */
@@ -1253,11 +1253,11 @@ export type CreateBetaPartnerCustomerV1RequestRedirectUrisList = Array<string>;
 /** The bank addendum acceptance for the end customer. */
 export interface PartnerEndCustomerBankAddendumAcceptance {
   /** Denotes whether the end customer has accepted the bank addendum terms. */
-  customer_accepted?: boolean;
+  customer_accepted?: boolean | undefined;
   /** The IP address of the end customer when they accepted the bank addendum. */
-  customer_ip_address?: string;
+  customer_ip_address?: string | undefined;
   /** The timestamp of when the end customer accepted the bank addendum in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`). */
-  customer_agreement_timestamp?: string;
+  customer_agreement_timestamp?: string | undefined;
   [key: string]: unknown;
 }
 /** A CRA use case under a permissible purpose. */
@@ -1276,61 +1276,61 @@ export type PartnerEndCustomerCRAUseCasesUseCasesList = Array<
 /** The list of use cases associated with a given permissible purpose. */
 export interface PartnerEndCustomerCRAUseCases {
   /** List of use cases for the given permissible purpose. */
-  use_cases?: PartnerEndCustomerCRAUseCasesUseCasesList;
+  use_cases?: PartnerEndCustomerCRAUseCasesUseCasesList | undefined;
 }
 /** A map of permissible purposes to their corresponding use cases. */
 export interface PartnerEndCustomerCRAPurposes {
-  WRITTEN_INSTRUCTION?: PartnerEndCustomerCRAUseCases;
-  EXTENSION_OF_CREDIT_OR_ACCOUNT_REVIEW?: PartnerEndCustomerCRAUseCases;
-  EMPLOYMENT?: PartnerEndCustomerCRAUseCases;
-  INSURANCE_UNDERWRITING?: PartnerEndCustomerCRAUseCases;
-  LICENSE_ELIGIBILITY?: PartnerEndCustomerCRAUseCases;
-  RISK_ASSESSMENT?: PartnerEndCustomerCRAUseCases;
-  BUSINESS_NEED_TRANSACTION?: PartnerEndCustomerCRAUseCases;
-  BUSINESS_NEED_ACCOUNT_REVIEW?: PartnerEndCustomerCRAUseCases;
+  WRITTEN_INSTRUCTION?: PartnerEndCustomerCRAUseCases | undefined;
+  EXTENSION_OF_CREDIT_OR_ACCOUNT_REVIEW?: PartnerEndCustomerCRAUseCases | undefined;
+  EMPLOYMENT?: PartnerEndCustomerCRAUseCases | undefined;
+  INSURANCE_UNDERWRITING?: PartnerEndCustomerCRAUseCases | undefined;
+  LICENSE_ELIGIBILITY?: PartnerEndCustomerCRAUseCases | undefined;
+  RISK_ASSESSMENT?: PartnerEndCustomerCRAUseCases | undefined;
+  BUSINESS_NEED_TRANSACTION?: PartnerEndCustomerCRAUseCases | undefined;
+  BUSINESS_NEED_ACCOUNT_REVIEW?: PartnerEndCustomerCRAUseCases | undefined;
   [key: string]: unknown;
 }
 /** The CRA questionnaire for the end customer. */
 export interface PartnerEndCustomerCRAQuestionnaire {
-  purposes?: PartnerEndCustomerCRAPurposes;
+  purposes?: PartnerEndCustomerCRAPurposes | undefined;
   /** Denotes whether the third party is involved. */
-  is_third_party_involved?: boolean;
+  is_third_party_involved?: boolean | undefined;
   /** Denotes whether the technical service provider is involved. */
-  is_technical_service_provider_involved?: boolean;
+  is_technical_service_provider_involved?: boolean | undefined;
   [key: string]: unknown;
 }
 /** The questionnaires for the end customer. */
 export interface PartnerEndCustomerQuestionnaires {
-  cra?: PartnerEndCustomerCRAQuestionnaire;
+  cra?: PartnerEndCustomerCRAQuestionnaire | undefined;
   [key: string]: unknown;
 }
 export interface CreateBetaPartnerCustomerV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The company name of the end customer being created. This will be used to display the end customer in the Plaid Dashboard. It will not be shown to end users. */
   company_name: string;
   /** Denotes whether or not the partner has completed attestation of diligence for the end customer to be created. */
-  is_diligence_attested?: boolean;
+  is_diligence_attested?: boolean | undefined;
   /** The products to be enabled for the end customer. If empty or `null`, this field will default to the products enabled for the reseller at the time this endpoint is called. */
-  products?: CreateBetaPartnerCustomerV1RequestProductsList;
+  products?: CreateBetaPartnerCustomerV1RequestProductsList | undefined;
   /** If `true`, the end customer's default Link customization will be set to match the partner's. You can always change the end customer's Link customization in the Plaid Dashboard. See the [Link Customization docs](https://plaid.com/docs/link/customization/) for more information. If you require the ability to programmatically create end customers using multiple different Link customization profiles, contact your Plaid account manager for assistance. Important: Data Transparency Messaging (DTM) use cases will not be copied to the end customer's Link customization unless the **Publish changes** button is clicked after the use cases are applied. Link will not work in Production unless the end customer's DTM use cases are configured. For more details, see [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide/). */
-  create_link_customization?: boolean;
+  create_link_customization?: boolean | undefined;
   /** Base64-encoded representation of the end customer's logo. Must be a PNG of size 1024x1024 under 4MB. The logo will be shared with financial institutions and shown to the end user during Link flows. A logo is required if `create_link_customization` is `true`. If `create_link_customization` is `false` and the logo is omitted, the partner's logo will be used if one exists, otherwise a stock logo will be used. */
-  logo?: string;
+  logo?: string | undefined;
   /** The end customer's legal name. This will be shared with financial institutions as part of the OAuth registration process. It will not be shown to end users. */
-  legal_entity_name?: string;
+  legal_entity_name?: string | undefined;
   /** The end customer's website. */
   website: string;
   /** The name of the end customer's application. This will be shown to end users when they go through the Plaid Link flow. The application name must be unique and cannot match the name of another application already registered with Plaid. */
   application_name: string;
-  technical_contact?: PartnerEndCustomerTechnicalContact;
-  billing_contact?: PartnerEndCustomerTechnicalContact;
+  technical_contact?: PartnerEndCustomerTechnicalContact | undefined;
+  billing_contact?: PartnerEndCustomerTechnicalContact | undefined;
   customer_support_info: PartnerEndCustomerCustomerSupportInfo;
   address: PartnerEndCustomerAddress;
   /** A list of URIs indicating the destination(s) where a user can be forwarded after completing the Link flow; used to support OAuth authentication flows when launching Link in the browser or another app. URIs should not contain any query parameters. When used in Production, URIs must use https. To modify redirect URIs for an end customer after creating them, go to the end customer's [API page](https://dashboard.plaid.com/team/api) in the Dashboard. */
-  redirect_uris?: CreateBetaPartnerCustomerV1RequestRedirectUrisList;
-  bank_addendum_acceptance?: PartnerEndCustomerBankAddendumAcceptance;
-  questionnaires?: PartnerEndCustomerQuestionnaires;
+  redirect_uris?: CreateBetaPartnerCustomerV1RequestRedirectUrisList | undefined;
+  bank_addendum_acceptance?: PartnerEndCustomerBankAddendumAcceptance | undefined;
+  questionnaires?: PartnerEndCustomerQuestionnaires | undefined;
 }
 /** The status of the given end customer. `UNDER_REVIEW`: The end customer has been created and enabled in the Sandbox environment. The end customer must be manually reviewed by the Plaid team before it can be enabled in Production, at which point its status will automatically transition to `PENDING_ENABLEMENT` or `DENIED`. `PENDING_ENABLEMENT`: The end customer is ready to be fully enabled in the Production environment. Call the `/partner/customer/enable` endpoint to enable the end customer in full Production. `ACTIVE`: The end customer has been fully enabled in all environments. `DENIED`: The end customer has been created and enabled in the Sandbox environment, but it did not pass review by the Plaid team and therefore cannot be enabled for Production access. Talk to your account manager for more information. */
 export type PartnerEndCustomerStatus =
@@ -1357,38 +1357,38 @@ export type PartnerEndCustomerRequirementsDue = Array<PartnerEndCustomerRequirem
 /** The secrets for the newly created end customer. */
 export interface PartnerEndCustomerSecrets {
   /** The end customer's secret key for the Sandbox environment. */
-  sandbox?: string;
+  sandbox?: string | undefined;
   /** The end customer's secret key for the Development environment. The Development environment has been removed. */
-  development?: string;
+  development?: string | undefined;
   /** The end customer's secret key for the Production environment. The end customer will be provided with a limited number of credits to test in the Production environment before full enablement. */
-  production?: string;
+  production?: string | undefined;
   [key: string]: unknown;
 }
 /** The details for the newly created end customer, including secrets for non-Production environments. */
 export interface BetaPartnerEndCustomerWithSecrets {
   /** The `client_id` of the end customer. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The company name associated with the end customer. */
-  company_name?: string;
-  status?: PartnerEndCustomerStatus;
-  product_statuses?: PartnerEndCustomerProductStatuses;
-  requirements_due?: PartnerEndCustomerRequirementsDue;
-  secrets?: PartnerEndCustomerSecrets;
+  company_name?: string | undefined;
+  status?: PartnerEndCustomerStatus | undefined;
+  product_statuses?: PartnerEndCustomerProductStatuses | undefined;
+  requirements_due?: PartnerEndCustomerRequirementsDue | undefined;
+  secrets?: PartnerEndCustomerSecrets | undefined;
   [key: string]: unknown;
 }
 /** Response schema for `/beta/partner/customer/v1/create`. */
 export interface BetaPartnerCustomerV1CreateResponse {
-  end_customer?: BetaPartnerEndCustomerWithSecrets;
-  request_id?: string;
+  end_customer?: BetaPartnerEndCustomerWithSecrets | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Physical address of a business. Used for input requests. */
 export interface RequestBusinessAddress {
   street: string;
-  street2?: string | null;
+  street2?: string | null | undefined;
   city: string;
-  region?: string | null;
-  postal_code?: string | null;
+  region?: string | null | undefined;
+  postal_code?: string | null | undefined;
   country: string;
   [key: string]: unknown;
 }
@@ -1403,22 +1403,22 @@ export type BusinessVerificationCreateRequestBusinessOfficersList = Array<Busine
 /** Business information provided in the verification request */
 export interface BusinessVerificationCreateRequestBusiness {
   name: string;
-  alternative_name?: string | null;
+  alternative_name?: string | null | undefined;
   address: RequestBusinessAddress;
-  website?: string;
-  phone_number?: string;
-  email_address?: string;
+  website?: string | undefined;
+  phone_number?: string | undefined;
+  email_address?: string | undefined;
   /** The business's Taxpayer Identification Number (TIN), such as an Employer Identification Number (EIN), as 9 digits. An EIN may include a dash after the first two digits, such as `12-3456789`. */
-  tin?: string | null;
+  tin?: string | null | undefined;
   /** Officers of the business, used to check that the people listed match public records. At most 10. */
-  officers?: BusinessVerificationCreateRequestBusinessOfficersList | null;
+  officers?: BusinessVerificationCreateRequestBusinessOfficersList | null | undefined;
   [key: string]: unknown;
 }
 export interface CreateBusinessVerificationRequest {
   client_user_id: string;
   business: BusinessVerificationCreateRequestBusiness;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Status of the overall business verification */
 export type BusinessVerificationStatusOverall = "active" | "success" | "failed";
@@ -1671,24 +1671,24 @@ export interface CraCheckReportCreateEmploymentRefreshOptions {
 export interface CraCheckReportHomeLendingReportOptions {
   /** Specifies which types of home lending reports to generate. */
   reports_requested: CraCheckReportHomeLendingReportOptionsReportsRequestedList;
-  employment_refresh_options?: CraCheckReportCreateEmploymentRefreshOptions | null;
+  employment_refresh_options?: CraCheckReportCreateEmploymentRefreshOptions | null | undefined;
 }
 /** Defines configuration options to generate a Base Report */
 export interface CraCheckReportCreateBaseReportOptions {
   /** Client-generated identifier, which can be used by lenders to track loan applications. This field is deprecated. Use the `client_report_id` field at the top level of the request instead. */
-  client_report_id?: string | null;
-  gse_options?: CraCheckReportGSEOptions | null;
+  client_report_id?: string | null | undefined;
+  gse_options?: CraCheckReportGSEOptions | null | undefined;
   /** Indicates that the report must include identity information. If identity information is not available, the report will fail. */
-  require_identity?: boolean | null;
-  home_lending_report_options?: CraCheckReportHomeLendingReportOptions | null;
+  require_identity?: boolean | null | undefined;
+  home_lending_report_options?: CraCheckReportHomeLendingReportOptions | null | undefined;
   /** When set to `true`, this option excludes account transaction records from the Base Report before it is stored. In the `/cra/check_report/base_report/get` response, each account's `transactions` field remains present as an empty array. This option does not affect insight calculations. Omitting this option or setting it to `null` or `false` preserves existing behavior. These values do not override any client configuration that excludes transactions. Requests with `exclude_transactions` set to `true` are rejected with an `INVALID_FIELD` error if they also request GSE or Home Lending reports. A Base Report created with this option set to `true` cannot be used to generate those reports later. */
-  exclude_transactions?: boolean | null;
+  exclude_transactions?: boolean | null | undefined;
 }
 /** The version of cashflow attributes. Required if using Cash Flow Insights. */
 export type CashflowAttributesVersion = "v1.0" | "v2.0" | "CFI1";
 /** Defines configuration options to generate Cashflow Insights */
 export interface CraCheckReportCreateCashflowInsightsOptions {
-  attributes_version?: CashflowAttributesVersion | (string & {}) | null;
+  attributes_version?: CashflowAttributesVersion | (string & {}) | null | undefined;
 }
 /** The version of Prism FirstDetect. If `prism_versions` is omitted entirely, FirstDetect v3 is generated when your client's configured default Prism version is v3 or no default is configured; it is not generated if the default is v4 or v4.1. If other Prism versions are specified but this one is not, this product is not generated. */
 export type PrismFirstDetectVersion = "3";
@@ -1702,11 +1702,11 @@ export type PrismExtendVersion = "4.1" | "4";
 export type PrismInsightsVersion = "4.1" | "4" | "3";
 /** The versions of Prism products to evaluate */
 export interface PrismVersions {
-  firstdetect?: PrismFirstDetectVersion | (string & {}) | null;
-  detect?: PrismDetectVersion | (string & {}) | null;
-  cashscore?: PrismCashScoreVersion | (string & {}) | null;
-  extend?: PrismExtendVersion | (string & {}) | null;
-  insights?: PrismInsightsVersion | (string & {}) | null;
+  firstdetect?: PrismFirstDetectVersion | (string & {}) | null | undefined;
+  detect?: PrismDetectVersion | (string & {}) | null | undefined;
+  cashscore?: PrismCashScoreVersion | (string & {}) | null | undefined;
+  extend?: PrismExtendVersion | (string & {}) | null | undefined;
+  insights?: PrismInsightsVersion | (string & {}) | null | undefined;
 }
 /** The version of the UltraFICO® score. */
 export type CraPartnerInsightsUltraFicoScoreVersion = "1.0";
@@ -1722,26 +1722,26 @@ export interface CraPartnerInsightsBaseFicoScore {
   /** Numeric value of the base FICO score. */
   score: number;
   /** Reason codes associated with the score, in priority order. May contain up to 4 items. */
-  reason_codes?: CraPartnerInsightsBaseFicoScoreReasonCodesList;
+  reason_codes?: CraPartnerInsightsBaseFicoScoreReasonCodesList | undefined;
   /** Deprecated. Use `reason_codes` instead. The first reason code associated with the score. */
-  reason_code_1?: string | null;
+  reason_code_1?: string | null | undefined;
   /** Deprecated. Use `reason_codes` instead. The second reason code associated with the score. */
-  reason_code_2?: string | null;
+  reason_code_2?: string | null | undefined;
   /** Deprecated. Use `reason_codes` instead. The third reason code associated with the score. */
-  reason_code_3?: string | null;
+  reason_code_3?: string | null | undefined;
   /** Deprecated. Use `reason_codes` instead. The fourth reason code associated with the score. */
-  reason_code_4?: string | null;
+  reason_code_4?: string | null | undefined;
   /** Whether inquiries adversely affected the score but were not represented in one of the four reason codes. Sometimes referred to as the FACTA Flag. */
-  did_inquiries_adversely_affect_score?: boolean | null;
+  did_inquiries_adversely_affect_score?: boolean | null | undefined;
   base_fico_score_version: CraPartnerInsightsBaseFicoScoreVersion | (string & {});
 }
 /** Configuration required to generate a single UltraFICO® score. */
 export interface CraPartnerInsightsUltraFicoScoreRequest {
   ultrafico_score_version: CraPartnerInsightsUltraFicoScoreVersion | (string & {});
   /** FICO identifier for a particular scoring request. Should only be provided by FICO as part of the FICO-led flow. */
-  fico_scoring_request_id?: string;
+  fico_scoring_request_id?: string | undefined;
   /** Client-generated identifier that can be used to correlate scoring requests with their scoring results. */
-  request_correlation_id?: string;
+  request_correlation_id?: string | undefined;
   base_fico_score: CraPartnerInsightsBaseFicoScore;
 }
 /** A list of UltraFICO® scoring requests. Each request contains all configuration required to generate an UltraFICO score. */
@@ -1758,20 +1758,20 @@ export interface CraPartnerInsightsFicoInput {
 }
 /** Defines configuration to generate Partner Insights. */
 export interface CraCheckReportCreatePartnerInsightsOptions {
-  prism_versions?: PrismVersions | null;
-  fico?: CraPartnerInsightsFicoInput | null;
+  prism_versions?: PrismVersions | null | undefined;
+  fico?: CraPartnerInsightsFicoInput | null | undefined;
 }
 /** The version of the LendScore to use. Required if using LendScore. */
 export type PlaidLendScoreVersion = "v2.0" | "LS1";
 /** Defines configuration options to generate the LendScore */
 export interface CraCheckReportCreateLendScoreOptions {
-  lend_score_version?: PlaidLendScoreVersion | (string & {}) | null;
+  lend_score_version?: PlaidLendScoreVersion | (string & {}) | null | undefined;
 }
 /** The version of Network Insights. Required if using Network Insights. */
 export type NetworkInsightsVersion = "NI1";
 /** Defines configuration options to generate Network Insights */
 export interface CraCheckReportCreateNetworkInsightsOptions {
-  network_insights_version?: NetworkInsightsVersion | (string & {}) | null;
+  network_insights_version?: NetworkInsightsVersion | (string & {}) | null | undefined;
 }
 /** Includes income streams matching the specified categories. */
 export type IncomeInsightsFilterIncludedCategoriesList = Array<string>;
@@ -1782,13 +1782,13 @@ export interface IncomeInsightsFilter {
   /** Includes income streams matching the specified categories. */
   included_categories: IncomeInsightsFilterIncludedCategoriesList;
   /** Excludes income streams matching the specified categories. */
-  excluded_categories?: IncomeInsightsFilterExcludedCategoriesList;
+  excluded_categories?: IncomeInsightsFilterExcludedCategoriesList | undefined;
 }
 /** The version of Income Insights to use. Set this to `II2`. The value applies only to the request it is sent with; a version set in an earlier call, such as `/link/token/create` or `/cra/check_report/create`, is not reused. */
 export type IncomeInsightsVersion = "II2";
 /** Defines configuration options to generate Income Insights. */
 export interface CraCheckReportCreateIncomeInsightsOptions {
-  income_insights_filter?: IncomeInsightsFilter | null;
+  income_insights_filter?: IncomeInsightsFilter | null | undefined;
   income_insights_version: IncomeInsightsVersion | (string & {}) | null;
 }
 /** Describes the reason you are generating a Consumer Report for this user. When calling `/link/token/create`, this field is required when using Plaid Check (CRA) products; invalid if not using Plaid Check (CRA) products. `ACCOUNT_REVIEW_CREDIT`: In connection with a consumer credit transaction for the review or collection of an account pursuant to FCRA Section 604(a)(3)(A). `ACCOUNT_REVIEW_NON_CREDIT`: For a legitimate business need of the information to review a non-credit account provided primarily for personal, family, or household purposes to determine whether the consumer continues to meet the terms of the account pursuant to FCRA Section 604(a)(3)(F)(2). `EXTENSION_OF_CREDIT`: In connection with a credit transaction initiated by and involving the consumer pursuant to FCRA Section 604(a)(3)(A). `LEGITIMATE_BUSINESS_NEED_TENANT_SCREENING`: For a legitimate business need in connection with a business transaction initiated by the consumer primarily for personal, family, or household purposes in connection with a property rental assessment pursuant to FCRA Section 604(a)(3)(F)(i). `LEGITIMATE_BUSINESS_NEED_OTHER`: For a legitimate business need in connection with a business transaction made primarily for personal, family, or household initiated by the consumer pursuant to FCRA Section 604(a)(3)(F)(i). `WRITTEN_INSTRUCTION_PREQUALIFICATION`: In accordance with the written instructions of the consumer pursuant to FCRA Section 604(a)(2), to evaluate an application's profile to make an offer to the consumer. `WRITTEN_INSTRUCTION_OTHER`: In accordance with the written instructions of the consumer pursuant to FCRA Section 604(a)(2), such as when an individual agrees to act as a guarantor or assumes personal liability for a consumer, business, or commercial loan. `ELIGIBILITY_FOR_GOVT_BENEFITS`: In connection with an eligibility determination for a government benefit where the entity is required to consider an applicant's financial status pursuant to FCRA Section 604(a)(3)(D). `INSURANCE_UNDERWRITING`: In connection with the underwriting of insurance involving the consumer pursuant to FCRA Section 604(a)(3)(C). `SECONDARY_INVESTOR`: As a potential investor or servicer, or current insurer, in connection with a valuation of, or an assessment of the credit or prepayment risks associated with, an existing credit obligation pursuant to FCRA Section 604(a)(3)(E). */
@@ -1804,33 +1804,33 @@ export type ConsumerReportPermissiblePurpose =
   | "INSURANCE_UNDERWRITING"
   | "SECONDARY_INVESTOR";
 export interface CreateCraCheckReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  user_token?: string | undefined;
   /** The destination URL to which webhooks will be sent */
   webhook: string;
   /** The number of days of data to request for the report. Maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested. */
   days_requested: number;
   /** The minimum number of days of data required for the report to be successfully generated. */
-  days_required?: number;
+  days_required?: number | undefined;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
   /** Specifies a list of products to generate when creating the report (in addition to the Base Report, which is always generated except for requests for only `cra_network_insights` or for FICO-only Partner Insights). These products will be made available before a success webhook is sent. Note that specifying `cra_partner_insights` in this field will trigger a billable event. Other products are not billed until the respective reports are retrieved via their product-specific `/get` endpoints. */
-  products?: CreateCraCheckReportRequestProductsList | null;
-  base_report?: CraCheckReportCreateBaseReportOptions | null;
-  cashflow_insights?: CraCheckReportCreateCashflowInsightsOptions | null;
-  partner_insights?: CraCheckReportCreatePartnerInsightsOptions | null;
-  lend_score?: CraCheckReportCreateLendScoreOptions | null;
-  network_insights?: CraCheckReportCreateNetworkInsightsOptions | null;
+  products?: CreateCraCheckReportRequestProductsList | null | undefined;
+  base_report?: CraCheckReportCreateBaseReportOptions | null | undefined;
+  cashflow_insights?: CraCheckReportCreateCashflowInsightsOptions | null | undefined;
+  partner_insights?: CraCheckReportCreatePartnerInsightsOptions | null | undefined;
+  lend_score?: CraCheckReportCreateLendScoreOptions | null | undefined;
+  network_insights?: CraCheckReportCreateNetworkInsightsOptions | null | undefined;
   /** Indicates that investment data should be extracted from the linked account(s). */
-  include_investments?: boolean | null;
-  income_insights?: CraCheckReportCreateIncomeInsightsOptions | null;
+  include_investments?: boolean | null | undefined;
+  income_insights?: CraCheckReportCreateIncomeInsightsOptions | null | undefined;
   consumer_report_permissible_purpose: ConsumerReportPermissiblePurpose | (string & {});
 }
 /** CraCheckReportCreateResponse defines the response schema for `/cra/check_report/create`. */
 export interface CraCheckReportCreateResponse {
-  request_id?: string;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Set to `cra_base_report` to request the Base Report product. */
@@ -1838,14 +1838,14 @@ export type CraReportCreateBaseReportProductConfigProduct = "cra_base_report";
 /** Configures how the Base Report product is generated. */
 export interface CraReportCreateBaseReportOptions {
   /** Require the report to include identity information. If identity information is not available, report generation fails. */
-  require_identity?: boolean | null;
+  require_identity?: boolean | null | undefined;
 }
 /** Requests the given version of the Base Report product, optionally configuring how it is generated. */
 export interface CraReportCreateBaseReportProductConfig {
   /** Set to `cra_base_report` to request the Base Report product. */
   product: CraReportCreateBaseReportProductConfigProduct;
   version: string;
-  options?: CraReportCreateBaseReportOptions | null;
+  options?: CraReportCreateBaseReportOptions | null | undefined;
   [key: string]: unknown;
 }
 /** Set to `cra_cashflow_insights` to request the Cashflow Insights product. */
@@ -1870,14 +1870,14 @@ export interface CraReportCreateHomeLendingProductConfig {
 export type CraReportCreateIncomeInsightsProductConfigProduct = "cra_income_insights";
 /** Configures how the Income Insights product is generated. */
 export interface CraReportCreateIncomeInsightsOptions {
-  income_insights_filter?: IncomeInsightsFilter | null;
+  income_insights_filter?: IncomeInsightsFilter | null | undefined;
 }
 /** Requests the given version of the Income Insights product, optionally configuring how it is generated. */
 export interface CraReportCreateIncomeInsightsProductConfig {
   /** Set to `cra_income_insights` to request the Income Insights product. */
   product: CraReportCreateIncomeInsightsProductConfigProduct;
   version: string;
-  options?: CraReportCreateIncomeInsightsOptions | null;
+  options?: CraReportCreateIncomeInsightsOptions | null | undefined;
   [key: string]: unknown;
 }
 /** Set to `cra_lend_score` to request the LendScore product. */
@@ -1891,14 +1891,14 @@ export type CraReportCreateLendScoreOptionsVariantsList = Array<
 /** Configures how the LendScore product is generated. */
 export interface CraReportCreateLendScoreOptions {
   /** The LendScore variants to generate. If omitted or empty, only `GENERALIST` is generated. When specified, `GENERALIST` must be included. A variant listed more than once is generated once. Only supported for version `V2`. */
-  variants?: CraReportCreateLendScoreOptionsVariantsList;
+  variants?: CraReportCreateLendScoreOptionsVariantsList | undefined;
 }
 /** Requests the given version of the LendScore product, optionally configuring how it is generated. */
 export interface CraReportCreateLendScoreProductConfig {
   /** Set to `cra_lend_score` to request the LendScore product. */
   product: CraReportCreateLendScoreProductConfigProduct;
   version: string;
-  options?: CraReportCreateLendScoreOptions | null;
+  options?: CraReportCreateLendScoreOptions | null | undefined;
   [key: string]: unknown;
 }
 /** Set to `cra_network_insights` to request the Network Insights product. */
@@ -1928,14 +1928,14 @@ export type CraReportCreateLendScoreCompleteOptionsVariantsList = Array<
 /** Configures how the LendScore Complete product bundle is generated. */
 export interface CraReportCreateLendScoreCompleteOptions {
   /** The LendScore variants to generate. If omitted or empty, only `GENERALIST` is generated. When specified, `GENERALIST` must be included. A variant listed more than once is generated once. Only supported for LendScore Complete version `V2`. */
-  variants?: CraReportCreateLendScoreCompleteOptionsVariantsList;
+  variants?: CraReportCreateLendScoreCompleteOptionsVariantsList | undefined;
 }
 /** Requests the given version of the LendScore Complete product bundle, which combines LendScore with the Cashflow Insights and Network Insights attributes it was computed from. The Items and accounts used to generate it are returned only when the report's `scope` is `CLIENT_USER`. */
 export interface CraReportCreateLendScoreCompleteBundleProductConfig {
   /** Set to `cra_lend_score_complete` to request the LendScore Complete product bundle. */
   product: CraReportCreateLendScoreCompleteBundleProductConfigProduct;
   version: string;
-  options?: CraReportCreateLendScoreCompleteOptions | null;
+  options?: CraReportCreateLendScoreCompleteOptions | null | undefined;
   [key: string]: unknown;
 }
 /** Set to `cra_income_complete` to request the Income Complete product bundle. */
@@ -1947,7 +1947,7 @@ export interface CraReportCreateIncomeCompleteBundleProductConfig {
   /** Set to `cra_income_complete` to request the Income Complete product bundle. */
   product: CraReportCreateIncomeCompleteBundleProductConfigProduct;
   version: string;
-  options?: CraReportCreateIncomeInsightsOptions | null;
+  options?: CraReportCreateIncomeInsightsOptions | null | undefined;
   [key: string]: unknown;
 }
 /** A Plaid Check product and version to generate for the report, with the options that apply to that product, selected by the `product` field. */
@@ -1966,8 +1966,8 @@ export type CreateCraReportRequestProductsList = Array<CraReportProduct>;
 /** The stage in the credit or other eligibility decisioning lifecycle for which a given report will be utilized. Allowable permissible purposes for `PREQUALIFICATION`: - `WRITTEN_INSTRUCTION_PREQUALIFICATION` Allowable permissible purposes for `DECISIONING`: - `ELIGIBILITY_FOR_GOVT_BENEFITS` - `EXTENSION_OF_CREDIT` - `INSURANCE_UNDERWRITING` - `LEGITIMATE_BUSINESS_NEED_OTHER` - `LEGITIMATE_BUSINESS_NEED_TENANT_SCREENING` - `WRITTEN_INSTRUCTION_OTHER` If an incompatible `decision_stage` and `consumer_report_permissible_purpose` pairing is requested, an `INVALID_FIELD` error is returned. If your client isn't yet enabled for a given `decision_stage` on a product, a `DECISION_STAGE_NOT_ENABLED` error is returned instead (contact your Plaid account manager to enable it). */
 export type CraReportDecisionStage = "PREQUALIFICATION" | "DECISIONING" | "SERVICING";
 export interface CreateCraReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
   /** The Plaid Check products, versions, and options to generate for the report. */
   products: CreateCraReportRequestProductsList;
@@ -1975,17 +1975,17 @@ export interface CreateCraReportRequest {
   decision_stage: CraReportDecisionStage | (string & {});
   consumer_report_permissible_purpose: unknown;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
   /** The number of days of history to include in Plaid Check products. Maximum is 731. If a value lower than 180 is provided, a minimum of 180 days of history will be requested. */
-  days_requested?: number | null;
+  days_requested?: number | null | undefined;
   /** The minimum number of days of data required for the report to be successfully generated. */
-  days_required?: number | null;
+  days_required?: number | null | undefined;
   /** Indicates that investment data should be extracted from the linked account(s). */
-  include_investments?: boolean | null;
+  include_investments?: boolean | null | undefined;
   /** Indicates that identity match results should be included for all products in the report that contain identity information. Defaults to `false`. */
-  include_identity_match?: boolean | null;
+  include_identity_match?: boolean | null | undefined;
   /** The destination URL to which the report's webhooks will be sent. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 /** CraReportCreateResponse defines the response schema for `/cra/report/create`. */
 export interface CraReportCreateResponse {
@@ -2022,7 +2022,7 @@ export interface CraIncomeInsightsProductConfig {
   /** The Income Insights product discriminator. */
   product: CraIncomeInsightsProductConfigProduct;
   version: string;
-  options?: CraCheckReportCreateIncomeInsightsOptions | null;
+  options?: CraCheckReportCreateIncomeInsightsOptions | null | undefined;
   [key: string]: unknown;
 }
 /** A product and its configuration, for use with CRA servicing subscription endpoints. */
@@ -2033,13 +2033,13 @@ export type CraSubscriptionProductConfig =
 /** The products included in this subscription. */
 export type CreateCraServicingSubscriptionRequestProductsList = Array<CraSubscriptionProductConfig>;
 export interface CreateCraServicingSubscriptionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
   scope: CraReportScope | (string & {});
-  cadence?: CraSubscriptionCadence | (string & {}) | null;
+  cadence?: CraSubscriptionCadence | (string & {}) | null | undefined;
   /** The URL to which the webhook should be sent. If provided, this will override the URL set in the dashboard. */
-  webhook?: string;
+  webhook?: string | undefined;
   /** The products included in this subscription. */
   products: CreateCraServicingSubscriptionRequestProductsList;
 }
@@ -2052,14 +2052,14 @@ export interface CraServicingSubscriptionCreateResponse {
 /** List of report token strings, with at most one token of each report type. Currently only Asset Report token is supported. */
 export type CreateCreditRelayRequestReportTokensList = Array<string>;
 export interface CreateCreditRelayRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** List of report token strings, with at most one token of each report type. Currently only Asset Report token is supported. */
   report_tokens: CreateCreditRelayRequestReportTokensList;
   /** The `secondary_client_id` is the client id of the third party with whom you would like to share the relay token. */
   secondary_client_id: string;
   /** URL to which Plaid will send webhooks when the Secondary Client successfully retrieves an Asset Report by calling `/credit/relay/get`. */
-  webhook?: string | null;
+  webhook?: string | null | undefined;
 }
 /** CreditRelayCreateResponse defines the response schema for `/credit/relay/create` */
 export interface CreditRelayCreateResponse {
@@ -2084,11 +2084,11 @@ export interface IdentityVerificationRequestUserName {
 }
 /** Home address for the user. Supported values are: not provided, address with only country code or full address. For more context on this field, see [Input Validation by Country](https://plaid.com/docs/identity-verification/hybrid-input-validation/#input-validation-by-country). */
 export interface UserAddress {
-  street?: string | null;
-  street2?: string | null;
-  city?: string | null;
-  region?: string | null;
-  postal_code?: string | null;
+  street?: string | null | undefined;
+  street2?: string | null | undefined;
+  city?: string | null | undefined;
+  region?: string | null | undefined;
+  postal_code?: string | null | undefined;
   country: string;
   [key: string]: unknown;
 }
@@ -2138,27 +2138,27 @@ export interface UserIDNumber {
 }
 /** User information collected outside of Link, most likely via your own onboarding process. Each of the following identity fields are optional: `email_address` `phone_number` `date_of_birth` `name` `address` `id_number` Specifically, these fields are optional in that they can either be fully provided (satisfying every required field in their subschema) or omitted from the request entirely by not providing the key or value. Providing these fields via the API will result in Link skipping the data collection process for the associated user. All verification steps enabled in the associated Identity Verification Template will still be run. Verification steps will either be run immediately, or once the user completes the `accept_tos` step, depending on the value provided to the `gave_consent` field. If you are not using the shareable URL feature, you can optionally provide these fields via `/link/token/create` instead; both `/identity_verification/create` and `/link/token/create` are valid ways to provide this information. Note that if you provide a non-`null` user data object via `/identity_verification/create`, any user data fields entered via `/link/token/create` for the same `client_user_id` will be ignored when prefilling Link. The `ip_address` field is optional. Provide the end user's IP address to enable IP-based risk checks for backend-only integrations that do not use the Link SDK; when the Link SDK is used, the IP address is collected automatically. Unlike the identity fields above, `ip_address` cannot be provided via `/link/token/create`. */
 export interface IdentityVerificationCreateRequestUser {
-  email_address?: string;
-  phone_number?: string | null;
-  date_of_birth?: string;
-  name?: IdentityVerificationRequestUserName | null;
-  address?: UserAddress | null;
-  id_number?: UserIDNumber | null;
-  client_user_id?: string | null;
-  ip_address?: string | null;
+  email_address?: string | undefined;
+  phone_number?: string | null | undefined;
+  date_of_birth?: string | undefined;
+  name?: IdentityVerificationRequestUserName | null | undefined;
+  address?: UserAddress | null | undefined;
+  id_number?: UserIDNumber | null | undefined;
+  client_user_id?: string | null | undefined;
+  ip_address?: string | null | undefined;
 }
 export interface CreateIdentityVerificationRequest {
-  client_user_id?: string;
-  user_id?: string;
+  client_user_id?: string | undefined;
+  user_id?: string | undefined;
   /** A flag specifying whether you would like Plaid to expose a shareable URL for the verification being created. */
   is_shareable: boolean;
   template_id: string;
-  language?: IdentityVerificationLanguage | (string & {}) | null;
+  language?: IdentityVerificationLanguage | (string & {}) | null | undefined;
   gave_consent: boolean;
-  user?: IdentityVerificationCreateRequestUser | null;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  is_idempotent?: boolean | null;
+  user?: IdentityVerificationCreateRequestUser | null | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  is_idempotent?: boolean | null | undefined;
 }
 /** The resource ID and version number of the template configuring the behavior of a given Identity Verification. */
 export interface IdentityVerificationTemplateReference {
@@ -2176,7 +2176,7 @@ export interface IdentityVerificationResponseUserName {
 export type IdentityVerificationUserAddress = ResponseBusinessAddress;
 /** The identity data that was either collected from the user or provided via API in order to perform an Identity Verification. */
 export interface IdentityVerificationUserData {
-  phone_number?: string | null;
+  phone_number?: string | null | undefined;
   date_of_birth: string | null;
   ip_address: string | null;
   email_address: string | null;
@@ -2257,7 +2257,7 @@ export interface PhysicalDocumentExtractedData {
   issuing_region: string | null;
   date_of_birth: string | null;
   address: IdentityVerificationDocumentAddressResponse | null;
-  name?: IdentityVerificationResponseUserName | null;
+  name?: IdentityVerificationResponseUserName | null | undefined;
   [key: string]: unknown;
 }
 /** High level summary of whether the document in the provided image matches the formatting rules and security checks for the associated jurisdiction. For example, most identity documents have formatting rules like the following: The image of the person's face must have a certain contrast in order to highlight skin tone The subject in the document's image must remove eye glasses and pose in a certain way The informational fields (name, date of birth, ID number, etc.) must be colored and aligned according to specific rules Security features like watermarks and background patterns must be present So a `match` status for this field indicates that the document in the provided image seems to conform to the various formatting and security rules associated with the detected document. */
@@ -2351,7 +2351,7 @@ export interface DocumentAnalysis {
   extracted_data: PhysicalDocumentExtractedDataAnalysis | null;
   fraud_analysis_details: FraudAnalysisDetails | null;
   image_quality_details: ImageQualityDetails | null;
-  human_review?: HumanReview | null;
+  human_review?: HumanReview | null | undefined;
   aamva_verification: AAMVAAnalysis | null;
   [key: string]: unknown;
 }
@@ -2425,8 +2425,8 @@ export interface SelfieAnalysisFacialAnalysis {
 export interface SelfieAnalysis {
   document_comparison: SelfieAnalysisDocumentComparison;
   liveness_check: SelfieAnalysisLivenessCheck;
-  age_check?: SelfieAgeCheck | null;
-  facial_analysis?: SelfieAnalysisFacialAnalysis | null;
+  age_check?: SelfieAgeCheck | null | undefined;
+  facial_analysis?: SelfieAnalysisFacialAnalysis | null | undefined;
   [key: string]: unknown;
 }
 /** Captures and analysis from a user's selfie. */
@@ -2473,26 +2473,26 @@ export interface KYCCheckAddressSummary {
   summary: MatchSummaryCode;
   po_box: POBoxStatus;
   type: AddressPurposeLabel;
-  street?: HiddenMatchSummaryCode;
-  city?: HiddenMatchSummaryCode;
-  region?: HiddenMatchSummaryCode;
-  postal_code?: HiddenMatchSummaryCode;
-  international_details?: KYCCheckDetailsInternationalAddress | null;
+  street?: HiddenMatchSummaryCode | undefined;
+  city?: HiddenMatchSummaryCode | undefined;
+  region?: HiddenMatchSummaryCode | undefined;
+  postal_code?: HiddenMatchSummaryCode | undefined;
+  international_details?: KYCCheckDetailsInternationalAddress | null | undefined;
   [key: string]: unknown;
 }
 /** Result summary object specifying how the `name` field matched. */
 export interface KYCCheckNameSummary {
   summary: MatchSummaryCode;
-  given_name?: HiddenMatchSummaryCode;
-  family_name?: HiddenMatchSummaryCode;
+  given_name?: HiddenMatchSummaryCode | undefined;
+  family_name?: HiddenMatchSummaryCode | undefined;
   [key: string]: unknown;
 }
 /** Result summary object specifying how the `date_of_birth` field matched. */
 export interface KYCCheckDateOfBirthSummary {
   summary: MatchSummaryCode;
-  day?: HiddenMatchSummaryCode;
-  month?: HiddenMatchSummaryCode;
-  year?: HiddenMatchSummaryCode;
+  day?: HiddenMatchSummaryCode | undefined;
+  month?: HiddenMatchSummaryCode | undefined;
+  year?: HiddenMatchSummaryCode | undefined;
   [key: string]: unknown;
 }
 /** The Social Security Administration (SSA) match result for the person's name, date of birth, and Social Security number. `match` indicates that the provided information matches SSA records. `no_match` indicates that the provided information does not match SSA records. `no_data` indicates that no SSA match result is available. */
@@ -2503,13 +2503,13 @@ export interface KYCCheckSSAAnalysis {
   /** Whether the Social Security Administration reported the person as deceased. Null when the status is unavailable. */
   is_deceased: boolean | null;
   /** Whether the person's name matches SSA records. `no_data` indicates that this field result is unavailable. */
-  name_match?: KYCCheckSSAMatchStatus;
+  name_match?: KYCCheckSSAMatchStatus | undefined;
   /** Whether the person's date of birth matches SSA records. `no_data` indicates that this field result is unavailable. */
-  date_of_birth_match?: KYCCheckSSAMatchStatus;
+  date_of_birth_match?: KYCCheckSSAMatchStatus | undefined;
   /** Whether the person's Social Security number matches SSA records. `no_data` indicates that this field result is unavailable. */
-  ssn_match?: KYCCheckSSAMatchStatus;
+  ssn_match?: KYCCheckSSAMatchStatus | undefined;
   /** The match result when SSA does not disclose individual field results. `no_data` indicates that this field result is unavailable. */
-  other_match?: KYCCheckSSAMatchStatus;
+  other_match?: KYCCheckSSAMatchStatus | undefined;
   [key: string]: unknown;
 }
 /** Result summary object specifying how the `id_number` field matched. */
@@ -2548,7 +2548,7 @@ export interface RiskCheckBehavior {
   user_interactions: RiskCheckBehaviorUserInteractionsLabel;
   fraud_ring_detected: RiskCheckBehaviorFraudRingDetectedLabel;
   bot_detected: RiskCheckBehaviorBotDetectedLabel;
-  risk_level?: RiskLevelWithNoData;
+  risk_level?: RiskLevelWithNoData | undefined;
   [key: string]: unknown;
 }
 /** SMTP-MX check to confirm the email address exists if known. */
@@ -2688,8 +2688,8 @@ export interface RiskCheckEmail {
   name: RiskCheckEmailName;
   /** A list of online services where this email address has been detected to have accounts or other activity. */
   linked_services: RiskCheckEmailLinkedServicesList;
-  risk_level?: RiskLevel;
-  factors?: RiskCheckFactors;
+  risk_level?: RiskLevel | undefined;
+  factors?: RiskCheckFactors | undefined;
   [key: string]: unknown;
 }
 /** A list of online services where this phone number has been detected to have accounts or other activity. */
@@ -2698,8 +2698,8 @@ export type RiskCheckPhoneLinkedServicesList = Array<RiskCheckLinkedService>;
 export interface RiskCheckPhone {
   /** A list of online services where this phone number has been detected to have accounts or other activity. */
   linked_services: RiskCheckPhoneLinkedServicesList;
-  risk_level?: RiskLevel;
-  factors?: RiskCheckFactors;
+  risk_level?: RiskLevel | undefined;
+  factors?: RiskCheckFactors | undefined;
   [key: string]: unknown;
 }
 /** An enum indicating whether a network proxy is present and if so what type it is. `none_detected` indicates the user is not on a detectable proxy network. `tor` indicates the user was using a Tor browser, which sends encrypted traffic on a decentralized network and is somewhat similar to a VPN (Virtual Private Network). `vpn` indicates the user is on a VPN (Virtual Private Network) `web_proxy` indicates the user is on a web proxy server, which may allow them to conceal information such as their IP address or other identifying information. `public_proxy` indicates the user is on a public web proxy server, which is similar to a web proxy but can be shared by multiple users. This may allow multiple users to appear as if they have the same IP address for instance. */
@@ -2710,8 +2710,8 @@ export interface RiskCheckDevice {
   /** Count of spam lists the IP address is associated with if known. */
   ip_spam_list_count: number | null;
   ip_timezone_offset: string | null;
-  risk_level?: RiskLevel;
-  factors?: RiskCheckFactors;
+  risk_level?: RiskLevel | undefined;
+  factors?: RiskCheckFactors | undefined;
   [key: string]: unknown;
 }
 /** Array of result summary objects specifying values for `device` attributes of risk check. */
@@ -2725,16 +2725,16 @@ export interface SyntheticFraud {
 export interface RiskCheckSyntheticIdentity {
   /** A score from 0 to 100 indicating the likelihood that the user is a synthetic identity. */
   score: number;
-  risk_level?: RiskLevel;
-  first_party_synthetic_fraud?: SyntheticFraud | null;
-  third_party_synthetic_fraud?: SyntheticFraud | null;
+  risk_level?: RiskLevel | undefined;
+  first_party_synthetic_fraud?: SyntheticFraud | null | undefined;
+  third_party_synthetic_fraud?: SyntheticFraud | null | undefined;
   [key: string]: unknown;
 }
 /** Field containing the data used in determining the outcome of the stolen identity risk check. Contains the following fields: `score` - A score from 0 to 100 indicating the likelihood that the user is a stolen identity. */
 export interface RiskCheckStolenIdentity {
   /** A score from 0 to 100 indicating the likelihood that the user is a stolen identity. */
   score: number;
-  risk_level?: RiskLevel;
+  risk_level?: RiskLevel | undefined;
   [key: string]: unknown;
 }
 /** Result summary object capturing abuse signals related to `identity abuse`, e.g. stolen and synthetic identity fraud. These attributes are only available for US identities and some signals may not be available depending on what information was collected. */
@@ -2769,7 +2769,7 @@ export interface RiskCheckDetails {
   /** Array of result summary objects specifying values for `device` attributes of risk check. */
   devices: RiskCheckDetailsDevicesList;
   identity_abuse_signals: RiskCheckIdentityAbuseSignals | null;
-  network?: RiskCheckNetwork | null;
+  network?: RiskCheckNetwork | null | undefined;
   /** The attributes related to the facial duplicates captured in risk check. */
   facial_duplicates: RiskCheckDetailsFacialDuplicatesList;
   /** The trust index score for the `risk_check` step. */
@@ -2813,8 +2813,8 @@ export interface TrustIndexSubscore {
 }
 /** Contains sub-score metadata. */
 export interface TrustIndexSubscores {
-  device_and_connection?: TrustIndexSubscore | null;
-  bank_account_insights?: TrustIndexSubscore | null;
+  device_and_connection?: TrustIndexSubscore | null | undefined;
+  bank_account_insights?: TrustIndexSubscore | null | undefined;
   [key: string]: unknown;
 }
 /** Represents a calculated Trust Index Score. */
@@ -2859,14 +2859,14 @@ export interface IdentityVerificationCreateResponse {
   beacon_user_id: string | null;
   user_id: string | null;
   redacted_at: string | null;
-  latest_scored_protect_event?: IDVProtectEvent | null;
+  latest_scored_protect_event?: IDVProtectEvent | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface CreateIdentityVerificationAutofillRequest {
   identity_verification_id: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** A status enum indicating whether autofill succeeded or failed. */
 export type IdentityVerificationAutofillStatus = "success" | "failed";
@@ -2928,22 +2928,22 @@ export interface LinkTokenCreateRequestUser {
   /** A unique ID representing the end user. Typically this will be a user ID number from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. It is currently used as a means of searching logs for the given user in the Plaid Dashboard. */
   client_user_id: string;
   /** The user's full legal name, used for [micro-deposit based verification flows](https://plaid.com/docs/auth/coverage/). For a small number of customers on legacy flows, providing this field is required to enable micro-deposit-based flows. For all other customers, this field is optional. Providing the user's name in this field when using micro-deposit-based verification will streamline the end user experience, as the user will not be prompted to enter their name during the Link flow; Plaid will use the provided legal name instead. */
-  legal_name?: string;
-  name?: IdentityVerificationRequestUserName;
+  legal_name?: string | undefined;
+  name?: IdentityVerificationRequestUserName | undefined;
   /** The user's phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. If supplied, will be used when applicable to prefill phone number fields in Link for the [returning user flow](https://plaid.com/docs/link/returning-user) and the [Identity Verification flow](https://plaid.com/docs/identity-verification). Phone number input is validated against valid number ranges; number strings that do not match a real-world phone numbering scheme may cause the request to fail, even in the Sandbox test environment. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The date and time the phone number was verified in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDThh:mm:ssZ`). This was previously an optional field used in the [returning user experience](https://plaid.com/docs/link/returning-user). This field is no longer required to enable the returning user experience. Only pass a verification time for a phone number that you have verified. If you have performed verification but don't have the time, you may supply a signal value of the start of the UNIX epoch. Example: `2020-01-01T00:00:00Z` */
-  phone_number_verified_time?: string | null;
+  phone_number_verified_time?: string | null | undefined;
   /** The user's email address. Can be used to prefill Link fields when used with [Identity Verification](https://plaid.com/docs/identity-verification). */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The date and time the email address was verified in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDThh:mm:ssZ`). This was previously an optional field used in the [returning user experience](https://plaid.com/docs/link/returning-user). This field is no longer required to enable the returning user experience. Only pass a verification time for an email address that you have verified. If you have performed verification but don't have the time, you may supply a signal value of the start of the UNIX epoch. Example: `2020-01-01T00:00:00Z` */
-  email_address_verified_time?: string | null;
+  email_address_verified_time?: string | null | undefined;
   /** Deprecated and not currently used, use the `id_number` field instead. */
-  ssn?: string;
+  ssn?: string | undefined;
   /** To be provided in the format "yyyy-mm-dd". Can be used to prefill Link fields when used with Identity Verification. */
-  date_of_birth?: string | null;
-  address?: UserAddress;
-  id_number?: UserIDNumber;
+  date_of_birth?: string | null | undefined;
+  address?: UserAddress | undefined;
+  id_number?: UserIDNumber | undefined;
 }
 /** List of Plaid product(s) that the linked Item must support. If launching Link in update mode, should be omitted (unless you are using update mode to add a credit product, such as Assets, Statements, Income, or Plaid Check Consumer Report, to an existing Item); at least one `product` is required otherwise. To maximize the number of institutions and accounts available, initialize Link with the minimal product set required for your use case, as the products specified will limit which institutions and account types will be available to your users in Link. Only institutions that support *all* requested products can be selected; if a user attempts to select an institution that does not support a listed product, a "Connectivity not supported" error message will appear in Link. For each specified product, the Item connected by the user must contain at least one compatible account. For details on compatible product / account type combinations, see [the account type/product support matrix](https://plaid.com/docs/api/accounts/#account-type--product-support-matrix). To add products without limiting the institution list or account types, use the [`optional_products`](https://plaid.com/docs/api/link/#link-token-create-request-optional-products) or [`required_if_supported_products`](https://plaid.com/docs/api/link/#link-token-create-request-required-if-supported-products) fields. Products can also be added to an Item by calling the product endpoint after obtaining an access token; this may require the product to be listed in the [`additional_consented_products`](https://plaid.com/docs/api/link/#link-token-create-request-additional-consented-products) array. For details, see [Choosing when to initialize products](https://plaid.com/docs/link/initializing-products/). `balance` is *not* a valid value, the Balance product does not require explicit initialization and will automatically be initialized when any other product is initialized. Note that, unless you have opted to disable Instant Match support, institutions that support Instant Match will also be shown in Link if `auth` is specified as a product, even though these institutions do not contain `auth` in their product array. In Production, you will be billed for each product that you specify when initializing Link. Note that a product cannot be removed from an Item once the Item has been initialized with that product. To stop billing on an Item for subscription-based products, such as Liabilities, Investments, and Transactions, remove the Item via `/item/remove`. */
 export type CreateLinkTokenRequestProductsList = Array<Products | (string & {})>;
@@ -2960,9 +2960,9 @@ export type LinkTokenCreateRequestAppearanceMode = "LIGHT" | "DARK" | "SYSTEM";
 /** A map containing data used to highlight institutions in Link. */
 export interface LinkTokenCreateInstitutionData {
   /** The routing number of the bank to highlight in Link. Note: in rare cases, a single routing number can be associated with multiple institutions, e.g. due to a brokerage using another institution to manage ACH on its sweep accounts. If this happens, the bank will not be highlighted in Link even if the routing number is provided. */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** The Plaid institution ID of the institution to highlight in Link, such as `ins_56`. Takes precedence over `routing_number`; will fall back to `routing_number` (if provided) if the institution ID is unknown or unavailable for this Link session. This feature is in closed beta, please contact your account manager for more info. */
-  institution_id?: string;
+  institution_id?: string | undefined;
 }
 /** A map containing data to pass in for the Card Switch flow. */
 export interface LinkTokenCreateCardSwitch {
@@ -2991,7 +2991,7 @@ export type LimitedPurposeTypes = Array<LimitedPurposeType | (string & {})>;
 /** A filter to apply to `depository`-type accounts */
 export interface DepositoryFilter {
   account_subtypes: DepositoryAccountSubtypes;
-  limited_purpose_types?: LimitedPurposeTypes;
+  limited_purpose_types?: LimitedPurposeTypes | undefined;
   [key: string]: unknown;
 }
 /** Valid account subtypes for credit accounts. For a list containing descriptions of each subtype, see [Account schemas](https://plaid.com/docs/api/accounts/#StandaloneAccountType-credit). */
@@ -3106,31 +3106,31 @@ export interface OtherFilter {
 }
 /** By default, Link will provide limited account filtering: it will only display Institutions that are compatible with all products supplied in the `products` parameter of `/link/token/create`, and, if `auth` is specified in the `products` array, will also filter out accounts other than `checking`, `savings`, and `cash management` accounts on the Account Select pane. You can further limit the accounts shown in Link by using `account_filters` to specify the account subtypes to be shown in Link. Only the specified subtypes will be shown. This filtering applies to both the Account Select view (if enabled) and the Institution Select view. Institutions that do not support the selected subtypes will be omitted from Link. To indicate that all subtypes should be shown, use the value `"all"`. If the `account_filters` filter is used, any account type for which a filter is not specified will be entirely omitted from Link. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema). The filter may or may not impact the list of accounts shown by the institution in the OAuth account selection flow, depending on the specific institution. If the user selects excluded account subtypes in the OAuth flow, these accounts will not be added to the Item. If the user selects only excluded account subtypes, the link attempt will fail and the user will be prompted to try again. */
 export interface LinkTokenAccountFilters {
-  depository?: DepositoryFilter;
-  credit?: CreditFilter;
-  loan?: LoanFilter;
-  investment?: InvestmentFilter;
-  other?: OtherFilter;
+  depository?: DepositoryFilter | undefined;
+  credit?: CreditFilter | undefined;
+  loan?: LoanFilter | undefined;
+  investment?: InvestmentFilter | undefined;
+  other?: OtherFilter | undefined;
   [key: string]: unknown;
 }
 /** Configuration parameters for EU flows */
 export interface LinkTokenEUConfig {
   /** If `true`, open Link without an initial UI. Defaults to `false`. */
-  headless?: boolean;
+  headless?: boolean | undefined;
 }
 /** Specifies options for initializing Link for use with the Pay By Bank flow. This is an optional field to configure the user experience, and currently requires the amount field to be set. */
 export interface LinkTokenCreateRequestPaymentConfiguration {
   /** The amount of the transfer (decimal string with two digits of precision e.g. "10.00"). */
   amount: string;
   /** The description of the transfer that provides the payment context. The max length is 256. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Specifies options for initializing Link for use with the Payment Initiation (Europe) product. This field is required if `payment_initiation` is included in the `products` array. Either `payment_id` or `consent_id` must be provided. */
 export interface LinkTokenCreateRequestPaymentInitiation {
   /** The `payment_id` provided by the `/payment_initiation/payment/create` endpoint. */
-  payment_id?: string;
+  payment_id?: string | undefined;
   /** The `consent_id` provided by the `/payment_initiation/consent/create` endpoint. */
-  consent_id?: string;
+  consent_id?: string | undefined;
 }
 /** The types of source employment data that users should be able to share */
 export type EmploymentSourceType = "bank" | "payroll";
@@ -3146,8 +3146,8 @@ export interface LinkTokenCreateRequestEmploymentBankIncome {
 /** Specifies options for initializing Link for use with the Employment product. This field is required if `employment` is included in the `products` array. */
 export interface LinkTokenCreateRequestEmployment {
   /** The types of source employment data that users will be permitted to share. Options include `bank` and `payroll`. Currently you can only specify one of these options. */
-  employment_source_types?: LinkTokenCreateRequestEmploymentEmploymentSourceTypesList;
-  bank_employment?: LinkTokenCreateRequestEmploymentBankIncome;
+  employment_source_types?: LinkTokenCreateRequestEmploymentEmploymentSourceTypesList | undefined;
+  bank_employment?: LinkTokenCreateRequestEmploymentBankIncome | undefined;
 }
 /** An array of access tokens corresponding to Items that a user has previously connected with. Data from these institutions will be cross-referenced with document data received during the Document Income flow to help verify that the uploaded documents are accurate. If the `transactions` product was not initialized for these Items during Link, it will be initialized after this Link session. This field should only be used with the `payroll` income source type. */
 export type LinkTokenCreateRequestIncomeVerificationAccessTokensList = Array<string>;
@@ -3162,7 +3162,7 @@ export interface LinkTokenCreateRequestIncomeVerificationBankIncome {
   /** The number of days of data to request for the Bank Income product */
   days_requested: number;
   /** Whether to enable multiple Items to be added in the Link session. This setting is deprecated and has been replaced by the more general `enable_multi_item_link` setting, which supports all products. */
-  enable_multiple_items?: boolean | null;
+  enable_multiple_items?: boolean | null | undefined;
 }
 /** Flow types to retrieve payroll income data */
 export type IncomeVerificationPayrollFlowType =
@@ -3181,13 +3181,19 @@ export type LinkTokenCreateRequestIncomeVerificationPayrollIncomeParsingConfigLi
 /** Specifies options for initializing Link for use with Payroll Income (including Document Income). Further customization options for Document Income, such as customizing which document types may be uploaded, are also available via the [Link Customization pane](https://dashboard.plaid.com/link) in the Dashboard. (Requires Production enablement.) */
 export interface LinkTokenCreateRequestIncomeVerificationPayrollIncome {
   /** The types of payroll income verification to enable for the Link session. If none are specified, then users will see both document and digital payroll income. */
-  flow_types?: LinkTokenCreateRequestIncomeVerificationPayrollIncomeFlowTypesList | null;
+  flow_types?:
+    | LinkTokenCreateRequestIncomeVerificationPayrollIncomeFlowTypesList
+    | null
+    | undefined;
   /** An identifier to indicate whether the income verification Link token will be used for update mode. This field is only relevant for participants in the Payroll Income Refresh beta. */
-  is_update_mode?: boolean;
+  is_update_mode?: boolean | undefined;
   /** Uniquely identify a payroll income Item to update with. This field is only relevant for participants in the Payroll Income Refresh beta. */
-  item_id_to_update?: string | null;
+  item_id_to_update?: string | null | undefined;
   /** The types of analysis to enable for document uploads. If this field is not provided, then docs will undergo OCR parsing only. */
-  parsing_config?: LinkTokenCreateRequestIncomeVerificationPayrollIncomeParsingConfigList | null;
+  parsing_config?:
+    | LinkTokenCreateRequestIncomeVerificationPayrollIncomeParsingConfigList
+    | null
+    | undefined;
 }
 /** The income category for a specified income source */
 export type UserStatedIncomeSourceCategory =
@@ -3214,14 +3220,14 @@ export type UserStatedIncomeSourceFrequency =
 /** Specifies user stated income sources for the Income product */
 export interface LinkTokenCreateRequestUserStatedIncomeSource {
   /** The employer corresponding to an income source specified by the user */
-  employer?: string;
-  category?: UserStatedIncomeSourceCategory | (string & {});
+  employer?: string | undefined;
+  category?: UserStatedIncomeSourceCategory | (string & {}) | undefined;
   /** The income amount paid per cycle for a specified income source */
-  pay_per_cycle?: number;
+  pay_per_cycle?: number | undefined;
   /** The income amount paid annually for a specified income source */
-  pay_annual?: number;
-  pay_type?: UserStatedIncomeSourcePayType | (string & {});
-  pay_frequency?: UserStatedIncomeSourceFrequency | (string & {});
+  pay_annual?: number | undefined;
+  pay_type?: UserStatedIncomeSourcePayType | (string & {}) | undefined;
+  pay_frequency?: UserStatedIncomeSourceFrequency | (string & {}) | undefined;
 }
 /** A list of user stated income sources */
 export type LinkTokenCreateRequestIncomeVerificationStatedIncomeSourcesList =
@@ -3229,29 +3235,31 @@ export type LinkTokenCreateRequestIncomeVerificationStatedIncomeSourcesList =
 /** Specifies options for initializing Link for use with the Income product. This field is required if `income_verification` is included in the `products` array. */
 export interface LinkTokenCreateRequestIncomeVerification {
   /** The `income_verification_id` of the verification instance, as provided by `/income/verification/create`. Replaced by the user token. */
-  income_verification_id?: string;
+  income_verification_id?: string | undefined;
   /** The `asset_report_id` of an asset report associated with the user, as provided by `/asset_report/create`. Providing an `asset_report_id` is optional and can be used to verify the user through a streamlined flow. If provided, the bank linking flow will be skipped. */
-  asset_report_id?: string;
+  asset_report_id?: string | undefined;
   /** An array of access tokens corresponding to Items that a user has previously connected with. Data from these institutions will be cross-referenced with document data received during the Document Income flow to help verify that the uploaded documents are accurate. If the `transactions` product was not initialized for these Items during Link, it will be initialized after this Link session. This field should only be used with the `payroll` income source type. */
-  access_tokens?: LinkTokenCreateRequestIncomeVerificationAccessTokensList | null;
+  access_tokens?: LinkTokenCreateRequestIncomeVerificationAccessTokensList | null | undefined;
   /** The types of source income data that users will be permitted to share. Options include `bank` and `payroll`. Currently you can only specify one of these options. */
-  income_source_types?: LinkTokenCreateRequestIncomeVerificationIncomeSourceTypesList;
-  bank_income?: LinkTokenCreateRequestIncomeVerificationBankIncome;
-  payroll_income?: LinkTokenCreateRequestIncomeVerificationPayrollIncome;
+  income_source_types?: LinkTokenCreateRequestIncomeVerificationIncomeSourceTypesList | undefined;
+  bank_income?: LinkTokenCreateRequestIncomeVerificationBankIncome | undefined;
+  payroll_income?: LinkTokenCreateRequestIncomeVerificationPayrollIncome | undefined;
   /** A list of user stated income sources */
-  stated_income_sources?: LinkTokenCreateRequestIncomeVerificationStatedIncomeSourcesList;
+  stated_income_sources?:
+    | LinkTokenCreateRequestIncomeVerificationStatedIncomeSourcesList
+    | undefined;
 }
 /** Specifies options for initializing Link for use with the Base Report product. This field is required if `assets` is included in the `products` array and the client is CRA-enabled. */
 export interface LinkTokenCreateRequestBaseReport {
   /** The maximum integer number of days of history to include in the Base Report. */
   days_requested: number;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
 }
 /** Specifies options for initializing Link for use with the Credit Partner Insights product. */
 export interface LinkTokenCreateRequestCreditPartnerInsights {
   /** The maximum integer number of days of history to compute Credit Partner Insights. Defaults to 180 if not specified */
-  days_requested?: number;
+  days_requested?: number | undefined;
 }
 /** Specifies options for initializing Link for use with the Credit Partner Insights product. */
 export type LinkTokenCreateRequestCraOptionsPartnerInsights =
@@ -3268,13 +3276,13 @@ export interface LinkTokenCreateRequestCraOptionsBaseReportGSEOptions {
 /** Specifies options for initializing Link for use with the Base Report product, specifically the `client_report_id`. */
 export interface LinkTokenCreateRequestCraOptionsBaseReport {
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
-  gse_options?: LinkTokenCreateRequestCraOptionsBaseReportGSEOptions | null;
+  client_report_id?: string | null | undefined;
+  gse_options?: LinkTokenCreateRequestCraOptionsBaseReportGSEOptions | null | undefined;
   /** Indicates that the report must include identity information. If identity information is not available, the report will fail. */
-  require_identity?: boolean | null;
-  home_lending_report_options?: CraCheckReportHomeLendingReportOptions | null;
+  require_identity?: boolean | null | undefined;
+  home_lending_report_options?: CraCheckReportHomeLendingReportOptions | null | undefined;
   /** When set to `true`, this option excludes account transaction records from the Base Report before it is stored. In the `/cra/check_report/base_report/get` response, each account's `transactions` field remains present as an empty array. This option does not affect insight calculations. Omitting this option or setting it to `null` or `false` preserves existing behavior. These values do not override any client configuration that excludes transactions. Requests with `exclude_transactions` set to `true` are rejected with an `INVALID_FIELD` error if they also request GSE or Home Lending reports. A Base Report created with this option set to `true` cannot be used to generate those reports later. */
-  exclude_transactions?: boolean | null;
+  exclude_transactions?: boolean | null | undefined;
 }
 /** Specifies options for initializing Link for use with the Cashflow Insights product. */
 export type LinkTokenCreateRequestCraOptionsCashflowInsights =
@@ -3292,17 +3300,17 @@ export interface LinkTokenCreateRequestCraOptions {
   /** The number of days of history to include in Plaid Check products. Maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested. */
   days_requested: number;
   /** The minimum number of days of data required for the report to be successfully generated. */
-  days_required?: number;
+  days_required?: number | undefined;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
-  partner_insights?: CraCheckReportCreatePartnerInsightsOptions;
-  base_report?: LinkTokenCreateRequestCraOptionsBaseReport;
-  cashflow_insights?: CraCheckReportCreateCashflowInsightsOptions;
-  lend_score?: CraCheckReportCreateLendScoreOptions;
-  network_insights?: CraCheckReportCreateNetworkInsightsOptions;
+  client_report_id?: string | null | undefined;
+  partner_insights?: CraCheckReportCreatePartnerInsightsOptions | undefined;
+  base_report?: LinkTokenCreateRequestCraOptionsBaseReport | undefined;
+  cashflow_insights?: CraCheckReportCreateCashflowInsightsOptions | undefined;
+  lend_score?: CraCheckReportCreateLendScoreOptions | undefined;
+  network_insights?: CraCheckReportCreateNetworkInsightsOptions | undefined;
   /** Indicates that investment data should be extracted from the linked account(s). */
-  include_investments?: boolean | null;
-  income_insights?: CraCheckReportCreateIncomeInsightsOptions;
+  include_investments?: boolean | null | undefined;
+  income_insights?: CraCheckReportCreateIncomeInsightsOptions | undefined;
 }
 /** The Plaid Check products, versions, and options to generate for the report. */
 export type LinkTokenCreateRequestCraReportParameterProductsList = Array<CraReportProduct>;
@@ -3311,17 +3319,17 @@ export interface LinkTokenCreateRequestCraReportParameter {
   scope: unknown;
   decision_stage: CraReportDecisionStage | (string & {});
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
   /** The number of days of history to include in Plaid Check products. Maximum is 731. If a value lower than 180 is provided, a minimum of 180 days of history will be requested. */
-  days_requested?: number | null;
+  days_requested?: number | null | undefined;
   /** The minimum number of days of data required for the report to be successfully generated. */
-  days_required?: number | null;
+  days_required?: number | null | undefined;
   /** Indicates that investment data should be extracted from the linked account(s). */
-  include_investments?: boolean | null;
+  include_investments?: boolean | null | undefined;
   /** Indicates that identity match results should be included for all products in the report that contain identity information. Defaults to `false`. */
-  include_identity_match?: boolean | null;
+  include_identity_match?: boolean | null | undefined;
   /** The Plaid Check products, versions, and options to generate for the report. */
-  products?: LinkTokenCreateRequestCraReportParameterProductsList;
+  products?: LinkTokenCreateRequestCraReportParameterProductsList | undefined;
 }
 /** Specifies what type of [Reroute to Credentials](https://plaid.com/docs/auth/coverage/flow-options/#removing-manual-verification-entry-points-with-reroute-to-credentials) pane should be used in the Link session for the Same-Day Micro-deposits flow. Default behavior is `OPTIONAL`. */
 export type LinkTokenCreateRequestAuthRerouteToCredentials = "OFF" | "OPTIONAL" | "FORCED";
@@ -3330,53 +3338,56 @@ export type LinkTokenCreateRequestAuthFlowType = "FLEXIBLE_AUTH";
 /** Specifies options for initializing Link for use with the Auth product. This field can be used to enable or disable extended Auth flows for the resulting Link session. Omitting any field will result in a default that can be configured by your account manager. The default behavior described in the documentation is the default behavior that will apply if you have not requested your account manager to apply a different default. If you have enabled the [Dashboard Account Verification pane](https://dashboard.plaid.com/account-verification), the settings enabled there will override any settings in this object. */
 export interface LinkTokenCreateRequestAuth {
   /** Specifies whether Auth Type Select is enabled for the Link session, allowing the end user to choose between linking via a credentials-based flow (i.e. Instant Auth, Instant Match, Automated Micro-deposits) or a manual flow that does not require login (all other Auth flows) prior to selecting their financial institution. Default behavior is `false`. */
-  auth_type_select_enabled?: boolean;
+  auth_type_select_enabled?: boolean | undefined;
   /** Specifies whether the Link session is enabled for the Automated Micro-deposits flow. Default behavior is `false`. */
-  automated_microdeposits_enabled?: boolean;
+  automated_microdeposits_enabled?: boolean | undefined;
   /** Specifies whether the Link session is enabled for the Instant Match flow. Instant Match is enabled by default. Instant Match can be disabled by setting this field to `false`. */
-  instant_match_enabled?: boolean;
+  instant_match_enabled?: boolean | undefined;
   /** Specifies whether the Link session is enabled for the Same-Day Micro-deposits flow. Default behavior is `false`. */
-  same_day_microdeposits_enabled?: boolean;
+  same_day_microdeposits_enabled?: boolean | undefined;
   /** Specifies whether the Link session is enabled for the Instant Micro-deposits flow. Default behavior for Plaid teams created after November 2023 is `false`; default behavior for Plaid teams created before that date is `true`. */
-  instant_microdeposits_enabled?: boolean;
+  instant_microdeposits_enabled?: boolean | undefined;
   /** Specifies what type of [Reroute to Credentials](https://plaid.com/docs/auth/coverage/flow-options/#removing-manual-verification-entry-points-with-reroute-to-credentials) pane should be used in the Link session for the Same-Day Micro-deposits flow. Default behavior is `OPTIONAL`. */
-  reroute_to_credentials?: LinkTokenCreateRequestAuthRerouteToCredentials | (string & {});
+  reroute_to_credentials?:
+    | LinkTokenCreateRequestAuthRerouteToCredentials
+    | (string & {})
+    | undefined;
   /** Database Match has been deprecated and replaced with Database Auth. Use the [Account Verification Dashboard](https://dashboard.plaid.com/account-verification) to enable Database Auth. */
-  database_match_enabled?: boolean;
+  database_match_enabled?: boolean | undefined;
   /** Database Insights has been deprecated and replaced with Database Auth. Use the [Account Verification Dashboard](https://dashboard.plaid.com/account-verification) to enable Database Auth. */
-  database_insights_enabled?: boolean;
+  database_insights_enabled?: boolean | undefined;
   /** This field has been deprecated in favor of `auth_type_select_enabled`. */
-  flow_type?: LinkTokenCreateRequestAuthFlowType | (string & {});
+  flow_type?: LinkTokenCreateRequestAuthFlowType | (string & {}) | undefined;
   /** Specifies whether the Link session is enabled for SMS micro-deposits verification. Default behavior is `true`. */
-  sms_microdeposits_verification_enabled?: boolean;
+  sms_microdeposits_verification_enabled?: boolean | undefined;
 }
 /** Specifies options for initializing Link for use with the Transfer product. */
 export interface LinkTokenCreateRequestTransfer {
   /** The `id` returned by the `/transfer/intent/create` endpoint. */
-  intent_id?: string;
+  intent_id?: string | undefined;
   /** The `id` returned by the `/transfer/authorization/create` endpoint. Used to indicate Link session to complete required user action in order to make a decision for the authorization. If set, `access_token` can be omitted. */
-  authorization_id?: string;
+  authorization_id?: string | undefined;
   /** The `payment_profile_token` returned by the `/payment_profile/create` endpoint. */
-  payment_profile_token?: string;
+  payment_profile_token?: string | undefined;
 }
 /** An array of `item_id`s associated with the user to be updated in update mode. If empty or `null`, this field will default to initializing update mode for the most recent unhealthy Item associated with the user. A `user_token` or `user_id` must also be provided, and `update.user` must be `true`. Only one `item_id` may currently be specified. */
 export type LinkTokenCreateRequestUpdateItemIdsList = Array<string>;
 /** Specifies options for initializing Link for [update mode](https://plaid.com/docs/link/update-mode). */
 export interface LinkTokenCreateRequestUpdate {
   /** If `true`, enables [update mode with Account Select](https://plaid.com/docs/link/update-mode/#using-update-mode-to-request-new-accounts) for institutions in the US and Canada that do not use OAuth, or that use OAuth but do not have their own account selection flow. For institutions in the US that have an OAuth account selection flow (i.e. most OAuth-enabled institutions), update mode with Account Select will always be enabled, regardless of the value of this field. */
-  account_selection_enabled?: boolean;
+  account_selection_enabled?: boolean | undefined;
   /** Note: this field is not currently used. Plaid may enable this field in the future if 1033-related expiration begins to be enforced. By default, Plaid will enable the reauthorization flow during update mode for an Item enabled for [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide/) if the Item expires within six months. During a reauthorization flow, an end user will review Plaid's end user privacy policy, use case and data scope consents, and account access consents; they may also be required to log in to their financial institution's OAuth flow. After the end user successfully completes the reauthorization flow, the Item's expiration date will be extended to 12 months from the time that the reauthorization took place. This field allows you to optionally override the default reauthorization scheduling logic to either forcibly enable or disable the reauthorization flow for a given update mode session. This field does not impact the flow for Items at institutions in the EU or UK. */
-  reauthorization_enabled?: boolean;
+  reauthorization_enabled?: boolean | undefined;
   /** If `true`, a `user_token` or `user_id` must also be provided, and Link will open in update mode for the given user. */
-  user?: boolean;
+  user?: boolean | undefined;
   /** An array of `item_id`s associated with the user to be updated in update mode. If empty or `null`, this field will default to initializing update mode for the most recent unhealthy Item associated with the user. A `user_token` or `user_id` must also be provided, and `update.user` must be `true`. Only one `item_id` may currently be specified. */
-  item_ids?: LinkTokenCreateRequestUpdateItemIdsList | null;
+  item_ids?: LinkTokenCreateRequestUpdateItemIdsList | null | undefined;
 }
 /** Specifies option for initializing Link for use with the Identity Verification product. */
 export interface LinkTokenCreateRequestIdentityVerification {
   template_id: string;
-  consent?: boolean;
-  gave_consent?: boolean;
+  consent?: boolean | undefined;
+  gave_consent?: boolean | undefined;
 }
 /** Specifies options for initializing Link for use with the Statements product. This field is required for the statements product. */
 export interface LinkTokenCreateRequestStatements {
@@ -3388,42 +3399,42 @@ export interface LinkTokenCreateRequestStatements {
 /** Configuration parameters for the Investments product */
 export interface LinkTokenInvestments {
   /** If `true`, allow self-custody crypto wallets to be added without requiring signature verification. Defaults to `false`. */
-  allow_unverified_crypto_wallets?: boolean;
+  allow_unverified_crypto_wallets?: boolean | undefined;
   /** If `true`, allow users to manually enter Investments account and holdings information. Defaults to `false`. */
-  allow_manual_entry?: boolean;
+  allow_manual_entry?: boolean | undefined;
   /** If `true`, only a 30-day initial history of investment transactions is pulled synchronously before the Link session completes, with the full history being pulled asynchronously after Link. When the full history is available, an `INVESTMENTS_TRANSACTIONS: HISTORICAL_UPDATE` webhook will be sent. If `false`, Link pulls the full history before the session completes. Only applies when `investments` is initialized in the `products` array. This field is configurable only for clients created before November 30, 2026, and will default to `false` if omitted. For newer clients created on or after that date, this field is ignored and is automatically `true`. */
-  async_update?: boolean | null;
+  async_update?: boolean | null | undefined;
 }
 /** Configuration parameters for the Investments Move product. Masked Number Match and Stated Account Number default to `true` when omitted. Manual Entry defaults to `false`. */
 export interface LinkTokenInvestmentsAuth {
   /** If `true`, show institutions that use the manual entry fallback flow. If omitted, this defaults to `false`. */
-  manual_entry_enabled?: boolean | null;
+  manual_entry_enabled?: boolean | null | undefined;
   /** If `true`, show institutions that use the masked number match fallback flow. If omitted, this defaults to `true`. */
-  masked_number_match_enabled?: boolean | null;
+  masked_number_match_enabled?: boolean | null | undefined;
   /** If `true`, show institutions that use the stated account number fallback flow. If omitted, this defaults to `true`. */
-  stated_account_number_enabled?: boolean | null;
+  stated_account_number_enabled?: boolean | null | undefined;
   /** If `true`, the fee and contribution details for 401k accounts will be returned. */
-  rollover_401k_enabled?: boolean | null;
+  rollover_401k_enabled?: boolean | null | undefined;
 }
 /** How Plaid should deliver the Plaid Link session to the customer. Only available to customers enabled for Link Delivery (beta). To request Link Delivery access, contact your account manager. `sms` will deliver via SMS. Must pass `user.phone_number`. `email` will deliver via email. Must pass `user.email_address`. Link Delivery is only available in Production. */
 export type HostedLinkDeliveryMethod = "sms" | "email";
 /** Configuration parameters for Hosted Link. To enable the session for Hosted Link, send this object in the request. It can be empty. */
 export interface LinkTokenCreateHostedLink {
-  delivery_method?: HostedLinkDeliveryMethod | (string & {});
-  completion_redirect_uri?: string;
-  url_lifetime_seconds?: number;
-  is_mobile_app?: boolean;
+  delivery_method?: HostedLinkDeliveryMethod | (string & {}) | undefined;
+  completion_redirect_uri?: string | undefined;
+  url_lifetime_seconds?: number | undefined;
+  is_mobile_app?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Configuration parameters for the Transactions product */
 export interface LinkTokenTransactions {
   /** The maximum number of days of transaction history to request for the Transactions product. The more transaction history is requested, the longer the historical update poll will take. The default value is 90 days. In Production, if a value under 30 is provided, a minimum of 30 days of history will be requested. Once Transactions has been added to an Item, this value cannot be updated. Customers using [Recurring Transactions](https://plaid.com/docs/api/products/transactions/#transactionsrecurringget) should request at least 180 days of history for optimal results. */
-  days_requested?: number;
+  days_requested?: number | undefined;
 }
 /** Configuration parameters for the Cashflow Report product. Currently in closed beta. */
 export interface LinkTokenCashflowReport {
   /** Number of days of transaction history to request in the Cashflow Report product. */
-  days_requested?: number;
+  days_requested?: number | undefined;
 }
 /** An array of `account_ids`. Currently can only contain one `account_id`. Must be populated if using Document Upload. */
 export type LinkTokenCreateIdentityAccountIdsList = Array<string>;
@@ -3434,80 +3445,89 @@ export type LinkTokenCreateIdentityParsingConfigsList = Array<
 /** Identity object used to specify document upload */
 export interface LinkTokenCreateIdentity {
   /** Used to specify whether the Link session is Identity Document Upload */
-  is_document_upload?: boolean;
+  is_document_upload?: boolean | undefined;
   /** An array of `account_ids`. Currently can only contain one `account_id`. Must be populated if using Document Upload. */
-  account_ids?: LinkTokenCreateIdentityAccountIdsList;
+  account_ids?: LinkTokenCreateIdentityAccountIdsList | undefined;
   /** An array of parsing configurations. Valid parsing configurations are `ocr` and `risk_signals`. If parsing configurations are omitted, defaults to `ocr` */
-  parsing_configs?: LinkTokenCreateIdentityParsingConfigsList;
+  parsing_configs?: LinkTokenCreateIdentityParsingConfigsList | undefined;
 }
 export interface CreateLinkTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The name of your application, as it should be displayed in Link. Maximum length of 30 characters. If a value longer than 30 characters is provided, Link will display "This Application" instead. */
   client_name: string;
   /** The language that Link should be displayed in. When initializing with Identity Verification, this field is not used; for more details, see [Identity Verification supported languages](https://plaid.com/docs/identity-verification/#supported-languages). Supported languages are: - Danish (`'da'`) - Dutch (`'nl'`) - English (`'en'`) - Estonian (`'et'`) - French (`'fr'`) - German (`'de'`) - Haitian Creole (`'ht'`) - Hindi (`'hi'`) - Italian (`'it'`) - Latvian (`'lv'`) - Lithuanian (`'lt'`) - Norwegian Bokmål (`'nb'`) - Polish (`'pl'`) - Portuguese (`'pt'`) - Romanian (`'ro'`) - Spanish (`'es'`) - Swedish (`'sv'`) - Vietnamese (`'vi'`) When using a Link customization, the language configured here must match the setting in the customization, or the customization will not be applied. */
   language: string;
   /** Specify an array of Plaid-supported country codes using the ISO-3166-1 alpha-2 country code standard. Institutions from all listed countries will be shown. For a complete mapping of supported products by country, see [What Plaid products are supported in each country and region?](https://support.plaid.com/hc/en-us/articles/27895826947735-What-Plaid-products-are-supported-in-each-country-and-region). For access to additional countries beyond what you have been approved for, [contact sales](https://plaid.com/contact/), your account manager, or support. If using Identity Verification, `country_codes` should be set to the country where your company is based, not the country where your user is located. For all other products, `country_codes` represents the location of your user's financial institution. If Link is launched with multiple country codes, every product you specify, in any product array, must be enabled for your account in all of the listed countries; otherwise, the request fails with an `INVALID_PRODUCT` error. While all countries are enabled by default in Sandbox, in Production only the countries you have requested access for are shown. To request access to additional countries, [file a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access) via the Plaid dashboard. If using a Link customization, make sure the country codes in the customization match those specified in `country_codes`, or the customization may not be applied. If using the Auth features Instant Match, Instant Micro-deposits, Same-Day Micro-deposits, or Automated Micro-deposits, `country_codes` must be set to `['US']`. If using Database Auth, `country_codes` must be set to `['US']` or `['CA']`. */
   country_codes: CreateLinkTokenRequestCountryCodesList;
-  user?: LinkTokenCreateRequestUser;
+  user?: LinkTokenCreateRequestUser | undefined;
   /** A `user_id` generated using `/user/create`. Required for integrations that began using Plaid Protect, Multi-Item Link, or Plaid Check Consumer Report after December 10, 2025. Required for new integrations that use Payment Initiation, Variable Recurring Payments, or Virtual Accounts. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis). One of either the `user_id` or the `user` field is required. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** List of Plaid product(s) that the linked Item must support. If launching Link in update mode, should be omitted (unless you are using update mode to add a credit product, such as Assets, Statements, Income, or Plaid Check Consumer Report, to an existing Item); at least one `product` is required otherwise. To maximize the number of institutions and accounts available, initialize Link with the minimal product set required for your use case, as the products specified will limit which institutions and account types will be available to your users in Link. Only institutions that support *all* requested products can be selected; if a user attempts to select an institution that does not support a listed product, a "Connectivity not supported" error message will appear in Link. For each specified product, the Item connected by the user must contain at least one compatible account. For details on compatible product / account type combinations, see [the account type/product support matrix](https://plaid.com/docs/api/accounts/#account-type--product-support-matrix). To add products without limiting the institution list or account types, use the [`optional_products`](https://plaid.com/docs/api/link/#link-token-create-request-optional-products) or [`required_if_supported_products`](https://plaid.com/docs/api/link/#link-token-create-request-required-if-supported-products) fields. Products can also be added to an Item by calling the product endpoint after obtaining an access token; this may require the product to be listed in the [`additional_consented_products`](https://plaid.com/docs/api/link/#link-token-create-request-additional-consented-products) array. For details, see [Choosing when to initialize products](https://plaid.com/docs/link/initializing-products/). `balance` is *not* a valid value, the Balance product does not require explicit initialization and will automatically be initialized when any other product is initialized. Note that, unless you have opted to disable Instant Match support, institutions that support Instant Match will also be shown in Link if `auth` is specified as a product, even though these institutions do not contain `auth` in their product array. In Production, you will be billed for each product that you specify when initializing Link. Note that a product cannot be removed from an Item once the Item has been initialized with that product. To stop billing on an Item for subscription-based products, such as Liabilities, Investments, and Transactions, remove the Item via `/item/remove`. */
-  products?: CreateLinkTokenRequestProductsList | null;
+  products?: CreateLinkTokenRequestProductsList | null | undefined;
   /** List of Plaid product(s) you wish to use only if the institution and account(s) selected by the user support the product. Institutions that do not support these products will still be shown in Link. The products will only be extracted and billed if the user selects an institution and account type that supports them. There should be no overlap between this array and the `products`, `optional_products`, or `additional_consented_products` arrays. The `products` array must have at least one product. For more details on using this feature, see [Required if Supported Products](https://plaid.com/docs/link/initializing-products/#required-if-supported-products). */
-  required_if_supported_products?: CreateLinkTokenRequestRequiredIfSupportedProductsList | null;
+  required_if_supported_products?:
+    | CreateLinkTokenRequestRequiredIfSupportedProductsList
+    | null
+    | undefined;
   /** List of Plaid product(s) that will enhance the consumer's use case, but that your app can function without. Plaid will attempt to fetch data for these products on a best-effort basis, and failure to support these products will not affect Item creation. There should be no overlap between this array and the `products`, `required_if_supported_products`, or `additional_consented_products` arrays. The `products` array must have at least one product. For more details on using this feature, see [Optional Products](https://plaid.com/docs/link/initializing-products/#optional-products). */
-  optional_products?: CreateLinkTokenRequestOptionalProductsList | null;
+  optional_products?: CreateLinkTokenRequestOptionalProductsList | null | undefined;
   /** List of additional Plaid product(s) you wish to collect consent for to support your use case. These products will not be billed until you start using them by calling the relevant endpoints. `balance` is *not* a valid value, the Balance product does not require explicit initialization and will automatically have consent collected. Institutions that do not support these products will still be shown in Link. There should be no overlap between this array and the `products`, `required_if_supported_products`, or `optional_products` arrays. If you include `signal` in `additional_consented_products`, you will need to call [`/signal/prepare`](https://plaid.com/docs/api/products/signal/#signalprepare) before calling `/signal/evaluate` for the first time on an Item in order to get the most accurate results. For more details, see [`/signal/prepare`](https://plaid.com/docs/api/products/signal/#signalprepare). */
-  additional_consented_products?: CreateLinkTokenRequestAdditionalConsentedProductsList | null;
+  additional_consented_products?:
+    | CreateLinkTokenRequestAdditionalConsentedProductsList
+    | null
+    | undefined;
   /** The destination URL to which any webhooks should be sent. Note that webhooks for Payment Initiation (e-wallet transactions only), Transfer, Bank Transfer (including Auth micro-deposit notification webhooks), Monitor, and Identity Verification are configured via the Dashboard instead. In update mode, this field will not have an effect; to update the webhook receiver endpoint for an existing Item, use `/item/webhook/update` instead. */
-  webhook?: string;
+  webhook?: string | undefined;
   /** The `access_token` associated with the Item to update or reference, used when updating, modifying, or accessing an existing `access_token`. Used when launching Link in update mode, when completing the Same-Day Micro-deposit (manual) flow, or (optionally) when initializing Link for a returning user as part of the Transfer UI flow. */
-  access_token?: string | Redacted.Redacted<string> | null;
+  access_token?: string | Redacted.Redacted<string> | null | undefined;
   /** A list of access tokens associated with the items to update in Link update mode for the Assets product. Using this instead of the `access_token` field allows the updating of multiple items at once. This feature is in closed beta, please contact your account manager for more info. */
-  access_tokens?: CreateLinkTokenRequestAccessTokensList;
+  access_tokens?: CreateLinkTokenRequestAccessTokensList | undefined;
   /** The name of the Link customization from the Plaid Dashboard to be applied to Link. If not specified, the `default` customization will be used. When using a Link customization, the language in the customization must match the language selected via the `language` parameter, and the countries in the customization should match the country codes selected via `country_codes`. */
-  link_customization_name?: string;
-  appearance_mode?: LinkTokenCreateRequestAppearanceMode | (string & {}) | null;
-  redirect_uri?: string;
+  link_customization_name?: string | undefined;
+  appearance_mode?: LinkTokenCreateRequestAppearanceMode | (string & {}) | null | undefined;
+  redirect_uri?: string | undefined;
   /** The name of your app's Android package. Required if using the `link_token` to initialize Link on Android. Any package name specified here must also be added to the Allowed Android package names setting on the [developer dashboard](https://dashboard.plaid.com/team/api). When creating a `link_token` for initializing Link on other platforms, `android_package_name` must be left blank and `redirect_uri` should be used instead. */
-  android_package_name?: string;
-  institution_data?: LinkTokenCreateInstitutionData;
-  card_switch?: LinkTokenCreateCardSwitch;
-  account_filters?: LinkTokenAccountFilters;
-  eu_config?: LinkTokenEUConfig;
+  android_package_name?: string | undefined;
+  institution_data?: LinkTokenCreateInstitutionData | undefined;
+  card_switch?: LinkTokenCreateCardSwitch | undefined;
+  account_filters?: LinkTokenAccountFilters | undefined;
+  eu_config?: LinkTokenEUConfig | undefined;
   /** Used for certain legacy use cases */
-  institution_id?: string;
-  payment_configuration?: LinkTokenCreateRequestPaymentConfiguration;
-  payment_initiation?: LinkTokenCreateRequestPaymentInitiation;
-  employment?: LinkTokenCreateRequestEmployment;
-  income_verification?: LinkTokenCreateRequestIncomeVerification;
-  base_report?: LinkTokenCreateRequestBaseReport;
-  credit_partner_insights?: LinkTokenCreateRequestCreditPartnerInsights;
-  cra_options?: LinkTokenCreateRequestCraOptions;
-  cra_report_parameter?: LinkTokenCreateRequestCraReportParameter;
-  consumer_report_permissible_purpose?: ConsumerReportPermissiblePurpose | (string & {});
-  auth?: LinkTokenCreateRequestAuth;
-  transfer?: LinkTokenCreateRequestTransfer;
-  update?: LinkTokenCreateRequestUpdate;
-  identity_verification?: LinkTokenCreateRequestIdentityVerification;
-  statements?: LinkTokenCreateRequestStatements;
+  institution_id?: string | undefined;
+  payment_configuration?: LinkTokenCreateRequestPaymentConfiguration | undefined;
+  payment_initiation?: LinkTokenCreateRequestPaymentInitiation | undefined;
+  employment?: LinkTokenCreateRequestEmployment | undefined;
+  income_verification?: LinkTokenCreateRequestIncomeVerification | undefined;
+  base_report?: LinkTokenCreateRequestBaseReport | undefined;
+  credit_partner_insights?: LinkTokenCreateRequestCreditPartnerInsights | undefined;
+  cra_options?: LinkTokenCreateRequestCraOptions | undefined;
+  cra_report_parameter?: LinkTokenCreateRequestCraReportParameter | undefined;
+  consumer_report_permissible_purpose?:
+    | ConsumerReportPermissiblePurpose
+    | (string & {})
+    | undefined;
+  auth?: LinkTokenCreateRequestAuth | undefined;
+  transfer?: LinkTokenCreateRequestTransfer | undefined;
+  update?: LinkTokenCreateRequestUpdate | undefined;
+  identity_verification?: LinkTokenCreateRequestIdentityVerification | undefined;
+  statements?: LinkTokenCreateRequestStatements | undefined;
   /** A third party user token associated with the current user. */
-  third_party_user_token?: string;
-  investments?: LinkTokenInvestments;
-  investments_auth?: LinkTokenInvestmentsAuth;
-  hosted_link?: LinkTokenCreateHostedLink;
-  transactions?: LinkTokenTransactions;
-  cashflow_report?: LinkTokenCashflowReport;
+  third_party_user_token?: string | undefined;
+  investments?: LinkTokenInvestments | undefined;
+  investments_auth?: LinkTokenInvestmentsAuth | undefined;
+  hosted_link?: LinkTokenCreateHostedLink | undefined;
+  transactions?: LinkTokenTransactions | undefined;
+  cashflow_report?: LinkTokenCashflowReport | undefined;
   /** If `true`, request a CRA connection. Defaults to `false`. */
-  cra_enabled?: boolean;
-  identity?: LinkTokenCreateIdentity;
+  cra_enabled?: boolean | undefined;
+  identity?: LinkTokenCreateIdentity | undefined;
   /** If `true`, indicates that client supports linking FinanceKit / AppleCard items. Defaults to `false`. */
-  financekit_supported?: boolean;
+  financekit_supported?: boolean | undefined;
   /** If `true`, enable linking multiple items in the same Link session. Defaults to `false`. */
-  enable_multi_item_link?: boolean;
+  enable_multi_item_link?: boolean | undefined;
   /** A user token generated using `/user/create`. Any Item created during the Link session will be associated with the user. Integrations that began using Plaid Protect, Multi-Item Link, or Plaid Check Consumer Report before December 10, 2025 use this field instead of the `user_id`. */
-  user_token?: string;
+  user_token?: string | undefined;
 }
 /** LinkTokenCreateResponse defines the response schema for `/link/token/create` */
 export interface LinkTokenCreateResponse {
@@ -3517,8 +3537,8 @@ export interface LinkTokenCreateResponse {
   expiration: string;
   request_id: string;
   /** A URL of a Plaid-hosted Link flow that will use the Link token returned by this request. Only present if the session is enabled for Hosted Link. To enable the session for Hosted Link, send a `hosted_link` object in the request. */
-  hosted_link_url?: string;
-  user_id?: string;
+  hosted_link_url?: string | undefined;
+  user_id?: string | undefined;
   [key: string]: unknown;
 }
 /** The products to be enabled for the end customer. If empty or `null`, this field will default to the products enabled for the reseller at the time this endpoint is called. */
@@ -3532,50 +3552,50 @@ export interface PartnerEndCustomerAssetsUnderManagement {
 /** A list of URIs indicating the destination(s) where a user can be forwarded after completing the Link flow; used to support OAuth authentication flows when launching Link in the browser or another app. URIs should not contain any query parameters. When used in Production, URIs must use https. To modify redirect URIs for an end customer after creating them, go to the end customer's [API page](https://dashboard.plaid.com/team/api) in the Dashboard. */
 export type CreatePartnerCustomerRequestRedirectUrisList = Array<string>;
 export interface CreatePartnerCustomerRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The company name of the end customer being created. This will be used to display the end customer in the Plaid Dashboard. It will not be shown to end users. */
   company_name: string;
   /** Denotes whether or not the partner has completed attestation of diligence for the end customer to be created. */
   is_diligence_attested: boolean;
   /** The products to be enabled for the end customer. If empty or `null`, this field will default to the products enabled for the reseller at the time this endpoint is called. */
-  products?: CreatePartnerCustomerRequestProductsList;
+  products?: CreatePartnerCustomerRequestProductsList | undefined;
   /** If `true`, the end customer's default Link customization will be set to match the partner's. You can always change the end customer's Link customization in the Plaid Dashboard. See the [Link Customization docs](https://plaid.com/docs/link/customization/) for more information. If you require the ability to programmatically create end customers using multiple different Link customization profiles, contact your Plaid account manager for assistance. Important: Data Transparency Messaging (DTM) use cases will not be copied to the end customer's Link customization unless the **Publish changes** button is clicked after the use cases are applied. Link will not work in Production unless the end customer's DTM use cases are configured. For more details, see [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide/). */
-  create_link_customization?: boolean;
+  create_link_customization?: boolean | undefined;
   /** Base64-encoded representation of the end customer's logo. Must be a PNG of size 1024x1024 under 4MB. The logo will be shared with financial institutions and shown to the end user during Link flows. A logo is required if `create_link_customization` is `true`. If `create_link_customization` is `false` and the logo is omitted, the partner's logo will be used if one exists, otherwise a stock logo will be used. */
-  logo?: string;
+  logo?: string | undefined;
   /** The end customer's legal name. This will be shared with financial institutions as part of the OAuth registration process. It will not be shown to end users. */
   legal_entity_name: string;
   /** The end customer's website. */
   website: string;
   /** The name of the end customer's application. This will be shown to end users when they go through the Plaid Link flow. The application name must be unique and cannot match the name of another application already registered with Plaid. */
   application_name: string;
-  technical_contact?: PartnerEndCustomerTechnicalContact;
-  billing_contact?: PartnerEndCustomerTechnicalContact;
-  customer_support_info?: PartnerEndCustomerCustomerSupportInfo;
+  technical_contact?: PartnerEndCustomerTechnicalContact | undefined;
+  billing_contact?: PartnerEndCustomerTechnicalContact | undefined;
+  customer_support_info?: PartnerEndCustomerCustomerSupportInfo | undefined;
   address: PartnerEndCustomerAddress;
   /** Denotes whether the partner has forwarded the Plaid bank addendum to the end customer. */
   is_bank_addendum_completed: boolean;
-  assets_under_management?: PartnerEndCustomerAssetsUnderManagement;
+  assets_under_management?: PartnerEndCustomerAssetsUnderManagement | undefined;
   /** A list of URIs indicating the destination(s) where a user can be forwarded after completing the Link flow; used to support OAuth authentication flows when launching Link in the browser or another app. URIs should not contain any query parameters. When used in Production, URIs must use https. To modify redirect URIs for an end customer after creating them, go to the end customer's [API page](https://dashboard.plaid.com/team/api) in the Dashboard. */
-  redirect_uris?: CreatePartnerCustomerRequestRedirectUrisList;
+  redirect_uris?: CreatePartnerCustomerRequestRedirectUrisList | undefined;
   /** The unique identifier assigned to a financial institution by regulatory authorities, if applicable. For banks, this is the FDIC Certificate Number. For credit unions, this is the Credit Union Charter Number. */
-  registration_number?: string;
+  registration_number?: string | undefined;
 }
 /** The details for the newly created end customer, including secrets for non-Production environments. */
 export interface PartnerEndCustomerWithSecrets {
   /** The `client_id` of the end customer. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The company name associated with the end customer. */
-  company_name?: string;
-  status?: PartnerEndCustomerStatus;
-  secrets?: PartnerEndCustomerSecrets;
+  company_name?: string | undefined;
+  status?: PartnerEndCustomerStatus | undefined;
+  secrets?: PartnerEndCustomerSecrets | undefined;
   [key: string]: unknown;
 }
 /** Response schema for `/partner/customer/create`. */
 export interface PartnerCustomerCreateResponse {
-  end_customer?: PartnerEndCustomerWithSecrets;
-  request_id?: string;
+  end_customer?: PartnerEndCustomerWithSecrets | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** This field is deprecated in favor of the consent `type` field. Consents are required to have a single type. Payment consent scope. Defines possible directions for payments made with the given consent. `ME_TO_ME`: Allows moving money between accounts owned by the same user. `EXTERNAL`: Allows initiating payments from the user's account to third parties. */
@@ -3589,9 +3609,9 @@ export type PaymentInitiationConsentType = "SWEEPING" | "COMMERCIAL";
 /** Life span for the payment consent. After the `to` date the payment consent expires and can no longer be used for payment initiation. */
 export interface PaymentConsentValidDateTime {
   /** The date and time from which the consent should be active, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
-  from?: string | null;
+  from?: string | null | undefined;
   /** The date and time at which the consent expires, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
-  to?: string | null;
+  to?: string | null | undefined;
 }
 /** The ISO-4217 currency code of the payment. For standing orders and payment consents, `"GBP"` must be used. For Poland, Denmark, Sweden and Norway, only the local currency is currently supported. */
 export type PaymentAmountCurrency = "GBP" | "EUR" | "PLN" | "SEK" | "DKK" | "NOK";
@@ -3616,7 +3636,7 @@ export type PaymentInitiationConsentConstraintsPeriodicAmountsList =
   Array<PaymentConsentPeriodicAmount>;
 /** Limitations that will be applied to payments initiated using the payment consent. */
 export interface PaymentInitiationConsentConstraints {
-  valid_date_time?: PaymentConsentValidDateTime | null;
+  valid_date_time?: PaymentConsentValidDateTime | null | undefined;
   max_payment_amount: PaymentAmount;
   /** A list of amount limitations per period of time. */
   periodic_amounts: PaymentInitiationConsentConstraintsPeriodicAmountsList;
@@ -3624,23 +3644,23 @@ export interface PaymentInitiationConsentConstraints {
 /** An optional object used to restrict the accounts used for payments. If provided, the end user will be able to send payments only from the specified bank account. */
 export interface PaymentInitiationOptionalRestrictionBacs {
   /** The account number of the account. Maximum of 10 characters. */
-  account?: string;
+  account?: string | undefined;
   /** The 6-character sort code of the account. */
-  sort_code?: string;
+  sort_code?: string | undefined;
   [key: string]: unknown;
 }
 /** (Deprecated) Additional payment consent options. Please use `payer_details` to specify the account. */
 export interface ExternalPaymentInitiationConsentOptions {
   /** When `true`, Plaid will attempt to request refund details from the payee's financial institution. Support varies between financial institutions and will not always be available. If refund details could be retrieved, they will be available in the `/payment_initiation/payment/get` response. */
-  request_refund_details?: boolean | null;
+  request_refund_details?: boolean | null | undefined;
   /** The International Bank Account Number (IBAN) for the payer's account. Where possible, the end user will be able to set up payment consent using only the specified bank account if provided. */
-  iban?: string | null;
-  bacs?: PaymentInitiationOptionalRestrictionBacs | null;
+  iban?: string | null | undefined;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | null | undefined;
 }
 /** The payer's bank account numbers. Exactly one of IBAN or Bacs data is required. */
 export interface PaymentInitiationConsentPayerNumbers {
-  bacs?: PaymentInitiationOptionalRestrictionBacs | null;
-  iban?: string | null;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | null | undefined;
+  iban?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An array of length 1-2 representing the street address where the recipient is located. Maximum of 70 characters. */
@@ -3666,30 +3686,30 @@ export interface PaymentInitiationConsentPayerDetails {
   /** The name of the payer as it appears in their bank account */
   name: string;
   numbers: PaymentInitiationConsentPayerNumbers;
-  address?: PaymentInitiationAddress | null;
+  address?: PaymentInitiationAddress | null | undefined;
   /** The payer's birthdate, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** The payer's phone numbers in E.164 format: +{countrycode}{number} */
-  phone_numbers?: PaymentInitiationConsentPayerDetailsPhoneNumbersList;
+  phone_numbers?: PaymentInitiationConsentPayerDetailsPhoneNumbersList | undefined;
   /** The payer's emails */
-  emails?: PaymentInitiationConsentPayerDetailsEmailsList;
+  emails?: PaymentInitiationConsentPayerDetailsEmailsList | undefined;
   [key: string]: unknown;
 }
 export interface CreatePaymentInitiationConsentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the recipient the payment consent is for. The created consent can be used to transfer funds to this recipient only. */
   recipient_id: string;
   /** The `user_id` of the end user the payment consent is for, as returned by [`/user/create`](https://plaid.com/docs/api/users/#usercreate). The user must have a `name` and either an email address or a phone number. Payments created from this consent inherit this `user_id`. Required for new integrations. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A reference for the payment consent. This must be a string of at most 18 characters containing only letters, numbers, and spaces. */
   reference: string;
   /** An array of payment consent scopes. */
-  scopes?: CreatePaymentInitiationConsentRequestScopesList;
-  type?: PaymentInitiationConsentType | (string & {});
+  scopes?: CreatePaymentInitiationConsentRequestScopesList | undefined;
+  type?: PaymentInitiationConsentType | (string & {}) | undefined;
   constraints: PaymentInitiationConsentConstraints;
-  options?: ExternalPaymentInitiationConsentOptions | null;
-  payer_details?: PaymentInitiationConsentPayerDetails | null;
+  options?: ExternalPaymentInitiationConsentOptions | null | undefined;
+  payer_details?: PaymentInitiationConsentPayerDetails | null | undefined;
 }
 /** The status of the payment consent. `UNAUTHORISED`: Consent created, but requires user authorisation. `REJECTED`: Consent authorisation was rejected by the bank. `AUTHORISED`: Consent is active and ready to be used. `REVOKED`: Consent has been revoked and can no longer be used. `EXPIRED`: Consent is no longer valid. */
 export type PaymentInitiationConsentStatus =
@@ -3716,9 +3736,9 @@ export interface ExternalPaymentScheduleRequest {
   /** A date in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). Standing order payments will begin on the first `interval_execution_day` on or after the `start_date`. If the first `interval_execution_day` on or after the start date is also the same day that `/payment_initiation/payment/create` was called, the bank *may* make the first payment on that day, but it is not guaranteed to do so. */
   start_date: string;
   /** A date in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). Standing order payments will end on the last `interval_execution_day` on or before the `end_date`. If the only `interval_execution_day` between the start date and the end date (inclusive) is also the same day that `/payment_initiation/payment/create` was called, the bank *may* make a payment on that day, but it is not guaranteed to do so. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The start date sent to the bank after adjusting for holidays or weekends. Will be provided in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). If the start date did not require adjustment, this field will be `null`. */
-  adjusted_start_date?: string | null;
+  adjusted_start_date?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Payment scheme. If not specified - the default in the region will be used (e.g. `SEPA_CREDIT_TRANSFER` for EU). In responses, if the scheme is not explicitly specified in the request, this field is omitted. Using unsupported values will result in a failed payment. `LOCAL_DEFAULT`: The default payment scheme for the selected market and currency will be used. `LOCAL_INSTANT`: The instant payment scheme for the selected market and currency will be used (if applicable). Fees may be applied by the institution. `SEPA_CREDIT_TRANSFER`: The standard payment to a beneficiary within the SEPA area. `SEPA_CREDIT_TRANSFER_INSTANT`: Instant payment within the SEPA area. May involve additional fees and may not be available at some banks. */
@@ -3730,24 +3750,24 @@ export type PaymentScheme =
 /** Additional payment options */
 export interface ExternalPaymentOptions {
   /** When `true`, Plaid will attempt to request refund details from the payee's financial institution. Support varies between financial institutions and will not always be available. If refund details could be retrieved, they will be available in the `/payment_initiation/payment/get` response. */
-  request_refund_details?: boolean | null;
+  request_refund_details?: boolean | null | undefined;
   /** The International Bank Account Number (IBAN) for the payer's account. Where possible, the end user will be able to send payments only from the specified bank account if provided. */
-  iban?: string | null;
-  bacs?: PaymentInitiationOptionalRestrictionBacs | null;
-  scheme?: PaymentScheme | (string & {}) | null;
+  iban?: string | null | undefined;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | null | undefined;
+  scheme?: PaymentScheme | (string & {}) | null | undefined;
 }
 export interface CreatePaymentInitiationPaymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the recipient the payment is for. */
   recipient_id: string;
   /** The `user_id` of the end user the payment is initiated for, as returned by [`/user/create`](https://plaid.com/docs/api/users/#usercreate). The user must have a `name` and either an email address or a phone number. Required for new integrations. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A reference for the payment. This must be a string of at most 18 characters containing only letters, numbers, and spaces (since not all institutions support them). In order to track settlement via Payment Confirmation, each payment must have a unique reference. If the reference provided through the API is not unique, Plaid will adjust it. Some institutions may limit the reference to less than 18 characters. If necessary, Plaid will adjust the reference by truncating it to fit the institution's requirements. Both the originally provided and automatically adjusted references (if any) can be found in the `reference` and `adjusted_reference` fields, respectively. */
   reference: string;
   amount: PaymentAmount;
-  schedule?: ExternalPaymentScheduleRequest;
-  options?: ExternalPaymentOptions | null;
+  schedule?: ExternalPaymentScheduleRequest | undefined;
+  options?: ExternalPaymentOptions | null | undefined;
 }
 /** For a payment returned by this endpoint, there is only one possible value: `PAYMENT_STATUS_INPUT_NEEDED`: The initial phase of the payment */
 export type PaymentInitiationPaymentCreateStatus = "PAYMENT_STATUS_INPUT_NEEDED";
@@ -3762,14 +3782,14 @@ export interface PaymentInitiationPaymentCreateResponse {
 /** An object containing a Bacs account number and sort code. If an IBAN is not provided or if this recipient needs to accept domestic GBP-denominated payments, Bacs data is required. */
 export type RecipientBACSNullable = PaymentInitiationOptionalRestrictionBacs;
 export interface CreatePaymentInitiationRecipientRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The name of the recipient. We recommend using strings of length 18 or less and avoid special characters to ensure compatibility with all institutions. */
   name: string;
   /** The International Bank Account Number (IBAN) for the recipient. If Bacs data is not provided, an IBAN is required. */
-  iban?: string | null;
-  bacs?: PaymentInitiationOptionalRestrictionBacs | null;
-  address?: PaymentInitiationAddress | null;
+  iban?: string | null | undefined;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | null | undefined;
+  address?: PaymentInitiationAddress | null | undefined;
 }
 /** PaymentInitiationRecipientCreateResponse defines the response schema for `/payment_initiation/recipient/create` */
 export interface PaymentInitiationRecipientCreateResponse {
@@ -3779,8 +3799,8 @@ export interface PaymentInitiationRecipientCreateResponse {
   [key: string]: unknown;
 }
 export interface CreateProcessorApexProcessorTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The `account_id` value obtained from the `onSuccess` callback in Link */
   account_id: string;
@@ -3793,8 +3813,8 @@ export interface ProcessorTokenCreateResponse {
   [key: string]: unknown;
 }
 export interface CreateProcessorStripeBankAccountTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The `account_id` value obtained from the `onSuccess` callback in Link */
   account_id: string;
@@ -3898,8 +3918,8 @@ export type CreateProcessorTokenRequestProcessor =
   | "bitgo"
   | "anchorage";
 export interface CreateProcessorTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The `account_id` value obtained from the `onSuccess` callback in Link */
   account_id: string;
@@ -3909,9 +3929,9 @@ export interface CreateProcessorTokenRequest {
 /** Represents an end user for `/protect/compute` requests. */
 export interface ProtectUser {
   /** The Plaid User ID returned from a previous call to `/user/create`. This or `client_user_id` can be provided, not both. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique ID representing the end user, previously passed to `/user/create`. Maximum of 128 characters. Typically this will be a user ID number from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. */
-  client_user_id?: string;
+  client_user_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Required when `is_taken` is `true`. Indicates if this would be a user's first or repeat cash-advance. `FIRST` - A user's first cash-advance. `REPEAT` - A user has previously taken out a cash-advance. */
@@ -3921,7 +3941,7 @@ export type CashAdvanceDecisionOutcome = "APPROVED" | "DECLINED";
 /** A monetary amount and its currency. */
 export interface Amount {
   /** The ISO-4217 currency code of the amount. Defaults to USD if not specified. */
-  iso_currency_code?: string;
+  iso_currency_code?: string | undefined;
   /** The amount value. */
   value: number;
   [key: string]: unknown;
@@ -3931,26 +3951,26 @@ export interface CashAdvanceInfo {
   /** The amount a user was approved for in a cash-advance. */
   amount_approved: Amount;
   /** The amount a user is required to pay, including any fees or additional amounts. Required when `cash_advance` is provided. */
-  amount_due?: Amount;
+  amount_due?: Amount | undefined;
   /** The date the cash-advance is due, in ISO 8601 format (`YYYY-MM-DD`). Required when `cash_advance` is provided. */
-  due_date?: string;
+  due_date?: string | undefined;
   [key: string]: unknown;
 }
 export interface CreateProtectCashAdvanceDecisionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user: ProtectUser;
   /** Your unique identifier for a cash-advance. Required when `is_taken` is `true`. This should be the same identifier provided when recording a repayment. */
-  client_advance_id?: string | null;
-  advance_type?: CashAdvanceType | (string & {});
+  client_advance_id?: string | null | undefined;
+  advance_type?: CashAdvanceType | (string & {}) | undefined;
   /** The number of cash-advances a user has previously taken. */
-  previous_advance_count?: number | null;
+  previous_advance_count?: number | null | undefined;
   /** The time the decision was made, in ISO 8601 / RFC 3339 format (`YYYY-MM-DDTHH:mm:ssZ`). */
   decision_time: string;
   decision: CashAdvanceDecisionOutcome | (string & {});
   /** Whether the end user took the cash-advance. Required when `decision` is APPROVED. When `true`, `client_advance_id` and `cash_advance` are required. */
-  is_taken?: boolean | null;
-  cash_advance?: CashAdvanceInfo | null;
+  is_taken?: boolean | null | undefined;
+  cash_advance?: CashAdvanceInfo | null | undefined;
 }
 /** Response object for `/protect/cash_advance/decision/create`. */
 export interface ProtectCashAdvanceDecisionCreateResponse {
@@ -3962,7 +3982,7 @@ export type CashAdvanceRepaymentStatus = "REPAID" | "PARTIAL_PAYMENT" | "UNPAID"
 /** The repayment details for a cash-advance. */
 export interface CashAdvanceRepayment {
   /** The amount a user paid. Required if there was a payment made. */
-  amount_paid?: Amount | null;
+  amount_paid?: Amount | null | undefined;
   /** The amount a user is required to pay, including any fees or additional amounts. */
   amount_due: Amount;
   /** The date the cash-advance is due, in ISO 8601 format (`YYYY-MM-DD`). */
@@ -3970,14 +3990,14 @@ export interface CashAdvanceRepayment {
   [key: string]: unknown;
 }
 export interface CreateProtectCashAdvanceRepaymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user: ProtectUser;
   /** The client's unique identifier for the cash-advance. */
   client_advance_id: string;
   status: CashAdvanceRepaymentStatus | (string & {});
   /** The time the repayment occurred. Required when `status` is `REPAID` or `PARTIAL_PAYMENT`. In ISO 8601 / RFC 3339 format (`YYYY-MM-DDTHH:mm:ssZ`). */
-  repayment_time?: string | null;
+  repayment_time?: string | null | undefined;
   repayment: CashAdvanceRepayment;
 }
 /** Response object for `/protect/cash_advance/repayment/create`. */
@@ -3988,7 +4008,7 @@ export interface ProtectCashAdvanceRepaymentCreateResponse {
 /** The monetary amount associated with the incident. */
 export interface ProtectIncidentAmount {
   /** The ISO-4217 currency code of the incident amount. Defaults to `USD` if not specified. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The monetary value of the incident amount. */
   value: number;
   [key: string]: unknown;
@@ -3996,22 +4016,22 @@ export interface ProtectIncidentAmount {
 /** Details about the incident event. */
 export interface ProtectIncidentEvent {
   /** A globally unique identifier representing a Protect event that may be associated with this incident. */
-  protect_event_id?: string | null;
+  protect_event_id?: string | null | undefined;
   /** A unique identifier for a Link session that may be associated with this incident. */
-  link_session_id?: string | null;
+  link_session_id?: string | null | undefined;
   /** A unique identifier for an Identity Verification session that may be associated with this incident. */
-  idv_session_id?: string | null;
+  idv_session_id?: string | null | undefined;
   /** The unique ID used to refer to a Signal transaction evaluation that may be associated with this incident. */
-  signal_client_transaction_id?: string | null;
+  signal_client_transaction_id?: string | null | undefined;
   /** A unique ID representing the incident in your system. Personally identifiable information, such as an email address or phone number, should not be used in this field. */
-  internal_reference?: string | null;
+  internal_reference?: string | null | undefined;
   /** The timestamp when the incident occurred, in ISO 8601 format (e.g., '2020-07-24T03:26:02Z'). */
-  time?: string | null;
-  amount?: ProtectIncidentAmount | null;
+  time?: string | null | undefined;
+  amount?: ProtectIncidentAmount | null | undefined;
   /** An access token associated with the Item related to this incident. */
-  access_token?: string | null;
+  access_token?: string | null | undefined;
   /** An `item_id` associated with the Item related to this incident. To identify an Item when creating a report, provide `access_token`. */
-  item_id?: string | null;
+  item_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** The confidence level of the incident report. `CONFIRMED` indicates the incident has been verified and definitively occurred. `SUSPECTED` indicates the incident is believed to have occurred but has not been fully verified. */
@@ -4049,29 +4069,29 @@ export type ProtectReportSource =
 /** Bank account information associated with the incident. */
 export interface ProtectBankAccount {
   /** Plaid's unique identifier for the account. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Full account number of the bank account. */
-  account_number?: string | null;
+  account_number?: string | null | undefined;
   /** Routing number of the bank account. Must be present if `account_number` is present. */
-  routing_number?: string | null;
+  routing_number?: string | null | undefined;
   [key: string]: unknown;
 }
 export interface CreateProtectReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid User ID associated with the report. This or `client_user_id` can be provided, not both. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
   /** A unique ID representing the end user. Maximum of 128 characters. Typically this will be a user ID number from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. This or `user_id` can be provided, not both. If a Plaid User does not already exist for this `client_user_id` within your client account, one will be created. */
-  client_user_id?: string | null;
-  incident_event?: ProtectIncidentEvent | null;
+  client_user_id?: string | null | undefined;
+  incident_event?: ProtectIncidentEvent | null | undefined;
   report_confidence: ProtectReportConfidence | (string & {});
   report_type: ProtectReportType | (string & {});
   report_source: ProtectReportSource | (string & {});
-  bank_account?: ProtectBankAccount | null;
+  bank_account?: ProtectBankAccount | null | undefined;
   /** Must be a valid ACH return code (e.g. `R01`), required if `report_type` is `ACH_RETURN`. */
-  ach_return_code?: string | null;
+  ach_return_code?: string | null | undefined;
   /** Additional context or details about the report. */
-  notes?: string | null;
+  notes?: string | null | undefined;
 }
 /** Response object for /protect/report/create */
 export interface ProtectReportCreateResponse {
@@ -4082,15 +4102,15 @@ export interface ProtectReportCreateResponse {
 }
 /** An optional set of options to be used when configuring the Item. If specified, must not be `null`. */
 export interface SandboxProcessorTokenCreateRequestOptions {
-  override_username?: string | null;
-  override_password?: string | Redacted.Redacted<string> | null;
+  override_username?: string | null | undefined;
+  override_password?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface CreateSandboxProcessorTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the institution the Item will be associated with */
   institution_id: string;
-  options?: SandboxProcessorTokenCreateRequestOptions;
+  options?: SandboxProcessorTokenCreateRequestOptions | undefined;
 }
 /** SandboxProcessorTokenCreateResponse defines the response schema for `/sandbox/processor_token/create` */
 export interface SandboxProcessorTokenCreateResponse {
@@ -4104,11 +4124,11 @@ export type CreateSandboxPublicTokenRequestInitialProductsList = Array<Products 
 /** An optional set of parameters corresponding to transactions options. */
 export interface SandboxPublicTokenCreateRequestOptionsTransactions {
   /** Use `days_requested` instead. This field has no effect on the amount of transaction history available on the Item. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Use `days_requested` instead. This field has no effect on the amount of transaction history available on the Item. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The maximum number of days of transaction history to request for the Transactions product, matching [`transactions.days_requested`](https://plaid.com/docs/api/link/#link-token-create-request-transactions-days-requested) on `/link/token/create`. If no value is specified, this defaults to 90 days. Once Transactions has been added to an Item, this value cannot be updated. */
-  days_requested?: number;
+  days_requested?: number | undefined;
 }
 /** An optional set of parameters corresponding to statements options. */
 export interface SandboxPublicTokenCreateRequestOptionsStatements {
@@ -4124,34 +4144,36 @@ export type SandboxPublicTokenCreateRequestOptionsIncomeVerificationIncomeSource
 /** Specifies options for Bank Income. This field is required if `income_verification` is included in the `initial_products` array and `bank` is specified in `income_source_types`. */
 export interface SandboxPublicTokenCreateRequestIncomeVerificationBankIncome {
   /** The number of days of data to request for the Bank Income product */
-  days_requested?: number;
+  days_requested?: number | undefined;
 }
 /** A set of parameters for income verification options. This field is required if `income_verification` is included in the `initial_products` array. */
 export interface SandboxPublicTokenCreateRequestOptionsIncomeVerification {
   /** The types of source income data that users will be permitted to share. Options include `bank` and `payroll`. Currently you can only specify one of these options. */
-  income_source_types?: SandboxPublicTokenCreateRequestOptionsIncomeVerificationIncomeSourceTypesList;
-  bank_income?: SandboxPublicTokenCreateRequestIncomeVerificationBankIncome;
+  income_source_types?:
+    | SandboxPublicTokenCreateRequestOptionsIncomeVerificationIncomeSourceTypesList
+    | undefined;
+  bank_income?: SandboxPublicTokenCreateRequestIncomeVerificationBankIncome | undefined;
 }
 /** An optional set of options to be used when configuring the Item. If specified, must not be `null`. */
 export interface SandboxPublicTokenCreateRequestOptions {
   /** Specify a webhook to associate with the new Item. */
-  webhook?: string;
-  override_username?: string | null;
-  override_password?: string | Redacted.Redacted<string> | null;
-  transactions?: SandboxPublicTokenCreateRequestOptionsTransactions | null;
-  statements?: SandboxPublicTokenCreateRequestOptionsStatements | null;
-  income_verification?: SandboxPublicTokenCreateRequestOptionsIncomeVerification;
+  webhook?: string | undefined;
+  override_username?: string | null | undefined;
+  override_password?: string | Redacted.Redacted<string> | null | undefined;
+  transactions?: SandboxPublicTokenCreateRequestOptionsTransactions | null | undefined;
+  statements?: SandboxPublicTokenCreateRequestOptionsStatements | null | undefined;
+  income_verification?: SandboxPublicTokenCreateRequestOptionsIncomeVerification | undefined;
 }
 export interface CreateSandboxPublicTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the institution the Item will be associated with */
   institution_id: string;
   /** The products to initially pull for the Item. May be any products that the specified `institution_id` supports. This array may not be empty. */
   initial_products: CreateSandboxPublicTokenRequestInitialProductsList;
-  options?: SandboxPublicTokenCreateRequestOptions;
-  user_token?: string;
-  user_id?: string;
+  options?: SandboxPublicTokenCreateRequestOptions | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
 }
 /** SandboxPublicTokenCreateResponse defines the response schema for `/sandbox/public_token/create` */
 export interface SandboxPublicTokenCreateResponse {
@@ -4171,16 +4193,16 @@ export interface CustomSandboxTransaction {
   /** The transaction description. */
   description: string;
   /** The ISO-4217 format currency code for the transaction. Defaults to USD. */
-  iso_currency_code?: string;
+  iso_currency_code?: string | undefined;
   /** The `account_id` of the account to add the transaction to, as returned by `/accounts/get`. If omitted, the transaction is added to the Item's checking account, or, for a custom Sandbox user, to the first depository account listed in its `override_accounts`, or its first account if it has no depository account. Student loan accounts don't accept custom transactions and return an `INVALID_ACCOUNT_ID` error. */
-  account_id?: string;
+  account_id?: string | undefined;
   [key: string]: unknown;
 }
 /** List of transactions to be added */
 export type CreateSandboxTransactionRequestTransactionsList = Array<CustomSandboxTransaction>;
 export interface CreateSandboxTransactionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** List of transactions to be added */
   transactions: CreateSandboxTransactionRequestTransactionsList;
@@ -4191,10 +4213,10 @@ export interface SandboxTransactionsCreateResponse {
   [key: string]: unknown;
 }
 export interface CreateSandboxTransferTestClockRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The virtual timestamp on the test clock. If not provided, the current timestamp will be used. This will be of the form `2006-01-02T15:04:05Z`. */
-  virtual_time?: string | null;
+  virtual_time?: string | null | undefined;
 }
 /** Defines the test clock for a transfer. */
 export interface TransferTestClock {
@@ -4212,20 +4234,20 @@ export interface SandboxTransferTestClockCreateResponse {
 export interface SessionTokenCreateRequestUser {
   /** A unique ID representing the end user. Typically this will be a user ID number from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. It is currently used as a means of searching logs for the given user in the Plaid Dashboard. */
   client_user_id: string;
-  user_id?: unknown;
+  user_id?: unknown | undefined;
 }
 export interface CreateSessionTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The id of a template defined in Plaid Dashboard */
   template_id: string;
-  user?: SessionTokenCreateRequestUser;
-  redirect_uri?: string;
+  user?: SessionTokenCreateRequestUser | undefined;
+  redirect_uri?: string | undefined;
   /** The name of your app's Android package. Required if using the session token to initialize Layer on Android. Any package name specified here must also be added to the Allowed Android package names setting on the [developer dashboard](https://dashboard.plaid.com/team/api). When creating a session token for initializing Layer on other platforms, `android_package_name` must be left blank and `redirect_uri` should be used instead. */
-  android_package_name?: string;
+  android_package_name?: string | undefined;
   /** The destination URL to which any webhooks should be sent. If you use the same webhook listener for all Sandbox or all Production activity, set this value in the Layer template editor in the Dashboard instead. Only provide a value in this field if you need to use multiple webhook URLs per environment (an uncommon use case). If provided, a value in this field will take priority over webhook values set in the Layer template editor. */
-  webhook?: string;
-  user_id?: string;
+  webhook?: string | undefined;
+  user_id?: string | undefined;
 }
 /** Response data for `/session/token/create` intended for use with the Link SDK. */
 export interface SessionTokenCreateResponseLink {
@@ -4233,13 +4255,13 @@ export interface SessionTokenCreateResponseLink {
   link_token: string;
   /** The expiration date for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. A `link_token` created to generate a `public_token` that will be exchanged for a new `access_token` expires after 4 hours. A `link_token` created for an existing Item (such as when updating an existing `access_token` by launching Link in update mode) expires after 30 minutes. */
   expiration: string;
-  user_id?: string;
+  user_id?: string | undefined;
   [key: string]: unknown;
 }
 /** SessionTokenCreateResponse defines the response schema for `/session/token/create` */
 export interface SessionTokenCreateResponse {
   request_id: string;
-  link?: SessionTokenCreateResponseLink;
+  link?: SessionTokenCreateResponseLink | undefined;
   [key: string]: unknown;
 }
 /** Transaction field for which the rule is defined. */
@@ -4254,8 +4276,8 @@ export interface TransactionsRuleDetails {
   query: string;
 }
 export interface CreateTransactionsRuleRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A unique ID representing the end user. This ID is used to associate rules with a specific user. */
   client_user_id: string;
   pfc_primary_category: string;
@@ -4265,16 +4287,16 @@ export interface CreateTransactionsRuleRequest {
 /** A representation of a transactions category rule. */
 export interface TransactionsCategoryRule {
   /** A unique identifier of the rule created */
-  id?: string;
+  id?: string | undefined;
   /** The Plaid-generated unique identifier for the end user this rule belongs to. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Date and time when a rule was created in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ). */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Date and time when a rule was last updated in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ). */
-  updated_at?: string;
-  pfc_primary_category?: string;
-  pfc_detailed_category?: string;
-  rule_details?: TransactionsRuleDetails;
+  updated_at?: string | undefined;
+  pfc_primary_category?: string | undefined;
+  pfc_detailed_category?: string | undefined;
+  rule_details?: TransactionsRuleDetails | undefined;
 }
 /** TransactionsRulesCreateResponse defines the response schema for `/beta/transactions/rules/v1/create` */
 export interface TransactionsRulesCreateResponse {
@@ -4291,51 +4313,51 @@ export type ACHClass = "ccd" | "ppd" | "tel" | "web";
 /** The address associated with the account holder. */
 export interface TransferUserAddressInRequest {
   /** The street number and name (i.e., "100 Market St."). */
-  street?: string;
+  street?: string | undefined;
   /** Ex. "San Francisco" */
-  city?: string;
+  city?: string | undefined;
   /** The state or province (e.g., "CA"). */
-  region?: string;
+  region?: string | undefined;
   /** The postal code (e.g., "94103"). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   /** A two-letter country code (e.g., "US"). */
-  country?: string;
+  country?: string | undefined;
 }
 /** The legal name and other information for the account holder. */
 export interface TransferUserInRequestDeprecated {
   /** The user's legal name. */
-  legal_name?: string;
+  legal_name?: string | undefined;
   /** The user's phone number. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The user's email address. */
-  email_address?: string;
-  address?: TransferUserAddressInRequest;
+  email_address?: string | undefined;
+  address?: TransferUserAddressInRequest | undefined;
 }
 /** The Metadata object is a mapping of client-provided string fields to any string value. The following limitations apply: The JSON values must be Strings (no nested JSON objects allowed) Only ASCII characters may be used Maximum of 50 key/value pairs Maximum key length of 40 characters Maximum value length of 500 characters */
 export type TransferMetadata = { [key: string]: string | undefined };
 export interface CreateTransferRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  idempotency_key?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  idempotency_key?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
   account_id: string;
   /** Plaid's unique identifier for a transfer authorization. This parameter also serves the purpose of acting as an idempotency identifier. */
   authorization_id: string;
-  type?: TransferType | (string & {});
-  network?: TransferNetwork | (string & {});
-  amount?: string;
+  type?: TransferType | (string & {}) | undefined;
+  network?: TransferNetwork | (string & {}) | undefined;
+  amount?: string | undefined;
   /** The transfer description, maximum of 15 characters. Should represent why the money is moving, not your company name. For recommendations on setting the `description` field to avoid ACH returns, see [Description field recommendations](https://www.plaid.com/docs/transfer/creating-transfers/#description-field-recommendations). If reprocessing a returned transfer, the `description` field must be `"Retry 1"` or `"Retry 2"`. You may retry a transfer up to 2 times, within 180 days of creating the original transfer. Only transfers that were returned with code `R01` or `R09` may be retried. */
   description: string;
-  ach_class?: ACHClass | (string & {});
-  user?: TransferUserInRequestDeprecated | null;
-  metadata?: TransferMetadata | null;
+  ach_class?: ACHClass | (string & {}) | undefined;
+  user?: TransferUserInRequestDeprecated | null | undefined;
+  metadata?: TransferMetadata | null | undefined;
   /** Plaid's unique identifier for the origination account for this transfer. If you have more than one origination account, this value must be specified. Otherwise, this field should be left blank. */
-  origination_account_id?: string | null;
+  origination_account_id?: string | null | undefined;
   /** The currency of the transfer amount. The default value is "USD". */
-  iso_currency_code?: string;
+  iso_currency_code?: string | undefined;
   /** Plaid's unique identifier for a test clock. This field may only be used when using `sandbox` environment. If provided, the `transfer` is created at the `virtual_time` on the provided `test_clock`. */
-  test_clock_id?: string | null;
-  facilitator_fee?: string;
+  test_clock_id?: string | null | undefined;
+  facilitator_fee?: string | undefined;
 }
 /** The address associated with the account holder. */
 export interface TransferUserAddressInResponse {
@@ -4376,18 +4398,18 @@ export type TransferSweepStatus = "unswept" | "swept" | "swept_settled" | "retur
 /** Information specific to wire transfers. */
 export interface TransferWireDetails {
   /** Additional information from the wire originator to the beneficiary. Max 140 characters; no single word may exceed 35 characters. */
-  message_to_beneficiary?: string | null;
+  message_to_beneficiary?: string | null | undefined;
   /** The fee amount deducted from the original transfer during a wire return, if applicable. */
-  wire_return_fee?: string | null;
+  wire_return_fee?: string | null | undefined;
 }
 /** The failure reason if the event type for a transfer is `"failed"` or `"returned"`, or the adjustment reason if the event type is `"adjustment"`. Null value otherwise. */
 export interface TransferFailure {
   /** The failure code, e.g. `R01`. A failure code will be provided if the transfer status is `returned`, and may also be provided if the transfer status is `failed`. See [ACH return codes](https://plaid.com/docs/errors/transfer/#ach-return-codes) for a full listing of ACH return codes and [RTP/RfP error codes](https://plaid.com/docs/errors/transfer/#rtprfp-error-codes) for RTP error codes. */
-  failure_code?: string | null;
+  failure_code?: string | null | undefined;
   /** The ACH return code, e.g. `R01`. A return code will be provided if the transfer status is `returned`, and may also be provided if the transfer status is `failed`. For a full listing of ACH return codes, see [Transfer errors](https://plaid.com/docs/errors/transfer/#ach-return-codes). */
-  ach_return_code?: string | null;
+  ach_return_code?: string | null | undefined;
   /** A human-readable description of the reason for the failure, reversal, or adjustment. */
-  description?: string;
+  description?: string | undefined;
   [key: string]: unknown;
 }
 /** Indicates whether the transfer is guaranteed by Plaid (Guarantee customers only). This field will contain either `GUARANTEED` or `NOT_GUARANTEED` indicating whether Plaid will guarantee the transfer. */
@@ -4413,7 +4435,7 @@ export interface TransferGuaranteeScheduleItem {
   /** The number of business days in the observation window for this tranche. `0` when the tranche is not subject to an observation window. */
   observation_window_business_days: number;
   /** The datetime when the observation window for this tranche expires. Present only when the tranche is subject to an observation window. This will be of the form `2006-01-02T15:04:05Z`. */
-  observation_window_expiration_time?: string | null;
+  observation_window_expiration_time?: string | null | undefined;
   [key: string]: unknown;
 }
 /** The adaptive guarantee settlement schedule for this transfer. */
@@ -4437,11 +4459,11 @@ export type TransferRefundStatus =
 /** The failure reason if the status for a refund is `"failed"` or `"returned"`. Null value otherwise. */
 export interface TransferRefundFailure {
   /** The failure code, e.g. `R01`. A failure code will be provided if and only if the refund status is `returned`. See [ACH return codes](https://plaid.com/docs/errors/transfer/#ach-return-codes) for a full listing of ACH return codes and [RTP/RfP error codes](https://plaid.com/docs/errors/transfer/#rtprfp-error-codes) for RTP error codes. */
-  failure_code?: string | null;
+  failure_code?: string | null | undefined;
   /** The ACH return code, e.g. `R01`. A return code will be provided if and only if the refund status is `returned`. For a full listing of ACH return codes, see [Transfer errors](https://plaid.com/docs/errors/transfer/#ach-return-codes). This field is deprecated in favor of the more versatile `failure_code`, which encompasses non-ACH failure codes as well. */
-  ach_return_code?: string | null;
+  ach_return_code?: string | null | undefined;
   /** A human-readable description of the reason for the failure or reversal. */
-  description?: string;
+  description?: string | undefined;
   [key: string]: unknown;
 }
 /** Represents a refund within the Transfers API. */
@@ -4451,10 +4473,10 @@ export interface TransferRefund {
   amount: string;
   status: TransferRefundStatus;
   failure_reason: TransferRefundFailure | null;
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** The datetime when this refund was created. This will be of the form `2006-01-02T15:04:05Z` */
   created: string;
-  network_trace_id?: string | null;
+  network_trace_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** A list of refunds associated with this transfer. */
@@ -4476,11 +4498,11 @@ export type TransferCreditFundsSource = "sweep" | "prefunded_rtp_credits" | "pre
 export interface Transfer {
   id: string;
   authorization_id: string;
-  ach_class?: ACHClass;
+  ach_class?: ACHClass | undefined;
   /** The Plaid `account_id` corresponding to the end-user account that will be debited or credited. */
-  account_id?: string;
+  account_id?: string | undefined;
   funding_account_id: string | null;
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   type: TransferType;
   user: TransferUserInResponse;
   amount: string;
@@ -4489,9 +4511,9 @@ export interface Transfer {
   /** The datetime when this transfer was created. This will be of the form `2006-01-02T15:04:05Z` */
   created: string;
   status: TransferStatus;
-  sweep_status?: TransferSweepStatus | null;
+  sweep_status?: TransferSweepStatus | null | undefined;
   network: TransferNetwork;
-  wire_details?: TransferWireDetails | null;
+  wire_details?: TransferWireDetails | null | undefined;
   /** When `true`, you can still cancel this transfer. */
   cancellable: boolean;
   failure_reason: TransferFailure | null;
@@ -4500,7 +4522,7 @@ export interface Transfer {
   origination_account_id: string;
   guarantee_decision: TransferAuthorizationGuaranteeDecision | null;
   guarantee_decision_rationale: TransferAuthorizationGuaranteeDecisionRationale | null;
-  guarantee_details?: TransferGuaranteeDetails | null;
+  guarantee_details?: TransferGuaranteeDetails | null | undefined;
   /** The currency of the transfer amount, e.g. "USD" */
   iso_currency_code: string;
   /** The date 3 business days from settlement date indicating the following ACH returns can no longer happen: R01, R02, R03, R29. This will be of the form YYYY-MM-DD. */
@@ -4510,7 +4532,7 @@ export interface Transfer {
   /** Deprecated for Plaid Ledger clients, use `expected_funds_available_date` instead. */
   expected_settlement_date: string | null;
   /** The expected date when funds from a transfer will be made available and can be withdrawn from the associated ledger balance, assuming the debit does not return before this date. If the transfer does return before this date, this field will be null. Only applies to debit transfers. This will be of the form YYYY-MM-DD. */
-  expected_funds_available_date?: string | null;
+  expected_funds_available_date?: string | null | undefined;
   /** The Plaid client ID that is the originator of this transfer. Only present if created on behalf of another client as a [Platform customer](https://plaid.com/docs/transfer/application/#originators-vs-platforms). */
   originator_client_id: string | null;
   /** A list of refunds associated with this transfer. */
@@ -4518,10 +4540,10 @@ export interface Transfer {
   /** The id of the recurring transfer if this transfer belongs to a recurring transfer. */
   recurring_transfer_id: string | null;
   /** The expected sweep settlement schedule of this transfer, assuming this transfer is not `returned`. Only applies to ACH debit transfers. */
-  expected_sweep_settlement_schedule?: TransferExpectedSweepSettlementScheduleList;
+  expected_sweep_settlement_schedule?: TransferExpectedSweepSettlementScheduleList | undefined;
   credit_funds_source: TransferCreditFundsSource | null;
-  facilitator_fee?: string;
-  network_trace_id?: string | null;
+  facilitator_fee?: string | undefined;
+  network_trace_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Defines the response schema for `/transfer/create` */
@@ -4535,17 +4557,17 @@ export interface TransferAuthorizationUserInRequest {
   /** The user's legal name. If the user is a business, provide the business name. */
   legal_name: string;
   /** The user's phone number. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The user's email address. */
-  email_address?: string;
-  address?: TransferUserAddressInRequest;
+  email_address?: string | undefined;
+  address?: TransferUserAddressInRequest | undefined;
 }
 /** Information about the device being used to initiate the authorization. These fields are not currently incorporated into the risk check. */
 export interface TransferAuthorizationDevice {
   /** The IP address of the device being used to initiate the authorization. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** The user agent of the device being used to initiate the authorization. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   [key: string]: unknown;
 }
 /** A free-form map of client-supplied risk-relevant context for this authorization. Plaid may use these attributes to inform future versions of our risk models. The following limitations apply: Keys must match the regular expression `^[A-Za-z0-9_.-]{1,40}$` Values must be strings (no nested objects, arrays, numbers, or booleans allowed; stringify non-string values client-side) Maximum of 50 key/value pairs Maximum value length of 500 characters Do not include personally identifiable information or other sensitive data. */
@@ -4553,50 +4575,50 @@ export type TransferAuthorizationCustomAttributes = { [key: string]: string | un
 /** Typed attributes of the end user that Plaid models directly in transfer authorization decisioning. Use `custom_attributes` for any other risk-relevant context. */
 export interface TransferAuthorizationUserAttributes {
   /** The date and time the end user created their account on your platform, in ISO 8601 format (`YYYY-MM-DDTHH:mm:ssZ`). This is the user's account with you, not a Plaid `account_id`. */
-  account_created_time?: string | null;
+  account_created_time?: string | null | undefined;
   /** The total number of payments the end user has successfully completed on your platform since their account was created, across all payment methods. Excludes the payment being authorized, and excludes payments that were returned, charged back, or subsequently failed. */
-  successful_payment_count?: number | null;
+  successful_payment_count?: number | null | undefined;
 }
 export interface CreateTransferAuthorizationRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   account_id: string;
-  funding_account_id?: string | null;
+  funding_account_id?: string | null | undefined;
   /** Specify which ledger balance should be used to fund the transfer. You can find a list of `ledger_id`s in the Accounts page of your Plaid Dashboard. If this field is left blank, this will default to the id of the default ledger balance. */
-  ledger_id?: string | null;
-  payment_profile_token?: string;
+  ledger_id?: string | null | undefined;
+  payment_profile_token?: string | undefined;
   type: TransferType | (string & {});
   network: TransferNetwork | (string & {});
   amount: string;
-  ach_class?: ACHClass | (string & {});
-  wire_details?: TransferWireDetails | null;
+  ach_class?: ACHClass | (string & {}) | undefined;
+  wire_details?: TransferWireDetails | null | undefined;
   user: TransferAuthorizationUserInRequest;
   /** The Plaid-generated user ID returned by `/user/create` for the end user associated with this transfer's Item. This identifier is separate from the account-holder details in `user`. Omit or set to `null` if unavailable; otherwise, provide a non-empty string. This field does not currently affect authorization decisions. */
-  user_id?: string | null;
-  device?: TransferAuthorizationDevice;
+  user_id?: string | null | undefined;
+  device?: TransferAuthorizationDevice | undefined;
   /** Plaid's unique identifier for the origination account for this authorization. If not specified, the default account will be used. */
-  origination_account_id?: string;
+  origination_account_id?: string | undefined;
   /** The currency of the transfer amount. The default value is "USD". */
-  iso_currency_code?: string;
-  idempotency_key?: string | null;
+  iso_currency_code?: string | undefined;
+  idempotency_key?: string | null | undefined;
   /** If the end user is initiating the specific transfer themselves via an interactive UI, this should be `true`; for automatic recurring payments where the end user is not actually initiating each individual transfer, it should be `false`. This field is not currently used and is present to support planned future functionality. */
-  user_present?: boolean | null;
+  user_present?: boolean | null | undefined;
   /** If set to `false`, Plaid will not offer a `guarantee_decision` for this request (Guarantee customers only). This field is deprecated in favor of `guarantee`. */
-  with_guarantee?: boolean | null;
+  with_guarantee?: boolean | null | undefined;
   /** Indicates whether the transfer should be evaluated for guarantee coverage. When set to `true`, Plaid assesses the transfer for guarantee coverage and returns a decision in the authorization response. When omitted or set to `false`, the authorization is evaluated without guarantee coverage. */
-  request_guarantee?: boolean | null;
+  request_guarantee?: boolean | null | undefined;
   /** The unique identifier returned by Plaid's [beacon](https://plaid.com/docs/transfer/guarantee/#using-a-beacon) when it is run on your webpage. */
-  beacon_session_id?: string | null;
+  beacon_session_id?: string | null | undefined;
   /** The Plaid client ID that is the originator of this transfer. Only needed if creating transfers on behalf of another client as a [Platform customer](https://plaid.com/docs/transfer/application/#originators-vs-platforms). */
-  originator_client_id?: string | null;
-  credit_funds_source?: TransferCreditFundsSource | (string & {}) | null;
+  originator_client_id?: string | null | undefined;
+  credit_funds_source?: TransferCreditFundsSource | (string & {}) | null | undefined;
   /** Plaid's unique identifier for a test clock. This field may only be used when using `sandbox` environment. If provided, the `authorization` is created at the `virtual_time` on the provided test clock. */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   /** The key of the Ruleset for the transaction. If not provided, Signal will use the `default` ruleset. */
-  ruleset_key?: string | null;
-  custom_attributes?: TransferAuthorizationCustomAttributes | null;
-  user_attributes?: TransferAuthorizationUserAttributes | null;
+  ruleset_key?: string | null | undefined;
+  custom_attributes?: TransferAuthorizationCustomAttributes | null | undefined;
+  user_attributes?: TransferAuthorizationUserAttributes | null | undefined;
 }
 /** A decision regarding the proposed transfer. `approved` - The proposed transfer has received the end user's consent and has been approved for processing by Plaid. The `decision_rationale` field is set if Plaid was unable to fetch the account information. You may proceed with the transfer, but further review is recommended. Refer to the `code` field in the `decision_rationale` object for details. `declined` - Plaid reviewed the proposed transfer and declined processing. Refer to the `code` field in the `decision_rationale` object for details. `user_action_required` - An action is required before Plaid can assess the transfer risk and make a decision. The most common scenario is to update authentication for an Item. To complete the required action, initialize Link by setting `transfer.authorization_id` in the request of `/link/token/create`. After Link flow is completed, you may re-attempt the authorization request. For `guarantee` requests, `approved` indicates the transfer is eligible for Plaid's guarantee, and `declined` indicates Plaid will not provide guarantee coverage for the transfer. `user_action_required` indicates you should follow the above guidance before re-attempting. */
 export type TransferAuthorizationDecision = "approved" | "declined" | "user_action_required";
@@ -4652,11 +4674,11 @@ export type TransferAuthorizationRiskLevel =
 /** Conveys information about the errors causing missing or stale bank data used to construct the `/signal/evaluate` scores and response */
 export interface SignalWarning {
   /** A broad categorization of the warning. Safe for programmatic use. */
-  warning_type?: string;
+  warning_type?: string | undefined;
   /** The warning code identifies a specific kind of warning that pertains to the error causing bank data to be missing. Safe for programmatic use. For more details on warning codes, please refer to Plaid standard error codes documentation. If you receive the `ITEM_LOGIN_REQUIRED` warning, we recommend re-authenticating your user by implementing Link's update mode. This will guide your user to fix their credentials, allowing Plaid to start fetching data again for future requests. */
-  warning_code?: string;
+  warning_code?: string | undefined;
   /** A developer-friendly representation of the warning type. This may change over time and is not safe for programmatic use. */
-  warning_message?: string;
+  warning_message?: string | undefined;
 }
 /** If bank information was not available to be used, this array contains warnings describing why bank data is missing. If you want to receive an API error instead of scores in the case of missing bank data, file a support ticket or contact your Plaid account manager. */
 export type TransferAuthorizationPaymentRiskWarningsList = Array<SignalWarning>;
@@ -4673,11 +4695,11 @@ export interface TransferAuthorizationPaymentRisk {
 }
 /** Details regarding the proposed transfer. */
 export interface TransferAuthorizationProposedTransfer {
-  ach_class?: ACHClass;
+  ach_class?: ACHClass | undefined;
   /** The Plaid `account_id` for the account that will be debited or credited. */
-  account_id?: string;
+  account_id?: string | undefined;
   funding_account_id: string | null;
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   type: TransferType;
   user: TransferUserInResponse;
   amount: string;
@@ -4685,7 +4707,7 @@ export interface TransferAuthorizationProposedTransfer {
   requested_amount: string;
   /** The network or rails used for the transfer. */
   network: string;
-  wire_details?: TransferWireDetails | null;
+  wire_details?: TransferWireDetails | null | undefined;
   /** Plaid's unique identifier for the origination account that was used for this transfer. */
   origination_account_id: string;
   /** The currency of the transfer amount. The default value is "USD". */
@@ -4704,7 +4726,7 @@ export interface TransferAuthorization {
   decision_rationale: TransferAuthorizationDecisionRationale | null;
   guarantee_decision: TransferAuthorizationGuaranteeDecision | null;
   guarantee_decision_rationale: TransferAuthorizationGuaranteeDecisionRationale | null;
-  guarantee_details?: AuthorizationGuaranteeDetails | null;
+  guarantee_details?: AuthorizationGuaranteeDetails | null | undefined;
   payment_risk: TransferAuthorizationPaymentRisk | null;
   proposed_transfer: TransferAuthorizationProposedTransfer;
   [key: string]: unknown;
@@ -4724,31 +4746,31 @@ export interface TransferUserInRequest {
   /** The user's legal name. */
   legal_name: string;
   /** The user's phone number. Phone number input may be validated against valid number ranges; number strings that do not match a real-world phone numbering scheme may cause the request to fail, even in the Sandbox test environment. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The user's email address. */
-  email_address?: string;
-  address?: TransferUserAddressInRequest;
+  email_address?: string | undefined;
+  address?: TransferUserAddressInRequest | undefined;
 }
 export interface CreateTransferIntentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid `account_id` corresponding to the end-user account that will be debited or credited. */
-  account_id?: string | null;
-  funding_account_id?: string | null;
+  account_id?: string | null | undefined;
+  funding_account_id?: string | null | undefined;
   mode: TransferIntentCreateMode | (string & {});
-  network?: TransferIntentCreateNetwork | (string & {});
+  network?: TransferIntentCreateNetwork | (string & {}) | undefined;
   amount: string;
   /** A description for the underlying transfer. Maximum of 15 characters. */
   description: string;
-  ach_class?: ACHClass | (string & {});
+  ach_class?: ACHClass | (string & {}) | undefined;
   /** Plaid's unique identifier for the origination account for the intent. If not provided, the default account will be used. */
-  origination_account_id?: string | null;
+  origination_account_id?: string | null | undefined;
   user: TransferUserInRequest;
-  metadata?: TransferMetadata | null;
+  metadata?: TransferMetadata | null | undefined;
   /** The currency of the transfer amount, e.g. "USD" */
-  iso_currency_code?: string;
+  iso_currency_code?: string | undefined;
   /** When `true`, the transfer requires a `GUARANTEED` decision by Plaid to proceed (Guarantee customers only). */
-  require_guarantee?: boolean | null;
+  require_guarantee?: boolean | null | undefined;
 }
 /** The status of the transfer intent. `PENDING`: The transfer intent is pending. `SUCCEEDED`: The transfer intent was successfully created. `FAILED`: The transfer intent was unable to be created. */
 export type TransferIntentStatus = "PENDING" | "SUCCEEDED" | "FAILED";
@@ -4760,22 +4782,22 @@ export interface TransferIntentCreate {
   created: string;
   status: TransferIntentStatus;
   /** The Plaid `account_id` corresponding to the end-user account that will be debited or credited. Returned only if `account_id` was set on intent creation. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Plaid's unique identifier for the origination account for the intent. If not provided, the default account will be used. */
   origination_account_id: string;
   funding_account_id: string;
   amount: string;
   mode: TransferIntentCreateMode;
-  network?: TransferIntentCreateNetwork;
-  ach_class?: ACHClass;
+  network?: TransferIntentCreateNetwork | undefined;
+  ach_class?: ACHClass | undefined;
   user: TransferUserInResponse;
   /** A description for the underlying transfer. Maximum of 15 characters. */
   description: string;
-  metadata?: TransferMetadata | null;
+  metadata?: TransferMetadata | null | undefined;
   /** The currency of the transfer amount, e.g. "USD" */
   iso_currency_code: string;
   /** When `true`, the transfer requires a `GUARANTEED` decision by Plaid to proceed (Guarantee customers only). */
-  require_guarantee?: boolean | null;
+  require_guarantee?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** Defines the response schema for `/transfer/intent/create` */
@@ -4785,8 +4807,8 @@ export interface TransferIntentCreateResponse {
   [key: string]: unknown;
 }
 export interface CreateTransferOriginatorRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The company name of the end customer being created. This will be displayed in public-facing surfaces, e.g. Plaid Dashboard. */
   company_name: string;
 }
@@ -4805,18 +4827,18 @@ export interface TransferFundingAccountWithDisplayName {
   /** The Plaid `account_id` for the newly created Item. */
   account_id: string;
   /** The name for the funding account that is displayed in the Plaid dashboard. */
-  display_name?: string;
+  display_name?: string | undefined;
 }
 export interface CreateTransferOriginatorFundingAccountRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid client ID of the transfer originator. */
   originator_client_id: string;
   funding_account: TransferFundingAccountWithDisplayName;
 }
 /** Defines the response schema for `/transfer/originator/funding_account/create` */
 export interface TransferOriginatorFundingAccountCreateResponse {
-  funding_account_id?: string;
+  funding_account_id?: string | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -4830,14 +4852,14 @@ export interface TransferPlatformTOSAcceptanceMetadata {
   agreement_accepted_at: string;
 }
 export interface CreateTransferPlatformOriginatorRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   originator_client_id: string;
   tos_acceptance_metadata: TransferPlatformTOSAcceptanceMetadata;
   /** ISO8601 timestamp indicating the most recent time the platform collected onboarding data from the originator */
   originator_reviewed_at: string;
   /** The webhook URL to which a `PLATFORM_ONBOARDING_UPDATE` webhook should be sent. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 /** Defines the response schema for `/transfer/platform/originator/create` */
 export interface TransferPlatformOriginatorCreateResponse {
@@ -4859,7 +4881,7 @@ export interface TransferPlatformPersonAddress {
   /** The primary street portion of an address. A string with at least one non-whitespace alphabetical character, with a max length of 80 characters. */
   street: string;
   /** Extra street information, like an apartment or suite number. If provided, a string with at least one non-whitespace character, with a max length of 50 characters. */
-  street2?: string;
+  street2?: string | undefined;
 }
 /** ID number of the person */
 export interface TransferPlatformPersonIDNumber {
@@ -4868,24 +4890,24 @@ export interface TransferPlatformPersonIDNumber {
   type: IDNumberType | (string & {});
 }
 export interface CreateTransferPlatformPersonRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   originator_client_id: string;
-  name?: IdentityVerificationRequestUserName;
+  name?: IdentityVerificationRequestUserName | undefined;
   /** A valid email address. Must not have leading or trailing spaces. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** A valid phone number in E.164 format. Phone number input may be validated against valid number ranges; number strings that do not match a real-world phone numbering scheme may cause the request to fail, even in the Sandbox test environment. */
-  phone_number?: string;
-  address?: TransferPlatformPersonAddress;
-  id_number?: TransferPlatformPersonIDNumber;
+  phone_number?: string | undefined;
+  address?: TransferPlatformPersonAddress | undefined;
+  id_number?: TransferPlatformPersonIDNumber | undefined;
   /** The date of birth of the person. Formatted as YYYY-MM-DD. */
-  date_of_birth?: string;
+  date_of_birth?: string | undefined;
   /** The relationship between this person and the originator they are related to. */
-  relationship_to_originator?: string;
+  relationship_to_originator?: string | undefined;
   /** The percentage of ownership this person has in the onboarding business. Only applicable to beneficial owners with 25% or more ownership. */
-  ownership_percentage?: number;
+  ownership_percentage?: number | undefined;
   /** The title of the person at the business. Only applicable to control persons - for example, "CEO", "President", "Owner", etc. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Defines the response schema for `/transfer/platform/person/create` */
 export interface TransferPlatformPersonCreateResponse {
@@ -4895,8 +4917,8 @@ export interface TransferPlatformPersonCreateResponse {
   [key: string]: unknown;
 }
 export interface CreateTransferQuestionnaireRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Client ID of the end customer. */
   originator_client_id: string;
   /** URL the end customer will be redirected to after completing questions in Plaid-hosted onboarding flow. */
@@ -4922,7 +4944,7 @@ export interface TransferRecurringSchedule {
   /** A date in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). The recurring transfer will begin on the first `interval_execution_day` on or after the `start_date`. For `rtp` recurring transfers, `start_date` must be in the future. Otherwise, if the first `interval_execution_day` on or after the start date is also the same day that `/transfer/recurring/create` was called, the bank *may* make the first payment on that day, but it is not guaranteed to do so. */
   start_date: string;
   /** A date in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). The recurring transfer will end on the last `interval_execution_day` on or before the `end_date`. If the `interval_execution_day` between the start date and the end date (inclusive) is also the same day that `/transfer/recurring/create` was called, the bank *may* make a payment on that day, but it is not guaranteed to do so. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
 }
 /** Information about the device being used to initiate the authorization. */
 export interface TransferDevice {
@@ -4933,28 +4955,28 @@ export interface TransferDevice {
   [key: string]: unknown;
 }
 export interface CreateTransferRecurringRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   idempotency_key: string;
   account_id: string;
   /** Specify the account used to fund the transfer. Customers can find a list of `funding_account_id`s in the Accounts page of your Plaid Dashboard, under the "Account ID" column. If this field is left blank, it will default to the default `funding_account_id` specified during onboarding. */
-  funding_account_id?: string | null;
+  funding_account_id?: string | null | undefined;
   type: TransferType | (string & {});
   network: TransferRecurringNetwork | (string & {});
-  ach_class?: ACHClass | (string & {});
+  ach_class?: ACHClass | (string & {}) | undefined;
   amount: string;
   /** If the end user is initiating the specific transfer themselves via an interactive UI, this should be `true`; for automatic recurring payments where the end user is not actually initiating each individual transfer, it should be `false`. */
-  user_present?: boolean | null;
+  user_present?: boolean | null | undefined;
   /** The currency of the transfer amount. The default value is "USD". */
-  iso_currency_code?: string;
+  iso_currency_code?: string | undefined;
   /** The description of the recurring transfer. */
   description: string;
   /** Plaid's unique identifier for a test clock. This field may only be used when using the `sandbox` environment. If provided, the created `recurring_transfer` is associated with the `test_clock`. New originations are automatically generated when the associated `test_clock` advances. For more details, see [Simulating recurring transfers](https://plaid.com/docs/transfer/sandbox/#simulating-recurring-transfers). */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   schedule: TransferRecurringSchedule;
   user: TransferUserInRequest;
-  device?: TransferDevice;
+  device?: TransferDevice | undefined;
 }
 /** The status of the recurring transfer. `active`: The recurring transfer is currently active. `cancelled`: The recurring transfer was cancelled by the client or Plaid. `expired`: The recurring transfer has completed all originations according to its recurring schedule. */
 export type TransferRecurringStatus = "active" | "cancelled" | "expired";
@@ -4968,11 +4990,11 @@ export interface RecurringTransferNullable {
   /** A date in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). The next transfer origination date after bank holiday adjustment. */
   next_origination_date: string | null;
   /** Plaid's unique identifier for a test clock. */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   type: TransferType;
   amount: string;
   status: TransferRecurringStatus;
-  ach_class?: ACHClass;
+  ach_class?: ACHClass | undefined;
   network: TransferRecurringNetwork;
   /** Plaid's unique identifier for the origination account that was used for this transfer. */
   origination_account_id: string;
@@ -4991,15 +5013,15 @@ export interface RecurringTransferNullable {
 }
 /** Defines the response schema for `/transfer/recurring/create` */
 export interface TransferRecurringCreateResponse {
-  recurring_transfer?: RecurringTransferNullable;
+  recurring_transfer?: RecurringTransferNullable | undefined;
   decision: TransferAuthorizationDecision;
-  decision_rationale?: TransferAuthorizationDecisionRationale | null;
+  decision_rationale?: TransferAuthorizationDecisionRationale | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface CreateTransferRefundRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   transfer_id: string;
   amount: string;
   idempotency_key: string;
@@ -5038,17 +5060,17 @@ export type ClientUserIdentityPhoneNumbersList = Array<ClientUserIdentityPhoneNu
 /** User address information. */
 export interface ClientUserIdentityAddress {
   /** First line of street address. */
-  street_1?: string | null;
+  street_1?: string | null | undefined;
   /** Second line of street address. */
-  street_2?: string | null;
+  street_2?: string | null | undefined;
   /** City name. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** State, province or region. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Country code. */
   country: string;
   /** Postal or ZIP code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** Indicates whether this is the primary address for the User. */
   primary: boolean;
 }
@@ -5058,17 +5080,17 @@ export type ClientUserIdentityAddressesList = Array<ClientUserIdentityAddress>;
 export type ClientUserIdentityIdNumbersList = Array<UserIDNumber | null>;
 /** The identity fields associated with a user. For a user to be eligible for a Plaid Check Consumer Report, all fields are required except `id_numbers`. Providing a partial SSN is strongly recommended, and improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests. If creating a report that will be shared with GSEs such as Fannie or Freddie, a full Social Security Number must be provided via the `id_numbers` field. */
 export interface ClientUserIdentity {
-  name?: ClientUserIdentityName | null;
+  name?: ClientUserIdentityName | null | undefined;
   /** The user's date of birth, to be provided in the format "yyyy-mm-dd". */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** The user's emails. */
-  emails?: ClientUserIdentityEmailsList;
+  emails?: ClientUserIdentityEmailsList | undefined;
   /** The user's phone numbers, in E.164 format: +{countrycode}{number}. For example: "+14157452130". Phone numbers provided in other formats will be parsed on a best-effort basis. Phone number input is validated against valid number ranges; number strings that do not match a real-world phone numbering scheme may cause the request to fail, even in the Sandbox test environment. */
-  phone_numbers?: ClientUserIdentityPhoneNumbersList;
+  phone_numbers?: ClientUserIdentityPhoneNumbersList | undefined;
   /** The user's addresses. */
-  addresses?: ClientUserIdentityAddressesList;
+  addresses?: ClientUserIdentityAddressesList | undefined;
   /** The user's ID numbers. */
-  id_numbers?: ClientUserIdentityIdNumbersList;
+  id_numbers?: ClientUserIdentityIdNumbersList | undefined;
   [key: string]: unknown;
 }
 /** The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14157452130". Phone numbers provided in other formats will be parsed on a best-effort basis. Phone number input is validated against valid number ranges; number strings that do not match a real-world phone numbering scheme may cause the request to fail, even in the Sandbox test environment. */
@@ -5086,42 +5108,42 @@ export interface ConsumerReportUserIdentity {
   /** The user's emails */
   emails: ConsumerReportUserIdentityEmailsList;
   /** The user's full Social Security number. This field should only be provided by lenders intending to share the resulting consumer report with a Government-Sponsored Enterprise (GSE), such as Fannie Mae or Freddie Mac. Format: "ddd-dd-dddd" */
-  ssn_full?: string | null;
+  ssn_full?: string | null | undefined;
   /** The last 4 digits of the user's Social Security number. */
-  ssn_last_4?: string | null;
+  ssn_last_4?: string | null | undefined;
   /** To be provided in the format "yyyy-mm-dd". This field is required for all Plaid Check customers. */
   date_of_birth: string | null;
   primary_address: AddressData;
   [key: string]: unknown;
 }
 export interface CreateUserRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A unique ID representing the end user. Maximum of 128 characters. Typically this will be a user ID number from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. */
   client_user_id: string;
-  identity?: ClientUserIdentity | null;
+  identity?: ClientUserIdentity | null | undefined;
   /** A unique ID representing a CRA reseller's end customer. Maximum of 128 characters. */
-  end_customer?: string;
-  consumer_report_user_identity?: ConsumerReportUserIdentity | null;
+  end_customer?: string | undefined;
+  consumer_report_user_identity?: ConsumerReportUserIdentity | null | undefined;
   /** If your integration with the User API predates December 10, 2025, set this field to `true` to opt into the [New User APIs](https://plaid.com/docs/api/users/user-apis/). When enabled, you can use the `identity` field instead of `consumer_report_user_identity`. */
-  with_upgraded_user?: boolean;
+  with_upgraded_user?: boolean | undefined;
 }
 /** UserCreateResponse defines the response schema for `/user/create` */
 export interface UserCreateResponse {
-  user_token?: string;
+  user_token?: string | undefined;
   user_id: string;
   request_id: string;
   [key: string]: unknown;
 }
 export interface CreateUserThirdPartyTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
   /** The Plaid API `client_id` of the third-party client the token will be shared with. The token will only be valid for the specified client. */
   third_party_client_id: string;
   /** The expiration date and time for the third-party user token in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDThh:mm:ssZ`). The expiration is restricted to a maximum of 24 hours from the token's creation time. If not provided, the token will automatically expire after 24 hours. */
-  expiration_time?: string | null;
-  user_id?: string;
+  expiration_time?: string | null | undefined;
+  user_id?: string | undefined;
 }
 /** UserThirdPartyTokenCreateResponse defines the response schema for `/user/third_party_token/create` */
 export interface UserThirdPartyTokenCreateResponse {
@@ -5132,8 +5154,8 @@ export interface UserThirdPartyTokenCreateResponse {
 /** An ISO-4217 currency code, used with e-wallets and transactions. */
 export type WalletISOCurrencyCode = "GBP" | "EUR";
 export interface CreateWalletRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   iso_currency_code: WalletISOCurrencyCode | (string & {});
 }
 /** An object representing the e-wallet balance */
@@ -5157,8 +5179,8 @@ export interface NumbersInternationalIBAN {
 }
 /** An object representing the e-wallet account numbers */
 export interface WalletNumbers {
-  bacs?: PaymentInitiationOptionalRestrictionBacs | null;
-  international?: NumbersInternationalIBAN | null;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | null | undefined;
+  international?: NumbersInternationalIBAN | null | undefined;
   [key: string]: unknown;
 }
 /** The status of the wallet. `UNKNOWN`: The wallet status is unknown. `ACTIVE`: The wallet is active and ready to send money to and receive money from. `CLOSED`: The wallet is closed. Transactions to or from this wallet will fail. `BLOCKED`: The wallet is blocked by the payment provider. Transactions to or from this wallet will fail. */
@@ -5169,7 +5191,7 @@ export interface CreateWalletResponse {
   balance: WalletBalance;
   numbers: WalletNumbers;
   /** The ID of the recipient that corresponds to the e-wallet account numbers */
-  recipient_id?: string;
+  recipient_id?: string | undefined;
   status: WalletStatus;
   request_id: string;
 }
@@ -5177,17 +5199,17 @@ export interface CreateWalletResponse {
 export interface EntityWatchlistSearchTerms {
   entity_watchlist_program_id: string;
   legal_name: string;
-  document_number?: string | null;
-  email_address?: string | null;
-  country?: string | null;
-  phone_number?: string | null;
-  url?: string | null;
+  document_number?: string | null | undefined;
+  email_address?: string | null | undefined;
+  country?: string | null | undefined;
+  phone_number?: string | null | undefined;
+  url?: string | null | undefined;
 }
 export interface CreateWatchlistScreeningEntityRequest {
   search_terms: EntityWatchlistSearchTerms;
-  client_user_id?: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_user_id?: string | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Search terms associated with an entity used for searching against watchlists */
 export interface EntityWatchlistScreeningSearchTerms {
@@ -5233,9 +5255,9 @@ export interface CreateWatchlistScreeningEntityReviewRequest {
   confirmed_hits: CreateWatchlistScreeningEntityReviewRequestConfirmedHitsList;
   /** Hits to mark as a false positive after thorough manual review. These hits will never recur or be updated once dismissed. */
   dismissed_hits: CreateWatchlistScreeningEntityReviewRequestDismissedHitsList;
-  comment?: string | null;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  comment?: string | null | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   entity_watchlist_screening_id: string;
 }
 /** Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once confirmed. In most cases, confirmed hits indicate that the customer should be rejected. */
@@ -5258,15 +5280,15 @@ export interface WatchlistScreeningEntityReviewCreateResponse {
 export interface WatchlistScreeningRequestSearchTerms {
   watchlist_program_id: string;
   legal_name: string;
-  date_of_birth?: string;
-  document_number?: string;
-  country?: string;
+  date_of_birth?: string | undefined;
+  document_number?: string | undefined;
+  country?: string | undefined;
 }
 export interface CreateWatchlistScreeningIndividualRequest {
   search_terms: WatchlistScreeningRequestSearchTerms;
-  client_user_id?: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_user_id?: string | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Search terms for creating an individual watchlist screening */
 export interface WatchlistScreeningSearchTerms {
@@ -5299,9 +5321,9 @@ export interface CreateWatchlistScreeningIndividualReviewRequest {
   confirmed_hits: CreateWatchlistScreeningIndividualReviewRequestConfirmedHitsList;
   /** Hits to mark as a false positive after thorough manual review. These hits will never recur or be updated once dismissed. */
   dismissed_hits: CreateWatchlistScreeningIndividualReviewRequestDismissedHitsList;
-  comment?: string | null;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  comment?: string | null | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   watchlist_screening_id: string;
 }
 /** Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once confirmed. In most cases, confirmed hits indicate that the customer should be rejected. */
@@ -5323,8 +5345,8 @@ export interface WatchlistScreeningIndividualReviewCreateResponse {
 /** List of report tokens; can include at most one VOA/standard Asset Report tokens and one VOE Asset Report Token. */
 export type CreditAuditCopyTokenCreateRequestReportTokensList = Array<string>;
 export interface CreditAuditCopyTokenCreateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** List of report tokens; can include at most one VOA/standard Asset Report tokens and one VOE Asset Report Token. */
   report_tokens: CreditAuditCopyTokenCreateRequestReportTokensList;
 }
@@ -5338,8 +5360,8 @@ export interface CreditAuditCopyTokenCreateResponse {
 /** Array of tokens which the specified Audit Copy Token will be updated with. The types of token supported are asset report token and employment report token. There can be at most 1 of each token type in the array. */
 export type CreditAuditCopyTokenUpdateRequestReportTokensList = Array<string>;
 export interface CreditAuditCopyTokenUpdateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` you would like to update. */
   audit_copy_token: string;
   /** Array of tokens which the specified Audit Copy Token will be updated with. The types of token supported are asset report token and employment report token. There can be at most 1 of each token type in the array. */
@@ -5353,8 +5375,8 @@ export interface CreditAuditCopyTokenUpdateResponse {
   [key: string]: unknown;
 }
 export interface CreditReportAuditCopyRemoveRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `audit_copy_token` granting access to the Audit Copy you would like to revoke. */
   audit_copy_token: string;
 }
@@ -5366,8 +5388,8 @@ export interface CreditAuditCopyTokenRemoveResponse {
   [key: string]: unknown;
 }
 export interface DeleteCraServicingSubscriptionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   subscription_id: string;
 }
 /** CraServicingSubscriptionDeleteResponse defines the response schema for `/cra/servicing/subscription/delete`. */
@@ -5378,53 +5400,53 @@ export interface CraServicingSubscriptionDeleteResponse {
 }
 export interface DownloadStatementRequest {
   access_token: string | Redacted.Redacted<string>;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Plaid's unique identifier for the statement. */
   statement_id: string;
 }
 export interface DownloadStatementResponse {}
 export type EnableBetaPartnerCustomerV1RequestProductsList = Array<Products | (string & {})>;
 export interface EnableBetaPartnerCustomerV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   end_customer_client_id: string;
-  products?: EnableBetaPartnerCustomerV1RequestProductsList;
+  products?: EnableBetaPartnerCustomerV1RequestProductsList | undefined;
 }
 /** Response schema for `/beta/partner/customer/v1/enable`. */
 export interface BetaPartnerCustomerV1EnableResponse {
-  end_customer_client_id?: string;
-  status?: PartnerEndCustomerStatus;
-  product_statuses?: PartnerEndCustomerProductStatuses;
-  production_secret?: string | Redacted.Redacted<string>;
-  request_id?: string;
+  end_customer_client_id?: string | undefined;
+  status?: PartnerEndCustomerStatus | undefined;
+  product_statuses?: PartnerEndCustomerProductStatuses | undefined;
+  production_secret?: string | Redacted.Redacted<string> | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface EnablePartnerCustomerRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   end_customer_client_id: string;
 }
 /** Response schema for `/partner/customer/enable`. */
 export interface PartnerCustomerEnableResponse {
   /** The end customer's secret key for the Production environment. */
-  production_secret?: string | Redacted.Redacted<string>;
-  request_id?: string;
+  production_secret?: string | Redacted.Redacted<string> | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Decides the mode under which the payment processing should be performed, using `IMMEDIATE` as default. `IMMEDIATE`: Will immediately execute the payment, waiting for a response from the ASPSP before returning the result of the payment initiation. This is ideal for user-present flows. `ASYNC`: Will accept a payment execution request and schedule it for processing, immediately returning the new `payment_id`. Listen for webhooks to obtain real-time updates on the payment status. This is ideal for non user-present flows. */
 export type PaymentInitiationConsentProcessingMode = "ASYNC" | "IMMEDIATE";
 export interface ExecutePaymentInitiationConsentPaymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The consent ID. */
   consent_id: string;
   amount: PaymentAmount;
   idempotency_key: string;
   /** A reference for the payment. This must be a string of at most 18 characters containing only letters, numbers, and spaces (since not all institutions support them). If not provided, Plaid will automatically fall back to the reference from consent. In order to track settlement via Payment Confirmation, each payment must have a unique reference. If the reference provided through the API is not unique, Plaid will adjust it. Some institutions may limit the reference to less than 18 characters. If necessary, Plaid will adjust the reference by truncating it to fit the institution's requirements. Both the originally provided and automatically adjusted references (if any) can be found in the `reference` and `adjusted_reference` fields, respectively. */
-  reference?: string | null;
-  scope?: unknown;
-  processing_mode?: PaymentInitiationConsentProcessingMode | (string & {});
+  reference?: string | null | undefined;
+  scope?: unknown | undefined;
+  processing_mode?: PaymentInitiationConsentProcessingMode | (string & {}) | undefined;
 }
 /** The status of the payment. Core lifecycle statuses: **`PAYMENT_STATUS_INPUT_NEEDED`**: Transitional. The payment is awaiting user input to continue processing. It may re-enter this state if additional input is required. **`PAYMENT_STATUS_AUTHORISING`:** Transitional. The payment is being authorised by the financial institution. It will automatically move on once authorisation completes. **`PAYMENT_STATUS_INITIATED`:** The payment has been authorised and accepted by the financial institution. In many EU markets, `PAYMENT_STATUS_EXECUTED` is not supported, and a payment will remain in `PAYMENT_STATUS_INITIATED` until the funds settle, making this a terminal success state in those cases. A payment in `PAYMENT_STATUS_INITIATED` should be treated as a successfully submitted payment; do not gate downstream processing on reaching `PAYMENT_STATUS_EXECUTED`. For a full explanation of payment statuses and how to handle each, see the [Payment Status guide](https://plaid.com/docs/payment-initiation/payment-status/). **`PAYMENT_STATUS_EXECUTED`: Terminal.** The funds have left the payer's account and the payment is en route to settlement. Note that this status does not confirm that funds have arrived in the recipient's account; do not use it as proof of fund receipt. Support is more common in the UK than in the EU; where unsupported, a successful payment remains in `PAYMENT_STATUS_INITIATED` before settling. When using Plaid Virtual Accounts, `PAYMENT_STATUS_EXECUTED` is not terminal -- the payment will continue to `PAYMENT_STATUS_SETTLED` once funds are available. **`PAYMENT_STATUS_SETTLED`: Terminal.** The funds are available in the recipient's account. Only available to customers using [Plaid Virtual Accounts](https://plaid.com/docs/payment-initiation/virtual-accounts/). Failure statuses: **`PAYMENT_STATUS_INSUFFICIENT_FUNDS`: Terminal.** The payment failed due to insufficient funds. No further retries will succeed until the payer's balance is replenished. **`PAYMENT_STATUS_FAILED`: Terminal (retryable).** The payment could not be initiated due to a system error or outage. Retry once the root cause is resolved. **`PAYMENT_STATUS_BLOCKED`: Terminal (retryable).** The payment was blocked by Plaid (e.g., flagged as risky). Resolve any compliance or risk issues and retry. **`PAYMENT_STATUS_REJECTED`: Terminal.** The payment was rejected by the financial institution. No automatic retry is possible. **`PAYMENT_STATUS_CANCELLED`: Terminal.** The end user cancelled the payment during authorisation. Standing-order statuses: **`PAYMENT_STATUS_ESTABLISHED`: Terminal.** A recurring/standing order has been successfully created. Deprecated (to be removed in a future release): `PAYMENT_STATUS_UNKNOWN`: The payment status is unknown. `PAYMENT_STATUS_PROCESSING`: The payment is currently being processed. `PAYMENT_STATUS_COMPLETED`: Indicates that the standing order has been successfully established. */
 export type PaymentInitiationPaymentStatus =
@@ -5454,25 +5476,25 @@ export interface PlaidError {
   /** The particular error code. Safe for programmatic use. */
   error_code: string;
   /** The specific reason for the error code. Currently, reasons are only supported for OAuth-based item errors; the field is omitted otherwise. Safe for programmatic use. Possible values: `OAUTH_INVALID_TOKEN`: The user's OAuth connection to this institution has been invalidated. `OAUTH_CONSENT_EXPIRED`: The user's access consent for this OAuth connection to this institution has expired. `OAUTH_USER_REVOKED`: The user's OAuth connection to this institution is invalid because the user revoked their connection. */
-  error_code_reason?: string | null;
+  error_code_reason?: string | null | undefined;
   /** A developer-friendly representation of the error code. This may change over time and is not safe for programmatic use. */
   error_message: string;
   /** A user-friendly representation of the error code. `null` if the error is not related to user action. This may change over time and is not safe for programmatic use. */
   display_message: string | null;
   /** A unique ID identifying the request, to be used for troubleshooting purposes. This field will be omitted in errors provided by webhooks. */
-  request_id?: string;
+  request_id?: string | undefined;
   /** In this product, a request can pertain to more than one Item. If an error is returned for such a request, `causes` will return an array of errors containing a breakdown of these errors on the individual Item level, if any can be identified. `causes` will be provided for the `error_type` `ASSET_REPORT_ERROR` or `CHECK_REPORT_ERROR`, and for the `USER_ERROR` codes `USER_ITEM_ASSOCIATION_FAILED` and `USER_ITEM_REMOVAL_FAILED`. `causes` will also not be populated inside an error nested within a `warning` object. */
-  causes?: PlaidErrorCausesList;
+  causes?: PlaidErrorCausesList | undefined;
   /** The HTTP status code associated with the error. This will only be returned in the response body when the error information is provided via a webhook. */
-  status?: number | null;
+  status?: number | null | undefined;
   /** The URL of a Plaid documentation page with more information about the error */
-  documentation_url?: string;
+  documentation_url?: string | undefined;
   /** Suggested steps for resolving the error */
-  suggested_action?: string | null;
+  suggested_action?: string | null | undefined;
   /** A list of the account subtypes that were requested via the `account_filters` parameter in `/link/token/create`. Currently only populated for `NO_ACCOUNTS` errors from Items with `investments_auth` as an enabled product. */
-  required_account_subtypes?: PlaidErrorRequiredAccountSubtypesList;
+  required_account_subtypes?: PlaidErrorRequiredAccountSubtypesList | undefined;
   /** A list of the account subtypes that were extracted but did not match the requested subtypes via the `account_filters` parameter in `/link/token/create`. Currently only populated for `NO_ACCOUNTS` errors from Items with `investments_auth` as an enabled product. */
-  provided_account_subtypes?: PlaidErrorProvidedAccountSubtypesList;
+  provided_account_subtypes?: PlaidErrorProvidedAccountSubtypesList | undefined;
   [key: string]: unknown;
 }
 /** PaymentInitiationConsentPaymentExecuteResponse defines the response schema for `/payment_initiation/consent/payment/execute` */
@@ -5481,20 +5503,20 @@ export interface PaymentInitiationConsentPaymentExecuteResponse {
   payment_id: string;
   status: PaymentInitiationPaymentStatus;
   request_id: string;
-  error?: PlaidError | null;
+  error?: PlaidError | null | undefined;
   [key: string]: unknown;
 }
 /** The account number and sort code of the counterparty's account. The account number must be exactly 8 characters. */
 export type WalletTransactionCounterpartyBACS = PaymentInitiationOptionalRestrictionBacs;
 /** International Bank Account Number for a Wallet Transaction */
 export interface WalletTransactionCounterpartyInternational {
-  iban?: string;
+  iban?: string | undefined;
   [key: string]: unknown;
 }
 /** The counterparty's bank account numbers. Exactly one of IBAN or Bacs data is required. */
 export interface WalletTransactionCounterpartyNumbers {
-  bacs?: PaymentInitiationOptionalRestrictionBacs;
-  international?: WalletTransactionCounterpartyInternational | null;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | undefined;
+  international?: WalletTransactionCounterpartyInternational | null | undefined;
   [key: string]: unknown;
 }
 /** Whether the counterparty is a personal or a business account holder. Payee verification schemes match a different set of identifiers for a natural person and a legal entity. `personal`: the counterparty is an individual. `business`: the counterparty is a company. If this is omitted, a payee verification check on a GBP payout returns `CHECK_NOT_POSSIBLE`. Accepted on `/wallet/transaction/execute` and not returned on read endpoints. */
@@ -5504,12 +5526,12 @@ export interface WalletTransactionCounterparty {
   /** The name of the counterparty */
   name: string;
   numbers: WalletTransactionCounterpartyNumbers;
-  address?: PaymentInitiationAddress | null;
+  address?: PaymentInitiationAddress | null | undefined;
   /** The counterparty's birthdate, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. */
-  date_of_birth?: string | null;
-  holder_category?: WalletTransactionCounterpartyHolderCategory | (string & {});
+  date_of_birth?: string | null | undefined;
+  holder_category?: WalletTransactionCounterpartyHolderCategory | (string & {}) | undefined;
   /** Set to `true` if you have already verified that this counterparty owns the account, either through your own checks or through Plaid Auth or Identity. Plaid then skips its payee verification check. Whether Plaid runs a check is determined by Plaid configuration, so this field can only suppress a check and never request one. Only applies to GBP payouts. Accepted on `/wallet/transaction/execute` and not returned on read endpoints. */
-  is_verified?: boolean;
+  is_verified?: boolean | undefined;
   [key: string]: unknown;
 }
 /** The amount and currency of a transaction */
@@ -5530,18 +5552,18 @@ export interface OriginatingFundSource {
   bic: string;
 }
 export interface ExecuteWalletTransactionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   idempotency_key: string;
   /** The ID of the e-wallet to debit from */
   wallet_id: string;
   counterparty: WalletTransactionCounterparty;
   amount: WalletTransactionAmount;
   /** The `user_id` of the end user the transaction is for, as returned by [`/user/create`](https://plaid.com/docs/api/users/#usercreate). The user must have a `name` and either an email address or a phone number. Required for new integrations. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A reference for the transaction. This must be a string of 6 to 18 characters containing only letters, numbers, and spaces. Ensure that the `reference` field is unique for each transaction. */
   reference: string;
-  originating_fund_source?: OriginatingFundSource | null;
+  originating_fund_source?: OriginatingFundSource | null | undefined;
 }
 /** The status of the transaction. `AUTHORISING`: The transaction is being processed for validation and compliance. `INITIATED`: The transaction has been initiated and is currently being processed. `EXECUTED`: The transaction has been successfully executed and is considered complete. This is only applicable for debit transactions. `SETTLED`: The transaction has settled and funds are available for use. This is only applicable for credit transactions. A transaction will typically settle within seconds to several days, depending on which payment rail is used. `FAILED`: The transaction failed to process successfully. This is a terminal status. `BLOCKED`: The transaction has been blocked for violating compliance rules. This is a terminal status. */
 export type WalletTransactionStatus =
@@ -5607,14 +5629,14 @@ export interface FDXParty {
   name: string;
   type: FDXPartyType | (string & {});
   /** URI for party, where an end user could learn more about the company or application involved in the data sharing chain */
-  homeUri?: string;
+  homeUri?: string | undefined;
   /** URI for a logo asset to be displayed to the end user */
-  logoUri?: string;
-  registry?: FDXPartyRegistry | (string & {});
+  logoUri?: string | undefined;
+  registry?: FDXPartyRegistry | (string & {}) | undefined;
   /** Registered name of party */
-  registeredEntityName?: string;
+  registeredEntityName?: string | undefined;
   /** Registered id of party */
-  registeredEntityId?: string;
+  registeredEntityId?: string | undefined;
 }
 /** Type of entity causing origination of a notification */
 export type FDXNotificationPayloadIdType =
@@ -5629,19 +5651,19 @@ export type FDXEventStatus = "ACTIVE" | "EXPIRED" | "REVOKED" | "SUSPENDED";
 export type FDXUpdateReason = "BUSINESS_RULE" | "SECURITY_EVENT" | "USER_ACTION" | "OTHER";
 /** Details of consent or payment network identifier or other entity's revocation request or other lifecycle status change event */
 export interface FDXLifecycleEvent {
-  status?: FDXEventStatus | (string & {});
-  reason?: FDXUpdateReason | (string & {});
+  status?: FDXEventStatus | (string & {}) | undefined;
+  reason?: FDXUpdateReason | (string & {}) | undefined;
   /** Additional information or description of an `OTHER` reason */
-  otherReason?: string;
-  initiator?: FDXPartyType | (string & {});
-  updatedTime?: string;
+  otherReason?: string | undefined;
+  initiator?: FDXPartyType | (string & {}) | undefined;
+  updatedTime?: string | undefined;
 }
 /** Custom key-value pairs payload for a notification */
 export interface FDXNotificationPayload {
   /** ID for the origination entity related to the notification */
-  id?: string;
-  idType?: FDXNotificationPayloadIdType | (string & {});
-  event?: FDXLifecycleEvent;
+  id?: string | undefined;
+  idType?: FDXNotificationPayloadIdType | (string & {}) | undefined;
+  event?: FDXLifecycleEvent | undefined;
 }
 /** HTTP Method to use for the request */
 export type FDXHateoasLinkAction = "GET" | "POST" | "PATCH" | "DELETE" | "PUT";
@@ -5659,26 +5681,26 @@ export type FDXHateoasLinkTypesList = Array<FDXContentTypes | (string & {})>;
 export interface FDXHateoasLink {
   /** URL to invoke the action on the resource */
   href: string;
-  action?: FDXHateoasLinkAction | (string & {});
+  action?: FDXHateoasLinkAction | (string & {}) | undefined;
   /** Relation of this link to its containing entity, as defined by and with many example relation values at [IETF RFC5988](https://datatracker.ietf.org/doc/html/rfc5988) */
-  rel?: string;
+  rel?: string | undefined;
   /** Content-types that can be used in the Accept header */
-  types?: FDXHateoasLinkTypesList;
+  types?: FDXHateoasLinkTypesList | undefined;
 }
 export interface FdxNotificationsRequest {
   /** Id of notification */
   notificationId: string;
   type: FDXNotificationType | (string & {});
   /** An optional initiator-defined event subtype code or description if the event type needs to be further categorized or described. */
-  subtype?: string;
+  subtype?: string | undefined;
   sentOn: string;
   category: FDXNotificationCategory | (string & {});
-  severity?: FDXNotificationSeverity | (string & {});
-  priority?: FDXNotificationPriority | (string & {});
-  publisher?: FDXParty;
-  subscriber?: FDXParty;
+  severity?: FDXNotificationSeverity | (string & {}) | undefined;
+  priority?: FDXNotificationPriority | (string & {}) | undefined;
+  publisher?: FDXParty | undefined;
+  subscriber?: FDXParty | undefined;
   notificationPayload: FDXNotificationPayload;
-  url?: FDXHateoasLink;
+  url?: FDXHateoasLink | undefined;
 }
 export interface FdxNotificationsResponse {}
 /** An array of `account_ids` to retrieve for the Account. */
@@ -5686,13 +5708,13 @@ export type AccountsGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to filter `/accounts/get` results. */
 export interface AccountsGetRequestOptions {
   /** An array of `account_ids` to retrieve for the Account. */
-  account_ids?: AccountsGetRequestOptionsAccountIdsList;
+  account_ids?: AccountsGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetAccountRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  options?: AccountsGetRequestOptions;
+  options?: AccountsGetRequestOptions | undefined;
 }
 /** A set of fields describing the balance for an account. For real-time values, use `/accounts/balance/get` or `/signal/evaluate` (with a Balance-only ruleset), which are fetched live from the institution at request time. Values returned by other endpoints may be cached, or adjusted by Plaid to reflect transaction activity received since the last refresh. */
 export interface AccountBalance {
@@ -5707,7 +5729,7 @@ export interface AccountBalance {
   /** The unofficial currency code associated with the balance. Always null if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** Timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time the balance was updated. This field is returned only when the institution is `ins_128026` (Capital One) or `ins_136439` (Apple Card). */
-  last_updated_datetime?: string | null;
+  last_updated_datetime?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
@@ -5742,9 +5764,9 @@ export type AccountVerificationInsightsAccountNumberFormat = "valid" | "invalid"
 /** Insights from performing database verification for the account. Only returned for Auth Items using Database Auth. */
 export interface AccountVerificationInsights {
   /** Indicates the score of the name match between the given name provided during database verification (available in the [`verification_name`](https://plaid.com/docs/api/products/auth/#auth-get-response-accounts-verification-name) field if using standard Database Auth, or provided in the request if using `/auth/verify`) and matched Plaid network accounts. If defined, will be a value between 0 and 100. Will be undefined if name matching was not enabled for the database verification session or if there were no eligible Plaid network matches to compare the given name with. For Items at Canadian institutions, name matching is not currently supported, so this field will always be omitted. */
-  name_match_score?: number | null;
+  name_match_score?: number | null | undefined;
   network_status: AccountVerificationInsightsNetworkStatus;
-  previous_returns?: AccountVerificationInsightsPreviousReturns;
+  previous_returns?: AccountVerificationInsightsPreviousReturns | undefined;
   account_number_format: AccountVerificationInsightsAccountNumberFormat;
   [key: string]: unknown;
 }
@@ -5764,17 +5786,17 @@ export interface AccountBase {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: AccountBaseVerificationStatus;
+  verification_status?: AccountBaseVerificationStatus | undefined;
   /** The account holder name that was used for micro-deposit and/or database verification. Only returned for Auth Items created via micro-deposit or database verification. This name was manually-entered by the user during Link, unless it was otherwise provided via the `user.legal_name` request field in `/link/token/create` for the Link session that created the Item. */
-  verification_name?: string;
-  verification_insights?: AccountVerificationInsights;
+  verification_name?: string | undefined;
+  verification_insights?: AccountVerificationInsights | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This field is currently supported only for Items at institutions that use Tokenized Account Numbers (i.e., Chase, PNC, and US Bank). Because these accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify an account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field is populated for TAN-based institutions (`ins_56`, `ins_13`, `ins_127990`) as well as the OAuth Sandbox institution (`ins_127287`); in Production, it will only be populated for accounts at applicable institutions. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The annual percentage yield (APY) on an interest-bearing deposit account, expressed as a percentage (e.g. `4.25` means 4.25%). In the event that the APY is not provided by the financial institution, Plaid will return a value of `null`. */
-  apy?: number | null;
-  holder_category?: AccountHolderCategory | null;
+  apy?: number | null | undefined;
+  holder_category?: AccountHolderCategory | null | undefined;
   /** The `account_id` of the account on the paired Item (see `paired_item_id`) that represents the same bank account as this one. For an account on a Plaid Inc Item, this is the matching account on its paired Plaid Check Item, and the reverse for an account on a Plaid Check Item. Only returned for accounts on an Item that has a paired Item. `null` means the Item has a paired Item but Plaid could not confidently match this account to an account on it. Like `account_id`, this value can change if Plaid re-creates the paired account. */
-  paired_account_id?: string | null;
+  paired_account_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An array of financial institution accounts associated with the Item. If `/accounts/balance/get` was called, each account will include real-time balance information. */
@@ -5805,27 +5827,27 @@ export interface Item {
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
   item_id: string;
   /** The Plaid Institution ID associated with the Item. Field is omitted for Items created without an institution connection, such as Items created via Same-Day Micro-deposits. */
-  institution_id?: string | null;
+  institution_id?: string | null | undefined;
   /** The name of the institution associated with the Item. Field is omitted for Items created without an institution connection, such as Items created via Same-Day Micro-deposits. */
-  institution_name?: string | null;
+  institution_name?: string | null | undefined;
   /** The URL registered to receive webhooks for the Item. Empty string if no webhook is set. */
   webhook: string | null;
-  auth_method?: ItemAuthMethod | null;
+  auth_method?: ItemAuthMethod | null | undefined;
   error: PlaidError | null;
   /** A list of products available for the Item that have not yet been accessed. The contents of this array will be mutually exclusive with `billed_products`. */
   available_products: ItemAvailableProductsList;
   /** A list of products that have been billed for the Item. The contents of this array will be mutually exclusive with `available_products`. Note - `billed_products` is populated in all environments but only requests in Production are billed. Also note that products that are billed on a pay-per-call basis rather than a pay-per-Item basis, such as `balance`, will not appear here. */
   billed_products: ItemBilledProductsList;
   /** A list of products added to the Item. In almost all cases, this will be the same as the `billed_products` field. For some products, it is possible for the product to be added to an Item but not yet billed (e.g. Assets, before `/asset_report/create` has been called, or Auth or Identity when added as Optional Products but before their endpoints have been called), in which case the product may appear in `products` but not in `billed_products`. */
-  products?: ItemProductsList;
+  products?: ItemProductsList | undefined;
   /** A list of products that the user has consented to for the Item via [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide). This will consist of all products where both of the following are true: the user has consented to the required data scopes for that product and you have Production access for that product. */
-  consented_products?: ItemConsentedProductsList;
+  consented_products?: ItemConsentedProductsList | undefined;
   /** The date and time at which the Item's access consent will expire, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. If the Item does not have consent expiration scheduled, this field will be `null`. Currently, only institutions in Europe and a small number of institutions in the US have expiring consent. For a list of US institutions that currently expire consent, see the [OAuth Guide](https://plaid.com/docs/link/oauth/#refreshing-item-consent). */
   consent_expiration_time: string | null;
   /** Indicates whether an Item requires user interaction to be updated, which can be the case for Items with some forms of two-factor authentication. `background` - Item can be updated in the background `user_present_required` - Item requires user interaction to be updated */
   update_type: ItemUpdateType;
   /** The `item_id` of the Item that was created alongside this one when a single Link session used both Plaid Inc and Plaid Check products (see [Using Plaid Check products alongside Plaid products](https://plaid.com/docs/check/add-to-app/#using-plaid-check-products-alongside-plaid-products)). For a Plaid Inc Item, this is the paired Plaid Check Item, and the reverse for a Plaid Check Item. The field is omitted for Items that have no paired Item. It is also omitted if Plaid cannot look up the paired Item at request time, so do not treat its absence as proof that an Item is unpaired. */
-  paired_item_id?: string | null;
+  paired_item_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** AccountsGetResponse defines the response schema for `/accounts/get` and `/accounts/balance/get`. */
@@ -5841,14 +5863,14 @@ export type AccountsBalanceGetRequestOptionsAccountIdsList = Array<string>;
 /** Optional parameters to `/accounts/balance/get`. */
 export interface AccountsBalanceGetRequestOptions {
   /** A list of `account_ids` to retrieve for the Item. The default value is `null`. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: AccountsBalanceGetRequestOptionsAccountIdsList;
-  min_last_updated_datetime?: string;
+  account_ids?: AccountsBalanceGetRequestOptionsAccountIdsList | undefined;
+  min_last_updated_datetime?: string | undefined;
 }
 export interface GetAccountsBalanceRequest {
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
-  options?: AccountsBalanceGetRequestOptions;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
+  options?: AccountsBalanceGetRequestOptions | undefined;
 }
 export interface GetApplicationRequest {
   client_id: string;
@@ -5892,25 +5914,25 @@ export interface ApplicationGetResponse {
 /** An optional object to filter or add data to `/asset_report/get` results. If provided, must be non-`null`. */
 export interface AssetReportGetRequestOptions {
   /** The maximum number of days of history to include in the Asset Report. */
-  days_to_include?: number | null;
+  days_to_include?: number | null | undefined;
 }
 export interface GetAssetReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  asset_report_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  asset_report_token?: string | undefined;
   /** The user token associated with the User for which to create an asset report for. The latest asset report associated with the User will be returned */
-  user_token?: string;
+  user_token?: string | undefined;
   /** `true` if you would like to retrieve the Asset Report with Insights, `false` otherwise. This field defaults to `false` if omitted. */
-  include_insights?: boolean;
+  include_insights?: boolean | undefined;
   /** `true` to fetch "fast" version of asset report. Defaults to false if omitted. Can only be used if `/asset_report/create` was called with `options.add_ons` set to `["fast_assets"]`. */
-  fast_report?: boolean;
-  options?: AssetReportGetRequestOptions;
+  fast_report?: boolean | undefined;
+  options?: AssetReportGetRequestOptions | undefined;
 }
 export interface GetAssetReportPdfRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   asset_report_token: string;
-  options?: AssetReportPDFGetRequestOptions;
+  options?: AssetReportPDFGetRequestOptions | undefined;
 }
 export interface GetAssetReportPdfResponse {}
 /** A list of `account_ids` to retrieve for the Item. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
@@ -5918,13 +5940,13 @@ export type AuthGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to filter `/auth/get` results. */
 export interface AuthGetRequestOptions {
   /** A list of `account_ids` to retrieve for the Item. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: AuthGetRequestOptionsAccountIdsList;
+  account_ids?: AuthGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetAuthRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  options?: AuthGetRequestOptions;
+  options?: AuthGetRequestOptions | undefined;
 }
 /** The Item's accounts, or the accounts specified in `options.account_ids`. Accounts that don't support Auth, such as credit, loan, or investment accounts, are included but have no entry in `numbers`. */
 export type AuthGetResponseAccountsList = Array<AccountBase>;
@@ -5935,15 +5957,15 @@ export interface NumbersACH {
   /** The ACH account number for the account. At certain institutions, including Chase, PNC, and US Bank, you will receive a "tokenized" account number, which is not the user's actual account number. For important details on how this may impact your integration and on how to avoid fraud, user confusion, and ACH returns, see [Tokenized account numbers](https://plaid.com/docs/auth/#tokenized-account-numbers). */
   account: string;
   /** Indicates whether the account number is tokenized by the institution. For important details on how tokenized account numbers may impact your integration, see [Tokenized account numbers](https://plaid.com/docs/auth/#tokenized-account-numbers). */
-  is_tokenized_account_number?: boolean;
+  is_tokenized_account_number?: boolean | undefined;
   /** The ACH routing number for the account. For more information, see [Tokenized account numbers](https://plaid.com/docs/auth/#tokenized-account-numbers). */
   routing: string;
   /** The wire transfer routing number for the account. This field is only populated if the institution is known to use a separate wire transfer routing number. Many institutions do not have a separate wire routing number and use the ACH routing number for wires instead. It is recommended to have the end user manually confirm their wire routing number before sending any wires to their account, especially if this field is `null`. */
   wire_routing: string | null;
   /** Whether the account supports ACH transfers into the account */
-  can_transfer_in?: boolean | null;
+  can_transfer_in?: boolean | null | undefined;
   /** Whether the account supports ACH transfers out of the account */
-  can_transfer_out?: boolean | null;
+  can_transfer_out?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** An array of ACH numbers identifying accounts. */
@@ -6008,8 +6030,8 @@ export interface AuthGetResponse {
   [key: string]: unknown;
 }
 export interface GetBetaCashAdvanceIncomeInsightsV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
 }
 /** The category of an income stream. */
@@ -6055,17 +6077,17 @@ export interface BetaCashAdvanceIncomeInsightsV1GetResponse {
 }
 export interface GetBetaEwaReportV1Request {
   access_token: string | Redacted.Redacted<string>;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** EwaScore represents an earned wage access score for a specific advance amount range. */
 export interface EwaScore {
   /** Float value representing the lower bound (inclusive) of the advance amount range associated with a specific EWA score. */
-  lowest_amount?: number;
+  lowest_amount?: number | undefined;
   /** Float value representing the upper bound (exclusive) of the advance amount range associated with a specific EWA score. */
-  highest_amount?: number;
+  highest_amount?: number | undefined;
   /** EWA score for the corresponding amount bucket. Scores range from 1-99, where a higher score indicates a higher likelihood of repayment. */
-  score?: number;
+  score?: number | undefined;
   [key: string]: unknown;
 }
 /** A list of earned wage access (EWA) scoring entries that map potential advance amounts to repayment likelihood scores. The predefined advance amount ranges are `[0, 25)`, `[25, 50)`, `[50, 100)`, `[100, 200)`, `[200, 300)`, `[300, 400)`, and `[400, 500)`. */
@@ -6074,19 +6096,19 @@ export type BetaEwaReportV1GetResponseEwaScoresList = Array<EwaScore>;
 export type EwaAttributes = { [key: string]: number | null | undefined };
 /** BetaEwaReportV1GetResponse defines the response schema for `/beta/ewa_report/v1/get` */
 export interface BetaEwaReportV1GetResponse {
-  request_id?: string;
+  request_id?: string | undefined;
   /** Unique identifier for the generated EWA score group. */
-  ewa_report_id?: string;
+  ewa_report_id?: string | undefined;
   /** The date and time when `ewa_scores` was generated, in ISO 8601 format (e.g. "2018-04-12T03:32:11Z"). */
-  generation_time?: string;
+  generation_time?: string | undefined;
   /** A list of earned wage access (EWA) scoring entries that map potential advance amounts to repayment likelihood scores. The predefined advance amount ranges are `[0, 25)`, `[25, 50)`, `[50, 100)`, `[100, 200)`, `[200, 300)`, `[300, 400)`, and `[400, 500)`. */
-  ewa_scores?: BetaEwaReportV1GetResponseEwaScoresList;
-  ewa_attributes?: EwaAttributes | null;
+  ewa_scores?: BetaEwaReportV1GetResponseEwaScoresList | undefined;
+  ewa_attributes?: EwaAttributes | null | undefined;
   [key: string]: unknown;
 }
 export interface GetBetaIssuesV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The KI- or INC-prefixed identifier of the issue to retrieve. */
   issue_id: string;
 }
@@ -6131,31 +6153,31 @@ export interface GetBetaIssuesV1Response {
   request_id: string;
 }
 export interface GetBetaPartnerCustomerV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   end_customer_client_id: string;
 }
 /** The details for an end customer. */
 export interface BetaPartnerEndCustomer {
   /** The `client_id` of the end customer. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The company name associated with the end customer. */
-  company_name?: string;
-  status?: PartnerEndCustomerStatus;
-  product_statuses?: PartnerEndCustomerProductStatuses;
-  requirements_due?: PartnerEndCustomerRequirementsDue;
+  company_name?: string | undefined;
+  status?: PartnerEndCustomerStatus | undefined;
+  product_statuses?: PartnerEndCustomerProductStatuses | undefined;
+  requirements_due?: PartnerEndCustomerRequirementsDue | undefined;
   [key: string]: unknown;
 }
 /** Response schema for `/beta/partner/customer/v1/get`. */
 export interface BetaPartnerCustomerV1GetResponse {
-  end_customer?: BetaPartnerEndCustomer;
-  request_id?: string;
+  end_customer?: BetaPartnerEndCustomer | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetBusinessVerificationRequest {
   business_verification_id: string;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
 }
 /** A business verification represents a check of a business's identity and risk profile, including information collected about the business and results from third-party data providers. */
 export interface BusinessVerificationGetResponse {
@@ -6178,19 +6200,19 @@ export type CashflowReportGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to be used with the request. If specified, `options` must not be `null`. */
 export interface CashflowReportGetRequestOptions {
   /** A list of `account_ids` to retrieve for the Item Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: CashflowReportGetRequestOptionsAccountIdsList;
+  account_ids?: CashflowReportGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetCashflowReportRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Number of days to retrieve transactions data for (1 to 730) */
   days_requested: number;
   /** Number of transactions to fetch per call */
-  count?: number;
+  count?: number | undefined;
   /** The cursor value represents the last update requested. Pass in the empty string "" in the first call. */
-  cursor?: string;
-  options?: CashflowReportGetRequestOptions;
+  cursor?: string | undefined;
+  options?: CashflowReportGetRequestOptions | undefined;
 }
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
 export type BusinessAccountVerificationStatus =
@@ -6221,19 +6243,19 @@ export interface BusinessAccount {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: BusinessAccountVerificationStatus;
+  verification_status?: BusinessAccountVerificationStatus | undefined;
   /** The account holder name that was used for micro-deposit and/or database verification. Only returned for Auth Items created via micro-deposit or database verification. This name was manually-entered by the user during Link, unless it was otherwise provided via the `user.legal_name` request field in `/link/token/create` for the Link session that created the Item. */
-  verification_name?: string;
-  verification_insights?: AccountVerificationInsights;
+  verification_name?: string | undefined;
+  verification_insights?: AccountVerificationInsights | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This field is currently supported only for Items at institutions that use Tokenized Account Numbers (i.e., Chase, PNC, and US Bank). Because these accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify an account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field is populated for TAN-based institutions (`ins_56`, `ins_13`, `ins_127990`) as well as the OAuth Sandbox institution (`ins_127287`); in Production, it will only be populated for accounts at applicable institutions. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The annual percentage yield (APY) on an interest-bearing deposit account, expressed as a percentage (e.g. `4.25` means 4.25%). In the event that the APY is not provided by the financial institution, Plaid will return a value of `null`. */
-  apy?: number | null;
-  holder_category?: AccountHolderCategory | null;
+  apy?: number | null | undefined;
+  holder_category?: AccountHolderCategory | null | undefined;
   /** The `account_id` of the account on the paired Item (see `paired_item_id`) that represents the same bank account as this one. For an account on a Plaid Inc Item, this is the matching account on its paired Plaid Check Item, and the reverse for an account on a Plaid Check Item. Only returned for accounts on an Item that has a paired Item. `null` means the Item has a paired Item but Plaid could not confidently match this account to an account on it. Like `account_id`, this value can change if Plaid re-creates the paired account. */
-  paired_account_id?: string | null;
+  paired_account_id?: string | null | undefined;
   /** Data returned by the financial institution about the account owner or owners. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. Multiple owners on a single account will be represented in the same owner object, not in multiple owner objects within the array. */
-  owners?: BusinessAccountOwnersList;
+  owners?: BusinessAccountOwnersList | undefined;
   [key: string]: unknown;
 }
 /** An array containing the `accounts` associated with the Item for which transactions are being returned. Each transaction can be mapped to its corresponding account via the `account_id` field. */
@@ -6251,8 +6273,8 @@ export interface PersonalFinanceCategory {
   /** A granular category conveying the transaction's intent. This field can also be used as a unique identifier for the category. */
   detailed: string;
   /** A description of how confident we are that the provided categories accurately describe the transaction intent. `VERY_HIGH`: We are more than 98% confident that this category reflects the intent of the transaction. `HIGH`: We are more than 90% confident that this category reflects the intent of the transaction. `MEDIUM`: We are moderately confident that this category reflects the intent of the transaction. `LOW`: This category may reflect the intent, but there may be other categories that are more accurate. `UNKNOWN`: We don't know the confidence level for this category. */
-  confidence_level?: string | null;
-  version?: PersonalFinanceCategoryVersion;
+  confidence_level?: string | null | undefined;
+  version?: PersonalFinanceCategoryVersion | undefined;
   [key: string]: unknown;
 }
 /** Information describing the intent of the transaction. Most relevant for business finance use cases, but not limited to such use cases. */
@@ -6262,7 +6284,7 @@ export interface BusinessFinanceCategory {
   /** A granular category conveying the transaction's intent. This field can also be used as a unique identifier for the category. */
   detailed: string;
   /** A description of how confident we are that the provided categories accurately describe the transaction intent. `VERY_HIGH`: We are more than 98% confident that this category reflects the intent of the transaction. `HIGH`: We are more than 90% confident that this category reflects the intent of the transaction. `MEDIUM`: We are moderately confident that this category reflects the intent of the transaction. `LOW`: This category may reflect the intent, but there may be other categories that are more accurate. `UNKNOWN`: We don't know the confidence level for this category. */
-  confidence_level?: string | null;
+  confidence_level?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An identifier classifying the transaction type. This field is populated for European institutions, as well as certain institutions in the United States. For institutions where this classification is not available, this field is set to `null`. `adjustment:` Bank adjustment `atm:` Cash deposit or withdrawal via an automated teller machine `bank charge:` Charge or fee levied by the institution `bill payment`: Payment of a bill `cash:` Cash deposit or withdrawal `cash advance:` Cash advance drawn against a credit card or line of credit `cashback:` Cash withdrawal while making a debit card purchase `cheque:` Document ordering the payment of money to another person or organization `direct debit:` Automatic withdrawal of funds initiated by a third party at a regular interval `interest:` Interest earned or incurred `late fee:` Fee associated with a late or past-due payment `membership fee:` Annual or recurring membership fee `payment:` One-off outbound payment not classified as a bill payment, direct debit, or standing order `purchase:` Purchase made with a debit or credit card `refund:` Merchant credit or return, such as a refund of a prior purchase `returned item fee:` Fee for a returned item, such as a returned check or stop payment `standing order:` Payment instructed by the account holder to a third party at a regular interval `transfer:` Transfer of money between accounts */
@@ -6296,20 +6318,20 @@ export type CounterpartyType =
 /** Identifying information for a UK bank account via Bacs. */
 export interface CounterpartyNumbersBACS {
   /** The Bacs account number for the account. */
-  account?: string | null;
+  account?: string | null | undefined;
   /** The Bacs sort code for the account. */
-  sort_code?: string | null;
+  sort_code?: string | null | undefined;
 }
 /** Account numbers using the International Bank Account Number and BIC/SWIFT code format. */
 export interface CounterpartyNumbersInternational {
-  iban?: string | null;
+  iban?: string | null | undefined;
   /** Business Identifier Code (BIC) for this counterparty. */
-  bic?: string | null;
+  bic?: string | null | undefined;
 }
 /** Account numbers associated with the counterparty, when available. This field is currently only filled in for select financial institutions in Europe. */
 export interface CounterpartyNumbers {
-  bacs?: CounterpartyNumbersBACS | null;
-  international?: CounterpartyNumbersInternational | null;
+  bacs?: CounterpartyNumbersBACS | null | undefined;
+  international?: CounterpartyNumbersInternational | null | undefined;
   [key: string]: unknown;
 }
 /** The counterparty, such as the merchant or financial institution, is extracted by Plaid from the raw description. */
@@ -6317,15 +6339,15 @@ export interface TransactionCounterparty {
   /** The name of the counterparty, such as the merchant or the financial institution, as extracted by Plaid from the raw description. */
   name: string;
   /** A unique, stable, Plaid-generated ID that maps to the counterparty. */
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   type: CounterpartyType;
   /** The website associated with the counterparty. */
   website: string | null;
   /** The URL of a logo associated with the counterparty, if available. The logo will always be a 100×100 pixel PNG file. */
   logo_url: string | null;
   /** A description of how confident we are that the provided counterparty is involved in the transaction. `VERY_HIGH`: We recognize this counterparty and we are more than 98% confident that it is involved in this transaction. `HIGH`: We recognize this counterparty and we are more than 90% confident that it is involved in this transaction. `MEDIUM`: We are moderately confident that this counterparty was involved in this transaction, but some details may differ from our records. `LOW`: We didn't find a matching counterparty in our records, so we are returning a cleansed name parsed out of the request description. `UNKNOWN`: We don't know the confidence level for this counterparty. */
-  confidence_level?: string | null;
-  account_numbers?: CounterpartyNumbers | null;
+  confidence_level?: string | null | undefined;
+  account_numbers?: CounterpartyNumbers | null | undefined;
   [key: string]: unknown;
 }
 /** The counterparties present in the transaction. Counterparties, such as the merchant or the financial institution, are extracted by Plaid from the raw description. */
@@ -6341,16 +6363,16 @@ export interface CashflowReportTransaction {
   /** The unofficial currency code associated with the transaction. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** The check number of the transaction. This field is only populated for check transactions. */
-  check_number?: string | null;
+  check_number?: string | null | undefined;
   /** For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DD` ). To receive information about the date that a posted transaction was initiated, see the `authorized_date` field. */
   date: string;
   location: Location;
   /** The merchant name or transaction description. Note: This is a legacy field that is not actively maintained. Use `merchant_name` instead for the merchant name. If the `transactions` object was returned by a Transactions endpoint such as `/transactions/sync` or `/transactions/get`, this field will always appear. If the `transactions` object was returned by an Assets endpoint such as `/asset_report/get` or `/asset_report/pdf/get`, this field will only appear in an Asset Report with Insights. */
   name: string | null;
   /** The merchant name, as enriched by Plaid from the `name` field. This is typically a more human-readable version of the merchant counterparty in the transaction. For some bank transactions (such as checks or account transfers) where there is no meaningful merchant name, this value will be `null`. */
-  merchant_name?: string | null;
+  merchant_name?: string | null | undefined;
   /** The string returned by the financial institution to describe the transaction. For transactions returned by `/transactions/sync` or `/transactions/get`, this field will only be included if the client has set `options.include_original_description` to `true`. */
-  original_description?: string | null;
+  original_description?: string | null | undefined;
   payment_meta: PaymentMeta;
   /** When `true`, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled. Not all institutions provide pending transactions. */
   pending: boolean | null;
@@ -6361,9 +6383,9 @@ export interface CashflowReportTransaction {
   /** The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive. */
   transaction_id: string;
   /** The URL of a logo associated with this transaction, if available. The logo will always be a 100×100 pixel PNG file. */
-  logo_url?: string | null;
+  logo_url?: string | null | undefined;
   /** The website associated with this transaction, if available. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** The date that the transaction was authorized. For posted transactions, the `date` field will indicate the posted date, but `authorized_date` will indicate the day the transaction was authorized by the financial institution. If presenting transactions to the user in a UI, the `authorized_date`, when available, is generally preferable to use over the `date` field for posted transactions, as it will generally represent the date the user actually made the transaction. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DD` ). */
   authorized_date: string | null;
   /** Date and time when a transaction was authorized in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ). For posted transactions, the `datetime` field will indicate the posted date, but `authorized_datetime` will indicate the day the transaction was authorized by the financial institution. If presenting transactions to the user in a UI, the `authorized_datetime`, when available, is generally preferable to use over the `datetime` field for posted transactions, as it will generally represent the date the user actually made the transaction. This field is returned for select financial institutions and comes as provided by the institution. It may contain default time values (such as 00:00:00). This field is only populated in API version 2019-05-29 and later. */
@@ -6371,16 +6393,16 @@ export interface CashflowReportTransaction {
   /** Date and time when a transaction was posted in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ). For the date that the transaction was initiated, rather than posted, see the `authorized_datetime` field. This field is returned for select financial institutions and comes as provided by the institution. It may contain default time values (such as 00:00:00). This field is only populated in API version 2019-05-29 and later. */
   datetime: string | null;
   payment_channel: PaymentChannel;
-  personal_finance_category?: PersonalFinanceCategory | null;
-  business_finance_category?: BusinessFinanceCategory | null;
-  credit_category?: CreditCategory | null;
+  personal_finance_category?: PersonalFinanceCategory | null | undefined;
+  business_finance_category?: BusinessFinanceCategory | null | undefined;
+  credit_category?: CreditCategory | null | undefined;
   transaction_code: TransactionCode | null;
   /** The URL of an icon associated with the primary personal finance category. The icon will always be a 100×100 pixel PNG file. */
-  personal_finance_category_icon_url?: string | null;
+  personal_finance_category_icon_url?: string | null | undefined;
   /** The counterparties present in the transaction. Counterparties, such as the merchant or the financial institution, are extracted by Plaid from the raw description. */
-  counterparties?: CashflowReportTransactionCounterpartiesList;
+  counterparties?: CashflowReportTransactionCounterpartiesList | undefined;
   /** A unique, stable, Plaid-generated ID that maps to the merchant. In the case of a merchant with multiple retail locations, this field will map to the broader merchant, not a specific location or store. */
-  merchant_entity_id?: string | null;
+  merchant_entity_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An array containing transactions from the account. Transactions are returned in reverse chronological order, with the most recent at the beginning of the array. The maximum number of transactions returned is determined by the `count` parameter. */
@@ -6404,9 +6426,9 @@ export interface CashflowReportGetResponse {
   [key: string]: unknown;
 }
 export interface GetCashflowReportInsightRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** An array containing the `accounts` associated with the Item for which transactions are being returned. Each transaction can be mapped to its corresponding account via the `account_id` field. */
 export type CashflowReportInsightsGetResponseAccountsList = Array<BusinessAccount>;
@@ -6510,17 +6532,17 @@ export type CashflowReportTransactionsGetRequestOptionsAccountIdsList = Array<st
 /** An optional object to be used with the request. If specified, `options` must not be `null`. */
 export interface CashflowReportTransactionsGetRequestOptions {
   /** A list of `account_ids` to retrieve for the Item Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: CashflowReportTransactionsGetRequestOptionsAccountIdsList;
+  account_ids?: CashflowReportTransactionsGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetCashflowReportTransactionRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Number of transactions to fetch per call */
-  count?: number;
+  count?: number | undefined;
   /** The cursor value represents the last update requested. Pass in the empty string "" in the first call. */
-  cursor?: string;
-  options?: CashflowReportTransactionsGetRequestOptions;
+  cursor?: string | undefined;
+  options?: CashflowReportTransactionsGetRequestOptions | undefined;
 }
 /** An array containing the `accounts` associated with the Item for which transactions are being returned. Each transaction can be mapped to its corresponding account via the `account_id` field. */
 export type CashflowReportTransactionsGetResponseAccountsList = Array<BusinessAccount>;
@@ -6544,8 +6566,8 @@ export interface CashflowReportTransactionsGetResponse {
   [key: string]: unknown;
 }
 export interface GetConsentEventRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
 }
 /** A broad categorization of the consent event. */
@@ -6566,15 +6588,15 @@ export type ConsentEventConsentedDataScopesList = Array<string>;
 /** A financial institution account. */
 export interface ConsentedAccount {
   /** Plaid's unique identifier for the account. Like all Plaid identifiers, the `account_id` is case sensitive. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The last 2-4 alphanumeric characters of an account's official account number */
-  mask?: string;
+  mask?: string | undefined;
   /** The name of the account, either assigned by the user or by the financial institution itself */
-  name?: string;
+  name?: string | undefined;
   /** The official name of the account as given by the financial institution */
-  official_name?: string;
-  type?: AccountType;
-  subtype?: AccountSubtype | null;
+  official_name?: string | undefined;
+  type?: AccountType | undefined;
+  subtype?: AccountSubtype | null | undefined;
   [key: string]: unknown;
 }
 /** An array containing the accounts associated with the Item for which authorizations are granted. */
@@ -6582,22 +6604,22 @@ export type ConsentEventConsentedAccountsList = Array<ConsentedAccount>;
 /** Describes a consent event. */
 export interface ConsentEvent {
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** The date and time when the consent event occurred, in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. */
-  created_at?: string;
-  event_type?: ConsentEventType;
-  event_code?: ConsentEventCode;
+  created_at?: string | undefined;
+  event_type?: ConsentEventType | undefined;
+  event_code?: ConsentEventCode | undefined;
   /** Unique identifier for the institution associated with the Item. */
-  institution_id?: string | null;
+  institution_id?: string | null | undefined;
   /** The full name of the institution associated with the Item. */
-  institution_name?: string | null;
-  initiator?: ConsentEventInitiator;
+  institution_name?: string | null | undefined;
+  initiator?: ConsentEventInitiator | undefined;
   /** A list of strings containing the full list of use cases the end user has consented to for the Item. See the [full list](https://plaid.com/docs/link/data-transparency-messaging-migration-guide/#updating-link-customizations) of use cases. */
-  consented_use_cases?: ConsentEventConsentedUseCasesList;
+  consented_use_cases?: ConsentEventConsentedUseCasesList | undefined;
   /** A list of strings containing the full list of data scopes the end user has consented to for the Item. Each value is the data scope's display name, as shown to the end user in Link (for example, `account and balance info`, `contact details`, or `transactions`); these differ from the values returned in `consented_data_scopes` by `/item/get`. The scopes correspond to consented products; see the [full mapping](https://plaid.com/docs/link/data-transparency-messaging-migration-guide/#data-scopes-by-product) of data scopes and products. */
-  consented_data_scopes?: ConsentEventConsentedDataScopesList;
+  consented_data_scopes?: ConsentEventConsentedDataScopesList | undefined;
   /** An array containing the accounts associated with the Item for which authorizations are granted. */
-  consented_accounts?: ConsentEventConsentedAccountsList;
+  consented_accounts?: ConsentEventConsentedAccountsList | undefined;
   [key: string]: unknown;
 }
 /** A list of consent events. */
@@ -6610,8 +6632,8 @@ export interface ConsentEventsGetResponse {
   [key: string]: unknown;
 }
 export interface GetConsumerReportPdfRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_token: string;
 }
 export interface GetConsumerReportPdfResponse {}
@@ -6626,18 +6648,21 @@ export type CraCheckReportPermissiblePurpose =
   | "WRITTEN_INSTRUCTION_OTHER"
   | "SECONDARY_INVESTOR";
 export interface GetCraCheckReportBaseReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  third_party_user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  third_party_user_token?: string | undefined;
   /** The Item IDs to include in the Base Report. If not provided, all Items associated with the user will be included. */
-  item_ids?: GetCraCheckReportBaseReportRequestItemIdsList | null;
-  user_token?: string;
-  user_tier?: CraUserTier | (string & {}) | null;
+  item_ids?: GetCraCheckReportBaseReportRequestItemIdsList | null | undefined;
+  user_token?: string | undefined;
+  user_tier?: CraUserTier | (string & {}) | null | undefined;
   /** The CRA report token (formatted `cra-report-<env>-<uuid>`) identifying a specific consumer report. When provided alongside `consumer_report_permissible_purpose`, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned. */
-  report_id?: string;
+  report_id?: string | undefined;
   /** The permissible purpose under which the consumer report is being retrieved. */
-  consumer_report_permissible_purpose?: CraCheckReportPermissiblePurpose | (string & {});
+  consumer_report_permissible_purpose?:
+    | CraCheckReportPermissiblePurpose
+    | (string & {})
+    | undefined;
 }
 /** This contains an amount, denominated in the currency specified by either `iso_currency_code` or `unofficial_currency_code` */
 export interface CreditAmountWithCurrency {
@@ -6672,13 +6697,13 @@ export interface BaseReportAccountBalances {
   /** The unofficial currency code associated with the balance. Always null if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** Timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the oldest acceptable balance when making a request to `/accounts/balance/get`. This field is only used and expected when the institution is `ins_128026` (Capital One) and the Item contains one or more accounts with a non-depository account type, in which case a value must be provided or an `INVALID_REQUEST` error with the code of `INVALID_FIELD` will be returned. For Capital One depository accounts as well as all other account types on all other institutions, this field is ignored. See [account type schema](https://plaid.com/docs/api/accounts/#account-type-schema) for a full list of account types. If the balance that is pulled is older than the given timestamp for Items with this field required, an `INVALID_RESULT` error with the code of `LAST_UPDATED_DATETIME_OUT_OF_RANGE` will be returned with the most recent timestamp for the requested account contained in the response. */
-  last_updated_datetime?: string | null;
+  last_updated_datetime?: string | null | undefined;
   /** The average historical balance for the entire report */
-  average_balance?: number | null;
+  average_balance?: number | null | undefined;
   /** The average historical balance of each calendar month */
-  average_monthly_balances?: BaseReportAccountBalancesAverageMonthlyBalancesList;
+  average_monthly_balances?: BaseReportAccountBalancesAverageMonthlyBalancesList | undefined;
   /** The average historical balance from the most recent 30 days */
-  most_recent_thirty_day_average_balance?: number | null;
+  most_recent_thirty_day_average_balance?: number | null | undefined;
 }
 /** Type of data being disputed by the consumer */
 export type ConsumerDisputeCategory = "TRANSACTION" | "BALANCE" | "IDENTITY" | "OTHER";
@@ -6718,31 +6743,31 @@ export interface BaseReportTransaction {
   /** The unofficial currency code associated with the transaction. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** The merchant name or transaction description. Note: This is a legacy field that is not actively maintained. Use `merchant_name` instead for the merchant name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The string returned by the financial institution to describe the transaction. */
   original_description: string | null;
-  credit_category?: CreditCategory | null;
+  credit_category?: CreditCategory | null | undefined;
   /** The check number of the transaction. This field is only populated for check transactions. */
-  check_number?: string | null;
+  check_number?: string | null | undefined;
   /** For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DD` ). */
   date: string;
   /** The date on which the transaction took place, in ISO 8601 format. */
-  date_transacted?: string | null;
-  location?: Location;
+  date_transacted?: string | null | undefined;
+  location?: Location | undefined;
   /** The merchant name, as enriched by Plaid from the `name` field. This is typically a more human-readable version of the merchant counterparty in the transaction. For some bank transactions (such as checks or account transfers) where there is no meaningful merchant name, this value will be `null`. */
-  merchant_name?: string | null;
+  merchant_name?: string | null | undefined;
   /** When `true`, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled. */
   pending: boolean;
   /** The name of the account owner. This field is not typically populated and only relevant when dealing with sub-accounts. */
-  account_owner?: string | null;
+  account_owner?: string | null | undefined;
   /** The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive. */
   transaction_id: string;
-  transaction_type?: BaseReportTransactionType | null;
+  transaction_type?: BaseReportTransactionType | null | undefined;
   /** A hierarchical array of the categories to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). */
-  category?: BaseReportTransactionCategoryList | null;
+  category?: BaseReportTransactionCategoryList | null | undefined;
   /** The ID of the category to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). */
-  category_id?: string | null;
-  personal_finance_category?: PersonalFinanceCategory | null;
+  category_id?: string | null | undefined;
+  personal_finance_category?: PersonalFinanceCategory | null | undefined;
   [key: string]: unknown;
 }
 /** Transaction history associated with the account. Transaction history returned by endpoints such as `/transactions/get` or `/investments/transactions/get` will be returned in the top-level `transactions` field instead. Some transactions may have their details masked in accordance with the FCRA. These will appear with a `credit_category` of `MASKED_TRANSACTION_CATEGORY`. */
@@ -6766,11 +6791,11 @@ export type BaseReportAccountHistoricalBalancesList = Array<BaseReportHistorical
 /** Largest number of days between sequential transactions per calendar month */
 export interface BaseReportLongestGapInsights {
   /** The start date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The end date of this time period. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Largest number of days between sequential transactions for this time period. */
-  days?: number | null;
+  days?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Longest gap between sequential transactions in a time period. This array can include multiple time periods. */
@@ -6808,25 +6833,27 @@ export type BaseReportAccountInsightsAverageOutflowAmountsList =
 /** Calculated insights derived from transaction-level data. This field has been deprecated in favor of [Base Report attributes aggregated across accounts](https://plaid.com/docs/api/products/check-legacy/#cra-check_report-base_report-get-response-report-attributes) and will be removed in a future release. */
 export interface BaseReportAccountInsights {
   /** Date of the earliest transaction for the account. */
-  oldest_transaction_date?: string | null;
+  oldest_transaction_date?: string | null | undefined;
   /** Date of the most recent transaction for the account. */
-  most_recent_transaction_date?: string | null;
+  most_recent_transaction_date?: string | null | undefined;
   /** Number of days available for the account. */
-  days_available?: number;
+  days_available?: number | undefined;
   /** Average number of days between sequential transactions */
-  average_days_between_transactions?: number;
+  average_days_between_transactions?: number | undefined;
   /** Longest gap between sequential transactions in a time period. This array can include multiple time periods. */
-  longest_gaps_between_transactions?: BaseReportAccountInsightsLongestGapsBetweenTransactionsList;
+  longest_gaps_between_transactions?:
+    | BaseReportAccountInsightsLongestGapsBetweenTransactionsList
+    | undefined;
   /** The number of transactions that moved money into the account. This array will be empty for non-depository accounts. */
-  number_of_inflows?: BaseReportAccountInsightsNumberOfInflowsList;
+  number_of_inflows?: BaseReportAccountInsightsNumberOfInflowsList | undefined;
   /** Average amount of transactions that moved money into the account in a time period. This array will be empty for non-depository accounts. This field only takes into account USD transactions from the account. */
-  average_inflow_amounts?: BaseReportAccountInsightsAverageInflowAmountsList;
+  average_inflow_amounts?: BaseReportAccountInsightsAverageInflowAmountsList | undefined;
   /** The number of outflows from the account. This array will be empty for non-depository accounts. */
-  number_of_outflows?: BaseReportAccountInsightsNumberOfOutflowsList;
+  number_of_outflows?: BaseReportAccountInsightsNumberOfOutflowsList | undefined;
   /** Average amount of transactions out of the account in a time period. This array will be empty for non-depository accounts. This field only takes into account USD transactions from the account. */
-  average_outflow_amounts?: BaseReportAccountInsightsAverageOutflowAmountsList;
+  average_outflow_amounts?: BaseReportAccountInsightsAverageOutflowAmountsList | undefined;
   /** Number of days with no transactions */
-  number_of_days_no_transactions?: number;
+  number_of_days_no_transactions?: number | undefined;
   [key: string]: unknown;
 }
 /** Total amount of money into the account in the time period of the report. For non-depository accounts, or accounts with no transactions, `amount` is `0` and both currency codes are `null`. This field only takes into account USD transactions from the account. */
@@ -6848,25 +6875,25 @@ export type TotalOutflowAmount90d = CreditAmountWithCurrency;
 /** Calculated attributes derived from transaction-level data. */
 export interface BaseReportAttributes {
   /** Prediction indicator of whether the account is a primary account. Only one account per account type across the items connected will have a value of true. */
-  is_primary_account?: boolean | null;
+  is_primary_account?: boolean | null | undefined;
   /** Value ranging from 0-1. The higher the score, the more confident we are of the account being the primary account. */
-  primary_account_score?: number | null;
+  primary_account_score?: number | null | undefined;
   /** The number of net NSF fee transactions for a given account within the report time range (not counting any fees that were reversed within the time range). */
-  nsf_overdraft_transactions_count?: number;
+  nsf_overdraft_transactions_count?: number | undefined;
   /** The number of net NSF fee transactions within the last 30 days for a given account (not counting any fees that were reversed within the time range). */
-  nsf_overdraft_transactions_count_30d?: number;
+  nsf_overdraft_transactions_count_30d?: number | undefined;
   /** The number of net NSF fee transactions within the last 60 days for a given account (not counting any fees that were reversed within the time range). */
-  nsf_overdraft_transactions_count_60d?: number;
+  nsf_overdraft_transactions_count_60d?: number | undefined;
   /** The number of net NSF fee transactions within the last 90 days for a given account (not counting any fees that were reversed within the time range). */
-  nsf_overdraft_transactions_count_90d?: number;
-  total_inflow_amount?: CreditAmountWithCurrency | null;
-  total_inflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_90d?: CreditAmountWithCurrency | null;
-  total_outflow_amount?: CreditAmountWithCurrency | null;
-  total_outflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_90d?: CreditAmountWithCurrency | null;
+  nsf_overdraft_transactions_count_90d?: number | undefined;
+  total_inflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
   [key: string]: unknown;
 }
 /** Base Report information about an account */
@@ -6891,12 +6918,12 @@ export interface BaseReportAccount {
   transactions: BaseReportAccountTransactionsList;
   /** Data returned by the financial institution about the account owner or owners. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. Multiple owners on a single account will be represented in the same `owner` object, not in multiple owner objects within the array. This array can also be empty if no owners are found. */
   owners: BaseReportAccountOwnersList;
-  holder_category?: unknown;
+  holder_category?: unknown | undefined;
   ownership_type: OwnershipType | null;
   /** Calculated data about the historical balances on the account. Currently not supported by `brokerage` or `investment` accounts. */
-  historical_balances?: BaseReportAccountHistoricalBalancesList;
-  account_insights?: BaseReportAccountInsights;
-  attributes?: BaseReportAttributes;
+  historical_balances?: BaseReportAccountHistoricalBalancesList | undefined;
+  account_insights?: BaseReportAccountInsights | undefined;
+  attributes?: BaseReportAttributes | undefined;
   [key: string]: unknown;
 }
 /** Data about each of the accounts open on the Item. */
@@ -6935,21 +6962,21 @@ export type TotalReportOutflowAmount90d = CreditAmountWithCurrency;
 /** Calculated attributes derived from transaction-level data, aggregated across accounts. */
 export interface BaseReportUserAttributes {
   /** The number of net NSF fee transactions in the time range for the report (not counting any fees that were reversed within that time range). */
-  nsf_overdraft_transactions_count?: number;
+  nsf_overdraft_transactions_count?: number | undefined;
   /** The number of net NSF fee transactions in the last 30 days in the report (not counting any fees that were reversed within that time range). */
-  nsf_overdraft_transactions_count_30d?: number;
+  nsf_overdraft_transactions_count_30d?: number | undefined;
   /** The number of net NSF fee transactions in the last 60 days in the report (not counting any fees that were reversed within that time range). */
-  nsf_overdraft_transactions_count_60d?: number;
+  nsf_overdraft_transactions_count_60d?: number | undefined;
   /** The number of net NSF fee transactions in the last 90 days in the report (not counting any fees that were reversed within that time range). */
-  nsf_overdraft_transactions_count_90d?: number;
-  total_inflow_amount?: CreditAmountWithCurrency | null;
-  total_inflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_90d?: CreditAmountWithCurrency | null;
-  total_outflow_amount?: CreditAmountWithCurrency | null;
-  total_outflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_90d?: CreditAmountWithCurrency | null;
+  nsf_overdraft_transactions_count_90d?: number | undefined;
+  total_inflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
   [key: string]: unknown;
 }
 /** An object representing a Base Report */
@@ -6960,10 +6987,10 @@ export interface BaseReport {
   /** The number of days of transaction history requested. */
   days_requested: number;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
   /** Data returned by Plaid about each of the Items included in the Base Report. */
   items: BaseReportItemsList;
-  attributes?: BaseReportUserAttributes;
+  attributes?: BaseReportUserAttributes | undefined;
   [key: string]: unknown;
 }
 /** The warning code identifies a specific kind of warning. `IDENTITY_UNAVAILABLE`: Account-owner information is not available. `TRANSACTIONS_UNAVAILABLE`: Transactions information associated with Credit and Depository accounts are unavailable. `USER_FRAUD_ALERT`: The User has placed a fraud alert on their Plaid Check consumer report due to suspected fraud. Note: when a fraud alert is in place, the recipient of the consumer report has an obligation to verify the consumer's identity. */
@@ -6992,12 +7019,12 @@ export interface CraCheckReportBaseReportGetResponse {
 /** Deprecated. This field is no longer accepted for new clients (created on or after 2026-07-01). New clients should specify required products when creating the Consumer Report. Existing integrations may continue to pass `options`. */
 export type CraCheckReportCashflowInsightsGetOptions = CraCheckReportCreateCashflowInsightsOptions;
 export interface GetCraCheckReportCashflowInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  third_party_user_token?: string;
-  user_token?: string;
-  options?: CraCheckReportCreateCashflowInsightsOptions | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  third_party_user_token?: string | undefined;
+  user_token?: string | undefined;
+  options?: CraCheckReportCreateCashflowInsightsOptions | null | undefined;
 }
 /** Contains data for the CRA Cashflow Insights Report. */
 export interface CraCashflowInsightsReport {
@@ -7005,7 +7032,7 @@ export interface CraCashflowInsightsReport {
   report_id: string;
   /** The time when the report was generated. */
   generated_time: string;
-  attributes?: unknown;
+  attributes?: unknown | undefined;
   [key: string]: unknown;
 }
 /** The warning code identifies a specific kind of warning. `IDENTITY_UNAVAILABLE`: Account-owner information is not available. `TRANSACTIONS_UNAVAILABLE`: Transactions information associated with Credit and Depository accounts are unavailable. `USER_FRAUD_ALERT`: The user has placed a fraud alert on their Plaid Check consumer report due to suspected fraud. Please note that when a fraud alert is in place, the recipient of the consumer report has an obligation to verify the consumer's identity. */
@@ -7028,22 +7055,25 @@ export interface CraCheckReportCashflowInsightsGetResponse {
   report: CraCashflowInsightsReport;
   request_id: string;
   /** If the Cashflow Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
-  warnings?: CraCheckReportCashflowInsightsGetResponseWarningsList;
+  warnings?: CraCheckReportCashflowInsightsGetResponseWarningsList | undefined;
   [key: string]: unknown;
 }
 /** Deprecated. This field is no longer accepted for new clients (created on or after 2026-07-01). New clients should specify required products when creating the Consumer Report. Existing integrations may continue to pass `options`. */
 export type CraCheckReportIncomeInsightsGetOptions = CraCheckReportCreateIncomeInsightsOptions;
 export interface GetCraCheckReportIncomeInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  third_party_user_token?: string;
-  user_id?: string;
-  options?: CraCheckReportCreateIncomeInsightsOptions | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  third_party_user_token?: string | undefined;
+  user_id?: string | undefined;
+  options?: CraCheckReportCreateIncomeInsightsOptions | null | undefined;
   /** The CRA report token (formatted `cra-report-<env>-<uuid>`) identifying a specific consumer report. When provided alongside `consumer_report_permissible_purpose`, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned. */
-  report_id?: string;
+  report_id?: string | undefined;
   /** The permissible purpose under which the consumer report is being retrieved. */
-  consumer_report_permissible_purpose?: CraCheckReportPermissiblePurpose | (string & {});
+  consumer_report_permissible_purpose?:
+    | CraCheckReportPermissiblePurpose
+    | (string & {})
+    | undefined;
 }
 /** An object containing metadata about the extracted account. */
 export interface CraBankIncomeAccountMetadata {
@@ -7059,7 +7089,7 @@ export type CraBankIncomeAccountOwnersList = Array<Owner>;
 /** The Item's bank accounts that have the selected data. */
 export interface CraBankIncomeAccount {
   /** Plaid's unique identifier for the account. This value will not change unless Plaid can't reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new `account_id` will be assigned to the account. If an account with a specific `account_id` disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API. Like all Plaid identifiers, the `account_id` is case sensitive. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The last 2-4 alphanumeric characters of an account's official account number. Note that the mask may be non-unique between an Item's accounts, and it may also not match the mask that the bank displays to the user. */
   mask: string | null;
   metadata: CraBankIncomeAccountMetadata;
@@ -7106,11 +7136,11 @@ export type CraBankIncomeStatus = "ACTIVE" | "INACTIVE" | "UNKNOWN";
 /** The object containing prediction interval data. */
 export interface CraPredictionInterval {
   /** The lower bound of the predicted attribute for the given probability. */
-  lower_bound?: number | null;
+  lower_bound?: number | null | undefined;
   /** The upper bound of the predicted attribute for the given probability. */
-  upper_bound?: number | null;
+  upper_bound?: number | null | undefined;
   /** The probability of the actual value of the attribute falling within the upper and lower bound. This is a percentage represented as a value between 0 and 1. */
-  probability?: number | null;
+  probability?: number | null | undefined;
   [key: string]: unknown;
 }
 /** The prediction interval(s) for the forecasted average monthly income. */
@@ -7143,84 +7173,84 @@ export interface CraBankIncomeTransaction {
   /** For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an ISO 8601 format (YYYY-MM-DD). */
   date: string;
   /** The merchant name or transaction description. This is a legacy field that is no longer maintained. For merchant name, use the `merchant_name` field; for description, use the `original_description` field. */
-  name?: string;
+  name?: string | undefined;
   /** The string returned by the financial institution to describe the transaction. */
   original_description: string | null;
   /** When true, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled. */
   pending: boolean;
   /** The check number of the transaction. This field is only populated for check transactions. */
-  check_number?: string | null;
+  check_number?: string | null | undefined;
   iso_currency_code: string | null;
   unofficial_currency_code: string | null;
-  bonus_type?: CraBankIncomeBonusType | null;
+  bonus_type?: CraBankIncomeBonusType | null | undefined;
   [key: string]: unknown;
 }
 export type CraBankIncomeHistoricalSummaryTransactionsList = Array<CraBankIncomeTransaction>;
 /** The end user's monthly summary for the income source(s). */
 export interface CraBankIncomeHistoricalSummary {
   /** Total amount of earnings for the income source(s) of the user for the month in the summary. This can contain multiple amounts, with each amount denominated in one unique currency. */
-  total_amounts?: CraBankIncomeHistoricalSummaryTotalAmountsList;
+  total_amounts?: CraBankIncomeHistoricalSummaryTotalAmountsList | undefined;
   /** The start date of the period covered in this monthly summary. This date will be the first day of the month, unless the month being covered is a partial month because it is the first month included in the summary and the date range being requested does not begin with the first day of the month. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The end date of the period included in this monthly summary. This date will be the last day of the month, unless the month being covered is a partial month because it is the last month included in the summary and the date range being requested does not end with the last day of the month. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  end_date?: string;
-  transactions?: CraBankIncomeHistoricalSummaryTransactionsList;
+  end_date?: string | undefined;
+  transactions?: CraBankIncomeHistoricalSummaryTransactionsList | undefined;
   [key: string]: unknown;
 }
 export type CraBankIncomeSourceHistoricalSummaryList = Array<CraBankIncomeHistoricalSummary>;
 /** Detailed information for the income source. */
 export interface CraBankIncomeSource {
   /** The account ID with which this income source is associated. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** A unique identifier for an income source. If the report is regenerated and a new `report_id` is created, the new report will have a new set of `income_source_id`s. */
-  income_source_id?: string;
+  income_source_id?: string | undefined;
   /** The most common name or original description for the underlying income transactions. */
-  income_description?: string;
-  income_category?: CreditBankIncomeCategory;
+  income_description?: string | undefined;
+  income_category?: CreditBankIncomeCategory | undefined;
   /** Minimum of all dates within the specific income sources in the user's bank account for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Maximum of all dates within the specific income sources in the user's bank account for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  end_date?: string;
-  pay_frequency?: CreditBankIncomePayFrequency;
+  end_date?: string | undefined;
+  pay_frequency?: CreditBankIncomePayFrequency | undefined;
   /** Total amount of earnings in the user's bank account for the specific income source for days requested by the client. */
-  total_amount?: number;
-  iso_currency_code?: string | null;
-  unofficial_currency_code?: string | null;
+  total_amount?: number | undefined;
+  iso_currency_code?: string | null | undefined;
+  unofficial_currency_code?: string | null | undefined;
   /** Number of transactions for the income source within the start and end date. */
-  transaction_count?: number;
+  transaction_count?: number | undefined;
   /** The expected date of the end user's next paycheck for the income source. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  next_payment_date?: string | null;
-  status?: CraBankIncomeStatus;
+  next_payment_date?: string | null | undefined;
+  status?: CraBankIncomeStatus | undefined;
   /** An estimate of the average gross monthly income based on the historical net amount and income category for the income source(s). */
-  historical_average_monthly_gross_income?: number | null;
+  historical_average_monthly_gross_income?: number | null | undefined;
   /** The average monthly net income amount estimated based on the historical data for the income source(s). */
-  historical_average_monthly_income?: number | null;
+  historical_average_monthly_income?: number | null | undefined;
   /** The predicted average monthly net income amount for the income source(s). */
-  forecasted_average_monthly_income?: number | null;
+  forecasted_average_monthly_income?: number | null | undefined;
   /** The prediction interval(s) for the forecasted average monthly income. */
   forecasted_average_monthly_income_prediction_intervals: CraBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervalsList;
-  employer?: CraBankIncomeEmployer;
+  employer?: CraBankIncomeEmployer | undefined;
   income_provider: CraBankIncomeIncomeProvider | null;
-  historical_summary?: CraBankIncomeSourceHistoricalSummaryList;
+  historical_summary?: CraBankIncomeSourceHistoricalSummaryList | undefined;
   [key: string]: unknown;
 }
 /** This is a V1 (II1) field. For the V2 (II2) equivalent, use the report-level `income_streams` field. The income sources for this Item. Each entry in the array is a single income source. */
 export type CraBankIncomeItemBankIncomeSourcesList = Array<CraBankIncomeSource>;
 /** The details and metadata for an end user's Item. */
 export interface CraBankIncomeItem {
-  item_id?: string;
+  item_id?: string | undefined;
   /** The Item's accounts that have bank income data. */
-  accounts?: CraBankIncomeItemAccountsList;
+  accounts?: CraBankIncomeItemAccountsList | undefined;
   /** This is a V1 (II1) field. For the V2 (II2) equivalent, use the `accounts` field. The Item's accounts that have bank income data. */
   bank_income_accounts: CraBankIncomeItemBankIncomeAccountsList;
   /** This is a V1 (II1) field. For the V2 (II2) equivalent, use the report-level `income_streams` field. The income sources for this Item. Each entry in the array is a single income source. */
   bank_income_sources: CraBankIncomeItemBankIncomeSourcesList;
   /** The time when this Item's data was last retrieved from the financial institution. */
-  last_updated_time?: string;
+  last_updated_time?: string | undefined;
   /** The unique identifier of the institution associated with the Item. */
-  institution_id?: string;
+  institution_id?: string | undefined;
   /** The name of the institution associated with the Item. */
-  institution_name?: string;
+  institution_name?: string | undefined;
 }
 /** The list of Items in the report along with the associated metadata about the Item. */
 export type CraIncomeInsightsItemsList = Array<CraBankIncomeItem>;
@@ -7286,7 +7316,7 @@ export interface CraIncomeTransactionOutlier {
   /** Indicates whether an income transaction amount is unusually high compared to the amounts for that stream. */
   is_outlier: boolean;
   /** The amount that the transaction differs from the stream average transaction amount. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   [key: string]: unknown;
 }
 /** The transaction data for an income stream. */
@@ -7348,30 +7378,36 @@ export type CraBankIncomeSummaryHistoricalSummaryList = Array<CraBankIncomeHisto
 /** This is a V1 (II1) schema. For the V2 (II2) equivalent, use `CraIncomeInsightsUserSummary`. Summary for income across all income sources and items (max history of 730 days). */
 export interface CraBankIncomeSummary {
   /** Total amount of earnings across all the income sources in the end user's Items for the days requested by the client. This can contain multiple amounts, with each amount denominated in one unique currency. */
-  total_amounts?: CraBankIncomeSummaryTotalAmountsList;
+  total_amounts?: CraBankIncomeSummaryTotalAmountsList | undefined;
   /** The earliest date within the days requested in which all income sources identified by Plaid appear in a user's account. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The latest date in which all income sources identified by Plaid appear in the user's account. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Number of income sources per end user. */
-  income_sources_count?: number;
+  income_sources_count?: number | undefined;
   /** Number of income categories per end user. */
-  income_categories_count?: number;
+  income_categories_count?: number | undefined;
   /** Number of income transactions per end user. */
-  income_transactions_count?: number;
+  income_transactions_count?: number | undefined;
   /** An estimate of the average gross monthly income based on the historical net amount and income category for the income source(s). The average monthly income is calculated based on the lifetime of the income stream, rather than the entire historical period included in the scope of the report. */
-  historical_average_monthly_gross_income?: CraBankIncomeSummaryHistoricalAverageMonthlyGrossIncomeList;
+  historical_average_monthly_gross_income?:
+    | CraBankIncomeSummaryHistoricalAverageMonthlyGrossIncomeList
+    | undefined;
   /** The average monthly income amount estimated based on the historical data for the income source(s). The average monthly income is calculated based on the lifetime of the income stream, rather than the entire historical period included in the scope of the report. */
-  historical_average_monthly_income?: CraBankIncomeSummaryHistoricalAverageMonthlyIncomeList;
+  historical_average_monthly_income?:
+    | CraBankIncomeSummaryHistoricalAverageMonthlyIncomeList
+    | undefined;
   /** The predicted average monthly income amount for the income source(s). */
-  forecasted_average_monthly_income?: CraBankIncomeSummaryForecastedAverageMonthlyIncomeList;
+  forecasted_average_monthly_income?:
+    | CraBankIncomeSummaryForecastedAverageMonthlyIncomeList
+    | undefined;
   /** An estimate of the annual gross income for the income source, calculated by multiplying the `historical_average_monthly_gross_income` by 12. */
-  historical_annual_gross_income?: CraBankIncomeSummaryHistoricalAnnualGrossIncomeList;
+  historical_annual_gross_income?: CraBankIncomeSummaryHistoricalAnnualGrossIncomeList | undefined;
   /** An estimate of the annual net income for the income source, calculated by multiplying the `historical_average_monthly_income` by 12. */
-  historical_annual_income?: CraBankIncomeSummaryHistoricalAnnualIncomeList;
+  historical_annual_income?: CraBankIncomeSummaryHistoricalAnnualIncomeList | undefined;
   /** The predicted average annual income amount for the income source(s). */
-  forecasted_annual_income?: CraBankIncomeSummaryForecastedAnnualIncomeList;
-  historical_summary?: CraBankIncomeSummaryHistoricalSummaryList;
+  forecasted_annual_income?: CraBankIncomeSummaryForecastedAnnualIncomeList | undefined;
+  historical_summary?: CraBankIncomeSummaryHistoricalSummaryList | undefined;
   [key: string]: unknown;
 }
 /** The warning type which will always be `BANK_INCOME_WARNING`. */
@@ -7413,9 +7449,9 @@ export interface CraBankIncomeCause {
 }
 /** The warning associated with the data that was unavailable. */
 export interface CraBankIncomeWarning {
-  warning_type?: CreditBankIncomeWarningType;
-  warning_code?: CraBankIncomeWarningCode;
-  cause?: CraBankIncomeCause;
+  warning_type?: CreditBankIncomeWarningType | undefined;
+  warning_code?: CraBankIncomeWarningCode | undefined;
+  cause?: CraBankIncomeCause | undefined;
   [key: string]: unknown;
 }
 /** If data from the report was unable to be retrieved, the warnings object will contain information about the error that caused the data to be incomplete. */
@@ -7423,53 +7459,53 @@ export type CraIncomeInsightsWarningsList = Array<CraBankIncomeWarning>;
 /** The Check Income Insights Report for an end user. */
 export interface CraIncomeInsights {
   /** The unique identifier associated with the Check Income Insights Report. */
-  report_id?: string;
+  report_id?: string | undefined;
   /** The time when the Check Income Insights Report was generated. */
-  generated_time?: string;
+  generated_time?: string | undefined;
   /** The number of days requested by the customer for the Check Income Insights Report. */
-  days_requested?: number;
+  days_requested?: number | undefined;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
   /** The list of Items in the report along with the associated metadata about the Item. */
-  items?: CraIncomeInsightsItemsList;
-  user_summary?: CraIncomeInsightsUserSummary | null;
+  items?: CraIncomeInsightsItemsList | undefined;
+  user_summary?: CraIncomeInsightsUserSummary | null | undefined;
   /** The list of income streams for this user. */
   income_streams: CraIncomeInsightsIncomeStreamsList;
-  bank_income_summary?: CraBankIncomeSummary;
+  bank_income_summary?: CraBankIncomeSummary | undefined;
   /** If data from the report was unable to be retrieved, the warnings object will contain information about the error that caused the data to be incomplete. */
-  warnings?: CraIncomeInsightsWarningsList;
+  warnings?: CraIncomeInsightsWarningsList | undefined;
   [key: string]: unknown;
 }
 /** If the Income Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCheckReportIncomeInsightsGetResponseWarningsList = Array<CheckReportWarning>;
 /** CraCheckReportIncomeInsightsGetResponse defines the response schema for `/cra/check_report/income_insights/get`. */
 export interface CraCheckReportIncomeInsightsGetResponse {
-  report?: CraIncomeInsights;
+  report?: CraIncomeInsights | undefined;
   request_id: string;
   /** If the Income Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
-  warnings?: CraCheckReportIncomeInsightsGetResponseWarningsList;
+  warnings?: CraCheckReportIncomeInsightsGetResponseWarningsList | undefined;
   [key: string]: unknown;
 }
 /** Deprecated. This field is no longer accepted for new clients (created on or after 2026-07-01). New clients should specify required products when creating the Consumer Report. Existing integrations may continue to pass `options`. */
 export type CraCheckReportLendScoreGetOptions = CraCheckReportCreateLendScoreOptions;
 export interface GetCraCheckReportLendScoreRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  third_party_user_token?: string;
-  user_token?: string;
-  options?: CraCheckReportCreateLendScoreOptions | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  third_party_user_token?: string | undefined;
+  user_token?: string | undefined;
+  options?: CraCheckReportCreateLendScoreOptions | null | undefined;
 }
 /** The reasons for an individual having risk according to the LendScore. For a full list of possible reason codes and a mapping of reason codes to human-readable reasons, contact your Plaid account manager. Different LendScore versions will use different sets of reason codes. */
 export type LendScoreReasonCodesList = Array<string>;
 /** The results of the LendScore */
 export interface LendScore {
   /** The score returned by the LendScore model. Will be an integer in the range 1 to 99. Higher scores indicate lower credit risk. */
-  score?: number | null;
+  score?: number | null | undefined;
   /** The reasons for an individual having risk according to the LendScore. For a full list of possible reason codes and a mapping of reason codes to human-readable reasons, contact your Plaid account manager. Different LendScore versions will use different sets of reason codes. */
-  reason_codes?: LendScoreReasonCodesList;
+  reason_codes?: LendScoreReasonCodesList | undefined;
   /** Human-readable description of why the LendScore could not be computed. */
-  error_reason?: string | null;
+  error_reason?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Contains data for the CRA LendScore Report. */
@@ -7478,7 +7514,7 @@ export interface CraLendScoreReport {
   report_id: string;
   /** The time when the report was generated. */
   generated_time: string;
-  lend_score?: LendScore | null;
+  lend_score?: LendScore | null | undefined;
   [key: string]: unknown;
 }
 /** If the LendScore generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
@@ -7488,18 +7524,18 @@ export interface CraCheckReportLendScoreGetResponse {
   report: CraLendScoreReport;
   request_id: string;
   /** If the LendScore generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
-  warnings?: CraCheckReportLendScoreGetResponseWarningsList;
+  warnings?: CraCheckReportLendScoreGetResponseWarningsList | undefined;
   [key: string]: unknown;
 }
 /** Deprecated. This field is no longer accepted for new clients (created on or after 2026-07-01). New clients should specify required products when creating the Consumer Report. Existing integrations may continue to pass `options`. */
 export type CraCheckReportNetworkInsightsGetOptions = CraCheckReportCreateNetworkInsightsOptions;
 export interface GetCraCheckReportNetworkInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  options?: CraCheckReportCreateNetworkInsightsOptions | null;
-  third_party_user_token?: string;
-  user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  options?: CraCheckReportCreateNetworkInsightsOptions | null | undefined;
+  third_party_user_token?: string | undefined;
+  user_token?: string | undefined;
 }
 /** Contains data about the connected Item. */
 export interface CraNetworkInsightsItem {
@@ -7530,7 +7566,7 @@ export interface CraCheckReportNetworkInsightsGetResponse {
   report: CraNetworkInsightsReport;
   request_id: string;
   /** If the Network Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
-  warnings?: CraCheckReportNetworkInsightsGetResponseWarningsList;
+  warnings?: CraCheckReportNetworkInsightsGetResponseWarningsList | undefined;
   [key: string]: unknown;
 }
 /** Deprecated. This field is no longer accepted for new clients (created on or after 2026-07-01). New clients should specify required products when creating the Consumer Report. Existing integrations may continue to pass `partner_insights`. */
@@ -7540,17 +7576,17 @@ export type CraCheckReportPartnerInsightsGetPartnerInsights =
 export type PrismVersionsDeprecated = PrismVersions;
 /** Deprecated, specify `partner_insights.prism_versions` instead. */
 export interface CraCheckReportPartnerInsightsGetOptions {
-  prism_versions?: PrismVersions | null;
+  prism_versions?: PrismVersions | null | undefined;
 }
 export interface GetCraCheckReportPartnerInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  third_party_user_token?: string;
-  user_token?: string;
-  user_tier?: CraUserTier | (string & {}) | null;
-  partner_insights?: CraCheckReportCreatePartnerInsightsOptions;
-  options?: CraCheckReportPartnerInsightsGetOptions | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  third_party_user_token?: string | undefined;
+  user_token?: string | undefined;
+  user_tier?: CraUserTier | (string & {}) | null | undefined;
+  partner_insights?: CraCheckReportCreatePartnerInsightsOptions | undefined;
+  options?: CraCheckReportPartnerInsightsGetOptions | null | undefined;
 }
 /** Negative reason codes associated with the score (reasons the score moved downward), in priority order. May contain up to 4 items. */
 export type CraPartnerInsightsUltraFicoScoreNegativeReasonCodesList = Array<string>;
@@ -7562,39 +7598,39 @@ export interface CraPartnerInsightsUltraFicoScore {
   /** Numeric value of the UltraFICO® score. */
   score: number;
   /** Negative reason codes associated with the score (reasons the score moved downward), in priority order. May contain up to 4 items. */
-  negative_reason_codes?: CraPartnerInsightsUltraFicoScoreNegativeReasonCodesList;
+  negative_reason_codes?: CraPartnerInsightsUltraFicoScoreNegativeReasonCodesList | undefined;
   /** Positive reason codes associated with the score (reasons the score moved upward), in priority order. May contain up to 4 items. */
-  positive_reason_codes?: CraPartnerInsightsUltraFicoScorePositiveReasonCodesList;
+  positive_reason_codes?: CraPartnerInsightsUltraFicoScorePositiveReasonCodesList | undefined;
   /** Deprecated. Use `negative_reason_codes` instead. The first reason code associated with the score. */
-  reason_code_1?: string | null;
+  reason_code_1?: string | null | undefined;
   /** Deprecated. Use `negative_reason_codes` instead. The second reason code associated with the score. */
-  reason_code_2?: string | null;
+  reason_code_2?: string | null | undefined;
   /** Deprecated. Use `negative_reason_codes` instead. The third reason code associated with the score. */
-  reason_code_3?: string | null;
+  reason_code_3?: string | null | undefined;
   /** Deprecated. Use `negative_reason_codes` instead. The fourth reason code associated with the score. */
-  reason_code_4?: string | null;
+  reason_code_4?: string | null | undefined;
   /** Deprecated. Use `positive_reason_codes` instead. The first positive reason code associated with the score. */
-  positive_reason_code_1?: string | null;
+  positive_reason_code_1?: string | null | undefined;
   /** Deprecated. Use `positive_reason_codes` instead. The second positive reason code associated with the score. */
-  positive_reason_code_2?: string | null;
+  positive_reason_code_2?: string | null | undefined;
   /** Deprecated. Use `positive_reason_codes` instead. The third positive reason code associated with the score. */
-  positive_reason_code_3?: string | null;
+  positive_reason_code_3?: string | null | undefined;
   /** Deprecated. Use `positive_reason_codes` instead. The fourth positive reason code associated with the score. */
-  positive_reason_code_4?: string | null;
+  positive_reason_code_4?: string | null | undefined;
   /** Whether inquiries adversely affected the score but were not represented in one of the four reason codes. Sometimes referred to as the FACTA Flag. */
-  did_inquiries_adversely_affect_score?: boolean | null;
+  did_inquiries_adversely_affect_score?: boolean | null | undefined;
 }
 /** The result of a single UltraFICO® score generation request. */
 export interface CraPartnerInsightsUltraFicoScoreResult {
   /** Client-generated identifier that can be used to correlate scoring requests with their scoring results. */
-  request_correlation_id?: string;
+  request_correlation_id?: string | undefined;
   /** FICO-provided identifier that uniquely identifies this score generation request. */
-  fico_scoring_request_id?: string;
-  ultrafico_score?: CraPartnerInsightsUltraFicoScore | null;
+  fico_scoring_request_id?: string | undefined;
+  ultrafico_score?: CraPartnerInsightsUltraFicoScore | null | undefined;
   /** Human-readable description of why the UltraFICO® score could not be computed. */
-  error_reason?: string;
+  error_reason?: string | undefined;
   /** FICO exclusion code indicating why an UltraFICO® score could not be computed due to consumer-data conditions (e.g. insufficient account history). `null` when the exclusion code is not set; "0" when a score was produced. */
-  exclusion_code?: string | null;
+  exclusion_code?: string | null | undefined;
 }
 /** UltraFICO® scoring results, one per provided UltraFICO scoring request. */
 export type CraPartnerInsightsFicoResultsUltraficoScoreResultsList =
@@ -7602,47 +7638,47 @@ export type CraPartnerInsightsFicoResultsUltraficoScoreResultsList =
 /** Report characteristics returned by FICO describing the banking data used to generate the UltraFICO® score. */
 export interface CraPartnerInsightsFicoReportCharacteristics {
   /** Total number of accounts included in the report. Limited to checking, savings, and money market accounts. */
-  num_accounts?: number | null;
+  num_accounts?: number | null | undefined;
   /** Average daily balance over the past 1 month. */
-  avg_daily_balance_over_1_month?: number | null;
+  avg_daily_balance_over_1_month?: number | null | undefined;
   /** Average daily balance over the past 3 months. */
-  avg_daily_balance_over_3_months?: number | null;
+  avg_daily_balance_over_3_months?: number | null | undefined;
   /** Average daily balance over the past 6 months. */
-  avg_daily_balance_over_6_months?: number | null;
+  avg_daily_balance_over_6_months?: number | null | undefined;
   /** Average daily balance over the past 12 months. */
-  avg_daily_balance_over_12_months?: number | null;
+  avg_daily_balance_over_12_months?: number | null | undefined;
   /** Number of days since the earliest transaction in the report. */
-  days_since_earliest_tx?: number | null;
+  days_since_earliest_tx?: number | null | undefined;
   /** Number of days since the most recent day with a negative ending balance. */
-  days_since_most_recent_negative_ending_balance?: number | null;
+  days_since_most_recent_negative_ending_balance?: number | null | undefined;
   /** Number of days since the most recent insufficient funds fee debit transaction. */
-  days_since_most_recent_insufficient_funds_fee_debit_tx?: number | null;
+  days_since_most_recent_insufficient_funds_fee_debit_tx?: number | null | undefined;
   /** Total number of days with a negative balance over the past 1 month. */
-  tot_number_days_with_negative_balance_over_1_month?: number | null;
+  tot_number_days_with_negative_balance_over_1_month?: number | null | undefined;
   /** Total number of days with a negative balance over the past 3 months. */
-  tot_number_days_with_negative_balance_over_3_months?: number | null;
+  tot_number_days_with_negative_balance_over_3_months?: number | null | undefined;
   /** Total number of days with a negative balance over the past 6 months. */
-  tot_number_days_with_negative_balance_over_6_months?: number | null;
+  tot_number_days_with_negative_balance_over_6_months?: number | null | undefined;
   /** Total number of days with a negative balance over the past 12 months. */
-  tot_number_days_with_negative_balance_over_12_months?: number | null;
+  tot_number_days_with_negative_balance_over_12_months?: number | null | undefined;
   /** Number of days since the most recent transaction. */
-  days_since_most_recent_tx?: number | null;
+  days_since_most_recent_tx?: number | null | undefined;
   /** Number of days with at least one transaction over the past 1 month. */
-  days_with_tx_over_1_month?: number | null;
+  days_with_tx_over_1_month?: number | null | undefined;
   /** Number of days with at least one transaction over the past 3 months. */
-  days_with_tx_over_3_months?: number | null;
+  days_with_tx_over_3_months?: number | null | undefined;
   /** Number of days with at least one transaction over the past 6 months. */
-  days_with_tx_over_6_months?: number | null;
+  days_with_tx_over_6_months?: number | null | undefined;
   /** Number of days with at least one transaction over the past 12 months. */
-  days_with_tx_over_12_months?: number | null;
+  days_with_tx_over_12_months?: number | null | undefined;
   /** Sum of current balances across all accounts in the report. */
-  tot_current_balances?: number | null;
+  tot_current_balances?: number | null | undefined;
   /** Number of checking accounts included in the report. */
-  num_checking_accounts?: number | null;
+  num_checking_accounts?: number | null | undefined;
   /** Number of money market accounts included in the report. */
-  num_money_market_accounts?: number | null;
+  num_money_market_accounts?: number | null | undefined;
   /** Number of savings accounts included in the report. */
-  num_savings_accounts?: number | null;
+  num_savings_accounts?: number | null | undefined;
 }
 /** The calculated UltraFICO® scores returned as part of the Partner Insights report. */
 export interface CraPartnerInsightsFicoResults {
@@ -7650,16 +7686,16 @@ export interface CraPartnerInsightsFicoResults {
   lender_application_id: string;
   /** UltraFICO® scoring results, one per provided UltraFICO scoring request. */
   ultrafico_score_results: CraPartnerInsightsFicoResultsUltraficoScoreResultsList;
-  report_characteristics?: CraPartnerInsightsFicoReportCharacteristics | null;
+  report_characteristics?: CraPartnerInsightsFicoReportCharacteristics | null | undefined;
 }
 /** The data from the Insights product returned by Prism Data. */
 export interface PrismInsights {
   /** The version of Prism Data's insights model used. This field is deprecated in favor of `model_version`. */
   version: number;
   /** The version of Prism Data's insights model used. */
-  model_version?: string;
-  result?: unknown;
-  error_reason?: string;
+  model_version?: string | undefined;
+  result?: unknown | undefined;
+  error_reason?: string | undefined;
   [key: string]: unknown;
 }
 /** The reasons for an individual having risk according to the cash score. */
@@ -7693,13 +7729,13 @@ export interface PrismCashScore {
   /** The version of Prism Data's cash score model used. This field is deprecated in favor of `model_version`. */
   version: number;
   /** The version of Prism Data's cash score model used. */
-  model_version?: string;
+  model_version?: string | undefined;
   /** The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk. */
   score: number | null;
   /** The reasons for an individual having risk according to the cash score. */
-  reason_codes?: PrismCashScoreReasonCodesList;
-  metadata?: PrismCashScoreMetadata;
-  error_reason?: string;
+  reason_codes?: PrismCashScoreReasonCodesList | undefined;
+  metadata?: PrismCashScoreMetadata | undefined;
+  error_reason?: string | undefined;
   [key: string]: unknown;
 }
 /** The reasons for an individual having risk according to the CashScore® Extend score. */
@@ -7711,9 +7747,9 @@ export interface PrismExtend {
   /** The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk. */
   score: number | null;
   /** The reasons for an individual having risk according to the CashScore® Extend score. */
-  reason_codes?: PrismExtendReasonCodesList;
-  metadata?: PrismCashScoreMetadata;
-  error_reason?: string;
+  reason_codes?: PrismExtendReasonCodesList | undefined;
+  metadata?: PrismCashScoreMetadata | undefined;
+  error_reason?: string | undefined;
   [key: string]: unknown;
 }
 /** The reasons for an individual having risk according to the FirstDetect score. */
@@ -7723,13 +7759,13 @@ export interface PrismFirstDetect {
   /** The version of Prism Data's FirstDetect model used. This field is deprecated in favor of `model_version`. */
   version: number;
   /** The version of Prism Data's FirstDetect model used. */
-  model_version?: string;
+  model_version?: string | undefined;
   /** The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk. */
   score: number | null;
   /** The reasons for an individual having risk according to the FirstDetect score. */
-  reason_codes?: PrismFirstDetectReasonCodesList;
-  metadata?: PrismCashScoreMetadata;
-  error_reason?: string;
+  reason_codes?: PrismFirstDetectReasonCodesList | undefined;
+  metadata?: PrismCashScoreMetadata | undefined;
+  error_reason?: string | undefined;
   [key: string]: unknown;
 }
 /** The reasons for an individual having risk according to the CashScore® Detect score. */
@@ -7741,18 +7777,18 @@ export interface PrismDetect {
   /** The score returned by Prism Data. Ranges from 1-999, with higher score indicating lower risk. */
   score: number | null;
   /** The reasons for an individual having risk according to the CashScore® Detect score. */
-  reason_codes?: PrismDetectReasonCodesList;
-  metadata?: PrismCashScoreMetadata;
-  error_reason?: string;
+  reason_codes?: PrismDetectReasonCodesList | undefined;
+  metadata?: PrismCashScoreMetadata | undefined;
+  error_reason?: string | undefined;
   [key: string]: unknown;
 }
 /** The Prism Data insights for the user. */
 export interface CraPartnerInsightsPrism {
-  insights?: PrismInsights | null;
-  cash_score?: PrismCashScore | null;
-  extend?: PrismExtend | null;
-  first_detect?: PrismFirstDetect | null;
-  detect?: PrismDetect | null;
+  insights?: PrismInsights | null | undefined;
+  cash_score?: PrismCashScore | null | undefined;
+  extend?: PrismExtend | null | undefined;
+  first_detect?: PrismFirstDetect | null | undefined;
+  detect?: PrismDetect | null | undefined;
   /** Details on whether the Prism Data attributes succeeded or failed to be generated. */
   status: string;
   [key: string]: unknown;
@@ -7764,7 +7800,7 @@ export type CraPartnerInsightsItemAccountOwnersList = Array<Owner>;
 /** Account data corresponding to the Item from which Partner Insights were generated. */
 export interface CraPartnerInsightsItemAccount {
   /** Plaid's unique identifier for the account. This value will not change unless Plaid can't reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new `account_id` will be assigned to the account. If an account with a specific `account_id` disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API. Like all Plaid identifiers, the `account_id` is case sensitive. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The last 2-4 alphanumeric characters of an account's official account number. Note that the mask may be non-unique between an Item's accounts, and it may also not match the mask that the bank displays to the user. */
   mask: string | null;
   metadata: CraBankIncomeAccountMetadata;
@@ -7783,13 +7819,13 @@ export type CraPartnerInsightsItemAccountsList = Array<CraPartnerInsightsItemAcc
 /** The details and metadata for an end user's Item. */
 export interface CraPartnerInsightsItem {
   /** The ID for the institution that the user linked. */
-  institution_id?: string;
+  institution_id?: string | undefined;
   /** The name of the institution the user linked. */
-  institution_name?: string;
+  institution_name?: string | undefined;
   /** The identifier for the Item. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** A list of accounts in the Item. */
-  accounts?: CraPartnerInsightsItemAccountsList;
+  accounts?: CraPartnerInsightsItemAccountsList | undefined;
   [key: string]: unknown;
 }
 /** The list of Items used in the report along with the associated metadata about the Item. */
@@ -7797,25 +7833,25 @@ export type CraPartnerInsightsItemsList = Array<CraPartnerInsightsItem>;
 /** The Partner Insights report of the bank data for an end user. */
 export interface CraPartnerInsights {
   /** A unique identifier associated with the Partner Insights object. */
-  report_id?: string;
+  report_id?: string | undefined;
   /** The time when the Partner Insights report was generated. */
-  generated_time?: string;
+  generated_time?: string | undefined;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
-  fico?: CraPartnerInsightsFicoResults | null;
-  prism?: CraPartnerInsightsPrism | null;
+  client_report_id?: string | null | undefined;
+  fico?: CraPartnerInsightsFicoResults | null | undefined;
+  prism?: CraPartnerInsightsPrism | null | undefined;
   /** The list of Items used in the report along with the associated metadata about the Item. */
-  items?: CraPartnerInsightsItemsList;
+  items?: CraPartnerInsightsItemsList | undefined;
   [key: string]: unknown;
 }
 /** If the Partner Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCheckReportPartnerInsightsGetResponseWarningsList = Array<CheckReportWarning>;
 /** CraCheckReportPartnerInsightsGetResponse defines the response schema for `/cra/check_report/partner_insights/get`. */
 export interface CraCheckReportPartnerInsightsGetResponse {
-  report?: CraPartnerInsights;
+  report?: CraPartnerInsights | undefined;
   request_id: string;
   /** If the Partner Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
-  warnings?: CraCheckReportPartnerInsightsGetResponseWarningsList;
+  warnings?: CraCheckReportPartnerInsightsGetResponseWarningsList | undefined;
   [key: string]: unknown;
 }
 /** A list of add-ons that can be included in the PDF. `cra_income_insights`: Include Income Insights report in the PDF. `cra_partner_insights`: Include Partner Insights report in the PDF. `cra_lend_score`: Include LendScore report in the PDF. */
@@ -7823,13 +7859,13 @@ export type CraPDFAddOns = "cra_income_insights" | "cra_partner_insights" | "cra
 /** Use this field to include the most recent Income Insights, Partner Insights, or LendScore report in the PDF. */
 export type GetCraCheckReportPdfRequestAddOnsList = Array<CraPDFAddOns | (string & {})>;
 export interface GetCraCheckReportPdfRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  third_party_user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  third_party_user_token?: string | undefined;
   /** Use this field to include the most recent Income Insights, Partner Insights, or LendScore report in the PDF. */
-  add_ons?: GetCraCheckReportPdfRequestAddOnsList;
-  user_token?: string;
+  add_ons?: GetCraCheckReportPdfRequestAddOnsList | undefined;
+  user_token?: string | undefined;
 }
 export interface GetCraCheckReportPdfResponse {}
 /** Specifies which types of home lending reports are expected in the response */
@@ -7840,13 +7876,13 @@ export type GetCraCheckReportVerificationRequestReportsRequestedList = Array<
 export type CraCheckReportVerificationGetEmploymentRefreshOptions =
   CraCheckReportCreateEmploymentRefreshOptions;
 export interface GetCraCheckReportVerificationRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
   /** Specifies which types of home lending reports are expected in the response */
   reports_requested: GetCraCheckReportVerificationRequestReportsRequestedList;
-  employment_refresh_options?: CraCheckReportCreateEmploymentRefreshOptions | null;
-  user_token?: string;
+  employment_refresh_options?: CraCheckReportCreateEmploymentRefreshOptions | null | undefined;
+  user_token?: string | undefined;
 }
 /** An object representing a balance held by an account in the past. */
 export interface CraVoaReportAccountHistoricalBalance {
@@ -7910,7 +7946,7 @@ export interface BaseReportInvestmentHolding {
   /** The last price given by the institution for this security. */
   institution_price: number;
   /** The date at which `institution_price` was current. */
-  institution_price_as_of?: string | null;
+  institution_price_as_of?: string | null | undefined;
   /** The value of the holding, as reported by the institution. */
   institution_value: number;
   /** The original total value of the holding. This field is calculated by Plaid as the sum of the purchase price of all of the shares in the holding. */
@@ -7922,7 +7958,7 @@ export interface BaseReportInvestmentHolding {
   /** The unofficial currency code associated with the holding. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** Per-lot acquisition data for this holding. This field is absent when lot-level data is not available for the holding -- either the institution does not provide it, or the report was generated before lot-level data was supported. Refresh the report if you expect lots. */
-  tax_lots?: BaseReportInvestmentHoldingTaxLotsList;
+  tax_lots?: BaseReportInvestmentHoldingTaxLotsList | undefined;
   [key: string]: unknown;
 }
 /** Quantities and values of securities held in the investment account. Map to the `securities` array for security details. */
@@ -7985,7 +8021,7 @@ export interface CraVoaReportAccount {
   /** Data returned by the financial institution about the account owner or owners. */
   owners: CraVoaReportAccountOwnersList;
   ownership_type: OwnershipType | null;
-  investments?: BaseReportInvestments | null;
+  investments?: BaseReportInvestments | null | undefined;
   [key: string]: unknown;
 }
 /** Data about each of the accounts open on the Item. Investment accounts are included only when `include_investments` in `/cra/check_report/create` or `cra_options.include_investments` in `/link/token/create` was `true`. They are excluded if recent investment data was unavailable at report generation. */
@@ -8198,12 +8234,12 @@ export interface CraVerificationReport {
   /** The unique identifier associated with the Home Lending Report object. This ID will be the same as the Base Report ID. */
   report_id: string;
   /** A unique token that can be shared with GSEs in order to provide them access to the report. This is automatically created during report generation when GSE options are specified. */
-  gse_reference_id?: string;
+  gse_reference_id?: string | undefined;
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
-  voa?: CraVoaReport | null;
-  employment_refresh?: CraEmploymentRefreshReport | null;
-  income?: CraVerificationIncomeReport | null;
+  client_report_id?: string | null | undefined;
+  voa?: CraVoaReport | null | undefined;
+  employment_refresh?: CraEmploymentRefreshReport | null | undefined;
+  income?: CraVerificationIncomeReport | null | undefined;
   [key: string]: unknown;
 }
 /** If the home lending report generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing. */
@@ -8223,16 +8259,16 @@ export type GetCraCheckReportVerificationPdfRequestReportsRequestedList = Array<
   CraCheckReportVerificationPdfReportType | (string & {})
 >;
 export interface GetCraCheckReportVerificationPdfRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  third_party_user_token?: string;
-  report_requested?: unknown;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  third_party_user_token?: string | undefined;
+  report_requested?: unknown | undefined;
   /** Specifies which types of verification reports to include in the returned PDF. Supported combinations are: `[voa]`, `[employment_refresh]`, `[income]`, or `[voa, income]`. Other combinations are not supported. */
-  reports_requested?: GetCraCheckReportVerificationPdfRequestReportsRequestedList;
+  reports_requested?: GetCraCheckReportVerificationPdfRequestReportsRequestedList | undefined;
   /** If `true`, the GSE identifiers (the Report ID and `gse_reference_id`) are omitted from the returned Home Lending Report PDF. Defaults to `false`. These identifiers are always present in the `/cra/check_report/verification/get` JSON response regardless of this field. */
-  hide_gse_details?: boolean;
-  user_token?: string;
+  hide_gse_details?: boolean | undefined;
+  user_token?: string | undefined;
 }
 export interface GetCraCheckReportVerificationPdfResponse {}
 /** The product type for the credit profile report request. */
@@ -8242,8 +8278,8 @@ export type CraCreditProfileInquiryType = "SOFT_INQUIRY" | "STANDARD_INQUIRY";
 /** The version of the credit profile report to retrieve. */
 export type CraCreditProfileReportVersion = "v1";
 export interface GetCraCreditProfileReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
   consumer_report_permissible_purpose: ConsumerReportPermissiblePurpose | (string & {});
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
@@ -8322,21 +8358,21 @@ export type CraCreditProfileReportGetResponseWarningsList = Array<CheckReportWar
 export interface CraCreditProfileReportGetResponse {
   report: CraCreditProfileReport;
   request_id: string;
-  user_id?: string;
+  user_id?: string | undefined;
   /** If the report generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
   warnings: CraCreditProfileReportGetResponseWarningsList;
   [key: string]: unknown;
 }
 export interface GetCraPartnerInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_token: string;
-  user_tier?: CraUserTier | (string & {}) | null;
+  user_tier?: CraUserTier | (string & {}) | null | undefined;
 }
 export type CraPartnerInsightsGetResponseReportList = Array<CraPartnerInsights>;
 /** CraPartnerInsightsGetResponse defines the response schema for `/cra/partner_insights/get`. */
 export interface CraPartnerInsightsGetResponse {
-  report?: CraPartnerInsightsGetResponseReportList;
+  report?: CraPartnerInsightsGetResponseReportList | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -8383,14 +8419,14 @@ export type CraReportGetLendScoreOptionsVariantsList = Array<CraLendScoreVariant
 /** Configures which LendScore variants are retrieved. Omit when retrieving a report generated by `/cra/report/create` or `/link/token/create`; the report is returned with the options it was generated with. */
 export interface CraReportGetLendScoreOptions {
   /** The LendScore variants to retrieve. If omitted or empty, `GENERALIST` is returned. When specified, `GENERALIST` must be included. A variant listed more than once is returned once. Only supported for version `V2`. */
-  variants?: CraReportGetLendScoreOptionsVariantsList;
+  variants?: CraReportGetLendScoreOptionsVariantsList | undefined;
 }
 /** Names the LendScore product at a given version, with options for selecting variants. */
 export interface CraLendScoreProduct {
   /** The LendScore product discriminator. */
   product: CraLendScoreProductProduct;
   version: string;
-  options?: CraReportGetLendScoreOptions | null;
+  options?: CraReportGetLendScoreOptions | null | undefined;
   [key: string]: unknown;
 }
 /** The Cashflow Insights product discriminator. */
@@ -8420,14 +8456,14 @@ export type CraReportGetLendScoreCompleteOptionsVariantsList = Array<
 /** Configures which LendScore variants are retrieved with the LendScore Complete product bundle. Omit when retrieving a report generated by `/cra/report/create` or `/link/token/create`; the report is returned with the options it was generated with. */
 export interface CraReportGetLendScoreCompleteOptions {
   /** The LendScore variants to retrieve. If omitted or empty, `GENERALIST` is returned. When specified, `GENERALIST` must be included. A variant listed more than once is returned once. Only supported for LendScore Complete version `V2`. */
-  variants?: CraReportGetLendScoreCompleteOptionsVariantsList;
+  variants?: CraReportGetLendScoreCompleteOptionsVariantsList | undefined;
 }
 /** Names the LendScore Complete product bundle at a given version, with options for selecting LendScore variants. */
 export interface CraLendScoreCompleteBundleProduct {
   /** The LendScore Complete product discriminator. */
   product: CraLendScoreCompleteBundleProductProduct;
   version: string;
-  options?: CraReportGetLendScoreCompleteOptions | null;
+  options?: CraReportGetLendScoreCompleteOptions | null | undefined;
   [key: string]: unknown;
 }
 /** The Income Complete product discriminator. */
@@ -8453,15 +8489,15 @@ export type CraReportGetRequestProduct =
 /** The requested products and their versions, e.g. `[{"product":"cra_income_insights","version":"V2"}]`. */
 export type GetCraReportRequestProductsList = Array<CraReportGetRequestProduct>;
 export interface GetCraReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
   /** The requested products and their versions, e.g. `[{"product":"cra_income_insights","version":"V2"}]`. */
   products: GetCraReportRequestProductsList;
-  scope?: CraReportScope | (string & {});
+  scope?: CraReportScope | (string & {}) | undefined;
   decision_stage: CraReportDecisionStage | (string & {});
   consumer_report_permissible_purpose: unknown;
-  report_id?: unknown;
+  report_id?: unknown | undefined;
 }
 /** The Qualify product. */
 export type CraReportGetQualifyResponseProductProduct = "cra_qualify";
@@ -9008,12 +9044,12 @@ export interface CraReportGetBaseReportTransaction {
   account_owner: string | null;
   location: Location;
   /** The merchant name or transaction description. Note: This is a legacy field that is not actively maintained. Use `merchant_name` instead for the merchant name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A hierarchical array of the categories to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). */
-  category?: CraReportGetBaseReportTransactionCategoryList;
+  category?: CraReportGetBaseReportTransactionCategoryList | undefined;
   /** The ID of the category to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). */
-  category_id?: string | null;
-  personal_finance_category?: PersonalFinanceCategory | null;
+  category_id?: string | null | undefined;
+  personal_finance_category?: PersonalFinanceCategory | null | undefined;
   [key: string]: unknown;
 }
 /** The transaction history of the account. Some transactions may have their details masked in accordance with the FCRA; these have a `credit_category` of `MASKED_TRANSACTION_CATEGORY`. */
@@ -9076,21 +9112,21 @@ export interface CraReportGetBaseReportAccountAttributes {
   /** A value from 0 to 1 expressing confidence that the account is the user's primary account; higher is more confident. `null` if the score could not be computed. */
   primary_account_score: number | null;
   /** The number of net NSF fee transactions on the account in the time range of the report, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count?: number | null;
+  nsf_overdraft_transactions_count?: number | null | undefined;
   /** The number of net NSF fee transactions on the account in the last 30 days, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count_30d?: number | null;
+  nsf_overdraft_transactions_count_30d?: number | null | undefined;
   /** The number of net NSF fee transactions on the account in the last 60 days, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count_60d?: number | null;
+  nsf_overdraft_transactions_count_60d?: number | null | undefined;
   /** The number of net NSF fee transactions on the account in the last 90 days, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count_90d?: number | null;
-  total_inflow_amount?: CreditAmountWithCurrency | null;
-  total_inflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_90d?: CreditAmountWithCurrency | null;
-  total_outflow_amount?: CreditAmountWithCurrency | null;
-  total_outflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_90d?: CreditAmountWithCurrency | null;
+  nsf_overdraft_transactions_count_90d?: number | null | undefined;
+  total_inflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
   [key: string]: unknown;
 }
 /** Scores for how closely the user's identity, as provided via `/user/create` or `/user/update`, matches the account owner information reported by the financial institution. Only present if the report was created with `include_identity_match` set to `true`, and omitted for accounts that were not scored. Within each score object, `score` is `null` when either the user or the financial institution did not provide that field. */
@@ -9119,10 +9155,10 @@ export interface CraReportGetBaseReportAccount {
   /** The transaction history of the account. Some transactions may have their details masked in accordance with the FCRA; these have a `credit_category` of `MASKED_TRANSACTION_CATEGORY`. */
   transactions: CraReportGetBaseReportAccountTransactionsList;
   /** The calculated daily historical balances of the account. Omitted for `investment` accounts or when historical balances could not be computed. */
-  historical_balances?: CraReportGetBaseReportAccountHistoricalBalancesList;
-  account_insights?: CraReportGetBaseReportAccountInsights | null;
+  historical_balances?: CraReportGetBaseReportAccountHistoricalBalancesList | undefined;
+  account_insights?: CraReportGetBaseReportAccountInsights | null | undefined;
   attributes: CraReportGetBaseReportAccountAttributes | null;
-  identity_match?: CraReportGetAccountIdentityMatch | null;
+  identity_match?: CraReportGetAccountIdentityMatch | null | undefined;
   [key: string]: unknown;
 }
 /** The accounts on the Item included in the Base Report. */
@@ -9145,21 +9181,21 @@ export type CraReportGetBaseReportResponseProductItemsList = Array<CraReportGetB
 /** Attributes derived from transaction-level data, aggregated across all accounts in the Base Report. Omitted if attributes were not available. */
 export interface CraReportGetBaseReportAttributes {
   /** The number of net NSF fee transactions in the time range of the report, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count?: number | null;
+  nsf_overdraft_transactions_count?: number | null | undefined;
   /** The number of net NSF fee transactions in the last 30 days, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count_30d?: number | null;
+  nsf_overdraft_transactions_count_30d?: number | null | undefined;
   /** The number of net NSF fee transactions in the last 60 days, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count_60d?: number | null;
+  nsf_overdraft_transactions_count_60d?: number | null | undefined;
   /** The number of net NSF fee transactions in the last 90 days, not counting fees reversed within that time range. Deprecated in `V1` and not supported beginning in `V2`. */
-  nsf_overdraft_transactions_count_90d?: number | null;
-  total_inflow_amount?: CreditAmountWithCurrency | null;
-  total_inflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_inflow_amount_90d?: CreditAmountWithCurrency | null;
-  total_outflow_amount?: CreditAmountWithCurrency | null;
-  total_outflow_amount_30d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_60d?: CreditAmountWithCurrency | null;
-  total_outflow_amount_90d?: CreditAmountWithCurrency | null;
+  nsf_overdraft_transactions_count_90d?: number | null | undefined;
+  total_inflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_inflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_30d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_60d?: CreditAmountWithCurrency | null | undefined;
+  total_outflow_amount_90d?: CreditAmountWithCurrency | null | undefined;
   [key: string]: unknown;
 }
 /** Product-level errors. Non-empty when this product failed to generate; empty on success. */
@@ -9172,7 +9208,7 @@ export interface CraReportGetBaseReportResponseProduct {
   metadata: CraReportGetBaseReportMetadata | null;
   /** The Items included in the Base Report. */
   items: CraReportGetBaseReportResponseProductItemsList;
-  attributes?: CraReportGetBaseReportAttributes | null;
+  attributes?: CraReportGetBaseReportAttributes | null | undefined;
   /** Product-level errors. Non-empty when this product failed to generate; empty on success. */
   errors: CraReportGetBaseReportResponseProductErrorsList;
   [key: string]: unknown;
@@ -9332,8 +9368,8 @@ export interface CraReportGetResponse {
   [key: string]: unknown;
 }
 export interface GetCraServicingSubscriptionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   subscription_id: string;
 }
 /** The products this subscription covers, each with the options it is configured with. */
@@ -9343,9 +9379,9 @@ export interface CraServicingSubscription {
   subscription_id: string;
   user_id: string;
   scope: CraReportScope;
-  cadence?: CraSubscriptionCadence | null;
+  cadence?: CraSubscriptionCadence | null | undefined;
   /** The webhook URL Plaid sends report-update notifications to for this subscription, or null if none is set. */
-  webhook?: string | null;
+  webhook?: string | null | undefined;
   /** The products this subscription covers, each with the options it is configured with. */
   products: CraServicingSubscriptionProductsList;
   [key: string]: unknown;
@@ -9359,8 +9395,8 @@ export interface CraServicingSubscriptionGetResponse {
 export interface GetCreditAssetReportFreddieMacRequest {
   /** A token that can be shared with a third party auditor to allow them to obtain access to the Asset Report. This token should be stored securely. */
   audit_copy_token: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** A value from a MISMO prescribed list that specifies the type of loan identifier. */
 export type LoanIdentifierType = "LenderLoan" | "UniversalLoan";
@@ -9491,23 +9527,23 @@ export interface AssetDetail {
   /** Asset Account Current Balance. */
   AssetCurrentBalanceAmount: number;
   /** Total market value of holdings (non-restricted, vested, not crypto, not other, not cash) Note: Any employer stock plan balance must be excluded from the total account balance (identification is 'stock plan') */
-  AssetHoldingBalanceAmount?: number | null;
+  AssetHoldingBalanceAmount?: number | null | undefined;
   /** HoldingsBalance net MarginAmount */
-  AssetHoldingBalanceNetMarginAmount?: number | null;
+  AssetHoldingBalanceNetMarginAmount?: number | null | undefined;
   /** Total market value of all bonds held (non-restricted, vested) */
-  AssetBondsBalanceAmount?: number | null;
+  AssetBondsBalanceAmount?: number | null | undefined;
   /** Total market value of all stocks held (non-restricted, vested, not employer sponsored stock plan) */
-  AssetStocksBalanceAmount?: number | null;
+  AssetStocksBalanceAmount?: number | null | undefined;
   /** Total balance of all cryptocurrency held (non-restricted, vested) */
-  AssetCryptoBalanceAmount?: number | null;
+  AssetCryptoBalanceAmount?: number | null | undefined;
   /** Total balance of all other holding types (non-restricted, vested) */
-  AssetOtherBalanceAmount?: number | null;
+  AssetOtherBalanceAmount?: number | null | undefined;
   /** loan balance (amount owed by account owner) */
-  AssetMarginAmountBalance?: number | null;
+  AssetMarginAmountBalance?: number | null | undefined;
   /** amount available for cash withdrawal */
-  AssetAvailableCashBalanceAmount?: number | null;
+  AssetAvailableCashBalanceAmount?: number | null | undefined;
   /** cash balance of the account */
-  AssetCashBalanceAmount?: number | null;
+  AssetCashBalanceAmount?: number | null | undefined;
   AssetType: AssetType;
   /** Additional Asset Description. Some examples are Investment Tax-Deferred, Loan, 401K, 403B, Checking, Money Market, Credit Card, ROTH, 529, Biller, ROLLOVER, CD, Savings, Investment Taxable, IRA, Mortgage, Line Of Credit. */
   AssetTypeAdditionalDescription: string | null;
@@ -9516,9 +9552,9 @@ export interface AssetDetail {
   /** Ownership type of the asset account. */
   AssetOwnershipType: string | null;
   /** Whether or not the account is a retirement account (e.g., 401K, 403b, 457, thrift savings plans, traditional and Roth, IRAs, SEP-IRA, SIMPLE-IRA, KEOGH, state retirement savings plans, other independent and IRS-qualified employer retirement plans) */
-  AssetRetirementIndicator?: AssetDetailAssetRetirementIndicator | null;
+  AssetRetirementIndicator?: AssetDetailAssetRetirementIndicator | null | undefined;
   /** Whether the account is employer sponsored retirement account or not (e.g., 401K, 403b, 457, thrift savings plan) */
-  AssetEmployerSponsoredIndicator?: AssetDetailAssetEmployerSponsoredIndicator | null;
+  AssetEmployerSponsoredIndicator?: AssetDetailAssetEmployerSponsoredIndicator | null | undefined;
   [key: string]: unknown;
 }
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
@@ -9678,11 +9714,11 @@ export interface AssetTransactionDetail {
   /** Asset Transaction Post Date. */
   AssetTransactionPostDate: string;
   AssetTransactionType: AssetTransactionType;
-  AssetInvestmentTransactionType?: AssetInvestmentTransactionType | null;
+  AssetInvestmentTransactionType?: AssetInvestmentTransactionType | null | undefined;
   /** Populate with who did the transaction. */
   AssetTransactionPaidByName: string | null;
   /** Populate with for whom the transaction is done */
-  AssetTransactionPaidToName?: string | null;
+  AssetTransactionPaidToName?: string | null | undefined;
   /** FI Provided - examples are atm, cash, check, credit, debit, deposit, directDebit, directDeposit, dividend, fee, interest, other, payment, pointOfSale, repeatPayment, serviceCharge, transfer. */
   AssetTransactionTypeAdditionalDescription: string | null;
   /** Asset Investment Transaction Type Description. */
@@ -9798,8 +9834,8 @@ export interface AssetReportFreddieGetResponse {
   [key: string]: unknown;
 }
 export interface GetCreditBankEmploymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_token: string;
 }
 /** Object containing employer data. */
@@ -9912,14 +9948,14 @@ export interface CreditBankEmploymentGetResponse {
 /** An optional object for `/credit/bank_income/get` request options. */
 export interface CreditBankIncomeGetRequestOptions {
   /** How many Bank Income Reports should be fetched. Multiple reports may be available if the report has been re-created or refreshed. If more than one report is available, the most recent reports will be returned first. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface GetCreditBankIncomeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
-  options?: CreditBankIncomeGetRequestOptions;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
+  options?: CreditBankIncomeGetRequestOptions | undefined;
 }
 /** The Item's accounts that have Bank Income data. */
 export type CreditBankIncomeItemBankIncomeAccountsList = Array<CreditBankIncomeAccount>;
@@ -9928,78 +9964,78 @@ export type CreditBankIncomeHistoricalSummaryTotalAmountsList = Array<CreditAmou
 /** The transactions data for the end user's income source(s). */
 export interface CreditBankIncomeTransaction {
   /** The settled value of the transaction, denominated in the transaction's currency as stated in `iso_currency_code` or `unofficial_currency_code`. Positive values when money moves out of the account; negative values when money moves in. For example, credit card purchases are positive; credit card payment, direct deposits, and refunds are negative. */
-  amount?: number;
+  amount?: number | undefined;
   /** For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an ISO 8601 format (YYYY-MM-DD). */
-  date?: string;
+  date?: string | undefined;
   /** The merchant name or transaction description. */
-  name?: string;
+  name?: string | undefined;
   /** The string returned by the financial institution to describe the transaction. */
-  original_description?: string | null;
+  original_description?: string | null | undefined;
   /** When true, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled. */
-  pending?: boolean;
+  pending?: boolean | undefined;
   /** The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive. */
-  transaction_id?: string;
+  transaction_id?: string | undefined;
   /** The check number of the transaction. This field is only populated for check transactions. */
-  check_number?: string | null;
-  iso_currency_code?: string | null;
-  unofficial_currency_code?: string | null;
+  check_number?: string | null | undefined;
+  iso_currency_code?: string | null | undefined;
+  unofficial_currency_code?: string | null | undefined;
   [key: string]: unknown;
 }
 export type CreditBankIncomeHistoricalSummaryTransactionsList = Array<CreditBankIncomeTransaction>;
 /** The end user's monthly summary for the income source(s). */
 export interface CreditBankIncomeHistoricalSummary {
   /** Total amount of earnings for the income source(s) of the user for the month in the summary. This may return an incorrect value if the summary includes income sources in multiple currencies. Please use [`total_amounts`](https://plaid.com/docs/api/products/income/#credit-bank_income-get-response-bank-income-items-bank-income-sources-historical-summary-total-amounts) instead. */
-  total_amount?: number;
+  total_amount?: number | undefined;
   /** The ISO 4217 currency code of the amount or balance. Please use [`total_amounts`](https://plaid.com/docs/api/products/income/#credit-bank_income-get-response-bank-income-items-bank-income-sources-historical-summary-total-amounts) instead. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. Please use [`total_amounts`](https://plaid.com/docs/api/products/income/#credit-bank_income-get-response-bank-income-items-bank-income-sources-historical-summary-total-amounts) instead. */
-  unofficial_currency_code?: string | null;
+  unofficial_currency_code?: string | null | undefined;
   /** Total amount of earnings for the income source(s) of the user for the month in the summary. This can contain multiple amounts, with each amount denominated in one unique currency. */
-  total_amounts?: CreditBankIncomeHistoricalSummaryTotalAmountsList;
+  total_amounts?: CreditBankIncomeHistoricalSummaryTotalAmountsList | undefined;
   /** The start date of the period covered in this monthly summary. This date will be the first day of the month, unless the month being covered is a partial month because it is the first month included in the summary and the date range being requested does not begin with the first day of the month. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The end date of the period included in this monthly summary. This date will be the last day of the month, unless the month being covered is a partial month because it is the last month included in the summary and the date range being requested does not end with the last day of the month. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  end_date?: string;
-  transactions?: CreditBankIncomeHistoricalSummaryTransactionsList;
+  end_date?: string | undefined;
+  transactions?: CreditBankIncomeHistoricalSummaryTransactionsList | undefined;
   [key: string]: unknown;
 }
 export type CreditBankIncomeSourceHistoricalSummaryList = Array<CreditBankIncomeHistoricalSummary>;
 /** Detailed information for the income source. */
 export interface CreditBankIncomeSource {
   /** A unique identifier for an income source. */
-  income_source_id?: string;
+  income_source_id?: string | undefined;
   /** The most common name or original description for the underlying income transactions. */
-  income_description?: string;
-  income_category?: CreditBankIncomeCategory;
+  income_description?: string | undefined;
+  income_category?: CreditBankIncomeCategory | undefined;
   /** Plaid's unique identifier for the account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Minimum of all dates within the specific income sources in the user's bank account for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Maximum of all dates within the specific income sources in the user's bank account for days requested by the client. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  end_date?: string;
-  pay_frequency?: CreditBankIncomePayFrequency;
+  end_date?: string | undefined;
+  pay_frequency?: CreditBankIncomePayFrequency | undefined;
   /** Total amount of earnings in the user's bank account for the specific income source for days requested by the client. */
-  total_amount?: number;
+  total_amount?: number | undefined;
   /** Number of transactions for the income source within the start and end date. */
-  transaction_count?: number;
-  historical_summary?: CreditBankIncomeSourceHistoricalSummaryList;
+  transaction_count?: number | undefined;
+  historical_summary?: CreditBankIncomeSourceHistoricalSummaryList | undefined;
 }
 /** The income sources for this Item. Each entry in the array is a single income source. */
 export type CreditBankIncomeItemBankIncomeSourcesList = Array<CreditBankIncomeSource>;
 /** The details and metadata for an end user's Item. */
 export interface CreditBankIncomeItem {
   /** The Item's accounts that have Bank Income data. */
-  bank_income_accounts?: CreditBankIncomeItemBankIncomeAccountsList;
+  bank_income_accounts?: CreditBankIncomeItemBankIncomeAccountsList | undefined;
   /** The income sources for this Item. Each entry in the array is a single income source. */
-  bank_income_sources?: CreditBankIncomeItemBankIncomeSourcesList;
+  bank_income_sources?: CreditBankIncomeItemBankIncomeSourcesList | undefined;
   /** The time when this Item's data was last retrieved from the financial institution. */
-  last_updated_time?: string;
+  last_updated_time?: string | undefined;
   /** The unique identifier of the institution associated with the Item. */
-  institution_id?: string;
+  institution_id?: string | undefined;
   /** The name of the institution associated with the Item. */
-  institution_name?: string;
+  institution_name?: string | undefined;
   /** The unique identifier for the Item. */
-  item_id?: string;
+  item_id?: string | undefined;
 }
 /** The list of Items in the report along with the associated metadata about the Item. */
 export type CreditBankIncomeItemsList = Array<CreditBankIncomeItem>;
@@ -10009,60 +10045,60 @@ export type CreditBankIncomeSummaryHistoricalSummaryList = Array<CreditBankIncom
 /** Summary for bank income across all income sources and items (max history of 730 days). */
 export interface CreditBankIncomeSummary {
   /** Total amount of earnings across all the income sources in the end user's Items for the days requested by the client. This may return an incorrect value if the summary includes income sources in multiple currencies. Please use [`total_amounts`](https://plaid.com/docs/api/products/income/#credit-bank_income-get-response-bank-income-bank-income-summary-total-amounts) instead. */
-  total_amount?: number;
+  total_amount?: number | undefined;
   /** The ISO 4217 currency code of the amount or balance. Please use [`total_amounts`](https://plaid.com/docs/api/products/income/#credit-bank_income-get-response-bank-income-bank-income-summary-total-amounts) instead. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code associated with the amount or balance. Always `null` if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. Please use [`total_amounts`](https://plaid.com/docs/api/products/income/#credit-bank_income-get-response-bank-income-bank-income-summary-total-amounts) instead. */
-  unofficial_currency_code?: string | null;
+  unofficial_currency_code?: string | null | undefined;
   /** Total amount of earnings across all the income sources in the end user's Items for the days requested by the client. This can contain multiple amounts, with each amount denominated in one unique currency. */
-  total_amounts?: CreditBankIncomeSummaryTotalAmountsList;
+  total_amounts?: CreditBankIncomeSummaryTotalAmountsList | undefined;
   /** The earliest date within the days requested in which all income sources identified by Plaid appear in a user's account. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The latest date in which all income sources identified by Plaid appear in the user's account. The date will be returned in an ISO 8601 format (YYYY-MM-DD). */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Number of income sources per end user. */
-  income_sources_count?: number;
+  income_sources_count?: number | undefined;
   /** Number of income categories per end user. */
-  income_categories_count?: number;
+  income_categories_count?: number | undefined;
   /** Number of income transactions per end user. */
-  income_transactions_count?: number;
-  historical_summary?: CreditBankIncomeSummaryHistoricalSummaryList;
+  income_transactions_count?: number | undefined;
+  historical_summary?: CreditBankIncomeSummaryHistoricalSummaryList | undefined;
   [key: string]: unknown;
 }
 /** The warning associated with the data that was unavailable for the Bank Income Report. */
 export interface CreditBankIncomeWarning {
-  warning_type?: CreditBankIncomeWarningType;
-  warning_code?: CreditBankIncomeWarningCode;
-  cause?: CreditBankIncomeCause;
+  warning_type?: CreditBankIncomeWarningType | undefined;
+  warning_code?: CreditBankIncomeWarningCode | undefined;
+  cause?: CreditBankIncomeCause | undefined;
 }
 /** If data from the report was unable to be retrieved, the warnings will contain information about the error that caused the data to be incomplete. */
 export type CreditBankIncomeWarningsList = Array<CreditBankIncomeWarning>;
 /** The report of the Bank Income data for an end user. */
 export interface CreditBankIncome {
   /** The unique identifier associated with the Bank Income Report. */
-  bank_income_id?: string;
+  bank_income_id?: string | undefined;
   /** The time when the report was generated. */
-  generated_time?: string;
+  generated_time?: string | undefined;
   /** The number of days requested by the customer for the report. */
-  days_requested?: number;
+  days_requested?: number | undefined;
   /** The list of Items in the report along with the associated metadata about the Item. */
-  items?: CreditBankIncomeItemsList;
-  bank_income_summary?: CreditBankIncomeSummary;
+  items?: CreditBankIncomeItemsList | undefined;
+  bank_income_summary?: CreditBankIncomeSummary | undefined;
   /** If data from the report was unable to be retrieved, the warnings will contain information about the error that caused the data to be incomplete. */
-  warnings?: CreditBankIncomeWarningsList;
+  warnings?: CreditBankIncomeWarningsList | undefined;
 }
 export type CreditBankIncomeGetResponseBankIncomeList = Array<CreditBankIncome>;
 /** CreditBankIncomeGetResponse defines the response schema for `/credit/bank_income/get` */
 export interface CreditBankIncomeGetResponse {
-  bank_income?: CreditBankIncomeGetResponseBankIncomeList;
+  bank_income?: CreditBankIncomeGetResponseBankIncomeList | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetCreditBankIncomePdfRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
 }
 export interface GetCreditBankIncomePdfResponse {}
 /** An array of `item_id`s whose bank statements information is returned. Each `item_id` should uniquely identify a bank statements uploaded item. If this field is not provided, all `item_id`s associated with the user will be returned in the response. */
@@ -10070,14 +10106,14 @@ export type CreditBankStatementsUploadsGetRequestOptionsItemIdsList = Array<stri
 /** An optional object for `/credit/bank_statements/uploads/get` request options. */
 export interface CreditBankStatementsUploadsGetRequestOptions {
   /** An array of `item_id`s whose bank statements information is returned. Each `item_id` should uniquely identify a bank statements uploaded item. If this field is not provided, all `item_id`s associated with the user will be returned in the response. */
-  item_ids?: CreditBankStatementsUploadsGetRequestOptionsItemIdsList;
+  item_ids?: CreditBankStatementsUploadsGetRequestOptionsItemIdsList | undefined;
 }
 export interface GetCreditBankStatementsUploadRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
-  options?: CreditBankStatementsUploadsGetRequestOptions;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
+  options?: CreditBankStatementsUploadsGetRequestOptions | undefined;
 }
 /** An object containing data about a transaction appearing on a user-uploaded bank statement. */
 export interface CreditBankStatementUploadTransaction {
@@ -10103,9 +10139,9 @@ export interface CreditDocumentMetadata {
   /** The processing status of the document. `PROCESSING_COMPLETE`: The document was successfully processed. `DOCUMENT_ERROR`: The document could not be processed. Possible causes include: The document was an unacceptable document type such as an offer letter or bank statement, the document image was cropped or blurry, or the document was corrupted. `UNKNOWN` or `null`: An internal error occurred. If this happens repeatedly, contact support or your Plaid account manager. */
   status: string | null;
   /** The number of pages of the uploaded document (if available). */
-  page_count?: number | null;
+  page_count?: number | null | undefined;
   /** The reason why a failure occurred during document processing (if available). */
-  error_message?: string | null;
+  error_message?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Address on the uploaded bank statement */
@@ -10179,7 +10215,7 @@ export type CreditBankStatementUploadItemBankStatementsList =
 /** Details about the status of the payroll item. */
 export interface PayrollItemStatus {
   /** Denotes the processing status for the verification. `UNKNOWN`: The processing status could not be determined. `PROCESSING_COMPLETE`: The processing has completed and the user has approved for sharing. The data is available to be retrieved. `PROCESSING`: The verification is still processing. The data is not available yet. `FAILED`: The processing failed to complete successfully. `APPROVAL_STATUS_PENDING`: The processing has completed but the user has not yet approved the sharing of the data. */
-  processing_status?: string | null;
+  processing_status?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An object containing information about the bank statement upload Item. */
@@ -10200,10 +10236,10 @@ export interface CreditBankStatementsUploadsGetResponse {
   [key: string]: unknown;
 }
 export interface GetCreditEmploymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
 }
 /** An object containing employer data. */
 export interface CreditEmployerVerification {
@@ -10245,7 +10281,7 @@ export interface CreditEmploymentItem {
   item_id: string;
   employments: CreditEmploymentItemEmploymentsList;
   /** Token to represent the underlying Employment data */
-  employment_report_token?: string;
+  employment_report_token?: string | undefined;
   [key: string]: unknown;
 }
 /** Array of employment items. */
@@ -10260,8 +10296,8 @@ export interface CreditEmploymentGetResponse {
 export interface GetCreditFreddieMacReportRequest {
   /** A token that can be shared with a third party auditor to allow them to obtain access to the Asset Report. This token should be stored securely. */
   audit_copy_token: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreditFreddieMacLoanIdentifiersLOANIDENTIFIERList = Array<LoanIdentifier>;
 /** Collection of current and previous identifiers for this loan. */
@@ -10312,11 +10348,11 @@ export interface CreditFreddieMacParties {
 /** Information about a report identifier and a report name. */
 export interface CreditFreddieMacReportingInformation {
   /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
-  ReportDateTime?: string;
+  ReportDateTime?: string | undefined;
   /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. The value can only be "ReportID". */
-  ReportIdentifierType?: string;
+  ReportIdentifierType?: string | undefined;
   /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
-  ReportingInformationParentIdentifier?: string;
+  ReportingInformationParentIdentifier?: string | undefined;
   /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
   ReportingInformationIdentifier: string;
   [key: string]: unknown;
@@ -10383,7 +10419,7 @@ export interface CreditFreddieMacAsset {
   ASSET_DETAIL: AssetDetail;
   ASSET_OWNERS: AssetOwners;
   ASSET_HOLDER: AssetHolder;
-  ASSET_HOLDINGS?: AssetHoldings;
+  ASSET_HOLDINGS?: AssetHoldings | undefined;
   ASSET_TRANSACTIONS: CreditFreddieMacAssetTransactions;
   VALIDATION_SOURCES: ValidationSources;
   [key: string]: unknown;
@@ -10441,21 +10477,21 @@ export type CreditPayrollIncomeGetRequestOptionsItemIdsList = Array<string>;
 /** An optional object for `/credit/payroll_income/get` request options. */
 export interface CreditPayrollIncomeGetRequestOptions {
   /** An array of `item_id`s whose payroll information is returned. Each `item_id` should uniquely identify a payroll income item. If this field is not provided, all `item_id`s associated with the user will be returned in the response. */
-  item_ids?: CreditPayrollIncomeGetRequestOptionsItemIdsList;
+  item_ids?: CreditPayrollIncomeGetRequestOptionsItemIdsList | undefined;
 }
 export interface GetCreditPayrollIncomeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
-  options?: CreditPayrollIncomeGetRequestOptions;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
+  options?: CreditPayrollIncomeGetRequestOptions | undefined;
 }
 /** An object representing the rate at which an individual is paid. */
 export interface PayrollIncomeRateOfPay {
   /** The rate at which an employee is paid. */
-  pay_rate?: string | null;
+  pay_rate?: string | null | undefined;
   /** The amount at which an employee is paid. */
-  pay_amount?: number | null;
+  pay_amount?: number | null | undefined;
   [key: string]: unknown;
 }
 /** An object containing account level data. */
@@ -10618,7 +10654,7 @@ export interface PayStubPayPeriodDetails {
   pay_date: string | null;
   /** The frequency at which an individual is paid. */
   pay_frequency: string | null;
-  pay_basis?: CreditPayStubPayBasisType;
+  pay_basis?: CreditPayStubPayBasisType | undefined;
   /** The date on which the pay period started, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ("yyyy-mm-dd"). */
   start_date: string | null;
   /** The unofficial currency code associated with the net pay. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
@@ -10643,28 +10679,28 @@ export type PayrollIncomeObjectPayStubsList = Array<CreditPayStub>;
 /** Data on the W2 Box 12 */
 export interface W2Box12 {
   /** W2 Box 12 code. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** W2 Box 12 amount. */
-  amount?: string | null;
+  amount?: string | null | undefined;
   [key: string]: unknown;
 }
 export type CreditW2Box12List = Array<W2Box12>;
 /** W2 state and local wages */
 export interface W2StateAndLocalWages {
   /** State associated with the wage. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** State identification number of the employer. */
-  employer_state_id_number?: string | null;
+  employer_state_id_number?: string | null | undefined;
   /** Wages and tips from the specified state. */
-  state_wages_tips?: string | null;
+  state_wages_tips?: string | null | undefined;
   /** Income tax from the specified state. */
-  state_income_tax?: string | null;
+  state_income_tax?: string | null | undefined;
   /** Wages and tips from the locality. */
-  local_wages_tips?: string | null;
+  local_wages_tips?: string | null | undefined;
   /** Income tax from the locality. */
-  local_income_tax?: string | null;
+  local_income_tax?: string | null | undefined;
   /** Name of the locality. */
-  locality_name?: string | null;
+  locality_name?: string | null | undefined;
   [key: string]: unknown;
 }
 export type CreditW2StateAndLocalWagesList = Array<W2StateAndLocalWages>;
@@ -10719,142 +10755,142 @@ export type PayrollIncomeObjectW2sList = Array<CreditW2>;
 export type Form1099Type = "FORM_1099_TYPE_UNKNOWN" | "FORM_1099_TYPE_MISC" | "FORM_1099_TYPE_K";
 /** An object representing a recipient used in both 1099-K and 1099-MISC tax documents. */
 export interface Credit1099Recipient {
-  address?: CreditBankStatementUploadAccountOwnerAddress;
+  address?: CreditBankStatementUploadAccountOwnerAddress | undefined;
   /** Name of recipient. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Tax identification number of recipient. */
-  tin?: string | null;
+  tin?: string | null | undefined;
   /** Account number of recipient. */
-  account_number?: string | null;
+  account_number?: string | null | undefined;
   /** Checked if FATCA is a filing requirement. */
-  facta_filing_requirement?: string | null;
+  facta_filing_requirement?: string | null | undefined;
   /** Checked if 2nd TIN exists. */
-  second_tin_exists?: string | null;
+  second_tin_exists?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An object representing a payer used by 1099-MISC tax documents. */
 export interface Credit1099Payer {
-  address?: CreditBankStatementUploadAccountOwnerAddress;
+  address?: CreditBankStatementUploadAccountOwnerAddress | undefined;
   /** Name of payer. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Tax identification number of payer. */
-  tin?: string | null;
+  tin?: string | null | undefined;
   /** Telephone number of payer. */
-  telephone_number?: string | null;
+  telephone_number?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An object representing a filer used by 1099-K tax documents. */
 export interface Credit1099Filer {
-  address?: CreditBankStatementUploadAccountOwnerAddress;
+  address?: CreditBankStatementUploadAccountOwnerAddress | undefined;
   /** Name of filer. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Tax identification number of filer. */
-  tin?: string | null;
+  tin?: string | null | undefined;
   /** One of the following values will be provided: Payment Settlement Entity (PSE), Electronic Payment Facilitator (EPF), Other Third Party */
-  type?: string | null;
+  type?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An object representing an end user's 1099 tax form */
 export interface Credit1099 {
   /** An identifier of the document referenced by the document metadata. */
   document_id: string | null;
-  document_metadata?: CreditDocumentMetadata;
-  form_1099_type?: Form1099Type;
-  recipient?: Credit1099Recipient;
-  payer?: Credit1099Payer;
-  filer?: Credit1099Filer;
+  document_metadata?: CreditDocumentMetadata | undefined;
+  form_1099_type?: Form1099Type | undefined;
+  recipient?: Credit1099Recipient | undefined;
+  payer?: Credit1099Payer | undefined;
+  filer?: Credit1099Filer | undefined;
   /** Tax year of the tax form. */
-  tax_year?: string | null;
+  tax_year?: string | null | undefined;
   /** Amount in rent by payer. */
-  rents?: number | null;
+  rents?: number | null | undefined;
   /** Amount in royalties by payer. */
-  royalties?: number | null;
+  royalties?: number | null | undefined;
   /** Amount in other income by payer. */
-  other_income?: number | null;
+  other_income?: number | null | undefined;
   /** Amount of federal income tax withheld from payer. */
-  federal_income_tax_withheld?: number | null;
+  federal_income_tax_withheld?: number | null | undefined;
   /** Amount of fishing boat proceeds from payer. */
-  fishing_boat_proceeds?: number | null;
+  fishing_boat_proceeds?: number | null | undefined;
   /** Amount of medical and healthcare payments from payer. */
-  medical_and_healthcare_payments?: number | null;
+  medical_and_healthcare_payments?: number | null | undefined;
   /** Amount of nonemployee compensation from payer. */
-  nonemployee_compensation?: number | null;
+  nonemployee_compensation?: number | null | undefined;
   /** Amount of substitute payments made by payer. */
-  substitute_payments_in_lieu_of_dividends_or_interest?: number | null;
+  substitute_payments_in_lieu_of_dividends_or_interest?: number | null | undefined;
   /** Whether or not payer made direct sales over $5000 of consumer products. */
-  payer_made_direct_sales_of_5000_or_more_of_consumer_products_to_buyer?: string | null;
+  payer_made_direct_sales_of_5000_or_more_of_consumer_products_to_buyer?: string | null | undefined;
   /** Amount of crop insurance proceeds. */
-  crop_insurance_proceeds?: number | null;
+  crop_insurance_proceeds?: number | null | undefined;
   /** Amount of golden parachute payments made by payer. */
-  excess_golden_parachute_payments?: number | null;
+  excess_golden_parachute_payments?: number | null | undefined;
   /** Amount of gross proceeds paid to an attorney by payer. */
-  gross_proceeds_paid_to_an_attorney?: number | null;
+  gross_proceeds_paid_to_an_attorney?: number | null | undefined;
   /** Amount of 409A deferrals earned by payer. */
-  section_409a_deferrals?: number | null;
+  section_409a_deferrals?: number | null | undefined;
   /** Amount of 409A income earned by payer. */
-  section_409a_income?: number | null;
+  section_409a_income?: number | null | undefined;
   /** Amount of state tax withheld of payer for primary state. */
-  state_tax_withheld?: number | null;
+  state_tax_withheld?: number | null | undefined;
   /** Amount of state tax withheld of payer for secondary state. */
-  state_tax_withheld_lower?: number | null;
+  state_tax_withheld_lower?: number | null | undefined;
   /** Primary state ID. */
-  payer_state_number?: string | null;
+  payer_state_number?: string | null | undefined;
   /** Secondary state ID. */
-  payer_state_number_lower?: string | null;
+  payer_state_number_lower?: string | null | undefined;
   /** State income reported for primary state. */
-  state_income?: number | null;
+  state_income?: number | null | undefined;
   /** State income reported for secondary state. */
-  state_income_lower?: number | null;
+  state_income_lower?: number | null | undefined;
   /** One of the values will be provided Payment card Third party network */
-  transactions_reported?: string | null;
+  transactions_reported?: string | null | undefined;
   /** Name of the PSE (Payment Settlement Entity). */
-  pse_name?: string | null;
+  pse_name?: string | null | undefined;
   /** Formatted (XXX) XXX-XXXX. Phone number of the PSE (Payment Settlement Entity). */
-  pse_telephone_number?: string | null;
+  pse_telephone_number?: string | null | undefined;
   /** Gross amount reported. */
-  gross_amount?: number | null;
+  gross_amount?: number | null | undefined;
   /** Amount in card not present transactions. */
-  card_not_present_transaction?: number | null;
+  card_not_present_transaction?: number | null | undefined;
   /** Merchant category of filer. */
-  merchant_category_code?: string | null;
+  merchant_category_code?: string | null | undefined;
   /** Number of payment transactions made. */
-  number_of_payment_transactions?: string | null;
+  number_of_payment_transactions?: string | null | undefined;
   /** Amount reported for January. */
-  january_amount?: number | null;
+  january_amount?: number | null | undefined;
   /** Amount reported for February. */
-  february_amount?: number | null;
+  february_amount?: number | null | undefined;
   /** Amount reported for March. */
-  march_amount?: number | null;
+  march_amount?: number | null | undefined;
   /** Amount reported for April. */
-  april_amount?: number | null;
+  april_amount?: number | null | undefined;
   /** Amount reported for May. */
-  may_amount?: number | null;
+  may_amount?: number | null | undefined;
   /** Amount reported for June. */
-  june_amount?: number | null;
+  june_amount?: number | null | undefined;
   /** Amount reported for July. */
-  july_amount?: number | null;
+  july_amount?: number | null | undefined;
   /** Amount reported for August. */
-  august_amount?: number | null;
+  august_amount?: number | null | undefined;
   /** Amount reported for September. */
-  september_amount?: number | null;
+  september_amount?: number | null | undefined;
   /** Amount reported for October. */
-  october_amount?: number | null;
+  october_amount?: number | null | undefined;
   /** Amount reported for November. */
-  november_amount?: number | null;
+  november_amount?: number | null | undefined;
   /** Amount reported for December. */
-  december_amount?: number | null;
+  december_amount?: number | null | undefined;
   /** Primary state of business. */
-  primary_state?: string | null;
+  primary_state?: string | null | undefined;
   /** Secondary state of business. */
-  secondary_state?: string | null;
+  secondary_state?: string | null | undefined;
   /** Primary state ID. */
-  primary_state_id?: string | null;
+  primary_state_id?: string | null | undefined;
   /** Secondary state ID. */
-  secondary_state_id?: string | null;
+  secondary_state_id?: string | null | undefined;
   /** State income tax reported for primary state. */
-  primary_state_income_tax?: number | null;
+  primary_state_income_tax?: number | null | undefined;
   /** State income tax reported for secondary state. */
-  secondary_state_income_tax?: number | null;
+  secondary_state_income_tax?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Array of tax form 1099s. */
@@ -10862,45 +10898,45 @@ export type PayrollIncomeObjectForm1099sList = Array<Credit1099>;
 /** An object representing the student named on a Form I-20. */
 export interface CreditI20Student {
   /** Given name of the student. */
-  given_name?: string | null;
+  given_name?: string | null | undefined;
   /** Surname or primary name of the student. */
-  surname_primary_name?: string | null;
+  surname_primary_name?: string | null | undefined;
   /** Name of the student as it appears on their passport. */
-  passport_name?: string | null;
+  passport_name?: string | null | undefined;
   /** Preferred name of the student. */
-  preferred_name?: string | null;
+  preferred_name?: string | null | undefined;
   /** Name of the school issuing the Form I-20. */
-  school_name?: string | null;
+  school_name?: string | null | undefined;
   /** Start date of the program in ISO 8601 format (YYYY-MM-DD). */
-  program_start_date?: string | null;
+  program_start_date?: string | null | undefined;
   /** End date of the program in ISO 8601 format (YYYY-MM-DD). */
-  program_end_date?: string | null;
+  program_end_date?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An object representing an end user's Form I-20 US immigration student document. */
 export interface CreditI20 {
   /** An identifier of the document referenced by the document metadata. */
-  document_id?: string | null;
-  document_metadata?: CreditDocumentMetadata;
-  student?: CreditI20Student;
+  document_id?: string | null | undefined;
+  document_metadata?: CreditDocumentMetadata | undefined;
+  student?: CreditI20Student | undefined;
   /** Amount of the student's personal funds. */
-  personal_funds?: number | null;
+  personal_funds?: number | null | undefined;
   /** Amount of funds from on-campus employment. */
-  on_campus_employment?: number | null;
+  on_campus_employment?: number | null | undefined;
   /** Amount of funds provided by the issuing school. */
-  funds_from_this_school?: number | null;
+  funds_from_this_school?: number | null | undefined;
   /** Total amount of funds available to the student. */
-  students_funding_total?: number | null;
+  students_funding_total?: number | null | undefined;
   /** Amount of funds from another source. */
-  funds_from_another_source?: number | null;
+  funds_from_another_source?: number | null | undefined;
   /** Estimated total average costs for the program period. */
-  estimated_average_costs_total?: number | null;
+  estimated_average_costs_total?: number | null | undefined;
   /** Estimated average living expenses. */
-  estimated_average_living_expenses?: number | null;
+  estimated_average_living_expenses?: number | null | undefined;
   /** Number of months the student's funding covers. */
-  students_funding_period_months?: number | null;
+  students_funding_period_months?: number | null | undefined;
   /** Number of months the estimated average costs cover. */
-  estimated_average_costs_period_months?: number | null;
+  estimated_average_costs_period_months?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Array of Form I-20 US immigration student documents. */
@@ -10939,15 +10975,15 @@ export type CreditPayrollIncomeGetResponseItemsList = Array<PayrollItem>;
 export interface CreditPayrollIncomeGetResponse {
   /** Array of payroll items. */
   items: CreditPayrollIncomeGetResponseItemsList;
-  error?: PlaidError | null;
+  error?: PlaidError | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetCreditPayrollIncomeRiskSignalRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
 }
 /** Status of a document for risk signal analysis */
 export type RiskSignalDocumentStatus =
@@ -10983,12 +11019,12 @@ export type RiskSignalFileType =
 /** Object containing metadata for the document */
 export interface RiskSignalDocumentReference {
   /** An identifier of the document referenced by the document metadata. */
-  document_id?: string | null;
+  document_id?: string | null | undefined;
   /** The name of the document */
-  document_name?: string;
-  status?: RiskSignalDocumentStatus;
-  document_type?: RiskSignalDocumentType | null;
-  file_type?: RiskSignalFileType | null;
+  document_name?: string | undefined;
+  status?: RiskSignalDocumentStatus | undefined;
+  document_type?: RiskSignalDocumentType | null | undefined;
+  file_type?: RiskSignalFileType | null | undefined;
   [key: string]: unknown;
 }
 /** An object which contains additional metadata about the institution used to compute the verification attribute */
@@ -11073,43 +11109,43 @@ export type CreditPayrollIncomeRiskSignalsGetResponseItemsList = Array<PayrollRi
 export interface CreditPayrollIncomeRiskSignalsGetResponse {
   /** Array of payroll items. */
   items: CreditPayrollIncomeRiskSignalsGetResponseItemsList;
-  error?: PlaidError | null;
+  error?: PlaidError | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 /** The report type. It can be `asset`. Income report types are not yet supported. */
 export type ReportType = "asset";
 export interface GetCreditRelayRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` granting access to the report you would like to get. */
   relay_token: string;
   report_type: ReportType | (string & {});
   /** `true` if you would like to retrieve the Asset Report with Insights, `false` otherwise. This field defaults to `false` if omitted. */
-  include_insights?: boolean;
+  include_insights?: boolean | undefined;
 }
 export interface GetCreditRelayPdfRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` granting access to the report you would like to get. */
   relay_token: string;
   report_type: ReportType | (string & {});
 }
 export interface GetCreditRelayPdfResponse {}
 export interface GetCreditSessionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
 }
 /** The details of an Item add in Link. */
 export interface CreditSessionItemAddResult {
   /** Returned once a user has successfully linked their Item. */
-  public_token?: string;
+  public_token?: string | undefined;
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** The Plaid Institution ID associated with the Item. */
-  institution_id?: string;
+  institution_id?: string | undefined;
 }
 /** The set of Item adds for the Link session. */
 export type CreditSessionResultsItemAddResultsList = Array<CreditSessionItemAddResult>;
@@ -11122,11 +11158,11 @@ export type CreditSessionBankIncomeStatus =
   | "INTERNAL_ERROR";
 /** The details of a bank income verification in Link */
 export interface CreditSessionBankIncomeResult {
-  status?: CreditSessionBankIncomeStatus;
+  status?: CreditSessionBankIncomeStatus | undefined;
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** The Plaid Institution ID associated with the Item. */
-  institution_id?: string;
+  institution_id?: string | undefined;
 }
 /** The set of bank income verifications for the Link session. */
 export type CreditSessionResultsBankIncomeResultsList = Array<CreditSessionBankIncomeResult>;
@@ -11139,11 +11175,11 @@ export type CreditSessionBankEmploymentStatus =
   | "INTERNAL_ERROR";
 /** The details of a bank employment verification in Link. */
 export interface CreditSessionBankEmploymentResult {
-  status?: CreditSessionBankEmploymentStatus;
+  status?: CreditSessionBankEmploymentStatus | undefined;
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** The Plaid Institution ID associated with the Item. */
-  institution_id?: string;
+  institution_id?: string | undefined;
 }
 /** The set of bank employment verifications for the Link session. */
 export type CreditSessionResultsBankEmploymentResultsList =
@@ -11151,13 +11187,13 @@ export type CreditSessionResultsBankEmploymentResultsList =
 /** The details of a digital payroll income verification in Link */
 export interface CreditSessionPayrollIncomeResult {
   /** The number of paystubs retrieved from a payroll provider. */
-  num_paystubs_retrieved?: number;
+  num_paystubs_retrieved?: number | undefined;
   /** The number of w2s retrieved from a payroll provider. */
-  num_w2s_retrieved?: number;
+  num_w2s_retrieved?: number | undefined;
   /** The Plaid Institution ID associated with the Item. */
-  institution_id?: string;
+  institution_id?: string | undefined;
   /** The Institution Name associated with the Item. */
-  institution_name?: string;
+  institution_name?: string | undefined;
 }
 /** The set of payroll income verifications for the Link session. */
 export type CreditSessionResultsPayrollIncomeResultsList = Array<CreditSessionPayrollIncomeResult>;
@@ -11177,51 +11213,51 @@ export interface CreditSessionDocumentIncomeResult {
 /** The set of results for a Link session. */
 export interface CreditSessionResults {
   /** The set of Item adds for the Link session. */
-  item_add_results?: CreditSessionResultsItemAddResultsList;
+  item_add_results?: CreditSessionResultsItemAddResultsList | undefined;
   /** The set of bank income verifications for the Link session. */
-  bank_income_results?: CreditSessionResultsBankIncomeResultsList;
+  bank_income_results?: CreditSessionResultsBankIncomeResultsList | undefined;
   /** The set of bank employment verifications for the Link session. */
-  bank_employment_results?: CreditSessionResultsBankEmploymentResultsList;
+  bank_employment_results?: CreditSessionResultsBankEmploymentResultsList | undefined;
   /** The set of payroll income verifications for the Link session. */
-  payroll_income_results?: CreditSessionResultsPayrollIncomeResultsList;
-  document_income_results?: CreditSessionDocumentIncomeResult | null;
+  payroll_income_results?: CreditSessionResultsPayrollIncomeResultsList | undefined;
+  document_income_results?: CreditSessionDocumentIncomeResult | null | undefined;
 }
 /** The details of a Link error. */
 export interface CreditSessionError {
   /** A broad categorization of the error. */
-  error_type?: string;
+  error_type?: string | undefined;
   /** The particular error code. */
-  error_code?: string;
+  error_code?: string | undefined;
   /** A developer-friendly representation of the error code. */
-  error_message?: string;
+  error_message?: string | undefined;
   /** A user-friendly representation of the error code. `null` if the error is not related to user action. */
-  display_message?: string | null;
+  display_message?: string | null | undefined;
 }
 /** The set of errors that occurred during the Link session. */
 export type CreditSessionErrorsList = Array<CreditSessionError>;
 /** Metadata and results for a Link session */
 export interface CreditSession {
   /** The unique identifier associated with the Link session. This identifier matches the `link_session_id` returned in the onSuccess/onExit callbacks. */
-  link_session_id?: string;
+  link_session_id?: string | undefined;
   /** The time when the Link session started */
-  session_start_time?: string;
-  results?: CreditSessionResults;
+  session_start_time?: string | undefined;
+  results?: CreditSessionResults | undefined;
   /** The set of errors that occurred during the Link session. */
-  errors?: CreditSessionErrorsList;
+  errors?: CreditSessionErrorsList | undefined;
 }
 /** A list of Link sessions for the user. Sessions will be sorted in reverse chronological order. */
 export type CreditSessionsGetResponseSessionsList = Array<CreditSession>;
 /** CreditSessionsGetResponse defines the response schema for `/credit/sessions/get` */
 export interface CreditSessionsGetResponse {
   /** A list of Link sessions for the user. Sessions will be sorted in reverse chronological order. */
-  sessions?: CreditSessionsGetResponseSessionsList;
+  sessions?: CreditSessionsGetResponseSessionsList | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetDashboardUserRequest {
   dashboard_user_id: string;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
 }
 /** The current status of the user. */
 export type DashboardUserStatus = "invited" | "active" | "deactivated";
@@ -11285,11 +11321,11 @@ export interface FDXConsentGrant {
   /** When the consent grant was last updated */
   updatedTime: string;
   /** When the consent grant will expire. Omitted when the grant has no expiration. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Non-end-user parties participating in the consent grant (Data Recipient, Data Provider, Data Access Platform). */
   parties: FDXConsentGrantPartiesList;
   /** Permissioned resource entries. Omitted when there are no resources. */
-  resources?: FDXConsentGrantResourcesList;
+  resources?: FDXConsentGrantResourcesList | undefined;
   [key: string]: unknown;
 }
 export interface GetFdxConsentsRevocationRequest {
@@ -11318,13 +11354,13 @@ export type IdentityGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to filter `/identity/get` results. */
 export interface IdentityGetRequestOptions {
   /** A list of `account_ids` to retrieve for the Item. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: IdentityGetRequestOptionsAccountIdsList;
+  account_ids?: IdentityGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetIdentityRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  options?: IdentityGetRequestOptions;
+  options?: IdentityGetRequestOptions | undefined;
 }
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
 export type AccountIdentityVerificationStatus =
@@ -11355,17 +11391,17 @@ export interface AccountIdentity {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: AccountIdentityVerificationStatus;
+  verification_status?: AccountIdentityVerificationStatus | undefined;
   /** The account holder name that was used for micro-deposit and/or database verification. Only returned for Auth Items created via micro-deposit or database verification. This name was manually-entered by the user during Link, unless it was otherwise provided via the `user.legal_name` request field in `/link/token/create` for the Link session that created the Item. */
-  verification_name?: string;
-  verification_insights?: AccountVerificationInsights;
+  verification_name?: string | undefined;
+  verification_insights?: AccountVerificationInsights | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This field is currently supported only for Items at institutions that use Tokenized Account Numbers (i.e., Chase, PNC, and US Bank). Because these accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify an account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field is populated for TAN-based institutions (`ins_56`, `ins_13`, `ins_127990`) as well as the OAuth Sandbox institution (`ins_127287`); in Production, it will only be populated for accounts at applicable institutions. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The annual percentage yield (APY) on an interest-bearing deposit account, expressed as a percentage (e.g. `4.25` means 4.25%). In the event that the APY is not provided by the financial institution, Plaid will return a value of `null`. */
-  apy?: number | null;
-  holder_category?: AccountHolderCategory | null;
+  apy?: number | null | undefined;
+  holder_category?: AccountHolderCategory | null | undefined;
   /** The `account_id` of the account on the paired Item (see `paired_item_id`) that represents the same bank account as this one. For an account on a Plaid Inc Item, this is the matching account on its paired Plaid Check Item, and the reverse for an account on a Plaid Check Item. Only returned for accounts on an Item that has a paired Item. `null` means the Item has a paired Item but Plaid could not confidently match this account to an account on it. Like `account_id`, this value can change if Plaid re-creates the paired account. */
-  paired_account_id?: string | null;
+  paired_account_id?: string | null | undefined;
   /** Data returned by the financial institution about the account owner or owners. Only returned by Identity or Assets endpoints. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. To determine whether the linked account is a business account, use the `holder_category` field on the account object. Multiple owners on a single account will be represented in the same `owner` object, not in multiple owner objects within the array. In API versions 2018-05-22 and earlier, the `owners` object is not returned, and instead identity information is returned in the top level `identity` object. For more details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2019-05-29) */
   owners: AccountIdentityOwnersList;
   [key: string]: unknown;
@@ -11385,13 +11421,13 @@ export type IdentityDocumentsUploadsGetRequestOptionsAccountIdsList = Array<stri
 /** An optional object to filter `/identity/documents/uploads/get` results. */
 export interface IdentityDocumentsUploadsGetRequestOptions {
   /** A list of `account_ids` to retrieve for the Item. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: IdentityDocumentsUploadsGetRequestOptionsAccountIdsList;
+  account_ids?: IdentityDocumentsUploadsGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetIdentityDocumentsUploadRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  options?: IdentityDocumentsUploadsGetRequestOptions;
+  options?: IdentityDocumentsUploadsGetRequestOptions | undefined;
 }
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
 export type AccountIdentityDocumentUploadVerificationStatus =
@@ -11411,33 +11447,33 @@ export type AccountIdentityDocumentUploadOwnersList = Array<Owner>;
 /** Metadata pertaining to the document. */
 export interface IdentityDocumentUploadMetadata {
   /** The submitted document type. Currently, this will always be `BANK_STATEMENT`. */
-  document_type?: string | null;
+  document_type?: string | null | undefined;
   /** Boolean field indicating whether the uploaded document's account number matches the account number we have on file. If `false`, it is not recommended to accept the uploaded identity data as accurate without further verification. */
-  is_account_number_match?: boolean | null;
+  is_account_number_match?: boolean | null | undefined;
   /** The number of pages in the uploaded document. */
-  page_count?: number | null;
+  page_count?: number | null | undefined;
   /** The timestamp when the document was last updated. */
-  last_updated?: string;
+  last_updated?: string | undefined;
   /** The timestamp when the document was originally uploaded. */
-  uploaded_at?: string;
+  uploaded_at?: string | undefined;
   [key: string]: unknown;
 }
 /** Risk summary of an uploaded document. */
 export interface IdentityDocumentUploadRiskSummary {
   /** A number between 0 and 100, inclusive, where a score closer to 0 indicates a document is likely to be trustworthy and a score closer to 100 indicates a document is likely to be fraudulent. */
-  risk_score?: number | null;
+  risk_score?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Risk signals tied to the document */
 export interface IdentityDocumentUploadRiskSignal {
   /** The type of risk found. */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Indicates whether fraud risk was detected for this risk signal. */
-  has_fraud_risk?: boolean | null;
+  has_fraud_risk?: boolean | null | undefined;
   /** A human-readable explanation providing more detail about the specific risk signal. */
-  signal_description?: string | null;
+  signal_description?: string | null | undefined;
   /** The relevant page associated with the risk signal. If the risk signal is not associated with a specific page, the value will be 0. */
-  page_number?: number | null;
+  page_number?: number | null | undefined;
   [key: string]: unknown;
 }
 /** An array of risk signals. */
@@ -11445,17 +11481,17 @@ export type IdentityDocumentUploadRiskInsightsRiskSignalsList =
   Array<IdentityDocumentUploadRiskSignal>;
 /** Object representing fraud risk data of the uploaded document. Only provided when using Identity Document Upload with Fraud Risk enabled. */
 export interface IdentityDocumentUploadRiskInsights {
-  risk_summary?: IdentityDocumentUploadRiskSummary;
+  risk_summary?: IdentityDocumentUploadRiskSummary | undefined;
   /** An array of risk signals. */
-  risk_signals?: IdentityDocumentUploadRiskInsightsRiskSignalsList;
+  risk_signals?: IdentityDocumentUploadRiskInsightsRiskSignalsList | undefined;
   [key: string]: unknown;
 }
 /** Document object with metadata of the uploaded document */
 export interface IdentityDocumentUpload {
   /** A UUID identifying the document. */
-  document_id?: string;
-  metadata?: IdentityDocumentUploadMetadata;
-  risk_insights?: IdentityDocumentUploadRiskInsights;
+  document_id?: string | undefined;
+  metadata?: IdentityDocumentUploadMetadata | undefined;
+  risk_insights?: IdentityDocumentUploadRiskInsights | undefined;
 }
 /** Data about the documents that were uploaded as proof of account ownership. */
 export type AccountIdentityDocumentUploadDocumentsList = Array<IdentityDocumentUpload>;
@@ -11473,21 +11509,21 @@ export interface AccountIdentityDocumentUpload {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: AccountIdentityDocumentUploadVerificationStatus;
+  verification_status?: AccountIdentityDocumentUploadVerificationStatus | undefined;
   /** The account holder name that was used for micro-deposit and/or database verification. Only returned for Auth Items created via micro-deposit or database verification. This name was manually-entered by the user during Link, unless it was otherwise provided via the `user.legal_name` request field in `/link/token/create` for the Link session that created the Item. */
-  verification_name?: string;
-  verification_insights?: AccountVerificationInsights;
+  verification_name?: string | undefined;
+  verification_insights?: AccountVerificationInsights | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This field is currently supported only for Items at institutions that use Tokenized Account Numbers (i.e., Chase, PNC, and US Bank). Because these accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify an account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field is populated for TAN-based institutions (`ins_56`, `ins_13`, `ins_127990`) as well as the OAuth Sandbox institution (`ins_127287`); in Production, it will only be populated for accounts at applicable institutions. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The annual percentage yield (APY) on an interest-bearing deposit account, expressed as a percentage (e.g. `4.25` means 4.25%). In the event that the APY is not provided by the financial institution, Plaid will return a value of `null`. */
-  apy?: number | null;
-  holder_category?: AccountHolderCategory | null;
+  apy?: number | null | undefined;
+  holder_category?: AccountHolderCategory | null | undefined;
   /** The `account_id` of the account on the paired Item (see `paired_item_id`) that represents the same bank account as this one. For an account on a Plaid Inc Item, this is the matching account on its paired Plaid Check Item, and the reverse for an account on a Plaid Check Item. Only returned for accounts on an Item that has a paired Item. `null` means the Item has a paired Item but Plaid could not confidently match this account to an account on it. Like `account_id`, this value can change if Plaid re-creates the paired account. */
-  paired_account_id?: string | null;
+  paired_account_id?: string | null | undefined;
   /** Data returned by the financial institution about the account owner or owners. Only returned by Identity or Assets endpoints. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. To determine whether the linked account is a business account, use the `holder_category` field on the account object. Multiple owners on a single account will be represented in the same `owner` object, not in multiple owner objects within the array. In API versions 2018-05-22 and earlier, the `owners` object is not returned, and instead identity information is returned in the top level `identity` object. For more details, see [Plaid API versioning](https://plaid.com/docs/api/versioning/#version-2019-05-29) */
   owners: AccountIdentityDocumentUploadOwnersList;
   /** Data about the documents that were uploaded as proof of account ownership. */
-  documents?: AccountIdentityDocumentUploadDocumentsList | null;
+  documents?: AccountIdentityDocumentUploadDocumentsList | null | undefined;
   [key: string]: unknown;
 }
 /** The accounts for which Identity data has been requested */
@@ -11502,8 +11538,8 @@ export interface IdentityDocumentsUploadsGetResponse {
 }
 export interface GetIdentityVerificationRequest {
   identity_verification_id: string;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
 }
 /** An identity verification attempt represents a customer's attempt to verify their identity, reflecting the required steps for completing the session, the results for each step, and information collected in the process. */
 export interface IdentityVerificationGetResponse {
@@ -11526,7 +11562,7 @@ export interface IdentityVerificationGetResponse {
   beacon_user_id: string | null;
   user_id: string | null;
   redacted_at: string | null;
-  latest_scored_protect_event?: IDVProtectEvent | null;
+  latest_scored_protect_event?: IDVProtectEvent | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -11539,28 +11575,28 @@ export type InstitutionsGetRequestOptionsRoutingNumbersList = Array<string>;
 /** An optional object to filter `/institutions/get` results. */
 export interface InstitutionsGetRequestOptions {
   /** Filter the Institutions based on which products they support. Will only return institutions that support all listed products. When filtering based on `auth`, an institution must support Instant Auth to match the criterion. To filter for Signal Transaction Scores support, use `balance`. To filter for Transfer support, use `auth`. */
-  products?: InstitutionsGetRequestOptionsProductsList | null;
+  products?: InstitutionsGetRequestOptionsProductsList | null | undefined;
   /** Specify an array of routing numbers to filter institutions. The response will only return institutions that match all of the routing numbers in the array. Routing number records used for this matching are generally comprehensive; however, failure to match a given routing number to an institution does not necessarily mean that the institution is unsupported by Plaid. Invalid routing numbers (numbers that are not 9 digits in length or do not have a valid checksum) will be filtered from the array before the response is processed. If all provided routing numbers are invalid, an `INVALID_REQUEST` error with the code of `INVALID_FIELD` will be returned. */
-  routing_numbers?: InstitutionsGetRequestOptionsRoutingNumbersList | null;
+  routing_numbers?: InstitutionsGetRequestOptionsRoutingNumbersList | null | undefined;
   /** Limit results to institutions with or without OAuth login flows. Note that institutions will have `oauth` set to `true` if some Items associated with that institution are required to use OAuth flows; institutions in a state of migration to OAuth will have the `oauth` attribute set to `true`. */
-  oauth?: boolean | null;
+  oauth?: boolean | null | undefined;
   /** When `true`, return the institution's homepage URL, logo and primary brand color. Not all institutions' logos are available. Note that Plaid does not own any of the logos shared by the API, and that by accessing or using these logos, you agree that you are doing so at your own risk and will, if necessary, obtain all required permissions from the appropriate rights holders and adhere to any applicable usage guidelines. Plaid disclaims all express or implied warranties with respect to the logos. */
-  include_optional_metadata?: boolean;
+  include_optional_metadata?: boolean | undefined;
   /** When `true`, returns metadata related to the Auth product indicating which auth methods are supported. */
-  include_auth_metadata?: boolean;
+  include_auth_metadata?: boolean | undefined;
   /** When `true`, returns metadata related to the Payment Initiation product indicating which payment configurations are supported. */
-  include_payment_initiation_metadata?: boolean;
+  include_payment_initiation_metadata?: boolean | undefined;
 }
 export interface GetInstitutionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The total number of Institutions to return. */
   count: number;
   /** The number of Institutions to skip. */
   offset: number;
   /** Specify which country or countries to include institutions from, using the ISO-3166-1 alpha-2 country code standard. In API versions 2019-05-29 and earlier, the `country_codes` parameter is an optional parameter within the `options` object and will default to `[US]` if it is not supplied. */
   country_codes: GetInstitutionRequestCountryCodesList;
-  options?: InstitutionsGetRequestOptions;
+  options?: InstitutionsGetRequestOptions | undefined;
 }
 /** A list of the Plaid products supported by the institution. Note that only institutions that support Instant Auth will return `auth` in the product array; institutions that do not list `auth` may still support other Auth methods such as Instant Match or Automated Micro-deposit Verification. To identify institutions that support those methods, use the `auth_metadata` object. For more details, see [Full Auth coverage](https://plaid.com/docs/auth/coverage/). The `income_verification` product here indicates support for Bank Income. Note: For Signal Transaction Scores and Transfer, listed institutions may be incomplete or incorrect. Instead, use the following: `balance` support also indicates coverage of Signal Transaction Scores; `auth` support also indicates coverage of Transfer. */
 export type InstitutionProductsList = Array<Products>;
@@ -11585,7 +11621,7 @@ export interface ProductStatusBreakdown {
   /** The percentage of logins that are failing due to an issue in the institution's system, expressed as a decimal. */
   error_institution: number;
   /** How frequently data for subscription products like Investments, Transactions, and Liabilities, is being refreshed. `NORMAL`: data is refreshed at least every 2 days. `DELAYED`: data is refreshed less often than every 2 days. `STOPPED`: data is refreshed less often than every 14 days, or not at all. The `refresh_interval` may be `DELAYED` or `STOPPED` even when the success rate is high. */
-  refresh_interval?: ProductStatusBreakdownRefreshInterval;
+  refresh_interval?: ProductStatusBreakdownRefreshInterval | undefined;
   [key: string]: unknown;
 }
 /** A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object. */
@@ -11607,11 +11643,11 @@ export type IncidentUpdateStatus =
 /** An update on the health incident */
 export interface IncidentUpdate {
   /** The content of the update. */
-  description?: string;
+  description?: string | undefined;
   /** The status of the incident. */
-  status?: IncidentUpdateStatus;
+  status?: IncidentUpdateStatus | undefined;
   /** The date when the update was published, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`. */
-  updated_date?: string;
+  updated_date?: string | undefined;
   [key: string]: unknown;
 }
 /** Updates on the health incident. */
@@ -11621,7 +11657,7 @@ export interface HealthIncident {
   /** The start date of the incident, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`. */
   start_date: string;
   /** The end date of the incident, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2020-10-30T15:26:48Z"`. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The title of the incident */
   title: string;
   /** Updates on the health incident. */
@@ -11633,15 +11669,15 @@ export type InstitutionStatusHealthIncidentsList = Array<HealthIncident>;
 /** The status of an institution is determined by the health of its Item logins, Transactions updates, Investments updates, Liabilities updates, Auth requests, Balance requests, Identity requests, Investments requests, and Liabilities requests. A login attempt is conducted during the initial Item add in Link. If there is not enough traffic to accurately calculate an institution's status, Plaid will return null rather than potentially inaccurate data. Institution status is accessible in the Dashboard and via the API using the `/institutions/get_by_id` endpoint with the `options.include_status` option set to true. In the Sandbox environment, institution status is only available for First Platypus Bank (`ins_109508`) and Houndstooth Bank (`ins_109512`). */
 export interface InstitutionStatus {
   item_logins: ProductStatus | null;
-  transactions_updates?: ProductStatus | null;
-  auth?: ProductStatus | null;
-  identity?: ProductStatus | null;
-  investments_updates?: ProductStatus | null;
-  liabilities_updates?: ProductStatus | null;
-  liabilities?: ProductStatus | null;
-  investments?: ProductStatus | null;
+  transactions_updates?: ProductStatus | null | undefined;
+  auth?: ProductStatus | null | undefined;
+  identity?: ProductStatus | null | undefined;
+  investments_updates?: ProductStatus | null | undefined;
+  liabilities_updates?: ProductStatus | null | undefined;
+  liabilities?: ProductStatus | null | undefined;
+  investments?: ProductStatus | null | undefined;
   /** Details of recent health incidents associated with the institution. */
-  health_incidents?: InstitutionStatusHealthIncidentsList | null;
+  health_incidents?: InstitutionStatusHealthIncidentsList | null | undefined;
   [key: string]: unknown;
 }
 /** A mapping of currency to maximum payment amount (denominated in the smallest unit of currency) supported by the institution. Example: `{"GBP": "10000"}` */
@@ -11665,7 +11701,7 @@ export interface PaymentInitiationMetadata {
   supports_international_payments: boolean;
   /** Indicates whether the institution supports SEPA Instant payments. */
   supports_sepa_instant: boolean;
-  maximum_payment_amount?: PaymentInitiationMaximumPaymentAmount;
+  maximum_payment_amount?: PaymentInitiationMaximumPaymentAmount | undefined;
   /** Indicates whether the institution supports returning refund details when initiating a payment. */
   supports_refund_details: boolean;
   standing_order_metadata: PaymentInitiationStandingOrderMetadata | null;
@@ -11703,21 +11739,21 @@ export interface Institution {
   /** A list of the country codes supported by the institution. */
   country_codes: InstitutionCountryCodesList;
   /** The URL for the institution's website */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Hexadecimal representation of the primary color used by the institution. If Plaid does not have primary color data for the institution, this field will be a deterministically generated fallback color. */
-  primary_color?: string | null;
+  primary_color?: string | null | undefined;
   /** Base64 encoded representation of the institution's logo, returned as a base64 encoded 152x152 PNG. Not all institutions' logos are available. */
-  logo?: string | null;
+  logo?: string | null | undefined;
   /** A list of routing numbers known to be associated with the institution. This list is provided for the purpose of looking up institutions by routing number. It is generally comprehensive but is not guaranteed to be a complete list of routing numbers for an institution. */
   routing_numbers: InstitutionRoutingNumbersList;
   /** A partial list of DTC numbers associated with the institution. */
-  dtc_numbers?: InstitutionDtcNumbersList;
+  dtc_numbers?: InstitutionDtcNumbersList | undefined;
   /** Indicates that the institution has an OAuth login flow. This will be `true` if OAuth is supported for any Items associated with the institution, even if the institution also supports non-OAuth connections. */
   oauth: boolean;
   connection_availability: InstitutionConnectionAvailability;
-  status?: InstitutionStatus | null;
-  payment_initiation_metadata?: PaymentInitiationMetadata | null;
-  auth_metadata?: AuthMetadata | null;
+  status?: InstitutionStatus | null | undefined;
+  payment_initiation_metadata?: PaymentInitiationMetadata | null | undefined;
+  auth_metadata?: AuthMetadata | null | undefined;
   [key: string]: unknown;
 }
 /** A list of Plaid institutions */
@@ -11736,13 +11772,13 @@ export type InvestmentsAuthGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to filter `/investments/auth/get` results. */
 export interface InvestmentsAuthGetRequestOptions {
   /** An array of `account_id`s to retrieve for the Item. An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: InvestmentsAuthGetRequestOptionsAccountIdsList;
+  account_ids?: InvestmentsAuthGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetInvestmentsAuthRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  options?: InvestmentsAuthGetRequestOptions;
+  options?: InvestmentsAuthGetRequestOptions | undefined;
 }
 /** A set of fields describing the balance for an account, including margin loan information for investment accounts. */
 export interface InvestmentAccountBalance {
@@ -11757,7 +11793,7 @@ export interface InvestmentAccountBalance {
   /** The unofficial currency code associated with the balance. Always null if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** Timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time the balance was updated. This field is returned only when the institution is `ins_128026` (Capital One) or `ins_136439` (Apple Card). */
-  last_updated_datetime?: string | null;
+  last_updated_datetime?: string | null | undefined;
   /** The total amount of borrowed funds in the account, as determined by the financial institution. For investment-type accounts, the margin balance is the total value of borrowed assets in the account, as presented by the institution. This is commonly referred to as margin or a loan. */
   margin_loan_amount: number | null;
   [key: string]: unknown;
@@ -11789,17 +11825,17 @@ export interface InvestmentAccount {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: InvestmentAccountVerificationStatus;
+  verification_status?: InvestmentAccountVerificationStatus | undefined;
   /** The account holder name that was used for micro-deposit and/or database verification. Only returned for Auth Items created via micro-deposit or database verification. This name was manually-entered by the user during Link, unless it was otherwise provided via the `user.legal_name` request field in `/link/token/create` for the Link session that created the Item. */
-  verification_name?: string;
-  verification_insights?: AccountVerificationInsights;
+  verification_name?: string | undefined;
+  verification_insights?: AccountVerificationInsights | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This field is currently supported only for Items at institutions that use Tokenized Account Numbers (i.e., Chase, PNC, and US Bank). Because these accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify an account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field is populated for TAN-based institutions (`ins_56`, `ins_13`, `ins_127990`) as well as the OAuth Sandbox institution (`ins_127287`); in Production, it will only be populated for accounts at applicable institutions. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The annual percentage yield (APY) on an interest-bearing deposit account, expressed as a percentage (e.g. `4.25` means 4.25%). In the event that the APY is not provided by the financial institution, Plaid will return a value of `null`. */
-  apy?: number | null;
-  holder_category?: AccountHolderCategory | null;
+  apy?: number | null | undefined;
+  holder_category?: AccountHolderCategory | null | undefined;
   /** The `account_id` of the account on the paired Item (see `paired_item_id`) that represents the same bank account as this one. For an account on a Plaid Inc Item, this is the matching account on its paired Plaid Check Item, and the reverse for an account on a Plaid Check Item. Only returned for accounts on an Item that has a paired Item. `null` means the Item has a paired Item but Plaid could not confidently match this account to an account on it. Like `account_id`, this value can change if Plaid re-creates the paired account. */
-  paired_account_id?: string | null;
+  paired_account_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** The accounts for which data is being retrieved */
@@ -11815,9 +11851,9 @@ export interface Holding {
   /** The last price given by the institution for this security. */
   institution_price: number;
   /** The date at which `institution_price` was current. */
-  institution_price_as_of?: string | null;
+  institution_price_as_of?: string | null | undefined;
   /** Date and time at which `institution_price` was current, in ISO 8601 format (YYYY-MM-DDTHH:mm:ssZ). This field is returned for select financial institutions and comes as provided by the institution. It may contain default time values (such as 00:00:00). */
-  institution_price_datetime?: string | null;
+  institution_price_datetime?: string | null | undefined;
   /** The value of the holding, as reported by the institution. */
   institution_value: number;
   /** The total cost basis of the holding (e.g., the total amount spent to acquire all assets currently in the holding). */
@@ -11829,11 +11865,11 @@ export interface Holding {
   /** The unofficial currency code associated with the holding. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** The total quantity of vested assets held, as reported by the financial institution. Vested assets are only associated with [equities](https://plaid.com/docs/api/products/investments/#investments-holdings-get-response-securities-type). */
-  vested_quantity?: number | null;
+  vested_quantity?: number | null | undefined;
   /** The value of the vested holdings as reported by the institution. */
-  vested_value?: number | null;
+  vested_value?: number | null | undefined;
   /** Per-lot acquisition data for this holding. An empty array indicates the institution does not provide lot-level data. */
-  tax_lots?: HoldingTaxLotsList;
+  tax_lots?: HoldingTaxLotsList | undefined;
   [key: string]: unknown;
 }
 /** The holdings belonging to investment accounts associated with the Item. Details of the securities in the holdings are provided in the `securities` field. */
@@ -11895,13 +11931,13 @@ export interface Security {
   /** The security type of the holding. In rare instances, a null value is returned when institutional data is insufficient to determine the security type. Valid security types are: `cash`: Cash, currency, and money market funds `cryptocurrency`: Digital or virtual currencies `derivative`: Options, warrants, and other derivative instruments `equity`: Domestic and foreign equities `etf`: Multi-asset exchange-traded investment funds `fixed income`: Bonds and certificates of deposit (CDs) `loan`: Loans and loan receivables `mutual fund`: Open- and closed-end vehicles pooling funds of multiple investors `other`: Unknown or other investment types */
   type: string | null;
   /** The security subtype of the holding. In rare instances, a null value is returned when institutional data is insufficient to determine the security subtype. Possible values: `asset backed security`, `bill`, `bond`, `bond with warrants`, `cash`, `cash management bill`, `common stock`, `convertible bond`, `convertible equity`, `cryptocurrency`, `depositary receipt`, `depositary receipt on debt`, `etf`, `float rating note`, `fund of funds`, `hedge fund`, `limited partnership unit`, `medium term note`, `money market debt`, `mortgage backed security`, `municipal bond`, `mutual fund`, `note`, `option`, `other`, `preferred convertible`, `preferred equity`, `private equity fund`, `real estate investment trust`, `structured equity product`, `treasury inflation protected securities`, `unit`, `warrant`. */
-  subtype?: string | null;
+  subtype?: string | null | undefined;
   /** Price of the security at the close of the previous trading session. Null for non-public securities. If the security is a foreign currency this field will be updated daily and will be priced in USD. If the security is a cryptocurrency, this field will be updated multiple times a day. As crypto prices can fluctuate quickly and data may become stale sooner than other asset classes, refer to `update_datetime` with the time when the price was last updated. */
   close_price: number | null;
   /** Date for which `close_price` is accurate. Always `null` if `close_price` is `null`. */
   close_price_as_of: string | null;
   /** Date and time at which `close_price` is accurate, in ISO 8601 format (YYYY-MM-DDTHH:mm:ssZ). Always `null` if `close_price` is `null`. */
-  update_datetime?: string | null;
+  update_datetime?: string | null | undefined;
   /** The ISO-4217 currency code of the price given. Always `null` if `unofficial_currency_code` is non-`null`. */
   iso_currency_code: string | null;
   /** The unofficial currency code associated with the security. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
@@ -11927,9 +11963,9 @@ export type InvestmentsAuthOwnerNamesList = Array<string>;
 /** Information on the ownership of an investment account */
 export interface InvestmentsAuthOwner {
   /** The ID of the account that this identity information pertains to */
-  account_id?: string;
+  account_id?: string | undefined;
   /** A list of names associated with the account by the financial institution. In the case of a joint account, Plaid will make a best effort to report the names of all account holders. If an Item contains multiple accounts with different owner names, some institutions will report all names associated with the Item in each account's `names` array. */
-  names?: InvestmentsAuthOwnerNamesList;
+  names?: InvestmentsAuthOwnerNamesList | undefined;
   [key: string]: unknown;
 }
 /** Information about the account owners for the accounts associated with the Item. */
@@ -11961,26 +11997,26 @@ export interface NumbersRetirement401k {
   /** The Plaid account ID associated with the account numbers */
   account_id: string;
   /** The plan number for the employer's 401k retirement plan */
-  plan?: string;
+  plan?: string | undefined;
   /** The full account number for the account */
-  account?: string;
+  account?: string | undefined;
   [key: string]: unknown;
 }
 export type InvestmentsAuthGetNumbersRetirement401kList = Array<NumbersRetirement401k>;
 /** Identifying information for transferring holdings to an investment account. */
 export interface InvestmentsAuthGetNumbers {
-  acats?: InvestmentsAuthGetNumbersAcatsList;
-  aton?: InvestmentsAuthGetNumbersAtonList;
-  retirement_401k?: InvestmentsAuthGetNumbersRetirement401kList;
+  acats?: InvestmentsAuthGetNumbersAcatsList | undefined;
+  aton?: InvestmentsAuthGetNumbersAtonList | undefined;
+  retirement_401k?: InvestmentsAuthGetNumbersRetirement401kList | undefined;
   [key: string]: unknown;
 }
 /** A description of the source of data for a given product/data type. `INSTITUTION`: The institution supports this product, and the data was provided by the institution. `INSTITUTION_MASK`: The user manually provided the full account number, which was matched to the account mask provided by the institution. Only applicable to the `numbers` data type. `USER`: The institution does not support this product, and the data was manually provided by the user. */
 export type DataSources = "INSTITUTION" | "INSTITUTION_MASK" | "USER";
 /** Object with metadata pertaining to the source of data for the account numbers, owners, and holdings that are returned. */
 export interface InvestmentsAuthDataSources {
-  numbers?: DataSources;
-  owners?: DataSources;
-  holdings?: DataSources;
+  numbers?: DataSources | undefined;
+  owners?: DataSources | undefined;
+  holdings?: DataSources | undefined;
   [key: string]: unknown;
 }
 /** Object containing information on account fee transactions for the 401k account. */
@@ -11996,7 +12032,7 @@ export interface InvestmentTransaction {
   /** The ID of the Investment transaction, unique across all Plaid transactions. Like all Plaid identifiers, the `investment_transaction_id` is case sensitive. */
   investment_transaction_id: string;
   /** A legacy field formerly used internally by Plaid to identify certain canceled transactions. */
-  cancel_transaction_id?: string | null;
+  cancel_transaction_id?: string | null | undefined;
   /** The `account_id` of the account against which this transaction posted. */
   account_id: string;
   /** The `security_id` to which this transaction is related. */
@@ -12004,7 +12040,7 @@ export interface InvestmentTransaction {
   /** The [ISO 8601](https://wikipedia.org/wiki/ISO_8601) posting date for the transaction. This is typically the settlement date. */
   date: string;
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) representing when the order was initiated. This field is returned for select financial institutions and reflects the value provided by the institution. When the institution only provides a date without time-of-day information, this field will reflect the date that the order was initiated with a time component that defaults to `T00:00:00Z`. This does not indicate that the order was initiated at midnight UTC. */
-  transaction_datetime?: string | null;
+  transaction_datetime?: string | null | undefined;
   /** The institution's description of the transaction. */
   name: string;
   /** The number of units of the security involved in this transaction. Positive for buy transactions; negative for sell transactions. */
@@ -12047,9 +12083,9 @@ export interface InvestmentsAuth401kContributionDetails {
 /** Additional account fee and contribution information for 401k type accounts. */
 export interface InvestmentsAuthAccountDetails401k {
   /** The ID of the 401k account. */
-  account_id?: string;
-  fee_details?: InvestmentsAuth401kFeeDetails;
-  contribution_details?: InvestmentsAuth401kContributionDetails;
+  account_id?: string | undefined;
+  fee_details?: InvestmentsAuth401kFeeDetails | undefined;
+  contribution_details?: InvestmentsAuth401kContributionDetails | undefined;
   [key: string]: unknown;
 }
 /** Additional information for accounts of 401k subtype. */
@@ -12068,7 +12104,7 @@ export interface InvestmentsAuthGetResponse {
   numbers: InvestmentsAuthGetNumbers;
   data_sources: InvestmentsAuthDataSources;
   /** Additional information for accounts of 401k subtype. */
-  account_details_401k?: InvestmentsAuthGetResponseAccountDetails401kList;
+  account_details_401k?: InvestmentsAuthGetResponseAccountDetails401kList | undefined;
   item: Item;
   request_id: string;
   [key: string]: unknown;
@@ -12078,13 +12114,13 @@ export type InvestmentHoldingsGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to filter `/investments/holdings/get` results. If provided, must not be `null`. */
 export interface InvestmentHoldingsGetRequestOptions {
   /** An array of `account_id`s to retrieve for the Item. An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: InvestmentHoldingsGetRequestOptionsAccountIdsList;
+  account_ids?: InvestmentHoldingsGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetInvestmentsHoldingRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  options?: InvestmentHoldingsGetRequestOptions;
+  options?: InvestmentHoldingsGetRequestOptions | undefined;
 }
 /** The accounts associated with the Item */
 export type InvestmentsHoldingsGetResponseAccountsList = Array<InvestmentAccount>;
@@ -12103,7 +12139,7 @@ export interface InvestmentsHoldingsGetResponse {
   item: Item;
   request_id: string;
   /** When true, this field indicates that the Item's portfolio was manually created with the Investments Fallback flow. */
-  is_investments_fallback_item?: boolean;
+  is_investments_fallback_item?: boolean | undefined;
   [key: string]: unknown;
 }
 /** An array of `account_ids` to retrieve for the Item. */
@@ -12111,23 +12147,23 @@ export type InvestmentsTransactionsGetRequestOptionsAccountIdsList = Array<strin
 /** An optional object to filter `/investments/transactions/get` results. If provided, must be non-`null`. */
 export interface InvestmentsTransactionsGetRequestOptions {
   /** An array of `account_ids` to retrieve for the Item. */
-  account_ids?: InvestmentsTransactionsGetRequestOptionsAccountIdsList;
+  account_ids?: InvestmentsTransactionsGetRequestOptionsAccountIdsList | undefined;
   /** The number of transactions to fetch. */
-  count?: number;
+  count?: number | undefined;
   /** The number of transactions to skip when fetching transaction history */
-  offset?: number;
+  offset?: number | undefined;
   /** If the Item was not initialized with the investments product via the `products`, `required_if_supported_products`, or `optional_products` array when calling `/link/token/create`, and `async_update` is set to true, the initial Investments extraction will happen asynchronously. Plaid will subsequently fire a `HISTORICAL_UPDATE` webhook when the extraction completes. When `false`, Plaid will wait to return a response until extraction completion and no `HISTORICAL_UPDATE` webhook will fire. Note that while the extraction is happening asynchronously, calls to `/investments/transactions/get` and `/investments/refresh` will return `PRODUCT_NOT_READY` errors until the extraction completes. */
-  async_update?: boolean;
+  async_update?: boolean | undefined;
 }
 export interface GetInvestmentsTransactionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD. Plaid returns all investment transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD. */
   end_date: string;
-  options?: InvestmentsTransactionsGetRequestOptions;
+  options?: InvestmentsTransactionsGetRequestOptions | undefined;
 }
 /** The accounts for which transaction history is being fetched. */
 export type InvestmentsTransactionsGetResponseAccountsList = Array<InvestmentAccount>;
@@ -12149,12 +12185,12 @@ export interface InvestmentsTransactionsGetResponse {
   total_investment_transactions: number;
   request_id: string;
   /** When true, this field indicates that the Item's portfolio was manually created with the Investments Fallback flow. */
-  is_investments_fallback_item?: boolean;
+  is_investments_fallback_item?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface GetIssueRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The unique identifier of the issue to retrieve. */
   issue_id: string;
 }
@@ -12173,29 +12209,29 @@ export type IssuesStatus =
 /** Information on an issue encountered with financial institution interactions during Linking. */
 export interface Issue {
   /** The unique identifier of the issue. */
-  issue_id?: string;
+  issue_id?: string | undefined;
   /** A list of names of the financial institutions affected. */
-  institution_names?: IssueInstitutionNamesList;
+  institution_names?: IssueInstitutionNamesList | undefined;
   /** A list of ids of the financial institutions affected. */
-  institution_ids?: IssueInstitutionIdsList;
+  institution_ids?: IssueInstitutionIdsList | undefined;
   /** The creation time of the record tracking this issue. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A simple summary of the error for the end user. */
-  summary?: string;
+  summary?: string | undefined;
   /** A more detailed description for the customer. */
-  detailed_description?: string;
-  status?: IssuesStatus;
+  detailed_description?: string | undefined;
+  status?: IssuesStatus | undefined;
   [key: string]: unknown;
 }
 /** IssuesGetResponse defines the response schema for `/issues/get`. */
 export interface IssuesGetResponse {
-  issue?: Issue;
-  request_id?: string;
+  issue?: Issue | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetItemRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
 }
 /** A list of products available for the Item that have not yet been accessed. The contents of this array will be mutually exclusive with `billed_products`. */
@@ -12234,70 +12270,70 @@ export interface ItemWithConsentFields {
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
   item_id: string;
   /** The Plaid Institution ID associated with the Item. Field is omitted for Items created without an institution connection, such as Items created via Same-Day Micro-deposits. */
-  institution_id?: string | null;
+  institution_id?: string | null | undefined;
   /** The name of the institution associated with the Item. Field is omitted for Items created without an institution connection, such as Items created via Same-Day Micro-deposits. */
-  institution_name?: string | null;
+  institution_name?: string | null | undefined;
   /** The URL registered to receive webhooks for the Item. Empty string if no webhook is set. */
   webhook: string | null;
-  auth_method?: ItemAuthMethod | null;
+  auth_method?: ItemAuthMethod | null | undefined;
   error: PlaidError | null;
   /** A list of products available for the Item that have not yet been accessed. The contents of this array will be mutually exclusive with `billed_products`. */
   available_products: ItemWithConsentFieldsAvailableProductsList;
   /** A list of products that have been billed for the Item. The contents of this array will be mutually exclusive with `available_products`. Note - `billed_products` is populated in all environments but only requests in Production are billed. Also note that products that are billed on a pay-per-call basis rather than a pay-per-Item basis, such as `balance`, will not appear here. */
   billed_products: ItemWithConsentFieldsBilledProductsList;
   /** A list of products added to the Item. In almost all cases, this will be the same as the `billed_products` field. For some products, it is possible for the product to be added to an Item but not yet billed (e.g. Assets, before `/asset_report/create` has been called, or Auth or Identity when added as Optional Products but before their endpoints have been called), in which case the product may appear in `products` but not in `billed_products`. */
-  products?: ItemWithConsentFieldsProductsList;
+  products?: ItemWithConsentFieldsProductsList | undefined;
   /** A list of products that the user has consented to for the Item via [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide). This will consist of all products where both of the following are true: the user has consented to the required data scopes for that product and you have Production access for that product. */
-  consented_products?: ItemWithConsentFieldsConsentedProductsList;
+  consented_products?: ItemWithConsentFieldsConsentedProductsList | undefined;
   /** The date and time at which the Item's access consent will expire, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. If the Item does not have consent expiration scheduled, this field will be `null`. Currently, only institutions in Europe and a small number of institutions in the US have expiring consent. For a list of US institutions that currently expire consent, see the [OAuth Guide](https://plaid.com/docs/link/oauth/#refreshing-item-consent). */
   consent_expiration_time: string | null;
   /** Indicates whether an Item requires user interaction to be updated, which can be the case for Items with some forms of two-factor authentication. `background` - Item can be updated in the background `user_present_required` - Item requires user interaction to be updated */
   update_type: ItemWithConsentFieldsUpdateType;
   /** The `item_id` of the Item that was created alongside this one when a single Link session used both Plaid Inc and Plaid Check products (see [Using Plaid Check products alongside Plaid products](https://plaid.com/docs/check/add-to-app/#using-plaid-check-products-alongside-plaid-products)). For a Plaid Inc Item, this is the paired Plaid Check Item, and the reverse for a Plaid Check Item. The field is omitted for Items that have no paired Item. It is also omitted if Plaid cannot look up the paired Item at request time, so do not treat its absence as proof that an Item is unpaired. */
-  paired_item_id?: string | null;
+  paired_item_id?: string | null | undefined;
   /** The date and time when the Item was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A list of use cases that the user has consented to for the Item via [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide). You can see the full list of use cases or update the list of use cases to request at any time via the Link Customization section of the [Plaid Dashboard](https://dashboard.plaid.com/link/data-transparency-v5). */
-  consented_use_cases?: ItemWithConsentFieldsConsentedUseCasesList;
+  consented_use_cases?: ItemWithConsentFieldsConsentedUseCasesList | undefined;
   /** A list of data scopes that the user has consented to for the Item via [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide). These are based on the `consented_products`; see the [full mapping](https://plaid.com/docs/link/data-transparency-messaging-migration-guide/#data-scopes-by-product) of data scopes and products. */
-  consented_data_scopes?: ItemWithConsentFieldsConsentedDataScopesList;
+  consented_data_scopes?: ItemWithConsentFieldsConsentedDataScopesList | undefined;
   [key: string]: unknown;
 }
 /** Information about the last successful and failed investments update for the Item. */
 export interface ItemStatusInvestments {
   /** [ISO 8601](https://wikipedia.org/wiki/ISO_8601) timestamp of the last successful investments update for the Item. The status will update each time Plaid successfully connects with the institution, regardless of whether any new data is available in the update. */
-  last_successful_update?: string | null;
+  last_successful_update?: string | null | undefined;
   /** [ISO 8601](https://wikipedia.org/wiki/ISO_8601) timestamp of the last failed investments update for the Item. The status will update each time Plaid fails an attempt to connect with the institution, regardless of whether any new data is available in the update. */
-  last_failed_update?: string | null;
+  last_failed_update?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Information about the last successful and failed transactions update for the Item. */
 export interface ItemStatusTransactions {
   /** [ISO 8601](https://wikipedia.org/wiki/ISO_8601) timestamp of the last successful transactions update for the Item. The status will update each time Plaid successfully connects with the institution, regardless of whether any new data is available in the update. This field does not reflect transactions updates performed by non-Transactions products (e.g. Signal). */
-  last_successful_update?: string | null;
+  last_successful_update?: string | null | undefined;
   /** [ISO 8601](https://wikipedia.org/wiki/ISO_8601) timestamp of the last failed transactions update for the Item. The status will update each time Plaid fails an attempt to connect with the institution, regardless of whether any new data is available in the update. This field does not reflect transactions updates performed by non-Transactions products (e.g. Signal). */
-  last_failed_update?: string | null;
+  last_failed_update?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Information about the last webhook fired for the Item. */
 export interface ItemStatusLastWebhook {
   /** [ISO 8601](https://wikipedia.org/wiki/ISO_8601) timestamp of when the webhook was fired. */
-  sent_at?: string | null;
+  sent_at?: string | null | undefined;
   /** The last webhook code sent. */
-  code_sent?: string;
+  code_sent?: string | undefined;
   [key: string]: unknown;
 }
 /** An object with information about the status of the Item. */
 export interface ItemStatusNullable {
-  investments?: ItemStatusInvestments | null;
-  transactions?: ItemStatusTransactions | null;
-  last_webhook?: ItemStatusLastWebhook | null;
+  investments?: ItemStatusInvestments | null | undefined;
+  transactions?: ItemStatusTransactions | null | undefined;
+  last_webhook?: ItemStatusLastWebhook | null | undefined;
   [key: string]: unknown;
 }
 /** ItemGetResponse defines the response schema for `/item/get` and `/item/webhook/update` */
 export interface ItemGetResponse {
   item: ItemWithConsentFields;
-  status?: ItemStatusNullable | null;
+  status?: ItemStatusNullable | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -12306,13 +12342,13 @@ export type LiabilitiesGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to filter `/liabilities/get` results. If provided, `options` cannot be null. */
 export interface LiabilitiesGetRequestOptions {
   /** A list of accounts to retrieve for the Item. An error will be returned if a provided `account_id` is not associated with the Item */
-  account_ids?: LiabilitiesGetRequestOptionsAccountIdsList;
+  account_ids?: LiabilitiesGetRequestOptionsAccountIdsList | undefined;
 }
 export interface GetLiabilityRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  options?: LiabilitiesGetRequestOptions;
+  options?: LiabilitiesGetRequestOptions | undefined;
 }
 /** An array of accounts associated with the Item */
 export type LiabilitiesGetResponseAccountsList = Array<AccountBase>;
@@ -12358,7 +12394,7 @@ export interface CreditCardLiability {
   /** The due date for the next payment. The due date is `null` if a payment is not expected. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). */
   next_payment_due_date: string | null;
   /** The credit limit for cash advances on the account. */
-  cash_advance_limit?: number | null;
+  cash_advance_limit?: number | null | undefined;
   [key: string]: unknown;
 }
 /** The credit accounts returned. */
@@ -12527,7 +12563,7 @@ export interface StudentLoan {
   /** The date of the last payment. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). */
   last_payment_date: string | null;
   /** The total amount owed as of the last statement issued */
-  last_statement_balance?: number | null;
+  last_statement_balance?: number | null | undefined;
   /** The date of the last statement. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). */
   last_statement_issue_date: string | null;
   /** The type of loan, e.g., "Consolidation Loans". */
@@ -12670,9 +12706,9 @@ export interface LiabilitiesObject {
   /** The student loan accounts returned. */
   student: LiabilitiesObjectStudentList | null;
   /** The closed-end loan accounts returned. This field is omitted when using plaid-python earlier than 13.0.0 or plaid-ruby earlier than 50.0.0. */
-  loan?: LiabilitiesObjectLoanList | null;
+  loan?: LiabilitiesObjectLoanList | null | undefined;
   /** The line of credit accounts returned. This field is omitted when using plaid-python earlier than 13.0.0 or plaid-ruby earlier than 50.0.0. */
-  line_of_credit?: LiabilitiesObjectLineOfCreditList | null;
+  line_of_credit?: LiabilitiesObjectLineOfCreditList | null | undefined;
   [key: string]: unknown;
 }
 /** LiabilitiesGetResponse defines the response schema for `/liabilities/get` */
@@ -12685,34 +12721,34 @@ export interface LiabilitiesGetResponse {
   [key: string]: unknown;
 }
 export interface GetLinkTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A `link_token` from a previous invocation of `/link/token/create` */
   link_token: string;
 }
 /** An institution object. If the Item was created via Same-Day or Instant micro-deposit verification, `name` and `institution_id` will be omitted. */
 export interface LinkSessionSuccessMetadataInstitution {
   /** The full institution name, such as `'Wells Fargo'` */
-  name?: string;
+  name?: string | undefined;
   /** The Plaid institution identifier */
-  institution_id?: string;
+  institution_id?: string | undefined;
 }
 /** An account attached to the connected Item. */
 export interface LinkSessionSuccessMetadataAccount {
   /** The Plaid `account_id` */
-  id?: string;
+  id?: string | undefined;
   /** The official account name */
-  name?: string;
+  name?: string | undefined;
   /** The last 2-4 alphanumeric characters of an account's official account number. Note that the mask may be non-unique between an Item's accounts. It may also not match the mask that the bank displays to the user. */
-  mask?: string | null;
+  mask?: string | null | undefined;
   /** The account type. See the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema) for a full list of possible values */
-  type?: string;
+  type?: string | undefined;
   /** The account subtype. See the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema) for a full list of possible values */
-  subtype?: string;
+  subtype?: string | undefined;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_pending`: The Database Auth result is pending and will be available upon Auth request. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. `null` or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: string | null;
+  verification_status?: string | null | undefined;
   /** If micro-deposit verification was being used, indicates the user's selection when asked if the account being verified is a `business` or `personal` account. This field is deprecated as Plaid no longer collects this information during the micro-deposit flow. To see whether an account is business or personal, use the `holder_category` field instead. */
-  class_type?: string | null;
+  class_type?: string | null | undefined;
 }
 /** A list of accounts attached to the connected Item. If Account Select is enabled via the developer dashboard, `accounts` will only include selected accounts. */
 export type LinkSessionSuccessMetadataAccountsList = Array<LinkSessionSuccessMetadataAccount>;
@@ -12720,14 +12756,14 @@ export type LinkSessionSuccessMetadataAccountsList = Array<LinkSessionSuccessMet
 export type LinkSessionSuccessMetadataTransferStatus = "COMPLETE" | "INCOMPLETE";
 /** Displayed once a user has successfully linked their Item. */
 export interface LinkSessionSuccessMetadata {
-  institution?: LinkSessionSuccessMetadataInstitution | null;
+  institution?: LinkSessionSuccessMetadataInstitution | null | undefined;
   /** A list of accounts attached to the connected Item. If Account Select is enabled via the developer dashboard, `accounts` will only include selected accounts. */
-  accounts?: LinkSessionSuccessMetadataAccountsList;
+  accounts?: LinkSessionSuccessMetadataAccountsList | undefined;
   /** A unique identifier associated with a user's actions and events through the Link flow. Include this identifier when opening a support ticket for faster turnaround. */
-  link_session_id?: string;
+  link_session_id?: string | undefined;
   /** An identifier used to group related Layer sessions. */
-  session_group_id?: string;
-  transfer_status?: LinkSessionSuccessMetadataTransferStatus | null;
+  session_group_id?: string | undefined;
+  transfer_status?: LinkSessionSuccessMetadataTransferStatus | null | undefined;
 }
 /** An object representing an [onSuccess](https://plaid.com/docs/link/web/#onsuccess) callback from Link. This field is returned only for legacy integrations and is deprecated in favor of [`results.item_add_results`](https://plaid.com/docs/api/link/#link-token-get-response-link-sessions-results-item-add-results) which can support multiple public tokens in a single Link session, for flows such as multi-Item Link. If you are receiving `on_success`, contact your account manager to migrate to `results.item_add_results` instead. */
 export interface LinkSessionSuccess {
@@ -12738,40 +12774,40 @@ export interface LinkSessionSuccess {
 /** An institution object. If the Item was created via Same-Day or Instant micro-deposit verification, `name` and `institution_id` will be omitted. */
 export interface LinkSessionExitMetadataInstitution {
   /** The full institution name, such as `Wells Fargo` */
-  name?: string;
+  name?: string | undefined;
   /** The Plaid institution identifier */
-  institution_id?: string;
+  institution_id?: string | undefined;
 }
 /** The point at which the user exited the Link flow. One of the following values. */
 export interface LinkSessionExitMetadataStatus {
   /** User prompted to answer security questions */
-  requires_questions?: unknown;
+  requires_questions?: unknown | undefined;
   /** User prompted to answer multiple choice question(s) */
-  requires_selections?: unknown;
+  requires_selections?: unknown | undefined;
   /** User prompted to provide a one-time passcode */
-  requires_code?: unknown;
+  requires_code?: unknown | undefined;
   /** User prompted to select a device on which to receive a one-time passcode */
-  choose_device?: unknown;
+  choose_device?: unknown | undefined;
   /** User prompted to provide credentials for the selected financial institution or has not yet selected a financial institution */
-  requires_credentials?: unknown;
+  requires_credentials?: unknown | undefined;
   /** User prompted to select one or more financial accounts to share */
-  requires_account_selection?: unknown;
+  requires_account_selection?: unknown | undefined;
   /** User prompted to enter an OAuth flow */
-  requires_oauth?: unknown;
+  requires_oauth?: unknown | undefined;
   /** User exited the Link flow after unsuccessfully (no results returned) searching for a financial institution */
-  institution_not_found?: unknown;
+  institution_not_found?: unknown | undefined;
   /** User exited the Link flow after discovering their selected institution is no longer supported by Plaid */
-  institution_not_supported?: unknown;
+  institution_not_supported?: unknown | undefined;
 }
 /** Displayed if a user exits Link without successfully linking an Item. */
 export interface LinkSessionExitMetadata {
-  institution?: LinkSessionExitMetadataInstitution | null;
+  institution?: LinkSessionExitMetadataInstitution | null | undefined;
   /** The point at which the user exited the Link flow. One of the following values. */
-  status?: LinkSessionExitMetadataStatus;
+  status?: LinkSessionExitMetadataStatus | undefined;
   /** A unique identifier associated with a user's actions and events through the Link flow. Include this identifier when opening a support ticket for faster turnaround. */
-  link_session_id?: string;
+  link_session_id?: string | undefined;
   /** The request ID for the last request made by Link. This can be shared with Plaid support to expedite investigation. */
-  request_id?: string;
+  request_id?: string | undefined;
 }
 /** An object representing an [onExit](https://plaid.com/docs/link/web/#onexit) callback from Link. This field is returned only for legacy implementations and has been deprecated in favor of [`exit`](https://plaid.com/docs/api/link/#link-token-get-response-link-sessions-exit), for improved naming consistency. If you are receiving this field, contact your account manager to migrate to the newer `exit` field. */
 export interface LinkSessionExitDeprecated {
@@ -12784,35 +12820,35 @@ export type LinkSessionExit = LinkSessionExitDeprecated;
 /** Metadata about an event that occurred while the user was going through Link */
 export interface LinkEventMetadata {
   /** The error code that the user encountered. Emitted by `ERROR`, `EXIT`. */
-  error_code?: string;
+  error_code?: string | undefined;
   /** The error message that the user encountered. Emitted by: `ERROR`, `EXIT`. */
-  error_message?: string;
+  error_message?: string | undefined;
   /** The error type that the user encountered. Emitted by: `ERROR`, `EXIT`. */
-  error_type?: string;
+  error_type?: string | undefined;
   /** The status key indicates the point at which the user exited the Link flow. Emitted by: `EXIT`. */
-  exit_status?: string;
+  exit_status?: string | undefined;
   /** The ID of the selected institution. Emitted by: all events. */
-  institution_id?: string;
+  institution_id?: string | undefined;
   /** The name of the selected institution. Emitted by: all events. */
-  institution_name?: string;
+  institution_name?: string | undefined;
   /** The query used to search for institutions. Emitted by: `SEARCH_INSTITUTION`. */
-  institution_search_query?: string;
+  institution_search_query?: string | undefined;
   /** The request ID for the last request made by Link. This can be shared with Plaid support to expedite investigation. Emitted by: all events. */
-  request_id?: string;
+  request_id?: string | undefined;
   /** If set, the user has encountered one of the following MFA types: code, device, questions, selections. Emitted by: `SUBMIT_MFA` and `TRANSITION_VIEW` when `view_name` is `MFA`. */
-  mfa_type?: string;
+  mfa_type?: string | undefined;
   /** The name of the view that is being transitioned to. Emitted by: `TRANSITION_VIEW`. */
-  view_name?: string;
+  view_name?: string | undefined;
   /** Either the verification method for a matched institution selected by the user or the Auth Type Select flow type selected by the user. If selection is used to describe selected verification method, then possible values are `phoneotp` or `password`; if selection is used to describe the selected Auth Type Select flow, then possible values are `flow_type_manual` or `flow_type_instant`. Emitted by: `MATCHED_SELECT_VERIFY_METHOD` and `SELECT_AUTH_TYPE`. */
-  selection?: string;
+  selection?: string | undefined;
   /** The name of the selected brand. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** The reason this institution was matched. This will be either `returning_user` or `routing_number` if emitted by `MATCHED_SELECT_INSTITUTION`. Otherwise, this will be `SAVED_INSTITUTION` or `AUTO_SELECT_SAVED_INSTITUTION` if emitted by `SELECT_INSTITUTION`. */
-  match_reason?: string;
+  match_reason?: string | undefined;
   /** The routing number submitted by the user at the micro-deposits routing number pane. Emitted by `SUBMIT_ROUTING_NUMBER`. */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** The account number mask extracted from the user-provided account number. If the user-inputted account number is four digits long, `account_number_mask` is empty. Emitted by `SUBMIT_ACCOUNT_NUMBER`. */
-  account_number_mask?: string;
+  account_number_mask?: string | undefined;
   [key: string]: unknown;
 }
 /** An event that occurred while the user was going through Link */
@@ -12911,7 +12947,7 @@ export interface LinkSessionResults {
   /** The set of payroll income verifications for the Link session. */
   payroll_income_results: LinkSessionResultsPayrollIncomeResultsList;
   document_income_results: CreditSessionDocumentIncomeResult | null;
-  cra_document_upload_results?: LinkSessionCraDocumentUploadResult | null;
+  cra_document_upload_results?: LinkSessionCraDocumentUploadResult | null | undefined;
   cra_report_results: LinkSessionCraReportResult | null;
   [key: string]: unknown;
 }
@@ -12920,15 +12956,15 @@ export interface LinkTokenGetSessionsResponse {
   /** The unique ID for the link session. */
   link_session_id: string;
   /** The timestamp at which the link session was first started, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** The timestamp at which the link session was finished, if available, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
-  finished_at?: string | null;
-  on_success?: LinkSessionSuccess | null;
-  on_exit?: LinkSessionExitDeprecated | null;
-  exit?: LinkSessionExitDeprecated | null;
+  finished_at?: string | null | undefined;
+  on_success?: LinkSessionSuccess | null | undefined;
+  on_exit?: LinkSessionExitDeprecated | null | undefined;
+  exit?: LinkSessionExitDeprecated | null | undefined;
   /** List of customer-related Link events */
-  events?: LinkTokenGetSessionsResponseEventsList;
-  results?: LinkSessionResults | null;
+  events?: LinkTokenGetSessionsResponseEventsList | undefined;
+  results?: LinkSessionResults | null | undefined;
   [key: string]: unknown;
 }
 /** Information about Link sessions created using this `link_token`. Session data will be provided for up to six hours after the session has ended. */
@@ -12939,10 +12975,10 @@ export type LinkTokenGetMetadataResponseInitialProductsList = Array<Products>;
 export type LinkTokenGetMetadataResponseCountryCodesList = Array<CountryCode>;
 /** The `account_filters` specified in the original call to `/link/token/create`. */
 export interface AccountFiltersResponse {
-  depository?: DepositoryFilter | null;
-  credit?: CreditFilter | null;
-  loan?: LoanFilter | null;
-  investment?: InvestmentFilter | null;
+  depository?: DepositoryFilter | null | undefined;
+  credit?: CreditFilter | null | undefined;
+  loan?: LoanFilter | null | undefined;
+  investment?: InvestmentFilter | null | undefined;
   [key: string]: unknown;
 }
 /** An object specifying the arguments originally provided to the `/link/token/create` call. */
@@ -12955,8 +12991,8 @@ export interface LinkTokenGetMetadataResponse {
   country_codes: LinkTokenGetMetadataResponseCountryCodesList;
   /** The `language` specified in the `/link/token/create` call. */
   language: string | null;
-  institution_data?: LinkTokenCreateInstitutionData | null;
-  account_filters?: AccountFiltersResponse | null;
+  institution_data?: LinkTokenCreateInstitutionData | null | undefined;
+  account_filters?: AccountFiltersResponse | null | undefined;
   /** The `redirect_uri` specified in the `/link/token/create` call. */
   redirect_uri: string | null;
   /** The `client_name` specified in the `/link/token/create` call. */
@@ -12972,9 +13008,9 @@ export interface LinkTokenGetResponse {
   /** The expiration timestamp for the `link_token`, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
   expiration: string | null;
   /** Information about Link sessions created using this `link_token`. Session data will be provided for up to six hours after the session has ended. */
-  link_sessions?: LinkTokenGetResponseLinkSessionsList;
+  link_sessions?: LinkTokenGetResponseLinkSessionsList | undefined;
   metadata: LinkTokenGetMetadataResponse;
-  user_id?: string;
+  user_id?: string | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -12985,11 +13021,11 @@ export interface NetworkStatusGetUser {
   [key: string]: unknown;
 }
 export interface GetNetworkStatusRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user: NetworkStatusGetUser;
   /** The id of a template defined in Plaid Dashboard. This field is used if you have additional criteria that you want to check against (e.g. Layer eligibility). */
-  template_id?: string;
+  template_id?: string | undefined;
 }
 /** Enum representing the overall network status of the user. */
 export type NetworkStatusGetResponseNetworkStatus = "UNKNOWN" | "RETURNING_USER";
@@ -13002,33 +13038,33 @@ export interface NetworkStatusGetResponseLayer {
 /** NetworkStatusGetResponse defines the response schema for `/network/status/get` */
 export interface NetworkStatusGetResponse {
   network_status: NetworkStatusGetResponseNetworkStatus;
-  layer?: NetworkStatusGetResponseLayer | null;
+  layer?: NetworkStatusGetResponseLayer | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetPartnerCustomerRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   end_customer_client_id: string;
 }
 /** The details for an end customer. */
 export interface PartnerEndCustomer {
   /** The `client_id` of the end customer. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The company name associated with the end customer. */
-  company_name?: string;
-  status?: PartnerEndCustomerStatus;
+  company_name?: string | undefined;
+  status?: PartnerEndCustomerStatus | undefined;
   [key: string]: unknown;
 }
 /** Response schema for `/partner/customer/get`. */
 export interface PartnerCustomerGetResponse {
-  end_customer?: PartnerEndCustomer;
-  request_id?: string;
+  end_customer?: PartnerEndCustomer | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetPartnerCustomerOauthInstitutionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   end_customer_client_id: string;
 }
 /** The status of the addendum to the Plaid MSA ("flowdown") for the end customer. */
@@ -13048,23 +13084,23 @@ export type PartnerEndCustomerOAuthInstitutionApplicationStatus =
   | "ATTENTION_REQUIRED";
 /** Registration statuses by environment. */
 export interface PartnerEndCustomerOAuthInstitutionEnvironments {
-  development?: PartnerEndCustomerOAuthInstitutionApplicationStatus;
-  production?: PartnerEndCustomerOAuthInstitutionApplicationStatus;
+  development?: PartnerEndCustomerOAuthInstitutionApplicationStatus | undefined;
+  production?: PartnerEndCustomerOAuthInstitutionApplicationStatus | undefined;
   [key: string]: unknown;
 }
 /** The errors encountered while registering the end customer's application with the institutions. */
 export type PartnerEndCustomerOAuthInstitutionErrorsList = Array<PlaidError | null>;
 /** The OAuth registration information for an institution. */
 export interface PartnerEndCustomerOAuthInstitution {
-  name?: string;
-  institution_id?: string;
-  environments?: PartnerEndCustomerOAuthInstitutionEnvironments;
+  name?: string | undefined;
+  institution_id?: string | undefined;
+  environments?: PartnerEndCustomerOAuthInstitutionEnvironments | undefined;
   /** The date on which the end customer's application was approved by the institution, or `null` if their application has not yet been approved. */
-  production_enablement_date?: string | null;
+  production_enablement_date?: string | null | undefined;
   /** The date on which non-OAuth Item adds will no longer be supported for this institution, or `null` if no such date has been set by the institution. */
-  classic_disablement_date?: string | null;
+  classic_disablement_date?: string | null | undefined;
   /** The errors encountered while registering the end customer's application with the institutions. */
-  errors?: PartnerEndCustomerOAuthInstitutionErrorsList;
+  errors?: PartnerEndCustomerOAuthInstitutionErrorsList | undefined;
   [key: string]: unknown;
 }
 /** The OAuth institutions with which the end customer's application is being registered. */
@@ -13072,16 +13108,16 @@ export type PartnerCustomerOAuthInstitutionsGetResponseInstitutionsList =
   Array<PartnerEndCustomerOAuthInstitution>;
 /** Response schema for `/partner/customer/oauth_institutions/get`. */
 export interface PartnerCustomerOAuthInstitutionsGetResponse {
-  flowdown_status?: PartnerEndCustomerFlowdownStatus;
-  questionnaire_status?: PartnerEndCustomerQuestionnaireStatus;
+  flowdown_status?: PartnerEndCustomerFlowdownStatus | undefined;
+  questionnaire_status?: PartnerEndCustomerQuestionnaireStatus | undefined;
   /** The OAuth institutions with which the end customer's application is being registered. */
-  institutions?: PartnerCustomerOAuthInstitutionsGetResponseInstitutionsList;
-  request_id?: string;
+  institutions?: PartnerCustomerOAuthInstitutionsGetResponseInstitutionsList | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetPaymentInitiationConsentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `consent_id` returned from `/payment_initiation/consent/create`. */
   consent_id: string;
 }
@@ -13107,14 +13143,14 @@ export interface GetPaymentInitiationConsentResponse {
   reference: string;
   constraints: PaymentInitiationConsentConstraints;
   /** Deprecated, use the 'type' field instead. */
-  scopes?: GetPaymentInitiationConsentResponseScopesList;
-  type?: PaymentInitiationConsentType;
-  payer_details?: ExternalPaymentRefundDetails | null;
+  scopes?: GetPaymentInitiationConsentResponseScopesList | undefined;
+  type?: PaymentInitiationConsentType | undefined;
+  payer_details?: ExternalPaymentRefundDetails | null | undefined;
   request_id: string;
 }
 export interface GetPaymentInitiationPaymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `payment_id` returned from `/payment_initiation/payment/create`. */
   payment_id: string;
 }
@@ -13152,35 +13188,35 @@ export interface GetPaymentInitiationPaymentResponse {
   /** A reference for the payment. */
   reference: string;
   /** The value of the reference sent to the bank after adjustment to pass bank validation rules. */
-  adjusted_reference?: string | null;
+  adjusted_reference?: string | null | undefined;
   /** The date and time of the last time the `status` was updated, in ISO 8601 format */
   last_status_update: string;
-  schedule?: ExternalPaymentScheduleGet | null;
-  refund_details?: ExternalPaymentRefundDetails | null;
+  schedule?: ExternalPaymentScheduleGet | null | undefined;
+  refund_details?: ExternalPaymentRefundDetails | null | undefined;
   bacs: PaymentInitiationOptionalRestrictionBacs | null;
   /** The International Bank Account Number (IBAN) for the sender, if specified in the `/payment_initiation/payment/create` call. */
   iban: string | null;
   /** Refund IDs associated with the payment. */
-  refund_ids?: GetPaymentInitiationPaymentResponseRefundIdsList | null;
-  amount_refunded?: PaymentAmountRefunded;
+  refund_ids?: GetPaymentInitiationPaymentResponseRefundIdsList | null | undefined;
+  amount_refunded?: PaymentAmountRefunded | undefined;
   /** The EMI (E-Money Institution) wallet that this payment is associated with, if any. This wallet is used as an intermediary account to enable Plaid to reconcile the settlement of funds for Payment Initiation requests. */
-  wallet_id?: string | null;
-  scheme?: PaymentScheme | null;
-  adjusted_scheme?: PaymentScheme | null;
+  wallet_id?: string | null | undefined;
+  scheme?: PaymentScheme | null | undefined;
+  adjusted_scheme?: PaymentScheme | null | undefined;
   /** The payment consent ID that this payment was initiated with. Is present only when payment was initiated using the payment consent. */
-  consent_id?: string | null;
+  consent_id?: string | null | undefined;
   /** The transaction ID that this payment is associated with, if any. This is present only when a payment was initiated using virtual accounts. */
-  transaction_id?: string | null;
+  transaction_id?: string | null | undefined;
   /** A unique identifier assigned by Plaid to each payment for tracking and reconciliation purposes. Note: Not all banks handle `end_to_end_id` consistently. To ensure accurate matching, clients should convert both the incoming `end_to_end_id` and the one provided by Plaid to the same case (either lower or upper) before comparison. For virtual account payments, Plaid manages this field automatically. */
-  end_to_end_id?: string | null;
-  error?: PlaidError | null;
+  end_to_end_id?: string | null | undefined;
+  error?: PlaidError | null | undefined;
   /** The Plaid institution ID of the end user's financial institution from which the payment was initiated, such as `ins_61`. `null` if the institution is not known, for example when the end user has not linked an account. A later request may return a value. */
   institution_id: string | null;
   request_id: string;
 }
 export interface GetPaymentInitiationRecipientRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the recipient */
   recipient_id: string;
 }
@@ -13189,16 +13225,16 @@ export interface GetPaymentInitiationRecipientResponse {
   recipient_id: string;
   /** The name of the recipient. */
   name: string;
-  address?: PaymentInitiationAddress | null;
+  address?: PaymentInitiationAddress | null | undefined;
   /** The International Bank Account Number (IBAN) for the recipient. */
-  iban?: string | null;
-  bacs?: PaymentInitiationOptionalRestrictionBacs | null;
+  iban?: string | null | undefined;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | null | undefined;
   request_id: string;
 }
 export interface GetProcessorAccountRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   processor_token: string;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** ProcessorAccountGetResponse defines the response schema for `/processor/account/get` */
 export interface ProcessorAccountGetResponse {
@@ -13209,8 +13245,8 @@ export interface ProcessorAccountGetResponse {
   [key: string]: unknown;
 }
 export interface GetProcessorAuthRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
 }
 /** Identifying information for transferring money to or from a US account via ACH or wire transfer. */
@@ -13223,10 +13259,10 @@ export type NumbersInternationalNullable = NumbersInternational;
 export type NumbersBACSNullable = NumbersBACS;
 /** An object containing identifying numbers used for making electronic transfers to and from the `account`. The identifying number type (ACH, EFT, IBAN, or Bacs) used will depend on the country of the account. An account may have more than one number type. If a particular identifying number type is not used by the `account` for which auth data has been requested, a null value will be returned. */
 export interface ProcessorNumber {
-  ach?: NumbersACH | null;
-  eft?: NumbersEFT | null;
-  international?: NumbersInternational | null;
-  bacs?: NumbersBACS | null;
+  ach?: NumbersACH | null | undefined;
+  eft?: NumbersEFT | null | undefined;
+  international?: NumbersInternational | null | undefined;
+  bacs?: NumbersBACS | null | undefined;
   [key: string]: unknown;
 }
 /** ProcessorAuthGetResponse defines the response schema for `/processor/auth/get` */
@@ -13238,13 +13274,13 @@ export interface ProcessorAuthGetResponse {
 }
 /** Optional parameters to `/processor/balance/get`. */
 export interface ProcessorBalanceGetRequestOptions {
-  min_last_updated_datetime?: string;
+  min_last_updated_datetime?: string | undefined;
 }
 export interface GetProcessorBalanceRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
-  options?: ProcessorBalanceGetRequestOptions;
+  options?: ProcessorBalanceGetRequestOptions | undefined;
 }
 /** ProcessorBalanceGetResponse defines the response schema for `/processor/balance/get` */
 export interface ProcessorBalanceGetResponse {
@@ -13253,8 +13289,8 @@ export interface ProcessorBalanceGetResponse {
   [key: string]: unknown;
 }
 export interface GetProcessorIdentityRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
 }
 /** ProcessorIdentityGetResponse defines the response schema for `/processor/identity/get` */
@@ -13264,8 +13300,8 @@ export interface ProcessorIdentityGetResponse {
   [key: string]: unknown;
 }
 export interface GetProcessorInvestmentsAuthRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
 }
 /** The holdings belonging to the investment account. Details of the securities in the holdings are provided in the `securities` field. */
@@ -13289,16 +13325,16 @@ export interface ProcessorInvestmentsAuthGetResponse {
   numbers: InvestmentsAuthGetNumbers;
   data_sources: InvestmentsAuthDataSources;
   /** Additional information for accounts of 401k subtype. */
-  account_details_401k?: ProcessorInvestmentsAuthGetResponseAccountDetails401kList;
+  account_details_401k?: ProcessorInvestmentsAuthGetResponseAccountDetails401kList | undefined;
   /** When true, this field indicates that the Item's portfolio was manually created with the Investments Fallback flow. */
-  is_investments_fallback_item?: boolean;
+  is_investments_fallback_item?: boolean | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetProcessorInvestmentsHoldingRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   processor_token: string;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The holdings belonging to investment accounts associated with the Item. Details of the securities in the holdings are provided in the `securities` field. */
 export type ProcessorInvestmentsHoldingsGetResponseHoldingsList = Array<Holding>;
@@ -13312,15 +13348,15 @@ export interface ProcessorInvestmentsHoldingsGetResponse {
   /** Objects describing the securities held in the account. */
   securities: ProcessorInvestmentsHoldingsGetResponseSecuritiesList;
   /** When true, this field indicates that the Item's portfolio was manually created with the Investments Fallback flow. */
-  is_investments_fallback_item?: boolean;
-  request_id?: string;
+  is_investments_fallback_item?: boolean | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetProcessorInvestmentsTransactionRequest {
-  client_id?: string;
-  options?: InvestmentsTransactionsGetRequestOptions;
+  client_id?: string | undefined;
+  options?: InvestmentsTransactionsGetRequestOptions | undefined;
   processor_token: string;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all investment transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
@@ -13342,12 +13378,12 @@ export interface ProcessorInvestmentsTransactionsGetResponse {
   total_investment_transactions: number;
   request_id: string;
   /** When true, this field indicates that the Item's portfolio was manually created with the Investments Fallback flow. */
-  is_investments_fallback_item?: boolean;
+  is_investments_fallback_item?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface GetProcessorLiabilityRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
 }
 /** ProcessorLiabilitiesGetResponse defines the response schema for `/processor/liabilities/get` */
@@ -13358,8 +13394,8 @@ export interface ProcessorLiabilitiesGetResponse {
   [key: string]: unknown;
 }
 export interface GetProcessorTokenPermissionsRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
 }
 /** A list of products the processor token should have access to. An empty list means that the processor has access to all available products, including future products. */
@@ -13374,23 +13410,23 @@ export interface ProcessorTokenPermissionsGetResponse {
 /** An optional object to be used with the request. If specified, `options` must not be `null`. */
 export interface ProcessorTransactionsGetRequestOptions {
   /** The number of transactions to fetch. */
-  count?: number;
+  count?: number | undefined;
   /** The number of transactions to skip. The default value is 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Include the raw unparsed transaction description from the financial institution. */
-  include_original_description?: boolean | null;
+  include_original_description?: boolean | null | undefined;
   /** Personal finance categories are now returned by default. */
-  include_personal_finance_category_beta?: boolean;
+  include_personal_finance_category_beta?: boolean | undefined;
   /** Personal finance categories are now returned by default. */
-  include_personal_finance_category?: boolean;
+  include_personal_finance_category?: boolean | undefined;
   /** Counterparties and extra merchant fields are now returned by default. */
-  include_logo_and_counterparty_beta?: boolean;
+  include_logo_and_counterparty_beta?: boolean | undefined;
 }
 export interface GetProcessorTransactionRequest {
-  client_id?: string;
-  options?: ProcessorTransactionsGetRequestOptions;
+  client_id?: string | undefined;
+  options?: ProcessorTransactionsGetRequestOptions | undefined;
   processor_token: string;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
@@ -13407,7 +13443,7 @@ export type TransactionCounterpartiesList = Array<TransactionCounterparty>;
 /** Custom client fields */
 export interface ClientCustomization {
   /** Custom entity ID that maps to a merchant or counterparty. This is different from the `merchant_entity_id` as well as the `entity_id` on the counterparties object to meet client specific needs. */
-  custom_entity_id?: string;
+  custom_entity_id?: string | undefined;
   [key: string]: unknown;
 }
 /** A representation of a transaction */
@@ -13421,20 +13457,20 @@ export interface Transaction {
   /** The unofficial currency code associated with the transaction. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code: string | null;
   /** A hierarchical array of the categories to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). All Transactions implementations are recommended to use the new `personal_finance_category` instead of `category`, as it provides greater accuracy and more meaningful categorization. If the `transactions` object was returned by an Assets endpoint such as `/asset_report/get` or `/asset_report/pdf/get`, this field will only appear in an Asset Report with Insights. */
-  category?: TransactionCategoryList | null;
+  category?: TransactionCategoryList | null | undefined;
   /** The ID of the category to which this transaction belongs. For a full list of categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). All Transactions implementations are recommended to use the new `personal_finance_category` instead of `category`, as it provides greater accuracy and more meaningful categorization. If the `transactions` object was returned by an Assets endpoint such as `/asset_report/get` or `/asset_report/pdf/get`, this field will only appear in an Asset Report with Insights. */
-  category_id?: string | null;
+  category_id?: string | null | undefined;
   /** The check number of the transaction. This field is only populated for check transactions. */
-  check_number?: string | null;
+  check_number?: string | null | undefined;
   /** For pending transactions, the date that the transaction occurred; for posted transactions, the date that the transaction posted. Both dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DD` ). To receive information about the date that a posted transaction was initiated, see the `authorized_date` field. */
   date: string;
   location: Location;
   /** The merchant name or transaction description. Note: While Plaid does not currently plan to remove this field, it is a legacy field that is not actively maintained. Use `merchant_name` instead for the merchant name. If the `transactions` object was returned by a Transactions endpoint such as `/transactions/sync` or `/transactions/get`, this field will always appear. If the `transactions` object was returned by an Assets endpoint such as `/asset_report/get` or `/asset_report/pdf/get`, this field will only appear in an Asset Report with Insights. */
   name: string;
   /** The merchant name, as enriched by Plaid from the `name` field. This is typically a more human-readable version of the merchant counterparty in the transaction. For some bank transactions (such as checks or account transfers) where there is no meaningful merchant name, this value will be `null`. */
-  merchant_name?: string | null;
+  merchant_name?: string | null | undefined;
   /** The string returned by the financial institution to describe the transaction. For transactions returned by `/transactions/sync` or `/transactions/get`, this field will only be included if the client has set `options.include_original_description` to `true`. */
-  original_description?: string | null;
+  original_description?: string | null | undefined;
   payment_meta: PaymentMeta;
   /** When `true`, identifies the transaction as pending or unsettled. Pending transaction details (name, type, amount, category ID) may change before they are settled. Not all institutions provide pending transactions. */
   pending: boolean;
@@ -13445,11 +13481,11 @@ export interface Transaction {
   /** The unique ID of the transaction. Like all Plaid identifiers, the `transaction_id` is case sensitive. */
   transaction_id: string;
   /** Please use the `payment_channel` field, `transaction_type` will be deprecated in the future. `digital:` transactions that took place online. `place:` transactions that were made at a physical location. `special:` transactions that relate to banks, e.g. fees or deposits. `unresolved:` transactions that do not fit into the other three types. */
-  transaction_type?: TransactionTransactionType;
+  transaction_type?: TransactionTransactionType | undefined;
   /** The URL of a logo associated with this transaction, if available. The logo will always be a 100×100 pixel PNG file. */
-  logo_url?: string | null;
+  logo_url?: string | null | undefined;
   /** The website associated with this transaction, if available. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** The date that the transaction was authorized. For posted transactions, the `date` field will indicate the posted date, but `authorized_date` will indicate the day the transaction was authorized by the financial institution. If presenting transactions to the user in a UI, the `authorized_date`, when available, is generally preferable to use over the `date` field for posted transactions, as it will generally represent the date the user actually made the transaction. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DD` ). */
   authorized_date: string | null;
   /** Date and time when a transaction was authorized in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format ( `YYYY-MM-DDTHH:mm:ssZ` ). For posted transactions, the `datetime` field will indicate the posted date, but `authorized_datetime` will indicate the day the transaction was authorized by the financial institution. If presenting transactions to the user in a UI, the `authorized_datetime`, when available, is generally preferable to use over the `datetime` field for posted transactions, as it will generally represent the date the user actually made the transaction. This field is returned for select financial institutions and comes as provided by the institution. It may contain default time values (such as 00:00:00). This field is only populated in API version 2019-05-29 and later. */
@@ -13458,20 +13494,20 @@ export interface Transaction {
   datetime: string | null;
   /** The channel used to make a payment. `online:` transactions that took place online. `in store:` transactions that were made at a physical location. `other:` transactions that relate to banks, e.g. fees or deposits. This field replaces the `transaction_type` field. */
   payment_channel: TransactionPaymentChannel;
-  personal_finance_category?: PersonalFinanceCategory | null;
-  business_finance_category?: BusinessFinanceCategory | null;
+  personal_finance_category?: PersonalFinanceCategory | null | undefined;
+  business_finance_category?: BusinessFinanceCategory | null | undefined;
   transaction_code: TransactionCode | null;
   /** The URL of an icon associated with the primary personal finance category. The icon will always be a 100×100 pixel PNG file. */
-  personal_finance_category_icon_url?: string;
+  personal_finance_category_icon_url?: string | undefined;
   /** The counterparties present in the transaction. Counterparties, such as the merchant or the financial institution, are extracted by Plaid from the raw description. */
-  counterparties?: TransactionCounterpartiesList;
+  counterparties?: TransactionCounterpartiesList | undefined;
   /** A unique, stable, Plaid-generated ID that maps to the merchant. In the case of a merchant with multiple retail locations, this field will map to the broader merchant, not a specific location or store. */
-  merchant_entity_id?: string | null;
+  merchant_entity_id?: string | null | undefined;
   /** The merchant category code for the transaction, typically a four-digit [ISO 18245](https://www.iso.org/standard/33365.html) string. This field is in beta: it is populated primarily for card transactions, coverage varies by institution, and values are subject to change. */
-  merchant_category_code?: string | null;
+  merchant_category_code?: string | null | undefined;
   /** The balance of the account after this transaction was applied, as reported by the financial institution. Returned on posted transactions only, and not populated for every institution or every transaction. May not reconcile with the balances returned by `/accounts/balance/get`. */
-  running_balance?: number | null;
-  client_customization?: ClientCustomization | null;
+  running_balance?: number | null | undefined;
+  client_customization?: ClientCustomization | null | undefined;
   [key: string]: unknown;
 }
 /** An array containing transactions from the account. Transactions are returned in reverse chronological order, with the most recent at the beginning of the array. The maximum number of transactions returned is determined by the `count` parameter. */
@@ -13489,14 +13525,14 @@ export interface ProcessorTransactionsGetResponse {
 /** An optional object to be used with the request. If specified, `options` must not be `null`. */
 export interface TransactionsRecurringGetRequestOptions {
   /** Personal finance categories are now returned by default. */
-  include_personal_finance_category?: boolean;
-  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {});
+  include_personal_finance_category?: boolean | undefined;
+  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {}) | undefined;
 }
 export interface GetProcessorTransactionsRecurringRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   processor_token: string;
-  secret?: string | Redacted.Redacted<string>;
-  options?: TransactionsRecurringGetRequestOptions;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  options?: TransactionsRecurringGetRequestOptions | undefined;
 }
 /** A hierarchical array of the categories to which this transaction belongs. See [Categories](https://plaid.com/docs/api/products/transactions/#categoriesget). All implementations are encouraged to use the new `personal_finance_category` instead of `category`. `personal_finance_category` provides more meaningful categorization and greater accuracy. */
 export type TransactionStreamCategoryList = Array<string>;
@@ -13513,11 +13549,11 @@ export type TransactionStreamTransactionIdsList = Array<string>;
 /** Object with data pertaining to an amount on the transaction stream. */
 export interface TransactionStreamAmount {
   /** Represents the numerical value of an amount. */
-  amount?: number;
+  amount?: number | undefined;
   /** The ISO-4217 currency code of the amount. Always `null` if `unofficial_currency_code` is non-`null`. See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s. */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   /** The unofficial currency code of the amount. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries. */
-  unofficial_currency_code?: string | null;
+  unofficial_currency_code?: string | null | undefined;
   [key: string]: unknown;
 }
 /** The current status of the transaction stream. `MATURE`: A `MATURE` recurring stream should have at least 3 transactions and happen on a regular cadence (For Annual recurring stream, we will mark it `MATURE` after 2 instances). `EARLY_DETECTION`: When a recurring transaction first appears in the transaction history and before it fulfills the requirement of a mature stream, the status will be `EARLY_DETECTION`. `TOMBSTONED`: A stream that was previously in the `EARLY_DETECTION` status will move to the `TOMBSTONED` status when no further transactions were found at the next expected date. `UNKNOWN`: A stream is assigned an `UNKNOWN` status when none of the other statuses are applicable. */
@@ -13541,7 +13577,7 @@ export interface TransactionStream {
   /** The posted date of the latest transaction in the stream. */
   last_date: string;
   /** The predicted date of the next payment. This will only be set if the next payment date can be predicted. */
-  predicted_next_date?: string | null;
+  predicted_next_date?: string | null | undefined;
   frequency: RecurringTransactionFrequency;
   /** An array of Plaid transaction IDs belonging to the stream, sorted by posted date. */
   transaction_ids: TransactionStreamTransactionIdsList;
@@ -13550,11 +13586,11 @@ export interface TransactionStream {
   /** Indicates whether the transaction stream is still live. */
   is_active: boolean;
   status: TransactionStreamStatus;
-  personal_finance_category?: PersonalFinanceCategory | null;
+  personal_finance_category?: PersonalFinanceCategory | null | undefined;
   /** As the ability to modify transactions streams has been discontinued, this field will always be `false`. */
   is_user_modified: boolean;
   /** The date and time of the most recent user modification. This will only be set if `is_user_modified` is `true`. */
-  last_user_modified_datetime?: string;
+  last_user_modified_datetime?: string | undefined;
   [key: string]: unknown;
 }
 /** An array of inflow transaction streams. */
@@ -13569,13 +13605,13 @@ export interface ProcessorTransactionsRecurringGetResponse {
   outflow_streams: ProcessorTransactionsRecurringGetResponseOutflowStreamsList;
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time transaction streams for the given account were updated on */
   updated_datetime: string;
-  personal_finance_category_version?: PersonalFinanceCategoryVersion;
+  personal_finance_category_version?: PersonalFinanceCategoryVersion | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetProfileNetworkStatusRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user: NetworkStatusGetUser;
 }
 /** ProfileNetworkStatusGetResponse defines the response schema for `/profile/network_status/get` */
@@ -13585,12 +13621,12 @@ export interface ProfileNetworkStatusGetResponse {
   [key: string]: unknown;
 }
 export interface GetProtectUserInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid User ID. Either `user_id` or `client_user_id` must be provided. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique ID representing the end user. Either `user_id` or `client_user_id` must be provided. */
-  client_user_id?: string;
+  client_user_id?: string | undefined;
 }
 /** The latest scored event for a user. */
 export interface LatestScoredEvent {
@@ -13599,7 +13635,7 @@ export interface LatestScoredEvent {
   /** The timestamp of the event, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2017-09-14T14:42:19.350Z"` */
   timestamp: string;
   /** The external event type, when one is available. */
-  event_type?: string;
+  event_type?: string | undefined;
   trust_index: TrustIndex | null;
   fraud_attributes: FraudAttributes | null;
   [key: string]: unknown;
@@ -13607,20 +13643,20 @@ export interface LatestScoredEvent {
 /** Details about the incident event. */
 export interface ProtectIncidentEventResponse {
   /** A globally unique identifier representing a Protect event that may be associated with this incident. */
-  protect_event_id?: string | null;
+  protect_event_id?: string | null | undefined;
   /** A unique identifier for a Link session that may be associated with this incident. */
-  link_session_id?: string | null;
+  link_session_id?: string | null | undefined;
   /** A unique identifier for an Identity Verification session that may be associated with this incident. */
-  idv_session_id?: string | null;
+  idv_session_id?: string | null | undefined;
   /** The unique ID used to refer to a Signal transaction evaluation that may be associated with this incident. */
-  signal_client_transaction_id?: string | null;
+  signal_client_transaction_id?: string | null | undefined;
   /** A unique ID representing the incident in your system. Personally identifiable information, such as an email address or phone number, should not be used in this field. */
-  internal_reference?: string | null;
+  internal_reference?: string | null | undefined;
   /** The timestamp when the incident occurred, in ISO 8601 format (e.g., '2020-07-24T03:26:02Z'). */
-  time?: string | null;
-  amount?: ProtectIncidentAmount | null;
+  time?: string | null | undefined;
+  amount?: ProtectIncidentAmount | null | undefined;
   /** The `item_id` associated with the Item related to this incident. */
-  item_id?: string | null;
+  item_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** A Protect report associated with a user. Contains details about documented incidents, which may include fraud, investigation outcomes, or other risk events. */
@@ -13648,7 +13684,7 @@ export interface ProtectUserInsightsGetResponse {
   user_id: string;
   latest_scored_event: LatestScoredEvent | null;
   /** List of Protect reports associated with this user, limited to the most recent 100 reports in reverse chronological order (newest first). */
-  reports?: ProtectUserInsightsGetResponseReportsList;
+  reports?: ProtectUserInsightsGetResponseReportsList | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -13662,7 +13698,7 @@ export interface GetRecipientResponse {
   /** The recipient's (application's) name, as displayed to your customers during the consent flow */
   client_name: string;
   /** URL for the recipient's (application's) logo */
-  logo_uri?: string | null;
+  logo_uri?: string | null | undefined;
   /** The recipient's (application's) legal entity name */
   third_party_legal_name: string;
 }
@@ -13674,7 +13710,7 @@ export interface ExtendedRecipientMetadata {
   /** The recipient's (application's) name, as displayed to your customers during the consent flow */
   client_name: string;
   /** URL for the recipient's (application's) logo */
-  logo_uri?: string | null;
+  logo_uri?: string | null | undefined;
   /** The recipient's (application's) legal entity name */
   third_party_legal_name: string;
   /** The category the recipient (application) falls under */
@@ -13691,8 +13727,8 @@ export interface GetRecipientsResponse {
   [key: string]: unknown;
 }
 export interface GetSandboxTransferTestClockRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   test_clock_id: string;
 }
 /** Defines the response schema for `/sandbox/transfer/test_clock/get` */
@@ -13706,28 +13742,28 @@ export type TransactionsGetRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to be used with the request. If specified, `options` must not be `null`. */
 export interface TransactionsGetRequestOptions {
   /** A list of `account_ids` to retrieve for the Item Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: TransactionsGetRequestOptionsAccountIdsList;
+  account_ids?: TransactionsGetRequestOptionsAccountIdsList | undefined;
   /** The number of transactions to fetch. */
-  count?: number;
+  count?: number | undefined;
   /** The number of transactions to skip. The default value is 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Include the raw unparsed transaction description from the financial institution. */
-  include_original_description?: boolean | null;
+  include_original_description?: boolean | null | undefined;
   /** Personal finance categories are now returned by default. */
-  include_personal_finance_category_beta?: boolean;
+  include_personal_finance_category_beta?: boolean | undefined;
   /** Personal finance categories are now returned by default. */
-  include_personal_finance_category?: boolean;
+  include_personal_finance_category?: boolean | undefined;
   /** Counterparties and extra merchant fields are now returned by default. */
-  include_logo_and_counterparty_beta?: boolean;
-  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {});
+  include_logo_and_counterparty_beta?: boolean | undefined;
+  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {}) | undefined;
   /** This field only applies to calls for Items where the Transactions product has not already been initialized (i.e. by specifying `transactions` in the `products`, `optional_products`, or `required_if_supported_products` array when calling `/link/token/create` or by making a previous call to `/transactions/sync` or `/transactions/get`). In those cases, the field controls the maximum number of days of transaction history that Plaid will request from the financial institution. The more transaction history is requested, the longer the historical update poll will take. If no value is specified, 90 days of history will be requested by default. In Production, if a value under 30 is provided, a minimum of 30 days of history will be requested. If you are initializing your Items with transactions during the `/link/token/create` call (e.g. by including `transactions` in the `/link/token/create` `products` array), you must use the [`transactions.days_requested`](https://plaid.com/docs/api/link/#link-token-create-request-transactions-days-requested) field in the `/link/token/create` request instead of in the `/transactions/get` request. If the Item has already been initialized with the Transactions product, this field will have no effect. The maximum amount of transaction history to request on an Item cannot be updated if Transactions has already been added to the Item. To request older transaction history on an Item where Transactions has already been added, you must delete the Item via `/item/remove` and send the user through Link to create a new Item. Customers using [Recurring Transactions](https://plaid.com/docs/api/products/transactions/#transactionsrecurringget) should request at least 180 days of history for optimal results. */
-  days_requested?: number;
+  days_requested?: number | undefined;
 }
 export interface GetTransactionRequest {
-  client_id?: string;
-  options?: TransactionsGetRequestOptions;
+  client_id?: string | undefined;
+  options?: TransactionsGetRequestOptions | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
@@ -13752,12 +13788,12 @@ export interface TransactionsGetResponse {
 /** An optional list of `account_ids` to retrieve for the Item. Retrieves all active accounts on item if no `account_id`s are provided. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
 export type GetTransactionsRecurringRequestAccountIdsList = Array<string>;
 export interface GetTransactionsRecurringRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
-  options?: TransactionsRecurringGetRequestOptions;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  options?: TransactionsRecurringGetRequestOptions | undefined;
   /** An optional list of `account_ids` to retrieve for the Item. Retrieves all active accounts on item if no `account_id`s are provided. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_ids?: GetTransactionsRecurringRequestAccountIdsList;
+  account_ids?: GetTransactionsRecurringRequestAccountIdsList | undefined;
 }
 /** An array of inflow transaction streams. */
 export type TransactionsRecurringGetResponseInflowStreamsList = Array<TransactionStream>;
@@ -13771,13 +13807,13 @@ export interface TransactionsRecurringGetResponse {
   outflow_streams: TransactionsRecurringGetResponseOutflowStreamsList;
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time transaction streams for the given account were updated on */
   updated_datetime: string;
-  personal_finance_category_version?: PersonalFinanceCategoryVersion;
+  personal_finance_category_version?: PersonalFinanceCategoryVersion | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetTransactionsUserInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A unique client-provided `client_user_id` to retrieve insights for. */
   client_user_id: string;
 }
@@ -13786,9 +13822,9 @@ export interface UserDataOverview {
   /** The total number of transactions. */
   transaction_count: number;
   /** The date of the oldest transaction processed to generate insights. */
-  oldest_transaction_date?: string;
+  oldest_transaction_date?: string | undefined;
   /** The date of the newest transaction processed to generate insights. */
-  newest_transaction_date?: string;
+  newest_transaction_date?: string | undefined;
   /** The range of days of transactions available. */
   days_available: number;
   /** Sum of outflow amounts. */
@@ -13806,11 +13842,11 @@ export interface DetectedAccount {
   /** The number of transactions associated with this detected account type at this financial institution. */
   transaction_count: number;
   /** The date of the oldest transaction associated with this detected account type at this financial institution. */
-  oldest_transaction_date?: string;
+  oldest_transaction_date?: string | undefined;
   /** The date of the newest transaction associated with this detected account type at this financial institution. */
-  newest_transaction_date?: string;
+  newest_transaction_date?: string | undefined;
   /** Amount of the most recent transaction associated with this detected account type at this financial institution. */
-  newest_transaction_amount?: number;
+  newest_transaction_amount?: number | undefined;
   /** Sum of outflow amounts associated with this detected account type at this financial institution. */
   total_outflows: number;
   /** Sum of inflow amounts associated with this detected account type at this financial institution. */
@@ -13824,7 +13860,7 @@ export interface FinancialInstitutionInsights {
   /** Name of the financial institution counterparty. */
   name: string;
   /** A unique, stable, Plaid-generated id that maps to the counterparty. */
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   /** The website associated with the counterparty. */
   website: string | null;
   /** Associated accounts, detected based on the nature of transfers to/from this institution. */
@@ -13838,7 +13874,7 @@ export interface MerchantInsights {
   /** The counterparty name. */
   name: string;
   /** A unique, stable, Plaid-generated id that maps to the merchant. */
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   /** The website associated with the merchant. */
   website: string | null;
   /** The number of transactions associated with merchant of this type. */
@@ -13857,9 +13893,9 @@ export type CounterpartyInsightsMerchantInsightsList = Array<MerchantInsights>;
 /** Insights around a user's counterparties */
 export interface CounterpartyInsights {
   /** Insights related to a user's transactions with other financial institutions, including detected account types. */
-  financial_institution_insights?: CounterpartyInsightsFinancialInstitutionInsightsList;
+  financial_institution_insights?: CounterpartyInsightsFinancialInstitutionInsightsList | undefined;
   /** Insights about a user's top merchants, ranked by spend. */
-  merchant_insights?: CounterpartyInsightsMerchantInsightsList;
+  merchant_insights?: CounterpartyInsightsMerchantInsightsList | undefined;
   [key: string]: unknown;
 }
 /** The most common counterparties associated with this category sorted by outflow. */
@@ -13875,7 +13911,7 @@ export interface CategoryInsightDetails {
   /** Sum of inflow amounts. */
   total_inflows: number;
   /** The most common counterparties associated with this category sorted by outflow. */
-  top_counterparties?: CategoryInsightDetailsTopCounterpartiesList;
+  top_counterparties?: CategoryInsightDetailsTopCounterpartiesList | undefined;
   [key: string]: unknown;
 }
 /** List of insights of top primary personal finance categories ranked by outflow. */
@@ -13885,9 +13921,9 @@ export type CategoryInsightsDetailedCategoryInsightsList = Array<CategoryInsight
 /** Insights on a user's top personal finance categories. */
 export interface CategoryInsights {
   /** List of insights of top primary personal finance categories ranked by outflow. */
-  primary_category_insights?: CategoryInsightsPrimaryCategoryInsightsList;
+  primary_category_insights?: CategoryInsightsPrimaryCategoryInsightsList | undefined;
   /** List of insights of top detailed personal finance categories ranked by outflow. */
-  detailed_category_insights?: CategoryInsightsDetailedCategoryInsightsList;
+  detailed_category_insights?: CategoryInsightsDetailedCategoryInsightsList | undefined;
   [key: string]: unknown;
 }
 /** An array of Plaid transaction IDs belonging to the stream, sorted by posted date. */
@@ -13897,29 +13933,29 @@ export interface RecurringInsightsStream {
   /** A unique id for the stream. */
   stream_id: string;
   /** The client-provided raw description of the most recent transaction in the stream. */
-  description?: string;
+  description?: string | undefined;
   /** The merchant or primary counterparty associated with the transaction stream. */
   merchant_name: string;
   /** The posted date of the earliest transaction in the stream. */
-  oldest_transaction_date?: string;
+  oldest_transaction_date?: string | undefined;
   /** The posted date of the latest transaction in the stream. */
-  newest_transaction_date?: string;
+  newest_transaction_date?: string | undefined;
   /** The average number of days between each of the recurring transactions. */
   average_days_apart: number;
-  frequency?: RecurringTransactionFrequency;
+  frequency?: RecurringTransactionFrequency | undefined;
   /** The number of transactions in this stream. */
-  transaction_count?: number;
+  transaction_count?: number | undefined;
   /** An array of Plaid transaction IDs belonging to the stream, sorted by posted date. */
-  transaction_ids?: RecurringInsightsStreamTransactionIdsList;
-  average_amount?: TransactionStreamAmount;
-  newest_transaction_amount?: TransactionStreamAmount;
+  transaction_ids?: RecurringInsightsStreamTransactionIdsList | undefined;
+  average_amount?: TransactionStreamAmount | undefined;
+  newest_transaction_amount?: TransactionStreamAmount | undefined;
   /** Indicates whether the transaction stream is still live. */
   is_active: boolean;
-  status?: TransactionStreamStatus;
+  status?: TransactionStreamStatus | undefined;
   /** The primary category associated with the transaction stream. */
-  personal_finance_category_primary?: string;
+  personal_finance_category_primary?: string | undefined;
   /** The detailed category associated with the transaction stream. */
-  personal_finance_category_detailed?: string;
+  personal_finance_category_detailed?: string | undefined;
   [key: string]: unknown;
 }
 /** An array of inflow transaction streams (e.g., income). */
@@ -13937,18 +13973,18 @@ export interface RecurringTransactions {
 /** TransactionsUserInsightsGetResponse defines the response schema for `/beta/transactions/user_insights/v1/get`. */
 export interface TransactionsUserInsightsGetResponse {
   user_data_overview: UserDataOverview;
-  counterparty_insights?: CounterpartyInsights;
-  category_insights?: CategoryInsights;
-  recurring_transactions?: RecurringTransactions;
+  counterparty_insights?: CounterpartyInsights | undefined;
+  category_insights?: CategoryInsights | undefined;
+  recurring_transactions?: RecurringTransactions | undefined;
   [key: string]: unknown;
 }
 export interface GetTransferRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  transfer_id?: string;
-  authorization_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  transfer_id?: string | undefined;
+  authorization_id?: string | undefined;
   /** The Plaid client ID of the transfer originator. Should only be present if `client_id` is a third-party sender (TPS). */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
 }
 /** Defines the response schema for `/transfer/get` */
 export interface TransferGetResponse {
@@ -13957,26 +13993,26 @@ export interface TransferGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferCapabilityRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   account_id: string;
-  payment_profile_token?: string;
+  payment_profile_token?: string | undefined;
 }
 /** Contains the supported service types in RTP */
 export interface TransferCapabilitiesGetRTP {
   /** When `true`, the linked Item's institution supports RTP credit transfer. */
-  credit?: boolean;
+  credit?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Contains the supported service types in RfP */
 export interface TransferCapabilitiesGetRfP {
   /** When `true`, the linked Item's institution supports RfP debit transfer. */
-  debit?: boolean;
+  debit?: boolean | undefined;
   /** The maximum amount (decimal string with two digits of precision e.g. "10.00") for originating RfP transfers with the given institution. */
-  max_amount?: string | null;
+  max_amount?: string | null | undefined;
   /** The currency of the `max_amount`, e.g. "USD". */
-  iso_currency_code?: string | null;
+  iso_currency_code?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Contains the RTP and RfP network and types supported by the linked Item's institution. */
@@ -13992,10 +14028,10 @@ export interface TransferCapabilitiesGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferConfigurationRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid client ID of the transfer originator. Should only be present if `client_id` is a [Platform customer](https://plaid.com/docs/transfer/application/#originators-vs-platforms). */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
 }
 /** Defines the response schema for `/transfer/configuration/get` */
 export interface TransferConfigurationGetResponse {
@@ -14021,19 +14057,19 @@ export interface TransferConfigurationGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferIntentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Plaid's unique identifier for a transfer intent object. */
   transfer_intent_id: string;
 }
 /** The reason for a failed transfer intent. Returned only if the transfer intent status is `failed`. Null otherwise. */
 export interface TransferIntentGetFailureReason {
   /** A broad categorization of the error. */
-  error_type?: string;
+  error_type?: string | undefined;
   /** A code representing the reason for a failed transfer intent (i.e., an API error or the authorization being declined). */
-  error_code?: string;
+  error_code?: string | undefined;
   /** A human-readable description of the code associated with a failed transfer intent. */
-  error_message?: string;
+  error_message?: string | undefined;
   [key: string]: unknown;
 }
 /** A decision regarding the proposed transfer. `APPROVED` - The proposed transfer has received the end user's consent and has been approved for processing by Plaid. The `decision_rationale` field is set if Plaid was unable to fetch the account information. You may proceed with the transfer, but further review is recommended (i.e., use Link in update mode to re-authenticate your user when `decision_rationale.code` is `ITEM_LOGIN_REQUIRED`). Refer to the `code` field in the `decision_rationale` object for details. `DECLINED` - Plaid reviewed the proposed transfer and declined processing. Refer to the `code` field in the `decision_rationale` object for details. */
@@ -14051,22 +14087,22 @@ export interface TransferIntentGet {
   authorization_decision: TransferIntentAuthorizationDecision | null;
   authorization_decision_rationale: TransferAuthorizationDecisionRationale | null;
   /** The Plaid `account_id` for the account that will be debited or credited. Returned only if `account_id` was set on intent creation. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Plaid's unique identifier for the origination account used for the transfer. */
   origination_account_id: string;
   funding_account_id: string;
   amount: string;
   mode: TransferIntentCreateMode;
-  network?: TransferIntentCreateNetwork;
-  ach_class?: ACHClass;
+  network?: TransferIntentCreateNetwork | undefined;
+  ach_class?: ACHClass | undefined;
   user: TransferUserInResponse;
   /** A description for the underlying transfer. Maximum of 15 characters. */
   description: string;
-  metadata?: TransferMetadata | null;
+  metadata?: TransferMetadata | null | undefined;
   /** The currency of the transfer amount, e.g. "USD" */
   iso_currency_code: string;
   /** When `true`, the transfer requires a `GUARANTEED` decision by Plaid to proceed (Guarantee customers only). */
-  require_guarantee?: boolean | null;
+  require_guarantee?: boolean | null | undefined;
   guarantee_decision: TransferAuthorizationGuaranteeDecision | null;
   guarantee_decision_rationale: TransferAuthorizationGuaranteeDecisionRationale | null;
   [key: string]: unknown;
@@ -14078,12 +14114,12 @@ export interface TransferIntentGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferLedgerRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Specify which ledger balance to get. Customers can find a list of `ledger_id`s in the Accounts page of your Plaid Dashboard. If this field is left blank, this will default to the id of the default ledger balance. */
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** Client ID of the end customer. */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
 }
 /** Information about the balance of the ledger held with Plaid. */
 export interface TransferLedgerBalance {
@@ -14106,36 +14142,36 @@ export interface TransferLedgerGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferMetricsRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid client ID of the transfer originator. Should only be present if `client_id` is a [Platform customer](https://plaid.com/docs/transfer/application/#originators-vs-platforms). */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
 }
 /** Details regarding return rates. */
 export interface TransferMetricsGetReturnRatesOverInterval {
   /** The overall return rate. */
-  overall_return_rate?: string;
+  overall_return_rate?: string | undefined;
   /** The unauthorized return rate. */
-  unauthorized_return_rate?: string;
+  unauthorized_return_rate?: string | undefined;
   /** The administrative return rate. */
-  administrative_return_rate?: string;
+  administrative_return_rate?: string | undefined;
   [key: string]: unknown;
 }
 /** Details regarding return rates. */
 export interface TransferMetricsGetReturnRates {
-  last_60d?: TransferMetricsGetReturnRatesOverInterval | null;
+  last_60d?: TransferMetricsGetReturnRatesOverInterval | null | undefined;
   [key: string]: unknown;
 }
 /** Details regarding authorization usage. */
 export interface TransferMetricsGetAuthorizationUsage {
   /** The daily credit utilization formatted as a decimal. */
-  daily_credit_utilization?: string;
+  daily_credit_utilization?: string | undefined;
   /** The daily debit utilization formatted as a decimal. */
-  daily_debit_utilization?: string;
+  daily_debit_utilization?: string | undefined;
   /** The monthly credit utilization formatted as a decimal. */
-  monthly_credit_utilization?: string;
+  monthly_credit_utilization?: string | undefined;
   /** The monthly debit utilization formatted as a decimal. */
-  monthly_debit_utilization?: string;
+  monthly_debit_utilization?: string | undefined;
   [key: string]: unknown;
 }
 /** Defines the response schema for `/transfer/metrics/get` */
@@ -14153,13 +14189,13 @@ export interface TransferMetricsGetResponse {
   monthly_credit_transfer_volume: string;
   /** The currency of the dollar amount, e.g. "USD". */
   iso_currency_code: string;
-  return_rates?: TransferMetricsGetReturnRates | null;
-  authorization_usage?: TransferMetricsGetAuthorizationUsage | null;
+  return_rates?: TransferMetricsGetReturnRates | null | undefined;
+  authorization_usage?: TransferMetricsGetAuthorizationUsage | null | undefined;
   [key: string]: unknown;
 }
 export interface GetTransferOriginatorRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Client ID of the end customer (i.e. the originator). */
   originator_client_id: string;
 }
@@ -14174,9 +14210,9 @@ export type TransferDiligenceStatus =
 /** A piece of information that is required for originator onboarding. */
 export interface TransferPlatformRequirement {
   /** The type of requirement. */
-  requirement_type?: string;
+  requirement_type?: string | undefined;
   /** UUID of the person associated with the requirement. Only present for individual-scoped requirements. */
-  person_id?: string | null;
+  person_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** List of outstanding requirements that must be submitted before Plaid can approve the originator. Only populated when `transfer_diligence_status` is `more_information_required`. */
@@ -14189,7 +14225,7 @@ export interface DetailedOriginator {
   /** The company name of the end customer. */
   company_name: string;
   /** List of outstanding requirements that must be submitted before Plaid can approve the originator. Only populated when `transfer_diligence_status` is `more_information_required`. */
-  outstanding_requirements?: DetailedOriginatorOutstandingRequirementsList;
+  outstanding_requirements?: DetailedOriginatorOutstandingRequirementsList | undefined;
   [key: string]: unknown;
 }
 /** Defines the response schema for `/transfer/originator/get` */
@@ -14199,8 +14235,8 @@ export interface TransferOriginatorGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferRecurringRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   recurring_transfer_id: string;
 }
 /** The created transfer instances associated with this `recurring_transfer_id`. If the recurring transfer has been newly created, this array will be empty. */
@@ -14213,11 +14249,11 @@ export interface RecurringTransfer {
   /** A date in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). The next transfer origination date after bank holiday adjustment. */
   next_origination_date: string | null;
   /** Plaid's unique identifier for a test clock. */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   type: TransferType;
   amount: string;
   status: TransferRecurringStatus;
-  ach_class?: ACHClass;
+  ach_class?: ACHClass | undefined;
   network: TransferRecurringNetwork;
   /** Plaid's unique identifier for the origination account that was used for this transfer. */
   origination_account_id: string;
@@ -14241,8 +14277,8 @@ export interface TransferRecurringGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferRefundRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   refund_id: string;
 }
 /** Defines the response schema for `/transfer/refund/get` */
@@ -14252,8 +14288,8 @@ export interface TransferRefundGetResponse {
   [key: string]: unknown;
 }
 export interface GetTransferSweepRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Plaid's unique identifier for the sweep (UUID) or a shortened form consisting of the first 8 characters of the identifier (8-digit hexadecimal string). */
   sweep_id: string;
 }
@@ -14270,9 +14306,9 @@ export type SweepTrigger = "manual" | "incoming" | "balance_threshold" | "automa
 /** The failure reason if the status for a sweep is `"failed"` or `"returned"`. Null value otherwise. */
 export interface SweepFailure {
   /** The failure code, e.g. `R01`. A failure code will be provided if and only if the sweep status is `returned`. See [ACH return codes](https://plaid.com/docs/errors/transfer/#ach-return-codes) for a full listing of ACH return codes and [RTP/RfP error codes](https://plaid.com/docs/errors/transfer/#rtprfp-error-codes) for RTP error codes. */
-  failure_code?: string | null;
+  failure_code?: string | null | undefined;
   /** A human-readable description of the reason for the failure or reversal. */
-  description?: string | null;
+  description?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Describes a sweep of funds to / from the sweep account. A sweep is associated with many sweep events (events of type `swept` or `return_swept`) which can be retrieved by invoking the `/transfer/event/list` endpoint with the corresponding `sweep_id`. `swept` events occur when the transfer amount is credited or debited from your sweep account, depending on the `type` of the transfer. `return_swept` events occur when a transfer is returned and Plaid undoes the credit or debit. The total sum of the `swept` and `return_swept` events is equal to the `amount` of the sweep Plaid creates and matches the amount of the entry on your sweep account ledger. */
@@ -14280,7 +14316,7 @@ export interface TransferSweep {
   /** Identifier of the sweep. */
   id: string;
   funding_account_id: string;
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** The datetime when the sweep occurred, in RFC 3339 format. */
   created: string;
   /** Signed decimal amount of the sweep as it appears on your sweep account ledger (e.g. "-10.00") If amount is not present, the sweep was net-settled to zero and outstanding debits and credits between the sweep account and Plaid are balanced. */
@@ -14290,13 +14326,13 @@ export interface TransferSweep {
   /** The date when the sweep settled, in the YYYY-MM-DD format. */
   settled: string | null;
   /** The expected date when funds from a ledger deposit will be made available and can be withdrawn from the associated ledger balance. Only applies to deposits. This will be of the form YYYY-MM-DD. */
-  expected_funds_available_date?: string | null;
-  status?: SweepStatus | null;
-  trigger?: SweepTrigger | null;
+  expected_funds_available_date?: string | null | undefined;
+  status?: SweepStatus | null | undefined;
+  trigger?: SweepTrigger | null | undefined;
   /** The description of the deposit that will be passed to the receiving bank (up to 10 characters). Note that banks utilize this field differently, and may or may not show it on the bank statement. */
-  description?: string;
-  network_trace_id?: string | null;
-  failure_reason?: SweepFailure | null;
+  description?: string | undefined;
+  network_trace_id?: string | null | undefined;
+  failure_reason?: SweepFailure | null | undefined;
   [key: string]: unknown;
 }
 /** Defines the response schema for `/transfer/sweep/get` */
@@ -14306,8 +14342,8 @@ export interface TransferSweepGetResponse {
   [key: string]: unknown;
 }
 export interface GetUserRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
 }
 /** UserGetResponse defines the response schema for `/user/get`. */
@@ -14319,107 +14355,107 @@ export interface UserGetResponse {
   /** Timestamp of user creation. */
   created_at: string;
   /** Timestamp of last user update. */
-  updated_at?: string;
-  identity?: ClientUserIdentity | null;
+  updated_at?: string | undefined;
+  identity?: ClientUserIdentity | null | undefined;
   [key: string]: unknown;
 }
 export interface GetUserAccountSessionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The public token generated by the end user Layer session. */
   public_token: string;
 }
 /** The user's first name and last name. */
 export interface UserAccountIdentityName {
-  first_name?: string;
-  last_name?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
   [key: string]: unknown;
 }
 /** The user's address. */
 export interface UserAccountIdentityAddress {
   /** The full city name */
-  city?: string | null;
+  city?: string | null | undefined;
   /** The region or state. Example: `"NC"` */
-  region?: string | null;
+  region?: string | null | undefined;
   /** The full street address Example: `"564 Main Street, APT 15"` */
-  street?: string | null;
+  street?: string | null | undefined;
   /** The second line street address */
-  street2?: string | null;
+  street2?: string | null | undefined;
   /** The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** The ISO 3166-1 alpha-2 country code */
-  country?: string | null;
+  country?: string | null | undefined;
   [key: string]: unknown;
 }
 /** The identity data permissioned by the end user during the authorization flow. */
 export interface UserAccountIdentity {
-  name?: UserAccountIdentityName | null;
-  address?: UserAccountIdentityAddress | null;
+  name?: UserAccountIdentityName | null | undefined;
+  address?: UserAccountIdentityAddress | null | undefined;
   /** The user's phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The user's email address. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The user's date of birth. */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** The user's Social Security number. */
-  ssn?: string | null;
+  ssn?: string | null | undefined;
   /** The last 4 digits of the user's Social Security number. */
-  ssn_last_4?: string | null;
+  ssn_last_4?: string | null | undefined;
   [key: string]: unknown;
 }
 /** An Item created during a Layer authorization session. */
 export interface UserAccountItem {
   /** The Plaid Item ID. The `item_id` is always unique; linking the same account at the same institution twice will result in two Items with different `item_id` values. Like all Plaid identifiers, the `item_id` is case-sensitive. */
-  item_id?: string;
-  access_token?: string | Redacted.Redacted<string>;
+  item_id?: string | undefined;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   [key: string]: unknown;
 }
 export type UserAccountSessionGetResponseItemsList = Array<UserAccountItem>;
 /** Edit counts over various time periods. */
 export interface UserAccountIdentityEditCounts {
   /** Number of edits in the current session */
-  edits_current?: number;
+  edits_current?: number | undefined;
   /** Number of edits in the last 1 day */
-  edits_1d?: number;
+  edits_1d?: number | undefined;
   /** Number of edits in the last 30 days */
-  edits_30d?: number;
+  edits_30d?: number | undefined;
   /** Number of edits in the last 365 days */
-  edits_365d?: number;
+  edits_365d?: number | undefined;
   /** Total number of edits */
-  edits_all_time?: number;
+  edits_all_time?: number | undefined;
   [key: string]: unknown;
 }
 /** Official identity document edit statistics. */
 export interface UserAccountIdentityOfficialDocument {
-  ssn?: UserAccountIdentityEditCounts;
+  ssn?: UserAccountIdentityEditCounts | undefined;
   [key: string]: unknown;
 }
 /** Statistics tracking the number of edits made to identity fields over various time periods. */
 export interface UserAccountIdentityEditHistory {
-  name?: UserAccountIdentityEditCounts;
-  address?: UserAccountIdentityEditCounts;
-  email?: UserAccountIdentityEditCounts;
-  date_of_birth?: UserAccountIdentityEditCounts;
-  official_document?: UserAccountIdentityOfficialDocument | null;
+  name?: UserAccountIdentityEditCounts | undefined;
+  address?: UserAccountIdentityEditCounts | undefined;
+  email?: UserAccountIdentityEditCounts | undefined;
+  date_of_birth?: UserAccountIdentityEditCounts | undefined;
+  official_document?: UserAccountIdentityOfficialDocument | null | undefined;
   [key: string]: unknown;
 }
 /** UserAccountSessionGetResponse defines the response schema for `/user_account/session/get` */
 export interface UserAccountSessionGetResponse {
   /** Overall IDV status for the session. Omitted when IDV status retrieval is disabled, no verification exists, or its status is unavailable. Use the IDV endpoints for detailed results. */
-  idv_session_status?: IdentityVerificationStatus;
+  idv_session_status?: IdentityVerificationStatus | undefined;
   /** The Link session identifier associated with this session. Null for sessions without a valid Link session identifier. */
   link_session_id: string | null;
   identity: UserAccountIdentity | null;
   items: UserAccountSessionGetResponseItemsList;
-  identity_edit_history?: UserAccountIdentityEditHistory | null;
+  identity_edit_history?: UserAccountIdentityEditHistory | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface GetUserItemRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
 }
 export type UserItemsGetResponseItemsList = Array<Item>;
 /** UserItemsGetResponse defines the response schema for `/user/items/get` */
@@ -14429,8 +14465,8 @@ export interface UserItemsGetResponse {
   [key: string]: unknown;
 }
 export interface GetUserTransferLimitRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
 }
 export interface UserGuaranteeLimitsTransactionLimit {
@@ -14457,8 +14493,8 @@ export interface UserTransferLimitsGetResponse {
   [key: string]: unknown;
 }
 export interface GetWalletRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the e-wallet */
   wallet_id: string;
 }
@@ -14468,13 +14504,13 @@ export interface GetWalletResponse {
   balance: WalletBalance;
   numbers: WalletNumbers;
   /** The ID of the recipient that corresponds to the e-wallet account numbers */
-  recipient_id?: string;
+  recipient_id?: string | undefined;
   status: WalletStatus;
   request_id: string;
 }
 export interface GetWalletTransactionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the transaction to fetch */
   transaction_id: string;
 }
@@ -14516,9 +14552,9 @@ export type WalletTransactionRelationType = "PAYOUT" | "RETURN" | "REFUND" | "FU
 /** Transactions are related when they have a logical connection. For example, a `PAYOUT` transaction can be returned by the sender, creating a `RETURN` transaction. Each `PAYOUT` transaction can have at most one corresponding `RETURN` transaction in case of reversal. These relationships are bi-directional, meaning that both entities have references to each other. For instance, when a transaction of type RETURN occurs, it is linked to the original transaction being returned. Likewise, the original transaction has a reference back to the RETURN transaction that represents the return. This field is only populated for transactions of type `RETURN`, `FUNDS_SWEEP`, `REFUND` and `PAYOUT`. The relationship between a `PIS_PAY_IN` payment and its corresponding `REFUND` transactions is only available through the `refund_ids` property in the payment object. See [`/payment_initiation/payment/get`](https://plaid.com/docs/api/products/payment-initiation/#payment_initiation-payment-get-response-refund-ids). */
 export interface WalletTransactionRelation {
   /** The ID of the related transaction. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the transaction. */
-  type?: WalletTransactionRelationType;
+  type?: WalletTransactionRelationType | undefined;
   [key: string]: unknown;
 }
 /** A list of wallet transactions that this transaction is associated with, if any. */
@@ -14532,7 +14568,7 @@ export interface GetWalletTransactionResponse {
   reference: string;
   /** The type of the transaction. The supported transaction types that are returned are: `BANK_TRANSFER:` a transaction which credits an e-wallet through an external bank transfer. `PAYOUT:` a transaction which debits an e-wallet by disbursing funds to a counterparty. `PIS_PAY_IN:` a payment which credits an e-wallet through Plaid's Payment Initiation Services (PIS) APIs. For more information see the [Payment Initiation endpoints](https://plaid.com/docs/api/products/payment-initiation/). `REFUND:` a transaction which debits an e-wallet by refunding a previously initiated payment made through Plaid's [PIS APIs](https://plaid.com/docs/api/products/payment-initiation/). `FUNDS_SWEEP`: an automated transaction which debits funds from an e-wallet to a designated client-owned account. `RETURN`: an automated transaction where a debit transaction was reversed and money moved back to originating account. `RECALL`: a transaction where the sending bank has requested the return of funds due to a fraud claim, technical error, or other issue associated with the payment. `ACCOUNT_FUNDING`: an incoming transfer from an allowlisted account. Not automatically refunded. `AUTO_REFUND`: an outgoing refund automatically initiated by Plaid in response to an unexpected `BANK_TRANSFER`. `TRANSFER_OUT`: a transaction that debits an e-wallet and cannot be classified under another category, typically initiated by a non-Plaid flow due to technical errors, FPS timeouts, or other payment-related issues. */
   type: GetWalletTransactionResponseType;
-  scheme?: WalletPaymentScheme | null;
+  scheme?: WalletPaymentScheme | null | undefined;
   amount: WalletTransactionAmount;
   counterparty: WalletTransactionCounterparty;
   status: WalletTransactionStatus;
@@ -14540,19 +14576,19 @@ export interface GetWalletTransactionResponse {
   created_at: string;
   /** The date and time of the last time the `status` was updated, in ISO 8601 format */
   last_status_update: string;
-  payee_verification_status?: WalletTransactionPayeeVerificationStatus | null;
+  payee_verification_status?: WalletTransactionPayeeVerificationStatus | null | undefined;
   /** The payment id that this transaction is associated with, if any. This is present only for transaction types `PIS_PAY_IN` and `REFUND`. */
-  payment_id?: string | null;
-  failure_reason?: WalletTransactionFailureReason | null;
-  error?: PlaidError | null;
+  payment_id?: string | null | undefined;
+  failure_reason?: WalletTransactionFailureReason | null | undefined;
+  error?: PlaidError | null | undefined;
   /** A list of wallet transactions that this transaction is associated with, if any. */
-  related_transactions?: GetWalletTransactionResponseRelatedTransactionsList;
+  related_transactions?: GetWalletTransactionResponseRelatedTransactionsList | undefined;
   request_id: string;
 }
 export interface GetWatchlistScreeningEntityRequest {
   entity_watchlist_screening_id: string;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
 }
 /** The entity screening object allows you to represent an entity in your system, update its profile, and search for it on various watchlists. Note: Rejected entity screenings will not receive new hits, regardless of entity program configuration. */
 export interface WatchlistScreeningEntityGetResponse {
@@ -14567,8 +14603,8 @@ export interface WatchlistScreeningEntityGetResponse {
 }
 export interface GetWatchlistScreeningEntityProgramRequest {
   entity_watchlist_program_id: string;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
 }
 /** Shorthand identifier for a specific screening list for entities. `AU_CON`: Australia Department of Foreign Affairs and Trade Consolidated List `CA_CON`: Government of Canada Consolidated List of Sanctions `EU_CON`: European External Action Service Consolidated List `IZ_SOE`: State Owned Enterprise List `IZ_UNC`: United Nations Consolidated Sanctions `IZ_WBK`: World Bank Listing of Ineligible Firms and Individuals `US_CAP`: US OFAC Correspondent Account or Payable-Through Account Sanctions `US_FSE`: US OFAC Foreign Sanctions Evaders `US_MBS`: US Non-SDN Menu-Based Sanctions `US_SDN`: US OFAC Specially Designated Nationals List `US_SSI`: US OFAC Sectoral Sanctions Identifications `US_CMC`: US OFAC Non-SDN Chinese Military-Industrial Complex List `US_UVL`: Bureau of Industry and Security Unverified List `US_SAM`: US System for Award Management Exclusion List `US_TEL`: US Terrorist Exclusion List `UK_HMC`: Foreign, Commonwealth & Development Office UK Sanctions List */
 export type EntityWatchlistCode =
@@ -14609,8 +14645,8 @@ export interface WatchlistScreeningEntityProgramGetResponse {
 }
 export interface GetWatchlistScreeningIndividualRequest {
   watchlist_screening_id: string;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
 }
 /** The screening object allows you to represent a customer in your system, update their profile, and search for them on various watchlists. Note: Rejected customers will not receive new hits, regardless of program configuration. */
 export interface WatchlistScreeningIndividualGetResponse {
@@ -14625,8 +14661,8 @@ export interface WatchlistScreeningIndividualGetResponse {
 }
 export interface GetWatchlistScreeningIndividualProgramRequest {
   watchlist_program_id: string;
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
 }
 /** Shorthand identifier for a specific screening list for individuals. `AU_CON`: Australia Department of Foreign Affairs and Trade Consolidated List `CA_CON`: Government of Canada Consolidated List of Sanctions `EU_CON`: European External Action Service Consolidated List `IZ_CIA`: CIA List of Chiefs of State and Cabinet Members `IZ_IPL`: Interpol Red Notices for Wanted Persons List `IZ_PEP`: Politically Exposed Persons List `IZ_UNC`: United Nations Consolidated Sanctions `IZ_WBK`: World Bank Listing of Ineligible Firms and Individuals `UK_HMC`: Foreign, Commonwealth & Development Office UK Sanctions List `US_DPL`: Bureau of Industry and Security Denied Persons List `US_DTC`: US Department of State AECA Debarred `US_FBI`: US Department of Justice FBI Wanted List `US_FSE`: US OFAC Foreign Sanctions Evaders `US_ISN`: US Department of State Nonproliferation Sanctions `US_MBS`: US Non-SDN Menu-Based Sanctions `US_PLC`: US OFAC Palestinian Legislative Council `US_SAM`: US System for Award Management Exclusion List `US_SDN`: US OFAC Specially Designated Nationals List `US_SSI`: US OFAC Sectoral Sanctions Identifications `SG_SOF`: Government of Singapore Terrorists and Terrorist Entities `TR_TWL`: Government of Turkey Terrorist Wanted List `TR_DFD`: Government of Turkey Domestic Freezing Decisions `TR_FOR`: Government of Turkey Foreign Freezing Requests `TR_WMD`: Government of Turkey Weapons of Mass Destruction `TR_CMB`: Government of Turkey Capital Markets Board */
 export type IndividualWatchlistCode =
@@ -14674,8 +14710,8 @@ export interface WatchlistScreeningIndividualProgramGetResponse {
   [key: string]: unknown;
 }
 export interface GetWebhookVerificationKeyRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The key ID ( `kid` ) from the JWT header. */
   key_id: string;
 }
@@ -14710,26 +14746,26 @@ export interface WebhookVerificationKeyGetResponse {
 /** Data about the components comprising an address. */
 export interface AddressDataNullableNoRequiredFields {
   /** The full city name */
-  city?: string | null;
+  city?: string | null | undefined;
   /** The region or state. In API versions 2018-05-22 and earlier, this field is called `state`. Example: `"NC"` */
-  region?: string | null;
+  region?: string | null | undefined;
   /** The full street address Example: `"564 Main Street, APT 15"` */
-  street?: string | null;
+  street?: string | null | undefined;
   /** The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** The ISO 3166-1 alpha-2 country code */
-  country?: string | null;
+  country?: string | null | undefined;
   [key: string]: unknown;
 }
 /** The user's legal name, phone number, email address and address used to perform fuzzy match. If Financial Account Matching is enabled in the Identity Verification product, leave this field empty to automatically match against PII collected from the Identity Verification checks. */
 export interface IdentityMatchUser {
   /** The user's full legal name. */
-  legal_name?: string | null;
+  legal_name?: string | null | undefined;
   /** The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14157452130". Phone numbers provided in other formats will be parsed on a best-effort basis. */
-  phone_number?: string | null;
+  phone_number?: string | null | undefined;
   /** The user's email address. */
-  email_address?: string | null;
-  address?: AddressDataNullableNoRequiredFields | null;
+  email_address?: string | null | undefined;
+  address?: AddressDataNullableNoRequiredFields | null | undefined;
   [key: string]: unknown;
 }
 /** An array of `account_ids` to perform fuzzy match */
@@ -14737,14 +14773,14 @@ export type IdentityMatchRequestOptionsAccountIdsList = Array<string>;
 /** An optional object to filter `/identity/match` results */
 export interface IdentityMatchRequestOptions {
   /** An array of `account_ids` to perform fuzzy match */
-  account_ids?: IdentityMatchRequestOptionsAccountIdsList;
+  account_ids?: IdentityMatchRequestOptionsAccountIdsList | undefined;
 }
 export interface IdentityMatchRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  user?: IdentityMatchUser;
-  options?: IdentityMatchRequestOptions;
+  user?: IdentityMatchUser | undefined;
+  options?: IdentityMatchRequestOptions | undefined;
 }
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
 export type AccountIdentityMatchScoreVerificationStatus =
@@ -14773,17 +14809,17 @@ export interface AccountIdentityMatchScore {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: AccountIdentityMatchScoreVerificationStatus;
+  verification_status?: AccountIdentityMatchScoreVerificationStatus | undefined;
   /** The account holder name that was used for micro-deposit and/or database verification. Only returned for Auth Items created via micro-deposit or database verification. This name was manually-entered by the user during Link, unless it was otherwise provided via the `user.legal_name` request field in `/link/token/create` for the Link session that created the Item. */
-  verification_name?: string;
-  verification_insights?: AccountVerificationInsights;
+  verification_name?: string | undefined;
+  verification_insights?: AccountVerificationInsights | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This field is currently supported only for Items at institutions that use Tokenized Account Numbers (i.e., Chase, PNC, and US Bank). Because these accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify an account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field is populated for TAN-based institutions (`ins_56`, `ins_13`, `ins_127990`) as well as the OAuth Sandbox institution (`ins_127287`); in Production, it will only be populated for accounts at applicable institutions. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The annual percentage yield (APY) on an interest-bearing deposit account, expressed as a percentage (e.g. `4.25` means 4.25%). In the event that the APY is not provided by the financial institution, Plaid will return a value of `null`. */
-  apy?: number | null;
-  holder_category?: AccountHolderCategory | null;
+  apy?: number | null | undefined;
+  holder_category?: AccountHolderCategory | null | undefined;
   /** The `account_id` of the account on the paired Item (see `paired_item_id`) that represents the same bank account as this one. For an account on a Plaid Inc Item, this is the matching account on its paired Plaid Check Item, and the reverse for an account on a Plaid Check Item. Only returned for accounts on an Item that has a paired Item. `null` means the Item has a paired Item but Plaid could not confidently match this account to an account on it. Like `account_id`, this value can change if Plaid re-creates the paired account. */
-  paired_account_id?: string | null;
+  paired_account_id?: string | null | undefined;
   legal_name: NameMatchScore;
   phone_number: PhoneNumberMatchScore;
   email_address: EmailAddressMatchScore;
@@ -14807,21 +14843,21 @@ export interface ItemImportRequestUserAuth {
   /** Your persistent, unique identifier for the customer. */
   user_id: string;
   /** Authorization token used by the legacy Plaid Exchange integration; not required for Permissions Manager callers. */
-  auth_token?: string;
+  auth_token?: string | undefined;
 }
 /** An optional object to configure `/item/import` request. Retained for the legacy Plaid Exchange integration; not required for Permissions Manager callers. */
 export interface ItemImportRequestOptions {
   /** Specifies a webhook URL to associate with an Item. Plaid fires a webhook if credentials fail. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 export interface ImportItemRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  institution_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  institution_id?: string | undefined;
   /** Array of product strings. Sent only by a Plaid-internal caller, the Data Partner Dashboard validation tool; external callers never need it. Not required for Permissions Manager callers, who authenticate with `user_auth.user_id`. */
-  products?: ImportItemRequestProductsList;
+  products?: ImportItemRequestProductsList | undefined;
   user_auth: ItemImportRequestUserAuth;
-  options?: ItemImportRequestOptions;
+  options?: ItemImportRequestOptions | undefined;
 }
 /** ItemImportResponse defines the response schema for `/item/import` */
 export interface ItemImportResponse {
@@ -14834,22 +14870,22 @@ export type InstitutionsGetByIdRequestCountryCodesList = Array<CountryCode | (st
 /** Specifies optional parameters for `/institutions/get_by_id`. If provided, must not be `null`. */
 export interface InstitutionsGetByIdRequestOptions {
   /** When `true`, return an institution's logo, brand color, and URL. When available, the bank's logo is returned as a base64 encoded 152x152 PNG, the brand color is in hexadecimal format. The default value is `false`. Note that Plaid does not own any of the logos shared by the API and that by accessing or using these logos, you agree that you are doing so at your own risk and will, if necessary, obtain all required permissions from the appropriate rights holders and adhere to any applicable usage guidelines. Plaid disclaims all express or implied warranties with respect to the logos. */
-  include_optional_metadata?: boolean;
+  include_optional_metadata?: boolean | undefined;
   /** If `true`, the response will include status information about the institution. Default value is `false`. */
-  include_status?: boolean;
+  include_status?: boolean | undefined;
   /** When `true`, returns metadata related to the Auth product indicating which auth methods are supported. */
-  include_auth_metadata?: boolean;
+  include_auth_metadata?: boolean | undefined;
   /** When `true`, returns metadata related to the Payment Initiation product indicating which payment configurations are supported. */
-  include_payment_initiation_metadata?: boolean;
+  include_payment_initiation_metadata?: boolean | undefined;
 }
 export interface InstitutionsGetByIdRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the institution to get details about */
   institution_id: string;
   /** Specify which country or countries to include institutions from, using the ISO-3166-1 alpha-2 country code standard. In API versions 2019-05-29 and earlier, the `country_codes` parameter is an optional parameter within the `options` object and will default to `[US]` if it is not supplied. */
   country_codes: InstitutionsGetByIdRequestCountryCodesList;
-  options?: InstitutionsGetByIdRequestOptions;
+  options?: InstitutionsGetByIdRequestOptions | undefined;
 }
 /** InstitutionsGetByIdResponse defines the response schema for `/institutions/get_by_id` */
 export interface InstitutionsGetByIdResponse {
@@ -14858,8 +14894,8 @@ export interface InstitutionsGetByIdResponse {
   [key: string]: unknown;
 }
 export interface InvalidateItemAccessTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
 }
 /** ItemAccessTokenInvalidateResponse defines the response schema for `/item/access_token/invalidate` */
@@ -14869,8 +14905,8 @@ export interface ItemAccessTokenInvalidateResponse {
   [key: string]: unknown;
 }
 export interface ItemPublicTokenExchangeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Your `public_token`, obtained from the Link `onSuccess` callback or `/sandbox/public_token/create`. */
   public_token: string;
 }
@@ -14883,8 +14919,8 @@ export interface ItemPublicTokenExchangeResponse {
   [key: string]: unknown;
 }
 export interface LinkOauthCorrelationIdExchangeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A `link_correlation_id` from a received OAuth redirect URI callback */
   link_correlation_id: string;
 }
@@ -14906,35 +14942,35 @@ export type ListBankTransferEventRequestEventTypesList = Array<
 /** Indicates the direction of the transfer: `outbound`: for API-initiated transfers `inbound`: for payments received by the FBO account. */
 export type BankTransferEventListDirection = "inbound" | "outbound";
 export interface ListBankTransferEventRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start datetime of bank transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The end datetime of bank transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** Plaid's unique identifier for a bank transfer. */
-  bank_transfer_id?: string | null;
+  bank_transfer_id?: string | null | undefined;
   /** The account ID to get events for all transactions to/from an account. */
-  account_id?: string | null;
-  bank_transfer_type?: BankTransferEventListBankTransferType | (string & {}) | null;
+  account_id?: string | null | undefined;
+  bank_transfer_type?: BankTransferEventListBankTransferType | (string & {}) | null | undefined;
   /** Filter events by event type. */
-  event_types?: ListBankTransferEventRequestEventTypesList;
+  event_types?: ListBankTransferEventRequestEventTypesList | undefined;
   /** The maximum number of bank transfer events to return. If the number of events matching the above parameters is greater than `count`, the most recent events will be returned. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The offset into the list of bank transfer events. When `count`=25 and `offset`=0, the first 25 events will be returned. When `count`=25 and `offset`=25, the next 25 bank transfer events will be returned. */
-  offset?: number | null;
+  offset?: number | null | undefined;
   /** The origination account ID to get events for transfers from a specific origination account. */
-  origination_account_id?: string | null;
-  direction?: BankTransferEventListDirection | (string & {}) | null;
+  origination_account_id?: string | null | undefined;
+  direction?: BankTransferEventListDirection | (string & {}) | null | undefined;
 }
 /** The type of bank transfer. This will be either `debit` or `credit`. A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account. */
 export type BankTransferType = "debit" | "credit";
 /** The failure reason if the type of this transfer is `"failed"` or `"reversed"`. Null value otherwise. */
 export interface BankTransferFailure {
   /** The ACH return code, e.g. `R01`. A return code will be provided if and only if the transfer status is `reversed`. For a full listing of ACH return codes, see [Bank Transfers errors](https://plaid.com/docs/errors/bank-transfers/#ach-return-codes). */
-  ach_return_code?: string | null;
+  ach_return_code?: string | null | undefined;
   /** A human-readable description of the reason for the failure or reversal. */
-  description?: string | null;
+  description?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Indicates the direction of the transfer: `outbound` for API-initiated transfers, or `inbound` for payments received by the FBO account. */
@@ -14975,8 +15011,8 @@ export interface BankTransferEventListResponse {
   [key: string]: unknown;
 }
 export interface ListBetaIssuesV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The identifier of the institution whose issues should be returned. */
   institution_id: string;
 }
@@ -15002,22 +15038,22 @@ export type ListBetaWebhookEventsRequestDeliveryStatusesList = Array<
   WebhookEventDeliveryStatus | (string & {})
 >;
 export interface ListBetaWebhookEventsRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `next_cursor` from a previous `/beta/webhook_events/list` response. Omit on your first request. If provided, `start_time` is ignored. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Return events sent at or after this time, in ISO 8601 format. Must be within the last 7 days. Ignored if `cursor` is provided. If you omit both `cursor` and `start_time`, results start with the oldest retained event. */
-  start_time?: string | null;
+  start_time?: string | null | undefined;
   /** The maximum number of webhook events to return. Fewer events may be returned even when more are available; use `has_more` to determine whether to request another page. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** Return only events with these webhook types, for example `ITEM`. Case-sensitive. */
-  webhook_types?: ListBetaWebhookEventsRequestWebhookTypesList;
+  webhook_types?: ListBetaWebhookEventsRequestWebhookTypesList | undefined;
   /** Return only events with these webhook codes, for example `ERROR`. Case-sensitive. */
-  webhook_codes?: ListBetaWebhookEventsRequestWebhookCodesList;
+  webhook_codes?: ListBetaWebhookEventsRequestWebhookCodesList | undefined;
   /** Return only events for these Items. */
-  item_ids?: ListBetaWebhookEventsRequestItemIdsList;
+  item_ids?: ListBetaWebhookEventsRequestItemIdsList | undefined;
   /** Return only events with these delivery statuses. */
-  delivery_statuses?: ListBetaWebhookEventsRequestDeliveryStatusesList;
+  delivery_statuses?: ListBetaWebhookEventsRequestDeliveryStatusesList | undefined;
 }
 /** The JSON body Plaid sent to the webhook destination. */
 export type WebhookEventPayload = { [key: string]: unknown | undefined };
@@ -15059,8 +15095,8 @@ export interface BetaWebhookEventsListResponse {
   [key: string]: unknown;
 }
 export interface ListCraServicingSubscriptionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
 }
 /** All CRA servicing subscriptions for the user, across scopes. */
@@ -15073,9 +15109,9 @@ export interface CraServicingSubscriptionListResponse {
   [key: string]: unknown;
 }
 export interface ListDashboardUserRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
-  cursor?: string | null;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
+  cursor?: string | null | undefined;
 }
 /** Account information associated with a team member with access to the Plaid dashboard. */
 export interface DashboardUser {
@@ -15099,7 +15135,7 @@ export interface ListFdxConsentsRequest {
   /** Data provider customer identifier whose consent grants to return. */
   customerId: string;
   /** Optional filter restricting results to a single consent grant status. One of `ACTIVE`, `REVOKED`, `EXPIRED`. */
-  status?: FDXConsentGrantStatus | (string & {});
+  status?: FDXConsentGrantStatus | (string & {}) | undefined;
 }
 /** Consent grants matching the customerId (and optional status) filter. */
 export type GetConsentsResponseConsentGrantsList = Array<FDXConsentGrant>;
@@ -15110,16 +15146,16 @@ export interface GetConsentsResponse {
   [key: string]: unknown;
 }
 export interface ListIdentityMatchRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Inclusive start of the query window in RFC 3339 format. On the first request, this cannot be earlier than one calendar year before the current time. */
   start_time: string;
   /** Inclusive end of the query window in RFC 3339 format. Must be on or after `start_time`. */
   end_time: string;
   /** Maximum number of attempts to return in one page. */
-  count?: number;
+  count?: number | undefined;
   /** Opaque pagination cursor. Omit on the first request. For subsequent requests, set this field to the `next_cursor` from the previous response and use the same `start_time` and `end_time`. You may change `count` between pages. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** The Identity Match decision for the attempt. `PASS`: The decision was to allow the user to continue. `FAIL`: The decision was to block the user. `UNKNOWN`: The attempt's decision is unavailable or unrecognized. */
 export type IdentityMatchListOutcome = "PASS" | "FAIL" | "UNKNOWN";
@@ -15170,13 +15206,13 @@ export interface IdentityMatchListResponse {
   [key: string]: unknown;
 }
 export interface ListIdentityVerificationRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   template_id: string;
-  client_user_id?: string;
+  client_user_id?: string | undefined;
   /** A unique user identifier, created by calling `/user/create`. Either a `user_id` or the `client_user_id` must be provided. The `user_id` may only be used instead of the `client_user_id` if you were not a pre-existing user of `/user/create` as of December 10, 2025, or if you have since [migrated to the new User APIs](https://plaid.com/docs/api/users/migrate-to-new-user-apis); for more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis). If both this field and the `client_user_id` are present in the request, the `user_id` must have been created from the provided `client_user_id`. */
-  user_id?: string | null;
-  cursor?: string | null;
+  user_id?: string | null | undefined;
+  cursor?: string | null | undefined;
 }
 /** An identity verification attempt represents a customer's attempt to verify their identity, reflecting the required steps for completing the session, the results for each step, and information collected in the process. */
 export interface IdentityVerification {
@@ -15199,7 +15235,7 @@ export interface IdentityVerification {
   beacon_user_id: string | null;
   user_id: string | null;
   redacted_at: string | null;
-  latest_scored_protect_event?: IDVProtectEvent | null;
+  latest_scored_protect_event?: IDVProtectEvent | null | undefined;
   [key: string]: unknown;
 }
 /** List of Plaid sessions */
@@ -15213,12 +15249,12 @@ export interface IdentityVerificationListResponse {
   [key: string]: unknown;
 }
 export interface ListItemActivityRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  access_token?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** Cursor used for pagination. */
-  cursor?: string;
-  count?: number;
+  cursor?: string | undefined;
+  count?: number | undefined;
 }
 /** Types of consent activities */
 export type ActivityType =
@@ -15237,33 +15273,33 @@ export type ActionState = "UNKNOWN" | "ATTEMPT" | "SUCCESS" | "FAILURE" | "SKIPP
 /** The product access being requested. Used to allow or disallow product access across all accounts. If unset, defaults to all products allowed. */
 export interface ProductAccess {
   /** Allow access to statements. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  statements?: boolean | null;
+  statements?: boolean | null | undefined;
   /** Allow access to the Identity product (name, email, phone, address). Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  identity?: boolean | null;
+  identity?: boolean | null | undefined;
   /** Allow access to account number details. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  auth?: boolean | null;
+  auth?: boolean | null | undefined;
   /** Allow access to transaction details. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  transactions?: boolean | null;
+  transactions?: boolean | null | undefined;
   /** Allow access to `accounts_details_transactions`. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  accounts_details_transactions?: boolean | null;
+  accounts_details_transactions?: boolean | null | undefined;
   /** Allow access to `accounts_routing_number`. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  accounts_routing_number?: boolean | null;
+  accounts_routing_number?: boolean | null | undefined;
   /** Allow access to `accounts_statements`. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  accounts_statements?: boolean | null;
+  accounts_statements?: boolean | null | undefined;
   /** Allow access to `accounts_tax_statements`. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  accounts_tax_statements?: boolean | null;
+  accounts_tax_statements?: boolean | null | undefined;
   /** Allow access to `customers_profiles`. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  customers_profiles?: boolean | null;
+  customers_profiles?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** Allow the application to access specific products on this account */
 export interface AccountProductAccessNullable {
   /** Allow the application to access account data. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  account_data?: boolean | null;
+  account_data?: boolean | null | undefined;
   /** Allow the application to access bank statements. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  statements?: boolean | null;
+  statements?: boolean | null | undefined;
   /** Allow the application to access tax documents. Only used by certain partners. If relevant to the partner and unset, defaults to `true`. */
-  tax_documents?: boolean | null;
+  tax_documents?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** Allow or disallow product access by account. Unlisted (e.g. missing) accounts will be considered `new_accounts`. */
@@ -15271,16 +15307,16 @@ export interface AccountAccess {
   /** The unique account identifier for this account. This value must match that returned by the data access API for this account. */
   unique_id: string;
   /** Allow the application to see this account (and associated details, including balance) in the list of accounts. If unset, defaults to `true`. */
-  authorized?: boolean | null;
-  account_product_access?: AccountProductAccessNullable | null;
+  authorized?: boolean | null | undefined;
+  account_product_access?: AccountProductAccessNullable | null | undefined;
 }
 export type ScopesNullableAccountsList = Array<AccountAccess>;
 /** The scopes object */
 export interface ScopesNullable {
-  product_access?: ProductAccess;
-  accounts?: ScopesNullableAccountsList;
+  product_access?: ProductAccess | undefined;
+  accounts?: ScopesNullableAccountsList | undefined;
   /** Allow access to newly opened accounts as they are opened. If unset, defaults to `true`. */
-  new_accounts?: boolean | null;
+  new_accounts?: boolean | null | undefined;
   [key: string]: unknown;
 }
 /** Enum representing the entity authenticating the user. */
@@ -15295,9 +15331,9 @@ export interface Activity {
   /** Application ID of the client who initiated the activity. */
   initiator: string;
   state: ActionState;
-  target_application_id?: string;
-  scopes?: ScopesNullable | null;
-  authentication?: ItemCreateAuthentication;
+  target_application_id?: string | undefined;
+  scopes?: ScopesNullable | null | undefined;
+  authentication?: ItemCreateAuthentication | undefined;
 }
 /** A list of activities. */
 export type ItemActivityListResponseActivitiesList = Array<Activity>;
@@ -15329,13 +15365,13 @@ export interface ItemActivityListResponse {
   /** An array of objects containing timestamps for the last time each data type was accessed per application. */
   last_data_access_times: ItemActivityListResponseLastDataAccessTimesList;
   /** Cursor used for pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListItemApplicationRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  access_token?: string | Redacted.Redacted<string> | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  access_token?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Describes the connected application for a particular end user. */
 export interface ConnectedApplication {
@@ -15343,16 +15379,16 @@ export interface ConnectedApplication {
   /** The name of the application */
   name: string;
   /** A human-readable name of the application for display purposes */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** A URL that links to the application logo image. */
-  logo_url?: string | null;
+  logo_url?: string | null | undefined;
   /** The URL for the application's website */
-  application_url?: string | null;
+  application_url?: string | null | undefined;
   /** A string provided by the connected app stating why they use their respective enabled products. */
-  reason_for_access?: string | null;
+  reason_for_access?: string | null | undefined;
   /** The date and time this application was linked, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format in UTC (e.g. `"2020-01-01T00:00:00Z"`). Note that older, legacy integrations instead receive this value as a date only, in `YYYY-MM-DD` format (e.g. `"2020-01-01"`). */
   created_at: string;
-  scopes?: ScopesNullable | null;
+  scopes?: ScopesNullable | null | undefined;
 }
 /** A list of connected applications. */
 export type ItemApplicationListResponseApplicationsList = Array<ConnectedApplication>;
@@ -15362,35 +15398,35 @@ export interface DisconnectedApplication {
   /** The name of the application */
   name: string;
   /** A human-readable name of the application for display purposes */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** A URL that links to the application logo image. */
-  logo_url?: string | null;
+  logo_url?: string | null | undefined;
   /** The URL for the application's website */
-  application_url?: string | null;
+  application_url?: string | null | undefined;
   /** A string provided by the connected app stating why they use their respective enabled products. */
-  reason_for_access?: string | null;
+  reason_for_access?: string | null | undefined;
 }
 /** A list of applications that the user previously connected and has since disconnected. Disconnected applications carry no `scopes` or `created_at`, since the user has revoked their access. */
 export type ItemApplicationListResponseDisconnectedApplicationsList =
   Array<DisconnectedApplication>;
 /** Describes the connected application for a particular end user. */
 export interface ItemApplicationListResponse {
-  request_id?: string;
+  request_id?: string | undefined;
   /** A list of connected applications. */
   applications: ItemApplicationListResponseApplicationsList;
   /** A list of applications that the user previously connected and has since disconnected. Disconnected applications carry no `scopes` or `created_at`, since the user has revoked their access. */
-  disconnected_applications?: ItemApplicationListResponseDisconnectedApplicationsList;
+  disconnected_applications?: ItemApplicationListResponseDisconnectedApplicationsList | undefined;
   [key: string]: unknown;
 }
 export interface ListPaymentInitiationPaymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The maximum number of payments to return. If `count` is not specified, a maximum of 10 payments will be returned, beginning with the most recent payment before the cursor (if specified). */
-  count?: number | null;
+  count?: number | null | undefined;
   /** A string in RFC 3339 format (i.e. "2019-12-06T22:35:49Z"). Only payments created before the cursor will be returned. */
-  cursor?: string | null;
+  cursor?: string | null | undefined;
   /** The consent ID. If specified, only payments, executed using this consent, will be returned. */
-  consent_id?: string | null;
+  consent_id?: string | null | undefined;
 }
 /** Refund IDs associated with the payment. */
 export type PaymentInitiationPaymentRefundIdsList = Array<string>;
@@ -15405,28 +15441,28 @@ export interface PaymentInitiationPayment {
   /** A reference for the payment. */
   reference: string;
   /** The value of the reference sent to the bank after adjustment to pass bank validation rules. */
-  adjusted_reference?: string | null;
+  adjusted_reference?: string | null | undefined;
   /** The date and time of the last time the `status` was updated, in ISO 8601 format */
   last_status_update: string;
-  schedule?: ExternalPaymentScheduleGet | null;
-  refund_details?: ExternalPaymentRefundDetails | null;
+  schedule?: ExternalPaymentScheduleGet | null | undefined;
+  refund_details?: ExternalPaymentRefundDetails | null | undefined;
   bacs: PaymentInitiationOptionalRestrictionBacs | null;
   /** The International Bank Account Number (IBAN) for the sender, if specified in the `/payment_initiation/payment/create` call. */
   iban: string | null;
   /** Refund IDs associated with the payment. */
-  refund_ids?: PaymentInitiationPaymentRefundIdsList | null;
-  amount_refunded?: PaymentAmountRefunded;
+  refund_ids?: PaymentInitiationPaymentRefundIdsList | null | undefined;
+  amount_refunded?: PaymentAmountRefunded | undefined;
   /** The EMI (E-Money Institution) wallet that this payment is associated with, if any. This wallet is used as an intermediary account to enable Plaid to reconcile the settlement of funds for Payment Initiation requests. */
-  wallet_id?: string | null;
-  scheme?: PaymentScheme | null;
-  adjusted_scheme?: PaymentScheme | null;
+  wallet_id?: string | null | undefined;
+  scheme?: PaymentScheme | null | undefined;
+  adjusted_scheme?: PaymentScheme | null | undefined;
   /** The payment consent ID that this payment was initiated with. Is present only when payment was initiated using the payment consent. */
-  consent_id?: string | null;
+  consent_id?: string | null | undefined;
   /** The transaction ID that this payment is associated with, if any. This is present only when a payment was initiated using virtual accounts. */
-  transaction_id?: string | null;
+  transaction_id?: string | null | undefined;
   /** A unique identifier assigned by Plaid to each payment for tracking and reconciliation purposes. Note: Not all banks handle `end_to_end_id` consistently. To ensure accurate matching, clients should convert both the incoming `end_to_end_id` and the one provided by Plaid to the same case (either lower or upper) before comparison. For virtual account payments, Plaid manages this field automatically. */
-  end_to_end_id?: string | null;
-  error?: PlaidError | null;
+  end_to_end_id?: string | null | undefined;
+  error?: PlaidError | null | undefined;
   [key: string]: unknown;
 }
 /** An array of payments that have been created, associated with the given `client_id`. */
@@ -15441,12 +15477,12 @@ export interface PaymentInitiationPaymentListResponse {
   [key: string]: unknown;
 }
 export interface ListPaymentInitiationRecipientRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The maximum number of recipients to return. If `count` is not specified, a maximum of 100 recipients will be returned, beginning with the recipient at the cursor (if specified). */
-  count?: number | null;
+  count?: number | null | undefined;
   /** A value representing the latest recipient to be included in the response. Set this from `next_cursor` received from the previous `/payment_initiation/recipient/list` request. If provided, the response will only contain that recipient and recipients created before it. If omitted, the response will contain recipients starting from the most recent, and in descending order by the `created_at` time. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** PaymentInitiationRecipient defines a payment initiation recipient */
 export interface PaymentInitiationRecipient {
@@ -15454,10 +15490,10 @@ export interface PaymentInitiationRecipient {
   recipient_id: string;
   /** The name of the recipient. */
   name: string;
-  address?: PaymentInitiationAddress | null;
+  address?: PaymentInitiationAddress | null | undefined;
   /** The International Bank Account Number (IBAN) for the recipient. */
-  iban?: string | null;
-  bacs?: PaymentInitiationOptionalRestrictionBacs | null;
+  iban?: string | null | undefined;
+  bacs?: PaymentInitiationOptionalRestrictionBacs | null | undefined;
   [key: string]: unknown;
 }
 /** An array of payment recipients created for Payment Initiation */
@@ -15469,20 +15505,20 @@ export interface PaymentInitiationRecipientListResponse {
   recipients: PaymentInitiationRecipientListResponseRecipientsList;
   request_id: string;
   /** The value that, when used as the optional `cursor` parameter to `/payment_initiation/recipient/list`, will return the corresponding recipient as its first recipient. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   [key: string]: unknown;
 }
 export interface ListSandboxTransferTestClockRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start virtual timestamp of test clocks to return. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  start_virtual_time?: string | null;
+  start_virtual_time?: string | null | undefined;
   /** The end virtual timestamp of test clocks to return. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  end_virtual_time?: string | null;
+  end_virtual_time?: string | null | undefined;
   /** The maximum number of test clocks to return. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The number of test clocks to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type SandboxTransferTestClockListResponseTestClocksList = Array<TransferTestClock>;
 /** Defines the response schema for `/sandbox/transfer/test_clock/list` */
@@ -15493,15 +15529,15 @@ export interface SandboxTransferTestClockListResponse {
 }
 export interface ListStatementsRequest {
   access_token: string | Redacted.Redacted<string>;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** A statement's metadata associated with an account */
 export interface StatementsStatement {
   /** Plaid's unique identifier for the statement. */
   statement_id: string;
   /** Date when the statement was posted by the FI, if known */
-  date_posted?: string | null;
+  date_posted?: string | null | undefined;
   /** Month of the year. Possible values: 1 through 12 (January through December). */
   month: number;
   /** The year of the statement, e.g. 2024. */
@@ -15542,8 +15578,8 @@ export interface StatementsListResponse {
   [key: string]: unknown;
 }
 export interface ListTransactionsRulesRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A unique ID representing the end user whose rules should be listed. */
   client_user_id: string;
 }
@@ -15557,22 +15593,22 @@ export interface TransactionsRulesListResponse {
   [key: string]: unknown;
 }
 export interface ListTransferRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start `created` datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The end `created` datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The maximum number of transfers to return. */
-  count?: number;
+  count?: number | undefined;
   /** The number of transfers to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter transfers to only those originated through the specified origination account. */
-  origination_account_id?: string | null;
+  origination_account_id?: string | null | undefined;
   /** Filter transfers to only those with the specified originator client. */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
   /** Filter transfers to only those with the specified `funding_account_id`. */
-  funding_account_id?: string | null;
+  funding_account_id?: string | null | undefined;
 }
 export type TransferListResponseTransfersList = Array<Transfer>;
 /** Defines the response schema for `/transfer/list` */
@@ -15617,31 +15653,31 @@ export type TransferEventType =
 /** Filter events by event type. */
 export type ListTransferEventRequestEventTypesList = Array<TransferEventType | (string & {})>;
 export interface ListTransferEventRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start `created` datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The end `created` datetime of transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** Plaid's unique identifier for a transfer. */
-  transfer_id?: string | null;
+  transfer_id?: string | null | undefined;
   /** The account ID to get events for all transactions to/from an account. */
-  account_id?: string | null;
-  transfer_type?: TransferEventListTransferType | (string & {}) | null;
+  account_id?: string | null | undefined;
+  transfer_type?: TransferEventListTransferType | (string & {}) | null | undefined;
   /** Filter events by event type. */
-  event_types?: ListTransferEventRequestEventTypesList;
+  event_types?: ListTransferEventRequestEventTypesList | undefined;
   /** Plaid's unique identifier for a sweep. */
-  sweep_id?: string;
+  sweep_id?: string | undefined;
   /** The maximum number of transfer events to return. If the number of events matching the above parameters is greater than `count`, the most recent events will be returned. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The offset into the list of transfer events. When `count`=25 and `offset`=0, the first 25 events will be returned. When `count`=25 and `offset`=25, the next 25 events will be returned. */
-  offset?: number | null;
+  offset?: number | null | undefined;
   /** The origination account ID to get events for transfers from a specific origination account. */
-  origination_account_id?: string | null;
+  origination_account_id?: string | null | undefined;
   /** Filter transfer events to only those with the specified originator client. */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
   /** Filter transfer events to only those with the specified `funding_account_id`. */
-  funding_account_id?: string | null;
+  funding_account_id?: string | null | undefined;
 }
 /** The type of transfer. Valid values are `debit` or `credit`. A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account. This field is omitted for Plaid Ledger Sweep events. */
 export type OmittableTransferType = "debit" | "credit";
@@ -15653,29 +15689,29 @@ export interface TransferEvent {
   timestamp: string;
   event_type: TransferEventType;
   /** The account ID associated with the transfer. This field is omitted for Plaid Ledger Sweep events. */
-  account_id?: string;
+  account_id?: string | undefined;
   funding_account_id: string | null;
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** Plaid's unique identifier for a transfer. This field is an empty string for Plaid Ledger Sweep events. */
   transfer_id: string;
   /** The ID of the origination account that this balance belongs to. */
   origination_account_id: string | null;
-  transfer_type?: OmittableTransferType;
+  transfer_type?: OmittableTransferType | undefined;
   /** The amount of the transfer (decimal string with two digits of precision e.g. "10.00"). For refund events and `funds_available` events, this is the amount associated with the event, such as the refund amount, rather than the original transfer amount. This field is omitted for Plaid Ledger Sweep events. */
-  transfer_amount?: string;
+  transfer_amount?: string | undefined;
   failure_reason: TransferFailure | null;
   sweep_id: string | null;
   sweep_amount: string | null;
   /** A signed amount associated with this event (decimal string with two digits of precision e.g. "10.00" or "-10.00"). */
-  event_amount?: string | null;
+  event_amount?: string | null | undefined;
   /** Plaid's unique identifier for a refund. A non-null value indicates the event is for the associated refund of the transfer. */
   refund_id: string | null;
   /** The Plaid client ID that is the originator of the transfer that this event applies to. Only present if the transfer was created on behalf of another client as a third-party sender (TPS). */
   originator_client_id: string | null;
   /** The `id` returned by the `/transfer/intent/create` endpoint, for transfers created via Transfer UI. For transfers not created by Transfer UI, this field is omitted. This will currently only be populated for RfP transfers. */
-  intent_id?: string | null;
+  intent_id?: string | null | undefined;
   /** The fee amount deducted from the original transfer during a wire return, if applicable. */
-  wire_return_fee?: string | null;
+  wire_return_fee?: string | null | undefined;
   [key: string]: unknown;
 }
 export type TransferEventListResponseTransferEventsList = Array<TransferEvent>;
@@ -15690,25 +15726,25 @@ export interface TransferEventListResponse {
 /** Source of the ledger event. `"TRANSFER"` - The source of the ledger event is a transfer `"SWEEP"` - The source of the ledger event is a sweep `"REFUND"` - The source of the ledger event is a refund */
 export type LedgerEventSourceType = "TRANSFER" | "SWEEP" | "REFUND";
 export interface ListTransferLedgerEventRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   /** Filter transfer events to only those with the specified originator client. (This field is specifically for resellers. Caller's client ID will be used if this field is not specified.) */
-  originator_client_id?: string | null;
-  secret?: string | Redacted.Redacted<string>;
+  originator_client_id?: string | null | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start created datetime of transfers to list. This should be in RFC 3339 format (i.e. 2019-12-06T22:35:49Z) */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The end created datetime of transfers to list. This should be in RFC 3339 format (i.e. 2019-12-06T22:35:49Z) */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** Plaid's unique identifier for a Plaid Ledger Balance. */
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** Plaid's unique identifier for the ledger event. */
-  ledger_event_id?: string | null;
-  source_type?: LedgerEventSourceType | (string & {}) | null;
+  ledger_event_id?: string | null | undefined;
+  source_type?: LedgerEventSourceType | (string & {}) | null | undefined;
   /** Plaid's unique identifier for a transfer, sweep, or refund. */
-  source_id?: string | null;
+  source_id?: string | null | undefined;
   /** The maximum number of transfer events to return. If the number of events matching the above parameters is greater than `count`, the most recent events will be returned. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The offset into the list of transfer events. When `count`=25 and `offset`=0, the first 25 events will be returned. When `count`=25 and `offset`=25, the next 25 events will be returned. */
-  offset?: number | null;
+  offset?: number | null | undefined;
 }
 /** Represents a ledger event in the Transfers API. */
 export interface TransferLedgerEvent {
@@ -15719,11 +15755,11 @@ export interface TransferLedgerEvent {
   /** The amount of the ledger event as a decimal string. */
   amount: string;
   /** The ID of the transfer source that triggered this ledger event. */
-  transfer_id?: string | null;
+  transfer_id?: string | null | undefined;
   /** The ID of the refund source that triggered this ledger event. */
-  refund_id?: string | null;
+  refund_id?: string | null | undefined;
   /** The ID of the sweep source that triggered this ledger event. */
-  sweep_id?: string | null;
+  sweep_id?: string | null | undefined;
   /** A description of the ledger event. */
   description: string;
   /** The new pending balance after this event. */
@@ -15746,12 +15782,12 @@ export interface TransferLedgerEventListResponse {
   [key: string]: unknown;
 }
 export interface ListTransferOriginatorRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The maximum number of originators to return. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The number of originators to skip before returning results. */
-  offset?: number | null;
+  offset?: number | null | undefined;
 }
 /** Originator and their status. */
 export interface Originator {
@@ -15768,18 +15804,18 @@ export interface TransferOriginatorListResponse {
   [key: string]: unknown;
 }
 export interface ListTransferRecurringRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start `created` datetime of recurring transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  start_time?: string | null;
+  start_time?: string | null | undefined;
   /** The end `created` datetime of recurring transfers to list. This should be in RFC 3339 format (i.e. `2019-12-06T22:35:49Z`) */
-  end_time?: string | null;
+  end_time?: string | null | undefined;
   /** The maximum number of recurring transfers to return. */
-  count?: number;
+  count?: number | undefined;
   /** The number of recurring transfers to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter recurring transfers to only those with the specified `funding_account_id`. */
-  funding_account_id?: string | null;
+  funding_account_id?: string | null | undefined;
 }
 export type TransferRecurringListResponseRecurringTransfersList = Array<RecurringTransfer>;
 /** Defines the response schema for `/transfer/recurring/list` */
@@ -15789,16 +15825,16 @@ export interface TransferRecurringListResponse {
   [key: string]: unknown;
 }
 export interface ListTransferRepaymentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start `created` datetime of repayments to return (RFC 3339 format). */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The end `created` datetime of repayments to return (RFC 3339 format). */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The maximum number of repayments to return. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The number of repayments to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** A repayment is created automatically after one or more guaranteed transactions receive a return. If there are multiple eligible returns in a day, they are batched together into a single repayment. Repayments are sent over ACH, with funds typically available on the next banking day. */
 export interface TransferRepayment {
@@ -15820,14 +15856,14 @@ export interface TransferRepaymentListResponse {
   [key: string]: unknown;
 }
 export interface ListTransferRepaymentReturnRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Identifier of the repayment to query. */
   repayment_id: string;
   /** The maximum number of repayments to return. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The number of repayments to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Represents a return on a Guaranteed ACH transfer that is included in the specified repayment. */
 export interface TransferRepaymentReturn {
@@ -15850,26 +15886,26 @@ export interface TransferRepaymentReturnListResponse {
   [key: string]: unknown;
 }
 export interface ListTransferSweepRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start `created` datetime of sweeps to return (RFC 3339 format). */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   /** The end `created` datetime of sweeps to return (RFC 3339 format). */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The maximum number of sweeps to return. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** The number of sweeps to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter sweeps to only those with the specified amount. */
-  amount?: string | null;
-  status?: SweepStatus | (string & {}) | null;
+  amount?: string | null | undefined;
+  status?: SweepStatus | (string & {}) | null | undefined;
   /** Filter sweeps to only those with the specified originator client. */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
   /** Filter sweeps to only those with the specified `funding_account_id`. */
-  funding_account_id?: string | null;
+  funding_account_id?: string | null | undefined;
   /** Filter sweeps to only those with the included `transfer_id`. */
-  transfer_id?: string | null;
-  trigger?: SweepTrigger | (string & {}) | null;
+  transfer_id?: string | null | undefined;
+  trigger?: SweepTrigger | (string & {}) | null | undefined;
 }
 export type TransferSweepListResponseSweepsList = Array<TransferSweep>;
 /** Defines the response schema for `/transfer/sweep/list` */
@@ -15879,13 +15915,13 @@ export interface TransferSweepListResponse {
   [key: string]: unknown;
 }
 export interface ListWalletRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  iso_currency_code?: WalletISOCurrencyCode | (string & {});
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  iso_currency_code?: WalletISOCurrencyCode | (string & {}) | undefined;
   /** A base64 value representing the latest e-wallet that has already been requested. Set this to `next_cursor` received from the previous `/wallet/list` request. If provided, the response will only contain e-wallets created before that e-wallet. If omitted, the response will contain e-wallets starting from the most recent, and in descending order. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of e-wallets to fetch */
-  count?: number;
+  count?: number | undefined;
 }
 /** An object representing the e-wallet */
 export interface Wallet {
@@ -15894,7 +15930,7 @@ export interface Wallet {
   balance: WalletBalance;
   numbers: WalletNumbers;
   /** The ID of the recipient that corresponds to the e-wallet account numbers */
-  recipient_id?: string;
+  recipient_id?: string | undefined;
   status: WalletStatus;
   [key: string]: unknown;
 }
@@ -15905,27 +15941,27 @@ export interface WalletListResponse {
   /** An array of e-wallets */
   wallets: WalletListResponseWalletsList;
   /** Cursor used for fetching e-wallets created before the latest e-wallet provided in this response */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 /** Additional wallet transaction options */
 export interface WalletTransactionListRequestOptions {
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DDThh:mm:ssZ) for filtering transactions, inclusive of the provided date. */
-  start_time?: string;
+  start_time?: string | undefined;
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DDThh:mm:ssZ) for filtering transactions, inclusive of the provided date. */
-  end_time?: string;
+  end_time?: string | undefined;
 }
 export interface ListWalletTransactionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the e-wallet to fetch transactions from */
   wallet_id: string;
   /** A value representing the latest transaction to be included in the response. Set this from `next_cursor` received in the previous `/wallet/transaction/list` request. If provided, the response will only contain that transaction and transactions created before it. If omitted, the response will contain transactions starting from the most recent, and in descending order by the `created_at` time. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of transactions to fetch */
-  count?: number;
-  options?: WalletTransactionListRequestOptions | null;
+  count?: number | undefined;
+  options?: WalletTransactionListRequestOptions | null | undefined;
 }
 /** The type of the transaction. The supported transaction types that are returned are: `BANK_TRANSFER:` a transaction which credits an e-wallet through an external bank transfer. `PAYOUT:` a transaction which debits an e-wallet by disbursing funds to a counterparty. `PIS_PAY_IN:` a payment which credits an e-wallet through Plaid's Payment Initiation Services (PIS) APIs. For more information see the [Payment Initiation endpoints](https://plaid.com/docs/api/products/payment-initiation/). `REFUND:` a transaction which debits an e-wallet by refunding a previously initiated payment made through Plaid's [PIS APIs](https://plaid.com/docs/api/products/payment-initiation/). `FUNDS_SWEEP`: an automated transaction which debits funds from an e-wallet to a designated client-owned account. `RETURN`: an automated transaction where a debit transaction was reversed and money moved back to originating account. `RECALL`: a transaction where the sending bank has requested the return of funds due to a fraud claim, technical error, or other issue associated with the payment. `ACCOUNT_FUNDING`: an incoming transfer from an allowlisted account. Not automatically refunded. `AUTO_REFUND`: an outgoing refund automatically initiated by Plaid in response to an unexpected `BANK_TRANSFER`. `TRANSFER_OUT`: a transaction that debits an e-wallet and cannot be classified under another category, typically initiated by a non-Plaid flow due to technical errors, FPS timeouts, or other payment-related issues. */
 export type WalletTransactionType =
@@ -15951,7 +15987,7 @@ export interface WalletTransaction {
   reference: string;
   /** The type of the transaction. The supported transaction types that are returned are: `BANK_TRANSFER:` a transaction which credits an e-wallet through an external bank transfer. `PAYOUT:` a transaction which debits an e-wallet by disbursing funds to a counterparty. `PIS_PAY_IN:` a payment which credits an e-wallet through Plaid's Payment Initiation Services (PIS) APIs. For more information see the [Payment Initiation endpoints](https://plaid.com/docs/api/products/payment-initiation/). `REFUND:` a transaction which debits an e-wallet by refunding a previously initiated payment made through Plaid's [PIS APIs](https://plaid.com/docs/api/products/payment-initiation/). `FUNDS_SWEEP`: an automated transaction which debits funds from an e-wallet to a designated client-owned account. `RETURN`: an automated transaction where a debit transaction was reversed and money moved back to originating account. `RECALL`: a transaction where the sending bank has requested the return of funds due to a fraud claim, technical error, or other issue associated with the payment. `ACCOUNT_FUNDING`: an incoming transfer from an allowlisted account. Not automatically refunded. `AUTO_REFUND`: an outgoing refund automatically initiated by Plaid in response to an unexpected `BANK_TRANSFER`. `TRANSFER_OUT`: a transaction that debits an e-wallet and cannot be classified under another category, typically initiated by a non-Plaid flow due to technical errors, FPS timeouts, or other payment-related issues. */
   type: WalletTransactionType;
-  scheme?: WalletPaymentScheme | null;
+  scheme?: WalletPaymentScheme | null | undefined;
   amount: WalletTransactionAmount;
   counterparty: WalletTransactionCounterparty;
   status: WalletTransactionStatus;
@@ -15959,13 +15995,13 @@ export interface WalletTransaction {
   created_at: string;
   /** The date and time of the last time the `status` was updated, in ISO 8601 format */
   last_status_update: string;
-  payee_verification_status?: WalletTransactionPayeeVerificationStatus | null;
+  payee_verification_status?: WalletTransactionPayeeVerificationStatus | null | undefined;
   /** The payment id that this transaction is associated with, if any. This is present only for transaction types `PIS_PAY_IN` and `REFUND`. */
-  payment_id?: string | null;
-  failure_reason?: WalletTransactionFailureReason | null;
-  error?: PlaidError | null;
+  payment_id?: string | null | undefined;
+  failure_reason?: WalletTransactionFailureReason | null | undefined;
+  error?: PlaidError | null | undefined;
   /** A list of wallet transactions that this transaction is associated with, if any. */
-  related_transactions?: WalletTransactionRelatedTransactionsList;
+  related_transactions?: WalletTransactionRelatedTransactionsList | undefined;
   [key: string]: unknown;
 }
 /** An array of transactions of an e-wallet, associated with the given `wallet_id` */
@@ -15975,18 +16011,18 @@ export interface WalletTransactionListResponse {
   /** An array of transactions of an e-wallet, associated with the given `wallet_id` */
   transactions: WalletTransactionListResponseTransactionsList;
   /** The value that, when used as the optional `cursor` parameter to `/wallet/transaction/list`, will return the corresponding transaction as its first entry. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningEntityRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   entity_watchlist_program_id: string;
-  client_user_id?: string;
-  status?: WatchlistScreeningStatus | (string & {});
-  assignee?: string;
-  cursor?: string | null;
+  client_user_id?: string | undefined;
+  status?: WatchlistScreeningStatus | (string & {}) | undefined;
+  assignee?: string | undefined;
+  cursor?: string | null | undefined;
 }
 /** The entity screening object allows you to represent an entity in your system, update its profile, and search for it on various watchlists. Note: Rejected entity screenings will not receive new hits, regardless of entity program configuration. */
 export interface EntityWatchlistScreening {
@@ -16010,10 +16046,10 @@ export interface WatchlistScreeningEntityListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningEntityHistoryRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   entity_watchlist_screening_id: string;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 /** List of entity watchlist screening */
 export type WatchlistScreeningEntityHistoryListResponseEntityWatchlistScreeningsList =
@@ -16027,10 +16063,10 @@ export interface WatchlistScreeningEntityHistoryListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningEntityHitRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   entity_watchlist_screening_id: string;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 /** The current state of review. All watchlist screening hits begin in a `pending_review` state but can be changed by creating a review. When a hit is in the `pending_review` state, it will always show the latest version of the watchlist data Plaid has available and be compared against the latest customer information saved in the watchlist screening. Once a hit has been marked as `confirmed` or `dismissed` it will no longer be updated so that the state is as it was when the review was first conducted. */
 export type WatchlistScreeningHitStatus = "confirmed" | "pending_review" | "dismissed";
@@ -16038,12 +16074,12 @@ export type WatchlistScreeningHitStatus = "confirmed" | "pending_review" | "dism
 export type EntityWatchlistScreeningHitSubProgramsList = Array<string>;
 /** Analysis information describing why a screening hit matched the provided entity information */
 export interface EntityScreeningHitAnalysis {
-  documents?: MatchSummaryCode;
-  email_addresses?: MatchSummaryCode;
-  locations?: MatchSummaryCode;
-  names?: MatchSummaryCode;
-  phone_numbers?: MatchSummaryCode;
-  urls?: MatchSummaryCode;
+  documents?: MatchSummaryCode | undefined;
+  email_addresses?: MatchSummaryCode | undefined;
+  locations?: MatchSummaryCode | undefined;
+  names?: MatchSummaryCode | undefined;
+  phone_numbers?: MatchSummaryCode | undefined;
+  urls?: MatchSummaryCode | undefined;
   /** The version of the entity screening's `search_terms` that were compared when the entity screening hit was added. Entity screening hits are immutable once they have been reviewed. If changes are detected due to updates to the entity screening's `search_terms`, the associated entity program, or the list's source data prior to review, the entity screening hit will be updated to reflect those changes. */
   search_terms_version: number;
   [key: string]: unknown;
@@ -16060,8 +16096,8 @@ export interface EntityDocument {
 }
 /** Analyzed documents for the associated hit */
 export interface EntityScreeningHitDocumentsItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: EntityDocument;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: EntityDocument | undefined;
   [key: string]: unknown;
 }
 /** Documents associated with the watchlist hit */
@@ -16073,8 +16109,8 @@ export interface EntityScreeningHitEmails {
 }
 /** Analyzed emails for the associated hit */
 export interface EntityScreeningHitEmailsItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: EntityScreeningHitEmails;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: EntityScreeningHitEmails | undefined;
   [key: string]: unknown;
 }
 /** Email addresses associated with the watchlist hit */
@@ -16088,8 +16124,8 @@ export interface WatchlistScreeningHitLocations {
 }
 /** Analyzed location information for the associated hit */
 export interface GenericScreeningHitLocationItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: WatchlistScreeningHitLocations;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: WatchlistScreeningHitLocations | undefined;
   [key: string]: unknown;
 }
 /** Locations associated with the watchlist hit */
@@ -16107,8 +16143,8 @@ export interface EntityScreeningHitNames {
 }
 /** Analyzed names for the associated hit */
 export interface EntityScreeningHitNamesItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: EntityScreeningHitNames;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: EntityScreeningHitNames | undefined;
   [key: string]: unknown;
 }
 /** Names associated with the watchlist hit */
@@ -16123,8 +16159,8 @@ export interface EntityScreeningHitPhoneNumbers {
 }
 /** Analyzed phone numbers for the associated hit */
 export interface EntityScreeningHitsPhoneNumberItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: EntityScreeningHitPhoneNumbers;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: EntityScreeningHitPhoneNumbers | undefined;
   [key: string]: unknown;
 }
 /** Phone numbers associated with the watchlist hit */
@@ -16136,8 +16172,8 @@ export interface EntityScreeningHitUrls {
 }
 /** Analyzed URLs for the associated hit */
 export interface EntityScreeningHitUrlsItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: EntityScreeningHitUrls;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: EntityScreeningHitUrls | undefined;
   [key: string]: unknown;
 }
 /** URLs associated with the watchlist hit */
@@ -16145,17 +16181,17 @@ export type EntityScreeningHitDataUrlsList = Array<EntityScreeningHitUrlsItems>;
 /** Information associated with the entity watchlist hit */
 export interface EntityScreeningHitData {
   /** Documents associated with the watchlist hit */
-  documents?: EntityScreeningHitDataDocumentsList;
+  documents?: EntityScreeningHitDataDocumentsList | undefined;
   /** Email addresses associated with the watchlist hit */
-  email_addresses?: EntityScreeningHitDataEmailAddressesList;
+  email_addresses?: EntityScreeningHitDataEmailAddressesList | undefined;
   /** Locations associated with the watchlist hit */
-  locations?: EntityScreeningHitDataLocationsList;
+  locations?: EntityScreeningHitDataLocationsList | undefined;
   /** Names associated with the watchlist hit */
-  names?: EntityScreeningHitDataNamesList;
+  names?: EntityScreeningHitDataNamesList | undefined;
   /** Phone numbers associated with the watchlist hit */
-  phone_numbers?: EntityScreeningHitDataPhoneNumbersList;
+  phone_numbers?: EntityScreeningHitDataPhoneNumbersList | undefined;
   /** URLs associated with the watchlist hit */
-  urls?: EntityScreeningHitDataUrlsList;
+  urls?: EntityScreeningHitDataUrlsList | undefined;
   [key: string]: unknown;
 }
 /** Data from a government watchlist that has been attached to the screening. */
@@ -16170,8 +16206,8 @@ export interface EntityWatchlistScreeningHit {
   source_uid: string | null;
   /** Sub-program designations that may be attached to the watchlist entry by the issuing authority. For OFAC SDN entries these are the program codes published in the SDN list (for example `SDGT` for Specially Designated Global Terrorists, `SDNTK` for Specially Designated Narcotics Trafficking Kingpins, `IRAN`, `RUSSIA-EO14024`). New codes are added by sanctioning authorities without prior notice, so callers should treat unknown values as opaque strings rather than enum members. */
   sub_programs: EntityWatchlistScreeningHitSubProgramsList;
-  analysis?: EntityScreeningHitAnalysis;
-  data?: EntityScreeningHitData;
+  analysis?: EntityScreeningHitAnalysis | undefined;
+  data?: EntityScreeningHitData | undefined;
   [key: string]: unknown;
 }
 /** List of entity watchlist screening hits */
@@ -16186,9 +16222,9 @@ export interface WatchlistScreeningEntityHitListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningEntityProgramRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
-  cursor?: string | null;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
+  cursor?: string | null | undefined;
 }
 /** Watchlists enabled for the associated program */
 export type EntityWatchlistProgramListsEnabledList = Array<EntityWatchlistCode>;
@@ -16218,10 +16254,10 @@ export interface WatchlistScreeningEntityProgramListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningEntityReviewRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   entity_watchlist_screening_id: string;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 /** Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once confirmed. In most cases, confirmed hits indicate that the customer should be rejected. */
 export type EntityWatchlistScreeningReviewConfirmedHitsList = Array<string>;
@@ -16250,13 +16286,13 @@ export interface WatchlistScreeningEntityReviewListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningIndividualRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   watchlist_program_id: string;
-  client_user_id?: string;
-  status?: WatchlistScreeningStatus | (string & {});
-  assignee?: string;
-  cursor?: string | null;
+  client_user_id?: string | undefined;
+  status?: WatchlistScreeningStatus | (string & {}) | undefined;
+  assignee?: string | undefined;
+  cursor?: string | null | undefined;
 }
 /** The screening object allows you to represent a customer in your system, update their profile, and search for them on various watchlists. Note: Rejected customers will not receive new hits, regardless of program configuration. */
 export interface WatchlistScreeningIndividual {
@@ -16280,10 +16316,10 @@ export interface WatchlistScreeningIndividualListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningIndividualHistoryRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   watchlist_screening_id: string;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 /** List of individual watchlist screenings */
 export type WatchlistScreeningIndividualHistoryListResponseWatchlistScreeningsList =
@@ -16297,19 +16333,19 @@ export interface WatchlistScreeningIndividualHistoryListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningIndividualHitRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   watchlist_screening_id: string;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 /** Sub-program designations that may be attached to the watchlist entry by the issuing authority. For OFAC SDN entries these are the program codes published in the SDN list (for example `SDGT` for Specially Designated Global Terrorists, `SDNTK` for Specially Designated Narcotics Trafficking Kingpins, `IRAN`, `RUSSIA-EO14024`). New codes are added by sanctioning authorities without prior notice, so callers should treat unknown values as opaque strings rather than enum members. */
 export type WatchlistScreeningHitSubProgramsList = Array<string>;
 /** Analysis information describing why a screening hit matched the provided user information */
 export interface ScreeningHitAnalysis {
-  dates_of_birth?: MatchSummaryCode;
-  documents?: MatchSummaryCode;
-  locations?: MatchSummaryCode;
-  names?: MatchSummaryCode;
+  dates_of_birth?: MatchSummaryCode | undefined;
+  documents?: MatchSummaryCode | undefined;
+  locations?: MatchSummaryCode | undefined;
+  names?: MatchSummaryCode | undefined;
   /** The version of the screening's `search_terms` that were compared when the screening hit was added. Screening hits are immutable once they have been reviewed. If changes are detected due to updates to the screening's `search_terms`, the associated program, or the list's source data prior to review, the screening hit will be updated to reflect those changes. */
   search_terms_version: number;
   [key: string]: unknown;
@@ -16322,8 +16358,8 @@ export interface DateRange {
 }
 /** Analyzed date of birth for the associated hit */
 export interface ScreeningHitDateOfBirthItem {
-  analysis?: BusinessFieldMatchSummary;
-  data?: DateRange;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: DateRange | undefined;
   [key: string]: unknown;
 }
 /** Dates of birth associated with the watchlist hit */
@@ -16351,8 +16387,8 @@ export interface WatchlistScreeningDocument {
 }
 /** Analyzed document information for the associated hit */
 export interface ScreeningHitDocumentsItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: WatchlistScreeningDocument;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: WatchlistScreeningDocument | undefined;
   [key: string]: unknown;
 }
 /** Documents associated with the watchlist hit */
@@ -16370,8 +16406,8 @@ export interface IndividualScreeningHitNames {
 }
 /** Analyzed name information for the associated hit */
 export interface ScreeningHitNamesItems {
-  analysis?: BusinessFieldMatchSummary;
-  data?: IndividualScreeningHitNames;
+  analysis?: BusinessFieldMatchSummary | undefined;
+  data?: IndividualScreeningHitNames | undefined;
   [key: string]: unknown;
 }
 /** Names associated with the watchlist hit */
@@ -16379,13 +16415,13 @@ export type ScreeningHitDataNamesList = Array<ScreeningHitNamesItems>;
 /** Information associated with the watchlist hit */
 export interface ScreeningHitData {
   /** Dates of birth associated with the watchlist hit */
-  dates_of_birth?: ScreeningHitDataDatesOfBirthList;
+  dates_of_birth?: ScreeningHitDataDatesOfBirthList | undefined;
   /** Documents associated with the watchlist hit */
-  documents?: ScreeningHitDataDocumentsList;
+  documents?: ScreeningHitDataDocumentsList | undefined;
   /** Locations associated with the watchlist hit */
-  locations?: ScreeningHitDataLocationsList;
+  locations?: ScreeningHitDataLocationsList | undefined;
   /** Names associated with the watchlist hit */
-  names?: ScreeningHitDataNamesList;
+  names?: ScreeningHitDataNamesList | undefined;
   [key: string]: unknown;
 }
 /** Data from a government watchlist or PEP list that has been attached to the screening. */
@@ -16400,8 +16436,8 @@ export interface WatchlistScreeningHit {
   source_uid: string | null;
   /** Sub-program designations that may be attached to the watchlist entry by the issuing authority. For OFAC SDN entries these are the program codes published in the SDN list (for example `SDGT` for Specially Designated Global Terrorists, `SDNTK` for Specially Designated Narcotics Trafficking Kingpins, `IRAN`, `RUSSIA-EO14024`). New codes are added by sanctioning authorities without prior notice, so callers should treat unknown values as opaque strings rather than enum members. */
   sub_programs: WatchlistScreeningHitSubProgramsList;
-  analysis?: ScreeningHitAnalysis;
-  data?: ScreeningHitData;
+  analysis?: ScreeningHitAnalysis | undefined;
+  data?: ScreeningHitData | undefined;
   [key: string]: unknown;
 }
 /** List of individual watchlist screening hits */
@@ -16416,9 +16452,9 @@ export interface WatchlistScreeningIndividualHitListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningIndividualProgramRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
-  cursor?: string | null;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
+  cursor?: string | null | undefined;
 }
 /** Watchlists enabled for the associated program */
 export type IndividualWatchlistProgramListsEnabledList = Array<IndividualWatchlistCode>;
@@ -16448,10 +16484,10 @@ export interface WatchlistScreeningIndividualProgramListResponse {
   [key: string]: unknown;
 }
 export interface ListWatchlistScreeningIndividualReviewRequest {
-  secret?: string | Redacted.Redacted<string>;
-  client_id?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  client_id?: string | undefined;
   watchlist_screening_id: string;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 /** Hits marked as a true positive after thorough manual review. These hits will never recur or be updated once confirmed. In most cases, confirmed hits indicate that the customer should be rejected. */
 export type WatchlistScreeningReviewConfirmedHitsList = Array<string>;
@@ -16481,30 +16517,30 @@ export interface WatchlistScreeningIndividualReviewListResponse {
 }
 export interface OauthIntrospectRequest {
   token: string;
-  client_id?: string;
-  client_secret?: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** OAuth token introspect response */
 export interface OAuthIntrospectResponse {
   /** Boolean indicator of whether or not the presented token is currently active. A `true` value indicates that the token has been issued, has not been revoked, and is within the time window of validity. */
   active: boolean;
-  scope?: string;
-  client_id?: string;
+  scope?: string | undefined;
+  client_id?: string | undefined;
   /** Expiration time as UNIX timestamp since January 1 1970 UTC */
-  exp?: number;
+  exp?: number | undefined;
   /** Issued at time as UNIX timestamp since January 1 1970 UTC */
-  iat?: number;
+  iat?: number | undefined;
   /** Subject of the token */
-  sub?: string;
+  sub?: string | undefined;
   /** Audience of the token */
-  aud?: string;
+  aud?: string | undefined;
   /** Issuer of the token */
-  iss?: string;
+  iss?: string | undefined;
   /** Type of the token */
-  token_type?: string;
+  token_type?: string | undefined;
   /** User ID of the token */
-  user_id?: string;
+  user_id?: string | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -16520,18 +16556,18 @@ export type OAuthSubjectTokenType =
   | "urn:plaid:params:credit:multi-user";
 export interface OauthTokenRequest {
   grant_type: OAuthGrantType | (string & {});
-  client_id?: string;
-  client_secret?: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
-  scope?: string;
-  refresh_token?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  scope?: string | undefined;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** URI of the target resource server */
-  resource?: string;
+  resource?: string | undefined;
   /** Used when exchanging a token. The meaning depends on the `subject_token_type`: - For `urn:plaid:params:tokens:user`: Must be the same as the `client_id`. - For `urn:plaid:params:oauth:user-token`: The other `client_id` to exchange tokens to. - For `urn:plaid:params:credit:multi-user`: a `client_id` or one of the supported CRA partner URNs: `urn:plaid:params:cra-partner:experian`, `urn:plaid:params:cra-partner:fannie-mae`, or `urn:plaid:params:cra-partner:freddie-mac`. */
-  audience?: string;
+  audience?: string | undefined;
   /** Token representing the subject. The meaning depends on the `subject_token_type`. For `urn:plaid:params:tokens:user`, the `subject_token` must be a Plaid-issued user token from the `/user/create` endpoint. For `urn:plaid:params:oauth:user-token`, the `subject_token` must be an OAuth refresh token issued from the `/oauth/token` endpoint. */
-  subject_token?: string;
-  subject_token_type?: OAuthSubjectTokenType | (string & {});
+  subject_token?: string | undefined;
+  subject_token_type?: OAuthSubjectTokenType | (string & {}) | undefined;
 }
 /** OAuth token grant success response */
 export interface OAuthTokenResponse {
@@ -16552,17 +16588,17 @@ export interface PaymentAmountToRefund {
   [key: string]: unknown;
 }
 export interface PaymentInitiationPaymentReverseRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the payment to reverse */
   payment_id: string;
   idempotency_key: string;
   /** A reference for the refund. This must be a string of 6 to 18 characters containing only letters, numbers, and spaces. */
   reference: string;
-  amount?: PaymentAmountToRefund;
+  amount?: PaymentAmountToRefund | undefined;
   /** The counterparty's birthdate, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. */
-  counterparty_date_of_birth?: string | null;
-  counterparty_address?: PaymentInitiationAddress | null;
+  counterparty_date_of_birth?: string | null | undefined;
+  counterparty_address?: PaymentInitiationAddress | null | undefined;
 }
 /** PaymentInitiationPaymentReverseResponse defines the response schema for `/payment_initiation/payment/reverse` */
 export interface PaymentInitiationPaymentReverseResponse {
@@ -16573,10 +16609,10 @@ export interface PaymentInitiationPaymentReverseResponse {
   [key: string]: unknown;
 }
 export interface ProcessorIdentityMatchRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
-  user?: IdentityMatchUser;
+  user?: IdentityMatchUser | undefined;
 }
 /** ProcessorIdentityMatchResponse defines the response schema for `/processor/identity/match` */
 export interface ProcessorIdentityMatchResponse {
@@ -16598,19 +16634,19 @@ export type SignalPaymentMethod =
   | "STANDARD_ACH"
   | "MULTIPLE_PAYMENT_METHODS";
 export interface ProcessorSignalDecisionReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
   /** Must be the same as the `client_transaction_id` supplied when calling `/processor/signal/evaluate` */
   client_transaction_id: string;
   /** `true` if the ACH transaction was initiated, `false` otherwise. This field must be returned as a boolean. If formatted incorrectly, this will result in an [`INVALID_FIELD`](https://plaid.com/docs/errors/invalid-request/#invalid_field) error. */
   initiated: boolean;
   /** The actual number of days (hold time) since the ACH debit transaction that you wait before making funds available to your customers. The holding time could affect the ACH return rate. For example, use 0 if you make funds available to your customers instantly or the same day following the debit transaction, or 1 if you make funds available the next day following the debit initialization. */
-  days_funds_on_hold?: number | null;
-  decision_outcome?: SignalDecisionOutcome | (string & {}) | null;
-  payment_method?: SignalPaymentMethod | (string & {}) | null;
+  days_funds_on_hold?: number | null | undefined;
+  decision_outcome?: SignalDecisionOutcome | (string & {}) | null | undefined;
+  payment_method?: SignalPaymentMethod | (string & {}) | null | undefined;
   /** The amount (in USD) made available to your customers instantly following the debit transaction. It could be a partial amount of the requested transaction (example: 102.05). */
-  amount_instantly_available?: number | null;
+  amount_instantly_available?: number | null | undefined;
 }
 /** ProcessorSignalDecisionReportResponse defines the response schema for `/processor/signal/decision/report` */
 export interface ProcessorSignalDecisionReportResponse {
@@ -16620,66 +16656,66 @@ export interface ProcessorSignalDecisionReportResponse {
 /** The user's legal name */
 export interface SignalPersonName {
   /** The user's name prefix (e.g. "Mr.") */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** The user's given name. If the user has a one-word name, it should be provided in this field. */
-  given_name?: string | null;
+  given_name?: string | null | undefined;
   /** The user's middle name */
-  middle_name?: string | null;
+  middle_name?: string | null | undefined;
   /** The user's family name / surname */
-  family_name?: string | null;
+  family_name?: string | null | undefined;
   /** The user's name suffix (e.g. "II") */
-  suffix?: string | null;
+  suffix?: string | null | undefined;
 }
 /** Data about the components comprising an address. */
 export interface SignalAddressData {
   /** The full city name */
-  city?: string;
+  city?: string | undefined;
   /** The region or state Example: `"NC"` */
-  region?: string | null;
+  region?: string | null | undefined;
   /** The full street address Example: `"564 Main Street, APT 15"` */
-  street?: string;
+  street?: string | undefined;
   /** The postal code */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** The ISO 3166-1 alpha-2 country code */
-  country?: string | null;
+  country?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Details about the end user initiating the transaction (i.e., the account holder). These fields are optional, but strongly recommended to increase the accuracy of results when using Signal Transaction Scores. When using a Balance-only ruleset, these fields are ignored. */
 export interface SignalUser {
-  name?: SignalPersonName | null;
+  name?: SignalPersonName | null | undefined;
   /** The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14151234567" */
-  phone_number?: string | null;
+  phone_number?: string | null | undefined;
   /** The user's email address. */
-  email_address?: string | null;
-  address?: SignalAddressData | null;
+  email_address?: string | null | undefined;
+  address?: SignalAddressData | null | undefined;
 }
 /** Details about the end user's device. These fields are optional, but strongly recommended to increase the accuracy of results when using Signal Transaction Scores. When using a Balance-only ruleset, these fields are ignored. */
 export interface SignalDevice {
   /** The IP address of the device that initiated the transaction */
-  ip_address?: string | null;
+  ip_address?: string | null | undefined;
   /** The user agent of the device that initiated the transaction (e.g. "Mozilla/5.0") */
-  user_agent?: string | null;
+  user_agent?: string | null | undefined;
 }
 export interface ProcessorSignalEvaluateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
   /** The unique ID that you would like to use to refer to this transaction. For your convenience mapping your internal data, you could use your internal ID/identifier for this transaction. The max length for this field is 36 characters. */
   client_transaction_id: string;
   /** The transaction amount, in USD (e.g. `102.05`) */
   amount: number;
   /** `true` if the end user is present while initiating the ACH transfer and the endpoint is being called; `false` otherwise (for example, when the ACH transfer is scheduled and the end user is not present, or you call this endpoint after the ACH transfer but before submitting the Nacha file for ACH processing). */
-  user_present?: boolean | null;
+  user_present?: boolean | null | undefined;
   /** A unique ID that identifies the end user in your system. This ID is used to correlate requests by a user with multiple Items. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. */
-  client_user_id?: string;
+  client_user_id?: string | undefined;
   /** **true** if the ACH transaction is a recurring transaction; **false** otherwise. */
-  is_recurring?: boolean | null;
+  is_recurring?: boolean | null | undefined;
   /** The default ACH payment method to complete the transaction. `SAME_DAY_ACH`: Same Day ACH by Nacha. The debit transaction is processed and settled on the same day. `STANDARD_ACH`: Standard ACH by Nacha. `MULTIPLE_PAYMENT_METHODS`: If there is no default debit rail or there are multiple payment methods. Possible values: `SAME_DAY_ACH`, `STANDARD_ACH`, `MULTIPLE_PAYMENT_METHODS` */
-  default_payment_method?: string | null;
-  user?: SignalUser;
-  device?: SignalDevice;
+  default_payment_method?: string | null | undefined;
+  user?: SignalUser | undefined;
+  device?: SignalDevice | undefined;
   /** The key of the ruleset to use for this transaction. You can configure a ruleset using the Plaid Dashboard, under [Signal->Rules](https://dashboard.plaid.com/signal/risk-profiles). If not provided, for customers who began using Signal Transaction Scores before October 15, 2025, by default, no ruleset will be used; for customers who began using Signal Transaction Scores after that date, or for Balance customers, the `default` ruleset will be used. For more details, or to opt out of using a ruleset, see [Signal Rules](https://plaid.com/docs/signal/signal-rules/). */
-  ruleset_key?: string | null;
+  ruleset_key?: string | null | undefined;
 }
 /** The object contains a risk score and a risk tier that evaluate the transaction return risk of an unauthorized debit. Common return codes in this category include: "R05", "R07", "R10", "R11", "R29". These returns typically have a return time frame of up to 60 calendar days. During this period, customers of financial institutions can dispute a transaction as unauthorized. */
 export interface CustomerInitiatedReturnRisk {
@@ -16690,193 +16726,193 @@ export interface CustomerInitiatedReturnRisk {
 export type BankInitiatedReturnRisk = CustomerInitiatedReturnRisk;
 /** Risk scoring details broken down by risk category. When using a Balance-only ruleset, this object will not be returned. */
 export interface SignalScores {
-  customer_initiated_return_risk?: CustomerInitiatedReturnRisk;
-  bank_initiated_return_risk?: CustomerInitiatedReturnRisk;
+  customer_initiated_return_risk?: CustomerInitiatedReturnRisk | undefined;
+  bank_initiated_return_risk?: CustomerInitiatedReturnRisk | undefined;
   [key: string]: unknown;
 }
 /** The core attributes object contains additional data that can be used to assess the ACH return risk. If using a Balance-only ruleset, only `available_balance` and `current_balance` will be returned as core attributes. If using a Signal Transaction Scores ruleset, over 80 core attributes will be returned. Examples of attributes include: `available_balance` and `current_balance`: The balance in the ACH transaction funding account `days_since_first_plaid_connection`: The number of days since the first time the Item was connected to an application via Plaid `plaid_connections_count_7d`: The number of times the Item has been connected to applications via Plaid over the past 7 days `plaid_connections_count_30d`: The number of times the Item has been connected to applications via Plaid over the past 30 days `total_plaid_connections_count`: The number of times the Item has been connected to applications via Plaid `is_savings_or_money_market_account`: Indicates whether the ACH transaction funding account is a savings/money market account For the full list and detailed documentation of core attributes available, or to request that core attributes not be returned, contact sales or your Plaid account manager. */
 export interface SignalEvaluateCoreAttributes {
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to unauthorized transactions over the past 7 days from the account that will be debited. */
-  unauthorized_transactions_count_7d?: number | null;
+  unauthorized_transactions_count_7d?: number | null | undefined;
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to unauthorized transactions over the past 30 days from the account that will be debited. */
-  unauthorized_transactions_count_30d?: number | null;
+  unauthorized_transactions_count_30d?: number | null | undefined;
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to unauthorized transactions over the past 60 days from the account that will be debited. */
-  unauthorized_transactions_count_60d?: number | null;
+  unauthorized_transactions_count_60d?: number | null | undefined;
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to unauthorized transactions over the past 90 days from the account that will be debited. */
-  unauthorized_transactions_count_90d?: number | null;
+  unauthorized_transactions_count_90d?: number | null | undefined;
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to non-sufficient funds/overdrafts over the past 7 days from the account that will be debited. */
-  nsf_overdraft_transactions_count_7d?: number | null;
+  nsf_overdraft_transactions_count_7d?: number | null | undefined;
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to non-sufficient funds/overdrafts over the past 30 days from the account that will be debited. */
-  nsf_overdraft_transactions_count_30d?: number | null;
+  nsf_overdraft_transactions_count_30d?: number | null | undefined;
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to non-sufficient funds/overdrafts over the past 60 days from the account that will be debited. */
-  nsf_overdraft_transactions_count_60d?: number | null;
+  nsf_overdraft_transactions_count_60d?: number | null | undefined;
   /** We parse and analyze historical transaction metadata to identify the number of possible past returns due to non-sufficient funds/overdrafts over the past 90 days from the account that will be debited. */
-  nsf_overdraft_transactions_count_90d?: number | null;
+  nsf_overdraft_transactions_count_90d?: number | null | undefined;
   /** The number of days since the first time the Item was connected to an application via Plaid */
-  days_since_first_plaid_connection?: number | null;
+  days_since_first_plaid_connection?: number | null | undefined;
   /** The number of times the Item has been connected to applications via Plaid over the past 7 days */
-  plaid_connections_count_7d?: number | null;
+  plaid_connections_count_7d?: number | null | undefined;
   /** The number of times the Item has been connected to applications via Plaid over the past 30 days */
-  plaid_connections_count_30d?: number | null;
+  plaid_connections_count_30d?: number | null | undefined;
   /** The total number of times the Item has been connected to applications via Plaid */
-  total_plaid_connections_count?: number | null;
+  total_plaid_connections_count?: number | null | undefined;
   /** Indicates if the ACH transaction funding account is a savings/money market account */
-  is_savings_or_money_market_account?: boolean | null;
+  is_savings_or_money_market_account?: boolean | null | undefined;
   /** The total credit (inflow) transaction amount over the past 10 days from the account that will be debited */
-  total_credit_transactions_amount_10d?: number | null;
+  total_credit_transactions_amount_10d?: number | null | undefined;
   /** The total debit (outflow) transaction amount over the past 10 days from the account that will be debited */
-  total_debit_transactions_amount_10d?: number | null;
+  total_debit_transactions_amount_10d?: number | null | undefined;
   /** The 50th percentile of all credit (inflow) transaction amounts over the past 28 days from the account that will be debited */
-  p50_credit_transactions_amount_28d?: number | null;
+  p50_credit_transactions_amount_28d?: number | null | undefined;
   /** The 50th percentile of all debit (outflow) transaction amounts over the past 28 days from the account that will be debited */
-  p50_debit_transactions_amount_28d?: number | null;
+  p50_debit_transactions_amount_28d?: number | null | undefined;
   /** The 95th percentile of all credit (inflow) transaction amounts over the past 28 days from the account that will be debited */
-  p95_credit_transactions_amount_28d?: number | null;
+  p95_credit_transactions_amount_28d?: number | null | undefined;
   /** The 95th percentile of all debit (outflow) transaction amounts over the past 28 days from the account that will be debited */
-  p95_debit_transactions_amount_28d?: number | null;
+  p95_debit_transactions_amount_28d?: number | null | undefined;
   /** The number of days within the past 90 days when the account that will be debited had a negative end-of-day available balance */
-  days_with_negative_balance_count_90d?: number | null;
+  days_with_negative_balance_count_90d?: number | null | undefined;
   /** The 90th percentile of the end-of-day available balance over the past 30 days of the account that will be debited */
-  p90_eod_balance_30d?: number | null;
+  p90_eod_balance_30d?: number | null | undefined;
   /** The 90th percentile of the end-of-day available balance over the past 60 days of the account that will be debited */
-  p90_eod_balance_60d?: number | null;
+  p90_eod_balance_60d?: number | null | undefined;
   /** The 90th percentile of the end-of-day available balance over the past 90 days of the account that will be debited */
-  p90_eod_balance_90d?: number | null;
+  p90_eod_balance_90d?: number | null | undefined;
   /** The 10th percentile of the end-of-day available balance over the past 30 days of the account that will be debited */
-  p10_eod_balance_30d?: number | null;
+  p10_eod_balance_30d?: number | null | undefined;
   /** The 10th percentile of the end-of-day available balance over the past 60 days of the account that will be debited */
-  p10_eod_balance_60d?: number | null;
+  p10_eod_balance_60d?: number | null | undefined;
   /** The 10th percentile of the end-of-day available balance over the past 90 days of the account that will be debited */
-  p10_eod_balance_90d?: number | null;
+  p10_eod_balance_90d?: number | null | undefined;
   /** Available balance, as of the `balance_last_updated` time. The available balance is the current balance less any outstanding holds or debits that have not yet posted to the account. */
-  available_balance?: number | null;
+  available_balance?: number | null | undefined;
   /** Current balance, as of the `balance_last_updated` time. The current balance is the total amount of funds in the account. */
-  current_balance?: number | null;
+  current_balance?: number | null | undefined;
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DDTHH:mm:ssZ) indicating the last time that the balance for the given account has been updated. */
-  balance_last_updated?: string | null;
+  balance_last_updated?: string | null | undefined;
   /** The number of times the account's phone numbers on file have changed over the past 28 days */
-  phone_change_count_28d?: number | null;
+  phone_change_count_28d?: number | null | undefined;
   /** The number of times the account's phone numbers on file have changed over the past 90 days */
-  phone_change_count_90d?: number | null;
+  phone_change_count_90d?: number | null | undefined;
   /** The number of times the account's email addresses on file have changed over the past 28 days */
-  email_change_count_28d?: number | null;
+  email_change_count_28d?: number | null | undefined;
   /** The number of times the account's email addresses on file have changed over the past 90 days */
-  email_change_count_90d?: number | null;
+  email_change_count_90d?: number | null | undefined;
   /** The number of times the account's addresses on file have changed over the past 28 days */
-  address_change_count_28d?: number | null;
+  address_change_count_28d?: number | null | undefined;
   /** The number of times the account's addresses on file have changed over the past 90 days */
-  address_change_count_90d?: number | null;
+  address_change_count_90d?: number | null | undefined;
   /** The number of non-OAuth authentication attempts via Plaid for this bank account over the past 3 days */
-  plaid_non_oauth_authentication_attempts_count_3d?: number | null;
+  plaid_non_oauth_authentication_attempts_count_3d?: number | null | undefined;
   /** The number of non-OAuth authentication attempts via Plaid for this bank account over the past 7 days */
-  plaid_non_oauth_authentication_attempts_count_7d?: number | null;
+  plaid_non_oauth_authentication_attempts_count_7d?: number | null | undefined;
   /** The number of non-OAuth authentication attempts via Plaid for this bank account over the past 30 days */
-  plaid_non_oauth_authentication_attempts_count_30d?: number | null;
+  plaid_non_oauth_authentication_attempts_count_30d?: number | null | undefined;
   /** The number of failed non-OAuth authentication attempts via Plaid for this bank account over the past 3 days */
-  failed_plaid_non_oauth_authentication_attempts_count_3d?: number | null;
+  failed_plaid_non_oauth_authentication_attempts_count_3d?: number | null | undefined;
   /** The number of failed non-OAuth authentication attempts via Plaid for this bank account over the past 7 days */
-  failed_plaid_non_oauth_authentication_attempts_count_7d?: number | null;
+  failed_plaid_non_oauth_authentication_attempts_count_7d?: number | null | undefined;
   /** The number of failed non-OAuth authentication attempts via Plaid for this bank account over the past 30 days */
-  failed_plaid_non_oauth_authentication_attempts_count_30d?: number | null;
+  failed_plaid_non_oauth_authentication_attempts_count_30d?: number | null | undefined;
   /** The total number of debit (outflow) transactions over the past 10 days from the account that will be debited */
-  debit_transactions_count_10d?: number | null;
+  debit_transactions_count_10d?: number | null | undefined;
   /** The total number of credit (inflow) transactions over the past 10 days from the account that will be debited */
-  credit_transactions_count_10d?: number | null;
+  credit_transactions_count_10d?: number | null | undefined;
   /** The total number of debit (outflow) transactions over the past 30 days from the account that will be debited */
-  debit_transactions_count_30d?: number | null;
+  debit_transactions_count_30d?: number | null | undefined;
   /** The total number of credit (inflow) transactions over the past 30 days from the account that will be debited */
-  credit_transactions_count_30d?: number | null;
+  credit_transactions_count_30d?: number | null | undefined;
   /** The total number of debit (outflow) transactions over the past 60 days from the account that will be debited */
-  debit_transactions_count_60d?: number | null;
+  debit_transactions_count_60d?: number | null | undefined;
   /** The total number of credit (inflow) transactions over the past 60 days from the account that will be debited */
-  credit_transactions_count_60d?: number | null;
+  credit_transactions_count_60d?: number | null | undefined;
   /** The total number of debit (outflow) transactions over the past 90 days from the account that will be debited */
-  debit_transactions_count_90d?: number | null;
+  debit_transactions_count_90d?: number | null | undefined;
   /** The total number of credit (inflow) transactions over the past 90 days from the account that will be debited */
-  credit_transactions_count_90d?: number | null;
+  credit_transactions_count_90d?: number | null | undefined;
   /** The total debit (outflow) transaction amount over the past 30 days from the account that will be debited */
-  total_debit_transactions_amount_30d?: number | null;
+  total_debit_transactions_amount_30d?: number | null | undefined;
   /** The total credit (inflow) transaction amount over the past 30 days from the account that will be debited */
-  total_credit_transactions_amount_30d?: number | null;
+  total_credit_transactions_amount_30d?: number | null | undefined;
   /** The total debit (outflow) transaction amount over the past 60 days from the account that will be debited */
-  total_debit_transactions_amount_60d?: number | null;
+  total_debit_transactions_amount_60d?: number | null | undefined;
   /** The total credit (inflow) transaction amount over the past 60 days from the account that will be debited */
-  total_credit_transactions_amount_60d?: number | null;
+  total_credit_transactions_amount_60d?: number | null | undefined;
   /** The total debit (outflow) transaction amount over the past 90 days from the account that will be debited */
-  total_debit_transactions_amount_90d?: number | null;
+  total_debit_transactions_amount_90d?: number | null | undefined;
   /** The total credit (inflow) transaction amount over the past 90 days from the account that will be debited */
-  total_credit_transactions_amount_90d?: number | null;
+  total_credit_transactions_amount_90d?: number | null | undefined;
   /** The 50th percentile of the end-of-day available balance over the past 30 days of the account that will be debited */
-  p50_eod_balance_30d?: number | null;
+  p50_eod_balance_30d?: number | null | undefined;
   /** The 50th percentile of the end-of-day available balance over the past 60 days of the account that will be debited */
-  p50_eod_balance_60d?: number | null;
+  p50_eod_balance_60d?: number | null | undefined;
   /** The 50th percentile of the end-of-day available balance over the past 90 days of the account that will be debited */
-  p50_eod_balance_90d?: number | null;
+  p50_eod_balance_90d?: number | null | undefined;
   /** The 50th percentile of the end-of-day available balance between day 31 and day 60 over the past 60 days of the account that will be debited */
-  p50_eod_balance_31d_to_60d?: number | null;
+  p50_eod_balance_31d_to_60d?: number | null | undefined;
   /** The 50th percentile of the end-of-day available balance between day 61 and day 90 over the past 90 days of the account that will be debited */
-  p50_eod_balance_61d_to_90d?: number | null;
+  p50_eod_balance_61d_to_90d?: number | null | undefined;
   /** The 90th percentile of the end-of-day available balance between day 31 and day 60 over the past 60 days of the account that will be debited */
-  p90_eod_balance_31d_to_60d?: number | null;
+  p90_eod_balance_31d_to_60d?: number | null | undefined;
   /** The 90th percentile of the end-of-day available balance between day 61 and day 90 over the past 90 days of the account that will be debited */
-  p90_eod_balance_61d_to_90d?: number | null;
+  p90_eod_balance_61d_to_90d?: number | null | undefined;
   /** The 10th percentile of the end-of-day available balance between day 31 and day 60 over the past 60 days of the account that will be debited */
-  p10_eod_balance_31d_to_60d?: number | null;
+  p10_eod_balance_31d_to_60d?: number | null | undefined;
   /** The 10th percentile of the end-of-day available balance between day 61 and day 90 over the past 90 days of the account that will be debited */
-  p10_eod_balance_61d_to_90d?: number | null;
+  p10_eod_balance_61d_to_90d?: number | null | undefined;
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DDTHH:mm:ssZ) indicating the last time that the transactions for the given account have been updated. */
-  transactions_last_updated?: string | null;
+  transactions_last_updated?: string | null | undefined;
   /** Indicates if the account that will be debited is closed */
-  is_account_closed?: boolean | null;
+  is_account_closed?: boolean | null | undefined;
   /** Indicates if the account that will be debited is either frozen or restricted */
-  is_account_frozen_or_restricted?: boolean | null;
+  is_account_frozen_or_restricted?: boolean | null | undefined;
   /** The number of distinct IP addresses linked to the same bank account during Plaid authentication in the last 3 days */
-  distinct_ip_addresses_count_3d?: number | null;
+  distinct_ip_addresses_count_3d?: number | null | undefined;
   /** The number of distinct IP addresses linked to the same bank account during Plaid authentication in the last 7 days */
-  distinct_ip_addresses_count_7d?: number | null;
+  distinct_ip_addresses_count_7d?: number | null | undefined;
   /** The number of distinct IP addresses linked to the same bank account during Plaid authentication in the last 30 days (max 100) */
-  distinct_ip_addresses_count_30d?: number | null;
+  distinct_ip_addresses_count_30d?: number | null | undefined;
   /** The number of distinct IP addresses linked to the same bank account during Plaid authentication in the last 90 days (max 100) */
-  distinct_ip_addresses_count_90d?: number | null;
+  distinct_ip_addresses_count_90d?: number | null | undefined;
   /** The number of distinct user agents linked to the same bank account during Plaid authentication in the last 3 days */
-  distinct_user_agents_count_3d?: number | null;
+  distinct_user_agents_count_3d?: number | null | undefined;
   /** The number of distinct user agents linked to the same bank account during Plaid authentication in the last 7 days */
-  distinct_user_agents_count_7d?: number | null;
+  distinct_user_agents_count_7d?: number | null | undefined;
   /** The number of distinct user agents linked to the same bank account during Plaid authentication in the last 30 days */
-  distinct_user_agents_count_30d?: number | null;
+  distinct_user_agents_count_30d?: number | null | undefined;
   /** The number of distinct user agents linked to the same bank account during Plaid authentication in the last 90 days */
-  distinct_user_agents_count_90d?: number | null;
+  distinct_user_agents_count_90d?: number | null | undefined;
   /** The number of distinct SSL/TLS connection sessions linked to the same bank account during Plaid authentication in the last 3 days */
-  distinct_ssl_tls_connection_sessions_count_3d?: number | null;
+  distinct_ssl_tls_connection_sessions_count_3d?: number | null | undefined;
   /** The number of distinct SSL/TLS connection sessions linked to the same bank account during Plaid authentication in the last 7 days */
-  distinct_ssl_tls_connection_sessions_count_7d?: number | null;
+  distinct_ssl_tls_connection_sessions_count_7d?: number | null | undefined;
   /** The number of distinct SSL/TLS connection sessions linked to the same bank account during Plaid authentication in the last 30 days */
-  distinct_ssl_tls_connection_sessions_count_30d?: number | null;
+  distinct_ssl_tls_connection_sessions_count_30d?: number | null | undefined;
   /** The number of distinct SSL/TLS connection sessions linked to the same bank account during Plaid authentication in the last 90 days */
-  distinct_ssl_tls_connection_sessions_count_90d?: number | null;
+  distinct_ssl_tls_connection_sessions_count_90d?: number | null | undefined;
   /** The number of days since the bank account was opened, as reported by the financial institution */
-  days_since_account_opening?: number | null;
+  days_since_account_opening?: number | null | undefined;
   /** Taking `available_or_current_balance` and dividing it by the transaction amount. Useful to say "10% buffer", for example. This is a convenience function to build Signal Rules upon. */
-  balance_to_transaction_amount_ratio?: number | null;
+  balance_to_transaction_amount_ratio?: number | null | undefined;
 }
 /** The result of the rule that was triggered for this transaction. `ACCEPT`: Accept the transaction for processing. `REROUTE`: Reroute the transaction to a different payment method, as this transaction is too risky. `REVIEW`: Review the transaction before proceeding. */
 export type RuleResult = "ACCEPT" | "REROUTE" | "REVIEW";
 /** Rules are run in numerical order. The first rule with a logic match is triggered. These are the details of that rule. */
 export interface RuleDetails {
   /** An optional message attached to the triggered rule, defined within the Dashboard, for your internal use. Useful for debugging, such as "Account appears to be closed." */
-  internal_note?: string;
+  internal_note?: string | undefined;
   /** A string key, defined within the Dashboard, used to trigger programmatic behavior for a certain result. For instance, you could optionally choose to define a "3-day-hold" `custom_action_key` for an ACCEPT result. */
-  custom_action_key?: string;
+  custom_action_key?: string | undefined;
   [key: string]: unknown;
 }
 /** Details about the transaction result after evaluation by the requested Ruleset. If a `ruleset_key` is not provided, for customers who began using Signal Transaction Scores before October 15, 2025, by default, this field will be omitted. To learn more, see [Signal Rules](https://plaid.com/docs/signal/signal-rules/). */
 export interface Ruleset {
   /** The key of the Ruleset used for this transaction. */
-  ruleset_key?: string;
+  ruleset_key?: string | undefined;
   result: RuleResult;
-  triggered_rule_details?: RuleDetails | null;
+  triggered_rule_details?: RuleDetails | null | undefined;
   /** The evaluated outcome for this transaction. This field is deprecated, use `result` or `triggered_rule_details.custom_action_key` instead. */
-  outcome?: string;
+  outcome?: string | undefined;
   [key: string]: unknown;
 }
 /** If bank information was not available to be used in the Signal Transaction Scores model, this array contains warnings describing why bank data is missing. If you want to receive an API error instead of scores in the case of missing bank data, file a support ticket or contact your Plaid account manager. */
@@ -16885,15 +16921,15 @@ export type ProcessorSignalEvaluateResponseWarningsList = Array<SignalWarning>;
 export interface ProcessorSignalEvaluateResponse {
   request_id: string;
   scores: SignalScores | null;
-  core_attributes?: SignalEvaluateCoreAttributes;
-  ruleset?: Ruleset | null;
+  core_attributes?: SignalEvaluateCoreAttributes | undefined;
+  ruleset?: Ruleset | null | undefined;
   /** If bank information was not available to be used in the Signal Transaction Scores model, this array contains warnings describing why bank data is missing. If you want to receive an API error instead of scores in the case of missing bank data, file a support ticket or contact your Plaid account manager. */
-  warnings?: ProcessorSignalEvaluateResponseWarningsList;
+  warnings?: ProcessorSignalEvaluateResponseWarningsList | undefined;
   [key: string]: unknown;
 }
 export interface ProcessorSignalPrepareRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
 }
 /** ProcessorSignalPrepareResponse defines the response schema for `/processor/signal/prepare` */
@@ -16902,15 +16938,15 @@ export interface ProcessorSignalPrepareResponse {
   [key: string]: unknown;
 }
 export interface ProcessorSignalReturnReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
   /** Must be the same as the `client_transaction_id` supplied when calling `/processor/signal/evaluate` */
   client_transaction_id: string;
   /** Must be a valid ACH return code (e.g. "R01") If formatted incorrectly, this will result in an [`INVALID_FIELD`](https://plaid.com/docs/errors/invalid-request/#invalid_field) error. */
   return_code: string;
   /** Date and time when you receive the returns from your payment processors, in ISO 8601 format (`YYYY-MM-DDTHH:mm:ssZ`). */
-  returned_at?: string | null;
+  returned_at?: string | null | undefined;
 }
 /** ProcessorSignalReturnReportResponse defines the response schema for `/processor/signal/return/report` */
 export interface ProcessorSignalReturnReportResponse {
@@ -16922,7 +16958,7 @@ export interface ProtectLinkModelInputs {
   /** A unique identifier for the Link session, used to compute a Trust Index score and fraud attributes. */
   link_session_id: string;
   /** Controls whether transaction extraction must be complete before scoring. If `false` (default), returns a score whether or not transaction extraction is complete, as long as the link session is finished; if data has been extracted it will still be included in the score computation. If `true`, returns HTTP 400 with `error_type` = `INVALID_REQUEST` and `error_code` = `FAILED_PRECONDITION` if extraction is still in progress; once data is ready a score will be returned normally. */
-  require_extracted_data?: boolean;
+  require_extracted_data?: boolean | undefined;
 }
 /** Inputs for device Trust Index models. */
 export interface ProtectDeviceModelInputs {
@@ -16931,63 +16967,63 @@ export interface ProtectDeviceModelInputs {
 }
 /** Inputs required by certain Trust Index models. The `link` field is required for link-session models. Other model families (including cash-advance) are identified by `user` alone and do not use this object. */
 export interface ProtectModelInputs {
-  link?: ProtectLinkModelInputs | null;
-  device?: ProtectDeviceModelInputs | null;
+  link?: ProtectLinkModelInputs | null | undefined;
+  device?: ProtectDeviceModelInputs | null | undefined;
 }
 export interface ProtectComputeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The name of the Trust Index model to use for scoring. Examples: `ti-link-session-3` or `ti-link-session-3.0` (link-session fraud), `ti-identity-2.0` (identity fraud), and `cash-advance-ongoing-<client>-1.0` (cash advances). Cash-advance models are client-scoped; use the model name issued for your client. The model specified may require certain fields within `model_inputs`; for example, `ti-link-session-2` requires the `link` field. Cash-advance models do not use `model_inputs`. */
   model: string;
   user: ProtectUser;
-  model_inputs?: ProtectModelInputs | null;
+  model_inputs?: ProtectModelInputs | null | undefined;
 }
 /** Per-bucket subscores returned alongside the overall Trust Index score. For cash-advance models, each key maps to an amount-bucket subscore (0-100); higher values indicate lower fraud risk. Only buckets that were scored are included in the response. */
 export interface ProtectComputeSubscores {
   /** Subscore for cash advance amounts in the range $0-$25. */
-  cash_advance_bucket_0_25?: number | null;
+  cash_advance_bucket_0_25?: number | null | undefined;
   /** Subscore for cash advance amounts in the range $25-$50. */
-  cash_advance_bucket_25_50?: number | null;
+  cash_advance_bucket_25_50?: number | null | undefined;
   /** Subscore for cash advance amounts in the range $50-$100. */
-  cash_advance_bucket_50_100?: number | null;
+  cash_advance_bucket_50_100?: number | null | undefined;
   /** Subscore for cash advance amounts in the range $100-$200. */
-  cash_advance_bucket_100_200?: number | null;
+  cash_advance_bucket_100_200?: number | null | undefined;
   /** Subscore for cash advance amounts in the range $200-$300. */
-  cash_advance_bucket_200_300?: number | null;
+  cash_advance_bucket_200_300?: number | null | undefined;
   /** Subscore for cash advance amounts in the range $300-$400. */
-  cash_advance_bucket_300_400?: number | null;
+  cash_advance_bucket_300_400?: number | null | undefined;
   /** Subscore for cash advance amounts in the range $400-$500. */
-  cash_advance_bucket_400_500?: number | null;
+  cash_advance_bucket_400_500?: number | null | undefined;
   [key: string]: unknown;
 }
 /** Response object for /protect/compute */
 export interface ProtectComputeResponse {
   /** The Trust Index score, on a 0-100 scale where higher values indicate lower risk. */
-  score?: number | null;
+  score?: number | null | undefined;
   /** The versioned name of the Trust Index model used for scoring. */
-  model?: string;
-  attributes?: FraudAttributes | null;
-  subscores?: ProtectComputeSubscores | null;
+  model?: string | undefined;
+  attributes?: FraudAttributes | null | undefined;
+  subscores?: ProtectComputeSubscores | null | undefined;
   /** The timestamp when the Trust Index score and fraud attributes were computed, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2017-09-14T14:42:19.350Z"` */
-  timestamp?: string | null;
+  timestamp?: string | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 /** An optional object to filter `/asset_report/refresh` results. If provided, cannot be `null`. If not specified, the `options` from the original call to `/asset_report/create` will be used. */
 export interface AssetReportRefreshRequestOptions {
   /** Client-generated identifier, which can be used by lenders to track loan applications. */
-  client_report_id?: string | null;
+  client_report_id?: string | null | undefined;
   /** URL to which Plaid will send Assets webhooks, for example when the requested Asset Report is ready. */
-  webhook?: string | null;
-  user?: AssetReportUser;
+  webhook?: string | null | undefined;
+  user?: AssetReportUser | undefined;
 }
 export interface RefreshAssetReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   asset_report_token: string;
   /** The maximum number of days of history to include in the Asset Report. Must be an integer. If not specified, the value from the original call to `/asset_report/create` will be used. */
-  days_requested?: number | null;
-  options?: AssetReportRefreshRequestOptions;
+  days_requested?: number | null | undefined;
+  options?: AssetReportRefreshRequestOptions | undefined;
 }
 /** AssetReportRefreshResponse defines the response schema for `/asset_report/refresh` */
 export interface AssetReportRefreshResponse {
@@ -16997,9 +17033,9 @@ export interface AssetReportRefreshResponse {
   [key: string]: unknown;
 }
 export interface RefreshCashflowReportRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Number of days to retrieve transactions data for (1 to 730) */
   days_requested: number;
 }
@@ -17013,16 +17049,16 @@ export type CreditPayrollIncomeRefreshRequestOptionsItemIdsList = Array<string>;
 /** An optional object for `/credit/payroll_income/refresh` request options. */
 export interface CreditPayrollIncomeRefreshRequestOptions {
   /** An array of `item_id`s to be refreshed. Each `item_id` should uniquely identify a payroll income item. If this field is not provided, all `item_id`s associated with the user will be refreshed. */
-  item_ids?: CreditPayrollIncomeRefreshRequestOptionsItemIdsList;
+  item_ids?: CreditPayrollIncomeRefreshRequestOptionsItemIdsList | undefined;
   /** The URL where Plaid will send the payroll income refresh webhook. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 export interface RefreshCreditPayrollIncomeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
-  options?: CreditPayrollIncomeRefreshRequestOptions;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
+  options?: CreditPayrollIncomeRefreshRequestOptions | undefined;
 }
 /** CreditPayrollIncomeRefreshResponse defines the response schema for `/credit/payroll_income/refresh` */
 export interface CreditPayrollIncomeRefreshResponse {
@@ -17031,25 +17067,25 @@ export interface CreditPayrollIncomeRefreshResponse {
   [key: string]: unknown;
 }
 export interface RefreshCreditRelayRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` granting access to the report you would like to refresh. */
   relay_token: string;
   report_type: ReportType | (string & {});
   /** The URL registered to receive webhooks when the report of a relay token has been refreshed. */
-  webhook?: string | null;
+  webhook?: string | null | undefined;
 }
 /** CreditRelayRefreshResponse defines the response schema for `/credit/relay/refresh` */
 export interface CreditRelayRefreshResponse {
   relay_token: string;
-  asset_report_id?: string;
+  asset_report_id?: string | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface RefreshIdentityRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** IdentityRefreshResponse defines the response schema for `/identity/refresh` */
 export interface IdentityRefreshResponse {
@@ -17057,9 +17093,9 @@ export interface IdentityRefreshResponse {
   [key: string]: unknown;
 }
 export interface RefreshInvestmentRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** InvestmentsRefreshResponse defines the response schema for `/investments/refresh` */
 export interface InvestmentsRefreshResponse {
@@ -17067,9 +17103,9 @@ export interface InvestmentsRefreshResponse {
   [key: string]: unknown;
 }
 export interface RefreshProcessorTransactionRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   processor_token: string;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** ProcessorTransactionsRefreshResponse defines the response schema for `/processor/transactions/refresh` */
 export interface ProcessorTransactionsRefreshResponse {
@@ -17078,8 +17114,8 @@ export interface ProcessorTransactionsRefreshResponse {
 }
 export interface RefreshStatementRequest {
   access_token: string | Redacted.Redacted<string>;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The start date for statements, in "YYYY-MM-DD" format, e.g. "2023-08-30". To determine whether a statement falls within the specified date range, Plaid will use the statement posted date. The statement posted date is typically either the last day of the statement period, or the following day. */
   start_date: string;
   /** The end date for statements, in "YYYY-MM-DD" format, e.g. "2023-10-30". You can request up to two years of data. To determine whether a statement falls within the specified date range, Plaid will use the statement posted date. The statement posted date is typically either the last day of the statement period, or the following day. */
@@ -17091,9 +17127,9 @@ export interface StatementsRefreshResponse {
   [key: string]: unknown;
 }
 export interface RefreshTransactionRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** TransactionsRefreshResponse defines the response schema for `/transactions/refresh` */
 export interface TransactionsRefreshResponse {
@@ -17103,40 +17139,40 @@ export interface TransactionsRefreshResponse {
 export interface RefreshUserFinancialDataRequest {
   /** A Plaid-generated ID that identifies the end user. */
   user_id: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** RefreshResult represents the result status of a user refresh for a specific item. */
 export interface RefreshResult {
   /** A unique identifier for the Plaid Item. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** The product for which the refresh was attempted. */
-  product?: string;
-  error?: PlaidError | null;
+  product?: string | undefined;
+  error?: PlaidError | null | undefined;
   [key: string]: unknown;
 }
 export type UserFinancialDataRefreshResponseResultsList = Array<RefreshResult>;
 /** UserFinancialDataRefreshResponse defines the response schema for `/user/financial_data/refresh` */
 export interface UserFinancialDataRefreshResponse {
-  request_id?: string;
+  request_id?: string | undefined;
   /** The user ID associated with the refresh request. */
-  user_id?: string;
-  results?: UserFinancialDataRefreshResponseResultsList;
+  user_id?: string | undefined;
+  results?: UserFinancialDataRefreshResponseResultsList | undefined;
   [key: string]: unknown;
 }
 export interface RefreshUserTransactionRequest {
   /** A Plaid-generated ID that identifies the end user. */
   user_id: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type UserTransactionsRefreshResponseResultsList = Array<RefreshResult>;
 /** UserTransactionsRefreshResponse defines the response schema for `/user/transactions/refresh` */
 export interface UserTransactionsRefreshResponse {
-  request_id?: string;
+  request_id?: string | undefined;
   /** The user ID associated with the refresh request. */
-  user_id?: string;
-  results?: UserTransactionsRefreshResponseResultsList;
+  user_id?: string | undefined;
+  results?: UserTransactionsRefreshResponseResultsList | undefined;
   [key: string]: unknown;
 }
 /** The type of loan the user applied for. */
@@ -17179,9 +17215,9 @@ export interface CraLoanOpenedStatus {
 }
 /** Contains loan application data to register. */
 export interface CraLoanRegisterApplication {
-  application_id?: string;
+  application_id?: string | undefined;
   /** The date the user applied for the loan. The date should be in ISO 8601 format (YYYY-MM-DD). */
-  application_date?: string;
+  application_date?: string | undefined;
   [key: string]: unknown;
 }
 /** Contains loan data to register. */
@@ -17194,15 +17230,15 @@ export interface CraLoanRegister {
   opened_date: string;
   opened_with_status: CraLoanOpenedStatus;
   /** The total amount of the approved loan. */
-  loan_amount?: number;
-  application?: CraLoanRegisterApplication;
+  loan_amount?: number | undefined;
+  application?: CraLoanRegisterApplication | undefined;
   [key: string]: unknown;
 }
 /** A list of loans to register. */
 export type RegisterCraLoanRequestLoansList = Array<CraLoanRegister>;
 export interface RegisterCraLoanRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A list of loans to register. */
   loans: RegisterCraLoanRequestLoansList;
 }
@@ -17220,16 +17256,16 @@ export interface CraLoanApplication {
   type: CraLoanType | (string & {});
   decision: CraLoanApplicationDecision | (string & {});
   /** The date the user applied for the loan. The date should be in ISO 8601 format (YYYY-MM-DD). */
-  application_date?: string;
+  application_date?: string | undefined;
   /** The date when the loan application's decision was made. The date should be in ISO 8601 format (YYYY-MM-DD). */
-  decision_date?: string;
+  decision_date?: string | undefined;
   [key: string]: unknown;
 }
 /** A list of loan applications to register. */
 export type RegisterCraLoansApplicationRequestApplicationsList = Array<CraLoanApplication>;
 export interface RegisterCraLoansApplicationRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A list of loan applications to register. */
   applications: RegisterCraLoansApplicationRequestApplicationsList;
 }
@@ -17239,8 +17275,8 @@ export interface CraLoansApplicationsRegisterResponse {
   [key: string]: unknown;
 }
 export interface RemoveAssetReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   asset_report_token: string;
 }
 /** AssetReportRemoveResponse defines the response schema for `/asset_report/remove` */
@@ -17251,8 +17287,8 @@ export interface AssetReportRemoveResponse {
   [key: string]: unknown;
 }
 export interface RemoveCreditRelayRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `relay_token` you would like to revoke. */
   relay_token: string;
 }
@@ -17272,12 +17308,12 @@ export type ItemRemoveReasonCode =
   | "CONNECTION_IS_NON_FUNCTIONAL"
   | "OTHER";
 export interface RemoveItemRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  reason_code?: ItemRemoveReasonCode | (string & {}) | null;
+  reason_code?: ItemRemoveReasonCode | (string & {}) | null | undefined;
   /** Additional context or details about the reason for removing the Item. Personally identifiable information, such as an email address or phone number, should not be included in the `reason_note`. */
-  reason_note?: string | null;
+  reason_note?: string | null | undefined;
 }
 /** ItemRemoveResponse defines the response schema for `/item/remove` */
 export interface ItemRemoveResponse {
@@ -17285,19 +17321,19 @@ export interface ItemRemoveResponse {
   [key: string]: unknown;
 }
 export interface RemovePartnerCustomerRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The `client_id` of the end customer to be removed. */
   end_customer_client_id: string;
 }
 /** Response schema for `/partner/customer/remove`. */
 export interface PartnerCustomerRemoveResponse {
-  request_id?: string;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface RemoveTransactionsRuleRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A unique ID representing the end user the rule belongs to. */
   client_user_id: string;
   /** A rule's unique identifier */
@@ -17309,10 +17345,10 @@ export interface TransactionsRulesRemoveResponse {
   [key: string]: unknown;
 }
 export interface RemoveUserRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  user_token?: string | undefined;
 }
 /** UserRemoveResponse defines the response schema for `/user/remove` */
 export interface UserRemoveResponse {
@@ -17320,8 +17356,8 @@ export interface UserRemoveResponse {
   [key: string]: unknown;
 }
 export interface RemoveUserIdentityRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
 }
 /** UserIdentityRemoveResponse defines the response schema for `/user/identity/remove` */
@@ -17332,10 +17368,10 @@ export interface UserIdentityRemoveResponse {
 /** An array of `item_id`s to be deleted. All Items for removal must be currently associated with the provided `user_id` or `user_token`. Otherwise, the entire operation will error and no Items will be deleted. */
 export type RemoveUserItemRequestItemIdsList = Array<string>;
 export interface RemoveUserItemRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
   /** An array of `item_id`s to be deleted. All Items for removal must be currently associated with the provided `user_id` or `user_token`. Otherwise, the entire operation will error and no Items will be deleted. */
   item_ids: RemoveUserItemRequestItemIdsList;
 }
@@ -17345,8 +17381,8 @@ export interface UserItemsRemoveResponse {
   [key: string]: unknown;
 }
 export interface RemoveUserThirdPartyTokenRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   third_party_user_token: string;
 }
 /** UserThirdPartyTokenRemoveResponse defines the response schema for `/user/third_party_token/remove` */
@@ -17360,12 +17396,12 @@ export interface UserThirdPartyTokenRemoveResponse {
 export type Strategy = "reset" | "incomplete" | "infer" | "custom";
 /** User information collected outside of Link, most likely via your own onboarding process. Each of the following identity fields are optional: `email_address` `phone_number` `date_of_birth` `name` `address` `id_number` Specifically, these fields are optional in that they can either be fully provided (satisfying every required field in their subschema) or omitted from the request entirely by not providing the key or value. Providing these fields via the API will result in Link skipping the data collection process for the associated user. All verification steps enabled in the associated Identity Verification Template will still be run. Verification steps will either be run immediately, or once the user completes the `accept_tos` step, depending on the value provided to the `gave_consent` field. */
 export interface IdentityVerificationRequestUser {
-  email_address?: string;
-  phone_number?: string | null;
-  date_of_birth?: string;
-  name?: IdentityVerificationRequestUserName | null;
-  address?: UserAddress | null;
-  id_number?: UserIDNumber | null;
+  email_address?: string | undefined;
+  phone_number?: string | null | undefined;
+  date_of_birth?: string | undefined;
+  name?: IdentityVerificationRequestUserName | null | undefined;
+  address?: UserAddress | null | undefined;
+  id_number?: UserIDNumber | null | undefined;
   [key: string]: unknown;
 }
 /** Instructions for the `custom` retry strategy specifying which steps should be required or skipped. Note: This field must be provided when the retry strategy is `custom` and must be omitted otherwise. Custom retries override settings in your Plaid Template. For example, if your Plaid Template has `verify_sms` disabled, a custom retry with `verify_sms` enabled will still require the step. The `selfie_check` step is currently not supported on the sandbox server. Sandbox requests will silently disable the `selfie_check` step when provided. */
@@ -17383,12 +17419,12 @@ export interface RetryIdentityVerificationRequest {
   client_user_id: string;
   template_id: string;
   strategy: Strategy | (string & {});
-  user?: IdentityVerificationRequestUser | null;
-  steps?: IdentityVerificationRetryRequestStepsObject | null;
+  user?: IdentityVerificationRequestUser | null | undefined;
+  steps?: IdentityVerificationRetryRequestStepsObject | null | undefined;
   /** A flag specifying whether you would like Plaid to expose a shareable URL for the verification being retried. If a value for this flag is not specified, the `is_shareable` setting from the original verification attempt will be used. */
-  is_shareable?: boolean | null;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  is_shareable?: boolean | null | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** An identity verification attempt represents a customer's attempt to verify their identity, reflecting the required steps for completing the session, the results for each step, and information collected in the process. */
 export interface IdentityVerificationRetryResponse {
@@ -17411,7 +17447,7 @@ export interface IdentityVerificationRetryResponse {
   beacon_user_id: string | null;
   user_id: string | null;
   redacted_at: string | null;
-  latest_scored_protect_event?: IDVProtectEvent | null;
+  latest_scored_protect_event?: IDVProtectEvent | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
@@ -17421,16 +17457,16 @@ export interface RevokeFdxConsentRequest {
   initiator: FDXPartyType | (string & {});
   reason: FDXUpdateReason | (string & {});
   /** Additional information or description of an `OTHER` reason */
-  otherReason?: string;
+  otherReason?: string | undefined;
   /** When the revocation was effected on the initiator's side */
-  updatedTime?: string;
+  updatedTime?: string | undefined;
 }
 export interface RevokeFdxConsentResponse {}
 export interface RevokeOauthRequest {
   token: string;
-  client_id?: string;
-  client_secret?: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Successful OAuth token revoke response */
 export interface OAuthRevokeResponse {
@@ -17438,14 +17474,14 @@ export interface OAuthRevokeResponse {
   [key: string]: unknown;
 }
 export interface RevokePaymentInitiationConsentRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The consent ID. */
   consent_id: string;
 }
 /** PaymentInitiationConsentRevokeResponse defines the response schema for `/payment_initiation/consent/revoke` */
 export interface PaymentInitiationConsentRevokeResponse {
-  request_id?: string;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** If set, skip report generation and instead fire a `CRA_REPORT_UPDATED` error webhook carrying this code. The accepted values depend on the `scope` of the subscription being simulated, since a simulation can only fire a webhook that scope would send in Production. A `CLIENT_USER` subscription accepts `USER_NOT_FOUND` and `PRODUCT_GENERATION_FAILED`; a `PLAID_NETWORK` subscription accepts `UNMATCH`, `DATA_UNAVAILABLE`, `NO_ELIGIBLE_ITEMS_ON_PROFILE`, and `PRODUCT_GENERATION_FAILED`. Supplying a code that does not match the subscription's scope returns an `INVALID_FIELD` error. */
@@ -17458,33 +17494,37 @@ export type SandboxCraServicingSimulateErrorWebhookCode =
 /** Optional parameters controlling the simulated report. */
 export interface SandboxCraServicingSimulateRequestOptions {
   /** The end of the synthesized transaction window ("the present"), as a YYYY-MM-DD date. Accepts past or future dates up to 180 days ahead; defaults to today. A later value appends newer transactions without churning earlier ones. */
-  transactions_end_date?: string | null;
-  error_webhook_code?: SandboxCraServicingSimulateErrorWebhookCode | (string & {}) | null;
+  transactions_end_date?: string | null | undefined;
+  error_webhook_code?:
+    | SandboxCraServicingSimulateErrorWebhookCode
+    | (string & {})
+    | null
+    | undefined;
 }
 export interface SandboxCraServicingSimulateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Servicing subscription to simulate an update for. Upon calling this endpoint, Plaid will simulate a report creation for all products referenced by this subscription ID. */
   subscription_id: string;
   /** The user to simulate an update for, in place of a `subscription_id`. */
-  user_id?: string;
-  options?: SandboxCraServicingSimulateRequestOptions | null;
+  user_id?: string | undefined;
+  options?: SandboxCraServicingSimulateRequestOptions | null | undefined;
 }
 /** SandboxCraServicingSimulateResponse defines the response schema for `/sandbox/cra/servicing/simulate` */
 export interface SandboxCraServicingSimulateResponse {
   /** The `cra-report` token for the seeded snapshot. Pin as `report_id` on `/cra/check_report/base_report/get` or `/cra/check_report/income_insights/get`. Omitted when `error_webhook_code` was used. */
-  report_id?: string | null;
+  report_id?: string | null | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface SandboxFdxConsentSeedRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The data provider's identifier for the end user to associate the seeded consent grant with. */
   customer_id: string;
   application_id: string;
   /** Optional UUIDv4 identifier for the seeded consent grant. If omitted, one is generated. Seeding fails if a grant with this identifier already exists. */
-  consent_id?: string;
+  consent_id?: string | undefined;
 }
 /** Response containing the identifier of the seeded FDX consent grant, which can then be listed, retrieved, and revoked through the FDX Consent API. */
 export interface SandboxFdxConsentSeedResponse {
@@ -17505,16 +17545,19 @@ export type SandboxIncomeWebhookFireRequestWebhookCode =
   | "INCOME_VERIFICATION_RISK_SIGNALS"
   | "USER_INCOME_VERIFICATION_RISK_SIGNALS";
 export interface SandboxIncomeFireWebhookRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Item ID associated with the verification. */
   item_id: string;
   /** The user identifier to include in the test webhook. For `USER_INCOME_VERIFICATION` and `USER_INCOME_VERIFICATION_RISK_SIGNALS`, use the `user_id` returned by `/user/create`, which begins with `usr_`. For `INCOME_VERIFICATION` and `INCOME_VERIFICATION_RISK_SIGNALS`, use the legacy webhook `user_id` associated with the user token. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The URL to which the webhook should be sent. */
   webhook: string;
   /** Required when `webhook_code` is `INCOME_VERIFICATION` or `USER_INCOME_VERIFICATION`. `VERIFICATION_STATUS_PROCESSING_COMPLETE`: The income verification status processing has completed. If the user uploaded multiple documents, this webhook will fire when all documents have finished processing. Call the `/income/verification/paystubs/get` endpoint and check the document metadata to see which documents were successfully parsed. `VERIFICATION_STATUS_PROCESSING_FAILED`: A failure occurred when attempting to process the verification documentation. `VERIFICATION_STATUS_DOCUMENT_REJECTED`: The documentation was rejected. */
-  verification_status?: SandboxIncomeFireWebhookRequestVerificationStatus | (string & {});
+  verification_status?:
+    | SandboxIncomeFireWebhookRequestVerificationStatus
+    | (string & {})
+    | undefined;
   webhook_code: SandboxIncomeWebhookFireRequestWebhookCode | (string & {});
 }
 /** SandboxIncomeFireWebhookResponse defines the response schema for `/sandbox/income/fire_webhook` */
@@ -17523,8 +17566,8 @@ export interface SandboxIncomeFireWebhookResponse {
   [key: string]: unknown;
 }
 export interface SandboxItemApplicationSeedRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   application_id: string;
 }
@@ -17562,16 +17605,16 @@ export type SandboxItemFireWebhookRequestWebhookCode =
 /** Values to set on the fired webhook's payload. Each field is named after the webhook field it sets. If specified, must not be `null`. */
 export interface SandboxItemFireWebhookRequestOptions {
   /** The value to send as `new_transactions` in a `TRANSACTIONS` `DEFAULT_UPDATE` webhook. Defaults to 0. Only valid when `webhook_type` is `TRANSACTIONS` and `webhook_code` is `DEFAULT_UPDATE`. */
-  new_transactions?: number;
+  new_transactions?: number | undefined;
 }
 export interface SandboxItemFireWebhookRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
-  webhook_type?: WebhookType | (string & {});
+  webhook_type?: WebhookType | (string & {}) | undefined;
   /** The webhook codes that can be fired by this test endpoint. */
   webhook_code: SandboxItemFireWebhookRequestWebhookCode | (string & {});
-  options?: SandboxItemFireWebhookRequestOptions;
+  options?: SandboxItemFireWebhookRequestOptions | undefined;
 }
 /** SandboxItemFireWebhookResponse defines the response schema for `/sandbox/item/fire_webhook` */
 export interface SandboxItemFireWebhookResponse {
@@ -17581,8 +17624,8 @@ export interface SandboxItemFireWebhookResponse {
   [key: string]: unknown;
 }
 export interface SandboxItemResetLoginRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
 }
 /** SandboxItemResetLoginResponse defines the response schema for `/sandbox/item/reset_login` */
@@ -17597,8 +17640,8 @@ export type SandboxItemSetVerificationStatusRequestVerificationStatus =
   | "automatically_verified"
   | "verification_expired";
 export interface SandboxItemSetVerificationStatusRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The `account_id` of the account whose verification status is to be modified */
   account_id: string;
@@ -17619,8 +17662,8 @@ export interface SandboxOauthSelectAccountsRequest {
 export type SandboxOauthSelectAccountsResponse = { [key: string]: unknown | undefined };
 export type SandboxOauthSelectAccountsResponse2 = SandboxOauthSelectAccountsResponse;
 export interface SandboxPaymentSimulateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the payment to simulate */
   payment_id: string;
   /** The webhook URL to use for any payment events triggered by the simulated status change. Used only if the payment is not yet associated with an Item; otherwise, events are sent to the Item's webhook. */
@@ -17636,8 +17679,8 @@ export interface SandboxPaymentSimulateResponse {
   [key: string]: unknown;
 }
 export interface SandboxTransferFireWebhookRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The URL to which the webhook should be sent. */
   webhook: string;
 }
@@ -17654,11 +17697,11 @@ export type TransferLedgerSweepSimulateEventType =
   | "sweep.failed"
   | "sweep.funds_available";
 export interface SandboxTransferLedgerDepositSimulateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   sweep_id: string;
   event_type: TransferLedgerSweepSimulateEventType | (string & {});
-  failure_reason?: TransferFailure | null;
+  failure_reason?: TransferFailure | null | undefined;
 }
 /** Defines the response schema for `/sandbox/transfer/ledger/deposit/simulate` */
 export interface SandboxTransferLedgerDepositSimulateResponse {
@@ -17666,16 +17709,16 @@ export interface SandboxTransferLedgerDepositSimulateResponse {
   [key: string]: unknown;
 }
 export interface SandboxTransferLedgerSimulateAvailableRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Specify which ledger balance to simulate converting pending balance to available balance. If this field is left blank, pending balance is converted to available balance for all of your ledgers (or all of the given originator's ledgers). */
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** Client ID of the end customer (i.e. the originator). Only applicable to Transfer for Platforms customers. */
-  originator_client_id?: string | null;
+  originator_client_id?: string | null | undefined;
   /** Plaid's unique identifier for a test clock. If provided, only the pending balance that is due before the `virtual_time` on the test clock will be converted. */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   /** The webhook URL to which a `TRANSFER_EVENTS_UPDATE` webhook should be sent. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 /** Defines the response schema for `/sandbox/transfer/ledger/simulate_available` */
 export interface SandboxTransferLedgerSimulateAvailableResponse {
@@ -17683,11 +17726,11 @@ export interface SandboxTransferLedgerSimulateAvailableResponse {
   [key: string]: unknown;
 }
 export interface SandboxTransferLedgerWithdrawSimulateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   sweep_id: string;
   event_type: TransferLedgerSweepSimulateEventType | (string & {});
-  failure_reason?: TransferFailure | null;
+  failure_reason?: TransferFailure | null | undefined;
 }
 /** Defines the response schema for `/sandbox/transfer/ledger/withdraw/simulate` */
 export interface SandboxTransferLedgerWithdrawSimulateResponse {
@@ -17695,16 +17738,16 @@ export interface SandboxTransferLedgerWithdrawSimulateResponse {
   [key: string]: unknown;
 }
 export interface SandboxTransferRefundSimulateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   refund_id: string;
   /** Plaid's unique identifier for a test clock. If provided, the event to be simulated is created at the `virtual_time` on the provided `test_clock`. */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   /** The asynchronous event to be simulated. May be: `refund.posted`, `refund.settled`, `refund.failed`, or `refund.returned`. An error will be returned if the event type is incompatible with the current refund status. Compatible status --> event type transitions include: `refund.pending` --> `refund.failed` `refund.pending` --> `refund.posted` `refund.posted` --> `refund.returned` `refund.posted` --> `refund.settled` `refund.posted` events can only be simulated if the refunded transfer has been transitioned to settled. This mimics the ordering of events in Production. */
   event_type: string;
-  failure_reason?: TransferFailure | null;
+  failure_reason?: TransferFailure | null | undefined;
   /** The webhook URL to which a `TRANSFER_EVENTS_UPDATE` webhook should be sent. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 /** Defines the response schema for `/sandbox/transfer/refund/simulate` */
 export interface SandboxTransferRefundSimulateResponse {
@@ -17712,16 +17755,16 @@ export interface SandboxTransferRefundSimulateResponse {
   [key: string]: unknown;
 }
 export interface SandboxTransferSimulateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   transfer_id: string;
   /** Plaid's unique identifier for a test clock. If provided, the event to be simulated is created at the `virtual_time` on the provided `test_clock`. */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   /** The asynchronous event to be simulated. May be: `posted`, `settled`, `failed`, `funds_available`, or `returned`. An error will be returned if the event type is incompatible with the current transfer status. Compatible status --> event type transitions include: `pending` --> `failed` `pending` --> `posted` `posted` --> `returned` `posted` --> `settled` `settled` --> `funds_available` (only applicable to ACH debits.) */
   event_type: string;
-  failure_reason?: TransferFailure | null;
+  failure_reason?: TransferFailure | null | undefined;
   /** The webhook URL to which a `TRANSFER_EVENTS_UPDATE` webhook should be sent. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 /** Defines the response schema for `/sandbox/transfer/simulate` */
 export interface SandboxTransferSimulateResponse {
@@ -17729,24 +17772,24 @@ export interface SandboxTransferSimulateResponse {
   [key: string]: unknown;
 }
 export interface SandboxTransferSweepSimulateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Plaid's unique identifier for a test clock. If provided, the sweep to be simulated is created on the day of the `virtual_time` on the `test_clock`. If the date of `virtual_time` is on weekend or a federal holiday, the next available banking day is used. */
-  test_clock_id?: string | null;
+  test_clock_id?: string | null | undefined;
   /** The webhook URL to which a `TRANSFER_EVENTS_UPDATE` webhook should be sent. */
-  webhook?: string;
+  webhook?: string | undefined;
 }
 /** A sweep returned from the `/sandbox/transfer/sweep/simulate` endpoint. Can be null if there are no transfers to include in a sweep. */
 export type SimulatedTransferSweep = TransferSweep;
 /** Defines the response schema for `/sandbox/transfer/sweep/simulate` */
 export interface SandboxTransferSweepSimulateResponse {
-  sweep?: TransferSweep;
+  sweep?: TransferSweep | undefined;
   request_id: string;
   [key: string]: unknown;
 }
 export interface SandboxTransferTestClockAdvanceRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   test_clock_id: string;
   new_virtual_time: string;
 }
@@ -17764,10 +17807,10 @@ export type SandboxUserFireWebhookCode =
   | "CHECK_REPORT_READY"
   | "CHECK_REPORT_FAILED";
 export interface SandboxUserFireWebhookRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  user_token?: string | undefined;
   webhook_type: SandboxUserFireWebhookType | (string & {});
   webhook_code: SandboxUserFireWebhookCode | (string & {});
   /** The destination URL that the test webhook will be sent to. */
@@ -17783,12 +17826,12 @@ export interface SandboxUserFireWebhookResponse {
 /** An array of `item_id`s associated with the User to be reset. If empty or `null`, this field will default to resetting all Items associated with the User. */
 export type SandboxUserResetLoginRequestItemIdsList = Array<string>;
 export interface SandboxUserResetLoginRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
   /** An array of `item_id`s associated with the User to be reset. If empty or `null`, this field will default to resetting all Items associated with the User. */
-  item_ids?: SandboxUserResetLoginRequestItemIdsList | null;
-  user_id?: string;
+  item_ids?: SandboxUserResetLoginRequestItemIdsList | null | undefined;
+  user_id?: string | undefined;
 }
 /** SandboxUserResetLoginResponse defines the response schema for `/sandbox/user/reset_login` */
 export interface SandboxUserResetLoginResponse {
@@ -17802,32 +17845,32 @@ export type SearchInstitutionRequestCountryCodesList = Array<CountryCode | (stri
 /** Additional options that will be used to filter institutions by various Payment Initiation configurations. */
 export interface InstitutionsSearchPaymentInitiationOptions {
   /** A unique ID identifying the payment */
-  payment_id?: string | null;
+  payment_id?: string | null | undefined;
   /** A unique ID identifying the payment consent */
-  consent_id?: string | null;
+  consent_id?: string | null | undefined;
 }
 /** An optional object to filter `/institutions/search` results. */
 export interface InstitutionsSearchRequestOptions {
   /** Limit results to institutions with or without OAuth login flows. Note that institutions will have `oauth` set to `true` if some Items associated with that institution are required to use OAuth flows; institutions in a state of migration to OAuth will have the `oauth` attribute set to `true`. */
-  oauth?: boolean | null;
+  oauth?: boolean | null | undefined;
   /** When true, return the institution's homepage URL, logo and primary brand color. */
-  include_optional_metadata?: boolean;
+  include_optional_metadata?: boolean | undefined;
   /** When `true`, returns metadata related to the Auth product indicating which auth methods are supported. */
-  include_auth_metadata?: boolean | null;
+  include_auth_metadata?: boolean | null | undefined;
   /** When `true`, returns metadata related to the Payment Initiation product indicating which payment configurations are supported. */
-  include_payment_initiation_metadata?: boolean | null;
-  payment_initiation?: InstitutionsSearchPaymentInitiationOptions | null;
+  include_payment_initiation_metadata?: boolean | null | undefined;
+  payment_initiation?: InstitutionsSearchPaymentInitiationOptions | null | undefined;
 }
 export interface SearchInstitutionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The search query. Institutions with names matching the query are returned */
   query: string;
   /** Filter the Institutions based on whether they support all products listed in `products`. Provide `null` to get institutions regardless of supported products. Note that when `auth` is specified as a product, if you are enabled for Instant Match or Automated Micro-deposits, institutions that support those products will be returned even if `auth` is not present in their product array. To search for Transfer support, use `auth`; to search for Signal Transaction Scores support, use `balance`. */
-  products?: SearchInstitutionRequestProductsList | null;
+  products?: SearchInstitutionRequestProductsList | null | undefined;
   /** Specify which country or countries to include institutions from, using the ISO-3166-1 alpha-2 country code standard. In API versions 2019-05-29 and earlier, the `country_codes` parameter is an optional parameter within the `options` object and will default to `[US]` if it is not supplied. */
   country_codes: SearchInstitutionRequestCountryCodesList;
-  options?: InstitutionsSearchRequestOptions;
+  options?: InstitutionsSearchRequestOptions | undefined;
 }
 /** An array of institutions matching the search criteria */
 export type InstitutionsSearchResponseInstitutionsList = Array<Institution>;
@@ -17839,22 +17882,22 @@ export interface InstitutionsSearchResponse {
   [key: string]: unknown;
 }
 export interface SearchIssueRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A unique identifier for the Plaid Item. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** A unique identifier for the Link session. */
-  link_session_id?: string;
+  link_session_id?: string | undefined;
   /** The `request_id` for the Link session that might have had an institution connection issue. */
-  link_session_request_id?: string;
+  link_session_request_id?: string | undefined;
 }
 /** A list of issues affecting the Item, session, or request passed in, conforming to the Issues data model. Omitted if no matching issues were found. */
 export type IssuesSearchResponseIssuesList = Array<Issue>;
 /** IssuesSearchResponse defines the response schema for `/issues/search`. */
 export interface IssuesSearchResponse {
   /** A list of issues affecting the Item, session, or request passed in, conforming to the Issues data model. Omitted if no matching issues were found. */
-  issues?: IssuesSearchResponseIssuesList;
-  request_id?: string;
+  issues?: IssuesSearchResponseIssuesList | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Event data for user account session tracking */
@@ -17864,13 +17907,13 @@ export interface UserAccountSessionEvent {
   /** The timestamp when the event occurred in ISO 8601 format. */
   timestamp: string;
   /** Optional outcome of the event. */
-  outcome?: string;
+  outcome?: string | undefined;
 }
 export interface SendUserAccountSessionEventRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Optional cohort identifier for the user session. */
-  cohort_id?: string;
+  cohort_id?: string | undefined;
   /** The Link session identifier. */
   link_session_id: string;
   event: UserAccountSessionEvent;
@@ -17883,8 +17926,8 @@ export interface UserAccountSessionEventSendResponse {
 /** A list of products the processor token should have access to. An empty list will grant access to all products. */
 export type SetProcessorTokenPermissionsRequestProductsList = Array<Products | (string & {})>;
 export interface SetProcessorTokenPermissionsRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
   /** A list of products the processor token should have access to. An empty list will grant access to all products. */
   products: SetProcessorTokenPermissionsRequestProductsList;
@@ -17895,20 +17938,20 @@ export interface ProcessorTokenPermissionsSetResponse {
   [key: string]: unknown;
 }
 export interface SignalDecisionReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Must be the same as the `client_transaction_id` supplied when calling `/signal/evaluate` */
   client_transaction_id: string;
   /** `true` if the ACH transaction was initiated, `false` otherwise. This field must be returned as a boolean. If formatted incorrectly, this will result in an [`INVALID_FIELD`](https://plaid.com/docs/errors/invalid-request/#invalid_field) error. */
   initiated: boolean;
   /** The actual number of days (hold time) since the ACH debit transaction that you wait before making funds available to your customers. The holding time could affect the ACH return rate. For example, use 0 if you make funds available to your customers instantly or the same day following the debit transaction, or 1 if you make funds available the next day following the debit initialization. */
-  days_funds_on_hold?: number | null;
-  decision_outcome?: SignalDecisionOutcome | (string & {}) | null;
-  payment_method?: SignalPaymentMethod | (string & {}) | null;
+  days_funds_on_hold?: number | null | undefined;
+  decision_outcome?: SignalDecisionOutcome | (string & {}) | null | undefined;
+  payment_method?: SignalPaymentMethod | (string & {}) | null | undefined;
   /** The amount (in USD) made available to your customers instantly following the debit transaction. It could be a partial amount of the requested transaction (example: 102.05). */
-  amount_instantly_available?: number | null;
+  amount_instantly_available?: number | null | undefined;
   /** The date the ACH debit was submitted to the bank for processing (in ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`). This field should correspond to the attempt initiated after the `/signal/schedule` call. */
-  submitted_at?: string;
+  submitted_at?: string | undefined;
 }
 /** SignalDecisionReportResponse defines the response schema for `/signal/decision/report` */
 export interface SignalDecisionReportResponse {
@@ -17916,8 +17959,8 @@ export interface SignalDecisionReportResponse {
   [key: string]: unknown;
 }
 export interface SignalEvaluateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The Plaid `account_id` of the account that is the funding source for the proposed transaction. The `account_id` is returned in the `/accounts/get` endpoint as well as the [`onSuccess`](https://plaid.com/docs/link/ios/#link-ios-onsuccess-linkSuccess-metadata-accounts-id) callback metadata. This will return an [`INVALID_ACCOUNT_ID`](https://plaid.com/docs/errors/invalid-input/#invalid_account_id) error if the account has been removed at the bank or if the `account_id` is no longer valid. */
   account_id: string;
@@ -17926,26 +17969,26 @@ export interface SignalEvaluateRequest {
   /** The transaction amount, in USD (e.g. `102.05`) */
   amount: number;
   /** `true` if the end user is present while initiating the ACH transfer and the endpoint is being called; `false` otherwise (for example, when the ACH transfer is scheduled and the end user is not present, or you call this endpoint after the ACH transfer but before submitting the Nacha file for ACH processing). When using a Balance-only ruleset, this field is ignored. This field is not currently used as part of Signal Transaction Score evaluations, but may be used in the future. */
-  user_present?: boolean | null;
+  user_present?: boolean | null | undefined;
   /** A unique ID that identifies the end user in your system. This ID is used to correlate requests by a user with multiple Items. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. */
-  client_user_id?: string;
+  client_user_id?: string | undefined;
   /** Use `true` if the ACH transaction is a part of recurring schedule (for example, a monthly repayment); `false` otherwise. When using a Balance-only ruleset, this field is ignored. */
-  is_recurring?: boolean | null;
+  is_recurring?: boolean | null | undefined;
   /** The default ACH payment method to complete the transaction. When using a Balance-only ruleset, this field is ignored. `SAME_DAY_ACH`: Same Day ACH by Nacha. The debit transaction is processed and settled on the same day. `STANDARD_ACH`: Standard ACH by Nacha. `MULTIPLE_PAYMENT_METHODS`: If there is no default debit rail or there are multiple payment methods. Possible values: `SAME_DAY_ACH`, `STANDARD_ACH`, `MULTIPLE_PAYMENT_METHODS` */
-  default_payment_method?: string | null;
-  user?: SignalUser;
-  device?: SignalDevice;
+  default_payment_method?: string | null | undefined;
+  user?: SignalUser | undefined;
+  device?: SignalDevice | undefined;
   /** Specifying `risk_profile_key` is deprecated. Please provide `ruleset` instead. */
-  risk_profile_key?: string | null;
+  risk_profile_key?: string | null | undefined;
   /** The key of the ruleset to use for evaluating this transaction. You can create a ruleset using the Plaid Dashboard, under [Signal->Rules](https://dashboard.plaid.com/signal/risk-profiles). If not provided, for all new customers as of October 15, 2025, the `default` ruleset will be used. For existing Signal Transaction Scores customers as of October 15, 2025, by default, no ruleset will be used if the `ruleset_key` is not provided. For more information, or to opt out of using rulesets, see [Signal Rules](https://plaid.com/docs/signal/signal-rules/). */
-  ruleset_key?: string | null;
+  ruleset_key?: string | null | undefined;
 }
 /** RiskProfile is deprecated, use `ruleset` instead. */
 export interface RiskProfile {
   /** The key of the risk profile used for this transaction. */
-  key?: string;
+  key?: string | undefined;
   /** Legacy method of inspecting the result of the ruleset. New integrations should simply use the "result" property instead. This value will be omitted if you do not have a live existing integration with rules using this field. */
-  outcome?: string;
+  outcome?: string | undefined;
 }
 /** If bank information was not available to be used in the Signal Transaction Scores model, this array contains warnings describing why bank data is missing. If you want to receive an API error instead of results in the case of missing bank data, file a support ticket or contact your Plaid account manager. */
 export type SignalEvaluateResponseWarningsList = Array<SignalWarning>;
@@ -17953,16 +17996,16 @@ export type SignalEvaluateResponseWarningsList = Array<SignalWarning>;
 export interface SignalEvaluateResponse {
   request_id: string;
   scores: SignalScores | null;
-  core_attributes?: SignalEvaluateCoreAttributes;
-  risk_profile?: RiskProfile | null;
-  ruleset?: Ruleset | null;
+  core_attributes?: SignalEvaluateCoreAttributes | undefined;
+  risk_profile?: RiskProfile | null | undefined;
+  ruleset?: Ruleset | null | undefined;
   /** If bank information was not available to be used in the Signal Transaction Scores model, this array contains warnings describing why bank data is missing. If you want to receive an API error instead of results in the case of missing bank data, file a support ticket or contact your Plaid account manager. */
   warnings: SignalEvaluateResponseWarningsList;
   [key: string]: unknown;
 }
 export interface SignalPrepareRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
 }
 /** SignalPrepareResponse defines the response schema for `/signal/prepare` */
@@ -17971,14 +18014,14 @@ export interface SignalPrepareResponse {
   [key: string]: unknown;
 }
 export interface SignalReturnReportRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Must be the same as the `client_transaction_id` supplied when calling `/signal/evaluate`. */
   client_transaction_id: string;
   /** Must be a valid ACH return code (e.g. "R01") If formatted incorrectly, this will result in an [`INVALID_FIELD`](https://plaid.com/docs/errors/invalid-request/#invalid_field) error. */
   return_code: string;
   /** Date and time when you receive the returns from your payment processors, in ISO 8601 format (`YYYY-MM-DDTHH:mm:ssZ`). */
-  returned_at?: string | null;
+  returned_at?: string | null | undefined;
 }
 /** SignalReturnReportResponse defines the response schema for `/signal/return/report` */
 export interface SignalReturnReportResponse {
@@ -17991,8 +18034,8 @@ export type SignalScheduleDefaultPaymentMethod =
   | "STANDARD_ACH"
   | "MULTIPLE_PAYMENT_METHODS";
 export interface SignalScheduleRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The Plaid `account_id` of the account that is the funding source for the proposed transaction. The `account_id` is returned in the `/accounts/get` endpoint as well as the [`onSuccess`](https://plaid.com/docs/link/ios/#link-ios-onsuccess-linkSuccess-metadata-accounts-id) callback metadata. This will return an [`INVALID_ACCOUNT_ID`](https://plaid.com/docs/errors/invalid-input/#invalid_account_id) error if the account has been removed at the bank or if the `account_id` is no longer valid. */
   account_id: string;
@@ -18000,17 +18043,17 @@ export interface SignalScheduleRequest {
   client_transaction_id: string;
   /** The transaction amount, in USD (e.g. `102.05`) */
   amount: number;
-  default_payment_method?: SignalScheduleDefaultPaymentMethod | (string & {});
+  default_payment_method?: SignalScheduleDefaultPaymentMethod | (string & {}) | undefined;
 }
 /** The recommendation result for that date. */
 export type RecommendationString = "RECOMMENDED" | "NOT_RECOMMENDED" | "UNKNOWN";
 /** Conveys information on if a retry is recommended on a given date */
 export interface SignalScheduleRecommendation {
   /** The specific date for submitting the debit entry, formatted in ISO 8601 (e.g., "2025-01-17"). */
-  date?: string;
-  recommendation?: RecommendationString;
+  date?: string | undefined;
+  recommendation?: RecommendationString | undefined;
   /** The rank of the recommendation based on the likelihood of debit success, with 1 representing the most optimal date. Dates with `NOT_RECOMMENDED` or `UNKNOWN` will have rank `null`. */
-  rank?: number | null;
+  rank?: number | null | undefined;
   [key: string]: unknown;
 }
 /** This array provides a date-by-date evaluation of debit submission recommendations within the evaluation period. Each object in the array represents a retry recommendation for a specific date. */
@@ -18089,8 +18132,8 @@ export interface TransferOriginatorDiligence {
   dba: string;
   /** The tax ID of the originator. */
   tax_id: string;
-  credit_usage_configuration?: TransferCreditUsageConfiguration | null;
-  debit_usage_configuration?: TransferDebitUsageConfiguration | null;
+  credit_usage_configuration?: TransferCreditUsageConfiguration | null | undefined;
+  debit_usage_configuration?: TransferDebitUsageConfiguration | null | undefined;
   address: TransferOriginatorAddress;
   /** The website of the originator. */
   website: string;
@@ -18099,8 +18142,8 @@ export interface TransferOriginatorDiligence {
   funding_account: TransferFundingAccount;
 }
 export interface SubmitTransferDiligenceRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Client ID of the originator whose diligence that you want to submit. */
   originator_client_id: string;
   originator_diligence: TransferOriginatorDiligence;
@@ -18117,14 +18160,14 @@ export interface TransferPlatformRequirementSubmission {
   /** The value of the requirement, which can be a string or an object depending on the `requirement_type`. If it is an object, the object should be JSON marshaled into a string. See [Requirement type schema documentation](https://docs.google.com/document/d/1NEQkTD0sVK50iAQi6xHigrexDUxZ4QxXqSEfV_FFTiU/) for a list of requirement types and possible values. */
   value: string;
   /** The `person_id` of the person the requirement submission is related to. A `person_id` is returned by `/transfer/platform/person/create`. This field should not be included for requirements that are not related to a person. */
-  person_id?: string;
+  person_id?: string | undefined;
 }
 /** Use the `/transfer/platform/requirement/submit` endpoint to submit a list of requirement submissions that all relate to the originator. Must contain between 1 and 50 requirement submissions. See [Requirement type schema documentation](https://docs.google.com/document/d/1NEQkTD0sVK50iAQi6xHigrexDUxZ4QxXqSEfV_FFTiU/) for a list of requirements and possible values. */
 export type SubmitTransferPlatformRequirementRequestRequirementSubmissionsList =
   Array<TransferPlatformRequirementSubmission>;
 export interface SubmitTransferPlatformRequirementRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The client ID of the originator */
   originator_client_id: string;
   /** Use the `/transfer/platform/requirement/submit` endpoint to submit a list of requirement submissions that all relate to the originator. Must contain between 1 and 50 requirement submissions. See [Requirement type schema documentation](https://docs.google.com/document/d/1NEQkTD0sVK50iAQi6xHigrexDUxZ4QxXqSEfV_FFTiU/) for a list of requirements and possible values. */
@@ -18136,8 +18179,8 @@ export interface TransferPlatformRequirementSubmitResponse {
   [key: string]: unknown;
 }
 export interface SubscribeBetaIssuesV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The KI- or INC-prefixed identifier of the issue to subscribe to. */
   issue_id: string;
   /** The URL that will receive issue resolution webhooks. */
@@ -18149,8 +18192,8 @@ export interface BetaIssuesV1SubscribeResponse {
   [key: string]: unknown;
 }
 export interface SubscribeIssueRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The unique identifier of the issue to subscribe to. */
   issue_id: string;
   /** The webhook URL where notifications should be sent when the issue status changes. */
@@ -18162,12 +18205,12 @@ export interface IssuesSubscribeResponse {
   [key: string]: unknown;
 }
 export interface SyncBankTransferEventRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The latest (largest) `event_id` fetched via the sync endpoint, or 0 initially. */
   after_id: number;
   /** The maximum number of bank transfer events to return. */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export type BankTransferEventSyncResponseBankTransferEventsList = Array<BankTransferEvent>;
 /** Defines the response schema for `/bank_transfer/event/sync` */
@@ -18179,26 +18222,26 @@ export interface BankTransferEventSyncResponse {
 /** An optional object to be used with the request. If specified, `options` must not be `null`. */
 export interface TransactionsSyncRequestOptions {
   /** Include the raw unparsed transaction description from the financial institution. */
-  include_original_description?: boolean | null;
+  include_original_description?: boolean | null | undefined;
   /** Personal finance categories are now returned by default. */
-  include_personal_finance_category?: boolean;
+  include_personal_finance_category?: boolean | undefined;
   /** Counterparties and extra merchant fields are now returned by default. */
-  include_logo_and_counterparty_beta?: boolean;
-  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {});
+  include_logo_and_counterparty_beta?: boolean | undefined;
+  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {}) | undefined;
   /** This field only applies to calls for Items where the Transactions product has not already been initialized (i.e., by specifying `transactions` in the `products`, `required_if_supported_products`, or `optional_products` array when calling `/link/token/create` or by making a previous call to `/transactions/sync` or `/transactions/get`). In those cases, the field controls the maximum number of days of transaction history that Plaid will request from the financial institution. The more transaction history is requested, the longer the historical update poll will take. If no value is specified, 90 days of history will be requested by default. In Production, if a value less than 30 is provided, a minimum of 30 days of transaction history will be requested. If you are initializing your Items with transactions during the `/link/token/create` call (e.g. by including `transactions` in the `/link/token/create` `products` array), you must use the [`transactions.days_requested`](https://plaid.com/docs/api/link/#link-token-create-request-transactions-days-requested) field in the `/link/token/create` request instead of in the `/transactions/sync` request. If the Item has already been initialized with the Transactions product, this field will have no effect. The maximum amount of transaction history to request on an Item cannot be updated if Transactions has already been added to the Item. To request older transaction history on an Item where Transactions has already been added, you must delete the Item via `/item/remove` and send the user through Link to create a new Item. Customers using [Recurring Transactions](https://plaid.com/docs/api/products/transactions/#transactionsrecurringget) should request at least 180 days of history for optimal results. */
-  days_requested?: number;
+  days_requested?: number | undefined;
   /** If provided, the returned updates and cursor will only reflect the specified account's transactions. Omitting `account_id` returns updates for all accounts under the Item. Note that specifying an `account_id` effectively creates a separate incremental update stream -- and therefore a separate cursor -- for that account. If multiple accounts are queried this way, you will maintain multiple cursors, one per `account_id`. If you decide to begin filtering by `account_id` after using no `account_id`, start fresh with a null cursor and maintain separate `(account_id, cursor)` pairs going forward. Do not reuse any previously saved cursors, as this can cause pagination errors or incomplete data. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 export interface SyncProcessorTransactionRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   processor_token: string;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The cursor value represents the last update requested. Providing it will cause the response to only return changes after this update. If omitted, the entire history of updates will be returned, starting with the first-added transactions on the Item. Note: The upper-bound length of this cursor is 256 characters of base64. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of transaction updates to fetch. */
-  count?: number;
-  options?: TransactionsSyncRequestOptions;
+  count?: number | undefined;
+  options?: TransactionsSyncRequestOptions | undefined;
 }
 /** A description of the update status for transaction pulls of an Item. This field contains the same information provided by transactions webhooks, and may be helpful for webhook troubleshooting or when recovering from missed webhooks. `TRANSACTIONS_UPDATE_STATUS_UNKNOWN`: Unable to fetch transactions update status for Item. `NOT_READY`: The Item is pending transaction pull. `INITIAL_UPDATE_COMPLETE`: Initial pull for the Item is complete, historical pull is pending. `HISTORICAL_UPDATE_COMPLETE`: Both initial and historical pull for Item are complete. */
 export type TransactionsUpdateStatus =
@@ -18233,17 +18276,17 @@ export interface AccountBaseNullable {
   type: AccountType;
   subtype: AccountSubtype | null;
   /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. Omitted or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
-  verification_status?: AccountBaseNullableVerificationStatus;
+  verification_status?: AccountBaseNullableVerificationStatus | undefined;
   /** The account holder name that was used for micro-deposit and/or database verification. Only returned for Auth Items created via micro-deposit or database verification. This name was manually-entered by the user during Link, unless it was otherwise provided via the `user.legal_name` request field in `/link/token/create` for the Link session that created the Item. */
-  verification_name?: string;
-  verification_insights?: AccountVerificationInsights;
+  verification_name?: string | undefined;
+  verification_insights?: AccountVerificationInsights | undefined;
   /** A unique and persistent identifier for accounts that can be used to trace multiple instances of the same account across different Items for depository accounts. This field is currently supported only for Items at institutions that use Tokenized Account Numbers (i.e., Chase, PNC, and US Bank). Because these accounts have a different account number each time they are linked, this field may be used instead of the account number to uniquely identify an account across multiple Items for payments use cases, helping to reduce duplicate Items or attempted fraud. In Sandbox, this field is populated for TAN-based institutions (`ins_56`, `ins_13`, `ins_127990`) as well as the OAuth Sandbox institution (`ins_127287`); in Production, it will only be populated for accounts at applicable institutions. */
-  persistent_account_id?: string;
+  persistent_account_id?: string | undefined;
   /** The annual percentage yield (APY) on an interest-bearing deposit account, expressed as a percentage (e.g. `4.25` means 4.25%). In the event that the APY is not provided by the financial institution, Plaid will return a value of `null`. */
-  apy?: number | null;
-  holder_category?: AccountHolderCategory | null;
+  apy?: number | null | undefined;
+  holder_category?: AccountHolderCategory | null | undefined;
   /** The `account_id` of the account on the paired Item (see `paired_item_id`) that represents the same bank account as this one. For an account on a Plaid Inc Item, this is the matching account on its paired Plaid Check Item, and the reverse for an account on a Plaid Check Item. Only returned for accounts on an Item that has a paired Item. `null` means the Item has a paired Item but Plaid could not confidently match this account to an account on it. Like `account_id`, this value can change if Plaid re-creates the paired account. */
-  paired_account_id?: string | null;
+  paired_account_id?: string | null | undefined;
   [key: string]: unknown;
 }
 /** Transactions that have been added to the Item since `cursor` ordered by ascending last modified time. */
@@ -18278,14 +18321,14 @@ export interface ProcessorTransactionsSyncResponse {
   [key: string]: unknown;
 }
 export interface SyncTransactionRequest {
-  client_id?: string;
+  client_id?: string | undefined;
   access_token: string | Redacted.Redacted<string>;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The cursor value represents the last update requested. Providing it will cause the response to only return changes after this update. If omitted, the entire history of updates will be returned, starting with the first-added transactions on the Item. The cursor also accepts the special value of `"now"`, which can be used to fast-forward the cursor as part of migrating an existing Item from `/transactions/get` to `/transactions/sync`. For more information, see the [Transactions sync migration guide](https://plaid.com/docs/transactions/sync-migration/). Note that using the `"now"` value is not supported for any use case other than migrating existing Items from `/transactions/get`. The upper-bound length of this cursor is 256 characters of base64. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of transaction updates to fetch. */
-  count?: number;
-  options?: TransactionsSyncRequestOptions;
+  count?: number | undefined;
+  options?: TransactionsSyncRequestOptions | undefined;
 }
 /** An array of accounts at a financial institution associated with the transactions in this response. Only accounts that have associated transactions will be shown. For example, `investment`-type accounts will be omitted. */
 export type TransactionsSyncResponseAccountsList = Array<AccountBase>;
@@ -18329,12 +18372,12 @@ export type ProductsTerminateReasonCode =
   | "BILLING_TERMINATION"
   | "OTHER";
 export interface TerminateItemProductRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   reason_code: ProductsTerminateReasonCode | (string & {});
   /** Additional context or details about the reason for terminating products on the Item. Personally identifiable information, such as an email address or phone number, should not be included in the `reason_note`. */
-  reason_note?: string | null;
+  reason_note?: string | null | undefined;
 }
 /** ItemProductsTerminateResponse defines the response schema for `/item/products/terminate` */
 export interface ItemProductsTerminateResponse {
@@ -18342,12 +18385,12 @@ export interface ItemProductsTerminateResponse {
   [key: string]: unknown;
 }
 export interface TerminateUserProductRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
   reason_code: ProductsTerminateReasonCode | (string & {});
   /** Additional context or details about the reason for terminating user-based products. Personally identifiable information, such as an email address or phone number, should not be included in the `reason_note`. */
-  reason_note?: string | null;
+  reason_note?: string | null | undefined;
 }
 /** UserProductsTerminateResponse defines the response schema for `/user/products/terminate` */
 export interface UserProductsTerminateResponse {
@@ -18359,15 +18402,15 @@ export type EnrichTransactionDirection = "INFLOW" | "OUTFLOW";
 /** A representation of where a transaction took place. Use this field to pass in structured location information you may have about your transactions. Providing location data is optional but can increase result quality. If you have unstructured location information, it may be appended to the `description` field. */
 export interface ClientProvidedTransactionLocation {
   /** The country where the transaction occurred, formatted as an ISO 3166-1 alpha-2 country code ("US" or "CA"). */
-  country?: string;
+  country?: string | undefined;
   /** The region or state where the transaction occurred, formatted as the official two-letter US state or Canadian province postal code, e.g. "CT" or "QC". */
-  region?: string;
+  region?: string | undefined;
   /** The city where the transaction occurred. */
-  city?: string;
+  city?: string | undefined;
   /** The street address where the transaction occurred. */
-  address?: string;
+  address?: string | undefined;
   /** The postal code where the transaction occurred. */
-  postal_code?: string;
+  postal_code?: string | undefined;
   [key: string]: unknown;
 }
 /** A client-provided transaction for Plaid to enrich. */
@@ -18375,15 +18418,15 @@ export interface ClientProvidedTransaction {
   /** A unique ID for the transaction used to help you tie data back to your systems. */
   id: string;
   /** The Plaid generated ID that identifies the end user for whom you would like to enrich transactions. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique user id used to group transactions for a given user, as a unique identifier from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. */
-  client_user_id?: string;
+  client_user_id?: string | undefined;
   /** A unique account id used to group transactions for a given account, as a unique identifier from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_account_id`. */
-  client_account_id?: string;
+  client_account_id?: string | undefined;
   /** The account type associated with the transaction. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema). */
-  account_type?: string;
+  account_type?: string | undefined;
   /** The account subtype associated with the transaction. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema). */
-  account_subtype?: string;
+  account_subtype?: string | undefined;
   /** The raw description of the transaction. If you have location data in available an unstructured format, it may be appended to the `description` field. */
   description: string;
   /** The absolute value of the transaction (>= 0). When testing Enrich, note that `amount` data should be realistic. Unrealistic or inaccurate `amount` data may result in reduced quality output. */
@@ -18391,11 +18434,11 @@ export interface ClientProvidedTransaction {
   direction: EnrichTransactionDirection | (string & {});
   /** The ISO-4217 currency code of the transaction e.g. USD. */
   iso_currency_code: string;
-  location?: ClientProvidedTransactionLocation;
+  location?: ClientProvidedTransactionLocation | undefined;
   /** Merchant category codes (MCCs) are four-digit numbers that describe a merchant's primary business activities. */
-  mcc?: string;
+  mcc?: string | undefined;
   /** The date the transaction posted, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. */
-  date_posted?: string;
+  date_posted?: string | undefined;
   [key: string]: unknown;
 }
 /** An array of transaction objects to be enriched by Plaid. Maximum of 100 transactions per request. */
@@ -18403,34 +18446,34 @@ export type TransactionsEnrichRequestTransactionsList = Array<ClientProvidedTran
 /** An optional object to be used with the request. */
 export interface TransactionsEnrichRequestOptions {
   /** Include `legacy_category` and `legacy_category_id` in the response (in addition to the default `personal_finance_category`). Categories are based on Plaid's legacy taxonomy. For a full list of legacy categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). */
-  include_legacy_category?: boolean;
-  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {});
+  include_legacy_category?: boolean | undefined;
+  personal_finance_category_version?: PersonalFinanceCategoryVersion | (string & {}) | undefined;
 }
 export interface TransactionsEnrichRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The account type for the requested transactions (either `depository` or `credit`). */
   account_type: string;
   /** An array of transaction objects to be enriched by Plaid. Maximum of 100 transactions per request. */
   transactions: TransactionsEnrichRequestTransactionsList;
-  options?: TransactionsEnrichRequestOptions;
+  options?: TransactionsEnrichRequestOptions | undefined;
 }
 /** The counterparty, such as the merchant or financial institution, is extracted by Plaid from the raw description. */
 export interface Counterparty {
   /** The name of the counterparty, such as the merchant or the financial institution, as extracted by Plaid from the raw description. */
   name: string;
   /** A unique, stable, Plaid-generated ID that maps to the counterparty. */
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   type: CounterpartyType;
   /** The website associated with the counterparty. */
   website: string | null;
   /** The URL of a logo associated with the counterparty, if available. The logo will always be a 100×100 pixel PNG file. */
   logo_url: string | null;
   /** A description of how confident we are that the provided counterparty is involved in the transaction. `VERY_HIGH`: We recognize this counterparty and we are more than 98% confident that it is involved in this transaction. `HIGH`: We recognize this counterparty and we are more than 90% confident that it is involved in this transaction. `MEDIUM`: We are moderately confident that this counterparty was involved in this transaction, but some details may differ from our records. `LOW`: We didn't find a matching counterparty in our records, so we are returning a cleansed name parsed out of the request description. `UNKNOWN`: We don't know the confidence level for this counterparty. */
-  confidence_level?: string | null;
+  confidence_level?: string | null | undefined;
   /** The phone number associated with the counterparty in E.164 format. If there is a location match (i.e. a street address is returned in the location object), the phone number will be location specific. */
   phone_number: string | null;
-  account_numbers?: CounterpartyNumbers | null;
+  account_numbers?: CounterpartyNumbers | null | undefined;
   [key: string]: unknown;
 }
 /** The counterparties present in the transaction. Counterparties, such as the merchant or the financial institution, are extracted by Plaid from the raw description. */
@@ -18440,15 +18483,15 @@ export type EnrichmentsLegacyCategoryList = Array<string>;
 /** A grouping of the Plaid produced transaction enrichment fields. */
 export interface Enrichments {
   /** The check number of the transaction. This field is only populated for check transactions. */
-  check_number?: string | null;
+  check_number?: string | null | undefined;
   /** The counterparties present in the transaction. Counterparties, such as the merchant or the financial institution, are extracted by Plaid from the raw description. */
   counterparties: EnrichmentsCounterpartiesList;
   /** A unique, stable, Plaid-generated ID that maps to the primary counterparty. */
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   /** The ID of the legacy category to which this transaction belongs. For a full list of legacy categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). We recommend using the `personal_finance_category` for transaction categorization to obtain the best results. */
-  legacy_category_id?: string | null;
+  legacy_category_id?: string | null | undefined;
   /** A hierarchical array of the legacy categories to which this transaction belongs. For a full list of legacy categories, see [`/categories/get`](https://plaid.com/docs/api/products/transactions/#categoriesget). We recommend using the `personal_finance_category` for transaction categorization to obtain the best results. */
-  legacy_category?: EnrichmentsLegacyCategoryList | null;
+  legacy_category?: EnrichmentsLegacyCategoryList | null | undefined;
   location: Location;
   /** The URL of a logo associated with this transaction, if available. The logo will always be a 100×100 pixel PNG file. */
   logo_url: string | null;
@@ -18469,22 +18512,22 @@ export interface ClientProvidedEnrichedTransaction {
   /** The unique ID for the transaction as provided by you in the request. */
   id: string;
   /** A unique user id used to group transactions for a given user, as a unique identifier from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_user_id`. */
-  client_user_id?: string;
+  client_user_id?: string | undefined;
   /** A unique account id used to group transactions for a given account, as a unique identifier from your application. Personally identifiable information, such as an email address or phone number, should not be used in the `client_account_id`. */
-  client_account_id?: string;
+  client_account_id?: string | undefined;
   /** The account type associated with the transaction. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema). */
-  account_type?: string;
+  account_type?: string | undefined;
   /** The account subtype associated with the transaction. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema). */
-  account_subtype?: string;
+  account_subtype?: string | undefined;
   /** The raw description of the transaction. */
   description: string;
   /** The absolute value of the transaction (>= 0) */
   amount: number;
-  direction?: EnrichTransactionDirection;
+  direction?: EnrichTransactionDirection | undefined;
   /** The ISO-4217 currency code of the transaction e.g. USD. */
   iso_currency_code: string;
   enrichments: Enrichments;
-  client_customization?: ClientCustomization | null;
+  client_customization?: ClientCustomization | null | undefined;
   [key: string]: unknown;
 }
 /** A list of enriched transactions. */
@@ -18494,16 +18537,16 @@ export type TransactionsEnrichResponseEnrichedTransactionsList =
 export interface TransactionsEnrichResponse {
   /** A list of enriched transactions. */
   enriched_transactions: TransactionsEnrichResponseEnrichedTransactionsList;
-  request_id?: string;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 export interface TransferEventSyncRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The latest (largest) `event_id` fetched via the sync endpoint, or 0 initially. */
   after_id: number;
   /** The maximum number of transfer events to return. */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export type TransferEventSyncResponseTransferEventsList = Array<TransferEvent>;
 /** Defines the response schema for `/transfer/event/sync` */
@@ -18517,15 +18560,15 @@ export interface TransferEventSyncResponse {
 /** The ACH networks used for the funds flow. For requests submitted as either `ach` or `same-day-ach` the cutoff for Same Day ACH is 3:00 PM Eastern Time and the cutoff for Standard ACH transfers is 8:30 PM Eastern Time. It is recommended to submit a request at least 15 minutes before the cutoff time in order to ensure that it will be processed before the cutoff. Any request that is indicated as `same-day-ach` and that misses the Same Day ACH cutoff, but is submitted in time for the Standard ACH cutoff, will be sent over Standard ACH rails and will not incur same-day charges. */
 export type TransferACHNetwork = "ach" | "same-day-ach";
 export interface TransferLedgerDepositRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  originator_client_id?: string | null;
-  funding_account_id?: string | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  originator_client_id?: string | null | undefined;
+  funding_account_id?: string | null | undefined;
   /** Specify which ledger balance to deposit to. Customers can find a list of `ledger_id`s in the Accounts page of your Plaid Dashboard. If this field is left blank, this will default to the id of the default ledger balance. */
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** A positive amount of how much will be deposited into ledger (decimal string with two digits of precision e.g. "5.50"). */
   amount: string;
-  description?: string | null;
+  description?: string | null | undefined;
   idempotency_key: string;
   network: TransferACHNetwork | (string & {});
 }
@@ -18536,8 +18579,8 @@ export interface TransferLedgerDepositResponse {
   [key: string]: unknown;
 }
 export interface TransferLedgerDistributeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Ledger to pull money from. */
   from_ledger_id: string;
   /** The Ledger to credit money to. */
@@ -18546,7 +18589,7 @@ export interface TransferLedgerDistributeRequest {
   amount: string;
   idempotency_key: string;
   /** An optional description for the ledger distribute operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Defines the response schema for `/transfer/ledger/distribute` */
 export interface TransferLedgerDistributeResponse {
@@ -18554,15 +18597,15 @@ export interface TransferLedgerDistributeResponse {
   [key: string]: unknown;
 }
 export interface TransferLedgerWithdrawRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  originator_client_id?: string | null;
-  funding_account_id?: string | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  originator_client_id?: string | null | undefined;
+  funding_account_id?: string | null | undefined;
   /** Specify which ledger balance to withdraw from. Customers can find a list of `ledger_id`s in the Accounts page of your Plaid Dashboard. If this field is left blank, this will default to the id of the default ledger balance. */
-  ledger_id?: string | null;
+  ledger_id?: string | null | undefined;
   /** A positive amount of how much will be withdrawn from the ledger balance (decimal string with two digits of precision e.g. "5.50"). */
   amount: string;
-  description?: string | null;
+  description?: string | null | undefined;
   idempotency_key: string;
   network: TransferNetwork | (string & {});
 }
@@ -18573,14 +18616,14 @@ export interface TransferLedgerWithdrawResponse {
   [key: string]: unknown;
 }
 export interface TransferMigrateAccountRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The user's account number. */
   account_number: string;
   /** The user's routing number. */
   routing_number: string;
   /** The user's wire transfer routing number. This is the ABA number; for some institutions, this may differ from the ACH number used in `routing_number`. This field must be set for the created item to be eligible for wire transfers. */
-  wire_routing_number?: string;
+  wire_routing_number?: string | undefined;
   /** The type of the bank account (`checking` or `savings`). */
   account_type: string;
 }
@@ -18594,8 +18637,8 @@ export interface TransferMigrateAccountResponse {
   [key: string]: unknown;
 }
 export interface TransferReturnRecoverRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   transfer_id: string;
   amount: string;
   idempotency_key: string;
@@ -18606,8 +18649,8 @@ export interface TransferReturnRecoverResponse {
   [key: string]: unknown;
 }
 export interface UnlinkItemApplicationRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   application_id: string;
 }
@@ -18627,8 +18670,8 @@ export interface CraLoanUnregister {
 /** A list of loans to unregister. */
 export type UnregisterCraLoanRequestLoansList = Array<CraLoanUnregister>;
 export interface UnregisterCraLoanRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A list of loans to unregister. */
   loans: UnregisterCraLoanRequestLoansList;
 }
@@ -18638,8 +18681,8 @@ export interface CraLoanUnregisterResponse {
   [key: string]: unknown;
 }
 export interface UnsubscribeBetaIssuesV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The customer-visible KI- or INC-prefixed identifier of the issue to unsubscribe from. */
   issue_id: string;
 }
@@ -18650,18 +18693,18 @@ export interface BetaIssuesV1UnsubscribeResponse {
 }
 export type UpdateBetaPartnerCustomerV1RequestRedirectUrisList = Array<string>;
 export interface UpdateBetaPartnerCustomerV1Request {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   end_customer_client_id: string;
-  legal_entity_name?: string;
-  redirect_uris?: UpdateBetaPartnerCustomerV1RequestRedirectUrisList;
-  bank_addendum_acceptance?: PartnerEndCustomerBankAddendumAcceptance;
-  questionnaires?: PartnerEndCustomerQuestionnaires;
+  legal_entity_name?: string | undefined;
+  redirect_uris?: UpdateBetaPartnerCustomerV1RequestRedirectUrisList | undefined;
+  bank_addendum_acceptance?: PartnerEndCustomerBankAddendumAcceptance | undefined;
+  questionnaires?: PartnerEndCustomerQuestionnaires | undefined;
 }
 /** Response schema for `/beta/partner/customer/v1/update`. */
 export interface BetaPartnerCustomerV1UpdateResponse {
-  end_customer?: BetaPartnerEndCustomer;
-  request_id?: string;
+  end_customer?: BetaPartnerEndCustomer | undefined;
+  request_id?: string | undefined;
   [key: string]: unknown;
 }
 /** Contains the status and date of an update to the loan. */
@@ -18677,27 +18720,27 @@ export interface CraLoanPaymentHistory {
   /** The number of days the loan was delinquent at the end of the pay period. If specified, should be greater than or equal to 0. */
   days_past_due: number;
   /** The amount past due or the charge-off amount of the loan at the end of the payment period. */
-  amount_past_due?: number;
+  amount_past_due?: number | undefined;
   /** The balance remaining on the loan at the end of the payment period. */
-  balance_remaining?: number;
+  balance_remaining?: number | undefined;
   [key: string]: unknown;
 }
 /** The updates to the payment history for the loan. */
 export type CraLoanUpdatePaymentHistoryList = Array<CraLoanPaymentHistory>;
 /** Contains loan data to update. */
 export interface CraLoanUpdate {
-  loan_id?: string;
+  loan_id?: string | undefined;
   /** A list of status update history of the loan. */
-  status_history?: CraLoanUpdateStatusHistoryList;
+  status_history?: CraLoanUpdateStatusHistoryList | undefined;
   /** The updates to the payment history for the loan. */
-  payment_history?: CraLoanUpdatePaymentHistoryList;
+  payment_history?: CraLoanUpdatePaymentHistoryList | undefined;
   [key: string]: unknown;
 }
 /** A list of loans to update. */
 export type UpdateCraLoanRequestLoansList = Array<CraLoanUpdate>;
 export interface UpdateCraLoanRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** A list of loans to update. */
   loans: UpdateCraLoanRequestLoansList;
 }
@@ -18715,14 +18758,14 @@ export type CraServicingSubscriptionUpdateRequestResettableFieldList = Array<
   CraServicingSubscriptionUpdateRequestResettableField | (string & {})
 >;
 export interface UpdateCraServicingSubscriptionRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   subscription_id: string;
   /** The URL to which the webhook should be sent. If provided, this will override the URL set in the dashboard. */
-  webhook?: string;
+  webhook?: string | undefined;
   /** The products included in this subscription. If provided, this replaces the subscription's entire product list. */
-  products?: UpdateCraServicingSubscriptionRequestProductsList;
-  reset_fields?: CraServicingSubscriptionUpdateRequestResettableFieldList | null;
+  products?: UpdateCraServicingSubscriptionRequestProductsList | undefined;
+  reset_fields?: CraServicingSubscriptionUpdateRequestResettableFieldList | null | undefined;
 }
 /** CraServicingSubscriptionUpdateResponse defines the response schema for `/cra/servicing/subscription/update`. */
 export interface CraServicingSubscriptionUpdateResponse {
@@ -18735,11 +18778,11 @@ export type UpdateCreditPayrollIncomeParsingConfigRequestParsingConfigList = Arr
   IncomeVerificationDocParsingConfig | (string & {})
 >;
 export interface UpdateCreditPayrollIncomeParsingConfigRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
-  user_id?: string;
-  item_id?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
+  user_id?: string | undefined;
+  item_id?: string | undefined;
   /** The types of analysis to enable for the document income verification session */
   parsing_config: UpdateCreditPayrollIncomeParsingConfigRequestParsingConfigList;
 }
@@ -18751,20 +18794,20 @@ export interface CreditPayrollIncomeParsingConfigUpdateResponse {
 export type ScopesAccountsList = Array<AccountAccess>;
 /** The scopes object */
 export interface Scopes {
-  product_access?: ProductAccess;
-  accounts?: ScopesAccountsList;
+  product_access?: ProductAccess | undefined;
+  accounts?: ScopesAccountsList | undefined;
   /** Allow access to newly opened accounts as they are opened. If unset, defaults to `true`. */
-  new_accounts?: boolean | null;
+  new_accounts?: boolean | null | undefined;
 }
 /** An indicator for when scopes are being updated. When scopes are updated via enrollment (i.e. OAuth), the partner must send `ENROLLMENT`. When scopes are updated in a post-enrollment view, the partner must send `PORTAL`. */
 export type ScopesContext = "ENROLLMENT" | "PORTAL";
 export interface UpdateItemApplicationScopeRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   application_id: string;
   scopes: Scopes;
-  state?: string;
+  state?: string | undefined;
   context: ScopesContext | (string & {});
 }
 /** ItemApplicationScopesUpdateResponse defines the response schema for `/item/application/scopes/update` */
@@ -18773,11 +18816,11 @@ export interface ItemApplicationScopesUpdateResponse {
   [key: string]: unknown;
 }
 export interface UpdateItemWebhookRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   access_token: string | Redacted.Redacted<string>;
   /** The new webhook URL to associate with the Item. To remove a webhook from an Item, set to `null`. */
-  webhook?: string | null;
+  webhook?: string | null | undefined;
 }
 /** ItemWebhookUpdateResponse defines the response schema for `/item/webhook/update` */
 export interface ItemWebhookUpdateResponse {
@@ -18786,8 +18829,8 @@ export interface ItemWebhookUpdateResponse {
   [key: string]: unknown;
 }
 export interface UpdateProcessorTokenWebhookRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   processor_token: string;
   /** The new webhook URL to associate with the processor token. To remove a webhook from a processor token, set to `null`. */
   webhook: string | null;
@@ -18808,12 +18851,12 @@ export type UpdateSandboxCraCashflowUpdateRequestWebhookCodesList = Array<
   CashFlowUpdatesEventWebhookCodes | (string & {})
 >;
 export interface UpdateSandboxCraCashflowUpdateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_token?: string;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_token?: string | undefined;
   /** Webhook codes corresponding to the Cash Flow Updates events to be simulated. */
-  webhook_codes?: UpdateSandboxCraCashflowUpdateRequestWebhookCodesList | null;
-  user_id?: string;
+  webhook_codes?: UpdateSandboxCraCashflowUpdateRequestWebhookCodesList | null | undefined;
+  user_id?: string | undefined;
 }
 /** SandboxCraCashflowUpdatesUpdateResponse defines the response schema for `/sandbox/cra/cashflow_updates/update` */
 export interface SandboxCraCashflowUpdatesUpdateResponse {
@@ -18821,8 +18864,8 @@ export interface SandboxCraCashflowUpdatesUpdateResponse {
   [key: string]: unknown;
 }
 export interface UpdateTransferOriginatorFundingAccountRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The Plaid client ID of the transfer originator. */
   originator_client_id: string;
   funding_account: TransferFundingAccount;
@@ -18833,12 +18876,12 @@ export interface TransferOriginatorFundingAccountUpdateResponse {
   [key: string]: unknown;
 }
 export interface UpdateUserRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  identity?: ClientUserIdentity | null;
-  user_token?: string;
-  consumer_report_user_identity?: ConsumerReportUserIdentity | null;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  user_id?: string | undefined;
+  identity?: ClientUserIdentity | null | undefined;
+  user_token?: string | undefined;
+  consumer_report_user_identity?: ConsumerReportUserIdentity | null | undefined;
 }
 /** UserUpdateResponse defines the response schema for `/user/update` */
 export interface UserUpdateResponse {
@@ -18848,12 +18891,12 @@ export interface UserUpdateResponse {
 /** Search terms for editing an entity watchlist screening */
 export interface UpdateEntityScreeningRequestSearchTerms {
   entity_watchlist_program_id: string;
-  legal_name?: string;
-  document_number?: string;
-  email_address?: string;
-  country?: string;
-  phone_number?: string;
-  url?: string;
+  legal_name?: string | undefined;
+  document_number?: string | undefined;
+  email_address?: string | undefined;
+  country?: string | undefined;
+  phone_number?: string | undefined;
+  url?: string | undefined;
 }
 /** The name of a field that can be reset back to null */
 export type WatchlistScreeningEntityUpdateRequestResettableField = "assignee";
@@ -18863,13 +18906,13 @@ export type WatchlistScreeningEntityUpdateRequestResettableFieldList = Array<
 >;
 export interface UpdateWatchlistScreeningEntityRequest {
   entity_watchlist_screening_id: string;
-  search_terms?: UpdateEntityScreeningRequestSearchTerms | null;
-  assignee?: string;
-  status?: WatchlistScreeningStatus | (string & {});
-  client_user_id?: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  reset_fields?: WatchlistScreeningEntityUpdateRequestResettableFieldList | null;
+  search_terms?: UpdateEntityScreeningRequestSearchTerms | null | undefined;
+  assignee?: string | undefined;
+  status?: WatchlistScreeningStatus | (string & {}) | undefined;
+  client_user_id?: string | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  reset_fields?: WatchlistScreeningEntityUpdateRequestResettableFieldList | null | undefined;
 }
 /** The entity screening object allows you to represent an entity in your system, update its profile, and search for it on various watchlists. Note: Rejected entity screenings will not receive new hits, regardless of entity program configuration. */
 export interface WatchlistScreeningEntityUpdateResponse {
@@ -18884,11 +18927,11 @@ export interface WatchlistScreeningEntityUpdateResponse {
 }
 /** Search terms for editing an individual watchlist screening */
 export interface UpdateIndividualScreeningRequestSearchTerms {
-  watchlist_program_id?: string;
-  legal_name?: string;
-  date_of_birth?: string;
-  document_number?: string;
-  country?: string;
+  watchlist_program_id?: string | undefined;
+  legal_name?: string | undefined;
+  date_of_birth?: string | undefined;
+  document_number?: string | undefined;
+  country?: string | undefined;
 }
 /** The name of a field that can be reset back to null */
 export type WatchlistScreeningIndividualUpdateRequestResettableField = "assignee";
@@ -18898,13 +18941,13 @@ export type WatchlistScreeningIndividualUpdateRequestResettableFieldList = Array
 >;
 export interface UpdateWatchlistScreeningIndividualRequest {
   watchlist_screening_id: string;
-  search_terms?: UpdateIndividualScreeningRequestSearchTerms | null;
-  assignee?: string;
-  status?: WatchlistScreeningStatus | (string & {});
-  client_user_id?: string;
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  reset_fields?: WatchlistScreeningIndividualUpdateRequestResettableFieldList | null;
+  search_terms?: UpdateIndividualScreeningRequestSearchTerms | null | undefined;
+  assignee?: string | undefined;
+  status?: WatchlistScreeningStatus | (string & {}) | undefined;
+  client_user_id?: string | undefined;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  reset_fields?: WatchlistScreeningIndividualUpdateRequestResettableFieldList | null | undefined;
 }
 /** The screening object allows you to represent a customer in your system, update their profile, and search for them on various watchlists. Note: Rejected customers will not receive new hits, regardless of program configuration. */
 export interface WatchlistScreeningIndividualUpdateResponse {
@@ -18948,8 +18991,8 @@ export interface TransferDiligenceDocumentUploadResponse {
 /** An array of `item_id`s to be associated with the `user_id`. */
 export type UserItemsAssociateRequestItemIdsList = Array<string>;
 export interface UserItemsAssociateRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   user_id: string;
   /** An array of `item_id`s to be associated with the `user_id`. */
   item_ids: UserItemsAssociateRequestItemIdsList;
@@ -18971,17 +19014,17 @@ export interface AuthVerifyRequestNumbers {
   ach: AuthVerifyNumbersACH;
 }
 export interface VerifyAuthRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Account owner's legal name */
-  legal_name?: string | null;
+  legal_name?: string | null | undefined;
   numbers: AuthVerifyRequestNumbers;
 }
 /** AuthVerifyResponse defines the response schema for `/auth/verify` */
 export interface AuthVerifyResponse {
   request_id: string;
   /** The `item_id` value of the Item created for verification. If numbers data provided is invalid, an Item may not be created. */
-  item_id?: string | null;
+  item_id?: string | null | undefined;
   /** Indicates the Item's database verification status. Possible values are: `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. */
   verification_status: string;
   verification_insights: AccountVerificationInsights;

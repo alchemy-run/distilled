@@ -57,21 +57,21 @@ export interface CreateWarehouseAlertsDestinationRequest {
   /** Notification destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams * `discord` - discord * `pagerduty` - pagerduty */
   type: WarehouseAlertDestinationTypeEnum | (string & {});
   /** Which transitions send a message. A PagerDuty destination opens an incident when the alert fires and resolves it when the alert resolves, whatever this lists. Defaults to every kind. */
-  event_kinds?: CreateWarehouseAlertsDestinationRequestEventKindsList;
+  event_kinds?: CreateWarehouseAlertsDestinationRequestEventKindsList | undefined;
   /** Integration ID for the Slack workspace. Required when type=slack. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID. Required when type=slack. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Human-readable channel name for display. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** HTTPS endpoint to post to. Required for webhook, teams and discord. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
   /** Integration key of a PagerDuty Events API v2 integration. Required when type=pagerduty. */
-  pagerduty_routing_key?: string;
+  pagerduty_routing_key?: string | undefined;
   /** Severity PagerDuty records on the incident. Used when type=pagerduty. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
-  pagerduty_severity?: PagerDutySeverityEnum | (string & {});
+  pagerduty_severity?: PagerDutySeverityEnum | (string & {}) | undefined;
   /** PagerDuty service region of the account. Used when type=pagerduty. * `us` - us * `eu` - eu */
-  pagerduty_region?: PagerDutyRegionEnum | (string & {});
+  pagerduty_region?: PagerDutyRegionEnum | (string & {}) | undefined;
 }
 /** Which transitions send a message. A PagerDuty destination opens an incident when the alert fires and resolves it when the alert resolves, whatever this lists. */
 export type WarehouseAlertDestinationEventKindsList = Array<WarehouseAlertEventKindChoicesEnum>;
@@ -85,19 +85,19 @@ export interface WarehouseAlertDestination {
   /** Which transitions send a message. A PagerDuty destination opens an incident when the alert fires and resolves it when the alert resolves, whatever this lists. */
   event_kinds: WarehouseAlertDestinationEventKindsList;
   /** Integration ID of the Slack workspace. Set when type=slack. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID. Set when type=slack. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Human-readable Slack channel name. Set when type=slack. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** Webhook endpoint reduced to scheme and host. The path, query and userinfo carry the secret. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
   /** PagerDuty integration key reduced to its last four characters. */
-  pagerduty_routing_key?: string;
+  pagerduty_routing_key?: string | undefined;
   /** Severity of the PagerDuty incident. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
-  pagerduty_severity?: PagerDutySeverityEnum;
+  pagerduty_severity?: PagerDutySeverityEnum | undefined;
   /** PagerDuty service region the events go to. * `us` - us * `eu` - eu */
-  pagerduty_region?: PagerDutyRegionEnum;
+  pagerduty_region?: PagerDutyRegionEnum | undefined;
 }
 export interface ListWarehouseAlertsDestinationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

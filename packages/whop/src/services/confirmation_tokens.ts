@@ -67,11 +67,11 @@ export interface PaymentBillingDetailsPreview {
 }
 export interface PaymentMethodDisplayPreview {
   /** Lowercase card brand, such as `visa` or `mastercard`. */
-  brand?: string;
+  brand?: string | undefined;
   /** Uniquely identifies this particular card number. Matches the `fingerprint` on any payment method saved from this token, so you can recognize a card across attempts. For a wallet, this identifies the network token rather than the underlying card. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The last four digits of the card. */
-  last4?: string;
+  last4?: string | undefined;
 }
 /** The family the type belongs to. */
 export type PaymentMethodDisplayCategory =
@@ -87,9 +87,9 @@ export type PaymentMethodDisplayCategory =
   | "saved";
 export interface PaymentMethodDisplay {
   /** Present when the category is `bank_debit`. Empty until the account is charged. */
-  bank_debit?: PaymentMethodDisplayPreview;
+  bank_debit?: PaymentMethodDisplayPreview | undefined;
   /** Details of the card, when the category is `card`. */
-  card?: PaymentMethodDisplayPreview;
+  card?: PaymentMethodDisplayPreview | undefined;
   /** The family the type belongs to. */
   category: PaymentMethodDisplayCategory;
   /** Human-readable label for the method, e.g. `Visa **** 4242`. */
@@ -97,11 +97,11 @@ export interface PaymentMethodDisplay {
   /** The saved payment method this preview came from, or `null` when the buyer supplied a new one. */
   id: string | null;
   /** Details of the stored card, when the category is `saved`. Absent for a balance. */
-  saved?: PaymentMethodDisplayPreview;
+  saved?: PaymentMethodDisplayPreview | undefined;
   /** The payment method type, e.g. `card`, `apple_pay`, `klarna`. */
   type: string;
   /** Details of the network token the wallet supplied, when the category is `wallet`. */
-  wallet?: PaymentMethodDisplayPreview;
+  wallet?: PaymentMethodDisplayPreview | undefined;
 }
 /** `pending` until it is used, then `consumed`; `expired` once its short lifetime elapses. Only a `pending` token can be charged. */
 export type ConfirmationTokenStatus = "pending" | "consumed" | "expired";

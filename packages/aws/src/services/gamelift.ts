@@ -165,9 +165,9 @@ export type PlayerId = string | redacted.Redacted<string>;
 export type PlayerIdsForAcceptMatch = (string | redacted.Redacted<string>)[];
 export type AcceptanceType = "ACCEPT" | "REJECT" | (string & {});
 export interface AcceptMatchInput {
-  TicketId?: string;
-  PlayerIds?: (string | redacted.Redacted<string>)[];
-  AcceptanceType?: AcceptanceType;
+  TicketId?: string | undefined;
+  PlayerIds?: (string | redacted.Redacted<string>)[] | undefined;
+  AcceptanceType?: AcceptanceType | undefined;
 }
 export interface AcceptMatchOutput {}
 export type GameServerGroupNameOrArn = string;
@@ -176,13 +176,13 @@ export type GameServerData = string | redacted.Redacted<string>;
 export type FilterInstanceStatus = "ACTIVE" | "DRAINING" | (string & {});
 export type FilterInstanceStatuses = FilterInstanceStatus[];
 export interface ClaimFilterOption {
-  InstanceStatuses?: FilterInstanceStatus[];
+  InstanceStatuses?: FilterInstanceStatus[] | undefined;
 }
 export interface ClaimGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
-  GameServerData?: string | redacted.Redacted<string>;
-  FilterOption?: ClaimFilterOption;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
+  FilterOption?: ClaimFilterOption | undefined;
 }
 export type GameServerGroupName = string;
 export type GameServerGroupArn = string;
@@ -191,20 +191,20 @@ export type GameServerConnectionInfo = string;
 export type GameServerClaimStatus = "CLAIMED" | (string & {});
 export type GameServerUtilizationStatus = "AVAILABLE" | "UTILIZED" | (string & {});
 export interface GameServer {
-  GameServerGroupName?: string;
-  GameServerGroupArn?: string;
-  GameServerId?: string;
-  InstanceId?: string;
-  ConnectionInfo?: string;
-  GameServerData?: string | redacted.Redacted<string>;
-  ClaimStatus?: GameServerClaimStatus;
-  UtilizationStatus?: GameServerUtilizationStatus;
-  RegistrationTime?: Date;
-  LastClaimTime?: Date;
-  LastHealthCheckTime?: Date;
+  GameServerGroupName?: string | undefined;
+  GameServerGroupArn?: string | undefined;
+  GameServerId?: string | undefined;
+  InstanceId?: string | undefined;
+  ConnectionInfo?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
+  ClaimStatus?: GameServerClaimStatus | undefined;
+  UtilizationStatus?: GameServerUtilizationStatus | undefined;
+  RegistrationTime?: Date | undefined;
+  LastClaimTime?: Date | undefined;
+  LastHealthCheckTime?: Date | undefined;
 }
 export interface ClaimGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
 export type NonBlankAndLengthConstraintString = string;
 export type NonZeroAndMaxString = string;
@@ -212,43 +212,43 @@ export type RoutingStrategyType = "SIMPLE" | "TERMINAL" | (string & {});
 export type FleetId = string;
 export type FreeText = string;
 export interface RoutingStrategy {
-  Type?: RoutingStrategyType;
-  FleetId?: string;
-  Message?: string;
+  Type?: RoutingStrategyType | undefined;
+  FleetId?: string | undefined;
+  Message?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateAliasInput {
-  Name?: string;
-  Description?: string;
-  RoutingStrategy?: RoutingStrategy;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  RoutingStrategy?: RoutingStrategy | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AliasId = string;
 export type AliasArn = string;
 export interface Alias {
-  AliasId?: string;
-  Name?: string;
-  AliasArn?: string;
-  Description?: string;
-  RoutingStrategy?: RoutingStrategy;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  AliasId?: string | undefined;
+  Name?: string | undefined;
+  AliasArn?: string | undefined;
+  Description?: string | undefined;
+  RoutingStrategy?: RoutingStrategy | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface CreateAliasOutput {
-  Alias?: Alias;
+  Alias?: Alias | undefined;
 }
 export type NonEmptyString = string;
 export interface S3Location {
-  Bucket?: string;
-  Key?: string;
-  RoleArn?: string;
-  ObjectVersion?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  RoleArn?: string | undefined;
+  ObjectVersion?: string | undefined;
 }
 export type OperatingSystem =
   | "WINDOWS_2012"
@@ -260,59 +260,59 @@ export type OperatingSystem =
   | (string & {});
 export type ServerSdkVersion = string;
 export interface CreateBuildInput {
-  Name?: string;
-  Version?: string;
-  StorageLocation?: S3Location;
-  OperatingSystem?: OperatingSystem;
-  Tags?: Tag[];
-  ServerSdkVersion?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  StorageLocation?: S3Location | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Tags?: Tag[] | undefined;
+  ServerSdkVersion?: string | undefined;
 }
 export type BuildId = string;
 export type BuildArn = string;
 export type BuildStatus = "INITIALIZED" | "READY" | "FAILED" | (string & {});
 export type WholeNumberLong = number;
 export interface Build {
-  BuildId?: string;
-  BuildArn?: string;
-  Name?: string;
-  Version?: string;
-  Status?: BuildStatus;
-  SizeOnDisk?: number;
-  OperatingSystem?: OperatingSystem;
-  CreationTime?: Date;
-  ServerSdkVersion?: string;
+  BuildId?: string | undefined;
+  BuildArn?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  Status?: BuildStatus | undefined;
+  SizeOnDisk?: number | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  CreationTime?: Date | undefined;
+  ServerSdkVersion?: string | undefined;
 }
 export interface AwsCredentials {
-  AccessKeyId?: string;
-  SecretAccessKey?: string;
-  SessionToken?: string;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | undefined;
+  SessionToken?: string | undefined;
 }
 export interface CreateBuildOutput {
-  Build?: Build;
-  UploadCredentials?: AwsCredentials;
-  StorageLocation?: S3Location;
+  Build?: Build | undefined;
+  UploadCredentials?: AwsCredentials | undefined;
+  StorageLocation?: S3Location | undefined;
 }
 export type IamRoleArn = string;
 export type ContainerGroupDefinitionNameOrArn = string;
 export type PortNumber = number;
 export interface ConnectionPortRange {
-  FromPort?: number;
-  ToPort?: number;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
 }
 export type IpRange = string | redacted.Redacted<string>;
 export type IpProtocol = "TCP" | "UDP" | (string & {});
 export interface IpPermission {
-  FromPort?: number;
-  ToPort?: number;
-  IpRange?: string | redacted.Redacted<string>;
-  Protocol?: IpProtocol;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
+  IpRange?: string | redacted.Redacted<string> | undefined;
+  Protocol?: IpProtocol | undefined;
 }
 export type IpPermissionsList = IpPermission[];
 export type GameServerContainerGroupsPerInstance = number;
 export type ContainerFleetBillingType = "ON_DEMAND" | "SPOT" | (string & {});
 export type LocationStringModel = string;
 export interface LocationConfiguration {
-  Location?: string;
+  Location?: string | undefined;
 }
 export type LocationConfigurationList = LocationConfiguration[];
 export type MetricGroup = string;
@@ -320,34 +320,34 @@ export type MetricGroupList = string[];
 export type ProtectionPolicy = "NoProtection" | "FullProtection" | (string & {});
 export type WholeNumber = number;
 export interface GameSessionCreationLimitPolicy {
-  NewGameSessionsPerCreator?: number;
-  PolicyPeriodInMinutes?: number;
+  NewGameSessionsPerCreator?: number | undefined;
+  PolicyPeriodInMinutes?: number | undefined;
 }
 export type LogDestination = "NONE" | "CLOUDWATCH" | "S3" | (string & {});
 export type LogGroupArnStringModel = string;
 export interface LogConfiguration {
-  LogDestination?: LogDestination;
-  S3BucketName?: string;
-  LogGroupArn?: string;
+  LogDestination?: LogDestination | undefined;
+  S3BucketName?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
 export type PlayerGatewayMode = "DISABLED" | "ENABLED" | "REQUIRED" | (string & {});
 export interface CreateContainerFleetInput {
-  FleetRoleArn?: string;
-  Description?: string;
-  GameServerContainerGroupDefinitionName?: string;
-  PerInstanceContainerGroupDefinitionName?: string;
-  InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissions?: IpPermission[];
-  GameServerContainerGroupsPerInstance?: number;
-  InstanceType?: string;
-  BillingType?: ContainerFleetBillingType;
-  Locations?: LocationConfiguration[];
-  MetricGroups?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
-  LogConfiguration?: LogConfiguration;
-  Tags?: Tag[];
-  PlayerGatewayMode?: PlayerGatewayMode;
+  FleetRoleArn?: string | undefined;
+  Description?: string | undefined;
+  GameServerContainerGroupDefinitionName?: string | undefined;
+  PerInstanceContainerGroupDefinitionName?: string | undefined;
+  InstanceConnectionPortRange?: ConnectionPortRange | undefined;
+  InstanceInboundPermissions?: IpPermission[] | undefined;
+  GameServerContainerGroupsPerInstance?: number | undefined;
+  InstanceType?: string | undefined;
+  BillingType?: ContainerFleetBillingType | undefined;
+  Locations?: LocationConfiguration[] | undefined;
+  MetricGroups?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy | undefined;
+  LogConfiguration?: LogConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
 }
 export type FleetArn = string;
 export type ContainerGroupDefinitionName = string;
@@ -365,7 +365,7 @@ export type ContainerFleetStatus =
   | (string & {});
 export type DeploymentId = string;
 export interface DeploymentDetails {
-  LatestDeploymentId?: string;
+  LatestDeploymentId?: string | undefined;
 }
 export type ContainerFleetLocationStatus =
   | "PENDING"
@@ -379,46 +379,51 @@ export type ContainerFleetLocationStatus =
   | (string & {});
 export type PlayerGatewayStatus = "DISABLED" | "ENABLED" | (string & {});
 export interface ContainerFleetLocationAttributes {
-  Location?: string;
-  Status?: ContainerFleetLocationStatus;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  Location?: string | undefined;
+  Status?: ContainerFleetLocationStatus | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
 export type ContainerFleetLocationAttributesList = ContainerFleetLocationAttributes[];
 export interface ContainerFleet {
-  FleetId?: string;
-  FleetArn?: string;
-  FleetRoleArn?: string;
-  GameServerContainerGroupDefinitionName?: string;
-  GameServerContainerGroupDefinitionArn?: string;
-  PerInstanceContainerGroupDefinitionName?: string;
-  PerInstanceContainerGroupDefinitionArn?: string;
-  InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissions?: IpPermission[];
-  GameServerContainerGroupsPerInstance?: number;
-  MaximumGameServerContainerGroupsPerInstance?: number;
-  InstanceType?: string;
-  BillingType?: ContainerFleetBillingType;
-  Description?: string;
-  CreationTime?: Date;
-  MetricGroups?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
-  Status?: ContainerFleetStatus;
-  DeploymentDetails?: DeploymentDetails;
-  LogConfiguration?: LogConfiguration;
-  LocationAttributes?: ContainerFleetLocationAttributes[];
-  PlayerGatewayMode?: PlayerGatewayMode;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  FleetRoleArn?: string | undefined;
+  GameServerContainerGroupDefinitionName?: string | undefined;
+  GameServerContainerGroupDefinitionArn?: string | undefined;
+  PerInstanceContainerGroupDefinitionName?: string | undefined;
+  PerInstanceContainerGroupDefinitionArn?: string | undefined;
+  InstanceConnectionPortRange?: ConnectionPortRange | undefined;
+  InstanceInboundPermissions?: IpPermission[] | undefined;
+  GameServerContainerGroupsPerInstance?: number | undefined;
+  MaximumGameServerContainerGroupsPerInstance?: number | undefined;
+  InstanceType?: string | undefined;
+  BillingType?: ContainerFleetBillingType | undefined;
+  Description?: string | undefined;
+  CreationTime?: Date | undefined;
+  MetricGroups?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy | undefined;
+  Status?: ContainerFleetStatus | undefined;
+  DeploymentDetails?: DeploymentDetails | undefined;
+  LogConfiguration?: LogConfiguration | undefined;
+  LocationAttributes?: ContainerFleetLocationAttributes[] | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
 }
 export interface CreateContainerFleetOutput {
-  ContainerFleet?: ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & { FromPort: PortNumber; ToPort: PortNumber };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  };
+  ContainerFleet?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })
+    | undefined;
 }
 export type ContainerGroupType = "GAME_SERVER" | "PER_INSTANCE" | (string & {});
 export type ContainerTotalMemoryLimit = number;
@@ -431,34 +436,34 @@ export type ContainerDependencyCondition =
   | "HEALTHY"
   | (string & {});
 export interface ContainerDependency {
-  ContainerName?: string;
-  Condition?: ContainerDependencyCondition;
+  ContainerName?: string | undefined;
+  Condition?: ContainerDependencyCondition | undefined;
 }
 export type ContainerDependencyList = ContainerDependency[];
 export type InstancePathString = string;
 export type ContainerPathString = string;
 export type ContainerMountPointAccessLevel = "READ_ONLY" | "READ_AND_WRITE" | (string & {});
 export interface ContainerMountPoint {
-  InstancePath?: string;
-  ContainerPath?: string;
-  AccessLevel?: ContainerMountPointAccessLevel;
+  InstancePath?: string | undefined;
+  ContainerPath?: string | undefined;
+  AccessLevel?: ContainerMountPointAccessLevel | undefined;
 }
 export type ContainerMountPointList = ContainerMountPoint[];
 export type NonZeroAnd255MaxString = string;
 export interface ContainerEnvironment {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type ContainerEnvironmentList = ContainerEnvironment[];
 export type ImageUriString = string;
 export interface ContainerPortRange {
-  FromPort?: number;
-  ToPort?: number;
-  Protocol?: IpProtocol;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
+  Protocol?: IpProtocol | undefined;
 }
 export type ContainerPortRangeList = ContainerPortRange[];
 export interface ContainerPortConfiguration {
-  ContainerPortRanges?: ContainerPortRange[];
+  ContainerPortRanges?: ContainerPortRange[] | undefined;
 }
 export type LinuxCapability =
   | "AUDIT_CONTROL"
@@ -501,19 +506,19 @@ export type LinuxCapability =
   | (string & {});
 export type LinuxCapabilityList = LinuxCapability[];
 export interface LinuxCapabilities {
-  Include?: LinuxCapability[];
+  Include?: LinuxCapability[] | undefined;
 }
 export type ContainerVcpu = number;
 export interface GameServerContainerDefinitionInput {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  ImageUri?: string;
-  PortConfiguration?: ContainerPortConfiguration;
-  ServerSdkVersion?: string;
-  LinuxCapabilities?: LinuxCapabilities;
-  Vcpu?: number;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  ImageUri?: string | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  ServerSdkVersion?: string | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
+  Vcpu?: number | undefined;
 }
 export type BooleanModel = boolean;
 export type ContainerCommandStringList = string[];
@@ -522,125 +527,127 @@ export type ContainerHealthCheckRetries = number;
 export type ContainerHealthCheckStartPeriod = number;
 export type ContainerHealthCheckTimeout = number;
 export interface ContainerHealthCheck {
-  Command?: string[];
-  Interval?: number;
-  Retries?: number;
-  StartPeriod?: number;
-  Timeout?: number;
+  Command?: string[] | undefined;
+  Interval?: number | undefined;
+  Retries?: number | undefined;
+  StartPeriod?: number | undefined;
+  Timeout?: number | undefined;
 }
 export type ContainerMemoryLimit = number;
 export interface SupportContainerDefinitionInput {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  Essential?: boolean;
-  HealthCheck?: ContainerHealthCheck;
-  ImageUri?: string;
-  MemoryHardLimitMebibytes?: number;
-  PortConfiguration?: ContainerPortConfiguration;
-  Vcpu?: number;
-  LinuxCapabilities?: LinuxCapabilities;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  Essential?: boolean | undefined;
+  HealthCheck?: ContainerHealthCheck | undefined;
+  ImageUri?: string | undefined;
+  MemoryHardLimitMebibytes?: number | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  Vcpu?: number | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
 }
 export type SupportContainerDefinitionInputList = SupportContainerDefinitionInput[];
 export type ContainerOperatingSystem = "AMAZON_LINUX_2023" | (string & {});
 export interface CreateContainerGroupDefinitionInput {
-  Name?: string;
-  ContainerGroupType?: ContainerGroupType;
-  TotalMemoryLimitMebibytes?: number;
-  TotalVcpuLimit?: number;
-  GameServerContainerDefinition?: GameServerContainerDefinitionInput;
-  SupportContainerDefinitions?: SupportContainerDefinitionInput[];
-  OperatingSystem?: ContainerOperatingSystem;
-  VersionDescription?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  TotalMemoryLimitMebibytes?: number | undefined;
+  TotalVcpuLimit?: number | undefined;
+  GameServerContainerDefinition?: GameServerContainerDefinitionInput | undefined;
+  SupportContainerDefinitions?: SupportContainerDefinitionInput[] | undefined;
+  OperatingSystem?: ContainerOperatingSystem | undefined;
+  VersionDescription?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type Sha256 = string;
 export interface GameServerContainerDefinition {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  ImageUri?: string;
-  PortConfiguration?: ContainerPortConfiguration;
-  ResolvedImageDigest?: string;
-  ServerSdkVersion?: string;
-  LinuxCapabilities?: LinuxCapabilities;
-  Vcpu?: number;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  ImageUri?: string | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  ResolvedImageDigest?: string | undefined;
+  ServerSdkVersion?: string | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
+  Vcpu?: number | undefined;
 }
 export interface SupportContainerDefinition {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  Essential?: boolean;
-  HealthCheck?: ContainerHealthCheck;
-  ImageUri?: string;
-  MemoryHardLimitMebibytes?: number;
-  PortConfiguration?: ContainerPortConfiguration;
-  ResolvedImageDigest?: string;
-  Vcpu?: number;
-  LinuxCapabilities?: LinuxCapabilities;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  Essential?: boolean | undefined;
+  HealthCheck?: ContainerHealthCheck | undefined;
+  ImageUri?: string | undefined;
+  MemoryHardLimitMebibytes?: number | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  ResolvedImageDigest?: string | undefined;
+  Vcpu?: number | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
 }
 export type SupportContainerDefinitionList = SupportContainerDefinition[];
 export type PositiveInteger = number;
 export type ContainerGroupDefinitionStatus = "READY" | "COPYING" | "FAILED" | (string & {});
 export interface ContainerGroupDefinition {
-  ContainerGroupDefinitionArn?: string;
-  CreationTime?: Date;
-  OperatingSystem?: ContainerOperatingSystem;
-  Name?: string;
-  ContainerGroupType?: ContainerGroupType;
-  TotalMemoryLimitMebibytes?: number;
-  TotalVcpuLimit?: number;
-  GameServerContainerDefinition?: GameServerContainerDefinition;
-  SupportContainerDefinitions?: SupportContainerDefinition[];
-  VersionNumber?: number;
-  VersionDescription?: string;
-  Status?: ContainerGroupDefinitionStatus;
-  StatusReason?: string;
+  ContainerGroupDefinitionArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  OperatingSystem?: ContainerOperatingSystem | undefined;
+  Name?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  TotalMemoryLimitMebibytes?: number | undefined;
+  TotalVcpuLimit?: number | undefined;
+  GameServerContainerDefinition?: GameServerContainerDefinition | undefined;
+  SupportContainerDefinitions?: SupportContainerDefinition[] | undefined;
+  VersionNumber?: number | undefined;
+  VersionDescription?: string | undefined;
+  Status?: ContainerGroupDefinitionStatus | undefined;
+  StatusReason?: string | undefined;
 }
 export interface CreateContainerGroupDefinitionOutput {
-  ContainerGroupDefinition?: ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinition?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  };
+      })
+    | undefined;
 }
 export type BuildIdOrArn = string;
 export type ScriptIdOrArn = string;
@@ -1189,63 +1196,63 @@ export type EC2InstanceType =
   | "m9g.8xlarge"
   | (string & {});
 export interface ServerProcess {
-  LaunchPath?: string;
-  Parameters?: string;
-  ConcurrentExecutions?: number;
+  LaunchPath?: string | undefined;
+  Parameters?: string | undefined;
+  ConcurrentExecutions?: number | undefined;
 }
 export type ServerProcessList = ServerProcess[];
 export type MaxConcurrentGameSessionActivations = number;
 export type GameSessionActivationTimeoutSeconds = number;
 export interface RuntimeConfiguration {
-  ServerProcesses?: ServerProcess[];
-  MaxConcurrentGameSessionActivations?: number;
-  GameSessionActivationTimeoutSeconds?: number;
+  ServerProcesses?: ServerProcess[] | undefined;
+  MaxConcurrentGameSessionActivations?: number | undefined;
+  GameSessionActivationTimeoutSeconds?: number | undefined;
 }
 export interface ResourceCreationLimitPolicy {
-  NewGameSessionsPerCreator?: number;
-  PolicyPeriodInMinutes?: number;
+  NewGameSessionsPerCreator?: number | undefined;
+  PolicyPeriodInMinutes?: number | undefined;
 }
 export type FleetType = "ON_DEMAND" | "SPOT" | (string & {});
 export type CertificateType = "DISABLED" | "GENERATED" | (string & {});
 export interface CertificateConfiguration {
-  CertificateType?: CertificateType;
+  CertificateType?: CertificateType | undefined;
 }
 export type ComputeType = "EC2" | "ANYWHERE" | (string & {});
 export type NonNegativeLimitedLengthDouble = string;
 export interface AnywhereConfiguration {
-  Cost?: string;
+  Cost?: string | undefined;
 }
 export type InstanceRoleCredentialsProvider = "SHARED_CREDENTIAL_FILE" | (string & {});
 export type GameServerIpProtocolSupported = "IPv4" | "DUAL_STACK" | (string & {});
 export interface PlayerGatewayConfiguration {
-  GameServerIpProtocolSupported?: GameServerIpProtocolSupported;
+  GameServerIpProtocolSupported?: GameServerIpProtocolSupported | undefined;
 }
 export interface CreateFleetInput {
-  Name?: string;
-  Description?: string;
-  BuildId?: string;
-  ScriptId?: string;
-  ServerLaunchPath?: string;
-  ServerLaunchParameters?: string;
-  LogPaths?: string[];
-  EC2InstanceType?: EC2InstanceType;
-  EC2InboundPermissions?: IpPermission[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  RuntimeConfiguration?: RuntimeConfiguration;
-  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: string[];
-  PeerVpcAwsAccountId?: string;
-  PeerVpcId?: string;
-  FleetType?: FleetType;
-  InstanceRoleArn?: string;
-  CertificateConfiguration?: CertificateConfiguration;
-  Locations?: LocationConfiguration[];
-  Tags?: Tag[];
-  ComputeType?: ComputeType;
-  AnywhereConfiguration?: AnywhereConfiguration;
-  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider;
-  PlayerGatewayMode?: PlayerGatewayMode;
-  PlayerGatewayConfiguration?: PlayerGatewayConfiguration;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  BuildId?: string | undefined;
+  ScriptId?: string | undefined;
+  ServerLaunchPath?: string | undefined;
+  ServerLaunchParameters?: string | undefined;
+  LogPaths?: string[] | undefined;
+  EC2InstanceType?: EC2InstanceType | undefined;
+  EC2InboundPermissions?: IpPermission[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  RuntimeConfiguration?: RuntimeConfiguration | undefined;
+  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy | undefined;
+  MetricGroups?: string[] | undefined;
+  PeerVpcAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
+  FleetType?: FleetType | undefined;
+  InstanceRoleArn?: string | undefined;
+  CertificateConfiguration?: CertificateConfiguration | undefined;
+  Locations?: LocationConfiguration[] | undefined;
+  Tags?: Tag[] | undefined;
+  ComputeType?: ComputeType | undefined;
+  AnywhereConfiguration?: AnywhereConfiguration | undefined;
+  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
+  PlayerGatewayConfiguration?: PlayerGatewayConfiguration | undefined;
 }
 export type FleetStatus =
   | "NEW"
@@ -1265,65 +1272,67 @@ export type ScriptArn = string;
 export type FleetAction = "AUTO_SCALING" | (string & {});
 export type FleetActionList = FleetAction[];
 export interface FleetAttributes {
-  FleetId?: string;
-  FleetArn?: string;
-  FleetType?: FleetType;
-  InstanceType?: EC2InstanceType;
-  Description?: string;
-  Name?: string;
-  CreationTime?: Date;
-  TerminationTime?: Date;
-  Status?: FleetStatus;
-  BuildId?: string;
-  BuildArn?: string;
-  ScriptId?: string;
-  ScriptArn?: string;
-  ServerLaunchPath?: string;
-  ServerLaunchParameters?: string;
-  LogPaths?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  OperatingSystem?: OperatingSystem;
-  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: string[];
-  StoppedActions?: FleetAction[];
-  InstanceRoleArn?: string;
-  CertificateConfiguration?: CertificateConfiguration;
-  ComputeType?: ComputeType;
-  AnywhereConfiguration?: AnywhereConfiguration;
-  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider;
-  PlayerGatewayMode?: PlayerGatewayMode;
-  PlayerGatewayConfiguration?: PlayerGatewayConfiguration;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  FleetType?: FleetType | undefined;
+  InstanceType?: EC2InstanceType | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  CreationTime?: Date | undefined;
+  TerminationTime?: Date | undefined;
+  Status?: FleetStatus | undefined;
+  BuildId?: string | undefined;
+  BuildArn?: string | undefined;
+  ScriptId?: string | undefined;
+  ScriptArn?: string | undefined;
+  ServerLaunchPath?: string | undefined;
+  ServerLaunchParameters?: string | undefined;
+  LogPaths?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy | undefined;
+  MetricGroups?: string[] | undefined;
+  StoppedActions?: FleetAction[] | undefined;
+  InstanceRoleArn?: string | undefined;
+  CertificateConfiguration?: CertificateConfiguration | undefined;
+  ComputeType?: ComputeType | undefined;
+  AnywhereConfiguration?: AnywhereConfiguration | undefined;
+  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
+  PlayerGatewayConfiguration?: PlayerGatewayConfiguration | undefined;
 }
 export interface LocationState {
-  Location?: string;
-  Status?: FleetStatus;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  Location?: string | undefined;
+  Status?: FleetStatus | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
 export type LocationStateList = LocationState[];
 export interface CreateFleetOutput {
-  FleetAttributes?: FleetAttributes & {
-    CertificateConfiguration: CertificateConfiguration & { CertificateType: CertificateType };
-    AnywhereConfiguration: AnywhereConfiguration & { Cost: NonNegativeLimitedLengthDouble };
-  };
-  LocationStates?: LocationState[];
+  FleetAttributes?:
+    | (FleetAttributes & {
+        CertificateConfiguration: CertificateConfiguration & { CertificateType: CertificateType };
+        AnywhereConfiguration: AnywhereConfiguration & { Cost: NonNegativeLimitedLengthDouble };
+      })
+    | undefined;
+  LocationStates?: LocationState[] | undefined;
 }
 export type FleetIdOrArn = string;
 export interface CreateFleetLocationsInput {
-  FleetId?: string;
-  Locations?: LocationConfiguration[];
+  FleetId?: string | undefined;
+  Locations?: LocationConfiguration[] | undefined;
 }
 export interface CreateFleetLocationsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  LocationStates?: LocationState[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  LocationStates?: LocationState[] | undefined;
 }
 export type LaunchTemplateId = string;
 export type LaunchTemplateName = string;
 export type LaunchTemplateVersion = string;
 export interface LaunchTemplateSpecification {
-  LaunchTemplateId?: string;
-  LaunchTemplateName?: string;
-  Version?: string;
+  LaunchTemplateId?: string | undefined;
+  LaunchTemplateName?: string | undefined;
+  Version?: string | undefined;
 }
 export type GameServerGroupInstanceType =
   | "c4.large"
@@ -1417,34 +1426,34 @@ export type GameServerGroupInstanceType =
   | (string & {});
 export type WeightedCapacity = string;
 export interface InstanceDefinition {
-  InstanceType?: GameServerGroupInstanceType;
-  WeightedCapacity?: string;
+  InstanceType?: GameServerGroupInstanceType | undefined;
+  WeightedCapacity?: string | undefined;
 }
 export type InstanceDefinitions = InstanceDefinition[];
 export type NonNegativeDouble = number;
 export interface TargetTrackingConfiguration {
-  TargetValue?: number;
+  TargetValue?: number | undefined;
 }
 export interface GameServerGroupAutoScalingPolicy {
-  EstimatedInstanceWarmup?: number;
-  TargetTrackingConfiguration?: TargetTrackingConfiguration;
+  EstimatedInstanceWarmup?: number | undefined;
+  TargetTrackingConfiguration?: TargetTrackingConfiguration | undefined;
 }
 export type BalancingStrategy = "SPOT_ONLY" | "SPOT_PREFERRED" | "ON_DEMAND_ONLY" | (string & {});
 export type GameServerProtectionPolicy = "NO_PROTECTION" | "FULL_PROTECTION" | (string & {});
 export type VpcSubnet = string;
 export type VpcSubnets = string[];
 export interface CreateGameServerGroupInput {
-  GameServerGroupName?: string;
-  RoleArn?: string;
-  MinSize?: number;
-  MaxSize?: number;
-  LaunchTemplate?: LaunchTemplateSpecification;
-  InstanceDefinitions?: InstanceDefinition[];
-  AutoScalingPolicy?: GameServerGroupAutoScalingPolicy;
-  BalancingStrategy?: BalancingStrategy;
-  GameServerProtectionPolicy?: GameServerProtectionPolicy;
-  VpcSubnets?: string[];
-  Tags?: Tag[];
+  GameServerGroupName?: string | undefined;
+  RoleArn?: string | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  InstanceDefinitions?: InstanceDefinition[] | undefined;
+  AutoScalingPolicy?: GameServerGroupAutoScalingPolicy | undefined;
+  BalancingStrategy?: BalancingStrategy | undefined;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy | undefined;
+  VpcSubnets?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AutoScalingGroupArn = string;
 export type GameServerGroupStatus =
@@ -1459,45 +1468,47 @@ export type GameServerGroupStatus =
 export type GameServerGroupAction = "REPLACE_INSTANCE_TYPES" | (string & {});
 export type GameServerGroupActions = GameServerGroupAction[];
 export interface GameServerGroup {
-  GameServerGroupName?: string;
-  GameServerGroupArn?: string;
-  RoleArn?: string;
-  InstanceDefinitions?: InstanceDefinition[];
-  BalancingStrategy?: BalancingStrategy;
-  GameServerProtectionPolicy?: GameServerProtectionPolicy;
-  AutoScalingGroupArn?: string;
-  Status?: GameServerGroupStatus;
-  StatusReason?: string;
-  SuspendedActions?: GameServerGroupAction[];
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  GameServerGroupName?: string | undefined;
+  GameServerGroupArn?: string | undefined;
+  RoleArn?: string | undefined;
+  InstanceDefinitions?: InstanceDefinition[] | undefined;
+  BalancingStrategy?: BalancingStrategy | undefined;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy | undefined;
+  AutoScalingGroupArn?: string | undefined;
+  Status?: GameServerGroupStatus | undefined;
+  StatusReason?: string | undefined;
+  SuspendedActions?: GameServerGroupAction[] | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface CreateGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
 export type AliasIdOrArn = string;
 export type GamePropertyKey = string;
 export type GamePropertyValue = string | redacted.Redacted<string>;
 export interface GameProperty {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
+  Key?: string | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
 }
 export type GamePropertyList = GameProperty[];
 export type IdStringModel = string;
 export type LargeGameSessionData = string | redacted.Redacted<string>;
 export interface CreateGameSessionInput {
-  FleetId?: string;
-  AliasId?: string;
-  MaximumPlayerSessionCount?: number;
-  Name?: string;
-  GameProperties?: GameProperty[];
-  CreatorId?: string;
-  GameSessionId?: string;
-  IdempotencyToken?: string;
-  GameSessionData?: string | redacted.Redacted<string>;
-  Location?: string;
+  FleetId?: string | undefined;
+  AliasId?: string | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Name?: string | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  CreatorId?: string | undefined;
+  GameSessionId?: string | undefined;
+  IdempotencyToken?: string | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  Location?: string | undefined;
 }
 export type GameSessionStatus =
   | "ACTIVE"
@@ -1517,102 +1528,104 @@ export type PlayerSessionCreationPolicy = "ACCEPT_ALL" | "DENY_ALL" | (string & 
 export type MatchmakerData = string | redacted.Redacted<string>;
 export type ComputeName = string;
 export interface GameSession {
-  GameSessionId?: string;
-  Name?: string;
-  FleetId?: string;
-  FleetArn?: string;
-  CreationTime?: Date;
-  TerminationTime?: Date;
-  CurrentPlayerSessionCount?: number;
-  MaximumPlayerSessionCount?: number;
-  Status?: GameSessionStatus;
-  StatusReason?: GameSessionStatusReason;
-  GameProperties?: GameProperty[];
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy;
-  CreatorId?: string;
-  GameSessionData?: string | redacted.Redacted<string>;
-  MatchmakerData?: string | redacted.Redacted<string>;
-  Location?: string;
-  ComputeName?: string;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  GameSessionId?: string | undefined;
+  Name?: string | undefined;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  TerminationTime?: Date | undefined;
+  CurrentPlayerSessionCount?: number | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Status?: GameSessionStatus | undefined;
+  StatusReason?: GameSessionStatusReason | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy | undefined;
+  CreatorId?: string | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  MatchmakerData?: string | redacted.Redacted<string> | undefined;
+  Location?: string | undefined;
+  ComputeName?: string | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
 export interface CreateGameSessionOutput {
-  GameSession?: GameSession & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  };
+  GameSession?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
 export type GameSessionQueueName = string;
 export interface PlayerLatencyPolicy {
-  MaximumIndividualPlayerLatencyMilliseconds?: number;
-  PolicyDurationSeconds?: number;
+  MaximumIndividualPlayerLatencyMilliseconds?: number | undefined;
+  PolicyDurationSeconds?: number | undefined;
 }
 export type PlayerLatencyPolicyList = PlayerLatencyPolicy[];
 export type ArnStringModel = string;
 export interface GameSessionQueueDestination {
-  DestinationArn?: string;
+  DestinationArn?: string | undefined;
 }
 export type GameSessionQueueDestinationList = GameSessionQueueDestination[];
 export type LocationList = string[];
 export interface FilterConfiguration {
-  AllowedLocations?: string[];
+  AllowedLocations?: string[] | undefined;
 }
 export type PriorityType = "LATENCY" | "COST" | "DESTINATION" | "LOCATION" | (string & {});
 export type PriorityTypeList = PriorityType[];
 export interface PriorityConfiguration {
-  PriorityOrder?: PriorityType[];
-  LocationOrder?: string[];
+  PriorityOrder?: PriorityType[] | undefined;
+  LocationOrder?: string[] | undefined;
 }
 export type QueueCustomEventData = string | redacted.Redacted<string>;
 export type QueueSnsArnStringModel = string;
 export interface CreateGameSessionQueueInput {
-  Name?: string;
-  TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
-  Destinations?: GameSessionQueueDestination[];
-  FilterConfiguration?: FilterConfiguration;
-  PriorityConfiguration?: PriorityConfiguration;
-  CustomEventData?: string | redacted.Redacted<string>;
-  NotificationTarget?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  TimeoutInSeconds?: number | undefined;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[] | undefined;
+  Destinations?: GameSessionQueueDestination[] | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  PriorityConfiguration?: PriorityConfiguration | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  NotificationTarget?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type GameSessionQueueArn = string;
 export interface GameSessionQueue {
-  Name?: string;
-  GameSessionQueueArn?: string;
-  TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
-  Destinations?: GameSessionQueueDestination[];
-  FilterConfiguration?: FilterConfiguration;
-  PriorityConfiguration?: PriorityConfiguration;
-  CustomEventData?: string | redacted.Redacted<string>;
-  NotificationTarget?: string;
+  Name?: string | undefined;
+  GameSessionQueueArn?: string | undefined;
+  TimeoutInSeconds?: number | undefined;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[] | undefined;
+  Destinations?: GameSessionQueueDestination[] | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  PriorityConfiguration?: PriorityConfiguration | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  NotificationTarget?: string | undefined;
 }
 export interface CreateGameSessionQueueOutput {
-  GameSessionQueue?: GameSessionQueue;
+  GameSessionQueue?: GameSessionQueue | undefined;
 }
 export type CustomInputLocationStringModel = string;
 export interface CreateLocationInput {
-  LocationName?: string;
-  Tags?: Tag[];
+  LocationName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type LocationArnModel = string;
 export interface UDPEndpoint {
-  Domain?: string;
-  Port?: number;
+  Domain?: string | undefined;
+  Port?: number | undefined;
 }
 export interface PingBeacon {
-  UDPEndpoint?: UDPEndpoint;
+  UDPEndpoint?: UDPEndpoint | undefined;
 }
 export interface LocationModel {
-  LocationName?: string;
-  LocationArn?: string;
-  PingBeacon?: PingBeacon;
+  LocationName?: string | undefined;
+  LocationArn?: string | undefined;
+  PingBeacon?: PingBeacon | undefined;
 }
 export interface CreateLocationOutput {
-  Location?: LocationModel;
+  Location?: LocationModel | undefined;
 }
 export type QueueArnsList = string[];
 export type MatchmakingRequestTimeoutInteger = number;
@@ -1624,247 +1637,251 @@ export type GameSessionData = string | redacted.Redacted<string>;
 export type BackfillMode = "AUTOMATIC" | "MANUAL" | (string & {});
 export type FlexMatchMode = "STANDALONE" | "WITH_QUEUE" | (string & {});
 export interface CreateMatchmakingConfigurationInput {
-  Name?: string;
-  Description?: string;
-  GameSessionQueueArns?: string[];
-  RequestTimeoutSeconds?: number;
-  AcceptanceTimeoutSeconds?: number;
-  AcceptanceRequired?: boolean;
-  RuleSetName?: string;
-  NotificationTarget?: string;
-  AdditionalPlayerCount?: number;
-  CustomEventData?: string | redacted.Redacted<string>;
-  GameProperties?: GameProperty[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  BackfillMode?: BackfillMode;
-  FlexMatchMode?: FlexMatchMode;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  GameSessionQueueArns?: string[] | undefined;
+  RequestTimeoutSeconds?: number | undefined;
+  AcceptanceTimeoutSeconds?: number | undefined;
+  AcceptanceRequired?: boolean | undefined;
+  RuleSetName?: string | undefined;
+  NotificationTarget?: string | undefined;
+  AdditionalPlayerCount?: number | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  BackfillMode?: BackfillMode | undefined;
+  FlexMatchMode?: FlexMatchMode | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type MatchmakingConfigurationArn = string;
 export type MatchmakingRuleSetArn = string;
 export interface MatchmakingConfiguration {
-  Name?: string;
-  ConfigurationArn?: string;
-  Description?: string;
-  GameSessionQueueArns?: string[];
-  RequestTimeoutSeconds?: number;
-  AcceptanceTimeoutSeconds?: number;
-  AcceptanceRequired?: boolean;
-  RuleSetName?: string;
-  RuleSetArn?: string;
-  NotificationTarget?: string;
-  AdditionalPlayerCount?: number;
-  CustomEventData?: string | redacted.Redacted<string>;
-  CreationTime?: Date;
-  GameProperties?: GameProperty[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  BackfillMode?: BackfillMode;
-  FlexMatchMode?: FlexMatchMode;
+  Name?: string | undefined;
+  ConfigurationArn?: string | undefined;
+  Description?: string | undefined;
+  GameSessionQueueArns?: string[] | undefined;
+  RequestTimeoutSeconds?: number | undefined;
+  AcceptanceTimeoutSeconds?: number | undefined;
+  AcceptanceRequired?: boolean | undefined;
+  RuleSetName?: string | undefined;
+  RuleSetArn?: string | undefined;
+  NotificationTarget?: string | undefined;
+  AdditionalPlayerCount?: number | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  CreationTime?: Date | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  BackfillMode?: BackfillMode | undefined;
+  FlexMatchMode?: FlexMatchMode | undefined;
 }
 export interface CreateMatchmakingConfigurationOutput {
-  Configuration?: MatchmakingConfiguration & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  };
+  Configuration?:
+    | (MatchmakingConfiguration & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
 export type RuleSetBody = string;
 export interface CreateMatchmakingRuleSetInput {
-  Name?: string;
-  RuleSetBody?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  RuleSetBody?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface MatchmakingRuleSet {
-  RuleSetName?: string;
-  RuleSetArn?: string;
-  RuleSetBody?: string;
-  CreationTime?: Date;
+  RuleSetName?: string | undefined;
+  RuleSetArn?: string | undefined;
+  RuleSetBody?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface CreateMatchmakingRuleSetOutput {
   RuleSet: MatchmakingRuleSet & { RuleSetBody: RuleSetBody };
 }
 export type PlayerData = string | redacted.Redacted<string>;
 export interface CreatePlayerSessionInput {
-  GameSessionId?: string;
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerData?: string | redacted.Redacted<string>;
+  GameSessionId?: string | undefined;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerData?: string | redacted.Redacted<string> | undefined;
 }
 export type PlayerSessionId = string;
 export type PlayerSessionStatus = "RESERVED" | "ACTIVE" | "COMPLETED" | "TIMEDOUT" | (string & {});
 export interface PlayerSession {
-  PlayerSessionId?: string;
-  PlayerId?: string | redacted.Redacted<string>;
-  GameSessionId?: string;
-  FleetId?: string;
-  FleetArn?: string;
-  CreationTime?: Date;
-  TerminationTime?: Date;
-  Status?: PlayerSessionStatus;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  PlayerData?: string | redacted.Redacted<string>;
+  PlayerSessionId?: string | undefined;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  GameSessionId?: string | undefined;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  TerminationTime?: Date | undefined;
+  Status?: PlayerSessionStatus | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  PlayerData?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreatePlayerSessionOutput {
-  PlayerSession?: PlayerSession;
+  PlayerSession?: PlayerSession | undefined;
 }
 export type PlayerIdList = (string | redacted.Redacted<string>)[];
 export type PlayerDataMap = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface CreatePlayerSessionsInput {
-  GameSessionId?: string;
-  PlayerIds?: (string | redacted.Redacted<string>)[];
-  PlayerDataMap?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  GameSessionId?: string | undefined;
+  PlayerIds?: (string | redacted.Redacted<string>)[] | undefined;
+  PlayerDataMap?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type PlayerSessionList = PlayerSession[];
 export interface CreatePlayerSessionsOutput {
-  PlayerSessions?: PlayerSession[];
+  PlayerSessions?: PlayerSession[] | undefined;
 }
 export type ZipBlob = Uint8Array;
 export type NodeJsVersion = string;
 export interface CreateScriptInput {
-  Name?: string;
-  Version?: string;
-  StorageLocation?: S3Location;
-  ZipFile?: Uint8Array;
-  Tags?: Tag[];
-  NodeJsVersion?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  StorageLocation?: S3Location | undefined;
+  ZipFile?: Uint8Array | undefined;
+  Tags?: Tag[] | undefined;
+  NodeJsVersion?: string | undefined;
 }
 export interface Script {
-  ScriptId?: string;
-  ScriptArn?: string;
-  Name?: string;
-  Version?: string;
-  SizeOnDisk?: number;
-  CreationTime?: Date;
-  StorageLocation?: S3Location;
-  NodeJsVersion?: string;
+  ScriptId?: string | undefined;
+  ScriptArn?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  SizeOnDisk?: number | undefined;
+  CreationTime?: Date | undefined;
+  StorageLocation?: S3Location | undefined;
+  NodeJsVersion?: string | undefined;
 }
 export interface CreateScriptOutput {
-  Script?: Script;
+  Script?: Script | undefined;
 }
 export interface CreateVpcPeeringAuthorizationInput {
-  GameLiftAwsAccountId?: string;
-  PeerVpcId?: string;
+  GameLiftAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
 }
 export interface VpcPeeringAuthorization {
-  GameLiftAwsAccountId?: string;
-  PeerVpcAwsAccountId?: string;
-  PeerVpcId?: string;
-  CreationTime?: Date;
-  ExpirationTime?: Date;
+  GameLiftAwsAccountId?: string | undefined;
+  PeerVpcAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
+  CreationTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
 }
 export interface CreateVpcPeeringAuthorizationOutput {
-  VpcPeeringAuthorization?: VpcPeeringAuthorization;
+  VpcPeeringAuthorization?: VpcPeeringAuthorization | undefined;
 }
 export interface CreateVpcPeeringConnectionInput {
-  FleetId?: string;
-  PeerVpcAwsAccountId?: string;
-  PeerVpcId?: string;
+  FleetId?: string | undefined;
+  PeerVpcAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
 }
 export interface CreateVpcPeeringConnectionOutput {}
 export interface DeleteAliasInput {
-  AliasId?: string;
+  AliasId?: string | undefined;
 }
 export interface DeleteAliasResponse {}
 export interface DeleteBuildInput {
-  BuildId?: string;
+  BuildId?: string | undefined;
 }
 export interface DeleteBuildResponse {}
 export interface DeleteContainerFleetInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
 export interface DeleteContainerFleetOutput {}
 export interface DeleteContainerGroupDefinitionInput {
-  Name?: string;
-  VersionNumber?: number;
-  VersionCountToRetain?: number;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
+  VersionCountToRetain?: number | undefined;
 }
 export interface DeleteContainerGroupDefinitionOutput {}
 export interface DeleteFleetInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
 export interface DeleteFleetResponse {}
 export interface DeleteFleetLocationsInput {
-  FleetId?: string;
-  Locations?: string[];
+  FleetId?: string | undefined;
+  Locations?: string[] | undefined;
 }
 export interface DeleteFleetLocationsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  LocationStates?: LocationState[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  LocationStates?: LocationState[] | undefined;
 }
 export type GameServerGroupDeleteOption = "SAFE_DELETE" | "FORCE_DELETE" | "RETAIN" | (string & {});
 export interface DeleteGameServerGroupInput {
-  GameServerGroupName?: string;
-  DeleteOption?: GameServerGroupDeleteOption;
+  GameServerGroupName?: string | undefined;
+  DeleteOption?: GameServerGroupDeleteOption | undefined;
 }
 export interface DeleteGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
 export type GameSessionQueueNameOrArn = string;
 export interface DeleteGameSessionQueueInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteGameSessionQueueOutput {}
 export type CustomLocationNameOrArnModel = string;
 export interface DeleteLocationInput {
-  LocationName?: string;
+  LocationName?: string | undefined;
 }
 export interface DeleteLocationOutput {}
 export type MatchmakingConfigurationName = string;
 export interface DeleteMatchmakingConfigurationInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteMatchmakingConfigurationOutput {}
 export interface DeleteMatchmakingRuleSetInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteMatchmakingRuleSetOutput {}
 export interface DeleteScalingPolicyInput {
-  Name?: string;
-  FleetId?: string;
+  Name?: string | undefined;
+  FleetId?: string | undefined;
 }
 export interface DeleteScalingPolicyResponse {}
 export interface DeleteScriptInput {
-  ScriptId?: string;
+  ScriptId?: string | undefined;
 }
 export interface DeleteScriptResponse {}
 export interface DeleteVpcPeeringAuthorizationInput {
-  GameLiftAwsAccountId?: string;
-  PeerVpcId?: string;
+  GameLiftAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
 }
 export interface DeleteVpcPeeringAuthorizationOutput {}
 export interface DeleteVpcPeeringConnectionInput {
-  FleetId?: string;
-  VpcPeeringConnectionId?: string;
+  FleetId?: string | undefined;
+  VpcPeeringConnectionId?: string | undefined;
 }
 export interface DeleteVpcPeeringConnectionOutput {}
 export type ComputeNameOrArn = string;
 export interface DeregisterComputeInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
 export interface DeregisterComputeOutput {}
 export interface DeregisterGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
 }
 export interface DeregisterGameServerResponse {}
 export interface DescribeAliasInput {
-  AliasId?: string;
+  AliasId?: string | undefined;
 }
 export interface DescribeAliasOutput {
-  Alias?: Alias;
+  Alias?: Alias | undefined;
 }
 export interface DescribeBuildInput {
-  BuildId?: string;
+  BuildId?: string | undefined;
 }
 export interface DescribeBuildOutput {
-  Build?: Build;
+  Build?: Build | undefined;
 }
 export interface DescribeComputeInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
 export type ComputeArn = string;
 export type ComputeStatus = "PENDING" | "ACTIVE" | "TERMINATING" | "IMPAIRED" | (string & {});
@@ -1872,192 +1889,201 @@ export type GameLiftServiceSdkEndpointOutput = string;
 export type GameLiftAgentEndpointOutput = string;
 export type InstanceId = string;
 export interface ContainerAttribute {
-  ContainerName?: string;
-  ContainerRuntimeId?: string;
+  ContainerName?: string | undefined;
+  ContainerRuntimeId?: string | undefined;
 }
 export type ContainerAttributes = ContainerAttribute[];
 export interface Compute {
-  FleetId?: string;
-  FleetArn?: string;
-  ComputeName?: string;
-  ComputeArn?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  ComputeStatus?: ComputeStatus;
-  Location?: string;
-  CreationTime?: Date;
-  OperatingSystem?: OperatingSystem;
-  Type?: EC2InstanceType;
-  GameLiftServiceSdkEndpoint?: string;
-  GameLiftAgentEndpoint?: string;
-  InstanceId?: string;
-  ContainerAttributes?: ContainerAttribute[];
-  GameServerContainerGroupDefinitionArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ComputeName?: string | undefined;
+  ComputeArn?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  ComputeStatus?: ComputeStatus | undefined;
+  Location?: string | undefined;
+  CreationTime?: Date | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Type?: EC2InstanceType | undefined;
+  GameLiftServiceSdkEndpoint?: string | undefined;
+  GameLiftAgentEndpoint?: string | undefined;
+  InstanceId?: string | undefined;
+  ContainerAttributes?: ContainerAttribute[] | undefined;
+  GameServerContainerGroupDefinitionArn?: string | undefined;
 }
 export interface DescribeComputeOutput {
-  Compute?: Compute;
+  Compute?: Compute | undefined;
 }
 export interface DescribeContainerFleetInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
 export interface DescribeContainerFleetOutput {
-  ContainerFleet?: ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & { FromPort: PortNumber; ToPort: PortNumber };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  };
+  ContainerFleet?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })
+    | undefined;
 }
 export interface DescribeContainerGroupDefinitionInput {
-  Name?: string;
-  VersionNumber?: number;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
 }
 export interface DescribeContainerGroupDefinitionOutput {
-  ContainerGroupDefinition?: ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinition?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  };
+      })
+    | undefined;
 }
 export type ContainerNameQueryFilter = string;
 export interface DescribeContainerGroupPortMappingsInput {
-  FleetId?: string;
-  ContainerGroupType?: ContainerGroupType;
-  ComputeName?: string;
-  InstanceId?: string;
-  ContainerName?: string;
+  FleetId?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  ComputeName?: string | undefined;
+  InstanceId?: string | undefined;
+  ContainerName?: string | undefined;
 }
 export interface ContainerPortMapping {
-  ContainerPort?: number;
-  ConnectionPort?: number;
-  Protocol?: IpProtocol;
+  ContainerPort?: number | undefined;
+  ConnectionPort?: number | undefined;
+  Protocol?: IpProtocol | undefined;
 }
 export type ContainerPortMappingList = ContainerPortMapping[];
 export interface ContainerGroupPortMapping {
-  ContainerName?: string;
-  ContainerRuntimeId?: string;
-  ContainerPortMappings?: ContainerPortMapping[];
+  ContainerName?: string | undefined;
+  ContainerRuntimeId?: string | undefined;
+  ContainerPortMappings?: ContainerPortMapping[] | undefined;
 }
 export type ContainerGroupPortMappingList = ContainerGroupPortMapping[];
 export interface DescribeContainerGroupPortMappingsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  Location?: string;
-  ContainerGroupDefinitionArn?: string;
-  ContainerGroupType?: ContainerGroupType;
-  ComputeName?: string;
-  InstanceId?: string;
-  ContainerGroupPortMappings?: ContainerGroupPortMapping[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  Location?: string | undefined;
+  ContainerGroupDefinitionArn?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  ComputeName?: string | undefined;
+  InstanceId?: string | undefined;
+  ContainerGroupPortMappings?: ContainerGroupPortMapping[] | undefined;
 }
 export interface DescribeEC2InstanceLimitsInput {
-  EC2InstanceType?: EC2InstanceType;
-  Location?: string;
+  EC2InstanceType?: EC2InstanceType | undefined;
+  Location?: string | undefined;
 }
 export interface EC2InstanceLimit {
-  EC2InstanceType?: EC2InstanceType;
-  CurrentInstances?: number;
-  InstanceLimit?: number;
-  Location?: string;
+  EC2InstanceType?: EC2InstanceType | undefined;
+  CurrentInstances?: number | undefined;
+  InstanceLimit?: number | undefined;
+  Location?: string | undefined;
 }
 export type EC2InstanceLimitList = EC2InstanceLimit[];
 export interface DescribeEC2InstanceLimitsOutput {
-  EC2InstanceLimits?: EC2InstanceLimit[];
+  EC2InstanceLimits?: EC2InstanceLimit[] | undefined;
 }
 export type FleetIdOrArnList = string[];
 export interface DescribeFleetAttributesInput {
-  FleetIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FleetAttributesList = FleetAttributes[];
 export interface DescribeFleetAttributesOutput {
-  FleetAttributes?: (FleetAttributes & {
-    CertificateConfiguration: CertificateConfiguration & { CertificateType: CertificateType };
-    AnywhereConfiguration: AnywhereConfiguration & { Cost: NonNegativeLimitedLengthDouble };
-  })[];
-  NextToken?: string;
+  FleetAttributes?:
+    | (FleetAttributes & {
+        CertificateConfiguration: CertificateConfiguration & { CertificateType: CertificateType };
+        AnywhereConfiguration: AnywhereConfiguration & { Cost: NonNegativeLimitedLengthDouble };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetCapacityInput {
-  FleetIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EC2InstanceCounts {
-  DESIRED?: number;
-  MINIMUM?: number;
-  MAXIMUM?: number;
-  PENDING?: number;
-  ACTIVE?: number;
-  IDLE?: number;
-  TERMINATING?: number;
+  DESIRED?: number | undefined;
+  MINIMUM?: number | undefined;
+  MAXIMUM?: number | undefined;
+  PENDING?: number | undefined;
+  ACTIVE?: number | undefined;
+  IDLE?: number | undefined;
+  TERMINATING?: number | undefined;
 }
 export interface GameServerContainerGroupCounts {
-  PENDING?: number;
-  ACTIVE?: number;
-  IDLE?: number;
-  TERMINATING?: number;
+  PENDING?: number | undefined;
+  ACTIVE?: number | undefined;
+  IDLE?: number | undefined;
+  TERMINATING?: number | undefined;
 }
 export type ZeroCapacityStrategy = "MANUAL" | "SCALE_TO_AND_FROM_ZERO" | (string & {});
 export type ScaleInAfterInactivityMinutes = number;
 export interface ManagedCapacityConfiguration {
-  ZeroCapacityStrategy?: ZeroCapacityStrategy;
-  ScaleInAfterInactivityMinutes?: number;
+  ZeroCapacityStrategy?: ZeroCapacityStrategy | undefined;
+  ScaleInAfterInactivityMinutes?: number | undefined;
 }
 export interface FleetCapacity {
-  FleetId?: string;
-  FleetArn?: string;
-  InstanceType?: EC2InstanceType;
-  InstanceCounts?: EC2InstanceCounts;
-  Location?: string;
-  GameServerContainerGroupCounts?: GameServerContainerGroupCounts;
-  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  InstanceType?: EC2InstanceType | undefined;
+  InstanceCounts?: EC2InstanceCounts | undefined;
+  Location?: string | undefined;
+  GameServerContainerGroupCounts?: GameServerContainerGroupCounts | undefined;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration | undefined;
 }
 export type FleetCapacityList = FleetCapacity[];
 export interface DescribeFleetCapacityOutput {
-  FleetCapacity?: FleetCapacity[];
-  NextToken?: string;
+  FleetCapacity?: FleetCapacity[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetDeploymentInput {
-  FleetId?: string;
-  DeploymentId?: string;
+  FleetId?: string | undefined;
+  DeploymentId?: string | undefined;
 }
 export type FleetBinaryArn = string;
 export type DeploymentStatus =
@@ -2073,35 +2099,35 @@ export type DeploymentProtectionStrategy = "WITH_PROTECTION" | "IGNORE_PROTECTIO
 export type MinimumHealthyPercentage = number;
 export type DeploymentImpairmentStrategy = "MAINTAIN" | "ROLLBACK" | (string & {});
 export interface DeploymentConfiguration {
-  ProtectionStrategy?: DeploymentProtectionStrategy;
-  MinimumHealthyPercentage?: number;
-  ImpairmentStrategy?: DeploymentImpairmentStrategy;
+  ProtectionStrategy?: DeploymentProtectionStrategy | undefined;
+  MinimumHealthyPercentage?: number | undefined;
+  ImpairmentStrategy?: DeploymentImpairmentStrategy | undefined;
 }
 export interface FleetDeployment {
-  DeploymentId?: string;
-  FleetId?: string;
-  GameServerBinaryArn?: string;
-  RollbackGameServerBinaryArn?: string;
-  PerInstanceBinaryArn?: string;
-  RollbackPerInstanceBinaryArn?: string;
-  DeploymentStatus?: DeploymentStatus;
-  DeploymentConfiguration?: DeploymentConfiguration;
-  CreationTime?: Date;
+  DeploymentId?: string | undefined;
+  FleetId?: string | undefined;
+  GameServerBinaryArn?: string | undefined;
+  RollbackGameServerBinaryArn?: string | undefined;
+  PerInstanceBinaryArn?: string | undefined;
+  RollbackPerInstanceBinaryArn?: string | undefined;
+  DeploymentStatus?: DeploymentStatus | undefined;
+  DeploymentConfiguration?: DeploymentConfiguration | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface LocationalDeployment {
-  DeploymentStatus?: DeploymentStatus;
+  DeploymentStatus?: DeploymentStatus | undefined;
 }
 export type LocationalDeployments = { [key: string]: LocationalDeployment | undefined };
 export interface DescribeFleetDeploymentOutput {
-  FleetDeployment?: FleetDeployment;
-  LocationalDeployments?: { [key: string]: LocationalDeployment | undefined };
+  FleetDeployment?: FleetDeployment | undefined;
+  LocationalDeployments?: { [key: string]: LocationalDeployment | undefined } | undefined;
 }
 export interface DescribeFleetEventsInput {
-  FleetId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EventCode =
   | "GENERIC_EVENT"
@@ -2164,145 +2190,151 @@ export type EventCode =
   | (string & {});
 export type EventCount = number;
 export interface Event {
-  EventId?: string;
-  ResourceId?: string;
-  EventCode?: EventCode;
-  Message?: string;
-  EventTime?: Date;
-  PreSignedLogUrl?: string;
-  Count?: number;
+  EventId?: string | undefined;
+  ResourceId?: string | undefined;
+  EventCode?: EventCode | undefined;
+  Message?: string | undefined;
+  EventTime?: Date | undefined;
+  PreSignedLogUrl?: string | undefined;
+  Count?: number | undefined;
 }
 export type EventList = Event[];
 export interface DescribeFleetEventsOutput {
-  Events?: Event[];
-  NextToken?: string;
+  Events?: Event[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetLocationAttributesInput {
-  FleetId?: string;
-  Locations?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  Locations?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LocationUpdateStatus = "PENDING_UPDATE" | (string & {});
 export interface LocationAttributes {
-  LocationState?: LocationState;
-  StoppedActions?: FleetAction[];
-  UpdateStatus?: LocationUpdateStatus;
+  LocationState?: LocationState | undefined;
+  StoppedActions?: FleetAction[] | undefined;
+  UpdateStatus?: LocationUpdateStatus | undefined;
 }
 export type LocationAttributesList = LocationAttributes[];
 export interface DescribeFleetLocationAttributesOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  LocationAttributes?: LocationAttributes[];
-  NextToken?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  LocationAttributes?: LocationAttributes[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetLocationCapacityInput {
-  FleetId?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
 }
 export interface DescribeFleetLocationCapacityOutput {
-  FleetCapacity?: FleetCapacity;
+  FleetCapacity?: FleetCapacity | undefined;
 }
 export interface DescribeFleetLocationUtilizationInput {
-  FleetId?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
 }
 export interface FleetUtilization {
-  FleetId?: string;
-  FleetArn?: string;
-  ActiveServerProcessCount?: number;
-  ActiveGameSessionCount?: number;
-  CurrentPlayerSessionCount?: number;
-  MaximumPlayerSessionCount?: number;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ActiveServerProcessCount?: number | undefined;
+  ActiveGameSessionCount?: number | undefined;
+  CurrentPlayerSessionCount?: number | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Location?: string | undefined;
 }
 export interface DescribeFleetLocationUtilizationOutput {
-  FleetUtilization?: FleetUtilization;
+  FleetUtilization?: FleetUtilization | undefined;
 }
 export interface DescribeFleetPortSettingsInput {
-  FleetId?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
 }
 export interface DescribeFleetPortSettingsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  InboundPermissions?: (IpPermission & {
-    FromPort: PortNumber;
-    ToPort: PortNumber;
-    IpRange: IpRange;
-    Protocol: IpProtocol;
-  })[];
-  UpdateStatus?: LocationUpdateStatus;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  InboundPermissions?:
+    | (IpPermission & {
+        FromPort: PortNumber;
+        ToPort: PortNumber;
+        IpRange: IpRange;
+        Protocol: IpProtocol;
+      })[]
+    | undefined;
+  UpdateStatus?: LocationUpdateStatus | undefined;
+  Location?: string | undefined;
 }
 export interface DescribeFleetUtilizationInput {
-  FleetIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FleetUtilizationList = FleetUtilization[];
 export interface DescribeFleetUtilizationOutput {
-  FleetUtilization?: FleetUtilization[];
-  NextToken?: string;
+  FleetUtilization?: FleetUtilization[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
 }
 export interface DescribeGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
 export interface DescribeGameServerGroupInput {
-  GameServerGroupName?: string;
+  GameServerGroupName?: string | undefined;
 }
 export interface DescribeGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
 export type GameServerInstanceIds = string[];
 export interface DescribeGameServerInstancesInput {
-  GameServerGroupName?: string;
-  InstanceIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  GameServerGroupName?: string | undefined;
+  InstanceIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type GameServerInstanceStatus = "ACTIVE" | "DRAINING" | "SPOT_TERMINATING" | (string & {});
 export interface GameServerInstance {
-  GameServerGroupName?: string;
-  GameServerGroupArn?: string;
-  InstanceId?: string;
-  InstanceStatus?: GameServerInstanceStatus;
+  GameServerGroupName?: string | undefined;
+  GameServerGroupArn?: string | undefined;
+  InstanceId?: string | undefined;
+  InstanceStatus?: GameServerInstanceStatus | undefined;
 }
 export type GameServerInstances = GameServerInstance[];
 export interface DescribeGameServerInstancesOutput {
-  GameServerInstances?: GameServerInstance[];
-  NextToken?: string;
+  GameServerInstances?: GameServerInstance[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeGameSessionDetailsInput {
-  FleetId?: string;
-  GameSessionId?: string;
-  AliasId?: string;
-  Location?: string;
-  StatusFilter?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  GameSessionId?: string | undefined;
+  AliasId?: string | undefined;
+  Location?: string | undefined;
+  StatusFilter?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GameSessionDetail {
-  GameSession?: GameSession;
-  ProtectionPolicy?: ProtectionPolicy;
+  GameSession?: GameSession | undefined;
+  ProtectionPolicy?: ProtectionPolicy | undefined;
 }
 export type GameSessionDetailList = GameSessionDetail[];
 export interface DescribeGameSessionDetailsOutput {
-  GameSessionDetails?: (GameSessionDetail & {
-    GameSession: GameSession & {
-      GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-    };
-  })[];
-  NextToken?: string;
+  GameSessionDetails?:
+    | (GameSessionDetail & {
+        GameSession: GameSession & {
+          GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeGameSessionPlacementInput {
-  PlacementId?: string;
+  PlacementId?: string | undefined;
 }
 export type GameSessionPlacementState =
   | "PENDING"
@@ -2312,107 +2344,111 @@ export type GameSessionPlacementState =
   | "FAILED"
   | (string & {});
 export interface PlayerLatency {
-  PlayerId?: string | redacted.Redacted<string>;
-  RegionIdentifier?: string;
-  LatencyInMilliseconds?: number;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  RegionIdentifier?: string | undefined;
+  LatencyInMilliseconds?: number | undefined;
 }
 export type PlayerLatencyList = PlayerLatency[];
 export interface PlacedPlayerSession {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerSessionId?: string;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerSessionId?: string | undefined;
 }
 export type PlacedPlayerSessionList = PlacedPlayerSession[];
 export type PlacementFallbackStrategy = "DEFAULT_AFTER_SINGLE_PASS" | "NONE" | (string & {});
 export type LocationOrderOverrideList = string[];
 export interface PriorityConfigurationOverride {
-  PlacementFallbackStrategy?: PlacementFallbackStrategy;
-  LocationOrder?: string[];
+  PlacementFallbackStrategy?: PlacementFallbackStrategy | undefined;
+  LocationOrder?: string[] | undefined;
 }
 export interface GameSessionPlacement {
-  PlacementId?: string;
-  GameSessionQueueName?: string;
-  Status?: GameSessionPlacementState;
-  GameProperties?: GameProperty[];
-  MaximumPlayerSessionCount?: number;
-  GameSessionName?: string;
-  GameSessionId?: string;
-  GameSessionArn?: string;
-  GameSessionRegion?: string;
-  PlayerLatencies?: PlayerLatency[];
-  StartTime?: Date;
-  EndTime?: Date;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  PlacedPlayerSessions?: PlacedPlayerSession[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  MatchmakerData?: string | redacted.Redacted<string>;
-  PriorityConfigurationOverride?: PriorityConfigurationOverride;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  PlacementId?: string | undefined;
+  GameSessionQueueName?: string | undefined;
+  Status?: GameSessionPlacementState | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  GameSessionName?: string | undefined;
+  GameSessionId?: string | undefined;
+  GameSessionArn?: string | undefined;
+  GameSessionRegion?: string | undefined;
+  PlayerLatencies?: PlayerLatency[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  PlacedPlayerSessions?: PlacedPlayerSession[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  MatchmakerData?: string | redacted.Redacted<string> | undefined;
+  PriorityConfigurationOverride?: PriorityConfigurationOverride | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
 export interface DescribeGameSessionPlacementOutput {
-  GameSessionPlacement?: GameSessionPlacement & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-    PriorityConfigurationOverride: PriorityConfigurationOverride & {
-      LocationOrder: LocationOrderOverrideList;
-    };
-  };
+  GameSessionPlacement?:
+    | (GameSessionPlacement & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        PriorityConfigurationOverride: PriorityConfigurationOverride & {
+          LocationOrder: LocationOrderOverrideList;
+        };
+      })
+    | undefined;
 }
 export type GameSessionQueueNameOrArnList = string[];
 export interface DescribeGameSessionQueuesInput {
-  Names?: string[];
-  Limit?: number;
-  NextToken?: string;
+  Names?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type GameSessionQueueList = GameSessionQueue[];
 export interface DescribeGameSessionQueuesOutput {
-  GameSessionQueues?: GameSessionQueue[];
-  NextToken?: string;
+  GameSessionQueues?: GameSessionQueue[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeGameSessionsInput {
-  FleetId?: string;
-  GameSessionId?: string;
-  AliasId?: string;
-  Location?: string;
-  StatusFilter?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  GameSessionId?: string | undefined;
+  AliasId?: string | undefined;
+  Location?: string | undefined;
+  StatusFilter?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type GameSessionList = GameSession[];
 export interface DescribeGameSessionsOutput {
-  GameSessions?: (GameSession & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  })[];
-  NextToken?: string;
+  GameSessions?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeInstancesInput {
-  FleetId?: string;
-  InstanceId?: string;
-  Limit?: number;
-  NextToken?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  InstanceId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  Location?: string | undefined;
 }
 export type InstanceStatus = "PENDING" | "ACTIVE" | "TERMINATING" | (string & {});
 export interface Instance {
-  FleetId?: string;
-  FleetArn?: string;
-  InstanceId?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  OperatingSystem?: OperatingSystem;
-  Type?: EC2InstanceType;
-  Status?: InstanceStatus;
-  CreationTime?: Date;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  InstanceId?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Type?: EC2InstanceType | undefined;
+  Status?: InstanceStatus | undefined;
+  CreationTime?: Date | undefined;
+  Location?: string | undefined;
 }
 export type InstanceList = Instance[];
 export interface DescribeInstancesOutput {
-  Instances?: Instance[];
-  NextToken?: string;
+  Instances?: Instance[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MatchmakingIdList = string[];
 export interface DescribeMatchmakingInput {
-  TicketIds?: string[];
+  TicketIds?: string[] | undefined;
 }
 export type MatchmakingConfigurationStatus =
   | "CANCELLED"
@@ -2430,98 +2466,102 @@ export type DoubleObject = number;
 export type PlayerAttributeStringList = string[];
 export type PlayerAttributeStringDoubleMap = { [key: string]: number | undefined };
 export interface AttributeValue {
-  S?: string;
-  N?: number;
-  SL?: string[];
-  SDM?: { [key: string]: number | undefined };
+  S?: string | undefined;
+  N?: number | undefined;
+  SL?: string[] | undefined;
+  SDM?: { [key: string]: number | undefined } | undefined;
 }
 export type PlayerAttributeMap = { [key: string]: AttributeValue | undefined };
 export type LatencyMap = { [key: string]: number | undefined };
 export interface Player {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerAttributes?: { [key: string]: AttributeValue | undefined };
-  Team?: string;
-  LatencyInMs?: { [key: string]: number | undefined };
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  Team?: string | undefined;
+  LatencyInMs?: { [key: string]: number | undefined } | undefined;
 }
 export type PlayerList = Player[];
 export interface MatchedPlayerSession {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerSessionId?: string;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerSessionId?: string | undefined;
 }
 export type MatchedPlayerSessionList = MatchedPlayerSession[];
 export interface GameSessionConnectionInfo {
-  GameSessionArn?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  MatchedPlayerSessions?: MatchedPlayerSession[];
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  GameSessionArn?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  MatchedPlayerSessions?: MatchedPlayerSession[] | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
 export interface MatchmakingTicket {
-  TicketId?: string;
-  ConfigurationName?: string;
-  ConfigurationArn?: string;
-  Status?: MatchmakingConfigurationStatus;
-  StatusReason?: string;
-  StatusMessage?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Players?: Player[];
-  GameSessionConnectionInfo?: GameSessionConnectionInfo;
-  EstimatedWaitTime?: number;
+  TicketId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  ConfigurationArn?: string | undefined;
+  Status?: MatchmakingConfigurationStatus | undefined;
+  StatusReason?: string | undefined;
+  StatusMessage?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Players?: Player[] | undefined;
+  GameSessionConnectionInfo?: GameSessionConnectionInfo | undefined;
+  EstimatedWaitTime?: number | undefined;
 }
 export type MatchmakingTicketList = MatchmakingTicket[];
 export interface DescribeMatchmakingOutput {
-  TicketList?: MatchmakingTicket[];
+  TicketList?: MatchmakingTicket[] | undefined;
 }
 export type MatchmakingConfigurationNameList = string[];
 export interface DescribeMatchmakingConfigurationsInput {
-  Names?: string[];
-  RuleSetName?: string;
-  Limit?: number;
-  NextToken?: string;
+  Names?: string[] | undefined;
+  RuleSetName?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type MatchmakingConfigurationList = MatchmakingConfiguration[];
 export interface DescribeMatchmakingConfigurationsOutput {
-  Configurations?: (MatchmakingConfiguration & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  })[];
-  NextToken?: string;
+  Configurations?:
+    | (MatchmakingConfiguration & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type MatchmakingRuleSetNameList = string[];
 export type RuleSetLimit = number;
 export interface DescribeMatchmakingRuleSetsInput {
-  Names?: string[];
-  Limit?: number;
-  NextToken?: string;
+  Names?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type MatchmakingRuleSetList = MatchmakingRuleSet[];
 export interface DescribeMatchmakingRuleSetsOutput {
   RuleSets: (MatchmakingRuleSet & { RuleSetBody: RuleSetBody })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribePlayerSessionsInput {
-  GameSessionId?: string;
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerSessionId?: string;
-  PlayerSessionStatusFilter?: string;
-  Limit?: number;
-  NextToken?: string;
+  GameSessionId?: string | undefined;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerSessionId?: string | undefined;
+  PlayerSessionStatusFilter?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribePlayerSessionsOutput {
-  PlayerSessions?: PlayerSession[];
-  NextToken?: string;
+  PlayerSessions?: PlayerSession[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeRuntimeConfigurationInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
 export interface DescribeRuntimeConfigurationOutput {
-  RuntimeConfiguration?: RuntimeConfiguration & {
-    ServerProcesses: (ServerProcess & {
-      LaunchPath: LaunchPathStringModel;
-      ConcurrentExecutions: PositiveInteger;
-    })[];
-  };
+  RuntimeConfiguration?:
+    | (RuntimeConfiguration & {
+        ServerProcesses: (ServerProcess & {
+          LaunchPath: LaunchPathStringModel;
+          ConcurrentExecutions: PositiveInteger;
+        })[];
+      })
+    | undefined;
 }
 export type ScalingStatusType =
   | "ACTIVE"
@@ -2533,11 +2573,11 @@ export type ScalingStatusType =
   | "ERROR"
   | (string & {});
 export interface DescribeScalingPoliciesInput {
-  FleetId?: string;
-  StatusFilter?: ScalingStatusType;
-  Limit?: number;
-  NextToken?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  StatusFilter?: ScalingStatusType | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  Location?: string | undefined;
 }
 export type ScalingAdjustmentType =
   | "ChangeInCapacity"
@@ -2566,779 +2606,817 @@ export type MetricName =
   | (string & {});
 export type PolicyType = "RuleBased" | "TargetBased" | (string & {});
 export interface TargetConfiguration {
-  TargetValue?: number;
+  TargetValue?: number | undefined;
 }
 export interface ScalingPolicy {
-  FleetId?: string;
-  FleetArn?: string;
-  Name?: string;
-  Status?: ScalingStatusType;
-  ScalingAdjustment?: number;
-  ScalingAdjustmentType?: ScalingAdjustmentType;
-  ComparisonOperator?: ComparisonOperatorType;
-  Threshold?: number;
-  EvaluationPeriods?: number;
-  MetricName?: MetricName;
-  PolicyType?: PolicyType;
-  TargetConfiguration?: TargetConfiguration;
-  UpdateStatus?: LocationUpdateStatus;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: ScalingStatusType | undefined;
+  ScalingAdjustment?: number | undefined;
+  ScalingAdjustmentType?: ScalingAdjustmentType | undefined;
+  ComparisonOperator?: ComparisonOperatorType | undefined;
+  Threshold?: number | undefined;
+  EvaluationPeriods?: number | undefined;
+  MetricName?: MetricName | undefined;
+  PolicyType?: PolicyType | undefined;
+  TargetConfiguration?: TargetConfiguration | undefined;
+  UpdateStatus?: LocationUpdateStatus | undefined;
+  Location?: string | undefined;
 }
 export type ScalingPolicyList = ScalingPolicy[];
 export interface DescribeScalingPoliciesOutput {
-  ScalingPolicies?: (ScalingPolicy & {
-    TargetConfiguration: TargetConfiguration & { TargetValue: number };
-  })[];
-  NextToken?: string;
+  ScalingPolicies?:
+    | (ScalingPolicy & { TargetConfiguration: TargetConfiguration & { TargetValue: number } })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeScriptInput {
-  ScriptId?: string;
+  ScriptId?: string | undefined;
 }
 export interface DescribeScriptOutput {
-  Script?: Script;
+  Script?: Script | undefined;
 }
 export interface DescribeVpcPeeringAuthorizationsInput {}
 export type VpcPeeringAuthorizationList = VpcPeeringAuthorization[];
 export interface DescribeVpcPeeringAuthorizationsOutput {
-  VpcPeeringAuthorizations?: VpcPeeringAuthorization[];
+  VpcPeeringAuthorizations?: VpcPeeringAuthorization[] | undefined;
 }
 export interface DescribeVpcPeeringConnectionsInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
 export interface VpcPeeringConnectionStatus {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface VpcPeeringConnection {
-  FleetId?: string;
-  FleetArn?: string;
-  IpV4CidrBlock?: string;
-  VpcPeeringConnectionId?: string;
-  Status?: VpcPeeringConnectionStatus;
-  PeerVpcId?: string;
-  GameLiftVpcId?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  IpV4CidrBlock?: string | undefined;
+  VpcPeeringConnectionId?: string | undefined;
+  Status?: VpcPeeringConnectionStatus | undefined;
+  PeerVpcId?: string | undefined;
+  GameLiftVpcId?: string | undefined;
 }
 export type VpcPeeringConnectionList = VpcPeeringConnection[];
 export interface DescribeVpcPeeringConnectionsOutput {
-  VpcPeeringConnections?: VpcPeeringConnection[];
+  VpcPeeringConnections?: VpcPeeringConnection[] | undefined;
 }
 export interface GetComputeAccessInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
 export type SessionTarget = string;
 export interface ContainerIdentifier {
-  ContainerName?: string;
-  ContainerRuntimeId?: string;
+  ContainerName?: string | undefined;
+  ContainerRuntimeId?: string | undefined;
 }
 export type ContainerIdentifierList = ContainerIdentifier[];
 export interface GetComputeAccessOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  ComputeName?: string;
-  ComputeArn?: string;
-  Credentials?: AwsCredentials;
-  Target?: string;
-  ContainerIdentifiers?: ContainerIdentifier[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ComputeName?: string | undefined;
+  ComputeArn?: string | undefined;
+  Credentials?: AwsCredentials | undefined;
+  Target?: string | undefined;
+  ContainerIdentifiers?: ContainerIdentifier[] | undefined;
 }
 export interface GetComputeAuthTokenInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
 export type ComputeAuthToken = string;
 export interface GetComputeAuthTokenOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  ComputeName?: string;
-  ComputeArn?: string;
-  AuthToken?: string;
-  ExpirationTimestamp?: Date;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ComputeName?: string | undefined;
+  ComputeArn?: string | undefined;
+  AuthToken?: string | undefined;
+  ExpirationTimestamp?: Date | undefined;
 }
 export interface GetGameSessionLogUrlInput {
-  GameSessionId?: string;
+  GameSessionId?: string | undefined;
 }
 export interface GetGameSessionLogUrlOutput {
-  PreSignedUrl?: string;
+  PreSignedUrl?: string | undefined;
 }
 export interface GetInstanceAccessInput {
-  FleetId?: string;
-  InstanceId?: string;
+  FleetId?: string | undefined;
+  InstanceId?: string | undefined;
 }
 export interface InstanceCredentials {
-  UserName?: string;
-  Secret?: string;
+  UserName?: string | undefined;
+  Secret?: string | undefined;
 }
 export interface InstanceAccess {
-  FleetId?: string;
-  InstanceId?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  OperatingSystem?: OperatingSystem;
-  Credentials?: InstanceCredentials;
+  FleetId?: string | undefined;
+  InstanceId?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Credentials?: InstanceCredentials | undefined;
 }
 export interface GetInstanceAccessOutput {
-  InstanceAccess?: InstanceAccess;
+  InstanceAccess?: InstanceAccess | undefined;
 }
 export interface GetPlayerConnectionDetailsInput {
-  GameSessionId?: string;
-  PlayerIds?: (string | redacted.Redacted<string>)[];
+  GameSessionId?: string | undefined;
+  PlayerIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface PlayerConnectionEndpoint {
-  IpAddress?: string | redacted.Redacted<string>;
-  Port?: number;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
 }
 export type PlayerConnectionEndpointList = PlayerConnectionEndpoint[];
 export type MaxString = string;
 export interface PlayerConnectionDetail {
-  PlayerId?: string | redacted.Redacted<string>;
-  Endpoints?: PlayerConnectionEndpoint[];
-  PlayerGatewayToken?: string;
-  Expiration?: Date;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  Endpoints?: PlayerConnectionEndpoint[] | undefined;
+  PlayerGatewayToken?: string | undefined;
+  Expiration?: Date | undefined;
 }
 export type PlayerConnectionDetailList = PlayerConnectionDetail[];
 export interface GetPlayerConnectionDetailsOutput {
-  GameSessionId?: string;
-  PlayerConnectionDetails?: PlayerConnectionDetail[];
+  GameSessionId?: string | undefined;
+  PlayerConnectionDetails?: PlayerConnectionDetail[] | undefined;
 }
 export interface ListAliasesInput {
-  RoutingStrategyType?: RoutingStrategyType;
-  Name?: string;
-  Limit?: number;
-  NextToken?: string;
+  RoutingStrategyType?: RoutingStrategyType | undefined;
+  Name?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AliasList = Alias[];
 export interface ListAliasesOutput {
-  Aliases?: Alias[];
-  NextToken?: string;
+  Aliases?: Alias[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListBuildsInput {
-  Status?: BuildStatus;
-  Limit?: number;
-  NextToken?: string;
+  Status?: BuildStatus | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type BuildList = Build[];
 export interface ListBuildsOutput {
-  Builds?: Build[];
-  NextToken?: string;
+  Builds?: Build[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListComputeInputStatus = "ACTIVE" | "IMPAIRED" | (string & {});
 export interface ListComputeInput {
-  FleetId?: string;
-  Location?: string;
-  ContainerGroupDefinitionName?: string;
-  ComputeStatus?: ListComputeInputStatus;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
+  ContainerGroupDefinitionName?: string | undefined;
+  ComputeStatus?: ListComputeInputStatus | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ComputeList = Compute[];
 export interface ListComputeOutput {
-  ComputeList?: Compute[];
-  NextToken?: string;
+  ComputeList?: Compute[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContainerFleetsInput {
-  ContainerGroupDefinitionName?: string;
-  Limit?: number;
-  NextToken?: string;
+  ContainerGroupDefinitionName?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ContainerFleetList = ContainerFleet[];
 export interface ListContainerFleetsOutput {
-  ContainerFleets?: (ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & { FromPort: PortNumber; ToPort: PortNumber };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  })[];
-  NextToken?: string;
+  ContainerFleets?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type ListContainerGroupDefinitionsLimit = number;
 export interface ListContainerGroupDefinitionsInput {
-  ContainerGroupType?: ContainerGroupType;
-  Limit?: number;
-  NextToken?: string;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ContainerGroupDefinitionList = ContainerGroupDefinition[];
 export interface ListContainerGroupDefinitionsOutput {
-  ContainerGroupDefinitions?: (ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinitions?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type ListContainerGroupDefinitionVersionsLimit = number;
 export interface ListContainerGroupDefinitionVersionsInput {
-  Name?: string;
-  Limit?: number;
-  NextToken?: string;
+  Name?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContainerGroupDefinitionVersionsOutput {
-  ContainerGroupDefinitions?: (ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinitions?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFleetDeploymentsInput {
-  FleetId?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FleetDeployments = FleetDeployment[];
 export interface ListFleetDeploymentsOutput {
-  FleetDeployments?: FleetDeployment[];
-  NextToken?: string;
+  FleetDeployments?: FleetDeployment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFleetsInput {
-  BuildId?: string;
-  ScriptId?: string;
-  Limit?: number;
-  NextToken?: string;
+  BuildId?: string | undefined;
+  ScriptId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FleetIdList = string[];
 export interface ListFleetsOutput {
-  FleetIds?: string[];
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGameServerGroupsInput {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type GameServerGroups = GameServerGroup[];
 export interface ListGameServerGroupsOutput {
-  GameServerGroups?: (GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
-  })[];
-  NextToken?: string;
+  GameServerGroups?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListGameServersInput {
-  GameServerGroupName?: string;
-  SortOrder?: SortOrder;
-  Limit?: number;
-  NextToken?: string;
+  GameServerGroupName?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type GameServers = GameServer[];
 export interface ListGameServersOutput {
-  GameServers?: GameServer[];
-  NextToken?: string;
+  GameServers?: GameServer[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LocationFilter = "AWS" | "CUSTOM" | (string & {});
 export type LocationFilterList = LocationFilter[];
 export type ListLocationsLimit = number;
 export interface ListLocationsInput {
-  Filters?: LocationFilter[];
-  Limit?: number;
-  NextToken?: string;
+  Filters?: LocationFilter[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type LocationModelList = LocationModel[];
 export interface ListLocationsOutput {
-  Locations?: LocationModel[];
-  NextToken?: string;
+  Locations?: LocationModel[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListScriptsInput {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ScriptList = Script[];
 export interface ListScriptsOutput {
-  Scripts?: Script[];
-  NextToken?: string;
+  Scripts?: Script[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: (Tag & { Key: TagKey; Value: TagValue })[];
+  Tags?: (Tag & { Key: TagKey; Value: TagValue })[] | undefined;
 }
 export interface PutScalingPolicyInput {
-  Name?: string;
-  FleetId?: string;
-  ScalingAdjustment?: number;
-  ScalingAdjustmentType?: ScalingAdjustmentType;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperatorType;
-  EvaluationPeriods?: number;
-  MetricName?: MetricName;
-  PolicyType?: PolicyType;
-  TargetConfiguration?: TargetConfiguration;
+  Name?: string | undefined;
+  FleetId?: string | undefined;
+  ScalingAdjustment?: number | undefined;
+  ScalingAdjustmentType?: ScalingAdjustmentType | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperatorType | undefined;
+  EvaluationPeriods?: number | undefined;
+  MetricName?: MetricName | undefined;
+  PolicyType?: PolicyType | undefined;
+  TargetConfiguration?: TargetConfiguration | undefined;
 }
 export interface PutScalingPolicyOutput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type DnsNameInput = string;
 export interface RegisterComputeInput {
-  FleetId?: string;
-  ComputeName?: string;
-  CertificatePath?: string;
-  DnsName?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  Location?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
+  CertificatePath?: string | undefined;
+  DnsName?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  Location?: string | undefined;
 }
 export interface RegisterComputeOutput {
-  Compute?: Compute;
+  Compute?: Compute | undefined;
 }
 export interface RegisterGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
-  InstanceId?: string;
-  ConnectionInfo?: string;
-  GameServerData?: string | redacted.Redacted<string>;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
+  InstanceId?: string | undefined;
+  ConnectionInfo?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
 }
 export interface RegisterGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
 export interface RequestUploadCredentialsInput {
-  BuildId?: string;
+  BuildId?: string | undefined;
 }
 export interface RequestUploadCredentialsOutput {
-  UploadCredentials?: AwsCredentials;
-  StorageLocation?: S3Location;
+  UploadCredentials?: AwsCredentials | undefined;
+  StorageLocation?: S3Location | undefined;
 }
 export interface ResolveAliasInput {
-  AliasId?: string;
+  AliasId?: string | undefined;
 }
 export interface ResolveAliasOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
 export interface ResumeGameServerGroupInput {
-  GameServerGroupName?: string;
-  ResumeActions?: GameServerGroupAction[];
+  GameServerGroupName?: string | undefined;
+  ResumeActions?: GameServerGroupAction[] | undefined;
 }
 export interface ResumeGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
 export interface SearchGameSessionsInput {
-  FleetId?: string;
-  AliasId?: string;
-  Location?: string;
-  FilterExpression?: string;
-  SortExpression?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  AliasId?: string | undefined;
+  Location?: string | undefined;
+  FilterExpression?: string | undefined;
+  SortExpression?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SearchGameSessionsOutput {
-  GameSessions?: (GameSession & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  })[];
-  NextToken?: string;
+  GameSessions?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartFleetActionsInput {
-  FleetId?: string;
-  Actions?: FleetAction[];
-  Location?: string;
+  FleetId?: string | undefined;
+  Actions?: FleetAction[] | undefined;
+  Location?: string | undefined;
 }
 export interface StartFleetActionsOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
 export interface DesiredPlayerSession {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerData?: string | redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerData?: string | redacted.Redacted<string> | undefined;
 }
 export type DesiredPlayerSessionList = DesiredPlayerSession[];
 export interface StartGameSessionPlacementInput {
-  PlacementId?: string;
-  GameSessionQueueName?: string;
-  GameProperties?: GameProperty[];
-  MaximumPlayerSessionCount?: number;
-  GameSessionName?: string;
-  PlayerLatencies?: PlayerLatency[];
-  DesiredPlayerSessions?: DesiredPlayerSession[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  PriorityConfigurationOverride?: PriorityConfigurationOverride;
+  PlacementId?: string | undefined;
+  GameSessionQueueName?: string | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  GameSessionName?: string | undefined;
+  PlayerLatencies?: PlayerLatency[] | undefined;
+  DesiredPlayerSessions?: DesiredPlayerSession[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  PriorityConfigurationOverride?: PriorityConfigurationOverride | undefined;
 }
 export interface StartGameSessionPlacementOutput {
-  GameSessionPlacement?: GameSessionPlacement & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-    PriorityConfigurationOverride: PriorityConfigurationOverride & {
-      LocationOrder: LocationOrderOverrideList;
-    };
-  };
+  GameSessionPlacement?:
+    | (GameSessionPlacement & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        PriorityConfigurationOverride: PriorityConfigurationOverride & {
+          LocationOrder: LocationOrderOverrideList;
+        };
+      })
+    | undefined;
 }
 export interface StartMatchBackfillInput {
-  TicketId?: string;
-  ConfigurationName?: string;
-  GameSessionArn?: string;
-  Players?: Player[];
+  TicketId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  GameSessionArn?: string | undefined;
+  Players?: Player[] | undefined;
 }
 export interface StartMatchBackfillOutput {
-  MatchmakingTicket?: MatchmakingTicket;
+  MatchmakingTicket?: MatchmakingTicket | undefined;
 }
 export interface StartMatchmakingInput {
-  TicketId?: string;
-  ConfigurationName?: string;
-  Players?: Player[];
+  TicketId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  Players?: Player[] | undefined;
 }
 export interface StartMatchmakingOutput {
-  MatchmakingTicket?: MatchmakingTicket;
+  MatchmakingTicket?: MatchmakingTicket | undefined;
 }
 export interface StopFleetActionsInput {
-  FleetId?: string;
-  Actions?: FleetAction[];
-  Location?: string;
+  FleetId?: string | undefined;
+  Actions?: FleetAction[] | undefined;
+  Location?: string | undefined;
 }
 export interface StopFleetActionsOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
 export interface StopGameSessionPlacementInput {
-  PlacementId?: string;
+  PlacementId?: string | undefined;
 }
 export interface StopGameSessionPlacementOutput {
-  GameSessionPlacement?: GameSessionPlacement & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-    PriorityConfigurationOverride: PriorityConfigurationOverride & {
-      LocationOrder: LocationOrderOverrideList;
-    };
-  };
+  GameSessionPlacement?:
+    | (GameSessionPlacement & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        PriorityConfigurationOverride: PriorityConfigurationOverride & {
+          LocationOrder: LocationOrderOverrideList;
+        };
+      })
+    | undefined;
 }
 export interface StopMatchmakingInput {
-  TicketId?: string;
+  TicketId?: string | undefined;
 }
 export interface StopMatchmakingOutput {}
 export interface SuspendGameServerGroupInput {
-  GameServerGroupName?: string;
-  SuspendActions?: GameServerGroupAction[];
+  GameServerGroupName?: string | undefined;
+  SuspendActions?: GameServerGroupAction[] | undefined;
 }
 export interface SuspendGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
 export interface TagResourceRequest {
-  ResourceARN?: string;
-  Tags?: Tag[];
+  ResourceARN?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceResponse {}
 export type TerminationMode = "TRIGGER_ON_PROCESS_TERMINATE" | "FORCE_TERMINATE" | (string & {});
 export interface TerminateGameSessionInput {
-  GameSessionId?: string;
-  TerminationMode?: TerminationMode;
+  GameSessionId?: string | undefined;
+  TerminationMode?: TerminationMode | undefined;
 }
 export interface TerminateGameSessionOutput {
-  GameSession?: GameSession & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  };
+  GameSession?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
-  ResourceARN?: string;
-  TagKeys?: string[];
+  ResourceARN?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateAliasInput {
-  AliasId?: string;
-  Name?: string;
-  Description?: string;
-  RoutingStrategy?: RoutingStrategy;
+  AliasId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  RoutingStrategy?: RoutingStrategy | undefined;
 }
 export interface UpdateAliasOutput {
-  Alias?: Alias;
+  Alias?: Alias | undefined;
 }
 export interface UpdateBuildInput {
-  BuildId?: string;
-  Name?: string;
-  Version?: string;
+  BuildId?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
 export interface UpdateBuildOutput {
-  Build?: Build;
+  Build?: Build | undefined;
 }
 export type ContainerFleetRemoveAttribute =
   | "PER_INSTANCE_CONTAINER_GROUP_DEFINITION"
   | (string & {});
 export type ContainerFleetRemoveAttributeList = ContainerFleetRemoveAttribute[];
 export interface UpdateContainerFleetInput {
-  FleetId?: string;
-  GameServerContainerGroupDefinitionName?: string;
-  PerInstanceContainerGroupDefinitionName?: string;
-  GameServerContainerGroupsPerInstance?: number;
-  InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissionAuthorizations?: IpPermission[];
-  InstanceInboundPermissionRevocations?: IpPermission[];
-  DeploymentConfiguration?: DeploymentConfiguration;
-  Description?: string;
-  MetricGroups?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
-  LogConfiguration?: LogConfiguration;
-  RemoveAttributes?: ContainerFleetRemoveAttribute[];
+  FleetId?: string | undefined;
+  GameServerContainerGroupDefinitionName?: string | undefined;
+  PerInstanceContainerGroupDefinitionName?: string | undefined;
+  GameServerContainerGroupsPerInstance?: number | undefined;
+  InstanceConnectionPortRange?: ConnectionPortRange | undefined;
+  InstanceInboundPermissionAuthorizations?: IpPermission[] | undefined;
+  InstanceInboundPermissionRevocations?: IpPermission[] | undefined;
+  DeploymentConfiguration?: DeploymentConfiguration | undefined;
+  Description?: string | undefined;
+  MetricGroups?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy | undefined;
+  LogConfiguration?: LogConfiguration | undefined;
+  RemoveAttributes?: ContainerFleetRemoveAttribute[] | undefined;
 }
 export interface UpdateContainerFleetOutput {
-  ContainerFleet?: ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & { FromPort: PortNumber; ToPort: PortNumber };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  };
+  ContainerFleet?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })
+    | undefined;
 }
 export type ContainerGroupDefinitionRemoveAttribute = "TOTAL_VCPU_LIMIT" | (string & {});
 export type ContainerGroupDefinitionRemoveAttributeList = ContainerGroupDefinitionRemoveAttribute[];
 export interface UpdateContainerGroupDefinitionInput {
-  Name?: string;
-  GameServerContainerDefinition?: GameServerContainerDefinitionInput;
-  SupportContainerDefinitions?: SupportContainerDefinitionInput[];
-  TotalMemoryLimitMebibytes?: number;
-  TotalVcpuLimit?: number;
-  VersionDescription?: string;
-  SourceVersionNumber?: number;
-  OperatingSystem?: ContainerOperatingSystem;
-  RemoveAttributes?: ContainerGroupDefinitionRemoveAttribute[];
+  Name?: string | undefined;
+  GameServerContainerDefinition?: GameServerContainerDefinitionInput | undefined;
+  SupportContainerDefinitions?: SupportContainerDefinitionInput[] | undefined;
+  TotalMemoryLimitMebibytes?: number | undefined;
+  TotalVcpuLimit?: number | undefined;
+  VersionDescription?: string | undefined;
+  SourceVersionNumber?: number | undefined;
+  OperatingSystem?: ContainerOperatingSystem | undefined;
+  RemoveAttributes?: ContainerGroupDefinitionRemoveAttribute[] | undefined;
 }
 export interface UpdateContainerGroupDefinitionOutput {
-  ContainerGroupDefinition?: ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinition?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  };
+      })
+    | undefined;
 }
 export interface UpdateFleetAttributesInput {
-  FleetId?: string;
-  Name?: string;
-  Description?: string;
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: string[];
-  AnywhereConfiguration?: AnywhereConfiguration;
+  FleetId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy | undefined;
+  MetricGroups?: string[] | undefined;
+  AnywhereConfiguration?: AnywhereConfiguration | undefined;
 }
 export interface UpdateFleetAttributesOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
 export interface UpdateFleetCapacityInput {
-  FleetId?: string;
-  DesiredInstances?: number;
-  MinSize?: number;
-  MaxSize?: number;
-  Location?: string;
-  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
+  FleetId?: string | undefined;
+  DesiredInstances?: number | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  Location?: string | undefined;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration | undefined;
 }
 export interface UpdateFleetCapacityOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  Location?: string;
-  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  Location?: string | undefined;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration | undefined;
 }
 export interface UpdateFleetPortSettingsInput {
-  FleetId?: string;
-  InboundPermissionAuthorizations?: IpPermission[];
-  InboundPermissionRevocations?: IpPermission[];
+  FleetId?: string | undefined;
+  InboundPermissionAuthorizations?: IpPermission[] | undefined;
+  InboundPermissionRevocations?: IpPermission[] | undefined;
 }
 export interface UpdateFleetPortSettingsOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
 export type GameServerHealthCheck = "HEALTHY" | (string & {});
 export interface UpdateGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
-  GameServerData?: string | redacted.Redacted<string>;
-  UtilizationStatus?: GameServerUtilizationStatus;
-  HealthCheck?: GameServerHealthCheck;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
+  UtilizationStatus?: GameServerUtilizationStatus | undefined;
+  HealthCheck?: GameServerHealthCheck | undefined;
 }
 export interface UpdateGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
 export interface UpdateGameServerGroupInput {
-  GameServerGroupName?: string;
-  RoleArn?: string;
-  InstanceDefinitions?: InstanceDefinition[];
-  GameServerProtectionPolicy?: GameServerProtectionPolicy;
-  BalancingStrategy?: BalancingStrategy;
+  GameServerGroupName?: string | undefined;
+  RoleArn?: string | undefined;
+  InstanceDefinitions?: InstanceDefinition[] | undefined;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy | undefined;
+  BalancingStrategy?: BalancingStrategy | undefined;
 }
 export interface UpdateGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
 export interface UpdateGameSessionInput {
-  GameSessionId?: string;
-  MaximumPlayerSessionCount?: number;
-  Name?: string;
-  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy;
-  ProtectionPolicy?: ProtectionPolicy;
-  GameProperties?: GameProperty[];
+  GameSessionId?: string | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Name?: string | undefined;
+  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy | undefined;
+  ProtectionPolicy?: ProtectionPolicy | undefined;
+  GameProperties?: GameProperty[] | undefined;
 }
 export interface UpdateGameSessionOutput {
-  GameSession?: GameSession & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  };
+  GameSession?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
 export interface UpdateGameSessionQueueInput {
-  Name?: string;
-  TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
-  Destinations?: GameSessionQueueDestination[];
-  FilterConfiguration?: FilterConfiguration;
-  PriorityConfiguration?: PriorityConfiguration;
-  CustomEventData?: string | redacted.Redacted<string>;
-  NotificationTarget?: string;
+  Name?: string | undefined;
+  TimeoutInSeconds?: number | undefined;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[] | undefined;
+  Destinations?: GameSessionQueueDestination[] | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  PriorityConfiguration?: PriorityConfiguration | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  NotificationTarget?: string | undefined;
 }
 export interface UpdateGameSessionQueueOutput {
-  GameSessionQueue?: GameSessionQueue;
+  GameSessionQueue?: GameSessionQueue | undefined;
 }
 export interface UpdateMatchmakingConfigurationInput {
-  Name?: string;
-  Description?: string;
-  GameSessionQueueArns?: string[];
-  RequestTimeoutSeconds?: number;
-  AcceptanceTimeoutSeconds?: number;
-  AcceptanceRequired?: boolean;
-  RuleSetName?: string;
-  NotificationTarget?: string;
-  AdditionalPlayerCount?: number;
-  CustomEventData?: string | redacted.Redacted<string>;
-  GameProperties?: GameProperty[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  BackfillMode?: BackfillMode;
-  FlexMatchMode?: FlexMatchMode;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  GameSessionQueueArns?: string[] | undefined;
+  RequestTimeoutSeconds?: number | undefined;
+  AcceptanceTimeoutSeconds?: number | undefined;
+  AcceptanceRequired?: boolean | undefined;
+  RuleSetName?: string | undefined;
+  NotificationTarget?: string | undefined;
+  AdditionalPlayerCount?: number | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  BackfillMode?: BackfillMode | undefined;
+  FlexMatchMode?: FlexMatchMode | undefined;
 }
 export interface UpdateMatchmakingConfigurationOutput {
-  Configuration?: MatchmakingConfiguration & {
-    GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
-  };
+  Configuration?:
+    | (MatchmakingConfiguration & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
 export interface UpdateRuntimeConfigurationInput {
-  FleetId?: string;
-  RuntimeConfiguration?: RuntimeConfiguration;
+  FleetId?: string | undefined;
+  RuntimeConfiguration?: RuntimeConfiguration | undefined;
 }
 export interface UpdateRuntimeConfigurationOutput {
-  RuntimeConfiguration?: RuntimeConfiguration & {
-    ServerProcesses: (ServerProcess & {
-      LaunchPath: LaunchPathStringModel;
-      ConcurrentExecutions: PositiveInteger;
-    })[];
-  };
+  RuntimeConfiguration?:
+    | (RuntimeConfiguration & {
+        ServerProcesses: (ServerProcess & {
+          LaunchPath: LaunchPathStringModel;
+          ConcurrentExecutions: PositiveInteger;
+        })[];
+      })
+    | undefined;
 }
 export interface UpdateScriptInput {
-  ScriptId?: string;
-  Name?: string;
-  Version?: string;
-  StorageLocation?: S3Location;
-  ZipFile?: Uint8Array;
+  ScriptId?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  StorageLocation?: S3Location | undefined;
+  ZipFile?: Uint8Array | undefined;
 }
 export interface UpdateScriptOutput {
-  Script?: Script;
+  Script?: Script | undefined;
 }
 export interface ValidateMatchmakingRuleSetInput {
-  RuleSetBody?: string;
+  RuleSetBody?: string | undefined;
 }
 export interface ValidateMatchmakingRuleSetOutput {
-  Valid?: boolean;
+  Valid?: boolean | undefined;
 }
 export type AcceptMatchError =
   | InternalServiceException

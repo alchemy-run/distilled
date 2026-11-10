@@ -110,25 +110,25 @@ export type BenefitGrantSortProperty =
 export type BenefitGrantsListRequestSortingList = Array<BenefitGrantSortProperty | (string & {})>;
 export interface BenefitGrantsListRequest {
   /** Filter by organization ID. */
-  organization_id?: BenefitGrantsListRequestOrganizationId;
+  organization_id?: BenefitGrantsListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: BenefitGrantsListRequestCustomerId;
+  customer_id?: BenefitGrantsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: BenefitGrantsListRequestExternalCustomerId;
+  external_customer_id?: BenefitGrantsListRequestExternalCustomerId | undefined;
   /** Filter by benefit external ID. */
-  external_benefit_id?: BenefitGrantsListRequestExternalBenefitId;
+  external_benefit_id?: BenefitGrantsListRequestExternalBenefitId | undefined;
   /** Filter by member ID. */
-  member_id?: BenefitGrantsListRequestMemberId;
+  member_id?: BenefitGrantsListRequestMemberId | undefined;
   /** Filter by member external ID. */
-  external_member_id?: BenefitGrantsListRequestExternalMemberId;
+  external_member_id?: BenefitGrantsListRequestExternalMemberId | undefined;
   /** Filter by granted status. If `true`, only granted benefits will be returned. If `false`, only revoked benefits will be returned. */
-  is_granted?: boolean;
+  is_granted?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: BenefitGrantsListRequestSortingList;
+  sorting?: BenefitGrantsListRequestSortingList | undefined;
 }
 export interface BenefitGrantError {
   message: string;
@@ -388,11 +388,11 @@ export type AddressCountry =
   | "ZM"
   | "ZW";
 export interface Address {
-  line1?: string | null;
-  line2?: string | null;
-  postal_code?: string | null;
-  city?: string | null;
-  state?: string | null;
+  line1?: string | null | undefined;
+  line2?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  city?: string | null | undefined;
+  state?: string | null | undefined;
   country: AddressCountry;
 }
 export type CustomerIndividualTaxIdList = Array<unknown>;
@@ -406,7 +406,7 @@ export interface CustomerIndividual {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
   email: string;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
@@ -419,11 +419,11 @@ export interface CustomerIndividual {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerIndividualTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -441,9 +441,9 @@ export interface CustomerTeam {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer. Team customers can have multiple members. */
@@ -454,11 +454,11 @@ export interface CustomerTeam {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerTeamTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -752,13 +752,13 @@ export interface BenefitSlackSharedChannelProperties {
   /** Template for the channel name. Supports placeholders: {customer_name}, {customer_email_local}, and {metadata.<key>} for any value stored in customer user metadata. */
   channel_name_template: string;
   /** Create the channel as private (recommended). */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Optional message posted to the channel right after creation. */
-  welcome_message?: string | null;
+  welcome_message?: string | null | undefined;
   /** Archive the channel when the benefit is revoked. */
-  archive_on_revoke?: boolean;
+  archive_on_revoke?: boolean | undefined;
   /** Slack user IDs from the merchant workspace to invite to every channel created for this benefit. */
-  team_invitees?: BenefitSlackSharedChannelPropertiesTeamInviteesList;
+  team_invitees?: BenefitSlackSharedChannelPropertiesTeamInviteesList | undefined;
 }
 export interface BenefitSlackSharedChannel {
   /** The ID of the benefit. */
@@ -798,10 +798,10 @@ export type Benefit =
   | BenefitFeatureFlag
   | BenefitSlackSharedChannel;
 export interface BenefitGrantDiscordProperties {
-  account_id?: string | null;
-  guild_id?: string;
-  role_id?: string;
-  granted_account_id?: string;
+  account_id?: string | null | undefined;
+  guild_id?: string | undefined;
+  role_id?: string | undefined;
+  granted_account_id?: string | undefined;
 }
 export type BenefitGrantGitHubRepositoryPropertiesPermission =
   | "pull"
@@ -810,28 +810,28 @@ export type BenefitGrantGitHubRepositoryPropertiesPermission =
   | "maintain"
   | "admin";
 export interface BenefitGrantGitHubRepositoryProperties {
-  account_id?: string | null;
-  repository_owner?: string;
-  repository_name?: string;
-  permission?: BenefitGrantGitHubRepositoryPropertiesPermission;
-  granted_account_id?: string;
+  account_id?: string | null | undefined;
+  repository_owner?: string | undefined;
+  repository_name?: string | undefined;
+  permission?: BenefitGrantGitHubRepositoryPropertiesPermission | undefined;
+  granted_account_id?: string | undefined;
 }
 export type BenefitGrantDownloadablesPropertiesFilesList = Array<string>;
 export interface BenefitGrantDownloadablesProperties {
-  files?: BenefitGrantDownloadablesPropertiesFilesList;
+  files?: BenefitGrantDownloadablesPropertiesFilesList | undefined;
 }
 export interface BenefitGrantLicenseKeysProperties {
-  user_provided_key?: string;
-  license_key_id?: string;
-  display_key?: string;
+  user_provided_key?: string | undefined;
+  license_key_id?: string | undefined;
+  display_key?: string | undefined;
 }
 export interface BenefitGrantSlackSharedChannelProperties {
-  invited_email?: string;
-  channel_id?: string;
-  channel_name?: string;
-  invite_id?: string;
-  invite_url?: string;
-  connected_team_id?: string;
+  invited_email?: string | undefined;
+  channel_id?: string | undefined;
+  channel_name?: string | undefined;
+  invite_id?: string | undefined;
+  invite_url?: string | undefined;
+  connected_team_id?: string | undefined;
 }
 export type BenefitGrantProperties =
   | BenefitGrantDiscordProperties
@@ -848,11 +848,11 @@ export interface BenefitGrant {
   /** The ID of the grant. */
   id: string;
   /** The timestamp when the benefit was granted. If `None`, the benefit is not granted. */
-  granted_at?: string | null;
+  granted_at?: string | null | undefined;
   /** Whether the benefit is granted. */
   is_granted: boolean;
   /** The timestamp when the benefit was revoked. If `None`, the benefit is not revoked. */
-  revoked_at?: string | null;
+  revoked_at?: string | null | undefined;
   /** Whether the benefit is revoked. */
   is_revoked: boolean;
   /** The ID of the subscription that granted this benefit. */
@@ -862,13 +862,13 @@ export interface BenefitGrant {
   /** The ID of the customer concerned by this grant. */
   customer_id: string;
   /** The ID of the member concerned by this grant. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** The ID of the benefit concerned by this grant. */
   benefit_id: string;
   /** The error information if the benefit grant failed with an unrecoverable error. */
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: Customer;
-  member?: Member | null;
+  member?: Member | null | undefined;
   benefit: Benefit;
   properties: BenefitGrantProperties;
 }
@@ -888,21 +888,21 @@ export type BenefitCustomCreateMetadataMap = {
 };
 /** Properties for creating a benefit of type `custom`. */
 export interface BenefitCustomCreateProperties {
-  note?: string | null;
+  note?: string | null | undefined;
 }
 /** Schema to create a benefit of type `custom`. */
 export interface BenefitCustomCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitCustomCreateMetadataMap;
+  metadata?: BenefitCustomCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitCustomCreateProperties;
 }
 export type BenefitDiscordCreateMetadataValue = string | number | number | boolean;
@@ -914,16 +914,16 @@ export type BenefitDiscordCreateMetadataMap = {
 export type BenefitDiscordCreateProperties = BenefitDiscordProperties;
 export interface BenefitDiscordCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDiscordCreateMetadataMap;
+  metadata?: BenefitDiscordCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitDiscordProperties;
 }
 export type BenefitGitHubRepositoryCreateMetadataValue = string | number | number | boolean;
@@ -949,16 +949,16 @@ export interface BenefitGitHubRepositoryCreateProperties {
 }
 export interface BenefitGitHubRepositoryCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitGitHubRepositoryCreateMetadataMap;
+  metadata?: BenefitGitHubRepositoryCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitGitHubRepositoryCreateProperties;
 }
 export type BenefitDownloadablesCreateMetadataValue = string | number | number | boolean;
@@ -971,21 +971,21 @@ export type BenefitDownloadablesCreatePropertiesArchivedMap = {
 };
 export type BenefitDownloadablesCreatePropertiesFilesList = Array<string>;
 export interface BenefitDownloadablesCreateProperties {
-  archived?: BenefitDownloadablesCreatePropertiesArchivedMap;
+  archived?: BenefitDownloadablesCreatePropertiesArchivedMap | undefined;
   files: BenefitDownloadablesCreatePropertiesFilesList;
 }
 export interface BenefitDownloadablesCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDownloadablesCreateMetadataMap;
+  metadata?: BenefitDownloadablesCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitDownloadablesCreateProperties;
 }
 export type BenefitLicenseKeysCreateMetadataValue = string | number | number | boolean;
@@ -995,23 +995,23 @@ export type BenefitLicenseKeysCreateMetadataMap = {
 };
 export type BenefitLicenseKeyActivationCreateProperties = BenefitLicenseKeyActivationProperties;
 export interface BenefitLicenseKeysCreateProperties {
-  prefix?: string | null;
-  expires?: BenefitLicenseKeyExpirationProperties | null;
-  activations?: BenefitLicenseKeyActivationProperties | null;
-  limit_usage?: number | null;
+  prefix?: string | null | undefined;
+  expires?: BenefitLicenseKeyExpirationProperties | null | undefined;
+  activations?: BenefitLicenseKeyActivationProperties | null | undefined;
+  limit_usage?: number | null | undefined;
 }
 export interface BenefitLicenseKeysCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitLicenseKeysCreateMetadataMap;
+  metadata?: BenefitLicenseKeysCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitLicenseKeysCreateProperties;
 }
 export type BenefitMeterCreditCreateMetadataValue = string | number | number | boolean;
@@ -1024,16 +1024,16 @@ export type BenefitMeterCreditCreateProperties = BenefitMeterCreditProperties;
 /** Schema to create a benefit of type `meter_unit`. */
 export interface BenefitMeterCreditCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitMeterCreditCreateMetadataMap;
+  metadata?: BenefitMeterCreditCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitMeterCreditProperties;
 }
 export type BenefitFeatureFlagCreateMetadataValue = string | number | number | boolean;
@@ -1044,16 +1044,16 @@ export type BenefitFeatureFlagCreateMetadataMap = {
 /** Schema to create a benefit of type `feature_flag`. */
 export interface BenefitFeatureFlagCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitFeatureFlagCreateMetadataMap;
+  metadata?: BenefitFeatureFlagCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: unknown;
 }
 export type BenefitSlackSharedChannelCreateMetadataValue = string | number | number | boolean;
@@ -1066,23 +1066,23 @@ export interface BenefitSlackSharedChannelCreateProperties {
   /** Polar Slack integration to use for this benefit. */
   slack_integration_id: string;
   channel_name_template: string;
-  private?: boolean;
-  welcome_message?: string | null;
-  archive_on_revoke?: boolean;
-  team_invitees?: BenefitSlackSharedChannelCreatePropertiesTeamInviteesList;
+  private?: boolean | undefined;
+  welcome_message?: string | null | undefined;
+  archive_on_revoke?: boolean | undefined;
+  team_invitees?: BenefitSlackSharedChannelCreatePropertiesTeamInviteesList | undefined;
 }
 export interface BenefitSlackSharedChannelCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitSlackSharedChannelCreateMetadataMap;
+  metadata?: BenefitSlackSharedChannelCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitSlackSharedChannelCreateProperties;
 }
 export type BenefitCreate =
@@ -1105,9 +1105,9 @@ export interface BenefitsDeleteResponse {}
 export interface BenefitsFilesRequest {
   id: string;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface BenefitDownloadableFile {
   /** The ID of the object. */
@@ -1151,15 +1151,15 @@ export type BenefitsGrantsRequestMemberId = string | BenefitsGrantsRequestMember
 export interface BenefitsGrantsRequest {
   id: string;
   /** Filter by granted status. If `true`, only granted benefits will be returned. If `false`, only revoked benefits will be returned. */
-  is_granted?: boolean;
+  is_granted?: boolean | undefined;
   /** Filter by customer. */
-  customer_id?: BenefitsGrantsRequestCustomerId;
+  customer_id?: BenefitsGrantsRequestCustomerId | undefined;
   /** Filter by member. */
-  member_id?: BenefitsGrantsRequestMemberId;
+  member_id?: BenefitsGrantsRequestMemberId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type BenefitsListRequestOrganizationIdCase1List = Array<string>;
 /** Filter by organization ID. */
@@ -1208,25 +1208,25 @@ export type MetadataQueryValue =
 export type MetadataQueryMap = { [key: string]: MetadataQueryValue | undefined };
 export interface BenefitsListRequest {
   /** Filter by organization ID. */
-  organization_id?: BenefitsListRequestOrganizationId;
+  organization_id?: BenefitsListRequestOrganizationId | undefined;
   /** Filter by benefit type. */
-  type?: BenefitsListRequestType;
+  type?: BenefitsListRequestType | undefined;
   /** Filter by benefit IDs. */
-  id?: BenefitsListRequestId;
+  id?: BenefitsListRequestId | undefined;
   /** Filter by benefit external ID. */
-  external_id?: BenefitsListRequestExternalId;
+  external_id?: BenefitsListRequestExternalId | undefined;
   /** Exclude benefits with these IDs. */
-  exclude_id?: BenefitsListRequestExcludeId;
+  exclude_id?: BenefitsListRequestExcludeId | undefined;
   /** Filter by description. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: BenefitsListRequestSortingList;
+  sorting?: BenefitsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceBenefitItemsList = Array<Benefit>;
 export interface ListResourceBenefit {
@@ -1240,15 +1240,15 @@ export type BenefitCustomUpdateMetadataMap = {
 };
 export interface BenefitCustomUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitCustomUpdateMetadataMap;
+  metadata?: BenefitCustomUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: BenefitCustomProperties | null;
+  properties?: BenefitCustomProperties | null | undefined;
 }
 export type BenefitDiscordUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1257,13 +1257,13 @@ export type BenefitDiscordUpdateMetadataMap = {
 };
 export interface BenefitDiscordUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDiscordUpdateMetadataMap;
+  metadata?: BenefitDiscordUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitDiscordProperties | null;
+  properties?: BenefitDiscordProperties | null | undefined;
 }
 export type BenefitGitHubRepositoryUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1272,13 +1272,13 @@ export type BenefitGitHubRepositoryUpdateMetadataMap = {
 };
 export interface BenefitGitHubRepositoryUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitGitHubRepositoryUpdateMetadataMap;
+  metadata?: BenefitGitHubRepositoryUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitGitHubRepositoryCreateProperties | null;
+  properties?: BenefitGitHubRepositoryCreateProperties | null | undefined;
 }
 export type BenefitDownloadablesUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1287,13 +1287,13 @@ export type BenefitDownloadablesUpdateMetadataMap = {
 };
 export interface BenefitDownloadablesUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDownloadablesUpdateMetadataMap;
+  metadata?: BenefitDownloadablesUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitDownloadablesCreateProperties | null;
+  properties?: BenefitDownloadablesCreateProperties | null | undefined;
 }
 export type BenefitLicenseKeysUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1302,15 +1302,15 @@ export type BenefitLicenseKeysUpdateMetadataMap = {
 };
 export interface BenefitLicenseKeysUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitLicenseKeysUpdateMetadataMap;
+  metadata?: BenefitLicenseKeysUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: BenefitLicenseKeysCreateProperties | null;
+  properties?: BenefitLicenseKeysCreateProperties | null | undefined;
 }
 export type BenefitMeterCreditUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1319,15 +1319,15 @@ export type BenefitMeterCreditUpdateMetadataMap = {
 };
 export interface BenefitMeterCreditUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitMeterCreditUpdateMetadataMap;
+  metadata?: BenefitMeterCreditUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: BenefitMeterCreditProperties | null;
+  properties?: BenefitMeterCreditProperties | null | undefined;
 }
 export type BenefitFeatureFlagUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1336,15 +1336,15 @@ export type BenefitFeatureFlagUpdateMetadataMap = {
 };
 export interface BenefitFeatureFlagUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitFeatureFlagUpdateMetadataMap;
+  metadata?: BenefitFeatureFlagUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: unknown | null;
+  properties?: unknown | null | undefined;
 }
 export type BenefitSlackSharedChannelUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1353,13 +1353,13 @@ export type BenefitSlackSharedChannelUpdateMetadataMap = {
 };
 export interface BenefitSlackSharedChannelUpdate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitSlackSharedChannelUpdateMetadataMap;
+  metadata?: BenefitSlackSharedChannelUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitSlackSharedChannelCreateProperties | null;
+  properties?: BenefitSlackSharedChannelCreateProperties | null | undefined;
 }
 export type BenefitsUpdateRequestBody =
   | BenefitCustomUpdate
@@ -1385,29 +1385,29 @@ export type TrialInterval = "day" | "week" | "month" | "year";
 export type CheckoutLinksCreateRequestProductsList = Array<string>;
 export interface CheckoutLinksCreateRequest {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutLinksCreateRequestMetadataMap;
+  metadata?: CheckoutLinksCreateRequestMetadataMap | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Payment processor to use. Currently only Stripe is supported. */
   payment_processor: string;
   /** Optional label to distinguish links internally */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean;
+  allow_discount_codes?: boolean | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. */
-  require_billing_address?: boolean;
+  require_billing_address?: boolean | undefined;
   /** ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  units?: number | null;
+  units?: number | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** List of products that will be available to select at checkout. */
   products: CheckoutLinksCreateRequestProductsList;
 }
@@ -1467,7 +1467,7 @@ export interface ProductPriceCustom {
 export type TierType = "volume" | "graduated";
 /** A per-unit rate up to and including `bound`. Each tier starts where the previous one ended. The first starts at zero. `bound` is None on the last tier if it's unbounded. Rates are in cents and may be fractional. Rates carry no precision bound: this schema reads stored rows, and a bound tightened later would stop them loading. `TierInput` holds the rules new rates must meet. */
 export interface Tier {
-  bound?: number | null;
+  bound?: number | null | undefined;
   unit_amount: string;
 }
 export type TiersTiersList = Array<Tier>;
@@ -1944,15 +1944,15 @@ export type CheckoutLinkSortProperty =
 export type CheckoutLinksListRequestSortingList = Array<CheckoutLinkSortProperty | (string & {})>;
 export interface CheckoutLinksListRequest {
   /** Filter by organization ID. */
-  organization_id?: CheckoutLinksListRequestOrganizationId;
+  organization_id?: CheckoutLinksListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: CheckoutLinksListRequestProductId;
+  product_id?: CheckoutLinksListRequestProductId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CheckoutLinksListRequestSortingList;
+  sorting?: CheckoutLinksListRequestSortingList | undefined;
 }
 export type ListResourceCheckoutLinkItemsList = Array<CheckoutLink>;
 export interface ListResourceCheckoutLink {
@@ -1969,28 +1969,28 @@ export interface CheckoutLinksUpdateRequest {
   /** The checkout link ID. */
   id: string;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutLinksUpdateRequestMetadataMap;
+  metadata?: CheckoutLinksUpdateRequestMetadataMap | undefined;
   /** List of products that will be available to select at checkout. */
-  products?: CheckoutLinksUpdateRequestProductsList | null;
-  label?: string | null;
+  products?: CheckoutLinksUpdateRequestProductsList | null | undefined;
+  label?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean | null;
+  allow_discount_codes?: boolean | null | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. */
-  require_billing_address?: boolean | null;
+  require_billing_address?: boolean | null | undefined;
   /** ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  units?: number | null;
+  units?: number | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
 }
 export type CheckoutProductsCreateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -2248,11 +2248,11 @@ export type AddressInputCountry =
   | "ZM"
   | "ZW";
 export interface AddressInput {
-  line1?: string | null;
-  line2?: string | null;
-  postal_code?: string | null;
-  city?: string | null;
-  state?: string | null;
+  line1?: string | null | undefined;
+  line2?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  city?: string | null | undefined;
+  state?: string | null | undefined;
   country: AddressInputCountry | (string & {});
 }
 export type CheckoutProductsCreateCustomerMetadataValue = string | number | number | boolean;
@@ -2393,9 +2393,9 @@ export type CheckoutProductsCreateProductsList = Array<string>;
 export interface ProductPriceFixedCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The price in cents. Set to `0` for a free price. Minimum amounts per currency: - USD: 0.5 - AED: 2 - ALL: 50 - AMD: 200 - AOA: 500 - ARS: 750 - AUD: 0.7 - AWG: 1 - AZN: 1 - BAM: 1 - BBD: 2 - BDT: 70 - BIF: 2,000 - BMD: 1 - BND: 1 - BOB: 5 - BRL: 2.5 - BSD: 1 - BWP: 10 - BZD: 2 - CAD: 0.7 - CDF: 2,000 - CHF: 0.5 - CLP: 500 - CNY: 5 - COP: 2,000 - CRC: 300 - CVE: 50 - CZK: 15 - DJF: 100 - DKK: 3.2 - DOP: 40 - DZD: 70 - EGP: 30 - ETB: 80 - EUR: 0.5 - FJD: 2 - FKP: 1 - GBP: 0.4 - GEL: 2 - GNF: 5,000 - GIP: 1 - GMD: 40 - GTQ: 5 - GYD: 200 - HKD: 4 - HNL: 20 - HTG: 70 - HUF: 175 - IDR: 9,000 - ILS: 1.5 - INR: 60 - ISK: 70 - JMD: 80 - JPY: 80 - KES: 70 - KGS: 50 - KHR: 3,000 - KMF: 500 - KRW: 800 - KYD: 1 - KZT: 300 - LAK: 20,000 - LKR: 200 - LRD: 100 - LSL: 10 - MAD: 5 - MDL: 10 - MGA: 3,000 - MKD: 50 - MNT: 2,000 - MOP: 5 - MUR: 50 - MVR: 8 - MXN: 9 - MWK: 1,000 - MYR: 2 - MZN: 50 - NAD: 10 - NGN: 700 - NIO: 20 - NOK: 5 - NPR: 80 - NZD: 0.9 - PAB: 1 - PEN: 2 - PGK: 3 - PHP: 35 - PKR: 200 - PLN: 2 - PYG: 4,000 - QAR: 2 - RON: 2.5 - RSD: 60 - RWF: 1,000 - SAR: 2 - SBD: 4 - SCR: 8 - SEK: 5 - SGD: 0.7 - SHP: 1 - SOS: 500 - SRD: 20 - SZL: 10 - THB: 20 - TJS: 5 - TOP: 2 - TRY: 30 - TTD: 4 - TWD: 20 - TZS: 2,000 - UAH: 30 - UGX: 2,000 - UYU: 20 - UZS: 7,000 - VND: 20,000 - VUV: 100 - WST: 2 - XAF: 500 - XCD: 2 - XCG: 1 - XOF: 500 - XPF: 100 - YER: 200 - ZAR: 9 - ZMW: 10 - Other currencies: 50 minor units */
   price_amount: number;
 }
@@ -2403,20 +2403,20 @@ export interface ProductPriceFixedCreate {
 export interface ProductPriceCustomCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The minimum amount the customer can pay. If set to 0, the price is 'free or pay what you want' and $0 is accepted. If set to a value below the minimum price amount for the currency, it will be rejected. Defaults to the minimum price amount for the currency. Minimum per currency: - USD: 0.5 - AED: 2 - ALL: 50 - AMD: 200 - AOA: 500 - ARS: 750 - AUD: 0.7 - AWG: 1 - AZN: 1 - BAM: 1 - BBD: 2 - BDT: 70 - BIF: 2,000 - BMD: 1 - BND: 1 - BOB: 5 - BRL: 2.5 - BSD: 1 - BWP: 10 - BZD: 2 - CAD: 0.7 - CDF: 2,000 - CHF: 0.5 - CLP: 500 - CNY: 5 - COP: 2,000 - CRC: 300 - CVE: 50 - CZK: 15 - DJF: 100 - DKK: 3.2 - DOP: 40 - DZD: 70 - EGP: 30 - ETB: 80 - EUR: 0.5 - FJD: 2 - FKP: 1 - GBP: 0.4 - GEL: 2 - GNF: 5,000 - GIP: 1 - GMD: 40 - GTQ: 5 - GYD: 200 - HKD: 4 - HNL: 20 - HTG: 70 - HUF: 175 - IDR: 9,000 - ILS: 1.5 - INR: 60 - ISK: 70 - JMD: 80 - JPY: 80 - KES: 70 - KGS: 50 - KHR: 3,000 - KMF: 500 - KRW: 800 - KYD: 1 - KZT: 300 - LAK: 20,000 - LKR: 200 - LRD: 100 - LSL: 10 - MAD: 5 - MDL: 10 - MGA: 3,000 - MKD: 50 - MNT: 2,000 - MOP: 5 - MUR: 50 - MVR: 8 - MXN: 9 - MWK: 1,000 - MYR: 2 - MZN: 50 - NAD: 10 - NGN: 700 - NIO: 20 - NOK: 5 - NPR: 80 - NZD: 0.9 - PAB: 1 - PEN: 2 - PGK: 3 - PHP: 35 - PKR: 200 - PLN: 2 - PYG: 4,000 - QAR: 2 - RON: 2.5 - RSD: 60 - RWF: 1,000 - SAR: 2 - SBD: 4 - SCR: 8 - SEK: 5 - SGD: 0.7 - SHP: 1 - SOS: 500 - SRD: 20 - SZL: 10 - THB: 20 - TJS: 5 - TOP: 2 - TRY: 30 - TTD: 4 - TWD: 20 - TZS: 2,000 - UAH: 30 - UGX: 2,000 - UYU: 20 - UZS: 7,000 - VND: 20,000 - VUV: 100 - WST: 2 - XAF: 500 - XCD: 2 - XCG: 1 - XOF: 500 - XPF: 100 - YER: 200 - ZAR: 9 - ZMW: 10 - Other currencies: 50 minor units */
-  minimum_amount?: number;
+  minimum_amount?: number | undefined;
   /** The maximum amount the customer can pay. Maximum per currency: - USD: 999,999.99 - EUR: 999,999.99 - GBP: 999,999.99 - ARS: 1,400,000 - CDF: 2,800,000 - COP: 4,000,000 - IDR: 16,000,000 - KHR: 4,000,000 - LAK: 21,000,000 - MNT: 3,500,000 - MWK: 1,750,000 - NGN: 1,550,000 - TZS: 2,500,000 - UGX: 3,700,000 - UZS: 12,500,000 - Other currencies: 99,999,999 minor units */
-  maximum_amount?: number | null;
+  maximum_amount?: number | null | undefined;
   /** The initial amount shown to the customer. If 0, the customer will see $0 as the default. If set to a value below the minimum price amount for the currency, it will be rejected.Minimum per currency: - USD: 0.5 - AED: 2 - ALL: 50 - AMD: 200 - AOA: 500 - ARS: 750 - AUD: 0.7 - AWG: 1 - AZN: 1 - BAM: 1 - BBD: 2 - BDT: 70 - BIF: 2,000 - BMD: 1 - BND: 1 - BOB: 5 - BRL: 2.5 - BSD: 1 - BWP: 10 - BZD: 2 - CAD: 0.7 - CDF: 2,000 - CHF: 0.5 - CLP: 500 - CNY: 5 - COP: 2,000 - CRC: 300 - CVE: 50 - CZK: 15 - DJF: 100 - DKK: 3.2 - DOP: 40 - DZD: 70 - EGP: 30 - ETB: 80 - EUR: 0.5 - FJD: 2 - FKP: 1 - GBP: 0.4 - GEL: 2 - GNF: 5,000 - GIP: 1 - GMD: 40 - GTQ: 5 - GYD: 200 - HKD: 4 - HNL: 20 - HTG: 70 - HUF: 175 - IDR: 9,000 - ILS: 1.5 - INR: 60 - ISK: 70 - JMD: 80 - JPY: 80 - KES: 70 - KGS: 50 - KHR: 3,000 - KMF: 500 - KRW: 800 - KYD: 1 - KZT: 300 - LAK: 20,000 - LKR: 200 - LRD: 100 - LSL: 10 - MAD: 5 - MDL: 10 - MGA: 3,000 - MKD: 50 - MNT: 2,000 - MOP: 5 - MUR: 50 - MVR: 8 - MXN: 9 - MWK: 1,000 - MYR: 2 - MZN: 50 - NAD: 10 - NGN: 700 - NIO: 20 - NOK: 5 - NPR: 80 - NZD: 0.9 - PAB: 1 - PEN: 2 - PGK: 3 - PHP: 35 - PKR: 200 - PLN: 2 - PYG: 4,000 - QAR: 2 - RON: 2.5 - RSD: 60 - RWF: 1,000 - SAR: 2 - SBD: 4 - SCR: 8 - SEK: 5 - SGD: 0.7 - SHP: 1 - SOS: 500 - SRD: 20 - SZL: 10 - THB: 20 - TJS: 5 - TOP: 2 - TRY: 30 - TTD: 4 - TWD: 20 - TZS: 2,000 - UAH: 30 - UGX: 2,000 - UYU: 20 - UZS: 7,000 - VND: 20,000 - VUV: 100 - WST: 2 - XAF: 500 - XCD: 2 - XCG: 1 - XOF: 500 - XPF: 100 - YER: 200 - ZAR: 9 - ZMW: 10 - Other currencies: 50 minor units */
-  preset_amount?: number | null;
+  preset_amount?: number | null | undefined;
 }
 export type TierInputUnitAmount = number | string;
 /** A tier submitted through the API. Rates stop at the reach of the BigInteger amount columns, with 12 decimal places. */
 export interface TierInput {
-  bound?: number | null;
+  bound?: number | null | undefined;
   unit_amount: TierInputUnitAmount;
 }
 export type TiersInputTiersList = Array<TierInput>;
@@ -2429,13 +2429,13 @@ export interface TiersInput {
 export interface ProductPriceSeatBasedCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** Tiered pricing based on the purchased seat quantity. */
   tiers: TiersInput;
   /** The minimum purchasable seat quantity (inclusive). Defaults to 1 when not set. */
-  minimum_units?: number | null;
+  minimum_units?: number | null | undefined;
 }
 export type ProductPriceUnitBasedCreateUnitLabelValueMap = { [key: string]: string | undefined };
 export type ProductPriceUnitBasedCreateUnitLabelMap = {
@@ -2445,15 +2445,15 @@ export type ProductPriceUnitBasedCreateUnitLabelMap = {
 export interface ProductPriceUnitBasedCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** Tiered pricing based on the purchased unit quantity. */
   tiers: TiersInput;
   /** The minimum purchasable quantity (inclusive). Defaults to 1 when not set. */
-  minimum_units?: number | null;
+  minimum_units?: number | null | undefined;
   /** Per-locale unit nouns shown at checkout and on invoices. `{"en": {"=1": "device", "other": "devices"}}`. Defaults to "unit"/"units" when unset. */
-  unit_label?: ProductPriceUnitBasedCreateUnitLabelMap | null;
+  unit_label?: ProductPriceUnitBasedCreateUnitLabelMap | null | undefined;
 }
 /** The price per unit in cents. Supports up to 12 decimal places. */
 export type ProductPriceMeteredUnitCreateUnitAmount = number | string;
@@ -2461,29 +2461,29 @@ export type ProductPriceMeteredUnitCreateUnitAmount = number | string;
 export interface ProductPriceMeteredUnitCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The ID of the meter associated to the price. */
   meter_id: string;
   /** The price per unit in cents. Supports up to 12 decimal places. */
   unit_amount: ProductPriceMeteredUnitCreateUnitAmount;
   /** Optional maximum amount in cents that can be charged, regardless of the number of units consumed. */
-  cap_amount?: number | null;
+  cap_amount?: number | null | undefined;
 }
 /** Schema to create a metered price billed from tiers on consumed units. */
 export interface ProductPriceMeteredTiersCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The ID of the meter associated to the price. */
   meter_id: string;
   /** Tiered pricing based on consumed units. */
   tiers: TiersInput;
   /** Optional maximum amount in cents that can be charged, regardless of the number of units consumed. */
-  cap_amount?: number | null;
+  cap_amount?: number | null | undefined;
 }
 export type CheckoutProductsCreatePricesValueItem =
   | ProductPriceFixedCreate
@@ -2500,62 +2500,62 @@ export type CheckoutProductsCreatePricesMap = {
 /** Create a new checkout session from a list of products. Customers will be able to switch between those products. Metadata set on the checkout will be copied to the resulting order and/or subscription. */
 export interface CheckoutProductsCreate {
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutProductsCreateMetadataMap;
+  metadata?: CheckoutProductsCreateMetadataMap | undefined;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutProductsCreateCustomFieldDataMap;
+  custom_field_data?: CheckoutProductsCreateCustomFieldDataMap | undefined;
   /** ID of the discount to apply to the checkout. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean;
+  allow_discount_codes?: boolean | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. If you preset the billing address, this setting will be automatically set to `true`. */
-  require_billing_address?: boolean;
-  amount?: number | null;
+  require_billing_address?: boolean | undefined;
+  amount?: number | null | undefined;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
-  units?: number | null;
+  units?: number | null | undefined;
   /** Minimum number of units (works with unit-based pricing only) */
-  min_units?: number | null;
+  min_units?: number | null | undefined;
   /** Maximum number of units (works with unit-based pricing only) */
-  max_units?: number | null;
+  max_units?: number | null | undefined;
   /** Whether to enable the trial period for the checkout session. If `false`, the trial period will be disabled, even if the selected product has a trial configured. */
-  allow_trial?: boolean;
+  allow_trial?: boolean | undefined;
   /** ID of an existing customer in the organization. The customer data will be pre-filled in the checkout form. The resulting order will be linked to this customer. */
-  customer_id?: string | null;
+  customer_id?: string | null | undefined;
   /** Whether the customer is a business or an individual. If `true`, the customer will be required to fill their full billing address and billing name. */
-  is_business_customer?: boolean;
+  is_business_customer?: boolean | undefined;
   /** ID of the customer in your system. If a matching customer exists on Polar, the resulting order will be linked to this customer. Otherwise, a new customer will be created with this external ID set. */
-  external_customer_id?: string | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_ip_address?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
+  external_customer_id?: string | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_ip_address?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  customer_metadata?: CheckoutProductsCreateCustomerMetadataMap;
+  customer_metadata?: CheckoutProductsCreateCustomerMetadataMap | undefined;
   /** ID of a subscription to upgrade. It must be on a free pricing. If checkout is successful, metadata set on this checkout will be copied to the subscription, and existing keys will be overwritten. */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** If you plan to embed the checkout session, set this to the Origin of the embedding page. It'll allow the Polar iframe to communicate with the parent page. */
-  embed_origin?: string | null;
-  locale?: string | null;
-  currency?: PresentmentCurrency | (string & {}) | null;
+  embed_origin?: string | null | undefined;
+  locale?: string | null | undefined;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** List of product IDs available to select at that checkout. The first one will be selected by default. */
   products: CheckoutProductsCreateProductsList;
   /** Optional mapping of product IDs to a list of ad-hoc prices to create for that product. If not set, catalog prices of the product will be used. */
-  prices?: CheckoutProductsCreatePricesMap | null;
+  prices?: CheckoutProductsCreatePricesMap | null | undefined;
 }
 export type CheckoutProductsExternalCreateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -2594,62 +2594,62 @@ export type CheckoutProductsExternalCreatePricesMap = {
 /** Create a new checkout session from a list of products, referenced by their external ID. Customers will be able to switch between those products. Metadata set on the checkout will be copied to the resulting order and/or subscription. */
 export interface CheckoutProductsExternalCreate {
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutProductsExternalCreateMetadataMap;
+  metadata?: CheckoutProductsExternalCreateMetadataMap | undefined;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutProductsExternalCreateCustomFieldDataMap;
+  custom_field_data?: CheckoutProductsExternalCreateCustomFieldDataMap | undefined;
   /** ID of the discount to apply to the checkout. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean;
+  allow_discount_codes?: boolean | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. If you preset the billing address, this setting will be automatically set to `true`. */
-  require_billing_address?: boolean;
-  amount?: number | null;
+  require_billing_address?: boolean | undefined;
+  amount?: number | null | undefined;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
-  units?: number | null;
+  units?: number | null | undefined;
   /** Minimum number of units (works with unit-based pricing only) */
-  min_units?: number | null;
+  min_units?: number | null | undefined;
   /** Maximum number of units (works with unit-based pricing only) */
-  max_units?: number | null;
+  max_units?: number | null | undefined;
   /** Whether to enable the trial period for the checkout session. If `false`, the trial period will be disabled, even if the selected product has a trial configured. */
-  allow_trial?: boolean;
+  allow_trial?: boolean | undefined;
   /** ID of an existing customer in the organization. The customer data will be pre-filled in the checkout form. The resulting order will be linked to this customer. */
-  customer_id?: string | null;
+  customer_id?: string | null | undefined;
   /** Whether the customer is a business or an individual. If `true`, the customer will be required to fill their full billing address and billing name. */
-  is_business_customer?: boolean;
+  is_business_customer?: boolean | undefined;
   /** ID of the customer in your system. If a matching customer exists on Polar, the resulting order will be linked to this customer. Otherwise, a new customer will be created with this external ID set. */
-  external_customer_id?: string | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_ip_address?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
+  external_customer_id?: string | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_ip_address?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  customer_metadata?: CheckoutProductsExternalCreateCustomerMetadataMap;
+  customer_metadata?: CheckoutProductsExternalCreateCustomerMetadataMap | undefined;
   /** ID of a subscription to upgrade. It must be on a free pricing. If checkout is successful, metadata set on this checkout will be copied to the subscription, and existing keys will be overwritten. */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** If you plan to embed the checkout session, set this to the Origin of the embedding page. It'll allow the Polar iframe to communicate with the parent page. */
-  embed_origin?: string | null;
-  locale?: string | null;
-  currency?: PresentmentCurrency | (string & {}) | null;
+  embed_origin?: string | null | undefined;
+  locale?: string | null | undefined;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** List of product external IDs available to select at that checkout. The first one will be selected by default. */
   external_products: CheckoutProductsExternalCreateExternalProductsList;
   /** Optional mapping of product external IDs to a list of ad-hoc prices to create for that product. If not set, catalog prices of the product will be used. */
-  prices?: CheckoutProductsExternalCreatePricesMap | null;
+  prices?: CheckoutProductsExternalCreatePricesMap | null | undefined;
 }
 export type CheckoutCreate = CheckoutProductsCreate | CheckoutProductsExternalCreate;
 export interface CheckoutsCreateRequest {
@@ -2782,12 +2782,12 @@ export type CheckoutDiscount =
   | CheckoutDiscountPercentageOnceForeverDuration
   | CheckoutDiscountPercentageRepeatDuration;
 export interface CustomFieldTextProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
-  textarea?: boolean;
-  min_length?: number;
-  max_length?: number;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
+  textarea?: boolean | undefined;
+  min_length?: number | undefined;
+  max_length?: number | undefined;
 }
 /** Schema for a custom field of type text. */
 export interface CustomFieldText {
@@ -2808,11 +2808,11 @@ export interface CustomFieldText {
   properties: CustomFieldTextProperties;
 }
 export interface CustomFieldNumberProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
-  ge?: number;
-  le?: number;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
+  ge?: number | undefined;
+  le?: number | undefined;
 }
 /** Schema for a custom field of type number. */
 export interface CustomFieldNumber {
@@ -2836,9 +2836,9 @@ export type CustomFieldDateProperties = CustomFieldNumberProperties;
 /** Schema for a custom field of type date. */
 export type CustomFieldDate = CustomFieldNumber;
 export interface CustomFieldCheckboxProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
 }
 /** Schema for a custom field of type checkbox. */
 export interface CustomFieldCheckbox {
@@ -2864,9 +2864,9 @@ export interface CustomFieldSelectOption {
 }
 export type CustomFieldSelectPropertiesOptionsList = Array<CustomFieldSelectOption>;
 export interface CustomFieldSelectProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
   options: CustomFieldSelectPropertiesOptionsList;
 }
 /** Schema for a custom field of type select. */
@@ -2917,7 +2917,7 @@ export interface Checkout {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutCustomFieldDataMap;
+  custom_field_data?: CheckoutCustomFieldDataMap | undefined;
   /** Payment processor used. */
   payment_processor: PaymentProcessor;
   /** Status of the checkout session. - Open: the checkout session was opened. - Expired: the checkout session was expired and is no more accessible. - Confirmed: the user on the checkout session clicked Pay. This is not indicative of the payment's success status. - Failed: the checkout definitely failed for technical reasons and cannot be retried. In most cases, this state is never reached. - Succeeded: the payment on the checkout was performed successfully. */
@@ -2937,11 +2937,11 @@ export interface Checkout {
   /** Amount in cents, before discounts and taxes. */
   amount: number;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
   units: number | null;
   /** Minimum number of units (works with unit-based pricing only) */
@@ -2999,7 +2999,7 @@ export interface Checkout {
   customer_billing_name: string | null;
   customer_billing_address: Address | null;
   customer_tax_id: string | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
   payment_method_type: string | null;
   payment_processor_metadata: CheckoutPaymentProcessorMetadataMap;
@@ -3063,25 +3063,25 @@ export type CheckoutSortProperty =
 export type CheckoutsListRequestSortingList = Array<CheckoutSortProperty | (string & {})>;
 export interface CheckoutsListRequest {
   /** Filter by organization ID. */
-  organization_id?: CheckoutsListRequestOrganizationId;
+  organization_id?: CheckoutsListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: CheckoutsListRequestProductId;
+  product_id?: CheckoutsListRequestProductId | undefined;
   /** Filter by product external ID. */
-  external_product_id?: CheckoutsListRequestExternalProductId;
+  external_product_id?: CheckoutsListRequestExternalProductId | undefined;
   /** Filter by customer ID. */
-  customer_id?: CheckoutsListRequestCustomerId;
+  customer_id?: CheckoutsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: CheckoutsListRequestExternalCustomerId;
+  external_customer_id?: CheckoutsListRequestExternalCustomerId | undefined;
   /** Filter by checkout session status. */
-  status?: CheckoutsListRequestStatus;
+  status?: CheckoutsListRequestStatus | undefined;
   /** Filter by customer email. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CheckoutsListRequestSortingList;
+  sorting?: CheckoutsListRequestSortingList | undefined;
 }
 export type ListResourceCheckoutItemsList = Array<Checkout>;
 export interface ListResourceCheckout {
@@ -3107,45 +3107,45 @@ export interface CheckoutsUpdateRequest {
   /** The checkout session ID. */
   id: string;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutsUpdateRequestCustomFieldDataMap;
+  custom_field_data?: CheckoutsUpdateRequestCustomFieldDataMap | undefined;
   /** ID of the product to checkout. Must be present in the checkout's product list. */
-  product_id?: string | null;
-  amount?: number | null;
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
   /** Number of seats for seat-based pricing. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units for unit-based pricing. */
-  units?: number | null;
-  is_business_customer?: boolean | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
-  locale?: string | null;
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutsUpdateRequestMetadataMap;
-  currency?: PresentmentCurrency | (string & {}) | null;
+  metadata?: CheckoutsUpdateRequestMetadataMap | undefined;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** ID of the discount to apply to the checkout. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean | null;
+  allow_discount_codes?: boolean | null | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. If you preset the billing address, this setting will be automatically set to `true`. */
-  require_billing_address?: boolean | null;
+  require_billing_address?: boolean | null | undefined;
   /** Whether to enable the trial period for the checkout session. If `false`, the trial period will be disabled, even if the selected product has a trial configured. */
-  allow_trial?: boolean | null;
-  customer_ip_address?: string | null;
+  allow_trial?: boolean | null | undefined;
+  customer_ip_address?: string | null | undefined;
   /** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  customer_metadata?: CheckoutsUpdateRequestCustomerMetadataMap | null;
+  customer_metadata?: CheckoutsUpdateRequestCustomerMetadataMap | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** If you plan to embed the checkout session, set this to the Origin of the embedding page. It'll allow the Polar iframe to communicate with the parent page. */
-  embed_origin?: string | null;
+  embed_origin?: string | null | undefined;
 }
 export interface ClaimCustomerSeatsGetInfoRequest {
   invitation_token: string;
@@ -3173,29 +3173,29 @@ export type CheckoutConfirmStripeCustomFieldDataMap = {
 /** Confirm a checkout session using a Stripe confirmation token. */
 export interface CheckoutConfirmStripe {
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutConfirmStripeCustomFieldDataMap;
+  custom_field_data?: CheckoutConfirmStripeCustomFieldDataMap | undefined;
   /** ID of the product to checkout. Must be present in the checkout's product list. */
-  product_id?: string | null;
-  amount?: number | null;
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
   /** Number of seats for seat-based pricing. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units for unit-based pricing. */
-  units?: number | null;
-  is_business_customer?: boolean | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
-  locale?: string | null;
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
-  payment_method_type?: string | null;
+  payment_method_type?: string | null | undefined;
   /** Discount code to apply to the checkout. */
-  discount_code?: string | null;
+  discount_code?: string | null | undefined;
   /** Disable the trial period for the checkout session. It's mainly useful when the trial is blocked because the customer already redeemed one. */
-  allow_trial?: boolean | null;
+  allow_trial?: boolean | null | undefined;
   /** ID of the Stripe confirmation token. Required for fixed prices and custom prices. */
-  confirmation_token_id?: string | null;
+  confirmation_token_id?: string | null | undefined;
 }
 export type CheckoutConfirmSharedPaymentTokenCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
@@ -3205,27 +3205,27 @@ export type CheckoutConfirmSharedPaymentTokenCustomFieldDataMap = {
 /** Confirm a checkout session using a Stripe shared payment token granted by an agent. Only supported for one-time payments. */
 export interface CheckoutConfirmSharedPaymentToken {
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutConfirmSharedPaymentTokenCustomFieldDataMap;
+  custom_field_data?: CheckoutConfirmSharedPaymentTokenCustomFieldDataMap | undefined;
   /** ID of the product to checkout. Must be present in the checkout's product list. */
-  product_id?: string | null;
-  amount?: number | null;
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
   /** Number of seats for seat-based pricing. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units for unit-based pricing. */
-  units?: number | null;
-  is_business_customer?: boolean | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
-  locale?: string | null;
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
-  payment_method_type?: string | null;
+  payment_method_type?: string | null | undefined;
   /** Discount code to apply to the checkout. */
-  discount_code?: string | null;
+  discount_code?: string | null | undefined;
   /** Disable the trial period for the checkout session. It's mainly useful when the trial is blocked because the customer already redeemed one. */
-  allow_trial?: boolean | null;
+  allow_trial?: boolean | null | undefined;
   /** ID of the Stripe shared payment token (`spt_...`). */
   shared_payment_token_id: string;
 }
@@ -3284,7 +3284,7 @@ export interface CheckoutPublicConfirmed {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutPublicConfirmedCustomFieldDataMap;
+  custom_field_data?: CheckoutPublicConfirmedCustomFieldDataMap | undefined;
   /** Payment processor used. */
   payment_processor: PaymentProcessor;
   status: string;
@@ -3303,11 +3303,11 @@ export interface CheckoutPublicConfirmed {
   /** Amount in cents, before discounts and taxes. */
   amount: number;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
   units: number | null;
   /** Minimum number of units (works with unit-based pricing only) */
@@ -3365,7 +3365,7 @@ export interface CheckoutPublicConfirmed {
   customer_billing_name: string | null;
   customer_billing_address: Address | null;
   customer_tax_id: string | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
   payment_method_type: string | null;
   payment_processor_metadata: CheckoutPublicConfirmedPaymentProcessorMetadataMap;
@@ -3389,9 +3389,9 @@ export interface CustomerMeterCreditsIDCreate {
   /** The number of units to credit. */
   units: number;
   /** Whether unused credits carry over to the next meter period. */
-  rollover?: boolean;
+  rollover?: boolean | undefined;
   /** Your unique identifier for this credit. Retrying with the same `external_id` doesn't grant the credit twice. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The ID of the customer. */
   customer_id: string;
   /** The ID of the meter. */
@@ -3402,9 +3402,9 @@ export interface CustomerMeterCreditsExternalIDCreate {
   /** The number of units to credit. */
   units: number;
   /** Whether unused credits carry over to the next meter period. */
-  rollover?: boolean;
+  rollover?: boolean | undefined;
   /** Your unique identifier for this credit. Retrying with the same `external_id` doesn't grant the credit twice. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The external ID of the customer. */
   external_customer_id: string;
   /** The external ID of the meter, as set by config as code. */
@@ -3421,7 +3421,7 @@ export interface MeterCreditedMetadata {
   meter_id: string;
   units: number;
   rollover: boolean;
-  reason?: MeterCreditedMetadataReason;
+  reason?: MeterCreditedMetadataReason | undefined;
 }
 /** An event created by Polar when credits are added to a customer meter. */
 export interface MeterCreditEvent {
@@ -3438,13 +3438,13 @@ export interface MeterCreditEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -3472,7 +3472,7 @@ export interface Filter {
   clauses: FilterClausesList;
 }
 export interface CountAggregation {
-  func?: string;
+  func?: string | undefined;
 }
 export type PropertyAggregationFunc = "sum" | "max" | "min" | "avg";
 export interface PropertyAggregation {
@@ -3480,7 +3480,7 @@ export interface PropertyAggregation {
   property: string;
 }
 export interface UniqueAggregation {
-  func?: string;
+  func?: string | undefined;
   property: string;
 }
 /** The aggregation to apply on the filtered events to calculate the meter. */
@@ -3500,9 +3500,9 @@ export interface Meter {
   /** The unit of the meter. */
   unit: MeterUnit;
   /** The label for the custom unit. */
-  custom_label?: string | null;
+  custom_label?: string | null | undefined;
   /** The multiplier to convert from base unit to display scale. */
-  custom_multiplier?: number | null;
+  custom_multiplier?: number | null | undefined;
   /** The filter to apply on events that'll be used to calculate the meter. */
   filter: Filter;
   /** The aggregation to apply on the filtered events to calculate the meter. */
@@ -3510,7 +3510,7 @@ export interface Meter {
   /** The ID of the organization owning the meter. */
   organization_id: string;
   /** Whether the meter is archived and the time it was archived. */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
 }
 /** An active customer meter, with current consumed and credited units. */
 export interface CustomerMeter {
@@ -3580,21 +3580,21 @@ export type CustomerMeterSortProperty =
 export type CustomerMetersListRequestSortingList = Array<CustomerMeterSortProperty | (string & {})>;
 export interface CustomerMetersListRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomerMetersListRequestOrganizationId;
+  organization_id?: CustomerMetersListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: CustomerMetersListRequestCustomerId;
+  customer_id?: CustomerMetersListRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: CustomerMetersListRequestExternalCustomerId;
+  external_customer_id?: CustomerMetersListRequestExternalCustomerId | undefined;
   /** Filter by meter ID. */
-  meter_id?: CustomerMetersListRequestMeterId;
+  meter_id?: CustomerMetersListRequestMeterId | undefined;
   /** Filter by meter external ID. */
-  external_meter_id?: CustomerMetersListRequestExternalMeterId;
+  external_meter_id?: CustomerMetersListRequestExternalMeterId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerMetersListRequestSortingList;
+  sorting?: CustomerMetersListRequestSortingList | undefined;
 }
 export type ListResourceCustomerMeterItemsList = Array<CustomerMeter>;
 export interface ListResourceCustomerMeter {
@@ -3632,9 +3632,9 @@ export interface CustomerPortalCustomer {
   billing_address: Address | null;
   tax_id: CustomerPortalCustomerTaxIdList | null;
   oauth_accounts: CustomerPortalCustomerOauthAccountsMap;
-  default_payment_method_id?: string | null;
-  type?: CustomerType | null;
-  locale?: string | null;
+  default_payment_method_id?: string | null | undefined;
+  type?: CustomerType | null | undefined;
+  locale?: string | null | undefined;
 }
 export type CustomerBenefitGrantMemberOauthAccountsMap = {
   [key: string]: CustomerPortalOAuthAccount | undefined;
@@ -3681,15 +3681,15 @@ export interface CustomerBenefitGrantDiscord {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
-  member?: CustomerBenefitGrantMember | null;
+  member?: CustomerBenefitGrantMember | null | undefined;
   benefit: BenefitDiscordSubscriber;
   properties: BenefitGrantDiscordProperties;
 }
@@ -3731,15 +3731,15 @@ export interface CustomerBenefitGrantGitHubRepository {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
-  member?: CustomerBenefitGrantMember | null;
+  member?: CustomerBenefitGrantMember | null | undefined;
   benefit: BenefitGitHubRepositorySubscriber;
   properties: BenefitGrantGitHubRepositoryProperties;
 }
@@ -3778,13 +3778,13 @@ export interface CustomerBenefitGrantDownloadables {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitDownloadablesSubscriber;
   properties: BenefitGrantDownloadablesProperties;
@@ -3821,13 +3821,13 @@ export interface CustomerBenefitGrantLicenseKeys {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitLicenseKeysSubscriber;
   properties: BenefitGrantLicenseKeysProperties;
@@ -3865,13 +3865,13 @@ export interface CustomerBenefitGrantCustom {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitCustomSubscriber;
   properties: unknown;
@@ -3900,9 +3900,9 @@ export interface BenefitMeterCreditSubscriber {
   properties: BenefitMeterCreditProperties;
 }
 export interface BenefitGrantMeterCreditProperties {
-  last_credited_meter_id?: string;
-  last_credited_units?: number;
-  last_credited_at?: string;
+  last_credited_meter_id?: string | undefined;
+  last_credited_units?: number | undefined;
+  last_credited_at?: string | undefined;
 }
 export interface CustomerBenefitGrantMeterCredit {
   /** Creation timestamp of the object. */
@@ -3914,13 +3914,13 @@ export interface CustomerBenefitGrantMeterCredit {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitMeterCreditSubscriber;
   properties: BenefitGrantMeterCreditProperties;
@@ -3956,13 +3956,13 @@ export interface CustomerBenefitGrantFeatureFlag {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitFeatureFlagSubscriber;
   properties: unknown;
@@ -3978,13 +3978,13 @@ export interface CustomerBenefitGrantSlackSharedChannel {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitFeatureFlagSubscriber;
   properties: BenefitGrantSlackSharedChannelProperties;
@@ -4045,25 +4045,25 @@ export type CustomerPortalBenefitGrantsListRequestSortingList = Array<
 >;
 export interface CustomerPortalBenefitGrantsListRequest {
   /** Filter by benefit description. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by benefit type. */
-  type?: CustomerPortalBenefitGrantsListRequestType;
+  type?: CustomerPortalBenefitGrantsListRequestType | undefined;
   /** Filter by benefit ID. */
-  benefit_id?: CustomerPortalBenefitGrantsListRequestBenefitId;
+  benefit_id?: CustomerPortalBenefitGrantsListRequestBenefitId | undefined;
   /** Filter by checkout ID. */
-  checkout_id?: CustomerPortalBenefitGrantsListRequestCheckoutId;
+  checkout_id?: CustomerPortalBenefitGrantsListRequestCheckoutId | undefined;
   /** Filter by order ID. */
-  order_id?: CustomerPortalBenefitGrantsListRequestOrderId;
+  order_id?: CustomerPortalBenefitGrantsListRequestOrderId | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: CustomerPortalBenefitGrantsListRequestSubscriptionId;
+  subscription_id?: CustomerPortalBenefitGrantsListRequestSubscriptionId | undefined;
   /** Filter by member ID. */
-  member_id?: CustomerPortalBenefitGrantsListRequestMemberId;
+  member_id?: CustomerPortalBenefitGrantsListRequestMemberId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalBenefitGrantsListRequestSortingList;
+  sorting?: CustomerPortalBenefitGrantsListRequestSortingList | undefined;
 }
 export type ListResourceCustomerBenefitGrantItemsList = Array<CustomerBenefitGrant>;
 export interface ListResourceCustomerBenefitGrant {
@@ -4167,15 +4167,15 @@ export type CustomerPortalCustomerMetersListRequestSortingList = Array<
 >;
 export interface CustomerPortalCustomerMetersListRequest {
   /** Filter by meter ID. */
-  meter_id?: CustomerPortalCustomerMetersListRequestMeterId;
+  meter_id?: CustomerPortalCustomerMetersListRequestMeterId | undefined;
   /** Filter by meter name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalCustomerMetersListRequestSortingList;
+  sorting?: CustomerPortalCustomerMetersListRequestSortingList | undefined;
 }
 export type ListResourceCustomerCustomerMeterItemsList = Array<CustomerCustomerMeter>;
 export interface ListResourceCustomerCustomerMeter {
@@ -4192,7 +4192,7 @@ export interface PaymentMethodCardMetadata {
   last4: string;
   exp_month: number;
   exp_year: number;
-  wallet?: string | null;
+  wallet?: string | null | undefined;
 }
 export interface PaymentMethodCard {
   /** The ID of the object. */
@@ -4268,9 +4268,9 @@ export interface PortalAuthenticatedUser {
   /** Associated customer ID. */
   customer_id: string;
   /** Member ID. Only set for members. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** Member role (owner, billing_manager, member). Only set for members. */
-  role?: string | null;
+  role?: string | null | undefined;
 }
 export interface CustomerPortalCustomerSessionIntrospectRequest {}
 export interface CustomerCustomerSession {
@@ -4280,9 +4280,9 @@ export interface CustomerCustomerSession {
 export interface CustomerPortalCustomersGetRequest {}
 export interface CustomerPortalCustomersListPaymentMethodsRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListResourceCustomerPaymentMethodItemsList = Array<CustomerPaymentMethod>;
 export interface ListResourceCustomerPaymentMethod {
@@ -4290,10 +4290,10 @@ export interface ListResourceCustomerPaymentMethod {
   pagination: Pagination;
 }
 export interface CustomerPortalCustomersUpdateRequest {
-  billing_name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  default_payment_method_id?: string | null;
+  billing_name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  default_payment_method_id?: string | null | undefined;
 }
 export type CustomerPortalDownloadablesListRequestBenefitIdCase1List = Array<string>;
 /** Filter by benefit ID. */
@@ -4302,16 +4302,16 @@ export type CustomerPortalDownloadablesListRequestBenefitId =
   | CustomerPortalDownloadablesListRequestBenefitIdCase1List;
 export interface CustomerPortalDownloadablesListRequest {
   /** Filter by benefit ID. */
-  benefit_id?: CustomerPortalDownloadablesListRequestBenefitId;
+  benefit_id?: CustomerPortalDownloadablesListRequestBenefitId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type S3DownloadURLHeadersMap = { [key: string]: string | undefined };
 export interface S3DownloadURL {
   url: string;
-  headers?: S3DownloadURLHeadersMap;
+  headers?: S3DownloadURLHeadersMap | undefined;
   expires_at: string;
 }
 export type FileServiceTypes =
@@ -4367,9 +4367,9 @@ export interface CustomerPortalLicenseKeysActivateRequest {
   organization_id: string;
   label: string;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: CustomerPortalLicenseKeysActivateRequestConditionsMap;
+  conditions?: CustomerPortalLicenseKeysActivateRequestConditionsMap | undefined;
   /** Key-value object allowing you to store additional information about the activation The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  meta?: CustomerPortalLicenseKeysActivateRequestMetaMap;
+  meta?: CustomerPortalLicenseKeysActivateRequestMetaMap | undefined;
 }
 export type LicenseKeyActivationCreatedMetaValue = string | number | number | boolean;
 export type LicenseKeyActivationCreatedMetaMap = {
@@ -4385,9 +4385,9 @@ export interface LicenseKeyCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -4398,11 +4398,11 @@ export interface LicenseKeyCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: LicenseKeyCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -4545,11 +4545,11 @@ export interface LicenseKeyWithActivations {
 }
 export interface CustomerPortalLicenseKeysListRequest {
   /** Filter by a specific benefit */
-  benefit_id?: string;
+  benefit_id?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface LicenseKeyRead {
   /** The ID of the object. */
@@ -4624,12 +4624,12 @@ export type CustomerPortalLicenseKeysValidateRequestConditionsMap = {
 export interface CustomerPortalLicenseKeysValidateRequest {
   key: string;
   organization_id: string;
-  activation_id?: string | null;
-  benefit_id?: string | null;
-  customer_id?: string | null;
-  increment_usage?: number | null;
+  activation_id?: string | null | undefined;
+  benefit_id?: string | null | undefined;
+  customer_id?: string | null | undefined;
+  increment_usage?: number | null | undefined;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: CustomerPortalLicenseKeysValidateRequestConditionsMap;
+  conditions?: CustomerPortalLicenseKeysValidateRequestConditionsMap | undefined;
 }
 export interface ValidatedLicenseKey {
   /** The ID of the object. */
@@ -4664,15 +4664,15 @@ export interface ValidatedLicenseKey {
   order_id: string | null;
   /** The one-time order granting the license key, if any. */
   order: LicenseKeyOrder | null;
-  activation?: LicenseKeyActivationBase | null;
+  activation?: LicenseKeyActivationBase | null | undefined;
 }
 export interface CustomerPortalMembersAddMemberRequest {
   /** The email address of the new member. */
   email: string;
   /** The name of the new member (optional). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The role for the new member. Defaults to 'member'. */
-  role?: MemberRole | (string & {});
+  role?: MemberRole | (string & {}) | undefined;
 }
 /** A member of the customer's team as seen in the customer portal. */
 export interface CustomerPortalMember {
@@ -4691,9 +4691,9 @@ export interface CustomerPortalMember {
 }
 export interface CustomerPortalMembersListMembersRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListResourceCustomerPortalMemberItemsList = Array<CustomerPortalMember>;
 export interface ListResourceCustomerPortalMember {
@@ -4707,9 +4707,9 @@ export interface CustomerPortalMembersRemoveMemberResponse {}
 export interface CustomerPortalMembersUpdateMemberRequest {
   id: string;
   /** The new name for the member. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The new role for the member. */
-  role?: MemberRole | (string & {}) | null;
+  role?: MemberRole | (string & {}) | null | undefined;
 }
 export interface CustomerPortalOrdersGenerateInvoiceRequest {
   /** The order ID. */
@@ -4738,21 +4738,21 @@ export interface CustomerPortalUsageSettings {
 export interface CustomerPortalSubscriptionSettings {
   update_seats: boolean;
   update_plan: boolean;
-  update_units?: boolean;
-  pause?: boolean;
+  update_units?: boolean | undefined;
+  pause?: boolean | undefined;
 }
 export interface CustomerPortalCustomerSettings {
-  allow_email_change?: boolean;
+  allow_email_change?: boolean | undefined;
 }
 export interface OrganizationCustomerPortalSettings {
   usage: CustomerPortalUsageSettings;
   subscription: CustomerPortalSubscriptionSettings;
-  customer?: CustomerPortalCustomerSettings;
+  customer?: CustomerPortalCustomerSettings | undefined;
 }
 /** Feature flags exposed to the customer portal. */
 export interface CustomerOrganizationFeatureSettings {
   /** Whether localization is enabled for this organization. */
-  checkout_localization_enabled?: boolean;
+  checkout_localization_enabled?: boolean | undefined;
 }
 export interface CustomerOrganization {
   /** Creation timestamp of the object. */
@@ -4774,7 +4774,7 @@ export interface CustomerOrganization {
   /** Settings related to the customer portal */
   customer_portal_settings: OrganizationCustomerPortalSettings;
   /** Feature flags for the customer portal. */
-  organization_features?: CustomerOrganizationFeatureSettings;
+  organization_features?: CustomerOrganizationFeatureSettings | undefined;
 }
 export interface CustomerOrderProduct {
   /** The ID of the object. */
@@ -4864,7 +4864,7 @@ export interface CustomerOrderSubscription {
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -4879,7 +4879,7 @@ export interface CustomerOrderSubscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
@@ -4950,7 +4950,7 @@ export interface CustomerOrder {
   /** The receipt number for this order. Set once the order is paid for organizations with receipts enabled. When set, a downloadable receipt PDF can be obtained via the receipt endpoint. */
   receipt_number: string | null;
   /** Number of seats purchased (for seat-based one-time orders). */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units purchased (for unit-based pricing). */
   units: number | null;
   customer_id: string;
@@ -4959,7 +4959,7 @@ export interface CustomerOrder {
   subscription_id: string | null;
   checkout_id: string | null;
   /** When the next automatic payment retry is scheduled. `null` if the order is not in dunning or all retries have been exhausted. */
-  next_payment_attempt_at?: string | null;
+  next_payment_attempt_at?: string | null | undefined;
   product: CustomerOrderProduct | null;
   subscription: CustomerOrderSubscription | null;
   /** Line items composing the order. */
@@ -4980,7 +4980,7 @@ export interface CustomerOrderPaymentStatus {
   /** Current payment status. */
   status: string;
   /** Error message if payment failed. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface CustomerPortalOrdersInvoiceRequest {
   /** The order ID. */
@@ -5025,19 +5025,19 @@ export type CustomerPortalOrdersListRequestSortingList = Array<
 >;
 export interface CustomerPortalOrdersListRequest {
   /** Filter by product ID. */
-  product_id?: CustomerPortalOrdersListRequestProductId;
+  product_id?: CustomerPortalOrdersListRequestProductId | undefined;
   /** Filter by product billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  product_billing_type?: CustomerPortalOrdersListRequestProductBillingType;
+  product_billing_type?: CustomerPortalOrdersListRequestProductBillingType | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: CustomerPortalOrdersListRequestSubscriptionId;
+  subscription_id?: CustomerPortalOrdersListRequestSubscriptionId | undefined;
   /** Search by product or organization name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalOrdersListRequestSortingList;
+  sorting?: CustomerPortalOrdersListRequestSortingList | undefined;
 }
 export type ListResourceCustomerOrderItemsList = Array<CustomerOrder>;
 export interface ListResourceCustomerOrder {
@@ -5057,9 +5057,9 @@ export interface CustomerPortalOrdersUpdateRequest {
   /** The order ID. */
   id: string;
   /** The name of the customer that should appear on the invoice. */
-  billing_name?: string | null;
+  billing_name?: string | null | undefined;
   /** The address of the customer that should appear on the invoice. Country and state fields cannot be updated. */
-  billing_address?: AddressInput | null;
+  billing_address?: AddressInput | null | undefined;
 }
 export interface CustomerPortalOrganizationsGetRequest {
   /** The organization slug. */
@@ -5121,25 +5121,25 @@ export type CustomerPortalSeatsAssignSeatRequestMetadataMap = {
 };
 export interface CustomerPortalSeatsAssignSeatRequest {
   /** Subscription ID. Required if neither order_id nor checkout_id is provided. */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** Order ID for one-time purchases. Required if subscription_id is not provided. */
-  order_id?: string | null;
+  order_id?: string | null | undefined;
   /** Email of the customer to assign the seat to */
-  email?: string | null;
+  email?: string | null | undefined;
   /** External customer ID for the seat assignment */
-  external_customer_id?: string | null;
+  external_customer_id?: string | null | undefined;
   /** Customer ID for the seat assignment */
-  customer_id?: string | null;
+  customer_id?: string | null | undefined;
   /** External member ID for the seat assignment. Can be used alone (lookup existing member) or with email (create/validate member). */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Member ID for the seat assignment. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** Additional metadata for the seat (max 10 keys, 1KB total) */
-  metadata?: CustomerPortalSeatsAssignSeatRequestMetadataMap | null;
+  metadata?: CustomerPortalSeatsAssignSeatRequestMetadataMap | null | undefined;
   /** If true, the seat will be immediately claimed without sending an invitation email. API-only feature. */
-  immediate_claim?: boolean;
+  immediate_claim?: boolean | undefined;
   /** Checkout ID. Resolves to the subscription or order produced by the checkout. */
-  checkout_id?: string | null;
+  checkout_id?: string | null | undefined;
 }
 export type SeatStatus = "pending" | "claimed" | "revoked";
 export type CustomerSeatSeatMetadataMap = { [key: string]: unknown | undefined };
@@ -5177,9 +5177,9 @@ export interface CustomerSeat {
 }
 export interface CustomerPortalSeatsListClaimedSubscriptionsRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** List of prices for this product. */
 export type CustomerSubscriptionProductPricesList = Array<ProductPrice>;
@@ -5309,7 +5309,7 @@ export interface CustomerSubscription {
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -5324,7 +5324,7 @@ export interface CustomerSubscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
@@ -5344,9 +5344,9 @@ export interface ListResourceCustomerSubscription {
 }
 export interface CustomerPortalSeatsListSeatsRequest {
   /** Subscription ID */
-  subscription_id?: string;
+  subscription_id?: string | undefined;
   /** Order ID */
-  order_id?: string;
+  order_id?: string | undefined;
 }
 /** List of seats */
 export type SeatsListSeatsList = Array<CustomerSeat>;
@@ -5393,17 +5393,17 @@ export type CustomerPortalSubscriptionsListRequestSortingList = Array<
 >;
 export interface CustomerPortalSubscriptionsListRequest {
   /** Filter by product ID. */
-  product_id?: CustomerPortalSubscriptionsListRequestProductId;
+  product_id?: CustomerPortalSubscriptionsListRequestProductId | undefined;
   /** Filter by active or cancelled subscription. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Search by product or organization name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalSubscriptionsListRequestSortingList;
+  sorting?: CustomerPortalSubscriptionsListRequestSortingList | undefined;
 }
 export interface CustomerSubscriptionUpdateProduct {
   /** Update subscription to another product. */
@@ -5419,17 +5419,17 @@ export interface CustomerSubscriptionUpdateUnits {
 }
 export interface CustomerSubscriptionCancel {
   /** Cancel an active subscription once the current period ends. Or uncancel a subscription currently set to be revoked at period end. */
-  cancel_at_period_end?: boolean | null;
+  cancel_at_period_end?: boolean | null | undefined;
   /** Customers reason for cancellation. * `too_expensive`: Too expensive for the customer. * `missing_features`: Customer is missing certain features. * `switched_service`: Customer switched to another service. * `unused`: Customer is not using it enough. * `customer_service`: Customer is not satisfied with the customer service. * `low_quality`: Customer is unhappy with the quality. * `too_complex`: Customer considers the service too complicated. * `other`: Other reason(s). */
-  cancellation_reason?: CustomerCancellationReason | (string & {}) | null;
+  cancellation_reason?: CustomerCancellationReason | (string & {}) | null | undefined;
   /** Customer feedback and why they decided to cancel. */
-  cancellation_comment?: string | null;
+  cancellation_comment?: string | null | undefined;
 }
 export interface CustomerSubscriptionPause {
   /** Pause an active subscription at the end of the current period. Or cancel a scheduled pause on a subscription set to be paused at period end. */
   pause_at_period_end: boolean;
   /** Date at which the paused subscription should automatically resume. If not set, it stays paused until resumed. Must be after the current period end. */
-  resumes_at?: string | null;
+  resumes_at?: string | null | undefined;
 }
 export interface CustomerSubscriptionResume {
   /** Resume a paused subscription immediately, starting a new billing period and charging the customer. */
@@ -5477,11 +5477,11 @@ export type CustomerPortalWalletsListRequestSortingList = Array<
 >;
 export interface CustomerPortalWalletsListRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalWalletsListRequestSortingList;
+  sorting?: CustomerPortalWalletsListRequestSortingList | undefined;
 }
 export type ListResourceCustomerWalletItemsList = Array<CustomerWallet>;
 export interface ListResourceCustomerWallet {
@@ -5497,24 +5497,24 @@ export type CustomerIndividualCreateMetadataMap = {
 export interface MemberOwnerCreate {
   /** The email address of the member. */
   email: string;
-  name?: string | null;
+  name?: string | null | undefined;
   /** The ID of the member in your system. This must be unique within the customer. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface CustomerIndividualCreate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomerIndividualCreateMetadataMap;
+  metadata?: CustomerIndividualCreateMetadataMap | undefined;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  external_id?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Optional owner member to create with the customer. If not provided, an owner member will be automatically created using the customer's email and name. */
-  owner?: MemberOwnerCreate | null;
-  type?: string;
+  owner?: MemberOwnerCreate | null | undefined;
+  type?: string | undefined;
   /** The email address of the customer. This must be unique within the organization. */
   email: string;
 }
@@ -5525,20 +5525,20 @@ export type CustomerTeamCreateMetadataMap = {
 };
 export interface CustomerTeamCreate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomerTeamCreateMetadataMap;
+  metadata?: CustomerTeamCreateMetadataMap | undefined;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  external_id?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Optional owner member to create with the customer. If not provided, an owner member will be automatically created using the customer's email and name. */
-  owner?: MemberOwnerCreate | null;
+  owner?: MemberOwnerCreate | null | undefined;
   type: string;
   /** The email address of the team customer. Optional for team customers -- if omitted, an owner with an email must be provided. */
-  email?: string | null;
+  email?: string | null | undefined;
 }
 export type CustomerCreate = CustomerIndividualCreate | CustomerTeamCreate;
 export interface CustomersCreateRequest {
@@ -5549,36 +5549,36 @@ export interface CustomersDeleteRequest {
   /** The customer ID. */
   id: string;
   /** If true, also anonymize the customer's personal data for GDPR compliance. This replaces email with a hashed version, hashes name and billing name (name preserved for businesses with tax_id), clears billing address, and removes OAuth account data. */
-  anonymize?: boolean;
+  anonymize?: boolean | undefined;
 }
 export interface CustomersDeleteResponse {}
 export interface CustomersDeleteExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** If true, also anonymize the customer's personal data for GDPR compliance. */
-  anonymize?: boolean;
+  anonymize?: boolean | undefined;
 }
 export interface CustomersDeleteExternalResponse {}
 export type CustomerSeatsAssignSeatRequestMetadataMap = { [key: string]: unknown | undefined };
 export interface CustomerSeatsAssignSeatRequest {
   /** Subscription ID. Required if neither order_id nor checkout_id is provided. */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** Order ID for one-time purchases. Required if subscription_id is not provided. */
-  order_id?: string | null;
+  order_id?: string | null | undefined;
   /** Email of the customer to assign the seat to */
-  email?: string | null;
+  email?: string | null | undefined;
   /** External customer ID for the seat assignment */
-  external_customer_id?: string | null;
+  external_customer_id?: string | null | undefined;
   /** Customer ID for the seat assignment */
-  customer_id?: string | null;
+  customer_id?: string | null | undefined;
   /** External member ID for the seat assignment. Can be used alone (lookup existing member) or with email (create/validate member). */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Member ID for the seat assignment. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** Additional metadata for the seat (max 10 keys, 1KB total) */
-  metadata?: CustomerSeatsAssignSeatRequestMetadataMap | null;
+  metadata?: CustomerSeatsAssignSeatRequestMetadataMap | null | undefined;
   /** If true, the seat will be immediately claimed without sending an invitation email. API-only feature. */
-  immediate_claim?: boolean;
+  immediate_claim?: boolean | undefined;
 }
 export interface CustomerSeatsClaimSeatRequest {
   /** Invitation token to claim the seat */
@@ -5592,8 +5592,8 @@ export interface CustomerSeatClaimResponse {
   customer_session_token: string;
 }
 export interface CustomerSeatsListSeatsRequest {
-  subscription_id?: string;
-  order_id?: string;
+  subscription_id?: string | undefined;
+  order_id?: string | undefined;
 }
 export interface CustomerSeatsResendInvitationRequest {
   seat_id: string;
@@ -5604,22 +5604,22 @@ export interface CustomerSeatsRevokeSeatRequest {
 /** Schema for creating a customer session using a customer ID. */
 export interface CustomerSessionCustomerIDCreate {
   /** ID of the member to create a session for. When not provided and the organization has `member_model_enabled`, the owner member of the customer will be used for individual customers. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** External ID of the member to create a session for. Alternative to `member_id`. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** When set, a back button will be shown in the customer portal to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** ID of the customer to create a session for. */
   customer_id: string;
 }
 /** Schema for creating a customer session using an external customer ID. */
 export interface CustomerSessionCustomerExternalIDCreate {
   /** ID of the member to create a session for. When not provided and the organization has `member_model_enabled`, the owner member of the customer will be used for individual customers. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** External ID of the member to create a session for. Alternative to `member_id`. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** When set, a back button will be shown in the customer portal to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** External ID of the customer to create a session for. */
   external_customer_id: string;
 }
@@ -5651,7 +5651,7 @@ export type CustomersExportRequestOrganizationId =
   | CustomersExportRequestOrganizationIdCase1List;
 export interface CustomersExportRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomersExportRequestOrganizationId;
+  organization_id?: CustomersExportRequestOrganizationId | undefined;
 }
 export interface CustomersExportResponse {}
 export interface CustomersGetRequest {
@@ -5703,7 +5703,7 @@ export interface CustomerStateSubscription {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CustomerStateSubscriptionCustomFieldDataMap;
+  custom_field_data?: CustomerStateSubscriptionCustomFieldDataMap | undefined;
   metadata: MetadataOutputType;
   status: CustomerStateSubscriptionStatus;
   /** The amount of the subscription. */
@@ -5797,7 +5797,7 @@ export interface CustomerStateIndividual {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
   email: string;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
@@ -5810,11 +5810,11 @@ export interface CustomerStateIndividual {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerStateIndividualTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -5844,9 +5844,9 @@ export interface CustomerStateTeam {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer. Team customers can have multiple members. */
@@ -5857,11 +5857,11 @@ export interface CustomerStateTeam {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerStateTeamTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -5896,21 +5896,21 @@ export type CustomerSortProperty =
 export type CustomersListRequestSortingList = Array<CustomerSortProperty | (string & {})>;
 export interface CustomersListRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomersListRequestOrganizationId;
+  organization_id?: CustomersListRequestOrganizationId | undefined;
   /** Filter by exact email. */
-  email?: string;
+  email?: string | undefined;
   /** Filter by name, email, or external ID. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by active customers, i.e. customers with at least one trialing, active or past_due subscription. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomersListRequestSortingList;
+  sorting?: CustomersListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceCustomerItemsList = Array<Customer>;
 export interface ListResourceCustomer {
@@ -5921,9 +5921,9 @@ export interface CustomersListPaymentMethodsRequest {
   /** The customer ID. */
   id: string;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface CustomerPaymentMethodCard {
   /** The ID of the object. */
@@ -5979,9 +5979,9 @@ export interface CustomersListPaymentMethodsExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
 export type CustomersMembersCreateRequestRole = "member" | "billing_manager";
@@ -5990,11 +5990,11 @@ export interface CustomersMembersCreateRequest {
   id: string;
   /** The email address of the member. */
   email: string;
-  name?: string | null;
+  name?: string | null | undefined;
   /** The ID of the member in your system. This must be unique within the customer. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
-  role?: CustomersMembersCreateRequestRole | (string & {});
+  role?: CustomersMembersCreateRequestRole | (string & {}) | undefined;
 }
 /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
 export type CustomersMembersCreateExternalRequestRole = "member" | "billing_manager";
@@ -6003,9 +6003,9 @@ export interface CustomersMembersCreateExternalRequest {
   external_id: string;
   /** The email address of the member. */
   email: string;
-  name?: string | null;
+  name?: string | null | undefined;
   /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
-  role?: CustomersMembersCreateExternalRequestRole | (string & {});
+  role?: CustomersMembersCreateExternalRequestRole | (string & {}) | undefined;
 }
 export interface CustomersMembersDeleteRequest {
   /** The customer ID. */
@@ -6037,13 +6037,13 @@ export interface CustomersMembersListRequest {
   /** The customer ID. */
   id: string;
   /** Filter by member role. */
-  role?: MemberRole | (string & {});
+  role?: MemberRole | (string & {}) | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomersMembersListRequestSortingList;
+  sorting?: CustomersMembersListRequestSortingList | undefined;
 }
 export type ListResourceMemberItemsList = Array<Member>;
 export interface ListResourceMember {
@@ -6057,32 +6057,32 @@ export interface CustomersMembersListExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** Filter by member role. */
-  role?: MemberRole | (string & {});
+  role?: MemberRole | (string & {}) | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomersMembersListExternalRequestSortingList;
+  sorting?: CustomersMembersListExternalRequestSortingList | undefined;
 }
 export interface CustomersMembersUpdateRequest {
   /** The customer ID. */
   id: string;
   member_id: string;
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   /** The role of the member within the customer. */
-  role?: MemberRole | (string & {}) | null;
+  role?: MemberRole | (string & {}) | null | undefined;
 }
 export interface CustomersMembersUpdateExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** The member external ID. */
   member_external_id: string;
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   /** The role of the member within the customer. */
-  role?: MemberRole | (string & {}) | null;
+  role?: MemberRole | (string & {}) | null | undefined;
 }
 export type CustomersUpdateRequestMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6093,17 +6093,17 @@ export interface CustomersUpdateRequest {
   /** The customer ID. */
   id: string;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomersUpdateRequestMetadataMap;
+  metadata?: CustomersUpdateRequestMetadataMap | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The customer type. Can only be upgraded from 'individual' to 'team', never downgraded. */
-  type?: CustomerType | (string & {}) | null;
+  type?: CustomerType | (string & {}) | null | undefined;
 }
 export type CustomersUpdateResponse = Customer;
 export type CustomersUpdateExternalRequestMetadataValue = string | number | number | boolean;
@@ -6115,13 +6115,13 @@ export interface CustomersUpdateExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomersUpdateExternalRequestMetadataMap;
+  metadata?: CustomersUpdateExternalRequestMetadataMap | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
 }
 export type CustomersUpdateExternalResponse = Customer;
 export type CustomFieldCreateTextMetadataValue = string | number | number | boolean;
@@ -6132,14 +6132,14 @@ export type CustomFieldCreateTextMetadataMap = {
 /** Schema to create a custom field of type text. */
 export interface CustomFieldCreateText {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateTextMetadataMap;
+  metadata?: CustomFieldCreateTextMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldTextProperties;
 }
 export type CustomFieldCreateNumberMetadataValue = string | number | number | boolean;
@@ -6150,14 +6150,14 @@ export type CustomFieldCreateNumberMetadataMap = {
 /** Schema to create a custom field of type number. */
 export interface CustomFieldCreateNumber {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateNumberMetadataMap;
+  metadata?: CustomFieldCreateNumberMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldNumberProperties;
 }
 export type CustomFieldCreateDateMetadataValue = string | number | number | boolean;
@@ -6168,14 +6168,14 @@ export type CustomFieldCreateDateMetadataMap = {
 /** Schema to create a custom field of type date. */
 export interface CustomFieldCreateDate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateDateMetadataMap;
+  metadata?: CustomFieldCreateDateMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldNumberProperties;
 }
 export type CustomFieldCreateCheckboxMetadataValue = string | number | number | boolean;
@@ -6186,14 +6186,14 @@ export type CustomFieldCreateCheckboxMetadataMap = {
 /** Schema to create a custom field of type checkbox. */
 export interface CustomFieldCreateCheckbox {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateCheckboxMetadataMap;
+  metadata?: CustomFieldCreateCheckboxMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldCheckboxProperties;
 }
 export type CustomFieldCreateSelectMetadataValue = string | number | number | boolean;
@@ -6204,14 +6204,14 @@ export type CustomFieldCreateSelectMetadataMap = {
 /** Schema to create a custom field of type select. */
 export interface CustomFieldCreateSelect {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateSelectMetadataMap;
+  metadata?: CustomFieldCreateSelectMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldSelectProperties;
 }
 export type CustomFieldCreate =
@@ -6255,17 +6255,17 @@ export type CustomFieldSortProperty =
 export type CustomFieldsListRequestSortingList = Array<CustomFieldSortProperty | (string & {})>;
 export interface CustomFieldsListRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomFieldsListRequestOrganizationId;
+  organization_id?: CustomFieldsListRequestOrganizationId | undefined;
   /** Filter by custom field name or slug. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by custom field type. */
-  type?: CustomFieldsListRequestType;
+  type?: CustomFieldsListRequestType | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomFieldsListRequestSortingList;
+  sorting?: CustomFieldsListRequestSortingList | undefined;
 }
 export type ListResourceCustomFieldItemsList = Array<CustomField>;
 export interface ListResourceCustomField {
@@ -6280,11 +6280,11 @@ export type CustomFieldUpdateTextMetadataMap = {
 /** Schema to update a custom field of type text. */
 export interface CustomFieldUpdateText {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateTextMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateTextMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldTextProperties | null;
+  properties?: CustomFieldTextProperties | null | undefined;
 }
 export type CustomFieldUpdateNumberMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6294,11 +6294,11 @@ export type CustomFieldUpdateNumberMetadataMap = {
 /** Schema to update a custom field of type number. */
 export interface CustomFieldUpdateNumber {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateNumberMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateNumberMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldNumberProperties | null;
+  properties?: CustomFieldNumberProperties | null | undefined;
 }
 export type CustomFieldUpdateDateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6308,11 +6308,11 @@ export type CustomFieldUpdateDateMetadataMap = {
 /** Schema to update a custom field of type date. */
 export interface CustomFieldUpdateDate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateDateMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateDateMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldNumberProperties | null;
+  properties?: CustomFieldNumberProperties | null | undefined;
 }
 export type CustomFieldUpdateCheckboxMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6322,11 +6322,11 @@ export type CustomFieldUpdateCheckboxMetadataMap = {
 /** Schema to update a custom field of type checkbox. */
 export interface CustomFieldUpdateCheckbox {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateCheckboxMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateCheckboxMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldCheckboxProperties | null;
+  properties?: CustomFieldCheckboxProperties | null | undefined;
 }
 export type CustomFieldUpdateSelectMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6336,11 +6336,11 @@ export type CustomFieldUpdateSelectMetadataMap = {
 /** Schema to update a custom field of type select. */
 export interface CustomFieldUpdateSelect {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateSelectMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateSelectMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldSelectProperties | null;
+  properties?: CustomFieldSelectProperties | null | undefined;
 }
 export type CustomFieldUpdate =
   | CustomFieldUpdateText
@@ -6366,29 +6366,29 @@ export type DiscountFixedCreateAmountsMap = { [key: string]: number | undefined 
 /** Schema to create a fixed amount discount. */
 export interface DiscountFixedCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: DiscountFixedCreateMetadataMap;
+  metadata?: DiscountFixedCreateMetadataMap | undefined;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
   /** Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** Optional timestamp after which the discount is redeemable. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** Optional timestamp after which the discount is no longer redeemable. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Optional maximum number of times the discount can be redeemed. */
-  max_redemptions?: number | null;
+  max_redemptions?: number | null | undefined;
   /** Optional maximum number of times the discount can be redeemed by a single customer. */
-  max_redemptions_per_customer?: number | null;
-  products?: DiscountFixedCreateProductsList | null;
+  max_redemptions_per_customer?: number | null | undefined;
+  products?: DiscountFixedCreateProductsList | null | undefined;
   /** The ID of the organization owning the discount. **Required unless you use an organization token.** */
-  organization_id?: string | null;
-  type?: string;
+  organization_id?: string | null | undefined;
+  type?: string | undefined;
   /** For subscriptions, determines if the discount should be applied once on the first invoice, forever, or for a certain number of months determined by `duration_in_months`. */
   duration: DiscountDuration | (string & {});
   /** Number of months the discount should be applied. Required when `duration` is `repeating`. Must be omitted otherwise. For this to work on yearly pricing, you should multiply this by 12. For example, to apply the discount for 2 years, set this to 24. */
-  duration_in_months?: number | null;
+  duration_in_months?: number | null | undefined;
   /** Map of currency to fixed amount to discount from the total. This allows specifying different discount amounts for different currencies. */
   amounts: DiscountFixedCreateAmountsMap;
 }
@@ -6402,29 +6402,29 @@ export type DiscountPercentageCreateProductsList = Array<string>;
 /** Schema to create a percentage discount. */
 export interface DiscountPercentageCreate {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: DiscountPercentageCreateMetadataMap;
+  metadata?: DiscountPercentageCreateMetadataMap | undefined;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
   /** Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** Optional timestamp after which the discount is redeemable. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** Optional timestamp after which the discount is no longer redeemable. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Optional maximum number of times the discount can be redeemed. */
-  max_redemptions?: number | null;
+  max_redemptions?: number | null | undefined;
   /** Optional maximum number of times the discount can be redeemed by a single customer. */
-  max_redemptions_per_customer?: number | null;
-  products?: DiscountPercentageCreateProductsList | null;
+  max_redemptions_per_customer?: number | null | undefined;
+  products?: DiscountPercentageCreateProductsList | null | undefined;
   /** The ID of the organization owning the discount. **Required unless you use an organization token.** */
-  organization_id?: string | null;
-  type?: string;
+  organization_id?: string | null | undefined;
+  type?: string | undefined;
   /** For subscriptions, determines if the discount should be applied once on the first invoice, forever, or for a certain number of months determined by `duration_in_months`. */
   duration: DiscountDuration | (string & {});
   /** Number of months the discount should be applied. Required when `duration` is `repeating`. Must be omitted otherwise. For this to work on yearly pricing, you should multiply this by 12. For example, to apply the discount for 2 years, set this to 24. */
-  duration_in_months?: number | null;
+  duration_in_months?: number | null | undefined;
   /** Discount percentage in basis points. A basis point is 1/100th of a percent. For example, to create a 25.5% discount, set this to 2550. */
   basis_points: number;
 }
@@ -6646,17 +6646,17 @@ export type DiscountSortProperty =
 export type DiscountsListRequestSortingList = Array<DiscountSortProperty | (string & {})>;
 export interface DiscountsListRequest {
   /** Filter by organization ID. */
-  organization_id?: DiscountsListRequestOrganizationId;
+  organization_id?: DiscountsListRequestOrganizationId | undefined;
   /** Filter by discount external ID. */
-  external_id?: DiscountsListRequestExternalId;
+  external_id?: DiscountsListRequestExternalId | undefined;
   /** Filter by name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: DiscountsListRequestSortingList;
+  sorting?: DiscountsListRequestSortingList | undefined;
 }
 export type ListResourceDiscountItemsList = Array<Discount>;
 export interface ListResourceDiscount {
@@ -6676,26 +6676,26 @@ export interface DiscountsUpdateRequest {
   /** The discount ID. */
   id: string;
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: DiscountsUpdateRequestMetadataMap;
-  name?: string | null;
+  metadata?: DiscountsUpdateRequestMetadataMap | undefined;
+  name?: string | null | undefined;
   /** Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** Optional timestamp after which the discount is redeemable. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** Optional timestamp after which the discount is no longer redeemable. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Optional maximum number of times the discount can be redeemed. */
-  max_redemptions?: number | null;
+  max_redemptions?: number | null | undefined;
   /** Optional maximum number of times the discount can be redeemed by a single customer. */
-  max_redemptions_per_customer?: number | null;
-  duration?: DiscountDuration | (string & {}) | null;
-  duration_in_months?: number | null;
-  type?: DiscountType | (string & {}) | null;
-  amounts?: DiscountsUpdateRequestAmountsMap | null;
-  basis_points?: number | null;
-  products?: DiscountsUpdateRequestProductsList | null;
+  max_redemptions_per_customer?: number | null | undefined;
+  duration?: DiscountDuration | (string & {}) | null | undefined;
+  duration_in_months?: number | null | undefined;
+  type?: DiscountType | (string & {}) | null | undefined;
+  amounts?: DiscountsUpdateRequestAmountsMap | null | undefined;
+  basis_points?: number | null | undefined;
+  products?: DiscountsUpdateRequestProductsList | null | undefined;
 }
 export type DiscountsUpdateResponse = Discount;
 export interface DisputesAcceptRequest {
@@ -6719,9 +6719,9 @@ export interface DisputeCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -6732,11 +6732,11 @@ export interface DisputeCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: DisputeCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -6795,17 +6795,17 @@ export type DisputeSortProperty = "created_at" | "-created_at" | "amount" | "-am
 export type DisputesListRequestSortingList = Array<DisputeSortProperty | (string & {})>;
 export interface DisputesListRequest {
   /** Filter by organization ID. */
-  organization_id?: DisputesListRequestOrganizationId;
+  organization_id?: DisputesListRequestOrganizationId | undefined;
   /** Filter by order ID. */
-  order_id?: DisputesListRequestOrderId;
+  order_id?: DisputesListRequestOrderId | undefined;
   /** Filter by dispute status. */
-  status?: DisputesListRequestStatus;
+  status?: DisputesListRequestStatus | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: DisputesListRequestSortingList;
+  sorting?: DisputesListRequestSortingList | undefined;
 }
 export type ListResourceDisputeItemsList = Array<Dispute>;
 export interface ListResourceDispute {
@@ -6834,13 +6834,13 @@ export interface MeterResetEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6853,7 +6853,7 @@ export interface BenefitGrantMetadata {
   benefit_id: string;
   benefit_grant_id: string;
   benefit_type: BenefitType;
-  member_id?: string;
+  member_id?: string | undefined;
 }
 /** An event created by Polar when a benefit is granted to a customer. */
 export interface BenefitGrantedEvent {
@@ -6870,13 +6870,13 @@ export interface BenefitGrantedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6915,13 +6915,13 @@ export interface SubscriptionCreatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6931,13 +6931,13 @@ export interface SubscriptionCreatedEvent {
   metadata: SubscriptionCreatedMetadata;
 }
 export interface SubscriptionUpdatedMetadata {
-  product_id?: string;
-  proration_behavior?: SubscriptionProrationBehavior;
-  discount_id?: string | null;
-  trial_end?: string;
-  seats?: number;
-  units?: number;
-  billing_period_end?: string;
+  product_id?: string | undefined;
+  proration_behavior?: SubscriptionProrationBehavior | undefined;
+  discount_id?: string | null | undefined;
+  trial_end?: string | undefined;
+  seats?: number | undefined;
+  units?: number | undefined;
+  billing_period_end?: string | undefined;
   subscription_id: string;
 }
 /** An event created by Polar when a subscription is updated. */
@@ -6955,13 +6955,13 @@ export interface SubscriptionUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6972,11 +6972,11 @@ export interface SubscriptionUpdatedEvent {
 }
 export interface SubscriptionCycledMetadata {
   subscription_id: string;
-  product_id?: string;
-  amount?: number;
-  currency?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  product_id?: string | undefined;
+  amount?: number | undefined;
+  currency?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
 }
 /** An event created by Polar when a subscription is cycled. */
 export interface SubscriptionCycledEvent {
@@ -6993,13 +6993,13 @@ export interface SubscriptionCycledEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7010,16 +7010,16 @@ export interface SubscriptionCycledEvent {
 }
 export interface SubscriptionCanceledMetadata {
   subscription_id: string;
-  product_id?: string;
+  product_id?: string | undefined;
   amount: number;
   currency: string;
   recurring_interval: string;
   recurring_interval_count: number;
-  customer_cancellation_reason?: string;
-  customer_cancellation_comment?: string;
+  customer_cancellation_reason?: string | undefined;
+  customer_cancellation_comment?: string | undefined;
   canceled_at: string;
-  ends_at?: string;
-  cancel_at_period_end?: boolean;
+  ends_at?: string | undefined;
+  cancel_at_period_end?: boolean | undefined;
 }
 /** An event created by Polar when a subscription is canceled. */
 export interface SubscriptionCanceledEvent {
@@ -7036,13 +7036,13 @@ export interface SubscriptionCanceledEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7056,12 +7056,12 @@ export type SubscriptionRevokedMetadata = SubscriptionCycledMetadata;
 export type SubscriptionRevokedEvent = SubscriptionCycledEvent;
 export interface SubscriptionPastDueMetadata {
   subscription_id: string;
-  product_id?: string;
+  product_id?: string | undefined;
   past_due_at: string;
-  amount?: number;
-  currency?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  amount?: number | undefined;
+  currency?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
 }
 /** An event created by Polar when a subscription becomes past due. */
 export interface SubscriptionPastDueEvent {
@@ -7078,13 +7078,13 @@ export interface SubscriptionPastDueEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7101,13 +7101,13 @@ export type SubscriptionReinstatedMetadata = SubscriptionCycledMetadata;
 export type SubscriptionReinstatedEvent = SubscriptionCycledEvent;
 export interface SubscriptionPausedMetadata {
   subscription_id: string;
-  product_id?: string;
-  amount?: number;
-  currency?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  product_id?: string | undefined;
+  amount?: number | undefined;
+  currency?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
   paused_at: string;
-  resumes_at?: string;
+  resumes_at?: string | undefined;
 }
 /** An event created by Polar when a subscription is paused. */
 export interface SubscriptionPausedEvent {
@@ -7124,13 +7124,13 @@ export interface SubscriptionPausedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7163,13 +7163,13 @@ export interface SubscriptionMigratedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7201,13 +7201,13 @@ export interface SubscriptionUncanceledEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7236,13 +7236,13 @@ export interface SubscriptionProductUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7272,13 +7272,13 @@ export interface SubscriptionSeatsUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7308,13 +7308,13 @@ export interface SubscriptionUnitsUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7343,13 +7343,13 @@ export interface SubscriptionBillingPeriodUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7376,13 +7376,13 @@ export interface SubscriptionUpdateClearedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7393,19 +7393,19 @@ export interface SubscriptionUpdateClearedEvent {
 }
 export interface OrderPaidMetadata {
   order_id: string;
-  product_id?: string;
-  billing_type?: string;
+  product_id?: string | undefined;
+  billing_type?: string | undefined;
   amount: number;
-  currency?: string;
-  net_amount?: number;
-  tax_amount?: number;
-  applied_balance_amount?: number;
-  discount_amount?: number;
-  discount_id?: string;
-  platform_fee?: number;
-  subscription_id?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  currency?: string | undefined;
+  net_amount?: number | undefined;
+  tax_amount?: number | undefined;
+  applied_balance_amount?: number | undefined;
+  discount_amount?: number | undefined;
+  discount_id?: string | undefined;
+  platform_fee?: number | undefined;
+  subscription_id?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
 }
 /** An event created by Polar when an order is paid. */
 export interface OrderPaidEvent {
@@ -7422,13 +7422,13 @@ export interface OrderPaidEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7457,13 +7457,13 @@ export interface OrderRefundedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7492,13 +7492,13 @@ export interface OrderVoidedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7513,7 +7513,7 @@ export type OrderUnvoidedEvent = OrderVoidedEvent;
 export interface CheckoutCreatedMetadata {
   checkout_id: string;
   checkout_status: string;
-  product_id?: string;
+  product_id?: string | undefined;
 }
 /** An event created by Polar when a checkout is created. */
 export interface CheckoutCreatedEvent {
@@ -7530,13 +7530,13 @@ export interface CheckoutCreatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7566,13 +7566,13 @@ export interface CustomerCreatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7582,11 +7582,11 @@ export interface CustomerCreatedEvent {
   metadata: CustomerCreatedMetadata;
 }
 export interface AddressDict {
-  line1?: string;
-  line2?: string;
-  postal_code?: string;
-  city?: string;
-  state?: string;
+  line1?: string | undefined;
+  line2?: string | undefined;
+  postal_code?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
   country: string;
 }
 export type CustomerUpdatedFieldsMetadataValue = string | number | boolean;
@@ -7594,12 +7594,12 @@ export type CustomerUpdatedFieldsMetadataMap = {
   [key: string]: CustomerUpdatedFieldsMetadataValue | undefined;
 };
 export interface CustomerUpdatedFields {
-  name?: string | null;
-  billing_name?: string | null;
-  email?: string | null;
-  billing_address?: AddressDict | null;
-  tax_id?: string | null;
-  metadata?: CustomerUpdatedFieldsMetadataMap | null;
+  name?: string | null | undefined;
+  billing_name?: string | null | undefined;
+  email?: string | null | undefined;
+  billing_address?: AddressDict | null | undefined;
+  tax_id?: string | null | undefined;
+  metadata?: CustomerUpdatedFieldsMetadataMap | null | undefined;
 }
 export interface CustomerUpdatedMetadata {
   customer_id: string;
@@ -7623,13 +7623,13 @@ export interface CustomerUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7644,18 +7644,18 @@ export type CustomerDeletedEvent = CustomerCreatedEvent;
 export interface BalanceOrderMetadata {
   transaction_id: string;
   order_id: string;
-  product_id?: string;
-  subscription_id?: string;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
-  net_amount?: number;
+  net_amount?: number | undefined;
   currency: string;
   presentment_amount: number;
   presentment_currency: string;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is paid. */
 export interface BalanceOrderEvent {
@@ -7672,13 +7672,13 @@ export interface BalanceOrderEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7689,15 +7689,15 @@ export interface BalanceOrderEvent {
 }
 export interface BalanceCreditOrderMetadata {
   order_id: string;
-  product_id?: string;
-  subscription_id?: string;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
   currency: string;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is paid via customer balance. */
 export interface BalanceCreditOrderEvent {
@@ -7714,13 +7714,13 @@ export interface BalanceCreditOrderEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7732,20 +7732,20 @@ export interface BalanceCreditOrderEvent {
 export interface BalanceRefundMetadata {
   transaction_id: string;
   refund_id: string;
-  order_id?: string;
-  order_created_at?: string;
-  product_id?: string;
-  subscription_id?: string;
+  order_id?: string | undefined;
+  order_created_at?: string | undefined;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
   currency: string;
   presentment_amount: number;
   presentment_currency: string;
-  refundable_amount?: number;
+  refundable_amount?: number | undefined;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is refunded. */
 export interface BalanceRefundEvent {
@@ -7762,13 +7762,13 @@ export interface BalanceRefundEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7782,19 +7782,19 @@ export type BalanceRefundReversalEvent = BalanceRefundEvent;
 export interface BalanceDisputeMetadata {
   transaction_id: string;
   dispute_id: string;
-  order_id?: string;
-  order_created_at?: string;
-  product_id?: string;
-  subscription_id?: string;
+  order_id?: string | undefined;
+  order_created_at?: string | undefined;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
   currency: string;
   presentment_amount: number;
   presentment_currency: string;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is disputed. */
 export interface BalanceDisputeEvent {
@@ -7811,13 +7811,13 @@ export interface BalanceDisputeEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7878,21 +7878,21 @@ export interface LLMMetadata {
   /** The model used for the event. */
   model: string;
   /** The LLM prompt used for the event. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** The LLM response used for the event. */
-  response?: string | null;
+  response?: string | null | undefined;
   /** The number of LLM input tokens used for the event. */
   input_tokens: number;
   /** The number of LLM cached tokens that were used for the event. */
-  cached_input_tokens?: number;
+  cached_input_tokens?: number | undefined;
   /** The number of LLM output tokens used for the event. */
   output_tokens: number;
   /** The total number of LLM tokens used for the event. */
   total_tokens: number;
 }
 export interface EventMetadataOutput {
-  _cost?: CostMetadataOutput;
-  _llm?: LLMMetadata;
+  _cost?: CostMetadataOutput | undefined;
+  _llm?: LLMMetadata | undefined;
   [key: string]: unknown;
 }
 /** An event you created through the ingestion API. */
@@ -7910,13 +7910,13 @@ export interface UserEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The name of the event. */
@@ -7936,45 +7936,45 @@ export interface CostMetadataInput {
   currency: string;
 }
 export interface EventMetadataInput {
-  _cost?: CostMetadataInput;
-  _llm?: LLMMetadata;
+  _cost?: CostMetadataInput | undefined;
+  _llm?: LLMMetadata | undefined;
   [key: string]: unknown;
 }
 export interface EventCreateCustomer {
   /** The timestamp of the event. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The name of the event. */
   name: string;
   /** The ID of the organization owning the event. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Your unique identifier for this event. Useful for deduplication and parent-child relationships. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The ID of the parent event. Can be either a Polar event ID (UUID) or an external event ID. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information about the event. Some keys like `_llm` are structured data that are handled specially by Polar. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: EventMetadataInput;
+  metadata?: EventMetadataInput | undefined;
   /** ID of the customer in your Polar organization associated with the event. */
   customer_id: string;
   /** ID of the member within the customer's organization who performed the action. Used for member-level attribution in B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
 }
 export interface EventCreateExternalCustomer {
   /** The timestamp of the event. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The name of the event. */
   name: string;
   /** The ID of the organization owning the event. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Your unique identifier for this event. Useful for deduplication and parent-child relationships. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The ID of the parent event. Can be either a Polar event ID (UUID) or an external event ID. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information about the event. Some keys like `_llm` are structured data that are handled specially by Polar. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: EventMetadataInput;
+  metadata?: EventMetadataInput | undefined;
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string;
   /** ID of the member in your system within the customer's organization who performed the action. Used for member-level attribution in B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
 }
 export type EventsIngestRequestEventsItem = EventCreateCustomer | EventCreateExternalCustomer;
 /** List of events to ingest. */
@@ -7987,7 +7987,7 @@ export interface EventsIngestResponse {
   /** Number of events inserted. */
   inserted: number;
   /** Number of duplicate events skipped. */
-  duplicates?: number;
+  duplicates?: number | undefined;
 }
 export type EventsListRequestOrganizationIdCase1List = Array<string>;
 /** Filter by organization ID. */
@@ -8011,37 +8011,37 @@ export type EventSortProperty = "timestamp" | "-timestamp";
 export type EventsListRequestSortingList = Array<EventSortProperty | (string & {})>;
 export interface EventsListRequest {
   /** Filter events following filter clauses. JSON string following the same schema a meter filter clause. */
-  filter?: string;
+  filter?: string | undefined;
   /** Filter events after this timestamp. */
-  start_timestamp?: string;
+  start_timestamp?: string | undefined;
   /** Filter events before this timestamp. */
-  end_timestamp?: string;
+  end_timestamp?: string | undefined;
   /** Filter by organization ID. */
-  organization_id?: EventsListRequestOrganizationId;
+  organization_id?: EventsListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: EventsListRequestCustomerId;
+  customer_id?: EventsListRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: EventsListRequestExternalCustomerId;
+  external_customer_id?: EventsListRequestExternalCustomerId | undefined;
   /** Filter by a meter filter clause. */
-  meter_id?: string;
+  meter_id?: string | undefined;
   /** Filter by event name. */
-  name?: EventsListRequestName;
+  name?: EventsListRequestName | undefined;
   /** Filter by event source. */
-  source?: EventsListRequestSource;
+  source?: EventsListRequestSource | undefined;
   /** Query to filter events. */
-  query?: string;
+  query?: string | undefined;
   /** When combined with depth, use this event as the anchor instead of root events. */
-  parent_id?: string;
+  parent_id?: string | undefined;
   /** Fetch descendants up to this depth. When set: 0=root events only, 1=roots+children, etc. Max 5. When not set, returns all events. */
-  depth?: number;
+  depth?: number | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: EventsListRequestSortingList;
+  sorting?: EventsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceEventItemsList = Array<Event>;
 export interface ListResourceEvent {
@@ -8086,21 +8086,21 @@ export type EventNamesSortProperty =
 export type EventsListNamesRequestSortingList = Array<EventNamesSortProperty | (string & {})>;
 export interface EventsListNamesRequest {
   /** Filter by organization ID. */
-  organization_id?: EventsListNamesRequestOrganizationId;
+  organization_id?: EventsListNamesRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: EventsListNamesRequestCustomerId;
+  customer_id?: EventsListNamesRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: EventsListNamesRequestExternalCustomerId;
+  external_customer_id?: EventsListNamesRequestExternalCustomerId | undefined;
   /** Filter by event source. */
-  source?: EventsListNamesRequestSource;
+  source?: EventsListNamesRequestSource | undefined;
   /** Query to filter event names. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: EventsListNamesRequestSortingList;
+  sorting?: EventsListNamesRequestSortingList | undefined;
 }
 export interface EventName {
   /** The name of the event. */
@@ -8148,39 +8148,39 @@ export type EventTypesSortProperty =
 export type EventTypesListRequestSortingList = Array<EventTypesSortProperty | (string & {})>;
 export interface EventTypesListRequest {
   /** Filter by organization ID. */
-  organization_id?: EventTypesListRequestOrganizationId;
+  organization_id?: EventTypesListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: EventTypesListRequestCustomerId;
+  customer_id?: EventTypesListRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: EventTypesListRequestExternalCustomerId;
+  external_customer_id?: EventTypesListRequestExternalCustomerId | undefined;
   /** Query to filter event types by name or label. */
-  query?: string;
+  query?: string | undefined;
   /** When true, only return event types with root events (parent_id IS NULL). */
-  root_events?: boolean;
+  root_events?: boolean | undefined;
   /** Filter by specific parent event ID. */
-  parent_id?: string;
+  parent_id?: string | undefined;
   /** Filter by event source (system or user). */
-  source?: EventSource | (string & {});
+  source?: EventSource | (string & {}) | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: EventTypesListRequestSortingList;
+  sorting?: EventTypesListRequestSortingList | undefined;
 }
 export interface EventTypeWithStats {
   /** The ID of the event type. Null for system event types. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Creation timestamp of the event type. Null for system event types. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** Last modification timestamp of the event type. Null for system event types. */
-  modified_at?: string | null;
+  modified_at?: string | null | undefined;
   /** The name of the event type. */
   name: string;
   /** The label for the event type. */
   label: string;
   /** Property path to extract dynamic label from event metadata. */
-  label_property_selector?: string | null;
+  label_property_selector?: string | null | undefined;
   /** The ID of the organization owning the event type. */
   organization_id: string;
   /** The source of the events (system or user). */
@@ -8203,7 +8203,7 @@ export interface EventTypesUpdateRequest {
   /** The label for the event type. */
   label: string;
   /** Property path to extract dynamic label from event metadata (e.g., 'subject' or 'metadata.subject'). */
-  label_property_selector?: string | null;
+  label_property_selector?: string | null | undefined;
 }
 export interface EventType {
   /** Creation timestamp of the object. */
@@ -8217,7 +8217,7 @@ export interface EventType {
   /** The label for the event type. */
   label: string;
   /** Property path to extract dynamic label from event metadata. */
-  label_property_selector?: string | null;
+  label_property_selector?: string | null | undefined;
   /** The ID of the organization owning the event type. */
   organization_id: string;
 }
@@ -8225,7 +8225,7 @@ export interface S3FileCreatePart {
   number: number;
   chunk_start: number;
   chunk_end: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
 }
 export type S3FileCreateMultipartPartsList = Array<S3FileCreatePart>;
 export interface S3FileCreateMultipart {
@@ -8233,53 +8233,53 @@ export interface S3FileCreateMultipart {
 }
 /** Schema to create a file to be associated with the downloadables benefit. */
 export interface DownloadableFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   mime_type: string;
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Schema to create a file to be used as a product media file. */
 export interface ProductMediaFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   /** MIME type of the file. Only images are supported for this type of file. */
   mime_type: string;
   /** Size of the file. A maximum of 10 MB is allowed for this type of file. */
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Schema to create a file to be used as an organization avatar. */
 export interface OrganizationAvatarFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   /** MIME type of the file. Only images are supported for this type of file. */
   mime_type: string;
   /** Size of the file. A maximum of 1 MB is allowed for this type of file. */
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Schema to create a file attached to a support case. */
 export interface SupportCaseAttachmentFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   /** MIME type of the file. Images, videos, PDF, CSV, plain text, Word and Excel documents are supported. */
   mime_type: string;
   /** Size of the file. A maximum of 250 MB is allowed for this type of file. */
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export type FileCreate =
   | DownloadableFileCreate
@@ -8294,10 +8294,10 @@ export interface S3FileUploadPart {
   number: number;
   chunk_start: number;
   chunk_end: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   url: string;
   expires_at: string;
-  headers?: S3FileUploadPartHeadersMap;
+  headers?: S3FileUploadPartHeadersMap | undefined;
 }
 export type S3FileUploadMultipartPartsList = Array<S3FileUploadPart>;
 export interface S3FileUploadMultipart {
@@ -8320,7 +8320,7 @@ export interface FileUpload {
   last_modified_at: string | null;
   upload: S3FileUploadMultipart;
   version: string | null;
-  is_uploaded?: boolean;
+  is_uploaded?: boolean | undefined;
   service: FileServiceTypes;
   size_readable: string;
 }
@@ -8336,13 +8336,13 @@ export type FilesListRequestIdsCase1List = Array<string>;
 export type FilesListRequestIds = string | FilesListRequestIdsCase1List;
 export interface FilesListRequest {
   /** Filter by organization ID. */
-  organization_id?: FilesListRequestOrganizationId;
+  organization_id?: FilesListRequestOrganizationId | undefined;
   /** Filter by file ID. */
-  ids?: FilesListRequestIds;
+  ids?: FilesListRequestIds | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** File to be associated with the downloadables benefit. */
 export interface DownloadableFileRead {
@@ -8400,8 +8400,8 @@ export interface ListResourceFileRead {
 export interface FilesUpdateRequest {
   /** The file ID. */
   id: string;
-  name?: string | null;
-  version?: string | null;
+  name?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type FilesUpdateResponse = FileRead;
 export interface S3FileUploadCompletedPart {
@@ -8447,7 +8447,7 @@ export interface CheckoutPublic {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutPublicCustomFieldDataMap;
+  custom_field_data?: CheckoutPublicCustomFieldDataMap | undefined;
   /** Payment processor used. */
   payment_processor: PaymentProcessor;
   /** Status of the checkout session. - Open: the checkout session was opened. - Expired: the checkout session was expired and is no more accessible. - Confirmed: the user on the checkout session clicked Pay. This is not indicative of the payment's success status. - Failed: the checkout definitely failed for technical reasons and cannot be retried. In most cases, this state is never reached. - Succeeded: the payment on the checkout was performed successfully. */
@@ -8467,11 +8467,11 @@ export interface CheckoutPublic {
   /** Amount in cents, before discounts and taxes. */
   amount: number;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
   units: number | null;
   /** Minimum number of units (works with unit-based pricing only) */
@@ -8529,7 +8529,7 @@ export interface CheckoutPublic {
   customer_billing_name: string | null;
   customer_billing_address: Address | null;
   customer_tax_id: string | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
   payment_method_type: string | null;
   payment_processor_metadata: CheckoutPublicPaymentProcessorMetadataMap;
@@ -8562,9 +8562,9 @@ export interface LicenseKeysActivateRequest {
   organization_id: string;
   label: string;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: LicenseKeysActivateRequestConditionsMap;
+  conditions?: LicenseKeysActivateRequestConditionsMap | undefined;
   /** Key-value object allowing you to store additional information about the activation The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  meta?: LicenseKeysActivateRequestMetaMap;
+  meta?: LicenseKeysActivateRequestMetaMap | undefined;
 }
 export interface LicenseKeysDeactivateRequest {
   key: string;
@@ -8605,26 +8605,26 @@ export type LicenseKeysListRequestStatusCase1List = Array<LicenseKeyStatus | (st
 export type LicenseKeysListRequestStatus = LicenseKeyStatus | LicenseKeysListRequestStatusCase1List;
 export interface LicenseKeysListRequest {
   /** Filter by organization ID. */
-  organization_id?: LicenseKeysListRequestOrganizationId;
+  organization_id?: LicenseKeysListRequestOrganizationId | undefined;
   /** Filter by benefit ID. */
-  benefit_id?: LicenseKeysListRequestBenefitId;
+  benefit_id?: LicenseKeysListRequestBenefitId | undefined;
   /** Filter by license key status. */
-  status?: LicenseKeysListRequestStatus;
+  status?: LicenseKeysListRequestStatus | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface LicenseKeysRotateRequest {
   id: string;
 }
 export interface LicenseKeysUpdateRequest {
   id: string;
-  status?: LicenseKeyStatus | (string & {}) | null;
-  usage?: number;
-  limit_activations?: number | null;
-  limit_usage?: number | null;
-  expires_at?: string | null;
+  status?: LicenseKeyStatus | (string & {}) | null | undefined;
+  usage?: number | undefined;
+  limit_activations?: number | null | undefined;
+  limit_usage?: number | null | undefined;
+  expires_at?: string | null | undefined;
 }
 export type LicenseKeysValidateRequestConditionsValue = string | number | number | boolean;
 /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -8634,12 +8634,12 @@ export type LicenseKeysValidateRequestConditionsMap = {
 export interface LicenseKeysValidateRequest {
   key: string;
   organization_id: string;
-  activation_id?: string | null;
-  benefit_id?: string | null;
-  customer_id?: string | null;
-  increment_usage?: number | null;
+  activation_id?: string | null | undefined;
+  benefit_id?: string | null | undefined;
+  customer_id?: string | null | undefined;
+  increment_usage?: number | null | undefined;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: LicenseKeysValidateRequestConditionsMap;
+  conditions?: LicenseKeysValidateRequestConditionsMap | undefined;
 }
 export type MetersCreateRequestMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -8653,23 +8653,23 @@ export type MetersCreateRequestAggregation =
   | UniqueAggregation;
 export interface MetersCreateRequest {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: MetersCreateRequestMetadataMap;
+  metadata?: MetersCreateRequestMetadataMap | undefined;
   /** The name of the meter. Will be shown on customer's invoices and usage. */
   name: string;
   /** The unit of the meter. */
-  unit?: MeterUnit | (string & {});
+  unit?: MeterUnit | (string & {}) | undefined;
   /** The label for the custom unit, e.g. 'request'. Required when unit is 'custom'. */
-  custom_label?: string | null;
+  custom_label?: string | null | undefined;
   /** The multiplier to convert from the base unit to display scale, e.g. 1000 to display per 1000 units. Defaults to 1 when not provided. */
-  custom_multiplier?: number | null;
+  custom_multiplier?: number | null | undefined;
   /** The filter to apply on events that'll be used to calculate the meter. */
   filter: Filter;
   /** The aggregation to apply on the filtered events to calculate the meter. */
   aggregation: MetersCreateRequestAggregation;
   /** The ID of the organization owning the meter. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
 }
 export interface MetersGetRequest {
   /** The meter ID. */
@@ -8688,21 +8688,21 @@ export type MeterSortProperty = "created_at" | "-created_at" | "name" | "-name";
 export type MetersListRequestSortingList = Array<MeterSortProperty | (string & {})>;
 export interface MetersListRequest {
   /** Filter by organization ID. */
-  organization_id?: MetersListRequestOrganizationId;
+  organization_id?: MetersListRequestOrganizationId | undefined;
   /** Filter by meter external ID. */
-  external_id?: MetersListRequestExternalId;
+  external_id?: MetersListRequestExternalId | undefined;
   /** Filter by name. */
-  query?: string;
+  query?: string | undefined;
   /** Filter on archived meters. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: MetersListRequestSortingList;
+  sorting?: MetersListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceMeterItemsList = Array<Meter>;
 export interface ListResourceMeter {
@@ -9329,15 +9329,15 @@ export interface MetersQuantitiesRequest {
   /** Interval between two timestamps. */
   interval: TimeInterval | (string & {});
   /** Timezone to use for the timestamps. Default is UTC. */
-  timezone?: MetersQuantitiesRequestTimezone | (string & {});
+  timezone?: MetersQuantitiesRequestTimezone | (string & {}) | undefined;
   /** Filter by customer ID. */
-  customer_id?: MetersQuantitiesRequestCustomerId;
+  customer_id?: MetersQuantitiesRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: MetersQuantitiesRequestExternalCustomerId;
+  external_customer_id?: MetersQuantitiesRequestExternalCustomerId | undefined;
   /** If set, will first compute the quantities per customer before aggregating them using the given function. If not set, the quantities will be aggregated across all events. */
-  customer_aggregation_function?: AggregationFunction | (string & {});
+  customer_aggregation_function?: AggregationFunction | (string & {}) | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export interface MeterQuantity {
   /** The timestamp for the current period. */
@@ -9364,23 +9364,23 @@ export interface MetersUpdateRequest {
   /** The meter ID. */
   id: string;
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: MetersUpdateRequestMetadataMap;
+  metadata?: MetersUpdateRequestMetadataMap | undefined;
   /** The name of the meter. Will be shown on customer's invoices and usage. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The unit of the meter. */
-  unit?: MeterUnit | (string & {}) | null;
+  unit?: MeterUnit | (string & {}) | null | undefined;
   /** The label for the custom unit. Required when unit is 'custom'. */
-  custom_label?: string | null;
+  custom_label?: string | null | undefined;
   /** The multiplier to convert from base unit to display scale. Required when unit is 'custom'. */
-  custom_multiplier?: number | null;
+  custom_multiplier?: number | null | undefined;
   /** The filter to apply on events that'll be used to calculate the meter. */
-  filter?: Filter | null;
+  filter?: Filter | null | undefined;
   /** The aggregation to apply on the filtered events to calculate the meter. */
-  aggregation?: MetersUpdateRequestAggregation | null;
+  aggregation?: MetersUpdateRequestAggregation | null | undefined;
   /** Whether the meter is archived. Archived meters are no longer used for billing. */
-  is_archived?: boolean | null;
+  is_archived?: boolean | null | undefined;
 }
 /** List of metric slugs to display in this dashboard. */
 export type MetricsCreateDashboardRequestMetricsList = Array<string>;
@@ -9388,9 +9388,9 @@ export interface MetricsCreateDashboardRequest {
   /** Display name for the dashboard. */
   name: string;
   /** List of metric slugs to display in this dashboard. */
-  metrics?: MetricsCreateDashboardRequestMetricsList;
+  metrics?: MetricsCreateDashboardRequestMetricsList | undefined;
   /** The ID of the organization owning this dashboard. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
 }
 /** List of metric slugs displayed in this dashboard. */
 export type MetricDashboardSchemaMetricsList = Array<string>;
@@ -10042,21 +10042,21 @@ export interface MetricsExportRequest {
   /** End date. */
   end_date: string;
   /** Timezone to use for the timestamps. Default is UTC. */
-  timezone?: MetricsExportRequestTimezone | (string & {});
+  timezone?: MetricsExportRequestTimezone | (string & {}) | undefined;
   /** Interval between two timestamps. */
   interval: TimeInterval | (string & {});
   /** Filter by organization ID. */
-  organization_id?: MetricsExportRequestOrganizationId;
+  organization_id?: MetricsExportRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: MetricsExportRequestProductId;
+  product_id?: MetricsExportRequestProductId | undefined;
   /** Filter by product external ID. */
-  external_product_id?: MetricsExportRequestExternalProductId;
+  external_product_id?: MetricsExportRequestExternalProductId | undefined;
   /** Filter by billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  billing_type?: MetricsExportRequestBillingType;
+  billing_type?: MetricsExportRequestBillingType | undefined;
   /** Filter by customer ID. */
-  customer_id?: MetricsExportRequestCustomerId;
+  customer_id?: MetricsExportRequestCustomerId | undefined;
   /** List of metric slugs to include in the export. If not provided, all metrics are exported. */
-  metrics?: MetricsExportRequestMetricsList;
+  metrics?: MetricsExportRequestMetricsList | undefined;
 }
 export interface MetricsExportResponse {}
 /** Timezone to use for the timestamps. Default is UTC. */
@@ -10685,21 +10685,21 @@ export interface MetricsGetRequest {
   /** End date. */
   end_date: string;
   /** Timezone to use for the timestamps. Default is UTC. */
-  timezone?: MetricsGetRequestTimezone | (string & {});
+  timezone?: MetricsGetRequestTimezone | (string & {}) | undefined;
   /** Interval between two timestamps. */
   interval: TimeInterval | (string & {});
   /** Filter by organization ID. */
-  organization_id?: MetricsGetRequestOrganizationId;
+  organization_id?: MetricsGetRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: MetricsGetRequestProductId;
+  product_id?: MetricsGetRequestProductId | undefined;
   /** Filter by product external ID. */
-  external_product_id?: MetricsGetRequestExternalProductId;
+  external_product_id?: MetricsGetRequestExternalProductId | undefined;
   /** Filter by billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  billing_type?: MetricsGetRequestBillingType;
+  billing_type?: MetricsGetRequestBillingType | undefined;
   /** Filter by customer ID. */
-  customer_id?: MetricsGetRequestCustomerId;
+  customer_id?: MetricsGetRequestCustomerId | undefined;
   /** List of metric slugs to focus on. When provided, only the queries needed for these metrics will be executed, improving performance. If not provided, all metrics are returned. */
-  metrics?: MetricsGetRequestMetricsList;
+  metrics?: MetricsGetRequestMetricsList | undefined;
 }
 export type MetricPeriodActiveSubscriptions = number | number;
 export type MetricPeriodCommittedSubscriptions = number | number;
@@ -10759,61 +10759,88 @@ export type MetricPeriodSeatUtilizationRate = number | number;
 export interface MetricPeriod {
   /** Timestamp of this period data. */
   timestamp: string;
-  active_subscriptions?: MetricPeriodActiveSubscriptions | null;
-  committed_subscriptions?: MetricPeriodCommittedSubscriptions | null;
-  monthly_recurring_revenue?: MetricPeriodMonthlyRecurringRevenue | null;
-  trial_monthly_recurring_revenue?: MetricPeriodTrialMonthlyRecurringRevenue | null;
-  committed_monthly_recurring_revenue?: MetricPeriodCommittedMonthlyRecurringRevenue | null;
-  trial_committed_monthly_recurring_revenue?: MetricPeriodTrialCommittedMonthlyRecurringRevenue | null;
-  average_revenue_per_user?: MetricPeriodAverageRevenuePerUser | null;
-  checkouts?: MetricPeriodCheckouts | null;
-  succeeded_checkouts?: MetricPeriodSucceededCheckouts | null;
-  churned_subscriptions?: MetricPeriodChurnedSubscriptions | null;
-  churn_rate?: MetricPeriodChurnRate | null;
-  seats_total?: MetricPeriodSeatsTotal | null;
-  seats_claimed?: MetricPeriodSeatsClaimed | null;
-  seats_pending?: MetricPeriodSeatsPending | null;
-  seat_customers?: MetricPeriodSeatCustomers | null;
-  new_seat_customers?: MetricPeriodNewSeatCustomers | null;
-  churned_seat_customers?: MetricPeriodChurnedSeatCustomers | null;
-  orders?: MetricPeriodOrders | null;
-  revenue?: MetricPeriodRevenue | null;
-  net_revenue?: MetricPeriodNetRevenue | null;
-  cumulative_revenue?: MetricPeriodCumulativeRevenue | null;
-  net_cumulative_revenue?: MetricPeriodNetCumulativeRevenue | null;
-  costs?: MetricPeriodCosts | null;
-  cumulative_costs?: MetricPeriodCumulativeCosts | null;
-  average_order_value?: MetricPeriodAverageOrderValue | null;
-  net_average_order_value?: MetricPeriodNetAverageOrderValue | null;
-  cost_per_user?: MetricPeriodCostPerUser | null;
-  active_user_by_event?: MetricPeriodActiveUserByEvent | null;
-  one_time_products?: MetricPeriodOneTimeProducts | null;
-  one_time_products_revenue?: MetricPeriodOneTimeProductsRevenue | null;
-  one_time_products_net_revenue?: MetricPeriodOneTimeProductsNetRevenue | null;
-  new_subscriptions?: MetricPeriodNewSubscriptions | null;
-  new_subscriptions_revenue?: MetricPeriodNewSubscriptionsRevenue | null;
-  new_subscriptions_net_revenue?: MetricPeriodNewSubscriptionsNetRevenue | null;
-  renewed_subscriptions?: MetricPeriodRenewedSubscriptions | null;
-  renewed_subscriptions_revenue?: MetricPeriodRenewedSubscriptionsRevenue | null;
-  renewed_subscriptions_net_revenue?: MetricPeriodRenewedSubscriptionsNetRevenue | null;
-  canceled_subscriptions?: MetricPeriodCanceledSubscriptions | null;
-  canceled_subscriptions_customer_service?: MetricPeriodCanceledSubscriptionsCustomerService | null;
-  canceled_subscriptions_low_quality?: MetricPeriodCanceledSubscriptionsLowQuality | null;
-  canceled_subscriptions_missing_features?: MetricPeriodCanceledSubscriptionsMissingFeatures | null;
-  canceled_subscriptions_switched_service?: MetricPeriodCanceledSubscriptionsSwitchedService | null;
-  canceled_subscriptions_too_complex?: MetricPeriodCanceledSubscriptionsTooComplex | null;
-  canceled_subscriptions_too_expensive?: MetricPeriodCanceledSubscriptionsTooExpensive | null;
-  canceled_subscriptions_unused?: MetricPeriodCanceledSubscriptionsUnused | null;
-  canceled_subscriptions_other?: MetricPeriodCanceledSubscriptionsOther | null;
-  annual_recurring_revenue?: MetricPeriodAnnualRecurringRevenue | null;
-  committed_annual_recurring_revenue?: MetricPeriodCommittedAnnualRecurringRevenue | null;
-  checkouts_conversion?: MetricPeriodCheckoutsConversion | null;
-  ltv?: MetricPeriodLtv | null;
-  gross_margin?: MetricPeriodGrossMargin | null;
-  gross_margin_percentage?: MetricPeriodGrossMarginPercentage | null;
-  cashflow?: MetricPeriodCashflow | null;
-  average_seats_per_customer?: MetricPeriodAverageSeatsPerCustomer | null;
-  seat_utilization_rate?: MetricPeriodSeatUtilizationRate | null;
+  active_subscriptions?: MetricPeriodActiveSubscriptions | null | undefined;
+  committed_subscriptions?: MetricPeriodCommittedSubscriptions | null | undefined;
+  monthly_recurring_revenue?: MetricPeriodMonthlyRecurringRevenue | null | undefined;
+  trial_monthly_recurring_revenue?: MetricPeriodTrialMonthlyRecurringRevenue | null | undefined;
+  committed_monthly_recurring_revenue?:
+    | MetricPeriodCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  trial_committed_monthly_recurring_revenue?:
+    | MetricPeriodTrialCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  average_revenue_per_user?: MetricPeriodAverageRevenuePerUser | null | undefined;
+  checkouts?: MetricPeriodCheckouts | null | undefined;
+  succeeded_checkouts?: MetricPeriodSucceededCheckouts | null | undefined;
+  churned_subscriptions?: MetricPeriodChurnedSubscriptions | null | undefined;
+  churn_rate?: MetricPeriodChurnRate | null | undefined;
+  seats_total?: MetricPeriodSeatsTotal | null | undefined;
+  seats_claimed?: MetricPeriodSeatsClaimed | null | undefined;
+  seats_pending?: MetricPeriodSeatsPending | null | undefined;
+  seat_customers?: MetricPeriodSeatCustomers | null | undefined;
+  new_seat_customers?: MetricPeriodNewSeatCustomers | null | undefined;
+  churned_seat_customers?: MetricPeriodChurnedSeatCustomers | null | undefined;
+  orders?: MetricPeriodOrders | null | undefined;
+  revenue?: MetricPeriodRevenue | null | undefined;
+  net_revenue?: MetricPeriodNetRevenue | null | undefined;
+  cumulative_revenue?: MetricPeriodCumulativeRevenue | null | undefined;
+  net_cumulative_revenue?: MetricPeriodNetCumulativeRevenue | null | undefined;
+  costs?: MetricPeriodCosts | null | undefined;
+  cumulative_costs?: MetricPeriodCumulativeCosts | null | undefined;
+  average_order_value?: MetricPeriodAverageOrderValue | null | undefined;
+  net_average_order_value?: MetricPeriodNetAverageOrderValue | null | undefined;
+  cost_per_user?: MetricPeriodCostPerUser | null | undefined;
+  active_user_by_event?: MetricPeriodActiveUserByEvent | null | undefined;
+  one_time_products?: MetricPeriodOneTimeProducts | null | undefined;
+  one_time_products_revenue?: MetricPeriodOneTimeProductsRevenue | null | undefined;
+  one_time_products_net_revenue?: MetricPeriodOneTimeProductsNetRevenue | null | undefined;
+  new_subscriptions?: MetricPeriodNewSubscriptions | null | undefined;
+  new_subscriptions_revenue?: MetricPeriodNewSubscriptionsRevenue | null | undefined;
+  new_subscriptions_net_revenue?: MetricPeriodNewSubscriptionsNetRevenue | null | undefined;
+  renewed_subscriptions?: MetricPeriodRenewedSubscriptions | null | undefined;
+  renewed_subscriptions_revenue?: MetricPeriodRenewedSubscriptionsRevenue | null | undefined;
+  renewed_subscriptions_net_revenue?: MetricPeriodRenewedSubscriptionsNetRevenue | null | undefined;
+  canceled_subscriptions?: MetricPeriodCanceledSubscriptions | null | undefined;
+  canceled_subscriptions_customer_service?:
+    | MetricPeriodCanceledSubscriptionsCustomerService
+    | null
+    | undefined;
+  canceled_subscriptions_low_quality?:
+    | MetricPeriodCanceledSubscriptionsLowQuality
+    | null
+    | undefined;
+  canceled_subscriptions_missing_features?:
+    | MetricPeriodCanceledSubscriptionsMissingFeatures
+    | null
+    | undefined;
+  canceled_subscriptions_switched_service?:
+    | MetricPeriodCanceledSubscriptionsSwitchedService
+    | null
+    | undefined;
+  canceled_subscriptions_too_complex?:
+    | MetricPeriodCanceledSubscriptionsTooComplex
+    | null
+    | undefined;
+  canceled_subscriptions_too_expensive?:
+    | MetricPeriodCanceledSubscriptionsTooExpensive
+    | null
+    | undefined;
+  canceled_subscriptions_unused?: MetricPeriodCanceledSubscriptionsUnused | null | undefined;
+  canceled_subscriptions_other?: MetricPeriodCanceledSubscriptionsOther | null | undefined;
+  annual_recurring_revenue?: MetricPeriodAnnualRecurringRevenue | null | undefined;
+  committed_annual_recurring_revenue?:
+    | MetricPeriodCommittedAnnualRecurringRevenue
+    | null
+    | undefined;
+  checkouts_conversion?: MetricPeriodCheckoutsConversion | null | undefined;
+  ltv?: MetricPeriodLtv | null | undefined;
+  gross_margin?: MetricPeriodGrossMargin | null | undefined;
+  gross_margin_percentage?: MetricPeriodGrossMarginPercentage | null | undefined;
+  cashflow?: MetricPeriodCashflow | null | undefined;
+  average_seats_per_customer?: MetricPeriodAverageSeatsPerCustomer | null | undefined;
+  seat_utilization_rate?: MetricPeriodSeatUtilizationRate | null | undefined;
 }
 /** List of data for each timestamp. */
 export type MetricsResponsePeriodsList = Array<MetricPeriod>;
@@ -10873,61 +10900,91 @@ export type MetricsTotalsCashflow = number | number;
 export type MetricsTotalsAverageSeatsPerCustomer = number | number;
 export type MetricsTotalsSeatUtilizationRate = number | number;
 export interface MetricsTotals {
-  active_subscriptions?: MetricsTotalsActiveSubscriptions | null;
-  committed_subscriptions?: MetricsTotalsCommittedSubscriptions | null;
-  monthly_recurring_revenue?: MetricsTotalsMonthlyRecurringRevenue | null;
-  trial_monthly_recurring_revenue?: MetricsTotalsTrialMonthlyRecurringRevenue | null;
-  committed_monthly_recurring_revenue?: MetricsTotalsCommittedMonthlyRecurringRevenue | null;
-  trial_committed_monthly_recurring_revenue?: MetricsTotalsTrialCommittedMonthlyRecurringRevenue | null;
-  average_revenue_per_user?: MetricsTotalsAverageRevenuePerUser | null;
-  checkouts?: MetricsTotalsCheckouts | null;
-  succeeded_checkouts?: MetricsTotalsSucceededCheckouts | null;
-  churned_subscriptions?: MetricsTotalsChurnedSubscriptions | null;
-  churn_rate?: MetricsTotalsChurnRate | null;
-  seats_total?: MetricsTotalsSeatsTotal | null;
-  seats_claimed?: MetricsTotalsSeatsClaimed | null;
-  seats_pending?: MetricsTotalsSeatsPending | null;
-  seat_customers?: MetricsTotalsSeatCustomers | null;
-  new_seat_customers?: MetricsTotalsNewSeatCustomers | null;
-  churned_seat_customers?: MetricsTotalsChurnedSeatCustomers | null;
-  orders?: MetricsTotalsOrders | null;
-  revenue?: MetricsTotalsRevenue | null;
-  net_revenue?: MetricsTotalsNetRevenue | null;
-  cumulative_revenue?: MetricsTotalsCumulativeRevenue | null;
-  net_cumulative_revenue?: MetricsTotalsNetCumulativeRevenue | null;
-  costs?: MetricsTotalsCosts | null;
-  cumulative_costs?: MetricsTotalsCumulativeCosts | null;
-  average_order_value?: MetricsTotalsAverageOrderValue | null;
-  net_average_order_value?: MetricsTotalsNetAverageOrderValue | null;
-  cost_per_user?: MetricsTotalsCostPerUser | null;
-  active_user_by_event?: MetricsTotalsActiveUserByEvent | null;
-  one_time_products?: MetricsTotalsOneTimeProducts | null;
-  one_time_products_revenue?: MetricsTotalsOneTimeProductsRevenue | null;
-  one_time_products_net_revenue?: MetricsTotalsOneTimeProductsNetRevenue | null;
-  new_subscriptions?: MetricsTotalsNewSubscriptions | null;
-  new_subscriptions_revenue?: MetricsTotalsNewSubscriptionsRevenue | null;
-  new_subscriptions_net_revenue?: MetricsTotalsNewSubscriptionsNetRevenue | null;
-  renewed_subscriptions?: MetricsTotalsRenewedSubscriptions | null;
-  renewed_subscriptions_revenue?: MetricsTotalsRenewedSubscriptionsRevenue | null;
-  renewed_subscriptions_net_revenue?: MetricsTotalsRenewedSubscriptionsNetRevenue | null;
-  canceled_subscriptions?: MetricsTotalsCanceledSubscriptions | null;
-  canceled_subscriptions_customer_service?: MetricsTotalsCanceledSubscriptionsCustomerService | null;
-  canceled_subscriptions_low_quality?: MetricsTotalsCanceledSubscriptionsLowQuality | null;
-  canceled_subscriptions_missing_features?: MetricsTotalsCanceledSubscriptionsMissingFeatures | null;
-  canceled_subscriptions_switched_service?: MetricsTotalsCanceledSubscriptionsSwitchedService | null;
-  canceled_subscriptions_too_complex?: MetricsTotalsCanceledSubscriptionsTooComplex | null;
-  canceled_subscriptions_too_expensive?: MetricsTotalsCanceledSubscriptionsTooExpensive | null;
-  canceled_subscriptions_unused?: MetricsTotalsCanceledSubscriptionsUnused | null;
-  canceled_subscriptions_other?: MetricsTotalsCanceledSubscriptionsOther | null;
-  annual_recurring_revenue?: MetricsTotalsAnnualRecurringRevenue | null;
-  committed_annual_recurring_revenue?: MetricsTotalsCommittedAnnualRecurringRevenue | null;
-  checkouts_conversion?: MetricsTotalsCheckoutsConversion | null;
-  ltv?: MetricsTotalsLtv | null;
-  gross_margin?: MetricsTotalsGrossMargin | null;
-  gross_margin_percentage?: MetricsTotalsGrossMarginPercentage | null;
-  cashflow?: MetricsTotalsCashflow | null;
-  average_seats_per_customer?: MetricsTotalsAverageSeatsPerCustomer | null;
-  seat_utilization_rate?: MetricsTotalsSeatUtilizationRate | null;
+  active_subscriptions?: MetricsTotalsActiveSubscriptions | null | undefined;
+  committed_subscriptions?: MetricsTotalsCommittedSubscriptions | null | undefined;
+  monthly_recurring_revenue?: MetricsTotalsMonthlyRecurringRevenue | null | undefined;
+  trial_monthly_recurring_revenue?: MetricsTotalsTrialMonthlyRecurringRevenue | null | undefined;
+  committed_monthly_recurring_revenue?:
+    | MetricsTotalsCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  trial_committed_monthly_recurring_revenue?:
+    | MetricsTotalsTrialCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  average_revenue_per_user?: MetricsTotalsAverageRevenuePerUser | null | undefined;
+  checkouts?: MetricsTotalsCheckouts | null | undefined;
+  succeeded_checkouts?: MetricsTotalsSucceededCheckouts | null | undefined;
+  churned_subscriptions?: MetricsTotalsChurnedSubscriptions | null | undefined;
+  churn_rate?: MetricsTotalsChurnRate | null | undefined;
+  seats_total?: MetricsTotalsSeatsTotal | null | undefined;
+  seats_claimed?: MetricsTotalsSeatsClaimed | null | undefined;
+  seats_pending?: MetricsTotalsSeatsPending | null | undefined;
+  seat_customers?: MetricsTotalsSeatCustomers | null | undefined;
+  new_seat_customers?: MetricsTotalsNewSeatCustomers | null | undefined;
+  churned_seat_customers?: MetricsTotalsChurnedSeatCustomers | null | undefined;
+  orders?: MetricsTotalsOrders | null | undefined;
+  revenue?: MetricsTotalsRevenue | null | undefined;
+  net_revenue?: MetricsTotalsNetRevenue | null | undefined;
+  cumulative_revenue?: MetricsTotalsCumulativeRevenue | null | undefined;
+  net_cumulative_revenue?: MetricsTotalsNetCumulativeRevenue | null | undefined;
+  costs?: MetricsTotalsCosts | null | undefined;
+  cumulative_costs?: MetricsTotalsCumulativeCosts | null | undefined;
+  average_order_value?: MetricsTotalsAverageOrderValue | null | undefined;
+  net_average_order_value?: MetricsTotalsNetAverageOrderValue | null | undefined;
+  cost_per_user?: MetricsTotalsCostPerUser | null | undefined;
+  active_user_by_event?: MetricsTotalsActiveUserByEvent | null | undefined;
+  one_time_products?: MetricsTotalsOneTimeProducts | null | undefined;
+  one_time_products_revenue?: MetricsTotalsOneTimeProductsRevenue | null | undefined;
+  one_time_products_net_revenue?: MetricsTotalsOneTimeProductsNetRevenue | null | undefined;
+  new_subscriptions?: MetricsTotalsNewSubscriptions | null | undefined;
+  new_subscriptions_revenue?: MetricsTotalsNewSubscriptionsRevenue | null | undefined;
+  new_subscriptions_net_revenue?: MetricsTotalsNewSubscriptionsNetRevenue | null | undefined;
+  renewed_subscriptions?: MetricsTotalsRenewedSubscriptions | null | undefined;
+  renewed_subscriptions_revenue?: MetricsTotalsRenewedSubscriptionsRevenue | null | undefined;
+  renewed_subscriptions_net_revenue?:
+    | MetricsTotalsRenewedSubscriptionsNetRevenue
+    | null
+    | undefined;
+  canceled_subscriptions?: MetricsTotalsCanceledSubscriptions | null | undefined;
+  canceled_subscriptions_customer_service?:
+    | MetricsTotalsCanceledSubscriptionsCustomerService
+    | null
+    | undefined;
+  canceled_subscriptions_low_quality?:
+    | MetricsTotalsCanceledSubscriptionsLowQuality
+    | null
+    | undefined;
+  canceled_subscriptions_missing_features?:
+    | MetricsTotalsCanceledSubscriptionsMissingFeatures
+    | null
+    | undefined;
+  canceled_subscriptions_switched_service?:
+    | MetricsTotalsCanceledSubscriptionsSwitchedService
+    | null
+    | undefined;
+  canceled_subscriptions_too_complex?:
+    | MetricsTotalsCanceledSubscriptionsTooComplex
+    | null
+    | undefined;
+  canceled_subscriptions_too_expensive?:
+    | MetricsTotalsCanceledSubscriptionsTooExpensive
+    | null
+    | undefined;
+  canceled_subscriptions_unused?: MetricsTotalsCanceledSubscriptionsUnused | null | undefined;
+  canceled_subscriptions_other?: MetricsTotalsCanceledSubscriptionsOther | null | undefined;
+  annual_recurring_revenue?: MetricsTotalsAnnualRecurringRevenue | null | undefined;
+  committed_annual_recurring_revenue?:
+    | MetricsTotalsCommittedAnnualRecurringRevenue
+    | null
+    | undefined;
+  checkouts_conversion?: MetricsTotalsCheckoutsConversion | null | undefined;
+  ltv?: MetricsTotalsLtv | null | undefined;
+  gross_margin?: MetricsTotalsGrossMargin | null | undefined;
+  gross_margin_percentage?: MetricsTotalsGrossMarginPercentage | null | undefined;
+  cashflow?: MetricsTotalsCashflow | null | undefined;
+  average_seats_per_customer?: MetricsTotalsAverageSeatsPerCustomer | null | undefined;
+  seat_utilization_rate?: MetricsTotalsSeatUtilizationRate | null | undefined;
 }
 export type MetricType = "scalar" | "currency" | "currency_sub_cent" | "percentage";
 /** Information about a metric. */
@@ -10940,61 +10997,61 @@ export interface Metric {
   type: MetricType;
 }
 export interface Metrics {
-  active_subscriptions?: Metric | null;
-  committed_subscriptions?: Metric | null;
-  monthly_recurring_revenue?: Metric | null;
-  trial_monthly_recurring_revenue?: Metric | null;
-  committed_monthly_recurring_revenue?: Metric | null;
-  trial_committed_monthly_recurring_revenue?: Metric | null;
-  average_revenue_per_user?: Metric | null;
-  checkouts?: Metric | null;
-  succeeded_checkouts?: Metric | null;
-  churned_subscriptions?: Metric | null;
-  churn_rate?: Metric | null;
-  seats_total?: Metric | null;
-  seats_claimed?: Metric | null;
-  seats_pending?: Metric | null;
-  seat_customers?: Metric | null;
-  new_seat_customers?: Metric | null;
-  churned_seat_customers?: Metric | null;
-  orders?: Metric | null;
-  revenue?: Metric | null;
-  net_revenue?: Metric | null;
-  cumulative_revenue?: Metric | null;
-  net_cumulative_revenue?: Metric | null;
-  costs?: Metric | null;
-  cumulative_costs?: Metric | null;
-  average_order_value?: Metric | null;
-  net_average_order_value?: Metric | null;
-  cost_per_user?: Metric | null;
-  active_user_by_event?: Metric | null;
-  one_time_products?: Metric | null;
-  one_time_products_revenue?: Metric | null;
-  one_time_products_net_revenue?: Metric | null;
-  new_subscriptions?: Metric | null;
-  new_subscriptions_revenue?: Metric | null;
-  new_subscriptions_net_revenue?: Metric | null;
-  renewed_subscriptions?: Metric | null;
-  renewed_subscriptions_revenue?: Metric | null;
-  renewed_subscriptions_net_revenue?: Metric | null;
-  canceled_subscriptions?: Metric | null;
-  canceled_subscriptions_customer_service?: Metric | null;
-  canceled_subscriptions_low_quality?: Metric | null;
-  canceled_subscriptions_missing_features?: Metric | null;
-  canceled_subscriptions_switched_service?: Metric | null;
-  canceled_subscriptions_too_complex?: Metric | null;
-  canceled_subscriptions_too_expensive?: Metric | null;
-  canceled_subscriptions_unused?: Metric | null;
-  canceled_subscriptions_other?: Metric | null;
-  annual_recurring_revenue?: Metric | null;
-  committed_annual_recurring_revenue?: Metric | null;
-  checkouts_conversion?: Metric | null;
-  ltv?: Metric | null;
-  gross_margin?: Metric | null;
-  gross_margin_percentage?: Metric | null;
-  cashflow?: Metric | null;
-  average_seats_per_customer?: Metric | null;
-  seat_utilization_rate?: Metric | null;
+  active_subscriptions?: Metric | null | undefined;
+  committed_subscriptions?: Metric | null | undefined;
+  monthly_recurring_revenue?: Metric | null | undefined;
+  trial_monthly_recurring_revenue?: Metric | null | undefined;
+  committed_monthly_recurring_revenue?: Metric | null | undefined;
+  trial_committed_monthly_recurring_revenue?: Metric | null | undefined;
+  average_revenue_per_user?: Metric | null | undefined;
+  checkouts?: Metric | null | undefined;
+  succeeded_checkouts?: Metric | null | undefined;
+  churned_subscriptions?: Metric | null | undefined;
+  churn_rate?: Metric | null | undefined;
+  seats_total?: Metric | null | undefined;
+  seats_claimed?: Metric | null | undefined;
+  seats_pending?: Metric | null | undefined;
+  seat_customers?: Metric | null | undefined;
+  new_seat_customers?: Metric | null | undefined;
+  churned_seat_customers?: Metric | null | undefined;
+  orders?: Metric | null | undefined;
+  revenue?: Metric | null | undefined;
+  net_revenue?: Metric | null | undefined;
+  cumulative_revenue?: Metric | null | undefined;
+  net_cumulative_revenue?: Metric | null | undefined;
+  costs?: Metric | null | undefined;
+  cumulative_costs?: Metric | null | undefined;
+  average_order_value?: Metric | null | undefined;
+  net_average_order_value?: Metric | null | undefined;
+  cost_per_user?: Metric | null | undefined;
+  active_user_by_event?: Metric | null | undefined;
+  one_time_products?: Metric | null | undefined;
+  one_time_products_revenue?: Metric | null | undefined;
+  one_time_products_net_revenue?: Metric | null | undefined;
+  new_subscriptions?: Metric | null | undefined;
+  new_subscriptions_revenue?: Metric | null | undefined;
+  new_subscriptions_net_revenue?: Metric | null | undefined;
+  renewed_subscriptions?: Metric | null | undefined;
+  renewed_subscriptions_revenue?: Metric | null | undefined;
+  renewed_subscriptions_net_revenue?: Metric | null | undefined;
+  canceled_subscriptions?: Metric | null | undefined;
+  canceled_subscriptions_customer_service?: Metric | null | undefined;
+  canceled_subscriptions_low_quality?: Metric | null | undefined;
+  canceled_subscriptions_missing_features?: Metric | null | undefined;
+  canceled_subscriptions_switched_service?: Metric | null | undefined;
+  canceled_subscriptions_too_complex?: Metric | null | undefined;
+  canceled_subscriptions_too_expensive?: Metric | null | undefined;
+  canceled_subscriptions_unused?: Metric | null | undefined;
+  canceled_subscriptions_other?: Metric | null | undefined;
+  annual_recurring_revenue?: Metric | null | undefined;
+  committed_annual_recurring_revenue?: Metric | null | undefined;
+  checkouts_conversion?: Metric | null | undefined;
+  ltv?: Metric | null | undefined;
+  gross_margin?: Metric | null | undefined;
+  gross_margin_percentage?: Metric | null | undefined;
+  cashflow?: Metric | null | undefined;
+  average_seats_per_customer?: Metric | null | undefined;
+  seat_utilization_rate?: Metric | null | undefined;
 }
 /** Metrics response schema. */
 export interface MetricsResponse {
@@ -11044,7 +11101,7 @@ export type MetricsListDashboardsRequestOrganizationId =
   | MetricsListDashboardsRequestOrganizationIdCase1List;
 export interface MetricsListDashboardsRequest {
   /** Filter by organization ID. */
-  organization_id?: MetricsListDashboardsRequestOrganizationId;
+  organization_id?: MetricsListDashboardsRequestOrganizationId | undefined;
 }
 export type MetricsListDashboardsResponseBodyList = Array<MetricDashboardSchema>;
 export type MetricsListDashboardsResponse = MetricsListDashboardsResponseBodyList;
@@ -11053,9 +11110,9 @@ export interface MetricsUpdateDashboardRequest {
   /** The metric dashboard ID. */
   id: string;
   /** Display name for the dashboard. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** List of metric slugs to display in this dashboard. */
-  metrics?: MetricsUpdateDashboardRequestMetricsList | null;
+  metrics?: MetricsUpdateDashboardRequestMetricsList | null | undefined;
 }
 export interface Oauth2AuthorizeRequest {}
 export interface OAuth2ClientPublic {
@@ -11154,8 +11211,8 @@ export interface AuthorizeResponseUser {
   sub: AuthorizeUser | null;
   scopes: AuthorizeResponseUserScopesList;
   organizations: AuthorizeResponseUserOrganizationsList;
-  requires_single_organization?: boolean;
-  scope_display_names?: AuthorizeResponseUserScopeDisplayNamesMap;
+  requires_single_organization?: boolean | undefined;
+  scope_display_names?: AuthorizeResponseUserScopeDisplayNamesMap | undefined;
 }
 export type AuthorizeResponseOrganizationScopesList = Array<Scope>;
 export type AuthorizeResponseOrganizationOrganizationsList = Array<AuthorizeOrganization>;
@@ -11168,8 +11225,8 @@ export interface AuthorizeResponseOrganization {
   sub: AuthorizeOrganization | null;
   scopes: AuthorizeResponseOrganizationScopesList;
   organizations: AuthorizeResponseOrganizationOrganizationsList;
-  requires_single_organization?: boolean;
-  scope_display_names?: AuthorizeResponseOrganizationScopeDisplayNamesMap;
+  requires_single_organization?: boolean | undefined;
+  scope_display_names?: AuthorizeResponseOrganizationScopeDisplayNamesMap | undefined;
 }
 export type Oauth2AuthorizeResponseBody = AuthorizeResponseUser | AuthorizeResponseOrganization;
 export type Oauth2AuthorizeResponse = Oauth2AuthorizeResponseBody;
@@ -11190,16 +11247,17 @@ export interface Oauth2ClientsOauth2CreateClientRequest {
   redirect_uris: Oauth2ClientsOauth2CreateClientRequestRedirectUrisList;
   token_endpoint_auth_method?:
     | Oauth2ClientsOauth2CreateClientRequestTokenEndpointAuthMethod
-    | (string & {});
-  grant_types?: Oauth2ClientsOauth2CreateClientRequestGrantTypesList;
-  response_types?: Oauth2ClientsOauth2CreateClientRequestResponseTypesList;
-  scope?: string;
+    | (string & {})
+    | undefined;
+  grant_types?: Oauth2ClientsOauth2CreateClientRequestGrantTypesList | undefined;
+  response_types?: Oauth2ClientsOauth2CreateClientRequestResponseTypesList | undefined;
+  scope?: string | undefined;
   client_name: string;
-  client_uri?: string | null;
-  logo_uri?: string | null;
-  tos_uri?: string | null;
-  policy_uri?: string | null;
-  default_sub_type?: SubType | (string & {});
+  client_uri?: string | null | undefined;
+  logo_uri?: string | null | undefined;
+  tos_uri?: string | null | undefined;
+  policy_uri?: string | null | undefined;
+  default_sub_type?: SubType | (string & {}) | undefined;
 }
 export type Oauth2ClientsOauth2CreateClientResponse = unknown;
 export interface Oauth2ClientsOauth2DeleteClientRequest {
@@ -11227,22 +11285,23 @@ export interface Oauth2ClientsOauth2UpdateClientRequest {
   redirect_uris: Oauth2ClientsOauth2UpdateClientRequestRedirectUrisList;
   token_endpoint_auth_method?:
     | Oauth2ClientsOauth2UpdateClientRequestTokenEndpointAuthMethod
-    | (string & {});
-  grant_types?: Oauth2ClientsOauth2UpdateClientRequestGrantTypesList;
-  response_types?: Oauth2ClientsOauth2UpdateClientRequestResponseTypesList;
-  scope?: string;
+    | (string & {})
+    | undefined;
+  grant_types?: Oauth2ClientsOauth2UpdateClientRequestGrantTypesList | undefined;
+  response_types?: Oauth2ClientsOauth2UpdateClientRequestResponseTypesList | undefined;
+  scope?: string | undefined;
   client_name: string;
-  client_uri?: string | null;
-  logo_uri?: string | null;
-  tos_uri?: string | null;
-  policy_uri?: string | null;
-  default_sub_type?: SubType | (string & {});
+  client_uri?: string | null | undefined;
+  logo_uri?: string | null | undefined;
+  tos_uri?: string | null | undefined;
+  policy_uri?: string | null | undefined;
+  default_sub_type?: SubType | (string & {}) | undefined;
 }
 export type Oauth2ClientsOauth2UpdateClientResponse = unknown;
 export type Oauth2IntrospectTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2IntrospectTokenRequest {
   token: string;
-  token_type_hint?: Oauth2IntrospectTokenRequestTokenTypeHint | (string & {}) | null;
+  token_type_hint?: Oauth2IntrospectTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
 }
@@ -11280,9 +11339,9 @@ export interface WebTokenRequest {
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
   session_token: string | Redacted.Redacted<string>;
-  sub_type?: WebTokenRequestSubType | (string & {});
-  sub?: string | null;
-  scope?: string | null;
+  sub_type?: WebTokenRequestSubType | (string & {}) | undefined;
+  sub?: string | null | undefined;
+  scope?: string | null | undefined;
 }
 export type Oauth2RequestTokenRequestBody =
   | AuthorizationCodeTokenRequest
@@ -11295,14 +11354,14 @@ export interface TokenResponse {
   access_token: string | Redacted.Redacted<string>;
   token_type: string;
   expires_in: number;
-  refresh_token?: string | null;
+  refresh_token?: string | null | undefined;
   scope: string;
-  id_token?: string | null;
+  id_token?: string | null | undefined;
 }
 export type Oauth2RevokeTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2RevokeTokenRequest {
   token: string;
-  token_type_hint?: Oauth2RevokeTokenRequestTokenTypeHint | (string & {}) | null;
+  token_type_hint?: Oauth2RevokeTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
 }
@@ -11310,13 +11369,13 @@ export type Oauth2RevokeTokenResponse = unknown;
 export interface Oauth2UserinfoRequest {}
 export interface UserInfoUser {
   sub: string;
-  name?: string | null;
-  email?: string | null;
-  email_verified?: boolean | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
+  email_verified?: boolean | null | undefined;
 }
 export interface UserInfoOrganization {
   sub: string;
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type Oauth2UserinfoResponseBody = UserInfoUser | UserInfoOrganization;
 export type Oauth2UserinfoResponse = Oauth2UserinfoResponseBody;
@@ -11332,23 +11391,23 @@ export type OrdersCreateRequestMetadataMap = {
 };
 export interface OrdersCreateRequest {
   /** Key-value object storing custom field values. */
-  custom_field_data?: OrdersCreateRequestCustomFieldDataMap;
+  custom_field_data?: OrdersCreateRequestCustomFieldDataMap | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: OrdersCreateRequestMetadataMap;
+  metadata?: OrdersCreateRequestMetadataMap | undefined;
   /** The ID of the organization the order belongs to. **Required unless you use an organization token.** The customer and product must belong to this organization. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The ID of the customer the order is for. Must belong to the order's organization. */
   customer_id: string;
   /** The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported. */
   product_id: string;
   /** The currency to charge in (ISO 4217, lowercase, e.g. `usd`). Defaults to the organization's default currency; specify it to force a different one, or when the product isn't priced in the organization's default currency. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum. Can't be combined with `units`. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The number of units to charge for. Required when the product has unit-based pricing, and rejected otherwise. The amount comes from the price's tiers. Can't be combined with `amount`. */
-  units?: number | null;
+  units?: number | null | undefined;
   /** A custom description for the order's line item, shown on the invoice and receipt (e.g. `5,000 tokens`). Defaults to the product name. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type OrderCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
@@ -11365,9 +11424,9 @@ export interface OrderCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -11378,11 +11437,11 @@ export interface OrderCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: OrderCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -11470,7 +11529,7 @@ export interface OrderSubscription {
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -11485,7 +11544,7 @@ export interface OrderSubscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
@@ -11533,7 +11592,7 @@ export interface Order {
   /** The receipt number for this order. Set once the order is paid for organizations with receipts enabled. When set, a downloadable receipt PDF can be obtained via the receipt endpoint. */
   receipt_number: string | null;
   /** Number of seats purchased (for seat-based one-time orders). */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units purchased (for unit-based pricing). */
   units: number | null;
   customer_id: string;
@@ -11542,10 +11601,10 @@ export interface Order {
   subscription_id: string | null;
   checkout_id: string | null;
   /** When the next automatic payment retry is scheduled. `null` if the order is not in dunning or all retries have been exhausted. */
-  next_payment_attempt_at?: string | null;
+  next_payment_attempt_at?: string | null | undefined;
   metadata: MetadataOutputType;
   /** Key-value object storing custom field values. */
-  custom_field_data?: OrderCustomFieldDataMap;
+  custom_field_data?: OrderCustomFieldDataMap | undefined;
   /** Platform fee amount in cents. */
   platform_fee_amount: number;
   /** Currency of the platform fee. */
@@ -11599,28 +11658,28 @@ export type OrdersExportRequestColumnsCase1List = Array<OrderExportColumn | (str
 export type OrdersExportRequestColumns = OrderExportColumn | OrdersExportRequestColumnsCase1List;
 export interface OrdersExportRequest {
   /** Filter by organization ID. */
-  organization_id?: OrdersExportRequestOrganizationId;
+  organization_id?: OrdersExportRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: OrdersExportRequestProductId;
+  product_id?: OrdersExportRequestProductId | undefined;
   /** Filter by product external ID. */
-  external_product_id?: OrdersExportRequestExternalProductId;
+  external_product_id?: OrdersExportRequestExternalProductId | undefined;
   /** Filter by order status. */
-  status?: OrdersExportRequestStatus;
+  status?: OrdersExportRequestStatus | undefined;
   /** Only include orders created after this date. Must include a UTC offset. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only include orders created before this date. Must include a UTC offset. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Time zone used to render dates in the CSV. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Columns to include in the CSV, in order. Defaults to email, created_at, product, net_amount, currency, status and invoice_number. */
-  columns?: OrdersExportRequestColumns;
+  columns?: OrdersExportRequestColumns | undefined;
 }
 export interface OrdersExportResponse {}
 export interface OrdersFinalizeRequest {
   /** The order ID. */
   id: string;
   /** ID of the payment method to charge. Must belong to the order's customer. Falls back to the customer's default payment method when unset. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
 }
 export interface OrdersGenerateInvoiceRequest {
   /** The order ID. */
@@ -11700,37 +11759,37 @@ export type OrderSortProperty =
 export type OrdersListRequestSortingList = Array<OrderSortProperty | (string & {})>;
 export interface OrdersListRequest {
   /** Filter by organization ID. */
-  organization_id?: OrdersListRequestOrganizationId;
+  organization_id?: OrdersListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: OrdersListRequestProductId;
+  product_id?: OrdersListRequestProductId | undefined;
   /** Filter by product external ID. */
-  external_product_id?: OrdersListRequestExternalProductId;
+  external_product_id?: OrdersListRequestExternalProductId | undefined;
   /** Filter by product billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  product_billing_type?: OrdersListRequestProductBillingType;
+  product_billing_type?: OrdersListRequestProductBillingType | undefined;
   /** Filter by discount ID. */
-  discount_id?: OrdersListRequestDiscountId;
+  discount_id?: OrdersListRequestDiscountId | undefined;
   /** Filter by customer ID. */
-  customer_id?: OrdersListRequestCustomerId;
+  customer_id?: OrdersListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: OrdersListRequestExternalCustomerId;
+  external_customer_id?: OrdersListRequestExternalCustomerId | undefined;
   /** Filter by checkout ID. */
-  checkout_id?: OrdersListRequestCheckoutId;
+  checkout_id?: OrdersListRequestCheckoutId | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: OrdersListRequestSubscriptionId;
+  subscription_id?: OrdersListRequestSubscriptionId | undefined;
   /** Filter by order status. */
-  status?: OrdersListRequestStatus;
+  status?: OrdersListRequestStatus | undefined;
   /** Only include orders created after this date */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only include orders created before this date */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: OrdersListRequestSortingList;
+  sorting?: OrdersListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceOrderItemsList = Array<Order>;
 export interface ListResourceOrder {
@@ -11750,9 +11809,9 @@ export interface OrdersUpdateRequest {
   /** The order ID. */
   id: string;
   /** The name of the customer that should appear on the invoice. */
-  billing_name?: string | null;
+  billing_name?: string | null | undefined;
   /** The address of the customer that should appear on the invoice. Country and state fields cannot be updated. */
-  billing_address?: AddressInput | null;
+  billing_address?: AddressInput | null | undefined;
 }
 export interface OrganizationIndividualLegalEntitySchema {
   type: string;
@@ -11794,15 +11853,15 @@ export type OrganizationDetailsInputSwitchingFrom =
   | "other";
 export interface OrganizationDetailsInput {
   /** Description of digital products being sold. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Categories of products being sold. */
-  selling_categories?: OrganizationDetailsInputSellingCategoriesList;
+  selling_categories?: OrganizationDetailsInputSellingCategoriesList | undefined;
   /** Pricing models used by the organization. */
-  pricing_models?: OrganizationDetailsInputPricingModelsList;
+  pricing_models?: OrganizationDetailsInputPricingModelsList | undefined;
   /** Switching from another platform? */
-  switching?: boolean;
+  switching?: boolean | undefined;
   /** Which platform the organization is migrating from. */
-  switching_from?: OrganizationDetailsInputSwitchingFrom | (string & {}) | null;
+  switching_from?: OrganizationDetailsInputSwitchingFrom | (string & {}) | null | undefined;
 }
 export type OrganizationsCreateRequestCountry =
   | "AD"
@@ -12053,9 +12112,9 @@ export type OrganizationFeatureSettingsUpdateOverviewMetricsList = Array<string>
 /** Feature settings that organizations can update themselves. Other feature settings are managed by Polar staff: they're ignored if provided and keep their current value. */
 export interface OrganizationFeatureSettingsUpdate {
   /** If this organization has checkout localization enabled */
-  checkout_localization_enabled?: boolean;
+  checkout_localization_enabled?: boolean | undefined;
   /** Ordered list of metric slugs shown on the dashboard overview. */
-  overview_metrics?: OrganizationFeatureSettingsUpdateOverviewMetricsList | null;
+  overview_metrics?: OrganizationFeatureSettingsUpdateOverviewMetricsList | null | undefined;
 }
 export type OrganizationSubscriptionSettingsProrationBehavior =
   | "invoice"
@@ -12087,26 +12146,26 @@ export interface OrganizationCustomerEmailSettings {
 export interface OrganizationsCreateRequest {
   name: string;
   slug: string;
-  avatar_url?: string | null;
-  legal_entity?: OrganizationsCreateRequestLegalEntity | null;
+  avatar_url?: string | null | undefined;
+  legal_entity?: OrganizationsCreateRequestLegalEntity | null | undefined;
   /** Public support email. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Official website of the organization. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** Link to social profiles. */
-  socials?: OrganizationsCreateRequestSocialsList | null;
+  socials?: OrganizationsCreateRequestSocialsList | null | undefined;
   /** Additional, private, business details Polar needs about active organizations for compliance (KYC). */
-  details?: OrganizationDetailsInput | null;
+  details?: OrganizationDetailsInput | null | undefined;
   /** Two-letter country code (ISO 3166-1 alpha-2). */
-  country?: OrganizationsCreateRequestCountry | (string & {}) | null;
-  feature_settings?: OrganizationFeatureSettingsUpdate | null;
-  subscription_settings?: OrganizationSubscriptionSettings | null;
-  customer_email_settings?: OrganizationCustomerEmailSettings | null;
-  customer_portal_settings?: OrganizationCustomerPortalSettings | null;
+  country?: OrganizationsCreateRequestCountry | (string & {}) | null | undefined;
+  feature_settings?: OrganizationFeatureSettingsUpdate | null | undefined;
+  subscription_settings?: OrganizationSubscriptionSettings | null | undefined;
+  customer_email_settings?: OrganizationCustomerEmailSettings | null | undefined;
+  customer_portal_settings?: OrganizationCustomerPortalSettings | null | undefined;
   /** Default presentment currency for the organization */
-  default_presentment_currency?: PresentmentCurrency | (string & {});
+  default_presentment_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** Default tax behavior applied on products. */
-  default_tax_behavior?: TaxBehaviorOption | (string & {});
+  default_tax_behavior?: TaxBehaviorOption | (string & {}) | undefined;
 }
 /** Links to social profiles. */
 export type OrganizationSocialsList = Array<OrganizationSocialLink>;
@@ -12122,33 +12181,33 @@ export type OrganizationStatus =
 export type OrganizationFeatureSettingsOverviewMetricsList = Array<string>;
 export interface OrganizationFeatureSettings {
   /** If this organization has issue funding enabled */
-  issue_funding_enabled?: boolean;
+  issue_funding_enabled?: boolean | undefined;
   /** If this organization has Wallets enabled */
-  wallets_enabled?: boolean;
+  wallets_enabled?: boolean | undefined;
   /** If this organization has checkout localization enabled */
-  checkout_localization_enabled?: boolean;
+  checkout_localization_enabled?: boolean | undefined;
   /** Ordered list of metric slugs shown on the dashboard overview. */
-  overview_metrics?: OrganizationFeatureSettingsOverviewMetricsList | null;
+  overview_metrics?: OrganizationFeatureSettingsOverviewMetricsList | null | undefined;
   /** If this organization has access to reset proration behavior. */
-  reset_proration_behavior_enabled?: boolean;
+  reset_proration_behavior_enabled?: boolean | undefined;
   /** If this organization can create and finalize draft orders via the API (off-session charges against a saved payment method). */
-  off_session_charges_enabled?: boolean;
+  off_session_charges_enabled?: boolean | undefined;
   /** Enables the slack shared channel benefit */
-  slack_benefit_enabled?: boolean;
+  slack_benefit_enabled?: boolean | undefined;
   /** If this organization has preview access to new features enabled */
-  preview_access_enabled?: boolean;
+  preview_access_enabled?: boolean | undefined;
   /** If this organization has the disputes dashboard enabled */
-  disputes_enabled?: boolean;
+  disputes_enabled?: boolean | undefined;
   /** If this organization has single sign-on configuration enabled */
-  sso_enabled?: boolean;
+  sso_enabled?: boolean | undefined;
   /** If this organization can set a threshold below which Polar concedes disputes on its behalf. Requires `disputes_enabled`. */
-  dispute_auto_accept_enabled?: boolean;
+  dispute_auto_accept_enabled?: boolean | undefined;
   /** If this organization can migrate its billing from another provider (e.g. Stripe) to Polar. */
-  merchant_migration_enabled?: boolean;
+  merchant_migration_enabled?: boolean | undefined;
   /** If this organization's ingested events are queued in `staged_events` and moved to `events` out of band. */
-  staged_events_ingest_enabled?: boolean;
+  staged_events_ingest_enabled?: boolean | undefined;
   /** If this organization can manage its configuration from a declarative config document. */
-  config_as_code_enabled?: boolean;
+  config_as_code_enabled?: boolean | undefined;
 }
 /** `auto_accept_below_amount` is in Polar's settlement currency (USD). */
 export interface OrganizationDisputeSettings {
@@ -12468,7 +12527,7 @@ export interface Organization {
   /** Hosts allowed to embed this organization's checkout. An entry is a host and an optional port, without a scheme: HTTPS is always allowed, and HTTP too for local hosts -- `localhost`, any `.localhost` or `.local` name, and loopback or private addresses. `*.example.com` matches any subdomain, but not `example.com` itself. An app origin such as `chrome-extension://abcdef` carries its scheme, having no host to match on. */
   embed_hosts: OrganizationEmbedHostsList;
   /** Two-letter country code (ISO 3166-1 alpha-2). */
-  country?: OrganizationCountry | null;
+  country?: OrganizationCountry | null | undefined;
   /** ID of the transactions account. */
   account_id: string | null;
   /** ID of the payout account. */
@@ -12493,13 +12552,13 @@ export type OrganizationSortProperty =
 export type OrganizationsListRequestSortingList = Array<OrganizationSortProperty | (string & {})>;
 export interface OrganizationsListRequest {
   /** Filter by slug. */
-  slug?: string;
+  slug?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: OrganizationsListRequestSortingList;
+  sorting?: OrganizationsListRequestSortingList | undefined;
 }
 export type ListResourceOrganizationItemsList = Array<Organization>;
 export interface ListResourceOrganization {
@@ -12754,36 +12813,36 @@ export type OrganizationsUpdateRequestCountry =
   | "ZW";
 export interface OrganizationDisputeSettingsUpdate {
   /** Concede disputes below this amount, in USD cents, without asking the organization. A dispute charged in another currency converts at the rate its payment settled at. `null` turns it off. The disputed amount and the processor's dispute fee are still deducted. */
-  auto_accept_below_amount?: number | null;
+  auto_accept_below_amount?: number | null | undefined;
 }
 /** Hosts allowed to embed this organization's checkout. An entry is a host and an optional port, without a scheme: HTTPS is always allowed, and HTTP too for local hosts -- `localhost`, any `.localhost` or `.local` name, and loopback or private addresses. `*.example.com` matches any subdomain, but not `example.com` itself. An app origin such as `chrome-extension://abcdef` carries its scheme, having no host to match on. */
 export type OrganizationsUpdateRequestEmbedHostsList = Array<string>;
 export interface OrganizationsUpdateRequest {
   id: string;
-  name?: string | null;
-  avatar_url?: string | null;
+  name?: string | null | undefined;
+  avatar_url?: string | null | undefined;
   /** Public support email. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Official website of the organization. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** Links to social profiles. */
-  socials?: OrganizationsUpdateRequestSocialsList | null;
+  socials?: OrganizationsUpdateRequestSocialsList | null | undefined;
   /** Additional, private, business details Polar needs about active organizations for compliance (KYC). */
-  details?: OrganizationDetailsInput | null;
+  details?: OrganizationDetailsInput | null | undefined;
   /** Two-letter country code (ISO 3166-1 alpha-2). */
-  country?: OrganizationsUpdateRequestCountry | (string & {}) | null;
-  feature_settings?: OrganizationFeatureSettingsUpdate | null;
-  subscription_settings?: OrganizationSubscriptionSettings | null;
-  customer_email_settings?: OrganizationCustomerEmailSettings | null;
-  customer_portal_settings?: OrganizationCustomerPortalSettings | null;
-  dispute_settings?: OrganizationDisputeSettingsUpdate | null;
-  embed_hosts?: OrganizationsUpdateRequestEmbedHostsList | null;
+  country?: OrganizationsUpdateRequestCountry | (string & {}) | null | undefined;
+  feature_settings?: OrganizationFeatureSettingsUpdate | null | undefined;
+  subscription_settings?: OrganizationSubscriptionSettings | null | undefined;
+  customer_email_settings?: OrganizationCustomerEmailSettings | null | undefined;
+  customer_portal_settings?: OrganizationCustomerPortalSettings | null | undefined;
+  dispute_settings?: OrganizationDisputeSettingsUpdate | null | undefined;
+  embed_hosts?: OrganizationsUpdateRequestEmbedHostsList | null | undefined;
   /** Default presentment currency for the organization */
-  default_presentment_currency?: PresentmentCurrency | (string & {}) | null;
+  default_presentment_currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** Default tax behavior applied on products. */
-  default_tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  default_tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** Whether members must access this organization through its SSO connection. Turning this on requires an active SSO session for this organization and at least one enabled SSO connection. */
-  sso_enforced?: boolean | null;
+  sso_enforced?: boolean | null | undefined;
 }
 export interface PaymentsGetRequest {
   /** The payment ID. */
@@ -12837,7 +12896,7 @@ export interface CardPayment {
   /** The ID of the order associated with this payment. */
   order_id: string | null;
   /** Additional metadata from the payment processor for internal use. */
-  processor_metadata?: CardPaymentProcessorMetadataMap;
+  processor_metadata?: CardPaymentProcessorMetadataMap | undefined;
   /** Additional metadata for the card payment method. */
   method_metadata: CardPaymentMetadata;
 }
@@ -12881,7 +12940,7 @@ export interface KrCardPayment {
   /** The ID of the order associated with this payment. */
   order_id: string | null;
   /** Additional metadata from the payment processor for internal use. */
-  processor_metadata?: KrCardPaymentProcessorMetadataMap;
+  processor_metadata?: KrCardPaymentProcessorMetadataMap | undefined;
   /** Additional metadata for the South Korean card payment method. */
   method_metadata: KrCardPaymentMetadata;
 }
@@ -12918,7 +12977,7 @@ export interface GenericPayment {
   /** The ID of the order associated with this payment. */
   order_id: string | null;
   /** Additional metadata from the payment processor for internal use. */
-  processor_metadata?: GenericPaymentProcessorMetadataMap;
+  processor_metadata?: GenericPaymentProcessorMetadataMap | undefined;
 }
 export type Payment = CardPayment | KrCardPayment | GenericPayment;
 export type PaymentsGetResponse = Payment;
@@ -12955,25 +13014,25 @@ export type PaymentSortProperty =
 export type PaymentsListRequestSortingList = Array<PaymentSortProperty | (string & {})>;
 export interface PaymentsListRequest {
   /** Filter by organization ID. */
-  organization_id?: PaymentsListRequestOrganizationId;
+  organization_id?: PaymentsListRequestOrganizationId | undefined;
   /** Filter by checkout ID. */
-  checkout_id?: PaymentsListRequestCheckoutId;
+  checkout_id?: PaymentsListRequestCheckoutId | undefined;
   /** Filter by order ID. */
-  order_id?: PaymentsListRequestOrderId;
+  order_id?: PaymentsListRequestOrderId | undefined;
   /** Filter by customer ID. */
-  customer_id?: PaymentsListRequestCustomerId;
+  customer_id?: PaymentsListRequestCustomerId | undefined;
   /** Filter by payment status. */
-  status?: PaymentsListRequestStatus;
+  status?: PaymentsListRequestStatus | undefined;
   /** Filter by payment method. */
-  method?: PaymentsListRequestMethod;
+  method?: PaymentsListRequestMethod | undefined;
   /** Filter by customer email. */
-  customer_email?: PaymentsListRequestCustomerEmail;
+  customer_email?: PaymentsListRequestCustomerEmail | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: PaymentsListRequestSortingList;
+  sorting?: PaymentsListRequestSortingList | undefined;
 }
 export type ListResourcePaymentItemsList = Array<Payment>;
 export interface ListResourcePayment {
@@ -13006,35 +13065,35 @@ export interface AttachedCustomFieldCreate {
 export type ProductCreateRecurringAttachedCustomFieldsList = Array<AttachedCustomFieldCreate>;
 export interface ProductCreateRecurring {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: ProductCreateRecurringMetadataMap;
+  metadata?: ProductCreateRecurringMetadataMap | undefined;
   /** The name of the product. */
   name: string;
   /** The description of the product. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the product. */
-  visibility?: ProductVisibility | (string & {});
+  visibility?: ProductVisibility | (string & {}) | undefined;
   /** List of available prices for this product. It may combine at most one fixed price with one seat-based price (billed as `fixed + seat_charge`), or contain a single custom or free price, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price. Metered prices are not supported on one-time purchase products. */
   prices: ProductCreateRecurringPricesList;
   /** List of file IDs. Each one must be on the same organization as the product, of type `product_media` and correctly uploaded. */
-  medias?: ProductCreateRecurringMediasList | null;
+  medias?: ProductCreateRecurringMediasList | null | undefined;
   /** List of custom fields to attach. */
-  attached_custom_fields?: ProductCreateRecurringAttachedCustomFieldsList;
+  attached_custom_fields?: ProductCreateRecurringAttachedCustomFieldsList | undefined;
   /** The ID of the organization owning the product. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** The recurring interval of the product. */
   recurring_interval: RecurringInterval | (string & {});
   /** Number of interval units of the subscription. If this is set to 1 the charge will happen every interval (e.g. every month), if set to 2 it will be every other month, and so on. */
-  recurring_interval_count?: number;
+  recurring_interval_count?: number | undefined;
   /** Optional meter cycle, independent of the billing interval. When set, overage settlement, meter resets and meter-credit grants run on this cadence rather than the billing interval -- e.g. yearly billing with monthly credits. It must evenly divide the billing interval. If `None`, metered concerns follow the billing interval. **Once set, it can't be changed.** */
-  meter_interval?: RecurringInterval | (string & {}) | null;
+  meter_interval?: RecurringInterval | (string & {}) | null | undefined;
   /** Number of meter interval units. Defaults to 1 when `meter_interval` is set. Ignored when `meter_interval` is `None`. */
-  meter_interval_count?: number | null;
+  meter_interval_count?: number | null | undefined;
 }
 export type ProductCreateOneTimeMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -13055,27 +13114,27 @@ export type ProductCreateOneTimeMediasList = Array<string>;
 export type ProductCreateOneTimeAttachedCustomFieldsList = Array<AttachedCustomFieldCreate>;
 export interface ProductCreateOneTime {
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: ProductCreateOneTimeMetadataMap;
+  metadata?: ProductCreateOneTimeMetadataMap | undefined;
   /** The name of the product. */
   name: string;
   /** The description of the product. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the product. */
-  visibility?: ProductVisibility | (string & {});
+  visibility?: ProductVisibility | (string & {}) | undefined;
   /** List of available prices for this product. It may combine at most one fixed price with one seat-based price (billed as `fixed + seat_charge`), or contain a single custom or free price, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price. Metered prices are not supported on one-time purchase products. */
   prices: ProductCreateOneTimePricesList;
   /** List of file IDs. Each one must be on the same organization as the product, of type `product_media` and correctly uploaded. */
-  medias?: ProductCreateOneTimeMediasList | null;
+  medias?: ProductCreateOneTimeMediasList | null | undefined;
   /** List of custom fields to attach. */
-  attached_custom_fields?: ProductCreateOneTimeAttachedCustomFieldsList;
+  attached_custom_fields?: ProductCreateOneTimeAttachedCustomFieldsList | undefined;
   /** The ID of the organization owning the product. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** States that the product is a one-time purchase. */
-  recurring_interval?: unknown | null;
+  recurring_interval?: unknown | null | undefined;
   /** One-time products don't have a recurring interval count. */
-  recurring_interval_count?: unknown | null;
+  recurring_interval_count?: unknown | null | undefined;
 }
 export type ProductCreate = ProductCreateRecurring | ProductCreateOneTime;
 export interface ProductsCreateRequest {
@@ -13169,29 +13228,29 @@ export type ProductSortProperty =
 export type ProductsListRequestSortingList = Array<ProductSortProperty | (string & {})>;
 export interface ProductsListRequest {
   /** Filter by product ID. */
-  id?: ProductsListRequestId;
+  id?: ProductsListRequestId | undefined;
   /** Filter by product external ID. */
-  external_id?: ProductsListRequestExternalId;
+  external_id?: ProductsListRequestExternalId | undefined;
   /** Filter by organization ID. */
-  organization_id?: ProductsListRequestOrganizationId;
+  organization_id?: ProductsListRequestOrganizationId | undefined;
   /** Filter by product name. */
-  query?: string;
+  query?: string | undefined;
   /** Filter on archived products. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   /** Filter on recurring products. If `true`, only subscriptions tiers are returned. If `false`, only one-time purchase products are returned. */
-  is_recurring?: boolean;
+  is_recurring?: boolean | undefined;
   /** Filter products granting specific benefit. */
-  benefit_id?: ProductsListRequestBenefitId;
+  benefit_id?: ProductsListRequestBenefitId | undefined;
   /** Filter by visibility. */
-  visibility?: ProductsListRequestVisibilityList;
+  visibility?: ProductsListRequestVisibilityList | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: ProductsListRequestSortingList;
+  sorting?: ProductsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceProductItemsList = Array<Product>;
 export interface ListResourceProduct {
@@ -13224,29 +13283,29 @@ export type ProductsUpdateRequestAttachedCustomFieldsList = Array<AttachedCustom
 export interface ProductsUpdateRequest {
   id: string;
   /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: ProductsUpdateRequestMetadataMap;
+  metadata?: ProductsUpdateRequestMetadataMap | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
-  name?: string | null;
+  trial_interval_count?: number | null | undefined;
+  name?: string | null | undefined;
   /** The description of the product. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The recurring interval of the product. If `None`, the product is a one-time purchase. **Can only be set on legacy recurring products. Once set, it can't be changed.** */
-  recurring_interval?: RecurringInterval | (string & {}) | null;
+  recurring_interval?: RecurringInterval | (string & {}) | null | undefined;
   /** Number of interval units of the subscription. If this is set to 1 the charge will happen every interval (e.g. every month), if set to 2 it will be every other month, and so on. Once set, it can't be changed.** */
-  recurring_interval_count?: number | null;
+  recurring_interval_count?: number | null | undefined;
   /** Whether the product is archived. If `true`, the product won't be available for purchase anymore. Existing customers will still have access to their benefits, and subscriptions will continue normally. */
-  is_archived?: boolean | null;
+  is_archived?: boolean | null | undefined;
   /** The visibility of the product. */
-  visibility?: ProductVisibility | (string & {}) | null;
+  visibility?: ProductVisibility | (string & {}) | null | undefined;
   /** List of available prices for this product. If you want to keep existing prices, include them in the list as an `ExistingProductPrice` object. */
-  prices?: ProductsUpdateRequestPricesList | null;
+  prices?: ProductsUpdateRequestPricesList | null | undefined;
   /** List of file IDs. Each one must be on the same organization as the product, of type `product_media` and correctly uploaded. */
-  medias?: ProductsUpdateRequestMediasList | null;
-  attached_custom_fields?: ProductsUpdateRequestAttachedCustomFieldsList | null;
+  medias?: ProductsUpdateRequestMediasList | null | undefined;
+  attached_custom_fields?: ProductsUpdateRequestAttachedCustomFieldsList | null | undefined;
 }
 /** List of benefit IDs. Each one must be on the same organization as the product. */
 export type ProductsUpdateBenefitsRequestBenefitsList = Array<string>;
@@ -13270,16 +13329,16 @@ export type RefundsCreateRequestReason =
   | "other";
 export interface RefundsCreateRequest {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: RefundsCreateRequestMetadataMap;
+  metadata?: RefundsCreateRequestMetadataMap | undefined;
   order_id: string;
   /** Reason for the refund. */
   reason: RefundsCreateRequestReason | (string & {});
   /** Amount to refund in cents. Minimum is 1. */
   amount: number;
   /** An internal comment about the refund. */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Should this refund trigger the associated customer benefits to be revoked? **Note:** Only allowed in case the `order` is a one-time purchase. Subscriptions automatically revoke customer benefits once the subscription itself is revoked, i.e fully canceled. */
-  revoke_benefits?: boolean;
+  revoke_benefits?: boolean | undefined;
 }
 export type RefundStatus = "pending" | "succeeded" | "failed" | "canceled";
 export type RefundReason =
@@ -13367,25 +13426,25 @@ export type RefundSortProperty = "created_at" | "-created_at" | "amount" | "-amo
 export type RefundsListRequestSortingList = Array<RefundSortProperty | (string & {})>;
 export interface RefundsListRequest {
   /** Filter by refund ID. */
-  id?: RefundsListRequestId;
+  id?: RefundsListRequestId | undefined;
   /** Filter by organization ID. */
-  organization_id?: RefundsListRequestOrganizationId;
+  organization_id?: RefundsListRequestOrganizationId | undefined;
   /** Filter by order ID. */
-  order_id?: RefundsListRequestOrderId;
+  order_id?: RefundsListRequestOrderId | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: RefundsListRequestSubscriptionId;
+  subscription_id?: RefundsListRequestSubscriptionId | undefined;
   /** Filter by customer ID. */
-  customer_id?: RefundsListRequestCustomerId;
+  customer_id?: RefundsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: RefundsListRequestExternalCustomerId;
+  external_customer_id?: RefundsListRequestExternalCustomerId | undefined;
   /** Filter by `succeeded`. */
-  succeeded?: boolean;
+  succeeded?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: RefundsListRequestSortingList;
+  sorting?: RefundsListRequestSortingList | undefined;
 }
 export type ListResourceRefundItemsList = Array<Refund>;
 export interface ListResourceRefund {
@@ -13396,20 +13455,20 @@ export interface RetryCustomerPortalOrdersConfirmPaymentRequest {
   /** The order ID. */
   id: string;
   /** ID of the Stripe confirmation token for new payment methods. */
-  confirmation_token_id?: string | null;
+  confirmation_token_id?: string | null | undefined;
   /** ID of an existing saved payment method. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** Payment processor used. */
-  payment_processor?: PaymentProcessor;
+  payment_processor?: PaymentProcessor | undefined;
 }
 /** Response after confirming a retry payment. */
 export interface CustomerOrderPaymentConfirmation {
   /** Payment status after confirmation. */
   status: string;
   /** Client secret for handling additional actions. */
-  client_secret?: string | null;
+  client_secret?: string | null | undefined;
   /** Error message if confirmation failed. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export type SubscriptionCreateCustomerMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -13419,11 +13478,11 @@ export type SubscriptionCreateCustomerMetadataMap = {
 /** Create a subscription for an existing customer. */
 export interface SubscriptionCreateCustomer {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: SubscriptionCreateCustomerMetadataMap;
+  metadata?: SubscriptionCreateCustomerMetadataMap | undefined;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
   /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
-  currency?: PresentmentCurrency | (string & {}) | null;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** The ID of the customer to create the subscription for. */
   customer_id: string;
 }
@@ -13435,11 +13494,11 @@ export type SubscriptionCreateExternalCustomerMetadataMap = {
 /** Create a subscription for an existing customer identified by an external ID. */
 export interface SubscriptionCreateExternalCustomer {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: SubscriptionCreateExternalCustomerMetadataMap;
+  metadata?: SubscriptionCreateExternalCustomerMetadataMap | undefined;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
   /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
-  currency?: PresentmentCurrency | (string & {}) | null;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** The ID of the customer in your system to create the subscription for. It must already exist in Polar. */
   external_customer_id: string;
 }
@@ -13464,9 +13523,9 @@ export interface SubscriptionCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -13477,11 +13536,11 @@ export interface SubscriptionCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: SubscriptionCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -13556,7 +13615,7 @@ export interface Subscription {
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -13571,14 +13630,14 @@ export interface Subscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
   customer_cancellation_comment: string | null;
   metadata: MetadataOutputType;
   /** Key-value object storing custom field values. */
-  custom_field_data?: SubscriptionCustomFieldDataMap;
+  custom_field_data?: SubscriptionCustomFieldDataMap | undefined;
   customer: SubscriptionCustomer;
   product: Product;
   discount: SubscriptionDiscount | null;
@@ -13641,23 +13700,23 @@ export type SubscriptionsExportRequestColumns =
   | SubscriptionsExportRequestColumnsCase1List;
 export interface SubscriptionsExportRequest {
   /** Filter by organization ID. */
-  organization_id?: SubscriptionsExportRequestOrganizationId;
+  organization_id?: SubscriptionsExportRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: SubscriptionsExportRequestProductId;
+  product_id?: SubscriptionsExportRequestProductId | undefined;
   /** Filter by product external ID. */
-  external_product_id?: SubscriptionsExportRequestExternalProductId;
+  external_product_id?: SubscriptionsExportRequestExternalProductId | undefined;
   /** Filter by subscription status. */
-  status?: SubscriptionsExportRequestStatus;
+  status?: SubscriptionsExportRequestStatus | undefined;
   /** Filter by subscriptions that are set to cancel at period end. */
-  cancel_at_period_end?: boolean;
+  cancel_at_period_end?: boolean | undefined;
   /** Only include subscriptions started after this date. Must include a UTC offset. */
-  started_after?: string;
+  started_after?: string | undefined;
   /** Only include subscriptions started before this date. Must include a UTC offset. */
-  started_before?: string;
+  started_before?: string | undefined;
   /** Time zone used to render dates in the CSV. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Columns to include in the CSV, in order. Defaults to email, started_at, product, amount, currency, status and recurring_interval. */
-  columns?: SubscriptionsExportRequestColumns;
+  columns?: SubscriptionsExportRequestColumns | undefined;
 }
 export interface SubscriptionsExportResponse {}
 export interface SubscriptionsGetRequest {
@@ -13726,41 +13785,41 @@ export type SubscriptionSortProperty =
 export type SubscriptionsListRequestSortingList = Array<SubscriptionSortProperty | (string & {})>;
 export interface SubscriptionsListRequest {
   /** Filter by organization ID. */
-  organization_id?: SubscriptionsListRequestOrganizationId;
+  organization_id?: SubscriptionsListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: SubscriptionsListRequestProductId;
+  product_id?: SubscriptionsListRequestProductId | undefined;
   /** Filter by product external ID. */
-  external_product_id?: SubscriptionsListRequestExternalProductId;
+  external_product_id?: SubscriptionsListRequestExternalProductId | undefined;
   /** Filter by customer ID. */
-  customer_id?: SubscriptionsListRequestCustomerId;
+  customer_id?: SubscriptionsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: SubscriptionsListRequestExternalCustomerId;
+  external_customer_id?: SubscriptionsListRequestExternalCustomerId | undefined;
   /** Filter by discount ID. */
-  discount_id?: SubscriptionsListRequestDiscountId;
+  discount_id?: SubscriptionsListRequestDiscountId | undefined;
   /** Filter by active or inactive subscription. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Filter by subscription status. */
-  status?: SubscriptionsListRequestStatus;
+  status?: SubscriptionsListRequestStatus | undefined;
   /** Filter by subscriptions that are set to cancel at period end. */
-  cancel_at_period_end?: boolean;
+  cancel_at_period_end?: boolean | undefined;
   /** Filter by customer cancellation reason. */
-  customer_cancellation_reason?: SubscriptionsListRequestCustomerCancellationReason;
+  customer_cancellation_reason?: SubscriptionsListRequestCustomerCancellationReason | undefined;
   /** Filter by cancellation date (after or equal to). */
-  canceled_at_after?: string;
+  canceled_at_after?: string | undefined;
   /** Filter by cancellation date (before or equal to). */
-  canceled_at_before?: string;
+  canceled_at_before?: string | undefined;
   /** Only include subscriptions started after this date. */
-  started_after?: string;
+  started_after?: string | undefined;
   /** Only include subscriptions started before this date. */
-  started_before?: string;
+  started_before?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: SubscriptionsListRequestSortingList;
+  sorting?: SubscriptionsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceSubscriptionItemsList = Array<Subscription>;
 export interface ListResourceSubscription {
@@ -13778,27 +13837,27 @@ export type SubscriptionUpdateBaseMetadataMap = {
 };
 export interface SubscriptionUpdateBase {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: SubscriptionUpdateBaseMetadataMap;
+  metadata?: SubscriptionUpdateBaseMetadataMap | undefined;
   /** Update subscription to another product. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
-  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
+  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null | undefined;
   /** Update the subscription to apply a new discount. If set to `null`, the discount will be removed. The change will be applied on the next billing cycle. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately and the first billing cycle will be charged synchronously. The subscription remains trialing if the payment fails. */
-  trial_end?: string | null;
+  trial_end?: string | null | undefined;
 }
 export interface SubscriptionUpdateSeats {
   /** Update the number of seats for this subscription. */
   seats: number;
   /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
-  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
+  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null | undefined;
 }
 export interface SubscriptionUpdateUnits {
   /** Update the number of units for this subscription. */
   units: number;
   /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
-  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
+  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null | undefined;
 }
 export interface SubscriptionUpdateBillingPeriod {
   /** Set a new date for the end of the current billing period. The subscription will renew on this date. The new date can be earlier or later than the current period end, as long as it's in the future. If the subscription is set to cancel at the end of the period, it'll end on this new date instead. It is not possible to update the current billing period on a subscription that's already revoked or not active. */
@@ -13806,17 +13865,17 @@ export interface SubscriptionUpdateBillingPeriod {
 }
 export interface SubscriptionCancel {
   /** Customer reason for cancellation. Helpful to monitor reasons behind churn for future improvements. Only set this in case your own service is requesting the reason from the customer. Or you know based on direct conversations, i.e support, with the customer. * `too_expensive`: Too expensive for the customer. * `missing_features`: Customer is missing certain features. * `switched_service`: Customer switched to another service. * `unused`: Customer is not using it enough. * `customer_service`: Customer is not satisfied with the customer service. * `low_quality`: Customer is unhappy with the quality. * `too_complex`: Customer considers the service too complicated. * `other`: Other reason(s). */
-  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null;
+  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null | undefined;
   /** Customer feedback and why they decided to cancel. **IMPORTANT:** Do not use this to store internal notes! It's intended to be input from the customer and is therefore also available in their Polar purchases library. Only set this in case your own service is requesting the reason from the customer. Or you copy a message directly from a customer conversation, i.e support. */
-  customer_cancellation_comment?: string | null;
+  customer_cancellation_comment?: string | null | undefined;
   /** Cancel an active subscription once the current period ends. Or uncancel a subscription currently set to be revoked at period end. */
   cancel_at_period_end: boolean;
 }
 export interface SubscriptionRevoke {
   /** Customer reason for cancellation. Helpful to monitor reasons behind churn for future improvements. Only set this in case your own service is requesting the reason from the customer. Or you know based on direct conversations, i.e support, with the customer. * `too_expensive`: Too expensive for the customer. * `missing_features`: Customer is missing certain features. * `switched_service`: Customer switched to another service. * `unused`: Customer is not using it enough. * `customer_service`: Customer is not satisfied with the customer service. * `low_quality`: Customer is unhappy with the quality. * `too_complex`: Customer considers the service too complicated. * `other`: Other reason(s). */
-  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null;
+  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null | undefined;
   /** Customer feedback and why they decided to cancel. **IMPORTANT:** Do not use this to store internal notes! It's intended to be input from the customer and is therefore also available in their Polar purchases library. Only set this in case your own service is requesting the reason from the customer. Or you copy a message directly from a customer conversation, i.e support. */
-  customer_cancellation_comment?: string | null;
+  customer_cancellation_comment?: string | null | undefined;
   /** Cancel and revoke an active subscription immediately */
   revoke: boolean;
 }
@@ -13824,7 +13883,7 @@ export interface SubscriptionPause {
   /** Pause an active subscription at the end of the current period. Or cancel a scheduled pause on a subscription set to be paused at period end. */
   pause_at_period_end: boolean;
   /** Date at which the paused subscription should automatically resume. If not set, the subscription stays paused until it is resumed manually. Must be after the current period end. */
-  resumes_at?: string | null;
+  resumes_at?: string | null | undefined;
 }
 export type SubscriptionResume = CustomerSubscriptionResume;
 export interface SubscriptionUpdateClear {
@@ -13855,27 +13914,27 @@ export interface UpdateCheckoutsClientRequest {
   /** The checkout session client secret. */
   client_secret: string;
   /** Key-value object storing custom field values. */
-  custom_field_data?: UpdateCheckoutsClientRequestCustomFieldDataMap;
+  custom_field_data?: UpdateCheckoutsClientRequestCustomFieldDataMap | undefined;
   /** ID of the product to checkout. Must be present in the checkout's product list. */
-  product_id?: string | null;
-  amount?: number | null;
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
   /** Number of seats for seat-based pricing. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units for unit-based pricing. */
-  units?: number | null;
-  is_business_customer?: boolean | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
-  locale?: string | null;
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
-  payment_method_type?: string | null;
+  payment_method_type?: string | null | undefined;
   /** Discount code to apply to the checkout. */
-  discount_code?: string | null;
+  discount_code?: string | null | undefined;
   /** Disable the trial period for the checkout session. It's mainly useful when the trial is blocked because the customer already redeemed one. */
-  allow_trial?: boolean | null;
+  allow_trial?: boolean | null | undefined;
 }
 export interface UpdateCustomerPortalCustomersCheckEmailRequest {
   token: string;
@@ -13945,15 +14004,15 @@ export interface WebhooksCreateWebhookEndpointRequest {
   /** The URL where the webhook events will be sent. */
   url: string;
   /** An optional name for the webhook endpoint to help organize and identify it. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The API version that'll be used in event payloads. */
-  api_version?: WebhooksCreateWebhookEndpointRequestApiVersion | (string & {});
+  api_version?: WebhooksCreateWebhookEndpointRequestApiVersion | (string & {}) | undefined;
   /** The format of the webhook payload. */
   format: WebhookFormat | (string & {});
   /** The events that will trigger the webhook. */
   events: WebhooksCreateWebhookEndpointRequestEventsList;
   /** The organization ID associated with the webhook endpoint. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
 }
 /** The events that will trigger the webhook. */
 export type WebhookEndpointEventsList = Array<WebhookEventType>;
@@ -13970,7 +14029,7 @@ export interface WebhookEndpoint {
   /** The URL where the webhook events will be sent. */
   url: string;
   /** An optional name for the webhook endpoint to help organize and identify it. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The API version that'll be used in event payloads. */
   api_version: string;
   /** The format of the webhook payload. */
@@ -14013,23 +14072,23 @@ export type WebhooksListWebhookDeliveriesRequestEventType =
   | WebhooksListWebhookDeliveriesRequestEventTypeCase1List;
 export interface WebhooksListWebhookDeliveriesRequest {
   /** Filter by webhook endpoint ID. */
-  endpoint_id?: WebhooksListWebhookDeliveriesRequestEndpointId;
+  endpoint_id?: WebhooksListWebhookDeliveriesRequestEndpointId | undefined;
   /** Filter deliveries after this timestamp. */
-  start_timestamp?: string;
+  start_timestamp?: string | undefined;
   /** Filter deliveries before this timestamp. */
-  end_timestamp?: string;
+  end_timestamp?: string | undefined;
   /** Filter by delivery success status. */
-  succeeded?: boolean;
+  succeeded?: boolean | undefined;
   /** Query to filter webhook deliveries. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by HTTP response code class (2xx, 3xx, 4xx, 5xx). */
-  http_code_class?: WebhooksListWebhookDeliveriesRequestHttpCodeClass | (string & {});
+  http_code_class?: WebhooksListWebhookDeliveriesRequestHttpCodeClass | (string & {}) | undefined;
   /** Filter by webhook event type. */
-  event_type?: WebhooksListWebhookDeliveriesRequestEventType;
+  event_type?: WebhooksListWebhookDeliveriesRequestEventType | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** A webhook event. An event represent something that happened in the system that should be sent to the webhook endpoint. It can be delivered multiple times until it's marked as succeeded, each one creating a new delivery. */
 export interface WebhookEvent {
@@ -14040,9 +14099,9 @@ export interface WebhookEvent {
   /** The ID of the object. */
   id: string;
   /** Last HTTP code returned by the URL. `null` if no delviery has been attempted or if the endpoint was unreachable. */
-  last_http_code?: number | null;
+  last_http_code?: number | null | undefined;
   /** Whether this event was successfully delivered. `null` if no delivery has been attempted. */
-  succeeded?: boolean | null;
+  succeeded?: boolean | null | undefined;
   /** Whether this event was skipped because the webhook endpoint was disabled. */
   skipped: boolean;
   /** The API version used in the payload of this event. */
@@ -14083,11 +14142,11 @@ export type WebhooksListWebhookEndpointsRequestOrganizationId =
   | WebhooksListWebhookEndpointsRequestOrganizationIdCase1List;
 export interface WebhooksListWebhookEndpointsRequest {
   /** Filter by organization ID. */
-  organization_id?: WebhooksListWebhookEndpointsRequestOrganizationId;
+  organization_id?: WebhooksListWebhookEndpointsRequestOrganizationId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListResourceWebhookEndpointItemsList = Array<WebhookEndpoint>;
 export interface ListResourceWebhookEndpoint {
@@ -14111,15 +14170,15 @@ export type WebhooksUpdateWebhookEndpointRequestEventsList = Array<
 export interface WebhooksUpdateWebhookEndpointRequest {
   /** The webhook endpoint ID. */
   id: string;
-  url?: string | null;
+  url?: string | null | undefined;
   /** An optional name for the webhook endpoint to help organize and identify it. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The API version that'll be used in event payloads. */
-  api_version?: WebhooksUpdateWebhookEndpointRequestApiVersion | (string & {}) | null;
-  format?: WebhookFormat | (string & {}) | null;
-  events?: WebhooksUpdateWebhookEndpointRequestEventsList | null;
+  api_version?: WebhooksUpdateWebhookEndpointRequestApiVersion | (string & {}) | null | undefined;
+  format?: WebhookFormat | (string & {}) | null | undefined;
+  events?: WebhooksUpdateWebhookEndpointRequestEventsList | null | undefined;
   /** Whether the webhook endpoint is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type BenefitGrantsListError = UnprocessableEntity | PolarOpError;
 /** List Benefit Grants List benefit grants across all benefits accessible to the authenticated subject. **Scopes**: `benefits:read` `benefits:write` */

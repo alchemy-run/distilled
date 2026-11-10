@@ -67,17 +67,17 @@ export interface GetProjectBoxesRequest {
   /** The unique project identifier or the project name */
   idOrName: string;
   /** Maximum daemons to return (default: 10, max: 100) */
-  limit?: string;
+  limit?: string | undefined;
   /** Pagination cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by scope type */
-  scopeType?: GetProjectBoxesRequestScopeType | (string & {});
+  scopeType?: GetProjectBoxesRequestScopeType | (string & {}) | undefined;
   /** Filter by scope value (requires scopeType) */
-  scopeValue?: string;
+  scopeValue?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetProjectBoxesResponseDaemonsItemConfigCommandList = Array<string>;
 /** Configured instances before the overrides. Present only when overrides exist. */
@@ -105,19 +105,21 @@ export type GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGetHttpHead
   Array<GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGetHttpHeadersItem>;
 export type GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGetScheme = "HTTP" | "HTTPS";
 export interface GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGet {
-  host?: string;
-  httpHeaders?: GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGetHttpHeadersList;
+  host?: string | undefined;
+  httpHeaders?:
+    | GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGetHttpHeadersList
+    | undefined;
   path: string;
   port: number;
   scheme: GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGetScheme;
 }
 export interface GetProjectBoxesResponseDaemonsItemConfigLivenessProbe {
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   httpGet: GetProjectBoxesResponseDaemonsItemConfigLivenessProbeHttpGet;
-  initialDelaySeconds?: number;
-  periodSeconds?: number;
-  successThreshold?: number;
-  timeoutSeconds?: number;
+  initialDelaySeconds?: number | undefined;
+  periodSeconds?: number | undefined;
+  successThreshold?: number | undefined;
+  timeoutSeconds?: number | undefined;
 }
 export interface GetProjectBoxesResponseDaemonsItemConfigResourcesRequests {
   memory: string;
@@ -126,31 +128,31 @@ export interface GetProjectBoxesResponseDaemonsItemConfigResources {
   requests: GetProjectBoxesResponseDaemonsItemConfigResourcesRequests;
 }
 export interface GetProjectBoxesResponseDaemonsItemConfig {
-  command?: GetProjectBoxesResponseDaemonsItemConfigCommandList;
-  configuredInstances?: GetProjectBoxesResponseDaemonsItemConfigConfiguredInstances;
+  command?: GetProjectBoxesResponseDaemonsItemConfigCommandList | undefined;
+  configuredInstances?: GetProjectBoxesResponseDaemonsItemConfigConfiguredInstances | undefined;
   image: GetProjectBoxesResponseDaemonsItemConfigImage;
   instances: GetProjectBoxesResponseDaemonsItemConfigInstances;
-  livenessProbe?: GetProjectBoxesResponseDaemonsItemConfigLivenessProbe;
+  livenessProbe?: GetProjectBoxesResponseDaemonsItemConfigLivenessProbe | undefined;
   resources: GetProjectBoxesResponseDaemonsItemConfigResources;
-  terminationGracePeriodSeconds?: number;
+  terminationGracePeriodSeconds?: number | undefined;
 }
 /** Quick restarts of the user container in a row. Absent when there are none. */
 export interface GetProjectBoxesResponseDaemonsItemInstancesItemsItemProcess {
-  lastExitCode?: number;
+  lastExitCode?: number | undefined;
   restarts: number;
   crashLooping: boolean;
 }
 export interface GetProjectBoxesResponseDaemonsItemInstancesItemsItem {
-  alive?: boolean;
+  alive?: boolean | undefined;
   id: string;
-  image?: string;
-  lastCheckedAt?: string;
-  memoryMiB?: number;
+  image?: string | undefined;
+  lastCheckedAt?: string | undefined;
+  memoryMiB?: number | undefined;
   /** Quick restarts of the user container in a row. Absent when there are none. */
-  process?: GetProjectBoxesResponseDaemonsItemInstancesItemsItemProcess;
+  process?: GetProjectBoxesResponseDaemonsItemInstancesItemsItemProcess | undefined;
   region: string;
   startedAt: string;
-  stoppedAt?: string;
+  stoppedAt?: string | undefined;
 }
 export type GetProjectBoxesResponseDaemonsItemInstancesItemsList =
   Array<GetProjectBoxesResponseDaemonsItemInstancesItemsItem>;
@@ -192,7 +194,7 @@ export interface GetProjectBoxesResponseDaemonsItem {
   config: GetProjectBoxesResponseDaemonsItemConfig;
   createdAt: string;
   /** The deployment whose daemons this configuration comes from. Absent for daemons managed through the daemons API. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   instances: GetProjectBoxesResponseDaemonsItemInstances;
   name: string;
   scope: GetProjectBoxesResponseDaemonsItemScope;
@@ -202,7 +204,7 @@ export interface GetProjectBoxesResponseDaemonsItem {
 export type GetProjectBoxesResponseDaemonsList = Array<GetProjectBoxesResponseDaemonsItem>;
 export interface GetProjectBoxesResponsePagination {
   count: number;
-  next?: string;
+  next?: string | undefined;
 }
 export interface GetProjectBoxesResponse {
   daemons: GetProjectBoxesResponseDaemonsList;
@@ -218,12 +220,12 @@ export interface PutProjectDaemonInstancesRequest {
   /** The name of the daemon to scale */
   daemonName: string;
   /** The deployment target for the daemon configuration. */
-  target?: PutProjectDaemonInstancesRequestTarget | (string & {});
+  target?: PutProjectDaemonInstancesRequestTarget | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  body?: PutProjectDaemonInstancesRequestBodyMap;
+  slug?: string | undefined;
+  body?: PutProjectDaemonInstancesRequestBodyMap | undefined;
 }
 export interface PutProjectDaemonInstancesResponse {
   ok: boolean;
@@ -236,9 +238,9 @@ export interface RestartProjectDaemonInstanceRequest {
   /** The ID of the daemon instance to restart */
   instanceId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface RestartProjectDaemonInstanceResponse {
   ok: boolean;

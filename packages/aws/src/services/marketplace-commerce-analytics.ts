@@ -139,13 +139,13 @@ export interface GenerateDataSetRequest {
   dataSetPublicationDate: Date;
   roleNameArn: string;
   destinationS3BucketName: string;
-  destinationS3Prefix?: string;
+  destinationS3Prefix?: string | undefined;
   snsTopicArn: string;
-  customerDefinedValues?: { [key: string]: string | undefined };
+  customerDefinedValues?: { [key: string]: string | undefined } | undefined;
 }
 export type DataSetRequestId = string;
 export interface GenerateDataSetResult {
-  dataSetRequestId?: string;
+  dataSetRequestId?: string | undefined;
 }
 export type SupportDataSetType =
   | "customer_support_contacts_data"
@@ -157,12 +157,12 @@ export interface StartSupportDataExportRequest {
   fromDate: Date;
   roleNameArn: string;
   destinationS3BucketName: string;
-  destinationS3Prefix?: string;
+  destinationS3Prefix?: string | undefined;
   snsTopicArn: string;
-  customerDefinedValues?: { [key: string]: string | undefined };
+  customerDefinedValues?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartSupportDataExportResult {
-  dataSetRequestId?: string;
+  dataSetRequestId?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type GenerateDataSetError = MarketplaceCommerceAnalyticsException | CommonErrors;

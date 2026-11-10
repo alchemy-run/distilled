@@ -66,9 +66,9 @@ export interface CreateWizardInstallRequest {
   /** GitHub repository to set up, in owner/name format. The project's GitHub connection must have access to it. */
   repository: string;
   /** Branch to start from and to open the pull request against. Defaults to the repository's default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Unique key for this request. A retry with the same key returns the same run instead of starting another. */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** * `created` - created * `running` - running * `completed` - completed * `failed` - failed * `cancelled` - cancelled */
 export type WizardRunStatusEnum = "created" | "running" | "completed" | "failed" | "cancelled";
@@ -105,9 +105,9 @@ export interface CreateWizardRunRequest {
   /** Project that the setup agent works on. */
   workspace: WizardWorkspace;
   /** Unique key that makes cloud run creation safe to retry. */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
   /** Wizard package version to run. Defaults to the backend pin and accepts latest explicitly. */
-  wizard_version?: string;
+  wizard_version?: string | undefined;
 }
 export interface WizardRunCreator {
   /** Unique ID of the user who created the Wizard run. */
@@ -192,7 +192,7 @@ export interface WizardScanSignal {
   /** The package name, `.env` key name or script host that matched. Never a `.env` value. */
   name: string;
   /** Path of the file the signal came from, relative to the scanned directory. */
-  file?: string | null;
+  file?: string | null | undefined;
 }
 /** The signals that matched this tool. */
 export type WizardScanToolSignalsList = Array<WizardScanSignal>;
@@ -220,7 +220,7 @@ export interface CreateWizardScanRequest {
   /** Every tool the scan found. An empty list is a scan that found nothing. */
   tools: CreateWizardScanRequestToolsList;
   /** False when the scan could not read the whole workspace. Tools it did not find are then kept. */
-  complete?: boolean;
+  complete?: boolean | undefined;
 }
 export interface WizardScanResult {
   /** ID of the stored scan. */
@@ -235,13 +235,13 @@ export interface PendingInput {
   /** Identifier the wizard mints for this question. Changes when a new question is asked. */
   id: string;
   /** UTC timestamp when the wizard asked. Defaults to the session's update time when absent. */
-  asked_at?: string;
+  asked_at?: string | undefined;
   /** How many questions this single ask covers. */
-  question_count?: number;
+  question_count?: number | undefined;
   /** Whether the answer is a secret. Sensitive questions never carry prompt text. */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** The question text shown to the user. Always empty for sensitive questions. */
-  prompts?: PendingInputPromptsList;
+  prompts?: PendingInputPromptsList | undefined;
 }
 /** * `idle` - IDLE * `running` - RUNNING * `completed` - COMPLETED * `error` - ERROR */
 export type RunPhaseEnum = "idle" | "running" | "completed" | "error";
@@ -266,9 +266,9 @@ export interface CreateWizardSessionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Populated while the wizard is blocked on a question in the terminal. Null/absent means no input is pending; a push without it clears the previous prompt. */
-  pending_input?: PendingInput | null;
+  pending_input?: PendingInput | null | undefined;
   /** Markdown handoff doc for the run (the wizard's setup report). Send it once the run has produced one; omitting it on later pushes keeps the stored value. */
-  handoff_text?: string | null;
+  handoff_text?: string | null | undefined;
   /** Stable identifier the wizard mints for this run (format: '{workflow_id}-{skill_id}-{started_at_iso}'). Reposting with the same session_id upserts the existing row. */
   session_id: string;
   /** High-level workflow being run, e.g. 'onboarding', 'migration', 'audit'. */
@@ -281,9 +281,9 @@ export interface CreateWizardSessionRequest {
   run_phase: RunPhaseEnum | (string & {});
   tasks: CreateWizardSessionRequestTasksList;
   /** Optional structured plan of events the wizard intends to instrument. Schema is workflow-specific. */
-  event_plan?: CreateWizardSessionRequestEventPlanMap | null;
+  event_plan?: CreateWizardSessionRequestEventPlanMap | null | undefined;
   /** Populated when run_phase='error'. Shape: { type: string, message: string }. */
-  error?: CreateWizardSessionRequestErrorMap | null;
+  error?: CreateWizardSessionRequestErrorMap | null | undefined;
 }
 export type WizardSessionDTOTasksList = Array<WizardTaskDTO>;
 export type WizardSessionDTOEventPlanMap = { [key: string]: unknown | undefined };
@@ -399,7 +399,7 @@ export interface GetWizardSessionsLatestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional skill within the workflow. */
-  skill_id?: string;
+  skill_id?: string | undefined;
   /** Workflow to inspect. */
   workflow_id: string;
 }
@@ -407,7 +407,7 @@ export interface GetWizardSessionsStreamRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional skill within the workflow. */
-  skill_id?: string;
+  skill_id?: string | undefined;
   /** Workflow to inspect. */
   workflow_id: string;
 }
@@ -416,15 +416,15 @@ export interface ListWizardRegistryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedWizardProgramListResultsList = Array<WizardProgram>;
 export interface PaginatedWizardProgramList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWizardProgramListResultsList;
 }
 export type ListWizardRunsRequestStatusItem =
@@ -440,21 +440,21 @@ export interface ListWizardRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return runs created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only return runs created by this user. */
-  created_by_id?: number;
+  created_by_id?: number | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by one or more comma-separated run statuses. */
-  status?: ListWizardRunsRequestStatusList;
+  status?: ListWizardRunsRequestStatusList | undefined;
 }
 export type PaginatedWizardRunListResultsList = Array<WizardRun>;
 export interface PaginatedWizardRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWizardRunListResultsList;
 }
 export interface ListWizardRunsArtifactsRequest {
@@ -462,9 +462,9 @@ export interface ListWizardRunsArtifactsRequest {
   project_id: string;
   run_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** * `git_diff` - git_diff */
 export type WizardRunGitDiffArtifactArtifactTypeEnum = "git_diff";
@@ -516,27 +516,27 @@ export type WizardRunArtifact = WizardRunGitDiffArtifact | WizardRunPullRequestA
 export type PaginatedWizardRunArtifactListResultsList = Array<WizardRunArtifact>;
 export interface PaginatedWizardRunArtifactList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWizardRunArtifactListResultsList;
 }
 export interface ListWizardSessionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of sessions to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of sessions to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Return sessions for this skill only. */
-  skill_id?: string;
+  skill_id?: string | undefined;
   /** Return sessions for this workflow only. */
-  workflow_id?: string;
+  workflow_id?: string | undefined;
 }
 export type PaginatedWizardSessionDTOListResultsList = Array<WizardSessionDTO>;
 export interface PaginatedWizardSessionDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWizardSessionDTOListResultsList;
 }
 export interface ListWizardToolCatalogRequest {}
@@ -605,9 +605,9 @@ export interface UpdateWizardRunsPartialRequest {
   project_id: string;
   run_id: string;
   /** New terminal status for the Wizard run. * `completed` - completed * `failed` - failed * `cancelled` - cancelled */
-  status?: WizardRunStatusUpdateRequestStatusEnum | (string & {});
+  status?: WizardRunStatusUpdateRequestStatusEnum | (string & {}) | undefined;
   /** Machine-readable reason the Wizard run failed. */
-  error_code?: string | null;
+  error_code?: string | null | undefined;
 }
 export interface UpdateWizardRunTask {
   /** Task name, unique within this run and stable across snapshots. */

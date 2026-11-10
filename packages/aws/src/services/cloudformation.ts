@@ -407,72 +407,72 @@ export type AutoUpdate = boolean;
 export type RoleARN2 = string;
 export type LogGroupName = string;
 export interface LoggingConfig {
-  LogRoleArn?: string;
-  LogGroupName?: string;
+  LogRoleArn?: string | undefined;
+  LogGroupName?: string | undefined;
 }
 export type VersionBump = "MAJOR" | "MINOR" | (string & {});
 export type MajorVersion = number;
 export interface ActivateTypeInput {
-  Type?: ThirdPartyType;
-  PublicTypeArn?: string;
-  PublisherId?: string;
-  TypeName?: string;
-  TypeNameAlias?: string;
-  AutoUpdate?: boolean;
-  LoggingConfig?: LoggingConfig;
-  ExecutionRoleArn?: string;
-  VersionBump?: VersionBump;
-  MajorVersion?: number;
+  Type?: ThirdPartyType | undefined;
+  PublicTypeArn?: string | undefined;
+  PublisherId?: string | undefined;
+  TypeName?: string | undefined;
+  TypeNameAlias?: string | undefined;
+  AutoUpdate?: boolean | undefined;
+  LoggingConfig?: LoggingConfig | undefined;
+  ExecutionRoleArn?: string | undefined;
+  VersionBump?: VersionBump | undefined;
+  MajorVersion?: number | undefined;
 }
 export type PrivateTypeArn = string;
 export interface ActivateTypeOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type TypeArn = string;
 export type TypeConfigurationAlias = string;
 export type TypeConfigurationArn = string;
 export interface TypeConfigurationIdentifier {
-  TypeArn?: string;
-  TypeConfigurationAlias?: string;
-  TypeConfigurationArn?: string;
-  Type?: ThirdPartyType;
-  TypeName?: string;
+  TypeArn?: string | undefined;
+  TypeConfigurationAlias?: string | undefined;
+  TypeConfigurationArn?: string | undefined;
+  Type?: ThirdPartyType | undefined;
+  TypeName?: string | undefined;
 }
 export type TypeConfigurationIdentifiers = TypeConfigurationIdentifier[];
 export interface BatchDescribeTypeConfigurationsInput {
-  TypeConfigurationIdentifiers?: TypeConfigurationIdentifier[];
+  TypeConfigurationIdentifiers?: TypeConfigurationIdentifier[] | undefined;
 }
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface BatchDescribeTypeConfigurationsError_ {
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  TypeConfigurationIdentifier?: TypeConfigurationIdentifier;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  TypeConfigurationIdentifier?: TypeConfigurationIdentifier | undefined;
 }
 export type BatchDescribeTypeConfigurationsErrors = BatchDescribeTypeConfigurationsError_[];
 export type UnprocessedTypeConfigurations = TypeConfigurationIdentifier[];
 export type TypeConfiguration = string;
 export type IsDefaultConfiguration = boolean;
 export interface TypeConfigurationDetails {
-  Arn?: string;
-  Alias?: string;
-  Configuration?: string;
-  LastUpdated?: Date;
-  TypeArn?: string;
-  TypeName?: string;
-  IsDefaultConfiguration?: boolean;
+  Arn?: string | undefined;
+  Alias?: string | undefined;
+  Configuration?: string | undefined;
+  LastUpdated?: Date | undefined;
+  TypeArn?: string | undefined;
+  TypeName?: string | undefined;
+  IsDefaultConfiguration?: boolean | undefined;
 }
 export type TypeConfigurationDetailsList = TypeConfigurationDetails[];
 export interface BatchDescribeTypeConfigurationsOutput {
-  Errors?: BatchDescribeTypeConfigurationsError_[];
-  UnprocessedTypeConfigurations?: TypeConfigurationIdentifier[];
-  TypeConfigurations?: TypeConfigurationDetails[];
+  Errors?: BatchDescribeTypeConfigurationsError_[] | undefined;
+  UnprocessedTypeConfigurations?: TypeConfigurationIdentifier[] | undefined;
+  TypeConfigurations?: TypeConfigurationDetails[] | undefined;
 }
 export type StackName = string;
 export type ClientRequestToken = string;
 export interface CancelUpdateStackInput {
-  StackName?: string;
-  ClientRequestToken?: string;
+  StackName?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface CancelUpdateStackResponse {}
 export type StackNameOrId = string;
@@ -481,11 +481,11 @@ export type ResourceToSkip = string;
 export type ResourcesToSkip = string[];
 export type ForceRollback = boolean;
 export interface ContinueUpdateRollbackInput {
-  StackName?: string;
-  RoleARN?: string;
-  ResourcesToSkip?: string[];
-  ClientRequestToken?: string;
-  ForceRollback?: boolean;
+  StackName?: string | undefined;
+  RoleARN?: string | undefined;
+  ResourcesToSkip?: string[] | undefined;
+  ClientRequestToken?: string | undefined;
+  ForceRollback?: boolean | undefined;
 }
 export interface ContinueUpdateRollbackOutput {}
 export type TemplateBody = string;
@@ -495,10 +495,10 @@ export type ParameterKey = string;
 export type ParameterValue = string;
 export type UsePreviousValue = boolean;
 export interface Parameter {
-  ParameterKey?: string;
-  ParameterValue?: string;
-  UsePreviousValue?: boolean;
-  ResolvedValue?: string;
+  ParameterKey?: string | undefined;
+  ParameterValue?: string | undefined;
+  UsePreviousValue?: boolean | undefined;
+  ResolvedValue?: string | undefined;
 }
 export type Parameters = Parameter[];
 export type Capability =
@@ -512,22 +512,22 @@ export type ResourceTypes = string[];
 export type Arn = string;
 export type Type = string;
 export interface RollbackTrigger {
-  Arn?: string;
-  Type?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export type RollbackTriggers = RollbackTrigger[];
 export type MonitoringTimeInMinutes = number;
 export interface RollbackConfiguration {
-  RollbackTriggers?: RollbackTrigger[];
-  MonitoringTimeInMinutes?: number;
+  RollbackTriggers?: RollbackTrigger[] | undefined;
+  MonitoringTimeInMinutes?: number | undefined;
 }
 export type NotificationARN = string;
 export type NotificationARNs = string[];
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type Tags = Tag[];
 export type ChangeSetName = string;
@@ -539,9 +539,9 @@ export type ResourceIdentifierPropertyKey = string;
 export type ResourceIdentifierPropertyValue = string;
 export type ResourceIdentifierProperties = { [key: string]: string | undefined };
 export interface ResourceToImport {
-  ResourceType?: string;
-  LogicalResourceId?: string;
-  ResourceIdentifier?: { [key: string]: string | undefined };
+  ResourceType?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  ResourceIdentifier?: { [key: string]: string | undefined } | undefined;
 }
 export type ResourcesToImport = ResourceToImport[];
 export type IncludeNestedStacks = boolean;
@@ -551,62 +551,62 @@ export type DeploymentMode = "REVERT_DRIFT" | (string & {});
 export type DeploymentConfigMode = "STANDARD" | "EXPRESS" | (string & {});
 export type DisableRollback = boolean;
 export interface DeploymentConfig {
-  Mode?: DeploymentConfigMode;
-  DisableRollback?: boolean;
+  Mode?: DeploymentConfigMode | undefined;
+  DisableRollback?: boolean | undefined;
 }
 export type DisableValidation = boolean;
 export interface CreateChangeSetInput {
-  StackName?: string;
-  TemplateBody?: string;
-  TemplateURL?: string;
-  UsePreviousTemplate?: boolean;
-  Parameters?: Parameter[];
-  Capabilities?: Capability[];
-  ResourceTypes?: string[];
-  RoleARN?: string;
-  RollbackConfiguration?: RollbackConfiguration;
-  NotificationARNs?: string[];
-  Tags?: Tag[];
-  ChangeSetName?: string;
-  ClientToken?: string;
-  Description?: string;
-  ChangeSetType?: ChangeSetType;
-  ResourcesToImport?: ResourceToImport[];
-  IncludeNestedStacks?: boolean;
-  OnStackFailure?: OnStackFailure;
-  ImportExistingResources?: boolean;
-  DeploymentMode?: DeploymentMode;
-  DeploymentConfig?: DeploymentConfig;
-  DisableValidation?: boolean;
+  StackName?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
+  UsePreviousTemplate?: boolean | undefined;
+  Parameters?: Parameter[] | undefined;
+  Capabilities?: Capability[] | undefined;
+  ResourceTypes?: string[] | undefined;
+  RoleARN?: string | undefined;
+  RollbackConfiguration?: RollbackConfiguration | undefined;
+  NotificationARNs?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  ChangeSetName?: string | undefined;
+  ClientToken?: string | undefined;
+  Description?: string | undefined;
+  ChangeSetType?: ChangeSetType | undefined;
+  ResourcesToImport?: ResourceToImport[] | undefined;
+  IncludeNestedStacks?: boolean | undefined;
+  OnStackFailure?: OnStackFailure | undefined;
+  ImportExistingResources?: boolean | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  DeploymentConfig?: DeploymentConfig | undefined;
+  DisableValidation?: boolean | undefined;
 }
 export type ChangeSetId = string;
 export type StackId = string;
 export interface CreateChangeSetOutput {
-  Id?: string;
-  StackId?: string;
+  Id?: string | undefined;
+  StackId?: string | undefined;
 }
 export interface ResourceDefinition {
-  ResourceType?: string;
-  LogicalResourceId?: string;
-  ResourceIdentifier?: { [key: string]: string | undefined };
+  ResourceType?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  ResourceIdentifier?: { [key: string]: string | undefined } | undefined;
 }
 export type ResourceDefinitions = ResourceDefinition[];
 export type GeneratedTemplateName = string;
 export type GeneratedTemplateDeletionPolicy = "DELETE" | "RETAIN" | (string & {});
 export type GeneratedTemplateUpdateReplacePolicy = "DELETE" | "RETAIN" | (string & {});
 export interface TemplateConfiguration {
-  DeletionPolicy?: GeneratedTemplateDeletionPolicy;
-  UpdateReplacePolicy?: GeneratedTemplateUpdateReplacePolicy;
+  DeletionPolicy?: GeneratedTemplateDeletionPolicy | undefined;
+  UpdateReplacePolicy?: GeneratedTemplateUpdateReplacePolicy | undefined;
 }
 export interface CreateGeneratedTemplateInput {
-  Resources?: ResourceDefinition[];
-  GeneratedTemplateName?: string;
-  StackName?: string;
-  TemplateConfiguration?: TemplateConfiguration;
+  Resources?: ResourceDefinition[] | undefined;
+  GeneratedTemplateName?: string | undefined;
+  StackName?: string | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
 }
 export type GeneratedTemplateId = string;
 export interface CreateGeneratedTemplateOutput {
-  GeneratedTemplateId?: string;
+  GeneratedTemplateId?: string | undefined;
 }
 export type TimeoutMinutes = number;
 export type OnFailure = "DO_NOTHING" | "ROLLBACK" | "DELETE" | (string & {});
@@ -615,31 +615,31 @@ export type StackPolicyURL = string;
 export type EnableTerminationProtection = boolean;
 export type RetainExceptOnCreate = boolean;
 export interface CreateStackInput {
-  StackName?: string;
-  TemplateBody?: string;
-  TemplateURL?: string;
-  Parameters?: Parameter[];
-  DisableRollback?: boolean;
-  RollbackConfiguration?: RollbackConfiguration;
-  TimeoutInMinutes?: number;
-  NotificationARNs?: string[];
-  Capabilities?: Capability[];
-  ResourceTypes?: string[];
-  RoleARN?: string;
-  OnFailure?: OnFailure;
-  StackPolicyBody?: string;
-  StackPolicyURL?: string;
-  Tags?: Tag[];
-  ClientRequestToken?: string;
-  EnableTerminationProtection?: boolean;
-  RetainExceptOnCreate?: boolean;
-  DeploymentConfig?: DeploymentConfig;
-  DisableValidation?: boolean;
+  StackName?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  DisableRollback?: boolean | undefined;
+  RollbackConfiguration?: RollbackConfiguration | undefined;
+  TimeoutInMinutes?: number | undefined;
+  NotificationARNs?: string[] | undefined;
+  Capabilities?: Capability[] | undefined;
+  ResourceTypes?: string[] | undefined;
+  RoleARN?: string | undefined;
+  OnFailure?: OnFailure | undefined;
+  StackPolicyBody?: string | undefined;
+  StackPolicyURL?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | undefined;
+  EnableTerminationProtection?: boolean | undefined;
+  RetainExceptOnCreate?: boolean | undefined;
+  DeploymentConfig?: DeploymentConfig | undefined;
+  DisableValidation?: boolean | undefined;
 }
 export type OperationId = string;
 export interface CreateStackOutput {
-  StackId?: string;
-  OperationId?: string;
+  StackId?: string | undefined;
+  OperationId?: string | undefined;
 }
 export type StackSetName = string;
 export type Account = string;
@@ -649,10 +649,10 @@ export type OrganizationalUnitId = string;
 export type OrganizationalUnitIdList = string[];
 export type AccountFilterType = "NONE" | "INTERSECTION" | "DIFFERENCE" | "UNION" | (string & {});
 export interface DeploymentTargets {
-  Accounts?: string[];
-  AccountsUrl?: string;
-  OrganizationalUnitIds?: string[];
-  AccountFilterType?: AccountFilterType;
+  Accounts?: string[] | undefined;
+  AccountsUrl?: string | undefined;
+  OrganizationalUnitIds?: string[] | undefined;
+  AccountFilterType?: AccountFilterType | undefined;
 }
 export type Region = string;
 export type RegionList = string[];
@@ -663,49 +663,49 @@ export type MaxConcurrentCount = number;
 export type MaxConcurrentPercentage = number;
 export type ConcurrencyMode = "STRICT_FAILURE_TOLERANCE" | "SOFT_FAILURE_TOLERANCE" | (string & {});
 export interface StackSetOperationPreferences {
-  RegionConcurrencyType?: RegionConcurrencyType;
-  RegionOrder?: string[];
-  FailureToleranceCount?: number;
-  FailureTolerancePercentage?: number;
-  MaxConcurrentCount?: number;
-  MaxConcurrentPercentage?: number;
-  ConcurrencyMode?: ConcurrencyMode;
+  RegionConcurrencyType?: RegionConcurrencyType | undefined;
+  RegionOrder?: string[] | undefined;
+  FailureToleranceCount?: number | undefined;
+  FailureTolerancePercentage?: number | undefined;
+  MaxConcurrentCount?: number | undefined;
+  MaxConcurrentPercentage?: number | undefined;
+  ConcurrencyMode?: ConcurrencyMode | undefined;
 }
 export type CallAs = "SELF" | "DELEGATED_ADMIN" | (string & {});
 export interface CreateStackInstancesInput {
-  StackSetName?: string;
-  Accounts?: string[];
-  DeploymentTargets?: DeploymentTargets;
-  Regions?: string[];
-  ParameterOverrides?: Parameter[];
-  OperationPreferences?: StackSetOperationPreferences;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  Accounts?: string[] | undefined;
+  DeploymentTargets?: DeploymentTargets | undefined;
+  Regions?: string[] | undefined;
+  ParameterOverrides?: Parameter[] | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface CreateStackInstancesOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type EnableStackCreation = boolean;
 export interface ResourceLocation {
-  StackName?: string;
-  LogicalResourceId?: string;
+  StackName?: string | undefined;
+  LogicalResourceId?: string | undefined;
 }
 export interface ResourceMapping {
-  Source?: ResourceLocation;
-  Destination?: ResourceLocation;
+  Source?: ResourceLocation | undefined;
+  Destination?: ResourceLocation | undefined;
 }
 export type ResourceMappings = ResourceMapping[];
 export interface StackDefinition {
-  StackName?: string;
-  TemplateBody?: string;
-  TemplateURL?: string;
+  StackName?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
 }
 export type StackDefinitions = StackDefinition[];
 export interface CreateStackRefactorInput {
-  Description?: string;
-  EnableStackCreation?: boolean;
-  ResourceMappings?: ResourceMapping[];
-  StackDefinitions?: StackDefinition[];
+  Description?: string | undefined;
+  EnableStackCreation?: boolean | undefined;
+  ResourceMappings?: ResourceMapping[] | undefined;
+  StackDefinitions?: StackDefinition[] | undefined;
 }
 export type StackRefactorId = string;
 export interface CreateStackRefactorOutput {
@@ -718,113 +718,113 @@ export type RetainStacksOnAccountRemovalNullable = boolean;
 export type StackSetARN = string;
 export type StackSetARNList = string[];
 export interface AutoDeployment {
-  Enabled?: boolean;
-  RetainStacksOnAccountRemoval?: boolean;
-  DependsOn?: string[];
+  Enabled?: boolean | undefined;
+  RetainStacksOnAccountRemoval?: boolean | undefined;
+  DependsOn?: string[] | undefined;
 }
 export type ManagedExecutionNullable = boolean;
 export interface ManagedExecution {
-  Active?: boolean;
+  Active?: boolean | undefined;
 }
 export interface CreateStackSetInput {
-  StackSetName?: string;
-  Description?: string;
-  TemplateBody?: string;
-  TemplateURL?: string;
-  StackId?: string;
-  Parameters?: Parameter[];
-  Capabilities?: Capability[];
-  Tags?: Tag[];
-  AdministrationRoleARN?: string;
-  ExecutionRoleName?: string;
-  PermissionModel?: PermissionModels;
-  AutoDeployment?: AutoDeployment;
-  CallAs?: CallAs;
-  ClientRequestToken?: string;
-  ManagedExecution?: ManagedExecution;
+  StackSetName?: string | undefined;
+  Description?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
+  StackId?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  Capabilities?: Capability[] | undefined;
+  Tags?: Tag[] | undefined;
+  AdministrationRoleARN?: string | undefined;
+  ExecutionRoleName?: string | undefined;
+  PermissionModel?: PermissionModels | undefined;
+  AutoDeployment?: AutoDeployment | undefined;
+  CallAs?: CallAs | undefined;
+  ClientRequestToken?: string | undefined;
+  ManagedExecution?: ManagedExecution | undefined;
 }
 export type StackSetId = string;
 export interface CreateStackSetOutput {
-  StackSetId?: string;
+  StackSetId?: string | undefined;
 }
 export interface DeactivateOrganizationsAccessInput {}
 export interface DeactivateOrganizationsAccessOutput {}
 export interface DeactivateTypeInput {
-  TypeName?: string;
-  Type?: ThirdPartyType;
-  Arn?: string;
+  TypeName?: string | undefined;
+  Type?: ThirdPartyType | undefined;
+  Arn?: string | undefined;
 }
 export interface DeactivateTypeOutput {}
 export type ChangeSetNameOrId = string;
 export interface DeleteChangeSetInput {
-  ChangeSetName?: string;
-  StackName?: string;
+  ChangeSetName?: string | undefined;
+  StackName?: string | undefined;
 }
 export interface DeleteChangeSetOutput {}
 export interface DeleteGeneratedTemplateInput {
-  GeneratedTemplateName?: string;
+  GeneratedTemplateName?: string | undefined;
 }
 export interface DeleteGeneratedTemplateResponse {}
 export type RetainResources = string[];
 export type DeletionMode = "STANDARD" | "FORCE_DELETE_STACK" | (string & {});
 export interface DeleteStackInput {
-  StackName?: string;
-  RetainResources?: string[];
-  RoleARN?: string;
-  ClientRequestToken?: string;
-  DeletionMode?: DeletionMode;
-  DeploymentConfig?: DeploymentConfig;
+  StackName?: string | undefined;
+  RetainResources?: string[] | undefined;
+  RoleARN?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  DeletionMode?: DeletionMode | undefined;
+  DeploymentConfig?: DeploymentConfig | undefined;
 }
 export interface DeleteStackResponse {}
 export type RetainStacks = boolean;
 export interface DeleteStackInstancesInput {
-  StackSetName?: string;
-  Accounts?: string[];
-  DeploymentTargets?: DeploymentTargets;
-  Regions?: string[];
-  OperationPreferences?: StackSetOperationPreferences;
-  RetainStacks?: boolean;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  Accounts?: string[] | undefined;
+  DeploymentTargets?: DeploymentTargets | undefined;
+  Regions?: string[] | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
+  RetainStacks?: boolean | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface DeleteStackInstancesOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface DeleteStackSetInput {
-  StackSetName?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface DeleteStackSetOutput {}
 export type RegistryType = "RESOURCE" | "MODULE" | "HOOK" | (string & {});
 export type TypeVersionId = string;
 export interface DeregisterTypeInput {
-  Arn?: string;
-  Type?: RegistryType;
-  TypeName?: string;
-  VersionId?: string;
+  Arn?: string | undefined;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  VersionId?: string | undefined;
 }
 export interface DeregisterTypeOutput {}
 export type NextToken = string;
 export interface DescribeAccountLimitsInput {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type LimitName = string;
 export type LimitValue = number;
 export interface AccountLimit {
-  Name?: string;
-  Value?: number;
+  Name?: string | undefined;
+  Value?: number | undefined;
 }
 export type AccountLimitList = AccountLimit[];
 export interface DescribeAccountLimitsOutput {
-  AccountLimits?: AccountLimit[];
-  NextToken?: string;
+  AccountLimits?: AccountLimit[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IncludePropertyValues = boolean;
 export interface DescribeChangeSetInput {
-  ChangeSetName?: string;
-  StackName?: string;
-  NextToken?: string;
-  IncludePropertyValues?: boolean;
+  ChangeSetName?: string | undefined;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
+  IncludePropertyValues?: boolean | undefined;
 }
 export type CreationTime = Date;
 export type ExecutionStatus =
@@ -892,8 +892,8 @@ export type DriftIgnoredReason =
   | "SENSITIVE_PROPERTY"
   | (string & {});
 export interface ResourceDriftIgnoredAttribute {
-  Path?: string;
-  Reason?: DriftIgnoredReason;
+  Path?: string | undefined;
+  Reason?: DriftIgnoredReason | undefined;
 }
 export type ResourceDriftIgnoredAttributes = ResourceDriftIgnoredAttribute[];
 export type PropertyName = string;
@@ -905,22 +905,22 @@ export type AfterValueFrom = "TEMPLATE" | (string & {});
 export type ResourceDriftPreviousValue = string;
 export type ResourceDriftActualValue = string;
 export interface LiveResourceDrift {
-  PreviousValue?: string;
-  ActualValue?: string;
-  DriftDetectionTimestamp?: Date;
+  PreviousValue?: string | undefined;
+  ActualValue?: string | undefined;
+  DriftDetectionTimestamp?: Date | undefined;
 }
 export type AttributeChangeType = "Add" | "Remove" | "Modify" | "SyncWithActual" | (string & {});
 export interface ResourceTargetDefinition {
-  Attribute?: ResourceAttribute;
-  Name?: string;
-  RequiresRecreation?: RequiresRecreation;
-  Path?: string;
-  BeforeValue?: string;
-  AfterValue?: string;
-  BeforeValueFrom?: BeforeValueFrom;
-  AfterValueFrom?: AfterValueFrom;
-  Drift?: LiveResourceDrift;
-  AttributeChangeType?: AttributeChangeType;
+  Attribute?: ResourceAttribute | undefined;
+  Name?: string | undefined;
+  RequiresRecreation?: RequiresRecreation | undefined;
+  Path?: string | undefined;
+  BeforeValue?: string | undefined;
+  AfterValue?: string | undefined;
+  BeforeValueFrom?: BeforeValueFrom | undefined;
+  AfterValueFrom?: AfterValueFrom | undefined;
+  Drift?: LiveResourceDrift | undefined;
+  AttributeChangeType?: AttributeChangeType | undefined;
 }
 export type EvaluationType = "Static" | "Dynamic" | (string & {});
 export type ChangeSource =
@@ -933,77 +933,77 @@ export type ChangeSource =
   | (string & {});
 export type CausingEntity = string;
 export interface ResourceChangeDetail {
-  Target?: ResourceTargetDefinition;
-  Evaluation?: EvaluationType;
-  ChangeSource?: ChangeSource;
-  CausingEntity?: string;
+  Target?: ResourceTargetDefinition | undefined;
+  Evaluation?: EvaluationType | undefined;
+  ChangeSource?: ChangeSource | undefined;
+  CausingEntity?: string | undefined;
 }
 export type ResourceChangeDetails = ResourceChangeDetail[];
 export type TypeHierarchy = string;
 export type LogicalIdHierarchy = string;
 export interface ModuleInfo {
-  TypeHierarchy?: string;
-  LogicalIdHierarchy?: string;
+  TypeHierarchy?: string | undefined;
+  LogicalIdHierarchy?: string | undefined;
 }
 export type BeforeContext = string;
 export type AfterContext = string;
 export type PreviousDeploymentContext = string;
 export interface ResourceChange {
-  PolicyAction?: PolicyAction;
-  Action?: ChangeAction;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  Replacement?: Replacement;
-  Scope?: ResourceAttribute[];
-  ResourceDriftStatus?: StackResourceDriftStatus;
-  ResourceDriftIgnoredAttributes?: ResourceDriftIgnoredAttribute[];
-  Details?: ResourceChangeDetail[];
-  ChangeSetId?: string;
-  ModuleInfo?: ModuleInfo;
-  BeforeContext?: string;
-  AfterContext?: string;
-  PreviousDeploymentContext?: string;
+  PolicyAction?: PolicyAction | undefined;
+  Action?: ChangeAction | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Replacement?: Replacement | undefined;
+  Scope?: ResourceAttribute[] | undefined;
+  ResourceDriftStatus?: StackResourceDriftStatus | undefined;
+  ResourceDriftIgnoredAttributes?: ResourceDriftIgnoredAttribute[] | undefined;
+  Details?: ResourceChangeDetail[] | undefined;
+  ChangeSetId?: string | undefined;
+  ModuleInfo?: ModuleInfo | undefined;
+  BeforeContext?: string | undefined;
+  AfterContext?: string | undefined;
+  PreviousDeploymentContext?: string | undefined;
 }
 export interface Change {
-  Type?: ChangeType;
-  HookInvocationCount?: number;
-  ResourceChange?: ResourceChange;
+  Type?: ChangeType | undefined;
+  HookInvocationCount?: number | undefined;
+  ResourceChange?: ResourceChange | undefined;
 }
 export type Changes = Change[];
 export interface DescribeChangeSetOutput {
-  ChangeSetName?: string;
-  ChangeSetId?: string;
-  StackId?: string;
-  StackName?: string;
-  Description?: string;
-  Parameters?: Parameter[];
-  CreationTime?: Date;
-  ExecutionStatus?: ExecutionStatus;
-  Status?: ChangeSetStatus;
-  StatusReason?: string;
-  StackDriftStatus?: StackDriftStatus;
-  NotificationARNs?: string[];
-  RollbackConfiguration?: RollbackConfiguration & {
-    RollbackTriggers: (RollbackTrigger & { Arn: Arn; Type: Type })[];
-  };
-  Capabilities?: Capability[];
-  Tags?: (Tag & { Key: TagKey; Value: TagValue })[];
-  Changes?: Change[];
-  NextToken?: string;
-  IncludeNestedStacks?: boolean;
-  ParentChangeSetId?: string;
-  RootChangeSetId?: string;
-  OnStackFailure?: OnStackFailure;
-  ImportExistingResources?: boolean;
-  DeploymentMode?: DeploymentMode;
-  DeploymentConfig?: DeploymentConfig;
+  ChangeSetName?: string | undefined;
+  ChangeSetId?: string | undefined;
+  StackId?: string | undefined;
+  StackName?: string | undefined;
+  Description?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  CreationTime?: Date | undefined;
+  ExecutionStatus?: ExecutionStatus | undefined;
+  Status?: ChangeSetStatus | undefined;
+  StatusReason?: string | undefined;
+  StackDriftStatus?: StackDriftStatus | undefined;
+  NotificationARNs?: string[] | undefined;
+  RollbackConfiguration?:
+    | (RollbackConfiguration & { RollbackTriggers: (RollbackTrigger & { Arn: Arn; Type: Type })[] })
+    | undefined;
+  Capabilities?: Capability[] | undefined;
+  Tags?: (Tag & { Key: TagKey; Value: TagValue })[] | undefined;
+  Changes?: Change[] | undefined;
+  NextToken?: string | undefined;
+  IncludeNestedStacks?: boolean | undefined;
+  ParentChangeSetId?: string | undefined;
+  RootChangeSetId?: string | undefined;
+  OnStackFailure?: OnStackFailure | undefined;
+  ImportExistingResources?: boolean | undefined;
+  DeploymentMode?: DeploymentMode | undefined;
+  DeploymentConfig?: DeploymentConfig | undefined;
 }
 export interface DescribeChangeSetHooksInput {
-  ChangeSetName?: string;
-  StackName?: string;
-  NextToken?: string;
-  LogicalResourceId?: string;
+  ChangeSetName?: string | undefined;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
+  LogicalResourceId?: string | undefined;
 }
 export type HookInvocationPoint = "PRE_PROVISION" | (string & {});
 export type HookFailureMode = "FAIL" | "WARN" | (string & {});
@@ -1013,43 +1013,43 @@ export type HookTypeConfigurationVersionId = string;
 export type HookTargetType = "RESOURCE" | (string & {});
 export type HookTargetTypeName = string;
 export interface ChangeSetHookResourceTargetDetails {
-  LogicalResourceId?: string;
-  ResourceType?: string;
-  ResourceAction?: ChangeAction;
+  LogicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceAction?: ChangeAction | undefined;
 }
 export interface ChangeSetHookTargetDetails {
-  TargetType?: HookTargetType;
-  ResourceTargetDetails?: ChangeSetHookResourceTargetDetails;
+  TargetType?: HookTargetType | undefined;
+  ResourceTargetDetails?: ChangeSetHookResourceTargetDetails | undefined;
 }
 export interface ChangeSetHook {
-  InvocationPoint?: HookInvocationPoint;
-  FailureMode?: HookFailureMode;
-  TypeName?: string;
-  TypeVersionId?: string;
-  TypeConfigurationVersionId?: string;
-  TargetDetails?: ChangeSetHookTargetDetails;
+  InvocationPoint?: HookInvocationPoint | undefined;
+  FailureMode?: HookFailureMode | undefined;
+  TypeName?: string | undefined;
+  TypeVersionId?: string | undefined;
+  TypeConfigurationVersionId?: string | undefined;
+  TargetDetails?: ChangeSetHookTargetDetails | undefined;
 }
 export type ChangeSetHooks = ChangeSetHook[];
 export type ChangeSetHooksStatus = "PLANNING" | "PLANNED" | "UNAVAILABLE" | (string & {});
 export interface DescribeChangeSetHooksOutput {
-  ChangeSetId?: string;
-  ChangeSetName?: string;
-  Hooks?: ChangeSetHook[];
-  Status?: ChangeSetHooksStatus;
-  NextToken?: string;
-  StackId?: string;
-  StackName?: string;
+  ChangeSetId?: string | undefined;
+  ChangeSetName?: string | undefined;
+  Hooks?: ChangeSetHook[] | undefined;
+  Status?: ChangeSetHooksStatus | undefined;
+  NextToken?: string | undefined;
+  StackId?: string | undefined;
+  StackName?: string | undefined;
 }
 export type FailedEventsFilter = boolean;
 export interface EventFilter {
-  FailedEvents?: boolean;
+  FailedEvents?: boolean | undefined;
 }
 export interface DescribeEventsInput {
-  StackName?: string;
-  ChangeSetName?: string;
-  OperationId?: string;
-  Filters?: EventFilter;
-  NextToken?: string;
+  StackName?: string | undefined;
+  ChangeSetName?: string | undefined;
+  OperationId?: string | undefined;
+  Filters?: EventFilter | undefined;
+  NextToken?: string | undefined;
 }
 export type EventId = string;
 export type OperationType =
@@ -1114,41 +1114,41 @@ export type ValidationStatus = "FAILED" | "SKIPPED" | (string & {});
 export type ValidationStatusReason = string;
 export type ValidationPath = string;
 export interface OperationEvent {
-  EventId?: string;
-  StackId?: string;
-  OperationId?: string;
-  OperationType?: OperationType;
-  OperationStatus?: BeaconStackOperationStatus;
-  EventType?: EventType;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  Timestamp?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  ResourceStatus?: ResourceStatus;
-  ResourceStatusReason?: string;
-  ResourceProperties?: string;
-  ClientRequestToken?: string;
-  HookType?: string;
-  HookStatus?: HookStatus;
-  HookStatusReason?: string;
-  HookInvocationPoint?: HookInvocationPoint;
-  HookFailureMode?: HookFailureMode;
-  DetailedStatus?: DetailedStatus;
-  ValidationFailureMode?: HookFailureMode;
-  ValidationName?: string;
-  ValidationStatus?: ValidationStatus;
-  ValidationStatusReason?: string;
-  ValidationPath?: string;
+  EventId?: string | undefined;
+  StackId?: string | undefined;
+  OperationId?: string | undefined;
+  OperationType?: OperationType | undefined;
+  OperationStatus?: BeaconStackOperationStatus | undefined;
+  EventType?: EventType | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Timestamp?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ResourceStatusReason?: string | undefined;
+  ResourceProperties?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  HookType?: string | undefined;
+  HookStatus?: HookStatus | undefined;
+  HookStatusReason?: string | undefined;
+  HookInvocationPoint?: HookInvocationPoint | undefined;
+  HookFailureMode?: HookFailureMode | undefined;
+  DetailedStatus?: DetailedStatus | undefined;
+  ValidationFailureMode?: HookFailureMode | undefined;
+  ValidationName?: string | undefined;
+  ValidationStatus?: ValidationStatus | undefined;
+  ValidationStatusReason?: string | undefined;
+  ValidationPath?: string | undefined;
 }
 export type OperationEvents = OperationEvent[];
 export interface DescribeEventsOutput {
-  OperationEvents?: OperationEvent[];
-  NextToken?: string;
+  OperationEvents?: OperationEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeGeneratedTemplateInput {
-  GeneratedTemplateName?: string;
+  GeneratedTemplateName?: string | undefined;
 }
 export type GeneratedTemplateResourceStatus =
   | "PENDING"
@@ -1167,23 +1167,23 @@ export type PropertyPath = string;
 export type RequiredProperty = boolean;
 export type PropertyDescription = string;
 export interface WarningProperty {
-  PropertyPath?: string;
-  Required?: boolean;
-  Description?: string;
+  PropertyPath?: string | undefined;
+  Required?: boolean | undefined;
+  Description?: string | undefined;
 }
 export type WarningProperties = WarningProperty[];
 export interface WarningDetail {
-  Type?: WarningType;
-  Properties?: WarningProperty[];
+  Type?: WarningType | undefined;
+  Properties?: WarningProperty[] | undefined;
 }
 export type WarningDetails = WarningDetail[];
 export interface ResourceDetail {
-  ResourceType?: string;
-  LogicalResourceId?: string;
-  ResourceIdentifier?: { [key: string]: string | undefined };
-  ResourceStatus?: GeneratedTemplateResourceStatus;
-  ResourceStatusReason?: string;
-  Warnings?: WarningDetail[];
+  ResourceType?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  ResourceIdentifier?: { [key: string]: string | undefined } | undefined;
+  ResourceStatus?: GeneratedTemplateResourceStatus | undefined;
+  ResourceStatusReason?: string | undefined;
+  Warnings?: WarningDetail[] | undefined;
 }
 export type ResourceDetails = ResourceDetail[];
 export type GeneratedTemplateStatus =
@@ -1203,47 +1203,47 @@ export type ResourcesFailed = number;
 export type ResourcesProcessing = number;
 export type ResourcesPending = number;
 export interface TemplateProgress {
-  ResourcesSucceeded?: number;
-  ResourcesFailed?: number;
-  ResourcesProcessing?: number;
-  ResourcesPending?: number;
+  ResourcesSucceeded?: number | undefined;
+  ResourcesFailed?: number | undefined;
+  ResourcesProcessing?: number | undefined;
+  ResourcesPending?: number | undefined;
 }
 export type TotalWarnings = number;
 export interface DescribeGeneratedTemplateOutput {
-  GeneratedTemplateId?: string;
-  GeneratedTemplateName?: string;
-  Resources?: ResourceDetail[];
-  Status?: GeneratedTemplateStatus;
-  StatusReason?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  Progress?: TemplateProgress;
-  StackId?: string;
-  TemplateConfiguration?: TemplateConfiguration;
-  TotalWarnings?: number;
+  GeneratedTemplateId?: string | undefined;
+  GeneratedTemplateName?: string | undefined;
+  Resources?: ResourceDetail[] | undefined;
+  Status?: GeneratedTemplateStatus | undefined;
+  StatusReason?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  Progress?: TemplateProgress | undefined;
+  StackId?: string | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
+  TotalWarnings?: number | undefined;
 }
 export interface DescribeOrganizationsAccessInput {
-  CallAs?: CallAs;
+  CallAs?: CallAs | undefined;
 }
 export type OrganizationStatus = "ENABLED" | "DISABLED" | "DISABLED_PERMANENTLY" | (string & {});
 export interface DescribeOrganizationsAccessOutput {
-  Status?: OrganizationStatus;
+  Status?: OrganizationStatus | undefined;
 }
 export interface DescribePublisherInput {
-  PublisherId?: string;
+  PublisherId?: string | undefined;
 }
 export type PublisherStatus = "VERIFIED" | "UNVERIFIED" | (string & {});
 export type IdentityProvider = "AWS_Marketplace" | "GitHub" | "Bitbucket" | (string & {});
 export type PublisherProfile = string;
 export interface DescribePublisherOutput {
-  PublisherId?: string;
-  PublisherStatus?: PublisherStatus;
-  IdentityProvider?: IdentityProvider;
-  PublisherProfile?: string;
+  PublisherId?: string | undefined;
+  PublisherStatus?: PublisherStatus | undefined;
+  IdentityProvider?: IdentityProvider | undefined;
+  PublisherProfile?: string | undefined;
 }
 export type ResourceScanId = string;
 export interface DescribeResourceScanInput {
-  ResourceScanId?: string;
+  ResourceScanId?: string | undefined;
 }
 export type ResourceScanStatus = "IN_PROGRESS" | "FAILED" | "COMPLETE" | "EXPIRED" | (string & {});
 export type ResourceScanStatusReason = string;
@@ -1253,24 +1253,24 @@ export type ResourcesRead = number;
 export type ResourceTypeFilter = string;
 export type ResourceTypeFilters = string[];
 export interface ScanFilter {
-  Types?: string[];
+  Types?: string[] | undefined;
 }
 export type ScanFilters = ScanFilter[];
 export interface DescribeResourceScanOutput {
-  ResourceScanId?: string;
-  Status?: ResourceScanStatus;
-  StatusReason?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  PercentageCompleted?: number;
-  ResourceTypes?: string[];
-  ResourcesScanned?: number;
-  ResourcesRead?: number;
-  ScanFilters?: ScanFilter[];
+  ResourceScanId?: string | undefined;
+  Status?: ResourceScanStatus | undefined;
+  StatusReason?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  PercentageCompleted?: number | undefined;
+  ResourceTypes?: string[] | undefined;
+  ResourcesScanned?: number | undefined;
+  ResourcesRead?: number | undefined;
+  ScanFilters?: ScanFilter[] | undefined;
 }
 export type StackDriftDetectionId = string;
 export interface DescribeStackDriftDetectionStatusInput {
-  StackDriftDetectionId?: string;
+  StackDriftDetectionId?: string | undefined;
 }
 export type StackDriftDetectionStatus =
   | "DETECTION_IN_PROGRESS"
@@ -1282,53 +1282,50 @@ export type BoxedInteger = number;
 export interface DescribeStackDriftDetectionStatusOutput {
   StackId: string;
   StackDriftDetectionId: string;
-  StackDriftStatus?: StackDriftStatus;
+  StackDriftStatus?: StackDriftStatus | undefined;
   DetectionStatus: StackDriftDetectionStatus;
-  DetectionStatusReason?: string;
-  DriftedStackResourceCount?: number;
+  DetectionStatusReason?: string | undefined;
+  DriftedStackResourceCount?: number | undefined;
   Timestamp: Date;
 }
 export interface DescribeStackEventsInput {
-  StackName?: string;
-  NextToken?: string;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type HookInvocationId = string;
 export interface StackEvent {
-  StackId?: string;
-  EventId?: string;
-  StackName?: string;
-  OperationId?: string;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  Timestamp?: Date;
-  ResourceStatus?: ResourceStatus;
-  ResourceStatusReason?: string;
-  ResourceProperties?: string;
-  ClientRequestToken?: string;
-  HookType?: string;
-  HookStatus?: HookStatus;
-  HookStatusReason?: string;
-  HookInvocationPoint?: HookInvocationPoint;
-  HookInvocationId?: string;
-  HookFailureMode?: HookFailureMode;
-  DetailedStatus?: DetailedStatus;
+  StackId?: string | undefined;
+  EventId?: string | undefined;
+  StackName?: string | undefined;
+  OperationId?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Timestamp?: Date | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ResourceStatusReason?: string | undefined;
+  ResourceProperties?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  HookType?: string | undefined;
+  HookStatus?: HookStatus | undefined;
+  HookStatusReason?: string | undefined;
+  HookInvocationPoint?: HookInvocationPoint | undefined;
+  HookInvocationId?: string | undefined;
+  HookFailureMode?: HookFailureMode | undefined;
+  DetailedStatus?: DetailedStatus | undefined;
 }
 export type StackEvents = StackEvent[];
 export interface DescribeStackEventsOutput {
-  StackEvents?: (StackEvent & {
-    StackId: StackId;
-    EventId: EventId;
-    StackName: StackName;
-    Timestamp: Date;
-  })[];
-  NextToken?: string;
+  StackEvents?:
+    | (StackEvent & { StackId: StackId; EventId: EventId; StackName: StackName; Timestamp: Date })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeStackInstanceInput {
-  StackSetName?: string;
-  StackInstanceAccount?: string;
-  StackInstanceRegion?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  StackInstanceAccount?: string | undefined;
+  StackInstanceRegion?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export type StackInstanceStatus = "CURRENT" | "OUTDATED" | "INOPERABLE" | (string & {});
 export type StackInstanceDetailedStatus =
@@ -1342,28 +1339,28 @@ export type StackInstanceDetailedStatus =
   | "FAILED_IMPORT"
   | (string & {});
 export interface StackInstanceComprehensiveStatus {
-  DetailedStatus?: StackInstanceDetailedStatus;
+  DetailedStatus?: StackInstanceDetailedStatus | undefined;
 }
 export type Reason = string;
 export interface StackInstance {
-  StackSetId?: string;
-  Region?: string;
-  Account?: string;
-  StackId?: string;
-  ParameterOverrides?: Parameter[];
-  Status?: StackInstanceStatus;
-  StackInstanceStatus?: StackInstanceComprehensiveStatus;
-  StatusReason?: string;
-  OrganizationalUnitId?: string;
-  DriftStatus?: StackDriftStatus;
-  LastDriftCheckTimestamp?: Date;
-  LastOperationId?: string;
+  StackSetId?: string | undefined;
+  Region?: string | undefined;
+  Account?: string | undefined;
+  StackId?: string | undefined;
+  ParameterOverrides?: Parameter[] | undefined;
+  Status?: StackInstanceStatus | undefined;
+  StackInstanceStatus?: StackInstanceComprehensiveStatus | undefined;
+  StatusReason?: string | undefined;
+  OrganizationalUnitId?: string | undefined;
+  DriftStatus?: StackDriftStatus | undefined;
+  LastDriftCheckTimestamp?: Date | undefined;
+  LastOperationId?: string | undefined;
 }
 export interface DescribeStackInstanceOutput {
-  StackInstance?: StackInstance;
+  StackInstance?: StackInstance | undefined;
 }
 export interface DescribeStackRefactorInput {
-  StackRefactorId?: string;
+  StackRefactorId?: string | undefined;
 }
 export type StackIds = string[];
 export type StackRefactorExecutionStatus =
@@ -1388,87 +1385,89 @@ export type StackRefactorStatus =
   | (string & {});
 export type StackRefactorStatusReason = string;
 export interface DescribeStackRefactorOutput {
-  Description?: string;
-  StackRefactorId?: string;
-  StackIds?: string[];
-  ExecutionStatus?: StackRefactorExecutionStatus;
-  ExecutionStatusReason?: string;
-  Status?: StackRefactorStatus;
-  StatusReason?: string;
+  Description?: string | undefined;
+  StackRefactorId?: string | undefined;
+  StackIds?: string[] | undefined;
+  ExecutionStatus?: StackRefactorExecutionStatus | undefined;
+  ExecutionStatusReason?: string | undefined;
+  Status?: StackRefactorStatus | undefined;
+  StatusReason?: string | undefined;
 }
 export interface DescribeStackResourceInput {
-  StackName?: string;
-  LogicalResourceId?: string;
+  StackName?: string | undefined;
+  LogicalResourceId?: string | undefined;
 }
 export type Metadata = string;
 export interface StackResourceDriftInformation {
-  StackResourceDriftStatus?: StackResourceDriftStatus;
-  LastCheckTimestamp?: Date;
+  StackResourceDriftStatus?: StackResourceDriftStatus | undefined;
+  LastCheckTimestamp?: Date | undefined;
 }
 export interface StackResourceDetail {
-  StackName?: string;
-  StackId?: string;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  LastUpdatedTimestamp?: Date;
-  ResourceStatus?: ResourceStatus;
-  ResourceStatusReason?: string;
-  Description?: string;
-  Metadata?: string;
-  DriftInformation?: StackResourceDriftInformation;
-  ModuleInfo?: ModuleInfo;
+  StackName?: string | undefined;
+  StackId?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ResourceStatusReason?: string | undefined;
+  Description?: string | undefined;
+  Metadata?: string | undefined;
+  DriftInformation?: StackResourceDriftInformation | undefined;
+  ModuleInfo?: ModuleInfo | undefined;
 }
 export interface DescribeStackResourceOutput {
-  StackResourceDetail?: StackResourceDetail & {
-    LogicalResourceId: LogicalResourceId;
-    ResourceType: ResourceType;
-    LastUpdatedTimestamp: Date;
-    ResourceStatus: ResourceStatus;
-    DriftInformation: StackResourceDriftInformation & {
-      StackResourceDriftStatus: StackResourceDriftStatus;
-    };
-  };
+  StackResourceDetail?:
+    | (StackResourceDetail & {
+        LogicalResourceId: LogicalResourceId;
+        ResourceType: ResourceType;
+        LastUpdatedTimestamp: Date;
+        ResourceStatus: ResourceStatus;
+        DriftInformation: StackResourceDriftInformation & {
+          StackResourceDriftStatus: StackResourceDriftStatus;
+        };
+      })
+    | undefined;
 }
 export type StackResourceDriftStatusFilters = StackResourceDriftStatus[];
 export type BoxedMaxResults = number;
 export interface DescribeStackResourceDriftsInput {
-  StackName?: string;
-  StackResourceDriftStatusFilters?: StackResourceDriftStatus[];
-  NextToken?: string;
-  MaxResults?: number;
+  StackName?: string | undefined;
+  StackResourceDriftStatusFilters?: StackResourceDriftStatus[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Key = string;
 export type Value = string;
 export interface PhysicalResourceIdContextKeyValuePair {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type PhysicalResourceIdContext = PhysicalResourceIdContextKeyValuePair[];
 export type Properties = string;
 export type PropertyValue = string;
 export type DifferenceType = "ADD" | "REMOVE" | "NOT_EQUAL" | (string & {});
 export interface PropertyDifference {
-  PropertyPath?: string;
-  ExpectedValue?: string;
-  ActualValue?: string;
-  DifferenceType?: DifferenceType;
+  PropertyPath?: string | undefined;
+  ExpectedValue?: string | undefined;
+  ActualValue?: string | undefined;
+  DifferenceType?: DifferenceType | undefined;
 }
 export type PropertyDifferences = PropertyDifference[];
 export type StackResourceDriftStatusReason = string;
 export interface StackResourceDrift {
-  StackId?: string;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  PhysicalResourceIdContext?: PhysicalResourceIdContextKeyValuePair[];
-  ResourceType?: string;
-  ExpectedProperties?: string;
-  ActualProperties?: string;
-  PropertyDifferences?: PropertyDifference[];
-  StackResourceDriftStatus?: StackResourceDriftStatus;
-  Timestamp?: Date;
-  ModuleInfo?: ModuleInfo;
-  DriftStatusReason?: string;
+  StackId?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  PhysicalResourceIdContext?: PhysicalResourceIdContextKeyValuePair[] | undefined;
+  ResourceType?: string | undefined;
+  ExpectedProperties?: string | undefined;
+  ActualProperties?: string | undefined;
+  PropertyDifferences?: PropertyDifference[] | undefined;
+  StackResourceDriftStatus?: StackResourceDriftStatus | undefined;
+  Timestamp?: Date | undefined;
+  ModuleInfo?: ModuleInfo | undefined;
+  DriftStatusReason?: string | undefined;
 }
 export type StackResourceDrifts = StackResourceDrift[];
 export interface DescribeStackResourceDriftsOutput {
@@ -1489,41 +1488,43 @@ export interface DescribeStackResourceDriftsOutput {
       DifferenceType: DifferenceType;
     })[];
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeStackResourcesInput {
-  StackName?: string;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
+  StackName?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
 }
 export interface StackResource {
-  StackName?: string;
-  StackId?: string;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  Timestamp?: Date;
-  ResourceStatus?: ResourceStatus;
-  ResourceStatusReason?: string;
-  Description?: string;
-  DriftInformation?: StackResourceDriftInformation;
-  ModuleInfo?: ModuleInfo;
+  StackName?: string | undefined;
+  StackId?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Timestamp?: Date | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ResourceStatusReason?: string | undefined;
+  Description?: string | undefined;
+  DriftInformation?: StackResourceDriftInformation | undefined;
+  ModuleInfo?: ModuleInfo | undefined;
 }
 export type StackResources = StackResource[];
 export interface DescribeStackResourcesOutput {
-  StackResources?: (StackResource & {
-    LogicalResourceId: LogicalResourceId;
-    ResourceType: ResourceType;
-    Timestamp: Date;
-    ResourceStatus: ResourceStatus;
-    DriftInformation: StackResourceDriftInformation & {
-      StackResourceDriftStatus: StackResourceDriftStatus;
-    };
-  })[];
+  StackResources?:
+    | (StackResource & {
+        LogicalResourceId: LogicalResourceId;
+        ResourceType: ResourceType;
+        Timestamp: Date;
+        ResourceStatus: ResourceStatus;
+        DriftInformation: StackResourceDriftInformation & {
+          StackResourceDriftStatus: StackResourceDriftStatus;
+        };
+      })[]
+    | undefined;
 }
 export interface DescribeStacksInput {
-  StackName?: string;
-  NextToken?: string;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type DeletionTime = Date;
 export type StackStatus =
@@ -1556,67 +1557,69 @@ export type OutputKey = string;
 export type OutputValue = string;
 export type ExportName = string;
 export interface Output {
-  OutputKey?: string;
-  OutputValue?: string;
-  Description?: string;
-  ExportName?: string;
+  OutputKey?: string | undefined;
+  OutputValue?: string | undefined;
+  Description?: string | undefined;
+  ExportName?: string | undefined;
 }
 export type Outputs = Output[];
 export interface StackDriftInformation {
-  StackDriftStatus?: StackDriftStatus;
-  LastCheckTimestamp?: Date;
+  StackDriftStatus?: StackDriftStatus | undefined;
+  LastCheckTimestamp?: Date | undefined;
 }
 export interface OperationEntry {
-  OperationType?: OperationType;
-  OperationId?: string;
+  OperationType?: OperationType | undefined;
+  OperationId?: string | undefined;
 }
 export type LastOperations = OperationEntry[];
 export interface Stack {
-  StackId?: string;
-  StackName?: string;
-  ChangeSetId?: string;
-  Description?: string;
-  Parameters?: Parameter[];
-  CreationTime?: Date;
-  DeletionTime?: Date;
-  LastUpdatedTime?: Date;
-  RollbackConfiguration?: RollbackConfiguration;
-  StackStatus?: StackStatus;
-  StackStatusReason?: string;
-  DisableRollback?: boolean;
-  DeploymentConfig?: DeploymentConfig;
-  NotificationARNs?: string[];
-  TimeoutInMinutes?: number;
-  Capabilities?: Capability[];
-  Outputs?: Output[];
-  RoleARN?: string;
-  Tags?: Tag[];
-  EnableTerminationProtection?: boolean;
-  ParentId?: string;
-  RootId?: string;
-  DriftInformation?: StackDriftInformation;
-  RetainExceptOnCreate?: boolean;
-  DeletionMode?: DeletionMode;
-  DetailedStatus?: DetailedStatus;
-  LastOperations?: OperationEntry[];
+  StackId?: string | undefined;
+  StackName?: string | undefined;
+  ChangeSetId?: string | undefined;
+  Description?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  CreationTime?: Date | undefined;
+  DeletionTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  RollbackConfiguration?: RollbackConfiguration | undefined;
+  StackStatus?: StackStatus | undefined;
+  StackStatusReason?: string | undefined;
+  DisableRollback?: boolean | undefined;
+  DeploymentConfig?: DeploymentConfig | undefined;
+  NotificationARNs?: string[] | undefined;
+  TimeoutInMinutes?: number | undefined;
+  Capabilities?: Capability[] | undefined;
+  Outputs?: Output[] | undefined;
+  RoleARN?: string | undefined;
+  Tags?: Tag[] | undefined;
+  EnableTerminationProtection?: boolean | undefined;
+  ParentId?: string | undefined;
+  RootId?: string | undefined;
+  DriftInformation?: StackDriftInformation | undefined;
+  RetainExceptOnCreate?: boolean | undefined;
+  DeletionMode?: DeletionMode | undefined;
+  DetailedStatus?: DetailedStatus | undefined;
+  LastOperations?: OperationEntry[] | undefined;
 }
 export type Stacks = Stack[];
 export interface DescribeStacksOutput {
-  Stacks?: (Stack & {
-    StackName: StackName;
-    CreationTime: CreationTime;
-    StackStatus: StackStatus;
-    RollbackConfiguration: RollbackConfiguration & {
-      RollbackTriggers: (RollbackTrigger & { Arn: Arn; Type: Type })[];
-    };
-    Tags: (Tag & { Key: TagKey; Value: TagValue })[];
-    DriftInformation: StackDriftInformation & { StackDriftStatus: StackDriftStatus };
-  })[];
-  NextToken?: string;
+  Stacks?:
+    | (Stack & {
+        StackName: StackName;
+        CreationTime: CreationTime;
+        StackStatus: StackStatus;
+        RollbackConfiguration: RollbackConfiguration & {
+          RollbackTriggers: (RollbackTrigger & { Arn: Arn; Type: Type })[];
+        };
+        Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+        DriftInformation: StackDriftInformation & { StackDriftStatus: StackDriftStatus };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeStackSetInput {
-  StackSetName?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export type StackSetStatus = "ACTIVE" | "DELETED" | (string & {});
 export type StackSetDriftStatus = "DRIFTED" | "IN_SYNC" | "NOT_CHECKED" | (string & {});
@@ -1633,41 +1636,41 @@ export type InSyncStackInstancesCount = number;
 export type InProgressStackInstancesCount = number;
 export type FailedStackInstancesCount = number;
 export interface StackSetDriftDetectionDetails {
-  DriftStatus?: StackSetDriftStatus;
-  DriftDetectionStatus?: StackSetDriftDetectionStatus;
-  LastDriftCheckTimestamp?: Date;
-  TotalStackInstancesCount?: number;
-  DriftedStackInstancesCount?: number;
-  InSyncStackInstancesCount?: number;
-  InProgressStackInstancesCount?: number;
-  FailedStackInstancesCount?: number;
+  DriftStatus?: StackSetDriftStatus | undefined;
+  DriftDetectionStatus?: StackSetDriftDetectionStatus | undefined;
+  LastDriftCheckTimestamp?: Date | undefined;
+  TotalStackInstancesCount?: number | undefined;
+  DriftedStackInstancesCount?: number | undefined;
+  InSyncStackInstancesCount?: number | undefined;
+  InProgressStackInstancesCount?: number | undefined;
+  FailedStackInstancesCount?: number | undefined;
 }
 export interface StackSet {
-  StackSetName?: string;
-  StackSetId?: string;
-  Description?: string;
-  Status?: StackSetStatus;
-  TemplateBody?: string;
-  Parameters?: Parameter[];
-  Capabilities?: Capability[];
-  Tags?: Tag[];
-  StackSetARN?: string;
-  AdministrationRoleARN?: string;
-  ExecutionRoleName?: string;
-  StackSetDriftDetectionDetails?: StackSetDriftDetectionDetails;
-  AutoDeployment?: AutoDeployment;
-  PermissionModel?: PermissionModels;
-  OrganizationalUnitIds?: string[];
-  ManagedExecution?: ManagedExecution;
-  Regions?: string[];
+  StackSetName?: string | undefined;
+  StackSetId?: string | undefined;
+  Description?: string | undefined;
+  Status?: StackSetStatus | undefined;
+  TemplateBody?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  Capabilities?: Capability[] | undefined;
+  Tags?: Tag[] | undefined;
+  StackSetARN?: string | undefined;
+  AdministrationRoleARN?: string | undefined;
+  ExecutionRoleName?: string | undefined;
+  StackSetDriftDetectionDetails?: StackSetDriftDetectionDetails | undefined;
+  AutoDeployment?: AutoDeployment | undefined;
+  PermissionModel?: PermissionModels | undefined;
+  OrganizationalUnitIds?: string[] | undefined;
+  ManagedExecution?: ManagedExecution | undefined;
+  Regions?: string[] | undefined;
 }
 export interface DescribeStackSetOutput {
-  StackSet?: StackSet & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] };
+  StackSet?: (StackSet & { Tags: (Tag & { Key: TagKey; Value: TagValue })[] }) | undefined;
 }
 export interface DescribeStackSetOperationInput {
-  StackSetName?: string;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export type StackSetOperationAction =
   | "CREATE"
@@ -1686,35 +1689,35 @@ export type StackSetOperationStatus =
 export type RetainStacksNullable = boolean;
 export type StackSetOperationStatusReason = string;
 export interface StackSetOperationStatusDetails {
-  FailedStackInstancesCount?: number;
+  FailedStackInstancesCount?: number | undefined;
 }
 export interface StackSetOperation {
-  OperationId?: string;
-  StackSetId?: string;
-  Action?: StackSetOperationAction;
-  Status?: StackSetOperationStatus;
-  OperationPreferences?: StackSetOperationPreferences;
-  RetainStacks?: boolean;
-  AdministrationRoleARN?: string;
-  ExecutionRoleName?: string;
-  CreationTimestamp?: Date;
-  EndTimestamp?: Date;
-  DeploymentTargets?: DeploymentTargets;
-  StackSetDriftDetectionDetails?: StackSetDriftDetectionDetails;
-  StatusReason?: string;
-  StatusDetails?: StackSetOperationStatusDetails;
+  OperationId?: string | undefined;
+  StackSetId?: string | undefined;
+  Action?: StackSetOperationAction | undefined;
+  Status?: StackSetOperationStatus | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
+  RetainStacks?: boolean | undefined;
+  AdministrationRoleARN?: string | undefined;
+  ExecutionRoleName?: string | undefined;
+  CreationTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
+  DeploymentTargets?: DeploymentTargets | undefined;
+  StackSetDriftDetectionDetails?: StackSetDriftDetectionDetails | undefined;
+  StatusReason?: string | undefined;
+  StatusDetails?: StackSetOperationStatusDetails | undefined;
 }
 export interface DescribeStackSetOperationOutput {
-  StackSetOperation?: StackSetOperation;
+  StackSetOperation?: StackSetOperation | undefined;
 }
 export type PublicVersionNumber = string;
 export interface DescribeTypeInput {
-  Type?: RegistryType;
-  TypeName?: string;
-  Arn?: string;
-  VersionId?: string;
-  PublisherId?: string;
-  PublicVersionNumber?: string;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  Arn?: string | undefined;
+  VersionId?: string | undefined;
+  PublisherId?: string | undefined;
+  PublicVersionNumber?: string | undefined;
 }
 export type IsDefaultVersion = boolean;
 export type TypeTestsStatus = "PASSED" | "FAILED" | "IN_PROGRESS" | "NOT_TESTED" | (string & {});
@@ -1725,10 +1728,10 @@ export type DeprecatedStatus = "LIVE" | "DEPRECATED" | (string & {});
 export type SupportedMajorVersion = number;
 export type SupportedMajorVersions = number[];
 export interface RequiredActivatedType {
-  TypeNameAlias?: string;
-  OriginalTypeName?: string;
-  PublisherId?: string;
-  SupportedMajorVersions?: number[];
+  TypeNameAlias?: string | undefined;
+  OriginalTypeName?: string | undefined;
+  PublisherId?: string | undefined;
+  SupportedMajorVersions?: number[] | undefined;
 }
 export type RequiredActivatedTypes = RequiredActivatedType[];
 export type Visibility = "PUBLIC" | "PRIVATE" | (string & {});
@@ -1736,56 +1739,58 @@ export type OptionalSecureUrl = string;
 export type ConfigurationSchema = string;
 export type IsActivated = boolean;
 export interface DescribeTypeOutput {
-  Arn?: string;
-  Type?: RegistryType;
-  TypeName?: string;
-  DefaultVersionId?: string;
-  IsDefaultVersion?: boolean;
-  TypeTestsStatus?: TypeTestsStatus;
-  TypeTestsStatusDescription?: string;
-  Description?: string;
-  Schema?: string;
-  ProvisioningType?: ProvisioningType;
-  DeprecatedStatus?: DeprecatedStatus;
-  LoggingConfig?: LoggingConfig & { LogRoleArn: RoleARN2; LogGroupName: LogGroupName };
-  RequiredActivatedTypes?: RequiredActivatedType[];
-  ExecutionRoleArn?: string;
-  Visibility?: Visibility;
-  SourceUrl?: string;
-  DocumentationUrl?: string;
-  LastUpdated?: Date;
-  TimeCreated?: Date;
-  ConfigurationSchema?: string;
-  PublisherId?: string;
-  OriginalTypeName?: string;
-  OriginalTypeArn?: string;
-  PublicVersionNumber?: string;
-  LatestPublicVersion?: string;
-  IsActivated?: boolean;
-  AutoUpdate?: boolean;
+  Arn?: string | undefined;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  DefaultVersionId?: string | undefined;
+  IsDefaultVersion?: boolean | undefined;
+  TypeTestsStatus?: TypeTestsStatus | undefined;
+  TypeTestsStatusDescription?: string | undefined;
+  Description?: string | undefined;
+  Schema?: string | undefined;
+  ProvisioningType?: ProvisioningType | undefined;
+  DeprecatedStatus?: DeprecatedStatus | undefined;
+  LoggingConfig?:
+    | (LoggingConfig & { LogRoleArn: RoleARN2; LogGroupName: LogGroupName })
+    | undefined;
+  RequiredActivatedTypes?: RequiredActivatedType[] | undefined;
+  ExecutionRoleArn?: string | undefined;
+  Visibility?: Visibility | undefined;
+  SourceUrl?: string | undefined;
+  DocumentationUrl?: string | undefined;
+  LastUpdated?: Date | undefined;
+  TimeCreated?: Date | undefined;
+  ConfigurationSchema?: string | undefined;
+  PublisherId?: string | undefined;
+  OriginalTypeName?: string | undefined;
+  OriginalTypeArn?: string | undefined;
+  PublicVersionNumber?: string | undefined;
+  LatestPublicVersion?: string | undefined;
+  IsActivated?: boolean | undefined;
+  AutoUpdate?: boolean | undefined;
 }
 export type RegistrationToken = string;
 export interface DescribeTypeRegistrationInput {
-  RegistrationToken?: string;
+  RegistrationToken?: string | undefined;
 }
 export type RegistrationStatus = "COMPLETE" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface DescribeTypeRegistrationOutput {
-  ProgressStatus?: RegistrationStatus;
-  Description?: string;
-  TypeArn?: string;
-  TypeVersionArn?: string;
+  ProgressStatus?: RegistrationStatus | undefined;
+  Description?: string | undefined;
+  TypeArn?: string | undefined;
+  TypeVersionArn?: string | undefined;
 }
 export type LogicalResourceIds = string[];
 export interface DetectStackDriftInput {
-  StackName?: string;
-  LogicalResourceIds?: string[];
+  StackName?: string | undefined;
+  LogicalResourceIds?: string[] | undefined;
 }
 export interface DetectStackDriftOutput {
   StackDriftDetectionId: string;
 }
 export interface DetectStackResourceDriftInput {
-  StackName?: string;
-  LogicalResourceId?: string;
+  StackName?: string | undefined;
+  LogicalResourceId?: string | undefined;
 }
 export interface DetectStackResourceDriftOutput {
   StackResourceDrift: StackResourceDrift & {
@@ -1808,55 +1813,55 @@ export interface DetectStackResourceDriftOutput {
 }
 export type StackSetNameOrId = string;
 export interface DetectStackSetDriftInput {
-  StackSetName?: string;
-  OperationPreferences?: StackSetOperationPreferences;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface DetectStackSetDriftOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface EstimateTemplateCostInput {
-  TemplateBody?: string;
-  TemplateURL?: string;
-  Parameters?: Parameter[];
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export type Url = string;
 export interface EstimateTemplateCostOutput {
-  Url?: string;
+  Url?: string | undefined;
 }
 export interface ExecuteChangeSetInput {
-  ChangeSetName?: string;
-  StackName?: string;
-  ClientRequestToken?: string;
-  DisableRollback?: boolean;
-  RetainExceptOnCreate?: boolean;
+  ChangeSetName?: string | undefined;
+  StackName?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  DisableRollback?: boolean | undefined;
+  RetainExceptOnCreate?: boolean | undefined;
 }
 export interface ExecuteChangeSetOutput {}
 export interface ExecuteStackRefactorInput {
-  StackRefactorId?: string;
+  StackRefactorId?: string | undefined;
 }
 export interface ExecuteStackRefactorResponse {}
 export type TemplateFormat = "JSON" | "YAML" | (string & {});
 export interface GetGeneratedTemplateInput {
-  Format?: TemplateFormat;
-  GeneratedTemplateName?: string;
+  Format?: TemplateFormat | undefined;
+  GeneratedTemplateName?: string | undefined;
 }
 export interface GetGeneratedTemplateOutput {
-  Status?: GeneratedTemplateStatus;
-  TemplateBody?: string;
+  Status?: GeneratedTemplateStatus | undefined;
+  TemplateBody?: string | undefined;
 }
 export interface GetHookResultInput {
-  HookResultId?: string;
+  HookResultId?: string | undefined;
 }
 export type HookTypeArn = string;
 export type HookTargetId = string;
 export type HookTargetAction = "CREATE" | "UPDATE" | "DELETE" | "IMPORT" | (string & {});
 export interface HookTarget {
-  TargetType?: HookTargetType;
-  TargetTypeName?: string;
-  TargetId?: string;
-  Action?: HookTargetAction;
+  TargetType?: HookTargetType | undefined;
+  TargetTypeName?: string | undefined;
+  TargetId?: string | undefined;
+  Action?: HookTargetAction | undefined;
 }
 export type AnnotationName = string;
 export type AnnotationStatus = "PASSED" | "FAILED" | "SKIPPED" | (string & {});
@@ -1871,77 +1876,79 @@ export type AnnotationSeverityLevel =
   | "CRITICAL"
   | (string & {});
 export interface Annotation {
-  AnnotationName?: string;
-  Status?: AnnotationStatus;
-  StatusMessage?: string;
-  RemediationMessage?: string;
-  RemediationLink?: string;
-  SeverityLevel?: AnnotationSeverityLevel;
+  AnnotationName?: string | undefined;
+  Status?: AnnotationStatus | undefined;
+  StatusMessage?: string | undefined;
+  RemediationMessage?: string | undefined;
+  RemediationLink?: string | undefined;
+  SeverityLevel?: AnnotationSeverityLevel | undefined;
 }
 export type AnnotationList = Annotation[];
 export interface GetHookResultOutput {
-  HookResultId?: string;
-  InvocationPoint?: HookInvocationPoint;
-  FailureMode?: HookFailureMode;
-  TypeName?: string;
-  OriginalTypeName?: string;
-  TypeVersionId?: string;
-  TypeConfigurationVersionId?: string;
-  TypeArn?: string;
-  Status?: HookStatus;
-  HookStatusReason?: string;
-  InvokedAt?: Date;
-  Target?: HookTarget & {
-    TargetType: HookTargetType;
-    TargetTypeName: HookTargetTypeName;
-    TargetId: HookTargetId;
-    Action: HookTargetAction;
-  };
-  Annotations?: Annotation[];
+  HookResultId?: string | undefined;
+  InvocationPoint?: HookInvocationPoint | undefined;
+  FailureMode?: HookFailureMode | undefined;
+  TypeName?: string | undefined;
+  OriginalTypeName?: string | undefined;
+  TypeVersionId?: string | undefined;
+  TypeConfigurationVersionId?: string | undefined;
+  TypeArn?: string | undefined;
+  Status?: HookStatus | undefined;
+  HookStatusReason?: string | undefined;
+  InvokedAt?: Date | undefined;
+  Target?:
+    | (HookTarget & {
+        TargetType: HookTargetType;
+        TargetTypeName: HookTargetTypeName;
+        TargetId: HookTargetId;
+        Action: HookTargetAction;
+      })
+    | undefined;
+  Annotations?: Annotation[] | undefined;
 }
 export interface GetStackPolicyInput {
-  StackName?: string;
+  StackName?: string | undefined;
 }
 export interface GetStackPolicyOutput {
-  StackPolicyBody?: string;
+  StackPolicyBody?: string | undefined;
 }
 export type TemplateStage = "Original" | "Processed" | (string & {});
 export interface GetTemplateInput {
-  StackName?: string;
-  ChangeSetName?: string;
-  TemplateStage?: TemplateStage;
+  StackName?: string | undefined;
+  ChangeSetName?: string | undefined;
+  TemplateStage?: TemplateStage | undefined;
 }
 export type StageList = TemplateStage[];
 export interface GetTemplateOutput {
-  TemplateBody?: string;
-  StagesAvailable?: TemplateStage[];
+  TemplateBody?: string | undefined;
+  StagesAvailable?: TemplateStage[] | undefined;
 }
 export type TreatUnrecognizedResourceTypesAsWarnings = boolean;
 export interface TemplateSummaryConfig {
-  TreatUnrecognizedResourceTypesAsWarnings?: boolean;
+  TreatUnrecognizedResourceTypesAsWarnings?: boolean | undefined;
 }
 export interface GetTemplateSummaryInput {
-  TemplateBody?: string;
-  TemplateURL?: string;
-  StackName?: string;
-  StackSetName?: string;
-  CallAs?: CallAs;
-  TemplateSummaryConfig?: TemplateSummaryConfig;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
+  StackName?: string | undefined;
+  StackSetName?: string | undefined;
+  CallAs?: CallAs | undefined;
+  TemplateSummaryConfig?: TemplateSummaryConfig | undefined;
 }
 export type ParameterType = string;
 export type NoEcho = boolean;
 export type AllowedValue = string;
 export type AllowedValues = string[];
 export interface ParameterConstraints {
-  AllowedValues?: string[];
+  AllowedValues?: string[] | undefined;
 }
 export interface ParameterDeclaration {
-  ParameterKey?: string;
-  DefaultValue?: string;
-  ParameterType?: string;
-  NoEcho?: boolean;
-  Description?: string;
-  ParameterConstraints?: ParameterConstraints;
+  ParameterKey?: string | undefined;
+  DefaultValue?: string | undefined;
+  ParameterType?: string | undefined;
+  NoEcho?: boolean | undefined;
+  Description?: string | undefined;
+  ParameterConstraints?: ParameterConstraints | undefined;
 }
 export type ParameterDeclarations = ParameterDeclaration[];
 export type CapabilitiesReason = string;
@@ -1950,97 +1957,97 @@ export type TransformName = string;
 export type TransformsList = string[];
 export type ResourceIdentifiers = string[];
 export interface ResourceIdentifierSummary {
-  ResourceType?: string;
-  LogicalResourceIds?: string[];
-  ResourceIdentifiers?: string[];
+  ResourceType?: string | undefined;
+  LogicalResourceIds?: string[] | undefined;
+  ResourceIdentifiers?: string[] | undefined;
 }
 export type ResourceIdentifierSummaries = ResourceIdentifierSummary[];
 export interface Warnings {
-  UnrecognizedResourceTypes?: string[];
+  UnrecognizedResourceTypes?: string[] | undefined;
 }
 export interface GetTemplateSummaryOutput {
-  Parameters?: ParameterDeclaration[];
-  Description?: string;
-  Capabilities?: Capability[];
-  CapabilitiesReason?: string;
-  ResourceTypes?: string[];
-  Version?: string;
-  Metadata?: string;
-  DeclaredTransforms?: string[];
-  ResourceIdentifierSummaries?: ResourceIdentifierSummary[];
-  Warnings?: Warnings;
+  Parameters?: ParameterDeclaration[] | undefined;
+  Description?: string | undefined;
+  Capabilities?: Capability[] | undefined;
+  CapabilitiesReason?: string | undefined;
+  ResourceTypes?: string[] | undefined;
+  Version?: string | undefined;
+  Metadata?: string | undefined;
+  DeclaredTransforms?: string[] | undefined;
+  ResourceIdentifierSummaries?: ResourceIdentifierSummary[] | undefined;
+  Warnings?: Warnings | undefined;
 }
 export type StackIdList = string[];
 export type StackIdsUrl = string;
 export interface ImportStacksToStackSetInput {
-  StackSetName?: string;
-  StackIds?: string[];
-  StackIdsUrl?: string;
-  OrganizationalUnitIds?: string[];
-  OperationPreferences?: StackSetOperationPreferences;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  StackIds?: string[] | undefined;
+  StackIdsUrl?: string | undefined;
+  OrganizationalUnitIds?: string[] | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface ImportStacksToStackSetOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface ListChangeSetsInput {
-  StackName?: string;
-  NextToken?: string;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ChangeSetSummary {
-  StackId?: string;
-  StackName?: string;
-  ChangeSetId?: string;
-  ChangeSetName?: string;
-  ExecutionStatus?: ExecutionStatus;
-  Status?: ChangeSetStatus;
-  StatusReason?: string;
-  CreationTime?: Date;
-  Description?: string;
-  IncludeNestedStacks?: boolean;
-  ParentChangeSetId?: string;
-  RootChangeSetId?: string;
-  ImportExistingResources?: boolean;
+  StackId?: string | undefined;
+  StackName?: string | undefined;
+  ChangeSetId?: string | undefined;
+  ChangeSetName?: string | undefined;
+  ExecutionStatus?: ExecutionStatus | undefined;
+  Status?: ChangeSetStatus | undefined;
+  StatusReason?: string | undefined;
+  CreationTime?: Date | undefined;
+  Description?: string | undefined;
+  IncludeNestedStacks?: boolean | undefined;
+  ParentChangeSetId?: string | undefined;
+  RootChangeSetId?: string | undefined;
+  ImportExistingResources?: boolean | undefined;
 }
 export type ChangeSetSummaries = ChangeSetSummary[];
 export interface ListChangeSetsOutput {
-  Summaries?: ChangeSetSummary[];
-  NextToken?: string;
+  Summaries?: ChangeSetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExportsInput {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ExportValue = string;
 export interface Export {
-  ExportingStackId?: string;
-  Name?: string;
-  Value?: string;
+  ExportingStackId?: string | undefined;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type Exports = Export[];
 export interface ListExportsOutput {
-  Exports?: Export[];
-  NextToken?: string;
+  Exports?: Export[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListGeneratedTemplatesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type NumberOfResources = number;
 export interface TemplateSummary {
-  GeneratedTemplateId?: string;
-  GeneratedTemplateName?: string;
-  Status?: GeneratedTemplateStatus;
-  StatusReason?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  NumberOfResources?: number;
+  GeneratedTemplateId?: string | undefined;
+  GeneratedTemplateName?: string | undefined;
+  Status?: GeneratedTemplateStatus | undefined;
+  StatusReason?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  NumberOfResources?: number | undefined;
 }
 export type TemplateSummaries = TemplateSummary[];
 export interface ListGeneratedTemplatesOutput {
-  Summaries?: TemplateSummary[];
-  NextToken?: string;
+  Summaries?: TemplateSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListHookResultsTargetType =
   | "CHANGE_SET"
@@ -2050,145 +2057,147 @@ export type ListHookResultsTargetType =
   | (string & {});
 export type HookResultId = string;
 export interface ListHookResultsInput {
-  TargetType?: ListHookResultsTargetType;
-  TargetId?: string;
-  TypeArn?: string;
-  Status?: HookStatus;
-  NextToken?: string;
+  TargetType?: ListHookResultsTargetType | undefined;
+  TargetId?: string | undefined;
+  TypeArn?: string | undefined;
+  Status?: HookStatus | undefined;
+  NextToken?: string | undefined;
 }
 export interface HookResultSummary {
-  HookResultId?: string;
-  InvocationPoint?: HookInvocationPoint;
-  FailureMode?: HookFailureMode;
-  TypeName?: string;
-  TypeVersionId?: string;
-  TypeConfigurationVersionId?: string;
-  Status?: HookStatus;
-  HookStatusReason?: string;
-  InvokedAt?: Date;
-  TargetType?: ListHookResultsTargetType;
-  TargetId?: string;
-  TypeArn?: string;
-  HookExecutionTarget?: string;
+  HookResultId?: string | undefined;
+  InvocationPoint?: HookInvocationPoint | undefined;
+  FailureMode?: HookFailureMode | undefined;
+  TypeName?: string | undefined;
+  TypeVersionId?: string | undefined;
+  TypeConfigurationVersionId?: string | undefined;
+  Status?: HookStatus | undefined;
+  HookStatusReason?: string | undefined;
+  InvokedAt?: Date | undefined;
+  TargetType?: ListHookResultsTargetType | undefined;
+  TargetId?: string | undefined;
+  TypeArn?: string | undefined;
+  HookExecutionTarget?: string | undefined;
 }
 export type HookResultSummaries = HookResultSummary[];
 export interface ListHookResultsOutput {
-  TargetType?: ListHookResultsTargetType;
-  TargetId?: string;
-  HookResults?: HookResultSummary[];
-  NextToken?: string;
+  TargetType?: ListHookResultsTargetType | undefined;
+  TargetId?: string | undefined;
+  HookResults?: HookResultSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListImportsInput {
-  ExportName?: string;
-  NextToken?: string;
+  ExportName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type Imports = string[];
 export interface ListImportsOutput {
-  Imports?: string[];
-  NextToken?: string;
+  Imports?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type JazzResourceIdentifierPropertyKey = string;
 export type JazzResourceIdentifierPropertyValue = string;
 export type JazzResourceIdentifierProperties = { [key: string]: string | undefined };
 export interface ScannedResourceIdentifier {
-  ResourceType?: string;
-  ResourceIdentifier?: { [key: string]: string | undefined };
+  ResourceType?: string | undefined;
+  ResourceIdentifier?: { [key: string]: string | undefined } | undefined;
 }
 export type ScannedResourceIdentifiers = ScannedResourceIdentifier[];
 export interface ListResourceScanRelatedResourcesInput {
-  ResourceScanId?: string;
-  Resources?: ScannedResourceIdentifier[];
-  NextToken?: string;
-  MaxResults?: number;
+  ResourceScanId?: string | undefined;
+  Resources?: ScannedResourceIdentifier[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ManagedByStack = boolean;
 export interface ScannedResource {
-  ResourceType?: string;
-  ResourceIdentifier?: { [key: string]: string | undefined };
-  ManagedByStack?: boolean;
+  ResourceType?: string | undefined;
+  ResourceIdentifier?: { [key: string]: string | undefined } | undefined;
+  ManagedByStack?: boolean | undefined;
 }
 export type RelatedResources = ScannedResource[];
 export interface ListResourceScanRelatedResourcesOutput {
-  RelatedResources?: ScannedResource[];
-  NextToken?: string;
+  RelatedResources?: ScannedResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceIdentifier = string;
 export type ResourceTypePrefix = string;
 export type ResourceScannerMaxResults = number;
 export interface ListResourceScanResourcesInput {
-  ResourceScanId?: string;
-  ResourceIdentifier?: string;
-  ResourceTypePrefix?: string;
-  TagKey?: string;
-  TagValue?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ResourceScanId?: string | undefined;
+  ResourceIdentifier?: string | undefined;
+  ResourceTypePrefix?: string | undefined;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ScannedResources = ScannedResource[];
 export interface ListResourceScanResourcesOutput {
-  Resources?: ScannedResource[];
-  NextToken?: string;
+  Resources?: ScannedResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ScanType = "FULL" | "PARTIAL" | (string & {});
 export interface ListResourceScansInput {
-  NextToken?: string;
-  MaxResults?: number;
-  ScanTypeFilter?: ScanType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ScanTypeFilter?: ScanType | undefined;
 }
 export interface ResourceScanSummary {
-  ResourceScanId?: string;
-  Status?: ResourceScanStatus;
-  StatusReason?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  PercentageCompleted?: number;
-  ScanType?: ScanType;
+  ResourceScanId?: string | undefined;
+  Status?: ResourceScanStatus | undefined;
+  StatusReason?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  PercentageCompleted?: number | undefined;
+  ScanType?: ScanType | undefined;
 }
 export type ResourceScanSummaries = ResourceScanSummary[];
 export interface ListResourceScansOutput {
-  ResourceScanSummaries?: ResourceScanSummary[];
-  NextToken?: string;
+  ResourceScanSummaries?: ResourceScanSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStackInstanceResourceDriftsInput {
-  StackSetName?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StackInstanceResourceDriftStatuses?: StackResourceDriftStatus[];
-  StackInstanceAccount?: string;
-  StackInstanceRegion?: string;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StackInstanceResourceDriftStatuses?: StackResourceDriftStatus[] | undefined;
+  StackInstanceAccount?: string | undefined;
+  StackInstanceRegion?: string | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface StackInstanceResourceDriftsSummary {
-  StackId?: string;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  PhysicalResourceIdContext?: PhysicalResourceIdContextKeyValuePair[];
-  ResourceType?: string;
-  PropertyDifferences?: PropertyDifference[];
-  StackResourceDriftStatus?: StackResourceDriftStatus;
-  Timestamp?: Date;
+  StackId?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  PhysicalResourceIdContext?: PhysicalResourceIdContextKeyValuePair[] | undefined;
+  ResourceType?: string | undefined;
+  PropertyDifferences?: PropertyDifference[] | undefined;
+  StackResourceDriftStatus?: StackResourceDriftStatus | undefined;
+  Timestamp?: Date | undefined;
 }
 export type StackInstanceResourceDriftsSummaries = StackInstanceResourceDriftsSummary[];
 export interface ListStackInstanceResourceDriftsOutput {
-  Summaries?: (StackInstanceResourceDriftsSummary & {
-    StackId: StackId;
-    LogicalResourceId: LogicalResourceId;
-    ResourceType: ResourceType;
-    StackResourceDriftStatus: StackResourceDriftStatus;
-    Timestamp: Date;
-    PhysicalResourceIdContext: (PhysicalResourceIdContextKeyValuePair & {
-      Key: Key;
-      Value: Value;
-    })[];
-    PropertyDifferences: (PropertyDifference & {
-      PropertyPath: PropertyPath;
-      ExpectedValue: PropertyValue;
-      ActualValue: PropertyValue;
-      DifferenceType: DifferenceType;
-    })[];
-  })[];
-  NextToken?: string;
+  Summaries?:
+    | (StackInstanceResourceDriftsSummary & {
+        StackId: StackId;
+        LogicalResourceId: LogicalResourceId;
+        ResourceType: ResourceType;
+        StackResourceDriftStatus: StackResourceDriftStatus;
+        Timestamp: Date;
+        PhysicalResourceIdContext: (PhysicalResourceIdContextKeyValuePair & {
+          Key: Key;
+          Value: Value;
+        })[];
+        PropertyDifferences: (PropertyDifference & {
+          PropertyPath: PropertyPath;
+          ExpectedValue: PropertyValue;
+          ActualValue: PropertyValue;
+          DifferenceType: DifferenceType;
+        })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type StackInstanceFilterName =
   | "DETAILED_STATUS"
@@ -2197,41 +2206,41 @@ export type StackInstanceFilterName =
   | (string & {});
 export type StackInstanceFilterValues = string;
 export interface StackInstanceFilter {
-  Name?: StackInstanceFilterName;
-  Values?: string;
+  Name?: StackInstanceFilterName | undefined;
+  Values?: string | undefined;
 }
 export type StackInstanceFilters = StackInstanceFilter[];
 export interface ListStackInstancesInput {
-  StackSetName?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: StackInstanceFilter[];
-  StackInstanceAccount?: string;
-  StackInstanceRegion?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: StackInstanceFilter[] | undefined;
+  StackInstanceAccount?: string | undefined;
+  StackInstanceRegion?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface StackInstanceSummary {
-  StackSetId?: string;
-  Region?: string;
-  Account?: string;
-  StackId?: string;
-  Status?: StackInstanceStatus;
-  StatusReason?: string;
-  StackInstanceStatus?: StackInstanceComprehensiveStatus;
-  OrganizationalUnitId?: string;
-  DriftStatus?: StackDriftStatus;
-  LastDriftCheckTimestamp?: Date;
-  LastOperationId?: string;
+  StackSetId?: string | undefined;
+  Region?: string | undefined;
+  Account?: string | undefined;
+  StackId?: string | undefined;
+  Status?: StackInstanceStatus | undefined;
+  StatusReason?: string | undefined;
+  StackInstanceStatus?: StackInstanceComprehensiveStatus | undefined;
+  OrganizationalUnitId?: string | undefined;
+  DriftStatus?: StackDriftStatus | undefined;
+  LastDriftCheckTimestamp?: Date | undefined;
+  LastOperationId?: string | undefined;
 }
 export type StackInstanceSummaries = StackInstanceSummary[];
 export interface ListStackInstancesOutput {
-  Summaries?: StackInstanceSummary[];
-  NextToken?: string;
+  Summaries?: StackInstanceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStackRefactorActionsInput {
-  StackRefactorId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  StackRefactorId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type StackRefactorActionType = "MOVE" | "CREATE" | (string & {});
 export type StackRefactorActionEntity = "RESOURCE" | "STACK" | (string & {});
@@ -2241,16 +2250,16 @@ export type DetectionReason = string;
 export type StackRefactorTagResources = Tag[];
 export type StackRefactorUntagResources = string[];
 export interface StackRefactorAction {
-  Action?: StackRefactorActionType;
-  Entity?: StackRefactorActionEntity;
-  PhysicalResourceId?: string;
-  ResourceIdentifier?: string;
-  Description?: string;
-  Detection?: StackRefactorDetection;
-  DetectionReason?: string;
-  TagResources?: Tag[];
-  UntagResources?: string[];
-  ResourceMapping?: ResourceMapping;
+  Action?: StackRefactorActionType | undefined;
+  Entity?: StackRefactorActionEntity | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceIdentifier?: string | undefined;
+  Description?: string | undefined;
+  Detection?: StackRefactorDetection | undefined;
+  DetectionReason?: string | undefined;
+  TagResources?: Tag[] | undefined;
+  UntagResources?: string[] | undefined;
+  ResourceMapping?: ResourceMapping | undefined;
 }
 export type StackRefactorActions = StackRefactorAction[];
 export interface ListStackRefactorActionsOutput {
@@ -2264,121 +2273,125 @@ export interface ListStackRefactorActionsOutput {
       };
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type StackRefactorExecutionStatusFilter = StackRefactorExecutionStatus[];
 export interface ListStackRefactorsInput {
-  ExecutionStatusFilter?: StackRefactorExecutionStatus[];
-  NextToken?: string;
-  MaxResults?: number;
+  ExecutionStatusFilter?: StackRefactorExecutionStatus[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface StackRefactorSummary {
-  StackRefactorId?: string;
-  Description?: string;
-  ExecutionStatus?: StackRefactorExecutionStatus;
-  ExecutionStatusReason?: string;
-  Status?: StackRefactorStatus;
-  StatusReason?: string;
+  StackRefactorId?: string | undefined;
+  Description?: string | undefined;
+  ExecutionStatus?: StackRefactorExecutionStatus | undefined;
+  ExecutionStatusReason?: string | undefined;
+  Status?: StackRefactorStatus | undefined;
+  StatusReason?: string | undefined;
 }
 export type StackRefactorSummaries = StackRefactorSummary[];
 export interface ListStackRefactorsOutput {
   StackRefactorSummaries: StackRefactorSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListStackResourcesInput {
-  StackName?: string;
-  NextToken?: string;
+  StackName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface StackResourceDriftInformationSummary {
-  StackResourceDriftStatus?: StackResourceDriftStatus;
-  LastCheckTimestamp?: Date;
+  StackResourceDriftStatus?: StackResourceDriftStatus | undefined;
+  LastCheckTimestamp?: Date | undefined;
 }
 export interface StackResourceSummary {
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  LastUpdatedTimestamp?: Date;
-  ResourceStatus?: ResourceStatus;
-  ResourceStatusReason?: string;
-  DriftInformation?: StackResourceDriftInformationSummary;
-  ModuleInfo?: ModuleInfo;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  ResourceStatus?: ResourceStatus | undefined;
+  ResourceStatusReason?: string | undefined;
+  DriftInformation?: StackResourceDriftInformationSummary | undefined;
+  ModuleInfo?: ModuleInfo | undefined;
 }
 export type StackResourceSummaries = StackResourceSummary[];
 export interface ListStackResourcesOutput {
-  StackResourceSummaries?: (StackResourceSummary & {
-    LogicalResourceId: LogicalResourceId;
-    ResourceType: ResourceType;
-    LastUpdatedTimestamp: Date;
-    ResourceStatus: ResourceStatus;
-    DriftInformation: StackResourceDriftInformationSummary & {
-      StackResourceDriftStatus: StackResourceDriftStatus;
-    };
-  })[];
-  NextToken?: string;
+  StackResourceSummaries?:
+    | (StackResourceSummary & {
+        LogicalResourceId: LogicalResourceId;
+        ResourceType: ResourceType;
+        LastUpdatedTimestamp: Date;
+        ResourceStatus: ResourceStatus;
+        DriftInformation: StackResourceDriftInformationSummary & {
+          StackResourceDriftStatus: StackResourceDriftStatus;
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type StackStatusFilter = StackStatus[];
 export interface ListStacksInput {
-  NextToken?: string;
-  StackStatusFilter?: StackStatus[];
+  NextToken?: string | undefined;
+  StackStatusFilter?: StackStatus[] | undefined;
 }
 export type TemplateDescription = string;
 export interface StackDriftInformationSummary {
-  StackDriftStatus?: StackDriftStatus;
-  LastCheckTimestamp?: Date;
+  StackDriftStatus?: StackDriftStatus | undefined;
+  LastCheckTimestamp?: Date | undefined;
 }
 export interface StackSummary {
-  StackId?: string;
-  StackName?: string;
-  TemplateDescription?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  DeletionTime?: Date;
-  StackStatus?: StackStatus;
-  StackStatusReason?: string;
-  ParentId?: string;
-  RootId?: string;
-  DriftInformation?: StackDriftInformationSummary;
-  LastOperations?: OperationEntry[];
+  StackId?: string | undefined;
+  StackName?: string | undefined;
+  TemplateDescription?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  DeletionTime?: Date | undefined;
+  StackStatus?: StackStatus | undefined;
+  StackStatusReason?: string | undefined;
+  ParentId?: string | undefined;
+  RootId?: string | undefined;
+  DriftInformation?: StackDriftInformationSummary | undefined;
+  LastOperations?: OperationEntry[] | undefined;
 }
 export type StackSummaries = StackSummary[];
 export interface ListStacksOutput {
-  StackSummaries?: (StackSummary & {
-    StackName: StackName;
-    CreationTime: CreationTime;
-    StackStatus: StackStatus;
-    DriftInformation: StackDriftInformationSummary & { StackDriftStatus: StackDriftStatus };
-  })[];
-  NextToken?: string;
+  StackSummaries?:
+    | (StackSummary & {
+        StackName: StackName;
+        CreationTime: CreationTime;
+        StackStatus: StackStatus;
+        DriftInformation: StackDriftInformationSummary & { StackDriftStatus: StackDriftStatus };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStackSetAutoDeploymentTargetsInput {
-  StackSetName?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface StackSetAutoDeploymentTargetSummary {
-  OrganizationalUnitId?: string;
-  Regions?: string[];
+  OrganizationalUnitId?: string | undefined;
+  Regions?: string[] | undefined;
 }
 export type StackSetAutoDeploymentTargetSummaries = StackSetAutoDeploymentTargetSummary[];
 export interface ListStackSetAutoDeploymentTargetsOutput {
-  Summaries?: StackSetAutoDeploymentTargetSummary[];
-  NextToken?: string;
+  Summaries?: StackSetAutoDeploymentTargetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OperationResultFilterName = "OPERATION_RESULT_STATUS" | (string & {});
 export type OperationResultFilterValues = string;
 export interface OperationResultFilter {
-  Name?: OperationResultFilterName;
-  Values?: string;
+  Name?: OperationResultFilterName | undefined;
+  Values?: string | undefined;
 }
 export type OperationResultFilters = OperationResultFilter[];
 export interface ListStackSetOperationResultsInput {
-  StackSetName?: string;
-  OperationId?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  CallAs?: CallAs;
-  Filters?: OperationResultFilter[];
+  StackSetName?: string | undefined;
+  OperationId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  CallAs?: CallAs | undefined;
+  Filters?: OperationResultFilter[] | undefined;
 }
 export type StackSetOperationResultStatus =
   | "PENDING"
@@ -2390,147 +2403,147 @@ export type StackSetOperationResultStatus =
 export type AccountGateStatus = "SUCCEEDED" | "FAILED" | "SKIPPED" | (string & {});
 export type AccountGateStatusReason = string;
 export interface AccountGateResult {
-  Status?: AccountGateStatus;
-  StatusReason?: string;
+  Status?: AccountGateStatus | undefined;
+  StatusReason?: string | undefined;
 }
 export interface StackSetOperationResultSummary {
-  Account?: string;
-  Region?: string;
-  Status?: StackSetOperationResultStatus;
-  StatusReason?: string;
-  AccountGateResult?: AccountGateResult;
-  OrganizationalUnitId?: string;
+  Account?: string | undefined;
+  Region?: string | undefined;
+  Status?: StackSetOperationResultStatus | undefined;
+  StatusReason?: string | undefined;
+  AccountGateResult?: AccountGateResult | undefined;
+  OrganizationalUnitId?: string | undefined;
 }
 export type StackSetOperationResultSummaries = StackSetOperationResultSummary[];
 export interface ListStackSetOperationResultsOutput {
-  Summaries?: StackSetOperationResultSummary[];
-  NextToken?: string;
+  Summaries?: StackSetOperationResultSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStackSetOperationsInput {
-  StackSetName?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface StackSetOperationSummary {
-  OperationId?: string;
-  Action?: StackSetOperationAction;
-  Status?: StackSetOperationStatus;
-  CreationTimestamp?: Date;
-  EndTimestamp?: Date;
-  StatusReason?: string;
-  StatusDetails?: StackSetOperationStatusDetails;
-  OperationPreferences?: StackSetOperationPreferences;
+  OperationId?: string | undefined;
+  Action?: StackSetOperationAction | undefined;
+  Status?: StackSetOperationStatus | undefined;
+  CreationTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
+  StatusReason?: string | undefined;
+  StatusDetails?: StackSetOperationStatusDetails | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
 }
 export type StackSetOperationSummaries = StackSetOperationSummary[];
 export interface ListStackSetOperationsOutput {
-  Summaries?: StackSetOperationSummary[];
-  NextToken?: string;
+  Summaries?: StackSetOperationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStackSetsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: StackSetStatus;
-  CallAs?: CallAs;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: StackSetStatus | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface StackSetSummary {
-  StackSetName?: string;
-  StackSetId?: string;
-  Description?: string;
-  Status?: StackSetStatus;
-  AutoDeployment?: AutoDeployment;
-  PermissionModel?: PermissionModels;
-  DriftStatus?: StackDriftStatus;
-  LastDriftCheckTimestamp?: Date;
-  ManagedExecution?: ManagedExecution;
+  StackSetName?: string | undefined;
+  StackSetId?: string | undefined;
+  Description?: string | undefined;
+  Status?: StackSetStatus | undefined;
+  AutoDeployment?: AutoDeployment | undefined;
+  PermissionModel?: PermissionModels | undefined;
+  DriftStatus?: StackDriftStatus | undefined;
+  LastDriftCheckTimestamp?: Date | undefined;
+  ManagedExecution?: ManagedExecution | undefined;
 }
 export type StackSetSummaries = StackSetSummary[];
 export interface ListStackSetsOutput {
-  Summaries?: StackSetSummary[];
-  NextToken?: string;
+  Summaries?: StackSetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTypeRegistrationsInput {
-  Type?: RegistryType;
-  TypeName?: string;
-  TypeArn?: string;
-  RegistrationStatusFilter?: RegistrationStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  TypeArn?: string | undefined;
+  RegistrationStatusFilter?: RegistrationStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RegistrationTokenList = string[];
 export interface ListTypeRegistrationsOutput {
-  RegistrationTokenList?: string[];
-  NextToken?: string;
+  RegistrationTokenList?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Category = "REGISTERED" | "ACTIVATED" | "THIRD_PARTY" | "AWS_TYPES" | (string & {});
 export type TypeNamePrefix = string;
 export interface TypeFilters {
-  Category?: Category;
-  PublisherId?: string;
-  TypeNamePrefix?: string;
+  Category?: Category | undefined;
+  PublisherId?: string | undefined;
+  TypeNamePrefix?: string | undefined;
 }
 export interface ListTypesInput {
-  Visibility?: Visibility;
-  ProvisioningType?: ProvisioningType;
-  DeprecatedStatus?: DeprecatedStatus;
-  Type?: RegistryType;
-  Filters?: TypeFilters;
-  MaxResults?: number;
-  NextToken?: string;
+  Visibility?: Visibility | undefined;
+  ProvisioningType?: ProvisioningType | undefined;
+  DeprecatedStatus?: DeprecatedStatus | undefined;
+  Type?: RegistryType | undefined;
+  Filters?: TypeFilters | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PublisherName = string;
 export interface TypeSummary {
-  Type?: RegistryType;
-  TypeName?: string;
-  DefaultVersionId?: string;
-  TypeArn?: string;
-  LastUpdated?: Date;
-  Description?: string;
-  PublisherId?: string;
-  OriginalTypeName?: string;
-  PublicVersionNumber?: string;
-  LatestPublicVersion?: string;
-  PublisherIdentity?: IdentityProvider;
-  PublisherName?: string;
-  IsActivated?: boolean;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  DefaultVersionId?: string | undefined;
+  TypeArn?: string | undefined;
+  LastUpdated?: Date | undefined;
+  Description?: string | undefined;
+  PublisherId?: string | undefined;
+  OriginalTypeName?: string | undefined;
+  PublicVersionNumber?: string | undefined;
+  LatestPublicVersion?: string | undefined;
+  PublisherIdentity?: IdentityProvider | undefined;
+  PublisherName?: string | undefined;
+  IsActivated?: boolean | undefined;
 }
 export type TypeSummaries = TypeSummary[];
 export interface ListTypesOutput {
-  TypeSummaries?: TypeSummary[];
-  NextToken?: string;
+  TypeSummaries?: TypeSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTypeVersionsInput {
-  Type?: RegistryType;
-  TypeName?: string;
-  Arn?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  DeprecatedStatus?: DeprecatedStatus;
-  PublisherId?: string;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  Arn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  DeprecatedStatus?: DeprecatedStatus | undefined;
+  PublisherId?: string | undefined;
 }
 export interface TypeVersionSummary {
-  Type?: RegistryType;
-  TypeName?: string;
-  VersionId?: string;
-  IsDefaultVersion?: boolean;
-  Arn?: string;
-  TimeCreated?: Date;
-  Description?: string;
-  PublicVersionNumber?: string;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  VersionId?: string | undefined;
+  IsDefaultVersion?: boolean | undefined;
+  Arn?: string | undefined;
+  TimeCreated?: Date | undefined;
+  Description?: string | undefined;
+  PublicVersionNumber?: string | undefined;
 }
 export type TypeVersionSummaries = TypeVersionSummary[];
 export interface ListTypeVersionsOutput {
-  TypeVersionSummaries?: TypeVersionSummary[];
-  NextToken?: string;
+  TypeVersionSummaries?: TypeVersionSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PublishTypeInput {
-  Type?: ThirdPartyType;
-  Arn?: string;
-  TypeName?: string;
-  PublicVersionNumber?: string;
+  Type?: ThirdPartyType | undefined;
+  Arn?: string | undefined;
+  TypeName?: string | undefined;
+  PublicVersionNumber?: string | undefined;
 }
 export interface PublishTypeOutput {
-  PublicTypeArn?: string;
+  PublicTypeArn?: string | undefined;
 }
 export type OperationStatus = "PENDING" | "IN_PROGRESS" | "SUCCESS" | "FAILED" | (string & {});
 export type StatusMessage = string;
@@ -2557,206 +2570,206 @@ export type HandlerErrorCode =
   | (string & {});
 export type ResourceModel = string;
 export interface RecordHandlerProgressInput {
-  BearerToken?: string;
-  OperationStatus?: OperationStatus;
-  CurrentOperationStatus?: OperationStatus;
-  StatusMessage?: string;
-  ErrorCode?: HandlerErrorCode;
-  ResourceModel?: string;
-  ClientRequestToken?: string;
+  BearerToken?: string | undefined;
+  OperationStatus?: OperationStatus | undefined;
+  CurrentOperationStatus?: OperationStatus | undefined;
+  StatusMessage?: string | undefined;
+  ErrorCode?: HandlerErrorCode | undefined;
+  ResourceModel?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface RecordHandlerProgressOutput {}
 export type AcceptTermsAndConditions = boolean;
 export type ConnectionArn = string;
 export interface RegisterPublisherInput {
-  AcceptTermsAndConditions?: boolean;
-  ConnectionArn?: string;
+  AcceptTermsAndConditions?: boolean | undefined;
+  ConnectionArn?: string | undefined;
 }
 export interface RegisterPublisherOutput {
-  PublisherId?: string;
+  PublisherId?: string | undefined;
 }
 export type S3Url = string;
 export type RequestToken = string;
 export interface RegisterTypeInput {
-  Type?: RegistryType;
-  TypeName?: string;
-  SchemaHandlerPackage?: string;
-  LoggingConfig?: LoggingConfig;
-  ExecutionRoleArn?: string;
-  ClientRequestToken?: string;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  SchemaHandlerPackage?: string | undefined;
+  LoggingConfig?: LoggingConfig | undefined;
+  ExecutionRoleArn?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface RegisterTypeOutput {
-  RegistrationToken?: string;
+  RegistrationToken?: string | undefined;
 }
 export interface RollbackStackInput {
-  StackName?: string;
-  RoleARN?: string;
-  ClientRequestToken?: string;
-  RetainExceptOnCreate?: boolean;
-  DeploymentConfig?: DeploymentConfig;
+  StackName?: string | undefined;
+  RoleARN?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  RetainExceptOnCreate?: boolean | undefined;
+  DeploymentConfig?: DeploymentConfig | undefined;
 }
 export interface RollbackStackOutput {
-  StackId?: string;
-  OperationId?: string;
+  StackId?: string | undefined;
+  OperationId?: string | undefined;
 }
 export interface SetStackPolicyInput {
-  StackName?: string;
-  StackPolicyBody?: string;
-  StackPolicyURL?: string;
+  StackName?: string | undefined;
+  StackPolicyBody?: string | undefined;
+  StackPolicyURL?: string | undefined;
 }
 export interface SetStackPolicyResponse {}
 export interface SetTypeConfigurationInput {
-  TypeArn?: string;
-  Configuration?: string;
-  ConfigurationAlias?: string;
-  TypeName?: string;
-  Type?: ThirdPartyType;
+  TypeArn?: string | undefined;
+  Configuration?: string | undefined;
+  ConfigurationAlias?: string | undefined;
+  TypeName?: string | undefined;
+  Type?: ThirdPartyType | undefined;
 }
 export interface SetTypeConfigurationOutput {
-  ConfigurationArn?: string;
+  ConfigurationArn?: string | undefined;
 }
 export interface SetTypeDefaultVersionInput {
-  Arn?: string;
-  Type?: RegistryType;
-  TypeName?: string;
-  VersionId?: string;
+  Arn?: string | undefined;
+  Type?: RegistryType | undefined;
+  TypeName?: string | undefined;
+  VersionId?: string | undefined;
 }
 export interface SetTypeDefaultVersionOutput {}
 export type ResourceSignalUniqueId = string;
 export type ResourceSignalStatus = "SUCCESS" | "FAILURE" | (string & {});
 export interface SignalResourceInput {
-  StackName?: string;
-  LogicalResourceId?: string;
-  UniqueId?: string;
-  Status?: ResourceSignalStatus;
+  StackName?: string | undefined;
+  LogicalResourceId?: string | undefined;
+  UniqueId?: string | undefined;
+  Status?: ResourceSignalStatus | undefined;
 }
 export interface SignalResourceResponse {}
 export interface StartResourceScanInput {
-  ClientRequestToken?: string;
-  ScanFilters?: ScanFilter[];
+  ClientRequestToken?: string | undefined;
+  ScanFilters?: ScanFilter[] | undefined;
 }
 export interface StartResourceScanOutput {
-  ResourceScanId?: string;
+  ResourceScanId?: string | undefined;
 }
 export interface StopStackSetOperationInput {
-  StackSetName?: string;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface StopStackSetOperationOutput {}
 export type S3Bucket = string;
 export interface TestTypeInput {
-  Arn?: string;
-  Type?: ThirdPartyType;
-  TypeName?: string;
-  VersionId?: string;
-  LogDeliveryBucket?: string;
+  Arn?: string | undefined;
+  Type?: ThirdPartyType | undefined;
+  TypeName?: string | undefined;
+  VersionId?: string | undefined;
+  LogDeliveryBucket?: string | undefined;
 }
 export interface TestTypeOutput {
-  TypeVersionArn?: string;
+  TypeVersionArn?: string | undefined;
 }
 export type JazzLogicalResourceIds = string[];
 export type RefreshAllResources = boolean;
 export interface UpdateGeneratedTemplateInput {
-  GeneratedTemplateName?: string;
-  NewGeneratedTemplateName?: string;
-  AddResources?: ResourceDefinition[];
-  RemoveResources?: string[];
-  RefreshAllResources?: boolean;
-  TemplateConfiguration?: TemplateConfiguration;
+  GeneratedTemplateName?: string | undefined;
+  NewGeneratedTemplateName?: string | undefined;
+  AddResources?: ResourceDefinition[] | undefined;
+  RemoveResources?: string[] | undefined;
+  RefreshAllResources?: boolean | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
 }
 export interface UpdateGeneratedTemplateOutput {
-  GeneratedTemplateId?: string;
+  GeneratedTemplateId?: string | undefined;
 }
 export type StackPolicyDuringUpdateBody = string;
 export type StackPolicyDuringUpdateURL = string;
 export interface UpdateStackInput {
-  StackName?: string;
-  TemplateBody?: string;
-  TemplateURL?: string;
-  UsePreviousTemplate?: boolean;
-  StackPolicyDuringUpdateBody?: string;
-  StackPolicyDuringUpdateURL?: string;
-  Parameters?: Parameter[];
-  Capabilities?: Capability[];
-  ResourceTypes?: string[];
-  RoleARN?: string;
-  RollbackConfiguration?: RollbackConfiguration;
-  StackPolicyBody?: string;
-  StackPolicyURL?: string;
-  NotificationARNs?: string[];
-  Tags?: Tag[];
-  DisableRollback?: boolean;
-  ClientRequestToken?: string;
-  RetainExceptOnCreate?: boolean;
-  DeploymentConfig?: DeploymentConfig;
-  DisableValidation?: boolean;
+  StackName?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
+  UsePreviousTemplate?: boolean | undefined;
+  StackPolicyDuringUpdateBody?: string | undefined;
+  StackPolicyDuringUpdateURL?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  Capabilities?: Capability[] | undefined;
+  ResourceTypes?: string[] | undefined;
+  RoleARN?: string | undefined;
+  RollbackConfiguration?: RollbackConfiguration | undefined;
+  StackPolicyBody?: string | undefined;
+  StackPolicyURL?: string | undefined;
+  NotificationARNs?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  DisableRollback?: boolean | undefined;
+  ClientRequestToken?: string | undefined;
+  RetainExceptOnCreate?: boolean | undefined;
+  DeploymentConfig?: DeploymentConfig | undefined;
+  DisableValidation?: boolean | undefined;
 }
 export interface UpdateStackOutput {
-  StackId?: string;
-  OperationId?: string;
+  StackId?: string | undefined;
+  OperationId?: string | undefined;
 }
 export interface UpdateStackInstancesInput {
-  StackSetName?: string;
-  Accounts?: string[];
-  DeploymentTargets?: DeploymentTargets;
-  Regions?: string[];
-  ParameterOverrides?: Parameter[];
-  OperationPreferences?: StackSetOperationPreferences;
-  OperationId?: string;
-  CallAs?: CallAs;
+  StackSetName?: string | undefined;
+  Accounts?: string[] | undefined;
+  DeploymentTargets?: DeploymentTargets | undefined;
+  Regions?: string[] | undefined;
+  ParameterOverrides?: Parameter[] | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
+  OperationId?: string | undefined;
+  CallAs?: CallAs | undefined;
 }
 export interface UpdateStackInstancesOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface UpdateStackSetInput {
-  StackSetName?: string;
-  Description?: string;
-  TemplateBody?: string;
-  TemplateURL?: string;
-  UsePreviousTemplate?: boolean;
-  Parameters?: Parameter[];
-  Capabilities?: Capability[];
-  Tags?: Tag[];
-  OperationPreferences?: StackSetOperationPreferences;
-  AdministrationRoleARN?: string;
-  ExecutionRoleName?: string;
-  DeploymentTargets?: DeploymentTargets;
-  PermissionModel?: PermissionModels;
-  AutoDeployment?: AutoDeployment;
-  OperationId?: string;
-  Accounts?: string[];
-  Regions?: string[];
-  CallAs?: CallAs;
-  ManagedExecution?: ManagedExecution;
+  StackSetName?: string | undefined;
+  Description?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
+  UsePreviousTemplate?: boolean | undefined;
+  Parameters?: Parameter[] | undefined;
+  Capabilities?: Capability[] | undefined;
+  Tags?: Tag[] | undefined;
+  OperationPreferences?: StackSetOperationPreferences | undefined;
+  AdministrationRoleARN?: string | undefined;
+  ExecutionRoleName?: string | undefined;
+  DeploymentTargets?: DeploymentTargets | undefined;
+  PermissionModel?: PermissionModels | undefined;
+  AutoDeployment?: AutoDeployment | undefined;
+  OperationId?: string | undefined;
+  Accounts?: string[] | undefined;
+  Regions?: string[] | undefined;
+  CallAs?: CallAs | undefined;
+  ManagedExecution?: ManagedExecution | undefined;
 }
 export interface UpdateStackSetOutput {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface UpdateTerminationProtectionInput {
-  EnableTerminationProtection?: boolean;
-  StackName?: string;
+  EnableTerminationProtection?: boolean | undefined;
+  StackName?: string | undefined;
 }
 export interface UpdateTerminationProtectionOutput {
-  StackId?: string;
+  StackId?: string | undefined;
 }
 export interface ValidateTemplateInput {
-  TemplateBody?: string;
-  TemplateURL?: string;
+  TemplateBody?: string | undefined;
+  TemplateURL?: string | undefined;
 }
 export interface TemplateParameter {
-  ParameterKey?: string;
-  DefaultValue?: string;
-  NoEcho?: boolean;
-  Description?: string;
+  ParameterKey?: string | undefined;
+  DefaultValue?: string | undefined;
+  NoEcho?: boolean | undefined;
+  Description?: string | undefined;
 }
 export type TemplateParameters = TemplateParameter[];
 export interface ValidateTemplateOutput {
-  Parameters?: TemplateParameter[];
-  Description?: string;
-  Capabilities?: Capability[];
-  CapabilitiesReason?: string;
-  DeclaredTransforms?: string[];
+  Parameters?: TemplateParameter[] | undefined;
+  Description?: string | undefined;
+  Capabilities?: Capability[] | undefined;
+  CapabilitiesReason?: string | undefined;
+  DeclaredTransforms?: string[] | undefined;
 }
 export type ActivateOrganizationsAccessError =
   | InvalidOperationException

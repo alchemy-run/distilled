@@ -34,9 +34,9 @@ const TELEMETRY = {
 
 export interface ApplicationProviderAuthorization {
   /** The role definition ID for the application. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The managed by role definition ID for the application. */
-  managedByRoleDefinitionId?: string;
+  managedByRoleDefinitionId?: string | undefined;
 }
 /** The ownership role the application has on the resource types. The service owner role gives the application owner permissions. The limited owner role gives elevated permissions but does not allow all the permissions of a service owner, such as read/write on internal metadata. */
 export type Role = "ServiceOwner" | "LimitedOwner";
@@ -46,9 +46,9 @@ export interface ApplicationDataAuthorization {
   /** The ownership role the application has on the resource types. The service owner role gives the application owner permissions. The limited owner role gives elevated permissions but does not allow all the permissions of a service owner, such as read/write on internal metadata. */
   role: Role | (string & {});
   /** The resource types from the defined resource types in the provider namespace that the application can access. If no resource types are specified and the role is service owner, the default is * which is all resource types */
-  resourceTypes?: ApplicationDataAuthorizationResourceTypesList;
+  resourceTypes?: ApplicationDataAuthorizationResourceTypesList | undefined;
   /** Exclude application id from 'providerAuthorizations' section of manifest? */
-  excludeApplicationIdFromManifest?: boolean;
+  excludeApplicationIdFromManifest?: boolean | undefined;
 }
 /** The authorizations that determine the level of data access permissions on the specified resource types. */
 export type AuthorizedApplicationPropertiesDataAuthorizationsList =
@@ -68,11 +68,11 @@ export type ProvisioningState =
   | "TransientFailure"
   | "RolloutInProgress";
 export interface AuthorizedApplicationProperties {
-  providerAuthorization?: ApplicationProviderAuthorization;
+  providerAuthorization?: ApplicationProviderAuthorization | undefined;
   /** The authorizations that determine the level of data access permissions on the specified resource types. */
-  dataAuthorizations?: AuthorizedApplicationPropertiesDataAuthorizationsList;
+  dataAuthorizations?: AuthorizedApplicationPropertiesDataAuthorizationsList | undefined;
   /** The provisioning state. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface AuthorizedApplicationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -81,7 +81,7 @@ export interface AuthorizedApplicationsCreateOrUpdateRequest {
   providerNamespace: string;
   /** The application ID. */
   applicationId: string;
-  properties?: AuthorizedApplicationProperties;
+  properties?: AuthorizedApplicationProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -90,32 +90,32 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface AuthorizedApplicationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: AuthorizedApplicationProperties;
+  systemData?: SystemData | undefined;
+  properties?: AuthorizedApplicationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckinManifestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -127,9 +127,9 @@ export interface CheckinManifestRequest {
   /** The baseline ARM manifest location supplied to the checkin manifest operation. */
   baselineArmManifestLocation: string;
   /** The URI of the signed-off OpenAPI specification pull request associated with the manifest check-in. */
-  swaggerUri?: string;
+  swaggerUri?: string | undefined;
   /** The comment associated with the manifest check-in. */
-  checkinComment?: string;
+  checkinComment?: string | undefined;
 }
 export interface CheckinManifestInfo {
   /** Whether the manifest is checked in. */
@@ -137,15 +137,15 @@ export interface CheckinManifestInfo {
   /** The status message. */
   statusMessage: string;
   /** The pull request. */
-  pullRequest?: string;
+  pullRequest?: string | undefined;
   /** The commit id. */
-  commitId?: string;
+  commitId?: string | undefined;
 }
 /** Resource tags. */
 export type CreateProviderMonitorSettingsRequestTagsMap = { [key: string]: string | undefined };
 export interface ProviderMonitorSettingProperties {
   /** The provisioning state. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface CreateProviderMonitorSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -155,40 +155,40 @@ export interface CreateProviderMonitorSettingsRequest {
   /** The name of the provider monitor setting. */
   providerMonitorSettingName: string;
   /** Resource tags. */
-  tags?: CreateProviderMonitorSettingsRequestTagsMap;
+  tags?: CreateProviderMonitorSettingsRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: ProviderMonitorSettingProperties;
+  properties?: ProviderMonitorSettingProperties | undefined;
 }
 /** Resource tags. */
 export type CreateProviderMonitorSettingsResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateProviderMonitorSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateProviderMonitorSettingsResponseTagsMap;
+  tags?: CreateProviderMonitorSettingsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: ProviderMonitorSettingProperties;
+  properties?: ProviderMonitorSettingProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The auto provisioning configuration. */
 export interface CustomRolloutSpecificationAutoProvisionConfig {
-  storage?: boolean;
-  resourceGraph?: boolean;
+  storage?: boolean | undefined;
+  resourceGraph?: boolean | undefined;
 }
 export type TrafficRegionsRegionsList = Array<string>;
 export interface TrafficRegions {
-  regions?: TrafficRegionsRegionsList;
+  regions?: TrafficRegionsRegionsList | undefined;
 }
 /** The list of ARM regions scoped for the release. */
 export type CustomRolloutSpecificationInputReleaseScopesList = Array<string>;
@@ -199,39 +199,43 @@ export interface ResourceProviderAuthentication {
   allowedAudiences: ResourceProviderAuthenticationAllowedAudiencesList;
 }
 export interface AdditionalAuthorization {
-  applicationId?: string;
-  roleDefinitionId?: string;
+  applicationId?: string | undefined;
+  roleDefinitionId?: string | undefined;
 }
 export type ResourceProviderAuthorizationManagedByAuthorizationAdditionalAuthorizationsList =
   Array<AdditionalAuthorization>;
 /** Managed by authorization. */
 export interface ResourceProviderAuthorizationManagedByAuthorization {
-  additionalAuthorizations?: ResourceProviderAuthorizationManagedByAuthorizationAdditionalAuthorizationsList;
+  additionalAuthorizations?:
+    | ResourceProviderAuthorizationManagedByAuthorizationAdditionalAuthorizationsList
+    | undefined;
   /** The managed by resource role definition ID for the application. */
-  managedByResourceRoleDefinitionId?: string;
+  managedByResourceRoleDefinitionId?: string | undefined;
   /** Indicates whether the managed by resource role definition ID should be inherited. */
-  allowManagedByInheritance?: boolean;
+  allowManagedByInheritance?: boolean | undefined;
 }
 export interface ThirdPartyExtension {
   /** Name of third party extension. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The allowed third party extensions. */
 export type ResourceProviderAuthorizationAllowedThirdPartyExtensionsList =
   Array<ThirdPartyExtension>;
 export interface ResourceProviderAuthorization {
   /** The application id. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** The role definition id. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
   /** The managed by role definition id. */
-  managedByRoleDefinitionId?: string;
+  managedByRoleDefinitionId?: string | undefined;
   /** Managed by authorization. */
-  managedByAuthorization?: ResourceProviderAuthorizationManagedByAuthorization;
+  managedByAuthorization?: ResourceProviderAuthorizationManagedByAuthorization | undefined;
   /** The allowed third party extensions. */
-  allowedThirdPartyExtensions?: ResourceProviderAuthorizationAllowedThirdPartyExtensionsList;
+  allowedThirdPartyExtensions?:
+    | ResourceProviderAuthorizationAllowedThirdPartyExtensionsList
+    | undefined;
   /** The grouping tag. */
-  groupingTag?: string;
+  groupingTag?: string | undefined;
 }
 /** The provider authorizations. */
 export type ProviderRegistrationPropertiesProviderAuthorizationsList =
@@ -241,9 +245,9 @@ export type ServiceStatus = "Active" | "Inactive";
 /** Resource provider service. */
 export interface ResourceProviderService {
   /** The service name. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The status. */
-  status?: ServiceStatus | (string & {});
+  status?: ServiceStatus | (string & {}) | undefined;
 }
 /** The services. */
 export type ProviderRegistrationPropertiesServicesList = Array<ResourceProviderService>;
@@ -286,9 +290,9 @@ export type OptInHeaderType =
 export type OptOutHeaderType = "NotSpecified" | "SystemDataCreatedByLastModifiedBy";
 export interface RequestHeaderOptions {
   /** The opt in headers. */
-  optInHeaders?: OptInHeaderType | (string & {});
+  optInHeaders?: OptInHeaderType | (string & {}) | undefined;
   /** The opt out headers. */
-  optOutHeaders?: OptOutHeaderType | (string & {});
+  optOutHeaders?: OptOutHeaderType | (string & {}) | undefined;
 }
 /** The schema owners. */
 export type ResourceProviderManagementSchemaOwnersList = Array<string>;
@@ -304,9 +308,9 @@ export type ResourceAccessRoleAllowedGroupClaimsList = Array<string>;
 export type ResourceAccessRoleActionsList = Array<string>;
 export interface ResourceAccessRole {
   /** The allowed group claims. */
-  allowedGroupClaims?: ResourceAccessRoleAllowedGroupClaimsList;
+  allowedGroupClaims?: ResourceAccessRoleAllowedGroupClaimsList | undefined;
   /** The actions. */
-  actions?: ResourceAccessRoleActionsList;
+  actions?: ResourceAccessRoleActionsList | undefined;
 }
 /** The resource access roles. */
 export type ResourceProviderManagementResourceAccessRolesList = Array<ResourceAccessRole>;
@@ -317,16 +321,16 @@ export type ServerFailureResponseMessageType = "NotSpecified" | "OutageReporting
 /** Options for error response messages. */
 export interface ResourceProviderManagementErrorResponseMessageOptions {
   /** Type of server failure response message. */
-  serverFailureResponseMessageType?: ServerFailureResponseMessageType | (string & {});
+  serverFailureResponseMessageType?: ServerFailureResponseMessageType | (string & {}) | undefined;
 }
 /** Expedited rollout intent. */
 export type ExpeditedRolloutIntent = "NotSpecified" | "Hotfix";
 /** Metadata for expedited rollout. */
 export interface ResourceProviderManagementExpeditedRolloutMetadata {
   /** Expedited rollout enabled? */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Expedited rollout intent. */
-  expeditedRolloutIntent?: ExpeditedRolloutIntent | (string & {});
+  expeditedRolloutIntent?: ExpeditedRolloutIntent | (string & {}) | undefined;
 }
 /** List of manifest owners for canary. */
 export type ResourceProviderManagementCanaryManifestOwnersList = Array<string>;
@@ -336,37 +340,37 @@ export type ResourceProviderManagementFeatureManagementOwnersList = Array<string
 export type ResourceProviderManagementFeatureApprovalClaimsList = Array<string>;
 export interface ResourceProviderManagement {
   /** The schema owners. */
-  schemaOwners?: ResourceProviderManagementSchemaOwnersList;
+  schemaOwners?: ResourceProviderManagementSchemaOwnersList | undefined;
   /** The manifest owners. */
-  manifestOwners?: ResourceProviderManagementManifestOwnersList;
+  manifestOwners?: ResourceProviderManagementManifestOwnersList | undefined;
   /** The authorization owners. */
-  authorizationOwners?: ResourceProviderManagementAuthorizationOwnersList;
+  authorizationOwners?: ResourceProviderManagementAuthorizationOwnersList | undefined;
   /** The incident routing service. */
-  incidentRoutingService?: string;
+  incidentRoutingService?: string | undefined;
   /** The incident routing team. */
-  incidentRoutingTeam?: string;
+  incidentRoutingTeam?: string | undefined;
   /** The incident contact email. */
-  incidentContactEmail?: string;
+  incidentContactEmail?: string | undefined;
   /** The resource access policy. */
-  resourceAccessPolicy?: ResourceAccessPolicy | (string & {});
+  resourceAccessPolicy?: ResourceAccessPolicy | (string & {}) | undefined;
   /** The resource access roles. */
-  resourceAccessRoles?: ResourceProviderManagementResourceAccessRolesList;
+  resourceAccessRoles?: ResourceProviderManagementResourceAccessRolesList | undefined;
   /** List of expedited rollout submitters. */
-  expeditedRolloutSubmitters?: ResourceProviderManagementExpeditedRolloutSubmittersList;
+  expeditedRolloutSubmitters?: ResourceProviderManagementExpeditedRolloutSubmittersList | undefined;
   /** Options for error response messages. */
-  errorResponseMessageOptions?: ResourceProviderManagementErrorResponseMessageOptions;
+  errorResponseMessageOptions?: ResourceProviderManagementErrorResponseMessageOptions | undefined;
   /** Metadata for expedited rollout. */
-  expeditedRolloutMetadata?: ResourceProviderManagementExpeditedRolloutMetadata;
+  expeditedRolloutMetadata?: ResourceProviderManagementExpeditedRolloutMetadata | undefined;
   /** List of manifest owners for canary. */
-  canaryManifestOwners?: ResourceProviderManagementCanaryManifestOwnersList;
+  canaryManifestOwners?: ResourceProviderManagementCanaryManifestOwnersList | undefined;
   /** The profit center code for the subscription. */
-  pcCode?: string;
+  pcCode?: string | undefined;
   /** The profit center program id for the subscription. */
-  profitCenterProgramId?: string;
+  profitCenterProgramId?: string | undefined;
   /** List of feature management owners. */
-  featureManagementOwners?: ResourceProviderManagementFeatureManagementOwnersList;
+  featureManagementOwners?: ResourceProviderManagementFeatureManagementOwnersList | undefined;
   /** List of claims to approve or reject feature registration. */
-  featureApprovalClaims?: ResourceProviderManagementFeatureApprovalClaimsList;
+  featureApprovalClaims?: ResourceProviderManagementFeatureApprovalClaimsList | undefined;
 }
 /** The effect. */
 export type ResourceProviderCapabilitiesEffect = "NotSpecified" | "Allow" | "Disallow";
@@ -378,7 +382,7 @@ export interface ResourceProviderCapabilities {
   /** The effect. */
   effect: ResourceProviderCapabilitiesEffect | (string & {});
   /** The required features. */
-  requiredFeatures?: ResourceProviderCapabilitiesRequiredFeaturesList;
+  requiredFeatures?: ResourceProviderCapabilitiesRequiredFeaturesList | undefined;
 }
 /** The capabilities. */
 export type ProviderRegistrationPropertiesCapabilitiesList = Array<ResourceProviderCapabilities>;
@@ -389,9 +393,9 @@ export type PreflightOption = "None" | "ContinueDeploymentOnFailure" | "DefaultV
 export type TemplateDeploymentOptionsPreflightOptionsList = Array<PreflightOption | (string & {})>;
 export interface TemplateDeploymentOptions {
   /** Whether preflight is supported. */
-  preflightSupported?: boolean;
+  preflightSupported?: boolean | undefined;
   /** The preflight options. */
-  preflightOptions?: TemplateDeploymentOptionsPreflightOptionsList;
+  preflightOptions?: TemplateDeploymentOptionsPreflightOptionsList | undefined;
 }
 /** The api versions. */
 export type ResourceProviderEndpointApiVersionsList = Array<string>;
@@ -403,23 +407,23 @@ export type ResourceProviderEndpointRequiredFeaturesList = Array<string>;
 export type EndpointType = "NotSpecified" | "Canary" | "Production" | "TestInProduction";
 export interface ResourceProviderEndpoint {
   /** Whether the endpoint is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The api versions. */
-  apiVersions?: ResourceProviderEndpointApiVersionsList;
+  apiVersions?: ResourceProviderEndpointApiVersionsList | undefined;
   /** The endpoint uri. */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** The locations. */
-  locations?: ResourceProviderEndpointLocationsList;
+  locations?: ResourceProviderEndpointLocationsList | undefined;
   /** The required features. */
-  requiredFeatures?: ResourceProviderEndpointRequiredFeaturesList;
+  requiredFeatures?: ResourceProviderEndpointRequiredFeaturesList | undefined;
   /** The feature rules. */
-  featuresRule?: FeaturesRule;
+  featuresRule?: FeaturesRule | undefined;
   /** The timeout. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** The endpoint type. */
-  endpointType?: EndpointType | (string & {});
+  endpointType?: EndpointType | (string & {}) | undefined;
   /** The sku link. */
-  skuLink?: string;
+  skuLink?: string | undefined;
 }
 /** The global notification endpoints. */
 export type ProviderRegistrationPropertiesGlobalNotificationEndpointsList =
@@ -430,9 +434,9 @@ export type NotificationType = "Unspecified" | "SubscriptionNotification";
 export type SkipNotifications = "Unspecified" | "Enabled" | "Disabled";
 export interface Notification {
   /** The notification type. */
-  notificationType?: NotificationType | (string & {});
+  notificationType?: NotificationType | (string & {}) | undefined;
   /** Whether notifications should be skipped. */
-  skipNotifications?: SkipNotifications | (string & {});
+  skipNotifications?: SkipNotifications | (string & {}) | undefined;
 }
 /** The notifications. */
 export type ProviderRegistrationPropertiesNotificationsList = Array<Notification>;
@@ -442,11 +446,11 @@ export type AuthenticationScheme = "PoP" | "Bearer";
 export type SignedRequestScope = "ResourceUri" | "Endpoint";
 export interface TokenAuthConfiguration {
   /** The authentication scheme. */
-  authenticationScheme?: AuthenticationScheme | (string & {});
+  authenticationScheme?: AuthenticationScheme | (string & {}) | undefined;
   /** The signed request scope. */
-  signedRequestScope?: SignedRequestScope | (string & {});
+  signedRequestScope?: SignedRequestScope | (string & {}) | undefined;
   /** Whether certification authentication fallback is disabled. */
-  disableCertificateAuthenticationFallback?: boolean;
+  disableCertificateAuthenticationFallback?: boolean | undefined;
 }
 /** The actions. */
 export type FanoutLinkedNotificationRuleActionsList = Array<string>;
@@ -454,11 +458,11 @@ export type FanoutLinkedNotificationRuleActionsList = Array<string>;
 export type FanoutLinkedNotificationRuleEndpointsList = Array<ResourceProviderEndpoint>;
 export interface FanoutLinkedNotificationRule {
   /** The token auth configuration. */
-  tokenAuthConfiguration?: TokenAuthConfiguration;
+  tokenAuthConfiguration?: TokenAuthConfiguration | undefined;
   /** The actions. */
-  actions?: FanoutLinkedNotificationRuleActionsList;
+  actions?: FanoutLinkedNotificationRuleActionsList | undefined;
   /** The endpoints. */
-  endpoints?: FanoutLinkedNotificationRuleEndpointsList;
+  endpoints?: FanoutLinkedNotificationRuleEndpointsList | undefined;
 }
 /** The linked notification rules. */
 export type ProviderRegistrationPropertiesLinkedNotificationRulesList =
@@ -471,25 +475,25 @@ export type AdditionalOptionsAsyncOperation =
   | "ProtectedAsyncOperationPollingAuditOnly";
 export interface AsyncOperationPollingRules {
   /** The authorization actions. */
-  authorizationActions?: AsyncOperationPollingRulesAuthorizationActionsList;
+  authorizationActions?: AsyncOperationPollingRulesAuthorizationActionsList | undefined;
   /** The additional options. */
-  additionalOptions?: AdditionalOptionsAsyncOperation | (string & {});
+  additionalOptions?: AdditionalOptionsAsyncOperation | (string & {}) | undefined;
 }
 export interface ResourceProviderAuthorizationRules {
   /** The async operation polling rules. */
-  asyncOperationPollingRules?: AsyncOperationPollingRules;
+  asyncOperationPollingRules?: AsyncOperationPollingRules | undefined;
 }
 /** Notification options. */
 export type NotificationOptions = "NotSpecified" | "None" | "EmitSpendingLimit";
 export interface ResourceHydrationAccount {
   /** The max child resource consistency job limit. */
-  maxChildResourceConsistencyJobLimit?: number;
+  maxChildResourceConsistencyJobLimit?: number | undefined;
   /** The encrypted key. */
-  encryptedKey?: string;
+  encryptedKey?: string | undefined;
   /** The account name. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The subscription id. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** resource hydration accounts */
 export type ProviderRegistrationPropertiesResourceHydrationAccountsList =
@@ -498,31 +502,33 @@ export type ProviderRegistrationPropertiesResourceHydrationAccountsList =
 export type NotificationEndpointType = "Webhook" | "Eventhub";
 export interface EndpointInformation {
   /** The endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The endpoint type. */
-  endpointType?: NotificationEndpointType | (string & {});
+  endpointType?: NotificationEndpointType | (string & {}) | undefined;
   /** The schema version. */
-  schemaVersion?: string;
+  schemaVersion?: string | undefined;
 }
 /** The endpoint information. */
 export type FilterRuleEndpointInformationList = Array<EndpointInformation>;
 export interface FilterRule {
   /** The filter query. */
-  filterQuery?: string;
+  filterQuery?: string | undefined;
   /** The endpoint information. */
-  endpointInformation?: FilterRuleEndpointInformationList;
+  endpointInformation?: FilterRuleEndpointInformationList | undefined;
 }
 /** The filter rules. */
 export type SubscriberSettingFilterRulesList = Array<FilterRule>;
 export interface SubscriberSetting {
   /** The filter rules. */
-  filterRules?: SubscriberSettingFilterRulesList;
+  filterRules?: SubscriberSettingFilterRulesList | undefined;
 }
 export type ResourceProviderManifestPropertiesNotificationSettingsSubscriberSettingsList =
   Array<SubscriberSetting>;
 /** Notification settings. */
 export interface ResourceProviderManifestPropertiesNotificationSettings {
-  subscriberSettings?: ResourceProviderManifestPropertiesNotificationSettingsSubscriberSettingsList;
+  subscriberSettings?:
+    | ResourceProviderManifestPropertiesNotificationSettingsSubscriberSettingsList
+    | undefined;
 }
 /** Management groups global notification endpoints. */
 export type ProviderRegistrationPropertiesManagementGroupGlobalNotificationEndpointsList =
@@ -540,12 +546,12 @@ export type BlockActionVerb =
 /** Resource group lock option during move. */
 export interface ResourceProviderManifestPropertiesResourceGroupLockOptionDuringMove {
   /** The action verb that will be blocked when the resource group is locked during move. */
-  blockActionVerb?: BlockActionVerb | (string & {});
+  blockActionVerb?: BlockActionVerb | (string & {}) | undefined;
 }
 export type ServiceClientOptionsType = "NotSpecified" | "DisableAutomaticDecompression";
 /** Response options. */
 export interface ResourceProviderManifestPropertiesResponseOptions {
-  serviceClientOptionsType?: ServiceClientOptionsType | (string & {});
+  serviceClientOptionsType?: ServiceClientOptionsType | (string & {}) | undefined;
 }
 /** Legacy registrations. */
 export type ProviderRegistrationPropertiesLegacyRegistrationsList = Array<string>;
@@ -561,23 +567,23 @@ export interface LightHouseAuthorization {
 export type ThirdPartyProviderAuthorizationAuthorizationsList = Array<LightHouseAuthorization>;
 export interface ThirdPartyProviderAuthorization {
   /** The authorizations. */
-  authorizations?: ThirdPartyProviderAuthorizationAuthorizationsList;
+  authorizations?: ThirdPartyProviderAuthorizationAuthorizationsList | undefined;
   /** The managed by tenant id. */
-  managedByTenantId?: string;
+  managedByTenantId?: string | undefined;
 }
 export interface ProviderHubMetadata {
   /** The provider authorizations. */
-  providerAuthorizations?: ProviderHubMetadataProviderAuthorizationsList;
+  providerAuthorizations?: ProviderHubMetadataProviderAuthorizationsList | undefined;
   /** The provider authentication. */
-  providerAuthentication?: ResourceProviderAuthentication;
+  providerAuthentication?: ResourceProviderAuthentication | undefined;
   /** The third party provider authorization. */
-  thirdPartyProviderAuthorization?: ThirdPartyProviderAuthorization;
+  thirdPartyProviderAuthorization?: ThirdPartyProviderAuthorization | undefined;
   /** The direct RP role definition id. */
-  directRpRoleDefinitionId?: string;
+  directRpRoleDefinitionId?: string | undefined;
   /** The regional async operation resource type name. */
-  regionalAsyncOperationResourceTypeName?: string;
+  regionalAsyncOperationResourceTypeName?: string | undefined;
   /** The global async operation resource type name. */
-  globalAsyncOperationResourceTypeName?: string;
+  globalAsyncOperationResourceTypeName?: string | undefined;
 }
 /** The state. */
 export type SubscriptionTransitioningState =
@@ -613,15 +619,17 @@ export type SubscriptionLifecycleNotificationSpecificationsSubscriptionStateOver
   Array<SubscriptionStateOverrideAction>;
 export interface SubscriptionLifecycleNotificationSpecifications {
   /** The subscription state override actions. */
-  subscriptionStateOverrideActions?: SubscriptionLifecycleNotificationSpecificationsSubscriptionStateOverrideActionsList;
+  subscriptionStateOverrideActions?:
+    | SubscriptionLifecycleNotificationSpecificationsSubscriptionStateOverrideActionsList
+    | undefined;
   /** The soft delete TTL. */
-  softDeleteTTL?: string;
+  softDeleteTTL?: string | undefined;
 }
 /** The allowed subscriptions. */
 export type PrivateResourceProviderConfigurationAllowedSubscriptionsList = Array<string>;
 export interface PrivateResourceProviderConfiguration {
   /** The allowed subscriptions. */
-  allowedSubscriptions?: PrivateResourceProviderConfigurationAllowedSubscriptionsList;
+  allowedSubscriptions?: PrivateResourceProviderConfigurationAllowedSubscriptionsList | undefined;
 }
 /** The isolation type. */
 export type IsolationType = "Private" | "Public";
@@ -639,99 +647,109 @@ export type ResourceProviderLifecycleInfoAllowedSubscriptionsList = Array<string
 /** Resource provider lifecycle information. */
 export interface ResourceProviderLifecycleInfo {
   /** The isolation type. */
-  isolationType?: IsolationType | (string & {});
+  isolationType?: IsolationType | (string & {}) | undefined;
   /** The partner category. */
-  partnerCategory?: PartnerCategory | (string & {});
+  partnerCategory?: PartnerCategory | (string & {}) | undefined;
   /** The lifecycle stage. */
-  lifecycleStage?: LifecycleStage | (string & {});
+  lifecycleStage?: LifecycleStage | (string & {}) | undefined;
   /** The list of allowed subscriptions for this resource provider. */
-  allowedSubscriptions?: ResourceProviderLifecycleInfoAllowedSubscriptionsList;
+  allowedSubscriptions?: ResourceProviderLifecycleInfoAllowedSubscriptionsList | undefined;
 }
 export interface ProviderRegistrationProperties {
   /** The provider authentication. */
-  providerAuthentication?: ResourceProviderAuthentication;
+  providerAuthentication?: ResourceProviderAuthentication | undefined;
   /** The provider authorizations. */
-  providerAuthorizations?: ProviderRegistrationPropertiesProviderAuthorizationsList;
+  providerAuthorizations?: ProviderRegistrationPropertiesProviderAuthorizationsList | undefined;
   /** The namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The services. */
-  services?: ProviderRegistrationPropertiesServicesList;
+  services?: ProviderRegistrationPropertiesServicesList | undefined;
   /** The service name. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The provider version. */
-  providerVersion?: string;
+  providerVersion?: string | undefined;
   /** The provider type. */
-  providerType?: ResourceProviderType | (string & {});
+  providerType?: ResourceProviderType | (string & {}) | undefined;
   /** The required features. */
-  requiredFeatures?: ProviderRegistrationPropertiesRequiredFeaturesList;
+  requiredFeatures?: ProviderRegistrationPropertiesRequiredFeaturesList | undefined;
   /** The features rule. */
-  featuresRule?: FeaturesRule;
+  featuresRule?: FeaturesRule | undefined;
   /** The request header options. */
-  requestHeaderOptions?: RequestHeaderOptions;
+  requestHeaderOptions?: RequestHeaderOptions | undefined;
   /** The resource provider management. */
-  management?: ResourceProviderManagement;
+  management?: ResourceProviderManagement | undefined;
   /** The capabilities. */
-  capabilities?: ProviderRegistrationPropertiesCapabilitiesList;
+  capabilities?: ProviderRegistrationPropertiesCapabilitiesList | undefined;
   /** The cross tenant token validation. */
-  crossTenantTokenValidation?: CrossTenantTokenValidation | (string & {});
+  crossTenantTokenValidation?: CrossTenantTokenValidation | (string & {}) | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The template deployment options. */
-  templateDeploymentOptions?: TemplateDeploymentOptions;
+  templateDeploymentOptions?: TemplateDeploymentOptions | undefined;
   /** The global notification endpoints. */
-  globalNotificationEndpoints?: ProviderRegistrationPropertiesGlobalNotificationEndpointsList;
+  globalNotificationEndpoints?:
+    | ProviderRegistrationPropertiesGlobalNotificationEndpointsList
+    | undefined;
   /** The enable tenant linked notification. */
-  enableTenantLinkedNotification?: boolean | null;
+  enableTenantLinkedNotification?: boolean | null | undefined;
   /** The notifications. */
-  notifications?: ProviderRegistrationPropertiesNotificationsList;
+  notifications?: ProviderRegistrationPropertiesNotificationsList | undefined;
   /** The linked notification rules. */
-  linkedNotificationRules?: ProviderRegistrationPropertiesLinkedNotificationRulesList;
+  linkedNotificationRules?: ProviderRegistrationPropertiesLinkedNotificationRulesList | undefined;
   /** The resource provider authorization rules. */
-  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules;
+  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules | undefined;
   /** Notification options. */
-  notificationOptions?: NotificationOptions | (string & {});
+  notificationOptions?: NotificationOptions | (string & {}) | undefined;
   /** resource hydration accounts */
-  resourceHydrationAccounts?: ProviderRegistrationPropertiesResourceHydrationAccountsList;
+  resourceHydrationAccounts?:
+    | ProviderRegistrationPropertiesResourceHydrationAccountsList
+    | undefined;
   /** Notification settings. */
-  notificationSettings?: ResourceProviderManifestPropertiesNotificationSettings;
+  notificationSettings?: ResourceProviderManifestPropertiesNotificationSettings | undefined;
   /** Management groups global notification endpoints. */
-  managementGroupGlobalNotificationEndpoints?: ProviderRegistrationPropertiesManagementGroupGlobalNotificationEndpointsList;
+  managementGroupGlobalNotificationEndpoints?:
+    | ProviderRegistrationPropertiesManagementGroupGlobalNotificationEndpointsList
+    | undefined;
   /** Optional features. */
-  optionalFeatures?: ProviderRegistrationPropertiesOptionalFeaturesList;
+  optionalFeatures?: ProviderRegistrationPropertiesOptionalFeaturesList | undefined;
   /** Resource group lock option during move. */
-  resourceGroupLockOptionDuringMove?: ResourceProviderManifestPropertiesResourceGroupLockOptionDuringMove;
+  resourceGroupLockOptionDuringMove?:
+    | ResourceProviderManifestPropertiesResourceGroupLockOptionDuringMove
+    | undefined;
   /** Response options. */
-  responseOptions?: ResourceProviderManifestPropertiesResponseOptions;
+  responseOptions?: ResourceProviderManifestPropertiesResponseOptions | undefined;
   /** Legacy namespace. */
-  legacyNamespace?: string;
+  legacyNamespace?: string | undefined;
   /** Legacy registrations. */
-  legacyRegistrations?: ProviderRegistrationPropertiesLegacyRegistrationsList;
+  legacyRegistrations?: ProviderRegistrationPropertiesLegacyRegistrationsList | undefined;
   /** Custom manifest version. */
-  customManifestVersion?: string;
+  customManifestVersion?: string | undefined;
   /** The provider hub metadata. */
-  providerHubMetadata?: ProviderHubMetadata;
+  providerHubMetadata?: ProviderHubMetadata | undefined;
   /** The provisioning state. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The subscription lifecycle notification specifications. */
-  subscriptionLifecycleNotificationSpecifications?: SubscriptionLifecycleNotificationSpecifications;
+  subscriptionLifecycleNotificationSpecifications?:
+    | SubscriptionLifecycleNotificationSpecifications
+    | undefined;
   /** The private resource provider configuration. */
-  privateResourceProviderConfiguration?: PrivateResourceProviderConfiguration;
+  privateResourceProviderConfiguration?: PrivateResourceProviderConfiguration | undefined;
   /** The token auth configuration. */
-  tokenAuthConfiguration?: TokenAuthConfiguration;
+  tokenAuthConfiguration?: TokenAuthConfiguration | undefined;
   /** The on behalf of subscription id for the resource provider. */
-  oboSubscriptionId?: string;
+  oboSubscriptionId?: string | undefined;
   /** Indicates whether automatic registration for the preset resource types is enabled or disabled. */
-  enablePresetResourceTypes?: boolean;
+  enablePresetResourceTypes?: boolean | undefined;
   /** The resource provider lifecycle information. */
-  lifecycleInfo?: ResourceProviderLifecycleInfo;
+  lifecycleInfo?: ResourceProviderLifecycleInfo | undefined;
 }
 /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ProviderRegistrationInputKind = "Managed" | "Hybrid" | "Direct";
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface ProviderRegistrationInput {
-  properties?: ProviderRegistrationProperties;
+  properties?: ProviderRegistrationProperties | undefined;
   /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ProviderRegistrationInputKind | (string & {});
+  kind?: ProviderRegistrationInputKind | (string & {}) | undefined;
 }
 /** The routing type. */
 export type RoutingType =
@@ -787,11 +805,11 @@ export type ExtensionCategory =
 export type ResourceTypeExtensionExtensionCategoriesList = Array<ExtensionCategory | (string & {})>;
 export interface ResourceTypeExtension {
   /** The endpoint uri. */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** The extension categories. */
-  extensionCategories?: ResourceTypeExtensionExtensionCategoriesList;
+  extensionCategories?: ResourceTypeExtensionExtensionCategoriesList | undefined;
   /** The timeout. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 /** The extensions. */
 export type ResourceTypeEndpointExtensionsList = Array<ResourceTypeExtension>;
@@ -807,35 +825,35 @@ export type ResourceTypeEndpointZonesList = Array<string>;
 export type DataBoundary = "NotDefined" | "Global" | "EU" | "US";
 export interface ResourceTypeEndpoint {
   /** Resource type endpoint kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ResourceTypeEndpointKind | (string & {});
+  kind?: ResourceTypeEndpointKind | (string & {}) | undefined;
   /** Whether the endpoint is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The api versions. */
-  apiVersions?: ResourceTypeEndpointApiVersionsList;
+  apiVersions?: ResourceTypeEndpointApiVersionsList | undefined;
   /** The locations. */
-  locations?: ResourceTypeEndpointLocationsList;
+  locations?: ResourceTypeEndpointLocationsList | undefined;
   /** The required features. */
-  requiredFeatures?: ResourceTypeEndpointRequiredFeaturesList;
+  requiredFeatures?: ResourceTypeEndpointRequiredFeaturesList | undefined;
   /** The features rule. */
-  featuresRule?: FeaturesRule;
+  featuresRule?: FeaturesRule | undefined;
   /** The extensions. */
-  extensions?: ResourceTypeEndpointExtensionsList;
+  extensions?: ResourceTypeEndpointExtensionsList | undefined;
   /** The timeout. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** The endpoint type. */
-  endpointType?: EndpointTypeResourceType | (string & {});
+  endpointType?: EndpointTypeResourceType | (string & {}) | undefined;
   /** The token auth configuration. */
-  tokenAuthConfiguration?: TokenAuthConfiguration;
+  tokenAuthConfiguration?: TokenAuthConfiguration | undefined;
   /** The sku link. */
-  skuLink?: string;
+  skuLink?: string | undefined;
   /** The endpoint uri. */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Api version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** List of zones. */
-  zones?: ResourceTypeEndpointZonesList;
+  zones?: ResourceTypeEndpointZonesList | undefined;
   /** The data boundary. */
-  dataBoundary?: DataBoundary | (string & {});
+  dataBoundary?: DataBoundary | (string & {}) | undefined;
 }
 /** The extensions. */
 export type ResourceTypeRegistrationPropertiesEndpointsList = Array<ResourceTypeEndpoint>;
@@ -849,13 +867,13 @@ export type ExtensionOptionsRequestList = Array<ExtensionOptionType | (string & 
 export type ExtensionOptionsResponseList = Array<ExtensionOptionType | (string & {})>;
 export interface ExtensionOptions {
   /** The request. */
-  request?: ExtensionOptionsRequestList;
+  request?: ExtensionOptionsRequestList | undefined;
   /** The response. */
-  response?: ExtensionOptionsResponseList;
+  response?: ExtensionOptionsResponseList | undefined;
 }
 export interface ResourceTypeExtensionOptions {
   /** Resource creation begin. */
-  resourceCreationBegin?: ExtensionOptions;
+  resourceCreationBegin?: ExtensionOptions | undefined;
 }
 /** The marketplace type. */
 export type MarketplaceType = "NotSpecified" | "AddOn" | "Bypass" | "Store" | "ProviderHub";
@@ -864,15 +882,15 @@ export type SwaggerSpecificationApiVersionsList = Array<string>;
 /** Swagger specification lifecycle information. */
 export interface SwaggerSpecificationLifecycleInfo {
   /** The lifecycle stage. */
-  lifecycleStage?: LifecycleStage | (string & {});
+  lifecycleStage?: LifecycleStage | (string & {}) | undefined;
 }
 export interface SwaggerSpecification {
   /** The api versions. */
-  apiVersions?: SwaggerSpecificationApiVersionsList;
+  apiVersions?: SwaggerSpecificationApiVersionsList | undefined;
   /** The swagger spec folder uri. */
-  swaggerSpecFolderUri?: string;
+  swaggerSpecFolderUri?: string | undefined;
   /** The swagger specification lifecycle information. */
-  lifecycleInfo?: SwaggerSpecificationLifecycleInfo;
+  lifecycleInfo?: SwaggerSpecificationLifecycleInfo | undefined;
 }
 /** The swagger specifications. */
 export type ResourceTypeRegistrationPropertiesSwaggerSpecificationsList =
@@ -883,18 +901,18 @@ export type ResourceTypeRegistrationPropertiesAllowedUnauthorizedActionsList = A
 export type Intent = "NOT_SPECIFIED" | "LOW_PRIVILEGE" | "DEFERRED_ACCESS_CHECK" | "RP_CONTRACT";
 export interface AllowedUnauthorizedActionsExtension {
   /** The action. */
-  action?: string;
+  action?: string | undefined;
   /** The intent. */
-  intent?: Intent | (string & {});
+  intent?: Intent | (string & {}) | undefined;
 }
 /** The allowed unauthorized actions extensions. */
 export type ResourceTypeRegistrationPropertiesAllowedUnauthorizedActionsExtensionsList =
   Array<AllowedUnauthorizedActionsExtension>;
 export interface AuthorizationActionMapping {
   /** The original action name. */
-  original?: string;
+  original?: string | undefined;
   /** The desired action name. */
-  desired?: string;
+  desired?: string | undefined;
 }
 /** The authorization action mappings */
 export type ResourceTypeRegistrationPropertiesAuthorizationActionMappingsList =
@@ -903,17 +921,17 @@ export type ResourceTypeRegistrationPropertiesAuthorizationActionMappingsList =
 export type LinkedAccessCheckOptions = "NotSpecified" | "IgnoreEmptyStringLinkedType";
 export interface LinkedAccessCheck {
   /** The action name. */
-  actionName?: string;
+  actionName?: string | undefined;
   /** The linked property. */
-  linkedProperty?: string;
+  linkedProperty?: string | undefined;
   /** The linked action. */
-  linkedAction?: string;
+  linkedAction?: string | undefined;
   /** The linked action verb. */
-  linkedActionVerb?: string;
+  linkedActionVerb?: string | undefined;
   /** The linked type. */
-  linkedType?: string;
+  linkedType?: string | undefined;
   /** The options for the linked access check. */
-  options?: LinkedAccessCheckOptions | (string & {});
+  options?: LinkedAccessCheckOptions | (string & {}) | undefined;
 }
 /** The linked access checks. */
 export type ResourceTypeRegistrationPropertiesLinkedAccessChecksList = Array<LinkedAccessCheck>;
@@ -927,9 +945,9 @@ export type LoggingHiddenPropertyPathHiddenPathsOnRequestList = Array<string>;
 export type LoggingHiddenPropertyPathHiddenPathsOnResponseList = Array<string>;
 export interface LoggingHiddenPropertyPath {
   /** The hidden paths on request. */
-  hiddenPathsOnRequest?: LoggingHiddenPropertyPathHiddenPathsOnRequestList;
+  hiddenPathsOnRequest?: LoggingHiddenPropertyPathHiddenPathsOnRequestList | undefined;
   /** The hidden paths on response. */
-  hiddenPathsOnResponse?: LoggingHiddenPropertyPathHiddenPathsOnResponseList;
+  hiddenPathsOnResponse?: LoggingHiddenPropertyPathHiddenPathsOnResponseList | undefined;
 }
 export interface LoggingRule {
   /** The action. */
@@ -939,7 +957,7 @@ export interface LoggingRule {
   /** The detail level. */
   detailLevel: LoggingDetails | (string & {});
   /** The hidden property paths. */
-  hiddenPropertyPaths?: LoggingHiddenPropertyPath;
+  hiddenPropertyPaths?: LoggingHiddenPropertyPath | undefined;
 }
 /** The logging rules. */
 export type ResourceTypeRegistrationPropertiesLoggingRulesList = Array<LoggingRule>;
@@ -951,9 +969,9 @@ export interface ThrottlingMetric {
   /** The limit. */
   limit: number;
   /** The interval. */
-  interval?: string;
+  interval?: string | undefined;
   /** The bucket size. */
-  bucketSize?: string;
+  bucketSize?: string | undefined;
 }
 /** The metrics. */
 export type ThrottlingRuleMetricsList = Array<ThrottlingMetric>;
@@ -967,9 +985,9 @@ export interface ThrottlingRule {
   /** The metrics. */
   metrics: ThrottlingRuleMetricsList;
   /** The required features. */
-  requiredFeatures?: ThrottlingRuleRequiredFeaturesList;
+  requiredFeatures?: ThrottlingRuleRequiredFeaturesList | undefined;
   /** The application id. */
-  applicationId?: ThrottlingRuleApplicationIdList;
+  applicationId?: ThrottlingRuleApplicationIdList | undefined;
 }
 /** The throttling rules. */
 export type ResourceTypeRegistrationPropertiesThrottlingRulesList = Array<ThrottlingRule>;
@@ -988,22 +1006,24 @@ export type IdentityManagementPropertiesApplicationIdsList = Array<string>;
 export type IdentityManagementPropertiesDelegationAppIdsList = Array<string>;
 export interface IdentityManagementProperties {
   /** The type. */
-  type?: IdentityManagementTypes | (string & {});
+  type?: IdentityManagementTypes | (string & {}) | undefined;
   /** The application id. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** The application ids. */
-  applicationIds?: IdentityManagementPropertiesApplicationIdsList;
+  applicationIds?: IdentityManagementPropertiesApplicationIdsList | undefined;
   /** The delegation app ids. */
-  delegationAppIds?: IdentityManagementPropertiesDelegationAppIdsList;
+  delegationAppIds?: IdentityManagementPropertiesDelegationAppIdsList | undefined;
 }
 /** The resource types with custom validation. */
 export type CheckNameAvailabilitySpecificationsResourceTypesWithCustomValidationList =
   Array<string>;
 export interface CheckNameAvailabilitySpecifications {
   /** Whether default validation is enabled. */
-  enableDefaultValidation?: boolean;
+  enableDefaultValidation?: boolean | undefined;
   /** The resource types with custom validation. */
-  resourceTypesWithCustomValidation?: CheckNameAvailabilitySpecificationsResourceTypesWithCustomValidationList;
+  resourceTypesWithCustomValidation?:
+    | CheckNameAvailabilitySpecificationsResourceTypesWithCustomValidationList
+    | undefined;
 }
 /** The disallowed action verbs. */
 export type ResourceTypeRegistrationPropertiesDisallowedActionVerbsList = Array<string>;
@@ -1019,9 +1039,9 @@ export type SubscriptionState =
 export type SubscriptionStateRuleAllowedActionsList = Array<string>;
 export interface SubscriptionStateRule {
   /** The subscription state. */
-  state?: SubscriptionState | (string & {});
+  state?: SubscriptionState | (string & {}) | undefined;
   /** The allowed actions. */
-  allowedActions?: SubscriptionStateRuleAllowedActionsList;
+  allowedActions?: SubscriptionStateRuleAllowedActionsList | undefined;
 }
 /** The subscription state rules. */
 export type ResourceTypeRegistrationPropertiesSubscriptionStateRulesList =
@@ -1031,19 +1051,19 @@ export type ExtendedLocationType = "NotSpecified" | "CustomLocation" | "EdgeZone
 export type ResourceTypeExtendedLocationPolicy = "NotSpecified" | "All";
 export interface ExtendedLocationOptions {
   /** The type. */
-  type?: ExtendedLocationType | (string & {});
-  supportedPolicy?: ResourceTypeExtendedLocationPolicy | (string & {});
+  type?: ExtendedLocationType | (string & {}) | undefined;
+  supportedPolicy?: ResourceTypeExtendedLocationPolicy | (string & {}) | undefined;
 }
 /** The extended locations. */
 export type ResourceTypeRegistrationPropertiesExtendedLocationsList =
   Array<ExtendedLocationOptions>;
 export interface ResourceMovePolicy {
   /** Whether validation is required. */
-  validationRequired?: boolean;
+  validationRequired?: boolean | undefined;
   /** Whether cross resource group move is enabled. */
-  crossResourceGroupMoveEnabled?: boolean;
+  crossResourceGroupMoveEnabled?: boolean | undefined;
   /** Whether cross subscription move is enabled. */
-  crossSubscriptionMoveEnabled?: boolean;
+  crossSubscriptionMoveEnabled?: boolean | undefined;
 }
 /** The resource deletion policy. */
 export type RPaaSResourceDeletionPolicy =
@@ -1057,16 +1077,16 @@ export type ResourceDeletionPolicy = "NotSpecified" | "Cascade" | "Force" | "Sof
 /** The resource deletion policy properties. */
 export interface ResourceDeletionPolicyProperties {
   /** The minimum retention time. */
-  minimumRetentionTime?: string;
+  minimumRetentionTime?: string | undefined;
   /** The maximum retention time. */
-  maximumRetentionTime?: string;
+  maximumRetentionTime?: string | undefined;
 }
 /** The individual resource deletion policy. */
 export interface ResourceDeletionPolicyAndProperties {
   /** The resource deletion policy name. */
-  policyName?: ResourceDeletionPolicy | (string & {});
+  policyName?: ResourceDeletionPolicy | (string & {}) | undefined;
   /** The resource deletion policy properties. */
-  properties?: ResourceDeletionPolicyProperties;
+  properties?: ResourceDeletionPolicyProperties | undefined;
 }
 /** List of resource deletion policies added. */
 export type ResourceTypeRegistrationPropertiesResourceDeletionPoliciesList =
@@ -1078,20 +1098,20 @@ export type ManagedResourceGroupDenyAssignmentConfigurationNotActionsList = Arra
 /** The deny assignment configuration for the managed resource group. */
 export interface ManagedResourceGroupDenyAssignmentConfiguration {
   /** Indicates whether the deny assignment configuration is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The actions excluded from the deny assignment. */
-  notActions?: ManagedResourceGroupDenyAssignmentConfigurationNotActionsList;
+  notActions?: ManagedResourceGroupDenyAssignmentConfigurationNotActionsList | undefined;
 }
 /** The managed resource group configuration for the resource type. */
 export interface ResourceTypeManagedResourceGroupConfiguration {
   /** Indicates whether the managed resource group configuration is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The resource group location override. */
-  resourceGroupLocationOverride?: string;
+  resourceGroupLocationOverride?: string | undefined;
   /** The application ids. */
-  applicationIds?: ResourceTypeManagedResourceGroupConfigurationApplicationIdsList;
+  applicationIds?: ResourceTypeManagedResourceGroupConfigurationApplicationIdsList | undefined;
   /** The deny assignment configuration. */
-  denyAssignmentConfiguration?: ManagedResourceGroupDenyAssignmentConfiguration;
+  denyAssignmentConfiguration?: ManagedResourceGroupDenyAssignmentConfiguration | undefined;
 }
 /** List of required members for the group id. */
 export type GroupConnectivityInformationRequiredMembersList = Array<string>;
@@ -1105,7 +1125,7 @@ export interface GroupConnectivityInformation {
   /** List of required zone names for the group id. */
   requiredZoneNames: GroupConnectivityInformationRequiredZoneNamesList;
   /** The redirect map id. */
-  redirectMapId?: string;
+  redirectMapId?: string | undefined;
 }
 /** The list of group connectivity information. */
 export type PrivateEndpointConfigurationGroupConnectivityInformationList =
@@ -1122,7 +1142,7 @@ export type WriteLockConfigurationState = "Disabled" | "Enabled";
 /** The write lock configuration. */
 export interface WriteLockConfiguration {
   /** The state of write lock feature. The feature will ensure a deterministic sequence of write-operation within and across the verbs. Also the feature will ensure that the semantics of synchronous and long-running operations are honored. */
-  state?: WriteLockConfigurationState | (string & {});
+  state?: WriteLockConfigurationState | (string & {}) | undefined;
 }
 /** Resource type lifecycle information. */
 export type ResourceTypeLifecycleInfo = SwaggerSpecificationLifecycleInfo;
@@ -1130,7 +1150,7 @@ export type ResourceTypeLifecycleInfo = SwaggerSpecificationLifecycleInfo;
 export type Policy = "NotSpecified" | "SynchronizeBeginExtension";
 export interface ResourceConcurrencyControlOption {
   /** The policy. */
-  policy?: Policy | (string & {});
+  policy?: Policy | (string & {}) | undefined;
 }
 /** The resource concurrency control options. */
 export type ResourceTypeRegistrationPropertiesResourceConcurrencyControlOptionsMap = {
@@ -1138,23 +1158,23 @@ export type ResourceTypeRegistrationPropertiesResourceConcurrencyControlOptionsM
 };
 export interface ResourceGraphConfiguration {
   /** Whether it's enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The api version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
 }
 export interface OpenApiValidation {
   /** Indicates whether a non compliance response is allowed for a LIST call */
-  allowNoncompliantCollectionResponse?: boolean;
+  allowNoncompliantCollectionResponse?: boolean | undefined;
 }
 export interface OpenApiConfiguration {
   /** The open api validation. */
-  validation?: OpenApiValidation;
+  validation?: OpenApiValidation | undefined;
 }
 export interface ResourceTypeOnBehalfOfToken {
   /** The action name. */
-  actionName?: string;
+  actionName?: string | undefined;
   /** This is a TimeSpan property. */
-  lifeTime?: string;
+  lifeTime?: string | undefined;
 }
 /** The category. */
 export type ResourceTypeCategory = "None" | "FreeForm" | "Internal" | "PureProxy";
@@ -1167,11 +1187,11 @@ export type ResourceTypeRegistrationPropertiesMetadataMap = { [key: string]: unk
 export type QuotaPolicy = "Default" | "None" | "Restricted";
 export interface LocationQuotaRule {
   /** The policy. */
-  policy?: QuotaPolicy | (string & {});
+  policy?: QuotaPolicy | (string & {}) | undefined;
   /** The quota id. */
-  quotaId?: string;
+  quotaId?: string | undefined;
   /** The location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The location rules. */
 export type QuotaRuleLocationRulesList = Array<LocationQuotaRule>;
@@ -1179,11 +1199,11 @@ export type QuotaRuleLocationRulesList = Array<LocationQuotaRule>;
 export type QuotaRuleRequiredFeaturesList = Array<string>;
 export interface QuotaRule {
   /** The quota policy. */
-  quotaPolicy?: QuotaPolicy | (string & {});
+  quotaPolicy?: QuotaPolicy | (string & {}) | undefined;
   /** The location rules. */
-  locationRules?: QuotaRuleLocationRulesList;
+  locationRules?: QuotaRuleLocationRulesList | undefined;
   /** The required features. */
-  requiredFeatures?: QuotaRuleRequiredFeaturesList;
+  requiredFeatures?: QuotaRuleRequiredFeaturesList | undefined;
 }
 /** The notifications. */
 export type ResourceTypeRegistrationPropertiesNotificationsList = Array<Notification>;
@@ -1197,15 +1217,17 @@ export type LinkedNotificationRuleFastPathActionsList = Array<string>;
 export type LinkedNotificationRuleFastPathActionsOnFailedOperationList = Array<string>;
 export interface LinkedNotificationRule {
   /** The actions. */
-  actions?: LinkedNotificationRuleActionsList;
+  actions?: LinkedNotificationRuleActionsList | undefined;
   /** The actions on failed operation. */
-  actionsOnFailedOperation?: LinkedNotificationRuleActionsOnFailedOperationList;
+  actionsOnFailedOperation?: LinkedNotificationRuleActionsOnFailedOperationList | undefined;
   /** The fast path actions. */
-  fastPathActions?: LinkedNotificationRuleFastPathActionsList;
+  fastPathActions?: LinkedNotificationRuleFastPathActionsList | undefined;
   /** The fast path action on failed operation. */
-  fastPathActionsOnFailedOperation?: LinkedNotificationRuleFastPathActionsOnFailedOperationList;
+  fastPathActionsOnFailedOperation?:
+    | LinkedNotificationRuleFastPathActionsOnFailedOperationList
+    | undefined;
   /** This is a TimeSpan property. */
-  linkedNotificationTimeout?: string;
+  linkedNotificationTimeout?: string | undefined;
 }
 /** The linked notification rules. */
 export type ResourceTypeRegistrationPropertiesLinkedNotificationRulesList =
@@ -1227,7 +1249,7 @@ export interface TemplateDeploymentPolicy {
   /** The preflight options. */
   preflightOptions: TemplateDeploymentPreflightOptions | (string & {});
   /** The preflight notifications. */
-  preflightNotifications?: TemplateDeploymentPreflightNotifications | (string & {});
+  preflightNotifications?: TemplateDeploymentPreflightNotifications | (string & {}) | undefined;
 }
 /** The policy execution type. */
 export type PolicyExecutionType =
@@ -1238,12 +1260,12 @@ export type PolicyExecutionType =
 export type AvailabilityZonePolicy = "NotSpecified" | "SingleZoned" | "MultiZoned";
 /** The availability zone rule. */
 export interface ResourceTypeRegistrationPropertiesAvailabilityZoneRule {
-  availabilityZonePolicy?: AvailabilityZonePolicy | (string & {});
+  availabilityZonePolicy?: AvailabilityZonePolicy | (string & {}) | undefined;
 }
 export interface AsyncTimeoutRule {
-  actionName?: string;
+  actionName?: string | undefined;
   /** This is a TimeSpan property */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 /** Async timeout rules */
 export type ResourceTypeRegistrationPropertiesAsyncTimeoutRulesList = Array<AsyncTimeoutRule>;
@@ -1251,9 +1273,9 @@ export type ResourceTypeRegistrationPropertiesAsyncTimeoutRulesList = Array<Asyn
 export type ResourceTypeRegistrationPropertiesCommonApiVersionsList = Array<string>;
 export interface ApiProfile {
   /** Profile version. */
-  profileVersion?: string;
+  profileVersion?: string | undefined;
   /** Api version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
 }
 /** The api profiles. */
 export type ResourceTypeRegistrationPropertiesApiProfilesList = Array<ApiProfile>;
@@ -1272,7 +1294,7 @@ export interface LinkedOperationRule {
   /** The linked action. */
   linkedAction: LinkedAction | (string & {});
   /** Depends on types. */
-  dependsOnTypes?: LinkedOperationRuleDependsOnTypesList;
+  dependsOnTypes?: LinkedOperationRuleDependsOnTypesList | undefined;
 }
 /** The linked operation rules. */
 export type ResourceTypeRegistrationPropertiesLinkedOperationRulesList = Array<LinkedOperationRule>;
@@ -1301,52 +1323,56 @@ export type LegacyDisallowedConditionDisallowedLegacyOperationsList = Array<
 >;
 export interface LegacyDisallowedCondition {
   /** The disallowed legacy operations. */
-  disallowedLegacyOperations?: LegacyDisallowedConditionDisallowedLegacyOperationsList;
+  disallowedLegacyOperations?: LegacyDisallowedConditionDisallowedLegacyOperationsList | undefined;
   /** Feature string. */
-  feature?: string;
+  feature?: string | undefined;
 }
 export type ResourceTypeRegistrationPropertiesLegacyPolicyDisallowedConditionsList =
   Array<LegacyDisallowedCondition>;
 /** The legacy policy. */
 export interface ResourceTypeRegistrationPropertiesLegacyPolicy {
-  disallowedLegacyOperations?: ResourceTypeRegistrationPropertiesLegacyPolicyDisallowedLegacyOperationsList;
-  disallowedConditions?: ResourceTypeRegistrationPropertiesLegacyPolicyDisallowedConditionsList;
+  disallowedLegacyOperations?:
+    | ResourceTypeRegistrationPropertiesLegacyPolicyDisallowedLegacyOperationsList
+    | undefined;
+  disallowedConditions?:
+    | ResourceTypeRegistrationPropertiesLegacyPolicyDisallowedConditionsList
+    | undefined;
 }
 /** Capacity policy. */
 export type CapacityPolicy = "Default" | "Restricted";
 /** Capacity rule. */
 export interface ResourceTypeRegistrationPropertiesCapacityRule {
   /** Capacity policy. */
-  capacityPolicy?: CapacityPolicy | (string & {});
+  capacityPolicy?: CapacityPolicy | (string & {}) | undefined;
   /** Sku alias */
-  skuAlias?: string;
+  skuAlias?: string | undefined;
 }
 /** Marketplace options. */
 export interface ResourceTypeRegistrationPropertiesMarketplaceOptions {
   /** Add-on plan conversion allowed. */
-  addOnPlanConversionAllowed?: boolean;
+  addOnPlanConversionAllowed?: boolean | undefined;
 }
 export interface AllowedResourceName {
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Get action verb. */
-  getActionVerb?: string;
+  getActionVerb?: string | undefined;
 }
 /** The allowed resource names. */
 export type ResourceTypeRegistrationPropertiesAllowedResourceNamesList = Array<AllowedResourceName>;
 /** Resource cache options. */
 export interface ResourceTypeRegistrationPropertiesResourceCache {
   /** Enable resource cache. */
-  enableResourceCache?: boolean;
+  enableResourceCache?: boolean | undefined;
   /** Resource cache expiration timespan. This is a TimeSpan property. */
-  resourceCacheExpirationTimespan?: string;
+  resourceCacheExpirationTimespan?: string | undefined;
 }
 /** Filter option. */
 export type FilterOption = "NotSpecified" | "EnableSubscriptionFilterOnTenant";
 /** Resource query management options. */
 export interface ResourceTypeRegistrationPropertiesResourceQueryManagement {
   /** Filter option. */
-  filterOption?: FilterOption | (string & {});
+  filterOption?: FilterOption | (string & {}) | undefined;
 }
 /** Supported operations. */
 export type SupportedOperations = "NotSpecified" | "Get" | "Delete";
@@ -1356,9 +1382,9 @@ export type ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProv
 /** Batch action configuration. */
 export interface ActionConfiguration {
   /** Authorization action. */
-  authorizationAction?: string;
+  authorizationAction?: string | undefined;
   /** The maximum batch size. */
-  maxBatchSize?: number;
+  maxBatchSize?: number | undefined;
 }
 /** Action Configurations. */
 export type ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportActionConfigurationsList =
@@ -1366,27 +1392,31 @@ export type ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProv
 /** Batch provisioning support. */
 export interface ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport {
   /** Supported operations. */
-  supportedOperations?: SupportedOperations | (string & {});
+  supportedOperations?: SupportedOperations | (string & {}) | undefined;
   /** The maximum batch size. */
-  maxBatchSize?: number;
+  maxBatchSize?: number | undefined;
   /** Batch contract version. */
-  batchContractVersion?: string;
+  batchContractVersion?: string | undefined;
   /** The maximum nested batch size. */
-  maxNestedBatchSize?: number;
+  maxNestedBatchSize?: number | undefined;
   /** The required features. */
-  requiredFeatures?: ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportRequiredFeaturesList;
+  requiredFeatures?:
+    | ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportRequiredFeaturesList
+    | undefined;
   /** Action Configurations. */
-  actionConfigurations?: ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportActionConfigurationsList;
+  actionConfigurations?:
+    | ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportActionConfigurationsList
+    | undefined;
 }
 /** Required features. */
 export type DeleteDependencyRequiredFeaturesList = Array<string>;
 export interface DeleteDependency {
   /** Required features. */
-  requiredFeatures?: DeleteDependencyRequiredFeaturesList;
+  requiredFeatures?: DeleteDependencyRequiredFeaturesList | undefined;
   /** Linked property. */
-  linkedProperty?: string;
+  linkedProperty?: string | undefined;
   /** Linked type. */
-  linkedType?: string;
+  linkedType?: string | undefined;
 }
 /** Delete dependencies. */
 export type ResourceTypeRegistrationPropertiesResourceManagementOptionsDeleteDependenciesList =
@@ -1394,28 +1424,34 @@ export type ResourceTypeRegistrationPropertiesResourceManagementOptionsDeleteDep
 /** Nested provisioning support. */
 export interface ResourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupport {
   /** Minimum API version. */
-  minimumApiVersion?: string;
+  minimumApiVersion?: string | undefined;
 }
 /** Resource management options. */
 export interface ResourceTypeRegistrationPropertiesResourceManagementOptions {
   /** Batch provisioning support. */
-  batchProvisioningSupport?: ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport;
+  batchProvisioningSupport?:
+    | ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupport
+    | undefined;
   /** Delete dependencies. */
-  deleteDependencies?: ResourceTypeRegistrationPropertiesResourceManagementOptionsDeleteDependenciesList;
+  deleteDependencies?:
+    | ResourceTypeRegistrationPropertiesResourceManagementOptionsDeleteDependenciesList
+    | undefined;
   /** Nested provisioning support. */
-  nestedProvisioningSupport?: ResourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupport;
+  nestedProvisioningSupport?:
+    | ResourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupport
+    | undefined;
 }
 /** Common api versions merge mode. */
 export type CommonApiVersionsMergeMode = "Merge" | "Overwrite";
 /** Resource type common attribute management. */
 export interface ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagement {
   /** Common api versions merge mode. */
-  commonApiVersionsMergeMode?: CommonApiVersionsMergeMode | (string & {});
+  commonApiVersionsMergeMode?: CommonApiVersionsMergeMode | (string & {}) | undefined;
 }
 /** Routing rule. */
 export interface ResourceTypeRegistrationPropertiesRoutingRule {
   /** Hosted resource type. */
-  hostResourceType?: string;
+  hostResourceType?: string | undefined;
 }
 /** The frontdoor request mode. */
 export type FrontdoorRequestMode = "NotSpecified" | "UseManifest";
@@ -1423,171 +1459,193 @@ export type FrontdoorRequestMode = "NotSpecified" | "UseManifest";
 export type ResourceSubType = "NotSpecified" | "AsyncOperation";
 export interface ResourceTypeRegistrationProperties {
   /** The resource routing type. */
-  routingType?: RoutingType | (string & {});
+  routingType?: RoutingType | (string & {}) | undefined;
   /** The additional options. */
-  additionalOptions?: AdditionalOptionsResourceTypeRegistration | (string & {});
+  additionalOptions?: AdditionalOptionsResourceTypeRegistration | (string & {}) | undefined;
   /** The cross tenant token validation. */
-  crossTenantTokenValidation?: CrossTenantTokenValidation | (string & {});
+  crossTenantTokenValidation?: CrossTenantTokenValidation | (string & {}) | undefined;
   /** The regionality. */
-  regionality?: Regionality | (string & {});
+  regionality?: Regionality | (string & {}) | undefined;
   /** The extensions. */
-  endpoints?: ResourceTypeRegistrationPropertiesEndpointsList;
+  endpoints?: ResourceTypeRegistrationPropertiesEndpointsList | undefined;
   /** The extension options. */
-  extensionOptions?: ResourceTypeExtensionOptions;
+  extensionOptions?: ResourceTypeExtensionOptions | undefined;
   /** The marketplace type. */
-  marketplaceType?: MarketplaceType | (string & {});
+  marketplaceType?: MarketplaceType | (string & {}) | undefined;
   /** The swagger specifications. */
-  swaggerSpecifications?: ResourceTypeRegistrationPropertiesSwaggerSpecificationsList;
+  swaggerSpecifications?: ResourceTypeRegistrationPropertiesSwaggerSpecificationsList | undefined;
   /** The allowed unauthorized actions. */
-  allowedUnauthorizedActions?: ResourceTypeRegistrationPropertiesAllowedUnauthorizedActionsList;
+  allowedUnauthorizedActions?:
+    | ResourceTypeRegistrationPropertiesAllowedUnauthorizedActionsList
+    | undefined;
   /** The allowed unauthorized actions extensions. */
-  allowedUnauthorizedActionsExtensions?: ResourceTypeRegistrationPropertiesAllowedUnauthorizedActionsExtensionsList;
+  allowedUnauthorizedActionsExtensions?:
+    | ResourceTypeRegistrationPropertiesAllowedUnauthorizedActionsExtensionsList
+    | undefined;
   /** The authorization action mappings */
-  authorizationActionMappings?: ResourceTypeRegistrationPropertiesAuthorizationActionMappingsList;
+  authorizationActionMappings?:
+    | ResourceTypeRegistrationPropertiesAuthorizationActionMappingsList
+    | undefined;
   /** The linked access checks. */
-  linkedAccessChecks?: ResourceTypeRegistrationPropertiesLinkedAccessChecksList;
+  linkedAccessChecks?: ResourceTypeRegistrationPropertiesLinkedAccessChecksList | undefined;
   /** The default api version. */
-  defaultApiVersion?: string;
+  defaultApiVersion?: string | undefined;
   /** The logging rules. */
-  loggingRules?: ResourceTypeRegistrationPropertiesLoggingRulesList;
+  loggingRules?: ResourceTypeRegistrationPropertiesLoggingRulesList | undefined;
   /** The throttling rules. */
-  throttlingRules?: ResourceTypeRegistrationPropertiesThrottlingRulesList;
+  throttlingRules?: ResourceTypeRegistrationPropertiesThrottlingRulesList | undefined;
   /** The required features. */
-  requiredFeatures?: ResourceTypeRegistrationPropertiesRequiredFeaturesList;
+  requiredFeatures?: ResourceTypeRegistrationPropertiesRequiredFeaturesList | undefined;
   /** The features rule. */
-  featuresRule?: FeaturesRule;
+  featuresRule?: FeaturesRule | undefined;
   /** Whether async operation is enabled. */
-  enableAsyncOperation?: boolean;
+  enableAsyncOperation?: boolean | undefined;
   /** The provisioning state. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** Whether third party S2S is enabled. */
-  enableThirdPartyS2S?: boolean;
+  enableThirdPartyS2S?: boolean | undefined;
   /** The subscription lifecycle notification specifications. */
-  subscriptionLifecycleNotificationSpecifications?: SubscriptionLifecycleNotificationSpecifications;
+  subscriptionLifecycleNotificationSpecifications?:
+    | SubscriptionLifecycleNotificationSpecifications
+    | undefined;
   /** Whether it is pure proxy. */
-  isPureProxy?: boolean;
+  isPureProxy?: boolean | undefined;
   /** The identity management. */
-  identityManagement?: IdentityManagementProperties;
+  identityManagement?: IdentityManagementProperties | undefined;
   /** The check name availability specifications. */
-  checkNameAvailabilitySpecifications?: CheckNameAvailabilitySpecifications;
+  checkNameAvailabilitySpecifications?: CheckNameAvailabilitySpecifications | undefined;
   /** The disallowed action verbs. */
-  disallowedActionVerbs?: ResourceTypeRegistrationPropertiesDisallowedActionVerbsList;
+  disallowedActionVerbs?: ResourceTypeRegistrationPropertiesDisallowedActionVerbsList | undefined;
   /** The request header options. */
-  requestHeaderOptions?: RequestHeaderOptions;
+  requestHeaderOptions?: RequestHeaderOptions | undefined;
   /** The subscription state rules. */
-  subscriptionStateRules?: ResourceTypeRegistrationPropertiesSubscriptionStateRulesList;
+  subscriptionStateRules?: ResourceTypeRegistrationPropertiesSubscriptionStateRulesList | undefined;
   /** The template deployment options. */
-  templateDeploymentOptions?: TemplateDeploymentOptions;
+  templateDeploymentOptions?: TemplateDeploymentOptions | undefined;
   /** The extended locations. */
-  extendedLocations?: ResourceTypeRegistrationPropertiesExtendedLocationsList;
+  extendedLocations?: ResourceTypeRegistrationPropertiesExtendedLocationsList | undefined;
   /** The resource move policy. */
-  resourceMovePolicy?: ResourceMovePolicy;
+  resourceMovePolicy?: ResourceMovePolicy | undefined;
   /** The resource deletion policy. */
-  resourceDeletionPolicy?: RPaaSResourceDeletionPolicy | (string & {});
+  resourceDeletionPolicy?: RPaaSResourceDeletionPolicy | (string & {}) | undefined;
   /** List of resource deletion policies added. */
-  resourceDeletionPolicies?: ResourceTypeRegistrationPropertiesResourceDeletionPoliciesList;
+  resourceDeletionPolicies?:
+    | ResourceTypeRegistrationPropertiesResourceDeletionPoliciesList
+    | undefined;
   /** The managed resource group configuration. */
-  managedResourceGroupConfiguration?: ResourceTypeManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ResourceTypeManagedResourceGroupConfiguration | undefined;
   /** The private endpoint configuration. */
-  privateEndpointConfiguration?: PrivateEndpointConfiguration;
+  privateEndpointConfiguration?: PrivateEndpointConfiguration | undefined;
   /** The write lock configuration. */
-  writeLock?: WriteLockConfiguration;
+  writeLock?: WriteLockConfiguration | undefined;
   /** Indicates whether super scale is enabled. */
-  superScaleEnabled?: boolean;
+  superScaleEnabled?: boolean | undefined;
   /** The resource type lifecycle information. */
-  lifecycleInfo?: SwaggerSpecificationLifecycleInfo;
+  lifecycleInfo?: SwaggerSpecificationLifecycleInfo | undefined;
   /** The resource concurrency control options. */
-  resourceConcurrencyControlOptions?: ResourceTypeRegistrationPropertiesResourceConcurrencyControlOptionsMap;
+  resourceConcurrencyControlOptions?:
+    | ResourceTypeRegistrationPropertiesResourceConcurrencyControlOptionsMap
+    | undefined;
   /** The resource graph configuration. */
-  resourceGraphConfiguration?: ResourceGraphConfiguration;
+  resourceGraphConfiguration?: ResourceGraphConfiguration | undefined;
   /** The resource provider management. */
-  management?: ResourceProviderManagement;
+  management?: ResourceProviderManagement | undefined;
   /** The open api configuration. */
-  openApiConfiguration?: OpenApiConfiguration;
+  openApiConfiguration?: OpenApiConfiguration | undefined;
   /** The on behalf of tokens. */
-  onBehalfOfTokens?: ResourceTypeOnBehalfOfToken;
+  onBehalfOfTokens?: ResourceTypeOnBehalfOfToken | undefined;
   /** The category. */
-  category?: ResourceTypeCategory | (string & {});
+  category?: ResourceTypeCategory | (string & {}) | undefined;
   /** The resource validation. */
-  resourceValidation?: ResourceValidation | (string & {});
+  resourceValidation?: ResourceValidation | (string & {}) | undefined;
   /** The disallowed end user operations. */
-  disallowedEndUserOperations?: ResourceTypeRegistrationPropertiesDisallowedEndUserOperationsList;
+  disallowedEndUserOperations?:
+    | ResourceTypeRegistrationPropertiesDisallowedEndUserOperationsList
+    | undefined;
   /** The metadata. */
-  metadata?: ResourceTypeRegistrationPropertiesMetadataMap;
+  metadata?: ResourceTypeRegistrationPropertiesMetadataMap | undefined;
   /** The sku link. */
-  skuLink?: string;
+  skuLink?: string | undefined;
   /** The quota rule. */
-  quotaRule?: QuotaRule;
+  quotaRule?: QuotaRule | undefined;
   /** The notifications. */
-  notifications?: ResourceTypeRegistrationPropertiesNotificationsList;
+  notifications?: ResourceTypeRegistrationPropertiesNotificationsList | undefined;
   /** The linked notification rules. */
-  linkedNotificationRules?: ResourceTypeRegistrationPropertiesLinkedNotificationRulesList;
+  linkedNotificationRules?:
+    | ResourceTypeRegistrationPropertiesLinkedNotificationRulesList
+    | undefined;
   /** The resource provider authorization rules. */
-  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules;
+  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules | undefined;
   /** The token auth configuration. */
-  tokenAuthConfiguration?: TokenAuthConfiguration;
+  tokenAuthConfiguration?: TokenAuthConfiguration | undefined;
   /** The template deployment policy. */
-  templateDeploymentPolicy?: TemplateDeploymentPolicy;
+  templateDeploymentPolicy?: TemplateDeploymentPolicy | undefined;
   /** The allow empty role assignments. */
-  allowEmptyRoleAssignments?: boolean;
+  allowEmptyRoleAssignments?: boolean | undefined;
   /** The policy execution type. */
-  policyExecutionType?: PolicyExecutionType | (string & {});
+  policyExecutionType?: PolicyExecutionType | (string & {}) | undefined;
   /** The availability zone rule. */
-  availabilityZoneRule?: ResourceTypeRegistrationPropertiesAvailabilityZoneRule;
+  availabilityZoneRule?: ResourceTypeRegistrationPropertiesAvailabilityZoneRule | undefined;
   /** Async timeout rules */
-  asyncTimeoutRules?: ResourceTypeRegistrationPropertiesAsyncTimeoutRulesList;
+  asyncTimeoutRules?: ResourceTypeRegistrationPropertiesAsyncTimeoutRulesList | undefined;
   /** Common API versions for the resource type. */
-  commonApiVersions?: ResourceTypeRegistrationPropertiesCommonApiVersionsList;
+  commonApiVersions?: ResourceTypeRegistrationPropertiesCommonApiVersionsList | undefined;
   /** The api profiles. */
-  apiProfiles?: ResourceTypeRegistrationPropertiesApiProfilesList;
+  apiProfiles?: ResourceTypeRegistrationPropertiesApiProfilesList | undefined;
   /** The linked operation rules. */
-  linkedOperationRules?: ResourceTypeRegistrationPropertiesLinkedOperationRulesList;
+  linkedOperationRules?: ResourceTypeRegistrationPropertiesLinkedOperationRulesList | undefined;
   /** The legacy name. */
-  legacyName?: string;
+  legacyName?: string | undefined;
   /** The legacy names. */
-  legacyNames?: ResourceTypeRegistrationPropertiesLegacyNamesList;
+  legacyNames?: ResourceTypeRegistrationPropertiesLegacyNamesList | undefined;
   /** Allowed template deployment reference actions. */
-  allowedTemplateDeploymentReferenceActions?: ResourceTypeRegistrationPropertiesAllowedTemplateDeploymentReferenceActionsList;
+  allowedTemplateDeploymentReferenceActions?:
+    | ResourceTypeRegistrationPropertiesAllowedTemplateDeploymentReferenceActionsList
+    | undefined;
   /** The legacy policy. */
-  legacyPolicy?: ResourceTypeRegistrationPropertiesLegacyPolicy;
+  legacyPolicy?: ResourceTypeRegistrationPropertiesLegacyPolicy | undefined;
   /** Manifest link. */
-  manifestLink?: string;
+  manifestLink?: string | undefined;
   /** Capacity rule. */
-  capacityRule?: ResourceTypeRegistrationPropertiesCapacityRule;
+  capacityRule?: ResourceTypeRegistrationPropertiesCapacityRule | undefined;
   /** Marketplace options. */
-  marketplaceOptions?: ResourceTypeRegistrationPropertiesMarketplaceOptions;
+  marketplaceOptions?: ResourceTypeRegistrationPropertiesMarketplaceOptions | undefined;
   /** The allowed resource names. */
-  allowedResourceNames?: ResourceTypeRegistrationPropertiesAllowedResourceNamesList;
+  allowedResourceNames?: ResourceTypeRegistrationPropertiesAllowedResourceNamesList | undefined;
   /** Resource cache options. */
-  resourceCache?: ResourceTypeRegistrationPropertiesResourceCache;
+  resourceCache?: ResourceTypeRegistrationPropertiesResourceCache | undefined;
   /** Resource query management options. */
-  resourceQueryManagement?: ResourceTypeRegistrationPropertiesResourceQueryManagement;
+  resourceQueryManagement?: ResourceTypeRegistrationPropertiesResourceQueryManagement | undefined;
   /** Whether tags are supported. */
-  supportsTags?: boolean;
+  supportsTags?: boolean | undefined;
   /** Resource management options. */
-  resourceManagementOptions?: ResourceTypeRegistrationPropertiesResourceManagementOptions;
+  resourceManagementOptions?:
+    | ResourceTypeRegistrationPropertiesResourceManagementOptions
+    | undefined;
   /** Grouping tag. */
-  groupingTag?: string;
+  groupingTag?: string | undefined;
   /** Add resource list target locations? */
-  addResourceListTargetLocations?: boolean;
+  addResourceListTargetLocations?: boolean | undefined;
   /** Resource type common attribute management. */
-  resourceTypeCommonAttributeManagement?: ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagement;
+  resourceTypeCommonAttributeManagement?:
+    | ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagement
+    | undefined;
   /** Routing rule. */
-  routingRule?: ResourceTypeRegistrationPropertiesRoutingRule;
+  routingRule?: ResourceTypeRegistrationPropertiesRoutingRule | undefined;
   /** The frontdoor request mode. */
-  frontdoorRequestMode?: FrontdoorRequestMode | (string & {});
+  frontdoorRequestMode?: FrontdoorRequestMode | (string & {}) | undefined;
   /** The resource sub type. */
-  resourceSubType?: ResourceSubType | (string & {});
+  resourceSubType?: ResourceSubType | (string & {}) | undefined;
   /** The async operation resource type name. */
-  asyncOperationResourceTypeName?: string;
+  asyncOperationResourceTypeName?: string | undefined;
 }
 /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ResourceTypeRegistrationInputKind = "Managed" | "Hybrid" | "Direct";
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface ResourceTypeRegistrationInput {
-  properties?: ResourceTypeRegistrationProperties;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ResourceTypeRegistrationInputKind | (string & {});
+  kind?: ResourceTypeRegistrationInputKind | (string & {}) | undefined;
 }
 /** The resource type registrations. */
 export type CustomRolloutSpecificationInputResourceTypeRegistrationsList =
@@ -1595,15 +1653,15 @@ export type CustomRolloutSpecificationInputResourceTypeRegistrationsList =
 /** Orchestration metadata associated with a rollout. */
 export interface RolloutOrchestrationMetadata {
   /** Whether the rollout is used for manifest buildout. */
-  isForManifestBuildout?: boolean;
+  isForManifestBuildout?: boolean | undefined;
   /** The deployment type associated with the rollout. */
-  deploymentType?: string;
+  deploymentType?: string | undefined;
   /** The traffic ring associated with the rollout. */
-  trafficRing?: string;
+  trafficRing?: string | undefined;
   /** The service group associated with the rollout. */
-  serviceGroup?: string;
+  serviceGroup?: string | undefined;
   /** The identifier of the service associated with the rollout. */
-  serviceIdentifier?: string;
+  serviceIdentifier?: string | undefined;
 }
 /** The manifest checkin option. */
 export type ManifestCheckinSpecificationManifestCheckinOption =
@@ -1615,38 +1673,43 @@ export interface CheckinManifestParams {
   /** The baseline ARM manifest location supplied to the checkin manifest operation. */
   baselineArmManifestLocation: string;
   /** The URI of the signed-off OpenAPI specification pull request associated with the manifest check-in. */
-  swaggerUri?: string;
+  swaggerUri?: string | undefined;
   /** The comment associated with the manifest check-in. */
-  checkinComment?: string;
+  checkinComment?: string | undefined;
 }
 /** The manifest checkin specification. */
 export interface ManifestCheckinSpecification {
   /** The manifest checkin option. */
-  manifestCheckinOption?: ManifestCheckinSpecificationManifestCheckinOption | (string & {});
+  manifestCheckinOption?:
+    | ManifestCheckinSpecificationManifestCheckinOption
+    | (string & {})
+    | undefined;
   /** The manifest checkin params. */
-  manifestCheckinParams?: CheckinManifestParams;
+  manifestCheckinParams?: CheckinManifestParams | undefined;
 }
 export interface CustomRolloutSpecificationInput {
   /** The auto provisioning configuration. */
-  autoProvisionConfig?: CustomRolloutSpecificationAutoProvisionConfig;
+  autoProvisionConfig?: CustomRolloutSpecificationAutoProvisionConfig | undefined;
   /** The canary region configuration. */
-  canary?: TrafficRegions;
+  canary?: TrafficRegions | undefined;
   /** The list of ARM regions scoped for the release. */
-  releaseScopes?: CustomRolloutSpecificationInputReleaseScopesList;
+  releaseScopes?: CustomRolloutSpecificationInputReleaseScopesList | undefined;
   /** Whether refreshing subscription registration is enabled or disabled. */
-  refreshSubscriptionRegistration?: boolean;
+  refreshSubscriptionRegistration?: boolean | undefined;
   /** Whether release scope validation should be skipped. */
-  skipReleaseScopeValidation?: boolean;
+  skipReleaseScopeValidation?: boolean | undefined;
   /** The provider registration. */
-  providerRegistration?: ProviderRegistrationInput;
+  providerRegistration?: ProviderRegistrationInput | undefined;
   /** The resource type registrations. */
-  resourceTypeRegistrations?: CustomRolloutSpecificationInputResourceTypeRegistrationsList;
+  resourceTypeRegistrations?:
+    | CustomRolloutSpecificationInputResourceTypeRegistrationsList
+    | undefined;
   /** The rollout id. */
-  rolloutId?: string;
+  rolloutId?: string | undefined;
   /** Orchestration metadata associated with the rollout. */
-  rolloutOrchestrationMetadata?: RolloutOrchestrationMetadata;
+  rolloutOrchestrationMetadata?: RolloutOrchestrationMetadata | undefined;
   /** The manifest checkin specification. */
-  manifestCheckinSpecification?: ManifestCheckinSpecification;
+  manifestCheckinSpecification?: ManifestCheckinSpecification | undefined;
 }
 /** The completed regions. */
 export type CustomRolloutStatusInputCompletedRegionsList = Array<string>;
@@ -1662,15 +1725,15 @@ export type ExtendedErrorInfoInputAdditionalInfoList = Array<TypedErrorInfoInput
 /** Error information. */
 export interface ExtendedErrorInfoInput {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error details. */
-  details?: ExtendedErrorInfoInputDetailsList;
+  details?: ExtendedErrorInfoInputDetailsList | undefined;
   /** The additional error information. */
-  additionalInfo?: ExtendedErrorInfoInputAdditionalInfoList;
+  additionalInfo?: ExtendedErrorInfoInputAdditionalInfoList | undefined;
 }
 /** The failed or skipped regions. */
 export type CustomRolloutStatusInputFailedOrSkippedRegionsMap = {
@@ -1679,31 +1742,31 @@ export type CustomRolloutStatusInputFailedOrSkippedRegionsMap = {
 /** Information about a manifest applied to a region. */
 export interface AppliedManifestInfoInput {
   /** Region to which the manifest was applied. */
-  region?: string;
+  region?: string | undefined;
   /** Time at which the manifest was applied. */
-  manifestAppliedAt?: string;
+  manifestAppliedAt?: string | undefined;
   /** Commit id of previous manifest. */
-  previousCommitId?: string;
+  previousCommitId?: string | undefined;
   /** Commit id of manifest being applied. */
-  appliedCommitId?: string;
+  appliedCommitId?: string | undefined;
 }
 /** Information about the manifests applied to the completed regions. */
 export type CustomRolloutStatusInputCompletedRegionsInfoList = Array<AppliedManifestInfoInput>;
 export interface CustomRolloutStatusInput {
   /** The completed regions. */
-  completedRegions?: CustomRolloutStatusInputCompletedRegionsList;
+  completedRegions?: CustomRolloutStatusInputCompletedRegionsList | undefined;
   /** The failed or skipped regions. */
-  failedOrSkippedRegions?: CustomRolloutStatusInputFailedOrSkippedRegionsMap;
+  failedOrSkippedRegions?: CustomRolloutStatusInputFailedOrSkippedRegionsMap | undefined;
   /** The manifest checkin status. */
-  manifestCheckinStatus?: CheckinManifestInfo;
+  manifestCheckinStatus?: CheckinManifestInfo | undefined;
   /** Information about the manifests applied to the completed regions. */
-  completedRegionsInfo?: CustomRolloutStatusInputCompletedRegionsInfoList;
+  completedRegionsInfo?: CustomRolloutStatusInputCompletedRegionsInfoList | undefined;
 }
 export interface CustomRolloutPropertiesInput {
   /** The specification. */
   specification: CustomRolloutSpecificationInput;
   /** The status. */
-  status?: CustomRolloutStatusInput;
+  status?: CustomRolloutStatusInput | undefined;
 }
 export interface CustomRolloutsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1722,57 +1785,57 @@ export type ProviderRegistrationKind = "Managed" | "Hybrid" | "Direct";
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface ProviderRegistration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ProviderRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ProviderRegistrationProperties | undefined;
   /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ProviderRegistrationKind;
+  kind?: ProviderRegistrationKind | undefined;
 }
 /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ResourceTypeRegistrationKind = "Managed" | "Hybrid" | "Direct";
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface ResourceTypeRegistration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ResourceTypeRegistrationKind;
+  kind?: ResourceTypeRegistrationKind | undefined;
 }
 /** The resource type registrations. */
 export type CustomRolloutSpecificationResourceTypeRegistrationsList =
   Array<ResourceTypeRegistration>;
 export interface CustomRolloutSpecification {
   /** The auto provisioning configuration. */
-  autoProvisionConfig?: CustomRolloutSpecificationAutoProvisionConfig;
+  autoProvisionConfig?: CustomRolloutSpecificationAutoProvisionConfig | undefined;
   /** The canary region configuration. */
-  canary?: TrafficRegions;
+  canary?: TrafficRegions | undefined;
   /** The list of ARM regions scoped for the release. */
-  releaseScopes?: CustomRolloutSpecificationReleaseScopesList;
+  releaseScopes?: CustomRolloutSpecificationReleaseScopesList | undefined;
   /** Whether refreshing subscription registration is enabled or disabled. */
-  refreshSubscriptionRegistration?: boolean;
+  refreshSubscriptionRegistration?: boolean | undefined;
   /** Whether release scope validation should be skipped. */
-  skipReleaseScopeValidation?: boolean;
+  skipReleaseScopeValidation?: boolean | undefined;
   /** The provider registration. */
-  providerRegistration?: ProviderRegistration;
+  providerRegistration?: ProviderRegistration | undefined;
   /** The resource type registrations. */
-  resourceTypeRegistrations?: CustomRolloutSpecificationResourceTypeRegistrationsList;
+  resourceTypeRegistrations?: CustomRolloutSpecificationResourceTypeRegistrationsList | undefined;
   /** The rollout id. */
-  rolloutId?: string;
+  rolloutId?: string | undefined;
   /** Orchestration metadata associated with the rollout. */
-  rolloutOrchestrationMetadata?: RolloutOrchestrationMetadata;
+  rolloutOrchestrationMetadata?: RolloutOrchestrationMetadata | undefined;
   /** The manifest checkin specification. */
-  manifestCheckinSpecification?: ManifestCheckinSpecification;
+  manifestCheckinSpecification?: ManifestCheckinSpecification | undefined;
 }
 /** The completed regions. */
 export type CustomRolloutStatusCompletedRegionsList = Array<string>;
@@ -1783,22 +1846,22 @@ export interface TypedErrorInfo {
   /** The type of the error. */
   type: string;
   /** The error information. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The additional error information. */
 export type ExtendedErrorInfoAdditionalInfoList = Array<TypedErrorInfo>;
 /** Error information. */
 export interface ExtendedErrorInfo {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The target of the error. */
-  target?: string;
+  target?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error details. */
-  details?: ExtendedErrorInfoDetailsList;
+  details?: ExtendedErrorInfoDetailsList | undefined;
   /** The additional error information. */
-  additionalInfo?: ExtendedErrorInfoAdditionalInfoList;
+  additionalInfo?: ExtendedErrorInfoAdditionalInfoList | undefined;
 }
 /** The failed or skipped regions. */
 export type CustomRolloutStatusFailedOrSkippedRegionsMap = {
@@ -1807,55 +1870,55 @@ export type CustomRolloutStatusFailedOrSkippedRegionsMap = {
 /** Information about a manifest applied to a region. */
 export interface AppliedManifestInfo {
   /** Region to which the manifest was applied. */
-  region?: string;
+  region?: string | undefined;
   /** Time at which the manifest was applied. */
-  manifestAppliedAt?: string;
+  manifestAppliedAt?: string | undefined;
   /** Commit id of previous manifest. */
-  previousCommitId?: string;
+  previousCommitId?: string | undefined;
   /** Commit id of manifest being applied. */
-  appliedCommitId?: string;
+  appliedCommitId?: string | undefined;
   /** The root resource provider namespace. */
-  rootProviderNamespace?: string;
+  rootProviderNamespace?: string | undefined;
 }
 /** Information about the manifests applied to the completed regions. */
 export type CustomRolloutStatusCompletedRegionsInfoList = Array<AppliedManifestInfo>;
 export interface CustomRolloutStatus {
   /** The completed regions. */
-  completedRegions?: CustomRolloutStatusCompletedRegionsList;
+  completedRegions?: CustomRolloutStatusCompletedRegionsList | undefined;
   /** The failed or skipped regions. */
-  failedOrSkippedRegions?: CustomRolloutStatusFailedOrSkippedRegionsMap;
+  failedOrSkippedRegions?: CustomRolloutStatusFailedOrSkippedRegionsMap | undefined;
   /** The manifest checkin status. */
-  manifestCheckinStatus?: CheckinManifestInfo;
+  manifestCheckinStatus?: CheckinManifestInfo | undefined;
   /** Information about the manifests applied to the completed regions. */
-  completedRegionsInfo?: CustomRolloutStatusCompletedRegionsInfoList;
+  completedRegionsInfo?: CustomRolloutStatusCompletedRegionsInfoList | undefined;
 }
 export interface CustomRolloutProperties {
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The specification. */
   specification: CustomRolloutSpecification;
   /** The status. */
-  status?: CustomRolloutStatus;
+  status?: CustomRolloutStatus | undefined;
 }
 export interface CustomRolloutsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rollout. */
   properties: CustomRolloutProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExpeditedRolloutDefinition {
   /** Indicates whether expedited rollout is enabled/disabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The skip regions. */
 export type CanaryTrafficRegionRolloutConfigurationSkipRegionsList = Array<string>;
@@ -1863,15 +1926,15 @@ export type CanaryTrafficRegionRolloutConfigurationSkipRegionsList = Array<strin
 export type CanaryTrafficRegionRolloutConfigurationRegionsList = Array<string>;
 export interface CanaryTrafficRegionRolloutConfiguration {
   /** The skip regions. */
-  skipRegions?: CanaryTrafficRegionRolloutConfigurationSkipRegionsList;
+  skipRegions?: CanaryTrafficRegionRolloutConfigurationSkipRegionsList | undefined;
   /** The regions. */
-  regions?: CanaryTrafficRegionRolloutConfigurationRegionsList;
+  regions?: CanaryTrafficRegionRolloutConfigurationRegionsList | undefined;
 }
 export type TrafficRegionRolloutConfigurationRegionsList = Array<string>;
 export interface TrafficRegionRolloutConfiguration {
-  regions?: TrafficRegionRolloutConfigurationRegionsList;
+  regions?: TrafficRegionRolloutConfigurationRegionsList | undefined;
   /** The wait duration. */
-  waitDuration?: string;
+  waitDuration?: string | undefined;
 }
 /** The resource type registrations. */
 export type DefaultRolloutSpecificationInputResourceTypeRegistrationsList =
@@ -1879,33 +1942,35 @@ export type DefaultRolloutSpecificationInputResourceTypeRegistrationsList =
 /** The auto provisioning config. */
 export interface DefaultRolloutSpecificationAutoProvisionConfig {
   /** Whether auto provisioning for storage is enabled. */
-  storage?: boolean;
+  storage?: boolean | undefined;
   /** Whether auto provisioning for resource graph is enabled. */
-  resourceGraph?: boolean;
+  resourceGraph?: boolean | undefined;
 }
 export interface DefaultRolloutSpecificationInput {
   /** The expedited rollout definition. */
-  expeditedRollout?: ExpeditedRolloutDefinition;
+  expeditedRollout?: ExpeditedRolloutDefinition | undefined;
   /** The canary traffic region configuration. */
-  canary?: CanaryTrafficRegionRolloutConfiguration;
+  canary?: CanaryTrafficRegionRolloutConfiguration | undefined;
   /** The low traffic region configuration. */
-  lowTraffic?: TrafficRegionRolloutConfiguration;
+  lowTraffic?: TrafficRegionRolloutConfiguration | undefined;
   /** The medium traffic region configuration. */
-  mediumTraffic?: TrafficRegionRolloutConfiguration;
+  mediumTraffic?: TrafficRegionRolloutConfiguration | undefined;
   /** The high traffic region configuration. */
-  highTraffic?: TrafficRegionRolloutConfiguration;
+  highTraffic?: TrafficRegionRolloutConfiguration | undefined;
   /** The rest of the world group one region configuration. */
-  restOfTheWorldGroupOne?: TrafficRegionRolloutConfiguration;
+  restOfTheWorldGroupOne?: TrafficRegionRolloutConfiguration | undefined;
   /** The rest of the world group two region configuration. */
-  restOfTheWorldGroupTwo?: TrafficRegionRolloutConfiguration;
+  restOfTheWorldGroupTwo?: TrafficRegionRolloutConfiguration | undefined;
   /** The provider registration. */
-  providerRegistration?: ProviderRegistrationInput;
+  providerRegistration?: ProviderRegistrationInput | undefined;
   /** The resource type registrations. */
-  resourceTypeRegistrations?: DefaultRolloutSpecificationInputResourceTypeRegistrationsList;
+  resourceTypeRegistrations?:
+    | DefaultRolloutSpecificationInputResourceTypeRegistrationsList
+    | undefined;
   /** The auto provisioning config. */
-  autoProvisionConfig?: DefaultRolloutSpecificationAutoProvisionConfig;
+  autoProvisionConfig?: DefaultRolloutSpecificationAutoProvisionConfig | undefined;
   /** The manifest checkin specification. */
-  manifestCheckinSpecification?: ManifestCheckinSpecification;
+  manifestCheckinSpecification?: ManifestCheckinSpecification | undefined;
 }
 /** The completed regions. */
 export type DefaultRolloutStatusInputCompletedRegionsList = Array<string>;
@@ -1931,23 +1996,23 @@ export type SubscriptionReregistrationResult =
   | "Failed";
 export interface DefaultRolloutStatusInput {
   /** The completed regions. */
-  completedRegions?: DefaultRolloutStatusInputCompletedRegionsList;
+  completedRegions?: DefaultRolloutStatusInputCompletedRegionsList | undefined;
   /** The failed or skipped regions. */
-  failedOrSkippedRegions?: DefaultRolloutStatusInputFailedOrSkippedRegionsMap;
+  failedOrSkippedRegions?: DefaultRolloutStatusInputFailedOrSkippedRegionsMap | undefined;
   /** The next traffic region. */
-  nextTrafficRegion?: TrafficRegionCategory | (string & {});
+  nextTrafficRegion?: TrafficRegionCategory | (string & {}) | undefined;
   /** The next traffic region scheduled time. */
-  nextTrafficRegionScheduledTime?: string;
+  nextTrafficRegionScheduledTime?: string | undefined;
   /** The subscription reregistration result. */
-  subscriptionReregistrationResult?: SubscriptionReregistrationResult | (string & {});
+  subscriptionReregistrationResult?: SubscriptionReregistrationResult | (string & {}) | undefined;
   /** The manifest checkin status. */
-  manifestCheckinStatus?: CheckinManifestInfo;
+  manifestCheckinStatus?: CheckinManifestInfo | undefined;
 }
 export interface DefaultRolloutPropertiesInput {
   /** The default rollout specification. */
-  specification?: DefaultRolloutSpecificationInput;
+  specification?: DefaultRolloutSpecificationInput | undefined;
   /** The default rollout status. */
-  status?: DefaultRolloutStatusInput;
+  status?: DefaultRolloutStatusInput | undefined;
 }
 export interface DefaultRolloutsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1957,34 +2022,34 @@ export interface DefaultRolloutsCreateOrUpdateRequest {
   /** The rollout name. */
   rolloutName: string;
   /** Properties of the rollout. */
-  properties?: DefaultRolloutPropertiesInput;
+  properties?: DefaultRolloutPropertiesInput | undefined;
 }
 /** The resource type registrations. */
 export type DefaultRolloutSpecificationResourceTypeRegistrationsList =
   Array<ResourceTypeRegistration>;
 export interface DefaultRolloutSpecification {
   /** The expedited rollout definition. */
-  expeditedRollout?: ExpeditedRolloutDefinition;
+  expeditedRollout?: ExpeditedRolloutDefinition | undefined;
   /** The canary traffic region configuration. */
-  canary?: CanaryTrafficRegionRolloutConfiguration;
+  canary?: CanaryTrafficRegionRolloutConfiguration | undefined;
   /** The low traffic region configuration. */
-  lowTraffic?: TrafficRegionRolloutConfiguration;
+  lowTraffic?: TrafficRegionRolloutConfiguration | undefined;
   /** The medium traffic region configuration. */
-  mediumTraffic?: TrafficRegionRolloutConfiguration;
+  mediumTraffic?: TrafficRegionRolloutConfiguration | undefined;
   /** The high traffic region configuration. */
-  highTraffic?: TrafficRegionRolloutConfiguration;
+  highTraffic?: TrafficRegionRolloutConfiguration | undefined;
   /** The rest of the world group one region configuration. */
-  restOfTheWorldGroupOne?: TrafficRegionRolloutConfiguration;
+  restOfTheWorldGroupOne?: TrafficRegionRolloutConfiguration | undefined;
   /** The rest of the world group two region configuration. */
-  restOfTheWorldGroupTwo?: TrafficRegionRolloutConfiguration;
+  restOfTheWorldGroupTwo?: TrafficRegionRolloutConfiguration | undefined;
   /** The provider registration. */
-  providerRegistration?: ProviderRegistration;
+  providerRegistration?: ProviderRegistration | undefined;
   /** The resource type registrations. */
-  resourceTypeRegistrations?: DefaultRolloutSpecificationResourceTypeRegistrationsList;
+  resourceTypeRegistrations?: DefaultRolloutSpecificationResourceTypeRegistrationsList | undefined;
   /** The auto provisioning config. */
-  autoProvisionConfig?: DefaultRolloutSpecificationAutoProvisionConfig;
+  autoProvisionConfig?: DefaultRolloutSpecificationAutoProvisionConfig | undefined;
   /** The manifest checkin specification. */
-  manifestCheckinSpecification?: ManifestCheckinSpecification;
+  manifestCheckinSpecification?: ManifestCheckinSpecification | undefined;
 }
 /** The completed regions. */
 export type DefaultRolloutStatusCompletedRegionsList = Array<string>;
@@ -1994,41 +2059,41 @@ export type DefaultRolloutStatusFailedOrSkippedRegionsMap = {
 };
 export interface DefaultRolloutStatus {
   /** The completed regions. */
-  completedRegions?: DefaultRolloutStatusCompletedRegionsList;
+  completedRegions?: DefaultRolloutStatusCompletedRegionsList | undefined;
   /** The failed or skipped regions. */
-  failedOrSkippedRegions?: DefaultRolloutStatusFailedOrSkippedRegionsMap;
+  failedOrSkippedRegions?: DefaultRolloutStatusFailedOrSkippedRegionsMap | undefined;
   /** The next traffic region. */
-  nextTrafficRegion?: TrafficRegionCategory;
+  nextTrafficRegion?: TrafficRegionCategory | undefined;
   /** The next traffic region scheduled time. */
-  nextTrafficRegionScheduledTime?: string;
+  nextTrafficRegionScheduledTime?: string | undefined;
   /** The subscription reregistration result. */
-  subscriptionReregistrationResult?: SubscriptionReregistrationResult;
+  subscriptionReregistrationResult?: SubscriptionReregistrationResult | undefined;
   /** The manifest checkin status. */
-  manifestCheckinStatus?: CheckinManifestInfo;
+  manifestCheckinStatus?: CheckinManifestInfo | undefined;
 }
 export interface DefaultRolloutProperties {
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The default rollout specification. */
-  specification?: DefaultRolloutSpecification;
+  specification?: DefaultRolloutSpecification | undefined;
   /** The default rollout status. */
-  status?: DefaultRolloutStatus;
+  status?: DefaultRolloutStatus | undefined;
 }
 export interface DefaultRolloutsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rollout. */
-  properties?: DefaultRolloutProperties;
+  properties?: DefaultRolloutProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAuthorizedApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2149,9 +2214,9 @@ export interface ResourceManagementEntityInput {
   /** The resource id. */
   resourceId: string;
   /** The home tenant id. */
-  homeTenantId?: string;
+  homeTenantId?: string | undefined;
   /** The location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** resource management action content. */
 export type DeleteResourceActionResourcesRequestResourcesList =
@@ -2164,13 +2229,13 @@ export interface DeleteResourceActionResourcesRequest {
   /** The resource action name. */
   resourceActionName: string;
   /** resource management action content. */
-  resources?: DeleteResourceActionResourcesRequestResourcesList;
+  resources?: DeleteResourceActionResourcesRequestResourcesList | undefined;
 }
 export interface DeleteResourceActionResourcesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteResourceTypeRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2182,9 +2247,9 @@ export interface DeleteResourceTypeRegistrationRequest {
 }
 export interface DeleteResourceTypeRegistrationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteResourceTypeRegistrationNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2198,9 +2263,9 @@ export interface DeleteResourceTypeRegistrationNestedResourceTypeFirstRequest {
 }
 export interface DeleteResourceTypeRegistrationNestedResourceTypeFirstResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2271,33 +2336,33 @@ export type EndpointRegistrationPropertiesZonesList = Array<string>;
 /** Properties of an independently managed endpoint definition. */
 export interface EndpointRegistrationProperties {
   /** Whether the endpoint is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The api versions. */
-  apiVersions?: EndpointRegistrationPropertiesApiVersionsList;
+  apiVersions?: EndpointRegistrationPropertiesApiVersionsList | undefined;
   /** The locations. */
-  locations?: EndpointRegistrationPropertiesLocationsList;
+  locations?: EndpointRegistrationPropertiesLocationsList | undefined;
   /** The required features. */
-  requiredFeatures?: EndpointRegistrationPropertiesRequiredFeaturesList;
+  requiredFeatures?: EndpointRegistrationPropertiesRequiredFeaturesList | undefined;
   /** The features rule. */
-  featuresRule?: FeaturesRule;
+  featuresRule?: FeaturesRule | undefined;
   /** The extensions. */
-  extensions?: EndpointRegistrationPropertiesExtensionsList;
+  extensions?: EndpointRegistrationPropertiesExtensionsList | undefined;
   /** The timeout. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** The endpoint type. */
-  endpointType?: EndpointTypeResourceType | (string & {});
+  endpointType?: EndpointTypeResourceType | (string & {}) | undefined;
   /** The token auth configuration. */
-  tokenAuthConfiguration?: TokenAuthConfiguration;
+  tokenAuthConfiguration?: TokenAuthConfiguration | undefined;
   /** The sku link. */
-  skuLink?: string;
+  skuLink?: string | undefined;
   /** Api version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** List of zones. */
-  zones?: EndpointRegistrationPropertiesZonesList;
+  zones?: EndpointRegistrationPropertiesZonesList | undefined;
   /** The data boundary. */
-  dataBoundary?: DataBoundary | (string & {});
+  dataBoundary?: DataBoundary | (string & {}) | undefined;
   /** The URI of the endpoint. */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateRequestKind = "Managed" | "Direct";
@@ -2313,23 +2378,23 @@ export interface EndpointRegistrationsCreateOrUpdateRequest {
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateRequestKind | (string & {});
+  kind?: EndpointRegistrationsCreateOrUpdateRequestKind | (string & {}) | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateResponseKind = "Managed" | "Direct";
 export interface EndpointRegistrationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateResponseKind;
+  kind?: EndpointRegistrationsCreateOrUpdateResponseKind | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstRequestKind =
@@ -2349,7 +2414,10 @@ export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstReque
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstRequestKind | (string & {});
+  kind?:
+    | EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstRequestKind
+    | (string & {})
+    | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstResponseKind =
@@ -2357,17 +2425,17 @@ export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstResponseKi
   | "Direct";
 export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstResponseKind;
+  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeFirstResponseKind | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondRequestKind =
@@ -2389,7 +2457,10 @@ export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondRequ
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondRequestKind | (string & {});
+  kind?:
+    | EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondRequestKind
+    | (string & {})
+    | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondResponseKind =
@@ -2397,17 +2468,17 @@ export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondResponseK
   | "Direct";
 export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondResponseKind;
+  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeSecondResponseKind | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdRequestKind =
@@ -2431,7 +2502,10 @@ export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdReque
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdRequestKind | (string & {});
+  kind?:
+    | EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdRequestKind
+    | (string & {})
+    | undefined;
 }
 /** The endpoint kind used to select the routing behavior. */
 export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdResponseKind =
@@ -2439,17 +2513,17 @@ export type EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdResponseKi
   | "Direct";
 export interface EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdResponseKind;
+  kind?: EndpointRegistrationsCreateOrUpdateNestedResourceTypeThirdResponseKind | undefined;
 }
 export interface GenerateManifestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2485,7 +2559,7 @@ export type ResourceTypeThrottlingRulesList = Array<ThrottlingRule>;
 export type ResourceTypeEndpointsList = Array<ResourceProviderEndpoint>;
 export interface IdentityManagement {
   /** The type. */
-  type?: IdentityManagementTypes;
+  type?: IdentityManagementTypes | undefined;
 }
 /** The required features. */
 export type ResourceTypeRequiredFeaturesList = Array<string>;
@@ -2505,67 +2579,69 @@ export type ResourceTypeNotificationsList = Array<Notification>;
 export type ResourceTypeLinkedNotificationRulesList = Array<LinkedNotificationRule>;
 export interface ResourceType {
   /** The resource type name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource routing type. */
-  routingType?: RoutingType;
+  routingType?: RoutingType | undefined;
   /** The additional options. */
-  additionalOptions?: AdditionalOptions;
+  additionalOptions?: AdditionalOptions | undefined;
   /** The cross tenant token validation. */
-  crossTenantTokenValidation?: CrossTenantTokenValidation;
+  crossTenantTokenValidation?: CrossTenantTokenValidation | undefined;
   /** The resource validation. */
-  resourceValidation?: ResourceValidation;
+  resourceValidation?: ResourceValidation | undefined;
   /** The allowed unauthorized actions. */
-  allowedUnauthorizedActions?: ResourceTypeAllowedUnauthorizedActionsList;
+  allowedUnauthorizedActions?: ResourceTypeAllowedUnauthorizedActionsList | undefined;
   /** The allowed unauthorized actions extensions. */
-  allowedUnauthorizedActionsExtensions?: ResourceTypeAllowedUnauthorizedActionsExtensionsList;
+  allowedUnauthorizedActionsExtensions?:
+    | ResourceTypeAllowedUnauthorizedActionsExtensionsList
+    | undefined;
   /** The authorization action mappings. */
-  authorizationActionMappings?: ResourceTypeAuthorizationActionMappingsList;
+  authorizationActionMappings?: ResourceTypeAuthorizationActionMappingsList | undefined;
   /** The linked access checks. */
-  linkedAccessChecks?: ResourceTypeLinkedAccessChecksList;
+  linkedAccessChecks?: ResourceTypeLinkedAccessChecksList | undefined;
   /** The default api version. */
-  defaultApiVersion?: string;
+  defaultApiVersion?: string | undefined;
   /** The logging rules. */
-  loggingRules?: ResourceTypeLoggingRulesList;
+  loggingRules?: ResourceTypeLoggingRulesList | undefined;
   /** The throttling rules. */
-  throttlingRules?: ResourceTypeThrottlingRulesList;
+  throttlingRules?: ResourceTypeThrottlingRulesList | undefined;
   /** The endpoints. */
-  endpoints?: ResourceTypeEndpointsList;
+  endpoints?: ResourceTypeEndpointsList | undefined;
   /** The marketplace type. */
-  marketplaceType?: MarketplaceType;
+  marketplaceType?: MarketplaceType | undefined;
   /** The identity management. */
-  identityManagement?: IdentityManagement;
+  identityManagement?: IdentityManagement | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The required features. */
-  requiredFeatures?: ResourceTypeRequiredFeaturesList;
+  requiredFeatures?: ResourceTypeRequiredFeaturesList | undefined;
   /** The features rule. */
-  featuresRule?: FeaturesRule;
+  featuresRule?: FeaturesRule | undefined;
   /** The subscription state rules. */
-  subscriptionStateRules?: ResourceTypeSubscriptionStateRulesList;
+  subscriptionStateRules?: ResourceTypeSubscriptionStateRulesList | undefined;
   /** The request header options. */
-  requestHeaderOptions?: RequestHeaderOptions;
+  requestHeaderOptions?: RequestHeaderOptions | undefined;
   /** The sku link. */
-  skuLink?: string;
+  skuLink?: string | undefined;
   /** The disallowed action verbs. */
-  disallowedActionVerbs?: ResourceTypeDisallowedActionVerbsList;
+  disallowedActionVerbs?: ResourceTypeDisallowedActionVerbsList | undefined;
   /** The template deployment policy. */
-  templateDeploymentPolicy?: TemplateDeploymentPolicy;
+  templateDeploymentPolicy?: TemplateDeploymentPolicy | undefined;
   /** The extended locations. */
-  extendedLocations?: ResourceTypeExtendedLocationsList;
+  extendedLocations?: ResourceTypeExtendedLocationsList | undefined;
   /** The linked operation rules. */
-  linkedOperationRules?: ResourceTypeLinkedOperationRulesList;
+  linkedOperationRules?: ResourceTypeLinkedOperationRulesList | undefined;
   /** The resource deletion policy. */
-  resourceDeletionPolicy?: ResourceDeletionPolicy;
+  resourceDeletionPolicy?: ResourceDeletionPolicy | undefined;
   /** List of resource deletion policies added. */
-  resourceDeletionPolicies?: ResourceTypeResourceDeletionPoliciesList;
+  resourceDeletionPolicies?: ResourceTypeResourceDeletionPoliciesList | undefined;
   /** The quota rule. */
-  quotaRule?: QuotaRule;
+  quotaRule?: QuotaRule | undefined;
   /** The notifications. */
-  notifications?: ResourceTypeNotificationsList;
+  notifications?: ResourceTypeNotificationsList | undefined;
   /** The linked notification rules. */
-  linkedNotificationRules?: ResourceTypeLinkedNotificationRulesList;
+  linkedNotificationRules?: ResourceTypeLinkedNotificationRulesList | undefined;
   /** The resource provider authorization rules. */
-  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules;
+  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules | undefined;
 }
 /** The resource types. */
 export type ResourceProviderManifestResourceTypesList = Array<ResourceType>;
@@ -2578,7 +2654,7 @@ export interface ReRegisterSubscriptionMetadata {
   /** Whether it's enabled or not. */
   enabled: boolean;
   /** The concurrency limit. */
-  concurrencyLimit?: number;
+  concurrencyLimit?: number | undefined;
 }
 /** The notifications. */
 export type ResourceProviderManifestNotificationsList = Array<Notification>;
@@ -2587,49 +2663,49 @@ export type ResourceProviderManifestLinkedNotificationRulesList =
   Array<FanoutLinkedNotificationRule>;
 export interface ResourceProviderManifest {
   /** The provider authentication. */
-  providerAuthentication?: ResourceProviderAuthentication;
+  providerAuthentication?: ResourceProviderAuthentication | undefined;
   /** The provider authorizations. */
-  providerAuthorizations?: ResourceProviderManifestProviderAuthorizationsList;
+  providerAuthorizations?: ResourceProviderManifestProviderAuthorizationsList | undefined;
   /** The namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The services. */
-  services?: ResourceProviderManifestServicesList;
+  services?: ResourceProviderManifestServicesList | undefined;
   /** The service name. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The provider version. */
-  providerVersion?: string;
+  providerVersion?: string | undefined;
   /** The provider type. */
-  providerType?: ResourceProviderType;
+  providerType?: ResourceProviderType | undefined;
   /** The required features. */
-  requiredFeatures?: ResourceProviderManifestRequiredFeaturesList;
+  requiredFeatures?: ResourceProviderManifestRequiredFeaturesList | undefined;
   /** The features rule. */
-  featuresRule?: FeaturesRule;
+  featuresRule?: FeaturesRule | undefined;
   /** The request header options. */
-  requestHeaderOptions?: RequestHeaderOptions;
+  requestHeaderOptions?: RequestHeaderOptions | undefined;
   /** The resource types. */
-  resourceTypes?: ResourceProviderManifestResourceTypesList;
+  resourceTypes?: ResourceProviderManifestResourceTypesList | undefined;
   /** The resource provider management. */
-  management?: ResourceProviderManagement;
+  management?: ResourceProviderManagement | undefined;
   /** The capabilities. */
-  capabilities?: ResourceProviderManifestCapabilitiesList;
+  capabilities?: ResourceProviderManifestCapabilitiesList | undefined;
   /** The cross tenant token validation. */
-  crossTenantTokenValidation?: CrossTenantTokenValidation;
+  crossTenantTokenValidation?: CrossTenantTokenValidation | undefined;
   /** The metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The global notification endpoints. */
-  globalNotificationEndpoints?: ResourceProviderManifestGlobalNotificationEndpointsList;
+  globalNotificationEndpoints?: ResourceProviderManifestGlobalNotificationEndpointsList | undefined;
   /** The re-register subscription metadata. */
-  reRegisterSubscriptionMetadata?: ReRegisterSubscriptionMetadata;
+  reRegisterSubscriptionMetadata?: ReRegisterSubscriptionMetadata | undefined;
   /** Whether tenant linked notification is enabled. */
-  enableTenantLinkedNotification?: boolean | null;
+  enableTenantLinkedNotification?: boolean | null | undefined;
   /** The notifications. */
-  notifications?: ResourceProviderManifestNotificationsList;
+  notifications?: ResourceProviderManifestNotificationsList | undefined;
   /** The linked notification rules. */
-  linkedNotificationRules?: ResourceProviderManifestLinkedNotificationRulesList;
+  linkedNotificationRules?: ResourceProviderManifestLinkedNotificationRulesList | undefined;
   /** The resource provider authorization rules. */
-  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules;
+  resourceProviderAuthorizationRules?: ResourceProviderAuthorizationRules | undefined;
   /** The token auth configuration. */
-  tokenAuthConfiguration?: TokenAuthConfiguration;
+  tokenAuthConfiguration?: TokenAuthConfiguration | undefined;
 }
 export interface GenerateProviderRegistrationOperationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2656,15 +2732,15 @@ export interface OperationsDefinition {
   /** Name of the operation. */
   name: string;
   /** Indicates whether the operation applies to data-plane. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The origin. */
-  origin?: OperationOrigins;
+  origin?: OperationOrigins | undefined;
   /** Display information of the operation. */
   display: OperationsDisplayDefinition;
   /** The action type. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
   /** Anything */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export type GenerateProviderRegistrationOperationsResponseBodyList = Array<OperationsDefinition>;
 export type GenerateProviderRegistrationOperationsResponse =
@@ -2679,14 +2755,14 @@ export interface GetAuthorizedApplicationRequest {
 }
 export interface GetAuthorizedApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: AuthorizedApplicationProperties;
+  systemData?: SystemData | undefined;
+  properties?: AuthorizedApplicationProperties | undefined;
 }
 export interface GetCustomRolloutRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2698,13 +2774,13 @@ export interface GetCustomRolloutRequest {
 }
 export interface GetCustomRolloutResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rollout. */
   properties: CustomRolloutProperties;
 }
@@ -2718,15 +2794,15 @@ export interface GetDefaultRolloutRequest {
 }
 export interface GetDefaultRolloutResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rollout. */
-  properties?: DefaultRolloutProperties;
+  properties?: DefaultRolloutProperties | undefined;
 }
 export interface GetEndpointRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2742,17 +2818,17 @@ export interface GetEndpointRegistrationRequest {
 export type GetEndpointRegistrationResponseKind = "Managed" | "Direct";
 export interface GetEndpointRegistrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: GetEndpointRegistrationResponseKind;
+  kind?: GetEndpointRegistrationResponseKind | undefined;
 }
 export interface GetEndpointRegistrationNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2770,17 +2846,17 @@ export interface GetEndpointRegistrationNestedResourceTypeFirstRequest {
 export type GetEndpointRegistrationNestedResourceTypeFirstResponseKind = "Managed" | "Direct";
 export interface GetEndpointRegistrationNestedResourceTypeFirstResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: GetEndpointRegistrationNestedResourceTypeFirstResponseKind;
+  kind?: GetEndpointRegistrationNestedResourceTypeFirstResponseKind | undefined;
 }
 export interface GetEndpointRegistrationNestedResourceTypeSecondRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2800,17 +2876,17 @@ export interface GetEndpointRegistrationNestedResourceTypeSecondRequest {
 export type GetEndpointRegistrationNestedResourceTypeSecondResponseKind = "Managed" | "Direct";
 export interface GetEndpointRegistrationNestedResourceTypeSecondResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: GetEndpointRegistrationNestedResourceTypeSecondResponseKind;
+  kind?: GetEndpointRegistrationNestedResourceTypeSecondResponseKind | undefined;
 }
 export interface GetEndpointRegistrationNestedResourceTypeThirdRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2832,17 +2908,17 @@ export interface GetEndpointRegistrationNestedResourceTypeThirdRequest {
 export type GetEndpointRegistrationNestedResourceTypeThirdResponseKind = "Managed" | "Direct";
 export interface GetEndpointRegistrationNestedResourceTypeThirdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: GetEndpointRegistrationNestedResourceTypeThirdResponseKind;
+  kind?: GetEndpointRegistrationNestedResourceTypeThirdResponseKind | undefined;
 }
 export interface GetManifestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2855,23 +2931,23 @@ export interface GetManifestRequest {
 /** The manifest properties. */
 export interface ManifestInfoProperties {
   /** The manifest. */
-  manifest?: string;
+  manifest?: string | undefined;
   /** The URI the manifest content is read from when the manifest is not supplied inline. */
-  manifestUri?: string;
+  manifestUri?: string | undefined;
   /** The manifest commit identifier. */
-  commitId?: string;
+  commitId?: string | undefined;
 }
 export interface GetManifestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The manifest properties. */
-  properties?: ManifestInfoProperties;
+  properties?: ManifestInfoProperties | undefined;
 }
 export interface GetNotificationRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2891,35 +2967,35 @@ export type NotificationRegistrationPropertiesIncludedEventsList = Array<string>
 export type NotificationEndpointLocationsList = Array<string>;
 export interface NotificationEndpoint {
   /** The notification destination. */
-  notificationDestination?: string;
+  notificationDestination?: string | undefined;
   /** The locations. */
-  locations?: NotificationEndpointLocationsList;
+  locations?: NotificationEndpointLocationsList | undefined;
 }
 /** The notification endpoints. */
 export type NotificationRegistrationPropertiesNotificationEndpointsList =
   Array<NotificationEndpoint>;
 export interface NotificationRegistrationProperties {
   /** The notification mode. */
-  notificationMode?: NotificationMode | (string & {});
+  notificationMode?: NotificationMode | (string & {}) | undefined;
   /** The message scope. */
-  messageScope?: MessageScope | (string & {});
+  messageScope?: MessageScope | (string & {}) | undefined;
   /** The included events. */
-  includedEvents?: NotificationRegistrationPropertiesIncludedEventsList;
+  includedEvents?: NotificationRegistrationPropertiesIncludedEventsList | undefined;
   /** The notification endpoints. */
-  notificationEndpoints?: NotificationRegistrationPropertiesNotificationEndpointsList;
+  notificationEndpoints?: NotificationRegistrationPropertiesNotificationEndpointsList | undefined;
   /** The provisioned state of the resource. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetNotificationRegistrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NotificationRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NotificationRegistrationProperties | undefined;
 }
 export interface GetProviderMonitorSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2933,18 +3009,18 @@ export interface GetProviderMonitorSettingsRequest {
 export type GetProviderMonitorSettingsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProviderMonitorSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetProviderMonitorSettingsResponseTagsMap;
+  tags?: GetProviderMonitorSettingsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: ProviderMonitorSettingProperties;
+  properties?: ProviderMonitorSettingProperties | undefined;
 }
 export interface GetProviderRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2956,16 +3032,16 @@ export interface GetProviderRegistrationRequest {
 export type GetProviderRegistrationResponseKind = "Managed" | "Hybrid" | "Direct";
 export interface GetProviderRegistrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ProviderRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ProviderRegistrationProperties | undefined;
   /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: GetProviderRegistrationResponseKind;
+  kind?: GetProviderRegistrationResponseKind | undefined;
 }
 export interface GetResourceTypeRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2979,16 +3055,16 @@ export interface GetResourceTypeRegistrationRequest {
 export type GetResourceTypeRegistrationResponseKind = "Managed" | "Hybrid" | "Direct";
 export interface GetResourceTypeRegistrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: GetResourceTypeRegistrationResponseKind;
+  kind?: GetResourceTypeRegistrationResponseKind | undefined;
 }
 export interface GetResourceTypeRegistrationNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3007,16 +3083,16 @@ export type GetResourceTypeRegistrationNestedResourceTypeFirstResponseKind =
   | "Direct";
 export interface GetResourceTypeRegistrationNestedResourceTypeFirstResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: GetResourceTypeRegistrationNestedResourceTypeFirstResponseKind;
+  kind?: GetResourceTypeRegistrationNestedResourceTypeFirstResponseKind | undefined;
 }
 export interface GetSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3044,9 +3120,9 @@ export interface SkuCapability {
 export type SkuZoneDetailCapabilitiesList = Array<SkuCapability>;
 export interface SkuZoneDetail {
   /** The name. */
-  name?: SkuZoneDetailNameList;
+  name?: SkuZoneDetailNameList | undefined;
   /** The capabilities. */
-  capabilities?: SkuZoneDetailCapabilitiesList;
+  capabilities?: SkuZoneDetailCapabilitiesList | undefined;
 }
 /** The zone details. */
 export type SkuLocationInfoZoneDetailsList = Array<SkuZoneDetail>;
@@ -3056,13 +3132,13 @@ export interface SkuLocationInfo {
   /** The location. */
   location: string;
   /** The zones. */
-  zones?: SkuLocationInfoZonesList;
+  zones?: SkuLocationInfoZonesList | undefined;
   /** The zone details. */
-  zoneDetails?: SkuLocationInfoZoneDetailsList;
+  zoneDetails?: SkuLocationInfoZoneDetailsList | undefined;
   /** The extended locations. */
-  extendedLocations?: SkuLocationInfoExtendedLocationsList;
+  extendedLocations?: SkuLocationInfoExtendedLocationsList | undefined;
   /** The type. */
-  type?: ExtendedLocationType | (string & {});
+  type?: ExtendedLocationType | (string & {}) | undefined;
 }
 /** The location info. */
 export type SkuSettingLocationInfoList = Array<SkuLocationInfo>;
@@ -3076,19 +3152,19 @@ export interface SkuCapacity {
   /** The minimum. */
   minimum: number;
   /** The maximum. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default. */
-  default?: number;
+  default?: number | undefined;
   /** The scale type. */
-  scaleType?: SkuScaleType | (string & {});
+  scaleType?: SkuScaleType | (string & {}) | undefined;
 }
 export interface SkuCost {
   /** The meter id. */
   meterId: string;
   /** The quantity. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The extended unit. */
-  extendedUnit?: string;
+  extendedUnit?: string | undefined;
 }
 /** The costs. */
 export type SkuSettingCostsList = Array<SkuCost>;
@@ -3098,27 +3174,27 @@ export interface SkuSetting {
   /** The name. */
   name: string;
   /** The tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** The size. */
-  size?: string;
+  size?: string | undefined;
   /** The family. */
-  family?: string;
+  family?: string | undefined;
   /** The kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** The locations. */
-  locations?: SkuSettingLocationsList;
+  locations?: SkuSettingLocationsList | undefined;
   /** The location info. */
-  locationInfo?: SkuSettingLocationInfoList;
+  locationInfo?: SkuSettingLocationInfoList | undefined;
   /** The required quota ids. */
-  requiredQuotaIds?: SkuSettingRequiredQuotaIdsList;
+  requiredQuotaIds?: SkuSettingRequiredQuotaIdsList | undefined;
   /** The required features. */
-  requiredFeatures?: SkuSettingRequiredFeaturesList;
+  requiredFeatures?: SkuSettingRequiredFeaturesList | undefined;
   /** The capacity. */
-  capacity?: SkuCapacity;
+  capacity?: SkuCapacity | undefined;
   /** The costs. */
-  costs?: SkuSettingCostsList;
+  costs?: SkuSettingCostsList | undefined;
   /** The capabilities. */
-  capabilities?: SkuSettingCapabilitiesList;
+  capabilities?: SkuSettingCapabilitiesList | undefined;
 }
 /** The sku settings. */
 export type ResourceTypeSkuSkuSettingsList = Array<SkuSetting>;
@@ -3126,18 +3202,18 @@ export interface ResourceTypeSku {
   /** The sku settings. */
   skuSettings: ResourceTypeSkuSkuSettingsList;
   /** The provisioning state. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface GetSkusNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3153,14 +3229,14 @@ export interface GetSkusNestedResourceTypeFirstRequest {
 }
 export interface GetSkusNestedResourceTypeFirstResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface GetSkusNestedResourceTypeSecondRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3178,14 +3254,14 @@ export interface GetSkusNestedResourceTypeSecondRequest {
 }
 export interface GetSkusNestedResourceTypeSecondResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface GetSkusNestedResourceTypeThirdRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3205,14 +3281,14 @@ export interface GetSkusNestedResourceTypeThirdRequest {
 }
 export interface GetSkusNestedResourceTypeThirdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface ListAuthorizedApplicationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3223,14 +3299,14 @@ export interface ListAuthorizedApplicationsRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface AuthorizedApplication {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: AuthorizedApplicationProperties;
+  systemData?: SystemData | undefined;
+  properties?: AuthorizedApplicationProperties | undefined;
 }
 /** The AuthorizedApplication items on this page */
 export type AuthorizedApplicationArrayResponseWithContinuationValueList =
@@ -3240,7 +3316,7 @@ export interface AuthorizedApplicationArrayResponseWithContinuation {
   /** The AuthorizedApplication items on this page */
   value: AuthorizedApplicationArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCustomRolloutByProviderRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3251,13 +3327,13 @@ export interface ListCustomRolloutByProviderRegistrationRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface CustomRollout {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rollout. */
   properties: CustomRolloutProperties;
 }
@@ -3268,7 +3344,7 @@ export interface CustomRolloutArrayResponseWithContinuation {
   /** The CustomRollout items on this page */
   value: CustomRolloutArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDefaultRolloutByProviderRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3279,15 +3355,15 @@ export interface ListDefaultRolloutByProviderRegistrationRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface DefaultRollout {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rollout. */
-  properties?: DefaultRolloutProperties;
+  properties?: DefaultRolloutProperties | undefined;
 }
 /** The DefaultRollout items on this page */
 export type DefaultRolloutArrayResponseWithContinuationValueList = Array<DefaultRollout>;
@@ -3296,7 +3372,7 @@ export interface DefaultRolloutArrayResponseWithContinuation {
   /** The DefaultRollout items on this page */
   value: DefaultRolloutArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEndpointRegistrationByResourceTypeRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3311,17 +3387,17 @@ export type EndpointRegistrationKind = "Managed" | "Direct";
 /** An independently managed endpoint definition for a Resource Type Registration. */
 export interface EndpointRegistration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The endpoint configuration. */
   properties: EndpointRegistrationProperties;
   /** The endpoint kind used to select the routing behavior. */
-  kind?: EndpointRegistrationKind;
+  kind?: EndpointRegistrationKind | undefined;
 }
 /** The endpoint registrations in this page. */
 export type EndpointRegistrationArrayResponseWithContinuationValueList =
@@ -3329,9 +3405,9 @@ export type EndpointRegistrationArrayResponseWithContinuationValueList =
 /** A page of endpoint registrations. */
 export interface EndpointRegistrationArrayResponseWithContinuation {
   /** The endpoint registrations in this page. */
-  value?: EndpointRegistrationArrayResponseWithContinuationValueList;
+  value?: EndpointRegistrationArrayResponseWithContinuationValueList | undefined;
   /** The link to the next page of endpoint registrations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEndpointRegistrationByResourceTypeRegistrationNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3378,14 +3454,14 @@ export interface ListNotificationRegistrationByProviderRegistrationRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface NotificationRegistration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NotificationRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NotificationRegistrationProperties | undefined;
 }
 /** The NotificationRegistration items on this page */
 export type NotificationRegistrationArrayResponseWithContinuationValueList =
@@ -3395,7 +3471,7 @@ export interface NotificationRegistrationArrayResponseWithContinuation {
   /** The NotificationRegistration items on this page */
   value: NotificationRegistrationArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationByProviderRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3407,72 +3483,72 @@ export interface LocalizedOperationDisplayDefinition {
   /** Display information of the operation. */
   default: OperationsDisplayDefinition;
   /** Display information of the operation for en locale. */
-  en?: OperationsDisplayDefinition;
+  en?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for cs locale. */
-  cs?: OperationsDisplayDefinition;
+  cs?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for de locale. */
-  de?: OperationsDisplayDefinition;
+  de?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for es locale. */
-  es?: OperationsDisplayDefinition;
+  es?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for fr locale. */
-  fr?: OperationsDisplayDefinition;
+  fr?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for hu locale. */
-  hu?: OperationsDisplayDefinition;
+  hu?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for it locale. */
-  it?: OperationsDisplayDefinition;
+  it?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for ja locale. */
-  ja?: OperationsDisplayDefinition;
+  ja?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for ko locale. */
-  ko?: OperationsDisplayDefinition;
+  ko?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for nl locale. */
-  nl?: OperationsDisplayDefinition;
+  nl?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for pl locale. */
-  pl?: OperationsDisplayDefinition;
+  pl?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for pt-BR locale. */
-  ptBR?: OperationsDisplayDefinition;
+  ptBR?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for pt-PT locale. */
-  ptPT?: OperationsDisplayDefinition;
+  ptPT?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for ru locale. */
-  ru?: OperationsDisplayDefinition;
+  ru?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for sv locale. */
-  sv?: OperationsDisplayDefinition;
+  sv?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for zh-Hans locale. */
-  zhHans?: OperationsDisplayDefinition;
+  zhHans?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for zh-Hant locale. */
-  zhHant?: OperationsDisplayDefinition;
+  zhHant?: OperationsDisplayDefinition | undefined;
   /** Display information of the operation for qps-Ploc pseudo locale. */
-  qpsPloc?: OperationsDisplayDefinition;
+  qpsPloc?: OperationsDisplayDefinition | undefined;
 }
 export interface LocalizedOperationDefinition {
   /** Name of the operation. */
   name: string;
   /** Indicates whether the operation applies to data-plane. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The origin. */
-  origin?: OperationOrigins | (string & {});
+  origin?: OperationOrigins | (string & {}) | undefined;
   /** Display information of the operation. */
   display: LocalizedOperationDisplayDefinition;
   /** The action type. */
-  actionType?: OperationActionType | (string & {});
+  actionType?: OperationActionType | (string & {}) | undefined;
   /** Anything */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Operations content. */
 export type OperationsContentPropertiesContentsList = Array<LocalizedOperationDefinition>;
 export interface OperationsContentProperties {
   /** Operations content. */
-  contents?: OperationsContentPropertiesContentsList;
+  contents?: OperationsContentPropertiesContentsList | undefined;
 }
 export interface ListOperationByProviderRegistrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: OperationsContentProperties;
+  systemData?: SystemData | undefined;
+  properties?: OperationsContentProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** The value. */
@@ -3480,9 +3556,9 @@ export type OperationsDefinitionArrayResponseWithContinuationValueList =
   Array<OperationsDefinition>;
 export interface OperationsDefinitionArrayResponseWithContinuation {
   /** The value. */
-  value?: OperationsDefinitionArrayResponseWithContinuationValueList;
+  value?: OperationsDefinitionArrayResponseWithContinuationValueList | undefined;
   /** The URL to get to the next set of results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProviderMonitorSettingsByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3495,18 +3571,18 @@ export type ProviderMonitorSettingTagsMap = { [key: string]: string | undefined 
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface ProviderMonitorSetting {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProviderMonitorSettingTagsMap;
+  tags?: ProviderMonitorSettingTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: ProviderMonitorSettingProperties;
+  properties?: ProviderMonitorSettingProperties | undefined;
 }
 /** The ProviderMonitorSetting items on this page */
 export type ProviderMonitorSettingArrayResponseWithContinuationValueList =
@@ -3516,7 +3592,7 @@ export interface ProviderMonitorSettingArrayResponseWithContinuation {
   /** The ProviderMonitorSetting items on this page */
   value: ProviderMonitorSettingArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProviderMonitorSettingsBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3534,7 +3610,7 @@ export interface ProviderRegistrationArrayResponseWithContinuation {
   /** The ProviderRegistration items on this page */
   value: ProviderRegistrationArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListResourceTypeRegistrationByProviderRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3550,7 +3626,7 @@ export interface ResourceTypeRegistrationArrayResponseWithContinuation {
   /** The ResourceTypeRegistration items on this page */
   value: ResourceTypeRegistrationArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusByResourceTypeRegistrationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3563,14 +3639,14 @@ export interface ListSkusByResourceTypeRegistrationsRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface SkuResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 /** The SkuResource items on this page */
 export type SkuResourceArrayResponseWithContinuationValueList = Array<SkuResource>;
@@ -3579,7 +3655,7 @@ export interface SkuResourceArrayResponseWithContinuation {
   /** The SkuResource items on this page */
   value: SkuResourceArrayResponseWithContinuationValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusByResourceTypeRegistrationsNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3620,9 +3696,9 @@ export interface ListSkusByResourceTypeRegistrationsNestedResourceTypeThirdReque
 /** The manifest properties. */
 export interface ManifestInfoPropertiesInput {
   /** The manifest. */
-  manifest?: string;
+  manifest?: string | undefined;
   /** The URI the manifest content is read from when the manifest is not supplied inline. */
-  manifestUri?: string;
+  manifestUri?: string | undefined;
 }
 export interface ManifestsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3632,19 +3708,19 @@ export interface ManifestsCreateOrUpdateRequest {
   /** The environment supplied to the manifests operation. */
   environment: string;
   /** The manifest properties. */
-  properties?: ManifestInfoPropertiesInput;
+  properties?: ManifestInfoPropertiesInput | undefined;
 }
 export interface ManifestsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The manifest properties. */
-  properties?: ManifestInfoProperties;
+  properties?: ManifestInfoProperties | undefined;
 }
 export interface NotificationRegistrationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3653,36 +3729,36 @@ export interface NotificationRegistrationsCreateOrUpdateRequest {
   providerNamespace: string;
   /** The notification registration. */
   notificationRegistrationName: string;
-  properties?: NotificationRegistrationProperties;
+  properties?: NotificationRegistrationProperties | undefined;
 }
 export interface NotificationRegistrationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NotificationRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NotificationRegistrationProperties | undefined;
 }
 export interface OperationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource provider hosted within ProviderHub. */
   providerNamespace: string;
-  properties?: OperationsContentProperties;
+  properties?: OperationsContentProperties | undefined;
 }
 export interface OperationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: OperationsContentProperties;
+  systemData?: SystemData | undefined;
+  properties?: OperationsContentProperties | undefined;
 }
 /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ProviderRegistrationsCreateOrUpdateRequestKind = "Managed" | "Hybrid" | "Direct";
@@ -3691,28 +3767,28 @@ export interface ProviderRegistrationsCreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource provider hosted within ProviderHub. */
   providerNamespace: string;
-  properties?: ProviderRegistrationProperties;
+  properties?: ProviderRegistrationProperties | undefined;
   /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ProviderRegistrationsCreateOrUpdateRequestKind | (string & {});
+  kind?: ProviderRegistrationsCreateOrUpdateRequestKind | (string & {}) | undefined;
 }
 /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ProviderRegistrationsCreateOrUpdateResponseKind = "Managed" | "Hybrid" | "Direct";
 export interface ProviderRegistrationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ProviderRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ProviderRegistrationProperties | undefined;
   /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ProviderRegistrationsCreateOrUpdateResponseKind;
+  kind?: ProviderRegistrationsCreateOrUpdateResponseKind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ResourceTypeRegistrationsCreateOrUpdateRequestKind = "Managed" | "Hybrid" | "Direct";
@@ -3723,28 +3799,28 @@ export interface ResourceTypeRegistrationsCreateOrUpdateRequest {
   providerNamespace: string;
   /** The resource type. */
   resourceType: string;
-  properties?: ResourceTypeRegistrationProperties;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ResourceTypeRegistrationsCreateOrUpdateRequestKind | (string & {});
+  kind?: ResourceTypeRegistrationsCreateOrUpdateRequestKind | (string & {}) | undefined;
 }
 /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ResourceTypeRegistrationsCreateOrUpdateResponseKind = "Managed" | "Hybrid" | "Direct";
 export interface ResourceTypeRegistrationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ResourceTypeRegistrationsCreateOrUpdateResponseKind;
+  kind?: ResourceTypeRegistrationsCreateOrUpdateResponseKind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstRequestKind =
@@ -3760,9 +3836,12 @@ export interface ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstR
   resourceType: string;
   /** The first child resource type. */
   nestedResourceTypeFirst: string;
-  properties?: ResourceTypeRegistrationProperties;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstRequestKind | (string & {});
+  kind?:
+    | ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstRequestKind
+    | (string & {})
+    | undefined;
 }
 /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstResponseKind =
@@ -3771,20 +3850,20 @@ export type ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstRespon
   | "Direct";
 export interface ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeRegistrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeRegistrationProperties | undefined;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstResponseKind;
+  kind?: ResourceTypeRegistrationsCreateOrUpdateNestedResourceTypeFirstResponseKind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SkusCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3795,18 +3874,18 @@ export interface SkusCreateOrUpdateRequest {
   resourceType: string;
   /** The SKU. */
   sku: string;
-  properties?: ResourceTypeSku;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface SkusCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface SkusCreateOrUpdateNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3819,18 +3898,18 @@ export interface SkusCreateOrUpdateNestedResourceTypeFirstRequest {
   nestedResourceTypeFirst: string;
   /** The SKU. */
   sku: string;
-  properties?: ResourceTypeSku;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface SkusCreateOrUpdateNestedResourceTypeFirstResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface SkusCreateOrUpdateNestedResourceTypeSecondRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3845,18 +3924,18 @@ export interface SkusCreateOrUpdateNestedResourceTypeSecondRequest {
   nestedResourceTypeSecond: string;
   /** The SKU. */
   sku: string;
-  properties?: ResourceTypeSku;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface SkusCreateOrUpdateNestedResourceTypeSecondResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface SkusCreateOrUpdateNestedResourceTypeThirdRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3873,18 +3952,18 @@ export interface SkusCreateOrUpdateNestedResourceTypeThirdRequest {
   nestedResourceTypeThird: string;
   /** The SKU. */
   sku: string;
-  properties?: ResourceTypeSku;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface SkusCreateOrUpdateNestedResourceTypeThirdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ResourceTypeSku;
+  systemData?: SystemData | undefined;
+  properties?: ResourceTypeSku | undefined;
 }
 export interface StopCustomRolloutRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3916,18 +3995,18 @@ export interface UpdateProviderMonitorSettingsRequest {
 export type UpdateProviderMonitorSettingsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateProviderMonitorSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateProviderMonitorSettingsResponseTagsMap;
+  tags?: UpdateProviderMonitorSettingsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: ProviderMonitorSettingProperties;
+  properties?: ProviderMonitorSettingProperties | undefined;
 }
 export type AuthorizedApplicationsCreateOrUpdateError = AzureOpError;
 /** Creates or updates the authorized application. */

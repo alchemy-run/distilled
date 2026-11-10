@@ -70,19 +70,19 @@ export type EmailTemplateDesignBodyHeadersList = Array<unknown>;
 export type EmailTemplateDesignBodyFootersList = Array<unknown>;
 export interface EmailTemplateDesignBody {
   /** Any unique string. */
-  id?: string;
+  id?: string | undefined;
   /** Rows of {id, cells, columns[{id, contents[{id, type, values}], values}], values}. */
   rows: EmailTemplateDesignBodyRowsList;
-  headers?: EmailTemplateDesignBodyHeadersList;
-  footers?: EmailTemplateDesignBodyFootersList;
+  headers?: EmailTemplateDesignBodyHeadersList | undefined;
+  footers?: EmailTemplateDesignBodyFootersList | undefined;
   /** Body-level settings: backgroundColor, contentWidth ('600px'), fontFamily, textColor. */
-  values?: unknown;
+  values?: unknown | undefined;
   [key: string]: unknown;
 }
 /** Design JSON for PostHog's visual email editor -- the authoring surface and source of truth. The server renders the sent email from it, and it opens as editable blocks in the editor. Full schema in the designing-email-templates skill. */
 export interface EmailTemplateDesign {
   /** Highest htmlID suffix per element type, e.g. {"u_row": 1, "u_content_text": 2}. */
-  counters?: unknown;
+  counters?: unknown | undefined;
   /** Design schema version, e.g. 16. */
   schemaVersion: number;
   body: EmailTemplateDesignBody;
@@ -90,33 +90,33 @@ export interface EmailTemplateDesign {
 }
 export interface EmailTemplateSender {
   /** Address to send from instead of the sender's own. Must be on the sender's verified domain. Supports Liquid templating. Leave out or empty to use the sender's address. */
-  email?: string;
+  email?: string | undefined;
   /** Sender name shown in the inbox instead of the sender's own. Supports Liquid templating. Leave out or empty to use the sender's name. */
-  name?: string;
+  name?: string | undefined;
   /** ID of the project's email sender integration that sends this email. Transactional sends need a verified sender. */
   integrationId: number;
 }
 export interface EmailTemplate {
   /** Email subject line. Supports Liquid templating. Required in `content` for email-type templates. A `draft_content` may leave it blank until it is published. */
-  subject?: string;
+  subject?: string | undefined;
   /** Plain-text fallback body for clients that can't render the email. */
-  text?: string;
+  text?: string | undefined;
   /** Preview text that most inboxes show after the subject. Supports Liquid templating. */
-  preheader?: string;
+  preheader?: string | undefined;
   /** Rendered email body -- derived from the design at save time. The visual editor's save path supplies it directly; omit it otherwise. */
-  html?: string;
+  html?: string | undefined;
   /** Design JSON for PostHog's visual email editor -- the authoring surface and source of truth. The server renders the sent email from it, and it opens as editable blocks in the editor. Full schema in the designing-email-templates skill. */
-  design?: EmailTemplateDesign;
+  design?: EmailTemplateDesign | undefined;
   /** The sender a transactional template sends from. A template made transactional without one gets the sender it was made transactional with. */
-  from?: EmailTemplateSender;
+  from?: EmailTemplateSender | undefined;
   /** Reply-to address for a transactional template. Separate several addresses with commas. Supports Liquid templating. Leave empty to use the sender's default reply-to. */
-  replyTo?: string;
+  replyTo?: string | undefined;
 }
 export interface MessageTemplateContent {
   /** Templating language for the email content. Always 'liquid' -- Liquid tags pass through verbatim. * `liquid` - liquid */
-  templating?: MessageTemplateContentTemplatingEnum | (string & {});
+  templating?: MessageTemplateContentTemplatingEnum | (string & {}) | undefined;
   /** Email message content. Replaced as a whole on update -- send the complete object. */
-  email?: EmailTemplate | null;
+  email?: EmailTemplate | null | undefined;
 }
 export interface CreateMessagingTemplateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -124,21 +124,21 @@ export interface CreateMessagingTemplateRequest {
   /** Human-readable template name shown in the library. */
   name: string;
   /** What the template is for and when to use it. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: CreateMessagingTemplateRequestTagsList;
+  tags?: CreateMessagingTemplateRequestTagsList | undefined;
   /** Template content keyed by channel. Replaced as a whole on update, not merged. */
-  content?: MessageTemplateContent;
+  content?: MessageTemplateContent | undefined;
   /** Message channel of the template. Currently 'email'. */
-  type?: string;
+  type?: string | undefined;
   /** Message category ID to file the template under. Must belong to the same project. */
-  message_category?: string | null;
+  message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
-  draft_content?: MessageTemplateContent | null;
+  draft_content?: MessageTemplateContent | null | undefined;
 }
 /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
 export type MessageTemplateTagsList = Array<string>;
@@ -157,41 +157,41 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface MessageTemplate {
   id: string;
   /** Human-readable template name shown in the library. */
   name: string;
   /** What the template is for and when to use it. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: MessageTemplateTagsList;
+  tags?: MessageTemplateTagsList | undefined;
   created_at: string;
   updated_at: string;
   /** Template content keyed by channel. Replaced as a whole on update, not merged. */
-  content?: MessageTemplateContent;
+  content?: MessageTemplateContent | undefined;
   created_by: UserBasic;
   /** Message channel of the template. Currently 'email'. */
-  type?: string;
+  type?: string | undefined;
   /** Message category ID to file the template under. Must belong to the same project. */
-  message_category?: string | null;
+  message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** The workflow that sends this template over the transactional email API. Null until the template is made transactional. Each content save writes a new version of it. */
   transactional_hog_flow_id: string | null;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
-  draft_content?: MessageTemplateContent | null;
+  draft_content?: MessageTemplateContent | null | undefined;
 }
 export interface CreateMessagingTemplatesMakeTransactionalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -199,7 +199,7 @@ export interface CreateMessagingTemplatesMakeTransactionalRequest {
   /** A UUID string identifying this message template. */
   id: string;
   /** ID of the verified email sender integration the email is sent from. Defaults to the project's default sender. */
-  from_integration_id?: number | null;
+  from_integration_id?: number | null | undefined;
 }
 export interface GetMessagingTemplateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -211,15 +211,15 @@ export interface ListMessagingTemplatesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedMessageTemplateListResultsList = Array<MessageTemplate>;
 export interface PaginatedMessageTemplateList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMessageTemplateListResultsList;
 }
 export interface MessagingTemplatesDestroyRequest {
@@ -235,7 +235,7 @@ export type MessagingTemplatesSendCreateRequestMessageDataMap = {
 };
 export interface TransactionalEmailIdentifiers {
   /** Distinct ID of the recipient's person. The email's engagement events (sent, delivered, opened, clicked, bounced) and the send itself are recorded against that person. Defaults to the recipient's email address. The template can't read the person's properties, so pass everything it needs in `message_data`. */
-  distinct_id?: string | null;
+  distinct_id?: string | null | undefined;
 }
 export interface MessagingTemplatesSendCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -245,9 +245,9 @@ export interface MessagingTemplatesSendCreateRequest {
   /** Email address of the recipient. */
   to: string;
   /** Data for the template's Liquid placeholders, available as `variables`. For example `{"reset_link": "https://..."}` fills `{{ variables.reset_link }}`. */
-  message_data?: MessagingTemplatesSendCreateRequestMessageDataMap;
+  message_data?: MessagingTemplatesSendCreateRequestMessageDataMap | undefined;
   /** Who the email is for, used to attribute engagement events. */
-  identifiers?: TransactionalEmailIdentifiers;
+  identifiers?: TransactionalEmailIdentifiers | undefined;
 }
 export interface MessagingTemplatesSendCreateResponse {}
 /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
@@ -260,21 +260,21 @@ export interface UpdateMessagingTemplateRequest {
   /** Human-readable template name shown in the library. */
   name: string;
   /** What the template is for and when to use it. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: UpdateMessagingTemplateRequestTagsList;
+  tags?: UpdateMessagingTemplateRequestTagsList | undefined;
   /** Template content keyed by channel. Replaced as a whole on update, not merged. */
-  content?: MessageTemplateContent;
+  content?: MessageTemplateContent | undefined;
   /** Message channel of the template. Currently 'email'. */
-  type?: string;
+  type?: string | undefined;
   /** Message category ID to file the template under. Must belong to the same project. */
-  message_category?: string | null;
+  message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
-  draft_content?: MessageTemplateContent | null;
+  draft_content?: MessageTemplateContent | null | undefined;
 }
 /** * `update_content` - update_content * `update_column` - update_column * `update_row` - update_row * `update_body` - update_body * `add_content` - add_content * `remove_content` - remove_content * `move_content` - move_content * `add_row` - add_row * `remove_row` - remove_row */
 export type EmailTemplateDesignOperationEnum =
@@ -291,17 +291,17 @@ export interface DesignOperation {
   /** Design edit. update_content {id, patch}: deep-merge patch into the content block's fields (a null leaf deletes that key) -- the surgical path, e.g. change just values.text. update_row / update_column {id, patch} and update_body {patch}: same deep-merge for row/column/body-level settings. add_content {column_id, content, index?}: insert a content block into a column (id and Unlayer numbering are filled in for you). remove_content {id} / move_content {id, column_id, index?}: delete or relocate a block. add_row {row, index?} / remove_row {id}: add or delete a row. * `update_content` - update_content * `update_column` - update_column * `update_row` - update_row * `update_body` - update_body * `add_content` - add_content * `remove_content` - remove_content * `move_content` - move_content * `add_row` - add_row * `remove_row` - remove_row */
   op: EmailTemplateDesignOperationEnum | (string & {});
   /** Target node id. Required for update_content/column/row, remove_content, remove_row, move_content. */
-  id?: string;
+  id?: string | undefined;
   /** Target column id. Required for add_content and move_content. */
-  column_id?: string;
+  column_id?: string | undefined;
   /** update_* only. Partial fields deep-merged into the existing node; a null leaf deletes that key. e.g. {values: {text: '<p>Hi</p>'}} changes only the block's text. */
-  patch?: unknown;
+  patch?: unknown | undefined;
   /** add_content only. A content block {type, values: {...}}; omit id and values._meta -- they're assigned server-side. type is one of text, heading, button, image, divider, html, etc. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** add_row only. A full row {cells, columns: [{contents: [...], values}], values}; ids and Unlayer numbering are assigned server-side for the row and everything nested in it. */
-  row?: unknown;
+  row?: unknown | undefined;
   /** add_*\/move_content only. 0-based insert position; omit to append to the end. */
-  index?: number;
+  index?: number | undefined;
 }
 /** Ordered edits applied atomically to a template's Unlayer design: the stored design is read, the ops are applied in order, the result is validated and re-rendered to HTML, and it's saved only if valid -- otherwise the template is unchanged. Reference blocks by id so you never resend the whole design. */
 export type UpdateMessagingTemplatesDesignPartialRequestOperationsList = Array<DesignOperation>;
@@ -311,7 +311,7 @@ export interface UpdateMessagingTemplatesDesignPartialRequest {
   /** A UUID string identifying this message template. */
   id: string;
   /** Ordered edits applied atomically to a template's Unlayer design: the stored design is read, the ops are applied in order, the result is validated and re-rendered to HTML, and it's saved only if valid -- otherwise the template is unchanged. Reference blocks by id so you never resend the whole design. */
-  operations?: UpdateMessagingTemplatesDesignPartialRequestOperationsList;
+  operations?: UpdateMessagingTemplatesDesignPartialRequestOperationsList | undefined;
 }
 /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
 export type UpdateMessagingTemplatesPartialRequestTagsList = Array<string>;
@@ -321,23 +321,23 @@ export interface UpdateMessagingTemplatesPartialRequest {
   /** A UUID string identifying this message template. */
   id: string;
   /** Human-readable template name shown in the library. */
-  name?: string;
+  name?: string | undefined;
   /** What the template is for and when to use it. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: UpdateMessagingTemplatesPartialRequestTagsList;
+  tags?: UpdateMessagingTemplatesPartialRequestTagsList | undefined;
   /** Template content keyed by channel. Replaced as a whole on update, not merged. */
-  content?: MessageTemplateContent;
+  content?: MessageTemplateContent | undefined;
   /** Message channel of the template. Currently 'email'. */
-  type?: string;
+  type?: string | undefined;
   /** Message category ID to file the template under. Must belong to the same project. */
-  message_category?: string | null;
+  message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
-  draft_content?: MessageTemplateContent | null;
+  draft_content?: MessageTemplateContent | null | undefined;
 }
 export type CreateMessagingTemplateError = PosthogOpError;
 export const createMessagingTemplate: API.OperationMethod<

@@ -94,80 +94,82 @@ export type StringMap = { [key: string]: string | undefined };
 /** A quota override */
 export interface V1Beta1QuotaOverride {
   /** The name of the metric to which this override applies. An example name would be: `compute.googleapis.com/cpus` */
-  metric?: string;
+  metric?: string | undefined;
   /** The resource name of the producer override. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerOverrides/4a3f2c1d` */
-  name?: string;
+  name?: string | undefined;
   /** The overriding quota limit value. Can be any nonnegative integer, or -1 (unlimited quota). */
-  overrideValue?: string;
+  overrideValue?: string | undefined;
   /** The limit unit of the limit to which this override applies. An example unit would be: `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
-  unit?: string;
+  unit?: string | undefined;
   /** The resource name of the ancestor that requested the override. For example: "organizations/12345" or "folders/67890". Used by admin overrides only. */
-  adminOverrideAncestor?: string;
+  adminOverrideAncestor?: string | undefined;
   /** If this map is nonempty, then this override applies only to specific values for dimensions defined in the limit unit. For example, an override on a limit with the unit 1/{project}/{region} could contain an entry with the key "region" and the value "us-east-1"; the override is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in {brackets} in the unit (besides {project} or {user}) is a defined key. * "project" is not a valid key; the project is already specified in the parent resource name. * "user" is not a valid key; the API does not support quota overrides that apply only to a specific user. * If "region" appears as a key, its value must be a valid Cloud region. * If "zone" appears as a key, its value must be a valid Cloud zone. * If any valid key other than "region" or "zone" appears in the map, then all valid keys other than "region" or "zone" must also appear in the map. */
-  dimensions?: StringMap;
+  dimensions?: StringMap | undefined;
 }
 export interface CreateServicesConsumerQuotaMetricsLimitsProducerOverridesRequest {
   /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
   /** Whether to force the creation of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. */
-  forceOnly?: CreateServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList;
+  forceOnly?:
+    | CreateServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList
+    | undefined;
   /** Request body */
-  body?: V1Beta1QuotaOverride;
+  body?: V1Beta1QuotaOverride | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Quota policy created by service producer. */
 export interface V1Beta1ProducerQuotaPolicy {
   /** The cloud resource container at which the quota policy is created. The format is {container_type}/{container_number} */
-  container?: string;
+  container?: string | undefined;
   /** The resource name of the producer policy. An example name would be: `services/compute.googleapis.com/organizations/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerQuotaPolicies/4a3f2c1d` */
-  name?: string;
+  name?: string | undefined;
   /** The quota policy value. Can be any nonnegative integer, or -1 (unlimited quota). */
-  policyValue?: string;
+  policyValue?: string | undefined;
   /** The name of the metric to which this policy applies. An example name would be: `compute.googleapis.com/cpus` */
-  metric?: string;
+  metric?: string | undefined;
   /** The limit unit of the limit to which this policy applies. An example unit would be: `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
-  unit?: string;
+  unit?: string | undefined;
   /** If this map is nonempty, then this policy applies only to specific values for dimensions defined in the limit unit. For example, a policy on a limit with the unit 1/{project}/{region} could contain an entry with the key "region" and the value "us-east-1"; the policy is only applied to quota consumed in that region. This map has the following restrictions: * Keys that are not defined in the limit's unit are not valid keys. Any string appearing in {brackets} in the unit (besides {project} or {user}) is a defined key. * "project" is not a valid key; the project is already specified in the parent resource name. * "user" is not a valid key; the API does not support quota polcies that apply only to a specific user. * If "region" appears as a key, its value must be a valid Cloud region. * If "zone" appears as a key, its value must be a valid Cloud zone. * If any valid key other than "region" or "zone" appears in the map, then all valid keys other than "region" or "zone" must also appear in the map. */
-  dimensions?: StringMap;
+  dimensions?: StringMap | undefined;
 }
 export interface CreateServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest {
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
   /** If set to true, validate the request, but do not actually update. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The resource name of the parent quota limit. An example name would be: `services/compute.googleapis.com/organizations/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
   /** Whether to force the creation of the quota policy. If the policy creation would decrease the default limit of any consumer tier by more than 10 percent, the call is rejected, as a safety measure to avoid accidentally decreasing quota too quickly. Setting the force parameter to true ignores this restriction. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Request body */
-  body?: V1Beta1ProducerQuotaPolicy;
+  body?: V1Beta1ProducerQuotaPolicy | undefined;
 }
 export type DeleteServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -178,23 +180,25 @@ export type DeleteServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEn
 >;
 export interface DeleteServicesConsumerQuotaMetricsLimitsProducerOverridesRequest {
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
   /** The resource name of the override to delete. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerOverrides/4a3f2c1d` */
   name: string;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. */
-  forceOnly?: DeleteServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList;
+  forceOnly?:
+    | DeleteServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList
+    | undefined;
   /** Whether to force the deletion of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest {
   /** Required. The resource name of the policy to delete. An example name would be: `services/compute.googleapis.com/organizations/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerQuotaPolicies/4a3f2c1d` */
   name: string;
   /** If set to true, validate the request, but do not actually update. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Whether to force the deletion of the quota policy. If the policy deletion would decrease the default limit of any consumer tier by more than 10 percent, the call is rejected, as a safety measure to avoid accidentally decreasing quota too quickly. Setting the force parameter to true ignores this restriction. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -205,64 +209,64 @@ export interface GetServicesConsumerQuotaMetricsRequest {
   /** The resource name of the quota metric, returned by a ListConsumerQuotaMetrics call. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus` */
   name: string;
   /** Specifies the level of detail for quota information in the response. */
-  view?: GetServicesConsumerQuotaMetricsViewEnum | (string & {});
+  view?: GetServicesConsumerQuotaMetricsViewEnum | (string & {}) | undefined;
 }
 /** [Output only] Rollout information of a quota. */
 export interface V1Beta1RolloutInfo {
   /** Whether there is an ongoing rollout for the default limit or not. */
-  defaultLimitOngoingRollout?: boolean;
+  defaultLimitOngoingRollout?: boolean | undefined;
 }
 /** A quota bucket is a quota provisioning unit for a specific set of dimensions. */
 export interface V1Beta1QuotaBucket {
   /** Consumer override on this quota bucket. */
-  consumerOverride?: V1Beta1QuotaOverride;
+  consumerOverride?: V1Beta1QuotaOverride | undefined;
   /** The default limit of this quota bucket, as specified by the service configuration. */
-  defaultLimit?: string;
+  defaultLimit?: string | undefined;
   /** The dimensions of this quota bucket. If this map is empty, this is the global bucket, which is the default quota value applied to all requests that do not have a more specific override. If this map is nonempty, the default limit, effective limit, and quota overrides apply only to requests that have the dimensions given in the map. For example, if the map has key "region" and value "us-east-1", then the specified effective limit is only effective in that region, and the specified overrides apply only in that region. */
-  dimensions?: StringMap;
+  dimensions?: StringMap | undefined;
   /** Rollout information of this quota bucket. This field is present only if the effective limit will change due to the ongoing rollout of the service config. */
-  rolloutInfo?: V1Beta1RolloutInfo;
+  rolloutInfo?: V1Beta1RolloutInfo | undefined;
   /** Admin override on this quota bucket. */
-  adminOverride?: V1Beta1QuotaOverride;
+  adminOverride?: V1Beta1QuotaOverride | undefined;
   /** Producer policy inherited from the closet ancestor of the current consumer. */
-  producerQuotaPolicy?: V1Beta1ProducerQuotaPolicy;
+  producerQuotaPolicy?: V1Beta1ProducerQuotaPolicy | undefined;
   /** Producer override on this quota bucket. */
-  producerOverride?: V1Beta1QuotaOverride;
+  producerOverride?: V1Beta1QuotaOverride | undefined;
   /** The effective limit of this quota bucket. Equal to default_limit if there are no overrides. */
-  effectiveLimit?: string;
+  effectiveLimit?: string | undefined;
 }
 export type V1Beta1QuotaBucketList = Array<V1Beta1QuotaBucket>;
 export type StringList = Array<string>;
 /** Consumer quota settings for a quota limit. */
 export interface V1Beta1ConsumerQuotaLimit {
   /** The name of the parent metric of this limit. An example name would be: `compute.googleapis.com/cpus` */
-  metric?: string;
+  metric?: string | undefined;
   /** The resource name of the quota limit. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` The resource name is intended to be opaque and should not be parsed for its component strings, since its representation could change in the future. */
-  name?: string;
+  name?: string | undefined;
   /** Summary of the enforced quota buckets, organized by quota dimension, ordered from least specific to most specific (for example, the global default bucket, with no quota dimensions, will always appear first). */
-  quotaBuckets?: V1Beta1QuotaBucketList;
+  quotaBuckets?: V1Beta1QuotaBucketList | undefined;
   /** Whether this limit is precise or imprecise. */
-  isPrecise?: boolean;
+  isPrecise?: boolean | undefined;
   /** The limit unit. An example unit would be: `1/{project}/{region}` Note that `{project}` and `{region}` are not placeholders in this example; the literal characters `{` and `}` occur in the string. */
-  unit?: string;
+  unit?: string | undefined;
   /** List of all supported locations. This field is present only if the limit has a {region} or {zone} dimension. */
-  supportedLocations?: StringList;
+  supportedLocations?: StringList | undefined;
 }
 export type V1Beta1ConsumerQuotaLimitList = Array<V1Beta1ConsumerQuotaLimit>;
 /** Consumer quota settings for a quota metric. */
 export interface V1Beta1ConsumerQuotaMetric {
   /** The display name of the metric. An example name would be: "CPUs" */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The consumer quota for each quota limit defined on the metric. */
-  consumerQuotaLimits?: V1Beta1ConsumerQuotaLimitList;
+  consumerQuotaLimits?: V1Beta1ConsumerQuotaLimitList | undefined;
   /** The units in which the metric value is reported. */
-  unit?: string;
+  unit?: string | undefined;
   /** The quota limits targeting the descendant containers of the consumer in request. If the consumer in request is of type `organizations` or `folders`, the field will list per-project limits in the metric; if the consumer in request is of type `project`, the field will be empty. The `quota_buckets` field of each descendant consumer quota limit will not be populated. */
-  descendantConsumerQuotaLimits?: V1Beta1ConsumerQuotaLimitList;
+  descendantConsumerQuotaLimits?: V1Beta1ConsumerQuotaLimitList | undefined;
   /** The resource name of the quota settings on this metric for this consumer. An example name would be: `services/serviceconsumermanagement.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus` The resource name is intended to be opaque and should not be parsed for its component strings, since its representation could change in the future. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the metric. An example name would be: `compute.googleapis.com/cpus` */
-  metric?: string;
+  metric?: string | undefined;
 }
 export type GetServicesConsumerQuotaMetricsLimitsViewEnum =
   | "QUOTA_VIEW_UNSPECIFIED"
@@ -272,13 +276,13 @@ export interface GetServicesConsumerQuotaMetricsLimitsRequest {
   /** The resource name of the quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   name: string;
   /** Specifies the level of detail for quota information in the response. */
-  view?: GetServicesConsumerQuotaMetricsLimitsViewEnum | (string & {});
+  view?: GetServicesConsumerQuotaMetricsLimitsViewEnum | (string & {}) | undefined;
 }
 export type V1Beta1QuotaOverrideList = Array<V1Beta1QuotaOverride>;
 /** Import data embedded in the request message */
 export interface V1Beta1OverrideInlineSource {
   /** The overrides to create. Each override must have a value for 'metric' and 'unit', to specify which metric and which limit the override should be applied to. The 'name' field of the override does not need to be set; it is ignored. */
-  overrides?: V1Beta1QuotaOverrideList;
+  overrides?: V1Beta1QuotaOverrideList | undefined;
 }
 export type V1Beta1ImportProducerOverridesRequestForceOnlyItemEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -290,93 +294,93 @@ export type V1Beta1ImportProducerOverridesRequestForceOnlyItemEnumList = Array<
 /** Request message for ImportProducerOverrides */
 export interface V1Beta1ImportProducerOverridesRequest {
   /** The import data is specified in the request message itself */
-  inlineSource?: V1Beta1OverrideInlineSource;
+  inlineSource?: V1Beta1OverrideInlineSource | undefined;
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
   /** Whether to force the creation of the quota overrides. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. */
-  forceOnly?: V1Beta1ImportProducerOverridesRequestForceOnlyItemEnumList;
+  forceOnly?: V1Beta1ImportProducerOverridesRequestForceOnlyItemEnumList | undefined;
 }
 export interface ImportProducerOverridesServicesConsumerQuotaMetricsRequest {
   /** The resource name of the consumer. An example name would be: `services/compute.googleapis.com/projects/123` */
   parent: string;
   /** Request body */
-  body?: V1Beta1ImportProducerOverridesRequest;
+  body?: V1Beta1ImportProducerOverridesRequest | undefined;
 }
 export type V1Beta1ProducerQuotaPolicyList = Array<V1Beta1ProducerQuotaPolicy>;
 /** Import data embedded in the request message */
 export interface V1Beta1PolicyInlineSource {
   /** The policies to create. Each policy must have a value for 'metric' and 'unit', to specify which metric and which limit the policy should be applied to. */
-  policies?: V1Beta1ProducerQuotaPolicyList;
+  policies?: V1Beta1ProducerQuotaPolicyList | undefined;
 }
 /** Request message for ImportProducerQuotaPolicies */
 export interface V1Beta1ImportProducerQuotaPoliciesRequest {
   /** Whether quota policy can result in a decrease of effective limit. Don't allow any decreases if force is not specified. If force is specified, then don't allow any decreases below 120% of the 7d quota usage, or for cases where usage cannot be examined (custom dimensions/ per user/per resource), only allow a 10% decrease. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** If force or force_skip_quota_usage_check option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
   /** If set to true, validate the request, but do not actually update. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** If set to true, skip the quota usage check. This field is only used when the effective limit can be decreased. If the force field is not set, this field will be ignored. */
-  forceSkipQuotaUsageCheck?: boolean;
+  forceSkipQuotaUsageCheck?: boolean | undefined;
   /** The import data is specified in the request message itself */
-  inlineSource?: V1Beta1PolicyInlineSource;
+  inlineSource?: V1Beta1PolicyInlineSource | undefined;
 }
 export interface ImportProducerQuotaPoliciesServicesConsumerQuotaMetricsRequest {
   /** The resource name of the consumer. An example name would be: `services/compute.googleapis.com/organizations/123` */
   parent: string;
   /** Request body */
-  body?: V1Beta1ImportProducerQuotaPoliciesRequest;
+  body?: V1Beta1ImportProducerQuotaPoliciesRequest | undefined;
 }
 export type ListServicesConsumerQuotaMetricsViewEnum = "QUOTA_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface ListServicesConsumerQuotaMetricsRequest {
   /** Specifies the level of detail for quota information in the response. */
-  view?: ListServicesConsumerQuotaMetricsViewEnum | (string & {});
+  view?: ListServicesConsumerQuotaMetricsViewEnum | (string & {}) | undefined;
   /** Requested size of the next page of data. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Parent of the quotas resource. An example parent would be: `services/serviceconsumermanagement.googleapis.com/projects/123` */
   parent: string;
   /** Token identifying which result to start with; returned by a previous list call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type V1Beta1ConsumerQuotaMetricList = Array<V1Beta1ConsumerQuotaMetric>;
 /** Response message for ListConsumerQuotaMetrics. */
 export interface V1Beta1ListConsumerQuotaMetricsResponse {
   /** Quota settings for the consumer, organized by quota metric. */
-  metrics?: V1Beta1ConsumerQuotaMetricList;
+  metrics?: V1Beta1ConsumerQuotaMetricList | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListServicesConsumerQuotaMetricsLimitsProducerOverridesRequest {
   /** The resource name of the parent quota limit, returned by a ListConsumerQuotaMetrics or GetConsumerQuotaMetric call. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
   /** Requested size of the next page of data. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for ListProducerOverrides. */
 export interface V1Beta1ListProducerOverridesResponse {
   /** Producer overrides on this limit. */
-  overrides?: V1Beta1QuotaOverrideList;
+  overrides?: V1Beta1QuotaOverrideList | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest {
   /** Requested size of the next page of data. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the parent quota limit. An example name would be: `services/compute.googleapis.com/organizations/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion` */
   parent: string;
 }
 /** Response message for ListProducerQuotaPolicies. */
 export interface V1Beta1ListProducerQuotaPoliciesResponse {
   /** Producer policies on this limit. */
-  producerQuotaPolicies?: V1Beta1ProducerQuotaPolicyList;
+  producerQuotaPolicies?: V1Beta1ProducerQuotaPolicyList | undefined;
   /** Token identifying which result to start with; returned by a previous list call. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type PatchServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnum =
   | "QUOTA_SAFETY_CHECK_UNSPECIFIED"
@@ -387,31 +391,31 @@ export type PatchServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnu
 >;
 export interface PatchServicesConsumerQuotaMetricsLimitsProducerOverridesRequest {
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
   /** The list of quota safety checks to ignore before the override mutation. Unlike 'force' field that ignores all the quota safety checks, the 'force_only' field ignores only the specified checks; other checks are still enforced. The 'force' and 'force_only' fields cannot both be set. */
-  forceOnly?: PatchServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList;
+  forceOnly?: PatchServicesConsumerQuotaMetricsLimitsProducerOverridesForceOnlyEnumList | undefined;
   /** The resource name of the override to update. An example name would be: `services/compute.googleapis.com/projects/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerOverrides/4a3f2c1d` */
   name: string;
   /** Whether to force the update of the quota override. Setting the force parameter to 'true' ignores all quota safety checks that would fail the request. QuotaSafetyCheck lists all such validations. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Update only the specified fields. If unset, all modifiable fields will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: V1Beta1QuotaOverride;
+  body?: V1Beta1QuotaOverride | undefined;
 }
 export interface PatchServicesConsumerQuotaMetricsLimitsProducerQuotaPoliciesRequest {
   /** Update only the specified fields. If unset, all modifiable fields will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Whether to force the update of the quota policy. If the policy update would decrease the default limit of any consumer tier by more than 10 percent, the call is rejected, as a safety measure to avoid accidentally decreasing quota too quickly. Setting the force parameter to true ignores this restriction. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** If force option is set to true, force_justification is suggested to be set to log the reason in audit logs. */
-  forceJustification?: string;
+  forceJustification?: string | undefined;
   /** The resource name of the producer policy. An example name would be: `services/compute.googleapis.com/organizations/123/consumerQuotaMetrics/compute.googleapis.com%2Fcpus/limits/%2Fproject%2Fregion/producerQuotaPolicies/4a3f2c1d` */
   name: string;
   /** If set to true, validate the request, but do not actually update. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: V1Beta1ProducerQuotaPolicy;
+  body?: V1Beta1ProducerQuotaPolicy | undefined;
 }
 export type CreateServicesConsumerQuotaMetricsLimitsProducerOverridesError =
   | NotFound

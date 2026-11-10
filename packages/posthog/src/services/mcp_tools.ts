@@ -30,7 +30,7 @@ export interface CreateMcpToolRequest {
   project_id: string;
   tool_name: string;
   /** Arguments validated against the selected tool's schema. */
-  args?: CreateMcpToolRequestArgsMap;
+  args?: CreateMcpToolRequestArgsMap | undefined;
 }
 export type MCPToolResponseStructuredContentMap = { [key: string]: unknown | undefined };
 export type MCPToolResponseErrorType =
@@ -45,13 +45,13 @@ export interface MCPToolResponse {
   /** Formatted tool output for the model. */
   content: string;
   /** Structured tool output for native widgets. */
-  structured_content?: MCPToolResponseStructuredContentMap | null;
+  structured_content?: MCPToolResponseStructuredContentMap | null | undefined;
   /** Whether the tool completed successfully. */
   success: boolean;
   /** Failure category for MCP analytics. */
-  error_type?: MCPToolResponseErrorType | null;
+  error_type?: MCPToolResponseErrorType | null | undefined;
   /** Machine-readable name of the leaf failure for MCP analytics, such as a ClickHouse error name. */
-  error_code?: string | null;
+  error_code?: string | null | undefined;
 }
 export type CreateMcpToolError = PosthogOpError;
 /** Invoke an MCP tool by name. This endpoint allows MCP callers to invoke Max AI tools directly without going through the full LangChain conversation flow. Scopes are resolved dynamically per tool via dangerously_get_required_scopes. */

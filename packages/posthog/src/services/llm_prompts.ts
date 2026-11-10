@@ -46,13 +46,13 @@ export interface CreateLlmPromptRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Unique prompt name using letters, numbers, hyphens, and underscores only. */
-  name?: string;
+  name?: string | undefined;
   /** Prompt payload as JSON or string data. */
-  prompt?: unknown;
+  prompt?: unknown | undefined;
   /** Optional JSON object with model parameters or any agent configuration (e.g. model, temperature, tools). Versioned with the prompt and returned as-is when fetching it. Don't store secrets here: config is returned to anyone who can read the prompt. */
-  config?: unknown | null;
+  config?: unknown | null | undefined;
   /** Optional note describing what changed in this version. Set when the version is published. */
-  version_description?: string | null;
+  version_description?: string | null | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -69,49 +69,49 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface LLMPromptOutlineEntry {
   /** Markdown heading level (1-6). */
-  level?: number;
+  level?: number | undefined;
   /** Heading text with markdown link syntax preserved. */
-  text?: string;
+  text?: string | undefined;
 }
 export type LLMPromptOutlineList = Array<LLMPromptOutlineEntry>;
 /** Names of the labels currently pointing at this version. */
 export type LLMPromptLabelsList = Array<string>;
 export interface LLMPrompt {
-  id?: string;
+  id?: string | undefined;
   /** Unique prompt name using letters, numbers, hyphens, and underscores only. */
-  name?: string;
+  name?: string | undefined;
   /** Prompt payload as JSON or string data. */
-  prompt?: unknown;
+  prompt?: unknown | undefined;
   /** Optional JSON object with model parameters or any agent configuration (e.g. model, temperature, tools). Versioned with the prompt and returned as-is when fetching it. Don't store secrets here: config is returned to anyone who can read the prompt. */
-  config?: unknown | null;
-  version?: number;
+  config?: unknown | null | undefined;
+  version?: number | undefined;
   /** Optional note describing what changed in this version. Set when the version is published. */
-  version_description?: string | null;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
-  deleted?: boolean;
-  is_latest?: boolean;
-  latest_version?: number;
-  version_count?: number;
-  first_version_created_at?: string;
-  outline?: LLMPromptOutlineList;
+  version_description?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  deleted?: boolean | undefined;
+  is_latest?: boolean | undefined;
+  latest_version?: number | undefined;
+  version_count?: number | undefined;
+  first_version_created_at?: string | undefined;
+  outline?: LLMPromptOutlineList | undefined;
   /** Names of the labels currently pointing at this version. */
-  labels?: LLMPromptLabelsList;
+  labels?: LLMPromptLabelsList | undefined;
   /** Key for this prompt's rows in the activity log, e.g. for the History tab. Derived from the name, at most 72 characters. */
-  activity_item_id?: string;
+  activity_item_id?: string | undefined;
 }
 export type GetLlmPromptsNameRequestContent = "full" | "preview" | "none";
 export interface GetLlmPromptsNameRequest {
@@ -119,13 +119,13 @@ export interface GetLlmPromptsNameRequest {
   project_id: string;
   prompt_name: string;
   /** Controls how much prompt content is included in the response. 'full' includes the full prompt, 'preview' includes a short prompt_preview, and 'none' omits prompt content entirely. The config field is only included with 'full'. The outline field is always included. * `full` - full * `preview` - preview * `none` - none */
-  content?: GetLlmPromptsNameRequestContent | (string & {});
+  content?: GetLlmPromptsNameRequestContent | (string & {}) | undefined;
   /** Fetch the version this label currently points to, e.g. 'production'. Lowercase letters, numbers, dots, hyphens and underscores. Mutually exclusive with version. */
-  label?: string;
+  label?: string | undefined;
   /** Replace @@@prompt:...@@@ references with the referenced prompts' content before returning. Set to false to get the raw text with the reference tags, e.g. for editing or export. Only applies when content is 'full'. */
-  resolve?: boolean;
+  resolve?: boolean | undefined;
   /** Specific prompt version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
 }
 /** Flat list of markdown headings parsed from the prompt. Useful as a lightweight table of contents. */
 export type LLMPromptPublicOutlineList = Array<LLMPromptOutlineEntry>;
@@ -140,55 +140,55 @@ export interface LLMPromptResolvedReference {
 /** The exact prompt versions spliced into the returned content, in order of first appearance. Empty when the prompt has no references. Only present when references were resolved. */
 export type LLMPromptPublicResolvedReferencesList = Array<LLMPromptResolvedReference>;
 export interface LLMPromptPublic {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   /** Full prompt content. Omitted when 'content=preview' or 'content=none'. */
-  prompt?: unknown;
+  prompt?: unknown | undefined;
   /** JSON object with model parameters or any agent configuration stored with this version, or null when the version has none. Omitted when 'content=preview' or 'content=none'. */
-  config?: unknown | null;
+  config?: unknown | null | undefined;
   /** First 160 characters of the prompt. Only present when 'content=preview'. */
-  prompt_preview?: string;
+  prompt_preview?: string | undefined;
   /** Flat list of markdown headings parsed from the prompt. Useful as a lightweight table of contents. */
-  outline?: LLMPromptPublicOutlineList;
-  version?: number;
+  outline?: LLMPromptPublicOutlineList | undefined;
+  version?: number | undefined;
   /** The label this prompt was fetched by. Only present when fetching with the label parameter. */
-  label?: string;
+  label?: string | undefined;
   /** The exact prompt versions spliced into the returned content, in order of first appearance. Empty when the prompt has no references. Only present when references were resolved. */
-  resolved_references?: LLMPromptPublicResolvedReferencesList;
-  created_at?: string;
-  updated_at?: string;
-  deleted?: boolean;
-  is_latest?: boolean;
-  latest_version?: number;
-  version_count?: number;
-  first_version_created_at?: string;
+  resolved_references?: LLMPromptPublicResolvedReferencesList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  deleted?: boolean | undefined;
+  is_latest?: boolean | undefined;
+  latest_version?: number | undefined;
+  version_count?: number | undefined;
+  first_version_created_at?: string | undefined;
 }
 export interface GetLlmPromptsResolveNameRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   prompt_name: string;
   /** Return versions older than this version number. Mutually exclusive with offset. */
-  before_version?: number;
+  before_version?: number | undefined;
   /** Maximum number of versions to return per page (1-100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Zero-based offset into version history for pagination. Mutually exclusive with before_version. */
-  offset?: number;
+  offset?: number | undefined;
   /** Specific prompt version to fetch. If omitted, the latest version is returned. */
-  version?: number;
+  version?: number | undefined;
   /** Exact prompt version UUID to resolve. Can be used together with version for extra safety. */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 /** Names of the labels currently pointing at this version. */
 export type LLMPromptVersionSummaryLabelsList = Array<string>;
 export interface LLMPromptVersionSummary {
-  id?: string;
-  version?: number;
-  version_description?: string | null;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  is_latest?: boolean;
+  id?: string | undefined;
+  version?: number | undefined;
+  version_description?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  is_latest?: boolean | undefined;
   /** Names of the labels currently pointing at this version. */
-  labels?: LLMPromptVersionSummaryLabelsList;
+  labels?: LLMPromptVersionSummaryLabelsList | undefined;
 }
 export type LLMPromptResolveResponseVersionsList = Array<LLMPromptVersionSummary>;
 export interface LLMPromptLabel {
@@ -215,13 +215,13 @@ export interface LLMPromptReferencedBy {
 /** Prompts whose latest or labeled version references this prompt, with the label or version each reference uses. Empty when nothing references this prompt. At most 100 entries, ordered by prompt name. */
 export type LLMPromptResolveResponseReferencedByList = Array<LLMPromptReferencedBy>;
 export interface LLMPromptResolveResponse {
-  prompt?: LLMPrompt;
-  versions?: LLMPromptResolveResponseVersionsList;
-  has_more?: boolean;
+  prompt?: LLMPrompt | undefined;
+  versions?: LLMPromptResolveResponseVersionsList | undefined;
+  has_more?: boolean | undefined;
   /** All labels on this prompt with the version each one currently points to, across all versions (not just the returned page). */
-  labels?: LLMPromptResolveResponseLabelsList;
+  labels?: LLMPromptResolveResponseLabelsList | undefined;
   /** Prompts whose latest or labeled version references this prompt, with the label or version each reference uses. Empty when nothing references this prompt. At most 100 entries, ordered by prompt name. */
-  referenced_by?: LLMPromptResolveResponseReferencedByList;
+  referenced_by?: LLMPromptResolveResponseReferencedByList | undefined;
 }
 export type ListLlmPromptsRequestContent = "full" | "preview" | "none";
 export type ListLlmPromptsRequestOrderBy =
@@ -245,23 +245,23 @@ export interface ListLlmPromptsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Return archived prompts instead of active ones. Each archived prompt appears once, at its most recent version. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Controls how much prompt content is included in the response. 'full' includes the full prompt, 'preview' includes a short prompt_preview, and 'none' omits prompt content entirely. The config field is only included with 'full'. The outline field is always included. * `full` - full * `preview` - preview * `none` - none */
-  content?: ListLlmPromptsRequestContent | (string & {});
+  content?: ListLlmPromptsRequestContent | (string & {}) | undefined;
   /** Filter prompts by the ID of the user who created them. */
-  created_by_id?: number;
+  created_by_id?: number | undefined;
   /** Return each prompt at the version this label points to, e.g. 'production'. Prompts that do not carry the label are omitted. If omitted, the latest version of every prompt is returned. */
-  label?: string;
+  label?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Field to sort the prompt list by. Prefix with '-' for descending order. * `name` - name * `-name` - -name * `created_at` - created_at * `-created_at` - -created_at * `updated_at` - updated_at * `-updated_at` - -updated_at * `version` - version * `-version` - -version * `latest_version` - latest_version * `-latest_version` - -latest_version * `version_count` - version_count * `-version_count` - -version_count * `first_version_created_at` - first_version_created_at * `-first_version_created_at` - -first_version_created_at * `prompt_size_bytes` - prompt_size_bytes * `-prompt_size_bytes` - -prompt_size_bytes */
-  order_by?: ListLlmPromptsRequestOrderBy | (string & {});
+  order_by?: ListLlmPromptsRequestOrderBy | (string & {}) | undefined;
   /** Replace @@@prompt:...@@@ references with the referenced prompts' content in labeled results with full content. Set to false to get the raw text with the reference tags. */
-  resolve?: boolean;
+  resolve?: boolean | undefined;
   /** Optional substring filter applied to prompt names and prompt content. */
-  search?: string;
+  search?: string | undefined;
 }
 export type LLMPromptListOutlineList = Array<LLMPromptOutlineEntry>;
 /** Names of the labels currently pointing at this version. */
@@ -275,40 +275,40 @@ export interface LLMPromptLabelSummary {
 export type LLMPromptListAllLabelsList = Array<LLMPromptLabelSummary>;
 export type LLMPromptListResolvedReferencesList = Array<LLMPromptResolvedReference>;
 export interface LLMPromptList {
-  id?: string;
+  id?: string | undefined;
   /** Unique prompt name using letters, numbers, hyphens, and underscores only. */
-  name?: string;
+  name?: string | undefined;
   /** Prompt payload as JSON or string data. */
-  prompt?: unknown;
+  prompt?: unknown | undefined;
   /** Optional JSON object with model parameters or any agent configuration (e.g. model, temperature, tools). Versioned with the prompt and returned as-is when fetching it. Don't store secrets here: config is returned to anyone who can read the prompt. */
-  config?: unknown | null;
-  version?: number;
+  config?: unknown | null | undefined;
+  version?: number | undefined;
   /** Optional note describing what changed in this version. Set when the version is published. */
-  version_description?: string | null;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
-  deleted?: boolean;
-  is_latest?: boolean;
-  latest_version?: number;
-  version_count?: number;
-  first_version_created_at?: string;
-  outline?: LLMPromptListOutlineList;
+  version_description?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  deleted?: boolean | undefined;
+  is_latest?: boolean | undefined;
+  latest_version?: number | undefined;
+  version_count?: number | undefined;
+  first_version_created_at?: string | undefined;
+  outline?: LLMPromptListOutlineList | undefined;
   /** Names of the labels currently pointing at this version. */
-  labels?: LLMPromptListLabelsList;
+  labels?: LLMPromptListLabelsList | undefined;
   /** Key for this prompt's rows in the activity log, e.g. for the History tab. Derived from the name, at most 72 characters. */
-  activity_item_id?: string;
-  prompt_preview?: string;
-  prompt_size_bytes?: number;
-  all_labels?: LLMPromptListAllLabelsList;
-  resolved_references?: LLMPromptListResolvedReferencesList | null;
+  activity_item_id?: string | undefined;
+  prompt_preview?: string | undefined;
+  prompt_size_bytes?: number | undefined;
+  all_labels?: LLMPromptListAllLabelsList | undefined;
+  resolved_references?: LLMPromptListResolvedReferencesList | null | undefined;
 }
 export type PaginatedLLMPromptListListResultsList = Array<LLMPromptList>;
 export interface PaginatedLLMPromptListList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLLMPromptListListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLLMPromptListListResultsList | undefined;
 }
 export interface LlmPromptsNameArchiveCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -321,7 +321,7 @@ export interface LlmPromptsNameDuplicateCreateRequest {
   project_id: string;
   prompt_name: string;
   /** Name for the duplicated prompt. Must be unique and use only letters, numbers, hyphens, and underscores. */
-  new_name?: string;
+  new_name?: string | undefined;
 }
 export interface LlmPromptsNameLabelsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -345,9 +345,9 @@ export interface UpdateLlmPromptsNameLabelRequest {
 }
 export interface LLMPromptEditOperation {
   /** Text to find in the current prompt. Must match exactly once. */
-  old?: string;
+  old?: string | undefined;
   /** Replacement text. */
-  new?: string;
+  new?: string | undefined;
 }
 /** List of find/replace operations to apply to the current prompt version. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with prompt. */
 export type UpdateLlmPromptsNamePartialRequestEditsList = Array<LLMPromptEditOperation>;
@@ -356,15 +356,15 @@ export interface UpdateLlmPromptsNamePartialRequest {
   project_id: string;
   prompt_name: string;
   /** Full prompt payload to publish as a new version. Mutually exclusive with edits. */
-  prompt?: unknown;
+  prompt?: unknown | undefined;
   /** List of find/replace operations to apply to the current prompt version. Each edit's 'old' text must match exactly once. Edits are applied sequentially. Mutually exclusive with prompt. */
-  edits?: UpdateLlmPromptsNamePartialRequestEditsList;
+  edits?: UpdateLlmPromptsNamePartialRequestEditsList | undefined;
   /** JSON object with model parameters or any agent configuration to store with this version. If omitted, the current version's config is carried forward; pass null to clear it. Can be combined with either prompt or edits. Don't store secrets here: config is returned to anyone who can read the prompt. */
-  config?: unknown | null;
+  config?: unknown | null | undefined;
   /** Latest version you are editing from. Used for optimistic concurrency checks. */
-  base_version?: number;
+  base_version?: number | undefined;
   /** Optional note describing what changed in this version. Shown in the version history. */
-  version_description?: string;
+  version_description?: string | undefined;
 }
 export type CreateLlmPromptError = PosthogOpError;
 export const createLlmPrompt: API.OperationMethod<

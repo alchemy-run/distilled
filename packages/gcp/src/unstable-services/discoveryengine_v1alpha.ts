@@ -86,41 +86,41 @@ export class NotFound
 /** Request message for the DataConnectorService.AcquireAccessToken method. */
 export interface GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenRequest {
   /** Optional. The scope to request for the access token. Scope will override default scope if specified. */
-  scope?: string;
+  scope?: string | undefined;
   /** Optional. The tool/action name being executed. If provided, the server will check the required scopes of the action and dynamically trigger incremental authorization if they are missing. */
-  action?: string;
+  action?: string | undefined;
 }
 export interface AcquireAccessTokenProjectsLocationsCollectionsDataConnectorRequest {
   /** Required. The resource name of the connector for which a token is queried. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Describes a refresh token. */
 export interface GoogleCloudDiscoveryengineV1alphaRefreshTokenInfo {
   /** Required. The connection for which this token applies. */
-  name?: string;
+  name?: string | undefined;
   /** The list of scopes for this token. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
 }
 /** Response message for the DataConnectorService.AcquireAccessToken method. */
 export interface GoogleCloudDiscoveryengineV1alphaAcquireAccessTokenResponse {
   /** Info about the stored refresh token used to create the access token. */
-  refreshTokenInfo?: GoogleCloudDiscoveryengineV1alphaRefreshTokenInfo;
+  refreshTokenInfo?: GoogleCloudDiscoveryengineV1alphaRefreshTokenInfo | undefined;
   /** The created access token. */
-  accessToken?: string;
+  accessToken?: string | undefined;
 }
 /** Request message for AlphaEvolveService.AcquirePrograms. */
 export interface GoogleCloudDiscoveryengineV1alphaAcquireProgramsRequest {
   /** Optional. Number of evolved programs to acquire. If not set, the default value is 1. */
-  desiredProgramsCount?: number;
+  desiredProgramsCount?: number | undefined;
 }
 export interface AcquireProgramsProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
   /** Required. The parent resource name (AlphaEvolveExperiment) of the AlphaEvolveExperiment. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAcquireProgramsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAcquireProgramsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramStateEnum =
   | "PROGRAM_STATE_UNSPECIFIED"
@@ -131,148 +131,158 @@ export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramStateEnum =
 /** A single source file with its path, content and metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveSourceFile {
   /** Required. The relative path of the file, including the filename. e.g., "src/main.py", "utils/helpers.js", "README.md" */
-  path?: string;
+  path?: string | undefined;
   /** Optional. Additional description of the file. */
-  description?: string;
+  description?: string | undefined;
   /** Required. The raw content of the file. This is a string and not bytes, because it should be ultimately processed by the LLM as text. */
-  content?: string;
+  content?: string | undefined;
   /** Optional. The programming language of the file. */
-  programLanguage?: string;
+  programLanguage?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveSourceFileList =
   Array<GoogleCloudDiscoveryengineV1alphaAlphaEvolveSourceFile>;
 /** A self-contained message containing the content of a program. Can represent a collection of files. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramContent {
   /** Optional. Description of the program. */
-  description?: string;
+  description?: string | undefined;
   /** Required. A list of source files that make up the overall program. */
-  files?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveSourceFileList;
+  files?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveSourceFileList | undefined;
 }
 /** A single evaluation insight. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsightsAlphaEvolveEvaluationInsight {
   /** Optional. Label of the insight. */
-  label?: string;
+  label?: string | undefined;
   /** Optional. Text of the insight. */
-  text?: string;
+  text?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsightsAlphaEvolveEvaluationInsightList =
   Array<GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsightsAlphaEvolveEvaluationInsight>;
 /** Evaluation insights for a program. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsights {
   /** Optional. List of evaluation insights. */
-  insights?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsightsAlphaEvolveEvaluationInsightList;
+  insights?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsightsAlphaEvolveEvaluationInsightList
+    | undefined;
 }
 /** Score for a single metric. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScoresAlphaEvolveEvaluationScore {
   /** Required. Name of the metric. */
-  metric?: string;
+  metric?: string | undefined;
   /** Required. Score of a program for this metric. */
-  score?: number;
+  score?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScoresAlphaEvolveEvaluationScoreList =
   Array<GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScoresAlphaEvolveEvaluationScore>;
 /** Contains the evaluation scores for the target metrics to optimize. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScores {
   /** Required. List of evaluation scores. */
-  scores?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScoresAlphaEvolveEvaluationScoreList;
+  scores?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScoresAlphaEvolveEvaluationScoreList
+    | undefined;
 }
 /** Evaluation results for a program candidate. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluation {
   /** Optional. Represents various insights about the candidate, which are not directly used as optimization target, but that can be used to improve subsequent generations, and as such can be used to construct the evolution prompt. */
-  insights?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsights;
+  insights?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationInsights | undefined;
   /** Optional. Contains the evaluation scores for the target metrics to optimize. */
-  scores?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScores;
+  scores?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveEvaluationScores | undefined;
 }
 /** Represents a single program to be used within the context of an AlphaEvolve experiment. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgram {
   /** Output only. State of the program. */
-  state?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramStateEnum | (string & {}) | undefined;
   /** Identifier. Unique identifier for the program. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}/alphaEvolvePrograms/{alpha_evolve_program}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Optionally specifies which parent programs this program was evolved from. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}/alphaEvolvePrograms/{alpha_evolve_program}` */
-  parentPrograms?: StringList;
+  parentPrograms?: StringList | undefined;
   /** Optional. Lock token for the program. */
-  lockToken?: string;
+  lockToken?: string | undefined;
   /** Output only. Time when the program was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Content of the program. */
-  content?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramContent;
+  content?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramContent | undefined;
   /** Optional. Evaluation results for the program. */
-  evaluation?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluation;
+  evaluation?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluation | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramList =
   Array<GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgram>;
 /** Response message for AlphaEvolveService.AcquirePrograms. */
 export interface GoogleCloudDiscoveryengineV1alphaAcquireProgramsResponse {
   /** Output only. List of acquired program candidates to be evaluated. Note: The number of programs acquired might be lower than requested. */
-  programs?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramList;
+  programs?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramList | undefined;
 }
 /** Request for DataStoreService.AddPatientFilter method. */
 export interface GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** Required. Names of the Group resources to use as a basis for the patient filter, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. if the caller does not have permission to access the FHIR store, regardless of whether it exists, PERMISSION_DENIED error is returned. If the discovery engine service account does not have permission to access the FHIR store, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the group is not found at the location, a RESOURCE_NOT_FOUND error will be returned. The filter group must be a FHIR resource name of type Group, and the filter will be constructed from the direct members of the group which are Patient resources. */
-  filterGroups?: StringList;
+  filterGroups?: StringList | undefined;
 }
 export interface AddPatientFilterProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 export interface AddPatientFilterProjectsLocationsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAddPatientFilterRequest | undefined;
 }
 /** Document metadata contains the information of the document of the current chunk. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfoDocumentMetadata {
   /** Title of the document. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Chunk information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfo {
   /** Chunk textual content. It is limited to 8000 characters. */
-  content?: string;
+  content?: string | undefined;
   /** Metadata of the document from the current chunk. */
-  documentMetadata?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfoDocumentMetadata;
+  documentMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfoDocumentMetadata
+    | undefined;
 }
 /** End user metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaData {
   /** Chunk information. */
-  chunkInfo?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfo;
+  chunkInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataChunkInfo
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaData>;
 /** End user specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpec {
   /** Optional. End user metadata. */
-  endUserMetadata?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataList;
+  endUserMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpecEndUserMetaDataList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpecModelTypeEnum =
   | "MODEL_TYPE_UNSPECIFIED"
@@ -283,16 +293,19 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderst
   /** Optional. Enabled query rephraser model type. If not set, it will use LARGE by default. */
   modelType?:
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpecModelTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Query rephraser specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpec {
   /** Disable query rephraser. */
-  disable?: boolean;
+  disable?: boolean | undefined;
   /** Optional. Query Rephraser Model specification. */
-  modelSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec;
+  modelSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpecModelSpec
+    | undefined;
   /** Max rephrase steps. The max number is 5 steps. If not set or set to < 1, it will be set to 1 by default. */
-  maxRephraseSteps?: number;
+  maxRephraseSteps?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpecTypesItemEnum =
   | "TYPE_UNSPECIFIED"
@@ -309,16 +322,22 @@ export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandin
 /** Query classification specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpec {
   /** Enabled query classification types. */
-  types?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpecTypesItemEnumList;
+  types?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpecTypesItemEnumList
+    | undefined;
 }
 /** Query understanding specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpec {
   /** Optional. Whether to disable spell correction. The default value is `false`. */
-  disableSpellCorrection?: boolean;
+  disableSpellCorrection?: boolean | undefined;
   /** Query rephraser specification. */
-  queryRephraserSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpec;
+  queryRephraserSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryRephraserSpec
+    | undefined;
   /** Query classification specification. */
-  queryClassificationSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpec;
+  queryClassificationSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpecQueryClassificationSpec
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestGroundingSpecFilteringLevelEnum =
   | "FILTERING_LEVEL_UNSPECIFIED"
@@ -329,9 +348,10 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestGroundingSpe
   /** Optional. Specifies whether to enable the filtering based on grounding score and at what level. */
   filteringLevel?:
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestGroundingSpecFilteringLevelEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Specifies whether to include grounding_supports in the answer. The default value is `false`. When this field is set to `true`, returned answer will have `grounding_score` and will contain GroundingSupports for each claim. */
-  includeGroundingSupports?: boolean;
+  includeGroundingSupports?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecMultimodalSpecImageSourceEnum =
   | "IMAGE_SOURCE_UNSPECIFIED"
@@ -343,38 +363,45 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenera
   /** Optional. Source of image returned in the answer. */
   imageSource?:
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecMultimodalSpecImageSourceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Answer Generation Model specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecModelSpec {
   /** Model version. If not set, it will use the default stable model. Allowed values are: stable, preview. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
 }
 /** Answer generation prompt specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecPromptSpec {
   /** Customized preamble. */
-  preamble?: string;
+  preamble?: string | undefined;
 }
 /** Answer generation specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpec {
   /** Optional. Specifies whether to filter out jail-breaking queries. The default value is `false`. Google employs search-query classification to detect jail-breaking queries. No summary is returned if the search query is classified as a jail-breaking query. A user might add instructions to the query to change the tone, style, language, content of the answer, or ask the model to act as a different entity, e.g. "Reply in the tone of a competing company's CEO". If this field is set to `true`, we skip generating summaries for jail-breaking queries and return fallback messages instead. */
-  ignoreJailBreakingQuery?: boolean;
+  ignoreJailBreakingQuery?: boolean | undefined;
   /** Optional. Multimodal specification. */
-  multimodalSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecMultimodalSpec;
+  multimodalSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecMultimodalSpec
+    | undefined;
   /** Specifies whether to filter out adversarial queries. The default value is `false`. Google employs search-query classification to detect adversarial queries. No answer is returned if the search query is classified as an adversarial query. For example, a user might ask a question regarding negative comments about the company or submit a query designed to generate unsafe, policy-violating output. If this field is set to `true`, we skip generating answers for adversarial queries and return fallback messages instead. */
-  ignoreAdversarialQuery?: boolean;
+  ignoreAdversarialQuery?: boolean | undefined;
   /** Language code for Answer. Use language tags defined by [BCP47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). Note: This is an experimental feature. */
-  answerLanguageCode?: string;
+  answerLanguageCode?: string | undefined;
   /** Answer generation model specification. */
-  modelSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecModelSpec;
+  modelSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecModelSpec
+    | undefined;
   /** Specifies whether to filter out queries that are not answer-seeking. The default value is `false`. Google employs search-query classification to detect answer-seeking queries. No answer is returned if the search query is classified as a non-answer seeking query. If this field is set to `true`, we skip generating answers for non-answer seeking queries and return fallback messages instead. */
-  ignoreNonAnswerSeekingQuery?: boolean;
+  ignoreNonAnswerSeekingQuery?: boolean | undefined;
   /** Specifies whether to include citation metadata in the answer. The default value is `false`. */
-  includeCitations?: boolean;
+  includeCitations?: boolean | undefined;
   /** Specifies whether to filter out queries that have low relevance. If this field is set to `false`, all search results are used regardless of relevance to generate answers. If set to `true` or unset, the behavior will be determined automatically by the service. */
-  ignoreLowRelevantContent?: boolean;
+  ignoreLowRelevantContent?: boolean | undefined;
   /** Answer generation prompt specification. */
-  promptSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecPromptSpec;
+  promptSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpecPromptSpec
+    | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum =
@@ -387,9 +414,9 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoos
 /** The control points used to define the curve. The curve defined through these control points can only be monotonically increasing or decreasing(constant values are acceptable). */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPoint {
   /** Can be one of: 1. The numerical field value. 2. The duration spec for freshness: The value must be formatted as an XSD `dayTimeDuration` value (a restricted subset of an ISO 8601 duration value). The pattern for this is: `nDnM]`. */
-  attributeValue?: string;
+  attributeValue?: string | undefined;
   /** The value between -1 to 1 by which to boost the score if the attribute_value evaluates to the value specified above. */
-  boostAmount?: number;
+  boostAmount?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPointList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPoint>;
@@ -398,44 +425,52 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditio
   /** The interpolation type to be applied to connect the control points listed below. */
   interpolationType?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecInterpolationTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The attribute type to be used to determine the boost amount. The attribute value can be derived from the field value of the specified field_name. In the case of numerical it is straightforward i.e. attribute_value = numerical_field_value. In the case of freshness however, attribute_value = (time.now() - datetime_field_value). */
   attributeType?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecAttributeTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The control points used to define the curve. The monotonic function (defined through the interpolation_type above) passes through the control points listed here. */
-  controlPoints?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPointList;
+  controlPoints?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpecControlPointList
+    | undefined;
   /** The name of the field whose value will be used to determine the boost amount. */
-  fieldName?: string;
+  fieldName?: string | undefined;
 }
 /** Boost applies to documents which match a condition. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpec {
   /** An expression which specifies a boost condition. The syntax and supported fields are the same as a filter expression. See SearchRequest.filter for detail syntax and limitations. Examples: * To boost documents with document ID "doc_1" or "doc_2", and color "Red" or "Blue": `(document_id: ANY("doc_1", "doc_2")) AND (color: ANY("Red", "Blue"))` */
-  condition?: string;
+  condition?: string | undefined;
   /** Strength of the condition boost, which should be in [-1, 1]. Negative boost means demotion. Default is 0.0. Setting to 1.0 gives the document a big promotion. However, it does not necessarily mean that the boosted document will be the top result at all times, nor that other documents will be excluded. Results could still be shown even when none of them matches the condition. And results that are significantly more relevant to the search query can still trump your heavily favored but irrelevant documents. Setting to -1.0 gives the document a big demotion. However, results that are deeply relevant might still be shown. The document will have an upstream battle to get a fairly high ranking, but it is not blocked out completely. Setting to 0.0 means no boost applied. The boosting condition is ignored. Only one of the (condition, boost) combination or the boost_control_spec below are set. If both are set then the global boost is ignored and the more fine-grained boost_control_spec is applied. */
-  boost?: number;
+  boost?: number | undefined;
   /** Complex specification for custom ranking based on customer defined attribute value. */
-  boostControlSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpec;
+  boostControlSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecBoostControlSpec
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpec>;
 /** Boost specification to boost certain documents. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec {
   /** Condition boost specifications. If a document matches multiple conditions in the specifications, boost scores from these specifications are all applied and combined in a non-linear way. Maximum number of specifications is 20. */
-  conditionBoostSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecList;
+  conditionBoostSpecs?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpecConditionBoostSpecList
+    | undefined;
 }
 /** A struct to define data stores to filter on in a search call and configurations for those data stores. Otherwise, an `INVALID_ARGUMENT` error is returned. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpec {
   /** Optional. Filter specification to filter documents in the data store specified by data_store field. For more information on filtering, see [Filtering](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of results to retrieve from this data store. If not specified, it will use the SearchRequest.num_results_per_data_store if provided, otherwise there is no limit. If both this field and SearchRequest.num_results_per_data_store are specified, this field will be used. */
-  numResults?: number;
+  numResults?: number | undefined;
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. The path must include the project number, project id is not supported for this field. */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** Optional. Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
-  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec;
+  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec | undefined;
   /** Optional. Custom search operators which if specified will be used to filter results from workspace data stores. For more information on custom search operators, see [SearchOperators](https://support.google.com/cloudsearch/answer/6172299). */
-  customSearchOperators?: string;
+  customSearchOperators?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpecList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpec>;
@@ -450,17 +485,19 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUn
 /** Specification to enable natural language understanding capabilities for search requests. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpec {
   /** Field names used for location-based filtering, where geolocation filters are detected in natural language search queries. Only valid when the FilterExtractionCondition is set to `ENABLED`. */
-  geoSearchQueryDetectionFieldNames?: StringList;
+  geoSearchQueryDetectionFieldNames?: StringList | undefined;
   /** Optional. Allowlist of fields that can be used for natural language filter extraction. By default, if this is unspecified, all indexable fields are eligible for natural language filter extraction (but are not guaranteed to be used). If any fields are specified in allowed_field_names, only the fields that are both marked as indexable in the schema and specified in the allowlist will be eligible for natural language filter extraction. Note: for multi-datastore search, this is not yet supported, and will be ignored. */
-  allowedFieldNames?: StringList;
+  allowedFieldNames?: StringList | undefined;
   /** The condition under which filter extraction should occur. Server behavior defaults to `DISABLED`. */
   filterExtractionCondition?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpecFilterExtractionConditionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Controls behavior of how extracted filters are applied to the search. The default behavior depends on the request. For single datastore structured search, the default is `HARD_FILTER`. For multi-datastore search, the default behavior is `SOFT_BOOST`. Location-based filters are always applied as hard filters, and the `SOFT_BOOST` setting will not affect them. This field is only used if SearchRequest.NaturalLanguageQueryUnderstandingSpec.FilterExtractionCondition is set to FilterExtractionCondition.ENABLED. */
   extractedFilterBehavior?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpecExtractedFilterBehaviorEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchParamsSearchResultModeEnum =
   | "SEARCH_RESULT_MODE_UNSPECIFIED"
@@ -469,191 +506,216 @@ export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchP
 /** Defines custom fine tuning spec. */
 export interface GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec {
   /** Whether or not to enable and include custom fine tuned search adaptor model. */
-  enableSearchAdaptor?: boolean;
+  enableSearchAdaptor?: boolean | undefined;
 }
 /** Search parameters. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchParams {
   /** Specs defining dataStores to filter on in a search call and configurations for those dataStores. This is only considered for engines with multiple dataStores use case. For single dataStore within an engine, they should use the specs at the top level. */
-  dataStoreSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpecList;
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpecList | undefined;
   /** Number of search results to return. The default value is 10. */
-  maxReturnResults?: number;
+  maxReturnResults?: number | undefined;
   /** Boost specification to boost certain documents in search results which may affect the answer query response. For more information on boosting, see [Boosting](https://cloud.google.com/retail/docs/boosting#boost) */
-  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec;
+  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec | undefined;
   /** Optional. Specification to enable natural language understanding capabilities for search requests. */
-  naturalLanguageQueryUnderstandingSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpec;
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
   /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering, see [Ordering](https://cloud.google.com/retail/docs/filter-and-order#order) If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. This will be used to filter search results which may affect the Answer response. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customers might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
-  filter?: string;
+  filter?: string | undefined;
   /** Specifies the search result mode. If unspecified, the search result mode defaults to `DOCUMENTS`. See [parse and chunk documents](https://cloud.google.com/generative-ai-app-builder/docs/parse-chunk-documents) */
   searchResultMode?:
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchParamsSearchResultModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Custom fine tuning configs. */
-  customFineTuningSpec?: GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec;
+  customFineTuningSpec?: GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec | undefined;
 }
 /** Document metadata contains the information of the document of the current chunk. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata {
   /** Uri of the document. */
-  uri?: string;
+  uri?: string | undefined;
   /** Title of the document. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Chunk information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfo {
   /** Metadata of the document from the current chunk. */
-  documentMetadata?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata;
+  documentMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfoDocumentMetadata
+    | undefined;
   /** Chunk textual content. */
-  content?: string;
+  content?: string | undefined;
   /** Chunk resource name. */
-  chunk?: string;
+  chunk?: string | undefined;
 }
 /** Document context. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContext {
   /** Document content to be used for answer generation. */
-  content?: string;
+  content?: string | undefined;
   /** Page identifier. */
-  pageIdentifier?: string;
+  pageIdentifier?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContextList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContext>;
 /** Extractive answer. [Guide](https://cloud.google.com/generative-ai-app-builder/docs/snippets#get-answers) */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveAnswer {
   /** Page identifier. */
-  pageIdentifier?: string;
+  pageIdentifier?: string | undefined;
   /** Extractive answer content. */
-  content?: string;
+  content?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveAnswerList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveAnswer>;
 /** Extractive segment. [Guide](https://cloud.google.com/generative-ai-app-builder/docs/snippets#extractive-segments) Answer generation will only use it if document_contexts is empty. This is supposed to be shorter snippets. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegment {
   /** Page identifier. */
-  pageIdentifier?: string;
+  pageIdentifier?: string | undefined;
   /** Extractive segment content. */
-  content?: string;
+  content?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegmentList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegment>;
 /** Unstructured document information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfo {
   /** URI for the document. */
-  uri?: string;
+  uri?: string | undefined;
   /** Title. */
-  title?: string;
+  title?: string | undefined;
   /** List of document contexts. The content will be used for Answer Generation. This is supposed to be the main content of the document that can be long and comprehensive. */
-  documentContexts?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContextList;
+  documentContexts?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoDocumentContextList
+    | undefined;
   /** Document resource name. */
-  document?: string;
+  document?: string | undefined;
   /** Deprecated: This field is deprecated and will have no effect on the Answer generation. Please use document_contexts and extractive_segments fields. List of extractive answers. */
-  extractiveAnswers?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveAnswerList;
+  extractiveAnswers?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveAnswerList
+    | undefined;
   /** List of extractive segments. */
-  extractiveSegments?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegmentList;
+  extractiveSegments?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfoExtractiveSegmentList
+    | undefined;
 }
 /** Search result. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResult {
   /** Chunk information. */
-  chunkInfo?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfo;
+  chunkInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultChunkInfo
+    | undefined;
   /** Unstructured document information. */
-  unstructuredDocumentInfo?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfo;
+  unstructuredDocumentInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultUnstructuredDocumentInfo
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResult>;
 /** Search result list. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultList {
   /** Search results. */
-  searchResults?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultList;
+  searchResults?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultListSearchResultList
+    | undefined;
 }
 /** Search specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpec {
   /** Search parameters. */
-  searchParams?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchParams;
+  searchParams?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchParams
+    | undefined;
   /** Search result list. */
-  searchResultList?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultList;
+  searchResultList?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpecSearchResultList
+    | undefined;
 }
 /** Represents a person reference. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryPartPersonReference {
   /** The full resource name of the person. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/branches/*\/documents/*`. */
-  documentName?: string;
+  documentName?: string | undefined;
   /** The destination uri of the person. */
-  destinationUri?: string;
+  destinationUri?: string | undefined;
   /** The display name of the person. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The file id of the person data stored in the session context files. */
-  fileId?: string;
+  fileId?: string | undefined;
   /** The email of the person. */
-  email?: string;
+  email?: string | undefined;
   /** The person id of the person. */
-  personId?: string;
+  personId?: string | undefined;
   /** The display photo url of the person. */
-  displayPhotoUri?: string;
+  displayPhotoUri?: string | undefined;
 }
 /** Reference to a user-supplied file attached to a long-running-agent (Sobi) task. Rendered by the client as an attachment chip on the user turn's bubble. The file itself is stored on the task's `AgentArtifact` list; the client resolves full metadata (source URI, size, ...) for download or preview by calling `GetTask` on the Sobi Task API and matching `AgentArtifact.name` against `file_name`. Only `file_name` and `mime_type` appear on this wire deliberately: the backing `gs://` or Drive URI is not exposed to conversation-history readers. Same variant is used for both byte-uploaded and Drive-picked files -- "user attached a file" is one concept regardless of source. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryPartUserSuppliedSobiArtifactReference {
   /** Required. Client-supplied filename. Unique per task within the user-supplied artifact set (UI dedupes before upload). Doubles as the artifact identifier used to look up the artifact on `Task.artifacts`. The `_name` suffix is deliberate and the AIP-122 lint is suppressed: this field is not a resource name (which is what AIP-122 reserves the bare `name` for). It is the literal filename, and it serves as the join key against `AgentArtifact.name` on the backing Sobi task -- a structural role that `title` or `display_name` would not communicate to a client picking what to send. The internal mirror (`cloud/ml/discoveryengine/schema/assistant.proto`) uses the same field name so the round-trip converter stays name-for-name. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Optional. IANA MIME type. Used for icon/preview rendering. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 /** Represents a Google Drive document reference. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryPartDriveDocumentReference {
   /** The display title of the reference. */
-  displayTitle?: string;
+  displayTitle?: string | undefined;
   /** Output only. The file id of the Drive document data stored in the session context files. */
-  fileId?: string;
+  fileId?: string | undefined;
   /** The destination uri of the reference. */
-  destinationUri?: string;
+  destinationUri?: string | undefined;
   /** The Drive id of the document. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** The icon uri of the Drive document reference. */
-  iconUri?: string;
+  iconUri?: string | undefined;
   /** The full resource name of the document. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/branches/*\/documents/*`. */
-  documentName?: string;
+  documentName?: string | undefined;
 }
 /** Represents a document reference. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryPartDocumentReference {
   /** The destination uri of the reference. */
-  destinationUri?: string;
+  destinationUri?: string | undefined;
   /** The icon uri of the reference. */
-  iconUri?: string;
+  iconUri?: string | undefined;
   /** The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. */
-  documentName?: string;
+  documentName?: string | undefined;
   /** The display title of the reference. */
-  displayTitle?: string;
+  displayTitle?: string | undefined;
   /** Input only. The url_for_connector of the document returned by Federated Search. */
-  urlForConnector?: string;
+  urlForConnector?: string | undefined;
   /** Output only. The file id of the document data stored in the session context files. */
-  fileId?: string;
+  fileId?: string | undefined;
 }
 /** Represents a part or the whole of a content, used to represent a query. A query can be made up of multiple parts. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryPart {
   /** This field is expected to be a ui message in JSON format. As of Q1 2026, ui_json_payload is only supported for A2UI messages. */
-  uiJsonPayload?: string;
+  uiJsonPayload?: string | undefined;
   /** Reference to a person. */
-  personReference?: GoogleCloudDiscoveryengineV1alphaQueryPartPersonReference;
+  personReference?: GoogleCloudDiscoveryengineV1alphaQueryPartPersonReference | undefined;
   /** Reference to a user-supplied file attached to a long-running-agent (Sobi) task. See `UserSuppliedSobiArtifactReference` above. */
-  userSuppliedSobiArtifactReference?: GoogleCloudDiscoveryengineV1alphaQueryPartUserSuppliedSobiArtifactReference;
+  userSuppliedSobiArtifactReference?:
+    | GoogleCloudDiscoveryengineV1alphaQueryPartUserSuppliedSobiArtifactReference
+    | undefined;
   /** Optional. The IANA standard MIME type of the data. See https://www.iana.org/assignments/media-types/media-types.xhtml. This field is optional. If not set, the default assumed MIME type is "text/plain" for the "data" field. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Text content. */
-  text?: string;
+  text?: string | undefined;
   /** Reference to a Google Drive document. */
-  driveDocumentReference?: GoogleCloudDiscoveryengineV1alphaQueryPartDriveDocumentReference;
+  driveDocumentReference?:
+    | GoogleCloudDiscoveryengineV1alphaQueryPartDriveDocumentReference
+    | undefined;
   /** Other VAIS Document references. */
-  documentReference?: GoogleCloudDiscoveryengineV1alphaQueryPartDocumentReference;
+  documentReference?: GoogleCloudDiscoveryengineV1alphaQueryPartDocumentReference | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaQueryPartList =
   Array<GoogleCloudDiscoveryengineV1alphaQueryPart>;
 /** Defines a user inputed query. */
 export interface GoogleCloudDiscoveryengineV1alphaQuery {
   /** Plain text. */
-  text?: string;
+  text?: string | undefined;
   /** Query content parts. */
-  parts?: GoogleCloudDiscoveryengineV1alphaQueryPartList;
+  parts?: GoogleCloudDiscoveryengineV1alphaQueryPartList | undefined;
   /** Output only. The time at which the server accepted this query. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Unique Id for the query. */
-  queryId?: string;
+  queryId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSafetySettingCategoryEnum =
   | "HARM_CATEGORY_UNSPECIFIED"
@@ -674,79 +736,89 @@ export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSa
   /** Required. Harm category. */
   category?:
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSafetySettingCategoryEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The harm block threshold. */
   threshold?:
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSafetySettingThresholdEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSafetySettingList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSafetySetting>;
 /** Safety specification. There are two use cases: 1. when only safety_spec.enable is set, the BLOCK_LOW_AND_ABOVE threshold will be applied for all categories. 2. when safety_spec.enable is set and some safety_settings are set, only specified safety_settings are applied. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpec {
   /** Enable the safety filtering on the answer response. It is false by default. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Optional. Safety settings. This settings are effective only when the safety_spec.enable is true. */
-  safetySettings?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSafetySettingList;
+  safetySettings?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpecSafetySettingList
+    | undefined;
 }
 /** Related questions specification. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestRelatedQuestionsSpec {
   /** Enable related questions feature if true. */
-  enable?: boolean;
+  enable?: boolean | undefined;
 }
 /** Request message for ConversationalSearchService.AnswerQuery method. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest {
   /** Optional. End user specification. */
-  endUserSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpec;
+  endUserSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestEndUserSpec | undefined;
   /** Query understanding specification. */
-  queryUnderstandingSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpec;
+  queryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestQueryUnderstandingSpec
+    | undefined;
   /** The session resource name. Not required. When session field is not set, the API is in sessionless mode. We support auto session mode: users can use the wildcard symbol `-` as session ID. A new ID will be automatically generated and assigned. */
-  session?: string;
+  session?: string | undefined;
   /** Optional. Grounding specification. */
-  groundingSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestGroundingSpec;
+  groundingSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestGroundingSpec | undefined;
   /** A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** Answer generation specification. */
-  answerGenerationSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpec;
+  answerGenerationSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestAnswerGenerationSpec
+    | undefined;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** Search specification. */
-  searchSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpec;
+  searchSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSearchSpec | undefined;
   /** Required. Current user query. */
-  query?: GoogleCloudDiscoveryengineV1alphaQuery;
+  query?: GoogleCloudDiscoveryengineV1alphaQuery | undefined;
   /** Deprecated: This field is deprecated. Streaming Answer API will be supported. Asynchronous mode control. If enabled, the response will be returned with answer/session resource name without final answer. The API users need to do the polling to get the latest status of answer/session by calling ConversationalSearchService.GetAnswer or ConversationalSearchService.GetSession method. */
-  asynchronousMode?: boolean;
+  asynchronousMode?: boolean | undefined;
   /** Model specification. */
-  safetySpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpec;
+  safetySpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestSafetySpec | undefined;
   /** Related questions specification. */
-  relatedQuestionsSpec?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestRelatedQuestionsSpec;
+  relatedQuestionsSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryRequestRelatedQuestionsSpec
+    | undefined;
 }
 export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSessionStateEnum = "STATE_UNSPECIFIED" | "IN_PROGRESS";
 /** Citation source. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerCitationSource {
   /** ID of the citation source. */
-  referenceId?: string;
+  referenceId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerCitationSourceList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerCitationSource>;
 /** Grounding support for a claim in `answer_text`. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport {
   /** Required. End of the claim, exclusive. */
-  endIndex?: string;
+  endIndex?: string | undefined;
   /** Indicates that this claim required grounding check. When the system decided this claim didn't require attribution/grounding check, this field is set to false. In that case, no grounding check was done for the claim and therefore `grounding_score`, `sources` is not returned. */
-  groundingCheckRequired?: boolean;
+  groundingCheckRequired?: boolean | undefined;
   /** Required. Index indicates the start of the claim, measured in bytes (UTF-8 unicode). */
-  startIndex?: string;
+  startIndex?: string | undefined;
   /** A score in the range of [0, 1] describing how grounded is a specific claim by the references. Higher value means that the claim is better supported by the reference chunks. */
-  groundingScore?: number;
+  groundingScore?: number | undefined;
   /** Optional. Citation sources for the claim. */
-  sources?: GoogleCloudDiscoveryengineV1alphaAnswerCitationSourceList;
+  sources?: GoogleCloudDiscoveryengineV1alphaAnswerCitationSourceList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupportList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupport>;
@@ -774,142 +846,156 @@ export type GoogleCloudDiscoveryengineV1alphaAnswerStepStateEnum =
 /** Search action. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionSearchAction {
   /** The query to search. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Chunk information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultChunkInfo {
   /** The relevance of the chunk for a given query. Values range from 0.0 (completely irrelevant) to 1.0 (completely relevant). This value is for informational purpose only. It may change for the same query and chunk at any time due to a model retraining or change in implementation. */
-  relevanceScore?: number;
+  relevanceScore?: number | undefined;
   /** Chunk resource name. */
-  chunk?: string;
+  chunk?: string | undefined;
   /** Chunk textual content. */
-  content?: string;
+  content?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultChunkInfoList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultChunkInfo>;
 /** Snippet information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultSnippetInfo {
   /** Snippet content. */
-  snippet?: string;
+  snippet?: string | undefined;
   /** Status of the snippet defined by the search team. */
-  snippetStatus?: string;
+  snippetStatus?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultSnippetInfoList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultSnippetInfo>;
 export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResult {
   /** Data representation. The structured JSON data for the document. It's populated from the struct data from the Document, or the Chunk in search result. */
-  structData?: DocumentMap;
+  structData?: DocumentMap | undefined;
   /** Document resource name. */
-  document?: string;
+  document?: string | undefined;
   /** URI for the document. */
-  uri?: string;
+  uri?: string | undefined;
   /** If citation_type is CHUNK_LEVEL_CITATION and chunk mode is on, populate chunk info. */
-  chunkInfo?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultChunkInfoList;
+  chunkInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultChunkInfoList
+    | undefined;
   /** If citation_type is DOCUMENT_LEVEL_CITATION, populate document level snippets. */
-  snippetInfo?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultSnippetInfoList;
+  snippetInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultSnippetInfoList
+    | undefined;
   /** Title. */
-  title?: string;
+  title?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResult>;
 /** Observation. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservation {
   /** Search results observed by the search action, it can be snippets info or chunk info, depending on the citation type set by the user. */
-  searchResults?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultList;
+  searchResults?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservationSearchResultList
+    | undefined;
 }
 /** Action. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerStepAction {
   /** Search action. */
-  searchAction?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionSearchAction;
+  searchAction?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionSearchAction | undefined;
   /** Observation. */
-  observation?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservation;
+  observation?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionObservation | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerStepActionList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerStepAction>;
 /** Step information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerStep {
   /** The description of the step. */
-  description?: string;
+  description?: string | undefined;
   /** The state of the step. */
-  state?: GoogleCloudDiscoveryengineV1alphaAnswerStepStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaAnswerStepStateEnum | (string & {}) | undefined;
   /** Actions. */
-  actions?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionList;
+  actions?: GoogleCloudDiscoveryengineV1alphaAnswerStepActionList | undefined;
   /** The thought of the step. */
-  thought?: string;
+  thought?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerStepList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerStep>;
 /** Chunk content. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContent {
   /** The relevance of the chunk for a given query. Values range from 0.0 (completely irrelevant) to 1.0 (completely relevant). This value is for informational purpose only. It may change for the same query and chunk at any time due to a model retraining or change in implementation. */
-  relevanceScore?: number;
+  relevanceScore?: number | undefined;
   /** Chunk textual content. */
-  content?: string;
+  content?: string | undefined;
   /** Page identifier. */
-  pageIdentifier?: string;
+  pageIdentifier?: string | undefined;
   /** Output only. Stores indexes of blobattachments linked to this chunk. */
-  blobAttachmentIndexes?: StringList;
+  blobAttachmentIndexes?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContentList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContent>;
 /** Unstructured document information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfo {
   /** URI for the document. */
-  uri?: string;
+  uri?: string | undefined;
   /** Title. */
-  title?: string;
+  title?: string | undefined;
   /** Document resource name. */
-  document?: string;
+  document?: string | undefined;
   /** List of cited chunk contents derived from document content. */
-  chunkContents?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContentList;
+  chunkContents?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfoChunkContentList
+    | undefined;
   /** The structured JSON metadata for the document. It is populated from the struct data from the Chunk in search result. */
-  structData?: DocumentMap;
+  structData?: DocumentMap | undefined;
 }
 /** Document metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfoDocumentMetadata {
   /** Title. */
-  title?: string;
+  title?: string | undefined;
   /** Page identifier. */
-  pageIdentifier?: string;
+  pageIdentifier?: string | undefined;
   /** Document resource name. */
-  document?: string;
+  document?: string | undefined;
   /** The structured JSON metadata for the document. It is populated from the struct data from the Chunk in search result. */
-  structData?: DocumentMap;
+  structData?: DocumentMap | undefined;
   /** URI for the document. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Chunk information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfo {
   /** Document metadata. */
-  documentMetadata?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfoDocumentMetadata;
+  documentMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfoDocumentMetadata
+    | undefined;
   /** Chunk textual content. */
-  content?: string;
+  content?: string | undefined;
   /** Output only. Stores indexes of blobattachments linked to this chunk. */
-  blobAttachmentIndexes?: StringList;
+  blobAttachmentIndexes?: StringList | undefined;
   /** The relevance of the chunk for a given query. Values range from 0.0 (completely irrelevant) to 1.0 (completely relevant). This value is for informational purpose only. It may change for the same query and chunk at any time due to a model retraining or change in implementation. */
-  relevanceScore?: number;
+  relevanceScore?: number | undefined;
   /** Chunk resource name. */
-  chunk?: string;
+  chunk?: string | undefined;
 }
 /** Structured search information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocumentInfo {
   /** Output only. The title of the document. */
-  title?: string;
+  title?: string | undefined;
   /** Structured search data. */
-  structData?: DocumentMap;
+  structData?: DocumentMap | undefined;
   /** Document resource name. */
-  document?: string;
+  document?: string | undefined;
   /** Output only. The URI of the document. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Reference. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerReference {
   /** Unstructured document information. */
-  unstructuredDocumentInfo?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfo;
+  unstructuredDocumentInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerReferenceUnstructuredDocumentInfo
+    | undefined;
   /** Chunk information. */
-  chunkInfo?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfo;
+  chunkInfo?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceChunkInfo | undefined;
   /** Structured document information. */
-  structuredDocumentInfo?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocumentInfo;
+  structuredDocumentInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerReferenceStructuredDocumentInfo
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerReferenceList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerReference>;
@@ -941,26 +1027,29 @@ export type GoogleCloudDiscoveryengineV1alphaSafetyRatingSeverityEnum =
 /** Safety rating corresponding to the generated content. */
 export interface GoogleCloudDiscoveryengineV1alphaSafetyRating {
   /** Output only. Harm severity score. */
-  severityScore?: number;
+  severityScore?: number | undefined;
   /** Output only. Indicates whether the content was filtered out because of this rating. */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
   /** Output only. Harm category. */
-  category?: GoogleCloudDiscoveryengineV1alphaSafetyRatingCategoryEnum | (string & {});
+  category?: GoogleCloudDiscoveryengineV1alphaSafetyRatingCategoryEnum | (string & {}) | undefined;
   /** Output only. Harm probability levels in the content. */
-  probability?: GoogleCloudDiscoveryengineV1alphaSafetyRatingProbabilityEnum | (string & {});
+  probability?:
+    | GoogleCloudDiscoveryengineV1alphaSafetyRatingProbabilityEnum
+    | (string & {})
+    | undefined;
   /** Output only. Harm severity levels in the content. */
-  severity?: GoogleCloudDiscoveryengineV1alphaSafetyRatingSeverityEnum | (string & {});
+  severity?: GoogleCloudDiscoveryengineV1alphaSafetyRatingSeverityEnum | (string & {}) | undefined;
   /** Output only. Harm probability score. */
-  probabilityScore?: number;
+  probabilityScore?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSafetyRatingList =
   Array<GoogleCloudDiscoveryengineV1alphaSafetyRating>;
 /** The media type and data of the blob. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentBlob {
   /** Output only. Raw bytes. */
-  data?: string;
+  data?: string | undefined;
   /** Output only. The media type (MIME type) of the generated or retrieved data. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentAttributionTypeEnum =
   | "ATTRIBUTION_TYPE_UNSPECIFIED"
@@ -969,22 +1058,23 @@ export type GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentAttributionType
 /** Stores binarydata attached to text answer, e.g. image, video, audio, etc. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment {
   /** Output only. The mime type and data of the blob. */
-  data?: GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentBlob;
+  data?: GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentBlob | undefined;
   /** Output only. The attribution type of the blob. */
   attributionType?:
     | GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentAttributionTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachment>;
 /** Citation info for a segment. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerCitation {
   /** End of the attributed segment, exclusive. Measured in bytes (UTF-8 unicode). If there are multi-byte characters,such as non-ASCII characters, the index measurement is longer than the string length. */
-  endIndex?: string;
+  endIndex?: string | undefined;
   /** Index indicates the start of the segment, measured in bytes (UTF-8 unicode). If there are multi-byte characters,such as non-ASCII characters, the index measurement is longer than the string length. */
-  startIndex?: string;
+  startIndex?: string | undefined;
   /** Citation sources for the attributed segment. */
-  sources?: GoogleCloudDiscoveryengineV1alphaAnswerCitationSourceList;
+  sources?: GoogleCloudDiscoveryengineV1alphaAnswerCitationSourceList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerCitationList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerCitation>;
@@ -998,51 +1088,58 @@ export type GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryCl
 /** Query classification information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfo {
   /** Classification output. */
-  positive?: boolean;
+  positive?: boolean | undefined;
   /** Query classification type. */
   type?:
     | GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfoTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfoList =
   Array<GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfo>;
 /** Query understanding information. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfo {
   /** Query classification information. */
-  queryClassificationInfo?: GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfoList;
+  queryClassificationInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfoQueryClassificationInfoList
+    | undefined;
 }
 /** Defines an answer. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswer {
   /** Optional. Grounding supports. */
-  groundingSupports?: GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupportList;
+  groundingSupports?: GoogleCloudDiscoveryengineV1alphaAnswerGroundingSupportList | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*\/answers/*` */
-  name?: string;
+  name?: string | undefined;
   /** Additional answer-skipped reasons. This provides the reason for ignored cases. If nothing is skipped, this field is not set. */
-  answerSkippedReasons?: GoogleCloudDiscoveryengineV1alphaAnswerAnswerSkippedReasonsItemEnumList;
+  answerSkippedReasons?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerAnswerSkippedReasonsItemEnumList
+    | undefined;
   /** Output only. Answer completed timestamp. */
-  completeTime?: string;
+  completeTime?: string | undefined;
   /** Suggested related questions. */
-  relatedQuestions?: StringList;
+  relatedQuestions?: StringList | undefined;
   /** Answer generation steps. */
-  steps?: GoogleCloudDiscoveryengineV1alphaAnswerStepList;
+  steps?: GoogleCloudDiscoveryengineV1alphaAnswerStepList | undefined;
   /** Output only. Answer creation timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** References. */
-  references?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceList;
+  references?: GoogleCloudDiscoveryengineV1alphaAnswerReferenceList | undefined;
   /** The state of the answer generation. */
-  state?: GoogleCloudDiscoveryengineV1alphaAnswerStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaAnswerStateEnum | (string & {}) | undefined;
   /** The textual answer. */
-  answerText?: string;
+  answerText?: string | undefined;
   /** A score in the range of [0, 1] describing how grounded the answer is by the reference chunks. */
-  groundingScore?: number;
+  groundingScore?: number | undefined;
   /** Optional. Safety ratings. */
-  safetyRatings?: GoogleCloudDiscoveryengineV1alphaSafetyRatingList;
+  safetyRatings?: GoogleCloudDiscoveryengineV1alphaSafetyRatingList | undefined;
   /** Output only. List of blob attachments in the answer. */
-  blobAttachments?: GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentList;
+  blobAttachments?: GoogleCloudDiscoveryengineV1alphaAnswerBlobAttachmentList | undefined;
   /** Citations. */
-  citations?: GoogleCloudDiscoveryengineV1alphaAnswerCitationList;
+  citations?: GoogleCloudDiscoveryengineV1alphaAnswerCitationList | undefined;
   /** Query understanding information. */
-  queryUnderstandingInfo?: GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfo;
+  queryUnderstandingInfo?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerQueryUnderstandingInfo
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultViolationSourceEnum =
   | "VIOLATION_SOURCE_UNSPECIFIED"
@@ -1052,21 +1149,25 @@ export type GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforceme
 /** Customer policy enforcement result for the Model Armor policy. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult {
   /** The error returned by Model Armor if the policy enforcement failed for some reason. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** The Model Armor violation that was found. */
-  modelArmorViolation?: string;
+  modelArmorViolation?: string | undefined;
 }
 /** Customer policy enforcement result for the banned phrase policy. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult {
   /** The banned phrases that were found in the query or the answer. */
-  bannedPhrases?: StringList;
+  bannedPhrases?: StringList | undefined;
 }
 /** Customer policy enforcement result for a single policy type. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResult {
   /** The policy enforcement result for the Model Armor policy. */
-  modelArmorEnforcementResult?: GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult;
+  modelArmorEnforcementResult?:
+    | GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultModelArmorEnforcementResult
+    | undefined;
   /** The policy enforcement result for the banned phrase policy. */
-  bannedPhraseEnforcementResult?: GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult;
+  bannedPhraseEnforcementResult?:
+    | GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultBannedPhraseEnforcementResult
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResultList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResult>;
@@ -1079,13 +1180,17 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnfo
   /** Output only. The source of the violation. */
   violationSource?:
     | GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultViolationSourceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Customer policy enforcement results. Populated only if the assist call was skipped due to a policy violation. It contains results from those filters that blocked the processing of the query. */
-  policyResults?: GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResultList;
+  policyResults?:
+    | GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultPolicyEnforcementResultList
+    | undefined;
   /** Final verdict of the customer policy enforcement. If at least one policy blocked the processing, the verdict is BLOCK. If no policy blocked the processing but at least one flagged it, the verdict is FLAG. */
   verdict?:
     | GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResultVerdictEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistAnswerAssistSkippedReasonsItemEnum =
   | "ASSIST_SKIPPED_REASON_UNSPECIFIED"
@@ -1101,31 +1206,34 @@ export type GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundi
 /** Document metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata {
   /** Domain name from the document URI. Note that the `uri` field may contain a URL that redirects to the actual website, in which case this will contain the domain name of the target site. */
-  domain?: string;
+  domain?: string | undefined;
   /** Page identifier. */
-  pageIdentifier?: string;
+  pageIdentifier?: string | undefined;
   language?:
     | GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadataLanguageEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The mime type of the document. https://www.iana.org/assignments/media-types/media-types.xhtml. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** URI for the document. It may contain a URL that redirects to the actual website. */
-  uri?: string;
+  uri?: string | undefined;
   /** Title. */
-  title?: string;
+  title?: string | undefined;
   /** Document resource name. */
-  document?: string;
+  document?: string | undefined;
 }
 /** Referenced content and related document metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReference {
   /** Referenced text content. */
-  content?: string;
+  content?: string | undefined;
   /** Chunk of code snippet from the referenced document. */
-  codeSnippet?: string;
+  codeSnippet?: string | undefined;
   /** Output only. Generic structured chunk metadata from upstream data source connectors. */
-  chunkMetadata?: DocumentMap;
+  chunkMetadata?: DocumentMap | undefined;
   /** Document metadata. */
-  documentMetadata?: GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata;
+  documentMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceDocumentMetadata
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReference>;
@@ -1133,35 +1241,41 @@ export type IntegerList = Array<number>;
 /** Grounding information for a segment of the text. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataSegment {
   /** References for the segment. */
-  referenceIndices?: IntegerList;
+  referenceIndices?: IntegerList | undefined;
   /** End of the segment, exclusive. */
-  endIndex?: string;
+  endIndex?: string | undefined;
   /** The text segment itself. */
-  text?: string;
+  text?: string | undefined;
   /** Zero-based index indicating the start of the segment, measured in bytes of a UTF-8 string (i.e. characters encoded on multiple bytes have a length of more than one). */
-  startIndex?: string;
+  startIndex?: string | undefined;
   /** Score for the segment. */
-  groundingScore?: number;
+  groundingScore?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataSegmentList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataSegment>;
 /** Grounding information for a visual segment. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataVisualSegment {
   /** References for the visual segment. */
-  referenceIndices?: IntegerList;
+  referenceIndices?: IntegerList | undefined;
   /** The content id of the visual segment. In order to display the citation of the visual element, this content_id needs to match with the `grounded_content.content_metadata.content_id` field. */
-  contentId?: string;
+  contentId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataVisualSegmentList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataVisualSegment>;
 /** Grounding details for text sources. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadata {
   /** References for the grounded text. */
-  references?: GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceList;
+  references?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataReferenceList
+    | undefined;
   /** Grounding information for parts of the text. */
-  segments?: GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataSegmentList;
+  segments?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataSegmentList
+    | undefined;
   /** Grounding information for parts of the visual content. */
-  visualSegments?: GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataVisualSegmentList;
+  visualSegments?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadataVisualSegmentList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionResultOutcomeEnum =
   | "OUTCOME_UNSPECIFIED"
@@ -1173,94 +1287,99 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionR
   /** Required. Outcome of the code execution. */
   outcome?:
     | GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionResultOutcomeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Contains stdout when code execution is successful, stderr or other description otherwise. */
-  output?: string;
+  output?: string | undefined;
 }
 /** A file, e.g., an audio summary. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantContentFile {
   /** Required. The media type (MIME type) of the file. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Required. The file ID. */
-  fileId?: string;
+  fileId?: string | undefined;
 }
 /** Code generated by the model that is meant to be executed by the model. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantContentExecutableCode {
   /** Required. The code content. Currently only supports Python. */
-  code?: string;
+  code?: string | undefined;
 }
 /** Inline blob. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantContentBlob {
   /** Required. Raw bytes. */
-  data?: string;
+  data?: string | undefined;
   /** Required. The media type (MIME type) of the generated data. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 /** Multi-modal content. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantContent {
   /** Result of executing an ExecutableCode. */
-  codeExecutionResult?: GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionResult;
+  codeExecutionResult?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantContentCodeExecutionResult
+    | undefined;
   /** A file, e.g., an audio summary. */
-  file?: GoogleCloudDiscoveryengineV1alphaAssistantContentFile;
+  file?: GoogleCloudDiscoveryengineV1alphaAssistantContentFile | undefined;
   /** Code generated by the model that is meant to be executed. */
-  executableCode?: GoogleCloudDiscoveryengineV1alphaAssistantContentExecutableCode;
+  executableCode?: GoogleCloudDiscoveryengineV1alphaAssistantContentExecutableCode | undefined;
   /** Inline binary data. */
-  inlineData?: GoogleCloudDiscoveryengineV1alphaAssistantContentBlob;
+  inlineData?: GoogleCloudDiscoveryengineV1alphaAssistantContentBlob | undefined;
   /** Inline text. */
-  text?: string;
+  text?: string | undefined;
   /** Optional. Indicates if the part is thought from the model. */
-  thought?: boolean;
+  thought?: boolean | undefined;
   /** The producer of the content. Can be "model" or "user". */
-  role?: string;
+  role?: string | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface GoogleTypeDate {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 /** Source attributions for content. */
 export interface GoogleCloudDiscoveryengineV1alphaCitation {
   /** Output only. Url reference of the attribution. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. End index into the content. */
-  endIndex?: number;
+  endIndex?: number | undefined;
   /** Output only. Title of the attribution. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. Publication date of the attribution. */
-  publicationDate?: GoogleTypeDate;
+  publicationDate?: GoogleTypeDate | undefined;
   /** Output only. Start index into the content. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Output only. License of the attribution. */
-  license?: string;
+  license?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCitationList =
   Array<GoogleCloudDiscoveryengineV1alphaCitation>;
 /** A collection of source attributions for a piece of content. */
 export interface GoogleCloudDiscoveryengineV1alphaCitationMetadata {
   /** Output only. List of citations. */
-  citations?: GoogleCloudDiscoveryengineV1alphaCitationList;
+  citations?: GoogleCloudDiscoveryengineV1alphaCitationList | undefined;
 }
 /** A piece of content and possibly its grounding information. Not all content needs grounding. Phrases like "Of course, I will gladly search it for you." do not need grounding. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGroundedContent {
   /** Metadata for grounding based on text sources. */
-  textGroundingMetadata?: GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadata;
+  textGroundingMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantGroundedContentTextGroundingMetadata
+    | undefined;
   /** The content. */
-  content?: GoogleCloudDiscoveryengineV1alphaAssistantContent;
+  content?: GoogleCloudDiscoveryengineV1alphaAssistantContent | undefined;
   /** Source attribution of the generated content. See also https://cloud.google.com/vertex-ai/generative-ai/docs/learn/overview#citation_check */
-  citationMetadata?: GoogleCloudDiscoveryengineV1alphaCitationMetadata;
+  citationMetadata?: GoogleCloudDiscoveryengineV1alphaCitationMetadata | undefined;
 }
 /** One part of the multi-part response of the assist call. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistAnswerReply {
   /** The time when the reply was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. When set, uniquely identifies a reply within the `AssistAnswer` resource. During an AssistantService.StreamAssist call, multiple `Reply` messages with the same ID can occur within the response stream (across multiple StreamAssistResponse messages). These represent parts of a single `Reply` message in the final `AssistAnswer` resource. */
-  replyId?: string;
+  replyId?: string | undefined;
   /** Possibly grounded response text or media from the assistant. */
-  groundedContent?: GoogleCloudDiscoveryengineV1alphaAssistantGroundedContent;
+  groundedContent?: GoogleCloudDiscoveryengineV1alphaAssistantGroundedContent | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistAnswerReplyList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistAnswerReply>;
@@ -1274,80 +1393,84 @@ export type GoogleCloudDiscoveryengineV1alphaAssistAnswerStateEnum =
 /** AssistAnswer resource, main part of AssistResponse. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistAnswer {
   /** Immutable. Identifier. Resource name of the `AssistAnswer`. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/assistAnswers/{assist_answer}` This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Maps an internal connector agent name (the machine identifier embedded in tool names, e.g. `custom_mcp__agent`) to the connector's human-readable display name. Populated at serving time for custom MCP / agent gateway connectors so user-facing surfaces (e.g. the tool-call chip) can show the connector name instead of its internal identifier. Empty when there are no such connectors. */
-  connectorDisplayNames?: StringMap;
+  connectorDisplayNames?: StringMap | undefined;
   /** Optional. The field contains information about the various policy checks' results like the banned phrases or the Model Armor checks. This field is populated only if the assist call was skipped due to a policy violation. */
-  customerPolicyEnforcementResult?: GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResult;
+  customerPolicyEnforcementResult?:
+    | GoogleCloudDiscoveryengineV1alphaAssistAnswerCustomerPolicyEnforcementResult
+    | undefined;
   /** Reasons for not answering the assist call. */
-  assistSkippedReasons?: GoogleCloudDiscoveryengineV1alphaAssistAnswerAssistSkippedReasonsItemEnumList;
+  assistSkippedReasons?:
+    | GoogleCloudDiscoveryengineV1alphaAssistAnswerAssistSkippedReasonsItemEnumList
+    | undefined;
   /** Replies of the assistant. */
-  replies?: GoogleCloudDiscoveryengineV1alphaAssistAnswerReplyList;
+  replies?: GoogleCloudDiscoveryengineV1alphaAssistAnswerReplyList | undefined;
   /** State of the answer generation. */
-  state?: GoogleCloudDiscoveryengineV1alphaAssistAnswerStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaAssistAnswerStateEnum | (string & {}) | undefined;
   /** Output only. Maps a tool name (for example, `Internal-KB-Search` or `custom_mcp__agent__Internal-KB-Search`) to its human-readable display title (for example, `@Internal-KB Search`), populated from MCP tool `title` or `annotations.title` metadata so user-facing surfaces can display the tool title instead of the raw function declaration identifier. Empty when no tool display titles are present. */
-  toolDisplayNames?: StringMap;
+  toolDisplayNames?: StringMap | undefined;
 }
 /** Represents a turn, including a query from the user and a answer from service. */
 export interface GoogleCloudDiscoveryengineV1alphaSessionTurn {
   /** Optional. Represents metadata related to the query config, for example LLM model and version used, model parameters (temperature, grounding parameters, etc.). The prefix "google." is reserved for Google-developed functionality. */
-  queryConfig?: StringMap;
+  queryConfig?: StringMap | undefined;
   /** Output only. In ConversationalSearchService.GetSession API, if GetSessionRequest.include_answer_details is set to true, this field will be populated when getting answer query session. */
-  detailedAnswer?: GoogleCloudDiscoveryengineV1alphaAnswer;
+  detailedAnswer?: GoogleCloudDiscoveryengineV1alphaAnswer | undefined;
   /** Optional. The resource name of the answer to the user query. Only set if the answer generation (/answer API call) happened in this turn. */
-  answer?: string;
+  answer?: string | undefined;
   /** Output only. In ConversationalSearchService.GetSession API, if GetSessionRequest.include_answer_details is set to true, this field will be populated when getting assistant session. */
-  detailedAssistAnswer?: GoogleCloudDiscoveryengineV1alphaAssistAnswer;
+  detailedAssistAnswer?: GoogleCloudDiscoveryengineV1alphaAssistAnswer | undefined;
   /** Optional. Indicates whether this turn is a live turn. */
-  live?: boolean;
+  live?: boolean | undefined;
   /** Optional. The user query. May not be set if this turn is merely regenerating an answer to a different turn */
-  query?: GoogleCloudDiscoveryengineV1alphaQuery;
+  query?: GoogleCloudDiscoveryengineV1alphaQuery | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSessionTurnList =
   Array<GoogleCloudDiscoveryengineV1alphaSessionTurn>;
 /** External session proto definition. */
 export interface GoogleCloudDiscoveryengineV1alphaSession {
   /** Optional. Whether the session is pinned, pinned session will be displayed on the top of the session list. */
-  isPinned?: boolean;
+  isPinned?: boolean | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time the session started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** A unique identifier for tracking users. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** Optional. The display name of the session. This field is used to identify the session in the UI. By default, the display name is the first turn query text in the session. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The time the session finished. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The state of the session. */
-  state?: GoogleCloudDiscoveryengineV1alphaSessionStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaSessionStateEnum | (string & {}) | undefined;
   /** Optional. The labels for the session. Can be set as filter in ListSessionsRequest. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** Output only. Full resource name of an in-progress AsyncAssist operation for this session, e.g. `projects/*\/locations/*\/collections/*\/engines/*\/sessions/*\/operations/*`. Set when the operation starts and cleared when it finishes. */
-  pendingAsyncAssistOperationId?: string;
+  pendingAsyncAssistOperationId?: string | undefined;
   /** Turns. */
-  turns?: GoogleCloudDiscoveryengineV1alphaSessionTurnList;
+  turns?: GoogleCloudDiscoveryengineV1alphaSessionTurnList | undefined;
 }
 /** Response message for ConversationalSearchService.AnswerQuery method. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerQueryResponse {
   /** Session resource object. It will be only available when session field is set and valid in the AnswerQueryRequest request. */
-  session?: GoogleCloudDiscoveryengineV1alphaSession;
+  session?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
   /** A global unique ID used for logging. */
-  answerQueryToken?: string;
+  answerQueryToken?: string | undefined;
   /** Answer resource object. If AnswerQueryRequest.QueryUnderstandingSpec.QueryRephraserSpec.max_rephrase_steps is greater than 1, use Answer.name to fetch answer information using ConversationalSearchService.GetAnswer API. */
-  answer?: GoogleCloudDiscoveryengineV1alphaAnswer;
+  answer?: GoogleCloudDiscoveryengineV1alphaAnswer | undefined;
 }
 export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 export interface AnswerProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaTargetSiteIndexingStatusEnum =
   | "INDEXING_STATUS_UNSPECIFIED"
@@ -1369,174 +1492,178 @@ export type GoogleCloudDiscoveryengineV1alphaSiteVerificationInfoSiteVerificatio
 /** Verification information for target sites in advanced site search. */
 export interface GoogleCloudDiscoveryengineV1alphaSiteVerificationInfo {
   /** Latest site verification time. */
-  verifyTime?: string;
+  verifyTime?: string | undefined;
   /** Site verification state indicating the ownership and validity. */
   siteVerificationState?:
     | GoogleCloudDiscoveryengineV1alphaSiteVerificationInfoSiteVerificationStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Failed due to insufficient quota. */
 export interface GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReasonQuotaFailure {
   /** This number is an estimation on how much total quota this project needs to successfully complete indexing. */
-  totalRequiredQuota?: string;
+  totalRequiredQuota?: string | undefined;
 }
 /** Site search indexing failure reasons. */
 export interface GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReason {
   /** Failed due to insufficient quota. */
-  quotaFailure?: GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReasonQuotaFailure;
+  quotaFailure?: GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReasonQuotaFailure | undefined;
 }
 /** A target site for the SiteSearchEngine. */
 export interface GoogleCloudDiscoveryengineV1alphaTargetSite {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Input only. The user provided URI pattern from which the `generated_uri_pattern` is generated. */
-  providedUriPattern?: string;
+  providedUriPattern?: string | undefined;
   /** Output only. Indexing status. */
-  indexingStatus?: GoogleCloudDiscoveryengineV1alphaTargetSiteIndexingStatusEnum | (string & {});
+  indexingStatus?:
+    | GoogleCloudDiscoveryengineV1alphaTargetSiteIndexingStatusEnum
+    | (string & {})
+    | undefined;
   /** Immutable. If set to false, a uri_pattern is generated to include all pages whose address contains the provided_uri_pattern. If set to true, an uri_pattern is generated to try to be an exact match of the provided_uri_pattern or just the specific page if the provided_uri_pattern is a specific one. provided_uri_pattern is always normalized to generate the URI pattern to be used by the search engine. */
-  exactMatch?: boolean;
+  exactMatch?: boolean | undefined;
   /** Output only. The target site's last updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The type of the target site, e.g., whether the site is to be included or excluded. */
-  type?: GoogleCloudDiscoveryengineV1alphaTargetSiteTypeEnum | (string & {});
+  type?: GoogleCloudDiscoveryengineV1alphaTargetSiteTypeEnum | (string & {}) | undefined;
   /** Output only. This is system-generated based on the provided_uri_pattern. */
-  generatedUriPattern?: string;
+  generatedUriPattern?: string | undefined;
   /** Output only. Site ownership and validity verification status. */
-  siteVerificationInfo?: GoogleCloudDiscoveryengineV1alphaSiteVerificationInfo;
+  siteVerificationInfo?: GoogleCloudDiscoveryengineV1alphaSiteVerificationInfo | undefined;
   /** Output only. Root domain of the provided_uri_pattern. */
-  rootDomainUri?: string;
+  rootDomainUri?: string | undefined;
   /** Output only. Failure reason. */
-  failureReason?: GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReason;
+  failureReason?: GoogleCloudDiscoveryengineV1alphaTargetSiteFailureReason | undefined;
 }
 /** Request message for SiteSearchEngineService.CreateTargetSite method. */
 export interface GoogleCloudDiscoveryengineV1alphaCreateTargetSiteRequest {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The TargetSite to create. */
-  targetSite?: GoogleCloudDiscoveryengineV1alphaTargetSite;
+  targetSite?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCreateTargetSiteRequestList =
   Array<GoogleCloudDiscoveryengineV1alphaCreateTargetSiteRequest>;
 /** Request message for SiteSearchEngineService.BatchCreateTargetSites method. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest {
   /** Required. The request message specifying the resources to create. A maximum of 20 TargetSites can be created in a batch. */
-  requests?: GoogleCloudDiscoveryengineV1alphaCreateTargetSiteRequestList;
+  requests?: GoogleCloudDiscoveryengineV1alphaCreateTargetSiteRequestList | undefined;
 }
 export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest | undefined;
 }
 export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaBatchCreateTargetSitesRequest | undefined;
 }
 /** Agentspace content uploaded as source. */
 export interface GoogleCloudNotebooklmV1alphaUserContentAgentspaceContent {
   /** Optional. Resource name of the idea forge instance. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/ideaForgeInstances/{instance}` */
-  ideaforgeIdeaName?: string;
+  ideaforgeIdeaName?: string | undefined;
   /** Optional. Engine to verify the permission of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}`. */
-  engineName?: string;
+  engineName?: string | undefined;
   /** Optional. The full resource name of the Agentspace document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. */
-  documentName?: string;
+  documentName?: string | undefined;
 }
 /** Video content uploaded as source. */
 export interface GoogleCloudNotebooklmV1alphaUserContentVideoContent {
   /** The youtube url of the video content. */
-  youtubeUrl?: string;
+  youtubeUrl?: string | undefined;
 }
 /** The text content uploaded as source. */
 export interface GoogleCloudNotebooklmV1alphaUserContentTextContent {
   /** The name to be displayed for the source. */
-  content?: string;
+  content?: string | undefined;
   /** The display name of the text source. */
-  sourceName?: string;
+  sourceName?: string | undefined;
 }
 /** The content from Google Drive. */
 export interface GoogleCloudNotebooklmV1alphaUserContentGoogleDriveContent {
   /** The name to be displayed for the source. */
-  sourceName?: string;
+  sourceName?: string | undefined;
   /** The document id of the selected document. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** The mime type of the selected document. This can be used to differentiate type of content selected in the drive picker. Use application/vnd.google-apps.document for Google Docs or application/vnd.google-apps.presentation for Google Slides. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 /** The web content uploaded as source. */
 export interface GoogleCloudNotebooklmV1alphaUserContentWebContent {
   /** The name to be displayed for the source. */
-  sourceName?: string;
+  sourceName?: string | undefined;
   /** If URL is supplied, will fetch the webpage in the backend. */
-  url?: string;
+  url?: string | undefined;
 }
 /** The "Content" messages refer to data the user wants to upload. */
 export interface GoogleCloudNotebooklmV1alphaUserContent {
   /** Agentspace content uploaded as source. */
-  agentspaceContent?: GoogleCloudNotebooklmV1alphaUserContentAgentspaceContent;
+  agentspaceContent?: GoogleCloudNotebooklmV1alphaUserContentAgentspaceContent | undefined;
   /** The video content uploaded as source. */
-  videoContent?: GoogleCloudNotebooklmV1alphaUserContentVideoContent;
+  videoContent?: GoogleCloudNotebooklmV1alphaUserContentVideoContent | undefined;
   /** The text content uploaded as source. */
-  textContent?: GoogleCloudNotebooklmV1alphaUserContentTextContent;
+  textContent?: GoogleCloudNotebooklmV1alphaUserContentTextContent | undefined;
   /** The content from Google Drive. */
-  googleDriveContent?: GoogleCloudNotebooklmV1alphaUserContentGoogleDriveContent;
+  googleDriveContent?: GoogleCloudNotebooklmV1alphaUserContentGoogleDriveContent | undefined;
   /** The web content uploaded as source. */
-  webContent?: GoogleCloudNotebooklmV1alphaUserContentWebContent;
+  webContent?: GoogleCloudNotebooklmV1alphaUserContentWebContent | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaUserContentList =
   Array<GoogleCloudNotebooklmV1alphaUserContent>;
 /** Request for SourceService.BatchCreateSources method. */
 export interface GoogleCloudNotebooklmV1alphaBatchCreateSourcesRequest {
   /** Required. The UserContents to be uploaded. */
-  userContents?: GoogleCloudNotebooklmV1alphaUserContentList;
+  userContents?: GoogleCloudNotebooklmV1alphaUserContentList | undefined;
 }
 export interface BatchCreateProjectsLocationsNotebooksSourcesRequest {
   /** Required. The parent resource where the sources will be created. Format: projects/{project}/locations/{location}/notebooks/{notebook} */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaBatchCreateSourcesRequest;
+  body?: GoogleCloudNotebooklmV1alphaBatchCreateSourcesRequest | undefined;
 }
 /** Metadata about a google doc source. */
 export interface GoogleCloudNotebooklmV1alphaGoogleDocsSourceMetadata {
   /** Output only. The document id of the google doc. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Output only. Revision id for the doc. */
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 /** Metadata about an agentspace source. */
 export interface GoogleCloudNotebooklmV1alphaAgentspaceMetadata {
   /** Output only. The title of the document. */
-  documentTitle?: string;
+  documentTitle?: string | undefined;
   /** Output only. The full document name in Agentspace. */
-  documentName?: string;
+  documentName?: string | undefined;
 }
 /** Metadata about a youtube video source. */
 export interface GoogleCloudNotebooklmV1alphaYoutubeMetadata {
   /** Output only. The channel name of the youtube video. */
-  channelName?: string;
+  channelName?: string | undefined;
   /** Output only. The id of the youtube video. */
-  videoId?: string;
+  videoId?: string | undefined;
 }
 /** Represents the metadata of a source and some additional information. */
 export interface GoogleCloudNotebooklmV1alphaSourceMetadata {
   /** The word count of the source. */
-  wordCount?: number;
+  wordCount?: number | undefined;
   /** Metadata for a google doc source. */
-  googleDocsMetadata?: GoogleCloudNotebooklmV1alphaGoogleDocsSourceMetadata;
+  googleDocsMetadata?: GoogleCloudNotebooklmV1alphaGoogleDocsSourceMetadata | undefined;
   /** The number of tokens in the source. */
-  tokenCount?: number;
+  tokenCount?: number | undefined;
   /** Metadata for an agentspace source. */
-  agentspaceMetadata?: GoogleCloudNotebooklmV1alphaAgentspaceMetadata;
+  agentspaceMetadata?: GoogleCloudNotebooklmV1alphaAgentspaceMetadata | undefined;
   /** The timestamp the source was added. */
-  sourceAddedTimestamp?: string;
+  sourceAddedTimestamp?: string | undefined;
   /** Metadata for a youtube video source. */
-  youtubeMetadata?: GoogleCloudNotebooklmV1alphaYoutubeMetadata;
+  youtubeMetadata?: GoogleCloudNotebooklmV1alphaYoutubeMetadata | undefined;
 }
 /** SourceId is the last segment of the source's resource name. */
 export interface GoogleCloudNotebooklmV1alphaSourceId {
   /** The id of the source. */
-  id?: string;
+  id?: string | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaFailureReasonSourceUnreachableErrorDetailsEnum =
   | "ERROR_REASON_UNSPECIFIED"
@@ -1552,7 +1679,8 @@ export interface GoogleCloudNotebooklmV1alphaFailureReasonSourceUnreachable {
   /** Describes why the source is unreachable. */
   errorDetails?:
     | GoogleCloudNotebooklmV1alphaFailureReasonSourceUnreachableErrorDetailsEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Indicates that the source is empty. */
 export interface GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty {}
@@ -1562,7 +1690,7 @@ export type GoogleCloudNotebooklmV1alphaFailureReasonYoutubeErrorVideoDeleted =
 /** A youtube specific error. */
 export interface GoogleCloudNotebooklmV1alphaFailureReasonYoutubeError {
   /** Error to indicate that the source was removed because the video was deleted. */
-  videoDeleted?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  videoDeleted?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Could not detect language of the file (it may not be speech). */
 export type GoogleCloudNotebooklmV1alphaFailureReasonAudioTranscriptionErrorLanguageDetectionFailed =
@@ -1573,9 +1701,9 @@ export type GoogleCloudNotebooklmV1alphaFailureReasonAudioTranscriptionErrorNoAu
 /** An audio file transcription specific error. */
 export interface GoogleCloudNotebooklmV1alphaFailureReasonAudioTranscriptionError {
   /** Could not detect language of the file (it may not be speech). */
-  languageDetectionFailed?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  languageDetectionFailed?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** No audio was detected in the input file (it may have been a video). */
-  noAudioDetected?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  noAudioDetected?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Indicates that the user does not have space for this source. */
 export type GoogleCloudNotebooklmV1alphaFailureReasonSourceLimitExceeded =
@@ -1589,14 +1717,14 @@ export type GoogleCloudNotebooklmV1alphaFailureReasonGoogleDriveErrorDownloadPre
 /** A google drive specific error. */
 export interface GoogleCloudNotebooklmV1alphaFailureReasonGoogleDriveError {
   /** The user was prevented from downloading the file. */
-  downloadPrevented?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  downloadPrevented?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Indicates source word count exceeded the user's limit. */
 export interface GoogleCloudNotebooklmV1alphaFailureReasonSourceTooLong {
   /** The number of words in the source. */
-  wordCount?: number;
+  wordCount?: number | undefined;
   /** The word count limit for the current user at the time of the upload. */
-  wordLimit?: number;
+  wordLimit?: number | undefined;
 }
 /** Error to indicate that the source was removed because the domain was blocked. */
 export type GoogleCloudNotebooklmV1alphaFailureReasonDomainBlocked =
@@ -1619,33 +1747,35 @@ export type GoogleCloudNotebooklmV1alphaFailureReasonPaywallError =
 /** Failure reason containing details about why a source failed to ingest. */
 export interface GoogleCloudNotebooklmV1alphaFailureReason {
   /** Indicates that the source is unreachable. */
-  sourceUnreachable?: GoogleCloudNotebooklmV1alphaFailureReasonSourceUnreachable;
+  sourceUnreachable?: GoogleCloudNotebooklmV1alphaFailureReasonSourceUnreachable | undefined;
   /** Indicates that the source is empty. */
-  sourceEmpty?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  sourceEmpty?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** A youtube specific error. */
-  youtubeError?: GoogleCloudNotebooklmV1alphaFailureReasonYoutubeError;
+  youtubeError?: GoogleCloudNotebooklmV1alphaFailureReasonYoutubeError | undefined;
   /** An audio file transcription specific error. */
-  audioTranscriptionError?: GoogleCloudNotebooklmV1alphaFailureReasonAudioTranscriptionError;
+  audioTranscriptionError?:
+    | GoogleCloudNotebooklmV1alphaFailureReasonAudioTranscriptionError
+    | undefined;
   /** Error if the user tries to update beyond their limits. */
-  sourceLimitExceeded?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  sourceLimitExceeded?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Indicates an error occurred while ingesting the source. */
-  ingestionError?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  ingestionError?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** A google drive specific error. */
-  googleDriveError?: GoogleCloudNotebooklmV1alphaFailureReasonGoogleDriveError;
+  googleDriveError?: GoogleCloudNotebooklmV1alphaFailureReasonGoogleDriveError | undefined;
   /** Indicates source word count exceeded the user's limit. */
-  sourceTooLong?: GoogleCloudNotebooklmV1alphaFailureReasonSourceTooLong;
+  sourceTooLong?: GoogleCloudNotebooklmV1alphaFailureReasonSourceTooLong | undefined;
   /** Error if the user tries to add a source from a blocked domain. */
-  domainBlocked?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  domainBlocked?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Indicates that the source MIME type is blocked. */
-  mimeTypeBlocked?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  mimeTypeBlocked?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Indicates an error occurred while uploading the source. */
-  uploadError?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  uploadError?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Indicates an unknown error occurred. */
-  unknown?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  unknown?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Indicates that the policy check failed. */
-  policyCheckFailed?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  policyCheckFailed?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Indicates that the source is paywalled and cannot be ingested. */
-  paywallError?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  paywallError?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaSourceSettingsStatusEnum =
   | "SOURCE_STATUS_UNSPECIFIED"
@@ -1657,60 +1787,60 @@ export type GoogleCloudNotebooklmV1alphaSourceSettingsStatusEnum =
 /** Allows extension of Source Settings in the BatchCreateSources (Formerly AddSource request). */
 export interface GoogleCloudNotebooklmV1alphaSourceSettings {
   /** Failure reason containing details about why a source failed to ingest. */
-  failureReason?: GoogleCloudNotebooklmV1alphaFailureReason;
+  failureReason?: GoogleCloudNotebooklmV1alphaFailureReason | undefined;
   /** Status of the source. */
-  status?: GoogleCloudNotebooklmV1alphaSourceSettingsStatusEnum | (string & {});
+  status?: GoogleCloudNotebooklmV1alphaSourceSettingsStatusEnum | (string & {}) | undefined;
 }
 /** Source represents a single source of content. */
 export interface GoogleCloudNotebooklmV1alphaSource {
   /** Identifier. The full resource name of the source. Format: `projects/{project}/locations/{location}/notebooks/{notebook}/sources/{source_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Metadata about the source. */
-  metadata?: GoogleCloudNotebooklmV1alphaSourceMetadata;
+  metadata?: GoogleCloudNotebooklmV1alphaSourceMetadata | undefined;
   /** Optional. Title of the source. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Output only. Source id, which is the last segment of the source's resource name. */
-  sourceId?: GoogleCloudNotebooklmV1alphaSourceId;
+  sourceId?: GoogleCloudNotebooklmV1alphaSourceId | undefined;
   /** Output only. Status of the source, and any failure reasons. */
-  settings?: GoogleCloudNotebooklmV1alphaSourceSettings;
+  settings?: GoogleCloudNotebooklmV1alphaSourceSettings | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaSourceList = Array<GoogleCloudNotebooklmV1alphaSource>;
 /** Response for SourceService.BatchCreateSources method. */
 export interface GoogleCloudNotebooklmV1alphaBatchCreateSourcesResponse {
   /** The Sources. */
-  sources?: GoogleCloudNotebooklmV1alphaSourceList;
+  sources?: GoogleCloudNotebooklmV1alphaSourceList | undefined;
 }
 /** Request for NotebookService.BatchDeleteNotebooks method. */
 export interface GoogleCloudNotebooklmV1alphaBatchDeleteNotebooksRequest {
   /** Required. Full resource names of Notebook, such as `projects/{project}/locations/{location}/notebooks/{notebook_id}`. */
-  names?: StringList;
+  names?: StringList | undefined;
 }
 export interface BatchDeleteProjectsLocationsNotebooksRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaBatchDeleteNotebooksRequest;
+  body?: GoogleCloudNotebooklmV1alphaBatchDeleteNotebooksRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
 /** Request for BatchDeleteSourcesRequest method. */
 export interface GoogleCloudNotebooklmV1alphaBatchDeleteSourcesRequest {
   /** Required. Names of sources to be deleted. Format: projects/{project}/locations/{location}/notebooks/{notebook}/sources/{source} */
-  names?: StringList;
+  names?: StringList | undefined;
 }
 export interface BatchDeleteProjectsLocationsNotebooksSourcesRequest {
   /** Required. The parent resource where the sources will be deleted. Format: projects/{project}/locations/{location}/notebooks/{notebook} */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaBatchDeleteSourcesRequest;
+  body?: GoogleCloudNotebooklmV1alphaBatchDeleteSourcesRequest | undefined;
 }
 export interface BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** The exact URIs to match by. */
-  "matcher.urisMatcher.uris"?: StringList;
+  "matcher.urisMatcher.uris"?: StringList | undefined;
   /** Required. The FHIR resources to match by. Format: projects/{project}/locations/{location}/datasets/{dataset}/fhirStores/{fhir_store}/fhir/{resource_type}/{fhir_resource_id} */
-  "matcher.fhirMatcher.fhirResources"?: StringList;
+  "matcher.fhirMatcher.fhirResources"?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1720,33 +1850,39 @@ export type GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDo
 /** The value of the matcher that was used to match the Document. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataMatcherValue {
   /** If match by URI, the URI of the Document. */
-  uri?: string;
+  uri?: string | undefined;
   /** Format: projects/{project}/locations/{location}/datasets/{dataset}/fhirStores/{fhir_store}/fhir/{resource_type}/{fhir_resource_id} */
-  fhirResource?: string;
+  fhirResource?: string | undefined;
 }
 /** The metadata of a Document. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadata {
   /** The state of the document. */
-  state?: GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataStateEnum;
+  state?:
+    | GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataStateEnum
+    | undefined;
   /** The value of the matcher that was used to match the Document. */
-  matcherValue?: GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataMatcherValue;
+  matcherValue?:
+    | GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataMatcherValue
+    | undefined;
   /** The data ingestion source of the Document. Allowed values are: * `batch`: Data ingested via Batch API, e.g., ImportDocuments. * `streaming` Data ingested via Streaming API, e.g., FHIR streaming. */
-  dataIngestionSource?: string;
+  dataIngestionSource?: string | undefined;
   /** The timestamp of the last time the Document was last indexed. */
-  lastRefreshedTime?: string;
+  lastRefreshedTime?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataList =
   Array<GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadata>;
 /** Response message for DocumentService.BatchGetDocumentsMetadata method. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponse {
   /** The metadata of the Documents. */
-  documentsMetadata?: GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataList;
+  documentsMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaBatchGetDocumentsMetadataResponseDocumentMetadataList
+    | undefined;
 }
 export interface BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest {
   /** Required. The FHIR resources to match by. Format: projects/{project}/locations/{location}/datasets/{dataset}/fhirStores/{fhir_store}/fhir/{resource_type}/{fhir_resource_id} */
-  "matcher.fhirMatcher.fhirResources"?: StringList;
+  "matcher.fhirMatcher.fhirResources"?: StringList | undefined;
   /** The exact URIs to match by. */
-  "matcher.urisMatcher.uris"?: StringList;
+  "matcher.urisMatcher.uris"?: StringList | undefined;
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
 }
@@ -1757,42 +1893,42 @@ export type GoogleCloudDiscoveryengineV1alphaUserAvailabilityStateEnum =
 /** Tracks whether a resource is available for a given user (distinct from whether the user is allowed to use that resource by licensing, etc). */
 export interface GoogleCloudDiscoveryengineV1alphaUserAvailability {
   /** Optional. Whether the user can currently use the resource. Set by the caller on update. If unspecified, defaults to `ACTIVE`. */
-  state?: GoogleCloudDiscoveryengineV1alphaUserAvailabilityStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaUserAvailabilityStateEnum | (string & {}) | undefined;
   /** Optional. Deprecated: use `update_time` only. */
-  observeTime?: string;
+  observeTime?: string | undefined;
   /** Output only. Timestamp when the most recent update to `state` was saved. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. Immutable. User principal (IdP subject for Workforce Identity, email for Google sign-in). */
-  userPrincipal?: string;
+  userPrincipal?: string | undefined;
 }
 /** Request message for UserStoreService.UpdateUserAvailability method. Also nested within BatchUpdateUserAvailabilityRequest for the UserStoreService.BatchUpdateUserAvailability method. `parent` is a required field when this message is used for a single Update, but is optional when used for a BatchUpdate. */
 export interface GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequest {
   /** Optional. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. The list of fields to update. Only 'state' is supported; if unset, defaults to 'state'. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The UserAvailability to update. */
-  userAvailability?: GoogleCloudDiscoveryengineV1alphaUserAvailability;
+  userAvailability?: GoogleCloudDiscoveryengineV1alphaUserAvailability | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequestList =
   Array<GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequest>;
 /** Request message for UserStoreService.BatchUpdateUserAvailabilities method. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserAvailabilitiesRequest {
   /** Required. The UserAvailabilitys to update. Maximum of 1000 at a time: if more are passed in, returns INVALID_ARGUMENT. Batch is all or nothing; either all updates succeed or none. The `parent` field in each child request must either be empty, or match the `parent` field in the batch request. If there is a mismatch, that will also result in an INVALID_ARGUMENT being returned. */
-  requests?: GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequestList;
+  requests?: GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequestList | undefined;
 }
 export interface BatchUpdateProjectsLocationsUserStoresUserAvailabilitiesRequest {
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchUpdateUserAvailabilitiesRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaBatchUpdateUserAvailabilitiesRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaUserAvailabilityList =
   Array<GoogleCloudDiscoveryengineV1alphaUserAvailability>;
 /** Response message for UserStoreService.BatchUpdateUserAvailabilities method. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserAvailabilitiesResponse {
   /** The updated UserAvailabilitys. */
-  userAvailabilities?: GoogleCloudDiscoveryengineV1alphaUserAvailabilityList;
+  userAvailabilities?: GoogleCloudDiscoveryengineV1alphaUserAvailabilityList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaUserLicenseLicenseAssignmentStateEnum =
   | "LICENSE_ASSIGNMENT_STATE_UNSPECIFIED"
@@ -1804,43 +1940,46 @@ export type GoogleCloudDiscoveryengineV1alphaUserLicenseLicenseAssignmentStateEn
 /** User License information assigned by the admin. */
 export interface GoogleCloudDiscoveryengineV1alphaUserLicense {
   /** Optional. The user profile. We user user full name(First name + Last name) as user profile. */
-  userProfile?: string;
+  userProfile?: string | undefined;
   /** Required. Immutable. The user principal of the User, could be email address or other prinical identifier. This field is immutable. Admin assign licenses based on the user principal. */
-  userPrincipal?: string;
+  userPrincipal?: string | undefined;
   /** Output only. User last logged in time. If the user has not logged in yet, this field will be empty. */
-  lastLoginTime?: string;
+  lastLoginTime?: string | undefined;
   /** Output only. User update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The full resource name of the Subscription(LicenseConfig) assigned to the user. */
-  licenseConfig?: string;
+  licenseConfig?: string | undefined;
   /** Output only. User created timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. License assignment state of the user. If the user is assigned with a license config, the user login will be assigned with the license; If the user's license assignment state is unassigned or unspecified, no license config will be associated to the user; */
   licenseAssignmentState?:
     | GoogleCloudDiscoveryengineV1alphaUserLicenseLicenseAssignmentStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaUserLicenseList =
   Array<GoogleCloudDiscoveryengineV1alphaUserLicense>;
 /** The inline source for the input config for BatchUpdateUserLicenses method. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequestInlineSource {
   /** Required. A list of user licenses to update. Each user license must have a valid UserLicense.user_principal. */
-  userLicenses?: GoogleCloudDiscoveryengineV1alphaUserLicenseList;
+  userLicenses?: GoogleCloudDiscoveryengineV1alphaUserLicenseList | undefined;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 /** Request message for UserLicenseService.BatchUpdateUserLicenses method. */
 export interface GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequest {
   /** Optional. If true, if user licenses removed associated license config, the user license will be deleted. By default which is false, the user license will be updated to unassigned state. */
-  deleteUnassignedUserLicenses?: boolean;
+  deleteUnassignedUserLicenses?: boolean | undefined;
   /** The inline source for the input content for license assignment. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequestInlineSource;
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequestInlineSource
+    | undefined;
 }
 export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest {
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaBatchUpdateUserLicensesRequest | undefined;
 }
 /** Request message for SiteSearchEngineService.BatchVerifyTargetSites method. */
 export type GoogleCloudDiscoveryengineV1alphaBatchVerifyTargetSitesRequest =
@@ -1849,7 +1988,7 @@ export interface BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSit
   /** Required. The parent resource shared by all TargetSites being verified. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export type GoogleLongrunningCancelOperationRequest =
@@ -1858,13 +1997,13 @@ export interface CancelProjectsLocationsCollectionsDataStoresBranchesOperationsR
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export interface CancelProjectsLocationsDataStoresBranchesOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -1879,28 +2018,32 @@ export type GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberVerificati
 /** A user or group the policy refers to. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMember {
   /** Required. Kind of member. */
-  type?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberTypeEnum | (string & {});
+  type?:
+    | GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Label shown in the console. Never used for evaluation. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Identifier evaluated at serving time. Its format depends on the project's identity provider: * Google identity (`GSUITE`): the group or user email. For groups, the server resolves the email to a group ID on write and returns the email on read. * Workforce Identity Federation (`THIRD_PARTY`), groups: the value the provider emits in `google.groups`. With SCIM this is the SCIM group ID; without SCIM and with the default Microsoft Entra mapping it is the Entra group object ID. * Workforce Identity Federation, users: the user's workforce identity subject. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Result of the server's directory check when the member was saved. */
   verification?:
     | GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberVerificationEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList =
   Array<GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMember>;
 /** Request for EngineService.CheckFeaturePolicyMembers method. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersRequest {
   /** Required. The members to check, in the form a policy takes them. At least 1 and at most 100. `verification` is ignored. */
-  members?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList;
+  members?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList | undefined;
 }
 export interface CheckFeaturePolicyMembersProjectsLocationsCollectionsEnginesRequest {
   /** Required. The engine resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseDirectorySourceEnum =
   | "DIRECTORY_SOURCE_UNSPECIFIED"
@@ -1910,105 +2053,111 @@ export type GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseDi
 /** The result for one requested member. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseMemberCheck {
   /** OK when the member is valid and, for a group, in the directory. Otherwise INVALID_ARGUMENT for a malformed member or a group the directory doesn't have, and UNAVAILABLE for a Google group the directory couldn't be asked about. EngineService.UpdateEngine fails on all of these, except that it leaves out an allowed group the directory doesn't have, saves the other members, and lists the group in Engine.feature_policy_rejections. */
-  status?: GoogleRpcStatus;
+  status?: GoogleRpcStatus | undefined;
   /** The member as EngineService.UpdateEngine would save it: `id` normalized, `display_name` taken from the directory when it has one, and `verification` set. Echoes the request's member when `status` is an INVALID_ARGUMENT from the member's format. */
-  member?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMember;
+  member?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMember | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseMemberCheckList =
   Array<GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseMemberCheck>;
 /** Response for EngineService.CheckFeaturePolicyMembers method. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponse {
   /** Where the project's groups are looked up. */
-  directorySource?: GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseDirectorySourceEnum;
+  directorySource?:
+    | GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseDirectorySourceEnum
+    | undefined;
   /** One result per requested member, in request order. Members are checked independently, so two emails for the same Google group both pass. */
-  memberChecks?: GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseMemberCheckList;
+  memberChecks?:
+    | GoogleCloudDiscoveryengineV1alphaCheckFeaturePolicyMembersResponseMemberCheckList
+    | undefined;
 }
 /** Specification for the grounding check. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckGroundingSpec {
   /** The threshold (in [0,1]) used for determining whether a fact must be cited for a claim in the answer candidate. Choosing a higher threshold will lead to fewer but very strong citations, while choosing a lower threshold may lead to more but somewhat weaker citations. If unset, the threshold will default to 0.6. */
-  citationThreshold?: number;
+  citationThreshold?: number | undefined;
   /** The control flag that enables claim-level grounding score in the response. */
-  enableClaimLevelScore?: boolean;
+  enableClaimLevelScore?: boolean | undefined;
 }
 /** Grounding Fact. */
 export interface GoogleCloudDiscoveryengineV1alphaGroundingFact {
   /** Text content of the fact. Can be at most 10K characters long. */
-  factText?: string;
+  factText?: string | undefined;
   /** Attributes associated with the fact. Common attributes include `source` (indicating where the fact was sourced from), `author` (indicating the author of the fact), and so on. */
-  attributes?: StringMap;
+  attributes?: StringMap | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaGroundingFactList =
   Array<GoogleCloudDiscoveryengineV1alphaGroundingFact>;
 /** Request message for GroundedGenerationService.CheckGrounding method. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckGroundingRequest {
   /** Configuration of the grounding check. */
-  groundingSpec?: GoogleCloudDiscoveryengineV1alphaCheckGroundingSpec;
+  groundingSpec?: GoogleCloudDiscoveryengineV1alphaCheckGroundingSpec | undefined;
   /** Answer candidate to check. It can have a maximum length of 4096 tokens. */
-  answerCandidate?: string;
+  answerCandidate?: string | undefined;
   /** List of facts for the grounding check. We support up to 200 facts. */
-  facts?: GoogleCloudDiscoveryengineV1alphaGroundingFactList;
+  facts?: GoogleCloudDiscoveryengineV1alphaGroundingFactList | undefined;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
 }
 export interface CheckProjectsLocationsGroundingConfigsRequest {
   /** Required. The resource name of the grounding config, such as `projects/*\/locations/global/groundingConfigs/default_grounding_config`. */
   groundingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCheckGroundingRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaCheckGroundingRequest | undefined;
 }
 /** Text and citation info for a claim in the answer candidate. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseClaim {
   /** Text for the claim in the answer candidate. Always provided regardless of whether citations or anti-citations are found. */
-  claimText?: string;
+  claimText?: string | undefined;
   /** Position indicating the end of the claim in the answer candidate, exclusive, in bytes. Note that this is not measured in characters and, therefore, must be rendered as such. For example, if the claim text contains non-ASCII characters, the start and end positions vary when measured in characters (programming-language-dependent) and when measured in bytes (programming-language-independent). */
-  endPos?: number;
+  endPos?: number | undefined;
   /** A list of indices (into 'cited_chunks') specifying the citations associated with the claim. For instance [1,3,4] means that cited_chunks[1], cited_chunks[3], cited_chunks[4] are the facts cited supporting for the claim. A citation to a fact indicates that the claim is supported by the fact. */
-  citationIndices?: IntegerList;
+  citationIndices?: IntegerList | undefined;
   /** Position indicating the start of the claim in the answer candidate, measured in bytes. Note that this is not measured in characters and, therefore, must be rendered in the user interface keeping in mind that some characters may take more than one byte. For example, if the claim text contains non-ASCII characters, the start and end positions vary when measured in characters (programming-language-dependent) and when measured in bytes (programming-language-independent). */
-  startPos?: number;
+  startPos?: number | undefined;
   /** Confidence score for the claim in the answer candidate, in the range of [0, 1]. This is set only when `CheckGroundingRequest.grounding_spec.enable_claim_level_score` is true. */
-  score?: number;
+  score?: number | undefined;
   /** Indicates that this claim required grounding check. When the system decided this claim doesn't require attribution/grounding check, this field will be set to false. In that case, no grounding check was done for the claim and therefore citation_indices should not be returned. */
-  groundingCheckRequired?: boolean;
+  groundingCheckRequired?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseClaimList =
   Array<GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseClaim>;
 /** Fact Chunk. */
 export interface GoogleCloudDiscoveryengineV1alphaFactChunk {
   /** Source from which this fact chunk was retrieved. If it was retrieved from the GroundingFacts provided in the request then this field will contain the index of the specific fact from which this chunk was retrieved. */
-  source?: string;
+  source?: string | undefined;
   /** The URI of the source. */
-  uri?: string;
+  uri?: string | undefined;
   /** The title of the source. */
-  title?: string;
+  title?: string | undefined;
   /** Text content of the fact chunk. Can be at most 10K characters long. */
-  chunkText?: string;
+  chunkText?: string | undefined;
   /** More fine-grained information for the source reference. */
-  sourceMetadata?: StringMap;
+  sourceMetadata?: StringMap | undefined;
   /** The index of this chunk. Currently, only used for the streaming mode. */
-  index?: number;
+  index?: number | undefined;
   /** The domain of the source. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFactChunkList =
   Array<GoogleCloudDiscoveryengineV1alphaFactChunk>;
 /** Fact chunk for grounding check. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseCheckGroundingFactChunk {
   /** Text content of the fact chunk. Can be at most 10K characters long. */
-  chunkText?: string;
+  chunkText?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseCheckGroundingFactChunkList =
   Array<GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseCheckGroundingFactChunk>;
 /** Response message for the GroundedGenerationService.CheckGrounding method. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckGroundingResponse {
   /** Claim texts and citation info across all claims in the answer candidate. */
-  claims?: GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseClaimList;
+  claims?: GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseClaimList | undefined;
   /** The support score for the input answer candidate. Higher the score, higher is the fraction of claims that are supported by the provided facts. This is always set when a response is returned. */
-  supportScore?: number;
+  supportScore?: number | undefined;
   /** List of facts cited across all claims in the answer candidate. These are derived from the facts supplied in the request. */
-  citedChunks?: GoogleCloudDiscoveryengineV1alphaFactChunkList;
+  citedChunks?: GoogleCloudDiscoveryengineV1alphaFactChunkList | undefined;
   /** List of facts cited across all claims in the answer candidate. These are derived from the facts supplied in the request. */
-  citedFacts?: GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseCheckGroundingFactChunkList;
+  citedFacts?:
+    | GoogleCloudDiscoveryengineV1alphaCheckGroundingResponseCheckGroundingFactChunkList
+    | undefined;
 }
 export interface CheckRefreshTokenProjectsLocationsCollectionsDataConnectorRequest {
   /** Required. The resource name of the connector for which a token is queried. */
@@ -2017,251 +2166,257 @@ export interface CheckRefreshTokenProjectsLocationsCollectionsDataConnectorReque
 /** Response message for the DataConnectorService.CheckRefreshToken method. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckRefreshTokenResponse {
   /** Info about the stored refresh token. */
-  refreshTokenInfo?: GoogleCloudDiscoveryengineV1alphaRefreshTokenInfo;
+  refreshTokenInfo?: GoogleCloudDiscoveryengineV1alphaRefreshTokenInfo | undefined;
 }
 /** An object representing a resource that can be used for monitoring, logging, billing, or other purposes. Examples include virtual machine instances, databases, and storage devices such as disks. The `type` field identifies a MonitoredResourceDescriptor object that describes the resource's schema. Information in the `labels` field identifies the actual resource and its attributes according to the schema. For example, a particular Compute Engine VM instance could be represented by the following object, because the MonitoredResourceDescriptor for `"gce_instance"` has labels `"project_id"`, `"instance_id"` and `"zone"`: { "type": "gce_instance", "labels": { "project_id": "my-project", "instance_id": "12345678901234", "zone": "us-central1-a" }} */
 export interface GoogleApiMonitoredResource {
   /** Required. The monitored resource type. This field must match the `type` field of a MonitoredResourceDescriptor object. For example, the type of a Compute Engine VM instance is `gce_instance`. Some descriptors include the service name in the type; for example, the type of a Datastream stream is `datastream.googleapis.com/Stream`. */
-  type?: string;
+  type?: string | undefined;
   /** Required. Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels `"project_id"`, `"instance_id"`, and `"zone"`. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export type GoogleApiMonitoredResourceList = Array<GoogleApiMonitoredResource>;
 /** Request for CheckRequirement method. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckRequirementRequest {
   /** The type specifying the requirement to check. The supported types are: * `discoveryengine.googleapis.com/media_recs/general/all/warning` * `discoveryengine.googleapis.com/media_recs/oyml/cvr/warning` * `discoveryengine.googleapis.com/media_recs/rfy/cvr/warning` * `discoveryengine.googleapis.com/media_recs/mlt/cvr/warning` * `discoveryengine.googleapis.com/media_recs/mp/cvr/warning` * `discoveryengine.googleapis.com/media_recs/oyml/wdps/warning` * `discoveryengine.googleapis.com/media_recs/rfy/wdps/warning` * `discoveryengine.googleapis.com/media_recs/mlt/wdps/warning` */
-  requirementType?: string;
+  requirementType?: string | undefined;
   /** The resources to be checked for this requirement. The type needed for the monitored resources: * `discoveryengine.googleapis.com/Branch`. * The labels needed for this resource: * `project_number` * `location_id` * `collection_id` * `datastore_id` * `branch_id` * `discoveryengine.googleapis.com/DataStore` * The labels needed for this resource: * `project_number` * `location_id` * `collection_id` * `datastore_id` */
-  resources?: GoogleApiMonitoredResourceList;
+  resources?: GoogleApiMonitoredResourceList | undefined;
 }
 export interface CheckRequirementProjectsLocationsRequirementsRequest {
   /** Required. Full resource name of the location. Format `projects/{project_number_or_id}/locations/{location}` */
   location: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCheckRequirementRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaCheckRequirementRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface GoogleTypeExpr {
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Specifies a metrics query and bind its result to a variable which will be used in the `condition`. */
 export interface GoogleCloudDiscoveryengineV1alphaRequirementMetricBinding {
   /** The filter string used for metrics query. Example: "metric.type = \"discoveryengine.googleapis.com/events/day_count\" AND " "metric.conditions.time_range = \"NINETY_DAYS\"" */
-  metricFilter?: string;
+  metricFilter?: string | undefined;
   /** The variable id to be referenced in `condition`. */
-  variableId?: string;
+  variableId?: string | undefined;
   /** The resource being monitored for the metric. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Human readable description of the corresponding metric filter. */
-  description?: string;
+  description?: string | undefined;
   /** The category of the metric's target resource. Example: "Events" */
-  category?: string;
+  category?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaRequirementMetricBindingList =
   Array<GoogleCloudDiscoveryengineV1alphaRequirementMetricBinding>;
 /** Specifies a threshold value for a given severity. */
 export interface GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingThresholdValue {
   /** The severity of errors if the threshold is not met. It should be one of the `severity` fields in the requirement. */
-  severity?: string;
+  severity?: string | undefined;
   /** The value of the threshold. */
-  value?: number;
+  value?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingThresholdValueList =
   Array<GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingThresholdValue>;
 /** Specifies a multi-level threshold to apply to apply to a `metric_bindings` in the `condition` CEL expression. */
 export interface GoogleCloudDiscoveryengineV1alphaRequirementThresholdBinding {
   /** The variable id to be referenced in `condition`. Must be unique across all `metric_bindings` and `threshold_bindings`. */
-  variableId?: string;
+  variableId?: string | undefined;
   /** The values of the threshold. The values should be ordered from the most strict to the least strict. */
-  thresholdValues?: GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingThresholdValueList;
+  thresholdValues?:
+    | GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingThresholdValueList
+    | undefined;
   /** Human readable description of the corresponding threshold and sub-requirement. */
-  description?: string;
+  description?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingList =
   Array<GoogleCloudDiscoveryengineV1alphaRequirementThresholdBinding>;
 /** Specifies a samples query and bind its result to a variable which will be used in the `condition`. */
 export interface GoogleCloudDiscoveryengineV1alphaRequirementViolationSamplesBinding {
   /** The filter string used for samples query. Example: "sample.type = \"retail.googleapis.com/user_event\" AND " "sample.labels.event_type = \"PURCHASE\" " */
-  sampleFilter?: string;
+  sampleFilter?: string | undefined;
   /** The variable id to be referenced in `condition`. */
-  variableId?: string;
+  variableId?: string | undefined;
   /** Description of this sample binding. Used by the UI to render user friendly descriptions for each requirement condition. Should be less than 128 characters long. */
-  description?: string;
+  description?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaRequirementViolationSamplesBindingList =
   Array<GoogleCloudDiscoveryengineV1alphaRequirementViolationSamplesBinding>;
 /** A data requirement. */
 export interface GoogleCloudDiscoveryengineV1alphaRequirement {
   /** The severity of errors if the requirement is not met. It must be ordered from the most strict to the least strict. Examples: * `BLOCKING` * `CRITICAL` * `WARNING` All thresholds in the requirement must have all the severity here. */
-  severity?: StringList;
+  severity?: StringList | undefined;
   /** A list of the metric bindings to be used in `condition`. */
-  metricBindings?: GoogleCloudDiscoveryengineV1alphaRequirementMetricBindingList;
+  metricBindings?: GoogleCloudDiscoveryengineV1alphaRequirementMetricBindingList | undefined;
   /** The description of the requirement. */
-  description?: string;
+  description?: string | undefined;
   /** A list of threshold bindings to be used in `condition`. */
-  thresholdBindings?: GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingList;
+  thresholdBindings?: GoogleCloudDiscoveryengineV1alphaRequirementThresholdBindingList | undefined;
   /** The requirement type, used as an identifier. Must be unique. The type should prefix with service name to avoid possible collision. It's encouraged to use natural hierarchical grouping for similar requirements. Examples: * `library.googleapis.com/books/min_available_books` * `discoveryengine.googleapis.com/media_rec/recommended_for_you/conversion_rate` */
-  type?: string;
+  type?: string | undefined;
   /** The condition for evaluating the requirement result. Variables in the expression should be provided by `metrics_bindings` or `threshold_bindings`. Where `metrics_bindings` are used for computed metrics and `threshold_bindings` are used to define thresholds for corresponding `metric_bindings`. */
-  condition?: GoogleTypeExpr;
+  condition?: GoogleTypeExpr | undefined;
   /** The name of the requirement. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A list of the metric bindings to be used in `condition`. */
-  violationSamplesBindings?: GoogleCloudDiscoveryengineV1alphaRequirementViolationSamplesBindingList;
+  violationSamplesBindings?:
+    | GoogleCloudDiscoveryengineV1alphaRequirementViolationSamplesBindingList
+    | undefined;
 }
 /** Exemplars are example points that may be used to annotate aggregated distribution values. They are metadata that gives information about a particular value added to a Distribution bucket, such as a trace ID that was active when a value was added. They may contain further information, such as a example values and timestamps, origin, etc. */
 export interface GoogleApiDistributionExemplar {
   /** Value of the exemplar point. This value determines to which bucket the exemplar belongs. */
-  value?: number;
+  value?: number | undefined;
   /** The observation (sampling) time of the above value. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Contextual information about the example value. Examples are: Trace: type.googleapis.com/google.monitoring.v3.SpanContext Literal string: type.googleapis.com/google.protobuf.StringValue Labels dropped during aggregation: type.googleapis.com/google.monitoring.v3.DroppedLabels There may be only a single attachment of any given message type in a single exemplar, and this is enforced by the system. */
-  attachments?: DocumentMapList;
+  attachments?: DocumentMapList | undefined;
 }
 export type GoogleApiDistributionExemplarList = Array<GoogleApiDistributionExemplar>;
 /** The range of the population values. */
 export interface GoogleApiDistributionRange {
   /** The maximum of the population values. */
-  max?: number;
+  max?: number | undefined;
   /** The minimum of the population values. */
-  min?: number;
+  min?: number | undefined;
 }
 /** Specifies an exponential sequence of buckets that have a width that is proportional to the value of the lower bound. Each bucket represents a constant relative uncertainty on a specific value in the bucket. There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the following boundaries: Upper bound (0 <= i < N-1): scale * (growth_factor ^ i). Lower bound (1 <= i < N): scale * (growth_factor ^ (i - 1)). */
 export interface GoogleApiDistributionBucketOptionsExponential {
   /** Must be greater than 0. */
-  scale?: number;
+  scale?: number | undefined;
   /** Must be greater than 0. */
-  numFiniteBuckets?: number;
+  numFiniteBuckets?: number | undefined;
   /** Must be greater than 1. */
-  growthFactor?: number;
+  growthFactor?: number | undefined;
 }
 /** Specifies a linear sequence of buckets that all have the same width (except overflow and underflow). Each bucket represents a constant absolute uncertainty on the specific value in the bucket. There are `num_finite_buckets + 2` (= N) buckets. Bucket `i` has the following boundaries: Upper bound (0 <= i < N-1): offset + (width * i). Lower bound (1 <= i < N): offset + (width * (i - 1)). */
 export interface GoogleApiDistributionBucketOptionsLinear {
   /** Lower bound of the first bucket. */
-  offset?: number;
+  offset?: number | undefined;
   /** Must be greater than 0. */
-  numFiniteBuckets?: number;
+  numFiniteBuckets?: number | undefined;
   /** Must be greater than 0. */
-  width?: number;
+  width?: number | undefined;
 }
 export type DoubleList = Array<number>;
 /** Specifies a set of buckets with arbitrary widths. There are `size(bounds) + 1` (= N) buckets. Bucket `i` has the following boundaries: Upper bound (0 <= i < N-1): bounds[i] Lower bound (1 <= i < N); bounds[i - 1] The `bounds` field must contain at least one element. If `bounds` has only one element, then there are no finite buckets, and that single element is the common boundary of the overflow and underflow buckets. */
 export interface GoogleApiDistributionBucketOptionsExplicit {
   /** The values must be monotonically increasing. */
-  bounds?: DoubleList;
+  bounds?: DoubleList | undefined;
 }
 /** `BucketOptions` describes the bucket boundaries used to create a histogram for the distribution. The buckets can be in a linear sequence, an exponential sequence, or each bucket can be specified explicitly. `BucketOptions` does not include the number of values in each bucket. A bucket has an inclusive lower bound and exclusive upper bound for the values that are counted for that bucket. The upper bound of a bucket must be strictly greater than the lower bound. The sequence of N buckets for a distribution consists of an underflow bucket (number 0), zero or more finite buckets (number 1 through N - 2) and an overflow bucket (number N - 1). The buckets are contiguous: the lower bound of bucket i (i > 0) is the same as the upper bound of bucket i - 1. The buckets span the whole range of finite values: lower bound of the underflow bucket is -infinity and the upper bound of the overflow bucket is +infinity. The finite buckets are so-called because both bounds are finite. */
 export interface GoogleApiDistributionBucketOptions {
   /** The exponential buckets. */
-  exponentialBuckets?: GoogleApiDistributionBucketOptionsExponential;
+  exponentialBuckets?: GoogleApiDistributionBucketOptionsExponential | undefined;
   /** The linear bucket. */
-  linearBuckets?: GoogleApiDistributionBucketOptionsLinear;
+  linearBuckets?: GoogleApiDistributionBucketOptionsLinear | undefined;
   /** The explicit buckets. */
-  explicitBuckets?: GoogleApiDistributionBucketOptionsExplicit;
+  explicitBuckets?: GoogleApiDistributionBucketOptionsExplicit | undefined;
 }
 /** `Distribution` contains summary statistics for a population of values. It optionally contains a histogram representing the distribution of those values across a set of buckets. The summary statistics are the count, mean, sum of the squared deviation from the mean, the minimum, and the maximum of the set of population of values. The histogram is based on a sequence of buckets and gives a count of values that fall into each bucket. The boundaries of the buckets are given either explicitly or by formulas for buckets of fixed or exponentially increasing widths. Although it is not forbidden, it is generally a bad idea to include non-finite values (infinities or NaNs) in the population of values, as this will render the `mean` and `sum_of_squared_deviation` fields meaningless. */
 export interface GoogleApiDistribution {
   /** The number of values in the population. Must be non-negative. This value must equal the sum of the values in `bucket_counts` if a histogram is provided. */
-  count?: string;
+  count?: string | undefined;
   /** Must be in increasing order of `value` field. */
-  exemplars?: GoogleApiDistributionExemplarList;
+  exemplars?: GoogleApiDistributionExemplarList | undefined;
   /** The sum of squared deviations from the mean of the values in the population. For values x_i this is: Sum[i=1..n]((x_i - mean)^2) Knuth, "The Art of Computer Programming", Vol. 2, page 232, 3rd edition describes Welford's method for accumulating this sum in one pass. If `count` is zero then this field must be zero. */
-  sumOfSquaredDeviation?: number;
+  sumOfSquaredDeviation?: number | undefined;
   /** If specified, contains the range of the population values. The field must not be present if the `count` is zero. */
-  range?: GoogleApiDistributionRange;
+  range?: GoogleApiDistributionRange | undefined;
   /** The number of values in each bucket of the histogram, as described in `bucket_options`. If the distribution does not have a histogram, then omit this field. If there is a histogram, then the sum of the values in `bucket_counts` must equal the value in the `count` field of the distribution. If present, `bucket_counts` should contain N values, where N is the number of buckets specified in `bucket_options`. If you supply fewer than N values, the remaining values are assumed to be 0. The order of the values in `bucket_counts` follows the bucket numbering schemes described for the three bucket types. The first value must be the count for the underflow bucket (number 0). The next N-2 values are the counts for the finite buckets (number 1 through N-2). The N'th value in `bucket_counts` is the count for the overflow bucket (number N-1). */
-  bucketCounts?: StringList;
+  bucketCounts?: StringList | undefined;
   /** Defines the histogram bucket boundaries. If the distribution does not contain a histogram, then omit this field. */
-  bucketOptions?: GoogleApiDistributionBucketOptions;
+  bucketOptions?: GoogleApiDistributionBucketOptions | undefined;
   /** The arithmetic mean of the values in the population. If `count` is zero then this field must be zero. */
-  mean?: number;
+  mean?: number | undefined;
 }
 /** A single strongly-typed value. */
 export interface GoogleMonitoringV3TypedValue {
   /** A 64-bit integer. Its range is approximately ±9.2x1018. */
-  int64Value?: string;
+  int64Value?: string | undefined;
   /** A distribution value. */
-  distributionValue?: GoogleApiDistribution;
+  distributionValue?: GoogleApiDistribution | undefined;
   /** A 64-bit double-precision floating-point number. Its magnitude is approximately ±10±300 and it has 16 significant digits of precision. */
-  doubleValue?: number;
+  doubleValue?: number | undefined;
   /** A Boolean value: `true` or `false`. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** A variable-length string value. */
-  stringValue?: string;
+  stringValue?: string | undefined;
 }
 /** Metric result. The metric are in the requirement_condition. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckRequirementResponseMetricQueryResult {
   /** This metric query name is mapping to variables in the requirement_condition. */
-  name?: string;
+  name?: string | undefined;
   /** Type identifier of the metric corresponding to this query result. */
-  metricType?: string;
+  metricType?: string | undefined;
   /** Value of the metric query. */
-  value?: GoogleMonitoringV3TypedValue;
+  value?: GoogleMonitoringV3TypedValue | undefined;
   /** The unit in which this metric is reported. Follows [The Unified Code for Units of Measure](https://unitsofmeasure.org/ucum.html) standard. */
-  unit?: string;
+  unit?: string | undefined;
   /** Time corresponding to when this metric value was calculated. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCheckRequirementResponseMetricQueryResultList =
   Array<GoogleCloudDiscoveryengineV1alphaCheckRequirementResponseMetricQueryResult>;
 /** Response for the CheckRequirement method. */
 export interface GoogleCloudDiscoveryengineV1alphaCheckRequirementResponse {
   /** The result of the requirement. It should be one of the `severity` fields in the requirement definition. If any error happens during the evaluation, it will be `UNKNOWN`. */
-  result?: string;
+  result?: string | undefined;
   /** The condition for evaluating the requirement result. */
-  requirementCondition?: GoogleTypeExpr;
+  requirementCondition?: GoogleTypeExpr | undefined;
   /** Requirement definition. */
-  requirement?: GoogleCloudDiscoveryengineV1alphaRequirement;
+  requirement?: GoogleCloudDiscoveryengineV1alphaRequirement | undefined;
   /** Metric results. */
-  metricResults?: GoogleCloudDiscoveryengineV1alphaCheckRequirementResponseMetricQueryResultList;
+  metricResults?:
+    | GoogleCloudDiscoveryengineV1alphaCheckRequirementResponseMetricQueryResultList
+    | undefined;
   /** Timestamp of the oldest calculated metric (i.e. the most stale metric). Indicates that the `result` may not accurately reflect any Event and Product Catalog updates performed after this time. */
-  oldestMetricTimestamp?: string;
+  oldestMetricTimestamp?: string | undefined;
 }
 export interface CollectProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** The URL including cgi-parameters but excluding the hash fragment with a length limit of 5,000 characters. This is often more useful than the referer URL, because many browsers only send the domain for third-party requests. */
-  uri?: string;
+  uri?: string | undefined;
   /** The event timestamp in milliseconds. This prevents browser caching of otherwise identical get requests. The name is abbreviated to reduce the payload bytes. */
-  ets?: string;
+  ets?: string | undefined;
   /** Required. The parent resource name. If the collect user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the collect user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. URL encoded UserEvent proto with a length limit of 2,000,000 characters. */
-  userEvent?: string;
+  userEvent?: string | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface GoogleApiHttpBody {
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface CollectProjectsLocationsDataStoresUserEventsRequest {
   /** Required. The parent resource name. If the collect user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the collect user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** The URL including cgi-parameters but excluding the hash fragment with a length limit of 5,000 characters. This is often more useful than the referer URL, because many browsers only send the domain for third-party requests. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. URL encoded UserEvent proto with a length limit of 2,000,000 characters. */
-  userEvent?: string;
+  userEvent?: string | undefined;
   /** The event timestamp in milliseconds. This prevents browser caching of otherwise identical get requests. The name is abbreviated to reduce the payload bytes. */
-  ets?: string;
+  ets?: string | undefined;
 }
 export interface CollectProjectsLocationsUserEventsRequest {
   /** Required. URL encoded UserEvent proto with a length limit of 2,000,000 characters. */
-  userEvent?: string;
+  userEvent?: string | undefined;
   /** Required. The parent resource name. If the collect user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the collect user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** The event timestamp in milliseconds. This prevents browser caching of otherwise identical get requests. The name is abbreviated to reduce the payload bytes. */
-  ets?: string;
+  ets?: string | undefined;
   /** The URL including cgi-parameters but excluding the hash fragment with a length limit of 5,000 characters. This is often more useful than the referer URL, because many browsers only send the domain for third-party requests. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export type CompleteExternalIdentitiesProjectsLocationsEntityTypeFilterEnum =
   | "ENTITY_TYPE_FILTER_UNSPECIFIED"
@@ -2271,24 +2426,25 @@ export interface CompleteExternalIdentitiesProjectsLocationsRequest {
   /** Required. The parent location resource name, such as `projects/*\/locations/global`. */
   parent: string;
   /** Required. The prefix to search for. The matching is case-insensitive. * Users: * Supported: `primary_email` (SCIM `emails[type=work]` only), `given_name`, and `family_name` by leading prefix, and `display_name` per word. * Not supported: `subject`, `external_id`, and SCIM `userName` (not stored; only used to derive `subject` when `google.subject` maps `user.userName`). * Groups: * Supported: `display_name` per word. */
-  prefixQuery?: string;
+  prefixQuery?: string | undefined;
   /** Optional. The type of entities to fetch. If not set, all entity types will be returned. */
   entityTypeFilter?:
     | CompleteExternalIdentitiesProjectsLocationsEntityTypeFilterEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Whether to use scim identities for external identity completion. If false, we will call the Microsoft graph API to fetch the external identities. */
-  useScimIdentities?: boolean;
+  useScimIdentities?: boolean | undefined;
   /** Optional. The maximum number of user and group results to return. The service may return fewer than this value. If unspecified, at most 6 results will be returned. The limit is distributed as evenly as possible across users and groups. For example, if max_suggestions is 7, the service may return 4 users and 3 groups. If there are fewer suggestions of one type than half the limit, the other type may return more suggestions up to the max_suggestions limit. */
-  maxSuggestions?: number;
+  maxSuggestions?: number | undefined;
 }
 /** Metadata corresponding to the external user. */
 export interface GoogleCloudDiscoveryengineV1alphaExternalIdentityUserMetadata {
   /** The user's primary email address (populated from SCIM `emails[type=work]`). Do not use this for IAM bindings. Use ExternalIdentity.subject. */
-  primaryEmail?: string;
+  primaryEmail?: string | undefined;
   /** The user's family name. */
-  familyName?: string;
+  familyName?: string | undefined;
   /** The user's given name. */
-  givenName?: string;
+  givenName?: string | undefined;
 }
 /** Metadata corresponding to the external group. */
 export type GoogleCloudDiscoveryengineV1alphaExternalIdentityGroupMetadata =
@@ -2296,50 +2452,52 @@ export type GoogleCloudDiscoveryengineV1alphaExternalIdentityGroupMetadata =
 /** External identity representing either a user or group. This user or group is from an external identity provider (IdP). */
 export interface GoogleCloudDiscoveryengineV1alphaExternalIdentity {
   /** The unique 3P ID(external_id) of the entity (user or group). */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Output only. Represents the canonical IAM subject identifier (for users) or group identifier (for groups), derived from the workforce-pool claim mapping. Falls back to custom logic if not set. This must be used for IAM bindings. */
-  subject?: string;
+  subject?: string | undefined;
   /** The display name of the user or group. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Metadata corresponding to the external user. */
-  userMetadata?: GoogleCloudDiscoveryengineV1alphaExternalIdentityUserMetadata;
+  userMetadata?: GoogleCloudDiscoveryengineV1alphaExternalIdentityUserMetadata | undefined;
   /** Metadata corresponding to the external user. */
-  groupMetadata?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  groupMetadata?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaExternalIdentityList =
   Array<GoogleCloudDiscoveryengineV1alphaExternalIdentity>;
 /** Response message for CompletionService.CompleteExternalIdentities. */
 export interface GoogleCloudDiscoveryengineV1alphaCompleteExternalIdentitiesResponse {
   /** The list of external identities that match the query. */
-  externalIdentities?: GoogleCloudDiscoveryengineV1alphaExternalIdentityList;
+  externalIdentities?: GoogleCloudDiscoveryengineV1alphaExternalIdentityList | undefined;
 }
 export interface CompleteQueryProjectsLocationsCollectionsDataStoresRequest {
   /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** Specifies the autocomplete data model. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
-  queryModel?: string;
+  queryModel?: string | undefined;
   /** Required. The parent data store resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. */
   dataStore: string;
   /** Indicates if tail suggestions should be returned if there are no suggestions that match the full query. Even if set to true, if there are suggestions that match the full query, those are returned and no tail suggestions are returned. */
-  includeTailSuggestions?: boolean;
+  includeTailSuggestions?: boolean | undefined;
   /** Required. The typeahead input used to fetch suggestions. Maximum length is 128 characters. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Suggestions as search queries. */
 export interface GoogleCloudDiscoveryengineV1alphaCompleteQueryResponseQuerySuggestion {
   /** The unique document field paths that serve as the source of this suggestion if it was generated from completable fields. This field is only populated for the document-completable model. */
-  completableFieldPaths?: StringList;
+  completableFieldPaths?: StringList | undefined;
   /** The suggestion for the query. */
-  suggestion?: string;
+  suggestion?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCompleteQueryResponseQuerySuggestionList =
   Array<GoogleCloudDiscoveryengineV1alphaCompleteQueryResponseQuerySuggestion>;
 /** Response message for CompletionService.CompleteQuery method. */
 export interface GoogleCloudDiscoveryengineV1alphaCompleteQueryResponse {
   /** True if the returned suggestions are all tail suggestions. For tail matching to be triggered, include_tail_suggestions in the request must be true and there must be no suggestions that match the full query. */
-  tailMatchTriggered?: boolean;
+  tailMatchTriggered?: boolean | undefined;
   /** Results of the matched query suggestions. The result list is ordered and the first result is a top suggestion. */
-  querySuggestions?: GoogleCloudDiscoveryengineV1alphaCompleteQueryResponseQuerySuggestionList;
+  querySuggestions?:
+    | GoogleCloudDiscoveryengineV1alphaCompleteQueryResponseQuerySuggestionList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypesItemEnum =
   | "SUGGESTION_TYPE_UNSPECIFIED"
@@ -2356,41 +2514,43 @@ export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggest
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
 export interface GoogleTypeLatLng {
   /** The longitude in degrees. It must be in the range [-180.0, +180.0]. */
-  longitude?: number;
+  longitude?: number | undefined;
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
-  latitude?: number;
+  latitude?: number | undefined;
 }
 /** Precise location info with multiple representation options. */
 export interface GoogleCloudDiscoveryengineV1alphaUserInfoPreciseLocation {
   /** Optional. Location represented by a latitude/longitude point. */
-  point?: GoogleTypeLatLng;
+  point?: GoogleTypeLatLng | undefined;
   /** Location represented by a natural language address. Will later be geocoded and converted to either a point or a polygon. */
-  address?: string;
+  address?: string | undefined;
 }
 /** Information of an end user. */
 export interface GoogleCloudDiscoveryengineV1alphaUserInfo {
   /** User agent as included in the HTTP header. The field must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. This should not be set when using the client side event reporting with GTM or JavaScript tag in UserEventService.CollectUserEvent or if UserEvent.direct_user_request is set. */
-  userAgent?: string;
+  userAgent?: string | undefined;
   /** Optional. IANA time zone, e.g. Europe/Budapest. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Optional. Input only. Precise location of the user. It is used in Custom Ranking to calculate the distance between the user and the relevant documents. */
-  preciseLocation?: GoogleCloudDiscoveryengineV1alphaUserInfoPreciseLocation;
+  preciseLocation?: GoogleCloudDiscoveryengineV1alphaUserInfoPreciseLocation | undefined;
   /** Highly recommended for logged-in users. Unique identifier for logged-in user, such as a user name. Don't set for anonymous users. Always use a hashed value for this ID. Don't set the field to the same fixed ID for different users. This mixes the event history of those users together, which results in degraded model quality. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. Represents an opaque ID to the Search API. The Search API doesn't interpret the value in any way. This field is used to associate events with a user across sessions if the events are being uploaded. */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** Boost applies to suggestions which match a condition. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpec {
   /** An expression which specifies a boost condition. The syntax is the same as [filter expression syntax](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata#filter-expression-syntax). Currently, the only supported condition is a list of BCP-47 lang codes. Example: * To boost suggestions in languages `en` or `fr`: `(lang_code: ANY("en", "fr"))` */
-  condition?: string;
+  condition?: string | undefined;
   /** Strength of the boost, which should be in [-1, 1]. Negative boost means demotion. Default is 0.0. Setting to 1.0 gives the suggestions a big promotion. However, it does not necessarily mean that the top result will be a boosted suggestion. Setting to -1.0 gives the suggestions a big demotion. However, other suggestions that are relevant might still be shown. Setting to 0.0 means no boost applied. The boosting condition is ignored. */
-  boost?: number;
+  boost?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpecList =
   Array<GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpec>;
 /** Specification to boost suggestions based on the condition of the suggestion. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpec {
   /** Condition boost specifications. If a suggestion matches multiple conditions in the specifications, boost values from these specifications are all applied and combined in a non-linear way. Maximum number of specifications is 20. Note: Currently only support language condition boost. */
-  conditionBoostSpecs?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpecList;
+  conditionBoostSpecs?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpecConditionBoostSpecList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypeSpecSuggestionTypeEnum =
   | "SUGGESTION_TYPE_UNSPECIFIED"
@@ -2404,47 +2564,52 @@ export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSu
   /** Optional. Suggestion type. */
   suggestionType?:
     | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypeSpecSuggestionTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Maximum number of suggestions to return for each suggestion type. */
-  maxSuggestions?: number;
+  maxSuggestions?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypeSpecList =
   Array<GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypeSpec>;
 /** Request message for CompletionService.AdvancedCompleteQuery method. . */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest {
   /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128 */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** Optional. Suggestion types to return. If empty or unspecified, query suggestions are returned. Only one suggestion type is supported at the moment. */
-  suggestionTypes?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypesItemEnumList;
+  suggestionTypes?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypesItemEnumList
+    | undefined;
   /** Optional. Information about the end user. This should be the same identifier information as UserEvent.user_info and SearchRequest.user_info. */
-  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo;
+  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo | undefined;
   /** Optional. Experiment ids for this request. */
-  experimentIds?: StringList;
+  experimentIds?: StringList | undefined;
   /** Optional. Specification to boost suggestions matching the condition. */
-  boostSpec?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpec;
+  boostSpec?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestBoostSpec | undefined;
   /** Required. The typeahead input used to fetch suggestions. Maximum length is 128 characters. The query can not be empty for most of the suggestion types. If it is empty, an `INVALID_ARGUMENT` error is returned. The exception is when the suggestion_types contains only the type `RECENT_SEARCH`, the query can be an empty string. The is called "zero prefix" feature, which returns user's recently searched queries given the empty query. */
-  query?: string;
+  query?: string | undefined;
   /** Indicates if tail suggestions should be returned if there are no suggestions that match the full query. Even if set to true, if there are suggestions that match the full query, those are returned and no tail suggestions are returned. */
-  includeTailSuggestions?: boolean;
+  includeTailSuggestions?: boolean | undefined;
   /** Optional. Specification of each suggestion type. */
-  suggestionTypeSpecs?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypeSpecList;
+  suggestionTypeSpecs?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequestSuggestionTypeSpecList
+    | undefined;
   /** Specifies the autocomplete query model, which only applies to the QUERY SuggestionType. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
-  queryModel?: string;
+  queryModel?: string | undefined;
 }
 export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest | undefined;
 }
 /** Suggestions from recent search history. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseRecentSearchSuggestion {
   /** The score of each suggestion. The score is in the range of [0, 1]. */
-  score?: number;
+  score?: number | undefined;
   /** The time when this recent rearch happened. */
-  recentSearchTime?: string;
+  recentSearchTime?: string | undefined;
   /** The suggestion for the query. */
-  suggestion?: string;
+  suggestion?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseRecentSearchSuggestionList =
   Array<GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseRecentSearchSuggestion>;
@@ -2456,87 +2621,89 @@ export type GoogleRpcStatusList = Array<GoogleRpcStatus>;
 /** Index status of the document. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentIndexStatus {
   /** A sample of errors encountered while indexing the document. If this field is populated, the document is not indexed due to errors. */
-  errorSamples?: GoogleRpcStatusList;
+  errorSamples?: GoogleRpcStatusList | undefined;
   /** Immutable. The message indicates the document index is in progress. If this field is populated, the document index is pending. */
-  pendingMessage?: string;
+  pendingMessage?: string | undefined;
   /** The time when the document was indexed. If this field is populated, it means the document has been indexed. While documents typically become searchable within seconds of indexing, it can sometimes take up to a few hours. */
-  indexTime?: string;
+  indexTime?: string | undefined;
 }
 /** Unstructured data linked to this document. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentContent {
   /** The content represented as a stream of bytes. The maximum length is 1,000,000 bytes (1 MB / ~0.95 MiB). Note: As with all `bytes` fields, this field is represented as pure binary in Protocol Buffers and base64-encoded string in JSON. For example, `abc123!?$*&()'-=@~` should be represented as `YWJjMTIzIT8kKiYoKSctPUB+` in JSON. See https://developers.google.com/protocol-buffers/docs/proto3#json. */
-  rawBytes?: string;
+  rawBytes?: string | undefined;
   /** The MIME type of the content. Supported types: * `application/pdf` (PDF, only native PDFs are supported for now) * `text/html` (HTML) * `text/plain` (TXT) * `application/xml` or `text/xml` (XML) * `application/json` (JSON) * `application/vnd.openxmlformats-officedocument.wordprocessingml.document` (DOCX) * `application/vnd.openxmlformats-officedocument.presentationml.presentation` (PPTX) * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` (XLSX) * `application/vnd.ms-excel.sheet.macroenabled.12` (XLSM) The following types are supported only if layout parser is enabled in the data store: * `image/bmp` (BMP) * `image/gif` (GIF) * `image/jpeg` (JPEG) * `image/png` (PNG) * `image/tiff` (TIFF) See https://www.iana.org/assignments/media-types/media-types.xhtml. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** The URI of the content. Only Cloud Storage URIs (e.g. `gs://bucket-name/path/to/file`) are supported. The maximum file size is 2.5 MB for text-based formats, 200 MB for other formats. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Principal identifier of a user or a group. */
 export interface GoogleCloudDiscoveryengineV1alphaPrincipal {
   /** Group identifier. For Google Workspace user account, group_id should be the google workspace group email. For non-google identity provider user account, group_id is the mapped group identifier configured during the workforcepool config. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** For 3P application identities which are not present in the customer identity provider. */
-  externalEntityId?: string;
+  externalEntityId?: string | undefined;
   /** User identifier. For Google Workspace user account, user_id should be the google workspace user email. For non-google identity provider user account, user_id is the mapped user identifier configured during the workforcepool config. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaPrincipalList =
   Array<GoogleCloudDiscoveryengineV1alphaPrincipal>;
 /** AclRestriction to model complex inheritance restrictions. Example: Modeling a "Both Permit" inheritance, where to access a child document, user needs to have access to parent document. Document Hierarchy - Space_S --> Page_P. Readers: Space_S: group_1, user_1 Page_P: group_2, group_3, user_2 Space_S ACL Restriction - { "acl_info": { "readers": [ { "principals": [ { "group_id": "group_1" }, { "user_id": "user_1" } ] } ] } } Page_P ACL Restriction. { "acl_info": { "readers": [ { "principals": [ { "group_id": "group_2" }, { "group_id": "group_3" }, { "user_id": "user_2" } ], }, { "principals": [ { "group_id": "group_1" }, { "user_id": "user_1" } ], } ] } } */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentAclInfoAccessRestriction {
   /** All users within the Identity Provider. */
-  idpWide?: boolean;
+  idpWide?: boolean | undefined;
   /** List of principals. */
-  principals?: GoogleCloudDiscoveryengineV1alphaPrincipalList;
+  principals?: GoogleCloudDiscoveryengineV1alphaPrincipalList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDocumentAclInfoAccessRestrictionList =
   Array<GoogleCloudDiscoveryengineV1alphaDocumentAclInfoAccessRestriction>;
 /** ACL Information of the Document. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentAclInfo {
   /** Readers of the document. */
-  readers?: GoogleCloudDiscoveryengineV1alphaDocumentAclInfoAccessRestrictionList;
+  readers?: GoogleCloudDiscoveryengineV1alphaDocumentAclInfoAccessRestrictionList | undefined;
 }
 /** Document captures all raw metadata information of items to be recommended or searched. */
 export interface GoogleCloudDiscoveryengineV1alphaDocument {
   /** The identifier of the parent document. Currently supports at most two level document hierarchy. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
-  parentDocumentId?: string;
+  parentDocumentId?: string | undefined;
   /** Output only. The index status of the document. * If document is indexed successfully, the index_time field is populated. * Otherwise, if document is not indexed due to errors, the error_samples field is populated. * Otherwise, if document's index is in progress, the pending_message field is populated. */
-  indexStatus?: GoogleCloudDiscoveryengineV1alphaDocumentIndexStatus;
+  indexStatus?: GoogleCloudDiscoveryengineV1alphaDocumentIndexStatus | undefined;
   /** The JSON string representation of the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
-  jsonData?: string;
+  jsonData?: string | undefined;
   /** Output only. The time when the document was last indexed. If this field is populated, it means the document has been indexed. While documents typically become searchable within seconds of indexing, it can sometimes take up to a few hours. If this field is not populated, it means the document has never been indexed. */
-  indexTime?: string;
+  indexTime?: string | undefined;
   /** Immutable. The identifier of the document. Id should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. */
-  id?: string;
+  id?: string | undefined;
   /** The structured JSON data for the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
-  structData?: DocumentMap;
+  structData?: DocumentMap | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. This field is OUTPUT_ONLY. It contains derived data that are not in the original input document. */
-  derivedStructData?: DocumentMap;
+  derivedStructData?: DocumentMap | undefined;
   /** The unstructured data linked to this document. Content can only be set and must be set if this document is under a `CONTENT_REQUIRED` data store. */
-  content?: GoogleCloudDiscoveryengineV1alphaDocumentContent;
+  content?: GoogleCloudDiscoveryengineV1alphaDocumentContent | undefined;
   /** Access control information for the document. */
-  aclInfo?: GoogleCloudDiscoveryengineV1alphaDocumentAclInfo;
+  aclInfo?: GoogleCloudDiscoveryengineV1alphaDocumentAclInfo | undefined;
   /** The identifier of the schema located in the same data store. */
-  schemaId?: string;
+  schemaId?: string | undefined;
 }
 /** Suggestions as content. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseContentSuggestion {
   /** The type of the content suggestion. */
-  contentType?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseContentSuggestionContentTypeEnum;
+  contentType?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseContentSuggestionContentTypeEnum
+    | undefined;
   /** The name of the dataStore that this suggestion belongs to. */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** The destination uri of the content suggestion. */
-  destinationUri?: string;
+  destinationUri?: string | undefined;
   /** The suggestion for the query. */
-  suggestion?: string;
+  suggestion?: string | undefined;
   /** The score of each suggestion. The score is in the range of [0, 1]. */
-  score?: number;
+  score?: number | undefined;
   /** The document data snippet in the suggestion. Only a subset of fields will be populated. */
-  document?: GoogleCloudDiscoveryengineV1alphaDocument;
+  document?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
   /** The icon uri of the content suggestion. */
-  iconUri?: string;
+  iconUri?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseContentSuggestionList =
   Array<GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseContentSuggestion>;
@@ -2548,85 +2715,95 @@ export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePerson
 /** Suggestions as people. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePersonSuggestion {
   /** The destination uri of the person suggestion. */
-  destinationUri?: string;
+  destinationUri?: string | undefined;
   /** The document data snippet in the suggestion. Only a subset of fields is populated. */
-  document?: GoogleCloudDiscoveryengineV1alphaDocument;
+  document?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
   /** The type of the person. */
-  personType?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePersonSuggestionPersonTypeEnum;
+  personType?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePersonSuggestionPersonTypeEnum
+    | undefined;
   /** The name of the dataStore that this suggestion belongs to. */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** The photo uri of the person suggestion. */
-  displayPhotoUri?: string;
+  displayPhotoUri?: string | undefined;
   /** The score of each suggestion. The score is in the range of [0, 1]. */
-  score?: number;
+  score?: number | undefined;
   /** The suggestion for the query. */
-  suggestion?: string;
+  suggestion?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePersonSuggestionList =
   Array<GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePersonSuggestion>;
 /** Suggestions as search queries. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseQuerySuggestion {
   /** The unique document field paths that serve as the source of this suggestion if it was generated from completable fields. This field is only populated for the document-completable model. */
-  completableFieldPaths?: StringList;
+  completableFieldPaths?: StringList | undefined;
   /** The suggestion for the query. */
-  suggestion?: string;
+  suggestion?: string | undefined;
   /** The score of each suggestion. The score is in the range of [0, 1]. */
-  score?: number;
+  score?: number | undefined;
   /** The name of the dataStore that this suggestion belongs to. */
-  dataStore?: StringList;
+  dataStore?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseQuerySuggestionList =
   Array<GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseQuerySuggestion>;
 /** Response message for CompletionService.AdvancedCompleteQuery method. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponse {
   /** Results of the matched "recent search" suggestions. The result list is ordered and the first result is the top suggestion. */
-  recentSearchSuggestions?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseRecentSearchSuggestionList;
+  recentSearchSuggestions?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseRecentSearchSuggestionList
+    | undefined;
   /** Results of the matched content suggestions. The result list is ordered and the first result is the top suggestion. */
-  contentSuggestions?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseContentSuggestionList;
+  contentSuggestions?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseContentSuggestionList
+    | undefined;
   /** True if the returned suggestions are all tail suggestions. For tail matching to be triggered, include_tail_suggestions in the request must be true and there must be no suggestions that match the full query. */
-  tailMatchTriggered?: boolean;
+  tailMatchTriggered?: boolean | undefined;
   /** Results of the matched people suggestions. The result list is ordered and the first result is the top suggestion. */
-  peopleSuggestions?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePersonSuggestionList;
+  peopleSuggestions?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponsePersonSuggestionList
+    | undefined;
   /** Results of the matched query suggestions. The result list is ordered and the first result is a top suggestion. */
-  querySuggestions?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseQuerySuggestionList;
+  querySuggestions?:
+    | GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryResponseQuerySuggestionList
+    | undefined;
 }
 export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest | undefined;
 }
 export interface CompleteQueryProjectsLocationsDataStoresRequest {
   /** Required. The parent data store resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. */
   dataStore: string;
   /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** Required. The typeahead input used to fetch suggestions. Maximum length is 128 characters. */
-  query?: string;
+  query?: string | undefined;
   /** Specifies the autocomplete data model. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
-  queryModel?: string;
+  queryModel?: string | undefined;
   /** Indicates if tail suggestions should be returned if there are no suggestions that match the full query. Even if set to true, if there are suggestions that match the full query, those are returned and no tail suggestions are returned. */
-  includeTailSuggestions?: boolean;
+  includeTailSuggestions?: boolean | undefined;
 }
 export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/*\/locations/global/collections/default_collection/dataStores/*\/completionConfig` `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAdvancedCompleteQueryRequest | undefined;
 }
 /** Defines context of the conversation */
 export interface GoogleCloudDiscoveryengineV1alphaConversationContext {
   /** The current list of documents the user is seeing. It contains the document resource references. */
-  contextDocuments?: StringList;
+  contextDocuments?: StringList | undefined;
   /** The current active document the user opened. It contains the document resource reference. */
-  activeDocument?: string;
+  activeDocument?: string | undefined;
 }
 /** Defines text input. */
 export interface GoogleCloudDiscoveryengineV1alphaTextInput {
   /** Conversation context of the input. */
-  context?: GoogleCloudDiscoveryengineV1alphaConversationContext;
+  context?: GoogleCloudDiscoveryengineV1alphaConversationContext | undefined;
   /** Text input. */
-  input?: string;
+  input?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConversationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2635,69 +2812,71 @@ export type GoogleCloudDiscoveryengineV1alphaConversationStateEnum =
 /** Defines reference in reply. */
 export interface GoogleCloudDiscoveryengineV1alphaReplyReference {
   /** URI link reference. */
-  uri?: string;
+  uri?: string | undefined;
   /** Anchor text end index. */
-  end?: number;
+  end?: number | undefined;
   /** Anchor text start index. */
-  start?: number;
+  start?: number | undefined;
   /** Anchor text. */
-  anchorText?: string;
+  anchorText?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaReplyReferenceList =
   Array<GoogleCloudDiscoveryengineV1alphaReplyReference>;
 /** Chunk content. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceChunkContent {
   /** Page identifier. */
-  pageIdentifier?: string;
+  pageIdentifier?: string | undefined;
   /** Chunk textual content. */
-  content?: string;
+  content?: string | undefined;
   /** Output only. Stores indexes of blobattachments linked to this chunk. */
-  blobAttachmentIndexes?: StringList;
+  blobAttachmentIndexes?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceChunkContentList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceChunkContent>;
 /** Document reference. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReference {
   /** Title of the document. */
-  title?: string;
+  title?: string | undefined;
   /** Cloud Storage or HTTP uri for the document. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. Document.name of the document. Full resource name of the referenced document, in the format `projects/*\/locations/*\/collections/*\/dataStores/*\/branches/*\/documents/*`. */
-  document?: string;
+  document?: string | undefined;
   /** List of cited chunk contents derived from document content. */
-  chunkContents?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceChunkContentList;
+  chunkContents?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceChunkContentList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReference>;
 /** Citation source. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationSource {
   /** Document reference index from SummaryWithMetadata.references. It is 0-indexed and the value will be zero if the reference_index is not set explicitly. */
-  referenceIndex?: string;
+  referenceIndex?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationSourceList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationSource>;
 /** Citation info for a segment. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitation {
   /** Citation sources for the attributed segment. */
-  sources?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationSourceList;
+  sources?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationSourceList | undefined;
   /** Index indicates the start of the segment, measured in bytes/unicode. */
-  startIndex?: string;
+  startIndex?: string | undefined;
   /** End of the attributed segment, exclusive. */
-  endIndex?: string;
+  endIndex?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitation>;
 /** Citation metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationMetadata {
   /** Citations for segments. */
-  citations?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationList;
+  citations?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationList | undefined;
 }
 /** Stores type and data of the blob. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentBlob {
   /** Output only. The media type (MIME type) of the generated data. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Output only. Raw bytes. */
-  data?: string;
+  data?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentAttributionTypeEnum =
   | "ATTRIBUTION_TYPE_UNSPECIFIED"
@@ -2706,24 +2885,29 @@ export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachment
 /** Stores binarydata attached to text answer, e.g. image, video, audio, etc. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachment {
   /** Output only. The blob data. */
-  data?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentBlob;
+  data?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentBlob | undefined;
   /** Output only. The attribution type of the blob. */
   attributionType?:
     | GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentAttributionTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachment>;
 /** Summary with metadata information. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySummaryWithMetadata {
   /** Document References. */
-  references?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceList;
+  references?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryReferenceList | undefined;
   /** Citation metadata for given summary. */
-  citationMetadata?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationMetadata;
+  citationMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryCitationMetadata
+    | undefined;
   /** Output only. Store multimodal data for answer enhancement. */
-  blobAttachments?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentList;
+  blobAttachments?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSummaryBlobAttachmentList
+    | undefined;
   /** Summary text with no citation information. */
-  summary?: string;
+  summary?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySummarySkippedReasonsItemEnum =
   | "SUMMARY_SKIPPED_REASON_UNSPECIFIED"
@@ -2745,65 +2929,71 @@ export type GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySummarySkipped
 /** Safety Attribute categories and their associated confidence scores. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySafetyAttributes {
   /** The display names of Safety Attribute categories associated with the generated content. Order matches the Scores. */
-  categories?: StringList;
+  categories?: StringList | undefined;
   /** The confidence scores of the each category, higher value means higher confidence. Order matches the Categories. */
-  scores?: DoubleList;
+  scores?: DoubleList | undefined;
 }
 /** Summary of the top N search results specified by the summary spec. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSummary {
   /** Summary with metadata information. */
-  summaryWithMetadata?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySummaryWithMetadata;
+  summaryWithMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySummaryWithMetadata
+    | undefined;
   /** Additional summary-skipped reasons. This provides the reason for ignored cases. If nothing is skipped, this field is not set. */
-  summarySkippedReasons?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySummarySkippedReasonsItemEnumList;
+  summarySkippedReasons?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySummarySkippedReasonsItemEnumList
+    | undefined;
   /** The summary content. */
-  summaryText?: string;
+  summaryText?: string | undefined;
   /** A collection of Safety Attribute categories and their associated confidence scores. */
-  safetyAttributes?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySafetyAttributes;
+  safetyAttributes?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSummarySafetyAttributes
+    | undefined;
 }
 /** Defines a reply message to user. */
 export interface GoogleCloudDiscoveryengineV1alphaReply {
   /** References in the reply. */
-  references?: GoogleCloudDiscoveryengineV1alphaReplyReferenceList;
+  references?: GoogleCloudDiscoveryengineV1alphaReplyReferenceList | undefined;
   /** Summary based on search results. */
-  summary?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummary;
+  summary?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummary | undefined;
   /** DEPRECATED: use `summary` instead. Text reply. */
-  reply?: string;
+  reply?: string | undefined;
 }
 /** Defines a conversation message. */
 export interface GoogleCloudDiscoveryengineV1alphaConversationMessage {
   /** Output only. Message creation timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** User text input. */
-  userInput?: GoogleCloudDiscoveryengineV1alphaTextInput;
+  userInput?: GoogleCloudDiscoveryengineV1alphaTextInput | undefined;
   /** Search reply. */
-  reply?: GoogleCloudDiscoveryengineV1alphaReply;
+  reply?: GoogleCloudDiscoveryengineV1alphaReply | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConversationMessageList =
   Array<GoogleCloudDiscoveryengineV1alphaConversationMessage>;
 /** External conversation proto definition. */
 export interface GoogleCloudDiscoveryengineV1alphaConversation {
   /** A unique identifier for tracking users. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** The state of the Conversation. */
-  state?: GoogleCloudDiscoveryengineV1alphaConversationStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaConversationStateEnum | (string & {}) | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time the conversation started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Conversation messages. */
-  messages?: GoogleCloudDiscoveryengineV1alphaConversationMessageList;
+  messages?: GoogleCloudDiscoveryengineV1alphaConversationMessageList | undefined;
   /** Output only. The time the conversation finished. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Specification of the model. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelSpec {
   /** The model version used to generate the summary. Supported values are: * `stable`: string. Default value when no value is specified. Uses a generally available, fine-tuned model. For more information, see [Answer generation model versions and lifecycle](https://cloud.google.com/generative-ai-app-builder/docs/answer-generation-models). * `preview`: string. (Public preview) Uses a preview model. For more information, see [Answer generation model versions and lifecycle](https://cloud.google.com/generative-ai-app-builder/docs/answer-generation-models). */
-  version?: string;
+  version?: string | undefined;
 }
 /** Specification of the prompt to use with the model. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelPromptSpec {
   /** Text at the beginning of the prompt that instructs the assistant. Examples are available in the user guide. */
-  preamble?: string;
+  preamble?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpecImageSourceEnum =
   | "IMAGE_SOURCE_UNSPECIFIED"
@@ -2815,89 +3005,100 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec
   /** Optional. Source of image returned in the answer. */
   imageSource?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpecImageSourceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** A specification for configuring a summary returned in a search response. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec {
   /** Specifies whether to include citations in the summary. The default value is `false`. When this field is set to `true`, summaries include in-line citation numbers. Example summary including citations: BigQuery is Google Cloud's fully managed and completely serverless enterprise data warehouse [1]. BigQuery supports all data types, works across clouds, and has built-in machine learning and business intelligence, all within a unified platform [2, 3]. The citation numbers refer to the returned search results and are 1-indexed. For example, [1] means that the sentence is attributed to the first search result. [2, 3] means that the sentence is attributed to both the second and third search results. */
-  includeCitations?: boolean;
+  includeCitations?: boolean | undefined;
   /** Language code for Summary. Use language tags defined by [BCP47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). Note: This is an experimental feature. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Specifies whether to filter out adversarial queries. The default value is `false`. Google employs search-query classification to detect adversarial queries. No summary is returned if the search query is classified as an adversarial query. For example, a user might ask a question regarding negative comments about the company or submit a query designed to generate unsafe, policy-violating output. If this field is set to `true`, we skip generating summaries for adversarial queries and return fallback messages instead. */
-  ignoreAdversarialQuery?: boolean;
+  ignoreAdversarialQuery?: boolean | undefined;
   /** Optional. Specifies whether to filter out jail-breaking queries. The default value is `false`. Google employs search-query classification to detect jail-breaking queries. No summary is returned if the search query is classified as a jail-breaking query. A user might add instructions to the query to change the tone, style, language, content of the answer, or ask the model to act as a different entity, e.g. "Reply in the tone of a competing company's CEO". If this field is set to `true`, we skip generating summaries for jail-breaking queries and return fallback messages instead. */
-  ignoreJailBreakingQuery?: boolean;
+  ignoreJailBreakingQuery?: boolean | undefined;
   /** The number of top results to generate the summary from. If the number of results returned is less than `summaryResultCount`, the summary is generated from all of the results. At most 10 results for documents mode, or 50 for chunks mode, can be used to generate a summary. The chunks mode is used when SearchRequest.ContentSearchSpec.search_result_mode is set to CHUNKS. */
-  summaryResultCount?: number;
+  summaryResultCount?: number | undefined;
   /** Specifies whether to filter out queries that have low relevance. The default value is `false`. If this field is set to `false`, all search results are used regardless of relevance to generate answers. If set to `true`, only queries with high relevance search results will generate answers. */
-  ignoreLowRelevantContent?: boolean;
+  ignoreLowRelevantContent?: boolean | undefined;
   /** If specified, the spec will be used to modify the model specification provided to the LLM. */
-  modelSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelSpec;
+  modelSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelSpec
+    | undefined;
   /** If true, answer will be generated from most relevant chunks from top search results. This feature will improve summary quality. Note that with this feature enabled, not all top search results will be referenced and included in the reference list, so the citation source index only points to the search results listed in the reference list. */
-  useSemanticChunks?: boolean;
+  useSemanticChunks?: boolean | undefined;
   /** If specified, the spec will be used to modify the prompt provided to the LLM. */
-  modelPromptSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelPromptSpec;
+  modelPromptSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecModelPromptSpec
+    | undefined;
   /** Specifies whether to filter out queries that are not summary-seeking. The default value is `false`. Google employs search-query classification to detect summary-seeking queries. No summary is returned if the search query is classified as a non-summary seeking query. For example, `why is the sky blue` and `Who is the best soccer player in the world?` are summary-seeking queries, but `SFO airport` and `world cup 2026` are not. They are most likely navigational queries. If this field is set to `true`, we skip generating summaries for non-summary seeking queries and return fallback messages instead. */
-  ignoreNonSummarySeekingQuery?: boolean;
+  ignoreNonSummarySeekingQuery?: boolean | undefined;
   /** Optional. Multimodal specification. */
-  multimodalSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec;
+  multimodalSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpecMultiModalSpec
+    | undefined;
 }
 /** Request message for ConversationalSearchService.ConverseConversation method. */
 export interface GoogleCloudDiscoveryengineV1alphaConverseConversationRequest {
   /** Whether to turn on safe search. */
-  safeSearch?: boolean;
+  safeSearch?: boolean | undefined;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** The resource name of the Serving Config to use. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/servingConfigs/{serving_config_id}` If this is not set, the default serving config will be used. */
-  servingConfig?: string;
+  servingConfig?: string | undefined;
   /** Required. Current user input. */
-  query?: GoogleCloudDiscoveryengineV1alphaTextInput;
+  query?: GoogleCloudDiscoveryengineV1alphaTextInput | undefined;
   /** The conversation to be used by auto session only. The name field will be ignored as we automatically assign new name for the conversation in auto session. */
-  conversation?: GoogleCloudDiscoveryengineV1alphaConversation;
+  conversation?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
   /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. This will be used to filter search results which may affect the summary response. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
-  filter?: string;
+  filter?: string | undefined;
   /** Boost specification to boost certain documents in search results which may affect the converse response. For more information on boosting, see [Boosting](https://cloud.google.com/retail/docs/boosting#boost) */
-  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec;
+  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec | undefined;
   /** A specification for configuring the summary returned in the response. */
-  summarySpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec;
+  summarySpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec
+    | undefined;
 }
 export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest | undefined;
 }
 /** Custom clearbox signal represented by name and value pair. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignalsCustomSignal {
   /** Optional. Float value representing the ranking signal (e.g. 1.25 for BM25). */
-  value?: number;
+  value?: number | undefined;
   /** Optional. Name of the signal. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignalsCustomSignalList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignalsCustomSignal>;
 /** A set of ranking signals. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignals {
   /** Optional. Age of the document in hours. */
-  documentAge?: number;
+  documentAge?: number | undefined;
   /** Optional. The default rank of the result. */
-  defaultRank?: number;
+  defaultRank?: number | undefined;
   /** Optional. Predicted conversion rate adjustment as a rank. */
-  pctrRank?: number;
+  pctrRank?: number | undefined;
   /** Optional. Topicality adjustment as a rank. */
-  topicalityRank?: number;
+  topicalityRank?: number | undefined;
   /** Optional. Semantic relevance adjustment. */
-  relevanceScore?: number;
+  relevanceScore?: number | undefined;
   /** Optional. Combined custom boosts for a doc. */
-  boostingFactor?: number;
+  boostingFactor?: number | undefined;
   /** Optional. Semantic similarity adjustment. */
-  semanticSimilarityScore?: number;
+  semanticSimilarityScore?: number | undefined;
   /** Optional. Keyword matching adjustment. */
-  keywordSimilarityScore?: number;
+  keywordSimilarityScore?: number | undefined;
   /** Optional. A list of custom clearbox signals. */
-  customSignals?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignalsCustomSignalList;
+  customSignals?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignalsCustomSignalList
+    | undefined;
   /** Optional. A list of precomputed expression results for a given document, in the same order as requested in `SearchRequest.custom_ranking_params.expressions_to_precompute`. */
-  precomputedExpressionValues?: DoubleList;
+  precomputedExpressionValues?: DoubleList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRetrievalSignalsRetrievalSourcesItemEnum =
   | "RETRIEVAL_SOURCE_UNSPECIFIED"
@@ -2908,36 +3109,38 @@ export type GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRetrieval
 /** Contains a set of signals used by the relevance filter. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRetrievalSignals {
   /** Optional. Indicates how the result was retrieved. */
-  retrievalSources?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRetrievalSignalsRetrievalSourcesItemEnumList;
+  retrievalSources?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRetrievalSignalsRetrievalSourcesItemEnumList
+    | undefined;
   /** Optional. Relevance score used by the filter when semantic_relevance_threshold is set. */
-  semanticRelevanceScore?: number;
+  semanticRelevanceScore?: number | undefined;
 }
 /** Page span of the chunk. */
 export interface GoogleCloudDiscoveryengineV1alphaChunkPageSpan {
   /** The start page of the chunk. */
-  pageStart?: number;
+  pageStart?: number | undefined;
   /** The end page of the chunk. */
-  pageEnd?: number;
+  pageEnd?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaChunkList =
   Array<GoogleCloudDiscoveryengineV1alphaChunk>;
 /** Metadata of the current chunk. This field is only populated on SearchService.Search API. */
 export interface GoogleCloudDiscoveryengineV1alphaChunkChunkMetadata {
   /** The previous chunks of the current chunk. The number is controlled by SearchRequest.ContentSearchSpec.ChunkSpec.num_previous_chunks. This field is only populated on SearchService.Search API. */
-  previousChunks?: GoogleCloudDiscoveryengineV1alphaChunkList;
+  previousChunks?: GoogleCloudDiscoveryengineV1alphaChunkList | undefined;
   /** The next chunks of the current chunk. The number is controlled by SearchRequest.ContentSearchSpec.ChunkSpec.num_next_chunks. This field is only populated on SearchService.Search API. */
-  nextChunks?: GoogleCloudDiscoveryengineV1alphaChunkList;
+  nextChunks?: GoogleCloudDiscoveryengineV1alphaChunkList | undefined;
 }
 /** Document metadata contains the information of the document of the current chunk. */
 export interface GoogleCloudDiscoveryengineV1alphaChunkDocumentMetadata {
   /** Uri of the document. */
-  uri?: string;
+  uri?: string | undefined;
   /** Title of the document. */
-  title?: string;
+  title?: string | undefined;
   /** Data representation. The structured JSON data for the document. It should conform to the registered Schema or an `INVALID_ARGUMENT` error is thrown. */
-  structData?: DocumentMap;
+  structData?: DocumentMap | undefined;
   /** The mime type of the document. https://www.iana.org/assignments/media-types/media-types.xhtml. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaChunkStructuredContentStructureTypeEnum =
   | "STRUCTURE_TYPE_UNSPECIFIED"
@@ -2947,48 +3150,50 @@ export type GoogleCloudDiscoveryengineV1alphaChunkStructuredContentStructureType
 /** The structured content information. */
 export interface GoogleCloudDiscoveryengineV1alphaChunkStructuredContent {
   /** Output only. The content of the structured content. */
-  content?: string;
+  content?: string | undefined;
   /** Output only. The structure type of the structured content. */
-  structureType?: GoogleCloudDiscoveryengineV1alphaChunkStructuredContentStructureTypeEnum;
+  structureType?:
+    | GoogleCloudDiscoveryengineV1alphaChunkStructuredContentStructureTypeEnum
+    | undefined;
 }
 /** The annotation metadata includes structured content in the current chunk. */
 export interface GoogleCloudDiscoveryengineV1alphaChunkAnnotationMetadata {
   /** Output only. The structured content information. */
-  structuredContent?: GoogleCloudDiscoveryengineV1alphaChunkStructuredContent;
+  structuredContent?: GoogleCloudDiscoveryengineV1alphaChunkStructuredContent | undefined;
   /** Output only. Image id is provided if the structured content is based on an image. */
-  imageId?: string;
+  imageId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaChunkAnnotationMetadataList =
   Array<GoogleCloudDiscoveryengineV1alphaChunkAnnotationMetadata>;
 /** Chunk captures all raw metadata information of items to be recommended or searched in the chunk mode. */
 export interface GoogleCloudDiscoveryengineV1alphaChunk {
   /** Page span of the chunk. */
-  pageSpan?: GoogleCloudDiscoveryengineV1alphaChunkPageSpan;
+  pageSpan?: GoogleCloudDiscoveryengineV1alphaChunkPageSpan | undefined;
   /** Output only. Image Data URLs if the current chunk contains images. Data URLs are composed of four parts: a prefix (data:), a MIME type indicating the type of data, an optional base64 token if non-textual, and the data itself: data:, */
-  dataUrls?: StringList;
+  dataUrls?: StringList | undefined;
   /** Content is a string from a document (parsed content). */
-  content?: string;
+  content?: string | undefined;
   /** Output only. Metadata of the current chunk. */
-  chunkMetadata?: GoogleCloudDiscoveryengineV1alphaChunkChunkMetadata;
+  chunkMetadata?: GoogleCloudDiscoveryengineV1alphaChunkChunkMetadata | undefined;
   /** The full resource name of the chunk. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}/chunks/{chunk_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Represents the relevance score based on similarity. Higher score indicates higher chunk relevance. The score is in range [-1.0, 1.0]. Only populated on SearchResponse. */
-  relevanceScore?: number;
+  relevanceScore?: number | undefined;
   /** Output only. Annotation contents if the current chunk contains annotations. */
-  annotationContents?: StringList;
+  annotationContents?: StringList | undefined;
   /** Metadata of the document from the current chunk. */
-  documentMetadata?: GoogleCloudDiscoveryengineV1alphaChunkDocumentMetadata;
+  documentMetadata?: GoogleCloudDiscoveryengineV1alphaChunkDocumentMetadata | undefined;
   /** Unique chunk ID of the current chunk. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. This field is OUTPUT_ONLY. It contains derived data that are not in the original input document. */
-  derivedStructData?: DocumentMap;
+  derivedStructData?: DocumentMap | undefined;
   /** Output only. The annotation metadata includes structured content in the current chunk. */
-  annotationMetadata?: GoogleCloudDiscoveryengineV1alphaChunkAnnotationMetadataList;
+  annotationMetadata?: GoogleCloudDiscoveryengineV1alphaChunkAnnotationMetadataList | undefined;
 }
 /** Double list. */
 export interface GoogleCloudDiscoveryengineV1alphaDoubleList {
   /** Double values. */
-  values?: DoubleList;
+  values?: DoubleList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDoubleListMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaDoubleList | undefined;
@@ -2996,83 +3201,87 @@ export type GoogleCloudDiscoveryengineV1alphaDoubleListMap = {
 /** Represents the search results. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResult {
   /** Optional. A set of ranking signals associated with the result. */
-  rankSignals?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignals;
+  rankSignals?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRankSignals | undefined;
   /** The document data snippet in the search response. Only fields that are marked as `retrievable` are populated. */
-  document?: GoogleCloudDiscoveryengineV1alphaDocument;
+  document?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
   /** Optional. A set of signals used by the relevance filter meant for use to fine-tune the relevance filter thresholds. */
-  retrievalSignals?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRetrievalSignals;
+  retrievalSignals?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultRetrievalSignals
+    | undefined;
   /** The chunk data in the search response if the SearchRequest.ContentSearchSpec.search_result_mode is set to CHUNKS. */
-  chunk?: GoogleCloudDiscoveryengineV1alphaChunk;
+  chunk?: GoogleCloudDiscoveryengineV1alphaChunk | undefined;
   /** Output only. Google provided available scores. */
-  modelScores?: GoogleCloudDiscoveryengineV1alphaDoubleListMap;
+  modelScores?: GoogleCloudDiscoveryengineV1alphaDoubleListMap | undefined;
   /** Document.id of the searched Document. */
-  id?: string;
+  id?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResult>;
 /** Response message for ConversationalSearchService.ConverseConversation method. */
 export interface GoogleCloudDiscoveryengineV1alphaConverseConversationResponse {
   /** Updated conversation including the answer. */
-  conversation?: GoogleCloudDiscoveryengineV1alphaConversation;
+  conversation?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
   /** Suggested related questions. */
-  relatedQuestions?: StringList;
+  relatedQuestions?: StringList | undefined;
   /** Search Results. */
-  searchResults?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultList;
+  searchResults?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultList | undefined;
   /** Answer to the current query. */
-  reply?: GoogleCloudDiscoveryengineV1alphaReply;
+  reply?: GoogleCloudDiscoveryengineV1alphaReply | undefined;
 }
 export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest | undefined;
 }
 export interface ConverseProjectsLocationsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaConverseConversationRequest | undefined;
 }
 /** Identifies the instance hosting an OAuth provider that is reachable only over a private network. */
 export interface GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2PrivateNetworkConfig {
   /** Required. Resource name of the instance hosting the OAuth provider. For Looker, the Looker instance, in the form `projects/{project}/locations/{location}/instances/{instance}`. */
-  instanceResource?: string;
+  instanceResource?: string | undefined;
 }
 /** OAuth2 configuration. */
 export interface GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2 {
   /** Required. The HTTP endpoint that exchanges a client authorization for an access token. */
-  tokenUri?: string;
+  tokenUri?: string | undefined;
   /** Optional. Whether to enable PKCE verification. https://datatracker.ietf.org/doc/html/rfc7636#section-3.1/ */
-  pkceVerificationEnabled?: boolean;
+  pkceVerificationEnabled?: boolean | undefined;
   /** Required. The OAuth2 client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Optional. The scopes to request. Example: `https://www.googleapis.com/auth/calendar.events` If omitted, no additional scopes are requested beyond those required by the authorization uri. If set, it will overwrite the scopes in the authorization uri when acquiring user authorization. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Required. The OAuth2 client secret. Encrypted at rest. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
   /** Optional. Whether the OAuth token exchange uses HTTP Basic authentication (`client_secret_basic`) instead of sending the client credentials in the request body (`client_secret_post`). When `true`, the credentials (`client_id:client_secret`) are Base64 encoded and sent in the `Authorization` header. Some OAuth providers (e.g. Splunk) require `client_secret_basic`. When `false` or unset, the default `client_secret_post` is used. */
-  basicAuthenticationEnabled?: boolean;
+  basicAuthenticationEnabled?: boolean | undefined;
   /** Optional. Set only when the OAuth provider publishes no public endpoint, in which case a token exchange has to be routed over the private network the instance is on instead of over public egress. Leaving it unset keeps the exchange on public egress. */
-  privateNetworkConfig?: GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2PrivateNetworkConfig;
+  privateNetworkConfig?:
+    | GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2PrivateNetworkConfig
+    | undefined;
   /** Required. The URI the user is directed to when they need to authorize. Should include everything required for a successful authorization: OAuth ID, extra flags, etc. Example: `https://accounts.google.com/o/oauth2/v2/auth?client_id=OAUTH_ID&scope=https://www.googleapis.com/auth/calendar.events&response_type=code&access_type=offline&prompt=consent` The `redirect_uri` parameter will be overwritten by the Vertex AI Search frontend. */
-  authorizationUri?: string;
+  authorizationUri?: string | undefined;
 }
 /** Discovery Engine Authorization resource. */
 export interface GoogleCloudDiscoveryengineV1alphaAuthorization {
   /** Required. The display name of the authorization. It must be a UTF-8 encoded string with a length limit of 128 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. Resource name of the authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Server-side OAuth2 configuration. */
-  serverSideOauth2?: GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2;
+  serverSideOauth2?: GoogleCloudDiscoveryengineV1alphaAuthorizationServerSideOAuth2 | undefined;
 }
 export interface CreateProjectsLocationsAuthorizationsRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Required. The ID to use for the authorization, which will become the final component of the resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
-  authorizationId?: string;
+  authorizationId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAuthorization;
+  body?: GoogleCloudDiscoveryengineV1alphaAuthorization | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataStoreContentConfigEnum =
   | "CONTENT_CONFIG_UNSPECIFIED"
@@ -3083,12 +3292,14 @@ export type GoogleCloudDiscoveryengineV1alphaDataStoreContentConfigEnum =
 /** Specifies a Sensitive Data Protection (https://cloud.google.com/sensitive-data-protection/docs/sensitive-data-protection-overview) policy. */
 export interface GoogleCloudDiscoveryengineV1alphaDataProtectionPolicySensitiveDataProtectionPolicy {
   /** Optional. Specifies the resource name of the Sensitive Data Protection content policy. */
-  policy?: string;
+  policy?: string | undefined;
 }
 /** Contains the data protection policy config for a DataStore or a connector. */
 export interface GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy {
   /** Optional. Specifies the sensitive data protection policy for the connector source. */
-  sensitiveDataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaDataProtectionPolicySensitiveDataProtectionPolicy;
+  sensitiveDataProtectionPolicy?:
+    | GoogleCloudDiscoveryengineV1alphaDataProtectionPolicySensitiveDataProtectionPolicy
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataStoreConfigurableBillingApproachEnum =
   | "CONFIGURABLE_BILLING_APPROACH_UNSPECIFIED"
@@ -3097,24 +3308,24 @@ export type GoogleCloudDiscoveryengineV1alphaDataStoreConfigurableBillingApproac
 /** Configuration data for advance site search. */
 export interface GoogleCloudDiscoveryengineV1alphaAdvancedSiteSearchConfig {
   /** If set true, automatic refresh is disabled for the DataStore. */
-  disableAutomaticRefresh?: boolean;
+  disableAutomaticRefresh?: boolean | undefined;
   /** If set true, initial indexing is disabled for the DataStore. */
-  disableInitialIndex?: boolean;
+  disableInitialIndex?: boolean | undefined;
 }
 /** Estimation of data size per data store. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreBillingEstimation {
   /** Last updated timestamp for websites. */
-  websiteDataUpdateTime?: string;
+  websiteDataUpdateTime?: string | undefined;
   /** Data size for websites in terms of bytes. */
-  websiteDataSize?: string;
+  websiteDataSize?: string | undefined;
   /** Last updated timestamp for unstructured data. */
-  unstructuredDataUpdateTime?: string;
+  unstructuredDataUpdateTime?: string | undefined;
   /** Data size for unstructured data in terms of bytes. */
-  unstructuredDataSize?: string;
+  unstructuredDataSize?: string | undefined;
   /** Last updated timestamp for structured data. */
-  structuredDataUpdateTime?: string;
+  structuredDataUpdateTime?: string | undefined;
   /** Data size for structured data in terms of bytes. */
-  structuredDataSize?: string;
+  structuredDataSize?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataStoreSolutionTypesItemEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -3129,23 +3340,23 @@ export type GoogleCloudDiscoveryengineV1alphaDataStoreSolutionTypesItemEnumList 
 /** Stores information regarding the serving configurations at DataStore level. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreServingConfigDataStore {
   /** Optional. If set true, the DataStore will not be available for serving search requests. */
-  disabledForServing?: boolean;
+  disabledForServing?: boolean | undefined;
 }
 /** Config to data store for `HEALTHCARE_FHIR` vertical. */
 export interface GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig {
   /** Optional. Names of the Group resources to use as a basis for the initial patient filter, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. The filter group must be a FHIR resource name of type Group, and the filter will be constructed from the direct members of the group which are Patient resources. */
-  initialFilterGroups?: StringList;
+  initialFilterGroups?: StringList | undefined;
   /** Whether to enable static indexing for `HEALTHCARE_FHIR` batch ingestion. If set to `true`, the batch ingestion will be processed in a static indexing mode which is slower but more capable of handling larger volume. */
-  enableStaticIndexingForBatchIngestion?: boolean;
+  enableStaticIndexingForBatchIngestion?: boolean | undefined;
   /** Whether to enable configurable schema for `HEALTHCARE_FHIR` vertical. If set to `true`, the predefined healthcare fhir schema can be extended for more customized searching and filtering. */
-  enableConfigurableSchema?: boolean;
+  enableConfigurableSchema?: boolean | undefined;
 }
 /** The OCR parsing configurations for documents. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig {
   /** [DEPRECATED] This field is deprecated. To use the additional enhanced document elements processing, please switch to `layout_parsing_config`. */
-  enhancedDocumentElements?: StringList;
+  enhancedDocumentElements?: StringList | undefined;
   /** If true, will use native text instead of OCR text on pages containing native text. */
-  useNativeText?: boolean;
+  useNativeText?: boolean | undefined;
 }
 /** The digital parsing configurations for documents. */
 export type GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigDigitalParsingConfig =
@@ -3153,42 +3364,48 @@ export type GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConf
 /** The layout parsing configurations for documents. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig {
   /** Optional. If true, the LLM based annotation is added to the image during parsing. */
-  enableImageAnnotation?: boolean;
+  enableImageAnnotation?: boolean | undefined;
   /** Optional. List of HTML ids to exclude from the parsed content. */
-  excludeHtmlIds?: StringList;
+  excludeHtmlIds?: StringList | undefined;
   /** Optional. Contains the required structure types to extract from the document. Supported values: * `shareholder-structure` */
-  structuredContentTypes?: StringList;
+  structuredContentTypes?: StringList | undefined;
   /** Optional. If true, the LLM based annotation is added to the table during parsing. */
-  enableTableAnnotation?: boolean;
+  enableTableAnnotation?: boolean | undefined;
   /** Optional. List of HTML classes to exclude from the parsed content. */
-  excludeHtmlClasses?: StringList;
+  excludeHtmlClasses?: StringList | undefined;
   /** Optional. If true, the processed document will be made available for the GetProcessedDocument API. */
-  enableGetProcessedDocument?: boolean;
+  enableGetProcessedDocument?: boolean | undefined;
   /** Optional. If true, the pdf layout will be refined using an LLM. */
-  enableLlmLayoutParsing?: boolean;
+  enableLlmLayoutParsing?: boolean | undefined;
   /** Optional. List of HTML elements to exclude from the parsed content. */
-  excludeHtmlElements?: StringList;
+  excludeHtmlElements?: StringList | undefined;
 }
 /** Related configurations applied to a specific type of document parser. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig {
   /** Configurations applied to OCR parser. Currently it only applies to PDFs. */
-  ocrParsingConfig?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig;
+  ocrParsingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigOcrParsingConfig
+    | undefined;
   /** Configurations applied to digital parser. */
-  digitalParsingConfig?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  digitalParsingConfig?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Configurations applied to layout parser. */
-  layoutParsingConfig?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig;
+  layoutParsingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigLayoutParsingConfig
+    | undefined;
 }
 /** Configuration for the layout based chunking. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig {
   /** The token size limit for each chunk. Supported values: 100-500 (inclusive). Default value: 500. */
-  chunkSize?: number;
+  chunkSize?: number | undefined;
   /** Whether to include appending different levels of headings to chunks from the middle of the document to prevent context loss. Default value: False. */
-  includeAncestorHeadings?: boolean;
+  includeAncestorHeadings?: boolean | undefined;
 }
 /** Configuration for chunking config. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig {
   /** Configuration for the layout based chunking. */
-  layoutBasedChunkingConfig?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig;
+  layoutBasedChunkingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfigLayoutBasedChunkingConfig
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig | undefined;
@@ -3196,13 +3413,19 @@ export type GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConf
 /** A singleton resource of DataStore. If it's empty when DataStore is created and DataStore is set to DataStore.ContentConfig.CONTENT_REQUIRED, the default parser will default to digital parser. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig {
   /** Configurations for default Document parser. If not specified, we will configure it as default DigitalParsingConfig, and the default parsing config will be applied to all file types for Document parsing. */
-  defaultParsingConfig?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig;
+  defaultParsingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfig
+    | undefined;
   /** Whether chunking mode is enabled. */
-  chunkingConfig?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig;
+  chunkingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigChunkingConfig
+    | undefined;
   /** Map from file type to override the default parsing configuration based on the file type. Supported keys: * `pdf`: Override parsing config for PDF files, either digital parsing, ocr parsing or layout parsing is supported. * `html`: Override parsing config for HTML files, only digital parsing and layout parsing are supported. * `docx`: Override parsing config for DOCX files, only digital parsing and layout parsing are supported. * `pptx`: Override parsing config for PPTX files, only digital parsing and layout parsing are supported. * `xlsm`: Override parsing config for XLSM files, only digital parsing and layout parsing are supported. * `xlsx`: Override parsing config for XLSX files, only digital parsing and layout parsing are supported. */
-  parsingConfigOverrides?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigMap;
+  parsingConfigOverrides?:
+    | GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfigParsingConfigMap
+    | undefined;
   /** The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFieldConfigDynamicFacetableOptionEnum =
   | "DYNAMIC_FACETABLE_OPTION_UNSPECIFIED"
@@ -3266,75 +3489,88 @@ export type GoogleCloudDiscoveryengineV1alphaFieldConfigCompletableOptionEnum =
 /** Configurations for fields of a schema. For example, configuring a field is indexable, or searchable. */
 export interface GoogleCloudDiscoveryengineV1alphaFieldConfig {
   /** Output only. Type of the key property that this field is mapped to. Empty string if this is not annotated as mapped to a key property. Example types are `title`, `description`. Full list is defined by `keyPropertyMapping` in the schema field annotation. If the schema field has a `KeyPropertyMapping` annotation, `indexable_option` and `searchable_option` of this field cannot be modified. */
-  keyPropertyType?: string;
+  keyPropertyType?: string | undefined;
   /** If dynamic_facetable_option is DYNAMIC_FACETABLE_ENABLED, field values are available for dynamic facet. Could only be DYNAMIC_FACETABLE_DISABLED if FieldConfig.indexable_option is INDEXABLE_DISABLED. Otherwise, an `INVALID_ARGUMENT` error will be returned. If dynamic_facetable_option is unset, the server behavior defaults to DYNAMIC_FACETABLE_DISABLED for fields that support setting dynamic facetable options. For those fields that do not support setting dynamic facetable options, such as `object` and `boolean`, the server will skip dynamic facetable option setting, and setting dynamic_facetable_option for those fields will throw `INVALID_ARGUMENT` error. */
   dynamicFacetableOption?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigDynamicFacetableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. If partial_matchable_option is PARTIAL_MATCHABLE_OPTION_ENABLED, field values are partial matchable. If partial_matchable_option is unset, the server behavior defaults to PARTIAL_MATCHABLE_OPTION_DISABLED for fields that support setting partial matchable options. For those fields that do not support setting partial matchable options, the server will skip partial matchable option setting, and setting partial_matchable_option for those fields will throw `INVALID_ARGUMENT` error. */
   partialMatchableOption?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigPartialMatchableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If retrievable_option is RETRIEVABLE_ENABLED, field values are included in the search results. If retrievable_option is unset, the server behavior defaults to RETRIEVABLE_DISABLED for fields that support setting retrievable options. For those fields that do not support setting retrievable options, such as `object` and `boolean`, the server will skip retrievable option setting, and setting retrievable_option for those fields will throw `INVALID_ARGUMENT` error. */
   retrievableOption?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigRetrievableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If recs_filterable_option is FILTERABLE_ENABLED, field values are filterable by filter expression in RecommendationService.Recommend. If FILTERABLE_ENABLED but the field type is numerical, field values are not filterable by text queries in RecommendationService.Recommend. Only textual fields are supported. If recs_filterable_option is unset, the default setting is FILTERABLE_DISABLED for fields that support setting filterable options. When a field set to [FILTERABLE_DISABLED] is filtered, a warning is generated and an empty result is returned. */
   recsFilterableOption?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigRecsFilterableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. Raw type of the field. */
-  fieldType?: GoogleCloudDiscoveryengineV1alphaFieldConfigFieldTypeEnum | (string & {});
+  fieldType?: GoogleCloudDiscoveryengineV1alphaFieldConfigFieldTypeEnum | (string & {}) | undefined;
   /** If indexable_option is INDEXABLE_ENABLED, field values are indexed so that it can be filtered or faceted in SearchService.Search. If indexable_option is unset, the server behavior defaults to INDEXABLE_DISABLED for fields that support setting indexable options. For those fields that do not support setting indexable options, such as `object` and `boolean` and key properties, the server will skip indexable_option setting, and setting indexable_option for those fields will throw `INVALID_ARGUMENT` error. */
-  indexableOption?: GoogleCloudDiscoveryengineV1alphaFieldConfigIndexableOptionEnum | (string & {});
+  indexableOption?:
+    | GoogleCloudDiscoveryengineV1alphaFieldConfigIndexableOptionEnum
+    | (string & {})
+    | undefined;
   /** Optional. If prefix_matchable_option is PREFIX_MATCHABLE_OPTION_ENABLED, field values are prefix matchable. If prefix_matchable_option is unset, the server behavior defaults to PREFIX_MATCHABLE_OPTION_DISABLED for fields that support setting prefix matchable options. For those fields that do not support setting prefix matchable options, the server will skip prefix matchable option setting, and setting prefix_matchable_option for those fields will throw `INVALID_ARGUMENT` error. */
   prefixMatchableOption?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigPrefixMatchableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Field paths for indexing custom attribute from schema.org data. More details of schema.org and its defined types can be found at [schema.org](https://schema.org). It is only used on advanced site search schema. Currently only support full path from root. The full path to a field is constructed by concatenating field names, starting from `_root`, with a period `.` as the delimiter. Examples: * Publish date of the root: _root.datePublished * Publish date of the reviews: _root.review.datePublished */
-  schemaOrgPaths?: StringList;
+  schemaOrgPaths?: StringList | undefined;
   /** Optional. The metatag name found in the HTML page. If user defines this field, the value of this metatag name will be used to extract metatag. If the user does not define this field, the FieldConfig.field_path will be used to extract metatag. */
-  metatagName?: string;
+  metatagName?: string | undefined;
   /** Optional. Specifies the importance of the field when `searchable_option` is `SEARCHABLE_ENABLED`. If `searchable_option` is `SEARCHABLE_DISABLED`, this field is ignored. If `searchable_option` is `SEARCHABLE_ENABLED` and this is `SEARCHABLE_FIELD_IMPORTANCE_UNSPECIFIED`, it behaves as `DEFAULT_IMPORTANCE`. For more information, see [Weight searchable fields](https://cloud.google.com/generative-ai-app-builder/docs/configure-field-settings#weight-search). */
   searchableFieldImportance?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigSearchableFieldImportanceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If searchable_option is SEARCHABLE_ENABLED, field values are searchable by text queries in SearchService.Search. If SEARCHABLE_ENABLED but field type is numerical, field values will not be searchable by text queries in SearchService.Search, as there are no text values associated to numerical fields. If searchable_option is unset, the server behavior defaults to SEARCHABLE_DISABLED for fields that support setting searchable options. Only `string` fields that have no key property mapping support setting searchable_option. For those fields that do not support setting searchable options, the server will skip searchable option setting, and setting searchable_option for those fields will throw `INVALID_ARGUMENT` error. */
   searchableOption?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigSearchableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If this field is set, only the corresponding source will be indexed for this field. Otherwise, the values from different sources are merged. Assuming a page with `` in meta tag, and `` in page map: if this enum is set to METATAGS, we will only index ``; if this enum is not set, we will merge them and index ``. */
-  advancedSiteSearchDataSources?: GoogleCloudDiscoveryengineV1alphaFieldConfigAdvancedSiteSearchDataSourcesItemEnumList;
+  advancedSiteSearchDataSources?:
+    | GoogleCloudDiscoveryengineV1alphaFieldConfigAdvancedSiteSearchDataSourcesItemEnumList
+    | undefined;
   /** Required. Field path of the schema field. For example: `title`, `description`, `release_info.release_year`. */
-  fieldPath?: string;
+  fieldPath?: string | undefined;
   /** If completable_option is COMPLETABLE_ENABLED, field values are directly used and returned as suggestions for Autocomplete in CompletionService.CompleteQuery. If completable_option is unset, the server behavior defaults to COMPLETABLE_DISABLED for fields that support setting completable options, which are just `string` fields. For those fields that do not support setting completable options, the server will skip completable option setting, and setting completable_option for those fields will throw `INVALID_ARGUMENT` error. */
   completableOption?:
     | GoogleCloudDiscoveryengineV1alphaFieldConfigCompletableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFieldConfigList =
   Array<GoogleCloudDiscoveryengineV1alphaFieldConfig>;
 /** Defines the structure and layout of a type of document data. */
 export interface GoogleCloudDiscoveryengineV1alphaSchema {
   /** The structured representation of the schema. */
-  structSchema?: DocumentMap;
+  structSchema?: DocumentMap | undefined;
   /** The JSON representation of the schema. */
-  jsonSchema?: string;
+  jsonSchema?: string | undefined;
   /** Output only. Configurations for fields of the schema. */
-  fieldConfigs?: GoogleCloudDiscoveryengineV1alphaFieldConfigList;
+  fieldConfigs?: GoogleCloudDiscoveryengineV1alphaFieldConfigList | undefined;
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Language info for DataStore. */
 export interface GoogleCloudDiscoveryengineV1alphaLanguageInfo {
   /** The language code for the DataStore. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Output only. This is the normalized form of language_code. E.g.: language_code of `en-GB`, `en_GB`, `en-UK` or `en-gb` will have normalized_language_code of `en-GB`. */
-  normalizedLanguageCode?: string;
+  normalizedLanguageCode?: string | undefined;
   /** Output only. Language part of normalized_language_code. E.g.: `en-US` -> `en`, `zh-Hans-HK` -> `zh`, `en` -> `en`. */
-  language?: string;
+  language?: string | undefined;
   /** Output only. Region part of normalized_language_code, if present. E.g.: `en-US` -> `US`, `zh-Hans-HK` -> `HK`, `en` -> ``. */
-  region?: string;
+  region?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataStoreIndustryVerticalEnum =
   | "INDUSTRY_VERTICAL_UNSPECIFIED"
@@ -3344,7 +3580,7 @@ export type GoogleCloudDiscoveryengineV1alphaDataStoreIndustryVerticalEnum =
 /** Third party IDP Config. */
 export interface GoogleCloudDiscoveryengineV1alphaIdpConfigExternalIdpConfig {
   /** Workforce pool name. Example: "locations/global/workforcePools/pool_id" */
-  workforcePoolName?: string;
+  workforcePoolName?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaIdpConfigIdpTypeEnum =
   | "IDP_TYPE_UNSPECIFIED"
@@ -3353,23 +3589,23 @@ export type GoogleCloudDiscoveryengineV1alphaIdpConfigIdpTypeEnum =
 /** Identity Provider Config. */
 export interface GoogleCloudDiscoveryengineV1alphaIdpConfig {
   /** External Identity provider config. */
-  externalIdpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfigExternalIdpConfig;
+  externalIdpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfigExternalIdpConfig | undefined;
   /** Identity provider type configured. */
-  idpType?: GoogleCloudDiscoveryengineV1alphaIdpConfigIdpTypeEnum | (string & {});
+  idpType?: GoogleCloudDiscoveryengineV1alphaIdpConfigIdpTypeEnum | (string & {}) | undefined;
 }
 /** Stores information for third party applicationOAuth. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigThirdPartyOauthConfig {
   /** Optional. The type of the application. E.g., "jira", "box", etc. */
-  appName?: string;
+  appName?: string | undefined;
   /** Optional. The instance name identifying the 3P app, e.g., "-my". This is different from the instance_uri which is the full URL of the 3P app e.g., "https://-my.sharepoint.com". */
-  instanceName?: string;
+  instanceName?: string | undefined;
 }
 /** Config for connecting to NotebookLM Enterprise. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigNotebooklmConfig {
   /** Required. Search config name. Format: projects/*\/locations/global/notebookLmSearchConfigs/* */
-  searchConfig?: string;
+  searchConfig?: string | undefined;
   /** Optional. Restricts this data store to the given notebooks. When empty, the data store covers every notebook the querying user can access, which is the existing behaviour. Each entry is a full notebook resource name, such as `projects/*\/locations/*\/notebooks/*`. Scoping is enforced on results as well as requested upstream, so a notebook outside this list cannot appear in a search response through this data store even if the backend returns one. */
-  notebooks?: StringList;
+  notebooks?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfigAuthModeEnum =
   | "AUTH_MODE_UNSPECIFIED"
@@ -3378,42 +3614,53 @@ export type GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloy
 /** Configuration for connecting to AlloyDB. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig {
   /** Required. Database user. If auth_mode = END_USER_ACCOUNT, it can be unset. In that case, the user will be inferred on the AlloyDB side, based on the authenticated user. */
-  user?: string;
+  user?: string | undefined;
   /** Optional. Auth mode. */
   authMode?:
     | GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfigAuthModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The AlloyDB instance to connect to. */
-  instance?: string;
+  instance?: string | undefined;
   /** Optional. If true, enable PSVS for AlloyDB. */
-  enablePsvs?: boolean;
+  enablePsvs?: boolean | undefined;
   /** Required. Database password. If auth_mode = END_USER_ACCOUNT, it can be unset. In that case, the password will be inferred on the AlloyDB side, based on the authenticated user. */
-  password?: string;
+  password?: string | undefined;
   /** Required. The AlloyDB database to connect to. */
-  database?: string;
+  database?: string | undefined;
 }
 /** Configuration for AlloyDB AI Natural Language. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig {
   /** Optional. AlloyDb AI NL config id, i.e. the value that was used for calling `SELECT alloydb_ai_nl.g_create_configuration(...)`. Can be empty. */
-  nlConfigId?: string;
+  nlConfigId?: string | undefined;
 }
 /** Stores information for connecting to AlloyDB. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfig {
   /** Required. Configuration for connecting to AlloyDB. */
-  alloydbConnectionConfig?: GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig;
+  alloydbConnectionConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbConnectionConfig
+    | undefined;
   /** Optional. Configuration for Magic. */
-  alloydbAiNlConfig?: GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig;
+  alloydbAiNlConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfigAlloyDbAiNaturalLanguageConfig
+    | undefined;
   /** Optional. Fields to be returned in the search results. If empty, all fields will be returned. */
-  returnedFields?: StringList;
+  returnedFields?: StringList | undefined;
 }
 /** Stores information for federated search. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig {
   /** Third Party OAuth config. If set, this DataStore is connected to a third party application. */
-  thirdPartyOauthConfig?: GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigThirdPartyOauthConfig;
+  thirdPartyOauthConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigThirdPartyOauthConfig
+    | undefined;
   /** NotebookLM config. If set, this DataStore is connected to NotebookLM Enterprise. */
-  notebooklmConfig?: GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigNotebooklmConfig;
+  notebooklmConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigNotebooklmConfig
+    | undefined;
   /** AlloyDB config. If set, this DataStore is connected to AlloyDB. */
-  alloyDbConfig?: GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfig;
+  alloyDbConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfigAlloyDbConfig
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWorkspaceConfigTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -3429,18 +3676,18 @@ export type GoogleCloudDiscoveryengineV1alphaWorkspaceConfigTypeEnum =
 /** Config to store data store type configuration for workspace data */
 export interface GoogleCloudDiscoveryengineV1alphaWorkspaceConfig {
   /** Optional. The super admin email address for the workspace that will be used for access token generation. For now we only use it for Native Google Drive connector data ingestion. */
-  superAdminEmailAddress?: string;
+  superAdminEmailAddress?: string | undefined;
   /** Optional. The super admin service account for the workspace that will be used for access token generation. For now we only use it for Native Google Drive connector data ingestion. */
-  superAdminServiceAccount?: string;
+  superAdminServiceAccount?: string | undefined;
   /** The Google Workspace data source. */
-  type?: GoogleCloudDiscoveryengineV1alphaWorkspaceConfigTypeEnum | (string & {});
+  type?: GoogleCloudDiscoveryengineV1alphaWorkspaceConfigTypeEnum | (string & {}) | undefined;
   /** Output only. Obfuscated Dasher customer ID. Derived by the server from the project's GCP organization at data store creation time; any value supplied in the request payload is ignored. */
-  dasherCustomerId?: string;
+  dasherCustomerId?: string | undefined;
 }
 /** Metadata for single-regional CMEKs. */
 export interface GoogleCloudDiscoveryengineV1alphaSingleRegionKey {
   /** Required. Single-regional kms key resource name which will be used to encrypt resources `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{keyId}`. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSingleRegionKeyList =
   Array<GoogleCloudDiscoveryengineV1alphaSingleRegionKey>;
@@ -3463,21 +3710,24 @@ export type GoogleCloudDiscoveryengineV1alphaCmekConfigNotebooklmStateEnum =
 /** Configurations used to enable CMEK data encryption with Cloud KMS keys. */
 export interface GoogleCloudDiscoveryengineV1alphaCmekConfig {
   /** Optional. Single-regional CMEKs that are required for some VAIS features. */
-  singleRegionKeys?: GoogleCloudDiscoveryengineV1alphaSingleRegionKeyList;
+  singleRegionKeys?: GoogleCloudDiscoveryengineV1alphaSingleRegionKeyList | undefined;
   /** Output only. The states of the CmekConfig. */
-  state?: GoogleCloudDiscoveryengineV1alphaCmekConfigStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaCmekConfigStateEnum | (string & {}) | undefined;
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether the NotebookLM Corpus is ready to be used. */
-  notebooklmState?: GoogleCloudDiscoveryengineV1alphaCmekConfigNotebooklmStateEnum | (string & {});
+  notebooklmState?:
+    | GoogleCloudDiscoveryengineV1alphaCmekConfigNotebooklmStateEnum
+    | (string & {})
+    | undefined;
   /** Output only. The timestamp of the last key rotation. */
-  lastRotationTimestampMicros?: string;
+  lastRotationTimestampMicros?: string | undefined;
   /** Output only. KMS key version resource name which will be used to encrypt resources `/cryptoKeyVersions/{keyVersion}`. */
-  kmsKeyVersion?: string;
+  kmsKeyVersion?: string | undefined;
   /** Output only. The default CmekConfig for the Customer. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Required. KMS key resource name which will be used to encrypt resources `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{keyId}`. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstandingConfigModeEnum =
   | "MODE_UNSPECIFIED"
@@ -3488,90 +3738,104 @@ export interface GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstand
   /** Mode of Natural Language Query Understanding. If this field is unset, the behavior defaults to NaturalLanguageQueryUnderstandingConfig.Mode.DISABLED. */
   mode?:
     | GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstandingConfigModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** DataStore captures global settings and configs at the DataStore level. */
 export interface GoogleCloudDiscoveryengineV1alphaDataStore {
   /** Immutable. The content config of the data store. If this field is unset, the server behavior defaults to ContentConfig.NO_CONTENT. */
-  contentConfig?: GoogleCloudDiscoveryengineV1alphaDataStoreContentConfigEnum | (string & {});
+  contentConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreContentConfigEnum
+    | (string & {})
+    | undefined;
   /** Optional. Specifies the data protection policy for the data store. */
-  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy;
+  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy | undefined;
   /** Output only. The timestamp when configurable_billing_approach was last updated. */
-  configurableBillingApproachUpdateTime?: string;
+  configurableBillingApproachUpdateTime?: string | undefined;
   /** Optional. Configuration for configurable billing approach. See */
   configurableBillingApproach?:
     | GoogleCloudDiscoveryengineV1alphaDataStoreConfigurableBillingApproachEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Configuration for advanced site search. */
-  advancedSiteSearchConfig?: GoogleCloudDiscoveryengineV1alphaAdvancedSiteSearchConfig;
+  advancedSiteSearchConfig?: GoogleCloudDiscoveryengineV1alphaAdvancedSiteSearchConfig | undefined;
   /** Output only. Data size estimation for billing. */
-  billingEstimation?: GoogleCloudDiscoveryengineV1alphaDataStoreBillingEstimation;
+  billingEstimation?: GoogleCloudDiscoveryengineV1alphaDataStoreBillingEstimation | undefined;
   /** The solutions that the data store enrolls. Available solutions for each industry_vertical: * `MEDIA`: `SOLUTION_TYPE_RECOMMENDATION` and `SOLUTION_TYPE_SEARCH`. * `SITE_SEARCH`: `SOLUTION_TYPE_SEARCH` is automatically enrolled. Other solutions cannot be enrolled. */
-  solutionTypes?: GoogleCloudDiscoveryengineV1alphaDataStoreSolutionTypesItemEnumList;
+  solutionTypes?: GoogleCloudDiscoveryengineV1alphaDataStoreSolutionTypesItemEnumList | undefined;
   /** Optional. Stores serving config at DataStore level. */
-  servingConfigDataStore?: GoogleCloudDiscoveryengineV1alphaDataStoreServingConfigDataStore;
+  servingConfigDataStore?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreServingConfigDataStore
+    | undefined;
   /** Optional. Configuration for `HEALTHCARE_FHIR` vertical. */
-  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig;
+  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig | undefined;
   /** Configuration for Document understanding and enrichment. */
-  documentProcessingConfig?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig;
+  documentProcessingConfig?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig | undefined;
   /** The start schema to use for this DataStore when provisioning it. If unset, a default vertical specialized schema will be used. This field is only used by CreateDataStore API, and will be ignored if used in other APIs. This field will be omitted from all API responses including CreateDataStore API. To retrieve a schema of a DataStore, use SchemaService.GetSchema API instead. The provided schema will be validated against certain rules on schema. Learn more from [this doc](https://cloud.google.com/generative-ai-app-builder/docs/provide-schema). */
-  startingSchema?: GoogleCloudDiscoveryengineV1alphaSchema;
+  startingSchema?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
   /** Language info for DataStore. */
-  languageInfo?: GoogleCloudDiscoveryengineV1alphaLanguageInfo;
+  languageInfo?: GoogleCloudDiscoveryengineV1alphaLanguageInfo | undefined;
   /** Optional. If set, this DataStore is an Infobot FAQ DataStore. */
-  isInfobotFaqDataStore?: boolean;
+  isInfobotFaqDataStore?: boolean | undefined;
   /** Immutable. The industry vertical that the data store registers. */
-  industryVertical?: GoogleCloudDiscoveryengineV1alphaDataStoreIndustryVerticalEnum | (string & {});
+  industryVertical?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreIndustryVerticalEnum
+    | (string & {})
+    | undefined;
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Input only. The KMS key to be used to protect this DataStore at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the DataStore will be protected by the KMS key, as indicated in the cmek_config field. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Output only. Data store level identity provider config. */
-  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig;
+  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig | undefined;
   /** Optional. If set, this DataStore is a federated search DataStore. */
-  federatedSearchConfig?: GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig;
+  federatedSearchConfig?:
+    | GoogleCloudDiscoveryengineV1alphaDataStoreFederatedSearchConfig
+    | undefined;
   /** Output only. Timestamp the DataStore was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Config to store data store type configuration for workspace data. This must be set when DataStore.content_config is set as DataStore.ContentConfig.GOOGLE_WORKSPACE. */
-  workspaceConfig?: GoogleCloudDiscoveryengineV1alphaWorkspaceConfig;
+  workspaceConfig?: GoogleCloudDiscoveryengineV1alphaWorkspaceConfig | undefined;
   /** Required. The data store display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Provides the icon URI of the data store's connector source, if this is a connector-backed data store. Empty for data stores without an associated connector source. In DataStoreService.ListDataStores and DataStoreService.GetDataStore, this is only populated when DataStoreView.DATA_STORE_VIEW_FULL is requested via ListDataStoresRequest.view or GetDataStoreRequest.view respectively. */
-  iconUri?: string;
+  iconUri?: string | undefined;
   /** Immutable. Whether data in the DataStore has ACL information. If set to `true`, the source data must have ACL. ACL will be ingested when data is ingested by DocumentService.ImportDocuments methods. When ACL is enabled for the DataStore, Document can't be accessed by calling DocumentService.GetDocument or DocumentService.ListDocuments. Currently ACL is only supported in `GENERIC` industry vertical with non-`PUBLIC_WEBSITE` content config. */
-  aclEnabled?: boolean;
+  aclEnabled?: boolean | undefined;
   /** Output only. CMEK-related information for the DataStore. */
-  cmekConfig?: GoogleCloudDiscoveryengineV1alphaCmekConfig;
+  cmekConfig?: GoogleCloudDiscoveryengineV1alphaCmekConfig | undefined;
   /** Output only. The id of the default Schema associated to this data store. */
-  defaultSchemaId?: string;
+  defaultSchemaId?: string | undefined;
   /** Optional. Configuration for Natural Language Query Understanding. */
-  naturalLanguageQueryUnderstandingConfig?: GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstandingConfig;
+  naturalLanguageQueryUnderstandingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaNaturalLanguageQueryUnderstandingConfig
+    | undefined;
   /** Immutable. The fully qualified resource name of the associated IdentityMappingStore. This field can only be set for acl_enabled DataStores with `THIRD_PARTY` or `GSUITE` IdP. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. */
-  identityMappingStore?: string;
+  identityMappingStore?: string | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
   /** Resource name of the CmekConfig to use for protecting this DataStore. */
-  cmekConfigName?: string;
+  cmekConfigName?: string | undefined;
   /** A boolean flag indicating whether to skip the default schema creation for the data store. Only enable this flag if you are certain that the default schema is incompatible with your use case. If set to true, you must manually create a schema for the data store before any documents can be ingested. This flag cannot be specified if `data_store.starting_schema` is specified. */
-  skipDefaultSchemaCreation?: boolean;
+  skipDefaultSchemaCreation?: boolean | undefined;
   /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
-  disableCmek?: boolean;
+  disableCmek?: boolean | undefined;
   /** Required. The ID to use for the DataStore, which will become the final component of the DataStore's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  dataStoreId?: string;
+  dataStoreId?: string | undefined;
   /** A boolean flag indicating whether user want to directly create an advanced data store for site search. If the data store is not configured as site search (GENERIC vertical and PUBLIC_WEBSITE content_config), this flag will be ignored. */
-  createAdvancedSiteSearch?: boolean;
+  createAdvancedSiteSearch?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore;
+  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument;
+  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecInterpolationTypeEnum =
   | "INTERPOLATION_TYPE_UNSPECIFIED"
@@ -3583,9 +3847,9 @@ export type GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoos
 /** The control points used to define the curve. The curve defined through these control points can only be monotonically increasing or decreasing(constant values are acceptable). */
 export interface GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecControlPoint {
   /** Optional. The value between -1 to 1 by which to boost the score if the attribute_value evaluates to the value specified above. */
-  boostAmount?: number;
+  boostAmount?: number | undefined;
   /** Optional. Can be one of: 1. The numerical field value. 2. The duration spec for freshness: The value must be formatted as an XSD `dayTimeDuration` value (a restricted subset of an ISO 8601 duration value). The pattern for this is: `nDnM]`. */
-  attributeValue?: string;
+  attributeValue?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecControlPointList =
   Array<GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecControlPoint>;
@@ -3594,28 +3858,34 @@ export interface GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolatio
   /** Optional. The interpolation type to be applied to connect the control points listed below. */
   interpolationType?:
     | GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecInterpolationTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The attribute type to be used to determine the boost amount. The attribute value can be derived from the field value of the specified field_name. In the case of numerical it is straightforward i.e. attribute_value = numerical_field_value. In the case of freshness however, attribute_value = (time.now() - datetime_field_value). */
   attributeType?:
     | GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecAttributeTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The control points used to define the curve. The monotonic function (defined through the interpolation_type above) passes through the control points listed here. */
-  controlPoints?: GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecControlPointList;
+  controlPoints?:
+    | GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpecControlPointList
+    | undefined;
   /** Optional. The name of the field whose value will be used to determine the boost amount. */
-  fieldName?: string;
+  fieldName?: string | undefined;
 }
 /** Adjusts order of products in returned list. */
 export interface GoogleCloudDiscoveryengineV1alphaControlBoostAction {
   /** Optional. Strength of the boost, which should be in [-1, 1]. Negative boost means demotion. Default is 0.0 (No-op). */
-  fixedBoost?: number;
+  fixedBoost?: number | undefined;
   /** Optional. Complex specification for custom ranking based on customer defined attribute value. */
-  interpolationBoostSpec?: GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpec;
+  interpolationBoostSpec?:
+    | GoogleCloudDiscoveryengineV1alphaControlBoostActionInterpolationBoostSpec
+    | undefined;
   /** Strength of the boost, which should be in [-1, 1]. Negative boost means demotion. Default is 0.0 (No-op). */
-  boost?: number;
+  boost?: number | undefined;
   /** Required. Specifies which data store's documents can be boosted by this control. Full data store name e.g. projects/123/locations/global/collections/default_collection/dataStores/default_data_store */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** Required. Specifies which products to apply the boost to. If no filter is provided all products will be boosted (No-op). Syntax documentation: https://cloud.google.com/retail/docs/filter-and-order Maximum length is 5000 characters. Otherwise an INVALID ARGUMENT error is thrown. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaControlUseCasesItemEnum =
   | "SEARCH_USE_CASE_UNSPECIFIED"
@@ -3627,70 +3897,70 @@ export type GoogleCloudDiscoveryengineV1alphaControlUseCasesItemEnumList = Array
 /** Promotion proto includes uri and other helping information to display the promotion. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchLinkPromotion {
   /** Optional. The Document the user wants to promote. For site search, leave unset and only populate uri. Can be set along with uri. */
-  document?: string;
+  document?: string | undefined;
   /** Optional. The URL for the page the user wants to promote. Must be set for site search. For other verticals, this is optional. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. The Promotion description. Maximum length: 200 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The promotion thumbnail image url. */
-  imageUri?: string;
+  imageUri?: string | undefined;
   /** Required. The title of the promotion. Maximum length: 160 characters. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. The enabled promotion will be returned for any serving configs associated with the parent of the control this promotion is attached to. This flag is used for basic site search only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Promote certain links based on some trigger queries. Example: Promote shoe store link when searching for `shoe` keyword. The link can be outside of associated data store. */
 export interface GoogleCloudDiscoveryengineV1alphaControlPromoteAction {
   /** Required. Promotion attached to this action. */
-  searchLinkPromotion?: GoogleCloudDiscoveryengineV1alphaSearchLinkPromotion;
+  searchLinkPromotion?: GoogleCloudDiscoveryengineV1alphaSearchLinkPromotion | undefined;
   /** Required. Data store with which this promotion is attached to. */
-  dataStore?: string;
+  dataStore?: string | undefined;
 }
 /** Redirects a shopper to the provided URI. */
 export interface GoogleCloudDiscoveryengineV1alphaControlRedirectAction {
   /** Required. The URI to which the shopper will be redirected. Required. URI must have length equal or less than 2000 characters. Otherwise an INVALID ARGUMENT error is thrown. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
 }
 /** Specified which products may be included in results. Uses same filter as boost. */
 export interface GoogleCloudDiscoveryengineV1alphaControlFilterAction {
   /** Required. Specifies which data store's documents can be filtered by this control. Full data store name e.g. projects/123/locations/global/collections/default_collection/dataStores/default_data_store */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** Required. A filter to apply on the matching condition results. Required Syntax documentation: https://cloud.google.com/retail/docs/filter-and-order Maximum length is 5000 characters. Otherwise an INVALID ARGUMENT error is thrown. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Matcher for search request query */
 export interface GoogleCloudDiscoveryengineV1alphaConditionQueryTerm {
   /** Whether the search query needs to exactly match the query term. */
-  fullMatch?: boolean;
+  fullMatch?: boolean | undefined;
   /** The specific query value to match against Must be lowercase, must be UTF-8. Can have at most 3 space separated terms if full_match is true. Cannot be an empty string. Maximum length of 5000 characters. */
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConditionQueryTermList =
   Array<GoogleCloudDiscoveryengineV1alphaConditionQueryTerm>;
 /** Used for time-dependent conditions. */
 export interface GoogleCloudDiscoveryengineV1alphaConditionTimeRange {
   /** Start of time range. Range is inclusive. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End of time range. Range is inclusive. Must be in the future. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConditionTimeRangeList =
   Array<GoogleCloudDiscoveryengineV1alphaConditionTimeRange>;
 /** Defines circumstances to be checked before allowing a behavior */
 export interface GoogleCloudDiscoveryengineV1alphaCondition {
   /** Search only A list of terms to match the query on. Cannot be set when Condition.query_regex is set. Maximum of 10 query terms. */
-  queryTerms?: GoogleCloudDiscoveryengineV1alphaConditionQueryTermList;
+  queryTerms?: GoogleCloudDiscoveryengineV1alphaConditionQueryTermList | undefined;
   /** Optional. Query regex to match the whole search query. Cannot be set when Condition.query_terms is set. Only supported for Basic Site Search promotion serving controls. */
-  queryRegex?: string;
+  queryRegex?: string | undefined;
   /** Range of time(s) specifying when condition is active. Maximum of 10 time ranges. */
-  activeTimeRange?: GoogleCloudDiscoveryengineV1alphaConditionTimeRangeList;
+  activeTimeRange?: GoogleCloudDiscoveryengineV1alphaConditionTimeRangeList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConditionList =
   Array<GoogleCloudDiscoveryengineV1alphaCondition>;
 /** Creates a set of terms that will act as synonyms of one another. Example: "happy" will also be considered as "glad", "glad" will also be considered as "happy". */
 export interface GoogleCloudDiscoveryengineV1alphaControlSynonymsAction {
   /** Defines a set of synonyms. Can specify up to 100 synonyms. Must specify at least 2 synonyms. Otherwise an INVALID ARGUMENT error is thrown. */
-  synonyms?: StringList;
+  synonyms?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaControlSolutionTypeEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -3702,56 +3972,59 @@ export type GoogleCloudDiscoveryengineV1alphaControlSolutionTypeEnum =
 /** Defines a conditioned behavior to employ during serving. Must be attached to a ServingConfig to be considered at serving time. Permitted actions dependent on `SolutionType`. */
 export interface GoogleCloudDiscoveryengineV1alphaControl {
   /** Defines a boost-type control */
-  boostAction?: GoogleCloudDiscoveryengineV1alphaControlBoostAction;
+  boostAction?: GoogleCloudDiscoveryengineV1alphaControlBoostAction | undefined;
   /** Specifies the use case for the control. Affects what condition fields can be set. Only applies to SOLUTION_TYPE_SEARCH. Currently only allow one use case per control. Must be set when solution_type is SolutionType.SOLUTION_TYPE_SEARCH. */
-  useCases?: GoogleCloudDiscoveryengineV1alphaControlUseCasesItemEnumList;
+  useCases?: GoogleCloudDiscoveryengineV1alphaControlUseCasesItemEnumList | undefined;
   /** Promote certain links based on predefined trigger queries. */
-  promoteAction?: GoogleCloudDiscoveryengineV1alphaControlPromoteAction;
+  promoteAction?: GoogleCloudDiscoveryengineV1alphaControlPromoteAction | undefined;
   /** Defines a redirect-type control. */
-  redirectAction?: GoogleCloudDiscoveryengineV1alphaControlRedirectAction;
+  redirectAction?: GoogleCloudDiscoveryengineV1alphaControlRedirectAction | undefined;
   /** Defines a filter-type control Currently not supported by Recommendation */
-  filterAction?: GoogleCloudDiscoveryengineV1alphaControlFilterAction;
+  filterAction?: GoogleCloudDiscoveryengineV1alphaControlFilterAction | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
-  name?: string;
+  name?: string | undefined;
   /** Required. Human readable name. The identifier used in UI views. Must be UTF-8 encoded string. Length limit is 128 characters. Otherwise an INVALID ARGUMENT error is thrown. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Determines when the associated action will trigger. Omit to always apply the action. Currently only a single condition may be specified. Otherwise an INVALID ARGUMENT error is thrown. */
-  conditions?: GoogleCloudDiscoveryengineV1alphaConditionList;
+  conditions?: GoogleCloudDiscoveryengineV1alphaConditionList | undefined;
   /** Treats a group of terms as synonyms of one another. */
-  synonymsAction?: GoogleCloudDiscoveryengineV1alphaControlSynonymsAction;
+  synonymsAction?: GoogleCloudDiscoveryengineV1alphaControlSynonymsAction | undefined;
   /** Output only. List of all ServingConfig IDs this control is attached to. May take up to 10 minutes to update after changes. */
-  associatedServingConfigIds?: StringList;
+  associatedServingConfigIds?: StringList | undefined;
   /** Required. Immutable. What solution the control belongs to. Must be compatible with vertical of resource. Otherwise an INVALID ARGUMENT error is thrown. */
-  solutionType?: GoogleCloudDiscoveryengineV1alphaControlSolutionTypeEnum | (string & {});
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1alphaControlSolutionTypeEnum
+    | (string & {})
+    | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
-  controlId?: string;
+  controlId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl;
+  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation;
+  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema;
+  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
 /** Specifies the chunk spec to be returned from the search response. Only available if the SearchRequest.ContentSearchSpec.search_result_mode is set to CHUNKS */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecChunkSpec {
   /** The number of next chunks to be returned of the current chunk. The maximum allowed value is 3. If not specified, no next chunks will be returned. */
-  numNextChunks?: number;
+  numNextChunks?: number | undefined;
   /** The number of previous chunks to be returned of the current chunk. The maximum allowed value is 3. If not specified, no previous chunks will be returned. */
-  numPreviousChunks?: number;
+  numPreviousChunks?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSearchResultModeEnum =
   | "SEARCH_RESULT_MODE_UNSPECIFIED"
@@ -3760,77 +4033,86 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSearc
 /** A specification for configuring snippets in a search response. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSnippetSpec {
   /** [DEPRECATED] This field is deprecated and will have no affect on the snippet. */
-  referenceOnly?: boolean;
+  referenceOnly?: boolean | undefined;
   /** [DEPRECATED] This field is deprecated. To control snippet return, use `return_snippet` field. For backwards compatibility, we will return snippet if max_snippet_count > 0. */
-  maxSnippetCount?: number;
+  maxSnippetCount?: number | undefined;
   /** If `true`, then return snippet. If no snippet can be generated, we return "No snippet is available for this page." A `snippet_status` with `SUCCESS` or `NO_SNIPPET_AVAILABLE` will also be returned. */
-  returnSnippet?: boolean;
+  returnSnippet?: boolean | undefined;
 }
 /** A specification for configuring the extractive content in a search response. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecExtractiveContentSpec {
   /** The max number of extractive segments returned in each search result. Only applied if the DataStore is set to DataStore.ContentConfig.CONTENT_REQUIRED or DataStore.solution_types is SOLUTION_TYPE_CHAT. An extractive segment is a text segment extracted from the original document that is relevant to the search query, and, in general, more verbose than an extractive answer. The segment could then be used as input for LLMs to generate summaries and answers. If the number of matching segments is less than `max_extractive_segment_count`, return all of the segments. Otherwise, return the `max_extractive_segment_count`. */
-  maxExtractiveSegmentCount?: number;
+  maxExtractiveSegmentCount?: number | undefined;
   /** Specifies whether to return the confidence score from the extractive segments in each search result. This feature is available only for new or allowlisted data stores. To allowlist your data store, contact your Customer Engineer. The default value is `false`. */
-  returnExtractiveSegmentScore?: boolean;
+  returnExtractiveSegmentScore?: boolean | undefined;
   /** Return at most `num_next_segments` segments after each selected segments. */
-  numNextSegments?: number;
+  numNextSegments?: number | undefined;
   /** The maximum number of extractive answers returned in each search result. An extractive answer is a verbatim answer extracted from the original document, which provides a precise and contextually relevant answer to the search query. If the number of matching answers is less than the `max_extractive_answer_count`, return all of the answers. Otherwise, return the `max_extractive_answer_count`. At most five answers are returned for each SearchResult. */
-  maxExtractiveAnswerCount?: number;
+  maxExtractiveAnswerCount?: number | undefined;
   /** Specifies whether to also include the adjacent from each selected segments. Return at most `num_previous_segments` segments before each selected segments. */
-  numPreviousSegments?: number;
+  numPreviousSegments?: number | undefined;
 }
 /** A specification for configuring the behavior of content search. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec {
   /** Specifies the chunk spec to be returned from the search response. Only available if the SearchRequest.ContentSearchSpec.search_result_mode is set to CHUNKS */
-  chunkSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecChunkSpec;
+  chunkSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecChunkSpec | undefined;
   /** Specifies the search result mode. If unspecified, the search result mode defaults to `DOCUMENTS`. */
   searchResultMode?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSearchResultModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If `snippetSpec` is not specified, snippets are not included in the search response. */
-  snippetSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSnippetSpec;
+  snippetSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSnippetSpec
+    | undefined;
   /** If there is no extractive_content_spec provided, there will be no extractive answer in the search response. */
-  extractiveContentSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecExtractiveContentSpec;
+  extractiveContentSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecExtractiveContentSpec
+    | undefined;
   /** If `summarySpec` is not specified, summaries are not included in the search response. */
-  summarySpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec;
+  summarySpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpecSummarySpec
+    | undefined;
 }
 /** Specifies the configurations needed for Generic Discovery.Currently we support: * `content_search_spec`: configuration for generic content search. */
 export interface GoogleCloudDiscoveryengineV1alphaServingConfigGenericConfig {
   /** Specifies the expected behavior of content search. Only valid for content-search enabled data store. */
-  contentSearchSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec;
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec | undefined;
 }
 /** The specification for user defined classifier. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerGenerationSpecUserDefinedClassifierSpec {
   /** Optional. The top-p value to be used for the user defined classifier. */
-  topP?: number;
+  topP?: number | undefined;
   /** Optional. The task marker to be used for the user defined classifier. */
-  taskMarker?: string;
+  taskMarker?: string | undefined;
   /** Optional. The preamble to be used for the user defined classifier. */
-  preamble?: string;
+  preamble?: string | undefined;
   /** Optional. Whether or not to enable and include user defined classifier. */
-  enableUserDefinedClassifier?: boolean;
+  enableUserDefinedClassifier?: boolean | undefined;
   /** Optional. The temperature value to be used for the user defined classifier. */
-  temperature?: number;
+  temperature?: number | undefined;
   /** Optional. The top-k value to be used for the user defined classifier. */
-  topK?: string;
+  topK?: string | undefined;
   /** Optional. The seed value to be used for the user defined classifier. */
-  seed?: number;
+  seed?: number | undefined;
   /** Optional. The model id to be used for the user defined classifier. */
-  modelId?: string;
+  modelId?: string | undefined;
 }
 /** The specification for answer generation. */
 export interface GoogleCloudDiscoveryengineV1alphaAnswerGenerationSpec {
   /** Optional. The specification for user specified classifier spec. */
-  userDefinedClassifierSpec?: GoogleCloudDiscoveryengineV1alphaAnswerGenerationSpecUserDefinedClassifierSpec;
+  userDefinedClassifierSpec?:
+    | GoogleCloudDiscoveryengineV1alphaAnswerGenerationSpecUserDefinedClassifierSpec
+    | undefined;
 }
 /** Defines guided search spec. */
 export interface GoogleCloudDiscoveryengineV1alphaGuidedSearchSpec {
   /** Max number of related questions to be returned. The valid range is [1, 5]. If enable_related_questions is true, the default value is 3. */
-  maxRelatedQuestions?: number;
+  maxRelatedQuestions?: number | undefined;
   /** Whether or not to enable and include refinement attributes in gudied search result. */
-  enableRefinementAttributes?: boolean;
+  enableRefinementAttributes?: boolean | undefined;
   /** Whether or not to enable and include related questions in search response. */
-  enableRelatedQuestions?: boolean;
+  enableRelatedQuestions?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaServingConfigSolutionTypeEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -3842,15 +4124,15 @@ export type GoogleCloudDiscoveryengineV1alphaServingConfigSolutionTypeEnum =
 /** Specifies the configurations needed for Media Discovery. Currently we support: * `demote_content_watched`: Threshold for watched content demotion. Customers can specify if using watched content demotion or use viewed detail page. Using the content watched demotion, customers need to specify the watched minutes or percentage exceeds the threshold, the content will be demoted in the recommendation result. * `promote_fresh_content`: cutoff days for fresh content promotion. Customers can specify if using content freshness promotion. If the content was published within the cutoff days, the content will be promoted in the recommendation result. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
 export interface GoogleCloudDiscoveryengineV1alphaServingConfigMediaConfig {
   /** Specifies the content freshness used for recommendation result. Contents will be demoted if contents were published for more than content freshness cutoff days. */
-  contentFreshnessCutoffDays?: number;
+  contentFreshnessCutoffDays?: number | undefined;
   /** Specifies the content watched percentage threshold for demotion. Threshold value must be between [0, 1.0] inclusive. */
-  contentWatchedPercentageThreshold?: number;
+  contentWatchedPercentageThreshold?: number | undefined;
   /** Specifies the content watched minutes threshold for demotion. */
-  contentWatchedSecondsThreshold?: number;
+  contentWatchedSecondsThreshold?: number | undefined;
   /** Optional. Specifies the number of days to look back for demoting watched content. If set to zero or unset, defaults to the maximum of 365 days. */
-  demoteContentWatchedPastDays?: number;
+  demoteContentWatchedPastDays?: number | undefined;
   /** Specifies the event type used for demoting recommendation result. Currently supported values: * `view-item`: Item viewed. * `media-play`: Start/resume watching a video, playing a song, etc. * `media-complete`: Finished or stopped midway through a video, song, etc. If unset, watch history demotion will not be applied. Content freshness demotion will still be applied. */
-  demotionEventType?: string;
+  demotionEventType?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpecModeEnum =
   | "MODE_UNSPECIFIED"
@@ -3859,100 +4141,108 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpecMod
 /** The specification for personalization. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec {
   /** The personalization mode of the search request. Defaults to Mode.AUTO. */
-  mode?: GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpecModeEnum | (string & {});
+  mode?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpecModeEnum
+    | (string & {})
+    | undefined;
 }
 /** Defines embedding config, used for bring your own embeddings feature. */
 export interface GoogleCloudDiscoveryengineV1alphaEmbeddingConfig {
   /** Full field path in the schema mapped as embedding field. */
-  fieldPath?: string;
+  fieldPath?: string | undefined;
 }
 /** Configures metadata that is used to generate serving time results (e.g. search results or recommendation predictions). The ServingConfig is passed in the search and predict request and generates results. */
 export interface GoogleCloudDiscoveryengineV1alphaServingConfig {
   /** Output only. ServingConfig updated timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
-  onewaySynonymsControlIds?: StringList;
+  onewaySynonymsControlIds?: StringList | undefined;
   /** The ranking expression controls the customized ranking on retrieval documents. To leverage this, document embedding is required. The ranking expression setting in ServingConfig applies to all search requests served by the serving config. However, if `SearchRequest.ranking_expression` is specified, it overrides the ServingConfig ranking expression. The ranking expression is a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between embedding_field_path and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. */
-  rankingExpression?: string;
+  rankingExpression?: string | undefined;
   /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
-  diversityLevel?: string;
+  diversityLevel?: string | undefined;
   /** The GenericConfig of the serving configuration. */
-  genericConfig?: GoogleCloudDiscoveryengineV1alphaServingConfigGenericConfig;
+  genericConfig?: GoogleCloudDiscoveryengineV1alphaServingConfigGenericConfig | undefined;
   /** IDs of the redirect controls. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
-  redirectControlIds?: StringList;
+  redirectControlIds?: StringList | undefined;
   /** Required. The human readable serving config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Condition promote specifications. Maximum number of specifications is 100. */
-  promoteControlIds?: StringList;
+  promoteControlIds?: StringList | undefined;
   /** The id of the model to use at serving time. Currently only RecommendationModels are supported. Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when SolutionType is SOLUTION_TYPE_RECOMMENDATION. */
-  modelId?: string;
+  modelId?: string | undefined;
   /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. Order does not matter. Maximum number of specifications is 100. */
-  ignoreControlIds?: StringList;
+  ignoreControlIds?: StringList | undefined;
   /** Filter controls to use in serving path. All triggered filter controls will be applied. Filter controls must be in the same data store as the serving config. Maximum of 20 filter controls. */
-  filterControlIds?: StringList;
+  filterControlIds?: StringList | undefined;
   /** Optional. The specification for answer generation. */
-  answerGenerationSpec?: GoogleCloudDiscoveryengineV1alphaAnswerGenerationSpec;
+  answerGenerationSpec?: GoogleCloudDiscoveryengineV1alphaAnswerGenerationSpec | undefined;
   /** Guided search configs. */
-  guidedSearchSpec?: GoogleCloudDiscoveryengineV1alphaGuidedSearchSpec;
+  guidedSearchSpec?: GoogleCloudDiscoveryengineV1alphaGuidedSearchSpec | undefined;
   /** Required. Immutable. Specifies the solution type that a serving config can be associated with. */
-  solutionType?: GoogleCloudDiscoveryengineV1alphaServingConfigSolutionTypeEnum | (string & {});
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1alphaServingConfigSolutionTypeEnum
+    | (string & {})
+    | undefined;
   /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. Order does not matter. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
-  dissociateControlIds?: StringList;
+  dissociateControlIds?: StringList | undefined;
   /** Custom fine tuning configs. If SearchRequest.custom_fine_tuning_spec is set, it has higher priority than the configs set here. */
-  customFineTuningSpec?: GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec;
+  customFineTuningSpec?: GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec | undefined;
   /** Output only. ServingConfig created timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Condition replacement specifications. Applied according to the order in the list. A previously replaced term can not be re-replaced. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
-  replacementControlIds?: StringList;
+  replacementControlIds?: StringList | undefined;
   /** The MediaConfig of the serving configuration. */
-  mediaConfig?: GoogleCloudDiscoveryengineV1alphaServingConfigMediaConfig;
+  mediaConfig?: GoogleCloudDiscoveryengineV1alphaServingConfigMediaConfig | undefined;
   /** The specification for personalization spec. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
-  personalizationSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec;
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec
+    | undefined;
   /** Boost controls to use in serving path. All triggered boost controls will be applied. Boost controls must be in the same data store as the serving config. Maximum of 20 boost controls. */
-  boostControlIds?: StringList;
+  boostControlIds?: StringList | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
-  name?: string;
+  name?: string | undefined;
   /** Condition synonyms specifications. If multiple synonyms conditions match, all matching synonyms controls in the list will execute. Maximum number of specifications is 100. Can only be set if SolutionType is SOLUTION_TYPE_SEARCH. */
-  synonymsControlIds?: StringList;
+  synonymsControlIds?: StringList | undefined;
   /** Bring your own embedding config. The config is used for search semantic retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embeddings that are provided by this EmbeddingConfig. If SearchRequest.EmbeddingSpec.EmbeddingVector.vector is provided, it overrides this ServingConfig.embedding_config. */
-  embeddingConfig?: GoogleCloudDiscoveryengineV1alphaEmbeddingConfig;
+  embeddingConfig?: GoogleCloudDiscoveryengineV1alphaEmbeddingConfig | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
-  servingConfigId?: string;
+  servingConfigId?: string | undefined;
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession;
+  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 /** A sitemap for the SiteSearchEngine. */
 export interface GoogleCloudDiscoveryengineV1alphaSitemap {
   /** Public URI for the sitemap, e.g. `www.example.com/sitemap.xml`. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. The fully qualified resource name of the sitemap. `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine/sitemaps/*` The `sitemap_id` suffix is system-generated. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The sitemap's creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSitemap;
+  body?: GoogleCloudDiscoveryengineV1alphaSitemap | undefined;
 }
 export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite;
+  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfigSearchTierEnum =
   | "SEARCH_TIER_UNSPECIFIED"
@@ -3987,13 +4277,17 @@ export interface GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfig {
   /** The search feature tier of this engine. Different tiers might have different pricing. To learn more, check the pricing documentation. Defaults to SearchTier.SEARCH_TIER_STANDARD if not specified. */
   searchTier?:
     | GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfigSearchTierEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The required subscription tier of this engine. If the required subscription tier is search, user with higher license tier like assist can still access the standalone app associated with this engine. Web grounding feature is only available on the app if it is set as SubscriptionTier.SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT. */
   requiredSubscriptionTier?:
     | GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfigRequiredSubscriptionTierEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The add-on that this search engine enables. */
-  searchAddOns?: GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfigSearchAddOnsItemEnumList;
+  searchAddOns?:
+    | GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfigSearchAddOnsItemEnumList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineGlobalFeatureToggleStateEnum =
   | "GLOBAL_FEATURE_TOGGLE_STATE_UNSPECIFIED"
@@ -4045,37 +4339,41 @@ export type GoogleCloudDiscoveryengineV1alphaEngineEffectiveFeaturesValueEnumMap
 /** Common configurations for an Engine. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineCommonConfig {
   /** The name of the company, business or entity that is associated with the engine. Setting this may help improve LLM related features. */
-  companyName?: string;
+  companyName?: string | undefined;
 }
 /** Reference to an Agent Gateway resource. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentGatewaySettingAgentGatewayReference {
   /** Required. Immutable. The resource name of the agent gateway. Expected format: `projects/{project_number}/locations/{location}/agentGateways/{agent_gateway}`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Agent Gateway setting, which may be attached to Gemini Enterprise resources for egress control of Gemini Enterprise agents to agents and tools outside of Gemini Enterprise. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentGatewaySetting {
   /** Optional. The default egress agent gateway to use, when this setting is applied to a Gemini Enterprise resource. The deployment mode must be GOOGLE_MANAGED, and the governed access path must be AGENT_TO_ANYWHERE. */
-  defaultEgressAgentGateway?: GoogleCloudDiscoveryengineV1alphaAgentGatewaySettingAgentGatewayReference;
+  defaultEgressAgentGateway?:
+    | GoogleCloudDiscoveryengineV1alphaAgentGatewaySettingAgentGatewayReference
+    | undefined;
 }
 /** Configurations for generating a Dialogflow agent. Note that these configurations are one-time consumed by and passed to Dialogflow service. It means they cannot be retrieved using EngineService.GetEngine or EngineService.ListEngines API after engine creation. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfigAgentCreationConfig {
   /** Agent location for Agent creation, supported values: global/us/eu. If not provided, us Engine will create Agent using us-central-1 by default; eu Engine will create Agent using eu-west-1 by default. */
-  location?: string;
+  location?: string | undefined;
   /** Required. The default language of the agent as a language tag. See [Language Support](https://cloud.google.com/dialogflow/docs/reference/language) for a list of the currently supported language codes. */
-  defaultLanguageCode?: string;
+  defaultLanguageCode?: string | undefined;
   /** Name of the company, organization or other entity that the agent represents. Used for knowledge connector LLM prompt and for knowledge search. */
-  business?: string;
+  business?: string | undefined;
   /** Required. The time zone of the agent from the [time zone database](https://www.iana.org/time-zones), e.g., America/New_York, Europe/Paris. */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 /** Configurations for a Chat Engine. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfig {
   /** The configurationt generate the Dialogflow agent that is associated to this Engine. Note that these configurations are one-time consumed by and passed to Dialogflow service. It means they cannot be retrieved using EngineService.GetEngine or EngineService.ListEngines API after engine creation. */
-  agentCreationConfig?: GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfigAgentCreationConfig;
+  agentCreationConfig?:
+    | GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfigAgentCreationConfig
+    | undefined;
   /** The resource name of an exist Dialogflow agent to link to this Chat Engine. Customers can either provide `agent_creation_config` to create agent or provide an agent name that links the agent with the Chat engine. Format: `projects//locations//agents/`. Note that the `dialogflow_agent_to_link` are one-time consumed by and passed to Dialogflow service. It means they cannot be retrieved using EngineService.GetEngine or EngineService.ListEngines API after engine creation. Use ChatEngineMetadata.dialogflow_agent for actual agent association after Engine is created. */
-  dialogflowAgentToLink?: string;
+  dialogflowAgentToLink?: string | undefined;
   /** Optional. If the flag set to true, we allow the agent and engine are in different locations, otherwise the agent and engine are required to be in the same location. The flag is set to false by default. Note that the `allow_cross_region` are one-time consumed by and passed to EngineService.CreateEngine. It means they cannot be retrieved using EngineService.GetEngine or EngineService.ListEngines API after engine creation. */
-  allowCrossRegion?: boolean;
+  allowCrossRegion?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineMarketplaceAgentVisibilityEnum =
   | "MARKETPLACE_AGENT_VISIBILITY_UNSPECIFIED"
@@ -4095,19 +4393,21 @@ export type GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadataDataSta
 /** Additional information of a recommendation engine. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadata {
   /** Output only. The timestamp when the latest successful training finished. Only applicable on Media Recommendation engines. */
-  lastTrainTime?: string;
+  lastTrainTime?: string | undefined;
   /** Output only. The serving state of the engine: `ACTIVE`, `NOT_ACTIVE`. */
   servingState?:
     | GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadataServingStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The state of data requirements for this engine: `DATA_OK` and `DATA_ERROR`. Engine cannot be trained if the data is in `DATA_ERROR` state. Engine can have `DATA_ERROR` state even if serving state is `ACTIVE`: engines were trained successfully before, but cannot be refreshed because the underlying engine no longer has sufficient data for training. */
   dataState?:
     | GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadataDataStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The latest tune operation id associated with the engine. Only applicable on Media Recommendation engines. If present, this operation id can be used to determine if there is an ongoing tune for this engine. To check the operation status, send the GetOperation request with this operation id in the engine resource format. If no tuning has happened for this engine, the string is empty. */
-  tuningOperation?: string;
+  tuningOperation?: string | undefined;
   /** Output only. The timestamp when the latest successful tune finished. Only applicable on Media Recommendation engines. */
-  lastTuneTime?: string;
+  lastTuneTime?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSessionConfigSessionManagementPolicyEnum =
   | "SESSION_MANAGEMENT_POLICY_UNSPECIFIED"
@@ -4116,28 +4416,29 @@ export type GoogleCloudDiscoveryengineV1alphaSessionConfigSessionManagementPolic
 /** Defines the TTL for sessions. */
 export interface GoogleCloudDiscoveryengineV1alphaSessionConfigSessionTtl {
   /** Defines the number of days for session TTL. */
-  days?: number;
+  days?: number | undefined;
 }
 /** Configuration for the session. */
 export interface GoogleCloudDiscoveryengineV1alphaSessionConfig {
   /** Optional. Session management policy that defines who will manage the session. */
   sessionManagementPolicy?:
     | GoogleCloudDiscoveryengineV1alphaSessionConfigSessionManagementPolicyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The TTL for the session. If unset, the default value is 60 days. */
-  sessionTtl?: GoogleCloudDiscoveryengineV1alphaSessionConfigSessionTtl;
+  sessionTtl?: GoogleCloudDiscoveryengineV1alphaSessionConfigSessionTtl | undefined;
 }
 /** Observability config for a resource. */
 export interface GoogleCloudDiscoveryengineV1alphaObservabilityConfig {
   /** Optional. Enables observability. If `false`, all other flags are ignored. */
-  observabilityEnabled?: boolean;
+  observabilityEnabled?: boolean | undefined;
   /** Optional. Enables sensitive logging. Sensitive logging includes customer core content (e.g. prompts, responses). If `false`, will sanitize all sensitive fields. */
-  sensitiveLoggingEnabled?: boolean;
+  sensitiveLoggingEnabled?: boolean | undefined;
 }
 /** Additional information of a Chat Engine. Fields in this message are output only. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineChatEngineMetadata {
   /** The resource name of a Dialogflow agent, that this Chat Engine refers to. Format: `projects//locations//agents/`. */
-  dialogflowAgent?: string;
+  dialogflowAgent?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineModelConfigsValueEnum =
   | "MODEL_STATE_UNSPECIFIED"
@@ -4156,65 +4457,76 @@ export type GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConf
 /** Custom threshold for `cvr` optimization_objective. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig {
   /** Required. The name of the field to target. Currently supported values: `watch-percentage`, `watch-time`. */
-  targetField?: string;
+  targetField?: string | undefined;
   /** Required. The threshold to be applied to the target (e.g., 0.5). */
-  targetFieldValueFloat?: number;
+  targetFieldValueFloat?: number | undefined;
 }
 /** Additional feature configurations for creating a `recommended-for-you` engine. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig {
   /** The type of event with which the engine is queried at prediction time. If set to `generic`, only `view-item`, `media-play`,and `media-complete` will be used as `context-event` in engine training. If set to `view-home-page`, `view-home-page` will also be used as `context-events` in addition to `view-item`, `media-play`, and `media-complete`. Currently supported for the `recommended-for-you` engine. Currently supported values: `view-home-page`, `generic`. */
-  contextEventType?: string;
+  contextEventType?: string | undefined;
 }
 /** Feature configurations that are required for creating a Most Popular engine. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig {
   /** The time window of which the engine is queried at training and prediction time. Positive integers only. The value translates to the last X days of events. Currently required for the `most-popular-items` engine. */
-  timeWindowDays?: string;
+  timeWindowDays?: string | undefined;
 }
 /** More feature configs of the selected engine type. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig {
   /** Recommended for you engine feature config. */
-  recommendedForYouConfig?: GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig;
+  recommendedForYouConfig?:
+    | GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigRecommendedForYouFeatureConfig
+    | undefined;
   /** Most popular engine feature config. */
-  mostPopularConfig?: GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig;
+  mostPopularConfig?:
+    | GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigMostPopularFeatureConfig
+    | undefined;
 }
 /** Additional config specs for a Media Recommendation engine. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfig {
   /** The training state that the engine is in (e.g. `TRAINING` or `PAUSED`). Since part of the cost of running the service is frequency of training - this can be used to determine when to train engine in order to control cost. If not specified: the default value for `CreateEngine` method is `TRAINING`. The default value for `UpdateEngine` method is to keep the state the same as before. */
   trainingState?:
     | GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigTrainingStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name and value of the custom threshold for cvr optimization_objective. For target_field `watch-time`, target_field_value must be an integer value indicating the media progress time in seconds between (0, 86400] (excludes 0, includes 86400) (e.g., 90). For target_field `watch-percentage`, the target_field_value must be a valid float value between (0, 1.0] (excludes 0, includes 1.0) (e.g., 0.5). */
-  optimizationObjectiveConfig?: GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig;
+  optimizationObjectiveConfig?:
+    | GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigOptimizationObjectiveConfig
+    | undefined;
   /** Optional. Additional engine features config. */
-  engineFeaturesConfig?: GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig;
+  engineFeaturesConfig?:
+    | GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfigEngineFeaturesConfig
+    | undefined;
   /** The optimization objective. e.g., `cvr`. This field together with optimization_objective describe engine metadata to use to control engine training and serving. Currently supported values: `ctr`, `cvr`. If not specified, we choose default based on engine type. Default depends on type of recommendation: `recommended-for-you` => `ctr` `others-you-may-like` => `ctr` */
-  optimizationObjective?: string;
+  optimizationObjective?: string | undefined;
   /** Required. The type of engine. e.g., `recommended-for-you`. This field together with optimization_objective describe engine metadata to use to control engine training and serving. Currently supported values: `recommended-for-you`, `others-you-may-like`, `more-like-this`, `most-popular-items`. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Feature config for the Knowledge Graph. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfigFeatureConfig {
   /** Whether to disable the private KG query understanding for the engine. Defaults to false if not specified. */
-  disablePrivateKgQueryUnderstanding?: boolean;
+  disablePrivateKgQueryUnderstanding?: boolean | undefined;
   /** Whether to disable the private KG enrichment for the engine. Defaults to false if not specified. */
-  disablePrivateKgEnrichment?: boolean;
+  disablePrivateKgEnrichment?: boolean | undefined;
   /** Whether to disable the private KG auto complete for the engine. Defaults to false if not specified. */
-  disablePrivateKgAutoComplete?: boolean;
+  disablePrivateKgAutoComplete?: boolean | undefined;
   /** Whether to disable the private KG for query UI chips. Defaults to false if not specified. */
-  disablePrivateKgQueryUiChips?: boolean;
+  disablePrivateKgQueryUiChips?: boolean | undefined;
 }
 /** Configuration message for the Knowledge Graph. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfig {
   /** Specify entity types to support. */
-  privateKnowledgeGraphTypes?: StringList;
+  privateKnowledgeGraphTypes?: StringList | undefined;
   /** Whether to enable the Cloud Knowledge Graph for the engine. Defaults to false if not specified. */
-  enableCloudKnowledgeGraph?: boolean;
+  enableCloudKnowledgeGraph?: boolean | undefined;
   /** Specify entity types to support. */
-  cloudKnowledgeGraphTypes?: StringList;
+  cloudKnowledgeGraphTypes?: StringList | undefined;
   /** Optional. Feature config for the Knowledge Graph. */
-  featureConfig?: GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfigFeatureConfig;
+  featureConfig?:
+    | GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfigFeatureConfig
+    | undefined;
   /** Whether to enable the Private Knowledge Graph for the engine. Defaults to false if not specified. */
-  enablePrivateKnowledgeGraph?: boolean;
+  enablePrivateKnowledgeGraph?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyDefaultAccessEnum =
   | "DEFAULT_ACCESS_UNSPECIFIED"
@@ -4223,13 +4535,14 @@ export type GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyDefaultAccessEnu
 /** Restricts which users may use a feature that is turned on in `features`. */
 export interface GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicy {
   /** Optional. Members who may use the feature. */
-  allowedMembers?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList;
+  allowedMembers?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList | undefined;
   /** Optional. Members who may not use the feature. Takes precedence over `allowed_members`. */
-  deniedMembers?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList;
+  deniedMembers?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMemberList | undefined;
   /** Optional. Access for users who match neither list. */
   defaultAccess?:
     | GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyDefaultAccessEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicy | undefined;
@@ -4237,83 +4550,98 @@ export type GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMap = {
 /** Metadata that describes the training and serving parameters of an Engine. */
 export interface GoogleCloudDiscoveryengineV1alphaEngine {
   /** Configurations for the Search Engine. Only applicable if solution_type is SOLUTION_TYPE_SEARCH. */
-  searchEngineConfig?: GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfig;
+  searchEngineConfig?: GoogleCloudDiscoveryengineV1alphaEngineSearchEngineConfig | undefined;
   /** Optional. Controls the global feature toggle state for the engine. */
   globalFeatureToggleState?:
     | GoogleCloudDiscoveryengineV1alphaEngineGlobalFeatureToggleStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The Agent registry containing the agents, MCP servers and tools associated with this engine. Derived server-side from the linked Agent Gateway's registry. */
-  associatedAgentRegistry?: string;
+  associatedAgentRegistry?: string | undefined;
   /** Immutable. Identifier. The fully qualified resource name of the engine. This field must be a UTF-8 encoded string with a length limit of 1024 characters. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` engine should be 1-63 characters, and valid characters are /a-z0-9*\/. Otherwise, an INVALID_ARGUMENT error is returned. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Maps a connector ID (e.g., "hybrid-github", "shopify") to tenant-specific information required for that connector. The structure of the tenant information string is connector-dependent. */
-  connectorTenantInfo?: StringMap;
+  connectorTenantInfo?: StringMap | undefined;
   /** Required. The solutions of the engine. */
-  solutionType?: GoogleCloudDiscoveryengineV1alphaEngineSolutionTypeEnum | (string & {});
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1alphaEngineSolutionTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Feature config for the engine to opt in or opt out of features. Supported keys: * `*`: all features, if it's present, all other feature state settings are ignored. * `agent-gallery` * `no-code-agent-builder` * `prompt-gallery` * `model-selector` * `notebook-lm` * `people-search` * `people-search-org-chart` * `bi-directional-audio` * `speech-to-text` * `feedback` * `session-sharing` * `personalization-memory` * `personalization-suggested-highlights` * `mobile-app-access` * `disable-agent-sharing` * `disable-image-generation` * `disable-video-generation` * `music-generation` * `speech-generation` * `disable-onedrive-upload` * `disable-talk-to-content` * `disable-google-drive-upload` * `disable-welcome-emails` * `disable-canvas` * `canvas-workspace` * `canvas-app-builder` * `skills` * `skill-sharing` * `skill-sharing-without-admin-approval` * `skill-security-scan` * `disable-projects` * `sobi` * `enable-end-user-sharing-with-groups` * `single-agent-orchestration` * `multi-agent-orchestration` * `cross-product-intelligence` * `workflow-agents` * `in-app-notifications` * `code-extraction` * `remote-vm` * `license-tier-badge` * `canvas-app-sharing` * `agent-marketplace` * `agent-scheduling` * `preview-agents` * `plugins` */
-  features?: GoogleCloudDiscoveryengineV1alphaEngineFeaturesValueEnumMap;
+  features?: GoogleCloudDiscoveryengineV1alphaEngineFeaturesValueEnumMap | undefined;
   /** Optional. Configuration for configurable billing approach. */
   configurableBillingApproach?:
     | GoogleCloudDiscoveryengineV1alphaEngineConfigurableBillingApproachEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Immutable. This the application type which this engine resource represents. NOTE: this is a new concept independ of existing industry vertical or solution type. */
-  appType?: GoogleCloudDiscoveryengineV1alphaEngineAppTypeEnum | (string & {});
+  appType?: GoogleCloudDiscoveryengineV1alphaEngineAppTypeEnum | (string & {}) | undefined;
   /** Additional config specs for a `similar-items` engine. */
-  similarDocumentsConfig?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  similarDocumentsConfig?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Optional. The industry vertical that the engine registers. The restriction of the Engine industry vertical is based on DataStore: Vertical on Engine has to match vertical of the DataStore linked to the engine. */
-  industryVertical?: GoogleCloudDiscoveryengineV1alphaEngineIndustryVerticalEnum | (string & {});
+  industryVertical?:
+    | GoogleCloudDiscoveryengineV1alphaEngineIndustryVerticalEnum
+    | (string & {})
+    | undefined;
   /** Optional. Whether to disable analytics for searches performed on this engine. */
-  disableAnalytics?: boolean;
+  disableAnalytics?: boolean | undefined;
   /** Output only. The complete, server-resolved state of every known feature toggle. Unlike `features`, which stores only explicit admin overrides, this map always contains an entry for every toggle. Clients should read toggle state from this field. */
-  effectiveFeatures?: GoogleCloudDiscoveryengineV1alphaEngineEffectiveFeaturesValueEnumMap;
+  effectiveFeatures?:
+    | GoogleCloudDiscoveryengineV1alphaEngineEffectiveFeaturesValueEnumMap
+    | undefined;
   /** Output only. Whether the project is allowed to set `global_feature_toggle_state` to `DELAYED`. */
-  delayedGlobalFeatureToggleStateAllowed?: boolean;
+  delayedGlobalFeatureToggleStateAllowed?: boolean | undefined;
   /** Optional. The emails of the procurement contacts. */
-  procurementContactEmails?: StringList;
+  procurementContactEmails?: StringList | undefined;
   /** Output only. Timestamp the Recommendation Engine was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Common config spec that specifies the metadata of the engine. */
-  commonConfig?: GoogleCloudDiscoveryengineV1alphaEngineCommonConfig;
+  commonConfig?: GoogleCloudDiscoveryengineV1alphaEngineCommonConfig | undefined;
   /** Optional. The agent gateway setting for the engine. */
-  agentGatewaySetting?: GoogleCloudDiscoveryengineV1alphaAgentGatewaySetting;
+  agentGatewaySetting?: GoogleCloudDiscoveryengineV1alphaAgentGatewaySetting | undefined;
   /** Optional. The data stores associated with this engine. For SOLUTION_TYPE_SEARCH and SOLUTION_TYPE_RECOMMENDATION type of engines, they can only associate with at most one data store. If solution_type is SOLUTION_TYPE_CHAT, multiple DataStores in the same Collection can be associated here. Note that when used in CreateEngineRequest, one DataStore id must be provided as the system will use it for necessary initializations. */
-  dataStoreIds?: StringList;
+  dataStoreIds?: StringList | undefined;
   /** Required. The display name of the engine. Should be human readable. UTF-8 encoded string with limit of 1024 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Configurations for the Chat Engine. Only applicable if solution_type is SOLUTION_TYPE_CHAT. */
-  chatEngineConfig?: GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfig;
+  chatEngineConfig?: GoogleCloudDiscoveryengineV1alphaEngineChatEngineConfig | undefined;
   /** Optional. The visibility of marketplace agents in the agent gallery. */
   marketplaceAgentVisibility?:
     | GoogleCloudDiscoveryengineV1alphaEngineMarketplaceAgentVisibilityEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. Additional information of a recommendation engine. Only applicable if solution_type is SOLUTION_TYPE_RECOMMENDATION. */
-  recommendationMetadata?: GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadata;
+  recommendationMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaEngineRecommendationMetadata
+    | undefined;
   /** Optional. Non-empty default. Session config for the engine. */
-  sessionConfig?: GoogleCloudDiscoveryengineV1alphaSessionConfig;
+  sessionConfig?: GoogleCloudDiscoveryengineV1alphaSessionConfig | undefined;
   /** Optional. Observability config for the engine. */
-  observabilityConfig?: GoogleCloudDiscoveryengineV1alphaObservabilityConfig;
+  observabilityConfig?: GoogleCloudDiscoveryengineV1alphaObservabilityConfig | undefined;
   /** Output only. Additional information of the Chat Engine. Only applicable if solution_type is SOLUTION_TYPE_CHAT. */
-  chatEngineMetadata?: GoogleCloudDiscoveryengineV1alphaEngineChatEngineMetadata;
+  chatEngineMetadata?: GoogleCloudDiscoveryengineV1alphaEngineChatEngineMetadata | undefined;
   /** Output only. Timestamp the Recommendation Engine was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Maps a model name to its specific configuration for this engine. This allows admin users to turn on/off individual models. This only stores models whose states are overridden by the admin. When the state is unspecified, or model_configs is empty for this model, the system will decide if this model should be available or not based on the default configuration. For example, a preview model should be disabled by default if the admin has not chosen to enable it. */
-  modelConfigs?: GoogleCloudDiscoveryengineV1alphaEngineModelConfigsValueEnumMap;
+  modelConfigs?: GoogleCloudDiscoveryengineV1alphaEngineModelConfigsValueEnumMap | undefined;
   /** Configurations for the Media Engine. Only applicable on the data stores with solution_type SOLUTION_TYPE_RECOMMENDATION and IndustryVertical.MEDIA vertical. */
-  mediaRecommendationEngineConfig?: GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfig;
+  mediaRecommendationEngineConfig?:
+    | GoogleCloudDiscoveryengineV1alphaEngineMediaRecommendationEngineConfig
+    | undefined;
   /** Optional. Configurations for the Knowledge Graph. Only applicable if solution_type is SOLUTION_TYPE_SEARCH. */
-  knowledgeGraphConfig?: GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfig;
+  knowledgeGraphConfig?: GoogleCloudDiscoveryengineV1alphaEngineKnowledgeGraphConfig | undefined;
   /** Output only. CMEK-related information for the Engine. */
-  cmekConfig?: GoogleCloudDiscoveryengineV1alphaCmekConfig;
+  cmekConfig?: GoogleCloudDiscoveryengineV1alphaCmekConfig | undefined;
   /** Optional. Per-feature access policies, keyed by feature toggle name (see `features`). A feature with no entry is available to every user when it is on. Only features that support access policies are accepted. */
-  featurePolicies?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMap;
+  featurePolicies?: GoogleCloudDiscoveryengineV1alphaEngineFeaturePolicyMap | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
   /** Required. The ID to use for the Engine, which will become the final component of the Engine's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEngine;
+  body?: GoogleCloudDiscoveryengineV1alphaEngine | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantWebGroundingTypeEnum =
   | "WEB_GROUNDING_TYPE_UNSPECIFIED"
@@ -4327,13 +4655,14 @@ export type GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyBannedPhrase
 /** Definition of a customer-defined banned phrase. A banned phrase is not allowed to appear in the user query or the LLM response, or else the answer will be refused. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyBannedPhrase {
   /** Required. The raw string content to be banned. */
-  phrase?: string;
+  phrase?: string | undefined;
   /** Optional. If true, diacritical marks (e.g., accents, umlauts) are ignored when matching banned phrases. For example, "cafe" would match "café". */
-  ignoreDiacritics?: boolean;
+  ignoreDiacritics?: boolean | undefined;
   /** Optional. Match type for the banned phrase. */
   matchType?:
     | GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyBannedPhraseMatchTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyBannedPhraseList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyBannedPhrase>;
@@ -4346,50 +4675,57 @@ export interface GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyModelAr
   /** Optional. Defines the failure mode for Model Armor sanitization. */
   failureMode?:
     | GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyModelArmorConfigFailureModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The resource name of the Model Armor template for sanitizing assistant responses. Format: `projects/{project}/locations/{location}/templates/{template_id}` If not specified, no sanitization will be applied to the assistant response. */
-  responseTemplate?: string;
+  responseTemplate?: string | undefined;
   /** Optional. The resource name of the Model Armor template for sanitizing user prompts. Format: `projects/{project}/locations/{location}/templates/{template_id}` If not specified, no sanitization will be applied to the user prompt. */
-  userPromptTemplate?: string;
+  userPromptTemplate?: string | undefined;
 }
 /** Customer-defined policy for the assistant. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicy {
   /** Optional. List of banned phrases. */
-  bannedPhrases?: GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyBannedPhraseList;
+  bannedPhrases?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyBannedPhraseList
+    | undefined;
   /** Optional. Model Armor configuration to be used for sanitizing user prompts and assistant responses. */
-  modelArmorConfig?: GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyModelArmorConfig;
+  modelArmorConfig?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicyModelArmorConfig
+    | undefined;
   /** Optional. Data protection policy to be used for sanitizing file uploads. */
-  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy;
+  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy | undefined;
 }
 /** System instruction, also known as the prompt preamble for LLM calls. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGenerationConfigSystemInstruction {
   /** Optional. Additional system instruction that will be added to the default system instruction. */
-  additionalSystemInstruction?: string;
+  additionalSystemInstruction?: string | undefined;
 }
 /** Configuration for the generation of the assistant response. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantGenerationConfig {
   /** The default language to use for the generation of the assistant response. Use an ISO 639-1 language code such as `en`. If not specified, the language will be automatically detected. */
-  defaultLanguage?: string;
+  defaultLanguage?: string | undefined;
   /** System instruction, also known as the prompt preamble for LLM calls. See also https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/system-instructions */
-  systemInstruction?: GoogleCloudDiscoveryengineV1alphaAssistantGenerationConfigSystemInstruction;
+  systemInstruction?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantGenerationConfigSystemInstruction
+    | undefined;
   /** Optional. The default model to use for assistant. */
-  defaultModelId?: string;
+  defaultModelId?: string | undefined;
   /** Optional. The list of models that are allowed to be used for assistant. */
-  allowedModelIds?: StringList;
+  allowedModelIds?: StringList | undefined;
 }
 /** Information to identify a tool. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantToolInfo {
   /** The name of the tool as defined by DataConnectorService.QueryAvailableActions. Note: it's using `action` in the DataConnectorService apis, but they are the same as the `tool` here. */
-  toolName?: string;
+  toolName?: string | undefined;
   /** The display name of the tool. */
-  toolDisplayName?: string;
+  toolDisplayName?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantToolInfoList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistantToolInfo>;
 /** The enabled tools on a connector */
 export interface GoogleCloudDiscoveryengineV1alphaAssistantToolList {
   /** The list of tools with corresponding tool information. */
-  toolInfo?: GoogleCloudDiscoveryengineV1alphaAssistantToolInfoList;
+  toolInfo?: GoogleCloudDiscoveryengineV1alphaAssistantToolInfoList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantToolListMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaAssistantToolList | undefined;
@@ -4397,73 +4733,80 @@ export type GoogleCloudDiscoveryengineV1alphaAssistantToolListMap = {
 /** Discovery Engine Assistant resource. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistant {
   /** Optional. Description for additional information. Expected to be shown on the configuration UI, not to the users of the assistant. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Represents the time when this Assistant was most recently updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Indicates whether Knowledge Catalog is enabled for this specific assistant. When enabled, it powers discovery context using organizational data. If unspecified, defaults to true. */
-  knowledgeCatalogEnabled?: boolean;
+  knowledgeCatalogEnabled?: boolean | undefined;
   /** Optional. The type of web grounding to use. */
-  webGroundingType?: GoogleCloudDiscoveryengineV1alphaAssistantWebGroundingTypeEnum | (string & {});
+  webGroundingType?:
+    | GoogleCloudDiscoveryengineV1alphaAssistantWebGroundingTypeEnum
+    | (string & {})
+    | undefined;
   /** Output only. Represents the time when this Assistant was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Indicates whether to disable user location context. By default, user location context is enabled. */
-  disableLocationContext?: boolean;
+  disableLocationContext?: boolean | undefined;
   /** Optional. Customer policy for the assistant. */
-  customerPolicy?: GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicy;
+  customerPolicy?: GoogleCloudDiscoveryengineV1alphaAssistantCustomerPolicy | undefined;
   /** Required. The assistant display name. It must be a UTF-8 encoded string with a length limit of 128 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Configuration for the generation of the assistant response. */
-  generationConfig?: GoogleCloudDiscoveryengineV1alphaAssistantGenerationConfig;
+  generationConfig?: GoogleCloudDiscoveryengineV1alphaAssistantGenerationConfig | undefined;
   /** Optional. This field controls the default web grounding toggle for end users if `web_grounding_type` is set to `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`. By default, this field is set to false. If `web_grounding_type` is `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`, end users will have web grounding enabled by default on UI. If true, grounding toggle will be disabled by default on UI. End users can still enable web grounding in the UI if web grounding is enabled. */
-  defaultWebGroundingToggleOff?: boolean;
+  defaultWebGroundingToggleOff?: boolean | undefined;
   /** Optional. The enabled tools on this assistant. The keys are data connector resource names, in the format `projects/{project}/locations/{location}/collections/{collection}/dataConnector`. The values are the tools that the admin enabled on that connector. Admins can selectively enable tools on any of the connectors that they created in the project. For example: ``` { "projects/my-project/locations/global/collections/jira1/dataConnector": { "toolInfo": [ { "toolName": "create_jira_issue", "toolDisplayName": "Create Jira issue" }, { "toolName": "update_jira_issue", "toolDisplayName": "Update Jira issue" } ] } } ``` */
-  enabledTools?: GoogleCloudDiscoveryengineV1alphaAssistantToolListMap;
+  enabledTools?: GoogleCloudDiscoveryengineV1alphaAssistantToolListMap | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the Assistant, which will become the final component of the Assistant's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
-  assistantId?: string;
+  assistantId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAssistant;
+  body?: GoogleCloudDiscoveryengineV1alphaAssistant | undefined;
 }
 /** The starter prompt suggestion to show the user on the landing page of the agent. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentStarterPrompt {
   /** Required. The text of the starter prompt. */
-  text?: string;
+  text?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAgentStarterPromptList =
   Array<GoogleCloudDiscoveryengineV1alphaAgentStarterPrompt>;
 /** Stored definition of an agent that uses a Dialogflow agent. */
 export interface GoogleCloudDiscoveryengineV1alphaDialogflowAgentDefinition {
   /** Required. Resource name of the underlying Dialogflow Agent. Format: `projects/{project}/locations/{location}/agents/{agent}` */
-  dialogflowAgent?: string;
+  dialogflowAgent?: string | undefined;
 }
 /** Configuration specific to agents that are deployed from Cloud Marketplace. */
 export interface GoogleCloudDiscoveryengineV1alphaA2AAgentDefinitionCloudMarketplaceConfig {
   /** Required. The Marketplace Entitlement this agent is associated with. Format: `projects/{project}/entitlements/{entitlement}`. */
-  entitlement?: string;
+  entitlement?: string | undefined;
   /** Output only. The Marketplace Order this agent belongs to. Format: `billingAccounts/{billing_account}/orders/{order}` */
-  order?: string;
+  order?: string | undefined;
 }
 /** Stored definition of an agent that uses A2A. */
 export interface GoogleCloudDiscoveryengineV1alphaA2AAgentDefinition {
   /** Optional. Configuration specific to agents that are deployed from Cloud Marketplace. */
-  cloudMarketplaceConfig?: GoogleCloudDiscoveryengineV1alphaA2AAgentDefinitionCloudMarketplaceConfig;
+  cloudMarketplaceConfig?:
+    | GoogleCloudDiscoveryengineV1alphaA2AAgentDefinitionCloudMarketplaceConfig
+    | undefined;
   /** Optional. The agent card is a JSON string. */
-  jsonAgentCard?: string;
+  jsonAgentCard?: string | undefined;
 }
 /** Keeps track of the reasoning engine that the agent is connected to. This message is not intended to keep track of agent's lifecycle. Instead it is only used to define parameters to connect to the agent that is already deployed to a reasoning engine. */
 export interface GoogleCloudDiscoveryengineV1alphaAdkAgentDefinitionProvisionedReasoningEngine {
   /** Required. The reasoning engine that the agent is connected to. Format: `projects/{project}/locations/{location}/reasoningEngines/{reasoning_engine}` */
-  reasoningEngine?: string;
+  reasoningEngine?: string | undefined;
 }
 /** Stores the definition of an agent that uses ADK and is deployed to Agent Engine (formerly known as Reasoning Engine). */
 export interface GoogleCloudDiscoveryengineV1alphaAdkAgentDefinition {
   /** Optional. The reasoning engine that the agent is connected to. */
-  provisionedReasoningEngine?: GoogleCloudDiscoveryengineV1alphaAdkAgentDefinitionProvisionedReasoningEngine;
+  provisionedReasoningEngine?:
+    | GoogleCloudDiscoveryengineV1alphaAdkAgentDefinitionProvisionedReasoningEngine
+    | undefined;
 }
 /** Stores the definition of a Google managed agent. */
 export type GoogleCloudDiscoveryengineV1alphaManagedAgentDefinition =
@@ -4482,16 +4825,16 @@ export type GoogleCloudDiscoveryengineV1alphaAgentStateEnum =
 /** Represents an image. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentImage {
   /** Base64-encoded image file contents. */
-  content?: string;
+  content?: string | undefined;
   /** Image URI. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Describes the authorizations required. */
 export interface GoogleCloudDiscoveryengineV1alphaAuthorizationConfig {
   /** Optional. List of required authorizations for agent to access other resources. Auth tokens will be passed to the agent as part of the request body. */
-  toolAuthorizations?: StringList;
+  toolAuthorizations?: StringList | undefined;
   /** Optional. The authorization that is required to invoke the agent. Auth tokens will be passed to the agent as part of the request auth header. */
-  agentAuthorization?: string;
+  agentAuthorization?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAgentSharingConfigScopeEnum =
   | "SCOPE_UNSPECIFIED"
@@ -4501,83 +4844,85 @@ export type GoogleCloudDiscoveryengineV1alphaAgentSharingConfigScopeEnum =
 /** Sharing related configuration. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentSharingConfig {
   /** Optional. The sharing scope of the agent. */
-  scope?: GoogleCloudDiscoveryengineV1alphaAgentSharingConfigScopeEnum | (string & {});
+  scope?: GoogleCloudDiscoveryengineV1alphaAgentSharingConfigScopeEnum | (string & {}) | undefined;
 }
 /** Performs a predefined, specific task. */
 export interface GoogleCloudDiscoveryengineV1alphaAgent {
   /** Identifier. Resource name of the agent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/agents/{agent}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The reason why the agent deployment failed. Only set if the state is DEPLOYMENT_FAILED. */
-  deploymentFailureReason?: string;
+  deploymentFailureReason?: string | undefined;
   /** Optional. The starter prompt suggestions to show the user on the landing page of the agent. */
-  starterPrompts?: GoogleCloudDiscoveryengineV1alphaAgentStarterPromptList;
+  starterPrompts?: GoogleCloudDiscoveryengineV1alphaAgentStarterPromptList | undefined;
   /** Optional. The behavior of the agent is defined as a Dialogflow agent. */
-  dialogflowAgentDefinition?: GoogleCloudDiscoveryengineV1alphaDialogflowAgentDefinition;
+  dialogflowAgentDefinition?:
+    | GoogleCloudDiscoveryengineV1alphaDialogflowAgentDefinition
+    | undefined;
   /** Optional. Whether the agent is pinned by default for users who have access to it and have not explicitly unpinned it. Setting this field requires an admin. */
-  defaultPinned?: boolean;
+  defaultPinned?: boolean | undefined;
   /** Optional. The behavior of the agent is defined as an A2A agent. */
-  a2aAgentDefinition?: GoogleCloudDiscoveryengineV1alphaA2AAgentDefinition;
+  a2aAgentDefinition?: GoogleCloudDiscoveryengineV1alphaA2AAgentDefinition | undefined;
   /** Output only. The reason why the agent was suspended. Only set if the state is SUSPENDED. */
-  suspensionReason?: string;
+  suspensionReason?: string | undefined;
   /** Required. Display name of the agent. This might be used by an LLM to automatically select an agent to respond to a user query. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. The behavior of the agent is defined as an ADK agent. */
-  adkAgentDefinition?: GoogleCloudDiscoveryengineV1alphaAdkAgentDefinition;
+  adkAgentDefinition?: GoogleCloudDiscoveryengineV1alphaAdkAgentDefinition | undefined;
   /** Optional. The behavior of the Google managed agent. */
-  managedAgentDefinition?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  managedAgentDefinition?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Output only. The lifecycle state of the agent. */
-  state?: GoogleCloudDiscoveryengineV1alphaAgentStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaAgentStateEnum | (string & {}) | undefined;
   /** Output only. Timestamp when this Agent was most recently updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Observability config for the agent. */
-  observabilityConfig?: GoogleCloudDiscoveryengineV1alphaObservabilityConfig;
+  observabilityConfig?: GoogleCloudDiscoveryengineV1alphaObservabilityConfig | undefined;
   /** Optional. The icon that represents the agent on the UI. */
-  icon?: GoogleCloudDiscoveryengineV1alphaAgentImage;
+  icon?: GoogleCloudDiscoveryengineV1alphaAgentImage | undefined;
   /** Optional. The authorizations that are required by the agent. */
-  authorizationConfig?: GoogleCloudDiscoveryengineV1alphaAuthorizationConfig;
+  authorizationConfig?: GoogleCloudDiscoveryengineV1alphaAuthorizationConfig | undefined;
   /** Output only. The reason why the agent was rejected. Only set if the state is PRIVATE, and got there via rejection. */
-  rejectionReason?: string;
+  rejectionReason?: string | undefined;
   /** Required. Human-readable description of the agent. This might be used by an LLM to automatically select an agent to respond to a user query. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The custom placeholder text that appears in the text box before the user enters any text. */
-  customPlaceholderText?: string;
+  customPlaceholderText?: string | undefined;
   /** Output only. The reason why the agent creation (provisioning) failed. Only set if the state is CREATION_FAILED. */
-  creationFailureReason?: string;
+  creationFailureReason?: string | undefined;
   /** Output only. Timestamp when this Agent was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The code of the language of the text in the description, display_name and starter_prompts fields. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Optional. The sharing config of the agent. */
-  sharingConfig?: GoogleCloudDiscoveryengineV1alphaAgentSharingConfig;
+  sharingConfig?: GoogleCloudDiscoveryengineV1alphaAgentSharingConfig | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesAssistantsAgentsRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAgent;
+  body?: GoogleCloudDiscoveryengineV1alphaAgent | undefined;
 }
 /** Capability of an assistant needed to use this canned query. */
 export interface GoogleCloudDiscoveryengineV1alphaCannedQueryAssistantCapability {
   /** The name of the action that the Assistant needs to have set up to use this canned query. */
-  actionName?: string;
+  actionName?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCannedQueryAssistantCapabilityList =
   Array<GoogleCloudDiscoveryengineV1alphaCannedQueryAssistantCapability>;
 /** A suggested prompt for the canned query. */
 export interface GoogleCloudDiscoveryengineV1alphaCannedQuerySuggestedPrompt {
   /** Required. The text of the suggested prompt. */
-  promptText?: string;
+  promptText?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCannedQuerySuggestedPromptList =
   Array<GoogleCloudDiscoveryengineV1alphaCannedQuerySuggestedPrompt>;
 /** The text pieces for the canned query, which can be localized. */
 export interface GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTexts {
   /** Optional. The prefix that `suggested_prompts` should start with. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Required. The prompts the canned query will offer to the user. */
-  suggestedPrompts?: GoogleCloudDiscoveryengineV1alphaCannedQuerySuggestedPromptList;
+  suggestedPrompts?: GoogleCloudDiscoveryengineV1alphaCannedQuerySuggestedPromptList | undefined;
   /** Required. The title that is for the end user. */
-  title?: string;
+  title?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTextsMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTexts | undefined;
@@ -4585,57 +4930,59 @@ export type GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTextsMap = {
 /** Canned query resource of Assistant. It represents a short-cut to a predefined conversation start. */
 export interface GoogleCloudDiscoveryengineV1alphaCannedQuery {
   /** Whether this canned query is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The display name of the canned query. It must be a UTF-8 encoded string with a length limit of 128 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Immutable. Resource name of the canned query. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/cannedQueries/{canned_query}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether this is a Google-defined, read-only canned query. */
-  googleDefined?: boolean;
+  googleDefined?: boolean | undefined;
   /** Optional. The capabilities the Assistant needs to have to use this canned query. */
-  requiredCapabilities?: GoogleCloudDiscoveryengineV1alphaCannedQueryAssistantCapabilityList;
+  requiredCapabilities?:
+    | GoogleCloudDiscoveryengineV1alphaCannedQueryAssistantCapabilityList
+    | undefined;
   /** Optional. The translations of the text attributes. The keys should be BCP-47 language codes. */
-  localizedTexts?: GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTextsMap;
+  localizedTexts?: GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTextsMap | undefined;
   /** Required. The default (non-localized) values for the text attributes. */
-  defaultTexts?: GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTexts;
+  defaultTexts?: GoogleCloudDiscoveryengineV1alphaCannedQueryCannedQueryTexts | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   parent: string;
   /** Required. The ID to use for the canned query, which will become the final component of the canned query's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
-  cannedQueryId?: string;
+  cannedQueryId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCannedQuery;
+  body?: GoogleCloudDiscoveryengineV1alphaCannedQuery | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesControlsRequest {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
-  controlId?: string;
+  controlId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl;
+  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation;
+  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
-  servingConfigId?: string;
+  servingConfigId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession;
+  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -4647,26 +4994,30 @@ export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStateEnum =
 /** Run settings for the experiment. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigRunSettings {
   /** Required. Maximum number of programs to generate during the experiment run. The initial program counts towards this limit. Must be greater than 1. */
-  maxPrograms?: number;
+  maxPrograms?: number | undefined;
   /** Required. Maximum number of programs that can be generated in parallel. Must be positive. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** Optional. Maximum duration of the experiment. If unset, defaults to 24 hours. */
-  maxDuration?: string;
+  maxDuration?: string | undefined;
 }
 /** Configuration for Pareto sampling. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettingsParentSamplingConfigParetoSamplingConfig {
   /** Optional. Probability [0.0, 1.0] of sampling parent programs from the Pareto frontier instead of normal fitness-based sampling during candidate generation. Useful when optimizing multiple metrics simultaneously. Default 0.0 (disabled). Only effective when evaluation returns multiple metrics in scores_to_optimize. */
-  paretoSamplingProbability?: number;
+  paretoSamplingProbability?: number | undefined;
 }
 /** Configuration for parent sampling. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettingsParentSamplingConfig {
   /** Optional. Pareto sampling configuration. */
-  paretoSamplingConfig?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettingsParentSamplingConfigParetoSamplingConfig;
+  paretoSamplingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettingsParentSamplingConfigParetoSamplingConfig
+    | undefined;
 }
 /** Evolution settings for the experiment. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettings {
   /** Optional. Parent sampling configuration. */
-  parentSamplingConfig?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettingsParentSamplingConfig;
+  parentSamplingConfig?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettingsParentSamplingConfig
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettingsModelConfigThinkingLevelEnum =
   | "THINKING_LEVEL_UNSPECIFIED"
@@ -4677,156 +5028,166 @@ export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerati
 /** Per-model configuration. Mutually exclusive with `model_mixture` and `model`: when `models` is set, both `model_mixture` and `model` must be left unset. The same allowed-model list and at-most-2-models rule as for `model_mixture` apply. In addition, each entry may specify a per-model `temperature` for LLM sampling. Unlike `model_mixture`, weights here are *relative*: only their ratios matter (the server normalizes them), so callers may use any positive numbers without having to ensure they sum to 1.0. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettingsModelConfig {
   /** Optional. Relative weight for this model in the mixture. Must be a finite, strictly positive value. Weights across all entries are normalized server-side, so they need not sum to 1.0. Defaults to 1.0 when unset, which is convenient when configuring a single model or an even mixture. Some Pro-tier models are capped at most 50% of the total weight; requests violating that cap are rejected with INVALID_ARGUMENT. */
-  weight?: number;
+  weight?: number | undefined;
   /** Required. Model name (e.g. `gemini-2.5-flash`, `gemini-3.1-pro-preview`). See `model_mixture` for the list of allowed models. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Sent as Vertex `ThinkingConfig.thinking_level`. */
   thinkingLevel?:
     | GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettingsModelConfigThinkingLevelEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettingsModelConfigList =
   Array<GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettingsModelConfig>;
 /** Generation settings for the experiment. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettings {
   /** Optional. Per-model configuration. See `ModelConfig` for details. If left unset, the server selects a default model. */
-  models?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettingsModelConfigList;
+  models?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettingsModelConfigList
+    | undefined;
   /** Optional. When true, the LLM prompt includes the full program text (both mutable EVOLVE-BLOCK regions and immutable boilerplate). When false (default), only the mutable EVOLVE-BLOCK regions are shown, saving context window. */
-  includeFullProgramInPrompt?: boolean;
+  includeFullProgramInPrompt?: boolean | undefined;
   /** Optional. Additional user-provided context to be used during generation. */
-  context?: string;
+  context?: string | undefined;
 }
 /** Configuration of an experiment. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfig {
   /** Required. Description of the problem to be solved by the experiment. */
-  problemDescription?: string;
+  problemDescription?: string | undefined;
   /** Required. Title of the experiment. */
-  title?: string;
+  title?: string | undefined;
   /** Required. Run settings for the experiment, controlling the overall behavior of the experiment run. */
-  runSettings?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigRunSettings;
+  runSettings?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigRunSettings | undefined;
   /** Required. Primary programming language of the code being optimized. */
-  programLanguage?: string;
+  programLanguage?: string | undefined;
   /** Optional. Evolution settings for the experiment. */
-  evolutionSettings?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettings;
+  evolutionSettings?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigEvolutionSettings
+    | undefined;
   /** Optional. Generation settings for the experiment, controlling how new program candidates are generated, including things LLM parameters and user-provided context and prompts. */
-  generationSettings?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettings;
+  generationSettings?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfigGenerationSettings
+    | undefined;
 }
 /** Stats about the experiment. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStats {
   /** Output only. Number of billed input tokens consumed by the experiment. */
-  inputTokenCount?: string;
+  inputTokenCount?: string | undefined;
   /** Output only. Number of candidates evaluated. */
-  evaluatedCandidatesCount?: number;
+  evaluatedCandidatesCount?: number | undefined;
   /** Output only. Number of candidates generated. */
-  candidatesCount?: number;
+  candidatesCount?: number | undefined;
   /** Output only. Number of billed output tokens consumed by the experiment. */
-  outputTokenCount?: string;
+  outputTokenCount?: string | undefined;
 }
 /** An experiment is a single run of the AlphaEvolve agent, an evolutionary coding agent powered by LLM for algorithm discovery and optimization. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment {
   /** Output only. The state of the experiment. */
-  state?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStateEnum | (string & {});
+  state?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStateEnum
+    | (string & {})
+    | undefined;
   /** Output only. Time when the experiment was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Experiment configuration. */
-  config?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfig;
+  config?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentConfig | undefined;
   /** Identifier. The full resource name of the experiment. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Experiment stats. */
-  stats?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStats;
+  stats?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentStats | undefined;
   /** Output only. Specifies the name of the seed program used to start the experiment. */
-  initialAlphaEvolveProgram?: string;
+  initialAlphaEvolveProgram?: string | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
   /** Required. The parent resource name (Session) of the experiment. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment;
+  body?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment | undefined;
 }
 export interface CreateProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsAlphaEvolveProgramsRequest {
   /** Required. The parent resource name (AlphaEvolveExperiment) of the AlphaEvolveProgram. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgram;
+  body?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgram | undefined;
 }
 export interface CreateProjectsLocationsDataStoresRequest {
   /** A boolean flag indicating whether to skip the default schema creation for the data store. Only enable this flag if you are certain that the default schema is incompatible with your use case. If set to true, you must manually create a schema for the data store before any documents can be ingested. This flag cannot be specified if `data_store.starting_schema` is specified. */
-  skipDefaultSchemaCreation?: boolean;
+  skipDefaultSchemaCreation?: boolean | undefined;
   /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
-  disableCmek?: boolean;
+  disableCmek?: boolean | undefined;
   /** A boolean flag indicating whether user want to directly create an advanced data store for site search. If the data store is not configured as site search (GENERIC vertical and PUBLIC_WEBSITE content_config), this flag will be ignored. */
-  createAdvancedSiteSearch?: boolean;
+  createAdvancedSiteSearch?: boolean | undefined;
   /** Required. The ID to use for the DataStore, which will become the final component of the DataStore's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  dataStoreId?: string;
+  dataStoreId?: string | undefined;
   /** Resource name of the CmekConfig to use for protecting this DataStore. */
-  cmekConfigName?: string;
+  cmekConfigName?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore;
+  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
 export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Required. The ID to use for the Document, which becomes the final component of the Document.name. If the caller does not have permission to create the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all Documents with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument;
+  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
 export interface CreateProjectsLocationsDataStoresControlsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
-  controlId?: string;
+  controlId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl;
+  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
 export interface CreateProjectsLocationsDataStoresConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation;
+  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSchemasRequest {
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
   /** Required. The ID to use for the Schema, which becomes the final component of the Schema.name. This field should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema;
+  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
 export interface CreateProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
-  servingConfigId?: string;
+  servingConfigId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSessionsRequest {
   /** Optional. The ID to use for the session, which will become the final component of the session's resource name. This value should be 1-63 characters, and valid characters are /a-z0-9{0,61}[a-z0-9]/. If not specified, a unique ID will be generated. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession;
+  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSitemap;
+  body?: GoogleCloudDiscoveryengineV1alphaSitemap | undefined;
 }
 export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite;
+  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
 /** Describes the specification of the query set. */
 export interface GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpecQuerySetSpec {
   /** Optional. The full resource name of the SampleQuerySet used for the evaluation, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. */
-  sampleQuerySet?: string;
+  sampleQuerySet?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestRankingExpressionBackendEnum =
   | "RANKING_EXPRESSION_BACKEND_UNSPECIFIED"
@@ -4837,11 +5198,11 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestRankingExpressionBacke
 /** SearchAddonSpec is used to disable add-ons for search as per new repricing model. By default if the SearchAddonSpec is not specified, we consider that the customer wants to enable them wherever applicable. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAddonSpec {
   /** Optional. If true, disables event re-ranking and personalization to optimize KPIs & personalize results. */
-  disableKpiPersonalizationAddOn?: boolean;
+  disableKpiPersonalizationAddOn?: boolean | undefined;
   /** Optional. If true, generative answer add-on is disabled. Generative answer add-on includes natural language to filters and simple answers. */
-  disableGenerativeAnswerAddOn?: boolean;
+  disableGenerativeAnswerAddOn?: boolean | undefined;
   /** Optional. If true, semantic add-on is disabled. Semantic add-on includes embeddings and jetstream. */
-  disableSemanticAddOn?: boolean;
+  disableSemanticAddOn?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpecModeEnum =
   | "MODE_UNSPECIFIED"
@@ -4850,64 +5211,67 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpecModeEnum =
 /** Specification for crowding. Crowding improves the diversity of search results by limiting the number of results that share the same field value. For example, crowding on the color field with a max_count of 3 and mode DROP_CROWDED_RESULTS will return at most 3 results with the same color across all pages. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpec {
   /** Mode to use for documents that are crowded away. */
-  mode?: GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpecModeEnum | (string & {});
+  mode?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpecModeEnum
+    | (string & {})
+    | undefined;
   /** The field to use for crowding. Documents can be crowded by a field in the Document object. Crowding field is case sensitive. */
-  field?: string;
+  field?: string | undefined;
   /** The maximum number of documents to keep per value of the field. Once there are at least max_count previous results which contain the same value for the given field (according to the order specified in `order_by`), later results with the same value are "crowded away". If not specified, the default value is 1. */
-  maxCount?: number;
+  maxCount?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpecList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpec>;
 /** The specification for returning the document relevance score. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec {
   /** Optional. Whether to return the relevance score for search results. The higher the score, the more relevant the document is to the query. */
-  returnRelevanceScore?: boolean;
+  returnRelevanceScore?: boolean | undefined;
 }
 /** Configuration parameters for the Custom Ranking feature. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestCustomRankingParams {
   /** Optional. A list of ranking expressions (see `ranking_expression` for the syntax documentation) to evaluate. The evaluation results will be returned in `SearchResponse.SearchResult.rank_signals.precomputed_expression_values` field. */
-  expressionsToPrecompute?: StringList;
+  expressionsToPrecompute?: StringList | undefined;
 }
 /** A floating point interval. */
 export interface GoogleCloudDiscoveryengineV1alphaInterval {
   /** Inclusive upper bound. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** Exclusive upper bound. */
-  exclusiveMaximum?: number;
+  exclusiveMaximum?: number | undefined;
   /** Exclusive lower bound. */
-  exclusiveMinimum?: number;
+  exclusiveMinimum?: number | undefined;
   /** Inclusive lower bound. */
-  minimum?: number;
+  minimum?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaIntervalList =
   Array<GoogleCloudDiscoveryengineV1alphaInterval>;
 /** Specifies how a facet is computed. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecFacetKey {
   /** True to make facet keys case insensitive when getting faceting values with prefixes or contains; false otherwise. */
-  caseInsensitive?: boolean;
+  caseInsensitive?: boolean | undefined;
   /** Required. Supported textual and numerical facet keys in Document object, over which the facet values are computed. Facet key is case-sensitive. */
-  key?: string;
+  key?: string | undefined;
   /** Only get facet values that start with the given string prefix. For example, suppose "category" has three values "Action > 2022", "Action > 2021" and "Sci-Fi > 2022". If set "prefixes" to "Action", the "category" facet only contains "Action > 2022" and "Action > 2021". Only supported on textual fields. Maximum is 10. */
-  prefixes?: StringList;
+  prefixes?: StringList | undefined;
   /** Set only if values should be bucketed into intervals. Must be set for facets with numerical values. Must not be set for facet with text values. Maximum number of intervals is 30. */
-  intervals?: GoogleCloudDiscoveryengineV1alphaIntervalList;
+  intervals?: GoogleCloudDiscoveryengineV1alphaIntervalList | undefined;
   /** The order in which documents are returned. Allowed values are: * "count desc", which means order by SearchResponse.Facet.values.count descending. * "value desc", which means order by SearchResponse.Facet.values.value descending. Only applies to textual facets. If not set, textual values are sorted in [natural order](https://en.wikipedia.org/wiki/Natural_sort_order); numerical intervals are sorted in the order given by FacetSpec.FacetKey.intervals. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Only get facet for the given restricted values. Only supported on textual fields. For example, suppose "category" has three values "Action > 2022", "Action > 2021" and "Sci-Fi > 2022". If set "restricted_values" to "Action > 2022", the "category" facet only contains "Action > 2022". Only supported on textual fields. Maximum is 10. */
-  restrictedValues?: StringList;
+  restrictedValues?: StringList | undefined;
   /** Only get facet values that contain the given strings. For example, suppose "category" has three values "Action > 2022", "Action > 2021" and "Sci-Fi > 2022". If set "contains" to "2022", the "category" facet only contains "Action > 2022" and "Sci-Fi > 2022". Only supported on textual fields. Maximum is 10. */
-  contains?: StringList;
+  contains?: StringList | undefined;
 }
 /** A facet specification to perform faceted search. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpec {
   /** List of keys to exclude when faceting. By default, FacetKey.key is not excluded from the filter unless it is listed in this field. Listing a facet key in this field allows its values to appear as facet results, even when they are filtered out of search results. Using this field does not affect what search results are returned. For example, suppose there are 100 documents with the color facet "Red" and 200 documents with the color facet "Blue". A query containing the filter "color:ANY("Red")" and having "color" as FacetKey.key would by default return only "Red" documents in the search results, and also return "Red" with count 100 as the only color facet. Although there are also blue documents available, "Blue" would not be shown as an available facet value. If "color" is listed in "excludedFilterKeys", then the query returns the facet values "Red" with count 100 and "Blue" with count 200, because the "color" key is now excluded from the filter. Because this field doesn't affect search results, the search results are still correctly filtered to return only "Red" documents. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  excludedFilterKeys?: StringList;
+  excludedFilterKeys?: StringList | undefined;
   /** Enables dynamic position for this facet. If set to true, the position of this facet among all facets in the response is determined automatically. If dynamic facets are enabled, it is ordered together. If set to false, the position of this facet in the response is the same as in the request, and it is ranked before the facets with dynamic position enable and all dynamic facets. For example, you may always want to have rating facet returned in the response, but it's not necessarily to always display the rating facet at the top. In that case, you can set enable_dynamic_position to true so that the position of rating facet in response is determined automatically. Another example, assuming you have the following facets in the request: * "rating", enable_dynamic_position = true * "price", enable_dynamic_position = false * "brands", enable_dynamic_position = false And also you have a dynamic facets enabled, which generates a facet `gender`. Then the final order of the facets in the response can be ("price", "brands", "rating", "gender") or ("price", "brands", "gender", "rating") depends on how API orders "gender" and "rating" facets. However, notice that "price" and "brands" are always ranked at first and second position because their enable_dynamic_position is false. */
-  enableDynamicPosition?: boolean;
+  enableDynamicPosition?: boolean | undefined;
   /** Maximum facet values that are returned for this facet. If unspecified, defaults to 20. The maximum allowed value is 300. Values above 300 are coerced to 300. For aggregation in healthcare search, when the [FacetKey.key] is "healthcare_aggregation_key", the limit will be overridden to 10,000 internally, regardless of the value set here. If this field is negative, an `INVALID_ARGUMENT` is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Required. The facet key specification. */
-  facetKey?: GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecFacetKey;
+  facetKey?: GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecFacetKey | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpec>;
@@ -4920,7 +5284,8 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestDisplaySpec {
   /** The condition under which match highlighting should occur. */
   matchHighlightingCondition?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestDisplaySpecMatchHighlightingConditionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpecModeEnum =
   | "MODE_UNSPECIFIED"
@@ -4929,14 +5294,17 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpecMod
 /** The specification for query spell correction. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpec {
   /** The mode under which spell correction replaces the original search query. Defaults to Mode.AUTO. */
-  mode?: GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpecModeEnum | (string & {});
+  mode?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpecModeEnum
+    | (string & {})
+    | undefined;
 }
 /** Session specification. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSessionSpec {
   /** If set, the search result gets stored to the "turn" specified by this query ID. Example: Let's say the session looks like this: session { name: ".../sessions/xxx" turns { query { text: "What is foo?" query_id: ".../questions/yyy" } answer: "Foo is ..." } turns { query { text: "How about bar then?" query_id: ".../questions/zzz" } } } The user can call /search API with a request like this: session: ".../sessions/xxx" session_spec { query_id: ".../questions/zzz" } Then, the API stores the search result, associated with the last turn. The stored search result can be used by a subsequent /answer API call (with the session ID and the query ID specified). Also, it is possible to call /search and /answer in parallel with the same session ID & query ID. */
-  queryId?: string;
+  queryId?: string | undefined;
   /** The number of top search results to persist. The persisted search results can be used for the subsequent /answer api call. This field is similar to the `summary_result_count` field in SearchRequest.ContentSearchSpec.SummarySpec.summary_result_count. At most 10 results for documents mode, or 50 for chunks mode. */
-  searchResultPersistenceCount?: number;
+  searchResultPersistenceCount?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpecRelevanceThresholdEnum =
   | "RELEVANCE_THRESHOLD_UNSPECIFIED"
@@ -4949,21 +5317,26 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSp
   /** Pre-defined relevance threshold for the sub-search. */
   relevanceThreshold?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpecRelevanceThresholdEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Custom relevance threshold for the sub-search. The value must be in [0.0, 1.0]. */
-  semanticRelevanceThreshold?: number;
+  semanticRelevanceThreshold?: number | undefined;
 }
 /** Relevance filtering specification. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpec {
   /** Optional. Relevance filtering threshold specification for semantic search. */
-  semanticSearchThreshold?: GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec;
+  semanticSearchThreshold?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec
+    | undefined;
   /** Optional. Relevance filtering threshold specification for keyword search. */
-  keywordSearchThreshold?: GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec;
+  keywordSearchThreshold?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpecRelevanceThresholdSpec
+    | undefined;
 }
 /** Specifies the image query input. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestImageQuery {
   /** Base64 encoded image bytes. Supported image formats: JPEG, PNG, and BMP. */
-  imageBytes?: string;
+  imageBytes?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpecConditionEnum =
   | "CONDITION_UNSPECIFIED"
@@ -4972,25 +5345,28 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpecCond
 /** Specification to determine under which conditions query expansion should occur. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpec {
   /** Whether to pin unexpanded results. If this field is set to true, unexpanded products are always at the top of the search results, followed by the expanded results. */
-  pinUnexpandedResults?: boolean;
+  pinUnexpandedResults?: boolean | undefined;
   /** The condition under which query expansion should occur. Default to Condition.DISABLED. */
   condition?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpecConditionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Embedding vector. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbeddingVector {
   /** Query embedding vector. */
-  vector?: DoubleList;
+  vector?: DoubleList | undefined;
   /** Embedding field path in schema. */
-  fieldPath?: string;
+  fieldPath?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbeddingVectorList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbeddingVector>;
 /** The specification that uses customized query embedding vector to do semantic document retrieval. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpec {
   /** The embedding vector used for retrieval. Limit to 1. */
-  embeddingVectors?: GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbeddingVectorList;
+  embeddingVectors?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpecEmbeddingVectorList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceThresholdEnum =
   | "RELEVANCE_THRESHOLD_UNSPECIFIED"
@@ -5006,9 +5382,9 @@ export type GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpecCon
 /** A schema field to be used for Search As You Type scoring on this request. Overrides any data-store-level Search As You Type field configuration for the duration of the request. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpecField {
   /** Required. A field key that has been indexed for Search As You Type. */
-  key?: string;
+  key?: string | undefined;
   /** Optional. Weight for scores from this field. Defaults to 1.0 if not specified. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpecFieldList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpecField>;
@@ -5017,137 +5393,152 @@ export interface GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSp
   /** The condition under which search as you type should occur. Default to Condition.DISABLED. */
   condition?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpecConditionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The list of fields to be used for Search As You Type scoring. */
-  fields?: GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpecFieldList;
+  fields?: GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpecFieldList | undefined;
   /** Optional. Search As You Type score threshold for filtering purpose. We keep the result if `score` >= `score_threshold`. */
-  scoreThreshold?: number;
+  scoreThreshold?: number | undefined;
 }
 /** Request message for SearchService.Search method. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchRequest {
   /** Uses the Engine, ServingConfig and Control freshly read from the database. Note: this skips config cache and introduces dependency on databases, which could significantly increase the API latency. It should only be used for testing, but not serving end users. */
-  useLatestData?: boolean;
+  useLatestData?: boolean | undefined;
   /** Specifications that define the specific DataStores to be searched, along with configurations for those data stores. This is only considered for Engines with multiple data stores. For engines with a single data store, the specs directly under SearchRequest should be used. On an engine with multiple data stores, this field is optional. If it's empty, all of the engine's data stores are searched (blended search). Unless it specifies exactly one data store, some request fields, such as `order_by` and `query_expansion_spec`, aren't supported and return an `INVALID_ARGUMENT` error. */
-  dataStoreSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpecList;
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpecList | undefined;
   /** Optional. The backend to use for the ranking expression evaluation. */
   rankingExpressionBackend?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestRankingExpressionBackendEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. SearchAddonSpec is used to disable add-ons for search as per new repricing model. This field is only supported for search requests. */
-  searchAddonSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAddonSpec;
+  searchAddonSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAddonSpec | undefined;
   /** A page token received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Boost specification to boost certain documents. For more information on boosting, see [Boosting](https://cloud.google.com/generative-ai-app-builder/docs/boost-search-results) */
-  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec;
+  boostSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestBoostSpec | undefined;
   /** Optional. Config for natural language query understanding capabilities, such as extracting structured field filters from the query. Refer to [this documentation](https://cloud.google.com/generative-ai-app-builder/docs/natural-language-queries) for more information. If `naturalLanguageQueryUnderstandingSpec` is not specified, no additional natural language query understanding will be done. */
-  naturalLanguageQueryUnderstandingSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpec;
+  naturalLanguageQueryUnderstandingSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestNaturalLanguageQueryUnderstandingSpec
+    | undefined;
   /** Optional. Crowding specifications for improving result diversity. If multiple CrowdingSpecs are specified, crowding will be evaluated on each unique combination of the `field` values, and max_count will be the maximum value of `max_count` across all CrowdingSpecs. For example, if the first CrowdingSpec has `field` = "color" and `max_count` = 3, and the second CrowdingSpec has `field` = "size" and `max_count` = 2, then after 3 documents that share the same color AND size have been returned, subsequent ones should be removed or demoted. */
-  crowdingSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpecList;
+  crowdingSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestCrowdingSpecList | undefined;
   /** Optional. The specification for returning the relevance score. */
-  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec;
+  relevanceScoreSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceScoreSpec | undefined;
   /** Maximum number of Documents to return. The maximum allowed value depends on the data type. Values above the maximum value are coerced to the maximum value. * Websites with basic indexing: Default `10`, Maximum `25`. * Websites with advanced indexing: Default `25`, Maximum `50`. * Other: Default `50`, Maximum `100`. If this field is negative, an `INVALID_ARGUMENT` is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The Unicode country/region code (CLDR) of a location, such as "US" and "419". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). If set, then results will be boosted based on the region_code provided. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Optional. Optional configuration for the Custom Ranking feature. */
-  customRankingParams?: GoogleCloudDiscoveryengineV1alphaSearchRequestCustomRankingParams;
+  customRankingParams?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestCustomRankingParams
+    | undefined;
   /** The session resource name. Optional. Session allows users to do multi-turn /search API calls or coordination between /search API calls and /answer API calls. Example #1 (multi-turn /search API calls): Call /search API with the session ID generated in the first call. Here, the previous search query gets considered in query standing. I.e., if the first query is "How did Alphabet do in 2022?" and the current query is "How about 2023?", the current query will be interpreted as "How did Alphabet do in 2023?". Example #2 (coordination between /search API calls and /answer API calls): Call /answer API with the session ID generated in the first call. Here, the answer generation happens in the context of the search results from the first search call. */
-  session?: string;
+  session?: string | undefined;
   /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 100 values are allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  facetSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecList;
+  facetSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestFacetSpecList | undefined;
   /** Whether to turn on safe search. This is only supported for website search. */
-  safeSearch?: boolean;
+  safeSearch?: boolean | undefined;
   /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set, SearchRequest.personalization_spec overrides ServingConfig.personalization_spec. */
-  personalizationSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec;
+  personalizationSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestPersonalizationSpec
+    | undefined;
   /** Additional search parameters. For public website search only, supported values are: * `user_country_code`: string. Default empty. If set to non-empty, results are restricted or boosted based on the location provided. For example, `user_country_code: "au"` For available codes see [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) * `search_type`: double. Default empty. Enables non-webpage searching depending on the value. The only valid non-default value is 1, which enables image searching. For example, `search_type: 1` */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
   /** Custom fine tuning configs. If set, it has higher priority than the configs set in ServingConfig.custom_fine_tuning_spec. */
-  customFineTuningSpec?: GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec;
+  customFineTuningSpec?: GoogleCloudDiscoveryengineV1alphaCustomFineTuningSpec | undefined;
   /** Optional. Config for display feature, like match highlighting on search results. */
-  displaySpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestDisplaySpec;
+  displaySpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestDisplaySpec | undefined;
   /** The maximum number of results to return for OneBox. This applies to each OneBox type individually. Default number is 10. */
-  oneBoxPageSize?: number;
+  oneBoxPageSize?: number | undefined;
   /** Optional. The maximum number of results to retrieve from each data store. If not specified, it will use the SearchRequest.DataStoreSpec.num_results if provided, otherwise there is no limit. */
-  numResultsPerDataStore?: number;
+  numResultsPerDataStore?: number | undefined;
   /** The spell correction specification that specifies the mode under which spell correction takes effect. */
-  spellCorrectionSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpec;
+  spellCorrectionSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestSpellCorrectionSpec
+    | undefined;
   /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as PageInfo.page_category. This field is the equivalent of the query for browse (navigation) queries. It's used by the browse model when the query is empty. If the field is empty, it will not be used by the browse model. If the field contains more than one element, only the first element will be used. To represent full path of a category, use '>' character to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, `Graphics Cards > RTX>4090 > Founders Edition` where "RTX > 4090" represents one level, can be rewritten as `Graphics Cards > RTX_4090 > Founders Edition` */
-  pageCategories?: StringList;
+  pageCategories?: StringList | undefined;
   /** A specification for configuring the behavior of content search. */
-  contentSearchSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec;
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec | undefined;
   /** The branch resource name, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/branches/0`. Use `default_branch` as the branch ID or leave this field empty, to search documents under the default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
-  servingConfig?: string;
+  servingConfig?: string | undefined;
   /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and CompleteQueryRequest.user_pseudo_id The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** Information about the end user. Highly recommended for analytics and personalization. UserInfo.user_agent is used to deduce `device_type` for analytics. */
-  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo;
+  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo | undefined;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** Session specification. Can be used only when `session` is set. */
-  sessionSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestSessionSpec;
+  sessionSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestSessionSpec | undefined;
   /** Optional. The granular relevance filtering specification. If not specified, the global `relevance_threshold` will be used for all sub-searches. If specified, this overrides the global `relevance_threshold` to use thresholds on a per sub-search basis. This feature is currently supported only for custom and site search. */
-  relevanceFilterSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpec;
+  relevanceFilterSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceFilterSpec
+    | undefined;
   /** Raw image query. */
-  imageQuery?: GoogleCloudDiscoveryengineV1alphaSearchRequestImageQuery;
+  imageQuery?: GoogleCloudDiscoveryengineV1alphaSearchRequestImageQuery | undefined;
   /** Optional. The ranking expression controls the customized ranking on retrieval documents. This overrides ServingConfig.ranking_expression. The syntax and supported features depend on the `ranking_expression_backend` value. If `ranking_expression_backend` is not provided, it defaults to `RANK_BY_EMBEDDING`. If ranking_expression_backend is not provided or set to `RANK_BY_EMBEDDING`, it should be a single function or multiple functions that are joined by "+". * ranking_expression = function, { " + ", function }; Supported functions: * double * relevance_score * double * dotProduct(embedding_field_path) Function variables: * `relevance_score`: pre-defined keywords, used for measure relevance between query and document. * `embedding_field_path`: the document embedding field used with query embedding vector. * `dotProduct`: embedding function between `embedding_field_path` and query embedding vector. Example ranking expression: If document has an embedding field doc_embedding, the ranking expression could be `0.5 * relevance_score + 0.3 * dotProduct(doc_embedding)`. If ranking_expression_backend is set to `RANK_BY_FORMULA`, the following expression types (and combinations of those chained using + or * operators) are supported: * `double` * `signal` * `log(signal)` * `exp(signal)` * `rr(signal, double > 0)` -- reciprocal rank transformation with second argument being a denominator constant. * `is_nan(signal)` -- returns 0 if signal is NaN, 1 otherwise. * `fill_nan(signal1, signal2 | double)` -- if signal1 is NaN, returns signal2 | double, else returns signal1. Here are a few examples of ranking formulas that use the supported ranking expression types: - `0.2 * semantic_similarity_score + 0.8 * log(keyword_similarity_score)` -- mostly rank by the logarithm of `keyword_similarity_score` with slight `semantic_smilarity_score` adjustment. - `0.2 * exp(fill_nan(semantic_similarity_score, 0)) + 0.3 * is_nan(keyword_similarity_score)` -- rank by the exponent of `semantic_similarity_score` filling the value with 0 if it's NaN, also add constant 0.3 adjustment to the final score if `semantic_similarity_score` is NaN. - `0.2 * rr(semantic_similarity_score, 16) + 0.8 * rr(keyword_similarity_score, 16)` -- mostly rank by the reciprocal rank of `keyword_similarity_score` with slight adjustment of reciprocal rank of `semantic_smilarity_score`. The following signals are supported: * `semantic_similarity_score`: semantic similarity adjustment that is calculated using the embeddings generated by a proprietary Google model. This score determines how semantically similar a search query is to a document. * `keyword_similarity_score`: keyword match adjustment uses the Best Match 25 (BM25) ranking function. This score is calculated using a probabilistic model to estimate the probability that a document is relevant to a given query. * `relevance_score`: semantic relevance adjustment that uses a proprietary Google model to determine the meaning and intent behind a user's query in context with the content in the documents. * `pctr_rank`: predicted conversion rate adjustment as a rank use predicted Click-through rate (pCTR) to gauge the relevance and attractiveness of a search result from a user's perspective. A higher pCTR suggests that the result is more likely to satisfy the user's query and intent, making it a valuable signal for ranking. * `freshness_rank`: freshness adjustment as a rank * `document_age`: The time in hours elapsed since the document was last updated, a floating-point number (e.g., 0.25 means 15 minutes). * `topicality_rank`: topicality adjustment as a rank. Uses proprietary Google model to determine the keyword-based overlap between the query and the document. * `base_rank`: the default rank of the result * `media_actor_match`: whether the media actor matches the query * `media_director_match`: whether the media director matches the query * `media_genre_match`: whether the media genre matches the query * `media_language_match`: whether the media language matches the query * `media_title_match`: whether the media title matches the query * `media_prefix_similarity_rank`: prefix similarity rank for media results * `media_semantic_similarity_rank`: semantic similarity rank for media results */
-  rankingExpression?: string;
+  rankingExpression?: string | undefined;
   /** Optional. The entity for customers that may run multiple different entities, domains, sites or regions, for example, "Google US", "Google Ads", "Waymo", "google.com", "youtube.com", etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
-  entity?: string;
+  entity?: string | undefined;
   /** The query expansion specification that specifies the conditions under which query expansion occurs. */
-  queryExpansionSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpec;
+  queryExpansionSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestQueryExpansionSpec | undefined;
   /** Uses the provided embedding to do additional semantic document retrieval. The retrieval is based on the dot product of SearchRequest.EmbeddingSpec.EmbeddingVector.vector and the document embedding that is provided in SearchRequest.EmbeddingSpec.EmbeddingVector.field_path. If SearchRequest.EmbeddingSpec.EmbeddingVector.field_path is not provided, it will use ServingConfig.EmbeddingConfig.field_path. */
-  embeddingSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpec;
+  embeddingSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestEmbeddingSpec | undefined;
   /** The global relevance threshold of the search results. Defaults to Google defined threshold, leveraging a balance of precision and recall to deliver both highly accurate results and comprehensive coverage of relevant information. If more granular relevance filtering is required, use the `relevance_filter_spec` instead. This feature is not supported for healthcare search. */
   relevanceThreshold?:
     | GoogleCloudDiscoveryengineV1alphaSearchRequestRelevanceThresholdEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Standard fields](https://cloud.google.com/apis/design/standard_fields). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
-  canonicalFilter?: string;
+  canonicalFilter?: string | undefined;
   /** The order in which documents are returned. Documents can be ordered by a field in an Document object. Leave it unset if ordered by relevance. `order_by` expression is case-sensitive. For more information on ordering the website search results, see [Order web search results](https://cloud.google.com/generative-ai-app-builder/docs/order-web-search-results). For more information on ordering the healthcare search results, see [Order healthcare search results](https://cloud.google.com/generative-ai-app-builder/docs/order-hc-results). If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Search as you type configuration. Only supported for the IndustryVertical.MEDIA vertical. */
-  searchAsYouTypeSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpec;
+  searchAsYouTypeSpec?:
+    | GoogleCloudDiscoveryengineV1alphaSearchRequestSearchAsYouTypeSpec
+    | undefined;
   /** Raw search query. */
-  query?: string;
+  query?: string | undefined;
   /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
-  filter?: string;
+  filter?: string | undefined;
   /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Documents deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an `INVALID_ARGUMENT` is returned. A large offset may be capped to a reasonable threshold. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Describes the specification of the evaluation. */
 export interface GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpec {
   /** Optional. The specification of the query set. */
-  querySetSpec?: GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpecQuerySetSpec;
+  querySetSpec?: GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpecQuerySetSpec | undefined;
   /** Required. The search request that is used to perform the evaluation. Only the following fields within SearchRequest are supported; if any other fields are provided, an UNSUPPORTED error will be returned: * SearchRequest.serving_config * SearchRequest.branch * SearchRequest.canonical_filter * SearchRequest.query_expansion_spec * SearchRequest.spell_correction_spec * SearchRequest.content_search_spec * SearchRequest.user_pseudo_id */
-  searchRequest?: GoogleCloudDiscoveryengineV1alphaSearchRequest;
+  searchRequest?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 /** Stores the metric values at specific top-k levels. */
 export interface GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics {
   /** The top-1 value. */
-  top1?: number;
+  top1?: number | undefined;
   /** The top-3 value. */
-  top3?: number;
+  top3?: number | undefined;
   /** The top-10 value. */
-  top10?: number;
+  top10?: number | undefined;
   /** The top-5 value. */
-  top5?: number;
+  top5?: number | undefined;
 }
 /** Describes the metrics produced by the evaluation. */
 export interface GoogleCloudDiscoveryengineV1alphaQualityMetrics {
   /** Recall per document, at various top-k cutoff levels. Recall is the fraction of relevant documents retrieved out of all relevant documents. Example (top-5): * For a single SampleQuery, If 3 out of 5 relevant documents are retrieved in the top-5, recall@5 = 3/5 = 0.6 */
-  docRecall?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics;
+  docRecall?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics | undefined;
   /** Recall per page, at various top-k cutoff levels. Recall is the fraction of relevant pages retrieved out of all relevant pages. Example (top-5): * For a single SampleQuery, if 3 out of 5 relevant pages are retrieved in the top-5, recall@5 = 3/5 = 0.6 */
-  pageRecall?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics;
+  pageRecall?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics | undefined;
   /** Normalized discounted cumulative gain (NDCG) per page, at various top-k cutoff levels. NDCG measures the ranking quality, giving higher relevance to top results. Example (top-3): Suppose SampleQuery with three retrieved pages (P1, P2, P3) and binary relevance judgements (1 for relevant, 0 for not relevant): Retrieved: [P3 (0), P1 (1), P2 (1)] Ideal: [P1 (1), P2 (1), P3 (0)] Calculate NDCG@3 for SampleQuery: * DCG@3: 0/log2(1+1) + 1/log2(2+1) + 1/log2(3+1) = 1.13 * Ideal DCG@3: 1/log2(1+1) + 1/log2(2+1) + 0/log2(3+1) = 1.63 * NDCG@3: 1.13/1.63 = 0.693 */
-  pageNdcg?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics;
+  pageNdcg?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics | undefined;
   /** Precision per document, at various top-k cutoff levels. Precision is the fraction of retrieved documents that are relevant. Example (top-5): * For a single SampleQuery, If 4 out of 5 retrieved documents in the top-5 are relevant, precision@5 = 4/5 = 0.8 */
-  docPrecision?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics;
+  docPrecision?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics | undefined;
   /** Normalized discounted cumulative gain (NDCG) per document, at various top-k cutoff levels. NDCG measures the ranking quality, giving higher relevance to top results. Example (top-3): Suppose SampleQuery with three retrieved documents (D1, D2, D3) and binary relevance judgements (1 for relevant, 0 for not relevant): Retrieved: [D3 (0), D1 (1), D2 (1)] Ideal: [D1 (1), D2 (1), D3 (0)] Calculate NDCG@3 for each SampleQuery: * DCG@3: 0/log2(1+1) + 1/log2(2+1) + 1/log2(3+1) = 1.13 * Ideal DCG@3: 1/log2(1+1) + 1/log2(2+1) + 0/log2(3+1) = 1.63 * NDCG@3: 1.13/1.63 = 0.693 */
-  docNdcg?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics;
+  docNdcg?: GoogleCloudDiscoveryengineV1alphaQualityMetricsTopkMetrics | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEvaluationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -5158,50 +5549,50 @@ export type GoogleCloudDiscoveryengineV1alphaEvaluationStateEnum =
 /** An evaluation is a single execution (or run) of an evaluation process. It encapsulates the state of the evaluation and the resulting data. */
 export interface GoogleCloudDiscoveryengineV1alphaEvaluation {
   /** Required. The specification of the evaluation. */
-  evaluationSpec?: GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpec;
+  evaluationSpec?: GoogleCloudDiscoveryengineV1alphaEvaluationEvaluationSpec | undefined;
   /** Output only. The metrics produced by the evaluation, averaged across all SampleQuerys in the SampleQuerySet. Only populated when the evaluation's state is SUCCEEDED. */
-  qualityMetrics?: GoogleCloudDiscoveryengineV1alphaQualityMetrics;
+  qualityMetrics?: GoogleCloudDiscoveryengineV1alphaQualityMetrics | undefined;
   /** Output only. The state of the evaluation. */
-  state?: GoogleCloudDiscoveryengineV1alphaEvaluationStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaEvaluationStateEnum | (string & {}) | undefined;
   /** Output only. The error that occurred during evaluation. Only populated when the evaluation's state is FAILED. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** Identifier. The full resource name of the Evaluation, in the format of `projects/{project}/locations/{location}/evaluations/{evaluation}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Timestamp the Evaluation was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Timestamp the Evaluation was completed at. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. A sample of errors encountered while processing the request. */
-  errorSamples?: GoogleRpcStatusList;
+  errorSamples?: GoogleRpcStatusList | undefined;
 }
 export interface CreateProjectsLocationsEvaluationsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEvaluation;
+  body?: GoogleCloudDiscoveryengineV1alphaEvaluation | undefined;
 }
 /** Identity Mapping Store which contains Identity Mapping Entries. */
 export interface GoogleCloudDiscoveryengineV1alphaIdentityMappingStore {
   /** Immutable. The full resource name of the identity mapping store. Format: `projects/{project}/locations/{location}/identityMappingStores/{identity_mapping_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Input only. The KMS key to be used to protect this Identity Mapping Store at creation time. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the Identity Mapping Store will be protected by the KMS key, as indicated in the cmek_config field. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Output only. CMEK-related information for the Identity Mapping Store. */
-  cmekConfig?: GoogleCloudDiscoveryengineV1alphaCmekConfig;
+  cmekConfig?: GoogleCloudDiscoveryengineV1alphaCmekConfig | undefined;
   /** Output only. The identity provider configuration this is bound to translate the identity mapping entries within. */
-  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig;
+  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig | undefined;
 }
 export interface CreateProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The parent collection resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Identity Mapping Store without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
-  disableCmek?: boolean;
+  disableCmek?: boolean | undefined;
   /** Resource name of the CmekConfig to use for protecting this Identity Mapping Store. */
-  cmekConfigName?: string;
+  cmekConfigName?: string | undefined;
   /** Required. The ID of the Identity Mapping Store to create. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 63 characters. */
-  identityMappingStoreId?: string;
+  identityMappingStoreId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaIdentityMappingStore;
+  body?: GoogleCloudDiscoveryengineV1alphaIdentityMappingStore | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaLicenseConfigStateEnum =
   | "STATE_UNSPECIFIED"
@@ -5213,7 +5604,7 @@ export type GoogleCloudDiscoveryengineV1alphaLicenseConfigStateEnum =
 /** The contact info stored in resource level. If both project level and resource level is populated, the resource level contact info will override the project level contact info. */
 export interface GoogleCloudDiscoveryengineV1alphaContactDetails {
   /** Optional. The email address of the contact. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaContactDetailsList =
   Array<GoogleCloudDiscoveryengineV1alphaContactDetails>;
@@ -5224,28 +5615,31 @@ export type GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrol
 /** The alert enrollment status. */
 export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollment {
   /** Optional. Parameters used to instantiate a notification. Used for notifications that are triggered when registered. Not stored. * Gemini Business welcome emails. * Gemini Business user invitation emails. */
-  notificationParams?: StringMap;
+  notificationParams?: StringMap | undefined;
   /** Required. The enrollment status of a customer. */
   enrollState?:
     | GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollmentEnrollStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Immutable. The id of an alert. */
-  alertId?: string;
+  alertId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollmentList =
   Array<GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollment>;
 /** The resource level alert config. Used in: * UserLicense * EngineUserData The AlertPolicyConfig in data connector is of same usage. No easy way to migrate. */
 export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfig {
   /** Optional. The contact details for each alert policy. */
-  contactDetails?: GoogleCloudDiscoveryengineV1alphaContactDetailsList;
+  contactDetails?: GoogleCloudDiscoveryengineV1alphaContactDetailsList | undefined;
   /** Immutable. The fully qualified resource name of the AlertPolicy. */
-  alertPolicy?: string;
+  alertPolicy?: string | undefined;
   /** Optional. The region code used of the user that subscribed to the alert policy. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Optional. The enrollment state of each alert. */
-  alertEnrollments?: GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollmentList;
+  alertEnrollments?:
+    | GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfigAlertEnrollmentList
+    | undefined;
   /** Optional. The language code used for notifications */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaLicenseConfigSubscriptionTierEnum =
   | "SUBSCRIPTION_TIER_UNSPECIFIED"
@@ -5273,107 +5667,111 @@ export type GoogleCloudDiscoveryengineV1alphaLicenseConfigSubscriptionTermEnum =
 /** Information about users' licenses. */
 export interface GoogleCloudDiscoveryengineV1alphaLicenseConfig {
   /** Output only. The state of the license config. */
-  state?: GoogleCloudDiscoveryengineV1alphaLicenseConfigStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaLicenseConfigStateEnum | (string & {}) | undefined;
   /** Optional. Whether the license config is for free trial. */
-  freeTrial?: boolean;
+  freeTrial?: boolean | undefined;
   /** Optional. Whether the license config should be auto renewed when it reaches the end date. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Required. Number of licenses purchased. */
-  licenseCount?: string;
+  licenseCount?: string | undefined;
   /** Output only. Indication of whether the subscription is terminated earlier than the expiration date. */
-  earlyTerminated?: boolean;
+  earlyTerminated?: boolean | undefined;
   /** Optional. Timestamp of the most recent user-initiated update (seat count change or subscription term change). Unlike `update_time`, this field is only stamped when a customer explicitly updates the license (e.g. via the UI), and is not touched by system-driven writes (subscription pipeline, BALC propagation, etc.). */
-  lastUserUpdateTime?: string;
+  lastUserUpdateTime?: string | undefined;
   /** Required. The start date. */
-  startDate?: GoogleTypeDate;
+  startDate?: GoogleTypeDate | undefined;
   /** Output only. Whether the license config is for Gemini bundle. */
-  geminiBundle?: boolean;
+  geminiBundle?: boolean | undefined;
   /** Optional. The alert policy config for this license config. */
-  alertPolicyResourceConfig?: GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfig;
+  alertPolicyResourceConfig?:
+    | GoogleCloudDiscoveryengineV1alphaAlertPolicyResourceConfig
+    | undefined;
   /** Required. Subscription tier information for the license config. */
   subscriptionTier?:
     | GoogleCloudDiscoveryengineV1alphaLicenseConfigSubscriptionTierEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. Subscription term. */
   subscriptionTerm?:
     | GoogleCloudDiscoveryengineV1alphaLicenseConfigSubscriptionTermEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The planed end date. */
-  endDate?: GoogleTypeDate;
+  endDate?: GoogleTypeDate | undefined;
   /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The name of the BillingAccountLicenseConfig from which this LicenseConfig is assigned, if this field is set. */
-  billingAccountLicenseConfig?: string;
+  billingAccountLicenseConfig?: string | undefined;
   /** Output only. The date when the subscription is terminated earlier than the expiration date. */
-  earlyTerminationDate?: GoogleTypeDate;
+  earlyTerminationDate?: GoogleTypeDate | undefined;
 }
 export interface CreateProjectsLocationsLicenseConfigsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. The ID to use for the LicenseConfig, which will become the final component of the LicenseConfig's resource name. We are using the tier (product edition) name as the license config id such as `search` or `search_and_assistant`. */
-  licenseConfigId?: string;
+  licenseConfigId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaLicenseConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaLicenseConfig | undefined;
 }
 /** Customer-managed encryption configuration for Notebooks. */
 export interface GoogleCloudNotebooklmV1alphaCmekConfig {
   /** Required. KMS key resource name which will be used to encrypt resources `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{keyId}`. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 /** Metadata for a notebook. */
 export interface GoogleCloudNotebooklmV1alphaNotebookMetadata {
   /** The time at which this project was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** True if the project is shareable. */
-  isShareable?: boolean;
+  isShareable?: boolean | undefined;
   /** True if this project is currently shared with other people, false otherwise. */
-  isShared?: boolean;
+  isShared?: boolean | undefined;
   /** A timestamp indicating the time that the current in session user has last viewed the project. */
-  lastViewed?: string;
+  lastViewed?: string | undefined;
 }
 /** Notebook is a resource where users can store their content (as sources) and interacts with the content. */
 export interface GoogleCloudNotebooklmV1alphaNotebook {
   /** Output only. List of sources in the notebook. This is an output only field. */
-  sources?: GoogleCloudNotebooklmV1alphaSourceList;
+  sources?: GoogleCloudNotebooklmV1alphaSourceList | undefined;
   /** Output only. CMEK-related information for the Notebook. */
-  cmekConfig?: GoogleCloudNotebooklmV1alphaCmekConfig;
+  cmekConfig?: GoogleCloudNotebooklmV1alphaCmekConfig | undefined;
   /** Output only. The emoji of the notebook. */
-  emoji?: string;
+  emoji?: string | undefined;
   /** Output only. The metadata of the notebook. */
-  metadata?: GoogleCloudNotebooklmV1alphaNotebookMetadata;
+  metadata?: GoogleCloudNotebooklmV1alphaNotebookMetadata | undefined;
   /** Output only. Notebook id, which is the last segment of the notebook's resource name. */
-  notebookId?: string;
+  notebookId?: string | undefined;
   /** Identifier. The identifier of the notebook. Format: `projects/{project}/locations/{location}/notebooks/{notebook_id}`. This field must be a UTF-8 encoded string. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The title of the notebook. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface CreateProjectsLocationsNotebooksRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaNotebook;
+  body?: GoogleCloudNotebooklmV1alphaNotebook | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaSourceIdList = Array<GoogleCloudNotebooklmV1alphaSourceId>;
 /** Options used during audio overview generation. */
 export interface GoogleCloudNotebooklmV1alphaAudioOverviewGenerationOptions {
   /** The language that the audio overview was requested in. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** What the hosts of the show should focus on. */
-  episodeFocus?: string;
+  episodeFocus?: string | undefined;
   /** Optional. The sources in which the audio overview is grounded. */
-  sourceIds?: GoogleCloudNotebooklmV1alphaSourceIdList;
+  sourceIds?: GoogleCloudNotebooklmV1alphaSourceIdList | undefined;
 }
 /** Request for AudioOverviewService.CreateAudioOverview method. */
 export interface GoogleCloudNotebooklmV1alphaCreateAudioOverviewRequest {
   /** Options for the audio overview generation. */
-  generationOptions?: GoogleCloudNotebooklmV1alphaAudioOverviewGenerationOptions;
+  generationOptions?: GoogleCloudNotebooklmV1alphaAudioOverviewGenerationOptions | undefined;
 }
 export interface CreateProjectsLocationsNotebooksAudioOverviewsRequest {
   /** Required. The parent resource where this notebook will be created. Format: projects/{project}/locations/{location}/notebooks/{notebook} */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaCreateAudioOverviewRequest;
+  body?: GoogleCloudNotebooklmV1alphaCreateAudioOverviewRequest | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaAudioOverviewMimeTypeEnum =
   | "MIME_TYPE_UNKNOWN"
@@ -5388,93 +5786,93 @@ export type GoogleCloudNotebooklmV1alphaAudioOverviewStatusEnum =
 /** An audio overview of a notebook. This is a summary of the notebook in audio format. */
 export interface GoogleCloudNotebooklmV1alphaAudioOverview {
   /** The language code of the generated audio overview. Use the BCP 47 language code (e.g. "en", "es", "hi", etc.). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The mime type of the audio overview. */
-  mimeType?: GoogleCloudNotebooklmV1alphaAudioOverviewMimeTypeEnum;
+  mimeType?: GoogleCloudNotebooklmV1alphaAudioOverviewMimeTypeEnum | undefined;
   /** Identifier. The full resource name of the notebook. Format: `projects/{project}/locations/{location}/notebooks/{notebook}/audioOverviews/{audio_overview_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the audio overview. */
-  status?: GoogleCloudNotebooklmV1alphaAudioOverviewStatusEnum;
+  status?: GoogleCloudNotebooklmV1alphaAudioOverviewStatusEnum | undefined;
   /** The options used to generate the audio overview. */
-  generationOptions?: GoogleCloudNotebooklmV1alphaAudioOverviewGenerationOptions;
+  generationOptions?: GoogleCloudNotebooklmV1alphaAudioOverviewGenerationOptions | undefined;
   /** Output only. Unique ID of the audio overview. */
-  audioOverviewId?: string;
+  audioOverviewId?: string | undefined;
 }
 /** Response for AudioOverviewService.CreateAudioOverview method. */
 export interface GoogleCloudNotebooklmV1alphaCreateAudioOverviewResponse {
   /** The generated audio overview. */
-  audioOverview?: GoogleCloudNotebooklmV1alphaAudioOverview;
+  audioOverview?: GoogleCloudNotebooklmV1alphaAudioOverview | undefined;
 }
 /** A SampleQuerySet is the parent resource of SampleQuery, and contains the configurations shared by all SampleQuery under it. */
 export interface GoogleCloudDiscoveryengineV1alphaSampleQuerySet {
   /** Required. The sample query set display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the SampleQuerySet. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier. The full resource name of the SampleQuerySet, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Timestamp the SampleQuerySet was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsSampleQuerySetsRequest {
   /** Required. The ID to use for the SampleQuerySet, which will become the final component of the SampleQuerySet.name. If the caller does not have permission to create the SampleQuerySet, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerySets with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  sampleQuerySetId?: string;
+  sampleQuerySetId?: string | undefined;
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuerySet;
+  body?: GoogleCloudDiscoveryengineV1alphaSampleQuerySet | undefined;
 }
 /** Defines the parameters of the query's expected outcome. */
 export interface GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntryTarget {
   /** Expected uri of the target. This field must be a UTF-8 encoded string with a length limit of 2048 characters. Example of valid uris: `https://example.com/abc`, `gcs://example/example.pdf`. */
-  uri?: string;
+  uri?: string | undefined;
   /** Relevance score of the target. */
-  score?: number;
+  score?: number | undefined;
   /** Expected page numbers of the target. Each page number must be non negative. */
-  pageNumbers?: IntegerList;
+  pageNumbers?: IntegerList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntryTargetList =
   Array<GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntryTarget>;
 /** Query Entry captures metadata to be used for search evaluation. */
 export interface GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntry {
   /** List of targets for the query. */
-  targets?: GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntryTargetList;
+  targets?: GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntryTargetList | undefined;
   /** Required. The query. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Sample Query captures metadata to be used for evaluation. */
 export interface GoogleCloudDiscoveryengineV1alphaSampleQuery {
   /** Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Timestamp the SampleQuery was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The query entry. */
-  queryEntry?: GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntry;
+  queryEntry?: GoogleCloudDiscoveryengineV1alphaSampleQueryQueryEntry | undefined;
 }
 export interface CreateProjectsLocationsSampleQuerySetsSampleQueriesRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. */
   parent: string;
   /** Required. The ID to use for the SampleQuery, which will become the final component of the SampleQuery.name. If the caller does not have permission to create the SampleQuery, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. This field must be unique among all SampleQuerys with the same parent. Otherwise, an `ALREADY_EXISTS` error is returned. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  sampleQueryId?: string;
+  sampleQueryId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuery;
+  body?: GoogleCloudDiscoveryengineV1alphaSampleQuery | undefined;
 }
 /** Request for DataStoreService.DeletePatientFilters method. */
 export interface GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
-  dataStore?: string;
+  dataStore?: string | undefined;
 }
 export interface DeletePatientFilterProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest | undefined;
 }
 export interface DeletePatientFilterProjectsLocationsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned. */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaDeletePatientFiltersRequest | undefined;
 }
 export interface DeleteProjectsLocationsAuthorizationsRequest {
   /** Required. Resource name of Authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` If the caller does not have permission to delete the authorization, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the authorization to delete does not exist, a `NOT_FOUND` error is returned. */
@@ -5619,35 +6017,35 @@ export interface DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStores
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export interface DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Request message for LicenseConfigService.DistributeLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigRequest {
   /** Required. The number of licenses to distribute. */
-  licenseCount?: string;
+  licenseCount?: string | undefined;
   /** Required. The target GCP project region to distribute the license config to. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Distribute seats to this license config instead of creating a new one. If not specified, a new license config will be created from the billing account license config. */
-  licenseConfigId?: string;
+  licenseConfigId?: string | undefined;
   /** Required. The target GCP project number to distribute the license config to. */
-  projectNumber?: string;
+  projectNumber?: string | undefined;
 }
 export interface DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
   /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
   billingAccountLicenseConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.DistributeLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1alphaDistributeLicenseConfigResponse {
   /** The updated or created LicenseConfig. */
-  licenseConfig?: GoogleCloudDiscoveryengineV1alphaLicenseConfig;
+  licenseConfig?: GoogleCloudDiscoveryengineV1alphaLicenseConfig | undefined;
 }
 /** Request message for SiteSearchEngineService.EnableAdvancedSiteSearch method. */
 export type GoogleCloudDiscoveryengineV1alphaEnableAdvancedSiteSearchRequest =
@@ -5656,96 +6054,102 @@ export interface EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresS
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export interface EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** URI patterns that we use to crawl. */
 export interface GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSourceEstimatorUriPattern {
   /** Whether the pattern is exclusive or not. If set to true, the pattern is considered exclusive. If unset or set to false, the pattern is considered inclusive by default. */
-  exclusive?: boolean;
+  exclusive?: boolean | undefined;
   /** Whether we infer the generated URI or use the exact provided one. */
-  exactMatch?: boolean;
+  exactMatch?: boolean | undefined;
   /** User provided URI pattern. For example, `foo.com/bar/*`. */
-  providedUriPattern?: string;
+  providedUriPattern?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSourceEstimatorUriPatternList =
   Array<GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSourceEstimatorUriPattern>;
 /** Data source is a set of website patterns that we crawl to get the total number of websites. */
 export interface GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSource {
   /** Required. The URI patterns to estimate the data sizes. At most 10 patterns are allowed, otherwise an INVALID_ARGUMENT error is thrown. */
-  estimatorUriPatterns?: GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSourceEstimatorUriPatternList;
+  estimatorUriPatterns?:
+    | GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSourceEstimatorUriPatternList
+    | undefined;
 }
 /** Cloud Storage location for input content. */
 export interface GoogleCloudDiscoveryengineV1alphaGcsSource {
   /** The schema to use when parsing the data from the source. Supported values for document imports: * `document` (default): One JSON Document per line. Each document must have a valid Document.id. * `content`: Unstructured data (e.g. PDF, HTML). Each file matched by `input_uris` becomes a document, with the ID set to the first 128 bits of SHA256(URI) encoded as a hex string. * `custom`: One custom data JSON per row in arbitrary format that conforms to the defined Schema of the data store. This can only be used by the GENERIC Data Store vertical. * `csv`: A CSV file with header conforming to the defined Schema of the data store. Each entry after the header is imported as a Document. This can only be used by the GENERIC Data Store vertical. Supported values for user event imports: * `user_event` (default): One JSON UserEvent per line. */
-  dataSchema?: string;
+  dataSchema?: string | undefined;
   /** Required. Cloud Storage URIs to input files. Each URI can be up to 2000 characters long. URIs can match the full object path (for example, `gs://bucket/directory/object.json`) or a pattern matching one or more files, such as `gs://bucket/directory/*.json`. A request can contain at most 100 files (or 100,000 files if `data_schema` is `content`). Each file can be up to 2 GB (or 100 MB if `data_schema` is `content`). */
-  inputUris?: StringList;
+  inputUris?: StringList | undefined;
 }
 /** BigQuery source import data from. */
 export interface GoogleCloudDiscoveryengineV1alphaBigQuerySource {
   /** The project ID or the project number that contains the BigQuery source. Has a length limit of 128 characters. If not specified, inherits the project ID from the parent request. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** BigQuery time partitioned table's _PARTITIONDATE in YYYY-MM-DD format. */
-  partitionDate?: GoogleTypeDate;
+  partitionDate?: GoogleTypeDate | undefined;
   /** The schema to use when parsing the data from the source. Supported values for user event imports: * `user_event` (default): One UserEvent per row. Supported values for document imports: * `document` (default): One Document format per row. Each document must have a valid Document.id and one of Document.json_data or Document.struct_data. * `custom`: One custom data per row in arbitrary format that conforms to the defined Schema of the data store. This can only be used by the GENERIC Data Store vertical. */
-  dataSchema?: string;
+  dataSchema?: string | undefined;
   /** Required. The BigQuery data set to copy the data from with a length limit of 1,024 characters. */
-  datasetId?: string;
+  datasetId?: string | undefined;
   /** Required. The BigQuery table to copy the data from with a length limit of 1,024 characters. */
-  tableId?: string;
+  tableId?: string | undefined;
   /** Intermediate Cloud Storage directory used for the import with a length limit of 2,000 characters. Can be specified if one wants to have the BigQuery export to a specific Cloud Storage directory. */
-  gcsStagingDir?: string;
+  gcsStagingDir?: string | undefined;
 }
 /** Data source contains files either in Cloud Storage or BigQuery. */
 export interface GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestFileDataSource {
   /** Cloud Storage location for the input content. */
-  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource;
+  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
   /** BigQuery input source. */
-  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource;
+  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource | undefined;
 }
 /** Request message for EstimateBillingService.EstimateDataSize method */
 export interface GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequest {
   /** Website data. */
-  websiteDataSource?: GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSource;
+  websiteDataSource?:
+    | GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestWebsiteDataSource
+    | undefined;
   /** Structured or unstructured data. */
-  fileDataSource?: GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestFileDataSource;
+  fileDataSource?:
+    | GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequestFileDataSource
+    | undefined;
 }
 export interface EstimateDataSizeProjectsLocationsRequest {
   /** Required. Full resource name of the location, such as `projects/{project}/locations/{location}`. */
   location: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaEstimateDataSizeRequest | undefined;
 }
 /** The BigQuery output destination configuration. */
 export interface GoogleCloudDiscoveryengineV1alphaBigQueryDestination {
   /** Required. The ID of a BigQuery Dataset. */
-  datasetId?: string;
+  datasetId?: string | undefined;
   /** Required. The table_id of exported BigQuery table. */
-  tableId?: string;
+  tableId?: string | undefined;
 }
 /** The output configuration setting. */
 export interface GoogleCloudDiscoveryengineV1alphaOutputConfig {
   /** The BigQuery location where the output is to be written to. */
-  bigqueryDestination?: GoogleCloudDiscoveryengineV1alphaBigQueryDestination;
+  bigqueryDestination?: GoogleCloudDiscoveryengineV1alphaBigQueryDestination | undefined;
 }
 /** Request message for the `ExportMetrics` method. */
 export interface GoogleCloudDiscoveryengineV1alphaExportMetricsRequest {
   /** Optional. The earliest date (inclusive), interpreted in the UTC time zone, whose metrics are included in the export. If unset, defaults to 30 days before the current UTC date. The value must be a valid calendar date that is not in the future and not older than 180 days (the source data retention window); otherwise the request fails with `INVALID_ARGUMENT`. */
-  startDate?: GoogleTypeDate;
+  startDate?: GoogleTypeDate | undefined;
   /** Required. The output location of the data. */
-  outputConfig?: GoogleCloudDiscoveryengineV1alphaOutputConfig;
+  outputConfig?: GoogleCloudDiscoveryengineV1alphaOutputConfig | undefined;
 }
 export interface ExportMetricsProjectsLocationsCollectionsEnginesAnalyticsRequest {
   /** Required. The analytics resource name under the engine where the metrics are created. The format is `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/analytics`. */
   analytics: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaExportMetricsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaExportMetricsRequest | undefined;
 }
 /** Request message for UserLicenseService.ExportUserLicenses. */
 export type GoogleCloudDiscoveryengineV1alphaExportUserLicensesRequest =
@@ -5754,53 +6158,55 @@ export interface ExportProjectsLocationsUserStoresUserLicensesRequest {
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. All UserLicenses under this UserStore are exported. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Response message for UserLicenseService.ExportUserLicenses. */
 export interface GoogleCloudDiscoveryengineV1alphaExportUserLicensesResponse {
   /** The full CSV document as raw bytes: the header row followed by one row per UserLicense. Contains user license data (e.g. user emails). An export with no matching licenses contains only the header row. */
-  csvData?: string;
+  csvData?: string | undefined;
 }
 export interface FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** Required. The site search engine resource under which we fetch all the domain verification status. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum value is 1000; values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `FetchDomainVerificationStatus` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchDomainVerificationStatus` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaTargetSiteList =
   Array<GoogleCloudDiscoveryengineV1alphaTargetSite>;
 /** Response message for SiteSearchEngineService.FetchDomainVerificationStatus method. */
 export interface GoogleCloudDiscoveryengineV1alphaFetchDomainVerificationStatusResponse {
   /** The total number of items matching the request. This will always be populated in the response. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of TargetSites containing the site verification status. */
-  targetSites?: GoogleCloudDiscoveryengineV1alphaTargetSiteList;
+  targetSites?: GoogleCloudDiscoveryengineV1alphaTargetSiteList | undefined;
 }
 export interface FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
   /** The Sitemap uris. */
-  "matcher.urisMatcher.uris"?: StringList;
+  "matcher.urisMatcher.uris"?: StringList | undefined;
 }
 /** Contains a Sitemap and its metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaFetchSitemapsResponseSitemapMetadata {
   /** The Sitemap. */
-  sitemap?: GoogleCloudDiscoveryengineV1alphaSitemap;
+  sitemap?: GoogleCloudDiscoveryengineV1alphaSitemap | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFetchSitemapsResponseSitemapMetadataList =
   Array<GoogleCloudDiscoveryengineV1alphaFetchSitemapsResponseSitemapMetadata>;
 /** Response message for SiteSearchEngineService.FetchSitemaps method. */
 export interface GoogleCloudDiscoveryengineV1alphaFetchSitemapsResponse {
   /** List of Sitemaps fetched. */
-  sitemapsMetadata?: GoogleCloudDiscoveryengineV1alphaFetchSitemapsResponseSitemapMetadataList;
+  sitemapsMetadata?:
+    | GoogleCloudDiscoveryengineV1alphaFetchSitemapsResponseSitemapMetadataList
+    | undefined;
 }
 export interface FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
   /** The Sitemap uris. */
-  "matcher.urisMatcher.uris"?: StringList;
+  "matcher.urisMatcher.uris"?: StringList | undefined;
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   parent: string;
 }
@@ -5811,9 +6217,9 @@ export interface GetAclConfigProjectsLocationsRequest {
 /** Access Control Configuration. */
 export interface GoogleCloudDiscoveryengineV1alphaAclConfig {
   /** Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Identity provider config. */
-  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig;
+  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig | undefined;
 }
 export interface GetBillingAccountsBillingAccountLicenseConfigsRequest {
   /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
@@ -5851,35 +6257,39 @@ export type GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigSubscrip
 /** Information about license configs at billing account level. */
 export interface GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfig {
   /** Whether the BillingAccountLicenseConfig is auto renewed when it reaches the end date. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Whether the license config is for Gemini bundle. */
-  geminiBundle?: boolean;
+  geminiBundle?: boolean | undefined;
   /** The subscription display name. */
-  subscriptionDisplayName?: string;
+  subscriptionDisplayName?: string | undefined;
   /** Optional. The planed subscription end date. */
-  endDate?: GoogleTypeDate;
+  endDate?: GoogleTypeDate | undefined;
   /** Output only. The corresponding SubV3 subscription name. */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
   /** The date when the subscription is terminated earlier than the expiration date. */
-  earlyTerminationDate?: GoogleTypeDate;
+  earlyTerminationDate?: GoogleTypeDate | undefined;
   /** Output only. The state of the BillingAccountLicenseConfig. */
-  state?: GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigStateEnum;
+  state?: GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigStateEnum | undefined;
   /** Required. The subscription tier. */
-  subscriptionTier?: GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigSubscriptionTierEnum;
+  subscriptionTier?:
+    | GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigSubscriptionTierEnum
+    | undefined;
   /** Required. The subscription term. */
-  subscriptionTerm?: GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigSubscriptionTermEnum;
+  subscriptionTerm?:
+    | GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigSubscriptionTermEnum
+    | undefined;
   /** Required. The number of licenses purchased under this billing account license config. */
-  licenseCount?: string;
+  licenseCount?: string | undefined;
   /** Immutable. Identifier. The fully qualified resource name of the billing account license config. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config}`. */
-  name?: string;
+  name?: string | undefined;
   /** A map of LicenseConfig names to the number of licenses distributed to each. The key is the full resource name of the LicenseConfig, such as `projects/{project}/locations/{location}/licenseConfigs/{license_config}`. The value is the count of licenses allocated to it. */
-  licenseConfigDistributions?: StringMap;
+  licenseConfigDistributions?: StringMap | undefined;
   /** Indication of whether the subscription is terminated earlier than the expiration date. This is usually terminated by pipeline once the subscription gets terminated from subsv3. */
-  earlyTerminated?: boolean;
+  earlyTerminated?: boolean | undefined;
   /** The procurement entitlement id of the subscription. */
-  procurementEntitlementId?: string;
+  procurementEntitlementId?: string | undefined;
   /** Required. The subscription start date. */
-  startDate?: GoogleTypeDate;
+  startDate?: GoogleTypeDate | undefined;
 }
 export interface GetCmekConfigProjectsLocationsRequest {
   /** Required. Resource name of CmekConfig, such as `projects/*\/locations/*\/cmekConfig` or `projects/*\/locations/*\/cmekConfigs/*`. If the caller does not have permission to access the CmekConfig, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
@@ -5896,25 +6306,28 @@ export type GoogleCloudDiscoveryengineV1alphaCompletionConfigEnableModeEnum =
 /** Config to customize Autocomplete API response for both engines and data stores. Some fields are applicable to only one of them. */
 export interface GoogleCloudDiscoveryengineV1alphaCompletionConfig {
   /** Whether to generate and serve content suggestions. This allows for content suggestions to be served in addition to query suggestions. */
-  shouldServeContentSuggestions?: boolean;
+  shouldServeContentSuggestions?: boolean | undefined;
   /** The matching order for autocomplete suggestions, e.g., a query consisting of `sh` with `out-of-order` specified would suggest `women's shoes`, whereas a query of `red s` with `exact-prefix` specified would suggest `red shoes`. Currently supported values: * `out-of-order` * `exact-prefix` Default value: `exact-prefix`. */
-  matchingOrder?: string;
+  matchingOrder?: string | undefined;
   /** The enable mode of autocomplete generation pipelines. If this field is unset, the server behavior defaults to CompletionConfig.EnableMode.AUTOMATIC. Applies to DataStore only. Ignored for Engine. */
-  enableMode?: GoogleCloudDiscoveryengineV1alphaCompletionConfigEnableModeEnum | (string & {});
+  enableMode?:
+    | GoogleCloudDiscoveryengineV1alphaCompletionConfigEnableModeEnum
+    | (string & {})
+    | undefined;
   /** The maximum number of autocomplete suggestions returned per term. max_suggestions must lie within the range of [1, 20]. If not set or set to 0, it will be set to the default of 20 suggestions. */
-  maxSuggestions?: number;
+  maxSuggestions?: number | undefined;
   /** Deprecated: this field has no effect. As of May 2025, PII suggestion filtering using [DLP](https://cloud.google.com/security/products/dlp) is always on for all data stores and can't be configured per data store. */
-  filterPiiSuggestionsUsingDlp?: boolean;
+  filterPiiSuggestionsUsingDlp?: boolean | undefined;
   /** This field is only meaningful for suggestions generated from user events or search history. If a query shows up less than this threshold, it may indicate that the query is rarely searched and thus will not be generated as a suggestion. This is field can be helpful for preventing PII queries becoming suggestions, as those queries are usually uniquely searched. If not set, the default value is 8 used in the generation pipeline. */
-  queryFrequencyThreshold?: number;
+  queryFrequencyThreshold?: number | undefined;
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
-  name?: string;
+  name?: string | undefined;
   /** The data model of query suggestions for serving. Currently supported values: * `automatic` - autocomplete backend automatic selects or mixes suggestions from different models. * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. If query model is empty, the serving applies the "automatic" model by default. */
-  queryModel?: string;
+  queryModel?: string | undefined;
   /** This field is only meaningful for suggestions generated from user events or search history, which may have user ids attached. If the number of unique users that have searched a query is less than this threshold, the query will not be generated as a suggestion. This is field can be helpful for preventing PII queries becoming suggestions, as those queries are usually uniquely searched. If not set, the default value is 3 used in the generation pipeline. */
-  numUniqueUsersThreshold?: number;
+  numUniqueUsersThreshold?: number | undefined;
   /** The minimum number of characters needed to be typed in order to get suggestions. min_prefix_length must lie within the range of [1, 20]. If not set or set to 0, it will be set to the default of 1 character. */
-  minPrefixLength?: number;
+  minPrefixLength?: number | undefined;
 }
 export interface GetCompletionConfigProjectsLocationsCollectionsEnginesRequest {
   /** Required. Full CompletionConfig resource name. Format: `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
@@ -5931,9 +6344,9 @@ export interface GetConfigProjectsLocationsCollectionsEnginesAnalyticsRequest {
 /** The customer controllable config for Analytics. */
 export interface GoogleCloudDiscoveryengineV1alphaAnalyticsConfig {
   /** Whether user-level metrics are enabled. */
-  userLevelMetricsEnabled?: boolean;
+  userLevelMetricsEnabled?: boolean | undefined;
   /** Required. The resource name of the analytics customer config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/analytics/config` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetConnectorSecretProjectsLocationsCollectionsDataConnectorRequest {
   /** Required. The full resource name of the associated data connector. */
@@ -5942,17 +6355,17 @@ export interface GetConnectorSecretProjectsLocationsCollectionsDataConnectorRequ
 /** Response message for DataConnectorService.GetConnectorSecret. */
 export interface GoogleCloudDiscoveryengineV1alphaGetConnectorSecretResponse {
   /** The authorization uri for the data connector. */
-  authorizationUri?: string;
+  authorizationUri?: string | undefined;
   /** The instance name of the associated Connector. */
-  instance?: string;
+  instance?: string | undefined;
   /** The redirect url of the associated Connector. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** The client id of the associated Connector. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The tenant id of the associated Connector. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The app name of the associated Connector. */
-  app?: string;
+  app?: string | undefined;
 }
 export interface GetDataConnectorProjectsLocationsCollectionsRequest {
   /** Required. Full resource name of DataConnector, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataConnector`. If the caller does not have permission to access the DataConnector, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested DataConnector does not exist, a `NOT_FOUND` error is returned. */
@@ -5961,64 +6374,64 @@ export interface GetDataConnectorProjectsLocationsCollectionsRequest {
 /** Defines a target endpoint */
 export interface GoogleCloudDiscoveryengineV1alphaDestinationConfigDestination {
   /** Optional. Target port number accepted by the destination. */
-  port?: number;
+  port?: number | undefined;
   /** Publicly routable host. */
-  host?: string;
+  host?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDestinationConfigDestinationList =
   Array<GoogleCloudDiscoveryengineV1alphaDestinationConfigDestination>;
 /** Defines target endpoints used to connect to third-party sources. */
 export interface GoogleCloudDiscoveryengineV1alphaDestinationConfig {
   /** Optional. The destinations for the corresponding key. */
-  destinations?: GoogleCloudDiscoveryengineV1alphaDestinationConfigDestinationList;
+  destinations?: GoogleCloudDiscoveryengineV1alphaDestinationConfigDestinationList | undefined;
   /** Optional. Additional parameters for this destination config in structured json format. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
   /** Additional parameters for this destination config in json string format. */
-  jsonParams?: string;
+  jsonParams?: string | undefined;
   /** Optional. Unique destination identifier that is supported by the connector. */
-  key?: string;
+  key?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDestinationConfigList =
   Array<GoogleCloudDiscoveryengineV1alphaDestinationConfig>;
 /** The configuration for the CLI execution based connectors. */
 export interface GoogleCloudDiscoveryengineV1alphaCliConfig {
   /** Optional. The actions enabled on the associated CLI connection. */
-  enabledActions?: StringList;
+  enabledActions?: StringList | undefined;
 }
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface GoogleTypeTimeZone {
   /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
+  id?: string | undefined;
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
+  version?: string | undefined;
 }
 /** Represents civil time (or occasionally physical time). This type can represent a civil time in one of a few possible ways: * When utc_offset is set and time_zone is unset: a civil time on a calendar day with a particular offset from UTC. * When time_zone is set and utc_offset is unset: a civil time on a calendar day in a particular time zone. * When neither time_zone nor utc_offset is set: a civil time on a calendar day in local time. The date is relative to the Proleptic Gregorian Calendar. If year, month, or day are 0, the DateTime is considered not to have a specific year, month, or day respectively. This type may also be used to represent a physical time if all the date and time fields are set and either case of the `time_offset` oneof is set. Consider using `Timestamp` message for physical time instead. If your use case also would like to store the user's timezone, that can be done in another field. This type is more flexible than some applications may want. Make sure to document and validate your application's limitations. */
 export interface GoogleTypeDateTime {
   /** Optional. Hours of day in 24 hour format. Should be from 0 to 23, defaults to 0 (midnight). An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  hours?: number | undefined;
   /** Optional. Minutes of hour of day. Must be from 0 to 59, defaults to 0. */
-  minutes?: number;
+  minutes?: number | undefined;
   /** Optional. Seconds of minutes of the time. Must normally be from 0 to 59, defaults to 0. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
+  seconds?: number | undefined;
   /** Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a datetime without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Optional. Month of year. Must be from 1 to 12, or 0 if specifying a datetime without a month. */
-  month?: number;
+  month?: number | undefined;
   /** Time zone. */
-  timeZone?: GoogleTypeTimeZone;
+  timeZone?: GoogleTypeTimeZone | undefined;
   /** Optional. Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999, defaults to 0. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Optional. Day of month. Must be from 1 to 31 and valid for the year and month, or 0 if specifying a datetime without a day. */
-  day?: number;
+  day?: number | undefined;
   /** UTC offset. Must be whole seconds, between -18 hours and +18 hours. For example, a UTC offset of -4:00 would be represented as { seconds: -14400 }. */
-  utcOffset?: string;
+  utcOffset?: string | undefined;
 }
 /** The configuration for the identity data synchronization runs. */
 export interface GoogleCloudDiscoveryengineV1alphaIdentityScheduleConfig {
   /** Optional. The refresh interval to sync the Access Control List information for the documents ingested by this connector. If not set, the access control list will be refreshed at the default interval of 30 minutes. The identity refresh interval can be at least 30 minutes and at most 7 days. */
-  refreshInterval?: string;
+  refreshInterval?: string | undefined;
   /** Optional. The UTC time when the next data sync is expected to start for the Data Connector. Customers are only able to specify the hour and minute to schedule the data sync. This is utilized when the data connector has a refresh interval greater than 1 day. */
-  nextSyncTime?: GoogleTypeDateTime;
+  nextSyncTime?: GoogleTypeDateTime | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataConnectorActionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -6032,37 +6445,37 @@ export type GoogleCloudDiscoveryengineV1alphaDataConnectorActionStateEnum =
 /** Configuration for dynamic tools. */
 export interface GoogleCloudDiscoveryengineV1alphaDynamicTool {
   /** Optional. The description of the tool. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The display name of the tool. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Indicates whether the tool is read-only and does not perform write operations. */
-  readonly?: boolean;
+  readonly?: boolean | undefined;
   /** Required. The name of the tool. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Whether the tool is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDynamicToolList =
   Array<GoogleCloudDiscoveryengineV1alphaDynamicTool>;
 /** Tenant information for a connector source. This includes some of the same information stored in the Credential message, but is limited to only what is needed to provide a list of accessible tenants to the user. */
 export interface GoogleCloudDiscoveryengineV1alphaTenant {
   /** The tenant's instance ID. Examples: Jira ("8594f221-9797-5f78-1fa4-485e198d7cd0"), Slack ("T123456"). */
-  id?: string;
+  id?: string | undefined;
   /** The URI of the tenant, if applicable. For example, the URI of a Jira instance is https://my-jira-instance.atlassian.net, and a Slack tenant does not have a URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional display name for the tenant, e.g. "My Slack Team". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Any params and credentials used specifically for EUA connectors. */
 export interface GoogleCloudDiscoveryengineV1alphaDataConnectorEndUserConfig {
   /** Optional. The tenant project the connector is connected to. */
-  tenant?: GoogleCloudDiscoveryengineV1alphaTenant;
+  tenant?: GoogleCloudDiscoveryengineV1alphaTenant | undefined;
   /** Optional. Any additional parameters needed for EUA. */
-  additionalParams?: DocumentMap;
+  additionalParams?: DocumentMap | undefined;
   /** Optional. Any authentication parameters specific to EUA connectors in json string format. */
-  jsonAuthParams?: string;
+  jsonAuthParams?: string | undefined;
   /** Optional. Any authentication parameters specific to EUA connectors. */
-  authParams?: DocumentMap;
+  authParams?: DocumentMap | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeStateEnum =
   | "STATE_UNSPECIFIED"
@@ -6082,18 +6495,21 @@ export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollme
   /** Required. The enrollment status of a customer. */
   enrollState?:
     | GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollmentEnrollStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Immutable. The id of an alert. */
-  alertId?: string;
+  alertId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollmentList =
   Array<GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollment>;
 /** The connector level alert config. */
 export interface GoogleCloudDiscoveryengineV1alphaAlertPolicyConfig {
   /** Optional. The enrollment states of each alert. */
-  alertEnrollments?: GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollmentList;
+  alertEnrollments?:
+    | GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigAlertEnrollmentList
+    | undefined;
   /** Immutable. The fully qualified resource name of the AlertPolicy. */
-  alertPolicyName?: string;
+  alertPolicyName?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigList =
   Array<GoogleCloudDiscoveryengineV1alphaAlertPolicyConfig>;
@@ -6108,35 +6524,37 @@ export type GoogleCloudDiscoveryengineV1alphaBAPConfigSupportedConnectorModesIte
 /** Customer-facing view of the admin-curated toolspec for a BAP connection. Holds the (simplified) per-tool definitions surfaced to and editable by the admin in the Discovery Engine UI. Mirrors the shape of the backend `google.cloud.connectorexecution.v1.ToolspecOverride` message, but is intentionally kept as a separate public type so the Discovery Engine API surface can evolve independently of the fed-API surface (AIP-215). Handlers convert between the two via helpers in //cloud/ml/discoveryengine/external_service/v1main/data_connector_service/lib:bap_custom_tool_util. */
 export interface GoogleCloudDiscoveryengineV1alphaBAPConfigToolspecOverride {
   /** Required. Tool definitions (one Struct per tool) that the admin has customised on top of the base toolspec returned by the fed API. REQUIRED because it is the only user-editable field in the modify API; the request must carry at least one tool. */
-  tools?: DocumentMapList;
+  tools?: DocumentMapList | undefined;
   /** Required. Base toolspec version against which `tools` were authored. On Update, MUST match the server's current stable toolspec version for the connection; mismatch is rejected with a user-facing error directing the admin to re-download the latest tools first. */
-  baseVersion?: string;
+  baseVersion?: string | undefined;
 }
 /** The configuration for the BAP connector. */
 export interface GoogleCloudDiscoveryengineV1alphaBAPConfig {
   /** Optional. The actions enabled on the associated BAP connection. */
-  enabledActions?: StringList;
+  enabledActions?: StringList | undefined;
   /** Required. The supported connector modes for the associated BAP connection. */
-  supportedConnectorModes?: GoogleCloudDiscoveryengineV1alphaBAPConfigSupportedConnectorModesItemEnumList;
+  supportedConnectorModes?:
+    | GoogleCloudDiscoveryengineV1alphaBAPConfigSupportedConnectorModesItemEnumList
+    | undefined;
   /** Optional. Custom toolspec overrides for this connection. For Enterprise BAP connectors that support admin-curated tool definitions, this holds the (simplified) per-tool overrides. On Get, populated by the server by merging persisted overrides with live runtime tool definitions and trimming the result for UI consumption. On Update, the supplied value replaces the persisted overrides after server-side validation and merging: the `base_version` field MUST match the server's current base toolspec version (otherwise the request is rejected with a user-facing error directing the admin to re-download the latest tools first). */
-  toolspecOverride?: GoogleCloudDiscoveryengineV1alphaBAPConfigToolspecOverride;
+  toolspecOverride?: GoogleCloudDiscoveryengineV1alphaBAPConfigToolspecOverride | undefined;
 }
 /** Represents an entity in the data source. For example, the `Account` object in Salesforce. */
 export interface GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntity {
   /** The parameters for the entity to facilitate data ingestion in json string format. */
-  jsonParams?: string;
+  jsonParams?: string | undefined;
   /** Output only. The full resource name of the associated data store for the source entity. Format: `projects/*\/locations/*\/collections/*\/dataStores/*`. When the connector is initialized by the DataConnectorService.SetUpDataConnector method, a DataStore is automatically created for each source entity. */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** The parameters for the entity to facilitate data ingestion in structured json format. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
   /** Optional. Configuration for `HEALTHCARE_FHIR` vertical. */
-  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig;
+  healthcareFhirConfig?: GoogleCloudDiscoveryengineV1alphaHealthcareFhirConfig | undefined;
   /** Attributes for indexing. Key: Field name. Value: The key property to map a field to, such as `title`, and `description`. Supported key properties: * `title`: The title for data record. This would be displayed on search results. * `description`: The description for data record. This would be displayed on search results. */
-  keyPropertyMappings?: StringMap;
+  keyPropertyMappings?: StringMap | undefined;
   /** The name of the entity. Supported values by data source: * Salesforce: `Lead`, `Opportunity`, `Contact`, `Account`, `Case`, `Contract`, `Campaign` * Jira: `Issue` * Confluence: `Content`, `Space` */
-  entityName?: string;
+  entityName?: string | undefined;
   /** Optional. The start schema to use for the DataStore created from this SourceEntity. If unset, a default vertical specialized schema will be used. This field is only used by SetUpDataConnector API, and will be ignored if used in other APIs. This field will be omitted from all API responses including GetDataConnector API. To retrieve a schema of a DataStore, use SchemaService.GetSchema API instead. The provided schema will be validated against certain rules on schema. Learn more from [this doc](https://cloud.google.com/generative-ai-app-builder/docs/provide-schema). */
-  startingSchema?: GoogleCloudDiscoveryengineV1alphaSchema;
+  startingSchema?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntityList =
   Array<GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntity>;
@@ -6168,11 +6586,11 @@ export type GoogleCloudDiscoveryengineV1alphaDataConnectorBlockingReasonsItemEnu
 /** Any params and credentials used specifically for hybrid connectors supporting FEDERATED mode. */
 export interface GoogleCloudDiscoveryengineV1alphaDataConnectorFederatedConfig {
   /** Optional. Any additional parameters needed for FEDERATED. */
-  additionalParams?: DocumentMap;
+  additionalParams?: DocumentMap | undefined;
   /** Optional. Any authentication parameters specific to FEDERATED connectors. */
-  authParams?: DocumentMap;
+  authParams?: DocumentMap | undefined;
   /** Optional. Any authentication parameters specific to FEDERATED connectors in json string format. */
-  jsonAuthParams?: string;
+  jsonAuthParams?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataConnectorSyncModeEnum =
   | "PERIODIC"
@@ -6181,7 +6599,7 @@ export type GoogleCloudDiscoveryengineV1alphaDataConnectorSyncModeEnum =
 /** Stores a list of scopes. */
 export interface GoogleCloudDiscoveryengineV1alphaActionConfigScopeList {
   /** Optional. The list of scopes. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaActionConfigScopeListMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaActionConfigScopeList | undefined;
@@ -6189,34 +6607,34 @@ export type GoogleCloudDiscoveryengineV1alphaActionConfigScopeListMap = {
 /** Informations to support actions on the connector. */
 export interface GoogleCloudDiscoveryengineV1alphaActionConfig {
   /** Output only. The connector contains the necessary parameters and is configured to support actions. */
-  isActionConfigured?: boolean;
+  isActionConfigured?: boolean | undefined;
   /** Optional. Whether to create a BAP connection for the connector. */
-  createBapConnection?: boolean;
+  createBapConnection?: boolean | undefined;
   /** Optional. Customer-supplied OAuth scopes for connectors that opt into customer- managed scopes via ConnectorSource.enable_customer_managed_scopes. When non-empty on an opted-in connector, this list **replaces** the connector's built-in per-tool scopes: the OAuth authorization URL requests exactly these scopes for every operation, and the built-in scopes are never merged in. Ignored for connectors that do not opt in. */
-  customerManagedScopes?: StringList;
+  customerManagedScopes?: StringList | undefined;
   /** Optional. Action parameters in json string format. */
-  jsonActionParams?: string;
+  jsonActionParams?: string | undefined;
   /** Optional. Whether to use static secrets for the connector. If true, the secrets provided in the action_params will be ignored. */
-  useStaticSecrets?: boolean;
+  useStaticSecrets?: boolean | undefined;
   /** Optional. The Service Directory resource name (projects/*\/locations/*\/namespaces/*\/services/*) representing a VPC network endpoint used to connect to the data source's `instance_uri`, defined in DataConnector.params. Required when VPC Service Controls are enabled. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Optional. Action parameters in structured json format. */
-  actionParams?: DocumentMap;
+  actionParams?: DocumentMap | undefined;
   /** Optional. Mapping from operation name to the list of scopes. Only be populated if there are user specified scopes. */
-  userDefinedScopesMapping?: GoogleCloudDiscoveryengineV1alphaActionConfigScopeListMap;
+  userDefinedScopesMapping?: GoogleCloudDiscoveryengineV1alphaActionConfigScopeListMap | undefined;
 }
 /** User-facing metadata for the connector, shown on the connector detail page (title, description, short_description, author, note). */
 export interface GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorMetadata {
   /** Optional. The party that authored the connector, e.g. "Google" or a third-party provider name. Lets end users see who authored a connector. */
-  author?: string;
+  author?: string | undefined;
   /** Optional. Human-readable description of the connector, shown on the connector detail page. One connector has a single description. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Short, subtitle-length description of the connector (e.g. shown beneath the connector name in list and detail views). */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** Optional. Free-form, multi-line note about the connector's capabilities or a custom note that can be set for the connector. */
-  note?: string;
+  note?: string | undefined;
   /** Optional. Display title of the connector. */
-  title?: string;
+  title?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataConnectorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -6247,117 +6665,133 @@ export interface GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfi
   /** Optional. Streaming error. */
   streamingErrorReason?:
     | GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfigStreamingErrorStreamingErrorReasonEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Error details. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
 }
 /** The configuration for realtime sync to store additional params for realtime sync. */
 export interface GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfig {
   /** Optional. Webhook url for the connector to specify additional params for realtime sync. */
-  webhookUri?: string;
+  webhookUri?: string | undefined;
   /** Optional. The ID of the Secret Manager secret used for webhook secret. */
-  realtimeSyncSecret?: string;
+  realtimeSyncSecret?: string | undefined;
   /** Optional. Streaming error details. */
-  streamingError?: GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfigStreamingError;
+  streamingError?:
+    | GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfigStreamingError
+    | undefined;
 }
 /** Manages the connection to external data sources for all data stores grouped under a Collection. It's a singleton resource of Collection. The initialization is only supported through DataConnectorService.SetUpDataConnector method, which will create a new Collection and initialize its DataConnector. */
 export interface GoogleCloudDiscoveryengineV1alphaDataConnector {
   /** Optional. Any target destinations used to connect to third-party services. */
-  destinationConfigs?: GoogleCloudDiscoveryengineV1alphaDestinationConfigList;
+  destinationConfigs?: GoogleCloudDiscoveryengineV1alphaDestinationConfigList | undefined;
   /** Optional. The configuration for establishing a CLI connection. */
-  cliConfig?: GoogleCloudDiscoveryengineV1alphaCliConfig;
+  cliConfig?: GoogleCloudDiscoveryengineV1alphaCliConfig | undefined;
   /** The configuration for the identity data synchronization runs. This contains the refresh interval to sync the Access Control List information for the documents ingested by this connector. */
-  identityScheduleConfig?: GoogleCloudDiscoveryengineV1alphaIdentityScheduleConfig;
+  identityScheduleConfig?: GoogleCloudDiscoveryengineV1alphaIdentityScheduleConfig | undefined;
   /** The refresh interval to sync the Access Control List information for the documents ingested by this connector. If not set, the access control list will be refreshed at the default interval of 30 minutes. The identity refresh interval can be at least 30 minutes and at most 7 days. */
-  identityRefreshInterval?: string;
+  identityRefreshInterval?: string | undefined;
   /** Optional. Indicates whether incremental syncs are paused for this connector. This is independent of auto_run_disabled. Applicable to only 3P connectors. When the refresh interval is set to the same value as the incremental refresh interval, incremental sync will be disabled, i.e. set to true. */
-  incrementalSyncDisabled?: boolean;
+  incrementalSyncDisabled?: boolean | undefined;
   /** Output only. The tenant project ID associated with private connectivity connectors. This project must be allowlisted by in order for the connector to function. */
-  privateConnectivityProjectId?: string;
+  privateConnectivityProjectId?: string | undefined;
   /** Output only. For periodic connectors only, the last time a data sync was completed. */
-  lastSyncTime?: string;
+  lastSyncTime?: string | undefined;
   /** Output only. The most recent timestamp when this DataConnector was paused, affecting all functionalities such as data synchronization. Pausing a connector has the following effects: - All functionalities, including data synchronization, are halted. - Any ongoing data synchronization job will be canceled. - No future data synchronization runs will be scheduled nor can be triggered. */
-  latestPauseTime?: string;
+  latestPauseTime?: string | undefined;
   /** Output only. State of the action connector. This reflects whether the action connector is initializing, active or has encountered errors. */
-  actionState?: GoogleCloudDiscoveryengineV1alphaDataConnectorActionStateEnum | (string & {});
+  actionState?:
+    | GoogleCloudDiscoveryengineV1alphaDataConnectorActionStateEnum
+    | (string & {})
+    | undefined;
   /** Required. The identifier for the data source. For the full, up-to-date list of supported connectors and their values, see [Connect a third-party data source](https://docs.cloud.google.com/gemini/enterprise/docs/connectors/connect-third-party-data-source#sources-by-launch-stage). */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Output only. The errors from initialization or from the latest connector run. */
-  errors?: GoogleRpcStatusList;
+  errors?: GoogleRpcStatusList | undefined;
   /** Output only. The dynamic tools fetched for this connector. */
-  dynamicTools?: GoogleCloudDiscoveryengineV1alphaDynamicToolList;
+  dynamicTools?: GoogleCloudDiscoveryengineV1alphaDynamicToolList | undefined;
   /** Optional. Any params and credentials used specifically for EUA connectors. */
-  endUserConfig?: GoogleCloudDiscoveryengineV1alphaDataConnectorEndUserConfig;
+  endUserConfig?: GoogleCloudDiscoveryengineV1alphaDataConnectorEndUserConfig | undefined;
   /** Output only. real-time sync state */
-  realtimeState?: GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeStateEnum | (string & {});
+  realtimeState?:
+    | GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeStateEnum
+    | (string & {})
+    | undefined;
   /** Output only. The static IP addresses used by this connector. */
-  staticIpAddresses?: StringList;
+  staticIpAddresses?: StringList | undefined;
   /** Output only. The static IP addresses used by this connector for OAuth APIs (e.g. end user authentication). These are surfaced separately from `static_ip_addresses` so that customers can apply granular firewall settings for OAuth endpoints. Only populated for connectors that have static IP enabled and are used for actions and/or federated search. */
-  oauthStaticIpAddresses?: StringList;
+  oauthStaticIpAddresses?: StringList | undefined;
   /** Optional. Whether the connector will be created with an ACL config. Currently this field only affects Cloud Storage and BigQuery connectors. */
-  aclEnabled?: boolean;
+  aclEnabled?: boolean | undefined;
   /** Optional. The connector level alert config. */
-  alertPolicyConfigs?: GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigList;
+  alertPolicyConfigs?: GoogleCloudDiscoveryengineV1alphaAlertPolicyConfigList | undefined;
   /** Optional. Specifies the data protection policy for the connector. */
-  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy;
+  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaDataProtectionPolicy | undefined;
   /** Optional. The configuration for establishing a BAP connection. */
-  bapConfig?: GoogleCloudDiscoveryengineV1alphaBAPConfig;
+  bapConfig?: GoogleCloudDiscoveryengineV1alphaBAPConfig | undefined;
   /** List of entities from the connected data source to ingest. */
-  entities?: GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntityList;
+  entities?: GoogleCloudDiscoveryengineV1alphaDataConnectorSourceEntityList | undefined;
   /** Output only. The type of connector. Each source can only map to one type. For example, salesforce, confluence and jira have THIRD_PARTY connector type. It is not mutable once set by system. */
-  connectorType?: GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorTypeEnum | (string & {});
+  connectorType?:
+    | GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorTypeEnum
+    | (string & {})
+    | undefined;
   /** Output only. Timestamp the DataConnector was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. The refresh interval for data sync. If duration is set to 0, the data will be synced in real time. The streaming feature is not supported yet. The minimum is 30 minutes and maximum is 7 days. When the refresh interval is set to the same value as the incremental refresh interval, incremental sync will be disabled. */
-  refreshInterval?: string;
+  refreshInterval?: string | undefined;
   /** Output only. User actions that must be completed before the connector can start syncing data. */
-  blockingReasons?: GoogleCloudDiscoveryengineV1alphaDataConnectorBlockingReasonsItemEnumList;
+  blockingReasons?:
+    | GoogleCloudDiscoveryengineV1alphaDataConnectorBlockingReasonsItemEnumList
+    | undefined;
   /** Optional. Any params and credentials used specifically for hybrid connectors supporting FEDERATED mode. This field should only be set if the connector is a hybrid connector and we want to enable FEDERATED mode. */
-  federatedConfig?: GoogleCloudDiscoveryengineV1alphaDataConnectorFederatedConfig;
+  federatedConfig?: GoogleCloudDiscoveryengineV1alphaDataConnectorFederatedConfig | undefined;
   /** The data synchronization mode supported by the data connector. */
-  syncMode?: GoogleCloudDiscoveryengineV1alphaDataConnectorSyncModeEnum | (string & {});
+  syncMode?: GoogleCloudDiscoveryengineV1alphaDataConnectorSyncModeEnum | (string & {}) | undefined;
   /** Optional. The refresh interval specifically for incremental data syncs. If unset, incremental syncs will use the default from env, set to 3hrs. The minimum is 30 minutes and maximum is 7 days. Applicable to only 3P connectors. When the refresh interval is set to the same value as the incremental refresh interval, incremental sync will be disabled. */
-  incrementalRefreshInterval?: string;
+  incrementalRefreshInterval?: string | undefined;
   /** Optional. Specifies keys to be removed from the 'params' field. This is only active when 'params' is included in the 'update_mask' in an UpdateDataConnectorRequest. Deletion takes precedence if a key is both in 'remove_param_keys' and present in the 'params' field of the request. */
-  removeParamKeys?: StringList;
+  removeParamKeys?: StringList | undefined;
   /** Optional. Indicates whether the connector is disabled for auto run. It can be used to pause periodical and real time sync. Update: with the introduction of incremental_sync_disabled, auto_run_disabled is used to pause/disable only full syncs */
-  autoRunDisabled?: boolean;
+  autoRunDisabled?: boolean | undefined;
   /** Identifier. The full resource name of the Data Connector. Format: `projects/*\/locations/*\/collections/*\/dataConnector`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. If set, this value instead of `data_source` is used to fetch the corresponding connector source. */
-  connectorSourceId?: string;
+  connectorSourceId?: string | undefined;
   /** Input only. The KMS key to be used to protect the DataStores managed by this connector. Must be set for requests that need to comply with CMEK Org Policy protections. If this field is set and processed successfully, the DataStores created by this connector will be protected by the KMS key. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Optional. Action configurations to make the connector support actions. */
-  actionConfig?: GoogleCloudDiscoveryengineV1alphaActionConfig;
+  actionConfig?: GoogleCloudDiscoveryengineV1alphaActionConfig | undefined;
   /** Optional. Immutable. User-facing, version-independent label for this connector. May be shared by multiple connectors under the same (project, location, collection, data_source); tag-based lookup returns the one with the greatest create_time. Optional at Create time. If the caller omits `tag`, the server auto-derives one from the collection_id (falling back to data_source, else a time-based `t-` sentinel). The auto-derived tag is subject to the same immutability guarantee as a caller-supplied one, so callers who care about the exact tag value should provide it explicitly rather than relying on the server default. Agent Designer resolves connectors via (data_source, tag) when set, falling back to the legacy resource-name lookup when unset, so connectors created before the tag-write launch continue to work without a backfill. */
-  tag?: string;
+  tag?: string | undefined;
   /** Optional. User-facing metadata for the connector. Populated from the connector's generated metadata / registry `ConnectorSource`. */
-  metadata?: GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorMetadata;
+  metadata?: GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorMetadata | undefined;
   /** Optional. If the connector is a hybrid connector, determines whether ingestion is enabled and appropriate resources are provisioned during connector creation. If the connector is not a hybrid connector, this field is ignored. */
-  hybridIngestionDisabled?: boolean;
+  hybridIngestionDisabled?: boolean | undefined;
   /** Defines the scheduled time for the next data synchronization. This field requires hour , minute, and time_zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). This is utilized when the data connector has a refresh interval greater than 1 day. When the hours or minutes are not specified, we will assume a sync time of 0:00. The user must provide a time zone to avoid ambiguity. */
-  nextSyncTime?: GoogleTypeDateTime;
+  nextSyncTime?: GoogleTypeDateTime | undefined;
   /** Output only. State of the connector. */
-  state?: GoogleCloudDiscoveryengineV1alphaDataConnectorStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaDataConnectorStateEnum | (string & {}) | undefined;
   /** Optional. The modes enabled for this connector. Default state is CONNECTOR_MODE_UNSPECIFIED. */
-  connectorModes?: GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorModesItemEnumList;
+  connectorModes?:
+    | GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorModesItemEnumList
+    | undefined;
   /** Output only. The list of FQDNs of the data connector can egress to. This includes both FQDN derived from the customer provided instance URL and default per connector type FQDNs. */
-  egressFqdns?: StringList;
+  egressFqdns?: StringList | undefined;
   /** Output only. Whether the connector is created with VPC-SC enabled. */
-  vpcscEnabled?: boolean;
+  vpcscEnabled?: boolean | undefined;
   /** Optional. Whether customer has enabled static IP addresses for this connector. */
-  staticIpEnabled?: boolean;
+  staticIpEnabled?: boolean | undefined;
   /** Required data connector parameters in json string format. */
-  jsonParams?: string;
+  jsonParams?: string | undefined;
   /** Output only. Timestamp the DataConnector was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The configuration for realtime sync. */
-  realtimeSyncConfig?: GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfig;
+  realtimeSyncConfig?: GoogleCloudDiscoveryengineV1alphaDataConnectorRealtimeSyncConfig | undefined;
   /** Required data connector parameters in structured json format. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
   /** Optional. Whether the END USER AUTHENTICATION connector is created in SaaS. */
-  createEuaSaas?: boolean;
+  createEuaSaas?: boolean | undefined;
 }
 export interface GetDocumentProcessingConfigProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full DocumentProcessingConfig resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/documentProcessingConfig` */
@@ -6371,44 +6805,44 @@ export interface GetIamPolicyProjectsLocationsCollectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: GoogleTypeExpr;
+  condition?: GoogleTypeExpr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
 }
 export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList;
+  bindings?: GoogleIamV1BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsCollectionsDataStoresRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsCollectionsEnginesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsDataStoresRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type GetProcessedDocumentProjectsLocationsCollectionsDataStoresBranchesDocumentsProcessedDocumentFormatEnum =
   | "PROCESSED_DOCUMENT_FORMAT_UNSPECIFIED"
@@ -6421,24 +6855,26 @@ export type GetProcessedDocumentProjectsLocationsCollectionsDataStoresBranchesDo
   | "IMAGE_BYTES";
 export interface GetProcessedDocumentProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Optional. Specifies config for IMAGE_BYTES. */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to access the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested Document does not exist, a `NOT_FOUND` error is returned. */
   name: string;
   /** What format output should be. If unspecified, defaults to JSON. */
   processedDocumentFormat?:
     | GetProcessedDocumentProjectsLocationsCollectionsDataStoresBranchesDocumentsProcessedDocumentFormatEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. What type of processing to return. */
   processedDocumentType?:
     | GetProcessedDocumentProjectsLocationsCollectionsDataStoresBranchesDocumentsProcessedDocumentTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Document captures all raw metadata information of items to be recommended or searched. */
 export interface GoogleCloudDiscoveryengineV1alphaProcessedDocument {
   /** Required. Full resource name of the referenced document, in the format `projects/*\/locations/*\/collections/*\/dataStores/*\/branches/*\/documents/*`. */
-  document?: string;
+  document?: string | undefined;
   /** The JSON string representation of the processed document. */
-  jsonData?: string;
+  jsonData?: string | undefined;
 }
 export type GetProcessedDocumentProjectsLocationsDataStoresBranchesDocumentsProcessedDocumentFormatEnum =
   | "PROCESSED_DOCUMENT_FORMAT_UNSPECIFIED"
@@ -6451,17 +6887,19 @@ export type GetProcessedDocumentProjectsLocationsDataStoresBranchesDocumentsProc
   | "IMAGE_BYTES";
 export interface GetProcessedDocumentProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Optional. Specifies config for IMAGE_BYTES. */
-  imageId?: string;
+  imageId?: string | undefined;
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to access the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested Document does not exist, a `NOT_FOUND` error is returned. */
   name: string;
   /** What format output should be. If unspecified, defaults to JSON. */
   processedDocumentFormat?:
     | GetProcessedDocumentProjectsLocationsDataStoresBranchesDocumentsProcessedDocumentFormatEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. What type of processing to return. */
   processedDocumentType?:
     | GetProcessedDocumentProjectsLocationsDataStoresBranchesDocumentsProcessedDocumentTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface GetProjectsRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
@@ -6470,42 +6908,52 @@ export interface GetProjectsRequest {
 /** Specifies a Sensitive Data Protection (https://cloud.google.com/sensitive-data-protection/docs/sensitive-data-protection-overview) policy. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy {
   /** Optional. The Sensitive Data Protection policy resource name. */
-  policy?: string;
+  policy?: string | undefined;
 }
 /** Data protection policy config for NotebookLM. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy {
   /** Optional. The sensitive data protection policy. */
-  sensitiveDataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy;
+  sensitiveDataProtectionPolicy?:
+    | GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicySensitiveDataProtectionPolicy
+    | undefined;
 }
 /** Configuration for customer defined Model Armor templates to be used for sanitizing user prompts and LLM responses. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig {
   /** Optional. The resource name of the Model Armor Template for sanitizing LLM responses. Format: projects/{project}/locations/{location}/templates/{template_id} If not specified, no sanitization will be applied to the LLM response. */
-  responseTemplate?: string;
+  responseTemplate?: string | undefined;
   /** Optional. The resource name of the Model Armor Template for sanitizing user prompts. Format: projects/{project}/locations/{location}/templates/{template_id} If not specified, no sanitization will be applied to the user prompt. */
-  userPromptTemplate?: string;
+  userPromptTemplate?: string | undefined;
 }
 /** Configuration for NotebookLM. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfig {
   /** Optional. Specifies the data protection policy for NotebookLM. */
-  dataProtectionPolicy?: GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy;
+  dataProtectionPolicy?:
+    | GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigDataProtectionPolicy
+    | undefined;
   /** Optional. Whether to disable the notebook sharing feature for the project. Default to false if not specified. */
-  optOutNotebookSharing?: boolean;
+  optOutNotebookSharing?: boolean | undefined;
   /** Optional. Observability config for NotebookLM. */
-  observabilityConfig?: GoogleCloudDiscoveryengineV1alphaObservabilityConfig;
+  observabilityConfig?: GoogleCloudDiscoveryengineV1alphaObservabilityConfig | undefined;
   /** Model Armor configuration to be used for sanitizing user prompts and LLM responses. */
-  modelArmorConfig?: GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig;
+  modelArmorConfig?:
+    | GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfigModelArmorConfig
+    | undefined;
 }
 /** Controls resource-level access control for Gemini Enterprise users. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigResourceAccessControlConfig {
   /** Optional. If `true`, the data stores and data connectors shown to Gemini Enterprise users are filtered to those the user has the required resource-level `.get` IAM permission on. */
-  dataStoreAccessControlEnabled?: boolean;
+  dataStoreAccessControlEnabled?: boolean | undefined;
 }
 /** Customer provided configurations. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfig {
   /** Optional. Configuration for NotebookLM settings. */
-  notebooklmConfig?: GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfig;
+  notebooklmConfig?:
+    | GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigNotebooklmConfig
+    | undefined;
   /** Optional. Resource-level access control config for Gemini Enterprise users. */
-  resourceAccessControlConfig?: GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigResourceAccessControlConfig;
+  resourceAccessControlConfig?:
+    | GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfigResourceAccessControlConfig
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaProjectServiceTermsStateEnum =
   | "STATE_UNSPECIFIED"
@@ -6515,15 +6963,15 @@ export type GoogleCloudDiscoveryengineV1alphaProjectServiceTermsStateEnum =
 /** Metadata about the terms of service. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectServiceTerms {
   /** The version string of the terms of service. For acceptable values, see the comments for id above. */
-  version?: string;
+  version?: string | undefined;
   /** The last time when the project agreed to the terms of service. */
-  acceptTime?: string;
+  acceptTime?: string | undefined;
   /** The unique identifier of this terms of service. Available terms: * `GA_DATA_USE_TERMS`: [Terms for data use](https://cloud.google.com/retail/data-use-terms). When using this as `id`, the acceptable version to provide is `2022-11-23`. */
-  id?: string;
+  id?: string | undefined;
   /** The last time when the project declined or revoked the agreement to terms of service. */
-  declineTime?: string;
+  declineTime?: string | undefined;
   /** Whether the project has accepted/rejected the service terms or it is still pending. */
-  state?: GoogleCloudDiscoveryengineV1alphaProjectServiceTermsStateEnum | (string & {});
+  state?: GoogleCloudDiscoveryengineV1alphaProjectServiceTermsStateEnum | (string & {}) | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaProjectServiceTermsMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaProjectServiceTerms | undefined;
@@ -6544,17 +6992,18 @@ export interface GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStat
   /** Output only. The type of the most recent update to this (project, model_version) subscription, as performed by the most recent UpdateProject call. `UPDATE_TYPE_UNSPECIFIED` indicates this model_version was not touched by the most recent UpdateProject (its `effective_tpm_threshold` reflects an earlier update). The whole-relationship `update_type` on the enclosing ConfigurableBillingStatus continues to summarize the direction of the most recent update across all surfaces in the project (QPM, IndexingCore, and Agent Search TPM together). */
   updateType?:
     | GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatusUpdateTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The Gemini model version this status corresponds to. Matches CoreSubscription.AgentSearchTokenSubscription.model_version (a stable Gemini model version from the Gemini Enterprise Agent Platform model-versions registry; see https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/model-versions#gemini-models). */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
   /** Output only. When this (project, model_version) Agent Search TPM subscription was first activated. Set once on first activation of this model version and never moved by subsequent threshold updates; on termination + re-activation a new value is recorded. Does NOT move the whole-relationship `start_time` on the enclosing ConfigurableBillingStatus, which continues to represent the first activation of the overall customer-configurable-pricing relationship. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The earliest next update time for the TPM subscription threshold for this (project, model_version). Populated only after a successful update. */
-  tpmThresholdNextUpdateTime?: string;
+  tpmThresholdNextUpdateTime?: string | undefined;
   /** Output only. If set, the scheduled effective time at which this (project, model_version) Agent Search TPM subscription will terminate. Populated when the customer removes this entry from `core_subscription.agent_search_token_subscriptions[*]`. Does NOT move the whole-relationship `terminate_time` on the enclosing ConfigurableBillingStatus, which is populated only when the entire customer-configurable-pricing relationship is being torn down. */
-  terminateTime?: string;
+  terminateTime?: string | undefined;
   /** Output only. The currently effective TPM threshold. Reflects scale-up immediately and scale-down at the next billing cycle, matching `effective_search_qpm_threshold` semantics. */
-  effectiveTpmThreshold?: string;
+  effectiveTpmThreshold?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatusList =
   Array<GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatus>;
@@ -6567,40 +7016,50 @@ export type GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusUpd
 /** Represents the currently effective configurable billing parameters. These values are derived from the customer's subscription history stored internally and reflect the thresholds actively being used for billing purposes at the time of the GetProject call. This includes the start_time of the subscription and may differ from the values in `customer_provided_config` due to billing rules (e.g., scale-downs taking effect only at the start of a new month). We also include the update type to indicate the type of update performed on the configurable billing configuration in the UpdateProject operation. */
 export interface GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatus {
   /** Output only. The earliest next update time for the search QPM subscription threshold. This is based on the next_update_time returned by the underlying Cloud Billing Subscription V3 API. This field is populated only if an update QPM subscription threshold request is succeeded. */
-  searchQpmThresholdNextUpdateTime?: string;
+  searchQpmThresholdNextUpdateTime?: string | undefined;
   /** Output only. Per-model Agent Search TPM subscription status. */
-  agentSearchTokenSubscriptionStatuses?: GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatusList;
+  agentSearchTokenSubscriptionStatuses?:
+    | GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusAgentSearchTokenSubscriptionStatusList
+    | undefined;
   /** Output only. The earliest next update time for the indexing core subscription threshold. This is based on the next_update_time returned by the underlying Cloud Billing Subscription V3 API. This field is populated only if an update indexing core subscription threshold request is succeeded. */
-  indexingCoreThresholdNextUpdateTime?: string;
+  indexingCoreThresholdNextUpdateTime?: string | undefined;
   /** Output only. The type of update performed in this operation. This field is populated in the response of UpdateProject. */
   updateType?:
     | GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatusUpdateTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The latest terminate effective time of search qpm and indexing core subscriptions. */
-  terminateTime?: string;
+  terminateTime?: string | undefined;
   /** Optional. The start time of the currently active billing subscription. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. The currently effective Search QPM threshold in queries per minute. This is the threshold against which QPM usage is compared for overage calculations. */
-  effectiveSearchQpmThreshold?: string;
+  effectiveSearchQpmThreshold?: string | undefined;
   /** Optional. The currently effective Indexing Core threshold. This is the threshold against which Indexing Core usage is compared for overage calculations. */
-  effectiveIndexingCoreThreshold?: string;
+  effectiveIndexingCoreThreshold?: string | undefined;
 }
 /** Metadata and configurations for a Google Cloud project in the service. */
 export interface GoogleCloudDiscoveryengineV1alphaProject {
   /** Optional. Customer provided configurations. */
-  customerProvidedConfig?: GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfig;
+  customerProvidedConfig?:
+    | GoogleCloudDiscoveryengineV1alphaProjectCustomerProvidedConfig
+    | undefined;
   /** Output only. Full resource name of the project, for example `projects/{project}`. Note that when making requests, project number and project id are both acceptable, but the server will always respond in project number. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. A map of terms of services. The key is the `id` of ServiceTerms. */
-  serviceTermsMap?: GoogleCloudDiscoveryengineV1alphaProjectServiceTermsMap;
+  serviceTermsMap?: GoogleCloudDiscoveryengineV1alphaProjectServiceTermsMap | undefined;
   /** Output only. The current experience state of the project. */
-  experienceState?: GoogleCloudDiscoveryengineV1alphaProjectExperienceStateEnum | (string & {});
+  experienceState?:
+    | GoogleCloudDiscoveryengineV1alphaProjectExperienceStateEnum
+    | (string & {})
+    | undefined;
   /** Output only. The current status of the project's configurable billing. */
-  configurableBillingStatus?: GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatus;
+  configurableBillingStatus?:
+    | GoogleCloudDiscoveryengineV1alphaProjectConfigurableBillingStatus
+    | undefined;
   /** Output only. The timestamp when this project is created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The timestamp when this project is successfully provisioned. Empty value means this project is still provisioning and is not ready for use. */
-  provisionCompletionTime?: string;
+  provisionCompletionTime?: string | undefined;
 }
 export interface GetProjectsLocationsAuthorizationsRequest {
   /** Required. Resource name of Authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` */
@@ -6617,13 +7076,13 @@ export interface GetProjectsLocationsCollectionsRequest {
 /** Collection is a container for configuring resources and access to a set of DataStores. */
 export interface GoogleCloudDiscoveryengineV1alphaCollection {
   /** Immutable. The full resource name of the Collection. Format: `projects/{project}/locations/{location}/collections/{collection_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Timestamp the Collection was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The Collection display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The data connector, if present, manages the connection for data stores in the Collection. To set up the connector, use DataConnectorService.SetUpDataConnector method, which creates a new Collection while setting up the DataConnector singleton resource. Setting up connector on an existing Collection is not supported. This output only field contains a subset of the DataConnector fields, including `name`, `data_source`, `entities.entity_name` and `entities.data_store`. To get more details about a data connector, use the DataConnectorService.GetDataConnector method. */
-  dataConnector?: GoogleCloudDiscoveryengineV1alphaDataConnector;
+  dataConnector?: GoogleCloudDiscoveryengineV1alphaDataConnector | undefined;
 }
 export interface GetProjectsLocationsCollectionsDataConnectorOperationsRequest {
   /** The name of the operation resource. */
@@ -6637,7 +7096,7 @@ export interface GetProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. */
   name: string;
   /** Optional. The view to apply to the returned DataStore. Defaults to DataStoreView.DATA_STORE_VIEW_BASIC if unspecified. DataStoreView.DATA_STORE_VIEW_FULL additionally populates DataStore.icon_uri for a connector-backed data store. Resolving the connector icon requires extra lookups, so request it only when the caller renders the icon. */
-  view?: GetProjectsLocationsCollectionsDataStoresViewEnum | (string & {});
+  view?: GetProjectsLocationsCollectionsDataStoresViewEnum | (string & {}) | undefined;
 }
 export type GetProjectsLocationsCollectionsDataStoresBranchesViewEnum =
   | "BRANCH_VIEW_UNSPECIFIED"
@@ -6647,25 +7106,25 @@ export interface GetProjectsLocationsCollectionsDataStoresBranchesRequest {
   /** Required. The name of the branch to retrieve. Format: `projects/*\/locations/global/dataStores/default_data_store/branches/some_branch_id`. "default_branch" can be used as a special branch_id, it returns the default branch that has been set for the document. */
   name: string;
   /** The view to apply to the returned Branch. Defaults to BranchView.BRANCH_VIEW_BASIC if unspecified. */
-  view?: GetProjectsLocationsCollectionsDataStoresBranchesViewEnum | (string & {});
+  view?: GetProjectsLocationsCollectionsDataStoresBranchesViewEnum | (string & {}) | undefined;
 }
 /** Statistics describing a branch. */
 export interface GoogleCloudDiscoveryengineV1alphaBranchBranchStats {
   /** The number of documents in a given branch. The key is a group representing a set of documents, and the value is the number of document in that group. Note: keys in this map may change over time. Supported keys: ['all']. */
-  documentCounts?: StringMap;
+  documentCounts?: StringMap | undefined;
 }
 /** A data branch that stores Documents. */
 export interface GoogleCloudDiscoveryengineV1alphaBranch {
   /** Output only. Timestamp of last import through DocumentService.ImportDocuments. Empty value means no import has been made to this branch. */
-  lastDocumentImportTime?: string;
+  lastDocumentImportTime?: string | undefined;
   /** Output only. Human readable name of the branch to display in the UI. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Immutable. Full resource name of the branch, such as `projects/*\/locations/global/dataStores/data_store/branches/branch_id`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Indicates whether this branch is set as the default branch of its parent data store. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Output only. Statistics describing a branch. This field is not populated in BranchView.BRANCH_VIEW_BASIC view. */
-  branchStats?: GoogleCloudDiscoveryengineV1alphaBranchBranchStats;
+  branchStats?: GoogleCloudDiscoveryengineV1alphaBranchBranchStats | undefined;
 }
 export interface GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to access the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested Document does not exist, a `NOT_FOUND` error is returned. */
@@ -6711,7 +7170,7 @@ export interface GetProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Required. The resource name of the Session to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
   /** Optional. If set to true, the full session including all answer details will be returned. */
-  includeAnswerDetails?: boolean;
+  includeAnswerDetails?: boolean | undefined;
 }
 export interface GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest {
   /** Required. The resource name of the Answer to get. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine_id}/sessions/{session_id}/answers/{answer_id}` */
@@ -6738,15 +7197,16 @@ export interface GetProjectsLocationsCollectionsDataStoresWidgetConfigsRequest {
   /** Optional. Selects which view of `WidgetConfig.UiSettings.ModelConfigInfo` the backend computes. `ADMIN` is set by the Cloud Console admin "Feature Management" page to receive the admin-surfaced model set with `ResolvedModel.admin_view` populated; `END_USER_MOBILE` is set by the Gemini Enterprise mobile app to receive the mobile model set; unset / `END_USER_WEB` returns the end-user web selector. */
   modelInfoView?:
     | GetProjectsLocationsCollectionsDataStoresWidgetConfigsModelInfoViewEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Whether it's acceptable to load the widget config from cache. If set to true, recent changes on widget configs may take a few minutes to reflect on the end user's view. It's recommended to set to true for maturely developed widgets, as it improves widget performance. Set to false to see changes reflected in prod right away, if your widget is under development. */
-  acceptCache?: boolean;
+  acceptCache?: boolean | undefined;
   /** Required. Full WidgetConfig resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}` */
   name: string;
   /** Optional. Whether to turn off collection_components in WidgetConfig to reduce latency and data transmission. */
-  "getWidgetConfigRequestOption.turnOffCollectionComponents"?: boolean;
+  "getWidgetConfigRequestOption.turnOffCollectionComponents"?: boolean | undefined;
   /** Optional. BCP-47 language tag (e.g. "en", "fr-CA"). Used to localize human-readable strings in the response, such as the model selector `display_name` / `description` on `WidgetConfig.UiSettings.ModelConfigInfo`. Empty / unset falls back to the default language (English). */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigSolutionTypeEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -6780,25 +7240,28 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponentWorks
 /** Read-only data store component that contains data stores fields that may be used for filtering, it's the child of `CollectionComponent`. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponent {
   /** The name of the entity, retrieved from `Collection.data_connector.entities.entityName`. */
-  entityName?: string;
+  entityName?: string | undefined;
   /** The display name of the data store. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The content config of the data store. */
   contentConfig?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponentContentConfigEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The type of the data store config. */
   dataStoreConfigType?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponentDataStoreConfigTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. the identifier of the data store, used for widget service. For now it refers to data_store_id, in the future we will migrate the field to encrypted data store name UUID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the data store. It should be data store resource name Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. For APIs under WidgetService, such as WidgetService.LookupWidgetConfig, the project number and location part is erased in this field. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Workspace Source Types for workspace data, retrieved from `DataStore.workspace_config.type`. */
   workspaceType?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponentWorkspaceTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponentList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponent>;
@@ -6813,40 +7276,43 @@ export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigConnectorAuthState
   /** Output only. The authorization state of the data connector. */
   authState?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigConnectorAuthStateAuthStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The authorization uri for the data connector. For synthetic placeholder `CollectionComponent` entries (returned by `LookupWidgetConfig` with `view = WITH_AVAILABLE_CONNECTORS` on SaaS / Business engines), this field is left empty. The widget should call `WidgetService.WidgetBuildAuthorizationUrl` on the user's "Connect" click to obtain a freshly-built authorization URL. */
-  authorizationUri?: string;
+  authorizationUri?: string | undefined;
   /** Output only. The authorization state update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 /** Read-only collection component that contains data store collections fields that may be used for filtering. For SaaS / Business engines, when `LookupWidgetConfig` is called with `view = WITH_AVAILABLE_CONNECTORS`, instances of this message are also used to represent synthetic placeholder entries for connectors the caller may attach but has not yet attached. Placeholder entries have `connector_auth_state.auth_state == AUTH_STATE_UNSPECIFIED` (or `NO_AUTH`), an empty `connector_auth_state.authorization_uri` (the widget calls `WidgetBuildAuthorizationUrl` on the user's "Connect" click), and synthetic placeholder values in `name` / `id` (see field comments). Fields that only make sense for materialized connectors (`data_store_components`, `tenant`, `action_connector`) are left unset for placeholder entries. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigCollectionComponent {
   /** Output only. The version of the connector definition backing this collection, mirroring `DataConnector.data_source_version`. */
-  dataSourceVersion?: number;
+  dataSourceVersion?: number | undefined;
   /** The display name of the collection. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The display name of the data source. */
-  dataSourceDisplayName?: string;
+  dataSourceDisplayName?: string | undefined;
   /** The name of the data source, retrieved from `Collection.data_connector.data_source`. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** For the data store collection, list of the children data stores. */
-  dataStoreComponents?: GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponentList;
+  dataStoreComponents?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreComponentList
+    | undefined;
   /** Output only. The icon link of the connector source. */
-  connectorIconLink?: string;
+  connectorIconLink?: string | undefined;
   /** Output only. The end-user-facing display name of the data source, sourced from `ConnectorSource.end_user_display_name`. When unset, clients fall back to `data_source_display_name`. */
-  dataSourceEndUserDisplayName?: string;
+  dataSourceEndUserDisplayName?: string | undefined;
   /** Output only. The version-independent label of the connector backing this collection, mirroring `DataConnector.tag`. Unlike the version-pinned data store id it survives a connector version upgrade, so an upgraded connector keeps the same tag. Not a unique key. As `DataConnector.tag` documents, several connectors may share a tag under the same (project, location, collection, data_source), and tag-based lookup resolves to the one with the greatest create_time. Clients must not treat this as a connector identifier. Empty when the connector was created before the tag-write launch, and for synthetic placeholder entries, which have no underlying `DataConnector`. Populated only when `ConnectorsFeature.enable_connector_tag` is on. */
-  tag?: string;
+  tag?: string | undefined;
   /** Output only. Whether this is a first-party (Google-owned) connector, as opposed to a third-party connector. */
-  isFirstParty?: boolean;
+  isFirstParty?: boolean | undefined;
   /** The name of the collection. It should be collection resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}`. For APIs under WidgetService, such as WidgetService.LookupWidgetConfig, the project number and location part is erased in this field. For synthetic placeholder entries (see message-level comment) this carries a synthetic placeholder collection id that does not correspond to a real collection. Callers must not attempt to resolve / GET this resource until the user authorizes the connector. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. the identifier of the collection, used for widget service. For now it refers to collection_id, in the future we will migrate the field to encrypted collection name UUID. For synthetic placeholder entries (see message-level comment) this is a synthetic placeholder id, not a real collection_id. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The auth uri of the connector source. */
-  connectorAuthState?: GoogleCloudDiscoveryengineV1alphaWidgetConfigConnectorAuthState;
+  connectorAuthState?: GoogleCloudDiscoveryengineV1alphaWidgetConfigConnectorAuthState | undefined;
   /** Output only. User-facing connector metadata (`title`, `description`, `short_description`, `author`, `note`), retrieved from the registry `ConnectorSource.metadata` (joined by data source). Shown on the connector detail page. */
-  metadata?: GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorMetadata;
+  metadata?: GoogleCloudDiscoveryengineV1alphaDataConnectorConnectorMetadata | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigCollectionComponentList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigCollectionComponent>;
@@ -6860,25 +7326,26 @@ export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsGenerati
   /** Optional. Source of image returned in the answer. */
   imageSource?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsGenerativeAnswerConfigImageSourceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Language code for Summary. Use language tags defined by [BCP47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). Note: This is an experimental feature. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Text at the beginning of the prompt that instructs the model that generates the answer. */
-  modelPromptPreamble?: string;
+  modelPromptPreamble?: string | undefined;
   /** Optional. Specifies whether to filter out queries that are not answer-seeking. The default value is `false`. No answer is returned if the search query is classified as a non-answer seeking query. If this field is set to `true`, we skip generating answers for non-answer seeking queries and return fallback messages instead. */
-  ignoreNonAnswerSeekingQuery?: boolean;
+  ignoreNonAnswerSeekingQuery?: boolean | undefined;
   /** Max rephrase steps. The max number is 5 steps. If not set or set to < 1, it will be set to 1 by default. */
-  maxRephraseSteps?: number;
+  maxRephraseSteps?: number | undefined;
   /** Whether generated answer contains suggested related questions. */
-  disableRelatedQuestions?: boolean;
+  disableRelatedQuestions?: boolean | undefined;
   /** The model version used to generate the answer. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
   /** Optional. Specifies whether to filter out queries that are adversarial. */
-  ignoreAdversarialQuery?: boolean;
+  ignoreAdversarialQuery?: boolean | undefined;
   /** Optional. Specifies whether to filter out queries that are not relevant to the content. */
-  ignoreLowRelevantContent?: boolean;
+  ignoreLowRelevantContent?: boolean | undefined;
   /** The number of top results to generate the answer from. Up to 10. */
-  resultCount?: number;
+  resultCount?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigsValueEnum =
   | "MODEL_STATE_UNSPECIFIED"
@@ -6893,9 +7360,9 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigsV
 /** Facet fields that store the mapping of fields to end user widget appearance. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigFacetField {
   /** Required. Registered field name. The format is `field.abc`. */
-  field?: string;
+  field?: string | undefined;
   /** Optional. The field name that end users will see. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigFacetFieldList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigFacetField>;
@@ -6911,11 +7378,13 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldDeviceV
 /** Facet field that maps to a UI Component. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentField {
   /** Required. Registered field name. The format is `field.abc`. */
-  field?: string;
+  field?: string | undefined;
   /** The field visibility on different types of devices. */
-  deviceVisibility?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldDeviceVisibilityItemEnumList;
+  deviceVisibility?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldDeviceVisibilityItemEnumList
+    | undefined;
   /** The template to customize how the field is displayed. An example value would be a string that looks like: "Price: {value}". */
-  displayTemplate?: string;
+  displayTemplate?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentField | undefined;
@@ -6923,13 +7392,15 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldMap = {
 /** UI component configuration for data store. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreUiConfig {
   /** The name of the data store. It should be data store resource name Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. For APIs under WidgetService, such as WidgetService.LookupWidgetConfig, the project number and location part is erased in this field. */
-  name?: string;
+  name?: string | undefined;
   /** Facet fields that store the mapping of fields to end user widget appearance. */
-  facetField?: GoogleCloudDiscoveryengineV1alphaWidgetConfigFacetFieldList;
+  facetField?: GoogleCloudDiscoveryengineV1alphaWidgetConfigFacetFieldList | undefined;
   /** Output only. the identifier of the data store, used for widget service. For now it refers to data_store_id, in the future we will migrate the field to encrypted data store name UUID. */
-  id?: string;
+  id?: string | undefined;
   /** The key is the UI component. Mock. Currently supported `title`, `thumbnail`, `url`, `custom1`, `custom2`, `custom3`. The value is the name of the field along with its device visibility. The 3 custom fields are optional and can be added or removed. `title`, `thumbnail`, `url` are required UI components that cannot be removed. */
-  fieldsUiComponentsMap?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldMap;
+  fieldsUiComponentsMap?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldMap
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreUiConfigList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreUiConfig>;
@@ -6941,11 +7412,11 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsInteractionTy
 /** SearchAddonSpec is used to disable add-ons for search. By default, if this field is not specified, add-ons are enabled wherever applicable. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsSearchAddonSpec {
   /** Optional. If true, generative answer add-on is disabled. Generative answer add-on includes natural language to filters and simple answers. */
-  generativeAnswerAddOnDisabled?: boolean;
+  generativeAnswerAddOnDisabled?: boolean | undefined;
   /** Optional. If true, semantic add-on is disabled. Semantic add-on includes embeddings and jetstream. */
-  semanticAddOnDisabled?: boolean;
+  semanticAddOnDisabled?: boolean | undefined;
   /** Optional. If true, disables event re-ranking and personalization to optimize KPIs & personalize results. */
-  kpiPersonalizationAddOnDisabled?: boolean;
+  kpiPersonalizationAddOnDisabled?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsResultDescriptionTypeEnum =
   | "RESULT_DISPLAY_TYPE_UNSPECIFIED"
@@ -6954,45 +7425,49 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsResultDescrip
 /** Admin-surface metadata. Populated only when the request originates from the Cloud Console admin "Feature Control" page; left unset for end-user surfaces (Web, Mobile). Lets the admin page render its toggle table directly from the backend instead of a hardcoded client-side registry. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModelAdminView {
   /** Output only. Regions where this model is launched. */
-  regions?: StringList;
+  regions?: StringList | undefined;
   /** Output only. Whether the admin can toggle this model's enabled/disabled state via `UiSettings.model_configs`. Derived from `MODEL_TAG_ADMIN_OVERRIDABLE`. When false, the model is "forced" and its state is governed by `enabled_by_default`. */
-  adminOverridable?: boolean;
+  adminOverridable?: boolean | undefined;
   /** Output only. Whether the model is enabled when the admin has set no explicit override in `UiSettings.model_configs`. Derived from `MODEL_TAG_ENABLED_BY_DEFAULT`. */
-  enabledByDefault?: boolean;
+  enabledByDefault?: boolean | undefined;
 }
 /** A single model that is resolved to be available to the end-user in the model selector, with all of its localized display metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModel {
   /** Output only. GM3-compatible icon token associated with the model (e.g. `rocket_launch`, `bolt`, `graph_5`). */
-  icon?: string;
+  icon?: string | undefined;
   /** Output only. Groups models that render together in the selector. Models sharing a value form one group; empty means the model belongs to no group. Compared for equality only -- never parsed, and never shown to a user, so it is not localized. */
-  family?: string;
+  family?: string | undefined;
   /** Output only. Unique identifier of the model (e.g. `gemini-2.5-flash`, `gemini-3.1-pro-preview`). This is the same identifier that clients pass back to the assistant service to select this model. Virtual / "pseudo" models (e.g. `gemini-fast`) are also valid values here; they are resolved to the underlying concrete model on the backend. */
-  modelId?: string;
+  modelId?: string | undefined;
   /** Output only. Localized description text (e.g. `State-of-the-art reasoning`). Localized using the same locale as `display_name`. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Admin-surface metadata; populated only for the Console admin Feature Control page (see `AdminView`). Unset for end-user surfaces. */
-  adminView?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModelAdminView;
+  adminView?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModelAdminView
+    | undefined;
   /** Output only. Localized display name of the model (e.g. `Gemini 3.1 Pro`). Localized server-side based on the LookupWidgetConfigRequest.language_code and LookupWidgetConfigRequest.region_code of the request. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Whether this model should be promoted in the GE chat homepage banner. */
-  promoted?: boolean;
+  promoted?: boolean | undefined;
   /** Output only. Short label shown in the compact selector bar chip (e.g. `3.x Flash`) as opposed to the full `display_name` (`Gemini 3.x Flash`). Falls back to `display_name` when the backend registry does not specify a distinct short label. */
-  label?: string;
+  label?: string | undefined;
   /** Output only. Absolute URL of a brand mark to render instead of `icon`, for models whose vendor logo is not a GM3 glyph. `icon` stays populated as the fallback, so a client that does not render images, or that fails to fetch this one, shows the glyph instead of nothing. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** Output only. Whether the model is currently in preview. Clients should surface this via a "Preview" badge in the selector UI. */
-  isPreview?: boolean;
+  isPreview?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModelList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModel>;
 /** The resolved, server-side view of model selector configuration for the end-user. The backend computes this per-request by applying, in order: Mendel flag evaluation, regional availability rules based on the engine's location, and admin-panel overrides from `model_configs`. The backend is the single source of truth for this configuration; clients should render `resolved_models` directly in the model selector dropdown, in the order provided, without applying their own filtering, ordering, or localization. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfo {
   /** Output only. The `model_id` a client must send when the end-user picks the "Auto" entry (the empty `model_id`). Populated only for surfaces known to have no true "Auto" mode, where leaving the model unset would fall back to a platform default rather than a backend-chosen model. Empty on every other surface, where "Auto" is resolved server-side, and when none of the surface's ranked models is available. When set, it is always one of the non-empty `model_id`s present in `resolved_models`. */
-  autoModelId?: string;
+  autoModelId?: string | undefined;
   /** Output only. The list of models that are available to the end-user in the model selector, in the order in which they should be displayed. */
-  resolvedModels?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModelList;
+  resolvedModels?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfoResolvedModelList
+    | undefined;
   /** Output only. The `model_id` of the model that should be selected by default in the model selector when the end-user has not made an explicit choice. The value is always one of the `model_id`s present in `resolved_models`. */
-  defaultModelId?: string;
+  defaultModelId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfoFeatureToggleLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -7004,22 +7479,25 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggle
 /** A single feature toggle with its server-provided metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfoFeatureToggle {
   /** Output only. Matches a key in the engine `features` map. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The informational date the toggle is scheduled to retire, after which the feature is on for every customer. This is for display purposes only. The system does not transition feature states automatically on this date. Only when the launch stage is set to RETIRED does the feature turn on for every customer. Unset if no retirement is scheduled. */
-  retirementDate?: GoogleTypeDate;
+  retirementDate?: GoogleTypeDate | undefined;
   /** Output only. Whether the engine's `feature_policies` may restrict this feature to specific users or groups. When false, EngineService.UpdateEngine rejects a policy for this feature. */
-  supportsAccessPolicy?: boolean;
+  supportsAccessPolicy?: boolean | undefined;
   /** Output only. Launch stage of the feature behind a toggle. */
   launchStage?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfoFeatureToggleLaunchStageEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfoFeatureToggleList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfoFeatureToggle>;
 /** The resolved, server-side view of the feature toggle registry containing detailed info about each feature. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfo {
   /** Output only. The feature toggles known to the registry. */
-  featureToggles?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfoFeatureToggleList;
+  featureToggles?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfoFeatureToggleList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeaturesValueEnum =
   | "FEATURE_STATE_UNSPECIFIED"
@@ -7034,60 +7512,76 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeaturesValue
 /** Describes general widget (or web app) UI settings as seen in the cloud console UI configuration page. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettings {
   /** Describes generative answer configuration. */
-  generativeAnswerConfig?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsGenerativeAnswerConfig;
+  generativeAnswerConfig?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsGenerativeAnswerConfig
+    | undefined;
   /** Output only. Maps a model name to its specific configuration for this engine. This allows admin users to turn on/off individual models. This only stores models whose states are overridden by the admin. When the state is unspecified, or model_configs is empty for this model, the system will decide if this model should be available or not based on the default configuration. For example, a preview model should be disabled by default if the admin has not chosen to enable it. */
-  modelConfigs?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigsValueEnumMap;
+  modelConfigs?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigsValueEnumMap
+    | undefined;
   /** Output only. Whether the Google Drive file picker is available to end-users. Declared `optional` for the same field-presence reason as `onedrive_picker_enabled` above. */
-  googleDrivePickerEnabled?: boolean;
+  googleDrivePickerEnabled?: boolean | undefined;
   /** Per data store configuration. */
-  dataStoreUiConfigs?: GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreUiConfigList;
+  dataStoreUiConfigs?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreUiConfigList
+    | undefined;
   /** Whether to enable safe search. */
-  enableSafeSearch?: boolean;
+  enableSafeSearch?: boolean | undefined;
   /** Optional. Whether to show the admin-configured display name for data connectors in the widget sources UI (instead of the connector kind). Opt-in; defaults to false. */
-  sourceAdminDisplayNameEnabled?: boolean;
+  sourceAdminDisplayNameEnabled?: boolean | undefined;
   /** Describes widget (or web app) interaction type */
   interactionType?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsInteractionTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether or not to enable autocomplete. */
-  enableAutocomplete?: boolean;
+  enableAutocomplete?: boolean | undefined;
   /** Whether to enable search-as-you-type behavior for the search widget. */
-  enableSearchAsYouType?: boolean;
+  enableSearchAsYouType?: boolean | undefined;
   /** If set to true, the widget will enable visual content summary on applicable search requests. Only used by healthcare search. */
-  enableVisualContentSummary?: boolean;
+  enableVisualContentSummary?: boolean | undefined;
   /** If set to true, the widget will not collect user events. */
-  disableUserEventsCollection?: boolean;
+  disableUserEventsCollection?: boolean | undefined;
   /** Optional. SearchAddonSpec is used to disable add-ons for search. This field is only supported for search requests. */
-  searchAddonSpec?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsSearchAddonSpec;
+  searchAddonSpec?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsSearchAddonSpec
+    | undefined;
   /** The default ordering for search results if specified. Used to set SearchRequest#order_by on applicable requests. https://cloud.google.com/generative-ai-app-builder/docs/reference/rest/v1alpha/projects.locations.dataStores.servingConfigs/search#request-body */
-  defaultSearchRequestOrderBy?: string;
+  defaultSearchRequestOrderBy?: string | undefined;
   /** Optional. If set to true, the widget will enable people search. */
-  enablePeopleSearch?: boolean;
+  enablePeopleSearch?: boolean | undefined;
   /** Controls whether result extract is display and how (snippet or extractive answer). Default to no result if unspecified. */
   resultDescriptionType?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsResultDescriptionTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The resolved, server-side view of model selector configuration. Holds both the ordered list of models that should appear in the model selector dropdown and the model that should be selected by default. Clients should render this directly without applying their own filtering, ordering, or localization. The legacy `model_configs` map above is retained for backward compatibility with clients that have not yet migrated to consuming this field. */
-  modelConfigInfo?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfo;
+  modelConfigInfo?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsModelConfigInfo
+    | undefined;
   /** Turn on or off collecting the search result quality feedback from end users. */
-  enableQualityFeedback?: boolean;
+  enableQualityFeedback?: boolean | undefined;
   /** Output only. The resolved, server-side view of the feature toggle registry (launch stage per toggle). */
-  featureToggleInfo?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfo;
+  featureToggleInfo?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeatureToggleInfo
+    | undefined;
   /** Output only. Whether the OneDrive file picker is available to end-users. Computed by the backend from admin connector enablement (Business edition) or attached OneDrive connectors (Enterprise edition), combined with the existing `disable-onedrive-upload` admin feature. Declared `optional` so an explicitly-computed `false` is serialized with field presence. A plain proto3 `bool` drops a default `false` on the wire, which prevented clients from distinguishing "picker disabled" (`false`) from "field not populated" (unset). */
-  onedrivePickerEnabled?: boolean;
+  onedrivePickerEnabled?: boolean | undefined;
   /** Output only. Feature config for the engine to opt in or opt out of features. Supported keys: * `agent-gallery` * `no-code-agent-builder` * `prompt-gallery` * `model-selector` * `notebook-lm` * `people-search` * `people-search-org-chart` * `bi-directional-audio` * `speech-to-text` * `feedback` * `session-sharing` * `personalization-memory` * `personalization-suggested-highlights` * `mobile-app-access` * `disable-agent-sharing` * `disable-image-generation` * `disable-video-generation` * `music-generation` * `speech-generation` * `disable-onedrive-upload` * `disable-talk-to-content` * `disable-google-drive-upload` * `disable-welcome-emails` * `disable-canvas` * `canvas-workspace` * `canvas-app-builder` * `skills` * `skill-sharing` * `skill-sharing-without-admin-approval` * `skill-security-scan` * `disable-projects` * `sobi` * `enable-end-user-sharing-with-groups` * `single-agent-orchestration` * `multi-agent-orchestration` * `cross-product-intelligence` * `workflow-agents` * `in-app-notifications` * `code-extraction` * `remote-vm` * `license-tier-badge` * `canvas-app-sharing` * `agent-marketplace` * `agent-scheduling` * `preview-agents` * `plugins` */
-  features?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeaturesValueEnumMap;
+  features?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettingsFeaturesValueEnumMap
+    | undefined;
   /** Optional. If set to true, the widget will enable the create agent button. */
-  enableCreateAgentButton?: boolean;
+  enableCreateAgentButton?: boolean | undefined;
 }
 /** Describes the batch authorization status for a batch_authorization_group. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigBatchAuthStatus {
   /** Output only. The batch authorization group the placeholder belongs to. */
-  batchAuthorizationGroup?: string;
+  batchAuthorizationGroup?: string | undefined;
   /** Output only. It is the batch authorization group placeholder full resource name. This is not a real data connector resource. E.g. projects/{project}/locations/{location}/collections/oauth_placeholder_google_workspace/dataStores/dataConnector. */
-  placeholder?: string;
+  placeholder?: string | undefined;
   /** Output only. The current authorization state for this connector. */
-  connectorAuthState?: GoogleCloudDiscoveryengineV1alphaWidgetConfigConnectorAuthState;
+  connectorAuthState?: GoogleCloudDiscoveryengineV1alphaWidgetConfigConnectorAuthState | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigBatchAuthStatusList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigBatchAuthStatus>;
@@ -7100,15 +7594,15 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreTypeEnum =
 /** Describes widget access settings. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigAccessSettings {
   /** Optional. The workforce identity pool provider used to access the widget. */
-  workforceIdentityPoolProvider?: string;
+  workforceIdentityPoolProvider?: string | undefined;
   /** Whether web app access is enabled. */
-  enableWebApp?: boolean;
+  enableWebApp?: boolean | undefined;
   /** Optional. Language code for user interface. Use language tags defined by [BCP47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). If unset, the default language code is "en-US". */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** List of domains that are allowed to integrate the search widget. */
-  allowlistedDomains?: StringList;
+  allowlistedDomains?: StringList | undefined;
   /** Whether public unauthenticated access is allowed. */
-  allowPublicAccess?: boolean;
+  allowPublicAccess?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigIndustryVerticalEnum =
   | "INDUSTRY_VERTICAL_UNSPECIFIED"
@@ -7133,32 +7627,34 @@ export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigCustomerProvidedCo
   /** Customer type. */
   customerType?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigCustomerProvidedConfigCustomerTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The customer's Assured Workloads compliance level. `customer_type` collapses every compliance level into a single `GOVERNMENT_CUSTOMER` value, so a client that gates a feature on one specific level rather than on government status as a whole must read this field instead. */
   complianceLevel?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigCustomerProvidedConfigComplianceLevelEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Options to store an image. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigImage {
   /** Image URL. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Describes an entity of shortcut (aka pinned content) on the homepage. The home page will render these shortcuts in the same order as what the API returns. If a customer wants to reorder or remove a shortcut, the UI should always provide the new full list of shortcuts. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSettingShortcut {
   /** Optional. Title of the shortcut. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Icon URL of shortcut. */
-  icon?: GoogleCloudDiscoveryengineV1alphaWidgetConfigImage;
+  icon?: GoogleCloudDiscoveryengineV1alphaWidgetConfigImage | undefined;
   /** Optional. Destination URL of shortcut. */
-  destinationUri?: string;
+  destinationUri?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSettingShortcutList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSettingShortcut>;
 /** Describes the homepage setting of the widget. It includes all homepage related settings and configurations, such as shortcuts. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSetting {
   /** Optional. The shortcuts to display on the homepage. */
-  shortcuts?: GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSettingShortcutList;
+  shortcuts?: GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSettingShortcutList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigAssistantSettingsWebGroundingTypeEnum =
   | "WEB_GROUNDING_TYPE_UNSPECIFIED"
@@ -7168,15 +7664,16 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigAssistantSettingsWebGro
 /** Describes the assistant settings of the widget. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigAssistantSettings {
   /** Optional. Output only. Whether to disable user location context. */
-  disableLocationContext?: boolean;
+  disableLocationContext?: boolean | undefined;
   /** Output only. This field controls the default web grounding toggle for end users if `web_grounding_type` is set to `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`. By default, this field is set to false. If `web_grounding_type` is `WEB_GROUNDING_TYPE_GOOGLE_SEARCH` or `WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH`, end users will have web grounding enabled by default on UI. If true, grounding toggle will be disabled by default on UI. End users can still enable web grounding in the UI if web grounding is enabled. */
-  defaultWebGroundingToggleOff?: boolean;
+  defaultWebGroundingToggleOff?: boolean | undefined;
   /** Optional. The type of web grounding to use. */
   webGroundingType?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigAssistantSettingsWebGroundingTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether or not the Google search grounding toggle is shown. Deprecated. Use web_grounding_type instead. */
-  googleSearchGroundingEnabled?: boolean;
+  googleSearchGroundingEnabled?: boolean | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigNodeTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -7186,107 +7683,123 @@ export type GoogleCloudDiscoveryengineV1alphaWidgetConfigNodeTypeEnum =
 /** Represents a single reusable computational or logical unit. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigNode {
   /** Output only. A human readable name for the node. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The output schema of the tool. This schema is expected to conform to the OpenAPI Schema standard (see https://spec.openapis.org/oas/v3.0.3.html/ and AIP-146). It describes the structure of the output produced by this node. */
-  outputSchema?: DocumentMap;
+  outputSchema?: DocumentMap | undefined;
   /** Output only. The type of the node. */
-  type?: GoogleCloudDiscoveryengineV1alphaWidgetConfigNodeTypeEnum | (string & {});
+  type?: GoogleCloudDiscoveryengineV1alphaWidgetConfigNodeTypeEnum | (string & {}) | undefined;
   /** Output only. The parameter schema of the tool. This schema is expected to conform to the OpenAPI Schema standard (see https://spec.openapis.org/oas/v3.0.3.html and AIP-146). It describes the expected structure of the parameters that this node accepts. */
-  parameterSchema?: DocumentMap;
+  parameterSchema?: DocumentMap | undefined;
   /** Output only. A detailed description of what the node does. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. An identifier or URL pointing to an icon representing this node type. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaWidgetConfigNodeList =
   Array<GoogleCloudDiscoveryengineV1alphaWidgetConfigNode>;
 /** Describes widget UI branding settings. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfigUiBrandingSettings {
   /** Logo image. */
-  logo?: GoogleCloudDiscoveryengineV1alphaWidgetConfigImage;
+  logo?: GoogleCloudDiscoveryengineV1alphaWidgetConfigImage | undefined;
 }
 /** WidgetConfig captures configs at the Widget level. */
 export interface GoogleCloudDiscoveryengineV1alphaWidgetConfig {
   /** The default ordering for search results if specified. Used to set SearchRequest#order_by on applicable requests. https://cloud.google.com/generative-ai-app-builder/docs/reference/rest/v1alpha/projects.locations.dataStores.servingConfigs/search#request-body */
-  defaultSearchRequestOrderBy?: string;
+  defaultSearchRequestOrderBy?: string | undefined;
   /** Output only. Whether the customer accepted data use terms. */
-  minimumDataTermAccepted?: boolean;
+  minimumDataTermAccepted?: boolean | undefined;
   /** Turn on or off collecting the search result quality feedback from end users. */
-  enableQualityFeedback?: boolean;
+  enableQualityFeedback?: boolean | undefined;
   /** Required. Immutable. Specifies the solution type that this WidgetConfig can be used for. */
-  solutionType?: GoogleCloudDiscoveryengineV1alphaWidgetConfigSolutionTypeEnum | (string & {});
+  solutionType?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigSolutionTypeEnum
+    | (string & {})
+    | undefined;
   /** Output only. Collection components that lists all collections and child data stores associated with the widget config, those data sources can be used for filtering in widget service APIs, users can return results that from selected data sources. For SaaS / Business engines, when `LookupWidgetConfig` is called with `view = WITH_AVAILABLE_CONNECTORS`, this list is additionally augmented with synthetic placeholder entries for connectors the caller may attach but has not yet attached (see `CollectionComponent` for the placeholder contract). The frontend can therefore render a unified list of already-attached and available-to-attach sources by iterating this single field. For Enterprise engines and for the default `view`, only already-attached connectors are returned (today's behavior). */
-  collectionComponents?: GoogleCloudDiscoveryengineV1alphaWidgetConfigCollectionComponentList;
+  collectionComponents?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigCollectionComponentList
+    | undefined;
   /** Turn on or off summarization for the search response. */
-  enableSummarization?: boolean;
+  enableSummarization?: boolean | undefined;
   /** Describes general widget search settings as seen in cloud console widget configuration page. Replaces top deprecated top level properties. */
-  uiSettings?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettings;
+  uiSettings?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiSettings | undefined;
   /** Turn on or off summary for each snippets result. */
-  enableSnippetResultSummary?: boolean;
+  enableSnippetResultSummary?: boolean | undefined;
   /** Output only. The batch authorization statuses for the widget's connectors. */
-  batchAuthStatuses?: GoogleCloudDiscoveryengineV1alphaWidgetConfigBatchAuthStatusList;
+  batchAuthStatuses?: GoogleCloudDiscoveryengineV1alphaWidgetConfigBatchAuthStatusList | undefined;
   /** Output only. The type of the parent data store. */
-  dataStoreType?: GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreTypeEnum | (string & {});
+  dataStoreType?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreTypeEnum
+    | (string & {})
+    | undefined;
   /** Output only. Whether the subscription is gemini bundle or not. */
-  geminiBundle?: boolean;
+  geminiBundle?: boolean | undefined;
   /** Optional. Output only. Whether to enable private knowledge graph. */
-  enablePrivateKnowledgeGraph?: boolean;
+  enablePrivateKnowledgeGraph?: boolean | undefined;
   /** Whether to show the result score. */
-  enableResultScore?: boolean;
+  enableResultScore?: boolean | undefined;
   /** Will be used for all widget access settings seen in cloud console integration page. Replaces top deprecated top level properties. */
-  accessSettings?: GoogleCloudDiscoveryengineV1alphaWidgetConfigAccessSettings;
+  accessSettings?: GoogleCloudDiscoveryengineV1alphaWidgetConfigAccessSettings | undefined;
   /** Whether to allow conversational search (LLM, multi-turn) or not (non-LLM, single-turn). */
-  enableConversationalSearch?: boolean;
+  enableConversationalSearch?: boolean | undefined;
   /** Output only. The industry vertical that the WidgetConfig registers. The WidgetConfig industry vertical is based on the associated Engine. */
   industryVertical?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigIndustryVerticalEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The configuration and appearance of facets in the end user view. */
-  facetField?: GoogleCloudDiscoveryengineV1alphaWidgetConfigFacetFieldList;
+  facetField?: GoogleCloudDiscoveryengineV1alphaWidgetConfigFacetFieldList | undefined;
   /** Output only. Timestamp the WidgetConfig was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Configurable UI configurations per data store. */
-  dataStoreUiConfigs?: GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreUiConfigList;
+  dataStoreUiConfigs?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigDataStoreUiConfigList
+    | undefined;
   /** Whether allow no-auth integration with widget. If set true, public access to search or other solutions from widget is allowed without authenication token provided by customer hosted backend server. */
-  allowPublicAccess?: boolean;
+  allowPublicAccess?: boolean | undefined;
   /** Whether or not to enable autocomplete. */
-  enableAutocomplete?: boolean;
+  enableAutocomplete?: boolean | undefined;
   /** The content search spec that configs the desired behavior of content search. */
-  contentSearchSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec;
+  contentSearchSpec?: GoogleCloudDiscoveryengineV1alphaSearchRequestContentSearchSpec | undefined;
   /** The type of snippet to display in UCS widget. - RESULT_DISPLAY_TYPE_UNSPECIFIED for existing users. - SNIPPET for new non-enterprise search users. - EXTRACTIVE_ANSWER for new enterprise search users. */
   resultDisplayType?:
     | GoogleCloudDiscoveryengineV1alphaWidgetConfigResultDisplayTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Output only. Describes the customer related configurations, currently only used for government customers. This field cannot be modified after project onboarding. */
-  customerProvidedConfig?: GoogleCloudDiscoveryengineV1alphaWidgetConfigCustomerProvidedConfig;
+  customerProvidedConfig?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigCustomerProvidedConfig
+    | undefined;
   /** Optional. Describes the homepage settings of the widget. */
-  homepageSetting?: GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSetting;
+  homepageSetting?: GoogleCloudDiscoveryengineV1alphaWidgetConfigHomepageSetting | undefined;
   /** The key is the UI component. Mock. Currently supported `title`, `thumbnail`, `url`, `custom1`, `custom2`, `custom3`. The value is the name of the field along with its device visibility. The 3 custom fields are optional and can be added or removed. `title`, `thumbnail`, `url` are required UI components that cannot be removed. */
-  fieldsUiComponentsMap?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldMap;
+  fieldsUiComponentsMap?:
+    | GoogleCloudDiscoveryengineV1alphaWidgetConfigUIComponentFieldMap
+    | undefined;
   /** Optional. Output only. Describes the assistant settings of the widget. */
-  assistantSettings?: GoogleCloudDiscoveryengineV1alphaWidgetConfigAssistantSettings;
+  assistantSettings?: GoogleCloudDiscoveryengineV1alphaWidgetConfigAssistantSettings | undefined;
   /** Output only. The nodes associated with the Widget Config. */
-  nodes?: GoogleCloudDiscoveryengineV1alphaWidgetConfigNodeList;
+  nodes?: GoogleCloudDiscoveryengineV1alphaWidgetConfigNodeList | undefined;
   /** Output only. Unique obfuscated identifier of a WidgetConfig. */
-  configId?: string;
+  configId?: string | undefined;
   /** Output only. Whether LLM is enabled in the corresponding data store. */
-  llmEnabled?: boolean;
+  llmEnabled?: boolean | undefined;
   /** Whether to enable search-as-you-type behavior for the search widget */
-  enableSearchAsYouType?: boolean;
+  enableSearchAsYouType?: boolean | undefined;
   /** Allowlisted domains that can load this widget. */
-  allowlistedDomains?: StringList;
+  allowlistedDomains?: StringList | undefined;
   /** Output only. Timestamp the WidgetConfig was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. The human readable widget config display name. Used in Discovery UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether to enable standalone web app. */
-  enableWebApp?: boolean;
+  enableWebApp?: boolean | undefined;
   /** Whether to enable safe search. */
-  enableSafeSearch?: boolean;
+  enableSafeSearch?: boolean | undefined;
   /** Describes search widget UI branding settings, such as the widget title, logo, favicons, and colors. */
-  uiBranding?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiBrandingSettings;
+  uiBranding?: GoogleCloudDiscoveryengineV1alphaWidgetConfigUiBrandingSettings | undefined;
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsCollectionsEnginesRequest {
   /** Required. Full resource name of Engine, such as `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
@@ -7326,7 +7839,7 @@ export interface GetProjectsLocationsCollectionsEnginesServingConfigsRequest {
 }
 export interface GetProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Optional. If set to true, the full session including all answer details will be returned. */
-  includeAnswerDetails?: boolean;
+  includeAnswerDetails?: boolean | undefined;
   /** Required. The resource name of the Session to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
 }
@@ -7359,13 +7872,14 @@ export interface GetProjectsLocationsCollectionsEnginesWidgetConfigsRequest {
   /** Optional. Selects which view of `WidgetConfig.UiSettings.ModelConfigInfo` the backend computes. `ADMIN` is set by the Cloud Console admin "Feature Management" page to receive the admin-surfaced model set with `ResolvedModel.admin_view` populated; `END_USER_MOBILE` is set by the Gemini Enterprise mobile app to receive the mobile model set; unset / `END_USER_WEB` returns the end-user web selector. */
   modelInfoView?:
     | GetProjectsLocationsCollectionsEnginesWidgetConfigsModelInfoViewEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. BCP-47 language tag (e.g. "en", "fr-CA"). Used to localize human-readable strings in the response, such as the model selector `display_name` / `description` on `WidgetConfig.UiSettings.ModelConfigInfo`. Empty / unset falls back to the default language (English). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Optional. Whether it's acceptable to load the widget config from cache. If set to true, recent changes on widget configs may take a few minutes to reflect on the end user's view. It's recommended to set to true for maturely developed widgets, as it improves widget performance. Set to false to see changes reflected in prod right away, if your widget is under development. */
-  acceptCache?: boolean;
+  acceptCache?: boolean | undefined;
   /** Optional. Whether to turn off collection_components in WidgetConfig to reduce latency and data transmission. */
-  "getWidgetConfigRequestOption.turnOffCollectionComponents"?: boolean;
+  "getWidgetConfigRequestOption.turnOffCollectionComponents"?: boolean | undefined;
   /** Required. Full WidgetConfig resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}` */
   name: string;
 }
@@ -7381,7 +7895,7 @@ export interface GetProjectsLocationsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. */
   name: string;
   /** Optional. The view to apply to the returned DataStore. Defaults to DataStoreView.DATA_STORE_VIEW_BASIC if unspecified. DataStoreView.DATA_STORE_VIEW_FULL additionally populates DataStore.icon_uri for a connector-backed data store. Resolving the connector icon requires extra lookups, so request it only when the caller renders the icon. */
-  view?: GetProjectsLocationsDataStoresViewEnum | (string & {});
+  view?: GetProjectsLocationsDataStoresViewEnum | (string & {}) | undefined;
 }
 export type GetProjectsLocationsDataStoresBranchesViewEnum =
   | "BRANCH_VIEW_UNSPECIFIED"
@@ -7391,7 +7905,7 @@ export interface GetProjectsLocationsDataStoresBranchesRequest {
   /** Required. The name of the branch to retrieve. Format: `projects/*\/locations/global/dataStores/default_data_store/branches/some_branch_id`. "default_branch" can be used as a special branch_id, it returns the default branch that has been set for the document. */
   name: string;
   /** The view to apply to the returned Branch. Defaults to BranchView.BRANCH_VIEW_BASIC if unspecified. */
-  view?: GetProjectsLocationsDataStoresBranchesViewEnum | (string & {});
+  view?: GetProjectsLocationsDataStoresBranchesViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to access the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested Document does not exist, a `NOT_FOUND` error is returned. */
@@ -7431,7 +7945,7 @@ export interface GetProjectsLocationsDataStoresServingConfigsRequest {
 }
 export interface GetProjectsLocationsDataStoresSessionsRequest {
   /** Optional. If set to true, the full session including all answer details will be returned. */
-  includeAnswerDetails?: boolean;
+  includeAnswerDetails?: boolean | undefined;
   /** Required. The resource name of the Session to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
 }
@@ -7450,15 +7964,18 @@ export type GetProjectsLocationsDataStoresWidgetConfigsModelInfoViewEnum =
   | "END_USER_MOBILE";
 export interface GetProjectsLocationsDataStoresWidgetConfigsRequest {
   /** Optional. BCP-47 language tag (e.g. "en", "fr-CA"). Used to localize human-readable strings in the response, such as the model selector `display_name` / `description` on `WidgetConfig.UiSettings.ModelConfigInfo`. Empty / unset falls back to the default language (English). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Optional. Whether to turn off collection_components in WidgetConfig to reduce latency and data transmission. */
-  "getWidgetConfigRequestOption.turnOffCollectionComponents"?: boolean;
+  "getWidgetConfigRequestOption.turnOffCollectionComponents"?: boolean | undefined;
   /** Required. Full WidgetConfig resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}` */
   name: string;
   /** Optional. Selects which view of `WidgetConfig.UiSettings.ModelConfigInfo` the backend computes. `ADMIN` is set by the Cloud Console admin "Feature Management" page to receive the admin-surfaced model set with `ResolvedModel.admin_view` populated; `END_USER_MOBILE` is set by the Gemini Enterprise mobile app to receive the mobile model set; unset / `END_USER_WEB` returns the end-user web selector. */
-  modelInfoView?: GetProjectsLocationsDataStoresWidgetConfigsModelInfoViewEnum | (string & {});
+  modelInfoView?:
+    | GetProjectsLocationsDataStoresWidgetConfigsModelInfoViewEnum
+    | (string & {})
+    | undefined;
   /** Optional. Whether it's acceptable to load the widget config from cache. If set to true, recent changes on widget configs may take a few minutes to reflect on the end user's view. It's recommended to set to true for maturely developed widgets, as it improves widget performance. Set to false to see changes reflected in prod right away, if your widget is under development. */
-  acceptCache?: boolean;
+  acceptCache?: boolean | undefined;
 }
 export interface GetProjectsLocationsEvaluationsRequest {
   /** Required. Full resource name of Evaluation, such as `projects/{project}/locations/{location}/evaluations/{evaluation}`. If the caller does not have permission to access the Evaluation, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested Evaluation does not exist, a NOT_FOUND error is returned. */
@@ -7519,15 +8036,15 @@ export interface GetProjectsLocationsUserStoresRequest {
 /** Configures metadata that is used for End User entities. */
 export interface GoogleCloudDiscoveryengineV1alphaUserStore {
   /** Optional. Whether to enable license auto update for users in this User Store. If true, users with expired licenses will automatically be updated to use the default license config as long as the default license config has seats left. */
-  enableExpiredLicenseAutoUpdate?: boolean;
+  enableExpiredLicenseAutoUpdate?: boolean | undefined;
   /** Optional. The default subscription LicenseConfig for the UserStore, if UserStore.enable_license_auto_register is true, new users will automatically register under the default subscription. If default LicenseConfig doesn't have remaining license seats left, new users will not be assigned with license and will be blocked for Vertex AI Search features. This is used if `license_assignment_tier_rules` is not configured. */
-  defaultLicenseConfig?: string;
+  defaultLicenseConfig?: string | undefined;
   /** Immutable. The full resource name of the User Store, in the format of `projects/{project}/locations/{location}/userStores/{user_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the User Store. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Whether to enable license auto register for users in this User Store. If true, new users will automatically register under the default license config as long as the default license config has seats left. */
-  enableLicenseAutoRegister?: boolean;
+  enableLicenseAutoRegister?: boolean | undefined;
 }
 export interface GetProjectsLocationsUserStoresOperationsRequest {
   /** The name of the operation resource. */
@@ -7544,7 +8061,7 @@ export interface GetSiteSearchEngineProjectsLocationsCollectionsDataStoresReques
 /** SiteSearchEngine captures DataStore level site search persisting configurations. It is a singleton value per data store. */
 export interface GoogleCloudDiscoveryengineV1alphaSiteSearchEngine {
   /** The fully qualified resource name of the site search engine. Format: `projects/*\/locations/*\/dataStores/*\/siteSearchEngine` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetSiteSearchEngineProjectsLocationsDataStoresRequest {
   /** Required. Resource name of SiteSearchEngine, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. If the caller does not have permission to access the [SiteSearchEngine], regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
@@ -7558,7 +8075,7 @@ export type DocumentMapMap = { [key: string]: DocumentMap | undefined };
 /** Response message for SiteSearchEngineService.GetUriPatternDocumentData method. */
 export interface GoogleCloudDiscoveryengineV1alphaGetUriPatternDocumentDataResponse {
   /** Document data keyed by URI pattern. For example: document_data_map = { "www.url1.com/*": { "Categories": ["category1", "category2"] }, "www.url2.com/*": { "Categories": ["category3"] } } */
-  documentDataMap?: DocumentMapMap;
+  documentDataMap?: DocumentMapMap | undefined;
 }
 export interface GetWorkspaceSettingsProjectsLocationsCollectionsEnginesRequest {
   /** Required. Full Engine resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}` */
@@ -7567,45 +8084,47 @@ export interface GetWorkspaceSettingsProjectsLocationsCollectionsEnginesRequest 
 /** Workspace settings for the end user. */
 export interface GoogleCloudDiscoveryengineV1alphaWorkspaceSettings {
   /** Whether an end user has workspace access enabled. */
-  workspaceAccessEnabled?: boolean;
+  workspaceAccessEnabled?: boolean | undefined;
   /** Whether the calling user's customer domain matches the workspace data stores under this engine. Unset when the check did not run or could not complete, which clients treat as unknown. */
-  customerDomainValid?: boolean;
+  customerDomainValid?: boolean | undefined;
 }
 /** Identity Mapping Entry that maps an external identity to an internal identity. */
 export interface GoogleCloudDiscoveryengineV1alphaIdentityMappingEntry {
   /** Group identifier. For Google Workspace user account, group_id should be the google workspace group email. For non-google identity provider, group_id is the mapped group identifier configured during the workforcepool config. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Optional. The name of the external identity. */
-  externalIdentityName?: string;
+  externalIdentityName?: string | undefined;
   /** Required. Identity outside the customer identity provider. The length limit of external identity will be of 100 characters. */
-  externalIdentity?: string;
+  externalIdentity?: string | undefined;
   /** User identifier. For Google Workspace user account, user_id should be the google workspace user email. For non-google identity provider, user_id is the mapped user identifier configured during the workforcepool config. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryList =
   Array<GoogleCloudDiscoveryengineV1alphaIdentityMappingEntry>;
 /** The inline source to import identity mapping entries from. */
 export interface GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequestInlineSource {
   /** A maximum of 10000 entries can be imported at one time */
-  identityMappingEntries?: GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryList;
+  identityMappingEntries?: GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryList | undefined;
 }
 /** Request message for IdentityMappingStoreService.ImportIdentityMappings */
 export interface GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequest {
   /** The inline source to import identity mapping entries from. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequestInlineSource;
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequestInlineSource
+    | undefined;
 }
 export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to import Identity Mapping Entries to. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportIdentityMappingsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDocumentList =
   Array<GoogleCloudDiscoveryengineV1alphaDocument>;
 /** The inline source for the input config for ImportDocuments method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportDocumentsRequestInlineSource {
   /** Required. A list of documents to update/create. Each document must have a valid Document.id. Recommended max of 100 items. */
-  documents?: GoogleCloudDiscoveryengineV1alphaDocumentList;
+  documents?: GoogleCloudDiscoveryengineV1alphaDocumentList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaImportDocumentsRequestReconciliationModeEnum =
   | "RECONCILIATION_MODE_UNSPECIFIED"
@@ -7614,28 +8133,28 @@ export type GoogleCloudDiscoveryengineV1alphaImportDocumentsRequestReconciliatio
 /** Cloud FhirStore source import data from. */
 export interface GoogleCloudDiscoveryengineV1alphaFhirStoreSource {
   /** Intermediate Cloud Storage directory used for the import with a length limit of 2,000 characters. Can be specified if one wants to have the FhirStore export to a specific Cloud Storage directory. */
-  gcsStagingDir?: string;
+  gcsStagingDir?: string | undefined;
   /** Optional. Whether to update the DataStore schema to the latest predefined schema. If true, the DataStore schema will be updated to include any FHIR fields or resource types that have been added since the last import and corresponding FHIR resources will be imported from the FHIR store. Note this field cannot be used in conjunction with `resource_types`. It should be used after initial import. */
-  updateFromLatestPredefinedSchema?: boolean;
+  updateFromLatestPredefinedSchema?: boolean | undefined;
   /** The FHIR resource types to import. The resource types should be a subset of all [supported FHIR resource types](https://cloud.google.com/generative-ai-app-builder/docs/fhir-schema-reference#resource-level-specification). Default to all supported FHIR resource types if empty. */
-  resourceTypes?: StringList;
+  resourceTypes?: StringList | undefined;
   /** Required. The full resource name of the FHIR store to import data from, in the format of `projects/{project}/locations/{location}/datasets/{dataset}/fhirStores/{fhir_store}`. */
-  fhirStore?: string;
+  fhirStore?: string | undefined;
 }
 /** Cloud SQL source import data from. */
 export interface GoogleCloudDiscoveryengineV1alphaCloudSqlSource {
   /** The project ID that contains the Cloud SQL source. Has a length limit of 128 characters. If not specified, inherits the project ID from the parent request. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required. The Cloud SQL database to copy the data from with a length limit of 256 characters. */
-  databaseId?: string;
+  databaseId?: string | undefined;
   /** Required. The Cloud SQL table to copy the data from with a length limit of 256 characters. */
-  tableId?: string;
+  tableId?: string | undefined;
   /** Option for serverless export. Enabling this option will incur additional cost. More info can be found [here](https://cloud.google.com/sql/pricing#serverless). */
-  offload?: boolean;
+  offload?: boolean | undefined;
   /** Required. The Cloud SQL instance to copy the data from with a length limit of 256 characters. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Intermediate Cloud Storage directory used for the import with a length limit of 2,000 characters. Can be specified if one wants to have the Cloud SQL export to a specific Cloud Storage directory. Ensure that the Cloud SQL service account has the necessary Cloud Storage Admin permissions to access the specified Cloud Storage directory. */
-  gcsStagingDir?: string;
+  gcsStagingDir?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamilyTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -7662,15 +8181,19 @@ export type GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnEncodi
 /** The column of the Bigtable. */
 export interface GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumn {
   /** Required. Qualifier of the column. If it cannot be decoded with utf-8, use a base-64 encoded string instead. */
-  qualifier?: string;
+  qualifier?: string | undefined;
   /** The type of values in this column family. The values are expected to be encoded using `HBase Bytes.toBytes` function when the encoding value is set to `BINARY`. */
-  type?: GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnTypeEnum | (string & {});
+  type?:
+    | GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnTypeEnum
+    | (string & {})
+    | undefined;
   /** The encoding mode of the values when the type is not `STRING`. Acceptable encoding values are: * `TEXT`: indicates values are alphanumeric text strings. * `BINARY`: indicates values are encoded using `HBase Bytes.toBytes` family of functions. This can be overridden for a specific column by listing that column in `columns` and specifying an encoding for it. */
   encoding?:
     | GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnEncodingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The field name to use for this column in the document. The name has to match the pattern `a-zA-Z0-9*`. If not set, it is parsed from the qualifier bytes with best effort. However, due to different naming patterns, field name collisions could happen, where parsing behavior is undefined. */
-  fieldName?: string;
+  fieldName?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnList =
   Array<GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumn>;
@@ -7681,17 +8204,19 @@ export type GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamily
 /** The column family of the Bigtable. */
 export interface GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamily {
   /** The field name to use for this column family in the document. The name has to match the pattern `a-zA-Z0-9*`. If not set, it is parsed from the family name with best effort. However, due to different naming patterns, field name collisions could happen, where parsing behavior is undefined. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** The type of values in this column family. The values are expected to be encoded using `HBase Bytes.toBytes` function when the encoding value is set to `BINARY`. */
   type?:
     | GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamilyTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The list of objects that contains column level information for each column. If a column is not present in this list it will be ignored. */
-  columns?: GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnList;
+  columns?: GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnList | undefined;
   /** The encoding mode of the values when the type is not STRING. Acceptable encoding values are: * `TEXT`: indicates values are alphanumeric text strings. * `BINARY`: indicates values are encoded using `HBase Bytes.toBytes` family of functions. This can be overridden for a specific column by listing that column in `columns` and specifying an encoding for it. */
   encoding?:
     | GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamilyEncodingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamilyMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamily | undefined;
@@ -7699,146 +8224,149 @@ export type GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamily
 /** The Bigtable Options object that contains information to support the import. */
 export interface GoogleCloudDiscoveryengineV1alphaBigtableOptions {
   /** The mapping from family names to an object that contains column families level information for the given column family. If a family is not present in this map it will be ignored. */
-  families?: GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamilyMap;
+  families?: GoogleCloudDiscoveryengineV1alphaBigtableOptionsBigtableColumnFamilyMap | undefined;
   /** The field name used for saving row key value in the document. The name has to match the pattern `a-zA-Z0-9*`. */
-  keyFieldName?: string;
+  keyFieldName?: string | undefined;
 }
 /** The Cloud Bigtable source for importing data. */
 export interface GoogleCloudDiscoveryengineV1alphaBigtableSource {
   /** The project ID that contains the Bigtable source. Has a length limit of 128 characters. If not specified, inherits the project ID from the parent request. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required. Bigtable options that contains information needed when parsing data into typed structures. For example, column type annotations. */
-  bigtableOptions?: GoogleCloudDiscoveryengineV1alphaBigtableOptions;
+  bigtableOptions?: GoogleCloudDiscoveryengineV1alphaBigtableOptions | undefined;
   /** Required. The instance ID of the Cloud Bigtable that needs to be imported. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Required. The table ID of the Cloud Bigtable that needs to be imported. */
-  tableId?: string;
+  tableId?: string | undefined;
 }
 /** The Spanner source for importing data */
 export interface GoogleCloudDiscoveryengineV1alphaSpannerSource {
   /** Whether to apply data boost on Spanner export. Enabling this option will incur additional cost. More info can be found [here](https://cloud.google.com/spanner/docs/databoost/databoost-overview#billing_and_quotas). */
-  enableDataBoost?: boolean;
+  enableDataBoost?: boolean | undefined;
   /** Required. The database ID of the source Spanner table. */
-  databaseId?: string;
+  databaseId?: string | undefined;
   /** Required. The table name of the Spanner database that needs to be imported. */
-  tableId?: string;
+  tableId?: string | undefined;
   /** Required. The instance ID of the source Spanner table. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The project ID that contains the Spanner source. Has a length limit of 128 characters. If not specified, inherits the project ID from the parent request. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** Configuration of destination for Import related errors. */
 export interface GoogleCloudDiscoveryengineV1alphaImportErrorConfig {
   /** Cloud Storage prefix for import errors. This must be an empty, existing Cloud Storage directory. Import errors are written to sharded files in this directory, one per line, as a JSON-encoded `google.rpc.Status` message. */
-  gcsPrefix?: string;
+  gcsPrefix?: string | undefined;
 }
 /** AlloyDB source import data from. */
 export interface GoogleCloudDiscoveryengineV1alphaAlloyDbSource {
   /** The project ID that contains the AlloyDB source. Has a length limit of 128 characters. If not specified, inherits the project ID from the parent request. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required. The AlloyDB database to copy the data from with a length limit of 256 characters. */
-  databaseId?: string;
+  databaseId?: string | undefined;
   /** Required. The AlloyDB cluster to copy the data from with a length limit of 256 characters. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Required. The AlloyDB location to copy the data from with a length limit of 256 characters. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Required. The AlloyDB table to copy the data from with a length limit of 256 characters. */
-  tableId?: string;
+  tableId?: string | undefined;
   /** Intermediate Cloud Storage directory used for the import with a length limit of 2,000 characters. Can be specified if one wants to have the AlloyDB export to a specific Cloud Storage directory. Ensure that the AlloyDB service account has the necessary Cloud Storage Admin permissions to access the specified Cloud Storage directory. */
-  gcsStagingDir?: string;
+  gcsStagingDir?: string | undefined;
 }
 /** Firestore source import data from. */
 export interface GoogleCloudDiscoveryengineV1alphaFirestoreSource {
   /** The project ID that the Cloud SQL source is in with a length limit of 128 characters. If not specified, inherits the project ID from the parent request. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required. The Firestore collection (or entity) to copy the data from with a length limit of 1,500 characters. */
-  collectionId?: string;
+  collectionId?: string | undefined;
   /** Required. The Firestore database to copy the data from with a length limit of 256 characters. */
-  databaseId?: string;
+  databaseId?: string | undefined;
   /** Intermediate Cloud Storage directory used for the import with a length limit of 2,000 characters. Can be specified if one wants to have the Firestore export to a specific Cloud Storage directory. Ensure that the Firestore service account has the necessary Cloud Storage Admin permissions to access the specified Cloud Storage directory. */
-  gcsStagingDir?: string;
+  gcsStagingDir?: string | undefined;
 }
 /** Request message for Import methods. */
 export interface GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest {
   /** The Inline source for the input content for documents. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequestInlineSource;
+  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequestInlineSource | undefined;
   /** The mode of reconciliation between existing documents and the documents to be imported. Defaults to ReconciliationMode.INCREMENTAL. */
   reconciliationMode?:
     | GoogleCloudDiscoveryengineV1alphaImportDocumentsRequestReconciliationModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** FhirStore input source. */
-  fhirStoreSource?: GoogleCloudDiscoveryengineV1alphaFhirStoreSource;
+  fhirStoreSource?: GoogleCloudDiscoveryengineV1alphaFhirStoreSource | undefined;
   /** Cloud SQL input source. */
-  cloudSqlSource?: GoogleCloudDiscoveryengineV1alphaCloudSqlSource;
+  cloudSqlSource?: GoogleCloudDiscoveryengineV1alphaCloudSqlSource | undefined;
   /** Cloud Bigtable input source. */
-  bigtableSource?: GoogleCloudDiscoveryengineV1alphaBigtableSource;
+  bigtableSource?: GoogleCloudDiscoveryengineV1alphaBigtableSource | undefined;
   /** Whether to automatically generate IDs for the documents if absent. If set to `true`, Document.ids are automatically generated based on the hash of the payload, where IDs may not be consistent during multiple imports. In which case ReconciliationMode.FULL is highly recommended to avoid duplicate contents. If unset or set to `false`, Document.ids have to be specified using id_field, otherwise, documents without IDs fail to be imported. Supported data sources: * GcsSource. GcsSource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * BigQuerySource. BigQuerySource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * SpannerSource. * CloudSqlSource. * FirestoreSource. * BigtableSource. */
-  autoGenerateIds?: boolean;
+  autoGenerateIds?: boolean | undefined;
   /** Spanner input source. */
-  spannerSource?: GoogleCloudDiscoveryengineV1alphaSpannerSource;
+  spannerSource?: GoogleCloudDiscoveryengineV1alphaSpannerSource | undefined;
   /** The desired location of errors incurred during the Import. */
-  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig;
+  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig | undefined;
   /** The field indicates the ID field or column to be used as unique IDs of the documents. For GcsSource it is the key of the JSON field. For instance, `my_id` for JSON `{"my_id": "some_uuid"}`. For others, it may be the column name of the table where the unique ids are stored. The values of the JSON field or the table column are used as the Document.ids. The JSON field or the table column must be of string type, and the values must be set as valid strings conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with 1-63 characters. Otherwise, documents without valid IDs fail to be imported. Only set this field when auto_generate_ids is unset or set as `false`. Otherwise, an INVALID_ARGUMENT error is thrown. If it is unset, a default value `_id` is used when importing from the allowed data sources. Supported data sources: * GcsSource. GcsSource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * BigQuerySource. BigQuerySource.data_schema must be `custom` or `csv`. Otherwise, an INVALID_ARGUMENT error is thrown. * SpannerSource. * CloudSqlSource. * BigtableSource. */
-  idField?: string;
+  idField?: string | undefined;
   /** Optional. Whether to force refresh the unstructured content of the documents. If set to `true`, the content part of the documents will be refreshed regardless of the update status of the referencing content. */
-  forceRefreshContent?: boolean;
+  forceRefreshContent?: boolean | undefined;
   /** AlloyDB input source. */
-  alloyDbSource?: GoogleCloudDiscoveryengineV1alphaAlloyDbSource;
+  alloyDbSource?: GoogleCloudDiscoveryengineV1alphaAlloyDbSource | undefined;
   /** BigQuery input source. */
-  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource;
+  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource | undefined;
   /** Indicates which fields in the provided imported documents to update. If not set, the default is to update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Cloud Storage location for the input content. */
-  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource;
+  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
   /** Firestore input source. */
-  firestoreSource?: GoogleCloudDiscoveryengineV1alphaFirestoreSource;
+  firestoreSource?: GoogleCloudDiscoveryengineV1alphaFirestoreSource | undefined;
 }
 export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest | undefined;
 }
 /** Autocomplete suggestions that are imported from Customer. */
 export interface GoogleCloudDiscoveryengineV1alphaCompletionSuggestion {
   /** Required. The suggestion text. */
-  suggestion?: string;
+  suggestion?: string | undefined;
   /** Frequency of this suggestion. Will be used to rank suggestions when score is not available. */
-  frequency?: string;
+  frequency?: string | undefined;
   /** Alternative matching phrases for this suggestion. */
-  alternativePhrases?: StringList;
+  alternativePhrases?: StringList | undefined;
   /** The score of this suggestion within its group. */
-  groupScore?: number;
+  groupScore?: number | undefined;
   /** If two suggestions have the same groupId, they will not be returned together. Instead the one ranked higher will be returned. This can be used to deduplicate semantically identical suggestions. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** BCP-47 language code of this suggestion. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Global score of this suggestion. Control how this suggestion would be scored / ranked. */
-  globalScore?: number;
+  globalScore?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCompletionSuggestionList =
   Array<GoogleCloudDiscoveryengineV1alphaCompletionSuggestion>;
 /** The inline source for CompletionSuggestions. */
 export interface GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequestInlineSource {
   /** Required. A list of all denylist entries to import. Max of 1000 items. */
-  suggestions?: GoogleCloudDiscoveryengineV1alphaCompletionSuggestionList;
+  suggestions?: GoogleCloudDiscoveryengineV1alphaCompletionSuggestionList | undefined;
 }
 /** Request message for CompletionService.ImportCompletionSuggestions method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest {
   /** BigQuery input source. */
-  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource;
+  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource | undefined;
   /** The desired location of errors incurred during the Import. */
-  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig;
+  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig | undefined;
   /** The Inline source for suggestion entries. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequestInlineSource;
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequestInlineSource
+    | undefined;
   /** Cloud Storage location for the input content. */
-  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource;
+  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
 }
 export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntryMatchOperatorEnum =
   | "MATCH_OPERATOR_UNSPECIFIED"
@@ -7849,90 +8377,93 @@ export interface GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntry {
   /** Required. The match operator to apply for this phrase. Whether to block the exact phrase, or block any suggestions containing this phrase. */
   matchOperator?:
     | GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntryMatchOperatorEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. Phrase to block from suggestions served. Can be maximum 125 characters. */
-  blockPhrase?: string;
+  blockPhrase?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntryList =
   Array<GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntry>;
 /** The inline source for SuggestionDenyListEntry. */
 export interface GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequestInlineSource {
   /** Required. A list of all denylist entries to import. Max of 1000 items. */
-  entries?: GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntryList;
+  entries?: GoogleCloudDiscoveryengineV1alphaSuggestionDenyListEntryList | undefined;
 }
 /** Request message for CompletionService.ImportSuggestionDenyListEntries method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest {
   /** The Inline source for the input content for suggestion deny list entries. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequestInlineSource;
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequestInlineSource
+    | undefined;
   /** Cloud Storage location for the input content. Only 1 file can be specified that contains all entries to import. Supported values `gcs_source.schema` for autocomplete suggestion deny list entry imports: * `suggestion_deny_list` (default): One JSON [SuggestionDenyListEntry] per line. */
-  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource;
+  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
 }
 export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest | undefined;
 }
 /** Detailed page information. */
 export interface GoogleCloudDiscoveryengineV1alphaPageInfo {
   /** Complete URL (window.location.href) of the user's current page. When using the client side event reporting with JavaScript pixel and Google Tag Manager, this value is filled in automatically. Maximum length 5,000 characters. */
-  uri?: string;
+  uri?: string | undefined;
   /** The most specific category associated with a category page. To represent full path of category, use '>' sign to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). Category pages include special pages such as sales or promotions. For instance, a special sale page may have the category hierarchy: `"pageCategory" : "Sales > 2017 Black Friday Deals"`. Required for `view-category-page` events. Other event types should not set this field. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageCategory?: string;
+  pageCategory?: string | undefined;
   /** A unique ID of a web page view. This should be kept the same for all user events triggered from the same pageview. For example, an item detail page view could trigger multiple events as the user is browsing the page. The `pageview_id` property should be kept the same for all these events so that they can be grouped together properly. When using the client side event reporting with JavaScript pixel and Google Tag Manager, this value is filled in automatically. */
-  pageviewId?: string;
+  pageviewId?: string | undefined;
   /** The referrer URL of the current page. When using the client side event reporting with JavaScript pixel and Google Tag Manager, this value is filled in automatically. However, some browser privacy restrictions may cause this field to be empty. */
-  referrerUri?: string;
+  referrerUri?: string | undefined;
 }
 /** Detailed document information associated with a user event. */
 export interface GoogleCloudDiscoveryengineV1alphaDocumentInfo {
   /** The promotion IDs associated with this Document. Currently, this field is restricted to at most one ID. */
-  promotionIds?: StringList;
+  promotionIds?: StringList | undefined;
   /** The Document URI - only allowed for website data stores. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. Whether the referenced Document can be found in the data store. */
-  joined?: boolean;
+  joined?: boolean | undefined;
   /** The Document resource full name, of the form: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/branches/{branch_id}/documents/{document_id}` */
-  name?: string;
+  name?: string | undefined;
   /** Quantity of the Document associated with the user event. Defaults to 1. For example, this field is 2 if two quantities of the same Document are involved in a `add-to-cart` event. Required for events of the following event types: * `add-to-cart` * `purchase` */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The Document resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. The conversion value associated with this Document. Must be set if UserEvent.event_type is "conversion". For example, a value of 1000 signifies that 1000 seconds were spent viewing a Document for the `watch` conversion type. */
-  conversionValue?: number;
+  conversionValue?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDocumentInfoList =
   Array<GoogleCloudDiscoveryengineV1alphaDocumentInfo>;
 /** Detailed panel information associated with a user event. */
 export interface GoogleCloudDiscoveryengineV1alphaPanelInfo {
   /** The total number of panels, including this one, shown to the user. Must be set if panel_position is set. */
-  totalPanels?: number;
+  totalPanels?: number | undefined;
   /** Required. The panel ID. */
-  panelId?: string;
+  panelId?: string | undefined;
   /** The ordered position of the panel, if shown to the user with other panels. If set, then total_panels must also be set. */
-  panelPosition?: number;
+  panelPosition?: number | undefined;
   /** The display name of the panel. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. The document IDs associated with this panel. */
-  documents?: GoogleCloudDiscoveryengineV1alphaDocumentInfoList;
+  documents?: GoogleCloudDiscoveryengineV1alphaDocumentInfoList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaPanelInfoList =
   Array<GoogleCloudDiscoveryengineV1alphaPanelInfo>;
 /** Detailed search information. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchInfo {
   /** The order in which products are returned, if applicable. See SearchRequest.order_by for definition and syntax. The value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. This can only be set for `search` events. Other event types should not set this field. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The user's search query. See SearchRequest.query for definition. The value must be a UTF-8 encoded string with a length limit of 5,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. At least one of search_query or PageInfo.page_category is required for `search` events. Other event types should not set this field. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  searchQuery?: string;
+  searchQuery?: string | undefined;
   /** An integer that specifies the current offset for pagination (the 0-indexed starting location, amongst the products deemed by the API as relevant). See SearchRequest.offset for definition. If this field is negative, an `INVALID_ARGUMENT` is returned. This can only be set for `search` events. Other event types should not set this field. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Detailed completion information including completion attribution token and clicked completion info. */
 export interface GoogleCloudDiscoveryengineV1alphaCompletionInfo {
   /** Optional. End user selected CompleteQueryResponse.QuerySuggestion.suggestion. */
-  selectedSuggestion?: string;
+  selectedSuggestion?: string | undefined;
   /** End user selected CompleteQueryResponse.QuerySuggestion.suggestion position, starting from 0. */
-  selectedPosition?: number;
+  selectedPosition?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFeedbackReasonsItemEnum =
   | "REASON_UNSPECIFIED"
@@ -7955,11 +8486,11 @@ export type GoogleCloudDiscoveryengineV1alphaFeedbackReasonsItemEnumList = Array
 /** Information submitted when a user disputes a Model Armor `BLOCK` or `FLAG` verdict. */
 export interface GoogleCloudDiscoveryengineV1alphaFeedbackModelArmorDisputeInfo {
   /** Optional. Resource name of the Model Armor template that produced the sanitization result, in the format `projects/{project}/locations/{location}/templates/{id}`. */
-  templateName?: string;
+  templateName?: string | undefined;
   /** Optional. The raw Model Armor `SanitizationResult`, serialized as JSON. */
-  sanitizationResultJson?: string;
+  sanitizationResultJson?: string | undefined;
   /** Optional. The expected-label reason chip selected by the user (for example, "Everyday question" or "Legitimate work-related query"). */
-  expectedLabel?: string;
+  expectedLabel?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFeedbackFeedbackSourceEnum =
   | "FEEDBACK_SOURCE_UNSPECIFIED"
@@ -7975,71 +8506,79 @@ export type GoogleCloudDiscoveryengineV1alphaFeedbackFeedbackTypeEnum =
 /** The conversation information such as the question index and session name. */
 export interface GoogleCloudDiscoveryengineV1alphaFeedbackConversationInfo {
   /** Required. The user's search query. */
-  query?: GoogleCloudDiscoveryengineV1alphaQuery;
+  query?: GoogleCloudDiscoveryengineV1alphaQuery | undefined;
   /** Optional. The runtime trajectory id of the rated agent task turn, as set on `TaskServerEvent.trajectory_id`. Shared by all steps of the turn. */
-  trajectoryId?: string;
+  trajectoryId?: string | undefined;
   /** Optional. The token which could be used to fetch the answer log. */
-  answerQueryToken?: string;
+  answerQueryToken?: string | undefined;
   /** Optional. The token which could be used to fetch the assistant log. */
-  assistToken?: string;
+  assistToken?: string | undefined;
   /** Optional. The full resource name of the Sobi task if the conversation was handled by a long-running agent task. Format (canonical, or the short alias the Task API also accepts): projects/{project}/locations/{location}/agents/{agent}/tasks/{task} projects/{project}/locations/{location}/tasks/{task} */
-  taskName?: string;
+  taskName?: string | undefined;
   /** The index of the user input within the conversation messages. */
-  questionIndex?: number;
+  questionIndex?: number | undefined;
   /** Name of the newly generated or continued session. */
-  session?: string;
+  session?: string | undefined;
   /** Optional. The `TaskServerEvent.seq_num` of the step that opened the rated agent task reply. */
-  stepSeqNum?: string;
+  stepSeqNum?: string | undefined;
 }
 /** Information about the user feedback. This information will be used for logging and metrics purpose. */
 export interface GoogleCloudDiscoveryengineV1alphaFeedback {
   /** The version of the LLM model that was used to generate the response. */
-  llmModelVersion?: string;
+  llmModelVersion?: string | undefined;
   /** Optional. Whether the customer accepted data use terms. */
-  dataTermsAccepted?: boolean;
+  dataTermsAccepted?: boolean | undefined;
   /** Optional. The reasons why the user gives feedback. */
-  reasons?: GoogleCloudDiscoveryengineV1alphaFeedbackReasonsItemEnumList;
+  reasons?: GoogleCloudDiscoveryengineV1alphaFeedbackReasonsItemEnumList | undefined;
   /** Optional. The version of the component that this report is being sent from. */
-  componentVersion?: string;
+  componentVersion?: string | undefined;
   /** Optional. Optional Model Armor false-positive dispute metadata attached to feedback. */
-  modelArmorDisputeInfo?: GoogleCloudDiscoveryengineV1alphaFeedbackModelArmorDisputeInfo;
+  modelArmorDisputeInfo?:
+    | GoogleCloudDiscoveryengineV1alphaFeedbackModelArmorDisputeInfo
+    | undefined;
   /** Optional. The UI component the user feedback comes from, which could be GOOGLE_CONSOLE, GOOGLE_WIDGET, GOOGLE_WEBAPP. */
-  feedbackSource?: GoogleCloudDiscoveryengineV1alphaFeedbackFeedbackSourceEnum | (string & {});
+  feedbackSource?:
+    | GoogleCloudDiscoveryengineV1alphaFeedbackFeedbackSourceEnum
+    | (string & {})
+    | undefined;
   /** Required. Indicates whether the user gives a positive or negative feedback. */
-  feedbackType?: GoogleCloudDiscoveryengineV1alphaFeedbackFeedbackTypeEnum | (string & {});
+  feedbackType?:
+    | GoogleCloudDiscoveryengineV1alphaFeedbackFeedbackTypeEnum
+    | (string & {})
+    | undefined;
   /** The related conversation information when user gives feedback. */
-  conversationInfo?: GoogleCloudDiscoveryengineV1alphaFeedbackConversationInfo;
+  conversationInfo?: GoogleCloudDiscoveryengineV1alphaFeedbackConversationInfo | undefined;
   /** Optional. The additional user comment of the feedback. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Media-specific user event information. */
 export interface GoogleCloudDiscoveryengineV1alphaMediaInfo {
   /** The media progress time in seconds, if applicable. For example, if the end user has finished 90 seconds of a playback video, then MediaInfo.media_progress_duration.seconds should be set to 90. */
-  mediaProgressDuration?: string;
+  mediaProgressDuration?: string | undefined;
   /** Media progress should be computed using only the media_progress_duration relative to the media total length. This value must be between `[0, 1.0]` inclusive. If this is not a playback or the progress cannot be computed (e.g. ongoing livestream), this field should be unset. */
-  mediaProgressPercentage?: number;
+  mediaProgressPercentage?: number | undefined;
 }
 /** A transaction represents the entire purchase transaction. */
 export interface GoogleCloudDiscoveryengineV1alphaTransactionInfo {
   /** All the costs associated with the products. These can be manufacturing costs, shipping expenses not borne by the end user, or any other costs, such that: * Profit = value - tax - cost */
-  cost?: number;
+  cost?: number | undefined;
   /** All the taxes associated with the transaction. */
-  tax?: number;
+  tax?: number | undefined;
   /** Required. Currency code. Use three-character ISO-4217 code. */
-  currency?: string;
+  currency?: string | undefined;
   /** The total discount(s) value applied to this transaction. This figure should be excluded from TransactionInfo.value For example, if a user paid TransactionInfo.value amount, then nominal (pre-discount) value of the transaction is the sum of TransactionInfo.value and TransactionInfo.discount_value This means that profit is calculated the same way, regardless of the discount value, and that TransactionInfo.discount_value can be larger than TransactionInfo.value: * Profit = value - tax - cost */
-  discountValue?: number;
+  discountValue?: number | undefined;
   /** Required. Total non-zero value associated with the transaction. This value may include shipping, tax, or other adjustments to the total value that you want to include. */
-  value?: number;
+  value?: number | undefined;
   /** The transaction ID with a length limit of 128 characters. */
-  transactionId?: string;
+  transactionId?: string | undefined;
 }
 /** A custom attribute that is not explicitly modeled in a resource, e.g. UserEvent. */
 export interface GoogleCloudDiscoveryengineV1alphaCustomAttribute {
   /** The textual values of this custom attribute. For example, `["yellow", "green"]` when the key is "color". Empty string is not allowed. Otherwise, an `INVALID_ARGUMENT` error is returned. Exactly one of CustomAttribute.text or CustomAttribute.numbers should be set. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  text?: StringList;
+  text?: StringList | undefined;
   /** The numerical values of this custom attribute. For example, `[2.3, 15.4]` when the key is "lengths_cm". Exactly one of CustomAttribute.text or CustomAttribute.numbers should be set. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  numbers?: DoubleList;
+  numbers?: DoubleList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCustomAttributeMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaCustomAttribute | undefined;
@@ -8047,197 +8586,199 @@ export type GoogleCloudDiscoveryengineV1alphaCustomAttributeMap = {
 /** UserEvent captures all metadata information Discovery Engine API needs to know about how end users interact with your website. */
 export interface GoogleCloudDiscoveryengineV1alphaUserEvent {
   /** Page metadata such as categories and other critical information for certain event types such as `view-category-page`. */
-  pageInfo?: GoogleCloudDiscoveryengineV1alphaPageInfo;
+  pageInfo?: GoogleCloudDiscoveryengineV1alphaPageInfo | undefined;
   /** Information about the end user. */
-  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo;
+  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo | undefined;
   /** The DataStore resource full name, of the form `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. Optional. Only required for user events whose data store can't by determined by UserEvent.engine or UserEvent.documents. If data store is set in the parent of write/import/collect user event requests, this field can be omitted. */
-  dataStore?: string;
+  dataStore?: string | undefined;
   /** Only required for UserEventService.ImportUserEvents method. Timestamp of when the user event happened. */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** Token to attribute an API response to user action(s) to trigger the event. Highly recommended for user events that are the result of RecommendationService.Recommend. This field enables accurate attribution of recommendation model performance. The value must be one of: * RecommendResponse.attribution_token for events that are the result of RecommendationService.Recommend. * SearchResponse.attribution_token for events that are the result of SearchService.Search. This token enables us to accurately attribute page view or conversion completion back to the event and the particular predict response containing this clicked/purchased product. If user clicks on product K in the recommendation results, pass RecommendResponse.attribution_token as a URL parameter to product K's page. When recording events on product K's page, log the RecommendResponse.attribution_token to this field. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** Optional. Conversion type. Required if UserEvent.event_type is `conversion`. This is a customer-defined conversion name in lowercase letters or numbers separated by "-", such as "watch", "good-visit" etc. Do not set the field if UserEvent.event_type is not `conversion`. This mixes the custom conversion event with predefined events like `search`, `view-item` etc. */
-  conversionType?: string;
+  conversionType?: string | undefined;
   /** Optional. List of panels associated with this event. Used for page-level impression data. */
-  panels?: GoogleCloudDiscoveryengineV1alphaPanelInfoList;
+  panels?: GoogleCloudDiscoveryengineV1alphaPanelInfoList | undefined;
   /** Should set to true if the request is made directly from the end user, in which case the UserEvent.user_info.user_agent can be populated from the HTTP request. This flag should be set only if the API request is made directly from the end user such as a mobile app (and not if a gateway or a server is processing and pushing the user events). This should not be set when using the JavaScript tag in UserEventService.CollectUserEvent. */
-  directUserRequest?: boolean;
+  directUserRequest?: boolean | undefined;
   /** Required. User event type. Allowed values are: Generic values: * `search`: Search for Documents. * `view-item`: Detailed page view of a Document. * `view-item-list`: View of a panel or ordered list of Documents. * `view-home-page`: View of the home page. * `view-category-page`: View of a category page, e.g. Home > Men > Jeans Retail-related values: * `add-to-cart`: Add an item(s) to cart, e.g. in Retail online shopping * `purchase`: Purchase an item(s) Media-related values: * `media-play`: Start/resume watching a video, playing a song, etc. * `media-complete`: Finished or stopped midway through a video, song, etc. Custom conversion value: * `conversion`: Customer defined conversion event. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** Panel metadata associated with this user event. */
-  panel?: GoogleCloudDiscoveryengineV1alphaPanelInfo;
+  panel?: GoogleCloudDiscoveryengineV1alphaPanelInfo | undefined;
   /** Optional. Represents the entity for customers that may run multiple different entities, domains, sites or regions, for example, `Google US`, `Google Ads`, `Waymo`, `google.com`, `youtube.com`, etc. We recommend that you set `entity` to get better per-entity search, completion, and prediction results. */
-  entity?: string;
+  entity?: string | undefined;
   /** SearchService.Search details related to the event. This field should be set for `search` event. */
-  searchInfo?: GoogleCloudDiscoveryengineV1alphaSearchInfo;
+  searchInfo?: GoogleCloudDiscoveryengineV1alphaSearchInfo | undefined;
   /** CompletionService.CompleteQuery details related to the event. This field should be set for `search` event when autocomplete function is enabled and the user clicks a suggestion for search. */
-  completionInfo?: GoogleCloudDiscoveryengineV1alphaCompletionInfo;
+  completionInfo?: GoogleCloudDiscoveryengineV1alphaCompletionInfo | undefined;
   /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor log in/out of the website. Do not set the field to the same fixed ID for different users. This mixes the event history of those users together, which results in degraded model quality. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. The field should not contain PII or user-data. We recommend to use Google Analytics [Client ID](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for this field. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** The promotion IDs if this is an event associated with promotions. Currently, this field is restricted to at most one ID. */
-  promotionIds?: StringList;
+  promotionIds?: StringList | undefined;
   /** A list of identifiers for the independent experiment groups this user event belongs to. This is used to distinguish between user events associated with different experiment setups. */
-  tagIds?: StringList;
+  tagIds?: StringList | undefined;
   /** List of Documents associated with this user event. This field is optional except for the following event types: * `view-item` * `add-to-cart` * `purchase` * `media-play` * `media-complete` In a `search` event, this field represents the documents returned to the end user on the current page (the end user may have not finished browsing the whole page yet). When a new page is returned to the end user, after pagination/filtering/ordering even for the same query, a new `search` event with different UserEvent.documents is desired. */
-  documents?: GoogleCloudDiscoveryengineV1alphaDocumentInfoList;
+  documents?: GoogleCloudDiscoveryengineV1alphaDocumentInfoList | undefined;
   /** Optional. This field is optional except for the `add-feedback` event types. */
-  feedback?: GoogleCloudDiscoveryengineV1alphaFeedback;
+  feedback?: GoogleCloudDiscoveryengineV1alphaFeedback | undefined;
   /** Media-specific info. */
-  mediaInfo?: GoogleCloudDiscoveryengineV1alphaMediaInfo;
+  mediaInfo?: GoogleCloudDiscoveryengineV1alphaMediaInfo | undefined;
   /** The transaction metadata (if any) associated with this user event. */
-  transactionInfo?: GoogleCloudDiscoveryengineV1alphaTransactionInfo;
+  transactionInfo?: GoogleCloudDiscoveryengineV1alphaTransactionInfo | undefined;
   /** The Engine resource name, in the form of `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. Optional. Only required for Engine produced user events. For example, user events from blended search. */
-  engine?: string;
+  engine?: string | undefined;
   /** Optional. The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. One example is for `search` events, the associated SearchRequest may contain a filter expression in SearchRequest.filter conforming to https://google.aip.dev/160#filtering. Similarly, for `view-item-list` events that are generated from a RecommendRequest, this field may be populated directly from RecommendRequest.filter conforming to https://google.aip.dev/160#filtering. The value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** A unique identifier for tracking a visitor session with a length limit of 128 bytes. A session is an aggregation of an end user behavior in a time span. A general guideline to populate the session_id: 1. If user has no activity for 30 min, a new session_id should be assigned. 2. The session_id should be unique across users, suggest use uuid or add UserEvent.user_pseudo_id as prefix. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Optional. Extra user event features to include in the recommendation model. These attributes must NOT contain data that needs to be parsed or processed further, e.g. JSON or other encodings. If you provide custom attributes for ingested user events, also include them in the user events that you associate with prediction requests. Custom attribute formatting must be consistent between imported events and events provided with prediction requests. This lets the Discovery Engine API use those custom attributes when training models and serving predictions, which helps improve recommendation quality. This field needs to pass all below criteria, otherwise an `INVALID_ARGUMENT` error is returned: * The key must be a UTF-8 encoded string with a length limit of 5,000 characters. * For text attributes, at most 400 values are allowed. Empty values are not allowed. Each value must be a UTF-8 encoded string with a length limit of 256 characters. * For number attributes, at most 400 values are allowed. For product recommendations, an example of extra user information is `traffic_channel`, which is how a user arrives at the site. Users can arrive at the site by coming to the site directly, coming through Google search, or in other ways. */
-  attributes?: GoogleCloudDiscoveryengineV1alphaCustomAttributeMap;
+  attributes?: GoogleCloudDiscoveryengineV1alphaCustomAttributeMap | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaUserEventList =
   Array<GoogleCloudDiscoveryengineV1alphaUserEvent>;
 /** The inline source for the input config for ImportUserEvents method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportUserEventsRequestInlineSource {
   /** Required. A list of user events to import. Recommended max of 10k items. */
-  userEvents?: GoogleCloudDiscoveryengineV1alphaUserEventList;
+  userEvents?: GoogleCloudDiscoveryengineV1alphaUserEventList | undefined;
 }
 /** Request message for the ImportUserEvents request. */
 export interface GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest {
   /** The desired location of errors incurred during the Import. Cannot be set for inline user event imports. */
-  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig;
+  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig | undefined;
   /** The Inline source for the input content for UserEvents. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequestInlineSource;
+  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequestInlineSource | undefined;
   /** BigQuery input source. */
-  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource;
+  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource | undefined;
   /** Cloud Storage location for the input content. */
-  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource;
+  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
 }
 export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest | undefined;
 }
 /** Request for the AgentService.ImportAgentFile method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportAgentFileRequest {
   /** Required. The name of the file. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Optional. The content type of the file, see https://www.iana.org/assignments/media-types/media-types.xhtml. This field is required when the data source does not provide the content type. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 export interface ImportProjectsLocationsCollectionsEnginesAssistantsAgentsFilesRequest {
   /** Required. The resource name of the Agent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/agents/{agent}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportAgentFileRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportAgentFileRequest | undefined;
 }
 /** Describes a file used internally by an agent as a context on each invocation. */
 export interface GoogleCloudDiscoveryengineV1alphaAgentFile {
   /** Required. The name of the file. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Immutable. The content type of the file. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Identifier. The resource name of the file. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/agents/{agent}/files/{file}` */
-  name?: string;
+  name?: string | undefined;
 }
 /** Response for the AgentService.ImportAgentFile method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportAgentFileResponse {
   /** The imported AgentFile. */
-  agentFile?: GoogleCloudDiscoveryengineV1alphaAgentFile;
+  agentFile?: GoogleCloudDiscoveryengineV1alphaAgentFile | undefined;
 }
 export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportDocumentsRequest | undefined;
 }
 export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/*\/locations/*\/collections/*\/dataStores/*` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportCompletionSuggestionsRequest | undefined;
 }
 export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportSuggestionDenyListEntriesRequest | undefined;
 }
 export interface ImportProjectsLocationsDataStoresUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSampleQueryList =
   Array<GoogleCloudDiscoveryengineV1alphaSampleQuery>;
 /** The inline source for SampleQuerys. */
 export interface GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequestInlineSource {
   /** Required. A list of SampleQuerys to import. Max of 1000 items. */
-  sampleQueries?: GoogleCloudDiscoveryengineV1alphaSampleQueryList;
+  sampleQueries?: GoogleCloudDiscoveryengineV1alphaSampleQueryList | undefined;
 }
 /** Request message for SampleQueryService.ImportSampleQueries method. */
 export interface GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequest {
   /** Cloud Storage location for the input content. */
-  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource;
+  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
   /** BigQuery input source. */
-  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource;
+  bigquerySource?: GoogleCloudDiscoveryengineV1alphaBigQuerySource | undefined;
   /** The Inline source for sample query entries. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequestInlineSource;
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequestInlineSource
+    | undefined;
   /** The desired location of errors incurred during the Import. */
-  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig;
+  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig | undefined;
 }
 export interface ImportProjectsLocationsSampleQuerySetsSampleQueriesRequest {
   /** Required. The parent sample query set resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. If the caller does not have permission to list SampleQuerys under this sample query set, regardless of whether or not this sample query set exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportSampleQueriesRequest | undefined;
 }
 export interface ImportProjectsLocationsUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaImportUserEventsRequest | undefined;
 }
 /** Request message for making a call to an MCP connector. It carries the connector name, the method to invoke, and optional parameters. */
 export interface GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest {
   /** Optional. The tool spec version to resolve the connector's tool surface against. This corresponds to the connector's BAP tool spec file name (e.g. "v2", "v5.2"). When unset, the server uses its default (latest) tool spec for the connector. Applies to all methods (e.g. "tools/list" and "tools/call"). */
-  toolSpecVersion?: string;
+  toolSpecVersion?: string | undefined;
   /** Optional. Arbitrary structured parameters for the method. Using google.protobuf.Struct keeps the payload schema-flexible, matching JSON-RPC's free-form `params` field. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
   /** Required. The method to invoke (e.g. "tools/list", "tools/call", "resources/read", "prompts/get", etc.). */
-  method?: string;
+  method?: string | undefined;
   /** Optional. The engine resource name (e.g. "projects/{project}/locations/{location}/collections/{collection}/engines/{engine}"). Used as the search engine id when invoking tool registry tools that issue Discovery Search Service requests. */
-  engine?: string;
+  engine?: string | undefined;
 }
 export interface InvokeConnectorMcpProjectsLocationsCollectionsDataConnectorRequest {
   /** Required. DataConnector resource. The data connector used for making the MCP call. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpRequest | undefined;
 }
 /** McpError represents error details when an MCP call fails. This structure follows the JSON-RPC 2.0 error object shape. */
 export interface GoogleCloudDiscoveryengineV1alphaMcpError {
   /** Short, human-readable description of the error. */
-  message?: string;
+  message?: string | undefined;
   /** Numeric error code. */
-  code?: number;
+  code?: number | undefined;
   /** Optional structured data with additional error context. */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 /** Response message returning the result of an MCP connector invocation. It contains either a successful result payload or error details. */
 export interface GoogleCloudDiscoveryengineV1alphaInvokeConnectorMcpResponse {
   /** Successful result -- arbitrary structured data. */
-  result?: unknown;
+  result?: unknown | undefined;
   /** Error details when the call fails. */
-  error?: GoogleCloudDiscoveryengineV1alphaMcpError;
+  error?: GoogleCloudDiscoveryengineV1alphaMcpError | undefined;
 }
 export interface ListBillingAccountsBillingAccountLicenseConfigsRequest {
   /** Optional. Not supported. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Not supported. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Format: `billingAccounts/{billing_account}`. */
   parent: string;
 }
@@ -8246,41 +8787,43 @@ export type GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigList =
 /** Response message for LicenseConfigService.ListBillingAccountLicenseConfigs method. */
 export interface GoogleCloudDiscoveryengineV1alphaListBillingAccountLicenseConfigsResponse {
   /** All BillingAccountLicenseConfigs for the given billing account. */
-  billingAccountLicenseConfigs?: GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigList;
+  billingAccountLicenseConfigs?:
+    | GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfigList
+    | undefined;
   /** A token that can be sent as ListBillingAccountLicenseConfigsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** A page token, received from a previous `ListIdentityMappings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIdentityMappings` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of IdentityMappings to return. If unspecified, defaults to 2000. The maximum allowed value is 10000. Values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the Identity Mapping Store to list Identity Mapping Entries in. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
 }
 /** Response message for IdentityMappingStoreService.ListIdentityMappings */
 export interface GoogleCloudDiscoveryengineV1alphaListIdentityMappingsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The Identity Mapping Entries. */
-  identityMappingEntries?: GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryList;
+  identityMappingEntries?: GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryList | undefined;
 }
 export interface ListProjectsLocationsAuthorizationsRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Maximum number of Authorizations to return. If unspecified, defaults to 100. The maximum allowed value is 1000; anything above that will be coerced down to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token ListAuthorizationsResponse.next_page_token, received from a previous AuthorizationService.ListAuthorizations call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListAuthorizations must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAuthorizationList =
   Array<GoogleCloudDiscoveryengineV1alphaAuthorization>;
 /** Response message for the AuthorizationService.ListAuthorizations method. */
 export interface GoogleCloudDiscoveryengineV1alphaListAuthorizationsResponse {
   /** All the customer's Authorizations. */
-  authorizations?: GoogleCloudDiscoveryengineV1alphaAuthorizationList;
+  authorizations?: GoogleCloudDiscoveryengineV1alphaAuthorizationList | undefined;
   /** A token that can be sent as ListAuthorizationsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCmekConfigsRequest {
   /** Required. The parent location resource name, such as `projects/{project}/locations/{location}`. If the caller does not have permission to list CmekConfigs under this location, regardless of whether or not a CmekConfig exists, a PERMISSION_DENIED error is returned. */
@@ -8291,15 +8834,15 @@ export type GoogleCloudDiscoveryengineV1alphaCmekConfigList =
 /** Response message for CmekConfigService.ListCmekConfigs method. */
 export interface GoogleCloudDiscoveryengineV1alphaListCmekConfigsResponse {
   /** All the customer's CmekConfigs. */
-  cmekConfigs?: GoogleCloudDiscoveryengineV1alphaCmekConfigList;
+  cmekConfigs?: GoogleCloudDiscoveryengineV1alphaCmekConfigList | undefined;
 }
 export interface ListProjectsLocationsCollectionsRequest {
   /** Filter returned collections by associated data connector data sources. For example: `filter = 'data_source:jira confluence'`. If the filter is empty, we return all collections under a project and location. */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token, received from a previous CollectionService.ListCollections call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to CollectionService.ListCollections must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of Collections to return. The service may return fewer than this value. If unspecified, at most 100 Collections will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
 }
@@ -8308,17 +8851,17 @@ export type GoogleCloudDiscoveryengineV1alphaCollectionList =
 /** Response message for CollectionService.ListCollections method. */
 export interface GoogleCloudDiscoveryengineV1alphaListCollectionsResponse {
   /** The Collections. */
-  collections?: GoogleCloudDiscoveryengineV1alphaCollectionList;
+  collections?: GoogleCloudDiscoveryengineV1alphaCollectionList | undefined;
   /** A token that can be sent as ListCollectionsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataConnectorConnectorRunsRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, defaults to 10. The maximum value is 50; values above 50 will be coerced to 50. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent DataConnector resource name, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataConnector`. If the caller does not have permission to list ConnectorRuns under this DataConnector, regardless of whether or not this DataConnector exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** A page token, received from a previous `ListConnectorRuns` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectorRuns` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunStateEnum =
   | "STATE_UNSPECIFIED"
@@ -8333,11 +8876,11 @@ export type GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunStateEnum =
 /** Represents the progress of a sync run. */
 export interface GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress {
   /** Derived. The percentile of the progress.current_count / total_count. The value is between [0, 1.0] inclusive. */
-  percentile?: number;
+  percentile?: number | undefined;
   /** The current progress. */
-  currentCount?: string;
+  currentCount?: string | undefined;
   /** The total. */
-  totalCount?: string;
+  totalCount?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunSyncTypeEnum =
   | "SYNC_TYPE_UNSPECIFIED"
@@ -8348,31 +8891,31 @@ export type GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunSyncTypeEnum =
 /** Represents an entity that was synced in this ConnectorRun. */
 export interface GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRun {
   /** The timestamp for either extracted_documents_count, indexed_documents_count and error_documents_count was last updated. */
-  statsUpdateTime?: string;
+  statsUpdateTime?: string | undefined;
   /** The errors from the entity's sync run. Only exist if running into an error state. Contains error code and error message. */
-  errors?: GoogleRpcStatusList;
+  errors?: GoogleRpcStatusList | undefined;
   /** Optional. The number of documents extracted from connector source, ready to be ingested to VAIS. */
-  extractedRecordCount?: string;
+  extractedRecordCount?: string | undefined;
   /** Optional. The number of documents scheduled to be crawled/extracted from connector source. This only applies to third party connectors. */
-  scheduledRecordCount?: string;
+  scheduledRecordCount?: string | undefined;
   /** The state of the entity's sync run. */
-  state?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunStateEnum;
+  state?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunStateEnum | undefined;
   /** Optional. The number of documents indexed. */
-  indexedRecordCount?: string;
+  indexedRecordCount?: string | undefined;
   /** Metadata to generate the progress bar. */
-  progress?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress;
+  progress?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunProgress | undefined;
   /** Optional. The number of documents deleted. */
-  deletedRecordCount?: string;
+  deletedRecordCount?: string | undefined;
   /** Optional. The total number of documents failed at sync at indexing stage. */
-  errorRecordCount?: string;
+  errorRecordCount?: string | undefined;
   /** Timestamp at which the entity sync state was last updated. */
-  stateUpdateTime?: string;
+  stateUpdateTime?: string | undefined;
   /** Optional. The number of requests sent to 3p API. */
-  sourceApiRequestCount?: string;
+  sourceApiRequestCount?: string | undefined;
   /** The name of the source entity. */
-  entityName?: string;
+  entityName?: string | undefined;
   /** Sync type of this run. */
-  syncType?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunSyncTypeEnum;
+  syncType?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunSyncTypeEnum | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunList =
   Array<GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRun>;
@@ -8395,54 +8938,54 @@ export type GoogleCloudDiscoveryengineV1alphaConnectorRunTriggerEnum =
 /** A data sync run of DataConnector. After DataConnector is successfully initialized, data syncs are scheduled at DataConnector.refresh_interval. A ConnectorRun represents a data sync either in the past or onging that the moment. // */
 export interface GoogleCloudDiscoveryengineV1alphaConnectorRun {
   /** Output only. The time when the connector run ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The details of the entities synced at the ConnectorRun. Each ConnectorRun consists of syncing one or more entities. */
-  entityRuns?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunList;
+  entityRuns?: GoogleCloudDiscoveryengineV1alphaConnectorRunEntityRunList | undefined;
   /** Output only. The time when the connector run was most recently paused. */
-  latestPauseTime?: string;
+  latestPauseTime?: string | undefined;
   /** Output only. The state of the sync run. */
-  state?: GoogleCloudDiscoveryengineV1alphaConnectorRunStateEnum;
+  state?: GoogleCloudDiscoveryengineV1alphaConnectorRunStateEnum | undefined;
   /** Contains info about errors incurred during the sync. Only exist if running into an error state. Contains error code and error message. Use with the `state` field. */
-  errors?: GoogleRpcStatusList;
+  errors?: GoogleRpcStatusList | undefined;
   /** Output only. The trigger for this ConnectorRun. */
-  trigger?: GoogleCloudDiscoveryengineV1alphaConnectorRunTriggerEnum;
+  trigger?: GoogleCloudDiscoveryengineV1alphaConnectorRunTriggerEnum | undefined;
   /** Output only. The full resource name of the Connector Run. Format: `projects/*\/locations/*\/collections/*\/dataConnector/connectorRuns/*`. The `connector_run_id` is system-generated. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp at which the connector run sync state was last updated. */
-  stateUpdateTime?: string;
+  stateUpdateTime?: string | undefined;
   /** Output only. The time when the connector run started. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConnectorRunList =
   Array<GoogleCloudDiscoveryengineV1alphaConnectorRun>;
 /** Response for DataConnectorService.ListConnectorRuns method. */
 export interface GoogleCloudDiscoveryengineV1alphaListConnectorRunsResponse {
   /** List of ConnectorRuns. */
-  connectorRuns?: GoogleCloudDiscoveryengineV1alphaConnectorRunList;
+  connectorRuns?: GoogleCloudDiscoveryengineV1alphaConnectorRunList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataConnectorOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsCollectionsDataStoresViewEnum =
   | "DATA_STORE_VIEW_UNSPECIFIED"
@@ -8452,22 +8995,22 @@ export interface ListProjectsLocationsCollectionsDataStoresRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection_id}`. If the caller does not have permission to list DataStores under this location, regardless of whether or not this data store exists, a PERMISSION_DENIED error is returned. */
   parent: string;
   /** Optional. The view to apply to the returned DataStores. Defaults to DataStoreView.DATA_STORE_VIEW_BASIC if unspecified. DataStoreView.DATA_STORE_VIEW_FULL additionally populates DataStore.icon_uri for connector-backed data stores. Resolving connector icons requires extra lookups, so request it only when the caller renders the icons. */
-  view?: ListProjectsLocationsCollectionsDataStoresViewEnum | (string & {});
+  view?: ListProjectsLocationsCollectionsDataStoresViewEnum | (string & {}) | undefined;
   /** Filter by solution type . For example: `filter = 'solution_type:SOLUTION_TYPE_SEARCH'` */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token ListDataStoresResponse.next_page_token, received from a previous DataStoreService.ListDataStores call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to DataStoreService.ListDataStores must match the call that provided the page token. Otherwise, an INVALID_ARGUMENT error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of DataStores to return. If unspecified, defaults to 10. The maximum allowed value is 50. Values above 50 will be coerced to 50. If this field is negative, an INVALID_ARGUMENT is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaDataStoreList =
   Array<GoogleCloudDiscoveryengineV1alphaDataStore>;
 /** Response message for DataStoreService.ListDataStores method. */
 export interface GoogleCloudDiscoveryengineV1alphaListDataStoresResponse {
   /** A token that can be sent as ListDataStoresRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the customer's DataStores. */
-  dataStores?: GoogleCloudDiscoveryengineV1alphaDataStoreList;
+  dataStores?: GoogleCloudDiscoveryengineV1alphaDataStoreList | undefined;
 }
 export type ListProjectsLocationsCollectionsDataStoresBranchesViewEnum =
   | "BRANCH_VIEW_UNSPECIFIED"
@@ -8475,7 +9018,7 @@ export type ListProjectsLocationsCollectionsDataStoresBranchesViewEnum =
   | "BRANCH_VIEW_FULL";
 export interface ListProjectsLocationsCollectionsDataStoresBranchesRequest {
   /** The view to apply to the returned Branch. Defaults to BranchView.BRANCH_VIEW_BASIC if unspecified. */
-  view?: ListProjectsLocationsCollectionsDataStoresBranchesViewEnum | (string & {});
+  view?: ListProjectsLocationsCollectionsDataStoresBranchesViewEnum | (string & {}) | undefined;
   /** Required. The parent data store resource name. */
   parent: string;
 }
@@ -8484,47 +9027,47 @@ export type GoogleCloudDiscoveryengineV1alphaBranchList =
 /** Response for BranchService.ListBranches method. */
 export interface GoogleCloudDiscoveryengineV1alphaListBranchesResponse {
   /** The Branches. */
-  branches?: GoogleCloudDiscoveryengineV1alphaBranchList;
+  branches?: GoogleCloudDiscoveryengineV1alphaBranchList | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Use `default_branch` as the branch ID, to list documents under the default branch. If the caller does not have permission to list Documents under this branch, regardless of whether or not this branch exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** Maximum number of Documents to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 are set to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token ListDocumentsResponse.next_page_token, received from a previous DocumentService.ListDocuments call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to DocumentService.ListDocuments must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for DocumentService.ListDocuments method. */
 export interface GoogleCloudDiscoveryengineV1alphaListDocumentsResponse {
   /** A token that can be sent as ListDocumentsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The Documents. */
-  documents?: GoogleCloudDiscoveryengineV1alphaDocumentList;
+  documents?: GoogleCloudDiscoveryengineV1alphaDocumentList | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresBranchesDocumentsChunksRequest {
   /** Required. The parent document resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to list Chunks under this document, regardless of whether or not this document exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** Maximum number of Chunks to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token ListChunksResponse.next_page_token, received from a previous ChunkService.ListChunks call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ChunkService.ListChunks must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for ChunkService.ListChunks method. */
 export interface GoogleCloudDiscoveryengineV1alphaListChunksResponse {
   /** The Chunks. */
-  chunks?: GoogleCloudDiscoveryengineV1alphaChunkList;
+  chunks?: GoogleCloudDiscoveryengineV1alphaChunkList | undefined;
   /** A token that can be sent as ListChunksRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -8532,41 +9075,41 @@ export interface ListProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Optional. A page token, received from a previous `ListControls` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A filter to apply on the list results. Supported features: * List all the products under the parent branch if filter is unset. Currently this field is unsupported. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaControlList =
   Array<GoogleCloudDiscoveryengineV1alphaControl>;
 /** Response for ListControls method. */
 export interface GoogleCloudDiscoveryengineV1alphaListControlsResponse {
   /** All the Controls for a given data store. */
-  controls?: GoogleCloudDiscoveryengineV1alphaControlList;
+  controls?: GoogleCloudDiscoveryengineV1alphaControlList | undefined;
   /** Pagination token, if not returned indicates the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * `update_time` * `create_time` * `conversation_name` Example: "update_time desc" "create_time" */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter to apply on the list results. The supported features are: user_pseudo_id, state. Example: "user_pseudo_id = some_id" */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token, received from a previous `ListConversations` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaConversationList =
   Array<GoogleCloudDiscoveryengineV1alphaConversation>;
 /** Response for ListConversations method. */
 export interface GoogleCloudDiscoveryengineV1alphaListConversationsResponse {
   /** All the Conversations for a given data store. */
-  conversations?: GoogleCloudDiscoveryengineV1alphaConversationList;
+  conversations?: GoogleCloudDiscoveryengineV1alphaConversationList | undefined;
   /** Pagination token, if not returned indicates the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresCustomModelsRequest {
   /** Required. The resource name of the parent Data Store, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to fetch the models from. */
@@ -8585,87 +9128,87 @@ export type GoogleCloudDiscoveryengineV1alphaCustomTuningModelModelStateEnum =
 /** Metadata that describes a custom tuned model. */
 export interface GoogleCloudDiscoveryengineV1alphaCustomTuningModel {
   /** The version of the model. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
   /** The metrics of the trained model. */
-  metrics?: DoubleMap;
+  metrics?: DoubleMap | undefined;
   /** Timestamp the model training was initiated. */
-  trainingStartTime?: string;
+  trainingStartTime?: string | undefined;
   /** The display name of the model. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The state that the model is in (e.g.`TRAINING` or `TRAINING_FAILED`). */
-  modelState?: GoogleCloudDiscoveryengineV1alphaCustomTuningModelModelStateEnum;
+  modelState?: GoogleCloudDiscoveryengineV1alphaCustomTuningModelModelStateEnum | undefined;
   /** Currently this is only populated if the model state is `INPUT_VALIDATION_FAILED`. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Deprecated: Timestamp the Model was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The fully qualified resource name of the model. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/customTuningModels/{custom_tuning_model}`. Model must be an alpha-numerical string with limit of 40 characters. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCustomTuningModelList =
   Array<GoogleCloudDiscoveryengineV1alphaCustomTuningModel>;
 /** Response message for SearchTuningService.ListCustomModels method. */
 export interface GoogleCloudDiscoveryengineV1alphaListCustomModelsResponse {
   /** List of custom tuning models. */
-  models?: GoogleCloudDiscoveryengineV1alphaCustomTuningModelList;
+  models?: GoogleCloudDiscoveryengineV1alphaCustomTuningModelList | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
 export interface ListProjectsLocationsCollectionsDataStoresOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** A page token, received from a previous SchemaService.ListSchemas call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SchemaService.ListSchemas must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
   /** The maximum number of Schemas to return. The service may return fewer than this value. If unspecified, at most 100 Schemas are returned. The maximum value is 1000; values above 1000 are set to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSchemaList =
   Array<GoogleCloudDiscoveryengineV1alphaSchema>;
 /** Response message for SchemaService.ListSchemas method. */
 export interface GoogleCloudDiscoveryengineV1alphaListSchemasResponse {
   /** The Schemas. */
-  schemas?: GoogleCloudDiscoveryengineV1alphaSchemaList;
+  schemas?: GoogleCloudDiscoveryengineV1alphaSchemaList | undefined;
   /** A token that can be sent as ListSchemasRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Optional. Maximum number of results to return. If unspecified, defaults to 100. If a value greater than 100 is provided, at most 100 results are returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListServingConfigs` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Full resource name of the parent resource. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
 }
@@ -8674,19 +9217,19 @@ export type GoogleCloudDiscoveryengineV1alphaServingConfigList =
 /** Response for ListServingConfigs method. */
 export interface GoogleCloudDiscoveryengineV1alphaListServingConfigsResponse {
   /** All the ServingConfigs for a given dataStore. */
-  servingConfigs?: GoogleCloudDiscoveryengineV1alphaServingConfigList;
+  servingConfigs?: GoogleCloudDiscoveryengineV1alphaServingConfigList | undefined;
   /** Pagination token, if not returned indicates the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** A page token, received from a previous `ListSessions` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A comma-separated list of fields to filter by, in EBNF grammar. The supported fields are: * `user_pseudo_id` * `state` * `display_name` * `starred` * `is_pinned` * `labels` * `create_time` * `update_time` * `collaborative_project` Examples: * `user_pseudo_id = some_id` * `display_name = "some_name"` * `starred = true` * `is_pinned=true AND (NOT labels:hidden)` * `create_time > "1970-01-01T12:00:00Z"` * `collaborative_project = "projects/123/locations/global/collections/default_collection/engines/" "default_engine/collaborative_projects/cp1"` */
-  filter?: string;
+  filter?: string | undefined;
   /** A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * `update_time` * `create_time` * `session_name` * `is_pinned` * `display_name` Example: * `update_time desc` * `create_time` * `is_pinned desc,update_time desc`: list sessions by is_pinned first, then by update_time. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
 }
@@ -8695,197 +9238,197 @@ export type GoogleCloudDiscoveryengineV1alphaSessionList =
 /** Response for ListSessions method. */
 export interface GoogleCloudDiscoveryengineV1alphaListSessionsResponse {
   /** All the Sessions for a given data store. */
-  sessions?: GoogleCloudDiscoveryengineV1alphaSessionList;
+  sessions?: GoogleCloudDiscoveryengineV1alphaSessionList | undefined;
   /** Pagination token, if not returned indicates the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
 export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** A page token, received from a previous `ListTargetSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTargetSites` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent site search engine resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. If the caller does not have permission to list TargetSites under this site search engine, regardless of whether or not this branch exists, a PERMISSION_DENIED error is returned. */
   parent: string;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum value is 1000; values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message for SiteSearchEngineService.ListTargetSites method. */
 export interface GoogleCloudDiscoveryengineV1alphaListTargetSitesResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of TargetSites. */
-  targetSites?: GoogleCloudDiscoveryengineV1alphaTargetSiteList;
+  targetSites?: GoogleCloudDiscoveryengineV1alphaTargetSiteList | undefined;
   /** The total number of items matching the request. This will always be populated in the response. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection_id}`. */
   parent: string;
   /** Optional. Not supported. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Not supported. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter by solution type. For example: solution_type=SOLUTION_TYPE_SEARCH */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaEngineList =
   Array<GoogleCloudDiscoveryengineV1alphaEngine>;
 /** Response message for EngineService.ListEngines method. */
 export interface GoogleCloudDiscoveryengineV1alphaListEnginesResponse {
   /** Not supported. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the customer's Engines. */
-  engines?: GoogleCloudDiscoveryengineV1alphaEngineList;
+  engines?: GoogleCloudDiscoveryengineV1alphaEngineList | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Maximum number of Assistants to return. If unspecified, defaults to 100. The maximum allowed value is 1000; anything above that will be coerced down to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** A page token ListAssistantsResponse.next_page_token, received from a previous AssistantService.ListAssistants call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListAssistants must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAssistantList =
   Array<GoogleCloudDiscoveryengineV1alphaAssistant>;
 /** Response message for the AssistantService.ListAssistants method. */
 export interface GoogleCloudDiscoveryengineV1alphaListAssistantsResponse {
   /** A token that can be sent as ListAssistantsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the customer's Assistants. */
-  assistants?: GoogleCloudDiscoveryengineV1alphaAssistantList;
+  assistants?: GoogleCloudDiscoveryengineV1alphaAssistantList | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesAssistantsAgentsRequest {
   /** Optional. A page token ListAgentsResponse.next_page_token, received from a previous AgentService.ListAgents call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListAgents must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   parent: string;
   /** Optional. Maximum number of Agents to return. If unspecified, defaults to 100. The maximum allowed value is 1000; anything above that will be coerced down to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filters the Agents list. Supported fields: * `display_name`: display name of the agent. Supports `=`, `:`. * `id`: ID of the agent. Supports `=`. * `state`: state of the agent. Supports `=`. * `create_time`: timestamp when the agent was created. Supports `=`, `>`, `<`, `>=`, `<=`. * `update_time`: timestamp when the agent was last updated. Supports `=`, `>`, `<`, `>=`, `<=`. Examples: * `display_name = "My Agent"` * `create_time > "2023-01-01T00:00:00Z"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * `update_time` * `is_pinned` Example: * "update_time desc" * "is_pinned desc,update_time desc": list agents by is_pinned first, then by update_time. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAgentList =
   Array<GoogleCloudDiscoveryengineV1alphaAgent>;
 /** Response message for the AgentService.ListAgents method. */
 export interface GoogleCloudDiscoveryengineV1alphaListAgentsResponse {
   /** The agents visible to the caller under the parent Assistant. */
-  agents?: GoogleCloudDiscoveryengineV1alphaAgentList;
+  agents?: GoogleCloudDiscoveryengineV1alphaAgentList | undefined;
   /** A token that can be sent as ListAgentsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   parent: string;
   /** A page token received from a previous CannedQueryService.ListCannedQueries call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to CannedQueryService.ListCannedQueries must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of canned queries to return. If unspecified, defaults to 100. The maximum allowed value is 1000; anything above that will be coerced down to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The filter expression. Supported fields: * `enabled` * `google_defined` Examples: * `enabled=true` * `google_defined=true` * `enabled=true AND google_defined=true` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaCannedQueryList =
   Array<GoogleCloudDiscoveryengineV1alphaCannedQuery>;
 /** Response message for the CannedQueryService.ListCannedQueries method. */
 export interface GoogleCloudDiscoveryengineV1alphaListCannedQueriesResponse {
   /** The list of CannedQuerys matching the request. */
-  cannedQueries?: GoogleCloudDiscoveryengineV1alphaCannedQueryList;
+  cannedQueries?: GoogleCloudDiscoveryengineV1alphaCannedQueryList | undefined;
   /** A token that can be sent as ListCannedQueriesRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesControlsRequest {
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
   /** Optional. Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A filter to apply on the list results. Supported features: * List all the products under the parent branch if filter is unset. Currently this field is unsupported. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListControls` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesConversationsRequest {
   /** A page token, received from a previous `ListConversations` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * `update_time` * `create_time` * `conversation_name` Example: "update_time desc" "create_time" */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A filter to apply on the list results. The supported features are: user_pseudo_id, state. Example: "user_pseudo_id = some_id" */
-  filter?: string;
+  filter?: string | undefined;
   /** Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
 }
 export interface ListProjectsLocationsCollectionsEnginesOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
 export interface ListProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Optional. Maximum number of results to return. If unspecified, defaults to 100. If a value greater than 100 is provided, at most 100 results are returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Full resource name of the parent resource. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
   /** Optional. A page token, received from a previous `ListServingConfigs` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesSessionsRequest {
   /** A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * `update_time` * `create_time` * `session_name` * `is_pinned` * `display_name` Example: * `update_time desc` * `create_time` * `is_pinned desc,update_time desc`: list sessions by is_pinned first, then by update_time. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** A page token, received from a previous `ListSessions` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A comma-separated list of fields to filter by, in EBNF grammar. The supported fields are: * `user_pseudo_id` * `state` * `display_name` * `starred` * `is_pinned` * `labels` * `create_time` * `update_time` * `collaborative_project` Examples: * `user_pseudo_id = some_id` * `display_name = "some_name"` * `starred = true` * `is_pinned=true AND (NOT labels:hidden)` * `create_time > "1970-01-01T12:00:00Z"` * `collaborative_project = "projects/123/locations/global/collections/default_collection/engines/" "default_engine/collaborative_projects/cp1"` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
   /** Optional. The maximum number of experiments to return. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name (Session) of the Session. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}` */
   parent: string;
   /** Optional. A page token, received from a previous `ListAlphaEvolveExperiments` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentList =
   Array<GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment>;
 /** Response message for AlphaEvolveService.ListAlphaEvolveExperiments. */
 export interface GoogleCloudDiscoveryengineV1alphaListAlphaEvolveExperimentsResponse {
   /** Output only. List of experiments. */
-  alphaEvolveExperiments?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentList;
+  alphaEvolveExperiments?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperimentList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsAlphaEvolveProgramsStateFilterEnum =
   | "PROGRAM_STATE_UNSPECIFIED"
@@ -8895,36 +9438,37 @@ export type ListProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperiment
   | "COMPLETED";
 export interface ListProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsAlphaEvolveProgramsRequest {
   /** Optional. Sorting criterion for the programs. Comma separated list of metrics to sort by and optionally sort order, e.g. "score1 desc, score2". The criteria are applied in the order listed in the field. An implicit criterion of sorting by create_time descending is always applied as the final tie-breaker after all other specified criteria. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter to apply to the programs. Examples: "state_filter = \'COMPLETED\'" "state_filter = \'INITIALIZED\' OR "state_filter = \'EVALUATING\'" If empty, the behavior defaults to listing programs in REGISTRATION_COMPLETE state or processing state is NULL. */
   stateFilter?:
     | ListProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsAlphaEvolveProgramsStateFilterEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The parent resource name (AlphaEvolveExperiment) of the experiment. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   parent: string;
   /** Optional. A page token, received from a previous `ListAlphaEvolvePrograms` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of programs to return. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message for AlphaEvolveService.ListAlphaEvolvePrograms. */
 export interface GoogleCloudDiscoveryengineV1alphaListAlphaEvolveProgramsResponse {
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. List of programs matching the criteria provided in the request. */
-  alphaEvolvePrograms?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramList;
+  alphaEvolvePrograms?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramList | undefined;
 }
 export interface ListProjectsLocationsCollectionsEnginesSessionsFilesRequest {
   /** Optional. Specifies the order in which files are returned. The value is a comma-separated string of fields to sort by. For ascending order - just the field name is used. For descending order - the field name is suffixed with ` desc`. Sorting is stable and applied sequentially according to the order of fields provided in the string. Supported fields for ordering: * `upload_time`: The time the file was uploaded. * `file_name`: The name of the file. * `mime_type`: The MIME type of the file. * `session_name`: The name of the session the file belongs to. Default Behavior: If the `order_by` field is not specified, files will be returned sorted by creation time in descending order. Examples: 1. Sort by file name in ascending order: `file_name` 2. Sort by upload time in descending order: `upload_time desc` 3. Sort by file name (ascending), then by content type (MIME type) (descending), and finally by upload time (ascending): `file_name, mime_type desc, upload_time` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A page token received from a previous `ListFiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFiles` must match the call that provided the page token (except `page_size`, which may differ). */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the Session. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}` Name of the session resource to which the file belong. */
   parent: string;
   /** Optional. The filter syntax consists of an expression language for constructing a predicate from one or more fields of the files being filtered. Filter expression is case-sensitive. Currently supported field names are: * upload_time * last_add_time * last_use_time * file_name * mime_type Some examples of filters would be: * "file_name = 'file_1'" * "file_name = 'file_1' AND mime_type = 'text/plain'" * "last_use_time > '2025-06-14T12:00:00Z'" For a full description of the filter format, please see https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of files to return. The service may return fewer than this value. If unspecified, at most 100 files will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. If user specifies a value less than or equal to 0 - the request will be rejected with an INVALID_ARGUMENT error. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFileMetadataFileOriginTypeEnum =
   | "FILE_ORIGIN_TYPE_UNSPECIFIED"
@@ -8934,26 +9478,26 @@ export type GoogleCloudDiscoveryengineV1alphaFileMetadataFileOriginTypeEnum =
 /** Caracteristics of other file types. */
 export interface GoogleCloudDiscoveryengineV1alphaFileCharacteristics {
   /** Output only. Generic map of characteristics. */
-  characteristics?: StringMap;
+  characteristics?: StringMap | undefined;
 }
 /** Standard characteristics of a video media view. */
 export interface GoogleCloudDiscoveryengineV1alphaVideoCharacteristics {
   /** Output only. Bitrate of the video in kbps. */
-  videoBitrateKbps?: number;
+  videoBitrateKbps?: number | undefined;
   /** Output only. Video height in pixels. */
-  height?: number;
+  height?: number | undefined;
   /** Output only. Bitrate of the audio in kbps. */
-  audioBitrateKbps?: number;
+  audioBitrateKbps?: number | undefined;
   /** Output only. Audio codecs used in the video. */
-  audioCodecs?: StringList;
+  audioCodecs?: StringList | undefined;
   /** Output only. Frame rate (frames per second). */
-  frameRate?: number;
+  frameRate?: number | undefined;
   /** Output only. Video duration. */
-  duration?: string;
+  duration?: string | undefined;
   /** Output only. Video width in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** Output only. Video codecs used in the video. */
-  videoCodecs?: StringList;
+  videoCodecs?: StringList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaImageCharacteristicsColorSpaceEnum =
   | "COLOR_SPACE_UNSPECIFIED"
@@ -8965,32 +9509,32 @@ export type GoogleCloudDiscoveryengineV1alphaImageCharacteristicsColorSpaceEnum 
 /** Standard characteristics of an image media view. */
 export interface GoogleCloudDiscoveryengineV1alphaImageCharacteristics {
   /** Output only. Image width in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** Output only. Bit depth of the image (e.g., 8-bit, 16-bit). */
-  bitDepth?: number;
+  bitDepth?: number | undefined;
   /** Output only. Color space of the image (e.g., "RGB", "CMYK", "Grayscale"). */
-  colorSpace?: GoogleCloudDiscoveryengineV1alphaImageCharacteristicsColorSpaceEnum;
+  colorSpace?: GoogleCloudDiscoveryengineV1alphaImageCharacteristicsColorSpaceEnum | undefined;
   /** Output only. Image height in pixels. */
-  height?: number;
+  height?: number | undefined;
 }
 /** Represents a specific alternate version or "view" of a file object, such as a summary, a thumbnail, a translated version, etc. */
 export interface GoogleCloudDiscoveryengineV1alphaFileView {
   /** Output only. Characteristics of other file types. */
-  fileCharacteristics?: GoogleCloudDiscoveryengineV1alphaFileCharacteristics;
+  fileCharacteristics?: GoogleCloudDiscoveryengineV1alphaFileCharacteristics | undefined;
   /** Output only. The URI to access this media view. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. The time the view was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The size of the view in bytes. */
-  byteSize?: string;
+  byteSize?: string | undefined;
   /** Output only. Globally Unique id for this specific view. */
-  viewId?: string;
+  viewId?: string | undefined;
   /** Output only. MIME type (e.g., "image/jpeg", "image/png", "text/plain", "video/mp4") */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Output only. Characteristics of a video media view. */
-  videoCharacteristics?: GoogleCloudDiscoveryengineV1alphaVideoCharacteristics;
+  videoCharacteristics?: GoogleCloudDiscoveryengineV1alphaVideoCharacteristics | undefined;
   /** Output only. Characteristics of an image media view. */
-  imageCharacteristics?: GoogleCloudDiscoveryengineV1alphaImageCharacteristics;
+  imageCharacteristics?: GoogleCloudDiscoveryengineV1alphaImageCharacteristics | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFileViewMap = {
   [key: string]: GoogleCloudDiscoveryengineV1alphaFileView | undefined;
@@ -9005,50 +9549,52 @@ export type GoogleCloudDiscoveryengineV1alphaFileMetadataOriginalSourceTypeEnum 
 /** Represents a file attached to a session (context file) */
 export interface GoogleCloudDiscoveryengineV1alphaFileMetadata {
   /** Optional. The origin of the file. */
-  fileOriginType?: GoogleCloudDiscoveryengineV1alphaFileMetadataFileOriginTypeEnum;
+  fileOriginType?: GoogleCloudDiscoveryengineV1alphaFileMetadataFileOriginTypeEnum | undefined;
   /** Output only. The name of the file uploaded. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Represents metadata related to the file that can suit particular use cases. The prefix "google." is reserved for the key for use by Google, but other prefixes can be freely used. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Output only. The ID of the file. */
-  fileId?: string;
+  fileId?: string | undefined;
   /** Output only. Alternate views of this file object. Each file view is attached to a specific role. Possible example keys: - "thumbnail" - "mobile_thumbnail" - "clip" - "summary" - "translation" */
-  views?: GoogleCloudDiscoveryengineV1alphaFileViewMap;
+  views?: GoogleCloudDiscoveryengineV1alphaFileViewMap | undefined;
   /** Optional. The original location of the file. It may be a local file path, or any other URI that allows accessing the file in an external system. There are two scenarios in which this url may be empty: 1. If the file was sent as inline data (e.g. pasted from the clipboard). 2. If the original location is not available. Note that there's no guarantee that the URI will be pointing to a valid or actually existing file. For example, a file might have been uploaded to the session, and then deleted from the original source. */
-  originalUri?: string;
+  originalUri?: string | undefined;
   /** Output only. The time the file was added to the session. Note that if a file was added, then modified externally, then added again, the add time will be updated. */
-  lastAddTime?: string;
+  lastAddTime?: string | undefined;
   /** Output only. The size of the context file in bytes. */
-  byteSize?: string;
+  byteSize?: string | undefined;
   /** Optional. The type of the original source of the file. */
-  originalSourceType?: GoogleCloudDiscoveryengineV1alphaFileMetadataOriginalSourceTypeEnum;
+  originalSourceType?:
+    | GoogleCloudDiscoveryengineV1alphaFileMetadataOriginalSourceTypeEnum
+    | undefined;
   /** Output only. The time the file was uploaded (If this is a file generated by an internal process and then made available to the session, this indicates the moment it happened). */
-  uploadTime?: string;
+  uploadTime?: string | undefined;
   /** Output only. The AssistantService.DownloadSessionFile URL to download the file. This URL will need the same credentials as AssistantService.ListSessionFileMetadata method and will provide the resource. */
-  downloadUri?: string;
+  downloadUri?: string | undefined;
   /** The content type of the file, see https://www.iana.org/assignments/media-types/media-types.xhtml. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaFileMetadataList =
   Array<GoogleCloudDiscoveryengineV1alphaFileMetadata>;
 /** Response message for SessionService.ListFiles method. */
 export interface GoogleCloudDiscoveryengineV1alphaListFilesResponse {
   /** The FileMetadatas. */
-  files?: GoogleCloudDiscoveryengineV1alphaFileMetadataList;
+  files?: GoogleCloudDiscoveryengineV1alphaFileMetadataList | undefined;
   /** A token to retrieve next page of results. Pass this value in the ListFilesRequest.page_token field in the subsequent call to `ListFiles` method to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCollectionsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListProjectsLocationsDataStoresViewEnum =
   | "DATA_STORE_VIEW_UNSPECIFIED"
@@ -9056,15 +9602,15 @@ export type ListProjectsLocationsDataStoresViewEnum =
   | "DATA_STORE_VIEW_FULL";
 export interface ListProjectsLocationsDataStoresRequest {
   /** Maximum number of DataStores to return. If unspecified, defaults to 10. The maximum allowed value is 50. Values above 50 will be coerced to 50. If this field is negative, an INVALID_ARGUMENT is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filter by solution type . For example: `filter = 'solution_type:SOLUTION_TYPE_SEARCH'` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The view to apply to the returned DataStores. Defaults to DataStoreView.DATA_STORE_VIEW_BASIC if unspecified. DataStoreView.DATA_STORE_VIEW_FULL additionally populates DataStore.icon_uri for connector-backed data stores. Resolving connector icons requires extra lookups, so request it only when the caller renders the icons. */
-  view?: ListProjectsLocationsDataStoresViewEnum | (string & {});
+  view?: ListProjectsLocationsDataStoresViewEnum | (string & {}) | undefined;
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection_id}`. If the caller does not have permission to list DataStores under this location, regardless of whether or not this data store exists, a PERMISSION_DENIED error is returned. */
   parent: string;
   /** A page token ListDataStoresResponse.next_page_token, received from a previous DataStoreService.ListDataStores call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to DataStoreService.ListDataStores must match the call that provided the page token. Otherwise, an INVALID_ARGUMENT error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListProjectsLocationsDataStoresBranchesViewEnum =
   | "BRANCH_VIEW_UNSPECIFIED"
@@ -9072,125 +9618,125 @@ export type ListProjectsLocationsDataStoresBranchesViewEnum =
   | "BRANCH_VIEW_FULL";
 export interface ListProjectsLocationsDataStoresBranchesRequest {
   /** The view to apply to the returned Branch. Defaults to BranchView.BRANCH_VIEW_BASIC if unspecified. */
-  view?: ListProjectsLocationsDataStoresBranchesViewEnum | (string & {});
+  view?: ListProjectsLocationsDataStoresBranchesViewEnum | (string & {}) | undefined;
   /** Required. The parent data store resource name. */
   parent: string;
 }
 export interface ListProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Maximum number of Documents to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 are set to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Use `default_branch` as the branch ID, to list documents under the default branch. If the caller does not have permission to list Documents under this branch, regardless of whether or not this branch exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** A page token ListDocumentsResponse.next_page_token, received from a previous DocumentService.ListDocuments call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to DocumentService.ListDocuments must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDataStoresBranchesDocumentsChunksRequest {
   /** Required. The parent document resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to list Chunks under this document, regardless of whether or not this document exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** Maximum number of Chunks to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token ListChunksResponse.next_page_token, received from a previous ChunkService.ListChunks call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ChunkService.ListChunks must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDataStoresBranchesOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
 export interface ListProjectsLocationsDataStoresControlsRequest {
   /** Optional. A page token, received from a previous `ListControls` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A filter to apply on the list results. Supported features: * List all the products under the parent branch if filter is unset. Currently this field is unsupported. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}` or `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   parent: string;
 }
 export interface ListProjectsLocationsDataStoresConversationsRequest {
   /** Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * `update_time` * `create_time` * `conversation_name` Example: "update_time desc" "create_time" */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A filter to apply on the list results. The supported features are: user_pseudo_id, state. Example: "user_pseudo_id = some_id" */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** A page token, received from a previous `ListConversations` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDataStoresModelsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListProjectsLocationsDataStoresOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsDataStoresSchemasRequest {
   /** The maximum number of Schemas to return. The service may return fewer than this value. If unspecified, at most 100 Schemas are returned. The maximum value is 1000; values above 1000 are set to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous SchemaService.ListSchemas call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SchemaService.ListSchemas must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
 }
 export interface ListProjectsLocationsDataStoresServingConfigsRequest {
   /** Optional. Maximum number of results to return. If unspecified, defaults to 100. If a value greater than 100 is provided, at most 100 results are returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListServingConfigs` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Full resource name of the parent resource. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
 }
 export interface ListProjectsLocationsDataStoresSessionsRequest {
   /** A page token, received from a previous `ListSessions` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A comma-separated list of fields to order by, sorted in ascending order. Use "desc" after a field name for descending. Supported fields: * `update_time` * `create_time` * `session_name` * `is_pinned` * `display_name` Example: * `update_time desc` * `create_time` * `is_pinned desc,update_time desc`: list sessions by is_pinned first, then by update_time. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
   /** A comma-separated list of fields to filter by, in EBNF grammar. The supported fields are: * `user_pseudo_id` * `state` * `display_name` * `starred` * `is_pinned` * `labels` * `create_time` * `update_time` * `collaborative_project` Examples: * `user_pseudo_id = some_id` * `display_name = "some_name"` * `starred = true` * `is_pinned=true AND (NOT labels:hidden)` * `create_time > "1970-01-01T12:00:00Z"` * `collaborative_project = "projects/123/locations/global/collections/default_collection/engines/" "default_engine/collaborative_projects/cp1"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. The parent site search engine resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. If the caller does not have permission to list TargetSites under this site search engine, regardless of whether or not this branch exists, a PERMISSION_DENIED error is returned. */
   parent: string;
   /** A page token, received from a previous `ListTargetSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTargetSites` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum value is 1000; values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsEvaluationsRequest {
   /** Optional. A page token ListEvaluationsResponse.next_page_token, received from a previous EvaluationService.ListEvaluations call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to EvaluationService.ListEvaluations must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of Evaluations to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent location resource name, such as `projects/{project}/locations/{location}`. If the caller does not have permission to list Evaluations under this location, regardless of whether or not this location exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
 }
@@ -9199,15 +9745,15 @@ export type GoogleCloudDiscoveryengineV1alphaEvaluationList =
 /** Response message for EvaluationService.ListEvaluations method. */
 export interface GoogleCloudDiscoveryengineV1alphaListEvaluationsResponse {
   /** The Evaluations. */
-  evaluations?: GoogleCloudDiscoveryengineV1alphaEvaluationList;
+  evaluations?: GoogleCloudDiscoveryengineV1alphaEvaluationList | undefined;
   /** A token that can be sent as ListEvaluationsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsIdentityMappingStoresRequest {
   /** A page token, received from a previous `ListIdentityMappingStores` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIdentityMappingStores` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of IdentityMappingStores to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent of the Identity Mapping Stores to list. Format: `projects/{project}/locations/{location}`. */
   parent: string;
 }
@@ -9216,29 +9762,29 @@ export type GoogleCloudDiscoveryengineV1alphaIdentityMappingStoreList =
 /** Response message for IdentityMappingStoreService.ListIdentityMappingStores */
 export interface GoogleCloudDiscoveryengineV1alphaListIdentityMappingStoresResponse {
   /** The Identity Mapping Stores. */
-  identityMappingStores?: GoogleCloudDiscoveryengineV1alphaIdentityMappingStoreList;
+  identityMappingStores?: GoogleCloudDiscoveryengineV1alphaIdentityMappingStoreList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsIdentityMappingStoresOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsLocationsLicenseConfigsRequest {
   /** Optional. Not supported. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Not supported. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The filter to apply to the list results. The supported fields are: * `subscription_tier` * `state` Examples: * `subscription_tier=SUBSCRIPTION_TIER_SEARCH,state=ACTIVE` - Lists all active search license configs. * `state=ACTIVE` - Lists all active license configs. The filter string should be a comma-separated list of field=value pairs. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
 }
@@ -9247,53 +9793,53 @@ export type GoogleCloudDiscoveryengineV1alphaLicenseConfigList =
 /** Response message for LicenseConfigService.ListLicenseConfigs method. */
 export interface GoogleCloudDiscoveryengineV1alphaListLicenseConfigsResponse {
   /** Not supported. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the customer's LicenseConfigs. */
-  licenseConfigs?: GoogleCloudDiscoveryengineV1alphaLicenseConfigList;
+  licenseConfigs?: GoogleCloudDiscoveryengineV1alphaLicenseConfigList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsSampleQuerySetsRequest {
   /** Required. The parent location resource name, such as `projects/{project}/locations/{location}`. If the caller does not have permission to list SampleQuerySets under this location, regardless of whether or not this location exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** A page token ListSampleQuerySetsResponse.next_page_token, received from a previous SampleQuerySetService.ListSampleQuerySets call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SampleQuerySetService.ListSampleQuerySets must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of SampleQuerySets to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSampleQuerySetList =
   Array<GoogleCloudDiscoveryengineV1alphaSampleQuerySet>;
 /** Response message for SampleQuerySetService.ListSampleQuerySets method. */
 export interface GoogleCloudDiscoveryengineV1alphaListSampleQuerySetsResponse {
   /** A token that can be sent as ListSampleQuerySetsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The SampleQuerySets. */
-  sampleQuerySets?: GoogleCloudDiscoveryengineV1alphaSampleQuerySetList;
+  sampleQuerySets?: GoogleCloudDiscoveryengineV1alphaSampleQuerySetList | undefined;
 }
 export interface ListProjectsLocationsSampleQuerySetsSampleQueriesRequest {
   /** Required. The parent sample query set resource name, such as `projects/{project}/locations/{location}/sampleQuerySets/{sampleQuerySet}`. If the caller does not have permission to list SampleQuerys under this sample query set, regardless of whether or not this sample query set exists, a `PERMISSION_DENIED` error is returned. */
   parent: string;
   /** A page token ListSampleQueriesResponse.next_page_token, received from a previous SampleQueryService.ListSampleQueries call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SampleQueryService.ListSampleQueries must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of SampleQuerys to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message for SampleQueryService.ListSampleQueries method. */
 export interface GoogleCloudDiscoveryengineV1alphaListSampleQueriesResponse {
   /** The SampleQuerys. */
-  sampleQueries?: GoogleCloudDiscoveryengineV1alphaSampleQueryList;
+  sampleQueries?: GoogleCloudDiscoveryengineV1alphaSampleQueryList | undefined;
   /** A token that can be sent as ListSampleQueriesRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
@@ -9302,138 +9848,142 @@ export interface ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest 
 /** Stats about users' licenses. */
 export interface GoogleCloudDiscoveryengineV1alphaLicenseConfigUsageStats {
   /** Required. The LicenseConfig name. */
-  licenseConfig?: string;
+  licenseConfig?: string | undefined;
   /** Required. The number of licenses used. */
-  usedLicenseCount?: string;
+  usedLicenseCount?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaLicenseConfigUsageStatsList =
   Array<GoogleCloudDiscoveryengineV1alphaLicenseConfigUsageStats>;
 /** Response message for UserLicenseService.ListLicenseConfigsUsageStats method. */
 export interface GoogleCloudDiscoveryengineV1alphaListLicenseConfigsUsageStatsResponse {
   /** All the customer's LicenseConfigUsageStats. */
-  licenseConfigUsageStats?: GoogleCloudDiscoveryengineV1alphaLicenseConfigUsageStatsList;
+  licenseConfigUsageStats?:
+    | GoogleCloudDiscoveryengineV1alphaLicenseConfigUsageStatsList
+    | undefined;
 }
 export interface ListProjectsLocationsUserStoresOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsUserStoresUserAvailabilitiesRequest {
   /** Optional. Filter for the list request. Supported fields (only `user_principal` is supported for now): * `user_principal` (will be normalized for matching) Examples: * `user_principal = "user1@example.com"` to list user availability for `user1@example.com`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, defaults to 100. The maximum value is 1000; values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListUserAvailabilities` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserAvailabilities` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
 }
 /** Response message for UserStoreService.ListUserAvailabilities method. */
 export interface GoogleCloudDiscoveryengineV1alphaListUserAvailabilitiesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The UserAvailabilitys matching the request. */
-  userAvailabilities?: GoogleCloudDiscoveryengineV1alphaUserAvailabilityList;
+  userAvailabilities?: GoogleCloudDiscoveryengineV1alphaUserAvailabilityList | undefined;
 }
 export interface ListProjectsLocationsUserStoresUserLicensesRequest {
   /** Optional. The order in which the UserLicenses are listed. The value must be a comma-separated list of fields. Default sorting order is ascending. To specify descending order for a field, append a " desc" suffix. Redundant space characters in the syntax are insignificant. Supported fields (only `user_principal` is supported for now): * `user_principal` If not set, the default ordering is by `user_principal`. Examples: * `user_principal` to order by `user_principal` in ascending order. * `user_principal desc` to order by `user_principal` in descending order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListUserLicenses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserLicenses` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filter for the list request. Supported fields: * `license_assignment_state` * `user_principal` * Examples: * `license_assignment_state = ASSIGNED` to list assigned user licenses. * `license_assignment_state = NO_LICENSE` to list not licensed users. * `license_assignment_state = NO_LICENSE_ATTEMPTED_LOGIN` to list users who attempted login but no license assigned. * `license_assignment_state != NO_LICENSE_ATTEMPTED_LOGIN` to filter out users who attempted login but no license assigned. * `user_principal = user1@example.com` to list user license for `user1@example.com`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, defaults to 100. The maximum value is 1000; values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
 }
 /** Response message for UserLicenseService.ListUserLicenses. */
 export interface GoogleCloudDiscoveryengineV1alphaListUserLicensesResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the customer's UserLicenses. */
-  userLicenses?: GoogleCloudDiscoveryengineV1alphaUserLicenseList;
+  userLicenses?: GoogleCloudDiscoveryengineV1alphaUserLicenseList | undefined;
 }
 export interface ListProjectsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListRecentlyViewedProjectsLocationsNotebooksRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. The page token, provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of Notebooks to return. If unspecified, defaults to "500". The maximum allowed value is "500". If this field is negative, will use the default value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaNotebookList = Array<GoogleCloudNotebooklmV1alphaNotebook>;
 /** Response for NotebookService.ListRecentlyViewedNotebooks method. */
 export interface GoogleCloudNotebooklmV1alphaListRecentlyViewedNotebooksResponse {
   /** The list of recently viewed notebooks. */
-  notebooks?: GoogleCloudNotebooklmV1alphaNotebookList;
+  notebooks?: GoogleCloudNotebooklmV1alphaNotebookList | undefined;
   /** The page token, provide this to retrieve the subsequent page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListResultsProjectsLocationsEvaluationsRequest {
   /** Required. The evaluation resource name, such as `projects/{project}/locations/{location}/evaluations/{evaluation}`. If the caller does not have permission to list ListEvaluationResultsResponse.EvaluationResult under this evaluation, regardless of whether or not this evaluation set exists, a `PERMISSION_DENIED` error is returned. */
   evaluation: string;
   /** Optional. Maximum number of ListEvaluationResultsResponse.EvaluationResult to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an `INVALID_ARGUMENT` error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token ListEvaluationResultsResponse.next_page_token, received from a previous EvaluationService.ListEvaluationResults call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to EvaluationService.ListEvaluationResults must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Represents the results of an evaluation for a single SampleQuery. */
 export interface GoogleCloudDiscoveryengineV1alphaListEvaluationResultsResponseEvaluationResult {
   /** Output only. The SampleQuery that was evaluated. */
-  sampleQuery?: GoogleCloudDiscoveryengineV1alphaSampleQuery;
+  sampleQuery?: GoogleCloudDiscoveryengineV1alphaSampleQuery | undefined;
   /** Output only. The metrics produced by the evaluation, for a given SampleQuery. */
-  qualityMetrics?: GoogleCloudDiscoveryengineV1alphaQualityMetrics;
+  qualityMetrics?: GoogleCloudDiscoveryengineV1alphaQualityMetrics | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaListEvaluationResultsResponseEvaluationResultList =
   Array<GoogleCloudDiscoveryengineV1alphaListEvaluationResultsResponseEvaluationResult>;
 /** Response message for EvaluationService.ListEvaluationResults method. */
 export interface GoogleCloudDiscoveryengineV1alphaListEvaluationResultsResponse {
   /** The evaluation results for the SampleQuerys. */
-  evaluationResults?: GoogleCloudDiscoveryengineV1alphaListEvaluationResultsResponseEvaluationResultList;
+  evaluationResults?:
+    | GoogleCloudDiscoveryengineV1alphaListEvaluationResultsResponseEvaluationResultList
+    | undefined;
   /** A token that can be sent as ListEvaluationResultsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface McpProjectsLocationsCollectionsDataConnectorRequest {
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: StringList;
+  extensions?: StringList | undefined;
   locationsId: string;
   projectsId: string;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   collectionsId: string;
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 /** Request message for CrawlRateManagementService.ObtainCrawlRate method. */
 export interface GoogleCloudDiscoveryengineV1alphaObtainCrawlRateRequest {
   /** Required. The scope of the crawl rate that the user wants to monitor. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
-  crawlRateScope?: string;
+  crawlRateScope?: string | undefined;
 }
 export interface ObtainCrawlRateProjectsLocationsRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaObtainCrawlRateRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaObtainCrawlRateRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponseStateEnum =
   | "STATE_UNSPECIFIED"
@@ -9450,23 +10000,23 @@ export type GoogleMonitoringV3TimeSeriesValueTypeEnum =
 /** A specific metric, identified by specifying values for all of the labels of a `MetricDescriptor`. */
 export interface GoogleApiMetric {
   /** An existing metric type, see google.api.MetricDescriptor. For example, `custom.googleapis.com/invoice/paid/amount`. */
-  type?: string;
+  type?: string | undefined;
   /** The set of label values that uniquely identify this metric. All labels listed in the `MetricDescriptor` must be assigned values. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 /** A time interval extending just after a start time through an end time. If the start time is the same as the end time, then the interval represents a single point in time. */
 export interface GoogleMonitoringV3TimeInterval {
   /** Required. The end of the time interval. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Optional. The beginning of the time interval. The default value for the start time is the end time. The start time must not be later than the end time. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** A single data point in a time series. */
 export interface GoogleMonitoringV3Point {
   /** The value of the data point. */
-  value?: GoogleMonitoringV3TypedValue;
+  value?: GoogleMonitoringV3TypedValue | undefined;
   /** The time interval to which the data point applies. For `GAUGE` metrics, the start time is optional, but if it is supplied, it must equal the end time. For `DELTA` metrics, the start and end time should specify a non-zero interval, with subsequent points specifying contiguous and non-overlapping intervals. For `CUMULATIVE` metrics, the start and end time should specify a non-zero interval, with subsequent points specifying the same start time and increasing end times, until an event resets the cumulative value to zero and sets a new start time for the following points. */
-  interval?: GoogleMonitoringV3TimeInterval;
+  interval?: GoogleMonitoringV3TimeInterval | undefined;
 }
 export type GoogleMonitoringV3PointList = Array<GoogleMonitoringV3Point>;
 export type GoogleMonitoringV3TimeSeriesMetricKindEnum =
@@ -9477,342 +10027,346 @@ export type GoogleMonitoringV3TimeSeriesMetricKindEnum =
 /** Auxiliary metadata for a MonitoredResource object. MonitoredResource objects contain the minimum set of information to uniquely identify a monitored resource instance. There is some other useful auxiliary metadata. Monitoring and Logging use an ingestion pipeline to extract metadata for cloud resources of all types, and store the metadata in this message. */
 export interface GoogleApiMonitoredResourceMetadata {
   /** Output only. A map of user-defined metadata labels. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** Output only. Values for predefined system metadata labels. System labels are a kind of metadata extracted by Google, including "machine_image", "vpc", "subnet_id", "security_group", "name", etc. System label values can be only strings, Boolean values, or a list of strings. For example: { "name": "my-test-instance", "security_group": ["a", "b", "c"], "spot_instance": false } */
-  systemLabels?: DocumentMap;
+  systemLabels?: DocumentMap | undefined;
 }
 /** A collection of data points that describes the time-varying values of a metric. A time series is identified by a combination of a fully-specified monitored resource and a fully-specified metric. This type is used for both listing and creating time series. */
 export interface GoogleMonitoringV3TimeSeries {
   /** The value type of the time series. When listing time series, this value type might be different from the value type of the associated metric if this time series is an alignment or reduction of other time series. When creating a time series, this field is optional. If present, it must be the same as the type of the data in the `points` field. */
-  valueType?: GoogleMonitoringV3TimeSeriesValueTypeEnum;
+  valueType?: GoogleMonitoringV3TimeSeriesValueTypeEnum | undefined;
   /** The units in which the metric value is reported. It is only applicable if the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The `unit` defines the representation of the stored metric values. This field can only be changed through CreateTimeSeries when it is empty. */
-  unit?: string;
+  unit?: string | undefined;
   /** The associated monitored resource. Custom metrics can use only certain monitored resource types in their time series data. For more information, see [Monitored resources for custom metrics](https://cloud.google.com/monitoring/custom-metrics/creating-metrics#custom-metric-resources). */
-  resource?: GoogleApiMonitoredResource;
+  resource?: GoogleApiMonitoredResource | undefined;
   /** The associated metric. A fully-specified metric used to identify the time series. */
-  metric?: GoogleApiMetric;
+  metric?: GoogleApiMetric | undefined;
   /** The data points of this time series. When listing time series, points are returned in reverse time order. When creating a time series, this field must contain exactly one point and the point's type must be the same as the value type of the associated metric. If the associated metric's descriptor must be auto-created, then the value type of the descriptor is determined by the point's type, which must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`. */
-  points?: GoogleMonitoringV3PointList;
+  points?: GoogleMonitoringV3PointList | undefined;
   /** The metric kind of the time series. When listing time series, this metric kind might be different from the metric kind of the associated metric if this time series is an alignment or reduction of other time series. When creating a time series, this field is optional. If present, it must be the same as the metric kind of the associated metric. If the associated metric's descriptor must be auto-created, then this field specifies the metric kind of the new descriptor and must be either `GAUGE` (the default) or `CUMULATIVE`. */
-  metricKind?: GoogleMonitoringV3TimeSeriesMetricKindEnum;
+  metricKind?: GoogleMonitoringV3TimeSeriesMetricKindEnum | undefined;
   /** Input only. A detailed description of the time series that will be associated with the google.api.MetricDescriptor for the metric. Once set, this field cannot be changed through CreateTimeSeries. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The associated monitored resource metadata. When reading a time series, this field will include metadata labels that are explicitly named in the reduction. When creating a time series, this field is ignored. */
-  metadata?: GoogleApiMonitoredResourceMetadata;
+  metadata?: GoogleApiMonitoredResourceMetadata | undefined;
 }
 /** The historical crawl rate timeseries data, used for monitoring. */
 export interface GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries {
   /** The QPS of the crawl rate. */
-  qpsTimeSeries?: GoogleMonitoringV3TimeSeries;
+  qpsTimeSeries?: GoogleMonitoringV3TimeSeries | undefined;
 }
 /** The historical organic crawl rate timeseries data, used for monitoring. Organic crawl is auto-determined by Google to crawl the user's website when dedicate crawl is not set. Crawl rate is the QPS of crawl request Google sends to the user's website. */
 export interface GoogleCloudDiscoveryengineV1alphaOrganicCrawlRateTimeSeries {
   /** Google's organic crawl rate time series, which is the sum of all googlebots' crawl rate. Please refer to https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers for more details about googlebots. */
-  googleOrganicCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries;
+  googleOrganicCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries | undefined;
   /** Vertex AI's organic crawl rate time series, which is the crawl rate of Google-CloudVertexBot when dedicate crawl is not set. Please refer to https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers#google-cloudvertexbot for more details about Google-CloudVertexBot. */
-  vertexAiOrganicCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries;
+  vertexAiOrganicCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries | undefined;
 }
 /** The historical dedicated crawl rate timeseries data, used for monitoring. Dedicated crawl is used by Vertex AI to crawl the user's website when dedicate crawl is set. */
 export interface GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries {
   /** Vertex AI's error rate time series of auto-refresh dedicated crawl. */
-  autoRefreshCrawlErrorRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries;
+  autoRefreshCrawlErrorRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries | undefined;
   /** Vertex AI's dedicated crawl rate time series of auto-refresh, which is the crawl rate of Google-CloudVertexBot when dedicate crawl is set, and the crawl rate is for best effort use cases like refreshing urls periodically. */
-  autoRefreshCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries;
+  autoRefreshCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries | undefined;
   /** Vertex AI's dedicated crawl rate time series of user triggered crawl, which is the crawl rate of Google-CloudVertexBot when dedicate crawl is set, and user triggered crawl rate is for deterministic use cases like crawling urls or sitemaps specified by users. */
-  userTriggeredCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries;
+  userTriggeredCrawlRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries | undefined;
   /** Vertex AI's error rate time series of user triggered dedicated crawl. */
-  userTriggeredCrawlErrorRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries;
+  userTriggeredCrawlErrorRate?: GoogleCloudDiscoveryengineV1alphaCrawlRateTimeSeries | undefined;
 }
 /** Response message for CrawlRateManagementService.ObtainCrawlRate method. The response contains organcic or dedicated crawl rate time series data for monitoring, depending on whether dedicated crawl rate is set. */
 export interface GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponse {
   /** Output only. The state of the response. */
-  state?: GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponseStateEnum;
+  state?: GoogleCloudDiscoveryengineV1alphaObtainCrawlRateResponseStateEnum | undefined;
   /** Errors from service when handling the request. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** The historical organic crawl rate timeseries data, used for monitoring. */
-  organicCrawlRateTimeSeries?: GoogleCloudDiscoveryengineV1alphaOrganicCrawlRateTimeSeries;
+  organicCrawlRateTimeSeries?:
+    | GoogleCloudDiscoveryengineV1alphaOrganicCrawlRateTimeSeries
+    | undefined;
   /** The historical dedicated crawl rate timeseries data, used for monitoring. */
-  dedicatedCrawlRateTimeSeries?: GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries;
+  dedicatedCrawlRateTimeSeries?:
+    | GoogleCloudDiscoveryengineV1alphaDedicatedCrawlRateTimeSeries
+    | undefined;
 }
 export interface PatchProjectsRequest {
   /** Output only. Full resource name of the project, for example `projects/{project}`. Note that when making requests, project number and project id are both acceptable, but the server will always respond in project number. */
   name: string;
   /** Optional. The list of fields to update. Supported fields: * `customer_provided_config` * `customer_provided_config.notebooklm_config.observability_config` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaProject;
+  body?: GoogleCloudDiscoveryengineV1alphaProject | undefined;
 }
 export interface PatchProjectsLocationsAuthorizationsRequest {
   /** The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Resource name of the authorization. Format: `projects/{project}/locations/{location}/authorizations/{authorization}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAuthorization;
+  body?: GoogleCloudDiscoveryengineV1alphaAuthorization | undefined;
 }
 export interface PatchProjectsLocationsCmekConfigsRequest {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
-  setDefault?: boolean;
+  setDefault?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCmekConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaCmekConfig | undefined;
 }
 export interface PatchProjectsLocationsCollectionsRequest {
   /** Immutable. The full resource name of the Collection. Format: `projects/{project}/locations/{location}/collections/{collection_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Optional. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCollection;
+  body?: GoogleCloudDiscoveryengineV1alphaCollection | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresRequest {
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore;
+  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Indicates which fields in the provided imported 'document' to update. If not set, by default updates all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** If set to `true` and the Document is not found, a new Document is be created. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument;
+  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl;
+  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation;
+  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema;
+  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession;
+  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite;
+  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
 export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest {
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesRequest {
   /** Immutable. Identifier. The fully qualified resource name of the engine. This field must be a UTF-8 encoded string with a length limit of 1024 characters. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` engine should be 1-63 characters, and valid characters are /a-z0-9*\/. Otherwise, an INVALID_ARGUMENT error is returned. */
   name: string;
   /** Indicates which fields in the provided Engine to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaEngine;
+  body?: GoogleCloudDiscoveryengineV1alphaEngine | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Resource name of the assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAssistant;
+  body?: GoogleCloudDiscoveryengineV1alphaAssistant | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsAgentsRequest {
   /** Identifier. Resource name of the agent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/agents/{agent}` */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAgent;
+  body?: GoogleCloudDiscoveryengineV1alphaAgent | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsCannedQueriesRequest {
   /** Immutable. Resource name of the canned query. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}/cannedQueries/{canned_query}` It must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCannedQuery;
+  body?: GoogleCloudDiscoveryengineV1alphaCannedQuery | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesControlsRequest {
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl;
+  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation;
+  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession;
+  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest {
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig | undefined;
 }
 export interface PatchProjectsLocationsDataStoresRequest {
   /** Indicates which fields in the provided DataStore to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataStore;
+  body?: GoogleCloudDiscoveryengineV1alphaDataStore | undefined;
 }
 export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** If set to `true` and the Document is not found, a new Document is be created. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided imported 'document' to update. If not set, by default updates all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocument;
+  body?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
 export interface PatchProjectsLocationsDataStoresControlsRequest {
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/dataStore/*\/controls/*` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaControl;
+  body?: GoogleCloudDiscoveryengineV1alphaControl | undefined;
 }
 export interface PatchProjectsLocationsDataStoresConversationsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/*\/conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/*\/conversations/*`. */
   name: string;
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaConversation;
+  body?: GoogleCloudDiscoveryengineV1alphaConversation | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSchemasRequest {
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSchema;
+  body?: GoogleCloudDiscoveryengineV1alphaSchema | undefined;
 }
 export interface PatchProjectsLocationsDataStoresServingConfigsRequest {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaServingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaServingConfig | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSessionsRequest {
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSession;
+  body?: GoogleCloudDiscoveryengineV1alphaSession | undefined;
 }
 export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTargetSite;
+  body?: GoogleCloudDiscoveryengineV1alphaTargetSite | undefined;
 }
 export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest {
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaWidgetConfig | undefined;
 }
 export interface PatchProjectsLocationsLicenseConfigsRequest {
   /** Optional. Indicates which fields in the provided LicenseConfig to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaLicenseConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaLicenseConfig | undefined;
 }
 export interface PatchProjectsLocationsSampleQuerySetsRequest {
   /** Identifier. The full resource name of the SampleQuerySet, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Indicates which fields in the provided imported 'sample query set' to update. If not set, will by default update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuerySet;
+  body?: GoogleCloudDiscoveryengineV1alphaSampleQuerySet | undefined;
 }
 export interface PatchProjectsLocationsSampleQuerySetsSampleQueriesRequest {
   /** Indicates which fields in the provided imported 'simple query' to update. If not set, will by default update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The full resource name of the sample query, in the format of `projects/{project}/locations/{location}/sampleQuerySets/{sample_query_set}/sampleQueries/{sample_query}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSampleQuery;
+  body?: GoogleCloudDiscoveryengineV1alphaSampleQuery | undefined;
 }
 export interface PatchProjectsLocationsUserStoresRequest {
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. The full resource name of the User Store, in the format of `projects/{project}/locations/{location}/userStores/{user_store}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserStore;
+  body?: GoogleCloudDiscoveryengineV1alphaUserStore | undefined;
 }
 /** Request for pausing training of an engine. */
 export type GoogleCloudDiscoveryengineV1alphaPauseEngineRequest =
@@ -9821,7 +10375,7 @@ export interface PauseProjectsLocationsCollectionsEnginesRequest {
   /** Required. The name of the engine to pause. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaProvisionProjectRequestProvisionIntentEnum =
   | "PROVISION_INTENT_UNSPECIFIED"
@@ -9830,85 +10384,88 @@ export type GoogleCloudDiscoveryengineV1alphaProvisionProjectRequestProvisionInt
 /** Parameters for Agentspace. */
 export interface GoogleCloudDiscoveryengineV1alphaProvisionProjectRequestSaasParams {
   /** Optional. Set to `true` to specify that caller has read and would like to give consent to the [Terms for Agent Space quality of service]. */
-  acceptBizQos?: boolean;
+  acceptBizQos?: boolean | undefined;
   /** Optional. Indicates if the current request is for Biz edition (= true) or not (= false). */
-  isBiz?: boolean;
+  isBiz?: boolean | undefined;
 }
 /** Request for ProjectService.ProvisionProject method. */
 export interface GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest {
   /** Optional. The identity provider for this location. When provided, the location's AclConfig is set from it as part of provisioning. */
-  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig;
+  idpConfig?: GoogleCloudDiscoveryengineV1alphaIdpConfig | undefined;
   /** Optional. The caller states whether the provisioning is for the new or the classic Gemini Enterprise experience. */
   provisionIntent?:
     | GoogleCloudDiscoveryengineV1alphaProvisionProjectRequestProvisionIntentEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The version of the [Terms for data use](https://cloud.google.com/retail/data-use-terms) that caller has read and would like to give consent to. Acceptable version is `2022-11-23`, and this may change over time. */
-  dataUseTermsVersion?: string;
+  dataUseTermsVersion?: string | undefined;
   /** Optional. Parameters for Agentspace. */
-  saasParams?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequestSaasParams;
+  saasParams?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequestSaasParams | undefined;
   /** Required. Set to `true` to specify that caller has read and would like to give consent to the [Terms for data use](https://cloud.google.com/retail/data-use-terms). */
-  acceptDataUseTerms?: boolean;
+  acceptDataUseTerms?: boolean | undefined;
 }
 export interface ProvisionProjectsRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest | undefined;
 }
 export interface ProvisionProjectsLocationsRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaProvisionProjectRequest | undefined;
 }
 /** The inline source to purge identity mapping entries from. */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequestInlineSource {
   /** A maximum of 10000 entries can be purged at one time */
-  identityMappingEntries?: GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryList;
+  identityMappingEntries?: GoogleCloudDiscoveryengineV1alphaIdentityMappingEntryList | undefined;
 }
 /** Request message for IdentityMappingStoreService.PurgeIdentityMappings */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequest {
   /** Filter matching identity mappings to purge. The eligible field for filtering is: * `update_time`: in ISO 8601 "zulu" format. * `external_id` Examples: * Deleting all identity mappings updated in a time range: `update_time > "2012-04-23T18:25:43.511Z" AND update_time < "2012-04-23T18:30:43.511Z"` * Deleting all identity mappings for a given external_id: `external_id = "id1"` * Deleting all identity mappings inside an identity mapping store: `*` The filtering fields are assumed to have an implicit AND. Should not be used with source. An error will be thrown, if both are provided. */
-  filter?: string;
+  filter?: string | undefined;
   /** Actually performs the purge. If `force` is set to false, return the expected purge count without deleting any identity mappings. This field is only supported for purge with filter. For input source this field is ignored and data will be purged regardless of the value of this field. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** The inline source to purge identity mapping entries from. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequestInlineSource;
+  inlineSource?:
+    | GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequestInlineSource
+    | undefined;
 }
 export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to purge Identity Mapping Entries from. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaPurgeIdentityMappingsRequest | undefined;
 }
 /** The inline source for the input config for DocumentService.PurgeDocuments method. */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequestInlineSource {
   /** Required. A list of full resource name of documents to purge. In the format `projects/*\/locations/*\/collections/*\/dataStores/*\/branches/*\/documents/*`. Recommended max of 100 items. */
-  documents?: StringList;
+  documents?: StringList | undefined;
 }
 /** Configuration of destination for Purge related errors. */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeErrorConfig {
   /** Cloud Storage prefix for purge errors. This must be an empty, existing Cloud Storage directory. Purge errors are written to sharded files in this directory, one per line, as a JSON-encoded `google.rpc.Status` message. */
-  gcsPrefix?: string;
+  gcsPrefix?: string | undefined;
 }
 /** Request message for DocumentService.PurgeDocuments method. */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest {
   /** Actually performs the purge. If `force` is set to false, return the expected purge count without deleting any documents. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Filter matching documents to purge. Only currently supported value is `*` (all items). */
-  filter?: string;
+  filter?: string | undefined;
   /** Cloud Storage location for the input content. Supported `data_schema`: * `document_id`: One valid Document.id per line. */
-  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource;
+  gcsSource?: GoogleCloudDiscoveryengineV1alphaGcsSource | undefined;
   /** Inline source for the input content for purge. */
-  inlineSource?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequestInlineSource;
+  inlineSource?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequestInlineSource | undefined;
   /** The desired location of errors incurred during the purge. */
-  errorConfig?: GoogleCloudDiscoveryengineV1alphaPurgeErrorConfig;
+  errorConfig?: GoogleCloudDiscoveryengineV1alphaPurgeErrorConfig | undefined;
 }
 export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest | undefined;
 }
 /** Request message for CompletionService.PurgeCompletionSuggestions method. */
 export type GoogleCloudDiscoveryengineV1alphaPurgeCompletionSuggestionsRequest =
@@ -9917,7 +10474,7 @@ export interface PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestion
   /** Required. The parent data store resource name for which to purge completion suggestions. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Request message for CompletionService.PurgeSuggestionDenyListEntries method. */
 export type GoogleCloudDiscoveryengineV1alphaPurgeSuggestionDenyListEntriesRequest =
@@ -9926,44 +10483,44 @@ export interface PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEn
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Request message for PurgeUserEvents method. */
 export interface GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest {
   /** Required. The filter string to specify the events to be deleted with a length limit of 5,000 characters. The eligible fields for filtering are: * `eventType`: Double quoted UserEvent.event_type string. * `eventTime`: in ISO 8601 "zulu" format. * `userPseudoId`: Double quoted string. Specifying this will delete all events associated with a visitor. * `userId`: Double quoted string. Specifying this will delete all events associated with a user. Note: This API only supports purging a max range of 30 days. Examples: * Deleting all events in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z"` * Deleting specific eventType in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z" eventType = "search"` * Deleting all events for a specific visitor in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z" userPseudoId = "visitor1024"` * Deleting the past 30 days of events inside a DataStore: `*` The filtering fields are assumed to have an implicit AND. */
-  filter?: string;
+  filter?: string | undefined;
   /** The `force` field is currently not supported. Purge user event requests will permanently delete all purgeable events. Once the development is complete: If `force` is set to false, the method will return the expected purge count without deleting any user events. This field will default to false if not included in the request. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest | undefined;
 }
 export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaPurgeDocumentsRequest | undefined;
 }
 export interface PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to purge completion suggestions. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export interface PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/*\/locations/*\/collections/*\/dataStores/*. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export interface PurgeProjectsLocationsDataStoresUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaPurgeUserEventsRequest | undefined;
 }
 export type QueryConfigurablePricingUsageStatsProjectsLocationsMetricTypesEnum =
   | "BILLING_METRIC_TYPE_UNSPECIFIED"
@@ -9977,23 +10534,23 @@ export type QueryConfigurablePricingUsageStatsProjectsLocationsMetricTypesEnumLi
 >;
 export interface QueryConfigurablePricingUsageStatsProjectsLocationsRequest {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "timeRange.endDate.day"?: number;
+  "timeRange.endDate.day"?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "timeRange.endDate.month"?: number;
+  "timeRange.endDate.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "timeRange.endDate.year"?: number;
+  "timeRange.endDate.year"?: number | undefined;
   /** Optional. The metric types to return usage for. */
-  metricTypes?: QueryConfigurablePricingUsageStatsProjectsLocationsMetricTypesEnumList;
+  metricTypes?: QueryConfigurablePricingUsageStatsProjectsLocationsMetricTypesEnumList | undefined;
   /** Required. The project to query usage stats for. Format: projects/{project} */
   project: string;
   /** Required. The location to query usage stats for. */
   location: string;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "timeRange.startDate.day"?: number;
+  "timeRange.startDate.day"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "timeRange.startDate.year"?: number;
+  "timeRange.startDate.year"?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "timeRange.startDate.month"?: number;
+  "timeRange.startDate.month"?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsageMetricTypeEnum =
   | "BILLING_METRIC_TYPE_UNSPECIFIED"
@@ -10005,210 +10562,216 @@ export type GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsR
 /** A list of usages for a specific day. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseDatedUsage {
   /** The date of the usage. */
-  date?: GoogleTypeDate;
+  date?: GoogleTypeDate | undefined;
   /** The usage value on the date. */
-  usage?: number;
+  usage?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseDatedUsageList =
   Array<GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseDatedUsage>;
 /** The usage of a metric over a list of days. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsage {
   /** The metric type. */
-  metricType?: GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsageMetricTypeEnum;
+  metricType?:
+    | GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsageMetricTypeEnum
+    | undefined;
   /** The list of usages for this resource type, chronologically sorted by date. This is populated for metrics with daily aggregation like DAILY_MDN_QPM. */
-  datedUsages?: GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseDatedUsageList;
+  datedUsages?:
+    | GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseDatedUsageList
+    | undefined;
   /** The total usage for this resource type. This is populated for metrics like TOTAL_STORAGE. */
-  totalUsage?: number;
+  totalUsage?: number | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsageList =
   Array<GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsage>;
 /** Response for [ProjectService.QueryConfigurablePricingUsageStats] method. */
 export interface GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponse {
   /** A list of metric usages, one for each requested resource type that has data in the requested time range. */
-  metricUsages?: GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsageList;
+  metricUsages?:
+    | GoogleCloudDiscoveryengineV1alphaQueryConfigurablePricingUsageStatsResponseMetricUsageList
+    | undefined;
 }
 /** Record message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1alphaRankingRecord {
   /** The title of the record. Empty by default. At least one of title or content should be set otherwise an INVALID_ARGUMENT error is thrown. */
-  title?: string;
+  title?: string | undefined;
   /** The score of this record based on the given query and selected model. The score will be rounded to 4 decimal places. If the score is close to 0, it will be rounded to 0.00001 to avoid returning unset. */
-  score?: number;
+  score?: number | undefined;
   /** The unique ID to represent the record. */
-  id?: string;
+  id?: string | undefined;
   /** The content of the record. Empty by default. At least one of title or content should be set otherwise an INVALID_ARGUMENT error is thrown. */
-  content?: string;
+  content?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaRankingRecordList =
   Array<GoogleCloudDiscoveryengineV1alphaRankingRecord>;
 /** Request message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1alphaRankRequest {
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** The number of results to return. If this is unset or no bigger than zero, returns all results. */
-  topN?: number;
+  topN?: number | undefined;
   /** If true, the response will contain only record ID and score. By default, it is false, the response will contain record details. */
-  ignoreRecordDetailsInResponse?: boolean;
+  ignoreRecordDetailsInResponse?: boolean | undefined;
   /** Required. A list of records to rank. */
-  records?: GoogleCloudDiscoveryengineV1alphaRankingRecordList;
+  records?: GoogleCloudDiscoveryengineV1alphaRankingRecordList | undefined;
   /** The identifier of the model to use. It is one of: * `semantic-ranker-512@latest`: Semantic ranking model with maximum input token size 512. It is set to `semantic-ranker-512@latest` by default if unspecified. */
-  model?: string;
+  model?: string | undefined;
   /** The query to use. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface RankProjectsLocationsRankingConfigsRequest {
   /** Required. The resource name of the rank service config, such as `projects/{project_num}/locations/{location}/rankingConfigs/default_ranking_config`. */
   rankingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRankRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRankRequest | undefined;
 }
 /** Response message for RankService.Rank method. */
 export interface GoogleCloudDiscoveryengineV1alphaRankResponse {
   /** A list of records sorted by descending score. */
-  records?: GoogleCloudDiscoveryengineV1alphaRankingRecordList;
+  records?: GoogleCloudDiscoveryengineV1alphaRankingRecordList | undefined;
 }
 /** Request message for Recommend method. */
 export interface GoogleCloudDiscoveryengineV1alphaRecommendRequest {
   /** Required. Context about the user, what they are looking at and what action they took to trigger the Recommend request. Note that this user event detail won't be ingested to userEvent logs. Thus, a separate userEvent write request is required for event logging. Don't set UserEvent.user_pseudo_id or UserEvent.user_info.user_id to the same fixed ID for different users. If you are trying to receive non-personalized recommendations (not recommended; this can negatively impact model performance), instead set UserEvent.user_pseudo_id to a random unique ID and leave UserEvent.user_info.user_id unset. */
-  userEvent?: GoogleCloudDiscoveryengineV1alphaUserEvent;
+  userEvent?: GoogleCloudDiscoveryengineV1alphaUserEvent | undefined;
   /** Additional domain specific parameters for the recommendations. Allowed values: * `returnDocument`: Boolean. If set to `true`, the associated Document object is returned in RecommendResponse.RecommendationResult.document. * `returnScore`: Boolean. If set to true, the recommendation score corresponding to each returned Document is set in RecommendResponse.RecommendationResult.metadata. The given score indicates the probability of a Document conversion given the user's context and history. * `strictFiltering`: Boolean. True by default. If set to `false`, the service returns generic (unfiltered) popular Documents instead of empty if your filter blocks all recommendation results. * `diversityLevel`: String. Default empty. If set to be non-empty, then it needs to be one of: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` This gives request-level control and adjusts recommendation results based on Document category. * `attributeFilteringSyntax`: Boolean. False by default. If set to true, the `filter` field is interpreted according to the new, attribute-based syntax. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
   /** Use validate only mode for this recommendation query. If set to `true`, a fake model is used that returns arbitrary Document IDs. Note that the validate only mode should only be used for testing the API, or if the model is not ready. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Filter for restricting recommendation results with a length limit of 5,000 characters. Currently, only filter expressions on the `filter_tags` attribute is supported. Examples: * `(filter_tags: ANY("Red", "Blue") OR filter_tags: ANY("Hot", "Cold"))` * `(filter_tags: ANY("Red", "Blue")) AND NOT (filter_tags: ANY("Green"))` If `attributeFilteringSyntax` is set to true under the `params` field, then attribute-based expressions are expected instead of the above described tag-based syntax. Examples: * (language: ANY("en", "es")) AND NOT (categories: ANY("Movie")) * (available: true) AND (language: ANY("en", "es")) OR (categories: ANY("Movie")) If your filter blocks all results, the API returns generic (unfiltered) popular Documents. If you only want results strictly matching the filters, set `strictFiltering` to `true` in RecommendRequest.params to receive empty results instead. Note that the API never returns Documents with `storageStatus` as `EXPIRED` or `DELETED` regardless of filter choices. */
-  filter?: string;
+  filter?: string | undefined;
   /** The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** Maximum number of results to return. Set this property to the number of recommendation results needed. If zero, the service chooses a reasonable default. The maximum allowed value is 100. Values above 100 are set to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest | undefined;
 }
 /** RecommendationResult represents a generic recommendation result with associated metadata. */
 export interface GoogleCloudDiscoveryengineV1alphaRecommendResponseRecommendationResult {
   /** Resource ID of the recommended Document. */
-  id?: string;
+  id?: string | undefined;
   /** Additional Document metadata or annotations. Possible values: * `score`: Recommendation score in double value. Is set if `returnScore` is set to true in RecommendRequest.params. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** Set if `returnDocument` is set to true in RecommendRequest.params. */
-  document?: GoogleCloudDiscoveryengineV1alphaDocument;
+  document?: GoogleCloudDiscoveryengineV1alphaDocument | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaRecommendResponseRecommendationResultList =
   Array<GoogleCloudDiscoveryengineV1alphaRecommendResponseRecommendationResult>;
 /** Response message for Recommend method. */
 export interface GoogleCloudDiscoveryengineV1alphaRecommendResponse {
   /** A list of recommended Documents. The order represents the ranking (from the most relevant Document to the least). */
-  results?: GoogleCloudDiscoveryengineV1alphaRecommendResponseRecommendationResultList;
+  results?: GoogleCloudDiscoveryengineV1alphaRecommendResponseRecommendationResultList | undefined;
   /** IDs of documents in the request that were missing from the default Branch associated with the requested ServingConfig. */
-  missingIds?: StringList;
+  missingIds?: StringList | undefined;
   /** A unique attribution token. This should be included in the UserEvent logs resulting from this recommendation, which enables accurate attribution of recommendation model performance. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** True if RecommendRequest.validate_only was set. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest | undefined;
 }
 export interface RecommendProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/*\/locations/global/collections/*\/engines/*\/servingConfigs/*`, or `projects/*\/locations/global/collections/*\/dataStores/*\/servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/*\/locations/global/collections/*\/engines/my-engine`, you can use `projects/*\/locations/global/collections/*\/engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRecommendRequest | undefined;
 }
 /** Request message for SiteSearchEngineService.RecrawlUris method. */
 export interface GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest {
   /** Required. List of URIs to crawl. At most 10K URIs are supported, otherwise an INVALID_ARGUMENT error is thrown. Each URI should match at least one TargetSite in `site_search_engine`. */
-  uris?: StringList;
+  uris?: StringList | undefined;
   /** Optional. Credential id to use for crawling. */
-  siteCredential?: string;
+  siteCredential?: string | undefined;
 }
 export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest | undefined;
 }
 export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRecrawlUrisRequest | undefined;
 }
 /** Request message for CrawlRateManagementService.RemoveDedicatedCrawlRate method. The user can remove the dedicated crawl rate for a crawl_rate_scope they own, and Google will fall back to organic crawl, and the crawl rate will be determined by Google. */
 export interface GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateRequest {
   /** Required. The scope of the crawl rate change. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
-  crawlRateScope?: string;
+  crawlRateScope?: string | undefined;
 }
 export interface RemoveDedicatedCrawlRateProjectsLocationsRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRemoveDedicatedCrawlRateRequest | undefined;
 }
 /** Request for DataStoreService.RemovePatientFilter method. */
 export interface GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest {
   /** Required. Names of the Group resources to use as a basis for the list of patients to remove from the patient filter, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. if the caller does not have permission to access the FHIR store, regardless of whether it exists, PERMISSION_DENIED error is returned. If the discovery engine service account does not have permission to access the FHIR store, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the group is not found at the location, a RESOURCE_NOT_FOUND error will be returned. The filter group must be a FHIR resource name of type Group, and the list of IDs to remove will be constructed from the direct members of the group which are Patient resources. */
-  filterGroups?: StringList;
+  filterGroups?: StringList | undefined;
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
-  dataStore?: string;
+  dataStore?: string | undefined;
 }
 export interface RemovePatientFilterProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest | undefined;
 }
 export interface RemovePatientFilterProjectsLocationsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore does not have a patient filter, a NOT_FOUND error will be returned */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRemovePatientFilterRequest | undefined;
 }
 /** Request message for CompletionService.RemoveSuggestion method. */
 export interface GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest {
   /** Required. Time at which the suggestion was removed. If not set, the current time will be used. */
-  removeTime?: string;
+  removeTime?: string | undefined;
   /** The search history suggestion to be removed. */
-  searchHistorySuggestion?: string;
+  searchHistorySuggestion?: string | undefined;
   /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128. */
-  userPseudoId?: string;
+  userPseudoId?: string | undefined;
   /** Remove all search history suggestions for the user. */
-  removeAllSearchHistorySuggestions?: boolean;
+  removeAllSearchHistorySuggestions?: boolean | undefined;
   /** Optional. Information about the end user. This should be the same identifier information as UserEvent.user_info and SearchRequest.user_info. */
-  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo;
+  userInfo?: GoogleCloudDiscoveryengineV1alphaUserInfo | undefined;
 }
 export interface RemoveSuggestionProjectsLocationsCollectionsEnginesCompletionConfigRequest {
   /** Required. The completion_config of the parent engine resource name for which the search history suggestion is to be removed, such as `projects/*\/locations/global/collections/default_collection/engines/*\/completionConfig`. */
   completionConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRemoveSuggestionRequest | undefined;
 }
 /** Response message for CompletionService.RemoveSuggestion method. */
 export interface GoogleCloudDiscoveryengineV1alphaRemoveSuggestionResponse {}
 /** Request for DataStoreService.ReplacePatientFilter method. */
 export interface GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest {
   /** Required. Names of the Group resources to use as a basis for the list of patients for the new patient filter, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. if the caller does not have permission to access the FHIR store, regardless of whether it exists, PERMISSION_DENIED error is returned. If the discovery engine service account does not have permission to access the FHIR store, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the group is not found at the location, a RESOURCE_NOT_FOUND error will be returned. The filter group must be a FHIR resource name of type Group, and the new filter will be constructed from the direct members of the group which are Patient resources. */
-  filterGroups?: StringList;
+  filterGroups?: StringList | undefined;
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
-  dataStore?: string;
+  dataStore?: string | undefined;
 }
 export interface ReplacePatientFilterProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest | undefined;
 }
 export interface ReplacePatientFilterProjectsLocationsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. If the requested DataStore already has a patient filter, an ALREADY_EXISTS error will be returned. */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaReplacePatientFilterRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequestConsentChangeActionEnum =
   | "CONSENT_CHANGE_ACTION_UNSPECIFIED"
@@ -10216,19 +10779,20 @@ export type GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequestConsentCh
 /** Request for ReportConsentChange method. */
 export interface GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequest {
   /** Required. The unique identifier of the terms of service to update. Available term ids: * `GA_DATA_USE_TERMS`: [Terms for data use](https://cloud.google.com/retail/data-use-terms). When using this service term id, the acceptable service_term_version to provide is `2022-11-23`. */
-  serviceTermId?: string;
+  serviceTermId?: string | undefined;
   /** Required. The version string of the terms of service to update. */
-  serviceTermVersion?: string;
+  serviceTermVersion?: string | undefined;
   /** Required. Whether customer decides to accept or decline service term. At this moment, only accept action is supported. */
   consentChangeAction?:
     | GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequestConsentChangeActionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ReportConsentChangeProjectsRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   project: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaReportConsentChangeRequest | undefined;
 }
 /** Request for resuming training of an engine. */
 export type GoogleCloudDiscoveryengineV1alphaResumeEngineRequest =
@@ -10237,7 +10801,7 @@ export interface ResumeProjectsLocationsCollectionsEnginesRequest {
   /** Required. The name of the engine to resume. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Request message for AlphaEvolveService.ResumeExperiment. */
 export type GoogleCloudDiscoveryengineV1alphaResumeExperimentRequest =
@@ -10246,40 +10810,40 @@ export interface ResumeProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExp
   /** Required. Experiment to resume. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 /** Request message for LicenseConfigService.RetractLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigRequest {
   /** Optional. If set to true, retract the entire license config. Otherwise, retract the specified license count. */
-  fullRetract?: boolean;
+  fullRetract?: boolean | undefined;
   /** Required. Full resource name of LicenseConfig. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config_id}`. */
-  licenseConfig?: string;
+  licenseConfig?: string | undefined;
   /** Optional. The number of licenses to retract. Only used when full_retract is false. */
-  licenseCount?: string;
+  licenseCount?: string | undefined;
 }
 export interface RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsRequest {
   /** Required. Full resource name of BillingAccountLicenseConfig. Format: `billingAccounts/{billing_account}/billingAccountLicenseConfigs/{billing_account_license_config_id}`. */
   billingAccountLicenseConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigRequest | undefined;
 }
 /** Response message for LicenseConfigService.RetractLicenseConfig method. */
 export interface GoogleCloudDiscoveryengineV1alphaRetractLicenseConfigResponse {
   /** The updated LicenseConfig. */
-  licenseConfig?: GoogleCloudDiscoveryengineV1alphaLicenseConfig;
+  licenseConfig?: GoogleCloudDiscoveryengineV1alphaLicenseConfig | undefined;
 }
 export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 /** Debug information specifically related to forward geocoding issues arising from Geolocation Search. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseGeoSearchDebugInfo {
   /** The error produced. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The address from which forward geocoding ingestion produced issues. */
-  originalAddressQuery?: string;
+  originalAddressQuery?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseGeoSearchDebugInfoList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseGeoSearchDebugInfo>;
@@ -10288,38 +10852,40 @@ export type GoogleCloudDiscoveryengineV1alphaSearchLinkPromotionList =
 /** Useful attribute for search result refinements. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResultRefinementAttribute {
   /** Attribute key used to refine the results. For example, `"movie_type"`. */
-  attributeKey?: string;
+  attributeKey?: string | undefined;
   /** Attribute value used to refine the results. For example, `"drama"`. */
-  attributeValue?: string;
+  attributeValue?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResultRefinementAttributeList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResultRefinementAttribute>;
 /** Guided search result. The guided search helps user to refine the search results and narrow down to the real needs from a broaded search results. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResult {
   /** A list of ranked refinement attributes. */
-  refinementAttributes?: GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResultRefinementAttributeList;
+  refinementAttributes?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResultRefinementAttributeList
+    | undefined;
   /** Suggested follow-up questions. */
-  followUpQuestions?: StringList;
+  followUpQuestions?: StringList | undefined;
 }
 /** A facet value which contains value names and their count. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseFacetFacetValue {
   /** Text value of a facet, such as "Black" for facet "colors". */
-  value?: string;
+  value?: string | undefined;
   /** Interval value for a facet, such as 10, 20) for facet "price". It matches [SearchRequest.FacetSpec.FacetKey.intervals. */
-  interval?: GoogleCloudDiscoveryengineV1alphaInterval;
+  interval?: GoogleCloudDiscoveryengineV1alphaInterval | undefined;
   /** Number of items that have this facet value. */
-  count?: string;
+  count?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseFacetFacetValueList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseFacetFacetValue>;
 /** A facet result. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseFacet {
   /** Whether the facet is dynamically generated. */
-  dynamicFacet?: boolean;
+  dynamicFacet?: boolean | undefined;
   /** The facet values for this field. */
-  values?: GoogleCloudDiscoveryengineV1alphaSearchResponseFacetFacetValueList;
+  values?: GoogleCloudDiscoveryengineV1alphaSearchResponseFacetFacetValueList | undefined;
   /** The key for this facet. For example, `"colors"` or `"price"`. It matches SearchRequest.FacetSpec.FacetKey.key. */
-  key?: string;
+  key?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseFacetList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseFacet>;
@@ -10330,9 +10896,9 @@ export type GoogleCloudDiscoveryengineV1alphaSearchResponseSemanticStateEnum =
 /** Information about the session. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseSessionInfo {
   /** Name of the session. If the auto-session mode is used (when SearchRequest.session ends with "-"), this field holds the newly generated session name. */
-  name?: string;
+  name?: string | undefined;
   /** Query ID that corresponds to this search API call. One session can have multiple turns, each with a unique query ID. By specifying the session name and this query ID in the Answer API call, the answer generation happens in the context of the search results from this search call. */
-  queryId?: string;
+  queryId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResultOneBoxTypeEnum =
   | "ONE_BOX_TYPE_UNSPECIFIED"
@@ -10343,39 +10909,45 @@ export type GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResultOneBoxTyp
 /** OneBoxResult is a holder for all results of specific type that we want to display in UI differently. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResult {
   /** The type of One Box result. */
-  oneBoxType?: GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResultOneBoxTypeEnum;
+  oneBoxType?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResultOneBoxTypeEnum
+    | undefined;
   /** The search results for this One Box. */
-  searchResults?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultList;
+  searchResults?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultList | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResultList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResult>;
 /** Information describing query expansion including whether expansion has occurred. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseQueryExpansionInfo {
   /** Bool describing whether query expansion has occurred. */
-  expandedQuery?: boolean;
+  expandedQuery?: boolean | undefined;
   /** Number of pinned results. This field will only be set when expansion happens and SearchRequest.QueryExpansionSpec.pin_unexpanded_results is set to true. */
-  pinnedResultCount?: string;
+  pinnedResultCount?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpressionList =
   Array<GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpression>;
 /** Logical `And` operator. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterAndExpression {
   /** The expressions that were ANDed together. */
-  expressions?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpressionList;
+  expressions?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpressionList
+    | undefined;
 }
 /** Constraint expression of a string field. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterStringConstraint {
   /** Values of the string field. The record will only be returned if the field value matches one of the values specified here. */
-  values?: StringList;
+  values?: StringList | undefined;
   /** Name of the string field as defined in the schema. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** Identifies the keywords within the search query that match a filter. */
-  querySegment?: string;
+  querySegment?: string | undefined;
 }
 /** Logical `Or` operator. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterOrExpression {
   /** The expressions that were ORed together. */
-  expressions?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpressionList;
+  expressions?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpressionList
+    | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraintComparisonEnum =
   | "COMPARISON_UNSPECIFIED"
@@ -10387,123 +10959,147 @@ export type GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryU
 /** Constraint expression of a number field. Example: price < 100. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraint {
   /** The comparison operation performed between the field value and the value specified in the constraint. */
-  comparison?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraintComparisonEnum;
+  comparison?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraintComparisonEnum
+    | undefined;
   /** The value specified in the numerical constraint. */
-  value?: number;
+  value?: number | undefined;
   /** Identifies the keywords within the search query that match a filter. */
-  querySegment?: string;
+  querySegment?: string | undefined;
   /** Name of the numerical field as defined in the schema. */
-  fieldName?: string;
+  fieldName?: string | undefined;
 }
 /** Constraint of a geolocation field. Name of the geolocation field as defined in the schema. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterGeolocationConstraint {
   /** The latitude of the geolocation inferred from the input query. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** The longitude of the geolocation inferred from the input query. */
-  longitude?: number;
+  longitude?: number | undefined;
   /** The reference address that was inferred from the input query. The proximity of the reference address to the geolocation field will be used to filter the results. */
-  address?: string;
+  address?: string | undefined;
   /** The name of the geolocation field as defined in the schema. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** The radius in meters around the address. The record is returned if the location of the geolocation field is within the radius. */
-  radiusInMeters?: number;
+  radiusInMeters?: number | undefined;
 }
 /** The expression denoting the filter that was extracted from the input query. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpression {
   /** Logical "And" compound operator connecting multiple expressions. */
-  andExpr?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterAndExpression;
+  andExpr?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterAndExpression
+    | undefined;
   /** String constraint expression. */
-  stringConstraint?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterStringConstraint;
+  stringConstraint?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterStringConstraint
+    | undefined;
   /** Logical "Or" compound operator connecting multiple expressions. */
-  orExpr?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterOrExpression;
+  orExpr?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterOrExpression
+    | undefined;
   /** Numerical constraint expression. */
-  numberConstraint?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraint;
+  numberConstraint?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterNumberConstraint
+    | undefined;
   /** Geolocation constraint expression. */
-  geolocationConstraint?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterGeolocationConstraint;
+  geolocationConstraint?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterGeolocationConstraint
+    | undefined;
 }
 /** The filters that were extracted from the input query represented in a structured form. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilter {
   /** The expression denoting the filter that was extracted from the input query in a structured form. It can be a simple expression denoting a single string, numerical or geolocation constraint or a compound expression which is a combination of multiple expressions connected using logical (OR and AND) operators. */
-  expression?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpression;
+  expression?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilterExpression
+    | undefined;
 }
 /** Information describing what natural language understanding was done on the input query. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfo {
   /** The filters that were extracted from the input query. */
-  extractedFilters?: string;
+  extractedFilters?: string | undefined;
   /** The filters that were extracted from the input query represented in a structured form. */
-  structuredExtractedFilter?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilter;
+  structuredExtractedFilter?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfoStructuredExtractedFilter
+    | undefined;
   /** Rewritten input query minus the extracted filters. */
-  rewrittenQuery?: string;
+  rewrittenQuery?: string | undefined;
   /** The classified intents from the input query. */
-  classifiedIntents?: StringList;
+  classifiedIntents?: StringList | undefined;
 }
 /** Response message for SearchService.Search method. */
 export interface GoogleCloudDiscoveryengineV1alphaSearchResponse {
   /** Corrected query with low confidence, AKA did you mean query. Compared with corrected_query, this field is set when SpellCorrector returned a response, but FPR(full page replacement) is not triggered because the corrction is of low confidence(eg, reversed because there are matches of the original query in document corpus). */
-  suggestedQuery?: string;
+  suggestedQuery?: string | undefined;
   /** A list of matched documents. The order represents the ranking. */
-  results?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultList;
-  geoSearchDebugInfo?: GoogleCloudDiscoveryengineV1alphaSearchResponseGeoSearchDebugInfoList;
+  results?: GoogleCloudDiscoveryengineV1alphaSearchResponseSearchResultList | undefined;
+  geoSearchDebugInfo?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseGeoSearchDebugInfoList
+    | undefined;
   /** Promotions for site search. */
-  searchLinkPromotions?: GoogleCloudDiscoveryengineV1alphaSearchLinkPromotionList;
+  searchLinkPromotions?: GoogleCloudDiscoveryengineV1alphaSearchLinkPromotionList | undefined;
   /** Guided search result. */
-  guidedSearchResult?: GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResult;
+  guidedSearchResult?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseGuidedSearchResult
+    | undefined;
   /** A token that can be sent as SearchRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Results of facets requested by user. */
-  facets?: GoogleCloudDiscoveryengineV1alphaSearchResponseFacetList;
+  facets?: GoogleCloudDiscoveryengineV1alphaSearchResponseFacetList | undefined;
   /** A unique search token. This should be included in the UserEvent logs resulting from this search, which enables accurate attribution of search model performance. This also helps to identify a request during the customer support scenarios. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** Output only. Indicates the semantic state of the search response. */
-  semanticState?: GoogleCloudDiscoveryengineV1alphaSearchResponseSemanticStateEnum;
+  semanticState?: GoogleCloudDiscoveryengineV1alphaSearchResponseSemanticStateEnum | undefined;
   /** The estimated total count of matched items irrespective of pagination. The count of results returned by pagination may be less than the total_size that matches. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Optional. Controls applied as part of the Control service. */
-  appliedControls?: StringList;
+  appliedControls?: StringList | undefined;
   /** Session information. Only set if SearchRequest.session is provided. See its description for more details. */
-  sessionInfo?: GoogleCloudDiscoveryengineV1alphaSearchResponseSessionInfo;
+  sessionInfo?: GoogleCloudDiscoveryengineV1alphaSearchResponseSessionInfo | undefined;
   /** Contains the spell corrected query, if found. If the spell correction type is AUTOMATIC, then the search results are based on corrected_query. Otherwise the original query is used for search. */
-  correctedQuery?: string;
+  correctedQuery?: string | undefined;
   /** A summary as part of the search results. This field is only returned if SearchRequest.ContentSearchSpec.summary_spec is set. */
-  summary?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummary;
+  summary?: GoogleCloudDiscoveryengineV1alphaSearchResponseSummary | undefined;
   /** A list of One Box results. There can be multiple One Box results of different types. */
-  oneBoxResults?: GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResultList;
+  oneBoxResults?: GoogleCloudDiscoveryengineV1alphaSearchResponseOneBoxResultList | undefined;
   /** The URI of a customer-defined redirect page. If redirect action is triggered, no search is performed, and only redirect_uri and attribution_token are set in the response. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Query expansion information for the returned results. */
-  queryExpansionInfo?: GoogleCloudDiscoveryengineV1alphaSearchResponseQueryExpansionInfo;
+  queryExpansionInfo?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseQueryExpansionInfo
+    | undefined;
   /** Output only. Natural language query understanding information for the returned results. */
-  naturalLanguageQueryUnderstandingInfo?: GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfo;
+  naturalLanguageQueryUnderstandingInfo?:
+    | GoogleCloudDiscoveryengineV1alphaSearchResponseNaturalLanguageQueryUnderstandingInfo
+    | undefined;
 }
 export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 export interface SearchProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSearchRequest | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequestModeEnum =
   | "MODE_UNSPECIFIED"
@@ -10516,90 +11112,94 @@ export type GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequestCrawlTy
 /** Request message for CrawlRateManagementService.SetDedicatedCrawlRate method. The user can set the crawl rate for a crawl_rate_scope they own. They can set up an overall crawl rate, or set up a user-triggered crawl rate and a auto-refresh crawl rate separately. If an overall crawl rate is set, Vertex AI will automatically splits crawl_rate into user-triggered and auto-refresh. */
 export interface GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequest {
   /** Optional. Whether the rate is explicitly set by users, or set by vertex AI. */
-  mode?: GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequestModeEnum | (string & {});
+  mode?:
+    | GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequestModeEnum
+    | (string & {})
+    | undefined;
   /** Optional. The crawl QPS set by the user. It is not guaranteed that Vertex crawl bot will crawl at this QPS. If the crawl rate is too high, the real QPS may be lower than the value set by the user to avoid overloading the user's website. */
-  crawlRate?: number;
+  crawlRate?: number | undefined;
   /** Required. The scope of the crawl rate that the user wants to config. Currently, only domain and host name are supported. A domain name example: `example.com`. A host name example: `www.example.com`. Please do not include `/` in the domain or host name. */
-  crawlRateScope?: string;
+  crawlRateScope?: string | undefined;
   /** Optional. Whether it's the crawl rate of user-triggered or auto-refresh. */
   crawlType?:
     | GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequestCrawlTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface SetDedicatedCrawlRateProjectsLocationsRequest {
   /** Required. The location resource where crawl rate management will be performed. Format: `projects/{project}/locations/{location}` */
   location: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSetDedicatedCrawlRateRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: GoogleIamV1Policy;
+  policy?: GoogleIamV1Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsCollectionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsCollectionsDataStoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDataStoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request for DataConnectorService.SetUpDataConnector method. */
 export interface GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest {
   /** Required. The display name of the Collection. Should be human readable, used to display collections in the Console Dashboard. UTF-8 encoded string with limit of 1024 characters. */
-  collectionDisplayName?: string;
+  collectionDisplayName?: string | undefined;
   /** Required. The ID to use for the Collection, which will become the final component of the Collection's resource name. A new Collection is created as part of the DataConnector setup. DataConnector is a singleton resource under Collection, managing all DataStores of the Collection. Should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  collectionId?: string;
+  collectionId?: string | undefined;
   /** Required. The DataConnector to initialize in the newly created Collection. */
-  dataConnector?: GoogleCloudDiscoveryengineV1alphaDataConnector;
+  dataConnector?: GoogleCloudDiscoveryengineV1alphaDataConnector | undefined;
 }
 export interface SetUpDataConnectorProjectsLocationsRequest {
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSetUpDataConnectorRequest | undefined;
 }
 export interface SetUpDataConnectorV2ProjectsLocationsRequest {
   /** Required. The display name of the Collection. Should be human readable, used to display collections in the Console Dashboard. UTF-8 encoded string with limit of 1024 characters. */
-  collectionDisplayName?: string;
+  collectionDisplayName?: string | undefined;
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the Collection, which will become the final component of the Collection's resource name. A new Collection is created as part of the DataConnector setup. DataConnector is a singleton resource under Collection, managing all DataStores of the Collection. Should conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
-  collectionId?: string;
+  collectionId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataConnector;
+  body?: GoogleCloudDiscoveryengineV1alphaDataConnector | undefined;
 }
 /** Request message for SiteSearchEngineService.SetUriPatternDocumentData method. */
 export interface GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataRequest {
   /** If true, clears the document data map. If true, SetUriPatternDocumentDataRequest.document_data_map must be empty. */
-  emptyDocumentDataMap?: boolean;
+  emptyDocumentDataMap?: boolean | undefined;
   /** Optional. If not provided, the current Schema is used. If provided, validates and updates the Schema. If validation fails, an error is returned. */
-  schema?: DocumentMap;
+  schema?: DocumentMap | undefined;
   /** Document data keyed by URI pattern. Each entry must be consistent with the Schema. For example: Schema = { "type": "object", "properties": { "Categories": { "type": "array", "items": { "retrievable": true, "type": "string" } } } document_data_map = { "www.url1.com/*": { "Categories": ["category1", "category2"] }, "www.url2.com/*": { "Categories": ["category3"] } } */
-  documentDataMap?: DocumentMapMap;
+  documentDataMap?: DocumentMapMap | undefined;
 }
 export interface SetUriPatternDocumentDataProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/*\/locations/*\/collections/*\/dataStores/*\/siteSearchEngine`. */
   siteSearchEngine: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSetUriPatternDocumentDataRequest | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaAccountAndRoleRoleEnum =
   | "PROJECT_ROLE_UNKNOWN"
@@ -10610,81 +11210,81 @@ export type GoogleCloudNotebooklmV1alphaAccountAndRoleRoleEnum =
 /** Account and role information. */
 export interface GoogleCloudNotebooklmV1alphaAccountAndRole {
   /** Required. The role in the notebook. */
-  role?: GoogleCloudNotebooklmV1alphaAccountAndRoleRoleEnum | (string & {});
+  role?: GoogleCloudNotebooklmV1alphaAccountAndRoleRoleEnum | (string & {}) | undefined;
   /** Required. The email address associated with the account. */
-  email?: string;
+  email?: string | undefined;
 }
 export type GoogleCloudNotebooklmV1alphaAccountAndRoleList =
   Array<GoogleCloudNotebooklmV1alphaAccountAndRole>;
 /** Request for NotebookService.ShareNotebook method. */
 export interface GoogleCloudNotebooklmV1alphaShareNotebookRequest {
   /** Required. The list of accounts and roles to share the notebook with. */
-  accountAndRoles?: GoogleCloudNotebooklmV1alphaAccountAndRoleList;
+  accountAndRoles?: GoogleCloudNotebooklmV1alphaAccountAndRoleList | undefined;
   /** Required. Whether to notify the shared users via email. */
-  notifyViaEmail?: boolean;
+  notifyViaEmail?: boolean | undefined;
 }
 export interface ShareProjectsLocationsNotebooksRequest {
   /** Required. Full resource name of Notebook, such as `projects/{project}/locations/{location}/notebooks/{notebook_id}`. */
   name: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaShareNotebookRequest;
+  body?: GoogleCloudNotebooklmV1alphaShareNotebookRequest | undefined;
 }
 /** Response for NotebookService.ShareNotebook method. */
 export interface GoogleCloudNotebooklmV1alphaShareNotebookResponse {}
 /** Request message for DataConnectorService.StartConnectorRun method. */
 export interface GoogleCloudDiscoveryengineV1alphaStartConnectorRunRequest {
   /** The FHIR resource types to import. The resource types should be a subset of all [supported FHIR resource types](https://cloud.google.com/generative-ai-app-builder/docs/fhir-schema-reference#resource-level-specification). Default to all supported FHIR resource types if empty. */
-  healthcareFhirResourceTypes?: StringList;
+  healthcareFhirResourceTypes?: StringList | undefined;
   /** Timestamp to indicate the point in time from which data should be synced for Streaming/Batch Data Connectors. This field is only utilized for Healthcare Connectors. */
-  syncSinceTimestamp?: string;
+  syncSinceTimestamp?: string | undefined;
   /** If true, trigger Identity sync. */
-  syncIdentity?: boolean;
+  syncIdentity?: boolean | undefined;
   /** Specifies which Third Party Connector entities should be synced. If not specified, all entities will be synced. */
-  entities?: StringList;
+  entities?: StringList | undefined;
   /** Optional. Whether to force refresh the unstructured content of the documents. If set to `true`, the content part of the documents will be refreshed regardless of the update status of the referencing content. */
-  forceRefreshContent?: boolean;
+  forceRefreshContent?: boolean | undefined;
 }
 export interface StartConnectorRunProjectsLocationsCollectionsDataConnectorRequest {
   /** Required. Connector name of the form `projects/{project}/locations/{location}/collections/{collection_id}/dataConnector` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaStartConnectorRunRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaStartConnectorRunRequest | undefined;
 }
 /** Request message for AlphaEvolveService.StartExperiment. */
 export interface GoogleCloudDiscoveryengineV1alphaStartExperimentRequest {
   /** Required. Experiment to start. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface StartProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
   /** Required. Experiment to start. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaStartExperimentRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaStartExperimentRequest | undefined;
 }
 export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_serving_config`, or `projects/*\/locations/global/collections/default_collection/dataStores/*\/servingConfigs/default_serving_config`. Or the resource name of the agent engine serving config, such as: `projects/*\/locations/global/collections/default_collection/engines/*\/servingConfigs/default_agent_answer`. (use when `enable_agent_invocation` set to true, and you have custom `AI_MODE` agent engine configured) This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaAnswerQueryRequest | undefined;
 }
 /** User metadata of the request. */
 export interface GoogleCloudDiscoveryengineV1alphaAssistUserMetadata {
   /** Optional. IANA time zone, e.g. Europe/Budapest. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Optional. Preferred language to be used for answering if language detection fails. Also used as the language of error messages created by actions, regardless of language detection results. */
-  preferredLanguageCode?: string;
+  preferredLanguageCode?: string | undefined;
 }
 /** Specification of the image generation tool. */
 export type GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpecImageGenerationSpec =
@@ -10698,155 +11298,165 @@ export type GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpecVideoGe
 /** Specification of the Vertex AI Search tool. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpecVertexAiSearchSpec {
   /** Optional. Specs defining DataStores to filter on in a search call and configurations for those data stores. This is only considered for Engines with multiple data stores. */
-  dataStoreSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpecList;
+  dataStoreSpecs?: GoogleCloudDiscoveryengineV1alphaSearchRequestDataStoreSpecList | undefined;
   /** Optional. The filter syntax consists of an expression language for constructing a predicate from one or more fields of the documents being filtered. Filter expression is case-sensitive. If this field is unrecognizable, an `INVALID_ARGUMENT` is returned. Filtering in Vertex AI Search is done by mapping the LHS filter key to a key property defined in the Vertex AI Search backend -- this mapping is defined by the customer in their schema. For example a media customer might have a field 'name' in their schema. In this case the filter would look like this: filter --> name:'ANY("king kong")' For more information about filtering including syntax and filter operators, see [Filter](https://cloud.google.com/generative-ai-app-builder/docs/filter-search-metadata) */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Specification of tools that are used to serve the request. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpec {
   /** Optional. Specification of the image generation tool. */
-  imageGenerationSpec?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  imageGenerationSpec?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Optional. Specification of the web grounding tool. If field is present, enables grounding with web search. Works only if Assistant.web_grounding_type is WEB_GROUNDING_TYPE_GOOGLE_SEARCH or WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH. */
-  webGroundingSpec?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  webGroundingSpec?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Optional. Specification of the video generation tool. */
-  videoGenerationSpec?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  videoGenerationSpec?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
   /** Optional. Specification of the Vertex AI Search tool. */
-  vertexAiSearchSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpecVertexAiSearchSpec;
+  vertexAiSearchSpec?:
+    | GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpecVertexAiSearchSpec
+    | undefined;
 }
 /** Specification of an agent. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpecAgentSpec {
   /** Required. ID to identify the agent resource serving the request. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
-  agentId?: string;
+  agentId?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpecAgentSpecList =
   Array<GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpecAgentSpec>;
 /** Specification of agents that are used to serve the request. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpec {
   /** Optional. Specification of agents that are used to serve the request. */
-  agentSpecs?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpecAgentSpecList;
+  agentSpecs?:
+    | GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpecAgentSpecList
+    | undefined;
 }
 /** Assistant generation specification for the request. This allows to override the default generation configuration at the engine level. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequestGenerationSpec {
   /** Optional. The Vertex AI model_id used for the generative model. If not set, the default Assistant model will be used. */
-  modelId?: string;
+  modelId?: string | undefined;
 }
 /** Specification of actions for the request. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequestActionSpec {
   /** Optional. If true, actions will not be served for the request. This only works for enterprise edition. */
-  actionDisabled?: boolean;
+  actionDisabled?: boolean | undefined;
 }
 /** Request for the AssistantService.StreamAssist method. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistRequest {
   /** Optional. Information about the user initiating the query. */
-  userMetadata?: GoogleCloudDiscoveryengineV1alphaAssistUserMetadata;
+  userMetadata?: GoogleCloudDiscoveryengineV1alphaAssistUserMetadata | undefined;
   /** Optional. Current user query. Empty query is only supported if `file_ids` are provided. In this case, the answer will be generated based on those context files. */
-  query?: GoogleCloudDiscoveryengineV1alphaQuery;
+  query?: GoogleCloudDiscoveryengineV1alphaQuery | undefined;
   /** Optional. Specification of tools that are used to serve the request. */
-  toolsSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpec;
+  toolsSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestToolsSpec | undefined;
   /** Optional. Specification of agents that are used to serve the request. */
-  agentsSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpec;
+  agentsSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestAgentsSpec | undefined;
   /** Optional. Specification of the generation configuration for the request. */
-  generationSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestGenerationSpec;
+  generationSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestGenerationSpec | undefined;
   /** Optional. The session to use for the request. If specified, the assistant has access to the session history, and the query and the answer are stored there. If `-` is specified as the session ID, or it is left empty, then a new session is created with an automatically generated ID. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}` */
-  session?: string;
+  session?: string | undefined;
   /** Optional. Specification of actions for the request. */
-  actionSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestActionSpec;
+  actionSpec?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequestActionSpec | undefined;
 }
 export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Required. The resource name of the Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaStreamAssistRequest | undefined;
 }
 /** Information about the session. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistResponseSessionInfo {
   /** Name of the newly generated or continued session. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}`. */
-  session?: string;
+  session?: string | undefined;
 }
 /** Describes an authentication error for a specific data connector. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistResponseConnectorAuthError {
   /** Resource name of the data connector that failed authentication. */
-  dataConnector?: string;
+  dataConnector?: string | undefined;
   /** Human-readable error message describing the auth failure. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaStreamAssistResponseConnectorAuthErrorList =
   Array<GoogleCloudDiscoveryengineV1alphaStreamAssistResponseConnectorAuthError>;
 /** Represents a skill used during the assist call. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistResponseInvokedSkill {
   /** The display name of the skill. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The resource name of the skill. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaStreamAssistResponseInvokedSkillList =
   Array<GoogleCloudDiscoveryengineV1alphaStreamAssistResponseInvokedSkill>;
 /** Response for the AssistantService.StreamAssist method. */
 export interface GoogleCloudDiscoveryengineV1alphaStreamAssistResponse {
   /** Session information. Only included in the final StreamAssistResponse of the response stream. */
-  sessionInfo?: GoogleCloudDiscoveryengineV1alphaStreamAssistResponseSessionInfo;
+  sessionInfo?: GoogleCloudDiscoveryengineV1alphaStreamAssistResponseSessionInfo | undefined;
   /** A global unique ID that identifies the current pair of request and stream of responses. Used for feedback and support. */
-  assistToken?: string;
+  assistToken?: string | undefined;
   /** Per-connector authentication errors encountered during the request. Present when one or more connectors failed authentication but the request proceeded with the remaining connectors. */
-  connectorAuthErrors?: GoogleCloudDiscoveryengineV1alphaStreamAssistResponseConnectorAuthErrorList;
+  connectorAuthErrors?:
+    | GoogleCloudDiscoveryengineV1alphaStreamAssistResponseConnectorAuthErrorList
+    | undefined;
   /** The tool names of the tools that were invoked. */
-  invocationTools?: StringList;
+  invocationTools?: StringList | undefined;
   /** The skills executed during the turn. */
-  invokedSkills?: GoogleCloudDiscoveryengineV1alphaStreamAssistResponseInvokedSkillList;
+  invokedSkills?: GoogleCloudDiscoveryengineV1alphaStreamAssistResponseInvokedSkillList | undefined;
   /** Assist answer resource object containing parts of the assistant's final answer for the user's query. Not present if the current response doesn't add anything to previously sent AssistAnswer.replies. Observe AssistAnswer.state to see if more parts are to be expected. While the state is `IN_PROGRESS`, the AssistAnswer.replies field in each response will contain replies (reply fragments) to be appended to the ones received in previous responses. AssistAnswer.name won't be filled. If the state is `SUCCEEDED`, `FAILED` or `SKIPPED`, the response is the last response and AssistAnswer.name will have a value. */
-  answer?: GoogleCloudDiscoveryengineV1alphaAssistAnswer;
+  answer?: GoogleCloudDiscoveryengineV1alphaAssistAnswer | undefined;
 }
 /** Evaluation submission for a program candidate. */
 export interface GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluationSubmission {
   /** Required. Evaluation results for the program candidate. */
-  evaluation?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluation;
+  evaluation?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluation | undefined;
   /** Required. Lock token for the program obtained in the AcquireAlphaEvolvePrograms call. */
-  lockToken?: string;
+  lockToken?: string | undefined;
   /** Required. Unique identifier for the program. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}/alphaEvolvePrograms/{alpha_evolve_program}` */
-  program?: string;
+  program?: string | undefined;
 }
 export type GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluationSubmissionList =
   Array<GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluationSubmission>;
 /** Request message for AlphaEvolveService.SubmitProgramsEvaluations. */
 export interface GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsRequest {
   /** Required. List of program evaluations to submit. At this time, only one evaluation submission is supported. */
-  evaluationSubmissions?: GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluationSubmissionList;
+  evaluationSubmissions?:
+    | GoogleCloudDiscoveryengineV1alphaAlphaEvolveProgramEvaluationSubmissionList
+    | undefined;
 }
 export interface SubmitProgramsEvaluationsProjectsLocationsCollectionsEnginesSessionsAlphaEvolveExperimentsRequest {
   /** Required. The parent resource name (AlphaEvolveExperiment) of the Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/sessions/{session}/alphaEvolveExperiments/{alpha_evolve_experiment}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsRequest | undefined;
 }
 /** Response message for AlphaEvolveService.SubmitProgramsEvaluations. */
 export interface GoogleCloudDiscoveryengineV1alphaSubmitProgramsEvaluationsResponse {}
 /** Cloud Storage training data input. */
 export interface GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequestGcsTrainingInput {
   /** Cloud Storage training data path whose format should be `gs:///`. The file should be in tsv format. Each line should have the doc_id and query_id and score (number). For search-tuning model, it should have the query-id corpus-id score as tsv file header. The score should be a number in `[0, inf+)`. The larger the number is, the more relevant the pair is. Example: * `query-id\tcorpus-id\tscore` * `query1\tdoc1\t1` */
-  trainDataPath?: string;
+  trainDataPath?: string | undefined;
   /** Cloud Storage test data. Same format as train_data_path. If not provided, a random 80/20 train/test split will be performed on train_data_path. */
-  testDataPath?: string;
+  testDataPath?: string | undefined;
   /** The gcs query data which could be associated in train data. The data path format is `gs:///`. A newline delimited jsonl/ndjson file. For search-tuning model, each line should have the _id and text. Example: {"_id": "query1", "text": "example query"} */
-  queryDataPath?: string;
+  queryDataPath?: string | undefined;
   /** The Cloud Storage corpus data which could be associated in train data. The data path format is `gs:///`. A newline delimited jsonl/ndjson file. For search-tuning model, each line should have the _id, title and text. Example: `{"_id": "doc1", title: "relevant doc", "text": "relevant text"}` */
-  corpusDataPath?: string;
+  corpusDataPath?: string | undefined;
 }
 /** Request message for SearchTuningService.TrainCustomModel method. */
 export interface GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequest {
   /** Cloud Storage training input. */
-  gcsTrainingInput?: GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequestGcsTrainingInput;
+  gcsTrainingInput?:
+    | GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequestGcsTrainingInput
+    | undefined;
   /** The desired location of errors incurred during the data ingestion and training. */
-  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig;
+  errorConfig?: GoogleCloudDiscoveryengineV1alphaImportErrorConfig | undefined;
   /** If not provided, a UUID will be generated. */
-  modelId?: string;
+  modelId?: string | undefined;
   /** Model to be trained. Supported values are: * **search-tuning**: Fine tuning the search system based on data provided. */
-  modelType?: string;
+  modelType?: string | undefined;
 }
 export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest {
   /** Required. The resource name of the Data Store, such as `projects/*\/locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to train the models. */
   dataStore: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaTrainCustomModelRequest | undefined;
 }
 /** Request to manually start a tuning process now (instead of waiting for the periodically scheduled tuning to happen). */
 export type GoogleCloudDiscoveryengineV1alphaTuneEngineRequest =
@@ -10855,107 +11465,107 @@ export interface TuneProjectsLocationsCollectionsEnginesRequest {
   /** Required. The resource name of the engine to tune. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty;
+  body?: GoogleCloudNotebooklmV1alphaFailureReasonSourceEmpty | undefined;
 }
 export interface UpdateAclConfigProjectsLocationsRequest {
   /** Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAclConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaAclConfig | undefined;
 }
 export interface UpdateCmekConfigProjectsLocationsRequest {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
   /** Set the following CmekConfig as the default to be used for child resources if one is not specified. */
-  setDefault?: boolean;
+  setDefault?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCmekConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaCmekConfig | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsCollectionsDataStoresRequest {
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
   name: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsCollectionsEnginesRequest {
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
   name: string;
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsDataStoresRequest {
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/dataStores/*\/completionConfig` `projects/*\/locations/*\/collections/*\/engines/*\/completionConfig` */
   name: string;
   /** Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.query_model * CompletionConfig.enable_mode * CompletionConfig.query_frequency_threshold * CompletionConfig.num_unique_users_threshold * CompletionConfig.should_serve_content_suggestions * CompletionConfig.filter_pii_suggestions_using_dlp If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaCompletionConfig | undefined;
 }
 export interface UpdateConfigProjectsLocationsCollectionsEnginesAnalyticsRequest {
   /** Required. The resource name of the analytics customer config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/analytics/config` */
   name: string;
   /** The list of fields of AnalyticsConfig to update. If not specified, the method will perform a full replacement. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaAnalyticsConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaAnalyticsConfig | undefined;
 }
 export interface UpdateDataConnectorProjectsLocationsCollectionsRequest {
   /** Identifier. The full resource name of the Data Connector. Format: `projects/*\/locations/*\/collections/*\/dataConnector`. */
   name: string;
   /** Indicates which fields in the provided DataConnector to update. Supported field paths include: - `refresh_interval` - `params` - `auto_run_disabled` - `action_config` - `action_config.action_params` - `action_config.service_name` - `destination_configs` - `blocking_reasons` - `sync_mode` - `incremental_sync_disabled` - `incremental_refresh_interval` - `data_protection_policy` Note: Support for these fields may vary depending on the connector type. For example, not all connectors support `destination_configs`. If an unsupported or unknown field path is provided, the request will return an `INVALID_ARGUMENT` error. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDataConnector;
+  body?: GoogleCloudDiscoveryengineV1alphaDataConnector | undefined;
 }
 export interface UpdateDocumentProcessingConfigProjectsLocationsCollectionsDataStoresRequest {
   /** The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
   name: string;
   /** Not supported. If `update_mask` is set, the request returns an `UnsupportedFieldError`. To update mutable fields, omit `update_mask`; the full DocumentProcessingConfig in the request body then overwrites the existing resource. See the method description for details. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig | undefined;
 }
 export interface UpdateDocumentProcessingConfigProjectsLocationsDataStoresRequest {
   /** The full resource name of the Document Processing Config. Format: `projects/*\/locations/*\/collections/*\/dataStores/*\/documentProcessingConfig`. */
   name: string;
   /** Not supported. If `update_mask` is set, the request returns an `UnsupportedFieldError`. To update mutable fields, omit `update_mask`; the full DocumentProcessingConfig in the request body then overwrites the existing resource. See the method description for details. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig;
+  body?: GoogleCloudDiscoveryengineV1alphaDocumentProcessingConfig | undefined;
 }
 export interface UpdateProjectsLocationsUserStoresUserAvailabilityRequest {
   /** Optional. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequest;
+  body?: GoogleCloudDiscoveryengineV1alphaUpdateUserAvailabilityRequest | undefined;
 }
 export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
-  writeAsync?: boolean;
+  writeAsync?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserEvent;
+  body?: GoogleCloudDiscoveryengineV1alphaUserEvent | undefined;
 }
 export interface WriteProjectsLocationsDataStoresUserEventsRequest {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
-  writeAsync?: boolean;
+  writeAsync?: boolean | undefined;
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserEvent;
+  body?: GoogleCloudDiscoveryengineV1alphaUserEvent | undefined;
 }
 export interface WriteProjectsLocationsUserEventsRequest {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
-  writeAsync?: boolean;
+  writeAsync?: boolean | undefined;
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudDiscoveryengineV1alphaUserEvent;
+  body?: GoogleCloudDiscoveryengineV1alphaUserEvent | undefined;
 }
 export type AcquireAccessTokenProjectsLocationsCollectionsDataConnectorError =
   | NotFound

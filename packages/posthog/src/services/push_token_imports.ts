@@ -41,7 +41,7 @@ export interface CreatePushTokenImportRequest {
   /** A UTF-8 CSV file of up to 20 MB. The first line names the columns: `distinct_id` (the ID your app passes to identify) and `device_token` (the APNs device token or FCM registration token). Other columns are ignored. */
   device_token_file: string;
   /** Create a person for a distinct ID that has none. Off by default, so devices of unknown people are listed as failed and can be imported later with new persons. */
-  create_missing_persons?: boolean;
+  create_missing_persons?: boolean | undefined;
 }
 /** * `running` - Import running * `completed` - Import completed * `cancelled` - Import cancelled * `failed` - Import failed */
 export type PushTokenImportStatusEnum = "running" | "completed" | "cancelled" | "failed";

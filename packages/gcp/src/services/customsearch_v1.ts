@@ -93,440 +93,440 @@ export type ListCseImgSizeEnum =
   | "XXLARGE";
 export interface ListCseRequest {
   /** Returns images of a specific dominant color. Acceptable values are: * `"black"` * `"blue"` * `"brown"` * `"gray"` * `"green"` * `"orange"` * `"pink"` * `"purple"` * `"red"` * `"teal"` * `"white"` * `"yellow"` */
-  imgDominantColor?: ListCseImgDominantColorEnum | (string & {});
+  imgDominantColor?: ListCseImgDominantColorEnum | (string & {}) | undefined;
   /** Controls whether to include or exclude results from the site named in the `siteSearch` parameter. Acceptable values are: * `"e"`: exclude * `"i"`: include */
-  siteSearchFilter?: ListCseSiteSearchFilterEnum | (string & {});
+  siteSearchFilter?: ListCseSiteSearchFilterEnum | (string & {}) | undefined;
   /** Optional. Enables routing of Programmable Search Engine requests to an alternate search handler. */
-  enableAlternateSearchHandler?: boolean;
+  enableAlternateSearchHandler?: boolean | undefined;
   /** Returns images of a type. Acceptable values are: * `"clipart"` * `"face"` * `"lineart"` * `"stock"` * `"photo"` * `"animated"` */
-  imgType?: ListCseImgTypeEnum | (string & {});
+  imgType?: ListCseImgTypeEnum | (string & {}) | undefined;
   /** Controls turning on or off the duplicate content filter. * See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Note that host crowding filtering applies only to multi-site searches. * By default, Google applies filtering to all search results to improve the quality of those results. Acceptable values are: * `0`: Turns off duplicate content filter. * `1`: Turns on duplicate content filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** **Deprecated**. Use the `gl` parameter for a similar effect. The local Google domain (for example, google.com, google.de, or google.fr) to use to perform the search. */
-  googlehost?: string;
+  googlehost?: string | undefined;
   /** Search safety level. Acceptable values are: * `"active"`: Enables SafeSearch filtering. * `"off"`: Disables SafeSearch filtering. (default) */
-  safe?: ListCseSafeEnum | (string & {});
+  safe?: ListCseSafeEnum | (string & {}) | undefined;
   /** Restricts the search to documents written in a particular language (e.g., `lr=lang_ja`). Acceptable values are: * `"lang_ar"`: Arabic * `"lang_bg"`: Bulgarian * `"lang_ca"`: Catalan * `"lang_cs"`: Czech * `"lang_da"`: Danish * `"lang_de"`: German * `"lang_el"`: Greek * `"lang_en"`: English * `"lang_es"`: Spanish * `"lang_et"`: Estonian * `"lang_fi"`: Finnish * `"lang_fr"`: French * `"lang_hr"`: Croatian * `"lang_hu"`: Hungarian * `"lang_id"`: Indonesian * `"lang_is"`: Icelandic * `"lang_it"`: Italian * `"lang_iw"`: Hebrew * `"lang_ja"`: Japanese * `"lang_ko"`: Korean * `"lang_lt"`: Lithuanian * `"lang_lv"`: Latvian * `"lang_nl"`: Dutch * `"lang_no"`: Norwegian * `"lang_pl"`: Polish * `"lang_pt"`: Portuguese * `"lang_ro"`: Romanian * `"lang_ru"`: Russian * `"lang_sk"`: Slovak * `"lang_sl"`: Slovenian * `"lang_sr"`: Serbian * `"lang_sv"`: Swedish * `"lang_tr"`: Turkish * `"lang_zh-CN"`: Chinese (Simplified) * `"lang_zh-TW"`: Chinese (Traditional) */
-  lr?: string;
+  lr?: string | undefined;
   /** Appends the specified query terms to the query, as if they were combined with a logical AND operator. */
-  hq?: string;
+  hq?: string | undefined;
   /** Geolocation of end user. * The `gl` parameter value is a two-letter country code. The `gl` parameter boosts search results whose country of origin matches the parameter value. See the [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) page for a list of valid values. * Specifying a `gl` parameter value should lead to more relevant results. This is particularly true for international customers and, even more specifically, for customers in English- speaking countries other than the United States. */
-  gl?: string;
+  gl?: string | undefined;
   /** Specifies the search type: `image`. If unspecified, results are limited to webpages. Acceptable values are: * `"image"`: custom image search. */
-  searchType?: ListCseSearchTypeEnum | (string & {});
+  searchType?: ListCseSearchTypeEnum | (string & {}) | undefined;
   /** Specifies the starting value for a search range. Use `lowRange` and `highRange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  lowRange?: string;
+  lowRange?: string | undefined;
   /** Optional. Maximum length of snippet text, in characters, to be returned with results. Note: this feature is limited to specific engines. * Valid values are integers between 161 and 1000, inclusive. */
-  snippetLength?: number;
+  snippetLength?: number | undefined;
   /** Query */
-  q?: string;
+  q?: string | undefined;
   /** Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#booleanOperators) in the cr parameter's value. Google Search determines the country of a document by analyzing: * the top-level domain (TLD) of the document's URL * the geographic location of the Web server's IP address See the [Country Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) page for a list of valid values for this parameter. */
-  cr?: string;
+  cr?: string | undefined;
   /** The Programmable Search Engine ID to use for this request. */
-  cx?: string;
+  cx?: string | undefined;
   /** Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. */
-  orTerms?: string;
+  orTerms?: string | undefined;
   /** Restricts results to files of a specified extension. A list of file types indexable by Google can be found in Search Console [Help Center](https://support.google.com/webmasters/answer/35287). */
-  fileType?: string;
+  fileType?: string | undefined;
   /** The sort expression to apply to the results. The sort parameter specifies that the results be sorted according to the specified expression i.e. sort by date. [Example: sort=date](https://developers.google.com/custom-search/docs/structured_search#sort-by-attribute). */
-  sort?: string;
+  sort?: string | undefined;
   /** Specifies that all search results should contain a link to a particular URL. */
-  linkSite?: string;
+  linkSite?: string | undefined;
   /** Identifies a word or phrase that should not appear in any documents in the search results. */
-  excludeTerms?: string;
+  excludeTerms?: string | undefined;
   /** The index of the first result to return. The default number of results per page is 10, so `&start=11` would start at the top of the second page of results. **Note**: The JSON API will never return more than 100 results, even if more than 100 documents match the query, so setting the sum of `start + num` to a number greater than 100 will produce an error. Also note that the maximum value for `num` is 10. */
-  start?: number;
+  start?: number | undefined;
   /** Returns black and white, grayscale, transparent, or color images. Acceptable values are: * `"color"` * `"gray"` * `"mono"`: black and white * `"trans"`: transparent background */
-  imgColorType?: ListCseImgColorTypeEnum | (string & {});
+  imgColorType?: ListCseImgColorTypeEnum | (string & {}) | undefined;
   /** Specifies the ending value for a search range. * Use `lowRange` and `highRange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  highRange?: string;
+  highRange?: string | undefined;
   /** Specifies a given site which should always be included or excluded from results (see `siteSearchFilter` parameter, below). */
-  siteSearch?: string;
+  siteSearch?: string | undefined;
   /** Returns images of a specified size. Acceptable values are: * `"huge"` * `"icon"` * `"large"` * `"medium"` * `"small"` * `"xlarge"` * `"xxlarge"` */
-  imgSize?: ListCseImgSizeEnum | (string & {});
+  imgSize?: ListCseImgSizeEnum | (string & {}) | undefined;
   /** Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default) */
-  c2coff?: string;
+  c2coff?: string | undefined;
   /** Identifies a phrase that all documents in the search results must contain. */
-  exactTerms?: string;
+  exactTerms?: string | undefined;
   /** Filters based on licensing. Supported values include: `cc_publicdomain`, `cc_attribute`, `cc_sharealike`, `cc_noncommercial`, `cc_nonderived` and combinations of these. See [typical combinations](https://wiki.creativecommons.org/wiki/CC_Search_integration). */
-  rights?: string;
+  rights?: string | undefined;
   /** Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years. */
-  dateRestrict?: string;
+  dateRestrict?: string | undefined;
   /** Sets the user interface language. * Explicitly setting this parameter improves the performance and the quality of your search results. * See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages. */
-  hl?: string;
+  hl?: string | undefined;
   /** Number of search results to return. * Valid values are integers between 1 and 10, inclusive. */
-  num?: number;
+  num?: number | undefined;
   /** Deprecated. */
-  relatedSite?: string;
+  relatedSite?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export interface SearchUrl {
   /** The actual [OpenSearch template](http://www.opensearch.org/specifications/opensearch/1.1#opensearch_url_template_syntax) for this API. */
-  template?: string;
+  template?: string | undefined;
   /** The MIME type of the OpenSearch URL template for the Custom Search JSON API. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface SearchSpelling {
   /** The corrected query, formatted in HTML. */
-  htmlCorrectedQuery?: string;
+  htmlCorrectedQuery?: string | undefined;
   /** The corrected query. */
-  correctedQuery?: string;
+  correctedQuery?: string | undefined;
 }
 export interface ResultImage {
   /** The width of the image, in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** The width of the thumbnail image, in pixels. */
-  thumbnailWidth?: number;
+  thumbnailWidth?: number | undefined;
   /** The height of the thumbnail image, in pixels. */
-  thumbnailHeight?: number;
+  thumbnailHeight?: number | undefined;
   /** The size of the image, in bytes. */
-  byteSize?: number;
+  byteSize?: number | undefined;
   /** A URL to the thumbnail image. */
-  thumbnailLink?: string;
+  thumbnailLink?: string | undefined;
   /** The height of the image, in pixels. */
-  height?: number;
+  height?: number | undefined;
   /** A URL pointing to the webpage hosting the image. */
-  contextLink?: string;
+  contextLink?: string | undefined;
 }
 export interface ResultLabelsItem {
   /** The display name of a refinement label. This is the name you should display in your user interface. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The name of a refinement label, which you can use to refine searches. Don't display this in your user interface; instead, use displayName. */
-  name?: string;
+  name?: string | undefined;
   /** Refinement label and the associated refinement operation. */
-  label_with_op?: string;
+  label_with_op?: string | undefined;
 }
 export type ResultLabelsItemList = Array<ResultLabelsItem>;
 /** A custom search result. */
 export interface Result {
   /** The title of the search result, in plain text. */
-  title?: string;
+  title?: string | undefined;
   /** The full URL to which the search result is pointing, e.g. http://www.example.com/foo/bar. */
-  link?: string;
+  link?: string | undefined;
   /** Image belonging to a custom search result. */
-  image?: ResultImage;
+  image?: ResultImage | undefined;
   /** The MIME type of the search result. */
-  mime?: string;
+  mime?: string | undefined;
   /** A unique identifier for the type of current object. For this API, it is `customsearch#result.` */
-  kind?: string;
+  kind?: string | undefined;
   /** The file format of the search result. */
-  fileFormat?: string;
+  fileFormat?: string | undefined;
   /** The URL displayed after the snippet for each search result. */
-  formattedUrl?: string;
+  formattedUrl?: string | undefined;
   /** The snippet of the search result, in plain text. */
-  snippet?: string;
+  snippet?: string | undefined;
   /** Contains [PageMap](https://developers.google.com/custom-search/docs/structured_data#pagemaps) information for this search result. */
-  pagemap?: DocumentMap;
+  pagemap?: DocumentMap | undefined;
   /** Encapsulates all information about refinement labels. */
-  labels?: ResultLabelsItemList;
+  labels?: ResultLabelsItemList | undefined;
   /** The HTML-formatted URL displayed after the snippet for each search result. */
-  htmlFormattedUrl?: string;
+  htmlFormattedUrl?: string | undefined;
   /** An abridged version of this search result's URL, e.g. www.example.com. */
-  displayLink?: string;
+  displayLink?: string | undefined;
   /** The snippet of the search result, in HTML. */
-  htmlSnippet?: string;
+  htmlSnippet?: string | undefined;
   /** The title of the search result, in HTML. */
-  htmlTitle?: string;
+  htmlTitle?: string | undefined;
   /** Indicates the ID of Google's cached version of the search result. */
-  cacheId?: string;
+  cacheId?: string | undefined;
 }
 export type ResultList = Array<Result>;
 export interface SearchSearchInformation {
   /** The time taken for the server to return search results. */
-  searchTime?: number;
+  searchTime?: number | undefined;
   /** The time taken for the server to return search results, formatted according to locale style. */
-  formattedSearchTime?: string;
+  formattedSearchTime?: string | undefined;
   /** The total number of search results, formatted according to locale style. */
-  formattedTotalResults?: string;
+  formattedTotalResults?: string | undefined;
   /** The total number of search results returned by the query. */
-  totalResults?: string;
+  totalResults?: string | undefined;
 }
 export interface SearchQueriesRequestItem {
   /** A description of the query. */
-  title?: string;
+  title?: string | undefined;
   /** Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site */
-  siteSearchFilter?: string;
+  siteSearchFilter?: string | undefined;
   /** Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown` */
-  imgDominantColor?: string;
+  imgDominantColor?: string | undefined;
   /** The character encoding supported for search requests. */
-  inputEncoding?: string;
+  inputEncoding?: string | undefined;
   /** Restricts results to URLs from a specified site. */
-  siteSearch?: string;
+  siteSearch?: string | undefined;
   /** Estimated number of total search results. May not be accurate. */
-  totalResults?: string;
+  totalResults?: string | undefined;
   /** Identifies a phrase that all documents in the search results must contain. */
-  exactTerms?: string;
+  exactTerms?: string | undefined;
   /** Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived` */
-  rights?: string;
+  rights?: string | undefined;
   /** Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL. */
-  relatedSite?: string;
+  relatedSite?: string | undefined;
   /** Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages. */
-  hl?: string;
+  hl?: string | undefined;
   /** The search terms entered by the user. */
-  searchTerms?: string;
+  searchTerms?: string | undefined;
   /** Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited. */
-  googleHost?: string;
+  googleHost?: string | undefined;
   /** Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled */
-  disableCnTwTranslation?: string;
+  disableCnTwTranslation?: string | undefined;
   /** The language of the search results. */
-  language?: string;
+  language?: string | undefined;
   /** Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large) */
-  imgSize?: string;
+  imgSize?: string | undefined;
   /** The page number of this set of results, where the page length is set by the `count` property. */
-  startPage?: number;
+  startPage?: number | undefined;
   /** Specifies that results should be sorted according to the specified expression. For example, sort by date. */
-  sort?: string;
+  sort?: string | undefined;
   /** Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years. */
-  dateRestrict?: string;
+  dateRestrict?: string | undefined;
   /** Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock) */
-  imgType?: string;
+  imgType?: string | undefined;
   /** Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  highRange?: string;
+  highRange?: string | undefined;
   /** Appends the specified query terms to the query, as if they were combined with a logical `AND` operator. */
-  hq?: string;
+  hq?: string | undefined;
   /** Allowed values are `web` or `image`. If unspecified, results are limited to webpages. */
-  searchType?: string;
+  searchType?: string | undefined;
   /** Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States. */
-  gl?: string;
+  gl?: string | undefined;
   /** Identifies a word or phrase that should not appear in any documents in the search results. */
-  excludeTerms?: string;
+  excludeTerms?: string | undefined;
   /** Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  lowRange?: string;
+  lowRange?: string | undefined;
   /** The index of the current set of search results into the total set of results, where the index of the first result is 1. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**. */
-  cx?: string;
+  cx?: string | undefined;
   /** Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter. */
-  cr?: string;
+  cr?: string | undefined;
   /** Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query. */
-  orTerms?: string;
+  orTerms?: string | undefined;
   /** Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287). */
-  fileType?: string;
+  fileType?: string | undefined;
   /** Number of search results returned in this set. */
-  count?: number;
+  count?: number | undefined;
   /** Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `"off"`: Disable SafeSearch * `"active"`: Enable SafeSearch */
-  safe?: string;
+  safe?: string | undefined;
   /** Specifies that all results should contain a link to a specific URL. */
-  linkSite?: string;
+  linkSite?: string | undefined;
   /** The character encoding supported for search results. */
-  outputEncoding?: string;
+  outputEncoding?: string | undefined;
   /** Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color) */
-  imgColorType?: string;
+  imgColorType?: string | undefined;
 }
 export type SearchQueriesRequestItemList = Array<SearchQueriesRequestItem>;
 export interface SearchQueriesNextPageItem {
   /** The page number of this set of results, where the page length is set by the `count` property. */
-  startPage?: number;
+  startPage?: number | undefined;
   /** The character encoding supported for search requests. */
-  inputEncoding?: string;
+  inputEncoding?: string | undefined;
   /** Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages. */
-  hl?: string;
+  hl?: string | undefined;
   /** The index of the current set of search results into the total set of results, where the index of the first result is 1. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  highRange?: string;
+  highRange?: string | undefined;
   /** A description of the query. */
-  title?: string;
+  title?: string | undefined;
   /** Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Estimated number of total search results. May not be accurate. */
-  totalResults?: string;
+  totalResults?: string | undefined;
   /** Allowed values are `web` or `image`. If unspecified, results are limited to webpages. */
-  searchType?: string;
+  searchType?: string | undefined;
   /** Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287). */
-  fileType?: string;
+  fileType?: string | undefined;
   /** Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large) */
-  imgSize?: string;
+  imgSize?: string | undefined;
   /** Specifies that all results should contain a link to a specific URL. */
-  linkSite?: string;
+  linkSite?: string | undefined;
   /** Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  lowRange?: string;
+  lowRange?: string | undefined;
   /** Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled */
-  disableCnTwTranslation?: string;
+  disableCnTwTranslation?: string | undefined;
   /** Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock) */
-  imgType?: string;
+  imgType?: string | undefined;
   /** Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited. */
-  googleHost?: string;
+  googleHost?: string | undefined;
   /** Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site */
-  siteSearchFilter?: string;
+  siteSearchFilter?: string | undefined;
   /** Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown` */
-  imgDominantColor?: string;
+  imgDominantColor?: string | undefined;
   /** Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL. */
-  relatedSite?: string;
+  relatedSite?: string | undefined;
   /** Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years. */
-  dateRestrict?: string;
+  dateRestrict?: string | undefined;
   /** Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter. */
-  cr?: string;
+  cr?: string | undefined;
   /** The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**. */
-  cx?: string;
+  cx?: string | undefined;
   /** The search terms entered by the user. */
-  searchTerms?: string;
+  searchTerms?: string | undefined;
   /** Specifies that results should be sorted according to the specified expression. For example, sort by date. */
-  sort?: string;
+  sort?: string | undefined;
   /** Identifies a phrase that all documents in the search results must contain. */
-  exactTerms?: string;
+  exactTerms?: string | undefined;
   /** Identifies a word or phrase that should not appear in any documents in the search results. */
-  excludeTerms?: string;
+  excludeTerms?: string | undefined;
   /** Restricts results to URLs from a specified site. */
-  siteSearch?: string;
+  siteSearch?: string | undefined;
   /** The character encoding supported for search results. */
-  outputEncoding?: string;
+  outputEncoding?: string | undefined;
   /** Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States. */
-  gl?: string;
+  gl?: string | undefined;
   /** Number of search results returned in this set. */
-  count?: number;
+  count?: number | undefined;
   /** The language of the search results. */
-  language?: string;
+  language?: string | undefined;
   /** Appends the specified query terms to the query, as if they were combined with a logical `AND` operator. */
-  hq?: string;
+  hq?: string | undefined;
   /** Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `"off"`: Disable SafeSearch * `"active"`: Enable SafeSearch */
-  safe?: string;
+  safe?: string | undefined;
   /** Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query. */
-  orTerms?: string;
+  orTerms?: string | undefined;
   /** Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color) */
-  imgColorType?: string;
+  imgColorType?: string | undefined;
   /** Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived` */
-  rights?: string;
+  rights?: string | undefined;
 }
 export type SearchQueriesNextPageItemList = Array<SearchQueriesNextPageItem>;
 export interface SearchQueriesPreviousPageItem {
   /** Restricts results to images of a specified type. Supported values are: * `clipart` (Clip art) * `face` (Face) * `lineart` (Line drawing) * `photo` (Photo) * `animated` (Animated) * `stock` (Stock) */
-  imgType?: string;
+  imgType?: string | undefined;
   /** Allowed values are `web` or `image`. If unspecified, results are limited to webpages. */
-  searchType?: string;
+  searchType?: string | undefined;
   /** Specifies the ending value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  highRange?: string;
+  highRange?: string | undefined;
   /** Identifies a word or phrase that should not appear in any documents in the search results. */
-  excludeTerms?: string;
+  excludeTerms?: string | undefined;
   /** The language of the search results. */
-  language?: string;
+  language?: string | undefined;
   /** The search terms entered by the user. */
-  searchTerms?: string;
+  searchTerms?: string | undefined;
   /** Specifies that all search results should be pages that are related to the specified URL. The parameter value should be a URL. */
-  relatedSite?: string;
+  relatedSite?: string | undefined;
   /** Restricts results to images of a specified color type. Supported values are: * `mono` (black and white) * `gray` (grayscale) * `color` (color) */
-  imgColorType?: string;
+  imgColorType?: string | undefined;
   /** Activates or deactivates the automatic filtering of Google search results. See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Valid values for this parameter are: * `0`: Disabled * `1`: Enabled (default) **Note**: By default, Google applies filtering to all search results to improve the quality of those results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Boosts search results whose country of origin matches the parameter value. See [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) for a list of valid values. Specifying a `gl` parameter value in WebSearch requests should improve the relevance of results. This is particularly true for international customers and, even more specifically, for customers in English-speaking countries other than the United States. */
-  gl?: string;
+  gl?: string | undefined;
   /** The page number of this set of results, where the page length is set by the `count` property. */
-  startPage?: number;
+  startPage?: number | undefined;
   /** Appends the specified query terms to the query, as if they were combined with a logical `AND` operator. */
-  hq?: string;
+  hq?: string | undefined;
   /** The identifier of an engine created using the Programmable Search Engine [Control Panel](https://programmablesearchengine.google.com/). This is a custom property not defined in the OpenSearch spec. This parameter is **required**. */
-  cx?: string;
+  cx?: string | undefined;
   /** Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) in the `cr` parameter's value. Google WebSearch determines the country of a document by analyzing the following: * The top-level domain (TLD) of the document's URL. * The geographic location of the web server's IP address. See [Country (cr) Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) for a list of valid values for this parameter. */
-  cr?: string;
+  cr?: string | undefined;
   /** The index of the current set of search results into the total set of results, where the index of the first result is 1. */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years. */
-  dateRestrict?: string;
+  dateRestrict?: string | undefined;
   /** Number of search results returned in this set. */
-  count?: number;
+  count?: number | undefined;
   /** Enables or disables the [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch) feature. Supported values are: * `0`: enabled (default) * `1`: disabled */
-  disableCnTwTranslation?: string;
+  disableCnTwTranslation?: string | undefined;
   /** Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. You can also use the [Boolean OR](https://developers.google.com/custom-search/docs/json_api_reference#BooleanOrSearch) query term for this type of query. */
-  orTerms?: string;
+  orTerms?: string | undefined;
   /** A description of the query. */
-  title?: string;
+  title?: string | undefined;
   /** Restricts results to URLs from a specified site. */
-  siteSearch?: string;
+  siteSearch?: string | undefined;
   /** Specifies the [SafeSearch level](https://developers.google.com/custom-search/docs/json_api_reference#safeSearchLevels) used for filtering out adult results. This is a custom property not defined in the OpenSearch spec. Valid parameter values are: * `"off"`: Disable SafeSearch * `"active"`: Enable SafeSearch */
-  safe?: string;
+  safe?: string | undefined;
   /** The character encoding supported for search requests. */
-  inputEncoding?: string;
+  inputEncoding?: string | undefined;
   /** Specifies the starting value for a search range. Use `cse:lowRange` and `cse:highrange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  lowRange?: string;
+  lowRange?: string | undefined;
   /** Specifies that all results should contain a link to a specific URL. */
-  linkSite?: string;
+  linkSite?: string | undefined;
   /** The character encoding supported for search results. */
-  outputEncoding?: string;
+  outputEncoding?: string | undefined;
   /** Restricts results to files of a specified extension. Filetypes supported by Google include: * Adobe Portable Document Format (`pdf`) * Adobe PostScript (`ps`) * Lotus 1-2-3 (`wk1`, `wk2`, `wk3`, `wk4`, `wk5`, `wki`, `wks`, `wku`) * Lotus WordPro (`lwp`) * Macwrite (`mw`) * Microsoft Excel (`xls`) * Microsoft PowerPoint (`ppt`) * Microsoft Word (`doc`) * Microsoft Works (`wks`, `wps`, `wdb`) * Microsoft Write (`wri`) * Rich Text Format (`rtf`) * Shockwave Flash (`swf`) * Text (`ans`, `txt`). Additional filetypes may be added in the future. An up-to-date list can always be found in Google's [file type FAQ](https://support.google.com/webmasters/answer/35287). */
-  fileType?: string;
+  fileType?: string | undefined;
   /** Specifies the Google domain (for example, google.com, google.de, or google.fr) to which the search should be limited. */
-  googleHost?: string;
+  googleHost?: string | undefined;
   /** Restricts results to images of a specified size. Supported values are: * `icon` (small) * `small | medium | large | xlarge` (medium) * `xxlarge` (large) * `huge` (extra-large) */
-  imgSize?: string;
+  imgSize?: string | undefined;
   /** Specifies that results should be sorted according to the specified expression. For example, sort by date. */
-  sort?: string;
+  sort?: string | undefined;
   /** Estimated number of total search results. May not be accurate. */
-  totalResults?: string;
+  totalResults?: string | undefined;
   /** Filters based on licensing. Supported values include: * `cc_publicdomain` * `cc_attribute` * `cc_sharealike` * `cc_noncommercial` * `cc_nonderived` */
-  rights?: string;
+  rights?: string | undefined;
   /** Specifies the interface language (host language) of your user interface. Explicitly setting this parameter improves the performance and the quality of your search results. See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages. */
-  hl?: string;
+  hl?: string | undefined;
   /** Specifies whether to include or exclude results from the site named in the `sitesearch` parameter. Supported values are: * `i`: include content from site * `e`: exclude content from site */
-  siteSearchFilter?: string;
+  siteSearchFilter?: string | undefined;
   /** Restricts results to images with a specific dominant color. Supported values are: * `red` * `orange` * `yellow` * `green` * `teal` * `blue` * `purple` * `pink` * `white` * `gray` * `black` * `brown` */
-  imgDominantColor?: string;
+  imgDominantColor?: string | undefined;
   /** Identifies a phrase that all documents in the search results must contain. */
-  exactTerms?: string;
+  exactTerms?: string | undefined;
 }
 export type SearchQueriesPreviousPageItemList = Array<SearchQueriesPreviousPageItem>;
 export interface SearchQueries {
   /** Metadata representing the current request. */
-  request?: SearchQueriesRequestItemList;
+  request?: SearchQueriesRequestItemList | undefined;
   /** Metadata representing the next page of results, if applicable. */
-  nextPage?: SearchQueriesNextPageItemList;
+  nextPage?: SearchQueriesNextPageItemList | undefined;
   /** Metadata representing the previous page of results, if applicable. */
-  previousPage?: SearchQueriesPreviousPageItemList;
+  previousPage?: SearchQueriesPreviousPageItemList | undefined;
 }
 export interface PromotionImage {
   /** Image width in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** Image height in pixels. */
-  height?: number;
+  height?: number | undefined;
   /** URL of the image for this promotion link. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface PromotionBodyLinesItem {
   /** The block object's text in HTML, if it has text. */
-  htmlTitle?: string;
+  htmlTitle?: string | undefined;
   /** The anchor text of the block object's link, if it has a link. */
-  link?: string;
+  link?: string | undefined;
   /** The block object's text, if it has text. */
-  title?: string;
+  title?: string | undefined;
   /** The URL of the block object's link, if it has one. */
-  url?: string;
+  url?: string | undefined;
 }
 export type PromotionBodyLinesItemList = Array<PromotionBodyLinesItem>;
 /** Promotion result. */
 export interface Promotion {
   /** Image belonging to a promotion. */
-  image?: PromotionImage;
+  image?: PromotionImage | undefined;
   /** An array of block objects for this promotion. */
-  bodyLines?: PromotionBodyLinesItemList;
+  bodyLines?: PromotionBodyLinesItemList | undefined;
   /** An abridged version of this search's result URL, e.g. www.example.com. */
-  displayLink?: string;
+  displayLink?: string | undefined;
   /** The title of the promotion. */
-  title?: string;
+  title?: string | undefined;
   /** The title of the promotion, in HTML. */
-  htmlTitle?: string;
+  htmlTitle?: string | undefined;
   /** The URL of the promotion. */
-  link?: string;
+  link?: string | undefined;
 }
 export type PromotionList = Array<Promotion>;
 /** Response to a custom search request. */
 export interface Search {
   /** Unique identifier for the type of current object. For this API, it is customsearch#search. */
-  kind?: string;
+  kind?: string | undefined;
   /** Metadata and refinements associated with the given search engine, including: * The name of the search engine that was used for the query. * A set of [facet objects](https://developers.google.com/custom-search/docs/refinements#create) (refinements) you can use for refining a search. */
-  context?: DocumentMap;
+  context?: DocumentMap | undefined;
   /** OpenSearch template and URL. */
-  url?: SearchUrl;
+  url?: SearchUrl | undefined;
   /** Spell correction information for a query. */
-  spelling?: SearchSpelling;
+  spelling?: SearchSpelling | undefined;
   /** The current set of custom search results. */
-  items?: ResultList;
+  items?: ResultList | undefined;
   /** Metadata about a search operation. */
-  searchInformation?: SearchSearchInformation;
+  searchInformation?: SearchSearchInformation | undefined;
   /** Query metadata for the previous, current, and next pages of results. */
-  queries?: SearchQueries;
+  queries?: SearchQueries | undefined;
   /** The set of [promotions](https://developers.google.com/custom-search/docs/promotions). Present only if the custom search engine's configuration files define any promotions for the given query. */
-  promotions?: PromotionList;
+  promotions?: PromotionList | undefined;
 }
 export type ListCseSiterestrictImgDominantColorEnum =
   | "imgDominantColorUndefined"
@@ -570,71 +570,71 @@ export type ListCseSiterestrictImgSizeEnum =
   | "XXLARGE";
 export interface ListCseSiterestrictRequest {
   /** Number of search results to return. * Valid values are integers between 1 and 10, inclusive. */
-  num?: number;
+  num?: number | undefined;
   /** Returns images of a specific dominant color. Acceptable values are: * `"black"` * `"blue"` * `"brown"` * `"gray"` * `"green"` * `"orange"` * `"pink"` * `"purple"` * `"red"` * `"teal"` * `"white"` * `"yellow"` */
-  imgDominantColor?: ListCseSiterestrictImgDominantColorEnum | (string & {});
+  imgDominantColor?: ListCseSiterestrictImgDominantColorEnum | (string & {}) | undefined;
   /** Controls whether to include or exclude results from the site named in the `siteSearch` parameter. Acceptable values are: * `"e"`: exclude * `"i"`: include */
-  siteSearchFilter?: ListCseSiterestrictSiteSearchFilterEnum | (string & {});
+  siteSearchFilter?: ListCseSiterestrictSiteSearchFilterEnum | (string & {}) | undefined;
   /** **Deprecated**. Use the `gl` parameter for a similar effect. The local Google domain (for example, google.com, google.de, or google.fr) to use to perform the search. */
-  googlehost?: string;
+  googlehost?: string | undefined;
   /** Appends the specified query terms to the query, as if they were combined with a logical AND operator. */
-  hq?: string;
+  hq?: string | undefined;
   /** Restricts the search to documents written in a particular language (e.g., `lr=lang_ja`). Acceptable values are: * `"lang_ar"`: Arabic * `"lang_bg"`: Bulgarian * `"lang_ca"`: Catalan * `"lang_cs"`: Czech * `"lang_da"`: Danish * `"lang_de"`: German * `"lang_el"`: Greek * `"lang_en"`: English * `"lang_es"`: Spanish * `"lang_et"`: Estonian * `"lang_fi"`: Finnish * `"lang_fr"`: French * `"lang_hr"`: Croatian * `"lang_hu"`: Hungarian * `"lang_id"`: Indonesian * `"lang_is"`: Icelandic * `"lang_it"`: Italian * `"lang_iw"`: Hebrew * `"lang_ja"`: Japanese * `"lang_ko"`: Korean * `"lang_lt"`: Lithuanian * `"lang_lv"`: Latvian * `"lang_nl"`: Dutch * `"lang_no"`: Norwegian * `"lang_pl"`: Polish * `"lang_pt"`: Portuguese * `"lang_ro"`: Romanian * `"lang_ru"`: Russian * `"lang_sk"`: Slovak * `"lang_sl"`: Slovenian * `"lang_sr"`: Serbian * `"lang_sv"`: Swedish * `"lang_tr"`: Turkish * `"lang_zh-CN"`: Chinese (Simplified) * `"lang_zh-TW"`: Chinese (Traditional) */
-  lr?: string;
+  lr?: string | undefined;
   /** Geolocation of end user. * The `gl` parameter value is a two-letter country code. The `gl` parameter boosts search results whose country of origin matches the parameter value. See the [Country Codes](https://developers.google.com/custom-search/docs/json_api_reference#countryCodes) page for a list of valid values. * Specifying a `gl` parameter value should lead to more relevant results. This is particularly true for international customers and, even more specifically, for customers in English- speaking countries other than the United States. */
-  gl?: string;
+  gl?: string | undefined;
   /** Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default) */
-  c2coff?: string;
+  c2coff?: string | undefined;
   /** Optional. Enables routing of Programmable Search Engine requests to an alternate search handler. */
-  enableAlternateSearchHandler?: boolean;
+  enableAlternateSearchHandler?: boolean | undefined;
   /** Returns images of a type. Acceptable values are: * `"clipart"` * `"face"` * `"lineart"` * `"stock"` * `"photo"` * `"animated"` */
-  imgType?: ListCseSiterestrictImgTypeEnum | (string & {});
+  imgType?: ListCseSiterestrictImgTypeEnum | (string & {}) | undefined;
   /** Specifies the search type: `image`. If unspecified, results are limited to webpages. Acceptable values are: * `"image"`: custom image search. */
-  searchType?: ListCseSiterestrictSearchTypeEnum | (string & {});
+  searchType?: ListCseSiterestrictSearchTypeEnum | (string & {}) | undefined;
   /** Filters based on licensing. Supported values include: `cc_publicdomain`, `cc_attribute`, `cc_sharealike`, `cc_noncommercial`, `cc_nonderived` and combinations of these. See [typical combinations](https://wiki.creativecommons.org/wiki/CC_Search_integration). */
-  rights?: string;
+  rights?: string | undefined;
   /** Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms. */
-  orTerms?: string;
+  orTerms?: string | undefined;
   /** The Programmable Search Engine ID to use for this request. */
-  cx?: string;
+  cx?: string | undefined;
   /** The index of the first result to return. The default number of results per page is 10, so `&start=11` would start at the top of the second page of results. **Note**: The JSON API will never return more than 100 results, even if more than 100 documents match the query, so setting the sum of `start + num` to a number greater than 100 will produce an error. Also note that the maximum value for `num` is 10. */
-  start?: number;
+  start?: number | undefined;
   /** Restricts search results to documents originating in a particular country. You may use [Boolean operators](https://developers.google.com/custom-search/docs/json_api_reference#booleanOperators) in the cr parameter's value. Google Search determines the country of a document by analyzing: * the top-level domain (TLD) of the document's URL * the geographic location of the Web server's IP address See the [Country Parameter Values](https://developers.google.com/custom-search/docs/json_api_reference#countryCollections) page for a list of valid values for this parameter. */
-  cr?: string;
+  cr?: string | undefined;
   /** Deprecated. */
-  relatedSite?: string;
+  relatedSite?: string | undefined;
   /** Query */
-  q?: string;
+  q?: string | undefined;
   /** Specifies the starting value for a search range. Use `lowRange` and `highRange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  lowRange?: string;
+  lowRange?: string | undefined;
   /** Search safety level. Acceptable values are: * `"active"`: Enables SafeSearch filtering. * `"off"`: Disables SafeSearch filtering. (default) */
-  safe?: ListCseSiterestrictSafeEnum | (string & {});
+  safe?: ListCseSiterestrictSafeEnum | (string & {}) | undefined;
   /** Returns black and white, grayscale, transparent, or color images. Acceptable values are: * `"color"` * `"gray"` * `"mono"`: black and white * `"trans"`: transparent background */
-  imgColorType?: ListCseSiterestrictImgColorTypeEnum | (string & {});
+  imgColorType?: ListCseSiterestrictImgColorTypeEnum | (string & {}) | undefined;
   /** Identifies a word or phrase that should not appear in any documents in the search results. */
-  excludeTerms?: string;
+  excludeTerms?: string | undefined;
   /** Restricts results to files of a specified extension. A list of file types indexable by Google can be found in Search Console [Help Center](https://support.google.com/webmasters/answer/35287). */
-  fileType?: string;
+  fileType?: string | undefined;
   /** Specifies that all search results should contain a link to a particular URL. */
-  linkSite?: string;
+  linkSite?: string | undefined;
   /** Specifies the ending value for a search range. * Use `lowRange` and `highRange` to append an inclusive search range of `lowRange...highRange` to the query. */
-  highRange?: string;
+  highRange?: string | undefined;
   /** Specifies a given site which should always be included or excluded from results (see `siteSearchFilter` parameter, below). */
-  siteSearch?: string;
+  siteSearch?: string | undefined;
   /** Identifies a phrase that all documents in the search results must contain. */
-  exactTerms?: string;
+  exactTerms?: string | undefined;
   /** Restricts results to URLs based on date. Supported values include: * `d[number]`: requests results from the specified number of past days. * `w[number]`: requests results from the specified number of past weeks. * `m[number]`: requests results from the specified number of past months. * `y[number]`: requests results from the specified number of past years. */
-  dateRestrict?: string;
+  dateRestrict?: string | undefined;
   /** The sort expression to apply to the results. The sort parameter specifies that the results be sorted according to the specified expression i.e. sort by date. [Example: sort=date](https://developers.google.com/custom-search/docs/structured_search#sort-by-attribute). */
-  sort?: string;
+  sort?: string | undefined;
   /** Sets the user interface language. * Explicitly setting this parameter improves the performance and the quality of your search results. * See the [Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#wsInterfaceLanguages) section of [Internationalizing Queries and Results Presentation](https://developers.google.com/custom-search/docs/json_api_reference#wsInternationalizing) for more information, and [Supported Interface Languages](https://developers.google.com/custom-search/docs/json_api_reference#interfaceLanguages) for a list of supported languages. */
-  hl?: string;
+  hl?: string | undefined;
   /** Returns images of a specified size. Acceptable values are: * `"huge"` * `"icon"` * `"large"` * `"medium"` * `"small"` * `"xlarge"` * `"xxlarge"` */
-  imgSize?: ListCseSiterestrictImgSizeEnum | (string & {});
+  imgSize?: ListCseSiterestrictImgSizeEnum | (string & {}) | undefined;
   /** Controls turning on or off the duplicate content filter. * See [Automatic Filtering](https://developers.google.com/custom-search/docs/json_api_reference#automaticFiltering) for more information about Google's search results filters. Note that host crowding filtering applies only to multi-site searches. * By default, Google applies filtering to all search results to improve the quality of those results. Acceptable values are: * `0`: Turns off duplicate content filter. * `1`: Turns on duplicate content filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum length of snippet text, in characters, to be returned with results. Note: this feature is limited to specific engines. * Valid values are integers between 161 and 1000, inclusive. */
-  snippetLength?: number;
+  snippetLength?: number | undefined;
 }
 export type ListCseError = NotFound | Forbidden | GcpOpError;
 /** Returns metadata about the search performed, metadata about the engine used for the search, and the search results. */

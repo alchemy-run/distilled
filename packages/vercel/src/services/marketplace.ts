@@ -66,13 +66,13 @@ export type CreateEventRequestEventCase0Type = "installation.updated";
 export interface CreateEventRequestEventCase0 {
   type: CreateEventRequestEventCase0Type;
   /** The installation-level billing plan ID */
-  billingPlanId?: string;
+  billingPlanId?: string | undefined;
 }
 export type CreateEventRequestEventCase1Type = "resource.updated";
 export interface CreateEventRequestEventCase1 {
   type: CreateEventRequestEventCase1Type;
   /** Partner-provided product slug or id */
-  productId?: string;
+  productId?: string | undefined;
   /** Partner provided resource ID */
   resourceId: string;
 }
@@ -91,12 +91,13 @@ export interface CreateInstallationsByIntegrationConfigurationIdResourcesByResou
   origin: string;
   category?:
     | CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsRequestItemsItemCategory
-    | (string & {});
-  name?: string;
-  description?: string;
-  isArchived?: boolean;
-  createdAt?: number;
-  updatedAt?: number;
+    | (string & {})
+    | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  isArchived?: boolean | undefined;
+  createdAt?: number | undefined;
+  updatedAt?: number | undefined;
 }
 export type CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsRequestItemsList =
   Array<CreateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsRequestItemsItem>;
@@ -127,13 +128,13 @@ export interface GetAccountInfoRequest {
 /** The best contact for the integration, which can change as team members and their roles change. */
 export interface GetAccountInfoResponseContact {
   email: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetAccountInfoResponse {
   /** The best contact for the integration, which can change as team members and their roles change. */
   contact: GetAccountInfoResponseContact | null;
   /** The name of the team the installation is tied to. */
-  name?: string;
+  name?: string | undefined;
   /** A URL linking to the installation in the Vercel Dashboard. */
   url: string;
 }
@@ -158,7 +159,7 @@ export type GetInstallationResourceExperimentationGlobalConfigResponsePurpose =
 export interface GetInstallationResourceExperimentationGlobalConfigResponse {
   digest: string;
   items: GetInstallationResourceExperimentationGlobalConfigResponseItemsMap;
-  purpose?: GetInstallationResourceExperimentationGlobalConfigResponsePurpose;
+  purpose?: GetInstallationResourceExperimentationGlobalConfigResponsePurpose | undefined;
   updatedAt: number;
 }
 export interface GetIntegrationResourceRequest {
@@ -184,21 +185,23 @@ export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironm
   Array<string>;
 export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList = Array<string>;
 export interface GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen {
-  environment?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironmentList;
-  role?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList;
+  environment?:
+    | GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironmentList
+    | undefined;
+  role?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList | undefined;
 }
 export interface GetIntegrationResourceResponseCustomClaimsClaimRulesItem {
   claims: GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsMap;
-  when?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen;
+  when?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen | undefined;
 }
 export type GetIntegrationResourceResponseCustomClaimsClaimRulesList =
   Array<GetIntegrationResourceResponseCustomClaimsClaimRulesItem>;
 export type GetIntegrationResourceResponseCustomClaimsRolesList = Array<string>;
 /** The roles and claim rules Vercel resolves into the resource tokens it mints for this resource */
 export interface GetIntegrationResourceResponseCustomClaims {
-  claimRules?: GetIntegrationResourceResponseCustomClaimsClaimRulesList;
-  defaultRole?: string;
-  roles?: GetIntegrationResourceResponseCustomClaimsRolesList;
+  claimRules?: GetIntegrationResourceResponseCustomClaimsClaimRulesList | undefined;
+  defaultRole?: string | undefined;
+  roles?: GetIntegrationResourceResponseCustomClaimsRolesList | undefined;
 }
 /** The configured metadata for the resource as defined by its product's Metadata Schema */
 export type GetIntegrationResourceResponseMetadataValueCase2List = Array<string>;
@@ -217,9 +220,9 @@ export type GetIntegrationResourceResponseMetadataMap = {
 export type GetIntegrationResourceResponseNotificationLevel = "error" | "info" | "warn";
 /** The notification, if set, displayed to the user when viewing the resource in Vercel */
 export interface GetIntegrationResourceResponseNotification {
-  href?: string;
+  href?: string | undefined;
   level: GetIntegrationResourceResponseNotificationLevel;
-  message?: string;
+  message?: string | undefined;
   title: string;
 }
 export type GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget =
@@ -233,16 +236,16 @@ export interface GetIntegrationResourceResponseProtocolSettingsAuthenticationApp
 export type GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList =
   Array<GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem>;
 export interface GetIntegrationResourceResponseProtocolSettingsAuthentication {
-  appUrls?: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList;
+  appUrls?: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList | undefined;
 }
 export interface GetIntegrationResourceResponseProtocolSettingsExperimentation {
-  edgeConfigId?: string;
-  globalConfigId?: string;
+  edgeConfigId?: string | undefined;
+  globalConfigId?: string | undefined;
 }
 /** Any settings provided for the resource to support its product's protocols */
 export interface GetIntegrationResourceResponseProtocolSettings {
-  authentication?: GetIntegrationResourceResponseProtocolSettingsAuthentication;
-  experimentation?: GetIntegrationResourceResponseProtocolSettingsExperimentation;
+  authentication?: GetIntegrationResourceResponseProtocolSettingsAuthentication | undefined;
+  experimentation?: GetIntegrationResourceResponseProtocolSettingsExperimentation | undefined;
 }
 /** The current status of the resource */
 export type GetIntegrationResourceResponseStatus =
@@ -255,25 +258,25 @@ export type GetIntegrationResourceResponseStatus =
   | "uninstalled";
 export interface GetIntegrationResourceResponse {
   /** The ID of the billing plan the resource is subscribed to, if applicable */
-  billingPlanId?: string;
+  billingPlanId?: string | undefined;
   /** The roles and claim rules Vercel resolves into the resource tokens it mints for this resource */
-  customClaims?: GetIntegrationResourceResponseCustomClaims;
+  customClaims?: GetIntegrationResourceResponseCustomClaims | undefined;
   /** The ID provided by the 3rd party provider for the given resource */
   id: string;
   /** The ID assigned by Vercel for the given resource */
   internalId: string;
   /** The configured metadata for the resource as defined by its product's Metadata Schema */
-  metadata?: GetIntegrationResourceResponseMetadataMap;
+  metadata?: GetIntegrationResourceResponseMetadataMap | undefined;
   /** The name of the resource as it is recorded in Vercel */
   name: string;
   /** The notification, if set, displayed to the user when viewing the resource in Vercel */
-  notification?: GetIntegrationResourceResponseNotification;
+  notification?: GetIntegrationResourceResponseNotification | undefined;
   /** The ID of the product the resource is derived from */
   productId: string;
   /** Any settings provided for the resource to support its product's protocols */
-  protocolSettings?: GetIntegrationResourceResponseProtocolSettings;
+  protocolSettings?: GetIntegrationResourceResponseProtocolSettings | undefined;
   /** The current status of the resource */
-  status?: GetIntegrationResourceResponseStatus;
+  status?: GetIntegrationResourceResponseStatus | undefined;
 }
 export interface GetIntegrationResourcesRequest {
   integrationConfigurationId: string;
@@ -298,9 +301,9 @@ export type GetIntegrationResourcesResponseResourcesItemNotificationLevel =
   | "warn";
 /** The notification, if set, displayed to the user when viewing the resource in Vercel */
 export interface GetIntegrationResourcesResponseResourcesItemNotification {
-  href?: string;
+  href?: string | undefined;
   level: GetIntegrationResourcesResponseResourcesItemNotificationLevel;
-  message?: string;
+  message?: string | undefined;
   title: string;
 }
 export type GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget =
@@ -314,19 +317,25 @@ export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsAut
 export type GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList =
   Array<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem>;
 export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication {
-  appUrls?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList;
+  appUrls?:
+    | GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList
+    | undefined;
 }
 export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation {
-  edgeConfigId?: string;
-  edgeConfigSyncingEnabled?: boolean;
-  edgeConfigTokenId?: string;
-  globalConfigId?: string;
-  globalConfigSyncingEnabled?: boolean;
+  edgeConfigId?: string | undefined;
+  edgeConfigSyncingEnabled?: boolean | undefined;
+  edgeConfigTokenId?: string | undefined;
+  globalConfigId?: string | undefined;
+  globalConfigSyncingEnabled?: boolean | undefined;
 }
 /** Any settings provided for the resource to support its product's protocols */
 export interface GetIntegrationResourcesResponseResourcesItemProtocolSettings {
-  authentication?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication;
-  experimentation?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation;
+  authentication?:
+    | GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication
+    | undefined;
+  experimentation?:
+    | GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation
+    | undefined;
 }
 /** The current status of the resource */
 export type GetIntegrationResourcesResponseResourcesItemStatus =
@@ -339,23 +348,23 @@ export type GetIntegrationResourcesResponseResourcesItemStatus =
   | "uninstalled";
 export interface GetIntegrationResourcesResponseResourcesItem {
   /** The ID of the billing plan the resource is subscribed to, if applicable */
-  billingPlanId?: string;
+  billingPlanId?: string | undefined;
   /** The ID assigned by Vercel for the given resource */
   internalId: string;
   /** The configured metadata for the resource as defined by its product's Metadata Schema */
-  metadata?: GetIntegrationResourcesResponseResourcesItemMetadataMap;
+  metadata?: GetIntegrationResourcesResponseResourcesItemMetadataMap | undefined;
   /** The name of the resource as it is recorded in Vercel */
   name: string;
   /** The notification, if set, displayed to the user when viewing the resource in Vercel */
-  notification?: GetIntegrationResourcesResponseResourcesItemNotification;
+  notification?: GetIntegrationResourcesResponseResourcesItemNotification | undefined;
   /** The ID provided by the partner for the given resource */
   partnerId: string;
   /** The ID of the product the resource is derived from */
   productId: string;
   /** Any settings provided for the resource to support its product's protocols */
-  protocolSettings?: GetIntegrationResourcesResponseResourcesItemProtocolSettings;
+  protocolSettings?: GetIntegrationResourcesResponseResourcesItemProtocolSettings | undefined;
   /** The current status of the resource */
-  status?: GetIntegrationResourcesResponseResourcesItemStatus;
+  status?: GetIntegrationResourcesResponseResourcesItemStatus | undefined;
 }
 export type GetIntegrationResourcesResponseResourcesList =
   Array<GetIntegrationResourcesResponseResourcesItem>;
@@ -373,15 +382,15 @@ export interface GetInvoiceResponseDiscountsItem {
   /** Partner's billing plan ID. */
   billingPlanId: string;
   /** Additional discount details. */
-  details?: string;
+  details?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  end?: string;
+  end?: string | undefined;
   /** Discount name. */
   name: string;
   /** Partner's resource ID. If not specified, indicates installation-wide discount. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  start?: string;
+  start?: string | undefined;
 }
 /** Invoice discounts. */
 export type GetInvoiceResponseDiscountsList = Array<GetInvoiceResponseDiscountsItem>;
@@ -390,9 +399,9 @@ export interface GetInvoiceResponseItemsItem {
   /** Partner's billing plan ID. */
   billingPlanId: string;
   /** Additional item details. */
-  details?: string;
+  details?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  end?: string;
+  end?: string | undefined;
   /** Invoice item name. */
   name: string;
   /** Item price. A dollar-based decimal string. */
@@ -400,9 +409,9 @@ export interface GetInvoiceResponseItemsItem {
   /** Item quantity. */
   quantity: number;
   /** Partner's resource ID. If not specified, indicates installation-wide item. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  start?: string;
+  start?: string | undefined;
   /** Item total. A dollar-based decimal string. */
   total: string;
   /** Units for item's quantity. */
@@ -430,41 +439,41 @@ export interface GetInvoiceResponse {
   /** System creation date. ISO 8601 timestamp. */
   created: string;
   /** Invoice discounts. */
-  discounts?: GetInvoiceResponseDiscountsList;
+  discounts?: GetInvoiceResponseDiscountsList | undefined;
   /** Partner-supplied Invoice ID, if applicable. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Invoice date. ISO 8601 timestamp. */
   invoiceDate: string;
   /** Vercel Marketplace Invoice ID. */
   invoiceId: string;
   /** User-readable invoice number. */
-  invoiceNumber?: string;
+  invoiceNumber?: string | undefined;
   /** Invoice items. */
   items: GetInvoiceResponseItemsList;
   /** Additional memo for the invoice. */
-  memo?: string;
+  memo?: string | undefined;
   /** Amount still owed on the invoice, per the payment processor. Can be positive even for states "refunded" or "refund_requested", since a refund does not settle an unpaid remainder. A dollar-based decimal string. Absent when no payment data is available yet. */
-  outstandingTotal?: string;
+  outstandingTotal?: string | undefined;
   /** Moment the invoice was paid. ISO 8601 timestamp. */
-  paidAt?: string;
+  paidAt?: string | undefined;
   /** Total amount paid and retained: payments received minus refunds applied. A dollar-based decimal string. Absent when no payment data is available yet. */
-  paidTotal?: string;
+  paidTotal?: string | undefined;
   /** Requested refund amount not yet applied by the payment processor: "refundTotal" minus "refundedTotal". A dollar-based decimal string. Only present when a refund was requested or applied. */
-  pendingRefundTotal?: string;
+  pendingRefundTotal?: string | undefined;
   /** Subscription period for this billing cycle. ISO 8601 timestamps. */
   period: GetInvoiceResponsePeriod;
   /** Most recent moment the invoice was refunded. ISO 8601 timestamp. */
-  refundedAt?: string;
+  refundedAt?: string | undefined;
   /** Total refund amount applied by the payment processor, on the same pre-tax basis as "refundTotal". Counts both money returned and debt cancelled on unpaid invoices. May be lower than "refundTotal", which is the requested amount. A dollar-based decimal string. Only present when a refund was requested or applied. */
-  refundedTotal?: string;
+  refundedTotal?: string | undefined;
   /** The reason for refund. Only present when a refund has been requested. */
-  refundReason?: string;
+  refundReason?: string | undefined;
   /** Total refund amount requested. Only present when a refund has been requested. A dollar-based decimal string. */
-  refundTotal?: string;
+  refundTotal?: string | undefined;
   /** Invoice state. Reports the payment state of the invoice; refund progress is reported separately via "refundedTotal" and "pendingRefundTotal". The states "refunded" and "refund_requested" only appear when the payment state cannot be determined. */
   state: GetInvoiceResponseState;
   /** Whether the invoice is in the testmode (no real transaction created). */
-  test?: boolean;
+  test?: boolean | undefined;
   /** Invoice total amount. A dollar-based decimal string. */
   total: string;
   /** System update date. ISO 8601 timestamp. */
@@ -477,11 +486,11 @@ export interface GetMemberRequest {
 /** "The `ADMIN` role, by default, is provided to users capable of installing integrations, while the `USER` role can be granted to Vercel users with the Vercel `Billing` or Vercel `Viewer` role, which are considered to be Read-Only roles." */
 export type GetMemberResponseRole = "ADMIN" | "USER";
 export interface GetMemberResponse {
-  globalUserId?: string;
+  globalUserId?: string | undefined;
   id: string;
   /** "The `ADMIN` role, by default, is provided to users capable of installing integrations, while the `USER` role can be granted to Vercel users with the Vercel `Billing` or Vercel `Viewer` role, which are considered to be Read-Only roles." */
   role: GetMemberResponseRole;
-  userEmail?: string;
+  userEmail?: string | undefined;
 }
 export interface HeadInstallationResourceExperimentationGlobalConfigRequest {
   integrationConfigurationId: string;
@@ -501,7 +510,7 @@ export type ImportResourceRequestMetadataMap = { [key: string]: unknown | undefi
 export type ImportResourceRequestBillingPlanType = "prepayment" | "subscription";
 export interface ImportResourceRequestBillingPlanDetailsItem {
   label: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type ImportResourceRequestBillingPlanDetailsList =
   Array<ImportResourceRequestBillingPlanDetailsItem>;
@@ -513,37 +522,37 @@ export interface ImportResourceRequestBillingPlan {
   id: string;
   type: ImportResourceRequestBillingPlanType | (string & {});
   name: string;
-  description?: string;
-  paymentMethodRequired?: boolean;
-  cost?: string;
-  details?: ImportResourceRequestBillingPlanDetailsList;
-  highlightedDetails?: ImportResourceRequestBillingPlanHighlightedDetailsList;
-  effectiveDate?: string;
+  description?: string | undefined;
+  paymentMethodRequired?: boolean | undefined;
+  cost?: string | undefined;
+  details?: ImportResourceRequestBillingPlanDetailsList | undefined;
+  highlightedDetails?: ImportResourceRequestBillingPlanHighlightedDetailsList | undefined;
+  effectiveDate?: string | undefined;
   [key: string]: unknown;
 }
 export type ImportResourceRequestNotificationLevel = "info" | "warn" | "error";
 export interface ImportResourceRequestNotification {
   level: ImportResourceRequestNotificationLevel | (string & {});
   title: string;
-  message?: string;
-  href?: string;
+  message?: string | undefined;
+  href?: string | undefined;
 }
 export type ImportResourceRequestExtrasMap = { [key: string]: unknown | undefined };
 /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
 export interface ImportResourceRequestSecretsItemEnvironmentOverrides {
   /** Value used for development environment. */
-  development?: string;
+  development?: string | undefined;
   /** Value used for preview environment. */
-  preview?: string;
+  preview?: string | undefined;
   /** Value used for production environment. */
-  production?: string;
+  production?: string | undefined;
 }
 export interface ImportResourceRequestSecretsItem {
   name: string;
   value: string;
-  prefix?: string;
+  prefix?: string | undefined;
   /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
-  environmentOverrides?: ImportResourceRequestSecretsItemEnvironmentOverrides;
+  environmentOverrides?: ImportResourceRequestSecretsItemEnvironmentOverrides | undefined;
 }
 export type ImportResourceRequestSecretsList = Array<ImportResourceRequestSecretsItem>;
 /** Roles a deployment may request when minting a token. The selected role is emitted as the `role` claim. */
@@ -554,9 +563,9 @@ export type ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList = Array<
 export type ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList = Array<string>;
 export interface ImportResourceRequestCustomClaimsClaimRulesItemWhen {
   /** Applies only when the token is minted for one of these roles. */
-  role?: ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList;
+  role?: ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList | undefined;
   /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
-  environment?: ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList;
+  environment?: ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList | undefined;
 }
 export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsValueCase0 =
   | string
@@ -571,7 +580,7 @@ export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap = {
   [key: string]: ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue | undefined;
 };
 export interface ImportResourceRequestCustomClaimsClaimRulesItem {
-  when?: ImportResourceRequestCustomClaimsClaimRulesItemWhen;
+  when?: ImportResourceRequestCustomClaimsClaimRulesItemWhen | undefined;
   /** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
   claims: ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap;
 }
@@ -581,26 +590,26 @@ export type ImportResourceRequestCustomClaimsClaimRulesList =
 /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
 export interface ImportResourceRequestCustomClaims {
   /** Roles a deployment may request when minting a token. The selected role is emitted as the `role` claim. */
-  roles?: ImportResourceRequestCustomClaimsRolesList;
+  roles?: ImportResourceRequestCustomClaimsRolesList | undefined;
   /** Role used when the deployment does not request one. Required when `roles` is set. */
-  defaultRole?: string;
+  defaultRole?: string | undefined;
   /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
-  claimRules?: ImportResourceRequestCustomClaimsClaimRulesList;
+  claimRules?: ImportResourceRequestCustomClaimsClaimRulesList | undefined;
 }
 export interface ImportResourceRequest {
   integrationConfigurationId: string;
   resourceId: string;
-  ownership?: ImportResourceRequestOwnership | (string & {});
+  ownership?: ImportResourceRequestOwnership | (string & {}) | undefined;
   productId: string;
   name: string;
   status: ImportResourceRequestStatus | (string & {});
-  metadata?: ImportResourceRequestMetadataMap;
-  billingPlan?: ImportResourceRequestBillingPlan;
-  notification?: ImportResourceRequestNotification;
-  extras?: ImportResourceRequestExtrasMap;
-  secrets?: ImportResourceRequestSecretsList;
+  metadata?: ImportResourceRequestMetadataMap | undefined;
+  billingPlan?: ImportResourceRequestBillingPlan | undefined;
+  notification?: ImportResourceRequestNotification | undefined;
+  extras?: ImportResourceRequestExtrasMap | undefined;
+  secrets?: ImportResourceRequestSecretsList | undefined;
   /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
-  customClaims?: ImportResourceRequestCustomClaims;
+  customClaims?: ImportResourceRequestCustomClaims | undefined;
 }
 export interface ImportResourceResponse {
   name: string;
@@ -620,14 +629,16 @@ export type ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceI
 export interface ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponse {
   digest: string;
   items: ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap;
-  purpose?: ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponsePurpose;
+  purpose?:
+    | ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponsePurpose
+    | undefined;
   updatedAt: number;
 }
 export interface RevokeInstallationCredentialRequest {
   integrationConfigurationId: string;
   token: string;
   client_secret: string | Redacted.Redacted<string>;
-  client_id?: string;
+  client_id?: string | undefined;
 }
 export interface RevokeInstallationCredentialResponse {
   already_revoked: boolean;
@@ -636,7 +647,7 @@ export interface RevokeInstallationCredentialResponse {
 export interface RotateInstallationCredentialRequest {
   integrationConfigurationId: string;
   client_secret: string | Redacted.Redacted<string>;
-  client_id?: string;
+  client_id?: string | undefined;
 }
 export type RotateInstallationCredentialResponseTokenType = "oauth2-token";
 export interface RotateInstallationCredentialResponse {
@@ -654,15 +665,15 @@ export interface SubmitBillingDataRequestBillingCase0Item {
   /** Partner's billing plan ID. */
   billingPlanId: string;
   /** Partner's resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. */
-  start?: string;
+  start?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. */
-  end?: string;
+  end?: string | undefined;
   /** Line item name. */
   name: string;
   /** Line item details. */
-  details?: string;
+  details?: string | undefined;
   /** Price per unit. */
   price: string;
   /** Quantity of units. */
@@ -682,15 +693,15 @@ export interface SubmitBillingDataRequestBillingCase1DiscountsItem {
   /** Partner's billing plan ID. */
   billingPlanId: string;
   /** Partner's resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. */
-  start?: string;
+  start?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. */
-  end?: string;
+  end?: string | undefined;
   /** Discount name. */
   name: string;
   /** Discount details. */
-  details?: string;
+  details?: string | undefined;
   /** Discount amount. */
   amount: string;
 }
@@ -698,7 +709,7 @@ export type SubmitBillingDataRequestBillingCase1DiscountsList =
   Array<SubmitBillingDataRequestBillingCase1DiscountsItem>;
 export interface SubmitBillingDataRequestBillingCase1 {
   items: SubmitBillingDataRequestBillingCase1ItemsList;
-  discounts?: SubmitBillingDataRequestBillingCase1DiscountsList;
+  discounts?: SubmitBillingDataRequestBillingCase1DiscountsList | undefined;
 }
 /** Billing data (interim invoicing data). */
 export type SubmitBillingDataRequestBilling =
@@ -708,7 +719,7 @@ export type SubmitBillingDataRequestBilling =
 export type SubmitBillingDataRequestUsageItemType = "total" | "interval" | "rate";
 export interface SubmitBillingDataRequestUsageItem {
   /** Partner's resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Metric name. */
   name: string;
   /** Type of the metric. - total: measured total value, such as Database size - interval: usage during the period, such as i/o or number of queries. - rate: rate of usage, such as queries per second. */
@@ -720,7 +731,7 @@ export interface SubmitBillingDataRequestUsageItem {
   /** Metric value for the billing period. Could be a final or an interim value for the period. */
   periodValue: number;
   /** The limit value of the metric for a billing period, if a limit is defined by the plan. */
-  planValue?: number;
+  planValue?: number | undefined;
 }
 export type SubmitBillingDataRequestUsageList = Array<SubmitBillingDataRequestUsageItem>;
 export interface SubmitBillingDataRequest {
@@ -740,15 +751,15 @@ export interface SubmitBillingDataResponse {}
 export type SubmitInvoiceRequestPeriod = SubmitBillingDataRequestPeriod;
 export interface SubmitInvoiceRequestItemsItem {
   /** Partner's resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Partner's billing plan ID. */
   billingPlanId: string;
   /** Start and end are only needed if different from the period's start/end. */
-  start?: string;
+  start?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. */
-  end?: string;
+  end?: string | undefined;
   name: string;
-  details?: string;
+  details?: string | undefined;
   /** Currency amount as a decimal string. */
   price: string;
   quantity: number;
@@ -759,15 +770,15 @@ export interface SubmitInvoiceRequestItemsItem {
 export type SubmitInvoiceRequestItemsList = Array<SubmitInvoiceRequestItemsItem>;
 export interface SubmitInvoiceRequestDiscountsItem {
   /** Partner's resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Partner's billing plan ID. */
   billingPlanId: string;
   /** Start and end are only needed if different from the period's start/end. */
-  start?: string;
+  start?: string | undefined;
   /** Start and end are only needed if different from the period's start/end. */
-  end?: string;
+  end?: string | undefined;
   name: string;
-  details?: string;
+  details?: string | undefined;
   /** Currency amount as a decimal string. */
   amount: string;
 }
@@ -775,40 +786,40 @@ export type SubmitInvoiceRequestDiscountsList = Array<SubmitInvoiceRequestDiscou
 export type SubmitInvoiceRequestTestResult = "paid" | "notpaid" | "overdue";
 /** Test mode */
 export interface SubmitInvoiceRequestTest {
-  validate?: boolean;
-  result?: SubmitInvoiceRequestTestResult | (string & {});
+  validate?: boolean | undefined;
+  result?: SubmitInvoiceRequestTestResult | (string & {}) | undefined;
 }
 export interface SubmitInvoiceRequest {
   integrationConfigurationId: string;
   /** Partner-provided invoice identifier. If provided, it must be unique for this installation. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Invoice date. Must be within the period's start and end. */
   invoiceDate: string;
   /** Additional memo for the invoice. */
-  memo?: string;
+  memo?: string | undefined;
   /** Subscription period for this billing cycle. */
   period: SubmitBillingDataRequestPeriod;
   items: SubmitInvoiceRequestItemsList;
-  discounts?: SubmitInvoiceRequestDiscountsList;
+  discounts?: SubmitInvoiceRequestDiscountsList | undefined;
   /** Set this to `true` if this is the final invoice for the installation. Can only be set when the installation is pending deletion. */
-  final?: boolean;
+  final?: boolean | undefined;
   /** Test mode */
-  test?: SubmitInvoiceRequestTest;
+  test?: SubmitInvoiceRequestTest | undefined;
 }
 export type SubmitInvoiceResponseValidationErrorsList = Array<string>;
 export interface SubmitInvoiceResponse {
-  invoiceId?: string;
-  test?: boolean;
-  validationErrors?: SubmitInvoiceResponseValidationErrorsList;
+  invoiceId?: string | undefined;
+  test?: boolean | undefined;
+  validationErrors?: SubmitInvoiceResponseValidationErrorsList | undefined;
 }
 /** A credit balance for a particular token type */
 export interface SubmitPrepaymentBalancesRequestBalancesItem {
   /** Partner's resource ID, exclude if credits are tied to the installation and not an individual resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** A human-readable description of the credits the user currently has, e.g. "2,000 Tokens" */
-  credit?: string;
+  credit?: string | undefined;
   /** The name of the credits, for display purposes, e.g. "Tokens" */
-  nameLabel?: string;
+  nameLabel?: string | undefined;
   /** The dollar value of the credit balance, in USD and provided in cents, which is used to trigger automatic purchase thresholds. */
   currencyValueInCents: number;
 }
@@ -842,20 +853,20 @@ export interface UpdateInstallationRequestBillingPlan {
   id: string;
   type: UpdateInstallationRequestBillingPlanType | (string & {});
   name: string;
-  description?: string;
-  paymentMethodRequired?: boolean;
-  cost?: string;
-  details?: UpdateInstallationRequestBillingPlanDetailsList;
-  highlightedDetails?: UpdateInstallationRequestBillingPlanHighlightedDetailsList;
-  effectiveDate?: string;
+  description?: string | undefined;
+  paymentMethodRequired?: boolean | undefined;
+  cost?: string | undefined;
+  details?: UpdateInstallationRequestBillingPlanDetailsList | undefined;
+  highlightedDetails?: UpdateInstallationRequestBillingPlanHighlightedDetailsList | undefined;
+  effectiveDate?: string | undefined;
   [key: string]: unknown;
 }
 export type UpdateInstallationRequestNotificationCase0Level = "info" | "warn" | "error";
 export interface UpdateInstallationRequestNotificationCase0 {
   level: UpdateInstallationRequestNotificationCase0Level | (string & {});
   title: string;
-  message?: string;
-  href?: string;
+  message?: string | undefined;
+  href?: string | undefined;
 }
 /** A notification to display to your customer. Send `null` to clear the current notification. */
 export type UpdateInstallationRequestNotification =
@@ -863,11 +874,11 @@ export type UpdateInstallationRequestNotification =
   | string;
 export interface UpdateInstallationRequest {
   integrationConfigurationId: string;
-  status?: UpdateInstallationRequestStatus | (string & {});
-  externalId?: string;
-  billingPlan?: UpdateInstallationRequestBillingPlan;
+  status?: UpdateInstallationRequestStatus | (string & {}) | undefined;
+  externalId?: string | undefined;
+  billingPlan?: UpdateInstallationRequestBillingPlan | undefined;
   /** A notification to display to your customer. Send `null` to clear the current notification. */
-  notification?: UpdateInstallationRequestNotification;
+  notification?: UpdateInstallationRequestNotification | undefined;
 }
 export interface UpdateInstallationResponse {}
 export type UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdRequestCategory =
@@ -879,14 +890,15 @@ export interface UpdateInstallationsByIntegrationConfigurationIdResourcesByResou
   itemId: string;
   slug: string;
   origin: string;
-  name?: string;
+  name?: string | undefined;
   category?:
     | UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdRequestCategory
-    | (string & {});
-  description?: string;
-  isArchived?: boolean;
-  createdAt?: number;
-  updatedAt?: number;
+    | (string & {})
+    | undefined;
+  description?: string | undefined;
+  isArchived?: boolean | undefined;
+  createdAt?: number | undefined;
+  updatedAt?: number | undefined;
 }
 export interface UpdateInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationItemsByItemIdResponse {}
 export type UpdateInvoiceRequestBodyAction = "refund";
@@ -926,20 +938,20 @@ export interface UpdateResourceRequestBillingPlan {
   id: string;
   type: UpdateResourceRequestBillingPlanType | (string & {});
   name: string;
-  description?: string;
-  paymentMethodRequired?: boolean;
-  cost?: string;
-  details?: UpdateResourceRequestBillingPlanDetailsList;
-  highlightedDetails?: UpdateResourceRequestBillingPlanHighlightedDetailsList;
-  effectiveDate?: string;
+  description?: string | undefined;
+  paymentMethodRequired?: boolean | undefined;
+  cost?: string | undefined;
+  details?: UpdateResourceRequestBillingPlanDetailsList | undefined;
+  highlightedDetails?: UpdateResourceRequestBillingPlanHighlightedDetailsList | undefined;
+  effectiveDate?: string | undefined;
   [key: string]: unknown;
 }
 export type UpdateResourceRequestNotificationCase0Level = "info" | "warn" | "error";
 export interface UpdateResourceRequestNotificationCase0 {
   level: UpdateResourceRequestNotificationCase0Level | (string & {});
   title: string;
-  message?: string;
-  href?: string;
+  message?: string | undefined;
+  href?: string | undefined;
 }
 export type UpdateResourceRequestNotification = UpdateResourceRequestNotificationCase0 | string;
 export type UpdateResourceRequestExtrasMap = { [key: string]: unknown | undefined };
@@ -956,7 +968,7 @@ export type UpdateResourceRequestSecretsCase1SecretsList = Array<ImportResourceR
 export interface UpdateResourceRequestSecretsCase1 {
   secrets: UpdateResourceRequestSecretsCase1SecretsList;
   /** If true, will only overwrite the provided secrets instead of replacing all secrets. */
-  partial?: boolean;
+  partial?: boolean | undefined;
 }
 export type UpdateResourceRequestSecrets =
   | UpdateResourceRequestSecretsCase0List
@@ -969,9 +981,9 @@ export type UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList = Array<
 export type UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList = Array<string>;
 export interface UpdateResourceRequestCustomClaimsClaimRulesItemWhen {
   /** Applies only when the token is minted for one of these roles. */
-  role?: UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList;
+  role?: UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList | undefined;
   /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
-  environment?: UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList;
+  environment?: UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList | undefined;
 }
 export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValueCase0 =
   | string
@@ -986,7 +998,7 @@ export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap = {
   [key: string]: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue | undefined;
 };
 export interface UpdateResourceRequestCustomClaimsClaimRulesItem {
-  when?: UpdateResourceRequestCustomClaimsClaimRulesItemWhen;
+  when?: UpdateResourceRequestCustomClaimsClaimRulesItemWhen | undefined;
   /** Claims to set (string, number, boolean, or array of strings), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
   claims: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap;
 }
@@ -996,11 +1008,11 @@ export type UpdateResourceRequestCustomClaimsClaimRulesList =
 /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
 export interface UpdateResourceRequestCustomClaims {
   /** Roles a deployment may request when minting a token. The selected role is emitted as the `role` claim. */
-  roles?: UpdateResourceRequestCustomClaimsRolesList;
+  roles?: UpdateResourceRequestCustomClaimsRolesList | undefined;
   /** Role used when the deployment does not request one. Required when `roles` is set. */
-  defaultRole?: string;
+  defaultRole?: string | undefined;
   /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
-  claimRules?: UpdateResourceRequestCustomClaimsClaimRulesList;
+  claimRules?: UpdateResourceRequestCustomClaimsClaimRulesList | undefined;
 }
 export type UpdateResourceRequestCredentialTypesItem = "static" | "oidc";
 /** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for Vercel resource OIDC tokens. Can be set freely while the resource has none. After that, only to confirm a change Vercel requested with a secrets rotation, once it is complete. Without `static`, all long-lived secrets must be expired and removed, and no new ones minted or injected. */
@@ -1010,18 +1022,18 @@ export type UpdateResourceRequestCredentialTypesList = Array<
 export interface UpdateResourceRequest {
   integrationConfigurationId: string;
   resourceId: string;
-  ownership?: UpdateResourceRequestOwnership | (string & {});
-  name?: string;
-  status?: UpdateResourceRequestStatus | (string & {});
-  metadata?: UpdateResourceRequestMetadataMap;
-  billingPlan?: UpdateResourceRequestBillingPlan;
-  notification?: UpdateResourceRequestNotification;
-  extras?: UpdateResourceRequestExtrasMap;
-  secrets?: UpdateResourceRequestSecrets;
+  ownership?: UpdateResourceRequestOwnership | (string & {}) | undefined;
+  name?: string | undefined;
+  status?: UpdateResourceRequestStatus | (string & {}) | undefined;
+  metadata?: UpdateResourceRequestMetadataMap | undefined;
+  billingPlan?: UpdateResourceRequestBillingPlan | undefined;
+  notification?: UpdateResourceRequestNotification | undefined;
+  extras?: UpdateResourceRequestExtrasMap | undefined;
+  secrets?: UpdateResourceRequestSecrets | undefined;
   /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
-  customClaims?: UpdateResourceRequestCustomClaims;
+  customClaims?: UpdateResourceRequestCustomClaims | undefined;
   /** The credential types the resource accepts: `static` for long-lived secrets, `oidc` for Vercel resource OIDC tokens. Can be set freely while the resource has none. After that, only to confirm a change Vercel requested with a secrets rotation, once it is complete. Without `static`, all long-lived secrets must be expired and removed, and no new ones minted or injected. */
-  credentialTypes?: UpdateResourceRequestCredentialTypesList;
+  credentialTypes?: UpdateResourceRequestCredentialTypesList | undefined;
 }
 export interface UpdateResourceResponse {
   name: string;
@@ -1036,7 +1048,7 @@ export interface UpdateResourceSecretsByIdRequest {
   resourceId: string;
   secrets: UpdateResourceSecretsByIdRequestSecretsList;
   /** If true, will only overwrite the provided secrets instead of replacing all secrets. */
-  partial?: boolean;
+  partial?: boolean | undefined;
 }
 export interface UpdateResourceSecretsByIdResponse {}
 export type CreateEventError = BadRequest | Forbidden | NotFound | VercelOpError;

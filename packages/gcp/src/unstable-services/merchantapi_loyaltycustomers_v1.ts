@@ -86,26 +86,26 @@ export class NotFound
 /** Represents a customer's physical address. */
 export interface AddressInfo {
   /** Optional. The given name of the customer. */
-  givenName?: string;
+  givenName?: string | undefined;
   /** Optional. The city of the customer. */
-  city?: string;
+  city?: string | undefined;
   /** Optional. The state or province of the customer. */
-  state?: string;
+  state?: string | undefined;
   /** Optional. The family name of the customer. */
-  familyName?: string;
+  familyName?: string | undefined;
   /** Optional. The Unicode country/region code (CLDR) of the customer, such as "US" or "CH". This field is case-insensitive. For more information, see https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Optional. The postal code (zip code) of the customer. **Format Rules:** * **United States:** 5-digit zip codes (e.g., "94108"). */
-  postalCode?: string;
+  postalCode?: string | undefined;
 }
 /** The user identifiers associated with the customer. At least one of the fields within this message must be provided. */
 export interface UserIdentifier {
   /** Optional. The customer's phone number, in [E.164 format](https://support.google.com/google-ads/answer/16355235) (e.g., "+16502530000"). */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Optional. The customer's physical address. */
-  address?: AddressInfo;
+  address?: AddressInfo | undefined;
   /** Optional. The customer's email address. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
 }
 export type LoyaltyCustomerLoyaltyTierEnum =
   | "LOYALTY_TIER_UNSPECIFIED"
@@ -120,27 +120,27 @@ export type LoyaltyCustomerLoyaltyTierEnum =
 /** Represents a customer's loyalty information. Represents loyalty customer data in `ManageLoyaltyCustomerMatch` API, but is not a resource that can be retrieved or listed by other methods. */
 export interface LoyaltyCustomer {
   /** Required. The identifiers for the customer. */
-  userIdentifier?: UserIdentifier;
+  userIdentifier?: UserIdentifier | undefined;
   /** Required. The tier label of the loyalty tier the customer belongs to. */
-  loyaltyTier?: LoyaltyCustomerLoyaltyTierEnum | (string & {});
+  loyaltyTier?: LoyaltyCustomerLoyaltyTierEnum | (string & {}) | undefined;
   /** Optional. The point balance of the loyalty customer. */
-  pointBalance?: string;
+  pointBalance?: string | undefined;
 }
 /** Request message for the ManageLoyaltyCustomerMatch method. */
 export interface ManageLoyaltyCustomerMatchRequest {
   /** Required. The loyalty customer to insert, update, or remove. */
-  loyaltyCustomer?: LoyaltyCustomer;
+  loyaltyCustomer?: LoyaltyCustomer | undefined;
 }
 export interface ManageAccountsLoyaltyCustomersRequest {
   /** Required. The parent account where this loyalty customer will be handled. Format: `accounts/{account}` */
   parent: string;
   /** Request body */
-  body?: ManageLoyaltyCustomerMatchRequest;
+  body?: ManageLoyaltyCustomerMatchRequest | undefined;
 }
 /** Response message for the ManageLoyaltyCustomerMatch method. */
 export interface ManageLoyaltyCustomerMatchResponse {
   /** The loyalty customer that was inserted, updated, or removed. If the customer's identifier cannot be matched to a Google account or if the user has not opted into loyalty personalization, this field will contain a default `LoyaltyCustomer` instance. */
-  loyaltyCustomer?: LoyaltyCustomer;
+  loyaltyCustomer?: LoyaltyCustomer | undefined;
 }
 export type ManageAccountsLoyaltyCustomersError =
   | NotFound

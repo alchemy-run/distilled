@@ -46,72 +46,72 @@ export type GetResponseValueEmailState = "valid" | "pending" | "unverified";
 export type GetResponseValueSourcesMap = { [key: string]: boolean | undefined };
 export interface GetResponseValue {
   /** Notification email address for CSAM scan results. Masked in responses unless explicitly unmasked via admin endpoint. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Current verification state of the notification email. */
-  emailState?: GetResponseValueEmailState | null;
+  emailState?: GetResponseValueEmailState | null | undefined;
   /** Whether CSAM scanning is enabled for this zone. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Map of scanning sources and their enabled state. */
-  sources?: GetResponseValueSourcesMap | null;
+  sources?: GetResponseValueSourcesMap | null | undefined;
   /** The zone's plan level. */
-  zonePlan?: string | null;
+  zonePlan?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCsamScannerResponse {
   /** The feature identifier. */
-  id?: GetResponseId | null;
+  id?: GetResponseId | null | undefined;
   /** Whether the feature state can be changed. When false, the zone or account may be locked by Trust &amp; Safety. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** When the setting was last modified. Currently always null as the server does not populate this field. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The CSAM Scanner feature configuration values. Contains the notification email and scanning enablement settings. */
-  value?: GetResponseValue | null;
+  value?: GetResponseValue | null | undefined;
 }
 export type EditRequestId = "csam_scanner";
 export type EditRequestValueSourcesMap = { [key: string]: boolean | undefined };
 export interface EditRequestValue {
   /** Notification email address for CSAM scan results. When changed, email verification is triggered automatically. */
-  email?: string;
+  email?: string | undefined;
   /** Whether CSAM scanning is enabled for this zone. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Set to true to trigger re-sending the email verification. Write-only; never appears in responses (omitted when false). */
-  resendEmail?: boolean;
+  resendEmail?: boolean | undefined;
   /** Map of scanning sources and their enabled state. */
-  sources?: EditRequestValueSourcesMap;
+  sources?: EditRequestValueSourcesMap | undefined;
 }
 export interface PatchCsamScannerRequest {
   /** Identifier for the zone. */
   zoneId: string;
   /** The feature identifier. */
-  id?: EditRequestId | (string & {});
+  id?: EditRequestId | (string & {}) | undefined;
   /** Writable CSAM Scanner feature configuration values. */
-  value?: EditRequestValue;
+  value?: EditRequestValue | undefined;
 }
 export type EditResponseId = "csam_scanner";
 export type EditResponseValueEmailState = "valid" | "pending" | "unverified";
 export type EditResponseValueSourcesMap = { [key: string]: boolean | undefined };
 export interface EditResponseValue {
   /** Notification email address for CSAM scan results. Masked in responses unless explicitly unmasked via admin endpoint. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Current verification state of the notification email. */
-  emailState?: EditResponseValueEmailState | null;
+  emailState?: EditResponseValueEmailState | null | undefined;
   /** Whether CSAM scanning is enabled for this zone. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Map of scanning sources and their enabled state. */
-  sources?: EditResponseValueSourcesMap | null;
+  sources?: EditResponseValueSourcesMap | null | undefined;
   /** The zone's plan level. */
-  zonePlan?: string | null;
+  zonePlan?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCsamScannerResponse {
   /** The feature identifier. */
-  id?: EditResponseId | null;
+  id?: EditResponseId | null | undefined;
   /** Whether the feature state can be changed. When false, the zone or account may be locked by Trust &amp; Safety. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** When the setting was last modified. Currently always null as the server does not populate this field. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The CSAM Scanner feature configuration values. Contains the notification email and scanning enablement settings. */
-  value?: EditResponseValue | null;
+  value?: EditResponseValue | null | undefined;
 }
 export type GetCsamScannerError = CloudflareOpError;
 /** Retrieve the current CSAM Scanner configuration for a zone. The notification email is masked by default in responses. */

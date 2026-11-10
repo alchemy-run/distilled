@@ -142,20 +142,20 @@ export interface DisputeEvidenceDocument {
   /** The file's ID, prefixed `file_`. */
   id: string;
   /** The byte size each part (except the last) must be. Present only on create, and only for multipart uploads. */
-  multipart_chunk_size?: number | null;
+  multipart_chunk_size?: number | null | undefined;
   /** The ID of the multipart upload, passed back to `complete`. Present only on create, and only for multipart uploads. */
-  multipart_upload_id?: string | null;
-  multipart_upload_urls?: DisputeEvidenceDocumentMultipartUploadUrlsList | null;
+  multipart_upload_id?: string | null | undefined;
+  multipart_upload_urls?: DisputeEvidenceDocumentMultipartUploadUrlsList | null | undefined;
   /** The type of this object, always `file`. */
   object: string;
   /** The file size in bytes. `null` until the upload has finished. */
   size: number | null;
   /** Headers to send with the upload PUT. Present only on create. */
-  upload_headers?: unknown;
+  upload_headers?: unknown | undefined;
   /** Where the file is in its upload lifecycle. */
   upload_status: DisputeEvidenceDocumentUploadStatus;
   /** Presigned URL to PUT the file's bytes to. Present only on create, and only for single-part uploads. */
-  upload_url?: string | null;
+  upload_url?: string | null | undefined;
   /** A URL to download the file: a permanent CDN URL for public files, a signed expiring URL for private ones. `null` until the upload has finished. */
   url: string | null;
   /** `public` files are served via an unsigned CDN URL; `private` files via a signed, expiring URL. */
@@ -384,17 +384,17 @@ export type GetDisputeSummaryRequestStatusList = Array<
 >;
 export interface GetDisputeSummaryRequest {
   /** Which breakdowns to return, keyed by these names under `groups`. Repeat the parameter to ask for several; omit it for all of them. */
-  groups?: GetDisputeSummaryRequestGroupsList;
+  groups?: GetDisputeSummaryRequestGroupsList | undefined;
   /** Only disputes filed against this account (`biz_` tag). Omit it to cover every account you can read. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only disputes in these statuses. Repeat the parameter to pass several. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead. */
-  status?: GetDisputeSummaryRequestStatusList;
+  status?: GetDisputeSummaryRequestStatusList | undefined;
   /** Only disputes in this three-letter ISO currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** Only disputes opened before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only disputes opened after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
 }
 /** How many of the matching disputes are in each currency, keyed by three-letter ISO code. Only currencies with at least one dispute are present. */
 export type GetDisputeSummaryResponseGroupsCurrencyMap = { [key: string]: number | undefined };
@@ -412,9 +412,9 @@ export interface GetDisputeSummaryResponseGroupsStatus {
 /** One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent. */
 export interface GetDisputeSummaryResponseGroups {
   /** How many of the matching disputes are in each currency, keyed by three-letter ISO code. Only currencies with at least one dispute are present. */
-  currency?: GetDisputeSummaryResponseGroupsCurrencyMap;
+  currency?: GetDisputeSummaryResponseGroupsCurrencyMap | undefined;
   /** How many of the matching disputes are in each status. Every status is present, including those with a count of zero. */
-  status?: GetDisputeSummaryResponseGroupsStatus;
+  status?: GetDisputeSummaryResponseGroupsStatus | undefined;
 }
 export interface GetDisputeSummaryResponse {
   /** One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent. */
@@ -436,27 +436,27 @@ export type ListDisputesRequestStatusItem =
 export type ListDisputesRequestStatusList = Array<ListDisputesRequestStatusItem | (string & {})>;
 export interface ListDisputesRequest {
   /** Only disputes filed against this account (`biz_` tag). Omit it to cover every account you can read. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort disputes by. */
-  order?: ListDisputesRequestOrder | (string & {});
+  order?: ListDisputesRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListDisputesRequestDirection | (string & {});
+  direction?: ListDisputesRequestDirection | (string & {}) | undefined;
   /** Only disputes in these statuses. Repeat the parameter to pass several -- one paginated list covers all of them. Inquiries match only the `warning_` statuses. A `needs_response` dispute whose evidence deadline has passed reports and filters as `under_review` instead. */
-  status?: ListDisputesRequestStatusList;
+  status?: ListDisputesRequestStatusList | undefined;
   /** Only disputes in this three-letter ISO currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** Only disputes opened before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only disputes opened after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
 }
 export type ListDisputesResponseDataList = Array<Dispute>;
 export interface ListDisputesResponsePageInfo {
@@ -473,7 +473,7 @@ export interface SubmitDisputeRequest {
   /** The dispute ID (`dspt_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface SubmitEvidenceDisputeRequest {
   /** The unique identifier of the dispute to submit to the payment processor for review. */
@@ -970,9 +970,9 @@ export interface LegacyDispute {
 /** The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, when not set. */
 export interface UpdateDisputeRequestEvidenceCancellationPolicyAttachment {
   /** The ID returned by a direct upload. */
-  direct_upload_id?: string;
+  direct_upload_id?: string | undefined;
   /** The ID of an already-uploaded file. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Correspondence with the customer, or proof they used the product. */
 export type UpdateDisputeRequestEvidenceCustomerCommunicationAttachment =
@@ -993,13 +993,13 @@ export type UpdateDisputeRequestEvidenceDocumentsItemDocumentType =
   | "customer_communication";
 export interface UpdateDisputeRequestEvidenceDocumentsItem {
   /** The ID returned by a direct upload. */
-  direct_upload_id?: string;
+  direct_upload_id?: string | undefined;
   /** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents -- uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer -- a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics -- IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence -- renewals, cancellation, reminders sent. */
   document_type: UpdateDisputeRequestEvidenceDocumentsItemDocumentType | (string & {});
   /** The file itself. Send it as a file part to upload and attach in one call, or use `id`/`direct_upload_id` for a file that is already stored. */
-  file?: string;
+  file?: string | undefined;
   /** The ID of a file already stored on Whop, prefixed `file_`. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
 export type UpdateDisputeRequestEvidenceDocumentsList =
@@ -1013,41 +1013,53 @@ export type UpdateDisputeRequestEvidenceUncategorizedAttachment =
 /** The evidence packet to send to the processor. Only the fields you provide are changed. */
 export interface UpdateDisputeRequestEvidence {
   /** Log of the customer's access to the product, such as sign-in or download activity. */
-  access_activity_log?: string | null;
+  access_activity_log?: string | null | undefined;
   /** The billing address the customer provided at checkout. */
-  billing_address?: string | null;
+  billing_address?: string | null | undefined;
   /** The cancellation policy document. Defaults to the account's cancellation policy, then its terms of service, when not set. */
-  cancellation_policy_attachment?: UpdateDisputeRequestEvidenceCancellationPolicyAttachment | null;
+  cancellation_policy_attachment?:
+    | UpdateDisputeRequestEvidenceCancellationPolicyAttachment
+    | null
+    | undefined;
   /** How the cancellation policy was shown to the customer before purchase. */
-  cancellation_policy_disclosure?: string | null;
+  cancellation_policy_disclosure?: string | null | undefined;
   /** Correspondence with the customer, or proof they used the product. */
-  customer_communication_attachment?: UpdateDisputeRequestEvidenceCancellationPolicyAttachment | null;
+  customer_communication_attachment?:
+    | UpdateDisputeRequestEvidenceCancellationPolicyAttachment
+    | null
+    | undefined;
   /** The email address the customer used at checkout. */
-  customer_email_address?: string | null;
+  customer_email_address?: string | null | undefined;
   /** The customer's name as given at checkout. */
-  customer_name?: string | null;
+  customer_name?: string | null | undefined;
   /** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
-  documents?: UpdateDisputeRequestEvidenceDocumentsList;
+  documents?: UpdateDisputeRequestEvidenceDocumentsList | undefined;
   /** Any additional context for the processor reviewing the dispute. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** What the customer purchased, in the seller's own words. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** The refund policy document. Defaults to the account's return policy when not set. */
-  refund_policy_attachment?: UpdateDisputeRequestEvidenceCancellationPolicyAttachment | null;
+  refund_policy_attachment?:
+    | UpdateDisputeRequestEvidenceCancellationPolicyAttachment
+    | null
+    | undefined;
   /** How the refund policy was shown to the customer before purchase. */
-  refund_policy_disclosure?: string | null;
+  refund_policy_disclosure?: string | null | undefined;
   /** Why a refund was refused, when one was requested and denied. */
-  refund_refusal_explanation?: string | null;
+  refund_refusal_explanation?: string | null | undefined;
   /** When the product or service was delivered. */
-  service_date?: string | null;
+  service_date?: string | null | undefined;
   /** Supporting evidence that does not fit the other categories. */
-  uncategorized_attachment?: UpdateDisputeRequestEvidenceCancellationPolicyAttachment | null;
+  uncategorized_attachment?:
+    | UpdateDisputeRequestEvidenceCancellationPolicyAttachment
+    | null
+    | undefined;
 }
 export interface UpdateDisputeRequest {
   /** The dispute ID (`dspt_` tag). */
   id: string;
   /** The evidence packet to send to the processor. Only the fields you provide are changed. */
-  evidence?: UpdateDisputeRequestEvidence;
+  evidence?: UpdateDisputeRequestEvidence | undefined;
 }
 /** A file upload containing the company's cancellation policy document. */
 export interface UpdateEvidenceDisputeRequestCancellationPolicyAttachment {
@@ -1067,33 +1079,45 @@ export interface UpdateEvidenceDisputeRequest {
   /** The unique identifier of the dispute to update. */
   id: string;
   /** An IP access activity log showing the customer used the service. */
-  access_activity_log?: string | null;
+  access_activity_log?: string | null | undefined;
   /** The billing address associated with the customer's payment method. */
-  billing_address?: string | null;
+  billing_address?: string | null | undefined;
   /** A file upload containing the company's cancellation policy document. */
-  cancellation_policy_attachment?: UpdateEvidenceDisputeRequestCancellationPolicyAttachment | null;
+  cancellation_policy_attachment?:
+    | UpdateEvidenceDisputeRequestCancellationPolicyAttachment
+    | null
+    | undefined;
   /** The company's cancellation policy text to submit as evidence. */
-  cancellation_policy_disclosure?: string | null;
+  cancellation_policy_disclosure?: string | null | undefined;
   /** A file upload containing evidence of customer communication. Must be a JPEG, PNG, GIF, or PDF. */
-  customer_communication_attachment?: UpdateEvidenceDisputeRequestCancellationPolicyAttachment | null;
+  customer_communication_attachment?:
+    | UpdateEvidenceDisputeRequestCancellationPolicyAttachment
+    | null
+    | undefined;
   /** The email address of the customer associated with the disputed payment. */
-  customer_email_address?: string | null;
+  customer_email_address?: string | null | undefined;
   /** The full name of the customer associated with the disputed payment. */
-  customer_name?: string | null;
+  customer_name?: string | null | undefined;
   /** Additional notes or context to submit as part of the dispute evidence. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** A description of the product or service that was provided to the customer. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** A file upload containing the company's refund policy document. */
-  refund_policy_attachment?: UpdateEvidenceDisputeRequestCancellationPolicyAttachment | null;
+  refund_policy_attachment?:
+    | UpdateEvidenceDisputeRequestCancellationPolicyAttachment
+    | null
+    | undefined;
   /** The company's refund policy text to submit as evidence. */
-  refund_policy_disclosure?: string | null;
+  refund_policy_disclosure?: string | null | undefined;
   /** An explanation of why the refund request was refused. */
-  refund_refusal_explanation?: string | null;
+  refund_refusal_explanation?: string | null | undefined;
   /** The date when the product or service was delivered to the customer. */
-  service_date?: string | null;
+  service_date?: string | null | undefined;
   /** A file upload for evidence that does not fit into the other categories. */
-  uncategorized_attachment?: UpdateEvidenceDisputeRequestCancellationPolicyAttachment | null;
+  uncategorized_attachment?:
+    | UpdateEvidenceDisputeRequestCancellationPolicyAttachment
+    | null
+    | undefined;
 }
 /** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents -- uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer -- a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics -- IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence -- renewals, cancellation, reminders sent. */
 export type UploadDisputeEvidenceRequestDocumentsItemDocumentType =
@@ -1111,13 +1135,13 @@ export type UploadDisputeEvidenceRequestDocumentsItemDocumentType =
   | "customer_communication";
 export interface UploadDisputeEvidenceRequestDocumentsItem {
   /** The ID returned by a direct upload. */
-  direct_upload_id?: string;
+  direct_upload_id?: string | undefined;
   /** What this document proves, in the processor's own evidence vocabulary. `return_policy`, `cancellation_policy`, and `terms_of_service` are the seller's policy documents -- uploading one overrides the account's copy for this dispute (`return_policy`, `cancellation_policy`, and `customer_communication` also override the matching fixed evidence slot). `shipping_policy` is the seller's shipping terms. `customer_communication` is correspondence with the buyer -- a support thread or chat log. `product_image` is a photo of the product or service the buyer received. `physical_fulfillment` is proof a physical order shipped and arrived; `digital_fulfillment` is proof the buyer accessed a digital product. `customer_order_history` is the buyer's past orders with this seller; `prior_transactions` is their broader payment history across the platform, for a fraud defense. `customer_session` is checkout forensics -- IP, device fingerprint, AVS/CVV, 3D Secure result. `subscription` is membership lifecycle evidence -- renewals, cancellation, reminders sent. */
   document_type: UploadDisputeEvidenceRequestDocumentsItemDocumentType | (string & {});
   /** The file itself. Send it as a file part to upload and attach in one call, or use `id`/`direct_upload_id` for a file that is already stored. */
-  file?: string;
+  file?: string | undefined;
   /** The ID of a file already stored on Whop, prefixed `file_`. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
 export type UploadDisputeEvidenceRequestDocumentsList =
@@ -1128,7 +1152,7 @@ export interface UploadDisputeEvidenceRequest {
   /** The full set of evidence documents the dispute should carry, beyond the four fixed evidence slots. Replaces all previously uploaded documents. Upload files through `POST /files` and reference them by `id`, or send the files as multipart file parts to upload and attach in one call. Policy documents (`return_policy`, `shipping_policy`, `cancellation_policy`, `terms_of_service`) default from the account's own documents; uploading one here replaces the account copy for this dispute, and a `cancellation_policy` or `return_policy` upload also takes precedence over the matching fixed evidence slot. */
   documents: UploadDisputeEvidenceRequestDocumentsList;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type GetDisputeError = NotFound | WhopOpError;
 /** Retrieve Dispute Retrieves a single dispute. */

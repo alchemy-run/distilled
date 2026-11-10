@@ -70,7 +70,7 @@ export interface ActivateHostingWordPressPluginV1Request {
   plugin: string;
 }
 export interface CommonSuccessEmptyResource {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ActivateHostingWordPressThemeV1Request {
   username: string;
@@ -89,13 +89,13 @@ export interface ActivateVPSFirewallV1Request {
 export type VPSV1ActionActionResourceState = "success" | "error" | "delayed" | "sent" | "created";
 export interface VPSV1ActionActionResource {
   /** Action ID */
-  id?: number;
+  id?: number | undefined;
   /** Action name */
-  name?: string;
+  name?: string | undefined;
   /** Action state */
-  state?: VPSV1ActionActionResourceState;
-  created_at?: string;
-  updated_at?: string;
+  state?: VPSV1ActionActionResourceState | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type AddReachFormSubmitterTagsV1RequestTagUuidsList = Array<string>;
 export interface AddReachFormSubmitterTagsV1Request {
@@ -115,13 +115,13 @@ export interface AddVPSVirtualMachineSSHKeysV1Request {
 }
 export interface VPSV1SshKeySshKeyResource {
   /** SSH public key in OpenSSH format */
-  key?: string;
+  key?: string | undefined;
   /** SSH key type */
-  type?: string;
+  type?: string | undefined;
   /** SSH key data (base64 encoded public key) */
-  data?: string;
+  data?: string | undefined;
   /** SSH key comment/name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Array of [`VPS.V1.SshKey.SshKeyResource`](#model/vpsv1sshkeysshkeyresource) */
 export type VPSV1SshKeySshKeyCollection = Array<VPSV1SshKeySshKeyResource>;
@@ -187,11 +187,11 @@ export interface AssignReachAContactToATagV1Request {
 /** How the tag came about. `custom` covers the tags you create yourself, `form` covers the ones Reach creates for its forms. */
 export type ReachV1ContactsTagsTagResourceType = "form" | "custom";
 export interface ReachV1ContactsTagsTagResource {
-  uuid?: string;
+  uuid?: string | undefined;
   /** How the tag came about. `custom` covers the tags you create yourself, `form` covers the ones Reach creates for its forms. */
-  type?: ReachV1ContactsTagsTagResourceType;
-  value?: string;
-  created_at?: string;
+  type?: ReachV1ContactsTagsTagResourceType | undefined;
+  value?: string | undefined;
+  created_at?: string | undefined;
 }
 /** Contacts to apply the change to. Required unless all_contacts is true. */
 export type AssignReachContactsToATagV1RequestContactUuidsList = Array<string>;
@@ -201,16 +201,16 @@ export interface AssignReachContactsToATagV1Request {
   /** Tag uuid parameter */
   tagUuid: string;
   /** Contacts to apply the change to. Required unless all_contacts is true. */
-  contact_uuids?: AssignReachContactsToATagV1RequestContactUuidsList;
+  contact_uuids?: AssignReachContactsToATagV1RequestContactUuidsList | undefined;
   /** Apply to every contact in the profile */
-  all_contacts?: boolean;
+  all_contacts?: boolean | undefined;
 }
 export type BillingGetCatalogItemListV1RequestCategory = "DOMAIN" | "VPS" | "EMAIL" | "HOSTING";
 export interface BillingGetCatalogItemListV1Request {
   /** Filter catalog items by category */
-  category?: BillingGetCatalogItemListV1RequestCategory | (string & {});
+  category?: BillingGetCatalogItemListV1RequestCategory | (string & {}) | undefined;
   /** Filter catalog items by name. Use `*` for wildcard search, e.g. `.COM*` to find .com domain */
-  name?: string;
+  name?: string | undefined;
 }
 /** Period unit */
 export type BillingV1CatalogCatalogItemPriceResourcePeriodUnit =
@@ -221,31 +221,31 @@ export type BillingV1CatalogCatalogItemPriceResourcePeriodUnit =
   | "none";
 export interface BillingV1CatalogCatalogItemPriceResource {
   /** Price item ID */
-  id?: string;
+  id?: string | undefined;
   /** Price item name */
-  name?: string;
+  name?: string | undefined;
   /** Currency code */
-  currency?: string;
+  currency?: string | undefined;
   /** Price in cents */
-  price?: number;
+  price?: number | undefined;
   /** First period price in cents */
-  first_period_price?: number;
+  first_period_price?: number | undefined;
   /** Period */
-  period?: number;
+  period?: number | undefined;
   /** Period unit */
-  period_unit?: BillingV1CatalogCatalogItemPriceResourcePeriodUnit;
+  period_unit?: BillingV1CatalogCatalogItemPriceResourcePeriodUnit | undefined;
 }
 /** Array of [`Billing.V1.Catalog.CatalogItemPriceResource`](#model/billingv1catalogcatalogitempriceresource) */
 export type BillingV1CatalogCatalogItemPriceCollection =
   Array<BillingV1CatalogCatalogItemPriceResource>;
 export interface BillingV1CatalogCatalogItemResource {
   /** Catalog item ID */
-  id?: string;
-  name?: string;
-  category?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  category?: string | undefined;
   /** Flexible key-value storage containing category-specific metadata for the catalog item. The structure and available fields vary depending on the item category. */
-  metadata?: unknown | null;
-  prices?: BillingV1CatalogCatalogItemPriceCollection;
+  metadata?: unknown | null | undefined;
+  prices?: BillingV1CatalogCatalogItemPriceCollection | undefined;
 }
 /** Array of [`Billing.V1.Catalog.CatalogItemResource`](#model/billingv1catalogcatalogitemresource) */
 export type BillingV1CatalogCatalogItemCollection = Array<BillingV1CatalogCatalogItemResource>;
@@ -253,16 +253,16 @@ export type BillingGetCatalogItemListV1Response = BillingV1CatalogCatalogItemCol
 export interface BillingGetPaymentMethodListV1Request {}
 export interface BillingV1PaymentMethodPaymentMethodResource {
   /** Payment method ID */
-  id?: number;
-  name?: string;
-  identifier?: string;
-  payment_method?: string;
-  is_default?: boolean;
-  is_expired?: boolean;
-  is_suspended?: boolean;
-  created_at?: string;
-  expires_at?: string;
-  suspended_at?: string | null;
+  id?: number | undefined;
+  name?: string | undefined;
+  identifier?: string | undefined;
+  payment_method?: string | undefined;
+  is_default?: boolean | undefined;
+  is_expired?: boolean | undefined;
+  is_suspended?: boolean | undefined;
+  created_at?: string | undefined;
+  expires_at?: string | undefined;
+  suspended_at?: string | null | undefined;
 }
 /** Array of [`Billing.V1.PaymentMethod.PaymentMethodResource`](#model/billingv1paymentmethodpaymentmethodresource) */
 export type BillingV1PaymentMethodPaymentMethodCollection =
@@ -279,22 +279,22 @@ export type BillingV1SubscriptionSubscriptionResourceStatus =
   | "future";
 export interface BillingV1SubscriptionSubscriptionResource {
   /** Subscription ID */
-  id?: string;
-  name?: string;
-  status?: BillingV1SubscriptionSubscriptionResourceStatus;
-  billing_period?: number;
-  billing_period_unit?: string;
-  currency_code?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: BillingV1SubscriptionSubscriptionResourceStatus | undefined;
+  billing_period?: number | undefined;
+  billing_period_unit?: string | undefined;
+  currency_code?: string | undefined;
   /** Total price in cents */
-  total_price?: number;
+  total_price?: number | undefined;
   /** Renewal price in cents */
-  renewal_price?: number;
-  is_auto_renewed?: boolean;
-  created_at?: string;
+  renewal_price?: number | undefined;
+  is_auto_renewed?: boolean | undefined;
+  created_at?: string | undefined;
   /** Final date when the subscription will be or was cancelled and expire. Set when a cancellation is scheduled (e.g. after auto-renewal is disabled) or the subscription is already cancelled; `null` otherwise. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** Date when the next charge will happen while the subscription is auto-renewing. Only relevant when `is_auto_renewed` is `true`; ignore it otherwise. */
-  next_billing_at?: string | null;
+  next_billing_at?: string | null | undefined;
 }
 /** Array of [`Billing.V1.Subscription.SubscriptionResource`](#model/billingv1subscriptionsubscriptionresource) */
 export type BillingV1SubscriptionSubscriptionCollection =
@@ -310,32 +310,32 @@ export interface CancelEcommerceAnOrderV1Request {
   /** The ID of the order to cancel. */
   order_id: string;
   /** Whether to email the customer about the cancellation. Defaults to true. */
-  notify_customer?: boolean;
+  notify_customer?: boolean | undefined;
 }
 export interface EcommerceV1OrderOrderResource {
   /** The order ID, required by every other order endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The order number the merchant and customer see. */
-  display_id?: number;
+  display_id?: number | undefined;
   /** The order status. */
-  status?: string;
+  status?: string | undefined;
   /** The payment status. A paid order is "captured". */
-  payment_status?: string;
+  payment_status?: string | undefined;
   /** The fulfilment status. */
-  fulfillment_status?: string;
+  fulfillment_status?: string | undefined;
   /** Order total in the smallest currency unit. */
-  total?: number;
+  total?: number | undefined;
   /** The order currency code. */
-  currency_code?: string;
+  currency_code?: string | undefined;
   /** The customer email. */
-  customer_email?: string | null;
+  customer_email?: string | null | undefined;
   /** Number of distinct line items. Retrieve the order for the items themselves. */
-  item_count?: number;
+  item_count?: number | undefined;
   /** ISO timestamp of when the order was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface EcommerceV1OrderOrderResponseResource {
-  data?: EcommerceV1OrderOrderResource;
+  data?: EcommerceV1OrderOrderResource | undefined;
 }
 /** TLDs list */
 export type CheckDomainDomainAvailabilityV1RequestTldsList = Array<string>;
@@ -345,17 +345,17 @@ export interface CheckDomainDomainAvailabilityV1Request {
   /** TLDs list */
   tlds: CheckDomainDomainAvailabilityV1RequestTldsList;
   /** Should response include alternatives */
-  with_alternatives?: boolean;
+  with_alternatives?: boolean | undefined;
 }
 export interface DomainsV1AvailabilityAvailabilityResource {
   /** Domain name, `null` when not claimed free domain */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** `true` if domain is available for registration */
-  is_available?: boolean;
+  is_available?: boolean | undefined;
   /** `true` if domain is provided as an alternative */
-  is_alternative?: boolean;
+  is_alternative?: boolean | undefined;
   /** Special rules and/or restrictions applied for registering TLD */
-  restriction?: string | null;
+  restriction?: string | null | undefined;
 }
 /** Array of [`Domains.V1.Availability.AvailabilityResource`](#model/domainsv1availabilityavailabilityresource) */
 export type DomainsV1AvailabilityAvailabilityCollection =
@@ -363,11 +363,11 @@ export type DomainsV1AvailabilityAvailabilityCollection =
 export type CheckDomainDomainAvailabilityV1Response = DomainsV1AvailabilityAvailabilityCollection;
 export interface CheckHostingIfWooCommerceIsInstalledV1Request {
   /** Filter by domain name (case-insensitive substring match) */
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface WordPressV1PluginsWoocommerceInstalledResource {
   /** Whether WooCommerce is installed on any WordPress installation of the domain */
-  is_installed?: boolean;
+  is_installed?: boolean | undefined;
 }
 /** WordPress installation (software) identifiers to validate. */
 export type CheckHostingIfWordPressInstallationsAreValidV1RequestSoftwareIdsList = Array<string>;
@@ -376,13 +376,13 @@ export interface CheckHostingIfWordPressInstallationsAreValidV1Request {
   /** WordPress installation (software) identifiers to validate. */
   software_ids: CheckHostingIfWordPressInstallationsAreValidV1RequestSoftwareIdsList;
   /** Force fresh validation without cache. Preferable for troubleshooting purposes. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface WordPressV1InstallationsCheckIsValidResultResource {
   /** WordPress installation (software) identifier */
-  software_id?: string;
+  software_id?: string | undefined;
   /** Whether the WordPress installation is valid and working correctly */
-  is_valid?: boolean;
+  is_valid?: boolean | undefined;
 }
 /** Array of [`WordPress.V1.Installations.CheckIsValidResultResource`](#model/wordpressv1installationscheckisvalidresultresource) */
 export type WordPressV1InstallationsCheckIsValidResultCollection =
@@ -392,13 +392,13 @@ export type CheckHostingIfWordPressInstallationsAreValidV1Response =
 /** Domain contact information */
 export interface ClaimDomainFreeDomainTransferV1RequestDomainContacts {
   /** Owner contact WHOIS record ID */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** Administrative contact WHOIS record ID */
-  admin_id?: number;
+  admin_id?: number | undefined;
   /** Billing contact WHOIS record ID */
-  billing_id?: number;
+  billing_id?: number | undefined;
   /** Technical contact WHOIS record ID */
-  tech_id?: number;
+  tech_id?: number | undefined;
 }
 export interface ClaimDomainFreeDomainTransferV1Request {
   /** Domain name */
@@ -406,19 +406,19 @@ export interface ClaimDomainFreeDomainTransferV1Request {
   /** Authorization code from the current registrar */
   auth_code: string;
   /** Domain contact information */
-  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts | undefined;
   /** Keep the existing nameservers of the domain */
-  should_keep_ns?: boolean;
+  should_keep_ns?: boolean | undefined;
 }
 export interface DomainsV1TransferTransferResource {
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Transfer status */
-  status?: string;
+  status?: string | undefined;
   /** When the transfer was initiated */
-  initiated_at?: string | null;
+  initiated_at?: string | null | undefined;
   /** When the transfer completed */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
 }
 /** Domain contact information */
 export type ClaimDomainFreeDomainV1RequestDomainContacts =
@@ -427,9 +427,9 @@ export interface ClaimDomainFreeDomainV1Request {
   /** Domain name */
   domain: string;
   /** Domain contact information */
-  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts | undefined;
   /** Additional registration data, possible values depends on TLD */
-  additional_details?: unknown;
+  additional_details?: unknown | undefined;
 }
 /** Domain status */
 export type DomainsV1PortfolioClaimResourceStatus =
@@ -443,10 +443,10 @@ export type DomainsV1PortfolioClaimResourceStatus =
   | "failed";
 export interface DomainsV1PortfolioClaimResource {
   /** Domain name */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Domain status */
-  status?: DomainsV1PortfolioClaimResourceStatus | null;
-  created_at?: string | null;
+  status?: DomainsV1PortfolioClaimResourceStatus | null | undefined;
+  created_at?: string | null | undefined;
 }
 export interface ClearAgencyHostingWebsiteCacheV1Request {
   /** Agency Plan website UID */
@@ -462,7 +462,7 @@ export interface ClearHostingWebsiteCacheV1Request {
   /** Domain name */
   domain: string;
   /** Directory of the website installation to clear, relative to the website root. Defaults to the website root. */
-  directory?: string;
+  directory?: string | undefined;
 }
 export interface CloneHorizonWebsiteV1Request {
   /** The website ID */
@@ -481,9 +481,9 @@ export interface CompleteDomainDomainSetupV1Request {
   /** Domain name */
   domain: string;
   /** Domain contact information */
-  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts | undefined;
   /** Additional registration data, possible values depends on TLD */
-  additional_details?: unknown;
+  additional_details?: unknown | undefined;
 }
 export interface ConnectReachAIWebsiteBuilderSiteV1Request {
   /** Profile uuid parameter */
@@ -498,16 +498,16 @@ export interface ConnectReachEcommerceStoreV1Request {
 }
 /** Reach store created for the connection. */
 export interface ReachV1StoresConnectionResourceStore {
-  uuid?: string;
-  currency?: string | null;
-  synced_at?: string | null;
+  uuid?: string | undefined;
+  currency?: string | null | undefined;
+  synced_at?: string | null | undefined;
 }
 export interface ReachV1StoresConnectionResource {
   /** UUID of the connection between the store and the profile. */
-  uuid?: string;
-  store_id?: string;
+  uuid?: string | undefined;
+  store_id?: string | undefined;
   /** Reach store created for the connection. */
-  store?: ReachV1StoresConnectionResourceStore | null;
+  store?: ReachV1StoresConnectionResourceStore | null | undefined;
 }
 export interface ConnectReachSendingDomainV1Request {
   /** Profile uuid parameter */
@@ -545,15 +545,15 @@ export interface CreateAgencyHostingANewWebsiteV1Request {
   /** Website settings */
   settings: CreateAgencyHostingANewWebsiteV1RequestSettings;
   /** Primary domain to attach to the website. Omit or set to null to get a free auto-generated *.hostingersite.com subdomain instead. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Website type */
-  type?: CreateAgencyHostingANewWebsiteV1RequestType | (string & {}) | null;
+  type?: CreateAgencyHostingANewWebsiteV1RequestType | (string & {}) | null | undefined;
   /** WordPress installation options */
-  wordpress?: CreateAgencyHostingANewWebsiteV1RequestWordpress;
+  wordpress?: CreateAgencyHostingANewWebsiteV1RequestWordpress | undefined;
 }
 export interface AgencyHostingV1SetupsWebsiteSetupResource {
   /** UUID tracking the asynchronous website setup process */
-  setup_uuid?: string;
+  setup_uuid?: string | undefined;
 }
 export interface CreateAgencyHostingWebsiteCronJobV1Request {
   /** Agency Plan website UID */
@@ -565,13 +565,13 @@ export interface CreateAgencyHostingWebsiteCronJobV1Request {
 }
 export interface AgencyHostingV1WebsitesCronJobsCronJobResource {
   /** Unique identifier of the cron job. Use it to delete the cron job. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Cron schedule expression. */
-  time?: string;
+  time?: string | undefined;
   /** Command executed on the configured schedule. */
-  command?: string;
+  command?: string | undefined;
   /** Cron job creation timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface CreateAgencyHostingWebsiteDatabaseUserV1Request {
   /** Agency Plan website UID */
@@ -583,15 +583,15 @@ export interface CreateAgencyHostingWebsiteDatabaseUserV1Request {
   /** Password for the database user (requires mixed case, letters, and numbers). */
   password: string | Redacted.Redacted<string>;
   /** Host the user connects from (IPv4, IPv6, % wildcard, or localhost). Defaults to localhost. */
-  host?: string | null;
+  host?: string | null | undefined;
 }
 export interface AgencyHostingV1WebsitesDatabasesDatabaseUserResource {
   /** Database username. */
-  name?: string;
+  name?: string | undefined;
   /** Database host the user is allowed to connect from. */
-  host?: string;
+  host?: string | undefined;
   /** Database user creation date in ISO 8601 format. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface CreateAgencyHostingWebsiteDatabaseV1Request {
   /** Agency Plan website UID */
@@ -608,17 +608,17 @@ export type AgencyHostingV1WebsitesDatabasesDatabaseResourceUsersList =
   Array<AgencyHostingV1WebsitesDatabasesDatabaseUserResource>;
 export interface AgencyHostingV1WebsitesDatabasesDatabaseResource {
   /** Database name. */
-  name?: string;
+  name?: string | undefined;
   /** Database creation date in ISO 8601 format. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Non-system users that can access the database. */
-  users?: AgencyHostingV1WebsitesDatabasesDatabaseResourceUsersList;
+  users?: AgencyHostingV1WebsitesDatabasesDatabaseResourceUsersList | undefined;
 }
 export interface CreateBillingPurchaseOrderV1RequestItemsItem {
   /** Catalog price item ID */
   item_id: string;
   /** Quantity to purchase */
-  quantity?: number;
+  quantity?: number | undefined;
 }
 /** Catalog price items to purchase */
 export type CreateBillingPurchaseOrderV1RequestItemsList =
@@ -627,11 +627,11 @@ export type CreateBillingPurchaseOrderV1RequestItemsList =
 export type CreateBillingPurchaseOrderV1RequestCouponsList = Array<unknown>;
 export interface CreateBillingPurchaseOrderV1Request {
   /** Payment method ID, default will be used if not provided */
-  payment_method_id?: number;
+  payment_method_id?: number | undefined;
   /** Catalog price items to purchase */
   items: CreateBillingPurchaseOrderV1RequestItemsList;
   /** Discount coupon codes */
-  coupons?: CreateBillingPurchaseOrderV1RequestCouponsList;
+  coupons?: CreateBillingPurchaseOrderV1RequestCouponsList | undefined;
 }
 export type BillingV1OrderOrderResourceStatus =
   | "completed"
@@ -644,33 +644,33 @@ export type BillingV1OrderOrderResourceStatus =
   | "payment_initiated"
   | "fraud_refund";
 export interface BillingV1OrderOrderBillingAddressResource {
-  first_name?: string;
-  last_name?: string;
-  company?: string | null;
-  address_1?: string | null;
-  address_2?: string | null;
-  city?: string | null;
-  state?: string | null;
-  zip?: string | null;
-  country?: string | null;
-  phone?: string | null;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  company?: string | null | undefined;
+  address_1?: string | null | undefined;
+  address_2?: string | null | undefined;
+  city?: string | null | undefined;
+  state?: string | null | undefined;
+  zip?: string | null | undefined;
+  country?: string | null | undefined;
+  phone?: string | null | undefined;
+  email?: string | undefined;
 }
 export interface BillingV1OrderOrderResource {
   /** Order ID */
-  id?: number;
+  id?: number | undefined;
   /** Subscription ID */
-  subscription_id?: string;
-  status?: BillingV1OrderOrderResourceStatus;
+  subscription_id?: string | undefined;
+  status?: BillingV1OrderOrderResourceStatus | undefined;
   /** Currency code */
-  currency?: string;
+  currency?: string | undefined;
   /** Subtotal price (exc. VAT) in cents */
-  subtotal?: number;
+  subtotal?: number | undefined;
   /** Total price (inc. VAT) in cents */
-  total?: number;
-  billing_address?: BillingV1OrderOrderBillingAddressResource;
-  created_at?: string;
-  updated_at?: string;
+  total?: number | undefined;
+  billing_address?: BillingV1OrderOrderBillingAddressResource | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Redirect type */
 export type CreateDomainDomainForwardingV1RequestRedirectType = "301" | "302";
@@ -686,13 +686,13 @@ export interface CreateDomainDomainForwardingV1Request {
 export type DomainsV1ForwardingForwardingResourceRedirectType = "301" | "302";
 export interface DomainsV1ForwardingForwardingResource {
   /** Domain name */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Redirect type */
-  redirect_type?: DomainsV1ForwardingForwardingResourceRedirectType;
+  redirect_type?: DomainsV1ForwardingForwardingResourceRedirectType | undefined;
   /** URL domain is forwarded to */
-  redirect_url?: string;
-  created_at?: string;
-  updated_at?: string | null;
+  redirect_url?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
 }
 /** Legal entity type */
 export type CreateDomainWHOISProfileV1RequestEntityType = "individual" | "organization";
@@ -704,7 +704,7 @@ export interface CreateDomainWHOISProfileV1Request {
   /** Legal entity type */
   entity_type: CreateDomainWHOISProfileV1RequestEntityType | (string & {});
   /** TLD details */
-  tld_details?: unknown;
+  tld_details?: unknown | undefined;
   /** WHOIS details */
   whois_details: unknown;
 }
@@ -712,21 +712,21 @@ export interface CreateDomainWHOISProfileV1Request {
 export type DomainsV1WHOISProfileResourceEntityType = "individual" | "organization";
 export interface DomainsV1WHOISProfileResource {
   /** WHOIS Profile ID */
-  id?: number;
+  id?: number | undefined;
   /** TLD to which contact profile can be applied to */
-  tld?: string;
+  tld?: string | undefined;
   /** ISO 3166 2-letter country code */
-  country?: string;
+  country?: string | undefined;
   /** WHOIS profile entity type */
-  entity_type?: DomainsV1WHOISProfileResourceEntityType;
+  entity_type?: DomainsV1WHOISProfileResourceEntityType | undefined;
   /** Whether the profile is pre-selected when registering new domains of its TLD */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** WHOIS profile details */
-  whois_details?: unknown;
+  whois_details?: unknown | undefined;
   /** TLD details */
-  tld_details?: unknown;
-  created_at?: string;
-  updated_at?: string;
+  tld_details?: unknown | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** The discount type. */
 export type CreateEcommerceADiscountV1RequestType = "percentage" | "fixed" | "free_shipping";
@@ -738,23 +738,23 @@ export interface CreateEcommerceADiscountV1Request {
   /** The discount code customers enter at checkout. */
   code: string;
   /** A human-friendly discount name. */
-  name?: string;
+  name?: string | undefined;
   /** The discount type. */
   type: CreateEcommerceADiscountV1RequestType | (string & {});
   /** For percentage discounts a whole number 1-100; for fixed discounts an amount in the smallest currency unit (e.g. $10 is 1000). Ignored for free_shipping. */
   value: number;
   /** Whether the discount applies to the cart total or to each eligible item. */
-  allocation?: CreateEcommerceADiscountV1RequestAllocation | (string & {});
+  allocation?: CreateEcommerceADiscountV1RequestAllocation | (string & {}) | undefined;
   /** When the discount becomes active. A bare date (2026-11-27) anchors to time_zone. Defaults to now when omitted. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** When the discount expires. A bare date runs to the end of that day in time_zone. Never expires when omitted. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Maximum number of times the discount can be redeemed. */
-  usage_limit?: number;
+  usage_limit?: number | undefined;
   /** Minimum cart value in the smallest currency unit required for the discount to apply. */
-  min_cart_value?: number;
+  min_cart_value?: number | undefined;
   /** IANA time zone used to interpret starts_at and ends_at. */
-  time_zone?: string;
+  time_zone?: string | undefined;
 }
 /** The discount type, or null. */
 export type EcommerceV1DiscountDiscountResourceType = "percentage" | "fixed" | "free_shipping";
@@ -762,30 +762,30 @@ export type EcommerceV1DiscountDiscountResourceType = "percentage" | "fixed" | "
 export type EcommerceV1DiscountDiscountResourceAllocation = "total" | "item";
 export interface EcommerceV1DiscountDiscountResource {
   /** The discount ID, required by every other discount endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The discount code customers enter at checkout. */
-  code?: string;
+  code?: string | undefined;
   /** The discount name, or null. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The discount type, or null. */
-  type?: EcommerceV1DiscountDiscountResourceType | null;
+  type?: EcommerceV1DiscountDiscountResourceType | null | undefined;
   /** The discount value, or null. Percentage is 1-100; fixed is in the smallest currency unit. */
-  value?: number | null;
+  value?: number | null | undefined;
   /** Whether the discount applies to the cart total or to each item, or null. */
-  allocation?: EcommerceV1DiscountDiscountResourceAllocation | null;
+  allocation?: EcommerceV1DiscountDiscountResourceAllocation | null | undefined;
   /** Whether the discount is disabled. */
-  is_disabled?: boolean;
+  is_disabled?: boolean | undefined;
   /** When the discount becomes active. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** When the discount expires, or null. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Maximum number of redemptions, or null for unlimited. */
-  usage_limit?: number | null;
+  usage_limit?: number | null | undefined;
   /** Number of times the discount has been redeemed. */
-  usage_count?: number;
+  usage_count?: number | undefined;
 }
 export interface EcommerceV1DiscountDiscountResponseResource {
-  data?: EcommerceV1DiscountDiscountResource;
+  data?: EcommerceV1DiscountDiscountResource | undefined;
 }
 export interface CreateEcommerceAProductVariantV1RequestOptionsItem {
   /** Option name, e.g. Size. */
@@ -800,9 +800,9 @@ export interface CreateEcommerceAProductVariantV1RequestPricesItem {
   /** Price in the smallest currency unit (e.g. cents). */
   amount: number;
   /** Optional sale price in the smallest currency unit; must be lower than amount. */
-  sale_amount?: number;
+  sale_amount?: number | undefined;
   /** ISO 4217 currency code. Defaults to the store's default currency when omitted. */
-  currency?: string;
+  currency?: string | undefined;
 }
 /** Prices per currency. Amounts are integers in the smallest currency unit. A free item is amount: 0. */
 export type CreateEcommerceAProductVariantV1RequestPricesList =
@@ -813,56 +813,56 @@ export interface CreateEcommerceAProductVariantV1Request {
   /** The ID of the product to add the variant to. */
   product_id: string;
   /** The variant title. Defaults to the option values joined with ' / ' (e.g. 'Red / L'). */
-  title?: string;
+  title?: string | undefined;
   /** The variant SKU. */
-  sku?: string;
+  sku?: string | undefined;
   /** Option name/value pairs that distinguish this variant, e.g. [{name: Size, value: M}]. Options missing from the product are created; provide a value for every option the product already has. */
   options: CreateEcommerceAProductVariantV1RequestOptionsList;
   /** Prices per currency. Amounts are integers in the smallest currency unit. A free item is amount: 0. */
-  prices?: CreateEcommerceAProductVariantV1RequestPricesList;
+  prices?: CreateEcommerceAProductVariantV1RequestPricesList | undefined;
   /** Units in stock. Defaults to 0. */
-  inventory_quantity?: number;
+  inventory_quantity?: number | undefined;
   /** Whether stock is tracked for this variant. Defaults to false. */
-  manage_inventory?: boolean;
+  manage_inventory?: boolean | undefined;
 }
 export interface EcommerceV1VariantVariantResourceOptionsItem {
   /** Option name, e.g. Size. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Option value, e.g. M. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The variant's option values. */
 export type EcommerceV1VariantVariantResourceOptionsList =
   Array<EcommerceV1VariantVariantResourceOptionsItem>;
 export interface EcommerceV1VariantVariantResourcePricesItem {
   /** Price in the smallest currency unit. */
-  amount?: number;
+  amount?: number | undefined;
   /** Sale price in the smallest currency unit, or null. */
-  sale_amount?: number | null;
+  sale_amount?: number | null | undefined;
   /** The price currency code. */
-  currency_code?: string;
+  currency_code?: string | undefined;
 }
 /** Prices per currency, in the smallest currency unit. */
 export type EcommerceV1VariantVariantResourcePricesList =
   Array<EcommerceV1VariantVariantResourcePricesItem>;
 export interface EcommerceV1VariantVariantResource {
   /** The variant ID, required by every other variant endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The variant title, or null. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The variant SKU, or null. */
-  sku?: string | null;
+  sku?: string | null | undefined;
   /** The variant's option values. */
-  options?: EcommerceV1VariantVariantResourceOptionsList;
+  options?: EcommerceV1VariantVariantResourceOptionsList | undefined;
   /** Prices per currency, in the smallest currency unit. */
-  prices?: EcommerceV1VariantVariantResourcePricesList;
+  prices?: EcommerceV1VariantVariantResourcePricesList | undefined;
   /** Units in stock. */
-  inventory_quantity?: number;
+  inventory_quantity?: number | undefined;
   /** Whether stock is tracked for this variant. */
-  manage_inventory?: boolean;
+  manage_inventory?: boolean | undefined;
 }
 export interface EcommerceV1VariantVariantResponseResource {
-  data?: EcommerceV1VariantVariantResource;
+  data?: EcommerceV1VariantVariantResource | undefined;
 }
 /** Sales channel type. "custom" is a headless channel: it requires a name and takes an optional public url. "quick-link" is a one-page store whose handle is auto-generated; it supports neither name nor url. */
 export type CreateEcommerceASalesChannelV1RequestType = "custom" | "quick-link";
@@ -872,9 +872,9 @@ export interface CreateEcommerceASalesChannelV1Request {
   /** Sales channel type. "custom" is a headless channel: it requires a name and takes an optional public url. "quick-link" is a one-page store whose handle is auto-generated; it supports neither name nor url. */
   type: CreateEcommerceASalesChannelV1RequestType | (string & {});
   /** Merchant-facing custom name. Required for custom channels; not supported for quick-link. */
-  name?: string;
+  name?: string | undefined;
   /** Optional public url for the channel. Custom channels only; not supported for quick-link. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Sales channel type */
 export type EcommerceV1SalesChannelSalesChannelCreationResourceSalesChannelType =
@@ -886,22 +886,22 @@ export type EcommerceV1SalesChannelSalesChannelCreationResourceSalesChannelType 
   | "wordpress";
 export interface EcommerceV1SalesChannelSalesChannelCreationResourceSalesChannel {
   /** Sales channel ID */
-  id?: string;
+  id?: string | undefined;
   /** Sales channel type */
-  type?: EcommerceV1SalesChannelSalesChannelCreationResourceSalesChannelType;
+  type?: EcommerceV1SalesChannelSalesChannelCreationResourceSalesChannelType | undefined;
   /** Whether this is the primary sales channel. */
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   /** Whether the sales channel is active. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** External identifier for the sales channel. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Merchant-facing custom name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Public address where the custom sales channel lives. */
-  domain?: string | null;
+  domain?: string | null | undefined;
 }
 export interface EcommerceV1SalesChannelSalesChannelCreationResource {
-  sales_channel?: EcommerceV1SalesChannelSalesChannelCreationResourceSalesChannel;
+  sales_channel?: EcommerceV1SalesChannelSalesChannelCreationResourceSalesChannel | undefined;
 }
 export interface CreateEcommerceDigitalProductV1Request {
   /** The ID of the store to create the product in. */
@@ -911,41 +911,41 @@ export interface CreateEcommerceDigitalProductV1Request {
   /** Price in the smallest currency unit (e.g. cents). Must be positive. */
   price: number;
   /** The product description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ISO 4217 currency code. Defaults to the store's default currency when omitted. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Optional external download link delivered to the customer after purchase. */
-  download_url?: string | null;
+  download_url?: string | null | undefined;
 }
 /** Product type. */
 export type EcommerceV1ProductProductCreationResourceProductType = "physical" | "digital";
 export interface EcommerceV1ProductProductCreationResourceProduct {
   /** Product ID. */
-  id?: string;
+  id?: string | undefined;
   /** Product name. */
-  title?: string;
+  title?: string | undefined;
   /** Product type. */
-  type?: EcommerceV1ProductProductCreationResourceProductType;
+  type?: EcommerceV1ProductProductCreationResourceProductType | undefined;
   /** Product status. */
-  status?: string;
+  status?: string | undefined;
   /** Price in the smallest currency unit (e.g. cents). */
-  price?: number;
+  price?: number | undefined;
   /** Currency the product is priced in (ISO 4217, lowercase). */
-  currency_code?: string;
+  currency_code?: string | undefined;
 }
 export interface EcommerceV1ProductProductCreationResource {
-  product?: EcommerceV1ProductProductCreationResourceProduct;
+  product?: EcommerceV1ProductProductCreationResourceProduct | undefined;
   /** Admin UI deep-link to manage the product. */
-  admin_url?: string;
+  admin_url?: string | undefined;
 }
 /** Search-engine settings. Omitted fields are generated from the name and description; a slug already in use gets a numeric suffix. Send at least one field. */
 export interface CreateEcommercePhysicalProductV1RequestSeoSettings {
   /** Search-engine title for the product page. */
-  title?: string;
+  title?: string | undefined;
   /** Search-engine description for the product page. */
-  description?: string;
+  description?: string | undefined;
   /** URL slug of the product page. Lowercase letters, digits and dashes. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface CreateEcommercePhysicalProductV1Request {
   /** The ID of the store to create the product in. */
@@ -955,43 +955,43 @@ export interface CreateEcommercePhysicalProductV1Request {
   /** Price in the smallest currency unit (e.g. cents). Must be positive. */
   price: number;
   /** The product description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ISO 4217 currency code. Defaults to the store's default currency when omitted. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Search-engine settings. Omitted fields are generated from the name and description; a slug already in use gets a numeric suffix. Send at least one field. */
-  seo_settings?: CreateEcommercePhysicalProductV1RequestSeoSettings;
+  seo_settings?: CreateEcommercePhysicalProductV1RequestSeoSettings | undefined;
 }
 /** Sales channel type. Only "custom" channels can be created via the API. */
 export type CreateEcommerceStoreV1RequestSalesChannelType = "custom";
 export interface CreateEcommerceStoreV1RequestSalesChannel {
   /** Sales channel type. Only "custom" channels can be created via the API. */
-  type?: CreateEcommerceStoreV1RequestSalesChannelType | (string & {});
+  type?: CreateEcommerceStoreV1RequestSalesChannelType | (string & {}) | undefined;
   /** External identifier for the sales channel. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface CreateEcommerceStoreV1Request {
-  name?: string;
+  name?: string | undefined;
   /** ISO 3166-1 alpha-2 country code. */
-  country_code?: string;
-  company_email?: string;
-  company_name?: string;
+  country_code?: string | undefined;
+  company_email?: string | undefined;
+  company_name?: string | undefined;
   /** ISO 639-1 language code. */
-  language?: string;
-  sales_channel?: CreateEcommerceStoreV1RequestSalesChannel;
+  language?: string | undefined;
+  sales_channel?: CreateEcommerceStoreV1RequestSalesChannel | undefined;
 }
 export interface EcommerceV1StoreStoreCreationResourceStore {
   /** Store ID */
-  id?: string;
+  id?: string | undefined;
   /** Store name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Company name */
-  company_name?: string | null;
+  company_name?: string | null | undefined;
   /** Identifier of the hPanel account that owns the store. */
-  h_panel_id?: string;
+  h_panel_id?: string | undefined;
   /** Creation date */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Default currency code (ISO 4217), in lowercase. */
-  default_currency_code?: string;
+  default_currency_code?: string | undefined;
 }
 /** Sales channel type */
 export type EcommerceV1StoreStoreCreationResourceSalesChannelType =
@@ -1003,15 +1003,15 @@ export type EcommerceV1StoreStoreCreationResourceSalesChannelType =
   | "wordpress";
 export interface EcommerceV1StoreStoreCreationResourceSalesChannel {
   /** Sales channel ID */
-  id?: string;
+  id?: string | undefined;
   /** Sales channel type */
-  type?: EcommerceV1StoreStoreCreationResourceSalesChannelType;
+  type?: EcommerceV1StoreStoreCreationResourceSalesChannelType | undefined;
   /** External identifier for the sales channel */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface EcommerceV1StoreStoreCreationResource {
-  store?: EcommerceV1StoreStoreCreationResourceStore;
-  sales_channel?: EcommerceV1StoreStoreCreationResourceSalesChannel;
+  store?: EcommerceV1StoreStoreCreationResourceStore | undefined;
+  sales_channel?: EcommerceV1StoreStoreCreationResourceSalesChannel | undefined;
 }
 export type CreateHorizonWebsiteV1RequestMessageItemType = "text";
 export interface CreateHorizonWebsiteV1RequestMessageItem {
@@ -1033,13 +1033,13 @@ export interface CreateHostingAccountCronJobV1Request {
 }
 export interface HostingV1CronJobsCronJobResource {
   /** Unique identifier of the cron job. Use it to delete the cron job or fetch its output. */
-  uid?: string;
+  uid?: string | undefined;
   /** Username of the account that owns the cron job. */
-  username?: string;
+  username?: string | undefined;
   /** Cron schedule expression. */
-  time?: string;
+  time?: string | undefined;
   /** Command executed on the schedule. */
-  command?: string;
+  command?: string | undefined;
 }
 export interface CreateHostingAccountDatabaseV1Request {
   username: string;
@@ -1066,11 +1066,11 @@ export interface CreateHostingLoginLinksV1Request {
 }
 export interface WordPressV1LoginLoginLinksResource {
   /** Primary auto-login URL for the WordPress installation */
-  login?: string | null;
+  login?: string | null | undefined;
   /** Fallback auto-login URL using the temporary Hostinger domain */
-  fallback?: string | null;
+  fallback?: string | null | undefined;
   /** Default WordPress admin URL used when auto-login is unavailable */
-  default?: string | null;
+  default?: string | null | undefined;
 }
 export interface CreateHostingWebsiteParkedDomainV1Request {
   username: string;
@@ -1090,9 +1090,9 @@ export interface CreateHostingWebsiteRedirectV1Request {
 }
 export interface HostingV1RedirectsRedirectResource {
   /** Source URL */
-  from?: string;
+  from?: string | undefined;
   /** Destination URL */
-  to?: string;
+  to?: string | undefined;
 }
 export interface CreateHostingWebsiteSubdomainV1Request {
   username: string;
@@ -1101,9 +1101,9 @@ export interface CreateHostingWebsiteSubdomainV1Request {
   /** Subdomain prefix to create under the selected website */
   subdomain: string;
   /** Directory name for the subdomain relative to the website root */
-  directory?: string | null;
+  directory?: string | null | undefined;
   /** Use the website public directory as the subdomain root directory */
-  is_using_public_directory?: boolean;
+  is_using_public_directory?: boolean | undefined;
 }
 export interface CreateMailAliasV1Request {
   /** Mailbox resource ID */
@@ -1113,19 +1113,19 @@ export interface CreateMailAliasV1Request {
 }
 export interface MailV1AliasesAliasMailboxResource {
   /** Mailbox resource ID */
-  id?: string;
-  address?: string;
+  id?: string | undefined;
+  address?: string | undefined;
 }
 export interface MailV1AliasesAliasResource {
   /** Unique alias identifier */
-  id?: string;
+  id?: string | undefined;
   /** Email address of the alias */
-  address?: string;
-  mailbox?: MailV1AliasesAliasMailboxResource;
+  address?: string | undefined;
+  mailbox?: MailV1AliasesAliasMailboxResource | undefined;
   /** Whether the alias is active and not suspended */
-  is_active?: boolean;
-  created_at?: string | null;
-  updated_at?: string;
+  is_active?: boolean | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | undefined;
 }
 /** Required when `has_all_mailboxes` is false. Mailbox resource IDs of this order. */
 export type CreateMailAPITokenV1RequestScopeMailboxIdsList = Array<string>;
@@ -1134,7 +1134,7 @@ export interface CreateMailAPITokenV1RequestScope {
   /** Grant access to all current and future mailboxes of the order */
   has_all_mailboxes: boolean;
   /** Required when `has_all_mailboxes` is false. Mailbox resource IDs of this order. */
-  mailbox_ids?: CreateMailAPITokenV1RequestScopeMailboxIdsList;
+  mailbox_ids?: CreateMailAPITokenV1RequestScopeMailboxIdsList | undefined;
 }
 export interface CreateMailAPITokenV1Request {
   /** Order resource ID */
@@ -1150,21 +1150,21 @@ export type MailV1ApiTokensApiTokenScopeResourceMailboxesList =
   Array<MailV1AliasesAliasMailboxResource>;
 export interface MailV1ApiTokensApiTokenScopeResource {
   /** Whether the token covers all current and future mailboxes of the order */
-  has_all_mailboxes?: boolean;
+  has_all_mailboxes?: boolean | undefined;
   /** Mailboxes this token grants access to. Empty when `has_all_mailboxes` is true. */
-  mailboxes?: MailV1ApiTokensApiTokenScopeResourceMailboxesList;
+  mailboxes?: MailV1ApiTokensApiTokenScopeResourceMailboxesList | undefined;
 }
 export type MailV1ApiTokensApiTokenCreatedResourceType = "api_token" | "oauth";
 export interface MailV1ApiTokensApiTokenCreatedResource {
   /** Unique API token identifier */
-  id?: string;
+  id?: string | undefined;
   /** Plaintext API token, returned only in this response. Grants access to the [Hostinger Email API](https://api.mail.hostinger.com/) for mailbox provisioning and management. */
-  token?: string;
+  token?: string | undefined;
   /** Human-readable label for this token */
-  name?: string | null;
-  scope?: MailV1ApiTokensApiTokenScopeResource;
-  created_at?: string;
-  type?: MailV1ApiTokensApiTokenCreatedResourceType;
+  name?: string | null | undefined;
+  scope?: MailV1ApiTokensApiTokenScopeResource | undefined;
+  created_at?: string | undefined;
+  type?: MailV1ApiTokensApiTokenCreatedResourceType | undefined;
 }
 export interface CreateMailAutoreplyV1Request {
   /** Mailbox resource ID */
@@ -1174,29 +1174,29 @@ export interface CreateMailAutoreplyV1Request {
   /** Body of the automatic reply */
   body: string;
   /** Sender display name used for the reply */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** When the autoreply becomes active. Defaults to now. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** When the autoreply stops. Omit for an indefinite autoreply. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
 }
 export type MailV1AutorepliesAutoreplyMailboxResource = MailV1AliasesAliasMailboxResource;
 export interface MailV1AutorepliesAutoreplyResource {
   /** Unique autoreply identifier */
-  id?: string;
-  mailbox?: MailV1AliasesAliasMailboxResource;
+  id?: string | undefined;
+  mailbox?: MailV1AliasesAliasMailboxResource | undefined;
   /** Subject of the automatic reply */
-  subject?: string;
+  subject?: string | undefined;
   /** Body of the automatic reply */
-  body?: string;
+  body?: string | undefined;
   /** Sender display name used for the reply */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** When the autoreply becomes active */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** When the autoreply stops */
-  ends_at?: string | null;
-  created_at?: string;
-  updated_at?: string;
+  ends_at?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CreateMailCatchAllV1Request {
   /** Mailbox resource ID */
@@ -1205,16 +1205,16 @@ export interface CreateMailCatchAllV1Request {
 export type MailV1CatchallsCatchallMailboxResource = MailV1AliasesAliasMailboxResource;
 export interface MailV1CatchallsCatchallResource {
   /** Unique catch-all identifier */
-  id?: string;
-  mailbox?: MailV1AliasesAliasMailboxResource;
+  id?: string | undefined;
+  mailbox?: MailV1AliasesAliasMailboxResource | undefined;
   /** Domain whose unrouted messages are caught */
-  domain?: string;
+  domain?: string | undefined;
   /** Whether the catch-all is active */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Whether the mailbox address has confirmed the catch-all */
-  is_confirmed?: boolean;
-  created_at?: string;
-  updated_at?: string;
+  is_confirmed?: boolean | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CreateMailForwarderV1Request {
   /** Mailbox resource ID */
@@ -1222,23 +1222,23 @@ export interface CreateMailForwarderV1Request {
   /** Email address the messages will be forwarded to */
   destination: string;
   /** Whether to keep a copy of forwarded messages in the mailbox. Defaults to false. */
-  is_keep_copy_enabled?: boolean;
+  is_keep_copy_enabled?: boolean | undefined;
 }
 export type MailV1ForwardersForwarderMailboxResource = MailV1AliasesAliasMailboxResource;
 export interface MailV1ForwardersForwarderResource {
   /** Unique forwarder identifier */
-  id?: string;
-  mailbox?: MailV1AliasesAliasMailboxResource;
+  id?: string | undefined;
+  mailbox?: MailV1AliasesAliasMailboxResource | undefined;
   /** Email address the messages are forwarded to */
-  destination?: string;
+  destination?: string | undefined;
   /** Whether a copy of forwarded messages is kept in the mailbox */
-  is_keep_copy_enabled?: boolean;
+  is_keep_copy_enabled?: boolean | undefined;
   /** Whether the forwarder is active */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Whether the destination address has confirmed the forwarding */
-  is_confirmed?: boolean;
-  created_at?: string;
-  updated_at?: string;
+  is_confirmed?: boolean | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CreateMailMailboxV1Request {
   /** Order resource ID */
@@ -1251,46 +1251,46 @@ export interface CreateMailMailboxV1Request {
 /** Mailbox status */
 export type MailV1MailboxesMailboxResourceStatus = "active" | "suspended";
 export interface MailV1MailboxesMailboxProtocolsResource {
-  is_imap_enabled?: boolean;
-  is_pop3_enabled?: boolean;
-  is_smtp_in_enabled?: boolean;
-  is_smtp_out_enabled?: boolean;
+  is_imap_enabled?: boolean | undefined;
+  is_pop3_enabled?: boolean | undefined;
+  is_smtp_in_enabled?: boolean | undefined;
+  is_smtp_out_enabled?: boolean | undefined;
 }
 export interface MailV1MailboxesMailboxCountsResource {
   /** Number of attached forwarders */
-  forwarders?: number;
+  forwarders?: number | undefined;
   /** Number of attached aliases */
-  aliases?: number;
+  aliases?: number | undefined;
   /** Number of attached auto-replies */
-  autoreplies?: number;
+  autoreplies?: number | undefined;
 }
 /** Periodically synced usage numbers (may lag behind live values) */
 export interface MailV1MailboxesMailboxUsageResource {
   /** Storage used in kilobytes */
-  storage_used?: number;
+  storage_used?: number | undefined;
   /** Storage quota in kilobytes */
-  storage_quota?: number;
-  messages_used?: number;
-  messages_quota?: number;
+  storage_quota?: number | undefined;
+  messages_used?: number | undefined;
+  messages_quota?: number | undefined;
   /** When the usage numbers were last synced; null if never synced */
-  synced_at?: string | null;
+  synced_at?: string | null | undefined;
 }
 export interface MailV1MailboxesMailboxResource {
   /** Mailbox resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Email address of the mailbox */
-  address?: string;
+  address?: string | undefined;
   /** Mailbox status */
-  status?: MailV1MailboxesMailboxResourceStatus;
+  status?: MailV1MailboxesMailboxResourceStatus | undefined;
   /** Reason the mailbox was suspended */
-  status_reason?: string | null;
-  protocols?: MailV1MailboxesMailboxProtocolsResource;
-  counts?: MailV1MailboxesMailboxCountsResource;
+  status_reason?: string | null | undefined;
+  protocols?: MailV1MailboxesMailboxProtocolsResource | undefined;
+  counts?: MailV1MailboxesMailboxCountsResource | undefined;
   /** Whether the mailbox is the catch-all destination for its domain */
-  is_catchall?: boolean;
-  usage?: MailV1MailboxesMailboxUsageResource;
-  created_at?: string;
-  updated_at?: string;
+  is_catchall?: boolean | undefined;
+  usage?: MailV1MailboxesMailboxUsageResource | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type CreateMailWebhookV1RequestEventsItem = "message.received";
 /** Events that trigger this webhook */
@@ -1305,17 +1305,17 @@ export interface CreateMailWebhookV1Request {
   /** Human-readable name for this webhook */
   name: string;
   /** Optional description of the webhook's purpose */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Events that trigger this webhook */
   events: CreateMailWebhookV1RequestEventsList;
   /** Initial status of the webhook */
-  status?: CreateMailWebhookV1RequestStatus | (string & {});
+  status?: CreateMailWebhookV1RequestStatus | (string & {}) | undefined;
   /** Publicly reachable URL that receives the webhook POST requests */
   url: string;
 }
 export interface MailV1WebhooksWebhookMailboxResource {
-  id?: string;
-  address?: string;
+  id?: string | undefined;
+  address?: string | undefined;
 }
 export type MailV1WebhooksWebhookCreatedResourceEventsItem = "message.received";
 /** Events that trigger this webhook */
@@ -1325,22 +1325,22 @@ export type MailV1WebhooksWebhookCreatedResourceEventsList =
 export type MailV1WebhooksWebhookCreatedResourceStatus = "active" | "disabled" | "paused";
 export interface MailV1WebhooksWebhookCreatedResource {
   /** Unique webhook identifier */
-  id?: string;
-  mailbox?: MailV1WebhooksWebhookMailboxResource;
+  id?: string | undefined;
+  mailbox?: MailV1WebhooksWebhookMailboxResource | undefined;
   /** Human-readable name for this webhook */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of the webhook's purpose */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Events that trigger this webhook */
-  events?: MailV1WebhooksWebhookCreatedResourceEventsList;
+  events?: MailV1WebhooksWebhookCreatedResourceEventsList | undefined;
   /** Current status of the webhook */
-  status?: MailV1WebhooksWebhookCreatedResourceStatus;
+  status?: MailV1WebhooksWebhookCreatedResourceStatus | undefined;
   /** URL that receives webhook POST requests */
-  url?: string;
+  url?: string | undefined;
   /** One-time webhook secret, returned only on creation. Sent as `Authorization: Bearer <secret>` with every delivery. */
-  secret?: string | Redacted.Redacted<string>;
-  created_at?: string;
-  updated_at?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Immutable once the field exists */
 export type CreateReachAContactFieldV1RequestType =
@@ -1358,7 +1358,7 @@ export interface CreateReachAContactFieldV1Request {
   type: CreateReachAContactFieldV1RequestType | (string & {});
   label: string;
   /** Required for single_choice and multi_choice, ignored for the scalar types. Labels must be unique regardless of casing. */
-  options?: CreateReachAContactFieldV1RequestOptionsList;
+  options?: CreateReachAContactFieldV1RequestOptionsList | undefined;
 }
 export type ReachV1ContactsFieldsContactFieldResourceType =
   | "text"
@@ -1367,29 +1367,29 @@ export type ReachV1ContactsFieldsContactFieldResourceType =
   | "single_choice"
   | "multi_choice";
 export interface ReachV1ContactsFieldsContactFieldOptionResource {
-  uuid?: string;
-  label?: string;
-  sort_order?: number;
+  uuid?: string | undefined;
+  label?: string | undefined;
+  sort_order?: number | undefined;
 }
 /** Available choices. Always empty for the scalar field types. */
 export type ReachV1ContactsFieldsContactFieldResourceOptionsList =
   Array<ReachV1ContactsFieldsContactFieldOptionResource>;
 export interface ReachV1ContactsFieldsContactFieldResource {
-  uuid?: string;
-  type?: ReachV1ContactsFieldsContactFieldResourceType;
-  label?: string;
+  uuid?: string | undefined;
+  type?: ReachV1ContactsFieldsContactFieldResourceType | undefined;
+  label?: string | undefined;
   /** Derived from the label on creation and immutable afterwards */
-  slug?: string;
+  slug?: string | undefined;
   /** Available choices. Always empty for the scalar field types. */
-  options?: ReachV1ContactsFieldsContactFieldResourceOptionsList;
-  created_at?: string;
+  options?: ReachV1ContactsFieldsContactFieldResourceOptionsList | undefined;
+  created_at?: string | undefined;
 }
 /** Extra campaign fields. Any key outside the listed ones is rejected. */
 export interface CreateReachADraftCampaignV1RequestMetadata {
   /** Preview text shown after the subject line in the inbox. */
-  preheader?: string;
+  preheader?: string | undefined;
   /** Where the campaign was created from. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface CreateReachADraftCampaignV1Request {
   /** Profile uuid parameter */
@@ -1399,13 +1399,13 @@ export interface CreateReachADraftCampaignV1Request {
   /** From address of the campaign. Its domain has to be verified on the profile before the campaign can be sent. */
   sender_email: string;
   /** Name the campaign is listed under. Not shown to the recipients. */
-  title?: string;
+  title?: string | undefined;
   /** Subject line of the email. */
-  subject?: string;
+  subject?: string | undefined;
   /** Template to send, as returned by the template endpoints. Can be left out and attached later, but the campaign cannot be sent without one. */
-  template_uuid?: string;
+  template_uuid?: string | undefined;
   /** Extra campaign fields. Any key outside the listed ones is rejected. */
-  metadata?: CreateReachADraftCampaignV1RequestMetadata | null;
+  metadata?: CreateReachADraftCampaignV1RequestMetadata | null | undefined;
 }
 /** Always `draft` for a campaign that was just created. */
 export type ReachV1CampaignsCreatedCampaignResourceStatus =
@@ -1424,21 +1424,21 @@ export type ReachV1CampaignsCreatedCampaignResourceMetadataMap = {
 };
 /** The campaign as it was stored, without targeting or delivery progress */
 export interface ReachV1CampaignsCreatedCampaignResource {
-  uuid?: string;
-  title?: string;
-  subject?: string;
-  sender_name?: string;
-  sender_email?: string;
-  template_uuid?: string | null;
+  uuid?: string | undefined;
+  title?: string | undefined;
+  subject?: string | undefined;
+  sender_name?: string | undefined;
+  sender_email?: string | undefined;
+  template_uuid?: string | null | undefined;
   /** Always `draft` for a campaign that was just created. */
-  status?: ReachV1CampaignsCreatedCampaignResourceStatus;
-  type?: ReachV1CampaignsCreatedCampaignResourceType;
+  status?: ReachV1CampaignsCreatedCampaignResourceStatus | undefined;
+  type?: ReachV1CampaignsCreatedCampaignResourceType | undefined;
   /** Whether the campaign targets every contact instead of selected segments. */
-  is_all_contacts?: boolean;
+  is_all_contacts?: boolean | undefined;
   /** The stored extra fields, including the ones Reach sets itself. */
-  metadata?: ReachV1CampaignsCreatedCampaignResourceMetadataMap;
-  created_at?: string | null;
-  updated_at?: string | null;
+  metadata?: ReachV1CampaignsCreatedCampaignResourceMetadataMap | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface CreateReachAnEmailTemplateV1Request {
   /** Profile uuid parameter */
@@ -1446,15 +1446,15 @@ export interface CreateReachAnEmailTemplateV1Request {
   /** The email body as HTML. It is sanitised before it is stored, so the saved template can differ from what was sent - inline any styles the email clients need and keep the markup self-contained. */
   template_content: string;
   /** Name the template is listed under. Not shown to the recipients. */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 export interface ReachV1TemplatesTemplateResource {
   /** Pass this as the `template_uuid` of a campaign. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
   /** Null for templates that were never named. */
-  title?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
+  title?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export type CreateReachAProfileSegmentV1RequestConditionsItemOperator =
   | "equals"
@@ -1506,11 +1506,11 @@ export interface CreateReachAProfileSegmentV1Request {
 }
 export type ReachV1ContactsSegmentsSegmentResourceQueryList = Array<unknown>;
 export interface ReachV1ContactsSegmentsSegmentResource {
-  uuid?: string;
-  name?: string;
-  query?: ReachV1ContactsSegmentsSegmentResourceQueryList;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  query?: ReachV1ContactsSegmentsSegmentResourceQueryList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CreateReachFormV1Request {
   /** Profile uuid parameter */
@@ -1523,19 +1523,19 @@ export type ReachV1FormsFormResourceStatus = "active" | "paused" | "draft";
 export type ReachV1FormsFormResourceType = "form";
 /** The rendered form template. Both fields stay null until the template has been generated. */
 export interface ReachV1FormsFormTemplateResource {
-  uuid?: string | null;
+  uuid?: string | null | undefined;
   /** Storage path of the template HTML, relative to the storage directory of this profile. Get the form details to receive a directly usable URL instead. */
-  path?: string | null;
+  path?: string | null | undefined;
 }
 export interface ReachV1FormsFormResource {
-  uuid?: string;
-  name?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
   /** A `paused` form keeps its template online but stops accepting submissions. */
-  status?: ReachV1FormsFormResourceStatus;
-  type?: ReachV1FormsFormResourceType;
-  template?: ReachV1FormsFormTemplateResource;
-  created_at?: string;
-  updated_at?: string | null;
+  status?: ReachV1FormsFormResourceStatus | undefined;
+  type?: ReachV1FormsFormResourceType | undefined;
+  template?: ReachV1FormsFormTemplateResource | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
 }
 /** Existing tags to attach to the created contact */
 export type CreateReachNewContactsV1RequestTagUuidsList = Array<string>;
@@ -1544,9 +1544,11 @@ export type CreateReachNewContactsV1RequestFieldsItemSelectedOptionUuidsList = A
 export interface CreateReachNewContactsV1RequestFieldsItem {
   uuid: string;
   /** For the scalar field types */
-  value?: string | null;
+  value?: string | null | undefined;
   /** For the choice field types */
-  selected_option_uuids?: CreateReachNewContactsV1RequestFieldsItemSelectedOptionUuidsList;
+  selected_option_uuids?:
+    | CreateReachNewContactsV1RequestFieldsItemSelectedOptionUuidsList
+    | undefined;
 }
 /** Custom field values to set on the contact. When a contact with this email already exists, only fields that have no value yet are filled. Unknown field UUIDs and values that do not match the field type are skipped. */
 export type CreateReachNewContactsV1RequestFieldsList =
@@ -1555,15 +1557,15 @@ export interface CreateReachNewContactsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
   email: string;
-  name?: string | null;
-  surname?: string | null;
+  name?: string | null | undefined;
+  surname?: string | null | undefined;
   /** Phone number in E.164 format (leading "+" then 7-15 digits) */
-  phone?: string | null;
-  note?: string | null;
+  phone?: string | null | undefined;
+  note?: string | null | undefined;
   /** Existing tags to attach to the created contact */
-  tag_uuids?: CreateReachNewContactsV1RequestTagUuidsList;
+  tag_uuids?: CreateReachNewContactsV1RequestTagUuidsList | undefined;
   /** Custom field values to set on the contact. When a contact with this email already exists, only fields that have no value yet are filled. Unknown field UUIDs and values that do not match the field type are skipped. */
-  fields?: CreateReachNewContactsV1RequestFieldsList;
+  fields?: CreateReachNewContactsV1RequestFieldsList | undefined;
 }
 export type CreateVPSFirewallRuleV1RequestProtocol =
   | "TCP"
@@ -1609,17 +1611,17 @@ export type VPSV1FirewallFirewallRuleResourceProtocol =
   | "PostgreSQL";
 export interface VPSV1FirewallFirewallRuleResource {
   /** Firewall rule ID */
-  id?: number;
+  id?: number | undefined;
   /** Firewall rule action */
-  action?: VPSV1FirewallFirewallRuleResourceAction;
+  action?: VPSV1FirewallFirewallRuleResourceAction | undefined;
   /** Firewall rule protocol */
-  protocol?: VPSV1FirewallFirewallRuleResourceProtocol;
+  protocol?: VPSV1FirewallFirewallRuleResourceProtocol | undefined;
   /** Firewall rule destination port: single or port range */
-  port?: string;
+  port?: string | undefined;
   /** Firewall rule source. Can be `any` or `custom` */
-  source?: string;
+  source?: string | undefined;
   /** Firewall rule source detail. Can be `any` or IP address, CIDR or range */
-  source_detail?: string;
+  source_detail?: string | undefined;
 }
 export interface CreateVPSNewFirewallV1Request {
   name: string;
@@ -1628,14 +1630,14 @@ export interface CreateVPSNewFirewallV1Request {
 export type VPSV1FirewallFirewallRuleCollection = Array<VPSV1FirewallFirewallRuleResource>;
 export interface VPSV1FirewallFirewallResource {
   /** Firewall ID */
-  id?: number;
+  id?: number | undefined;
   /** Firewall name */
-  name?: string;
+  name?: string | undefined;
   /** Is current firewall synced with VPS */
-  is_synced?: boolean;
-  rules?: VPSV1FirewallFirewallRuleCollection;
-  created_at?: string;
-  updated_at?: string;
+  is_synced?: boolean | undefined;
+  rules?: VPSV1FirewallFirewallRuleCollection | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CreateVPSNewProjectV1Request {
   /** Virtual Machine ID */
@@ -1645,7 +1647,7 @@ export interface CreateVPSNewProjectV1Request {
   /** URL pointing to docker-compose.yaml file, Github repository or raw YAML content of the compose file */
   content: string;
   /** Project environment variables */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export interface CreateVPSPTRRecordV1Request {
   /** Virtual Machine ID */
@@ -1743,14 +1745,14 @@ export interface DeleteEcommerceAProductV1Request {
 }
 export interface EcommerceV1ProductProductDeletedResourceData {
   /** The ID of the product. */
-  id?: string;
+  id?: string | undefined;
   /** True when the product was deleted. */
-  is_deleted?: boolean;
+  is_deleted?: boolean | undefined;
   /** True when the product was archived instead of deleted (a subscription product with active subscribers). */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
 }
 export interface EcommerceV1ProductProductDeletedResource {
-  data?: EcommerceV1ProductProductDeletedResourceData;
+  data?: EcommerceV1ProductProductDeletedResourceData | undefined;
 }
 export interface DeleteEcommerceAProductVariantV1Request {
   /** The ID of the store that owns the product. */
@@ -1762,12 +1764,12 @@ export interface DeleteEcommerceAProductVariantV1Request {
 }
 export interface EcommerceV1VariantVariantDeletedResourceData {
   /** The ID of the variant. */
-  id?: string;
+  id?: string | undefined;
   /** True when the variant was deleted. */
-  is_deleted?: boolean;
+  is_deleted?: boolean | undefined;
 }
 export interface EcommerceV1VariantVariantDeletedResource {
-  data?: EcommerceV1VariantVariantDeletedResourceData;
+  data?: EcommerceV1VariantVariantDeletedResourceData | undefined;
 }
 export interface DeleteEcommerceStoreV1Request {
   /** The ID of the store to delete. */
@@ -1775,9 +1777,9 @@ export interface DeleteEcommerceStoreV1Request {
 }
 export interface EcommerceV1StoreStoreDeleteResource {
   /** The ID of the deleted store. */
-  id?: string;
+  id?: string | undefined;
   /** Always true when the store was soft-deleted. */
-  is_deleted?: boolean;
+  is_deleted?: boolean | undefined;
 }
 export interface DeleteHostingAccountCronJobV1Request {
   username: string;
@@ -1829,9 +1831,9 @@ export interface DeleteHostingWordPressInstallationV1Request {
   /** WordPress installation (software) identifier */
   software: string;
   /** Delete installation files from disk. */
-  delete_files?: boolean;
+  delete_files?: boolean | undefined;
   /** Delete the installation database. */
-  delete_database?: boolean;
+  delete_database?: boolean | undefined;
 }
 export interface DeleteMailAliasV1Request {
   /** Alias resource ID */
@@ -1927,7 +1929,7 @@ export interface DeployHostingWebsiteGitRepositoryV1Request {
   /** Branch to clone and pull */
   branch: string;
   /** Directory under the website document root, exactly as `List website Git repositories` returns it for an existing repository. Empty, null or omitted means the document root. */
-  directory?: string | null;
+  directory?: string | null | undefined;
 }
 /** Result of cloning or pulling a Git repository into the website */
 export interface HostingV1GitGitDeployOutputResource {
@@ -1954,7 +1956,7 @@ export interface DeployHostingWordPressThemeV1Request {
   /** Relative path to the theme directory from wp-content/themes */
   theme_path: string;
   /** Whether to activate the theme after deployment */
-  is_activated?: boolean | null;
+  is_activated?: boolean | null | undefined;
 }
 export interface DisableBillingAutoRenewalV1Request {
   /** Subscription ID */
@@ -1995,10 +1997,10 @@ export interface DNSGetDNSSnapshotListV1Request {
 }
 export interface DNSV1SnapshotSnapshotResource {
   /** Snapshot ID */
-  id?: number;
+  id?: number | undefined;
   /** Reason of the update */
-  reason?: string;
-  created_at?: string;
+  reason?: string | undefined;
+  created_at?: string | undefined;
 }
 /** Array of [`DNS.V1.Snapshot.SnapshotResource`](#model/dnsv1snapshotsnapshotresource) */
 export type DNSV1SnapshotSnapshotCollection = Array<DNSV1SnapshotSnapshotResource>;
@@ -2058,13 +2060,13 @@ export type DomainsV1DomainDomainResourceStatus =
   | "failed";
 export interface DomainsV1DomainDomainResource {
   /** Domain ID */
-  id?: number;
+  id?: number | undefined;
   /** Domain name, `null` when not claimed free domain */
-  domain?: string | null;
-  type?: DomainsV1DomainDomainResourceType;
-  status?: DomainsV1DomainDomainResourceStatus;
-  created_at?: string;
-  expires_at?: string | null;
+  domain?: string | null | undefined;
+  type?: DomainsV1DomainDomainResourceType | undefined;
+  status?: DomainsV1DomainDomainResourceStatus | undefined;
+  created_at?: string | undefined;
+  expires_at?: string | null | undefined;
 }
 /** Array of [`Domains.V1.Domain.DomainResource`](#model/domainsv1domaindomainresource) */
 export type DomainsV1DomainDomainCollection = Array<DomainsV1DomainDomainResource>;
@@ -2074,11 +2076,11 @@ export interface DomainsGetIncomingDomainMoveListV1Request {}
 export type DomainsV1MoveMoveResourceStatus = "initiated" | "activating" | "completed";
 export interface DomainsV1MoveMoveResource {
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Status of the move */
-  status?: DomainsV1MoveMoveResourceStatus;
-  created_at?: string;
-  updated_at?: string;
+  status?: DomainsV1MoveMoveResourceStatus | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Array of [`Domains.V1.Move.MoveResource`](#model/domainsv1movemoveresource) */
 export type DomainsV1MoveMoveCollection = Array<DomainsV1MoveMoveResource>;
@@ -2087,7 +2089,7 @@ export interface DomainsGetIncomingDomainMoveV1Request {
   /** Domain name */
   domain: string;
   /** Re-check the move against the registry before responding. Only has an effect while the move is in the `activating` status. */
-  force_sync?: boolean;
+  force_sync?: boolean | undefined;
 }
 export interface DomainsGetOutgoingDomainMoveListV1Request {}
 export type DomainsGetOutgoingDomainMoveListV1Response = DomainsV1MoveMoveCollection;
@@ -2101,7 +2103,7 @@ export type DomainsV1TransferTransferCollection = Array<DomainsV1TransferTransfe
 export type DomainsGetTransferListV1Response = DomainsV1TransferTransferCollection;
 export interface DomainsGetWHOISProfileListV1Request {
   /** Filter by TLD (without leading dot) */
-  tld?: string;
+  tld?: string | undefined;
 }
 /** Array of [`Domains.V1.WHOIS.ProfileResource`](#model/domainsv1whoisprofileresource) */
 export type DomainsV1WHOISProfileCollection = Array<DomainsV1WHOISProfileResource>;
@@ -2117,13 +2119,13 @@ export interface DomainsPurchaseNewDomainV1Request {
   /** Catalog price item ID */
   item_id: string;
   /** Payment method ID, default will be used if not provided */
-  payment_method_id?: number;
+  payment_method_id?: number | undefined;
   /** Domain contact information */
-  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts | undefined;
   /** Additional registration data, possible values depends on TLD */
-  additional_details?: unknown;
+  additional_details?: unknown | undefined;
   /** Discount coupon codes */
-  coupons?: DomainsPurchaseNewDomainV1RequestCouponsList;
+  coupons?: DomainsPurchaseNewDomainV1RequestCouponsList | undefined;
 }
 export interface DomainsRejectIncomingDomainMoveV1Request {
   /** Domain name */
@@ -2171,12 +2173,12 @@ export interface EcommerceCreateAPaymentProviderConnectLinkV1Request {
 }
 export interface EcommerceV1PaymentProviderPaymentProviderConnectLinkResourceData {
   /** The gateway onboarding URL for the merchant to open. */
-  url?: string;
+  url?: string | undefined;
   /** A deep-link into the store admin for the provider. */
-  admin_url?: string;
+  admin_url?: string | undefined;
 }
 export interface EcommerceV1PaymentProviderPaymentProviderConnectLinkResource {
-  data?: EcommerceV1PaymentProviderPaymentProviderConnectLinkResourceData;
+  data?: EcommerceV1PaymentProviderPaymentProviderConnectLinkResourceData | undefined;
 }
 export interface EcommerceCreateAProductImageUploadURLV1Request {
   /** The ID of the store the product belongs to. */
@@ -2190,13 +2192,13 @@ export type EcommerceV1ProductProductImageUploadUrlResourceFieldsMap = {
 };
 export interface EcommerceV1ProductProductImageUploadUrlResource {
   /** Signed URL to upload the image to with a multipart/form-data POST. */
-  upload_url?: string;
+  upload_url?: string | undefined;
   /** Form fields to send alongside the file in the multipart POST. */
-  fields?: EcommerceV1ProductProductImageUploadUrlResourceFieldsMap;
+  fields?: EcommerceV1ProductProductImageUploadUrlResourceFieldsMap | undefined;
   /** Key of the uploaded object -- send it to the attach-image endpoint. */
-  object_name?: string;
+  object_name?: string | undefined;
   /** Maximum accepted upload size in bytes. */
-  max_bytes?: number;
+  max_bytes?: number | undefined;
 }
 export interface EcommerceFulfilAnOrderV1RequestItemsItem {
   /** The line item to fulfil, from the order detail items[].id. */
@@ -2213,13 +2215,13 @@ export interface EcommerceFulfilAnOrderV1Request {
   /** The ID of the order to fulfil. */
   order_id: string;
   /** Line items to fulfil. Omit to fulfil every remaining unfulfilled item. */
-  items?: EcommerceFulfilAnOrderV1RequestItemsList;
+  items?: EcommerceFulfilAnOrderV1RequestItemsList | undefined;
   /** Carrier tracking number for the shipment. */
-  tracking_number?: string;
+  tracking_number?: string | undefined;
   /** Public tracking URL for the shipment. Requires tracking_number. */
-  tracking_url?: string;
+  tracking_url?: string | undefined;
   /** Whether to email the customer about the fulfilment. Defaults to true. */
-  notify_customer?: boolean;
+  notify_customer?: boolean | undefined;
 }
 export interface EcommerceUploadAndAttachAProductImageV1Request {
   /** The ID of the store the product belongs to. */
@@ -2227,17 +2229,17 @@ export interface EcommerceUploadAndAttachAProductImageV1Request {
   /** The ID of the product to attach the image to. */
   product_id: string;
   /** Publicly reachable URL of a raster image (JPEG, PNG, GIF or WebP), maximum 15MB. Fetching the image requires HTTPS on port 443 without embedded credentials. At most one redirect is allowed; its destination must meet the same URL requirements. Private or reserved network destinations, unsupported URLs and longer redirect chains are rejected. The image is fetched, virus-scanned and validated by content, then stored on the CDN. SVG is not accepted. Provide either this or object_name. */
-  image_url?: string;
+  image_url?: string | undefined;
   /** Key returned by the upload-url endpoint. Provide this instead of image_url to attach an uploaded image. */
-  object_name?: string;
+  object_name?: string | undefined;
   /** When true, the image becomes the product's thumbnail (primary image). When omitted, it becomes the thumbnail only if the product does not have one yet. */
-  is_thumbnail?: boolean | null;
+  is_thumbnail?: boolean | null | undefined;
 }
 export interface EcommerceV1ProductProductImageUploadResource {
   /** CDN URL of the uploaded image. */
-  url?: string;
+  url?: string | undefined;
   /** Whether the image was set as the product's thumbnail (primary image). */
-  is_thumbnail?: boolean;
+  is_thumbnail?: boolean | undefined;
 }
 export type EditHorizonWebsiteV1RequestMessageItemType = "text";
 export interface EditHorizonWebsiteV1RequestMessageItem {
@@ -2267,22 +2269,22 @@ export interface EnableEcommerceManualPaymentMethodV1Request {
   /** The ID of the store to enable manual payment for. */
   store_id: string;
   /** Optional display name shown to customers at checkout. */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 export interface EcommerceV1PaymentManualPaymentResourcePaymentMethod {
   /** Store payment provider ID. */
-  id?: string;
+  id?: string | undefined;
   /** The payment provider identifier. */
-  provider_id?: string;
+  provider_id?: string | undefined;
   /** Whether the payment method is shown at checkout. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Display name shown to customers at checkout. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface EcommerceV1PaymentManualPaymentResource {
-  payment_method?: EcommerceV1PaymentManualPaymentResourcePaymentMethod;
+  payment_method?: EcommerceV1PaymentManualPaymentResourcePaymentMethod | undefined;
   /** Admin UI deep-link to manage payment settings. */
-  admin_url?: string;
+  admin_url?: string | undefined;
 }
 export interface EnableHostingCDNV1Request {
   username: string;
@@ -2292,7 +2294,7 @@ export interface EnableHostingCDNV1Request {
 export interface GenerateHostingAFreeSubdomainV1Request {}
 export interface HostingV1DomainsFreeSubdomainResource {
   /** Generated free subdomain */
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface GenerateHostingGitSSHKeyV1Request {
   username: string;
@@ -2319,15 +2321,15 @@ export interface GenerateHostingImagesV1Request {
   /** Kind of image to generate. It sets the default size and cropping. */
   image_type: GenerateHostingImagesV1RequestImageType | (string & {});
   /** How many images to generate */
-  num_of_images?: number;
+  num_of_images?: number | undefined;
   /** Output width in pixels. Defaults per image type and is ignored for the logo type. */
-  width?: number | null;
+  width?: number | null | undefined;
   /** Output height in pixels. Defaults per image type and is ignored for the logo type. */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Style tokens appended to photographic prompts. Ignored for the logo type. */
-  style?: string | null;
+  style?: string | null | undefined;
   /** Colour direction for the logo type only. It is not rendered as text. */
-  color_guidance?: string | null;
+  color_guidance?: string | null | undefined;
 }
 export interface GenerateHostingImagesV1Response {}
 export interface GetAgencyHostingWebsiteDetailsV1Request {
@@ -2341,161 +2343,161 @@ export type AgencyHostingV1WebsitesWebsiteDomainDetailsResourceNameserversList =
 export type AgencyHostingV1WebsitesSslCertResourceNamesList = Array<string>;
 export interface AgencyHostingV1WebsitesSslCertResource {
   /** SSL cert names */
-  names?: AgencyHostingV1WebsitesSslCertResourceNamesList;
-  expires_at?: string;
-  created_at?: string;
+  names?: AgencyHostingV1WebsitesSslCertResourceNamesList | undefined;
+  expires_at?: string | undefined;
+  created_at?: string | undefined;
 }
 export interface AgencyHostingV1WebsitesCustomSslCertResource {
   /** Is the SSL certificate expired */
-  is_expired?: boolean;
-  expires_at?: string | null;
-  created_at?: string;
+  is_expired?: boolean | undefined;
+  expires_at?: string | null | undefined;
+  created_at?: string | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteDomainDetailsResource {
   /** Domain name */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Parent domain name if the domain is a subdomain */
-  parent_fqdn?: string | null;
+  parent_fqdn?: string | null | undefined;
   /** IPv6 address */
-  ipv6?: string | null;
-  created_at?: string;
-  nameservers?: AgencyHostingV1WebsitesWebsiteDomainDetailsResourceNameserversList;
-  ssl_cert?: AgencyHostingV1WebsitesSslCertResource | null;
-  custom_ssl_cert?: AgencyHostingV1WebsitesCustomSslCertResource | null;
+  ipv6?: string | null | undefined;
+  created_at?: string | undefined;
+  nameservers?: AgencyHostingV1WebsitesWebsiteDomainDetailsResourceNameserversList | undefined;
+  ssl_cert?: AgencyHostingV1WebsitesSslCertResource | null | undefined;
+  custom_ssl_cert?: AgencyHostingV1WebsitesCustomSslCertResource | null | undefined;
 }
 /** Array of [`AgencyHosting.V1.Websites.WebsiteDomainDetailsResource`](#model/agencyhostingv1websiteswebsitedomaindetailsresource) */
 export type AgencyHostingV1WebsitesWebsiteDomainDetailsCollection =
   Array<AgencyHostingV1WebsitesWebsiteDomainDetailsResource>;
 export interface AgencyHostingV1WebsitesWebsitePreviewDomainResource {
   /** Preview domain name */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Creation date */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsitePhpSettingsResource {
   /** PHP version */
-  version?: string;
+  version?: string | undefined;
   /** Number of PHP workers */
-  workers?: number;
+  workers?: number | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteSettingsResource {
   /** PHP settings */
-  php?: AgencyHostingV1WebsitesWebsitePhpSettingsResource | null;
+  php?: AgencyHostingV1WebsitesWebsitePhpSettingsResource | null | undefined;
 }
 export interface AgencyHostingV1WebsitesWordPressInstallResource {
   /** WordPress domain */
-  domain?: string;
+  domain?: string | undefined;
   /** WordPress title */
-  title?: string;
+  title?: string | undefined;
   /** WordPress language */
-  language?: string;
+  language?: string | undefined;
   /** WordPress configuration lock status */
-  is_config_locked?: boolean;
+  is_config_locked?: boolean | undefined;
   /** Creation date */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteSshDetailsResource {
   /** SSH username */
-  username?: string;
+  username?: string | undefined;
   /** SSH host */
-  host?: string;
+  host?: string | undefined;
   /** SSH port */
-  port?: number;
+  port?: number | undefined;
   /** Is SSH access enabled */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Is SSH password access enabled */
-  is_password_enabled?: boolean;
+  is_password_enabled?: boolean | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteSftpDetailsResource {
   /** SFTP username */
-  username?: string;
+  username?: string | undefined;
   /** SFTP host */
-  host?: string;
+  host?: string | undefined;
   /** SFTP port */
-  port?: number;
+  port?: number | undefined;
   /** Is SFTP access enabled */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteRemoteAccessResource {
   /** Remote access mode */
-  mode?: string;
-  ssh?: AgencyHostingV1WebsitesWebsiteSshDetailsResource;
-  sftp?: AgencyHostingV1WebsitesWebsiteSftpDetailsResource;
+  mode?: string | undefined;
+  ssh?: AgencyHostingV1WebsitesWebsiteSshDetailsResource | undefined;
+  sftp?: AgencyHostingV1WebsitesWebsiteSftpDetailsResource | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteServerResource {
   /** Server hostname */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Country code */
-  country_code?: string;
+  country_code?: string | undefined;
 }
 /** Plan parameters */
 export interface AgencyHostingV1WebsitesWebsiteOrderPlanResourceParameters {
   /** Disk quota in bytes */
-  disk_quota_bytes?: number;
+  disk_quota_bytes?: number | undefined;
   /** Inode quota */
-  inode_quota?: number;
+  inode_quota?: number | undefined;
   /** CPU cores */
-  cpu_cores?: number;
+  cpu_cores?: number | undefined;
   /** Memory quota in bytes */
-  memory_quota_bytes?: number;
+  memory_quota_bytes?: number | undefined;
   /** Disk IOPs quota */
-  disk_iops_quota?: number;
+  disk_iops_quota?: number | undefined;
   /** Process quota */
-  process_quota?: number;
+  process_quota?: number | undefined;
   /** Website quota */
-  website_quota?: number;
+  website_quota?: number | undefined;
   /** Maximum number of databases per website */
-  max_databases_per_website?: number;
+  max_databases_per_website?: number | undefined;
   /** Is CDN available */
-  is_cdn_available?: boolean;
+  is_cdn_available?: boolean | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteOrderPlanResource {
   /** Plan name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Plan parameters */
-  parameters?: AgencyHostingV1WebsitesWebsiteOrderPlanResourceParameters;
+  parameters?: AgencyHostingV1WebsitesWebsiteOrderPlanResourceParameters | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteOrderResource {
   /** Order ID */
-  id?: number;
+  id?: number | undefined;
   /** Order status */
-  status?: string | null;
-  created_at?: string;
-  plan?: AgencyHostingV1WebsitesWebsiteOrderPlanResource;
+  status?: string | null | undefined;
+  created_at?: string | undefined;
+  plan?: AgencyHostingV1WebsitesWebsiteOrderPlanResource | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteUserResource {
   /** System username */
-  username?: string;
+  username?: string | undefined;
   /** User state */
-  state?: string;
+  state?: string | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteStagingRootResource {
   /** UID of the website this is a staging environment of */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface AgencyHostingV1WebsitesWebsiteResource {
   /** Website UID */
-  uid?: string;
+  uid?: string | undefined;
   /** IPv4 address */
-  ipv4?: string;
+  ipv4?: string | undefined;
   /** Setup flavor */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Website type */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Website state */
-  state?: AgencyHostingV1WebsitesWebsiteResourceState;
-  created_at?: string;
-  domains?: AgencyHostingV1WebsitesWebsiteDomainDetailsCollection;
-  preview_domain?: AgencyHostingV1WebsitesWebsitePreviewDomainResource | null;
-  settings?: AgencyHostingV1WebsitesWebsiteSettingsResource;
-  wordpress?: AgencyHostingV1WebsitesWordPressInstallResource | null;
-  remote_access?: AgencyHostingV1WebsitesWebsiteRemoteAccessResource;
-  server?: AgencyHostingV1WebsitesWebsiteServerResource;
-  order?: AgencyHostingV1WebsitesWebsiteOrderResource;
-  user?: AgencyHostingV1WebsitesWebsiteUserResource;
-  staging_root?: AgencyHostingV1WebsitesWebsiteStagingRootResource | null;
+  state?: AgencyHostingV1WebsitesWebsiteResourceState | undefined;
+  created_at?: string | undefined;
+  domains?: AgencyHostingV1WebsitesWebsiteDomainDetailsCollection | undefined;
+  preview_domain?: AgencyHostingV1WebsitesWebsitePreviewDomainResource | null | undefined;
+  settings?: AgencyHostingV1WebsitesWebsiteSettingsResource | undefined;
+  wordpress?: AgencyHostingV1WebsitesWordPressInstallResource | null | undefined;
+  remote_access?: AgencyHostingV1WebsitesWebsiteRemoteAccessResource | undefined;
+  server?: AgencyHostingV1WebsitesWebsiteServerResource | undefined;
+  order?: AgencyHostingV1WebsitesWebsiteOrderResource | undefined;
+  user?: AgencyHostingV1WebsitesWebsiteUserResource | undefined;
+  staging_root?: AgencyHostingV1WebsitesWebsiteStagingRootResource | null | undefined;
 }
 export interface GetAgencyHostingWebsiteSetupStatusV1Request {
   /** Agency Plan order ID */
@@ -2507,9 +2509,9 @@ export interface GetAgencyHostingWebsiteSetupStatusV1Request {
 export type AgencyHostingV1SetupsWebsiteSetupStatusResourceStatus = "running" | "completed";
 export interface AgencyHostingV1SetupsWebsiteSetupStatusResource {
   /** UID of the website created by the setup, available once provisioning completes */
-  website_uid?: string | null;
+  website_uid?: string | null | undefined;
   /** Website setup status */
-  status?: AgencyHostingV1SetupsWebsiteSetupStatusResourceStatus;
+  status?: AgencyHostingV1SetupsWebsiteSetupStatusResourceStatus | undefined;
 }
 export interface GetAgencyHostingWebsiteSSLStatusV1Request {
   /** Agency Plan website UID */
@@ -2538,13 +2540,13 @@ export interface GetAgencyHostingWordPressSettingsV1Request {
 }
 export interface AgencyHostingV1WordPressSettingsResource {
   /** Currently installed WordPress core version, or null when it cannot be determined. */
-  core_version?: string | null;
+  core_version?: string | null | undefined;
   /** Whether the LiteSpeed Cache plugin is active. */
-  is_lite_speed_cache_enabled?: boolean;
+  is_lite_speed_cache_enabled?: boolean | undefined;
   /** Whether LiteSpeed object cache is enabled. */
-  is_object_cache_enabled?: boolean;
+  is_object_cache_enabled?: boolean | undefined;
   /** Whether WordPress maintenance mode is currently enabled. */
-  is_maintenance_mode_enabled?: boolean;
+  is_maintenance_mode_enabled?: boolean | undefined;
 }
 export interface GetAgentReadinessAgentReadinessScanV1Request {
   /** Domain name the scan was run for */
@@ -2629,9 +2631,9 @@ export interface GetDNSDNSRecordsV1Request {
 }
 export interface DNSV1ZoneNameRecordResource {
   /** Content of the name record */
-  content?: string;
+  content?: string | undefined;
   /** Flag to mark name record as disabled */
-  is_disabled?: boolean;
+  is_disabled?: boolean | undefined;
 }
 /** Array of [`DNS.V1.Zone.NameRecordResource`](#model/dnsv1zonenamerecordresource) */
 export type DNSV1ZoneNameRecordCollection = Array<DNSV1ZoneNameRecordResource>;
@@ -2649,12 +2651,12 @@ export type DNSV1ZoneRecordResourceType =
   | "CAA";
 export interface DNSV1ZoneRecordResource {
   /** Name of the record (use `@` for wildcard name) */
-  name?: string;
-  records?: DNSV1ZoneNameRecordCollection;
+  name?: string | undefined;
+  records?: DNSV1ZoneNameRecordCollection | undefined;
   /** TTL (Time-To-Live) of the record */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Type of the record */
-  type?: DNSV1ZoneRecordResourceType;
+  type?: DNSV1ZoneRecordResourceType | undefined;
 }
 /** Array of [`DNS.V1.Zone.RecordResource`](#model/dnsv1zonerecordresource) */
 export type DNSV1ZoneRecordCollection = Array<DNSV1ZoneRecordResource>;
@@ -2667,11 +2669,11 @@ export interface GetDNSDNSSnapshotV1Request {
 }
 export interface DNSV1SnapshotSnapshotWithContentResource {
   /** Snapshot ID */
-  id?: number;
+  id?: number | undefined;
   /** Reason of the update */
-  reason?: string;
-  snapshot?: DNSV1ZoneRecordCollection;
-  created_at?: string;
+  reason?: string | undefined;
+  snapshot?: DNSV1ZoneRecordCollection | undefined;
+  created_at?: string | undefined;
 }
 export interface GetDomainDomainAuthorizationCodeV1Request {
   /** Domain name */
@@ -2679,7 +2681,7 @@ export interface GetDomainDomainAuthorizationCodeV1Request {
 }
 export interface DomainsV1PortfolioAuthCodeAuthCodeResource {
   /** Domain authorization code used to transfer the domain to another registrar. */
-  auth_code?: string | null;
+  auth_code?: string | null | undefined;
 }
 export interface GetDomainDomainDetailsV1Request {
   /** Domain name */
@@ -2698,9 +2700,9 @@ export type DomainsV1DomainDomainExtendedResourceStatus =
 /** Name servers */
 export interface DomainsV1DomainDomainExtendedResourceNameServers {
   /** Name server 1 */
-  ns1?: string;
+  ns1?: string | undefined;
   /** Name server 2 */
-  ns2?: string;
+  ns2?: string | undefined;
 }
 export type DomainsV1DomainDomainExtendedResourceChildNameServersItemList = Array<string>;
 /** Child name servers */
@@ -2709,39 +2711,39 @@ export type DomainsV1DomainDomainExtendedResourceChildNameServersList =
 /** WHOIS profiles */
 export interface DomainsV1DomainDomainExtendedResourceDomainContacts {
   /** Admin WHOIS profile ID */
-  admin_id?: number;
+  admin_id?: number | undefined;
   /** Owner WHOIS profile ID */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** Billing WHOIS profile ID */
-  billing_id?: number;
+  billing_id?: number | undefined;
   /** Technician WHOIS profile ID */
-  tech_id?: number;
+  tech_id?: number | undefined;
 }
 export interface DomainsV1DomainDomainExtendedResource {
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Status of the domain */
-  status?: DomainsV1DomainDomainExtendedResourceStatus;
-  message?: string | null;
+  status?: DomainsV1DomainDomainExtendedResourceStatus | undefined;
+  message?: string | null | undefined;
   /** Is privacy protection allowed for the domain */
-  is_privacy_protection_allowed?: boolean;
+  is_privacy_protection_allowed?: boolean | undefined;
   /** Is privacy protection enabled for the domain */
-  is_privacy_protected?: boolean;
+  is_privacy_protected?: boolean | undefined;
   /** Is domain allowed to be locked */
-  is_lockable?: boolean;
+  is_lockable?: boolean | undefined;
   /** Is domain locked */
-  is_locked?: boolean;
+  is_locked?: boolean | undefined;
   /** Name servers */
-  name_servers?: DomainsV1DomainDomainExtendedResourceNameServers;
+  name_servers?: DomainsV1DomainDomainExtendedResourceNameServers | undefined;
   /** Child name servers */
-  child_name_servers?: DomainsV1DomainDomainExtendedResourceChildNameServersList;
+  child_name_servers?: DomainsV1DomainDomainExtendedResourceChildNameServersList | undefined;
   /** WHOIS profiles */
-  domain_contacts?: DomainsV1DomainDomainExtendedResourceDomainContacts;
-  created_at?: string;
-  updated_at?: string;
-  _60_days_lock_expires_at?: string | null;
-  registered_at?: string | null;
-  expires_at?: string | null;
+  domain_contacts?: DomainsV1DomainDomainExtendedResourceDomainContacts | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  _60_days_lock_expires_at?: string | null | undefined;
+  registered_at?: string | null | undefined;
+  expires_at?: string | null | undefined;
 }
 export interface GetDomainDomainForwardingV1Request {
   /** Domain name */
@@ -2753,11 +2755,11 @@ export interface GetDomainDomainRenewalInformationV1Request {
 }
 export interface DomainsV1PortfolioRenewalRenewalInformationResource {
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Domain status */
-  status?: string;
+  status?: string | undefined;
   /** Domain expiration date */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 export interface GetDomainPendingIRTPVerificationV1Request {
   /** Domain name */
@@ -2767,19 +2769,19 @@ export interface GetDomainPendingIRTPVerificationV1Request {
 export type DomainsV1IRTPVerificationResourceStatus = "pending" | "completed" | "canceled";
 export interface DomainsV1IRTPVerificationResource {
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** IRTP verification status */
-  status?: DomainsV1IRTPVerificationResourceStatus;
+  status?: DomainsV1IRTPVerificationResourceStatus | undefined;
   /** When the old registrant confirmed the change */
-  old_confirmed_at?: string | null;
+  old_confirmed_at?: string | null | undefined;
   /** When the new registrant confirmed the change */
-  new_confirmed_at?: string | null;
+  new_confirmed_at?: string | null | undefined;
   /** Email the old registrant confirmation was sent to */
-  old_whois_profile_email?: string;
+  old_whois_profile_email?: string | undefined;
   /** Email the new registrant confirmation was sent to */
-  new_whois_profile_email?: string;
+  new_whois_profile_email?: string | undefined;
   /** When the verification auto-cancels if unconfirmed */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 export interface GetDomainTransferV1Request {
   /** Domain name */
@@ -2808,122 +2810,122 @@ export type EcommerceV1OrderOrderMetadataResourceAttributesMap = {
 };
 export interface EcommerceV1OrderOrderMetadataResource {
   /** Custom attributes collected at checkout, keyed by attribute name, or null. */
-  attributes?: EcommerceV1OrderOrderMetadataResourceAttributesMap | null;
+  attributes?: EcommerceV1OrderOrderMetadataResourceAttributesMap | null | undefined;
 }
 /** The shipping address, or null. */
 export interface EcommerceV1OrderOrderDetailResourceShippingAddress {
-  name?: string | null;
-  company?: string | null;
-  address_1?: string | null;
-  address_2?: string | null;
-  city?: string | null;
-  province_code?: string | null;
-  postal_code?: string | null;
-  country_code?: string | null;
-  phone?: string | null;
+  name?: string | null | undefined;
+  company?: string | null | undefined;
+  address_1?: string | null | undefined;
+  address_2?: string | null | undefined;
+  city?: string | null | undefined;
+  province_code?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  country_code?: string | null | undefined;
+  phone?: string | null | undefined;
 }
 /** The billing address, or null. */
 export type EcommerceV1OrderOrderDetailResourceBillingAddress =
   EcommerceV1OrderOrderDetailResourceShippingAddress;
 export interface EcommerceV1OrderOrderDetailResourceItemsItem {
   /** The line item ID, required by the fulfil endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The line item title. */
-  title?: string;
+  title?: string | undefined;
   /** The variant SKU. */
-  sku?: string | null;
+  sku?: string | null | undefined;
   /** The variant ID. */
-  variant_id?: string | null;
+  variant_id?: string | null | undefined;
   /** Quantity ordered. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Quantity already fulfilled. */
-  fulfilled_quantity?: number;
+  fulfilled_quantity?: number | undefined;
   /** Quantity returned. */
-  returned_quantity?: number;
+  returned_quantity?: number | undefined;
   /** Unit price in the smallest currency unit. */
-  unit_price?: number;
+  unit_price?: number | undefined;
   /** Line total in the smallest currency unit. */
-  total?: number;
+  total?: number | undefined;
 }
 /** The order line items. */
 export type EcommerceV1OrderOrderDetailResourceItemsList =
   Array<EcommerceV1OrderOrderDetailResourceItemsItem>;
 export interface EcommerceV1OrderOrderDetailResourceFulfillmentsItemTrackingItem {
   /** Carrier tracking number. */
-  tracking_number?: string;
+  tracking_number?: string | undefined;
   /** Public tracking URL, when available. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Tracking numbers attached to the fulfilment. */
 export type EcommerceV1OrderOrderDetailResourceFulfillmentsItemTrackingList =
   Array<EcommerceV1OrderOrderDetailResourceFulfillmentsItemTrackingItem>;
 export interface EcommerceV1OrderOrderDetailResourceFulfillmentsItem {
   /** The fulfilment ID. */
-  id?: string;
+  id?: string | undefined;
   /** ISO timestamp of when the fulfilment was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** ISO timestamp of when the fulfilment shipped, if known. */
-  shipped_at?: string | null;
+  shipped_at?: string | null | undefined;
   /** ISO timestamp of when the fulfilment was canceled, if any. */
-  canceled_at?: string | null;
+  canceled_at?: string | null | undefined;
   /** Tracking numbers attached to the fulfilment. */
-  tracking?: EcommerceV1OrderOrderDetailResourceFulfillmentsItemTrackingList;
+  tracking?: EcommerceV1OrderOrderDetailResourceFulfillmentsItemTrackingList | undefined;
 }
 /** The order fulfilments with tracking. */
 export type EcommerceV1OrderOrderDetailResourceFulfillmentsList =
   Array<EcommerceV1OrderOrderDetailResourceFulfillmentsItem>;
 export interface EcommerceV1OrderOrderDetailResource {
   /** The order ID. */
-  id?: string;
+  id?: string | undefined;
   /** The order number. */
-  display_id?: number;
+  display_id?: number | undefined;
   /** The order status. */
-  status?: string;
+  status?: string | undefined;
   /** The payment status. */
-  payment_status?: string;
+  payment_status?: string | undefined;
   /** The fulfilment status. */
-  fulfillment_status?: string;
+  fulfillment_status?: string | undefined;
   /** Order total in the smallest currency unit. */
-  total?: number;
+  total?: number | undefined;
   /** The order currency code. */
-  currency_code?: string;
+  currency_code?: string | undefined;
   /** The customer email. */
-  customer_email?: string | null;
+  customer_email?: string | null | undefined;
   /** Number of distinct line items. */
-  item_count?: number;
+  item_count?: number | undefined;
   /** ISO timestamp of when the order was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Internal note visible only to the merchant. */
-  merchant_note?: string | null;
-  metadata?: EcommerceV1OrderOrderMetadataResource;
+  merchant_note?: string | null | undefined;
+  metadata?: EcommerceV1OrderOrderMetadataResource | undefined;
   /** Subtotal in the smallest currency unit. */
-  subtotal?: number;
+  subtotal?: number | undefined;
   /** Discount total in the smallest currency unit. */
-  discount_total?: number;
+  discount_total?: number | undefined;
   /** Tax total in the smallest currency unit. */
-  tax_total?: number;
+  tax_total?: number | undefined;
   /** Shipping total in the smallest currency unit. */
-  shipping_total?: number;
+  shipping_total?: number | undefined;
   /** Amount paid in the smallest currency unit. */
-  paid_total?: number;
+  paid_total?: number | undefined;
   /** Amount refunded in the smallest currency unit. */
-  refunded_total?: number;
+  refunded_total?: number | undefined;
   /** The shipping address, or null. */
-  shipping_address?: EcommerceV1OrderOrderDetailResourceShippingAddress | null;
+  shipping_address?: EcommerceV1OrderOrderDetailResourceShippingAddress | null | undefined;
   /** The billing address, or null. */
-  billing_address?: EcommerceV1OrderOrderDetailResourceShippingAddress | null;
+  billing_address?: EcommerceV1OrderOrderDetailResourceShippingAddress | null | undefined;
   /** The order line items. */
-  items?: EcommerceV1OrderOrderDetailResourceItemsList;
+  items?: EcommerceV1OrderOrderDetailResourceItemsList | undefined;
   /** The order fulfilments with tracking. */
-  fulfillments?: EcommerceV1OrderOrderDetailResourceFulfillmentsList;
+  fulfillments?: EcommerceV1OrderOrderDetailResourceFulfillmentsList | undefined;
 }
 export interface EcommerceV1OrderOrderDetailResponseResource {
-  data?: EcommerceV1OrderOrderDetailResource;
+  data?: EcommerceV1OrderOrderDetailResource | undefined;
 }
 export interface GetEcommerceCustomStorefrontSetupInstructionsV1Request {}
 export interface EcommerceV1MiscellaneousCustomStorefrontInstructionsResource {
   /** Markdown setup instructions for connecting a custom sales channel to your store. */
-  instructions?: string;
+  instructions?: string | undefined;
 }
 export interface GetEcommerceStoreMetadataV1Request {
   /** The ID of the store to read metadata for. */
@@ -2931,57 +2933,60 @@ export interface GetEcommerceStoreMetadataV1Request {
 }
 /** The store's default currency, or null when unset. */
 export interface EcommerceV1StoreStoreMetadataResourceMetadataDefaultCurrency {
-  code?: string;
-  symbol?: string;
-  symbol_native?: string;
-  name?: string;
-  name_plural?: string;
-  decimal_digits?: number;
-  rounding?: number;
-  template?: string | null;
-  min_amount?: number | null;
+  code?: string | undefined;
+  symbol?: string | undefined;
+  symbol_native?: string | undefined;
+  name?: string | undefined;
+  name_plural?: string | undefined;
+  decimal_digits?: number | undefined;
+  rounding?: number | undefined;
+  template?: string | null | undefined;
+  min_amount?: number | null | undefined;
 }
 export interface EcommerceV1StoreStoreMetadataResourceMetadata {
   /** Whether the store has at least one payment method connected. */
-  has_payment_methods?: boolean;
+  has_payment_methods?: boolean | undefined;
   /** Whether the store has at least one shipping option configured. */
-  has_shipping?: boolean;
+  has_shipping?: boolean | undefined;
   /** The default currency code of the store. */
-  default_currency_code?: string;
+  default_currency_code?: string | undefined;
   /** The store's default currency, or null when unset. */
-  default_currency?: EcommerceV1StoreStoreMetadataResourceMetadataDefaultCurrency | null;
+  default_currency?:
+    | EcommerceV1StoreStoreMetadataResourceMetadataDefaultCurrency
+    | null
+    | undefined;
 }
 export interface EcommerceV1StoreStoreMetadataResource {
-  metadata?: EcommerceV1StoreStoreMetadataResourceMetadata;
+  metadata?: EcommerceV1StoreStoreMetadataResourceMetadata | undefined;
 }
 export interface GetEcommerceStoresV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 export interface EcommerceV1StoreStoreResource {
   /** Store ID */
-  id?: string;
+  id?: string | undefined;
   /** Store name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Creation date */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Last update date */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Store platform version identifier (e.g. "v2_standalone"). */
-  version?: string;
+  version?: string | undefined;
   /** Company name */
-  company_name?: string | null;
+  company_name?: string | null | undefined;
 }
 /** Array of [`Ecommerce.V1.Store.StoreResource`](#model/ecommercev1storestoreresource) */
 export type EcommerceV1StoreStoreCollection = Array<EcommerceV1StoreStoreResource>;
 export interface CommonSchemaPaginationMetaSchema {
-  current_page?: number;
-  per_page?: number;
-  total?: number;
+  current_page?: number | undefined;
+  per_page?: number | undefined;
+  total?: number | undefined;
 }
 export interface GetEcommerceStoresV1Response {
-  data?: EcommerceV1StoreStoreCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: EcommerceV1StoreStoreCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type GetGPUPoolGroupsV1RequestCurrency =
   | "USD"
@@ -3035,43 +3040,43 @@ export type GetGPUPoolGroupsV1RequestCurrency =
   | "ZAR";
 export interface GetGPUPoolGroupsV1Request {
   /** Currency of the returned prices, `USD` by default */
-  currency?: GetGPUPoolGroupsV1RequestCurrency | (string & {});
+  currency?: GetGPUPoolGroupsV1RequestCurrency | (string & {}) | undefined;
 }
 export interface GPUV1RegionRegionResource {
   /** Region ID */
-  id?: number;
+  id?: number | undefined;
   /** Region name */
-  name?: string | null;
-  city?: string;
+  name?: string | null | undefined;
+  city?: string | undefined;
   /** ISO 3166-1 alpha-2 country code */
-  country?: string;
+  country?: string | undefined;
 }
 export interface GPUV1PoolPoolResource {
   /** GPU pool ID */
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
   /** Number of GPUs */
-  gpus?: number;
+  gpus?: number | undefined;
   /** Total VRAM in bytes */
-  vram?: number;
+  vram?: number | undefined;
   /** Whether the pool has available instances for booking */
-  is_available?: boolean;
+  is_available?: boolean | undefined;
   /** Region the pool is served from */
-  region?: GPUV1RegionRegionResource | null;
+  region?: GPUV1RegionRegionResource | null | undefined;
 }
 /** Array of [`GPU.V1.Pool.PoolResource`](#model/gpuv1poolpoolresource) */
 export type GPUV1PoolPoolCollection = Array<GPUV1PoolPoolResource>;
 export interface GPUV1PoolPoolGroupResource {
   /** GPU pool group ID */
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
   /** Total VRAM in bytes */
-  vram?: number | null;
+  vram?: number | null | undefined;
   /** Whether the group has any available pools */
-  is_available?: boolean;
+  is_available?: boolean | undefined;
   /** Lowest hourly price of the group instance types, in the requested currency */
-  min_price_per_hour?: number | null;
-  pools?: GPUV1PoolPoolCollection;
+  min_price_per_hour?: number | null | undefined;
+  pools?: GPUV1PoolPoolCollection | undefined;
 }
 /** Array of [`GPU.V1.Pool.PoolGroupResource`](#model/gpuv1poolpoolgroupresource) */
 export type GPUV1PoolPoolGroupCollection = Array<GPUV1PoolPoolGroupResource>;
@@ -3082,17 +3087,17 @@ export interface GetGPUPoolInstanceTypesV1Request {
 }
 export interface GPUV1PoolPoolInstanceResource {
   /** GPU pool instance type ID */
-  id?: number;
-  name?: string;
-  description?: string | null;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
   /** Number of CPU cores */
-  cpu_cores?: number;
+  cpu_cores?: number | undefined;
   /** Total RAM in bytes */
-  ram?: number;
+  ram?: number | undefined;
   /** Total storage in bytes */
-  storage?: number;
+  storage?: number | undefined;
   /** Hourly price in cents (USD) */
-  price_per_hour?: number;
+  price_per_hour?: number | undefined;
 }
 /** Array of [`GPU.V1.Pool.PoolInstanceResource`](#model/gpuv1poolpoolinstanceresource) */
 export type GPUV1PoolPoolInstanceCollection = Array<GPUV1PoolPoolInstanceResource>;
@@ -3105,16 +3110,16 @@ export interface GetGPUPoolOSTemplatesV1Request {
 }
 export interface GPUV1OsTemplateOsTemplateResource {
   /** OS template ID */
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
   /** Knowledge base article about the template */
-  kb_url?: string;
+  kb_url?: string | undefined;
   /** Icon image ID */
-  image?: string | null;
+  image?: string | null | undefined;
   /** Dark theme icon image ID */
-  dark_image_id?: string | null;
+  dark_image_id?: string | null | undefined;
   /** Light theme icon image ID */
-  light_image_id?: string | null;
+  light_image_id?: string | null | undefined;
 }
 /** Array of [`GPU.V1.OsTemplate.OsTemplateResource`](#model/gpuv1ostemplateostemplateresource) */
 export type GPUV1OsTemplateOsTemplateCollection = Array<GPUV1OsTemplateOsTemplateResource>;
@@ -3127,13 +3132,13 @@ export interface HorizonsV1WebsitesWebsiteUrlResource {
   /** The website URL for the user to access their website in Hostinger Horizons interface */
   website_url: string;
   /** When the website was last published, or null if it has never been published */
-  published_at?: string | null;
+  published_at?: string | null | undefined;
   /** Whether the website is published as a template, so its published pages show a "Use template" banner */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
   /** Whether Hostinger Horizons is still generating changes or publishing the website. Publishing is refused while it is true, and editing while changes are being generated. An unfinished template migration also refuses publishing, with its own error, without setting this flag. */
-  is_in_progress?: boolean;
+  is_in_progress?: boolean | undefined;
   /** Whether the website has an ecommerce store */
-  has_ecommerce_store?: boolean;
+  has_ecommerce_store?: boolean | undefined;
 }
 export type GetHostingAIOptionStatusV1RequestOption = "llmstxt" | "web2agent";
 export interface GetHostingAIOptionStatusV1Request {
@@ -3141,13 +3146,13 @@ export interface GetHostingAIOptionStatusV1Request {
   /** WordPress installation (software) identifier */
   software: string;
   /** Filter the status by a single AI option. */
-  option?: GetHostingAIOptionStatusV1RequestOption | (string & {});
+  option?: GetHostingAIOptionStatusV1RequestOption | (string & {}) | undefined;
 }
 export interface WordPressV1HostingerPluginsAiOptionStatusResource {
   /** Whether the llms.txt AI option is enabled. Present when the option is requested or when no specific option filter is provided. */
-  is_llmstxt_enabled?: boolean | null;
+  is_llmstxt_enabled?: boolean | null | undefined;
   /** Whether the Web2Agent AI option is enabled. Present when the option is requested or when no specific option filter is provided. */
-  is_web2agent_enabled?: boolean | null;
+  is_web2agent_enabled?: boolean | null | undefined;
 }
 export interface GetHostingCacheStatusV1Request {
   username: string;
@@ -3186,7 +3191,7 @@ export interface GetHostingGenerationResultV1Request {
   /** Generation ID returned when the generation was started */
   generation_id: string;
   /** Generation type to look up. When omitted, every generation type is checked. */
-  type?: GetHostingGenerationResultV1RequestType | (string & {});
+  type?: GetHostingGenerationResultV1RequestType | (string & {}) | undefined;
 }
 /** Kind of generation, determines the shape of `result` */
 export type WordPressV1ContentGenerationResourceType = "website-generation" | "image-generation";
@@ -3258,13 +3263,13 @@ export interface GetHostingInstallationJWTTokenV1Request {
 }
 export interface WordPressV1InstallationsJwtTokenResource {
   /** Signed JWT used to authenticate requests against the WordPress installation */
-  token?: string;
+  token?: string | undefined;
   /** Token lifetime in seconds from the moment it was issued */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Date-time at which the token expires, or null when not provided */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** MCP (Model Context Protocol) endpoint URL for the WordPress installation, or null when not provided */
-  mcp_url?: string | null;
+  mcp_url?: string | null | undefined;
 }
 export interface GetHostingLiteSpeedCacheStatusV1Request {
   username: string;
@@ -3273,9 +3278,9 @@ export interface GetHostingLiteSpeedCacheStatusV1Request {
 }
 export interface WordPressV1LitespeedLitespeedCacheStatusResource {
   /** Whether the LiteSpeed Cache plugin is installed on the WordPress installation */
-  is_installed?: boolean;
+  is_installed?: boolean | undefined;
   /** Whether the LiteSpeed Cache plugin is active on the WordPress installation */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
 }
 export interface GetHostingMaintenanceStatusV1Request {
   username: string;
@@ -3286,7 +3291,7 @@ export interface GetHostingMaintenanceStatusV1Request {
 export type WordPressV1MaintenanceMaintenanceStatusResourceStatus = "enabled" | "disabled";
 export interface WordPressV1MaintenanceMaintenanceStatusResource {
   /** Current maintenance mode status for the WordPress installation */
-  status?: WordPressV1MaintenanceMaintenanceStatusResourceStatus;
+  status?: WordPressV1MaintenanceMaintenanceStatusResourceStatus | undefined;
 }
 export interface GetHostingMemcachedObjectCacheStatusV1Request {
   username: string;
@@ -3297,7 +3302,7 @@ export interface GetHostingMemcachedObjectCacheStatusV1Request {
 export type WordPressV1MemcachedMemcachedStatusResourceStatus = "active" | "inactive";
 export interface WordPressV1MemcachedMemcachedStatusResource {
   /** Current Memcached object cache status for the WordPress installation */
-  status?: WordPressV1MemcachedMemcachedStatusResourceStatus;
+  status?: WordPressV1MemcachedMemcachedStatusResourceStatus | undefined;
 }
 export interface GetHostingNodeJsBuildDetailsV1Request {
   username: string;
@@ -3349,7 +3354,7 @@ export interface HostingV1GitGitCommitResource {
 /** Which keys carry values depends on the parent source_type; the others are null. */
 export interface HostingV1NodeJsSourceOptionsResource {
   /** Present if sourceType is "archive" */
-  archive_path?: string | null;
+  archive_path?: string | null | undefined;
   /** Repository owner login (present if source_type is "git") */
   owner: string | null;
   /** Repository name without the .git suffix (present if source_type is "git") */
@@ -3383,15 +3388,15 @@ export interface HostingV1NodeJsBuildOptionsResource {
 }
 export interface HostingV1NodeJsBuildResource {
   /** Build UUID */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Build state */
-  state?: HostingV1NodeJsBuildResourceState;
+  state?: HostingV1NodeJsBuildResourceState | undefined;
   /** Build options */
-  options?: HostingV1NodeJsBuildOptionsResource | null;
+  options?: HostingV1NodeJsBuildOptionsResource | null | undefined;
   /** Creation timestamp */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Last update timestamp */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetHostingNodeJSBuildLogsV1Request {
   username: string;
@@ -3400,7 +3405,7 @@ export interface GetHostingNodeJSBuildLogsV1Request {
   /** Build UUID */
   uuid: string;
   /** Line from which to start retrieving logs */
-  from_line?: number;
+  from_line?: number | undefined;
 }
 export interface HostingV1NodeJsBuildLogsResource {
   /** Logs from the build process, may contain ANSI escape sequences (for colors, etc.) */
@@ -3524,13 +3529,13 @@ export interface GetHostingNodeJsRuntimeLogsV1Request {
   /** Domain name */
   domain: string;
   /** Time window for the first fetch. Required when `from_line` is not sent. */
-  period?: GetHostingNodeJsRuntimeLogsV1RequestPeriod | (string & {});
+  period?: GetHostingNodeJsRuntimeLogsV1RequestPeriod | (string & {}) | undefined;
   /** 1-based line of the log file to start from. For polling send `total_lines + 1` from the previous response. Cannot be combined with `period`. */
-  from_line?: number;
+  from_line?: number | undefined;
   /** Maximum number of log entries to return. When more entries match, the newest are kept. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return only entries with these log levels, sent as a comma-separated list, e.g. ERROR,WARN. Matching runs on the raw log line, so entries written with numeric levels (for example by pino) are excluded while this filter is set. */
-  levels?: GetHostingNodeJsRuntimeLogsV1RequestLevelsList;
+  levels?: GetHostingNodeJsRuntimeLogsV1RequestLevelsList | undefined;
 }
 export interface HostingV1NodeJsLogEntryResource {
   /** ISO 8601 timestamp of the log entry */
@@ -3558,23 +3563,23 @@ export interface GetHostingPHPDetailsV1Request {
 }
 export interface HostingV1PhpPhpVersionsResource {
   /** Key-value pairs of supported versions */
-  supported?: unknown;
+  supported?: unknown | undefined;
   /** Key-value pairs of unsupported versions */
-  unsupported?: unknown;
+  unsupported?: unknown | undefined;
 }
 export interface HostingV1PhpPhpOptionResource {
   /** Declared option type (e.g. bool, string) */
-  type?: string;
+  type?: string | undefined;
   /** Current value for this website */
-  value?: string;
+  value?: string | undefined;
   /** Human-readable description */
-  comment?: string;
+  comment?: string | undefined;
   /** Default value */
-  default?: string;
+  default?: string | undefined;
   /** Allowed value range or limits, when applicable */
-  range?: string | null;
+  range?: string | null | undefined;
   /** Maximum value allowed by the account hosting plan, when applicable */
-  max?: string | null;
+  max?: string | null | undefined;
 }
 /** PHP options keyed by option name */
 export type HostingV1PhpPhpDetailsResourceOptionsMap = {
@@ -3586,16 +3591,16 @@ export type HostingV1PhpPhpDetailsResourceConflictingExtensionsList =
   Array<HostingV1PhpPhpDetailsResourceConflictingExtensionsItemList>;
 export interface HostingV1PhpPhpDetailsResource {
   /** Current PHP version name */
-  php_version?: string;
+  php_version?: string | undefined;
   /** Full PHP version name */
-  php_version_full?: string;
-  php_versions?: HostingV1PhpPhpVersionsResource;
+  php_version_full?: string | undefined;
+  php_versions?: HostingV1PhpPhpVersionsResource | undefined;
   /** PHP options keyed by option name */
-  options?: HostingV1PhpPhpDetailsResourceOptionsMap;
+  options?: HostingV1PhpPhpDetailsResourceOptionsMap | undefined;
   /** PHP extensions keyed by extension name */
-  extensions?: unknown;
+  extensions?: unknown | undefined;
   /** Groups of extensions that conflict with each other */
-  conflicting_extensions?: HostingV1PhpPhpDetailsResourceConflictingExtensionsList;
+  conflicting_extensions?: HostingV1PhpPhpDetailsResourceConflictingExtensionsList | undefined;
 }
 export interface GetHostingPHPInfoV1Request {
   username: string;
@@ -3604,7 +3609,7 @@ export interface GetHostingPHPInfoV1Request {
 }
 export interface HostingV1PhpPhpInfoResource {
   /** HTML string containing the full phpinfo page */
-  info?: string;
+  info?: string | undefined;
 }
 export interface GetHostingPhpMyAdminLinkV1Request {
   username: string;
@@ -3656,9 +3661,9 @@ export interface GetHostingWebsiteFileContentV1Request {
   /** File path, relative to the document root. */
   path: string;
   /** Line offset to start reading from. */
-  from_line?: number;
+  from_line?: number | undefined;
   /** Max number of lines to return. */
-  max_lines?: number;
+  max_lines?: number | undefined;
 }
 export interface HostingV1FilesFileContentResource {
   /** File path, relative to the document root. */
@@ -3679,24 +3684,24 @@ export interface GetHostingWordPressCoreVersionV1Request {
 }
 export interface WordPressV1CommonVulnerabilityResource {
   /** Short title of the vulnerability */
-  title?: string;
+  title?: string | undefined;
   /** Details about the vulnerability */
-  description?: string;
+  description?: string | undefined;
   /** Version in which the vulnerability was introduced or is present */
-  affected_in?: string;
+  affected_in?: string | undefined;
   /** Version in which the vulnerability was fixed */
-  fixed_in?: string;
+  fixed_in?: string | undefined;
   /** Link to the vulnerability advisory */
-  direct_url?: string;
+  direct_url?: string | undefined;
 }
 /** Known vulnerabilities affecting the installed core version */
 export type WordPressV1InstallationsVersionResourceVulnerabilitiesList =
   Array<WordPressV1CommonVulnerabilityResource>;
 export interface WordPressV1InstallationsVersionResource {
   /** Installed WordPress core version */
-  version?: string;
+  version?: string | undefined;
   /** Known vulnerabilities affecting the installed core version */
-  vulnerabilities?: WordPressV1InstallationsVersionResourceVulnerabilitiesList;
+  vulnerabilities?: WordPressV1InstallationsVersionResourceVulnerabilitiesList | undefined;
 }
 export interface GetMailOrderPlanV1Request {
   /** Order resource ID */
@@ -3704,45 +3709,45 @@ export interface GetMailOrderPlanV1Request {
 }
 export interface MailV1OrdersPlanDomainResource {
   /** Maximum number of mailboxes per domain */
-  mailbox_quota?: number;
+  mailbox_quota?: number | undefined;
   /** Maximum number of forwarders per domain */
-  forwarder_quota?: number;
+  forwarder_quota?: number | undefined;
   /** Maximum number of aliases per domain */
-  alias_quota?: number;
+  alias_quota?: number | undefined;
   /** Whether catch-all mailboxes are available */
-  is_catchall_enabled?: boolean;
+  is_catchall_enabled?: boolean | undefined;
   /** Whether IMAP access is available */
-  is_imap_enabled?: boolean;
+  is_imap_enabled?: boolean | undefined;
   /** Whether POP3 access is available */
-  is_pop3_enabled?: boolean;
+  is_pop3_enabled?: boolean | undefined;
 }
 export interface MailV1OrdersPlanMailboxResource {
   /** Storage quota per mailbox in megabytes */
-  storage_quota?: number;
+  storage_quota?: number | undefined;
   /** Maximum number of stored messages per mailbox */
-  messages_quota?: number;
+  messages_quota?: number | undefined;
   /** Maximum number of forwarders per mailbox */
-  forwarder_quota?: number;
+  forwarder_quota?: number | undefined;
   /** Maximum number of aliases per mailbox */
-  alias_quota?: number;
+  alias_quota?: number | undefined;
   /** Maximum outbound message size in bytes */
-  max_outbound_message_size?: number;
+  max_outbound_message_size?: number | undefined;
   /** Maximum outbound attachment size in bytes */
-  max_outbound_attachment_size?: number;
+  max_outbound_attachment_size?: number | undefined;
   /** Maximum number of recipients per outbound message */
-  max_outbound_recipient_limit?: number;
+  max_outbound_recipient_limit?: number | undefined;
   /** Inbound message rate limit as `messages/seconds` */
-  rate_limit_inbound?: string;
+  rate_limit_inbound?: string | undefined;
   /** Outbound message rate limit as `messages/seconds` */
-  rate_limit_outbound?: string;
+  rate_limit_outbound?: string | undefined;
 }
 export interface MailV1OrdersPlanResource {
   /** Machine name of the plan */
-  name?: string;
+  name?: string | undefined;
   /** Human-readable plan title */
-  title?: string;
-  domain?: MailV1OrdersPlanDomainResource;
-  mailbox?: MailV1OrdersPlanMailboxResource;
+  title?: string | undefined;
+  domain?: MailV1OrdersPlanDomainResource | undefined;
+  mailbox?: MailV1OrdersPlanMailboxResource | undefined;
 }
 export interface GetMailWebhookV1Request {
   /** Webhook ID (returned when the webhook was created) */
@@ -3756,20 +3761,20 @@ export type MailV1WebhooksWebhookResourceEventsList =
 export type MailV1WebhooksWebhookResourceStatus = "active" | "disabled" | "paused";
 export interface MailV1WebhooksWebhookResource {
   /** Unique webhook identifier */
-  id?: string;
-  mailbox?: MailV1WebhooksWebhookMailboxResource;
+  id?: string | undefined;
+  mailbox?: MailV1WebhooksWebhookMailboxResource | undefined;
   /** Human-readable name for this webhook */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of the webhook's purpose */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Events that trigger this webhook */
-  events?: MailV1WebhooksWebhookResourceEventsList;
+  events?: MailV1WebhooksWebhookResourceEventsList | undefined;
   /** Current status of the webhook */
-  status?: MailV1WebhooksWebhookResourceStatus;
+  status?: MailV1WebhooksWebhookResourceStatus | undefined;
   /** URL that receives webhook POST requests */
-  url?: string;
-  created_at?: string;
-  updated_at?: string;
+  url?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface GetReachAutomationDetailsV1Request {
   /** Profile uuid parameter */
@@ -3796,26 +3801,26 @@ export type ReachV1AutomationsAutomationResourceType =
 /** Counts of contacts moving through the automation. These are not email engagement metrics. Automations expose no sent, open or click counters - use the campaign statistics endpoint for those. */
 export interface ReachV1AutomationsAutomationEventsResource {
   /** Contacts that ever entered the automation, including those that already left it. */
-  started?: number;
+  started?: number | undefined;
   /** Contacts currently moving through the automation, including those waiting on a delay step. */
-  in_progress?: number;
+  in_progress?: number | undefined;
   /** Contacts that reached the end of the workflow. */
-  completed?: number;
+  completed?: number | undefined;
   /** Contacts whose journey through the automation errored and stopped. */
-  failed?: number;
+  failed?: number | undefined;
 }
 export interface ReachV1AutomationsAutomationResource {
-  uuid?: string;
-  name?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
   /** There is no `completed` status. Use `events.completed` to see how many contacts finished. */
-  status?: ReachV1AutomationsAutomationResourceStatus;
+  status?: ReachV1AutomationsAutomationResourceStatus | undefined;
   /** What kind of workflow this is. `custom` automations are the ones built from scratch. */
-  type?: ReachV1AutomationsAutomationResourceType;
+  type?: ReachV1AutomationsAutomationResourceType | undefined;
   /** Trigger configuration of the automation. The shape depends on the type. */
-  config?: unknown | null;
-  events?: ReachV1AutomationsAutomationEventsResource;
-  created_at?: string | null;
-  updated_at?: string | null;
+  config?: unknown | null | undefined;
+  events?: ReachV1AutomationsAutomationEventsResource | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface GetReachCampaignDetailsV1Request {
   /** Profile uuid parameter */
@@ -3837,38 +3842,38 @@ export type ReachV1CampaignsCampaignDetailsResourceType =
 /** Delivery progress. While the campaign is `sending`, `total_sent` climbs towards the estimate. */
 export interface ReachV1CampaignsCampaignDeliveryResource {
   /** Emails sent so far. */
-  total_sent?: number;
+  total_sent?: number | undefined;
   /** Recipients this campaign was estimated to reach when sending started. Null for campaigns that have not started sending. */
-  estimated_total_recipients?: number | null;
+  estimated_total_recipients?: number | null | undefined;
   /** Contacts currently targeted by this campaign. */
-  subscribers_count?: number;
+  subscribers_count?: number | undefined;
 }
 /** Segments this campaign targets. Empty when it targets all contacts. */
 export type ReachV1CampaignsCampaignDetailsResourceSegmentUuidsList = Array<string>;
 export interface ReachV1CampaignsCampaignDetailsResource {
-  uuid?: string;
-  title?: string;
-  subject?: string;
-  sender_name?: string;
-  sender_email?: string;
+  uuid?: string | undefined;
+  title?: string | undefined;
+  subject?: string | undefined;
+  sender_name?: string | undefined;
+  sender_email?: string | undefined;
   /** The email template this campaign uses. The template title is not exposed. */
-  template_uuid?: string | null;
+  template_uuid?: string | null | undefined;
   /** A fully sent campaign is `publish`. There is no `sent`, `paused` or `archived` status. */
-  status?: ReachV1CampaignsCampaignDetailsResourceStatus;
-  type?: ReachV1CampaignsCampaignDetailsResourceType;
+  status?: ReachV1CampaignsCampaignDetailsResourceStatus | undefined;
+  type?: ReachV1CampaignsCampaignDetailsResourceType | undefined;
   /** Set only while the status is `failed`. */
-  failure_reason?: string | null;
+  failure_reason?: string | null | undefined;
   /** Whether delivery time is picked per contact rather than sent to everyone at once. */
-  is_smart_send?: boolean;
+  is_smart_send?: boolean | undefined;
   /** Whether the campaign targets every contact instead of the listed segments. */
-  is_all_contacts?: boolean;
-  delivery?: ReachV1CampaignsCampaignDeliveryResource;
+  is_all_contacts?: boolean | undefined;
+  delivery?: ReachV1CampaignsCampaignDeliveryResource | undefined;
   /** Segments this campaign targets. Empty when it targets all contacts. */
-  segment_uuids?: ReachV1CampaignsCampaignDetailsResourceSegmentUuidsList;
-  created_at?: string;
-  updated_at?: string | null;
-  sent_at?: string | null;
-  scheduled_at?: string | null;
+  segment_uuids?: ReachV1CampaignsCampaignDetailsResourceSegmentUuidsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  sent_at?: string | null | undefined;
+  scheduled_at?: string | null | undefined;
 }
 export interface GetReachCampaignPerformanceV1Request {
   /** Profile uuid parameter */
@@ -3879,29 +3884,29 @@ export interface GetReachCampaignPerformanceV1Request {
 /** Campaign performance. Every count is unique contacts rather than raw events, so a contact who opens the same email five times is counted once. */
 export interface ReachV1CampaignsCampaignStatisticsResource {
   /** Emails sent for this campaign, and the denominator of every rate below. */
-  total_sent?: number;
+  total_sent?: number | undefined;
   /** Recipients this campaign was estimated to reach when sending started. Null for campaigns that have not started sending. */
-  estimated_total_recipients?: number | null;
-  processed_count?: number;
-  delivered_count?: number;
-  dropped_count?: number;
-  bounced_count?: number;
-  soft_bounced_count?: number;
+  estimated_total_recipients?: number | null | undefined;
+  processed_count?: number | undefined;
+  delivered_count?: number | undefined;
+  dropped_count?: number | undefined;
+  bounced_count?: number | undefined;
+  soft_bounced_count?: number | undefined;
   /** Contacts who opened this campaign. */
-  opened_count?: number;
+  opened_count?: number | undefined;
   /** Contacts who clicked a link. Only clicks from contacts who also registered an open count. */
-  clicked_count?: number;
+  clicked_count?: number | undefined;
   /** Contacts who unsubscribed through this campaign. */
-  unsubscribed_count?: number;
+  unsubscribed_count?: number | undefined;
   /** Percentage of sent emails that were opened. */
-  open_rate?: number;
+  open_rate?: number | undefined;
   /** Percentage of sent emails that got a click. */
-  click_rate?: number;
+  click_rate?: number | undefined;
   /** Percentage of the contacts who opened that went on to click. */
-  click_to_open_rate?: number;
+  click_to_open_rate?: number | undefined;
   /** Percentage of sent emails that led to an unsubscribe. */
-  unsubscribe_rate?: number;
-  has_bounced_contacts?: boolean;
+  unsubscribe_rate?: number | undefined;
+  has_bounced_contacts?: boolean | undefined;
 }
 export interface GetReachConnectedSendingDomainV1Request {
   /** Profile uuid parameter */
@@ -3915,10 +3920,10 @@ export type ReachV1ProfilesDomainsSendingDomainResourceStatus =
   | "blocked";
 /** A sender address on the connected domain that is no longer allowed to send. */
 export interface ReachV1ProfilesDomainsSuspendedSenderEmailResource {
-  email?: string;
+  email?: string | undefined;
   /** The part of the address before the @. */
-  email_local_part?: string;
-  suspended_at?: string;
+  email_local_part?: string | undefined;
+  suspended_at?: string | undefined;
 }
 /** Sender addresses on this domain that have been suspended. A campaign using one of them will not go out even while the domain itself is active. */
 export type ReachV1ProfilesDomainsSendingDomainResourceSuspendedSenderEmailsList =
@@ -3926,15 +3931,17 @@ export type ReachV1ProfilesDomainsSendingDomainResourceSuspendedSenderEmailsList
 /** The sending domain connected to the profile. When no domain is connected every field is `null` and `suspended_sender_emails` is empty, so the shape stays the same whether or not the profile is set up for sending. */
 export interface ReachV1ProfilesDomainsSendingDomainResource {
   /** Domain campaigns are sent from. It may be a subdomain of the domain that was connected, so it will not always match the website domain. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Campaigns can only be sent while the domain is `active`. */
-  status?: ReachV1ProfilesDomainsSendingDomainResourceStatus | null;
+  status?: ReachV1ProfilesDomainsSendingDomainResourceStatus | null | undefined;
   /** When the domain was connected to the profile. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** When the domain or its verification state last changed. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
   /** Sender addresses on this domain that have been suspended. A campaign using one of them will not go out even while the domain itself is active. */
-  suspended_sender_emails?: ReachV1ProfilesDomainsSendingDomainResourceSuspendedSenderEmailsList;
+  suspended_sender_emails?:
+    | ReachV1ProfilesDomainsSendingDomainResourceSuspendedSenderEmailsList
+    | undefined;
 }
 export interface GetReachContactDetailsV1Request {
   /** Profile uuid parameter */
@@ -3969,36 +3976,38 @@ export type ReachV1ContactsFieldsContactFieldValueResourceOptionsList =
   Array<ReachV1ContactsFieldsContactFieldOptionResource>;
 /** A custom contact field together with the value held by one contact */
 export interface ReachV1ContactsFieldsContactFieldValueResource {
-  uuid?: string;
-  type?: ReachV1ContactsFieldsContactFieldValueResourceType;
-  label?: string;
-  slug?: string;
+  uuid?: string | undefined;
+  type?: ReachV1ContactsFieldsContactFieldValueResourceType | undefined;
+  label?: string | undefined;
+  slug?: string | undefined;
   /** Set for the scalar field types, null for the choice types */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Chosen options for the choice field types, empty for the scalar types */
-  selected_option_uuids?: ReachV1ContactsFieldsContactFieldValueResourceSelectedOptionUuidsList;
+  selected_option_uuids?:
+    | ReachV1ContactsFieldsContactFieldValueResourceSelectedOptionUuidsList
+    | undefined;
   /** Every option the field offers, not only the selected ones */
-  options?: ReachV1ContactsFieldsContactFieldValueResourceOptionsList;
+  options?: ReachV1ContactsFieldsContactFieldValueResourceOptionsList | undefined;
 }
 /** Custom field values held by this contact */
 export type ReachV1ContactsContactDetailsResourceFieldsList =
   Array<ReachV1ContactsFieldsContactFieldValueResource>;
 export interface ReachV1ContactsContactDetailsResource {
-  uuid?: string;
-  email?: string;
-  name?: string | null;
-  surname?: string | null;
-  phone?: string | null;
-  subscription_status?: ReachV1ContactsContactDetailsResourceSubscriptionStatus;
-  subscribed_at?: string | null;
-  unsubscribed_at?: string | null;
-  created_at?: string | null;
-  domain?: string | null;
-  source?: ReachV1ContactsContactDetailsResourceSource | null;
-  note?: string | null;
-  tags?: ReachV1ContactsContactDetailsResourceTagsList;
+  uuid?: string | undefined;
+  email?: string | undefined;
+  name?: string | null | undefined;
+  surname?: string | null | undefined;
+  phone?: string | null | undefined;
+  subscription_status?: ReachV1ContactsContactDetailsResourceSubscriptionStatus | undefined;
+  subscribed_at?: string | null | undefined;
+  unsubscribed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  domain?: string | null | undefined;
+  source?: ReachV1ContactsContactDetailsResourceSource | null | undefined;
+  note?: string | null | undefined;
+  tags?: ReachV1ContactsContactDetailsResourceTagsList | undefined;
   /** Custom field values held by this contact */
-  fields?: ReachV1ContactsContactDetailsResourceFieldsList;
+  fields?: ReachV1ContactsContactDetailsResourceFieldsList | undefined;
 }
 export interface GetReachEmailTemplateV1Request {
   /** Profile uuid parameter */
@@ -4008,13 +4017,13 @@ export interface GetReachEmailTemplateV1Request {
 }
 export interface ReachV1TemplatesTemplateDetailsResource {
   /** Pass this as the `template_uuid` of a campaign. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Null for templates that were never named. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Full HTML of the template, with personalization tags such as `{{name}}` unrendered. Null when the stored HTML cannot be read. */
-  template_content?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
+  template_content?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface GetReachFormDetailsV1Request {
   /** Profile uuid parameter */
@@ -4027,64 +4036,64 @@ export type ReachV1FormsFormDetailsResourceStatus = "active" | "paused" | "draft
 export type ReachV1FormsFormDetailsResourceType = "form";
 /** The rendered form template. There is no ready-made embed snippet - either serve the HTML behind `url` or build your own embed around the form uuid. All fields stay null until the template has been generated. */
 export interface ReachV1FormsFormTemplateDetailsResource {
-  uuid?: string | null;
+  uuid?: string | null | undefined;
   /** Storage path of the template HTML, relative to the storage directory of this profile. `url` already includes that prefix, so prefer it unless you resolve storage paths yourself. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Publicly reachable URL of the template HTML. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** How the tag came about. `custom` covers the tags you create yourself, `import` the ones added by contact imports, and `form` and `system` the ones Reach creates on its own. Every form gets a `form:{name}` tag when it is created. */
 export type ReachV1FormsFormTagResourceType = "form" | "custom" | "import" | "system";
 /** A tag applied to every contact this form captures. */
 export interface ReachV1FormsFormTagResource {
-  uuid?: string;
-  value?: string;
+  uuid?: string | undefined;
+  value?: string | undefined;
   /** How the tag came about. `custom` covers the tags you create yourself, `import` the ones added by contact imports, and `form` and `system` the ones Reach creates on its own. Every form gets a `form:{name}` tag when it is created. */
-  type?: ReachV1FormsFormTagResourceType;
+  type?: ReachV1FormsFormTagResourceType | undefined;
 }
 /** Tags applied to every contact this form captures. */
 export type ReachV1FormsFormDetailsResourceTagsList = Array<ReachV1FormsFormTagResource>;
 export interface ReachV1FormsFormDetailsResource {
-  uuid?: string;
-  name?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
   /** A `paused` form keeps its template online but stops accepting submissions. */
-  status?: ReachV1FormsFormDetailsResourceStatus;
-  type?: ReachV1FormsFormDetailsResourceType;
-  template?: ReachV1FormsFormTemplateDetailsResource;
+  status?: ReachV1FormsFormDetailsResourceStatus | undefined;
+  type?: ReachV1FormsFormDetailsResourceType | undefined;
+  template?: ReachV1FormsFormTemplateDetailsResource | undefined;
   /** Tags applied to every contact this form captures. */
-  tags?: ReachV1FormsFormDetailsResourceTagsList;
-  created_at?: string;
-  updated_at?: string | null;
+  tags?: ReachV1FormsFormDetailsResourceTagsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface GetReachProfileDomainDNSStatusV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
 }
 export interface ReachV1ProfilesDomainsDnsRecordStatusActualItem {
-  type?: string;
-  value?: string;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ReachV1ProfilesDomainsDnsRecordStatusActualList =
   Array<ReachV1ProfilesDomainsDnsRecordStatusActualItem>;
 export interface ReachV1ProfilesDomainsDnsRecordStatusSuggestedItem {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ReachV1ProfilesDomainsDnsRecordStatusSuggestedList =
   Array<ReachV1ProfilesDomainsDnsRecordStatusSuggestedItem>;
 export interface ReachV1ProfilesDomainsDnsRecordStatus {
-  actual?: ReachV1ProfilesDomainsDnsRecordStatusActualList;
-  suggested?: ReachV1ProfilesDomainsDnsRecordStatusSuggestedList;
-  is_valid?: boolean;
+  actual?: ReachV1ProfilesDomainsDnsRecordStatusActualList | undefined;
+  suggested?: ReachV1ProfilesDomainsDnsRecordStatusSuggestedList | undefined;
+  is_valid?: boolean | undefined;
 }
 export interface ReachV1ProfilesDomainsDnsStatusResource {
-  domain?: string;
-  mx?: ReachV1ProfilesDomainsDnsRecordStatus;
-  spf?: ReachV1ProfilesDomainsDnsRecordStatus;
-  dkim?: ReachV1ProfilesDomainsDnsRecordStatus;
-  dmarc?: ReachV1ProfilesDomainsDnsRecordStatus;
-  a?: ReachV1ProfilesDomainsDnsRecordStatus;
+  domain?: string | undefined;
+  mx?: ReachV1ProfilesDomainsDnsRecordStatus | undefined;
+  spf?: ReachV1ProfilesDomainsDnsRecordStatus | undefined;
+  dkim?: ReachV1ProfilesDomainsDnsRecordStatus | undefined;
+  dmarc?: ReachV1ProfilesDomainsDnsRecordStatus | undefined;
+  a?: ReachV1ProfilesDomainsDnsRecordStatus | undefined;
 }
 export interface GetReachProfileSegmentDetailsV1Request {
   /** Profile uuid parameter */
@@ -4106,34 +4115,34 @@ export type ReachV1ProfilesSettingsSettingsResourceTopicsList = Array<string>;
 export type ReachV1ProfilesSettingsSettingsResourceSellingPointsList = Array<string>;
 /** Sender identity and brand details saved on the profile. A profile that never filled its settings in returns empty values, so every field can be `null`. */
 export interface ReachV1ProfilesSettingsSettingsResource {
-  brand_name?: string | null;
-  website_url?: string | null;
-  business_address?: string | null;
-  privacy_policy_url?: string | null;
-  accent_color?: string | null;
-  button_color?: string | null;
-  background_color?: string | null;
-  text_color?: string | null;
-  links_color?: string | null;
+  brand_name?: string | null | undefined;
+  website_url?: string | null | undefined;
+  business_address?: string | null | undefined;
+  privacy_policy_url?: string | null | undefined;
+  accent_color?: string | null | undefined;
+  button_color?: string | null | undefined;
+  background_color?: string | null | undefined;
+  text_color?: string | null | undefined;
+  links_color?: string | null | undefined;
   /** Button text colour. */
-  button_text?: string | null;
+  button_text?: string | null | undefined;
   /** Button corner radius in pixels. */
-  button_corners?: number | null;
+  button_corners?: number | null | undefined;
   /** Body and button font. */
-  font_family?: string | null;
-  heading_font_family?: string | null;
-  logo_url?: string | null;
-  social_links?: ReachV1ProfilesSettingsSettingsResourceSocialLinksList | null;
+  font_family?: string | null | undefined;
+  heading_font_family?: string | null | undefined;
+  logo_url?: string | null | undefined;
+  social_links?: ReachV1ProfilesSettingsSettingsResourceSocialLinksList | null | undefined;
   /** Social profile links keyed by platform. */
-  socials?: ReachV1ProfilesSettingsSettingsResourceSocialsMap | null;
-  about?: string | null;
-  keywords?: ReachV1ProfilesSettingsSettingsResourceKeywordsList | null;
-  topics?: ReachV1ProfilesSettingsSettingsResourceTopicsList | null;
-  selling_points?: ReachV1ProfilesSettingsSettingsResourceSellingPointsList | null;
+  socials?: ReachV1ProfilesSettingsSettingsResourceSocialsMap | null | undefined;
+  about?: string | null | undefined;
+  keywords?: ReachV1ProfilesSettingsSettingsResourceKeywordsList | null | undefined;
+  topics?: ReachV1ProfilesSettingsSettingsResourceTopicsList | null | undefined;
+  selling_points?: ReachV1ProfilesSettingsSettingsResourceSellingPointsList | null | undefined;
   /** Default sender name that campaigns created afterwards start from. */
-  sender_name?: string | null;
+  sender_name?: string | null | undefined;
   /** Part of the default sender address before the `@`. It is combined with the profile's connected sending domain, see the connected sending domain endpoint. */
-  sender_email?: string | null;
+  sender_email?: string | null | undefined;
 }
 export interface GetReachRemainingPlanLimitsV1Request {
   /** Profile uuid parameter */
@@ -4142,21 +4151,21 @@ export interface GetReachRemainingPlanLimitsV1Request {
 /** Allowance, consumption and headroom of a single plan limit for the current period. */
 export interface ReachV1ProfilesPlanLimitUsageResource {
   /** The allowance for the current period. */
-  limit?: number;
+  limit?: number | undefined;
   /** How much of the allowance has been consumed so far. */
-  used?: number;
+  used?: number | undefined;
   /** Headroom left. Floors at 0, so it never reports a negative overage. */
-  remaining?: number;
+  remaining?: number | undefined;
 }
 /** What the plan allows and what is left of it for the current period. `emails` counts every email sent. `recipients` counts the distinct contacts emailed - it is not the size of the contact list, a contact emailed three times counts once and a contact never emailed does not count at all. `ai_credits` counts the AI generations used, and its limit includes any extra credits bought on top of the plan. */
 export interface ReachV1ProfilesPlanLimitsResource {
-  emails?: ReachV1ProfilesPlanLimitUsageResource;
-  recipients?: ReachV1ProfilesPlanLimitUsageResource;
-  ai_credits?: ReachV1ProfilesPlanLimitUsageResource;
+  emails?: ReachV1ProfilesPlanLimitUsageResource | undefined;
+  recipients?: ReachV1ProfilesPlanLimitUsageResource | undefined;
+  ai_credits?: ReachV1ProfilesPlanLimitUsageResource | undefined;
   /** Start of the current period. Periods are calendar months rather than billing anniversaries, so the counters reset at midnight UTC on the 1st no matter when the subscription started. */
-  period_start?: string;
+  period_start?: string | undefined;
   /** End of the current period, that is the last moment of the calendar month. */
-  period_end?: string;
+  period_end?: string | undefined;
 }
 /** The list of domains for which to get verification details for. */
 export type GetV2DomainVerificationsDIRECTRequestDomainsList = Array<string>;
@@ -4170,23 +4179,29 @@ export type DomainAccessVerifierV2VerificationsActiveVerificationsCollectionData
 /** Verification type ("NAMESERVERS" or "TXT"). Only verification types that exist for this domain will be present. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLDVERIFICATIONTYPE {
   /** Verification records */
-  records?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLDVERIFICATIONTYPERecordsList;
+  records?:
+    | DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLDVERIFICATIONTYPERecordsList
+    | undefined;
   /** Datetime when last verification attempt occurred */
-  last_verification_attempt?: string;
+  last_verification_attempt?: string | undefined;
   /** Datetime when next verification attempt will occur */
-  next_verification_attempt?: string;
+  next_verification_attempt?: string | undefined;
   /** Datetime when verification expires */
-  verification_expiration?: string;
+  verification_expiration?: string | undefined;
 }
 /** Domain name (example). Contains verification types as properties. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLD {
   /** Verification type ("NAMESERVERS" or "TXT"). Only verification types that exist for this domain will be present. */
-  VERIFICATION_TYPE?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLDVERIFICATIONTYPE;
+  VERIFICATION_TYPE?:
+    | DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLDVERIFICATIONTYPE
+    | undefined;
 }
 /** Pending verifications grouped by domain. Keys are domain names (e.g., "pixel.tld"). This property will not be returned if no pending verifications are found. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDING {
   /** Domain name (example). Contains verification types as properties. */
-  DOMAIN_TLD?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLD;
+  DOMAIN_TLD?:
+    | DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDINGDOMAINTLD
+    | undefined;
 }
 /** Verification records */
 export type DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLDVERIFICATIONTYPERecordsList =
@@ -4194,29 +4209,37 @@ export type DomainAccessVerifierV2VerificationsActiveVerificationsCollectionData
 /** Verification type (e.g., "NAMESERVERS", "TXT"). Only verification types that exist for this domain will be present. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLDVERIFICATIONTYPE {
   /** Verification records */
-  records?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLDVERIFICATIONTYPERecordsList;
+  records?:
+    | DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLDVERIFICATIONTYPERecordsList
+    | undefined;
 }
 /** Domain name (example). Contains verification types as properties. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLD {
   /** Verification type (e.g., "NAMESERVERS", "TXT"). Only verification types that exist for this domain will be present. */
-  VERIFICATION_TYPE?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLDVERIFICATIONTYPE;
+  VERIFICATION_TYPE?:
+    | DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLDVERIFICATIONTYPE
+    | undefined;
 }
 /** Verified verifications grouped by domain. Keys are domain names (e.g., "byte.tld"). This property will not be returned if no verified verifications are found. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIED {
   /** Domain name (example). Contains verification types as properties. */
-  DOMAIN_TLD?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLD;
+  DOMAIN_TLD?:
+    | DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIEDDOMAINTLD
+    | undefined;
 }
 /** List of active verifications by status. If no verifications are found, this will return an empty array. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollectionData {
   /** Pending verifications grouped by domain. Keys are domain names (e.g., "pixel.tld"). This property will not be returned if no pending verifications are found. */
-  PENDING?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDING;
+  PENDING?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataPENDING | undefined;
   /** Verified verifications grouped by domain. Keys are domain names (e.g., "byte.tld"). This property will not be returned if no verified verifications are found. */
-  VERIFIED?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIED;
+  VERIFIED?:
+    | DomainAccessVerifierV2VerificationsActiveVerificationsCollectionDataVERIFIED
+    | undefined;
 }
 /** Returns active verifications (PENDING and VERIFIED) grouped by status and domain. Includes last and next verification attempt dates and expiration for PENDING verifications. */
 export interface DomainAccessVerifierV2VerificationsActiveVerificationsCollection {
   /** List of active verifications by status. If no verifications are found, this will return an empty array. */
-  data?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionData;
+  data?: DomainAccessVerifierV2VerificationsActiveVerificationsCollectionData | undefined;
 }
 export interface GetVPSActionDetailsV1Request {
   /** Virtual Machine ID */
@@ -4228,36 +4251,36 @@ export interface GetVPSActionsV1Request {
   /** Virtual Machine ID */
   virtualMachineId: number;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 /** Array of [`VPS.V1.Action.ActionResource`](#model/vpsv1actionactionresource) */
 export type VPSV1ActionActionCollection = Array<VPSV1ActionActionResource>;
 export interface GetVPSActionsV1Response {
-  data?: VPSV1ActionActionCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: VPSV1ActionActionCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface GetVPSBackupsV1Request {
   /** Virtual Machine ID */
   virtualMachineId: number;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 export interface VPSV1BackupBackupResource {
   /** Backup ID */
-  id?: number;
+  id?: number | undefined;
   /** Backup size in kilobytes */
-  size?: number;
+  size?: number | undefined;
   /** Estimated backup restore time in seconds */
-  restore_time?: number;
+  restore_time?: number | undefined;
   /** Location of the backup */
-  location?: string;
-  created_at?: string;
+  location?: string | undefined;
+  created_at?: string | undefined;
 }
 /** Array of [`VPS.V1.Backup.BackupResource`](#model/vpsv1backupbackupresource) */
 export type VPSV1BackupBackupCollection = Array<VPSV1BackupBackupResource>;
 export interface GetVPSBackupsV1Response {
-  data?: VPSV1BackupBackupCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: VPSV1BackupBackupCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface GetVPSFirewallDetailsV1Request {
   /** Firewall ID */
@@ -4271,23 +4294,23 @@ export interface GetVPSMetricsV1Request {
 }
 export interface VPSV1MetricsMetricsResource {
   /** Measurement unit */
-  unit?: string;
+  unit?: string | undefined;
   /** Object, containing UNIX timestamps as a key and measurement as a value. */
-  usage?: unknown;
+  usage?: unknown | undefined;
 }
 export interface VPSV1MetricsMetricsCollection {
   /** CPU usage in percentage, 0 - 100% */
-  cpu_usage?: VPSV1MetricsMetricsResource | null;
+  cpu_usage?: VPSV1MetricsMetricsResource | null | undefined;
   /** RAM usage in bytes */
-  ram_usage?: VPSV1MetricsMetricsResource | null;
+  ram_usage?: VPSV1MetricsMetricsResource | null | undefined;
   /** Disk space usage in bytes */
-  disk_space?: VPSV1MetricsMetricsResource | null;
+  disk_space?: VPSV1MetricsMetricsResource | null | undefined;
   /** Outgoing traffic in bytes */
-  outgoing_traffic?: VPSV1MetricsMetricsResource | null;
+  outgoing_traffic?: VPSV1MetricsMetricsResource | null | undefined;
   /** Incoming traffic in bytes */
-  incoming_traffic?: VPSV1MetricsMetricsResource | null;
+  incoming_traffic?: VPSV1MetricsMetricsResource | null | undefined;
   /** Uptime in milliseconds */
-  uptime?: VPSV1MetricsMetricsResource | null;
+  uptime?: VPSV1MetricsMetricsResource | null | undefined;
 }
 export interface GetVPSProjectContainersV1Request {
   /** Virtual Machine ID */
@@ -4316,59 +4339,59 @@ export type VPSV1DockerManagerContainerPortResourceType =
 export type VPSV1DockerManagerContainerPortResourceProtocol = "tcp" | "udp";
 export interface VPSV1DockerManagerContainerPortResource {
   /** Port mapping type - published (accessible from host), exposed (only internal), or range variants */
-  type?: VPSV1DockerManagerContainerPortResourceType;
+  type?: VPSV1DockerManagerContainerPortResourceType | undefined;
   /** Network protocol used for communication */
-  protocol?: VPSV1DockerManagerContainerPortResourceProtocol;
+  protocol?: VPSV1DockerManagerContainerPortResourceProtocol | undefined;
   /** IP address on host where port is bound (null for exposed-only ports) */
-  host_ip?: string | null;
+  host_ip?: string | null | undefined;
   /** Port number on host machine (null for exposed-only or range ports) */
-  host_port?: number | null;
+  host_port?: number | null | undefined;
   /** Port number inside container (null for range ports) */
-  container_port?: number | null;
+  container_port?: number | null | undefined;
   /** Starting port number in host port range (null for single ports) */
-  host_port_start?: number | null;
+  host_port_start?: number | null | undefined;
   /** Ending port number in host port range (null for single ports) */
-  host_port_end?: number | null;
+  host_port_end?: number | null | undefined;
   /** Starting port number in container port range (null for single ports) */
-  container_port_start?: number | null;
+  container_port_start?: number | null | undefined;
   /** Ending port number in container port range (null for single ports) */
-  container_port_end?: number | null;
+  container_port_end?: number | null | undefined;
 }
 /** Array of [`VPS.V1.DockerManager.ContainerPortResource`](#model/vpsv1dockermanagercontainerportresource) */
 export type VPSV1DockerManagerContainerPortCollection =
   Array<VPSV1DockerManagerContainerPortResource>;
 export interface VPSV1DockerManagerContainerStatsResource {
   /** CPU usage in percentage */
-  cpu_percentage?: number;
+  cpu_percentage?: number | undefined;
   /** Memory usage in percentage */
-  memory_percentage?: number;
+  memory_percentage?: number | undefined;
   /** Used memory in bytes */
-  memory_used?: number;
+  memory_used?: number | undefined;
   /** Total available memory in bytes */
-  memory_total?: number;
+  memory_total?: number | undefined;
   /** Inbound network traffic in bytes */
-  net_in?: number;
+  net_in?: number | undefined;
   /** Outbound network traffic in bytes */
-  net_out?: number;
+  net_out?: number | undefined;
 }
 export interface VPSV1DockerManagerContainerResource {
   /** Unique container identifier (short form of Docker container ID) */
-  id?: string;
+  id?: string | undefined;
   /** Container name as defined in docker-compose or assigned by Docker */
-  name?: string;
+  name?: string | undefined;
   /** Docker image name and tag used to create this container */
-  image?: string;
+  image?: string | undefined;
   /** Command being executed inside the container (may be truncated with ...) */
-  command?: string;
+  command?: string | undefined;
   /** Human-readable container status including uptime, exit codes, or error information */
-  status?: string;
+  status?: string | undefined;
   /** Programmatic container lifecycle state for automated processing */
-  state?: VPSV1DockerManagerContainerResourceState;
+  state?: VPSV1DockerManagerContainerResourceState | undefined;
   /** Container health status */
-  health?: VPSV1DockerManagerContainerResourceHealth;
-  ports?: VPSV1DockerManagerContainerPortCollection;
+  health?: VPSV1DockerManagerContainerResourceHealth | undefined;
+  ports?: VPSV1DockerManagerContainerPortCollection | undefined;
   /** Real-time resource usage statistics (only available for running containers) */
-  stats?: VPSV1DockerManagerContainerStatsResource | null;
+  stats?: VPSV1DockerManagerContainerStatsResource | null | undefined;
 }
 /** Array of [`VPS.V1.DockerManager.ContainerResource`](#model/vpsv1dockermanagercontainerresource) */
 export type VPSV1DockerManagerContainerCollection = Array<VPSV1DockerManagerContainerResource>;
@@ -4381,9 +4404,9 @@ export interface GetVPSProjectContentsV1Request {
 }
 export interface VPSV1DockerManagerContentResource {
   /** Contents of docker-compose file */
-  content?: string;
+  content?: string | undefined;
   /** Project environment variables */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export interface GetVPSProjectLogsV1Request {
   /** Virtual Machine ID */
@@ -4393,16 +4416,16 @@ export interface GetVPSProjectLogsV1Request {
 }
 export interface VPSV1DockerManagerLogEntryResource {
   /** ISO 8601 formatted timestamp when the log entry was generated by the container */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Raw log message content as output by the application inside the container */
-  line?: string;
+  line?: string | undefined;
 }
 /** Array of [`VPS.V1.DockerManager.LogEntryResource`](#model/vpsv1dockermanagerlogentryresource) */
 export type VPSV1DockerManagerLogEntryCollection = Array<VPSV1DockerManagerLogEntryResource>;
 export interface VPSV1DockerManagerLogsResource {
   /** Name of the Docker Compose service that generated these log entries */
-  service?: string;
-  entries?: VPSV1DockerManagerLogEntryCollection;
+  service?: string | undefined;
+  entries?: VPSV1DockerManagerLogEntryCollection | undefined;
 }
 /** Array of [`VPS.V1.DockerManager.LogsResource`](#model/vpsv1dockermanagerlogsresource) */
 export type VPSV1DockerManagerLogsCollection = Array<VPSV1DockerManagerLogsResource>;
@@ -4413,15 +4436,15 @@ export interface GetVPSScanMetricsV1Request {
 }
 export interface VPSV1MalwareMetricsResource {
   /** Records found during last scan */
-  records?: number;
+  records?: number | undefined;
   /** Malicious files found during last scan */
-  malicious?: number;
+  malicious?: number | undefined;
   /** Compromised files found during last scan */
-  compromised?: number;
+  compromised?: number | undefined;
   /** Total number of files scanned during last scan */
-  scanned_files?: number;
-  scan_started_at?: string;
-  scan_ended_at?: string | null;
+  scanned_files?: number | undefined;
+  scan_started_at?: string | undefined;
+  scan_ended_at?: string | null | undefined;
 }
 export interface GetVPSSnapshotV1Request {
   /** Virtual Machine ID */
@@ -4429,11 +4452,11 @@ export interface GetVPSSnapshotV1Request {
 }
 export interface VPSV1SnapshotSnapshotResource {
   /** Snapshot ID */
-  id?: number;
+  id?: number | undefined;
   /** Estimated snapshot restore time in seconds */
-  restore_time?: number;
-  created_at?: string;
-  expires_at?: string;
+  restore_time?: number | undefined;
+  created_at?: string | undefined;
+  expires_at?: string | undefined;
 }
 export interface GetVPSTemplateDetailsV1Request {
   /** Template ID */
@@ -4441,13 +4464,13 @@ export interface GetVPSTemplateDetailsV1Request {
 }
 export interface VPSV1TemplateTemplateResource {
   /** Template ID */
-  id?: number;
+  id?: number | undefined;
   /** Template name */
-  name?: string;
+  name?: string | undefined;
   /** Template description */
-  description?: string;
+  description?: string | undefined;
   /** Link to official OS documentation */
-  documentation?: string | null;
+  documentation?: string | null | undefined;
 }
 export interface GetVPSTemplatesV1Request {}
 /** Array of [`VPS.V1.Template.TemplateResource`](#model/vpsv1templatetemplateresource) */
@@ -4477,47 +4500,47 @@ export type VPSV1VirtualMachineVirtualMachineResourceState =
 export type VPSV1VirtualMachineVirtualMachineResourceActionsLock = "unlocked" | "locked";
 export interface VPSV1IPAddressIPAddressResource {
   /** IP address ID */
-  id?: number;
+  id?: number | undefined;
   /** IP address: IPv4 or IPv6 */
-  address?: string;
+  address?: string | undefined;
   /** IP address PTR record */
-  ptr?: string | null;
+  ptr?: string | null | undefined;
 }
 /** Array of [`VPS.V1.IPAddress.IPAddressResource`](#model/vpsv1ipaddressipaddressresource) */
 export type VPSV1IPAddressIPAddressCollection = Array<VPSV1IPAddressIPAddressResource>;
 export interface VPSV1VirtualMachineVirtualMachineResource {
   /** Virtual machine ID */
-  id?: number;
+  id?: number | undefined;
   /** Active firewall ID, `null` if disabled */
-  firewall_group_id?: number | null;
+  firewall_group_id?: number | null | undefined;
   /** Subscription ID */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** Data center ID */
-  data_center_id?: number | null;
+  data_center_id?: number | null | undefined;
   /** VPS plan name */
-  plan?: string | null;
-  hostname?: string;
-  state?: VPSV1VirtualMachineVirtualMachineResourceState;
-  actions_lock?: VPSV1VirtualMachineVirtualMachineResourceActionsLock;
+  plan?: string | null | undefined;
+  hostname?: string | undefined;
+  state?: VPSV1VirtualMachineVirtualMachineResourceState | undefined;
+  actions_lock?: VPSV1VirtualMachineVirtualMachineResourceActionsLock | undefined;
   /** CPUs count assigned to virtual machine */
-  cpus?: number;
+  cpus?: number | undefined;
   /** Memory available to virtual machine (in megabytes) */
-  memory?: number;
+  memory?: number | undefined;
   /** Virtual machine disk size (in megabytes) */
-  disk?: number;
+  disk?: number | undefined;
   /** Monthly internet traffic available to virtual machine (in megabytes) */
-  bandwidth?: number;
+  bandwidth?: number | undefined;
   /** Primary DNS resolver */
-  ns1?: string | null;
+  ns1?: string | null | undefined;
   /** Secondary DNS resolver */
-  ns2?: string | null;
+  ns2?: string | null | undefined;
   /** IPv4 address of virtual machine */
-  ipv4?: VPSV1IPAddressIPAddressCollection | null;
+  ipv4?: VPSV1IPAddressIPAddressCollection | null | undefined;
   /** IPv6 address of virtual machine, `null` if not assigned */
-  ipv6?: VPSV1IPAddressIPAddressCollection | null;
+  ipv6?: VPSV1IPAddressIPAddressCollection | null | undefined;
   /** OS template installed in virtual machine */
-  template?: VPSV1TemplateTemplateResource | null;
-  created_at?: string;
+  template?: VPSV1TemplateTemplateResource | null | undefined;
+  created_at?: string | undefined;
 }
 export interface GetVPSVirtualMachinesV1Request {}
 /** Array of [`VPS.V1.VirtualMachine.VirtualMachineResource`](#model/vpsv1virtualmachinevirtualmachineresource) */
@@ -4537,9 +4560,9 @@ export interface HorizonsV1WebsitesWebsiteResource {
   /** The website ID */
   website_id: string;
   /** The website description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The domain the website is published on, if it has been published */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** The website status */
   status: HorizonsV1WebsitesWebsiteResourceStatus;
   /** The website creation date */
@@ -4614,15 +4637,15 @@ export interface HostingListWebsiteFilesAndDirectoriesV1Request {
   /** Domain name */
   domain: string;
   /** Directory path to check */
-  directory?: string;
+  directory?: string | undefined;
   /** How many directory levels deep to recurse. */
-  max_depth?: number;
+  max_depth?: number | undefined;
   /** Max number of entries to return in this page. */
-  max_items?: number;
+  max_items?: number | undefined;
   /** Number of entries to skip. Page with offset + item count until reaching total_items. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by entry type, e.g. file,directory. Omit for all types. */
-  file_types?: HostingListWebsiteFilesAndDirectoriesV1RequestFileTypesList;
+  file_types?: HostingListWebsiteFilesAndDirectoriesV1RequestFileTypesList | undefined;
 }
 /** Entry type. */
 export type HostingV1FilesFilesResourceItemsItemType = "file" | "directory" | "symlink" | "other";
@@ -4660,9 +4683,9 @@ export interface HostingSetupWebsiteDatabaseV1Request {
   /** Domain name */
   domain: string;
   /** Optional database name. Generated when omitted. Letters, digits and underscores; must not start with an underscore. Up to 14 characters without the account username prefix (`u123456789_`), which is added automatically when missing. With the prefix the full name is 12 to 25 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Optional database user. Generated when omitted. Letters, digits and underscores; must not start with an underscore. Up to 14 characters without the account username prefix (`u123456789_`), which is added automatically when missing. With the prefix the full user is 12 to 25 characters. */
-  user?: string;
+  user?: string | undefined;
 }
 export interface HostingV1DatabasesWebsiteDatabaseConnectionResource {
   /** Database name, as written into DB_NAME */
@@ -4725,11 +4748,11 @@ export interface InstallHostingWordPressThemeV1Request {
   /** Slug of the theme to install. Hostinger theme slugs (hostinger-blog, hostinger-affiliate-theme, hostinger-ai-theme) trigger the custom installer and forward the optional palette/layout/font fields; any other WordPress theme slug uses the standard installer and ignores those fields. */
   theme: string;
   /** Palette identifier. Only applied when the theme is a Hostinger theme; the default is used when omitted. */
-  palette?: string | null;
+  palette?: string | null | undefined;
   /** Layout identifier. Only applied when the theme is a Hostinger theme; the default is used when omitted. */
-  layout?: string | null;
+  layout?: string | null | undefined;
   /** Font identifier. Only applied when the theme is a Hostinger theme; the default is used when omitted. */
-  font?: InstallHostingWordPressThemeV1RequestFont | (string & {}) | null;
+  font?: InstallHostingWordPressThemeV1RequestFont | (string & {}) | null | undefined;
 }
 /** Installation kind; `default` when omitted. `headless` installs WordPress into the `cms` directory with the Hostinger headless MU plugin and marks the website as a headless WordPress website. Accepted only for a website that is already headless, e.g. one created by `POST /api/hosting/v1/orders/{order_id}/onboardings` (`hosting_websites_create`) with `type: headless_empty`; any other website is rejected with 422. */
 export type InstallHostingWordPressV1RequestType = "default" | "headless";
@@ -4745,9 +4768,9 @@ export interface InstallHostingWordPressV1RequestCredentials {
 /** Optional. If the named database already exists on the account, it is used for this WordPress install. Otherwise a new database is created with this name, or with a generated name when database is omitted or null. A new database gets a random database user and counts toward the plan's database limit. */
 export interface InstallHostingWordPressV1RequestDatabase {
   /** Database name (username prefix added if missing) */
-  name?: string;
+  name?: string | undefined;
   /** Password for a new database. Random when omitted or null. Ignored when the named database already exists. */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface InstallHostingWordPressV1Request {
   username: string;
@@ -4756,21 +4779,21 @@ export interface InstallHostingWordPressV1Request {
   /** Title of the WordPress site */
   site_title: string;
   /** WordPress locale. Defaults to en_US when omitted. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** Installation kind; `default` when omitted. `headless` installs WordPress into the `cms` directory with the Hostinger headless MU plugin and marks the website as a headless WordPress website. Accepted only for a website that is already headless, e.g. one created by `POST /api/hosting/v1/orders/{order_id}/onboardings` (`hosting_websites_create`) with `type: headless_empty`; any other website is rejected with 422. */
-  type?: InstallHostingWordPressV1RequestType | (string & {}) | null;
+  type?: InstallHostingWordPressV1RequestType | (string & {}) | null | undefined;
   /** Installation subdirectory relative to the document root; omit for the root. Not allowed with `type: headless`, which always installs into `cms`. */
-  directory?: string | null;
+  directory?: string | null | undefined;
   /** When false (default), does not replace an existing installation. If WordPress is already installed on the domain/path, the async install job fails unless true. */
-  overwrite?: boolean | null;
+  overwrite?: boolean | null | undefined;
   /** WordPress core auto-update policy */
-  auto_updates?: InstallHostingWordPressV1RequestAutoUpdates | (string & {}) | null;
+  auto_updates?: InstallHostingWordPressV1RequestAutoUpdates | (string & {}) | null | undefined;
   /** WordPress core version to install. If omitted, the latest core version compatible with the account vhost PHP version is selected. */
-  version?: string | null;
+  version?: string | null | undefined;
   /** WordPress admin credentials */
   credentials: InstallHostingWordPressV1RequestCredentials;
   /** Optional. If the named database already exists on the account, it is used for this WordPress install. Otherwise a new database is created with this name, or with a generated name when database is omitted or null. A new database gets a random database user and counts toward the plan's database limit. */
-  database?: InstallHostingWordPressV1RequestDatabase | null;
+  database?: InstallHostingWordPressV1RequestDatabase | null | undefined;
 }
 export interface InstallVPSMonarxV1Request {
   /** Virtual Machine ID */
@@ -4787,28 +4810,29 @@ export interface ListAgencyHostingAgencyPlanOrderDiskUsageMetricsV1Request {
   /** Length of the window in days, ending now. Bucket size grows with the window. */
   time_frame_days?:
     | ListAgencyHostingAgencyPlanOrderDiskUsageMetricsV1RequestTimeFrameDays
-    | (number & {});
+    | (number & {})
+    | undefined;
 }
 export interface AgencyHostingV1OrdersDiskUsageMetricsLimitsResource {
   /** Disk usage quota in bytes */
-  disk_bytes?: number;
+  disk_bytes?: number | undefined;
   /** Inodes quota */
-  inodes?: number;
+  inodes?: number | undefined;
 }
 export interface AgencyHostingV1OrdersDiskUsageMetricsMetricResource {
   /** Disk usage in bytes at this sample */
-  disk_bytes?: number;
+  disk_bytes?: number | undefined;
   /** Number of inodes used at this sample */
-  inodes?: number;
+  inodes?: number | undefined;
   /** Unix timestamp of the sample */
-  timestamp?: number;
+  timestamp?: number | undefined;
 }
 /** Array of [`AgencyHosting.V1.Orders.DiskUsageMetrics.MetricResource`](#model/agencyhostingv1ordersdiskusagemetricsmetricresource) */
 export type AgencyHostingV1OrdersDiskUsageMetricsMetricCollection =
   Array<AgencyHostingV1OrdersDiskUsageMetricsMetricResource>;
 export interface AgencyHostingV1OrdersDiskUsageMetricsMetricsResource {
-  limits?: AgencyHostingV1OrdersDiskUsageMetricsLimitsResource;
-  metrics?: AgencyHostingV1OrdersDiskUsageMetricsMetricCollection;
+  limits?: AgencyHostingV1OrdersDiskUsageMetricsLimitsResource | undefined;
+  metrics?: AgencyHostingV1OrdersDiskUsageMetricsMetricCollection | undefined;
 }
 export type ListAgencyHostingAgencyPlanWebsitesV1RequestOrderIdsList = Array<number>;
 export type ListAgencyHostingAgencyPlanWebsitesV1RequestStatesItem =
@@ -4831,25 +4855,25 @@ export type ListAgencyHostingAgencyPlanWebsitesV1RequestWebsiteTypesList = Array
 >;
 export interface ListAgencyHostingAgencyPlanWebsitesV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by order IDs. Accepts a comma-separated list. */
-  order_ids?: ListAgencyHostingAgencyPlanWebsitesV1RequestOrderIdsList;
+  order_ids?: ListAgencyHostingAgencyPlanWebsitesV1RequestOrderIdsList | undefined;
   /** Filter by website state. Accepts a comma-separated list. */
-  states?: ListAgencyHostingAgencyPlanWebsitesV1RequestStatesList;
+  states?: ListAgencyHostingAgencyPlanWebsitesV1RequestStatesList | undefined;
   /** Filter by detected website type, e.g. wordpress,nodejs. Accepts a comma-separated list. */
-  website_types?: ListAgencyHostingAgencyPlanWebsitesV1RequestWebsiteTypesList;
+  website_types?: ListAgencyHostingAgencyPlanWebsitesV1RequestWebsiteTypesList | undefined;
   /** Filter by domain name (case-insensitive substring match) */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** Website platform */
 export type AgencyHostingV1WebsitesWebsiteListItemResourcePlatform = "h5g" | "builder" | "u4s";
 /** Website plan details */
 export interface AgencyHostingV1WebsitesPlanResource {
-  name?: string;
-  display_name?: string;
-  has_cdn?: boolean;
+  name?: string | undefined;
+  display_name?: string | undefined;
+  has_cdn?: boolean | undefined;
 }
 /** Detected website type */
 export type AgencyHostingV1WebsitesH5gWebsiteDetailsResourceType =
@@ -4867,43 +4891,43 @@ export type AgencyHostingV1WebsitesH5gWebsiteDetailsResourceDomainsList = Array<
 export type AgencyHostingV1WebsitesH5gWebsiteDetailsResourceProcessesList = Array<unknown>;
 export interface AgencyHostingV1WebsitesH5gWebsiteDetailsResource {
   /** Website UID */
-  uid?: string;
+  uid?: string | undefined;
   /** IPv4 address */
-  ipv4?: string;
+  ipv4?: string | undefined;
   /** Setup flavor */
-  flavor?: string;
+  flavor?: string | undefined;
   /** Detected website type */
-  type?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceType;
+  type?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceType | undefined;
   /** Username for this order */
-  username?: string;
+  username?: string | undefined;
   /** Description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Website state */
-  state?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceState;
-  created_at?: string;
+  state?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceState | undefined;
+  created_at?: string | undefined;
   /** Website settings, e.g. PHP configuration */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** WordPress installation details */
-  wordpress?: unknown | null;
+  wordpress?: unknown | null | undefined;
   /** Website domains */
-  domains?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceDomainsList;
+  domains?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceDomainsList | undefined;
   /** Preview domain */
-  preview_domain?: unknown | null;
+  preview_domain?: unknown | null | undefined;
   /** Ongoing website processes */
-  processes?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceProcessesList;
+  processes?: AgencyHostingV1WebsitesH5gWebsiteDetailsResourceProcessesList | undefined;
   /** Horizons UUID (only for horizons websites) */
-  horizons_uuid?: string | null;
+  horizons_uuid?: string | null | undefined;
 }
 export interface AgencyHostingV1WebsitesBuilderWebsiteDetailsResource {
   /** Builder ID */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Domain name */
-  vhost?: string;
+  vhost?: string | undefined;
   /** Detected website type */
-  type?: string;
+  type?: string | undefined;
   /** Account username */
-  username?: string;
-  created_at?: string;
+  username?: string | undefined;
+  created_at?: string | undefined;
 }
 /** Detected website type */
 export type AgencyHostingV1WebsitesU4sWebsiteDetailsResourceType = "u4s" | "horizons";
@@ -4911,23 +4935,23 @@ export type AgencyHostingV1WebsitesU4sWebsiteDetailsResourceType = "u4s" | "hori
 export type AgencyHostingV1WebsitesU4sWebsiteDetailsResourceDomainsList = Array<unknown>;
 export interface AgencyHostingV1WebsitesU4sWebsiteDetailsResource {
   /** Application UUID */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Application title */
-  title?: string;
+  title?: string | undefined;
   /** Application port */
-  port?: number;
+  port?: number | undefined;
   /** Detected website type */
-  type?: AgencyHostingV1WebsitesU4sWebsiteDetailsResourceType;
+  type?: AgencyHostingV1WebsitesU4sWebsiteDetailsResourceType | undefined;
   /** Application runtime */
-  runtime?: string;
+  runtime?: string | undefined;
   /** Application state */
-  state?: string;
+  state?: string | undefined;
   /** Application domains */
-  domains?: AgencyHostingV1WebsitesU4sWebsiteDetailsResourceDomainsList;
+  domains?: AgencyHostingV1WebsitesU4sWebsiteDetailsResourceDomainsList | undefined;
   /** Horizons UUID */
-  horizons_uuid?: string | null;
+  horizons_uuid?: string | null | undefined;
   /** Preview domain */
-  preview_domain?: unknown | null;
+  preview_domain?: unknown | null | undefined;
 }
 /** Platform-specific website details. Shape depends on `platform`. */
 export type AgencyHostingV1WebsitesWebsiteListItemResourceDetails =
@@ -4954,8 +4978,8 @@ export interface AgencyHostingV1WebsitesWebsiteListItemResource {
 export type AgencyHostingV1WebsitesWebsiteCollection =
   Array<AgencyHostingV1WebsitesWebsiteListItemResource>;
 export interface ListAgencyHostingAgencyPlanWebsitesV1Response {
-  data?: AgencyHostingV1WebsitesWebsiteCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: AgencyHostingV1WebsitesWebsiteCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListAgencyHostingAvailableDatacentersV1Request {
   /** Agency Plan order ID */
@@ -4963,9 +4987,9 @@ export interface ListAgencyHostingAvailableDatacentersV1Request {
 }
 export interface AgencyHostingV1DatacentersCoordinatesResource {
   /** Latitude coordinate */
-  latitude?: number;
+  latitude?: number | undefined;
   /** Longitude coordinate */
-  longitude?: number;
+  longitude?: number | undefined;
 }
 export interface AgencyHostingV1DatacentersDatacenterResource {
   /** Datacenter title */
@@ -4989,7 +5013,7 @@ export interface ListAgencyHostingAvailablePHPVersionsForAnOrderV1Request {
 }
 export interface AgencyHostingV1PhpVersionResource {
   /** PHP version available for the website. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Array of [`AgencyHosting.V1.Php.VersionResource`](#model/agencyhostingv1phpversionresource) */
 export type AgencyHostingV1PhpVersionCollection = Array<AgencyHostingV1PhpVersionResource>;
@@ -5007,7 +5031,7 @@ export interface ListAgencyHostingAvailableWordPressVersionsV1Request {
 }
 export interface AgencyHostingV1WordPressVersionResource {
   /** WordPress core version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Array of [`AgencyHosting.V1.WordPress.VersionResource`](#model/agencyhostingv1wordpressversionresource) */
 export type AgencyHostingV1WordPressVersionCollection =
@@ -5017,25 +5041,25 @@ export type ListAgencyHostingAvailableWordPressVersionsV1Response =
 export type ListAgencyHostingDomainsV1RequestWebsiteUuidsList = Array<string>;
 export interface ListAgencyHostingDomainsV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by website UIDs */
-  website_uuids?: ListAgencyHostingDomainsV1RequestWebsiteUuidsList;
+  website_uuids?: ListAgencyHostingDomainsV1RequestWebsiteUuidsList | undefined;
 }
 export interface AgencyHostingV1DomainsDomainResource {
   /** Domain name */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Owner website UID */
-  website_uid?: string;
+  website_uid?: string | undefined;
   /** Creation date */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array of [`AgencyHosting.V1.Domains.DomainResource`](#model/agencyhostingv1domainsdomainresource) */
 export type AgencyHostingV1DomainsDomainCollection = Array<AgencyHostingV1DomainsDomainResource>;
 export interface ListAgencyHostingDomainsV1Response {
-  data?: AgencyHostingV1DomainsDomainCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: AgencyHostingV1DomainsDomainCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListAgencyHostingOrderResourceUsageMetricsV1RequestTimeFrameHours =
   | 1
@@ -5049,25 +5073,26 @@ export interface ListAgencyHostingOrderResourceUsageMetricsV1Request {
   /** Length of the window in hours, ending now. Bucket size grows with the window. */
   time_frame_hours?:
     | ListAgencyHostingOrderResourceUsageMetricsV1RequestTimeFrameHours
-    | (number & {});
+    | (number & {})
+    | undefined;
 }
 export interface AgencyHostingV1OrdersResourceUsageMetricsLimitsResource {
   /** Memory usage quota in bytes */
-  memory_bytes?: number;
+  memory_bytes?: number | undefined;
   /** CPU usage quota in percent */
-  cpu_percent?: number;
+  cpu_percent?: number | undefined;
   /** Process usage quota */
-  processes?: number;
+  processes?: number | undefined;
 }
 export interface AgencyHostingV1OrdersResourceUsageMetricsMetricResource {
   /** CPU usage percentage at this sample */
-  cpu_percent?: number;
+  cpu_percent?: number | undefined;
   /** Memory usage in bytes at this sample */
-  memory_bytes?: number;
+  memory_bytes?: number | undefined;
   /** Number of processes at this sample */
-  processes?: number;
+  processes?: number | undefined;
   /** Unix timestamp of the sample */
-  timestamp?: number;
+  timestamp?: number | undefined;
 }
 /** Array of [`AgencyHosting.V1.Orders.ResourceUsageMetrics.MetricResource`](#model/agencyhostingv1ordersresourceusagemetricsmetricresource) */
 export type AgencyHostingV1OrdersResourceUsageMetricsMetricCollection =
@@ -5076,55 +5101,55 @@ export type AgencyHostingV1OrdersResourceUsageMetricsMetricCollection =
 export type AgencyHostingV1OrdersResourceUsageMetricsWebsiteResourceDomainsList = Array<string>;
 export interface AgencyHostingV1OrdersResourceUsageMetricsWebsiteResource {
   /** Website UID */
-  uid?: string;
+  uid?: string | undefined;
   /** Domains associated with the website */
-  domains?: AgencyHostingV1OrdersResourceUsageMetricsWebsiteResourceDomainsList;
-  metrics?: AgencyHostingV1OrdersResourceUsageMetricsMetricCollection;
+  domains?: AgencyHostingV1OrdersResourceUsageMetricsWebsiteResourceDomainsList | undefined;
+  metrics?: AgencyHostingV1OrdersResourceUsageMetricsMetricCollection | undefined;
 }
 /** Array of [`AgencyHosting.V1.Orders.ResourceUsageMetrics.WebsiteResource`](#model/agencyhostingv1ordersresourceusagemetricswebsiteresource) */
 export type AgencyHostingV1OrdersResourceUsageMetricsWebsiteCollection =
   Array<AgencyHostingV1OrdersResourceUsageMetricsWebsiteResource>;
 export interface AgencyHostingV1OrdersResourceUsageMetricsMetricsResource {
-  limits?: AgencyHostingV1OrdersResourceUsageMetricsLimitsResource;
-  metrics?: AgencyHostingV1OrdersResourceUsageMetricsMetricCollection;
-  websites?: AgencyHostingV1OrdersResourceUsageMetricsWebsiteCollection;
+  limits?: AgencyHostingV1OrdersResourceUsageMetricsLimitsResource | undefined;
+  metrics?: AgencyHostingV1OrdersResourceUsageMetricsMetricCollection | undefined;
+  websites?: AgencyHostingV1OrdersResourceUsageMetricsWebsiteCollection | undefined;
 }
 export interface ListAgencyHostingOrdersV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface AgencyHostingV1OrdersPlanResource {
   /** Plan display name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Plan key */
-  key?: string | null;
+  key?: string | null | undefined;
 }
 export interface AgencyHostingV1OrdersDatacenterResource {
   /** Datacenter code */
-  code?: string;
+  code?: string | undefined;
   /** Datacenter country */
-  country?: string;
+  country?: string | undefined;
 }
 export interface AgencyHostingV1OrdersOrderResource {
   /** Order ID */
-  id?: number;
+  id?: number | undefined;
   /** Order client ID */
-  client_id?: number;
+  client_id?: number | undefined;
   /** Order status */
-  status?: string | null;
-  plan?: AgencyHostingV1OrdersPlanResource;
+  status?: string | null | undefined;
+  plan?: AgencyHostingV1OrdersPlanResource | undefined;
   /** Order datacenter */
-  datacenter?: AgencyHostingV1OrdersDatacenterResource | null;
+  datacenter?: AgencyHostingV1OrdersDatacenterResource | null | undefined;
   /** Order creation date */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array of [`AgencyHosting.V1.Orders.OrderResource`](#model/agencyhostingv1ordersorderresource) */
 export type AgencyHostingV1OrdersOrderCollection = Array<AgencyHostingV1OrdersOrderResource>;
 export interface ListAgencyHostingOrdersV1Response {
-  data?: AgencyHostingV1OrdersOrderCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: AgencyHostingV1OrdersOrderCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListAgencyHostingPHPExtensionsForAWebsiteV1Request {
   /** Agency Plan website UID */
@@ -5134,11 +5159,11 @@ export interface ListAgencyHostingPHPExtensionsForAWebsiteV1Request {
 export type AgencyHostingV1PhpExtensionResourceState = "enabled" | "disabled" | "built-in";
 export interface AgencyHostingV1PhpExtensionResource {
   /** PHP extension name. */
-  name?: string;
+  name?: string | undefined;
   /** What the extension provides. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the extension is currently enabled. Extensions in the "built-in" state are compiled into PHP and cannot be turned off. */
-  state?: AgencyHostingV1PhpExtensionResourceState;
+  state?: AgencyHostingV1PhpExtensionResourceState | undefined;
 }
 /** Array of [`AgencyHosting.V1.Php.ExtensionResource`](#model/agencyhostingv1phpextensionresource) */
 export type AgencyHostingV1PhpExtensionCollection = Array<AgencyHostingV1PhpExtensionResource>;
@@ -5154,17 +5179,17 @@ export type AgencyHostingV1PhpOptionResourceAllowedValuesList = Array<string>;
 export type AgencyHostingV1PhpOptionResourceType = "value" | "list";
 export interface AgencyHostingV1PhpOptionResource {
   /** php.ini directive name. */
-  name?: string;
+  name?: string | undefined;
   /** What the directive controls. */
-  description?: string;
+  description?: string | undefined;
   /** Value applied when no custom value is set. */
-  default_value?: string;
+  default_value?: string | undefined;
   /** Values this option accepts. Null when the option accepts any value of its type. */
-  allowed_values?: AgencyHostingV1PhpOptionResourceAllowedValuesList | null;
+  allowed_values?: AgencyHostingV1PhpOptionResourceAllowedValuesList | null | undefined;
   /** Value currently in effect for the website. */
-  value?: string;
+  value?: string | undefined;
   /** Whether the option takes a single value or a list of values. */
-  type?: AgencyHostingV1PhpOptionResourceType;
+  type?: AgencyHostingV1PhpOptionResourceType | undefined;
 }
 /** Array of [`AgencyHosting.V1.Php.OptionResource`](#model/agencyhostingv1phpoptionresource) */
 export type AgencyHostingV1PhpOptionCollection = Array<AgencyHostingV1PhpOptionResource>;
@@ -5173,31 +5198,31 @@ export interface ListAgencyHostingWebsiteCronJobsV1Request {
   /** Agency Plan website UID */
   website_uid: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`AgencyHosting.V1.Websites.CronJobs.CronJobResource`](#model/agencyhostingv1websitescronjobscronjobresource) */
 export type AgencyHostingV1WebsitesCronJobsCronJobCollection =
   Array<AgencyHostingV1WebsitesCronJobsCronJobResource>;
 export interface ListAgencyHostingWebsiteCronJobsV1Response {
-  data?: AgencyHostingV1WebsitesCronJobsCronJobCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: AgencyHostingV1WebsitesCronJobsCronJobCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListAgencyHostingWebsiteDatabasesV1Request {
   /** Agency Plan website UID */
   website_uid: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`AgencyHosting.V1.Websites.Databases.DatabaseResource`](#model/agencyhostingv1websitesdatabasesdatabaseresource) */
 export type AgencyHostingV1WebsitesDatabasesDatabaseCollection =
   Array<AgencyHostingV1WebsitesDatabasesDatabaseResource>;
 export interface ListAgencyHostingWebsiteDatabasesV1Response {
-  data?: AgencyHostingV1WebsitesDatabasesDatabaseCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: AgencyHostingV1WebsitesDatabasesDatabaseCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListAgencyHostingWebsiteProcessesV1Request {
   /** Agency Plan website UID */
@@ -5210,11 +5235,11 @@ export type AgencyHostingV1WebsitesWebsiteProcessResourceStatus =
   | "failed";
 export interface AgencyHostingV1WebsitesWebsiteProcessResource {
   /** Process ID */
-  id?: string;
+  id?: string | undefined;
   /** Process type */
-  type?: string;
+  type?: string | undefined;
   /** Process status */
-  status?: AgencyHostingV1WebsitesWebsiteProcessResourceStatus;
+  status?: AgencyHostingV1WebsitesWebsiteProcessResourceStatus | undefined;
 }
 /** Array of [`AgencyHosting.V1.Websites.WebsiteProcessResource`](#model/agencyhostingv1websiteswebsiteprocessresource) */
 export type AgencyHostingV1WebsitesWebsiteProcessCollection =
@@ -5241,17 +5266,17 @@ export interface ListEcommerceDiscountsV1Request {
   /** The ID of the store to list discounts for. */
   store_id: string;
   /** Free-text search over discount code and name. */
-  q?: string;
+  q?: string | undefined;
   /** Filter by disabled state. */
-  is_disabled?: boolean;
+  is_disabled?: boolean | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 /** Array of [`Ecommerce.V1.Discount.DiscountResource`](#model/ecommercev1discountdiscountresource) */
 export type EcommerceV1DiscountDiscountCollection = Array<EcommerceV1DiscountDiscountResource>;
 export interface ListEcommerceDiscountsV1Response {
-  data?: EcommerceV1DiscountDiscountCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: EcommerceV1DiscountDiscountCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListEcommerceProductsV1RequestProductIdsList = Array<string>;
 export type ListEcommerceProductsV1RequestStatusItem =
@@ -5271,15 +5296,15 @@ export interface ListEcommerceProductsV1Request {
   /** The ID of the store to list products for. */
   store_id: string;
   /** Restrict to these product ids. Doubles as a single-product lookup. Up to 200 ids. */
-  product_ids?: ListEcommerceProductsV1RequestProductIdsList;
+  product_ids?: ListEcommerceProductsV1RequestProductIdsList | undefined;
   /** Product statuses to include. */
-  status?: ListEcommerceProductsV1RequestStatusList;
+  status?: ListEcommerceProductsV1RequestStatusList | undefined;
   /** Free-text search over product title and SKU. */
-  q?: string;
+  q?: string | undefined;
   /** Opt-in heavy data: "variants" embeds each product's variants; "media" embeds its media. */
-  include?: ListEcommerceProductsV1RequestIncludeList;
+  include?: ListEcommerceProductsV1RequestIncludeList | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 /** The product status. */
 export type EcommerceV1ProductProductResourceStatus =
@@ -5291,17 +5316,17 @@ export type EcommerceV1ProductProductResourceStatus =
 /** Effective price bounds across the product's variants. */
 export interface EcommerceV1ProductProductResourcePriceRange {
   /** Lowest effective variant price in the smallest currency unit, or null if unpriced. */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Highest effective variant price in the smallest currency unit, or null if unpriced. */
-  max?: number | null;
+  max?: number | null | undefined;
   /** The store currency the range is expressed in. */
-  currency_code?: string;
+  currency_code?: string | undefined;
 }
 export interface EcommerceV1ProductProductResourceVariantsItemOptionsItem {
   /** Option name, e.g. Size. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Option value, e.g. L. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The variant's option values. */
 export type EcommerceV1ProductProductResourceVariantsItemOptionsList =
@@ -5313,59 +5338,59 @@ export type EcommerceV1ProductProductResourceVariantsItemPricesList =
   Array<EcommerceV1VariantVariantResourcePricesItem>;
 export interface EcommerceV1ProductProductResourceVariantsItem {
   /** The variant ID. */
-  id?: string;
+  id?: string | undefined;
   /** The variant title. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The variant SKU. */
-  sku?: string | null;
+  sku?: string | null | undefined;
   /** The variant's option values. */
-  options?: EcommerceV1ProductProductResourceVariantsItemOptionsList;
+  options?: EcommerceV1ProductProductResourceVariantsItemOptionsList | undefined;
   /** Prices per currency, in the smallest currency unit. */
-  prices?: EcommerceV1ProductProductResourceVariantsItemPricesList;
+  prices?: EcommerceV1ProductProductResourceVariantsItemPricesList | undefined;
   /** Units in stock. */
-  inventory_quantity?: number;
+  inventory_quantity?: number | undefined;
   /** Whether stock is tracked for this variant. */
-  manage_inventory?: boolean;
+  manage_inventory?: boolean | undefined;
 }
 /** Present (non-null) only when include=variants is set; null otherwise. */
 export type EcommerceV1ProductProductResourceVariantsList =
   Array<EcommerceV1ProductProductResourceVariantsItem>;
 export interface EcommerceV1ProductProductResourceMediaItem {
   /** The media URL. */
-  url?: string;
+  url?: string | undefined;
   /** The media type, e.g. image or video. */
-  type?: string;
+  type?: string | undefined;
   /** Whether this media is the product's thumbnail. */
-  is_thumbnail?: boolean;
+  is_thumbnail?: boolean | undefined;
 }
 /** Present (non-null) only when include=media is set; null otherwise. */
 export type EcommerceV1ProductProductResourceMediaList =
   Array<EcommerceV1ProductProductResourceMediaItem>;
 export interface EcommerceV1ProductProductResource {
   /** The product ID, required by every other product endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The product name. */
-  title?: string;
+  title?: string | undefined;
   /** The product status. */
-  status?: EcommerceV1ProductProductResourceStatus;
+  status?: EcommerceV1ProductProductResourceStatus | undefined;
   /** The product's primary image URL, or null. */
-  thumbnail?: string | null;
+  thumbnail?: string | null | undefined;
   /** The product type. */
-  type?: string;
+  type?: string | undefined;
   /** Number of variants. Use include=variants to retrieve them. */
-  variant_count?: number;
+  variant_count?: number | undefined;
   /** Effective price bounds across the product's variants. */
-  price_range?: EcommerceV1ProductProductResourcePriceRange;
+  price_range?: EcommerceV1ProductProductResourcePriceRange | undefined;
   /** Present (non-null) only when include=variants is set; null otherwise. */
-  variants?: EcommerceV1ProductProductResourceVariantsList | null;
+  variants?: EcommerceV1ProductProductResourceVariantsList | null | undefined;
   /** Present (non-null) only when include=media is set; null otherwise. */
-  media?: EcommerceV1ProductProductResourceMediaList | null;
+  media?: EcommerceV1ProductProductResourceMediaList | null | undefined;
 }
 /** Array of [`Ecommerce.V1.Product.ProductResource`](#model/ecommercev1productproductresource) */
 export type EcommerceV1ProductProductCollection = Array<EcommerceV1ProductProductResource>;
 export interface ListEcommerceProductsV1Response {
-  data?: EcommerceV1ProductProductCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: EcommerceV1ProductProductCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListEcommerceProductVariantsV1Request {
   /** The ID of the store that owns the product. */
@@ -5373,13 +5398,13 @@ export interface ListEcommerceProductVariantsV1Request {
   /** The ID of the product to list variants for. */
   product_id: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 /** Array of [`Ecommerce.V1.Variant.VariantResource`](#model/ecommercev1variantvariantresource) */
 export type EcommerceV1VariantVariantCollection = Array<EcommerceV1VariantVariantResource>;
 export interface ListEcommerceProductVariantsV1Response {
-  data?: EcommerceV1VariantVariantCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: EcommerceV1VariantVariantCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListEcommerceSalesChannelsV1Request {
   /** The ID of the store to list sales channels for. */
@@ -5395,26 +5420,26 @@ export type EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsItemType
   | "wordpress";
 export interface EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsItem {
   /** Sales channel ID */
-  id?: string;
+  id?: string | undefined;
   /** Sales channel type */
-  type?: EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsItemType;
+  type?: EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsItemType | undefined;
   /** Whether this is the primary sales channel. */
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   /** Whether the sales channel is active. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** External identifier for the sales channel. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Merchant-facing custom name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Public address where the sales channel lives. */
-  domain?: string | null;
+  domain?: string | null | undefined;
 }
 /** The store's active sales channels. */
 export type EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsList =
   Array<EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsItem>;
 export interface EcommerceV1SalesChannelSalesChannelListResource {
   /** The store's active sales channels. */
-  sales_channels?: EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsList;
+  sales_channels?: EcommerceV1SalesChannelSalesChannelListResourceSalesChannelsList | undefined;
 }
 export type ListEcommerceStoreOrdersV1RequestStatusItem =
   | "pending"
@@ -5454,35 +5479,35 @@ export interface ListEcommerceStoreOrdersV1Request {
   /** The ID of the store to list orders for. */
   store_id: string;
   /** Order statuses to include. */
-  status?: ListEcommerceStoreOrdersV1RequestStatusList;
+  status?: ListEcommerceStoreOrdersV1RequestStatusList | undefined;
   /** Payment statuses to include. A paid order is "captured". */
-  payment_status?: ListEcommerceStoreOrdersV1RequestPaymentStatusList;
+  payment_status?: ListEcommerceStoreOrdersV1RequestPaymentStatusList | undefined;
   /** Fulfilment statuses to include. */
-  fulfillment_status?: ListEcommerceStoreOrdersV1RequestFulfillmentStatusList;
+  fulfillment_status?: ListEcommerceStoreOrdersV1RequestFulfillmentStatusList | undefined;
   /** Customer email, matched exactly. */
-  email?: string;
+  email?: string | undefined;
   /** The order number the merchant and customer see. */
-  display_id?: string;
+  display_id?: string | undefined;
   /** Free-text search over customer name, email, order number and line items. */
-  q?: string;
+  q?: string | undefined;
   /** Earliest creation time to include, inclusive. Accepts a date or ISO date-time (UTC). */
-  created_at_from?: string;
+  created_at_from?: string | undefined;
   /** Latest creation time to include, inclusive. A bare date covers that whole day. */
-  created_at_to?: string;
+  created_at_to?: string | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 /** Array of [`Ecommerce.V1.Order.OrderResource`](#model/ecommercev1orderorderresource) */
 export type EcommerceV1OrderOrderCollection = Array<EcommerceV1OrderOrderResource>;
 export interface ListEcommerceStoreOrdersV1Response {
-  data?: EcommerceV1OrderOrderCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: EcommerceV1OrderOrderCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListEcommerceStorePaymentProvidersV1Request {
   /** The ID of the store to list payment providers for. */
   store_id: string;
   /** Include gateways that do not support the store currency in the available list. */
-  include_currency_unsupported?: boolean;
+  include_currency_unsupported?: boolean | undefined;
 }
 /** The connection status. */
 export type EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedItemStatus =
@@ -5492,17 +5517,20 @@ export type EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedIt
   | "invalid";
 export interface EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedItem {
   /** The store payment provider row ID. */
-  id?: string;
+  id?: string | undefined;
   /** The payment gateway ID, e.g. stripe. */
-  provider_id?: string;
+  provider_id?: string | undefined;
   /** The provider title, or null. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Whether the provider is enabled for the store. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** The connection status. */
-  status?: EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedItemStatus | null;
+  status?:
+    | EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedItemStatus
+    | null
+    | undefined;
   /** Whether the provider shows at checkout. */
-  shows_at_checkout?: boolean;
+  shows_at_checkout?: boolean | undefined;
 }
 /** Payment providers already connected to the store. */
 export type EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedList =
@@ -5512,27 +5540,29 @@ export type EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableIt
   Array<string>;
 export interface EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableItem {
   /** The payment gateway ID, e.g. stripe. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the gateway is installed on the store. */
-  is_installed?: boolean;
+  is_installed?: boolean | undefined;
   /** Whether the gateway is enabled on the store. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Whether the gateway supports the store currency. */
-  is_currency_supported?: boolean;
+  is_currency_supported?: boolean | undefined;
   /** Currencies the gateway supports; present only when the store currency is unsupported. */
-  supported_currencies?: EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableItemSupportedCurrenciesList;
+  supported_currencies?:
+    | EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableItemSupportedCurrenciesList
+    | undefined;
 }
 /** Payment gateways available to install for the store. */
 export type EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableList =
   Array<EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableItem>;
 export interface EcommerceV1PaymentProviderPaymentProviderListResourceData {
   /** Payment providers already connected to the store. */
-  connected?: EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedList;
+  connected?: EcommerceV1PaymentProviderPaymentProviderListResourceDataConnectedList | undefined;
   /** Payment gateways available to install for the store. */
-  available?: EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableList;
+  available?: EcommerceV1PaymentProviderPaymentProviderListResourceDataAvailableList | undefined;
 }
 export interface EcommerceV1PaymentProviderPaymentProviderListResource {
-  data?: EcommerceV1PaymentProviderPaymentProviderListResourceData;
+  data?: EcommerceV1PaymentProviderPaymentProviderListResourceData | undefined;
 }
 export interface ListHostingAccountCronJobsV1Request {
   username: string;
@@ -5543,43 +5573,43 @@ export type ListHostingAccountCronJobsV1Response = HostingV1CronJobsCronJobColle
 export interface ListHostingAccountDatabasesV1Request {
   username: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by domain name (case-insensitive substring match) */
-  domain?: string;
+  domain?: string | undefined;
   /** When used with domain, return only databases assigned to that domain. */
-  is_assigned?: boolean;
+  is_assigned?: boolean | undefined;
   /** Search databases by name, user, or creation date. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface HostingV1DatabasesDatabaseResource {
   /** Database name. */
-  name?: string;
+  name?: string | undefined;
   /** Database user. */
-  user?: string;
+  user?: string | undefined;
   /** Domain assigned to the database, or null when the database is unassigned. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Database user permissions keyed by permission name. */
-  permissions?: unknown;
+  permissions?: unknown | undefined;
   /** Database creation date in ISO 8601 format. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Database last update date in ISO 8601 format. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Current database disk usage in megabytes. */
-  disk_usage_mb?: number | null;
+  disk_usage_mb?: number | null | undefined;
   /** Maximum allowed database size in megabytes. */
-  max_size_mb?: number;
+  max_size_mb?: number | undefined;
   /** MySQL hostname for remote connections. Same value as hPanel Remote MySQL. Identical for every database on this account. Not the database user grant host. */
-  host?: string;
+  host?: string | undefined;
   /** MySQL port for remote connections. Always 3306. */
-  port?: number;
+  port?: number | undefined;
 }
 /** Array of [`Hosting.V1.Databases.DatabaseResource`](#model/hostingv1databasesdatabaseresource) */
 export type HostingV1DatabasesDatabaseCollection = Array<HostingV1DatabasesDatabaseResource>;
 export interface ListHostingAccountDatabasesV1Response {
-  data?: HostingV1DatabasesDatabaseCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: HostingV1DatabasesDatabaseCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListHostingAvailableDatacentersV1Request {
   /** Order ID */
@@ -5588,10 +5618,10 @@ export interface ListHostingAvailableDatacentersV1Request {
 export type HostingV1DatacenterCoordinatesResource = AgencyHostingV1DatacentersCoordinatesResource;
 export interface HostingV1DatacenterDatacenterResource {
   /** Data center title */
-  title?: string;
+  title?: string | undefined;
   /** Data center code */
-  code?: string;
-  coordinates?: AgencyHostingV1DatacentersCoordinatesResource;
+  code?: string | undefined;
+  coordinates?: AgencyHostingV1DatacentersCoordinatesResource | undefined;
 }
 /** Array of [`Hosting.V1.Datacenter.DatacenterResource`](#model/hostingv1datacenterdatacenterresource) */
 export type HostingV1DatacenterDatacenterCollection = Array<HostingV1DatacenterDatacenterResource>;
@@ -5605,11 +5635,11 @@ export interface ListHostingAvailableWordPressCoreUpdatesV1Request {
 export type WordPressV1InstallationsUpdateResourceType = "major" | "minor";
 export interface WordPressV1InstallationsUpdateResource {
   /** Available WordPress core version */
-  version?: string;
+  version?: string | undefined;
   /** Update type */
-  type?: WordPressV1InstallationsUpdateResourceType;
+  type?: WordPressV1InstallationsUpdateResourceType | undefined;
   /** Download URL for the update package */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of [`WordPress.V1.Installations.UpdateResource`](#model/wordpressv1installationsupdateresource) */
 export type WordPressV1InstallationsUpdateCollection =
@@ -5623,25 +5653,25 @@ export interface ListHostingAvailableWordPressPluginsV1Request {
 }
 export interface WordPressV1PluginsAvailablePluginResource {
   /** Plugin slug used when installing the plugin */
-  slug?: string;
+  slug?: string | undefined;
   /** Human readable plugin name */
-  title?: string;
+  title?: string | undefined;
   /** Short plugin description */
-  description?: string;
+  description?: string | undefined;
   /** Translation slug for the onboarding description */
-  onboarding_description_slug?: string | null;
+  onboarding_description_slug?: string | null | undefined;
   /** Translation slug for the recommended description */
-  recommended_description_slug?: string | null;
+  recommended_description_slug?: string | null | undefined;
   /** Link to the plugin page on WordPress.org */
-  link?: string;
+  link?: string | undefined;
   /** Latest available plugin version */
-  version?: string;
+  version?: string | undefined;
   /** Minimum WordPress version required by the plugin */
-  required_wordpress_version?: string;
+  required_wordpress_version?: string | undefined;
   /** Minimum PHP version required by the plugin */
-  required_php_version?: string;
+  required_php_version?: string | undefined;
   /** Whether a hosting plan upgrade is required to use the plugin */
-  is_plan_upgrade_needed?: boolean;
+  is_plan_upgrade_needed?: boolean | undefined;
 }
 /** Array of [`WordPress.V1.Plugins.AvailablePluginResource`](#model/wordpressv1pluginsavailablepluginresource) */
 export type WordPressV1PluginsAvailablePluginCollection =
@@ -5651,15 +5681,15 @@ export type ListHostingAvailableWordPressPluginsV1Response =
 export interface ListHostingDatabaseRemoteConnectionsV1Request {
   username: string;
   /** Filter remote connections by the domain the database is assigned to. Rules for databases not assigned to any domain are always included. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface HostingV1DatabasesRemoteConnectionsRemoteConnectionResource {
   /** Full name of the database the rule applies to. */
-  database_name?: string;
+  database_name?: string | undefined;
   /** Database user the rule applies to. */
-  database_user?: string;
+  database_user?: string | undefined;
   /** Allowed remote host: an IPv4/IPv6 address, or "%" for any host. */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** Array of [`Hosting.V1.Databases.RemoteConnections.RemoteConnectionResource`](#model/hostingv1databasesremoteconnectionsremoteconnectionresource) */
 export type HostingV1DatabasesRemoteConnectionsRemoteConnectionCollection =
@@ -5695,9 +5725,9 @@ export type ListHostingGitInstallationsV1RequestProvider = "github" | "gitlab" |
 export type ListHostingGitInstallationsV1RequestStatus = "pending" | "active" | "suspended";
 export interface ListHostingGitInstallationsV1Request {
   /** Filter by Git provider */
-  provider?: ListHostingGitInstallationsV1RequestProvider | (string & {});
+  provider?: ListHostingGitInstallationsV1RequestProvider | (string & {}) | undefined;
   /** Filter by installation status */
-  status?: ListHostingGitInstallationsV1RequestStatus | (string & {});
+  status?: ListHostingGitInstallationsV1RequestStatus | (string & {}) | undefined;
 }
 /** Git provider the account belongs to */
 export type HostingV1GitGitInstallationResourceProvider = "github" | "gitlab" | "bitbucket";
@@ -5734,7 +5764,7 @@ export interface ListHostingInstalledWordPressPluginsV1Request {
   /** WordPress installation (software) identifier */
   software: string;
   /** Filter installed plugins by category. */
-  category?: ListHostingInstalledWordPressPluginsV1RequestCategory | (string & {});
+  category?: ListHostingInstalledWordPressPluginsV1RequestCategory | (string & {}) | undefined;
 }
 /** Whether the plugin is active or inactive */
 export type WordPressV1PluginsInstalledPluginResourceStatus = "active" | "inactive";
@@ -5743,17 +5773,17 @@ export type WordPressV1PluginsInstalledPluginResourceVulnerabilitiesList =
   Array<WordPressV1CommonVulnerabilityResource>;
 export interface WordPressV1PluginsInstalledPluginResource {
   /** Plugin slug */
-  name?: string;
+  name?: string | undefined;
   /** Human readable plugin name */
-  title?: string;
+  title?: string | undefined;
   /** Installed plugin version */
-  version?: string;
+  version?: string | undefined;
   /** Whether the plugin is active or inactive */
-  status?: WordPressV1PluginsInstalledPluginResourceStatus;
+  status?: WordPressV1PluginsInstalledPluginResourceStatus | undefined;
   /** Available update version, or "none" when up to date */
-  update?: string;
+  update?: string | undefined;
   /** Known vulnerabilities affecting the installed version */
-  vulnerabilities?: WordPressV1PluginsInstalledPluginResourceVulnerabilitiesList;
+  vulnerabilities?: WordPressV1PluginsInstalledPluginResourceVulnerabilitiesList | undefined;
 }
 /** Array of [`WordPress.V1.Plugins.InstalledPluginResource`](#model/wordpressv1pluginsinstalledpluginresource) */
 export type WordPressV1PluginsInstalledPluginCollection =
@@ -5772,17 +5802,17 @@ export type WordPressV1ThemesInstalledThemeResourceVulnerabilitiesList =
   Array<WordPressV1CommonVulnerabilityResource>;
 export interface WordPressV1ThemesInstalledThemeResource {
   /** Theme slug */
-  name?: string;
+  name?: string | undefined;
   /** Human readable theme name */
-  title?: string;
+  title?: string | undefined;
   /** Installed theme version */
-  version?: string;
+  version?: string | undefined;
   /** Whether the theme is active or inactive */
-  status?: WordPressV1ThemesInstalledThemeResourceStatus;
+  status?: WordPressV1ThemesInstalledThemeResourceStatus | undefined;
   /** Available update version, or "none" when up to date */
-  update?: string;
+  update?: string | undefined;
   /** Known vulnerabilities affecting the installed version */
-  vulnerabilities?: WordPressV1ThemesInstalledThemeResourceVulnerabilitiesList;
+  vulnerabilities?: WordPressV1ThemesInstalledThemeResourceVulnerabilitiesList | undefined;
 }
 /** Array of [`WordPress.V1.Themes.InstalledThemeResource`](#model/wordpressv1themesinstalledthemeresource) */
 export type WordPressV1ThemesInstalledThemeCollection =
@@ -5802,17 +5832,17 @@ export interface ListHostingNodeJSBuildsV1Request {
   /** Domain name */
   domain: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Build states to filter by */
-  states?: ListHostingNodeJSBuildsV1RequestStatesList;
+  states?: ListHostingNodeJSBuildsV1RequestStatesList | undefined;
 }
 /** Array of [`Hosting.V1.NodeJs.BuildResource`](#model/hostingv1nodejsbuildresource) */
 export type HostingV1NodeJsBuildCollection = Array<HostingV1NodeJsBuildResource>;
 export interface ListHostingNodeJSBuildsV1Response {
-  data?: HostingV1NodeJsBuildCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: HostingV1NodeJsBuildCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListHostingNodeJsEnvironmentVariablesV1Request {
   username: string;
@@ -5821,9 +5851,9 @@ export interface ListHostingNodeJsEnvironmentVariablesV1Request {
 }
 export interface HostingV1NodeJsEnvVarResource {
   /** Environment variable name */
-  key?: string;
+  key?: string | undefined;
   /** Always the literal string ********. Real values cannot be read back through this API. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Array of [`Hosting.V1.NodeJs.EnvVarResource`](#model/hostingv1nodejsenvvarresource) */
 export type HostingV1NodeJsEnvVarCollection = Array<HostingV1NodeJsEnvVarResource>;
@@ -5842,7 +5872,7 @@ export interface ListHostingNodeJsVulnerabilitiesV1Request {
   /** Domain name */
   domain: string;
   /** Severities to filter by */
-  severities?: ListHostingNodeJsVulnerabilitiesV1RequestSeveritiesList;
+  severities?: ListHostingNodeJsVulnerabilitiesV1RequestSeveritiesList | undefined;
 }
 /** Severity level of the vulnerability */
 export type HostingV1NodeJsVulnerabilityResourceSeverity =
@@ -5853,35 +5883,35 @@ export type HostingV1NodeJsVulnerabilityResourceSeverity =
   | "unknown";
 export interface HostingV1NodeJsVulnerabilityResource {
   /** Name of the affected npm package */
-  package_name?: string;
+  package_name?: string | undefined;
   /** Version of the package currently installed */
-  installed_version?: string;
+  installed_version?: string | undefined;
   /** Whether the package is a direct dependency */
-  is_direct?: boolean;
+  is_direct?: boolean | undefined;
   /** Whether the vulnerability can be auto-patched without a major version bump */
-  is_patchable?: boolean;
+  is_patchable?: boolean | undefined;
   /** Version that fixes the vulnerability, if known */
-  fix_version?: string | null;
+  fix_version?: string | null | undefined;
   /** Unique vulnerability identifier (e.g. GHSA or CVE) */
-  vulnerability_id?: string;
+  vulnerability_id?: string | undefined;
   /** Severity level of the vulnerability */
-  severity?: HostingV1NodeJsVulnerabilityResourceSeverity;
+  severity?: HostingV1NodeJsVulnerabilityResourceSeverity | undefined;
   /** Short human-readable title of the vulnerability */
-  title?: string;
+  title?: string | undefined;
   /** Detailed description of the vulnerability */
-  description?: string | null;
+  description?: string | null | undefined;
   /** CVSS base score (0.0-10.0) */
-  cvss_score?: number | null;
+  cvss_score?: number | null | undefined;
   /** CVE identifier, if available */
-  cve?: string | null;
+  cve?: string | null | undefined;
   /** CWE identifier describing the weakness type */
-  cwe?: string | null;
+  cwe?: string | null | undefined;
   /** URL to the vulnerability advisory */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Date the vulnerability was published, in ISO 8601 format */
-  published_at?: string | null;
+  published_at?: string | null | undefined;
   /** Whether this vulnerability is included in a currently open patch pull request */
-  is_patching_in_progress?: boolean;
+  is_patching_in_progress?: boolean | undefined;
 }
 /** Array of [`Hosting.V1.NodeJs.VulnerabilityResource`](#model/hostingv1nodejsvulnerabilityresource) */
 export type HostingV1NodeJsVulnerabilityCollection = Array<HostingV1NodeJsVulnerabilityResource>;
@@ -5897,40 +5927,40 @@ export type ListHostingOrdersV1RequestStatusesList = Array<
 export type ListHostingOrdersV1RequestOrderIdsList = Array<number>;
 export interface ListHostingOrdersV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by order statuses */
-  statuses?: ListHostingOrdersV1RequestStatusesList;
+  statuses?: ListHostingOrdersV1RequestStatusesList | undefined;
   /** Filter by specific order IDs */
-  order_ids?: ListHostingOrdersV1RequestOrderIdsList;
+  order_ids?: ListHostingOrdersV1RequestOrderIdsList | undefined;
 }
 export interface HostingV1OrdersPlanResource {
   /** Plan name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface HostingV1OrdersOrderResource {
   /** Order ID */
-  id?: number;
+  id?: number | undefined;
   /** Client ID */
-  client_id?: number;
+  client_id?: number | undefined;
   /** Subscription ID */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** Creation date */
-  created_at?: string;
-  plan?: HostingV1OrdersPlanResource;
+  created_at?: string | undefined;
+  plan?: HostingV1OrdersPlanResource | undefined;
   /** Order status */
-  status?: string;
+  status?: string | undefined;
 }
 /** Array of [`Hosting.V1.Orders.OrderResource`](#model/hostingv1ordersorderresource) */
 export type HostingV1OrdersOrderCollection = Array<HostingV1OrdersOrderResource>;
 export interface ListHostingOrdersV1Response {
-  data?: HostingV1OrdersOrderCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: HostingV1OrdersOrderCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListHostingSuggestedWordPressPluginsV1Request {
   /** Optionally scope suggestions to a specific order. */
-  order_id?: number;
+  order_id?: number | undefined;
 }
 /** Website type the suggested plugins are grouped by */
 export type WordPressV1PluginsSuggestedPluginGroupResourceWebsiteType =
@@ -5943,36 +5973,36 @@ export type WordPressV1PluginsSuggestedPluginGroupResourceWebsiteType =
   | "default";
 export interface WordPressV1PluginsSuggestedPluginResource {
   /** Plugin slug used when installing the plugin */
-  slug?: string;
+  slug?: string | undefined;
   /** Human readable plugin name */
-  title?: string;
+  title?: string | undefined;
   /** Short plugin description */
-  description?: string;
+  description?: string | undefined;
   /** Translation slug for the onboarding description */
-  onboarding_description_slug?: string | null;
+  onboarding_description_slug?: string | null | undefined;
   /** Translation slug for the recommended description */
-  recommended_description_slug?: string | null;
+  recommended_description_slug?: string | null | undefined;
   /** Link to the plugin page on WordPress.org */
-  link?: string;
+  link?: string | undefined;
   /** Latest available plugin version */
-  version?: string;
+  version?: string | undefined;
   /** Minimum WordPress version required by the plugin */
-  required_wordpress_version?: string;
+  required_wordpress_version?: string | undefined;
   /** Minimum PHP version required by the plugin */
-  required_php_version?: string;
+  required_php_version?: string | undefined;
   /** Whether the plugin is preselected during onboarding */
-  is_preselected?: boolean;
+  is_preselected?: boolean | undefined;
   /** Whether a hosting plan upgrade is required to use the plugin */
-  is_plan_upgrade_needed?: boolean;
+  is_plan_upgrade_needed?: boolean | undefined;
 }
 /** Plugins suggested for the website type */
 export type WordPressV1PluginsSuggestedPluginGroupResourcePluginsList =
   Array<WordPressV1PluginsSuggestedPluginResource>;
 export interface WordPressV1PluginsSuggestedPluginGroupResource {
   /** Website type the suggested plugins are grouped by */
-  website_type?: WordPressV1PluginsSuggestedPluginGroupResourceWebsiteType;
+  website_type?: WordPressV1PluginsSuggestedPluginGroupResourceWebsiteType | undefined;
   /** Plugins suggested for the website type */
-  plugins?: WordPressV1PluginsSuggestedPluginGroupResourcePluginsList;
+  plugins?: WordPressV1PluginsSuggestedPluginGroupResourcePluginsList | undefined;
 }
 /** Array of [`WordPress.V1.Plugins.SuggestedPluginGroupResource`](#model/wordpressv1pluginssuggestedplugingroupresource) */
 export type WordPressV1PluginsSuggestedPluginGroupCollection =
@@ -6019,15 +6049,15 @@ export interface ListHostingWebsiteParkedDomainsV1Request {
 export type HostingV1DomainsParkedDomainResourceType = "domain" | "ip";
 export interface HostingV1DomainsParkedDomainResource {
   /** Website username */
-  username?: string;
+  username?: string | undefined;
   /** Parked domain name or IP address */
-  domain?: string;
+  domain?: string | undefined;
   /** Parent website domain */
-  parent_domain?: string;
+  parent_domain?: string | undefined;
   /** Parked domain root directory */
-  root_directory?: string;
+  root_directory?: string | undefined;
   /** Whether the parked value is a domain name or an IP address (IPv4 or IPv6) */
-  type?: HostingV1DomainsParkedDomainResourceType;
+  type?: HostingV1DomainsParkedDomainResourceType | undefined;
 }
 /** Array of [`Hosting.V1.Domains.ParkedDomainResource`](#model/hostingv1domainsparkeddomainresource) */
 export type HostingV1DomainsParkedDomainCollection = Array<HostingV1DomainsParkedDomainResource>;
@@ -6037,23 +6067,23 @@ export interface ListHostingWebsiteRedirectsV1Request {
   /** Domain name */
   domain: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Hosting.V1.Redirects.RedirectResource`](#model/hostingv1redirectsredirectresource) */
 export type HostingV1RedirectsRedirectCollection = Array<HostingV1RedirectsRedirectResource>;
 export interface ListHostingWebsiteRedirectsV1Response {
-  data?: HostingV1RedirectsRedirectCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: HostingV1RedirectsRedirectCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListHostingWebsiteSetupsV1Request {
   /** Order ID */
-  order_id?: number;
+  order_id?: number | undefined;
   /** Filter by hosting order subscription ID */
-  subscription_id?: string;
+  subscription_id?: string | undefined;
   /** Filter by domain name (exact match) */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** `running` while the website is still being set up, `completed` once the setup has finished, `failed` when it stopped before finishing or has not reported progress for over an hour. */
 export type HostingV1OnboardingsOnboardingResourceStatus = "running" | "completed" | "failed";
@@ -6063,7 +6093,7 @@ export interface HostingV1OnboardingsOnboardingResource {
   /** Hosting account username. */
   username: string;
   /** Website type requested for the setup: `wordpress`, `headless_empty`, `headless_wordpress`, `headless_ecommerce` or `headless_pocketbase`. `null` for an empty website. Setups started outside this API may report other legacy types. */
-  type?: string | null;
+  type?: string | null | undefined;
   /** `running` while the website is still being set up, `completed` once the setup has finished, `failed` when it stopped before finishing or has not reported progress for over an hour. */
   status: HostingV1OnboardingsOnboardingResourceStatus;
   /** When the setup was requested. */
@@ -6082,15 +6112,15 @@ export interface ListHostingWebsiteSubdomainsV1Request {
 }
 export interface HostingV1DomainsSubdomainResource {
   /** Website username */
-  username?: string;
+  username?: string | undefined;
   /** Full subdomain */
-  domain?: string;
+  domain?: string | undefined;
   /** Parent website domain */
-  parent_domain?: string;
+  parent_domain?: string | undefined;
   /** Subdomain root directory */
-  root_directory?: string;
+  root_directory?: string | undefined;
   /** Subdomain prefix */
-  subdomain?: string;
+  subdomain?: string | undefined;
 }
 /** Array of [`Hosting.V1.Domains.SubdomainResource`](#model/hostingv1domainssubdomainresource) */
 export type HostingV1DomainsSubdomainCollection = Array<HostingV1DomainsSubdomainResource>;
@@ -6106,19 +6136,19 @@ export type ListHostingWebsitesV1RequestWebsiteTypesList = Array<
 >;
 export interface ListHostingWebsitesV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by specific username */
-  username?: string;
+  username?: string | undefined;
   /** Order ID */
-  order_id?: number;
+  order_id?: number | undefined;
   /** Filter by enabled status */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Filter by domain name (case-insensitive substring match) */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter by detected website type, e.g. wordpress,nodejs. Accepts a comma-separated list. */
-  website_types?: ListHostingWebsitesV1RequestWebsiteTypesList;
+  website_types?: ListHostingWebsitesV1RequestWebsiteTypesList | undefined;
 }
 /** Virtual host type. Only present for CloudLinux websites. */
 export type HostingV1WebsitesWebsiteResourceVhostType = "main" | "addon" | "parked" | "subdomain";
@@ -6131,68 +6161,68 @@ export type HostingV1WebsitesWebsiteResourceWebsiteType =
   | "other";
 export interface HostingV1WebsitesWebsiteResource {
   /** Website domain. Null for U4S websites with no domain attached. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Virtual host type. Only present for CloudLinux websites. */
-  vhost_type?: HostingV1WebsitesWebsiteResourceVhostType | null;
+  vhost_type?: HostingV1WebsitesWebsiteResourceVhostType | null | undefined;
   /** True unless the website is suspended. Not a readiness signal: a website that is still being set up is enabled too, see the list website setups endpoint. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Username. Not applicable for U4S websites. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** Client ID */
-  client_id?: number;
+  client_id?: number | undefined;
   /** Order ID */
-  order_id?: number;
+  order_id?: number | undefined;
   /** Creation date */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Root directory path. Only present for CloudLinux websites. */
-  root_directory?: string | null;
+  root_directory?: string | null | undefined;
   /** Parent domain */
-  parent_domain?: string | null;
+  parent_domain?: string | null | undefined;
   /** Type of website detected on the underlying platform. */
-  website_type?: HostingV1WebsitesWebsiteResourceWebsiteType;
+  website_type?: HostingV1WebsitesWebsiteResourceWebsiteType | undefined;
   /** Horizons UUID. Only present for horizons websites. */
-  horizons_uuid?: string | null;
+  horizons_uuid?: string | null | undefined;
 }
 /** Array of [`Hosting.V1.Websites.WebsiteResource`](#model/hostingv1websiteswebsiteresource) */
 export type HostingV1WebsitesWebsiteCollection = Array<HostingV1WebsitesWebsiteResource>;
 export interface ListHostingWebsitesV1Response {
-  data?: HostingV1WebsitesWebsiteCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: HostingV1WebsitesWebsiteCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListHostingWordPressInstallationsV1RequestOwnership = "owned" | "managed" | "all";
 export interface ListHostingWordPressInstallationsV1Request {
   /** Filter by specific username */
-  username?: string;
+  username?: string | undefined;
   /** Filter by domain name (case-insensitive substring match) */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter by ownership type. Defaults to "owned". Use "all" to include both owned and managed installations. */
-  ownership?: ListHostingWordPressInstallationsV1RequestOwnership | (string & {});
+  ownership?: ListHostingWordPressInstallationsV1RequestOwnership | (string & {}) | undefined;
 }
 export interface WordPressV1InstallationsWordPressInstallationResource {
   /** WordPress installation (software) id */
-  id?: string;
+  id?: string | undefined;
   /** Hosting account username */
-  username?: string;
+  username?: string | undefined;
   /** Domain the installation belongs to */
-  domain?: string;
+  domain?: string | undefined;
   /** WordPress site title */
-  site_title?: string;
+  site_title?: string | undefined;
   /** WordPress site URL */
-  url?: string;
+  url?: string | undefined;
   /** Installation directory */
-  directory?: string;
+  directory?: string | undefined;
   /** WordPress locale */
-  language?: string;
+  language?: string | undefined;
   /** WordPress admin username */
-  login?: string;
+  login?: string | undefined;
   /** WordPress admin email */
-  email?: string;
+  email?: string | undefined;
   /** Whether the installation is considered valid */
-  is_valid?: boolean;
+  is_valid?: boolean | undefined;
   /** Reason the installation is invalid, if any */
-  validation_error?: string | null;
+  validation_error?: string | null | undefined;
   /** Installation creation timestamp */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array of [`WordPress.V1.Installations.WordPressInstallationResource`](#model/wordpressv1installationswordpressinstallationresource) */
 export type WordPressV1InstallationsWordPressInstallationCollection =
@@ -6201,27 +6231,27 @@ export type ListHostingWordPressInstallationsV1Response =
   WordPressV1InstallationsWordPressInstallationCollection;
 export interface ListHostingWordPressThemesV1Request {
   /** Optionally scope themes to a specific order. */
-  order_id?: number;
+  order_id?: number | undefined;
   /** Search term to match against theme names. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface WordPressV1ThemesThemeResource {
   /** Theme slug used when installing the theme */
-  slug?: string;
+  slug?: string | undefined;
   /** Human readable theme name */
-  title?: string;
+  title?: string | undefined;
   /** Link to the theme page on WordPress.org */
-  url?: string;
+  url?: string | undefined;
   /** URL of the theme preview thumbnail */
-  featured_image_url?: string | null;
+  featured_image_url?: string | null | undefined;
   /** URL of the full-size theme preview image */
-  full_image_url?: string | null;
+  full_image_url?: string | null | undefined;
   /** Short theme description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** URL of the theme logo */
-  logo_url?: string | null;
+  logo_url?: string | null | undefined;
   /** Whether a hosting plan upgrade is required to use the theme */
-  is_plan_upgrade_needed?: boolean;
+  is_plan_upgrade_needed?: boolean | undefined;
 }
 /** Array of [`WordPress.V1.Themes.ThemeResource`](#model/wordpressv1themesthemeresource) */
 export type WordPressV1ThemesThemeCollection = Array<WordPressV1ThemesThemeResource>;
@@ -6232,225 +6262,225 @@ export interface ListMailAccessLogsV1Request {
   /** Order resource ID */
   orderId: string;
   /** Filter log entries by a specific email account */
-  account?: string;
+  account?: string | undefined;
   /** Exact date filter (YYYY-MM-DD). Takes precedence over `from_date`/`to_date` when both are given. */
-  date?: string;
+  date?: string | undefined;
   /** Date range start (RFC 3339) */
-  from_date?: string;
+  from_date?: string | undefined;
   /** Date range end (RFC 3339) */
-  to_date?: string;
+  to_date?: string | undefined;
   /** Filter log entries by status */
-  status?: ListMailAccessLogsV1RequestStatus | (string & {});
+  status?: ListMailAccessLogsV1RequestStatus | (string & {}) | undefined;
   /** Filter access log entries by protocol */
-  protocol?: ListMailAccessLogsV1RequestProtocol | (string & {});
+  protocol?: ListMailAccessLogsV1RequestProtocol | (string & {}) | undefined;
   /** Filter access log entries by whether the session had deletions */
-  has_deletions?: boolean;
+  has_deletions?: boolean | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface MailV1LogsAccessAccessLogResource {
-  account?: string;
-  domain?: string;
-  session?: string;
-  protocol?: string;
-  remote_ip?: string;
-  login_time?: string;
+  account?: string | undefined;
+  domain?: string | undefined;
+  session?: string | undefined;
+  protocol?: string | undefined;
+  remote_ip?: string | undefined;
+  login_time?: string | undefined;
   /** Bytes received */
-  in?: number;
+  in?: number | undefined;
   /** Bytes sent */
-  out?: number;
-  deleted?: number;
-  expunged?: number;
-  trashed?: number;
-  logout_time?: string;
-  timestamp?: string;
-  app_name?: string;
-  has_deletions?: boolean;
-  result?: string;
-  status?: string;
+  out?: number | undefined;
+  deleted?: number | undefined;
+  expunged?: number | undefined;
+  trashed?: number | undefined;
+  logout_time?: string | undefined;
+  timestamp?: string | undefined;
+  app_name?: string | undefined;
+  has_deletions?: boolean | undefined;
+  result?: string | undefined;
+  status?: string | undefined;
   /** True when the session deleted, expunged or trashed messages */
-  is_important?: boolean;
+  is_important?: boolean | undefined;
 }
 /** Array of [`Mail.V1.Logs.Access.AccessLogResource`](#model/mailv1logsaccessaccesslogresource) */
 export type MailV1LogsAccessAccessLogCollection = Array<MailV1LogsAccessAccessLogResource>;
 export interface ListMailAccessLogsV1Response {
-  data?: MailV1LogsAccessAccessLogCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1LogsAccessAccessLogCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListMailActionLogsV1RequestStatus = "Successful" | "Failed";
 export interface ListMailActionLogsV1Request {
   /** Order resource ID */
   orderId: string;
   /** Filter log entries by a specific email account */
-  account?: string;
+  account?: string | undefined;
   /** Exact date filter (YYYY-MM-DD). Takes precedence over `from_date`/`to_date` when both are given. */
-  date?: string;
+  date?: string | undefined;
   /** Date range start (RFC 3339) */
-  from_date?: string;
+  from_date?: string | undefined;
   /** Date range end (RFC 3339) */
-  to_date?: string;
+  to_date?: string | undefined;
   /** Filter log entries by status */
-  status?: ListMailActionLogsV1RequestStatus | (string & {});
+  status?: ListMailActionLogsV1RequestStatus | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type MailV1LogsActionActionLogResourceResponseStatus = "OK" | "Fail";
 export interface MailV1LogsActionActionLogResource {
-  action?: string;
+  action?: string | undefined;
   /** Arbitrary contextual payload */
-  extra?: unknown | null;
-  created_at?: string;
+  extra?: unknown | null | undefined;
+  created_at?: string | undefined;
   /** Only populated for user-role logs */
-  ip_address?: string;
-  role?: string;
-  action_context?: string;
-  response_status?: MailV1LogsActionActionLogResourceResponseStatus;
+  ip_address?: string | undefined;
+  role?: string | undefined;
+  action_context?: string | undefined;
+  response_status?: MailV1LogsActionActionLogResourceResponseStatus | undefined;
 }
 /** Array of [`Mail.V1.Logs.Action.ActionLogResource`](#model/mailv1logsactionactionlogresource) */
 export type MailV1LogsActionActionLogCollection = Array<MailV1LogsActionActionLogResource>;
 export interface ListMailActionLogsV1Response {
-  data?: MailV1LogsActionActionLogCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1LogsActionActionLogCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListMailAliasesV1Request {
   /** Order resource ID */
   orderId: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Mail.V1.Aliases.AliasResource`](#model/mailv1aliasesaliasresource) */
 export type MailV1AliasesAliasCollection = Array<MailV1AliasesAliasResource>;
 export interface ListMailAliasesV1Response {
-  data?: MailV1AliasesAliasCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1AliasesAliasCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListMailAPITokensV1Request {
   /** Filter tokens by order resource ID. Single value or comma-separated list. */
-  order_id?: string;
+  order_id?: string | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type MailV1ApiTokensApiTokenResourceType = "api_token" | "oauth";
 export interface MailV1ApiTokensApiTokenResource {
   /** Unique API token identifier */
-  id?: string;
+  id?: string | undefined;
   /** Resource ID of the owning mail order */
-  order_id?: string | null;
+  order_id?: string | null | undefined;
   /** Human-readable label for this token */
-  name?: string | null;
-  scope?: MailV1ApiTokensApiTokenScopeResource;
-  created_at?: string;
+  name?: string | null | undefined;
+  scope?: MailV1ApiTokensApiTokenScopeResource | undefined;
+  created_at?: string | undefined;
   /** Last successful authentication using this token */
-  last_used_at?: string | null;
-  type?: MailV1ApiTokensApiTokenResourceType;
+  last_used_at?: string | null | undefined;
+  type?: MailV1ApiTokensApiTokenResourceType | undefined;
 }
 /** Array of [`Mail.V1.ApiTokens.ApiTokenResource`](#model/mailv1apitokensapitokenresource) */
 export type MailV1ApiTokensApiTokenCollection = Array<MailV1ApiTokensApiTokenResource>;
 export interface ListMailAPITokensV1Response {
-  data?: MailV1ApiTokensApiTokenCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1ApiTokensApiTokenCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListMailAutorepliesV1Request {
   /** Order resource ID */
   orderId: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Mail.V1.Autoreplies.AutoreplyResource`](#model/mailv1autorepliesautoreplyresource) */
 export type MailV1AutorepliesAutoreplyCollection = Array<MailV1AutorepliesAutoreplyResource>;
 export interface ListMailAutorepliesV1Response {
-  data?: MailV1AutorepliesAutoreplyCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1AutorepliesAutoreplyCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListMailCatchAllsV1Request {
   /** Order resource ID */
   orderId: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Mail.V1.Catchalls.CatchallResource`](#model/mailv1catchallscatchallresource) */
 export type MailV1CatchallsCatchallCollection = Array<MailV1CatchallsCatchallResource>;
 export interface ListMailCatchAllsV1Response {
-  data?: MailV1CatchallsCatchallCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1CatchallsCatchallCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListMailForwardersV1Request {
   /** Order resource ID */
   orderId: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Mail.V1.Forwarders.ForwarderResource`](#model/mailv1forwardersforwarderresource) */
 export type MailV1ForwardersForwarderCollection = Array<MailV1ForwardersForwarderResource>;
 export interface ListMailForwardersV1Response {
-  data?: MailV1ForwardersForwarderCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1ForwardersForwarderCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListMailInboundLogsV1RequestStatus = "Successful" | "Failed";
 export interface ListMailInboundLogsV1Request {
   /** Order resource ID */
   orderId: string;
   /** Filter log entries by a specific email account */
-  account?: string;
+  account?: string | undefined;
   /** Exact date filter (YYYY-MM-DD). Takes precedence over `from_date`/`to_date` when both are given. */
-  date?: string;
+  date?: string | undefined;
   /** Date range start (RFC 3339) */
-  from_date?: string;
+  from_date?: string | undefined;
   /** Date range end (RFC 3339) */
-  to_date?: string;
+  to_date?: string | undefined;
   /** Filter log entries by status */
-  status?: ListMailInboundLogsV1RequestStatus | (string & {});
+  status?: ListMailInboundLogsV1RequestStatus | (string & {}) | undefined;
   /** Filter log entries by sender. Accepts a full email address or a domain. */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter log entries by recipient. Accepts a full email address or a domain. */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface MailV1LogsCommonDeliveryLogRelayEventResource {
-  address_to?: string;
-  relay?: string;
-  delay?: string;
-  dsn?: string;
-  status?: string;
-  response?: string;
-  time?: string;
+  address_to?: string | undefined;
+  relay?: string | undefined;
+  delay?: string | undefined;
+  dsn?: string | undefined;
+  status?: string | undefined;
+  response?: string | undefined;
+  time?: string | undefined;
 }
 export type MailV1LogsCommonDeliveryLogResourceRelayEventsList =
   Array<MailV1LogsCommonDeliveryLogRelayEventResource>;
 export interface MailV1LogsCommonDeliveryLogResource {
-  account?: string;
-  rcpt?: string;
-  rcpts?: string;
-  client_ip?: string;
-  from?: string;
-  nrcpt?: string;
-  timestamp?: string;
-  relay_events?: MailV1LogsCommonDeliveryLogResourceRelayEventsList;
-  status?: string;
-  is_spam?: boolean;
+  account?: string | undefined;
+  rcpt?: string | undefined;
+  rcpts?: string | undefined;
+  client_ip?: string | undefined;
+  from?: string | undefined;
+  nrcpt?: string | undefined;
+  timestamp?: string | undefined;
+  relay_events?: MailV1LogsCommonDeliveryLogResourceRelayEventsList | undefined;
+  status?: string | undefined;
+  is_spam?: boolean | undefined;
 }
 /** Array of [`Mail.V1.Logs.Common.DeliveryLogResource`](#model/mailv1logscommondeliverylogresource) */
 export type MailV1LogsCommonDeliveryLogCollection = Array<MailV1LogsCommonDeliveryLogResource>;
 export interface ListMailInboundLogsV1Response {
-  data?: MailV1LogsCommonDeliveryLogCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1LogsCommonDeliveryLogCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListMailMailboxActionLogsV1RequestEvent =
   | "MessageNew"
@@ -6466,17 +6496,17 @@ export interface ListMailMailboxActionLogsV1Request {
   /** Mailbox email address. Must belong to the order's domain. */
   email: string;
   /** Exact date filter (YYYY-MM-DD). Takes precedence over `from_date`/`to_date` when both are given. */
-  date?: string;
+  date?: string | undefined;
   /** Date range start (RFC 3339) */
-  from_date?: string;
+  from_date?: string | undefined;
   /** Date range end (RFC 3339) */
-  to_date?: string;
+  to_date?: string | undefined;
   /** Filter mailbox action log entries by event type */
-  event?: ListMailMailboxActionLogsV1RequestEvent | (string & {});
+  event?: ListMailMailboxActionLogsV1RequestEvent | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type MailV1LogsMailboxActionsMailboxActionLogResourceEvent =
   | "MessageNew"
@@ -6487,40 +6517,40 @@ export type MailV1LogsMailboxActionsMailboxActionLogResourceEvent =
   | "MailboxDelete"
   | "MailboxRename";
 export interface MailV1LogsMailboxActionsMailboxActionLogResource {
-  folder?: string;
+  folder?: string | undefined;
   /** Unix timestamp of the event */
-  time?: number;
-  event?: MailV1LogsMailboxActionsMailboxActionLogResourceEvent;
+  time?: number | undefined;
+  event?: MailV1LogsMailboxActionsMailboxActionLogResourceEvent | undefined;
   /** Mailbox email address */
-  mailbox?: string;
-  hostname?: string;
-  timestamp?: string;
+  mailbox?: string | undefined;
+  hostname?: string | undefined;
+  timestamp?: string | undefined;
 }
 /** Array of [`Mail.V1.Logs.MailboxActions.MailboxActionLogResource`](#model/mailv1logsmailboxactionsmailboxactionlogresource) */
 export type MailV1LogsMailboxActionsMailboxActionLogCollection =
   Array<MailV1LogsMailboxActionsMailboxActionLogResource>;
 export interface ListMailMailboxActionLogsV1Response {
-  data?: MailV1LogsMailboxActionsMailboxActionLogCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1LogsMailboxActionsMailboxActionLogCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListMailMailboxesV1RequestSort = "address" | "-address";
 export interface ListMailMailboxesV1Request {
   /** Order resource ID */
   orderId: string;
   /** Filter mailboxes whose email address contains the given string */
-  search?: string;
+  search?: string | undefined;
   /** Sort mailboxes by field. Prefix with `-` for descending order. */
-  sort?: ListMailMailboxesV1RequestSort | (string & {});
+  sort?: ListMailMailboxesV1RequestSort | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Mail.V1.Mailboxes.MailboxResource`](#model/mailv1mailboxesmailboxresource) */
 export type MailV1MailboxesMailboxCollection = Array<MailV1MailboxesMailboxResource>;
 export interface ListMailMailboxesV1Response {
-  data?: MailV1MailboxesMailboxCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1MailboxesMailboxCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListMailOrdersV1RequestStatus = "pending_setup" | "active" | "suspended";
 export type ListMailOrdersV1RequestSort =
@@ -6530,133 +6560,133 @@ export type ListMailOrdersV1RequestSort =
   | "-expires_at";
 export interface ListMailOrdersV1Request {
   /** Filter orders by domain name (exact match) */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter orders by status */
-  status?: ListMailOrdersV1RequestStatus | (string & {});
+  status?: ListMailOrdersV1RequestStatus | (string & {}) | undefined;
   /** Filter orders by trial state */
-  is_trial?: boolean;
+  is_trial?: boolean | undefined;
   /** Sort orders by field. Prefix with `-` for descending order. */
-  sort?: ListMailOrdersV1RequestSort | (string & {});
+  sort?: ListMailOrdersV1RequestSort | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Order status */
 export type MailV1OrdersOrderResourceStatus = "pending_setup" | "active" | "suspended";
 export interface MailV1OrdersOrderDomainResource {
   /** Domain resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Domain name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface MailV1OrdersOrderPlanResource {
   /** Plan name */
-  name?: string;
+  name?: string | undefined;
   /** Plan title */
-  title?: string;
+  title?: string | undefined;
 }
 export interface MailV1OrdersOrderResource {
   /** Order resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Order status */
-  status?: MailV1OrdersOrderResourceStatus;
+  status?: MailV1OrdersOrderResourceStatus | undefined;
   /** Whether the order is currently in a trial period */
-  is_trial?: boolean;
+  is_trial?: boolean | undefined;
   /** Number of mailbox seats purchased with the order */
-  seats?: number;
+  seats?: number | undefined;
   /** Domain the order is attached to */
-  domain?: MailV1OrdersOrderDomainResource | null;
+  domain?: MailV1OrdersOrderDomainResource | null | undefined;
   /** Plan the order was purchased with */
-  plan?: MailV1OrdersOrderPlanResource | null;
+  plan?: MailV1OrdersOrderPlanResource | null | undefined;
   /** Whether an upgrade is currently pending for the order */
-  has_pending_upgrade?: boolean;
-  created_at?: string;
-  expires_at?: string | null;
+  has_pending_upgrade?: boolean | undefined;
+  created_at?: string | undefined;
+  expires_at?: string | null | undefined;
 }
 /** Array of [`Mail.V1.Orders.OrderResource`](#model/mailv1ordersorderresource) */
 export type MailV1OrdersOrderCollection = Array<MailV1OrdersOrderResource>;
 export interface ListMailOrdersV1Response {
-  data?: MailV1OrdersOrderCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1OrdersOrderCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListMailOutboundLogsV1RequestStatus = "Successful" | "Failed";
 export interface ListMailOutboundLogsV1Request {
   /** Order resource ID */
   orderId: string;
   /** Filter log entries by a specific email account */
-  account?: string;
+  account?: string | undefined;
   /** Exact date filter (YYYY-MM-DD). Takes precedence over `from_date`/`to_date` when both are given. */
-  date?: string;
+  date?: string | undefined;
   /** Date range start (RFC 3339) */
-  from_date?: string;
+  from_date?: string | undefined;
   /** Date range end (RFC 3339) */
-  to_date?: string;
+  to_date?: string | undefined;
   /** Filter log entries by status */
-  status?: ListMailOutboundLogsV1RequestStatus | (string & {});
+  status?: ListMailOutboundLogsV1RequestStatus | (string & {}) | undefined;
   /** Filter log entries by sender. Accepts a full email address or a domain. */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter log entries by recipient. Accepts a full email address or a domain. */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ListMailOutboundLogsV1Response {
-  data?: MailV1LogsCommonDeliveryLogCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1LogsCommonDeliveryLogCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListMailWebhookDeliveryLogsV1Request {
   /** Order resource ID */
   orderId: string;
   /** Filter by the mailbox resource ID the webhooks are attached to */
-  mailbox_id?: string;
+  mailbox_id?: string | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface MailV1WebhooksWebhookDeliveryLogResource {
-  created_at?: string;
+  created_at?: string | undefined;
   /** Email address of the mailbox this delivery is attached to */
-  mailbox_address?: string;
+  mailbox_address?: string | undefined;
   /** URL that received the webhook POST request */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
   /** Whether the delivery was successful */
-  is_successful?: boolean;
+  is_successful?: boolean | undefined;
   /** Webhook request duration in milliseconds */
-  duration?: number;
+  duration?: number | undefined;
   /** Number of delivery attempts made */
-  retry_count?: number;
+  retry_count?: number | undefined;
   /** Maximum number of delivery attempts allowed */
-  max_retry_count?: number;
+  max_retry_count?: number | undefined;
 }
 /** Array of [`Mail.V1.Webhooks.WebhookDeliveryLogResource`](#model/mailv1webhookswebhookdeliverylogresource) */
 export type MailV1WebhooksWebhookDeliveryLogCollection =
   Array<MailV1WebhooksWebhookDeliveryLogResource>;
 export interface ListMailWebhookDeliveryLogsV1Response {
-  data?: MailV1WebhooksWebhookDeliveryLogCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1WebhooksWebhookDeliveryLogCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListMailWebhooksV1RequestStatus = "active" | "disabled" | "paused";
 export interface ListMailWebhooksV1Request {
   /** Order resource ID */
   orderId: string;
   /** Filter by the mailbox resource ID the webhooks are attached to */
-  mailbox_id?: string;
+  mailbox_id?: string | undefined;
   /** Filter webhooks by status */
-  status?: ListMailWebhooksV1RequestStatus | (string & {});
+  status?: ListMailWebhooksV1RequestStatus | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Mail.V1.Webhooks.WebhookResource`](#model/mailv1webhookswebhookresource) */
 export type MailV1WebhooksWebhookCollection = Array<MailV1WebhooksWebhookResource>;
 export interface ListMailWebhooksV1Response {
-  data?: MailV1WebhooksWebhookCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: MailV1WebhooksWebhookCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListReachAutomationStepsV1Request {
   /** Profile uuid parameter */
@@ -6681,17 +6711,17 @@ export type ReachV1AutomationsStepsAutomationStepResourceValue =
   | "decision"
   | "delay";
 export interface ReachV1AutomationsStepsAutomationStepResource {
-  uuid?: string;
+  uuid?: string | undefined;
   /** The step this one branches from. Null for the entry point of the workflow. */
-  parent_uuid?: string | null;
+  parent_uuid?: string | null | undefined;
   /** Position of this step among the steps sharing its parent. */
-  step_order?: number;
+  step_order?: number | undefined;
   /** Role of the step in the workflow. A `conditional` step branches into several children. */
-  type?: ReachV1AutomationsStepsAutomationStepResourceType;
+  type?: ReachV1AutomationsStepsAutomationStepResourceType | undefined;
   /** The concrete trigger, action, decision or delay this step performs. */
-  value?: ReachV1AutomationsStepsAutomationStepResourceValue;
+  value?: ReachV1AutomationsStepsAutomationStepResourceValue | undefined;
   /** Step configuration. The shape depends on the value, and is empty for steps that take none. */
-  config?: unknown | null;
+  config?: unknown | null | undefined;
 }
 /** Array of [`Reach.V1.Automations.Steps.AutomationStepResource`](#model/reachv1automationsstepsautomationstepresource) */
 export type ReachV1AutomationsStepsAutomationStepCollection =
@@ -6703,19 +6733,19 @@ export interface ListReachAutomationsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
   /** Filter automations by status. There is no `completed` status. An automation that has finished for every contact still reports `active`. */
-  status?: ListReachAutomationsV1RequestStatus | (string & {});
+  status?: ListReachAutomationsV1RequestStatus | (string & {}) | undefined;
   /** Order automations by creation date. Newest first unless set to `asc`. */
-  sort_direction?: ListReachAutomationsV1RequestSortDirection | (string & {});
+  sort_direction?: ListReachAutomationsV1RequestSortDirection | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Array of [`Reach.V1.Automations.AutomationResource`](#model/reachv1automationsautomationresource) */
 export type ReachV1AutomationsAutomationCollection = Array<ReachV1AutomationsAutomationResource>;
 export interface ListReachAutomationsV1Response {
-  data?: ReachV1AutomationsAutomationCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: ReachV1AutomationsAutomationCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListReachCampaignsV1RequestStatus =
   | "draft"
@@ -6729,15 +6759,15 @@ export interface ListReachCampaignsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
   /** Filter campaigns by status. A fully sent campaign has the status `publish`. There is no `sent` status, and campaigns can be neither paused nor archived. */
-  status?: ListReachCampaignsV1RequestStatus | (string & {});
+  status?: ListReachCampaignsV1RequestStatus | (string & {}) | undefined;
   /** Filter campaigns by type. Defaults to `campaign`, which leaves out the emails sent by automations and the double opt-in confirmations. */
-  type?: ListReachCampaignsV1RequestType | (string & {});
+  type?: ListReachCampaignsV1RequestType | (string & {}) | undefined;
   /** Order campaigns by creation date. Newest first unless set to `asc`. */
-  sort_direction?: ListReachCampaignsV1RequestSortDirection | (string & {});
+  sort_direction?: ListReachCampaignsV1RequestSortDirection | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** A fully sent campaign is `publish`. There is no `sent`, `paused` or `archived` status. */
 export type ReachV1CampaignsCampaignResourceStatus =
@@ -6750,36 +6780,36 @@ export type ReachV1CampaignsCampaignResourceType = "campaign" | "automation" | "
 /** Headline engagement rates. The statistics endpoint carries the full breakdown. */
 export interface ReachV1CampaignsCampaignSummaryStatisticsResource {
   /** Emails sent for this campaign, and the denominator of the rates below. */
-  total_sent?: number;
+  total_sent?: number | undefined;
   /** Percentage of sent emails that were opened. */
-  open_rate?: number;
+  open_rate?: number | undefined;
   /** Percentage of sent emails that got a click. */
-  click_rate?: number;
+  click_rate?: number | undefined;
   /** Percentage of the contacts who opened that went on to click. */
-  click_to_open_rate?: number;
+  click_to_open_rate?: number | undefined;
 }
 export interface ReachV1CampaignsCampaignResource {
-  uuid?: string;
-  title?: string;
-  subject?: string;
-  sender_name?: string;
-  sender_email?: string;
+  uuid?: string | undefined;
+  title?: string | undefined;
+  subject?: string | undefined;
+  sender_name?: string | undefined;
+  sender_email?: string | undefined;
   /** The email template this campaign uses. The template title is not exposed. */
-  template_uuid?: string | null;
+  template_uuid?: string | null | undefined;
   /** A fully sent campaign is `publish`. There is no `sent`, `paused` or `archived` status. */
-  status?: ReachV1CampaignsCampaignResourceStatus;
-  type?: ReachV1CampaignsCampaignResourceType;
-  created_at?: string;
-  updated_at?: string | null;
-  sent_at?: string | null;
-  scheduled_at?: string | null;
-  statistics?: ReachV1CampaignsCampaignSummaryStatisticsResource;
+  status?: ReachV1CampaignsCampaignResourceStatus | undefined;
+  type?: ReachV1CampaignsCampaignResourceType | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  sent_at?: string | null | undefined;
+  scheduled_at?: string | null | undefined;
+  statistics?: ReachV1CampaignsCampaignSummaryStatisticsResource | undefined;
 }
 /** Array of [`Reach.V1.Campaigns.CampaignResource`](#model/reachv1campaignscampaignresource) */
 export type ReachV1CampaignsCampaignCollection = Array<ReachV1CampaignsCampaignResource>;
 export interface ListReachCampaignsV1Response {
-  data?: ReachV1CampaignsCampaignCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: ReachV1CampaignsCampaignCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListReachConnectedWebsitesV1Request {
   /** Profile uuid parameter */
@@ -6792,9 +6822,9 @@ export type ReachV1WebsitesWebsiteResourcePlatformType =
   | "horizons";
 export interface ReachV1WebsitesWebsiteResource {
   /** Pass this to the disconnect endpoint matching `platform_type`. */
-  domain?: string;
+  domain?: string | undefined;
   /** `wordpress`, `website_builder` (AI Website Builder site built manually) or `horizons` (site built with the agentic AI Website Builder). */
-  platform_type?: ReachV1WebsitesWebsiteResourcePlatformType;
+  platform_type?: ReachV1WebsitesWebsiteResourcePlatformType | undefined;
 }
 /** Array of [`Reach.V1.Websites.WebsiteResource`](#model/reachv1websiteswebsiteresource) */
 export type ReachV1WebsitesWebsiteCollection = Array<ReachV1WebsitesWebsiteResource>;
@@ -6813,10 +6843,10 @@ export interface ListReachEcommerceStoresV1Request {
 }
 export type ReachV1StoresStoreResourceVersion = "v2_standalone";
 export interface ReachV1StoresStoreResourceSalesChannelsItem {
-  id?: string;
-  name?: string | null;
-  type?: string | null;
-  domain?: string | null;
+  id?: string | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
+  domain?: string | null | undefined;
 }
 /** Storefronts of the store. */
 export type ReachV1StoresStoreResourceSalesChannelsList =
@@ -6828,15 +6858,15 @@ export type ReachV1StoresStoreResourceConnectionStatus =
   | "not_connected";
 export interface ReachV1StoresStoreResource {
   /** Pass this to the disconnect eCommerce store endpoint. */
-  store_id?: string;
-  business_name?: string | null;
-  domain?: string | null;
-  logo_url?: string | null;
-  version?: ReachV1StoresStoreResourceVersion | null;
+  store_id?: string | undefined;
+  business_name?: string | null | undefined;
+  domain?: string | null | undefined;
+  logo_url?: string | null | undefined;
+  version?: ReachV1StoresStoreResourceVersion | null | undefined;
   /** Storefronts of the store. */
-  sales_channels?: ReachV1StoresStoreResourceSalesChannelsList;
+  sales_channels?: ReachV1StoresStoreResourceSalesChannelsList | undefined;
   /** `connected` to the profile in the path, `connected_to_other_profile` when another profile of the account holds it, or `not_connected`. */
-  connection_status?: ReachV1StoresStoreResourceConnectionStatus;
+  connection_status?: ReachV1StoresStoreResourceConnectionStatus | undefined;
 }
 /** Array of [`Reach.V1.Stores.StoreResource`](#model/reachv1storesstoreresource) */
 export type ReachV1StoresStoreCollection = Array<ReachV1StoresStoreResource>;
@@ -6853,17 +6883,17 @@ export interface ListReachFormsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Return only forms with this status. */
-  status?: ListReachFormsV1RequestStatus | (string & {});
+  status?: ListReachFormsV1RequestStatus | (string & {}) | undefined;
 }
 /** Array of [`Reach.V1.Forms.FormResource`](#model/reachv1formsformresource) */
 export type ReachV1FormsFormCollection = Array<ReachV1FormsFormResource>;
 export interface ListReachFormsV1Response {
-  data?: ReachV1FormsFormCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: ReachV1FormsFormCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListReachPlanFeatureAccessV1Request {
   /** Profile uuid parameter */
@@ -6879,11 +6909,11 @@ export type ReachV1ProfilesFeaturesPlanFeatureResourceFeature =
   | "HtmlCodeEditor";
 /** Whether a single plan feature can be used on the profile. */
 export interface ReachV1ProfilesFeaturesPlanFeatureResource {
-  feature?: ReachV1ProfilesFeaturesPlanFeatureResourceFeature;
+  feature?: ReachV1ProfilesFeaturesPlanFeatureResourceFeature | undefined;
   /** Whether the feature can be used right now. */
-  is_available?: boolean;
+  is_available?: boolean | undefined;
   /** Whether the feature sits outside the base plan and needs an upgrade. */
-  is_locked?: boolean;
+  is_locked?: boolean | undefined;
 }
 /** Array of [`Reach.V1.Profiles.Features.PlanFeatureResource`](#model/reachv1profilesfeaturesplanfeatureresource) */
 export type ReachV1ProfilesFeaturesPlanFeatureCollection =
@@ -6898,15 +6928,18 @@ export interface ListReachProfileContactsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
   /** Filter contacts by subscription status */
-  subscription_status?: ListReachProfileContactsV1RequestSubscriptionStatus | (string & {});
+  subscription_status?:
+    | ListReachProfileContactsV1RequestSubscriptionStatus
+    | (string & {})
+    | undefined;
   /** Filter contacts by tag UUID */
-  tag_uuid?: string;
+  tag_uuid?: string | undefined;
   /** Search contacts by email */
-  search?: string;
+  search?: string | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ReachV1ContactsProfileContactResourceSubscriptionStatus =
   | "subscribed"
@@ -6922,22 +6955,22 @@ export type ReachV1ContactsProfileContactResourceSource =
   | "checkout"
   | "horizons";
 export interface ReachV1ContactsProfileContactResource {
-  uuid?: string;
-  name?: string | null;
-  surname?: string | null;
-  email?: string;
-  phone?: string | null;
-  subscription_status?: ReachV1ContactsProfileContactResourceSubscriptionStatus;
-  subscribed_at?: string | null;
-  unsubscribed_at?: string | null;
-  source?: ReachV1ContactsProfileContactResourceSource | null;
-  note?: string | null;
+  uuid?: string | undefined;
+  name?: string | null | undefined;
+  surname?: string | null | undefined;
+  email?: string | undefined;
+  phone?: string | null | undefined;
+  subscription_status?: ReachV1ContactsProfileContactResourceSubscriptionStatus | undefined;
+  subscribed_at?: string | null | undefined;
+  unsubscribed_at?: string | null | undefined;
+  source?: ReachV1ContactsProfileContactResourceSource | null | undefined;
+  note?: string | null | undefined;
 }
 /** Array of [`Reach.V1.Contacts.ProfileContactResource`](#model/reachv1contactsprofilecontactresource) */
 export type ReachV1ContactsProfileContactCollection = Array<ReachV1ContactsProfileContactResource>;
 export interface ListReachProfileContactsV1Response {
-  data?: ReachV1ContactsProfileContactCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: ReachV1ContactsProfileContactCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListReachProfileSegmentContactsV1Request {
   /** Profile uuid parameter */
@@ -6945,9 +6978,9 @@ export interface ListReachProfileSegmentContactsV1Request {
   /** Segment uuid parameter */
   segmentUuid: string;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ReachV1ContactsSegmentsSegmentationContactResourceSubscriptionStatus =
   | "subscribed"
@@ -6963,70 +6996,72 @@ export type ReachV1ContactsSegmentsSegmentationContactResourceSource =
   | "checkout"
   | "horizons";
 export interface ReachV1ContactsSegmentsSegmentationContactResource {
-  uuid?: string;
-  name?: string | null;
-  surname?: string | null;
-  email?: string;
-  subscription_status?: ReachV1ContactsSegmentsSegmentationContactResourceSubscriptionStatus;
-  subscribed_at?: string;
-  source?: ReachV1ContactsSegmentsSegmentationContactResourceSource | null;
-  note?: string | null;
+  uuid?: string | undefined;
+  name?: string | null | undefined;
+  surname?: string | null | undefined;
+  email?: string | undefined;
+  subscription_status?:
+    | ReachV1ContactsSegmentsSegmentationContactResourceSubscriptionStatus
+    | undefined;
+  subscribed_at?: string | undefined;
+  source?: ReachV1ContactsSegmentsSegmentationContactResourceSource | null | undefined;
+  note?: string | null | undefined;
 }
 /** Array of [`Reach.V1.Contacts.Segments.SegmentationContactResource`](#model/reachv1contactssegmentssegmentationcontactresource) */
 export type ReachV1ContactsSegmentsSegmentationContactCollection =
   Array<ReachV1ContactsSegmentsSegmentationContactResource>;
 export interface ListReachProfileSegmentContactsV1Response {
-  data?: ReachV1ContactsSegmentsSegmentationContactCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: ReachV1ContactsSegmentsSegmentationContactCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export type ListReachProfileSegmentsV1RequestCountType = "all" | "subscribed";
 export interface ListReachProfileSegmentsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
   /** Which matching contacts to count for each segment */
-  count_type?: ListReachProfileSegmentsV1RequestCountType | (string & {});
+  count_type?: ListReachProfileSegmentsV1RequestCountType | (string & {}) | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ReachV1ContactsSegmentsSegmentListItemResource {
-  uuid?: string;
-  name?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
   /** Contacts currently matching the segment conditions */
-  contacts_count?: number;
-  created_at?: string;
-  updated_at?: string;
+  contacts_count?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Array of [`Reach.V1.Contacts.Segments.SegmentListItemResource`](#model/reachv1contactssegmentssegmentlistitemresource) */
 export type ReachV1ContactsSegmentsSegmentListItemCollection =
   Array<ReachV1ContactsSegmentsSegmentListItemResource>;
 export interface ListReachProfileSegmentsV1Response {
-  data?: ReachV1ContactsSegmentsSegmentListItemCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: ReachV1ContactsSegmentsSegmentListItemCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface ListReachProfilesV1Request {}
 export interface ReachV1ProfilesProfileResourceLimits {
-  ai_messages_limit?: number;
-  subscribers_limit?: number;
-  emails_monthly_limit?: number;
-  ai_messages_additional?: number;
+  ai_messages_limit?: number | undefined;
+  subscribers_limit?: number | undefined;
+  emails_monthly_limit?: number | undefined;
+  ai_messages_additional?: number | undefined;
 }
 export interface ReachV1ProfilesProfileResourceProfilesItem {
-  uuid?: string;
-  domain?: string;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  domain?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ReachV1ProfilesProfileResourceProfilesList =
   Array<ReachV1ProfilesProfileResourceProfilesItem>;
 export interface ReachV1ProfilesProfileResource {
-  limits?: ReachV1ProfilesProfileResourceLimits;
-  is_trial?: boolean;
-  expires_at?: string;
-  resource_id?: number;
-  status?: string;
-  profiles?: ReachV1ProfilesProfileResourceProfilesList;
+  limits?: ReachV1ProfilesProfileResourceLimits | undefined;
+  is_trial?: boolean | undefined;
+  expires_at?: string | undefined;
+  resource_id?: number | undefined;
+  status?: string | undefined;
+  profiles?: ReachV1ProfilesProfileResourceProfilesList | undefined;
 }
 /** Array of [`Reach.V1.Profiles.ProfileResource`](#model/reachv1profilesprofileresource) */
 export type ReachV1ProfilesProfileCollection = Array<ReachV1ProfilesProfileResource>;
@@ -7093,14 +7128,14 @@ export type ReachV1ContactsSegmentsSegmentFilterOperatorResourceEnumValuesMap = 
 /** One operator an attribute accepts, and the value format it expects. */
 export interface ReachV1ContactsSegmentsSegmentFilterOperatorResource {
   /** Value to send as the condition `operator`. */
-  operator?: ReachV1ContactsSegmentsSegmentFilterOperatorResourceOperator;
-  description?: string;
+  operator?: ReachV1ContactsSegmentsSegmentFilterOperatorResourceOperator | undefined;
+  description?: string | undefined;
   /** Shape of the value this operator expects, useful for rendering an input. */
-  input_type?: ReachV1ContactsSegmentsSegmentFilterOperatorResourceInputType;
+  input_type?: ReachV1ContactsSegmentsSegmentFilterOperatorResourceInputType | undefined;
   /** An example value in the format this operator expects. */
-  example?: string;
+  example?: string | undefined;
   /** The values this operator accepts, keyed by the value to send. Only present when the operator is constrained to a fixed set, such as a tag or campaign picker. */
-  enum_values?: ReachV1ContactsSegmentsSegmentFilterOperatorResourceEnumValuesMap;
+  enum_values?: ReachV1ContactsSegmentsSegmentFilterOperatorResourceEnumValuesMap | undefined;
 }
 /** Operators this attribute accepts, keyed by operator name. */
 export type ReachV1ContactsSegmentsSegmentFilterAttributeResourceOperatorsMap = {
@@ -7109,12 +7144,12 @@ export type ReachV1ContactsSegmentsSegmentFilterAttributeResourceOperatorsMap = 
 /** One attribute a segment condition can filter on. */
 export interface ReachV1ContactsSegmentsSegmentFilterAttributeResource {
   /** Value to send as the condition `attribute`. */
-  name?: string;
+  name?: string | undefined;
   /** Where the attribute is sourced from. */
-  type?: ReachV1ContactsSegmentsSegmentFilterAttributeResourceType;
-  description?: string;
+  type?: ReachV1ContactsSegmentsSegmentFilterAttributeResourceType | undefined;
+  description?: string | undefined;
   /** Operators this attribute accepts, keyed by operator name. */
-  operators?: ReachV1ContactsSegmentsSegmentFilterAttributeResourceOperatorsMap;
+  operators?: ReachV1ContactsSegmentsSegmentFilterAttributeResourceOperatorsMap | undefined;
 }
 /** Every attribute a condition can filter on, keyed by the value to send as `attribute`. Custom contact fields are keyed `cf:{fieldUuid}`, tags and campaigns by their uuid, so the keys are not a fixed list and should be read from this response rather than hardcoded. */
 export type ReachV1ContactsSegmentsSegmentFilterAttributesResourceAttributesMap = {
@@ -7127,9 +7162,11 @@ export type ReachV1ContactsSegmentsSegmentFilterAttributesResourceLogicOperators
 /** The vocabulary a segment condition can be built from, for one profile. */
 export interface ReachV1ContactsSegmentsSegmentFilterAttributesResource {
   /** Every attribute a condition can filter on, keyed by the value to send as `attribute`. Custom contact fields are keyed `cf:{fieldUuid}`, tags and campaigns by their uuid, so the keys are not a fixed list and should be read from this response rather than hardcoded. */
-  attributes?: ReachV1ContactsSegmentsSegmentFilterAttributesResourceAttributesMap;
+  attributes?: ReachV1ContactsSegmentsSegmentFilterAttributesResourceAttributesMap | undefined;
   /** The values accepted by `logic` when a segment combines several conditions. */
-  logic_operators?: ReachV1ContactsSegmentsSegmentFilterAttributesResourceLogicOperatorsMap;
+  logic_operators?:
+    | ReachV1ContactsSegmentsSegmentFilterAttributesResourceLogicOperatorsMap
+    | undefined;
 }
 export interface ListVPSVirtualMachineSSHKeysV1Request {
   /** Virtual Machine ID */
@@ -7161,13 +7198,15 @@ export interface PatchHostingNodeJsVulnerabilitiesV1Request {
 export type HostingV1NodeJsPatchResultResourcePatchedVulnerabilityIdsList = Array<string>;
 export interface HostingV1NodeJsPatchResultResource {
   /** URL to the created GitHub pull request */
-  pr_url?: string;
+  pr_url?: string | undefined;
   /** GitHub pull request number */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** The branch created with the fix */
-  head_branch?: string;
+  head_branch?: string | undefined;
   /** List of vulnerability IDs that were patched in the pull request */
-  patched_vulnerability_ids?: HostingV1NodeJsPatchResultResourcePatchedVulnerabilityIdsList;
+  patched_vulnerability_ids?:
+    | HostingV1NodeJsPatchResultResourcePatchedVulnerabilityIdsList
+    | undefined;
 }
 export type PreviewReachContactsMatchingConditionsV1RequestConditionsItemOperator =
   | "equals"
@@ -7223,23 +7262,26 @@ export interface PreviewReachContactsMatchingConditionsV1Request {
   /** How to combine multiple conditions */
   logic: PreviewReachContactsMatchingConditionsV1RequestLogic | (string & {});
   /** Page number */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Narrow the preview to contacts whose email matches */
-  search?: string;
-  sort_by?: PreviewReachContactsMatchingConditionsV1RequestSortBy | (string & {});
-  sort_direction?: PreviewReachContactsMatchingConditionsV1RequestSortDirection | (string & {});
+  search?: string | undefined;
+  sort_by?: PreviewReachContactsMatchingConditionsV1RequestSortBy | (string & {}) | undefined;
+  sort_direction?:
+    | PreviewReachContactsMatchingConditionsV1RequestSortDirection
+    | (string & {})
+    | undefined;
 }
 export interface PreviewReachContactsMatchingConditionsV1Response {
-  data?: ReachV1ContactsProfileContactCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: ReachV1ContactsProfileContactCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface PublishHorizonWebsiteV1Request {
   /** The website ID */
   websiteId: string;
   /** Set to true to publish the website as a template: its published pages show a "Use template" banner that copies the website into the visitor's own account. Set to false to remove the banner. Leave it out to keep the current setting. */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
 }
 /** Always `publishing` - the build runs asynchronously after this response */
 export type HorizonsV1WebsitesPublishedWebsiteResourceStatus = "publishing";
@@ -7271,7 +7313,7 @@ export interface ReachCountProfileSegmentContactsV1Request {
 }
 export interface ReachV1ContactsSegmentsSegmentContactsCountResource {
   /** Contacts currently matching the segment conditions */
-  count?: number;
+  count?: number | undefined;
 }
 /** For the choice field types */
 export type ReachCreateContactsInBulkV1RequestContactsItemFieldsItemSelectedOptionUuidsList =
@@ -7279,21 +7321,23 @@ export type ReachCreateContactsInBulkV1RequestContactsItemFieldsItemSelectedOpti
 export interface ReachCreateContactsInBulkV1RequestContactsItemFieldsItem {
   uuid: string;
   /** For the scalar field types */
-  value?: string | null;
+  value?: string | null | undefined;
   /** For the choice field types */
-  selected_option_uuids?: ReachCreateContactsInBulkV1RequestContactsItemFieldsItemSelectedOptionUuidsList;
+  selected_option_uuids?:
+    | ReachCreateContactsInBulkV1RequestContactsItemFieldsItemSelectedOptionUuidsList
+    | undefined;
 }
 /** Custom field values to set on the contact. For a contact whose email already exists, only fields that have no value yet are filled. Unknown field UUIDs and values that do not match the field type are skipped. */
 export type ReachCreateContactsInBulkV1RequestContactsItemFieldsList =
   Array<ReachCreateContactsInBulkV1RequestContactsItemFieldsItem>;
 export interface ReachCreateContactsInBulkV1RequestContactsItem {
   email: string;
-  name?: string | null;
-  surname?: string | null;
+  name?: string | null | undefined;
+  surname?: string | null | undefined;
   /** Phone number in E.164 format (leading "+" then 7-15 digits) */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Custom field values to set on the contact. For a contact whose email already exists, only fields that have no value yet are filled. Unknown field UUIDs and values that do not match the field type are skipped. */
-  fields?: ReachCreateContactsInBulkV1RequestContactsItemFieldsList;
+  fields?: ReachCreateContactsInBulkV1RequestContactsItemFieldsList | undefined;
 }
 export type ReachCreateContactsInBulkV1RequestContactsList =
   Array<ReachCreateContactsInBulkV1RequestContactsItem>;
@@ -7304,9 +7348,9 @@ export interface ReachCreateContactsInBulkV1Request {
   profileUuid: string;
   contacts: ReachCreateContactsInBulkV1RequestContactsList;
   /** Existing tags to attach to every created contact */
-  tag_uuids?: ReachCreateContactsInBulkV1RequestTagUuidsList;
+  tag_uuids?: ReachCreateContactsInBulkV1RequestTagUuidsList | undefined;
   /** Note applied to every created contact */
-  note?: string | null;
+  note?: string | null | undefined;
 }
 export type ReachCreateOrFindTagsV1RequestNamesList = Array<string>;
 export interface ReachCreateOrFindTagsV1Request {
@@ -7321,11 +7365,11 @@ export interface RecreateVPSVirtualMachineV1Request {
   /** Template ID */
   template_id: number;
   /** Root password for the virtual machine. If not provided, random password will be generated. Password will not be shown in the response. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Panel password for the panel-based OS template. If not provided, random password will be generated. If OS does not support panel_password this field will be ignored. Password will not be shown in the response. */
-  panel_password?: string | Redacted.Redacted<string>;
+  panel_password?: string | Redacted.Redacted<string> | undefined;
   /** Post-install script to execute after virtual machine was recreated */
-  post_install_script_id?: number;
+  post_install_script_id?: number | undefined;
 }
 export interface RegenerateMailWebhookSecretV1Request {
   /** Webhook ID (returned when the webhook was created) */
@@ -7339,22 +7383,22 @@ export type MailV1WebhooksWebhookSecretResourceEventsList =
 export type MailV1WebhooksWebhookSecretResourceStatus = "active" | "disabled" | "paused";
 export interface MailV1WebhooksWebhookSecretResource {
   /** Unique webhook identifier */
-  id?: string;
-  mailbox?: MailV1WebhooksWebhookMailboxResource;
+  id?: string | undefined;
+  mailbox?: MailV1WebhooksWebhookMailboxResource | undefined;
   /** Human-readable name for this webhook */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of the webhook's purpose */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Events that trigger this webhook */
-  events?: MailV1WebhooksWebhookSecretResourceEventsList;
+  events?: MailV1WebhooksWebhookSecretResourceEventsList | undefined;
   /** Current status of the webhook */
-  status?: MailV1WebhooksWebhookSecretResourceStatus;
+  status?: MailV1WebhooksWebhookSecretResourceStatus | undefined;
   /** URL that receives webhook POST requests */
-  url?: string;
+  url?: string | undefined;
   /** New webhook secret, sent as `Authorization: Bearer <secret>` with every delivery. The previous secret is immediately invalidated and the new one is not returned again. */
-  secret?: string | Redacted.Redacted<string>;
-  created_at?: string;
-  updated_at?: string;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface RemoveReachAContactFromATagV1Request {
   /** Profile uuid parameter */
@@ -7372,9 +7416,9 @@ export interface RemoveReachContactsFromATagV1Request {
   /** Tag uuid parameter */
   tagUuid: string;
   /** Contacts to apply the change to. Required unless all_contacts is true. */
-  contact_uuids?: RemoveReachContactsFromATagV1RequestContactUuidsList;
+  contact_uuids?: RemoveReachContactsFromATagV1RequestContactUuidsList | undefined;
   /** Apply to every contact in the profile */
-  all_contacts?: boolean;
+  all_contacts?: boolean | undefined;
 }
 export interface RemoveReachFormSubmitterTagV1Request {
   /** Profile uuid parameter */
@@ -7406,9 +7450,9 @@ export interface RenewBillingSubscriptionV1Request {
   /** Subscription ID */
   subscriptionId: string;
   /** Payment method ID, default will be used if not provided */
-  payment_method_id?: number;
+  payment_method_id?: number | undefined;
   /** Discount coupon codes */
-  coupons?: RenewBillingSubscriptionV1RequestCouponsList;
+  coupons?: RenewBillingSubscriptionV1RequestCouponsList | undefined;
 }
 /** Extension names, exactly as returned by the extensions endpoint. */
 export type ReplaceAgencyHostingWebsitePHPExtensionsV1RequestExtensionsList = Array<string>;
@@ -7481,7 +7525,7 @@ export interface ReplaceVPSAllFirewallRulesInGroupV1Request {
   /** The complete set of firewall rules that atomically replaces all existing rules in the group */
   rules: ReplaceVPSAllFirewallRulesInGroupV1RequestRulesList;
   /** Synchronize the firewall group to all its virtual machines after replacing the rules */
-  sync?: boolean;
+  sync?: boolean | undefined;
 }
 export interface ResendMailCatchAllConfirmationV1Request {
   /** Catch-all resource ID */
@@ -7497,11 +7541,11 @@ export interface ResetDNSDNSRecordsV1Request {
   /** Domain name */
   domain: string;
   /** Determines if operation should be run synchronously */
-  sync?: boolean;
+  sync?: boolean | undefined;
   /** Determines if email records should be reset */
-  reset_email_records?: boolean;
+  reset_email_records?: boolean | undefined;
   /** Specifies which record types to not reset */
-  whitelisted_record_types?: ResetDNSDNSRecordsV1RequestWhitelistedRecordTypesList;
+  whitelisted_record_types?: ResetDNSDNSRecordsV1RequestWhitelistedRecordTypesList | undefined;
 }
 export interface ResetHostingPHPExtensionsV1Request {
   username: string;
@@ -7557,18 +7601,18 @@ export interface SearchHostingWordPressPluginsV1Request {
 }
 /** Plugin icon URLs keyed by resolution */
 export interface WordPressV1PluginsPluginResourceIcons {
-  _1x?: string;
-  _2x?: string;
+  _1x?: string | undefined;
+  _2x?: string | undefined;
 }
 export interface WordPressV1PluginsPluginResource {
   /** Plugin slug used when installing the plugin */
-  slug?: string;
+  slug?: string | undefined;
   /** Human readable plugin name */
-  title?: string;
+  title?: string | undefined;
   /** Plugin icon URLs keyed by resolution */
-  icons?: WordPressV1PluginsPluginResourceIcons | null;
+  icons?: WordPressV1PluginsPluginResourceIcons | null | undefined;
   /** Short plugin description */
-  description?: string;
+  description?: string | undefined;
 }
 /** Array of [`WordPress.V1.Plugins.PluginResource`](#model/wordpressv1pluginspluginresource) */
 export type WordPressV1PluginsPluginCollection = Array<WordPressV1PluginsPluginResource>;
@@ -7589,16 +7633,16 @@ export interface SetEcommerceStoreShippingV1Request {
 }
 export interface EcommerceV1ShippingShippingResourceShippingOption {
   /** Shipping option ID. */
-  id?: string;
+  id?: string | undefined;
   /** Flat shipping rate in the smallest currency unit (e.g. cents). */
-  amount?: number;
+  amount?: number | undefined;
   /** Currency code the rate is charged in (ISO 4217, lowercase). */
-  currency_code?: string;
+  currency_code?: string | undefined;
 }
 export interface EcommerceV1ShippingShippingResource {
-  shipping_option?: EcommerceV1ShippingShippingResourceShippingOption;
+  shipping_option?: EcommerceV1ShippingShippingResourceShippingOption | undefined;
   /** Admin UI deep-link to manage shipping settings. */
-  admin_url?: string;
+  admin_url?: string | undefined;
 }
 /** AI option name */
 export type SetHostingAIOptionStatusV1RequestOption = "llmstxt" | "web2agent";
@@ -7620,8 +7664,8 @@ export interface SetVPSNameserversV1Request {
   /** Virtual Machine ID */
   virtualMachineId: number;
   ns1: string;
-  ns2?: string | null;
-  ns3?: string | null;
+  ns2?: string | null | undefined;
+  ns3?: string | null | undefined;
 }
 export interface SetVPSPanelPasswordV1Request {
   /** Virtual Machine ID */
@@ -7644,9 +7688,9 @@ export interface StartDomainDomainTransferV1Request {
   /** Authorization code from the current registrar */
   auth_code: string;
   /** Domain contact information */
-  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts;
+  domain_contacts?: ClaimDomainFreeDomainTransferV1RequestDomainContacts | undefined;
   /** Keep the existing nameservers of the domain */
-  should_keep_ns?: boolean;
+  should_keep_ns?: boolean | undefined;
 }
 /** Node.js version */
 export type StartHostingNodeJsBuildV1RequestNodeVersion = 18 | 20 | 22 | 24;
@@ -7678,15 +7722,15 @@ export type StartHostingNodeJsBuildV1RequestSourceType = "archive" | "git";
 /** Source-specific options. For `archive` send `archive_path`. For `git` send `owner`, `repository`, `branch` and `installation_uuid`, taken from `List Git installations` and `List Git installation repositories`. */
 export interface StartHostingNodeJsBuildV1RequestSourceOptions {
   /** The path to the archive file relative to the document root of the vhost (required if source is "archive") */
-  archive_path?: string;
+  archive_path?: string | undefined;
   /** Repository owner login (required if source is "git"). GitLab group paths use slashes. */
-  owner?: string;
+  owner?: string | undefined;
   /** Repository name without the .git suffix (required if source is "git") */
-  repository?: string;
+  repository?: string | undefined;
   /** Branch to build (required if source is "git") */
-  branch?: string;
+  branch?: string | undefined;
   /** Git installation used to access the repository (required if source is "git") */
-  installation_uuid?: string;
+  installation_uuid?: string | undefined;
 }
 export interface StartHostingNodeJsBuildV1Request {
   username: string;
@@ -7703,9 +7747,13 @@ export interface StartHostingNodeJsBuildV1Request {
   /** Build script that will be ran to build the application */
   build_script: string | null;
   /** The main entry point file for the application */
-  entry_file?: string | null;
+  entry_file?: string | null | undefined;
   /** Package manager */
-  package_manager?: StartHostingNodeJsBuildV1RequestPackageManager | (string & {}) | null;
+  package_manager?:
+    | StartHostingNodeJsBuildV1RequestPackageManager
+    | (string & {})
+    | null
+    | undefined;
   /** Where the files come from: `archive` (an uploaded archive on the website) or `git` (a branch of a repository reachable through a Git installation). */
   source_type: StartHostingNodeJsBuildV1RequestSourceType | (string & {});
   /** Source-specific options. For `archive` send `archive_path`. For `git` send `owner`, `repository`, `branch` and `installation_uuid`, taken from `List Git installations` and `List Git installation repositories`. */
@@ -7730,9 +7778,9 @@ export interface StartHostingWebsiteSetupV1RequestWordpressAdmin {
 /** WordPress install settings. Required when `type` is `wordpress`, not allowed otherwise. The site title is the domain. */
 export interface StartHostingWebsiteSetupV1RequestWordpress {
   /** WordPress locale, for example `en_US` or `lt_LT`. Defaults to `en_US` when omitted. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** When `true`, installs the Hostinger AI theme (`hostinger-ai-theme`). Defaults to `false` when omitted. */
-  is_ai_builder?: boolean | null;
+  is_ai_builder?: boolean | null | undefined;
   /** WordPress administrator account */
   admin: StartHostingWebsiteSetupV1RequestWordpressAdmin;
 }
@@ -7740,13 +7788,13 @@ export interface StartHostingWebsiteSetupV1Request {
   /** Hosting order ID. List orders to find available IDs. */
   order_id: number;
   /** Website type. Omit or `null` for an empty website. `wordpress` installs WordPress in the website root and requires `wordpress`. The headless types (`headless_empty`, `headless_wordpress`, `headless_ecommerce`, `headless_pocketbase`) create a headless website; `headless_wordpress` additionally installs WordPress into the `cms` directory with generated credentials. `headless_empty` installs nothing, so WordPress can be added later through `POST /api/hosting/v1/accounts/{username}/wordpress/installations` (`wordpress_installations_install`) with `type: headless`. */
-  type?: StartHostingWebsiteSetupV1RequestType | (string & {}) | null;
+  type?: StartHostingWebsiteSetupV1RequestType | (string & {}) | null | undefined;
   /** Customer-owned domain. Omit or `null` to set the website up on a generated temporary free subdomain. Cannot start with "www." and can have at most one subdomain level, e.g. `blog.example.com`. A free subdomain generated through `POST /api/hosting/v1/domains/free-subdomains` in the last 24 hours is also accepted. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Datacenter for the hosting account when the order does not have one yet. Omit to use the order's default datacenter. Ignored when the order already has a hosting account. List available datacenters to find valid codes. */
-  datacenter_code?: string | null;
+  datacenter_code?: string | null | undefined;
   /** WordPress install settings. Required when `type` is `wordpress`, not allowed otherwise. The site title is the domain. */
-  wordpress?: StartHostingWebsiteSetupV1RequestWordpress | null;
+  wordpress?: StartHostingWebsiteSetupV1RequestWordpress | null | undefined;
 }
 export interface StartVPSProjectV1Request {
   /** Virtual Machine ID */
@@ -7783,7 +7831,7 @@ export type SubmitHostingHeadlessBuildReportV1RequestSchemaVersion = "1";
 /** Upload status of the report, as written by the headless skill */
 export interface SubmitHostingHeadlessBuildReportV1RequestConsent {
   sent: boolean;
-  note?: string;
+  note?: string | undefined;
 }
 export type SubmitHostingHeadlessBuildReportV1RequestRunKind =
   | "build"
@@ -7795,8 +7843,8 @@ export type SubmitHostingHeadlessBuildReportV1RequestRunFollowUpsList = Array<un
 export interface SubmitHostingHeadlessBuildReportV1RequestRun {
   id: string;
   kind: SubmitHostingHeadlessBuildReportV1RequestRunKind | (string & {});
-  skill?: string | null;
-  follow_ups?: SubmitHostingHeadlessBuildReportV1RequestRunFollowUpsList;
+  skill?: string | null | undefined;
+  follow_ups?: SubmitHostingHeadlessBuildReportV1RequestRunFollowUpsList | undefined;
 }
 export type SubmitHostingHeadlessBuildReportV1RequestInfoOutcome =
   | "live"
@@ -7853,17 +7901,17 @@ export interface SubmitHostingHeadlessBuildReportV1Request {
   /** Things that worked well during the run */
   what_went_well: SubmitHostingHeadlessBuildReportV1RequestWhatWentWellList;
   /** Where the run log is missing or unsure */
-  logging_gaps?: SubmitHostingHeadlessBuildReportV1RequestLoggingGapsList;
+  logging_gaps?: SubmitHostingHeadlessBuildReportV1RequestLoggingGapsList | undefined;
   /** Earlier runs for the same website */
   previous_runs: SubmitHostingHeadlessBuildReportV1RequestPreviousRunsList;
 }
 export interface HostingV1HeadlessAgentReportResource {
   /** Stored report ID */
-  id?: number;
+  id?: number | undefined;
   /** ID of the run the report is for */
-  run_id?: string;
+  run_id?: string | undefined;
   /** When the report was received */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface SyncVPSFirewallToAllAssignedVMsV1Request {
   /** Firewall ID */
@@ -7875,11 +7923,11 @@ export interface TestMailWebhookV1Request {
 }
 export interface MailV1WebhooksWebhookTestResultResource {
   /** HTTP status code returned by the webhook endpoint */
-  http_status?: number;
+  http_status?: number | undefined;
   /** Whether the test delivery was successful */
-  is_successful?: boolean;
+  is_successful?: boolean | undefined;
   /** Error message returned by the webhook endpoint in case of failure */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface ToggleHostingCachelessModeV1Request {
   username: string;
@@ -7986,7 +8034,7 @@ export interface UpdateDNSDNSRecordsV1RequestZoneItem {
   /** Records assigned to the name */
   records: UpdateDNSDNSRecordsV1RequestZoneItemRecordsList;
   /** TTL (Time-To-Live) of the record */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Type of the record */
   type: UpdateDNSDNSRecordsV1RequestZoneItemType | (string & {});
 }
@@ -7995,7 +8043,7 @@ export interface UpdateDNSDNSRecordsV1Request {
   /** Domain name */
   domain: string;
   /** If `true`, resource records (RRs) matching name and type will be deleted and new RRs will be created, otherwise resource records' ttl's are updated and new records are appended. If no matching RRs are found, they are created. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   zone: UpdateDNSDNSRecordsV1RequestZoneList;
 }
 /** Redirect type */
@@ -8016,9 +8064,9 @@ export interface UpdateDomainDomainNameserversV1Request {
   /** Second name server */
   ns2: string;
   /** Third name server */
-  ns3?: string;
+  ns3?: string | undefined;
   /** Fourth name server */
-  ns4?: string;
+  ns4?: string | undefined;
 }
 /** Set "published" to make the product buyable, "draft" to hide it, or "archived" to retire it. */
 export type UpdateEcommerceAProductV1RequestStatus = "draft" | "published" | "archived";
@@ -8040,9 +8088,9 @@ export type UpdateEcommerceAProductV1RequestCollectionChangesRemoveList =
 /** Adds the product to or removes it from collections without touching its other collections. Send at least one collection in add or remove. */
 export interface UpdateEcommerceAProductV1RequestCollectionChanges {
   /** Collections to add the product to. Every id must exist in the store. */
-  add?: UpdateEcommerceAProductV1RequestCollectionChangesAddList;
+  add?: UpdateEcommerceAProductV1RequestCollectionChangesAddList | undefined;
   /** Collections to take the product out of. Ids the product is not in are ignored. */
-  remove?: UpdateEcommerceAProductV1RequestCollectionChangesRemoveList;
+  remove?: UpdateEcommerceAProductV1RequestCollectionChangesRemoveList | undefined;
 }
 export interface UpdateEcommerceAProductV1Request {
   /** The ID of the store that owns the product. */
@@ -8050,26 +8098,26 @@ export interface UpdateEcommerceAProductV1Request {
   /** The ID of the product to update. */
   product_id: string;
   /** The product name. */
-  name?: string;
+  name?: string | undefined;
   /** The product description. */
-  description?: string;
+  description?: string | undefined;
   /** Set "published" to make the product buyable, "draft" to hide it, or "archived" to retire it. */
-  status?: UpdateEcommerceAProductV1RequestStatus | (string & {});
+  status?: UpdateEcommerceAProductV1RequestStatus | (string & {}) | undefined;
   /** Search-engine settings to change. Send at least one field; omitted fields keep their current values. */
-  seo_settings?: CreateEcommercePhysicalProductV1RequestSeoSettings;
+  seo_settings?: CreateEcommercePhysicalProductV1RequestSeoSettings | undefined;
   /** Adds the product to or removes it from collections without touching its other collections. Send at least one collection in add or remove. */
-  collection_changes?: UpdateEcommerceAProductV1RequestCollectionChanges;
+  collection_changes?: UpdateEcommerceAProductV1RequestCollectionChanges | undefined;
 }
 export interface EcommerceV1ProductProductResponseResource {
-  data?: EcommerceV1ProductProductResource;
+  data?: EcommerceV1ProductProductResource | undefined;
 }
 export interface UpdateEcommerceProductVariantsInBatchV1RequestVariantsItemPricesItem {
   /** Price in the smallest currency unit (e.g. cents). */
   amount: number;
   /** Optional sale price in the smallest currency unit; must be lower than amount. */
-  sale_amount?: number;
+  sale_amount?: number | undefined;
   /** ISO 4217 currency code. Defaults to the store's default currency. */
-  currency?: string;
+  currency?: string | undefined;
 }
 /** The full list of prices for the variant, replacing the existing ones. A free item is amount: 0. */
 export type UpdateEcommerceProductVariantsInBatchV1RequestVariantsItemPricesList =
@@ -8078,15 +8126,15 @@ export interface UpdateEcommerceProductVariantsInBatchV1RequestVariantsItem {
   /** The id of the variant to update. */
   variant_id: string;
   /** The variant title. */
-  title?: string;
+  title?: string | undefined;
   /** The variant SKU. */
-  sku?: string;
+  sku?: string | undefined;
   /** Units in stock. */
-  inventory_quantity?: number;
+  inventory_quantity?: number | undefined;
   /** Whether stock is tracked for this variant. */
-  manage_inventory?: boolean;
+  manage_inventory?: boolean | undefined;
   /** The full list of prices for the variant, replacing the existing ones. A free item is amount: 0. */
-  prices?: UpdateEcommerceProductVariantsInBatchV1RequestVariantsItemPricesList;
+  prices?: UpdateEcommerceProductVariantsInBatchV1RequestVariantsItemPricesList | undefined;
 }
 /** Variants to update in place by id, up to 100. Variants omitted from the list are left untouched. */
 export type UpdateEcommerceProductVariantsInBatchV1RequestVariantsList =
@@ -8104,7 +8152,7 @@ export type EcommerceV1VariantVariantListResponseResourceDataList =
   Array<EcommerceV1VariantVariantResource>;
 export interface EcommerceV1VariantVariantListResponseResource {
   /** The variants. */
-  data?: EcommerceV1VariantVariantListResponseResourceDataList;
+  data?: EcommerceV1VariantVariantListResponseResourceDataList | undefined;
 }
 export interface UpdateEcommerceSalesChannelV1Request {
   /** The ID of the store that owns the sales channel. */
@@ -8112,9 +8160,9 @@ export interface UpdateEcommerceSalesChannelV1Request {
   /** The ID of the sales channel to update. */
   sales_channel_id: string;
   /** Merchant-facing custom name shown in the sales channels list. Pass null to clear it. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Public address where the custom sales channel lives. Pass null to clear it. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Sales channel type */
 export type EcommerceV1SalesChannelSalesChannelUpdateResourceSalesChannelType =
@@ -8126,22 +8174,22 @@ export type EcommerceV1SalesChannelSalesChannelUpdateResourceSalesChannelType =
   | "wordpress";
 export interface EcommerceV1SalesChannelSalesChannelUpdateResourceSalesChannel {
   /** Sales channel ID */
-  id?: string;
+  id?: string | undefined;
   /** Sales channel type */
-  type?: EcommerceV1SalesChannelSalesChannelUpdateResourceSalesChannelType;
+  type?: EcommerceV1SalesChannelSalesChannelUpdateResourceSalesChannelType | undefined;
   /** Whether this is the primary sales channel. */
-  is_primary?: boolean;
+  is_primary?: boolean | undefined;
   /** Whether the sales channel is active. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** External identifier for the sales channel. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Merchant-facing custom name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Public address where the custom sales channel lives. */
-  domain?: string | null;
+  domain?: string | null | undefined;
 }
 export interface EcommerceV1SalesChannelSalesChannelUpdateResource {
-  sales_channel?: EcommerceV1SalesChannelSalesChannelUpdateResourceSalesChannel;
+  sales_channel?: EcommerceV1SalesChannelSalesChannelUpdateResourceSalesChannel | undefined;
 }
 export interface UpdateHostingGitAutoDeploymentSettingsV1Request {
   username: string;
@@ -8156,9 +8204,9 @@ export interface UpdateHostingGitAutoDeploymentSettingsV1Request {
   /** Branch to deploy */
   branch: string;
   /** Subdirectory under the website document root to deploy into. Empty, null or omitted means the document root. */
-  directory?: string | null;
+  directory?: string | null | undefined;
   /** Whether pushes to the branch deploy automatically */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 /** Slug of the Hostinger plugin to update to its latest version. */
 export type UpdateHostingHostingerWordPressPluginV1RequestSlug =
@@ -8206,17 +8254,21 @@ export interface UpdateHostingNodeJsBuildSettingsV1Request {
   /** Node.js major version */
   node_version: UpdateHostingNodeJsBuildSettingsV1RequestNodeVersion | (number & {});
   /** Node.js application framework. Set it explicitly when auto-detection picked the wrong one. */
-  app_type?: UpdateHostingNodeJsBuildSettingsV1RequestAppType | (string & {}) | null;
+  app_type?: UpdateHostingNodeJsBuildSettingsV1RequestAppType | (string & {}) | null | undefined;
   /** Application root directory (where package.json is located) relative to public_html. Omit it, or send ".", for public_html itself. */
-  root_directory?: string | null;
+  root_directory?: string | null | undefined;
   /** Build output directory relative to the root directory */
-  output_directory?: string | null;
+  output_directory?: string | null | undefined;
   /** The package.json script that builds the application */
-  build_script?: string | null;
+  build_script?: string | null | undefined;
   /** The main entry point file for the application (required for express, fastify, nest, nuxt and hono app types) */
-  entry_file?: string | null;
+  entry_file?: string | null | undefined;
   /** Package manager used to install dependencies */
-  package_manager?: UpdateHostingNodeJsBuildSettingsV1RequestPackageManager | (string & {}) | null;
+  package_manager?:
+    | UpdateHostingNodeJsBuildSettingsV1RequestPackageManager
+    | (string & {})
+    | null
+    | undefined;
 }
 /** PHP extensions to enable. */
 export type UpdateHostingPHPExtensionsV1RequestEnableList = Array<string>;
@@ -8227,9 +8279,9 @@ export interface UpdateHostingPHPExtensionsV1Request {
   /** Domain name */
   domain: string;
   /** PHP extensions to enable. */
-  enable?: UpdateHostingPHPExtensionsV1RequestEnableList;
+  enable?: UpdateHostingPHPExtensionsV1RequestEnableList | undefined;
   /** PHP extensions to disable. */
-  disable?: UpdateHostingPHPExtensionsV1RequestDisableList;
+  disable?: UpdateHostingPHPExtensionsV1RequestDisableList | undefined;
 }
 export type UpdateHostingPHPOptionsV1RequestOptionsValue = string | number;
 /** Map of PHP options to update, keyed by option name. Only include options you want to change. */
@@ -8255,9 +8307,9 @@ export interface UpdateHostingWordPressCoreV1Request {
   /** WordPress installation (software) identifier */
   software: string;
   /** Update the minor version only. */
-  minor?: boolean;
+  minor?: boolean | undefined;
   /** Update to a specific WordPress core version. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Slugs of the installed plugins to update to their latest version. */
 export type UpdateHostingWordPressPluginsV1RequestPluginsList = Array<string>;
@@ -8285,11 +8337,11 @@ export interface UpdateMailAutoreplyV1Request {
   /** Body of the automatic reply */
   body: string;
   /** Sender display name used for the reply */
-  display_name?: string | null;
+  display_name?: string | null | undefined;
   /** When the autoreply becomes active. Defaults to now. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** When the autoreply stops. Omit for an indefinite autoreply. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
 }
 export type UpdateMailWebhookV1RequestEventsItem = "message.received";
 /** Replaces the full list of subscribed events */
@@ -8302,18 +8354,18 @@ export interface UpdateMailWebhookV1Request {
   /** Webhook ID (returned when the webhook was created) */
   webhookId: string;
   /** New human-readable name for the webhook */
-  name?: string;
+  name?: string | undefined;
   /** New description, or null to clear it */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Replaces the full list of subscribed events */
-  events?: UpdateMailWebhookV1RequestEventsList;
+  events?: UpdateMailWebhookV1RequestEventsList | undefined;
   /** New status for the webhook */
-  status?: UpdateMailWebhookV1RequestStatus | (string & {});
+  status?: UpdateMailWebhookV1RequestStatus | (string & {}) | undefined;
   /** New URL to deliver events to */
-  url?: string;
+  url?: string | undefined;
 }
 export interface UpdateReachAContactFieldV1RequestOptionsItem {
-  uuid?: string | null;
+  uuid?: string | null | undefined;
   label: string;
 }
 /** Replaces the option set when provided. Entries carrying a uuid are kept and relabelled, entries without one are created, and any existing option missing from the list is deleted along with the values contacts hold for it. */
@@ -8326,7 +8378,7 @@ export interface UpdateReachAContactFieldV1Request {
   fieldUuid: string;
   label: string;
   /** Replaces the option set when provided. Entries carrying a uuid are kept and relabelled, entries without one are created, and any existing option missing from the list is deleted along with the values contacts hold for it. */
-  options?: UpdateReachAContactFieldV1RequestOptionsList | null;
+  options?: UpdateReachAContactFieldV1RequestOptionsList | null | undefined;
 }
 export type UpdateReachAContactV1RequestSubscriptionStatus =
   | "subscribed"
@@ -8338,9 +8390,9 @@ export type UpdateReachAContactV1RequestFieldsItemSelectedOptionUuidsList = Arra
 export interface UpdateReachAContactV1RequestFieldsItem {
   uuid: string;
   /** For the scalar field types */
-  value?: string | null;
+  value?: string | null | undefined;
   /** For the choice field types */
-  selected_option_uuids?: UpdateReachAContactV1RequestFieldsItemSelectedOptionUuidsList;
+  selected_option_uuids?: UpdateReachAContactV1RequestFieldsItemSelectedOptionUuidsList | undefined;
 }
 /** Set custom field values. Omit to leave untouched, send an empty array to clear them all. */
 export type UpdateReachAContactV1RequestFieldsList = Array<UpdateReachAContactV1RequestFieldsItem>;
@@ -8349,15 +8401,19 @@ export interface UpdateReachAContactV1Request {
   profileUuid: string;
   /** Contact uuid parameter */
   contactUuid: string;
-  email?: string | null;
-  name?: string | null;
-  surname?: string | null;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  surname?: string | null | undefined;
   /** Phone number in E.164 format (leading "+" then 7-15 digits) */
-  phone?: string | null;
-  subscription_status?: UpdateReachAContactV1RequestSubscriptionStatus | (string & {}) | null;
-  note?: string | null;
+  phone?: string | null | undefined;
+  subscription_status?:
+    | UpdateReachAContactV1RequestSubscriptionStatus
+    | (string & {})
+    | null
+    | undefined;
+  note?: string | null | undefined;
   /** Set custom field values. Omit to leave untouched, send an empty array to clear them all. */
-  fields?: UpdateReachAContactV1RequestFieldsList;
+  fields?: UpdateReachAContactV1RequestFieldsList | undefined;
 }
 export type ReachV1ContactsProfileContactUpdateResourceSubscriptionStatus =
   | "subscribed"
@@ -8365,14 +8421,14 @@ export type ReachV1ContactsProfileContactUpdateResourceSubscriptionStatus =
   | "confirmed"
   | "pending";
 export interface ReachV1ContactsProfileContactUpdateResource {
-  uuid?: string;
-  name?: string | null;
-  surname?: string | null;
-  email?: string;
-  phone?: string | null;
-  subscription_status?: ReachV1ContactsProfileContactUpdateResourceSubscriptionStatus;
-  subscribed_at?: string | null;
-  unsubscribed_at?: string | null;
+  uuid?: string | undefined;
+  name?: string | null | undefined;
+  surname?: string | null | undefined;
+  email?: string | undefined;
+  phone?: string | null | undefined;
+  subscription_status?: ReachV1ContactsProfileContactUpdateResourceSubscriptionStatus | undefined;
+  subscribed_at?: string | null | undefined;
+  unsubscribed_at?: string | null | undefined;
 }
 export type UpdateReachAProfileSegmentV1RequestConditionsItemOperator =
   | "equals"
@@ -8420,9 +8476,9 @@ export interface UpdateReachAProfileSegmentV1Request {
   segmentUuid: string;
   name: string;
   /** Replaces the existing conditions entirely. Omit to keep the current ones. */
-  conditions?: UpdateReachAProfileSegmentV1RequestConditionsList;
+  conditions?: UpdateReachAProfileSegmentV1RequestConditionsList | undefined;
   /** How to combine multiple conditions. Required when conditions are given. */
-  logic?: UpdateReachAProfileSegmentV1RequestLogic | (string & {});
+  logic?: UpdateReachAProfileSegmentV1RequestLogic | (string & {}) | undefined;
 }
 export interface UpdateReachFormTemplateV1Request {
   /** Profile uuid parameter */
@@ -8436,13 +8492,13 @@ export interface UpdateReachFormTemplateV1Request {
 export type ReachV1FormsFormTemplateVersionResourceEditType = "manual" | "ai";
 /** The stored version of a saved form design. */
 export interface ReachV1FormsFormTemplateVersionResource {
-  uuid?: string;
+  uuid?: string | undefined;
   /** Storage path of the template HTML, relative to the storage directory of this profile. */
-  path?: string;
+  path?: string | undefined;
   /** Whether the design was saved by hand or by the AI builder. */
-  edit_type?: ReachV1FormsFormTemplateVersionResourceEditType | null;
-  created_at?: string;
-  updated_at?: string;
+  edit_type?: ReachV1FormsFormTemplateVersionResourceEditType | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** `active` takes the form live, `paused` and `draft` stop it accepting submissions. */
 export type UpdateReachFormV1RequestStatus = "active" | "paused" | "draft";
@@ -8452,9 +8508,9 @@ export interface UpdateReachFormV1Request {
   /** Form uuid parameter */
   formUuid: string;
   /** Form name. Letters, digits, spaces and - . ' _ only. */
-  name?: string;
+  name?: string | undefined;
   /** `active` takes the form live, `paused` and `draft` stop it accepting submissions. */
-  status?: UpdateReachFormV1RequestStatus | (string & {});
+  status?: UpdateReachFormV1RequestStatus | (string & {}) | undefined;
 }
 export type UpdateReachProfileSettingsV1RequestSocialLinksList = Array<string>;
 /** Social profile links keyed by platform. */
@@ -8465,33 +8521,33 @@ export type UpdateReachProfileSettingsV1RequestSellingPointsList = Array<string>
 export interface UpdateReachProfileSettingsV1Request {
   /** Profile uuid parameter */
   profileUuid: string;
-  brand_name?: string | null;
-  website_url?: string | null;
-  business_address?: string | null;
-  privacy_policy_url?: string | null;
-  accent_color?: string | null;
-  button_color?: string | null;
-  background_color?: string | null;
-  text_color?: string | null;
-  links_color?: string | null;
+  brand_name?: string | null | undefined;
+  website_url?: string | null | undefined;
+  business_address?: string | null | undefined;
+  privacy_policy_url?: string | null | undefined;
+  accent_color?: string | null | undefined;
+  button_color?: string | null | undefined;
+  background_color?: string | null | undefined;
+  text_color?: string | null | undefined;
+  links_color?: string | null | undefined;
   /** Button text colour. */
-  button_text?: string | null;
-  button_corners?: number | null;
-  font_family?: string | null;
-  heading_font_family?: string | null;
+  button_text?: string | null | undefined;
+  button_corners?: number | null | undefined;
+  font_family?: string | null | undefined;
+  heading_font_family?: string | null | undefined;
   /** Public image URL. Logo uploads are not supported. */
-  logo_url?: string | null;
-  social_links?: UpdateReachProfileSettingsV1RequestSocialLinksList;
+  logo_url?: string | null | undefined;
+  social_links?: UpdateReachProfileSettingsV1RequestSocialLinksList | undefined;
   /** Social profile links keyed by platform. */
-  socials?: UpdateReachProfileSettingsV1RequestSocialsMap | null;
-  about?: string | null;
-  keywords?: UpdateReachProfileSettingsV1RequestKeywordsList | null;
-  topics?: UpdateReachProfileSettingsV1RequestTopicsList | null;
-  selling_points?: UpdateReachProfileSettingsV1RequestSellingPointsList | null;
+  socials?: UpdateReachProfileSettingsV1RequestSocialsMap | null | undefined;
+  about?: string | null | undefined;
+  keywords?: UpdateReachProfileSettingsV1RequestKeywordsList | null | undefined;
+  topics?: UpdateReachProfileSettingsV1RequestTopicsList | null | undefined;
+  selling_points?: UpdateReachProfileSettingsV1RequestSellingPointsList | null | undefined;
   /** Default sender name. Letters, numbers and spaces only. */
-  sender_name?: string | null;
+  sender_name?: string | null | undefined;
   /** Part of the default sender address before the `@`, for example `hello`. Never send a full address: Reach adds the profile's connected sending domain itself. */
-  sender_email?: string | null;
+  sender_email?: string | null | undefined;
 }
 export type UpdateVPSFirewallRuleV1RequestProtocol =
   | "TCP"
@@ -8549,7 +8605,7 @@ export interface ValidateDNSDNSRecordsV1RequestZoneItem {
   /** Records assigned to the name */
   records: ValidateDNSDNSRecordsV1RequestZoneItemRecordsList;
   /** TTL (Time-To-Live) of the record */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Type of the record */
   type: ValidateDNSDNSRecordsV1RequestZoneItemType | (string & {});
 }
@@ -8558,7 +8614,7 @@ export interface ValidateDNSDNSRecordsV1Request {
   /** Domain name */
   domain: string;
   /** If `true`, resource records (RRs) matching name and type will be deleted and new RRs will be created, otherwise resource records' ttl's are updated and new records are appended. If no matching RRs are found, they are created. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   zone: ValidateDNSDNSRecordsV1RequestZoneList;
 }
 export interface VerifyHostingDomainOwnershipV1Request {
@@ -8567,11 +8623,11 @@ export interface VerifyHostingDomainOwnershipV1Request {
 }
 export interface HostingV1DomainsDomainAccessResource {
   /** Domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Whether domain is accessible */
-  is_accessible?: boolean;
+  is_accessible?: boolean | undefined;
   /** TXT record for verification */
-  txt_to_verify?: string;
+  txt_to_verify?: string | undefined;
 }
 export interface VPSCreatePostInstallScriptV1Request {
   /** Name of the script */
@@ -8581,13 +8637,13 @@ export interface VPSCreatePostInstallScriptV1Request {
 }
 export interface VPSV1PostInstallScriptPostInstallScriptResource {
   /** Post-install script ID */
-  id?: number;
+  id?: number | undefined;
   /** Name of the script */
-  name?: string;
+  name?: string | undefined;
   /** Content of the script */
-  content?: string;
-  created_at?: string;
-  updated_at?: string;
+  content?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface VPSDeletePostInstallScriptV1Request {
   /** Post-install script ID */
@@ -8596,39 +8652,39 @@ export interface VPSDeletePostInstallScriptV1Request {
 export interface VPSGetDataCenterListV1Request {}
 export interface VPSV1DataCenterDataCenterResource {
   /** Data center ID */
-  id?: number;
+  id?: number | undefined;
   /** Data center name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Data center location country (two letter code) */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Data center location city */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Data center location continent */
-  continent?: string | null;
+  continent?: string | null | undefined;
 }
 /** Array of [`VPS.V1.DataCenter.DataCenterResource`](#model/vpsv1datacenterdatacenterresource) */
 export type VPSV1DataCenterDataCenterCollection = Array<VPSV1DataCenterDataCenterResource>;
 export type VPSGetDataCenterListV1Response = VPSV1DataCenterDataCenterCollection;
 export interface VPSGetFirewallListV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 /** Array of [`VPS.V1.Firewall.FirewallResource`](#model/vpsv1firewallfirewallresource) */
 export type VPSV1FirewallFirewallCollection = Array<VPSV1FirewallFirewallResource>;
 export interface VPSGetFirewallListV1Response {
-  data?: VPSV1FirewallFirewallCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: VPSV1FirewallFirewallCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface VPSGetPostInstallScriptsV1Request {
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 /** Array of [`VPS.V1.PostInstallScript.PostInstallScriptResource`](#model/vpsv1postinstallscriptpostinstallscriptresource) */
 export type VPSV1PostInstallScriptPostInstallScriptCollection =
   Array<VPSV1PostInstallScriptPostInstallScriptResource>;
 export interface VPSGetPostInstallScriptsV1Response {
-  data?: VPSV1PostInstallScriptPostInstallScriptCollection;
-  meta?: CommonSchemaPaginationMetaSchema;
+  data?: VPSV1PostInstallScriptPostInstallScriptCollection | undefined;
+  meta?: CommonSchemaPaginationMetaSchema | undefined;
 }
 export interface VPSGetPostInstallScriptV1Request {
   /** Post-install script ID */
@@ -8647,14 +8703,14 @@ export type VPSV1DockerManagerProjectResourceState =
   | "unknown";
 export interface VPSV1DockerManagerProjectResource {
   /** Docker Compose project name (derived from directory name or compose file) */
-  name?: string;
+  name?: string | undefined;
   /** Raw output from docker compose ps command showing service count and states */
-  status?: string;
+  status?: string | undefined;
   /** Derived project state parsed from the raw docker compose status */
-  state?: VPSV1DockerManagerProjectResourceState;
+  state?: VPSV1DockerManagerProjectResourceState | undefined;
   /** Full filesystem path to the docker-compose.yml file */
-  path?: string;
-  containers?: VPSV1DockerManagerContainerCollection;
+  path?: string | undefined;
+  containers?: VPSV1DockerManagerContainerCollection | undefined;
 }
 /** Array of [`VPS.V1.DockerManager.ProjectResource`](#model/vpsv1dockermanagerprojectresource) */
 export type VPSV1DockerManagerProjectCollection = Array<VPSV1DockerManagerProjectResource>;
@@ -8662,9 +8718,9 @@ export type VPSGetProjectListV1Response = VPSV1DockerManagerProjectCollection;
 /** Use SSH key */
 export interface VPSV1VirtualMachineSetupRequestPublicKey {
   /** Name of the SSH key */
-  name?: string;
+  name?: string | undefined;
   /** Contents of the SSH key */
-  key?: string;
+  key?: string | undefined;
 }
 export interface VPSV1VirtualMachineSetupRequest {
   /** Template ID */
@@ -8672,21 +8728,21 @@ export interface VPSV1VirtualMachineSetupRequest {
   /** Data center ID */
   data_center_id: number;
   /** Post-install script ID */
-  post_install_script_id?: number;
+  post_install_script_id?: number | undefined;
   /** Password for the virtual machine. If not provided, random password will be generated. Password will not be shown in the response. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Override default hostname of the virtual machine */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Install Monarx malware scanner (if supported) */
-  install_monarx?: boolean;
+  install_monarx?: boolean | undefined;
   /** Enable weekly backup schedule */
-  enable_backups?: boolean;
+  enable_backups?: boolean | undefined;
   /** Name server 1 */
-  ns1?: string;
+  ns1?: string | undefined;
   /** Name server 2 */
-  ns2?: string;
+  ns2?: string | undefined;
   /** Use SSH key */
-  public_key?: VPSV1VirtualMachineSetupRequestPublicKey;
+  public_key?: VPSV1VirtualMachineSetupRequestPublicKey | undefined;
 }
 /** Discount coupon codes */
 export type VPSPurchaseNewVirtualMachineV1RequestCouponsList = Array<unknown>;
@@ -8694,14 +8750,14 @@ export interface VPSPurchaseNewVirtualMachineV1Request {
   /** Catalog price item ID */
   item_id: string;
   /** Payment method ID, default will be used if not provided */
-  payment_method_id?: number;
+  payment_method_id?: number | undefined;
   setup: VPSV1VirtualMachineSetupRequest;
   /** Discount coupon codes */
-  coupons?: VPSPurchaseNewVirtualMachineV1RequestCouponsList;
+  coupons?: VPSPurchaseNewVirtualMachineV1RequestCouponsList | undefined;
 }
 export interface BillingV1OrderVirtualMachineOrderResource {
-  order?: BillingV1OrderOrderResource;
-  virtual_machine?: VPSV1VirtualMachineVirtualMachineResource;
+  order?: BillingV1OrderOrderResource | undefined;
+  virtual_machine?: VPSV1VirtualMachineVirtualMachineResource | undefined;
 }
 /** Use SSH key */
 export type VPSSetupPurchasedVirtualMachineV1RequestPublicKey =
@@ -8714,21 +8770,21 @@ export interface VPSSetupPurchasedVirtualMachineV1Request {
   /** Data center ID */
   data_center_id: number;
   /** Post-install script ID */
-  post_install_script_id?: number;
+  post_install_script_id?: number | undefined;
   /** Password for the virtual machine. If not provided, random password will be generated. Password will not be shown in the response. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Override default hostname of the virtual machine */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Install Monarx malware scanner (if supported) */
-  install_monarx?: boolean;
+  install_monarx?: boolean | undefined;
   /** Enable weekly backup schedule */
-  enable_backups?: boolean;
+  enable_backups?: boolean | undefined;
   /** Name server 1 */
-  ns1?: string;
+  ns1?: string | undefined;
   /** Name server 2 */
-  ns2?: string;
+  ns2?: string | undefined;
   /** Use SSH key */
-  public_key?: VPSV1VirtualMachineSetupRequestPublicKey;
+  public_key?: VPSV1VirtualMachineSetupRequestPublicKey | undefined;
 }
 export interface VPSUpdatePostInstallScriptV1Request {
   /** Post-install script ID */

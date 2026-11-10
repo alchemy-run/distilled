@@ -41,7 +41,7 @@ export interface GetTodayHighlightRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Retry failed sources. An active computation is reused. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 /** * `computing` - Computing * `ready` - Ready * `failed` - Failed */
 export type HighlightsStatusEnum = "computing" | "ready" | "failed";
@@ -123,7 +123,7 @@ export type HighlightsPulseList = Array<HighlightMetric>;
 export type PulseSlotStatusEnum = "pending" | "ready" | "empty" | "error";
 export interface PulseSlot {
   /** Why this number is selected, when known before its value arrives. * `routine` - You open this often * `dashboard` - On a dashboard you open often * `key_metric` - Project key metric * `popular` - Opened often in this project * `watched` - You get updates on this * `built` - You created or edited this */
-  reason?: HighlightMetricReasonEnum | null;
+  reason?: HighlightMetricReasonEnum | null | undefined;
   /** Stable key of the selected number. */
   key: string;
   /** Title available before the number is computed. */
@@ -163,7 +163,7 @@ export interface HighlightItem {
   /** Name of the highlight source that found the item, for example alerts. */
   source: string;
   /** Product that declares the source, for example feature_flags. Null for items stored before this field existed and for sources that no product declares any more. */
-  product?: string | null;
+  product?: string | null | undefined;
 }
 /** Up to 6 items, the highest scores across sources, in display order: by `priority`, then by `score`, highest first. */
 export type HighlightsItemsList = Array<HighlightItem>;
@@ -189,7 +189,7 @@ export interface Highlights {
   /** Key metrics of the project from its settings. */
   pulse: HighlightsPulseList;
   /** Selected numbers in stable display order, including unfinished numbers. Ready values are in pulse. Null for clients using complete results. */
-  pulse_slots?: HighlightsPulseSlotsList | null;
+  pulse_slots?: HighlightsPulseSlotsList | null | undefined;
   /** Up to 6 items, the highest scores across sources, in display order: by `priority`, then by `score`, highest first. */
   items: HighlightsItemsList;
   /** The numbers the person keeps, in their order, with the state of each one. Pinned numbers lead `pulse`. */
@@ -205,7 +205,7 @@ export interface PulsePin {
   /** Name to show for the number until the highlights compute its value. */
   name: string;
   /** For an insight pinned from a dashboard tile, the dashboard whose filters it keeps. Null otherwise. */
-  dashboard_id?: number | null;
+  dashboard_id?: number | null | undefined;
 }
 /** Numbers the person keeps at the start of the key numbers, in order. Suggestions fill the free places. Only the first 4 distinct keys are kept. At most 20 entries. */
 export type PulsePinsPinsList = Array<PulsePin>;
@@ -343,7 +343,7 @@ export interface GetTodayReportsKeyClauseRequest {
   project_id: string;
   report_id: string;
   /** Whether to mark the impact sentence. Pass false when the page shows an impact number instead. */
-  include_impact?: boolean;
+  include_impact?: boolean | undefined;
 }
 /** * `problem` - Problem * `cause` - Cause * `fix` - Fix */
 export type KeyClauseRoleEnum = "problem" | "cause" | "fix";

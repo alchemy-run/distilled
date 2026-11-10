@@ -52,11 +52,11 @@ export interface CreateSkillRequestMcpServersItem {
   /** The server's service type: `app` for an app's MCP server, `salesforce`, or a built-in service type. */
   service_type: string;
   /** App ID. Present for app servers (`service_type` is `app`). */
-  app_id?: string;
+  app_id?: string | undefined;
   /** ID of the app's MCP server. Present for app servers (`service_type` is `app`). */
-  server_id?: string;
+  server_id?: string | undefined;
   /** Permission namespace. Present for Salesforce servers (`service_type` is `salesforce`). */
-  permission_namespace?: string;
+  permission_namespace?: string | undefined;
 }
 /** Apps the skill needs, capped at the caller's MCP server limit. Declaring an app doesn't grant access to it. */
 export type CreateSkillRequestMcpServersList = Array<CreateSkillRequestMcpServersItem>;
@@ -64,17 +64,17 @@ export interface CreateSkillRequest {
   /** Human-readable label. Max 255 characters; not unique. */
   display_name: string;
   /** Markdown body of the skill. Send exactly one of `instructions` or `canvas_id`. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** Canvas the caller owns to turn into a skill. Send exactly one of `instructions` or `canvas_id`. */
-  canvas_id?: string;
+  canvas_id?: string | undefined;
   /** When Slackbot should use the skill. Max 400 characters. */
-  description?: string;
+  description?: string | undefined;
   /** One of the skill categories. */
-  category?: CreateSkillRequestCategory | (string & {});
+  category?: CreateSkillRequestCategory | (string & {}) | undefined;
   /** Max 200 characters. May contain `{skill}`, which becomes the skill mention. */
-  example_prompt?: string;
+  example_prompt?: string | undefined;
   /** Apps the skill needs, capped at the caller's MCP server limit. Declaring an app doesn't grant access to it. */
-  mcp_servers?: CreateSkillRequestMcpServersList;
+  mcp_servers?: CreateSkillRequestMcpServersList | undefined;
 }
 /** Where the skill is defined. */
 export type CreateSkillResponseSkillType = "canvas" | "builtin";
@@ -104,11 +104,11 @@ export interface CreateSkillResponseSkillMcpServersItem {
   /** The server's service type: "app" for an app's MCP server, "salesforce", or a built-in service type. */
   service_type: string;
   /** App ID. Present for app servers. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** ID of the app's MCP server. Present for app servers. */
-  server_id?: string;
+  server_id?: string | undefined;
   /** Permission namespace. Present for Salesforce servers. */
-  permission_namespace?: string;
+  permission_namespace?: string | undefined;
   /** The server's current name as the caller sees it, or null when the server isn't available to the caller. */
   display_name: unknown;
   /** Whether the caller can use this server. */
@@ -173,13 +173,13 @@ export interface DeleteSkillResponse {
 export type ListSkillsRequestFilter = "library" | "owned" | "catalog";
 export interface ListSkillsRequest {
   /** `library`: skills enabled for the caller, including auto-enabled skills and skills from skill sets. `owned`: skills the caller created. `catalog`: the organization's official skills. */
-  filter?: ListSkillsRequestFilter | (string & {});
+  filter?: ListSkillsRequestFilter | (string & {}) | undefined;
   /** Only return skills in this category. */
-  category?: string;
+  category?: string | undefined;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Must be used with the same `filter` and `category`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of skills to return. Fewer may be returned even when more remain. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Where the skill is defined. */
 export type ListSkillsResponseSkillsItemType = "canvas" | "builtin";
@@ -252,14 +252,14 @@ export type ListSkillsResponseSkillsList = Array<ListSkillsResponseSkillsItem>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListSkillsResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListSkillsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   skills: ListSkillsResponseSkillsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListSkillsResponseResponseMetadata;
+  response_metadata?: ListSkillsResponseResponseMetadata | undefined;
 }
 export interface RemoveSkillsLibraryRequest {
   /** Skill to turn off for the caller. */
@@ -368,17 +368,17 @@ export interface UpdateSkillRequest {
   /** Skill to change. */
   skill_id: string;
   /** Human-readable label. Max 255 characters. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** Markdown that replaces the whole document. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** When Slackbot should use the skill. Max 400 characters. Send an empty string to clear. */
-  description?: string;
+  description?: string | undefined;
   /** One of the skill categories. Send an empty string to clear. */
-  category?: UpdateSkillRequestCategory | (string & {});
+  category?: UpdateSkillRequestCategory | (string & {}) | undefined;
   /** Max 200 characters. May contain `{skill}`. Send an empty string to clear. */
-  example_prompt?: string;
+  example_prompt?: string | undefined;
   /** Apps the skill needs. Replaces the whole list; send `[]` to clear. */
-  mcp_servers?: UpdateSkillRequestMcpServersList;
+  mcp_servers?: UpdateSkillRequestMcpServersList | undefined;
 }
 /** Where the skill is defined. */
 export type UpdateSkillResponseSkillType = "canvas" | "builtin";

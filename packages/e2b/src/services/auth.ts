@@ -64,8 +64,8 @@ export interface GetTeamMetricsMaxRequest {
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
   teamID: string;
   /** Unix timestamp for the start of the interval, in seconds, for which the metrics */
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
   /** Metric to retrieve the maximum value for */
   metric: GetTeamMetricsMaxRequestMetric | (string & {});
 }
@@ -94,8 +94,8 @@ export interface ListTeamMetricsRequest {
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
   teamID: string;
   /** Unix timestamp for the start of the interval, in seconds, for which the metrics */
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 /** Team metric with timestamp */
 export interface TeamMetric {

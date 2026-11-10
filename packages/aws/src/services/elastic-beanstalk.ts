@@ -293,21 +293,21 @@ export class TooManyTagsException
 export type EnvironmentId = string;
 export type EnvironmentName = string;
 export interface AbortEnvironmentUpdateMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
 export interface AbortEnvironmentUpdateResponse {}
 export interface ApplyEnvironmentManagedActionRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
   ActionId: string;
 }
 export type ActionType = "InstanceRefresh" | "PlatformUpdate" | "Unknown" | (string & {});
 export interface ApplyEnvironmentManagedActionResult {
-  ActionId?: string;
-  ActionDescription?: string;
-  ActionType?: ActionType;
-  Status?: string;
+  ActionId?: string | undefined;
+  ActionDescription?: string | undefined;
+  ActionType?: ActionType | undefined;
+  Status?: string | undefined;
 }
 export type OperationsRole = string;
 export interface AssociateEnvironmentOperationsRoleMessage {
@@ -322,17 +322,17 @@ export interface CheckDNSAvailabilityMessage {
 export type CnameAvailability = boolean;
 export type DNSCname = string;
 export interface CheckDNSAvailabilityResultMessage {
-  Available?: boolean;
-  FullyQualifiedCNAME?: string;
+  Available?: boolean | undefined;
+  FullyQualifiedCNAME?: string | undefined;
 }
 export type ApplicationName = string;
 export type GroupName = string;
 export type VersionLabel = string;
 export type VersionLabels = string[];
 export interface ComposeEnvironmentsMessage {
-  ApplicationName?: string;
-  GroupName?: string;
-  VersionLabels?: string[];
+  ApplicationName?: string | undefined;
+  GroupName?: string | undefined;
+  VersionLabels?: string[] | undefined;
 }
 export type SolutionStackName = string;
 export type PlatformArn = string;
@@ -365,106 +365,106 @@ export type EnvironmentHealthStatus =
   | "Suspended"
   | (string & {});
 export interface Listener {
-  Protocol?: string;
-  Port?: number;
+  Protocol?: string | undefined;
+  Port?: number | undefined;
 }
 export type LoadBalancerListenersDescription = Listener[];
 export interface LoadBalancerDescription {
-  LoadBalancerName?: string;
-  Domain?: string;
-  Listeners?: Listener[];
+  LoadBalancerName?: string | undefined;
+  Domain?: string | undefined;
+  Listeners?: Listener[] | undefined;
 }
 export interface EnvironmentResourcesDescription {
-  LoadBalancer?: LoadBalancerDescription;
+  LoadBalancer?: LoadBalancerDescription | undefined;
 }
 export interface EnvironmentTier {
-  Name?: string;
-  Type?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Version?: string | undefined;
 }
 export interface EnvironmentLink {
-  LinkName?: string;
-  EnvironmentName?: string;
+  LinkName?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
 export type EnvironmentLinks = EnvironmentLink[];
 export type EnvironmentArn = string;
 export interface EnvironmentDescription {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  ApplicationName?: string;
-  VersionLabel?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  TemplateName?: string;
-  Description?: string;
-  EndpointURL?: string;
-  CNAME?: string;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  Status?: EnvironmentStatus;
-  AbortableOperationInProgress?: boolean;
-  Health?: EnvironmentHealth;
-  HealthStatus?: EnvironmentHealthStatus;
-  Resources?: EnvironmentResourcesDescription;
-  Tier?: EnvironmentTier;
-  EnvironmentLinks?: EnvironmentLink[];
-  EnvironmentArn?: string;
-  OperationsRole?: string;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  TemplateName?: string | undefined;
+  Description?: string | undefined;
+  EndpointURL?: string | undefined;
+  CNAME?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  Status?: EnvironmentStatus | undefined;
+  AbortableOperationInProgress?: boolean | undefined;
+  Health?: EnvironmentHealth | undefined;
+  HealthStatus?: EnvironmentHealthStatus | undefined;
+  Resources?: EnvironmentResourcesDescription | undefined;
+  Tier?: EnvironmentTier | undefined;
+  EnvironmentLinks?: EnvironmentLink[] | undefined;
+  EnvironmentArn?: string | undefined;
+  OperationsRole?: string | undefined;
 }
 export type EnvironmentDescriptionsList = EnvironmentDescription[];
 export type Token = string;
 export interface EnvironmentDescriptionsMessage {
-  Environments?: EnvironmentDescription[];
-  NextToken?: string;
+  Environments?: EnvironmentDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BoxedBoolean = boolean;
 export type BoxedInt = number;
 export interface MaxCountRule {
   Enabled: boolean;
-  MaxCount?: number;
-  DeleteSourceFromS3?: boolean;
+  MaxCount?: number | undefined;
+  DeleteSourceFromS3?: boolean | undefined;
 }
 export interface MaxAgeRule {
   Enabled: boolean;
-  MaxAgeInDays?: number;
-  DeleteSourceFromS3?: boolean;
+  MaxAgeInDays?: number | undefined;
+  DeleteSourceFromS3?: boolean | undefined;
 }
 export interface ApplicationVersionLifecycleConfig {
-  MaxCountRule?: MaxCountRule;
-  MaxAgeRule?: MaxAgeRule;
+  MaxCountRule?: MaxCountRule | undefined;
+  MaxAgeRule?: MaxAgeRule | undefined;
 }
 export interface ApplicationResourceLifecycleConfig {
-  ServiceRole?: string;
-  VersionLifecycleConfig?: ApplicationVersionLifecycleConfig;
+  ServiceRole?: string | undefined;
+  VersionLifecycleConfig?: ApplicationVersionLifecycleConfig | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface CreateApplicationMessage {
   ApplicationName: string;
-  Description?: string;
-  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ApplicationArn = string;
 export type VersionLabelsList = string[];
 export type ConfigurationTemplateNamesList = string[];
 export interface ApplicationDescription {
-  ApplicationArn?: string;
-  ApplicationName?: string;
-  Description?: string;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  Versions?: string[];
-  ConfigurationTemplates?: string[];
-  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
+  ApplicationArn?: string | undefined;
+  ApplicationName?: string | undefined;
+  Description?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  Versions?: string[] | undefined;
+  ConfigurationTemplates?: string[] | undefined;
+  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig | undefined;
 }
 export interface ApplicationDescriptionMessage {
-  Application?: ApplicationDescription;
+  Application?: ApplicationDescription | undefined;
 }
 export type SourceType = "Git" | "Zip" | (string & {});
 export type SourceRepository = "CodeCommit" | "S3" | (string & {});
@@ -477,8 +477,8 @@ export interface SourceBuildInformation {
 export type S3Bucket = string;
 export type S3Key = string;
 export interface S3Location {
-  S3Bucket?: string;
-  S3Key?: string;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
 }
 export type NonEmptyString = string;
 export type ComputeType =
@@ -487,43 +487,43 @@ export type ComputeType =
   | "BUILD_GENERAL1_LARGE"
   | (string & {});
 export interface BuildConfiguration {
-  ArtifactName?: string;
+  ArtifactName?: string | undefined;
   CodeBuildServiceRole: string;
-  ComputeType?: ComputeType;
+  ComputeType?: ComputeType | undefined;
   Image: string;
-  TimeoutInMinutes?: number;
+  TimeoutInMinutes?: number | undefined;
 }
 export type AutoCreateApplication = boolean;
 export type ApplicationVersionProccess = boolean;
 export interface ImageSource {
-  Uri?: string;
+  Uri?: string | undefined;
 }
 export type ImageBuildType = "docker" | "buildpack" | (string & {});
 export type ArchitectureType = "amd64" | "arm64" | (string & {});
 export interface ImageBuildConfiguration {
-  Type?: ImageBuildType;
-  DockerfileLocation?: string;
-  Buildpack?: string;
-  Architecture?: ArchitectureType;
-  CodeBuildServiceRole?: string;
-  ComputeType?: ComputeType;
-  TimeoutInMinutes?: number;
+  Type?: ImageBuildType | undefined;
+  DockerfileLocation?: string | undefined;
+  Buildpack?: string | undefined;
+  Architecture?: ArchitectureType | undefined;
+  CodeBuildServiceRole?: string | undefined;
+  ComputeType?: ComputeType | undefined;
+  TimeoutInMinutes?: number | undefined;
 }
 export interface ImageConfiguration {
-  Source?: ImageSource;
-  Build?: ImageBuildConfiguration;
+  Source?: ImageSource | undefined;
+  Build?: ImageBuildConfiguration | undefined;
 }
 export interface CreateApplicationVersionMessage {
   ApplicationName: string;
   VersionLabel: string;
-  Description?: string;
-  SourceBuildInformation?: SourceBuildInformation;
-  SourceBundle?: S3Location;
-  BuildConfiguration?: BuildConfiguration;
-  AutoCreateApplication?: boolean;
-  Process?: boolean;
-  Tags?: Tag[];
-  ImageConfiguration?: ImageConfiguration;
+  Description?: string | undefined;
+  SourceBuildInformation?: SourceBuildInformation | undefined;
+  SourceBundle?: S3Location | undefined;
+  BuildConfiguration?: BuildConfiguration | undefined;
+  AutoCreateApplication?: boolean | undefined;
+  Process?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  ImageConfiguration?: ImageConfiguration | undefined;
 }
 export type ApplicationVersionArn = string;
 export type ApplicationVersionStatus =
@@ -534,83 +534,83 @@ export type ApplicationVersionStatus =
   | "Building"
   | (string & {});
 export interface ApplicationVersionDescription {
-  ApplicationVersionArn?: string;
-  ApplicationName?: string;
-  Description?: string;
-  VersionLabel?: string;
-  SourceBuildInformation?: SourceBuildInformation;
-  BuildArn?: string;
-  SourceBundle?: S3Location;
-  ImageSource?: ImageSource;
-  ImageBuildConfiguration?: ImageBuildConfiguration;
-  Process?: boolean;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  Status?: ApplicationVersionStatus;
+  ApplicationVersionArn?: string | undefined;
+  ApplicationName?: string | undefined;
+  Description?: string | undefined;
+  VersionLabel?: string | undefined;
+  SourceBuildInformation?: SourceBuildInformation | undefined;
+  BuildArn?: string | undefined;
+  SourceBundle?: S3Location | undefined;
+  ImageSource?: ImageSource | undefined;
+  ImageBuildConfiguration?: ImageBuildConfiguration | undefined;
+  Process?: boolean | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  Status?: ApplicationVersionStatus | undefined;
 }
 export interface ApplicationVersionDescriptionMessage {
-  ApplicationVersion?: ApplicationVersionDescription;
+  ApplicationVersion?: ApplicationVersionDescription | undefined;
 }
 export interface SourceConfiguration {
-  ApplicationName?: string;
-  TemplateName?: string;
+  ApplicationName?: string | undefined;
+  TemplateName?: string | undefined;
 }
 export type ResourceName = string;
 export type OptionNamespace = string;
 export type ConfigurationOptionName = string;
 export type ConfigurationOptionValue = string;
 export interface ConfigurationOptionSetting {
-  ResourceName?: string;
-  Namespace?: string;
-  OptionName?: string;
-  Value?: string;
+  ResourceName?: string | undefined;
+  Namespace?: string | undefined;
+  OptionName?: string | undefined;
+  Value?: string | undefined;
 }
 export type ConfigurationOptionSettingsList = ConfigurationOptionSetting[];
 export interface CreateConfigurationTemplateMessage {
   ApplicationName: string;
   TemplateName: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  SourceConfiguration?: SourceConfiguration;
-  EnvironmentId?: string;
-  Description?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  Tags?: Tag[];
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  SourceConfiguration?: SourceConfiguration | undefined;
+  EnvironmentId?: string | undefined;
+  Description?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ConfigurationDeploymentStatus = "deployed" | "pending" | "failed" | (string & {});
 export interface ConfigurationSettingsDescription {
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  ApplicationName?: string;
-  TemplateName?: string;
-  Description?: string;
-  EnvironmentName?: string;
-  DeploymentStatus?: ConfigurationDeploymentStatus;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  OptionSettings?: ConfigurationOptionSetting[];
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  ApplicationName?: string | undefined;
+  TemplateName?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentName?: string | undefined;
+  DeploymentStatus?: ConfigurationDeploymentStatus | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
 }
 export interface OptionSpecification {
-  ResourceName?: string;
-  Namespace?: string;
-  OptionName?: string;
+  ResourceName?: string | undefined;
+  Namespace?: string | undefined;
+  OptionName?: string | undefined;
 }
 export type OptionsSpecifierList = OptionSpecification[];
 export interface CreateEnvironmentMessage {
   ApplicationName: string;
-  EnvironmentName?: string;
-  GroupName?: string;
-  Description?: string;
-  CNAMEPrefix?: string;
-  Tier?: EnvironmentTier;
-  Tags?: Tag[];
-  VersionLabel?: string;
-  TemplateName?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  OptionsToRemove?: OptionSpecification[];
-  OperationsRole?: string;
+  EnvironmentName?: string | undefined;
+  GroupName?: string | undefined;
+  Description?: string | undefined;
+  CNAMEPrefix?: string | undefined;
+  Tier?: EnvironmentTier | undefined;
+  Tags?: Tag[] | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  OptionsToRemove?: OptionSpecification[] | undefined;
+  OperationsRole?: string | undefined;
 }
 export type PlatformName = string;
 export type PlatformVersion = string;
@@ -618,9 +618,9 @@ export interface CreatePlatformVersionRequest {
   PlatformName: string;
   PlatformVersion: string;
   PlatformDefinitionBundle: S3Location;
-  EnvironmentName?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  Tags?: Tag[];
+  EnvironmentName?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PlatformOwner = string;
 export type PlatformStatus =
@@ -641,42 +641,42 @@ export type PlatformLifecycleState = string;
 export type BranchName = string;
 export type PlatformBranchLifecycleState = string;
 export interface PlatformSummary {
-  PlatformArn?: string;
-  PlatformOwner?: string;
-  PlatformStatus?: PlatformStatus;
-  PlatformCategory?: string;
-  OperatingSystemName?: string;
-  OperatingSystemVersion?: string;
-  SupportedTierList?: string[];
-  SupportedAddonList?: string[];
-  PlatformLifecycleState?: string;
-  PlatformVersion?: string;
-  PlatformBranchName?: string;
-  PlatformBranchLifecycleState?: string;
+  PlatformArn?: string | undefined;
+  PlatformOwner?: string | undefined;
+  PlatformStatus?: PlatformStatus | undefined;
+  PlatformCategory?: string | undefined;
+  OperatingSystemName?: string | undefined;
+  OperatingSystemVersion?: string | undefined;
+  SupportedTierList?: string[] | undefined;
+  SupportedAddonList?: string[] | undefined;
+  PlatformLifecycleState?: string | undefined;
+  PlatformVersion?: string | undefined;
+  PlatformBranchName?: string | undefined;
+  PlatformBranchLifecycleState?: string | undefined;
 }
 export type ARN = string;
 export interface Builder {
-  ARN?: string;
+  ARN?: string | undefined;
 }
 export interface CreatePlatformVersionResult {
-  PlatformSummary?: PlatformSummary;
-  Builder?: Builder;
+  PlatformSummary?: PlatformSummary | undefined;
+  Builder?: Builder | undefined;
 }
 export interface CreateStorageLocationRequest {}
 export interface CreateStorageLocationResultMessage {
-  S3Bucket?: string;
+  S3Bucket?: string | undefined;
 }
 export type TerminateEnvForce = boolean;
 export interface DeleteApplicationMessage {
   ApplicationName: string;
-  TerminateEnvByForce?: boolean;
+  TerminateEnvByForce?: boolean | undefined;
 }
 export interface DeleteApplicationResponse {}
 export type DeleteSourceBundle = boolean;
 export interface DeleteApplicationVersionMessage {
   ApplicationName: string;
   VersionLabel: string;
-  DeleteSourceBundle?: boolean;
+  DeleteSourceBundle?: boolean | undefined;
 }
 export interface DeleteApplicationVersionResponse {}
 export interface DeleteConfigurationTemplateMessage {
@@ -690,52 +690,52 @@ export interface DeleteEnvironmentConfigurationMessage {
 }
 export interface DeleteEnvironmentConfigurationResponse {}
 export interface DeletePlatformVersionRequest {
-  PlatformArn?: string;
+  PlatformArn?: string | undefined;
 }
 export interface DeletePlatformVersionResult {
-  PlatformSummary?: PlatformSummary;
+  PlatformSummary?: PlatformSummary | undefined;
 }
 export interface DescribeAccountAttributesRequest {}
 export interface ResourceQuota {
-  Maximum?: number;
+  Maximum?: number | undefined;
 }
 export interface ResourceQuotas {
-  ApplicationQuota?: ResourceQuota;
-  ApplicationVersionQuota?: ResourceQuota;
-  EnvironmentQuota?: ResourceQuota;
-  ConfigurationTemplateQuota?: ResourceQuota;
-  CustomPlatformQuota?: ResourceQuota;
+  ApplicationQuota?: ResourceQuota | undefined;
+  ApplicationVersionQuota?: ResourceQuota | undefined;
+  EnvironmentQuota?: ResourceQuota | undefined;
+  ConfigurationTemplateQuota?: ResourceQuota | undefined;
+  CustomPlatformQuota?: ResourceQuota | undefined;
 }
 export interface DescribeAccountAttributesResult {
-  ResourceQuotas?: ResourceQuotas;
+  ResourceQuotas?: ResourceQuotas | undefined;
 }
 export type ApplicationNamesList = string[];
 export interface DescribeApplicationsMessage {
-  ApplicationNames?: string[];
+  ApplicationNames?: string[] | undefined;
 }
 export type ApplicationDescriptionList = ApplicationDescription[];
 export interface ApplicationDescriptionsMessage {
-  Applications?: ApplicationDescription[];
+  Applications?: ApplicationDescription[] | undefined;
 }
 export type MaxRecords = number;
 export interface DescribeApplicationVersionsMessage {
-  ApplicationName?: string;
-  VersionLabels?: string[];
-  MaxRecords?: number;
-  NextToken?: string;
+  ApplicationName?: string | undefined;
+  VersionLabels?: string[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ApplicationVersionDescriptionList = ApplicationVersionDescription[];
 export interface ApplicationVersionDescriptionsMessage {
-  ApplicationVersions?: ApplicationVersionDescription[];
-  NextToken?: string;
+  ApplicationVersions?: ApplicationVersionDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeConfigurationOptionsMessage {
-  ApplicationName?: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  Options?: OptionSpecification[];
+  ApplicationName?: string | undefined;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  Options?: OptionSpecification[] | undefined;
 }
 export type ConfigurationOptionDefaultValue = string;
 export type ConfigurationOptionSeverity = string;
@@ -749,36 +749,36 @@ export type OptionRestrictionMaxLength = number;
 export type RegexPattern = string;
 export type RegexLabel = string;
 export interface OptionRestrictionRegex {
-  Pattern?: string;
-  Label?: string;
+  Pattern?: string | undefined;
+  Label?: string | undefined;
 }
 export interface ConfigurationOptionDescription {
-  Namespace?: string;
-  Name?: string;
-  DefaultValue?: string;
-  ChangeSeverity?: string;
-  UserDefined?: boolean;
-  ValueType?: ConfigurationOptionValueType;
-  ValueOptions?: string[];
-  MinValue?: number;
-  MaxValue?: number;
-  MaxLength?: number;
-  Regex?: OptionRestrictionRegex;
+  Namespace?: string | undefined;
+  Name?: string | undefined;
+  DefaultValue?: string | undefined;
+  ChangeSeverity?: string | undefined;
+  UserDefined?: boolean | undefined;
+  ValueType?: ConfigurationOptionValueType | undefined;
+  ValueOptions?: string[] | undefined;
+  MinValue?: number | undefined;
+  MaxValue?: number | undefined;
+  MaxLength?: number | undefined;
+  Regex?: OptionRestrictionRegex | undefined;
 }
 export type ConfigurationOptionDescriptionsList = ConfigurationOptionDescription[];
 export interface ConfigurationOptionsDescription {
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  Options?: ConfigurationOptionDescription[];
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  Options?: ConfigurationOptionDescription[] | undefined;
 }
 export interface DescribeConfigurationSettingsMessage {
   ApplicationName: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
 export type ConfigurationSettingsDescriptionList = ConfigurationSettingsDescription[];
 export interface ConfigurationSettingsDescriptions {
-  ConfigurationSettings?: ConfigurationSettingsDescription[];
+  ConfigurationSettings?: ConfigurationSettingsDescription[] | undefined;
 }
 export type EnvironmentHealthAttribute =
   | "Status"
@@ -792,62 +792,62 @@ export type EnvironmentHealthAttribute =
   | (string & {});
 export type EnvironmentHealthAttributes = EnvironmentHealthAttribute[];
 export interface DescribeEnvironmentHealthRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  AttributeNames?: EnvironmentHealthAttribute[];
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  AttributeNames?: EnvironmentHealthAttribute[] | undefined;
 }
 export type Cause = string;
 export type Causes = string[];
 export type RequestCount = number;
 export interface StatusCodes {
-  Status2xx?: number;
-  Status3xx?: number;
-  Status4xx?: number;
-  Status5xx?: number;
+  Status2xx?: number | undefined;
+  Status3xx?: number | undefined;
+  Status4xx?: number | undefined;
+  Status5xx?: number | undefined;
 }
 export interface Latency {
-  P999?: number;
-  P99?: number;
-  P95?: number;
-  P90?: number;
-  P85?: number;
-  P75?: number;
-  P50?: number;
-  P10?: number;
+  P999?: number | undefined;
+  P99?: number | undefined;
+  P95?: number | undefined;
+  P90?: number | undefined;
+  P85?: number | undefined;
+  P75?: number | undefined;
+  P50?: number | undefined;
+  P10?: number | undefined;
 }
 export interface ApplicationMetrics {
-  Duration?: number;
-  RequestCount?: number;
-  StatusCodes?: StatusCodes;
-  Latency?: Latency;
+  Duration?: number | undefined;
+  RequestCount?: number | undefined;
+  StatusCodes?: StatusCodes | undefined;
+  Latency?: Latency | undefined;
 }
 export interface InstanceHealthSummary {
-  NoData?: number;
-  Unknown?: number;
-  Pending?: number;
-  Ok?: number;
-  Info?: number;
-  Warning?: number;
-  Degraded?: number;
-  Severe?: number;
+  NoData?: number | undefined;
+  Unknown?: number | undefined;
+  Pending?: number | undefined;
+  Ok?: number | undefined;
+  Info?: number | undefined;
+  Warning?: number | undefined;
+  Degraded?: number | undefined;
+  Severe?: number | undefined;
 }
 export type RefreshedAt = Date;
 export interface DescribeEnvironmentHealthResult {
-  EnvironmentName?: string;
-  HealthStatus?: string;
-  Status?: EnvironmentHealth;
-  Color?: string;
-  Causes?: string[];
-  ApplicationMetrics?: ApplicationMetrics;
-  InstancesHealth?: InstanceHealthSummary;
-  RefreshedAt?: Date;
+  EnvironmentName?: string | undefined;
+  HealthStatus?: string | undefined;
+  Status?: EnvironmentHealth | undefined;
+  Color?: string | undefined;
+  Causes?: string[] | undefined;
+  ApplicationMetrics?: ApplicationMetrics | undefined;
+  InstancesHealth?: InstanceHealthSummary | undefined;
+  RefreshedAt?: Date | undefined;
 }
 export type ManagedActionHistoryMaxItems = number;
 export interface DescribeEnvironmentManagedActionHistoryRequest {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  NextToken?: string;
-  MaxItems?: number;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type FailureType =
   | "UpdateCancelled"
@@ -860,137 +860,137 @@ export type FailureType =
   | (string & {});
 export type ActionHistoryStatus = "Completed" | "Failed" | "Unknown" | (string & {});
 export interface ManagedActionHistoryItem {
-  ActionId?: string;
-  ActionType?: ActionType;
-  ActionDescription?: string;
-  FailureType?: FailureType;
-  Status?: ActionHistoryStatus;
-  FailureDescription?: string;
-  ExecutedTime?: Date;
-  FinishedTime?: Date;
+  ActionId?: string | undefined;
+  ActionType?: ActionType | undefined;
+  ActionDescription?: string | undefined;
+  FailureType?: FailureType | undefined;
+  Status?: ActionHistoryStatus | undefined;
+  FailureDescription?: string | undefined;
+  ExecutedTime?: Date | undefined;
+  FinishedTime?: Date | undefined;
 }
 export type ManagedActionHistoryItems = ManagedActionHistoryItem[];
 export interface DescribeEnvironmentManagedActionHistoryResult {
-  ManagedActionHistoryItems?: ManagedActionHistoryItem[];
-  NextToken?: string;
+  ManagedActionHistoryItems?: ManagedActionHistoryItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ActionStatus = "Scheduled" | "Pending" | "Running" | "Unknown" | (string & {});
 export interface DescribeEnvironmentManagedActionsRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  Status?: ActionStatus;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  Status?: ActionStatus | undefined;
 }
 export interface ManagedAction {
-  ActionId?: string;
-  ActionDescription?: string;
-  ActionType?: ActionType;
-  Status?: ActionStatus;
-  WindowStartTime?: Date;
+  ActionId?: string | undefined;
+  ActionDescription?: string | undefined;
+  ActionType?: ActionType | undefined;
+  Status?: ActionStatus | undefined;
+  WindowStartTime?: Date | undefined;
 }
 export type ManagedActions = ManagedAction[];
 export interface DescribeEnvironmentManagedActionsResult {
-  ManagedActions?: ManagedAction[];
+  ManagedActions?: ManagedAction[] | undefined;
 }
 export interface DescribeEnvironmentResourcesMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
 export type ResourceId = string;
 export interface AutoScalingGroup {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type AutoScalingGroupList = AutoScalingGroup[];
 export interface Cluster {
-  ClusterArn?: string;
+  ClusterArn?: string | undefined;
 }
 export interface Instance {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type InstanceList = Instance[];
 export interface LaunchConfiguration {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type LaunchConfigurationList = LaunchConfiguration[];
 export interface LaunchTemplate {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type LaunchTemplateList = LaunchTemplate[];
 export interface LoadBalancer {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type LoadBalancerList = LoadBalancer[];
 export interface Trigger {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type TriggerList = Trigger[];
 export interface Queue {
-  Name?: string;
-  URL?: string;
+  Name?: string | undefined;
+  URL?: string | undefined;
 }
 export type QueueList = Queue[];
 export interface EnvironmentResourceDescription {
-  EnvironmentName?: string;
-  AutoScalingGroups?: AutoScalingGroup[];
-  Cluster?: Cluster;
-  Instances?: Instance[];
-  LaunchConfigurations?: LaunchConfiguration[];
-  LaunchTemplates?: LaunchTemplate[];
-  LoadBalancers?: LoadBalancer[];
-  Triggers?: Trigger[];
-  Queues?: Queue[];
+  EnvironmentName?: string | undefined;
+  AutoScalingGroups?: AutoScalingGroup[] | undefined;
+  Cluster?: Cluster | undefined;
+  Instances?: Instance[] | undefined;
+  LaunchConfigurations?: LaunchConfiguration[] | undefined;
+  LaunchTemplates?: LaunchTemplate[] | undefined;
+  LoadBalancers?: LoadBalancer[] | undefined;
+  Triggers?: Trigger[] | undefined;
+  Queues?: Queue[] | undefined;
 }
 export interface EnvironmentResourceDescriptionsMessage {
-  EnvironmentResources?: EnvironmentResourceDescription;
+  EnvironmentResources?: EnvironmentResourceDescription | undefined;
 }
 export type EnvironmentIdList = string[];
 export type EnvironmentNamesList = string[];
 export type IncludeDeleted = boolean;
 export type IncludeDeletedBackTo = Date;
 export interface DescribeEnvironmentsMessage {
-  ApplicationName?: string;
-  VersionLabel?: string;
-  EnvironmentIds?: string[];
-  EnvironmentNames?: string[];
-  IncludeDeleted?: boolean;
-  IncludedDeletedBackTo?: Date;
-  MaxRecords?: number;
-  NextToken?: string;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  EnvironmentIds?: string[] | undefined;
+  EnvironmentNames?: string[] | undefined;
+  IncludeDeleted?: boolean | undefined;
+  IncludedDeletedBackTo?: Date | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RequestId = string;
 export type EventSeverity = "TRACE" | "DEBUG" | "INFO" | "WARN" | "ERROR" | "FATAL" | (string & {});
 export type TimeFilterStart = Date;
 export type TimeFilterEnd = Date;
 export interface DescribeEventsMessage {
-  ApplicationName?: string;
-  VersionLabel?: string;
-  TemplateName?: string;
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  PlatformArn?: string;
-  RequestId?: string;
-  Severity?: EventSeverity;
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxRecords?: number;
-  NextToken?: string;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  PlatformArn?: string | undefined;
+  RequestId?: string | undefined;
+  Severity?: EventSeverity | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EventDate = Date;
 export type EventMessage = string;
 export interface EventDescription {
-  EventDate?: Date;
-  Message?: string;
-  ApplicationName?: string;
-  VersionLabel?: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
-  PlatformArn?: string;
-  RequestId?: string;
-  Severity?: EventSeverity;
+  EventDate?: Date | undefined;
+  Message?: string | undefined;
+  ApplicationName?: string | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
+  PlatformArn?: string | undefined;
+  RequestId?: string | undefined;
+  Severity?: EventSeverity | undefined;
 }
 export type EventDescriptionList = EventDescription[];
 export interface EventDescriptionsMessage {
-  Events?: EventDescription[];
-  NextToken?: string;
+  Events?: EventDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InstancesHealthAttribute =
   | "HealthStatus"
@@ -1008,107 +1008,107 @@ export type InstancesHealthAttribute =
 export type InstancesHealthAttributes = InstancesHealthAttribute[];
 export type NextToken = string;
 export interface DescribeInstancesHealthRequest {
-  EnvironmentName?: string;
-  EnvironmentId?: string;
-  AttributeNames?: InstancesHealthAttribute[];
-  NextToken?: string;
+  EnvironmentName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  AttributeNames?: InstancesHealthAttribute[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InstanceId = string;
 export type LaunchedAt = Date;
 export interface CPUUtilization {
-  User?: number;
-  Nice?: number;
-  System?: number;
-  Idle?: number;
-  IOWait?: number;
-  IRQ?: number;
-  SoftIRQ?: number;
-  Privileged?: number;
+  User?: number | undefined;
+  Nice?: number | undefined;
+  System?: number | undefined;
+  Idle?: number | undefined;
+  IOWait?: number | undefined;
+  IRQ?: number | undefined;
+  SoftIRQ?: number | undefined;
+  Privileged?: number | undefined;
 }
 export type LoadAverageValue = number;
 export type LoadAverage = number[];
 export interface SystemStatus {
-  CPUUtilization?: CPUUtilization;
-  LoadAverage?: number[];
+  CPUUtilization?: CPUUtilization | undefined;
+  LoadAverage?: number[] | undefined;
 }
 export type DeploymentTimestamp = Date;
 export interface Deployment {
-  VersionLabel?: string;
-  DeploymentId?: number;
-  Status?: string;
-  DeploymentTime?: Date;
+  VersionLabel?: string | undefined;
+  DeploymentId?: number | undefined;
+  Status?: string | undefined;
+  DeploymentTime?: Date | undefined;
 }
 export interface SingleInstanceHealth {
-  InstanceId?: string;
-  HealthStatus?: string;
-  Color?: string;
-  Causes?: string[];
-  LaunchedAt?: Date;
-  ApplicationMetrics?: ApplicationMetrics;
-  System?: SystemStatus;
-  Deployment?: Deployment;
-  AvailabilityZone?: string;
-  InstanceType?: string;
+  InstanceId?: string | undefined;
+  HealthStatus?: string | undefined;
+  Color?: string | undefined;
+  Causes?: string[] | undefined;
+  LaunchedAt?: Date | undefined;
+  ApplicationMetrics?: ApplicationMetrics | undefined;
+  System?: SystemStatus | undefined;
+  Deployment?: Deployment | undefined;
+  AvailabilityZone?: string | undefined;
+  InstanceType?: string | undefined;
 }
 export type InstanceHealthList = SingleInstanceHealth[];
 export interface DescribeInstancesHealthResult {
-  InstanceHealthList?: SingleInstanceHealth[];
-  RefreshedAt?: Date;
-  NextToken?: string;
+  InstanceHealthList?: SingleInstanceHealth[] | undefined;
+  RefreshedAt?: Date | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribePlatformVersionRequest {
-  PlatformArn?: string;
+  PlatformArn?: string | undefined;
 }
 export type Maintainer = string;
 export interface PlatformProgrammingLanguage {
-  Name?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
 export type PlatformProgrammingLanguages = PlatformProgrammingLanguage[];
 export interface PlatformFramework {
-  Name?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
 export type PlatformFrameworks = PlatformFramework[];
 export type VirtualizationType = string;
 export type ImageId = string;
 export interface CustomAmi {
-  VirtualizationType?: string;
-  ImageId?: string;
+  VirtualizationType?: string | undefined;
+  ImageId?: string | undefined;
 }
 export type CustomAmiList = CustomAmi[];
 export type AmiArchitecture = "x86_64" | "arm64" | (string & {});
 export interface DefaultAmi {
-  Architecture?: AmiArchitecture;
-  ImageId?: string;
+  Architecture?: AmiArchitecture | undefined;
+  ImageId?: string | undefined;
 }
 export type DefaultAmiList = DefaultAmi[];
 export interface PlatformDescription {
-  PlatformArn?: string;
-  PlatformOwner?: string;
-  PlatformName?: string;
-  PlatformVersion?: string;
-  SolutionStackName?: string;
-  PlatformStatus?: PlatformStatus;
-  DateCreated?: Date;
-  DateUpdated?: Date;
-  PlatformCategory?: string;
-  Description?: string;
-  Maintainer?: string;
-  OperatingSystemName?: string;
-  OperatingSystemVersion?: string;
-  ProgrammingLanguages?: PlatformProgrammingLanguage[];
-  Frameworks?: PlatformFramework[];
-  CustomAmiList?: CustomAmi[];
-  DefaultAmiList?: DefaultAmi[];
-  SupportedTierList?: string[];
-  SupportedAddonList?: string[];
-  PlatformLifecycleState?: string;
-  PlatformBranchName?: string;
-  PlatformBranchLifecycleState?: string;
+  PlatformArn?: string | undefined;
+  PlatformOwner?: string | undefined;
+  PlatformName?: string | undefined;
+  PlatformVersion?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformStatus?: PlatformStatus | undefined;
+  DateCreated?: Date | undefined;
+  DateUpdated?: Date | undefined;
+  PlatformCategory?: string | undefined;
+  Description?: string | undefined;
+  Maintainer?: string | undefined;
+  OperatingSystemName?: string | undefined;
+  OperatingSystemVersion?: string | undefined;
+  ProgrammingLanguages?: PlatformProgrammingLanguage[] | undefined;
+  Frameworks?: PlatformFramework[] | undefined;
+  CustomAmiList?: CustomAmi[] | undefined;
+  DefaultAmiList?: DefaultAmi[] | undefined;
+  SupportedTierList?: string[] | undefined;
+  SupportedAddonList?: string[] | undefined;
+  PlatformLifecycleState?: string | undefined;
+  PlatformBranchName?: string | undefined;
+  PlatformBranchLifecycleState?: string | undefined;
 }
 export interface DescribePlatformVersionResult {
-  PlatformDescription?: PlatformDescription;
+  PlatformDescription?: PlatformDescription | undefined;
 }
 export interface DisassociateEnvironmentOperationsRoleMessage {
   EnvironmentName: string;
@@ -1119,63 +1119,63 @@ export type AvailableSolutionStackNamesList = string[];
 export type FileTypeExtension = string;
 export type SolutionStackFileTypeList = string[];
 export interface SolutionStackDescription {
-  SolutionStackName?: string;
-  PermittedFileTypes?: string[];
+  SolutionStackName?: string | undefined;
+  PermittedFileTypes?: string[] | undefined;
 }
 export type AvailableSolutionStackDetailsList = SolutionStackDescription[];
 export interface ListAvailableSolutionStacksResultMessage {
-  SolutionStacks?: string[];
-  SolutionStackDetails?: SolutionStackDescription[];
+  SolutionStacks?: string[] | undefined;
+  SolutionStackDetails?: SolutionStackDescription[] | undefined;
 }
 export type SearchFilterAttribute = string;
 export type SearchFilterOperator = string;
 export type SearchFilterValue = string;
 export type SearchFilterValues = string[];
 export interface SearchFilter {
-  Attribute?: string;
-  Operator?: string;
-  Values?: string[];
+  Attribute?: string | undefined;
+  Operator?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type SearchFilters = SearchFilter[];
 export type PlatformBranchMaxRecords = number;
 export interface ListPlatformBranchesRequest {
-  Filters?: SearchFilter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: SearchFilter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type BranchOrder = number;
 export interface PlatformBranchSummary {
-  PlatformName?: string;
-  BranchName?: string;
-  LifecycleState?: string;
-  BranchOrder?: number;
-  SupportedTierList?: string[];
+  PlatformName?: string | undefined;
+  BranchName?: string | undefined;
+  LifecycleState?: string | undefined;
+  BranchOrder?: number | undefined;
+  SupportedTierList?: string[] | undefined;
 }
 export type PlatformBranchSummaryList = PlatformBranchSummary[];
 export interface ListPlatformBranchesResult {
-  PlatformBranchSummaryList?: PlatformBranchSummary[];
-  NextToken?: string;
+  PlatformBranchSummaryList?: PlatformBranchSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PlatformFilterType = string;
 export type PlatformFilterOperator = string;
 export type PlatformFilterValue = string;
 export type PlatformFilterValueList = string[];
 export interface PlatformFilter {
-  Type?: string;
-  Operator?: string;
-  Values?: string[];
+  Type?: string | undefined;
+  Operator?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type PlatformFilters = PlatformFilter[];
 export type PlatformMaxRecords = number;
 export interface ListPlatformVersionsRequest {
-  Filters?: PlatformFilter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: PlatformFilter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PlatformSummaryList = PlatformSummary[];
 export interface ListPlatformVersionsResult {
-  PlatformSummaryList?: PlatformSummary[];
-  NextToken?: string;
+  PlatformSummaryList?: PlatformSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceMessage {
@@ -1183,121 +1183,121 @@ export interface ListTagsForResourceMessage {
 }
 export type TagList = Tag[];
 export interface ResourceTagsDescriptionMessage {
-  ResourceArn?: string;
-  ResourceTags?: Tag[];
+  ResourceArn?: string | undefined;
+  ResourceTags?: Tag[] | undefined;
 }
 export interface RebuildEnvironmentMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
 export interface RebuildEnvironmentResponse {}
 export type EnvironmentInfoType = "tail" | "bundle" | "analyze" | (string & {});
 export interface RequestEnvironmentInfoMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
   InfoType: EnvironmentInfoType;
 }
 export interface RequestEnvironmentInfoResponse {}
 export interface RestartAppServerMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
 }
 export interface RestartAppServerResponse {}
 export interface RetrieveEnvironmentInfoMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
   InfoType: EnvironmentInfoType;
 }
 export type Ec2InstanceId = string;
 export type SampleTimestamp = Date;
 export type Message = string;
 export interface EnvironmentInfoDescription {
-  InfoType?: EnvironmentInfoType;
-  Ec2InstanceId?: string;
-  SampleTimestamp?: Date;
-  Message?: string;
+  InfoType?: EnvironmentInfoType | undefined;
+  Ec2InstanceId?: string | undefined;
+  SampleTimestamp?: Date | undefined;
+  Message?: string | undefined;
 }
 export type EnvironmentInfoDescriptionList = EnvironmentInfoDescription[];
 export interface RetrieveEnvironmentInfoResultMessage {
-  EnvironmentInfo?: EnvironmentInfoDescription[];
+  EnvironmentInfo?: EnvironmentInfoDescription[] | undefined;
 }
 export interface SwapEnvironmentCNAMEsMessage {
-  SourceEnvironmentId?: string;
-  SourceEnvironmentName?: string;
-  DestinationEnvironmentId?: string;
-  DestinationEnvironmentName?: string;
+  SourceEnvironmentId?: string | undefined;
+  SourceEnvironmentName?: string | undefined;
+  DestinationEnvironmentId?: string | undefined;
+  DestinationEnvironmentName?: string | undefined;
 }
 export interface SwapEnvironmentCNAMEsResponse {}
 export type TerminateEnvironmentResources = boolean;
 export type ForceTerminate = boolean;
 export interface TerminateEnvironmentMessage {
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  TerminateResources?: boolean;
-  ForceTerminate?: boolean;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  TerminateResources?: boolean | undefined;
+  ForceTerminate?: boolean | undefined;
 }
 export interface UpdateApplicationMessage {
   ApplicationName: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdateApplicationResourceLifecycleMessage {
   ApplicationName: string;
   ResourceLifecycleConfig: ApplicationResourceLifecycleConfig;
 }
 export interface ApplicationResourceLifecycleDescriptionMessage {
-  ApplicationName?: string;
-  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig;
+  ApplicationName?: string | undefined;
+  ResourceLifecycleConfig?: ApplicationResourceLifecycleConfig | undefined;
 }
 export interface UpdateApplicationVersionMessage {
   ApplicationName: string;
   VersionLabel: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface UpdateConfigurationTemplateMessage {
   ApplicationName: string;
   TemplateName: string;
-  Description?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  OptionsToRemove?: OptionSpecification[];
+  Description?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  OptionsToRemove?: OptionSpecification[] | undefined;
 }
 export interface UpdateEnvironmentMessage {
-  ApplicationName?: string;
-  EnvironmentId?: string;
-  EnvironmentName?: string;
-  GroupName?: string;
-  Description?: string;
-  Tier?: EnvironmentTier;
-  VersionLabel?: string;
-  TemplateName?: string;
-  SolutionStackName?: string;
-  PlatformArn?: string;
-  OptionSettings?: ConfigurationOptionSetting[];
-  OptionsToRemove?: OptionSpecification[];
+  ApplicationName?: string | undefined;
+  EnvironmentId?: string | undefined;
+  EnvironmentName?: string | undefined;
+  GroupName?: string | undefined;
+  Description?: string | undefined;
+  Tier?: EnvironmentTier | undefined;
+  VersionLabel?: string | undefined;
+  TemplateName?: string | undefined;
+  SolutionStackName?: string | undefined;
+  PlatformArn?: string | undefined;
+  OptionSettings?: ConfigurationOptionSetting[] | undefined;
+  OptionsToRemove?: OptionSpecification[] | undefined;
 }
 export type TagKeyList = string[];
 export interface UpdateTagsForResourceMessage {
   ResourceArn: string;
-  TagsToAdd?: Tag[];
-  TagsToRemove?: string[];
+  TagsToAdd?: Tag[] | undefined;
+  TagsToRemove?: string[] | undefined;
 }
 export interface UpdateTagsForResourceResponse {}
 export interface ValidateConfigurationSettingsMessage {
   ApplicationName: string;
-  TemplateName?: string;
-  EnvironmentName?: string;
+  TemplateName?: string | undefined;
+  EnvironmentName?: string | undefined;
   OptionSettings: ConfigurationOptionSetting[];
 }
 export type ValidationMessageString = string;
 export type ValidationSeverity = "error" | "warning" | (string & {});
 export interface ValidationMessage {
-  Message?: string;
-  Severity?: ValidationSeverity;
-  Namespace?: string;
-  OptionName?: string;
+  Message?: string | undefined;
+  Severity?: ValidationSeverity | undefined;
+  Namespace?: string | undefined;
+  OptionName?: string | undefined;
 }
 export type ValidationMessagesList = ValidationMessage[];
 export interface ConfigurationSettingsValidationMessages {
-  Messages?: ValidationMessage[];
+  Messages?: ValidationMessage[] | undefined;
 }
 export type ExceptionMessage = string;
 export type AbortEnvironmentUpdateError = InsufficientPrivilegesException | CommonErrors;

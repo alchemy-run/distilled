@@ -144,7 +144,7 @@ export type CollectorArn = string;
 export type EnvironmentSourceRoleArn = string;
 export interface AssociateCollectorInput {
   environmentId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   collectorArn: string;
   collectorDataAccessRoleArn: string;
 }
@@ -163,7 +163,7 @@ export type FindingClientToken = string;
 export interface CreateCodeFindingInput {
   environmentId: string;
   ocsfDocument: any;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type FindingId = string;
 export type FindingArn = string;
@@ -179,7 +179,7 @@ export interface CreateCodeFindingOutput {
 export type ScanClientToken = string;
 export interface CreateCodeScanInput {
   environmentId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ScanRunId = string;
 export type ScanStatus =
@@ -205,9 +205,9 @@ export interface CodeScanSummary {
   status: ScanStatus;
   origin: ScanOrigin;
   createdAt: Date;
-  completedAt?: Date;
-  failureMessage?: string;
-  failureStage?: ScanFailureStage;
+  completedAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  failureStage?: ScanFailureStage | undefined;
 }
 export interface CreateCodeScanOutput {
   scan: CodeScanSummary;
@@ -217,13 +217,13 @@ export type KubernetesClusterRoleArn = string;
 export type KubernetesClusterExternalId = string | redacted.Redacted<string>;
 export interface KubernetesClusterRoleConfiguration {
   roleArn: string;
-  externalId?: string | redacted.Redacted<string>;
+  externalId?: string | redacted.Redacted<string> | undefined;
 }
 export type CollectorClientToken = string;
 export interface CreateCollectorInput {
-  type?: CollectorType;
-  kubernetesClusterRole?: KubernetesClusterRoleConfiguration;
-  clientToken?: string;
+  type?: CollectorType | undefined;
+  kubernetesClusterRole?: KubernetesClusterRoleConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export type CollectorStatus = "ACTIVE" | "PENDING_DELETION" | (string & {});
 export interface CreateCollectorOutput {
@@ -238,8 +238,8 @@ export type IntegrationId = string;
 export type EnvironmentSourcePrefix = string;
 export interface EnvironmentS3IntegrationSource {
   integrationId: string;
-  codePrefix?: string;
-  contextPrefix?: string;
+  codePrefix?: string | undefined;
+  contextPrefix?: string | undefined;
 }
 export type EnvironmentS3Sources = EnvironmentS3IntegrationSource[];
 export type RepositoryName = string;
@@ -247,35 +247,35 @@ export type RepositoryBranch = string;
 export interface EnvironmentRepositorySource {
   integrationId: string;
   repository: string;
-  defaultBranch?: string;
+  defaultBranch?: string | undefined;
 }
 export type EnvironmentRepositorySources = EnvironmentRepositorySource[];
 export interface EnvironmentSourceConfiguration {
-  s3Sources?: EnvironmentS3IntegrationSource[];
-  repositorySources?: EnvironmentRepositorySource[];
+  s3Sources?: EnvironmentS3IntegrationSource[] | undefined;
+  repositorySources?: EnvironmentRepositorySource[] | undefined;
 }
 export type DomainName = string;
 export type DomainNames = string[];
 export interface EnvironmentNetworkConfiguration {
-  allowedDomains?: string[];
+  allowedDomains?: string[] | undefined;
 }
 export type ScanFrequency = string;
 export type PatchCreationPolicy = "ENABLED" | "DISABLED" | (string & {});
 export interface EnvironmentConfiguration {
-  network?: EnvironmentNetworkConfiguration;
-  scanFrequency?: string;
-  patchCreationPolicy?: PatchCreationPolicy;
+  network?: EnvironmentNetworkConfiguration | undefined;
+  scanFrequency?: string | undefined;
+  patchCreationPolicy?: PatchCreationPolicy | undefined;
 }
 export interface CreateCodeConfiguration {
-  sourceConfiguration?: EnvironmentSourceConfiguration;
-  environmentConfiguration?: EnvironmentConfiguration;
+  sourceConfiguration?: EnvironmentSourceConfiguration | undefined;
+  environmentConfiguration?: EnvironmentConfiguration | undefined;
 }
 export interface CreateEnvironmentConfiguration {
-  codeConfiguration?: CreateCodeConfiguration;
+  codeConfiguration?: CreateCodeConfiguration | undefined;
 }
 export interface CreateEnvironmentInput {
   name: string;
-  configuration?: CreateEnvironmentConfiguration;
+  configuration?: CreateEnvironmentConfiguration | undefined;
 }
 export type EnvironmentStatus = "ACTIVE" | (string & {});
 export interface CreateEnvironmentOutput {
@@ -292,12 +292,12 @@ export type RedirectUrl = string;
 export interface GitHubAuthorizationConfiguration {
   authorizationCode: string | redacted.Redacted<string>;
   state: string | redacted.Redacted<string>;
-  redirectUrl?: string;
+  redirectUrl?: string | undefined;
 }
 export type GitHubOrganizationName = string;
 export interface GitHubConfiguration {
   authorization: GitHubAuthorizationConfiguration;
-  organizationName?: string;
+  organizationName?: string | undefined;
 }
 export type GitLabInstanceUrl = string;
 export type GitLabTargetType = "GROUP" | "PROJECT" | (string & {});
@@ -318,11 +318,11 @@ export interface S3Configuration {
   externalId: string | redacted.Redacted<string>;
 }
 export type ProviderConfiguration =
-  | { github: GitHubConfiguration; gitlab?: never; s3?: never }
-  | { github?: never; gitlab: GitLabConfiguration; s3?: never }
-  | { github?: never; gitlab?: never; s3: S3Configuration };
+  | { github: GitHubConfiguration; gitlab?: undefined; s3?: undefined }
+  | { github?: undefined; gitlab: GitLabConfiguration; s3?: undefined }
+  | { github?: undefined; gitlab?: undefined; s3: S3Configuration };
 export interface CreateIntegrationInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
   providerConfiguration: ProviderConfiguration;
 }
@@ -375,9 +375,9 @@ export type PackageVersion = string;
 export type PackageManager = string;
 export interface AffectedPackage {
   name: string;
-  version?: string;
-  fixedInVersion?: string;
-  packageManager?: string;
+  version?: string | undefined;
+  fixedInVersion?: string | undefined;
+  packageManager?: string | undefined;
 }
 export type AffectedPackageList = AffectedPackage[];
 export type FindingCodeSnippet = string;
@@ -407,76 +407,76 @@ export type FindingSeverityAdjustment =
   | "UNCHANGED"
   | (string & {});
 export interface FindingEvidence {
-  file?: string;
-  line?: number;
-  snippet?: string;
+  file?: string | undefined;
+  line?: number | undefined;
+  snippet?: string | undefined;
 }
 export type FindingEvidenceList = FindingEvidence[];
 export interface FindingValidation {
   verdict: FindingVerdict;
-  blockingReason?: FindingBlockingReason;
-  confidence?: number;
-  rationale?: string;
-  severityAdjustment?: FindingSeverityAdjustment;
-  mitigatingControls?: string[];
-  preconditions?: string[];
-  evidence?: FindingEvidence[];
+  blockingReason?: FindingBlockingReason | undefined;
+  confidence?: number | undefined;
+  rationale?: string | undefined;
+  severityAdjustment?: FindingSeverityAdjustment | undefined;
+  mitigatingControls?: string[] | undefined;
+  preconditions?: string[] | undefined;
+  evidence?: FindingEvidence[] | undefined;
 }
 export type FindingOcsfClass =
   | "VULNERABILITY_FINDING"
   | "APPLICATION_SECURITY_POSTURE_FINDING"
   | (string & {});
 export interface FindingLocation {
-  filePath?: string;
-  startLine?: number;
-  endLine?: number;
+  filePath?: string | undefined;
+  startLine?: number | undefined;
+  endLine?: number | undefined;
 }
 export type FindingLocationList = FindingLocation[];
 export interface FindingVulnerability {
-  title?: string;
-  description?: string;
-  cweId?: string;
-  cweCaption?: string;
-  additionalCweIds?: string[];
-  cveId?: string;
-  cvssBaseScore?: number;
-  fixCoverage?: string;
-  fixCoverageId?: number;
-  locations?: FindingLocation[];
-  remediation?: string;
-  remediationReferences?: string[];
-  code?: string;
-  details?: string;
-  affectedPackages?: AffectedPackage[];
+  title?: string | undefined;
+  description?: string | undefined;
+  cweId?: string | undefined;
+  cweCaption?: string | undefined;
+  additionalCweIds?: string[] | undefined;
+  cveId?: string | undefined;
+  cvssBaseScore?: number | undefined;
+  fixCoverage?: string | undefined;
+  fixCoverageId?: number | undefined;
+  locations?: FindingLocation[] | undefined;
+  remediation?: string | undefined;
+  remediationReferences?: string[] | undefined;
+  code?: string | undefined;
+  details?: string | undefined;
+  affectedPackages?: AffectedPackage[] | undefined;
 }
 export type FindingVulnerabilityList = FindingVulnerability[];
 export type FindingResourceUid = string;
 export interface FindingResource {
-  uid?: string;
-  name?: string;
-  type?: string;
-  region?: string;
+  uid?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  region?: string | undefined;
 }
 export type FindingResourceList = FindingResource[];
 export interface FindingComplianceCheck {
-  uid?: string;
-  name?: string;
-  description?: string;
+  uid?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export type FindingComplianceCheckList = FindingComplianceCheck[];
 export interface FindingPosture {
-  application?: string;
-  applicationUid?: string;
-  applicationVersion?: string;
-  control?: string;
-  description?: string;
-  standards?: string[];
-  requirements?: string[];
-  checks?: FindingComplianceCheck[];
-  status?: string;
-  statusId?: number;
-  remediation?: string;
-  remediationReferences?: string[];
+  application?: string | undefined;
+  applicationUid?: string | undefined;
+  applicationVersion?: string | undefined;
+  control?: string | undefined;
+  description?: string | undefined;
+  standards?: string[] | undefined;
+  requirements?: string[] | undefined;
+  checks?: FindingComplianceCheck[] | undefined;
+  status?: string | undefined;
+  statusId?: number | undefined;
+  remediation?: string | undefined;
+  remediationReferences?: string[] | undefined;
 }
 export type FindingSource = string;
 export type SourceFindingId = string;
@@ -498,37 +498,37 @@ export interface GetCodeFindingOutput {
   type: FindingType;
   title: string;
   severity: FindingSeverityId;
-  summary?: string;
-  detailedDescription?: string;
-  category?: string;
-  subCategory?: string;
-  cweIds?: string[];
-  owaspCategory?: string;
-  mitigation?: string;
-  filePath?: string;
-  lineNumber?: number;
-  cveId?: string;
-  cvssBaseScore?: number;
-  affectedPackages?: AffectedPackage[];
-  vulnerableCode?: string;
-  relevantInputs?: string[];
-  stepsToReproduce?: string[];
-  validation?: FindingValidation;
-  endLine?: number;
-  mitreTechniques?: string[];
-  remediationReferences?: string[];
-  ocsfClass?: FindingOcsfClass;
-  ocsfSchemaVersion?: string;
-  productName?: string;
-  productVendorName?: string;
-  productVersion?: string;
-  sourceStatus?: string;
-  sourceStatusId?: number;
-  firstSeenAt?: Date;
-  findingTypes?: string[];
-  vulnerabilities?: FindingVulnerability[];
-  resources?: FindingResource[];
-  posture?: FindingPosture;
+  summary?: string | undefined;
+  detailedDescription?: string | undefined;
+  category?: string | undefined;
+  subCategory?: string | undefined;
+  cweIds?: string[] | undefined;
+  owaspCategory?: string | undefined;
+  mitigation?: string | undefined;
+  filePath?: string | undefined;
+  lineNumber?: number | undefined;
+  cveId?: string | undefined;
+  cvssBaseScore?: number | undefined;
+  affectedPackages?: AffectedPackage[] | undefined;
+  vulnerableCode?: string | undefined;
+  relevantInputs?: string[] | undefined;
+  stepsToReproduce?: string[] | undefined;
+  validation?: FindingValidation | undefined;
+  endLine?: number | undefined;
+  mitreTechniques?: string[] | undefined;
+  remediationReferences?: string[] | undefined;
+  ocsfClass?: FindingOcsfClass | undefined;
+  ocsfSchemaVersion?: string | undefined;
+  productName?: string | undefined;
+  productVendorName?: string | undefined;
+  productVersion?: string | undefined;
+  sourceStatus?: string | undefined;
+  sourceStatusId?: number | undefined;
+  firstSeenAt?: Date | undefined;
+  findingTypes?: string[] | undefined;
+  vulnerabilities?: FindingVulnerability[] | undefined;
+  resources?: FindingResource[] | undefined;
+  posture?: FindingPosture | undefined;
   findingId: string;
   findingArn: string;
   environmentId: string;
@@ -538,13 +538,13 @@ export interface GetCodeFindingOutput {
   status: FindingStatus;
   statusUpdatedAt: Date;
   createdAt: Date;
-  scanRunId?: string;
-  statusMessage?: string;
-  discardReason?: FindingDiscardReason;
-  discardReasoning?: string;
-  duplicateOfIssueId?: string;
-  createdIssueId?: string;
-  completedAt?: Date;
+  scanRunId?: string | undefined;
+  statusMessage?: string | undefined;
+  discardReason?: FindingDiscardReason | undefined;
+  discardReasoning?: string | undefined;
+  duplicateOfIssueId?: string | undefined;
+  createdIssueId?: string | undefined;
+  completedAt?: Date | undefined;
 }
 export interface GetCodeIssueInput {
   environmentId: string;
@@ -659,27 +659,27 @@ export interface IssuePatchDelivery {
   patchCount: number;
   succeededCount: number;
   failedCount: number;
-  failureReasons?: DeliveryReason[];
+  failureReasons?: DeliveryReason[] | undefined;
 }
 export interface GetCodeIssueOutput {
   issueId: string;
   issueArn: string;
   name: string;
   synopsis: string;
-  severity?: IssueSeverity;
-  confidence?: number;
-  severityReasoning?: string;
-  summary?: string;
+  severity?: IssueSeverity | undefined;
+  confidence?: number | undefined;
+  severityReasoning?: string | undefined;
+  summary?: string | undefined;
   findingIds: string[];
   status: IssueStatus;
-  phase?: IssuePhase;
-  statusReason?: IssueStatusReason;
-  statusMessage?: string;
+  phase?: IssuePhase | undefined;
+  statusReason?: IssueStatusReason | undefined;
+  statusMessage?: string | undefined;
   statusUpdatedAt: Date;
   createdAt: Date;
-  updatedAt?: Date;
-  evidenceAvailability?: IssueEvidenceAvailability;
-  patchDelivery?: IssuePatchDelivery;
+  updatedAt?: Date | undefined;
+  evidenceAvailability?: IssueEvidenceAvailability | undefined;
+  patchDelivery?: IssuePatchDelivery | undefined;
 }
 export type IssueArtifactId = string;
 export interface GetCodeIssueArtifactInput {
@@ -711,8 +711,8 @@ export type ArtifactCitations = string[];
 export interface FlowVerdict {
   flowId: string;
   verdict: FlowVerdictValue;
-  confidence?: number;
-  evidence?: string[];
+  confidence?: number | undefined;
+  evidence?: string[] | undefined;
 }
 export type FlowVerdicts = FlowVerdict[];
 export type AttackFlowIds = string[];
@@ -738,9 +738,9 @@ export interface ValidationExploitArtifact {
   payload: string;
   targetUrl: string;
   httpMethod: ArtifactHttpMethod;
-  headers?: { [key: string]: string | undefined };
-  responseStatus?: number;
-  responseSnippet?: string;
+  headers?: { [key: string]: string | undefined } | undefined;
+  responseStatus?: number | undefined;
+  responseSnippet?: string | undefined;
   effect: ExploitEffect;
 }
 export type ValidationProofMaterialText = string;
@@ -757,39 +757,39 @@ export interface ValidationProofOutput {
 }
 export interface ValidationExecutedProof {
   code: ValidationProofCode;
-  output?: ValidationProofOutput;
-  observedEffect?: ExploitEffect;
+  output?: ValidationProofOutput | undefined;
+  observedEffect?: ExploitEffect | undefined;
 }
 export type ValidationProofSummary = string;
 export interface ValidationSourceAnalysis {
   summary: string;
-  inferredEffect?: ExploitEffect;
+  inferredEffect?: ExploitEffect | undefined;
 }
 export interface ReasoningStep {
   step: number;
   claim: string;
   source: string;
-  confidence?: number;
+  confidence?: number | undefined;
 }
 export type ReasoningSteps = ReasoningStep[];
 export interface PerFindingResult {
   findingId: string;
   exploitable: ExploitabilityVerdict;
-  confidence?: number;
-  flowVerdicts?: FlowVerdict[];
-  reasoningChain?: ReasoningStep[];
-  exploitArtifact?: ValidationExploitArtifact;
+  confidence?: number | undefined;
+  flowVerdicts?: FlowVerdict[] | undefined;
+  reasoningChain?: ReasoningStep[] | undefined;
+  exploitArtifact?: ValidationExploitArtifact | undefined;
 }
 export type PerFindingResults = PerFindingResult[];
 export interface ValidationEvidenceBody {
   exploitable: ExploitabilityVerdict;
-  terminalStatus?: ValidationTerminalStatus;
-  flowVerdicts?: FlowVerdict[];
-  attackFlowsConfirmed?: string[];
-  exploitArtifact?: ValidationExploitArtifact;
-  executedProof?: ValidationExecutedProof;
-  sourceAnalysis?: ValidationSourceAnalysis;
-  perFindingResults?: PerFindingResult[];
+  terminalStatus?: ValidationTerminalStatus | undefined;
+  flowVerdicts?: FlowVerdict[] | undefined;
+  attackFlowsConfirmed?: string[] | undefined;
+  exploitArtifact?: ValidationExploitArtifact | undefined;
+  executedProof?: ValidationExecutedProof | undefined;
+  sourceAnalysis?: ValidationSourceAnalysis | undefined;
+  perFindingResults?: PerFindingResult[] | undefined;
 }
 export type IssueArtifactProducerName = string;
 export type SignalDimension =
@@ -804,13 +804,13 @@ export type SignalDimension =
 export type SignalStrength = "NONE" | "WEAK" | "MODERATE" | "STRONG" | (string & {});
 export interface SignalConfidenceReasoning {
   summary: string;
-  factors?: string[];
+  factors?: string[] | undefined;
 }
 export type SignalBand = "VERY_LOW" | "LOW" | "MODERATE" | "HIGH" | (string & {});
 export interface SignalComputation {
-  likelihoodBand?: SignalBand;
-  impactBand?: SignalBand;
-  barriers?: number;
+  likelihoodBand?: SignalBand | undefined;
+  impactBand?: SignalBand | undefined;
+  barriers?: number | undefined;
 }
 export type SignalBasis =
   | "CODE"
@@ -820,23 +820,23 @@ export type SignalBasis =
   | "NO_EVIDENCE_DEFAULT"
   | (string & {});
 export interface SignalPrecondition {
-  value?: boolean;
-  basis?: SignalBasis;
-  reason?: string;
-  missingInfo?: string;
+  value?: boolean | undefined;
+  basis?: SignalBasis | undefined;
+  reason?: string | undefined;
+  missingInfo?: string | undefined;
 }
 export type SignalAccessLevel = "NONE" | "ANY_AUTHENTICATED" | "PRIVILEGED" | (string & {});
 export interface SignalAccessPrecondition {
-  value?: SignalAccessLevel;
-  basis?: SignalBasis;
-  reason?: string;
-  missingInfo?: string;
+  value?: SignalAccessLevel | undefined;
+  basis?: SignalBasis | undefined;
+  reason?: string | undefined;
+  missingInfo?: string | undefined;
 }
 export interface SignalPreconditions {
-  reachableFromAttacker?: SignalPrecondition;
-  configurationNeeded?: SignalPrecondition;
-  accessLevel?: SignalAccessPrecondition;
-  userInteractionRequired?: SignalPrecondition;
+  reachableFromAttacker?: SignalPrecondition | undefined;
+  configurationNeeded?: SignalPrecondition | undefined;
+  accessLevel?: SignalAccessPrecondition | undefined;
+  userInteractionRequired?: SignalPrecondition | undefined;
 }
 export type SignalAttackerGains =
   | "EXECUTE"
@@ -847,10 +847,10 @@ export type SignalAttackerGains =
   | "NEITHER"
   | (string & {});
 export interface SignalAttackerGainsDimension {
-  value?: SignalAttackerGains;
-  basis?: SignalBasis;
-  reason?: string;
-  missingInfo?: string;
+  value?: SignalAttackerGains | undefined;
+  basis?: SignalBasis | undefined;
+  reason?: string | undefined;
+  missingInfo?: string | undefined;
 }
 export type SignalBlastRadius =
   | "CROSS_TENANT"
@@ -858,22 +858,22 @@ export type SignalBlastRadius =
   | "OWN_SCOPE"
   | (string & {});
 export interface SignalBlastRadiusDimension {
-  value?: SignalBlastRadius;
-  basis?: SignalBasis;
-  reason?: string;
-  missingInfo?: string;
+  value?: SignalBlastRadius | undefined;
+  basis?: SignalBasis | undefined;
+  reason?: string | undefined;
+  missingInfo?: string | undefined;
 }
 export type SignalTargetValue = "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export interface SignalTargetValueDimension {
-  value?: SignalTargetValue;
-  basis?: SignalBasis;
-  reason?: string;
-  missingInfo?: string;
+  value?: SignalTargetValue | undefined;
+  basis?: SignalBasis | undefined;
+  reason?: string | undefined;
+  missingInfo?: string | undefined;
 }
 export interface SignalImpactDimensions {
-  attackerGains?: SignalAttackerGainsDimension;
-  blastRadius?: SignalBlastRadiusDimension;
-  targetValue?: SignalTargetValueDimension;
+  attackerGains?: SignalAttackerGainsDimension | undefined;
+  blastRadius?: SignalBlastRadiusDimension | undefined;
+  targetValue?: SignalTargetValueDimension | undefined;
 }
 export type ValidationConfidenceTier =
   | "SOURCE_READ"
@@ -882,40 +882,40 @@ export type ValidationConfidenceTier =
   | "RUNTIME_PROVEN"
   | (string & {});
 export interface SignalExploitability {
-  verdict?: ExploitabilityVerdict;
-  reachedCrownJewels?: boolean;
-  highestLayerReached?: number;
-  confidenceTier?: ValidationConfidenceTier;
-  scriptable?: boolean;
-  sourceValidationArtifactId?: string;
+  verdict?: ExploitabilityVerdict | undefined;
+  reachedCrownJewels?: boolean | undefined;
+  highestLayerReached?: number | undefined;
+  confidenceTier?: ValidationConfidenceTier | undefined;
+  scriptable?: boolean | undefined;
+  sourceValidationArtifactId?: string | undefined;
 }
 export interface PrevalidationSignal {
-  subjectRef?: string;
-  dimension?: SignalDimension;
-  signalStrength?: SignalStrength;
-  conclusion?: string;
-  producerId?: string;
-  producerVersion?: string;
-  confidence?: number;
-  confidenceReasoning?: SignalConfidenceReasoning;
-  computed?: SignalComputation;
-  preconditions?: SignalPreconditions;
-  impactDimensions?: SignalImpactDimensions;
-  exploitability?: SignalExploitability;
+  subjectRef?: string | undefined;
+  dimension?: SignalDimension | undefined;
+  signalStrength?: SignalStrength | undefined;
+  conclusion?: string | undefined;
+  producerId?: string | undefined;
+  producerVersion?: string | undefined;
+  confidence?: number | undefined;
+  confidenceReasoning?: SignalConfidenceReasoning | undefined;
+  computed?: SignalComputation | undefined;
+  preconditions?: SignalPreconditions | undefined;
+  impactDimensions?: SignalImpactDimensions | undefined;
+  exploitability?: SignalExploitability | undefined;
 }
 export type PrevalidationSignals = PrevalidationSignal[];
 export interface PrevalidationSignalsBody {
-  producedBy?: string;
-  signals?: PrevalidationSignal[];
+  producedBy?: string | undefined;
+  signals?: PrevalidationSignal[] | undefined;
 }
 export type IssueArtifactContent = string;
 export type PatchFormat = "GIT_MAILBOX_PATCH" | "GIT_BINARY_DIFF" | "GIT_DIFF" | (string & {});
 export type ArtifactSha256 = string;
 export interface RemediationProposalBody {
   patch: string;
-  format?: PatchFormat;
-  filename?: string;
-  patchSha256?: string;
+  format?: PatchFormat | undefined;
+  filename?: string | undefined;
+  patchSha256?: string | undefined;
 }
 export type BuildRepositoryName = string;
 export type DeliveryStatus =
@@ -931,7 +931,7 @@ export type DeliveryVersionId = string;
 export interface S3Target {
   bucket: string;
   key: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type DeliveryGitHubName = string;
 export type DeliveryPullRequestNumber = number;
@@ -939,59 +939,59 @@ export type DeliveryGitCommitSha = string;
 export interface GitHubTarget {
   owner: string;
   repository: string;
-  pullRequestNumber?: number;
-  headSha?: string;
+  pullRequestNumber?: number | undefined;
+  headSha?: string | undefined;
 }
 export type DestinationTarget =
-  | { s3: S3Target; github?: never }
-  | { s3?: never; github: GitHubTarget };
+  | { s3: S3Target; github?: undefined }
+  | { s3?: undefined; github: GitHubTarget };
 export interface PatchDelivery {
   status: DeliveryStatus;
-  target?: DestinationTarget;
+  target?: DestinationTarget | undefined;
   updatedAt: Date;
 }
 export interface PatchBody {
   patch: string;
-  format?: PatchFormat;
-  repositoryName?: string;
+  format?: PatchFormat | undefined;
+  repositoryName?: string | undefined;
   patchSha256: string;
   sizeBytes: number;
-  delivery?: PatchDelivery;
+  delivery?: PatchDelivery | undefined;
 }
 export type IssueArtifactBody =
   | {
       validationEvidence: ValidationEvidenceBody;
-      prevalidationSignals?: never;
-      remediationProposal?: never;
-      patch?: never;
-      raw?: never;
+      prevalidationSignals?: undefined;
+      remediationProposal?: undefined;
+      patch?: undefined;
+      raw?: undefined;
     }
   | {
-      validationEvidence?: never;
+      validationEvidence?: undefined;
       prevalidationSignals: PrevalidationSignalsBody;
-      remediationProposal?: never;
-      patch?: never;
-      raw?: never;
+      remediationProposal?: undefined;
+      patch?: undefined;
+      raw?: undefined;
     }
   | {
-      validationEvidence?: never;
-      prevalidationSignals?: never;
+      validationEvidence?: undefined;
+      prevalidationSignals?: undefined;
       remediationProposal: RemediationProposalBody;
-      patch?: never;
-      raw?: never;
+      patch?: undefined;
+      raw?: undefined;
     }
   | {
-      validationEvidence?: never;
-      prevalidationSignals?: never;
-      remediationProposal?: never;
+      validationEvidence?: undefined;
+      prevalidationSignals?: undefined;
+      remediationProposal?: undefined;
       patch: PatchBody;
-      raw?: never;
+      raw?: undefined;
     }
   | {
-      validationEvidence?: never;
-      prevalidationSignals?: never;
-      remediationProposal?: never;
-      patch?: never;
+      validationEvidence?: undefined;
+      prevalidationSignals?: undefined;
+      remediationProposal?: undefined;
+      patch?: undefined;
       raw: string;
     };
 export interface IssueArtifactProducerSummary {
@@ -1002,7 +1002,7 @@ export interface GetCodeIssueArtifactOutput {
   artifactType: IssueArtifactType;
   mediaType: string;
   body: IssueArtifactBody;
-  metadata?: any;
+  metadata?: any | undefined;
   producer: IssueArtifactProducerSummary;
   createdAt: Date;
 }
@@ -1015,9 +1015,9 @@ export interface CodeScanData {
   status: ScanStatus;
   origin: ScanOrigin;
   createdAt: Date;
-  completedAt?: Date;
-  failureMessage?: string;
-  failureStage?: ScanFailureStage;
+  completedAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  failureStage?: ScanFailureStage | undefined;
 }
 export interface GetCodeScanOutput {
   scan: CodeScanData;
@@ -1031,8 +1031,8 @@ export interface GetCollectorOutput {
   collectorArn: string;
   type: CollectorType;
   status: CollectorStatus;
-  configRecorderArn?: string;
-  kubernetesClusterRoleArn?: string;
+  configRecorderArn?: string | undefined;
+  kubernetesClusterRoleArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -1040,7 +1040,7 @@ export type AwsAccountId = string;
 export interface GetCollectorDataAccessAuthorizationInput {
   accountId: string;
   collectorId: string;
-  environmentArn?: string;
+  environmentArn?: string | undefined;
 }
 export interface GetCollectorDataAccessAuthorizationOutput {}
 export interface GetEnvironmentInput {
@@ -1048,23 +1048,23 @@ export interface GetEnvironmentInput {
 }
 export type EnvironmentStatusMessage = string;
 export interface CollectorDetails {
-  collectorDataAccessRoleArn?: string;
+  collectorDataAccessRoleArn?: string | undefined;
 }
 export interface CodeConfigurationDetails {
-  collectorDetails?: CollectorDetails;
-  sourceConfiguration?: EnvironmentSourceConfiguration;
-  environmentConfiguration?: EnvironmentConfiguration;
-  latestScan?: CodeScanSummary;
+  collectorDetails?: CollectorDetails | undefined;
+  sourceConfiguration?: EnvironmentSourceConfiguration | undefined;
+  environmentConfiguration?: EnvironmentConfiguration | undefined;
+  latestScan?: CodeScanSummary | undefined;
 }
 export interface EnvironmentConfigurationDetails {
-  codeConfiguration?: CodeConfigurationDetails;
+  codeConfiguration?: CodeConfigurationDetails | undefined;
 }
 export interface GetEnvironmentOutput {
   environmentId: string;
   environmentArn: string;
   name: string;
   status: EnvironmentStatus;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   statusUpdatedAt: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -1075,7 +1075,7 @@ export interface GetIntegrationInput {
 }
 export type IntegrationType = "GITHUB" | "GITLAB" | "S3" | (string & {});
 export interface GitHubDetails {
-  organizationName?: string;
+  organizationName?: string | undefined;
 }
 export type GitLabTokenRotation = "AUTOMATIC" | "NONE" | (string & {});
 export interface GitLabDetails {
@@ -1083,16 +1083,16 @@ export interface GitLabDetails {
   targetType: GitLabTargetType;
   targetPath: string;
   tokenRotation: GitLabTokenRotation;
-  expiresAt?: Date;
+  expiresAt?: Date | undefined;
 }
 export interface S3Details {
   bucket: string;
   roleArn: string;
 }
 export type ProviderDetails =
-  | { github: GitHubDetails; gitlab?: never; s3?: never }
-  | { github?: never; gitlab: GitLabDetails; s3?: never }
-  | { github?: never; gitlab?: never; s3: S3Details };
+  | { github: GitHubDetails; gitlab?: undefined; s3?: undefined }
+  | { github?: undefined; gitlab: GitLabDetails; s3?: undefined }
+  | { github?: undefined; gitlab?: undefined; s3: S3Details };
 export interface GetIntegrationOutput {
   integrationId: string;
   integrationArn: string;
@@ -1117,18 +1117,18 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface ListAssociatedCollectorsInput {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AssociatedCollectors = AssociatedCollector[];
 export interface ListAssociatedCollectorsOutput {
   associatedCollectors: AssociatedCollector[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAssociatedEnvironmentsInput {
   collectorId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AssociatedEnvironment {
   environmentId: string;
@@ -1140,12 +1140,12 @@ export interface AssociatedEnvironment {
 export type AssociatedEnvironments = AssociatedEnvironment[];
 export interface ListAssociatedEnvironmentsOutput {
   associatedEnvironments: AssociatedEnvironment[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCodeFindingsInput {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FindingSummary {
   findingId: string;
@@ -1157,30 +1157,30 @@ export interface FindingSummary {
   status: FindingStatus;
   statusUpdatedAt: Date;
   createdAt: Date;
-  scanRunId?: string;
-  statusMessage?: string;
-  discardReason?: FindingDiscardReason;
-  discardReasoning?: string;
-  duplicateOfIssueId?: string;
-  createdIssueId?: string;
-  completedAt?: Date;
+  scanRunId?: string | undefined;
+  statusMessage?: string | undefined;
+  discardReason?: FindingDiscardReason | undefined;
+  discardReasoning?: string | undefined;
+  duplicateOfIssueId?: string | undefined;
+  createdIssueId?: string | undefined;
+  completedAt?: Date | undefined;
   type: FindingType;
   title: string;
   severity: FindingSeverityId;
-  category?: string;
-  filePath?: string;
+  category?: string | undefined;
+  filePath?: string | undefined;
 }
 export type CodeFindingSummaries = FindingSummary[];
 export interface ListCodeFindingsOutput {
   items: FindingSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCodeIssueArtifactsInput {
   environmentId: string;
   issueId: string;
-  artifactType?: IssueArtifactType;
-  maxResults?: number;
-  nextToken?: string;
+  artifactType?: IssueArtifactType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IssueArtifactItem {
   artifactId: string;
@@ -1193,41 +1193,41 @@ export interface IssueArtifactItem {
 export type CodeIssueArtifactItems = IssueArtifactItem[];
 export interface ListCodeIssueArtifactsOutput {
   items: IssueArtifactItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCodeIssuesInput {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IssueSummary {
   issueId: string;
   issueArn: string;
   name: string;
-  severity?: IssueSeverity;
-  confidence?: number;
+  severity?: IssueSeverity | undefined;
+  confidence?: number | undefined;
   status: IssueStatus;
-  phase?: IssuePhase;
-  statusReason?: IssueStatusReason;
-  statusMessage?: string;
+  phase?: IssuePhase | undefined;
+  statusReason?: IssueStatusReason | undefined;
+  statusMessage?: string | undefined;
   statusUpdatedAt: Date;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export type CodeIssueSummaries = IssueSummary[];
 export interface ListCodeIssuesOutput {
   items: IssueSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCodeScansInput {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type CodeScanSummaries = CodeScanSummary[];
 export interface ListCodeScansOutput {
   scans: CodeScanSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCollectorsInput {}
 export interface CollectorSummary {
@@ -1242,8 +1242,8 @@ export interface ListCollectorsOutput {
   items: CollectorSummary[];
 }
 export interface ListEnvironmentsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EnvironmentListEntry {
   environmentId: string;
@@ -1255,11 +1255,11 @@ export interface EnvironmentListEntry {
 export type EnvironmentListEntries = EnvironmentListEntry[];
 export interface ListEnvironmentsOutput {
   items: EnvironmentListEntry[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIntegrationsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IntegrationSummary {
   integrationId: string;
@@ -1273,13 +1273,13 @@ export interface IntegrationSummary {
 export type IntegrationSummaries = IntegrationSummary[];
 export interface ListIntegrationsOutput {
   items: IntegrationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourcePolicyInputDocument = string | redacted.Redacted<string>;
 export interface PutResourcePolicyInput {
   arn: string;
-  policy?: string | redacted.Redacted<string>;
-  expectedRevisionId?: string;
+  policy?: string | redacted.Redacted<string> | undefined;
+  expectedRevisionId?: string | undefined;
 }
 export interface PutResourcePolicyOutput {
   arn: string;
@@ -1289,7 +1289,7 @@ export interface PutResourcePolicyOutput {
 export type IntegrationAuthorizationProviderType = "GITHUB" | (string & {});
 export interface StartIntegrationAuthorizationInput {
   providerType: IntegrationAuthorizationProviderType;
-  name?: string;
+  name?: string | undefined;
 }
 export type OAuthCodeChallenge = string;
 export type OAuthCodeChallengeMethod = "S256" | (string & {});
@@ -1302,48 +1302,48 @@ export interface StartIntegrationAuthorizationOutput {
 export type CollectorName = string;
 export interface RemoveKubernetesClusterRole {}
 export type KubernetesClusterRoleUpdate =
-  | { set: KubernetesClusterRoleConfiguration; remove?: never }
-  | { set?: never; remove: RemoveKubernetesClusterRole };
+  | { set: KubernetesClusterRoleConfiguration; remove?: undefined }
+  | { set?: undefined; remove: RemoveKubernetesClusterRole };
 export interface UpdateCollectorInput {
   collectorId: string;
-  name?: string;
-  kubernetesClusterRole?: KubernetesClusterRoleUpdate;
+  name?: string | undefined;
+  kubernetesClusterRole?: KubernetesClusterRoleUpdate | undefined;
 }
 export interface UpdateCollectorOutput {
   collectorId: string;
   collectorArn: string;
   type: CollectorType;
   status: CollectorStatus;
-  configRecorderArn?: string;
-  kubernetesClusterRoleArn?: string;
+  configRecorderArn?: string | undefined;
+  kubernetesClusterRoleArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export interface UpdateCodeConfiguration {
-  sourceConfiguration?: EnvironmentSourceConfiguration;
-  environmentConfiguration?: EnvironmentConfiguration;
+  sourceConfiguration?: EnvironmentSourceConfiguration | undefined;
+  environmentConfiguration?: EnvironmentConfiguration | undefined;
 }
 export interface UpdateEnvironmentConfiguration {
-  codeConfiguration?: UpdateCodeConfiguration;
+  codeConfiguration?: UpdateCodeConfiguration | undefined;
 }
 export interface UpdateEnvironmentInput {
   environmentId: string;
-  name?: string;
-  configuration?: UpdateEnvironmentConfiguration;
+  name?: string | undefined;
+  configuration?: UpdateEnvironmentConfiguration | undefined;
 }
 export interface UpdateEnvironmentOutput {
   environmentId: string;
   environmentArn: string;
   name: string;
   status: EnvironmentStatus;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   statusUpdatedAt: Date;
   createdAt: Date;
   configuration: EnvironmentConfigurationDetails;
 }
 export interface UpdateS3Configuration {
   roleArn: string;
-  externalId?: string | redacted.Redacted<string>;
+  externalId?: string | redacted.Redacted<string> | undefined;
 }
 export type UpdateProviderConfiguration = { s3: UpdateS3Configuration };
 export interface UpdateIntegrationInput {

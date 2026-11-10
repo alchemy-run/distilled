@@ -93,60 +93,60 @@ export type HttpMethod = "DELETE" | "GET" | "POST" | "PUT";
 export type HrefHintsAllowList = Array<HttpMethod>;
 /** Describes allowed HTTP verbs for the `href` */
 export interface HrefHints {
-  allow?: HrefHintsAllowList;
+  allow?: HrefHintsAllowList | undefined;
 }
 export interface HrefObjectSelfLink {
-  hints?: HrefHints;
+  hints?: HrefHints | undefined;
   /** Link URI */
   href: string;
   /** Link name */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the link object's `href` property is a URI template. */
-  templated?: boolean;
+  templated?: boolean | undefined;
   /** The media type of the link. If omitted, it is implicitly `application/json`. */
-  type?: string;
+  type?: string | undefined;
   [key: string]: unknown;
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface LinksSelf {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
 }
 /** Agent details */
 export interface Agent {
   /** Unique identifier for the agent that's generated during installation */
-  id?: string;
+  id?: string | undefined;
   /** Determines if an agent is hidden from the Admin Console */
-  isHidden?: boolean;
+  isHidden?: boolean | undefined;
   /** Determines if the agent is on the latest generally available version */
-  isLatestGAedVersion?: boolean;
+  isLatestGAedVersion?: boolean | undefined;
   /** Unix timestamp in milliseconds when the agent last connected to Okta */
-  lastConnection?: number;
+  lastConnection?: number | undefined;
   /** Agent name */
-  name?: string;
-  operationalStatus?: OperationalStatus;
+  name?: string | undefined;
+  operationalStatus?: OperationalStatus | undefined;
   /** Pool ID */
-  poolId?: string;
-  type?: AgentType;
+  poolId?: string | undefined;
+  type?: AgentType | undefined;
   /** Status message of the agent */
-  updateMessage?: string;
-  updateStatus?: AgentUpdateInstanceStatus;
+  updateMessage?: string | undefined;
+  updateStatus?: AgentUpdateInstanceStatus | undefined;
   /** Agent version number */
-  version?: string;
-  _links?: LinksSelf;
+  version?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type AgentPoolUpdateAgentsList = Array<Agent>;
 /** The schedule of auto-update configured by the admin */
 export interface AutoUpdateSchedule {
   /** The schedule of the update in cron format. The cron settings are limited to only the day of the month or the nth-day-of-the-week configurations. For example, `0 8 ? * 6#3` indicates every third Saturday at 8:00 AM. */
-  cron?: string;
+  cron?: string | undefined;
   /** Delay in days */
-  delay?: number;
+  delay?: number | undefined;
   /** Duration in minutes */
-  duration?: number;
+  duration?: number | undefined;
   /** Timestamp when the update finished (only for a successful or failed update, not for a cancelled update). Null is returned if the job hasn't finished once yet. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Timezone of where the scheduled job takes place */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** Overall state for the auto-update job from the admin perspective */
 export type AgentUpdateJobStatus =
@@ -158,25 +158,25 @@ export type AgentUpdateJobStatus =
   | "Success";
 /** Various information about agent auto-update configuration */
 export interface AgentPoolUpdate {
-  agents?: AgentPoolUpdateAgentsList;
-  agentType?: AgentType;
+  agents?: AgentPoolUpdateAgentsList | undefined;
+  agentType?: AgentType | undefined;
   /** Indicates if auto-update is enabled for the agent pool */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** ID of the agent pool update */
-  id?: string;
+  id?: string | undefined;
   /** Name of the agent pool update */
-  name?: string;
+  name?: string | undefined;
   /** Indicates if the admin is notified about the update */
-  notifyAdmin?: boolean;
+  notifyAdmin?: boolean | undefined;
   /** Reason for the update */
-  reason?: string;
-  schedule?: AutoUpdateSchedule;
+  reason?: string | undefined;
+  schedule?: AutoUpdateSchedule | undefined;
   /** Specifies the sort order */
-  sortOrder?: number;
-  status?: AgentUpdateJobStatus;
+  sortOrder?: number | undefined;
+  status?: AgentUpdateJobStatus | undefined;
   /** The agent version to update to */
-  targetVersion?: string;
-  _links?: LinksSelf;
+  targetVersion?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface ActivateApiServiceIntegrationInstanceSecretRequest {
   /** `id` of the API Service Integration instance */
@@ -191,9 +191,9 @@ export type HrefObjectDeactivateLink = HrefObjectSelfLink;
 export type HrefObjectDeleteLink = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface APIServiceIntegrationSecretLinks {
-  activate?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
-  delete?: HrefObjectSelfLink;
+  activate?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  delete?: HrefObjectSelfLink | undefined;
 }
 export interface APIServiceIntegrationInstanceSecret {
   /** The OAuth 2.0 client secret string. The client secret string is returned in the response of a Secret creation request. In other responses (such as list, activate, or deactivate requests), the client secret is returned as an undisclosed hashed value. */
@@ -249,28 +249,28 @@ export type AuthenticatorType =
   | "tac";
 export type HrefObject = HrefObjectSelfLink;
 export interface AuthenticatorLinks {
-  self?: HrefObjectSelfLink;
-  activate?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  activate?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
   /** Link to authenticator methods */
-  methods?: HrefObjectSelfLink;
+  methods?: HrefObjectSelfLink | undefined;
 }
 export interface AuthenticatorBase {
   /** Timestamp when the authenticator was created */
-  created?: string;
+  created?: string | undefined;
   /** The description of the authenticator. This setting is only available for the `webauthn` authenticator type (Passkeys). */
-  description?: string;
+  description?: string | undefined;
   /** A unique identifier for the authenticator */
-  id?: string;
-  key?: AuthenticatorKeyEnum;
+  id?: string | undefined;
+  key?: AuthenticatorKeyEnum | undefined;
   /** Timestamp when the authenticator was last modified */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Display name of the authenticator */
-  name?: string;
-  status?: unknown;
-  type?: AuthenticatorType;
+  name?: string | undefined;
+  status?: unknown | undefined;
+  type?: AuthenticatorType | undefined;
   /** Link relations for this object */
-  _links?: AuthenticatorLinks;
+  _links?: AuthenticatorLinks | undefined;
 }
 /** The type of authenticator method */
 export type ActivateAuthenticatorMethodRequestMethodType =
@@ -311,14 +311,14 @@ export type AuthenticatorMethodType =
   | "webauthn"
   | "tac";
 export interface LinksSelfAndLifecycle {
-  self?: HrefObjectSelfLink;
-  activate?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  activate?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
 }
 export interface AuthenticatorMethodBase {
-  status?: unknown;
-  type?: AuthenticatorMethodType;
-  _links?: LinksSelfAndLifecycle;
+  status?: unknown | undefined;
+  type?: AuthenticatorMethodType | undefined;
+  _links?: LinksSelfAndLifecycle | undefined;
 }
 export interface ActivateAuthorizationServerRequest {
   /** `id` of the Authorization Server */
@@ -354,16 +354,16 @@ export type BehaviorRuleType =
   | "ANOMALOUS_ASN";
 export interface BehaviorRule {
   /** Timestamp when the Behavior Detection Rule was created */
-  created?: string;
+  created?: string | undefined;
   /** ID of the Behavior Detection Rule */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the Behavior Detection Rule was last modified */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the Behavior Detection Rule */
   name: string;
-  status?: LifecycleStatus;
+  status?: LifecycleStatus | undefined;
   type: BehaviorRuleType;
-  _link?: LinksSelf;
+  _link?: LinksSelf | undefined;
 }
 export interface ActivateCustomTelephonyCredentialRequest {
   /** The ID of the custom telephony provider */
@@ -375,15 +375,15 @@ export type CustomTelephonyProviderCredentialResponseProviderCapability = "ALL";
 export type CustomTelephonyProviderCredentialResponseProviderName = "TWILIO" | "TELESIGN";
 export interface CustomTelephonyProviderSettingsTwilioVerify {
   /** The Twilio Verify Service SID used for sending verification messages or calls. You can find this value in your Twilio console. This method uses Twilio's [Verify API](https://www.twilio.com/docs/verify/api). */
-  twilioVerifySid?: string;
+  twilioVerifySid?: string | undefined;
 }
 export interface CustomTelephonyProviderSettingsTwilioPhoneNumber {
   /** The Twilio phone number that's used for sending SMS messages or voice calls. You can find this value in your Twilio console. This method uses Twilio's [Programmable Messaging API](https://www.twilio.com/docs/messaging). */
-  twilioPhoneNumber?: string;
+  twilioPhoneNumber?: string | undefined;
 }
 export interface CustomTelephonyProviderSettingsTwilioCallerId {
   /** The Twilio caller ID that's used for making calls. You can find this value in your Twilio console. This method uses Twilio's [Programmable Voice API](https://www.twilio.com/docs/voice). */
-  twilioCallerId?: string;
+  twilioCallerId?: string | undefined;
 }
 /** The Telesign service identifier used for sending making calls. You can find this value in your Telesign console. The `telesignVerifyService` method uses Telesign's [Verify API](https://developer.telesign.com/enterprise/docs/verify-api-overview). And the `telesignVoiceService` method uses Telesign's [Voice API](https://developer.telesign.com/enterprise/docs/voice-overview). */
 export type CustomTelephonyProviderSettingsTelesignServiceCallTelesignService =
@@ -393,7 +393,8 @@ export interface CustomTelephonyProviderSettingsTelesignServiceCall {
   /** The Telesign service identifier used for sending making calls. You can find this value in your Telesign console. The `telesignVerifyService` method uses Telesign's [Verify API](https://developer.telesign.com/enterprise/docs/verify-api-overview). And the `telesignVoiceService` method uses Telesign's [Voice API](https://developer.telesign.com/enterprise/docs/voice-overview). */
   telesignService?:
     | CustomTelephonyProviderSettingsTelesignServiceCallTelesignService
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Method for making voice calls. Choose one method for making voice calls based on your telephony provider setup. */
 export type CustomTelephonyProviderSettingsCall =
@@ -403,7 +404,7 @@ export type CustomTelephonyProviderSettingsCall =
   | CustomTelephonyProviderSettingsTelesignServiceCall;
 export interface CustomTelephonyProviderSettingsTwilioMessagingService {
   /** The Twilio Messaging Service SID used for sending SMS messages. You can find this value in your Twilio console. This method uses Twilio's [Programmable Messaging API](https://www.twilio.com/docs/messaging). */
-  twilioMessageSid?: string;
+  twilioMessageSid?: string | undefined;
 }
 /** The Telesign service identifier used for sending SMS messages. You can find this value in your Telesign console. The `telesignVerifyService` method uses Telesign's [Verify API](https://developer.telesign.com/enterprise/docs/verify-api-overview). And the `telesignMessagingService` method uses Telesign's [SMS](https://developer.telesign.com/enterprise/docs/voice-overview) and [Messaging](https://developer.telesign.com/enterprise/docs/messaging-overview) APIs. */
 export type CustomTelephonyProviderSettingsTelesignServiceSmsTelesignService =
@@ -413,7 +414,8 @@ export interface CustomTelephonyProviderSettingsTelesignServiceSms {
   /** The Telesign service identifier used for sending SMS messages. You can find this value in your Telesign console. The `telesignVerifyService` method uses Telesign's [Verify API](https://developer.telesign.com/enterprise/docs/verify-api-overview). And the `telesignMessagingService` method uses Telesign's [SMS](https://developer.telesign.com/enterprise/docs/voice-overview) and [Messaging](https://developer.telesign.com/enterprise/docs/messaging-overview) APIs. */
   telesignService?:
     | CustomTelephonyProviderSettingsTelesignServiceSmsTelesignService
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Method for sending SMS messages. Choose one method for sending SMS messages based on your telephony provider setup. */
 export type CustomTelephonyProviderSettingsSms =
@@ -424,24 +426,24 @@ export type CustomTelephonyProviderSettingsSms =
 /** Settings for custom telephony provider. These settings vary based on the telephony provider and the type of telephony operation (SMS or Voice). For `sms` and `call`, you can select one method per telephony operation (`sms` and `call`) for sending messages or voice calls. > **Note:** Configure your telephony provider settings before selecting the methods for sending SMS messages or making voice calls. For example, if you select Twilio as your telephony provider, and you want to send SMS messages using Twilio's Verify Service, ensure that you have the Verify Service set up in your Twilio account. You can then use the `twilioVerifySid` field under `sms` to provide the necessary SID. */
 export interface CustomTelephonyProviderSettings {
   /** Method for making voice calls. Choose one method for making voice calls based on your telephony provider setup. */
-  call?: CustomTelephonyProviderSettingsCall;
+  call?: CustomTelephonyProviderSettingsCall | undefined;
   /** Method for sending SMS messages. Choose one method for sending SMS messages based on your telephony provider setup. */
-  sms?: CustomTelephonyProviderSettingsSms;
+  sms?: CustomTelephonyProviderSettingsSms | undefined;
 }
 export interface CustomTelephonyProviderCredentialResponse {
   /** Indicates whether the provider is enabled and can be used */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** ID of the custom telephony provider */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the provider is the primary telephony provider */
-  isPrimaryProvider?: boolean;
+  isPrimaryProvider?: boolean | undefined;
   /** The types of telephony operations (SMS or Voice) that you use with your telephony provider. `ALL` is the only valid value. It indicates that your provider can handle both SMS messages and voice calls. You're not required to use both types of telephony operations, but your provider can support both. */
-  providerCapability?: CustomTelephonyProviderCredentialResponseProviderCapability;
+  providerCapability?: CustomTelephonyProviderCredentialResponseProviderCapability | undefined;
   /** Name of the telephony provider */
-  providerName?: CustomTelephonyProviderCredentialResponseProviderName;
-  providerSettings?: CustomTelephonyProviderSettings;
+  providerName?: CustomTelephonyProviderCredentialResponseProviderName | undefined;
+  providerSettings?: CustomTelephonyProviderSettings | undefined;
   /** The account string identifier (SID) for your telephony provider account. Your telephony provider gives you this SID. */
-  providerSid?: string;
+  providerSid?: string | undefined;
 }
 export interface ActivateDefaultProvisioningConnectionForApplicationRequest {
   /** Application ID */
@@ -494,14 +496,14 @@ export type DeviceIntegrationsPlatform = "ANDROID" | "CHROMEOS" | "IOS" | "MACOS
 export type DeviceIntegrationsStatus = "ACTIVE" | "DEACTIVATED";
 export interface DeviceIntegrations {
   /** The display name of the device integration */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID of the device integration */
-  id?: string;
-  metadata?: DeviceIntegrationsMetadata;
-  name?: DeviceIntegrationsName;
-  platform?: DeviceIntegrationsPlatform;
-  status?: DeviceIntegrationsStatus;
-  _links?: LinksSelfAndLifecycle;
+  id?: string | undefined;
+  metadata?: DeviceIntegrationsMetadata | undefined;
+  name?: DeviceIntegrationsName | undefined;
+  platform?: DeviceIntegrationsPlatform | undefined;
+  status?: DeviceIntegrationsStatus | undefined;
+  _links?: LinksSelfAndLifecycle | undefined;
 }
 export interface ActivateEventHookRequest {
   /** `id` of the Event Hook */
@@ -512,23 +514,23 @@ export type EventHookChannelConfigAuthSchemeType = "HEADER";
 /** The authentication scheme used for this request. To use Basic Auth for authentication, set `type` to `HEADER`, `key` to `Authorization`, and `value` to the Base64-encoded string of "username:password". Ensure that you include the scheme (including space) as part of the `value` parameter. For example, `Basic YWRtaW46c3VwZXJzZWNyZXQ=`. */
 export interface EventHookChannelConfigAuthSchemeOutput {
   /** The name for the authorization header */
-  key?: string;
-  type?: EventHookChannelConfigAuthSchemeType;
+  key?: string | undefined;
+  type?: EventHookChannelConfigAuthSchemeType | undefined;
 }
 export interface EventHookChannelConfigHeader {
   /** The optional field or header name */
-  key?: string;
+  key?: string | undefined;
   /** The value for the key */
-  value?: string;
+  value?: string | undefined;
 }
 /** Optional list of key/value pairs for headers that can be sent with the request to the external service. For example, `X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your external service. */
 export type EventHookChannelConfigOutputHeadersList = Array<EventHookChannelConfigHeader | null>;
 export interface EventHookChannelConfigOutput {
-  authScheme?: EventHookChannelConfigAuthSchemeOutput;
+  authScheme?: EventHookChannelConfigAuthSchemeOutput | undefined;
   /** Optional list of key/value pairs for headers that can be sent with the request to the external service. For example, `X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your external service. */
-  headers?: EventHookChannelConfigOutputHeadersList;
+  headers?: EventHookChannelConfigOutputHeadersList | undefined;
   /** The method of the Okta event hook request */
-  method?: string;
+  method?: string | undefined;
   /** The external service endpoint called to execute the event hook handler */
   uri: string;
 }
@@ -542,29 +544,29 @@ export interface EventHookChannelOutput {
 }
 export interface EventHookFilterMapObjectCondition {
   /** The Okta Expression language statement that filters the event type */
-  expression?: string;
+  expression?: string | undefined;
   /** Internal field */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export interface EventHookFilterMapObject {
-  condition?: EventHookFilterMapObjectCondition;
+  condition?: EventHookFilterMapObjectCondition | undefined;
   /** The filtered event type */
-  event?: string;
+  event?: string | undefined;
 }
 /** The object that maps the filter to the event type */
 export type EventHookFilterMap = Array<EventHookFilterMapObject>;
 /** The optional filter defined on a specific event type > **Note:** Event hook filters is a [self-service Early Access (EA)](/openapi/okta-management/guides/release-lifecycle/#early-access-ea) to enable. If you want to disable this feature, it's recommended to first remove all event filters. */
 export interface EventHookFilters {
-  eventFilterMap?: EventHookFilterMap;
+  eventFilterMap?: EventHookFilterMap | undefined;
   /** The type of filter. Currently only supports `EXPRESSION_LANGUAGE` */
-  type?: string;
+  type?: string | undefined;
 }
 /** The subscribed event types that trigger the event hook. When you register an event hook you need to specify which events you want to subscribe to. To see the list of event types currently eligible for use in event hooks, use the [Event Types catalog](https://developer.okta.com/docs/reference/api/event-types/#catalog) and search with the parameter `event-hook-eligible`. */
 export type EventHookSubscribedEventTypes = Array<string>;
 /** The events object type. Currently supports `EVENT_TYPE`. */
 export type EventSubscriptionType = "EVENT_TYPE";
 export interface EventSubscriptions {
-  filter?: EventHookFilters | null;
+  filter?: EventHookFilters | null | undefined;
   items: EventHookSubscribedEventTypes;
   type: EventSubscriptionType;
 }
@@ -573,39 +575,39 @@ export type EventHookOutputStatus = "ACTIVE" | "INACTIVE";
 /** Verification status of the event hook. `UNVERIFIED` event hooks won't receive any events. */
 export type EventHookVerificationStatus = "UNVERIFIED" | "VERIFIED";
 export interface EventHookOutputLinks {
-  self?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
-  verify?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  verify?: HrefObjectSelfLink | undefined;
 }
 export interface EventHookOutput {
   channel: EventHookChannelOutput;
   /** Timestamp of the event hook creation */
-  created?: string;
+  created?: string | undefined;
   /** The ID of the user who created the event hook */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Description of the event hook */
-  description?: string | null;
+  description?: string | null | undefined;
   events: EventSubscriptions;
   /** Unique key for the event hook */
-  id?: string;
+  id?: string | undefined;
   /** Date of the last event hook update */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Display name for the event hook */
   name: string;
   /** Status of the event hook */
-  status?: EventHookOutputStatus;
-  verificationStatus?: EventHookVerificationStatus;
-  _links?: EventHookOutputLinks;
+  status?: EventHookOutputStatus | undefined;
+  verificationStatus?: EventHookVerificationStatus | undefined;
+  _links?: EventHookOutputLinks | undefined;
 }
 /** Attempts to activate a `call` factor with the specified passcode */
 export interface UserFactorActivateRequestCase0 {
-  passCode?: string;
+  passCode?: string | undefined;
 }
 /** Attempts to activate an `email` factor with the specified passcode */
 export type UserFactorActivateRequestCase1 = UserFactorActivateRequestCase0;
 /** Sends an asynchronous push notification to the device for approval by the user. You must poll the transaction to determine the state of the verification. See [Retrieve a factor transaction status](./#tag/UserFactor/operation/getFactorTransactionStatus). Activations have a short lifetime of several minutes and return a `TIMEOUT` if not completed before the timestamp specified in the `expiresAt` param. Use the published activate link to restart the activation process if the activation expires. */
 export interface UserFactorActivateRequestCase2 {
-  useNumberMatchingChallenge?: boolean;
+  useNumberMatchingChallenge?: boolean | undefined;
 }
 /** Attempts to activate an `sms` factor with the specified passcode */
 export type UserFactorActivateRequestCase3 = UserFactorActivateRequestCase0;
@@ -614,16 +616,16 @@ export type UserFactorActivateRequestCase4 = UserFactorActivateRequestCase0;
 /** Activates a `u2f` factor with the specified client and registration information from the U2F token */
 export interface UserFactorActivateRequestCase5 {
   /** Base64-encoded client data from the U2F token */
-  clientData?: string;
+  clientData?: string | undefined;
   /** Base64-encoded registration data from the U2F token */
-  registrationData?: string;
+  registrationData?: string | undefined;
 }
 /** Activates a `webauthn` factor with the specified attestation and registration information from the Passkey (FIDO2 WebAuthn) authenticator */
 export interface UserFactorActivateRequestCase6 {
   /** Base64-encoded attestation from the Passkey (FIDO2 WebAuthn) authenticator */
-  attestation?: string;
+  attestation?: string | undefined;
   /** Base64-encoded client data from the Passkey (FIDO2 WebAuthn) authenticator */
-  clientData?: string;
+  clientData?: string | undefined;
 }
 export type UserFactorActivateRequest =
   | UserFactorActivateRequestCase0
@@ -638,7 +640,7 @@ export interface ActivateFactorRequest {
   userId: string;
   /** ID of an existing user factor */
   factorId: string;
-  body?: UserFactorActivateRequest;
+  body?: UserFactorActivateRequest | undefined;
 }
 /** Type of the factor */
 export type UserFactorActivateResponseFactorType =
@@ -652,14 +654,14 @@ export type UserFactorActivateResponseFactorType =
 export type UserFactorActivateResponseLinksUser = HrefObjectSelfLink;
 export type UserFactorActivateResponseLinksVerify = HrefObjectSelfLink;
 export interface UserFactorActivateResponseLinks {
-  self?: HrefObjectSelfLink;
-  user?: HrefObjectSelfLink;
-  verify?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  user?: HrefObjectSelfLink | undefined;
+  verify?: HrefObjectSelfLink | undefined;
 }
 export interface UserFactorActivateResponse {
   /** Type of the factor */
-  factorType?: UserFactorActivateResponseFactorType;
-  _links?: UserFactorActivateResponseLinks;
+  factorType?: UserFactorActivateResponseFactorType | undefined;
+  _links?: UserFactorActivateResponseLinks | undefined;
 }
 export interface ActivateGroupRuleRequest {
   /** The `id` of the group rule */
@@ -679,26 +681,26 @@ export type PolicyAccountLinkFilterGroupsIncludeList = Array<string>;
 /** Group memberships used to determine link candidates */
 export interface PolicyAccountLinkFilterGroups {
   /** Specifies the allowlist of Group identifiers to match against. Group memberships are restricted to type `OKTA_GROUP`. */
-  include?: PolicyAccountLinkFilterGroupsIncludeList;
+  include?: PolicyAccountLinkFilterGroupsIncludeList | undefined;
 }
 /** Specifies the blocklist of user identifiers to exclude from account linking */
 export type PolicyAccountLinkFilterUsersExcludeList = Array<string>;
 /** Filters on which users are available for account linking */
 export interface PolicyAccountLinkFilterUsers {
   /** Specifies the blocklist of user identifiers to exclude from account linking */
-  exclude?: PolicyAccountLinkFilterUsersExcludeList;
+  exclude?: PolicyAccountLinkFilterUsersExcludeList | undefined;
   /** Specifies whether admin users should be excluded from account linking */
-  excludeAdmins?: boolean;
+  excludeAdmins?: boolean | undefined;
 }
 /** Specifies filters on which users are available for account linking by an IdP */
 export interface PolicyAccountLinkFilter {
-  groups?: PolicyAccountLinkFilterGroups;
-  users?: PolicyAccountLinkFilterUsers;
+  groups?: PolicyAccountLinkFilterGroups | undefined;
+  users?: PolicyAccountLinkFilterUsers | undefined;
 }
 /** Specifies the behavior for linking an IdP user to an existing Okta user */
 export interface PolicyAccountLink {
-  action?: PolicyAccountLinkAction | (string & {});
-  filter?: PolicyAccountLinkFilter;
+  action?: PolicyAccountLinkAction | (string & {}) | undefined;
+  filter?: PolicyAccountLinkFilter | undefined;
 }
 /** Specifies the user provisioning action during authentication when an IdP user isn't linked to an existing Okta user. * To successfully provision a new Okta user, you must enable just-in-time (JIT) provisioning in your org security settings. * If the target username isn't unique or the resulting Okta user profile is missing a required profile attribute, JIT provisioning may fail. * New Okta users are provisioned with either a `FEDERATION` or `SOCIAL` authentication provider depending on the IdP type. */
 export type ProvisioningAction = "AUTO" | "DISABLED";
@@ -706,18 +708,18 @@ export type ProvisioningAction = "AUTO" | "DISABLED";
 export type ProvisioningDeprovisionedAction = "NONE" | "REACTIVATE";
 /** Behavior for a previously deprovisioned IdP user during authentication */
 export interface ProvisioningDeprovisionedCondition {
-  action?: ProvisioningDeprovisionedAction | (string & {});
+  action?: ProvisioningDeprovisionedAction | (string & {}) | undefined;
 }
 /** Specifies the action during authentication when an IdP user is linked to a previously suspended Okta user */
 export type ProvisioningSuspendedAction = "NONE" | "UNSUSPEND";
 /** Behavior for a previously suspended IdP user during authentication */
 export interface ProvisioningSuspendedCondition {
-  action?: ProvisioningSuspendedAction | (string & {});
+  action?: ProvisioningSuspendedAction | (string & {}) | undefined;
 }
 /** Conditional behaviors for an IdP user during authentication */
 export interface ProvisioningConditions {
-  deprovisioned?: ProvisioningDeprovisionedCondition;
-  suspended?: ProvisioningSuspendedCondition;
+  deprovisioned?: ProvisioningDeprovisionedCondition | undefined;
+  suspended?: ProvisioningSuspendedCondition | undefined;
 }
 /** Provisioning action for the IdP user's group memberships | Enum | Description | Existing OKTA_GROUP Memberships | Existing APP_GROUP Memberships | Existing BUILT_IN Memberships | | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------ | ----------------------------- | | `APPEND` | Adds a user to any group defined by the IdP as a value of the `sourceAttributeName` array that matches the name of the allow listed group defined in the `filter` | Unchanged | Unchanged | Unchanged | | `ASSIGN` | Assigns a user to groups defined in the `assignments` array | Unchanged | Unchanged | Unchanged | | `NONE` | Skips processing of group memberships | Unchanged | Unchanged | Unchanged | | `SYNC` | Group memberships are sourced by the IdP as a value of the `sourceAttributeName` array that matches the name of the group defined in the `filter` | Removed if not defined by the IdP in `sourceAttributeName` and matching name of the group in `filter` | Unchanged | Unchanged | > **Note:** Group provisioning action is processed independently from profile sourcing. You can sync group memberships through SAML with profile sourcing disabled. */
 export type ProvisioningGroupsAction = "APPEND" | "ASSIGN" | "NONE" | "SYNC";
@@ -727,21 +729,21 @@ export type ProvisioningGroupsAssignmentsList = Array<string>;
 export type ProvisioningGroupsFilterList = Array<string>;
 /** Provisioning settings for a user's group memberships */
 export interface ProvisioningGroups {
-  action?: ProvisioningGroupsAction | (string & {});
+  action?: ProvisioningGroupsAction | (string & {}) | undefined;
   /** List of `OKTA_GROUP` group identifiers to add an IdP user as a member with the `ASSIGN` action */
-  assignments?: ProvisioningGroupsAssignmentsList;
+  assignments?: ProvisioningGroupsAssignmentsList | undefined;
   /** Allowlist of `OKTA_GROUP` group identifiers for the `APPEND` or `SYNC` provisioning action */
-  filter?: ProvisioningGroupsFilterList;
+  filter?: ProvisioningGroupsFilterList | undefined;
   /** IdP user profile attribute name (case-insensitive) for an array value that contains group memberships */
-  sourceAttributeName?: string;
+  sourceAttributeName?: string | undefined;
 }
 /** Specifies the behavior for just-in-time (JIT) provisioning of an IdP user as a new Okta user and their group memberships */
 export interface Provisioning {
-  action?: ProvisioningAction | (string & {});
-  conditions?: ProvisioningConditions;
-  groups?: ProvisioningGroups;
+  action?: ProvisioningAction | (string & {}) | undefined;
+  conditions?: ProvisioningConditions | undefined;
+  groups?: ProvisioningGroups | undefined;
   /** Determines if the IdP should act as a source of truth for user profile attributes */
-  profileMaster?: boolean;
+  profileMaster?: boolean | undefined;
 }
 /** Determines the Okta user profile attribute match conditions for account linking and authentication of the transformed IdP username */
 export type PolicySubjectMatchType =
@@ -751,25 +753,25 @@ export type PolicySubjectMatchType =
   | "USERNAME_OR_EMAIL";
 /** [Okta Expression Language (EL) expression](https://developer.okta.com/docs/reference/okta-expression-language/) to generate or transform a unique username for the IdP user. * IdP user profile attributes can be referenced with the `idpuser` prefix such as `idpuser.subjectNameId`. * You must define an IdP user profile attribute before it can be referenced in an Okta EL expression. To define an IdP user attribute policy, you may need to create a new IdP instance without a base profile property. Then edit the IdP user profile to update the IdP instance with an expression that references the IdP user profile attribute that you just created. */
 export interface PolicyUserNameTemplate {
-  template?: string;
+  template?: string | undefined;
 }
 /** Specifies the behavior for establishing, validating, and matching a username for an IdP user */
 export interface PolicySubject {
   /** Optional [regular expression pattern](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions) used to filter untrusted IdP usernames. * As a best security practice, you should define a regular expression pattern to filter untrusted IdP usernames. This is especially important if multiple IdPs are connected to your org. The filter prevents an IdP from issuing an assertion for any user, including partners or directory users in your Okta org. * For example, the filter pattern `(\S+@example\.com)` allows only Users that have an `@example.com` username suffix. It rejects assertions that have any other suffix such as `@corp.example.com` or `@partner.com`. * Only `SAML2` and `OIDC` IdP providers support the `filter` property. */
-  filter?: string;
+  filter?: string | undefined;
   /** Okta user profile attribute for matching a transformed IdP username. Only for matchType `CUSTOM_ATTRIBUTE`. The `matchAttribute` must be a valid Okta user profile attribute of one of the following types: * String (with no format or 'email' format only) * Integer * Number */
-  matchAttribute?: string;
-  matchType?: PolicySubjectMatchType | (string & {});
-  userNameTemplate?: PolicyUserNameTemplate;
+  matchAttribute?: string | undefined;
+  matchType?: PolicySubjectMatchType | (string & {}) | undefined;
+  userNameTemplate?: PolicyUserNameTemplate | undefined;
 }
 export interface IdentityProviderPolicy {
-  accountLink?: PolicyAccountLink;
+  accountLink?: PolicyAccountLink | undefined;
   /** Maximum allowable clock skew when processing messages from the IdP */
-  maxClockSkew?: number;
+  maxClockSkew?: number | undefined;
   /** Indicates whether to trust authentication claims from the IdP */
-  trustClaims?: boolean;
-  provisioning?: Provisioning;
-  subject?: PolicySubject;
+  trustClaims?: boolean | undefined;
+  provisioning?: Provisioning | undefined;
+  subject?: PolicySubject | undefined;
 }
 export type IdentityProviderPropertiesAdditionalAmrItem = "sc" | "hwk" | "pin" | "mfa";
 /** The additional Assurance Methods References (AMR) values for Smart Card IdPs. Applies to `X509` IdP type. */
@@ -779,26 +781,26 @@ export type IdentityProviderPropertiesAdditionalAmrList = Array<
 /** Metadata about the IDV vendor. Available only for `IDV_STANDARD` IdPs. */
 export interface IdentityProviderPropertiesIdvMetadata {
   /** The display name of the IDV vendor */
-  vendorDisplayName?: string;
+  vendorDisplayName?: string | undefined;
   /** A URL that links to the terms of use for the IDV vendor */
-  termsOfUse?: string;
+  termsOfUse?: string | undefined;
   /** A URL that links to the privacy policy for the IDV vendor */
-  privacyPolicy?: string;
+  privacyPolicy?: string | undefined;
 }
 /** The properties in the IdP `properties` object vary depending on the IdP type */
 export interface IdentityProviderProperties {
   /** The [authentication assurance level](https://developers.login.gov/oidc/#aal-values) (AAL) value for the Login.gov IdP. See [Add a Login.gov IdP](https://developer.okta.com/docs/guides/add-logingov-idp/). Applies to `LOGINGOV` and `LOGINGOV_SANDBOX` IdP types. */
-  aalValue?: string | null;
+  aalValue?: string | null | undefined;
   /** The additional Assurance Methods References (AMR) values for Smart Card IdPs. Applies to `X509` IdP type. */
-  additionalAmr?: IdentityProviderPropertiesAdditionalAmrList | null;
+  additionalAmr?: IdentityProviderPropertiesAdditionalAmrList | null | undefined;
   /** Enables authenticated users to enroll a Smart Card if the users can't be identified using the configured `matchAttribute`. Applies to `X509` IdP type. > **Note:** Enrollment requires a PIN if the Smart Card is PIN-protected. And enrollment is also blocked if the X.509 certificate contains restricted attributes (`login`, `email`, `secondEmail`, and configured attributes that are used in multiple identifiers). */
-  allowDynamicUserMatching?: boolean;
+  allowDynamicUserMatching?: boolean | undefined;
   /** Enables attribute synchronization from the X.509 certificate to the user's Okta profile. If it's set to `true`, Okta overwrites user profile attributes with values found in the X.509 certificate. Applies to `X509` IdP type. > **Note:** Some attributes are restricted and won't be updated, including `login`, `email`, `secondEmail`, and configured attributes that are used in multiple identifiers. */
-  allowUserUpdates?: boolean;
+  allowUserUpdates?: boolean | undefined;
   /** The [type of identity verification](https://developers.login.gov/oidc/#ial-values) (IAL) value for the Login.gov IdP. See [Add a Login.gov IdP](https://developer.okta.com/docs/guides/add-logingov-idp/). Applies to `LOGINGOV` and `LOGINGOV_SANDBOX` IdP types. */
-  ialValue?: string | null;
+  ialValue?: string | null | undefined;
   /** Metadata about the IDV vendor. Available only for `IDV_STANDARD` IdPs. */
-  idvMetadata?: IdentityProviderPropertiesIdvMetadata;
+  idvMetadata?: IdentityProviderPropertiesIdvMetadata | undefined;
   /** The ID of the inquiry template from your Persona dashboard. The inquiry template always starts with `itmpl`. Applies to the `IDV_PERSONA` IdP type. */
   inquiryTemplateId: string;
 }
@@ -809,84 +811,84 @@ export type SamlSigningAlgorithm = "SHA-1" | "SHA-256";
 export type ProtocolAlgorithmRequestScope = "NONE" | "REQUEST";
 /** XML digital Signature Algorithm settings for signing `<AuthnRequest>` messages sent to the IdP > **Note:** The `algorithm` property is ignored when you disable request signatures (`scope` set as `NONE`). */
 export interface SamlRequestSignatureAlgorithm {
-  algorithm?: SamlSigningAlgorithm | (string & {});
-  scope?: ProtocolAlgorithmRequestScope | (string & {});
+  algorithm?: SamlSigningAlgorithm | (string & {}) | undefined;
+  scope?: ProtocolAlgorithmRequestScope | (string & {}) | undefined;
 }
 /** Algorithm settings used to secure an `<AuthnRequest>` message */
 export interface SamlRequestAlgorithm {
-  digest?: SamlRequestDigestAlgorithm | (string & {});
-  signature?: SamlRequestSignatureAlgorithm;
+  digest?: SamlRequestDigestAlgorithm | (string & {}) | undefined;
+  signature?: SamlRequestSignatureAlgorithm | undefined;
 }
 /** Specifies whether to verify responses from the IdP */
 export type ProtocolAlgorithmResponseScope = "ANY" | "RESPONSE" | "TOKEN";
 /** XML digital Signature Algorithm settings for verifying `<SAMLResponse>` messages and `<Assertion>` elements from the IdP */
 export interface SamlResponseSignatureAlgorithm {
-  algorithm?: SamlSigningAlgorithm | (string & {});
-  scope?: ProtocolAlgorithmResponseScope | (string & {});
+  algorithm?: SamlSigningAlgorithm | (string & {}) | undefined;
+  scope?: ProtocolAlgorithmResponseScope | (string & {}) | undefined;
 }
 /** Algorithm settings for verifying `<SAMLResponse>` messages and `<Assertion>` elements from the IdP */
 export interface SamlResponseAlgorithm {
-  signature?: SamlResponseSignatureAlgorithm;
+  signature?: SamlResponseSignatureAlgorithm | undefined;
 }
 /** Settings for signing and verifying SAML messages */
 export interface SamlAlgorithms {
-  request?: SamlRequestAlgorithm;
-  response?: SamlResponseAlgorithm;
+  request?: SamlRequestAlgorithm | undefined;
+  response?: SamlResponseAlgorithm | undefined;
 }
 /** Key used for signing requests to the IdP */
 export interface SamlSigningCredentials {
-  kid?: string;
+  kid?: string | undefined;
 }
 /** Additional IdP key credential reference to the Okta X.509 signature certificate */
 export type SamlTrustCredentialsAdditionalKidsList = Array<string>;
 /** Federation Trust Credentials for verifying assertions from the IdP */
 export interface SamlTrustCredentials {
   /** Additional IdP key credential reference to the Okta X.509 signature certificate */
-  additionalKids?: SamlTrustCredentialsAdditionalKidsList;
+  additionalKids?: SamlTrustCredentialsAdditionalKidsList | undefined;
   /** URI that identifies the target Okta IdP instance (SP) for an `<Assertion>` */
-  audience?: string;
+  audience?: string | undefined;
   /** URI that identifies the issuer (IdP) of a `<SAMLResponse>` message `<Assertion>` element */
-  issuer?: string;
-  kid?: string;
+  issuer?: string | undefined;
+  kid?: string | undefined;
 }
 /** Federation Trust Credentials for verifying assertions from the IdP and signing requests to the IdP */
 export interface SamlCredentials {
-  signing?: SamlSigningCredentials;
-  trust?: SamlTrustCredentials;
+  signing?: SamlSigningCredentials | undefined;
+  trust?: SamlTrustCredentials | undefined;
 }
 export type ProtocolEndpointBinding = "HTTP-POST" | "HTTP-REDIRECT";
 /** Determines whether to publish an instance-specific (trust) or organization (shared) ACS endpoint in the SAML metadata */
 export type SamlEndpointType = "INSTANCE" | "ORG";
 /** Okta's `SPSSODescriptor` endpoint where the IdP sends a `<SAMLResponse>` message */
 export interface SamlAcsEndpoint {
-  binding?: ProtocolEndpointBinding | (string & {});
-  type?: SamlEndpointType | (string & {});
+  binding?: ProtocolEndpointBinding | (string & {}) | undefined;
+  type?: SamlEndpointType | (string & {}) | undefined;
 }
 /** IdP's `SingleLogoutService` endpoint where Okta sends a `<LogoutRequest>` message */
 export interface SamlSloEndpoint {
-  binding?: ProtocolEndpointBinding | (string & {});
+  binding?: ProtocolEndpointBinding | (string & {}) | undefined;
   /** URL of the binding-specific IdP endpoint where Okta sends a `<LogoutRequest>` */
-  url?: string;
+  url?: string | undefined;
 }
 /** IdP's `SingleSignOnService` endpoint where Okta sends an `<AuthnRequest>` message */
 export interface SamlSsoEndpoint {
-  binding?: ProtocolEndpointBinding | (string & {});
+  binding?: ProtocolEndpointBinding | (string & {}) | undefined;
   /** URI reference that indicates the address to which the `<AuthnRequest>` message is sent. The `destination` property is required if request signatures are specified. See [SAML 2.0 Request Algorithm object](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/#tag/IdentityProvider/operation/createIdentityProvider!path=protocol/0/algorithms/request&t=request). */
-  destination?: string;
+  destination?: string | undefined;
   /** URL of the binding-specific endpoint to send an `<AuthnRequest>` message to the IdP. The value of `url` defaults to the same value as the `sso` endpoint if omitted during creation of a new IdP instance. The `url` should be the same value as the `Location` attribute for a published binding in the IdP's SAML Metadata `IDPSSODescriptor`. */
-  url?: string;
+  url?: string | undefined;
 }
 /** SAML 2.0 HTTP binding settings for IdP and SP (Okta) */
 export interface SamlEndpoints {
-  acs?: SamlAcsEndpoint;
-  slo?: SamlSloEndpoint;
-  sso?: SamlSsoEndpoint;
+  acs?: SamlAcsEndpoint | undefined;
+  slo?: SamlSloEndpoint | undefined;
+  sso?: SamlSsoEndpoint | undefined;
 }
 /** The format used to generate the `relayState` in the SAML request. The `FROM_URL` format is used if this value is null. */
 export type SamlRelayStateFormat = "FROM_URL" | "OPAQUE";
 /** Relay state settings for IdP */
 export interface SamlRelayState {
-  format?: SamlRelayStateFormat | (string & {});
+  format?: SamlRelayStateFormat | (string & {}) | undefined;
 }
 /** SAML 2.0 Name Identifier formats */
 export type SamlNameIdFormat =
@@ -897,88 +899,91 @@ export type SamlNameIdFormat =
 /** Advanced settings for the SAML 2.0 protocol */
 export interface SamlSettings {
   /** Determines if the IdP should persist account linking when the incoming assertion NameID format is `urn:oasis:names:tc:SAML:2.0:nameid-format:persistent` */
-  honorPersistentNameId?: boolean;
-  nameFormat?: SamlNameIdFormat | (string & {});
+  honorPersistentNameId?: boolean | undefined;
+  nameFormat?: SamlNameIdFormat | (string & {}) | undefined;
   /** Set to `true` to have Okta send a logout request to the upstream IdP when a user signs out of Okta or a downstream app. */
-  participateSlo?: boolean;
+  participateSlo?: boolean | undefined;
   /** Determines if the IdP should send the application context as `<OktaAppInstanceId>` and `<OktaAppName>` in the `<saml2p:Extensions>` element of the `<AuthnRequest>` message */
-  sendApplicationContext?: boolean;
+  sendApplicationContext?: boolean | undefined;
 }
 /** SAML 2.0 protocol */
 export type ProtocolSamlType = "SAML2";
 /** Protocol settings for the [SAML 2.0 Authentication Request Protocol](http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf) */
 export interface ProtocolSaml {
-  algorithms?: SamlAlgorithms;
-  credentials?: SamlCredentials;
-  endpoints?: SamlEndpoints;
-  relayState?: SamlRelayState;
-  settings?: SamlSettings;
+  algorithms?: SamlAlgorithms | undefined;
+  credentials?: SamlCredentials | undefined;
+  endpoints?: SamlEndpoints | undefined;
+  relayState?: SamlRelayState | undefined;
+  settings?: SamlSettings | undefined;
   /** SAML 2.0 protocol */
-  type?: ProtocolSamlType | (string & {});
+  type?: ProtocolSamlType | (string & {}) | undefined;
 }
 /** Client authentication methods supported by the token endpoint */
 export type OAuthCredentialsClientTokenEndpointAuthMethod = "private_key_jwt";
 /** OAuth 2.0 and OpenID Connect Client object > **Note:** You must complete client registration with the IdP Authorization Server for your Okta IdP instance to obtain client credentials. */
 export interface OAuthCredentialsClient {
   /** The [Unique identifier](https://tools.ietf.org/html/rfc6749#section-2.2) issued by the AS for the Okta IdP instance */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The [Client secret](https://tools.ietf.org/html/rfc6749#section-2.3.1) issued by the AS for the Okta IdP instance */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Require Proof Key for Code Exchange (PKCE) for additional verification */
-  pkce_required?: boolean;
+  pkce_required?: boolean | undefined;
   /** Client authentication methods supported by the token endpoint */
-  token_endpoint_auth_method?: OAuthCredentialsClientTokenEndpointAuthMethod | (string & {});
+  token_endpoint_auth_method?:
+    | OAuthCredentialsClientTokenEndpointAuthMethod
+    | (string & {})
+    | undefined;
 }
 /** Information used to generate the secret JSON Web Token for the token requests to Apple IdP > **Note:** The `privateKey` property is required for a CREATE request. For an UPDATE request, it can be null and keeps the existing value if it's null. The `privateKey` property isn't returned for LIST and GET requests or UPDATE requests if it's null. */
 export interface AppleClientSigning {
   /** The key ID that you obtained from Apple when you created the private key for the client */
-  kid?: string;
+  kid?: string | undefined;
   /** The PKCS \#8 encoded private key that you created for the client and downloaded from Apple */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** The Team ID associated with your Apple developer account */
-  teamId?: string;
+  teamId?: string | undefined;
 }
 /** Client authentication credentials for an [OAuth 2.0 Authorization Server](https://tools.ietf.org/html/rfc6749#section-2.3) */
 export interface OAuthCredentials {
-  client?: OAuthCredentialsClient;
-  signing?: AppleClientSigning;
+  client?: OAuthCredentialsClient | undefined;
+  signing?: AppleClientSigning | undefined;
 }
 /** Endpoint for an [OAuth 2.0 Authorization Server (AS)](https://tools.ietf.org/html/rfc6749#page-18) */
 export interface OAuthAuthorizationEndpoint {
-  binding?: ProtocolEndpointBinding | (string & {});
+  binding?: ProtocolEndpointBinding | (string & {}) | undefined;
   /** URL of the IdP Authorization Server (AS) authorization endpoint */
-  url?: string;
+  url?: string | undefined;
 }
 /** Endpoint for the JSON Web Key Set (JWKS) document. This document contains signing keys that are used to validate the signatures from the provider. For more information on JWKS, see [JSON Web Key](https://tools.ietf.org/html/rfc7517). */
 export interface OidcJwksEndpoint {
-  binding?: ProtocolEndpointBinding | (string & {});
+  binding?: ProtocolEndpointBinding | (string & {}) | undefined;
   /** URL of the endpoint to the JWK Set */
-  url?: string;
+  url?: string | undefined;
 }
 /** OIDC IdP logout endpoint */
 export interface OidcSloEndpoint {
   /** IdP logout endpoint URL */
-  url?: string;
+  url?: string | undefined;
 }
 /** Endpoint for an [OAuth 2.0 Authorization Server (AS)](https://tools.ietf.org/html/rfc6749#page-18) */
 export interface OAuthTokenEndpoint {
-  binding?: ProtocolEndpointBinding | (string & {});
+  binding?: ProtocolEndpointBinding | (string & {}) | undefined;
   /** URL of the IdP Authorization Server (AS) token endpoint */
-  url?: string;
+  url?: string | undefined;
 }
 /** Endpoint for getting identity information about the user. For more information on the `/userinfo` endpoint, see [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). */
 export interface OidcUserInfoEndpoint {
-  binding?: ProtocolEndpointBinding | (string & {});
+  binding?: ProtocolEndpointBinding | (string & {}) | undefined;
   /** URL of the resource server's `/userinfo` endpoint */
-  url?: string;
+  url?: string | undefined;
 }
 /** The `OAUTH2` and `OIDC` protocols support the `authorization` and `token` endpoints. Also, the `OIDC` protocol supports the `userInfo` and `jwks` endpoints. The IdP Authorization Server (AS) endpoints are currently defined as part of the [IdP provider]((https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/#tag/IdentityProvider/operation/createIdentityProvider!path=type&t=request)) and are read-only. */
 export interface OAuthEndpoints {
-  authorization?: OAuthAuthorizationEndpoint;
-  jwks?: OidcJwksEndpoint;
-  slo?: OidcSloEndpoint;
-  token?: OAuthTokenEndpoint;
-  userInfo?: OidcUserInfoEndpoint;
+  authorization?: OAuthAuthorizationEndpoint | undefined;
+  jwks?: OidcJwksEndpoint | undefined;
+  slo?: OidcSloEndpoint | undefined;
+  token?: OAuthTokenEndpoint | undefined;
+  userInfo?: OidcUserInfoEndpoint | undefined;
 }
 /** IdP-defined permission bundles to request delegated access from the user. > **Note:** The [identity provider type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/#tag/IdentityProvider/operation/createIdentityProvider!path=type&t=request) table lists the scopes that are supported for each IdP. */
 export type OAuthScopes = Array<string>;
@@ -986,86 +991,86 @@ export type OAuthScopes = Array<string>;
 export type ProtocolOAuthType = "OAUTH2";
 /** Protocol settings for authentication using the [OAuth 2.0 Authorization Code flow](https://tools.ietf.org/html/rfc6749#section-4.1) */
 export interface ProtocolOAuth {
-  credentials?: OAuthCredentials;
-  endpoints?: OAuthEndpoints;
-  scopes?: OAuthScopes;
+  credentials?: OAuthCredentials | undefined;
+  endpoints?: OAuthEndpoints | undefined;
+  scopes?: OAuthScopes | undefined;
   /** OAuth 2.0 Authorization Code flow */
-  type?: ProtocolOAuthType | (string & {});
+  type?: ProtocolOAuthType | (string & {}) | undefined;
 }
 export type OidcSigningAlgorithm = "HS256" | "HS384" | "HS512" | "RS256" | "RS384" | "RS512";
 /** Signature Algorithm settings for signing authorization requests sent to the IdP > **Note:** The `algorithm` property is ignored when you disable request signatures (`scope` set as `NONE`). */
 export interface OidcRequestSignatureAlgorithm {
-  algorithm?: OidcSigningAlgorithm | (string & {});
-  scope?: ProtocolAlgorithmRequestScope | (string & {});
+  algorithm?: OidcSigningAlgorithm | (string & {}) | undefined;
+  scope?: ProtocolAlgorithmRequestScope | (string & {}) | undefined;
 }
 /** Algorithm settings used to sign an authorization request */
 export interface OidcRequestAlgorithm {
-  signature?: OidcRequestSignatureAlgorithm;
+  signature?: OidcRequestSignatureAlgorithm | undefined;
 }
 export interface OidcAlgorithms {
-  request?: OidcRequestAlgorithm;
+  request?: OidcRequestAlgorithm | undefined;
 }
 /** OIDC issuer identifier (issuer URL / expected `iss` value) for the external IdP */
 export interface OidcIssuer {
   /** Issuer URL identifying the external IdP (the expected `iss` value in OIDC tokens) */
-  url?: string;
+  url?: string | undefined;
 }
 /** OpenID Connect and IdP-defined permission bundles to request delegated access from the user > **Note:** The [IdP type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/#tag/IdentityProvider/operation/createIdentityProvider!path=type&t=request) table lists the scopes that are supported for each IdP. */
 export type ProtocolOidcScopesList = Array<string>;
 /** Advanced settings for the OpenID Connect protocol */
 export interface OidcSettings {
   /** Set to `true` to have Okta send a logout request to the upstream IdP when a user signs out of Okta or a downstream app. */
-  participateSlo?: boolean;
+  participateSlo?: boolean | undefined;
   /** Determines if the IdP should send the application context as `OktaAppInstanceId` and `OktaAppName` params in the request */
-  sendApplicationContext?: boolean;
+  sendApplicationContext?: boolean | undefined;
 }
 /** OpenID Connect Authorization Code flow */
 export type ProtocolOidcType = "OIDC";
 /** Protocol settings for authentication using the [OpenID Connect Protocol](http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth) */
 export interface ProtocolOidc {
-  algorithms?: OidcAlgorithms;
-  credentials?: OAuthCredentials;
-  endpoints?: OAuthEndpoints;
-  issuer?: OidcIssuer;
+  algorithms?: OidcAlgorithms | undefined;
+  credentials?: OAuthCredentials | undefined;
+  endpoints?: OAuthEndpoints | undefined;
+  issuer?: OidcIssuer | undefined;
   /** URL of the IdP org */
-  oktaIdpOrgUrl?: string;
+  oktaIdpOrgUrl?: string | undefined;
   /** OpenID Connect and IdP-defined permission bundles to request delegated access from the user > **Note:** The [IdP type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/#tag/IdentityProvider/operation/createIdentityProvider!path=type&t=request) table lists the scopes that are supported for each IdP. */
-  scopes?: ProtocolOidcScopesList;
-  settings?: OidcSettings;
+  scopes?: ProtocolOidcScopesList | undefined;
+  settings?: OidcSettings | undefined;
   /** OpenID Connect Authorization Code flow */
-  type?: ProtocolOidcType | (string & {});
+  type?: ProtocolOidcType | (string & {}) | undefined;
 }
 /** Mechanism to validate the certificate > **Note:** This property isn't supported. Okta now handles CRL caching automatically. As of October 8, 2025, in Preview orgs, and October 13, 2025, in Production orgs, this property is ignored if it's specified in any API requests. Specifying the property in your API requests doesn't cause any errors since the property has no effect. > > See [Deprecation Notice - Smart Card IdP Legacy CRL Cache Setting](https://support.okta.com/help/s/article/deprecation-notice-smart-card-idp-legacy-crl-cache-setting?language=en_US). */
 export type MtlsTrustCredentialsRevocation = "CRL" | "DELTA_CRL" | "OCSP";
 export interface MtlsTrustCredentials {
   /** Not used */
-  audience?: string;
+  audience?: string | undefined;
   /** Description of the certificate issuer */
-  issuer?: string;
-  kid?: string;
-  revocation?: MtlsTrustCredentialsRevocation | (string & {});
+  issuer?: string | undefined;
+  kid?: string | undefined;
+  revocation?: MtlsTrustCredentialsRevocation | (string & {}) | undefined;
   /** Time in minutes to cache the certificate revocation information > **Note:** This property isn't supported. Okta now handles CRL caching automatically. As of October 8, 2025, in Preview orgs, and October 13, 2025, in Production orgs, this property is ignored if it's specified in any API requests. Specifying this property in your API requests doesn't cause errors since the property has no effect. > > See [Deprecation Notice - Smart Card IdP Legacy CRL Cache Setting](https://support.okta.com/help/s/article/deprecation-notice-smart-card-idp-legacy-crl-cache-setting?language=en_US). */
-  revocationCacheLifetime?: number;
+  revocationCacheLifetime?: number | undefined;
 }
 /** Certificate chain description for verifying assertions from the Smart Card */
 export interface MtlsCredentials {
-  trust?: MtlsTrustCredentials;
+  trust?: MtlsTrustCredentials | undefined;
 }
 /** The Single Sign-On (SSO) endpoint is the IdP's `SingleSignOnService` endpoint */
 export interface MtlsSsoEndpoint {
-  url?: string;
+  url?: string | undefined;
 }
 export interface MtlsEndpoints {
-  sso?: MtlsSsoEndpoint;
+  sso?: MtlsSsoEndpoint | undefined;
 }
 /** Mutual TLS */
 export type ProtocolMtlsType = "MTLS";
 /** Protocol settings for the [MTLS Protocol](https://tools.ietf.org/html/rfc5246#section-7.4.4) */
 export interface ProtocolMtls {
-  credentials?: MtlsCredentials;
-  endpoints?: MtlsEndpoints;
+  credentials?: MtlsCredentials | undefined;
+  endpoints?: MtlsEndpoints | undefined;
   /** Mutual TLS */
-  type?: ProtocolMtlsType | (string & {});
+  type?: ProtocolMtlsType | (string & {}) | undefined;
 }
 /** Client credential for `IDV_PERSONA` IdP type */
 export interface IDVCredentialsBearer {
@@ -1082,30 +1087,30 @@ export interface IDVCredentialsClient {
 /** Credentials for verifying requests to the IDV vendor */
 export interface IDVCredentials {
   /** Client credential for `IDV_PERSONA` IdP type */
-  bearer?: IDVCredentialsBearer;
+  bearer?: IDVCredentialsBearer | undefined;
   /** <x-lifecycle-container><x-lifecycle class="oie"></x-lifecycle></x-lifecycle-container>Client credentials for `IDV_CLEAR` and `IDV_INCODE` IdP types */
-  client?: IDVCredentialsClient;
+  client?: IDVCredentialsClient | undefined;
 }
 export type IDVAuthorizationEndpointBinding = "HTTP-REDIRECT";
 /** IDV authorization endpoint */
 export interface IDVAuthorizationEndpoint {
-  binding?: IDVAuthorizationEndpointBinding | (string & {});
+  binding?: IDVAuthorizationEndpointBinding | (string & {}) | undefined;
   /** URL of the `authorization` endpoint of the IDV vendor */
-  url?: string;
+  url?: string | undefined;
 }
 export type IDVParEndpointBinding = "HTTP-POST";
 /** IDV [PAR](https://datatracker.ietf.org/doc/html/rfc9126) endpoint */
 export interface IDVParEndpoint {
-  binding?: IDVParEndpointBinding | (string & {});
+  binding?: IDVParEndpointBinding | (string & {}) | undefined;
   /** URL of the `par` endpoint of the IDV vendor */
-  url?: string;
+  url?: string | undefined;
 }
 export type IDVTokenEndpointBinding = "HTTP-POST";
 /** Token endpoint of the IDV vendor */
 export interface IDVTokenEndpoint {
-  binding?: IDVTokenEndpointBinding | (string & {});
+  binding?: IDVTokenEndpointBinding | (string & {}) | undefined;
   /** URL of the `token` endpoint of the IDV vendor */
-  url?: string;
+  url?: string | undefined;
 }
 /** Contains endpoints for the IDV vendor. When you create an `IDV_STANDARD` IdP, you must include the `par`, `authorization`, `token`, and `jwks` endpoints in the request body. */
 export interface IDVEndpoints {
@@ -1118,11 +1123,11 @@ export interface IDVEndpoints {
 export type ProtocolIdVerificationType = "ID_PROOFING";
 /** Protocol settings for the IDV vendor */
 export interface ProtocolIdVerification {
-  credentials?: IDVCredentials;
-  endpoints?: IDVEndpoints;
-  scopes?: OAuthScopes;
+  credentials?: IDVCredentials | undefined;
+  endpoints?: IDVEndpoints | undefined;
+  scopes?: OAuthScopes | undefined;
   /** ID verification protocol */
-  type?: ProtocolIdVerificationType | (string & {});
+  type?: ProtocolIdVerificationType | (string & {}) | undefined;
 }
 /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
 export type IdentityProviderProtocol =
@@ -1160,40 +1165,40 @@ export type IdentityProviderType =
   | "YAHOO"
   | "YAHOOJP";
 export interface IdentityProviderLinks {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** SAML 2.0 Assertion Consumer Service URL for the Okta SP */
-  acs?: HrefObjectSelfLink;
+  acs?: HrefObjectSelfLink | undefined;
   /** OAuth 2.0 authorization endpoint for the IdP OAuth 2.0 Authorization Code flow */
-  authorize?: HrefObjectSelfLink;
+  authorize?: HrefObjectSelfLink | undefined;
   /** Redirect URI for the OAuth 2.0 Authorization Code flow */
-  clientRedirectUri?: HrefObjectSelfLink;
+  clientRedirectUri?: HrefObjectSelfLink | undefined;
   /** Federation metadata document for the IdP (for example: SAML 2.0 Metadata) */
-  metadata?: HrefObjectSelfLink;
+  metadata?: HrefObjectSelfLink | undefined;
   /** IdP users */
-  users?: HrefObjectSelfLink;
+  users?: HrefObjectSelfLink | undefined;
   /** Deactivate IdP */
-  deactivate?: HrefObjectSelfLink;
+  deactivate?: HrefObjectSelfLink | undefined;
   /** Activate IdP */
-  activate?: HrefObjectSelfLink;
+  activate?: HrefObjectSelfLink | undefined;
   /** IdP keys */
-  keys?: HrefObjectSelfLink;
+  keys?: HrefObjectSelfLink | undefined;
   [key: string]: unknown;
 }
 export interface IdentityProvider {
-  created?: string;
+  created?: string | undefined;
   /** Unique key for the IdP */
-  id?: string;
-  issuerMode?: IdentityProviderIssuerMode;
-  lastUpdated?: string;
+  id?: string | undefined;
+  issuerMode?: IdentityProviderIssuerMode | undefined;
+  lastUpdated?: string | undefined;
   /** Unique name for the IdP */
-  name?: string;
-  policy?: IdentityProviderPolicy;
-  properties?: IdentityProviderProperties | null;
+  name?: string | undefined;
+  policy?: IdentityProviderPolicy | undefined;
+  properties?: IdentityProviderProperties | null | undefined;
   /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
-  protocol?: IdentityProviderProtocol;
-  status?: LifecycleStatus;
-  type?: IdentityProviderType;
-  _links?: IdentityProviderLinks;
+  protocol?: IdentityProviderProtocol | undefined;
+  status?: LifecycleStatus | undefined;
+  type?: IdentityProviderType | undefined;
+  _links?: IdentityProviderLinks | undefined;
 }
 export interface ActivateInlineHookRequest {
   /** `id` of the inline hook */
@@ -1201,9 +1206,9 @@ export interface ActivateInlineHookRequest {
 }
 export type InlineHookChannelType = "HTTP" | "OAUTH";
 export interface InlineHookChannel {
-  type?: InlineHookChannelType;
+  type?: InlineHookChannelType | undefined;
   /** Version of the inline hook type. The currently supported version is `1.0.0`. */
-  version?: string;
+  version?: string | undefined;
 }
 export type InlineHookStatus = "ACTIVE" | "INACTIVE";
 /** One of the inline hook types */
@@ -1215,32 +1220,32 @@ export type InlineHookType =
   | "com.okta.user.credential.password.import"
   | "com.okta.user.pre-registration";
 export interface InlineHookLinks {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** URL to activate the inline hook */
-  activate?: HrefObjectSelfLink;
+  activate?: HrefObjectSelfLink | undefined;
   /** URL to deactivate the inline hook */
-  deactivate?: HrefObjectSelfLink;
+  deactivate?: HrefObjectSelfLink | undefined;
   /** URL to delete the inline hook */
-  delete?: HrefObjectSelfLink;
+  delete?: HrefObjectSelfLink | undefined;
   /** URL to test the inline hook */
-  execute?: HrefObjectSelfLink;
+  execute?: HrefObjectSelfLink | undefined;
 }
 /** An inline hook object that specifies the details of the inline hook */
 export interface InlineHook {
-  channel?: InlineHookChannel;
+  channel?: InlineHookChannel | undefined;
   /** Date of the inline hook creation */
-  created?: string;
+  created?: string | undefined;
   /** The unique identifier for the inline hook */
-  id?: string;
+  id?: string | undefined;
   /** Date of the last inline hook update */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The display name of the inline hook */
-  name?: string;
-  status?: InlineHookStatus;
-  type?: InlineHookType;
+  name?: string | undefined;
+  status?: InlineHookStatus | undefined;
+  type?: InlineHookType | undefined;
   /** Version of the inline hook type. The currently supported version is `1.0.0`. */
-  version?: string;
-  _links?: InlineHookLinks;
+  version?: string | undefined;
+  _links?: InlineHookLinks | undefined;
 }
 export interface ActivateLogStreamRequest {
   /** Unique identifier for the log stream */
@@ -1256,7 +1261,7 @@ export interface LogStreamActivateLink {
   /** The URI of the resource */
   href: string;
   /** HTTP method allowed for the resource */
-  method?: LogStreamActivateLinkMethod;
+  method?: LogStreamActivateLinkMethod | undefined;
 }
 /** HTTP method allowed for the resource */
 export type LogStreamDeactivateLinkMethod = "GET" | "POST";
@@ -1264,7 +1269,7 @@ export interface LogStreamDeactivateLink {
   /** The URI of the resource */
   href: string;
   /** HTTP method allowed for the resource */
-  method?: LogStreamDeactivateLinkMethod;
+  method?: LogStreamDeactivateLinkMethod | undefined;
 }
 /** HTTP method allowed for the resource */
 export type LogStreamSelfLinkMethod = "GET" | "POST";
@@ -1272,12 +1277,12 @@ export interface LogStreamSelfLink {
   /** The URI of the resource */
   href: string;
   /** HTTP method allowed for the resource */
-  method?: LogStreamSelfLinkMethod;
+  method?: LogStreamSelfLinkMethod | undefined;
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface LogStreamLinksSelfAndLifecycle {
-  activate?: LogStreamActivateLink;
-  deactivate?: LogStreamDeactivateLink;
+  activate?: LogStreamActivateLink | undefined;
+  deactivate?: LogStreamDeactivateLink | undefined;
   self: LogStreamSelfLink;
 }
 export interface LogStream {
@@ -1305,19 +1310,19 @@ export type NetworkZoneType = "DYNAMIC" | "IP" | "DYNAMIC_V2";
 export type NetworkZoneUsage = "BLOCKLIST" | "POLICY";
 export interface NetworkZone {
   /** Timestamp when the object was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique identifier for the Network Zone */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the object was last modified */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Unique name for this Network Zone */
   name: string;
-  status?: NetworkZoneStatus;
+  status?: NetworkZoneStatus | undefined;
   /** Indicates a system Network Zone: * `true` for system Network Zones * `false` for custom Network Zones The Okta org provides the following default system Network Zones: * `LegacyIpZone` * `BlockedIpZone` * `DefaultEnhancedDynamicZone` * `DefaultExemptIpZone` Admins can modify the name of the default system Network Zone and add up to 5000 gateway or proxy IP entries. */
-  system?: boolean;
+  system?: boolean | undefined;
   type: NetworkZoneType;
-  usage?: NetworkZoneUsage;
-  _links?: LinksSelfAndLifecycle;
+  usage?: NetworkZoneUsage | undefined;
+  _links?: LinksSelfAndLifecycle | undefined;
 }
 export interface ActivateOAuth2ClientJsonWebKeyRequest {
   /** Application ID */
@@ -1334,22 +1339,22 @@ export type OAuth2ClientJsonWebKeyRsaResponseKty = "RSA";
 /** An RSA signing key */
 export interface OAuth2ClientJsonWebKeyRsaResponse {
   /** Unique identifier of the JSON Web Key in the OAUth 2.0 client's JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Status of the OAuth 2.0 client JSON Web Key */
-  status?: OAuth2ClientJsonWebKeyRsaResponseStatus;
+  status?: OAuth2ClientJsonWebKeyRsaResponseStatus | undefined;
   /** Timestamp when the OAuth 2.0 client JSON Web Key was created */
-  created?: string;
+  created?: string | undefined;
   /** The unique ID of the OAuth client JSON Web Key */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the OAuth 2.0 client JSON Web Key was updated */
-  lastUpdated?: string;
-  _links?: APIServiceIntegrationSecretLinks;
+  lastUpdated?: string | undefined;
+  _links?: APIServiceIntegrationSecretLinks | undefined;
   /** RSA key value (exponent) for key binding */
-  e?: string;
+  e?: string | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: OAuth2ClientJsonWebKeyRsaResponseKty;
+  kty?: OAuth2ClientJsonWebKeyRsaResponseKty | undefined;
   /** RSA key value (modulus) for key binding */
-  n?: string;
+  n?: string | undefined;
 }
 /** Status of the OAuth 2.0 client JSON Web Key */
 export type OAuth2ClientJsonWebKeyECResponseStatus = "ACTIVE" | "INACTIVE";
@@ -1358,22 +1363,22 @@ export type OAuth2ClientJsonWebKeyECResponseKty = "EC";
 /** An EC signing key */
 export interface OAuth2ClientJsonWebKeyECResponse {
   /** Unique identifier of the JSON Web Key in the OAUth 2.0 client's JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Status of the OAuth 2.0 client JSON Web Key */
-  status?: OAuth2ClientJsonWebKeyECResponseStatus;
+  status?: OAuth2ClientJsonWebKeyECResponseStatus | undefined;
   /** Timestamp when the OAuth 2.0 client JSON Web Key was created */
-  created?: string;
+  created?: string | undefined;
   /** The unique ID of the OAuth client JSON Web Key */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the OAuth 2.0 client JSON Web Key was updated */
-  lastUpdated?: string;
-  _links?: APIServiceIntegrationSecretLinks;
+  lastUpdated?: string | undefined;
+  _links?: APIServiceIntegrationSecretLinks | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: OAuth2ClientJsonWebKeyECResponseKty;
+  kty?: OAuth2ClientJsonWebKeyECResponseKty | undefined;
   /** The public x coordinate for the elliptic curve point */
-  x?: string;
+  x?: string | undefined;
   /** The public y coordinate for the elliptic curve point */
-  y?: string;
+  y?: string | undefined;
 }
 /** A [JSON Web Key (JWK)](https://tools.ietf.org/html/rfc7517) is a JSON representation of a cryptographic key. Okta uses signing keys to verify the signature of a JWT when provided for the `private_key_jwt` client authentication method or for a signed authorize request object. Okta supports both RSA and Elliptic Curve (EC) keys for signing tokens. */
 export type OAuth2ClientJsonSigningKeyResponse =
@@ -1388,24 +1393,24 @@ export type OAuth2ClientJsonEncryptionKeyResponseUse = "enc";
 /** A [JSON Web Key (JWK)](https://tools.ietf.org/html/rfc7517) is a JSON representation of a cryptographic key. Okta uses an encryption key to encrypt an ID token JWT minted by the org authorization server or custom authorization server. Okta supports only RSA keys for encrypting tokens. */
 export interface OAuth2ClientJsonEncryptionKeyResponse {
   /** Unique identifier of the JSON Web Key in the OAUth 2.0 client's JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Status of the OAuth 2.0 client JSON Web Key */
-  status?: OAuth2ClientJsonEncryptionKeyResponseStatus;
+  status?: OAuth2ClientJsonEncryptionKeyResponseStatus | undefined;
   /** Timestamp when the OAuth 2.0 client JSON Web Key was created */
-  created?: string;
+  created?: string | undefined;
   /** The unique ID of the OAuth client JSON Web Key */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the OAuth 2.0 client JSON Web Key was updated */
-  lastUpdated?: string;
-  _links?: APIServiceIntegrationSecretLinks;
+  lastUpdated?: string | undefined;
+  _links?: APIServiceIntegrationSecretLinks | undefined;
   /** RSA key value (exponent) for key binding */
-  e?: string;
+  e?: string | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: OAuth2ClientJsonEncryptionKeyResponseKty;
+  kty?: OAuth2ClientJsonEncryptionKeyResponseKty | undefined;
   /** RSA key value (modulus) for key binding */
-  n?: string;
+  n?: string | undefined;
   /** Acceptable use of the JSON Web Key */
-  use?: OAuth2ClientJsonEncryptionKeyResponseUse;
+  use?: OAuth2ClientJsonEncryptionKeyResponseUse | undefined;
 }
 export type ActivateOAuth2ClientJsonWebKeyResponseBody =
   | OAuth2ClientJsonSigningKeyResponse
@@ -1421,18 +1426,18 @@ export interface ActivateOAuth2ClientSecretRequest {
 export type OAuth2ClientSecretStatus = "ACTIVE" | "INACTIVE";
 export interface OAuth2ClientSecret {
   /** The OAuth 2.0 client secret string */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Timestamp when the OAuth 2.0 client secret was created */
-  created?: string;
+  created?: string | undefined;
   /** The unique ID of the OAuth 2.0 client secret */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the OAuth 2.0 client secret was updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** OAuth 2.0 client secret string hash */
-  secret_hash?: string;
+  secret_hash?: string | undefined;
   /** Status of the OAuth 2.0 client secret */
-  status?: OAuth2ClientSecretStatus;
-  _links?: APIServiceIntegrationSecretLinks;
+  status?: OAuth2ClientSecretStatus | undefined;
+  _links?: APIServiceIntegrationSecretLinks | undefined;
 }
 export interface ActivateOAuth2ResourceServerJsonWebKeyRequest {
   /** `id` of the Authorization Server */
@@ -1444,29 +1449,29 @@ export interface ActivateOAuth2ResourceServerJsonWebKeyRequest {
 export type OAuth2ResourceServerJsonWebKeyStatus = "ACTIVE" | "INACTIVE";
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of a JSON Web Key using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface OAuthResourceServerKeyLinks {
-  activate?: HrefObjectSelfLink;
-  delete?: HrefObjectSelfLink;
+  activate?: HrefObjectSelfLink | undefined;
+  delete?: HrefObjectSelfLink | undefined;
 }
 export interface OAuth2ResourceServerJsonWebKey {
   /** Timestamp when the JSON Web Key was created */
-  created?: string;
+  created?: string | undefined;
   /** RSA key value (exponent) for key binding */
-  e?: string;
+  e?: string | undefined;
   /** The unique ID of the JSON Web Key */
-  id?: string;
+  id?: string | undefined;
   /** Unique identifier of the JSON Web Key in the Custom Authorization Server's Public JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: string;
+  kty?: string | undefined;
   /** Timestamp when the JSON Web Key was updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** RSA key value (modulus) for key binding */
-  n?: string;
+  n?: string | undefined;
   /** The status of the encryption key. You can use only an `ACTIVE` key to encrypt tokens issued by the authorization server. */
-  status?: OAuth2ResourceServerJsonWebKeyStatus;
+  status?: OAuth2ResourceServerJsonWebKeyStatus | undefined;
   /** Acceptable use of the JSON Web Key */
-  use?: string;
-  _links?: OAuthResourceServerKeyLinks;
+  use?: string | undefined;
+  _links?: OAuthResourceServerKeyLinks | undefined;
 }
 export interface ActivatePolicyRequest {
   /** `id` of the policy */
@@ -1483,9 +1488,9 @@ export interface ActivatePolicyRuleResponse {}
 /** Credential response object for enrolled credential details, along with enrollment and key identifiers to associate the credential */
 export interface WebAuthnCredResponse {
   /** ID for a WebAuthn preregistration factor in Okta */
-  authenticatorEnrollmentId?: string;
+  authenticatorEnrollmentId?: string | undefined;
   /** Encrypted JSON Web Encryption (JWE) of the credential response from the fulfillment provider */
-  credResponseJwe?: string;
+  credResponseJwe?: string | undefined;
 }
 /** List of credential responses from the fulfillment provider */
 export type ActivatePreregistrationEnrollmentRequestCredResponsesList = Array<WebAuthnCredResponse>;
@@ -1516,19 +1521,22 @@ export interface ECKeyJWK {
 export type ActivatePreregistrationEnrollmentRequestYubicoSigningJwksList = Array<ECKeyJWK>;
 export interface ActivatePreregistrationEnrollmentRequest {
   /** List of credential responses from the fulfillment provider */
-  credResponses?: ActivatePreregistrationEnrollmentRequestCredResponsesList;
+  credResponses?: ActivatePreregistrationEnrollmentRequestCredResponsesList | undefined;
   /** Name of the fulfillment provider for the WebAuthn preregistration factor */
-  fulfillmentProvider?: ActivatePreregistrationEnrollmentRequestFulfillmentProvider | (string & {});
+  fulfillmentProvider?:
+    | ActivatePreregistrationEnrollmentRequestFulfillmentProvider
+    | (string & {})
+    | undefined;
   /** Encrypted JWE of the PIN response from the fulfillment provider */
-  pinResponseJwe?: string;
+  pinResponseJwe?: string | undefined;
   /** Serial number of the YubiKey */
-  serial?: string;
+  serial?: string | undefined;
   /** ID of an existing Okta user */
-  userId?: string;
+  userId?: string | undefined;
   /** Firmware version of the YubiKey */
-  version?: string;
+  version?: string | undefined;
   /** List of usable signing keys from Yubico (in JSON Web Key Sets (JWKS) format). The signing keys are used to verify the JSON Web Signature (JWS) inside the JWE. */
-  yubicoSigningJwks?: ActivatePreregistrationEnrollmentRequestYubicoSigningJwksList;
+  yubicoSigningJwks?: ActivatePreregistrationEnrollmentRequestYubicoSigningJwksList | undefined;
 }
 /** List of IDs for preregistered WebAuthn factors in Okta */
 export type EnrollmentActivationResponseAuthenticatorEnrollmentIdsList = Array<string>;
@@ -1537,11 +1545,13 @@ export type EnrollmentActivationResponseFulfillmentProvider = "yubico";
 /** Enrollment initialization response */
 export interface EnrollmentActivationResponse {
   /** List of IDs for preregistered WebAuthn factors in Okta */
-  authenticatorEnrollmentIds?: EnrollmentActivationResponseAuthenticatorEnrollmentIdsList;
+  authenticatorEnrollmentIds?:
+    | EnrollmentActivationResponseAuthenticatorEnrollmentIdsList
+    | undefined;
   /** Name of the fulfillment provider for the WebAuthn preregistration factor */
-  fulfillmentProvider?: EnrollmentActivationResponseFulfillmentProvider;
+  fulfillmentProvider?: EnrollmentActivationResponseFulfillmentProvider | undefined;
   /** ID of an existing Okta user */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface ActivateRealmAssignmentRequest {
   /** ID of the realm assignment */
@@ -1555,27 +1565,27 @@ export interface ActivateSecurityEventsProviderInstanceRequest {
 /** Security events provider settings */
 export interface SecurityEventsProviderSettingsResponse {
   /** Issuer URL */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The public URL where the JWKS public key is uploaded */
-  jwks_url?: string;
+  jwks_url?: string | undefined;
   /** The well-known URL of the security events provider (the SSF transmitter) */
-  well_known_url?: string | null;
+  well_known_url?: string | null | undefined;
 }
 /** Indicates whether the security events provider is active or not */
 export type SecurityEventsProviderResponseStatus = "ACTIVE" | "INACTIVE";
 /** The security events provider response */
 export interface SecurityEventsProviderResponse {
   /** The unique identifier of this instance */
-  id?: string;
+  id?: string | undefined;
   /** The name of the security events provider instance */
-  name?: string;
+  name?: string | undefined;
   /** Information about the security events provider for signal ingestion */
-  settings?: SecurityEventsProviderSettingsResponse;
+  settings?: SecurityEventsProviderSettingsResponse | undefined;
   /** Indicates whether the security events provider is active or not */
-  status?: SecurityEventsProviderResponseStatus;
+  status?: SecurityEventsProviderResponseStatus | undefined;
   /** The app type of the security events provider */
-  type?: string;
-  _links?: LinksSelfAndLifecycle;
+  type?: string | undefined;
+  _links?: LinksSelfAndLifecycle | undefined;
 }
 export interface ActivateTrustedOriginRequest {
   /** `id` of the trusted origin */
@@ -1590,66 +1600,66 @@ export type TrustedOriginScopeAllowedOktaAppsList = Array<
 export type TrustedOriginScopeType = "CORS" | "IFRAME_EMBED" | "REDIRECT";
 export interface TrustedOriginScope {
   /** The allowed Okta apps for the trusted origin scope */
-  allowedOktaApps?: TrustedOriginScopeAllowedOktaAppsList;
-  type?: TrustedOriginScopeType | (string & {});
+  allowedOktaApps?: TrustedOriginScopeAllowedOktaAppsList | undefined;
+  type?: TrustedOriginScopeType | (string & {}) | undefined;
 }
 /** Array of scope types that this trusted origin is used for */
 export type TrustedOriginScopes = Array<TrustedOriginScope>;
 export interface TrustedOrigin {
   /** Timestamp when the trusted origin was created */
-  created?: string;
+  created?: string | undefined;
   /** The ID of the user who created the trusted origin */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Unique identifier for the trusted origin */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the trusted origin was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The ID of the user who last updated the trusted origin */
-  lastUpdatedBy?: string;
-  name?: string;
-  origin?: string;
-  scopes?: TrustedOriginScopes;
-  status?: LifecycleStatus;
-  _links?: LinksSelfAndLifecycle;
+  lastUpdatedBy?: string | undefined;
+  name?: string | undefined;
+  origin?: string | undefined;
+  scopes?: TrustedOriginScopes | undefined;
+  status?: LifecycleStatus | undefined;
+  _links?: LinksSelfAndLifecycle | undefined;
 }
 export interface ActivateUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** Sends an activation email to the user if `true` */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface UserActivationToken {
   /** Token received as part of an activation user request. If a password was set before the user was activated, then user must sign in with their password or the `activationToken` and not the activation link. More information about using the `activationToken` to login can be found in the [Authentication API](https://developer.okta.com/docs/reference/api/authn/#primary-authentication-with-activation-token). */
-  activationToken?: string;
+  activationToken?: string | undefined;
   /** If `sendEmail` is `false`, returns an activation link for the user to set up their account. You can use the activation token to create a custom activation link. > **Note:** The `activationUrl` varies depending on if you are on a Classic or Identity Engine org. > - For Identity Engine orgs, the activation link is in this format: `https://{yourOktaDomain}/tokens/{activationToken}/verify` > - For Classic orgs, the activation link is in this format: `https://{yourOktaDomain}/welcome/{activationToken}` */
-  activationUrl?: string;
+  activationUrl?: string | undefined;
 }
 /** Profile for any group that is not imported from Active Directory. Specifies the standard and custom profile properties for a group. The `objectClass` for these groups is `okta:user_group`. You can extend group profiles with custom properties, but you must first add the properties to the group profile schema before you can reference them. Use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) to manage schema extensions. Custom properties can contain HTML tags. It is the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting. */
 export interface OktaUserGroupProfile {
   /** Description of the group */
-  description?: string;
+  description?: string | undefined;
   /** Name of the group */
-  name?: string;
+  name?: string | undefined;
 }
 export interface AddGroupRequest {
-  profile?: OktaUserGroupProfile;
+  profile?: OktaUserGroupProfile | undefined;
 }
 /** Determines the group's `profile` */
 export type GroupObjectClassList = Array<string>;
 /** Profile for a group that is imported from Active Directory. The `objectClass` for such groups is `okta:windows_security_principal`. You can extend group profiles with custom properties, but you must first add the properties to the group profile schema before you can reference them. Use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) to manage schema extensions. Custom properties can contain HTML tags. It is the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting. */
 export interface OktaActiveDirectoryGroupProfile {
   /** Description of the Windows group */
-  description?: string;
+  description?: string | undefined;
   /** The distinguished name of the Windows group */
-  dn?: string;
+  dn?: string | undefined;
   /** Base-64 encoded GUID (`objectGUID`) of the Windows group */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Name of the Windows group */
-  name?: string;
+  name?: string | undefined;
   /** Pre-Windows 2000 name of the Windows group */
-  samAccountName?: string;
+  samAccountName?: string | undefined;
   /** Fully qualified name of the Windows group */
-  windowsDomainQualifiedName?: string;
+  windowsDomainQualifiedName?: string | undefined;
 }
 export type GroupProfile = OktaUserGroupProfile | OktaActiveDirectoryGroupProfile;
 /** Determines how a group's profile and memberships are managed */
@@ -1657,58 +1667,58 @@ export type GroupType = "APP_GROUP" | "BUILT_IN" | "OKTA_GROUP";
 /** Statistics about the group */
 export interface GroupEmbeddedStats {
   /** Number of users in the group */
-  usersCount?: number;
+  usersCount?: number | undefined;
   /** Number of apps associated with the group */
-  appsCount?: number;
+  appsCount?: number | undefined;
   /** Number of group push mappings associated with the group */
-  groupPushMappingsCount?: number;
+  groupPushMappingsCount?: number | undefined;
   /** Indicates if the group has admin privileges via a group-level role assignment */
-  hasAdminPrivlege?: boolean;
+  hasAdminPrivlege?: boolean | undefined;
 }
 /** If the group is sourced from an app, this object contains information about that app */
 export interface GroupEmbeddedApp {
   /** The ID of the `AppInstance` */
-  id?: string;
+  id?: string | undefined;
   /** The name of the `AppInstance` */
-  name?: string;
+  name?: string | undefined;
   /** The user-facing display name of the `AppInstance` */
-  label?: string;
+  label?: string | undefined;
   /** The configured sign-on mode for the `AppInstance` */
-  signOnMode?: string;
+  signOnMode?: string | undefined;
 }
 /** Embedded resources related to the group */
 export interface GroupEmbedded {
   /** Statistics about the group */
-  stats?: GroupEmbeddedStats;
+  stats?: GroupEmbeddedStats | undefined;
   /** If the group is sourced from an app, this object contains information about that app */
-  app?: GroupEmbeddedApp;
+  app?: GroupEmbeddedApp | undefined;
 }
 export type GroupLinksLogoList = Array<HrefObjectSelfLink>;
 /** [Discoverable resources](/openapi/okta-management/management/group/listgroups#group/listgroups/t=response&c=200&path=_links/source) related to the group */
 export interface GroupLinks {
-  self?: HrefObjectSelfLink;
-  apps?: HrefObjectSelfLink;
-  logo?: GroupLinksLogoList;
-  source?: HrefObjectSelfLink;
-  users?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  apps?: HrefObjectSelfLink | undefined;
+  logo?: GroupLinksLogoList | undefined;
+  source?: HrefObjectSelfLink | undefined;
+  users?: HrefObjectSelfLink | undefined;
 }
 export interface Group {
   /** Timestamp when the group was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique ID for the group */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the groups memberships were last updated */
-  lastMembershipUpdated?: string;
+  lastMembershipUpdated?: string | undefined;
   /** Timestamp when the group's profile was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Determines the group's `profile` */
-  objectClass?: GroupObjectClassList;
-  profile?: GroupProfile;
-  type?: GroupType;
+  objectClass?: GroupObjectClassList | undefined;
+  profile?: GroupProfile | undefined;
+  type?: GroupType | undefined;
   /** Embedded resources related to the group */
-  _embedded?: GroupEmbedded;
+  _embedded?: GroupEmbedded | undefined;
   /** [Discoverable resources](/openapi/okta-management/management/group/listgroups#group/listgroups/t=response&c=200&path=_links/source) related to the group */
-  _links?: GroupLinks;
+  _links?: GroupLinks | undefined;
 }
 /** Status of the OAuth 2.0 client JSON Web Key */
 export type OAuth2ClientJsonWebKeyRsaRequestStatus = "ACTIVE" | "INACTIVE";
@@ -1717,15 +1727,15 @@ export type OAuth2ClientJsonWebKeyRsaRequestKty = "RSA";
 /** An RSA signing key */
 export interface OAuth2ClientJsonWebKeyRsaRequest {
   /** Unique identifier of the JSON Web Key in the OAUth 2.0 client's JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Status of the OAuth 2.0 client JSON Web Key */
-  status?: OAuth2ClientJsonWebKeyRsaRequestStatus | (string & {});
+  status?: OAuth2ClientJsonWebKeyRsaRequestStatus | (string & {}) | undefined;
   /** RSA key value (exponent) for key binding */
-  e?: string;
+  e?: string | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: OAuth2ClientJsonWebKeyRsaRequestKty | (string & {});
+  kty?: OAuth2ClientJsonWebKeyRsaRequestKty | (string & {}) | undefined;
   /** RSA key value (modulus) for key binding */
-  n?: string;
+  n?: string | undefined;
 }
 /** Status of the OAuth 2.0 client JSON Web Key */
 export type OAuth2ClientJsonWebKeyECRequestStatus = "ACTIVE" | "INACTIVE";
@@ -1734,15 +1744,15 @@ export type OAuth2ClientJsonWebKeyECRequestKty = "EC";
 /** An EC signing key */
 export interface OAuth2ClientJsonWebKeyECRequest {
   /** Unique identifier of the JSON Web Key in the OAUth 2.0 client's JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Status of the OAuth 2.0 client JSON Web Key */
-  status?: OAuth2ClientJsonWebKeyECRequestStatus | (string & {});
+  status?: OAuth2ClientJsonWebKeyECRequestStatus | (string & {}) | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: OAuth2ClientJsonWebKeyECRequestKty | (string & {});
+  kty?: OAuth2ClientJsonWebKeyECRequestKty | (string & {}) | undefined;
   /** The public x coordinate for the elliptic curve point */
-  x?: string;
+  x?: string | undefined;
   /** The public y coordinate for the elliptic curve point */
-  y?: string;
+  y?: string | undefined;
 }
 /** A [JSON Web Key (JWK)](https://tools.ietf.org/html/rfc7517) is a JSON representation of a cryptographic key. Okta uses signing keys to verify the signature of a JWT when provided for the `private_key_jwt` client authentication method or for a signed authorize request object. Okta supports both RSA and Elliptic Curve (EC) keys for signing tokens. */
 export type OAuth2ClientJsonSigningKeyRequest =
@@ -1757,19 +1767,19 @@ export type OAuth2ClientJsonEncryptionKeyRequestUse = "enc";
 /** A [JSON Web Key (JWK)](https://tools.ietf.org/html/rfc7517) is a JSON representation of a cryptographic key. Okta uses an encryption key to encrypt an ID token JWT minted by the org authorization server or custom authorization server. Okta supports only RSA keys for encrypting tokens. */
 export interface OAuth2ClientJsonEncryptionKeyRequest {
   /** Unique identifier of the JSON Web Key in the OAUth 2.0 client's JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Status of the OAuth 2.0 client JSON Web Key */
-  status?: OAuth2ClientJsonEncryptionKeyRequestStatus | (string & {});
+  status?: OAuth2ClientJsonEncryptionKeyRequestStatus | (string & {}) | undefined;
   /** Algorithm used in the key */
-  alg?: string;
+  alg?: string | undefined;
   /** RSA key value (exponent) for key binding */
-  e?: string;
+  e?: string | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: OAuth2ClientJsonEncryptionKeyRequestKty | (string & {});
+  kty?: OAuth2ClientJsonEncryptionKeyRequestKty | (string & {}) | undefined;
   /** RSA key value (modulus) for key binding */
-  n?: string;
+  n?: string | undefined;
   /** Acceptable use of the JSON Web Key */
-  use?: OAuth2ClientJsonEncryptionKeyRequestUse | (string & {});
+  use?: OAuth2ClientJsonEncryptionKeyRequestUse | (string & {}) | undefined;
 }
 export type AddJwkRequestBody =
   | OAuth2ClientJsonSigningKeyRequest
@@ -1791,17 +1801,17 @@ export interface AddMembersToBindingRequest {
   /** `id` or `label` of the role */
   roleIdOrLabel: string;
   /** A list of member resources to add to the role resource set binding */
-  additions?: AddMembersToBindingRequestAdditionsList;
+  additions?: AddMembersToBindingRequestAdditionsList | undefined;
 }
 export type HrefObjectResourceSetLink = HrefObjectSelfLink;
 export type HrefObjectBindingsLink = HrefObjectSelfLink;
 export interface ResourceSetBindingEditResponseLinks {
-  self?: HrefObjectSelfLink;
-  resource_set?: HrefObjectSelfLink;
-  bindings?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  resource_set?: HrefObjectSelfLink | undefined;
+  bindings?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSetBindingEditResponse {
-  _links?: ResourceSetBindingEditResponseLinks;
+  _links?: ResourceSetBindingEditResponseLinks | undefined;
 }
 /** Status of the JSON Web Key */
 export type AddOAuth2ResourceServerJsonWebKeyRequestStatus = "ACTIVE" | "INACTIVE";
@@ -1809,29 +1819,29 @@ export interface AddOAuth2ResourceServerJsonWebKeyRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** RSA key value (exponent) for key binding */
-  e?: string;
+  e?: string | undefined;
   /** Unique identifier of the JSON web key in the custom authorization server's public JWKS */
-  kid?: string | null;
+  kid?: string | null | undefined;
   /** Cryptographic algorithm family for the certificate's key pair */
-  kty?: string;
+  kty?: string | undefined;
   /** RSA key value (modulus) for key binding */
-  n?: string;
+  n?: string | undefined;
   /** Status of the JSON Web Key */
-  status?: AddOAuth2ResourceServerJsonWebKeyRequestStatus | (string & {});
+  status?: AddOAuth2ResourceServerJsonWebKeyRequestStatus | (string & {}) | undefined;
   /** Acceptable use of the JSON Web Key */
-  use?: string;
+  use?: string | undefined;
 }
 /** List of specific resources to exclude in ORN format */
 export type ResourceConditionsExcludeOktaORNList = Array<string>;
 /** Specific resources to exclude */
 export interface ResourceConditionsExclude {
   /** List of specific resources to exclude in ORN format */
-  okta_ORN?: ResourceConditionsExcludeOktaORNList;
+  okta_ORN?: ResourceConditionsExcludeOktaORNList | undefined;
 }
 /** Conditions for further restricting a resource. */
 export interface ResourceConditions {
   /** Specific resources to exclude */
-  Exclude?: ResourceConditionsExclude;
+  Exclude?: ResourceConditionsExclude | undefined;
 }
 export interface AddResourceSetResourceRequest {
   /** `id` or `label` of the resource set */
@@ -1846,23 +1856,23 @@ export type ResourceSetResourceLinksGroups = HrefObjectSelfLink;
 export type ResourceSetResourceLinksUsers = HrefObjectSelfLink;
 /** Related discoverable resources */
 export interface ResourceSetResourceLinks {
-  self?: HrefObjectSelfLink;
-  resource?: HrefObjectSelfLink;
-  groups?: HrefObjectSelfLink;
-  users?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  resource?: HrefObjectSelfLink | undefined;
+  groups?: HrefObjectSelfLink | undefined;
+  users?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSetResource {
-  conditions?: ResourceConditions;
+  conditions?: ResourceConditions | undefined;
   /** Timestamp when the resource set resource object was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique ID of the resource set resource object */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when this object was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The Okta Resource Name (ORN) of the resource */
-  orn?: string;
+  orn?: string | undefined;
   /** Related discoverable resources */
-  _links?: ResourceSetResourceLinks;
+  _links?: ResourceSetResourceLinks | undefined;
 }
 /** A list of resources to add to the resource set */
 export type AddResourceSetResourcesRequestAdditionsList = Array<string>;
@@ -1870,26 +1880,26 @@ export interface AddResourceSetResourcesRequest {
   /** `id` or `label` of the resource set */
   resourceSetIdOrLabel: string;
   /** A list of resources to add to the resource set */
-  additions?: AddResourceSetResourcesRequestAdditionsList;
+  additions?: AddResourceSetResourcesRequestAdditionsList | undefined;
 }
 export type HrefObjectResourceSetResourcesLink = HrefObjectSelfLink;
 export interface ResourceSetLinks {
-  self?: HrefObjectSelfLink;
-  resources?: HrefObjectSelfLink;
-  bindings?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  resources?: HrefObjectSelfLink | undefined;
+  bindings?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSet {
   /** Timestamp when the role was created */
-  created?: string;
+  created?: string | undefined;
   /** Description of the resource set */
-  description?: string;
+  description?: string | undefined;
   /** Unique ID for the resource set object */
-  id?: string;
+  id?: string | undefined;
   /** Unique label for the resource set */
-  label?: string;
+  label?: string | undefined;
   /** Timestamp when the role was last updated */
-  lastUpdated?: string;
-  _links?: ResourceSetLinks;
+  lastUpdated?: string | undefined;
+  _links?: ResourceSetLinks | undefined;
 }
 export interface AssignAllAppsAsTargetToRoleForUserRequest {
   /** ID of an existing Okta user */
@@ -1967,12 +1977,12 @@ export interface AssignAppTargetToAdminRoleForUserRequest {
 export interface AssignAppTargetToAdminRoleForUserResponse {}
 export interface AssignClientPrivilegesSettingRequest {
   /** If true, assigns the super admin role by default to new public client apps */
-  clientPrivilegesSetting?: boolean;
+  clientPrivilegesSetting?: boolean | undefined;
 }
 /** The org setting that assigns the super admin role by default to a public client app */
 export interface ClientPrivilegesSetting {
   /** If true, assigns the super admin role by default to new public client apps */
-  clientPrivilegesSetting?: boolean;
+  clientPrivilegesSetting?: boolean | undefined;
 }
 export interface AssignFulfillmentErrorWebAuthnPreregistrationFactorRequest {
   /** ID of an existing Okta user */
@@ -1987,24 +1997,24 @@ export interface AssignGroupOwnerRequest {
   /** The `id` of the group */
   groupId: string;
   /** The `id` of the group owner */
-  id?: string;
-  type?: GroupOwnerType | (string & {});
+  id?: string | undefined;
+  type?: GroupOwnerType | (string & {}) | undefined;
 }
 /** The source where group ownership is managed */
 export type GroupOwnerOriginType = "APPLICATION" | "OKTA_DIRECTORY";
 export interface GroupOwner {
   /** The display name of the group owner */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The `id` of the group owner */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the group owner was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The ID of the app instance if the `originType` is `APPLICATION`. This value is `NULL` if `originType` is `OKTA_DIRECTORY`. */
-  originId?: string;
-  originType?: GroupOwnerOriginType;
+  originId?: string | undefined;
+  originType?: GroupOwnerOriginType | undefined;
   /** If `originType`is APPLICATION, this parameter is set to `FALSE` until the owner's `originId` is reconciled with an associated Okta ID. */
-  resolved?: boolean;
-  type?: GroupOwnerType;
+  resolved?: boolean | undefined;
+  type?: GroupOwnerType | undefined;
 }
 export interface AssignGroupTargetRoleForClientRequest {
   /** `client_id` of the app */
@@ -2042,41 +2052,41 @@ export interface HrefObjectSelfLinkInput {
 export type HrefObjectAppLinkInput = HrefObjectSelfLinkInput;
 export type HrefObjectGroupLinkInput = HrefObjectSelfLinkInput;
 export interface AssignGroupToApplicationRequestLinks {
-  self?: HrefObjectSelfLinkInput;
-  app?: HrefObjectSelfLinkInput;
-  group?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  app?: HrefObjectSelfLinkInput | undefined;
+  group?: HrefObjectSelfLinkInput | undefined;
 }
 export interface AssignGroupToApplicationRequest {
   /** Application ID */
   appId: string;
   /** The `id` of the group */
   groupId: string;
-  lastUpdated?: unknown;
+  lastUpdated?: unknown | undefined;
   /** Priority assigned to the group. If an app has more than one group assigned to the same user, then the group with the higher priority has its profile applied to the [application user](https://developer.okta.com/docs/api/openapi/okta-management/management/tags/applicationusers). If a priority value isn't specified, then the next highest priority is assigned by default. See [Assign attribute group priority](https://help.okta.com/okta_help.htm?type=oie&id=ext-usgp-app-group-priority) and the [sample priority use case](https://help.okta.com/okta_help.htm?type=oie&id=ext-usgp-combine-values-use). */
-  priority?: number;
-  profile?: GroupAssignmentProfile;
-  _links?: AssignGroupToApplicationRequestLinks;
+  priority?: number | undefined;
+  profile?: GroupAssignmentProfile | undefined;
+  _links?: AssignGroupToApplicationRequestLinks | undefined;
 }
 /** Embedded resource related to the Application Group using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. If the `expand=group` query parameter is specified, then the [group](openapi/okta-management/management/group) object is embedded. If the `expand=metadata` query parameter is specified, then the group assignment metadata is embedded. */
 export type ApplicationGroupAssignmentEmbeddedMap = { [key: string]: unknown | undefined };
 export type HrefObjectAppLink = HrefObjectSelfLink;
 export type HrefObjectGroupLink = HrefObjectSelfLink;
 export interface ApplicationGroupAssignmentLinks {
-  self?: HrefObjectSelfLink;
-  app?: HrefObjectSelfLink;
-  group?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  app?: HrefObjectSelfLink | undefined;
+  group?: HrefObjectSelfLink | undefined;
 }
 /** The Application Group object that defines a group of users' app-specific profile and credentials for an app */
 export interface ApplicationGroupAssignment {
   /** ID of the [group](openapi/okta-management/management/group) */
-  id?: string;
-  lastUpdated?: unknown;
+  id?: string | undefined;
+  lastUpdated?: unknown | undefined;
   /** Priority assigned to the group. If an app has more than one group assigned to the same user, then the group with the higher priority has its profile applied to the [application user](https://developer.okta.com/docs/api/openapi/okta-management/management/tags/applicationusers). If a priority value isn't specified, then the next highest priority is assigned by default. See [Assign attribute group priority](https://help.okta.com/okta_help.htm?type=oie&id=ext-usgp-app-group-priority) and the [sample priority use case](https://help.okta.com/okta_help.htm?type=oie&id=ext-usgp-combine-values-use). */
-  priority?: number;
-  profile?: GroupAssignmentProfile;
+  priority?: number | undefined;
+  profile?: GroupAssignmentProfile | undefined;
   /** Embedded resource related to the Application Group using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. If the `expand=group` query parameter is specified, then the [group](openapi/okta-management/management/group) object is embedded. If the `expand=metadata` query parameter is specified, then the group assignment metadata is embedded. */
-  _embedded?: ApplicationGroupAssignmentEmbeddedMap;
-  _links?: ApplicationGroupAssignmentLinks;
+  _embedded?: ApplicationGroupAssignmentEmbeddedMap | undefined;
+  _links?: ApplicationGroupAssignmentLinks | undefined;
 }
 export interface AssignLinkedObjectValueForPrimaryRequest {
   /** If for the `self` link, this is the ID of the user for whom you want to get the primary user ID. If for the `associated` relation, this is the user ID or login value of the user assigned the associated relationship. This can be `me` to represent the current session user. */
@@ -2154,101 +2164,101 @@ export type CatalogApplicationLinksLogoList = Array<HrefObjectSelfLink>;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface CatalogApplicationLinks {
   /** List of app logo resources */
-  logo?: CatalogApplicationLinksLogoList;
-  self?: HrefObjectSelfLink;
+  logo?: CatalogApplicationLinksLogoList | undefined;
+  self?: HrefObjectSelfLink | undefined;
 }
 /** An app in the OIN catalog */
 export interface CatalogApplication {
   /** Category for the app in the OIN catalog */
-  category?: string;
+  category?: string | undefined;
   /** Description of the app in the OIN catalog */
-  description?: string;
+  description?: string | undefined;
   /** OIN catalog app display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Features supported by the app. See app [features](/openapi/okta-management/management/application/listapplications#application/listapplications/t=response&c=200&path=&d=0/features). */
-  features?: CatalogApplicationFeaturesList;
+  features?: CatalogApplicationFeaturesList | undefined;
   /** ID of the app instance. Okta returns this property only for apps not in the OIN catalog. */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the object was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** App key name. For OIN catalog apps, this is a unique key for the app definition. */
-  name?: string;
+  name?: string | undefined;
   /** Authentication mode for the app. See app [signOnMode](/openapi/okta-management/management/application/listapplications#application/listapplications/t=response&c=200&path=&d=0/signonmode). */
-  signOnModes?: CatalogApplicationSignOnModesList;
-  status?: CatalogApplicationStatus;
+  signOnModes?: CatalogApplicationSignOnModesList | undefined;
+  status?: CatalogApplicationStatus | undefined;
   /** OIN verification status of the catalog app */
-  verificationStatus?: string;
+  verificationStatus?: string | undefined;
   /** Website of the OIN catalog app */
-  website?: string;
+  website?: string | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: CatalogApplicationLinks;
+  _links?: CatalogApplicationLinks | undefined;
 }
 export type StandardRoleEmbeddedTargetsCatalogAppsList = Array<CatalogApplication>;
 /** App targets */
 export interface StandardRoleEmbeddedTargetsCatalog {
-  apps?: StandardRoleEmbeddedTargetsCatalogAppsList;
+  apps?: StandardRoleEmbeddedTargetsCatalogAppsList | undefined;
 }
 /** Targets configured for the role assignment */
 export interface StandardRoleEmbeddedTargets {
   /** Group targets */
-  groups?: StandardRoleEmbeddedTargetsGroupsList;
+  groups?: StandardRoleEmbeddedTargetsGroupsList | undefined;
   /** App targets */
-  catalog?: StandardRoleEmbeddedTargetsCatalog;
+  catalog?: StandardRoleEmbeddedTargetsCatalog | undefined;
 }
 /** Optional embedded resources for the role assignment */
 export interface StandardRoleEmbedded {
   /** Targets configured for the role assignment */
-  targets?: StandardRoleEmbeddedTargets;
+  targets?: StandardRoleEmbeddedTargets | undefined;
 }
 export type HrefObjectAssigneeLink = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. */
 export interface LinksAssignee {
-  assignee?: HrefObjectSelfLink;
+  assignee?: HrefObjectSelfLink | undefined;
 }
 export interface StandardRole {
-  assignmentType?: RoleAssignmentType;
+  assignmentType?: RoleAssignmentType | undefined;
   /** Timestamp when the object was created */
-  created?: string;
+  created?: string | undefined;
   /** Role assignment ID */
-  id?: string;
+  id?: string | undefined;
   /** Label for the role assignment */
-  label?: string;
+  label?: string | undefined;
   /** Timestamp when the object was last updated */
-  lastUpdated?: string;
-  status?: unknown;
+  lastUpdated?: string | undefined;
+  status?: unknown | undefined;
   type: RoleType;
   /** Optional embedded resources for the role assignment */
-  _embedded?: StandardRoleEmbedded;
-  _links?: LinksAssignee;
+  _embedded?: StandardRoleEmbedded | undefined;
+  _links?: LinksAssignee | undefined;
 }
 export type HrefObjectMemberLink = HrefObjectSelfLink;
 export type HrefObjectPermissionsLink = HrefObjectSelfLink;
 export type HrefObjectRoleLink = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources. */
 export interface LinksCustomRoleResponse {
-  assignee?: HrefObjectSelfLink;
-  member?: HrefObjectSelfLink;
-  permissions?: HrefObjectSelfLink;
-  resource_set?: HrefObjectSelfLink;
-  role?: HrefObjectSelfLink;
+  assignee?: HrefObjectSelfLink | undefined;
+  member?: HrefObjectSelfLink | undefined;
+  permissions?: HrefObjectSelfLink | undefined;
+  resource_set?: HrefObjectSelfLink | undefined;
+  role?: HrefObjectSelfLink | undefined;
 }
 export interface CustomRole {
-  assignmentType?: RoleAssignmentType;
+  assignmentType?: RoleAssignmentType | undefined;
   /** Timestamp when the object was created */
-  created?: string;
+  created?: string | undefined;
   /** Binding object ID */
-  id?: string;
+  id?: string | undefined;
   /** Label for the role assignment */
-  label?: string;
+  label?: string | undefined;
   /** Timestamp when the object was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Resource set ID */
-  resource_set?: string;
+  resource_set?: string | undefined;
   /** Role ID */
-  role?: string;
-  status?: unknown;
+  role?: string | undefined;
+  status?: unknown | undefined;
   type: RoleType;
-  _links?: LinksCustomRoleResponse;
+  _links?: LinksCustomRoleResponse | undefined;
 }
 export type AssignRoleToClientResponseBody = StandardRole | CustomRole;
 export type AssignRoleToClientResponse = AssignRoleToClientResponseBody;
@@ -2259,7 +2269,7 @@ export interface AssignRoleToGroupRequest {
   /** The `id` of the group */
   groupId: string;
   /** Grants the group third-party admin status when set to `true` */
-  disableNotifications?: boolean;
+  disableNotifications?: boolean | undefined;
   body: AssignRoleToGroupRequestBody;
 }
 export type AssignRoleToGroupResponseBody = StandardRole | CustomRole;
@@ -2269,7 +2279,7 @@ export interface AssignRoleToUserRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** Setting this to `true` grants the user third-party admin status */
-  disableNotifications?: boolean;
+  disableNotifications?: boolean | undefined;
   body: AssignRoleToUserRequestBody;
 }
 export type AssignRoleToUserResponseBody = StandardRole | CustomRole;
@@ -2277,13 +2287,13 @@ export type AssignRoleToUserResponse = AssignRoleToUserResponseBody;
 /** The user's password. This is a write-only property. An empty `password` object is returned to indicate that a password value exists. */
 export interface AppUserPasswordCredential {
   /** Password value */
-  value?: string;
+  value?: string | undefined;
 }
 /** Specifies a user's credentials for the app. This parameter can be omitted for apps with [sign-on mode](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/signonmode) (`signOnMode`) or [authentication schemes](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/credentials/scheme) (`credentials.scheme`) that don't require credentials. */
 export interface AppUserCredentials {
-  password?: AppUserPasswordCredential;
+  password?: AppUserPasswordCredential | undefined;
   /** The user's username in the app > **Note:** The [userNameTemplate](/openapi/okta-management/management/tags/application/other/createapplication#application/createapplication/t=response&c=200&path=&d=0/credentials/usernametemplate) in the application object defines the default username generated when a user is assigned to that app. > If you attempt to assign a username or password to an app with an incompatible [authentication scheme](/openapi/okta-management/management/tags/application/other/createapplication#application/createapplication/t=response&c=200&path=&d=0/credentials/scheme), the following error is returned: > "Credentials should not be set on this resource based on the scheme." */
-  userName?: string;
+  userName?: string | undefined;
 }
 /** Specifies the default and custom profile properties for a user. Properties that are visible in the Admin Console for an app assignment can also be assigned through the API. Some properties are reference properties that are imported from the target app and can't be configured. See [profile](/openapi/okta-management/management/user/getuser#user/getuser/t=response&c=200&path=profile). */
 export type AppUserProfile = { [key: string]: unknown | undefined };
@@ -2292,22 +2302,22 @@ export type AssignUserToApplicationRequestScope = "USER" | "GROUP";
 export interface AssignUserToApplicationRequest {
   /** Application ID */
   appId: string;
-  created?: unknown;
-  credentials?: AppUserCredentials;
+  created?: unknown | undefined;
+  credentials?: AppUserCredentials | undefined;
   /** Unique identifier for the Okta user */
   id: string;
-  lastUpdated?: unknown;
-  profile?: AppUserProfile;
+  lastUpdated?: unknown | undefined;
+  profile?: AppUserProfile | undefined;
   /** Indicates if the assignment is direct (`USER`) or by group membership (`GROUP`). If not specified, Okta tries to determine the scope based on the assignment type. */
-  scope?: AssignUserToApplicationRequestScope | (string & {});
+  scope?: AssignUserToApplicationRequestScope | (string & {}) | undefined;
 }
 /** The user's password. This is a write-only property. An empty `password` object is returned to indicate that a password value exists. */
 export interface AppUserPasswordCredentialOutput {}
 /** Specifies a user's credentials for the app. This parameter can be omitted for apps with [sign-on mode](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/signonmode) (`signOnMode`) or [authentication schemes](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/credentials/scheme) (`credentials.scheme`) that don't require credentials. */
 export interface AppUserCredentialsOutput {
-  password?: AppUserPasswordCredentialOutput;
+  password?: AppUserPasswordCredentialOutput | undefined;
   /** The user's username in the app > **Note:** The [userNameTemplate](/openapi/okta-management/management/tags/application/other/createapplication#application/createapplication/t=response&c=200&path=&d=0/credentials/usernametemplate) in the application object defines the default username generated when a user is assigned to that app. > If you attempt to assign a username or password to an app with an incompatible [authentication scheme](/openapi/okta-management/management/tags/application/other/createapplication#application/createapplication/t=response&c=200&path=&d=0/credentials/scheme), the following error is returned: > "Credentials should not be set on this resource based on the scheme." */
-  userName?: string;
+  userName?: string | undefined;
 }
 /** Indicates if the assignment is direct (`USER`) or by group membership (`GROUP`). If not specified, Okta tries to determine the scope based on the assignment type. */
 export type AppUserOutputScope = "USER" | "GROUP";
@@ -2333,33 +2343,33 @@ export type AppUserOutputEmbeddedMap = { [key: string]: unknown | undefined };
 export type HrefObjectUserLink = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of resources related to the application user. */
 export interface LinksAppAndUser {
-  app?: HrefObjectSelfLink;
-  group?: HrefObjectSelfLink;
-  user?: HrefObjectSelfLink;
+  app?: HrefObjectSelfLink | undefined;
+  group?: HrefObjectSelfLink | undefined;
+  user?: HrefObjectSelfLink | undefined;
 }
 /** The app user object defines a user's app-specific profile and credentials for an app */
 export interface AppUserOutput {
-  created?: unknown;
-  credentials?: AppUserCredentialsOutput;
+  created?: unknown | undefined;
+  credentials?: AppUserCredentialsOutput | undefined;
   /** The ID of the user in the target app that's linked to the Okta application user object. This value is the native app-specific identifier or primary key for the user in the target app. The `externalId` is set during import when the user is confirmed (reconciled) or during provisioning when the user is created in the target app. This value isn't populated for SSO app assignments (for example, SAML or SWA) because it isn't synchronized with a target app. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Unique identifier for the Okta user */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp of the last synchronization operation. This value is only updated for apps with the `IMPORT_PROFILE_UPDATES` or `PUSH PROFILE_UPDATES` feature. */
-  lastSync?: string;
-  lastUpdated?: unknown;
+  lastSync?: string | undefined;
+  lastUpdated?: unknown | undefined;
   /** Timestamp when the application user password was last changed */
-  passwordChanged?: string | Redacted.Redacted<string> | null;
-  profile?: AppUserProfile;
+  passwordChanged?: string | Redacted.Redacted<string> | null | undefined;
+  profile?: AppUserProfile | undefined;
   /** Indicates if the assignment is direct (`USER`) or by group membership (`GROUP`). If not specified, Okta tries to determine the scope based on the assignment type. */
-  scope?: AppUserOutputScope;
-  status?: AppUserStatus;
+  scope?: AppUserOutputScope | undefined;
+  status?: AppUserStatus | undefined;
   /** Timestamp when the application user status was last changed */
-  statusChanged?: string;
-  syncState?: AppUserSyncState;
+  statusChanged?: string | undefined;
+  syncState?: AppUserSyncState | undefined;
   /** Embedded resources related to the application user using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _embedded?: AppUserOutputEmbeddedMap;
-  _links?: LinksAppAndUser;
+  _embedded?: AppUserOutputEmbeddedMap | undefined;
+  _links?: LinksAppAndUser | undefined;
 }
 export interface AssignUserToGroupRequest {
   /** The `id` of the group */
@@ -2372,19 +2382,19 @@ export interface AssignUserToGroupResponse {}
 export type BulkRemoveEmailAddressBouncesRequestEmailAddressesList = Array<string>;
 export interface BulkRemoveEmailAddressBouncesRequest {
   /** A list of email addresses to remove from the email-service bounce list */
-  emailAddresses?: BulkRemoveEmailAddressBouncesRequestEmailAddressesList;
+  emailAddresses?: BulkRemoveEmailAddressBouncesRequestEmailAddressesList | undefined;
 }
 export interface BouncesRemoveListError {
   /** An email address with a validation error */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Validation error reason */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** A list of emails that wasn't added to the email-bounced remove list and the error reason */
 export type BouncesRemoveListResultErrorsList = Array<BouncesRemoveListError>;
 export interface BouncesRemoveListResult {
   /** A list of emails that wasn't added to the email-bounced remove list and the error reason */
-  errors?: BouncesRemoveListResultErrorsList;
+  errors?: BouncesRemoveListResultErrorsList | undefined;
 }
 /** The algorithm used to generate the hash using the password (and salt, when applicable). */
 export type PasswordCredentialHashAlgorithm =
@@ -2398,47 +2408,47 @@ export type PasswordCredentialHashAlgorithm =
 export type DigestAlgorithm = "SHA256_HMAC" | "SHA512_HMAC";
 /** Specifies a hashed password to import into Okta. This allows an existing password to be imported into Okta directly from some other store. Okta supports the BCRYPT, SHA-512, SHA-256, SHA-1, MD5, and PBKDF2 hash functions for password import. A hashed password may be specified in a password object when creating or updating a user, but not for other operations. See the [Create user with imported hashed password](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/User/#create-user-with-imported-hashed-password) description. When you update a user with a hashed password, the user must be in the `STAGED` status. */
 export interface PasswordCredentialHash {
-  algorithm?: PasswordCredentialHashAlgorithm | (string & {});
-  digestAlgorithm?: DigestAlgorithm | (string & {});
+  algorithm?: PasswordCredentialHashAlgorithm | (string & {}) | undefined;
+  digestAlgorithm?: DigestAlgorithm | (string & {}) | undefined;
   /** The number of iterations used when hashing passwords using PBKDF2. Must be >= 4096. Only required for PBKDF2 algorithm. */
-  iterationCount?: number;
+  iterationCount?: number | undefined;
   /** Size of the derived key in bytes. Only required for PBKDF2 algorithm. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** Only required for salted hashes. For BCRYPT, this specifies Radix-64 as the encoded salt used to generate the hash, which must be 22 characters long. For other salted hashes, this specifies the Base64-encoded salt used to generate the hash. */
-  salt?: string;
+  salt?: string | undefined;
   /** Specifies whether salt was pre- or postfixed to the password before hashing. Only required for salted algorithms. */
-  saltOrder?: string;
+  saltOrder?: string | undefined;
   /** For SHA-512, SHA-256, SHA-1, MD5, and PBKDF2, this is the actual base64-encoded hash of the password (and salt, if used). This is the Base64-encoded `value` of the SHA-512/SHA-256/SHA-1/MD5/PBKDF2 digest that was computed by either pre-fixing or post-fixing the `salt` to the `password`, depending on the `saltOrder`. If a `salt` was not used in the `source` system, then this should just be the Base64-encoded `value` of the password's SHA-512/SHA-256/SHA-1/MD5/PBKDF2 digest. For BCRYPT, this is the actual Radix-64 encoded hashed password. */
-  value?: string;
+  value?: string | undefined;
   /** Governs the strength of the hash and the time required to compute it. Only required for BCRYPT algorithm. */
-  workFactor?: number;
+  workFactor?: number | undefined;
 }
 /** Specify a [password import inline hook](/openapi/okta-management/management/tags/inlinehook/createpasswordimportinlinehook) to trigger verification of the user's password the first time the user signs in. This allows an existing password to be imported into Okta directly from some other store. */
 export interface PasswordCredentialHook {
   /** The type of password inline hook. Currently, must be set to default. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Specifies a password for a user. When a user has a valid password, imported hashed password, or password hook, and a response object contains a password credential, then the password object is a bare object without the value property defined (for example, `password: {}`). This indicates that a password value exists. You can modify password policy requirements in the Admin Console by editing the Password authenticator: **Security** > **Authenticators** > **Password** (or for Okta Classic orgs, use **Security** > **Authentication** > **Password**). For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
 export interface PasswordCredential {
-  hash?: PasswordCredentialHash;
-  hook?: PasswordCredentialHook;
+  hash?: PasswordCredentialHash | undefined;
+  hook?: PasswordCredentialHook | undefined;
   /** Specifies the password for a user. The password policy validates this password. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ChangePasswordRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** If true, validates against the password minimum age policy */
-  strict?: boolean;
-  newPassword?: PasswordCredential;
-  oldPassword?: PasswordCredential;
+  strict?: boolean | undefined;
+  newPassword?: PasswordCredential | undefined;
+  oldPassword?: PasswordCredential | undefined;
   /** When set to `true`, revokes all user sessions, except for the current session */
-  revokeSessions?: boolean;
+  revokeSessions?: boolean | undefined;
 }
 /** Specifies a password for a user. When a user has a valid password, imported hashed password, or password hook, and a response object contains a password credential, then the password object is a bare object without the value property defined (for example, `password: {}`). This indicates that a password value exists. You can modify password policy requirements in the Admin Console by editing the Password authenticator: **Security** > **Authenticators** > **Password** (or for Okta Classic orgs, use **Security** > **Authentication** > **Password**). For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
 export interface PasswordCredentialOutput {
-  hash?: PasswordCredentialHash;
-  hook?: PasswordCredentialHook;
+  hash?: PasswordCredentialHash | undefined;
+  hook?: PasswordCredentialHook | undefined;
 }
 /** The type of authentication provider */
 export type AuthenticationProviderType =
@@ -2451,32 +2461,32 @@ export type AuthenticationProviderType =
 /** Specifies the authentication provider that validates the user's password credential. The user's current provider is managed by the **Delegated Authentication** settings for your org. The provider object is **read-only**. */
 export interface AuthenticationProvider {
   /** The name of the authentication provider */
-  name?: string;
-  type?: AuthenticationProviderType;
+  name?: string | undefined;
+  type?: AuthenticationProviderType | undefined;
 }
 /** Specifies a secret question and answer that's validated (case insensitive) when a user forgets their password or unlocks their account. The answer property is write-only. */
 export interface RecoveryQuestionCredentialOutput {
   /** The recovery question */
-  question?: string;
+  question?: string | undefined;
 }
 /** Specifies primary authentication and recovery credentials for a user. Credential types and requirements vary depending on the provider and security policy of the org. */
 export interface UserCredentialsOutput {
-  password?: PasswordCredentialOutput;
-  provider?: AuthenticationProvider;
-  recovery_question?: RecoveryQuestionCredentialOutput;
+  password?: PasswordCredentialOutput | undefined;
+  provider?: AuthenticationProvider | undefined;
+  recovery_question?: RecoveryQuestionCredentialOutput | undefined;
 }
 /** Specifies a secret question and answer that's validated (case insensitive) when a user forgets their password or unlocks their account. The answer property is write-only. */
 export interface RecoveryQuestionCredential {
   /** The answer to the recovery question */
-  answer?: string;
+  answer?: string | undefined;
   /** The recovery question */
-  question?: string;
+  question?: string | undefined;
 }
 export interface ChangeRecoveryQuestionRequest {
   /** ID of an existing Okta user */
   userId: string;
-  password?: PasswordCredential;
-  recovery_question?: RecoveryQuestionCredential;
+  password?: PasswordCredential | undefined;
+  recovery_question?: RecoveryQuestionCredential | undefined;
 }
 export interface CloneApplicationKeyRequest {
   /** Application ID */
@@ -2489,24 +2499,24 @@ export interface CloneApplicationKeyRequest {
 /** X.509 certificate chain that contains a chain of one or more certificates */
 export type JsonWebKeyX5cList = Array<string>;
 export interface JsonWebKey {
-  created?: string;
+  created?: string | undefined;
   /** RSA key value (public exponent) for Key binding */
-  e?: string;
+  e?: string | undefined;
   /** Timestamp when the certificate expires */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Unique identifier for the certificate */
-  kid?: string;
+  kid?: string | undefined;
   /** Cryptographic algorithm family for the certificate's keypair. Valid value: `RSA` */
-  kty?: string;
-  lastUpdated?: string;
+  kty?: string | undefined;
+  lastUpdated?: string | undefined;
   /** RSA modulus value that is used by both the public and private keys and provides a link between them */
-  n?: string;
+  n?: string | undefined;
   /** Acceptable use of the certificate. Valid value: `sig` */
-  use?: string;
+  use?: string | undefined;
   /** X.509 certificate chain that contains a chain of one or more certificates */
-  x5c?: JsonWebKeyX5cList;
+  x5c?: JsonWebKeyX5cList | undefined;
   /** X.509 certificate SHA-256 thumbprint, which is the base64url-encoded SHA-256 thumbprint (digest) of the DER encoding of an X.509 certificate */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export interface CloneIdentityProviderKeyRequest {
   /** `id` of IdP */
@@ -2520,22 +2530,22 @@ export interface CloneIdentityProviderKeyRequest {
 export type X5c = Array<string>;
 /** A [JSON Web Key](https://tools.ietf.org/html/rfc7517) for a signature or encryption credential for an IdP */
 export interface IdPKeyCredential {
-  created?: string;
+  created?: string | undefined;
   /** The exponent value for the RSA public key */
-  e?: string;
-  expiresAt?: string;
+  e?: string | undefined;
+  expiresAt?: string | undefined;
   /** Unique identifier for the key */
-  kid?: string;
+  kid?: string | undefined;
   /** Identifies the cryptographic algorithm family used with the key */
-  kty?: string;
-  lastUpdated?: string;
+  kty?: string | undefined;
+  lastUpdated?: string | undefined;
   /** The modulus value for the RSA public key */
-  n?: string;
+  n?: string | undefined;
   /** Intended use of the public key */
-  use?: string;
-  x5c?: X5c;
+  use?: string | undefined;
+  x5c?: X5c | undefined;
   /** Base64url-encoded SHA-256 thumbprint of the DER encoding of an X.509 certificate */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
   [key: string]: unknown;
 }
 export interface ClonePolicyRequest {
@@ -2560,87 +2570,87 @@ export type PolicyEmbeddedMap = { [key: string]: unknown | undefined };
 export type HrefObjectMappingsLink = HrefObjectSelfLink;
 export type HrefObjectRulesLink = HrefObjectSelfLink;
 export interface PolicyLinks {
-  activate?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
-  mappings?: HrefObjectSelfLink;
-  rules?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
+  activate?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  mappings?: HrefObjectSelfLink | undefined;
+  rules?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
 }
 export interface Policy {
   /** Timestamp when the policy was created */
-  created?: string;
+  created?: string | undefined;
   /** Description of the policy */
-  description?: string;
+  description?: string | undefined;
   /** Identifier of the policy */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the policy was last modified */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the policy */
   name: string;
   /** Specifies the order in which this policy is evaluated in relation to the other policies */
-  priority?: number;
-  status?: unknown;
+  priority?: number | undefined;
+  status?: unknown | undefined;
   /** Specifies whether Okta created the policy */
-  system?: boolean;
+  system?: boolean | undefined;
   type: PolicyType;
-  _embedded?: PolicyEmbeddedMap;
-  _links?: PolicyLinks;
+  _embedded?: PolicyEmbeddedMap | undefined;
+  _links?: PolicyLinks | undefined;
 }
 /** Agent details */
 export interface AgentInput {
   /** Determines if an agent is hidden from the Admin Console */
-  isHidden?: boolean;
+  isHidden?: boolean | undefined;
   /** Determines if the agent is on the latest generally available version */
-  isLatestGAedVersion?: boolean;
+  isLatestGAedVersion?: boolean | undefined;
   /** Unix timestamp in milliseconds when the agent last connected to Okta */
-  lastConnection?: number;
+  lastConnection?: number | undefined;
   /** Agent name */
-  name?: string;
-  operationalStatus?: OperationalStatus | (string & {});
+  name?: string | undefined;
+  operationalStatus?: OperationalStatus | (string & {}) | undefined;
   /** Pool ID */
-  poolId?: string;
-  type?: AgentType | (string & {});
+  poolId?: string | undefined;
+  type?: AgentType | (string & {}) | undefined;
   /** Status message of the agent */
-  updateMessage?: string;
-  updateStatus?: AgentUpdateInstanceStatus | (string & {});
+  updateMessage?: string | undefined;
+  updateStatus?: AgentUpdateInstanceStatus | (string & {}) | undefined;
   /** Agent version number */
-  version?: string;
+  version?: string | undefined;
 }
 export type CreateAgentPoolsUpdateRequestAgentsList = Array<AgentInput>;
 export interface CreateAgentPoolsUpdateRequest {
   /** ID of the agent pool for which the settings apply to */
   poolId: string;
-  agents?: CreateAgentPoolsUpdateRequestAgentsList;
-  agentType?: AgentType | (string & {});
+  agents?: CreateAgentPoolsUpdateRequestAgentsList | undefined;
+  agentType?: AgentType | (string & {}) | undefined;
   /** Indicates if auto-update is enabled for the agent pool */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Name of the agent pool update */
-  name?: string;
+  name?: string | undefined;
   /** Indicates if the admin is notified about the update */
-  notifyAdmin?: boolean;
+  notifyAdmin?: boolean | undefined;
   /** Reason for the update */
-  reason?: string;
-  schedule?: AutoUpdateSchedule;
+  reason?: string | undefined;
+  schedule?: AutoUpdateSchedule | undefined;
   /** Specifies the sort order */
-  sortOrder?: number;
-  status?: AgentUpdateJobStatus | (string & {});
+  sortOrder?: number | undefined;
+  status?: AgentUpdateJobStatus | (string & {}) | undefined;
   /** The agent version to update to */
-  targetVersion?: string;
+  targetVersion?: string | undefined;
 }
 /** The list of Okta management scopes granted to the API Service Integration instance. See [Okta management OAuth 2.0 scopes](/oauth2/#okta-admin-management). */
 export type CreateApiServiceIntegrationInstanceRequestGrantedScopesList = Array<string>;
 export interface AppPropertiesValue {
   /** Name of the property */
-  name?: string;
+  name?: string | undefined;
   /** Value of the property */
-  value?: string;
+  value?: string | undefined;
 }
 /** App instance properties */
 export type AppProperties = { [key: string]: AppPropertiesValue | undefined };
 export interface CreateApiServiceIntegrationInstanceRequest {
   /** The list of Okta management scopes granted to the API Service Integration instance. See [Okta management OAuth 2.0 scopes](/oauth2/#okta-admin-management). */
   grantedScopes: CreateApiServiceIntegrationInstanceRequestGrantedScopesList;
-  properties?: AppProperties;
+  properties?: AppProperties | undefined;
   /** The type of the API service integration. This string is an underscore-concatenated, lowercased API service integration name. For example, `my_api_log_integration`. */
   type: string;
 }
@@ -2649,29 +2659,29 @@ export type CreateApiServiceIntegrationInstanceResponseGrantedScopesList = Array
 export type HrefObjectClientLink = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface APIServiceIntegrationLinks {
-  client?: HrefObjectSelfLink;
-  logo?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
+  client?: HrefObjectSelfLink | undefined;
+  logo?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
 }
 export interface CreateApiServiceIntegrationInstanceResponse {
   /** The URL to the API service integration configuration guide */
-  configGuideUrl?: string;
+  configGuideUrl?: string | undefined;
   /** Timestamp when the API Service Integration instance was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The user ID of the API Service Integration instance creator */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The list of Okta management scopes granted to the API Service Integration instance. See [Okta management OAuth 2.0 scopes](/oauth2/#okta-admin-management). */
-  grantedScopes?: CreateApiServiceIntegrationInstanceResponseGrantedScopesList;
+  grantedScopes?: CreateApiServiceIntegrationInstanceResponseGrantedScopesList | undefined;
   /** The ID of the API Service Integration instance */
-  id?: string;
+  id?: string | undefined;
   /** The name of the API service integration that corresponds with the `type` property. This is the full name of the API service integration listed in the Okta Integration Network (OIN) catalog. */
-  name?: string;
-  properties?: AppProperties;
+  name?: string | undefined;
+  properties?: AppProperties | undefined;
   /** The type of the API service integration. This string is an underscore-concatenated, lowercased API service integration name. For example, `my_api_log_integration`. */
-  type?: string;
-  _links?: APIServiceIntegrationLinks;
+  type?: string | undefined;
+  _links?: APIServiceIntegrationLinks | undefined;
   /** The client secret for the API Service Integration instance. This property is only returned in a POST response. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateApiServiceIntegrationInstanceSecretRequest {
   /** `id` of the API Service Integration instance */
@@ -2680,16 +2690,16 @@ export interface CreateApiServiceIntegrationInstanceSecretRequest {
 /** Specifies access settings for the app */
 export interface ApplicationAccessibility {
   /** Custom error page URL for the app */
-  errorRedirectUrl?: string;
+  errorRedirectUrl?: string | undefined;
   /** Custom login page URL for the app > **Note:** The `loginRedirectUrl` property is deprecated in Identity Engine. This property is used with the custom app login feature. Orgs that actively use this feature can continue to do so. See [Okta-hosted sign-in (redirect authentication)](https://developer.okta.com/docs/guides/redirect-authentication/) or [configure IdP routing rules](https://help.okta.com/okta_help.htm?type=oie&id=ext-cfg-routing-rules) to redirect users to the appropriate sign-in app for orgs that don't use the custom app login feature. */
-  loginRedirectUrl?: string;
+  loginRedirectUrl?: string | undefined;
   /** Represents whether the app can be self-assignable by users */
-  selfService?: boolean;
+  selfService?: boolean | undefined;
 }
 /** Licenses for the app */
 export interface ApplicationLicensing {
   /** Number of licenses purchased for the app */
-  seatCount?: number;
+  seatCount?: number | undefined;
 }
 /** Contains any valid JSON schema for specifying properties that can be referenced from a request (only available to OAuth 2.0 client apps). For example, add an app manager contact email address or define an allowlist of groups that you can then reference using the Okta Expression Language `getFilteredGroups` function. > **Notes:** > * `profile` isn't encrypted, so don't store sensitive data in it. > * `profile` doesn't limit the level of nesting in the JSON schema you created, but there is a practical size limit. Okta recommends a JSON schema size of 1 MB or less for best performance. */
 export type CreateApplicationRequestProfileMap = { [key: string]: unknown | undefined };
@@ -2709,30 +2719,30 @@ export type ApplicationVisibilityAppLinksMap = { [key: string]: boolean | undefi
 /** Hides the app for specific end-user apps */
 export interface ApplicationVisibilityHide {
   /** Okta Mobile for iOS or Android (pre-dates Android) */
-  iOS?: boolean;
+  iOS?: boolean | undefined;
   /** Okta End-User Dashboard on a web browser */
-  web?: boolean;
+  web?: boolean | undefined;
 }
 /** Specifies visibility settings for the app */
 export interface ApplicationVisibility {
   /** Links or icons that appear on the End-User Dashboard if they're set to `true`. */
-  appLinks?: ApplicationVisibilityAppLinksMap;
+  appLinks?: ApplicationVisibilityAppLinksMap | undefined;
   /** Automatically signs in to the app when user signs into Okta */
-  autoLaunch?: boolean;
+  autoLaunch?: boolean | undefined;
   /** Automatically sign in when user lands on the sign-in page */
-  autoSubmitToolbar?: boolean;
-  hide?: ApplicationVisibilityHide;
+  autoSubmitToolbar?: boolean | undefined;
+  hide?: ApplicationVisibilityHide | undefined;
 }
 export interface CreateApplicationRequest {
   /** Executes activation lifecycle operation when creating the app */
-  activate?: boolean;
-  accessibility?: ApplicationAccessibility;
+  activate?: boolean | undefined;
+  accessibility?: ApplicationAccessibility | undefined;
   label: string;
-  licensing?: ApplicationLicensing;
+  licensing?: ApplicationLicensing | undefined;
   /** Contains any valid JSON schema for specifying properties that can be referenced from a request (only available to OAuth 2.0 client apps). For example, add an app manager contact email address or define an allowlist of groups that you can then reference using the Okta Expression Language `getFilteredGroups` function. > **Notes:** > * `profile` isn't encrypted, so don't store sensitive data in it. > * `profile` doesn't limit the level of nesting in the JSON schema you created, but there is a practical size limit. Okta recommends a JSON schema size of 1 MB or less for best performance. */
-  profile?: CreateApplicationRequestProfileMap;
+  profile?: CreateApplicationRequestProfileMap | undefined;
   signOnMode: ApplicationSignOnMode | (string & {});
-  visibility?: ApplicationVisibility;
+  visibility?: ApplicationVisibility | undefined;
 }
 /** Capabilities supported by the app */
 export type ApplicationCapability = "PROVISIONING" | "SSO" | "UNIVERSAL_LOGOUT";
@@ -2743,9 +2753,9 @@ export type ApplicationExpressConfigurationSupportedCapabilitiesList = Array<App
 /** <div class="x-lifecycle-container"><x-lifecycle class="oie"></x-lifecycle></div> Indicates which Express Configuration capabilities the app supports and has enabled */
 export interface ApplicationExpressConfiguration {
   /** Capabilities currently enabled for the app */
-  enabledCapabilities?: ApplicationExpressConfigurationEnabledCapabilitiesList;
+  enabledCapabilities?: ApplicationExpressConfigurationEnabledCapabilitiesList | undefined;
   /** Capabilities supported by the app */
-  supportedCapabilities?: ApplicationExpressConfigurationSupportedCapabilitiesList;
+  supportedCapabilities?: ApplicationExpressConfigurationSupportedCapabilitiesList | undefined;
 }
 export type ApplicationFeaturesItem =
   | "GROUP_PUSH"
@@ -2807,20 +2817,20 @@ export type ApplicationUniversalLogoutSupportType = "FULL" | "PARTIAL";
 /** <div class="x-lifecycle-container"><x-lifecycle class="oie"></x-lifecycle></div> Universal Logout properties for the app. These properties are only returned and can't be updated. */
 export interface ApplicationUniversalLogout {
   /** Indicates whether the app uses a shared identity stack that may cause the user to sign out of other apps by the same company */
-  identityStack?: ApplicationUniversalLogoutIdentityStack;
+  identityStack?: ApplicationUniversalLogoutIdentityStack | undefined;
   /** The protocol used for Universal Logout */
-  protocol?: ApplicationUniversalLogoutProtocol;
+  protocol?: ApplicationUniversalLogoutProtocol | undefined;
   /** Universal Logout status for the app instance */
-  status?: ApplicationUniversalLogoutStatus;
+  status?: ApplicationUniversalLogoutStatus | undefined;
   /** Indicates whether the app supports full or partial Universal Logout (UL). */
-  supportType?: ApplicationUniversalLogoutSupportType;
+  supportType?: ApplicationUniversalLogoutSupportType | undefined;
 }
 /** The specified [Application User](/openapi/okta-management/management/tags/applicationusers) assigned to the app */
 export type ApplicationEmbeddedUserMap = { [key: string]: unknown | undefined };
 /** Embedded resources related to the app using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. If the `expand=user/{userId}` query parameter is specified, then the assigned [Application User](/openapi/okta-management/management/tags/applicationusers) is embedded. */
 export interface ApplicationEmbedded {
   /** The specified [Application User](/openapi/okta-management/management/tags/applicationusers) assigned to the app */
-  user?: ApplicationEmbeddedUserMap;
+  user?: ApplicationEmbeddedUserMap | undefined;
 }
 export type AccessPolicyLink = HrefObjectSelfLink;
 /** List of app link resources */
@@ -2833,43 +2843,43 @@ export type MetadataLink = HrefObjectSelfLink;
 export type UsersLink = HrefObjectSelfLink;
 /** Discoverable resources related to the app */
 export interface ApplicationLinks {
-  accessPolicy?: HrefObjectSelfLink;
-  activate?: HrefObjectSelfLink;
+  accessPolicy?: HrefObjectSelfLink | undefined;
+  activate?: HrefObjectSelfLink | undefined;
   /** List of app link resources */
-  appLinks?: ApplicationLinksAppLinksList;
-  deactivate?: HrefObjectSelfLink;
-  groups?: HrefObjectSelfLink;
-  help?: HrefObjectSelfLink;
+  appLinks?: ApplicationLinksAppLinksList | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  groups?: HrefObjectSelfLink | undefined;
+  help?: HrefObjectSelfLink | undefined;
   /** List of app logo resources */
-  logo?: ApplicationLinksLogoList;
-  metadata?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
-  users?: HrefObjectSelfLink;
+  logo?: ApplicationLinksLogoList | undefined;
+  metadata?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
+  users?: HrefObjectSelfLink | undefined;
 }
 export interface Application {
-  accessibility?: ApplicationAccessibility;
+  accessibility?: ApplicationAccessibility | undefined;
   /** Timestamp when the application object was created */
-  created?: string;
-  expressConfiguration?: ApplicationExpressConfiguration;
+  created?: string | undefined;
+  expressConfiguration?: ApplicationExpressConfiguration | undefined;
   /** Enabled app features > **Note:** See [Application Features](/openapi/okta-management/management/tags/applicationfeatures/) for app provisioning features. */
-  features?: ApplicationFeaturesList;
+  features?: ApplicationFeaturesList | undefined;
   /** Unique ID for the app instance */
-  id?: string;
+  id?: string | undefined;
   label: string;
   /** Timestamp when the application object was last updated */
-  lastUpdated?: string;
-  licensing?: ApplicationLicensing;
+  lastUpdated?: string | undefined;
+  licensing?: ApplicationLicensing | undefined;
   /** The Okta resource name (ORN) for the current app instance */
-  orn?: string;
+  orn?: string | undefined;
   /** Contains any valid JSON schema for specifying properties that can be referenced from a request (only available to OAuth 2.0 client apps). For example, add an app manager contact email address or define an allowlist of groups that you can then reference using the Okta Expression Language `getFilteredGroups` function. > **Notes:** > * `profile` isn't encrypted, so don't store sensitive data in it. > * `profile` doesn't limit the level of nesting in the JSON schema you created, but there is a practical size limit. Okta recommends a JSON schema size of 1 MB or less for best performance. */
-  profile?: ApplicationProfileMap;
+  profile?: ApplicationProfileMap | undefined;
   signOnMode: ApplicationSignOnMode;
-  status?: ApplicationLifecycleStatus;
-  universalLogout?: ApplicationUniversalLogout;
-  visibility?: ApplicationVisibility;
+  status?: ApplicationLifecycleStatus | undefined;
+  universalLogout?: ApplicationUniversalLogout | undefined;
+  visibility?: ApplicationVisibility | undefined;
   /** Embedded resources related to the app using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. If the `expand=user/{userId}` query parameter is specified, then the assigned [Application User](/openapi/okta-management/management/tags/applicationusers) is embedded. */
-  _embedded?: ApplicationEmbedded;
-  _links?: ApplicationLinks;
+  _embedded?: ApplicationEmbedded | undefined;
+  _links?: ApplicationLinks | undefined;
 }
 /** A list of IDs of the Okta groups who own the app service account */
 export type CreateAppServiceAccountRequestOwnerGroupIdsList = Array<string>;
@@ -2879,13 +2889,13 @@ export interface CreateAppServiceAccountRequest {
   /** The [ORN](/openapi/okta-management/guides/roles/#okta-resource-name-orn) of the relevant resource. Use the specific app ORN format (`orn:{partition}:idp:{yourOrgId}:apps:{appType}:{appId}`) to identify an Okta app instance in your org. */
   containerOrn: string;
   /** The description of the app service account */
-  description?: string;
+  description?: string | undefined;
   /** The user-defined name for the app service account */
   name: string;
   /** A list of IDs of the Okta groups who own the app service account */
-  ownerGroupIds?: CreateAppServiceAccountRequestOwnerGroupIdsList;
+  ownerGroupIds?: CreateAppServiceAccountRequestOwnerGroupIdsList | undefined;
   /** A list of IDs of the Okta users who own the app service account */
-  ownerUserIds?: CreateAppServiceAccountRequestOwnerUserIdsList;
+  ownerUserIds?: CreateAppServiceAccountRequestOwnerUserIdsList | undefined;
   /** The app service account password */
   password: string | Redacted.Redacted<string>;
   /** The username that serves as the direct link to your managed app account. Ensure that this value precisely matches the identifier of the target app account. */
@@ -2910,27 +2920,27 @@ export type ServiceAccountStatusDetail =
   | "VAULTED";
 export interface AppServiceAccountOutput {
   /** The key name of the app in the Okta Integration Network (OIN) */
-  containerGlobalName?: string;
+  containerGlobalName?: string | undefined;
   /** The app instance label */
-  containerInstanceName?: string;
+  containerInstanceName?: string | undefined;
   /** The [ORN](/openapi/okta-management/guides/roles/#okta-resource-name-orn) of the relevant resource. Use the specific app ORN format (`orn:{partition}:idp:{yourOrgId}:apps:{appType}:{appId}`) to identify an Okta app instance in your org. */
   containerOrn: string;
   /** Timestamp when the app service account was created */
-  created?: string;
+  created?: string | undefined;
   /** The description of the app service account */
-  description?: string;
+  description?: string | undefined;
   /** The UUID of the app service account */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the app service account was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The user-defined name for the app service account */
   name: string;
   /** A list of IDs of the Okta groups who own the app service account */
-  ownerGroupIds?: AppServiceAccountOutputOwnerGroupIdsList;
+  ownerGroupIds?: AppServiceAccountOutputOwnerGroupIdsList | undefined;
   /** A list of IDs of the Okta users who own the app service account */
-  ownerUserIds?: AppServiceAccountOutputOwnerUserIdsList;
-  status?: ServiceAccountStatus;
-  statusDetail?: ServiceAccountStatusDetail;
+  ownerUserIds?: AppServiceAccountOutputOwnerUserIdsList | undefined;
+  status?: ServiceAccountStatus | undefined;
+  statusDetail?: ServiceAccountStatusDetail | undefined;
   /** The username that serves as the direct link to your managed app account. Ensure that this value precisely matches the identifier of the target app account. */
   username: string;
 }
@@ -2940,7 +2950,7 @@ export interface CreateAssociatedServersRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** A list of the authorization server IDs */
-  trusted?: CreateAssociatedServersRequestTrustedList;
+  trusted?: CreateAssociatedServersRequestTrustedList | undefined;
 }
 /** The algorithm for encrypting access tokens issued by this authorization server. If this is requested, the response is signed, and then encrypted. The result is a nested JWT. The default, if omitted, is that no encryption is performed. */
 export type AccessTokenKeyEncryptionAlgorithm = "RSA-OAEP-256" | "RSA-OAEP-384" | "RSA-OAEP-512";
@@ -2952,16 +2962,16 @@ export type AuthorizationServerCredentialsRotationMode = "AUTO" | "MANUAL";
 export type AuthorizationServerCredentialsUse = "sig";
 export interface AuthorizationServerCredentialsSigningConfig {
   /** The ID of the JSON Web Key used for signing tokens issued by the authorization server */
-  kid?: string;
+  kid?: string | undefined;
   /** The timestamp when the authorization server started using the `kid` for signing tokens */
-  lastRotated?: string;
+  lastRotated?: string | undefined;
   /** The timestamp when the authorization server changes the Key for signing tokens. This is only returned when `rotationMode` is set to `AUTO`. */
-  nextRotation?: string;
-  rotationMode?: AuthorizationServerCredentialsRotationMode;
-  use?: AuthorizationServerCredentialsUse;
+  nextRotation?: string | undefined;
+  rotationMode?: AuthorizationServerCredentialsRotationMode | undefined;
+  use?: AuthorizationServerCredentialsUse | undefined;
 }
 export interface AuthorizationServerCredentials {
-  signing?: AuthorizationServerCredentialsSigningConfig;
+  signing?: AuthorizationServerCredentialsSigningConfig | undefined;
 }
 /** The type of public key */
 export type JsonWebKeyType = "RSA";
@@ -2972,19 +2982,19 @@ export type JsonWebKeyUse = "enc";
 /** A [JSON Web Key (JWK)](https://tools.ietf.org/html/rfc7517) is a JSON representation of a cryptographic key. Okta can use the active key to encrypt the access token minted by the authorization server. Okta supports only RSA keys with 'use: enc'. */
 export interface ResourceServerJsonWebKey {
   /** The key exponent of a RSA key */
-  e?: string;
+  e?: string | undefined;
   /** The unique identifier of the key */
-  kid?: string;
-  kty?: JsonWebKeyType | (string & {});
+  kid?: string | undefined;
+  kty?: JsonWebKeyType | (string & {}) | undefined;
   /** The modulus of the RSA key */
-  n?: string;
-  status?: JsonWebKeyStatus | (string & {});
-  use?: JsonWebKeyUse | (string & {});
+  n?: string | undefined;
+  status?: JsonWebKeyStatus | (string & {}) | undefined;
+  use?: JsonWebKeyUse | (string & {}) | undefined;
 }
 export type ResourceServerJsonWebKeysKeysList = Array<ResourceServerJsonWebKey>;
 /** A [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) for encrypting JWTs minted by the custom authorization server */
 export interface ResourceServerJsonWebKeys {
-  keys?: ResourceServerJsonWebKeysKeysList;
+  keys?: ResourceServerJsonWebKeysKeysList | undefined;
 }
 export type AuthServerLinksClaims = HrefObjectSelfLink;
 /** Link to the authorization server metadata */
@@ -2993,37 +3003,37 @@ export type AuthServerLinksPolicies = HrefObjectSelfLink;
 export type AuthServerLinksRotateKey = HrefObjectSelfLink;
 export type AuthServerLinksScopes = HrefObjectSelfLink;
 export interface AuthServerLinks {
-  self?: HrefObjectSelfLink;
-  claims?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  claims?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
   /** Link to the authorization server metadata */
-  metadata?: AuthServerLinksMetadataList;
-  policies?: HrefObjectSelfLink;
-  rotateKey?: HrefObjectSelfLink;
-  scopes?: HrefObjectSelfLink;
+  metadata?: AuthServerLinksMetadataList | undefined;
+  policies?: HrefObjectSelfLink | undefined;
+  rotateKey?: HrefObjectSelfLink | undefined;
+  scopes?: HrefObjectSelfLink | undefined;
 }
 export interface AuthorizationServer {
-  accessTokenEncryptedResponseAlgorithm?: AccessTokenKeyEncryptionAlgorithm;
+  accessTokenEncryptedResponseAlgorithm?: AccessTokenKeyEncryptionAlgorithm | undefined;
   /** The recipients that the tokens are intended for. This becomes the `aud` claim in an access token. Okta currently supports only one audience. */
-  audiences?: AuthorizationServerAudiencesList;
-  created?: string;
-  credentials?: AuthorizationServerCredentials;
+  audiences?: AuthorizationServerAudiencesList | undefined;
+  created?: string | undefined;
+  credentials?: AuthorizationServerCredentials | undefined;
   /** The description of the custom authorization server */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the custom authorization server */
-  id?: string;
+  id?: string | undefined;
   /** The complete URL for the custom authorization server. This becomes the `iss` claim in an access token. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Indicates which value is specified in the issuer of the tokens that a custom authorization server returns: the Okta org domain URL or a custom domain URL. `issuerMode` is visible if you have a custom URL domain configured or the Dynamic Issuer Mode feature enabled. If you have a custom URL domain configured, you can set a custom domain URL in a custom authorization server, and this property is returned in the appropriate responses. When set to `ORG_URL`, then in responses, `issuer` is the Okta org domain URL: `https://${yourOktaDomain}`. When set to `CUSTOM_URL`, then in responses, `issuer` is the custom domain URL configured in the administration user interface. When set to `DYNAMIC`, then in responses, `issuer` is the custom domain URL if the OAuth 2.0 request was sent to the custom domain, or is the Okta org's domain URL if the OAuth 2.0 request was sent to the original Okta org domain. After you configure a custom URL domain, all new custom authorization servers use `CUSTOM_URL` by default. If the Dynamic Issuer Mode feature is enabled, then all new custom authorization servers use `DYNAMIC` by default. All existing custom authorization servers continue to use the original value until they're changed using the Admin Console or the API. This way, existing integrations with the client and resource server continue to work after the feature is enabled. */
-  issuerMode?: string;
-  jwks?: ResourceServerJsonWebKeys;
+  issuerMode?: string | undefined;
+  jwks?: ResourceServerJsonWebKeys | undefined;
   /** URL string that references a JSON Web Key Set for encrypting JWTs minted by the custom authorization server */
-  jwks_uri?: string;
-  lastUpdated?: string;
+  jwks_uri?: string | undefined;
+  lastUpdated?: string | undefined;
   /** The name of the custom authorization server */
-  name?: string;
-  status?: LifecycleStatus;
-  _links?: AuthServerLinks;
+  name?: string | undefined;
+  status?: LifecycleStatus | undefined;
+  _links?: AuthServerLinks | undefined;
 }
 export type CreateAssociatedServersResponseBodyList = Array<AuthorizationServer>;
 export type CreateAssociatedServersResponse = CreateAssociatedServersResponseBodyList;
@@ -3031,24 +3041,24 @@ export type HrefObjectActivateLinkInput = HrefObjectSelfLinkInput;
 export type HrefObjectDeactivateLinkInput = HrefObjectSelfLinkInput;
 export type HrefObjectInput = HrefObjectSelfLinkInput;
 export interface AuthenticatorLinksInput {
-  self?: HrefObjectSelfLinkInput;
-  activate?: HrefObjectSelfLinkInput;
-  deactivate?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  activate?: HrefObjectSelfLinkInput | undefined;
+  deactivate?: HrefObjectSelfLinkInput | undefined;
   /** Link to authenticator methods */
-  methods?: HrefObjectSelfLinkInput;
+  methods?: HrefObjectSelfLinkInput | undefined;
 }
 export interface CreateAuthenticatorRequest {
   /** Whether to execute the activation lifecycle operation when Okta creates the authenticator */
-  activate?: boolean;
+  activate?: boolean | undefined;
   /** The description of the authenticator. This setting is only available for the `webauthn` authenticator type (Passkeys). */
-  description?: string;
-  key?: AuthenticatorKeyEnum | (string & {});
+  description?: string | undefined;
+  key?: AuthenticatorKeyEnum | (string & {}) | undefined;
   /** Display name of the authenticator */
-  name?: string;
-  status?: unknown;
-  type?: AuthenticatorType | (string & {});
+  name?: string | undefined;
+  status?: unknown | undefined;
+  type?: AuthenticatorType | (string & {}) | undefined;
   /** Link relations for this object */
-  _links?: AuthenticatorLinksInput;
+  _links?: AuthenticatorLinksInput | undefined;
 }
 /** Defines the authenticator specific parameters */
 export interface AuthenticatorProfile {
@@ -3065,35 +3075,35 @@ export interface CreateAuthenticatorEnrollmentRequest {
 export type AuthenticatorEnrollmentLinksUser = HrefObjectSelfLink;
 export type AuthenticatorEnrollmentLinksAuthenticator = HrefObjectSelfLink;
 export interface AuthenticatorEnrollmentLinks {
-  self?: HrefObjectSelfLink;
-  user?: HrefObjectSelfLink;
-  authenticator?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  user?: HrefObjectSelfLink | undefined;
+  authenticator?: HrefObjectSelfLink | undefined;
 }
 export interface AuthenticatorEnrollment {
   /** Timestamp when the authenticator enrollment was created */
-  created?: string;
+  created?: string | undefined;
   /** The unique identifier of the authenticator enrollment */
-  id?: string;
+  id?: string | undefined;
   /** A human-readable string that identifies the authenticator */
-  key?: string;
+  key?: string | undefined;
   /** Timestamp when the authenticator enrollment was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The authenticator display name */
-  name?: string;
-  profile?: AuthenticatorProfile;
+  name?: string | undefined;
+  profile?: AuthenticatorProfile | undefined;
   /** Status of the enrollment */
-  status?: string;
-  type?: AuthenticatorType;
-  _links?: AuthenticatorEnrollmentLinks;
+  status?: string | undefined;
+  type?: AuthenticatorType | undefined;
+  _links?: AuthenticatorEnrollmentLinks | undefined;
 }
 /** The recipients that the tokens are intended for. This becomes the `aud` claim in an access token. Okta currently supports only one audience. */
 export type CreateAuthorizationServerRequestAudiencesList = Array<string>;
 export interface AuthorizationServerCredentialsSigningConfigInput {
-  rotationMode?: AuthorizationServerCredentialsRotationMode | (string & {});
-  use?: AuthorizationServerCredentialsUse | (string & {});
+  rotationMode?: AuthorizationServerCredentialsRotationMode | (string & {}) | undefined;
+  use?: AuthorizationServerCredentialsUse | (string & {}) | undefined;
 }
 export interface AuthorizationServerCredentialsInput {
-  signing?: AuthorizationServerCredentialsSigningConfigInput;
+  signing?: AuthorizationServerCredentialsSigningConfigInput | undefined;
 }
 export type AuthServerLinksInputClaims = HrefObjectSelfLinkInput;
 /** Link to the authorization server metadata */
@@ -3102,33 +3112,36 @@ export type AuthServerLinksInputPolicies = HrefObjectSelfLinkInput;
 export type AuthServerLinksInputRotateKey = HrefObjectSelfLinkInput;
 export type AuthServerLinksInputScopes = HrefObjectSelfLinkInput;
 export interface AuthServerLinksInput {
-  self?: HrefObjectSelfLinkInput;
-  claims?: HrefObjectSelfLinkInput;
-  deactivate?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  claims?: HrefObjectSelfLinkInput | undefined;
+  deactivate?: HrefObjectSelfLinkInput | undefined;
   /** Link to the authorization server metadata */
-  metadata?: AuthServerLinksInputMetadataList;
-  policies?: HrefObjectSelfLinkInput;
-  rotateKey?: HrefObjectSelfLinkInput;
-  scopes?: HrefObjectSelfLinkInput;
+  metadata?: AuthServerLinksInputMetadataList | undefined;
+  policies?: HrefObjectSelfLinkInput | undefined;
+  rotateKey?: HrefObjectSelfLinkInput | undefined;
+  scopes?: HrefObjectSelfLinkInput | undefined;
 }
 export interface CreateAuthorizationServerRequest {
-  accessTokenEncryptedResponseAlgorithm?: AccessTokenKeyEncryptionAlgorithm | (string & {});
+  accessTokenEncryptedResponseAlgorithm?:
+    | AccessTokenKeyEncryptionAlgorithm
+    | (string & {})
+    | undefined;
   /** The recipients that the tokens are intended for. This becomes the `aud` claim in an access token. Okta currently supports only one audience. */
-  audiences?: CreateAuthorizationServerRequestAudiencesList;
-  credentials?: AuthorizationServerCredentialsInput;
+  audiences?: CreateAuthorizationServerRequestAudiencesList | undefined;
+  credentials?: AuthorizationServerCredentialsInput | undefined;
   /** The description of the custom authorization server */
-  description?: string;
+  description?: string | undefined;
   /** The complete URL for the custom authorization server. This becomes the `iss` claim in an access token. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Indicates which value is specified in the issuer of the tokens that a custom authorization server returns: the Okta org domain URL or a custom domain URL. `issuerMode` is visible if you have a custom URL domain configured or the Dynamic Issuer Mode feature enabled. If you have a custom URL domain configured, you can set a custom domain URL in a custom authorization server, and this property is returned in the appropriate responses. When set to `ORG_URL`, then in responses, `issuer` is the Okta org domain URL: `https://${yourOktaDomain}`. When set to `CUSTOM_URL`, then in responses, `issuer` is the custom domain URL configured in the administration user interface. When set to `DYNAMIC`, then in responses, `issuer` is the custom domain URL if the OAuth 2.0 request was sent to the custom domain, or is the Okta org's domain URL if the OAuth 2.0 request was sent to the original Okta org domain. After you configure a custom URL domain, all new custom authorization servers use `CUSTOM_URL` by default. If the Dynamic Issuer Mode feature is enabled, then all new custom authorization servers use `DYNAMIC` by default. All existing custom authorization servers continue to use the original value until they're changed using the Admin Console or the API. This way, existing integrations with the client and resource server continue to work after the feature is enabled. */
-  issuerMode?: string;
-  jwks?: ResourceServerJsonWebKeys;
+  issuerMode?: string | undefined;
+  jwks?: ResourceServerJsonWebKeys | undefined;
   /** URL string that references a JSON Web Key Set for encrypting JWTs minted by the custom authorization server */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   /** The name of the custom authorization server */
-  name?: string;
-  status?: LifecycleStatus | (string & {});
-  _links?: AuthServerLinksInput;
+  name?: string | undefined;
+  status?: LifecycleStatus | (string & {}) | undefined;
+  _links?: AuthServerLinksInput | undefined;
 }
 /** Indicates that the Policy is an authorization server Policy */
 export type CreateAuthorizationServerPolicyRequestType = "OAUTH_AUTHORIZATION_POLICY";
@@ -3137,39 +3150,39 @@ export type ClientPolicyConditionIncludeList = Array<string>;
 /** Specifies which clients are included in the policy */
 export interface ClientPolicyCondition {
   /** Which clients are included in the policy */
-  include?: ClientPolicyConditionIncludeList;
+  include?: ClientPolicyConditionIncludeList | undefined;
 }
 export interface AuthorizationServerPolicyConditions {
-  clients?: ClientPolicyCondition;
+  clients?: ClientPolicyCondition | undefined;
 }
 /** Specifies whether requests have access to this Policy */
 export type CreateAuthorizationServerPolicyRequestStatus = "ACTIVE" | "INACTIVE";
 export type CreateAuthorizationServerPolicyRequestLinksRules = HrefObjectSelfLinkInput;
 export interface CreateAuthorizationServerPolicyRequestLinks {
-  self?: HrefObjectSelfLinkInput;
-  activate?: HrefObjectSelfLinkInput;
-  deactivate?: HrefObjectSelfLinkInput;
-  rules?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  activate?: HrefObjectSelfLinkInput | undefined;
+  deactivate?: HrefObjectSelfLinkInput | undefined;
+  rules?: HrefObjectSelfLinkInput | undefined;
 }
 export interface CreateAuthorizationServerPolicyRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** ID of the Policy */
-  id?: string;
+  id?: string | undefined;
   /** Indicates that the Policy is an authorization server Policy */
-  type?: CreateAuthorizationServerPolicyRequestType | (string & {});
+  type?: CreateAuthorizationServerPolicyRequestType | (string & {}) | undefined;
   /** Name of the Policy */
-  name?: string;
-  conditions?: AuthorizationServerPolicyConditions;
+  name?: string | undefined;
+  conditions?: AuthorizationServerPolicyConditions | undefined;
   /** Description of the Policy */
-  description?: string;
+  description?: string | undefined;
   /** Specifies the order in which this Policy is evaluated in relation to the other Policies in a custom authorization server */
-  priority?: number;
+  priority?: number | undefined;
   /** Specifies whether requests have access to this Policy */
-  status?: CreateAuthorizationServerPolicyRequestStatus | (string & {});
+  status?: CreateAuthorizationServerPolicyRequestStatus | (string & {}) | undefined;
   /** Specifies whether Okta created this Policy */
-  system?: boolean;
-  _links?: CreateAuthorizationServerPolicyRequestLinks;
+  system?: boolean | undefined;
+  _links?: CreateAuthorizationServerPolicyRequestLinks | undefined;
 }
 /** Indicates that the Policy is an authorization server Policy */
 export type CreateAuthorizationServerPolicyResponseType = "OAUTH_AUTHORIZATION_POLICY";
@@ -3177,141 +3190,141 @@ export type CreateAuthorizationServerPolicyResponseType = "OAUTH_AUTHORIZATION_P
 export type CreateAuthorizationServerPolicyResponseStatus = "ACTIVE" | "INACTIVE";
 export type CreateAuthorizationServerPolicyResponseLinksRules = HrefObjectSelfLink;
 export interface CreateAuthorizationServerPolicyResponseLinks {
-  self?: HrefObjectSelfLink;
-  activate?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
-  rules?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  activate?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  rules?: HrefObjectSelfLink | undefined;
 }
 export interface CreateAuthorizationServerPolicyResponse {
   /** ID of the Policy */
-  id?: string;
+  id?: string | undefined;
   /** Indicates that the Policy is an authorization server Policy */
-  type?: CreateAuthorizationServerPolicyResponseType;
+  type?: CreateAuthorizationServerPolicyResponseType | undefined;
   /** Name of the Policy */
-  name?: string;
-  conditions?: AuthorizationServerPolicyConditions;
+  name?: string | undefined;
+  conditions?: AuthorizationServerPolicyConditions | undefined;
   /** Description of the Policy */
-  description?: string;
+  description?: string | undefined;
   /** Specifies the order in which this Policy is evaluated in relation to the other Policies in a custom authorization server */
-  priority?: number;
+  priority?: number | undefined;
   /** Specifies whether requests have access to this Policy */
-  status?: CreateAuthorizationServerPolicyResponseStatus;
+  status?: CreateAuthorizationServerPolicyResponseStatus | undefined;
   /** Specifies whether Okta created this Policy */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Timestamp when the Policy was created */
-  created?: string;
+  created?: string | undefined;
   /** Timestamp when the Policy was last updated */
-  lastUpdated?: string;
-  _links?: CreateAuthorizationServerPolicyResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateAuthorizationServerPolicyResponseLinks | undefined;
 }
 export interface TokenAuthorizationServerPolicyRuleActionInlineHook {
-  id?: string;
+  id?: string | undefined;
 }
 export interface TokenAuthorizationServerPolicyRuleAction {
   /** Lifetime of the access token in minutes. The minimum is five minutes. The maximum is one day. */
-  accessTokenLifetimeMinutes?: number;
-  inlineHook?: TokenAuthorizationServerPolicyRuleActionInlineHook;
+  accessTokenLifetimeMinutes?: number | undefined;
+  inlineHook?: TokenAuthorizationServerPolicyRuleActionInlineHook | undefined;
   /** Lifetime of the refresh token is the minimum access token lifetime. */
-  refreshTokenLifetimeMinutes?: number;
+  refreshTokenLifetimeMinutes?: number | undefined;
   /** Timeframe when the refresh token is valid. The minimum is 10 minutes. The maximum is five years (2,628,000 minutes). */
-  refreshTokenWindowMinutes?: number;
+  refreshTokenWindowMinutes?: number | undefined;
 }
 export interface AuthorizationServerPolicyRuleActions {
-  token?: TokenAuthorizationServerPolicyRuleAction;
+  token?: TokenAuthorizationServerPolicyRuleAction | undefined;
 }
 /** Array of grant types that this condition includes. */
 export type GrantTypePolicyRuleConditionIncludeList = Array<string>;
 /** Array of grant types that this condition includes. Determines the mechanism that Okta uses to authorize the creation of the tokens. */
 export interface GrantTypePolicyRuleCondition {
   /** Array of grant types that this condition includes. */
-  include?: GrantTypePolicyRuleConditionIncludeList;
+  include?: GrantTypePolicyRuleConditionIncludeList | undefined;
 }
 /** Groups to be included */
 export type AuthorizationServerPolicyRuleGroupConditionIncludeList = Array<string>;
 /** Specifies a set of Groups whose Users are to be included */
 export interface AuthorizationServerPolicyRuleGroupCondition {
   /** Groups to be included */
-  include?: AuthorizationServerPolicyRuleGroupConditionIncludeList;
+  include?: AuthorizationServerPolicyRuleGroupConditionIncludeList | undefined;
 }
 /** Users to be included */
 export type AuthorizationServerPolicyRuleUserConditionIncludeList = Array<string>;
 /** Specifies a set of Users to be included */
 export interface AuthorizationServerPolicyRuleUserCondition {
   /** Users to be included */
-  include?: AuthorizationServerPolicyRuleUserConditionIncludeList;
+  include?: AuthorizationServerPolicyRuleUserConditionIncludeList | undefined;
 }
 /** Identifies Users and Groups that are used together */
 export interface AuthorizationServerPolicyPeopleCondition {
-  groups?: AuthorizationServerPolicyRuleGroupCondition;
-  users?: AuthorizationServerPolicyRuleUserCondition;
+  groups?: AuthorizationServerPolicyRuleGroupCondition | undefined;
+  users?: AuthorizationServerPolicyRuleUserCondition | undefined;
 }
 export type OAuth2ScopesMediationPolicyRuleConditionIncludeList = Array<string>;
 /** Array of scopes that the condition includes */
 export interface OAuth2ScopesMediationPolicyRuleCondition {
-  include?: OAuth2ScopesMediationPolicyRuleConditionIncludeList;
+  include?: OAuth2ScopesMediationPolicyRuleConditionIncludeList | undefined;
 }
 export interface AuthorizationServerPolicyRuleConditions {
-  grantTypes?: GrantTypePolicyRuleCondition;
-  people?: AuthorizationServerPolicyPeopleCondition;
-  scopes?: OAuth2ScopesMediationPolicyRuleCondition;
+  grantTypes?: GrantTypePolicyRuleCondition | undefined;
+  people?: AuthorizationServerPolicyPeopleCondition | undefined;
+  scopes?: OAuth2ScopesMediationPolicyRuleCondition | undefined;
 }
 /** Status of the rule */
 export type CreateAuthorizationServerPolicyRuleRequestStatus = "ACTIVE" | "INACTIVE";
 /** Rule type */
 export type CreateAuthorizationServerPolicyRuleRequestType = "RESOURCE_ACCESS";
 export interface LinksSelfAndLifecycleInput {
-  self?: HrefObjectSelfLinkInput;
-  activate?: HrefObjectSelfLinkInput;
-  deactivate?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  activate?: HrefObjectSelfLinkInput | undefined;
+  deactivate?: HrefObjectSelfLinkInput | undefined;
 }
 export interface CreateAuthorizationServerPolicyRuleRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** `id` of the policy */
   policyId: string;
-  actions?: AuthorizationServerPolicyRuleActions;
+  actions?: AuthorizationServerPolicyRuleActions | undefined;
   conditions: AuthorizationServerPolicyRuleConditions;
   /** Name of the rule */
   name: string;
   /** Priority of the rule */
-  priority?: number;
+  priority?: number | undefined;
   /** Status of the rule */
-  status?: CreateAuthorizationServerPolicyRuleRequestStatus | (string & {});
+  status?: CreateAuthorizationServerPolicyRuleRequestStatus | (string & {}) | undefined;
   /** Set to `true` for system rules. You can't delete system rules. */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Rule type */
   type: CreateAuthorizationServerPolicyRuleRequestType | (string & {});
-  _links?: LinksSelfAndLifecycleInput;
+  _links?: LinksSelfAndLifecycleInput | undefined;
 }
 /** Status of the rule */
 export type AuthorizationServerPolicyRuleStatus = "ACTIVE" | "INACTIVE";
 /** Rule type */
 export type AuthorizationServerPolicyRuleType = "RESOURCE_ACCESS";
 export interface AuthorizationServerPolicyRule {
-  actions?: AuthorizationServerPolicyRuleActions;
-  conditions?: AuthorizationServerPolicyRuleConditions;
+  actions?: AuthorizationServerPolicyRuleActions | undefined;
+  conditions?: AuthorizationServerPolicyRuleConditions | undefined;
   /** Timestamp when the rule was created */
-  created?: string;
+  created?: string | undefined;
   /** Identifier of the rule */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the rule was last modified */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the rule */
-  name?: string;
+  name?: string | undefined;
   /** Priority of the rule */
-  priority?: number;
+  priority?: number | undefined;
   /** Status of the rule */
-  status?: AuthorizationServerPolicyRuleStatus;
+  status?: AuthorizationServerPolicyRuleStatus | undefined;
   /** Set to `true` for system rules. You can't delete system rules. */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Rule type */
-  type?: AuthorizationServerPolicyRuleType;
-  _links?: LinksSelfAndLifecycle;
+  type?: AuthorizationServerPolicyRuleType | undefined;
+  _links?: LinksSelfAndLifecycle | undefined;
 }
 export interface CreateBehaviorDetectionRuleRequest {
   /** Name of the Behavior Detection Rule */
   name: string;
-  status?: LifecycleStatus | (string & {});
+  status?: LifecycleStatus | (string & {}) | undefined;
   type: BehaviorRuleType | (string & {});
 }
 export interface CreateBrandRequest {
@@ -3320,61 +3333,61 @@ export interface CreateBrandRequest {
 }
 export interface DefaultApp {
   /** ID for the App instance */
-  appInstanceId?: string;
+  appInstanceId?: string | undefined;
   /** Name for the app instance */
-  appLinkName?: string;
+  appLinkName?: string | undefined;
   /** Application URI for classic Orgs */
-  classicApplicationUri?: string;
+  classicApplicationUri?: string | undefined;
 }
 export interface Brand {
   /** Consent for updating the custom privacy URL. Not required when resetting the URL. */
-  agreeToCustomPrivacyPolicy?: boolean;
+  agreeToCustomPrivacyPolicy?: boolean | undefined;
   /** Custom privacy policy URL */
-  customPrivacyPolicyUrl?: string;
-  defaultApp?: DefaultApp;
+  customPrivacyPolicyUrl?: string | undefined;
+  defaultApp?: DefaultApp | undefined;
   /** The ID of the email domain */
-  emailDomainId?: string;
+  emailDomainId?: string | undefined;
   /** The Brand ID */
-  id?: string;
+  id?: string | undefined;
   /** If `true`, the Brand is used for the Okta subdomain */
-  isDefault?: boolean;
-  locale?: string;
+  isDefault?: boolean | undefined;
+  locale?: string | undefined;
   /** The name of the Brand */
-  name?: string;
+  name?: string | undefined;
   /** Removes "Powered by Okta" from the sign-in page in redirect authentication deployments, and "© [current year] Okta, Inc." from the Okta End-User Dashboard */
-  removePoweredByOkta?: boolean;
+  removePoweredByOkta?: boolean | undefined;
 }
 /** The type of CAPTCHA provider */
 export type CAPTCHAType = "HCAPTCHA" | "RECAPTCHA_V2";
 export interface CreateCaptchaInstanceRequest {
   /** The name of the CAPTCHA instance */
-  name?: string;
+  name?: string | undefined;
   /** The secret key issued from the CAPTCHA provider to perform server-side validation for a CAPTCHA token */
-  secretKey?: string | Redacted.Redacted<string>;
+  secretKey?: string | Redacted.Redacted<string> | undefined;
   /** The site key issued from the CAPTCHA provider to render a CAPTCHA on a page */
-  siteKey?: string;
-  type?: CAPTCHAType | (string & {});
+  siteKey?: string | undefined;
+  type?: CAPTCHAType | (string & {}) | undefined;
 }
 export interface CAPTCHAInstanceOutput {
   /** The unique key for the CAPTCHA instance */
-  id?: string;
+  id?: string | undefined;
   /** The name of the CAPTCHA instance */
-  name?: string;
+  name?: string | undefined;
   /** The site key issued from the CAPTCHA provider to render a CAPTCHA on a page */
-  siteKey?: string;
-  type?: CAPTCHAType;
-  _links?: LinksSelf;
+  siteKey?: string | undefined;
+  type?: CAPTCHAType | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Specifies a password for a user > **Note:** For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
 export interface OrgCreationAdminCredentialsPassword {
   /** Password value (which is validated by the password policy) */
-  value?: string;
+  value?: string | undefined;
 }
 /** Specifies primary authentication and recovery credentials for a user. Credential types and requirements vary depending on the provider and security policy of the org. */
 export interface OrgCreationAdminCredentials {
   /** Specifies a password for a user > **Note:** For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
-  password?: OrgCreationAdminCredentialsPassword;
-  recovery_question?: RecoveryQuestionCredential;
+  password?: OrgCreationAdminCredentialsPassword | undefined;
+  recovery_question?: RecoveryQuestionCredential | undefined;
 }
 /** Specifies the profile attributes for the first super admin user. The minimal set of required attributes are `email`, `firstName`, `lastName`, and `login`. See [profile](/openapi/okta-management/management/user/getuser#user/getuser/t=response&c=200&path=profile) for additional profile attributes. */
 export interface OrgCreationAdminProfile {
@@ -3391,7 +3404,7 @@ export interface OrgCreationAdminProfile {
 /** Profile and credential information for the first super admin user of the child org. If you plan to configure and manage the org programmatically, create a system user with a dedicated email address and a strong password. > **Note:** If you don't provide `credentials`, the super admin user is prompted to set up their credentials when they sign in to the org for the first time. */
 export interface OrgCreationAdmin {
   /** Specifies primary authentication and recovery credentials for a user. Credential types and requirements vary depending on the provider and security policy of the org. */
-  credentials?: OrgCreationAdminCredentials;
+  credentials?: OrgCreationAdminCredentials | undefined;
   /** Specifies the profile attributes for the first super admin user. The minimal set of required attributes are `email`, `firstName`, `lastName`, and `login`. See [profile](/openapi/okta-management/management/user/getuser#user/getuser/t=response&c=200&path=profile) for additional profile attributes. */
   profile: OrgCreationAdminProfile;
 }
@@ -3406,7 +3419,7 @@ export interface CreateChildOrgRequest {
   /** Subdomain of the org. Must be unique and include no spaces. */
   subdomain: string;
   /** Default website for the org */
-  website?: string;
+  website?: string | undefined;
 }
 /** Edition for the org. `SKU` is the only supported value. */
 export type ChildOrgOutputEdition = "SKU";
@@ -3420,72 +3433,72 @@ export type ChildOrgOutputTokenType = "SSWS";
 export type ChildOrgOutputLinksMap = { [key: string]: unknown | undefined };
 export interface ChildOrgOutput {
   /** Timestamp when the org was created */
-  created?: string;
+  created?: string | undefined;
   /** Edition for the org. `SKU` is the only supported value. */
   edition: ChildOrgOutputEdition;
   /** Org ID */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the org was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Unique name of the org. This name appears in the HTML `<title>` tag of the new org sign-in page. Only less than 4-width UTF-8 encoded characters are allowed. */
   name: string;
   /** Settings associated with the created org */
-  settings?: ChildOrgOutputSettingsMap;
+  settings?: ChildOrgOutputSettingsMap | undefined;
   /** Status of the org. `ACTIVE` is returned after the org is created. */
-  status?: ChildOrgOutputStatus;
+  status?: ChildOrgOutputStatus | undefined;
   /** Subdomain of the org. Must be unique and include no spaces. */
   subdomain: string;
   /** API token associated with the child org super admin account. Use this API token to provision resources (such as policies, apps, and groups) on the newly created child org. This token is revoked if the super admin account is deactivated. > **Note:** If this API token expires, sign in to the Admin Console as the super admin user and create a new API token. See [Create an API token](https://developer.okta.com/docs/guides/create-an-api-token/). */
-  token?: string;
+  token?: string | undefined;
   /** Type of returned `token`. See [Okta API tokens](https://developer.okta.com/docs/guides/create-an-api-token/main/#okta-api-tokens). */
-  tokenType?: ChildOrgOutputTokenType;
+  tokenType?: ChildOrgOutputTokenType | undefined;
   /** Default website for the org */
-  website?: string;
+  website?: string | undefined;
   /** Specifies available link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: ChildOrgOutputLinksMap;
+  _links?: ChildOrgOutputLinksMap | undefined;
 }
 export interface AttestationRootCertificatesRequestItem {
   /** X.509 certificate chain */
-  x5c?: string;
+  x5c?: string | undefined;
 }
 /** Contains the certificate and information about it */
 export type AttestationRootCertificatesRequest = Array<AttestationRootCertificatesRequestItem>;
 /** Contains additional properties about custom AAGUID. */
 export interface AAGUIDAuthenticatorCharacteristics {
   /** Indicates whether the authenticator meets Federal Information Processing Standards (FIPS) compliance requirements */
-  fipsCompliant?: boolean;
+  fipsCompliant?: boolean | undefined;
   /** Indicates whether the authenticator stores the private key on a hardware component */
-  hardwareProtected?: boolean;
+  hardwareProtected?: boolean | undefined;
   /** Indicates whether the custom AAGUID is built into the authenticator (`true`) or if it's a separate, external authenticator */
-  platformAttached?: boolean;
+  platformAttached?: boolean | undefined;
 }
 export interface CreateCustomAAGUIDRequest {
   /** `id` of the authenticator */
   authenticatorId: string;
   /** An Authenticator Attestation Global Unique Identifier (AAGUID) is a 128-bit identifier indicating the model. */
-  aaguid?: string;
-  attestationRootCertificates?: AttestationRootCertificatesRequest;
-  authenticatorCharacteristics?: AAGUIDAuthenticatorCharacteristics;
+  aaguid?: string | undefined;
+  attestationRootCertificates?: AttestationRootCertificatesRequest | undefined;
+  authenticatorCharacteristics?: AAGUIDAuthenticatorCharacteristics | undefined;
 }
 export interface AttestationRootCertificatesResponseItem {
   /** X.509 certificate chain */
-  x5c?: string;
+  x5c?: string | undefined;
   /** SHA-256 hash (thumbprint) of the X.509 certificate */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
   /** Issuer of certificate */
-  iss?: string;
+  iss?: string | undefined;
   /** Expiry date of certificate */
-  exp?: string;
+  exp?: string | undefined;
 }
 export type AttestationRootCertificatesResponse = Array<AttestationRootCertificatesResponseItem>;
 export interface CustomAAGUIDResponseObject {
   /** A unique 128-bit identifier that's assigned to a specific model of security key or authenticator */
-  aaguid?: string;
-  attestationRootCertificates?: AttestationRootCertificatesResponse;
-  authenticatorCharacteristics?: AAGUIDAuthenticatorCharacteristics;
+  aaguid?: string | undefined;
+  attestationRootCertificates?: AttestationRootCertificatesResponse | undefined;
+  authenticatorCharacteristics?: AAGUIDAuthenticatorCharacteristics | undefined;
   /** The product name associated with the AAGUID */
-  name?: string;
-  _links?: LinksSelf;
+  name?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Certificate source type that indicates whether the certificate is provided by the user or Okta. */
 export type DomainCertificateSourceType = "MANUAL" | "OKTA_MANAGED";
@@ -3500,22 +3513,22 @@ export type DNSRecordDomainsValuesList = Array<string>;
 /** DNS records to be registered for the domain */
 export interface DNSRecordDomains {
   /** DNS TXT record expiration */
-  expiration?: string;
+  expiration?: string | undefined;
   /** DNS record name */
-  fqdn?: string;
-  recordType?: DNSRecordTypeDomains;
+  fqdn?: string | undefined;
+  recordType?: DNSRecordTypeDomains | undefined;
   /** DNS record value */
-  values?: DNSRecordDomainsValuesList;
+  values?: DNSRecordDomainsValuesList | undefined;
 }
 export type DomainResponseDnsRecordsList = Array<DNSRecordDomains>;
 /** Certificate metadata for the domain */
 export interface DomainCertificateMetadata {
   /** Certificate expiration */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Certificate fingerprint */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Certificate subject */
-  subject?: string;
+  subject?: string | undefined;
 }
 /** Status of the domain */
 export type DomainValidationStatus = "COMPLETED" | "IN_PROGRESS" | "NOT_STARTED" | "VERIFIED";
@@ -3523,24 +3536,24 @@ export type DomainLinksBrand = HrefObjectSelfLink;
 export type DomainLinksCertificate = HrefObjectSelfLink;
 export type DomainLinksVerify = HrefObjectSelfLink;
 export interface DomainLinks {
-  self?: HrefObjectSelfLink;
-  brand?: HrefObjectSelfLink;
-  certificate?: HrefObjectSelfLink;
-  verify?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  brand?: HrefObjectSelfLink | undefined;
+  certificate?: HrefObjectSelfLink | undefined;
+  verify?: HrefObjectSelfLink | undefined;
 }
 /** The properties that define an individual domain. */
 export interface DomainResponse {
   /** The ID number of the brand */
-  brandId?: string;
-  certificateSourceType?: DomainCertificateSourceType;
-  dnsRecords?: DomainResponseDnsRecordsList;
+  brandId?: string | undefined;
+  certificateSourceType?: DomainCertificateSourceType | undefined;
+  dnsRecords?: DomainResponseDnsRecordsList | undefined;
   /** Custom domain name */
-  domain?: string;
+  domain?: string | undefined;
   /** Unique ID of the domain */
-  id?: string;
-  publicCertificate?: DomainCertificateMetadata;
-  validationStatus?: DomainValidationStatus;
-  _links?: DomainLinks;
+  id?: string | undefined;
+  publicCertificate?: DomainCertificateMetadata | undefined;
+  validationStatus?: DomainValidationStatus | undefined;
+  _links?: DomainLinks | undefined;
 }
 /** The types of telephony operations (SMS or Voice) that you use with your telephony provider. `ALL` is the only valid value. It indicates that your provider can handle both SMS messages and voice calls. You're not required to use both types of telephony operations, but your provider can support both. */
 export type CreateCustomTelephonyProviderCredentialsRequestProviderCapability = "ALL";
@@ -3548,16 +3561,20 @@ export type CreateCustomTelephonyProviderCredentialsRequestProviderCapability = 
 export type CreateCustomTelephonyProviderCredentialsRequestProviderName = "TWILIO" | "TELESIGN";
 export interface CreateCustomTelephonyProviderCredentialsRequest {
   /** The authentication token that's used to authenticate requests to the telephony provider. Your telephony provider gives you this token. */
-  providerAuthToken?: string;
+  providerAuthToken?: string | undefined;
   /** The types of telephony operations (SMS or Voice) that you use with your telephony provider. `ALL` is the only valid value. It indicates that your provider can handle both SMS messages and voice calls. You're not required to use both types of telephony operations, but your provider can support both. */
   providerCapability?:
     | CreateCustomTelephonyProviderCredentialsRequestProviderCapability
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The name of the telephony provider */
-  providerName?: CreateCustomTelephonyProviderCredentialsRequestProviderName | (string & {});
-  providerSettings?: CustomTelephonyProviderSettings;
+  providerName?:
+    | CreateCustomTelephonyProviderCredentialsRequestProviderName
+    | (string & {})
+    | undefined;
+  providerSettings?: CustomTelephonyProviderSettings | undefined;
   /** The account string identifier (SID) for your telephony provider account. Your telephony provider gives you this SID. */
-  providerSid?: string;
+  providerSid?: string | undefined;
 }
 /** Represents the remediation mode of this device assurance policy when users are denied access due to device noncompliance */
 export type CreateDeviceAssurancePolicyRequestDisplayRemediationMode = "HIDE" | "SHOW";
@@ -3565,100 +3582,103 @@ export type CreateDeviceAssurancePolicyRequestDisplayRemediationMode = "HIDE" | 
 export type GracePeriodType = "BY_DATE_TIME" | "BY_DURATION";
 /** Represents the Grace Period configuration for the device assurance policy */
 export interface GracePeriod {
-  expiry?: string;
+  expiry?: string | undefined;
   /** Represents the type of Grace Period configured for the device assurance policy */
-  type?: GracePeriodType | (string & {});
+  type?: GracePeriodType | (string & {}) | undefined;
 }
 export type Platform = "ANDROID" | "CHROMEOS" | "IOS" | "MACOS" | "WINDOWS";
 export interface CreateDeviceAssurancePolicyRequest {
   /** Represents the remediation mode of this device assurance policy when users are denied access due to device noncompliance */
-  displayRemediationMode?: CreateDeviceAssurancePolicyRequestDisplayRemediationMode | (string & {});
-  gracePeriod?: GracePeriod;
+  displayRemediationMode?:
+    | CreateDeviceAssurancePolicyRequestDisplayRemediationMode
+    | (string & {})
+    | undefined;
+  gracePeriod?: GracePeriod | undefined;
   /** Display name of the device assurance policy */
-  name?: string;
-  platform?: Platform | (string & {});
+  name?: string | undefined;
+  platform?: Platform | (string & {}) | undefined;
 }
 /** Represents the remediation mode of this device assurance policy when users are denied access due to device noncompliance */
 export type DeviceAssuranceDisplayRemediationMode = "HIDE" | "SHOW";
 export interface DeviceAssurance {
-  createdBy?: string;
-  createdDate?: string;
+  createdBy?: string | undefined;
+  createdDate?: string | undefined;
   /** Represents the remediation mode of this device assurance policy when users are denied access due to device noncompliance */
-  displayRemediationMode?: DeviceAssuranceDisplayRemediationMode;
-  gracePeriod?: GracePeriod;
-  id?: string;
-  lastUpdate?: string;
-  lastUpdatedBy?: string;
+  displayRemediationMode?: DeviceAssuranceDisplayRemediationMode | undefined;
+  gracePeriod?: GracePeriod | undefined;
+  id?: string | undefined;
+  lastUpdate?: string | undefined;
+  lastUpdatedBy?: string | undefined;
   /** Display name of the device assurance policy */
-  name?: string;
-  platform?: Platform;
-  _links?: LinksSelf;
+  name?: string | undefined;
+  platform?: Platform | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Represents how the device posture check is rendered in device assurance policies */
 export type DevicePostureChecksMappingType = "CHECKBOX" | "TEXTBOX";
 export type DevicePostureChecksPlatform = "MACOS" | "WINDOWS";
 export interface DevicePostureChecksRemediationSettingsLink {
   /** Default URL for the link. This property is only relevant if type is set to `BUILTIN`. If type is set to `CUSTOM`, this field is ignored. */
-  defaultUrl?: string;
+  defaultUrl?: string | undefined;
   /** Custom URL for the link */
-  customUrl?: string;
+  customUrl?: string | undefined;
 }
 export interface DevicePostureChecksRemediationSettingsMessage {
   /** Default i18n key for the message. This property is only relevant if type is set to `BUILTIN`. If type is set to `CUSTOM`, this field is ignored. */
-  defaultI18nKey?: string;
+  defaultI18nKey?: string | undefined;
   /** Custom text for the message */
-  customText?: string;
+  customText?: string | undefined;
 }
 /** Represents the remediation instructions shown to the end user when the device posture check fails */
 export interface DevicePostureChecksRemediationSettings {
-  link?: DevicePostureChecksRemediationSettingsLink;
-  message?: DevicePostureChecksRemediationSettingsMessage;
+  link?: DevicePostureChecksRemediationSettingsLink | undefined;
+  message?: DevicePostureChecksRemediationSettingsMessage | undefined;
 }
 export type DevicePostureChecksType = "BUILTIN" | "CUSTOM";
 export interface CreateDevicePostureCheckRequest {
   /** Description of the device posture check */
-  description?: string;
-  mappingType?: DevicePostureChecksMappingType | (string & {});
+  description?: string | undefined;
+  mappingType?: DevicePostureChecksMappingType | (string & {}) | undefined;
   /** Display name of the device posture check */
-  name?: string;
-  platform?: DevicePostureChecksPlatform | (string & {});
+  name?: string | undefined;
+  platform?: DevicePostureChecksPlatform | (string & {}) | undefined;
   /** OSQuery for the device posture check */
-  query?: string;
-  remediationSettings?: DevicePostureChecksRemediationSettings;
-  type?: DevicePostureChecksType | (string & {});
+  query?: string | undefined;
+  remediationSettings?: DevicePostureChecksRemediationSettings | undefined;
+  type?: DevicePostureChecksType | (string & {}) | undefined;
   /** Unique name of the device posture check */
-  variableName?: string;
+  variableName?: string | undefined;
 }
 export interface DevicePostureCheck {
   /** User who created the device posture check */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Time the device posture check was created */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Description of the device posture check */
-  description?: string;
+  description?: string | undefined;
   /** The ID of the device posture check */
-  id?: string;
+  id?: string | undefined;
   /** Time the device posture check was updated */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** User who updated the device posture check */
-  lastUpdatedBy?: string;
-  mappingType?: DevicePostureChecksMappingType;
+  lastUpdatedBy?: string | undefined;
+  mappingType?: DevicePostureChecksMappingType | undefined;
   /** Display name of the device posture check */
-  name?: string;
-  platform?: DevicePostureChecksPlatform;
+  name?: string | undefined;
+  platform?: DevicePostureChecksPlatform | undefined;
   /** OSQuery for the device posture check */
-  query?: string;
-  remediationSettings?: DevicePostureChecksRemediationSettings;
-  type?: DevicePostureChecksType;
+  query?: string | undefined;
+  remediationSettings?: DevicePostureChecksRemediationSettings | undefined;
+  type?: DevicePostureChecksType | undefined;
   /** Unique name of the device posture check */
-  variableName?: string;
-  _links?: LinksSelf;
+  variableName?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface CreateEmailCustomizationRequestLinks {
-  self?: HrefObjectSelfLinkInput;
-  template?: HrefObjectSelfLinkInput;
-  preview?: HrefObjectSelfLinkInput;
-  test?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  template?: HrefObjectSelfLinkInput | undefined;
+  preview?: HrefObjectSelfLinkInput | undefined;
+  test?: HrefObjectSelfLinkInput | undefined;
 }
 export interface CreateEmailCustomizationRequest {
   /** The ID of the brand */
@@ -3670,15 +3690,15 @@ export interface CreateEmailCustomizationRequest {
   /** The email subject. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` subject is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
   subject: string;
   /** Whether this is the default customization for the email template. Each customized email template must have exactly one default customization. Defaults to `true` for the first customization and `false` thereafter. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   language: string;
-  _links?: CreateEmailCustomizationRequestLinks;
+  _links?: CreateEmailCustomizationRequestLinks | undefined;
 }
 export interface CreateEmailCustomizationResponseLinks {
-  self?: HrefObjectSelfLink;
-  template?: HrefObjectSelfLink;
-  preview?: HrefObjectSelfLink;
-  test?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  template?: HrefObjectSelfLink | undefined;
+  preview?: HrefObjectSelfLink | undefined;
+  test?: HrefObjectSelfLink | undefined;
 }
 export interface CreateEmailCustomizationResponse {
   /** The HTML body of the email. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` body is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
@@ -3686,15 +3706,15 @@ export interface CreateEmailCustomizationResponse {
   /** The email subject. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` subject is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
   subject: string;
   /** The UTC time at which this email customization was created. */
-  created?: string;
+  created?: string | undefined;
   /** A unique identifier for this email customization */
-  id?: string;
+  id?: string | undefined;
   /** Whether this is the default customization for the email template. Each customized email template must have exactly one default customization. Defaults to `true` for the first customization and `false` thereafter. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   language: string;
   /** The UTC time at which this email customization was last updated. */
-  lastUpdated?: string;
-  _links?: CreateEmailCustomizationResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateEmailCustomizationResponseLinks | undefined;
 }
 export type CreateEmailDomainRequestExpandItem = "brands";
 export type CreateEmailDomainRequestExpandList = Array<
@@ -3702,31 +3722,31 @@ export type CreateEmailDomainRequestExpandList = Array<
 >;
 export interface CreateEmailDomainRequest {
   /** Specifies additional metadata to be included in the response */
-  expand?: CreateEmailDomainRequestExpandList;
+  expand?: CreateEmailDomainRequestExpandList | undefined;
   displayName: string;
   userName: string;
   brandId: string;
   domain: string;
   /** Subdomain for the email sender's custom mail domain. Specify your subdomain when you configure a custom mail domain. */
-  validationSubdomain?: string;
+  validationSubdomain?: string | undefined;
 }
 export type EmailDomainDNSRecordType = "CNAME" | "TXT";
 export interface EmailDomainDNSRecord {
-  fqdn?: string;
-  recordType?: EmailDomainDNSRecordType;
-  verificationValue?: string;
+  fqdn?: string | undefined;
+  recordType?: EmailDomainDNSRecordType | undefined;
+  verificationValue?: string | undefined;
 }
 export type CreateEmailDomainResponseDnsValidationRecordsList = Array<EmailDomainDNSRecord>;
 export type EmailDomainStatus = "DELETED" | "ERROR" | "NOT_STARTED" | "POLLING" | "VERIFIED";
 export interface CreateEmailDomainResponse {
   displayName: string;
   userName: string;
-  dnsValidationRecords?: CreateEmailDomainResponseDnsValidationRecordsList;
-  domain?: string;
-  id?: string;
-  validationStatus?: EmailDomainStatus;
+  dnsValidationRecords?: CreateEmailDomainResponseDnsValidationRecordsList | undefined;
+  domain?: string | undefined;
+  id?: string | undefined;
+  validationStatus?: EmailDomainStatus | undefined;
   /** The subdomain for the email sender's custom mail domain */
-  validationSubdomain?: string;
+  validationSubdomain?: string | undefined;
 }
 /** <x-lifecycle-container><x-lifecycle class="ea"></x-lifecycle> <x-lifecycle class="oie"></x-lifecycle></x-lifecycle-container>The authentication type that's used by your SMTP server */
 export type SmtpAuthType =
@@ -3748,33 +3768,33 @@ export interface CreateEmailServerRequest {
 }
 export interface BaseEmailServer {
   /** Human-readable name for your SMTP server */
-  alias?: string;
+  alias?: string | undefined;
   authType: SmtpAuthType;
   /** If `true`, all email traffic is routed through your SMTP server */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Hostname or IP address of your SMTP server */
-  host?: string;
+  host?: string | undefined;
   /** ID of your SMTP server */
-  id?: string;
+  id?: string | undefined;
   /** Port number of your SMTP server */
-  port?: number;
+  port?: number | undefined;
   /** Username that's used to access your SMTP server */
-  username?: string;
+  username?: string | undefined;
 }
 /** The authentication scheme used for this request. To use Basic Auth for authentication, set `type` to `HEADER`, `key` to `Authorization`, and `value` to the Base64-encoded string of "username:password". Ensure that you include the scheme (including space) as part of the `value` parameter. For example, `Basic YWRtaW46c3VwZXJzZWNyZXQ=`. */
 export interface EventHookChannelConfigAuthScheme {
   /** The name for the authorization header */
-  key?: string;
-  type?: EventHookChannelConfigAuthSchemeType | (string & {});
+  key?: string | undefined;
+  type?: EventHookChannelConfigAuthSchemeType | (string & {}) | undefined;
   /** The header value. This secret key is passed to your external service endpoint for security verification. This property is not returned in the response. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Optional list of key/value pairs for headers that can be sent with the request to the external service. For example, `X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your external service. */
 export type EventHookChannelConfigInputHeadersList = Array<EventHookChannelConfigHeader | null>;
 export interface EventHookChannelConfigInput {
-  authScheme?: EventHookChannelConfigAuthScheme;
+  authScheme?: EventHookChannelConfigAuthScheme | undefined;
   /** Optional list of key/value pairs for headers that can be sent with the request to the external service. For example, `X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your external service. */
-  headers?: EventHookChannelConfigInputHeadersList;
+  headers?: EventHookChannelConfigInputHeadersList | undefined;
   /** The external service endpoint called to execute the event hook handler */
   uri: string;
 }
@@ -3786,57 +3806,57 @@ export interface EventHookChannelInput {
 }
 export interface EventHookFilterMapObjectConditionInput {
   /** The Okta Expression language statement that filters the event type */
-  expression?: string;
+  expression?: string | undefined;
 }
 export interface EventHookFilterMapObjectInput {
-  condition?: EventHookFilterMapObjectConditionInput;
+  condition?: EventHookFilterMapObjectConditionInput | undefined;
   /** The filtered event type */
-  event?: string;
+  event?: string | undefined;
 }
 /** The object that maps the filter to the event type */
 export type EventHookFilterMapInput = Array<EventHookFilterMapObjectInput>;
 /** The optional filter defined on a specific event type > **Note:** Event hook filters is a [self-service Early Access (EA)](/openapi/okta-management/guides/release-lifecycle/#early-access-ea) to enable. If you want to disable this feature, it's recommended to first remove all event filters. */
 export interface EventHookFiltersInput {
-  eventFilterMap?: EventHookFilterMapInput;
+  eventFilterMap?: EventHookFilterMapInput | undefined;
 }
 export interface EventSubscriptionsInput {
-  filter?: EventHookFiltersInput | null;
+  filter?: EventHookFiltersInput | null | undefined;
   items: EventHookSubscribedEventTypes;
   type: EventSubscriptionType | (string & {});
 }
 export interface CreateEventHookRequestLinks {
-  self?: HrefObjectSelfLinkInput;
-  deactivate?: HrefObjectSelfLinkInput;
-  verify?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  deactivate?: HrefObjectSelfLinkInput | undefined;
+  verify?: HrefObjectSelfLinkInput | undefined;
 }
 export interface CreateEventHookRequest {
   channel: EventHookChannelInput;
   /** Description of the event hook */
-  description?: string | null;
+  description?: string | null | undefined;
   events: EventSubscriptionsInput;
   /** Display name for the event hook */
   name: string;
-  _links?: CreateEventHookRequestLinks;
+  _links?: CreateEventHookRequestLinks | undefined;
 }
 export interface CreateFederatedClaimRequest {
   /** Application ID */
   appId: string;
   /** The Okta Expression Language expression to be evaluated at runtime */
-  expression?: string;
+  expression?: string | undefined;
   /** The name of the claim to be used in the produced token */
-  name?: string;
+  name?: string | undefined;
 }
 export interface FederatedClaim {
   /** Timestamp when the federated claim was created */
-  created?: string;
+  created?: string | undefined;
   /** The Okta Expression Language expression to be evaluated at runtime */
-  expression?: string;
+  expression?: string | undefined;
   /** The unique ID of the federated claim */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the federated claim was updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The name of the claim to be used in the produced token */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of resource set IDs for the custom role */
 export type IAMBundleEntitlementResourceSetsList = Array<string>;
@@ -3845,139 +3865,139 @@ export type IAMBundleEntitlementTargetsList = Array<string>;
 /** An entitlement in a governance bundle */
 export interface IAMBundleEntitlement {
   /** List of resource set IDs for the custom role */
-  resourceSets?: IAMBundleEntitlementResourceSetsList;
+  resourceSets?: IAMBundleEntitlementResourceSetsList | undefined;
   /** The role */
-  role?: string;
+  role?: string | undefined;
   /** List of target resource IDs to scope the entitlement with the role */
-  targets?: IAMBundleEntitlementTargetsList;
+  targets?: IAMBundleEntitlementTargetsList | undefined;
 }
 /** List of entitlements to include in the governance bundle */
 export type CreateGovernanceBundleRequestEntitlementsList = Array<IAMBundleEntitlement>;
 export interface CreateGovernanceBundleRequest {
   /** Description of the governance bundle */
-  description?: string;
+  description?: string | undefined;
   /** List of entitlements to include in the governance bundle */
-  entitlements?: CreateGovernanceBundleRequestEntitlementsList;
+  entitlements?: CreateGovernanceBundleRequestEntitlementsList | undefined;
   /** Name of the governance bundle */
-  name?: string;
+  name?: string | undefined;
 }
 export type EntitlementsLink = HrefObjectSelfLink;
 /** Link relations available */
 export interface GovernanceBundleLinks {
-  entitlements?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
+  entitlements?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
 }
 export interface GovernanceBundle {
   /** Description of the governance bundle */
-  description?: string;
+  description?: string | undefined;
   /** Governance bundle ID */
-  id?: string;
+  id?: string | undefined;
   /** Name of the governance bundle */
-  name?: string;
+  name?: string | undefined;
   /** The governance bundle resource, in [ORN format](https://developer.okta.com/docs/api/openapi/okta-management/guides/roles/#okta-resource-name-orn) */
-  orn?: string;
+  orn?: string | undefined;
   /** Status of the governance bundle */
-  status?: string;
+  status?: string | undefined;
   /** Link relations available */
-  _links?: GovernanceBundleLinks;
+  _links?: GovernanceBundleLinks | undefined;
 }
 /** The type of the app configuration */
 export type AppConfigType = "ACTIVE_DIRECTORY";
 /** Additional app configuration for group push mappings. Currently only required for Active Directory. */
 export interface AppConfig {
-  type?: AppConfigType | (string & {});
+  type?: AppConfigType | (string & {}) | undefined;
 }
 /** The status of the group push mapping */
 export type GroupPushMappingStatusUpsert = "ACTIVE" | "INACTIVE";
 export interface CreateGroupPushMappingRequest {
   /** Application ID */
   appId: string;
-  appConfig?: AppConfig;
+  appConfig?: AppConfig | undefined;
   /** The ID of the source group for the group push mapping */
   sourceGroupId: string;
-  status?: GroupPushMappingStatusUpsert | (string & {});
+  status?: GroupPushMappingStatusUpsert | (string & {}) | undefined;
   /** The ID of the existing target group for the group push mapping. This is used to link to an existing group. Required if `targetGroupName` is not provided. */
-  targetGroupId?: string;
+  targetGroupId?: string | undefined;
   /** The name of the target group for the group push mapping. This is used when creating a new downstream group. If the group already exists, it links to the existing group. Required if `targetGroupId` is not provided. */
-  targetGroupName?: string;
+  targetGroupName?: string | undefined;
 }
 /** The status of the group push mapping */
 export type GroupPushMappingStatus = "ACTIVE" | "ERROR" | "INACTIVE";
 /** Discoverable resources related to the group push mapping */
 export interface GroupPushMappingLinks {
-  app?: HrefObjectSelfLink;
-  sourceGroup?: HrefObjectSelfLink;
-  targetGroup?: HrefObjectSelfLink;
+  app?: HrefObjectSelfLink | undefined;
+  sourceGroup?: HrefObjectSelfLink | undefined;
+  targetGroup?: HrefObjectSelfLink | undefined;
 }
 export interface GroupPushMapping {
-  appConfig?: AppConfig;
+  appConfig?: AppConfig | undefined;
   /** Timestamp when the group push mapping was created */
-  created?: string;
+  created?: string | undefined;
   /** The error message summary if the latest push failed */
-  errorSummary?: string;
+  errorSummary?: string | undefined;
   /** The ID of the group push mapping */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the group push mapping was pushed */
-  lastPush?: string;
+  lastPush?: string | undefined;
   /** Timestamp when the group push mapping was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The ID of the source group for the group push mapping */
-  sourceGroupId?: string;
+  sourceGroupId?: string | undefined;
   /** The status of the group push mapping */
-  status?: GroupPushMappingStatus;
+  status?: GroupPushMappingStatus | undefined;
   /** The ID of the target group for the group push mapping */
-  targetGroupId?: string;
-  _links?: GroupPushMappingLinks;
+  targetGroupId?: string | undefined;
+  _links?: GroupPushMappingLinks | undefined;
 }
 /** Array of `groupIds` to which users are added */
 export type GroupRuleGroupAssignmentGroupIdsList = Array<string>;
 /** Contains the `groupIds` array */
 export interface GroupRuleGroupAssignment {
   /** Array of `groupIds` to which users are added */
-  groupIds?: GroupRuleGroupAssignmentGroupIdsList;
+  groupIds?: GroupRuleGroupAssignmentGroupIdsList | undefined;
 }
 /** Defines which users and groups to assign */
 export interface GroupRuleAction {
-  assignUserToGroups?: GroupRuleGroupAssignment;
+  assignUserToGroups?: GroupRuleGroupAssignment | undefined;
 }
 /** Defines Okta specific [group-rules expression](https://developer.okta.com/docs/reference/okta-expression-language/#expressions-in-group-rules) */
 export interface GroupRuleExpression {
   /** Expression type. Only valid value is '`urn:okta:expression:1.0`'. */
-  type?: string;
+  type?: string | undefined;
   /** Okta expression that would result in a Boolean value */
-  value?: string;
+  value?: string | undefined;
 }
 /** Currently not supported */
 export type GroupRuleGroupConditionExcludeList = Array<string>;
 /** Currently not supported */
 export interface GroupRuleGroupCondition {
   /** Currently not supported */
-  exclude?: GroupRuleGroupConditionExcludeList;
+  exclude?: GroupRuleGroupConditionExcludeList | undefined;
 }
 /** Excluded `userIds` when processing rules */
 export type GroupRuleUserConditionExcludeList = Array<string>;
 /** Defines conditions specific to user exclusion */
 export interface GroupRuleUserCondition {
   /** Excluded `userIds` when processing rules */
-  exclude?: GroupRuleUserConditionExcludeList;
+  exclude?: GroupRuleUserConditionExcludeList | undefined;
 }
 /** Defines conditions for `people` in a group rule */
 export interface GroupRulePeopleCondition {
-  groups?: GroupRuleGroupCondition;
-  users?: GroupRuleUserCondition;
+  groups?: GroupRuleGroupCondition | undefined;
+  users?: GroupRuleUserCondition | undefined;
 }
 /** Defines group rule conditions */
 export interface GroupRuleConditions {
-  expression?: GroupRuleExpression;
-  people?: GroupRulePeopleCondition;
+  expression?: GroupRuleExpression | undefined;
+  people?: GroupRulePeopleCondition | undefined;
 }
 export type CreateGroupRuleRequestType = "group_rule";
 export interface CreateGroupRuleRequest {
-  actions?: GroupRuleAction;
-  conditions?: GroupRuleConditions;
+  actions?: GroupRuleAction | undefined;
+  conditions?: GroupRuleConditions | undefined;
   /** Name of the group rule */
-  name?: string;
-  type?: CreateGroupRuleRequestType | (string & {});
+  name?: string | undefined;
+  type?: CreateGroupRuleRequestType | (string & {}) | undefined;
 }
 /** Status of group rule. You can't update the status of a rule from `INACTIVE` to `ACTIVE`. You must use the activate and deactivate lifecycle operations. */
 export type GroupRuleStatus = "ACTIVE" | "INACTIVE" | "INVALID";
@@ -3986,59 +4006,59 @@ export type GroupRuleEmbeddedGroupIdToGroupNameMapMap = { [key: string]: string 
 /** This object appears with embedded resources related to the group rule if you use the `expand` query parameter */
 export interface GroupRuleEmbedded {
   /** A mapping of group IDs to group names */
-  groupIdToGroupNameMap?: GroupRuleEmbeddedGroupIdToGroupNameMapMap;
+  groupIdToGroupNameMap?: GroupRuleEmbeddedGroupIdToGroupNameMapMap | undefined;
 }
 export interface GroupRule {
-  actions?: GroupRuleAction;
-  conditions?: GroupRuleConditions;
+  actions?: GroupRuleAction | undefined;
+  conditions?: GroupRuleConditions | undefined;
   /** Creation date for group rule */
-  created?: string;
+  created?: string | undefined;
   /** ID of the group rule */
-  id?: string;
+  id?: string | undefined;
   /** Date group rule was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the group rule */
-  name?: string;
-  status?: GroupRuleStatus;
+  name?: string | undefined;
+  status?: GroupRuleStatus | undefined;
   /** Type to indicate a group rule operation. Only `group_rule` is allowed. */
-  type?: string;
+  type?: string | undefined;
   /** This object appears with embedded resources related to the group rule if you use the `expand` query parameter */
-  _embedded?: GroupRuleEmbedded;
+  _embedded?: GroupRuleEmbedded | undefined;
 }
 export interface CreateHookKeyRequest {
   /** Display name for the key */
-  name?: string;
+  name?: string | undefined;
 }
 /** The Public Key Details are defined in the `_embedded` property of the Key object. */
 export interface Embedded {
   /** Algorithm used in the key */
-  alg?: string;
+  alg?: string | undefined;
   /** RSA key value (exponent) for key binding */
-  e?: string;
+  e?: string | undefined;
   /** Unique identifier for the certificate */
-  kid?: string;
+  kid?: string | undefined;
   /** Cryptographic algorithm family for the certificate's keypair */
-  kty?: string;
+  kty?: string | undefined;
   /** RSA key value (modulus) for key binding */
-  n?: string;
+  n?: string | undefined;
   /** Acceptable use of the certificate */
-  use?: string | null;
+  use?: string | null | undefined;
 }
 /** A key object with public key details */
 export interface DetailedHookKeyInstance {
   /** Timestamp when the key was created */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The unique Okta ID of this key record */
-  id?: string;
+  id?: string | undefined;
   /** Whether this key is currently in use by other applications */
-  isUsed?: string;
+  isUsed?: string | undefined;
   /** The alias of the public key */
-  keyId?: string;
+  keyId?: string | undefined;
   /** Timestamp when the key was updated */
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** Display name of the key */
-  name?: string;
-  _embedded?: Embedded;
+  name?: string | undefined;
+  _embedded?: Embedded | undefined;
 }
 /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
 export type CreateIdentityProviderRequestProtocol =
@@ -4048,36 +4068,36 @@ export type CreateIdentityProviderRequestProtocol =
   | ProtocolMtls
   | ProtocolIdVerification;
 export interface CreateIdentityProviderRequestLinks {
-  self?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
   /** SAML 2.0 Assertion Consumer Service URL for the Okta SP */
-  acs?: HrefObjectSelfLinkInput;
+  acs?: HrefObjectSelfLinkInput | undefined;
   /** OAuth 2.0 authorization endpoint for the IdP OAuth 2.0 Authorization Code flow */
-  authorize?: HrefObjectSelfLinkInput;
+  authorize?: HrefObjectSelfLinkInput | undefined;
   /** Redirect URI for the OAuth 2.0 Authorization Code flow */
-  clientRedirectUri?: HrefObjectSelfLinkInput;
+  clientRedirectUri?: HrefObjectSelfLinkInput | undefined;
   /** Federation metadata document for the IdP (for example: SAML 2.0 Metadata) */
-  metadata?: HrefObjectSelfLinkInput;
+  metadata?: HrefObjectSelfLinkInput | undefined;
   /** IdP users */
-  users?: HrefObjectSelfLinkInput;
+  users?: HrefObjectSelfLinkInput | undefined;
   /** Deactivate IdP */
-  deactivate?: HrefObjectSelfLinkInput;
+  deactivate?: HrefObjectSelfLinkInput | undefined;
   /** Activate IdP */
-  activate?: HrefObjectSelfLinkInput;
+  activate?: HrefObjectSelfLinkInput | undefined;
   /** IdP keys */
-  keys?: HrefObjectSelfLinkInput;
+  keys?: HrefObjectSelfLinkInput | undefined;
   [key: string]: unknown;
 }
 export interface CreateIdentityProviderRequest {
-  issuerMode?: IdentityProviderIssuerMode | (string & {});
+  issuerMode?: IdentityProviderIssuerMode | (string & {}) | undefined;
   /** Unique name for the IdP */
-  name?: string;
-  policy?: IdentityProviderPolicy;
-  properties?: IdentityProviderProperties | null;
+  name?: string | undefined;
+  policy?: IdentityProviderPolicy | undefined;
+  properties?: IdentityProviderProperties | null | undefined;
   /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
-  protocol?: CreateIdentityProviderRequestProtocol;
-  status?: LifecycleStatus | (string & {});
-  type?: IdentityProviderType | (string & {});
-  _links?: CreateIdentityProviderRequestLinks;
+  protocol?: CreateIdentityProviderRequestProtocol | undefined;
+  status?: LifecycleStatus | (string & {}) | undefined;
+  type?: IdentityProviderType | (string & {}) | undefined;
+  _links?: CreateIdentityProviderRequestLinks | undefined;
 }
 export interface CreateIdentityProviderKeyRequest {
   x5c: X5c;
@@ -4085,28 +4105,28 @@ export interface CreateIdentityProviderKeyRequest {
 /** Contains a set of external group attributes and their values that are mapped to Okta standard properties. See the group [`profile` object](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/getGroup!c=200&path=profile&t=response) and Declaration of a Custom Identity Source Schema in [Using anything as a source](https://help.okta.com/okta_help.htm?type=oie&id=ext-anything-as-a-source). > **Note:** Profile attributes can only be of the string type. */
 export interface IdentitySourceGroupProfileForUpsert {
   /** Description of the group */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the group */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateIdentitySourceGroupsRequest {
   /** The ID of the identity source for which the session is created */
   identitySourceId: string;
   /** The external ID of the identity source group to be created */
-  externalId?: string;
-  profile?: IdentitySourceGroupProfileForUpsert;
+  externalId?: string | undefined;
+  profile?: IdentitySourceGroupProfileForUpsert | undefined;
 }
 /** The profile information of the group */
 export interface GroupsResponseSchemaProfile {
-  profile?: IdentitySourceGroupProfileForUpsert;
+  profile?: IdentitySourceGroupProfileForUpsert | undefined;
 }
 export interface GroupsResponseSchema {
   /** The external ID of the identity source group */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The Okta group ID of the identity source group */
-  id?: string;
+  id?: string | undefined;
   /** The profile information of the group */
-  profile?: GroupsResponseSchemaProfile;
+  profile?: GroupsResponseSchemaProfile | undefined;
 }
 export interface CreateIdentitySourceGroupsMembershipsRequest {
   /** The ID of the identity source for which the session is created */
@@ -4114,7 +4134,7 @@ export interface CreateIdentitySourceGroupsMembershipsRequest {
   /** The Okta group ID or external ID of the identity source group */
   groupOrExternalId: string;
   /** The external ID of the user to be added as a member of the group in Okta */
-  memberExternalId?: string;
+  memberExternalId?: string | undefined;
 }
 export interface CreateIdentitySourceGroupsMembershipsResponse {}
 export interface CreateIdentitySourceSessionRequest {
@@ -4132,30 +4152,30 @@ export type IdentitySourceSessionStatus =
   | "TRIGGERED";
 export interface IdentitySourceSession {
   /** The timestamp when the identity source session was created */
-  created?: string;
+  created?: string | undefined;
   /** The ID of the identity source session */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the custom identity source for which the session is created */
-  identitySourceId?: string;
+  identitySourceId?: string | undefined;
   /** The type of import. All imports are `INCREMENTAL` imports. */
-  importType?: string;
+  importType?: string | undefined;
   /** The timestamp when the identity source session was created */
-  lastUpdated?: string;
-  status?: IdentitySourceSessionStatus;
+  lastUpdated?: string | undefined;
+  status?: IdentitySourceSessionStatus | undefined;
 }
 export interface IdentitySourceUserProfileForUpsertRequired {
   /** Email address of the user */
   email: string;
   /** First name of the user */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Home address of the user */
-  homeAddress?: string | null;
+  homeAddress?: string | null | undefined;
   /** Last name of the user */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Mobile phone number of the user */
-  mobilePhone?: string | null;
+  mobilePhone?: string | null | undefined;
   /** Alternative email address of the user */
-  secondEmail?: string;
+  secondEmail?: string | undefined;
   /** Username of the user */
   userName: string;
 }
@@ -4163,74 +4183,74 @@ export interface CreateIdentitySourceUserRequest {
   /** The ID of the identity source for which the session is created */
   identitySourceId: string;
   /** The external ID of the user in the identity source */
-  externalId?: string;
-  profile?: IdentitySourceUserProfileForUpsertRequired;
+  externalId?: string | undefined;
+  profile?: IdentitySourceUserProfileForUpsertRequired | undefined;
 }
 export interface CreateIdentitySourceUserResponse {}
 export interface InlineHookChannelCreate {
-  type?: InlineHookChannelType | (string & {});
+  type?: InlineHookChannelType | (string & {}) | undefined;
   /** Version of the inline hook type. The currently supported version is `1.0.0`. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateInlineHookRequest {
-  channel?: InlineHookChannelCreate;
+  channel?: InlineHookChannelCreate | undefined;
   /** The display name of the inline hook */
-  name?: string;
-  type?: InlineHookType | (string & {});
+  name?: string | undefined;
+  type?: InlineHookType | (string & {}) | undefined;
   /** Version of the inline hook type. The currently supported version is `1.0.0`. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface InlineHookLinksCreate {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** URL to deactivate the inline hook */
-  deactivate?: HrefObjectSelfLink;
+  deactivate?: HrefObjectSelfLink | undefined;
   /** URL to test the inline hook */
-  execute?: HrefObjectSelfLink;
+  execute?: HrefObjectSelfLink | undefined;
 }
 /** An inline hook object that specifies the details of the inline hook */
 export interface InlineHookCreateResponse {
-  channel?: InlineHookChannel;
+  channel?: InlineHookChannel | undefined;
   /** Date of the inline hook creation */
-  created?: string;
+  created?: string | undefined;
   /** The unique identifier for the inline hook */
-  id?: string;
+  id?: string | undefined;
   /** Date of the last inline hook update */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The display name of the inline hook */
-  name?: string;
-  status?: InlineHookStatus;
-  type?: InlineHookType;
+  name?: string | undefined;
+  status?: InlineHookStatus | undefined;
+  type?: InlineHookType | undefined;
   /** Version of the inline hook type. The currently supported version is `1.0.0`. */
-  version?: string;
-  _links?: InlineHookLinksCreate;
+  version?: string | undefined;
+  _links?: InlineHookLinksCreate | undefined;
 }
 export interface CreateInterclientTrustMappingRequest {
   /** Application ID */
   appId: string;
   /** App ID of the allowed app */
-  id?: string;
+  id?: string | undefined;
 }
 export interface InterclientTrustMapping {
   /** The app ID of the target app */
-  appInstanceId?: string;
+  appInstanceId?: string | undefined;
   /** Timestamp when the interclient trust mapping was created */
-  created?: string;
+  created?: string | undefined;
   /** The unique ID of the interclient trust mapping */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the interclient trust mapping was updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** ID of the user who created the interclient trust mapping */
-  lastUpdatedBy?: string;
+  lastUpdatedBy?: string | undefined;
   /** ID of the org */
-  orgId?: string;
+  orgId?: string | undefined;
   /** The app ID of the allowed app */
-  trustedAppInstanceId?: string;
+  trustedAppInstanceId?: string | undefined;
 }
 /** The object type for this relationship */
 export type LinkedObjectDetailsType = "USER";
 export interface LinkedObjectDetails {
   /** Description of the `primary` or the `associated` relationship */
-  description?: string;
+  description?: string | undefined;
   /** API name of the `primary` or the `associated` link. The `name` parameter can't start with a number and can only contain the following characters: `a-z`, `A-Z`,` 0-9`, and `_`. */
   name: string;
   /** Display name of the `primary` or the `associated` link */
@@ -4240,19 +4260,19 @@ export interface LinkedObjectDetails {
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export type LinkedObjectLinksSelfInput = AppUserPasswordCredentialOutput;
 export interface CreateLinkedObjectDefinitionRequest {
-  associated?: LinkedObjectDetails;
-  primary?: LinkedObjectDetails;
-  _links?: AppUserPasswordCredentialOutput;
+  associated?: LinkedObjectDetails | undefined;
+  primary?: LinkedObjectDetails | undefined;
+  _links?: AppUserPasswordCredentialOutput | undefined;
 }
 export type LinkedHrefObject = HrefObjectSelfLinkInput;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface LinkedObjectLinksSelf {
-  self?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
 }
 export interface LinkedObject {
-  associated?: LinkedObjectDetails;
-  primary?: LinkedObjectDetails;
-  _links?: LinkedObjectLinksSelf;
+  associated?: LinkedObjectDetails | undefined;
+  primary?: LinkedObjectDetails | undefined;
+  _links?: LinkedObjectLinksSelf | undefined;
 }
 export interface CreateLogStreamRequest {
   name: string;
@@ -4261,17 +4281,17 @@ export interface CreateLogStreamRequest {
 export interface CreateNetworkZoneRequest {
   /** Unique name for this Network Zone */
   name: string;
-  status?: NetworkZoneStatus | (string & {});
+  status?: NetworkZoneStatus | (string & {}) | undefined;
   type: NetworkZoneType | (string & {});
-  usage?: NetworkZoneUsage | (string & {});
-  _links?: LinksSelfAndLifecycleInput;
+  usage?: NetworkZoneUsage | (string & {}) | undefined;
+  _links?: LinksSelfAndLifecycleInput | undefined;
 }
 /** Specifies whether the Claim is for an access token (`RESOURCE`) or an ID token (`IDENTITY`) */
 export type OAuth2ClaimType = "IDENTITY" | "RESOURCE";
 export type OAuth2ClaimConditionsScopesList = Array<string>;
 /** Specifies the scopes for the Claim */
 export interface OAuth2ClaimConditions {
-  scopes?: OAuth2ClaimConditionsScopesList;
+  scopes?: OAuth2ClaimConditionsScopesList | undefined;
 }
 /** Specifies the type of group filter if `valueType` is `GROUPS` If `valueType` is `GROUPS`, then the groups returned are filtered according to the value of `group_filter_type`. If you have complex filters for Groups, you can [create a Groups allowlist](https://developer.okta.com/docs/guides/customize-tokens-groups-claim/main/) to put them all in a Claim. */
 export type OAuth2ClaimGroupFilterType = "CONTAINS" | "EQUALS" | "REGEX" | "STARTS_WITH";
@@ -4281,36 +4301,36 @@ export interface CreateOAuth2ClaimRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** Specifies whether to include Claims in the token. The value is always `TRUE` for access token Claims. If the value is set to `FALSE` for an ID token claim, the Claim isn't included in the ID token when the token is requested with the access token or with the `authorization_code`. The client instead uses the access token to get Claims from the `/userinfo` endpoint. */
-  alwaysIncludeInToken?: boolean;
-  claimType?: OAuth2ClaimType | (string & {});
-  conditions?: OAuth2ClaimConditions;
-  group_filter_type?: OAuth2ClaimGroupFilterType | (string & {});
+  alwaysIncludeInToken?: boolean | undefined;
+  claimType?: OAuth2ClaimType | (string & {}) | undefined;
+  conditions?: OAuth2ClaimConditions | undefined;
+  group_filter_type?: OAuth2ClaimGroupFilterType | (string & {}) | undefined;
   /** Name of the Claim */
-  name?: string;
-  status?: LifecycleStatus | (string & {});
+  name?: string | undefined;
+  status?: LifecycleStatus | (string & {}) | undefined;
   /** When `true`, indicates that Okta created the Claim */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Specifies the value of the Claim. This value must be a string literal if `valueType` is `GROUPS`, and the string literal is matched with the selected `group_filter_type`. The value must be an Okta EL expression if `valueType` is `EXPRESSION`. */
-  value?: string;
-  valueType?: OAuth2ClaimValueType | (string & {});
+  value?: string | undefined;
+  valueType?: OAuth2ClaimValueType | (string & {}) | undefined;
 }
 export interface OAuth2Claim {
   /** Specifies whether to include Claims in the token. The value is always `TRUE` for access token Claims. If the value is set to `FALSE` for an ID token claim, the Claim isn't included in the ID token when the token is requested with the access token or with the `authorization_code`. The client instead uses the access token to get Claims from the `/userinfo` endpoint. */
-  alwaysIncludeInToken?: boolean;
-  claimType?: OAuth2ClaimType;
-  conditions?: OAuth2ClaimConditions;
-  group_filter_type?: OAuth2ClaimGroupFilterType;
+  alwaysIncludeInToken?: boolean | undefined;
+  claimType?: OAuth2ClaimType | undefined;
+  conditions?: OAuth2ClaimConditions | undefined;
+  group_filter_type?: OAuth2ClaimGroupFilterType | undefined;
   /** ID of the Claim */
-  id?: string;
+  id?: string | undefined;
   /** Name of the Claim */
-  name?: string;
-  status?: LifecycleStatus;
+  name?: string | undefined;
+  status?: LifecycleStatus | undefined;
   /** When `true`, indicates that Okta created the Claim */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Specifies the value of the Claim. This value must be a string literal if `valueType` is `GROUPS`, and the string literal is matched with the selected `group_filter_type`. The value must be an Okta EL expression if `valueType` is `EXPRESSION`. */
-  value?: string;
-  valueType?: OAuth2ClaimValueType;
-  _links?: LinksSelf;
+  value?: string | undefined;
+  valueType?: OAuth2ClaimValueType | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Status of the OAuth 2.0 client secret */
 export type CreateOAuth2ClientSecretRequestStatus = "ACTIVE" | "INACTIVE";
@@ -4318,9 +4338,9 @@ export interface CreateOAuth2ClientSecretRequest {
   /** Application ID */
   appId: string;
   /** The OAuth 2.0 client secret string */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Status of the OAuth 2.0 client secret */
-  status?: CreateOAuth2ClientSecretRequestStatus | (string & {});
+  status?: CreateOAuth2ClientSecretRequestStatus | (string & {}) | undefined;
 }
 /** Indicates whether a consent dialog is needed for the Scope */
 export type OAuth2ScopeConsentType = "FLEXIBLE" | "IMPLICIT" | "REQUIRED";
@@ -4329,39 +4349,39 @@ export type OAuth2ScopeMetadataPublish = "ALL_CLIENTS" | "NO_CLIENTS";
 export interface CreateOAuth2ScopeRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
-  consent?: OAuth2ScopeConsentType | (string & {});
+  consent?: OAuth2ScopeConsentType | (string & {}) | undefined;
   /** Indicates if this Scope is a default scope */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Description of the Scope */
-  description?: string;
+  description?: string | undefined;
   /** Name of the end user displayed in a consent dialog */
-  displayName?: string;
-  metadataPublish?: OAuth2ScopeMetadataPublish | (string & {});
+  displayName?: string | undefined;
+  metadataPublish?: OAuth2ScopeMetadataPublish | (string & {}) | undefined;
   /** Scope name */
   name: string;
   /** Indicates whether the Scope is optional. When set to `true`, the user can skip consent for the scope. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** Indicates if Okta created the Scope */
-  system?: boolean;
+  system?: boolean | undefined;
 }
 export interface OAuth2Scope {
-  consent?: OAuth2ScopeConsentType;
+  consent?: OAuth2ScopeConsentType | undefined;
   /** Indicates if this Scope is a default scope */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Description of the Scope */
-  description?: string;
+  description?: string | undefined;
   /** Name of the end user displayed in a consent dialog */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Scope object ID */
-  id?: string;
-  metadataPublish?: OAuth2ScopeMetadataPublish;
+  id?: string | undefined;
+  metadataPublish?: OAuth2ScopeMetadataPublish | undefined;
   /** Scope name */
   name: string;
   /** Indicates whether the Scope is optional. When set to `true`, the user can skip consent for the scope. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** Indicates if Okta created the Scope */
-  system?: boolean;
-  _links?: LinksSelf;
+  system?: boolean | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** A list of IDs of the Okta groups who own the Okta managed user account */
 export type CreateOktaManagedUserAccountRequestOwnerGroupIdsList = Array<string>;
@@ -4369,15 +4389,15 @@ export type CreateOktaManagedUserAccountRequestOwnerGroupIdsList = Array<string>
 export type CreateOktaManagedUserAccountRequestOwnerUserIdsList = Array<string>;
 export interface CreateOktaManagedUserAccountRequest {
   /** The description of the Okta managed user account */
-  description?: string;
+  description?: string | undefined;
   /** The user-defined name for the Okta managed user account */
   name: string;
   /** The ID of the Okta user to manage as a service account. This must be an existing user in your Okta org. */
   oktaUserId: string;
   /** A list of IDs of the Okta groups who own the Okta managed user account */
-  ownerGroupIds?: CreateOktaManagedUserAccountRequestOwnerGroupIdsList;
+  ownerGroupIds?: CreateOktaManagedUserAccountRequestOwnerGroupIdsList | undefined;
   /** A list of IDs of the Okta users who own the Okta managed user account */
-  ownerUserIds?: CreateOktaManagedUserAccountRequestOwnerUserIdsList;
+  ownerUserIds?: CreateOktaManagedUserAccountRequestOwnerUserIdsList | undefined;
 }
 /** A list of IDs of the Okta groups who own the Okta managed user account */
 export type OktaManagedUserAccountResponseOwnerGroupIdsList = Array<string>;
@@ -4386,62 +4406,62 @@ export type OktaManagedUserAccountResponseOwnerUserIdsList = Array<string>;
 /** An Okta managed user account representing a Universal Directory user managed as a service account */
 export interface OktaManagedUserAccountResponse {
   /** Timestamp when the Okta managed user account was created */
-  created?: string;
+  created?: string | undefined;
   /** The description of the Okta managed user account */
-  description?: string;
+  description?: string | undefined;
   /** The email address associated with the Okta user. This parameter is read-only, and it is derived from the Okta user profile. */
   email: string;
   /** The UUID of the Okta managed user account */
   id: string;
   /** Timestamp when the Okta managed user account was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The user-defined name for the Okta managed user account */
   name: string;
   /** The ID of the Okta user being managed as a service account */
   oktaUserId: string;
   /** A list of IDs of the Okta groups who own the Okta managed user account */
-  ownerGroupIds?: OktaManagedUserAccountResponseOwnerGroupIdsList;
+  ownerGroupIds?: OktaManagedUserAccountResponseOwnerGroupIdsList | undefined;
   /** A list of IDs of the Okta users who own the Okta managed user account */
-  ownerUserIds?: OktaManagedUserAccountResponseOwnerUserIdsList;
-  status?: ServiceAccountStatus;
-  statusDetail?: ServiceAccountStatusDetail;
+  ownerUserIds?: OktaManagedUserAccountResponseOwnerUserIdsList | undefined;
+  status?: ServiceAccountStatus | undefined;
+  statusDetail?: ServiceAccountStatusDetail | undefined;
   /** The username associated with the Okta user. This parameter is read-only, and it is derived from the Okta user profile. */
   username: string;
 }
 export interface CreatePolicyRequest {
   /** This query parameter is only valid for Classic Engine orgs. */
-  activate?: boolean;
+  activate?: boolean | undefined;
   /** Description of the policy */
-  description?: string;
+  description?: string | undefined;
   /** Name of the policy */
   name: string;
   /** Specifies the order in which this policy is evaluated in relation to the other policies */
-  priority?: number;
-  status?: unknown;
+  priority?: number | undefined;
+  status?: unknown | undefined;
   /** Specifies whether Okta created the policy */
-  system?: boolean;
+  system?: boolean | undefined;
   type: PolicyType | (string & {});
 }
 export type CreateOrUpdatePolicyEmbeddedMap = { [key: string]: unknown | undefined };
 export interface CreateOrUpdatePolicy {
   /** Timestamp when the policy was created */
-  created?: string;
+  created?: string | undefined;
   /** Description of the policy */
-  description?: string;
+  description?: string | undefined;
   /** Identifier of the policy */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the policy was last modified */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the policy */
   name: string;
   /** Specifies the order in which this policy is evaluated in relation to the other policies */
-  priority?: number;
-  status?: unknown;
+  priority?: number | undefined;
+  status?: unknown | undefined;
   /** Specifies whether Okta created the policy */
-  system?: boolean;
+  system?: boolean | undefined;
   type: PolicyType;
-  _embedded?: CreateOrUpdatePolicyEmbeddedMap;
-  _links?: PolicyLinks;
+  _embedded?: CreateOrUpdatePolicyEmbeddedMap | undefined;
+  _links?: PolicyLinks | undefined;
 }
 /** Rule type */
 export type PolicyRuleType =
@@ -4461,44 +4481,44 @@ export interface CreatePolicyRuleRequest {
   /** `id` of the policy */
   policyId: string;
   /** Defines the number of policy rules returned. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  limit?: string;
+  limit?: string | undefined;
   /** Set this parameter to `false` to create an `INACTIVE` rule. */
-  activate?: boolean;
+  activate?: boolean | undefined;
   /** Name of the rule */
-  name?: string;
+  name?: string | undefined;
   /** Priority of the rule */
-  priority?: number | null;
-  status?: unknown;
+  priority?: number | null | undefined;
+  status?: unknown | undefined;
   /** Specifies whether Okta created the policy rule (`system=true`). You can't delete policy rules that have `system` set to `true`. */
-  system?: boolean;
-  type?: PolicyRuleType | (string & {});
+  system?: boolean | undefined;
+  type?: PolicyRuleType | (string & {}) | undefined;
 }
 export interface PolicyRule {
   /** Timestamp when the rule was created */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Identifier for the rule */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the rule was last modified */
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** Name of the rule */
-  name?: string;
+  name?: string | undefined;
   /** Priority of the rule */
-  priority?: number | null;
-  status?: unknown;
+  priority?: number | null | undefined;
+  status?: unknown | undefined;
   /** Specifies whether Okta created the policy rule (`system=true`). You can't delete policy rules that have `system` set to `true`. */
-  system?: boolean;
-  type?: PolicyRuleType;
-  _links?: PolicyLinks;
+  system?: boolean | undefined;
+  type?: PolicyRuleType | undefined;
+  _links?: PolicyLinks | undefined;
 }
 export interface PolicyContextDevice {
   /** The platform of the device, for example, IOS. */
-  platform?: string;
+  platform?: string | undefined;
   /** If the device is registered */
-  registered?: boolean;
+  registered?: boolean | undefined;
   /** If the device is managed */
-  managed?: boolean;
+  managed?: boolean | undefined;
   /** The device assurance policy ID for the simulation */
-  assuranceId?: string;
+  assuranceId?: string | undefined;
 }
 export type PolicyContextGroupsIdsList = Array<string>;
 /** An array of Group IDs for the simulate operation. Only user IDs or Group IDs are allowed, not both. */
@@ -4509,8 +4529,8 @@ export type PolicyContextRiskLevel = "LOW" | "MEDIUM" | "HIGH";
 export type PolicyContextRiskMinRiskLevel = "LOW" | "MEDIUM" | "HIGH";
 /** The risk rule condition level */
 export interface PolicyContextRisk {
-  level?: PolicyContextRiskLevel | (string & {});
-  minRiskLevel?: PolicyContextRiskMinRiskLevel | (string & {});
+  level?: PolicyContextRiskLevel | (string & {}) | undefined;
+  minRiskLevel?: PolicyContextRiskMinRiskLevel | (string & {}) | undefined;
 }
 /** The user ID for the simulate operation. Only user IDs or Group IDs are allowed, not both. */
 export interface PolicyContextUser {
@@ -4520,20 +4540,20 @@ export interface PolicyContextUser {
 export type PolicyContextZonesIdsList = Array<string>;
 /** The zone ID under the network rule condition. */
 export interface PolicyContextZones {
-  ids?: PolicyContextZonesIdsList;
+  ids?: PolicyContextZonesIdsList | undefined;
 }
 export interface PolicyContext {
-  device?: PolicyContextDevice;
+  device?: PolicyContextDevice | undefined;
   /** An array of Group IDs for the simulate operation. Only user IDs or Group IDs are allowed, not both. */
   groups: PolicyContextGroups;
   /** The network rule condition, zone, or IP address */
-  ip?: string;
+  ip?: string | undefined;
   /** The risk rule condition level */
-  risk?: PolicyContextRisk;
+  risk?: PolicyContextRisk | undefined;
   /** The user ID for the simulate operation. Only user IDs or Group IDs are allowed, not both. */
   user: PolicyContextUser;
   /** The zone ID under the network rule condition. */
-  zones?: PolicyContextZones;
+  zones?: PolicyContextZones | undefined;
 }
 export type PolicyTypeSimulation =
   | "ACCESS_POLICY"
@@ -4546,22 +4566,22 @@ export type SimulatePolicyBodyPolicyTypesList = Array<PolicyTypeSimulation | (st
 export interface SimulatePolicyBody {
   /** The application instance ID for a simulate operation */
   appInstance: string;
-  policyContext?: PolicyContext;
+  policyContext?: PolicyContext | undefined;
   /** Supported policy types for a simulate operation. The default value, `null`, returns all types. */
-  policyTypes?: SimulatePolicyBodyPolicyTypesList;
+  policyTypes?: SimulatePolicyBodyPolicyTypesList | undefined;
 }
 export type CreatePolicySimulationRequestBodyList = Array<SimulatePolicyBody>;
 export interface CreatePolicySimulationRequest {
   /** Use `expand=EVALUATED` to include a list of evaluated but not matched policies and policy rules. Use `expand=RULE` to include details about why a rule condition wasn't matched. */
-  expand?: string;
+  expand?: string | undefined;
   body: CreatePolicySimulationRequestBodyList;
 }
 /** The result of this entity evaluation */
 export type SimulateResultStatus = "MATCH" | "NOT_MATCH" | "UNDEFINED";
 export interface SimulateResultConditions {
-  status?: SimulateResultStatus;
+  status?: SimulateResultStatus | undefined;
   /** The type of condition */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of all conditions involved for this policy evaluation */
 export type SimulateResultPoliciesItemsConditionsList = Array<SimulateResultConditions>;
@@ -4569,28 +4589,28 @@ export type SimulateResultPoliciesItemsConditionsList = Array<SimulateResultCond
 export type SimulateResultRulesConditionsList = Array<SimulateResultConditions>;
 export interface SimulateResultRules {
   /** List of all conditions involved for this rule evaluation */
-  conditions?: SimulateResultRulesConditionsList;
+  conditions?: SimulateResultRulesConditionsList | undefined;
   /** The unique ID number of the policy rule */
-  id?: string;
+  id?: string | undefined;
   /** The name of the policy rule */
-  name?: string;
-  status?: SimulateResultStatus;
+  name?: string | undefined;
+  status?: SimulateResultStatus | undefined;
 }
 export type SimulateResultPoliciesItemsRulesList = Array<SimulateResultRules>;
 export interface SimulateResultPoliciesItems {
   /** List of all conditions involved for this policy evaluation */
-  conditions?: SimulateResultPoliciesItemsConditionsList;
+  conditions?: SimulateResultPoliciesItemsConditionsList | undefined;
   /** ID of the specified policy type */
-  id?: string;
+  id?: string | undefined;
   /** Policy name */
-  name?: string;
-  rules?: SimulateResultPoliciesItemsRulesList;
-  status?: SimulateResultStatus;
+  name?: string | undefined;
+  rules?: SimulateResultPoliciesItemsRulesList | undefined;
+  status?: SimulateResultStatus | undefined;
 }
 export type SimulateResultPolicies = Array<SimulateResultPoliciesItems>;
 /** A list of evaluated but not matched policies and rules */
 export interface SimulatePolicyEvaluationsEvaluated {
-  policies?: SimulateResultPolicies;
+  policies?: SimulateResultPolicies | undefined;
 }
 /** The policy type of the simulate operation */
 export type SimulatePolicyEvaluationsPolicyTypeList = Array<PolicyTypeSimulation>;
@@ -4600,13 +4620,13 @@ export type SimulatePolicyResult = SimulatePolicyEvaluationsEvaluated;
 export type SimulatePolicyEvaluationsUndefined = SimulatePolicyEvaluationsEvaluated;
 export interface SimulatePolicyEvaluations {
   /** A list of evaluated but not matched policies and rules */
-  evaluated?: SimulatePolicyEvaluationsEvaluated;
+  evaluated?: SimulatePolicyEvaluationsEvaluated | undefined;
   /** The policy type of the simulate operation */
-  policyType?: SimulatePolicyEvaluationsPolicyTypeList;
-  result?: SimulatePolicyEvaluationsEvaluated;
-  status?: SimulateResultStatus;
+  policyType?: SimulatePolicyEvaluationsPolicyTypeList | undefined;
+  result?: SimulatePolicyEvaluationsEvaluated | undefined;
+  status?: SimulateResultStatus | undefined;
   /** A list of undefined but not matched policies and rules */
-  undefined?: SimulatePolicyEvaluationsEvaluated;
+  undefined?: SimulatePolicyEvaluationsEvaluated | undefined;
 }
 /** The response body returned for a simulate policy operation. An array of `evaluations`. */
 export type SimulatePolicyResponse = Array<SimulatePolicyEvaluations>;
@@ -4615,30 +4635,30 @@ export type CreatePolicySimulationResponse = SimulatePolicyResponse;
 export type PrincipalType = "OAUTH_CLIENT" | "SSWS_TOKEN";
 export interface CreatePrincipalRateLimitEntityRequest {
   /** The default percentage of a given concurrency limit threshold that the owning principal can consume */
-  defaultConcurrencyPercentage?: number;
+  defaultConcurrencyPercentage?: number | undefined;
   /** The default percentage of a given rate limit threshold that the owning principal can consume */
-  defaultPercentage?: number;
+  defaultPercentage?: number | undefined;
   /** The unique identifier of the principal. This is the ID of the API token or OAuth 2.0 app. */
   principalId: string;
   principalType: PrincipalType | (string & {});
 }
 export interface PrincipalRateLimitEntity {
   /** The Okta user ID of the user who created the principle rate limit entity */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The date and time the principle rate limit entity was created */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The default percentage of a given concurrency limit threshold that the owning principal can consume */
-  defaultConcurrencyPercentage?: number;
+  defaultConcurrencyPercentage?: number | undefined;
   /** The default percentage of a given rate limit threshold that the owning principal can consume */
-  defaultPercentage?: number;
+  defaultPercentage?: number | undefined;
   /** The unique identifier of the principle rate limit entity */
-  id?: string;
+  id?: string | undefined;
   /** The date and time the principle rate limit entity was last updated */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** The Okta user ID of the user who last updated the principle rate limit entity */
-  lastUpdatedBy?: string;
+  lastUpdatedBy?: string | undefined;
   /** The unique identifier of the Okta org */
-  orgId?: string;
+  orgId?: string | undefined;
   /** The unique identifier of the principal. This is the ID of the API token or OAuth 2.0 app. */
   principalId: string;
   principalType: PrincipalType;
@@ -4646,18 +4666,18 @@ export interface PrincipalRateLimitEntity {
 export type ProviderType = "APNS" | "FCM";
 export interface CreatePushProviderRequest {
   /** Display name of the push provider */
-  name?: string;
-  providerType?: ProviderType | (string & {});
+  name?: string | undefined;
+  providerType?: ProviderType | (string & {}) | undefined;
 }
 export interface PushProvider {
   /** Unique key for the Push Provider */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the Push Provider was last modified */
-  lastUpdatedDate?: string;
+  lastUpdatedDate?: string | undefined;
   /** Display name of the push provider */
-  name?: string;
-  providerType?: ProviderType;
-  _links?: LinksSelf;
+  name?: string | undefined;
+  providerType?: ProviderType | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Array of allowed domains. No user in this realm can be created or updated unless they have a username and email from one of these domains. The following characters aren't allowed in the domain name: `!$%^&()=*+,:;<>'[]|/?\` */
 export type RealmProfileDomainsList = Array<string>;
@@ -4665,76 +4685,76 @@ export type RealmProfileDomainsList = Array<string>;
 export type RealmProfileRealmType = "PARTNER" | "DEFAULT";
 export interface RealmProfile {
   /** Array of allowed domains. No user in this realm can be created or updated unless they have a username and email from one of these domains. The following characters aren't allowed in the domain name: `!$%^&()=*+,:;<>'[]|/?\` */
-  domains?: RealmProfileDomainsList;
+  domains?: RealmProfileDomainsList | undefined;
   /** Name of a realm */
   name: string;
   /** Used to store partner users. This property must be set to `PARTNER` to access Okta's external partner portal. */
-  realmType?: RealmProfileRealmType | (string & {});
+  realmType?: RealmProfileRealmType | (string & {}) | undefined;
 }
 export interface CreateRealmRequest {
-  profile?: RealmProfile;
+  profile?: RealmProfile | undefined;
 }
 export interface Realm {
   /** Timestamp when the realm was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique ID for the realm */
-  id?: string;
+  id?: string | undefined;
   /** Indicates the default realm. Existing users will start out in the default realm and can be moved to other realms individually or through realm assignments. See [Realms Assignments API](/openapi/okta-management/management/tags/realmassignment/). */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Timestamp when the realm was updated */
-  lastUpdated?: string;
-  profile?: RealmProfile;
-  _links?: LinksSelf;
+  lastUpdated?: string | undefined;
+  profile?: RealmProfile | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Action that assigns a user to a realm */
 export interface AssignUserToRealm {
   /** ID of the realm */
-  realmId?: string;
+  realmId?: string | undefined;
 }
 /** Action to apply to a user */
 export interface Actions {
-  assignUserToRealm?: AssignUserToRealm;
+  assignUserToRealm?: AssignUserToRealm | undefined;
 }
 /** Conditional expression */
 export interface Expression {
   /** Value of the condition expression */
-  value?: string;
+  value?: string | undefined;
 }
 /** Conditions of applying realm assignment */
 export interface Conditions {
-  expression?: Expression;
+  expression?: Expression | undefined;
   /** ID of the profile source */
-  profileSourceId?: string;
+  profileSourceId?: string | undefined;
 }
 export interface CreateRealmAssignmentRequest {
-  actions?: Actions;
-  conditions?: Conditions;
+  actions?: Actions | undefined;
+  conditions?: Conditions | undefined;
   /** Name of the realm */
-  name?: string;
+  name?: string | undefined;
   /** The priority of the realm assignment. The lower the number, the higher the priority. This helps resolve conflicts between realm assignments. > **Note:** When you create realm assignments in bulk, realm assignment priorities must be unique. */
-  priority?: number;
+  priority?: number | undefined;
 }
 /** Array of allowed domains. No user in this realm can be created or updated unless they have a username and email from one of these domains. The following characters aren't allowed in the domain name: `!$%^&()=*+,:;<>'[]|/?\` */
 export type RealmAssignmentDomainsList = Array<string>;
 export interface RealmAssignment {
-  actions?: Actions;
-  conditions?: Conditions;
+  actions?: Actions | undefined;
+  conditions?: Conditions | undefined;
   /** Timestamp when the realm assignment was created */
-  created?: string;
+  created?: string | undefined;
   /** Array of allowed domains. No user in this realm can be created or updated unless they have a username and email from one of these domains. The following characters aren't allowed in the domain name: `!$%^&()=*+,:;<>'[]|/?\` */
-  domains?: RealmAssignmentDomainsList;
+  domains?: RealmAssignmentDomainsList | undefined;
   /** Unique ID of the realm assignment */
-  id?: string;
+  id?: string | undefined;
   /** Indicates the default realm. Existing users will start out in the default realm and can be moved individually to other realms. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Timestamp of when the realm assignment was updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the realm */
-  name?: string;
+  name?: string | undefined;
   /** The priority of the realm assignment. The lower the number, the higher the priority. This helps resolve conflicts between realm assignments. > **Note:** When you create realm assignments in bulk, realm assignment priorities must be unique. */
-  priority?: number;
-  status?: LifecycleStatus;
-  _links?: LinksSelf;
+  priority?: number | undefined;
+  status?: LifecycleStatus | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** The endpoint (URL) that references all resource objects included in the resource set. Resources are identified by either an Okta Resource Name (ORN) or by a REST URL format. See [Okta Resource Name](/openapi/okta-management/guides/roles/#okta-resource-name-orn). */
 export type CreateResourceSetRequestResourcesList = Array<string>;
@@ -4752,9 +4772,9 @@ export interface CreateResourceSetBindingRequest {
   /** `id` or `label` of the resource set */
   resourceSetIdOrLabel: string;
   /** URLs to user and/or group instances that are assigned to the role */
-  members?: CreateResourceSetBindingRequestMembersList;
+  members?: CreateResourceSetBindingRequestMembersList | undefined;
   /** Unique key for the role */
-  role?: string;
+  role?: string | undefined;
 }
 /** Array of permissions that the role grants. See [Permissions](/openapi/okta-management/guides/permissions). */
 export type CreateRoleRequestPermissionsList = Array<string>;
@@ -4767,21 +4787,21 @@ export interface CreateRoleRequest {
   permissions: CreateRoleRequestPermissionsList;
 }
 export interface IamRoleLinks {
-  self?: HrefObjectSelfLink;
-  permissions?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  permissions?: HrefObjectSelfLink | undefined;
 }
 export interface IamRole {
   /** Timestamp when the role was created */
-  created?: string;
+  created?: string | undefined;
   /** Description of the role */
   description: string;
   /** Unique key for the role */
-  id?: string;
+  id?: string | undefined;
   /** Unique label for the role */
   label: string;
   /** Timestamp when the role was last updated */
-  lastUpdated?: string;
-  _links?: IamRoleLinks;
+  lastUpdated?: string | undefined;
+  _links?: IamRoleLinks | undefined;
 }
 /** Exclude attributes with specific values for the permission */
 export type PermissionConditionsExcludeMap = { [key: string]: unknown | undefined };
@@ -4790,16 +4810,16 @@ export type PermissionConditionsIncludeMap = { [key: string]: unknown | undefine
 /** Conditions for further restricting a permission. See [Permission conditions](https://help.okta.com/okta_help.htm?type=oie&id=ext-permission-conditions). */
 export interface PermissionConditions {
   /** Exclude attributes with specific values for the permission */
-  exclude?: PermissionConditionsExcludeMap | null;
+  exclude?: PermissionConditionsExcludeMap | null | undefined;
   /** Include attributes with specific values for the permission */
-  include?: PermissionConditionsIncludeMap | null;
+  include?: PermissionConditionsIncludeMap | null | undefined;
 }
 export interface CreateRolePermissionRequest {
   /** `id` or `label` of the role */
   roleIdOrLabel: string;
   /** An Okta [permission](/openapi/okta-management/guides/permissions) */
   permissionType: string;
-  conditions?: PermissionConditions | null;
+  conditions?: PermissionConditions | null | undefined;
 }
 export interface CreateRolePermissionResponse {}
 /** Security events provider with well-known URL setting */
@@ -4830,22 +4850,22 @@ export interface CreateSecurityEventsProviderInstanceRequest {
 export type SmsTemplateType = "SMS_VERIFY_CODE";
 export interface CreateSmsTemplateRequest {
   /** Human-readable name of the Template */
-  name?: string;
+  name?: string | undefined;
   /** Text of the Template, including any [macros](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Template/) */
-  template?: string;
-  translations?: unknown;
-  type?: SmsTemplateType | (string & {});
+  template?: string | undefined;
+  translations?: unknown | undefined;
+  type?: SmsTemplateType | (string & {}) | undefined;
 }
 export interface SmsTemplate {
-  created?: string;
-  id?: string;
-  lastUpdated?: string;
+  created?: string | undefined;
+  id?: string | undefined;
+  lastUpdated?: string | undefined;
   /** Human-readable name of the Template */
-  name?: string;
+  name?: string | undefined;
   /** Text of the Template, including any [macros](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Template/) */
-  template?: string;
-  translations?: unknown;
-  type?: SmsTemplateType;
+  template?: string | undefined;
+  translations?: unknown | undefined;
+  type?: SmsTemplateType | undefined;
 }
 /** The delivery method that the transmitter uses for delivering a SET */
 export type StreamConfigurationDeliveryMethod =
@@ -4854,7 +4874,7 @@ export type StreamConfigurationDeliveryMethod =
 /** Contains information about the intended SET delivery method by the receiver */
 export interface StreamConfigurationDelivery {
   /** The HTTP authorization header that's included for each HTTP POST request */
-  authorization_header?: string | null;
+  authorization_header?: string | null | undefined;
   /** The target endpoint URL where the transmitter delivers the SET using HTTP POST requests */
   endpoint_url: string;
   /** The delivery method that the transmitter uses for delivering a SET */
@@ -4869,7 +4889,7 @@ export interface CreateSsfStreamRequest {
   /** The events (mapped by the array of event type URIs) that the receiver wants to receive */
   events_requested: CreateSsfStreamRequestEventsRequestedList;
   /** The subject identifier format expected for any SET transmitted. */
-  format?: CreateSsfStreamRequestFormat | (string & {});
+  format?: CreateSsfStreamRequestFormat | (string & {}) | undefined;
 }
 export type StreamConfigurationAudCase1List = Array<string>;
 /** The audience used in the SET. This value is set as `aud` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
@@ -4884,69 +4904,69 @@ export type StreamConfigurationEventsSupportedList = Array<string>;
 export type StreamConfigurationFormat = "iss_sub";
 export interface StreamConfiguration {
   /** The audience used in the SET. This value is set as `aud` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  aud?: StreamConfigurationAud;
+  aud?: StreamConfigurationAud | undefined;
   delivery: StreamConfigurationDelivery;
   /** The events (mapped by the array of event type URIs) that the transmitter actually delivers to the SSF stream. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  events_delivered?: StreamConfigurationEventsDeliveredList;
+  events_delivered?: StreamConfigurationEventsDeliveredList | undefined;
   /** The events (mapped by the array of event type URIs) that the receiver wants to receive */
   events_requested: StreamConfigurationEventsRequestedList;
   /** An array of event type URIs that the transmitter supports. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  events_supported?: StreamConfigurationEventsSupportedList;
+  events_supported?: StreamConfigurationEventsSupportedList | undefined;
   /** The subject identifier format expected for any SET transmitted. */
-  format?: StreamConfigurationFormat;
+  format?: StreamConfigurationFormat | undefined;
   /** The issuer used in security event tokens (SETs). This value is set as `iss` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  iss?: string;
+  iss?: string | undefined;
   /** The minimum amount of time, in seconds, between two verification requests. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  min_verification_interval?: number | null;
+  min_verification_interval?: number | null | undefined;
   /** The ID of the SSF stream configuration */
-  stream_id?: string;
+  stream_id?: string | undefined;
 }
 /** Defines the authenticator specific parameters */
 export interface AuthenticatorProfileTacRequest {
   /** Determines whether the enrollment can be used more than once. To enable multi-use, the org-level authenticator's configuration must allow multi-use. */
-  multiUse?: boolean;
+  multiUse?: boolean | undefined;
   /** Time-to-live (TTL) in minutes. Specifies how long the TAC enrollment is valid after it's created and activated. The configured value must be between 10 minutes (`10`) and 10 days (`14400`), inclusive. The actual allowed range depends on the org-level authenticator configuration. */
-  ttl?: string;
+  ttl?: string | undefined;
 }
 export interface CreateTacAuthenticatorEnrollmentRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** Unique identifier of the TAC authenticator */
   authenticatorId: string;
-  profile?: AuthenticatorProfileTacRequest;
+  profile?: AuthenticatorProfileTacRequest | undefined;
 }
 /** Defines the authenticator specific parameters */
 export interface AuthenticatorProfileTacResponsePost {
   /** The time when the TAC enrollment expires in the UTC timezone */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Determines whether an enrollment can be used more than once */
-  multiUse?: boolean;
+  multiUse?: boolean | undefined;
   /** A temporary access code used for authentication. It can be used one or more times and is valid for a defined period specified by the `ttl` property. The `tac` is returned in the response when the enrollment is created. It is not returned when the enrollment is retrieved. Issuing a new TAC invalidates any existing TAC for this user. */
-  tac?: string;
+  tac?: string | undefined;
 }
 export interface TacAuthenticatorEnrollment {
   /** Timestamp when the authenticator enrollment was created */
-  created?: string;
+  created?: string | undefined;
   /** A unique identifier of the authenticator enrollment */
-  id?: string;
+  id?: string | undefined;
   /** A human-readable string that identifies the authenticator */
-  key?: string;
+  key?: string | undefined;
   /** Timestamp when the authenticator enrollment was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The authenticator display name */
-  name?: string;
+  name?: string | undefined;
   /** A user-friendly name for the authenticator enrollment */
-  nickname?: string;
-  profile?: AuthenticatorProfileTacResponsePost;
+  nickname?: string | undefined;
+  profile?: AuthenticatorProfileTacResponsePost | undefined;
   /** Status of the enrollment */
-  status?: string;
-  type?: AuthenticatorType;
-  _links?: AuthenticatorEnrollmentLinks;
+  status?: string | undefined;
+  type?: AuthenticatorType | undefined;
+  _links?: AuthenticatorEnrollmentLinks | undefined;
 }
 export interface CreateTrustedOriginRequest {
-  name?: string;
-  origin?: string;
-  scopes?: TrustedOriginScopes;
+  name?: string | undefined;
+  origin?: string | undefined;
+  scopes?: TrustedOriginScopes | undefined;
 }
 /** Specifies how the input appears */
 export type UIElementOptionsFormat =
@@ -4959,32 +4979,32 @@ export type UIElementOptionsFormat =
 /** UI Schema element options object */
 export interface UIElementOptions {
   /** Specifies how the input appears */
-  format?: UIElementOptionsFormat | (string & {});
+  format?: UIElementOptionsFormat | (string & {}) | undefined;
 }
 /** Specifies the configuration of an input field on an enrollment form */
 export interface UIElement {
   /** Label name for the UI element */
-  label?: string;
+  label?: string | undefined;
   /** UI Schema element options object */
-  options?: UIElementOptions;
+  options?: UIElementOptions | undefined;
   /** Specifies the property bound to the input field. It must follow the format `#/properties/PROPERTY_NAME` where `PROPERTY_NAME` is a variable name for an attribute in `profile editor`. */
-  scope?: string;
+  scope?: string | undefined;
   /** Specifies the relationship between this input element and `scope`. The `Control` value specifies that this input controls the value represented by `scope`. */
-  type?: string;
+  type?: string | undefined;
 }
 export type UISchemaObjectElementsList = Array<UIElement>;
 /** Properties of the UI schema */
 export interface UISchemaObject {
   /** Specifies the button label for the `Submit` button at the bottom of the enrollment form */
-  buttonLabel?: string;
-  elements?: UISchemaObjectElementsList;
+  buttonLabel?: string | undefined;
+  elements?: UISchemaObjectElementsList | undefined;
   /** Specifies the label at the top of the enrollment form under the logo */
-  label?: string;
+  label?: string | undefined;
   /** Specifies the type of layout */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateUISchemaRequest {
-  uiSchema?: UISchemaObject;
+  uiSchema?: UISchemaObject | undefined;
 }
 export interface UISchemasResponseObject {
   /** Timestamp when the UI Schema was created (ISO 86001) */
@@ -5008,103 +5028,103 @@ export type AuthenticationProviderTypeWritable =
 /** Specifies the authentication provider that validates the user password credential. The user's current provider is managed by the **Delegated Authentication** settings in your org. See [Create user with authentication provider](/openapi/okta-management/management/user/create-user-with-password-and-recovery-question#user/Create-user-with-authentication-provider). */
 export interface AuthenticationProviderWritable {
   /** The name of the authentication provider */
-  name?: string;
-  type?: AuthenticationProviderTypeWritable | (string & {});
+  name?: string | undefined;
+  type?: AuthenticationProviderTypeWritable | (string & {}) | undefined;
 }
 /** Specifies primary authentication and recovery credentials for a user. Credential types and requirements vary depending on the provider and security policy of the org. */
 export interface UserCredentialsWritable {
-  password?: PasswordCredential;
-  provider?: AuthenticationProviderWritable;
-  recovery_question?: RecoveryQuestionCredential;
+  password?: PasswordCredential | undefined;
+  provider?: AuthenticationProviderWritable | undefined;
+  recovery_question?: RecoveryQuestionCredential | undefined;
 }
 /** The list of group IDs of groups that the user is added to at the time of creation */
 export type CreateUserRequestGroupIdsList = Array<string>;
 /** Specifies the default and custom profile properties for a user. The default user profile is based on the [System for Cross-domain Identity Management: Core Schema](https://datatracker.ietf.org/doc/html/rfc7643). The only permitted customizations of the default profile are to update permissions, change whether the `firstName` and `lastName` properties are nullable, and specify a [pattern](https://developer.okta.com/docs/reference/api/schemas/#login-pattern-validation) for `login`. You can use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UISchema/#tag/UISchema) to make schema modifications. You can extend user profiles with custom properties. You must first add the custom property to the user profile schema before you reference it. You can use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UISchema/#tag/UISchema) to manage schema extensions. Custom attributes can contain HTML tags. It's the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting. */
 export interface UserProfile {
   /** The city or locality of the user's address (`locality`) */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Name of the cost center assigned to a user */
-  costCenter?: string | null;
+  costCenter?: string | null | undefined;
   /** The country name component of the user's address (`country`). For validation, see [ISO 3166-1 alpha 2 "short" code format](https://datatracker.ietf.org/doc/html/draft-ietf-scim-core-schema-22#ref-ISO3166). */
-  countryCode?: string | null;
+  countryCode?: string | null | undefined;
   /** Name of the user's department */
-  department?: string;
+  department?: string | undefined;
   /** Name of the user suitable for display to end users */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Name of the user's division */
-  division?: string | null;
+  division?: string | null | undefined;
   /** The primary email address of the user. For validation, see [RFC 5322 Section 3.2.3](https://datatracker.ietf.org/doc/html/rfc5322#section-3.2.3). */
-  email?: string;
+  email?: string | undefined;
   /** The organization or company assigned unique identifier for the user */
-  employeeNumber?: string;
+  employeeNumber?: string | undefined;
   /** Given name of the user (`givenName`) */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Honorific prefix(es) of the user, or title in most Western languages */
-  honorificPrefix?: string | null;
+  honorificPrefix?: string | null | undefined;
   /** Honorific suffix(es) of the user */
-  honorificSuffix?: string | null;
+  honorificSuffix?: string | null | undefined;
   /** The family name of the user (`familyName`) */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** The user's default location for purposes of localizing items such as currency, date time format, numerical representations, and so on. A locale value is a concatenation of the ISO 639-1 two-letter language code, an underscore, and the ISO 3166-1 two-letter country code. For example, en_US specifies the language English and country US. This value is `en_US` by default. */
-  locale?: string;
+  locale?: string | undefined;
   /** The unique identifier for the user (`username`). For validation, see [Login pattern validation](https://developer.okta.com/docs/reference/api/schemas/#login-pattern-validation). Every user within your Okta org must have a unique identifier for a login. This constraint applies to all users you import from other systems or applications such as Active Directory. Your organization is the top-level namespace to mix and match logins from all your connected applications or directories. Careful consideration of naming conventions for your login identifier will make it easier to onboard new applications in the future. Logins are not considered unique if they differ only in case and/or diacritical marks. If one of your users has a login of `Isaac.Brock@example.com`, there cannot be another user whose login is `isaac.brock@example.com`, nor `isáàc.bröck@example.com`. Okta has a default ambiguous name resolution policy for usernames that include @-signs. By default, usernames must be formatted as email addresses and thus always include @-signs. You can remove that restriction using either the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/). Users can sign in with their non-qualified short name (for example: `isaac.brock` with username `isaac.brock@example.com`) as long as the short name is still unique within the org. */
-  login?: string;
+  login?: string | undefined;
   /** The `displayName` of the user's manager */
-  manager?: string | null;
+  manager?: string | null | undefined;
   /** The `id` of the user's manager */
-  managerId?: string | null;
+  managerId?: string | null | undefined;
   /** The middle name of the user */
-  middleName?: string | null;
+  middleName?: string | null | undefined;
   /** The mobile phone number of the user */
-  mobilePhone?: string | null;
+  mobilePhone?: string | null | undefined;
   /** The casual way to address the user in real life */
-  nickName?: string | null;
+  nickName?: string | null | undefined;
   /** Name of the the user's organization */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Mailing address component of the user's address */
-  postalAddress?: string | null;
+  postalAddress?: string | null | undefined;
   /** The user's preferred written or spoken language. For validation, see [RFC 7231 Section 5.3.5](https://datatracker.ietf.org/doc/html/rfc7231#section-5.3.5). */
-  preferredLanguage?: string | null;
+  preferredLanguage?: string | null | undefined;
   /** The primary phone number of the user such as a home number */
-  primaryPhone?: string | null;
+  primaryPhone?: string | null | undefined;
   /** The URL of the user's online profile. For example, a web page. See [URL](https://datatracker.ietf.org/doc/html/rfc1808). */
-  profileUrl?: string | null;
+  profileUrl?: string | null | undefined;
   /** The secondary email address of the user typically used for account recovery. For validation, see [RFC 5322 Section 3.2.3](https://datatracker.ietf.org/doc/html/rfc5322#section-3.2.3). */
-  secondEmail?: string | null;
+  secondEmail?: string | null | undefined;
   /** The state or region component of the user's address (`region`) */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The full street address component of the user's address */
-  streetAddress?: string | null;
+  streetAddress?: string | null | undefined;
   /** The user's time zone */
-  timezone?: string | null;
+  timezone?: string | null | undefined;
   /** The user's title, such as Vice President */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The property used to describe the organization-to-user relationship, such as employee or contractor > **Note:** The `userType` property is a standard string attribute and should be treated as a descriptive label rather than a functional setting. Unlike a user's assigned user [`type`](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/User/#tag/User/operation/createUser!path=type&t=request), this property is purely informational and doesn't influence the behavior of the Okta platform. */
-  userType?: string | null;
+  userType?: string | null | undefined;
   /** The ZIP code or postal code component of the user's address (`postalCode`) */
-  zipCode?: string | null;
+  zipCode?: string | null | undefined;
   [key: string]: unknown;
 }
 /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an administrator through a full replacement (`PUT`) operation. */
 export interface CreateUserRequestType {
   /** The ID of the user type */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateUserRequest {
   /** Executes an [activation lifecycle](https://developer.okta.com/docs/api/openapi/okta-management/management/userlifecycle/activateuser) operation when creating the user */
-  activate?: boolean;
+  activate?: boolean | undefined;
   /** Indicates whether to create a user with a specified authentication provider. */
-  provider?: boolean;
+  provider?: boolean | undefined;
   /** With `activate=true`, if `nextLogin=changePassword`, a user is created, activated, and the password is set to `EXPIRED`. The user must change it the next time they sign in. */
-  nextLogin?: UserNextLogin | (string & {});
-  credentials?: UserCredentialsWritable;
+  nextLogin?: UserNextLogin | (string & {}) | undefined;
+  credentials?: UserCredentialsWritable | undefined;
   /** The list of group IDs of groups that the user is added to at the time of creation */
-  groupIds?: CreateUserRequestGroupIdsList;
+  groupIds?: CreateUserRequestGroupIdsList | undefined;
   profile: UserProfile;
   /** The ID of the realm in which the user is residing. See [Realms](/openapi/okta-management/management/tags/realm). */
-  realmId?: string;
+  realmId?: string | undefined;
   /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an administrator through a full replacement (`PUT`) operation. */
-  type?: CreateUserRequestType;
+  type?: CreateUserRequestType | undefined;
 }
 /** The current status of the user. The status of a user changes in response to explicit events, such as admin-driven lifecycle changes, user login, or self-service password recovery. Okta doesn't asynchronously sweep through users and update their password expiry state, for example. Instead, Okta evaluates password policy at login time, notices the password has expired, and moves the user to the expired state. When running reports, remember that the data is valid as of the last login or lifecycle event for that user. > **Note:** The `ACTIVATING` status is a transitional status that occurs when a user is being activated but hasn't completed the activation process. This status isn't directly settable through the API, nor should you use it for any of your user management workflows. */
 export type UserStatus =
@@ -5125,104 +5145,104 @@ export type UserOutputEmbeddedMap = { [key: string]: unknown | undefined };
 /** Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The links object is read-only. For an individual user result, the links object contains a full set of link relations available for that user as determined by your policies. For a collection of users, the links object contains only the `self` link. Operations that return a collection of users include [List all users](https://developer.okta.com/docs/api/openapi/okta-management/management/user/listusers) and [List all group member users](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/listGroupUsers). */
 export interface UserOutputLinks {
   /** URL to the individual user */
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** URL to activate the user */
-  activate?: HrefObjectSelfLink;
+  activate?: HrefObjectSelfLink | undefined;
   /** URL to reset the user's password */
-  resetPassword?: HrefObjectSelfLink;
+  resetPassword?: HrefObjectSelfLink | undefined;
   /** URL to reset the user's factors */
-  resetFactors?: HrefObjectSelfLink;
+  resetFactors?: HrefObjectSelfLink | undefined;
   /** URL to expire the user's password */
-  expirePassword?: HrefObjectSelfLink;
+  expirePassword?: HrefObjectSelfLink | undefined;
   /** URL to initiate a forgot password operation */
-  forgotPassword?: HrefObjectSelfLink;
+  forgotPassword?: HrefObjectSelfLink | undefined;
   /** URL to change the user's recovery question */
-  changeRecoveryQuestion?: HrefObjectSelfLink;
+  changeRecoveryQuestion?: HrefObjectSelfLink | undefined;
   /** URL to deactivate a user */
-  deactivate?: HrefObjectSelfLink;
+  deactivate?: HrefObjectSelfLink | undefined;
   /** URL to reactivate the user */
-  reactivate?: HrefObjectSelfLink;
+  reactivate?: HrefObjectSelfLink | undefined;
   /** URL to change the user's password */
-  changePassword?: HrefObjectSelfLink;
+  changePassword?: HrefObjectSelfLink | undefined;
   /** URL to the user's profile schema */
-  schema?: HrefObjectSelfLink;
+  schema?: HrefObjectSelfLink | undefined;
   /** URL to suspend the user */
-  suspend?: HrefObjectSelfLink;
+  suspend?: HrefObjectSelfLink | undefined;
   /** URL to unsuspend the user */
-  unsuspend?: HrefObjectSelfLink;
+  unsuspend?: HrefObjectSelfLink | undefined;
   /** URL to unlock the locked-out user */
-  unlock?: HrefObjectSelfLink;
+  unlock?: HrefObjectSelfLink | undefined;
   /** URL to the user type */
-  type?: HrefObjectSelfLink;
+  type?: HrefObjectSelfLink | undefined;
 }
 export interface UserOutput {
   /** The timestamp when the user status transitioned to `ACTIVE` */
-  activated?: string | null;
+  activated?: string | null | undefined;
   /** The timestamp when the user was created */
-  created?: string;
-  credentials?: UserCredentialsOutput;
+  created?: string | undefined;
+  credentials?: UserCredentialsOutput | undefined;
   /** The unique key for the user */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp of the last login */
-  lastLogin?: string | null;
+  lastLogin?: string | null | undefined;
   /** The timestamp when the user was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The timestamp when the user's password was last updated */
-  passwordChanged?: string | Redacted.Redacted<string> | null;
-  profile?: UserProfile;
+  passwordChanged?: string | Redacted.Redacted<string> | null | undefined;
+  profile?: UserProfile | undefined;
   /** The ID of the realm in which the user is residing. See [Realms](/openapi/okta-management/management/tags/realm). */
-  realmId?: string;
-  status?: UserStatus;
+  realmId?: string | undefined;
+  status?: UserStatus | undefined;
   /** The timestamp when the status of the user last changed */
-  statusChanged?: string | null;
+  statusChanged?: string | null | undefined;
   /** The target status of an in-progress asynchronous status transition. This property is only returned if the user's state is transitioning. */
-  transitioningToStatus?: UserOutputTransitioningToStatus | null;
+  transitioningToStatus?: UserOutputTransitioningToStatus | null | undefined;
   /** The user type that determines the schema for the user's profile. The `type` property is a map that identifies the [User Types](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/#tag/UserType). Currently it contains a single element, `id`. It can be specified when creating a new user, and can be updated by an admin on a full replace of an existing user (but not a partial update). */
-  type?: CreateUserRequestType;
+  type?: CreateUserRequestType | undefined;
   /** Embedded resources related to the user using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _embedded?: UserOutputEmbeddedMap;
+  _embedded?: UserOutputEmbeddedMap | undefined;
   /** Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The links object is read-only. For an individual user result, the links object contains a full set of link relations available for that user as determined by your policies. For a collection of users, the links object contains only the `self` link. Operations that return a collection of users include [List all users](https://developer.okta.com/docs/api/openapi/okta-management/management/user/listusers) and [List all group member users](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/listGroupUsers). */
-  _links?: UserOutputLinks;
+  _links?: UserOutputLinks | undefined;
 }
 export type UserTypeLinksInputSchema = HrefObjectSelfLinkInput;
 export interface UserTypeLinksInput {
-  self?: HrefObjectSelfLinkInput;
-  schema?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  schema?: HrefObjectSelfLinkInput | undefined;
 }
 export interface CreateUserTypeRequest {
   /** The human-readable description of the user type */
-  description?: string;
+  description?: string | undefined;
   /** The human-readable name of the user type */
   displayName: string;
   /** The name of the user type. The name must start with A-Z or a-z and contain only A-Z, a-z, 0-9, or underscore (_) characters. This value becomes read-only after creation and can't be updated. */
   name: string;
-  _links?: UserTypeLinksInput;
+  _links?: UserTypeLinksInput | undefined;
 }
 export type UserTypeLinksSchema = HrefObjectSelfLink;
 export interface UserTypeLinks {
-  self?: HrefObjectSelfLink;
-  schema?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  schema?: HrefObjectSelfLink | undefined;
 }
 export interface UserType {
   /** A timestamp from when the user type was created */
-  created?: string;
+  created?: string | undefined;
   /** The user ID of the account that created the user type */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** A boolean value to indicate if this is the default user type */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The human-readable description of the user type */
-  description?: string;
+  description?: string | undefined;
   /** The human-readable name of the user type */
   displayName: string;
   /** The unique key for the user type */
-  id?: string;
+  id?: string | undefined;
   /** A timestamp from when the user type was most recently updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The user ID of the most recent account to edit the user type */
-  lastUpdatedBy?: string;
+  lastUpdatedBy?: string | undefined;
   /** The name of the user type. The name must start with A-Z or a-z and contain only A-Z, a-z, 0-9, or underscore (_) characters. This value becomes read-only after creation and can't be updated. */
   name: string;
-  _links?: UserTypeLinks;
+  _links?: UserTypeLinks | undefined;
 }
 export interface DeactivateAgentPoolsUpdateRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -5383,7 +5403,7 @@ export interface DeactivateUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** Sends a deactivation email to the admin if `true` */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface DeactivateUserResponse {}
 export interface DeleteAgentPoolsUpdateRequest {
@@ -5558,7 +5578,7 @@ export type DeleteEmailDomainRequestExpandList = Array<
 export interface DeleteEmailDomainRequest {
   emailDomainId: string;
   /** Specifies additional metadata to be included in the response */
-  expand?: DeleteEmailDomainRequestExpandList;
+  expand?: DeleteEmailDomainRequestExpandList | undefined;
 }
 export interface DeleteEmailDomainResponse {}
 export interface DeleteEmailServerRequest {
@@ -5607,7 +5627,7 @@ export interface DeleteGroupRuleRequest {
   /** The `id` of the group rule */
   groupRuleId: string;
   /** If set to `true`, removes users from groups assigned by this rule */
-  removeUsers?: boolean;
+  removeUsers?: boolean | undefined;
 }
 export interface DeleteGroupRuleResponse {}
 export interface DeleteHookKeyRequest {
@@ -5818,7 +5838,7 @@ export interface DeleteSmsTemplateRequest {
 export interface DeleteSmsTemplateResponse {}
 export interface DeleteSsfStreamRequest {
   /** The ID of the specified SSF Stream configuration */
-  stream_id?: string;
+  stream_id?: string | undefined;
 }
 export interface DeleteSsfStreamResponse {}
 export interface DeleteTrustedOriginRequest {
@@ -5835,7 +5855,7 @@ export interface DeleteUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** Sends a deactivation email to the admin if `true` */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface DeleteUserResponse {}
 export interface DeleteUserTypeRequest {
@@ -5868,18 +5888,18 @@ export interface EnrollFactorRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** If `true`, indicates that you are replacing the currently registered phone number for the specified user. This parameter is ignored if the existing phone number is used by an activated factor. */
-  updatePhone?: boolean;
+  updatePhone?: boolean | undefined;
   /** ID of an existing custom SMS template. See the [SMS Templates API](../Template). This parameter is only used by `sms` factors. If the provided ID doesn't exist, the default template is used instead. */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Defines how long the token remains valid */
-  tokenLifetimeSeconds?: number;
+  tokenLifetimeSeconds?: number | undefined;
   /** If `true`, the factor is immediately activated as part of the enrollment. An activation process isn't required. Currently auto-activation is supported by `sms`, `call`, `email` and `token:hotp` (Custom TOTP) factors. */
-  activate?: boolean;
-  factorType?: UserFactorType | (string & {});
+  activate?: boolean | undefined;
+  factorType?: UserFactorType | (string & {}) | undefined;
   /** Specific attributes related to the factor */
-  profile?: unknown;
+  profile?: unknown | undefined;
   /** Provider for the factor. Each provider can support a subset of factor types. */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** Status of the factor */
 export type UserFactorStatus =
@@ -5904,37 +5924,37 @@ export type UserFactorLinksSend = HrefObjectSelfLink;
 export type UserFactorLinksUser = HrefObjectSelfLink;
 export type UserFactorLinksVerify = HrefObjectSelfLink;
 export interface UserFactorLinks {
-  activate?: HrefObjectSelfLink;
-  cancel?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
-  enroll?: HrefObjectSelfLink;
-  factor?: HrefObjectSelfLink;
-  poll?: HrefObjectSelfLink;
-  qrcode?: HrefObjectSelfLink;
-  question?: HrefObjectSelfLink;
-  resend?: HrefObjectSelfLink;
-  send?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
-  user?: HrefObjectSelfLink;
-  verify?: HrefObjectSelfLink;
+  activate?: HrefObjectSelfLink | undefined;
+  cancel?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  enroll?: HrefObjectSelfLink | undefined;
+  factor?: HrefObjectSelfLink | undefined;
+  poll?: HrefObjectSelfLink | undefined;
+  qrcode?: HrefObjectSelfLink | undefined;
+  question?: HrefObjectSelfLink | undefined;
+  resend?: HrefObjectSelfLink | undefined;
+  send?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
+  user?: HrefObjectSelfLink | undefined;
+  verify?: HrefObjectSelfLink | undefined;
 }
 export interface UserFactor {
   /** Timestamp when the factor was enrolled */
-  created?: string;
-  factorType?: UserFactorType;
+  created?: string | undefined;
+  factorType?: UserFactorType | undefined;
   /** ID of the factor */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the factor was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Specific attributes related to the factor */
-  profile?: unknown;
+  profile?: unknown | undefined;
   /** Provider for the factor. Each provider can support a subset of factor types. */
-  provider?: string;
-  status?: UserFactorStatus;
+  provider?: string | undefined;
+  status?: UserFactorStatus | undefined;
   /** Name of the factor vendor. This is usually the same as the provider except for On-Prem MFA, which depends on admin settings. */
-  vendorName?: string;
-  _embedded?: UserFactorEmbeddedMap;
-  _links?: UserFactorLinks;
+  vendorName?: string | undefined;
+  _embedded?: UserFactorEmbeddedMap | undefined;
+  _links?: UserFactorLinks | undefined;
 }
 /** List of relying party hostnames to register on the YubiKey */
 export type EnrollPreregistrationEnrollmentRequestEnrollmentRpIdsList = Array<string>;
@@ -5942,22 +5962,25 @@ export type EnrollPreregistrationEnrollmentRequestEnrollmentRpIdsList = Array<st
 export type EnrollPreregistrationEnrollmentRequestFulfillmentProvider = "yubico";
 export interface EnrollPreregistrationEnrollmentRequest {
   /** List of relying party hostnames to register on the YubiKey */
-  enrollmentRpIds?: EnrollPreregistrationEnrollmentRequestEnrollmentRpIdsList;
+  enrollmentRpIds?: EnrollPreregistrationEnrollmentRequestEnrollmentRpIdsList | undefined;
   /** Name of the fulfillment provider for the WebAuthn preregistration factor */
-  fulfillmentProvider?: EnrollPreregistrationEnrollmentRequestFulfillmentProvider | (string & {});
+  fulfillmentProvider?:
+    | EnrollPreregistrationEnrollmentRequestFulfillmentProvider
+    | (string & {})
+    | undefined;
   /** ID of an existing Okta user */
-  userId?: string;
+  userId?: string | undefined;
   /** Transport public key in JWK (JSON Web Key) format used to encrypt fulfillment requests to Yubico */
-  yubicoTransportKeyJWK?: ECKeyJWK;
+  yubicoTransportKeyJWK?: ECKeyJWK | undefined;
 }
 /** Credential request object for the initialized credential, along with the enrollment and key identifiers to associate with the credential */
 export interface WebAuthnCredRequest {
   /** ID for a WebAuthn preregistration factor in Okta */
-  authenticatorEnrollmentId?: string;
+  authenticatorEnrollmentId?: string | undefined;
   /** Encrypted JWE of credential request for the fulfillment provider */
-  credRequestJwe?: string;
+  credRequestJwe?: string | undefined;
   /** ID for the Okta response key-pair used to encrypt and decrypt credential requests and responses */
-  keyId?: string;
+  keyId?: string | undefined;
 }
 /** List of credential requests for the fulfillment provider */
 export type EnrollmentInitializationResponseCredRequestsList = Array<WebAuthnCredRequest>;
@@ -5966,133 +5989,133 @@ export type EnrollmentInitializationResponseFulfillmentProvider = "yubico";
 /** Yubico transport key in the form of a JSON Web Token (JWK), used to encrypt our fulfillment request to Yubico. The currently agreed protocol uses P-384. */
 export interface EnrollmentInitializationResponse {
   /** List of credential requests for the fulfillment provider */
-  credRequests?: EnrollmentInitializationResponseCredRequestsList;
+  credRequests?: EnrollmentInitializationResponseCredRequestsList | undefined;
   /** Name of the fulfillment provider for the WebAuthn preregistration factor */
-  fulfillmentProvider?: EnrollmentInitializationResponseFulfillmentProvider;
+  fulfillmentProvider?: EnrollmentInitializationResponseFulfillmentProvider | undefined;
   /** Encrypted JWE of PIN request for the fulfillment provider */
-  pinRequestJwe?: string;
+  pinRequestJwe?: string | undefined;
   /** ID of an existing Okta user */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** This object specifies the default action Okta is set to take. Okta takes this action if your external service sends an empty HTTP 204 response. You can override the default action by returning a commands object in your response specifying the action to take. */
 export interface PasswordImportRequestDataAction {
   /** The status of the user credential, either `UNVERIFIED` or `VERIFIED` */
-  credential?: string;
+  credential?: string | undefined;
 }
 /** The URL of the API endpoint */
 export interface InlineHookRequestObjectUrl {
   /** The URL value of the API endpoint */
-  value?: string;
+  value?: string | undefined;
 }
 /** The API request that triggered the inline hook */
 export interface InlineHookRequestObject {
   /** The unique identifier that Okta assigned to the API request */
-  id?: string;
+  id?: string | undefined;
   /** The IP address of the client that made the API request */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The HTTP request method of the API request */
-  method?: string;
+  method?: string | undefined;
   /** The URL of the API endpoint */
-  url?: InlineHookRequestObjectUrl;
+  url?: InlineHookRequestObjectUrl | undefined;
 }
 export interface PasswordImportRequestDataContextCredential {
   /** The `username` that the user supplied when attempting to sign in to Okta. */
-  username?: string;
+  username?: string | undefined;
   /** The `password` that the user supplied when attempting to sign in to Okta. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PasswordImportRequestDataContext {
-  request?: InlineHookRequestObject;
-  credential?: PasswordImportRequestDataContextCredential;
+  request?: InlineHookRequestObject | undefined;
+  credential?: PasswordImportRequestDataContextCredential | undefined;
 }
 export interface PasswordImportRequestData {
   /** This object specifies the default action Okta is set to take. Okta takes this action if your external service sends an empty HTTP 204 response. You can override the default action by returning a commands object in your response specifying the action to take. */
-  action?: PasswordImportRequestDataAction;
-  context?: PasswordImportRequestDataContext;
+  action?: PasswordImportRequestDataAction | undefined;
+  context?: PasswordImportRequestDataContext | undefined;
 }
 /** Password import inline hook request */
 export interface PasswordImportRequestExecute {
   /** The inline hook cloud version */
-  cloudEventVersion?: string;
+  cloudEventVersion?: string | undefined;
   /** The inline hook request header content */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The individual inline hook request ID */
-  eventId?: string;
+  eventId?: string | undefined;
   /** The time the inline hook request was sent */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The inline hook version */
-  eventTypeVersion?: string;
-  data?: PasswordImportRequestData;
+  eventTypeVersion?: string | undefined;
+  data?: PasswordImportRequestData | undefined;
   /** The type of inline hook. The password import inline hook type is `com.okta.user.credential.password.import`. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The ID and URL of the password import inline hook */
-  source?: string;
+  source?: string | undefined;
 }
 export interface TelephonyRequestDataContext {
-  request?: InlineHookRequestObject;
+  request?: InlineHookRequestObject | undefined;
 }
 /** Message profile specifies information about the telephony (sms/voice) message to be sent to the Okta user */
 export interface TelephonyRequestDataMessageProfile {
   /** Default or Okta org configured sms or voice message template */
-  msgTemplate?: string;
+  msgTemplate?: string | undefined;
   /** The Okta's user's phone number */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** The time when OTP expires */
-  otpExpires?: string;
+  otpExpires?: string | undefined;
   /** The channel for OTP delivery - SMS or voice */
-  deliveryChannel?: string;
+  deliveryChannel?: string | undefined;
   /** The OTP code requested by the Okta user */
-  otpCode?: string;
+  otpCode?: string | undefined;
   /** The locale associated with the Okta user */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** User profile specifies information about the Okta user */
 export interface TelephonyRequestDataUserProfile {
   /** The user's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The user's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The user's Okta login */
-  login?: string;
+  login?: string | undefined;
   /** The user's Okta user ID */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface TelephonyRequestData {
-  context?: TelephonyRequestDataContext;
+  context?: TelephonyRequestDataContext | undefined;
   /** Message profile specifies information about the telephony (sms/voice) message to be sent to the Okta user */
-  messageProfile?: TelephonyRequestDataMessageProfile;
+  messageProfile?: TelephonyRequestDataMessageProfile | undefined;
   /** User profile specifies information about the Okta user */
-  userProfile?: TelephonyRequestDataUserProfile;
+  userProfile?: TelephonyRequestDataUserProfile | undefined;
 }
 /** Telephony inline hook request body */
 export interface TelephonyRequestExecute {
   /** The inline hook cloud version */
-  cloudEventVersion?: string;
+  cloudEventVersion?: string | undefined;
   /** The inline hook request header content */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The individual inline hook request ID */
-  eventId?: string;
+  eventId?: string | undefined;
   /** The time the inline hook request was sent */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The inline hook version */
-  eventTypeVersion?: string;
-  data?: TelephonyRequestData;
+  eventTypeVersion?: string | undefined;
+  data?: TelephonyRequestData | undefined;
   /** The type of inline hook. The telephony inline hook type is `com.okta.telephony.provider`. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The type of inline hook request. For example, `com.okta.user.telephony.pre-enrollment`. */
-  requestType?: string;
+  requestType?: string | undefined;
   /** The ID and URL of the telephony inline hook */
-  source?: string;
+  source?: string | undefined;
 }
 /** The type of registration hook. Use either `self.service.registration` or `progressive.profile`. */
 export type RegistrationInlineHookRequestType = "progressive.profile" | "self.service.registration";
 /** Registration inline hook request */
 export interface RegistrationInlineHookRequest {
   /** The type of inline hook. The registration inline hook type is `com.okta.user.pre-registration`. */
-  eventType?: string;
-  requestType?: RegistrationInlineHookRequestType | (string & {});
+  eventType?: string | undefined;
+  requestType?: RegistrationInlineHookRequestType | (string & {}) | undefined;
   /** The ID of the registration inline hook */
-  source?: string;
+  source?: string | undefined;
 }
 /** The authentication method reference */
 export type TokenRequestInputDataContextSessionAmrList = Array<string>;
@@ -6103,58 +6126,58 @@ export type SessionIdentityProviderType =
   | "OKTA"
   | "SOCIAL";
 export interface SessionIdentityProviderInput {
-  type?: SessionIdentityProviderType | (string & {});
+  type?: SessionIdentityProviderType | (string & {}) | undefined;
 }
 /** Details of the user session */
 export interface TokenRequestInputDataContextSession {
   /** The unique identifier for the user's session */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the user */
-  userId?: string;
+  userId?: string | undefined;
   /** The username used to identify the user. This is often the user's email address. */
-  login?: string;
+  login?: string | undefined;
   /** Timestamp of when the session was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Timestamp of when the session expires */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Represents the current status of the user's session */
-  status?: string;
+  status?: string | undefined;
   /** Timestamp of when the user was last authenticated */
-  lastPasswordVerification?: string | Redacted.Redacted<string>;
+  lastPasswordVerification?: string | Redacted.Redacted<string> | undefined;
   /** The authentication method reference */
-  amr?: TokenRequestInputDataContextSessionAmrList;
-  idp?: SessionIdentityProviderInput;
+  amr?: TokenRequestInputDataContextSessionAmrList | undefined;
+  idp?: SessionIdentityProviderInput | undefined;
   /** Describes whether multifactor authentication was enabled */
-  mfaActive?: boolean;
+  mfaActive?: boolean | undefined;
 }
 export interface TokenRequestInputDataContextUserProfile {
   /** The username used to identify the user. This is often the user's email address. */
-  login?: string;
+  login?: string | undefined;
   /** The first name of the user */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The last name of the user */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The user's default location for purposes of localizing items such as currency, date time format, numerical representations, and so on. A locale value is a concatenation of the [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) two-letter language code, an underscore, and the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) two-letter country code. For example, `en_US` specifies the language English and country US. This value is `en_US` by default. */
-  locale?: string;
+  locale?: string | undefined;
   /** The user's timezone */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of the user. These links are used to discover what groups the user is a part of and what factors they have enrolled. */
 export interface TokenRequestInputDataContextUserLinks {
   /** URL to retrieve the individual user's group memberships */
-  groups?: HrefObjectSelfLinkInput;
+  groups?: HrefObjectSelfLinkInput | undefined;
   /** URL to retrieve individual user's factor enrollments */
-  factors?: HrefObjectSelfLinkInput;
+  factors?: HrefObjectSelfLinkInput | undefined;
 }
 /** Identifies the Okta user that the token was generated to authenticate and provides details of their Okta user profile */
 export interface TokenRequestInputDataContextUser {
   /** The unique identifier for the user */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp when the user's password was last updated */
-  passwordChanged?: string | Redacted.Redacted<string>;
-  profile?: TokenRequestInputDataContextUserProfile;
+  passwordChanged?: string | Redacted.Redacted<string> | undefined;
+  profile?: TokenRequestInputDataContextUserProfile | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of the user. These links are used to discover what groups the user is a part of and what factors they have enrolled. */
-  _links?: TokenRequestInputDataContextUserLinks;
+  _links?: TokenRequestInputDataContextUserLinks | undefined;
 }
 /** Determines the mechanism Okta uses to authorize the creation of the tokens. */
 export type GrantType =
@@ -6184,92 +6207,92 @@ export type TokenProtocolRequestResponseType = "code" | "id_token" | "token" | "
 /** Details of the token request */
 export interface TokenProtocolRequest {
   /** The ID of the client associated with the token */
-  client_id?: string;
-  grant_type?: GrantType | (string & {});
+  client_id?: string | undefined;
+  grant_type?: GrantType | (string & {}) | undefined;
   /** Specifies the callback location where the authorization was sent */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** The authorization response mode */
-  response_mode?: TokenProtocolRequestResponseMode | (string & {});
+  response_mode?: TokenProtocolRequestResponseMode | (string & {}) | undefined;
   /** The authorization response type */
-  response_type?: TokenProtocolRequestResponseType | (string & {});
+  response_type?: TokenProtocolRequestResponseType | (string & {}) | undefined;
   /** The scopes requested */
-  scope?: string;
-  state?: string;
+  scope?: string | undefined;
+  state?: string | undefined;
 }
 /** The refresh token */
 export interface RefreshToken {
   /** The refresh token ID */
-  jti?: string;
+  jti?: string | undefined;
 }
 /** Information about the original token request used to get the refresh token being used, when in a refresh token request */
 export interface TokenRequestInputDataContextProtocolOriginalGrant {
-  authorization?: TokenProtocolRequest;
-  refresh_token?: RefreshToken;
+  authorization?: TokenProtocolRequest | undefined;
+  refresh_token?: RefreshToken | undefined;
 }
 /** The authorization server's issuer identifier */
 export interface TokenRequestInputDataContextProtocolIssuer {
   /** The authorization server's issuer identifier */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** The client making the token request */
 export interface TokenRequestInputDataContextProtocolClient {
   /** The unique identifier of the client */
-  id?: string;
+  id?: string | undefined;
   /** The name of the client */
-  name?: string;
+  name?: string | undefined;
   /** The type of client */
-  type?: string;
+  type?: string | undefined;
 }
 /** Details of the authentication protocol */
 export interface TokenRequestInputDataContextProtocol {
   /** The type of authentication protocol used */
-  type?: string;
-  request?: TokenProtocolRequest;
+  type?: string | undefined;
+  request?: TokenProtocolRequest | undefined;
   /** Information about the original token request used to get the refresh token being used, when in a refresh token request */
-  OriginalGrant?: TokenRequestInputDataContextProtocolOriginalGrant;
+  OriginalGrant?: TokenRequestInputDataContextProtocolOriginalGrant | undefined;
   /** The authorization server's issuer identifier */
-  issuer?: TokenRequestInputDataContextProtocolIssuer;
+  issuer?: TokenRequestInputDataContextProtocolIssuer | undefined;
   /** The client making the token request */
-  client?: TokenRequestInputDataContextProtocolClient;
+  client?: TokenRequestInputDataContextProtocolClient | undefined;
 }
 /** The authorization server policy rule used to mint the token */
 export interface TokenRequestInputDataContextPolicyRule {
   /** The unique identifier for the policy rule */
-  id?: string;
+  id?: string | undefined;
 }
 /** The authorization server policy used to mint the token */
 export interface TokenRequestInputDataContextPolicy {
   /** The unique identifier for the policy */
-  id?: string;
+  id?: string | undefined;
   /** The authorization server policy rule used to mint the token */
-  rule?: TokenRequestInputDataContextPolicyRule;
+  rule?: TokenRequestInputDataContextPolicyRule | undefined;
 }
 export interface TokenRequestInputDataContext {
-  request?: InlineHookRequestObject;
+  request?: InlineHookRequestObject | undefined;
   /** Details of the user session */
-  session?: TokenRequestInputDataContextSession;
+  session?: TokenRequestInputDataContextSession | undefined;
   /** Identifies the Okta user that the token was generated to authenticate and provides details of their Okta user profile */
-  user?: TokenRequestInputDataContextUser;
+  user?: TokenRequestInputDataContextUser | undefined;
   /** Details of the authentication protocol */
-  protocol?: TokenRequestInputDataContextProtocol;
+  protocol?: TokenRequestInputDataContextProtocol | undefined;
   /** The authorization server policy used to mint the token */
-  policy?: TokenRequestInputDataContextPolicy;
+  policy?: TokenRequestInputDataContextPolicy | undefined;
 }
 /** Lifetime of the token */
 export interface TokenRequestInputDataIdentityTokenLifetime {
   /** Time in seconds until the token expires */
-  expiration?: number;
+  expiration?: number | undefined;
 }
 /** The token */
 export interface TokenRequestInputDataIdentityToken {
   /** Lifetime of the token */
-  lifetime?: TokenRequestInputDataIdentityTokenLifetime;
+  lifetime?: TokenRequestInputDataIdentityTokenLifetime | undefined;
 }
 export interface TokenRequestInputDataIdentity {
   /** Claims included in the token. Consists of name-value pairs for each included claim. For descriptions of the claims that you can include, see the Okta [OpenID Connect and OAuth 2.0 API reference](/openapi/okta-oauth/guides/overview/#claims). */
-  claims?: unknown;
+  claims?: unknown | undefined;
   /** The token */
-  token?: TokenRequestInputDataIdentityToken;
+  token?: TokenRequestInputDataIdentityToken | undefined;
 }
 /** Lifetime of the token */
 export type TokenRequestInputDataAccessTokenLifetime = TokenRequestInputDataIdentityTokenLifetime;
@@ -6277,59 +6300,59 @@ export type TokenRequestInputDataAccessTokenLifetime = TokenRequestInputDataIden
 export type TokenRequestInputDataAccessToken = TokenRequestInputDataIdentityToken;
 export interface TokenRequestInputDataAccess {
   /** Claims included in the token. Consists of name-value pairs for each included claim. For descriptions of the claims that you can include, see the Okta [OpenID Connect and OAuth 2.0 API reference](/openapi/okta-oauth/guides/overview/#claims). */
-  claims?: unknown;
+  claims?: unknown | undefined;
   /** The token */
-  token?: TokenRequestInputDataIdentityToken;
+  token?: TokenRequestInputDataIdentityToken | undefined;
   /** The scopes contained in the token. For descriptions of the scopes that you can include, see the Okta [OpenID Connect and OAuth 2.0 API reference](/openapi/okta-oauth/guides/overview/#scopes). */
-  scopes?: unknown;
+  scopes?: unknown | undefined;
 }
 export interface TokenRequestInputData {
-  context?: TokenRequestInputDataContext;
-  identity?: TokenRequestInputDataIdentity;
-  access?: TokenRequestInputDataAccess;
-  refresh_token?: RefreshToken;
+  context?: TokenRequestInputDataContext | undefined;
+  identity?: TokenRequestInputDataIdentity | undefined;
+  access?: TokenRequestInputDataAccess | undefined;
+  refresh_token?: RefreshToken | undefined;
 }
 /** Token inline hook request */
 export interface TokenRequestInput {
   /** The inline hook cloud version */
-  cloudEventVersion?: string;
+  cloudEventVersion?: string | undefined;
   /** The inline hook request header content */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The individual inline hook request ID */
-  eventId?: string;
+  eventId?: string | undefined;
   /** The time the inline hook request was sent */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The inline hook version */
-  eventTypeVersion?: string;
-  data?: TokenRequestInputData;
+  eventTypeVersion?: string | undefined;
+  data?: TokenRequestInputData | undefined;
   /** The type of inline hook. The token inline hook type is `com.okta.oauth2.tokens.transform`. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The URL of the token inline hook */
-  source?: string;
+  source?: string | undefined;
 }
 /** The authentication method reference */
 export type SAMLPayloadExecuteInputDataContextSessionAmrList = Array<string>;
 /** Details of the user session */
 export interface SAMLPayloadExecuteInputDataContextSession {
   /** The unique identifier for the user's session */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the user */
-  userId?: string;
+  userId?: string | undefined;
   /** The username used to identify the user. This is often the user's email address. */
-  login?: string;
+  login?: string | undefined;
   /** Timestamp of when the session was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Timestamp of when the session expires */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Represents the current status of the user's session */
-  status?: string;
+  status?: string | undefined;
   /** Timestamp of when the user was last authenticated */
-  lastPasswordVerification?: string | Redacted.Redacted<string>;
+  lastPasswordVerification?: string | Redacted.Redacted<string> | undefined;
   /** The authentication method reference */
-  amr?: SAMLPayloadExecuteInputDataContextSessionAmrList;
-  idp?: SessionIdentityProviderInput;
+  amr?: SAMLPayloadExecuteInputDataContextSessionAmrList | undefined;
+  idp?: SessionIdentityProviderInput | undefined;
   /** Describes whether multifactor authentication was enabled */
-  mfaActive?: boolean;
+  mfaActive?: boolean | undefined;
 }
 export type SAMLPayloadExecuteInputDataContextUserProfile = TokenRequestInputDataContextUserProfile;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of the user. These links are used to discover what groups the user is a part of and what factors they have enrolled. */
@@ -6338,81 +6361,85 @@ export type SAMLPayloadExecuteInputDataContextUserLinks = TokenRequestInputDataC
 export type SAMLPayloadExecuteInputDataContextUser = TokenRequestInputDataContextUser;
 export interface SAMLPayloadExecuteInputDataContextProtocolIssuer {
   /** The unique identifier of the issuer that provided the SAML assertion */
-  id?: string;
+  id?: string | undefined;
   /** The name of the issuer that provided the SAML assertion */
-  name?: string;
+  name?: string | undefined;
   /** The base URI of the SAML endpoint that's used to assert the authorization */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Details of the assertion protocol being used */
 export interface SAMLPayloadExecuteInputDataContextProtocol {
   /** The type of authentication protocol being used for the assertion */
-  type?: string;
-  issuer?: SAMLPayloadExecuteInputDataContextProtocolIssuer;
+  type?: string | undefined;
+  issuer?: SAMLPayloadExecuteInputDataContextProtocolIssuer | undefined;
 }
 export interface SAMLPayloadExecuteInputDataContext {
-  request?: InlineHookRequestObject;
+  request?: InlineHookRequestObject | undefined;
   /** Details of the user session */
-  session?: SAMLPayloadExecuteInputDataContextSession;
+  session?: SAMLPayloadExecuteInputDataContextSession | undefined;
   /** Identifies the Okta user that the token was generated to authenticate and provides details of their Okta user profile */
-  user?: TokenRequestInputDataContextUser;
+  user?: TokenRequestInputDataContextUser | undefined;
   /** Details of the assertion protocol being used */
-  protocol?: SAMLPayloadExecuteInputDataContextProtocol;
+  protocol?: SAMLPayloadExecuteInputDataContextProtocol | undefined;
 }
 export interface SAMLPayloadExecuteInputDataAssertionSubjectConfirmationData {
   /** The token endpoint URL of the authorization server */
-  recipient?: string;
+  recipient?: string | undefined;
 }
 export interface SAMLPayloadExecuteInputDataAssertionSubjectConfirmation {
   /** Used to indicate how the authorization server confirmed the SAML assertion */
-  method?: string;
-  data?: SAMLPayloadExecuteInputDataAssertionSubjectConfirmationData;
+  method?: string | undefined;
+  data?: SAMLPayloadExecuteInputDataAssertionSubjectConfirmationData | undefined;
 }
 /** Provides a JSON representation of the `<saml:Subject>` element of the SAML assertion */
 export interface SAMLPayloadExecuteInputDataAssertionSubject {
   /** The unique identifier of the user */
-  nameId?: string;
+  nameId?: string | undefined;
   /** Indicates how to interpret the attribute name */
-  nameFormat?: string;
-  confirmation?: SAMLPayloadExecuteInputDataAssertionSubjectConfirmation;
+  nameFormat?: string | undefined;
+  confirmation?: SAMLPayloadExecuteInputDataAssertionSubjectConfirmation | undefined;
 }
 /** Details of the authentication methods used for the SAML assertion */
 export interface SAMLPayloadExecuteInputDataAssertionAuthenticationAuthnContext {
   /** Describes the identity provider's supported authentication context classes */
-  authnContextClassRef?: string;
+  authnContextClassRef?: string | undefined;
 }
 /** Provides a JSON representation of the `<saml:AuthnStatement>` element of the SAML assertion */
 export interface SAMLPayloadExecuteInputDataAssertionAuthentication {
   /** The unique identifier describing the assertion statement */
-  sessionIndex?: string;
+  sessionIndex?: string | undefined;
   /** Details of the authentication methods used for the SAML assertion */
-  authnContext?: SAMLPayloadExecuteInputDataAssertionAuthenticationAuthnContext;
+  authnContext?: SAMLPayloadExecuteInputDataAssertionAuthenticationAuthnContext | undefined;
 }
 /** Describes which service providers the assertion is valid for */
 export type SAMLPayloadExecuteInputDataAssertionConditionsAudienceRestrictionList = Array<string>;
 /** Provides a JSON representation of the `<saml:Conditions>` element of the SAML assertion */
 export interface SAMLPayloadExecuteInputDataAssertionConditions {
   /** Describes which service providers the assertion is valid for */
-  audienceRestriction?: SAMLPayloadExecuteInputDataAssertionConditionsAudienceRestrictionList;
+  audienceRestriction?:
+    | SAMLPayloadExecuteInputDataAssertionConditionsAudienceRestrictionList
+    | undefined;
 }
 export interface SAMLPayloadExecuteInputDataAssertionClaimsValueAttributes {
   /** Indicates how to interpret the attribute name */
-  NameFormat?: string;
+  NameFormat?: string | undefined;
 }
 export interface SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesItemAttributes {
   /** Used to derive the type of the attribute */
-  xsi_type?: string;
+  xsi_type?: string | undefined;
 }
 export interface SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesItem {
-  attributes?: SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesItemAttributes;
+  attributes?:
+    | SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesItemAttributes
+    | undefined;
   /** The actual value of the attribute */
-  value?: string;
+  value?: string | undefined;
 }
 export type SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesList =
   Array<SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesItem>;
 export interface SAMLPayloadExecuteInputDataAssertionClaimsValue {
-  attributes?: SAMLPayloadExecuteInputDataAssertionClaimsValueAttributes;
-  attributeValues?: SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesList;
+  attributes?: SAMLPayloadExecuteInputDataAssertionClaimsValueAttributes | undefined;
+  attributeValues?: SAMLPayloadExecuteInputDataAssertionClaimsValueAttributeValuesList | undefined;
 }
 /** Provides a JSON representation of the `<saml:AttributeStatement>` element contained in the generated SAML assertion. Contains any optional SAML attribute statements that you have defined for the app using the Admin Console's **SAML Settings**. */
 export type SAMLPayloadExecuteInputDataAssertionClaimsMap = {
@@ -6421,57 +6448,57 @@ export type SAMLPayloadExecuteInputDataAssertionClaimsMap = {
 /** Specifies the expiration time, in seconds, of the SAML assertion */
 export interface SAMLPayloadExecuteInputDataAssertionLifetime {
   /** The expiration time in seconds */
-  expiration?: number;
+  expiration?: number | undefined;
 }
 /** Details of the SAML assertion that was generated */
 export interface SAMLPayloadExecuteInputDataAssertion {
   /** Provides a JSON representation of the `<saml:Subject>` element of the SAML assertion */
-  subject?: SAMLPayloadExecuteInputDataAssertionSubject;
+  subject?: SAMLPayloadExecuteInputDataAssertionSubject | undefined;
   /** Provides a JSON representation of the `<saml:AuthnStatement>` element of the SAML assertion */
-  authentication?: SAMLPayloadExecuteInputDataAssertionAuthentication;
+  authentication?: SAMLPayloadExecuteInputDataAssertionAuthentication | undefined;
   /** Provides a JSON representation of the `<saml:Conditions>` element of the SAML assertion */
-  conditions?: SAMLPayloadExecuteInputDataAssertionConditions;
+  conditions?: SAMLPayloadExecuteInputDataAssertionConditions | undefined;
   /** Provides a JSON representation of the `<saml:AttributeStatement>` element contained in the generated SAML assertion. Contains any optional SAML attribute statements that you have defined for the app using the Admin Console's **SAML Settings**. */
-  claims?: SAMLPayloadExecuteInputDataAssertionClaimsMap;
+  claims?: SAMLPayloadExecuteInputDataAssertionClaimsMap | undefined;
   /** Specifies the expiration time, in seconds, of the SAML assertion */
-  lifetime?: SAMLPayloadExecuteInputDataAssertionLifetime;
+  lifetime?: SAMLPayloadExecuteInputDataAssertionLifetime | undefined;
 }
 export interface SAMLPayloadExecuteInputData {
-  context?: SAMLPayloadExecuteInputDataContext;
+  context?: SAMLPayloadExecuteInputDataContext | undefined;
   /** Details of the SAML assertion that was generated */
-  assertion?: SAMLPayloadExecuteInputDataAssertion;
+  assertion?: SAMLPayloadExecuteInputDataAssertion | undefined;
 }
 /** SAML assertion inline hook request */
 export interface SAMLPayloadExecuteInput {
   /** The inline hook cloud version */
-  cloudEventVersion?: string;
+  cloudEventVersion?: string | undefined;
   /** The inline hook request header content */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The individual inline hook request ID */
-  eventId?: string;
+  eventId?: string | undefined;
   /** The time the inline hook request was sent */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The inline hook version */
-  eventTypeVersion?: string;
-  data?: SAMLPayloadExecuteInputData;
+  eventTypeVersion?: string | undefined;
+  data?: SAMLPayloadExecuteInputData | undefined;
   /** The type of inline hook. The SAML assertion inline hook type is `com.okta.saml.tokens.transform`. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The ID and URL of the SAML assertion inline hook */
-  source?: string;
+  source?: string | undefined;
 }
 /** The current default action that results when Okta imports a user. The two possible values are `CREATE_USER` and `LINK_USER`. You can change the action that is taken by means of the commands object you return. */
 export type UserImportRequestDataActionResult = "CREATE_USER" | "LINK_USER";
 /** The object that specifies the default action Okta is set to take */
 export interface UserImportRequestDataAction {
   /** The current default action that results when Okta imports a user. The two possible values are `CREATE_USER` and `LINK_USER`. You can change the action that is taken by means of the commands object you return. */
-  result?: UserImportRequestDataActionResult | (string & {});
+  result?: UserImportRequestDataActionResult | (string & {}) | undefined;
 }
 /** Provides the name-value pairs of the attributes contained in the app user profile of the user who is being imported. You can change the values of attributes in the user's app profile by means of the `commands` object you return. If you change attributes in the app profile, they then flow through to the Okta user profile, based on matching and mapping rules. */
 export type UserImportRequestDataAppUserProfileMap = { [key: string]: string | undefined };
 /** The app user profile being imported */
 export interface UserImportRequestDataAppUser {
   /** Provides the name-value pairs of the attributes contained in the app user profile of the user who is being imported. You can change the values of attributes in the user's app profile by means of the `commands` object you return. If you change attributes in the app profile, they then flow through to the Okta user profile, based on matching and mapping rules. */
-  profile?: UserImportRequestDataAppUserProfileMap;
+  profile?: UserImportRequestDataAppUserProfileMap | undefined;
 }
 export type UserImportRequestDataContextConflictsItemMap = { [key: string]: unknown | undefined };
 /** An array of user profile attributes that are in conflict */
@@ -6482,20 +6509,20 @@ export type UserImportRequestDataContextApplicationStatus = "ACTIVE" | "INACTIVE
 /** Details of the app from which the user is being imported */
 export interface UserImportRequestDataContextApplication {
   /** The app name */
-  name?: string;
+  name?: string | undefined;
   /** The app ID */
-  id?: string;
+  id?: string | undefined;
   /** The user-defined display name for the app */
-  label?: string;
+  label?: string | undefined;
   /** The status of the app */
-  status?: UserImportRequestDataContextApplicationStatus | (string & {});
+  status?: UserImportRequestDataContextApplicationStatus | (string & {}) | undefined;
 }
 /** The details of the running import job */
 export interface UserImportRequestDataContextJob {
   /** The ID number of the import job */
-  id?: string;
+  id?: string | undefined;
   /** The type of import job */
-  type?: string;
+  type?: string | undefined;
 }
 export type UserImportRequestDataContextMatchesItemMap = { [key: string]: unknown | undefined };
 /** The list of Okta users currently matched to the app user based on import matching. There can be more than one match. */
@@ -6507,49 +6534,49 @@ export type UserImportRequestDataContextPolicyList =
   Array<UserImportRequestDataContextPolicyItemMap>;
 export interface UserImportRequestDataContext {
   /** An array of user profile attributes that are in conflict */
-  conflicts?: UserImportRequestDataContextConflictsList;
+  conflicts?: UserImportRequestDataContextConflictsList | undefined;
   /** Details of the app from which the user is being imported */
-  application?: UserImportRequestDataContextApplication;
+  application?: UserImportRequestDataContextApplication | undefined;
   /** The details of the running import job */
-  job?: UserImportRequestDataContextJob;
+  job?: UserImportRequestDataContextJob | undefined;
   /** The list of Okta users currently matched to the app user based on import matching. There can be more than one match. */
-  matches?: UserImportRequestDataContextMatchesList;
+  matches?: UserImportRequestDataContextMatchesList | undefined;
   /** The list of any policies that apply to the import matching */
-  policy?: UserImportRequestDataContextPolicyList;
+  policy?: UserImportRequestDataContextPolicyList | undefined;
 }
 /** The `data.user.profile` contains the name-value pairs of the attributes in the user profile. If the user has been matched to an existing Okta user, a `data.user.id` object is included, containing the unique identifier of the Okta user profile. You can change the values of the attributes by means of the `commands` object you return. */
 export type UserImportRequestDataUserProfileMap = { [key: string]: string | undefined };
 /** Provides information on the Okta user profile currently set to be used for the user who is being imported, based on the matching rules and attribute mappings that were applied. */
 export interface UserImportRequestDataUser {
   /** The `data.user.profile` contains the name-value pairs of the attributes in the user profile. If the user has been matched to an existing Okta user, a `data.user.id` object is included, containing the unique identifier of the Okta user profile. You can change the values of the attributes by means of the `commands` object you return. */
-  profile?: UserImportRequestDataUserProfileMap;
+  profile?: UserImportRequestDataUserProfileMap | undefined;
 }
 export interface UserImportRequestData {
   /** The object that specifies the default action Okta is set to take */
-  action?: UserImportRequestDataAction;
+  action?: UserImportRequestDataAction | undefined;
   /** The app user profile being imported */
-  appUser?: UserImportRequestDataAppUser;
-  context?: UserImportRequestDataContext;
+  appUser?: UserImportRequestDataAppUser | undefined;
+  context?: UserImportRequestDataContext | undefined;
   /** Provides information on the Okta user profile currently set to be used for the user who is being imported, based on the matching rules and attribute mappings that were applied. */
-  user?: UserImportRequestDataUser;
+  user?: UserImportRequestDataUser | undefined;
 }
 /** User import inline hook request */
 export interface UserImportRequestExecute {
   /** The inline hook cloud version */
-  cloudEventVersion?: string;
+  cloudEventVersion?: string | undefined;
   /** The inline hook request header content */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The individual inline hook request ID */
-  eventId?: string;
+  eventId?: string | undefined;
   /** The time the inline hook request was sent */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The inline hook version */
-  eventTypeVersion?: string;
-  data?: UserImportRequestData;
+  eventTypeVersion?: string | undefined;
+  data?: UserImportRequestData | undefined;
   /** The type of inline hook. The user import inline hook type is `com.okta.import.transform`. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The ID of the user import inline hook */
-  source?: string;
+  source?: string | undefined;
 }
 export type ExecuteInlineHookRequestBody =
   | PasswordImportRequestExecute
@@ -6566,113 +6593,113 @@ export interface ExecuteInlineHookRequest {
 export type PasswordImportResponseCommandsItemValueCredential = "UNVERIFIED" | "VERIFIED";
 /** The parameter value of the command. * To indicate that the supplied credentials are valid, supply a type property set to `com.okta.action.update` together with a value property set to `{"credential": "VERIFIED"}`. * To indicate that the supplied credentials are invalid, supply a type property set to `com.okta.action.update` together with a value property set to `{"credential": "UNVERIFIED"}`. Alternatively, you can send an empty response (`204`). By default, the `data.action.credential` is always set to `UNVERIFIED`. */
 export interface PasswordImportResponseCommandsItemValue {
-  credential?: PasswordImportResponseCommandsItemValueCredential;
+  credential?: PasswordImportResponseCommandsItemValueCredential | undefined;
 }
 export interface PasswordImportResponseCommandsItem {
   /** The location where you specify the command. For the password import inline hook, there's only one command, `com.okta.action.update`. */
-  type?: unknown;
+  type?: unknown | undefined;
   /** The parameter value of the command. * To indicate that the supplied credentials are valid, supply a type property set to `com.okta.action.update` together with a value property set to `{"credential": "VERIFIED"}`. * To indicate that the supplied credentials are invalid, supply a type property set to `com.okta.action.update` together with a value property set to `{"credential": "UNVERIFIED"}`. Alternatively, you can send an empty response (`204`). By default, the `data.action.credential` is always set to `UNVERIFIED`. */
-  value?: PasswordImportResponseCommandsItemValue;
+  value?: PasswordImportResponseCommandsItemValue | undefined;
 }
 /** The `commands` object specifies whether Okta accepts the end user's sign-in credentials as valid or not. For the password import inline hook, you typically only return one `commands` object with one array element in it. */
 export type PasswordImportResponseCommandsList = Array<PasswordImportResponseCommandsItem>;
 /** Password import inline hook response */
 export interface PasswordImportResponse {
   /** The `commands` object specifies whether Okta accepts the end user's sign-in credentials as valid or not. For the password import inline hook, you typically only return one `commands` object with one array element in it. */
-  commands?: PasswordImportResponseCommandsList;
+  commands?: PasswordImportResponseCommandsList | undefined;
 }
 /** Status of telephony callout */
 export type TelephonyResponseCommandsItemValueItemStatus = "SUCCESSFUL" | "PENDING" | "FAILED";
 export interface TelephonyResponseCommandsItemValueItem {
   /** Status of telephony callout */
-  status?: TelephonyResponseCommandsItemValueItemStatus;
+  status?: TelephonyResponseCommandsItemValueItemStatus | undefined;
   /** Telephony provider for sms/voice */
-  provider?: string;
+  provider?: string | undefined;
   /** Transaction ID for sms/voice */
-  transactionId?: string;
+  transactionId?: string | undefined;
   /** Any relevant metadata for the telephony transaction */
-  transactionMetadata?: string;
+  transactionMetadata?: string | undefined;
 }
 /** The status of the telephony operation along with optional additional information about the provider, transaction ID and any other transaction metadata. */
 export type TelephonyResponseCommandsItemValueList = Array<TelephonyResponseCommandsItemValueItem>;
 export interface TelephonyResponseCommandsItem {
   /** The location where you specify the command. For the telephony inline hook, there's only one command, `com.okta.telephony.action`. */
-  type?: string;
+  type?: string | undefined;
   /** The status of the telephony operation along with optional additional information about the provider, transaction ID and any other transaction metadata. */
-  value?: TelephonyResponseCommandsItemValueList;
+  value?: TelephonyResponseCommandsItemValueList | undefined;
 }
 /** The `commands` object specifies whether Okta accepts the end user's sign-in credentials as valid or not. For the telephony inline hook, you typically only return one `commands` object with one array element in it. */
 export type TelephonyResponseCommandsList = Array<TelephonyResponseCommandsItem>;
 /** Telephony inline hook response */
 export interface TelephonyResponse {
   /** The `commands` object specifies whether Okta accepts the end user's sign-in credentials as valid or not. For the telephony inline hook, you typically only return one `commands` object with one array element in it. */
-  commands?: TelephonyResponseCommandsList;
+  commands?: TelephonyResponseCommandsList | undefined;
 }
 export type RegistrationInlineHookResponseCommandsList = Array<unknown>;
 /** Registration inline hook response */
 export interface RegistrationInlineHookResponse {
-  commands?: RegistrationInlineHookResponseCommandsList;
+  commands?: RegistrationInlineHookResponseCommandsList | undefined;
 }
 /** Value to set the claim to. */
 export type TokenHookResponseCommandsItemValueItemValue = string | number | unknown;
 export interface TokenHookResponseCommandsItemValueItem {
   /** The name of one of the supported ops: `add`: Add a claim. `replace`: Modify an existing claim and update the token lifetime. `remove`: Remove an existing claim. #### `op: add` notes <details> <summary>Add a claim</summary> Add a claim **Existing JSON** ``` { "employeeId": "00u12345678" } ``` **Operation** ``` { "commands": [ { "type": "com.okta.assertion.patch", "value": [ { "op": "add", "path": "/claims/extPatientId", "value": "1234" } ] }, { "type": "com.okta.assertion.patch", "value": [ { "op": "add", "path": "/claims/external_guid", "value": "F0384685-F87D-474B-848D-2058AC5655A7" } ] } ] } ``` **Updated JSON** ``` { "employeeId": "00u12345678", "extPatientId": 1234, "external_guid": "F0384685-F87D-474B-848D-2058AC5655A7" } ``` > **Note:** If you use the `add` operation and include an existing claim in your response with a different value, that value is replaced. Use the `replace` operation instead. If you attempt to remove a system-specific claim or use an invalid operation, the entire PATCH fails and errors are logged in the token hooks events. See `op: replace` notes. </details> <details> <summary>Add new members to existing JSON objects</summary> If you have a JSON object in a claim called `employee_profile`, and you want to add the `department_id` member to the claim, the existing JSON is updated by specifying the claim in the path, followed by the name of the object member. **Existing JSON** ``` { "employee_profile": { "employee_id": "1234", "name": "Anna" } } ``` **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "add", "path": "/claims/employee_profile/department_id", "value": "4947" } ] } ] } ``` **Updated JSON** ``` { "employee_profile": { "employee_id": "1234", "name": "Anna", "department_id": "4947" } } ``` > **Note:** If you attempt to add a member within a JSON object that doesn't exist or using an invalid operation, the entire PATCH fails and errors are logged in the token hooks events. </details> <details> <summary>Add new elements to existing arrays</summary> Append an element to an array by specifying the name of the array, followed by the index where you want to insert the element in the path. Alternatively, you can specify the array name followed by a hyphen (-) in the path to append an element at the end of the array. For example, you have an array that contains the user's preferred airports, and you want to add a new airport to the array. The existing target JSON object is updated by specifying the claim in the path, followed by the index of where to insert the claim. **Existing JSON** ``` { "preferred_airports":[ "sjc", "sfo", "oak" ] } ``` **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "add", "path": "/claims/preferred_airports/3", "value": "lax" } ] } ] } ``` **Updated JSON** ``` { "preferred_airports":[ "sjc", "sfo", "oak", "lax" ] } ``` > **Note:** If you attempt to add an element within an array that doesn't exist or specify an invalid index, the entire PATCH fails and errors are logged in the token hooks events. </details> #### `op: replace` notes <details> <summary>Modify an existing claim</summary> You can modify (`replace`) existing custom claims or OIDC standard profile claims, such as `birthdate` and `locale`. You can't, however, modify any system-specific claims, such as `iss` or `ver`. Also, you can't modify a claim that isn't currently part of the token in the request payload. Attempting to modify a system-specific claim or using an invalid operation results in the entire PATCH failing and errors logged in the token hooks events. See [Access Tokens Scopes and Claims](/openapi/okta-oauth/guides/overview/#access-token-scopes-and-claims) for the list of access token-reserved claims that you can't modify. > **Note:** Although the `aud` and `sub` claims are listed as reserved claims, you can modify those claims in access tokens. You can't modify these claims in ID tokens. See [ID Token Claims](/openapi/okta-oauth/guides/overview/#id-token-claims) for a list of ID token-reserved claims that you can't modify. **Existing target JSON object** ``` { "employeeId": "00u12345678", "extPatientId": 1234, "external_guid": "F0384685-F87D-474B-848D-2058AC5655A7" } ``` **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "replace", "path": "/claims/extPatientId", "value": "12345" }, { "op": "replace", "path": "/claims/external_guid", "value": "D1495796-G98E-585C-959E-1269CD6766B8" } ] } ] } ``` **Updated JSON*** ``` { "employeeId": "00u12345678", "extPatientId": 12345, "external_guid": "D1495796-G98E-585C-959E-1269CD6766B8" } ``` </details> <details> <summary>Modify members within existing JSON objects and arrays</summary> Use the `replace` operation to modify members within JSON objects and elements within arrays. For example, you have a JSON object in a claim called `employee_profile`, and you want to update the email address of the employee. The existing target JSON object is updated by specifying the claim in the path, followed by the name of the object member that you want to modify. **Existing target JSON object** ``` { "employee_profile": { "employee_id":"1234", "name":"Anna", "email":"anna.v@company.com" } } ``` **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "replace", "path": "/claims/employee_profile/email", "value": "anna@company.com" } ] } ] } ``` **Updated JSON** ``` { "employee_profile": { "employee_id":"1234", "name":"Anna", "email":"anna@company.com" } } ``` > **Note:** If you attempt to modify a member within a JSON object that doesn't exist or use an invalid operation, the entire PATCH fails and errors are logged in the token hooks events. Similarly, you can replace elements in an array by specifying the array name and the valid index of the element that you want to replace in the path. </details> <details> <summary>Modify token lifetimes</summary> You can modify how long the access and ID tokens are valid by specifying the `lifetime` in seconds. The `lifetime` value must be a minimum of five minutes (300 seconds) and a maximum of 24 hours (86,400 seconds). **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "replace", "path": "/token/lifetime/expiration", "value": 36000 } ] }, { "type": "com.okta.access.patch", "value": [ { "op": "replace", "path": "/token/lifetime/expiration", "value": 36000 } ] } ] } ``` </details> #### `op: remove` notes <details> <summary>Remove a claim</summary> You can remove existing custom claims or OIDC standard profile claims, such as `birthdate` or `locale`. You can't, however, remove any system-specific claims, such as `iss` or `ver`. You also can't remove a claim that isn't currently part of the token in the request payload. If you attempt to remove a system-specific claim or use an invalid operation, the entire PATCH fails and errors are logged in the token hooks events. See [Access Tokens Scopes and Claims](/openapi/okta-oauth/guides/overview/#access-token-scopes-and-claims) for the list of access token-reserved claims that you can't modify. See [ID Token Claims](/openapi/okta-oauth/guides/overview/#id-token-claims) for a list of ID token-reserved claims that you can't modify. **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "remove", "path": "/claims/birthdate", "value": null } ] }, { "type": "com.okta.access.patch", "value": [ { "op": "remove", "path": "/claims/external_guid" } ] } ] } ``` > **Note:** The `value` property for the `remove` operation isn't required. If you provide it in the response, it should be set to `null`. Providing any other value fails the entire PATCH response. </details> <details> <summary>Remove members from existing arrays</summary> Use the `remove` operation to remove members from existing arrays. For example, you have an array that contains the user's preferred airports, and you want to remove an airport from the array. The existing target JSON object is updated by specifying the array name followed by the index of the element that you want to remove. You don't need to specify a value for the remove operation, but you can specify `null` as the value if you want. **Existing target JSON object** ``` { "preferred_airports": [ "sjc", "lax", "sfo", "oak" ] } ``` **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "remove", "path": "/claims/preferred_airports/1" } ] } ] } ``` **Updated JSON** ``` { "preferred_airports": [ "sjc", "sfo", "oak" ] } ``` </details> <details> <summary>Remove members from existing JSON objects</summary> Use the `remove` operation to remove members from existing JSON objects. Do this by specifying the JSON object in the path, followed by the claim member that you would like to remove. For example, you have an `employee_profile` claim, and you want to remove `email` from it. **Existing target JSON object** ``` { "employee_profile": { "employee_id":"1234", "name":"Anna", "email":"anna.v@company.com" } } ``` **Operation** ``` { "commands": [ { "type": "com.okta.identity.patch", "value": [ { "op": "remove", "path": "/claims/employee_profile/email" } ] } ] } ``` **Updated JSON** ``` { "employee_profile": { "employee_id":"1234", "name":"Anna", } } ``` </details> */
-  op?: string;
+  op?: string | undefined;
   /** Location within the token to apply the operation, specified as a slash-delimited path. When you add, replace, or remove a claim, this path always begins with `/claims/` and is followed by the name of the new claim that you're adding. When you replace a token lifetime, the path should always be `/token/lifetime/expiration`. */
-  path?: string;
+  path?: string | undefined;
   /** Value to set the claim to. */
-  value?: TokenHookResponseCommandsItemValueItemValue;
+  value?: TokenHookResponseCommandsItemValueItemValue | undefined;
 }
 /** The `value` object is where you specify the operation to perform. It's an array, which allows you to request more than one operation. */
 export type TokenHookResponseCommandsItemValueList = Array<TokenHookResponseCommandsItemValueItem>;
 export interface TokenHookResponseCommandsItem {
   /** One of the supported commands: `com.okta.identity.patch`: Modify an ID token `com.okta.access.patch`: Modify an access token > **Note:** The `commands` array should only contain commands that can be applied to the requested tokens. For example, if only an ID token is requested, the `commands` array shouldn't contain commands of the type `com.okta.access.patch`. */
-  type?: string;
+  type?: string | undefined;
   /** The `value` object is where you specify the operation to perform. It's an array, which allows you to request more than one operation. */
-  value?: TokenHookResponseCommandsItemValueList;
+  value?: TokenHookResponseCommandsItemValueList | undefined;
 }
 /** You can use the `commands` object to provide commands to Okta. It's where you can tell Okta to add more claims to the token. The `commands` object is an array, allowing you to send multiple commands. In each array element, there needs to be a `type` property and `value` property. The `type` property is where you specify which of the supported commands you want to execute, and `value` is where you supply an operand for that command. In the case of the token hook type, the `value` property is itself a nested object in which you specify a particular operation, a path to act on, and a value. */
 export type TokenHookResponseCommandsList = Array<TokenHookResponseCommandsItem>;
 /** When an error object is returned, it causes Okta to return an OAuth 2.0 error to the requester of the token. In the error response, the value of `error` is `server_error`, and the value of `error_description` is the string that you supplied in the `errorSummary` property of the `error` object that you returned. */
 export interface TokenHookResponseError {
   /** Human-readable summary of the error. If the error object doesn't include the `errorSummary` property defined, the following common default message is returned to the end user: `The callback service returned an error`. */
-  errorSummary?: string;
+  errorSummary?: string | undefined;
 }
 /** For the token inline hook, the `commands` and `error` objects that you can return in the JSON payload of your response are defined in the following sections. > **Note:** The size of your response payload must be less than 256 KB. */
 export interface TokenHookResponse {
   /** You can use the `commands` object to provide commands to Okta. It's where you can tell Okta to add more claims to the token. The `commands` object is an array, allowing you to send multiple commands. In each array element, there needs to be a `type` property and `value` property. The `type` property is where you specify which of the supported commands you want to execute, and `value` is where you supply an operand for that command. In the case of the token hook type, the `value` property is itself a nested object in which you specify a particular operation, a path to act on, and a value. */
-  commands?: TokenHookResponseCommandsList;
+  commands?: TokenHookResponseCommandsList | undefined;
   /** When an error object is returned, it causes Okta to return an OAuth 2.0 error to the requester of the token. In the error response, the value of `error` is `server_error`, and the value of `error_description` is the string that you supplied in the `errorSummary` property of the `error` object that you returned. */
-  error?: TokenHookResponseError;
+  error?: TokenHookResponseError | undefined;
 }
 /** The value of the claim that you add or replace, and can also include other attributes. If adding to a claim, add another `value` attribute residing within an array called `attributeValues`. See the following examples: #### Simple value (integer or string) `"value": 300` or `"value": "replacementString"` #### Attribute value (object) ` "value": { "authContextClassRef": "replacementValue" }` #### AttributeValues array value (object) ` "value": { "attributes": { "NameFormat": "urn:oasis:names:tc:SAML:2.0:attrname-format:basic" }, "attributeValues": [ {"attributes": { "xsi:type": "xs:string" }, "value": "4321"} ] }` */
 export type SAMLHookResponseCommandsItemValueItemValue = string | number | unknown;
 export interface SAMLHookResponseCommandsItemValueItem {
   /** The name of one of the supported ops: `add`: Add a new claim to the assertion `replace`: Modify any element of the assertion > **Note:** If a response to the SAML assertion inline hook request isn't received from your external service within three seconds, a timeout occurs. In this scenario, the Okta process flow continues with the original SAML assertion returned. */
-  op?: string;
+  op?: string | undefined;
   /** Location, within the assertion, to apply the operation */
-  path?: string;
+  path?: string | undefined;
   /** The value of the claim that you add or replace, and can also include other attributes. If adding to a claim, add another `value` attribute residing within an array called `attributeValues`. See the following examples: #### Simple value (integer or string) `"value": 300` or `"value": "replacementString"` #### Attribute value (object) ` "value": { "authContextClassRef": "replacementValue" }` #### AttributeValues array value (object) ` "value": { "attributes": { "NameFormat": "urn:oasis:names:tc:SAML:2.0:attrname-format:basic" }, "attributeValues": [ {"attributes": { "xsi:type": "xs:string" }, "value": "4321"} ] }` */
-  value?: SAMLHookResponseCommandsItemValueItemValue;
+  value?: SAMLHookResponseCommandsItemValueItemValue | undefined;
 }
 export type SAMLHookResponseCommandsItemValueList = Array<SAMLHookResponseCommandsItemValueItem>;
 export interface SAMLHookResponseCommandsItem {
   /** One of the supported commands `com.okta.assertion.patch` */
-  type?: string;
-  value?: SAMLHookResponseCommandsItemValueList;
+  type?: string | undefined;
+  value?: SAMLHookResponseCommandsItemValueList | undefined;
 }
 /** The `commands` object is where you tell Okta to add additional claims to the assertion or to modify the existing assertion statements. `commands` is an array, allowing you to send multiple commands. In each array element, include a `type` property and a `value` property. The `type` property is where you specify which of the supported commands you want to execute, and `value` is where you supply an operand for that command. In the case of the SAML assertion inline hook, the `value` property is itself a nested object, in which you specify a particular operation, a path to act on, and a value. */
 export type SAMLHookResponseCommandsList = Array<SAMLHookResponseCommandsItem>;
 /** An object to return an error. Returning an error causes Okta to record a failure event in the Okta System Log. The string supplied in the `errorSummary` property is recorded in the System Log event. > **Note:** If the error object doesn't include the defined `errorSummary` property, the following common default message is returned to the end user: `The callback service returned an error`. > **Note:** If a response to a SAML inline hook request isn't received from your external service within three seconds, a timeout occurs. In this scenario, the Okta SAML inline hook process continues, and the user is created. */
 export interface SAMLHookResponseError {
   /** A human-readable summary of the error */
-  errorSummary?: string;
+  errorSummary?: string | undefined;
 }
 export interface SAMLHookResponse {
   /** The `commands` object is where you tell Okta to add additional claims to the assertion or to modify the existing assertion statements. `commands` is an array, allowing you to send multiple commands. In each array element, include a `type` property and a `value` property. The `type` property is where you specify which of the supported commands you want to execute, and `value` is where you supply an operand for that command. In the case of the SAML assertion inline hook, the `value` property is itself a nested object, in which you specify a particular operation, a path to act on, and a value. */
-  commands?: SAMLHookResponseCommandsList;
+  commands?: SAMLHookResponseCommandsList | undefined;
   /** An object to return an error. Returning an error causes Okta to record a failure event in the Okta System Log. The string supplied in the `errorSummary` property is recorded in the System Log event. > **Note:** If the error object doesn't include the defined `errorSummary` property, the following common default message is returned to the end user: `The callback service returned an error`. > **Note:** If a response to a SAML inline hook request isn't received from your external service within three seconds, a timeout occurs. In this scenario, the Okta SAML inline hook process continues, and the user is created. */
-  error?: SAMLHookResponseError;
+  error?: SAMLHookResponseError | undefined;
 }
 /** The command types supported for the import inline hook. When using the `com.okta.action.update` command to specify that the user should be treated as a match, you need to also provide a `com.okta.user.update` command that sets the ID of the Okta user. */
 export type UserImportResponseCommandsItemType =
@@ -6684,9 +6711,9 @@ export type UserImportResponseCommandsItemType =
 export type UserImportResponseCommandsItemValueMap = { [key: string]: string | undefined };
 export interface UserImportResponseCommandsItem {
   /** The command types supported for the import inline hook. When using the `com.okta.action.update` command to specify that the user should be treated as a match, you need to also provide a `com.okta.user.update` command that sets the ID of the Okta user. */
-  type?: UserImportResponseCommandsItemType;
+  type?: UserImportResponseCommandsItemType | undefined;
   /** The `value` object is the parameter to pass to the command. In the case of the `com.okta.appUser.profile.update` and `com.okta.user.profile.update` commands, the parameter should be a list of one or more profile attributes and the values you wish to set them to. In the case of the `com.okta.action.update` command, the parameter should be a `result` property set to either `CREATE_USER` or `LINK_USER`. */
-  value?: UserImportResponseCommandsItemValueMap;
+  value?: UserImportResponseCommandsItemValueMap | undefined;
 }
 /** The `commands` object is where you can provide commands to Okta. It is an array that allows you to send multiple commands. Each array element needs to consist of a type-value pair. */
 export type UserImportResponseCommandsList = Array<UserImportResponseCommandsItem>;
@@ -6694,9 +6721,9 @@ export type UserImportResponseCommandsList = Array<UserImportResponseCommandsIte
 export type UserImportResponseError = SAMLHookResponseError;
 export interface UserImportResponse {
   /** The `commands` object is where you can provide commands to Okta. It is an array that allows you to send multiple commands. Each array element needs to consist of a type-value pair. */
-  commands?: UserImportResponseCommandsList;
+  commands?: UserImportResponseCommandsList | undefined;
   /** An object to return an error. Returning an error causes Okta to record a failure event in the Okta System Log. The string supplied in the `errorSummary` property is recorded in the System Log event. >**Note:** If a response to an import inline hook request is not received from your external service within three seconds, a timeout occurs. In this scenario, the Okta import process continues and the user is created. */
-  error?: SAMLHookResponseError;
+  error?: SAMLHookResponseError | undefined;
 }
 export type ExecuteInlineHookResponseBody =
   | PasswordImportResponse
@@ -6708,7 +6735,7 @@ export type ExecuteInlineHookResponseBody =
 export type ExecuteInlineHookResponse = ExecuteInlineHookResponseBody;
 export interface ExecuteRealmAssignmentRequest {
   /** ID of the realm */
-  assignmentId?: string;
+  assignmentId?: string | undefined;
 }
 /** The status of the asynchronous operation */
 export type ExecuteRealmAssignmentResponseStatus =
@@ -6722,45 +6749,45 @@ export type ExecuteRealmAssignmentResponseAssignmentOperationConfigurationAction
 /** Realm assignment action */
 export interface ExecuteRealmAssignmentResponseAssignmentOperationConfigurationActions {
   /** Action that assigns a user to a realm */
-  assignUserToRealm?: AssignUserToRealm;
+  assignUserToRealm?: AssignUserToRealm | undefined;
 }
 /** Configuration defintion of the realm */
 export interface ExecuteRealmAssignmentResponseAssignmentOperationConfiguration {
   /** Realm assignment action */
-  actions?: ExecuteRealmAssignmentResponseAssignmentOperationConfigurationActions;
-  conditions?: Conditions;
+  actions?: ExecuteRealmAssignmentResponseAssignmentOperationConfigurationActions | undefined;
+  conditions?: Conditions | undefined;
   /** ID of the realm assignment operation */
-  id?: string;
+  id?: string | undefined;
   /** Name of the realm assignment operation */
-  name?: string;
+  name?: string | undefined;
 }
 /** Definition of the realm assignment operation */
 export interface ExecuteRealmAssignmentResponseAssignmentOperation {
   /** Configuration defintion of the realm */
-  configuration?: ExecuteRealmAssignmentResponseAssignmentOperationConfiguration;
+  configuration?: ExecuteRealmAssignmentResponseAssignmentOperationConfiguration | undefined;
 }
 export interface ExecuteRealmAssignmentResponse {
   /** Timestamp of when the operation completed */
-  completed?: string;
+  completed?: string | undefined;
   /** Timestamp of when the operation was created */
   created: string;
   /** ID of the asynchronous operation */
   id: string;
   /** Timestamp of when the operation started */
-  started?: string;
+  started?: string | undefined;
   /** The status of the asynchronous operation */
   status: ExecuteRealmAssignmentResponseStatus;
   /** The operation type */
   type: string;
   /** Definition of the realm assignment operation */
-  assignmentOperation?: ExecuteRealmAssignmentResponseAssignmentOperation;
+  assignmentOperation?: ExecuteRealmAssignmentResponseAssignmentOperation | undefined;
   /** Number of users moved */
-  numUserMoved?: number;
+  numUserMoved?: number | undefined;
   /** ID of the realm */
-  realmId?: string;
+  realmId?: string | undefined;
   /** Name of the realm */
-  realmName?: string;
-  _links?: LinksSelf;
+  realmName?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface ExpirePasswordRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -6770,27 +6797,27 @@ export interface ExpirePasswordWithTempPasswordRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** Revokes the user's existing sessions if `true` */
-  revokeSessions?: boolean;
+  revokeSessions?: boolean | undefined;
 }
 export interface TempPassword {
   /** A temporary password that the user can sign in with. This is only returned when expiring a password with a temporary password. */
-  tempPassword?: string | Redacted.Redacted<string>;
+  tempPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ForgotPasswordRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** Sends a forgot password email to the user if `true` */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface ForgotPasswordResponse {
-  resetPasswordUrl?: string | Redacted.Redacted<string>;
+  resetPasswordUrl?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ForgotPasswordSetNewPasswordRequest {
   /** ID of an existing Okta user */
   userId: string;
-  sendEmail?: boolean;
-  password?: PasswordCredential;
-  recovery_question?: RecoveryQuestionCredential;
+  sendEmail?: boolean | undefined;
+  password?: PasswordCredential | undefined;
+  recovery_question?: RecoveryQuestionCredential | undefined;
 }
 export interface GenerateApplicationKeyRequest {
   /** Application ID */
@@ -6800,39 +6827,39 @@ export interface GenerateApplicationKeyRequest {
 }
 export interface CsrMetadataSubject {
   /** Common name of the subject */
-  commonName?: string;
+  commonName?: string | undefined;
   /** Country name or code */
-  countryName?: string;
+  countryName?: string | undefined;
   /** Locality (city) name */
-  localityName?: string;
+  localityName?: string | undefined;
   /** Name of the smaller organization, for example, the department or the division */
-  organizationalUnitName?: string;
+  organizationalUnitName?: string | undefined;
   /** Large organization name */
-  organizationName?: string;
+  organizationName?: string | undefined;
   /** State or province name */
-  stateOrProvinceName?: string;
+  stateOrProvinceName?: string | undefined;
 }
 /** DNS names of the subject */
 export type CsrMetadataSubjectAltNamesDnsNamesList = Array<string>;
 export interface CsrMetadataSubjectAltNames {
   /** DNS names of the subject */
-  dnsNames?: CsrMetadataSubjectAltNamesDnsNamesList;
+  dnsNames?: CsrMetadataSubjectAltNamesDnsNamesList | undefined;
 }
 export interface GenerateCsrForApplicationRequest {
   /** Application ID */
   appId: string;
-  subject?: CsrMetadataSubject;
-  subjectAltNames?: CsrMetadataSubjectAltNames;
+  subject?: CsrMetadataSubject | undefined;
+  subjectAltNames?: CsrMetadataSubjectAltNames | undefined;
 }
 export type CsrPublishHrefHintsAllowItem = "POST";
 export type CsrPublishHrefHintsAllowList = Array<CsrPublishHrefHintsAllowItem>;
 /** Describes allowed HTTP verbs for the `href` */
 export interface CsrPublishHrefHints {
-  allow?: CsrPublishHrefHintsAllowList;
+  allow?: CsrPublishHrefHintsAllowList | undefined;
 }
 /** Link to publish CSR */
 export interface HrefCsrPublishLink {
-  hints?: CsrPublishHrefHints;
+  hints?: CsrPublishHrefHints | undefined;
   /** Link URI */
   href: string;
 }
@@ -6840,68 +6867,71 @@ export type CsrSelfHrefHintsAllowItem = "GET" | "DELETE";
 export type CsrSelfHrefHintsAllowList = Array<CsrSelfHrefHintsAllowItem>;
 /** Describes allowed HTTP verbs for the `href` */
 export interface CsrSelfHrefHints {
-  allow?: CsrSelfHrefHintsAllowList;
+  allow?: CsrSelfHrefHintsAllowList | undefined;
 }
 /** Link to the resource (self) */
 export interface HrefCsrSelfLink {
-  hints?: CsrSelfHrefHints;
+  hints?: CsrSelfHrefHints | undefined;
   /** Link URI */
   href: string;
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of a CSR object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface CSRLinks {
-  publish?: HrefCsrPublishLink;
-  self?: HrefCsrSelfLink;
+  publish?: HrefCsrPublishLink | undefined;
+  self?: HrefCsrSelfLink | undefined;
 }
 export interface Csr {
-  created?: string;
-  csr?: string;
-  id?: string;
-  kty?: string;
-  _links?: CSRLinks;
+  created?: string | undefined;
+  csr?: string | undefined;
+  id?: string | undefined;
+  kty?: string | undefined;
+  _links?: CSRLinks | undefined;
 }
 export interface GenerateCsrForIdentityProviderRequest {
   /** `id` of IdP */
   idpId: string;
-  subject?: CsrMetadataSubject;
-  subjectAltNames?: CsrMetadataSubjectAltNames;
+  subject?: CsrMetadataSubject | undefined;
+  subjectAltNames?: CsrMetadataSubjectAltNames | undefined;
 }
 export interface IdPCsrLinks {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** Publish the CSR */
-  publish?: HrefObjectSelfLink;
+  publish?: HrefObjectSelfLink | undefined;
   [key: string]: unknown;
 }
 /** Defines a CSR for a signature or decryption credential for an IdP */
 export interface IdPCsr {
-  created?: string;
+  created?: string | undefined;
   /** Base64-encoded CSR in DER format */
-  csr?: string;
+  csr?: string | undefined;
   /** Unique identifier for the CSR */
-  id?: string;
+  id?: string | undefined;
   /** Cryptographic algorithm family for the CSR's keypair */
-  kty?: string;
-  _links?: IdPCsrLinks;
+  kty?: string | undefined;
+  _links?: IdPCsrLinks | undefined;
 }
 /** Information about the fulfillment order that includes the factor's make and model, the custom configuration of the factor, and inventory details. */
 export interface FulfillmentDataOrderDetails {
   /** ID for the set of custom configurations of the requested factor */
-  customizationId?: string;
+  customizationId?: string | undefined;
   /** ID for the specific inventory bucket of the requested factor */
-  inventoryProductId?: string;
+  inventoryProductId?: string | undefined;
   /** ID for the make and model of the requested factor */
-  productId?: string;
+  productId?: string | undefined;
 }
 /** List of fulfillment order details */
 export type FulfillmentData = Array<FulfillmentDataOrderDetails>;
 /** Name of the fulfillment provider for the WebAuthn preregistration factor */
 export type GenerateFulfillmentRequestRequestFulfillmentProvider = "yubico";
 export interface GenerateFulfillmentRequestRequest {
-  fulfillmentData?: FulfillmentData;
+  fulfillmentData?: FulfillmentData | undefined;
   /** Name of the fulfillment provider for the WebAuthn preregistration factor */
-  fulfillmentProvider?: GenerateFulfillmentRequestRequestFulfillmentProvider | (string & {});
+  fulfillmentProvider?:
+    | GenerateFulfillmentRequestRequestFulfillmentProvider
+    | (string & {})
+    | undefined;
   /** ID of an existing Okta user */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface GenerateFulfillmentRequestResponse {}
 export interface GenerateIdentityProviderSigningKeyRequest {
@@ -6913,17 +6943,17 @@ export interface GenerateIdentityProviderSigningKeyRequest {
 export interface GetAerialConsentRequest {}
 export type HrefObjectRevokeAerialConsent = HrefObjectSelfLink;
 export interface LinksAerialConsentGranted {
-  self?: HrefObjectSelfLink;
-  revoke?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  revoke?: HrefObjectSelfLink | undefined;
 }
 export interface OrgAerialConsentDetails {
   /** The unique ID of the Aerial account */
   accountId: string;
   /** Principal ID of the user who granted the permission */
-  grantedBy?: string;
+  grantedBy?: string | undefined;
   /** Date when grant was created */
-  grantedDate?: string;
-  _links?: LinksAerialConsentGranted;
+  grantedDate?: string | undefined;
+  _links?: LinksAerialConsentGranted | undefined;
 }
 export interface GetAgentPoolsUpdateInstanceRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -6939,18 +6969,18 @@ export interface GetAgentPoolsUpdateSettingsRequest {
 export type ReleaseChannel = "BETA" | "EA" | "GA" | "TEST";
 /** Settings for auto-update */
 export interface AgentPoolUpdateSettingResponse {
-  agentType?: AgentType;
+  agentType?: AgentType | undefined;
   /** Continues the update even if some agents fail to update */
-  continueOnError?: boolean;
+  continueOnError?: boolean | undefined;
   /** Latest version of the agent */
-  latestVersion?: string;
+  latestVersion?: string | undefined;
   /** Minimal version of the agent */
-  minimalSupportedVersion?: string;
+  minimalSupportedVersion?: string | undefined;
   /** ID of the agent pool that the settings apply to */
-  poolId?: string;
+  poolId?: string | undefined;
   /** Pool name */
-  poolName?: string;
-  releaseChannel?: ReleaseChannel;
+  poolName?: string | undefined;
+  releaseChannel?: ReleaseChannel | undefined;
 }
 export type GetAllWellKnownURIsRequestExpandItem =
   | "all"
@@ -6964,49 +6994,49 @@ export interface GetAllWellKnownURIsRequest {
   /** The ID of the brand */
   brandId: string;
   /** Specifies additional metadata to include in the response */
-  expand?: GetAllWellKnownURIsRequestExpandList;
+  expand?: GetAllWellKnownURIsRequestExpandList | undefined;
 }
 export type WellKnownURIObjectResponseLinks = LinksSelf;
 export interface WellKnownURIObjectResponse {
   /** The well-known URI content in JSON format */
-  representation?: unknown;
-  _links?: LinksSelf;
+  representation?: unknown | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Contains the customized well-known URI content and links */
 export interface WellKnownURIsRootEmbeddedAppleAppSiteAssociation {
-  customized?: WellKnownURIObjectResponse;
+  customized?: WellKnownURIObjectResponse | undefined;
 }
 /** The well-known URI content in a JSON array of objects format */
 export type WellKnownURIArrayResponseRepresentationList = Array<unknown>;
 export type WellKnownURIArrayResponseLinks = LinksSelf;
 export interface WellKnownURIArrayResponse {
   /** The well-known URI content in a JSON array of objects format */
-  representation?: WellKnownURIArrayResponseRepresentationList;
-  _links?: LinksSelf;
+  representation?: WellKnownURIArrayResponseRepresentationList | undefined;
+  _links?: LinksSelf | undefined;
 }
 /** Contains the customized well-known URI content and links */
 export interface WellKnownURIsRootEmbeddedAssetlinksJson {
-  customized?: WellKnownURIArrayResponse;
+  customized?: WellKnownURIArrayResponse | undefined;
 }
 /** Contains the customized well-known URI content and links */
 export type WellKnownURIsRootEmbeddedWebauthn = WellKnownURIsRootEmbeddedAppleAppSiteAssociation;
 export interface WellKnownURIsRootEmbedded {
   /** Contains the customized well-known URI content and links */
-  apple_app_site_association?: WellKnownURIsRootEmbeddedAppleAppSiteAssociation;
+  apple_app_site_association?: WellKnownURIsRootEmbeddedAppleAppSiteAssociation | undefined;
   /** Contains the customized well-known URI content and links */
-  assetlinks_json?: WellKnownURIsRootEmbeddedAssetlinksJson;
+  assetlinks_json?: WellKnownURIsRootEmbeddedAssetlinksJson | undefined;
   /** Contains the customized well-known URI content and links */
-  webauthn?: WellKnownURIsRootEmbeddedAppleAppSiteAssociation;
+  webauthn?: WellKnownURIsRootEmbeddedAppleAppSiteAssociation | undefined;
 }
 export interface WellKnownURIsRootLinks {
-  self?: HrefObjectSelfLink;
-  apple_app_site_association?: HrefObjectSelfLink;
-  assetlinks_json?: HrefObjectSelfLink;
-  webauthn?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  apple_app_site_association?: HrefObjectSelfLink | undefined;
+  assetlinks_json?: HrefObjectSelfLink | undefined;
+  webauthn?: HrefObjectSelfLink | undefined;
 }
 export interface WellKnownURIsRoot {
-  _embedded?: WellKnownURIsRootEmbedded;
-  _links?: WellKnownURIsRootLinks;
+  _embedded?: WellKnownURIsRootEmbedded | undefined;
+  _links?: WellKnownURIsRootLinks | undefined;
 }
 export interface GetApiServiceIntegrationInstanceRequest {
   /** `id` of the API Service Integration instance */
@@ -7016,21 +7046,21 @@ export interface GetApiServiceIntegrationInstanceRequest {
 export type APIServiceIntegrationInstanceGrantedScopesList = Array<string>;
 export interface APIServiceIntegrationInstance {
   /** The URL to the API service integration configuration guide */
-  configGuideUrl?: string;
+  configGuideUrl?: string | undefined;
   /** Timestamp when the API Service Integration instance was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The user ID of the API Service Integration instance creator */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The list of Okta management scopes granted to the API Service Integration instance. See [Okta management OAuth 2.0 scopes](/oauth2/#okta-admin-management). */
-  grantedScopes?: APIServiceIntegrationInstanceGrantedScopesList;
+  grantedScopes?: APIServiceIntegrationInstanceGrantedScopesList | undefined;
   /** The ID of the API Service Integration instance */
-  id?: string;
+  id?: string | undefined;
   /** The name of the API service integration that corresponds with the `type` property. This is the full name of the API service integration listed in the Okta Integration Network (OIN) catalog. */
-  name?: string;
-  properties?: AppProperties;
+  name?: string | undefined;
+  properties?: AppProperties | undefined;
   /** The type of the API service integration. This string is an underscore-concatenated, lowercased API service integration name. For example, `my_api_log_integration`. */
-  type?: string;
-  _links?: APIServiceIntegrationLinks;
+  type?: string | undefined;
+  _links?: APIServiceIntegrationLinks | undefined;
 }
 export interface GetApiTokenRequest {
   /** id of the API Token */
@@ -7043,25 +7073,25 @@ export type ApiTokenNetworkExcludeList = Array<string>;
 /** The Network Condition of the API Token */
 export interface ApiTokenNetwork {
   /** The connection type of the Network Condition */
-  connection?: string;
+  connection?: string | undefined;
   /** List of included IP network zones */
-  include?: ApiTokenNetworkIncludeList;
+  include?: ApiTokenNetworkIncludeList | undefined;
   /** List of excluded IP network zones */
-  exclude?: ApiTokenNetworkExcludeList;
+  exclude?: ApiTokenNetworkExcludeList | undefined;
 }
 /** An API token for an Okta User. This token is NOT scoped any further and can be used for any API the user has permissions to call. */
 export interface ApiToken {
-  clientName?: string;
-  created?: string;
-  expiresAt?: string;
-  id?: string;
-  lastUpdated?: string;
+  clientName?: string | undefined;
+  created?: string | undefined;
+  expiresAt?: string | undefined;
+  id?: string | undefined;
+  lastUpdated?: string | undefined;
   name: string;
   /** The Network Condition of the API Token */
-  network?: ApiTokenNetwork;
-  tokenWindow?: string;
-  userId?: string;
-  _link?: LinksSelf;
+  network?: ApiTokenNetwork | undefined;
+  tokenWindow?: string | undefined;
+  userId?: string | undefined;
+  _link?: LinksSelf | undefined;
 }
 export interface GetAppleAppSiteAssociationWellKnownURIRequest {}
 export type GetAppleAppSiteAssociationWellKnownURIResponse = unknown;
@@ -7069,7 +7099,7 @@ export interface GetApplicationRequest {
   /** Application ID */
   appId: string;
   /** An optional query parameter to return the specified [Application User](/openapi/okta-management/management/tags/applicationusers) in the `_embedded` property. Valid value: `expand=user/{userId}` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetApplicationGroupAssignmentRequest {
   /** Application ID */
@@ -7077,7 +7107,7 @@ export interface GetApplicationGroupAssignmentRequest {
   /** The `id` of the group */
   groupId: string;
   /** An optional query parameter to return the corresponding assigned [group](openapi/okta-management/management/group) or the group assignment metadata details in the `_embedded` property. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetApplicationKeyRequest {
   /** Application ID */
@@ -7091,7 +7121,7 @@ export interface GetApplicationUserRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** An optional query parameter to return the corresponding [User](/openapi/okta-management/management/tags/user) object in the `_embedded` property. Valid value: `user` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetApplicationUserSchemaRequest {
   /** Application ID */
@@ -7121,14 +7151,14 @@ export type UserSchemaAttributeFormat =
   | "timezone"
   | "uri";
 export interface UserSchemaAttributeMasterPriority {
-  type?: string;
-  value?: string;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type UserSchemaAttributeMasterPriorityList = Array<UserSchemaAttributeMasterPriority>;
 export type UserSchemaAttributeMasterType = "OKTA" | "OVERRIDE" | "PROFILE_MASTER";
 export interface UserSchemaAttributeMaster {
-  priority?: UserSchemaAttributeMasterPriorityList;
-  type?: UserSchemaAttributeMasterType | (string & {});
+  priority?: UserSchemaAttributeMasterPriorityList | undefined;
+  type?: UserSchemaAttributeMasterType | (string & {}) | undefined;
 }
 export type UserSchemaAttributeMutabilityString =
   | "IMMUTABLE"
@@ -7137,17 +7167,17 @@ export type UserSchemaAttributeMutabilityString =
   | "WRITE_ONLY";
 export interface UserSchemaAttributeEnum {
   /** The enumerated value */
-  const?: string;
+  const?: string | undefined;
   /** The display label for the enumerated value */
-  title?: string;
+  title?: string | undefined;
 }
 /** Non-empty array of valid JSON schemas. The `oneOf` key is only supported in conjunction with `enum` and provides a mechanism to return a display name for the `enum` value.<br> Each schema has the following format: ``` { "const": "enumValue", "title": "display name" } ``` When `enum` is used in conjunction with `oneOf`, you must keep the set of enumerated values and their order.<br> For example: ``` "enum": ["S","M","L","XL"], "oneOf": [ {"const": "S", "title": "Small"}, {"const": "M", "title": "Medium"}, {"const": "L", "title": "Large"}, {"const": "XL", "title": "Extra Large"} ] ``` */
 export type UserSchemaAttributeOneOfList = Array<UserSchemaAttributeEnum>;
 export interface UserSchemaAttributePermission {
   /** Determines whether the principal can view or modify the property */
-  action?: string;
+  action?: string | undefined;
   /** Security principal */
-  principal?: string;
+  principal?: string | undefined;
 }
 /** Access control permissions for the property */
 export type UserSchemaAttributePermissionsList = Array<UserSchemaAttributePermission>;
@@ -7155,117 +7185,117 @@ export type UserSchemaAttributeScope = "NONE" | "SELF";
 export type UserSchemaAttributeType = "array" | "boolean" | "integer" | "number" | "string";
 export interface UserSchemaAttribute {
   /** If specified, assigns the value as the default value for the custom attribute. This is a nullable property. If you don't specify a value for this custom attribute during user creation or update, the `default` is used instead of setting the value to `null` or empty. */
-  default?: UserSchemaAttributeDefault;
+  default?: UserSchemaAttributeDefault | undefined;
   /** Description of the property */
-  description?: string;
+  description?: string | undefined;
   /** Enumerated value of the property. The value of the property is limited to one of the values specified in the enum definition. The list of values for the enum must consist of unique elements. */
-  enum?: UserSchemaAttributeEnumList | null;
+  enum?: UserSchemaAttributeEnumList | null | undefined;
   /** Name of the property as it exists in an external application **NOTE**: When you add a custom property, only Identity Provider app user schemas require `externalName` to be included in the request body. If an existing custom Identity Provider app user schema property has an empty `externalName`, requests aren't allowed to update other properties until the `externalName` is defined. */
-  externalName?: string;
+  externalName?: string | undefined;
   /** Namespace from the external application */
-  externalNamespace?: string;
+  externalNamespace?: string | undefined;
   /** Identifies the type of data represented by the string */
-  format?: UserSchemaAttributeFormat | (string & {});
+  format?: UserSchemaAttributeFormat | (string & {}) | undefined;
   /** Identifies where the property is mastered */
-  master?: UserSchemaAttributeMaster | null;
+  master?: UserSchemaAttributeMaster | null | undefined;
   /** Maximum character length of a string property */
-  maxLength?: number | null;
+  maxLength?: number | null | undefined;
   /** Minimum character length of a string property */
-  minLength?: number | null;
+  minLength?: number | null | undefined;
   /** Defines the mutability of the property */
-  mutability?: UserSchemaAttributeMutabilityString | (string & {});
+  mutability?: UserSchemaAttributeMutabilityString | (string & {}) | undefined;
   /** Non-empty array of valid JSON schemas. The `oneOf` key is only supported in conjunction with `enum` and provides a mechanism to return a display name for the `enum` value.<br> Each schema has the following format: ``` { "const": "enumValue", "title": "display name" } ``` When `enum` is used in conjunction with `oneOf`, you must keep the set of enumerated values and their order.<br> For example: ``` "enum": ["S","M","L","XL"], "oneOf": [ {"const": "S", "title": "Small"}, {"const": "M", "title": "Medium"}, {"const": "L", "title": "Large"}, {"const": "XL", "title": "Extra Large"} ] ``` */
-  oneOf?: UserSchemaAttributeOneOfList | null;
+  oneOf?: UserSchemaAttributeOneOfList | null | undefined;
   /** For `string` property types, specifies the regular expression used to validate the property */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Access control permissions for the property */
-  permissions?: UserSchemaAttributePermissionsList | null;
+  permissions?: UserSchemaAttributePermissionsList | null | undefined;
   /** Determines whether the property is required */
-  required?: boolean | null;
-  scope?: UserSchemaAttributeScope | (string & {});
+  required?: boolean | null | undefined;
+  scope?: UserSchemaAttributeScope | (string & {}) | undefined;
   /** User-defined display name for the property */
-  title?: string;
+  title?: string | undefined;
   /** Type of property */
-  type?: UserSchemaAttributeType | (string & {});
+  type?: UserSchemaAttributeType | (string & {}) | undefined;
   /** Determines whether property values must be unique */
-  unique?: boolean | null;
+  unique?: boolean | null | undefined;
 }
 export interface UserSchemaBaseProperties {
   /** City or locality component of the user's address (`locality`) */
-  city?: UserSchemaAttribute;
+  city?: UserSchemaAttribute | undefined;
   /** Name of a cost center assigned to the user */
-  costCenter?: UserSchemaAttribute;
+  costCenter?: UserSchemaAttribute | undefined;
   /** Country name component of the user's address (`country`.) This property uses [ISO 3166-1 alpha 2 "short" code format](https://tools.ietf.org/html/draft-ietf-scim-core-schema-22#ref-ISO3166). */
-  countryCode?: UserSchemaAttribute;
+  countryCode?: UserSchemaAttribute | undefined;
   /** Name of the user's department */
-  department?: UserSchemaAttribute;
+  department?: UserSchemaAttribute | undefined;
   /** Name of the user, suitable for display to end users */
-  displayName?: UserSchemaAttribute;
+  displayName?: UserSchemaAttribute | undefined;
   /** Name of the user's division */
-  division?: UserSchemaAttribute;
+  division?: UserSchemaAttribute | undefined;
   /** Primary email address of the user. This property is formatted according to [RFC 5322 Section 3.2.3](https://datatracker.ietf.org/doc/html/rfc5322#section-3.2.3). */
-  email?: UserSchemaAttribute;
+  email?: UserSchemaAttribute | undefined;
   /** Organization or company assigned unique identifier for the user */
-  employeeNumber?: UserSchemaAttribute;
+  employeeNumber?: UserSchemaAttribute | undefined;
   /** Given name of the user (`givenName`) */
-  firstName?: UserSchemaAttribute;
+  firstName?: UserSchemaAttribute | undefined;
   /** Honorific prefix(es) of the user or title in most Western languages */
-  honorificPrefix?: UserSchemaAttribute;
+  honorificPrefix?: UserSchemaAttribute | undefined;
   /** Honorific suffix(es) of the user */
-  honorificSuffix?: UserSchemaAttribute;
+  honorificSuffix?: UserSchemaAttribute | undefined;
   /** Family name of the user (`familyName`) */
-  lastName?: UserSchemaAttribute;
+  lastName?: UserSchemaAttribute | undefined;
   /** User's default location for purposes of localizing items such as currency, date time format, numerical representations, and so on. A locale value is a concatenation of the ISO 639-1 two-letter language code, an underscore, and the ISO 3166-1 two-letter country code. For example: `en_US` specifies the language English and country US. This value is `en_US` by default. */
-  locale?: UserSchemaAttribute;
+  locale?: UserSchemaAttribute | undefined;
   /** Unique identifier for the user (`userName`) The login property is validated according to its pattern attribute, which is a string. By default, the attribute is null. When the attribute is null, the username is required to be formatted as an email address as defined by [RFC 6531 Section 3.3](http://tools.ietf.org/html/rfc6531#section-3.3). The pattern can be set through the API to one of the following forms. (The Admin Console provides access to the same forms.) * A login pattern of `".+"` indicates that there is no restriction on usernames. Any non-empty, unique value is permitted, and the minimum length of five isn't enforced. In this case, usernames don't need to include the `@` character. If a name does include `@`, the portion ahead of the `@` can be used for logging in, provided it identifies a unique user within the org. * A login pattern of the form `"[...]+"` indicates that usernames must only contain characters from the set given between the brackets. The enclosing brackets and final `+` are required for this form. Character ranges can be indicated using hyphens. To include the hyphen itself in the allowed set, the hyphen must appear first. Any characters in the set except the hyphen, a-z, A-Z, and 0-9 must be preceded by a backslash (`\`). For example, `"[a-z13579\.]+"` would restrict usernames to lowercase letters, odd digits, and periods, while `"[-a-zA-Z0-9]+"` would allow basic alphanumeric characters and hyphens. */
-  login?: UserSchemaAttribute;
+  login?: UserSchemaAttribute | undefined;
   /** The `displayName` of the user's manager */
-  manager?: UserSchemaAttribute;
+  manager?: UserSchemaAttribute | undefined;
   /** The `id` of the user's manager */
-  managerId?: UserSchemaAttribute;
+  managerId?: UserSchemaAttribute | undefined;
   /** Middle name(s) of the user */
-  middleName?: UserSchemaAttribute;
+  middleName?: UserSchemaAttribute | undefined;
   /** Mobile phone number of the user */
-  mobilePhone?: UserSchemaAttribute;
+  mobilePhone?: UserSchemaAttribute | undefined;
   /** Casual way to address the user in real life */
-  nickName?: UserSchemaAttribute;
+  nickName?: UserSchemaAttribute | undefined;
   /** Name of the user's organization */
-  organization?: UserSchemaAttribute;
+  organization?: UserSchemaAttribute | undefined;
   /** Mailing address component of the user's address */
-  postalAddress?: UserSchemaAttribute;
+  postalAddress?: UserSchemaAttribute | undefined;
   /** User's preferred written or spoken languages. This property is formatted according to [RFC 7231 Section 5.3.5](https://tools.ietf.org/html/rfc7231#section-5.3.5). */
-  preferredLanguage?: UserSchemaAttribute;
+  preferredLanguage?: UserSchemaAttribute | undefined;
   /** Primary phone number of the user, such as home number */
-  primaryPhone?: UserSchemaAttribute;
+  primaryPhone?: UserSchemaAttribute | undefined;
   /** URL of the user's online profile (for example, a web page.) This property is formatted according to the [Relative Uniform Resource Locators specification](https://tools.ietf.org/html/draft-ietf-scim-core-schema-22#ref-ISO3166). */
-  profileUrl?: UserSchemaAttribute;
+  profileUrl?: UserSchemaAttribute | undefined;
   /** Secondary email address of the user typically used for account recovery. This property is formatted according to [RFC 5322 Section 3.2.3](https://datatracker.ietf.org/doc/html/rfc5322#section-3.2.3). */
-  secondEmail?: UserSchemaAttribute;
+  secondEmail?: UserSchemaAttribute | undefined;
   /** State or region component of the user's address (`region`) */
-  state?: UserSchemaAttribute;
+  state?: UserSchemaAttribute | undefined;
   /** Full street address component of the user's address */
-  streetAddress?: UserSchemaAttribute;
+  streetAddress?: UserSchemaAttribute | undefined;
   /** User's time zone. This property is formatted according to the [IANA Time Zone database format](https://tools.ietf.org/html/rfc6557). */
-  timezone?: UserSchemaAttribute;
+  timezone?: UserSchemaAttribute | undefined;
   /** User's title, such as "Vice President" */
-  title?: UserSchemaAttribute;
+  title?: UserSchemaAttribute | undefined;
   /** Used to describe the organization to the user relationship such as "Employee" or "Contractor". **Note:** The `userType` field is an arbitrary string value and isn't related to the newer [User Types](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/) feature. */
-  userType?: UserSchemaAttribute;
+  userType?: UserSchemaAttribute | undefined;
   /** ZIP code or postal code component of the user's address (`postalCode`) */
-  zipCode?: UserSchemaAttribute;
+  zipCode?: UserSchemaAttribute | undefined;
 }
 /** A collection indicating required property names */
 export type UserSchemaBaseRequiredList = Array<string>;
 /** All Okta-defined profile properties are defined in a profile subschema with the resolution scope `#base`. You can't modify these properties, except to update permissions, to change the nullability of `firstName` and `lastName`, or to specify a pattern for `login`. They can't be removed. The base user profile is based on the [System for Cross-domain Identity Management: Core Schema](https://tools.ietf.org/html/draft-ietf-scim-core-schema-22#section-4.1.1) and has the standard properties detailed below. */
 export interface UserSchemaBase {
   /** The subschema name */
-  id?: string;
+  id?: string | undefined;
   /** The `#base` object properties */
-  properties?: UserSchemaBaseProperties;
+  properties?: UserSchemaBaseProperties | undefined;
   /** A collection indicating required property names */
-  required?: UserSchemaBaseRequiredList;
+  required?: UserSchemaBaseRequiredList | undefined;
   /** The object type */
-  type?: string;
+  type?: string | undefined;
 }
 /** The `#custom` object properties */
 export type UserSchemaPublicPropertiesMap = { [key: string]: UserSchemaAttribute | undefined };
@@ -7274,48 +7304,48 @@ export type UserSchemaPublicRequiredList = Array<string>;
 /** All custom profile properties are defined in a profile subschema with the resolution scope `#custom`. > **Notes:** > * When you refer to custom profile attributes that differ only by case, name collisions occur. This includes naming custom profile attributes the same as base profile attributes, for example, `firstName` and `FirstName`. > * Certain attributes are reserved and can't be used for custom user profiles. See [Review reserved attributes](https://help.okta.com/okta_help.htm?type=oie&id=reserved-attributes). */
 export interface UserSchemaPublic {
   /** The subschema name */
-  id?: string;
+  id?: string | undefined;
   /** The `#custom` object properties */
-  properties?: UserSchemaPublicPropertiesMap;
+  properties?: UserSchemaPublicPropertiesMap | undefined;
   /** A collection indicating required property names */
-  required?: UserSchemaPublicRequiredList;
+  required?: UserSchemaPublicRequiredList | undefined;
   /** The object type */
-  type?: string;
+  type?: string | undefined;
 }
 export interface UserSchemaDefinitions {
-  base?: UserSchemaBase;
-  custom?: UserSchemaPublic;
+  base?: UserSchemaBase | undefined;
+  custom?: UserSchemaPublic | undefined;
 }
 export interface UserSchemaPropertiesProfileItem {
-  _ref?: string;
+  _ref?: string | undefined;
 }
 export type UserSchemaPropertiesProfileAllOfList = Array<UserSchemaPropertiesProfileItem>;
 export interface UserSchemaPropertiesProfile {
-  allOf?: UserSchemaPropertiesProfileAllOfList;
+  allOf?: UserSchemaPropertiesProfileAllOfList | undefined;
 }
 export interface UserSchemaProperties {
-  profile?: UserSchemaPropertiesProfile;
+  profile?: UserSchemaPropertiesProfile | undefined;
 }
 export interface UserSchema {
   /** JSON schema version identifier */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Timestamp when the schema was created */
-  created?: string;
+  created?: string | undefined;
   /** User profile subschemas The profile object for a user is defined by a composite schema of base and custom properties using a JSON path to reference subschemas. The `#base` properties are defined and versioned by Okta, while `#custom` properties are extensible. Custom property names for the profile object must be unique and can't conflict with a property name defined in the `#base` subschema. */
-  definitions?: UserSchemaDefinitions;
+  definitions?: UserSchemaDefinitions | undefined;
   /** URI of user schema */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the schema was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the schema */
-  name?: string;
+  name?: string | undefined;
   /** User Object Properties */
-  properties?: UserSchemaProperties;
+  properties?: UserSchemaProperties | undefined;
   /** User-defined display name for the schema */
-  title?: string;
+  title?: string | undefined;
   /** Type of [root schema](https://tools.ietf.org/html/draft-zyp-json-schema-04#section-3.4) */
-  type?: string;
-  _links?: LinksSelf;
+  type?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetAppServiceAccountRequest {
   /** ID of an existing service account */
@@ -7339,7 +7369,7 @@ export interface GetAuthenticatorEnrollmentRequest {
   /** Unique identifier of an enrollment */
   enrollmentId: string;
   /** Indicates whether or not the identifier of an authenticator enrollment is disclosed or anonymized. If it's included in the operation query, then the identifier of the authenticator enrollment (the actual phone number, for example) is included in the response. */
-  discloseIdentifiers?: GetAuthenticatorEnrollmentRequestDiscloseIdentifiersList;
+  discloseIdentifiers?: GetAuthenticatorEnrollmentRequestDiscloseIdentifiersList | undefined;
 }
 /** The type of authenticator method */
 export type GetAuthenticatorMethodRequestMethodType =
@@ -7366,7 +7396,7 @@ export interface GetAuthenticatorMethodRequest {
 export interface GetAuthenticatorSettingsRequest {}
 export interface AttackProtectionAuthenticatorSettings {
   /** If true, requires users to verify a possession factor before verifying a knowledge factor when the assurance requires two-factor authentication (2FA). */
-  verifyKnowledgeSecondWhen2faRequired?: boolean;
+  verifyKnowledgeSecondWhen2faRequired?: boolean | undefined;
 }
 export interface GetAuthorizationServerRequest {
   /** `id` of the Authorization Server */
@@ -7380,20 +7410,20 @@ export interface GetAuthorizationServerKeyRequest {
 }
 export interface AuthorizationServerJsonWebKey {
   /** The algorithm used with the Key. Valid value: `RS256` */
-  alg?: string;
+  alg?: string | undefined;
   /** RSA key value (public exponent) for Key binding */
-  e?: string;
+  e?: string | undefined;
   /** Unique identifier for the key */
-  kid?: string;
+  kid?: string | undefined;
   /** Cryptographic algorithm family for the certificate's keypair. Valid value: `RSA` */
-  kty?: string;
+  kty?: string | undefined;
   /** RSA modulus value that is used by both the public and private keys and provides a link between them */
-  n?: string;
+  n?: string | undefined;
   /** An `ACTIVE` Key is used to sign tokens issued by the authorization server. Supported values: `ACTIVE`, `NEXT`, or `EXPIRED`<br> A `NEXT` Key is the next Key that the authorization server uses to sign tokens when Keys are rotated. The `NEXT` Key might not be listed if it hasn't been generated. An `EXPIRED` Key is the previous Key that the authorization server used to sign tokens. The `EXPIRED` Key might not be listed if no Key has expired or the expired Key was deleted. */
-  status?: string;
+  status?: string | undefined;
   /** Acceptable use of the key. Valid value: `sig` */
-  use?: string;
-  _links?: LinksSelf;
+  use?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetAuthorizationServerPolicyRequest {
   /** `id` of the Authorization Server */
@@ -7410,25 +7440,25 @@ export type GetAuthorizationServerPolicyResponseLinks =
   CreateAuthorizationServerPolicyResponseLinks;
 export interface GetAuthorizationServerPolicyResponse {
   /** ID of the Policy */
-  id?: string;
+  id?: string | undefined;
   /** Indicates that the Policy is an authorization server Policy */
-  type?: GetAuthorizationServerPolicyResponseType;
+  type?: GetAuthorizationServerPolicyResponseType | undefined;
   /** Name of the Policy */
-  name?: string;
-  conditions?: AuthorizationServerPolicyConditions;
+  name?: string | undefined;
+  conditions?: AuthorizationServerPolicyConditions | undefined;
   /** Description of the Policy */
-  description?: string;
+  description?: string | undefined;
   /** Specifies the order in which this Policy is evaluated in relation to the other Policies in a custom authorization server */
-  priority?: number;
+  priority?: number | undefined;
   /** Specifies whether requests have access to this Policy */
-  status?: GetAuthorizationServerPolicyResponseStatus;
+  status?: GetAuthorizationServerPolicyResponseStatus | undefined;
   /** Specifies whether Okta created this Policy */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Timestamp when the Policy was created */
-  created?: string;
+  created?: string | undefined;
   /** Timestamp when the Policy was last updated */
-  lastUpdated?: string;
-  _links?: CreateAuthorizationServerPolicyResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateAuthorizationServerPolicyResponseLinks | undefined;
 }
 export interface GetAuthorizationServerPolicyRuleRequest {
   /** `id` of the Authorization Server */
@@ -7442,7 +7472,7 @@ export interface GetAutoAssignAdminAppSettingRequest {}
 /** The org setting that automatically assigns the Okta Admin Console when an admin role is assigned */
 export interface AutoAssignAdminAppSetting {
   /** Automatically assigns the Okta Admin Console to the user when an admin role is assigned */
-  autoAssignAdminAppSetting?: boolean;
+  autoAssignAdminAppSetting?: boolean | undefined;
 }
 export interface GetBehaviorDetectionRuleRequest {
   /** ID of the Behavior Detection Rule */
@@ -7456,14 +7486,14 @@ export interface GetBindingRequest {
 }
 export type HrefObjectMembersLink = HrefObjectSelfLink;
 export interface ResourceSetBindingResponseLinks {
-  self?: HrefObjectSelfLink;
-  resource_set?: HrefObjectSelfLink;
-  members?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  resource_set?: HrefObjectSelfLink | undefined;
+  members?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSetBindingResponse {
   /** `id` of the role resource set binding */
-  id?: string;
-  _links?: ResourceSetBindingResponseLinks;
+  id?: string | undefined;
+  _links?: ResourceSetBindingResponseLinks | undefined;
 }
 export interface GetBotProtectionConfigurationRequest {}
 /** The type of enforcement to trigger when a bot is detected */
@@ -7478,12 +7508,12 @@ export type BotProtectionSupportedFlow = "SIGN_IN" | "SSPR" | "SSR";
 export type BotProtectionConfigurationSupportedFlowsList = Array<BotProtectionSupportedFlow>;
 /** Bot protection configuration for the org */
 export interface BotProtectionConfiguration {
-  enforcementType?: BotProtectionEnforcementType;
+  enforcementType?: BotProtectionEnforcementType | undefined;
   level: BotProtectionLevel;
   mode: BotProtectionMode;
   /** An array of authentication flows that have bot protection enabled */
-  supportedFlows?: BotProtectionConfigurationSupportedFlowsList;
-  _links?: LinksSelf;
+  supportedFlows?: BotProtectionConfigurationSupportedFlowsList | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type GetBrandRequestExpandItem = "themes" | "domains" | "emailDomain";
 export type GetBrandRequestExpandList = Array<GetBrandRequestExpandItem | (string & {})>;
@@ -7491,7 +7521,7 @@ export interface GetBrandRequest {
   /** The ID of the brand */
   brandId: string;
   /** Specifies additional metadata to be included in the response */
-  expand?: GetBrandRequestExpandList;
+  expand?: GetBrandRequestExpandList | undefined;
 }
 /** Variant for email templates. You can publish a theme for email templates with different combinations of assets. Variants are preset combinations of those assets. */
 export type EmailTemplateTouchPointVariant = "FULL_THEME" | "OKTA_DEFAULT";
@@ -7514,24 +7544,24 @@ export type SignInPageTouchPointVariant =
   | "BACKGROUND_SECONDARY_COLOR"
   | "OKTA_DEFAULT";
 export interface ThemeResponse {
-  backgroundImage?: string;
-  emailTemplateTouchPointVariant?: EmailTemplateTouchPointVariant;
-  endUserDashboardTouchPointVariant?: EndUserDashboardTouchPointVariant;
-  errorPageTouchPointVariant?: ErrorPageTouchPointVariant;
-  favicon?: string;
-  id?: string;
-  loadingPageTouchPointVariant?: LoadingPageTouchPointVariant;
-  logo?: string;
+  backgroundImage?: string | undefined;
+  emailTemplateTouchPointVariant?: EmailTemplateTouchPointVariant | undefined;
+  endUserDashboardTouchPointVariant?: EndUserDashboardTouchPointVariant | undefined;
+  errorPageTouchPointVariant?: ErrorPageTouchPointVariant | undefined;
+  favicon?: string | undefined;
+  id?: string | undefined;
+  loadingPageTouchPointVariant?: LoadingPageTouchPointVariant | undefined;
+  logo?: string | undefined;
   /** Primary color contrast hex code */
-  primaryColorContrastHex?: string;
+  primaryColorContrastHex?: string | undefined;
   /** Primary color hex code */
-  primaryColorHex?: string;
+  primaryColorHex?: string | undefined;
   /** Secondary color contrast hex code */
-  secondaryColorContrastHex?: string;
+  secondaryColorContrastHex?: string | undefined;
   /** Secondary color hex code */
-  secondaryColorHex?: string;
-  signInPageTouchPointVariant?: SignInPageTouchPointVariant;
-  _links?: LinksSelf;
+  secondaryColorHex?: string | undefined;
+  signInPageTouchPointVariant?: SignInPageTouchPointVariant | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type GetBrandResponseEmbeddedThemesList = Array<ThemeResponse>;
 export type GetBrandResponseEmbeddedDomainsList = Array<DomainResponse>;
@@ -7539,41 +7569,41 @@ export type EmailDomainResponseDnsValidationRecordsList = Array<EmailDomainDNSRe
 export interface EmailDomainResponse {
   displayName: string;
   userName: string;
-  dnsValidationRecords?: EmailDomainResponseDnsValidationRecordsList;
-  domain?: string;
-  id?: string;
-  validationStatus?: EmailDomainStatus;
+  dnsValidationRecords?: EmailDomainResponseDnsValidationRecordsList | undefined;
+  domain?: string | undefined;
+  id?: string | undefined;
+  validationStatus?: EmailDomainStatus | undefined;
   /** The subdomain for the email sender's custom mail domain */
-  validationSubdomain?: string;
+  validationSubdomain?: string | undefined;
 }
 export interface GetBrandResponseEmbedded {
-  themes?: GetBrandResponseEmbeddedThemesList;
-  domains?: GetBrandResponseEmbeddedDomainsList;
-  emailDomain?: EmailDomainResponse;
+  themes?: GetBrandResponseEmbeddedThemesList | undefined;
+  domains?: GetBrandResponseEmbeddedDomainsList | undefined;
+  emailDomain?: EmailDomainResponse | undefined;
 }
 export interface GetBrandResponseLinks {
-  self?: HrefObjectSelfLink;
-  themes?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  themes?: HrefObjectSelfLink | undefined;
 }
 export interface GetBrandResponse {
   /** Consent for updating the custom privacy URL. Not required when resetting the URL. */
-  agreeToCustomPrivacyPolicy?: boolean;
+  agreeToCustomPrivacyPolicy?: boolean | undefined;
   /** Custom privacy policy URL */
-  customPrivacyPolicyUrl?: string;
-  defaultApp?: DefaultApp;
+  customPrivacyPolicyUrl?: string | undefined;
+  defaultApp?: DefaultApp | undefined;
   /** The ID of the email domain */
-  emailDomainId?: string;
+  emailDomainId?: string | undefined;
   /** The Brand ID */
-  id?: string;
+  id?: string | undefined;
   /** If `true`, the Brand is used for the Okta subdomain */
-  isDefault?: boolean;
-  locale?: string;
+  isDefault?: boolean | undefined;
+  locale?: string | undefined;
   /** The name of the Brand */
-  name?: string;
+  name?: string | undefined;
   /** Removes "Powered by Okta" from the sign-in page in redirect authentication deployments, and "© [current year] Okta, Inc." from the Okta End-User Dashboard */
-  removePoweredByOkta?: boolean;
-  _embedded?: GetBrandResponseEmbedded;
-  _links?: GetBrandResponseLinks;
+  removePoweredByOkta?: boolean | undefined;
+  _embedded?: GetBrandResponseEmbedded | undefined;
+  _links?: GetBrandResponseLinks | undefined;
 }
 export interface GetBrandThemeRequest {
   /** The ID of the brand */
@@ -7625,12 +7655,12 @@ export interface ThreatInsightConfiguration {
   /** Specifies how Okta responds to authentication requests from suspicious IP addresses */
   action: ThreatInsightConfigurationAction;
   /** Timestamp when the ThreatInsight Configuration object was created */
-  created?: string;
+  created?: string | undefined;
   /** Accepts a list of [Network Zone](/openapi/okta-management/management/networkzone/) IDs. IPs in the excluded network zones aren't logged or blocked. This ensures that traffic from known, trusted IPs isn't accidentally logged or blocked. */
-  excludeZones?: ThreatInsightConfigurationExcludeZonesList;
+  excludeZones?: ThreatInsightConfigurationExcludeZonesList | undefined;
   /** Timestamp when the ThreatInsight Configuration object was last updated */
-  lastUpdated?: string;
-  _links?: LinksSelf;
+  lastUpdated?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetCustomAAGUIDRequest {
   /** `id` of the authenticator */
@@ -7651,18 +7681,18 @@ export interface GetCustomizationPreviewRequest {
   customizationId: string;
 }
 export interface EmailPreviewLinks {
-  self?: HrefObjectSelfLink;
-  contentSource?: HrefObjectSelfLink;
-  template?: HrefObjectSelfLink;
-  test?: HrefObjectSelfLink;
-  defaultContent?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  contentSource?: HrefObjectSelfLink | undefined;
+  template?: HrefObjectSelfLink | undefined;
+  test?: HrefObjectSelfLink | undefined;
+  defaultContent?: HrefObjectSelfLink | undefined;
 }
 export interface EmailPreview {
   /** The email's HTML body */
-  body?: string;
+  body?: string | undefined;
   /** The email's subject */
-  subject?: string;
-  _links?: EmailPreviewLinks;
+  subject?: string | undefined;
+  _links?: EmailPreviewLinks | undefined;
 }
 export interface GetCustomizedErrorPageRequest {
   /** The ID of the brand */
@@ -7671,71 +7701,71 @@ export interface GetCustomizedErrorPageRequest {
 export type ContentSecurityPolicySettingMode = "enforced" | "report_only";
 export type ContentSecurityPolicySettingSrcListList = Array<string>;
 export interface ContentSecurityPolicySetting {
-  mode?: ContentSecurityPolicySettingMode | (string & {});
-  reportUri?: string;
-  srcList?: ContentSecurityPolicySettingSrcListList;
+  mode?: ContentSecurityPolicySettingMode | (string & {}) | undefined;
+  reportUri?: string | undefined;
+  srcList?: ContentSecurityPolicySettingSrcListList | undefined;
 }
 export interface GetCustomizedErrorPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
 }
 export interface GetCustomizedSignInPageRequest {
   /** The ID of the brand */
   brandId: string;
 }
 export interface WidgetConfigurationAssets {
-  baseUrl?: string;
+  baseUrl?: string | undefined;
 }
 /** Color customizations for the Sign-In Widget */
 export interface WidgetConfigurationColors {
   /** Primary brand color (hex value, e.g. "#1662dd") */
-  brand?: string;
+  brand?: string | undefined;
 }
 export interface WidgetConfigurationFeatures {
-  router?: boolean;
-  securityImage?: boolean;
-  rememberMe?: boolean;
-  autoPush?: boolean;
-  smsRecovery?: boolean;
-  callRecovery?: boolean;
-  emailRecovery?: boolean;
-  webauthn?: boolean;
-  selfServiceUnlock?: boolean;
-  multiOptionalFactorEnroll?: boolean;
-  deviceFingerprinting?: boolean;
-  hideSignOutLinkInMFA?: boolean;
-  hideBackToSignInForReset?: boolean;
-  customExpiredPassword?: boolean;
-  registration?: boolean;
-  idpDiscovery?: boolean;
-  passwordlessAuth?: boolean;
-  showPasswordToggleOnSignInPage?: boolean;
-  trackTypingPattern?: boolean;
-  redirectByFormSubmit?: boolean;
-  sameDeviceOVEnrollmentEnabled?: boolean;
-  useDeviceFingerprintForSecurityImage?: boolean;
-  showPasswordRequirementsAsHtmlList?: boolean;
-  mfaOnlyFlow?: boolean;
+  router?: boolean | undefined;
+  securityImage?: boolean | undefined;
+  rememberMe?: boolean | undefined;
+  autoPush?: boolean | undefined;
+  smsRecovery?: boolean | undefined;
+  callRecovery?: boolean | undefined;
+  emailRecovery?: boolean | undefined;
+  webauthn?: boolean | undefined;
+  selfServiceUnlock?: boolean | undefined;
+  multiOptionalFactorEnroll?: boolean | undefined;
+  deviceFingerprinting?: boolean | undefined;
+  hideSignOutLinkInMFA?: boolean | undefined;
+  hideBackToSignInForReset?: boolean | undefined;
+  customExpiredPassword?: boolean | undefined;
+  registration?: boolean | undefined;
+  idpDiscovery?: boolean | undefined;
+  passwordlessAuth?: boolean | undefined;
+  showPasswordToggleOnSignInPage?: boolean | undefined;
+  trackTypingPattern?: boolean | undefined;
+  redirectByFormSubmit?: boolean | undefined;
+  sameDeviceOVEnrollmentEnabled?: boolean | undefined;
+  useDeviceFingerprintForSecurityImage?: boolean | undefined;
+  showPasswordRequirementsAsHtmlList?: boolean | undefined;
+  mfaOnlyFlow?: boolean | undefined;
 }
 export type WidgetConfigurationHcaptchaScriptParamsMap = { [key: string]: string | undefined };
 export interface WidgetConfigurationHcaptcha {
-  scriptSource?: string;
-  scriptParams?: WidgetConfigurationHcaptchaScriptParamsMap;
+  scriptSource?: string | undefined;
+  scriptParams?: WidgetConfigurationHcaptchaScriptParamsMap | undefined;
 }
 export interface WidgetConfigurationHelpLinksFactorPage {
   text: string;
   href: string;
-  target?: string;
+  target?: string | undefined;
 }
 export type WidgetConfigurationHelpLinksCustomItem = WidgetConfigurationHelpLinksFactorPage;
 export type WidgetConfigurationHelpLinksCustomList = Array<WidgetConfigurationHelpLinksFactorPage>;
 export interface WidgetConfigurationHelpLinks {
-  help?: string;
-  forgotPassword?: string | Redacted.Redacted<string>;
-  factorPage?: WidgetConfigurationHelpLinksFactorPage;
-  unlock?: string;
-  custom?: WidgetConfigurationHelpLinksCustomList;
+  help?: string | undefined;
+  forgotPassword?: string | Redacted.Redacted<string> | undefined;
+  factorPage?: WidgetConfigurationHelpLinksFactorPage | undefined;
+  unlock?: string | undefined;
+  custom?: WidgetConfigurationHelpLinksCustomList | undefined;
 }
 export type WidgetConfigurationI18nValueMap = { [key: string]: string | undefined };
 /** Internationalization overrides. Keys are locale codes (e.g. "en", "ja", "fr"), values are objects mapping i18n keys to string overrides. */
@@ -7743,268 +7773,268 @@ export type WidgetConfigurationI18n = {
   [key: string]: WidgetConfigurationI18nValueMap | undefined;
 };
 export interface WidgetConfigurationRecaptcha {
-  scriptSource?: string;
+  scriptSource?: string | undefined;
 }
 /** Design tokens for customizing the Sign-In Widget appearance */
 export interface WidgetConfigurationThemeTokens {
-  BorderColorDangerControl?: string;
-  BorderColorDangerDark?: string;
-  BorderColorDangerLight?: string;
-  BorderColorDisabled?: string;
-  BorderColorDisplay?: string;
-  BorderColorPrimaryControl?: string;
-  BorderColorPrimaryDark?: string;
-  BorderRadiusMain?: string;
-  BorderRadiusTight?: string;
-  BorderStyleMain?: string;
-  BorderWidthMain?: string;
-  FocusOutlineColorPrimary?: string;
-  FocusOutlineOffsetMain?: string;
-  FocusOutlineOffsetTight?: string;
-  FocusOutlineStyle?: string;
-  FocusOutlineWidthMain?: string;
-  FocusOutlineWidthTight?: string;
-  HueBlue100?: string;
-  HueBlue200?: string;
-  HueBlue300?: string;
-  HueBlue400?: string;
-  HueBlue50?: string;
-  HueBlue500?: string;
-  HueBlue600?: string;
-  HueBlue700?: string;
-  HueBlue800?: string;
-  HueBlue900?: string;
-  HueGreen100?: string;
-  HueGreen200?: string;
-  HueGreen300?: string;
-  HueGreen400?: string;
-  HueGreen50?: string;
-  HueGreen500?: string;
-  HueGreen600?: string;
-  HueGreen700?: string;
-  HueGreen800?: string;
-  HueGreen900?: string;
-  HueNeutral100?: string;
-  HueNeutral200?: string;
-  HueNeutral300?: string;
-  HueNeutral400?: string;
-  HueNeutral50?: string;
-  HueNeutral500?: string;
-  HueNeutral600?: string;
-  HueNeutral700?: string;
-  HueNeutral800?: string;
-  HueNeutral900?: string;
-  HueNeutralWhite?: string;
-  HueRed100?: string;
-  HueRed200?: string;
-  HueRed300?: string;
-  HueRed400?: string;
-  HueRed50?: string;
-  HueRed500?: string;
-  HueRed600?: string;
-  HueRed700?: string;
-  HueRed800?: string;
-  HueRed900?: string;
-  HueYellow100?: string;
-  HueYellow200?: string;
-  HueYellow300?: string;
-  HueYellow400?: string;
-  HueYellow50?: string;
-  HueYellow500?: string;
-  HueYellow600?: string;
-  HueYellow700?: string;
-  HueYellow800?: string;
-  HueYellow900?: string;
-  PaletteDangerDark?: string;
-  PaletteDangerDarker?: string;
-  PaletteDangerHeading?: string;
-  PaletteDangerHighlight?: string;
-  PaletteDangerLight?: string;
-  PaletteDangerLighter?: string;
-  PaletteDangerMain?: string;
-  PaletteDangerText?: string;
-  PalettePrimaryDark?: string;
-  PalettePrimaryDarker?: string;
-  PalettePrimaryHeading?: string;
-  PalettePrimaryHighlight?: string;
-  PalettePrimaryLight?: string;
-  PalettePrimaryLighter?: string;
-  PalettePrimaryMain?: string;
-  PalettePrimaryText?: string;
-  PaletteSuccessDark?: string;
-  PaletteSuccessDarker?: string;
-  PaletteSuccessHeading?: string;
-  PaletteSuccessHighlight?: string;
-  PaletteSuccessLight?: string;
-  PaletteSuccessLighter?: string;
-  PaletteSuccessMain?: string;
-  PaletteSuccessText?: string;
-  PaletteWarningDark?: string;
-  PaletteWarningDarker?: string;
-  PaletteWarningHeading?: string;
-  PaletteWarningHighlight?: string;
-  PaletteWarningLight?: string;
-  PaletteWarningLighter?: string;
-  PaletteWarningMain?: string;
-  PaletteWarningText?: string;
-  Spacing0?: string;
-  Spacing1?: string;
-  Spacing2?: string;
-  Spacing3?: string;
-  Spacing4?: string;
-  Spacing5?: string;
-  Spacing6?: string;
-  Spacing7?: string;
-  Spacing8?: string;
-  Spacing9?: string;
-  TransitionDurationMain?: string;
-  TypographyColorAction?: string;
-  TypographyColorBody?: string;
-  TypographyColorDanger?: string;
-  TypographyColorDisabled?: string;
-  TypographyColorHeading?: string;
-  TypographyColorInverse?: string;
-  TypographyColorSubordinate?: string;
-  TypographyColorSuccess?: string;
-  TypographyColorSupport?: string;
-  TypographyColorWarning?: string;
-  TypographyFamilyBody?: string;
-  TypographyFamilyButton?: string;
-  TypographyFamilyHeading?: string;
+  BorderColorDangerControl?: string | undefined;
+  BorderColorDangerDark?: string | undefined;
+  BorderColorDangerLight?: string | undefined;
+  BorderColorDisabled?: string | undefined;
+  BorderColorDisplay?: string | undefined;
+  BorderColorPrimaryControl?: string | undefined;
+  BorderColorPrimaryDark?: string | undefined;
+  BorderRadiusMain?: string | undefined;
+  BorderRadiusTight?: string | undefined;
+  BorderStyleMain?: string | undefined;
+  BorderWidthMain?: string | undefined;
+  FocusOutlineColorPrimary?: string | undefined;
+  FocusOutlineOffsetMain?: string | undefined;
+  FocusOutlineOffsetTight?: string | undefined;
+  FocusOutlineStyle?: string | undefined;
+  FocusOutlineWidthMain?: string | undefined;
+  FocusOutlineWidthTight?: string | undefined;
+  HueBlue100?: string | undefined;
+  HueBlue200?: string | undefined;
+  HueBlue300?: string | undefined;
+  HueBlue400?: string | undefined;
+  HueBlue50?: string | undefined;
+  HueBlue500?: string | undefined;
+  HueBlue600?: string | undefined;
+  HueBlue700?: string | undefined;
+  HueBlue800?: string | undefined;
+  HueBlue900?: string | undefined;
+  HueGreen100?: string | undefined;
+  HueGreen200?: string | undefined;
+  HueGreen300?: string | undefined;
+  HueGreen400?: string | undefined;
+  HueGreen50?: string | undefined;
+  HueGreen500?: string | undefined;
+  HueGreen600?: string | undefined;
+  HueGreen700?: string | undefined;
+  HueGreen800?: string | undefined;
+  HueGreen900?: string | undefined;
+  HueNeutral100?: string | undefined;
+  HueNeutral200?: string | undefined;
+  HueNeutral300?: string | undefined;
+  HueNeutral400?: string | undefined;
+  HueNeutral50?: string | undefined;
+  HueNeutral500?: string | undefined;
+  HueNeutral600?: string | undefined;
+  HueNeutral700?: string | undefined;
+  HueNeutral800?: string | undefined;
+  HueNeutral900?: string | undefined;
+  HueNeutralWhite?: string | undefined;
+  HueRed100?: string | undefined;
+  HueRed200?: string | undefined;
+  HueRed300?: string | undefined;
+  HueRed400?: string | undefined;
+  HueRed50?: string | undefined;
+  HueRed500?: string | undefined;
+  HueRed600?: string | undefined;
+  HueRed700?: string | undefined;
+  HueRed800?: string | undefined;
+  HueRed900?: string | undefined;
+  HueYellow100?: string | undefined;
+  HueYellow200?: string | undefined;
+  HueYellow300?: string | undefined;
+  HueYellow400?: string | undefined;
+  HueYellow50?: string | undefined;
+  HueYellow500?: string | undefined;
+  HueYellow600?: string | undefined;
+  HueYellow700?: string | undefined;
+  HueYellow800?: string | undefined;
+  HueYellow900?: string | undefined;
+  PaletteDangerDark?: string | undefined;
+  PaletteDangerDarker?: string | undefined;
+  PaletteDangerHeading?: string | undefined;
+  PaletteDangerHighlight?: string | undefined;
+  PaletteDangerLight?: string | undefined;
+  PaletteDangerLighter?: string | undefined;
+  PaletteDangerMain?: string | undefined;
+  PaletteDangerText?: string | undefined;
+  PalettePrimaryDark?: string | undefined;
+  PalettePrimaryDarker?: string | undefined;
+  PalettePrimaryHeading?: string | undefined;
+  PalettePrimaryHighlight?: string | undefined;
+  PalettePrimaryLight?: string | undefined;
+  PalettePrimaryLighter?: string | undefined;
+  PalettePrimaryMain?: string | undefined;
+  PalettePrimaryText?: string | undefined;
+  PaletteSuccessDark?: string | undefined;
+  PaletteSuccessDarker?: string | undefined;
+  PaletteSuccessHeading?: string | undefined;
+  PaletteSuccessHighlight?: string | undefined;
+  PaletteSuccessLight?: string | undefined;
+  PaletteSuccessLighter?: string | undefined;
+  PaletteSuccessMain?: string | undefined;
+  PaletteSuccessText?: string | undefined;
+  PaletteWarningDark?: string | undefined;
+  PaletteWarningDarker?: string | undefined;
+  PaletteWarningHeading?: string | undefined;
+  PaletteWarningHighlight?: string | undefined;
+  PaletteWarningLight?: string | undefined;
+  PaletteWarningLighter?: string | undefined;
+  PaletteWarningMain?: string | undefined;
+  PaletteWarningText?: string | undefined;
+  Spacing0?: string | undefined;
+  Spacing1?: string | undefined;
+  Spacing2?: string | undefined;
+  Spacing3?: string | undefined;
+  Spacing4?: string | undefined;
+  Spacing5?: string | undefined;
+  Spacing6?: string | undefined;
+  Spacing7?: string | undefined;
+  Spacing8?: string | undefined;
+  Spacing9?: string | undefined;
+  TransitionDurationMain?: string | undefined;
+  TypographyColorAction?: string | undefined;
+  TypographyColorBody?: string | undefined;
+  TypographyColorDanger?: string | undefined;
+  TypographyColorDisabled?: string | undefined;
+  TypographyColorHeading?: string | undefined;
+  TypographyColorInverse?: string | undefined;
+  TypographyColorSubordinate?: string | undefined;
+  TypographyColorSuccess?: string | undefined;
+  TypographyColorSupport?: string | undefined;
+  TypographyColorWarning?: string | undefined;
+  TypographyFamilyBody?: string | undefined;
+  TypographyFamilyButton?: string | undefined;
+  TypographyFamilyHeading?: string | undefined;
   /** Unitless line-height multiplier for body text (e.g. 1.5) */
-  TypographyLineHeightBody?: number;
+  TypographyLineHeightBody?: number | undefined;
   /** Unitless line-height multiplier for heading 1 */
-  TypographyLineHeightHeading1?: number;
+  TypographyLineHeightHeading1?: number | undefined;
   /** Unitless line-height multiplier for heading 2 */
-  TypographyLineHeightHeading2?: number;
+  TypographyLineHeightHeading2?: number | undefined;
   /** Unitless line-height multiplier for heading 3 */
-  TypographyLineHeightHeading3?: number;
+  TypographyLineHeightHeading3?: number | undefined;
   /** Unitless line-height multiplier for heading 4 */
-  TypographyLineHeightHeading4?: number;
+  TypographyLineHeightHeading4?: number | undefined;
   /** Unitless line-height multiplier for heading 5 */
-  TypographyLineHeightHeading5?: number;
+  TypographyLineHeightHeading5?: number | undefined;
   /** Unitless line-height multiplier for heading 6 */
-  TypographyLineHeightHeading6?: number;
+  TypographyLineHeightHeading6?: number | undefined;
   /** Unitless line-height multiplier for overline text */
-  TypographyLineHeightOverline?: number;
+  TypographyLineHeightOverline?: number | undefined;
   /** Unitless line-height multiplier for UI text */
-  TypographyLineHeightUi?: number;
-  TypographyLineLengthMax?: string;
-  TypographySizeBody?: string;
-  TypographySizeHeading1?: string;
-  TypographySizeHeading2?: string;
-  TypographySizeHeading3?: string;
-  TypographySizeHeading4?: string;
-  TypographySizeHeading5?: string;
-  TypographySizeHeading6?: string;
-  TypographySizeSubordinate?: string;
-  TypographyWeightBody?: string;
-  TypographyWeightBodyBold?: string;
-  TypographyWeightHeading?: string;
-  TypographyWeightHeadingBold?: string;
+  TypographyLineHeightUi?: number | undefined;
+  TypographyLineLengthMax?: string | undefined;
+  TypographySizeBody?: string | undefined;
+  TypographySizeHeading1?: string | undefined;
+  TypographySizeHeading2?: string | undefined;
+  TypographySizeHeading3?: string | undefined;
+  TypographySizeHeading4?: string | undefined;
+  TypographySizeHeading5?: string | undefined;
+  TypographySizeHeading6?: string | undefined;
+  TypographySizeSubordinate?: string | undefined;
+  TypographyWeightBody?: string | undefined;
+  TypographyWeightBodyBold?: string | undefined;
+  TypographyWeightHeading?: string | undefined;
+  TypographyWeightHeadingBold?: string | undefined;
 }
 export interface WidgetConfigurationTheme {
-  tokens?: WidgetConfigurationThemeTokens;
+  tokens?: WidgetConfigurationThemeTokens | undefined;
 }
 /** <x-lifecycle-container><x-lifecycle class="oie"></x-lifecycle></x-lifecycle-container>The Sign-In Widget configuration object containing branding, features, theme tokens, and other customization settings. */
 export interface WidgetConfiguration {
-  assets?: WidgetConfigurationAssets;
+  assets?: WidgetConfigurationAssets | undefined;
   /** Brand name displayed on the widget */
-  brandName?: string;
+  brandName?: string | undefined;
   /** Color customizations for the Sign-In Widget */
-  colors?: WidgetConfigurationColors;
-  features?: WidgetConfigurationFeatures;
-  hcaptcha?: WidgetConfigurationHcaptcha;
-  helpLinks?: WidgetConfigurationHelpLinks;
+  colors?: WidgetConfigurationColors | undefined;
+  features?: WidgetConfigurationFeatures | undefined;
+  hcaptcha?: WidgetConfigurationHcaptcha | undefined;
+  helpLinks?: WidgetConfigurationHelpLinks | undefined;
   /** Support phone number displayed on the widget */
-  helpSupportNumber?: string;
-  i18n?: WidgetConfigurationI18n;
+  helpSupportNumber?: string | undefined;
+  i18n?: WidgetConfigurationI18n | undefined;
   /** Language code for the widget */
-  language?: string;
+  language?: string | undefined;
   /** URL for the logo displayed on the Sign-In Widget */
-  logo?: string;
+  logo?: string | undefined;
   /** Alt text for the logo */
-  logoText?: string;
-  recaptcha?: WidgetConfigurationRecaptcha;
+  logoText?: string | undefined;
+  recaptcha?: WidgetConfigurationRecaptcha | undefined;
   /** Custom sign-out URL */
-  signOutLink?: string;
-  theme?: WidgetConfigurationTheme;
+  signOutLink?: string | undefined;
+  theme?: WidgetConfigurationTheme | undefined;
 }
 /** The generation of the Sign-in Widget */
 export type WidgetGeneration = "G2" | "G3";
 export interface PostAuthKeepMeSignedInPrompt {
   /** The label on the accept button when prompting for Stay signed in */
-  acceptButtonText?: string;
+  acceptButtonText?: string | undefined;
   /** The label on the reject button when prompting for Stay signed in */
-  rejectButtonText?: string;
+  rejectButtonText?: string | undefined;
   /** The subtitle on the Sign-In Widget when prompting for Stay signed in */
-  subtitle?: string;
+  subtitle?: string | undefined;
   /** The title on the Sign-In Widget when prompting for Stay signed in */
-  title?: string;
+  title?: string | undefined;
 }
 /** <x-lifecycle-container><x-lifecycle class="oie"></x-lifecycle></x-lifecycle-container>Customizable strings to use with [grace periods](https://developer.okta.com/docs/concepts/policies/#authenticator-enrollment-policies) that are shown on the Sign-In Widget You can use the `gracePeriodRequiredSoonDescription` string without using either of the custom link strings. However, if you use one of the custom link strings (`gracePeriodRequiredSoonCustomLinkLabel` or `gracePeriodRequiredSoonCustomLinkUrl`), then both are required. */
 export interface GracePeriodRequiredSoon {
   /** The label of the custom link that's shown on the Sign-In Widget when users are prompted to enroll required authenticators before their grace period ends. */
-  gracePeriodRequiredSoonCustomLinkLabel?: string;
+  gracePeriodRequiredSoonCustomLinkLabel?: string | undefined;
   /** The URL for the custom link that's shown on the Sign-In Widget when users are prompted to enroll required authenticators before their grace period ends. */
-  gracePeriodRequiredSoonCustomLinkUrl?: string;
+  gracePeriodRequiredSoonCustomLinkUrl?: string | undefined;
   /** The description that's shown on the Sign-In Widget for users who are within an authenticator grace period. This description prompts users to enroll required authenticators before their grace period ends. */
-  gracePeriodRequiredSoonDescription?: string;
+  gracePeriodRequiredSoonDescription?: string | undefined;
 }
 export interface GetCustomizedSignInPageResponseWidgetCustomizations {
   /** The label for the sign in widget */
-  signInLabel?: string;
+  signInLabel?: string | undefined;
   /** The label for the username field */
-  usernameLabel?: string;
+  usernameLabel?: string | undefined;
   /** The label for the username information tip */
-  usernameInfoTip?: string;
+  usernameInfoTip?: string | undefined;
   /** The label for the password field */
-  passwordLabel?: string | Redacted.Redacted<string>;
+  passwordLabel?: string | Redacted.Redacted<string> | undefined;
   /** The label for the password information tip */
-  passwordInfoTip?: string | Redacted.Redacted<string>;
+  passwordInfoTip?: string | Redacted.Redacted<string> | undefined;
   /** Allows users to see their passwords as they type */
-  showPasswordVisibilityToggle?: boolean;
+  showPasswordVisibilityToggle?: boolean | undefined;
   /** Allows the user's identifier to appear on authentication and enrollment pages */
-  showUserIdentifier?: boolean;
+  showUserIdentifier?: boolean | undefined;
   /** The label for the forgot password page */
-  forgotPasswordLabel?: string | Redacted.Redacted<string>;
+  forgotPasswordLabel?: string | Redacted.Redacted<string> | undefined;
   /** The forgot password URL */
-  forgotPasswordUrl?: string | Redacted.Redacted<string>;
+  forgotPasswordUrl?: string | Redacted.Redacted<string> | undefined;
   /** The label for the unlock account link */
-  unlockAccountLabel?: string;
+  unlockAccountLabel?: string | undefined;
   /** The unlock account URL */
-  unlockAccountUrl?: string;
+  unlockAccountUrl?: string | undefined;
   /** The label for the help link */
-  helpLabel?: string;
+  helpLabel?: string | undefined;
   /** The help link URL */
-  helpUrl?: string;
+  helpUrl?: string | undefined;
   /** The label for the first custom link */
-  customLink1Label?: string;
+  customLink1Label?: string | undefined;
   /** The URL for the first custom link */
-  customLink1Url?: string;
+  customLink1Url?: string | undefined;
   /** The label for the second custom link */
-  customLink2Label?: string;
+  customLink2Label?: string | undefined;
   /** The URL for the second custom link */
-  customLink2Url?: string;
+  customLink2Url?: string | undefined;
   /** The label for the authenticator page custom link */
-  authenticatorPageCustomLinkLabel?: string;
+  authenticatorPageCustomLinkLabel?: string | undefined;
   /** The URL for the authenticator page custom link */
-  authenticatorPageCustomLinkUrl?: string;
+  authenticatorPageCustomLinkUrl?: string | undefined;
   /** The label for the username field in the classic recovery flow */
-  classicRecoveryFlowEmailOrUsernameLabel?: string;
-  widgetGeneration?: WidgetGeneration;
-  postAuthKeepMeSignedInPrompt?: PostAuthKeepMeSignedInPrompt;
+  classicRecoveryFlowEmailOrUsernameLabel?: string | undefined;
+  widgetGeneration?: WidgetGeneration | undefined;
+  postAuthKeepMeSignedInPrompt?: PostAuthKeepMeSignedInPrompt | undefined;
   /** The title of the footer link on the sign-in page. Only applicable for Classic Engine orgs. */
-  classicFooterHelpTitle?: string;
-  gracePeriodRequiredSoon?: GracePeriodRequiredSoon;
+  classicFooterHelpTitle?: string | undefined;
+  gracePeriodRequiredSoon?: GracePeriodRequiredSoon | undefined;
 }
 export interface GetCustomizedSignInPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
-  widgetConfiguration?: WidgetConfiguration;
-  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
-  widgetVersion?: string;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
+  widgetConfiguration?: WidgetConfiguration | undefined;
+  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations | undefined;
+  widgetVersion?: string | undefined;
 }
 export interface GetCustomTelephonyProviderCredentialRequest {
   /** The ID of the custom telephony provider */
@@ -8016,8 +8046,8 @@ export interface GetDefaultErrorPageRequest {
 }
 export interface GetDefaultErrorPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
 }
 export interface GetDefaultProvisioningConnectionForApplicationRequest {
   /** Application ID */
@@ -8035,7 +8065,7 @@ export interface Org2OrgProvisioningOAuthSigningSettings {
 }
 export interface ProvisioningConnectionResponseProfile {
   authScheme: ProvisioningConnectionAuthScheme;
-  signing?: Org2OrgProvisioningOAuthSigningSettings;
+  signing?: Org2OrgProvisioningOAuthSigningSettings | undefined;
 }
 /** Provisioning connection status */
 export type ProvisioningConnectionStatus = "DISABLED" | "ENABLED" | "UNKNOWN";
@@ -8043,29 +8073,29 @@ export type HrefHintsGuidanceObjectAllowList = Array<HttpMethod>;
 /** Specifies the URI to invoke for granting scope consent required to complete the OAuth 2.0 connection */
 export type HrefHintsGuidanceObjectGuidanceList = Array<string>;
 export interface HrefHintsGuidanceObject {
-  allow?: HrefHintsGuidanceObjectAllowList;
+  allow?: HrefHintsGuidanceObjectAllowList | undefined;
   /** Specifies the URI to invoke for granting scope consent required to complete the OAuth 2.0 connection */
-  guidance?: HrefHintsGuidanceObjectGuidanceList;
+  guidance?: HrefHintsGuidanceObjectGuidanceList | undefined;
 }
 /** Link to authorize scopes */
 export interface HrefObjectAuthorizeLink {
-  hints?: HrefHintsGuidanceObject;
+  hints?: HrefHintsGuidanceObject | undefined;
   /** Link URI */
   href: string;
 }
 export interface LinksSelfLifecycleAndAuthorize {
-  self?: HrefObjectSelfLink;
-  activate?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
-  authorize?: HrefObjectAuthorizeLink;
+  self?: HrefObjectSelfLink | undefined;
+  activate?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  authorize?: HrefObjectAuthorizeLink | undefined;
 }
 export interface ProvisioningConnectionResponse {
-  authScheme?: ProvisioningConnectionTokenAuthScheme;
+  authScheme?: ProvisioningConnectionTokenAuthScheme | undefined;
   /** Base URL */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   profile: ProvisioningConnectionResponseProfile;
   status: ProvisioningConnectionStatus;
-  _links?: LinksSelfLifecycleAndAuthorize;
+  _links?: LinksSelfLifecycleAndAuthorize | undefined;
 }
 export interface GetDefaultSignInPageRequest {
   /** The ID of the brand */
@@ -8075,11 +8105,11 @@ export type GetDefaultSignInPageResponseWidgetCustomizations =
   GetCustomizedSignInPageResponseWidgetCustomizations;
 export interface GetDefaultSignInPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
-  widgetConfiguration?: WidgetConfiguration;
-  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
-  widgetVersion?: string;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
+  widgetConfiguration?: WidgetConfiguration | undefined;
+  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations | undefined;
+  widgetVersion?: string | undefined;
 }
 export interface GetDeviceRequest {
   /** `id` of the device */
@@ -8095,88 +8125,88 @@ export type DiskEncryptionTypeDef =
 /** OS platform of the device */
 export type DevicePlatform = "ANDROID" | "IOS" | "MACOS" | "WINDOWS";
 export interface DeviceProfile {
-  diskEncryptionType?: DiskEncryptionTypeDef;
+  diskEncryptionType?: DiskEncryptionTypeDef | undefined;
   /** Display name of the device */
   displayName: string;
   /** International Mobile Equipment Identity (IMEI) of the device */
-  imei?: string;
+  imei?: string | undefined;
   /** Indicates if the device is jailbroken or rooted. Only applicable to `IOS` and `ANDROID` platforms */
-  integrityJailbreak?: boolean;
+  integrityJailbreak?: boolean | undefined;
   /** Indicates if the device is managed by mobile device management (MDM) software */
-  managed?: boolean;
+  managed?: boolean | undefined;
   /** Name of the manufacturer of the device */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Mobile equipment identifier of the device */
-  meid?: string;
+  meid?: string | undefined;
   /** Model of the device */
-  model?: string;
+  model?: string | undefined;
   /** Version of the device OS */
-  osVersion?: string;
+  osVersion?: string | undefined;
   platform: DevicePlatform;
   /** Indicates if the device is registered at Okta */
   registered: boolean;
   /** Indicates if the device contains a secure hardware functionality */
-  secureHardwarePresent?: boolean;
+  secureHardwarePresent?: boolean | undefined;
   /** Serial number of the device */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Windows Security identifier of the device */
-  sid?: string;
+  sid?: string | undefined;
   /** Windows Trusted Platform Module hash value */
-  tpmPublicKeyHash?: string;
+  tpmPublicKeyHash?: string | undefined;
   /** macOS Unique device identifier of the device */
-  udid?: string;
+  udid?: string | undefined;
 }
 /** Display name of the device */
 export interface DeviceDisplayName {
   /** Indicates whether the associated value is Personal Identifiable Information (PII) and requires masking */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** Display name of the device */
-  value?: string;
+  value?: string | undefined;
 }
 /** The state object of the device */
 export type DeviceStatus = "ACTIVE" | "DEACTIVATED" | "SUSPENDED" | "UNSUSPENDED";
 export type HrefObjectSuspendLink = HrefObjectSelfLink;
 export type HrefObjectUnsuspendLink = HrefObjectSelfLink;
 export interface LinksSelfAndFullUsersLifecycle {
-  self?: HrefObjectSelfLink;
-  activate?: HrefObjectSelfLink;
-  deactivate?: HrefObjectSelfLink;
-  suspend?: HrefObjectSelfLink;
-  unsuspend?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  activate?: HrefObjectSelfLink | undefined;
+  deactivate?: HrefObjectSelfLink | undefined;
+  suspend?: HrefObjectSelfLink | undefined;
+  unsuspend?: HrefObjectSelfLink | undefined;
   /** Link to device users */
-  users?: HrefObjectSelfLink;
+  users?: HrefObjectSelfLink | undefined;
 }
 /** Payload data for the OktaVerify provider */
 export interface OktaVerifyPayload {
   /** The version of the Okta Verify client */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
 }
 export interface DeviceProvider {
-  payload?: OktaVerifyPayload;
+  payload?: OktaVerifyPayload | undefined;
   /** The version of the payload schema */
-  payloadVersion?: string;
+  payloadVersion?: string | undefined;
   /** The name of the provider */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** List of providers for the device when the `expand=providers` query parameter is specified */
 export type GetDeviceResponseProvidersList = Array<DeviceProvider>;
 export interface GetDeviceResponse {
   /** Timestamp when the device was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique key for the device */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the device record was last updated. Updates occur when Okta collects and saves device signals during authentication, and when the lifecycle state of the device changes. */
-  lastUpdated?: string;
-  profile?: DeviceProfile;
-  resourceAlternateId?: string;
-  resourceDisplayName?: DeviceDisplayName;
+  lastUpdated?: string | undefined;
+  profile?: DeviceProfile | undefined;
+  resourceAlternateId?: string | undefined;
+  resourceDisplayName?: DeviceDisplayName | undefined;
   /** Alternate key for the `id` */
-  resourceId?: string;
-  resourceType?: string;
-  status?: DeviceStatus;
-  _links?: LinksSelfAndFullUsersLifecycle;
+  resourceId?: string | undefined;
+  resourceType?: string | undefined;
+  status?: DeviceStatus | undefined;
+  _links?: LinksSelfAndFullUsersLifecycle | undefined;
   /** List of providers for the device when the `expand=providers` query parameter is specified */
-  providers?: GetDeviceResponseProvidersList;
+  providers?: GetDeviceResponseProvidersList | undefined;
 }
 export interface GetDeviceAssurancePolicyRequest {
   /** Id of the device assurance policy */
@@ -8196,16 +8226,16 @@ export interface GetDeviceOSAccountRequest {
   /** The unique identifier for the OS account */
   osAccountId: string;
   /** Comma-separated list of related resources to include in the `_embedded` attribute. Supported values are `users` and `account_linked_enrollments`. */
-  expand?: GetDeviceOSAccountRequestExpandList;
+  expand?: GetDeviceOSAccountRequestExpandList | undefined;
 }
 /** OS platform for OS accounts (desktop platforms only) */
 export type OSAccountPlatform = "MACOS" | "WINDOWS";
 /** Display name of the OS account */
 export interface OSAccountDisplayName {
   /** Indicates whether the associated value is Personal Identifiable Information (PII) and requires masking */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** Display name of the OS account */
-  value?: string;
+  value?: string | undefined;
 }
 /** Status of the OS account */
 export type OSAccountWindowsOutputStatus = "ACTIVE" | "DELETED";
@@ -8214,7 +8244,7 @@ export type AccountLinkedEnrollmentProfileAuthenticationMethod = "PASSWORD" | "S
 /** Profile details for a linked enrollment */
 export interface AccountLinkedEnrollmentProfile {
   /** Authentication method used for the enrollment */
-  authenticationMethod?: AccountLinkedEnrollmentProfileAuthenticationMethod;
+  authenticationMethod?: AccountLinkedEnrollmentProfileAuthenticationMethod | undefined;
 }
 /** Status of the enrollment. Possible values depend on `type`. For `platform_sso` - `ACTIVE`, `SUSPENDED`, `REVOKED`. For `desktop_mfa` - `ACTIVE`, `DELETED`. */
 export type AccountLinkedEnrollmentStatus = "ACTIVE" | "SUSPENDED" | "REVOKED" | "DELETED";
@@ -8223,22 +8253,22 @@ export type AccountLinkedEnrollmentType = "platform_sso" | "desktop_mfa";
 /** Embedded data for a linked enrollment */
 export interface AccountLinkedEnrollmentEmbedded {
   /** Timestamp of the last successful authentication */
-  lastAuthenticatedOn?: string;
+  lastAuthenticatedOn?: string | undefined;
 }
 /** An enrollment linked to an OS account */
 export interface AccountLinkedEnrollment {
   /** Timestamp when the enrollment was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique identifier of the enrollment */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the enrollment was last updated */
-  lastUpdated?: string;
-  profile?: AccountLinkedEnrollmentProfile;
+  lastUpdated?: string | undefined;
+  profile?: AccountLinkedEnrollmentProfile | undefined;
   /** Status of the enrollment. Possible values depend on `type`. For `platform_sso` - `ACTIVE`, `SUSPENDED`, `REVOKED`. For `desktop_mfa` - `ACTIVE`, `DELETED`. */
-  status?: AccountLinkedEnrollmentStatus;
+  status?: AccountLinkedEnrollmentStatus | undefined;
   /** Type of the linked enrollment */
-  type?: AccountLinkedEnrollmentType;
-  _embedded?: AccountLinkedEnrollmentEmbedded;
+  type?: AccountLinkedEnrollmentType | undefined;
+  _embedded?: AccountLinkedEnrollmentEmbedded | undefined;
 }
 /** Enrollments linked to this OS account */
 export type OSAccountEmbeddedOutputAccountLinkedEnrollmentsList = Array<AccountLinkedEnrollment>;
@@ -8247,33 +8277,33 @@ export type OSAccountEmbeddedOutputUsersList = Array<UserOutput>;
 /** Embedded resources related to the OS account */
 export interface OSAccountEmbeddedOutput {
   /** Enrollments linked to this OS account */
-  accountLinkedEnrollments?: OSAccountEmbeddedOutputAccountLinkedEnrollmentsList;
+  accountLinkedEnrollments?: OSAccountEmbeddedOutputAccountLinkedEnrollmentsList | undefined;
   /** Users associated with this OS account */
-  users?: OSAccountEmbeddedOutputUsersList;
+  users?: OSAccountEmbeddedOutputUsersList | undefined;
 }
 export interface OSAccountLinks {
-  device?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
+  device?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
 }
 /** Profile type discriminator */
 export type WindowsOSAccountProfileType = "WINDOWS";
 export interface WindowsOSAccountProfile {
   /** Active Directory join status */
-  directoryJoinStatus?: string;
+  directoryJoinStatus?: string | undefined;
   /** Domain\username format (down-level logon name) */
-  downLevelUsername?: string;
+  downLevelUsername?: string | undefined;
   /** Full name of the account user */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Globally Unique Identifier for the account */
-  GUID?: string;
+  GUID?: string | undefined;
   /** Fully qualified username */
-  qualifiedUsername?: string;
+  qualifiedUsername?: string | undefined;
   /** Windows Security Identifier (SID) */
-  securityId?: string;
+  securityId?: string | undefined;
   /** Profile type discriminator */
-  type?: WindowsOSAccountProfileType;
+  type?: WindowsOSAccountProfileType | undefined;
   /** User principal name */
-  upn?: string;
+  upn?: string | undefined;
 }
 export interface OSAccountWindowsOutput {
   /** Timestamp when the OS account was created */
@@ -8283,18 +8313,18 @@ export interface OSAccountWindowsOutput {
   /** Unique identifier for the OS account */
   id: string;
   /** Timestamp when the OS account was last seen */
-  lastSeenAt?: string | null;
+  lastSeenAt?: string | null | undefined;
   /** Timestamp when the OS account was last updated */
   lastUpdated: string;
   platform: OSAccountPlatform;
-  resourceAlternateId?: string | null;
-  resourceDisplayName?: OSAccountDisplayName;
+  resourceAlternateId?: string | null | undefined;
+  resourceDisplayName?: OSAccountDisplayName | undefined;
   /** Alternate key for the `id` */
-  resourceId?: string;
-  resourceType?: string;
+  resourceId?: string | undefined;
+  resourceType?: string | undefined;
   /** Status of the OS account */
   status: OSAccountWindowsOutputStatus;
-  _embedded?: OSAccountEmbeddedOutput;
+  _embedded?: OSAccountEmbeddedOutput | undefined;
   _links: OSAccountLinks;
   profile: WindowsOSAccountProfile;
 }
@@ -8304,13 +8334,13 @@ export type OSAccountMacOSOutputStatus = "ACTIVE" | "DELETED";
 export type MacOSAccountProfileType = "MACOS";
 export interface MacOSAccountProfile {
   /** Unique identifier for the macOS account */
-  accountUuid?: string;
+  accountUuid?: string | undefined;
   /** Full name of the account user */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Profile type discriminator */
-  type?: MacOSAccountProfileType;
+  type?: MacOSAccountProfileType | undefined;
   /** Username of the account */
-  username?: string;
+  username?: string | undefined;
 }
 export interface OSAccountMacOSOutput {
   /** Timestamp when the OS account was created */
@@ -8320,18 +8350,18 @@ export interface OSAccountMacOSOutput {
   /** Unique identifier for the OS account */
   id: string;
   /** Timestamp when the OS account was last seen */
-  lastSeenAt?: string | null;
+  lastSeenAt?: string | null | undefined;
   /** Timestamp when the OS account was last updated */
   lastUpdated: string;
   platform: OSAccountPlatform;
-  resourceAlternateId?: string | null;
-  resourceDisplayName?: OSAccountDisplayName;
+  resourceAlternateId?: string | null | undefined;
+  resourceDisplayName?: OSAccountDisplayName | undefined;
   /** Alternate key for the `id` */
-  resourceId?: string;
-  resourceType?: string;
+  resourceId?: string | undefined;
+  resourceType?: string | undefined;
   /** Status of the OS account */
   status: OSAccountMacOSOutputStatus;
-  _embedded?: OSAccountEmbeddedOutput;
+  _embedded?: OSAccountEmbeddedOutput | undefined;
   _links: OSAccountLinks;
   profile: MacOSAccountProfile;
 }
@@ -8345,15 +8375,15 @@ export interface GetDRStatusRequest {}
 /** Status whether a domain has been failed over or not */
 export interface DRStatusItem {
   /** Domain for your org */
-  domain?: string;
+  domain?: string | undefined;
   /** Indicates if the domain has been failed over */
-  isFailedOver?: boolean;
+  isFailedOver?: boolean | undefined;
 }
 /** List of domains and their disaster recovery status */
 export type GetDRStatusResponseStatusList = Array<DRStatusItem>;
 export interface GetDRStatusResponse {
   /** List of domains and their disaster recovery status */
-  status?: GetDRStatusResponseStatusList;
+  status?: GetDRStatusResponseStatusList | undefined;
 }
 export interface GetDRStatusByDomainRequest {
   /** The Okta domain name of your org or one of your custom domains */
@@ -8363,7 +8393,7 @@ export interface GetDRStatusByDomainRequest {
 export type GetDRStatusByDomainResponseStatusList = Array<DRStatusItem>;
 export interface GetDRStatusByDomainResponse {
   /** List of domains and their disaster recovery status */
-  status?: GetDRStatusByDomainResponseStatusList;
+  status?: GetDRStatusByDomainResponseStatusList | undefined;
 }
 export interface GetEmailCustomizationRequest {
   /** The ID of the brand */
@@ -8380,15 +8410,15 @@ export interface GetEmailCustomizationResponse {
   /** The email subject. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` subject is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
   subject: string;
   /** The UTC time at which this email customization was created. */
-  created?: string;
+  created?: string | undefined;
   /** A unique identifier for this email customization */
-  id?: string;
+  id?: string | undefined;
   /** Whether this is the default customization for the email template. Each customized email template must have exactly one default customization. Defaults to `true` for the first customization and `false` thereafter. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   language: string;
   /** The UTC time at which this email customization was last updated. */
-  lastUpdated?: string;
-  _links?: CreateEmailCustomizationResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateEmailCustomizationResponseLinks | undefined;
 }
 export interface GetEmailDefaultContentRequest {
   /** The ID of the brand */
@@ -8396,7 +8426,7 @@ export interface GetEmailDefaultContentRequest {
   /** The name of the email template */
   templateName: string;
   /** The language to use for the email. Defaults to the current user's language if unspecified. */
-  language?: string;
+  language?: string | undefined;
 }
 export type GetEmailDefaultContentResponseLinks = CreateEmailCustomizationResponseLinks;
 export interface GetEmailDefaultContentResponse {
@@ -8404,7 +8434,7 @@ export interface GetEmailDefaultContentResponse {
   body: string;
   /** The email subject. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` subject is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
   subject: string;
-  _links?: CreateEmailCustomizationResponseLinks;
+  _links?: CreateEmailCustomizationResponseLinks | undefined;
 }
 export interface GetEmailDefaultPreviewRequest {
   /** The ID of the brand */
@@ -8412,7 +8442,7 @@ export interface GetEmailDefaultPreviewRequest {
   /** The name of the email template */
   templateName: string;
   /** The language to use for the email. Defaults to the current user's language if unspecified. */
-  language?: string;
+  language?: string | undefined;
 }
 export type GetEmailDomainRequestExpandItem = "brands";
 export type GetEmailDomainRequestExpandList = Array<
@@ -8421,23 +8451,23 @@ export type GetEmailDomainRequestExpandList = Array<
 export interface GetEmailDomainRequest {
   emailDomainId: string;
   /** Specifies additional metadata to be included in the response */
-  expand?: GetEmailDomainRequestExpandList;
+  expand?: GetEmailDomainRequestExpandList | undefined;
 }
 export type GetEmailDomainResponseDnsValidationRecordsList = Array<EmailDomainDNSRecord>;
 export type GetEmailDomainResponseEmbeddedBrandsList = Array<Brand>;
 export interface GetEmailDomainResponseEmbedded {
-  brands?: GetEmailDomainResponseEmbeddedBrandsList;
+  brands?: GetEmailDomainResponseEmbeddedBrandsList | undefined;
 }
 export interface GetEmailDomainResponse {
   displayName: string;
   userName: string;
-  dnsValidationRecords?: GetEmailDomainResponseDnsValidationRecordsList;
-  domain?: string;
-  id?: string;
-  validationStatus?: EmailDomainStatus;
+  dnsValidationRecords?: GetEmailDomainResponseDnsValidationRecordsList | undefined;
+  domain?: string | undefined;
+  id?: string | undefined;
+  validationStatus?: EmailDomainStatus | undefined;
   /** The subdomain for the email sender's custom mail domain */
-  validationSubdomain?: string;
-  _embedded?: GetEmailDomainResponseEmbedded;
+  validationSubdomain?: string | undefined;
+  _embedded?: GetEmailDomainResponseEmbedded | undefined;
 }
 export interface GetEmailServerRequest {
   emailServerId: string;
@@ -8450,12 +8480,12 @@ export interface GetEmailSettingsRequest {
 }
 export type EmailSettingsResponseRecipients = "ALL_USERS" | "ADMINS_ONLY" | "NO_USERS";
 export interface EmailSettingsResponseLinks {
-  self?: HrefObjectSelfLink;
-  template?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  template?: HrefObjectSelfLink | undefined;
 }
 export interface EmailSettingsResponse {
-  recipients?: EmailSettingsResponseRecipients;
-  _links?: EmailSettingsResponseLinks;
+  recipients?: EmailSettingsResponseRecipients | undefined;
+  _links?: EmailSettingsResponseLinks | undefined;
 }
 export type GetEmailTemplateRequestExpandItem = "settings" | "customizationCount";
 export type GetEmailTemplateRequestExpandList = Array<
@@ -8467,24 +8497,24 @@ export interface GetEmailTemplateRequest {
   /** The name of the email template */
   templateName: string;
   /** Specifies additional metadata to be included in the response */
-  expand?: GetEmailTemplateRequestExpandList;
+  expand?: GetEmailTemplateRequestExpandList | undefined;
 }
 export interface EmailTemplateResponseEmbedded {
-  settings?: EmailSettingsResponse;
-  customizationCount?: number;
+  settings?: EmailSettingsResponse | undefined;
+  customizationCount?: number | undefined;
 }
 export interface EmailTemplateResponseLinks {
-  self?: HrefObjectSelfLink;
-  settings?: HrefObjectSelfLink;
-  defaultContent?: HrefObjectSelfLink;
-  customizations?: HrefObjectSelfLink;
-  test?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  settings?: HrefObjectSelfLink | undefined;
+  defaultContent?: HrefObjectSelfLink | undefined;
+  customizations?: HrefObjectSelfLink | undefined;
+  test?: HrefObjectSelfLink | undefined;
 }
 export interface EmailTemplateResponse {
   /** The name of this email template */
-  name?: string;
-  _embedded?: EmailTemplateResponseEmbedded;
-  _links?: EmailTemplateResponseLinks;
+  name?: string | undefined;
+  _embedded?: EmailTemplateResponseEmbedded | undefined;
+  _links?: EmailTemplateResponseLinks | undefined;
 }
 export type GetErrorPageRequestExpandItem =
   | "default"
@@ -8497,28 +8527,28 @@ export interface GetErrorPageRequest {
   /** The ID of the brand */
   brandId: string;
   /** Specifies additional metadata to be included in the response */
-  expand?: GetErrorPageRequestExpandList;
+  expand?: GetErrorPageRequestExpandList | undefined;
 }
 export interface CustomizablePage {
   /** The HTML for the page */
-  pageContent?: string;
+  pageContent?: string | undefined;
 }
 export interface PageRootEmbedded {
-  default?: CustomizablePage;
-  customized?: CustomizablePage;
-  customizedUrl?: string;
-  preview?: CustomizablePage;
-  previewUrl?: string;
+  default?: CustomizablePage | undefined;
+  customized?: CustomizablePage | undefined;
+  customizedUrl?: string | undefined;
+  preview?: CustomizablePage | undefined;
+  previewUrl?: string | undefined;
 }
 export interface PageRootLinks {
-  self?: HrefObjectSelfLink;
-  default?: HrefObjectSelfLink;
-  customized?: HrefObjectSelfLink;
-  preview?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  default?: HrefObjectSelfLink | undefined;
+  customized?: HrefObjectSelfLink | undefined;
+  preview?: HrefObjectSelfLink | undefined;
 }
 export interface PageRoot {
-  _embedded?: PageRootEmbedded;
-  _links?: PageRootLinks;
+  _embedded?: PageRootEmbedded | undefined;
+  _links?: PageRootLinks | undefined;
 }
 export interface GetEventHookRequest {
   /** `id` of the Event Hook */
@@ -8547,7 +8577,7 @@ export type UserFactorPushTransactionFactorResult =
   | "TIMEOUT";
 export interface UserFactorPushTransaction {
   /** Result of the verification transaction */
-  factorResult?: UserFactorPushTransactionFactorResult;
+  factorResult?: UserFactorPushTransactionFactorResult | undefined;
 }
 export interface GetFeatureRequest {
   /** `id` of the feature */
@@ -8559,8 +8589,8 @@ export type FeatureStageState = "CLOSED" | "OPEN";
 export type FeatureStageValue = "BETA" | "EA";
 /** Current release cycle stage of a feature If a feature's stage value is `EA`, the state is `null` and not returned. If the value is `BETA`, the state is `OPEN` or `CLOSED` depending on whether the `BETA` feature is manageable. > **Note:** If a feature's stage is `OPEN BETA`, you can update it only in Preview cells. If a feature's stage is `CLOSED BETA`, you can disable it only in Preview cells. */
 export interface FeatureStage {
-  state?: FeatureStageState;
-  value?: FeatureStageValue;
+  state?: FeatureStageState | undefined;
+  value?: FeatureStageValue | undefined;
 }
 /** Setting status */
 export type EnabledStatus = "DISABLED" | "ENABLED";
@@ -8569,29 +8599,29 @@ export type FeatureType = "self-service";
 /** Link to feature dependents */
 export interface FeatureLinksDependents {
   /** Link URI */
-  href?: string;
+  href?: string | undefined;
 }
 /** Link to feature dependencies */
 export type FeatureLinksDependencies = FeatureLinksDependents;
 export interface FeatureLinks {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** Link to feature dependents */
-  dependents?: FeatureLinksDependents;
+  dependents?: FeatureLinksDependents | undefined;
   /** Link to feature dependencies */
-  dependencies?: FeatureLinksDependents;
+  dependencies?: FeatureLinksDependents | undefined;
 }
 /** Specifies feature release cycle information */
 export interface Feature {
   /** Brief description of the feature and what it provides */
-  description?: string;
+  description?: string | undefined;
   /** Unique identifier for this feature */
-  id?: string;
+  id?: string | undefined;
   /** Name of the feature */
-  name?: string;
-  stage?: FeatureStage;
-  status?: EnabledStatus;
-  type?: FeatureType;
-  _links?: FeatureLinks;
+  name?: string | undefined;
+  stage?: FeatureStage | undefined;
+  status?: EnabledStatus | undefined;
+  type?: FeatureType | undefined;
+  _links?: FeatureLinks | undefined;
 }
 /** Key name of the feature | Feature name | Description | | --------- | ------------- | | USER_PROVISIONING | User profiles are pushed from Okta to the third-party app. Represents the **To App** provisioning feature setting in the Admin Console. | | INBOUND_PROVISIONING | User profiles are imported from the third-party app into Okta. This feature represents the **To Okta** provisioning feature setting in the Admin Console. | Select the feature: */
 export type GetFeatureForApplicationRequestFeatureName =
@@ -8609,10 +8639,10 @@ export type ApplicationFeatureLinks = LinksSelf;
 /** The Feature object is used to configure app feature settings. */
 export interface ApplicationFeature {
   /** Description of the feature */
-  description?: string;
-  name?: ApplicationFeatureType;
-  status?: unknown;
-  _links?: LinksSelf;
+  description?: string | undefined;
+  name?: ApplicationFeatureType | undefined;
+  status?: unknown | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetFederatedClaimRequest {
   /** Application ID */
@@ -8622,9 +8652,9 @@ export interface GetFederatedClaimRequest {
 }
 export interface FederatedClaimRequestBody {
   /** The Okta Expression Language expression to be evaluated at runtime */
-  expression?: string;
+  expression?: string | undefined;
   /** The name of the claim to be used in the produced token */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetFirstPartyAppSettingsRequest {
   /** The key name for the Okta app.<br> Supported apps: * Okta Admin Console (`admin-console`) */
@@ -8633,9 +8663,9 @@ export interface GetFirstPartyAppSettingsRequest {
 /** Settings specific to the Okta Admin Console */
 export interface AdminConsoleSettings {
   /** The maximum idle time before the Okta Admin Console session expires. Must be no more than 12 hours. */
-  sessionIdleTimeoutMinutes?: number;
+  sessionIdleTimeoutMinutes?: number | undefined;
   /** The absolute maximum session lifetime of the Okta Admin Console. Must be no more than 7 days. */
-  sessionMaxLifetimeMinutes?: number;
+  sessionMaxLifetimeMinutes?: number | undefined;
 }
 export interface GetGovernanceBundleRequest {
   /** The `id` of a bundle */
@@ -8665,9 +8695,9 @@ export interface GetGroupAttributeQueryResultRequest {
 export type GroupProfileResultProfileMap = { [key: string]: unknown | undefined };
 export interface GroupProfileResult {
   /** The ID of the group */
-  id?: string;
+  id?: string | undefined;
   /** Map of requested attributes and their values */
-  profile?: GroupProfileResultProfileMap;
+  profile?: GroupProfileResultProfileMap | undefined;
 }
 export interface GetGroupPushMappingRequest {
   /** Application ID */
@@ -8680,7 +8710,7 @@ export interface GetGroupRuleRequest {
   /** The `id` of the group rule */
   groupRuleId: string;
   /** If specified, returns the mapping of group IDs to group names in the `_embedded` object. */
-  expand?: GetGroupRuleRequestExpand | (string & {});
+  expand?: GetGroupRuleRequestExpand | (string & {}) | undefined;
 }
 export interface GetGroupSchemaRequest {}
 export type GroupSchemaAttributeEnumItem = string | number;
@@ -8689,9 +8719,9 @@ export type GroupSchemaAttributeEnumList = Array<GroupSchemaAttributeEnumItem>;
 export type UserSchemaAttributeItemsEnumList = Array<string>;
 export type UserSchemaAttributeItemsOneOfList = Array<UserSchemaAttributeEnum>;
 export interface UserSchemaAttributeItems {
-  enum?: UserSchemaAttributeItemsEnumList;
-  oneOf?: UserSchemaAttributeItemsOneOfList;
-  type?: string;
+  enum?: UserSchemaAttributeItemsEnumList | undefined;
+  oneOf?: UserSchemaAttributeItemsOneOfList | undefined;
+  type?: string | undefined;
 }
 /** Non-empty array of valid JSON schemas. The `oneOf` key is only supported in conjunction with `enum` and provides a mechanism to return a display name for the `enum` value.<br> Each schema has the following format: ``` { "const": "enumValue", "title": "display name" } ``` When `enum` is used in conjunction with `oneOf`, you must keep the set of enumerated values and their order.<br> For example: ``` "enum": ["S","M","L","XL"], "oneOf": [ {"const": "S", "title": "Small"}, {"const": "M", "title": "Medium"}, {"const": "L", "title": "Large"}, {"const": "XL", "title": "Extra Large"} ] ``` */
 export type GroupSchemaAttributeOneOfList = Array<UserSchemaAttributeEnum>;
@@ -8699,57 +8729,57 @@ export type GroupSchemaAttributeOneOfList = Array<UserSchemaAttributeEnum>;
 export type GroupSchemaAttributePermissionsList = Array<UserSchemaAttributePermission>;
 export interface GroupSchemaAttribute {
   /** Description of the property */
-  description?: string;
+  description?: string | undefined;
   /** Enumerated value of the property. The value of the property is limited to one of the values specified in the enum definition. The list of values for the enum must consist of unique elements. */
-  enum?: GroupSchemaAttributeEnumList | null;
+  enum?: GroupSchemaAttributeEnumList | null | undefined;
   /** Name of the property as it exists in an external application */
-  externalName?: string;
+  externalName?: string | undefined;
   /** Namespace from the external application */
-  externalNamespace?: string;
+  externalNamespace?: string | undefined;
   /** Identifies the type of data represented by the string */
-  format?: UserSchemaAttributeFormat | (string & {});
-  items?: UserSchemaAttributeItems | null;
+  format?: UserSchemaAttributeFormat | (string & {}) | undefined;
+  items?: UserSchemaAttributeItems | null | undefined;
   /** Identifies where the property is mastered */
-  master?: UserSchemaAttributeMaster | null;
+  master?: UserSchemaAttributeMaster | null | undefined;
   /** Maximum character length of a string property */
-  maxLength?: number | null;
+  maxLength?: number | null | undefined;
   /** Minimum character length of a string property */
-  minLength?: number | null;
+  minLength?: number | null | undefined;
   /** Defines the mutability of the property */
-  mutability?: UserSchemaAttributeMutabilityString | (string & {});
+  mutability?: UserSchemaAttributeMutabilityString | (string & {}) | undefined;
   /** Non-empty array of valid JSON schemas. The `oneOf` key is only supported in conjunction with `enum` and provides a mechanism to return a display name for the `enum` value.<br> Each schema has the following format: ``` { "const": "enumValue", "title": "display name" } ``` When `enum` is used in conjunction with `oneOf`, you must keep the set of enumerated values and their order.<br> For example: ``` "enum": ["S","M","L","XL"], "oneOf": [ {"const": "S", "title": "Small"}, {"const": "M", "title": "Medium"}, {"const": "L", "title": "Large"}, {"const": "XL", "title": "Extra Large"} ] ``` */
-  oneOf?: GroupSchemaAttributeOneOfList | null;
+  oneOf?: GroupSchemaAttributeOneOfList | null | undefined;
   /** Access control permissions for the property */
-  permissions?: GroupSchemaAttributePermissionsList | null;
+  permissions?: GroupSchemaAttributePermissionsList | null | undefined;
   /** Determines whether the property is required */
-  required?: boolean | null;
+  required?: boolean | null | undefined;
   /** Determines whether a group attribute can be set at the individual or group level */
-  scope?: UserSchemaAttributeScope | (string & {});
+  scope?: UserSchemaAttributeScope | (string & {}) | undefined;
   /** User-defined display name for the property */
-  title?: string;
+  title?: string | undefined;
   /** Type of property */
-  type?: UserSchemaAttributeType | (string & {});
+  type?: UserSchemaAttributeType | (string & {}) | undefined;
   /** Determines whether property values must be unique */
-  unique?: boolean | null;
+  unique?: boolean | null | undefined;
 }
 /** All Okta-defined profile properties are defined in a profile subschema with the resolution scope `#base`. These properties can't be removed or edited, regardless of any attempt to do so. */
 export interface GroupSchemaBaseProperties {
   /** Human readable description of the group */
-  description?: GroupSchemaAttribute;
+  description?: GroupSchemaAttribute | undefined;
   /** Unique identifier for the group */
-  name?: GroupSchemaAttribute;
+  name?: GroupSchemaAttribute | undefined;
 }
 /** A collection indicating required property names */
 export type GroupSchemaBaseRequiredList = Array<string>;
 export interface GroupSchemaBase {
   /** The subschema name */
-  id?: string;
+  id?: string | undefined;
   /** The `#base` object properties */
-  properties?: GroupSchemaBaseProperties;
+  properties?: GroupSchemaBaseProperties | undefined;
   /** A collection indicating required property names */
-  required?: GroupSchemaBaseRequiredList;
+  required?: GroupSchemaBaseRequiredList | undefined;
   /** The object type */
-  type?: string;
+  type?: string | undefined;
 }
 /** The `#custom` object properties */
 export type GroupSchemaCustomPropertiesMap = { [key: string]: GroupSchemaAttribute | undefined };
@@ -8758,39 +8788,39 @@ export type GroupSchemaCustomRequiredList = Array<string>;
 /** All custom profile properties are defined in a profile subschema with the resolution scope `#custom` */
 export interface GroupSchemaCustom {
   /** The subschema name */
-  id?: string;
+  id?: string | undefined;
   /** The `#custom` object properties */
-  properties?: GroupSchemaCustomPropertiesMap;
+  properties?: GroupSchemaCustomPropertiesMap | undefined;
   /** A collection indicating required property names */
-  required?: GroupSchemaCustomRequiredList;
+  required?: GroupSchemaCustomRequiredList | undefined;
   /** The object type */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GroupSchemaDefinitions {
-  base?: GroupSchemaBase;
-  custom?: GroupSchemaCustom;
+  base?: GroupSchemaBase | undefined;
+  custom?: GroupSchemaCustom | undefined;
 }
 export interface GroupSchema {
   /** JSON schema version identifier */
-  _schema?: string;
+  _schema?: string | undefined;
   /** Timestamp when the schema was created */
-  created?: string;
-  definitions?: GroupSchemaDefinitions;
+  created?: string | undefined;
+  definitions?: GroupSchemaDefinitions | undefined;
   /** Description for the schema */
-  description?: string;
+  description?: string | undefined;
   /** URI of group schema */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the schema was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Name of the schema */
-  name?: string;
+  name?: string | undefined;
   /** Group object properties */
-  properties?: UserSchemaProperties;
+  properties?: UserSchemaProperties | undefined;
   /** User-defined display name for the schema */
-  title?: string;
+  title?: string | undefined;
   /** Type of [root schema](https://tools.ietf.org/html/draft-zyp-json-schema-04#section-3.4) */
-  type?: string;
-  _links?: LinksSelf;
+  type?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetHookKeyRequest {
   /** A valid key ID */
@@ -8799,17 +8829,17 @@ export interface GetHookKeyRequest {
 /** The `id` property in the response as `id` serves as the unique ID for the key, which you can specify when invoking other CRUD operations. The `keyId` provided in the response is the alias of the public key that you can use to get details of the public key data in a separate call. */
 export interface HookKey {
   /** Timestamp when the key was created */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The unique identifier for the key */
-  id?: string;
+  id?: string | undefined;
   /** Whether this key is currently in use by other applications */
-  isUsed?: string;
+  isUsed?: string | undefined;
   /** The alias of the public key */
-  keyId?: string;
+  keyId?: string | undefined;
   /** Timestamp when the key was updated */
-  lastUpdated?: string | null;
+  lastUpdated?: string | null | undefined;
   /** Display name of the key */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetIdentityProviderRequest {
   /** `id` of IdP */
@@ -8827,26 +8857,26 @@ export type IdentityProviderApplicationUserProfileMap = { [key: string]: unknown
 export type IdentityProviderApplicationUserEmbeddedMap = { [key: string]: unknown | undefined };
 export type HrefObjectNextLink = HrefObjectSelfLink;
 export interface IdentityProviderApplicationUserLinks {
-  self?: HrefObjectSelfLink;
-  next?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  next?: HrefObjectSelfLink | undefined;
   /** The IdP instance */
-  idp?: HrefObjectSelfLink;
+  idp?: HrefObjectSelfLink | undefined;
   /** The linked Okta user */
-  user?: HrefObjectSelfLink;
+  user?: HrefObjectSelfLink | undefined;
   [key: string]: unknown;
 }
 export interface IdentityProviderApplicationUser {
-  created?: string;
+  created?: string | undefined;
   /** Unique IdP-specific identifier for the user */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Unique key of the user */
-  id?: string;
-  lastUpdated?: string;
+  id?: string | undefined;
+  lastUpdated?: string | undefined;
   /** IdP-specific profile for the user. IdP user profiles are IdP-specific but may be customized by the Profile Editor in the Admin Console. > **Note:** Okta variable names have reserved characters that may conflict with the name of an IdP assertion attribute. You can use the **External name** to define the attribute name as defined in an IdP assertion such as a SAML attribute name. */
-  profile?: IdentityProviderApplicationUserProfileMap;
+  profile?: IdentityProviderApplicationUserProfileMap | undefined;
   /** Embedded resources related to the IdP user */
-  _embedded?: IdentityProviderApplicationUserEmbeddedMap;
-  _links?: IdentityProviderApplicationUserLinks;
+  _embedded?: IdentityProviderApplicationUserEmbeddedMap | undefined;
+  _links?: IdentityProviderApplicationUserLinks | undefined;
 }
 export interface GetIdentityProviderKeyRequest {
   /** Unique `id` of the IdP key credential */
@@ -8870,15 +8900,15 @@ export interface GetIdentitySourceGroupMembershipsRequest {
   /** The Okta group ID or external ID of the identity source group */
   groupOrExternalId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of group membership results in a page. Okta recommends using a specific value other than the default or maximum. If your request times out, retry your request with a smaller `limit` and [page the results](https://developer.okta.com/docs/api/#pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** A list of app user external IDs that are members of the group in Okta */
 export type GroupMembershipsResponseSchemaMemberExternalIdsList = Array<string>;
 export interface GroupMembershipsResponseSchema {
   /** A list of app user external IDs that are members of the group in Okta */
-  memberExternalIds?: GroupMembershipsResponseSchemaMemberExternalIdsList;
+  memberExternalIds?: GroupMembershipsResponseSchemaMemberExternalIdsList | undefined;
 }
 export interface GetIdentitySourceSessionRequest {
   /** The ID of the identity source for which the session is created */
@@ -8895,30 +8925,30 @@ export interface GetIdentitySourceUserRequest {
 /** Contains a set of external user attributes and their values that are mapped to Okta standard and custom profile properties. See the [`profile` object](https://developer.okta.com/docs/api/openapi/okta-management/management/user/getuser#user/getuser/t=response&c=200&path=profile) and Declaration of a Custom Identity Source Schema in [Using anything as a source](https://help.okta.com/okta_help.htm?type=oie&id=ext-anything-as-a-source). > **Note:** Profile attributes can only be of the string type. */
 export interface IdentitySourceUserProfileForUpsert {
   /** Email address of the user */
-  email?: string;
+  email?: string | undefined;
   /** First name of the user */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Home address of the user */
-  homeAddress?: string | null;
+  homeAddress?: string | null | undefined;
   /** Last name of the user */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Mobile phone number of the user */
-  mobilePhone?: string | null;
+  mobilePhone?: string | null | undefined;
   /** Alternative email address of the user */
-  secondEmail?: string;
+  secondEmail?: string | undefined;
   /** Username of the user */
-  userName?: string;
+  userName?: string | undefined;
 }
 export interface UserResponseSchema {
   /** The timestamp when the user was created in the identity source */
-  created?: string;
+  created?: string | undefined;
   /** The external ID of the user in the identity source */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The ID of the user in the identity source */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp when the user was last updated in the identity source */
-  lastUpdated?: string;
-  profile?: IdentitySourceUserProfileForUpsert;
+  lastUpdated?: string | undefined;
+  profile?: IdentitySourceUserProfileForUpsert | undefined;
 }
 export interface GetInlineHookRequest {
   /** `id` of the inline hook */
@@ -8955,24 +8985,24 @@ export type LogStreamSchemaOneOfList = Array<UserSchemaAttributeEnum>;
 export type LogStreamSchemaRequiredList = Array<string>;
 export interface LogStreamSchema {
   /** JSON schema version identifier */
-  _schema?: string;
+  _schema?: string | undefined;
   /** A collection of error messages for individual properties in the schema. Okta implements a subset of [ajv-errors](https://github.com/ajv-validator/ajv-errors). */
-  errorMessage?: unknown;
+  errorMessage?: unknown | undefined;
   /** URI of log stream schema */
-  id?: string;
+  id?: string | undefined;
   /** Non-empty array of valid JSON schemas. Okta only supports `oneOf` for specifying display names for an `enum`. Each schema has the following format: ``` { "const": "enumValue", "title": "display name" } ``` */
-  oneOf?: LogStreamSchemaOneOfList | null;
+  oneOf?: LogStreamSchemaOneOfList | null | undefined;
   /** For `string` log stream schema property type, specifies the regular expression used to validate the property */
-  pattern?: string;
+  pattern?: string | undefined;
   /** log stream schema properties object */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Required properties for this log stream schema object */
-  required?: LogStreamSchemaRequiredList;
+  required?: LogStreamSchemaRequiredList | undefined;
   /** Name of the log streaming integration */
-  title?: string;
+  title?: string | undefined;
   /** Type of log stream schema property */
-  type?: string;
-  _links?: LinksSelf;
+  type?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetMemberOfBindingRequest {
   /** `id` or `label` of the resource set */
@@ -8984,12 +9014,12 @@ export interface GetMemberOfBindingRequest {
 }
 export interface ResourceSetBindingMember {
   /** Timestamp when the member was created */
-  created?: string;
+  created?: string | undefined;
   /** Role resource set binding member ID */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the member was last updated */
-  lastUpdated?: string;
-  _links?: LinksSelf;
+  lastUpdated?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetNetworkZoneRequest {
   /** `id` of the Network Zone */
@@ -9025,7 +9055,7 @@ export interface GetOAuth2TokenForApplicationRequest {
   /** `id` of Token */
   tokenId: string;
   /** An optional parameter to return scope details in the `_embedded` property. Valid value: `scope` */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** The scope names attached to the Token */
 export type OAuth2RefreshTokenScopesList = Array<string>;
@@ -9033,92 +9063,92 @@ export type OAuth2RefreshTokenScopesList = Array<string>;
 export type GrantOrTokenStatus = "ACTIVE" | "REVOKED";
 export interface OfflineAccessScopeResourceHrefObject {
   /** Link URI */
-  href?: string;
+  href?: string | undefined;
   /** Link name */
-  title?: string;
+  title?: string | undefined;
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface OAuth2RefreshTokenScopeLinks {
   /** Link to Scope resource */
-  scope?: OfflineAccessScopeResourceHrefObject;
+  scope?: OfflineAccessScopeResourceHrefObject | undefined;
 }
 export interface OAuth2RefreshTokenScope {
   /** Description of the Scope */
-  description?: string;
+  description?: string | undefined;
   /** Name of the end user displayed in a consent dialog */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Scope object ID */
-  id?: string;
+  id?: string | undefined;
   /** Scope name */
-  name?: string;
+  name?: string | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
-  _links?: OAuth2RefreshTokenScopeLinks;
+  _links?: OAuth2RefreshTokenScopeLinks | undefined;
 }
 /** The scope objects attached to the Token */
 export type OAuth2RefreshTokenEmbeddedScopesList = Array<OAuth2RefreshTokenScope>;
 /** The embedded resources related to the object if the `expand` query parameter is specified */
 export interface OAuth2RefreshTokenEmbedded {
   /** The scope objects attached to the Token */
-  scopes?: OAuth2RefreshTokenEmbeddedScopesList;
+  scopes?: OAuth2RefreshTokenEmbeddedScopesList | undefined;
 }
 export type AppResourceHrefObject = OfflineAccessScopeResourceHrefObject;
 export interface OAuth2RefreshTokenLinksRevokeHints {
-  allow?: unknown;
+  allow?: unknown | undefined;
 }
 /** Link to revoke the refresh Token */
 export interface OAuth2RefreshTokenLinksRevoke {
   /** Link URI */
-  href?: string;
-  hints?: OAuth2RefreshTokenLinksRevokeHints;
+  href?: string | undefined;
+  hints?: OAuth2RefreshTokenLinksRevokeHints | undefined;
 }
 export type UserResourceHrefObject = OfflineAccessScopeResourceHrefObject;
 export type AuthorizationServerResourceHrefObject = OfflineAccessScopeResourceHrefObject;
 export interface OAuth2RefreshTokenLinks {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** Link to the app resource */
-  app?: OfflineAccessScopeResourceHrefObject;
+  app?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to revoke the refresh Token */
-  revoke?: OAuth2RefreshTokenLinksRevoke;
+  revoke?: OAuth2RefreshTokenLinksRevoke | undefined;
   /** Link to the client resource */
-  client?: OfflineAccessScopeResourceHrefObject;
+  client?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the user resource */
-  user?: OfflineAccessScopeResourceHrefObject;
+  user?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the Token authorization server resource */
-  authorizationServer?: OfflineAccessScopeResourceHrefObject;
+  authorizationServer?: OfflineAccessScopeResourceHrefObject | undefined;
 }
 export interface OAuth2RefreshToken {
   /** Client ID */
-  clientId?: string;
-  created?: string;
+  clientId?: string | undefined;
+  created?: string | undefined;
   /** Expiration time of the OAuth 2.0 Token */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** ID of the Token object */
-  id?: string;
+  id?: string | undefined;
   /** The complete URL of the authorization server that issued the Token */
-  issuer?: string;
-  lastUpdated?: string;
+  issuer?: string | undefined;
+  lastUpdated?: string | undefined;
   /** The scope names attached to the Token */
-  scopes?: OAuth2RefreshTokenScopesList;
-  status?: GrantOrTokenStatus;
+  scopes?: OAuth2RefreshTokenScopesList | undefined;
+  status?: GrantOrTokenStatus | undefined;
   /** The ID of the user associated with the Token */
-  userId?: string;
+  userId?: string | undefined;
   /** The embedded resources related to the object if the `expand` query parameter is specified */
-  _embedded?: OAuth2RefreshTokenEmbedded;
-  _links?: OAuth2RefreshTokenLinks;
+  _embedded?: OAuth2RefreshTokenEmbedded | undefined;
+  _links?: OAuth2RefreshTokenLinks | undefined;
 }
 export interface GetOktaCommunicationSettingsRequest {}
 export type OrgOktaCommunicationSettingLinksOptIn = HrefObjectSelfLink;
 export type OrgOktaCommunicationSettingLinksOptOut = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for this object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgOktaCommunicationSettingLinks {
-  optIn?: HrefObjectSelfLink;
-  optOut?: HrefObjectSelfLink;
+  optIn?: HrefObjectSelfLink | undefined;
+  optOut?: HrefObjectSelfLink | undefined;
 }
 export interface OrgOktaCommunicationSetting {
   /** Indicates whether org users receive Okta communication emails */
-  optOutEmailUsers?: boolean;
+  optOutEmailUsers?: boolean | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for this object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: OrgOktaCommunicationSettingLinks;
+  _links?: OrgOktaCommunicationSettingLinks | undefined;
 }
 export interface GetOktaManagedUserAccountRequest {
   /** ID of an existing Okta managed user account */
@@ -9130,13 +9160,13 @@ export type OptInStatusResponseOptInStatus = "OPTING_IN" | "OPTED_IN" | "OPTING_
 export type OptInStatusResponseLinksOptInStatus = HrefObjectSelfLink;
 /** Link relations available */
 export interface OptInStatusResponseLinks {
-  optInStatus?: HrefObjectSelfLink;
+  optInStatus?: HrefObjectSelfLink | undefined;
 }
 export interface OptInStatusResponse {
   /** The entitlement management opt-in status for the Admin Console */
-  optInStatus?: OptInStatusResponseOptInStatus;
+  optInStatus?: OptInStatusResponseOptInStatus | undefined;
   /** Link relations available */
-  _links?: OptInStatusResponseLinks;
+  _links?: OptInStatusResponseLinks | undefined;
 }
 export interface GetOrgCaptchaSettingsRequest {}
 export type EnabledPagesType = "SIGN_IN" | "SSPR" | "SSR";
@@ -9146,11 +9176,11 @@ export type OrgCAPTCHASettingsEnabledPagesList = Array<EnabledPagesType>;
 export type OrgCAPTCHASettingsLinks = LinksSelf;
 export interface OrgCAPTCHASettings {
   /** The unique key of the associated CAPTCHA instance */
-  captchaId?: string;
+  captchaId?: string | undefined;
   /** An array of pages that have CAPTCHA enabled */
-  enabledPages?: OrgCAPTCHASettingsEnabledPagesList;
+  enabledPages?: OrgCAPTCHASettingsEnabledPagesList | undefined;
   /** Link relations for the CAPTCHA settings object */
-  _links?: LinksSelf;
+  _links?: LinksSelf | undefined;
 }
 /** Type of contact */
 export type GetOrgContactUserRequestContactType = "BILLING" | "TECHNICAL";
@@ -9159,13 +9189,13 @@ export interface GetOrgContactUserRequest {
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the contact type user object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgContactUserLinks {
-  user?: HrefObjectSelfLink;
+  user?: HrefObjectSelfLink | undefined;
 }
 export interface OrgContactUser {
   /** Contact user ID */
-  userId?: string;
+  userId?: string | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the contact type user object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: OrgContactUserLinks;
+  _links?: OrgContactUserLinks | undefined;
 }
 export interface GetOrgOktaSupportSettingsRequest {}
 /** Status of Okta Support Settings */
@@ -9177,34 +9207,34 @@ export type OrgOktaSupportSettingsObjLinksCase = HrefObjectSelfLink;
 export type OrgOktaSupportSettingsObjLinksCases = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the Okta Support Settings object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgOktaSupportSettingsObjLinks {
-  extend?: HrefObjectSelfLink;
-  revoke?: HrefObjectSelfLink;
-  grant?: HrefObjectSelfLink;
-  case?: HrefObjectSelfLink;
-  cases?: HrefObjectSelfLink;
+  extend?: HrefObjectSelfLink | undefined;
+  revoke?: HrefObjectSelfLink | undefined;
+  grant?: HrefObjectSelfLink | undefined;
+  case?: HrefObjectSelfLink | undefined;
+  cases?: HrefObjectSelfLink | undefined;
 }
 export interface OrgOktaSupportSettingsObj {
   /** Support case number for the Okta Support access grant */
-  caseNumber?: string | null;
+  caseNumber?: string | null | undefined;
   /** Expiration of Okta Support */
-  expiration?: string | null;
-  support?: OrgOktaSupportSetting;
+  expiration?: string | null | undefined;
+  support?: OrgOktaSupportSetting | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the Okta Support Settings object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: OrgOktaSupportSettingsObjLinks;
+  _links?: OrgOktaSupportSettingsObjLinks | undefined;
 }
 export interface GetOrgPreferencesRequest {}
 export type OrgPreferencesLinksHideEndUserFooter = HrefObjectSelfLink;
 export type OrgPreferencesLinksShowEndUserFooter = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for this object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgPreferencesLinks {
-  hideEndUserFooter?: HrefObjectSelfLink;
-  showEndUserFooter?: HrefObjectSelfLink;
+  hideEndUserFooter?: HrefObjectSelfLink | undefined;
+  showEndUserFooter?: HrefObjectSelfLink | undefined;
 }
 export interface OrgPreferences {
   /** Indicates if the footer is shown on the End-User Dashboard */
-  showEndUserFooter?: boolean;
+  showEndUserFooter?: boolean | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for this object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: OrgPreferencesLinks;
+  _links?: OrgPreferencesLinks | undefined;
 }
 export interface GetOrgSettingsRequest {}
 /** Status of org */
@@ -9217,54 +9247,54 @@ export type OrgGeneralSettingLinksPreferences = HrefObjectSelfLink;
 export type OrgGeneralSettingLinksUploadLogo = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the org using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgGeneralSettingLinks {
-  contacts?: HrefObjectSelfLink;
-  logo?: HrefObjectSelfLink;
-  oktaCommunication?: HrefObjectSelfLink;
-  oktaSupport?: HrefObjectSelfLink;
-  preferences?: HrefObjectSelfLink;
-  uploadLogo?: HrefObjectSelfLink;
+  contacts?: HrefObjectSelfLink | undefined;
+  logo?: HrefObjectSelfLink | undefined;
+  oktaCommunication?: HrefObjectSelfLink | undefined;
+  oktaSupport?: HrefObjectSelfLink | undefined;
+  preferences?: HrefObjectSelfLink | undefined;
+  uploadLogo?: HrefObjectSelfLink | undefined;
 }
 export interface OrgSetting {
   /** Primary address of the organization associated with the org */
-  address1?: string;
+  address1?: string | undefined;
   /** Secondary address of the organization associated with the org */
-  address2?: string;
+  address2?: string | undefined;
   /** City of the organization associated with the org */
-  city?: string;
+  city?: string | undefined;
   /** Name of org */
-  companyName?: string;
+  companyName?: string | undefined;
   /** County of the organization associated with the org */
-  country?: string;
+  country?: string | undefined;
   /** When org was created */
-  created?: string;
+  created?: string | undefined;
   /** Support link of org */
-  endUserSupportHelpURL?: string;
+  endUserSupportHelpURL?: string | undefined;
   /** Expiration of org */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Org ID */
-  id?: string;
+  id?: string | undefined;
   /** When org was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Phone number of the organization associated with the org */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Postal code of the organization associated with the org */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** State of the organization associated with the org */
-  state?: string;
+  state?: string | undefined;
   /** Status of org */
-  status?: OrgSettingStatus;
+  status?: OrgSettingStatus | undefined;
   /** Subdomain of org */
-  subdomain?: string;
+  subdomain?: string | undefined;
   /** Support help phone of the organization associated with the org */
-  supportPhoneNumber?: string;
+  supportPhoneNumber?: string | undefined;
   /** Website of the organization associated with the org */
-  website?: string;
-  _links?: OrgGeneralSettingLinks;
+  website?: string | undefined;
+  _links?: OrgGeneralSettingLinks | undefined;
 }
 export interface GetPolicyRequest {
   /** `id` of the policy */
   policyId: string;
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetPolicyMappingRequest {
   /** `id` of the policy */
@@ -9275,13 +9305,13 @@ export interface GetPolicyMappingRequest {
 export type PolicyMappingLinksApplication = HrefObjectSelfLink;
 export type PolicyMappingLinksPolicy = HrefObjectSelfLink;
 export interface PolicyMappingLinks {
-  self?: HrefObjectSelfLink;
-  application?: HrefObjectSelfLink;
-  policy?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  application?: HrefObjectSelfLink | undefined;
+  policy?: HrefObjectSelfLink | undefined;
 }
 export interface PolicyMapping {
-  id?: string;
-  _links?: PolicyMappingLinks;
+  id?: string | undefined;
+  _links?: PolicyMappingLinks | undefined;
 }
 export interface GetPolicyRuleRequest {
   /** `id` of the policy */
@@ -9295,8 +9325,8 @@ export interface GetPreviewErrorPageRequest {
 }
 export interface GetPreviewErrorPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
 }
 export interface GetPreviewSignInPageRequest {
   /** The ID of the brand */
@@ -9306,11 +9336,11 @@ export type GetPreviewSignInPageResponseWidgetCustomizations =
   GetCustomizedSignInPageResponseWidgetCustomizations;
 export interface GetPreviewSignInPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
-  widgetConfiguration?: WidgetConfiguration;
-  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
-  widgetVersion?: string;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
+  widgetConfiguration?: WidgetConfiguration | undefined;
+  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations | undefined;
+  widgetVersion?: string | undefined;
 }
 export interface GetPrincipalRateLimitEntityRequest {
   /** ID of the principal rate limit */
@@ -9325,39 +9355,39 @@ export type ProfileMappingPropertyPushStatus = "DONT_PUSH" | "PUSH";
 /** A target property, in string form, that maps to a valid [JSON Schema Draft](https://tools.ietf.org/html/draft-zyp-json-schema-04) document. */
 export interface ProfileMappingProperty {
   /** Combination or single source properties that are mapped to the target property. See [Okta Expression Language](https://developer.okta.com/docs/reference/okta-expression-language/). */
-  expression?: string;
-  pushStatus?: ProfileMappingPropertyPushStatus | (string & {});
+  expression?: string | undefined;
+  pushStatus?: ProfileMappingPropertyPushStatus | (string & {}) | undefined;
 }
 export type SourceLinksSchema = HrefObjectSelfLink;
 export type SourceLinks = UserTypeLinks;
 /** The parameter is the source of a profile mapping and is a valid [JSON Schema Draft 4](https://datatracker.ietf.org/doc/html/draft-zyp-json-schema-04) document with the following properties. The data type can be an app instance or an Okta object. > **Note:** If the source is Okta and the UserTypes feature isn't enabled, then the source `_links` only has a link to the schema. */
 export interface ProfileMappingSource {
   /** Unique identifier for the application instance or userType */
-  id?: string;
+  id?: string | undefined;
   /** Variable name of the application instance or name of the referenced UserType */
-  name?: string;
+  name?: string | undefined;
   /** Type of user referenced in the mapping */
-  type?: string;
-  _links?: UserTypeLinks;
+  type?: string | undefined;
+  _links?: UserTypeLinks | undefined;
 }
 /** The parameter is the target of a profile mapping and is a valid [JSON Schema Draft 4](https://datatracker.ietf.org/doc/html/draft-zyp-json-schema-04) document with the following properties. The data type can be an app instance or an Okta object. > **Note:** If the target is Okta and the UserTypes feature isn't enabled, then the target `_links` only has a link to the schema. */
 export interface ProfileMappingTarget {
   /** Unique identifier for the application instance or UserType */
-  id?: string;
+  id?: string | undefined;
   /** Variable name of the application instance or name of the referenced userType */
-  name?: string;
+  name?: string | undefined;
   /** Type of user referenced in the mapping */
-  type?: string;
-  _links?: UserTypeLinks;
+  type?: string | undefined;
+  _links?: UserTypeLinks | undefined;
 }
 /** The profile mapping object describes a mapping between an Okta user's and an app user's properties using [JSON Schema Draft 4](https://datatracker.ietf.org/doc/html/draft-zyp-json-schema-04). > **Note:** Same type source/target mappings aren't supported by this API. Profile mappings must be between Okta and an app. */
 export interface ProfileMapping {
   /** Unique identifier for a profile mapping */
-  id?: string;
-  properties?: ProfileMappingProperty;
-  source?: ProfileMappingSource;
-  target?: ProfileMappingTarget;
-  _links?: LinksSelf;
+  id?: string | undefined;
+  properties?: ProfileMappingProperty | undefined;
+  source?: ProfileMappingSource | undefined;
+  target?: ProfileMappingTarget | undefined;
+  _links?: LinksSelf | undefined;
 }
 export interface GetPublicKeyRequest {
   /** id" of the Public Key */
@@ -9375,20 +9405,20 @@ export interface GetRateLimitSettingsPerClientRequest {}
 export type PerClientRateLimitMode = "DISABLE" | "ENFORCE" | "PREVIEW";
 /** A map of Per-Client Rate Limit Use Case to the applicable PerClientRateLimitMode. Overrides the `defaultMode` property for the specified use cases. */
 export interface PerClientRateLimitSettingsUseCaseModeOverrides {
-  LOGIN_PAGE?: PerClientRateLimitMode;
-  OAUTH2_AUTHORIZE?: PerClientRateLimitMode;
-  OIE_APP_INTENT?: PerClientRateLimitMode;
+  LOGIN_PAGE?: PerClientRateLimitMode | undefined;
+  OAUTH2_AUTHORIZE?: PerClientRateLimitMode | undefined;
+  OIE_APP_INTENT?: PerClientRateLimitMode | undefined;
 }
 export interface PerClientRateLimitSettings {
   /** The default PerClientRateLimitMode that applies to any use case in the absence of a more specific override */
   defaultMode: PerClientRateLimitMode;
   /** A map of Per-Client Rate Limit Use Case to the applicable PerClientRateLimitMode. Overrides the `defaultMode` property for the specified use cases. */
-  useCaseModeOverrides?: PerClientRateLimitSettingsUseCaseModeOverrides;
+  useCaseModeOverrides?: PerClientRateLimitSettingsUseCaseModeOverrides | undefined;
 }
 export interface GetRateLimitSettingsWarningThresholdRequest {}
 export interface RateLimitWarningThresholdResponse {
   /** The threshold value (percentage) of a rate limit that, when exceeded, triggers a warning notification. By default, this value is 90 for Workforce orgs and 60 for CIAM orgs. */
-  warningThreshold?: number;
+  warningThreshold?: number | undefined;
 }
 export interface GetRealmRequest {
   /** ID of the realm */
@@ -9406,7 +9436,7 @@ export interface GetRefreshTokenForAuthorizationServerAndClientRequest {
   /** `id` of Token */
   tokenId: string;
   /** Valid value: `scope`. If specified, scope details are included in the `_embedded` attribute. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetRefreshTokenForUserAndClientRequest {
   /** ID of an existing Okta user */
@@ -9416,7 +9446,7 @@ export interface GetRefreshTokenForUserAndClientRequest {
   /** `id` of Token */
   tokenId: string;
   /** Valid value: `scope`. If specified, scope details are included in the `_embedded` attribute. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetResourceSetRequest {
   /** `id` or `label` of the resource set */
@@ -9444,19 +9474,19 @@ export interface GetRoleAssignmentGovernanceGrantRequest {
 export type GovernanceSourceType = "CUSTOM" | "ENTITLEMENT-BUNDLE";
 export type HrefObjectGovernanceResourcesLink = HrefObjectSelfLink;
 export interface RoleGovernanceSourceLinks {
-  resources?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
+  resources?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
 }
 /** User role governance source */
 export interface RoleGovernanceSource {
   /** `id` of the entitlement bundle */
-  bundleId?: string;
+  bundleId?: string | undefined;
   /** The expiration date of the entitlement bundle */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** `id` of the grant */
   grantId: string;
   type: GovernanceSourceType;
-  _links?: RoleGovernanceSourceLinks;
+  _links?: RoleGovernanceSourceLinks | undefined;
 }
 export interface GetRoleAssignmentGovernanceGrantResourcesRequest {
   /** ID of an existing Okta user */
@@ -9469,19 +9499,19 @@ export interface GetRoleAssignmentGovernanceGrantResourcesRequest {
 /** The resource of a grant */
 export interface RoleGovernanceResource {
   /** The resource name */
-  label?: string;
+  label?: string | undefined;
   /** The resources id */
-  resource?: string;
+  resource?: string | undefined;
 }
 export type RoleGovernanceResourcesResourcesList = Array<RoleGovernanceResource>;
 export interface RoleGovernanceResourcesLinks {
-  self?: HrefObjectSelfLink;
-  next?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  next?: HrefObjectSelfLink | undefined;
 }
 /** The resources of a grant */
 export interface RoleGovernanceResources {
-  resources?: RoleGovernanceResourcesResourcesList;
-  _links?: RoleGovernanceResourcesLinks;
+  resources?: RoleGovernanceResourcesResourcesList | undefined;
+  _links?: RoleGovernanceResourcesLinks | undefined;
 }
 export interface GetRolePermissionRequest {
   /** `id` or `label` of the role */
@@ -9490,18 +9520,18 @@ export interface GetRolePermissionRequest {
   permissionType: string;
 }
 export interface PermissionLinks {
-  self?: HrefObjectSelfLink;
-  role?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  role?: HrefObjectSelfLink | undefined;
 }
 export interface Permission {
-  conditions?: PermissionConditions | null;
+  conditions?: PermissionConditions | null | undefined;
   /** Timestamp when the permission was assigned */
-  created?: string;
+  created?: string | undefined;
   /** The assigned Okta [permission](/openapi/okta-management/guides/permissions) */
-  label?: string;
+  label?: string | undefined;
   /** Timestamp when the permission was last updated */
-  lastUpdated?: string;
-  _links?: PermissionLinks;
+  lastUpdated?: string | undefined;
+  _links?: PermissionLinks | undefined;
 }
 export type GetRoleTargetsByUserIdAndRoleIdRequestAssignmentType = "USER" | "GROUP";
 export interface GetRoleTargetsByUserIdAndRoleIdRequest {
@@ -9510,20 +9540,20 @@ export interface GetRoleTargetsByUserIdAndRoleIdRequest {
   /** The `id` of the role or Base32 encoded `id` of the role name */
   roleIdOrEncodedRoleId: string;
   /** Specifies the assignment type of the user */
-  assignmentType?: GetRoleTargetsByUserIdAndRoleIdRequestAssignmentType | (string & {});
+  assignmentType?: GetRoleTargetsByUserIdAndRoleIdRequestAssignmentType | (string & {}) | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface RoleTarget {
   /** The assignment type of how the user receives this target */
-  assignmentType?: string;
+  assignmentType?: string | undefined;
   /** The expiry time stamp of the associated target. It's only included in the response if the associated target will expire. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The [Okta Resource Name (ORN)](https://support.okta.com/help/s/article/understanding-okta-resource-name-orn) of the app target or group target */
-  orn?: string;
-  _links?: LinksSelf;
+  orn?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type GetRoleTargetsByUserIdAndRoleIdResponseBodyList = Array<RoleTarget>;
 export type GetRoleTargetsByUserIdAndRoleIdResponse =
@@ -9542,7 +9572,7 @@ export interface GetRootBrandWellKnownURIRequest {
   /** The path of the well-known URI */
   path: GetRootBrandWellKnownURIRequestPath | (string & {});
   /** Specifies additional metadata to include in the response */
-  expand?: GetRootBrandWellKnownURIRequestExpandList;
+  expand?: GetRootBrandWellKnownURIRequestExpandList | undefined;
 }
 export interface GetScopeConsentGrantRequest {
   /** Application ID */
@@ -9550,59 +9580,59 @@ export interface GetScopeConsentGrantRequest {
   /** Grant ID */
   grantId: string;
   /** An optional parameter to return scope details in the `_embedded` property. Valid value: `scope` */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** User that created the object */
 export interface OAuth2Actor {
   /** User ID */
-  id?: string;
+  id?: string | undefined;
   /** Type of user */
-  type?: string;
+  type?: string | undefined;
 }
 /** User type source that granted consent */
 export type OAuth2ScopeConsentGrantSource = "ADMIN" | "END_USER";
 export interface OAuth2ScopeConsentGrantEmbeddedScope {
   /** The name of the Okta scope for which consent is granted */
-  id?: string;
+  id?: string | undefined;
 }
 /** Embedded resources related to the Grant */
 export interface OAuth2ScopeConsentGrantEmbedded {
-  scope?: OAuth2ScopeConsentGrantEmbeddedScope;
+  scope?: OAuth2ScopeConsentGrantEmbeddedScope | undefined;
 }
 export type ScopeResourceHrefObject = OfflineAccessScopeResourceHrefObject;
 export interface OAuth2ScopeConsentGrantLinks {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** Link to the app resource */
-  app?: OfflineAccessScopeResourceHrefObject;
+  app?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the client resource */
-  client?: OfflineAccessScopeResourceHrefObject;
+  client?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the scope resource */
-  scope?: OfflineAccessScopeResourceHrefObject;
+  scope?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the user resource */
-  user?: OfflineAccessScopeResourceHrefObject;
+  user?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the authorization server resource */
-  authorizationServer?: OfflineAccessScopeResourceHrefObject;
+  authorizationServer?: OfflineAccessScopeResourceHrefObject | undefined;
 }
 /** Grant object that represents an app consent scope grant */
 export interface OAuth2ScopeConsentGrant {
   /** Client ID of the app integration */
-  clientId?: string;
-  created?: string;
-  createdBy?: OAuth2Actor;
+  clientId?: string | undefined;
+  created?: string | undefined;
+  createdBy?: OAuth2Actor | undefined;
   /** ID of the Grant object */
-  id?: string;
+  id?: string | undefined;
   /** The issuer of your org authorization server. This is typically your Okta domain. */
   issuer: string;
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The name of the [Okta scope](https://developer.okta.com/docs/api/oauth2/#oauth-20-scopes) for which consent is granted */
   scopeId: string;
-  source?: OAuth2ScopeConsentGrantSource;
-  status?: GrantOrTokenStatus;
+  source?: OAuth2ScopeConsentGrantSource | undefined;
+  status?: GrantOrTokenStatus | undefined;
   /** User ID that granted consent (if `source` is `END_USER`) */
-  userId?: string;
+  userId?: string | undefined;
   /** Embedded resources related to the Grant */
-  _embedded?: OAuth2ScopeConsentGrantEmbedded;
-  _links?: OAuth2ScopeConsentGrantLinks;
+  _embedded?: OAuth2ScopeConsentGrantEmbedded | undefined;
+  _links?: OAuth2ScopeConsentGrantLinks | undefined;
 }
 export interface GetSecurityEventsProviderInstanceRequest {
   /** `id` of the security events provider instance */
@@ -9629,30 +9659,30 @@ export type SessionAuthenticationMethod =
 export type SessionAmrList = Array<SessionAuthenticationMethod>;
 export interface SessionIdentityProvider {
   /** Identity Provider ID. If the `type` is `OKTA`, then the `id` is the org ID. */
-  id?: string;
-  type?: SessionIdentityProviderType;
+  id?: string | undefined;
+  type?: SessionIdentityProviderType | undefined;
 }
 export type SessionStatus = "ACTIVE" | "MFA_ENROLL" | "MFA_REQUIRED";
 export interface Session {
   /** Authentication method reference */
-  amr?: SessionAmrList;
-  createdAt?: string;
+  amr?: SessionAmrList | undefined;
+  createdAt?: string | undefined;
   /** A timestamp when the session expires */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** A unique key for the session */
-  id?: string;
-  idp?: SessionIdentityProvider;
+  id?: string | undefined;
+  idp?: SessionIdentityProvider | undefined;
   /** A timestamp when the user last performed multifactor authentication */
-  lastFactorVerification?: string;
+  lastFactorVerification?: string | undefined;
   /** A timestamp when the user last performed the primary or step-up authentication with a password */
-  lastPasswordVerification?: string | Redacted.Redacted<string>;
+  lastPasswordVerification?: string | Redacted.Redacted<string> | undefined;
   /** A unique identifier for the user (username) */
-  login?: string;
+  login?: string | undefined;
   /** Current session status */
-  status?: SessionStatus;
+  status?: SessionStatus | undefined;
   /** A unique key for the user */
-  userId?: string;
-  _links?: LinksSelf;
+  userId?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type GetSignInPageRequestExpandItem =
   | "default"
@@ -9665,7 +9695,7 @@ export interface GetSignInPageRequest {
   /** The ID of the brand */
   brandId: string;
   /** Specifies additional metadata to be included in the response */
-  expand?: GetSignInPageRequestExpandList;
+  expand?: GetSignInPageRequestExpandList | undefined;
 }
 export interface GetSignOutPageSettingsRequest {
   /** The ID of the brand */
@@ -9674,7 +9704,7 @@ export interface GetSignOutPageSettingsRequest {
 export type HostedPageType = "EXTERNALLY_HOSTED" | "OKTA_DEFAULT";
 export interface HostedPage {
   type: HostedPageType;
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetSmsTemplateRequest {
   /** `id` of the Template */
@@ -9682,7 +9712,7 @@ export interface GetSmsTemplateRequest {
 }
 export interface GetSsfStreamsRequest {
   /** The ID of the specified SSF stream configuration */
-  stream_id?: string;
+  stream_id?: string | undefined;
 }
 export type GetSsfStreamsResponseBodyCase0List = Array<StreamConfiguration>;
 export type GetSsfStreamsResponseBody = GetSsfStreamsResponseBodyCase0List | StreamConfiguration;
@@ -9696,9 +9726,9 @@ export type StreamStatusStatus = "enabled" | "disabled";
 /** Status corresponding to the `stream_id` of the SSF stream */
 export interface StreamStatus {
   /** The status of the SSF stream configuration */
-  status?: StreamStatusStatus;
+  status?: StreamStatusStatus | undefined;
   /** The ID of the SSF stream configuration. This corresponds to the value in the query parameter of the request. */
-  stream_id?: string;
+  stream_id?: string | undefined;
 }
 /** The type of notification */
 export type GetSubscriptionsNotificationTypeRoleRequestNotificationType =
@@ -9743,11 +9773,11 @@ export type SubscriptionStatus = "subscribed" | "unsubscribed";
 export type SubscriptionLinks = LinksSelf;
 export interface Subscription {
   /** An array of sources send notifications to users. > **Note**: Currently, Okta only allows `email` channels. */
-  channels?: SubscriptionChannelsList;
-  notificationType?: NotificationType;
-  status?: SubscriptionStatus;
+  channels?: SubscriptionChannelsList | undefined;
+  notificationType?: NotificationType | undefined;
+  status?: SubscriptionStatus | undefined;
   /** Discoverable resources related to the subscription */
-  _links?: LinksSelf;
+  _links?: LinksSelf | undefined;
 }
 /** The type of notification */
 export type GetSubscriptionsNotificationTypeUserRequestNotificationType =
@@ -9772,7 +9802,7 @@ export interface GetThirdPartyAdminSettingRequest {}
 /** The third-party admin setting */
 export interface ThirdPartyAdminSetting {
   /** Indicates if the third-party admin functionality is enabled */
-  thirdPartyAdmin?: boolean;
+  thirdPartyAdmin?: boolean | undefined;
 }
 export interface GetTrustedOriginRequest {
   /** `id` of the trusted origin */
@@ -9786,7 +9816,7 @@ export interface GetUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** An optional parameter to include metadata in the `_embedded` attribute. Valid values: `blocks` or <x-lifecycle class="ea"></x-lifecycle> `classification`. */
-  expand?: string;
+  expand?: string | undefined;
 }
 /** The target status of an in-progress asynchronous status transition. This property is only returned if the user's state is transitioning. */
 export type GetUserResponseTransitioningToStatus = "ACTIVE" | "DEPROVISIONED" | "PROVISIONED";
@@ -9799,48 +9829,48 @@ export type UserBlockType = "DEVICE_BASED";
 /** Describes how the account is blocked from access. If `appliesTo` is `ANY_DEVICES`, then the account is blocked for all devices. If `appliesTo` is `UNKNOWN_DEVICES`, then the account is only blocked for unknown devices. */
 export interface UserBlock {
   /** The devices that the block applies to */
-  appliesTo?: UserBlockAppliesTo;
+  appliesTo?: UserBlockAppliesTo | undefined;
   /** Type of access block */
-  type?: UserBlockType;
+  type?: UserBlockType | undefined;
 }
 /** A list of access block details for the user account */
 export type GetUserResponseEmbeddedBlocksList = Array<UserBlock>;
 /** Embedded resources related to the user using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface GetUserResponseEmbedded {
   /** A list of access block details for the user account */
-  blocks?: GetUserResponseEmbeddedBlocksList;
+  blocks?: GetUserResponseEmbeddedBlocksList | undefined;
   [key: string]: unknown;
 }
 /** Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The links object is read-only. For an individual user result, the links object contains a full set of link relations available for that user as determined by your policies. For a collection of users, the links object contains only the `self` link. Operations that return a collection of users include [List all users](https://developer.okta.com/docs/api/openapi/okta-management/management/user/listusers) and [List all group member users](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/listGroupUsers). */
 export type GetUserResponseLinks = UserOutputLinks;
 export interface GetUserResponse {
   /** The timestamp when the user status transitioned to `ACTIVE` */
-  activated?: string | null;
+  activated?: string | null | undefined;
   /** The timestamp when the user was created */
-  created?: string;
-  credentials?: UserCredentialsOutput;
+  created?: string | undefined;
+  credentials?: UserCredentialsOutput | undefined;
   /** The unique key for the user */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp of the last login */
-  lastLogin?: string | null;
+  lastLogin?: string | null | undefined;
   /** The timestamp when the user was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The timestamp when the user's password was last updated */
-  passwordChanged?: string | Redacted.Redacted<string> | null;
-  profile?: UserProfile;
+  passwordChanged?: string | Redacted.Redacted<string> | null | undefined;
+  profile?: UserProfile | undefined;
   /** The ID of the realm in which the user is residing. See [Realms](/openapi/okta-management/management/tags/realm). */
-  realmId?: string;
-  status?: UserStatus;
+  realmId?: string | undefined;
+  status?: UserStatus | undefined;
   /** The timestamp when the status of the user last changed */
-  statusChanged?: string | null;
+  statusChanged?: string | null | undefined;
   /** The target status of an in-progress asynchronous status transition. This property is only returned if the user's state is transitioning. */
-  transitioningToStatus?: GetUserResponseTransitioningToStatus | null;
+  transitioningToStatus?: GetUserResponseTransitioningToStatus | null | undefined;
   /** The user type that determines the schema for the user's profile. The `type` property is a map that identifies the [User Types](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/#tag/UserType). Currently it contains a single element, `id`. It can be specified when creating a new user, and can be updated by an admin on a full replace of an existing user (but not a partial update). */
-  type?: CreateUserRequestType;
+  type?: CreateUserRequestType | undefined;
   /** Embedded resources related to the user using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _embedded?: GetUserResponseEmbedded;
+  _embedded?: GetUserResponseEmbedded | undefined;
   /** Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The links object is read-only. For an individual user result, the links object contains a full set of link relations available for that user as determined by your policies. For a collection of users, the links object contains only the `self` link. Operations that return a collection of users include [List all users](https://developer.okta.com/docs/api/openapi/okta-management/management/user/listusers) and [List all group member users](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/listGroupUsers). */
-  _links?: UserOutputLinks;
+  _links?: UserOutputLinks | undefined;
 }
 export interface GetUserAssignedRoleRequest {
   /** ID of an existing Okta user */
@@ -9859,13 +9889,13 @@ export interface GetUserAssignedRoleGovernanceRequest {
 export type RoleGovernanceGrantsList = Array<RoleGovernanceSource>;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the sources using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. */
 export interface LinksGovernanceSources {
-  assignee?: HrefObjectSelfLink;
-  self?: HrefObjectSelfLink;
+  assignee?: HrefObjectSelfLink | undefined;
+  self?: HrefObjectSelfLink | undefined;
 }
 /** List of all user role governance sources */
 export interface RoleGovernance {
-  grants?: RoleGovernanceGrantsList;
-  _links?: LinksGovernanceSources;
+  grants?: RoleGovernanceGrantsList | undefined;
+  _links?: LinksGovernanceSources | undefined;
 }
 export interface GetUserClassificationRequest {
   /** ID of an existing Okta user */
@@ -9875,8 +9905,8 @@ export interface GetUserClassificationRequest {
 export type ClassificationType = "LITE" | "STANDARD";
 export interface UserClassification {
   /** The timestamp when the user classification was last updated */
-  lastUpdated?: string;
-  type?: ClassificationType;
+  lastUpdated?: string | undefined;
+  type?: ClassificationType | undefined;
 }
 export interface GetUserGrantRequest {
   /** ID of an existing Okta user */
@@ -9884,12 +9914,12 @@ export interface GetUserGrantRequest {
   /** Grant ID */
   grantId: string;
   /** Valid value: `scope`. If specified, scope details are included in the `_embedded` attribute. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export interface GetUserLockoutSettingsRequest {}
 export interface UserLockoutSettings {
   /** Prevents brute-force lockout from unknown devices for the password authenticator. */
-  preventBruteForceLockoutFromUnknownDevices?: boolean;
+  preventBruteForceLockoutFromUnknownDevices?: boolean | undefined;
 }
 export interface GetUserProvisioningConnectionJWKSRequest {
   /** Application ID */
@@ -9909,12 +9939,12 @@ export interface GetUserRiskRequest {
 /** The risk level associated with the user */
 export type UserRiskLevelAll = "HIGH" | "LOW" | "MEDIUM" | "NONE";
 export interface UserRiskGetResponseLinks {
-  self?: HrefObjectSelfLink;
-  user?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  user?: HrefObjectSelfLink | undefined;
 }
 export interface UserRiskGetResponse {
-  riskLevel?: UserRiskLevelAll;
-  _links?: UserRiskGetResponseLinks;
+  riskLevel?: UserRiskLevelAll | undefined;
+  _links?: UserRiskGetResponseLinks | undefined;
 }
 export interface GetUserSchemaRequest {
   /** Schema ID. You can also use `default` to refer to the default user type schema. */
@@ -9932,7 +9962,7 @@ export interface GetWellKnownAppAuthenticatorConfigurationRequest {
 /** User verification setting */
 export type CustomAppUserVerificationEnum = "PREFERRED" | "REQUIRED";
 export interface WellKnownAppAuthenticatorConfigurationSettings {
-  userVerification?: CustomAppUserVerificationEnum;
+  userVerification?: CustomAppUserVerificationEnum | undefined;
 }
 /** Indicates whether you must use a hardware key store */
 export type PushMethodKeyProtection = "ANY" | "HARDWARE";
@@ -9944,42 +9974,42 @@ export type AuthenticatorMethodTransactionType = "CIBA" | "LOGIN";
 export type SupportedMethodsSettingsTransactionTypesList =
   Array<AuthenticatorMethodTransactionType>;
 export interface SupportedMethodsSettings {
-  keyProtection?: PushMethodKeyProtection;
+  keyProtection?: PushMethodKeyProtection | undefined;
   /** The encryption algorithm for this authenticator method */
-  algorithms?: SupportedMethodsSettingsAlgorithmsList;
+  algorithms?: SupportedMethodsSettingsAlgorithmsList | undefined;
   /** The transaction type for this authenticator method */
-  transactionTypes?: SupportedMethodsSettingsTransactionTypesList;
+  transactionTypes?: SupportedMethodsSettingsTransactionTypesList | undefined;
 }
 /** The type of authenticator method */
 export type SupportedMethodsType = "push";
 /** The supported methods of an authenticator */
 export interface SupportedMethods {
-  settings?: SupportedMethodsSettings;
-  status?: unknown;
+  settings?: SupportedMethodsSettings | undefined;
+  status?: unknown | undefined;
   /** The type of authenticator method */
-  type?: SupportedMethodsType;
+  type?: SupportedMethodsType | undefined;
 }
 export type WellKnownAppAuthenticatorConfigurationSupportedMethodsList = Array<SupportedMethods>;
 /** The type of authenticator */
 export type WellKnownAppAuthenticatorConfigurationType = "app";
 export interface WellKnownAppAuthenticatorConfiguration {
   /** The authenticator enrollment endpoint */
-  appAuthenticatorEnrollEndpoint?: string;
+  appAuthenticatorEnrollEndpoint?: string | undefined;
   /** The unique identifier of the app authenticator */
-  authenticatorId?: string;
+  authenticatorId?: string | undefined;
   /** Timestamp when the authenticator was created */
-  createdDate?: string;
-  key?: AuthenticatorKeyEnum;
+  createdDate?: string | undefined;
+  key?: AuthenticatorKeyEnum | undefined;
   /** Timestamp when the authenticator was last modified */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The authenticator display name */
-  name?: string;
+  name?: string | undefined;
   /** The `id` of the Okta Org */
-  orgId?: string;
-  settings?: WellKnownAppAuthenticatorConfigurationSettings;
-  supportedMethods?: WellKnownAppAuthenticatorConfigurationSupportedMethodsList;
+  orgId?: string | undefined;
+  settings?: WellKnownAppAuthenticatorConfigurationSettings | undefined;
+  supportedMethods?: WellKnownAppAuthenticatorConfigurationSupportedMethodsList | undefined;
   /** The type of authenticator */
-  type?: WellKnownAppAuthenticatorConfigurationType;
+  type?: WellKnownAppAuthenticatorConfigurationType | undefined;
 }
 export type GetWellKnownAppAuthenticatorConfigurationResponseBodyList =
   Array<WellKnownAppAuthenticatorConfiguration>;
@@ -9992,20 +10022,20 @@ export type WellKnownOrgMetadataLinksAlternate = HrefObjectSelfLink;
 export type WellKnownOrgMetadataLinksOrganization = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for this object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface WellKnownOrgMetadataLinks {
-  alternate?: HrefObjectSelfLink;
-  organization?: HrefObjectSelfLink;
+  alternate?: HrefObjectSelfLink | undefined;
+  organization?: HrefObjectSelfLink | undefined;
 }
 export interface WellKnownOrgMetadata {
   /** Org unique identifier */
-  id?: string;
-  pipeline?: PipelineType;
+  id?: string | undefined;
+  pipeline?: PipelineType | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for this object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: WellKnownOrgMetadataLinks;
+  _links?: WellKnownOrgMetadataLinks | undefined;
 }
 export interface GetWellknownSsfMetadataRequest {}
 export interface WellKnownSSFMetadataSpecUrn {
   /** The URN that describes the specification of the protocol being used */
-  spec_urn?: string;
+  spec_urn?: string | undefined;
 }
 /** An array of JSON objects that specify the authorization scheme properties supported by the transmitter */
 export type WellKnownSSFMetadataAuthorizationSchemesList = Array<WellKnownSSFMetadataSpecUrn>;
@@ -10016,21 +10046,21 @@ export type WellKnownSSFMetadataDeliveryMethodsSupportedList = Array<string>;
 /** Metadata about Okta as a transmitter and relevant information for configuration. */
 export interface WellKnownSSFMetadata {
   /** An array of JSON objects that specify the authorization scheme properties supported by the transmitter */
-  authorization_schemes?: WellKnownSSFMetadataAuthorizationSchemesList;
+  authorization_schemes?: WellKnownSSFMetadataAuthorizationSchemesList | undefined;
   /** The URL of the SSF stream configuration endpoint */
-  configuration_endpoint?: string;
+  configuration_endpoint?: string | undefined;
   /** A string that indicates the default behavior of newly created streams */
-  default_subjects?: WellKnownSSFMetadataDefaultSubjects;
+  default_subjects?: WellKnownSSFMetadataDefaultSubjects | undefined;
   /** An array of supported SET delivery methods */
-  delivery_methods_supported?: WellKnownSSFMetadataDeliveryMethodsSupportedList;
+  delivery_methods_supported?: WellKnownSSFMetadataDeliveryMethodsSupportedList | undefined;
   /** The issuer used in security event tokens. This value is set as `iss` in the claim. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The URL of the JSON Web Key Set (JWKS) that contains the signing keys for validating the signatures of security event tokens (SETs) */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   /** The version identifying the implementer's draft or final specification implemented by the transmitter */
-  spec_version?: string;
+  spec_version?: string | undefined;
   /** The URL of the SSF stream verification endpoint */
-  verification_endpoint?: string;
+  verification_endpoint?: string | undefined;
 }
 export interface GetYubikeyOtpTokenByIdRequest {
   /** The YubiKey OTP token ID */
@@ -10049,36 +10079,36 @@ export type UserFactorYubikeyOtpTokenStatus =
 export type UserFactorYubikeyOtpTokenEmbeddedMap = { [key: string]: unknown | undefined };
 export interface UserFactorYubikeyOtpToken {
   /** Timestamp when the token was created */
-  created?: string;
+  created?: string | undefined;
   /** ID of the token */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the token was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Timestamp when the token was last verified */
-  lastVerified?: string;
+  lastVerified?: string | undefined;
   /** Specified profile information for token */
-  profile?: UserFactorYubikeyOtpTokenProfileMap;
+  profile?: UserFactorYubikeyOtpTokenProfileMap | undefined;
   /** Token status */
-  status?: UserFactorYubikeyOtpTokenStatus;
-  _embedded?: UserFactorYubikeyOtpTokenEmbeddedMap;
-  _links?: UserFactorLinks;
+  status?: UserFactorYubikeyOtpTokenStatus | undefined;
+  _embedded?: UserFactorYubikeyOtpTokenEmbeddedMap | undefined;
+  _links?: UserFactorLinks | undefined;
 }
 export interface GrantAerialConsentRequest {
   /** The unique ID of the Aerial account */
   accountId: string;
 }
 export interface GrantConsentToScopeRequestLinks {
-  self?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
   /** Link to the app resource */
-  app?: OfflineAccessScopeResourceHrefObject;
+  app?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the client resource */
-  client?: OfflineAccessScopeResourceHrefObject;
+  client?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the scope resource */
-  scope?: OfflineAccessScopeResourceHrefObject;
+  scope?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the user resource */
-  user?: OfflineAccessScopeResourceHrefObject;
+  user?: OfflineAccessScopeResourceHrefObject | undefined;
   /** Link to the authorization server resource */
-  authorizationServer?: OfflineAccessScopeResourceHrefObject;
+  authorizationServer?: OfflineAccessScopeResourceHrefObject | undefined;
 }
 export interface GrantConsentToScopeRequest {
   /** Application ID */
@@ -10087,7 +10117,7 @@ export interface GrantConsentToScopeRequest {
   issuer: string;
   /** The name of the [Okta scope](https://developer.okta.com/docs/api/oauth2/#oauth-20-scopes) for which consent is granted */
   scopeId: string;
-  _links?: GrantConsentToScopeRequestLinks;
+  _links?: GrantConsentToScopeRequestLinks | undefined;
 }
 export interface LinkUserToIdentityProviderRequest {
   /** `id` of IdP */
@@ -10095,7 +10125,7 @@ export interface LinkUserToIdentityProviderRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** Unique IdP-specific identifier for a user */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface ListActiveIdentityProviderSigningKeyRequest {
   /** `id` of IdP */
@@ -10106,27 +10136,27 @@ export type ListActiveIdentityProviderSigningKeyResponse =
   ListActiveIdentityProviderSigningKeyResponseBodyList;
 export interface ListAgentPoolsRequest {
   /** Maximum number of agent pools returned */
-  limitPerPoolType?: number;
+  limitPerPoolType?: number | undefined;
   /** Agent type to search for */
-  poolType?: AgentType | (string & {});
+  poolType?: AgentType | (string & {}) | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
 }
 export type AgentPoolAgentsList = Array<Agent>;
 /** An agent pool is a collection of agents that serve a common purpose. An agent pool has a unique ID within an org, and contains a collection of agents disjoint to every other agent pool, meaning that no two agent pools share an agent. */
 export interface AgentPool {
-  agents?: AgentPoolAgentsList;
+  agents?: AgentPoolAgentsList | undefined;
   /** Number of agents in the pool that are in a disrupted state */
-  disruptedAgents?: number;
+  disruptedAgents?: number | undefined;
   /** Agent pool ID */
-  id?: string;
+  id?: string | undefined;
   /** Number of agents in the pool that are in an inactive state */
-  inactiveAgents?: number;
+  inactiveAgents?: number | undefined;
   /** Agent pool name */
-  name?: string;
-  operationalStatus?: OperationalStatus;
-  type?: AgentType;
-  _links?: LinksSelf;
+  name?: string | undefined;
+  operationalStatus?: OperationalStatus | undefined;
+  type?: AgentType | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type ListAgentPoolsResponseBodyList = Array<AgentPool>;
 export type ListAgentPoolsResponse = ListAgentPoolsResponseBodyList;
@@ -10134,7 +10164,7 @@ export interface ListAgentPoolsUpdatesRequest {
   /** ID of the agent pool for which the settings apply to */
   poolId: string;
   /** Return only scheduled or ad-hoc updates. If this parameter isn't provided, Okta returns the entire list of updates. */
-  scheduled?: boolean;
+  scheduled?: boolean | undefined;
 }
 export type ListAgentPoolsUpdatesResponseBodyList = Array<AgentPoolUpdate>;
 export type ListAgentPoolsUpdatesResponse = ListAgentPoolsUpdatesResponseBodyList;
@@ -10158,7 +10188,7 @@ export type ListAllSignInWidgetVersionsResponseBodyList = Array<string>;
 export type ListAllSignInWidgetVersionsResponse = ListAllSignInWidgetVersionsResponseBodyList;
 export interface ListApiServiceIntegrationInstancesRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListApiServiceIntegrationInstancesResponseBodyList =
   Array<APIServiceIntegrationInstance>;
@@ -10179,13 +10209,13 @@ export interface ListApplicationGroupAssignmentsRequest {
   /** Application ID */
   appId: string;
   /** Specifies a filter for a list of assigned groups returned based on their names. The value of `q` is matched against the group `name`. This filter only supports the `startsWith` operation that matches the `q` string against the beginning of the [group name](openapi/okta-management/management/group#tag/Group/operation/listGroups!c=200&path=profile/name&t=response). */
-  q?: string;
+  q?: string | undefined;
   /** Specifies the pagination cursor for the `next` page of results. Treat this as an opaque value obtained through the next link relationship. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of objects to return per page. If there are multiple pages of results, the Link header contains a `next` link that you need to use as an opaque value (follow it, don't parse it). See [Pagination](/#pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** An optional query parameter to return the corresponding assigned [group](openapi/okta-management/management/group) or the group assignment metadata details in the `_embedded` property. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ListApplicationGroupAssignmentsResponseBodyList = Array<ApplicationGroupAssignment>;
 export type ListApplicationGroupAssignmentsResponse =
@@ -10198,21 +10228,21 @@ export type ListApplicationKeysResponseBodyList = Array<JsonWebKey>;
 export type ListApplicationKeysResponse = ListApplicationKeysResponseBodyList;
 export interface ListApplicationsRequest {
   /** Searches for apps with `name` or `label` properties that starts with the `q` value using the `startsWith` operation */
-  q?: string;
+  q?: string | undefined;
   /** Specifies the [pagination](/#pagination) cursor for the next page of results. Treat this as an opaque value obtained through the `next` link relationship. */
-  after?: string;
+  after?: string | undefined;
   /** Specifies whether to use query optimization. If you specify `useOptimization=true` in the request query, the response contains a subset of app instance properties. */
-  useOptimization?: boolean;
+  useOptimization?: boolean | undefined;
   /** Specifies whether to include the VPN configuration for existing notifications in the result, regardless of whether VPN notifications are configured */
-  alwaysIncludeVpnSettings?: boolean;
+  alwaysIncludeVpnSettings?: boolean | undefined;
   /** Specifies the number of results per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Filters apps with a supported expression for a subset of properties. Filtering supports the following limited number of properties: `id`, `status`, `credentials.signing.kid`, `settings.slo.enabled`, or `name`. See [Filter](https://developer.okta.com/docs/api/#filter). */
-  filter?: string;
+  filter?: string | undefined;
   /** An optional parameter used for link expansion to embed more resources in the response. Only supports `expand=user/{userId}` and must be used with the `user.id eq "{userId}"` filter query for the same user. Returns the assigned [application user](/openapi/okta-management/management/tags/applicationusers) in the `_embedded` property. */
-  expand?: string;
+  expand?: string | undefined;
   /** Specifies whether to include non-active, but not deleted apps in the results */
-  includeNonDeleted?: boolean;
+  includeNonDeleted?: boolean | undefined;
 }
 export type ListApplicationsResponseBodyList = Array<Application>;
 export type ListApplicationsResponse = ListApplicationsResponseBodyList;
@@ -10222,9 +10252,9 @@ export interface ListApplicationTargetsForApplicationAdministratorRoleForGroupRe
   /** The `id` of the role assignment */
   roleAssignmentId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListApplicationTargetsForApplicationAdministratorRoleForGroupResponseBodyList =
   Array<CatalogApplication>;
@@ -10236,9 +10266,9 @@ export interface ListApplicationTargetsForApplicationAdministratorRoleForUserReq
   /** The `id` of the role assignment */
   roleAssignmentId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListApplicationTargetsForApplicationAdministratorRoleForUserResponseBodyList =
   Array<CatalogApplication>;
@@ -10248,13 +10278,13 @@ export interface ListApplicationUsersRequest {
   /** Application ID */
   appId: string;
   /** Specifies the pagination cursor for the next page of results. Treat this as an opaque value obtained through the next link relationship. See [Pagination](/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of objects to return per page. If there are multiple pages of results, the Link header contains a `next` link that you need to use as an opaque value (follow it, don't parse it). See [Pagination](/#pagination). */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies a filter for the list of application users returned based on their profile attributes. The value of `q` is matched against the beginning of the following profile attributes: `userName`, `firstName`, `lastName`, and `email`. This filter only supports the `startsWith` operation that matches the `q` string against the beginning of the attribute values. > **Note:** For OIDC apps, user profiles don't contain the `firstName` or `lastName` attributes. Therefore, the query only matches against the `userName` or `email` attributes. */
-  q?: string;
+  q?: string | undefined;
   /** An optional query parameter to return the corresponding [User](/openapi/okta-management/management/tags/user) object in the `_embedded` property. Valid value: `user` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ListApplicationUsersResponseBodyList = Array<AppUserOutput>;
 export type ListApplicationUsersResponse = ListApplicationUsersResponseBodyList;
@@ -10263,26 +10293,26 @@ export interface ListAppLinksRequest {
   id: string;
 }
 export interface AssignedAppLink {
-  appAssignmentId?: string;
-  appInstanceId?: string;
-  appName?: string;
-  credentialsSetup?: boolean;
-  hidden?: boolean;
-  id?: string;
-  label?: string;
-  linkUrl?: string;
-  logoUrl?: string;
-  sortOrder?: number;
+  appAssignmentId?: string | undefined;
+  appInstanceId?: string | undefined;
+  appName?: string | undefined;
+  credentialsSetup?: boolean | undefined;
+  hidden?: boolean | undefined;
+  id?: string | undefined;
+  label?: string | undefined;
+  linkUrl?: string | undefined;
+  logoUrl?: string | undefined;
+  sortOrder?: number | undefined;
 }
 export type ListAppLinksResponseBodyList = Array<AssignedAppLink>;
 export type ListAppLinksResponse = ListAppLinksResponseBodyList;
 export interface ListAppServiceAccountsRequest {
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** Searches for app service accounts where the account name (`name`), username (`username`), app instance label (`containerInstanceName`), or OIN app key name (`containerGlobalName`) contains the given value */
-  match?: string;
+  match?: string | undefined;
 }
 export type ListAppServiceAccountsResponseBodyList = Array<AppServiceAccountOutput>;
 export type ListAppServiceAccountsResponse = ListAppServiceAccountsResponseBodyList;
@@ -10292,9 +10322,9 @@ export interface ListAppTargetRoleToClientRequest {
   /** The `id` of the role assignment */
   roleAssignmentId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListAppTargetRoleToClientResponseBodyList = Array<CatalogApplication>;
 export type ListAppTargetRoleToClientResponse = ListAppTargetRoleToClientResponseBodyList;
@@ -10302,9 +10332,9 @@ export interface ListAssignedApplicationsForGroupRequest {
   /** The `id` of the group */
   groupId: string;
   /** Specifies the pagination cursor for the next page of apps */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of app results for a page */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListAssignedApplicationsForGroupResponseBodyList = Array<Application>;
 export type ListAssignedApplicationsForGroupResponse =
@@ -10313,7 +10343,7 @@ export interface ListAssignedRolesForUserRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** An optional parameter used to return targets configured for the standard role assignment in the `embedded` property. Supported values: `targets/groups` or `targets/catalog/apps` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ListAssignedRolesForUserResponseBodyItem = StandardRole | CustomRole;
 export type ListAssignedRolesForUserResponseBodyList =
@@ -10323,13 +10353,13 @@ export interface ListAssociatedServersByTrustedTypeRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** Searches trusted authorization servers when `true` or searches untrusted authorization servers when `false` */
-  trusted?: boolean;
+  trusted?: boolean | undefined;
   /** Searches for the name or audience of the associated authorization servers */
-  q?: string;
+  q?: string | undefined;
   /** Specifies the number of results for a page */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies the pagination cursor for the next page of the associated authorization servers */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListAssociatedServersByTrustedTypeResponseBodyList = Array<AuthorizationServer>;
 export type ListAssociatedServersByTrustedTypeResponse =
@@ -10342,7 +10372,7 @@ export interface ListAuthenticatorEnrollmentsRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** Indicates whether or not the identifier of an authenticator enrollment is disclosed or anonymized. If it's included in the operation query, then the identifier of the authenticator enrollment (the actual phone number, for example) is included in the response. */
-  discloseIdentifiers?: ListAuthenticatorEnrollmentsRequestDiscloseIdentifiersList;
+  discloseIdentifiers?: ListAuthenticatorEnrollmentsRequestDiscloseIdentifiersList | undefined;
 }
 export interface ListAuthenticatorMethodsRequest {
   /** `id` of the authenticator */
@@ -10371,25 +10401,25 @@ export type AuthorizationServerPolicyLinksRules = HrefObjectSelfLink;
 export type AuthorizationServerPolicyLinks = CreateAuthorizationServerPolicyResponseLinks;
 export interface AuthorizationServerPolicy {
   /** ID of the Policy */
-  id?: string;
+  id?: string | undefined;
   /** Indicates that the Policy is an authorization server Policy */
-  type?: AuthorizationServerPolicyType;
+  type?: AuthorizationServerPolicyType | undefined;
   /** Name of the Policy */
-  name?: string;
-  conditions?: AuthorizationServerPolicyConditions;
+  name?: string | undefined;
+  conditions?: AuthorizationServerPolicyConditions | undefined;
   /** Description of the Policy */
-  description?: string;
+  description?: string | undefined;
   /** Specifies the order in which this Policy is evaluated in relation to the other Policies in a custom authorization server */
-  priority?: number;
+  priority?: number | undefined;
   /** Specifies whether requests have access to this Policy */
-  status?: AuthorizationServerPolicyStatus;
+  status?: AuthorizationServerPolicyStatus | undefined;
   /** Specifies whether Okta created this Policy */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Timestamp when the Policy was created */
-  created?: string;
+  created?: string | undefined;
   /** Timestamp when the Policy was last updated */
-  lastUpdated?: string;
-  _links?: CreateAuthorizationServerPolicyResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateAuthorizationServerPolicyResponseLinks | undefined;
 }
 export type ListAuthorizationServerPoliciesResponseBodyList = Array<AuthorizationServerPolicy>;
 export type ListAuthorizationServerPoliciesResponse =
@@ -10406,11 +10436,11 @@ export type ListAuthorizationServerPolicyRulesResponse =
   ListAuthorizationServerPolicyRulesResponseBodyList;
 export interface ListAuthorizationServersRequest {
   /** Searches the `name` and `audiences` of authorization servers for matching values */
-  q?: string;
+  q?: string | undefined;
   /** Specifies the number of authorization server results on a page. Maximum value: 200 */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies the pagination cursor for the next page of authorization servers. Treat as an opaque value and obtain through the next link relationship. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListAuthorizationServersResponseBodyList = Array<AuthorizationServer>;
 export type ListAuthorizationServersResponse = ListAuthorizationServersResponseBodyList;
@@ -10421,29 +10451,29 @@ export interface ListBindingsRequest {
   /** `id` or `label` of the resource set */
   resourceSetIdOrLabel: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
 }
 export interface ResourceSetBindingRoleLinks {
-  self?: HrefObjectSelfLink;
-  members?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  members?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSetBindingRole {
   /** `id` of the role */
-  id?: string;
-  _links?: ResourceSetBindingRoleLinks;
+  id?: string | undefined;
+  _links?: ResourceSetBindingRoleLinks | undefined;
 }
 /** Roles associated with the resource set binding. If there are more than 100 bindings for the specified resource set, then the `_links.next` resource is returned with the next list of bindings. */
 export type ResourceSetBindingsRolesList = Array<ResourceSetBindingRole>;
 export type ResourceSetBindingsLinksNext = HrefObjectSelfLink;
 export interface ResourceSetBindingsLinks {
-  self?: HrefObjectSelfLink;
-  next?: HrefObjectSelfLink;
-  resource_set?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  next?: HrefObjectSelfLink | undefined;
+  resource_set?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSetBindings {
   /** Roles associated with the resource set binding. If there are more than 100 bindings for the specified resource set, then the `_links.next` resource is returned with the next list of bindings. */
-  roles?: ResourceSetBindingsRolesList;
-  _links?: ResourceSetBindingsLinks;
+  roles?: ResourceSetBindingsRolesList | undefined;
+  _links?: ResourceSetBindingsLinks | undefined;
 }
 export interface ListBrandDomainsRequest {
   /** The ID of the brand */
@@ -10454,47 +10484,47 @@ export type BrandDomainsDomainsList = Array<DomainResponse>;
 /** Defines a list of domains with a subset of the properties for each domain */
 export interface BrandDomains {
   /** Each element of the array defines an individual domain */
-  domains?: BrandDomainsDomainsList;
+  domains?: BrandDomainsDomainsList | undefined;
 }
 export type ListBrandsRequestExpandItem = "themes" | "domains" | "emailDomain";
 export type ListBrandsRequestExpandList = Array<ListBrandsRequestExpandItem | (string & {})>;
 export interface ListBrandsRequest {
   /** Specifies additional metadata to be included in the response */
-  expand?: ListBrandsRequestExpandList;
+  expand?: ListBrandsRequestExpandList | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Searches the records for matching value */
-  q?: string;
+  q?: string | undefined;
 }
 export type BrandWithEmbeddedEmbeddedThemesList = Array<ThemeResponse>;
 export type BrandWithEmbeddedEmbeddedDomainsList = Array<DomainResponse>;
 export interface BrandWithEmbeddedEmbedded {
-  themes?: BrandWithEmbeddedEmbeddedThemesList;
-  domains?: BrandWithEmbeddedEmbeddedDomainsList;
-  emailDomain?: EmailDomainResponse;
+  themes?: BrandWithEmbeddedEmbeddedThemesList | undefined;
+  domains?: BrandWithEmbeddedEmbeddedDomainsList | undefined;
+  emailDomain?: EmailDomainResponse | undefined;
 }
 export type BrandWithEmbeddedLinks = GetBrandResponseLinks;
 export interface BrandWithEmbedded {
   /** Consent for updating the custom privacy URL. Not required when resetting the URL. */
-  agreeToCustomPrivacyPolicy?: boolean;
+  agreeToCustomPrivacyPolicy?: boolean | undefined;
   /** Custom privacy policy URL */
-  customPrivacyPolicyUrl?: string;
-  defaultApp?: DefaultApp;
+  customPrivacyPolicyUrl?: string | undefined;
+  defaultApp?: DefaultApp | undefined;
   /** The ID of the email domain */
-  emailDomainId?: string;
+  emailDomainId?: string | undefined;
   /** The Brand ID */
-  id?: string;
+  id?: string | undefined;
   /** If `true`, the Brand is used for the Okta subdomain */
-  isDefault?: boolean;
-  locale?: string;
+  isDefault?: boolean | undefined;
+  locale?: string | undefined;
   /** The name of the Brand */
-  name?: string;
+  name?: string | undefined;
   /** Removes "Powered by Okta" from the sign-in page in redirect authentication deployments, and "© [current year] Okta, Inc." from the Okta End-User Dashboard */
-  removePoweredByOkta?: boolean;
-  _embedded?: BrandWithEmbeddedEmbedded;
-  _links?: GetBrandResponseLinks;
+  removePoweredByOkta?: boolean | undefined;
+  _embedded?: BrandWithEmbeddedEmbedded | undefined;
+  _links?: GetBrandResponseLinks | undefined;
 }
 export type ListBrandsResponseBodyList = Array<BrandWithEmbedded>;
 export type ListBrandsResponse = ListBrandsResponseBodyList;
@@ -10508,41 +10538,41 @@ export interface ListBundleEntitlementsRequest {
   /** The `id` of a bundle */
   bundleId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type BundleEntitlementLinksValues = HrefObjectSelfLink;
 /** Link relations available */
 export interface BundleEntitlementLinks {
-  values?: HrefObjectSelfLink;
+  values?: HrefObjectSelfLink | undefined;
 }
 /** An entitlement in a governance bundle */
 export interface BundleEntitlement {
   /** The description of the role */
-  description?: string;
+  description?: string | undefined;
   /** Entitlement ID */
-  id?: string;
+  id?: string | undefined;
   /** The name of the role */
-  name?: string;
+  name?: string | undefined;
   /** The role key */
-  role?: string;
+  role?: string | undefined;
   /** Link relations available */
-  _links?: BundleEntitlementLinks;
+  _links?: BundleEntitlementLinks | undefined;
 }
 /** List of bundle entitlements */
 export type BundleEntitlementsResponseEntitlementsList = Array<BundleEntitlement>;
 export type BundleLink = HrefObjectSelfLink;
 export interface BundleEntitlementsResponseLinks {
-  self?: HrefObjectSelfLink;
-  next?: HrefObjectSelfLink;
-  bundle?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  next?: HrefObjectSelfLink | undefined;
+  bundle?: HrefObjectSelfLink | undefined;
 }
 /** Entitlement list for a governance bundle */
 export interface BundleEntitlementsResponse {
   /** List of bundle entitlements */
-  entitlements?: BundleEntitlementsResponseEntitlementsList;
-  _links?: BundleEntitlementsResponseLinks;
+  entitlements?: BundleEntitlementsResponseEntitlementsList | undefined;
+  _links?: BundleEntitlementsResponseLinks | undefined;
 }
 export interface ListBundleEntitlementValuesRequest {
   /** The `id` of a bundle */
@@ -10550,38 +10580,38 @@ export interface ListBundleEntitlementValuesRequest {
   /** The `id` of a bundle entitlement */
   entitlementId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface EntitlementValueLinks {
-  group?: HrefObjectSelfLink;
-  app?: HrefObjectSelfLink;
-  resource_set?: HrefObjectSelfLink;
+  group?: HrefObjectSelfLink | undefined;
+  app?: HrefObjectSelfLink | undefined;
+  resource_set?: HrefObjectSelfLink | undefined;
 }
 export interface EntitlementValue {
   /** Entitlement value ID */
-  id?: string;
+  id?: string | undefined;
   /** The entitlement value resource name */
-  name?: string;
+  name?: string | undefined;
   /** The entitlement value resource [ORN](https://developer.okta.com/docs/api/openapi/okta-management/guides/roles/#okta-resource-name-orn) */
-  value?: string;
+  value?: string | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: EntitlementValueLinks;
+  _links?: EntitlementValueLinks | undefined;
 }
 /** List of entitlement values for a bundle entitlement */
 export type EntitlementValuesResponseEntitlementValuesList = Array<EntitlementValue>;
 export interface EntitlementValuesResponseLinks {
-  self?: HrefObjectSelfLink;
-  bundle?: HrefObjectSelfLink;
-  entitlements?: HrefObjectSelfLink;
-  next?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  bundle?: HrefObjectSelfLink | undefined;
+  entitlements?: HrefObjectSelfLink | undefined;
+  next?: HrefObjectSelfLink | undefined;
 }
 export interface EntitlementValuesResponse {
   /** List of entitlement values for a bundle entitlement */
-  entitlementValues?: EntitlementValuesResponseEntitlementValuesList;
-  _links?: EntitlementValuesResponseLinks;
+  entitlementValues?: EntitlementValuesResponseEntitlementValuesList | undefined;
+  _links?: EntitlementValuesResponseLinks | undefined;
 }
 export interface ListCaptchaInstancesRequest {}
 export type ListCaptchaInstancesResponseBodyList = Array<CAPTCHAInstanceOutput>;
@@ -10604,7 +10634,7 @@ export type DomainListResponseDomainsList = Array<DomainResponse>;
 /** Defines a list of domains with a subset of the properties for each domain */
 export interface DomainListResponse {
   /** Each element of the array defines an individual domain */
-  domains?: DomainListResponseDomainsList;
+  domains?: DomainListResponseDomainsList | undefined;
 }
 export interface ListDefaultDevicePostureChecksRequest {}
 export type ListDefaultDevicePostureChecksResponseBodyList = Array<DevicePostureCheck>;
@@ -10623,7 +10653,7 @@ export interface ListDeviceOSAccountsRequest {
   /** `id` of the device */
   deviceId: string;
   /** Comma-separated list of related resources to include in the `_embedded` attribute. Supported values are `users` and `account_linked_enrollments`. */
-  expand?: ListDeviceOSAccountsRequestExpandList;
+  expand?: ListDeviceOSAccountsRequestExpandList | undefined;
 }
 export type ListDeviceOSAccountsResponseBodyItem = OSAccountWindowsOutput | OSAccountMacOSOutput;
 export type ListDeviceOSAccountsResponseBodyList = Array<ListDeviceOSAccountsResponseBodyItem>;
@@ -10633,13 +10663,13 @@ export type ListDevicePostureChecksResponseBodyList = Array<DevicePostureCheck>;
 export type ListDevicePostureChecksResponse = ListDevicePostureChecksResponseBodyList;
 export type ListDevicesRequestExpand = "user" | "userSummary";
 export interface ListDevicesRequest {
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return (recommend `20`) */
-  limit?: number;
+  limit?: number | undefined;
   /** A SCIM filter expression that filters the results. Searches include all device `profile` properties and the device `id`, `status`, and `lastUpdated` properties. Searches for devices can be filtered by the contains (`co`) operator. You can only use `co` with these select device profile attributes: `profile.displayName`, `profile.serialNumber`, `profile.imei`, `profile.meid`, `profile.udid`, and `profile.sid`. See [Operators](https://developer.okta.com/docs/api/#operators). */
-  search?: string;
+  search?: string | undefined;
   /** Includes associated user details and management status for the device in the `_embedded` attribute */
-  expand?: ListDevicesRequestExpand | (string & {});
+  expand?: ListDevicesRequestExpand | (string & {}) | undefined;
 }
 /** The management status of the device */
 export type DeviceUserOutputManagementStatus = "MANAGED" | "NOT_MANAGED";
@@ -10647,37 +10677,37 @@ export type DeviceUserOutputManagementStatus = "MANAGED" | "NOT_MANAGED";
 export type DeviceUserOutputScreenLockType = "NONE" | "PASSCODE" | "BIOMETRIC";
 export interface DeviceUserOutput {
   /** Timestamp when device was created */
-  created?: string;
+  created?: string | undefined;
   /** The management status of the device */
-  managementStatus?: DeviceUserOutputManagementStatus;
+  managementStatus?: DeviceUserOutputManagementStatus | undefined;
   /** Screen lock type of the device */
-  screenLockType?: DeviceUserOutputScreenLockType;
-  user?: UserOutput;
+  screenLockType?: DeviceUserOutputScreenLockType | undefined;
+  user?: UserOutput | undefined;
 }
 /** Users for the device */
 export type DeviceListOutputEmbeddedUsersList = Array<DeviceUserOutput>;
 /** List of associated users for the device if the `expand=user` query parameter is specified in the request. Use `expand=userSummary` to get only a summary of each associated user for the device. */
 export interface DeviceListOutputEmbedded {
   /** Users for the device */
-  users?: DeviceListOutputEmbeddedUsersList;
+  users?: DeviceListOutputEmbeddedUsersList | undefined;
 }
 export interface DeviceListOutput {
   /** Timestamp when the device was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique key for the device */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the device record was last updated. Updates occur when Okta collects and saves device signals during authentication, and when the lifecycle state of the device changes. */
-  lastUpdated?: string;
-  profile?: DeviceProfile;
-  resourceAlternateId?: string;
-  resourceDisplayName?: DeviceDisplayName;
+  lastUpdated?: string | undefined;
+  profile?: DeviceProfile | undefined;
+  resourceAlternateId?: string | undefined;
+  resourceDisplayName?: DeviceDisplayName | undefined;
   /** Alternate key for the `id` */
-  resourceId?: string;
-  resourceType?: string;
-  status?: DeviceStatus;
-  _links?: LinksSelfAndFullUsersLifecycle;
+  resourceId?: string | undefined;
+  resourceType?: string | undefined;
+  status?: DeviceStatus | undefined;
+  _links?: LinksSelfAndFullUsersLifecycle | undefined;
   /** List of associated users for the device if the `expand=user` query parameter is specified in the request. Use `expand=userSummary` to get only a summary of each associated user for the device. */
-  _embedded?: DeviceListOutputEmbedded;
+  _embedded?: DeviceListOutputEmbedded | undefined;
 }
 export type ListDevicesResponseBodyList = Array<DeviceListOutput>;
 export type ListDevicesResponse = ListDevicesResponseBodyList;
@@ -10693,9 +10723,9 @@ export interface ListEmailCustomizationsRequest {
   /** The name of the email template */
   templateName: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type EmailCustomizationLinks = CreateEmailCustomizationResponseLinks;
 export interface EmailCustomization {
@@ -10704,15 +10734,15 @@ export interface EmailCustomization {
   /** The email subject. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` subject is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
   subject: string;
   /** The UTC time at which this email customization was created. */
-  created?: string;
+  created?: string | undefined;
   /** A unique identifier for this email customization */
-  id?: string;
+  id?: string | undefined;
   /** Whether this is the default customization for the email template. Each customized email template must have exactly one default customization. Defaults to `true` for the first customization and `false` thereafter. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   language: string;
   /** The UTC time at which this email customization was last updated. */
-  lastUpdated?: string;
-  _links?: CreateEmailCustomizationResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateEmailCustomizationResponseLinks | undefined;
 }
 export type ListEmailCustomizationsResponseBodyList = Array<EmailCustomization>;
 export type ListEmailCustomizationsResponse = ListEmailCustomizationsResponseBodyList;
@@ -10722,23 +10752,23 @@ export type ListEmailDomainsRequestExpandList = Array<
 >;
 export interface ListEmailDomainsRequest {
   /** Specifies additional metadata to be included in the response */
-  expand?: ListEmailDomainsRequestExpandList;
+  expand?: ListEmailDomainsRequestExpandList | undefined;
 }
 export type EmailDomainResponseWithEmbeddedDnsValidationRecordsList = Array<EmailDomainDNSRecord>;
 export type EmailDomainResponseWithEmbeddedEmbeddedBrandsList = Array<Brand>;
 export interface EmailDomainResponseWithEmbeddedEmbedded {
-  brands?: EmailDomainResponseWithEmbeddedEmbeddedBrandsList;
+  brands?: EmailDomainResponseWithEmbeddedEmbeddedBrandsList | undefined;
 }
 export interface EmailDomainResponseWithEmbedded {
   displayName: string;
   userName: string;
-  dnsValidationRecords?: EmailDomainResponseWithEmbeddedDnsValidationRecordsList;
-  domain?: string;
-  id?: string;
-  validationStatus?: EmailDomainStatus;
+  dnsValidationRecords?: EmailDomainResponseWithEmbeddedDnsValidationRecordsList | undefined;
+  domain?: string | undefined;
+  id?: string | undefined;
+  validationStatus?: EmailDomainStatus | undefined;
   /** The subdomain for the email sender's custom mail domain */
-  validationSubdomain?: string;
-  _embedded?: EmailDomainResponseWithEmbeddedEmbedded;
+  validationSubdomain?: string | undefined;
+  _embedded?: EmailDomainResponseWithEmbeddedEmbedded | undefined;
 }
 export type ListEmailDomainsResponseBodyList = Array<EmailDomainResponseWithEmbedded>;
 export type ListEmailDomainsResponse = ListEmailDomainsResponseBodyList;
@@ -10747,7 +10777,7 @@ export interface ListEmailServersRequest {}
 export type EmailServerListResponseEmailServersList = Array<BaseEmailServer>;
 export interface EmailServerListResponse {
   /** List of enrolled SMTP servers */
-  email_servers?: EmailServerListResponseEmailServersList;
+  email_servers?: EmailServerListResponseEmailServersList | undefined;
 }
 export type ListEmailTemplatesRequestExpandItem = "settings" | "customizationCount";
 export type ListEmailTemplatesRequestExpandList = Array<
@@ -10757,11 +10787,11 @@ export interface ListEmailTemplatesRequest {
   /** The ID of the brand */
   brandId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies additional metadata to be included in the response */
-  expand?: ListEmailTemplatesRequestExpandList;
+  expand?: ListEmailTemplatesRequestExpandList | undefined;
 }
 export type ListEmailTemplatesResponseBodyList = Array<EmailTemplateResponse>;
 export type ListEmailTemplatesResponse = ListEmailTemplatesResponseBodyList;
@@ -10803,17 +10833,17 @@ export type ListFederatedClaimsResponseBodyList = Array<FederatedClaim>;
 export type ListFederatedClaimsResponse = ListFederatedClaimsResponseBodyList;
 export interface ListGovernanceBundlesRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** List of governance bundles */
 export type GovernanceBundlesResponseBundlesList = Array<GovernanceBundle>;
 export type GovernanceBundlesResponseLinks = RoleGovernanceResourcesLinks;
 export interface GovernanceBundlesResponse {
   /** List of governance bundles */
-  bundles?: GovernanceBundlesResponseBundlesList;
-  _links?: RoleGovernanceResourcesLinks;
+  bundles?: GovernanceBundlesResponseBundlesList | undefined;
+  _links?: RoleGovernanceResourcesLinks | undefined;
 }
 export interface ListGrantsForUserAndClientRequest {
   /** ID of an existing Okta user */
@@ -10821,11 +10851,11 @@ export interface ListGrantsForUserAndClientRequest {
   /** `client_id` of the app */
   clientId: string;
   /** Valid value: `scope`. If specified, scope details are included in the `_embedded` attribute. */
-  expand?: string;
+  expand?: string | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of tokens to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListGrantsForUserAndClientResponseBodyList = Array<OAuth2ScopeConsentGrant>;
 export type ListGrantsForUserAndClientResponse = ListGrantsForUserAndClientResponseBodyList;
@@ -10833,7 +10863,7 @@ export interface ListGroupAssignedRolesRequest {
   /** The `id` of the group */
   groupId: string;
   /** An optional parameter used to return targets configured for the standard role assignment in the `embedded` property. Supported values: `targets/groups` or `targets/catalog/apps` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ListGroupAssignedRolesResponseBodyItem = StandardRole | CustomRole;
 /** List of role assignments */
@@ -10843,11 +10873,11 @@ export interface ListGroupOwnersRequest {
   /** The `id` of the group */
   groupId: string;
   /** SCIM filter expression for group owners. Allows you to filter owners by type. */
-  search?: string;
+  search?: string | undefined;
   /** Specifies the pagination cursor for the next page of owners */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of owner results in a page */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListGroupOwnersResponseBodyList = Array<GroupOwner>;
 export type ListGroupOwnersResponse = ListGroupOwnersResponseBodyList;
@@ -10855,48 +10885,48 @@ export interface ListGroupPushMappingsRequest {
   /** Application ID */
   appId: string;
   /** Specifies the pagination cursor for the next page of mappings */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of results returned */
-  limit?: number;
+  limit?: number | undefined;
   /** Filters group push mappings by last updated date. The `lastUpdated` parameter supports the following format: `YYYY-MM-DDTHH:mm:ssZ`. This filters mappings updated on or after the specified date and time in UTC. If you don't specify a value, all group push mappings are returned. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Filters group push mappings by source group ID. If you don't specify a value, all group push mappings are returned. */
-  sourceGroupId?: string;
+  sourceGroupId?: string | undefined;
   /** Filters group push mappings by status. If you don't specify a value, all group push mappings are returned. */
-  status?: GroupPushMappingStatus | (string & {});
+  status?: GroupPushMappingStatus | (string & {}) | undefined;
 }
 export type ListGroupPushMappingsResponseBodyList = Array<GroupPushMapping>;
 export type ListGroupPushMappingsResponse = ListGroupPushMappingsResponseBodyList;
 export type ListGroupRulesRequestExpand = "groupIdToGroupNameMap";
 export interface ListGroupRulesRequest {
   /** Specifies the number of rule results in a page */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies the pagination cursor for the next page of rules */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the keyword to search rules for */
-  search?: string;
+  search?: string | undefined;
   /** If specified, returns the mapping of group IDs to group names in the `_embedded` object. */
-  expand?: ListGroupRulesRequestExpand | (string & {});
+  expand?: ListGroupRulesRequestExpand | (string & {}) | undefined;
 }
 export type ListGroupRulesResponseBodyList = Array<GroupRule>;
 export type ListGroupRulesResponse = ListGroupRulesResponseBodyList;
 export interface ListGroupsRequest {
   /** Searches for groups with a supported [filtering](https://developer.okta.com/docs/api/#filter) expression for all properties except for `_embedded`, `_links`, and `objectClass`. Okta recommends this query parameter because it provides the largest range of search options and optimal performance. This operation supports [pagination](https://developer.okta.com/docs/api/#pagination). The `search` string requires [URL encoding](https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding). For example, `search=type eq "OKTA_GROUP"` is encoded as `search=type+eq+%22OKTA_GROUP%22`. This operation searches many properties: * Any group profile attribute, including imported app group profile attributes. * The top-level properties: `id`, `created`, `lastMembershipUpdated`, `lastUpdated`, and `type`. * The [source](/openapi/okta-management/management/group/listgroups#group/listgroups/t=response&c=200&path=_links/source) of groups with type of `APP_GROUP`, accessed as `source.id`. You can also use the `sortBy` and `sortOrder` parameters. Searches for groups can be filtered by the following operators: `sw`, `eq`, and `co`. You can only use `co` with these select profile attributes: `profile.name` and `profile.description`. See [Operators](https://developer.okta.com/docs/api/#operators). */
-  search?: string;
+  search?: string | undefined;
   /** Filter expression for groups. See [Filter](https://developer.okta.com/docs/api/#filter). Filtering supports the following limited number of properties: `id`, `type`, `lastUpdated`, and `lastMembershipUpdated`. > **Note:** All filters must be [URL encoded](https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding). For example, `filter=lastUpdated gt "2013-06-01T00:00:00.000Z"` is encoded as `filter=lastUpdated%20gt%20%222013-06-01T00:00:00.000Z%22`. See [Special characters](https://developer.okta.com/docs/api/#special-characters). */
-  filter?: string;
+  filter?: string | undefined;
   /** Finds a group that matches the `name` property. > **Note:** Paging and searching are currently mutually exclusive. You can't page a query. The default limit for a query is 300 results. Query is intended for an auto-complete picker use case where users refine their search string to constrain the results. */
-  q?: string;
+  q?: string | undefined;
   /** Specifies the pagination cursor for the next page of groups. The `after` cursor should be treated as an opaque value and obtained through the next link relation. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of group results in a page. Okta recommends using a specific value other than the default or maximum. If your request times out, retry your request with a smaller `limit` and [page the results](https://developer.okta.com/docs/api/#pagination). The Okta default `Everyone` group isn't returned for users with a group admin role. */
-  limit?: number;
+  limit?: number | undefined;
   /** If specified, additional metadata is included in the response. Possible values are `stats` and `app`. This additional metadata is listed in the [`_embedded`](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/addGroup!c=200&path=_embedded&t=response) property of the response. > **Note:** You can use the `stats` value to return the number of users within a group. This is listed as the `_embedded.stats.usersCount` value in the response. See this [Knowledge Base article](https://support.okta.com/help/s/article/Is-there-an-API-that-returns-the-number-of-users-in-a-group?language=en_US) for more information and an example. */
-  expand?: string;
+  expand?: string | undefined;
   /** Specifies the field to sort by (for search queries only). `sortBy` can be any single property, for example `sortBy=profile.name`. Groups with the same value for the `sortBy` property are ordered by `id`'. Use with `sortOrder` to control the order of results. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Specifies sort order: `asc` or `desc` (for search queries only). This parameter is ignored if `sortBy` isn't present. */
-  sortOrder?: string;
+  sortOrder?: string | undefined;
 }
 export type ListGroupsResponseBodyList = Array<Group>;
 export type ListGroupsResponse = ListGroupsResponseBodyList;
@@ -10906,9 +10936,9 @@ export interface ListGroupTargetRoleForClientRequest {
   /** The `id` of the role assignment */
   roleAssignmentId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListGroupTargetRoleForClientResponseBodyList = Array<Group>;
 export type ListGroupTargetRoleForClientResponse = ListGroupTargetRoleForClientResponseBodyList;
@@ -10918,9 +10948,9 @@ export interface ListGroupTargetsForGroupRoleRequest {
   /** The `id` of the role assignment */
   roleAssignmentId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListGroupTargetsForGroupRoleResponseBodyList = Array<Group>;
 export type ListGroupTargetsForGroupRoleResponse = ListGroupTargetsForGroupRoleResponseBodyList;
@@ -10930,9 +10960,9 @@ export interface ListGroupTargetsForRoleRequest {
   /** The `id` of the role assignment */
   roleAssignmentId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListGroupTargetsForRoleResponseBodyList = Array<Group>;
 export type ListGroupTargetsForRoleResponse = ListGroupTargetsForRoleResponseBodyList;
@@ -10940,9 +10970,9 @@ export interface ListGroupUsersRequest {
   /** The `id` of the group */
   groupId: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of user results in a page */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListGroupUsersResponseBodyList = Array<UserOutput>;
 export type ListGroupUsersResponse = ListGroupUsersResponseBodyList;
@@ -10953,13 +10983,13 @@ export interface ListIdentityProviderApplicationUsersRequest {
   /** `id` of IdP */
   idpId: string;
   /** Searches the records for matching value */
-  q?: string;
+  q?: string | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Expand user data */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ListIdentityProviderApplicationUsersResponseBodyList =
   Array<IdentityProviderApplicationUser>;
@@ -10967,21 +10997,21 @@ export type ListIdentityProviderApplicationUsersResponse =
   ListIdentityProviderApplicationUsersResponseBodyList;
 export interface ListIdentityProviderKeysRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListIdentityProviderKeysResponseBodyList = Array<IdPKeyCredential>;
 export type ListIdentityProviderKeysResponse = ListIdentityProviderKeysResponseBodyList;
 export interface ListIdentityProvidersRequest {
   /** Searches the `name` property of IdPs for matching value */
-  q?: string;
+  q?: string | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Filters IdPs by `type` */
-  type?: IdentityProviderType | (string & {});
+  type?: IdentityProviderType | (string & {}) | undefined;
 }
 export type ListIdentityProvidersResponseBodyList = Array<IdentityProvider>;
 export type ListIdentityProvidersResponse = ListIdentityProvidersResponseBodyList;
@@ -11007,7 +11037,7 @@ export type ListInlineHooksRequestType =
   | "com.okta.telephony.provider";
 export interface ListInlineHooksRequest {
   /** One of the supported inline hook types */
-  type?: ListInlineHooksRequestType | (string & {});
+  type?: ListInlineHooksRequestType | (string & {}) | undefined;
 }
 export type ListInlineHooksResponseBodyList = Array<InlineHook>;
 export type ListInlineHooksResponse = ListInlineHooksResponseBodyList;
@@ -11047,41 +11077,41 @@ export interface ListLinkedObjectsForUserRequest {
 }
 /** Link objects */
 export interface ResponseLinks {
-  _links?: LinksSelf;
+  _links?: LinksSelf | undefined;
 }
 export type ListLinkedObjectsForUserResponseBodyList = Array<ResponseLinks>;
 export type ListLinkedObjectsForUserResponse = ListLinkedObjectsForUserResponseBodyList;
 export type ListLogEventsRequestSortOrder = "ASCENDING" | "DESCENDING";
 export interface ListLogEventsRequest {
   /** Filters the lower time bound of the log events `published` property for bounded queries or persistence time for polling queries */
-  since?: string;
+  since?: string | undefined;
   /** Filters the upper time bound of the log events `published` property for bounded queries or persistence time for polling queries. */
-  until?: string;
+  until?: string | undefined;
   /** Retrieves the next page of results. Okta returns a link in the HTTP Header (`rel=next`) that includes the after query parameter */
-  after?: string;
+  after?: string | undefined;
   /** Filter expression that filters the results. All operators except [ ] are supported. See [Filter](https://developer.okta.com/docs/api/#filter) and [Operators](https://developer.okta.com/docs/api/#operators). */
-  filter?: string;
+  filter?: string | undefined;
   /** Filters log events results by one or more case insensitive keywords. */
-  q?: string;
+  q?: string | undefined;
   /** Sets the number of results that are returned in the response */
-  limit?: number;
+  limit?: number | undefined;
   /** The order of the returned events that are sorted by the `published` property */
-  sortOrder?: ListLogEventsRequestSortOrder | (string & {});
+  sortOrder?: ListLogEventsRequestSortOrder | (string & {}) | undefined;
 }
 /** Further details about the actor */
 export type LogActorDetailEntryMap = { [key: string]: unknown | undefined };
 /** Describes the user, app, client, or other entity (actor) who performs an action on a target. The actor is dependent on the action that is performed. All events have actors. */
 export interface LogActor {
   /** Alternative ID of the actor */
-  alternateId?: string;
+  alternateId?: string | undefined;
   /** Further details about the actor */
-  detailEntry?: LogActorDetailEntryMap;
+  detailEntry?: LogActorDetailEntryMap | undefined;
   /** Display name of the actor */
-  displayName?: string;
+  displayName?: string | undefined;
   /** ID of the actor */
-  id?: string;
+  id?: string | undefined;
   /** Type of actor */
-  type?: string;
+  type?: string | undefined;
 }
 /** The system that proves the identity of an actor using the credentials provided to it */
 export type LogAuthenticationProvider =
@@ -11117,70 +11147,70 @@ export type LogCredentialType =
 /** Describes the issuer of the authorization server when the authentication is performed through OAuth. This is the location where well-known resources regarding the details of the authorization servers are published. */
 export interface LogIssuer {
   /** Varies depending on the type of authentication. If authentication is SAML 2.0, `id` is the issuer in the SAML assertion. For social login, `id` is the issuer of the token. */
-  id?: string;
+  id?: string | undefined;
   /** Information on the `issuer` and source of the SAML assertion or token */
-  type?: string;
+  type?: string | undefined;
 }
 /** All authentication relies on validating one or more credentials that prove the authenticity of the actor's identity. Credentials are sometimes provided by the actor, as is the case with passwords, and at other times provided by a third party, and validated by the authentication provider. The authenticationContext contains metadata about how the actor is authenticated. For example, an authenticationContext for an event, where a user authenticates with Integrated Windows Authentication (IWA), looks like the following: ``` { "authenticationProvider": "ACTIVE_DIRECTORY", "authenticationStep": 0, "credentialProvider": null, "credentialType": "IWA", "externalSessionId": "102N1EKyPFERROGvK9wizMAPQ", "interface": null, "issuer": null } ``` In this case, the user enters an IWA credential to authenticate against an Active Directory instance. All of the user's future-generated events in this sign-in session are going to share the same `externalSessionId`. Among other operations, this response object can be used to scan for suspicious sign-in activity or perform analytics on user authentication habits (for example, how often authentication scheme X is used versus authentication scheme Y). */
 export interface LogAuthenticationContext {
-  authenticationProvider?: LogAuthenticationProvider;
+  authenticationProvider?: LogAuthenticationProvider | undefined;
   /** The zero-based step number in the authentication pipeline. Currently unused and always set to `0`. */
-  authenticationStep?: number;
-  credentialProvider?: LogCredentialProvider;
-  credentialType?: LogCredentialType;
+  authenticationStep?: number | undefined;
+  credentialProvider?: LogCredentialProvider | undefined;
+  credentialType?: LogCredentialType | undefined;
   /** A proxy for the actor's [session ID](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) */
-  externalSessionId?: string;
+  externalSessionId?: string | undefined;
   /** The third-party user interface that the actor authenticates through, if any. */
-  interface?: string;
-  issuer?: LogIssuer;
+  interface?: string | undefined;
+  issuer?: LogIssuer | undefined;
 }
 /** The latitude and longitude of the geolocation where an action was performed. The object is formatted according to the [ISO 6709](https://www.iso.org/obp/ui/fr/#iso:std:iso:6709:ed-3:v1:en) standard. */
 export interface LogGeolocation {
   /** Latitude which uses two digits for the [integer part](https://www.iso.org/obp/ui/fr/#iso:std:iso:6709:ed-3:v1:en#Latitude) */
-  lat?: number;
+  lat?: number | undefined;
   /** Longitude which uses three digits for the [integer part](https://www.iso.org/obp/ui/fr/#iso:std:iso:6709:ed-3:v1:en#Longitude) */
-  lon?: number;
+  lon?: number | undefined;
 }
 /** Geographical context describes a set of geographic coordinates. In addition to containing latitude and longitude data, the `GeographicalContext` object also contains address data of postal code-level granularity. Within the `Client` object, the geographical context refers to the physical location of the client when it sends the request that triggers this event. All `Transaction` events with `type` equal to `WEB` have a geographical context set. `Transaction` events with `type` equal to `JOB` don't have a geographical context set. The geographical context data can be missing if the geographical data for a request can't be resolved. */
 export interface LogGeographicalContext {
   /** The city that encompasses the area that contains the geolocation coordinates, if available (for example, Seattle, San Francisco) */
-  city?: string;
+  city?: string | undefined;
   /** Full name of the country that encompasses the area that contains the geolocation coordinates (for example, France, Uganda) */
-  country?: string;
-  geolocation?: LogGeolocation;
+  country?: string | undefined;
+  geolocation?: LogGeolocation | undefined;
   /** Postal code of the area that encompasses the geolocation coordinates */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** Full name of the state or province that encompasses the area that contains the geolocation coordinates (for example, Montana, Ontario) */
-  state?: string;
+  state?: string | undefined;
 }
 /** "A user agent is software (a software agent) that is acting on behalf of a user." ([Definition of User Agent](https://developer.mozilla.org/en-US/docs/Glossary/User_agent)) In the Okta event data object, the `UserAgent` object provides specifications about the client software that makes event-triggering HTTP requests. User agent identification is often useful for identifying interoperability problems between servers and clients, and also for browser and operating system usage analytics. */
 export interface LogUserAgent {
   /** If the client is a web browser, this field identifies the type of web browser (for example, CHROME, FIREFOX) */
-  browser?: string;
+  browser?: string | undefined;
   /** The operating system that the client runs on (for example, Windows 10) */
-  os?: string;
+  os?: string | undefined;
   /** A raw string representation of the user agent that is formatted according to [section 5.5.3 of HTTP/1.1 Semantics and Content](https://datatracker.ietf.org/doc/html/rfc7231#section-5.5.3). Both the `browser` and the `OS` fields can be derived from this field. */
-  rawUserAgent?: string;
+  rawUserAgent?: string | undefined;
 }
 /** When an event is triggered by an HTTP request, the `client` object describes the [client](https://datatracker.ietf.org/doc/html/rfc2616) that issues the HTTP request. For instance, the web browser is the client when a user accesses Okta. When this request is received and processed, a sign-in event is fired. When the event isn't sourced to an HTTP request, such as an automatic update, the `client` object field is blank. */
 export interface LogClient {
   /** Type of device that the client operates from (for example, computer) */
-  device?: string;
-  geographicalContext?: LogGeographicalContext;
+  device?: string | undefined;
+  geographicalContext?: LogGeographicalContext | undefined;
   /** For OAuth requests, this is the ID of the OAuth [client](https://datatracker.ietf.org/doc/html/rfc6749#section-1.1) making the request. For SSWS token requests, this is the ID of the agent making the request. */
-  id?: string;
+  id?: string | undefined;
   /** IP address that the client is making its request from */
-  ipAddress?: string;
-  userAgent?: LogUserAgent;
+  ipAddress?: string | undefined;
+  userAgent?: LogUserAgent | undefined;
   /** The `name` of the [Zone](https://developer.okta.com/docs/api/openapi/okta-management/management/networkzone/#tag/NetworkZone/operation/getNetworkZone) that the client's location is mapped to */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** A dynamic field that contains miscellaneous information that is dependent on the event type. */
 export type LogDebugContextDebugDataMap = { [key: string]: unknown | undefined };
 /** For some kinds of events (for example, OLM provisioning, sign-in request, second factor SMS, and so on), the fields that are provided in other response objects aren't sufficient to adequately describe the operations that the event has performed. In such cases, the `debugContext` object provides a way to store additional information. For example, an event where a second factor SMS token is sent to a user may have a `debugContext` that looks like the following: ``` { "debugData": { "requestUri": "/api/v1/users/00u3gjksoiRGRAZHLSYV/factors/smsf8luacpZJAva10x45/verify", "smsProvider": "TELESIGN", "transactionId": "268632458E3C100F5F5F594C6DC689D4" } } ``` By inspecting the debugData field, you can find the URI that is used to trigger the second factor SMS (`/api/v1/users/00u3gjksoiRGRAZHLSYV/factors/smsf8luacpZJAva10x45/verify`), the SMS provider (`TELESIGN`), and the ID used by Telesign to identify this transaction (`268632458E3C100F5F5F594C6DC689D4`). If for some reason the information that is needed to implement a feature isn't provided in other response objects, you should scan the `debugContext.debugData` field for potentially useful fields. > **Important:** The information contained in `debugContext.debugData` is intended to add context when troubleshooting customer platform issues. Both key names and values may change from release to release and aren't guaranteed to be stable. Therefore, they shouldn't be viewed as a data contract but as a debugging aid instead. */
 export interface LogDebugContext {
   /** A dynamic field that contains miscellaneous information that is dependent on the event type. */
-  debugData?: LogDebugContextDebugDataMap;
+  debugData?: LogDebugContextDebugDataMap | undefined;
 }
 /** Result of the action */
 export type LogOutcomeResult =
@@ -11198,9 +11228,9 @@ export type LogOutcomeResult =
   | "UNANSWERED";
 export interface LogOutcome {
   /** Reason for the result, for example, `INVALID_CREDENTIALS` */
-  reason?: string;
+  reason?: string | undefined;
   /** Result of the action */
-  result?: LogOutcomeResult;
+  result?: LogOutcomeResult | undefined;
 }
 /** The type of service provided from this IP address */
 export type LogIpServiceCategoryType =
@@ -11212,50 +11242,50 @@ export type LogIpServiceCategoryType =
 /** Describes the IP service category associated with an IP. */
 export interface LogIpServiceCategory {
   /** Indicates whether the service is an anonymizer */
-  isAnonymous?: boolean | null;
+  isAnonymous?: boolean | null | undefined;
   /** The name of the associated operator */
-  operator?: string | null;
+  operator?: string | null | undefined;
   /** The type of service provided from this IP address */
-  type?: LogIpServiceCategoryType | null;
+  type?: LogIpServiceCategoryType | null | undefined;
 }
 /** The associated IP service categories for the IP address */
 export type LogIpDetailsIpServiceCategoriesList = Array<LogIpServiceCategory>;
 /** Details about the associated IP address */
 export interface LogIpDetails {
   /** The [Autonomous system](https://docs.telemetry.mozilla.org/datasets/other/asn_aggregates/reference) number that's associated with the IP address */
-  asNumber?: number | null;
+  asNumber?: number | null | undefined;
   /** The name associated with the Autonomous System Number (ASN) */
-  asOrg?: string | null;
+  asOrg?: string | null | undefined;
   /** The domain name associated with the IP address */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** The associated IP service categories for the IP address */
-  ipServiceCategories?: LogIpDetailsIpServiceCategoriesList | null;
+  ipServiceCategories?: LogIpDetailsIpServiceCategoriesList | null | undefined;
   /** The internet service provider associated with the IP address */
-  isp?: string | null;
+  isp?: string | null | undefined;
 }
 export interface LogIpAddress {
-  geographicalContext?: LogGeographicalContext;
+  geographicalContext?: LogGeographicalContext | undefined;
   /** IP address */
-  ip?: string;
-  ipDetails?: LogIpDetails | null;
+  ip?: string | undefined;
+  ipDetails?: LogIpDetails | null | undefined;
   /** Details regarding the source */
-  source?: string;
+  source?: string | undefined;
   /** IP address version */
-  version?: string;
+  version?: string | undefined;
 }
 /** If the incoming request passes through any proxies, the IP addresses of those proxies are stored here in the format of clientIp, proxy1, proxy2, and so on. This field is useful when working with trusted proxies. */
 export type LogRequestIpChainList = Array<LogIpAddress>;
 /** The `Request` object describes details that are related to the HTTP request that triggers this event, if available. When the event isn't sourced to an HTTP request, such as an automatic update on the Okta servers, the `Request` object still exists, but the `ipChain` field is empty. */
 export interface LogRequest {
   /** If the incoming request passes through any proxies, the IP addresses of those proxies are stored here in the format of clientIp, proxy1, proxy2, and so on. This field is useful when working with trusted proxies. */
-  ipChain?: LogRequestIpChainList;
+  ipChain?: LogRequestIpChainList | undefined;
 }
 /** The bot detected level associated with the bot protection configuration target */
 export type LogBotProtectionLevel = "NONE" | "LOW" | "MEDIUM" | "HIGH";
 /** <x-lifecycle-container><x-lifecycle class="oie"></x-lifecycle></x-lifecycle-container>The result of the bot protection detection associated with the event */
 export interface LogBotProtection {
   /** The bot detected level associated with the bot protection configuration target */
-  level?: LogBotProtectionLevel | null;
+  level?: LogBotProtectionLevel | null | undefined;
 }
 /** The risk level associated with the request */
 export type LogRiskLevel = "LOW" | "MEDIUM" | "HIGH";
@@ -11266,46 +11296,46 @@ export type LogRiskReasonsList = Array<string>;
 /** Risk associated with the event */
 export interface LogRisk {
   /** The name of the detection mechanism that identified the risk */
-  detectionName?: string | null;
+  detectionName?: string | null | undefined;
   /** The entity that issued the associated risk */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** The risk level associated with the request */
-  level?: LogRiskLevel | null;
+  level?: LogRiskLevel | null | undefined;
   /** The previous risk level (if any) associated with the user */
-  previousLevel?: LogRiskPreviousLevel | null;
+  previousLevel?: LogRiskPreviousLevel | null | undefined;
   /** Reasons for the associated risk */
-  reasons?: LogRiskReasonsList | null;
+  reasons?: LogRiskReasonsList | null | undefined;
 }
 /** The result of the user behavior analysis */
 export type LogUserBehaviorResult = "UNKNOWN" | "POSITIVE" | "NEGATIVE" | "BAD_REQUEST";
 /** The result of the user behavior detection models associated with the event */
 export interface LogUserBehavior {
   /** The unique identifier of the user behavior detection model */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the user behavior detection model [configured by admins](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Behavior/) */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The result of the user behavior analysis */
-  result?: LogUserBehaviorResult | null;
+  result?: LogUserBehaviorResult | null | undefined;
 }
 /** The result of the user behavior detection models associated with the event */
 export type LogSecurityContextUserBehaviorsList = Array<LogUserBehavior>;
 /** The `securityContext` object provides security information that is directly related to the evaluation of the event's IP reputation. IP reputation is a trustworthiness rating that evaluates how likely a sender is to be malicious and is based on the sender's IP address. As the name implies, the `securityContext` object is useful for security applications-flagging and inspecting suspicious events. */
 export interface LogSecurityContext {
   /** The [Autonomous system](https://docs.telemetry.mozilla.org/datasets/other/asn_aggregates/reference) number that's associated with the autonomous system the event request was sourced to */
-  asNumber?: number | null;
+  asNumber?: number | null | undefined;
   /** The organization that is associated with the autonomous system that the event request is sourced to */
-  asOrg?: string | null;
-  botProtection?: LogBotProtection | null;
+  asOrg?: string | null | undefined;
+  botProtection?: LogBotProtection | null | undefined;
   /** The domain name that's associated with the IP address of the inbound event request */
-  domain?: string | null;
-  ipDetails?: LogIpDetails | null;
+  domain?: string | null | undefined;
+  ipDetails?: LogIpDetails | null | undefined;
   /** The Internet service provider that's used to send the event's request */
-  isp?: string | null;
+  isp?: string | null | undefined;
   /** Specifies whether an event's request is from a known proxy */
-  isProxy?: boolean | null;
-  risk?: LogRisk | null;
+  isProxy?: boolean | null | undefined;
+  risk?: LogRisk | null | undefined;
   /** The result of the user behavior detection models associated with the event */
-  userBehaviors?: LogSecurityContextUserBehaviorsList | null;
+  userBehaviors?: LogSecurityContextUserBehaviorsList | null | undefined;
 }
 /** Indicates how severe the event is */
 export type LogSeverity = "DEBUG" | "ERROR" | "INFO" | "WARN";
@@ -11316,25 +11346,25 @@ export type LogTargetChangeDetailsToMap = { [key: string]: unknown | undefined }
 /** Details on the target's changes. Not all event types support the `changeDetails` property, and not all `target` objects contain the `changeDetails` property. > **Note:** You can't run queries on `changeDetails` or the object's `to` or `from` properties. */
 export interface LogTargetChangeDetails {
   /** The original properties of the target */
-  from?: LogTargetChangeDetailsFromMap;
+  from?: LogTargetChangeDetailsFromMap | undefined;
   /** The updated properties of the target */
-  to?: LogTargetChangeDetailsToMap;
+  to?: LogTargetChangeDetailsToMap | undefined;
 }
 /** Further details on the target */
 export type LogTargetDetailEntryMap = { [key: string]: unknown | undefined };
 export interface LogTarget {
   /** The alternate ID of the target */
-  alternateId?: string;
+  alternateId?: string | undefined;
   /** Details on the target's changes. Not all event types support the `changeDetails` property, and not all `target` objects contain the `changeDetails` property. > **Note:** You can't run queries on `changeDetails` or the object's `to` or `from` properties. */
-  changeDetails?: LogTargetChangeDetails;
+  changeDetails?: LogTargetChangeDetails | undefined;
   /** Further details on the target */
-  detailEntry?: LogTargetDetailEntryMap;
+  detailEntry?: LogTargetDetailEntryMap | undefined;
   /** The display name of the target */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID of the target */
-  id?: string;
+  id?: string | undefined;
   /** The type of target */
-  type?: string;
+  type?: string | undefined;
 }
 /** The entity that an actor performs an action on. Targets can be anything, such as an app user, a sign-in token, or anything else. > **Note:** When searching the target array, search for a given `type` rather than the array location. Target types, such as `User` and `AppInstance`, for a given `eventType` are not always in the same array location. */
 export type LogEventTargetList = Array<LogTarget>;
@@ -11343,46 +11373,46 @@ export type LogTransactionDetailMap = { [key: string]: unknown | undefined };
 /** A `transaction` object comprises contextual information associated with its respective event. This information is useful for understanding sequences of correlated events. For example, a `transaction` object such as the following: ``` { "id": "Wn4f-0RQ8D8lTSLkAmkKdQAADqo", "type": "WEB", "detail": null } ``` indicates that a `WEB` request with `id` `Wn4f-0RQ8D8lTSLkAmkKdQAADqo` has created this event. A `transaction` object with a `requestApiTokenId` in the `detail` object, for example : ``` { "id": "YjSlblAAqnKY7CdyCkXNBgAAAIU", "type": "WEB", "detail": { "requestApiTokenId": "00T94e3cn9kSEO3c51s5" } } ``` indicates that this event was the result of an action performed through an API using the token identified by 00T94e3cn9kSEO3c51s5. The token ID is visible in the Admin Console, **Security** > **API**. See [API token management](https://help.okta.com/okta_help.htm?id=Security_API). For more information on API tokens, see [Create an API token](https://developer.okta.com/docs/guides/create-an-api-token/). */
 export interface LogTransaction {
   /** Details for this transaction. */
-  detail?: LogTransactionDetailMap;
+  detail?: LogTransactionDetailMap | undefined;
   /** Unique identifier for this transaction. */
-  id?: string;
+  id?: string | undefined;
   /** Describes the kind of transaction. `WEB` indicates a web request. `JOB` indicates an asynchronous task. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface LogEvent {
-  actor?: LogActor;
-  authenticationContext?: LogAuthenticationContext;
-  client?: LogClient;
-  debugContext?: LogDebugContext;
+  actor?: LogActor | undefined;
+  authenticationContext?: LogAuthenticationContext | undefined;
+  client?: LogClient | undefined;
+  debugContext?: LogDebugContext | undefined;
   /** The display message for an event */
-  displayMessage?: string;
+  displayMessage?: string | undefined;
   /** The published event type. Event instances are categorized by action in the event type attribute. This attribute is key to navigating the System Log through expression filters. See [Event Types catalog](https://developer.okta.com/docs/reference/api/event-types/#catalog) for a complete list of System Log event types. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** Associated Events API Action `objectType` attribute value */
-  legacyEventType?: string;
-  outcome?: LogOutcome;
+  legacyEventType?: string | undefined;
+  outcome?: LogOutcome | undefined;
   /** Timestamp when the event is published */
-  published?: string;
-  request?: LogRequest;
-  securityContext?: LogSecurityContext;
-  severity?: LogSeverity;
+  published?: string | undefined;
+  request?: LogRequest | undefined;
+  securityContext?: LogSecurityContext | undefined;
+  severity?: LogSeverity | undefined;
   /** The entity that an actor performs an action on. Targets can be anything, such as an app user, a sign-in token, or anything else. > **Note:** When searching the target array, search for a given `type` rather than the array location. Target types, such as `User` and `AppInstance`, for a given `eventType` are not always in the same array location. */
-  target?: LogEventTargetList;
-  transaction?: LogTransaction;
+  target?: LogEventTargetList | undefined;
+  transaction?: LogTransaction | undefined;
   /** Unique identifier for an individual event */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Versioning indicator */
-  version?: string;
+  version?: string | undefined;
 }
 export type ListLogEventsResponseBodyList = Array<LogEvent>;
 export type ListLogEventsResponse = ListLogEventsResponseBodyList;
 export interface ListLogStreamsRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** An expression that [filters](/#filter) the returned objects. You can only use the `eq` operator on either the `status` or `type` properties in the filter expression. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ListLogStreamsResponseBodyList = Array<LogStream>;
 export type ListLogStreamsResponse = ListLogStreamsResponseBodyList;
@@ -11395,26 +11425,26 @@ export interface ListMembersOfBindingRequest {
   /** `id` or `label` of the role */
   roleIdOrLabel: string;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
 }
 /** The members of the role resource set binding. If there are more than 100 members for the binding, then the `_links.next` resource is returned with the next list of members. */
 export type ResourceSetBindingMembersMembersList = Array<ResourceSetBindingMember>;
 export type ResourceSetBindingMembersLinksNext = HrefObjectSelfLink;
 export type HrefObjectBindingLink = HrefObjectSelfLink;
 export interface ResourceSetBindingMembersLinks {
-  self?: HrefObjectSelfLink;
-  next?: HrefObjectSelfLink;
-  binding?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  next?: HrefObjectSelfLink | undefined;
+  binding?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSetBindingMembers {
   /** The members of the role resource set binding. If there are more than 100 members for the binding, then the `_links.next` resource is returned with the next list of members. */
-  members?: ResourceSetBindingMembersMembersList;
-  _links?: ResourceSetBindingMembersLinks;
+  members?: ResourceSetBindingMembersMembersList | undefined;
+  _links?: ResourceSetBindingMembersLinks | undefined;
 }
 export interface ListNetworkZonesRequest {
-  after?: string;
-  limit?: number;
-  filter?: string;
+  after?: string | undefined;
+  limit?: number | undefined;
+  filter?: string | undefined;
 }
 export type ListNetworkZonesResponseBodyList = Array<NetworkZone>;
 export type ListNetworkZonesResponse = ListNetworkZonesResponseBodyList;
@@ -11437,21 +11467,21 @@ export interface ListOAuth2ClientsForAuthorizationServerRequest {
 export type GrantResourcesHrefObject = FeatureLinksDependents;
 export type TokenResourcesHrefObject = FeatureLinksDependents;
 export interface OAuth2ClientLinks {
-  self?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
   /** Link to the grant resources */
-  grants?: FeatureLinksDependents;
+  grants?: FeatureLinksDependents | undefined;
   /** Link to the token resources */
-  tokens?: FeatureLinksDependents;
+  tokens?: FeatureLinksDependents | undefined;
 }
 export interface OAuth2Client {
   /** Unique key for the client application. The `client_id` is immutable. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Human-readable string name of the client application */
-  client_name?: string;
-  client_uri?: string;
+  client_name?: string | undefined;
+  client_uri?: string | undefined;
   /** URL string that references a logo for the client consent dialog (not the sign-in dialog) */
-  logo_uri?: string;
-  _links?: OAuth2ClientLinks;
+  logo_uri?: string | undefined;
+  _links?: OAuth2ClientLinks | undefined;
 }
 export type ListOAuth2ClientsForAuthorizationServerResponseBodyList = Array<OAuth2Client>;
 export type ListOAuth2ClientsForAuthorizationServerResponse =
@@ -11468,13 +11498,13 @@ export interface ListOAuth2ScopesRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** Searches the `name` of Custom Token Scopes for matching values */
-  q?: string;
+  q?: string | undefined;
   /** Filter expression for Custom Token Scopes */
-  filter?: string;
+  filter?: string | undefined;
   /** Specifies the pagination cursor for the next page of scopes. Treat the after cursor as an opaque value and obtain it through the next link relationship. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of objects to return per page. If there are multiple pages of results, the Link header contains a `next` link that you need to use as an opaque value (follow it, don't parse it). See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListOAuth2ScopesResponseBodyList = Array<OAuth2Scope>;
 export type ListOAuth2ScopesResponse = ListOAuth2ScopesResponseBodyList;
@@ -11482,21 +11512,21 @@ export interface ListOAuth2TokensForApplicationRequest {
   /** Application ID */
   appId: string;
   /** An optional parameter to return scope details in the `_embedded` property. Valid value: `scope` */
-  expand?: string;
+  expand?: string | undefined;
   /** Specifies the pagination cursor for the next page of results. Treat this as an opaque value obtained through the next link relationship. See [Pagination](/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListOAuth2TokensForApplicationResponseBodyList = Array<OAuth2RefreshToken>;
 export type ListOAuth2TokensForApplicationResponse = ListOAuth2TokensForApplicationResponseBodyList;
 export interface ListOktaManagedUserAccountsRequest {
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** Searches for Okta managed user accounts where the account name (`name`) or username (`username`) contains the given value */
-  match?: string;
+  match?: string | undefined;
 }
 export type ListOktaManagedUserAccountsResponseBodyList = Array<OktaManagedUserAccountResponse>;
 export type ListOktaManagedUserAccountsResponse = ListOktaManagedUserAccountsResponseBodyList;
@@ -11505,29 +11535,29 @@ export interface ListOktaSupportCasesRequest {}
 export type OktaSupportAccessStatus = "DISABLED" | "ENABLED" | "NOT_REQUESTED" | "REQUESTED";
 /** Allows the Okta Support team to sign in to your org as an admin and troubleshoot issues */
 export interface OktaSupportCaseImpersonation {
-  status?: OktaSupportAccessStatus;
+  status?: OktaSupportAccessStatus | undefined;
   /** Expiration date of Okta Support access */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
 }
 /** Okta Support access approval status for self-assigned cases */
 export type SelfAssignedStatus = "APPROVED" | "NOT_REQUIRED" | "REQUESTED";
 /** Customer allows Okta Support access to self-assigned cases. Support cases are self-assigned when an Okta Support team member creates and assigns the case to themselves. */
 export interface OktaSupportCaseSelfAssigned {
-  status?: SelfAssignedStatus;
+  status?: SelfAssignedStatus | undefined;
 }
 export interface OktaSupportCase {
   /** Okta Support case number */
-  caseNumber?: string;
+  caseNumber?: string | undefined;
   /** Allows the Okta Support team to sign in to your org as an admin and troubleshoot issues */
-  impersonation?: OktaSupportCaseImpersonation;
+  impersonation?: OktaSupportCaseImpersonation | undefined;
   /** Customer allows Okta Support access to self-assigned cases. Support cases are self-assigned when an Okta Support team member creates and assigns the case to themselves. */
-  selfAssigned?: OktaSupportCaseSelfAssigned;
+  selfAssigned?: OktaSupportCaseSelfAssigned | undefined;
   /** Subject of the support case */
-  subject?: string;
+  subject?: string | undefined;
 }
 export type OktaSupportCasesSupportCasesList = Array<OktaSupportCase>;
 export interface OktaSupportCases {
-  supportCases?: OktaSupportCasesSupportCasesList;
+  supportCases?: OktaSupportCasesSupportCasesList | undefined;
 }
 export interface ListOrgContactTypesRequest {}
 /** Type of contact */
@@ -11535,24 +11565,24 @@ export type OrgContactType = "BILLING" | "TECHNICAL";
 export type OrgBillingContactTypeLinksBilling = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the org billing contact type object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgBillingContactTypeLinks {
-  billing?: HrefObjectSelfLink;
+  billing?: HrefObjectSelfLink | undefined;
 }
 /** Org billing contact */
 export interface OrgBillingContactType {
-  contactType?: OrgContactType;
+  contactType?: OrgContactType | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the org billing contact type object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: OrgBillingContactTypeLinks;
+  _links?: OrgBillingContactTypeLinks | undefined;
 }
 export type OrgTechnicalContactTypeLinksTechnical = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the org technical Contact Type object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgTechnicalContactTypeLinks {
-  technical?: HrefObjectSelfLink;
+  technical?: HrefObjectSelfLink | undefined;
 }
 /** Org technical contact */
 export interface OrgTechnicalContactType {
-  contactType?: OrgContactType;
+  contactType?: OrgContactType | undefined;
   /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the org technical Contact Type object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
-  _links?: OrgTechnicalContactTypeLinks;
+  _links?: OrgTechnicalContactTypeLinks | undefined;
 }
 export type OrgContactTypeObj = OrgBillingContactType | OrgTechnicalContactType;
 export type ListOrgContactTypesResponseBodyList = Array<OrgContactTypeObj>;
@@ -11561,18 +11591,18 @@ export interface ListPoliciesRequest {
   /** Specifies the type of policy to return */
   type: PolicyType | (string & {});
   /** Refines the query by the `status` of the policy - `ACTIVE` or `INACTIVE` */
-  status?: string;
+  status?: string | undefined;
   /** Refines the query by policy name prefix (startWith method) passed in as `q=string` */
-  q?: string;
-  expand?: string;
+  q?: string | undefined;
+  expand?: string | undefined;
   /** Refines the query by sorting on the policy `name` in ascending order */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Defines the number of policies returned, see [Pagination](https://developer.okta.com/docs/api/#pagination) */
-  limit?: string;
+  limit?: string | undefined;
   /** Reference to the associated authorization server */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** End page cursor for pagination, see [Pagination](https://developer.okta.com/docs/api/#pagination) */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListPoliciesResponseBodyList = Array<Policy>;
 export type ListPoliciesResponse = ListPoliciesResponseBodyList;
@@ -11586,7 +11616,7 @@ export interface ListPolicyRulesRequest {
   /** `id` of the policy */
   policyId: string;
   /** Defines the number of policy rules returned. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  limit?: string;
+  limit?: string | undefined;
 }
 export type ListPolicyRulesResponseBodyList = Array<PolicyRule>;
 export type ListPolicyRulesResponse = ListPolicyRulesResponseBodyList;
@@ -11594,43 +11624,43 @@ export interface ListPrincipalRateLimitEntitiesRequest {
   /** Filters the list of principal rate limit entities by the provided principal type (`principalType`). For example, `filter=principalType eq "SSWS_TOKEN"` or `filter=principalType eq "OAUTH_CLIENT"`. */
   filter: string;
   /** The cursor to use for pagination. It's an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of items to return in a single response page. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListPrincipalRateLimitEntitiesResponseBodyList = Array<PrincipalRateLimitEntity>;
 export type ListPrincipalRateLimitEntitiesResponse = ListPrincipalRateLimitEntitiesResponseBodyList;
 export interface ListProfileMappingsRequest {
   /** Mapping `id` that specifies the pagination cursor for the next page of mappings */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of results per page > **Note:** If you encounter timeout errors with larger values, reduce the limit (for example, `50`) and use pagination with the `after` parameter to retrieve the results. */
-  limit?: number;
+  limit?: number | undefined;
   /** The user type or app instance ID that acts as the source of expressions in a mapping. If this parameter is included, all returned mappings have this as their `source.id`. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The user type or app instance ID that acts as the target of expressions in a mapping. If this parameter is included, all returned mappings have this as their `target.id`. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 /** A collection of the profile mappings that include a subset of the profile mapping object's properties. The profile mapping object describes a mapping between an Okta user's and an app user's properties using [JSON Schema Draft 4](https://datatracker.ietf.org/doc/html/draft-zyp-json-schema-04). > **Note:** Same type source/target mappings aren't supported by this API. Profile mappings must either be Okta->App or App->Okta. */
 export interface ListProfileMappings {
   /** Unique identifier for profile mapping */
-  id?: string;
-  source?: ProfileMappingSource;
-  target?: ProfileMappingTarget;
-  _links?: LinksSelf;
+  id?: string | undefined;
+  source?: ProfileMappingSource | undefined;
+  target?: ProfileMappingTarget | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type ListProfileMappingsResponseBodyList = Array<ListProfileMappings>;
 export type ListProfileMappingsResponse = ListProfileMappingsResponseBodyList;
 export interface ListPushProvidersRequest {
   /** Filters push providers by `providerType` */
-  type?: ProviderType | (string & {});
+  type?: ProviderType | (string & {}) | undefined;
 }
 export type ListPushProvidersResponseBodyList = Array<PushProvider>;
 export type ListPushProvidersResponse = ListPushProvidersResponseBodyList;
 export interface ListRealmAssignmentOperationsRequest {
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
 }
 /** The status of the asynchronous operation */
 export type RealmAssignmentOperationResponseStatus =
@@ -11652,48 +11682,48 @@ export type RealmAssignmentOperationResponseAssignmentOperation =
   ExecuteRealmAssignmentResponseAssignmentOperation;
 export interface RealmAssignmentOperationResponse {
   /** Timestamp of when the operation completed */
-  completed?: string;
+  completed?: string | undefined;
   /** Timestamp of when the operation was created */
   created: string;
   /** ID of the asynchronous operation */
   id: string;
   /** Timestamp of when the operation started */
-  started?: string;
+  started?: string | undefined;
   /** The status of the asynchronous operation */
   status: RealmAssignmentOperationResponseStatus;
   /** The operation type */
   type: string;
   /** Definition of the realm assignment operation */
-  assignmentOperation?: ExecuteRealmAssignmentResponseAssignmentOperation;
+  assignmentOperation?: ExecuteRealmAssignmentResponseAssignmentOperation | undefined;
   /** Number of users moved */
-  numUserMoved?: number;
+  numUserMoved?: number | undefined;
   /** ID of the realm */
-  realmId?: string;
+  realmId?: string | undefined;
   /** Name of the realm */
-  realmName?: string;
-  _links?: LinksSelf;
+  realmName?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type ListRealmAssignmentOperationsResponseBodyList = Array<RealmAssignmentOperationResponse>;
 export type ListRealmAssignmentOperationsResponse = ListRealmAssignmentOperationsResponseBodyList;
 export interface ListRealmAssignmentsRequest {
   /** A limit on the number of objects to return */
-  limit?: number;
+  limit?: number | undefined;
   /** The cursor used for pagination. It represents the priority of the last realm assignment returned in the previous fetch operation. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListRealmAssignmentsResponseBodyList = Array<RealmAssignment>;
 export type ListRealmAssignmentsResponse = ListRealmAssignmentsResponseBodyList;
 export interface ListRealmsRequest {
   /** Specifies the number of results returned. Defaults to 10 if `search` is provided. */
-  limit?: number;
+  limit?: number | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** Searches for realms with a supported filtering expression for most properties. Searches for realms can be filtered by the contains (`co`) operator. You can only use `co` with the `profile.name` property. See [Operators](https://developer.okta.com/docs/api/#operators). */
-  search?: string;
+  search?: string | undefined;
   /** Specifies the field to sort by and can be any single property (for search queries only) */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Specifies sort order: `asc` or `desc` (for search queries only). This parameter is ignored if `sortBy` isn't present. */
-  sortOrder?: string;
+  sortOrder?: string | undefined;
 }
 export type ListRealmsResponseBodyList = Array<Realm>;
 export type ListRealmsResponse = ListRealmsResponseBodyList;
@@ -11703,11 +11733,11 @@ export interface ListRefreshTokensForAuthorizationServerAndClientRequest {
   /** `client_id` of the app */
   clientId: string;
   /** Valid value: `scope`. If specified, scope details are included in the `_embedded` attribute. */
-  expand?: string;
+  expand?: string | undefined;
   /** Specifies the pagination cursor for the next page of tokens */
-  after?: string;
+  after?: string | undefined;
   /** The maximum number of tokens to return (maximum 200) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListRefreshTokensForAuthorizationServerAndClientResponseBodyList =
   Array<OAuth2RefreshToken>;
@@ -11719,11 +11749,11 @@ export interface ListRefreshTokensForUserAndClientRequest {
   /** `client_id` of the app */
   clientId: string;
   /** Valid value: `scope`. If specified, scope details are included in the `_embedded` attribute. */
-  expand?: string;
+  expand?: string | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of tokens to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListRefreshTokensForUserAndClientResponseBodyList = Array<OAuth2RefreshToken>;
 export type ListRefreshTokensForUserAndClientResponse =
@@ -11732,31 +11762,31 @@ export interface ListResourceSetResourcesRequest {
   /** `id` or `label` of the resource set */
   resourceSetIdOrLabel: string;
   /** Specifies the pagination cursor for the next page of targets */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of results returned. Defaults to `100`. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ResourceSetResourcesResourcesList = Array<ResourceSetResource>;
 export interface ResourceSetResourcesLinks {
-  next?: HrefObjectSelfLink;
-  resource_set?: HrefObjectSelfLink;
+  next?: HrefObjectSelfLink | undefined;
+  resource_set?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSetResources {
-  resources?: ResourceSetResourcesResourcesList;
-  _links?: ResourceSetResourcesLinks;
+  resources?: ResourceSetResourcesResourcesList | undefined;
+  _links?: ResourceSetResourcesLinks | undefined;
 }
 export interface ListResourceSetsRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
 }
 export type ResourceSetsResourceSetsList = Array<ResourceSet>;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. Use the `LinksNext` object for dynamic discovery of related resources and lifecycle operations. */
 export interface LinksNext {
-  next?: HrefObjectSelfLink;
+  next?: HrefObjectSelfLink | undefined;
 }
 export interface ResourceSets {
-  resource_sets?: ResourceSetsResourceSetsList;
-  _links?: LinksNext;
+  resource_sets?: ResourceSetsResourceSetsList | undefined;
+  _links?: LinksNext | undefined;
 }
 export interface ListRolePermissionsRequest {
   /** `id` or `label` of the role */
@@ -11767,16 +11797,16 @@ export type PermissionsPermissionsList = Array<Permission>;
 /** Permissions assigned to the role */
 export interface Permissions {
   /** Array of permissions assigned to the role. See [Permissions](/openapi/okta-management/guides/permissions). */
-  permissions?: PermissionsPermissionsList;
+  permissions?: PermissionsPermissionsList | undefined;
 }
 export interface ListRolesRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
 }
 export type IamRolesRolesList = Array<IamRole>;
 export interface IamRoles {
-  roles?: IamRolesRolesList;
-  _links?: LinksNext;
+  roles?: IamRolesRolesList | undefined;
+  _links?: LinksNext | undefined;
 }
 export interface ListRolesForClientRequest {
   /** `client_id` of the app */
@@ -11789,7 +11819,7 @@ export interface ListScopeConsentGrantsRequest {
   /** Application ID */
   appId: string;
   /** An optional parameter to return scope details in the `_embedded` property. Valid value: `scope` */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ListScopeConsentGrantsResponseBodyList = Array<OAuth2ScopeConsentGrant>;
 export type ListScopeConsentGrantsResponse = ListScopeConsentGrantsResponseBodyList;
@@ -11799,7 +11829,7 @@ export type ListSecurityEventsProviderInstancesResponseBodyList =
 export type ListSecurityEventsProviderInstancesResponse =
   ListSecurityEventsProviderInstancesResponseBodyList;
 export interface ListSmsTemplatesRequest {
-  templateType?: SmsTemplateType | (string & {});
+  templateType?: SmsTemplateType | (string & {}) | undefined;
 }
 export type ListSmsTemplatesResponseBodyList = Array<SmsTemplate>;
 export type ListSmsTemplatesResponse = ListSmsTemplatesResponseBodyList;
@@ -11813,17 +11843,17 @@ export interface ListSocialAuthTokensRequest {
 export type SocialAuthTokenScopesList = Array<string>;
 /** The social authentication token object provides the tokens and associated metadata provided by social providers during social authentication. */
 export interface SocialAuthToken {
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Unique identifier for the token */
-  id?: string;
+  id?: string | undefined;
   /** The scopes that the token is good for */
-  scopes?: SocialAuthTokenScopesList;
+  scopes?: SocialAuthTokenScopesList | undefined;
   /** The raw token */
-  token?: string;
+  token?: string | undefined;
   /** The token authentication scheme as defined by the social provider */
-  tokenAuthScheme?: string;
+  tokenAuthScheme?: string | undefined;
   /** The type of token defined by the [OAuth Token Exchange Spec](https://tools.ietf.org/html/draft-ietf-oauth-token-exchange-07#section-3) */
-  tokenType?: string;
+  tokenType?: string | undefined;
 }
 export type ListSocialAuthTokensResponseBodyList = Array<SocialAuthToken>;
 export type ListSocialAuthTokensResponse = ListSocialAuthTokensResponseBodyList;
@@ -11857,15 +11887,15 @@ export type UserFactorProvider =
 export type UserFactorSupportedEmbeddedMap = { [key: string]: unknown | undefined };
 export interface UserFactorSupported {
   /** Indicates if the factor is required for the specified user */
-  enrollment?: UserFactorSupportedEnrollment;
-  factorType?: UserFactorType;
-  provider?: UserFactorProvider;
-  status?: UserFactorStatus;
+  enrollment?: UserFactorSupportedEnrollment | undefined;
+  factorType?: UserFactorType | undefined;
+  provider?: UserFactorProvider | undefined;
+  status?: UserFactorStatus | undefined;
   /** Name of the factor vendor. This is usually the same as the provider except for On-Prem MFA, which depends on admin settings. */
-  vendorName?: string;
+  vendorName?: string | undefined;
   /** Embedded resources related to the factor */
-  _embedded?: UserFactorSupportedEmbeddedMap;
-  _links?: UserFactorLinks;
+  _embedded?: UserFactorSupportedEmbeddedMap | undefined;
+  _links?: UserFactorLinks | undefined;
 }
 export type ListSupportedFactorsResponseBodyList = Array<UserFactorSupported>;
 export type ListSupportedFactorsResponse = ListSupportedFactorsResponseBodyList;
@@ -11897,22 +11927,22 @@ export type UserFactorSecurityQuestionProfileOutputQuestion =
   | "favorite_sports_player";
 export interface UserFactorSecurityQuestionProfileOutput {
   /** Unique key for the question */
-  question?: UserFactorSecurityQuestionProfileOutputQuestion;
+  question?: UserFactorSecurityQuestionProfileOutputQuestion | undefined;
   /** Human-readable text that's displayed to the user */
-  questionText?: string;
+  questionText?: string | undefined;
 }
 export type ListSupportedSecurityQuestionsResponseBodyList =
   Array<UserFactorSecurityQuestionProfileOutput>;
 export type ListSupportedSecurityQuestionsResponse = ListSupportedSecurityQuestionsResponseBodyList;
 export interface ListTrustedOriginsRequest {
   /** A search string that prefix matches against the `name` and `origin` */
-  q?: string;
+  q?: string | undefined;
   /** [Filter](https://developer.okta.com/docs/api/#filter) trusted origins with a supported expression for a subset of properties. You can filter on the following properties: `name`, `origin`, `status`, and `type` (type of scopes). */
-  filter?: string;
+  filter?: string | undefined;
   /** After cursor provided by a prior request */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListTrustedOriginsResponseBodyList = Array<TrustedOrigin>;
 export type ListTrustedOriginsResponse = ListTrustedOriginsResponseBodyList;
@@ -11937,26 +11967,26 @@ export interface ListUserDevicesRequest {
 }
 export interface Device {
   /** Timestamp when the device was created */
-  created?: string;
+  created?: string | undefined;
   /** Unique key for the device */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp when the device record was last updated. Updates occur when Okta collects and saves device signals during authentication, and when the lifecycle state of the device changes. */
-  lastUpdated?: string;
-  profile?: DeviceProfile;
-  resourceAlternateId?: string;
-  resourceDisplayName?: DeviceDisplayName;
+  lastUpdated?: string | undefined;
+  profile?: DeviceProfile | undefined;
+  resourceAlternateId?: string | undefined;
+  resourceDisplayName?: DeviceDisplayName | undefined;
   /** Alternate key for the `id` */
-  resourceId?: string;
-  resourceType?: string;
-  status?: DeviceStatus;
-  _links?: LinksSelfAndFullUsersLifecycle;
+  resourceId?: string | undefined;
+  resourceType?: string | undefined;
+  status?: DeviceStatus | undefined;
+  _links?: LinksSelfAndFullUsersLifecycle | undefined;
 }
 export interface UserDevice {
   /** Timestamp when the device was created */
-  created?: string;
-  device?: Device;
+  created?: string | undefined;
+  device?: Device | undefined;
   /** Unique key for the user device link */
-  deviceUserId?: string;
+  deviceUserId?: string | undefined;
 }
 export type ListUserDevicesResponseBodyList = Array<UserDevice>;
 export type ListUserDevicesResponse = ListUserDevicesResponseBodyList;
@@ -11964,13 +11994,13 @@ export interface ListUserGrantsRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** The scope ID to filter on */
-  scopeId?: string;
+  scopeId?: string | undefined;
   /** Valid value: `scope`. If specified, scope details are included in the `_embedded` attribute. */
-  expand?: string;
+  expand?: string | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of grants to return */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListUserGrantsResponseBodyList = Array<OAuth2ScopeConsentGrant>;
 export type ListUserGrantsResponse = ListUserGrantsResponseBodyList;
@@ -11988,50 +12018,50 @@ export type ListUserIdentityProvidersResponseBodyList = Array<IdentityProvider>;
 export type ListUserIdentityProvidersResponse = ListUserIdentityProvidersResponseBodyList;
 export interface ListUsersRequest {
   /** Searches for users with a supported filtering expression for most properties. Okta recommends this query parameter because it provides the largest range of search options and optimal performance. > **Note:** Using an overly complex or long search query can result in an error. This operation supports [pagination](https://developer.okta.com/docs/api/#pagination). Use an ID lookup for records that you update to ensure your results contain the latest data. Returned users include those with the `DEPROVISIONED` status. Property names in the search parameter are case sensitive, whereas operators (`eq`, `sw`, and so on) and string values are case insensitive. Unlike with user logins, diacritical marks are significant in search string values: a search for `isaac.brock` finds `Isaac.Brock`, but doesn't find a property whose value is `isáàc.bröck`. This operation requires [URL encoding](https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding). See [Special characters](https://developer.okta.com/docs/api/#special-characters). This operation searches many properties: * Any user profile attribute, including custom-defined attributes * The top-level properties: `id`, `status`, `created`, `activated`, `statusChanged`, and `lastUpdated` * The [user type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/#tag/UserType/operation/updateUserType) accessed as `type.id` * Properties that have array values > **Note:** <x-lifecycle class="ea"></x-lifecycle> The ability to search by user classification is available as an [Early Access](https://developer.okta.com/docs/api/openapi/okta-management/guides/release-lifecycle/#early-access-ea) feature. The `classification.type` property cannot be used in conjunction with other search terms. You can search using `classification.type eq "LITE"` or `classification.type eq "STANDARD"`. You can also use `sortBy` and `sortOrder` parameters. The `ne` (not equal) operator isn't supported, but you can obtain the same result by using `lt ... or ... gt`. For example, to see all users except those that have a status of `STAGED`, use `(status lt "STAGED" or status gt "STAGED")`. You can search properties that are arrays. If any element matches the search term, the entire array (object) is returned. Okta follows the [SCIM Protocol Specification](https://tools.ietf.org/html/rfc7644#section-3.4.2.2) for searching arrays. You can search multiple arrays, multiple values in an array, as well as using the standard logical and filtering operators. See [Filter](https://developer.okta.com/docs/reference/core-okta-api/#filter). Searches for users can be filtered by the following operators: `sw`, `eq`, and `co`. You can only use `co` with these select user profile attributes: `profile.firstName`, `profile.lastName`, `profile.email`, and `profile.login`. See [Operators](https://developer.okta.com/docs/api/#operators). */
-  search?: string;
+  search?: string | undefined;
   /** Filters users with a supported expression for a subset of properties. > **Note:** Returned users include those with the `DEPROVISIONED` status. This requires [URL encoding](https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding). For example, `filter=lastUpdated gt "2013-06-01T00:00:00.000Z"` is encoded as `filter=lastUpdated%20gt%20%222013-06-01T00:00:00.000Z%22`. Filtering is case-sensitive for property names and query values, while operators are case-insensitive. Filtering supports the following limited number of properties: `status`, `lastUpdated`, `id`, `profile.login`, `profile.email`, `profile.firstName`, and `profile.lastName`. Additionally, filtering supports only the equal `eq` operator from the standard Okta API filtering semantics, except in the case of the `lastUpdated` property. This property can also use the inequality operators (`gt`, `ge`, `lt`, and `le`). For logical operators, only the logical operators `and` and `or` are supported. The `not` operator isn't supported. See [Filter](https://developer.okta.com/docs/api/#filter) and [Operators](https://developer.okta.com/docs/api/#operators). */
-  filter?: string;
+  filter?: string | undefined;
   /** Finds users who match the specified query. Use the `q` parameter for simple queries, such as a lookup of users by name when creating a people picker. The value of `q` is matched against `firstName`, `lastName`, or `email`. This performs a `startsWith` match, but this is an implementation detail and can change without notice. You don't need to specify `firstName`, `lastName`, or `email`. > **Notes:** > * Using the `q` parameter in a request omits users that have a status of `DEPROVISIONED`. To return all users, use a `filter` or `search` query instead. > * This doesn't support pagination, but you can use `limit`. > * This isn't designed for large data sets. For optimal performance, use the `search` parameter instead. */
-  q?: string;
+  q?: string | undefined;
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of results returned. Defaults to 10 if `q` is provided. You can use `limit` with `after` to define the cursor location in the data set and manage the user records per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Specifies the field to sort by (for search queries only). This can be any single property, for example `sortBy=profile.lastName`. Users with the same value for the `sortBy` property are ordered by `id`. Use with `sortOrder` to control the order of results. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Specifies sort order: `asc` or `desc` (for search queries only). This parameter is ignored if `sortBy` isn't present. */
-  sortOrder?: string;
+  sortOrder?: string | undefined;
   /** Specifies a select set of user properties to query. Any other properties will be filtered out of the returned users. This is often called field projections in APIs, which can reduce payload size, improve performance, and limit unneccessary data exposure. Requested fields should be comma-separated. Comma-separate the fields and place sub-fields in the profile object inside a `profile:()` directive, for example `profile:(firstName, city)`. The `id` field is always included, regardless of whether it's specified in the `fields` parameter. */
-  fields?: string;
+  fields?: string | undefined;
   /** <x-lifecycle-container><x-lifecycle class="ea"></x-lifecycle></x-lifecycle-container>A parameter to include metadata in the `_embedded` property. Supported value: `classification`. */
-  expand?: string;
+  expand?: string | undefined;
 }
 export type ListUsersResponseBodyList = Array<UserOutput>;
 export type ListUsersResponse = ListUsersResponseBodyList;
 export interface ListUsersWithRoleAssignmentsRequest {
   /** Specifies the pagination cursor for the next page of targets */
-  after?: string;
+  after?: string | undefined;
   /** Specifies the number of results returned. Defaults to `100`. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface LinksSelfAndRoles {
-  self?: HrefObjectSelfLink;
-  roles?: HrefObjectSelfLink;
+  self?: HrefObjectSelfLink | undefined;
+  roles?: HrefObjectSelfLink | undefined;
 }
 export interface RoleAssignedUser {
   /** The ID of the user */
-  id?: string;
+  id?: string | undefined;
   /** ORN representing the assignee */
-  orn?: string;
-  _links?: LinksSelfAndRoles;
+  orn?: string | undefined;
+  _links?: LinksSelfAndRoles | undefined;
 }
 export type RoleAssignedUsersValueList = Array<RoleAssignedUser>;
 export type LinksNextForRoleAssignmentsNext = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. */
 export type LinksNextForRoleAssignments = LinksNext;
 export interface RoleAssignedUsers {
-  value?: RoleAssignedUsersValueList;
-  _links?: LinksNext;
+  value?: RoleAssignedUsersValueList | undefined;
+  _links?: LinksNext | undefined;
 }
 export interface ListUserTypesRequest {}
 export type ListUserTypesResponseBodyList = Array<UserType>;
@@ -12043,19 +12073,19 @@ export interface ListWebAuthnPreregistrationFactorsRequest {
 /** User factor variant used for WebAuthn preregistration factors */
 export interface WebAuthnPreregistrationFactor {
   /** Timestamp indicating when the factor was enrolled */
-  created?: string;
-  factorType?: UserFactorType;
+  created?: string | undefined;
+  factorType?: UserFactorType | undefined;
   /** ID of the factor */
-  id?: string;
+  id?: string | undefined;
   /** Timestamp indicating when the factor was last updated */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Specific attributes related to the factor */
-  profile?: unknown;
-  provider?: UserFactorProvider;
-  status?: UserFactorStatus;
+  profile?: unknown | undefined;
+  provider?: UserFactorProvider | undefined;
+  status?: UserFactorStatus | undefined;
   /** Name of the factor vendor. This is usually the same as the provider. */
-  vendorName?: string;
-  _links?: LinksSelf;
+  vendorName?: string | undefined;
+  _links?: LinksSelf | undefined;
 }
 export type ListWebAuthnPreregistrationFactorsResponseBodyList =
   Array<WebAuthnPreregistrationFactor>;
@@ -12080,19 +12110,19 @@ export type ListYubikeyOtpTokensRequestSortBy =
 export type ListYubikeyOtpTokensRequestSortOrder = "ASC" | "DESC";
 export interface ListYubikeyOtpTokensRequest {
   /** Specifies the pagination cursor for the next page of tokens */
-  after?: string;
+  after?: string | undefined;
   /** Embeds the [user](/openapi/okta-management/management/tags/user) resource if the YubiKey token is assigned to a user and `expand` is set to `user` */
-  expand?: string;
+  expand?: string | undefined;
   /** The expression used to filter tokens */
-  filter?: ListYubikeyOtpTokensRequestFilter | (string & {});
+  filter?: ListYubikeyOtpTokensRequestFilter | (string & {}) | undefined;
   /** Returns tokens in a CSV to download instead of in the response. When you use this query parameter, the `limit` default changes to 1000. */
-  forDownload?: boolean;
+  forDownload?: boolean | undefined;
   /** Specifies the number of results per page */
-  limit?: number;
+  limit?: number | undefined;
   /** The value of how the tokens are sorted */
-  sortBy?: ListYubikeyOtpTokensRequestSortBy | (string & {});
+  sortBy?: ListYubikeyOtpTokensRequestSortBy | (string & {}) | undefined;
   /** Specifies the sort order, either `ASC` or `DESC` */
-  sortOrder?: ListYubikeyOtpTokensRequestSortOrder | (string & {});
+  sortOrder?: ListYubikeyOtpTokensRequestSortOrder | (string & {}) | undefined;
 }
 export type ListYubikeyOtpTokensResponseBodyList = Array<UserFactorYubikeyOtpToken>;
 export type ListYubikeyOtpTokensResponse = ListYubikeyOtpTokensResponseBodyList;
@@ -12102,8 +12132,8 @@ export interface MapResourceToPolicyRequest {
   /** `id` of the policy */
   policyId: string;
   /** [Policy ID](https://developer.okta.com/docs/api/openapi/okta-management/management/tags/policy/#tag/Policy/operation/listPolicies!c=200&path=0/id&t=response) of the app sign-in policy that you want to map */
-  resourceId?: string;
-  resourceType?: PolicyMappingResourceType | (string & {});
+  resourceId?: string | undefined;
+  resourceType?: PolicyMappingResourceType | (string & {}) | undefined;
 }
 export interface OptInRequest {}
 export interface OptInUsersToOktaCommunicationEmailsRequest {}
@@ -12133,7 +12163,7 @@ export interface ReactivateUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** Sends an activation email to the user if `true` */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface RefreshSessionRequest {
   /** `id` of the session */
@@ -12173,26 +12203,26 @@ export type ReplaceApplicationRequestProfileMap = { [key: string]: unknown | und
 export interface ReplaceApplicationRequest {
   /** Application ID */
   appId: string;
-  accessibility?: ApplicationAccessibility;
+  accessibility?: ApplicationAccessibility | undefined;
   label: string;
-  licensing?: ApplicationLicensing;
+  licensing?: ApplicationLicensing | undefined;
   /** Contains any valid JSON schema for specifying properties that can be referenced from a request (only available to OAuth 2.0 client apps). For example, add an app manager contact email address or define an allowlist of groups that you can then reference using the Okta Expression Language `getFilteredGroups` function. > **Notes:** > * `profile` isn't encrypted, so don't store sensitive data in it. > * `profile` doesn't limit the level of nesting in the JSON schema you created, but there is a practical size limit. Okta recommends a JSON schema size of 1 MB or less for best performance. */
-  profile?: ReplaceApplicationRequestProfileMap;
+  profile?: ReplaceApplicationRequestProfileMap | undefined;
   signOnMode: ApplicationSignOnMode | (string & {});
-  visibility?: ApplicationVisibility;
+  visibility?: ApplicationVisibility | undefined;
 }
 export interface ReplaceAuthenticatorRequest {
   /** `id` of the authenticator */
   authenticatorId: string;
   /** The description of the authenticator. This setting is only available for the `webauthn` authenticator type (Passkeys). */
-  description?: string;
-  key?: AuthenticatorKeyEnum | (string & {});
+  description?: string | undefined;
+  key?: AuthenticatorKeyEnum | (string & {}) | undefined;
   /** Display name of the authenticator */
-  name?: string;
-  status?: unknown;
-  type?: AuthenticatorType | (string & {});
+  name?: string | undefined;
+  status?: unknown | undefined;
+  type?: AuthenticatorType | (string & {}) | undefined;
   /** Link relations for this object */
-  _links?: AuthenticatorLinksInput;
+  _links?: AuthenticatorLinksInput | undefined;
 }
 /** The type of authenticator method */
 export type ReplaceAuthenticatorMethodRequestMethodType =
@@ -12215,36 +12245,39 @@ export interface ReplaceAuthenticatorMethodRequest {
   authenticatorId: string;
   /** Type of authenticator method */
   methodType: ReplaceAuthenticatorMethodRequestMethodType | (string & {});
-  status?: unknown;
-  type?: AuthenticatorMethodType | (string & {});
-  _links?: LinksSelfAndLifecycleInput;
+  status?: unknown | undefined;
+  type?: AuthenticatorMethodType | (string & {}) | undefined;
+  _links?: LinksSelfAndLifecycleInput | undefined;
 }
 export interface ReplaceAuthenticatorSettingsRequest {
   /** If true, requires users to verify a possession factor before verifying a knowledge factor when the assurance requires two-factor authentication (2FA). */
-  verifyKnowledgeSecondWhen2faRequired?: boolean;
+  verifyKnowledgeSecondWhen2faRequired?: boolean | undefined;
 }
 /** The recipients that the tokens are intended for. This becomes the `aud` claim in an access token. Okta currently supports only one audience. */
 export type ReplaceAuthorizationServerRequestAudiencesList = Array<string>;
 export interface ReplaceAuthorizationServerRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
-  accessTokenEncryptedResponseAlgorithm?: AccessTokenKeyEncryptionAlgorithm | (string & {});
+  accessTokenEncryptedResponseAlgorithm?:
+    | AccessTokenKeyEncryptionAlgorithm
+    | (string & {})
+    | undefined;
   /** The recipients that the tokens are intended for. This becomes the `aud` claim in an access token. Okta currently supports only one audience. */
-  audiences?: ReplaceAuthorizationServerRequestAudiencesList;
-  credentials?: AuthorizationServerCredentialsInput;
+  audiences?: ReplaceAuthorizationServerRequestAudiencesList | undefined;
+  credentials?: AuthorizationServerCredentialsInput | undefined;
   /** The description of the custom authorization server */
-  description?: string;
+  description?: string | undefined;
   /** The complete URL for the custom authorization server. This becomes the `iss` claim in an access token. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Indicates which value is specified in the issuer of the tokens that a custom authorization server returns: the Okta org domain URL or a custom domain URL. `issuerMode` is visible if you have a custom URL domain configured or the Dynamic Issuer Mode feature enabled. If you have a custom URL domain configured, you can set a custom domain URL in a custom authorization server, and this property is returned in the appropriate responses. When set to `ORG_URL`, then in responses, `issuer` is the Okta org domain URL: `https://${yourOktaDomain}`. When set to `CUSTOM_URL`, then in responses, `issuer` is the custom domain URL configured in the administration user interface. When set to `DYNAMIC`, then in responses, `issuer` is the custom domain URL if the OAuth 2.0 request was sent to the custom domain, or is the Okta org's domain URL if the OAuth 2.0 request was sent to the original Okta org domain. After you configure a custom URL domain, all new custom authorization servers use `CUSTOM_URL` by default. If the Dynamic Issuer Mode feature is enabled, then all new custom authorization servers use `DYNAMIC` by default. All existing custom authorization servers continue to use the original value until they're changed using the Admin Console or the API. This way, existing integrations with the client and resource server continue to work after the feature is enabled. */
-  issuerMode?: string;
-  jwks?: ResourceServerJsonWebKeys;
+  issuerMode?: string | undefined;
+  jwks?: ResourceServerJsonWebKeys | undefined;
   /** URL string that references a JSON Web Key Set for encrypting JWTs minted by the custom authorization server */
-  jwks_uri?: string;
+  jwks_uri?: string | undefined;
   /** The name of the custom authorization server */
-  name?: string;
-  status?: LifecycleStatus | (string & {});
-  _links?: AuthServerLinksInput;
+  name?: string | undefined;
+  status?: LifecycleStatus | (string & {}) | undefined;
+  _links?: AuthServerLinksInput | undefined;
 }
 /** Indicates that the Policy is an authorization server Policy */
 export type ReplaceAuthorizationServerPolicyRequestType = "OAUTH_AUTHORIZATION_POLICY";
@@ -12259,21 +12292,21 @@ export interface ReplaceAuthorizationServerPolicyRequest {
   /** `id` of the policy */
   policyId: string;
   /** ID of the Policy */
-  id?: string;
+  id?: string | undefined;
   /** Indicates that the Policy is an authorization server Policy */
-  type?: ReplaceAuthorizationServerPolicyRequestType | (string & {});
+  type?: ReplaceAuthorizationServerPolicyRequestType | (string & {}) | undefined;
   /** Name of the Policy */
-  name?: string;
-  conditions?: AuthorizationServerPolicyConditions;
+  name?: string | undefined;
+  conditions?: AuthorizationServerPolicyConditions | undefined;
   /** Description of the Policy */
-  description?: string;
+  description?: string | undefined;
   /** Specifies the order in which this Policy is evaluated in relation to the other Policies in a custom authorization server */
-  priority?: number;
+  priority?: number | undefined;
   /** Specifies whether requests have access to this Policy */
-  status?: ReplaceAuthorizationServerPolicyRequestStatus | (string & {});
+  status?: ReplaceAuthorizationServerPolicyRequestStatus | (string & {}) | undefined;
   /** Specifies whether Okta created this Policy */
-  system?: boolean;
-  _links?: CreateAuthorizationServerPolicyRequestLinks;
+  system?: boolean | undefined;
+  _links?: CreateAuthorizationServerPolicyRequestLinks | undefined;
 }
 /** Indicates that the Policy is an authorization server Policy */
 export type ReplaceAuthorizationServerPolicyResponseType = "OAUTH_AUTHORIZATION_POLICY";
@@ -12284,25 +12317,25 @@ export type ReplaceAuthorizationServerPolicyResponseLinks =
   CreateAuthorizationServerPolicyResponseLinks;
 export interface ReplaceAuthorizationServerPolicyResponse {
   /** ID of the Policy */
-  id?: string;
+  id?: string | undefined;
   /** Indicates that the Policy is an authorization server Policy */
-  type?: ReplaceAuthorizationServerPolicyResponseType;
+  type?: ReplaceAuthorizationServerPolicyResponseType | undefined;
   /** Name of the Policy */
-  name?: string;
-  conditions?: AuthorizationServerPolicyConditions;
+  name?: string | undefined;
+  conditions?: AuthorizationServerPolicyConditions | undefined;
   /** Description of the Policy */
-  description?: string;
+  description?: string | undefined;
   /** Specifies the order in which this Policy is evaluated in relation to the other Policies in a custom authorization server */
-  priority?: number;
+  priority?: number | undefined;
   /** Specifies whether requests have access to this Policy */
-  status?: ReplaceAuthorizationServerPolicyResponseStatus;
+  status?: ReplaceAuthorizationServerPolicyResponseStatus | undefined;
   /** Specifies whether Okta created this Policy */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Timestamp when the Policy was created */
-  created?: string;
+  created?: string | undefined;
   /** Timestamp when the Policy was last updated */
-  lastUpdated?: string;
-  _links?: CreateAuthorizationServerPolicyResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateAuthorizationServerPolicyResponseLinks | undefined;
 }
 /** Status of the rule */
 export type ReplaceAuthorizationServerPolicyRuleRequestStatus = "ACTIVE" | "INACTIVE";
@@ -12315,43 +12348,43 @@ export interface ReplaceAuthorizationServerPolicyRuleRequest {
   policyId: string;
   /** `id` of the policy rule */
   ruleId: string;
-  actions?: AuthorizationServerPolicyRuleActions;
+  actions?: AuthorizationServerPolicyRuleActions | undefined;
   conditions: AuthorizationServerPolicyRuleConditions;
   /** Name of the rule */
   name: string;
   /** Priority of the rule */
-  priority?: number;
+  priority?: number | undefined;
   /** Status of the rule */
-  status?: ReplaceAuthorizationServerPolicyRuleRequestStatus | (string & {});
+  status?: ReplaceAuthorizationServerPolicyRuleRequestStatus | (string & {}) | undefined;
   /** Set to `true` for system rules. You can't delete system rules. */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Rule type */
   type: ReplaceAuthorizationServerPolicyRuleRequestType | (string & {});
-  _links?: LinksSelfAndLifecycleInput;
+  _links?: LinksSelfAndLifecycleInput | undefined;
 }
 export interface ReplaceBehaviorDetectionRuleRequest {
   /** ID of the Behavior Detection Rule */
   behaviorId: string;
   /** Name of the Behavior Detection Rule */
   name: string;
-  status?: LifecycleStatus | (string & {});
+  status?: LifecycleStatus | (string & {}) | undefined;
   type: BehaviorRuleType | (string & {});
 }
 export interface ReplaceBrandRequest {
   /** The ID of the brand */
   brandId: string;
   /** Consent for updating the custom privacy URL. Not required when resetting the URL. */
-  agreeToCustomPrivacyPolicy?: boolean;
+  agreeToCustomPrivacyPolicy?: boolean | undefined;
   /** Custom privacy policy URL */
-  customPrivacyPolicyUrl?: string;
-  defaultApp?: DefaultApp;
+  customPrivacyPolicyUrl?: string | undefined;
+  defaultApp?: DefaultApp | undefined;
   /** The ID of the email domain */
-  emailDomainId?: string;
-  locale?: string;
+  emailDomainId?: string | undefined;
+  locale?: string | undefined;
   /** The name of the brand > **Note:** You can't use the reserved `DRAPP_DOMAIN_BRAND` name. */
   name: string;
   /** Removes "Powered by Okta" from the sign-in page in redirect authentication deployments, and "© [current year] Okta, Inc." from the Okta End-User Dashboard */
-  removePoweredByOkta?: boolean;
+  removePoweredByOkta?: boolean | undefined;
 }
 export interface ReplaceBrandThemeRequest {
   /** The ID of the brand */
@@ -12361,13 +12394,13 @@ export interface ReplaceBrandThemeRequest {
   emailTemplateTouchPointVariant: EmailTemplateTouchPointVariant | (string & {});
   endUserDashboardTouchPointVariant: EndUserDashboardTouchPointVariant | (string & {});
   errorPageTouchPointVariant: ErrorPageTouchPointVariant | (string & {});
-  loadingPageTouchPointVariant?: LoadingPageTouchPointVariant | (string & {});
+  loadingPageTouchPointVariant?: LoadingPageTouchPointVariant | (string & {}) | undefined;
   /** Primary color contrast hex code */
-  primaryColorContrastHex?: string;
+  primaryColorContrastHex?: string | undefined;
   /** Primary color hex code */
   primaryColorHex: string;
   /** Secondary color contrast hex code */
-  secondaryColorContrastHex?: string;
+  secondaryColorContrastHex?: string | undefined;
   /** Secondary color hex code */
   secondaryColorHex: string;
   signInPageTouchPointVariant: SignInPageTouchPointVariant | (string & {});
@@ -12388,22 +12421,22 @@ export interface ReplaceCaptchaInstanceRequest {
   /** The unique key used to identify your CAPTCHA instance */
   captchaId: string;
   /** The name of the CAPTCHA instance */
-  name?: string;
+  name?: string | undefined;
   /** The secret key issued from the CAPTCHA provider to perform server-side validation for a CAPTCHA token */
-  secretKey?: string | Redacted.Redacted<string>;
+  secretKey?: string | Redacted.Redacted<string> | undefined;
   /** The site key issued from the CAPTCHA provider to render a CAPTCHA on a page */
-  siteKey?: string;
-  type?: CAPTCHAType | (string & {});
+  siteKey?: string | undefined;
+  type?: CAPTCHAType | (string & {}) | undefined;
 }
 export interface ReplaceCustomAAGUIDRequest {
   /** `id` of the authenticator */
   authenticatorId: string;
   /** Unique ID of a custom AAGUID */
   aaguid: string;
-  attestationRootCertificates?: AttestationRootCertificatesRequest;
-  authenticatorCharacteristics?: AAGUIDAuthenticatorCharacteristics;
+  attestationRootCertificates?: AttestationRootCertificatesRequest | undefined;
+  authenticatorCharacteristics?: AAGUIDAuthenticatorCharacteristics | undefined;
   /** The product name associated with this AAGUID. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ReplaceCustomDomainRequest {
   /** `id` of the Domain */
@@ -12415,80 +12448,80 @@ export interface ReplaceCustomizedErrorPageRequest {
   /** The ID of the brand */
   brandId: string;
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
 }
 export interface ReplaceCustomizedErrorPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
 }
 export interface ReplaceCustomizedSignInPageRequestWidgetCustomizations {
   /** The label for the sign in widget */
-  signInLabel?: string;
+  signInLabel?: string | undefined;
   /** The label for the username field */
-  usernameLabel?: string;
+  usernameLabel?: string | undefined;
   /** The label for the username information tip */
-  usernameInfoTip?: string;
+  usernameInfoTip?: string | undefined;
   /** The label for the password field */
-  passwordLabel?: string | Redacted.Redacted<string>;
+  passwordLabel?: string | Redacted.Redacted<string> | undefined;
   /** The label for the password information tip */
-  passwordInfoTip?: string | Redacted.Redacted<string>;
+  passwordInfoTip?: string | Redacted.Redacted<string> | undefined;
   /** Allows users to see their passwords as they type */
-  showPasswordVisibilityToggle?: boolean;
+  showPasswordVisibilityToggle?: boolean | undefined;
   /** Allows the user's identifier to appear on authentication and enrollment pages */
-  showUserIdentifier?: boolean;
+  showUserIdentifier?: boolean | undefined;
   /** The label for the forgot password page */
-  forgotPasswordLabel?: string | Redacted.Redacted<string>;
+  forgotPasswordLabel?: string | Redacted.Redacted<string> | undefined;
   /** The forgot password URL */
-  forgotPasswordUrl?: string | Redacted.Redacted<string>;
+  forgotPasswordUrl?: string | Redacted.Redacted<string> | undefined;
   /** The label for the unlock account link */
-  unlockAccountLabel?: string;
+  unlockAccountLabel?: string | undefined;
   /** The unlock account URL */
-  unlockAccountUrl?: string;
+  unlockAccountUrl?: string | undefined;
   /** The label for the help link */
-  helpLabel?: string;
+  helpLabel?: string | undefined;
   /** The help link URL */
-  helpUrl?: string;
+  helpUrl?: string | undefined;
   /** The label for the first custom link */
-  customLink1Label?: string;
+  customLink1Label?: string | undefined;
   /** The URL for the first custom link */
-  customLink1Url?: string;
+  customLink1Url?: string | undefined;
   /** The label for the second custom link */
-  customLink2Label?: string;
+  customLink2Label?: string | undefined;
   /** The URL for the second custom link */
-  customLink2Url?: string;
+  customLink2Url?: string | undefined;
   /** The label for the authenticator page custom link */
-  authenticatorPageCustomLinkLabel?: string;
+  authenticatorPageCustomLinkLabel?: string | undefined;
   /** The URL for the authenticator page custom link */
-  authenticatorPageCustomLinkUrl?: string;
+  authenticatorPageCustomLinkUrl?: string | undefined;
   /** The label for the username field in the classic recovery flow */
-  classicRecoveryFlowEmailOrUsernameLabel?: string;
-  widgetGeneration?: WidgetGeneration | (string & {});
-  postAuthKeepMeSignedInPrompt?: PostAuthKeepMeSignedInPrompt;
+  classicRecoveryFlowEmailOrUsernameLabel?: string | undefined;
+  widgetGeneration?: WidgetGeneration | (string & {}) | undefined;
+  postAuthKeepMeSignedInPrompt?: PostAuthKeepMeSignedInPrompt | undefined;
   /** The title of the footer link on the sign-in page. Only applicable for Classic Engine orgs. */
-  classicFooterHelpTitle?: string;
-  gracePeriodRequiredSoon?: GracePeriodRequiredSoon;
+  classicFooterHelpTitle?: string | undefined;
+  gracePeriodRequiredSoon?: GracePeriodRequiredSoon | undefined;
 }
 export interface ReplaceCustomizedSignInPageRequest {
   /** The ID of the brand */
   brandId: string;
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
-  widgetConfiguration?: WidgetConfiguration;
-  widgetCustomizations?: ReplaceCustomizedSignInPageRequestWidgetCustomizations;
-  widgetVersion?: string;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
+  widgetConfiguration?: WidgetConfiguration | undefined;
+  widgetCustomizations?: ReplaceCustomizedSignInPageRequestWidgetCustomizations | undefined;
+  widgetVersion?: string | undefined;
 }
 export type ReplaceCustomizedSignInPageResponseWidgetCustomizations =
   GetCustomizedSignInPageResponseWidgetCustomizations;
 export interface ReplaceCustomizedSignInPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
-  widgetConfiguration?: WidgetConfiguration;
-  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
-  widgetVersion?: string;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
+  widgetConfiguration?: WidgetConfiguration | undefined;
+  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations | undefined;
+  widgetVersion?: string | undefined;
 }
 /** Represents the remediation mode of this device assurance policy when users are denied access due to device noncompliance */
 export type ReplaceDeviceAssurancePolicyRequestDisplayRemediationMode = "HIDE" | "SHOW";
@@ -12498,27 +12531,28 @@ export interface ReplaceDeviceAssurancePolicyRequest {
   /** Represents the remediation mode of this device assurance policy when users are denied access due to device noncompliance */
   displayRemediationMode?:
     | ReplaceDeviceAssurancePolicyRequestDisplayRemediationMode
-    | (string & {});
-  gracePeriod?: GracePeriod;
+    | (string & {})
+    | undefined;
+  gracePeriod?: GracePeriod | undefined;
   /** Display name of the device assurance policy */
-  name?: string;
-  platform?: Platform | (string & {});
+  name?: string | undefined;
+  platform?: Platform | (string & {}) | undefined;
 }
 export interface ReplaceDevicePostureCheckRequest {
   /** ID of the device posture check */
   postureCheckId: string;
   /** Description of the device posture check */
-  description?: string;
-  mappingType?: DevicePostureChecksMappingType | (string & {});
+  description?: string | undefined;
+  mappingType?: DevicePostureChecksMappingType | (string & {}) | undefined;
   /** Display name of the device posture check */
-  name?: string;
-  platform?: DevicePostureChecksPlatform | (string & {});
+  name?: string | undefined;
+  platform?: DevicePostureChecksPlatform | (string & {}) | undefined;
   /** OSQuery for the device posture check */
-  query?: string;
-  remediationSettings?: DevicePostureChecksRemediationSettings;
-  type?: DevicePostureChecksType | (string & {});
+  query?: string | undefined;
+  remediationSettings?: DevicePostureChecksRemediationSettings | undefined;
+  type?: DevicePostureChecksType | (string & {}) | undefined;
   /** Unique name of the device posture check */
-  variableName?: string;
+  variableName?: string | undefined;
 }
 export type ReplaceEmailCustomizationRequestLinks = CreateEmailCustomizationRequestLinks;
 export interface ReplaceEmailCustomizationRequest {
@@ -12533,9 +12567,9 @@ export interface ReplaceEmailCustomizationRequest {
   /** The email subject. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` subject is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
   subject: string;
   /** Whether this is the default customization for the email template. Each customized email template must have exactly one default customization. Defaults to `true` for the first customization and `false` thereafter. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   language: string;
-  _links?: CreateEmailCustomizationRequestLinks;
+  _links?: CreateEmailCustomizationRequestLinks | undefined;
 }
 export type ReplaceEmailCustomizationResponseLinks = CreateEmailCustomizationResponseLinks;
 export interface ReplaceEmailCustomizationResponse {
@@ -12544,15 +12578,15 @@ export interface ReplaceEmailCustomizationResponse {
   /** The email subject. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` subject is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
   subject: string;
   /** The UTC time at which this email customization was created. */
-  created?: string;
+  created?: string | undefined;
   /** A unique identifier for this email customization */
-  id?: string;
+  id?: string | undefined;
   /** Whether this is the default customization for the email template. Each customized email template must have exactly one default customization. Defaults to `true` for the first customization and `false` thereafter. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   language: string;
   /** The UTC time at which this email customization was last updated. */
-  lastUpdated?: string;
-  _links?: CreateEmailCustomizationResponseLinks;
+  lastUpdated?: string | undefined;
+  _links?: CreateEmailCustomizationResponseLinks | undefined;
 }
 export type ReplaceEmailDomainRequestExpandItem = "brands";
 export type ReplaceEmailDomainRequestExpandList = Array<
@@ -12561,7 +12595,7 @@ export type ReplaceEmailDomainRequestExpandList = Array<
 export interface ReplaceEmailDomainRequest {
   emailDomainId: string;
   /** Specifies additional metadata to be included in the response */
-  expand?: ReplaceEmailDomainRequestExpandList;
+  expand?: ReplaceEmailDomainRequestExpandList | undefined;
   displayName: string;
   userName: string;
 }
@@ -12569,12 +12603,12 @@ export type ReplaceEmailDomainResponseDnsValidationRecordsList = Array<EmailDoma
 export interface ReplaceEmailDomainResponse {
   displayName: string;
   userName: string;
-  dnsValidationRecords?: ReplaceEmailDomainResponseDnsValidationRecordsList;
-  domain?: string;
-  id?: string;
-  validationStatus?: EmailDomainStatus;
+  dnsValidationRecords?: ReplaceEmailDomainResponseDnsValidationRecordsList | undefined;
+  domain?: string | undefined;
+  id?: string | undefined;
+  validationStatus?: EmailDomainStatus | undefined;
   /** The subdomain for the email sender's custom mail domain */
-  validationSubdomain?: string;
+  validationSubdomain?: string | undefined;
 }
 export type ReplaceEmailSettingsRequestRecipients = "ALL_USERS" | "ADMINS_ONLY" | "NO_USERS";
 export interface ReplaceEmailSettingsRequest {
@@ -12594,18 +12628,18 @@ export interface ReplaceEventHookRequest {
   eventHookId: string;
   channel: EventHookChannelInput;
   /** Description of the event hook */
-  description?: string | null;
+  description?: string | null | undefined;
   events: EventSubscriptionsInput;
   /** Display name for the event hook */
   name: string;
-  _links?: CreateEventHookRequestLinks;
+  _links?: CreateEventHookRequestLinks | undefined;
 }
 export interface ReplaceExistingIdentitySourceUserRequest {
   /** The ID of the identity source for which the session is created */
   identitySourceId: string;
   /** The external ID of the user */
   externalId: string;
-  profile?: IdentitySourceUserProfileForUpsertRequired;
+  profile?: IdentitySourceUserProfileForUpsertRequired | undefined;
 }
 export interface ReplaceFederatedClaimRequest {
   /** Application ID */
@@ -12613,17 +12647,17 @@ export interface ReplaceFederatedClaimRequest {
   /** The unique `id` of the federated claim */
   claimId: string;
   /** The Okta Expression Language expression to be evaluated at runtime */
-  expression?: string;
+  expression?: string | undefined;
   /** The name of the claim to be used in the produced token */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ReplaceFirstPartyAppSettingsRequest {
   /** The key name for the Okta app.<br> Supported apps: * Okta Admin Console (`admin-console`) */
   appName: string;
   /** The maximum idle time before the Okta Admin Console session expires. Must be no more than 12 hours. */
-  sessionIdleTimeoutMinutes?: number;
+  sessionIdleTimeoutMinutes?: number | undefined;
   /** The absolute maximum session lifetime of the Okta Admin Console. Must be no more than 7 days. */
-  sessionMaxLifetimeMinutes?: number;
+  sessionMaxLifetimeMinutes?: number | undefined;
 }
 /** List of entitlements to include in the governance bundle */
 export type ReplaceGovernanceBundleRequestEntitlementsList = Array<IAMBundleEntitlement>;
@@ -12631,33 +12665,33 @@ export interface ReplaceGovernanceBundleRequest {
   /** The `id` of a bundle */
   bundleId: string;
   /** Description of the governance bundle */
-  description?: string;
+  description?: string | undefined;
   /** List of entitlements to include in the governance bundle */
-  entitlements?: ReplaceGovernanceBundleRequestEntitlementsList;
+  entitlements?: ReplaceGovernanceBundleRequestEntitlementsList | undefined;
   /** Name of the governance bundle */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ReplaceGroupRequest {
   /** The `id` of the group */
   groupId: string;
-  profile?: OktaUserGroupProfile;
+  profile?: OktaUserGroupProfile | undefined;
 }
 export interface ReplaceGroupRuleRequest {
   /** The `id` of the group rule */
   groupRuleId: string;
-  actions?: GroupRuleAction;
-  conditions?: GroupRuleConditions;
+  actions?: GroupRuleAction | undefined;
+  conditions?: GroupRuleConditions | undefined;
   /** Name of the group rule */
-  name?: string;
-  status?: GroupRuleStatus | (string & {});
+  name?: string | undefined;
+  status?: GroupRuleStatus | (string & {}) | undefined;
   /** Type to indicate a group rule operation. Only `group_rule` is allowed. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface ReplaceHookKeyRequest {
   /** ID of the Hook Key */
   id: string;
   /** Display name for the key */
-  name?: string;
+  name?: string | undefined;
 }
 /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
 export type ReplaceIdentityProviderRequestProtocol =
@@ -12670,40 +12704,40 @@ export type ReplaceIdentityProviderRequestLinks = CreateIdentityProviderRequestL
 export interface ReplaceIdentityProviderRequest {
   /** `id` of IdP */
   idpId: string;
-  issuerMode?: IdentityProviderIssuerMode | (string & {});
+  issuerMode?: IdentityProviderIssuerMode | (string & {}) | undefined;
   /** Unique name for the IdP */
-  name?: string;
-  policy?: IdentityProviderPolicy;
-  properties?: IdentityProviderProperties | null;
+  name?: string | undefined;
+  policy?: IdentityProviderPolicy | undefined;
+  properties?: IdentityProviderProperties | null | undefined;
   /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
-  protocol?: ReplaceIdentityProviderRequestProtocol;
-  status?: LifecycleStatus | (string & {});
-  type?: IdentityProviderType | (string & {});
-  _links?: CreateIdentityProviderRequestLinks;
+  protocol?: ReplaceIdentityProviderRequestProtocol | undefined;
+  status?: LifecycleStatus | (string & {}) | undefined;
+  type?: IdentityProviderType | (string & {}) | undefined;
+  _links?: CreateIdentityProviderRequestLinks | undefined;
 }
 export interface ReplaceIdentityProviderKeyRequest {
   /** Unique `id` of the IdP key credential */
   kid: string;
   /** The exponent value for the RSA public key */
-  e?: string;
+  e?: string | undefined;
   /** Identifies the cryptographic algorithm family used with the key */
-  kty?: string;
+  kty?: string | undefined;
   /** The modulus value for the RSA public key */
-  n?: string;
+  n?: string | undefined;
   /** Intended use of the public key */
-  use?: string;
-  x5c?: X5c;
+  use?: string | undefined;
+  x5c?: X5c | undefined;
   /** Base64url-encoded SHA-256 thumbprint of the DER encoding of an X.509 certificate */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export interface ReplaceInlineHookRequest {
   /** `id` of the inline hook */
   inlineHookId: string;
-  channel?: InlineHookChannelCreate;
+  channel?: InlineHookChannelCreate | undefined;
   /** The display name of the inline hook */
-  name?: string;
+  name?: string | undefined;
   /** Version of the inline hook type. The currently supported version is `1.0.0`. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface ReplaceLogStreamRequest {
   /** Unique identifier for the log stream */
@@ -12716,10 +12750,10 @@ export interface ReplaceNetworkZoneRequest {
   zoneId: string;
   /** Unique name for this Network Zone */
   name: string;
-  status?: NetworkZoneStatus | (string & {});
+  status?: NetworkZoneStatus | (string & {}) | undefined;
   type: NetworkZoneType | (string & {});
-  usage?: NetworkZoneUsage | (string & {});
-  _links?: LinksSelfAndLifecycleInput;
+  usage?: NetworkZoneUsage | (string & {}) | undefined;
+  _links?: LinksSelfAndLifecycleInput | undefined;
 }
 export interface ReplaceOAuth2ClaimRequest {
   /** `id` of the Authorization Server */
@@ -12727,82 +12761,82 @@ export interface ReplaceOAuth2ClaimRequest {
   /** `id` of Claim */
   claimId: string;
   /** Specifies whether to include Claims in the token. The value is always `TRUE` for access token Claims. If the value is set to `FALSE` for an ID token claim, the Claim isn't included in the ID token when the token is requested with the access token or with the `authorization_code`. The client instead uses the access token to get Claims from the `/userinfo` endpoint. */
-  alwaysIncludeInToken?: boolean;
-  claimType?: OAuth2ClaimType | (string & {});
-  conditions?: OAuth2ClaimConditions;
-  group_filter_type?: OAuth2ClaimGroupFilterType | (string & {});
+  alwaysIncludeInToken?: boolean | undefined;
+  claimType?: OAuth2ClaimType | (string & {}) | undefined;
+  conditions?: OAuth2ClaimConditions | undefined;
+  group_filter_type?: OAuth2ClaimGroupFilterType | (string & {}) | undefined;
   /** Name of the Claim */
-  name?: string;
-  status?: LifecycleStatus | (string & {});
+  name?: string | undefined;
+  status?: LifecycleStatus | (string & {}) | undefined;
   /** When `true`, indicates that Okta created the Claim */
-  system?: boolean;
+  system?: boolean | undefined;
   /** Specifies the value of the Claim. This value must be a string literal if `valueType` is `GROUPS`, and the string literal is matched with the selected `group_filter_type`. The value must be an Okta EL expression if `valueType` is `EXPRESSION`. */
-  value?: string;
-  valueType?: OAuth2ClaimValueType | (string & {});
+  value?: string | undefined;
+  valueType?: OAuth2ClaimValueType | (string & {}) | undefined;
 }
 export interface ReplaceOAuth2ScopeRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
   /** `id` of Scope */
   scopeId: string;
-  consent?: OAuth2ScopeConsentType | (string & {});
+  consent?: OAuth2ScopeConsentType | (string & {}) | undefined;
   /** Indicates if this Scope is a default scope */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Description of the Scope */
-  description?: string;
+  description?: string | undefined;
   /** Name of the end user displayed in a consent dialog */
-  displayName?: string;
-  metadataPublish?: OAuth2ScopeMetadataPublish | (string & {});
+  displayName?: string | undefined;
+  metadataPublish?: OAuth2ScopeMetadataPublish | (string & {}) | undefined;
   /** Scope name */
   name: string;
   /** Indicates whether the Scope is optional. When set to `true`, the user can skip consent for the scope. */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** Indicates if Okta created the Scope */
-  system?: boolean;
+  system?: boolean | undefined;
 }
 /** Type of contact */
 export type ReplaceOrgContactUserRequestContactType = "BILLING" | "TECHNICAL";
 export interface ReplaceOrgContactUserRequest {
   contactType: ReplaceOrgContactUserRequestContactType | (string & {});
   /** Contact user ID */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface ReplaceOrgSettingsRequest {
   /** Primary address of the organization associated with the org */
-  address1?: string;
+  address1?: string | undefined;
   /** Secondary address of the organization associated with the org */
-  address2?: string;
+  address2?: string | undefined;
   /** City of the organization associated with the org */
-  city?: string;
+  city?: string | undefined;
   /** Name of org */
-  companyName?: string;
+  companyName?: string | undefined;
   /** County of the organization associated with the org */
-  country?: string;
+  country?: string | undefined;
   /** Support link of org */
-  endUserSupportHelpURL?: string;
+  endUserSupportHelpURL?: string | undefined;
   /** Phone number of the organization associated with the org */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Postal code of the organization associated with the org */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** State of the organization associated with the org */
-  state?: string;
+  state?: string | undefined;
   /** Support help phone of the organization associated with the org */
-  supportPhoneNumber?: string;
+  supportPhoneNumber?: string | undefined;
   /** Website of the organization associated with the org */
-  website?: string;
+  website?: string | undefined;
 }
 export interface ReplacePolicyRequest {
   /** `id` of the policy */
   policyId: string;
   /** Description of the policy */
-  description?: string;
+  description?: string | undefined;
   /** Name of the policy */
   name: string;
   /** Specifies the order in which this policy is evaluated in relation to the other policies */
-  priority?: number;
-  status?: unknown;
+  priority?: number | undefined;
+  status?: unknown | undefined;
   /** Specifies whether Okta created the policy */
-  system?: boolean;
+  system?: boolean | undefined;
   type: PolicyType | (string & {});
 }
 export interface ReplacePolicyRuleRequest {
@@ -12811,25 +12845,25 @@ export interface ReplacePolicyRuleRequest {
   /** `id` of the policy rule */
   ruleId: string;
   /** Name of the rule */
-  name?: string;
+  name?: string | undefined;
   /** Priority of the rule */
-  priority?: number | null;
-  status?: unknown;
+  priority?: number | null | undefined;
+  status?: unknown | undefined;
   /** Specifies whether Okta created the policy rule (`system=true`). You can't delete policy rules that have `system` set to `true`. */
-  system?: boolean;
-  type?: PolicyRuleType | (string & {});
+  system?: boolean | undefined;
+  type?: PolicyRuleType | (string & {}) | undefined;
 }
 export interface ReplacePreviewErrorPageRequest {
   /** The ID of the brand */
   brandId: string;
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
 }
 export interface ReplacePreviewErrorPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
 }
 export type ReplacePreviewSignInPageRequestWidgetCustomizations =
   ReplaceCustomizedSignInPageRequestWidgetCustomizations;
@@ -12837,29 +12871,29 @@ export interface ReplacePreviewSignInPageRequest {
   /** The ID of the brand */
   brandId: string;
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
-  widgetConfiguration?: WidgetConfiguration;
-  widgetCustomizations?: ReplaceCustomizedSignInPageRequestWidgetCustomizations;
-  widgetVersion?: string;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
+  widgetConfiguration?: WidgetConfiguration | undefined;
+  widgetCustomizations?: ReplaceCustomizedSignInPageRequestWidgetCustomizations | undefined;
+  widgetVersion?: string | undefined;
 }
 export type ReplacePreviewSignInPageResponseWidgetCustomizations =
   GetCustomizedSignInPageResponseWidgetCustomizations;
 export interface ReplacePreviewSignInPageResponse {
   /** The HTML for the page */
-  pageContent?: string;
-  contentSecurityPolicySetting?: ContentSecurityPolicySetting;
-  widgetConfiguration?: WidgetConfiguration;
-  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
-  widgetVersion?: string;
+  pageContent?: string | undefined;
+  contentSecurityPolicySetting?: ContentSecurityPolicySetting | undefined;
+  widgetConfiguration?: WidgetConfiguration | undefined;
+  widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations | undefined;
+  widgetVersion?: string | undefined;
 }
 export interface ReplacePrincipalRateLimitEntityRequest {
   /** ID of the principal rate limit */
   principalRateLimitId: string;
   /** The default percentage of a given concurrency limit threshold that the owning principal can consume */
-  defaultConcurrencyPercentage?: number;
+  defaultConcurrencyPercentage?: number | undefined;
   /** The default percentage of a given rate limit threshold that the owning principal can consume */
-  defaultPercentage?: number;
+  defaultPercentage?: number | undefined;
   /** The unique identifier of the principal. This is the ID of the API token or OAuth 2.0 app. */
   principalId: string;
   principalType: PrincipalType | (string & {});
@@ -12868,23 +12902,23 @@ export interface ReplacePushProviderRequest {
   /** Id of the push provider */
   pushProviderId: string;
   /** Display name of the push provider */
-  name?: string;
-  providerType?: ProviderType | (string & {});
+  name?: string | undefined;
+  providerType?: ProviderType | (string & {}) | undefined;
 }
 export interface ReplaceRateLimitSettingsAdminNotificationsRequest {
   notificationsEnabled: boolean;
 }
 /** A map of Per-Client Rate Limit Use Case to the applicable PerClientRateLimitMode. Overrides the `defaultMode` property for the specified use cases. */
 export interface ReplaceRateLimitSettingsPerClientRequestUseCaseModeOverrides {
-  LOGIN_PAGE?: PerClientRateLimitMode | (string & {});
-  OAUTH2_AUTHORIZE?: PerClientRateLimitMode | (string & {});
-  OIE_APP_INTENT?: PerClientRateLimitMode | (string & {});
+  LOGIN_PAGE?: PerClientRateLimitMode | (string & {}) | undefined;
+  OAUTH2_AUTHORIZE?: PerClientRateLimitMode | (string & {}) | undefined;
+  OIE_APP_INTENT?: PerClientRateLimitMode | (string & {}) | undefined;
 }
 export interface ReplaceRateLimitSettingsPerClientRequest {
   /** The default PerClientRateLimitMode that applies to any use case in the absence of a more specific override */
   defaultMode: PerClientRateLimitMode | (string & {});
   /** A map of Per-Client Rate Limit Use Case to the applicable PerClientRateLimitMode. Overrides the `defaultMode` property for the specified use cases. */
-  useCaseModeOverrides?: ReplaceRateLimitSettingsPerClientRequestUseCaseModeOverrides;
+  useCaseModeOverrides?: ReplaceRateLimitSettingsPerClientRequestUseCaseModeOverrides | undefined;
 }
 export interface ReplaceRateLimitSettingsWarningThresholdRequest {
   /** The threshold value (percentage) of a rate limit that, when exceeded, triggers a warning notification. By default, this value is 90 for Workforce orgs and 60 for CIAM orgs. */
@@ -12893,39 +12927,39 @@ export interface ReplaceRateLimitSettingsWarningThresholdRequest {
 export interface ReplaceRealmRequest {
   /** ID of the realm */
   realmId: string;
-  profile?: RealmProfile;
+  profile?: RealmProfile | undefined;
 }
 export interface ReplaceRealmAssignmentRequest {
   /** ID of the realm assignment */
   assignmentId: string;
-  actions?: Actions;
-  conditions?: Conditions;
-  name?: string;
+  actions?: Actions | undefined;
+  conditions?: Conditions | undefined;
+  name?: string | undefined;
   /** The priority of the realm assignment. The lower the number, the higher the priority. This helps resolve conflicts between realm assignments. > **Note:** When you create realm assignments in bulk, realm assignment priorities must be unique. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type HrefObjectResourceSetResourcesLinkInput = HrefObjectSelfLinkInput;
 export type HrefObjectBindingsLinkInput = HrefObjectSelfLinkInput;
 export interface ReplaceResourceSetRequestLinks {
-  self?: HrefObjectSelfLinkInput;
-  resources?: HrefObjectSelfLinkInput;
-  bindings?: HrefObjectSelfLinkInput;
+  self?: HrefObjectSelfLinkInput | undefined;
+  resources?: HrefObjectSelfLinkInput | undefined;
+  bindings?: HrefObjectSelfLinkInput | undefined;
 }
 export interface ReplaceResourceSetRequest {
   /** `id` or `label` of the resource set */
   resourceSetIdOrLabel: string;
   /** Description of the resource set */
-  description?: string;
+  description?: string | undefined;
   /** Unique label for the resource set */
-  label?: string;
-  _links?: ReplaceResourceSetRequestLinks;
+  label?: string | undefined;
+  _links?: ReplaceResourceSetRequestLinks | undefined;
 }
 export interface ReplaceResourceSetResourceRequest {
   /** `id` or `label` of the resource set */
   resourceSetIdOrLabel: string;
   /** `id` of the resource */
   resourceId: string;
-  conditions?: ResourceConditions;
+  conditions?: ResourceConditions | undefined;
 }
 export interface ReplaceRoleRequest {
   /** `id` or `label` of the role */
@@ -12940,7 +12974,7 @@ export interface ReplaceRolePermissionRequest {
   roleIdOrLabel: string;
   /** An Okta [permission](/openapi/okta-management/guides/permissions) */
   permissionType: string;
-  conditions?: PermissionConditions | null;
+  conditions?: PermissionConditions | null | undefined;
 }
 /** Information about the security events provider for signal ingestion */
 export type ReplaceSecurityEventsProviderInstanceRequestSettings =
@@ -12960,17 +12994,17 @@ export interface ReplaceSignOutPageSettingsRequest {
   /** The ID of the brand */
   brandId: string;
   type: HostedPageType | (string & {});
-  url?: string;
+  url?: string | undefined;
 }
 export interface ReplaceSmsTemplateRequest {
   /** `id` of the Template */
   templateId: string;
   /** Human-readable name of the Template */
-  name?: string;
+  name?: string | undefined;
   /** Text of the Template, including any [macros](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Template/) */
-  template?: string;
-  translations?: unknown;
-  type?: SmsTemplateType | (string & {});
+  template?: string | undefined;
+  translations?: unknown | undefined;
+  type?: SmsTemplateType | (string & {}) | undefined;
 }
 /** An array of pages that have CAPTCHA enabled */
 export type ReplacesOrgCaptchaSettingsRequestEnabledPagesList = Array<
@@ -12978,9 +13012,9 @@ export type ReplacesOrgCaptchaSettingsRequestEnabledPagesList = Array<
 >;
 export interface ReplacesOrgCaptchaSettingsRequest {
   /** The unique key of the associated CAPTCHA instance */
-  captchaId?: string;
+  captchaId?: string | undefined;
   /** An array of pages that have CAPTCHA enabled */
-  enabledPages?: ReplacesOrgCaptchaSettingsRequestEnabledPagesList;
+  enabledPages?: ReplacesOrgCaptchaSettingsRequestEnabledPagesList | undefined;
 }
 export type ReplaceSsfStreamRequestAudCase1List = Array<string>;
 /** The audience used in the SET. This value is set as `aud` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
@@ -12995,45 +13029,45 @@ export type ReplaceSsfStreamRequestEventsSupportedList = Array<string>;
 export type ReplaceSsfStreamRequestFormat = "iss_sub";
 export interface ReplaceSsfStreamRequest {
   /** The audience used in the SET. This value is set as `aud` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  aud?: ReplaceSsfStreamRequestAud;
+  aud?: ReplaceSsfStreamRequestAud | undefined;
   delivery: StreamConfigurationDelivery;
   /** The events (mapped by the array of event type URIs) that the transmitter actually delivers to the SSF stream. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  events_delivered?: ReplaceSsfStreamRequestEventsDeliveredList;
+  events_delivered?: ReplaceSsfStreamRequestEventsDeliveredList | undefined;
   /** The events (mapped by the array of event type URIs) that the receiver wants to receive */
   events_requested: ReplaceSsfStreamRequestEventsRequestedList;
   /** An array of event type URIs that the transmitter supports. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  events_supported?: ReplaceSsfStreamRequestEventsSupportedList;
+  events_supported?: ReplaceSsfStreamRequestEventsSupportedList | undefined;
   /** The subject identifier format expected for any SET transmitted. */
-  format?: ReplaceSsfStreamRequestFormat | (string & {});
+  format?: ReplaceSsfStreamRequestFormat | (string & {}) | undefined;
   /** The issuer used in security event tokens (SETs). This value is set as `iss` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  iss?: string;
+  iss?: string | undefined;
   /** The minimum amount of time, in seconds, between two verification requests. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  min_verification_interval?: number | null;
+  min_verification_interval?: number | null | undefined;
   /** The ID of the SSF stream configuration */
-  stream_id?: string;
+  stream_id?: string | undefined;
 }
 export interface ReplaceTrustedOriginRequest {
   /** `id` of the trusted origin */
   trustedOriginId: string;
   /** The ID of the user who created the trusted origin */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The ID of the user who last updated the trusted origin */
-  lastUpdatedBy?: string;
-  name?: string;
-  origin?: string;
-  scopes?: TrustedOriginScopes;
-  status?: LifecycleStatus | (string & {});
-  _links?: LinksSelfAndLifecycleInput;
+  lastUpdatedBy?: string | undefined;
+  name?: string | undefined;
+  origin?: string | undefined;
+  scopes?: TrustedOriginScopes | undefined;
+  status?: LifecycleStatus | (string & {}) | undefined;
+  _links?: LinksSelfAndLifecycleInput | undefined;
 }
 export interface ReplaceUISchemasRequest {
   /** The unique ID of the UI Schema */
   id: string;
-  uiSchema?: UISchemaObject;
+  uiSchema?: UISchemaObject | undefined;
 }
 /** Specifies primary authentication and recovery credentials for a user. Credential types and requirements vary depending on the provider and security policy of the org. */
 export interface UserCredentialsInput {
-  password?: PasswordCredential;
-  recovery_question?: RecoveryQuestionCredential;
+  password?: PasswordCredential | undefined;
+  recovery_question?: RecoveryQuestionCredential | undefined;
 }
 /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an admin through a full replacement (`PUT`) operation. */
 export type ReplaceUserRequestType = CreateUserRequestType;
@@ -13041,22 +13075,22 @@ export interface ReplaceUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** If `true`, validates against minimum age and history password policy */
-  strict?: boolean;
-  credentials?: UserCredentialsInput;
-  profile?: UserProfile;
+  strict?: boolean | undefined;
+  credentials?: UserCredentialsInput | undefined;
+  profile?: UserProfile | undefined;
   /** The ID of the realm in which the user is residing. See [Realms](/openapi/okta-management/management/tags/realm). */
-  realmId?: string;
+  realmId?: string | undefined;
   /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an admin through a full replacement (`PUT`) operation. */
-  type?: CreateUserRequestType;
+  type?: CreateUserRequestType | undefined;
 }
 export interface ReplaceUserClassificationRequest {
   /** ID of an existing Okta user */
   userId: string;
-  type?: ClassificationType | (string & {});
+  type?: ClassificationType | (string & {}) | undefined;
 }
 export interface ReplaceUserLockoutSettingsRequest {
   /** Prevents brute-force lockout from unknown devices for the password authenticator. */
-  preventBruteForceLockoutFromUnknownDevices?: boolean;
+  preventBruteForceLockoutFromUnknownDevices?: boolean | undefined;
 }
 export interface ReplaceUserTypeRequest {
   typeId: string;
@@ -13075,15 +13109,15 @@ export interface ResendEnrollFactorRequest {
   /** ID of an existing user factor */
   factorId: string;
   /** ID of an existing custom SMS template. See the [SMS Templates API](../Template). This parameter is only used by `sms` factors. */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Type of the factor */
-  factorType?: ResendEnrollFactorRequestFactorType | (string & {});
+  factorType?: ResendEnrollFactorRequestFactorType | (string & {}) | undefined;
 }
 /** Type of the factor */
 export type ResendUserFactorFactorType = "call" | "email" | "sms";
 export interface ResendUserFactor {
   /** Type of the factor */
-  factorType?: ResendUserFactorFactorType;
+  factorType?: ResendUserFactorFactorType | undefined;
 }
 export interface ResetFactorsRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -13095,10 +13129,10 @@ export interface ResetPasswordRequest {
   id: string;
   sendEmail: boolean;
   /** Revokes all user sessions, except for the current session, if set to `true` */
-  revokeSessions?: boolean;
+  revokeSessions?: boolean | undefined;
 }
 export interface ResetPasswordToken {
-  resetPasswordUrl?: string | Redacted.Redacted<string>;
+  resetPasswordUrl?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ResumeAgentPoolsUpdateRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -13118,10 +13152,10 @@ export interface RevokeAerialConsentRequest {
 }
 export type HrefObjectGrantAerialConsent = HrefObjectSelfLink;
 export interface LinksAerialConsentRevoked {
-  grant?: HrefObjectSelfLink;
+  grant?: HrefObjectSelfLink | undefined;
 }
 export interface OrgAerialConsentRevoked {
-  _links?: LinksAerialConsentRevoked;
+  _links?: LinksAerialConsentRevoked | undefined;
 }
 export interface RevokeApiTokenRequest {
   /** id of the API Token */
@@ -13223,9 +13257,9 @@ export interface RevokeUserSessionsRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** Revokes issued OpenID Connect and OAuth refresh and access tokens */
-  oauthTokens?: boolean;
+  oauthTokens?: boolean | undefined;
   /** Clears the user's remembered factors for all devices. > **Note:** This parameter defaults to false in Classic Engine. */
-  forgetDevices?: boolean;
+  forgetDevices?: boolean | undefined;
 }
 export interface RevokeUserSessionsResponse {}
 /** Purpose of the certificate. The only supported value is `sig`. */
@@ -13233,7 +13267,7 @@ export type JwkUseType = "sig";
 export interface RotateAuthorizationServerKeysRequest {
   /** `id` of the Authorization Server */
   authServerId: string;
-  use?: JwkUseType | (string & {});
+  use?: JwkUseType | (string & {}) | undefined;
 }
 export type RotateAuthorizationServerKeysResponseBodyList = Array<AuthorizationServerJsonWebKey>;
 export type RotateAuthorizationServerKeysResponse = RotateAuthorizationServerKeysResponseBodyList;
@@ -13241,11 +13275,11 @@ export type RotateAuthorizationServerKeysResponse = RotateAuthorizationServerKey
 export type SendPinRequestFulfillmentProvider = "yubico";
 export interface SendPinRequest {
   /** ID for a WebAuthn preregistration factor in Okta */
-  authenticatorEnrollmentId?: string;
+  authenticatorEnrollmentId?: string | undefined;
   /** Name of the fulfillment provider for the WebAuthn preregistration factor */
-  fulfillmentProvider?: SendPinRequestFulfillmentProvider | (string & {});
+  fulfillmentProvider?: SendPinRequestFulfillmentProvider | (string & {}) | undefined;
   /** ID of an existing Okta user */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface SendPinResponse {}
 /** The type of test message to send */
@@ -13254,11 +13288,11 @@ export interface SendTestCustomTelephonyProviderCredentialRequest {
   /** The ID of the custom telephony provider */
   customTelephonyProviderId: string;
   /** The country code for the phone number. Use the [Alpha-2 code from ISO 3166-1](https://www.iso.org/obp/ui/#search) for country codes. */
-  countryCodeIso2?: string;
+  countryCodeIso2?: string | undefined;
   /** The type of test message to send */
-  factor?: SendTestCustomTelephonyProviderCredentialRequestFactor | (string & {});
+  factor?: SendTestCustomTelephonyProviderCredentialRequestFactor | (string & {}) | undefined;
   /** The phone number to which the test message or call is sent */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
 }
 export interface SendTestCustomTelephonyProviderCredentialResponse {}
 export interface SendTestEmailRequest {
@@ -13267,7 +13301,7 @@ export interface SendTestEmailRequest {
   /** The name of the email template */
   templateName: string;
   /** The language to use for the email. Defaults to the current user's language if unspecified. */
-  language?: string;
+  language?: string | undefined;
 }
 export interface SendTestEmailResponse {}
 export interface SetAsPrimaryCustomTelephonyCredentialRequest {
@@ -13286,45 +13320,45 @@ export interface StartImportFromIdentitySourceRequest {
 export type FailbackRequestSchemaDomainsList = Array<string>;
 export interface FailbackRequestSchema {
   /** The Okta domain to failback */
-  domains?: FailbackRequestSchemaDomainsList;
+  domains?: FailbackRequestSchemaDomainsList | undefined;
 }
 export type StartOrgFailbackRequestBody = FailbackRequestSchema | unknown;
 export interface StartOrgFailbackRequest {
-  body?: StartOrgFailbackRequestBody;
+  body?: StartOrgFailbackRequestBody | undefined;
 }
 export interface StartOrgFailbackResponseResultsItem {
   /** Domain for your org */
-  domain?: string;
+  domain?: string | undefined;
   /** Domain failback message */
-  message?: string;
+  message?: string | undefined;
 }
 /** Results of the failback operation */
 export type StartOrgFailbackResponseResultsList = Array<StartOrgFailbackResponseResultsItem>;
 export interface StartOrgFailbackResponse {
   /** Results of the failback operation */
-  results?: StartOrgFailbackResponseResultsList;
+  results?: StartOrgFailbackResponseResultsList | undefined;
 }
 /** The Okta domain to failover */
 export type FailoverRequestSchemaDomainsList = Array<string>;
 export interface FailoverRequestSchema {
   /** The Okta domain to failover */
-  domains?: FailoverRequestSchemaDomainsList;
+  domains?: FailoverRequestSchemaDomainsList | undefined;
 }
 export type StartOrgFailoverRequestBody = FailoverRequestSchema | unknown;
 export interface StartOrgFailoverRequest {
-  body?: StartOrgFailoverRequestBody;
+  body?: StartOrgFailoverRequestBody | undefined;
 }
 export interface StartOrgFailoverResponseResultsItem {
   /** Domain for your org */
-  domain?: string;
+  domain?: string | undefined;
   /** Domain failover message */
-  message?: string;
+  message?: string | undefined;
 }
 /** Results of the failover operation */
 export type StartOrgFailoverResponseResultsList = Array<StartOrgFailoverResponseResultsItem>;
 export interface StartOrgFailoverResponse {
   /** Results of the failover operation */
-  results?: StartOrgFailoverResponseResultsList;
+  results?: StartOrgFailoverResponseResultsList | undefined;
 }
 export interface StopAgentPoolsUpdateRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -13495,7 +13529,7 @@ export interface UnassignUserFromApplicationRequest {
   /** ID of an existing Okta user */
   userId: string;
   /** Sends a deactivation email to the administrator if `true` */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface UnassignUserFromApplicationResponse {}
 export interface UnassignUserFromGroupRequest {
@@ -13511,7 +13545,7 @@ export interface UnenrollFactorRequest {
   /** ID of an existing user factor */
   factorId: string;
   /** If `true`, removes the phone number as both a recovery method and a factor. This parameter is only used for the `sms` and `call` factors. */
-  removeRecoveryEnrollment?: boolean;
+  removeRecoveryEnrollment?: boolean | undefined;
 }
 export interface UnenrollFactorResponse {}
 export interface UnlinkUserFromIdentityProviderRequest {
@@ -13583,44 +13617,44 @@ export interface UpdateAgentPoolsUpdateRequest {
   poolId: string;
   /** ID of the update */
   updateId: string;
-  agents?: UpdateAgentPoolsUpdateRequestAgentsList;
-  agentType?: AgentType | (string & {});
+  agents?: UpdateAgentPoolsUpdateRequestAgentsList | undefined;
+  agentType?: AgentType | (string & {}) | undefined;
   /** Indicates if auto-update is enabled for the agent pool */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Name of the agent pool update */
-  name?: string;
+  name?: string | undefined;
   /** Indicates if the admin is notified about the update */
-  notifyAdmin?: boolean;
+  notifyAdmin?: boolean | undefined;
   /** Reason for the update */
-  reason?: string;
-  schedule?: AutoUpdateSchedule;
+  reason?: string | undefined;
+  schedule?: AutoUpdateSchedule | undefined;
   /** Specifies the sort order */
-  sortOrder?: number;
-  status?: AgentUpdateJobStatus | (string & {});
+  sortOrder?: number | undefined;
+  status?: AgentUpdateJobStatus | (string & {}) | undefined;
   /** The agent version to update to */
-  targetVersion?: string;
+  targetVersion?: string | undefined;
 }
 export interface UpdateAgentPoolsUpdateSettingsRequest {
   /** ID of the agent pool for which the settings apply to */
   poolId: string;
   agentType: AgentType | (string & {});
   /** Continues the update even if some agents fail to update */
-  continueOnError?: boolean;
+  continueOnError?: boolean | undefined;
   /** Latest version of the agent */
-  latestVersion?: string;
+  latestVersion?: string | undefined;
   /** Minimal version of the agent */
-  minimalSupportedVersion?: string;
+  minimalSupportedVersion?: string | undefined;
   /** Pool name */
-  poolName?: string;
-  releaseChannel?: ReleaseChannel | (string & {});
+  poolName?: string | undefined;
+  releaseChannel?: ReleaseChannel | (string & {}) | undefined;
 }
 /** Updates the assigned user credentials */
 export interface AppUserCredentialsRequestPayload {
-  credentials?: AppUserCredentials;
+  credentials?: AppUserCredentials | undefined;
 }
 /** Updates the assigned user profile > **Note:** The Okta API currently doesn't support entity tags for conditional updates. As long as you're the only user updating the the user profile, Okta recommends you fetch the most recent profile with [Retrieve an Application User](/openapi/okta-management/management/applicationusers#tag/ApplicationUsers/operation/getApplicationUser), apply your profile update, and then `POST` back the updated profile. */
 export interface AppUserProfileRequestPayload {
-  profile?: AppUserProfile;
+  profile?: AppUserProfile | undefined;
 }
 export type AppUserUpdateRequest = AppUserCredentialsRequestPayload | AppUserProfileRequestPayload;
 export interface UpdateApplicationUserRequest {
@@ -13633,28 +13667,28 @@ export interface UpdateApplicationUserRequest {
 /** All Okta-defined profile properties are defined in a profile subschema with the resolution scope `#base`. You can't modify these properties, except to update permissions, to change the nullability of `firstName` and `lastName`, or to specify a pattern for `login`. They can't be removed. The base user profile is based on the [System for Cross-domain Identity Management: Core Schema](https://tools.ietf.org/html/draft-ietf-scim-core-schema-22#section-4.1.1) and has the standard properties detailed below. */
 export interface UserSchemaBaseInput {
   /** The `#base` object properties */
-  properties?: UserSchemaBaseProperties;
+  properties?: UserSchemaBaseProperties | undefined;
 }
 /** The `#custom` object properties */
 export type UserSchemaPublicInputPropertiesMap = { [key: string]: UserSchemaAttribute | undefined };
 /** All custom profile properties are defined in a profile subschema with the resolution scope `#custom`. > **Notes:** > * When you refer to custom profile attributes that differ only by case, name collisions occur. This includes naming custom profile attributes the same as base profile attributes, for example, `firstName` and `FirstName`. > * Certain attributes are reserved and can't be used for custom user profiles. See [Review reserved attributes](https://help.okta.com/okta_help.htm?type=oie&id=reserved-attributes). */
 export interface UserSchemaPublicInput {
   /** The `#custom` object properties */
-  properties?: UserSchemaPublicInputPropertiesMap;
+  properties?: UserSchemaPublicInputPropertiesMap | undefined;
 }
 export interface UserSchemaDefinitionsInput {
-  base?: UserSchemaBaseInput;
-  custom?: UserSchemaPublicInput;
+  base?: UserSchemaBaseInput | undefined;
+  custom?: UserSchemaPublicInput | undefined;
 }
 export interface UpdateApplicationUserProfileRequest {
   /** Application ID */
   appId: string;
   /** User profile subschemas The profile object for a user is defined by a composite schema of base and custom properties using a JSON path to reference subschemas. The `#base` properties are defined and versioned by Okta, while `#custom` properties are extensible. Custom property names for the profile object must be unique and can't conflict with a property name defined in the `#base` subschema. */
-  definitions?: UserSchemaDefinitionsInput;
+  definitions?: UserSchemaDefinitionsInput | undefined;
   /** User Object Properties */
-  properties?: UserSchemaProperties;
+  properties?: UserSchemaProperties | undefined;
   /** User-defined display name for the schema */
-  title?: string;
+  title?: string | undefined;
 }
 /** A list of IDs of the Okta groups who own the app service account */
 export type UpdateAppServiceAccountRequestOwnerGroupIdsList = Array<string>;
@@ -13664,39 +13698,39 @@ export interface UpdateAppServiceAccountRequest {
   /** ID of an existing service account */
   id: string;
   /** The description of the app service account */
-  description?: string;
+  description?: string | undefined;
   /** The user-defined name for the app service account */
-  name?: string;
+  name?: string | undefined;
   /** A list of IDs of the Okta groups who own the app service account */
-  ownerGroupIds?: UpdateAppServiceAccountRequestOwnerGroupIdsList;
+  ownerGroupIds?: UpdateAppServiceAccountRequestOwnerGroupIdsList | undefined;
   /** A list of IDs of the Okta users who own the app service account */
-  ownerUserIds?: UpdateAppServiceAccountRequestOwnerUserIdsList;
+  ownerUserIds?: UpdateAppServiceAccountRequestOwnerUserIdsList | undefined;
 }
 export interface UpdateAutoAssignAdminAppSettingRequest {
   /** Automatically assigns the Okta Admin Console to the user when an admin role is assigned */
-  autoAssignAdminAppSetting?: boolean;
+  autoAssignAdminAppSetting?: boolean | undefined;
 }
 /** An array of authentication flows that have bot protection enabled */
 export type UpdateBotProtectionConfigurationRequestSupportedFlowsList = Array<
   BotProtectionSupportedFlow | (string & {})
 >;
 export interface UpdateBotProtectionConfigurationRequest {
-  enforcementType?: BotProtectionEnforcementType | (string & {});
+  enforcementType?: BotProtectionEnforcementType | (string & {}) | undefined;
   level: BotProtectionLevel | (string & {});
   mode: BotProtectionMode | (string & {});
   /** An array of authentication flows that have bot protection enabled */
-  supportedFlows?: UpdateBotProtectionConfigurationRequestSupportedFlowsList;
+  supportedFlows?: UpdateBotProtectionConfigurationRequestSupportedFlowsList | undefined;
 }
 export interface UpdateCaptchaInstanceRequest {
   /** The unique key used to identify your CAPTCHA instance */
   captchaId: string;
   /** The name of the CAPTCHA instance */
-  name?: string;
+  name?: string | undefined;
   /** The secret key issued from the CAPTCHA provider to perform server-side validation for a CAPTCHA token */
-  secretKey?: string | Redacted.Redacted<string>;
+  secretKey?: string | Redacted.Redacted<string> | undefined;
   /** The site key issued from the CAPTCHA provider to render a CAPTCHA on a page */
-  siteKey?: string;
-  type?: CAPTCHAType | (string & {});
+  siteKey?: string | undefined;
+  type?: CAPTCHAType | (string & {}) | undefined;
 }
 /** Specifies how Okta responds to authentication requests from suspicious IP addresses */
 export type UpdateConfigurationRequestAction = "none" | "audit" | "block";
@@ -13706,7 +13740,7 @@ export interface UpdateConfigurationRequest {
   /** Specifies how Okta responds to authentication requests from suspicious IP addresses */
   action: UpdateConfigurationRequestAction | (string & {});
   /** Accepts a list of [Network Zone](/openapi/okta-management/management/networkzone/) IDs. IPs in the excluded network zones aren't logged or blocked. This ensures that traffic from known, trusted IPs isn't accidentally logged or blocked. */
-  excludeZones?: UpdateConfigurationRequestExcludeZonesList;
+  excludeZones?: UpdateConfigurationRequestExcludeZonesList | undefined;
 }
 export interface UpdateCustomAAGUIDRequest {
   /** `id` of the authenticator */
@@ -13718,21 +13752,21 @@ export interface UpdateCustomTelephonyProviderCredentialRequest {
   /** The ID of the custom telephony provider */
   customTelephonyProviderId: string;
   /** ID of the custom telephony provider */
-  id?: string;
+  id?: string | undefined;
   /** The authentication token that's used to authenticate requests to the telephony provider. Your telephony provider gives you this token. */
-  providerAuthToken?: string;
-  providerSettings?: CustomTelephonyProviderSettings;
+  providerAuthToken?: string | undefined;
+  providerSettings?: CustomTelephonyProviderSettings | undefined;
   /** The account string identifier (SID) for your telephony provider account. Your telephony provider gives you this SID. */
-  providerSid?: string;
+  providerSid?: string | undefined;
 }
 export interface ProvisioningConnectionTokenRequestProfile {
   authScheme: ProvisioningConnectionTokenAuthScheme | (string & {});
   /** Token used to authenticate with the app */
-  token?: string;
+  token?: string | undefined;
 }
 export interface ProvisioningConnectionTokenRequest {
   /** Only used for the Zscaler 2.0 (`zscalerbyz`) app. The base URL for the Zscaler 2.0 target app, which also contains the Zscaler ID. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   profile: ProvisioningConnectionTokenRequestProfile;
 }
 /** OAuth 2.0 is used to authenticate with the app. */
@@ -13747,9 +13781,9 @@ export interface Office365ProvisioningSettings {
 export interface ProvisioningConnectionOauthRequestProfile {
   authScheme: ProvisioningConnectionOauthAuthScheme | (string & {});
   /** Only used for the Okta Org2Org (`okta_org2org`) app. The unique client identifier for the OAuth 2.0 service app from the target org. */
-  clientId?: string;
-  settings?: Office365ProvisioningSettings;
-  signing?: Org2OrgProvisioningOAuthSigningSettings;
+  clientId?: string | undefined;
+  settings?: Office365ProvisioningSettings | undefined;
+  signing?: Org2OrgProvisioningOAuthSigningSettings | undefined;
 }
 export interface ProvisioningConnectionOauthRequest {
   profile: ProvisioningConnectionOauthRequestProfile;
@@ -13761,22 +13795,22 @@ export interface UpdateDefaultProvisioningConnectionForApplicationRequest {
   /** Application ID */
   appId: string;
   /** Activates the provisioning connection */
-  activate?: boolean;
+  activate?: boolean | undefined;
   body: UpdateDefaultProvisioningConnectionForApplicationRequestBody;
 }
 export interface UpdateEmailServerRequest {
   emailServerId: string;
   /** Human-readable name for your SMTP server */
-  alias?: string;
+  alias?: string | undefined;
   authType: SmtpAuthType | (string & {});
   /** If `true`, all email traffic is routed through your SMTP server */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Hostname or IP address of your SMTP server */
-  host?: string;
+  host?: string | undefined;
   /** Port number of your SMTP server */
-  port?: number;
+  port?: number | undefined;
   /** Username that's used to access your SMTP server */
-  username?: string;
+  username?: string | undefined;
 }
 /** Key name of the feature | Feature name | Description | | --------- | ------------- | | USER_PROVISIONING | User profiles are pushed from Okta to the third-party app. Represents the **To App** provisioning feature setting in the Admin Console. | | INBOUND_PROVISIONING | User profiles are imported from the third-party app into Okta. This feature represents the **To Okta** provisioning feature setting in the Admin Console. | Select the feature: */
 export type UpdateFeatureForApplicationRequestFeatureName =
@@ -13784,11 +13818,11 @@ export type UpdateFeatureForApplicationRequestFeatureName =
   | "INBOUND_PROVISIONING";
 /** Determines whether to update a user in the app when a user in Okta is updated */
 export interface LifecycleCreateSettingObject {
-  status?: unknown;
+  status?: unknown | undefined;
 }
 /** Determines whether Okta assigns a new app account to each user managed by Okta. Okta doesn't create a new account if it detects that the username specified in Okta already exists in the app. The user's Okta username is assigned by default. */
 export interface CapabilitiesCreateObject {
-  lifecycleCreate?: LifecycleCreateSettingObject;
+  lifecycleCreate?: LifecycleCreateSettingObject | undefined;
 }
 /** Determines whether deprovisioning occurs when the app is unassigned */
 export type LifecycleDeactivateSettingObject = LifecycleCreateSettingObject;
@@ -13798,22 +13832,22 @@ export type ChangeEnum = "CHANGE" | "KEEP_EXISTING";
 export type SeedEnum = "OKTA" | "RANDOM";
 /** Determines whether Okta creates and pushes a password in the app for each assigned user */
 export interface PasswordSettingObject {
-  change?: ChangeEnum | (string & {});
-  seed?: SeedEnum | (string & {});
-  status?: unknown;
+  change?: ChangeEnum | (string & {}) | undefined;
+  seed?: SeedEnum | (string & {}) | undefined;
+  status?: unknown | undefined;
 }
 /** This setting determines whether a user in the app gets updated when they're updated in Okta. If enabled, Okta updates a user's attributes in the app when the app is assigned. Future changes made to the Okta user's profile automatically overwrite the corresponding attribute value in the app. */
 export type ProfileSettingObject = LifecycleCreateSettingObject;
 /** Determines whether updates to a user's profile are pushed to the app */
 export interface CapabilitiesUpdateObject {
-  lifecycleDeactivate?: LifecycleCreateSettingObject;
-  password?: PasswordSettingObject;
-  profile?: LifecycleCreateSettingObject;
+  lifecycleDeactivate?: LifecycleCreateSettingObject | undefined;
+  password?: PasswordSettingObject | undefined;
+  profile?: LifecycleCreateSettingObject | undefined;
 }
 /** Defines the configurations for the USER_PROVISIONING feature */
 export interface CapabilitiesObject {
-  create?: CapabilitiesCreateObject;
-  update?: CapabilitiesUpdateObject;
+  create?: CapabilitiesCreateObject | undefined;
+  update?: CapabilitiesUpdateObject | undefined;
 }
 /** Determines the attribute to match users */
 export type CapabilitiesImportRulesUserCreateAndMatchObjectExactMatchCriteria =
@@ -13822,50 +13856,51 @@ export type CapabilitiesImportRulesUserCreateAndMatchObjectExactMatchCriteria =
 /** Rules for matching and creating users */
 export interface CapabilitiesImportRulesUserCreateAndMatchObject {
   /** Allows user import upon partial matching. Partial matching occurs when the first and last names of an imported user match those of an existing Okta user, even if the username or email attributes don't match. */
-  allowPartialMatch?: boolean;
+  allowPartialMatch?: boolean | undefined;
   /** If set to `true`, imported new users are automatically activated. */
-  autoActivateNewUsers?: boolean;
+  autoActivateNewUsers?: boolean | undefined;
   /** If set to `true`, exact-matched users are automatically confirmed on activation. If set to `false`, exact-matched users need to be confirmed manually. */
-  autoConfirmExactMatch?: boolean;
+  autoConfirmExactMatch?: boolean | undefined;
   /** If set to `true`, imported new users are automatically confirmed on activation. This doesn't apply to imported users that already exist in Okta. */
-  autoConfirmNewUsers?: boolean;
+  autoConfirmNewUsers?: boolean | undefined;
   /** If set to `true`, partially matched users are automatically confirmed on activation. If set to `false`, partially matched users need to be confirmed manually. */
-  autoConfirmPartialMatch?: boolean;
+  autoConfirmPartialMatch?: boolean | undefined;
   /** Determines the attribute to match users */
   exactMatchCriteria?:
     | CapabilitiesImportRulesUserCreateAndMatchObjectExactMatchCriteria
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Defines user import rules */
 export interface CapabilitiesImportRulesObject {
-  userCreateAndMatch?: CapabilitiesImportRulesUserCreateAndMatchObject;
+  userCreateAndMatch?: CapabilitiesImportRulesUserCreateAndMatchObject | undefined;
 }
 export interface ImportScheduleObjectFullImport {
   /** The import schedule in UNIX cron format */
   expression: string;
   /** The import schedule time zone in Internet Assigned Numbers Authority (IANA) time zone name format */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export type ImportScheduleObjectIncrementalImport = ImportScheduleObjectFullImport;
 /** Import schedule configuration */
 export interface ImportScheduleObject {
-  fullImport?: ImportScheduleObjectFullImport;
-  incrementalImport?: ImportScheduleObjectFullImport;
-  status?: EnabledStatus | (string & {});
+  fullImport?: ImportScheduleObjectFullImport | undefined;
+  incrementalImport?: ImportScheduleObjectFullImport | undefined;
+  status?: EnabledStatus | (string & {}) | undefined;
 }
 /** Determines the username format when users sign in to Okta */
 export type ImportUsernameObjectUsernameFormat = "EMAIL" | "CUSTOM";
 /** Determines the Okta username for the imported user */
 export interface ImportUsernameObject {
   /** For `usernameFormat=CUSTOM`, specifies the Okta Expression Language statement for a username format that imported users use to sign in to Okta */
-  userNameExpression?: string;
+  userNameExpression?: string | undefined;
   /** Determines the username format when users sign in to Okta */
   usernameFormat: ImportUsernameObjectUsernameFormat | (string & {});
 }
 /** Defines import settings */
 export interface CapabilitiesImportSettingsObject {
-  schedule?: ImportScheduleObject;
-  username?: ImportUsernameObject;
+  schedule?: ImportScheduleObject | undefined;
+  username?: ImportUsernameObject | undefined;
 }
 /** Defines the configuration for the INBOUND_PROVISIONING feature */
 export interface CapabilitiesInboundProvisioningObject {
@@ -13889,17 +13924,17 @@ export interface UpdateFeatureLifecycleRequest {
   /** Whether to `ENABLE` or `DISABLE` the feature */
   lifecycle: UpdateFeatureLifecycleRequestLifecycle | (string & {});
   /** Indicates if you want to force enable or disable a feature. Supported value is `force`. */
-  mode?: string;
+  mode?: string | undefined;
 }
 /** The operation (PATCH action) */
 export type PatchAction = "remove" | "replace";
 /** The update action */
 export interface JsonPatchOperation {
-  op?: PatchAction | (string & {});
+  op?: PatchAction | (string & {}) | undefined;
   /** The resource path of the attribute to update */
-  path?: string;
+  path?: string | undefined;
   /** The update operation value */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type UpdateGroupAssignmentToApplicationRequestBodyList = Array<JsonPatchOperation>;
 export interface UpdateGroupAssignmentToApplicationRequest {
@@ -13907,7 +13942,7 @@ export interface UpdateGroupAssignmentToApplicationRequest {
   appId: string;
   /** The `id` of the group */
   groupId: string;
-  body?: UpdateGroupAssignmentToApplicationRequestBodyList;
+  body?: UpdateGroupAssignmentToApplicationRequestBodyList | undefined;
 }
 /** The update action to take */
 export type ParametersAction = "ADD" | "REMOVE";
@@ -13940,7 +13975,7 @@ export interface UpdateGroupPushMappingRequest {
 }
 export interface GroupSchemaBaseInput {
   /** The `#base` object properties */
-  properties?: GroupSchemaBaseProperties;
+  properties?: GroupSchemaBaseProperties | undefined;
 }
 /** The `#custom` object properties */
 export type GroupSchemaCustomInputPropertiesMap = {
@@ -13949,20 +13984,20 @@ export type GroupSchemaCustomInputPropertiesMap = {
 /** All custom profile properties are defined in a profile subschema with the resolution scope `#custom` */
 export interface GroupSchemaCustomInput {
   /** The `#custom` object properties */
-  properties?: GroupSchemaCustomInputPropertiesMap;
+  properties?: GroupSchemaCustomInputPropertiesMap | undefined;
 }
 export interface GroupSchemaDefinitionsInput {
-  base?: GroupSchemaBaseInput;
-  custom?: GroupSchemaCustomInput;
+  base?: GroupSchemaBaseInput | undefined;
+  custom?: GroupSchemaCustomInput | undefined;
 }
 export interface UpdateGroupSchemaRequest {
-  definitions?: GroupSchemaDefinitionsInput;
+  definitions?: GroupSchemaDefinitionsInput | undefined;
   /** Description for the schema */
-  description?: string;
+  description?: string | undefined;
   /** Group object properties */
-  properties?: UserSchemaProperties;
+  properties?: UserSchemaProperties | undefined;
   /** User-defined display name for the schema */
-  title?: string;
+  title?: string | undefined;
 }
 export interface UpdateIdentitySourceGroupsRequest {
   /** The ID of the identity source for which the session is created */
@@ -13970,24 +14005,24 @@ export interface UpdateIdentitySourceGroupsRequest {
   /** The Okta group ID or external ID of the identity source group */
   groupOrExternalId: string;
   /** The external ID of the identity source group to be created */
-  externalId?: string;
-  profile?: IdentitySourceGroupProfileForUpsert;
+  externalId?: string | undefined;
+  profile?: IdentitySourceGroupProfileForUpsert | undefined;
 }
 export interface UpdateIdentitySourceUsersRequest {
   /** The ID of the identity source for which the session is created */
   identitySourceId: string;
   /** The external ID of the user */
   externalId: string;
-  profile?: IdentitySourceUserProfileForUpsertRequired;
+  profile?: IdentitySourceUserProfileForUpsertRequired | undefined;
 }
 export interface UpdateInlineHookRequest {
   /** `id` of the inline hook */
   inlineHookId: string;
-  channel?: InlineHookChannelCreate;
+  channel?: InlineHookChannelCreate | undefined;
   /** The display name of the inline hook */
-  name?: string;
+  name?: string | undefined;
   /** Version of the inline hook type. The currently supported version is `1.0.0`. */
-  version?: string;
+  version?: string | undefined;
 }
 /** A list of IDs of the Okta groups who own the Okta managed user account */
 export type UpdateOktaManagedUserAccountRequestOwnerGroupIdsList = Array<string>;
@@ -13997,54 +14032,54 @@ export interface UpdateOktaManagedUserAccountRequest {
   /** ID of an existing Okta managed user account */
   id: string;
   /** The description of the Okta managed user account */
-  description?: string;
+  description?: string | undefined;
   /** The user-defined name for the Okta managed user account */
-  name?: string;
+  name?: string | undefined;
   /** A list of IDs of the Okta groups who own the Okta managed user account */
-  ownerGroupIds?: UpdateOktaManagedUserAccountRequestOwnerGroupIdsList;
+  ownerGroupIds?: UpdateOktaManagedUserAccountRequestOwnerGroupIdsList | undefined;
   /** A list of IDs of the Okta users who own the Okta managed user account */
-  ownerUserIds?: UpdateOktaManagedUserAccountRequestOwnerUserIdsList;
+  ownerUserIds?: UpdateOktaManagedUserAccountRequestOwnerUserIdsList | undefined;
 }
 /** Allows the Okta Support team to sign in to your org as an admin and troubleshoot issues */
 export interface UpdateOktaSupportCaseRequestImpersonation {
-  status?: OktaSupportAccessStatus | (string & {});
+  status?: OktaSupportAccessStatus | (string & {}) | undefined;
   /** Expiration date of Okta Support access */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
 }
 /** Customer allows Okta Support access to self-assigned cases. Support cases are self-assigned when an Okta Support team member creates and assigns the case to themselves. */
 export interface UpdateOktaSupportCaseRequestSelfAssigned {
-  status?: SelfAssignedStatus | (string & {});
+  status?: SelfAssignedStatus | (string & {}) | undefined;
 }
 export interface UpdateOktaSupportCaseRequest {
   caseNumber: string;
   /** Allows the Okta Support team to sign in to your org as an admin and troubleshoot issues */
-  impersonation?: UpdateOktaSupportCaseRequestImpersonation;
+  impersonation?: UpdateOktaSupportCaseRequestImpersonation | undefined;
   /** Customer allows Okta Support access to self-assigned cases. Support cases are self-assigned when an Okta Support team member creates and assigns the case to themselves. */
-  selfAssigned?: UpdateOktaSupportCaseRequestSelfAssigned;
+  selfAssigned?: UpdateOktaSupportCaseRequestSelfAssigned | undefined;
 }
 export interface UpdateOrgSettingsRequest {
   /** Primary address of the organization associated with the org */
-  address1?: string;
+  address1?: string | undefined;
   /** Secondary address of the organization associated with the org */
-  address2?: string;
+  address2?: string | undefined;
   /** City of the organization associated with the org */
-  city?: string;
+  city?: string | undefined;
   /** Name of org */
-  companyName?: string;
+  companyName?: string | undefined;
   /** County of the organization associated with the org */
-  country?: string;
+  country?: string | undefined;
   /** Support link of org */
-  endUserSupportHelpURL?: string;
+  endUserSupportHelpURL?: string | undefined;
   /** Phone number of the organization associated with the org */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Postal code of the organization associated with the org */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** State of the organization associated with the org */
-  state?: string;
+  state?: string | undefined;
   /** Support help phone of the organization associated with the org */
-  supportPhoneNumber?: string;
+  supportPhoneNumber?: string | undefined;
   /** Website of the organization associated with the org */
-  website?: string;
+  website?: string | undefined;
 }
 export interface UpdatePauseAgentPoolRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -14061,11 +14096,11 @@ export interface UpdateSmsTemplateRequest {
   /** `id` of the Template */
   templateId: string;
   /** Human-readable name of the Template */
-  name?: string;
+  name?: string | undefined;
   /** Text of the Template, including any [macros](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Template/) */
-  template?: string;
-  translations?: unknown;
-  type?: SmsTemplateType | (string & {});
+  template?: string | undefined;
+  translations?: unknown | undefined;
+  type?: SmsTemplateType | (string & {}) | undefined;
 }
 export type UpdateSsfStreamRequestAudCase1List = Array<string>;
 /** The audience used in the SET. This value is set as `aud` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
@@ -14080,26 +14115,26 @@ export type UpdateSsfStreamRequestEventsSupportedList = Array<string>;
 export type UpdateSsfStreamRequestFormat = "iss_sub";
 export interface UpdateSsfStreamRequest {
   /** The audience used in the SET. This value is set as `aud` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  aud?: UpdateSsfStreamRequestAud;
+  aud?: UpdateSsfStreamRequestAud | undefined;
   delivery: StreamConfigurationDelivery;
   /** The events (mapped by the array of event type URIs) that the transmitter actually delivers to the SSF stream. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  events_delivered?: UpdateSsfStreamRequestEventsDeliveredList;
+  events_delivered?: UpdateSsfStreamRequestEventsDeliveredList | undefined;
   /** The events (mapped by the array of event type URIs) that the receiver wants to receive */
   events_requested: UpdateSsfStreamRequestEventsRequestedList;
   /** An array of event type URIs that the transmitter supports. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  events_supported?: UpdateSsfStreamRequestEventsSupportedList;
+  events_supported?: UpdateSsfStreamRequestEventsSupportedList | undefined;
   /** The subject identifier format expected for any SET transmitted. */
-  format?: UpdateSsfStreamRequestFormat | (string & {});
+  format?: UpdateSsfStreamRequestFormat | (string & {}) | undefined;
   /** The issuer used in security event tokens (SETs). This value is set as `iss` in the claim. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  iss?: string;
+  iss?: string | undefined;
   /** The minimum amount of time, in seconds, between two verification requests. A read-only parameter that is set by the transmitter. If this parameter is included in the request, the value must match the expected value from the transmitter. */
-  min_verification_interval?: number | null;
+  min_verification_interval?: number | null | undefined;
   /** The ID of the SSF stream configuration */
-  stream_id?: string;
+  stream_id?: string | undefined;
 }
 export interface UpdateThirdPartyAdminSettingRequest {
   /** Indicates if the third-party admin functionality is enabled */
-  thirdPartyAdmin?: boolean;
+  thirdPartyAdmin?: boolean | undefined;
 }
 /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an admin through a full replacement (`PUT`) operation. */
 export type UpdateUserRequestType = CreateUserRequestType;
@@ -14107,30 +14142,30 @@ export interface UpdateUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
   id: string;
   /** If true, validates against minimum age and history password policy */
-  strict?: boolean;
-  credentials?: UserCredentialsInput;
-  profile?: UserProfile;
+  strict?: boolean | undefined;
+  credentials?: UserCredentialsInput | undefined;
+  profile?: UserProfile | undefined;
   /** The ID of the realm in which the user is residing. See [Realms](/openapi/okta-management/management/tags/realm). */
-  realmId?: string;
+  realmId?: string | undefined;
   /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an admin through a full replacement (`PUT`) operation. */
-  type?: CreateUserRequestType;
+  type?: CreateUserRequestType | undefined;
 }
 export interface UpdateUserProfileRequest {
   /** Schema ID. You can also use `default` to refer to the default user type schema. */
   schemaId: string;
   /** User profile subschemas The profile object for a user is defined by a composite schema of base and custom properties using a JSON path to reference subschemas. The `#base` properties are defined and versioned by Okta, while `#custom` properties are extensible. Custom property names for the profile object must be unique and can't conflict with a property name defined in the `#base` subschema. */
-  definitions?: UserSchemaDefinitionsInput;
+  definitions?: UserSchemaDefinitionsInput | undefined;
   /** User Object Properties */
-  properties?: UserSchemaProperties;
+  properties?: UserSchemaProperties | undefined;
   /** User-defined display name for the schema */
-  title?: string;
+  title?: string | undefined;
 }
 export interface UpdateUserTypeRequest {
   typeId: string;
   /** The updated human-readable description of the user type */
-  description?: string;
+  description?: string | undefined;
   /** The updated human-readable display name for the user type */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface UploadApplicationLogoRequest {
   /** Application ID */
@@ -14147,7 +14182,7 @@ export interface UploadBrandThemeBackgroundImageRequest {
   file: string;
 }
 export interface ImageUploadResponse {
-  url?: string;
+  url?: string | undefined;
 }
 export interface UploadBrandThemeFaviconRequest {
   /** The ID of the brand */
@@ -14167,7 +14202,7 @@ export interface UploadBrandThemeLogoRequest {
 export type UploadIdentitySourceDataForDeleteRequestEntityType = "USERS";
 export interface IdentitySourceUserProfileForDelete {
   /** The external ID of the entity that needs to be deleted in Okta */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 /** Array of profiles to be deleted */
 export type UploadIdentitySourceDataForDeleteRequestProfilesList =
@@ -14178,17 +14213,17 @@ export interface UploadIdentitySourceDataForDeleteRequest {
   /** The ID of the identity source session */
   sessionId: string;
   /** The type of data to bulk delete in a session. Currently, only `USERS` is supported. */
-  entityType?: UploadIdentitySourceDataForDeleteRequestEntityType | (string & {});
+  entityType?: UploadIdentitySourceDataForDeleteRequestEntityType | (string & {}) | undefined;
   /** Array of profiles to be deleted */
-  profiles?: UploadIdentitySourceDataForDeleteRequestProfilesList;
+  profiles?: UploadIdentitySourceDataForDeleteRequestProfilesList | undefined;
 }
 export interface UploadIdentitySourceDataForDeleteResponse {}
 /** The type of data to upsert into the session. Currently, only `USERS` is supported. */
 export type UploadIdentitySourceDataForUpsertRequestEntityType = "USERS";
 export interface UploadIdentitySourceDataForUpsertRequestProfilesItem {
   /** The external ID of the entity that needs to be created or updated in Okta */
-  externalId?: string;
-  profile?: IdentitySourceUserProfileForUpsert;
+  externalId?: string | undefined;
+  profile?: IdentitySourceUserProfileForUpsert | undefined;
 }
 /** Array of user profiles to be uploaded */
 export type UploadIdentitySourceDataForUpsertRequestProfilesList =
@@ -14199,18 +14234,20 @@ export interface UploadIdentitySourceDataForUpsertRequest {
   /** The ID of the identity source session */
   sessionId: string;
   /** The type of data to upsert into the session. Currently, only `USERS` is supported. */
-  entityType?: UploadIdentitySourceDataForUpsertRequestEntityType | (string & {});
+  entityType?: UploadIdentitySourceDataForUpsertRequestEntityType | (string & {}) | undefined;
   /** Array of user profiles to be uploaded */
-  profiles?: UploadIdentitySourceDataForUpsertRequestProfilesList;
+  profiles?: UploadIdentitySourceDataForUpsertRequestProfilesList | undefined;
 }
 export interface UploadIdentitySourceDataForUpsertResponse {}
 /** Array of external IDs of member profiles that need to be inserted in this group in Okta */
 export type IdentitySourceGroupMembershipsDeleteProfileItemMemberExternalIdsList = Array<string>;
 export interface IdentitySourceGroupMembershipsDeleteProfileItem {
   /** The external ID of the group whose memberships need to be deleted in Okta */
-  groupExternalId?: string;
+  groupExternalId?: string | undefined;
   /** Array of external IDs of member profiles that need to be inserted in this group in Okta */
-  memberExternalIds?: IdentitySourceGroupMembershipsDeleteProfileItemMemberExternalIdsList;
+  memberExternalIds?:
+    | IdentitySourceGroupMembershipsDeleteProfileItemMemberExternalIdsList
+    | undefined;
 }
 /** Array of group memberships that need to be deleted in Okta */
 export type IdentitySourceGroupMembershipsDeleteProfile =
@@ -14220,16 +14257,18 @@ export interface UploadIdentitySourceGroupMembershipsForDeleteRequest {
   identitySourceId: string;
   /** The ID of the identity source session */
   sessionId: string;
-  memberships?: IdentitySourceGroupMembershipsDeleteProfile;
+  memberships?: IdentitySourceGroupMembershipsDeleteProfile | undefined;
 }
 export interface UploadIdentitySourceGroupMembershipsForDeleteResponse {}
 /** Array of external IDs of member profiles that need to be inserted in this group in Okta */
 export type IdentitySourceGroupMembershipsUpsertProfileItemMemberExternalIdsList = Array<string>;
 export interface IdentitySourceGroupMembershipsUpsertProfileItem {
   /** The external ID of the group whose memberships need to be inserted or updated in Okta */
-  groupExternalId?: string;
+  groupExternalId?: string | undefined;
   /** Array of external IDs of member profiles that need to be inserted in this group in Okta */
-  memberExternalIds?: IdentitySourceGroupMembershipsUpsertProfileItemMemberExternalIdsList;
+  memberExternalIds?:
+    | IdentitySourceGroupMembershipsUpsertProfileItemMemberExternalIdsList
+    | undefined;
 }
 /** Array of group memberships that need to be inserted or updated in Okta */
 export type IdentitySourceGroupMembershipsUpsertProfile =
@@ -14239,7 +14278,7 @@ export interface UploadIdentitySourceGroupMembershipsForUpsertRequest {
   identitySourceId: string;
   /** The ID of the identity source session */
   sessionId: string;
-  memberships?: IdentitySourceGroupMembershipsUpsertProfile;
+  memberships?: IdentitySourceGroupMembershipsUpsertProfile | undefined;
 }
 export interface UploadIdentitySourceGroupMembershipsForUpsertResponse {}
 /** Array of external IDs of groups that need to be deleted in Okta */
@@ -14250,13 +14289,13 @@ export interface UploadIdentitySourceGroupsDataForDeleteRequest {
   /** The ID of the identity source session */
   sessionId: string;
   /** Array of external IDs of groups that need to be deleted in Okta */
-  externalIds?: UploadIdentitySourceGroupsDataForDeleteRequestExternalIdsList;
+  externalIds?: UploadIdentitySourceGroupsDataForDeleteRequestExternalIdsList | undefined;
 }
 export interface UploadIdentitySourceGroupsDataForDeleteResponse {}
 export interface UploadIdentitySourceGroupsForUpsertRequestProfilesItem {
   /** The external ID of the group that needs to be created or updated in Okta */
-  externalId?: string;
-  profile?: IdentitySourceGroupProfileForUpsert;
+  externalId?: string | undefined;
+  profile?: IdentitySourceGroupProfileForUpsert | undefined;
 }
 /** Array of group profiles that needs to be inserted or updated in Okta */
 export type UploadIdentitySourceGroupsForUpsertRequestProfilesList =
@@ -14267,7 +14306,7 @@ export interface UploadIdentitySourceGroupsForUpsertRequest {
   /** The ID of the identity source session */
   sessionId: string;
   /** Array of group profiles that needs to be inserted or updated in Okta */
-  profiles?: UploadIdentitySourceGroupsForUpsertRequestProfilesList;
+  profiles?: UploadIdentitySourceGroupsForUpsertRequestProfilesList | undefined;
 }
 export interface UploadIdentitySourceGroupsForUpsertResponse {}
 export type UploadYubikeyOtpTokenSeedRequestFilter =
@@ -14289,27 +14328,27 @@ export type UploadYubikeyOtpTokenSeedRequestSortBy =
 export type UploadYubikeyOtpTokenSeedRequestSortOrder = "ASC" | "DESC";
 export interface UploadYubikeyOtpTokenSeedRequest {
   /** Specifies the pagination cursor for the next page of tokens */
-  after?: string;
+  after?: string | undefined;
   /** Embeds the [user](/openapi/okta-management/management/tags/user) resource if the YubiKey token is assigned to a user and `expand` is set to `user` */
-  expand?: string;
+  expand?: string | undefined;
   /** The expression used to filter tokens */
-  filter?: UploadYubikeyOtpTokenSeedRequestFilter | (string & {});
+  filter?: UploadYubikeyOtpTokenSeedRequestFilter | (string & {}) | undefined;
   /** Returns tokens in a CSV to download instead of in the response. When you use this query parameter, the `limit` default changes to 1000. */
-  forDownload?: boolean;
+  forDownload?: boolean | undefined;
   /** Specifies the number of results per page */
-  limit?: number;
+  limit?: number | undefined;
   /** The value of how the tokens are sorted */
-  sortBy?: UploadYubikeyOtpTokenSeedRequestSortBy | (string & {});
+  sortBy?: UploadYubikeyOtpTokenSeedRequestSortBy | (string & {}) | undefined;
   /** Specifies the sort order, either `ASC` or `DESC` */
-  sortOrder?: UploadYubikeyOtpTokenSeedRequestSortOrder | (string & {});
+  sortOrder?: UploadYubikeyOtpTokenSeedRequestSortOrder | (string & {}) | undefined;
   /** The unique identifier assigned to each YubiKey device */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The YubiKey's public ID */
-  publicId?: string;
+  publicId?: string | undefined;
   /** The YubiKey's private ID */
-  privateId?: string;
+  privateId?: string | undefined;
   /** The cryptographic key used in the AES (Advanced Encryption Standard) algorithm to encrypt and decrypt the YubiKey OTP */
-  aesKey?: string;
+  aesKey?: string | undefined;
 }
 /** List of included IP network zones */
 export type UpsertApiTokenRequestNetworkIncludeList = Array<string>;
@@ -14318,21 +14357,21 @@ export type UpsertApiTokenRequestNetworkExcludeList = Array<string>;
 /** The Network Condition of the API Token */
 export interface UpsertApiTokenRequestNetwork {
   /** The connection type of the Network Condition */
-  connection?: string;
+  connection?: string | undefined;
   /** List of included IP network zones */
-  include?: UpsertApiTokenRequestNetworkIncludeList;
+  include?: UpsertApiTokenRequestNetworkIncludeList | undefined;
   /** List of excluded IP network zones */
-  exclude?: UpsertApiTokenRequestNetworkExcludeList;
+  exclude?: UpsertApiTokenRequestNetworkExcludeList | undefined;
 }
 export interface UpsertApiTokenRequest {
   /** id of the API Token */
   apiTokenId: string;
   /** The name associated with the API Token */
-  name?: string;
+  name?: string | undefined;
   /** The Network Condition of the API Token */
-  network?: UpsertApiTokenRequestNetwork;
+  network?: UpsertApiTokenRequestNetwork | undefined;
   /** The userId of the user who created the API Token */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** Certificate type */
 export type DomainCertificateType = "PEM";
@@ -14356,15 +14395,15 @@ export interface UpsertUserRiskRequest {
   /** The risk level associated with the user */
   riskLevel: UpsertUserRiskRequestRiskLevel | (string & {});
   /** The reason for the risk change. If not provided, the reason defaults to `override.by.admin`. Only alphanumeric characters, spaces, hyphens, commas, and periods are allowed. */
-  riskReason?: string;
+  riskReason?: string | undefined;
 }
 /** The risk level associated with the user */
 export type UserRiskLevelPut = "HIGH" | "LOW" | "MEDIUM";
 export type UserRiskPutResponseLinks = UserRiskGetResponseLinks;
 export interface UserRiskPutResponse {
-  reason?: string;
-  riskLevel?: UserRiskLevelPut;
-  _links?: UserRiskGetResponseLinks;
+  reason?: string | undefined;
+  riskLevel?: UserRiskLevelPut | undefined;
+  _links?: UserRiskGetResponseLinks | undefined;
 }
 export interface VerifyDomainRequest {
   /** `id` of the Domain */
@@ -14377,12 +14416,12 @@ export type VerifyEmailDomainResponseDnsValidationRecordsList = Array<EmailDomai
 export interface VerifyEmailDomainResponse {
   displayName: string;
   userName: string;
-  dnsValidationRecords?: VerifyEmailDomainResponseDnsValidationRecordsList;
-  domain?: string;
-  id?: string;
-  validationStatus?: EmailDomainStatus;
+  dnsValidationRecords?: VerifyEmailDomainResponseDnsValidationRecordsList | undefined;
+  domain?: string | undefined;
+  id?: string | undefined;
+  validationStatus?: EmailDomainStatus | undefined;
   /** The subdomain for the email sender's custom mail domain */
-  validationSubdomain?: string;
+  validationSubdomain?: string | undefined;
 }
 export interface VerifyEventHookRequest {
   /** `id` of the Event Hook */
@@ -14399,7 +14438,7 @@ export type UserFactorVerifyRequestCase3 = UserFactorActivateRequestCase0;
 /** Verifies an answer to a `question` factor */
 export interface UserFactorVerifyRequestCase4 {
   /** Answer to the question */
-  answer?: string;
+  answer?: string | undefined;
 }
 /** Verifies an OTP for a `token:software:totp` factor */
 export type UserFactorVerifyRequestCase5 = UserFactorActivateRequestCase0;
@@ -14412,18 +14451,18 @@ export type UserFactorVerifyRequestCase8 = UserFactorActivateRequestCase0;
 /** Verifies a `u2f` factor challenge by posting a signed assertion using the challenge `nonce` */
 export interface UserFactorVerifyRequestCase9 {
   /** Base64-encoded client data from the U2F token */
-  clientData?: string;
+  clientData?: string | undefined;
   /** Base64-encoded signature data from the U2F token */
-  signatureData?: unknown;
+  signatureData?: unknown | undefined;
 }
 /** Verifies a `webauthn` factor challenge by posting a signed assertion using the challenge `nonce` */
 export interface UserFactorVerifyRequestCase10 {
   /** Base64-encoded authenticator data from the Passkey (FIDO2 WebAuthn) authenticator */
-  authenticatorData?: string;
+  authenticatorData?: string | undefined;
   /** Base64-encoded client data from the Passkey (FIDO2 WebAuthn) authenticator */
-  clientData?: string;
+  clientData?: string | undefined;
   /** Base64-encoded signature data from the Passkey (FIDO2 WebAuthn) authenticator */
-  signatureData?: string;
+  signatureData?: string | undefined;
 }
 export type UserFactorVerifyRequest =
   | UserFactorActivateRequestCase0
@@ -14443,10 +14482,10 @@ export interface VerifyFactorRequest {
   /** ID of an existing user factor */
   factorId: string;
   /** ID of an existing custom SMS template. See the [SMS Templates API](../Template). This parameter is only used by `sms` factors. */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Defines how long the token remains valid */
-  tokenLifetimeSeconds?: number;
-  body?: UserFactorVerifyRequest;
+  tokenLifetimeSeconds?: number | undefined;
+  body?: UserFactorVerifyRequest | undefined;
 }
 /** Result of a factor verification */
 export type UserFactorVerifyResult =
@@ -14463,13 +14502,13 @@ export type UserFactorVerifyResponseProfileMap = { [key: string]: unknown | unde
 export type UserFactorVerifyResponseEmbeddedMap = { [key: string]: unknown | null | undefined };
 export interface UserFactorVerifyResponse {
   /** Timestamp when the verification expires */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Optional display message for factor verification */
-  factorMessage?: string | null;
-  factorResult?: UserFactorVerifyResult;
-  profile?: UserFactorVerifyResponseProfileMap;
-  _embedded?: UserFactorVerifyResponseEmbeddedMap;
-  _links?: UserFactorLinks;
+  factorMessage?: string | null | undefined;
+  factorResult?: UserFactorVerifyResult | undefined;
+  profile?: UserFactorVerifyResponseProfileMap | undefined;
+  _embedded?: UserFactorVerifyResponseEmbeddedMap | undefined;
+  _links?: UserFactorLinks | undefined;
 }
 /** Application name for the provisioning connection */
 export type VerifyProvisioningConnectionForApplicationRequestAppName =
@@ -14481,8 +14520,8 @@ export interface VerifyProvisioningConnectionForApplicationRequest {
   appName: VerifyProvisioningConnectionForApplicationRequestAppName | (string & {});
   /** Application ID */
   appId: string;
-  code?: string;
-  state?: string;
+  code?: string | undefined;
+  state?: string | undefined;
 }
 export interface VerifyProvisioningConnectionForApplicationResponse {}
 /** The type of authenticator method */
@@ -14496,7 +14535,7 @@ export interface VerifyRpIdDomainRequest {
 export interface VerifyRpIdDomainResponse {}
 export interface VerifySsfStreamRequest {
   /** An arbitrary string that Okta as a transmitter must echo back to the event receiver in the verification event's payload */
-  state?: string;
+  state?: string | undefined;
   /** The ID of the SSF stream configuration */
   stream_id: string;
 }

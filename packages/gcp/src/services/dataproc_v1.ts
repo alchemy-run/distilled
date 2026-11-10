@@ -85,68 +85,68 @@ export class NotFound
 
 export interface AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
 export interface SparkRuntimeInfo {
-  scalaVersion?: string;
-  javaHome?: string;
-  javaVersion?: string;
+  scalaVersion?: string | undefined;
+  javaHome?: string | undefined;
+  javaVersion?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Resources used per task created by the application. */
 export interface TaskResourceRequest {
-  amount?: number;
-  resourceName?: string;
+  amount?: number | undefined;
+  resourceName?: string | undefined;
 }
 export type TaskResourceRequestMap = { [key: string]: TaskResourceRequest | undefined };
 /** Resources used per executor used by the application. */
 export interface ExecutorResourceRequest {
-  amount?: string;
-  discoveryScript?: string;
-  resourceName?: string;
-  vendor?: string;
+  amount?: string | undefined;
+  discoveryScript?: string | undefined;
+  resourceName?: string | undefined;
+  vendor?: string | undefined;
 }
 export type ExecutorResourceRequestMap = { [key: string]: ExecutorResourceRequest | undefined };
 /** Resource profile that contains information about all the resources required by executors and tasks. */
 export interface ResourceProfileInfo {
-  taskResources?: TaskResourceRequestMap;
-  resourceProfileId?: number;
-  executorResources?: ExecutorResourceRequestMap;
+  taskResources?: TaskResourceRequestMap | undefined;
+  resourceProfileId?: number | undefined;
+  executorResources?: ExecutorResourceRequestMap | undefined;
 }
 export type ResourceProfileInfoList = Array<ResourceProfileInfo>;
 /** Details about the Environment that the application is running in. */
 export interface ApplicationEnvironmentInfo {
-  runtime?: SparkRuntimeInfo;
-  systemProperties?: StringMap;
-  sparkProperties?: StringMap;
-  hadoopProperties?: StringMap;
-  classpathEntries?: StringMap;
-  resourceProfiles?: ResourceProfileInfoList;
-  metricsProperties?: StringMap;
+  runtime?: SparkRuntimeInfo | undefined;
+  systemProperties?: StringMap | undefined;
+  sparkProperties?: StringMap | undefined;
+  hadoopProperties?: StringMap | undefined;
+  classpathEntries?: StringMap | undefined;
+  resourceProfiles?: ResourceProfileInfoList | undefined;
+  metricsProperties?: StringMap | undefined;
 }
 /** Environment details of a Saprk Application. */
 export interface AccessSparkApplicationEnvironmentInfoResponse {
   /** Details about the Environment that the application is running in. */
-  applicationEnvironmentInfo?: ApplicationEnvironmentInfo;
+  applicationEnvironmentInfo?: ApplicationEnvironmentInfo | undefined;
 }
 export interface AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
 /** Environment details of a Saprk Application. */
 export interface AccessSessionSparkApplicationEnvironmentInfoResponse {
   /** Details about the Environment that the application is running in. */
-  applicationEnvironmentInfo?: ApplicationEnvironmentInfo;
+  applicationEnvironmentInfo?: ApplicationEnvironmentInfo | undefined;
 }
 export interface AccessJobProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Job ID to fetch data for. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -161,137 +161,137 @@ export type StringList = Array<string>;
 export type IntegerList = Array<number>;
 /** Data corresponding to a spark job. */
 export interface JobData {
-  jobGroup?: string;
-  killTasksSummary?: IntegerMap;
-  completionTime?: string;
-  status?: JobDataStatusEnum | (string & {});
-  numTasks?: number;
-  numCompletedIndices?: number;
-  submissionTime?: string;
-  numActiveTasks?: number;
-  name?: string;
-  numCompletedTasks?: number;
-  stageIds?: StringList;
-  jobId?: string;
-  numCompletedStages?: number;
-  numActiveStages?: number;
-  description?: string;
-  skippedStages?: IntegerList;
-  numSkippedTasks?: number;
-  sqlExecutionId?: string;
-  numFailedStages?: number;
-  numSkippedStages?: number;
-  numFailedTasks?: number;
-  numKilledTasks?: number;
+  jobGroup?: string | undefined;
+  killTasksSummary?: IntegerMap | undefined;
+  completionTime?: string | undefined;
+  status?: JobDataStatusEnum | (string & {}) | undefined;
+  numTasks?: number | undefined;
+  numCompletedIndices?: number | undefined;
+  submissionTime?: string | undefined;
+  numActiveTasks?: number | undefined;
+  name?: string | undefined;
+  numCompletedTasks?: number | undefined;
+  stageIds?: StringList | undefined;
+  jobId?: string | undefined;
+  numCompletedStages?: number | undefined;
+  numActiveStages?: number | undefined;
+  description?: string | undefined;
+  skippedStages?: IntegerList | undefined;
+  numSkippedTasks?: number | undefined;
+  sqlExecutionId?: string | undefined;
+  numFailedStages?: number | undefined;
+  numSkippedStages?: number | undefined;
+  numFailedTasks?: number | undefined;
+  numKilledTasks?: number | undefined;
 }
 /** Details of a particular job associated with Spark Application */
 export interface AccessSparkApplicationJobResponse {
   /** Output only. Data corresponding to a spark job. */
-  jobData?: JobData;
+  jobData?: JobData | undefined;
 }
 export interface AccessJobProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Job ID to fetch data for. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Details of a particular job associated with Spark Application */
 export interface AccessSessionSparkApplicationJobResponse {
   /** Output only. Data corresponding to a spark job. */
-  jobData?: JobData;
+  jobData?: JobData | undefined;
 }
 export interface AccessNativeBuildInfoProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Native Build Info */
 export interface BuildInfo {
   /** Optional. Build value. */
-  buildValue?: string;
+  buildValue?: string | undefined;
   /** Optional. Build key. */
-  buildKey?: string;
+  buildKey?: string | undefined;
 }
 export type BuildInfoList = Array<BuildInfo>;
 export interface NativeBuildInfoUiData {
   /** Optional. Build class of Native. */
-  buildClass?: string;
+  buildClass?: string | undefined;
   /** Optional. Build related details. */
-  buildInfo?: BuildInfoList;
+  buildInfo?: BuildInfoList | undefined;
 }
 /** Details of Native Build Info for a Spark Application */
 export interface AccessSparkApplicationNativeBuildInfoResponse {
   /** Native Build Info Data */
-  buildInfo?: NativeBuildInfoUiData;
+  buildInfo?: NativeBuildInfoUiData | undefined;
 }
 export interface AccessNativeBuildInfoProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Details of a native build info for a Spark Application */
 export interface AccessSessionSparkApplicationNativeBuildInfoResponse {
   /** Native SQL Execution Data */
-  executionData?: NativeBuildInfoUiData;
+  executionData?: NativeBuildInfoUiData | undefined;
 }
 export interface AccessNativeSqlQueryProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Execution ID */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Native SQL Execution Data */
 export interface FallbackReason {
   /** Optional. Fallback to Spark reason. */
-  fallbackReason?: string;
+  fallbackReason?: string | undefined;
   /** Optional. Fallback node information. */
-  fallbackNode?: string;
+  fallbackNode?: string | undefined;
 }
 export type FallbackReasonList = Array<FallbackReason>;
 /** Native SQL Execution Data */
 export interface NativeSqlExecutionUiData {
   /** Optional. Number of nodes fallen back to Spark. */
-  numFallbackNodes?: number;
+  numFallbackNodes?: number | undefined;
   /** Optional. Fallback node to reason. */
-  fallbackNodeToReason?: FallbackReasonList;
+  fallbackNodeToReason?: FallbackReasonList | undefined;
   /** Optional. Description of the execution. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Description of the fallback. */
-  fallbackDescription?: string;
+  fallbackDescription?: string | undefined;
   /** Required. Execution ID of the Native SQL Execution. */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Optional. Number of nodes in Native. */
-  numNativeNodes?: number;
+  numNativeNodes?: number | undefined;
 }
 /** Details of a query for a Spark Application */
 export interface AccessSparkApplicationNativeSqlQueryResponse {
   /** Native SQL Execution Data */
-  executionData?: NativeSqlExecutionUiData;
+  executionData?: NativeSqlExecutionUiData | undefined;
 }
 export interface AccessNativeSqlQueryProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. Execution ID */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
 /** Details of a native query for a Spark Application */
 export interface AccessSessionSparkApplicationNativeSqlQueryResponse {
   /** Native SQL Execution Data */
-  executionData?: NativeSqlExecutionUiData;
+  executionData?: NativeSqlExecutionUiData | undefined;
 }
 export interface AccessProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 export type ApplicationInfoQuantileDataStatusEnum =
   | "QUANTILE_DATA_STATUS_UNSPECIFIED"
@@ -302,129 +302,130 @@ export type ApplicationInfoApplicationContextIngestionStatusEnum =
   | "APPLICATION_CONTEXT_INGESTION_STATUS_COMPLETED";
 /** Specific attempt of an application. */
 export interface ApplicationAttemptInfo {
-  sparkUser?: string;
-  durationMillis?: string;
-  lastUpdated?: string;
+  sparkUser?: string | undefined;
+  durationMillis?: string | undefined;
+  lastUpdated?: string | undefined;
   /** Output only. The event log path for the application attempt. */
-  eventLogPath?: string;
-  appSparkVersion?: string;
-  attemptId?: string;
-  startTime?: string;
-  endTime?: string;
-  completed?: boolean;
+  eventLogPath?: string | undefined;
+  appSparkVersion?: string | undefined;
+  attemptId?: string | undefined;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
+  completed?: boolean | undefined;
 }
 export type ApplicationAttemptInfoList = Array<ApplicationAttemptInfo>;
 /** High level information corresponding to an application. */
 export interface ApplicationInfo {
-  coresPerExecutor?: number;
-  quantileDataStatus?: ApplicationInfoQuantileDataStatusEnum | (string & {});
-  name?: string;
+  coresPerExecutor?: number | undefined;
+  quantileDataStatus?: ApplicationInfoQuantileDataStatusEnum | (string & {}) | undefined;
+  name?: string | undefined;
   applicationContextIngestionStatus?:
     | ApplicationInfoApplicationContextIngestionStatusEnum
-    | (string & {});
-  applicationId?: string;
-  maxCores?: number;
-  attempts?: ApplicationAttemptInfoList;
-  memoryPerExecutorMb?: number;
-  coresGranted?: number;
+    | (string & {})
+    | undefined;
+  applicationId?: string | undefined;
+  maxCores?: number | undefined;
+  attempts?: ApplicationAttemptInfoList | undefined;
+  memoryPerExecutorMb?: number | undefined;
+  coresGranted?: number | undefined;
 }
 /** A summary of Spark Application */
 export interface AccessSparkApplicationResponse {
   /** Output only. High level information corresponding to an application. */
-  application?: ApplicationInfo;
+  application?: ApplicationInfo | undefined;
 }
 export interface AccessProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
 /** A summary of Spark Application */
 export interface AccessSessionSparkApplicationResponse {
   /** Output only. High level information corresponding to an application. */
-  application?: ApplicationInfo;
+  application?: ApplicationInfo | undefined;
 }
 export interface AccessSqlPlanProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. Execution ID */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
 /** Represents a directed edge in the spark plan tree from child to parent. */
 export interface SparkPlanGraphEdge {
-  fromId?: string;
-  toId?: string;
+  fromId?: string | undefined;
+  toId?: string | undefined;
 }
 export type SparkPlanGraphEdgeList = Array<SparkPlanGraphEdge>;
 /** Metrics related to SQL execution. */
 export interface SqlPlanMetric {
-  accumulatorId?: string;
-  metricType?: string;
-  name?: string;
+  accumulatorId?: string | undefined;
+  metricType?: string | undefined;
+  name?: string | undefined;
 }
 export type SqlPlanMetricList = Array<SqlPlanMetric>;
 /** Represents a node in the spark plan tree. */
 export interface SparkPlanGraphNode {
   /** Optional. Additional metadata for the spark plan graph cluster. */
-  metadata?: StringMap;
-  sparkPlanGraphNodeId?: string;
-  metrics?: SqlPlanMetricList;
-  name?: string;
-  desc?: string;
+  metadata?: StringMap | undefined;
+  sparkPlanGraphNodeId?: string | undefined;
+  metrics?: SqlPlanMetricList | undefined;
+  name?: string | undefined;
+  desc?: string | undefined;
 }
 /** Represents a tree of spark plan. */
 export interface SparkPlanGraphCluster {
-  metrics?: SqlPlanMetricList;
-  name?: string;
-  desc?: string;
-  nodes?: SparkPlanGraphNodeWrapperList;
+  metrics?: SqlPlanMetricList | undefined;
+  name?: string | undefined;
+  desc?: string | undefined;
+  nodes?: SparkPlanGraphNodeWrapperList | undefined;
   /** Optional. Additional metadata for the spark plan graph cluster. */
-  metadata?: StringMap;
-  sparkPlanGraphClusterId?: string;
+  metadata?: StringMap | undefined;
+  sparkPlanGraphClusterId?: string | undefined;
 }
 /** Wrapper user to represent either a node or a cluster. */
 export interface SparkPlanGraphNodeWrapper {
-  node?: SparkPlanGraphNode;
-  cluster?: SparkPlanGraphCluster;
+  node?: SparkPlanGraphNode | undefined;
+  cluster?: SparkPlanGraphCluster | undefined;
 }
 export type SparkPlanGraphNodeWrapperList = Array<SparkPlanGraphNodeWrapper>;
 /** A graph used for storing information of an executionPlan of DataFrame. */
 export interface SparkPlanGraph {
-  executionId?: string;
-  edges?: SparkPlanGraphEdgeList;
-  nodes?: SparkPlanGraphNodeWrapperList;
+  executionId?: string | undefined;
+  edges?: SparkPlanGraphEdgeList | undefined;
+  nodes?: SparkPlanGraphNodeWrapperList | undefined;
 }
 /** SparkPlanGraph for a Spark Application execution limited to maximum 10000 clusters. */
 export interface AccessSparkApplicationSqlSparkPlanGraphResponse {
   /** SparkPlanGraph for a Spark Application execution. */
-  sparkPlanGraph?: SparkPlanGraph;
+  sparkPlanGraph?: SparkPlanGraph | undefined;
 }
 export interface AccessSqlPlanProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Execution ID */
-  executionId?: string;
+  executionId?: string | undefined;
 }
 /** SparkPlanGraph for a Spark Application execution limited to maximum 10000 clusters. */
 export interface AccessSessionSparkApplicationSqlSparkPlanGraphResponse {
   /** SparkPlanGraph for a Spark Application execution. */
-  sparkPlanGraph?: SparkPlanGraph;
+  sparkPlanGraph?: SparkPlanGraph | undefined;
 }
 export interface AccessSqlQueryProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Required. Execution ID */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Enables/ disables physical plan description on demand */
-  planDescription?: boolean;
+  planDescription?: boolean | undefined;
 }
 export type SqlExecutionUiDataJobsValueEnum =
   | "JOB_EXECUTION_STATUS_UNSPECIFIED"
@@ -437,255 +438,255 @@ export type SqlExecutionUiDataJobsValueEnumMap = {
 };
 /** SQL Execution Data */
 export interface SqlExecutionUiData {
-  rootExecutionId?: string;
-  metricValuesIsNull?: boolean;
-  errorMessage?: string;
-  metricValues?: StringMap;
-  description?: string;
-  physicalPlanDescription?: string;
-  stages?: StringList;
-  metrics?: SqlPlanMetricList;
-  details?: string;
-  jobs?: SqlExecutionUiDataJobsValueEnumMap;
-  executionId?: string;
-  completionTime?: string;
-  modifiedConfigs?: StringMap;
-  submissionTime?: string;
+  rootExecutionId?: string | undefined;
+  metricValuesIsNull?: boolean | undefined;
+  errorMessage?: string | undefined;
+  metricValues?: StringMap | undefined;
+  description?: string | undefined;
+  physicalPlanDescription?: string | undefined;
+  stages?: StringList | undefined;
+  metrics?: SqlPlanMetricList | undefined;
+  details?: string | undefined;
+  jobs?: SqlExecutionUiDataJobsValueEnumMap | undefined;
+  executionId?: string | undefined;
+  completionTime?: string | undefined;
+  modifiedConfigs?: StringMap | undefined;
+  submissionTime?: string | undefined;
 }
 /** Details of a query for a Spark Application */
 export interface AccessSparkApplicationSqlQueryResponse {
   /** SQL Execution Data */
-  executionData?: SqlExecutionUiData;
+  executionData?: SqlExecutionUiData | undefined;
 }
 export interface AccessSqlQueryProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. Enables/ disables physical plan description on demand */
-  planDescription?: boolean;
+  planDescription?: boolean | undefined;
   /** Required. Execution ID */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Details of a query for a Spark Application */
 export interface AccessSessionSparkApplicationSqlQueryResponse {
   /** SQL Execution Data */
-  executionData?: SqlExecutionUiData;
+  executionData?: SqlExecutionUiData | undefined;
 }
 export interface AccessStageAttemptProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string;
+  summaryMetricsMask?: string | undefined;
 }
 /** Details of the speculation task when speculative execution is enabled. */
 export interface SpeculationStageSummary {
-  stageId?: string;
-  numTasks?: number;
-  numActiveTasks?: number;
-  numCompletedTasks?: number;
-  numFailedTasks?: number;
-  numKilledTasks?: number;
-  stageAttemptId?: number;
+  stageId?: string | undefined;
+  numTasks?: number | undefined;
+  numActiveTasks?: number | undefined;
+  numCompletedTasks?: number | undefined;
+  numFailedTasks?: number | undefined;
+  numKilledTasks?: number | undefined;
+  stageAttemptId?: number | undefined;
 }
 export interface ExecutorMetrics {
-  metrics?: StringMap;
+  metrics?: StringMap | undefined;
 }
 /** Executor resources consumed by a stage. */
 export interface ExecutorStageSummary {
-  succeededTasks?: number;
-  memoryBytesSpilled?: string;
-  shuffleWriteRecords?: string;
-  shuffleReadRecords?: string;
-  isExcludedForStage?: boolean;
-  diskBytesSpilled?: string;
-  stageId?: string;
-  outputRecords?: string;
-  stageAttemptId?: number;
-  shuffleWrite?: string;
-  executorId?: string;
-  inputBytes?: string;
-  inputRecords?: string;
-  killedTasks?: number;
-  shuffleRead?: string;
-  outputBytes?: string;
-  taskTimeMillis?: string;
-  failedTasks?: number;
-  peakMemoryMetrics?: ExecutorMetrics;
+  succeededTasks?: number | undefined;
+  memoryBytesSpilled?: string | undefined;
+  shuffleWriteRecords?: string | undefined;
+  shuffleReadRecords?: string | undefined;
+  isExcludedForStage?: boolean | undefined;
+  diskBytesSpilled?: string | undefined;
+  stageId?: string | undefined;
+  outputRecords?: string | undefined;
+  stageAttemptId?: number | undefined;
+  shuffleWrite?: string | undefined;
+  executorId?: string | undefined;
+  inputBytes?: string | undefined;
+  inputRecords?: string | undefined;
+  killedTasks?: number | undefined;
+  shuffleRead?: string | undefined;
+  outputBytes?: string | undefined;
+  taskTimeMillis?: string | undefined;
+  failedTasks?: number | undefined;
+  peakMemoryMetrics?: ExecutorMetrics | undefined;
 }
 export type ExecutorStageSummaryMap = { [key: string]: ExecutorStageSummary | undefined };
 export interface StageShufflePushReadMetrics {
-  localMergedBlocksFetched?: string;
-  remoteMergedBlocksFetched?: string;
-  remoteMergedChunksFetched?: string;
-  remoteMergedBytesRead?: string;
-  mergedFetchFallbackCount?: string;
-  remoteMergedReqsDuration?: string;
-  corruptMergedBlockChunks?: string;
-  localMergedChunksFetched?: string;
-  localMergedBytesRead?: string;
+  localMergedBlocksFetched?: string | undefined;
+  remoteMergedBlocksFetched?: string | undefined;
+  remoteMergedChunksFetched?: string | undefined;
+  remoteMergedBytesRead?: string | undefined;
+  mergedFetchFallbackCount?: string | undefined;
+  remoteMergedReqsDuration?: string | undefined;
+  corruptMergedBlockChunks?: string | undefined;
+  localMergedChunksFetched?: string | undefined;
+  localMergedBytesRead?: string | undefined;
 }
 /** Shuffle data read for the stage. */
 export interface StageShuffleReadMetrics {
-  remoteBytesRead?: string;
-  recordsRead?: string;
-  remoteBlocksFetched?: string;
-  localBlocksFetched?: string;
-  localBytesRead?: string;
-  remoteBytesReadToDisk?: string;
-  remoteReqsDuration?: string;
-  stageShufflePushReadMetrics?: StageShufflePushReadMetrics;
-  fetchWaitTimeMillis?: string;
-  bytesRead?: string;
+  remoteBytesRead?: string | undefined;
+  recordsRead?: string | undefined;
+  remoteBlocksFetched?: string | undefined;
+  localBlocksFetched?: string | undefined;
+  localBytesRead?: string | undefined;
+  remoteBytesReadToDisk?: string | undefined;
+  remoteReqsDuration?: string | undefined;
+  stageShufflePushReadMetrics?: StageShufflePushReadMetrics | undefined;
+  fetchWaitTimeMillis?: string | undefined;
+  bytesRead?: string | undefined;
 }
 /** Metrics about the input read by the stage. */
 export interface StageInputMetrics {
-  bytesRead?: string;
-  recordsRead?: string;
+  bytesRead?: string | undefined;
+  recordsRead?: string | undefined;
 }
 /** Metrics about the output written by the stage. */
 export interface StageOutputMetrics {
-  bytesWritten?: string;
-  recordsWritten?: string;
+  bytesWritten?: string | undefined;
+  recordsWritten?: string | undefined;
 }
 /** Shuffle data written for the stage. */
 export interface StageShuffleWriteMetrics {
-  writeTimeNanos?: string;
-  recordsWritten?: string;
-  bytesWritten?: string;
+  writeTimeNanos?: string | undefined;
+  recordsWritten?: string | undefined;
+  bytesWritten?: string | undefined;
 }
 /** Stage Level Aggregated Metrics */
 export interface StageMetrics {
-  executorDeserializeTimeMillis?: string;
-  resultSize?: string;
-  executorDeserializeCpuTimeNanos?: string;
-  executorRunTimeMillis?: string;
-  stageShuffleReadMetrics?: StageShuffleReadMetrics;
-  memoryBytesSpilled?: string;
-  jvmGcTimeMillis?: string;
-  resultSerializationTimeMillis?: string;
-  stageInputMetrics?: StageInputMetrics;
-  diskBytesSpilled?: string;
-  stageOutputMetrics?: StageOutputMetrics;
-  executorCpuTimeNanos?: string;
-  stageShuffleWriteMetrics?: StageShuffleWriteMetrics;
-  peakExecutionMemoryBytes?: string;
+  executorDeserializeTimeMillis?: string | undefined;
+  resultSize?: string | undefined;
+  executorDeserializeCpuTimeNanos?: string | undefined;
+  executorRunTimeMillis?: string | undefined;
+  stageShuffleReadMetrics?: StageShuffleReadMetrics | undefined;
+  memoryBytesSpilled?: string | undefined;
+  jvmGcTimeMillis?: string | undefined;
+  resultSerializationTimeMillis?: string | undefined;
+  stageInputMetrics?: StageInputMetrics | undefined;
+  diskBytesSpilled?: string | undefined;
+  stageOutputMetrics?: StageOutputMetrics | undefined;
+  executorCpuTimeNanos?: string | undefined;
+  stageShuffleWriteMetrics?: StageShuffleWriteMetrics | undefined;
+  peakExecutionMemoryBytes?: string | undefined;
 }
 export interface AccumulableInfo {
-  update?: string;
-  name?: string;
-  accumullableInfoId?: string;
-  value?: string;
+  update?: string | undefined;
+  name?: string | undefined;
+  accumullableInfoId?: string | undefined;
+  value?: string | undefined;
 }
 export type AccumulableInfoList = Array<AccumulableInfo>;
 export interface ShufflePushReadMetrics {
-  remoteMergedChunksFetched?: string;
-  mergedFetchFallbackCount?: string;
-  remoteMergedReqsDuration?: string;
-  remoteMergedBytesRead?: string;
-  corruptMergedBlockChunks?: string;
-  localMergedChunksFetched?: string;
-  remoteMergedBlocksFetched?: string;
-  localMergedBlocksFetched?: string;
-  localMergedBytesRead?: string;
+  remoteMergedChunksFetched?: string | undefined;
+  mergedFetchFallbackCount?: string | undefined;
+  remoteMergedReqsDuration?: string | undefined;
+  remoteMergedBytesRead?: string | undefined;
+  corruptMergedBlockChunks?: string | undefined;
+  localMergedChunksFetched?: string | undefined;
+  remoteMergedBlocksFetched?: string | undefined;
+  localMergedBlocksFetched?: string | undefined;
+  localMergedBytesRead?: string | undefined;
 }
 /** Shuffle data read by the task. */
 export interface ShuffleReadMetrics {
-  remoteBytesRead?: string;
-  recordsRead?: string;
-  remoteBytesReadToDisk?: string;
-  fetchWaitTimeMillis?: string;
-  localBlocksFetched?: string;
-  remoteBlocksFetched?: string;
-  remoteReqsDuration?: string;
-  shufflePushReadMetrics?: ShufflePushReadMetrics;
-  localBytesRead?: string;
+  remoteBytesRead?: string | undefined;
+  recordsRead?: string | undefined;
+  remoteBytesReadToDisk?: string | undefined;
+  fetchWaitTimeMillis?: string | undefined;
+  localBlocksFetched?: string | undefined;
+  remoteBlocksFetched?: string | undefined;
+  remoteReqsDuration?: string | undefined;
+  shufflePushReadMetrics?: ShufflePushReadMetrics | undefined;
+  localBytesRead?: string | undefined;
 }
 /** Metrics about the input data read by the task. */
 export interface InputMetrics {
-  recordsRead?: string;
-  bytesRead?: string;
+  recordsRead?: string | undefined;
+  bytesRead?: string | undefined;
 }
 /** Metrics about the data written by the task. */
 export interface OutputMetrics {
-  recordsWritten?: string;
-  bytesWritten?: string;
+  recordsWritten?: string | undefined;
+  bytesWritten?: string | undefined;
 }
 /** Shuffle data written by task. */
 export type ShuffleWriteMetrics = StageShuffleWriteMetrics;
 /** Executor Task Metrics */
 export interface TaskMetrics {
-  executorDeserializeTimeMillis?: string;
-  shuffleReadMetrics?: ShuffleReadMetrics;
-  executorDeserializeCpuTimeNanos?: string;
-  diskBytesSpilled?: string;
-  resultSize?: string;
-  inputMetrics?: InputMetrics;
-  jvmGcTimeMillis?: string;
-  resultSerializationTimeMillis?: string;
-  executorRunTimeMillis?: string;
-  peakExecutionMemoryBytes?: string;
-  outputMetrics?: OutputMetrics;
-  shuffleWriteMetrics?: StageShuffleWriteMetrics;
-  executorCpuTimeNanos?: string;
-  memoryBytesSpilled?: string;
+  executorDeserializeTimeMillis?: string | undefined;
+  shuffleReadMetrics?: ShuffleReadMetrics | undefined;
+  executorDeserializeCpuTimeNanos?: string | undefined;
+  diskBytesSpilled?: string | undefined;
+  resultSize?: string | undefined;
+  inputMetrics?: InputMetrics | undefined;
+  jvmGcTimeMillis?: string | undefined;
+  resultSerializationTimeMillis?: string | undefined;
+  executorRunTimeMillis?: string | undefined;
+  peakExecutionMemoryBytes?: string | undefined;
+  outputMetrics?: OutputMetrics | undefined;
+  shuffleWriteMetrics?: StageShuffleWriteMetrics | undefined;
+  executorCpuTimeNanos?: string | undefined;
+  memoryBytesSpilled?: string | undefined;
 }
 /** Data corresponding to tasks created by spark. */
 export interface TaskData {
-  schedulerDelayMillis?: string;
-  launchTime?: string;
-  status?: string;
-  taskId?: string;
-  stageId?: string;
-  resultFetchStart?: string;
-  attempt?: number;
-  errorMessage?: string;
-  executorLogs?: StringMap;
-  executorId?: string;
-  taskLocality?: string;
-  host?: string;
-  accumulatorUpdates?: AccumulableInfoList;
-  index?: number;
-  taskMetrics?: TaskMetrics;
-  hasMetrics?: boolean;
-  stageAttemptId?: number;
-  partitionId?: number;
-  speculative?: boolean;
-  durationMillis?: string;
-  gettingResultTimeMillis?: string;
+  schedulerDelayMillis?: string | undefined;
+  launchTime?: string | undefined;
+  status?: string | undefined;
+  taskId?: string | undefined;
+  stageId?: string | undefined;
+  resultFetchStart?: string | undefined;
+  attempt?: number | undefined;
+  errorMessage?: string | undefined;
+  executorLogs?: StringMap | undefined;
+  executorId?: string | undefined;
+  taskLocality?: string | undefined;
+  host?: string | undefined;
+  accumulatorUpdates?: AccumulableInfoList | undefined;
+  index?: number | undefined;
+  taskMetrics?: TaskMetrics | undefined;
+  hasMetrics?: boolean | undefined;
+  stageAttemptId?: number | undefined;
+  partitionId?: number | undefined;
+  speculative?: boolean | undefined;
+  durationMillis?: string | undefined;
+  gettingResultTimeMillis?: string | undefined;
 }
 export type TaskDataMap = { [key: string]: TaskData | undefined };
 export type DoubleList = Array<number>;
 export type ExecutorMetricsList = Array<ExecutorMetrics>;
 export interface ExecutorPeakMetricsDistributions {
-  quantiles?: DoubleList;
-  executorMetrics?: ExecutorMetricsList;
+  quantiles?: DoubleList | undefined;
+  executorMetrics?: ExecutorMetricsList | undefined;
 }
 export interface ExecutorMetricsDistributions {
-  killedTasks?: DoubleList;
-  shuffleWriteRecords?: DoubleList;
-  shuffleRead?: DoubleList;
-  inputRecords?: DoubleList;
-  shuffleWrite?: DoubleList;
-  succeededTasks?: DoubleList;
-  failedTasks?: DoubleList;
-  inputBytes?: DoubleList;
-  outputRecords?: DoubleList;
-  outputBytes?: DoubleList;
-  memoryBytesSpilled?: DoubleList;
-  peakMemoryMetrics?: ExecutorPeakMetricsDistributions;
-  taskTimeMillis?: DoubleList;
-  quantiles?: DoubleList;
-  shuffleReadRecords?: DoubleList;
-  diskBytesSpilled?: DoubleList;
+  killedTasks?: DoubleList | undefined;
+  shuffleWriteRecords?: DoubleList | undefined;
+  shuffleRead?: DoubleList | undefined;
+  inputRecords?: DoubleList | undefined;
+  shuffleWrite?: DoubleList | undefined;
+  succeededTasks?: DoubleList | undefined;
+  failedTasks?: DoubleList | undefined;
+  inputBytes?: DoubleList | undefined;
+  outputRecords?: DoubleList | undefined;
+  outputBytes?: DoubleList | undefined;
+  memoryBytesSpilled?: DoubleList | undefined;
+  peakMemoryMetrics?: ExecutorPeakMetricsDistributions | undefined;
+  taskTimeMillis?: DoubleList | undefined;
+  quantiles?: DoubleList | undefined;
+  shuffleReadRecords?: DoubleList | undefined;
+  diskBytesSpilled?: DoubleList | undefined;
 }
 export type StageDataStatusEnum =
   | "STAGE_STATUS_UNSPECIFIED"
@@ -696,133 +697,133 @@ export type StageDataStatusEnum =
   | "STAGE_STATUS_SKIPPED";
 /** Quantile metrics data related to Tasks. Units can be seconds, bytes, milliseconds, etc depending on the message type. */
 export interface Quantiles {
-  percentile50?: string;
-  percentile25?: string;
-  count?: string;
-  minimum?: string;
-  maximum?: string;
-  percentile75?: string;
-  sum?: string;
+  percentile50?: string | undefined;
+  percentile25?: string | undefined;
+  count?: string | undefined;
+  minimum?: string | undefined;
+  maximum?: string | undefined;
+  percentile75?: string | undefined;
+  sum?: string | undefined;
 }
 export interface ShuffleWriteQuantileMetrics {
-  writeBytes?: Quantiles;
-  writeRecords?: Quantiles;
-  writeTimeNanos?: Quantiles;
+  writeBytes?: Quantiles | undefined;
+  writeRecords?: Quantiles | undefined;
+  writeTimeNanos?: Quantiles | undefined;
 }
 export interface InputQuantileMetrics {
-  bytesRead?: Quantiles;
-  recordsRead?: Quantiles;
+  bytesRead?: Quantiles | undefined;
+  recordsRead?: Quantiles | undefined;
 }
 export interface ShufflePushReadQuantileMetrics {
-  remoteMergedBytesRead?: Quantiles;
-  mergedFetchFallbackCount?: Quantiles;
-  remoteMergedReqsDuration?: Quantiles;
-  localMergedBytesRead?: Quantiles;
-  corruptMergedBlockChunks?: Quantiles;
-  localMergedChunksFetched?: Quantiles;
-  localMergedBlocksFetched?: Quantiles;
-  remoteMergedChunksFetched?: Quantiles;
-  remoteMergedBlocksFetched?: Quantiles;
+  remoteMergedBytesRead?: Quantiles | undefined;
+  mergedFetchFallbackCount?: Quantiles | undefined;
+  remoteMergedReqsDuration?: Quantiles | undefined;
+  localMergedBytesRead?: Quantiles | undefined;
+  corruptMergedBlockChunks?: Quantiles | undefined;
+  localMergedChunksFetched?: Quantiles | undefined;
+  localMergedBlocksFetched?: Quantiles | undefined;
+  remoteMergedChunksFetched?: Quantiles | undefined;
+  remoteMergedBlocksFetched?: Quantiles | undefined;
 }
 export interface ShuffleReadQuantileMetrics {
-  remoteBytesReadToDisk?: Quantiles;
-  remoteBytesRead?: Quantiles;
-  localBlocksFetched?: Quantiles;
-  readBytes?: Quantiles;
-  remoteBlocksFetched?: Quantiles;
-  totalBlocksFetched?: Quantiles;
-  shufflePushReadMetrics?: ShufflePushReadQuantileMetrics;
-  fetchWaitTimeMillis?: Quantiles;
-  remoteReqsDuration?: Quantiles;
-  readRecords?: Quantiles;
+  remoteBytesReadToDisk?: Quantiles | undefined;
+  remoteBytesRead?: Quantiles | undefined;
+  localBlocksFetched?: Quantiles | undefined;
+  readBytes?: Quantiles | undefined;
+  remoteBlocksFetched?: Quantiles | undefined;
+  totalBlocksFetched?: Quantiles | undefined;
+  shufflePushReadMetrics?: ShufflePushReadQuantileMetrics | undefined;
+  fetchWaitTimeMillis?: Quantiles | undefined;
+  remoteReqsDuration?: Quantiles | undefined;
+  readRecords?: Quantiles | undefined;
 }
 export interface OutputQuantileMetrics {
-  recordsWritten?: Quantiles;
-  bytesWritten?: Quantiles;
+  recordsWritten?: Quantiles | undefined;
+  bytesWritten?: Quantiles | undefined;
 }
 export interface TaskQuantileMetrics {
-  executorRunTimeMillis?: Quantiles;
-  jvmGcTimeMillis?: Quantiles;
-  shuffleWriteMetrics?: ShuffleWriteQuantileMetrics;
-  memoryBytesSpilled?: Quantiles;
-  peakExecutionMemoryBytes?: Quantiles;
-  executorCpuTimeNanos?: Quantiles;
-  inputMetrics?: InputQuantileMetrics;
-  schedulerDelayMillis?: Quantiles;
-  resultSerializationTimeMillis?: Quantiles;
-  executorDeserializeCpuTimeNanos?: Quantiles;
-  resultSize?: Quantiles;
-  shuffleReadMetrics?: ShuffleReadQuantileMetrics;
-  gettingResultTimeMillis?: Quantiles;
-  outputMetrics?: OutputQuantileMetrics;
-  executorDeserializeTimeMillis?: Quantiles;
-  durationMillis?: Quantiles;
-  diskBytesSpilled?: Quantiles;
+  executorRunTimeMillis?: Quantiles | undefined;
+  jvmGcTimeMillis?: Quantiles | undefined;
+  shuffleWriteMetrics?: ShuffleWriteQuantileMetrics | undefined;
+  memoryBytesSpilled?: Quantiles | undefined;
+  peakExecutionMemoryBytes?: Quantiles | undefined;
+  executorCpuTimeNanos?: Quantiles | undefined;
+  inputMetrics?: InputQuantileMetrics | undefined;
+  schedulerDelayMillis?: Quantiles | undefined;
+  resultSerializationTimeMillis?: Quantiles | undefined;
+  executorDeserializeCpuTimeNanos?: Quantiles | undefined;
+  resultSize?: Quantiles | undefined;
+  shuffleReadMetrics?: ShuffleReadQuantileMetrics | undefined;
+  gettingResultTimeMillis?: Quantiles | undefined;
+  outputMetrics?: OutputQuantileMetrics | undefined;
+  executorDeserializeTimeMillis?: Quantiles | undefined;
+  durationMillis?: Quantiles | undefined;
+  diskBytesSpilled?: Quantiles | undefined;
 }
 /** Data corresponding to a stage. */
 export interface StageData {
-  killedTasksSummary?: IntegerMap;
-  speculationSummary?: SpeculationStageSummary;
-  isShufflePushEnabled?: boolean;
-  firstTaskLaunchedTime?: string;
-  executorSummary?: ExecutorStageSummaryMap;
-  details?: string;
-  numCompleteTasks?: number;
-  stageMetrics?: StageMetrics;
-  stageAttemptId?: number;
-  locality?: StringMap;
-  numTasks?: number;
-  shuffleMergersCount?: number;
-  schedulingPool?: string;
-  jobIds?: StringList;
-  tasks?: TaskDataMap;
-  numActiveTasks?: number;
-  submissionTime?: string;
-  executorMetricsDistributions?: ExecutorMetricsDistributions;
-  stageId?: string;
-  peakExecutorMetrics?: ExecutorMetrics;
-  rddIds?: StringList;
-  failureReason?: string;
-  description?: string;
-  numCompletedIndices?: number;
-  status?: StageDataStatusEnum | (string & {});
-  name?: string;
-  parentStageIds?: StringList;
-  numFailedTasks?: number;
-  numKilledTasks?: number;
-  accumulatorUpdates?: AccumulableInfoList;
+  killedTasksSummary?: IntegerMap | undefined;
+  speculationSummary?: SpeculationStageSummary | undefined;
+  isShufflePushEnabled?: boolean | undefined;
+  firstTaskLaunchedTime?: string | undefined;
+  executorSummary?: ExecutorStageSummaryMap | undefined;
+  details?: string | undefined;
+  numCompleteTasks?: number | undefined;
+  stageMetrics?: StageMetrics | undefined;
+  stageAttemptId?: number | undefined;
+  locality?: StringMap | undefined;
+  numTasks?: number | undefined;
+  shuffleMergersCount?: number | undefined;
+  schedulingPool?: string | undefined;
+  jobIds?: StringList | undefined;
+  tasks?: TaskDataMap | undefined;
+  numActiveTasks?: number | undefined;
+  submissionTime?: string | undefined;
+  executorMetricsDistributions?: ExecutorMetricsDistributions | undefined;
+  stageId?: string | undefined;
+  peakExecutorMetrics?: ExecutorMetrics | undefined;
+  rddIds?: StringList | undefined;
+  failureReason?: string | undefined;
+  description?: string | undefined;
+  numCompletedIndices?: number | undefined;
+  status?: StageDataStatusEnum | (string & {}) | undefined;
+  name?: string | undefined;
+  parentStageIds?: StringList | undefined;
+  numFailedTasks?: number | undefined;
+  numKilledTasks?: number | undefined;
+  accumulatorUpdates?: AccumulableInfoList | undefined;
   /** Summary metrics fields. These are included in response only if present in summary_metrics_mask field in request */
-  taskQuantileMetrics?: TaskQuantileMetrics;
-  completionTime?: string;
-  resourceProfileId?: number;
+  taskQuantileMetrics?: TaskQuantileMetrics | undefined;
+  completionTime?: string | undefined;
+  resourceProfileId?: number | undefined;
 }
 /** Stage Attempt for a Stage of a Spark Application */
 export interface AccessSparkApplicationStageAttemptResponse {
   /** Output only. Data corresponding to a stage. */
-  stageData?: StageData;
+  stageData?: StageData | undefined;
 }
 export interface AccessStageAttemptProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string;
+  summaryMetricsMask?: string | undefined;
 }
 /** Stage Attempt for a Stage of a Spark Application */
 export interface AccessSessionSparkApplicationStageAttemptResponse {
   /** Output only. Data corresponding to a stage. */
-  stageData?: StageData;
+  stageData?: StageData | undefined;
 }
 export interface AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -834,89 +835,92 @@ export type RddOperationNodeOutputDeterministicLevelEnum =
   | "DETERMINISTIC_LEVEL_INDETERMINATE";
 /** A node in the RDD operation graph. Corresponds to a single RDD. */
 export interface RddOperationNode {
-  nodeId?: number;
-  callsite?: string;
-  outputDeterministicLevel?: RddOperationNodeOutputDeterministicLevelEnum | (string & {});
-  name?: string;
-  barrier?: boolean;
-  cached?: boolean;
+  nodeId?: number | undefined;
+  callsite?: string | undefined;
+  outputDeterministicLevel?:
+    | RddOperationNodeOutputDeterministicLevelEnum
+    | (string & {})
+    | undefined;
+  name?: string | undefined;
+  barrier?: boolean | undefined;
+  cached?: boolean | undefined;
 }
 export type RddOperationNodeList = Array<RddOperationNode>;
 /** A grouping of nodes representing higher level constructs (stage, job etc.). */
 export interface RddOperationCluster {
-  name?: string;
-  childClusters?: RddOperationClusterList;
-  childNodes?: RddOperationNodeList;
-  rddClusterId?: string;
+  name?: string | undefined;
+  childClusters?: RddOperationClusterList | undefined;
+  childNodes?: RddOperationNodeList | undefined;
+  rddClusterId?: string | undefined;
 }
 /** A directed edge representing dependency between two RDDs. */
 export interface RddOperationEdge {
-  fromId?: number;
-  toId?: number;
+  fromId?: number | undefined;
+  toId?: number | undefined;
 }
 export type RddOperationEdgeList = Array<RddOperationEdge>;
 /** Graph representing RDD dependencies. Consists of edges and a root cluster. */
 export interface RddOperationGraph {
-  rootCluster?: RddOperationCluster;
-  incomingEdges?: RddOperationEdgeList;
-  outgoingEdges?: RddOperationEdgeList;
-  edges?: RddOperationEdgeList;
-  stageId?: string;
+  rootCluster?: RddOperationCluster | undefined;
+  incomingEdges?: RddOperationEdgeList | undefined;
+  outgoingEdges?: RddOperationEdgeList | undefined;
+  edges?: RddOperationEdgeList | undefined;
+  stageId?: string | undefined;
 }
 /** RDD operation graph for a Spark Application Stage limited to maximum 10000 clusters. */
 export interface AccessSparkApplicationStageRddOperationGraphResponse {
   /** RDD operation graph for a Spark Application Stage. */
-  rddOperationGraph?: RddOperationGraph;
+  rddOperationGraph?: RddOperationGraph | undefined;
 }
 export interface AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** RDD operation graph for a Spark Application Stage limited to maximum 10000 clusters. */
 export interface AccessSessionSparkApplicationStageRddOperationGraphResponse {
   /** RDD operation graph for a Spark Application Stage. */
-  rddOperationGraph?: RddOperationGraph;
+  rddOperationGraph?: RddOperationGraph | undefined;
 }
 /** A request to analyze a batch workload. */
 export interface AnalyzeBatchRequest {
   /** Optional. A unique ID used to identify the request. If the service receives two AnalyzeBatchRequest (http://cloud/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.AnalyzeBatchRequest)s with the same request_id, the second request is ignored and the Operation that corresponds to the first request created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The requestor ID is used to identify if the request comes from a GCA investigation or the old Ask Gemini Experience. */
-  requestorId?: string;
+  requestorId?: string | undefined;
 }
 export interface AnalyzeProjectsLocationsBatchesRequest {
   /** Required. The fully qualified name of the batch to analyze in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
   name: string;
   /** Request body */
-  body?: AnalyzeBatchRequest;
+  body?: AnalyzeBatchRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The Status type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by gRPC (https://github.com/grpc). Each Status message contains three pieces of data: error code, error message, and error details.You can find out more about this error model and how to work with it in the API Design Guide (https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** If the value is false, it means the operation is still in progress. If true, the operation is completed, and either error or response is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as Delete, the response is google.protobuf.Empty. If the original method is standard Get/Create/Update, the response should be the resource. For other methods, the response should have the type XxxResponse, where Xxx is the original method name. For example, if the original method name is TakeSnapshot(), the inferred response type is TakeSnapshotResponse. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the name should be a resource name ending with operations/{unique_id}. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -934,7 +938,7 @@ export interface CancelProjectsRegionsJobsRequest {
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
   /** Request body */
-  body?: CancelJobRequest;
+  body?: CancelJobRequest | undefined;
 }
 export type LoggingConfigDriverLogLevelsValueEnum =
   | "LEVEL_UNSPECIFIED"
@@ -952,26 +956,26 @@ export type LoggingConfigDriverLogLevelsValueEnumMap = {
 /** The runtime logging config of the job. */
 export interface LoggingConfig {
   /** The per-package log levels for the driver. This can include "root" package name to configure rootLogger. Examples: - 'com.google = FATAL' - 'root = INFO' - 'org.apache = DEBUG' */
-  driverLogLevels?: LoggingConfigDriverLogLevelsValueEnumMap;
+  driverLogLevels?: LoggingConfigDriverLogLevelsValueEnumMap | undefined;
 }
 /** A Dataproc job for running Apache Hadoop MapReduce (https://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html) jobs on Apache Hadoop YARN (https://hadoop.apache.org/docs/r2.7.1/hadoop-yarn/hadoop-yarn-site/YARN.html). */
 export interface HadoopJob {
   /** The name of the driver's main class. The jar file containing the class must be in the default CLASSPATH or specified in jar_file_uris. */
-  mainClass?: string;
+  mainClass?: string | undefined;
   /** Optional. A mapping of property names to values, used to configure Hadoop. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site and classes in user code. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** The HCFS URI of the jar file containing the main class. Examples: 'gs://foo-bucket/analytics-binaries/extract-useful-metrics-mr.jar' 'hdfs:/tmp/test-samples/custom-wordcount.jar' 'file:///home/usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar' */
-  mainJarFileUri?: string;
+  mainJarFileUri?: string | undefined;
   /** Optional. HCFS (Hadoop Compatible Filesystem) URIs of files to be copied to the working directory of Hadoop drivers and distributed tasks. Useful for naively parallel tasks. */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
   /** Optional. Jar file URIs to add to the CLASSPATHs of the Hadoop driver and tasks. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. HCFS URIs of archives to be extracted in the working directory of Hadoop drivers and tasks. Supported file types: .jar, .tar, .tar.gz, .tgz, or .zip. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. The arguments to pass to the driver. Do not include arguments, such as -libjars or -Dfoo=bar, that can be set as job properties, since a collision might occur that causes an incorrect job submission. */
-  args?: StringList;
+  args?: StringList | undefined;
 }
 export type JobStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -988,96 +992,96 @@ export type JobStatusSubstateEnum = "UNSPECIFIED" | "SUBMITTED" | "QUEUED" | "ST
 /** Dataproc job status. */
 export interface JobStatus {
   /** Output only. The time when this state was entered. */
-  stateStartTime?: string;
+  stateStartTime?: string | undefined;
   /** Optional. Job state details, such as an error description if the state is ERROR. */
-  details?: string;
+  details?: string | undefined;
   /** Output only. A state message specifying the overall job state. */
-  state?: JobStatusStateEnum | (string & {});
+  state?: JobStatusStateEnum | (string & {}) | undefined;
   /** Output only. Additional state information, which includes status reported by the agent. */
-  substate?: JobStatusSubstateEnum | (string & {});
+  substate?: JobStatusSubstateEnum | (string & {}) | undefined;
 }
 export type JobStatusList = Array<JobStatus>;
 /** A Dataproc job for running Apache Flink applications on YARN. */
 export interface FlinkJob {
   /** Optional. HCFS URI of the savepoint, which contains the last saved progress for starting the current job. */
-  savepointUri?: string;
+  savepointUri?: string | undefined;
   /** The HCFS URI of the jar file that contains the main class. */
-  mainJarFileUri?: string;
+  mainJarFileUri?: string | undefined;
   /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision might occur that causes an incorrect job submission. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Optional. A mapping of property names to values, used to configure Flink. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/flink/conf/flink-defaults.conf and classes in user code. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Flink driver and tasks. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in jarFileUris. */
-  mainClass?: string;
+  mainClass?: string | undefined;
 }
 /** Encapsulates the full scoping used to reference a job. */
 export interface JobReference {
   /** Optional. The job ID, which must be unique within the project.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or hyphens (-). The maximum length is 100 characters.If not specified by the caller, the job ID will be provided by the server. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Optional. The ID of the Google Cloud Platform project that the job belongs to. If specified, must match the request project ID. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** A Dataproc job for running Apache PySpark (https://spark.apache.org/docs/latest/api/python/index.html#pyspark-overview) applications on YARN. */
 export interface PySparkJob {
   /** Required. The HCFS URI of the main Python file to use as the driver. Must be a .py file. */
-  mainPythonFileUri?: string;
+  mainPythonFileUri?: string | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip.Note: Spark applications must be deployed in cluster mode (https://spark.apache.org/docs/latest/cluster-overview.html) for correct environment propagation. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip. */
-  pythonFileUris?: StringList;
+  pythonFileUris?: StringList | undefined;
   /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
   /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Python driver and tasks. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. A mapping of property names to values, used to configure PySpark. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
 }
 /** A Dataproc job for running Apache Spark (https://spark.apache.org/) applications on YARN. */
 export interface SparkJob {
   /** Optional. A mapping of property names to values, used to configure Spark. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** The HCFS URI of the jar file that contains the main class. */
-  mainJarFileUri?: string;
+  mainJarFileUri?: string | undefined;
   /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** The name of the driver's main class. The jar file that contains the class must be in the default CLASSPATH or specified in SparkJob.jar_file_uris. */
-  mainClass?: string;
+  mainClass?: string | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. HCFS URIs of jar files to add to the CLASSPATHs of the Spark driver and tasks. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
 }
 /** A list of queries to run on a cluster. */
 export interface QueryList {
   /** Required. The queries to execute. You do not need to end a query expression with a semicolon. Multiple queries can be specified in one string by separating each with a semicolon. Here is an example of a Dataproc API snippet that uses a QueryList to specify a HiveJob: "hiveJob": { "queryList": { "queries": [ "query1", "query2", "query3;query4", ] } } */
-  queries?: StringList;
+  queries?: StringList | undefined;
 }
 /** A Dataproc job for running Apache Hive (https://hive.apache.org/) queries on YARN. */
 export interface HiveJob {
   /** A list of queries. */
-  queryList?: QueryList;
+  queryList?: QueryList | undefined;
   /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
-  continueOnFailure?: boolean;
+  continueOnFailure?: boolean | undefined;
   /** The HCFS URI of the script that contains Hive queries. */
-  queryFileUri?: string;
+  queryFileUri?: string | undefined;
   /** Optional. Mapping of query variable names to values (equivalent to the Hive command: SET name="value";). */
-  scriptVariables?: StringMap;
+  scriptVariables?: StringMap | undefined;
   /** Optional. HCFS URIs of jar files to add to the CLASSPATH of the Hive server and Hadoop MapReduce (MR) tasks. Can contain Hive SerDes and UDFs. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. A mapping of property names and values, used to configure Hive. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/hive/conf/hive-site.xml, and classes in user code. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
 }
 export type YarnApplicationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1092,169 +1096,169 @@ export type YarnApplicationStateEnum =
 /** A YARN application created by a job. Application information is a subset of org.apache.hadoop.yarn.proto.YarnProtos.ApplicationReportProto.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
 export interface YarnApplication {
   /** Optional. The cumulative memory usage of the application for a job, measured in mb-seconds. */
-  memoryMbSeconds?: string;
+  memoryMbSeconds?: string | undefined;
   /** Required. The application state. */
-  state?: YarnApplicationStateEnum | (string & {});
+  state?: YarnApplicationStateEnum | (string & {}) | undefined;
   /** Required. The application name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The HTTP URL of the ApplicationMaster, HistoryServer, or TimelineServer that provides application-specific information. The URL uses the internal hostname, and requires a proxy server for resolution and, possibly, access. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
   /** Required. The numerical progress of the application, from 1 to 100. */
-  progress?: number;
+  progress?: number | undefined;
   /** Optional. The cumulative CPU time consumed by the application for a job, measured in vcore-seconds. */
-  vcoreSeconds?: string;
+  vcoreSeconds?: string | undefined;
 }
 export type YarnApplicationList = Array<YarnApplication>;
 /** Dataproc job config. */
 export interface JobPlacement {
   /** Optional. Cluster labels to identify a cluster where the job will be submitted. */
-  clusterLabels?: StringMap;
+  clusterLabels?: StringMap | undefined;
   /** Required. The name of the cluster where the job will be submitted. */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Output only. A cluster UUID generated by the Dataproc service when the job is submitted. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
 }
 /** A Dataproc job for running Apache Spark SQL (https://spark.apache.org/sql/) queries. */
 export interface SparkSqlJob {
   /** The HCFS URI of the script that contains SQL queries. */
-  queryFileUri?: string;
+  queryFileUri?: string | undefined;
   /** Optional. A mapping of property names to values, used to configure Spark SQL's SparkConf. Properties that conflict with values set by the Dataproc API might be overwritten. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";). */
-  scriptVariables?: StringMap;
+  scriptVariables?: StringMap | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** A list of queries. */
-  queryList?: QueryList;
+  queryList?: QueryList | undefined;
 }
 /** A Dataproc job for running Presto (https://prestosql.io/) queries. IMPORTANT: The Dataproc Presto Optional Component (https://cloud.google.com/dataproc/docs/concepts/components/presto) must be enabled when the cluster is created to submit a Presto job to the cluster. */
 export interface PrestoJob {
   /** Optional. A mapping of property names to values. Used to set Presto session properties (https://prestodb.io/docs/current/sql/set-session.html) Equivalent to using the --session flag in the Presto CLI */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. Presto client tags to attach to this query */
-  clientTags?: StringList;
+  clientTags?: StringList | undefined;
   /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
-  continueOnFailure?: boolean;
+  continueOnFailure?: boolean | undefined;
   /** Optional. The format in which query output will be displayed. See the Presto documentation for supported output formats */
-  outputFormat?: string;
+  outputFormat?: string | undefined;
   /** The HCFS URI of the script that contains SQL queries. */
-  queryFileUri?: string;
+  queryFileUri?: string | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** A list of queries. */
-  queryList?: QueryList;
+  queryList?: QueryList | undefined;
 }
 /** A Dataproc job for running Trino (https://trino.io/) queries. IMPORTANT: The Dataproc Trino Optional Component (https://cloud.google.com/dataproc/docs/concepts/components/trino) must be enabled when the cluster is created to submit a Trino job to the cluster. */
 export interface TrinoJob {
   /** Optional. Trino client tags to attach to this query */
-  clientTags?: StringList;
+  clientTags?: StringList | undefined;
   /** Optional. A mapping of property names to values. Used to set Trino session properties (https://trino.io/docs/current/sql/set-session.html) Equivalent to using the --session flag in the Trino CLI */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. The format in which query output will be displayed. See the Trino documentation for supported output formats */
-  outputFormat?: string;
+  outputFormat?: string | undefined;
   /** A list of queries. */
-  queryList?: QueryList;
+  queryList?: QueryList | undefined;
   /** The HCFS URI of the script that contains SQL queries. */
-  queryFileUri?: string;
+  queryFileUri?: string | undefined;
   /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
-  continueOnFailure?: boolean;
+  continueOnFailure?: boolean | undefined;
 }
 /** A Dataproc job for running Apache Pig (https://pig.apache.org/) queries on YARN. */
 export interface PigJob {
   /** Optional. HCFS URIs of jar files to add to the CLASSPATH of the Pig Client and Hadoop MapReduce (MR) tasks. Can contain Pig UDFs. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. Mapping of query variable names to values (equivalent to the Pig command: name=[value]). */
-  scriptVariables?: StringMap;
+  scriptVariables?: StringMap | undefined;
   /** Optional. A mapping of property names to values, used to configure Pig. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/hadoop/conf/*-site.xml, /etc/pig/conf/pig.properties, and classes in user code. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. Whether to continue executing queries if a query fails. The default value is false. Setting to true can be useful when executing independent parallel queries. */
-  continueOnFailure?: boolean;
+  continueOnFailure?: boolean | undefined;
   /** A list of queries. */
-  queryList?: QueryList;
+  queryList?: QueryList | undefined;
   /** The HCFS URI of the script that contains the Pig queries. */
-  queryFileUri?: string;
+  queryFileUri?: string | undefined;
 }
 /** Job scheduling options. */
 export interface JobScheduling {
   /** Optional. Maximum total number of times a driver can be restarted as a result of the driver exiting with a non-zero code. After the maximum number is reached, the job will be reported as failed.Maximum value is 240.Note: Currently, this restartable job option is not supported in Dataproc workflow templates (https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template). */
-  maxFailuresTotal?: number;
+  maxFailuresTotal?: number | undefined;
   /** Optional. Maximum number of times per hour a driver can be restarted as a result of driver exiting with non-zero code before job is reported failed.A job might be reported as thrashing if the driver exits with a non-zero code four times within a 10-minute window.Maximum value is 10.Note: This restartable job option is not supported in Dataproc workflow templates (https://cloud.google.com/dataproc/docs/concepts/workflows/using-workflows#adding_jobs_to_a_template). */
-  maxFailuresPerHour?: number;
+  maxFailuresPerHour?: number | undefined;
 }
 /** A Dataproc job for running Apache SparkR (https://spark.apache.org/docs/latest/sparkr.html) applications on YARN. */
 export interface SparkRJob {
   /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** Optional. HCFS URIs of files to be placed in the working directory of each executor. Useful for naively parallel tasks. */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
   /** Optional. The runtime log config for job execution. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Required. The HCFS URI of the main R file to use as the driver. Must be a .R file. */
-  mainRFileUri?: string;
+  mainRFileUri?: string | undefined;
   /** Optional. A mapping of property names to values, used to configure SparkR. Properties that conflict with values set by the Dataproc API might be overwritten. Can include properties set in /etc/spark/conf/spark-defaults.conf and classes in user code. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. The arguments to pass to the driver. Do not include arguments, such as --conf, that can be set as job properties, since a collision may occur that causes an incorrect job submission. */
-  args?: StringList;
+  args?: StringList | undefined;
 }
 /** Driver scheduling configuration. */
 export interface DriverSchedulingConfig {
   /** Required. The number of vCPUs the driver is requesting. */
-  vcores?: number;
+  vcores?: number | undefined;
   /** Required. The amount of memory in MB the driver is requesting. */
-  memoryMb?: number;
+  memoryMb?: number | undefined;
 }
 /** A Dataproc job resource. */
 export interface Job {
   /** Optional. Job is a Hadoop job. */
-  hadoopJob?: HadoopJob;
+  hadoopJob?: HadoopJob | undefined;
   /** Output only. The previous job status. */
-  statusHistory?: JobStatusList;
+  statusHistory?: JobStatusList | undefined;
   /** Output only. A URI pointing to the location of the stdout of the job's driver program. */
-  driverOutputResourceUri?: string;
+  driverOutputResourceUri?: string | undefined;
   /** Optional. Job is a Flink job. */
-  flinkJob?: FlinkJob;
+  flinkJob?: FlinkJob | undefined;
   /** Optional. The fully qualified reference to the job, which can be used to obtain the equivalent REST path of the job resource. If this property is not specified when a job is created, the server generates a job_id. */
-  reference?: JobReference;
+  reference?: JobReference | undefined;
   /** Optional. Job is a PySpark job. */
-  pysparkJob?: PySparkJob;
+  pysparkJob?: PySparkJob | undefined;
   /** Optional. Job is a Spark job. */
-  sparkJob?: SparkJob;
+  sparkJob?: SparkJob | undefined;
   /** Optional. The labels to associate with this job. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a job. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Indicates whether the job is completed. If the value is false, the job is still in progress. If true, the job is completed, and status.state field will indicate if it was successful, failed, or cancelled. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Output only. A UUID that uniquely identifies a job within the project over time. This is in contrast to a user-settable reference.job_id that might be reused over time. */
-  jobUuid?: string;
+  jobUuid?: string | undefined;
   /** Optional. Job is a Hive job. */
-  hiveJob?: HiveJob;
+  hiveJob?: HiveJob | undefined;
   /** Output only. The collection of YARN applications spun up by this job.Beta Feature: This report is available for testing purposes only. It might be changed before final release. */
-  yarnApplications?: YarnApplicationList;
+  yarnApplications?: YarnApplicationList | undefined;
   /** Required. Job information, including how, when, and where to run the job. */
-  placement?: JobPlacement;
+  placement?: JobPlacement | undefined;
   /** Optional. Job is a SparkSql job. */
-  sparkSqlJob?: SparkSqlJob;
+  sparkSqlJob?: SparkSqlJob | undefined;
   /** Optional. Job is a Presto job. */
-  prestoJob?: PrestoJob;
+  prestoJob?: PrestoJob | undefined;
   /** Output only. If present, the location of miscellaneous control files which can be used as part of job setup and handling. If not present, control files might be placed in the same location as driver_output_uri. */
-  driverControlFilesUri?: string;
+  driverControlFilesUri?: string | undefined;
   /** Optional. Job is a Trino job. */
-  trinoJob?: TrinoJob;
+  trinoJob?: TrinoJob | undefined;
   /** Optional. Job is a Pig job. */
-  pigJob?: PigJob;
+  pigJob?: PigJob | undefined;
   /** Optional. Job scheduling configuration. */
-  scheduling?: JobScheduling;
+  scheduling?: JobScheduling | undefined;
   /** Optional. Job is a SparkR job. */
-  sparkRJob?: SparkRJob;
+  sparkRJob?: SparkRJob | undefined;
   /** Output only. The job status. Additional application-specific status information might be contained in the type_job and yarn_applications fields. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** Optional. Driver scheduling configuration. */
-  driverSchedulingConfig?: DriverSchedulingConfig;
+  driverSchedulingConfig?: DriverSchedulingConfig | undefined;
 }
 export interface CancelProjectsRegionsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -1264,25 +1268,25 @@ export interface ComputeTuningConfigProjectsLocationsBatchesSparkApplicationsReq
   /** Required. The fully qualified name of the spark application to retrieve autotuning configuration for in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. Spark semantic query ID. */
-  semanticQueryId?: string;
+  semanticQueryId?: string | undefined;
   /** Required. Spark execution ID for the query. */
-  executionId?: string;
+  executionId?: string | undefined;
 }
 /** Response for ComputeTuningConfig RPC. */
 export interface ComputeTuningConfigResponse {
   /** Recommended Spark properties for the query (e.g., {"spark.sql.shuffle.partitions": "500"}). */
-  recommendedProperties?: StringMap;
+  recommendedProperties?: StringMap | undefined;
 }
 /** Configuration for the size bounds of an instance group, including its proportional size to other groups. */
 export interface InstanceGroupAutoscalingPolicyConfig {
   /** Optional. Minimum number of instances for this group.Primary workers - Bounds: 2, max_instances. Default: 2. Secondary workers - Bounds: 0, max_instances. Default: 0. */
-  minInstances?: number;
+  minInstances?: number | undefined;
   /** Required. Maximum number of instances for this group. Required for primary workers. Note that by default, clusters will not use secondary workers. Required for secondary workers if the minimum secondary instances is set.Primary workers - Bounds: [min_instances, ). Secondary workers - Bounds: [min_instances, ). Default: 0. */
-  maxInstances?: number;
+  maxInstances?: number | undefined;
   /** Optional. Weight for the instance group, which is used to determine the fraction of total workers in the cluster from this instance group. For example, if primary workers have weight 2, and secondary workers have weight 1, the cluster will have approximately 2 primary workers for each secondary worker.The cluster may not reach the specified balance if constrained by min/max bounds or other autoscaling settings. For example, if max_instances for secondary workers is 0, then only primary workers will be added. The cluster can also be out of balance when created.If weight is not set on any instance group, the cluster will default to equal weight for all groups: the cluster will attempt to maintain an equal number of workers in each group within the configured size bounds for each group. If weight is set for one group only, the cluster will default to zero weight on the unset group. For example if weight is set only on primary workers, the cluster will use primary workers only and no secondary workers. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type AutoscalingPolicyClusterTypeEnum =
   | "CLUSTER_TYPE_UNSPECIFIED"
@@ -1291,86 +1295,86 @@ export type AutoscalingPolicyClusterTypeEnum =
 /** Basic autoscaling configurations for Spark Standalone. */
 export interface SparkStandaloneAutoscalingConfig {
   /** Required. Fraction of required workers to add to Spark Standalone clusters. A scale-up factor of 1.0 will result in scaling up so that there are no more required workers for the Spark Job (more aggressive scaling). A scale-up factor closer to 0 will result in a smaller magnitude of scaling up (less aggressive scaling).Bounds: 0.0, 1.0. */
-  scaleUpFactor?: number;
+  scaleUpFactor?: number | undefined;
   /** Required. Fraction of required executors to remove from Spark Serverless clusters. A scale-down factor of 1.0 will result in scaling down so that there are no more executors for the Spark Job.(more aggressive scaling). A scale-down factor closer to 0 will result in a smaller magnitude of scaling donw (less aggressive scaling).Bounds: 0.0, 1.0. */
-  scaleDownFactor?: number;
+  scaleDownFactor?: number | undefined;
   /** Optional. Remove only idle workers when scaling down cluster */
-  removeOnlyIdleWorkers?: boolean;
+  removeOnlyIdleWorkers?: boolean | undefined;
   /** Optional. Minimum scale-up threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of 0 means the autoscaler will scale up on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleUpMinWorkerFraction?: number;
+  scaleUpMinWorkerFraction?: number | undefined;
   /** Required. Timeout for Spark graceful decommissioning of spark workers. Specifies the duration to wait for spark worker to complete spark decommissioning tasks before forcefully removing workers. Only applicable to downscaling operations.Bounds: 0s, 1d. */
-  gracefulDecommissionTimeout?: string;
+  gracefulDecommissionTimeout?: string | undefined;
   /** Optional. Minimum scale-down threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0 means the autoscaler will scale down on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleDownMinWorkerFraction?: number;
+  scaleDownMinWorkerFraction?: number | undefined;
 }
 /** Basic autoscaling configurations for YARN. */
 export interface BasicYarnAutoscalingConfig {
   /** Optional. Minimum scale-up threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2-worker scale-up for the cluster to scale. A threshold of 0 means the autoscaler will scale up on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleUpMinWorkerFraction?: number;
+  scaleUpMinWorkerFraction?: number | undefined;
   /** Required. Timeout for YARN graceful decommissioning of Node Managers. Specifies the duration to wait for jobs to complete before forcefully removing workers (and potentially interrupting jobs). Only applicable to downscaling operations.Bounds: 0s, 1d. */
-  gracefulDecommissionTimeout?: string;
+  gracefulDecommissionTimeout?: string | undefined;
   /** Required. Fraction of average YARN pending memory in the last cooldown period for which to remove workers. A scale-down factor of 1 will result in scaling down so that there is no available memory remaining after the update (more aggressive scaling). A scale-down factor of 0 disables removing workers, which can be beneficial for autoscaling a single job. See How autoscaling works (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works) for more information.Bounds: 0.0, 1.0. */
-  scaleDownFactor?: number;
+  scaleDownFactor?: number | undefined;
   /** Required. Fraction of average YARN pending memory in the last cooldown period for which to add workers. A scale-up factor of 1.0 will result in scaling up so that there is no pending memory remaining after the update (more aggressive scaling). A scale-up factor closer to 0 will result in a smaller magnitude of scaling up (less aggressive scaling). See How autoscaling works (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/autoscaling#how_autoscaling_works) for more information.Bounds: 0.0, 1.0. */
-  scaleUpFactor?: number;
+  scaleUpFactor?: number | undefined;
   /** Optional. Minimum scale-down threshold as a fraction of total cluster size before scaling occurs. For example, in a 20-worker cluster, a threshold of 0.1 means the autoscaler must recommend at least a 2 worker scale-down for the cluster to scale. A threshold of 0 means the autoscaler will scale down on any recommended change.Bounds: 0.0, 1.0. Default: 0.0. */
-  scaleDownMinWorkerFraction?: number;
+  scaleDownMinWorkerFraction?: number | undefined;
 }
 /** Basic algorithm for autoscaling. */
 export interface BasicAutoscalingAlgorithm {
   /** Optional. Spark Standalone autoscaling configuration */
-  sparkStandaloneConfig?: SparkStandaloneAutoscalingConfig;
+  sparkStandaloneConfig?: SparkStandaloneAutoscalingConfig | undefined;
   /** Optional. YARN autoscaling configuration. */
-  yarnConfig?: BasicYarnAutoscalingConfig;
+  yarnConfig?: BasicYarnAutoscalingConfig | undefined;
   /** Optional. Duration between scaling events. A scaling period starts after the update operation from the previous event has completed.Bounds: 2m, 1d. Default: 2m. */
-  cooldownPeriod?: string;
+  cooldownPeriod?: string | undefined;
 }
 /** Describes an autoscaling policy for Dataproc cluster autoscaler. */
 export interface AutoscalingPolicy {
   /** Optional. Describes how the autoscaler will operate for secondary workers. */
-  secondaryWorkerConfig?: InstanceGroupAutoscalingPolicyConfig;
+  secondaryWorkerConfig?: InstanceGroupAutoscalingPolicyConfig | undefined;
   /** Optional. The labels to associate with this autoscaling policy. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with an autoscaling policy. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. The type of the clusters for which this autoscaling policy is to be configured. */
-  clusterType?: AutoscalingPolicyClusterTypeEnum | (string & {});
+  clusterType?: AutoscalingPolicyClusterTypeEnum | (string & {}) | undefined;
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
-  name?: string;
+  name?: string | undefined;
   /** Required. The policy id.The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters. */
-  id?: string;
+  id?: string | undefined;
   /** Required. Describes how the autoscaler will operate for primary workers. */
-  workerConfig?: InstanceGroupAutoscalingPolicyConfig;
-  basicAlgorithm?: BasicAutoscalingAlgorithm;
+  workerConfig?: InstanceGroupAutoscalingPolicyConfig | undefined;
+  basicAlgorithm?: BasicAutoscalingAlgorithm | undefined;
 }
 export interface CreateProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Request body */
-  body?: AutoscalingPolicy;
+  body?: AutoscalingPolicy | undefined;
 }
 /** A configuration for running a PySpark Notebook batch workload. */
 export interface PySparkNotebookBatch {
   /** Required. The HCFS URI of the notebook file to execute. */
-  notebookFileUri?: string;
+  notebookFileUri?: string | undefined;
   /** Optional. HCFS URIs of Python files to pass to the PySpark framework. */
-  pythonFileUris?: StringList;
+  pythonFileUris?: StringList | undefined;
   /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** Optional. HCFS URIs of files to be placed in the working directory of each executor */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
   /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. The parameters to pass to the notebook. */
-  params?: StringMap;
+  params?: StringMap | undefined;
 }
 /** Configuration for PyPi repository */
 export interface PyPiRepositoryConfig {
   /** Optional. The PyPi repository address. Note: This field is not available for batch workloads. */
-  pypiRepository?: string;
+  pypiRepository?: string | undefined;
 }
 /** Configuration for dependency repositories */
 export interface RepositoryConfig {
   /** Optional. Configuration for PyPi repository. */
-  pypiRepositoryConfig?: PyPiRepositoryConfig;
+  pypiRepositoryConfig?: PyPiRepositoryConfig | undefined;
 }
 export type AutotuningConfigScenariosItemEnum =
   | "SCENARIO_UNSPECIFIED"
@@ -1385,22 +1389,22 @@ export type AutotuningConfigScenariosItemEnumList = Array<
 /** Autotuning configuration of the workload. */
 export interface AutotuningConfig {
   /** Optional. Scenarios for which tunings are applied. */
-  scenarios?: AutotuningConfigScenariosItemEnumList;
+  scenarios?: AutotuningConfigScenariosItemEnumList | undefined;
 }
 /** Runtime configuration for a workload. */
 export interface RuntimeConfig {
   /** Optional. Optional custom container image for the job runtime environment. If not specified, a default container image will be used. */
-  containerImage?: string;
+  containerImage?: string | undefined;
   /** Optional. Dependency repository configuration. */
-  repositoryConfig?: RepositoryConfig;
+  repositoryConfig?: RepositoryConfig | undefined;
   /** Optional. Version of the batch runtime. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. A mapping of property names to values, which are used to configure workload execution. */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. Cohort identifier. Identifies families of the workloads that have the same shape, for example, daily ETL jobs. */
-  cohort?: string;
+  cohort?: string | undefined;
   /** Optional. Autotuning configuration of the workload. */
-  autotuningConfig?: AutotuningConfig;
+  autotuningConfig?: AutotuningConfig | undefined;
 }
 export type BatchStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1413,96 +1417,96 @@ export type BatchStateEnum =
 /** The usage snapshot represents the resources consumed by a workload at a specified time. */
 export interface UsageSnapshot {
   /** Optional. Milli (one-thousandth) Dataproc Compute Units (DCUs) charged at premium tier (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliDcuPremium?: string;
+  milliDcuPremium?: string | undefined;
   /** Optional. The timestamp of the usage snapshot. */
-  snapshotTime?: string;
+  snapshotTime?: string | undefined;
   /** Optional. Milli (one-thousandth) accelerator for A100-40 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  milliAcceleratorA10040?: string;
+  milliAcceleratorA10040?: string | undefined;
   /** Optional. Accelerator type being used, if any Deprecated: This field is only used in runtime versions below 3.0. */
-  acceleratorType?: string;
+  acceleratorType?: string | undefined;
   /** Optional. Milli (one-thousandth) accelerator. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) Deprecated: This field is only used in runtime versions below 3.0. */
-  milliAccelerator?: string;
+  milliAccelerator?: string | undefined;
   /** Optional. Shuffle Storage in gigabytes (GB). (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  shuffleStorageGb?: string;
+  shuffleStorageGb?: string | undefined;
   /** Optional. Milli (one-thousandth) accelerator for L4 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  milliAcceleratorL4?: string;
+  milliAcceleratorL4?: string | undefined;
   /** Optional. Milli (one-thousandth) accelerator for A100-80 accelerators. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  milliAcceleratorA10080?: string;
+  milliAcceleratorA10080?: string | undefined;
   /** Optional. Milli (one-thousandth) Dataproc Compute Units (DCUs) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliDcu?: string;
+  milliDcu?: string | undefined;
   /** Optional. Shuffle Storage in gigabytes (GB) charged at premium tier. (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)) */
-  shuffleStorageGbPremium?: string;
+  shuffleStorageGbPremium?: string | undefined;
 }
 export type CohortInfoCohortSourceEnum = "COHORT_SOURCE_UNSPECIFIED" | "USER_PROVIDED" | "AIRFLOW";
 /** Information about the cohort that the workload belongs to. */
 export interface CohortInfo {
   /** Output only. Final cohort that was used to tune the workload. */
-  cohort?: string;
+  cohort?: string | undefined;
   /** Output only. Source of the cohort. */
-  cohortSource?: CohortInfoCohortSourceEnum | (string & {});
+  cohortSource?: CohortInfoCohortSourceEnum | (string & {}) | undefined;
 }
 /** Usage metrics represent approximate total resources consumed by a workload. */
 export interface UsageMetrics {
   /** Optional. A100-80 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliAcceleratorSecondsA10080?: string;
+  milliAcceleratorSecondsA10080?: string | undefined;
   /** Optional. Accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). Deprecated: This field is only used in runtime versions below 3.0. */
-  milliAcceleratorSeconds?: string;
+  milliAcceleratorSeconds?: string | undefined;
   /** Optional. DCU (Dataproc Compute Units) usage in (milliDCU x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliDcuSeconds?: string;
+  milliDcuSeconds?: string | undefined;
   /** Optional. A100-40 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliAcceleratorSecondsA10040?: string;
+  milliAcceleratorSecondsA10040?: string | undefined;
   /** Optional. L4 accelerator usage in (milliAccelerator x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  milliAcceleratorSecondsL4?: string;
+  milliAcceleratorSecondsL4?: string | undefined;
   /** Optional. The timestamp of the usage metrics. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Accelerator type being used, if any Deprecated: This field is only used in runtime versions below 3.0. */
-  acceleratorType?: string;
+  acceleratorType?: string | undefined;
   /** Optional. Shuffle storage usage in (GB x seconds) (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)). */
-  shuffleStorageGbSeconds?: string;
+  shuffleStorageGbSeconds?: string | undefined;
 }
 /** Annotatated property value. */
 export interface ValueInfo {
   /** Optional. Value which was replaced by the corresponding component. */
-  overriddenValue?: string;
+  overriddenValue?: string | undefined;
   /** Property value. */
-  value?: string;
+  value?: string | undefined;
   /** Annotation, comment or explanation why the property was set. */
-  annotation?: string;
+  annotation?: string | undefined;
 }
 export type ValueInfoMap = { [key: string]: ValueInfo | undefined };
 /** Properties of the workload organized by origin. */
 export interface PropertiesInfo {
   /** Output only. Properties set by autotuning engine. */
-  autotuningProperties?: ValueInfoMap;
+  autotuningProperties?: ValueInfoMap | undefined;
 }
 /** Runtime information about workload execution. */
 export interface RuntimeInfo {
   /** Output only. Snapshot of current workload resource usage. */
-  currentUsage?: UsageSnapshot;
+  currentUsage?: UsageSnapshot | undefined;
   /** Output only. Information about the cohort that the workload belongs to. */
-  cohortInfo?: CohortInfo;
+  cohortInfo?: CohortInfo | undefined;
   /** Output only. Map of remote access endpoints (such as web interfaces and APIs) to their URIs. */
-  endpoints?: StringMap;
+  endpoints?: StringMap | undefined;
   /** Output only. Approximate workload resource usage, calculated when the workload completes (see Dataproc Serverless pricing (https://cloud.google.com/dataproc-serverless/pricing)).Note: This metric calculation may change in the future, for example, to capture cumulative workload resource consumption during workload execution (see the Dataproc Serverless release notes (https://cloud.google.com/dataproc-serverless/docs/release-notes) for announcements, changes, fixes and other Dataproc developments). */
-  approximateUsage?: UsageMetrics;
+  approximateUsage?: UsageMetrics | undefined;
   /** Output only. A URI pointing to the location of the stdout and stderr of the workload. */
-  outputUri?: string;
+  outputUri?: string | undefined;
   /** Optional. Properties of the workload organized by origin. */
-  propertiesInfo?: PropertiesInfo;
+  propertiesInfo?: PropertiesInfo | undefined;
   /** Output only. A URI pointing to the location of the diagnostics tarball. */
-  diagnosticOutputUri?: string;
+  diagnosticOutputUri?: string | undefined;
 }
 /** Spark History Server configuration for the workload. */
 export interface SparkHistoryServerConfig {
   /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the workload.Example: projects/[project_id]/regions/[region]/clusters/[cluster_name] */
-  dataprocCluster?: string;
+  dataprocCluster?: string | undefined;
 }
 /** Auxiliary services configuration for a workload. */
 export interface PeripheralsConfig {
   /** Optional. Resource name of an existing Dataproc Metastore service.Example: projects/[project_id]/locations/[region]/services/[service_id] */
-  metastoreService?: string;
+  metastoreService?: string | undefined;
   /** Optional. The Spark History Server configuration for the workload. */
-  sparkHistoryServerConfig?: SparkHistoryServerConfig;
+  sparkHistoryServerConfig?: SparkHistoryServerConfig | undefined;
 }
 export type AuthenticationConfigUserWorkloadAuthenticationTypeEnum =
   | "AUTHENTICATION_TYPE_UNSPECIFIED"
@@ -1513,37 +1517,38 @@ export interface AuthenticationConfig {
   /** Optional. Authentication type for the user workload running in containers. */
   userWorkloadAuthenticationType?:
     | AuthenticationConfigUserWorkloadAuthenticationTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Execution configuration for a workload. */
 export interface ExecutionConfig {
   /** Optional. Associates Resource Manager tags with the workload nodes. There is a max limit of 30 tags. Keys and values can be either in numeric format, such as tagKeys/{tag_key_id} and tagValues/{tag_value_id}, or in namespaced format, such as {org_id|project_id}/{tag_key_short_name} and {tag_value_short_name}. */
-  resourceManagerTags?: StringMap;
+  resourceManagerTags?: StringMap | undefined;
   /** Optional. Network URI to connect workload to. */
-  networkUri?: string;
+  networkUri?: string | undefined;
   /** Optional. The Cloud KMS key to use for encryption. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Optional. Tags used for network traffic control. */
-  networkTags?: StringList;
+  networkTags?: StringList | undefined;
   /** Optional. Authentication configuration used to set the default identity for the workload execution. The config specifies the type of identity (service account or user) that will be used by workloads to access resources on the project(s). */
-  authenticationConfig?: AuthenticationConfig;
+  authenticationConfig?: AuthenticationConfig | undefined;
   /** Optional. The duration after which the workload will be terminated, specified as the JSON representation for Duration (https://protobuf.dev/programming-guides/proto3/#json). When the workload exceeds this duration, it will be unconditionally terminated without waiting for ongoing work to finish. If ttl is not specified for a batch workload, the workload will be allowed to run until it exits naturally (or run forever without exiting). If ttl is not specified for an interactive session, it defaults to 24 hours. If ttl is not specified for a batch that uses 2.1+ runtime version, it defaults to 4 hours. Minimum value is 10 minutes; maximum value is 14 days. If both ttl and idle_ttl are specified (for an interactive session), the conditions are treated as OR conditions: the workload will be terminated when it has been idle for idle_ttl or when ttl has been exceeded, whichever occurs first. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Optional. Subnetwork URI to connect workload to. */
-  subnetworkUri?: string;
+  subnetworkUri?: string | undefined;
   /** Optional. A Cloud Storage bucket used to stage workload dependencies, config files, and store workload output and other ephemeral data, such as Spark history files. If you do not specify a staging bucket, Cloud Dataproc will determine a Cloud Storage location according to the region where your workload is running, and then create and manage project-level, per-location staging and temporary buckets. This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  stagingBucket?: string;
+  stagingBucket?: string | undefined;
   /** Optional. Applies to sessions only. The duration to keep the session alive while it's idling. Exceeding this threshold causes the session to terminate. This field cannot be set on a batch workload. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). Defaults to 1 hour if not set. If both ttl and idle_ttl are specified for an interactive session, the conditions are treated as OR conditions: the workload will be terminated when it has been idle for idle_ttl or when ttl has been exceeded, whichever occurs first. */
-  idleTtl?: string;
+  idleTtl?: string | undefined;
   /** Optional. Service account that used to execute workload. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
 }
 /** Environment configuration for a workload. */
 export interface EnvironmentConfig {
   /** Optional. Peripherals configuration that workload has access to. */
-  peripheralsConfig?: PeripheralsConfig;
+  peripheralsConfig?: PeripheralsConfig | undefined;
   /** Optional. Execution configuration for a workload. */
-  executionConfig?: ExecutionConfig;
+  executionConfig?: ExecutionConfig | undefined;
 }
 export type StateHistoryStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1556,111 +1561,111 @@ export type StateHistoryStateEnum =
 /** Historical state information. */
 export interface StateHistory {
   /** Output only. The time when the batch entered the historical state. */
-  stateStartTime?: string;
+  stateStartTime?: string | undefined;
   /** Output only. The state of the batch at this point in history. */
-  state?: StateHistoryStateEnum | (string & {});
+  state?: StateHistoryStateEnum | (string & {}) | undefined;
   /** Output only. Details about the state at this point in history. */
-  stateMessage?: string;
+  stateMessage?: string | undefined;
 }
 export type StateHistoryList = Array<StateHistory>;
 /** A configuration for running Apache Spark SQL (https://spark.apache.org/sql/) queries as a batch workload. */
 export interface SparkSqlBatch {
   /** Optional. HCFS URIs of jar files to be added to the Spark CLASSPATH. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. Mapping of query variable names to values (equivalent to the Spark SQL command: SET name="value";). */
-  queryVariables?: StringMap;
+  queryVariables?: StringMap | undefined;
   /** Required. The HCFS URI of the script that contains Spark SQL queries to execute. */
-  queryFileUri?: string;
+  queryFileUri?: string | undefined;
 }
 /** A configuration for running an Apache SparkR (https://spark.apache.org/docs/latest/sparkr.html) batch workload. */
 export interface SparkRBatch {
   /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
   /** Optional. The arguments to pass to the Spark driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Required. The HCFS URI of the main R file to use as the driver. Must be a .R or .r file. */
-  mainRFileUri?: string;
+  mainRFileUri?: string | undefined;
 }
 /** A configuration for running an Apache Spark (https://spark.apache.org/) batch workload. */
 export interface SparkBatch {
   /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** Optional. The name of the driver main class. The jar file that contains the class must be in the classpath or specified in jar_file_uris. */
-  mainClass?: string;
+  mainClass?: string | undefined;
   /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
   /** Optional. The arguments to pass to the driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Optional. The HCFS URI of the jar file that contains the main class. */
-  mainJarFileUri?: string;
+  mainJarFileUri?: string | undefined;
   /** Optional. HCFS URIs of jar files to add to the classpath of the Spark driver and tasks. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
 }
 /** A configuration for running an Apache PySpark (https://spark.apache.org/docs/latest/api/python/getting_started/quickstart.html) batch workload. */
 export interface PySparkBatch {
   /** Optional. HCFS URIs of jar files to add to the classpath of the Spark driver and tasks. */
-  jarFileUris?: StringList;
+  jarFileUris?: StringList | undefined;
   /** Optional. HCFS URIs of files to be placed in the working directory of each executor. */
-  fileUris?: StringList;
+  fileUris?: StringList | undefined;
   /** Optional. HCFS URIs of archives to be extracted into the working directory of each executor. Supported file types: .jar, .tar, .tar.gz, .tgz, and .zip. */
-  archiveUris?: StringList;
+  archiveUris?: StringList | undefined;
   /** Optional. HCFS file URIs of Python files to pass to the PySpark framework. Supported file types: .py, .egg, and .zip. */
-  pythonFileUris?: StringList;
+  pythonFileUris?: StringList | undefined;
   /** Required. The HCFS URI of the main Python file to use as the Spark driver. Must be a .py file. */
-  mainPythonFileUri?: string;
+  mainPythonFileUri?: string | undefined;
   /** Optional. The arguments to pass to the driver. Do not include arguments that can be set as batch properties, such as --conf, since a collision can occur that causes an incorrect batch submission. */
-  args?: StringList;
+  args?: StringList | undefined;
 }
 /** A representation of a batch workload in the service. */
 export interface Batch {
   /** Output only. The time when the batch entered a current state. */
-  stateTime?: string;
+  stateTime?: string | undefined;
   /** Output only. The resource name of the batch. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. PySpark notebook batch config. */
-  pysparkNotebookBatch?: PySparkNotebookBatch;
+  pysparkNotebookBatch?: PySparkNotebookBatch | undefined;
   /** Output only. The resource name of the operation associated with this batch. */
-  operation?: string;
+  operation?: string | undefined;
   /** Optional. Runtime configuration for the batch execution. */
-  runtimeConfig?: RuntimeConfig;
+  runtimeConfig?: RuntimeConfig | undefined;
   /** Output only. The state of the batch. */
-  state?: BatchStateEnum | (string & {});
+  state?: BatchStateEnum | (string & {}) | undefined;
   /** Output only. A batch UUID (Unique Universal Identifier). The service generates this value when it creates the batch. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Output only. The time when the batch was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Runtime information about batch execution. */
-  runtimeInfo?: RuntimeInfo;
+  runtimeInfo?: RuntimeInfo | undefined;
   /** Optional. Environment configuration for the batch execution. */
-  environmentConfig?: EnvironmentConfig;
+  environmentConfig?: EnvironmentConfig | undefined;
   /** Output only. Historical state information for the batch. */
-  stateHistory?: StateHistoryList;
+  stateHistory?: StateHistoryList | undefined;
   /** Output only. The email address of the user who created the batch. */
-  creator?: string;
+  creator?: string | undefined;
   /** Optional. SparkSql batch config. */
-  sparkSqlBatch?: SparkSqlBatch;
+  sparkSqlBatch?: SparkSqlBatch | undefined;
   /** Optional. The labels to associate with this batch. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a batch. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. SparkR batch config. */
-  sparkRBatch?: SparkRBatch;
+  sparkRBatch?: SparkRBatch | undefined;
   /** Optional. Spark batch config. */
-  sparkBatch?: SparkBatch;
+  sparkBatch?: SparkBatch | undefined;
   /** Optional. PySpark batch config. */
-  pysparkBatch?: PySparkBatch;
+  pysparkBatch?: PySparkBatch | undefined;
   /** Output only. Batch state details, such as a failure description if the state is FAILED. */
-  stateMessage?: string;
+  stateMessage?: string | undefined;
 }
 export interface CreateProjectsLocationsBatchesRequest {
   /** Optional. The ID to use for the batch, which will become the final component of the batch's resource name.This value must be 4-63 characters. Valid characters are /[a-z][0-9]-/. */
-  batchId?: string;
+  batchId?: string | undefined;
   /** Required. The parent resource where this batch will be created. */
   parent: string;
   /** Optional. A unique ID used to identify the request. If the service receives two CreateBatchRequests with the same request_id, the second request is ignored and the operation that corresponds to the first Batch created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Batch;
+  body?: Batch | undefined;
 }
 export type SessionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1675,9 +1680,9 @@ export type JupyterConfigKernelEnum = "KERNEL_UNSPECIFIED" | "PYTHON" | "SCALA";
 /** Jupyter configuration for an interactive session. */
 export interface JupyterConfig {
   /** Optional. Display name, shown in the Jupyter kernelspec card. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Kernel */
-  kernel?: JupyterConfigKernelEnum | (string & {});
+  kernel?: JupyterConfigKernelEnum | (string & {}) | undefined;
 }
 export type SessionStateHistoryStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1689,102 +1694,102 @@ export type SessionStateHistoryStateEnum =
 /** Historical state information. */
 export interface SessionStateHistory {
   /** Output only. The state of the session at this point in the session history. */
-  state?: SessionStateHistoryStateEnum | (string & {});
+  state?: SessionStateHistoryStateEnum | (string & {}) | undefined;
   /** Output only. The time when the session entered the historical state. */
-  stateStartTime?: string;
+  stateStartTime?: string | undefined;
   /** Output only. Details about the state at this point in the session history. */
-  stateMessage?: string;
+  stateMessage?: string | undefined;
 }
 export type SessionStateHistoryList = Array<SessionStateHistory>;
 /** A representation of a session. */
 export interface Session {
   /** Optional. The session template used by the session.Resource names and short template IDs are valid. Examples: * projects/[project_id]/locations/[dataproc_region]/sessionTemplates/[template_id] * [template_id]The template must be in the same project and Dataproc region as the session. */
-  sessionTemplate?: string;
+  sessionTemplate?: string | undefined;
   /** Output only. A state of the session. */
-  state?: SessionStateEnum | (string & {});
+  state?: SessionStateEnum | (string & {}) | undefined;
   /** Optional. Environment configuration for the session execution. */
-  environmentConfig?: EnvironmentConfig;
+  environmentConfig?: EnvironmentConfig | undefined;
   /** Optional. Runtime configuration for the session execution. */
-  runtimeConfig?: RuntimeConfig;
+  runtimeConfig?: RuntimeConfig | undefined;
   /** Output only. Runtime information about session execution. */
-  runtimeInfo?: RuntimeInfo;
+  runtimeInfo?: RuntimeInfo | undefined;
   /** Output only. Session state details, such as the failure description if the state is FAILED. */
-  stateMessage?: string;
+  stateMessage?: string | undefined;
   /** Output only. The time when the session entered the current state. */
-  stateTime?: string;
+  stateTime?: string | undefined;
   /** Output only. The email address of the user who created the session. */
-  creator?: string;
+  creator?: string | undefined;
   /** Output only. A session UUID (Unique Universal Identifier). The service generates this value when it creates the session. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Optional. The labels to associate with the session. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a session. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Spark connect session config. */
-  sparkConnectSession?: CancelJobRequest;
+  sparkConnectSession?: CancelJobRequest | undefined;
   /** Optional. The email address of the user who owns the session. */
-  user?: string;
+  user?: string | undefined;
   /** Optional. Jupyter session config. */
-  jupyterSession?: JupyterConfig;
+  jupyterSession?: JupyterConfig | undefined;
   /** Output only. The time when the session was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the session. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Historical state information for the session. */
-  stateHistory?: SessionStateHistoryList;
+  stateHistory?: SessionStateHistoryList | undefined;
 }
 export interface CreateProjectsLocationsSessionsRequest {
   /** Required. The ID to use for the session, which becomes the final component of the session's resource name.This value must be 4-63 characters. Valid characters are /a-z-/. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the service receives two CreateSessionRequests (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateSessionRequest)s with the same ID, the second request is ignored, and the first Session is created and stored in the backend.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The parent resource where this session will be created. */
   parent: string;
   /** Request body */
-  body?: Session;
+  body?: Session | undefined;
 }
 /** A representation of a session template. */
 export interface SessionTemplate {
   /** Optional. Labels to associate with sessions created using this template. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty, but, if present, must contain 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a session. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. A session template UUID (Unique Universal Identifier). The service generates this value when it creates the session template. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Optional. Jupyter session config. */
-  jupyterSession?: JupyterConfig;
+  jupyterSession?: JupyterConfig | undefined;
   /** Optional. Brief description of the template. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The time the template was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The time when the template was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Environment configuration for session execution. */
-  environmentConfig?: EnvironmentConfig;
+  environmentConfig?: EnvironmentConfig | undefined;
   /** Required. Identifier. The resource name of the session template. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The email address of the user who created the template. */
-  creator?: string;
+  creator?: string | undefined;
   /** Optional. Spark connect session config. */
-  sparkConnectSession?: CancelJobRequest;
+  sparkConnectSession?: CancelJobRequest | undefined;
   /** Optional. Runtime configuration for session execution. */
-  runtimeConfig?: RuntimeConfig;
+  runtimeConfig?: RuntimeConfig | undefined;
   /** Optional. User-friendly display name for the session template. Can be up to 63 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsSessionTemplatesRequest {
   /** Required. The parent resource where this session template will be created. */
   parent: string;
   /** Request body */
-  body?: SessionTemplate;
+  body?: SessionTemplate | undefined;
 }
 /** Configuration to handle the startup of instances during cluster create and update process. */
 export interface StartupConfig {
   /** Optional. The config setting to enable cluster creation/ updation to be successful only after required_registration_fraction of instances are up and running. This configuration is applicable to only secondary workers for now. The cluster will fail if required_registration_fraction of instances are not available. This will include instance creation, agent registration, and service registration (if enabled). */
-  requiredRegistrationFraction?: number;
+  requiredRegistrationFraction?: number | undefined;
 }
 /** Specifies the type and number of accelerator cards attached to the instances of an instance. See GPUs on Compute Engine (https://cloud.google.com/compute/docs/gpus/). */
 export interface AcceleratorConfig {
   /** Full URL, partial URI, or short name of the accelerator type resource to expose to this instance. See Compute Engine AcceleratorTypes (https://cloud.google.com/compute/docs/reference/v1/acceleratorTypes).Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/acceleratorTypes/nvidia-tesla-t4 projects/[project_id]/zones/[zone]/acceleratorTypes/nvidia-tesla-t4 nvidia-tesla-t4Auto Zone Exception: If you are using Auto Zone Placement (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement), you must use the short name of the accelerator type resource, for example, nvidia-tesla-t4. */
-  acceleratorTypeUri?: string;
+  acceleratorTypeUri?: string | undefined;
   /** The number of the accelerator cards of this type exposed to this instance. */
-  acceleratorCount?: number;
+  acceleratorCount?: number | undefined;
 }
 export type AcceleratorConfigList = Array<AcceleratorConfig>;
 export type InstanceGroupConfigPreemptibilityEnum =
@@ -1795,30 +1800,30 @@ export type InstanceGroupConfigPreemptibilityEnum =
 /** Specifies the resources used to actively manage an instance group. */
 export interface ManagedGroupConfig {
   /** Output only. The name of the Instance Template used for the Managed Instance Group. */
-  instanceTemplateName?: string;
+  instanceTemplateName?: string | undefined;
   /** Output only. The name of the Instance Group Manager for this group. */
-  instanceGroupManagerName?: string;
+  instanceGroupManagerName?: string | undefined;
   /** Output only. The partial URI to the instance group manager for this group. E.g. projects/my-project/regions/us-central1/instanceGroupManagers/my-igm. */
-  instanceGroupManagerUri?: string;
+  instanceGroupManagerUri?: string | undefined;
 }
 /** A reference to a Compute Engine instance. */
 export interface InstanceReference {
   /** The user-friendly name of the Compute Engine instance. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** The public RSA key used for sharing data with this instance. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The unique identifier of the Compute Engine instance. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The public ECIES key used for sharing data with this instance. */
-  publicEciesKey?: string;
+  publicEciesKey?: string | undefined;
 }
 export type InstanceReferenceList = Array<InstanceReference>;
 /** Defines how to create VMs with a mixture of provisioning models. */
 export interface ProvisioningModelMix {
   /** Optional. The percentage of target capacity that should use Standard VM. The remaining percentage will use Spot VMs. The percentage applies only to the capacity above standard_capacity_base. eg. If 15 instances are requested and standard_capacity_base is 5 and standard_capacity_percent_above_base is 30, the service will create 5 standard VMs and then start mixing spot and standard VMs for remaining 10 instances. The mix will be 30% standard and 70% spot. */
-  standardCapacityPercentAboveBase?: number;
+  standardCapacityPercentAboveBase?: number | undefined;
   /** Optional. The base capacity that will always use Standard VMs to avoid risk of more preemption than the minimum capacity you need. The service will create only standard VMs until it reaches standard_capacity_base, then it will start using standard_capacity_percent_above_base to mix Spot with Standard VMs. eg. If 15 instances are requested and standard_capacity_base is 5, the service will create 5 standard VMs and thenstart mixing spot and standard VMs for remaining 10 instances. */
-  standardCapacityBase?: number;
+  standardCapacityBase?: number | undefined;
 }
 export type AttachedDiskConfigDiskTypeEnum =
   | "DISK_TYPE_UNSPECIFIED"
@@ -1829,93 +1834,93 @@ export type AttachedDiskConfigDiskTypeEnum =
 /** Specifies the config of attached disk options for single VM instance. */
 export interface AttachedDiskConfig {
   /** Optional. Deprecated: Use type instead. */
-  diskType?: AttachedDiskConfigDiskTypeEnum | (string & {});
+  diskType?: AttachedDiskConfigDiskTypeEnum | (string & {}) | undefined;
   /** Optional. Indicates how much throughput to provision for the attached disk. This sets the number of throughput mb per second that the disk can handle. See https://cloud.google.com/compute/docs/disks/hyperdisks#hyperdisk-features */
-  provisionedThroughput?: string;
+  provisionedThroughput?: string | undefined;
   /** Optional. Indicates how many IOPS to provision for the attached disk. This sets the number of I/O operations per second that the disk can handle. See https://cloud.google.com/compute/docs/disks/hyperdisks#hyperdisk-features */
-  provisionedIops?: string;
+  provisionedIops?: string | undefined;
   /** Optional. Attached disk type. Currently only supports Hyperdisks. See https://cloud.google.com/compute/docs/disks/hyperdisks. Note: Hyperdisk Balanced High Availability is not supported.Allowed values are: hyperdisk-balanced hyperdisk-extreme hyperdisk-ml hyperdisk-throughput */
-  type?: string;
+  type?: string | undefined;
   /** Optional. Disk size in GB. */
-  diskSizeGb?: number;
+  diskSizeGb?: number | undefined;
 }
 export type AttachedDiskConfigList = Array<AttachedDiskConfig>;
 /** Specifies the config of boot disk and attached disk options for a group of VM instances. */
 export interface DiskConfig {
   /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 1. This field is supported only if boot_disk_type is hyperdisk-balanced. */
-  bootDiskProvisionedThroughput?: string;
+  bootDiskProvisionedThroughput?: string | undefined;
   /** Optional. Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and HDFS (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.Note: Local SSD options may vary by machine type and number of vCPUs selected. */
-  numLocalSsds?: number;
+  numLocalSsds?: number | undefined;
   /** Optional. A list of attached disk configs for a group of VM instances. */
-  attachedDiskConfigs?: AttachedDiskConfigList;
+  attachedDiskConfigs?: AttachedDiskConfigList | undefined;
   /** Optional. Size in GB of the boot disk (default is 500GB). */
-  bootDiskSizeGb?: number;
+  bootDiskSizeGb?: number | undefined;
   /** Optional. Interface type of local SSDs (default is scsi). Valid values: scsi (Small Computer System Interface), nvme (Non-Volatile Memory Express). See local SSD performance (https://cloud.google.com/compute/docs/disks/local-ssd#performance). */
-  localSsdInterface?: string;
+  localSsdInterface?: string | undefined;
   /** Optional. Type of the boot disk (default is pd-standard). Valid values: pd-balanced (Persistent Disk Balanced Solid State Drive), pd-ssd (Persistent Disk Solid State Drive), or pd-standard (Persistent Disk Hard Disk Drive). See Disk types (https://cloud.google.com/compute/docs/disks#disk-types). */
-  bootDiskType?: string;
+  bootDiskType?: string | undefined;
   /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. This field is supported only if boot_disk_type is hyperdisk-balanced. */
-  bootDiskProvisionedIops?: string;
+  bootDiskProvisionedIops?: string | undefined;
 }
 /** Defines machines types and a rank to which the machines types belong. */
 export interface InstanceSelection {
   /** Optional. Full machine-type names, e.g. "n1-standard-16". */
-  machineTypes?: StringList;
+  machineTypes?: StringList | undefined;
   /** Optional. Preference of this instance selection. Lower number means higher preference. The service will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference. */
-  rank?: number;
+  rank?: number | undefined;
   /** Optional. Disk configuration to apply to the instances in this instance selection. If specified on any entry in instanceSelectionList, then it must be specified on every entry in instanceSelectionList and the instanceGroupConfig must not specify any diskConfig. */
-  diskConfig?: DiskConfig;
+  diskConfig?: DiskConfig | undefined;
 }
 export type InstanceSelectionList = Array<InstanceSelection>;
 /** Defines a mapping from machine types to the number of VMs that are created with each machine type. */
 export interface InstanceSelectionResult {
   /** Output only. Full machine-type names, e.g. "n1-standard-16". */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Output only. Number of VM provisioned with the machine_type. */
-  vmCount?: number;
+  vmCount?: number | undefined;
 }
 export type InstanceSelectionResultList = Array<InstanceSelectionResult>;
 /** Instance flexibility Policy allowing a mixture of VM shapes and provisioning models. */
 export interface InstanceFlexibilityPolicy {
   /** Optional. Defines how the Group selects the provisioning model to ensure required reliability. */
-  provisioningModelMix?: ProvisioningModelMix;
+  provisioningModelMix?: ProvisioningModelMix | undefined;
   /** Output only. A map of instance short name to machine type. The key is the short name of the Compute Engine instance, and the value is the full machine-type name (e.g., 'n1-standard-16'). See Machine types for more information on valid machine type strings. */
-  instanceMachineTypes?: StringMap;
+  instanceMachineTypes?: StringMap | undefined;
   /** Optional. List of instance selection options that the group will use when creating new VMs. */
-  instanceSelectionList?: InstanceSelectionList;
+  instanceSelectionList?: InstanceSelectionList | undefined;
   /** Output only. A list of instance selection results in the group. */
-  instanceSelectionResults?: InstanceSelectionResultList;
+  instanceSelectionResults?: InstanceSelectionResultList | undefined;
 }
 /** The config settings for Compute Engine resources in an instance group, such as a master or worker group. */
 export interface InstanceGroupConfig {
   /** Optional. Configuration to handle the startup of instances during cluster create and update process. */
-  startupConfig?: StartupConfig;
+  startupConfig?: StartupConfig | undefined;
   /** Output only. The list of instance names, derived from cluster_name, num_instances, and the instance group. */
-  instanceNames?: StringList;
+  instanceNames?: StringList | undefined;
   /** Output only. Specifies that this instance group contains preemptible instances. */
-  isPreemptible?: boolean;
+  isPreemptible?: boolean | undefined;
   /** Optional. The Compute Engine image resource used for cluster instances.The URI can represent an image or image family.Image examples: https://www.googleapis.com/compute/v1/projects/[project_id]/global/images/[image-id] projects/[project_id]/global/images/[image-id] image-idImage family examples. The service will use the most recent image from the family: https://www.googleapis.com/compute/v1/projects/[project_id]/global/images/family/[custom-image-family-name] projects/[project_id]/global/images/family/[custom-image-family-name]If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default. */
-  imageUri?: string;
+  imageUri?: string | undefined;
   /** Optional. The Compute Engine accelerator configuration for these instances. */
-  accelerators?: AcceleratorConfigList;
+  accelerators?: AcceleratorConfigList | undefined;
   /** Optional. The Compute Engine machine type used for cluster instances.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/machineTypes/n1-standard-2 projects/[project_id]/zones/[zone]/machineTypes/n1-standard-2 n1-standard-2Auto Zone Exception: If you are using Auto Zone Placement (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement), you must use the short name of the machine type resource, for example, n1-standard-2. */
-  machineTypeUri?: string;
+  machineTypeUri?: string | undefined;
   /** Optional. The number of VM instances in the instance group. For HA cluster master_config groups, must be set to 3. For standard cluster master_config groups, must be set to 1. */
-  numInstances?: number;
+  numInstances?: number | undefined;
   /** Optional. Specifies the preemptibility of the instance group.The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed.The default value for secondary instances is PREEMPTIBLE. */
-  preemptibility?: InstanceGroupConfigPreemptibilityEnum | (string & {});
+  preemptibility?: InstanceGroupConfigPreemptibilityEnum | (string & {}) | undefined;
   /** Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups. */
-  managedGroupConfig?: ManagedGroupConfig;
+  managedGroupConfig?: ManagedGroupConfig | undefined;
   /** Optional. The minimum number of primary worker instances to create. If min_num_instances is set, cluster creation will succeed if the number of primary workers created is at least equal to the min_num_instances number.Example: Cluster creation request with num_instances = 5 and min_num_instances = 3: If 4 VMs are created and 1 instance fails, the failed VM is deleted. The cluster is resized to 4 instances and placed in a RUNNING state. If 2 instances are created and 3 instances fail, the cluster in placed in an ERROR state. The failed VMs are not deleted. */
-  minNumInstances?: number;
+  minNumInstances?: number | undefined;
   /** Output only. List of references to Compute Engine instances. */
-  instanceReferences?: InstanceReferenceList;
+  instanceReferences?: InstanceReferenceList | undefined;
   /** Optional. Instance flexibility Policy allowing a mixture of VM shapes and provisioning models. */
-  instanceFlexibilityPolicy?: InstanceFlexibilityPolicy;
+  instanceFlexibilityPolicy?: InstanceFlexibilityPolicy | undefined;
   /** Optional. Specifies the minimum cpu platform for the Instance Group. See Minimum CPU Platform (https://cloud.google.com/dataproc/docs/concepts/compute/dataproc-min-cpu). */
-  minCpuPlatform?: string;
+  minCpuPlatform?: string | undefined;
   /** Optional. Disk option config settings. */
-  diskConfig?: DiskConfig;
+  diskConfig?: DiskConfig | undefined;
 }
 export type FlexibleInstanceGroupConfigHardwareClassEnum =
   | "HARDWARE_CLASS_UNSPECIFIED"
@@ -1924,20 +1929,20 @@ export type FlexibleInstanceGroupConfigHardwareClassEnum =
 /** The configuration for High Obtainability (HO) flexible instance groups. Flexible instance group configs serve as the single source of truth for desired state. */
 export interface FlexibleInstanceGroupConfig {
   /** Optional. The number of vCPUs per instance. Must be a power of 2 (2, 4, 8, 16, 32). This is a create-time specification and is not currently mutable via update masks. */
-  coreCount?: number;
+  coreCount?: number | undefined;
   /** Optional. The hardware class of the instances. This is a create-time specification and is not currently mutable via update masks. */
-  hardwareClass?: FlexibleInstanceGroupConfigHardwareClassEnum | (string & {});
+  hardwareClass?: FlexibleInstanceGroupConfigHardwareClassEnum | (string & {}) | undefined;
   /** Optional. The number of VM instances requested.For master instances, this must be 1. For worker and secondary worker instances, this represents the desired capacity of the group and is mutable via cluster update operations and autoscaling. */
-  numInstances?: number;
+  numInstances?: number | undefined;
   /** Optional. The boot disk size in GB. This is a create-time specification and is not currently mutable via update masks. */
-  bootDiskSizeGb?: number;
+  bootDiskSizeGb?: number | undefined;
 }
 /** Deprecated. Used only for the deprecated beta. A full, namespace-isolated deployment target for an existing GKE cluster. */
 export interface NamespacedGkeDeploymentTarget {
   /** Optional. The target GKE cluster to deploy to. Format: 'projects/{project}/locations/{location}/clusters/{cluster_id}' */
-  targetGkeCluster?: string;
+  targetGkeCluster?: string | undefined;
   /** Optional. A namespace within the GKE cluster to deploy into. */
-  clusterNamespace?: string;
+  clusterNamespace?: string | undefined;
 }
 export type GkeNodePoolTargetRolesItemEnum =
   | "ROLE_UNSPECIFIED"
@@ -1951,80 +1956,80 @@ export type GkeNodePoolTargetRolesItemEnumList = Array<
 /** GkeNodePoolAutoscaling contains information the cluster autoscaler needs to adjust the size of the node pool to the current cluster usage. */
 export interface GkeNodePoolAutoscalingConfig {
   /** The maximum number of nodes in the node pool. Must be >= min_node_count, and must be > 0. Note: Quota must be sufficient to scale up the cluster. */
-  maxNodeCount?: number;
+  maxNodeCount?: number | undefined;
   /** The minimum number of nodes in the node pool. Must be >= 0 and <= max_node_count. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
 }
 /** A GkeNodeConfigAcceleratorConfig represents a Hardware Accelerator request for a node pool. */
 export interface GkeNodePoolAcceleratorConfig {
   /** The accelerator type resource namename (see GPUs on Compute Engine). */
-  acceleratorType?: string;
+  acceleratorType?: string | undefined;
   /** The number of accelerator cards exposed to an instance. */
-  acceleratorCount?: string;
+  acceleratorCount?: string | undefined;
   /** Size of partitions to create on the GPU. Valid values are described in the NVIDIA mig user guide (https://docs.nvidia.com/datacenter/tesla/mig-user-guide/#partitioning). */
-  gpuPartitionSize?: string;
+  gpuPartitionSize?: string | undefined;
 }
 export type GkeNodePoolAcceleratorConfigList = Array<GkeNodePoolAcceleratorConfig>;
 /** Parameters that describe cluster nodes. */
 export interface GkeNodeConfig {
   /** Optional. The name of a Compute Engine machine type (https://cloud.google.com/compute/docs/machine-types). */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. A list of hardware accelerators (https://cloud.google.com/compute/docs/gpus) to attach to each node. */
-  accelerators?: GkeNodePoolAcceleratorConfigList;
+  accelerators?: GkeNodePoolAcceleratorConfigList | undefined;
   /** Optional. Specifies the service account (https://cloud.google.com/dataproc/docs/guides/dpgke/dataproc-gke-iam) to be used by the node pools. Specify the email address of the service account or its full resource name.Format: projects/{project}/serviceAccounts/{service_account_email} or {service_account_email}. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Whether the nodes are created as legacy preemptible VM instances (https://cloud.google.com/compute/docs/instances/preemptible). Also see Spot VMs, preemptible VM instances without a maximum lifetime. Legacy and Spot preemptible nodes cannot be used in a node pool with the CONTROLLER role or in the DEFAULT node pool if the CONTROLLER role is not assigned (the DEFAULT node pool will assume the CONTROLLER role). */
-  preemptible?: boolean;
+  preemptible?: boolean | undefined;
   /** Optional. The number of local SSD disks to attach to the node, which is limited by the maximum number of disks allowable per zone (see Adding Local SSDs (https://cloud.google.com/compute/docs/disks/local-ssd)). */
-  localSsdCount?: number;
+  localSsdCount?: number | undefined;
   /** Optional. Whether the nodes are created as Spot VM instances (https://cloud.google.com/compute/docs/instances/spot). Spot VMs are the latest update to legacy preemptible VMs. Spot VMs do not have a maximum lifetime. Legacy and Spot preemptible nodes cannot be used in a node pool with the CONTROLLER role or in the DEFAULT node pool if the CONTROLLER role is not assigned (the DEFAULT node pool will assume the CONTROLLER role). */
-  spot?: boolean;
+  spot?: boolean | undefined;
   /** Optional. Minimum CPU platform (https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform) to be used by this instance. The instance may be scheduled on the specified or a newer CPU platform. Specify the friendly names of CPU platforms, such as "Intel Haswell"` or Intel Sandy Bridge". */
-  minCpuPlatform?: string;
+  minCpuPlatform?: string | undefined;
   /** Optional. The Customer Managed Encryption Key (CMEK) (https://cloud.google.com/kubernetes-engine/docs/how-to/using-cmek) used to encrypt the boot disk attached to each node in the node pool. Specify the key using the following format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key} */
-  bootDiskKmsKey?: string;
+  bootDiskKmsKey?: string | undefined;
 }
 /** The configuration of a GKE node pool used by a Dataproc-on-GKE cluster (https://cloud.google.com/dataproc/docs/concepts/jobs/dataproc-gke#create-a-dataproc-on-gke-cluster). */
 export interface GkeNodePoolConfig {
   /** Optional. The autoscaler configuration for this node pool. The autoscaler is enabled only when a valid configuration is present. */
-  autoscaling?: GkeNodePoolAutoscalingConfig;
+  autoscaling?: GkeNodePoolAutoscalingConfig | undefined;
   /** Optional. The node pool configuration. */
-  config?: GkeNodeConfig;
+  config?: GkeNodeConfig | undefined;
   /** Optional. The list of Compute Engine zones (https://cloud.google.com/compute/docs/zones#available) where node pool nodes associated with a Dataproc on GKE virtual cluster will be located.Note: All node pools associated with a virtual cluster must be located in the same region as the virtual cluster, and they must be located in the same zone within that region.If a location is not specified during node pool creation, Dataproc on GKE will choose the zone. */
-  locations?: StringList;
+  locations?: StringList | undefined;
 }
 /** GKE node pools that Dataproc workloads run on. */
 export interface GkeNodePoolTarget {
   /** Required. The roles associated with the GKE node pool. */
-  roles?: GkeNodePoolTargetRolesItemEnumList;
+  roles?: GkeNodePoolTargetRolesItemEnumList | undefined;
   /** Input only. The configuration for the GKE node pool.If specified, Dataproc attempts to create a node pool with the specified shape. If one with the same name already exists, it is verified against all specified fields. If a field differs, the virtual cluster creation will fail.If omitted, any node pool with the specified name is used. If a node pool with the specified name does not exist, Dataproc create a node pool with default values.This is an input only field. It will not be returned by the API. */
-  nodePoolConfig?: GkeNodePoolConfig;
+  nodePoolConfig?: GkeNodePoolConfig | undefined;
   /** Required. The target GKE node pool. Format: 'projects/{project}/locations/{location}/clusters/{cluster}/nodePools/{node_pool}' */
-  nodePool?: string;
+  nodePool?: string | undefined;
 }
 export type GkeNodePoolTargetList = Array<GkeNodePoolTarget>;
 /** The cluster's GKE config. */
 export interface GkeClusterConfig {
   /** Optional. Deprecated. Use gkeClusterTarget. Used only for the deprecated beta. A target for the deployment. */
-  namespacedGkeDeploymentTarget?: NamespacedGkeDeploymentTarget;
+  namespacedGkeDeploymentTarget?: NamespacedGkeDeploymentTarget | undefined;
   /** Optional. A target GKE cluster to deploy to. It must be in the same project and region as the Dataproc cluster (the GKE cluster can be zonal or regional). Format: 'projects/{project}/locations/{location}/clusters/{cluster_id}' */
-  gkeClusterTarget?: string;
+  gkeClusterTarget?: string | undefined;
   /** Optional. GKE node pools where workloads will be scheduled. At least one node pool must be assigned the DEFAULT GkeNodePoolTarget.Role. If a GkeNodePoolTarget is not specified, Dataproc constructs a DEFAULT GkeNodePoolTarget. Each role can be given to only one GkeNodePoolTarget. All node pools must have the same location settings. */
-  nodePoolTarget?: GkeNodePoolTargetList;
+  nodePoolTarget?: GkeNodePoolTargetList | undefined;
 }
 /** Specifies a Metastore configuration. */
 export interface MetastoreConfig {
   /** Required. Resource name of an existing Metastore service.Example: projects/[project_id]/locations/[dataproc_region]/services/[service-name] */
-  dataprocMetastoreService?: string;
+  dataprocMetastoreService?: string | undefined;
 }
 /** Shielded Instance Config for clusters using Compute Engine Shielded VMs (https://cloud.google.com/security/shielded-cloud/shielded-vm). */
 export interface ShieldedInstanceConfig {
   /** Optional. Defines whether instances have Secure Boot enabled. */
-  enableSecureBoot?: boolean;
+  enableSecureBoot?: boolean | undefined;
   /** Optional. Defines whether instances have integrity monitoring enabled. */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
   /** Optional. Defines whether instances have the vTPM enabled. */
-  enableVtpm?: boolean;
+  enableVtpm?: boolean | undefined;
 }
 export type ReservationAffinityConsumeReservationTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -2034,22 +2039,25 @@ export type ReservationAffinityConsumeReservationTypeEnum =
 /** Reservation Affinity for consuming Zonal reservation. */
 export interface ReservationAffinity {
   /** Optional. Type of reservation to consume */
-  consumeReservationType?: ReservationAffinityConsumeReservationTypeEnum | (string & {});
+  consumeReservationType?:
+    | ReservationAffinityConsumeReservationTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Corresponds to the label values of reservation resource. */
-  values?: StringList;
+  values?: StringList | undefined;
   /** Optional. Corresponds to the label key of reservation resource. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Node Group Affinity for clusters using sole-tenant node groups. The NodeGroupAffinity resource is not related to the NodeGroup resource. */
 export interface NodeGroupAffinity {
   /** Required. The URI of a sole-tenant node group resource (https://cloud.google.com/compute/docs/reference/rest/v1/nodeGroups) that the cluster will be created on.A full URL, partial URI, or node group name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone]/nodeGroups/node-group-1 projects/[project_id]/zones/[zone]/nodeGroups/node-group-1 node-group-1 */
-  nodeGroupUri?: string;
+  nodeGroupUri?: string | undefined;
 }
 export type MultiZoneConfigTargetShapeEnum = "TARGET_SHAPE_UNSPECIFIED" | "ANY";
 /** Configuration for multi-zonal clusters that can create instances across multiple Zones within the Region. */
 export interface MultiZoneConfig {
   /** Optional. The distribution shape of the nodes in the multi-zonal cluster. */
-  targetShape?: MultiZoneConfigTargetShapeEnum | (string & {});
+  targetShape?: MultiZoneConfigTargetShapeEnum | (string & {}) | undefined;
 }
 export type ConfidentialInstanceConfigConfidentialInstanceTypeEnum =
   | "CONFIDENTIAL_INSTANCE_TYPE_UNSPECIFIED"
@@ -2059,9 +2067,12 @@ export type ConfidentialInstanceConfigConfidentialInstanceTypeEnum =
 /** Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/confidential-computing/confidential-vm/docs) */
 export interface ConfidentialInstanceConfig {
   /** Optional. Deprecated: Use 'confidential_instance_type' instead. Defines whether the instance should have confidential compute enabled. */
-  enableConfidentialCompute?: boolean;
+  enableConfidentialCompute?: boolean | undefined;
   /** Optional. Defines the type of Confidential Compute technology to use. */
-  confidentialInstanceType?: ConfidentialInstanceConfigConfidentialInstanceTypeEnum | (string & {});
+  confidentialInstanceType?:
+    | ConfidentialInstanceConfigConfidentialInstanceTypeEnum
+    | (string & {})
+    | undefined;
 }
 export type GceClusterConfigPrivateIpv6GoogleAccessEnum =
   | "PRIVATE_IPV6_GOOGLE_ACCESS_UNSPECIFIED"
@@ -2071,143 +2082,143 @@ export type GceClusterConfigPrivateIpv6GoogleAccessEnum =
 /** Common config settings for resources of Compute Engine cluster instances, applicable to all instances in the cluster. */
 export interface GceClusterConfig {
   /** Optional. Shielded Instance Config for clusters using Compute Engine Shielded VMs (https://cloud.google.com/security/shielded-cloud/shielded-vm). */
-  shieldedInstanceConfig?: ShieldedInstanceConfig;
+  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
   /** Optional. The Compute Engine network to be used for machine communications. Cannot be specified with subnetwork_uri. If neither network_uri nor subnetwork_uri is specified, the "default" network of the project is used, if it exists. Cannot be a Custom Subnet Network (see Using Subnetworks (https://cloud.google.com/compute/docs/subnetworks) for more information).A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/global/networks/default projects/[project_id]/global/networks/default default */
-  networkUri?: string;
+  networkUri?: string | undefined;
   /** Optional. An optional list of Compute Engine zones where the cluster will not be located when Auto Zone is enabled. Only one of zone_uri or auto_zone_exclude_zone_uris can be set. If both are omitted, the service will pick a zone in the cluster Compute Engine region. If auto_zone_exclude_zone_uris is set and there is more than one non-excluded zone, the service will pick one of the non-excluded zones. Otherwise, cluster creation will fail with INVALID_ARGUMENT error.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone] projects/[project_id]/zones/[zone] [zone] */
-  autoZoneExcludeZoneUris?: StringList;
+  autoZoneExcludeZoneUris?: StringList | undefined;
   /** The Compute Engine network tags to add to all instances (see Tagging instances (https://cloud.google.com/vpc/docs/add-remove-network-tags)). */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Optional. Reservation Affinity for consuming Zonal reservation. */
-  reservationAffinity?: ReservationAffinity;
+  reservationAffinity?: ReservationAffinity | undefined;
   /** Optional. The Compute Engine subnetwork to be used for machine communications. Cannot be specified with network_uri.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/regions/[region]/subnetworks/sub0 projects/[project_id]/regions/[region]/subnetworks/sub0 sub0 */
-  subnetworkUri?: string;
+  subnetworkUri?: string | undefined;
   /** Optional. The Compute Engine metadata entries to add to all instances (see Project and instance metadata (https://cloud.google.com/compute/docs/storing-retrieving-metadata#project_and_instance_metadata)). */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Optional. The VM service account (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/service-accounts#service_accounts_in_dataproc) (also see VM Data Plane identity (https://cloud.google.com/dataproc/docs/concepts/iam/dataproc-principals#vm_service_account_data_plane_identity)) used by cluster VM instances to access Google Cloud Platform services.If not specified, the Compute Engine default service account (https://cloud.google.com/compute/docs/access/service-accounts#default_service_account) is used. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Resource manager tags (https://cloud.google.com/resource-manager/docs/tags/tags-creating-and-managing) to add to all instances (see Use secure tags (https://cloud.google.com/dataproc/docs/guides/use-secure-tags)). */
-  resourceManagerTags?: StringMap;
+  resourceManagerTags?: StringMap | undefined;
   /** Optional. Node Group Affinity for sole-tenant clusters. */
-  nodeGroupAffinity?: NodeGroupAffinity;
+  nodeGroupAffinity?: NodeGroupAffinity | undefined;
   /** Optional. This setting applies to subnetwork-enabled networks. It is set to true by default in clusters created with image versions 2.2.x.When set to true: All cluster VMs have internal IP addresses. Google Private Access (https://cloud.google.com/vpc/docs/private-google-access) must be enabled to access the Dataproc API and other Google Cloud APIs. Off-cluster dependencies must be configured to be accessible without external IP addresses.When set to false: Cluster VMs are not restricted to internal IP addresses. Ephemeral external IP addresses are assigned to each cluster VM. */
-  internalIpOnly?: boolean;
+  internalIpOnly?: boolean | undefined;
   /** Optional. The URIs of service account scopes to be included in Compute Engine instances. The following base set of scopes is always included: https://www.googleapis.com/auth/cloud.useraccounts.readonly https://www.googleapis.com/auth/devstorage.read_write https://www.googleapis.com/auth/logging.writeIf no scopes are specified, the following defaults are also provided: https://www.googleapis.com/auth/bigquery https://www.googleapis.com/auth/bigtable.admin.table https://www.googleapis.com/auth/bigtable.data https://www.googleapis.com/auth/devstorage.full_control */
-  serviceAccountScopes?: StringList;
+  serviceAccountScopes?: StringList | undefined;
   /** Optional. The Compute Engine zone where the cluster will be located. If omitted, the service will pick a zone in the cluster's Compute Engine region. On a get request, zone will always be present.A full URL, partial URI, or short name are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/zones/[zone] projects/[project_id]/zones/[zone] [zone] */
-  zoneUri?: string;
+  zoneUri?: string | undefined;
   /** Optional. Controls how instances within this Cluster are allowed to exist in multiple Zones within the Region. Only one of zone_uri or multi_zone_config must be set. */
-  multiZoneConfig?: MultiZoneConfig;
+  multiZoneConfig?: MultiZoneConfig | undefined;
   /** Optional. Confidential Instance Config for clusters using Confidential VMs (https://cloud.google.com/confidential-computing/confidential-vm/docs). */
-  confidentialInstanceConfig?: ConfidentialInstanceConfig;
+  confidentialInstanceConfig?: ConfidentialInstanceConfig | undefined;
   /** Optional. The type of IPv6 access for a cluster. */
-  privateIpv6GoogleAccess?: GceClusterConfigPrivateIpv6GoogleAccessEnum | (string & {});
+  privateIpv6GoogleAccess?: GceClusterConfigPrivateIpv6GoogleAccessEnum | (string & {}) | undefined;
 }
 export type ClusterConfigEngineEnum = "ENGINE_UNSPECIFIED" | "DEFAULT" | "LIGHTNING";
 /** Specifies Kerberos related configuration. */
 export interface KerberosConfig {
   /** Optional. The Cloud Storage URI of the truststore file used for SSL encryption. If not provided, the service will provide a self-signed certificate. */
-  truststoreUri?: string;
+  truststoreUri?: string | undefined;
   /** Optional. The Cloud Storage URI of a KMS encrypted file containing the root principal password. */
-  rootPrincipalPasswordUri?: string;
+  rootPrincipalPasswordUri?: string | undefined;
   /** Optional. The Cloud Storage URI of a KMS encrypted file containing the master key of the KDC database. */
-  kdcDbKeyUri?: string;
+  kdcDbKeyUri?: string | undefined;
   /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided truststore. For the self-signed certificate, this password is generated by the service. */
-  truststorePasswordUri?: string;
+  truststorePasswordUri?: string | undefined;
   /** Optional. The remote realm the on-cluster KDC will trust, should the user enable cross realm trust. */
-  crossRealmTrustRealm?: string;
+  crossRealmTrustRealm?: string | undefined;
   /** Optional. The Cloud Storage URI of the keystore file used for SSL encryption. If not provided, the service will provide a self-signed certificate. */
-  keystoreUri?: string;
+  keystoreUri?: string | undefined;
   /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided key. For the self-signed certificate, this password is generated by the service. */
-  keyPasswordUri?: string;
+  keyPasswordUri?: string | undefined;
   /** Optional. The Cloud Storage URI of a KMS encrypted file containing the password to the user provided keystore. For the self-signed certificate, this password is generated by the service. */
-  keystorePasswordUri?: string;
+  keystorePasswordUri?: string | undefined;
   /** Optional. Flag to indicate whether to Kerberize the cluster (default: false). Set this field to true to enable Kerberos on a cluster. */
-  enableKerberos?: boolean;
+  enableKerberos?: boolean | undefined;
   /** Optional. The URI of the KMS key used to encrypt sensitive files. */
-  kmsKeyUri?: string;
+  kmsKeyUri?: string | undefined;
   /** Optional. The lifetime of the ticket granting ticket, in hours. If not specified, or user specifies 0, then default value 10 will be used. */
-  tgtLifetimeHours?: number;
+  tgtLifetimeHours?: number | undefined;
   /** Optional. The Cloud Storage URI of a KMS encrypted file containing the shared password between the on-cluster Kerberos realm and the remote trusted realm, in a cross realm trust relationship. */
-  crossRealmTrustSharedPasswordUri?: string;
+  crossRealmTrustSharedPasswordUri?: string | undefined;
   /** Optional. The KDC (IP or hostname) for the remote trusted realm in a cross realm trust relationship. */
-  crossRealmTrustKdc?: string;
+  crossRealmTrustKdc?: string | undefined;
   /** Optional. The name of the on-cluster Kerberos realm. If not specified, the uppercased domain of hostnames will be the realm. */
-  realm?: string;
+  realm?: string | undefined;
   /** Optional. The admin server (IP or hostname) for the remote trusted realm in a cross realm trust relationship. */
-  crossRealmTrustAdminServer?: string;
+  crossRealmTrustAdminServer?: string | undefined;
 }
 /** Identity related configuration, including service account based secure multi-tenancy user mappings. */
 export interface IdentityConfig {
   /** Required. Map of user to service account. */
-  userServiceAccountMapping?: StringMap;
+  userServiceAccountMapping?: StringMap | undefined;
   /** Optional. Whether to enable SSH access for the cluster. The default is true for image versions prior to 3.1 and false for image versions 3.1 and later. The default behavior can be changed when creating clusters using image versions 2.3.30 and later. */
-  enableSsh?: boolean;
+  enableSsh?: boolean | undefined;
 }
 /** Security related configuration, including encryption, Kerberos, etc. */
 export interface SecurityConfig {
   /** Optional. Kerberos related configuration. */
-  kerberosConfig?: KerberosConfig;
+  kerberosConfig?: KerberosConfig | undefined;
   /** Optional. Identity related configuration, including service account based secure multi-tenancy user mappings. */
-  identityConfig?: IdentityConfig;
+  identityConfig?: IdentityConfig | undefined;
 }
 export type NodeGroupRolesItemEnum = "ROLE_UNSPECIFIED" | "DRIVER";
 export type NodeGroupRolesItemEnumList = Array<NodeGroupRolesItemEnum | (string & {})>;
 /** Node Group. The NodeGroup resource is not related to the NodeGroupAffinity resource. */
 export interface NodeGroup {
   /** The Node group resource name (https://aip.dev/122). */
-  name?: string;
+  name?: string | undefined;
   /** Required. Node group roles. */
-  roles?: NodeGroupRolesItemEnumList;
+  roles?: NodeGroupRolesItemEnumList | undefined;
   /** Optional. The node group instance group configuration. */
-  nodeGroupConfig?: InstanceGroupConfig;
+  nodeGroupConfig?: InstanceGroupConfig | undefined;
   /** Optional. Node group labels. Label keys must consist of from 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values can be empty. If specified, they must consist of from 1 to 63 characters and conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). The node group must have no more than 32 labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 /** Node group identification and configuration information. */
 export interface AuxiliaryNodeGroup {
   /** Optional. A node group ID. Generated if not specified.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of from 3 to 33 characters. */
-  nodeGroupId?: string;
+  nodeGroupId?: string | undefined;
   /** Required. Node group configuration. */
-  nodeGroup?: NodeGroup;
+  nodeGroup?: NodeGroup | undefined;
 }
 export type AuxiliaryNodeGroupList = Array<AuxiliaryNodeGroup>;
 /** Specifies the cluster auto-delete schedule configuration. */
 export interface LifecycleConfig {
   /** Optional. The duration to keep the cluster alive while idling (when no jobs are running). Passing this threshold will cause the cluster to be deleted. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  idleDeleteTtl?: string;
+  idleDeleteTtl?: string | undefined;
   /** Optional. The lifetime duration of cluster. The cluster will be auto-deleted at the end of this period. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoDeleteTtl?: string;
+  autoDeleteTtl?: string | undefined;
   /** Output only. The time when cluster became idle (most recent job finished) and became eligible for deletion due to idleness (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  idleStartTime?: string;
+  idleStartTime?: string | undefined;
   /** Optional. The lifetime duration of the cluster. The cluster will be auto-stopped at the end of this period, calculated from the time of submission of the create or update cluster request. Minimum value is 10 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoStopTtl?: string;
+  autoStopTtl?: string | undefined;
   /** Optional. The duration to keep the cluster started while idling (when no jobs are running). Passing this threshold will cause the cluster to be stopped. Minimum value is 5 minutes; maximum value is 14 days (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  idleStopTtl?: string;
+  idleStopTtl?: string | undefined;
   /** Optional. The time when cluster will be auto-stopped (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoStopTime?: string;
+  autoStopTime?: string | undefined;
   /** Optional. The time when cluster will be auto-deleted (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  autoDeleteTime?: string;
+  autoDeleteTime?: string | undefined;
 }
 /** Specifies an executable to run on a fully configured node and a timeout period for executable completion. */
 export interface NodeInitializationAction {
   /** Required. Cloud Storage URI of executable file. */
-  executableFile?: string;
+  executableFile?: string | undefined;
   /** Optional. Amount of time executable has to complete. Default is 10 minutes (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Cluster creation fails with an explanatory error message (the name of the executable that caused the error and the exceeded timeout period) if the executable is not completed at end of the timeout period. */
-  executionTimeout?: string;
+  executionTimeout?: string | undefined;
 }
 export type NodeInitializationActionList = Array<NodeInitializationAction>;
 /** Config for scheduling the request to create Compute Engine resources for the cluster, when available. */
 export interface SchedulingConfig {
   /** Optional. How long to wait for worker resources to be allocated before failing the cluster creation request. Max/Default value: 13 days */
-  schedulingTimeout?: string;
+  schedulingTimeout?: string | undefined;
   /** Optional. Required lifetime of the resources, once provisioned. Min 10 mins, Max/Default 7 days . Note that the cluster can still be deleted before reaching this time. This time is a maximum amount of time before the cluster is forcibly deleted. Lower times are more likely to start running sooner. */
-  requestedRunDuration?: string;
+  requestedRunDuration?: string | undefined;
 }
 /** Autoscaling Policy config associated with the cluster. */
 export interface AutoscalingConfig {
   /** Optional. The autoscaling policy used by the cluster.Only resource names including projectid and location (region) are valid. Examples: https://www.googleapis.com/compute/v1/projects/[project_id]/locations/[dataproc_region]/autoscalingPolicies/[policy_id] projects/[project_id]/locations/[dataproc_region]/autoscalingPolicies/[policy_id]Note that the policy must be in the same project and region. */
-  policyUri?: string;
+  policyUri?: string | undefined;
 }
 export type ClusterConfigClusterTypeEnum =
   | "CLUSTER_TYPE_UNSPECIFIED"
@@ -2221,9 +2232,9 @@ export type ClusterConfigClusterTierEnum =
 /** Encryption settings for the cluster. */
 export interface EncryptionConfig {
   /** Optional. The Cloud KMS key resource name to use for persistent disk encryption for all instances in the cluster. See Use CMEK with cluster data (https://cloud.google.com//dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_cluster_data) for more information. */
-  gcePdKmsKeyName?: string;
+  gcePdKmsKeyName?: string | undefined;
   /** Optional. The Cloud KMS key resource name to use for cluster persistent disk and job argument encryption. See Use CMEK with cluster data (https://cloud.google.com//dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_cluster_data) for more information.When this key resource name is provided, the following job arguments of the following job types submitted to the cluster are encrypted using CMEK: FlinkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/FlinkJob) HadoopJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/HadoopJob) SparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkJob) SparkRJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkRJob) PySparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/PySparkJob) SparkSqlJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkSqlJob) scriptVariables and queryList.queries HiveJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/HiveJob) scriptVariables and queryList.queries PigJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PigJob) scriptVariables and queryList.queries PrestoJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PrestoJob) scriptVariables and queryList.queries */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export type SoftwareConfigOptionalComponentsItemEnum =
   | "COMPONENT_UNSPECIFIED"
@@ -2252,18 +2263,18 @@ export type SoftwareConfigOptionalComponentsItemEnumList = Array<
 /** Specifies the selection and config of software inside the cluster. */
 export interface SoftwareConfig {
   /** Optional. The version of software inside the cluster. It must be one of the supported Image Versions (https://cloud.google.com/dataproc/docs/concepts/versioning/dataproc-versions#supported-dataproc-image-versions), such as "1.2" (including a subminor version, such as "1.2.29"), or the "preview" version (https://cloud.google.com/dataproc/docs/concepts/versioning/dataproc-versions#other_versions). If unspecified, it defaults to the latest Debian version. */
-  imageVersion?: string;
+  imageVersion?: string | undefined;
   /** Optional. The properties to set on daemon config files.Property keys are specified in prefix:property format, for example core:hadoop.tmp.dir. The following are supported prefixes and their mappings: capacity-scheduler: capacity-scheduler.xml core: core-site.xml distcp: distcp-default.xml hdfs: hdfs-site.xml hive: hive-site.xml mapred: mapred-site.xml pig: pig.properties spark: spark-defaults.conf yarn: yarn-site.xmlFor more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties). */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** Optional. The set of components to activate on the cluster. */
-  optionalComponents?: SoftwareConfigOptionalComponentsItemEnumList;
+  optionalComponents?: SoftwareConfigOptionalComponentsItemEnumList | undefined;
 }
 /** Endpoint config for this cluster */
 export interface EndpointConfig {
   /** Optional. If true, enable http access to specific ports on the cluster from external sources. Defaults to false. */
-  enableHttpPortAccess?: boolean;
+  enableHttpPortAccess?: boolean | undefined;
   /** Output only. The map of port descriptions to URLs. Will only be populated if enable_http_port_access is true. */
-  httpPorts?: StringMap;
+  httpPorts?: StringMap | undefined;
 }
 export type MetricMetricSourceEnum =
   | "METRIC_SOURCE_UNSPECIFIED"
@@ -2278,193 +2289,193 @@ export type MetricMetricSourceEnum =
 /** A custom metric. */
 export interface Metric {
   /** Required. A standard set of metrics is collected unless metricOverrides are specified for the metric source (see Custom metrics (https://cloud.google.com/dataproc/docs/guides/dataproc-metrics#custom_metrics) for more information). */
-  metricSource?: MetricMetricSourceEnum | (string & {});
+  metricSource?: MetricMetricSourceEnum | (string & {}) | undefined;
   /** Optional. Specify one or more Custom metrics (https://cloud.google.com/dataproc/docs/guides/dataproc-metrics#custom_metrics) to collect for the metric course (for the SPARK metric source (any Spark metric (https://spark.apache.org/docs/latest/monitoring.html#metrics) can be specified).Provide metrics in the following format:METRIC_SOURCE:INSTANCE :GROUP:METRIC Use camelcase as appropriate.Examples: yarn:ResourceManager:QueueMetrics:AppsCompleted spark:driver:DAGScheduler:job.allJobs sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed hiveserver2:JVM:Memory:NonHeapMemoryUsage.used Notes: Only the specified overridden metrics are collected for the metric source. For example, if one or more spark:executive metrics are listed as metric overrides, other SPARK metrics are not collected. The collection of the metrics for other enabled custom metric sources is unaffected. For example, if both SPARK and YARN metric sources are enabled, and overrides are provided for Spark metrics only, all YARN metrics are collected. */
-  metricOverrides?: StringList;
+  metricOverrides?: StringList | undefined;
 }
 export type MetricList = Array<Metric>;
 /** Metric config. */
 export interface DataprocMetricConfig {
   /** Required. Metrics sources to enable. */
-  metrics?: MetricList;
+  metrics?: MetricList | undefined;
 }
 /** The cluster config. */
 export interface ClusterConfig {
   /** Optional. The Compute Engine config settings for the cluster's worker instances. */
-  workerConfig?: InstanceGroupConfig;
+  workerConfig?: InstanceGroupConfig | undefined;
   /** Optional. The High Obtainability (HO) config settings for the cluster's worker instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration. num_instances represents the desired capacity of the worker group and is mutable via cluster updates and autoscaling.Only one of worker_config or worker_flexible_config can be set.In High Obtainability (HO) mode, for multi-node (standard) clusters, both master_flexible_config and worker_flexible_config must be specified. Mixing standard and flexible configs across node groups is not allowed. Single-node clusters do not specify worker configs. */
-  workerFlexibleConfig?: FlexibleInstanceGroupConfig;
+  workerFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
   /** Optional. BETA. The Kubernetes Engine config for clusters deployed to Kubernetes. These config settings are mutually exclusive with Compute Engine-based options, such as gce_cluster_config, master_config, worker_config, secondary_worker_config, and autoscaling_config. */
-  gkeClusterConfig?: GkeClusterConfig;
+  gkeClusterConfig?: GkeClusterConfig | undefined;
   /** Optional. Metastore configuration. */
-  metastoreConfig?: MetastoreConfig;
+  metastoreConfig?: MetastoreConfig | undefined;
   /** Optional. The High Obtainability (HO) config settings for a cluster's secondary worker instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration. num_instances represents the desired capacity of the secondary worker group and is mutable via cluster updates and autoscaling.Only one of secondary_worker_config or secondary_worker_flexible_config can be set.In High Obtainability (HO) mode, secondary workers are optional. If secondary workers are used in an HO cluster, they must be configured using secondary_worker_flexible_config (not secondary_worker_config). */
-  secondaryWorkerFlexibleConfig?: FlexibleInstanceGroupConfig;
+  secondaryWorkerFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
   /** Optional. The shared Compute Engine config settings for all instances in a cluster. */
-  gceClusterConfig?: GceClusterConfig;
+  gceClusterConfig?: GceClusterConfig | undefined;
   /** Optional. The cluster engine. */
-  engine?: ClusterConfigEngineEnum | (string & {});
+  engine?: ClusterConfigEngineEnum | (string & {}) | undefined;
   /** Optional. A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, the service will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket (see staging and temp buckets (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)). This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  tempBucket?: string;
+  tempBucket?: string | undefined;
   /** Optional. A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, the service will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see staging and temp buckets (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)). This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  configBucket?: string;
+  configBucket?: string | undefined;
   /** Optional. Security settings for the cluster. */
-  securityConfig?: SecurityConfig;
+  securityConfig?: SecurityConfig | undefined;
   /** Optional. The Compute Engine config settings for a cluster's secondary worker instances */
-  secondaryWorkerConfig?: InstanceGroupConfig;
+  secondaryWorkerConfig?: InstanceGroupConfig | undefined;
   /** Optional. The High Obtainability (HO) config settings for the cluster's master instances.In High Obtainability (HO) mode, flexible configs are the single source of truth for desired cluster configuration across node groups: * For single-node clusters: master_flexible_config must be specified, and no worker configs should be set. * For multi-node (standard) clusters: both master_flexible_config and worker_flexible_config must be specified. Mixing standard and flexible configs across node groups is not allowed.Only one of master_config or master_flexible_config can be set. */
-  masterFlexibleConfig?: FlexibleInstanceGroupConfig;
+  masterFlexibleConfig?: FlexibleInstanceGroupConfig | undefined;
   /** Optional. A Cloud Storage bucket used to collect checkpoint diagnostic data (https://cloud.google.com/dataproc/docs/support/diagnose-clusters#checkpoint_diagnostic_data). If you do not specify a diagnostic bucket, The service will use the temp bucket to collect the checkpoint diagnostic data. This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  diagnosticBucket?: string;
+  diagnosticBucket?: string | undefined;
   /** Optional. The node group settings. */
-  auxiliaryNodeGroups?: AuxiliaryNodeGroupList;
+  auxiliaryNodeGroups?: AuxiliaryNodeGroupList | undefined;
   /** Optional. Lifecycle setting for the cluster. */
-  lifecycleConfig?: LifecycleConfig;
+  lifecycleConfig?: LifecycleConfig | undefined;
   /** Optional. Commands to execute on each node after config is completed. By default, executables are run on master and all worker nodes. You can test a node's role metadata to run an executable on a master or worker node, as shown below using curl (you can also use wget): ROLE=$(curl -H Metadata-Flavor:Google http://metadata/computeMetadata/v1/instance/attributes/dataproc-role) if [[ "${ROLE}" == 'Master' ]]; then ... master specific actions ... else ... worker specific actions ... fi */
-  initializationActions?: NodeInitializationActionList;
+  initializationActions?: NodeInitializationActionList | undefined;
   /** Optional. Config for scheduling the resources to be allocated when available. */
-  schedulingConfig?: SchedulingConfig;
+  schedulingConfig?: SchedulingConfig | undefined;
   /** Optional. Autoscaling config for the policy associated with the cluster. Cluster does not autoscale if this field is unset. */
-  autoscalingConfig?: AutoscalingConfig;
+  autoscalingConfig?: AutoscalingConfig | undefined;
   /** Optional. The type of the cluster. */
-  clusterType?: ClusterConfigClusterTypeEnum | (string & {});
+  clusterType?: ClusterConfigClusterTypeEnum | (string & {}) | undefined;
   /** Optional. The Compute Engine config settings for the cluster's master instance. */
-  masterConfig?: InstanceGroupConfig;
+  masterConfig?: InstanceGroupConfig | undefined;
   /** Optional. The cluster tier. */
-  clusterTier?: ClusterConfigClusterTierEnum | (string & {});
+  clusterTier?: ClusterConfigClusterTierEnum | (string & {}) | undefined;
   /** Optional. Encryption settings for the cluster. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** Optional. The config settings for cluster software. */
-  softwareConfig?: SoftwareConfig;
+  softwareConfig?: SoftwareConfig | undefined;
   /** Optional. Port/endpoint configuration for this cluster */
-  endpointConfig?: EndpointConfig;
+  endpointConfig?: EndpointConfig | undefined;
   /** Optional. The config for metrics. */
-  dataprocMetricConfig?: DataprocMetricConfig;
+  dataprocMetricConfig?: DataprocMetricConfig | undefined;
 }
 /** Cluster that is managed by the workflow. */
 export interface ManagedCluster {
   /** Optional. The labels to associate with this cluster.Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62}Label values must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}\p{N}_-{0,63}No more than 32 labels can be associated with a given cluster. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix.The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters. */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Required. The cluster configuration. */
-  config?: ClusterConfig;
+  config?: ClusterConfig | undefined;
 }
 /** A selector that chooses target cluster for jobs based on metadata. */
 export interface ClusterSelector {
   /** Optional. The zone where workflow process executes. This parameter does not affect the selection of the cluster.If unspecified, the zone of the first cluster matching the selector is used. */
-  zone?: string;
+  zone?: string | undefined;
   /** Required. The cluster labels. Cluster must have all labels to match. */
-  clusterLabels?: StringMap;
+  clusterLabels?: StringMap | undefined;
 }
 /** Specifies workflow execution target.Either managed_cluster or cluster_selector is required. */
 export interface WorkflowTemplatePlacement {
   /** A cluster that is managed by the workflow. */
-  managedCluster?: ManagedCluster;
+  managedCluster?: ManagedCluster | undefined;
   /** Optional. A selector that chooses target cluster for jobs based on metadata.The selector is evaluated at the time each job is submitted. */
-  clusterSelector?: ClusterSelector;
+  clusterSelector?: ClusterSelector | undefined;
 }
 /** A job executed by the workflow. */
 export interface OrderedJob {
   /** Optional. The optional list of prerequisite job step_ids. If not specified, the job will start at the beginning of workflow. */
-  prerequisiteStepIds?: StringList;
+  prerequisiteStepIds?: StringList | undefined;
   /** Optional. Job is a Trino job. */
-  trinoJob?: TrinoJob;
+  trinoJob?: TrinoJob | undefined;
   /** Optional. The labels to associate with this job.Label keys must be between 1 and 63 characters long, and must conform to the following regular expression: \p{Ll}\p{Lo}{0,62}Label values must be between 1 and 63 characters long, and must conform to the following regular expression: \p{Ll}\p{Lo}\p{N}_-{0,63}No more than 32 labels can be associated with a given job. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Job scheduling configuration. */
-  scheduling?: JobScheduling;
+  scheduling?: JobScheduling | undefined;
   /** Optional. Job is a Hadoop job. */
-  hadoopJob?: HadoopJob;
+  hadoopJob?: HadoopJob | undefined;
   /** Required. The step id. The id must be unique among all jobs within the template.The step id is used as prefix for job id, as job goog-dataproc-workflow-step-id label, and in prerequisiteStepIds field from other steps.The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of between 3 and 50 characters. */
-  stepId?: string;
+  stepId?: string | undefined;
   /** Optional. Job is a Hive job. */
-  hiveJob?: HiveJob;
+  hiveJob?: HiveJob | undefined;
   /** Optional. Job is a Spark job. */
-  sparkJob?: SparkJob;
+  sparkJob?: SparkJob | undefined;
   /** Optional. Job is a SparkR job. */
-  sparkRJob?: SparkRJob;
+  sparkRJob?: SparkRJob | undefined;
   /** Optional. Job is a Flink job. */
-  flinkJob?: FlinkJob;
+  flinkJob?: FlinkJob | undefined;
   /** Optional. Job is a Pig job. */
-  pigJob?: PigJob;
+  pigJob?: PigJob | undefined;
   /** Optional. Job is a SparkSql job. */
-  sparkSqlJob?: SparkSqlJob;
+  sparkSqlJob?: SparkSqlJob | undefined;
   /** Optional. Job is a PySpark job. */
-  pysparkJob?: PySparkJob;
+  pysparkJob?: PySparkJob | undefined;
   /** Optional. Job is a Presto job. */
-  prestoJob?: PrestoJob;
+  prestoJob?: PrestoJob | undefined;
 }
 export type OrderedJobList = Array<OrderedJob>;
 /** Validation based on regular expressions. */
 export interface RegexValidation {
   /** Required. RE2 regular expressions used to validate the parameter's value. The value must match the regex in its entirety (substring matches are not sufficient). */
-  regexes?: StringList;
+  regexes?: StringList | undefined;
 }
 /** Validation based on a list of allowed values. */
 export interface ValueValidation {
   /** Required. List of allowed values for the parameter. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 /** Configuration for parameter validation. */
 export interface ParameterValidation {
   /** Validation based on regular expressions. */
-  regex?: RegexValidation;
+  regex?: RegexValidation | undefined;
   /** Validation based on a list of allowed values. */
-  values?: ValueValidation;
+  values?: ValueValidation | undefined;
 }
 /** A configurable parameter that replaces one or more fields in the template. Parameterizable fields: - Labels - File uris - Job properties - Job arguments - Script variables - Main class (in HadoopJob and SparkJob) - Zone (in ClusterSelector) */
 export interface TemplateParameter {
   /** Optional. Validation rules to be applied to this parameter's value. */
-  validation?: ParameterValidation;
+  validation?: ParameterValidation | undefined;
   /** Required. Paths to all fields that the parameter replaces. A field is allowed to appear in at most one parameter's list of field paths.A field path is similar in syntax to a google.protobuf.FieldMask. For example, a field path that references the zone field of a workflow template's cluster selector would be specified as placement.clusterSelector.zone.Also, field paths can reference fields using the following syntax: Values in maps can be referenced by key: labels'key' placement.clusterSelector.clusterLabels'key' placement.managedCluster.labels'key' placement.clusterSelector.clusterLabels'key' jobs'step-id'.labels'key' Jobs in the jobs list can be referenced by step-id: jobs'step-id'.hadoopJob.mainJarFileUri jobs'step-id'.hiveJob.queryFileUri jobs'step-id'.pySparkJob.mainPythonFileUri jobs'step-id'.hadoopJob.jarFileUris0 jobs'step-id'.hadoopJob.archiveUris0 jobs'step-id'.hadoopJob.fileUris0 jobs'step-id'.pySparkJob.pythonFileUris0 Items in repeated fields can be referenced by a zero-based index: jobs'step-id'.sparkJob.args0 Other examples: jobs'step-id'.hadoopJob.properties'key' jobs'step-id'.hadoopJob.args0 jobs'step-id'.hiveJob.scriptVariables'key' jobs'step-id'.hadoopJob.mainJarFileUri placement.clusterSelector.zoneIt may not be possible to parameterize maps and repeated fields in their entirety since only individual map values and individual items in repeated fields can be referenced. For example, the following field paths are invalid: placement.clusterSelector.clusterLabels jobs'step-id'.sparkJob.args */
-  fields?: StringList;
+  fields?: StringList | undefined;
   /** Optional. Brief description of the parameter. Must not exceed 1024 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Required. Parameter name. The parameter name is used as the key, and paired with the parameter value, which are passed to the template when the template is instantiated. The name must contain only capital letters (A-Z), numbers (0-9), and underscores (_), and must not start with a number. The maximum length is 40 characters. */
-  name?: string;
+  name?: string | undefined;
 }
 export type TemplateParameterList = Array<TemplateParameter>;
 /** Encryption settings for encrypting workflow template job arguments. */
 export interface GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig {
   /** Optional. The Cloud KMS key name to use for encrypting workflow template job arguments.When this this key is provided, the following workflow template job arguments (https://cloud.google.com/dataproc/docs/concepts/workflows/use-workflows#adding_jobs_to_a_template), if present, are CMEK encrypted (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/customer-managed-encryption#use_cmek_with_workflow_template_data): FlinkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/FlinkJob) HadoopJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/HadoopJob) SparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkJob) SparkRJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkRJob) PySparkJob args (https://cloud.google.com/dataproc/docs/reference/rest/v1/PySparkJob) SparkSqlJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/SparkSqlJob) scriptVariables and queryList.queries HiveJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/HiveJob) scriptVariables and queryList.queries PigJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PigJob) scriptVariables and queryList.queries PrestoJob (https://cloud.google.com/dataproc/docs/reference/rest/v1/PrestoJob) scriptVariables and queryList.queries */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 /** A Dataproc workflow template resource. */
 export interface WorkflowTemplate {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Used to perform a consistent read-modify-write.This field should be left blank for a CreateWorkflowTemplate request. It is required for an UpdateWorkflowTemplate request, and must match the current server version. A typical update template flow would fetch the current template with a GetWorkflowTemplate request, which will return the current template with the version field filled in with the current server version. The user updates other fields in the template, then returns it as part of the UpdateWorkflowTemplate request. */
-  version?: number;
+  version?: number | undefined;
   /** Required. WorkflowTemplate scheduling information. */
-  placement?: WorkflowTemplatePlacement;
+  placement?: WorkflowTemplatePlacement | undefined;
   /** Optional. Timeout duration for the DAG of jobs, expressed in seconds (see JSON representation of duration (https://developers.google.com/protocol-buffers/docs/proto3#json)). The timeout duration must be from 10 minutes ("600s") to 24 hours ("86400s"). The timer begins when the first job is submitted. If the workflow is running at the end of the timeout period, any remaining jobs are cancelled, the workflow is ended, and if the workflow was running on a managed cluster, the cluster is deleted. */
-  dagTimeout?: string;
+  dagTimeout?: string | undefined;
   /** Output only. The time template was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. The Directed Acyclic Graph of Jobs to submit. */
-  jobs?: OrderedJobList;
-  id?: string;
+  jobs?: OrderedJobList | undefined;
+  id?: string | undefined;
   /** Optional. The labels to associate with this template. These labels will be propagated to all jobs and clusters created by the workflow instance.Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt).Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt).No more than 32 labels can be associated with a template. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The time template was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated. */
-  parameters?: TemplateParameterList;
+  parameters?: TemplateParameterList | undefined;
   /** Optional. Encryption settings for encrypting workflow template job arguments. */
-  encryptionConfig?: GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig;
+  encryptionConfig?: GoogleCloudDataprocV1WorkflowTemplateEncryptionConfig | undefined;
 }
 export interface CreateProjectsLocationsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Request body */
-  body?: WorkflowTemplate;
+  body?: WorkflowTemplate | undefined;
 }
 export interface CreateProjectsRegionsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Request body */
-  body?: AutoscalingPolicy;
+  body?: AutoscalingPolicy | undefined;
 }
 export type CreateProjectsRegionsClustersActionOnFailedPrimaryWorkersEnum =
   | "FAILURE_ACTION_UNSPECIFIED"
@@ -2473,34 +2484,34 @@ export type CreateProjectsRegionsClustersActionOnFailedPrimaryWorkersEnum =
 /** Auxiliary services configuration for a Cluster. */
 export interface AuxiliaryServicesConfig {
   /** Optional. The Spark History Server configuration for the workload. */
-  sparkHistoryServerConfig?: SparkHistoryServerConfig;
+  sparkHistoryServerConfig?: SparkHistoryServerConfig | undefined;
   /** Optional. The Hive Metastore configuration for this workload. */
-  metastoreConfig?: MetastoreConfig;
+  metastoreConfig?: MetastoreConfig | undefined;
 }
 /** The software configuration for this Dataproc cluster running on Kubernetes. */
 export interface KubernetesSoftwareConfig {
   /** The properties to set on daemon config files.Property keys are specified in prefix:property format, for example spark:spark.kubernetes.container.image. The following are supported prefixes and their mappings: spark: spark-defaults.confFor more information, see Cluster properties (https://cloud.google.com/dataproc/docs/concepts/cluster-properties). */
-  properties?: StringMap;
+  properties?: StringMap | undefined;
   /** The components that should be installed in this Dataproc cluster. The key must be a string from the KubernetesComponent enumeration. The value is the version of the software to be installed. At least one entry must be specified. */
-  componentVersion?: StringMap;
+  componentVersion?: StringMap | undefined;
 }
 /** The configuration for running the Dataproc cluster on Kubernetes. */
 export interface KubernetesClusterConfig {
   /** Optional. The software configuration for this Dataproc cluster running on Kubernetes. */
-  kubernetesSoftwareConfig?: KubernetesSoftwareConfig;
+  kubernetesSoftwareConfig?: KubernetesSoftwareConfig | undefined;
   /** Optional. A namespace within the Kubernetes cluster to deploy into. If this namespace does not exist, it is created. If it exists, Dataproc verifies that another Dataproc VirtualCluster is not installed into it. If not specified, the name of the Dataproc Cluster is used. */
-  kubernetesNamespace?: string;
+  kubernetesNamespace?: string | undefined;
   /** Required. The configuration for running the Dataproc cluster on GKE. */
-  gkeClusterConfig?: GkeClusterConfig;
+  gkeClusterConfig?: GkeClusterConfig | undefined;
 }
 /** The cluster config for a cluster that does not directly control the underlying compute resources, such as a GKE cluster (https://cloud.google.com/dataproc/docs/guides/dpgke/dataproc-gke-overview). */
 export interface VirtualClusterConfig {
   /** Optional. A Cloud Storage bucket used to stage job dependencies, config files, and job driver console output. If you do not specify a staging bucket, the service will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's staging bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket (see staging and temp buckets (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/staging-bucket)). This field requires a Cloud Storage bucket name, not a gs://... URI to a Cloud Storage bucket. */
-  stagingBucket?: string;
+  stagingBucket?: string | undefined;
   /** Optional. Configuration of auxiliary services used by this cluster. */
-  auxiliaryServicesConfig?: AuxiliaryServicesConfig;
+  auxiliaryServicesConfig?: AuxiliaryServicesConfig | undefined;
   /** Required. The configuration for running the cluster on Kubernetes. */
-  kubernetesClusterConfig?: KubernetesClusterConfig;
+  kubernetesClusterConfig?: KubernetesClusterConfig | undefined;
 }
 export type ClusterStatusSubstateEnum = "UNSPECIFIED" | "UNHEALTHY" | "STALE_STATUS";
 export type ClusterStatusStateEnum =
@@ -2519,42 +2530,42 @@ export type ClusterStatusStateEnum =
 /** The status of a cluster and its instances. */
 export interface ClusterStatus {
   /** Output only. Additional state information that includes status reported by the agent. */
-  substate?: ClusterStatusSubstateEnum | (string & {});
+  substate?: ClusterStatusSubstateEnum | (string & {}) | undefined;
   /** Optional. Details of cluster's state. */
-  detail?: string;
+  detail?: string | undefined;
   /** Output only. The cluster's state. */
-  state?: ClusterStatusStateEnum | (string & {});
+  state?: ClusterStatusStateEnum | (string & {}) | undefined;
   /** Output only. Time when this state was entered (see JSON representation of Timestamp (https://developers.google.com/protocol-buffers/docs/proto3#json)). */
-  stateStartTime?: string;
+  stateStartTime?: string | undefined;
 }
 export type ClusterStatusList = Array<ClusterStatus>;
 /** Contains cluster daemon metrics, such as HDFS and YARN stats.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
 export interface ClusterMetrics {
   /** The HDFS metrics. */
-  hdfsMetrics?: StringMap;
+  hdfsMetrics?: StringMap | undefined;
   /** YARN metrics. */
-  yarnMetrics?: StringMap;
+  yarnMetrics?: StringMap | undefined;
 }
 /** Describes the identifying information, config, and status of a cluster */
 export interface Cluster {
   /** Optional. The virtual cluster config is used when creating a cluster that does not directly control the underlying compute resources, for example, when creating a GKE cluster (https://cloud.google.com/dataproc/docs/guides/dpgke/dataproc-gke-overview). the service may set default values, and values may change when clusters are updated. Exactly one of config or virtual_cluster_config must be specified. */
-  virtualClusterConfig?: VirtualClusterConfig;
+  virtualClusterConfig?: VirtualClusterConfig | undefined;
   /** Required. The Google Cloud Platform project ID that the cluster belongs to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required. The cluster name, which must be unique within a project. The name must start with a lowercase letter, and can contain up to 51 lowercase letters, numbers, and hyphens. It cannot end with a hyphen. The name of a deleted cluster can be reused. */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Output only. A cluster UUID (Unique Universal Identifier). The service generates this value when it creates the cluster. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
   /** Output only. The previous cluster status. */
-  statusHistory?: ClusterStatusList;
+  statusHistory?: ClusterStatusList | undefined;
   /** Output only. Cluster status. */
-  status?: ClusterStatus;
+  status?: ClusterStatus | undefined;
   /** Output only. Contains cluster daemon metrics such as HDFS and YARN stats.Beta Feature: This report is available for testing purposes only. It may be changed before final release. */
-  metrics?: ClusterMetrics;
+  metrics?: ClusterMetrics | undefined;
   /** Optional. The cluster config for a cluster of Compute Engine Instances. Note that the service may set default values, and values may change when clusters are updated.Exactly one of ClusterConfig or VirtualClusterConfig must be specified. */
-  config?: ClusterConfig;
+  config?: ClusterConfig | undefined;
   /** Optional. The labels to associate with this cluster. Label keys must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). Label values may be empty, but, if present, must contain 1 to 63 characters, and must conform to RFC 1035 (https://www.ietf.org/rfc/rfc1035.txt). No more than 32 labels can be associated with a cluster. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
@@ -2562,31 +2573,32 @@ export interface CreateProjectsRegionsClustersRequest {
   /** Optional. Failure action when primary worker creation fails. */
   actionOnFailedPrimaryWorkers?:
     | CreateProjectsRegionsClustersActionOnFailedPrimaryWorkersEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The region in which to handle the request. */
   region: string;
   /** Optional. A unique ID used to identify the request. If the server receives two CreateClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Cluster;
+  body?: Cluster | undefined;
 }
 export interface CreateProjectsRegionsClustersNodeGroupsRequest {
   /** Required. The parent resource where this node group will be created. Format: projects/{project}/regions/{region}/clusters/{cluster} */
   parent: string;
   /** Optional. A unique ID used to identify the request. If the server receives two CreateNodeGroupRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.CreateNodeGroupRequest) with the same ID, the second request is ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. An optional node group ID. Generated if not specified.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of from 3 to 33 characters. */
-  nodeGroupId?: string;
+  nodeGroupId?: string | undefined;
   /** Optional. operation id of the parent operation sending the create request */
-  parentOperationId?: string;
+  parentOperationId?: string | undefined;
   /** Request body */
-  body?: NodeGroup;
+  body?: NodeGroup | undefined;
 }
 export interface CreateProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Request body */
-  body?: WorkflowTemplate;
+  body?: WorkflowTemplate | undefined;
 }
 export interface DeleteProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
@@ -2602,7 +2614,7 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsSessionsRequest {
   /** Optional. A unique ID used to identify the request. If the service receives two DeleteSessionRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteSessionRequest)s with the same ID, the second request is ignored.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the session resource to delete. */
   name: string;
 }
@@ -2612,7 +2624,7 @@ export interface DeleteProjectsLocationsSessionTemplatesRequest {
 }
 export interface DeleteProjectsLocationsWorkflowTemplatesRequest {
   /** Optional. The version of workflow template to delete. If specified, will only delete the template if the current server version matches specified version. */
-  version?: number;
+  version?: number | undefined;
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.delete, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
 }
@@ -2622,9 +2634,9 @@ export interface DeleteProjectsRegionsAutoscalingPoliciesRequest {
 }
 export interface DeleteProjectsRegionsClustersRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two DeleteClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Specifying the cluster_uuid means the RPC should fail (with error NOT_FOUND) if cluster with specified UUID does not exist. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
   /** Required. The region in which to handle the request. */
   region: string;
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
@@ -2632,7 +2644,7 @@ export interface DeleteProjectsRegionsClustersRequest {
   /** Required. The cluster name. */
   clusterName: string;
   /** Optional. The graceful termination timeout for the deletion of the cluster. Indicate the time the request will wait to complete the running jobs on the cluster before its forceful deletion. Default value is 0 indicating that the user has not enabled the graceful termination. Value can be between 60 second and 6 Hours, in case the graceful termination is enabled. (There is no separate flag to check the enabling or disabling of graceful termination, it can be checked by the values in the field). */
-  gracefulTerminationTimeout?: string;
+  gracefulTerminationTimeout?: string | undefined;
 }
 export interface DeleteProjectsRegionsJobsRequest {
   /** Required. The job ID. */
@@ -2650,14 +2662,14 @@ export interface DeleteProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.delete, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
   /** Optional. The version of workflow template to delete. If specified, will only delete the template if the current server version matches specified version. */
-  version?: number;
+  version?: number | undefined;
 }
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive).The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
   /** Optional. Inclusive start of the interval.If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. Exclusive end of the interval.If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type DiagnoseClusterRequestTarballAccessEnum =
   | "TARBALL_ACCESS_UNSPECIFIED"
@@ -2666,19 +2678,19 @@ export type DiagnoseClusterRequestTarballAccessEnum =
 /** A request to collect cluster diagnostic information. */
 export interface DiagnoseClusterRequest {
   /** Optional. Time interval in which diagnosis should be carried out on the cluster. */
-  diagnosisInterval?: Interval;
+  diagnosisInterval?: Interval | undefined;
   /** Optional. DEPRECATED Specifies the job on which diagnosis is to be performed. Format: projects/{project}/regions/{region}/jobs/{job} */
-  job?: string;
+  job?: string | undefined;
   /** Optional. DEPRECATED Specifies the yarn application on which diagnosis is to be performed. */
-  yarnApplicationId?: string;
+  yarnApplicationId?: string | undefined;
   /** Optional. Specifies a list of yarn applications on which diagnosis is to be performed. */
-  yarnApplicationIds?: StringList;
+  yarnApplicationIds?: StringList | undefined;
   /** Optional. (Optional) The output Cloud Storage directory for the diagnostic tarball. If not specified, a task-specific directory in the cluster's staging bucket will be used. */
-  tarballGcsDir?: string;
+  tarballGcsDir?: string | undefined;
   /** Optional. Specifies a list of jobs on which diagnosis is to be performed. Format: projects/{project}/regions/{region}/jobs/{job} */
-  jobs?: StringList;
+  jobs?: StringList | undefined;
   /** Optional. (Optional) The access type to the diagnostic tarball. If not specified, falls back to default access of the bucket */
-  tarballAccess?: DiagnoseClusterRequestTarballAccessEnum | (string & {});
+  tarballAccess?: DiagnoseClusterRequestTarballAccessEnum | (string & {}) | undefined;
 }
 export interface DiagnoseProjectsRegionsClustersRequest {
   /** Required. The region in which to handle the request. */
@@ -2688,89 +2700,89 @@ export interface DiagnoseProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
   /** Request body */
-  body?: DiagnoseClusterRequest;
+  body?: DiagnoseClusterRequest | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy.Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected.Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset.The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  requestedPolicyVersion?: number;
+  requestedPolicyVersion?: number | undefined;
 }
 /** Request message for GetIamPolicy method. */
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A GetPolicyOptions object for specifying options to GetIamPolicy. */
-  options?: GetPolicyOptions;
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec.Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Associates members, or principals, with a role. */
 export interface Binding {
   /** The condition that is associated with this binding.If the condition evaluates to true, then this binding applies to the current request.If the condition evaluates to false, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. members can have the following values: allUsers: A special identifier that represents anyone who is on the internet; with or without a Google account. allAuthenticatedUsers: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. user:{emailid}: An email address that represents a specific Google account. For example, alice@example.com . serviceAccount:{emailid}: An email address that represents a Google service account. For example, my-other-app@appspot.gserviceaccount.com. serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]: An identifier for a Kubernetes service account (https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, my-project.svc.id.goog[my-namespace/my-kubernetes-sa]. group:{emailid}: An email address that represents a Google group. For example, admins@example.com. domain:{domain}: The G Suite domain (primary) that represents all the users of that domain. For example, google.com or example.com. principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workforce identity pool. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}: All workforce identities in a group. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All workforce identities with a specific attribute value. principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*: All identities in a workforce identity pool. principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}: A single identity in a workload identity pool. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}: A workload identity pool group. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}: All identities in a workload identity pool with a certain attribute. principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*: All identities in a workload identity pool. deleted:user:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a user that has been recently deleted. For example, alice@example.com?uid=123456789012345678901. If the user is recovered, this value reverts to user:{emailid} and the recovered user retains the role in the binding. deleted:serviceAccount:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901. If the service account is undeleted, this value reverts to serviceAccount:{emailid} and the undeleted service account retains the role in the binding. deleted:group:{emailid}?uid={uniqueid}: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, admins@example.com?uid=123456789012345678901. If the group is recovered, this value reverts to group:{emailid} and the recovered group retains the role in the binding. deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}: Deleted single identity in a workforce identity pool. For example, deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** Role that is assigned to the list of members, or principals. For example, roles/viewer, roles/editor, or roles/owner.For an overview of the IAM roles and permissions, see the IAM documentation (https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see here (https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources.A Policy is a collection of bindings. A binding binds one or more members, or principals, to a single role. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A role is a named list of permissions; each role can be an IAM predefined role or a user-created custom role.For some types of Google Cloud resources, a binding can also specify a condition, which is a logical expression that allows access to a resource only if the expression evaluates to true. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies).JSON example: { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } YAML example: bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 For a description of IAM and its features, see the IAM documentation (https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to getIamPolicy, and systems are expected to put that etag in the request to setIamPolicy to ensure that their change will be applied to the same version of the policy.Important: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Associates a list of members, or principals, with a role. Optionally, may specify a condition that determines how and when the bindings are applied. Each of the bindings must contain at least one principal.The bindings in a Policy can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the bindings grant 50 different roles to user:alice@example.com, and not to any other principal, then you can add another 1,450 principals to the bindings in the Policy. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** Specifies the format of the policy.Valid values are 0, 1, and 3. Requests that specify an invalid value are rejected.Any operation that affects conditional role bindings must specify version 3. This requirement applies to the following operations: Getting a policy that includes a conditional role binding Adding a conditional role binding to a policy Changing a conditional role binding in a policy Removing any role binding, with or without a condition, from a policy that includes conditionsImportant: If you use IAM Conditions, you must include the etag field whenever you call setIamPolicy. If you omit this field, then IAM allows you to overwrite a version 3 policy with a version 1 policy, and all of the conditions in the version 3 policy are lost.If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset.To learn which resources support conditions in their IAM policies, see the IAM documentation (https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsRegionsClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsRegionsJobsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsRegionsOperationsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProjectsRegionsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
@@ -2796,7 +2808,7 @@ export interface GetProjectsLocationsWorkflowTemplatesRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.get, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.get, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
   /** Optional. The version of workflow template to retrieve. Only previously instantiated versions can be retrieved.If unspecified, retrieves the current version. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetProjectsRegionsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
@@ -2830,14 +2842,14 @@ export interface GetProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.get, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.get, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
   /** Optional. The version of workflow template to retrieve. Only previously instantiated versions can be retrieved.If unspecified, retrieves the current version. */
-  version?: number;
+  version?: number | undefined;
 }
 /** A request to inject credentials into a cluster. */
 export interface InjectCredentialsRequest {
   /** Required. The encrypted credentials being injected in to the cluster.The client is responsible for encrypting the credentials in a way that is supported by the cluster.A wrapped value is used here so that the actual contents of the encrypted credentials are not written to audit logs. */
-  credentialsCiphertext?: string;
+  credentialsCiphertext?: string | undefined;
   /** Required. The cluster UUID. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
 }
 export interface InjectCredentialsProjectsRegionsClustersRequest {
   /** Required. The region containing the cluster, of the form regions/. */
@@ -2847,70 +2859,70 @@ export interface InjectCredentialsProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to, of the form projects/. */
   project: string;
   /** Request body */
-  body?: InjectCredentialsRequest;
+  body?: InjectCredentialsRequest | undefined;
 }
 export interface InstantiateInlineProjectsLocationsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,instantiateinline, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.instantiateinline, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: WorkflowTemplate;
+  body?: WorkflowTemplate | undefined;
 }
 export interface InstantiateInlineProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,instantiateinline, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.instantiateinline, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: WorkflowTemplate;
+  body?: WorkflowTemplate | undefined;
 }
 /** A request to instantiate a workflow template. */
 export interface InstantiateWorkflowTemplateRequest {
   /** Optional. The version of workflow template to instantiate. If specified, the workflow will be instantiated only if the current version of the workflow template has the supplied version.This option cannot be used to instantiate a previous version of workflow template. */
-  version?: number;
+  version?: number | undefined;
   /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Map from parameter names to values that should be used for those parameters. Values may not exceed 1000 characters. */
-  parameters?: StringMap;
+  parameters?: StringMap | undefined;
 }
 export interface InstantiateProjectsLocationsWorkflowTemplatesRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
   /** Request body */
-  body?: InstantiateWorkflowTemplateRequest;
+  body?: InstantiateWorkflowTemplateRequest | undefined;
 }
 export interface InstantiateProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
   /** Request body */
-  body?: InstantiateWorkflowTemplateRequest;
+  body?: InstantiateWorkflowTemplateRequest | undefined;
 }
 export interface ListProjectsLocationsAutoscalingPoliciesRequest {
   /** Optional. The maximum number of results to return in each response. Must be less than or equal to 1000. Defaults to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AutoscalingPolicyList = Array<AutoscalingPolicy>;
 /** A response to a request to list autoscaling policies in a project. */
 export interface ListAutoscalingPoliciesResponse {
   /** Output only. This token is included in the response if there are more results to fetch. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Autoscaling policies list. */
-  policies?: AutoscalingPolicyList;
+  policies?: AutoscalingPolicyList | undefined;
 }
 export interface ListProjectsLocationsBatchesRequest {
   /** Optional. A filter for the batches to return in the response.A filter is a logical expression constraining the values of various fields in each batch resource. Filters are case sensitive, and may contain multiple clauses combined with logical operators (AND/OR). Supported fields: * batch_id * batch_uuid * state * create_time * labels * runtime_info.cohort_info.cohort e.g. state = RUNNING and create_time < "2023-01-01T00:00:00Z" filters for batches in state RUNNING that were created before 2023-01-01. state = RUNNING and labels.environment=production filters for batches in state in a RUNNING state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed description of the filter syntax and a list of supported comparisons. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token received from a previous ListBatches call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of batches to return in each response. The service may return fewer than this value. The default page size is 20; the maximum page size is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field(s) on which to sort the list of batches.Currently the only supported sort orders are unspecified (empty) and create_time desc to sort by most recently created batches first.See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of batches. */
   parent: string;
 }
@@ -2918,184 +2930,184 @@ export type BatchList = Array<Batch>;
 /** A list of batch workloads. */
 export interface ListBatchesResponse {
   /** A token, which can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The batches from the specified collection. */
-  batches?: BatchList;
+  batches?: BatchList | undefined;
   /** Output only. List of Batches that could not be included in the response. Attempting to get one of these resources may indicate why it was not included in the list response. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets ListOperationsRequest.return_partial_success and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsSessionsRequest {
   /** Optional. A filter for the sessions to return in the response.A filter is a logical expression constraining the values of various fields in each session resource. Filters are case sensitive, and may contain multiple clauses combined with logical operators (AND, OR). Supported fields are session_id, session_uuid, state, create_time, and labels.Example: state = ACTIVE and create_time < "2023-01-01T00:00:00Z" is a filter for sessions in an ACTIVE state that were created before 2023-01-01. state = ACTIVE and labels.environment=production is a filter for sessions in an ACTIVE state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed description of the filter syntax and a list of supported comparators. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent, which owns this collection of sessions. */
   parent: string;
   /** Optional. The maximum number of sessions to return in each response. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token received from a previous ListSessions call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SessionList = Array<Session>;
 /** A list of interactive sessions. */
 export interface ListSessionsResponse {
   /** A token, which can be sent as page_token, to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The sessions from the specified collection. */
-  sessions?: SessionList;
+  sessions?: SessionList | undefined;
 }
 export interface ListProjectsLocationsSessionTemplatesRequest {
   /** Optional. A filter for the session templates to return in the response. Filters are case sensitive and have the following syntax:field = value AND field = value ... */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token received from a previous ListSessions call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent that owns this collection of session templates. */
   parent: string;
   /** Optional. The maximum number of sessions to return in each response. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type SessionTemplateList = Array<SessionTemplate>;
 /** A list of session templates. */
 export interface ListSessionTemplatesResponse {
   /** Output only. Session template list */
-  sessionTemplates?: SessionTemplateList;
+  sessionTemplates?: SessionTemplateList | undefined;
   /** A token, which can be sent as page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsWorkflowTemplatesRequest {
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. The maximum number of results to return in each response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type WorkflowTemplateList = Array<WorkflowTemplate>;
 /** A response to a request to list workflow templates in a project. */
 export interface ListWorkflowTemplatesResponse {
   /** Output only. List of workflow templates that could not be included in the response. Attempting to get one of these resources may indicate why it was not included in the list response. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListWorkflowTemplatesRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. WorkflowTemplates list. */
-  templates?: WorkflowTemplateList;
+  templates?: WorkflowTemplateList | undefined;
 }
 export interface ListProjectsRegionsAutoscalingPoliciesRequest {
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. The maximum number of results to return in each response. Must be less than or equal to 1000. Defaults to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsRegionsClustersRequest {
   /** Optional. The maximum number of clusters to return in each response. The service may return fewer than this value. If unspecified, the default value is 200. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
   /** Required. The region in which to handle the request. */
   region: string;
   /** Optional. A page token received from a previous ListClusters call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A filter constraining the clusters to list. Filters are case-sensitive and have the following syntax:field = value AND field = value ...where field is one of status.state, clusterName, or labels.[KEY], and [KEY] is a label key. value can be "*" to match all values. status.state can be one of the following: ACTIVE, INACTIVE, CREATING, RUNNING, ERROR, DELETING, UPDATING, STOPPING, or STOPPED. ACTIVE contains the CREATING, UPDATING, and RUNNING states. INACTIVE contains the DELETING, ERROR, STOPPING, and STOPPED states. clusterName is the name of the cluster provided at creation time. Only the logical AND operator is supported; space-separated items are treated as having an implicit AND operator.Example filter:status.state = ACTIVE AND clusterName = mycluster AND labels.env = staging AND labels.starred = * */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ClusterList = Array<Cluster>;
 /** The list of all clusters in a project. */
 export interface ListClustersResponse {
   /** Output only. The clusters in the project. */
-  clusters?: ClusterList;
+  clusters?: ClusterList | undefined;
   /** Output only. This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListClustersRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsRegionsJobsJobStateMatcherEnum = "ALL" | "ACTIVE" | "NON_ACTIVE";
 export interface ListProjectsRegionsJobsRequest {
   /** Optional. A filter constraining the jobs to list. Filters are case-sensitive and have the following syntax:field = value AND field = value ...where field is status.state or insertTime, or labels.[KEY], and [KEY] is a label key. value can be * to match all values. status.state can be either ACTIVE or NON_ACTIVE. Allows insertTime to be a timestamp in RFC 3339 format in double quotes, such as 2025-01-01T00:00:00Z. Only the logical AND operator is supported; space-separated items are treated as having an implicit AND operator.Example filter:status.state = ACTIVE AND labels.env = staging AND labels.starred = * AND insertTime <= "2025-01-01T00:00:00Z" */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. If set, the returned jobs list includes only jobs that were submitted to the named cluster. */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
   /** Optional. The number of results to return in each response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Optional. Specifies enumerated categories of jobs to list. (default = match ALL jobs).If filter is provided, jobStateMatcher will be ignored. */
-  jobStateMatcher?: ListProjectsRegionsJobsJobStateMatcherEnum | (string & {});
+  jobStateMatcher?: ListProjectsRegionsJobsJobStateMatcherEnum | (string & {}) | undefined;
 }
 export type JobList = Array<Job>;
 /** A list of jobs in a project. */
 export interface ListJobsResponse {
   /** Optional. This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListJobsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. List of jobs with kms_key-encrypted parameters that could not be decrypted. A response to a jobs.get request may indicate the reason for the decryption failure for a specific job. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. Jobs list. */
-  jobs?: JobList;
+  jobs?: JobList | undefined;
 }
 export interface ListProjectsRegionsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to true, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field.This can only be true when reading across collections. For example, when parent is set to "projects/example/locations/-".This field is not supported by default and will result in an UNIMPLEMENTED error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
   /** Optional. The maximum number of results to return in each response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsSessionTemplatesRequest {
   /** Required. Identifier. The resource name of the session template. */
   name: string;
   /** Request body */
-  body?: SessionTemplate;
+  body?: SessionTemplate | undefined;
 }
 export interface PatchProjectsRegionsClustersRequest {
   /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning allows removing nodes from the cluster without interrupting jobs in progress. Timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs). Default timeout is 0 (for forceful decommission), and the maximum allowed timeout is 1 day. (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Supported in image versions 1.2 and higher. */
-  gracefulDecommissionTimeout?: string;
+  gracefulDecommissionTimeout?: string | undefined;
   /** Required. The cluster name. */
   clusterName: string;
   /** Required. The region in which to handle the request. */
   region: string;
   /** Optional. A unique ID used to identify the request. If the server receives two UpdateClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.UpdateClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
   /** Required. Specifies the path, relative to Cluster, of the field to update. For example, to change the number of workers in a cluster to 5, the update_mask parameter would be specified as config.worker_config.num_instances, and the PATCH request body would specify the new value, as follows: { "config":{ "workerConfig":{ "numInstances":"5" } } } Similarly, to change the number of preemptible workers in a cluster to 5, the update_mask parameter would be config.secondary_worker_config.num_instances, and the PATCH request body would be set as follows: { "config":{ "secondaryWorkerConfig":{ "numInstances":"5" } } } *Note:* Currently, only the following fields can be updated: *Mask* *Purpose* *labels* Update labels *config.worker_config.num_instances* Resize primary worker group *config.secondary_worker_config.num_instances* Resize secondary worker group config.autoscaling_config.policy_uri Use, stop using, or change autoscaling policies */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Cluster;
+  body?: Cluster | undefined;
 }
 export interface PatchProjectsRegionsJobsRequest {
   /** Required. The job ID. */
@@ -3105,19 +3117,19 @@ export interface PatchProjectsRegionsJobsRequest {
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
   /** Required. Specifies the path, relative to Job, of the field to update. For example, to update the labels of a Job the update_mask parameter would be specified as labels, and the PATCH request body would specify the new value. *Note:* Currently, labels is the only field that can be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Job;
+  body?: Job | undefined;
 }
 export type NodePoolRepairActionEnum = "REPAIR_ACTION_UNSPECIFIED" | "DELETE";
 /** indicating a list of workers of same type */
 export interface NodePool {
   /** Name of instances to be repaired. These instances must belong to specified node pool. */
-  instanceNames?: StringList;
+  instanceNames?: StringList | undefined;
   /** Required. A unique id of the node pool. Primary and Secondary workers can be specified using special reserved ids PRIMARY_WORKER_POOL and SECONDARY_WORKER_POOL respectively. Aux node pools can be referenced using corresponding pool id. */
-  id?: string;
+  id?: string | undefined;
   /** Required. Repair action to take on specified resources of the node pool. */
-  repairAction?: NodePoolRepairActionEnum | (string & {});
+  repairAction?: NodePoolRepairActionEnum | (string & {}) | undefined;
 }
 export type NodePoolList = Array<NodePool>;
 export type ClusterToRepairClusterRepairActionEnum =
@@ -3126,24 +3138,24 @@ export type ClusterToRepairClusterRepairActionEnum =
 /** Cluster to be repaired */
 export interface ClusterToRepair {
   /** Required. Repair action to take on the cluster resource. */
-  clusterRepairAction?: ClusterToRepairClusterRepairActionEnum | (string & {});
+  clusterRepairAction?: ClusterToRepairClusterRepairActionEnum | (string & {}) | undefined;
 }
 /** A request to repair a cluster. */
 export interface RepairClusterRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two RepairClusterRequests with the same ID, the second request is ignored, and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Node pools and corresponding repair action to be taken. All node pools should be unique in this request. i.e. Multiple entries for the same node pool id are not allowed. */
-  nodePools?: NodePoolList;
+  nodePools?: NodePoolList | undefined;
   /** Optional. Whether the request is submitted by a super user. If true, IAM will check 'dataproc.clusters.repair' permission instead of 'dataproc.clusters.update' permission. This is to give Dataproc superuser the ability to repair clusters without granting the overly broad update permission. */
-  dataprocSuperUser?: boolean;
+  dataprocSuperUser?: boolean | undefined;
   /** Optional. operation id of the parent operation sending the repair request */
-  parentOperationId?: string;
+  parentOperationId?: string | undefined;
   /** Optional. Cluster to be repaired */
-  cluster?: ClusterToRepair;
+  cluster?: ClusterToRepair | undefined;
   /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning facilitates the removal of cluster nodes without interrupting jobs in progress. The timeout specifies the amount of time to wait for jobs finish before forcefully removing nodes. The default timeout is 0 for forceful decommissioning, and the maximum timeout period is 1 day. (see JSON Mapping--Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).graceful_decommission_timeout is supported in image versions 1.2+. */
-  gracefulDecommissionTimeout?: string;
+  gracefulDecommissionTimeout?: string | undefined;
   /** Optional. Specifying the cluster_uuid means the RPC will fail (with error NOT_FOUND) if a cluster with the specified UUID does not exist. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
 }
 export interface RepairProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
@@ -3153,39 +3165,39 @@ export interface RepairProjectsRegionsClustersRequest {
   /** Required. The region in which to handle the request. */
   region: string;
   /** Request body */
-  body?: RepairClusterRequest;
+  body?: RepairClusterRequest | undefined;
 }
 export type RepairNodeGroupRequestRepairActionEnum = "REPAIR_ACTION_UNSPECIFIED" | "REPLACE";
 export interface RepairNodeGroupRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two RepairNodeGroupRequest with the same ID, the second request is ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of instances to be repaired. These instances must belong to specified node pool. */
-  instanceNames?: StringList;
+  instanceNames?: StringList | undefined;
   /** Required. Repair action to take on specified resources of the node pool. */
-  repairAction?: RepairNodeGroupRequestRepairActionEnum | (string & {});
+  repairAction?: RepairNodeGroupRequestRepairActionEnum | (string & {}) | undefined;
 }
 export interface RepairProjectsRegionsClustersNodeGroupsRequest {
   /** Required. The name of the node group to resize. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
   name: string;
   /** Request body */
-  body?: RepairNodeGroupRequest;
+  body?: RepairNodeGroupRequest | undefined;
 }
 /** A request to resize a node group. */
 export interface ResizeNodeGroupRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two ResizeNodeGroupRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.ResizeNodeGroupRequests) with the same ID, the second request is ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The number of running instances for the node group to maintain. The group adds or removes instances to maintain the number of instances specified by this parameter. */
-  size?: number;
+  size?: number | undefined;
   /** Optional. Timeout for graceful YARN decommissioning. Graceful decommissioning (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/scaling-clusters#graceful_decommissioning) allows the removal of nodes from the Compute Engine node group without interrupting jobs in progress. This timeout specifies how long to wait for jobs in progress to finish before forcefully removing nodes (and potentially interrupting jobs). Default timeout is 0 (for forceful decommission), and the maximum allowed timeout is 1 day. (see JSON representation of Duration (https://developers.google.com/protocol-buffers/docs/proto3#json)).Only supported on Dataproc image versions 1.2 and higher. */
-  gracefulDecommissionTimeout?: string;
+  gracefulDecommissionTimeout?: string | undefined;
   /** Optional. operation id of the parent operation sending the resize request */
-  parentOperationId?: string;
+  parentOperationId?: string | undefined;
 }
 export interface ResizeProjectsRegionsClustersNodeGroupsRequest {
   /** Required. The name of the node group to resize. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
   name: string;
   /** Request body */
-  body?: ResizeNodeGroupRequest;
+  body?: ResizeNodeGroupRequest | undefined;
 }
 export type SearchExecutorsProjectsLocationsBatchesSparkApplicationsExecutorStatusEnum =
   | "EXECUTOR_STATUS_UNSPECIFIED"
@@ -3193,68 +3205,69 @@ export type SearchExecutorsProjectsLocationsBatchesSparkApplicationsExecutorStat
   | "EXECUTOR_STATUS_DEAD";
 export interface SearchExecutorsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filter to select whether active/ dead or all executors should be selected. */
   executorStatus?:
     | SearchExecutorsProjectsLocationsBatchesSparkApplicationsExecutorStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
 export interface ResourceInformation {
-  addresses?: StringList;
-  name?: string;
+  addresses?: StringList | undefined;
+  name?: string | undefined;
 }
 export type ResourceInformationMap = { [key: string]: ResourceInformation | undefined };
 export interface MemoryMetrics {
-  usedOffHeapStorageMemory?: string;
-  totalOnHeapStorageMemory?: string;
-  totalOffHeapStorageMemory?: string;
-  usedOnHeapStorageMemory?: string;
+  usedOffHeapStorageMemory?: string | undefined;
+  totalOnHeapStorageMemory?: string | undefined;
+  totalOffHeapStorageMemory?: string | undefined;
+  usedOnHeapStorageMemory?: string | undefined;
 }
 /** Details about executors used by the application. */
 export interface ExecutorSummary {
-  resources?: ResourceInformationMap;
-  removeReason?: string;
-  removeTime?: string;
-  memoryMetrics?: MemoryMetrics;
-  totalGcTimeMillis?: string;
-  activeTasks?: number;
-  isExcluded?: boolean;
-  executorId?: string;
-  rddBlocks?: number;
-  isActive?: boolean;
-  executorLogs?: StringMap;
-  failedTasks?: number;
-  maxTasks?: number;
-  totalCores?: number;
-  totalShuffleWrite?: string;
-  memoryUsed?: string;
-  totalInputBytes?: string;
-  hostPort?: string;
-  resourceProfileId?: number;
-  diskUsed?: string;
-  completedTasks?: number;
-  addTime?: string;
-  excludedInStages?: StringList;
-  totalTasks?: number;
-  maxMemory?: string;
-  totalDurationMillis?: string;
-  attributes?: StringMap;
-  peakMemoryMetrics?: ExecutorMetrics;
-  totalShuffleRead?: string;
+  resources?: ResourceInformationMap | undefined;
+  removeReason?: string | undefined;
+  removeTime?: string | undefined;
+  memoryMetrics?: MemoryMetrics | undefined;
+  totalGcTimeMillis?: string | undefined;
+  activeTasks?: number | undefined;
+  isExcluded?: boolean | undefined;
+  executorId?: string | undefined;
+  rddBlocks?: number | undefined;
+  isActive?: boolean | undefined;
+  executorLogs?: StringMap | undefined;
+  failedTasks?: number | undefined;
+  maxTasks?: number | undefined;
+  totalCores?: number | undefined;
+  totalShuffleWrite?: string | undefined;
+  memoryUsed?: string | undefined;
+  totalInputBytes?: string | undefined;
+  hostPort?: string | undefined;
+  resourceProfileId?: number | undefined;
+  diskUsed?: string | undefined;
+  completedTasks?: number | undefined;
+  addTime?: string | undefined;
+  excludedInStages?: StringList | undefined;
+  totalTasks?: number | undefined;
+  maxMemory?: string | undefined;
+  totalDurationMillis?: string | undefined;
+  attributes?: StringMap | undefined;
+  peakMemoryMetrics?: ExecutorMetrics | undefined;
+  totalShuffleRead?: string | undefined;
 }
 export type ExecutorSummaryList = Array<ExecutorSummary>;
 /** List of Executors associated with a Spark Application. */
 export interface SearchSparkApplicationExecutorsResponse {
   /** Details about executors used by the application. */
-  sparkApplicationExecutors?: ExecutorSummaryList;
+  sparkApplicationExecutors?: ExecutorSummaryList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationExecutorsListRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchExecutorsProjectsLocationsSessionsSparkApplicationsExecutorStatusEnum =
   | "EXECUTOR_STATUS_UNSPECIFIED"
@@ -3262,36 +3275,37 @@ export type SearchExecutorsProjectsLocationsSessionsSparkApplicationsExecutorSta
   | "EXECUTOR_STATUS_DEAD";
 export interface SearchExecutorsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Filter to select whether active/ dead or all executors should be selected. */
   executorStatus?:
     | SearchExecutorsProjectsLocationsSessionsSparkApplicationsExecutorStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationExecutors call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** List of Executors associated with a Spark Application. */
 export interface SearchSessionSparkApplicationExecutorsResponse {
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationExecutorsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Details about executors used by the application. */
-  sparkApplicationExecutors?: ExecutorSummaryList;
+  sparkApplicationExecutors?: ExecutorSummaryList | undefined;
 }
 export interface SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
   /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -3299,30 +3313,30 @@ export type ExecutorStageSummaryList = Array<ExecutorStageSummary>;
 /** List of Executors associated with a Spark Application Stage. */
 export interface SearchSparkApplicationExecutorStageSummaryResponse {
   /** Details about executors used by the application stage. */
-  sparkApplicationStageExecutors?: ExecutorStageSummaryList;
+  sparkApplicationStageExecutors?: ExecutorStageSummaryList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationExecutorsListRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
   /** Optional. Maximum number of executors to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationExecutorStageSummary call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
 }
 /** List of Executors associated with a Spark Application Stage. */
 export interface SearchSessionSparkApplicationExecutorStageSummaryResponse {
   /** Details about executors used by the application stage. */
-  sparkApplicationStageExecutors?: ExecutorStageSummaryList;
+  sparkApplicationStageExecutors?: ExecutorStageSummaryList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationExecutorStageSummaryRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchJobsProjectsLocationsBatchesSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_UNSPECIFIED"
@@ -3332,13 +3346,16 @@ export type SearchJobsProjectsLocationsBatchesSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_UNKNOWN";
 export interface SearchJobsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. Maximum number of jobs to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token received from a previous SearchSparkApplicationJobs call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. List only jobs in the specific state. */
-  jobStatus?: SearchJobsProjectsLocationsBatchesSparkApplicationsJobStatusEnum | (string & {});
+  jobStatus?:
+    | SearchJobsProjectsLocationsBatchesSparkApplicationsJobStatusEnum
+    | (string & {})
+    | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -3346,9 +3363,9 @@ export type JobDataList = Array<JobData>;
 /** A list of Jobs associated with a Spark Application. */
 export interface SearchSparkApplicationJobsResponse {
   /** Output only. Data corresponding to a spark job. */
-  sparkApplicationJobs?: JobDataList;
+  sparkApplicationJobs?: JobDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationJobsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchJobsProjectsLocationsSessionsSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_UNSPECIFIED"
@@ -3358,59 +3375,62 @@ export type SearchJobsProjectsLocationsSessionsSparkApplicationsJobStatusEnum =
   | "JOB_EXECUTION_STATUS_UNKNOWN";
 export interface SearchJobsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. A page token received from a previous SearchSessionSparkApplicationJobs call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Maximum number of jobs to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. List only jobs in the specific state. */
-  jobStatus?: SearchJobsProjectsLocationsSessionsSparkApplicationsJobStatusEnum | (string & {});
+  jobStatus?:
+    | SearchJobsProjectsLocationsSessionsSparkApplicationsJobStatusEnum
+    | (string & {})
+    | undefined;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. List of Job IDs to filter by if provided. */
-  jobIds?: StringList;
+  jobIds?: StringList | undefined;
 }
 /** A list of Jobs associated with a Spark Application. */
 export interface SearchSessionSparkApplicationJobsResponse {
   /** Output only. Data corresponding to a spark job. */
-  sparkApplicationJobs?: JobDataList;
+  sparkApplicationJobs?: JobDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationJobsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchNativeSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token received from a previous SearchSparkApplicationNativeSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type NativeSqlExecutionUiDataList = Array<NativeSqlExecutionUiData>;
 /** List of all Native SQL queries details for a Spark Application. */
 export interface SearchSparkApplicationNativeSqlQueriesResponse {
   /** Output only. Native SQL Execution Data */
-  sparkApplicationNativeSqlQueries?: NativeSqlExecutionUiDataList;
+  sparkApplicationNativeSqlQueries?: NativeSqlExecutionUiDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationNativeSqlQueriesRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchNativeSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** List of all Native queries for a Spark Application. */
 export interface SearchSessionSparkApplicationNativeSqlQueriesResponse {
   /** Output only. Native SQL Execution Data */
-  sparkApplicationNativeSqlQueries?: NativeSqlExecutionUiDataList;
+  sparkApplicationNativeSqlQueries?: NativeSqlExecutionUiDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationSqlQueriesRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchProjectsLocationsBatchesSparkApplicationsApplicationStatusEnum =
   | "APPLICATION_STATUS_UNSPECIFIED"
@@ -3418,38 +3438,39 @@ export type SearchProjectsLocationsBatchesSparkApplicationsApplicationStatusEnum
   | "APPLICATION_STATUS_COMPLETED";
 export interface SearchProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. Earliest end timestamp to list. */
-  minEndTime?: string;
+  minEndTime?: string | undefined;
   /** Optional. A page token received from a previous SearchSparkApplications call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Latest end timestamp to list. */
-  maxEndTime?: string;
+  maxEndTime?: string | undefined;
   /** Optional. Earliest start timestamp to list. */
-  minTime?: string;
+  minTime?: string | undefined;
   /** Optional. Latest start timestamp to list. */
-  maxTime?: string;
+  maxTime?: string | undefined;
   /** Optional. Search only applications in the chosen state. */
   applicationStatus?:
     | SearchProjectsLocationsBatchesSparkApplicationsApplicationStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Maximum number of applications to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
   parent: string;
 }
 /** A summary of Spark Application */
 export interface SparkApplication {
   /** Output only. High level information corresponding to an application. */
-  application?: ApplicationInfo;
+  application?: ApplicationInfo | undefined;
   /** Identifier. Name of the spark application */
-  name?: string;
+  name?: string | undefined;
 }
 export type SparkApplicationList = Array<SparkApplication>;
 /** A list of summary of Spark Applications */
 export interface SearchSparkApplicationsResponse {
   /** Output only. High level information corresponding to an application. */
-  sparkApplications?: SparkApplicationList;
+  sparkApplications?: SparkApplicationList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchProjectsLocationsSessionsSparkApplicationsApplicationStatusEnum =
   | "APPLICATION_STATUS_UNSPECIFIED"
@@ -3459,40 +3480,41 @@ export interface SearchProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. Search only applications in the chosen state. */
   applicationStatus?:
     | SearchProjectsLocationsSessionsSparkApplicationsApplicationStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID" */
   parent: string;
   /** Optional. Earliest start timestamp to list. */
-  minTime?: string;
+  minTime?: string | undefined;
   /** Optional. Latest start timestamp to list. */
-  maxTime?: string;
+  maxTime?: string | undefined;
   /** Optional. Maximum number of applications to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Earliest end timestamp to list. */
-  minEndTime?: string;
+  minEndTime?: string | undefined;
   /** Optional. Latest end timestamp to list. */
-  maxEndTime?: string;
+  maxEndTime?: string | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplications call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** A list of summary of Spark Applications */
 export interface SearchSessionSparkApplicationsResponse {
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. High level information corresponding to an application. */
-  sparkApplications?: SparkApplicationList;
+  sparkApplications?: SparkApplicationList | undefined;
 }
 export interface SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous SearchSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Enables/ disables physical plan description on demand */
-  planDescription?: boolean;
+  planDescription?: boolean | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
@@ -3500,75 +3522,75 @@ export type SqlExecutionUiDataList = Array<SqlExecutionUiData>;
 /** List of all queries for a Spark Application. */
 export interface SearchSparkApplicationSqlQueriesResponse {
   /** Output only. SQL Execution Data */
-  sparkApplicationSqlQueries?: SqlExecutionUiDataList;
+  sparkApplicationSqlQueries?: SqlExecutionUiDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationSqlQueriesRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. Enables/ disables physical plan description on demand */
-  planDescription?: boolean;
+  planDescription?: boolean | undefined;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Lists/ hides details of Spark plan nodes. True is set to list and false to hide. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. List of Spark Connect operation IDs to filter by if provided. */
-  operationIds?: StringList;
+  operationIds?: StringList | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Maximum number of queries to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** List of all queries for a Spark Application. */
 export interface SearchSessionSparkApplicationSqlQueriesResponse {
   /** Output only. SQL Execution Data */
-  sparkApplicationSqlQueries?: SqlExecutionUiDataList;
+  sparkApplicationSqlQueries?: SqlExecutionUiDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationSqlQueriesRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Stage ID for which attempts are to be fetched */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. A page token received from a previous SearchSparkApplicationStageAttempts call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string;
+  summaryMetricsMask?: string | undefined;
 }
 export type StageDataList = Array<StageData>;
 /** A list of Stage Attempts for a Stage of a Spark Application. */
 export interface SearchSparkApplicationStageAttemptsResponse {
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListSparkApplicationStageAttemptsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Data corresponding to a stage attempts */
-  sparkApplicationStageAttempts?: StageDataList;
+  sparkApplicationStageAttempts?: StageDataList | undefined;
 }
 export interface SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string;
+  summaryMetricsMask?: string | undefined;
   /** Required. Stage ID for which attempts are to be fetched */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Maximum number of stage attempts (paging based on stage_attempt_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationStageAttempts call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** A list of Stage Attempts for a Stage of a Spark Application. */
 export interface SearchSessionSparkApplicationStageAttemptsResponse {
   /** Output only. Data corresponding to a stage attempts */
-  sparkApplicationStageAttempts?: StageDataList;
+  sparkApplicationStageAttempts?: StageDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationStageAttemptsRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsTaskStatusEnum =
   | "TASK_STATUS_UNSPECIFIED"
@@ -3579,31 +3601,32 @@ export type SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsTask
   | "TASK_STATUS_PENDING";
 export interface SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. Sort the tasks by runtime. */
-  sortRuntime?: boolean;
+  sortRuntime?: boolean | undefined;
   /** Optional. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Optional. A page token received from a previous ListSparkApplicationStageAttemptTasks call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of tasks to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. List only tasks in the state. */
   taskStatus?:
     | SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsTaskStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
 }
 export type TaskDataList = Array<TaskData>;
 /** List of tasks for a stage of a Spark Application */
 export interface SearchSparkApplicationStageAttemptTasksResponse {
   /** Output only. Data corresponding to tasks created by spark. */
-  sparkApplicationStageAttemptTasks?: TaskDataList;
+  sparkApplicationStageAttemptTasks?: TaskDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent ListSparkApplicationStageAttemptTasksRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsTaskStatusEnum =
   | "TASK_STATUS_UNSPECIFIED"
@@ -3614,30 +3637,31 @@ export type SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsTas
   | "TASK_STATUS_PENDING";
 export interface SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationStageAttemptTasks call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Sort the tasks by runtime. */
-  sortRuntime?: boolean;
+  sortRuntime?: boolean | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. Maximum number of tasks to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. List only tasks in the state. */
   taskStatus?:
     | SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsTaskStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
 }
 /** List of tasks for a stage of a Spark Application */
 export interface SearchSessionSparkApplicationStageAttemptTasksResponse {
   /** Output only. Data corresponding to tasks created by spark. */
-  sparkApplicationStageAttemptTasks?: TaskDataList;
+  sparkApplicationStageAttemptTasks?: TaskDataList | undefined;
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationStageAttemptTasksRequest. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchStagesProjectsLocationsBatchesSparkApplicationsStageStatusEnum =
   | "STAGE_STATUS_UNSPECIFIED"
@@ -3648,26 +3672,27 @@ export type SearchStagesProjectsLocationsBatchesSparkApplicationsStageStatusEnum
   | "STAGE_STATUS_SKIPPED";
 export interface SearchStagesProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous FetchSparkApplicationStagesList call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. Maximum number of stages (paging based on stage_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string;
+  summaryMetricsMask?: string | undefined;
   /** Optional. List only stages in the given state. */
   stageStatus?:
     | SearchStagesProjectsLocationsBatchesSparkApplicationsStageStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** A list of stages associated with a Spark Application. */
 export interface SearchSparkApplicationStagesResponse {
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSparkApplicationStages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Data corresponding to a stage. */
-  sparkApplicationStages?: StageDataList;
+  sparkApplicationStages?: StageDataList | undefined;
 }
 export type SearchStagesProjectsLocationsSessionsSparkApplicationsStageStatusEnum =
   | "STAGE_STATUS_UNSPECIFIED"
@@ -3678,82 +3703,83 @@ export type SearchStagesProjectsLocationsSessionsSparkApplicationsStageStatusEnu
   | "STAGE_STATUS_SKIPPED";
 export interface SearchStagesProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. List of Stage IDs to filter by if provided. */
-  stageIds?: StringList;
+  stageIds?: StringList | undefined;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
-  summaryMetricsMask?: string;
+  summaryMetricsMask?: string | undefined;
   /** Optional. Maximum number of stages (paging based on stage_id) to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. A page token received from a previous SearchSessionSparkApplicationStages call. Provide this token to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. List only stages in the given state. */
   stageStatus?:
     | SearchStagesProjectsLocationsSessionsSparkApplicationsStageStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** A list of stages associated with a Spark Application. */
 export interface SearchSessionSparkApplicationStagesResponse {
   /** This token is included in the response if there are more results to fetch. To fetch additional results, provide this value as the page_token in a subsequent SearchSessionSparkApplicationStages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Data corresponding to a stage. */
-  sparkApplicationStages?: StageDataList;
+  sparkApplicationStages?: StageDataList | undefined;
 }
 /** Request message for SetIamPolicy method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the resource. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsRegionsClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsRegionsJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsRegionsOperationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsRegionsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** A request to start a cluster. */
 export interface StartClusterRequest {
   /** Optional. Specifying the cluster_uuid means the RPC will fail (with error NOT_FOUND) if a cluster with the specified UUID does not exist. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
   /** Optional. A unique ID used to identify the request. If the server receives two StartClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.StartClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface StartProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
@@ -3763,14 +3789,14 @@ export interface StartProjectsRegionsClustersRequest {
   /** Required. The region in which to handle the request. */
   region: string;
   /** Request body */
-  body?: StartClusterRequest;
+  body?: StartClusterRequest | undefined;
 }
 /** A request to stop a cluster. */
 export interface StopClusterRequest {
   /** Optional. A unique ID used to identify the request. If the server receives two StopClusterRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.StopClusterRequest)s with the same id, then the second request will be ignored and the first google.longrunning.Operation created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Specifying the cluster_uuid means the RPC will fail (with error NOT_FOUND) if a cluster with the specified UUID does not exist. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
 }
 export interface StopProjectsRegionsClustersRequest {
   /** Required. The cluster name. */
@@ -3780,14 +3806,14 @@ export interface StopProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
   /** Request body */
-  body?: StopClusterRequest;
+  body?: StopClusterRequest | undefined;
 }
 /** A request to submit a job. */
 export interface SubmitJobRequest {
   /** Required. The job resource. */
-  job?: Job;
+  job?: Job | undefined;
   /** Optional. A unique id used to identify the request. If the server receives two SubmitJobRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.SubmitJobRequest)s with the same id, then the second request will be ignored and the first Job created and stored in the backend is returned.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The id must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface SubmitAsOperationProjectsRegionsJobsRequest {
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
@@ -3795,7 +3821,7 @@ export interface SubmitAsOperationProjectsRegionsJobsRequest {
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
   /** Request body */
-  body?: SubmitJobRequest;
+  body?: SubmitJobRequest | undefined;
 }
 export interface SubmitProjectsRegionsJobsRequest {
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
@@ -3803,384 +3829,384 @@ export interface SubmitProjectsRegionsJobsRequest {
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
   /** Request body */
-  body?: SubmitJobRequest;
+  body?: SubmitJobRequest | undefined;
 }
 export interface SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
 }
 /** Consolidated summary about executors used by the application. */
 export interface ConsolidatedExecutorSummary {
-  activeTasks?: number;
-  totalGcTimeMillis?: string;
-  totalDurationMillis?: string;
-  memoryUsed?: string;
-  totalCores?: number;
-  totalInputBytes?: string;
-  count?: number;
-  maxMemory?: string;
-  rddBlocks?: number;
-  totalTasks?: number;
-  isExcluded?: number;
-  memoryMetrics?: MemoryMetrics;
-  diskUsed?: string;
-  completedTasks?: number;
-  failedTasks?: number;
-  totalShuffleRead?: string;
-  totalShuffleWrite?: string;
+  activeTasks?: number | undefined;
+  totalGcTimeMillis?: string | undefined;
+  totalDurationMillis?: string | undefined;
+  memoryUsed?: string | undefined;
+  totalCores?: number | undefined;
+  totalInputBytes?: string | undefined;
+  count?: number | undefined;
+  maxMemory?: string | undefined;
+  rddBlocks?: number | undefined;
+  totalTasks?: number | undefined;
+  isExcluded?: number | undefined;
+  memoryMetrics?: MemoryMetrics | undefined;
+  diskUsed?: string | undefined;
+  completedTasks?: number | undefined;
+  failedTasks?: number | undefined;
+  totalShuffleRead?: string | undefined;
+  totalShuffleWrite?: string | undefined;
 }
 /** Consolidated summary of executors for a Spark Application. */
 export interface SummarizeSparkApplicationExecutorsResponse {
   /** Consolidated summary for active executors. */
-  activeExecutorSummary?: ConsolidatedExecutorSummary;
+  activeExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Spark Application Id */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Consolidated summary for dead executors. */
-  deadExecutorSummary?: ConsolidatedExecutorSummary;
+  deadExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Overall consolidated summary for all executors. */
-  totalExecutorSummary?: ConsolidatedExecutorSummary;
+  totalExecutorSummary?: ConsolidatedExecutorSummary | undefined;
 }
 export interface SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Consolidated summary of executors for a Spark Application. */
 export interface SummarizeSessionSparkApplicationExecutorsResponse {
   /** Spark Application Id */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Overall consolidated summary for all executors. */
-  totalExecutorSummary?: ConsolidatedExecutorSummary;
+  totalExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Consolidated summary for dead executors. */
-  deadExecutorSummary?: ConsolidatedExecutorSummary;
+  deadExecutorSummary?: ConsolidatedExecutorSummary | undefined;
   /** Consolidated summary for active executors. */
-  activeExecutorSummary?: ConsolidatedExecutorSummary;
+  activeExecutorSummary?: ConsolidatedExecutorSummary | undefined;
 }
 export interface SummarizeJobsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Data related to Jobs page summary */
 export interface JobsSummary {
   /** Number of active jobs */
-  activeJobs?: number;
+  activeJobs?: number | undefined;
   /** Number of failed jobs */
-  failedJobs?: number;
+  failedJobs?: number | undefined;
   /** Attempts info */
-  attempts?: ApplicationAttemptInfoList;
+  attempts?: ApplicationAttemptInfoList | undefined;
   /** Spark Scheduling mode */
-  schedulingMode?: string;
+  schedulingMode?: string | undefined;
   /** Spark Application Id */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Number of completed jobs */
-  completedJobs?: number;
+  completedJobs?: number | undefined;
 }
 /** Summary of a Spark Application jobs. */
 export interface SummarizeSparkApplicationJobsResponse {
   /** Summary of a Spark Application Jobs */
-  jobsSummary?: JobsSummary;
+  jobsSummary?: JobsSummary | undefined;
 }
 export interface SummarizeJobsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. List of Job IDs to filter by if provided. */
-  jobIds?: StringList;
+  jobIds?: StringList | undefined;
 }
 /** Summary of a Spark Application jobs. */
 export interface SummarizeSessionSparkApplicationJobsResponse {
   /** Summary of a Spark Application Jobs */
-  jobsSummary?: JobsSummary;
+  jobsSummary?: JobsSummary | undefined;
 }
 export interface SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
 }
 /** Data related to tasks summary for a Spark Stage Attempt */
 export interface StageAttemptTasksSummary {
-  numPendingTasks?: number;
-  applicationId?: string;
-  numTasks?: number;
-  numRunningTasks?: number;
-  numFailedTasks?: number;
-  numKilledTasks?: number;
-  stageAttemptId?: number;
-  stageId?: string;
-  numSuccessTasks?: number;
+  numPendingTasks?: number | undefined;
+  applicationId?: string | undefined;
+  numTasks?: number | undefined;
+  numRunningTasks?: number | undefined;
+  numFailedTasks?: number | undefined;
+  numKilledTasks?: number | undefined;
+  stageAttemptId?: number | undefined;
+  stageId?: string | undefined;
+  numSuccessTasks?: number | undefined;
 }
 /** Summary of tasks for a Spark Application stage attempt. */
 export interface SummarizeSparkApplicationStageAttemptTasksResponse {
   /** Summary of tasks for a Spark Application Stage Attempt */
-  stageAttemptTasksSummary?: StageAttemptTasksSummary;
+  stageAttemptTasksSummary?: StageAttemptTasksSummary | undefined;
 }
 export interface SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Stage ID */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Stage Attempt ID */
-  stageAttemptId?: number;
+  stageAttemptId?: number | undefined;
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Summary of tasks for a Spark Application stage attempt. */
 export interface SummarizeSessionSparkApplicationStageAttemptTasksResponse {
   /** Summary of tasks for a Spark Application Stage Attempt */
-  stageAttemptTasksSummary?: StageAttemptTasksSummary;
+  stageAttemptTasksSummary?: StageAttemptTasksSummary | undefined;
 }
 export interface SummarizeStagesProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** Data related to Stages page summary */
 export interface StagesSummary {
-  numSkippedStages?: number;
-  numFailedStages?: number;
-  numPendingStages?: number;
-  numActiveStages?: number;
-  applicationId?: string;
-  numCompletedStages?: number;
+  numSkippedStages?: number | undefined;
+  numFailedStages?: number | undefined;
+  numPendingStages?: number | undefined;
+  numActiveStages?: number | undefined;
+  applicationId?: string | undefined;
+  numCompletedStages?: number | undefined;
 }
 /** Summary of a Spark Application stages. */
 export interface SummarizeSparkApplicationStagesResponse {
   /** Summary of a Spark Application Stages */
-  stagesSummary?: StagesSummary;
+  stagesSummary?: StagesSummary | undefined;
 }
 export interface SummarizeStagesProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Optional. List of Stage IDs to filter by if provided. */
-  stageIds?: StringList;
+  stageIds?: StringList | undefined;
 }
 /** Summary of a Spark Application stages. */
 export interface SummarizeSessionSparkApplicationStagesResponse {
   /** Summary of a Spark Application Stages */
-  stagesSummary?: StagesSummary;
+  stagesSummary?: StagesSummary | undefined;
 }
 /** A request to terminate an interactive session. */
 export interface TerminateSessionRequest {
   /** Optional. A unique ID used to identify the request. If the service receives two TerminateSessionRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.TerminateSessionRequest)s with the same ID, the second request is ignored.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface TerminateProjectsLocationsSessionsRequest {
   /** Required. The name of the session resource to terminate. */
   name: string;
   /** Request body */
-  body?: TerminateSessionRequest;
+  body?: TerminateSessionRequest | undefined;
 }
 /** Request message for TestIamPermissions method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the resource. Permissions with wildcards (such as * or storage.*) are not allowed. For more information see IAM Overview (https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for TestIamPermissions method. */
 export interface TestIamPermissionsResponse {
   /** A subset of TestPermissionsRequest.permissions that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsRegionsClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsRegionsJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsRegionsOperationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UpdateProjectsLocationsAutoscalingPoliciesRequest {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
   /** Request body */
-  body?: AutoscalingPolicy;
+  body?: AutoscalingPolicy | undefined;
 }
 export interface UpdateProjectsLocationsWorkflowTemplatesRequest {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
   /** Request body */
-  body?: WorkflowTemplate;
+  body?: WorkflowTemplate | undefined;
 }
 export interface UpdateProjectsRegionsAutoscalingPoliciesRequest {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
   /** Request body */
-  body?: AutoscalingPolicy;
+  body?: AutoscalingPolicy | undefined;
 }
 export interface UpdateProjectsRegionsWorkflowTemplatesRequest {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
   /** Request body */
-  body?: WorkflowTemplate;
+  body?: WorkflowTemplate | undefined;
 }
 /** Process Summary */
 export interface ProcessSummary {
-  hostPort?: string;
-  isActive?: boolean;
-  processLogs?: StringMap;
-  processId?: string;
-  totalCores?: number;
-  removeTime?: string;
-  addTime?: string;
+  hostPort?: string | undefined;
+  isActive?: boolean | undefined;
+  processLogs?: StringMap | undefined;
+  processId?: string | undefined;
+  totalCores?: number | undefined;
+  removeTime?: string | undefined;
+  addTime?: string | undefined;
 }
 export interface StateOperatorProgress {
-  commitTimeMs?: string;
-  memoryUsedBytes?: string;
-  allUpdatesTimeMs?: string;
-  numRowsUpdated?: string;
-  customMetrics?: StringMap;
-  numRowsDroppedByWatermark?: string;
-  numRowsTotal?: string;
-  numShufflePartitions?: string;
-  operatorName?: string;
-  allRemovalsTimeMs?: string;
-  numRowsRemoved?: string;
-  numStateStoreInstances?: string;
+  commitTimeMs?: string | undefined;
+  memoryUsedBytes?: string | undefined;
+  allUpdatesTimeMs?: string | undefined;
+  numRowsUpdated?: string | undefined;
+  customMetrics?: StringMap | undefined;
+  numRowsDroppedByWatermark?: string | undefined;
+  numRowsTotal?: string | undefined;
+  numShufflePartitions?: string | undefined;
+  operatorName?: string | undefined;
+  allRemovalsTimeMs?: string | undefined;
+  numRowsRemoved?: string | undefined;
+  numStateStoreInstances?: string | undefined;
 }
 export type StateOperatorProgressList = Array<StateOperatorProgress>;
 export interface SinkProgress {
-  description?: string;
-  metrics?: StringMap;
-  numOutputRows?: string;
+  description?: string | undefined;
+  metrics?: StringMap | undefined;
+  numOutputRows?: string | undefined;
 }
 export interface SourceProgress {
-  processedRowsPerSecond?: number;
-  metrics?: StringMap;
-  numInputRows?: string;
-  inputRowsPerSecond?: number;
-  startOffset?: string;
-  latestOffset?: string;
-  description?: string;
-  endOffset?: string;
+  processedRowsPerSecond?: number | undefined;
+  metrics?: StringMap | undefined;
+  numInputRows?: string | undefined;
+  inputRowsPerSecond?: number | undefined;
+  startOffset?: string | undefined;
+  latestOffset?: string | undefined;
+  description?: string | undefined;
+  endOffset?: string | undefined;
 }
 export type SourceProgressList = Array<SourceProgress>;
 export interface StreamingQueryProgress {
-  timestamp?: string;
-  batchId?: string;
-  eventTime?: StringMap;
-  batchDuration?: string;
-  stateOperators?: StateOperatorProgressList;
-  observedMetrics?: StringMap;
-  streamingQueryProgressId?: string;
-  name?: string;
-  sink?: SinkProgress;
-  sources?: SourceProgressList;
-  runId?: string;
-  durationMillis?: StringMap;
+  timestamp?: string | undefined;
+  batchId?: string | undefined;
+  eventTime?: StringMap | undefined;
+  batchDuration?: string | undefined;
+  stateOperators?: StateOperatorProgressList | undefined;
+  observedMetrics?: StringMap | undefined;
+  streamingQueryProgressId?: string | undefined;
+  name?: string | undefined;
+  sink?: SinkProgress | undefined;
+  sources?: SourceProgressList | undefined;
+  runId?: string | undefined;
+  durationMillis?: StringMap | undefined;
 }
 export interface AppSummary {
-  numCompletedJobs?: number;
-  numCompletedStages?: number;
+  numCompletedJobs?: number | undefined;
+  numCompletedStages?: number | undefined;
 }
 /** Pool Data */
 export interface PoolData {
-  name?: string;
-  stageIds?: StringList;
+  name?: string | undefined;
+  stageIds?: StringList | undefined;
 }
 /** Represents session-level information for Spark Connect */
 export interface SparkConnectSessionInfo {
   /** Required. Session ID of the session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Optional. Total number of executions in the session. */
-  totalExecution?: string;
+  totalExecution?: string | undefined;
   /** User ID of the user who started the session. */
-  userId?: string;
+  userId?: string | undefined;
   /** Timestamp when the session started. */
-  startTimestamp?: string;
+  startTimestamp?: string | undefined;
   /** Timestamp when the session finished. */
-  finishTimestamp?: string;
+  finishTimestamp?: string | undefined;
 }
 /** Information about RDD partitions. */
 export interface RddPartitionInfo {
-  memoryUsed?: string;
-  diskUsed?: string;
-  storageLevel?: string;
-  blockName?: string;
-  executors?: StringList;
+  memoryUsed?: string | undefined;
+  diskUsed?: string | undefined;
+  storageLevel?: string | undefined;
+  blockName?: string | undefined;
+  executors?: StringList | undefined;
 }
 export type RddPartitionInfoList = Array<RddPartitionInfo>;
 /** Details about RDD usage. */
 export interface RddDataDistribution {
-  onHeapMemoryRemaining?: string;
-  address?: string;
-  diskUsed?: string;
-  onHeapMemoryUsed?: string;
-  memoryRemaining?: string;
-  offHeapMemoryRemaining?: string;
-  offHeapMemoryUsed?: string;
-  memoryUsed?: string;
+  onHeapMemoryRemaining?: string | undefined;
+  address?: string | undefined;
+  diskUsed?: string | undefined;
+  onHeapMemoryUsed?: string | undefined;
+  memoryRemaining?: string | undefined;
+  offHeapMemoryRemaining?: string | undefined;
+  offHeapMemoryUsed?: string | undefined;
+  memoryUsed?: string | undefined;
 }
 export type RddDataDistributionList = Array<RddDataDistribution>;
 /** Overall data about RDD storage. */
 export interface RddStorageInfo {
-  name?: string;
-  rddStorageId?: number;
-  memoryUsed?: string;
-  partitions?: RddPartitionInfoList;
-  dataDistribution?: RddDataDistributionList;
-  numCachedPartitions?: number;
-  storageLevel?: string;
-  numPartitions?: number;
-  diskUsed?: string;
+  name?: string | undefined;
+  rddStorageId?: number | undefined;
+  memoryUsed?: string | undefined;
+  partitions?: RddPartitionInfoList | undefined;
+  dataDistribution?: RddDataDistributionList | undefined;
+  numCachedPartitions?: number | undefined;
+  storageLevel?: string | undefined;
+  numPartitions?: number | undefined;
+  diskUsed?: string | undefined;
 }
 /** Stream Block Data. */
 export interface StreamBlockData {
-  name?: string;
-  memSize?: string;
-  useDisk?: boolean;
-  hostPort?: string;
-  deserialized?: boolean;
-  diskSize?: string;
-  storageLevel?: string;
-  useMemory?: boolean;
-  executorId?: string;
+  name?: string | undefined;
+  memSize?: string | undefined;
+  useDisk?: boolean | undefined;
+  hostPort?: string | undefined;
+  deserialized?: boolean | undefined;
+  diskSize?: string | undefined;
+  storageLevel?: string | undefined;
+  useMemory?: boolean | undefined;
+  executorId?: string | undefined;
 }
 export type SparkConnectExecutionInfoStateEnum =
   | "EXECUTION_STATE_UNKNOWN"
@@ -4194,103 +4220,103 @@ export type SparkConnectExecutionInfoStateEnum =
 /** Represents the lifecycle and details of an Execution via Spark Connect */
 export interface SparkConnectExecutionInfo {
   /** Timestamp when the execution started. */
-  startTimestamp?: string;
+  startTimestamp?: string | undefined;
   /** Timestamp when the execution finished. */
-  finishTimestamp?: string;
+  finishTimestamp?: string | undefined;
   /** Optional. List of sql execution ids associated with the execution. */
-  sqlExecIds?: StringList;
+  sqlExecIds?: StringList | undefined;
   /** Unique identifier for the operation. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Timestamp when the execution was closed. */
-  closeTimestamp?: string;
+  closeTimestamp?: string | undefined;
   /** statement of the execution. */
-  statement?: string;
+  statement?: string | undefined;
   /** Output only. Current state of the execution. */
-  state?: SparkConnectExecutionInfoStateEnum | (string & {});
+  state?: SparkConnectExecutionInfoStateEnum | (string & {}) | undefined;
   /** User ID of the user who started the execution. */
-  userId?: string;
+  userId?: string | undefined;
   /** Optional. List of job ids associated with the execution. */
-  jobIds?: StringList;
+  jobIds?: StringList | undefined;
   /** Optional. Tags associated with the Spark session. */
-  sparkSessionTags?: StringList;
+  sparkSessionTags?: StringList | undefined;
   /** Detailed information about the execution. */
-  detail?: string;
+  detail?: string | undefined;
   /** Required. Session ID, ties the execution to a specific Spark Connect session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Required. Job tag of the execution. */
-  jobTag?: string;
+  jobTag?: string | undefined;
 }
 /** Streaming */
 export interface StreamingQueryData {
-  runId?: string;
-  startTimestamp?: string;
-  exception?: string;
-  name?: string;
-  isActive?: boolean;
-  streamingQueryId?: string;
-  endTimestamp?: string;
+  runId?: string | undefined;
+  startTimestamp?: string | undefined;
+  exception?: string | undefined;
+  name?: string | undefined;
+  isActive?: boolean | undefined;
+  streamingQueryId?: string | undefined;
+  endTimestamp?: string | undefined;
 }
 /** Outer message that contains the data obtained from spark listener, packaged with information that is required to process it. */
 export interface SparkWrapperObject {
-  applicationEnvironmentInfo?: ApplicationEnvironmentInfo;
+  applicationEnvironmentInfo?: ApplicationEnvironmentInfo | undefined;
   /** Native SQL Execution Info */
-  nativeSqlExecutionUiData?: NativeSqlExecutionUiData;
+  nativeSqlExecutionUiData?: NativeSqlExecutionUiData | undefined;
   /** Native Build Info */
-  nativeBuildInfoUiData?: NativeBuildInfoUiData;
-  processSummary?: ProcessSummary;
-  stageData?: StageData;
-  sqlExecutionUiData?: SqlExecutionUiData;
-  rddOperationGraph?: RddOperationGraph;
-  streamingQueryProgress?: StreamingQueryProgress;
-  executorStageSummary?: ExecutorStageSummary;
-  resourceProfileInfo?: ResourceProfileInfo;
-  appSummary?: AppSummary;
-  executorSummary?: ExecutorSummary;
-  taskData?: TaskData;
-  poolData?: PoolData;
+  nativeBuildInfoUiData?: NativeBuildInfoUiData | undefined;
+  processSummary?: ProcessSummary | undefined;
+  stageData?: StageData | undefined;
+  sqlExecutionUiData?: SqlExecutionUiData | undefined;
+  rddOperationGraph?: RddOperationGraph | undefined;
+  streamingQueryProgress?: StreamingQueryProgress | undefined;
+  executorStageSummary?: ExecutorStageSummary | undefined;
+  resourceProfileInfo?: ResourceProfileInfo | undefined;
+  appSummary?: AppSummary | undefined;
+  executorSummary?: ExecutorSummary | undefined;
+  taskData?: TaskData | undefined;
+  poolData?: PoolData | undefined;
   /** Spark Connect Session Info */
-  sparkConnectSessionInfo?: SparkConnectSessionInfo;
-  rddStorageInfo?: RddStorageInfo;
-  speculationStageSummary?: SpeculationStageSummary;
-  streamBlockData?: StreamBlockData;
+  sparkConnectSessionInfo?: SparkConnectSessionInfo | undefined;
+  rddStorageInfo?: RddStorageInfo | undefined;
+  speculationStageSummary?: SpeculationStageSummary | undefined;
+  streamBlockData?: StreamBlockData | undefined;
   /** VM Timestamp associated with the data object. */
-  eventTimestamp?: string;
-  jobData?: JobData;
-  sparkPlanGraph?: SparkPlanGraph;
+  eventTimestamp?: string | undefined;
+  jobData?: JobData | undefined;
+  sparkPlanGraph?: SparkPlanGraph | undefined;
   /** Application Id created by Spark. */
-  applicationId?: string;
-  applicationInfo?: ApplicationInfo;
+  applicationId?: string | undefined;
+  applicationInfo?: ApplicationInfo | undefined;
   /** Spark Connect Execution Info */
-  sparkConnectExecutionInfo?: SparkConnectExecutionInfo;
-  streamingQueryData?: StreamingQueryData;
+  sparkConnectExecutionInfo?: SparkConnectExecutionInfo | undefined;
+  streamingQueryData?: StreamingQueryData | undefined;
 }
 export type SparkWrapperObjectList = Array<SparkWrapperObject>;
 /** Write Spark Application data to internal storage systems */
 export interface WriteSparkApplicationContextRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
-  sparkWrapperObjects?: SparkWrapperObjectList;
+  parent?: string | undefined;
+  sparkWrapperObjects?: SparkWrapperObjectList | undefined;
 }
 export interface WriteProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the spark application to write data about in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Request body */
-  body?: WriteSparkApplicationContextRequest;
+  body?: WriteSparkApplicationContextRequest | undefined;
 }
 /** Response returned as an acknowledgement of receipt of data. */
 export interface WriteSparkApplicationContextResponse {}
 /** Write Spark Application data to internal storage systems */
 export interface WriteSessionSparkApplicationContextRequest {
   /** Required. Parent (Batch) resource reference. */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The batch of spark application context objects sent for ingestion. */
-  sparkWrapperObjects?: SparkWrapperObjectList;
+  sparkWrapperObjects?: SparkWrapperObjectList | undefined;
 }
 export interface WriteProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the spark application to write data about in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
   /** Request body */
-  body?: WriteSessionSparkApplicationContextRequest;
+  body?: WriteSessionSparkApplicationContextRequest | undefined;
 }
 /** Response returned as an acknowledgement of receipt of data. */
 export interface WriteSessionSparkApplicationContextResponse {}

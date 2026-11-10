@@ -99,63 +99,63 @@ export type CourseCourseStateEnum =
 /** Google Forms item. */
 export interface Form {
   /** URL of the form responses document. Only set if responses have been recorded and only when the requesting user is an editor of the form. Read-only. */
-  responseUrl?: string;
+  responseUrl?: string | undefined;
   /** URL of the form. */
-  formUrl?: string;
+  formUrl?: string | undefined;
   /** URL of a thumbnail image of the Form. Read-only. */
-  thumbnailUrl?: string;
+  thumbnailUrl?: string | undefined;
   /** Title of the Form. Read-only. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Representation of a Google Drive file. */
 export interface DriveFile {
   /** Title of the Drive item. Read-only. */
-  title?: string;
+  title?: string | undefined;
   /** URL of a thumbnail image of the Drive item. Read-only. */
-  thumbnailUrl?: string;
+  thumbnailUrl?: string | undefined;
   /** URL that can be used to access the Drive item. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** Drive API resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** YouTube video item. */
 export interface YouTubeVideo {
   /** URL that can be used to view the YouTube video. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** URL of a thumbnail image of the YouTube video. Read-only. */
-  thumbnailUrl?: string;
+  thumbnailUrl?: string | undefined;
   /** Title of the YouTube video. Read-only. */
-  title?: string;
+  title?: string | undefined;
   /** YouTube API resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** URL item. */
 export interface Link {
   /** Title of the target of the URL. Read-only. */
-  title?: string;
+  title?: string | undefined;
   /** URL of a thumbnail image of the target URL. Read-only. */
-  thumbnailUrl?: string;
+  thumbnailUrl?: string | undefined;
   /** URL to link to. This must be a valid UTF-8 string containing between 1 and 2024 characters. */
-  url?: string;
+  url?: string | undefined;
 }
 /** A material attached to a course as part of a material set. */
 export interface CourseMaterial {
   /** Google Forms attachment. */
-  form?: Form;
+  form?: Form | undefined;
   /** Google Drive file attachment. */
-  driveFile?: DriveFile;
+  driveFile?: DriveFile | undefined;
   /** Youtube video attachment. */
-  youTubeVideo?: YouTubeVideo;
+  youTubeVideo?: YouTubeVideo | undefined;
   /** Link atatchment. */
-  link?: Link;
+  link?: Link | undefined;
 }
 export type CourseMaterialList = Array<CourseMaterial>;
 /** A set of materials that appears on the "About" page of the course. These materials might include a syllabus, schedule, or other background information relating to the course as a whole. */
 export interface CourseMaterialSet {
   /** Title for this set. */
-  title?: string;
+  title?: string | undefined;
   /** Materials attached to this set. */
-  materials?: CourseMaterialList;
+  materials?: CourseMaterialList | undefined;
 }
 export type CourseMaterialSetList = Array<CourseMaterialSet>;
 export type GradebookSettingsDisplaySettingEnum =
@@ -170,140 +170,140 @@ export type GradebookSettingsCalculationTypeEnum =
 /** Details for a grade category in a course. Coursework may have zero or one grade category, and the category may be used in computing the overall grade. See the [help center article](https://support.google.com/edu/classroom/answer/9184995) for details. */
 export interface GradeCategory {
   /** Default value of denominator. Only applicable when grade calculation type is TOTAL_POINTS. */
-  defaultGradeDenominator?: number;
+  defaultGradeDenominator?: number | undefined;
   /** ID of the grade category. */
-  id?: string;
+  id?: string | undefined;
   /** The weight of the category average as part of overall average. A weight of 12.34% is represented as 123400 (100% is 1,000,000). The last two digits should always be zero since we use two decimal precision. Only applicable when grade calculation type is WEIGHTED_CATEGORIES. */
-  weight?: number;
+  weight?: number | undefined;
   /** Name of the grade category. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GradeCategoryList = Array<GradeCategory>;
 /** The gradebook settings for a course. See the [help center article](https://support.google.com/edu/classroom/answer/9184995) for details. */
 export interface GradebookSettings {
   /** Indicates who can see the overall grade.. */
-  displaySetting?: GradebookSettingsDisplaySettingEnum | (string & {});
+  displaySetting?: GradebookSettingsDisplaySettingEnum | (string & {}) | undefined;
   /** Indicates how the overall grade is calculated. */
-  calculationType?: GradebookSettingsCalculationTypeEnum | (string & {});
+  calculationType?: GradebookSettingsCalculationTypeEnum | (string & {}) | undefined;
   /** Grade categories that are available for coursework in the course. */
-  gradeCategories?: GradeCategoryList;
+  gradeCategories?: GradeCategoryList | undefined;
 }
 /** Representation of a Google Drive folder. */
 export interface DriveFolder {
   /** URL that can be used to access the Drive folder. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** Drive API resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Title of the Drive folder. Read-only. */
-  title?: string;
+  title?: string | undefined;
 }
 /** A Course in Classroom. */
 export interface Course {
   /** Optional room location. For example, "301". If set, this field must be a valid UTF-8 string and no longer than 650 characters. */
-  room?: string;
+  room?: string | undefined;
   /** Optional description. For example, "We'll be learning about the structure of living creatures from a combination of textbooks, guest lectures, and lab work. Expect to be excited!" If set, this field must be a valid UTF-8 string and no longer than 30,000 characters. */
-  description?: string;
+  description?: string | undefined;
   /** State of the course. If unspecified, the default state is `PROVISIONED`. */
-  courseState?: CourseCourseStateEnum | (string & {});
+  courseState?: CourseCourseStateEnum | (string & {}) | undefined;
   /** Whether or not guardian notifications are enabled for this course. Read-only. */
-  guardiansEnabled?: boolean;
+  guardiansEnabled?: boolean | undefined;
   /** The identifier of the owner of a course. When specified as a parameter of a create course request, this field is required. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user This must be set in a create request. Admins can also specify this field in a patch course request to transfer ownership. In other contexts, it is read-only. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** Sets of materials that appear on the "about" page of this course. Read-only. */
-  courseMaterialSets?: CourseMaterialSetList;
+  courseMaterialSets?: CourseMaterialSetList | undefined;
   /** Absolute link to this course in the Classroom web UI. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** Optional. Levels for the course. Examples: "9th grade", "Middle school", "4th - 5th", "K-2", "3000". If set, this field must be a valid UTF-8 string and fewer than 1000 characters. This field can only be cleared using the `PatchCourse` method. */
-  levels?: string;
+  levels?: string | undefined;
   /** The email address of a Google group containing all teachers of the course. This group does not accept email and can only be used for permissions. Read-only. */
-  teacherGroupEmail?: string;
+  teacherGroupEmail?: string | undefined;
   /** The gradebook settings that specify how a student's overall grade for the course will be calculated and who it will be displayed to. Read-only. */
-  gradebookSettings?: GradebookSettings;
+  gradebookSettings?: GradebookSettings | undefined;
   /** Creation time of the course. Specifying this field in a course update mask results in an error. Read-only. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Identifier for this course assigned by Classroom. When creating a course, you may optionally set this identifier to an alias string in the request to create a corresponding alias. The `id` is still assigned by Classroom and cannot be updated after the course is created. Specifying this field in a course update mask results in an error. */
-  id?: string;
+  id?: string | undefined;
   /** Optional heading for the description. For example, "Welcome to 10th Grade Biology." If set, this field must be a valid UTF-8 string and no longer than 3600 characters. */
-  descriptionHeading?: string;
+  descriptionHeading?: string | undefined;
   /** The Calendar ID for a calendar that all course members can see, to which Classroom adds events for course work and announcements in the course. The Calendar for a course is created asynchronously when the course is set to `CourseState.ACTIVE` for the first time (at creation time or when it is updated to `ACTIVE` through the UI or the API). The Calendar ID will not be populated until the creation process is completed. Read-only. */
-  calendarId?: string;
+  calendarId?: string | undefined;
   /** Section of the course. For example, "Period 2". If set, this field must be a valid UTF-8 string and no longer than 2800 characters. */
-  section?: string;
+  section?: string | undefined;
   /** Time of the most recent update to this course. Specifying this field in a course update mask results in an error. Read-only. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Information about a Drive Folder that is shared with all teachers of the course. This field will only be set for teachers of the course and domain administrators. Read-only. */
-  teacherFolder?: DriveFolder;
+  teacherFolder?: DriveFolder | undefined;
   /** Enrollment code to use when joining this course. Specifying this field in a course update mask results in an error. Read-only. */
-  enrollmentCode?: string;
+  enrollmentCode?: string | undefined;
   /** The email address of a Google group containing all members of the course. This group does not accept email and can only be used for permissions. Read-only. */
-  courseGroupEmail?: string;
+  courseGroupEmail?: string | undefined;
   /** Name of the course. For example, "10th Grade Biology". The name is required. It must be between 1 and 750 characters and a valid UTF-8 string. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The subject of the course. */
-  subject?: string;
+  subject?: string | undefined;
 }
 export interface CreateCoursesRequest {
   /** Request body */
-  body?: Course;
+  body?: Course | undefined;
 }
 /** Alternative identifier for a course. An alias uniquely identifies a course. It must be unique within one of the following scopes: * domain: A domain-scoped alias is visible to all users within the alias creator's domain and can be created only by a domain admin. A domain-scoped alias is often used when a course has an identifier external to Classroom. * project: A project-scoped alias is visible to any request from an application using the Developer Console project ID that created the alias and can be created by any project. A project-scoped alias is often used when an application has alternative identifiers. A random value can also be used to avoid duplicate courses in the event of transmission failures, as retrying a request will return `ALREADY_EXISTS` if a previous one has succeeded. */
 export interface CourseAlias {
   /** Alias string. The format of the string indicates the desired alias scoping. * `d:` indicates a domain-scoped alias. Example: `d:math_101` * `p:` indicates a project-scoped alias. Example: `p:abc123` This field has a maximum length of 256 characters. */
-  alias?: string;
+  alias?: string | undefined;
 }
 export interface CreateCoursesAliasesRequest {
   /** Identifier of the course to alias. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: CourseAlias;
+  body?: CourseAlias | undefined;
 }
 /** NotebookLM Notebook link. */
 export interface NotebookLmNotebook {
   /** Title of the Notebook. */
-  title?: string;
+  title?: string | undefined;
   /** URL that can be used to access the Notebook. */
-  url?: string;
+  url?: string | undefined;
   /** Notebook resource id. */
-  id?: string;
+  id?: string | undefined;
 }
 export type SharedDriveFileShareModeEnum = "UNKNOWN_SHARE_MODE" | "VIEW" | "EDIT" | "STUDENT_COPY";
 /** Drive file that is used as material for course work. */
 export interface SharedDriveFile {
   /** Drive file details. */
-  driveFile?: DriveFile;
+  driveFile?: DriveFile | undefined;
   /** Mechanism by which students access the Drive item. */
-  shareMode?: SharedDriveFileShareModeEnum | (string & {});
+  shareMode?: SharedDriveFileShareModeEnum | (string & {}) | undefined;
 }
 /** Gemini Gem link. */
 export interface GeminiGem {
   /** Gems resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Title of the Gem. */
-  title?: string;
+  title?: string | undefined;
   /** URL that can be used to access the Gem. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Material attached to course work. When creating attachments, setting the `form`, `gem`, or `notebook` field is not supported. */
 export interface Material {
   /** NotebookLM Notebook material. Read-only. */
-  notebook?: NotebookLmNotebook;
+  notebook?: NotebookLmNotebook | undefined;
   /** Google Forms material. Read-only. */
-  form?: Form;
+  form?: Form | undefined;
   /** Google Drive file material. */
-  driveFile?: SharedDriveFile;
+  driveFile?: SharedDriveFile | undefined;
   /** Link material. On creation, this is upgraded to a more appropriate type if possible, and this is reflected in the response. */
-  link?: Link;
+  link?: Link | undefined;
   /** Gemini Gem material. Read-only. */
-  gem?: GeminiGem;
+  gem?: GeminiGem | undefined;
   /** YouTube video material. */
-  youtubeVideo?: YouTubeVideo;
+  youtubeVideo?: YouTubeVideo | undefined;
 }
 export type MaterialList = Array<Material>;
 export type StringList = Array<string>;
 /** Assignee details about a coursework/announcement. This field is set if and only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
 export interface IndividualStudentsOptions {
   /** Identifiers for the students that have access to the coursework/announcement. */
-  studentIds?: StringList;
+  studentIds?: StringList | undefined;
 }
 export type AnnouncementStateEnum =
   | "ANNOUNCEMENT_STATE_UNSPECIFIED"
@@ -317,101 +317,101 @@ export type AnnouncementAssigneeModeEnum =
 /** Announcement created by a teacher for students of the course */
 export interface Announcement {
   /** Absolute link to this announcement in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** Identifier for the user that created the announcement. Read-only. */
-  creatorUserId?: string;
+  creatorUserId?: string | undefined;
   /** Timestamp when this announcement was created. Read-only. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Additional materials. Announcements must have no more than 20 material items. */
-  materials?: MaterialList;
+  materials?: MaterialList | undefined;
   /** Timestamp of the most recent change to this announcement. Read-only. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Description of this announcement. The text must be a valid UTF-8 string containing no more than 30,000 characters. */
-  text?: string;
+  text?: string | undefined;
   /** Classroom-assigned identifier of this announcement, unique per course. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Identifiers of students with access to the announcement. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the announcement. */
-  individualStudentsOptions?: IndividualStudentsOptions;
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
   /** Status of this announcement. If unspecified, the default state is `DRAFT`. */
-  state?: AnnouncementStateEnum | (string & {});
+  state?: AnnouncementStateEnum | (string & {}) | undefined;
   /** Optional timestamp when this announcement is scheduled to be published. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Assignee mode of the announcement. If unspecified, the default value is `ALL_STUDENTS`. */
-  assigneeMode?: AnnouncementAssigneeModeEnum | (string & {});
+  assigneeMode?: AnnouncementAssigneeModeEnum | (string & {}) | undefined;
 }
 export interface CreateCoursesAnnouncementsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: Announcement;
+  body?: Announcement | undefined;
 }
 /** URI to be iframed after being populated with query parameters. */
 export interface EmbedUri {
   /** Required. URI to be iframed after being populated with query parameters. This must be a valid UTF-8 string containing between 1 and 1800 characters. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
+  seconds?: number | undefined;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
+  minutes?: number | undefined;
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  hours?: number | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Classroom_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 /** Identifier of a previous copy of a given attachment. */
 export interface CopyHistory {
   /** Immutable. Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Immutable. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Immutable. Identifier of the course. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Immutable. Identifier of the attachment. */
-  attachmentId?: string;
+  attachmentId?: string | undefined;
 }
 export type CopyHistoryList = Array<CopyHistory>;
 /** An add-on attachment on a post. */
 export interface AddOnAttachment {
   /** Required. URI to show the student view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
-  studentViewUri?: EmbedUri;
+  studentViewUri?: EmbedUri | undefined;
   /** Immutable. Classroom-assigned identifier for this attachment, unique per post. */
-  id?: string;
+  id?: string | undefined;
   /** Required. URI to show the teacher view of the attachment. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, and `attachmentId` query parameters set. */
-  teacherViewUri?: EmbedUri;
+  teacherViewUri?: EmbedUri | undefined;
   /** Maximum grade for this attachment. Can only be set if `studentWorkReviewUri` is set. Set to a non-zero value to indicate that the attachment supports grade passback. If set, this must be a non-negative integer value. When set to zero, the attachment will not support grade passback. */
-  maxPoints?: number;
+  maxPoints?: number | undefined;
   /** Output only. Whether changes to `pointsEarned` values on this attachment's student submissions will be copied to the `pointsEarned` field on the students' CourseWork submissions. This field can be `true` for at most one add-on attachment per stream item. */
-  gradeSyncEnabled?: boolean;
+  gradeSyncEnabled?: boolean | undefined;
   /** Time of day, in UTC, that work on this attachment is due. This must be specified if `due_date` is specified. */
-  dueTime?: TimeOfDay;
+  dueTime?: TimeOfDay | undefined;
   /** Date, in UTC, that work on this attachment is due. This must be specified if `due_time` is specified. */
-  dueDate?: Classroom_Date;
+  dueDate?: Classroom_Date | undefined;
   /** Immutable. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Immutable. Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. Unique per course. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** URI for the teacher to see student work on the attachment, if applicable. The URI will be opened in an iframe with the `courseId`, `itemId`, `itemType`, `attachmentId`, and `submissionId` query parameters set. This is the same `submissionId` returned in the [`AddOnContext.studentContext`](/workspace/classroom/reference/rest/v1/AddOnContext#StudentContext) field when a student views the attachment. If the URI is omitted or removed, `max_points` will also be discarded. */
-  studentWorkReviewUri?: EmbedUri;
+  studentWorkReviewUri?: EmbedUri | undefined;
   /** Immutable. Identifier of the course. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Output only. Identifiers of attachments that were previous copies of this attachment. If the attachment was previously copied by virtue of its parent post being copied, this enumerates the identifiers of attachments that were its previous copies in ascending chronological order of copy. */
-  copyHistory?: CopyHistoryList;
+  copyHistory?: CopyHistoryList | undefined;
   /** Required. Title of this attachment. The title must be between 1 and 1000 characters. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
@@ -419,16 +419,16 @@ export interface CreateCoursesAnnouncementsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 /** Additional details for multiple-choice questions. */
 export interface MultipleChoiceQuestion {
   /** Possible choices. */
-  choices?: StringList;
+  choices?: StringList | undefined;
 }
 export type CourseWorkSubmissionModificationModeEnum =
   | "SUBMISSION_MODIFICATION_MODE_UNSPECIFIED"
@@ -451,76 +451,76 @@ export type CourseWorkAssigneeModeEnum =
 /** Additional details for assignments. */
 export interface Assignment {
   /** Drive folder where attachments from student submissions are placed. This is only populated for course teachers and administrators. */
-  studentWorkFolder?: DriveFolder;
+  studentWorkFolder?: DriveFolder | undefined;
 }
 /** Course work created by a teacher for students of the course. */
 export interface CourseWork {
   /** Identifier of the grading period associated with the coursework. * At creation, if unspecified, the grading period ID will be set based on the `dueDate` (or `scheduledTime` if no `dueDate` is set). * To indicate no association to any grading period, set this field to an empty string (""). * If specified, it must match an existing grading period ID in the course. */
-  gradingPeriodId?: string;
+  gradingPeriodId?: string | undefined;
   /** Optional date, in UTC, that submissions for this course work are due. This must be specified if `due_time` is specified. */
-  dueDate?: Classroom_Date;
+  dueDate?: Classroom_Date | undefined;
   /** Optional timestamp when this course work is scheduled to be published. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
   /** Multiple choice question details. For read operations, this field is populated only when `work_type` is `MULTIPLE_CHOICE_QUESTION`. For write operations, this field must be specified when creating course work with a `work_type` of `MULTIPLE_CHOICE_QUESTION`, and it must not be set otherwise. */
-  multipleChoiceQuestion?: MultipleChoiceQuestion;
+  multipleChoiceQuestion?: MultipleChoiceQuestion | undefined;
   /** Setting to determine when students are allowed to modify submissions. If unspecified, the default value is `MODIFIABLE_UNTIL_TURNED_IN`. */
-  submissionModificationMode?: CourseWorkSubmissionModificationModeEnum | (string & {});
+  submissionModificationMode?: CourseWorkSubmissionModificationModeEnum | (string & {}) | undefined;
   /** Optional time of day, in UTC, that submissions for this course work are due. This must be specified if `due_date` is specified. */
-  dueTime?: TimeOfDay;
+  dueTime?: TimeOfDay | undefined;
   /** Type of this course work. The type is set when the course work is created and cannot be changed. */
-  workType?: CourseWorkWorkTypeEnum | (string & {});
+  workType?: CourseWorkWorkTypeEnum | (string & {}) | undefined;
   /** Timestamp when this course work was created. Read-only. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Identifiers of students with access to the coursework. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field are assigned the coursework. */
-  individualStudentsOptions?: IndividualStudentsOptions;
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Timestamp of the most recent change to this course work. Read-only. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Classroom-assigned identifier of this course work, unique per course. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Status of this course work. If unspecified, the default state is `DRAFT`. */
-  state?: CourseWorkStateEnum | (string & {});
+  state?: CourseWorkStateEnum | (string & {}) | undefined;
   /** Identifier for the topic that this coursework is associated with. Must match an existing topic in the course. */
-  topicId?: string;
+  topicId?: string | undefined;
   /** Title of this course work. The title must be a valid UTF-8 string containing between 1 and 3000 characters. */
-  title?: string;
+  title?: string | undefined;
   /** Whether this course work item is associated with the Developer Console project making the request. See CreateCourseWork for more details. Read-only. */
-  associatedWithDeveloper?: boolean;
+  associatedWithDeveloper?: boolean | undefined;
   /** The category that this coursework's grade contributes to. Present only when a category has been chosen for the coursework. May be used in calculating the overall grade. Read-only. */
-  gradeCategory?: GradeCategory;
+  gradeCategory?: GradeCategory | undefined;
   /** Assignee mode of the coursework. If unspecified, the default value is `ALL_STUDENTS`. */
-  assigneeMode?: CourseWorkAssigneeModeEnum | (string & {});
+  assigneeMode?: CourseWorkAssigneeModeEnum | (string & {}) | undefined;
   /** Additional materials. CourseWork must have no more than 20 material items. */
-  materials?: MaterialList;
+  materials?: MaterialList | undefined;
   /** Absolute link to this course work in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** Maximum grade for this course work. If zero or unspecified, this assignment is considered ungraded. This must be a non-negative integer value. */
-  maxPoints?: number;
+  maxPoints?: number | undefined;
   /** Assignment details. This is populated only when `work_type` is `ASSIGNMENT`. Read-only. */
-  assignment?: Assignment;
+  assignment?: Assignment | undefined;
   /** Identifier for the user that created the coursework. Read-only. */
-  creatorUserId?: string;
+  creatorUserId?: string | undefined;
   /** Optional description of this course work. If set, the description must be a valid UTF-8 string containing no more than 30,000 characters. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateCoursesCourseWorkRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: CourseWork;
+  body?: CourseWork | undefined;
 }
 export interface CreateCoursesCourseWorkAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 export type CourseWorkMaterialAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
@@ -534,92 +534,92 @@ export type CourseWorkMaterialStateEnum =
 /** Course work material created by a teacher for students of the course */
 export interface CourseWorkMaterial {
   /** Timestamp when this course work material was created. Read-only. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Optional description of this course work material. The text must be a valid UTF-8 string containing no more than 30,000 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Optional timestamp when this course work material is scheduled to be published. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
   /** Identifiers of students with access to the course work material. This field is set only if `assigneeMode` is `INDIVIDUAL_STUDENTS`. If the `assigneeMode` is `INDIVIDUAL_STUDENTS`, then only students specified in this field can see the course work material. */
-  individualStudentsOptions?: IndividualStudentsOptions;
+  individualStudentsOptions?: IndividualStudentsOptions | undefined;
   /** Title of this course work material. The title must be a valid UTF-8 string containing between 1 and 3000 characters. */
-  title?: string;
+  title?: string | undefined;
   /** Timestamp of the most recent change to this course work material. Read-only. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Assignee mode of the course work material. If unspecified, the default value is `ALL_STUDENTS`. */
-  assigneeMode?: CourseWorkMaterialAssigneeModeEnum | (string & {});
+  assigneeMode?: CourseWorkMaterialAssigneeModeEnum | (string & {}) | undefined;
   /** Classroom-assigned identifier of this course work material, unique per course. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Absolute link to this course work material in the Classroom web UI. This is only populated if `state` is `PUBLISHED`. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** Identifier for the topic that this course work material is associated with. Must match an existing topic in the course. */
-  topicId?: string;
+  topicId?: string | undefined;
   /** Additional materials. A course work material must have no more than 20 material items. */
-  materials?: MaterialList;
+  materials?: MaterialList | undefined;
   /** Status of this course work material. If unspecified, the default state is `DRAFT`. */
-  state?: CourseWorkMaterialStateEnum | (string & {});
+  state?: CourseWorkMaterialStateEnum | (string & {}) | undefined;
   /** Identifier for the user that created the course work material. Read-only. */
-  creatorUserId?: string;
+  creatorUserId?: string | undefined;
 }
 export interface CreateCoursesCourseWorkMaterialsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: CourseWorkMaterial;
+  body?: CourseWorkMaterial | undefined;
 }
 export interface CreateCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 /** A level of the criterion. */
 export interface Level {
   /** The level ID. On creation, an ID is assigned. */
-  id?: string;
+  id?: string | undefined;
   /** The description of the level. */
-  description?: string;
+  description?: string | undefined;
   /** Optional points associated with this level. If set, all levels within the rubric must specify points and the value must be distinct across all levels within a single criterion. 0 is distinct from no points. */
-  points?: number;
+  points?: number | undefined;
   /** The title of the level. If the level has no points set, title must be set. */
-  title?: string;
+  title?: string | undefined;
 }
 export type LevelList = Array<Level>;
 /** A rubric criterion. Each criterion is a dimension on which performance is rated. */
 export interface Criterion {
   /** The list of levels within this criterion. */
-  levels?: LevelList;
+  levels?: LevelList | undefined;
   /** The title of the criterion. */
-  title?: string;
+  title?: string | undefined;
   /** The criterion ID. On creation, an ID is assigned. */
-  id?: string;
+  id?: string | undefined;
   /** The description of the criterion. */
-  description?: string;
+  description?: string | undefined;
 }
 export type CriterionList = Array<Criterion>;
 /** The rubric of the course work. A rubric is a scoring guide used to evaluate student work and give feedback. For further details, see [Rubrics structure and known limitations](/classroom/rubrics/limitations). */
 export interface Rubric {
   /** Classroom-assigned identifier for the rubric. This is unique among rubrics for the relevant course work. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Input only. Immutable. Google Sheets ID of the spreadsheet. This spreadsheet must contain formatted rubric settings. See [Create or reuse a rubric for an assignment](https://support.google.com/edu/classroom/answer/9335069). Use of this field requires the `https://www.googleapis.com/auth/spreadsheets.readonly` or `https://www.googleapis.com/auth/spreadsheets` scope. */
-  sourceSpreadsheetId?: string;
+  sourceSpreadsheetId?: string | undefined;
   /** Identifier for the course work this corresponds to. Read-only. */
-  courseWorkId?: string;
+  courseWorkId?: string | undefined;
   /** Output only. Timestamp when this rubric was created. Read-only. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** List of criteria. Each criterion is a dimension on which performance is rated. */
-  criteria?: CriterionList;
+  criteria?: CriterionList | undefined;
   /** Output only. Timestamp of the most recent change to this rubric. Read-only. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateCoursesCourseWorkRubricsRequest {
   /** Required. Identifier of the course. */
@@ -627,43 +627,43 @@ export interface CreateCoursesCourseWorkRubricsRequest {
   /** Required. Identifier of the course work. */
   courseWorkId: string;
   /** Request body */
-  body?: Rubric;
+  body?: Rubric | undefined;
 }
 export interface CreateCoursesPostsAddOnAttachmentsRequest {
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. This authorization token is required for in-Classroom attachment creation but optional for partner-first attachment creation. Returns an error if not provided for partner-first attachment creation and the developer projects that created the attachment and its parent stream item do not match. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which to create the attachment. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Optional. Deprecated, use `item_id` instead. */
   postId: string;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 /** A student group in a course. */
 export interface StudentGroup {
   /** The identifier of the course. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** The identifier of the student group. */
-  id?: string;
+  id?: string | undefined;
   /** The title of the student group. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface CreateCoursesStudentGroupsRequest {
   /** Required. The identifier of the course. */
   courseId: string;
   /** Request body */
-  body?: StudentGroup;
+  body?: StudentGroup | undefined;
 }
 /** A student member in a student group. */
 export interface StudentGroupMember {
   /** The identifier of the course. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** The identifier of the student group. */
-  studentGroupId?: string;
+  studentGroupId?: string | undefined;
   /** Identifier of the student. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface CreateCoursesStudentGroupsStudentGroupMembersRequest {
   /** Required. The identifier of the student group. */
@@ -671,110 +671,110 @@ export interface CreateCoursesStudentGroupsStudentGroupMembersRequest {
   /** Required. The identifier of the course. */
   courseId: string;
   /** Request body */
-  body?: StudentGroupMember;
+  body?: StudentGroupMember | undefined;
 }
 export type GlobalPermissionPermissionEnum = "PERMISSION_UNSPECIFIED" | "CREATE_COURSE";
 /** Global user permission description. */
 export interface GlobalPermission {
   /** Permission value. */
-  permission?: GlobalPermissionPermissionEnum | (string & {});
+  permission?: GlobalPermissionPermissionEnum | (string & {}) | undefined;
 }
 export type GlobalPermissionList = Array<GlobalPermission>;
 /** Details of the user's name. */
 export interface Name {
   /** The user's full name formed by concatenating the first and last name values. Read-only. */
-  fullName?: string;
+  fullName?: string | undefined;
   /** The user's first name. Read-only. */
-  givenName?: string;
+  givenName?: string | undefined;
   /** The user's last name. Read-only. */
-  familyName?: string;
+  familyName?: string | undefined;
 }
 /** Global information for a user. */
 export interface UserProfile {
   /** Email address of the user. Must request `https://www.googleapis.com/auth/classroom.profile.emails` scope for this field to be populated in a response body. Read-only. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Represents whether a Google Workspace for Education user's domain administrator has explicitly verified them as being a teacher. This field is always false if the user is not a member of a Google Workspace for Education domain. Read-only */
-  verifiedTeacher?: boolean;
+  verifiedTeacher?: boolean | undefined;
   /** URL of user's profile photo. Must request `https://www.googleapis.com/auth/classroom.profile.photos` scope for this field to be populated in a response body. Read-only. */
-  photoUrl?: string;
+  photoUrl?: string | undefined;
   /** Global permissions of the user. Read-only. */
-  permissions?: GlobalPermissionList;
+  permissions?: GlobalPermissionList | undefined;
   /** Identifier of the user. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the user. Read-only. */
-  name?: Name;
+  name?: Name | undefined;
 }
 /** Student in a course. */
 export interface Student {
   /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
-  userId?: string;
+  userId?: string | undefined;
   /** Information about a Drive Folder for this student's work in this course. Only visible to the student and domain administrators. Read-only. */
-  studentWorkFolder?: DriveFolder;
+  studentWorkFolder?: DriveFolder | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Global user information for the student. Read-only. */
-  profile?: UserProfile;
+  profile?: UserProfile | undefined;
 }
 export interface CreateCoursesStudentsRequest {
   /** Identifier of the course to create the student in. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Enrollment code of the course to create the student in. This code is required if userId corresponds to the requesting user; it may be omitted if the requesting user has administrative permissions to create students for any user. */
-  enrollmentCode?: string;
+  enrollmentCode?: string | undefined;
   /** Request body */
-  body?: Student;
+  body?: Student | undefined;
 }
 /** Teacher of a course. */
 export interface Teacher {
   /** Identifier of the user. When specified as a parameter of a request, this identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
-  userId?: string;
+  userId?: string | undefined;
   /** Global user information for the teacher. Read-only. */
-  profile?: UserProfile;
+  profile?: UserProfile | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
 }
 export interface CreateCoursesTeachersRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: Teacher;
+  body?: Teacher | undefined;
 }
 /** Topic created by a teacher for the course */
 export interface Topic {
   /** The name of the topic, generated by the user. Leading and trailing whitespaces, if any, are trimmed. Also, multiple consecutive whitespaces are collapsed into one inside the name. The result must be a non-empty string. Topic names are case sensitive, and must be no longer than 100 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** The time the topic was last updated by the system. Read-only. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Unique identifier for the topic. Read-only. */
-  topicId?: string;
+  topicId?: string | undefined;
 }
 export interface CreateCoursesTopicsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: Topic;
+  body?: Topic | undefined;
 }
 export type InvitationRoleEnum = "COURSE_ROLE_UNSPECIFIED" | "STUDENT" | "TEACHER" | "OWNER";
 /** An invitation to join a course. */
 export interface Invitation {
   /** Role to invite the user to have. Must not be `COURSE_ROLE_UNSPECIFIED`. */
-  role?: InvitationRoleEnum | (string & {});
+  role?: InvitationRoleEnum | (string & {}) | undefined;
   /** Identifier of the course to invite the user to. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Identifier assigned by Classroom. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Identifier of the invited user. When specified as a parameter of a request, this identifier can be set to one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface CreateInvitationsRequest {
   /** Request body */
-  body?: Invitation;
+  body?: Invitation | undefined;
 }
 /** Information about a `Feed` with a `feed_type` of `COURSE_WORK_CHANGES`. */
 export interface CourseWorkChangesInfo {
   /** The `course_id` of the course to subscribe to work changes for. */
-  courseId?: string;
+  courseId?: string | undefined;
 }
 export type FeedFeedTypeEnum =
   | "FEED_TYPE_UNSPECIFIED"
@@ -784,36 +784,36 @@ export type FeedFeedTypeEnum =
 /** Information about a `Feed` with a `feed_type` of `COURSE_ROSTER_CHANGES`. */
 export interface CourseRosterChangesInfo {
   /** The `course_id` of the course to subscribe to roster changes for. */
-  courseId?: string;
+  courseId?: string | undefined;
 }
 /** A class of notifications that an application can register to receive. For example: "all roster changes for a domain". */
 export interface Feed {
   /** Information about a `Feed` with a `feed_type` of `COURSE_WORK_CHANGES`. This field must be specified if `feed_type` is `COURSE_WORK_CHANGES`. */
-  courseWorkChangesInfo?: CourseWorkChangesInfo;
+  courseWorkChangesInfo?: CourseWorkChangesInfo | undefined;
   /** The type of feed. */
-  feedType?: FeedFeedTypeEnum | (string & {});
+  feedType?: FeedFeedTypeEnum | (string & {}) | undefined;
   /** Information about a `Feed` with a `feed_type` of `COURSE_ROSTER_CHANGES`. This field must be specified if `feed_type` is `COURSE_ROSTER_CHANGES`. */
-  courseRosterChangesInfo?: CourseRosterChangesInfo;
+  courseRosterChangesInfo?: CourseRosterChangesInfo | undefined;
 }
 /** A reference to a Cloud Pub/Sub topic. To register for notifications, the owner of the topic must grant `classroom-notifications@system.gserviceaccount.com` the `projects.topics.publish` permission. */
 export interface CloudPubsubTopic {
   /** The `name` field of a Cloud Pub/Sub [Topic](https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics#Topic). */
-  topicName?: string;
+  topicName?: string | undefined;
 }
 /** An instruction to Classroom to send notifications from the `feed` to the provided destination. */
 export interface Registration {
   /** A server-generated unique identifier for this `Registration`. Read-only. */
-  registrationId?: string;
+  registrationId?: string | undefined;
   /** Specification for the class of notifications that Classroom should deliver to the destination. */
-  feed?: Feed;
+  feed?: Feed | undefined;
   /** The Cloud Pub/Sub topic that notifications are to be sent to. */
-  cloudPubsubTopic?: CloudPubsubTopic;
+  cloudPubsubTopic?: CloudPubsubTopic | undefined;
   /** The time until which the `Registration` is effective. This is a read-only field assigned by the server. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
 }
 export interface CreateRegistrationsRequest {
   /** Request body */
-  body?: Registration;
+  body?: Registration | undefined;
 }
 export type GuardianInvitationStateEnum =
   | "GUARDIAN_INVITATION_STATE_UNSPECIFIED"
@@ -822,21 +822,21 @@ export type GuardianInvitationStateEnum =
 /** An invitation to become the guardian of a specified user, sent to a specified email address. */
 export interface GuardianInvitation {
   /** The time that this invitation was created. Read-only. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Unique identifier for this invitation. Read-only. */
-  invitationId?: string;
+  invitationId?: string | undefined;
   /** ID of the student (in standard format) */
-  studentId?: string;
+  studentId?: string | undefined;
   /** Email address that the invitation was sent to. This field is only visible to domain administrators. */
-  invitedEmailAddress?: string;
+  invitedEmailAddress?: string | undefined;
   /** The state that this invitation is in. */
-  state?: GuardianInvitationStateEnum | (string & {});
+  state?: GuardianInvitationStateEnum | (string & {}) | undefined;
 }
 export interface CreateUserProfilesGuardianInvitationsRequest {
   /** ID of the student (in standard format) */
   studentId: string;
   /** Request body */
-  body?: GuardianInvitation;
+  body?: GuardianInvitation | undefined;
 }
 export interface DeleteCoursesRequest {
   /** Identifier of the course to delete. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -862,7 +862,7 @@ export interface DeleteCoursesAnnouncementsAddOnAttachmentsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
 }
 export interface DeleteCoursesCourseWorkRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -874,7 +874,7 @@ export interface DeleteCoursesCourseWorkAddOnAttachmentsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Identifier of the attachment. */
@@ -890,7 +890,7 @@ export interface DeleteCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
@@ -908,7 +908,7 @@ export interface DeleteCoursesPostsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Optional. Deprecated, use `item_id` instead. */
@@ -962,49 +962,49 @@ export interface DeleteUserProfilesGuardiansRequest {
 }
 export interface GetAddOnContextCoursesAnnouncementsRequest {
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. The authorization token is required when neither of the following is true: * The add-on has attachments on the post. * The developer project issuing the request is the same project that created the post. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Optional. The identifier of the attachment. This field is required for all requests except when the user is in the [Attachment Discovery iframe](https://developers.google.com/workspace/classroom/add-ons/get-started/iframes/attachment-discovery-iframe). */
-  attachmentId?: string;
+  attachmentId?: string | undefined;
 }
 /** Role-specific context if the requesting user is a student. */
 export interface StudentContext {
   /** Requesting user's submission id to be used for grade passback and to identify the student when showing student work to the teacher. This is set exactly when `supportsStudentWork` is `true`. */
-  submissionId?: string;
+  submissionId?: string | undefined;
 }
 /** Role-specific context if the requesting user is a teacher. */
 export interface TeacherContext {}
 /** Attachment-relevant metadata for Classroom add-ons in the context of a specific post. */
 export interface AddOnContext {
   /** Immutable. Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Immutable. Identifier of the course. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Optional. Whether the post allows the teacher to see student work and passback grades. */
-  supportsStudentWork?: boolean;
+  supportsStudentWork?: boolean | undefined;
   /** Add-on context corresponding to the requesting user's role as a student. Its presence implies that the requesting user is a student in the course. */
-  studentContext?: StudentContext;
+  studentContext?: StudentContext | undefined;
   /** Immutable. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Add-on context corresponding to the requesting user's role as a teacher. Its presence implies that the requesting user is a teacher in the course. */
-  teacherContext?: TeacherContext;
+  teacherContext?: TeacherContext | undefined;
 }
 export interface GetAddOnContextCoursesCourseWorkRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Optional. The identifier of the attachment. This field is required for all requests except when the user is in the [Attachment Discovery iframe](https://developers.google.com/workspace/classroom/add-ons/get-started/iframes/attachment-discovery-iframe). */
-  attachmentId?: string;
+  attachmentId?: string | undefined;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. The authorization token is required when neither of the following is true: * The add-on has attachments on the post. * The developer project issuing the request is the same project that created the post. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
 }
 export interface GetAddOnContextCoursesCourseWorkMaterialsRequest {
   /** Required. Identifier of the course. */
@@ -1012,23 +1012,23 @@ export interface GetAddOnContextCoursesCourseWorkMaterialsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. The authorization token is required when neither of the following is true: * The add-on has attachments on the post. * The developer project issuing the request is the same project that created the post. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
   /** Optional. The identifier of the attachment. This field is required for all requests except when the user is in the [Attachment Discovery iframe](https://developers.google.com/workspace/classroom/add-ons/get-started/iframes/attachment-discovery-iframe). */
-  attachmentId?: string;
+  attachmentId?: string | undefined;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
 }
 export interface GetAddOnContextCoursesPostsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
   postId: string;
   /** Optional. The identifier of the attachment. This field is required for all requests except when the user is in the [Attachment Discovery iframe](https://developers.google.com/workspace/classroom/add-ons/get-started/iframes/attachment-discovery-iframe). */
-  attachmentId?: string;
+  attachmentId?: string | undefined;
   /** Optional. Token that authorizes the request. The token is passed as a query parameter when the user is redirected from Classroom to the add-on's URL. The authorization token is required when neither of the following is true: * The add-on has attachments on the post. * The developer project issuing the request is the same project that created the post. */
-  addOnToken?: string;
+  addOnToken?: string | undefined;
 }
 export interface GetCoursesRequest {
   /** Identifier of the course to return. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -1044,7 +1044,7 @@ export interface GetCoursesAnnouncementsAddOnAttachmentsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
@@ -1060,7 +1060,7 @@ export interface GetCoursesCourseWorkAddOnAttachmentsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Required. Identifier of the course. */
@@ -1072,7 +1072,7 @@ export interface GetCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Identifier of the student's submission. */
@@ -1088,15 +1088,18 @@ export type AddOnAttachmentStudentSubmissionPostSubmissionStateEnum =
 /** Payload for grade update requests. */
 export interface AddOnAttachmentStudentSubmission {
   /** Student grade on this attachment. If unset, no grade was set. */
-  pointsEarned?: number;
+  pointsEarned?: number | undefined;
   /** Submission state of add-on attachment's parent post (i.e. assignment). */
-  postSubmissionState?: AddOnAttachmentStudentSubmissionPostSubmissionStateEnum | (string & {});
+  postSubmissionState?:
+    | AddOnAttachmentStudentSubmissionPostSubmissionStateEnum
+    | (string & {})
+    | undefined;
   /** Identifier for the student that owns this submission. Requires the user to be a teacher in the course and have permission to read student submissions. See [`courseWork.studentSubmissions.get`](/workspace/classroom/reference/rest/v1/courses.courseWork.studentSubmissions/get#authorization-scopes) for the list of acceptable OAuth scopes for this field. Read-only. */
-  userId?: string;
+  userId?: string | undefined;
   /** Output only. Classroom-assigned identifier for this student submission. This is unique among submissions for the relevant course work and add-on attachment combination. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Identifier of the course work submission under which this attachment submission was made. */
-  courseWorkSubmissionId?: string;
+  courseWorkSubmissionId?: string | undefined;
 }
 export interface GetCoursesCourseWorkMaterialsRequest {
   /** Identifier of the course work material. */
@@ -1110,7 +1113,7 @@ export interface GetCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
 }
@@ -1133,7 +1136,7 @@ export interface GetCoursesCourseWorkStudentSubmissionsRequest {
 /** Student work for a short answer question. */
 export interface ShortAnswerSubmission {
   /** Student response to a short-answer question. */
-  answer?: string;
+  answer?: string | undefined;
 }
 export type StateHistoryStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1145,11 +1148,11 @@ export type StateHistoryStateEnum =
 /** The history of each state this submission has been in. */
 export interface StateHistory {
   /** When the submission entered this state. */
-  stateTimestamp?: string;
+  stateTimestamp?: string | undefined;
   /** The teacher or student who made the change. */
-  actorUserId?: string;
+  actorUserId?: string | undefined;
   /** The workflow pipeline stage. */
-  state?: StateHistoryStateEnum | (string & {});
+  state?: StateHistoryStateEnum | (string & {}) | undefined;
 }
 export type GradeHistoryGradeChangeTypeEnum =
   | "UNKNOWN_GRADE_CHANGE_TYPE"
@@ -1159,55 +1162,55 @@ export type GradeHistoryGradeChangeTypeEnum =
 /** The history of each grade on this submission. */
 export interface GradeHistory {
   /** The type of grade change at this time in the submission grade history. */
-  gradeChangeType?: GradeHistoryGradeChangeTypeEnum | (string & {});
+  gradeChangeType?: GradeHistoryGradeChangeTypeEnum | (string & {}) | undefined;
   /** The teacher who made the grade change. */
-  actorUserId?: string;
+  actorUserId?: string | undefined;
   /** When the grade of the submission was changed. */
-  gradeTimestamp?: string;
+  gradeTimestamp?: string | undefined;
   /** The denominator of the grade at this time in the submission grade history. */
-  maxPoints?: number;
+  maxPoints?: number | undefined;
   /** The numerator of the grade at this time in the submission grade history. */
-  pointsEarned?: number;
+  pointsEarned?: number | undefined;
 }
 /** The history of the submission. This currently includes state and grade histories. */
 export interface SubmissionHistory {
   /** The state history information of the submission, if present. */
-  stateHistory?: StateHistory;
+  stateHistory?: StateHistory | undefined;
   /** The grade history information of the submission, if present. */
-  gradeHistory?: GradeHistory;
+  gradeHistory?: GradeHistory | undefined;
 }
 export type SubmissionHistoryList = Array<SubmissionHistory>;
 /** A rubric grade set for the student submission. There is at most one entry per rubric criterion. */
 export interface RubricGrade {
   /** Optional. Criterion ID. */
-  criterionId?: string;
+  criterionId?: string | undefined;
   /** Optional. Optional level ID of the selected level. If empty, no level was selected. */
-  levelId?: string;
+  levelId?: string | undefined;
   /** Optional. Optional points assigned for this criterion, typically based on the level. Levels might or might not have points. If unset, no points were set for this criterion. */
-  points?: number;
+  points?: number | undefined;
 }
 export type RubricGradeMap = { [key: string]: RubricGrade | undefined };
 /** Attachment added to student assignment work. When creating attachments, setting the `form` field is not supported. */
 export interface Attachment {
   /** Youtube video attachment. */
-  youTubeVideo?: YouTubeVideo;
+  youTubeVideo?: YouTubeVideo | undefined;
   /** Google Forms attachment. */
-  form?: Form;
+  form?: Form | undefined;
   /** Google Drive file attachment. */
-  driveFile?: DriveFile;
+  driveFile?: DriveFile | undefined;
   /** Link attachment. */
-  link?: Link;
+  link?: Link | undefined;
 }
 export type AttachmentList = Array<Attachment>;
 /** Student work for an assignment. */
 export interface AssignmentSubmission {
   /** Attachments added by the student. Drive files that correspond to materials with a share mode of STUDENT_COPY may not exist yet if the student has not accessed the assignment in Classroom. Some attachment metadata is only populated if the requesting user has permission to access it. Identifier and alternate_link fields are always available, but others (for example, title) may not be. */
-  attachments?: AttachmentList;
+  attachments?: AttachmentList | undefined;
 }
 /** Student work for a multiple-choice question. */
 export interface MultipleChoiceSubmission {
   /** Student's select choice. */
-  answer?: string;
+  answer?: string | undefined;
 }
 export type StudentSubmissionCourseWorkTypeEnum =
   | "COURSE_WORK_TYPE_UNSPECIFIED"
@@ -1224,49 +1227,49 @@ export type StudentSubmissionStateEnum =
 /** Student submission for course work. `StudentSubmission` items are generated when a `CourseWork` item is created. Student submissions that have never been accessed (i.e. with `state` = NEW) may not have a creation time or update time. */
 export interface StudentSubmission {
   /** Classroom-assigned Identifier for the student submission. This is unique among submissions for the relevant course work. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Submission content when course_work_type is SHORT_ANSWER_QUESTION. */
-  shortAnswerSubmission?: ShortAnswerSubmission;
+  shortAnswerSubmission?: ShortAnswerSubmission | undefined;
   /** Whether this student submission is associated with the Developer Console project making the request. See CreateCourseWork for more details. Read-only. */
-  associatedWithDeveloper?: boolean;
+  associatedWithDeveloper?: boolean | undefined;
   /** Identifier for the course work this corresponds to. Read-only. */
-  courseWorkId?: string;
+  courseWorkId?: string | undefined;
   /** Last update time of this submission. This may be unset if the student has not accessed this item. Read-only. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The history of the submission (includes state and grade histories). Read-only. */
-  submissionHistory?: SubmissionHistoryList;
+  submissionHistory?: SubmissionHistoryList | undefined;
   /** Pending rubric grades based on the rubric's criteria. This map is empty if there is no rubric attached to this course work or if a rubric is attached, but no grades have been set on any criteria. Entries are only populated for grades that have been set. Key: The rubric's criterion ID. Read-only. */
-  draftRubricGrades?: RubricGradeMap;
+  draftRubricGrades?: RubricGradeMap | undefined;
   /** Identifier of the course. Read-only. */
-  courseId?: string;
+  courseId?: string | undefined;
   /** Whether this submission is late. Read-only. */
-  late?: boolean;
+  late?: boolean | undefined;
   /** Optional pending grade. If unset, no grade was set. This value must be non-negative. Decimal (that is, non-integer) values are allowed, but are rounded to two decimal places. This is only visible to and modifiable by course teachers. */
-  draftGrade?: number;
+  draftGrade?: number | undefined;
   /** Submission content when course_work_type is ASSIGNMENT. Students can modify this content using ModifyAttachments. */
-  assignmentSubmission?: AssignmentSubmission;
+  assignmentSubmission?: AssignmentSubmission | undefined;
   /** Optional grade. If unset, no grade was set. This value must be non-negative. Decimal (that is, non-integer) values are allowed, but are rounded to two decimal places. This may be modified only by course teachers. */
-  assignedGrade?: number;
+  assignedGrade?: number | undefined;
   /** Assigned rubric grades based on the rubric's Criteria. This map is empty if there is no rubric attached to this course work or if a rubric is attached, but no grades have been set on any Criteria. Entries are only populated for grades that have been set. Key: The rubric's criterion ID. Read-only. */
-  assignedRubricGrades?: RubricGradeMap;
+  assignedRubricGrades?: RubricGradeMap | undefined;
   /** Submission content when course_work_type is MULTIPLE_CHOICE_QUESTION. */
-  multipleChoiceSubmission?: MultipleChoiceSubmission;
+  multipleChoiceSubmission?: MultipleChoiceSubmission | undefined;
   /** Identifier for the student that owns this submission. Read-only. */
-  userId?: string;
+  userId?: string | undefined;
   /** Type of course work this submission is for. Read-only. */
-  courseWorkType?: StudentSubmissionCourseWorkTypeEnum | (string & {});
+  courseWorkType?: StudentSubmissionCourseWorkTypeEnum | (string & {}) | undefined;
   /** Creation time of this submission. This may be unset if the student has not accessed this item. Read-only. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Absolute link to the submission in the Classroom web UI. Read-only. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** State of this submission. Read-only. */
-  state?: StudentSubmissionStateEnum | (string & {});
+  state?: StudentSubmissionStateEnum | (string & {}) | undefined;
 }
 export interface GetCoursesPostsAddOnAttachmentsRequest {
   /** Optional. Deprecated, use `item_id` instead. */
   postId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Identifier of the attachment. */
@@ -1280,7 +1283,7 @@ export interface GetCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Required. Identifier of the student's submission. */
   submissionId: string;
 }
@@ -1309,21 +1312,21 @@ export interface GetGradingPeriodSettingsCoursesRequest {
 /** An individual grading period. Grading periods must not have overlapping date ranges and must be listed in chronological order. For example, if the end_date of a grading period is 2024-01-25, then the start_date of the next grading period must be 2024-01-26 or later. Each grading period must have a unique title within a course. */
 export interface GradingPeriod {
   /** Output only. System generated grading period ID. Read-only. */
-  id?: string;
+  id?: string | undefined;
   /** Required. End date, in UTC, of the grading period. Inclusive. */
-  endDate?: Classroom_Date;
+  endDate?: Classroom_Date | undefined;
   /** Required. Start date, in UTC, of the grading period. Inclusive. */
-  startDate?: Classroom_Date;
+  startDate?: Classroom_Date | undefined;
   /** Required. Title of the grading period. For example, "Semester 1". */
-  title?: string;
+  title?: string | undefined;
 }
 export type GradingPeriodList = Array<GradingPeriod>;
 /** Grading period settings that include all the individual grading periods in a course. */
 export interface GradingPeriodSettings {
   /** The list of grading periods in a specific course. Grading periods must not have overlapping date ranges and must be listed in chronological order. Each grading period must have a unique title within a course. */
-  gradingPeriods?: GradingPeriodList;
+  gradingPeriods?: GradingPeriodList | undefined;
   /** Supports toggling the application of grading periods on existing stream items. Once set, this value is persisted meaning that it does not need to be set in every request to update `GradingPeriodSettings`. If not previously set, the default is False. */
-  applyToExistingCoursework?: boolean;
+  applyToExistingCoursework?: boolean | undefined;
 }
 export interface GetInvitationsRequest {
   /** Identifier of the invitation to return. */
@@ -1348,13 +1351,13 @@ export interface GetUserProfilesGuardiansRequest {
 /** Association between a student and a guardian of that student. The guardian may receive information about the student's course work. */
 export interface Guardian {
   /** User profile for the guardian. */
-  guardianProfile?: UserProfile;
+  guardianProfile?: UserProfile | undefined;
   /** Identifier for the student to whom the guardian relationship applies. */
-  studentId?: string;
+  studentId?: string | undefined;
   /** Identifier for the guardian. */
-  guardianId?: string;
+  guardianId?: string | undefined;
   /** The email address to which the initial guardian invitation was sent. This field is only visible to domain administrators. */
-  invitedEmailAddress?: string;
+  invitedEmailAddress?: string | undefined;
 }
 export type ListCoursesCourseStatesEnum =
   | "COURSE_STATE_UNSPECIFIED"
@@ -1366,39 +1369,39 @@ export type ListCoursesCourseStatesEnum =
 export type ListCoursesCourseStatesEnumList = Array<ListCoursesCourseStatesEnum | (string & {})>;
 export interface ListCoursesRequest {
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Restricts returned courses to those having a student with the specified identifier. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user If specified, `teacher_id` must be empty. */
-  studentId?: string;
+  studentId?: string | undefined;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Restricts returned courses to those having a teacher with the specified identifier. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user If specified, `student_id` must be empty. */
-  teacherId?: string;
+  teacherId?: string | undefined;
   /** Restricts returned courses to those in one of the specified states. If unspecified, Courses in any state are returned. */
-  courseStates?: ListCoursesCourseStatesEnumList;
+  courseStates?: ListCoursesCourseStatesEnumList | undefined;
 }
 export type CourseList = Array<Course>;
 /** Response when listing courses. */
 export interface ListCoursesResponse {
   /** Courses that match the list request. */
-  courses?: CourseList;
+  courses?: CourseList | undefined;
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCoursesAliasesRequest {
   /** The identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type CourseAliasList = Array<CourseAlias>;
 /** Response when listing course aliases. */
 export interface ListCourseAliasesResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The course aliases. */
-  aliases?: CourseAliasList;
+  aliases?: CourseAliasList | undefined;
 }
 export type ListCoursesAnnouncementsAnnouncementStatesEnum =
   | "ANNOUNCEMENT_STATE_UNSPECIFIED"
@@ -1410,43 +1413,43 @@ export type ListCoursesAnnouncementsAnnouncementStatesEnumList = Array<
 >;
 export interface ListCoursesAnnouncementsRequest {
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Restriction on the `state` of announcements returned. If this argument is left unspecified, the default value is `PUBLISHED`. */
-  announcementStates?: ListCoursesAnnouncementsAnnouncementStatesEnumList;
+  announcementStates?: ListCoursesAnnouncementsAnnouncementStatesEnumList | undefined;
   /** Optional sort ordering for results. A comma-separated list of fields with an optional sort direction keyword. Supported field is `updateTime`. Supported direction keywords are `asc` and `desc`. If not specified, `updateTime desc` is the default behavior. Examples: `updateTime asc`, `updateTime` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AnnouncementList = Array<Announcement>;
 /** Response when listing course work. */
 export interface ListAnnouncementsResponse {
   /** Announcement items that match the request. */
-  announcements?: AnnouncementList;
+  announcements?: AnnouncementList | undefined;
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCoursesAnnouncementsAddOnAttachmentsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` whose attachments should be enumerated. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** A page token, received from a previous `ListAddOnAttachments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAddOnAttachments` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Identifier of the post under the course whose attachments to enumerate. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** The maximum number of attachments to return. The service may return fewer than this value. If unspecified, at most 20 attachments will be returned. The maximum value is 20; values above 20 will be coerced to 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AddOnAttachmentList = Array<AddOnAttachment>;
 /** Response when listing add-on attachments. */
 export interface ListAddOnAttachmentsResponse {
   /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Attachments under the given post. */
-  addOnAttachments?: AddOnAttachmentList;
+  addOnAttachments?: AddOnAttachmentList | undefined;
 }
 export type ListCoursesCourseWorkCourseWorkStatesEnum =
   | "COURSE_WORK_STATE_UNSPECIFIED"
@@ -1458,13 +1461,13 @@ export type ListCoursesCourseWorkCourseWorkStatesEnumList = Array<
 >;
 export interface ListCoursesCourseWorkRequest {
   /** Optional sort ordering for results. A comma-separated list of fields with an optional sort direction keyword. Supported fields are `updateTime` and `dueDate`. Supported direction keywords are `asc` and `desc`. If not specified, `updateTime desc` is the default behavior. Examples: `dueDate asc,updateTime desc`, `updateTime,dueDate desc` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Restriction on the work status to return. Only courseWork that matches is returned. If unspecified, items with a work status of `PUBLISHED` is returned. */
-  courseWorkStates?: ListCoursesCourseWorkCourseWorkStatesEnumList;
+  courseWorkStates?: ListCoursesCourseWorkCourseWorkStatesEnumList | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
 }
@@ -1472,17 +1475,17 @@ export type CourseWorkList = Array<CourseWork>;
 /** Response when listing course work. */
 export interface ListCourseWorkResponse {
   /** Course work items that match the request. */
-  courseWork?: CourseWorkList;
+  courseWork?: CourseWorkList | undefined;
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCoursesCourseWorkAddOnAttachmentsRequest {
   /** Optional. Identifier of the post under the course whose attachments to enumerate. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** A page token, received from a previous `ListAddOnAttachments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAddOnAttachments` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of attachments to return. The service may return fewer than this value. If unspecified, at most 20 attachments will be returned. The maximum value is 20; values above 20 will be coerced to 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` whose attachments should be enumerated. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Required. Identifier of the course. */
@@ -1490,13 +1493,13 @@ export interface ListCoursesCourseWorkAddOnAttachmentsRequest {
 }
 export interface ListCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest {
   /** Optional. A page token, received from a previous `ListAddOnAttachmentStudentSubmissions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAddOnAttachmentStudentSubmissions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Identifier of the `CourseWork` under which the attachment is attached. */
   itemId: string;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Maximum number of submissions to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Identifier of the add-on attachment. */
   attachmentId: string;
 }
@@ -1504,9 +1507,9 @@ export type AddOnAttachmentStudentSubmissionList = Array<AddOnAttachmentStudentS
 /** Response when listing student submissions for an add-on attachment. */
 export interface ListAddOnAttachmentStudentSubmissionsResponse {
   /** Add-on attachment student submissions that match the request. */
-  addOnAttachmentStudentSubmissions?: AddOnAttachmentStudentSubmissionList;
+  addOnAttachmentStudentSubmissions?: AddOnAttachmentStudentSubmissionList | undefined;
   /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListCoursesCourseWorkMaterialsCourseWorkMaterialStatesEnum =
   | "COURSEWORK_MATERIAL_STATE_UNSPECIFIED"
@@ -1520,43 +1523,45 @@ export interface ListCoursesCourseWorkMaterialsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Restriction on the work status to return. Only course work material that matches is returned. If unspecified, items with a work status of `PUBLISHED` is returned. */
-  courseWorkMaterialStates?: ListCoursesCourseWorkMaterialsCourseWorkMaterialStatesEnumList;
+  courseWorkMaterialStates?:
+    | ListCoursesCourseWorkMaterialsCourseWorkMaterialStatesEnumList
+    | undefined;
   /** Optional filtering for course work material with at least one link material whose URL partially matches the provided string. */
-  materialLink?: string;
+  materialLink?: string | undefined;
   /** Optional filtering for course work material with at least one Drive material whose ID matches the provided string. If `material_link` is also specified, course work material must have materials matching both filters. */
-  materialDriveId?: string;
+  materialDriveId?: string | undefined;
   /** Optional sort ordering for results. A comma-separated list of fields with an optional sort direction keyword. Supported field is `updateTime`. Supported direction keywords are `asc` and `desc`. If not specified, `updateTime desc` is the default behavior. Examples: `updateTime asc`, `updateTime` */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type CourseWorkMaterialList = Array<CourseWorkMaterial>;
 /** Response when listing course work material. */
 export interface ListCourseWorkMaterialResponse {
   /** Course work material items that match the request. */
-  courseWorkMaterial?: CourseWorkMaterialList;
+  courseWorkMaterial?: CourseWorkMaterialList | undefined;
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   /** Optional. Identifier of the post under the course whose attachments to enumerate. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** A page token, received from a previous `ListAddOnAttachments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAddOnAttachments` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** The maximum number of attachments to return. The service may return fewer than this value. If unspecified, at most 20 attachments will be returned. The maximum value is 20; values above 20 will be coerced to 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` whose attachments should be enumerated. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
 }
 export interface ListCoursesCourseWorkRubricsRequest {
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of rubrics to return. If unspecified, at most 1 rubric is returned. The maximum value is 1; values above 1 are coerced to 1. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Identifier of the course work. */
@@ -1566,9 +1571,9 @@ export type RubricList = Array<Rubric>;
 /** Response when listing rubrics. */
 export interface ListRubricsResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Rubrics that match the request. */
-  rubrics?: RubricList;
+  rubrics?: RubricList | undefined;
 }
 export type ListCoursesCourseWorkStudentSubmissionsStatesEnum =
   | "SUBMISSION_STATE_UNSPECIFIED"
@@ -1586,61 +1591,61 @@ export type ListCoursesCourseWorkStudentSubmissionsLateEnum =
   | "NOT_LATE_ONLY";
 export interface ListCoursesCourseWorkStudentSubmissionsRequest {
   /** Optional argument to restrict returned student work to those owned by the student with the specified identifier. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
-  userId?: string;
+  userId?: string | undefined;
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Requested submission states. If specified, returned student submissions match one of the specified submission states. */
-  states?: ListCoursesCourseWorkStudentSubmissionsStatesEnumList;
+  states?: ListCoursesCourseWorkStudentSubmissionsStatesEnumList | undefined;
   /** Requested lateness value. If specified, returned student submissions are restricted by the requested value. If unspecified, submissions are returned regardless of `late` value. */
-  late?: ListCoursesCourseWorkStudentSubmissionsLateEnum | (string & {});
+  late?: ListCoursesCourseWorkStudentSubmissionsLateEnum | (string & {}) | undefined;
   /** Identifier of the student work to request. This may be set to the string literal `"-"` to request student work for all course work in the specified course. */
   courseWorkId: string;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StudentSubmissionList = Array<StudentSubmission>;
 /** Response when listing student submissions. */
 export interface ListStudentSubmissionsResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Student work that matches the request. */
-  studentSubmissions?: StudentSubmissionList;
+  studentSubmissions?: StudentSubmissionList | undefined;
 }
 export interface ListCoursesPostsAddOnAttachmentsRequest {
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` whose attachments should be enumerated. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** A page token, received from a previous `ListAddOnAttachments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAddOnAttachments` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Identifier of the post under the course whose attachments to enumerate. Deprecated, use `item_id` instead. */
   postId: string;
   /** The maximum number of attachments to return. The service may return fewer than this value. If unspecified, at most 20 attachments will be returned. The maximum value is 20; values above 20 will be coerced to 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
 }
 export interface ListCoursesStudentGroupsRequest {
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum, which is currently set to 75 items. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The identifier of the course. */
   courseId: string;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StudentGroupList = Array<StudentGroup>;
 /** Response when listing student groups. */
 export interface ListStudentGroupsResponse {
   /** The student groups. */
-  studentGroups?: StudentGroupList;
+  studentGroups?: StudentGroupList | undefined;
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCoursesStudentGroupsStudentGroupMembersRequest {
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The identifier of the student group. */
   studentGroupId: string;
   /** Required. The identifier of the course. */
@@ -1650,15 +1655,15 @@ export type StudentGroupMemberList = Array<StudentGroupMember>;
 /** Response when listing students in a group. */
 export interface ListStudentGroupMembersResponse {
   /** The student group members. */
-  studentGroupMembers?: StudentGroupMemberList;
+  studentGroupMembers?: StudentGroupMemberList | undefined;
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCoursesStudentsRequest {
   /** Maximum number of items to return. The default is 30 if unspecified or `0`. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
 }
@@ -1666,59 +1671,59 @@ export type StudentList = Array<Student>;
 /** Response when listing students. */
 export interface ListStudentsResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Students who match the list request. */
-  students?: StudentList;
+  students?: StudentList | undefined;
 }
 export interface ListCoursesTeachersRequest {
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Maximum number of items to return. The default is 30 if unspecified or `0`. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type TeacherList = Array<Teacher>;
 /** Response when listing teachers. */
 export interface ListTeachersResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Teachers who match the list request. */
-  teachers?: TeacherList;
+  teachers?: TeacherList | undefined;
 }
 export interface ListCoursesTopicsRequest {
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type TopicList = Array<Topic>;
 /** Response when listing topics. */
 export interface ListTopicResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Topic items that match the request. */
-  topic?: TopicList;
+  topic?: TopicList | undefined;
 }
 export interface ListInvitationsRequest {
   /** Maximum number of items to return. The default is 500 if unspecified or `0`. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Restricts returned invitations to those for a specific user. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user */
-  userId?: string;
+  userId?: string | undefined;
   /** Restricts returned invitations to those for a course with the specified identifier. */
-  courseId?: string;
+  courseId?: string | undefined;
 }
 export type InvitationList = Array<Invitation>;
 /** Response when listing invitations. */
 export interface ListInvitationsResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Invitations that match the list request. */
-  invitations?: InvitationList;
+  invitations?: InvitationList | undefined;
 }
 export type ListUserProfilesGuardianInvitationsStatesEnum =
   | "GUARDIAN_INVITATION_STATE_UNSPECIFIED"
@@ -1729,41 +1734,41 @@ export type ListUserProfilesGuardianInvitationsStatesEnumList = Array<
 >;
 export interface ListUserProfilesGuardianInvitationsRequest {
   /** If specified, only results with the specified `state` values are returned. Otherwise, results with a `state` of `PENDING` are returned. */
-  states?: ListUserProfilesGuardianInvitationsStatesEnumList;
+  states?: ListUserProfilesGuardianInvitationsStatesEnumList | undefined;
   /** If specified, only results with the specified `invited_email_address` are returned. */
-  invitedEmailAddress?: string;
+  invitedEmailAddress?: string | undefined;
   /** The ID of the student whose guardian invitations are to be returned. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user * the string literal `"-"`, indicating that results should be returned for all students that the requesting user is permitted to view guardian invitations. */
   studentId: string;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GuardianInvitationList = Array<GuardianInvitation>;
 /** Response when listing guardian invitations. */
 export interface ListGuardianInvitationsResponse {
   /** Guardian invitations that matched the list request. */
-  guardianInvitations?: GuardianInvitationList;
+  guardianInvitations?: GuardianInvitationList | undefined;
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListUserProfilesGuardiansRequest {
   /** Filter results by the email address that the original invitation was sent to, resulting in this guardian link. This filter can only be used by domain administrators. */
-  invitedEmailAddress?: string;
+  invitedEmailAddress?: string | undefined;
   /** Maximum number of items to return. Zero or unspecified indicates that the server may assign a maximum. The server may return fewer than the specified number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filter results by the student who the guardian is linked to. The identifier can be one of the following: * the numeric identifier for the user * the email address of the user * the string literal `"me"`, indicating the requesting user * the string literal `"-"`, indicating that results should be returned for all students that the requesting user has access to view. */
   studentId: string;
   /** nextPageToken value returned from a previous list call, indicating that the subsequent page of results should be returned. The list request must be otherwise identical to the one that resulted in this token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GuardianList = Array<Guardian>;
 /** Response when listing guardians. */
 export interface ListGuardiansResponse {
   /** Token identifying the next page of results to return. If empty, no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Guardians on this page of results that met the criteria specified in the request. */
-  guardians?: GuardianList;
+  guardians?: GuardianList | undefined;
 }
 export type ModifyAnnouncementAssigneesRequestAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
@@ -1772,16 +1777,16 @@ export type ModifyAnnouncementAssigneesRequestAssigneeModeEnum =
 /** Contains fields to add or remove students from a course work or announcement where the `assigneeMode` is set to `INDIVIDUAL_STUDENTS`. */
 export interface ModifyIndividualStudentsOptions {
   /** IDs of students to be removed from having access to this coursework/announcement. */
-  removeStudentIds?: StringList;
+  removeStudentIds?: StringList | undefined;
   /** IDs of students to be added as having access to this coursework/announcement. */
-  addStudentIds?: StringList;
+  addStudentIds?: StringList | undefined;
 }
 /** Request to modify assignee mode and options of an announcement. */
 export interface ModifyAnnouncementAssigneesRequest {
   /** Mode of the announcement describing whether it is accessible by all students or specified individual students. */
-  assigneeMode?: ModifyAnnouncementAssigneesRequestAssigneeModeEnum | (string & {});
+  assigneeMode?: ModifyAnnouncementAssigneesRequestAssigneeModeEnum | (string & {}) | undefined;
   /** Set which students can view or cannot view the announcement. Must be specified only when `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
-  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions;
+  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions | undefined;
 }
 export interface ModifyAssigneesCoursesAnnouncementsRequest {
   /** Identifier of the announcement. */
@@ -1789,7 +1794,7 @@ export interface ModifyAssigneesCoursesAnnouncementsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: ModifyAnnouncementAssigneesRequest;
+  body?: ModifyAnnouncementAssigneesRequest | undefined;
 }
 export type ModifyCourseWorkAssigneesRequestAssigneeModeEnum =
   | "ASSIGNEE_MODE_UNSPECIFIED"
@@ -1798,9 +1803,9 @@ export type ModifyCourseWorkAssigneesRequestAssigneeModeEnum =
 /** Request to modify assignee mode and options of a coursework. */
 export interface ModifyCourseWorkAssigneesRequest {
   /** Mode of the coursework describing whether it will be assigned to all students or specified individual students. */
-  assigneeMode?: ModifyCourseWorkAssigneesRequestAssigneeModeEnum | (string & {});
+  assigneeMode?: ModifyCourseWorkAssigneesRequestAssigneeModeEnum | (string & {}) | undefined;
   /** Set which students are assigned or not assigned to the coursework. Must be specified only when `assigneeMode` is `INDIVIDUAL_STUDENTS`. */
-  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions;
+  modifyIndividualStudentsOptions?: ModifyIndividualStudentsOptions | undefined;
 }
 export interface ModifyAssigneesCoursesCourseWorkRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
@@ -1808,12 +1813,12 @@ export interface ModifyAssigneesCoursesCourseWorkRequest {
   /** Identifier of the coursework. */
   id: string;
   /** Request body */
-  body?: ModifyCourseWorkAssigneesRequest;
+  body?: ModifyCourseWorkAssigneesRequest | undefined;
 }
 /** Request to modify the attachments of a student submission. */
 export interface ModifyAttachmentsRequest {
   /** Attachments to add. A student submission may not have more than 20 attachments. Form attachments are not supported. */
-  addAttachments?: AttachmentList;
+  addAttachments?: AttachmentList | undefined;
 }
 export interface ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the course work. */
@@ -1823,69 +1828,69 @@ export interface ModifyAttachmentsCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the student submission. */
   id: string;
   /** Request body */
-  body?: ModifyAttachmentsRequest;
+  body?: ModifyAttachmentsRequest | undefined;
 }
 export interface PatchCoursesRequest {
   /** Identifier of the course to update. This identifier can be either the Classroom-assigned identifier or an alias. */
   id: string;
   /** Mask that identifies which fields on the course to update. This field is required to do an update. The update will fail if invalid fields are specified. The following fields are valid: * `courseState` * `description` * `descriptionHeading` * `name` * `ownerId` * `room` * `section` * `subject` * `learningStandardSettings` * `levels` Note: patches to ownerId are treated as being effective immediately, but in practice it may take some time for the ownership transfer of all affected resources to complete. When set in a query parameter, this field should be specified as `updateMask=,,...` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Course;
+  body?: Course | undefined;
 }
 export interface PatchCoursesAnnouncementsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Mask that identifies which fields on the announcement to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the Announcement object. If a field that does not support empty values is included in the update mask and not set in the Announcement object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `text` * `state` * `scheduled_time` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier of the announcement. */
   id: string;
   /** Request body */
-  body?: Announcement;
+  body?: Announcement | undefined;
 }
 export interface PatchCoursesAnnouncementsAddOnAttachmentsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Required. Identifier of the post under which the attachment is attached. */
-  postId?: string;
+  postId?: string | undefined;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachment` object. If a field that does not support empty values is included in the update mask and not set in the `AddOnAttachment` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `teacher_view_uri` * `student_view_uri` * `student_work_review_uri` * `due_date` * `due_time` * `max_points` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier of the post under which the attachment is attached. */
   itemId: string;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 export interface PatchCoursesCourseWorkRequest {
   /** Identifier of the course work. */
   id: string;
   /** Mask that identifies which fields on the course work to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `CourseWork` object. If a field that does not support empty values is included in the update mask and not set in the `CourseWork` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `description` * `state` * `due_date` * `due_time` * `max_points` * `scheduled_time` * `submission_modification_mode` * `topic_id` * `grading_period_id` * `learning_goals` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: CourseWork;
+  body?: CourseWork | undefined;
 }
 export interface PatchCoursesCourseWorkAddOnAttachmentsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Required. Identifier of the post under which the attachment is attached. */
-  postId?: string;
+  postId?: string | undefined;
   /** Identifier of the post under which the attachment is attached. */
   itemId: string;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachment` object. If a field that does not support empty values is included in the update mask and not set in the `AddOnAttachment` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `teacher_view_uri` * `student_view_uri` * `student_work_review_uri` * `due_date` * `due_time` * `max_points` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachmentStudentSubmission` object. The following fields may be specified by teachers: * `points_earned` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
   itemId: string;
   /** Required. Identifier of the student's submission. */
@@ -1893,9 +1898,9 @@ export interface PatchCoursesCourseWorkAddOnAttachmentsStudentSubmissionsRequest
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Deprecated, use `item_id` instead. */
-  postId?: string;
+  postId?: string | undefined;
   /** Request body */
-  body?: AddOnAttachmentStudentSubmission;
+  body?: AddOnAttachmentStudentSubmission | undefined;
 }
 export interface PatchCoursesCourseWorkMaterialsRequest {
   /** Identifier of the course work material. */
@@ -1903,23 +1908,23 @@ export interface PatchCoursesCourseWorkMaterialsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Mask that identifies which fields on the course work material to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the course work material object. If a field that does not support empty values is included in the update mask and not set in the course work material object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `description` * `state` * `scheduled_time` * `topic_id` * `learning_goals` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: CourseWorkMaterial;
+  body?: CourseWorkMaterial | undefined;
 }
 export interface PatchCoursesCourseWorkMaterialsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Identifier of the post under which the attachment is attached. */
-  postId?: string;
+  postId?: string | undefined;
   /** Identifier of the post under which the attachment is attached. */
   itemId: string;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachment` object. If a field that does not support empty values is included in the update mask and not set in the `AddOnAttachment` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `teacher_view_uri` * `student_view_uri` * `student_work_review_uri` * `due_date` * `due_time` * `max_points` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 export interface PatchCoursesCourseWorkRubricsRequest {
   /** Required. Identifier of the course work. */
@@ -1929,9 +1934,9 @@ export interface PatchCoursesCourseWorkRubricsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Optional. Mask that identifies which fields on the rubric to update. This field is required to do an update. The update fails if invalid fields are specified. There are multiple options to define the criteria of a rubric: the `source_spreadsheet_id` and the `criteria` list. Only one of these can be used at a time to define a rubric. The rubric `criteria` list is fully replaced by the rubric criteria specified in the update request. For example, if a criterion or level is missing from the request, it is deleted. New criteria and levels are added and an ID is assigned. Existing criteria and levels retain the previously assigned ID if the ID is specified in the request. The following fields can be specified by teachers: * `criteria` * `source_spreadsheet_id` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Rubric;
+  body?: Rubric | undefined;
 }
 export interface PatchCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the course work. */
@@ -1939,11 +1944,11 @@ export interface PatchCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the student submission. */
   id: string;
   /** Mask that identifies which fields on the student submission to update. This field is required to do an update. The update fails if invalid fields are specified. The following fields may be specified by teachers: * `draft_grade` * `assigned_grade` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Request body */
-  body?: StudentSubmission;
+  body?: StudentSubmission | undefined;
 }
 export interface PatchCoursesPostsAddOnAttachmentsRequest {
   /** Required. Identifier of the course. */
@@ -1953,27 +1958,27 @@ export interface PatchCoursesPostsAddOnAttachmentsRequest {
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachment` object. If a field that does not support empty values is included in the update mask and not set in the `AddOnAttachment` object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified by teachers: * `title` * `teacher_view_uri` * `student_view_uri` * `student_work_review_uri` * `due_date` * `due_time` * `max_points` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier of the post under which the attachment is attached. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Request body */
-  body?: AddOnAttachment;
+  body?: AddOnAttachment | undefined;
 }
 export interface PatchCoursesPostsAddOnAttachmentsStudentSubmissionsRequest {
   /** Required. Identifier of the course. */
   courseId: string;
   /** Identifier of the `Announcement`, `CourseWork`, or `CourseWorkMaterial` under which the attachment is attached. This field is required, but is not marked as such while we are migrating from post_id. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Optional. Deprecated, use `item_id` instead. */
   postId: string;
   /** Required. Mask that identifies which fields on the attachment to update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the `AddOnAttachmentStudentSubmission` object. The following fields may be specified by teachers: * `points_earned` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Identifier of the attachment. */
   attachmentId: string;
   /** Required. Identifier of the student's submission. */
   submissionId: string;
   /** Request body */
-  body?: AddOnAttachmentStudentSubmission;
+  body?: AddOnAttachmentStudentSubmission | undefined;
 }
 export interface PatchCoursesStudentGroupsRequest {
   /** Required. Identifier of the course. */
@@ -1981,19 +1986,19 @@ export interface PatchCoursesStudentGroupsRequest {
   /** Required. Identifier of the student group. */
   id: string;
   /** Required. Mask that identifies which fields on the student group to update. This field is required to do an update. The update fails if invalid fields are specified. The following fields can be specified by teachers: * `title` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: StudentGroup;
+  body?: StudentGroup | undefined;
 }
 export interface PatchCoursesTopicsRequest {
   /** Identifier of the course. This identifier can be either the Classroom-assigned identifier or an alias. */
   courseId: string;
   /** Mask that identifies which fields on the topic to update. This field is required to do an update. The update fails if invalid fields are specified. If a field supports empty values, it can be cleared by specifying it in the update mask and not in the Topic object. If a field that does not support empty values is included in the update mask and not set in the Topic object, an `INVALID_ARGUMENT` error is returned. The following fields may be specified: * `name` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier of the topic. */
   id: string;
   /** Request body */
-  body?: Topic;
+  body?: Topic | undefined;
 }
 export interface PatchUserProfilesGuardianInvitationsRequest {
   /** The `id` field of the `GuardianInvitation` to be modified. */
@@ -2001,9 +2006,9 @@ export interface PatchUserProfilesGuardianInvitationsRequest {
   /** The ID of the student whose guardian invitation is to be modified. */
   studentId: string;
   /** Mask that identifies which fields on the course to update. This field is required to do an update. The update fails if invalid fields are specified. The following fields are valid: * `state` When set in a query parameter, this field should be specified as `updateMask=,,...` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GuardianInvitation;
+  body?: GuardianInvitation | undefined;
 }
 /** Request to reclaim a student submission. */
 export type ReclaimStudentSubmissionRequest = TeacherContext;
@@ -2015,7 +2020,7 @@ export interface ReclaimCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the course work. */
   courseWorkId: string;
   /** Request body */
-  body?: TeacherContext;
+  body?: TeacherContext | undefined;
 }
 /** Request to return a student submission. */
 export type ReturnStudentSubmissionRequest = TeacherContext;
@@ -2027,7 +2032,7 @@ export interface ReturnCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the course work. */
   courseWorkId: string;
   /** Request body */
-  body?: TeacherContext;
+  body?: TeacherContext | undefined;
 }
 /** Request to turn in a student submission. */
 export type TurnInStudentSubmissionRequest = TeacherContext;
@@ -2039,33 +2044,33 @@ export interface TurnInCoursesCourseWorkStudentSubmissionsRequest {
   /** Identifier of the student submission. */
   id: string;
   /** Request body */
-  body?: TeacherContext;
+  body?: TeacherContext | undefined;
 }
 export interface UpdateCoursesRequest {
   /** Identifier of the course to update. This identifier can be either the Classroom-assigned identifier or an alias. */
   id: string;
   /** Request body */
-  body?: Course;
+  body?: Course | undefined;
 }
 export interface UpdateGradingPeriodSettingsCoursesRequest {
   /** Required. The identifier of the course. */
   courseId: string;
   /** Mask that identifies which fields in the GradingPeriodSettings to update. The GradingPeriodSettings `grading_periods` list will be fully replaced by the grading periods specified in the update request. For example: * Grading periods included in the list without an ID are considered additions, and a new ID will be assigned when the request is made. * Grading periods that currently exist, but are missing from the request will be considered deletions. * Grading periods with an existing ID and modified data are considered edits. Unmodified data will be left as is. * Grading periods included with an unknown ID will result in an error. The following fields may be specified: * `grading_periods` * `apply_to_existing_coursework` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GradingPeriodSettings;
+  body?: GradingPeriodSettings | undefined;
 }
 export interface UpdateRubricCoursesCourseWorkRequest {
   /** Optional. Mask that identifies which fields on the rubric to update. This field is required to do an update. The update fails if invalid fields are specified. There are multiple options to define the criteria of a rubric: the `source_spreadsheet_id` and the `criteria` list. Only one of these can be used at a time to define a rubric. The rubric `criteria` list is fully replaced by the rubric criteria specified in the update request. For example, if a criterion or level is missing from the request, it is deleted. New criteria and levels are added and an ID is assigned. Existing criteria and levels retain the previously assigned ID if the ID is specified in the request. The following fields can be specified by teachers: * `criteria` * `source_spreadsheet_id` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Identifier of the course. */
   courseId: string;
   /** Required. Identifier of the course work. */
   courseWorkId: string;
   /** Optional. Identifier of the rubric. */
-  id?: string;
+  id?: string | undefined;
   /** Request body */
-  body?: Rubric;
+  body?: Rubric | undefined;
 }
 export type AcceptInvitationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Accepts an invitation, removing it and adding the invited user to the teachers or students (as appropriate) of the specified course. Only the invited user may accept an invitation. This method returns the following error codes: * `PERMISSION_DENIED` if the requesting user is not permitted to accept the requested invitation or for access errors. * `FAILED_PRECONDITION` for the following request errors: * CourseMemberLimitReached * CourseNotModifiable * CourseTeacherLimitReached * UserGroupsMembershipLimitReached * `NOT_FOUND` if no invitation exists with the requested ID. */

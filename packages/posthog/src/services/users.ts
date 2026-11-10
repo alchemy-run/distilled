@@ -62,7 +62,7 @@ export interface UserCodexAuthTokens {
   /** The single-use ChatGPT refresh token from the same `tokens` object. */
   refresh_token: string | Redacted.Redacted<string>;
   /** The OpenID id token from the same `tokens` object, when present. Used to read the account email. */
-  id_token?: string | null;
+  id_token?: string | null | undefined;
 }
 export interface CreateUsersIntegrationsCodexRequest {
   uuid: string;
@@ -75,11 +75,11 @@ export interface UserCodexIntegration {
   /** `connected` when cloud runs can use the account; `reauth_required` when OpenAI rejected the refresh token and the user must log in and connect again; `not_connected` when no account is connected. * `connected` - Connected * `reauth_required` - Reauth Required * `not_connected` - Not Connected */
   status: CodexIntegrationStatusEnum;
   /** The ChatGPT plan type OpenAI reports for the account. */
-  plan_type?: string | null;
+  plan_type?: string | null | undefined;
   /** The email of the connected ChatGPT account. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** When the account was connected. */
-  connected_at?: string | null;
+  connected_at?: string | null | undefined;
 }
 export interface CreateUsersIntegrationsGithubPrepareCallbackRequest {
   uuid: string;
@@ -94,7 +94,7 @@ export interface CreateUsersOnboardingSkipRequest {
   /** Why the user is leaving onboarding. 'later' keeps them able to return; 'other' is a catch-all. 'delegated' is rejected here -- use the delegate endpoint so the delegation invite is created atomically. * `later` - Later * `other` - Other */
   reason: OnboardingSkipRequestReasonEnum | (string & {});
   /** Onboarding step key the user was on when skipping, for analytics only. */
-  step_at_skip?: string;
+  step_at_skip?: string | undefined;
 }
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
 export type UserOutputNotificationSettingsMap = { [key: string]: unknown | undefined };
@@ -728,18 +728,18 @@ export type TimezoneEnum =
   | "Zulu";
 /** Serializer for `Team` model with minimal attributes to speeed up loading and transfer times. Also used for nested serializers. */
 export interface TeamBasic {
-  id?: number;
-  uuid?: string;
-  organization?: string;
-  project_id?: number;
-  api_token?: string | Redacted.Redacted<string>;
-  name?: string;
-  completed_snippet_onboarding?: boolean;
-  has_completed_onboarding_for?: unknown;
-  ingested_event?: boolean;
-  is_demo?: boolean;
-  timezone?: TimezoneEnum;
-  access_control?: boolean;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  organization?: string | undefined;
+  project_id?: number | undefined;
+  api_token?: string | Redacted.Redacted<string> | undefined;
+  name?: string | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
+  ingested_event?: boolean | undefined;
+  is_demo?: boolean | undefined;
+  timezone?: TimezoneEnum | undefined;
+  access_control?: boolean | undefined;
 }
 /** * `1` - member * `8` - administrator * `15` - owner */
 export type OrganizationMembershipLevelEnum = 1 | 8 | 15;
@@ -777,82 +777,82 @@ export interface OrganizationMemberNotice {
   /** HTML shown in the banner. Supports formatting tags and links (<b>, <strong>, <i>, <em>, <u>, <s>, <code>, <br>, <p>, <span>, <ul>, <ol>, <li>, <a href>). Other tags, styles and scripts are removed. */
   message: string;
   /** Optional link button shown on the right of the banner. */
-  action?: OrganizationMemberNoticeAction | null;
+  action?: OrganizationMemberNoticeAction | null | undefined;
 }
 export interface Organization {
-  id?: string;
-  name?: string;
-  slug?: string;
-  logo_media_id?: string | null;
-  created_at?: string;
-  updated_at?: string;
-  membership_level?: OrganizationMembershipLevelEnum;
+  id?: string | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  logo_media_id?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  membership_level?: OrganizationMembershipLevelEnum | undefined;
   /** When the requesting user joined this organization. Null if the user is not a member. */
   membership_joined_at: string | null;
-  plugins_access_level?: OrganizationPluginsAccessLevelEnum;
-  teams?: OrganizationTeamsList;
-  projects?: OrganizationProjectsList;
-  available_product_features?: OrganizationAvailableProductFeaturesList | null;
+  plugins_access_level?: OrganizationPluginsAccessLevelEnum | undefined;
+  teams?: OrganizationTeamsList | undefined;
+  projects?: OrganizationProjectsList | undefined;
+  available_product_features?: OrganizationAvailableProductFeaturesList | null | undefined;
   /** Legacy field; member-join emails are controlled per user in account notification settings. */
-  is_member_join_email_enabled?: boolean;
-  metadata?: OrganizationMetadataMap;
-  customer_id?: string | null;
-  enforce_2fa?: boolean | null;
+  is_member_join_email_enabled?: boolean | undefined;
+  metadata?: OrganizationMetadataMap | undefined;
+  customer_id?: string | null | undefined;
+  enforce_2fa?: boolean | null | undefined;
   /** When True, logins, signups, and invites for this organization are restricted to email addresses on its verified domains. */
-  enforce_verified_domains?: boolean | null;
-  members_can_invite?: boolean | null;
+  enforce_verified_domains?: boolean | null | undefined;
+  members_can_invite?: boolean | null | undefined;
   /** When True, organization members (below admin) are allowed to create new projects. Admins and owners can always create projects. */
-  members_can_create_projects?: boolean | null;
-  members_can_use_personal_api_keys?: boolean;
+  members_can_create_projects?: boolean | null | undefined;
+  members_can_use_personal_api_keys?: boolean | undefined;
   /** When False, members (below admin) only see themselves in the members list and only project members in access control. */
-  members_can_see_org_members?: boolean;
-  allow_publicly_shared_resources?: boolean;
+  members_can_see_org_members?: boolean | undefined;
+  allow_publicly_shared_resources?: boolean | undefined;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
-  read_only_mcp_access?: boolean | null;
+  read_only_mcp_access?: boolean | null | undefined;
   /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
-  member_notice?: OrganizationMemberNotice | null;
-  member_count?: number;
-  is_ai_data_processing_approved?: boolean | null;
+  member_notice?: OrganizationMemberNotice | null | undefined;
+  member_count?: number | undefined;
+  is_ai_data_processing_approved?: boolean | null | undefined;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
-  is_ai_training_opted_in?: boolean | null;
+  is_ai_training_opted_in?: boolean | null | undefined;
   /** When True, the AI training opt-out setting cannot be modified through the UI or API. */
-  is_ai_training_locked?: boolean | null;
+  is_ai_training_locked?: boolean | null | undefined;
   /** When True, in-app callouts inviting members to enable AI training are shown. */
-  is_ai_training_cta_shown?: boolean | null;
+  is_ai_training_cta_shown?: boolean | null | undefined;
   /** Whether the organization has a countersigned Business Associate Agreement on file. When true, AI training stays opted out and cannot be changed. */
-  has_signed_baa?: boolean;
+  has_signed_baa?: boolean | undefined;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
-  default_anonymize_ips?: boolean;
+  default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
-  default_role_id?: string | null;
+  default_role_id?: string | null | undefined;
   /** Set this to 'No' to temporarily disable an organization. */
-  is_active?: boolean | null;
+  is_active?: boolean | null | undefined;
   /** (optional) reason for why the organization has been de-activated. This will be displayed to users on the web app. */
-  is_not_active_reason?: string | null;
+  is_not_active_reason?: string | null | undefined;
   /** Set to True when org deletion has been initiated. Blocks all UI access until the async task completes. */
-  is_pending_deletion?: boolean | null;
+  is_pending_deletion?: boolean | null | undefined;
   /** When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies. */
-  uses_most_specific_access_resolution?: boolean | null;
+  uses_most_specific_access_resolution?: boolean | null | undefined;
 }
 /** Serializer for `Organization` model with minimal attributes to speeed up loading and transfer times. Also used for nested serializers. */
 export interface OrganizationBasic {
-  id?: string;
-  name?: string;
-  slug?: string;
-  logo_media_id?: string | null;
-  membership_level?: OrganizationMembershipLevelEnum;
-  members_can_use_personal_api_keys?: boolean;
+  id?: string | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  logo_media_id?: string | null | undefined;
+  membership_level?: OrganizationMembershipLevelEnum | undefined;
+  members_can_use_personal_api_keys?: boolean | undefined;
   /** Set this to 'No' to temporarily disable an organization. */
-  is_active?: boolean | null;
+  is_active?: boolean | null | undefined;
   /** (optional) reason for why the organization has been de-activated. This will be displayed to users on the web app. */
-  is_not_active_reason?: string | null;
+  is_not_active_reason?: string | null | undefined;
   /** Set to True when org deletion has been initiated. Blocks all UI access until the async task completes. */
-  is_pending_deletion?: boolean | null;
+  is_pending_deletion?: boolean | null | undefined;
 }
 export type UserOutputOrganizationsList = Array<OrganizationBasic>;
 export interface ScenePersonalisationBasic {
-  scene?: string;
-  dashboard?: number | null;
+  scene?: string | undefined;
+  dashboard?: number | null | undefined;
 }
 export type UserOutputScenePersonalisationList = Array<ScenePersonalisationBasic>;
 /** * `light` - Light * `dark` - Dark * `system` - System */
@@ -883,75 +883,75 @@ export type OnboardingSkippedReasonEnum =
 export type UserOutputActiveRealtimeNotificationTypesList = Array<string>;
 /** Shape of each item in UserSerializer.pending_invites. */
 export interface PendingInvite {
-  id?: string;
-  target_email?: string;
-  organization_id?: string;
-  organization_name?: string;
-  created_at?: string;
+  id?: string | undefined;
+  target_email?: string | undefined;
+  organization_id?: string | undefined;
+  organization_name?: string | undefined;
+  created_at?: string | undefined;
 }
 export type UserOutputPendingInvitesList = Array<PendingInvite>;
 export interface UserOutput {
-  date_joined?: string;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  pending_email?: string | null;
-  is_email_verified?: boolean | null;
+  date_joined?: string | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  pending_email?: string | null | undefined;
+  is_email_verified?: boolean | null | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: UserOutputNotificationSettingsMap;
+  notification_settings?: UserOutputNotificationSettingsMap | undefined;
   /** Notification settings an organization admin enforces on this user. The matching controls are read-only, and `notification_settings` still holds the user's own choice underneath. Read-only. */
-  notification_locks?: UserOutputNotificationLocksList;
+  notification_locks?: UserOutputNotificationLocksList | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: UserOutputToolbarMode | null;
-  has_password?: boolean;
-  id?: number;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: UserOutputToolbarMode | null | undefined;
+  has_password?: boolean | undefined;
+  id?: number | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  is_impersonated?: boolean | null;
-  is_impersonated_until?: string | null;
-  is_impersonated_read_only?: boolean | null;
+  is_staff?: boolean | undefined;
+  is_impersonated?: boolean | null | undefined;
+  is_impersonated_until?: string | null | undefined;
+  is_impersonated_read_only?: boolean | null | undefined;
   /** The reason the operator gave when the current impersonation session started (or was last up/downgraded). Null when not impersonating. */
-  is_impersonated_reason?: string | null;
-  sensitive_session_expires_at?: string | null;
+  is_impersonated_reason?: string | null | undefined;
+  sensitive_session_expires_at?: string | null | undefined;
   /** When the last re-authentication stops counting as fresh. Changing `email` after this needs a new re-authentication. Null when the session has none on record. */
-  fresh_reauth_expires_at?: string | null;
-  team?: TeamBasic;
-  organization?: Organization;
-  organizations?: UserOutputOrganizationsList;
-  events_column_config?: unknown;
-  is_2fa_enabled?: boolean;
-  has_social_auth?: boolean;
-  has_sso_enforcement?: boolean;
-  has_seen_product_intro_for?: unknown;
-  scene_personalisation?: UserOutputScenePersonalisationList;
-  theme_mode?: UserOutputThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: UserOutputShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum;
+  fresh_reauth_expires_at?: string | null | undefined;
+  team?: TeamBasic | undefined;
+  organization?: Organization | undefined;
+  organizations?: UserOutputOrganizationsList | undefined;
+  events_column_config?: unknown | undefined;
+  is_2fa_enabled?: boolean | undefined;
+  has_social_auth?: boolean | undefined;
+  has_sso_enforcement?: boolean | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  scene_personalisation?: UserOutputScenePersonalisationList | undefined;
+  theme_mode?: UserOutputThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: UserOutputShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
-  onboarding_skipped_at?: string | null;
-  onboarding_skipped_reason?: OnboardingSkippedReasonEnum | null;
-  onboarding_skipped_organization_id?: string | null;
-  onboarding_delegated_to_invite?: string | null;
+  ui_configuration?: unknown | undefined;
+  onboarding_skipped_at?: string | null | undefined;
+  onboarding_skipped_reason?: OnboardingSkippedReasonEnum | null | undefined;
+  onboarding_skipped_organization_id?: string | null | undefined;
+  onboarding_delegated_to_invite?: string | null | undefined;
   /** Organization ID of the pending delegation invite, if any. Used by the frontend to scope the 'waiting for teammate' UI to the org where delegation was initiated. */
-  onboarding_delegated_to_organization_id?: string | null;
-  onboarding_delegation_accepted_at?: string | null;
-  is_organization_first_user?: boolean | null;
+  onboarding_delegated_to_organization_id?: string | null | undefined;
+  onboarding_delegation_accepted_at?: string | null | undefined;
+  is_organization_first_user?: boolean | null | undefined;
   /** Real-time notification types that currently have a live dispatch site. Drives the in-app notifications settings UI. Read-only. */
-  active_realtime_notification_types?: UserOutputActiveRealtimeNotificationTypesList;
-  pending_invites?: UserOutputPendingInvitesList;
+  active_realtime_notification_types?: UserOutputActiveRealtimeNotificationTypesList | undefined;
+  pending_invites?: UserOutputPendingInvitesList | undefined;
   /** True if the user belongs to an organization that a partner provisioned, has not yet acknowledged the access on their account, and has at least one Personal API Key or passkey, or a third-party OAuth application that can currently act as them. Used to gate a one-shot review screen on first post-provisioning login. Becomes False once the user POSTs to `/api/users/@me/credentials_review_complete/`. Read-only. */
-  requires_credential_review?: boolean;
+  requires_credential_review?: boolean | undefined;
   /** How many personal API keys the user may hold, from the `personal_api_keys` billing entitlement of the user's organizations. The highest limit across their organizations applies, and 10 when no organization grants a limit. Creating a key beyond it is rejected with a validation error. Read-only. */
   personal_api_keys_limit: number;
 }
@@ -984,35 +984,37 @@ export type CreateUsersRequestEmailVerificationRequestShortcutPosition =
   | ShortcutPositionEnum
   | BlankEnum;
 export interface CreateUsersRequestEmailVerificationRequest {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: CreateUsersRequestEmailVerificationRequestNotificationSettingsMap;
+  notification_settings?:
+    | CreateUsersRequestEmailVerificationRequestNotificationSettingsMap
+    | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: CreateUsersRequestEmailVerificationRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: CreateUsersRequestEmailVerificationRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: CreateUsersRequestEmailVerificationRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: CreateUsersRequestEmailVerificationRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: CreateUsersRequestEmailVerificationRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: CreateUsersRequestEmailVerificationRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface CreateUsersRequestEmailVerificationResponse {}
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
@@ -1026,81 +1028,84 @@ export type CreateUsersScenePersonalisationRequestShortcutPosition =
   | BlankEnum;
 export interface CreateUsersScenePersonalisationRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: CreateUsersScenePersonalisationRequestNotificationSettingsMap;
+  notification_settings?: CreateUsersScenePersonalisationRequestNotificationSettingsMap | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: CreateUsersScenePersonalisationRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: CreateUsersScenePersonalisationRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: CreateUsersScenePersonalisationRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: CreateUsersScenePersonalisationRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: CreateUsersScenePersonalisationRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: CreateUsersScenePersonalisationRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface CreateUsersScenePersonalisationResponse {}
 /** * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
 export type AutonomyPriorityEnum = "P0" | "P1" | "P2" | "P3" | "P4";
 export interface CreateUsersSignalAutonomyRequest {
   user_id: string;
-  autostart_priority?: AutonomyPriorityEnum | (string & {}) | null;
+  autostart_priority?: AutonomyPriorityEnum | (string & {}) | null | undefined;
   /** Primary key of a Slack `Integration` row in one of the caller's teams. Pair with `slack_notification_channel` to enable notifications; pass null on either to disable them. */
-  slack_notification_integration_id?: number | null;
+  slack_notification_integration_id?: number | null | undefined;
   /** `channel_id|#channel-name` target, the same convention used by Insight Alerts, or a `member_id|@display-name` target (`U0123ABC456|@sam`) to send the ping as a direct message. A member target is checked against the workspace on save. */
-  slack_notification_channel?: string | null;
+  slack_notification_channel?: string | null | undefined;
   /** Set true to send the ping as a direct message from the PostHog app. The caller's own member id is resolved in the connected workspace and stored in `slack_notification_channel`, so nothing has to be picked. Rejected when the workspace has no eligible account for the caller, and cannot be combined with `slack_notification_channel`. */
-  slack_notification_direct_message?: boolean;
+  slack_notification_direct_message?: boolean | undefined;
   /** P0 is highest. Null = notify for every priority. When set, reports without a priority judgment do not notify. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
-  slack_notification_min_priority?: AutonomyPriorityEnum | (string & {}) | null;
+  slack_notification_min_priority?: AutonomyPriorityEnum | (string & {}) | null | undefined;
   /** Add this user as a GitHub assignee on implementation pull requests for reports that suggest them as reviewer. Off by default. Turning it off stops future assignment and never removes an existing assignee. */
-  github_assign_on_pull_request?: boolean;
+  github_assign_on_pull_request?: boolean | undefined;
   /** Open implementation pull requests for reports that suggest this user as reviewer ready for review instead of draft, so the full CI matrix runs without anybody clicking Ready. Null follows the project default. A ready pull request runs the full matrix on every push. */
-  github_open_pull_request_ready?: boolean | null;
+  github_open_pull_request_ready?: boolean | null | undefined;
 }
 export interface User {
-  id?: number;
-  uuid?: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
 }
 export type SignalUserAutonomyConfigAutostartPriority = AutonomyPriorityEnum | BlankEnum;
 /** Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
 export type SignalUserAutonomyConfigSlackNotificationMinPriority = AutonomyPriorityEnum | BlankEnum;
 export interface SignalUserAutonomyConfig {
-  id?: string;
-  user?: User;
-  autostart_priority?: SignalUserAutonomyConfigAutostartPriority | null;
+  id?: string | undefined;
+  user?: User | undefined;
+  autostart_priority?: SignalUserAutonomyConfigAutostartPriority | null | undefined;
   /** ID of the Slack Integration to deliver inbox-item notifications through, or null when notifications are disabled. */
-  slack_notification_integration_id?: number | null;
+  slack_notification_integration_id?: number | null | undefined;
   /** Where the reviewer ping goes, in the same `id|name` shape PostHog uses elsewhere (only the id is required): a channel (`C0123ABC456|#alerts`), or a workspace member (`U0123ABC456|@sam`) who is sent a direct message. Null disables Slack notifications. */
-  slack_notification_channel?: string | null;
+  slack_notification_channel?: string | null | undefined;
   /** Minimum report priority that triggers a Slack notification. P0 is highest. Null means notify on every priority. When set, reports without a priority judgment do not notify. * `P0` - P0 * `P1` - P1 * `P2` - P2 * `P3` - P3 * `P4` - P4 */
-  slack_notification_min_priority?: SignalUserAutonomyConfigSlackNotificationMinPriority | null;
+  slack_notification_min_priority?:
+    | SignalUserAutonomyConfigSlackNotificationMinPriority
+    | null
+    | undefined;
   /** Whether to add this user as a GitHub assignee on implementation pull requests for reports that suggest them as reviewer. Off by default. Assignment is additive, so turning it off never removes an assignee from a pull request that already has one. */
-  github_assign_on_pull_request?: boolean;
+  github_assign_on_pull_request?: boolean | undefined;
   /** Whether implementation pull requests for reports that suggest this user as reviewer open ready for review instead of draft, so the full CI matrix starts right away. Null follows the project's default_open_pull_request_ready. Applies only when the pull request is created; a pull request somebody converts back to draft stays draft. */
-  github_open_pull_request_ready?: boolean | null;
-  created_at?: string;
-  updated_at?: string;
+  github_open_pull_request_ready?: boolean | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
 export type CreateUsersTwoFactorBackupCodeRequestNotificationSettingsMap = {
@@ -1113,35 +1118,35 @@ export type CreateUsersTwoFactorBackupCodeRequestShortcutPosition =
   | BlankEnum;
 export interface CreateUsersTwoFactorBackupCodeRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: CreateUsersTwoFactorBackupCodeRequestNotificationSettingsMap;
+  notification_settings?: CreateUsersTwoFactorBackupCodeRequestNotificationSettingsMap | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: CreateUsersTwoFactorBackupCodeRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: CreateUsersTwoFactorBackupCodeRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: CreateUsersTwoFactorBackupCodeRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: CreateUsersTwoFactorBackupCodeRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: CreateUsersTwoFactorBackupCodeRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: CreateUsersTwoFactorBackupCodeRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface CreateUsersTwoFactorBackupCodeResponse {}
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
@@ -1153,35 +1158,35 @@ export type CreateUsersValidate2faRequestThemeMode = ThemeModeEnum | BlankEnum;
 export type CreateUsersValidate2faRequestShortcutPosition = ShortcutPositionEnum | BlankEnum;
 export interface CreateUsersValidate2faRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: CreateUsersValidate2faRequestNotificationSettingsMap;
+  notification_settings?: CreateUsersValidate2faRequestNotificationSettingsMap | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: CreateUsersValidate2faRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: CreateUsersValidate2faRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: CreateUsersValidate2faRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: CreateUsersValidate2faRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: CreateUsersValidate2faRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: CreateUsersValidate2faRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface CreateUsersValidate2faResponse {}
 export interface GetUserRequest {
@@ -1205,13 +1210,13 @@ export interface GetUsersIntegrationsGithubBranchRequest {
   uuid: string;
   installation_id: string;
   /** Maximum number of branches to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of branches to skip */
-  offset?: number;
+  offset?: number | undefined;
   /** Repository in owner/repo format */
   repo: string;
   /** Optional case-insensitive branch name search query. */
-  search?: string;
+  search?: string | undefined;
 }
 /** List of branch names */
 export type GitHubBranchesResponseBranchesList = Array<string>;
@@ -1222,43 +1227,43 @@ export interface GitHubBranchesResponse {
   /** URL of the previous page, or null on the first page and on lists that page forward only. */
   previous: string | null;
   /** List of branch names */
-  branches?: GitHubBranchesResponseBranchesList;
+  branches?: GitHubBranchesResponseBranchesList | undefined;
   /** The default branch of the repository */
-  default_branch?: string | null;
+  default_branch?: string | null | undefined;
   /** Whether more branches exist beyond the returned page */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface GetUsersIntegrationsGithubReposRequest {
   uuid: string;
   installation_id: string;
   /** When true, return only id, name, and full_name for each repository. Use it to list large rosters in fewer, smaller pages. */
-  compact?: boolean;
+  compact?: boolean | undefined;
   /** Maximum number of repositories to return per request (max 500). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of repositories to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional case-insensitive repository name search query. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GitHubRepo {
   /** GitHub repository numeric identifier. */
-  id?: number;
+  id?: number | undefined;
   /** Repository short name (without the owner prefix). */
-  name?: string;
+  name?: string | undefined;
   /** Fully-qualified repository name as 'owner/repo'. */
-  full_name?: string;
+  full_name?: string | undefined;
   /** Whether the repository is private. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The repository's default branch (e.g. 'main'). */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Primary programming language GitHub detected for the repository. */
-  language?: string;
+  language?: string | undefined;
   /** ISO 8601 timestamp of the most recent push, useful for sorting by recent activity. */
-  pushed_at?: string;
+  pushed_at?: string | undefined;
   /** Whether the repository is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Whether the PostHog GitHub App has write access -- required to open pull requests. */
-  can_push?: boolean;
+  can_push?: boolean | undefined;
 }
 export type GitHubReposResponseRepositoriesList = Array<GitHubRepo>;
 /** Declares the `next` and `previous` links of a page response that the view fills with `page_link`. */
@@ -1267,13 +1272,13 @@ export interface GitHubReposResponse {
   next: string | null;
   /** URL of the previous page, or null on the first page and on lists that page forward only. */
   previous: string | null;
-  repositories?: GitHubReposResponseRepositoriesList;
+  repositories?: GitHubReposResponseRepositoriesList | undefined;
   /** Whether more repositories are available beyond this page. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** The offset to pass to get the next page, or null when this page is the last one. */
-  next_offset?: number | null;
+  next_offset?: number | null | undefined;
   /** Total number of repositories matching the search query, across all pages. */
-  total?: number;
+  total?: number | undefined;
 }
 export interface GetUsersIntegrationsSlackLinkableWorkspaceRequest {
   uuid: string;
@@ -1288,7 +1293,7 @@ export interface UserSlackLinkableWorkspaceItem {
   /** Slack workspace (team) id. */
   slack_team_id: string;
   /** Slack workspace display name as known by PostHog. */
-  slack_team_name?: string | null;
+  slack_team_name?: string | null | undefined;
 }
 /** Slack workspaces the user could link to but hasn't yet. */
 export type UserSlackLinkableWorkspaceListResponseResultsList =
@@ -1327,35 +1332,35 @@ export interface InstallUsersIntegrationsGithubRequestsDestroyRequest {
 }
 export interface InstallUsersIntegrationsGithubRequestsDestroyResponse {}
 export interface ListUsersRequest {
-  email?: string;
-  is_staff?: boolean;
+  email?: string | undefined;
+  is_staff?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedUserListOutputResultsList = Array<UserOutput>;
 export interface PaginatedUserListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedUserListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedUserListOutputResultsList | undefined;
 }
 export type ListUsersIntegrationsRequestKind = "github" | "slack";
 export interface ListUsersIntegrationsRequest {
   uuid: string;
   /** Integration kind to list. Defaults to `github` for back-compat with mobile and the Code SDK, which call this endpoint without a query param and expect GitHub-shaped items. */
-  kind?: ListUsersIntegrationsRequestKind | (string & {});
+  kind?: ListUsersIntegrationsRequestKind | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface UserGitHubAccount {
   /** GitHub account type for the installation (e.g. User or Organization). */
-  type?: string | null;
+  type?: string | null | undefined;
   /** GitHub login or organization name tied to the installation. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** * `connected` - connected * `unavailable` - unavailable */
 export type InstallationStatusEnum = "connected" | "unavailable";
@@ -1367,11 +1372,11 @@ export interface UserGitHubIntegrationItem {
   /** GitHub App installation id. */
   installation_id: string;
   /** Repository selection mode from GitHub (e.g. selected or all). */
-  repository_selection?: string | null;
+  repository_selection?: string | null | undefined;
   /** Installation account metadata from GitHub. */
-  account?: UserGitHubAccount | null;
+  account?: UserGitHubAccount | null | undefined;
   /** The connected user's own GitHub login (distinct from the installation account). */
-  github_login?: string | null;
+  github_login?: string | null | undefined;
   /** True when this installation id matches a team-level GitHub integration on the active project. */
   uses_shared_installation: boolean;
   /** Whether any other PostHog project or personal connection references the same App installation. When false, disconnecting this integration also uninstalls the GitHub App from the connected account or organization. */
@@ -1395,14 +1400,14 @@ export type PaginatedUserGitHubIntegrationListResponseListResultsList =
   Array<UserGitHubIntegrationListResponse>;
 export interface PaginatedUserGitHubIntegrationListResponseList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedUserGitHubIntegrationListResponseListResultsList;
 }
 export interface ListUsersLoginSessionsRequest {
   uuid: string;
-  email?: string;
-  is_staff?: boolean;
+  email?: string | undefined;
+  is_staff?: boolean | undefined;
 }
 /** A cookie-auth login session shown on the user's 'Web sessions' screen. */
 export interface UserAuthSession {
@@ -1439,35 +1444,35 @@ export type UpdateUserRequestThemeMode = ThemeModeEnum | BlankEnum;
 export type UpdateUserRequestShortcutPosition = ShortcutPositionEnum | BlankEnum;
 export interface UpdateUserRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: UpdateUserRequestNotificationSettingsMap;
+  notification_settings?: UpdateUserRequestNotificationSettingsMap | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: UpdateUserRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: UpdateUserRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: UpdateUserRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: UpdateUserRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: UpdateUserRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: UpdateUserRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
 export type UpdateUsersHedgehogConfigPartialRequestNotificationSettingsMap = {
@@ -1480,35 +1485,37 @@ export type UpdateUsersHedgehogConfigPartialRequestShortcutPosition =
   | BlankEnum;
 export interface UpdateUsersHedgehogConfigPartialRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: UpdateUsersHedgehogConfigPartialRequestNotificationSettingsMap;
+  notification_settings?:
+    | UpdateUsersHedgehogConfigPartialRequestNotificationSettingsMap
+    | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: UpdateUsersHedgehogConfigPartialRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: UpdateUsersHedgehogConfigPartialRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: UpdateUsersHedgehogConfigPartialRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: UpdateUsersHedgehogConfigPartialRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: UpdateUsersHedgehogConfigPartialRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: UpdateUsersHedgehogConfigPartialRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface UpdateUsersHedgehogConfigPartialResponse {}
 /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
@@ -1520,42 +1527,42 @@ export type UpdateUsersPartialRequestThemeMode = ThemeModeEnum | BlankEnum;
 export type UpdateUsersPartialRequestShortcutPosition = ShortcutPositionEnum | BlankEnum;
 export interface UpdateUsersPartialRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: UpdateUsersPartialRequestNotificationSettingsMap;
+  notification_settings?: UpdateUsersPartialRequestNotificationSettingsMap | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: UpdateUsersPartialRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: UpdateUsersPartialRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: UpdateUsersPartialRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: UpdateUsersPartialRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: UpdateUsersPartialRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: UpdateUsersPartialRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface UpdateUsersProductIntroSeenPartialRequest {
   uuid: string;
   /** Which key in `has_seen_product_intro_for` to set. Any string is accepted: besides the product keys, the map holds keys composed per team and keys for surfaces that are not products. */
-  product_key?: string;
+  product_key?: string | undefined;
   /** Whether the intro counts as seen. Send false to show it again. */
-  seen?: boolean;
+  seen?: boolean | undefined;
 }
 export type UpdateUsersProductIntroSeenPartialResponseBodyMap = {
   [key: string]: boolean | undefined;
@@ -1574,35 +1581,40 @@ export type UsersCancelEmailChangeRequestPartialUpdateRequestShortcutPosition =
   | ShortcutPositionEnum
   | BlankEnum;
 export interface UsersCancelEmailChangeRequestPartialUpdateRequest {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: UsersCancelEmailChangeRequestPartialUpdateRequestNotificationSettingsMap;
+  notification_settings?:
+    | UsersCancelEmailChangeRequestPartialUpdateRequestNotificationSettingsMap
+    | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: UsersCancelEmailChangeRequestPartialUpdateRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: UsersCancelEmailChangeRequestPartialUpdateRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: UsersCancelEmailChangeRequestPartialUpdateRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: UsersCancelEmailChangeRequestPartialUpdateRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: UsersCancelEmailChangeRequestPartialUpdateRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?:
+    | UsersCancelEmailChangeRequestPartialUpdateRequestShortcutPosition
+    | null
+    | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface UsersCancelEmailChangeRequestPartialUpdateResponse {}
 export interface UsersDestroyRequest {
@@ -1631,15 +1643,15 @@ export interface GitHubInstallRequestItem {
   /** `pending` while waiting on an org owner's approval, `approved` once the installation webhook confirms it, `unidentified` when the requesting GitHub account could not be resolved. Approval can't be detected for an unidentified request, so the user has to start the connect flow again. * `pending` - Pending * `approved` - Approved * `unidentified` - Unidentified */
   status: GitHubInstallRequestStatusEnum;
   /** GitHub App installation id, set once the request is approved. */
-  installation_id?: string | null;
+  installation_id?: string | null | undefined;
   /** GitHub organization or user login the installation was approved under, once known. */
-  account_login?: string | null;
+  account_login?: string | null | undefined;
   /** GitHub account type (`Organization` or `User`) the installation was approved under, once known. */
-  account_type?: string | null;
+  account_type?: string | null | undefined;
   /** When the install approval was requested. */
   requested_at: string;
   /** When an org owner approved the request. */
-  resolved_at?: string | null;
+  resolved_at?: string | null | undefined;
 }
 /** The user's GitHub App install-approval requests, newest first. */
 export type GitHubInstallRequestListResponseResultsList = Array<GitHubInstallRequestItem>;
@@ -1647,7 +1659,7 @@ export interface GitHubInstallRequestListResponse {
   /** The user's GitHub App install-approval requests, newest first. */
   results: GitHubInstallRequestListResponseResultsList;
   /** Shareable GitHub App install URL with no PostHog session state, for an org owner who needs to approve the install. Null when the GitHub App is not configured on this instance. */
-  install_url?: string | null;
+  install_url?: string | null | undefined;
 }
 export interface UsersIntegrationsGithubReposRefreshCreateRequest {
   uuid: string;
@@ -1657,16 +1669,16 @@ export interface UsersIntegrationsGithubReposRefreshCreateRequest {
 export type GitHubReposRefreshResponseRepositoriesList = Array<GitHubRepo>;
 export interface GitHubReposRefreshResponse {
   /** The refreshed repository cache. */
-  repositories?: GitHubReposRefreshResponseRepositoriesList;
+  repositories?: GitHubReposRefreshResponseRepositoriesList | undefined;
   /** `unavailable` when GitHub reports the App installation as uninstalled or suspended, in which case `repositories` is the last cached list rather than a fresh one. * `connected` - connected * `unavailable` - unavailable */
-  installation_status?: InstallationStatusEnum;
+  installation_status?: InstallationStatusEnum | undefined;
 }
 export interface UsersIntegrationsGithubStartCreateRequest {
   uuid: string;
   /** Optional team/project id (e.g. PostHog Desktop); web UI uses the session's current team. */
-  team_id?: number | null;
+  team_id?: number | null | undefined;
   /** Optional client hint (e.g. posthog_code) for return routing after OAuth. */
-  connect_from?: string;
+  connect_from?: string | undefined;
 }
 export interface UserGitHubLinkStartResponse {
   /** URL to open in the browser to install or authorize the GitHub App for this user. */
@@ -1682,9 +1694,9 @@ export interface UsersIntegrationsSlackDestroyResponse {}
 export interface UsersIntegrationsSlackStartCreateRequest {
   uuid: string;
   /** Optional team/project id to link against; defaults to the user's current team. */
-  team_id?: number | null;
+  team_id?: number | null | undefined;
   /** Specific Slack workspace id to link against, scoped to the team. Disambiguates when one team has multiple Slack integrations (rare). */
-  slack_team_id?: string | null;
+  slack_team_id?: string | null | undefined;
 }
 export interface UserSlackLinkStartResponse {
   /** URL to open in the browser to start the Sign-in-with-Slack flow. */
@@ -1712,35 +1724,35 @@ export type UsersTwoFactorDisableCreateRequestThemeMode = ThemeModeEnum | BlankE
 export type UsersTwoFactorDisableCreateRequestShortcutPosition = ShortcutPositionEnum | BlankEnum;
 export interface UsersTwoFactorDisableCreateRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: UsersTwoFactorDisableCreateRequestNotificationSettingsMap;
+  notification_settings?: UsersTwoFactorDisableCreateRequestNotificationSettingsMap | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: UsersTwoFactorDisableCreateRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: UsersTwoFactorDisableCreateRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: UsersTwoFactorDisableCreateRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: UsersTwoFactorDisableCreateRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: UsersTwoFactorDisableCreateRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: UsersTwoFactorDisableCreateRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface UsersTwoFactorDisableCreateResponse {}
 export interface UsersTwoFactorStartSetupRetrieveRequest {
@@ -1756,35 +1768,35 @@ export type UsersTwoFactorValidateCreateRequestThemeMode = ThemeModeEnum | Blank
 export type UsersTwoFactorValidateCreateRequestShortcutPosition = ShortcutPositionEnum | BlankEnum;
 export interface UsersTwoFactorValidateCreateRequest {
   uuid: string;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
   /** Map of notification preferences. Keys include `plugin_disabled`, `all_weekly_report_disabled`, `project_weekly_digest_disabled`, `error_tracking_weekly_digest_project_enabled`, `web_analytics_weekly_digest_project_enabled`, `organization_member_join_email_disabled`, `data_pipeline_error_threshold` (number between 0.0 and 1.0), and other per-topic switches. Values are either booleans, or (for per-project/per-resource keys) a map of IDs to booleans. Only the keys you send are updated -- other preferences stay as-is. */
-  notification_settings?: UsersTwoFactorValidateCreateRequestNotificationSettingsMap;
+  notification_settings?: UsersTwoFactorValidateCreateRequestNotificationSettingsMap | undefined;
   /** Whether PostHog should anonymize events captured for this user when identified. */
-  anonymize_data?: boolean | null;
-  allow_impersonation?: boolean | null;
-  toolbar_mode?: UsersTwoFactorValidateCreateRequestToolbarMode | null;
+  anonymize_data?: boolean | null | undefined;
+  allow_impersonation?: boolean | null | undefined;
+  toolbar_mode?: UsersTwoFactorValidateCreateRequestToolbarMode | null | undefined;
   /** Designates whether the user can log into this admin site. */
-  is_staff?: boolean;
-  set_current_organization?: string;
-  set_current_team?: string;
-  password?: string | Redacted.Redacted<string>;
+  is_staff?: boolean | undefined;
+  set_current_organization?: string | undefined;
+  set_current_team?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The user's current password. Required when changing `password` if the user already has a usable password set. */
-  current_password?: string | Redacted.Redacted<string>;
-  events_column_config?: unknown;
-  has_seen_product_intro_for?: unknown;
-  theme_mode?: UsersTwoFactorValidateCreateRequestThemeMode | null;
-  hedgehog_config?: unknown;
-  allow_sidebar_suggestions?: boolean | null;
-  shortcut_position?: UsersTwoFactorValidateCreateRequestShortcutPosition | null;
-  role_at_organization?: RoleAtOrganizationEnum | (string & {});
+  current_password?: string | Redacted.Redacted<string> | undefined;
+  events_column_config?: unknown | undefined;
+  has_seen_product_intro_for?: unknown | undefined;
+  theme_mode?: UsersTwoFactorValidateCreateRequestThemeMode | null | undefined;
+  hedgehog_config?: unknown | undefined;
+  allow_sidebar_suggestions?: boolean | null | undefined;
+  shortcut_position?: UsersTwoFactorValidateCreateRequestShortcutPosition | null | undefined;
+  role_at_organization?: RoleAtOrganizationEnum | (string & {}) | undefined;
   /** Whether passkeys are enabled for 2FA authentication. Users can disable this to use only TOTP for 2FA while keeping passkeys for login. */
-  passkeys_enabled_for_2fa?: boolean | null;
+  passkeys_enabled_for_2fa?: boolean | null | undefined;
   /** When true, the user has opted out of in-app hints promoting the PostHog MCP integration after taking actions. */
-  hide_mcp_hints?: boolean;
+  hide_mcp_hints?: boolean | undefined;
   /** Per-user UI customization, validated against the `UserUIConfiguration` schema. Covers SQL editor settings such as Vim mode and the vimrc. Send the complete object: it replaces the stored value wholesale. Null means no customization. */
-  ui_configuration?: unknown;
+  ui_configuration?: unknown | undefined;
 }
 export interface UsersTwoFactorValidateCreateResponse {}
 export interface UsersVerifyEmailCreateRequest {

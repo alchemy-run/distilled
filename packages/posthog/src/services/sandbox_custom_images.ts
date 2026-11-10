@@ -29,11 +29,11 @@ export interface CreateSandboxCustomImageRequest {
   /** Display name for the custom image. */
   name: string;
   /** What should go into the image; seeds the image-builder agent conversation. */
-  description?: string;
+  description?: string | undefined;
   /** Optional 'org/repo' the builder session clones so it can verify the image brings up that repository's dependencies. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** If true, only you can see and use this image; otherwise the whole team can. */
-  private?: boolean;
+  private?: boolean | undefined;
 }
 export type SandboxCustomImageDTOSpecMap = { [key: string]: unknown | undefined };
 export type SandboxCustomImageDTOScanResultMap = { [key: string]: unknown | undefined };
@@ -46,36 +46,36 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 /** Detail response for a custom sandbox base image. */
 export interface SandboxCustomImageDTO {
   id: string;
   name: string;
   description: string;
-  repository?: string;
-  private?: boolean;
+  repository?: string | undefined;
+  private?: boolean | undefined;
   status: string;
   version: number;
   modal_image_name: string;
-  spec?: SandboxCustomImageDTOSpecMap;
-  spec_yaml?: string;
-  scan_result?: SandboxCustomImageDTOScanResultMap;
-  build_log?: string;
+  spec?: SandboxCustomImageDTOSpecMap | undefined;
+  spec_yaml?: string | undefined;
+  scan_result?: SandboxCustomImageDTOScanResultMap | undefined;
+  build_log?: string | undefined;
   error: string;
-  builder_task_id?: string | null;
-  created_by?: TaskUserBasicInfo | null;
-  created_at?: string | null;
-  updated_at?: string | null;
+  builder_task_id?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface CreateSandboxCustomImagesBuildRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Image spec YAML to build. When omitted, the spec is read from the builder agent's live sandbox. */
-  spec_yaml?: string | null;
+  spec_yaml?: string | null | undefined;
 }
 export interface CreateSandboxCustomImagesBuilderTaskRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -121,17 +121,17 @@ export interface ListSandboxCustomImagesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Return 403 unless tasks from this origin product can run on custom images. Leave it out to only check that custom images are enabled. * `onboarding` - Onboarding * `account_audit` - Account audit * `error_tracking` - Error Tracking * `eval_clusters` - Eval Clusters * `user_created` - User Created * `slack` - Slack * `support_queue` - Support Queue * `session_summaries` - Session Summaries * `posthog_ai` - PostHog AI * `experiments` - Experiments * `signal_report` - Signal Report * `autoresearch` - Autoresearch * `signals_scout` - Signals Scout * `scout_suggestions` - Signals Scout Suggestions * `support_reply` - Support Reply * `hogdesk` - HogDesk * `review_hog` - ReviewHog * `image_builder` - Image Builder * `loop` - Loop * `mcp_analytics` - MCP Analytics * `signals_chat` - Signals Chat * `task_analysis` - Task Analysis * `workflow` - Workflow * `space_setup` - Space Setup * `business_knowledge` - Business Knowledge * `metrics_import` - Metrics Import * `knowledge_writer` - Knowledge Writer * `context_layer` - Context Layer * `feature_flags` - Feature Flags */
-  origin_product?: ListSandboxCustomImagesRequestOriginProduct | (string & {});
+  origin_product?: ListSandboxCustomImagesRequestOriginProduct | (string & {}) | undefined;
 }
 export type PaginatedSandboxCustomImageDTOListResultsList = Array<SandboxCustomImageDTO>;
 export interface PaginatedSandboxCustomImageDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedSandboxCustomImageDTOListResultsList;
 }
 export interface SandboxCustomImagesDestroyRequest {
@@ -145,9 +145,9 @@ export interface UpdateSandboxCustomImagesPartialRequest {
   project_id: string;
   id: string;
   /** New display name for the custom image. Omit to leave unchanged. */
-  name?: string;
+  name?: string | undefined;
   /** New description. Omit to leave unchanged; pass an empty string to clear it. */
-  description?: string;
+  description?: string | undefined;
 }
 export type CreateSandboxCustomImageError = PosthogOpError;
 /** Create a draft custom image and start its interactive image-builder agent task. The returned builder_task_id points at the conversation. */

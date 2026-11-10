@@ -97,7 +97,7 @@ export interface CreateAuthGithubActionsTokenRequest {
   /** The GitHub Actions OIDC token with audience `prisma-cloud`. */
   token: string;
   /** Requested token lifetime in seconds. Defaults to 1800 (30 min); capped at 3600 (60 min). */
-  expiresInSeconds?: number;
+  expiresInSeconds?: number | undefined;
 }
 export interface CreateAuthGithubActionsTokenResponseData {
   /** Prefixed integration token ID (`itgr_` prefix). */
@@ -117,13 +117,13 @@ export interface CreateBucketRequest {
   /** ID of the project to create the bucket in */
   projectId: string;
   /** Display name for the bucket. Generated if omitted. */
-  name?: string;
+  name?: string | undefined;
   /** ID of the branch to associate the bucket with. Mutually exclusive with branchGitName. */
-  branchId?: string;
+  branchId?: string | undefined;
   /** Git name of the branch to associate the bucket with. Mutually exclusive with branchId. */
-  branchGitName?: string;
+  branchGitName?: string | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  logicalId?: string | undefined;
 }
 export interface CreateBucketResponseDataProject {
   id: string;
@@ -150,7 +150,7 @@ export type CreateBucketKeyRequestRole = "read" | "read_write";
 export interface CreateBucketKeyRequest {
   bucketId: string;
   /** Display name for the key. Generated if omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Access role for the key: "read" or "read_write". */
   role: CreateBucketKeyRequestRole | (string & {});
 }
@@ -191,14 +191,14 @@ export interface CreateBuildRequest {
   /** Git branch name. */
   branchName: string;
   /** Identifies the CI run. Supplying it makes creation idempotent -- a repeat call for the same run returns the build that already exists. Omit it for builds with no run to name, such as a deploy from a laptop, where every call creates a new build. */
-  runIdentity?: CreateBuildRequestRunIdentity;
+  runIdentity?: CreateBuildRequestRunIdentity | undefined;
   /** Link to the run's logs in the reporter's own system. */
-  externalLogUrl?: string;
+  externalLogUrl?: string | undefined;
   /** Project the build targets, when it exists. A build may be reported before its project does. */
-  projectId?: string;
-  branchId?: string;
+  projectId?: string | undefined;
+  branchId?: string | undefined;
   /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. */
-  applicationTopologyContentHash?: string;
+  applicationTopologyContentHash?: string | undefined;
 }
 export type CreateBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
 export type CreateBuildResponseDataState =
@@ -248,9 +248,9 @@ export type CreateConnectionResponseDataEndpointsPooled =
 export type CreateConnectionResponseDataEndpointsAccelerate =
   CreateConnectionResponseDataEndpointsDirect;
 export interface CreateConnectionResponseDataEndpoints {
-  direct?: CreateConnectionResponseDataEndpointsDirect;
-  pooled?: CreateConnectionResponseDataEndpointsDirect;
-  accelerate?: CreateConnectionResponseDataEndpointsDirect;
+  direct?: CreateConnectionResponseDataEndpointsDirect | undefined;
+  pooled?: CreateConnectionResponseDataEndpointsDirect | undefined;
+  accelerate?: CreateConnectionResponseDataEndpointsDirect | undefined;
 }
 /** Deprecated: use `endpoints.direct` instead. */
 export interface CreateConnectionResponseDataDirectConnection {
@@ -270,7 +270,7 @@ export interface CreateConnectionResponseData {
   /** Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead. */
   connectionString: string | Redacted.Redacted<string>;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
   /** Deprecated: use `endpoints.direct` instead. */
   host: string | null;
@@ -308,7 +308,7 @@ export interface CreateConnectionRotateResponseData {
   /** Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead. */
   connectionString: string | Redacted.Redacted<string>;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
   /** Deprecated: use `endpoints.direct` instead. */
   host: string | null;
@@ -353,35 +353,35 @@ export interface CreateDatabaseRequest {
   /** ID of the project to create the database in */
   projectId: string;
   /** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
-  region?: CreateDatabaseRequestRegion | (string & {});
+  region?: CreateDatabaseRequestRegion | (string & {}) | undefined;
   /** Display name for the database */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is the default database */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Source to create the database from. Omit to create an empty database. */
-  source?: CreateDatabaseRequestSource;
+  source?: CreateDatabaseRequestSource | undefined;
   /** ID of the Branch to attach the database to. Omit to attach the database to the project's default Branch. Every database belongs to a Branch, so null is rejected. */
-  branchId?: string | null;
+  branchId?: string | null | undefined;
   /** Git name of the Branch to attach the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Omit to attach to the project's default Branch. Every database belongs to a Branch, so null is rejected. */
-  branchGitName?: string | null;
+  branchGitName?: string | null | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  logicalId?: string | undefined;
 }
 export type CreateDatabaseResponseDataStatus = "failure" | "provisioning" | "ready" | "recovering";
 export type CreateDatabaseResponseDataConnectionsItemKind = "postgres" | "accelerate";
 export interface CreateDatabaseResponseDataConnectionsItemEndpointsDirect {
   host: string;
   port: number;
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateDatabaseResponseDataConnectionsItemEndpointsPooled =
   CreateDatabaseResponseDataConnectionsItemEndpointsDirect;
 export type CreateDatabaseResponseDataConnectionsItemEndpointsAccelerate =
   CreateDatabaseResponseDataConnectionsItemEndpointsDirect;
 export interface CreateDatabaseResponseDataConnectionsItemEndpoints {
-  direct?: CreateDatabaseResponseDataConnectionsItemEndpointsDirect;
-  pooled?: CreateDatabaseResponseDataConnectionsItemEndpointsDirect;
-  accelerate?: CreateDatabaseResponseDataConnectionsItemEndpointsDirect;
+  direct?: CreateDatabaseResponseDataConnectionsItemEndpointsDirect | undefined;
+  pooled?: CreateDatabaseResponseDataConnectionsItemEndpointsDirect | undefined;
+  accelerate?: CreateDatabaseResponseDataConnectionsItemEndpointsDirect | undefined;
 }
 /** Deprecated: use `endpoints.direct` instead. */
 export type CreateDatabaseResponseDataConnectionsItemDirectConnection =
@@ -396,7 +396,7 @@ export interface CreateDatabaseResponseDataConnectionsItem {
   kind: CreateDatabaseResponseDataConnectionsItemKind;
   endpoints: CreateDatabaseResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type CreateDatabaseResponseDataConnectionsList =
@@ -467,7 +467,7 @@ export interface CreateDatabaseConnectionResponseData {
   /** Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead. */
   connectionString: string | Redacted.Redacted<string>;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
   /** Deprecated: use `endpoints.direct` instead. */
   host: string | null;
@@ -499,9 +499,9 @@ export type CreateDatabaseRestoreResponseDataConnectionsItemEndpointsPooled =
 export type CreateDatabaseRestoreResponseDataConnectionsItemEndpointsAccelerate =
   CreateDatabaseRestoreResponseDataConnectionsItemEndpointsDirect;
 export interface CreateDatabaseRestoreResponseDataConnectionsItemEndpoints {
-  direct?: CreateDatabaseRestoreResponseDataConnectionsItemEndpointsDirect;
-  pooled?: CreateDatabaseRestoreResponseDataConnectionsItemEndpointsDirect;
-  accelerate?: CreateDatabaseRestoreResponseDataConnectionsItemEndpointsDirect;
+  direct?: CreateDatabaseRestoreResponseDataConnectionsItemEndpointsDirect | undefined;
+  pooled?: CreateDatabaseRestoreResponseDataConnectionsItemEndpointsDirect | undefined;
+  accelerate?: CreateDatabaseRestoreResponseDataConnectionsItemEndpointsDirect | undefined;
 }
 /** Deprecated: use `endpoints.direct` instead. */
 export type CreateDatabaseRestoreResponseDataConnectionsItemDirectConnection =
@@ -517,7 +517,7 @@ export interface CreateDatabaseRestoreResponseDataConnectionsItem {
   kind: CreateDatabaseRestoreResponseDataConnectionsItemKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type CreateDatabaseRestoreResponseDataConnectionsList =
@@ -640,7 +640,7 @@ export interface CreateDomainRetryResponse {
 export type CreateEnvironmentVariableRequestClass = "production" | "preview";
 export interface CreateEnvironmentVariableRequest {
   projectId: string;
-  branchId?: string;
+  branchId?: string | undefined;
   class: CreateEnvironmentVariableRequestClass | (string & {});
   key: string;
   value: string;
@@ -670,11 +670,11 @@ export type CreateProjectRequestRegion =
   | "ap-northeast-1"
   | "ap-southeast-1";
 export interface CreateProjectRequest {
-  createDatabase?: boolean;
-  name?: string;
-  region?: CreateProjectRequestRegion | (string & {});
-  logicalId?: string;
-  workspaceId?: string;
+  createDatabase?: boolean | undefined;
+  name?: string | undefined;
+  region?: CreateProjectRequestRegion | (string & {}) | undefined;
+  logicalId?: string | undefined;
+  workspaceId?: string | undefined;
 }
 export type CreateProjectResponseDataWorkspace = CreateBucketResponseDataProject;
 export type CreateProjectResponseDataDatabaseStatus = "provisioning" | "ready";
@@ -701,7 +701,7 @@ export interface CreateProjectResponseDataDatabaseConnectionsItem {
   kind: CreateProjectResponseDataDatabaseConnectionsItemKind;
   endpoints: CreateDatabaseResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type CreateProjectResponseDataDatabaseConnectionsList =
@@ -737,7 +737,7 @@ export interface CreateProjectResponseDataDatabaseApiKeysItem {
   /** Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead. */
   connectionString: string | Redacted.Redacted<string>;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
 }
 /** Deprecated: use `connections[]` instead. */
 export type CreateProjectResponseDataDatabaseApiKeysList =
@@ -783,7 +783,7 @@ export interface CreateProjectResponse {
 export interface CreateProjectBranchRequest {
   projectId: string;
   gitName: string;
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
 }
 export type CreateProjectBranchResponseDataRole = "production" | "preview";
 /** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
@@ -811,9 +811,9 @@ export interface CreateProjectBranchAlchemyStateLeaseRequest {
   /** Alchemy stage name (opaque wire value). */
   stage: string;
   /** Requested lease TTL in seconds. Default 60, clamped to [30, 300]. */
-  ttlSeconds?: number;
+  ttlSeconds?: number | undefined;
   /** Free-form description of the acquiring deploy, echoed in the contention error so a blocked deploy can name who holds the lease. */
-  holderDescription?: string;
+  holderDescription?: string | undefined;
 }
 export interface CreateProjectBranchAlchemyStateLeaseResponseData {
   /** Capability token for the deploy lease. Send it in the Alchemy-State-Lease-Id header with every state operation; do not log it. */
@@ -836,7 +836,7 @@ export type CreateProjectDatabaseRequestRegion =
 /** Deprecated: use `source` instead. */
 export interface CreateProjectDatabaseRequestFromDatabase {
   id: string;
-  backupId?: string;
+  backupId?: string | undefined;
 }
 export type CreateProjectDatabaseRequestSourceCase0 = CreateDatabaseRequestSourceCase0;
 export type CreateProjectDatabaseRequestSourceCase1 = CreateDatabaseRequestSourceCase1;
@@ -848,12 +848,12 @@ export type CreateProjectDatabaseRequestSource =
 export interface CreateProjectDatabaseRequest {
   projectId: string;
   /** Use "inherit" to use the project's default region (falls back to the default database's region for projects without one). */
-  region?: CreateProjectDatabaseRequestRegion | (string & {});
-  name?: string;
-  isDefault?: boolean;
+  region?: CreateProjectDatabaseRequestRegion | (string & {}) | undefined;
+  name?: string | undefined;
+  isDefault?: boolean | undefined;
   /** Deprecated: use `source` instead. */
-  fromDatabase?: CreateProjectDatabaseRequestFromDatabase;
-  source?: CreateProjectDatabaseRequestSource;
+  fromDatabase?: CreateProjectDatabaseRequestFromDatabase | undefined;
+  source?: CreateProjectDatabaseRequestSource | undefined;
 }
 export type CreateProjectDatabaseResponseDataStatus = "provisioning" | "ready";
 export type CreateProjectDatabaseResponseDataConnectionsItemKind = "postgres" | "accelerate";
@@ -879,7 +879,7 @@ export interface CreateProjectDatabaseResponseDataConnectionsItem {
   kind: CreateProjectDatabaseResponseDataConnectionsItemKind;
   endpoints: CreateDatabaseResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type CreateProjectDatabaseResponseDataConnectionsList =
@@ -916,7 +916,7 @@ export interface CreateProjectDatabaseResponseDataApiKeysItem {
   /** Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead. */
   connectionString: string | Redacted.Redacted<string>;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
 }
 /** Deprecated: use `connections[]` instead. */
 export type CreateProjectDatabaseResponseDataApiKeysList =
@@ -958,7 +958,7 @@ export type CreateScmInstallationsInstallIntentRequestProvider = "github";
 export interface CreateScmInstallationsInstallIntentRequest {
   provider: CreateScmInstallationsInstallIntentRequestProvider | (string & {});
   workspaceId: string;
-  repository?: string;
+  repository?: string | undefined;
 }
 export type CreateScmInstallationsInstallIntentResponseDataProvider = "github";
 export interface CreateScmInstallationsInstallIntentResponseData {
@@ -966,9 +966,9 @@ export interface CreateScmInstallationsInstallIntentResponseData {
   provider: CreateScmInstallationsInstallIntentResponseDataProvider;
   workspaceId: string;
   installUrl: string;
-  alreadyLinked?: boolean;
-  accountLogin?: string;
-  hint?: string;
+  alreadyLinked?: boolean | undefined;
+  accountLogin?: string | undefined;
+  hint?: string | undefined;
 }
 export interface CreateScmInstallationsInstallIntentResponse {
   data: CreateScmInstallationsInstallIntentResponseData;
@@ -982,12 +982,12 @@ export type CreateServiceRequestRegionId =
   | "ap-southeast-1";
 export interface CreateServiceRequest {
   displayName: string;
-  regionId?: CreateServiceRequestRegionId | (string & {});
-  branchId?: string | null;
-  branchGitName?: string | null;
+  regionId?: CreateServiceRequestRegionId | (string & {}) | undefined;
+  branchId?: string | null | undefined;
+  branchGitName?: string | null | undefined;
   projectId: string;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  logicalId?: string | undefined;
 }
 export type CreateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
 export interface CreateServiceResponseData {
@@ -1007,12 +1007,12 @@ export interface CreateServiceResponse {
   data: CreateServiceResponseData;
 }
 export interface CreateServiceDeploymentRequestPortMapping {
-  http?: number | null;
+  http?: number | null | undefined;
 }
 export interface CreateServiceDeploymentRequest {
   serviceId: string;
-  portMapping?: CreateServiceDeploymentRequestPortMapping;
-  skipCodeUpload?: boolean;
+  portMapping?: CreateServiceDeploymentRequestPortMapping | undefined;
+  skipCodeUpload?: boolean | undefined;
 }
 export interface CreateServiceDeploymentResponseData {
   id: string;
@@ -1063,9 +1063,9 @@ export interface CreateServiceDomainResponse {
 }
 export interface CreateServicePromoteRequest {
   serviceId: string;
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Deprecated: use `deploymentId` instead. Ignored when `deploymentId` is also present. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export interface CreateServicePromoteResponseData {
   appEndpointDomain: string;
@@ -1076,9 +1076,9 @@ export interface CreateServicePromoteResponse {
 }
 export interface CreateServiceRollbackRequest {
   serviceId: string;
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Deprecated: use `deploymentId` instead. Ignored when `deploymentId` is also present. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export type CreateServiceRollbackResponseData = CreateServicePromoteResponseData;
 export interface CreateServiceRollbackResponse {
@@ -1089,9 +1089,9 @@ export interface CreateServiceUrlRequest {
   /** The hostname to serve, such as `shop.com`. Case and a trailing dot are ignored. Wildcards and IP addresses are refused. */
   hostname: string;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  logicalId?: string | undefined;
   /** Whether to create a domain ownership for the exact hostname when no verified one covers it. Set it to `false` to create or change only the RoutingUrl, and create the domain ownership with `POST /v1/workspaces/{workspaceId}/domain-ownerships`. */
-  createDomainOwnership?: boolean;
+  createDomainOwnership?: boolean | undefined;
 }
 /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
 export type CreateServiceUrlResponseDataStatus = "pending" | "active";
@@ -1207,7 +1207,7 @@ export interface CreateSourceRepositoryRequest {
   provider: string;
   providerRepositoryId: number;
   /** Optional SCM installation ID to use for linking. When omitted, the API auto-picks the workspace's installation. */
-  installationId?: string;
+  installationId?: string | undefined;
 }
 export type CreateSourceRepositoryResponseDataProvider = "github";
 export type CreateSourceRepositoryResponseDataStatus = "active" | "archived";
@@ -1228,7 +1228,7 @@ export interface CreateSourceRepositoryResponseData {
 }
 export interface CreateSourceRepositoryResponse {
   data: CreateSourceRepositoryResponseData;
-  hint?: string;
+  hint?: string | undefined;
 }
 export interface CreateUrlCheckRequest {
   id: string;
@@ -1331,7 +1331,7 @@ export interface CreateUrlCheckResponse {
   data: CreateUrlCheckResponseData;
 }
 export interface CreateWorkspaceRequest {
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateWorkspaceResponseData {
   id: string;
@@ -1380,9 +1380,9 @@ export interface CreateWorkspaceDomainOwnershipResponse {
 export interface CreateWorkspaceServiceTokenRequest {
   workspaceId: string;
   /** Access only this project. Omit or pass null for Full Workspace access. */
-  projectId?: string | null;
+  projectId?: string | null | undefined;
   /** Expiry in the future. Defaults to 90 days; null opts out of expiry. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Display name for the service token. */
   name: string;
 }
@@ -1395,7 +1395,7 @@ export interface CreateWorkspaceServiceTokenResponseData {
   projectId: string | null;
   valueHint: string;
   createdAt: string;
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   value: string;
 }
 export interface CreateWorkspaceServiceTokenResponse {
@@ -1455,7 +1455,7 @@ export interface DeleteProjectBranchAlchemyStateStateStackRequest {
   projectId: string;
   branchId: string;
   stack: string;
-  stage?: string;
+  stage?: string | undefined;
 }
 export interface DeleteProjectBranchAlchemyStateStateStackResponse {}
 export interface DeleteProjectBranchAlchemyStateStateStackStageResourceRequest {
@@ -1504,7 +1504,7 @@ export interface GetAgentApprovalResponse {
   expiresAt: string;
   windowExpiresAt: string | null;
   decidedAt: string | null;
-  hint?: string;
+  hint?: string | undefined;
 }
 export interface GetBranchRequest {
   branchId: string;
@@ -1538,9 +1538,9 @@ export interface GetBucketResponse {
 export interface GetBucketKeysRequest {
   bucketId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, 1-100 */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetBucketKeysResponseDataItemRole = "read" | "read_write";
 export interface GetBucketKeysResponseDataItem {
@@ -1564,15 +1564,15 @@ export interface GetBucketKeysResponse {
 }
 export interface GetBucketsRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, 1-100 */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter buckets by project ID */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
-  branchId?: string;
-  branchGitName?: string;
+  logicalId?: string | undefined;
+  branchId?: string | undefined;
+  branchGitName?: string | undefined;
 }
 export type GetBucketsResponseDataItemProject = CreateBucketResponseDataProject;
 export type GetBucketsResponseDataItem = CreateBucketResponseData;
@@ -1640,12 +1640,12 @@ export interface GetBuildResponse {
 export type GetBuildsRequestState = "pending" | "running" | "succeeded" | "failed" | "cancelled";
 export interface GetBuildsRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
-  projectId?: string;
-  branchId?: string;
-  state?: GetBuildsRequestState | (string & {});
+  limit?: number | undefined;
+  projectId?: string | undefined;
+  branchId?: string | undefined;
+  state?: GetBuildsRequestState | (string & {}) | undefined;
 }
 export type GetBuildsResponseDataItemSource = "webhook" | "setup" | "manual" | "ci" | "cli";
 export type GetBuildsResponseDataItemState =
@@ -1708,7 +1708,7 @@ export interface GetConnectionResponseData {
   kind: GetConnectionResponseDataKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export interface GetConnectionResponse {
@@ -1716,10 +1716,10 @@ export interface GetConnectionResponse {
 }
 export interface GetConnectionsRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
-  databaseId?: string;
+  limit?: number | undefined;
+  databaseId?: string | undefined;
 }
 export type GetConnectionsResponseDataItemKind = "postgres" | "accelerate";
 export type GetConnectionsResponseDataItemEndpointsDirect =
@@ -1743,7 +1743,7 @@ export interface GetConnectionsResponseDataItem {
   kind: GetConnectionsResponseDataItemKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type GetConnectionsResponseDataList = Array<GetConnectionsResponseDataItem>;
@@ -1778,7 +1778,7 @@ export interface GetDatabaseResponseDataConnectionsItem {
   kind: GetDatabaseResponseDataConnectionsItemKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type GetDatabaseResponseDataConnectionsList = Array<GetDatabaseResponseDataConnectionsItem>;
@@ -1812,7 +1812,7 @@ export interface GetDatabaseResponse {
 }
 export interface GetDatabaseBackupsRequest {
   databaseId: string;
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetDatabaseBackupsResponseDataItemBackupType = "full" | "incremental" | "differential";
 export type GetDatabaseBackupsResponseDataItemStatus =
@@ -1824,9 +1824,9 @@ export interface GetDatabaseBackupsResponseDataItem {
   id: string;
   backupType: GetDatabaseBackupsResponseDataItemBackupType;
   createdAt: string;
-  size?: number;
+  size?: number | undefined;
   status: GetDatabaseBackupsResponseDataItemStatus;
-  type?: string;
+  type?: string | undefined;
 }
 export type GetDatabaseBackupsResponseDataList = Array<GetDatabaseBackupsResponseDataItem>;
 export interface GetDatabaseBackupsResponseMeta {
@@ -1844,9 +1844,9 @@ export interface GetDatabaseBackupsResponse {
 export interface GetDatabaseConnectionsRequest {
   databaseId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetDatabaseConnectionsResponseDataItemKind = "postgres" | "accelerate";
 export type GetDatabaseConnectionsResponseDataItemEndpointsDirect =
@@ -1870,7 +1870,7 @@ export interface GetDatabaseConnectionsResponseDataItem {
   kind: GetDatabaseConnectionsResponseDataItemKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type GetDatabaseConnectionsResponseDataList = Array<GetDatabaseConnectionsResponseDataItem>;
@@ -1881,15 +1881,15 @@ export interface GetDatabaseConnectionsResponse {
 }
 export interface GetDatabasesRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter databases by project ID */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
-  branchId?: string;
-  branchGitName?: string;
+  logicalId?: string | undefined;
+  branchId?: string | undefined;
+  branchGitName?: string | undefined;
 }
 export type GetDatabasesResponseDataItemStatus =
   | "failure"
@@ -1918,7 +1918,7 @@ export interface GetDatabasesResponseDataItemConnectionsItem {
   kind: GetDatabasesResponseDataItemConnectionsItemKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type GetDatabasesResponseDataItemConnectionsList =
@@ -1957,9 +1957,9 @@ export interface GetDatabasesResponse {
 export interface GetDatabaseUsageRequest {
   databaseId: string;
   /** Start date for metrics query. Defaults to start of current month if not provided. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** End date for metrics query. Will be set to end of day if a future date is provided. Defaults to current date if not provided. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 export interface GetDatabaseUsageResponsePeriod {
   start: string;
@@ -1985,7 +1985,7 @@ export interface GetDeploymentRequest {
 /** Environment variable names present on this compute version. Values are always redacted as "[redacted]" and must not be treated as deployed secret values. */
 export type GetDeploymentResponseDataEnvVarsMap = { [key: string]: string | undefined };
 export interface GetDeploymentResponseDataPortMapping {
-  http?: number;
+  http?: number | undefined;
 }
 export interface GetDeploymentResponseData {
   id: string;
@@ -1996,8 +1996,8 @@ export interface GetDeploymentResponseData {
   status: string;
   previewDomain: string | null;
   /** Environment variable names present on this compute version. Values are always redacted as "[redacted]" and must not be treated as deployed secret values. */
-  envVars?: GetDeploymentResponseDataEnvVarsMap;
-  portMapping?: GetDeploymentResponseDataPortMapping;
+  envVars?: GetDeploymentResponseDataEnvVarsMap | undefined;
+  portMapping?: GetDeploymentResponseDataPortMapping | undefined;
   createdAt: string;
 }
 export interface GetDeploymentResponse {
@@ -2005,9 +2005,9 @@ export interface GetDeploymentResponse {
 }
 export interface GetDeploymentLogsRequest {
   deploymentId: string;
-  tail?: number;
-  from_start?: boolean;
-  cursor?: string;
+  tail?: number | undefined;
+  from_start?: boolean | undefined;
+  cursor?: string | undefined;
 }
 export interface GetDeploymentLogsResponse {}
 export interface GetDomainRequest {
@@ -2097,13 +2097,13 @@ export interface GetEnvironmentVariableResponse {
 export type GetEnvironmentVariablesRequestClass = "production" | "preview";
 export interface GetEnvironmentVariablesRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
-  projectId?: string;
-  class?: GetEnvironmentVariablesRequestClass | (string & {});
-  key?: string;
-  branchId?: string;
+  limit?: number | undefined;
+  projectId?: string | undefined;
+  class?: GetEnvironmentVariablesRequestClass | (string & {}) | undefined;
+  key?: string | undefined;
+  branchId?: string | undefined;
 }
 export type GetEnvironmentVariablesResponseDataItemClass = "production" | "preview";
 export interface GetEnvironmentVariablesResponseDataItem {
@@ -2153,9 +2153,9 @@ export interface GetIntegrationResponse {
 }
 export interface GetIntegrationsRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
   workspaceId: string;
 }
 export type GetIntegrationsResponseDataItemScopesList = Array<string>;
@@ -2285,7 +2285,7 @@ export interface GetProjectBranchApplicationTopologyResponseDataNodesItem {
   logicalId: string;
   parentLogicalId: string | null;
   kind: GetProjectBranchApplicationTopologyResponseDataNodesItemKind;
-  type?: string;
+  type?: string | undefined;
 }
 export type GetProjectBranchApplicationTopologyResponseDataNodesList =
   Array<GetProjectBranchApplicationTopologyResponseDataNodesItem>;
@@ -2294,8 +2294,8 @@ export interface GetProjectBranchApplicationTopologyResponseDataPortsItem {
   logicalId: string;
   direction: GetProjectBranchApplicationTopologyResponseDataPortsItemDirection;
   name: string;
-  contractKind?: string;
-  contractHash?: string;
+  contractKind?: string | undefined;
+  contractHash?: string | undefined;
 }
 export type GetProjectBranchApplicationTopologyResponseDataPortsList =
   Array<GetProjectBranchApplicationTopologyResponseDataPortsItem>;
@@ -2318,7 +2318,7 @@ export interface GetProjectBranchApplicationTopologyResponseDataEdgesItem {
   from: GetProjectBranchApplicationTopologyResponseDataEdgesItemFrom;
   to: GetProjectBranchApplicationTopologyResponseDataEdgesItemTo;
   family: GetProjectBranchApplicationTopologyResponseDataEdgesItemFamily;
-  style?: string;
+  style?: string | undefined;
 }
 export type GetProjectBranchApplicationTopologyResponseDataEdgesList =
   Array<GetProjectBranchApplicationTopologyResponseDataEdgesItem>;
@@ -2326,8 +2326,8 @@ export interface GetProjectBranchApplicationTopologyResponseData {
   nodes: GetProjectBranchApplicationTopologyResponseDataNodesList;
   ports: GetProjectBranchApplicationTopologyResponseDataPortsList;
   edges: GetProjectBranchApplicationTopologyResponseDataEdgesList;
-  contentHash?: string;
-  writtenAt?: string;
+  contentHash?: string | undefined;
+  writtenAt?: string | undefined;
 }
 export interface GetProjectBranchApplicationTopologyResponse {
   data: GetProjectBranchApplicationTopologyResponseData;
@@ -2335,11 +2335,11 @@ export interface GetProjectBranchApplicationTopologyResponse {
 export interface GetProjectBranchesRequest {
   projectId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
-  gitName?: string;
-  gitNameContains?: string;
+  limit?: number | undefined;
+  gitName?: string | undefined;
+  gitNameContains?: string | undefined;
 }
 export type GetProjectBranchesResponseDataItemRole = "production" | "preview";
 /** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
@@ -2369,7 +2369,7 @@ export interface GetProjectBranchUrlsRequest {
   projectId: string;
   branchId: string;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  logicalId?: string | undefined;
 }
 /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
 export type GetProjectBranchUrlsResponseDataItemStatus = "pending" | "active";
@@ -2495,9 +2495,9 @@ export interface GetProjectBranchUrlsResponse {
 export interface GetProjectDatabasesRequest {
   projectId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetProjectDatabasesResponseDataItemStatus =
   | "failure"
@@ -2527,7 +2527,7 @@ export interface GetProjectDatabasesResponseDataItemConnectionsItem {
   kind: GetProjectDatabasesResponseDataItemConnectionsItemKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type GetProjectDatabasesResponseDataItemConnectionsList =
@@ -2565,10 +2565,10 @@ export interface GetProjectDatabasesResponse {
 }
 export interface GetProjectsRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
-  logicalId?: string;
+  limit?: number | undefined;
+  logicalId?: string | undefined;
 }
 export type GetProjectsResponseDataItemWorkspace = CreateBucketResponseDataProject;
 export type GetProjectsResponseDataItem = GetProjectResponseData;
@@ -2580,7 +2580,7 @@ export interface GetProjectsResponse {
 }
 export type GetRegionsRequestProduct = "postgres" | "accelerate";
 export interface GetRegionsRequest {
-  product?: GetRegionsRequestProduct | (string & {});
+  product?: GetRegionsRequestProduct | (string & {}) | undefined;
 }
 export type GetRegionsResponseDataItemProduct = "postgres" | "accelerate";
 export type GetRegionsResponseDataItemStatus = "available" | "unavailable";
@@ -2589,7 +2589,7 @@ export interface GetRegionsResponseDataItem {
   type: string;
   name: string;
   product: GetRegionsResponseDataItemProduct;
-  status?: GetRegionsResponseDataItemStatus;
+  status?: GetRegionsResponseDataItemStatus | undefined;
 }
 export type GetRegionsResponseDataList = Array<GetRegionsResponseDataItem>;
 export interface GetRegionsResponse {
@@ -2620,9 +2620,9 @@ export interface GetRegionsPostgresResponse {
 export interface GetScmInstallationRepositoriesRequest {
   installationId: string;
   /** Cursor for pagination (opaque, returned from previous response) */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum repositories to return (default and max 100). */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface GetScmInstallationRepositoriesResponseDataItem {
   /** Numeric repository ID assigned by the SCM provider */
@@ -2642,11 +2642,11 @@ export interface GetScmInstallationRepositoriesResponse {
 }
 export interface GetScmInstallationsRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
   workspaceId: string;
-  repository?: string;
+  repository?: string | undefined;
 }
 export type GetScmInstallationsResponseDataItemProvider = "github";
 export type GetScmInstallationsResponseDataItemAccountType = "user" | "organization";
@@ -2670,7 +2670,7 @@ export type GetScmInstallationsResponsePagination = GetBucketKeysResponsePaginat
 export interface GetScmInstallationsResponse {
   data: GetScmInstallationsResponseDataList;
   pagination: GetBucketKeysResponsePagination;
-  hint?: string;
+  hint?: string | undefined;
 }
 export interface GetServiceRequest {
   serviceId: string;
@@ -2683,9 +2683,9 @@ export interface GetServiceResponse {
 export interface GetServiceDeploymentsRequest {
   serviceId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface GetServiceDeploymentsResponseDataItem {
   id: string;
@@ -2746,14 +2746,14 @@ export interface GetServiceDomainsResponse {
 }
 export interface GetServicesRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
-  projectId?: string;
+  limit?: number | undefined;
+  projectId?: string | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
-  branchId?: string;
-  branchGitName?: string;
+  logicalId?: string | undefined;
+  branchId?: string | undefined;
+  branchGitName?: string | undefined;
 }
 export type GetServicesResponseDataItemRegion = CreateDatabaseResponseDataRegion;
 export type GetServicesResponseDataItem = CreateServiceResponseData;
@@ -2871,9 +2871,9 @@ export interface GetServiceUrlsResponse {
 }
 export interface GetSourceRepositoriesRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
   projectId: string;
 }
 export type GetSourceRepositoriesResponseDataItemProvider = "github";
@@ -2921,7 +2921,7 @@ export interface GetSourceRepositoryResponseData {
 }
 export interface GetSourceRepositoryResponse {
   data: GetSourceRepositoryResponseData;
-  hint?: string;
+  hint?: string | undefined;
 }
 export interface GetUrlRequest {
   id: string;
@@ -3024,11 +3024,11 @@ export interface GetWorkspaceResponse {
 export interface GetWorkspaceDomainOwnershipsRequest {
   workspaceId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, 1-100 */
-  limit?: number;
+  limit?: number | undefined;
   /** Return only the domain ownership of this domain. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type GetWorkspaceDomainOwnershipsResponseDataItemVerification =
   CreateDomainOwnershipVerifyResponseDataVerification;
@@ -3076,9 +3076,9 @@ export interface GetWorkspaceDomainOwnershipsVerificationResponse {
 export interface GetWorkspaceIntegrationsRequest {
   workspaceId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetWorkspaceIntegrationsResponseDataItemScopesList = Array<string>;
 export type GetWorkspaceIntegrationsResponseDataItemClient = GetIntegrationResponseDataClient;
@@ -3101,9 +3101,9 @@ export interface GetWorkspaceIntegrationsResponse {
 }
 export interface GetWorkspacesRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Limit for pagination */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetWorkspacesResponseDataItem = CreateWorkspaceResponseData;
 export type GetWorkspacesResponseDataList = Array<CreateWorkspaceResponseData>;
@@ -3115,9 +3115,9 @@ export interface GetWorkspacesResponse {
 export interface GetWorkspaceServiceTokensRequest {
   workspaceId: string;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, 1-100 */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetWorkspaceServiceTokensResponseDataItemScope = "workspace" | "project";
 export interface GetWorkspaceServiceTokensResponseDataItem {
@@ -3128,7 +3128,7 @@ export interface GetWorkspaceServiceTokensResponseDataItem {
   projectId: string | null;
   valueHint: string;
   createdAt: string;
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
 }
 export type GetWorkspaceServiceTokensResponseDataList =
   Array<GetWorkspaceServiceTokensResponseDataItem>;
@@ -3190,7 +3190,7 @@ export interface PutProjectBranchApplicationTopologyRequestNodesItem {
   logicalId: string;
   parentLogicalId: string | null;
   kind: PutProjectBranchApplicationTopologyRequestNodesItemKind | (string & {});
-  type?: string;
+  type?: string | undefined;
 }
 export type PutProjectBranchApplicationTopologyRequestNodesList =
   Array<PutProjectBranchApplicationTopologyRequestNodesItem>;
@@ -3199,8 +3199,8 @@ export interface PutProjectBranchApplicationTopologyRequestPortsItem {
   logicalId: string;
   direction: PutProjectBranchApplicationTopologyRequestPortsItemDirection | (string & {});
   name: string;
-  contractKind?: string;
-  contractHash?: string;
+  contractKind?: string | undefined;
+  contractHash?: string | undefined;
 }
 export type PutProjectBranchApplicationTopologyRequestPortsList =
   Array<PutProjectBranchApplicationTopologyRequestPortsItem>;
@@ -3221,14 +3221,14 @@ export interface PutProjectBranchApplicationTopologyRequestEdgesItem {
   from: PutProjectBranchApplicationTopologyRequestEdgesItemFrom;
   to: PutProjectBranchApplicationTopologyRequestEdgesItemTo;
   family: PutProjectBranchApplicationTopologyRequestEdgesItemFamily | (string & {});
-  style?: string;
+  style?: string | undefined;
 }
 export type PutProjectBranchApplicationTopologyRequestEdgesList =
   Array<PutProjectBranchApplicationTopologyRequestEdgesItem>;
 export interface PutProjectBranchApplicationTopologyRequest {
   projectId: string;
   branchId: string;
-  contentHash?: string;
+  contentHash?: string | undefined;
   nodes: PutProjectBranchApplicationTopologyRequestNodesList;
   ports: PutProjectBranchApplicationTopologyRequestPortsList;
   edges: PutProjectBranchApplicationTopologyRequestEdgesList;
@@ -3241,7 +3241,7 @@ export interface PutProjectBranchApplicationTopologyResponseDataNodesItem {
   logicalId: string;
   parentLogicalId: string | null;
   kind: PutProjectBranchApplicationTopologyResponseDataNodesItemKind;
-  type?: string;
+  type?: string | undefined;
 }
 export type PutProjectBranchApplicationTopologyResponseDataNodesList =
   Array<PutProjectBranchApplicationTopologyResponseDataNodesItem>;
@@ -3250,8 +3250,8 @@ export interface PutProjectBranchApplicationTopologyResponseDataPortsItem {
   logicalId: string;
   direction: PutProjectBranchApplicationTopologyResponseDataPortsItemDirection;
   name: string;
-  contractKind?: string;
-  contractHash?: string;
+  contractKind?: string | undefined;
+  contractHash?: string | undefined;
 }
 export type PutProjectBranchApplicationTopologyResponseDataPortsList =
   Array<PutProjectBranchApplicationTopologyResponseDataPortsItem>;
@@ -3274,7 +3274,7 @@ export interface PutProjectBranchApplicationTopologyResponseDataEdgesItem {
   from: PutProjectBranchApplicationTopologyResponseDataEdgesItemFrom;
   to: PutProjectBranchApplicationTopologyResponseDataEdgesItemTo;
   family: PutProjectBranchApplicationTopologyResponseDataEdgesItemFamily;
-  style?: string;
+  style?: string | undefined;
 }
 export type PutProjectBranchApplicationTopologyResponseDataEdgesList =
   Array<PutProjectBranchApplicationTopologyResponseDataEdgesItem>;
@@ -3282,15 +3282,15 @@ export interface PutProjectBranchApplicationTopologyResponseData {
   nodes: PutProjectBranchApplicationTopologyResponseDataNodesList;
   ports: PutProjectBranchApplicationTopologyResponseDataPortsList;
   edges: PutProjectBranchApplicationTopologyResponseDataEdgesList;
-  contentHash?: string;
-  writtenAt?: string;
+  contentHash?: string | undefined;
+  writtenAt?: string | undefined;
 }
 export interface PutProjectBranchApplicationTopologyResponse {
   data: PutProjectBranchApplicationTopologyResponseData;
 }
 export interface UpdateBranchRequest {
   branchId: string;
-  isDefault?: boolean | null;
+  isDefault?: boolean | null | undefined;
 }
 export type UpdateBranchResponseDataRole = "production" | "preview";
 /** Thin reference to the parent Project. Member resources are intentionally NOT inlined -- list /v1/databases?branchId=<br_xxx> or /v1/apps?branchId=<br_xxx> instead (see API design principles "Flat and Hierarchical Coexistence"). */
@@ -3313,13 +3313,13 @@ export interface UpdateBranchResponse {
 export interface UpdateBucketRequest {
   bucketId: string;
   /** New display name for the bucket. A label only: the provider bucket name does not change. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** ID of the branch to move the bucket to. Mutually exclusive with branchGitName. */
-  branchId?: string;
+  branchId?: string | undefined;
   /** Git name of the branch to move the bucket to; the branch is created when it does not exist. Mutually exclusive with branchId. */
-  branchGitName?: string;
+  branchGitName?: string | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
-  logicalId?: string | null;
+  logicalId?: string | null | undefined;
 }
 export type UpdateBucketResponseDataProject = CreateBucketResponseDataProject;
 export type UpdateBucketResponseData = CreateBucketResponseData;
@@ -3332,20 +3332,20 @@ export type UpdateBuildRequestState = "pending" | "running" | "succeeded" | "fai
 export interface UpdateBuildRequest {
   buildId: string;
   /** How far the run has got. */
-  phase?: UpdateBuildRequestPhase | (string & {});
-  state?: UpdateBuildRequestState | (string & {});
+  phase?: UpdateBuildRequestPhase | (string & {}) | undefined;
+  state?: UpdateBuildRequestState | (string & {}) | undefined;
   /** Name of the step that failed, free text -- step names come from build tooling the platform cannot validate. */
-  failingStep?: string;
-  errorMessage?: string;
-  externalLogUrl?: string;
+  failingStep?: string | undefined;
+  errorMessage?: string | undefined;
+  externalLogUrl?: string | undefined;
   /** Project the build targets. Can be set once and never changed: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Branch the build targets. Can be set once and never changed, like `projectId`. */
-  branchId?: string;
+  branchId?: string | undefined;
   /** Where the deployed app can be reached. Can be set once and never changed, like `projectId`. */
-  deployedUrl?: string;
+  deployedUrl?: string | undefined;
   /** Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Can be set once and never changed, like `projectId`. */
-  applicationTopologyContentHash?: string;
+  applicationTopologyContentHash?: string | undefined;
 }
 export type UpdateBuildResponseDataSource = "webhook" | "setup" | "manual" | "ci" | "cli";
 export type UpdateBuildResponseDataState =
@@ -3383,13 +3383,13 @@ export interface UpdateBuildResponse {
 export interface UpdateDatabaseRequest {
   databaseId: string;
   /** New display name for the database */
-  name?: string;
+  name?: string | undefined;
   /** ID of the Branch to move the database to. Every database belongs to a Branch, so null (detach) is rejected. */
-  branchId?: string | null;
+  branchId?: string | null | undefined;
   /** Git name of the Branch to move the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Every database belongs to a Branch, so null (detach) is rejected. */
-  branchGitName?: string | null;
+  branchGitName?: string | null | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
-  logicalId?: string | null;
+  logicalId?: string | null | undefined;
 }
 export type UpdateDatabaseResponseDataStatus = "failure" | "provisioning" | "ready" | "recovering";
 export type UpdateDatabaseResponseDataConnectionsItemKind = "postgres" | "accelerate";
@@ -3414,7 +3414,7 @@ export interface UpdateDatabaseResponseDataConnectionsItem {
   kind: UpdateDatabaseResponseDataConnectionsItemKind;
   endpoints: CreateDatabaseRestoreResponseDataConnectionsItemEndpoints;
   /** Deprecated: use `endpoints.direct` instead. */
-  directConnection?: CreateConnectionResponseDataDirectConnection | null;
+  directConnection?: CreateConnectionResponseDataDirectConnection | null | undefined;
   database: CreateBucketResponseDataProject;
 }
 export type UpdateDatabaseResponseDataConnectionsList =
@@ -3471,8 +3471,8 @@ export interface UpdateEnvironmentVariableResponse {
 export type UpdateProjectRequestSettingsMap = { [key: string]: unknown | undefined };
 export interface UpdateProjectRequest {
   id: string;
-  name?: string;
-  settings?: UpdateProjectRequestSettingsMap;
+  name?: string | undefined;
+  settings?: UpdateProjectRequestSettingsMap | undefined;
 }
 export type UpdateProjectResponseDataWorkspace = CreateBucketResponseDataProject;
 export type UpdateProjectResponseData = GetProjectResponseData;
@@ -3483,7 +3483,7 @@ export interface UpdateProjectBranchAlchemyStateLeaseRequest {
   projectId: string;
   branchId: string;
   /** Requested lease TTL in seconds. Default 60, clamped to [30, 300]. */
-  ttlSeconds?: number;
+  ttlSeconds?: number | undefined;
 }
 export type UpdateProjectBranchAlchemyStateLeaseResponseData =
   CreateProjectBranchAlchemyStateLeaseResponseData;
@@ -3492,11 +3492,11 @@ export interface UpdateProjectBranchAlchemyStateLeaseResponse {
 }
 export interface UpdateServiceRequest {
   serviceId: string;
-  displayName?: string;
+  displayName?: string | undefined;
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
-  logicalId?: string | null;
-  branchId?: string | null;
-  branchGitName?: string | null;
+  logicalId?: string | null | undefined;
+  branchId?: string | null | undefined;
+  branchGitName?: string | null | undefined;
 }
 export type UpdateServiceResponseDataRegion = CreateDatabaseResponseDataRegion;
 export type UpdateServiceResponseData = CreateServiceResponseData;
@@ -3506,13 +3506,13 @@ export interface UpdateServiceResponse {
 export interface UpdateUrlRequest {
   id: string;
   /** The hostname to serve, such as `shop.com`. Case and a trailing dot are ignored. Wildcards and IP addresses are refused. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Another service on the RoutingUrl's Branch. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** `null` clears it. */
-  logicalId?: string | null;
+  logicalId?: string | null | undefined;
   /** Whether to create a domain ownership for the exact hostname when no verified one covers it. Set it to `false` to create or change only the RoutingUrl, and create the domain ownership with `POST /v1/workspaces/{workspaceId}/domain-ownerships`. */
-  createDomainOwnership?: boolean;
+  createDomainOwnership?: boolean | undefined;
 }
 /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
 export type UpdateUrlResponseDataStatus = "pending" | "active";

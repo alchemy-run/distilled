@@ -70,11 +70,11 @@ export interface MetricFilter {
   /** Attribute name to filter on, without any type-tag suffix (e.g. 'k8s.pod.name', 'env'). */
   key: string;
   /** Comparison operator. 'regex'/'not_regex' use RE2 syntax. Negative operators also match rows that lack the key entirely, mirroring Prometheus negative matchers. * `eq` - eq * `neq` - neq * `regex` - regex * `not_regex` - not_regex */
-  op?: OpEnum | (string & {});
+  op?: OpEnum | (string & {}) | undefined;
   /** Value to compare against. For regex operators this is the pattern. */
   value: string;
   /** Where the attribute lives: 'resource' = per-target resource attributes (k8s.pod.name, service.version), 'attribute' = per-datapoint attributes (http.method, path), 'auto' = resource first with per-datapoint fallback. Use 'auto' unless you know the exact scope. * `resource` - resource * `attribute` - attribute * `auto` - auto */
-  scope?: MetricAttributeScopeEnum | (string & {});
+  scope?: MetricAttributeScopeEnum | (string & {}) | undefined;
 }
 /** Label predicates narrowing which series are characterized. */
 export type MetricAnomalyBodyFiltersList = Array<MetricFilter>;
@@ -86,19 +86,19 @@ export interface MetricAnomalyBody {
   /** Start of the suspicious window (inclusive). ISO 8601 -- e.g. when the alert fired or the graph started looking wrong. */
   anomalyFrom: string;
   /** End of the suspicious window (exclusive). Defaults to now. */
-  anomalyTo?: string;
+  anomalyTo?: string | undefined;
   /** Start of the healthy comparison window. Defaults to one anomaly-window-length before baselineTo. */
-  baselineFrom?: string;
+  baselineFrom?: string | undefined;
   /** End of the healthy comparison window. Defaults to anomalyFrom. Must not extend past anomalyFrom. */
-  baselineTo?: string;
+  baselineTo?: string | undefined;
   /** Aggregation to characterize. Omit to auto-pick from the metric's OTel type (counter -> rate, gauge -> avg, histogram -> histogram_quantile 0.95). * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
-  aggregation?: AggregationEnum | (string & {}) | null;
+  aggregation?: AggregationEnum | (string & {}) | null | undefined;
   /** Quantile for histogram_quantile. Defaults to 0.95. */
-  quantile?: number | null;
+  quantile?: number | null | undefined;
   /** Label predicates narrowing which series are characterized. */
-  filters?: MetricAnomalyBodyFiltersList;
+  filters?: MetricAnomalyBodyFiltersList | undefined;
   /** Label keys to drill into when finding which label values moved. Omit to auto-discover the most common keys on this metric (plus service_name). Max 4 are used. */
-  candidateKeys?: MetricAnomalyBodyCandidateKeysList;
+  candidateKeys?: MetricAnomalyBodyCandidateKeysList | undefined;
 }
 export interface CreateMetricsCharacterizeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -140,13 +140,13 @@ export interface MetricSeries {
   /** Time-bucketed points, ordered by time ascending. */
   points: MetricSeriesPointsList;
   /** Metric the series was computed from. Null for formula results. */
-  metric_name?: string | null;
+  metric_name?: string | null | undefined;
   /** Name of the query clause that produced this series. */
-  clause?: string | null;
+  clause?: string | null | undefined;
   /** UCUM unit of the returned values, e.g. "By", "ms", "{request}/s". It is the ingested unit, except that a count of series has no unit and a rate is per second ("ms/s", or "1/s" for a counter without a unit). Null when the values have no unit, when merged series disagree on the unit, and for formula results. */
-  unit?: string | null;
+  unit?: string | null | undefined;
   /** Bucket upper edges a histogram_quantile series was estimated from. The true quantile can be anywhere between two edges. Null for other aggregations. */
-  histogram_bounds?: MetricSeriesHistogramBoundsList | null;
+  histogram_bounds?: MetricSeriesHistogramBoundsList | null | undefined;
 }
 export interface MetricAnomalyReport {
   /** Metric that was characterized. */
@@ -190,11 +190,11 @@ export interface CreateMetricsDashboardImportRequest {
   /** What to import: 'grafana' reads a Grafana dashboard JSON model, 'screenshot' reads an image of a dashboard. * `grafana` - Grafana * `screenshot` - Screenshot */
   source: DashboardImportSourceEnum | (string & {});
   /** Name of the new dashboard. Defaults to the Grafana dashboard title, or to 'Imported dashboard'. */
-  name?: string;
+  name?: string | undefined;
   /** The Grafana dashboard JSON model as text, from Dashboard settings > JSON Model or from an export. Required when source is 'grafana'. */
-  grafana_json?: string;
+  grafana_json?: string | undefined;
   /** The screenshot as base64, without a data URL prefix. PNG, JPEG, WebP or GIF, at most 5 MB. Required when source is 'screenshot'. */
-  image_base64?: string;
+  image_base64?: string | undefined;
 }
 /** * `running` - Running * `completed` - Completed * `failed` - Failed */
 export type DashboardImportStatusEnum = "running" | "completed" | "failed";
@@ -291,7 +291,7 @@ export interface MetricGroupBy {
   /** Attribute name to split series by (e.g. 'k8s.pod.name', 'env'). */
   key: string;
   /** Where the attribute lives; same semantics as filter scope. Use 'auto' unless you know the exact scope. * `resource` - resource * `attribute` - attribute * `auto` - auto */
-  scope?: MetricAttributeScopeEnum | (string & {});
+  scope?: MetricAttributeScopeEnum | (string & {}) | undefined;
 }
 /** Labels to split the result into separate series by. Series share one time grid and are capped at the 100 largest. */
 export type MetricQueryBodyGroupByList = Array<MetricGroupBy>;
@@ -317,47 +317,47 @@ export interface MetricClause {
   /** Exact metric name this clause queries. */
   metricName: string;
   /** Constrain the query to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, rows of every type sharing the name are blended into one aggregate. Get the type from 'metric-names-list'. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
-  metricType?: OtelMetricTypeEnum | (string & {}) | null;
+  metricType?: OtelMetricTypeEnum | (string & {}) | null | undefined;
   /** Aggregation applied per time bucket; same semantics as the top-level aggregation. * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
-  aggregation?: MetricQueryAggregationEnum | (string & {});
+  aggregation?: MetricQueryAggregationEnum | (string & {}) | undefined;
   /** Counter-aware transform applied to each series before the aggregation: 'rate' (per-second) or 'increase'. Combine with 'none' to get one rate line per series. Do not combine with the 'rate' or 'increase' aggregations. * `rate` - rate * `increase` - increase */
-  rangeFunction?: MetricRangeFunctionEnum | (string & {}) | null;
+  rangeFunction?: MetricRangeFunctionEnum | (string & {}) | null | undefined;
   /** Quantile in (0, 1) for 'histogram_quantile'. */
-  quantile?: number | null;
+  quantile?: number | null | undefined;
   /** Label predicates ANDed together for this clause. */
-  filters?: MetricClauseFiltersList;
+  filters?: MetricClauseFiltersList | undefined;
   /** Labels to split this clause into separate series by. */
-  groupBy?: MetricClauseGroupByList;
+  groupBy?: MetricClauseGroupByList | undefined;
 }
 /** Full multi-clause form: each clause is an independent metric selection sharing the request's time grid (maximum 10). Mutually exclusive with 'metricName'. */
 export type MetricQueryBodyClausesList = Array<MetricClause>;
 export interface MetricQueryBody {
   /** Exact metric name to query (e.g. 'http.server.duration'). Single-clause shorthand -- mutually exclusive with 'clauses'. */
-  metricName?: string;
+  metricName?: string | undefined;
   /** Constrain the query to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, rows of every type sharing the name are blended into one aggregate. Get the type from 'metric-names-list'. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
-  metricType?: OtelMetricTypeEnum | (string & {}) | null;
+  metricType?: OtelMetricTypeEnum | (string & {}) | null | undefined;
   /** Defaults to 'sum'. Aggregation applied per time bucket, always across series rather than across raw samples. 'sum', 'avg', 'min', 'max' and 'p95' reduce each series to its last sample in the bucket and then combine those, so the result does not scale with the scrape rate; 'count' is the number of series that reported. 'rate' (per-second) and 'increase' are counter-aware: per-series deltas with Prometheus counter-reset handling, temporality-aware (delta-temporality samples count as-is). 'histogram_quantile' interpolates from OTel histogram buckets and requires 'quantile'. 'none' skips the aggregation and returns one series per label set, at most 100, using each series' last sample per bucket; it cannot be combined with 'groupBy'. * `none` - none * `sum` - sum * `avg` - avg * `count` - count * `min` - min * `max` - max * `p95` - p95 * `rate` - rate * `increase` - increase * `histogram_quantile` - histogram_quantile */
-  aggregation?: MetricQueryAggregationEnum | (string & {});
+  aggregation?: MetricQueryAggregationEnum | (string & {}) | undefined;
   /** Counter-aware transform applied to each series before the aggregation: 'rate' (per-second) or 'increase'. Combine with 'none' to get one rate line per series. Do not combine with the 'rate' or 'increase' aggregations. * `rate` - rate * `increase` - increase */
-  rangeFunction?: MetricRangeFunctionEnum | (string & {}) | null;
+  rangeFunction?: MetricRangeFunctionEnum | (string & {}) | null | undefined;
   /** Quantile in (0, 1) for 'histogram_quantile' (e.g. 0.95). Ignored for other aggregations. */
-  quantile?: number | null;
+  quantile?: number | null | undefined;
   /** Label predicates ANDed together. Rows must satisfy every filter. */
-  filters?: MetricQueryBodyFiltersList;
+  filters?: MetricQueryBodyFiltersList | undefined;
   /** Labels to split the result into separate series by. Series share one time grid and are capped at the 100 largest. */
-  groupBy?: MetricQueryBodyGroupByList;
+  groupBy?: MetricQueryBodyGroupByList | undefined;
   /** Bucket size for the shared time grid. Omit to auto-pick (~60 buckets across the range). * `second_15` - second_15 * `second_30` - second_30 * `minute` - minute * `minute_5` - minute_5 * `minute_15` - minute_15 * `minute_30` - minute_30 * `hour` - hour * `hour_6` - hour_6 * `day` - day * `week` - week */
-  interval?: MetricQueryIntervalEnum | (string & {}) | null;
+  interval?: MetricQueryIntervalEnum | (string & {}) | null | undefined;
   /** Full multi-clause form: each clause is an independent metric selection sharing the request's time grid (maximum 10). Mutually exclusive with 'metricName'. */
-  clauses?: MetricQueryBodyClausesList;
+  clauses?: MetricQueryBodyClausesList | undefined;
   /** Arithmetic over clause names evaluated server-side per grid point, e.g. '(a - b) / a'. Supports + - * / and parentheses; division by zero yields 0. When set, only the formula result series are returned. */
-  formula?: string | null;
+  formula?: string | null | undefined;
   /** PromQL expression, run as a range query over the request's time grid, e.g. 'sum by (job) (rate(http_requests_total[5m]))'. Use it to run an alert or runbook expression as written. Mutually exclusive with 'metricName' and 'clauses'; put label selectors and grouping in the expression instead of 'filters' and 'groupBy'. In PromQL, service.name is service_name and other label names with dots need quotes. A bucket that a series did not report is null, not zero. */
-  promql?: string | null;
+  promql?: string | null | undefined;
   /** Lower bound (inclusive) for the query range. ISO 8601, or a relative offset back from now such as '-1h', '-7d', '-2w', '-1m' (months). Defaults to 24 hours before dateTo. */
-  dateFrom?: string;
+  dateFrom?: string | undefined;
   /** Upper bound (exclusive) for the query range. ISO 8601 or a relative offset like dateFrom. Defaults to now if omitted. */
-  dateTo?: string;
+  dateTo?: string | undefined;
 }
 export interface CreateMetricsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -371,27 +371,27 @@ export interface MetricQueryResponse {
   /** One series per (clause, label-set). A single ungrouped query returns exactly one series with empty labels. */
   results: MetricQueryResponseResultsList;
   /** Set only when the query returned no points: what to check before querying again. */
-  hint?: string;
+  hint?: string | undefined;
 }
 /** Label predicates ANDed together, matched against each emission's series. Pass the same filters used for the chart so the emissions listed are the ones behind it. */
 export type MetricSamplesBodyFiltersList = Array<MetricFilter>;
 export interface MetricSamplesBody {
   /** Exact metric name to list raw emissions for (e.g. 'http.server.duration'). Omit to list emissions across all metric names -- allowed only with traceId (the trace->metrics pivot). */
-  metricName?: string;
+  metricName?: string | undefined;
   /** Lower bound (inclusive) for the sample window. ISO 8601. */
   dateFrom: string;
   /** Upper bound (exclusive) for the sample window. Defaults to now if omitted. */
-  dateTo?: string;
+  dateTo?: string | undefined;
   /** Restrict to emissions on this trace (hex trace id, as the tracing product uses) -- the reverse metric->trace pivot. Omit for all traces. */
-  traceId?: string;
+  traceId?: string | undefined;
   /** Restrict to emissions recorded on this span (hex span id). Requires traceId, since a span id is only unique within its trace. */
-  spanId?: string;
+  spanId?: string | undefined;
   /** Constrain the emissions to one metric type. A name can exist as several types (e.g. a counter and a gauge); without this, emissions of every type sharing the name are listed together. Pass the same value used for the chart so both describe the same series. * `gauge` - gauge * `sum` - sum * `histogram` - histogram * `exponential_histogram` - exponential_histogram * `summary` - summary */
-  metricType?: OtelMetricTypeEnum | (string & {}) | null;
+  metricType?: OtelMetricTypeEnum | (string & {}) | null | undefined;
   /** Label predicates ANDed together, matched against each emission's series. Pass the same filters used for the chart so the emissions listed are the ones behind it. */
-  filters?: MetricSamplesBodyFiltersList;
+  filters?: MetricSamplesBodyFiltersList | undefined;
   /** Max emissions to return, newest first. Defaults to 100, capped at 1000. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface CreateMetricsSampleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -452,11 +452,11 @@ export interface CreateMetricsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Substring filter (case-insensitive) applied to metric names. */
-  value?: string;
+  value?: string | undefined;
   /** Max number of names to return. Defaults to 100; maximum 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated services to narrow the list to, e.g. `service=web,worker`. Omit for every service. Send it empty to select only series whose sender did not set `service.name`. A service name containing a comma cannot be selected. */
-  service?: string;
+  service?: string | undefined;
   /** Exact metric names to load as a batch. Overrides value and limit. */
   names: CreateMetricsValueRequestNamesList;
 }
@@ -468,11 +468,11 @@ export interface MetricName {
   /** OTel metric type (gauge, sum, histogram, summary, exponential_histogram). */
   metric_type: string;
   /** Unit of the metric value, if any (e.g. 'ms', 'By'). */
-  unit?: string;
+  unit?: string | undefined;
   /** When the newest datapoint for this metric arrived, ISO 8601. */
-  last_seen?: string | null;
+  last_seen?: string | null | undefined;
   /** A small downsampled series of the metric's recent shape, for a sparkline. */
-  sparkline?: MetricNameSparklineList;
+  sparkline?: MetricNameSparklineList | undefined;
 }
 /** Distinct metric names ordered by recent activity. */
 export type MetricNamesResponseResultsList = Array<MetricName>;
@@ -492,9 +492,9 @@ export interface MetricVariableSelection {
   /** The selected values. When `all` is true, the options that All stands for. */
   values: MetricVariableSelectionValuesList;
   /** True when the variable is set to All. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** The text that All puts in a PromQL query. `.*` when it is empty. */
-  allValue?: string | null;
+  allValue?: string | null | undefined;
 }
 /** The current selection of the other dashboard variables that the query can refer to. */
 export type CreateMetricsVariableOptionRequestVariablesList = Array<MetricVariableSelection>;
@@ -504,17 +504,17 @@ export interface CreateMetricsVariableOptionRequest {
   /** Where the options come from: a static list, a PromQL query, a SQL query, or free text. * `custom` - custom * `promql` - promql * `sql` - sql * `textbox` - textbox */
   source: MetricVariableSourceEnum | (string & {});
   /** The options query when `source` is `promql` or `sql`. It can refer to other variables as `$name`. PromQL supports label_values(label), label_values(selector, label), label_names(), metrics(regex) and query_result(expr). SQL returns the options in its first column. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** The options when `source` is `custom`. */
-  customValues?: CreateMetricsVariableOptionRequestCustomValuesList | null;
+  customValues?: CreateMetricsVariableOptionRequestCustomValuesList | null | undefined;
   /** A regex that filters the options of a query, as `pattern` or `/pattern/flags`. With a capture group, each option is its first group. An invalid regex is rejected before any query runs. */
-  regex?: string | null;
+  regex?: string | null | undefined;
   /** The current selection of the other dashboard variables that the query can refer to. */
-  variables?: CreateMetricsVariableOptionRequestVariablesList;
+  variables?: CreateMetricsVariableOptionRequestVariablesList | undefined;
   /** Start of the window that options come from, as in a dashboard date filter: ISO 8601 or a relative date such as '-7d'. Defaults to 24 hours ago. */
-  dateFrom?: string | null;
+  dateFrom?: string | null | undefined;
   /** End of the window that options come from, in the same format as dateFrom. Defaults to now. */
-  dateTo?: string | null;
+  dateTo?: string | null | undefined;
 }
 /** The options of the variable, at most 1,000. */
 export type MetricVariableOptionsResponseResultsList = Array<string>;
@@ -526,15 +526,15 @@ export interface GetMetricsAttributeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Lower bound (inclusive) of the window keys are suggested from. ISO 8601. Defaults to 24 hours ago. */
-  dateFrom?: string;
+  dateFrom?: string | undefined;
   /** Upper bound (exclusive) of the window. ISO 8601. Defaults to now. */
-  dateTo?: string;
+  dateTo?: string | undefined;
   /** Max number of keys to return. Defaults to 100; maximum 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Exact metric name to limit attribute keys to. Omit to list keys across all metrics. */
-  metricName?: string;
+  metricName?: string | undefined;
   /** Substring filter (case-insensitive) applied to attribute keys. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface MetricAttributeKey {
   /** Attribute key as it appears on the team's metrics (e.g. 'env', 'k8s.pod.name'). */
@@ -554,17 +554,17 @@ export interface GetMetricsAttributeValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Lower bound (inclusive) of the window values are suggested from. ISO 8601. Defaults to 24 hours ago. */
-  dateFrom?: string;
+  dateFrom?: string | undefined;
   /** Upper bound (exclusive) of the window. ISO 8601. Defaults to now. */
-  dateTo?: string;
+  dateTo?: string | undefined;
   /** Attribute key to list values for (e.g. 'env'). 'service_name'/'service.name' list service names. */
   key: string;
   /** Max number of values to return. Defaults to 100; maximum 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Exact metric name to limit values to. Omit to list values across all metrics. */
-  metricName?: string;
+  metricName?: string | undefined;
   /** Substring filter (case-insensitive) applied to values. Named 'value' to match the property-values autocomplete convention. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface MetricAttributeValue {
   /** The attribute value (same as name; kept for picker compatibility). */
@@ -591,7 +591,7 @@ export interface GetMetricsErrorSpikeRequest {
   /** Lower bound (inclusive) for the spike window. ISO 8601. */
   dateFrom: string;
   /** Upper bound (exclusive) for the spike window. Defaults to now if omitted. */
-  dateTo?: string;
+  dateTo?: string | undefined;
 }
 export interface MetricErrorSpike {
   /** When the error spike was detected, ISO 8601. */
@@ -619,11 +619,11 @@ export interface GetMetricsNameRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Max number of names to return. Defaults to 100; maximum 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated services to narrow the list to, e.g. `service=web,worker`. Omit for every service. Send it empty to select only series whose sender did not set `service.name`. A service name containing a comma cannot be selected. */
-  service?: string;
+  service?: string | undefined;
   /** Substring filter (case-insensitive) applied to metric names. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface MetricPickerName {
   /** Metric name as it appears in the team's data. */
@@ -669,9 +669,9 @@ export interface GetMetricsQueryCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of UTC days to count, today included. */
-  days?: number;
+  days?: number | undefined;
   /** Maximum number of metrics to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface MetricQueryCount {
   /** Metric name as it appears in the team's data. */
@@ -691,11 +691,11 @@ export interface GetMetricsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Max number of names to return. Defaults to 100; maximum 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated services to narrow the list to, e.g. `service=web,worker`. Omit for every service. Send it empty to select only series whose sender did not set `service.name`. A service name containing a comma cannot be selected. */
-  service?: string;
+  service?: string | undefined;
   /** Substring filter (case-insensitive) applied to metric names. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListMetricsDashboardImportsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -762,11 +762,11 @@ export interface PanelBuilderClause {
   /** Aggregation for each bucket, with the same meaning as in the metrics query API. * `sum` - Sum * `avg` - Avg * `count` - Count * `min` - Min * `max` - Max * `p95` - P95 * `rate` - Rate * `increase` - Increase * `histogram_quantile` - Histogram Quantile */
   aggregation: PanelBuilderAggregationEnum | (string & {});
   /** Quantile between 0 and 1. Required for 'histogram_quantile'. The other aggregations ignore it. */
-  quantile?: number | null;
+  quantile?: number | null | undefined;
   /** Attribute filters, joined with AND. */
-  filters?: PanelBuilderClauseFiltersList;
+  filters?: PanelBuilderClauseFiltersList | undefined;
   /** Attribute names that split the result into series. */
-  group_by?: PanelBuilderClauseGroupByList;
+  group_by?: PanelBuilderClauseGroupByList | undefined;
 }
 /** One clause for each series. */
 export type PanelBuilderQueryClausesList = Array<PanelBuilderClause>;
@@ -774,23 +774,23 @@ export interface PanelBuilderQuery {
   /** One clause for each series. */
   clauses: PanelBuilderQueryClausesList;
   /** Arithmetic over clause aliases, for example 'a / b'. */
-  formula?: string | null;
+  formula?: string | null | undefined;
 }
 export interface PanelQueryCheck {
   /** Panel key. The result for the panel carries the same key. */
   key: string;
   /** Panel title, shown in the import progress. */
-  title?: string;
+  title?: string | undefined;
   /** 'promql' or 'builder' for metrics, 'histogram' for a latency heatmap, 'hogql' for logs and traces. * `promql` - Promql * `builder` - Builder * `histogram` - Histogram * `hogql` - Hogql */
   language: PanelQueryLanguageEnum | (string & {});
   /** PromQL expression. Used when language is 'promql'. */
-  promql?: string | null;
+  promql?: string | null | undefined;
   /** Builder query. Used when language is 'builder'. */
-  builder?: PanelBuilderQuery | null;
+  builder?: PanelBuilderQuery | null | undefined;
   /** Histogram metric name. Used when language is 'histogram'. */
-  histogram_metric?: string | null;
+  histogram_metric?: string | null | undefined;
   /** SQL SELECT over logs or posthog.trace_spans with {filters} in the WHERE clause. Used when language is 'hogql'. */
-  hogql?: string | null;
+  hogql?: string | null | undefined;
 }
 /** Up to 20 panel queries to check. */
 export type MetricsDashboardImportsValidateCreateRequestPanelsList = Array<PanelQueryCheck>;
@@ -800,7 +800,7 @@ export interface MetricsDashboardImportsValidateCreateRequest {
   /** Up to 20 panel queries to check. */
   panels: MetricsDashboardImportsValidateCreateRequestPanelsList;
   /** The import that these panels belong to, from the import instructions. The import progress shows which panels pass. */
-  import_id?: string | null;
+  import_id?: string | null | undefined;
 }
 /** Warnings that do not block the query, such as no recent data. */
 export type PanelQueryCheckResultNotesList = Array<string>;

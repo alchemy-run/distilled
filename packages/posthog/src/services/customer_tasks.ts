@@ -48,17 +48,17 @@ export interface CreateCustomerTaskRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** UUID of a visible account, or null for an accountless task. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Task name. */
   name: string;
   /** Task description, or null to leave it empty. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** PostHog user ID to assign, or null to leave unassigned. */
-  assigned_to_id?: number | null;
+  assigned_to_id?: number | null | undefined;
   /** ISO 8601 deadline, or null for no deadline. */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Initial task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
-  status?: CustomerTaskStatusEnum | (string & {});
+  status?: CustomerTaskStatusEnum | (string & {}) | undefined;
 }
 export interface CustomerTaskAccount {
   /** UUID of the linked account. */
@@ -117,15 +117,15 @@ export interface CustomerTasksArchiveCreateRequest {
 export type CustomerTasksBulkUpdateCreateRequestTaskIdsList = Array<string>;
 export interface CustomerTaskBulkPatch {
   /** UUID of a visible account, or null to remove the account link. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Replacement assignee ID, or null to unassign. */
-  assigned_to_id?: number | null;
+  assigned_to_id?: number | null | undefined;
   /** Replacement ISO 8601 deadline, or null to clear it. */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Replacement task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
-  status?: CustomerTaskStatusEnum | (string & {});
+  status?: CustomerTaskStatusEnum | (string & {}) | undefined;
   /** Archive tasks when true, or restore them when false. */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 export interface CustomerTasksBulkUpdateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -169,27 +169,27 @@ export interface ListCustomerTasksRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by account UUID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Which archive state to include. * `active` - active * `archived` - archived * `all` - all */
-  archive_state?: ListCustomerTasksRequestArchiveState | (string & {});
+  archive_state?: ListCustomerTasksRequestArchiveState | (string & {}) | undefined;
   /** Filter by me, unassigned, one user ID, or role:<role UUID>. A role returns tasks assigned to any current member of that organization role. */
-  assigned_to?: string;
+  assigned_to?: string | undefined;
   /** Inclusive lower deadline bound. */
-  due_after?: string;
+  due_after?: string | undefined;
   /** Exclusive upper deadline bound. */
-  due_before?: string;
+  due_before?: string | undefined;
   /** Filter tasks by whether a deadline exists. */
-  has_due_at?: boolean;
+  has_due_at?: boolean | undefined;
   /** Page size, from 1 to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of rows to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort by task name, status, assignee, deadline, last update, account, or creation time. Prefix with - for descending order. * `name` - name * `-name` - -name * `status` - status * `-status` - -status * `assigned_to` - assigned_to * `-assigned_to` - -assigned_to * `due_at` - due_at * `-due_at` - -due_at * `updated_at` - updated_at * `-updated_at` - -updated_at * `account` - account * `-account` - -account * `created_at` - created_at * `-created_at` - -created_at */
-  ordering?: ListCustomerTasksRequestOrdering | (string & {});
+  ordering?: ListCustomerTasksRequestOrdering | (string & {}) | undefined;
   /** Search task name and description. */
-  search?: string;
+  search?: string | undefined;
   /** Comma-separated task statuses. */
-  statuses?: string;
+  statuses?: string | undefined;
 }
 /** Tasks in this page. */
 export type CustomerTaskPageResultsList = Array<CustomerTask>;
@@ -208,9 +208,9 @@ export interface ListCustomerTasksActivitiesRequest {
   project_id: string;
   id: string;
   /** Page size, from 1 to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of rows to skip. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** * `created` - Created * `updated` - Updated * `archived` - Archived * `restored` - Restored */
 export type CustomerTaskActivityTypeEnum = "created" | "updated" | "archived" | "restored";
@@ -257,34 +257,34 @@ export interface UpdateCustomerTaskRequest {
   project_id: string;
   id: string;
   /** UUID of a visible account, or null to remove the account link. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Replacement assignee ID, or null to unassign. */
-  assigned_to_id?: number | null;
+  assigned_to_id?: number | null | undefined;
   /** Replacement ISO 8601 deadline, or null to clear it. */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Replacement task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
-  status?: CustomerTaskStatusEnum | (string & {});
+  status?: CustomerTaskStatusEnum | (string & {}) | undefined;
   /** Replacement task name. */
   name: string;
   /** Replacement description, or null to clear it. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface UpdateCustomerTasksPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** UUID of a visible account, or null to remove the account link. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Replacement assignee ID, or null to unassign. */
-  assigned_to_id?: number | null;
+  assigned_to_id?: number | null | undefined;
   /** Replacement ISO 8601 deadline, or null to clear it. */
-  due_at?: string | null;
+  due_at?: string | null | undefined;
   /** Replacement task status. * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
-  status?: CustomerTaskStatusEnum | (string & {});
+  status?: CustomerTaskStatusEnum | (string & {}) | undefined;
   /** Replacement task name. */
-  name?: string;
+  name?: string | undefined;
   /** Replacement description, or null to clear it. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type CreateCustomerTaskError = PosthogOpError;
 export const createCustomerTask: API.OperationMethod<

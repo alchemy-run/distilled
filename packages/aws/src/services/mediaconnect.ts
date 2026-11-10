@@ -210,116 +210,120 @@ export type Protocol =
   | "ndi-speed-hq"
   | (string & {});
 export interface AddBridgeNetworkOutputRequest {
-  IpAddress?: string;
-  Name?: string;
-  NetworkName?: string;
-  Port?: number;
-  Protocol?: Protocol;
-  Ttl?: number;
+  IpAddress?: string | undefined;
+  Name?: string | undefined;
+  NetworkName?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
+  Ttl?: number | undefined;
 }
 export interface AddBridgeOutputRequest {
-  NetworkOutput?: AddBridgeNetworkOutputRequest;
+  NetworkOutput?: AddBridgeNetworkOutputRequest | undefined;
 }
 export type __listOfAddBridgeOutputRequest = AddBridgeOutputRequest[];
 const __listOfAddBridgeOutputRequest = /*@__PURE__*/ __L.at(__c14, 1);
 export interface AddBridgeOutputsRequest {
   BridgeArn: string;
-  Outputs?: AddBridgeOutputRequest[];
+  Outputs?: AddBridgeOutputRequest[] | undefined;
 }
 export interface BridgeFlowOutput {
-  FlowArn?: string;
-  FlowSourceArn?: string;
-  Name?: string;
+  FlowArn?: string | undefined;
+  FlowSourceArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface BridgeNetworkOutput {
-  IpAddress?: string;
-  Name?: string;
-  NetworkName?: string;
-  Port?: number;
-  Protocol?: Protocol;
-  Ttl?: number;
+  IpAddress?: string | undefined;
+  Name?: string | undefined;
+  NetworkName?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
+  Ttl?: number | undefined;
 }
 export interface BridgeOutput {
-  FlowOutput?: BridgeFlowOutput;
-  NetworkOutput?: BridgeNetworkOutput;
+  FlowOutput?: BridgeFlowOutput | undefined;
+  NetworkOutput?: BridgeNetworkOutput | undefined;
 }
 export type __listOfBridgeOutput = BridgeOutput[];
 const __listOfBridgeOutput = /*@__PURE__*/ __L.at(__c15, 0);
 export interface AddBridgeOutputsResponse {
-  BridgeArn?: string;
-  Outputs?: (BridgeOutput & {
-    FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
-    NetworkOutput: BridgeNetworkOutput & {
-      IpAddress: string;
-      Name: string;
-      NetworkName: string;
-      Port: number;
-      Protocol: Protocol;
-      Ttl: number;
-    };
-  })[];
+  BridgeArn?: string | undefined;
+  Outputs?:
+    | (BridgeOutput & {
+        FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
+        NetworkOutput: BridgeNetworkOutput & {
+          IpAddress: string;
+          Name: string;
+          NetworkName: string;
+          Port: number;
+          Protocol: Protocol;
+          Ttl: number;
+        };
+      })[]
+    | undefined;
 }
 export interface VpcInterfaceAttachment {
-  VpcInterfaceName?: string;
+  VpcInterfaceName?: string | undefined;
 }
 export interface AddBridgeFlowSourceRequest {
-  FlowArn?: string;
-  FlowVpcInterfaceAttachment?: VpcInterfaceAttachment;
-  Name?: string;
+  FlowArn?: string | undefined;
+  FlowVpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
+  Name?: string | undefined;
 }
 export interface MulticastSourceSettings {
-  MulticastSourceIp?: string;
+  MulticastSourceIp?: string | undefined;
 }
 export interface AddBridgeNetworkSourceRequest {
-  MulticastIp?: string;
-  MulticastSourceSettings?: MulticastSourceSettings;
-  Name?: string;
-  NetworkName?: string;
-  Port?: number;
-  Protocol?: Protocol;
+  MulticastIp?: string | undefined;
+  MulticastSourceSettings?: MulticastSourceSettings | undefined;
+  Name?: string | undefined;
+  NetworkName?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
 }
 export interface AddBridgeSourceRequest {
-  FlowSource?: AddBridgeFlowSourceRequest;
-  NetworkSource?: AddBridgeNetworkSourceRequest;
+  FlowSource?: AddBridgeFlowSourceRequest | undefined;
+  NetworkSource?: AddBridgeNetworkSourceRequest | undefined;
 }
 export type __listOfAddBridgeSourceRequest = AddBridgeSourceRequest[];
 const __listOfAddBridgeSourceRequest = /*@__PURE__*/ __L.at(__c19, 2);
 export interface AddBridgeSourcesRequest {
   BridgeArn: string;
-  Sources?: AddBridgeSourceRequest[];
+  Sources?: AddBridgeSourceRequest[] | undefined;
 }
 export interface BridgeFlowSource {
-  FlowArn?: string;
-  FlowVpcInterfaceAttachment?: VpcInterfaceAttachment;
-  Name?: string;
-  OutputArn?: string;
+  FlowArn?: string | undefined;
+  FlowVpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
+  Name?: string | undefined;
+  OutputArn?: string | undefined;
 }
 export interface BridgeNetworkSource {
-  MulticastIp?: string;
-  MulticastSourceSettings?: MulticastSourceSettings;
-  Name?: string;
-  NetworkName?: string;
-  Port?: number;
-  Protocol?: Protocol;
+  MulticastIp?: string | undefined;
+  MulticastSourceSettings?: MulticastSourceSettings | undefined;
+  Name?: string | undefined;
+  NetworkName?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
 }
 export interface BridgeSource {
-  FlowSource?: BridgeFlowSource;
-  NetworkSource?: BridgeNetworkSource;
+  FlowSource?: BridgeFlowSource | undefined;
+  NetworkSource?: BridgeNetworkSource | undefined;
 }
 export type __listOfBridgeSource = BridgeSource[];
 const __listOfBridgeSource = /*@__PURE__*/ __L.at(__c20, 0);
 export interface AddBridgeSourcesResponse {
-  BridgeArn?: string;
-  Sources?: (BridgeSource & {
-    FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
-    NetworkSource: BridgeNetworkSource & {
-      MulticastIp: string;
-      Name: string;
-      NetworkName: string;
-      Port: number;
-      Protocol: Protocol;
-    };
-  })[];
+  BridgeArn?: string | undefined;
+  Sources?:
+    | (BridgeSource & {
+        FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
+        NetworkSource: BridgeNetworkSource & {
+          MulticastIp: string;
+          Name: string;
+          NetworkName: string;
+          Port: number;
+          Protocol: Protocol;
+        };
+      })[]
+    | undefined;
 }
 export type FlowArn = string;
 export type Colorimetry =
@@ -345,108 +349,110 @@ export type Tcs =
   | "DENSITY"
   | (string & {});
 export interface FmtpRequest {
-  ChannelOrder?: string;
-  Colorimetry?: Colorimetry;
-  ExactFramerate?: string;
-  Par?: string;
-  Range?: Range;
-  ScanMode?: ScanMode;
-  Tcs?: Tcs;
+  ChannelOrder?: string | undefined;
+  Colorimetry?: Colorimetry | undefined;
+  ExactFramerate?: string | undefined;
+  Par?: string | undefined;
+  Range?: Range | undefined;
+  ScanMode?: ScanMode | undefined;
+  Tcs?: Tcs | undefined;
 }
 export interface MediaStreamAttributesRequest {
-  Fmtp?: FmtpRequest;
-  Lang?: string;
+  Fmtp?: FmtpRequest | undefined;
+  Lang?: string | undefined;
 }
 export type MediaStreamType = "video" | "audio" | "ancillary-data" | (string & {});
 export type __mapOfString = { [key: string]: string | undefined };
 const __mapOfString = /*@__PURE__*/ __L.at(__c23, 0);
 export interface AddMediaStreamRequest {
-  Attributes?: MediaStreamAttributesRequest;
-  ClockRate?: number;
-  Description?: string;
-  MediaStreamId?: number;
-  MediaStreamName?: string;
-  MediaStreamType?: MediaStreamType;
-  VideoFormat?: string;
-  MediaStreamTags?: { [key: string]: string | undefined };
+  Attributes?: MediaStreamAttributesRequest | undefined;
+  ClockRate?: number | undefined;
+  Description?: string | undefined;
+  MediaStreamId?: number | undefined;
+  MediaStreamName?: string | undefined;
+  MediaStreamType?: MediaStreamType | undefined;
+  VideoFormat?: string | undefined;
+  MediaStreamTags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfAddMediaStreamRequest = AddMediaStreamRequest[];
 const __listOfAddMediaStreamRequest = /*@__PURE__*/ __L.at(__c24, 1);
 export interface AddFlowMediaStreamsRequest {
   FlowArn: string;
-  MediaStreams?: AddMediaStreamRequest[];
+  MediaStreams?: AddMediaStreamRequest[] | undefined;
 }
 export interface Fmtp {
-  ChannelOrder?: string;
-  Colorimetry?: Colorimetry;
-  ExactFramerate?: string;
-  Par?: string;
-  Range?: Range;
-  ScanMode?: ScanMode;
-  Tcs?: Tcs;
+  ChannelOrder?: string | undefined;
+  Colorimetry?: Colorimetry | undefined;
+  ExactFramerate?: string | undefined;
+  Par?: string | undefined;
+  Range?: Range | undefined;
+  ScanMode?: ScanMode | undefined;
+  Tcs?: Tcs | undefined;
 }
 export interface MediaStreamAttributes {
-  Fmtp?: Fmtp;
-  Lang?: string;
+  Fmtp?: Fmtp | undefined;
+  Lang?: string | undefined;
 }
 export interface MediaStream {
-  Attributes?: MediaStreamAttributes;
-  ClockRate?: number;
-  Description?: string;
-  Fmt?: number;
-  MediaStreamId?: number;
-  MediaStreamName?: string;
-  MediaStreamType?: MediaStreamType;
-  VideoFormat?: string;
+  Attributes?: MediaStreamAttributes | undefined;
+  ClockRate?: number | undefined;
+  Description?: string | undefined;
+  Fmt?: number | undefined;
+  MediaStreamId?: number | undefined;
+  MediaStreamName?: string | undefined;
+  MediaStreamType?: MediaStreamType | undefined;
+  VideoFormat?: string | undefined;
 }
 export type __listOfMediaStream = MediaStream[];
 const __listOfMediaStream = /*@__PURE__*/ __L.at(__c25, 0);
 export interface AddFlowMediaStreamsResponse {
-  FlowArn?: string;
-  MediaStreams?: (MediaStream & {
-    Fmt: number;
-    MediaStreamId: number;
-    MediaStreamName: string;
-    MediaStreamType: MediaStreamType;
-    Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
-  })[];
+  FlowArn?: string | undefined;
+  MediaStreams?:
+    | (MediaStream & {
+        Fmt: number;
+        MediaStreamId: number;
+        MediaStreamName: string;
+        MediaStreamType: MediaStreamType;
+        Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
+      })[]
+    | undefined;
 }
 export type __listOfString = string[];
 const __listOfString = /*@__PURE__*/ __L.at(__c28, 0);
 export type Algorithm = "aes128" | "aes192" | "aes256" | (string & {});
 export type KeyType = "speke" | "static-key" | "srt-password" | (string & {});
 export interface Encryption {
-  Algorithm?: Algorithm;
-  ConstantInitializationVector?: string;
-  DeviceId?: string;
-  KeyType?: KeyType;
-  Region?: string;
-  ResourceId?: string;
-  RoleArn?: string;
-  SecretArn?: string;
-  Url?: string;
+  Algorithm?: Algorithm | undefined;
+  ConstantInitializationVector?: string | undefined;
+  DeviceId?: string | undefined;
+  KeyType?: KeyType | undefined;
+  Region?: string | undefined;
+  ResourceId?: string | undefined;
+  RoleArn?: string | undefined;
+  SecretArn?: string | undefined;
+  Url?: string | undefined;
 }
 export interface InterfaceRequest {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DestinationConfigurationRequest {
-  DestinationIp?: string;
-  DestinationPort?: number;
-  Interface?: InterfaceRequest;
+  DestinationIp?: string | undefined;
+  DestinationPort?: number | undefined;
+  Interface?: InterfaceRequest | undefined;
 }
 export type __listOfDestinationConfigurationRequest = DestinationConfigurationRequest[];
 const __listOfDestinationConfigurationRequest = /*@__PURE__*/ __L.at(__c34, 1);
 export type EncodingName = "jxsv" | "raw" | "smpte291" | "pcm" | (string & {});
 export type EncoderProfile = "main" | "high" | (string & {});
 export interface EncodingParametersRequest {
-  CompressionFactor?: number;
-  EncoderProfile?: EncoderProfile;
+  CompressionFactor?: number | undefined;
+  EncoderProfile?: EncoderProfile | undefined;
 }
 export interface MediaStreamOutputConfigurationRequest {
-  DestinationConfigurations?: DestinationConfigurationRequest[];
-  EncodingName?: EncodingName;
-  EncodingParameters?: EncodingParametersRequest;
-  MediaStreamName?: string;
+  DestinationConfigurations?: DestinationConfigurationRequest[] | undefined;
+  EncodingName?: EncodingName | undefined;
+  EncodingParameters?: EncodingParametersRequest | undefined;
+  MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamOutputConfigurationRequest = MediaStreamOutputConfigurationRequest[];
 const __listOfMediaStreamOutputConfigurationRequest = /*@__PURE__*/ __L.at(__c34, 3);
@@ -461,284 +467,290 @@ export interface SecretsManagerEncryptionKeyConfiguration {
 }
 export interface AutomaticEncryptionKeyConfiguration {}
 export type FlowTransitEncryptionKeyConfiguration =
-  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: never }
-  | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: undefined }
+  | { SecretsManager?: undefined; Automatic: AutomaticEncryptionKeyConfiguration };
 export interface FlowTransitEncryption {
-  EncryptionKeyType?: FlowTransitEncryptionKeyType;
+  EncryptionKeyType?: FlowTransitEncryptionKeyType | undefined;
   EncryptionKeyConfiguration: FlowTransitEncryptionKeyConfiguration;
 }
 export type NdiOutputTimecodeSource = "EMBEDDED_TIMECODE" | "UTC_SYSTEM_TIME" | (string & {});
 export type NdiAudioReferenceLevel = number;
 export interface AddOutputRequest {
-  CidrAllowList?: string[];
-  Description?: string;
-  Destination?: string;
-  Encryption?: Encryption;
-  MaxLatency?: number;
-  MediaStreamOutputConfigurations?: MediaStreamOutputConfigurationRequest[];
-  MinLatency?: number;
-  Name?: string;
-  Port?: number;
-  Protocol?: Protocol;
-  RemoteId?: string;
-  SenderControlPort?: number;
-  SmoothingLatency?: number;
-  StreamId?: string;
-  VpcInterfaceAttachment?: VpcInterfaceAttachment;
-  OutputStatus?: OutputStatus;
-  NdiSpeedHqQuality?: number;
-  NdiProgramName?: string;
-  OutputTags?: { [key: string]: string | undefined };
-  RouterIntegrationState?: State;
-  RouterIntegrationTransitEncryption?: FlowTransitEncryption;
-  NdiOutputTimecodeSource?: NdiOutputTimecodeSource;
-  NdiAudioReferenceLevel?: number;
+  CidrAllowList?: string[] | undefined;
+  Description?: string | undefined;
+  Destination?: string | undefined;
+  Encryption?: Encryption | undefined;
+  MaxLatency?: number | undefined;
+  MediaStreamOutputConfigurations?: MediaStreamOutputConfigurationRequest[] | undefined;
+  MinLatency?: number | undefined;
+  Name?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
+  RemoteId?: string | undefined;
+  SenderControlPort?: number | undefined;
+  SmoothingLatency?: number | undefined;
+  StreamId?: string | undefined;
+  VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
+  OutputStatus?: OutputStatus | undefined;
+  NdiSpeedHqQuality?: number | undefined;
+  NdiProgramName?: string | undefined;
+  OutputTags?: { [key: string]: string | undefined } | undefined;
+  RouterIntegrationState?: State | undefined;
+  RouterIntegrationTransitEncryption?: FlowTransitEncryption | undefined;
+  NdiOutputTimecodeSource?: NdiOutputTimecodeSource | undefined;
+  NdiAudioReferenceLevel?: number | undefined;
 }
 export type __listOfAddOutputRequest = AddOutputRequest[];
 const __listOfAddOutputRequest = /*@__PURE__*/ __L.at(__c33, 1);
 export interface AddFlowOutputsRequest {
   FlowArn: string;
-  Outputs?: AddOutputRequest[];
+  Outputs?: AddOutputRequest[] | undefined;
 }
 export interface Interface {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DestinationConfiguration {
-  DestinationIp?: string;
-  DestinationPort?: number;
-  Interface?: Interface;
-  OutboundIp?: string;
+  DestinationIp?: string | undefined;
+  DestinationPort?: number | undefined;
+  Interface?: Interface | undefined;
+  OutboundIp?: string | undefined;
 }
 export type __listOfDestinationConfiguration = DestinationConfiguration[];
 const __listOfDestinationConfiguration = /*@__PURE__*/ __L.at(__c36, 2);
 export interface EncodingParameters {
-  CompressionFactor?: number;
-  EncoderProfile?: EncoderProfile;
+  CompressionFactor?: number | undefined;
+  EncoderProfile?: EncoderProfile | undefined;
 }
 export interface MediaStreamOutputConfiguration {
-  DestinationConfigurations?: DestinationConfiguration[];
-  EncodingName?: EncodingName;
-  EncodingParameters?: EncodingParameters;
-  MediaStreamName?: string;
+  DestinationConfigurations?: DestinationConfiguration[] | undefined;
+  EncodingName?: EncodingName | undefined;
+  EncodingParameters?: EncodingParameters | undefined;
+  MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamOutputConfiguration = MediaStreamOutputConfiguration[];
 const __listOfMediaStreamOutputConfiguration = /*@__PURE__*/ __L.at(__c36, 4);
 export interface NdiSourceSettings {
-  SourceName?: string;
-  AudioReferenceLevel?: number;
+  SourceName?: string | undefined;
+  AudioReferenceLevel?: number | undefined;
 }
 export interface Transport {
-  CidrAllowList?: string[];
-  MaxBitrate?: number;
-  MaxLatency?: number;
-  MaxSyncBuffer?: number;
-  MinLatency?: number;
-  Protocol?: Protocol;
-  RemoteId?: string;
-  SenderControlPort?: number;
-  SenderIpAddress?: string;
-  SmoothingLatency?: number;
-  SourceListenerAddress?: string;
-  SourceListenerPort?: number;
-  StreamId?: string;
-  NdiSpeedHqQuality?: number;
-  NdiProgramName?: string;
-  NdiSourceSettings?: NdiSourceSettings;
-  NdiOutputTimecodeSource?: NdiOutputTimecodeSource;
-  NdiAudioReferenceLevel?: number;
+  CidrAllowList?: string[] | undefined;
+  MaxBitrate?: number | undefined;
+  MaxLatency?: number | undefined;
+  MaxSyncBuffer?: number | undefined;
+  MinLatency?: number | undefined;
+  Protocol?: Protocol | undefined;
+  RemoteId?: string | undefined;
+  SenderControlPort?: number | undefined;
+  SenderIpAddress?: string | undefined;
+  SmoothingLatency?: number | undefined;
+  SourceListenerAddress?: string | undefined;
+  SourceListenerPort?: number | undefined;
+  StreamId?: string | undefined;
+  NdiSpeedHqQuality?: number | undefined;
+  NdiProgramName?: string | undefined;
+  NdiSourceSettings?: NdiSourceSettings | undefined;
+  NdiOutputTimecodeSource?: NdiOutputTimecodeSource | undefined;
+  NdiAudioReferenceLevel?: number | undefined;
 }
 export type __listOfInteger = number[];
 const __listOfInteger = /*@__PURE__*/ __L.at(__c36, 5);
 export interface Output {
-  DataTransferSubscriberFeePercent?: number;
-  Description?: string;
-  Destination?: string;
-  Encryption?: Encryption;
-  EntitlementArn?: string;
-  ListenerAddress?: string;
-  MediaLiveInputArn?: string;
-  MediaStreamOutputConfigurations?: MediaStreamOutputConfiguration[];
-  Name?: string;
-  OutputArn?: string;
-  Port?: number;
-  Transport?: Transport;
-  VpcInterfaceAttachment?: VpcInterfaceAttachment;
-  BridgeArn?: string;
-  BridgePorts?: number[];
-  OutputStatus?: OutputStatus;
-  PeerIpAddress?: string;
-  RouterIntegrationState?: State;
-  RouterIntegrationTransitEncryption?: FlowTransitEncryption;
-  ConnectedRouterInputArn?: string;
+  DataTransferSubscriberFeePercent?: number | undefined;
+  Description?: string | undefined;
+  Destination?: string | undefined;
+  Encryption?: Encryption | undefined;
+  EntitlementArn?: string | undefined;
+  ListenerAddress?: string | undefined;
+  MediaLiveInputArn?: string | undefined;
+  MediaStreamOutputConfigurations?: MediaStreamOutputConfiguration[] | undefined;
+  Name?: string | undefined;
+  OutputArn?: string | undefined;
+  Port?: number | undefined;
+  Transport?: Transport | undefined;
+  VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
+  BridgeArn?: string | undefined;
+  BridgePorts?: number[] | undefined;
+  OutputStatus?: OutputStatus | undefined;
+  PeerIpAddress?: string | undefined;
+  RouterIntegrationState?: State | undefined;
+  RouterIntegrationTransitEncryption?: FlowTransitEncryption | undefined;
+  ConnectedRouterInputArn?: string | undefined;
 }
 export type __listOfOutput = Output[];
 const __listOfOutput = /*@__PURE__*/ __L.at(__c35, 0);
 export interface AddFlowOutputsResponse {
-  FlowArn?: string;
-  Outputs?: (Output & {
-    Name: string;
-    OutputArn: string;
-    Encryption: Encryption & { RoleArn: string };
-    MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
-      EncodingName: EncodingName;
-      MediaStreamName: string;
-      DestinationConfigurations: (DestinationConfiguration & {
-        DestinationIp: string;
-        DestinationPort: number;
-        Interface: Interface & { Name: string };
-        OutboundIp: string;
-      })[];
-      EncodingParameters: EncodingParameters & {
-        CompressionFactor: number;
-        EncoderProfile: EncoderProfile;
-      };
-    })[];
-    Transport: Transport & { Protocol: Protocol };
-  })[];
+  FlowArn?: string | undefined;
+  Outputs?:
+    | (Output & {
+        Name: string;
+        OutputArn: string;
+        Encryption: Encryption & { RoleArn: string };
+        MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
+          EncodingName: EncodingName;
+          MediaStreamName: string;
+          DestinationConfigurations: (DestinationConfiguration & {
+            DestinationIp: string;
+            DestinationPort: number;
+            Interface: Interface & { Name: string };
+            OutboundIp: string;
+          })[];
+          EncodingParameters: EncodingParameters & {
+            CompressionFactor: number;
+            EncoderProfile: EncoderProfile;
+          };
+        })[];
+        Transport: Transport & { Protocol: Protocol };
+      })[]
+    | undefined;
 }
 export interface InputConfigurationRequest {
-  InputPort?: number;
-  Interface?: InterfaceRequest;
+  InputPort?: number | undefined;
+  Interface?: InterfaceRequest | undefined;
 }
 export type __listOfInputConfigurationRequest = InputConfigurationRequest[];
 const __listOfInputConfigurationRequest = /*@__PURE__*/ __L.at(__c39, 1);
 export interface MediaStreamSourceConfigurationRequest {
-  EncodingName?: EncodingName;
-  InputConfigurations?: InputConfigurationRequest[];
-  MediaStreamName?: string;
+  EncodingName?: EncodingName | undefined;
+  InputConfigurations?: InputConfigurationRequest[] | undefined;
+  MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamSourceConfigurationRequest = MediaStreamSourceConfigurationRequest[];
 const __listOfMediaStreamSourceConfigurationRequest = /*@__PURE__*/ __L.at(__c39, 3);
 export interface SetGatewayBridgeSourceRequest {
-  BridgeArn?: string;
-  VpcInterfaceAttachment?: VpcInterfaceAttachment;
+  BridgeArn?: string | undefined;
+  VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
 }
 export interface SetSourceRequest {
-  Decryption?: Encryption;
-  Description?: string;
-  EntitlementArn?: string;
-  IngestPort?: number;
-  MaxBitrate?: number;
-  MaxLatency?: number;
-  MaxSyncBuffer?: number;
-  MediaStreamSourceConfigurations?: MediaStreamSourceConfigurationRequest[];
-  MinLatency?: number;
-  Name?: string;
-  Protocol?: Protocol;
-  SenderControlPort?: number;
-  SenderIpAddress?: string;
-  SourceListenerAddress?: string;
-  SourceListenerPort?: number;
-  StreamId?: string;
-  VpcInterfaceName?: string;
-  WhitelistCidr?: string;
-  GatewayBridgeSource?: SetGatewayBridgeSourceRequest;
-  NdiSourceSettings?: NdiSourceSettings;
-  SourceTags?: { [key: string]: string | undefined };
-  RouterIntegrationState?: State;
-  RouterIntegrationTransitDecryption?: FlowTransitEncryption;
+  Decryption?: Encryption | undefined;
+  Description?: string | undefined;
+  EntitlementArn?: string | undefined;
+  IngestPort?: number | undefined;
+  MaxBitrate?: number | undefined;
+  MaxLatency?: number | undefined;
+  MaxSyncBuffer?: number | undefined;
+  MediaStreamSourceConfigurations?: MediaStreamSourceConfigurationRequest[] | undefined;
+  MinLatency?: number | undefined;
+  Name?: string | undefined;
+  Protocol?: Protocol | undefined;
+  SenderControlPort?: number | undefined;
+  SenderIpAddress?: string | undefined;
+  SourceListenerAddress?: string | undefined;
+  SourceListenerPort?: number | undefined;
+  StreamId?: string | undefined;
+  VpcInterfaceName?: string | undefined;
+  WhitelistCidr?: string | undefined;
+  GatewayBridgeSource?: SetGatewayBridgeSourceRequest | undefined;
+  NdiSourceSettings?: NdiSourceSettings | undefined;
+  SourceTags?: { [key: string]: string | undefined } | undefined;
+  RouterIntegrationState?: State | undefined;
+  RouterIntegrationTransitDecryption?: FlowTransitEncryption | undefined;
 }
 export type __listOfSetSourceRequest = SetSourceRequest[];
 const __listOfSetSourceRequest = /*@__PURE__*/ __L.at(__c38, 1);
 export interface AddFlowSourcesRequest {
   FlowArn: string;
-  Sources?: SetSourceRequest[];
+  Sources?: SetSourceRequest[] | undefined;
 }
 export interface InputConfiguration {
-  InputIp?: string;
-  InputPort?: number;
-  Interface?: Interface;
+  InputIp?: string | undefined;
+  InputPort?: number | undefined;
+  Interface?: Interface | undefined;
 }
 export type __listOfInputConfiguration = InputConfiguration[];
 const __listOfInputConfiguration = /*@__PURE__*/ __L.at(__c41, 2);
 export interface MediaStreamSourceConfiguration {
-  EncodingName?: EncodingName;
-  InputConfigurations?: InputConfiguration[];
-  MediaStreamName?: string;
+  EncodingName?: EncodingName | undefined;
+  InputConfigurations?: InputConfiguration[] | undefined;
+  MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamSourceConfiguration = MediaStreamSourceConfiguration[];
 const __listOfMediaStreamSourceConfiguration = /*@__PURE__*/ __L.at(__c41, 4);
 export interface GatewayBridgeSource {
-  BridgeArn?: string;
-  VpcInterfaceAttachment?: VpcInterfaceAttachment;
+  BridgeArn?: string | undefined;
+  VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
 }
 export interface Source {
-  DataTransferSubscriberFeePercent?: number;
-  Decryption?: Encryption;
-  Description?: string;
-  EntitlementArn?: string;
-  IngestIp?: string;
-  IngestPort?: number;
-  MediaStreamSourceConfigurations?: MediaStreamSourceConfiguration[];
-  Name?: string;
-  SenderControlPort?: number;
-  SenderIpAddress?: string;
-  SourceArn?: string;
-  Transport?: Transport;
-  VpcInterfaceName?: string;
-  WhitelistCidr?: string;
-  GatewayBridgeSource?: GatewayBridgeSource;
-  PeerIpAddress?: string;
-  RouterIntegrationState?: State;
-  RouterIntegrationTransitDecryption?: FlowTransitEncryption;
-  ConnectedRouterOutputArn?: string;
+  DataTransferSubscriberFeePercent?: number | undefined;
+  Decryption?: Encryption | undefined;
+  Description?: string | undefined;
+  EntitlementArn?: string | undefined;
+  IngestIp?: string | undefined;
+  IngestPort?: number | undefined;
+  MediaStreamSourceConfigurations?: MediaStreamSourceConfiguration[] | undefined;
+  Name?: string | undefined;
+  SenderControlPort?: number | undefined;
+  SenderIpAddress?: string | undefined;
+  SourceArn?: string | undefined;
+  Transport?: Transport | undefined;
+  VpcInterfaceName?: string | undefined;
+  WhitelistCidr?: string | undefined;
+  GatewayBridgeSource?: GatewayBridgeSource | undefined;
+  PeerIpAddress?: string | undefined;
+  RouterIntegrationState?: State | undefined;
+  RouterIntegrationTransitDecryption?: FlowTransitEncryption | undefined;
+  ConnectedRouterOutputArn?: string | undefined;
 }
 export type __listOfSource = Source[];
 const __listOfSource = /*@__PURE__*/ __L.at(__c40, 0);
 export interface AddFlowSourcesResponse {
-  FlowArn?: string;
-  Sources?: (Source & {
-    Name: string;
-    SourceArn: string;
-    Decryption: Encryption & { RoleArn: string };
-    MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-      EncodingName: EncodingName;
-      MediaStreamName: string;
-      InputConfigurations: (InputConfiguration & {
-        InputIp: string;
-        InputPort: number;
-        Interface: Interface & { Name: string };
-      })[];
-    })[];
-    Transport: Transport & { Protocol: Protocol };
-    GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-  })[];
+  FlowArn?: string | undefined;
+  Sources?:
+    | (Source & {
+        Name: string;
+        SourceArn: string;
+        Decryption: Encryption & { RoleArn: string };
+        MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+          EncodingName: EncodingName;
+          MediaStreamName: string;
+          InputConfigurations: (InputConfiguration & {
+            InputIp: string;
+            InputPort: number;
+            Interface: Interface & { Name: string };
+          })[];
+        })[];
+        Transport: Transport & { Protocol: Protocol };
+        GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
+      })[]
+    | undefined;
 }
 export type NetworkInterfaceType = "ena" | "efa" | (string & {});
 export interface VpcInterfaceRequest {
-  Name?: string;
-  NetworkInterfaceType?: NetworkInterfaceType;
-  RoleArn?: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
-  VpcInterfaceTags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  NetworkInterfaceType?: NetworkInterfaceType | undefined;
+  RoleArn?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
+  VpcInterfaceTags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfVpcInterfaceRequest = VpcInterfaceRequest[];
 const __listOfVpcInterfaceRequest = /*@__PURE__*/ __L.at(__c43, 1);
 export interface AddFlowVpcInterfacesRequest {
   FlowArn: string;
-  VpcInterfaces?: VpcInterfaceRequest[];
+  VpcInterfaces?: VpcInterfaceRequest[] | undefined;
 }
 export interface VpcInterface {
-  Name?: string;
-  NetworkInterfaceIds?: string[];
-  NetworkInterfaceType?: NetworkInterfaceType;
-  RoleArn?: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
+  Name?: string | undefined;
+  NetworkInterfaceIds?: string[] | undefined;
+  NetworkInterfaceType?: NetworkInterfaceType | undefined;
+  RoleArn?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
 }
 export type __listOfVpcInterface = VpcInterface[];
 const __listOfVpcInterface = /*@__PURE__*/ __L.at(__c44, 1);
 export interface AddFlowVpcInterfacesResponse {
-  FlowArn?: string;
-  VpcInterfaces?: (VpcInterface & {
-    Name: string;
-    NetworkInterfaceIds: __listOfString;
-    NetworkInterfaceType: NetworkInterfaceType;
-    RoleArn: string;
-    SecurityGroupIds: __listOfString;
-    SubnetId: string;
-  })[];
+  FlowArn?: string | undefined;
+  VpcInterfaces?:
+    | (VpcInterface & {
+        Name: string;
+        NetworkInterfaceIds: __listOfString;
+        NetworkInterfaceType: NetworkInterfaceType;
+        RoleArn: string;
+        SecurityGroupIds: __listOfString;
+        SubnetId: string;
+      })[]
+    | undefined;
 }
 export type DestinationEndpointArn = string;
 export type DestinationEndpointArnList = string[];
@@ -768,8 +780,8 @@ export interface VpcDestinationEndpointNetworkingConfiguration {
   SubnetId: string;
 }
 export type StandardDestinationEndpointNetworkingConfiguration =
-  | { Public: PublicDestinationEndpointNetworkingConfiguration; Vpc?: never }
-  | { Public?: never; Vpc: VpcDestinationEndpointNetworkingConfiguration };
+  | { Public: PublicDestinationEndpointNetworkingConfiguration; Vpc?: undefined }
+  | { Public?: undefined; Vpc: VpcDestinationEndpointNetworkingConfiguration };
 export interface RistStandardDestinationEndpointConfiguration {
   DestinationAddress: string;
   DestinationIngestPort: number;
@@ -781,13 +793,13 @@ export interface SrtListenerStandardDestinationEndpointConfiguration {
   DestinationAddress: string;
   DestinationIngestPort: number;
   MinimumLatencyMilliseconds: number;
-  StreamId?: string;
-  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration;
+  StreamId?: string | undefined;
+  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration | undefined;
 }
 export interface SrtCallerStandardDestinationEndpointConfiguration {
   SourceListenerPort: number;
   MinimumLatencyMilliseconds: number;
-  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration;
+  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration | undefined;
 }
 export type ForwardErrorCorrectionState = "ENABLED" | "DISABLED" | (string & {});
 export interface RtpStandardDestinationEndpointConfiguration {
@@ -798,26 +810,26 @@ export interface RtpStandardDestinationEndpointConfiguration {
 export type StandardDestinationEndpointProtocolConfiguration =
   | {
       Rist: RistStandardDestinationEndpointConfiguration;
-      SrtListener?: never;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
+      Rist?: undefined;
       SrtListener: SrtListenerStandardDestinationEndpointConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
       SrtCaller: SrtCallerStandardDestinationEndpointConfiguration;
-      Rtp?: never;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
-      SrtCaller?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
       Rtp: RtpStandardDestinationEndpointConfiguration;
     };
 export type DestinationEndpointNetworkingType = "PUBLIC" | "VPC" | (string & {});
@@ -831,16 +843,16 @@ export interface StandardDestinationEndpointConfiguration {
   Name: string;
   DestinationNetworkingConfiguration: StandardDestinationEndpointNetworkingConfiguration;
   ProtocolConfiguration: StandardDestinationEndpointProtocolConfiguration;
-  DestinationNetworkingType?: DestinationEndpointNetworkingType;
-  Protocol?: DestinationEndpointProtocol;
+  DestinationNetworkingType?: DestinationEndpointNetworkingType | undefined;
+  Protocol?: DestinationEndpointProtocol | undefined;
 }
 export type RouterInputArn = string;
 export interface RouterInputDestinationEndpointConfiguration {
   RouterInputArn: string;
 }
 export type DestinationEndpointConfiguration =
-  | { Standard: StandardDestinationEndpointConfiguration; RouterInput?: never }
-  | { Standard?: never; RouterInput: RouterInputDestinationEndpointConfiguration };
+  | { Standard: StandardDestinationEndpointConfiguration; RouterInput?: undefined }
+  | { Standard?: undefined; RouterInput: RouterInputDestinationEndpointConfiguration };
 export type ResourceShareOwnership = "OWNED" | "CONSUMED" | (string & {});
 export type ResourceShareState = "SHARED" | "UNSHARED" | (string & {});
 export interface OwnedResourceShareDetails {
@@ -850,8 +862,8 @@ export interface ConsumedResourceShareDetails {
   OwnerAccountId: string;
 }
 export type ResourceShareDetails =
-  | { Owned: OwnedResourceShareDetails; Consumed?: never }
-  | { Owned?: never; Consumed: ConsumedResourceShareDetails };
+  | { Owned: OwnedResourceShareDetails; Consumed?: undefined }
+  | { Owned?: undefined; Consumed: ConsumedResourceShareDetails };
 export type DestinationEndpointRegistrationState =
   | "REGISTERED"
   | "REGISTERING"
@@ -866,29 +878,29 @@ export type EndpointEncryptionSecretType =
   | "SRT_PASSPHRASE"
   | (string & {});
 export interface SecretsManagerEndpointEncryptionConfiguration {
-  EncryptionSecretType?: EndpointEncryptionSecretType;
+  EncryptionSecretType?: EndpointEncryptionSecretType | undefined;
   EncryptionSecret: EndpointEncryptionSecretConfiguration;
 }
 export interface AutomaticEndpointEncryptionConfiguration {}
 export type EndpointEncryptionConfiguration =
-  | { SecretsManager: SecretsManagerEndpointEncryptionConfiguration; Automatic?: never }
-  | { SecretsManager?: never; Automatic: AutomaticEndpointEncryptionConfiguration };
+  | { SecretsManager: SecretsManagerEndpointEncryptionConfiguration; Automatic?: undefined }
+  | { SecretsManager?: undefined; Automatic: AutomaticEndpointEncryptionConfiguration };
 export type SourceEndpointType = "STANDARD" | "ROUTER_OUTPUT" | (string & {});
 export interface StandardDestinationEndpointConnectionDetails {
-  SourceIpAddress?: string;
-  SourceListenerPort?: number;
-  SourceEncryptionType?: EndpointEncryptionType;
-  SourceEncryptionConfiguration?: EndpointEncryptionConfiguration;
-  SourceEndpointType?: SourceEndpointType;
+  SourceIpAddress?: string | undefined;
+  SourceListenerPort?: number | undefined;
+  SourceEncryptionType?: EndpointEncryptionType | undefined;
+  SourceEncryptionConfiguration?: EndpointEncryptionConfiguration | undefined;
+  SourceEndpointType?: SourceEndpointType | undefined;
 }
 export interface RouterInputDestinationEndpointConnectionDetails {
-  SourceEncryptionType?: EndpointEncryptionType;
-  SourceEncryptionConfiguration?: EndpointEncryptionConfiguration;
-  SourceEndpointType?: SourceEndpointType;
+  SourceEncryptionType?: EndpointEncryptionType | undefined;
+  SourceEncryptionConfiguration?: EndpointEncryptionConfiguration | undefined;
+  SourceEndpointType?: SourceEndpointType | undefined;
 }
 export type DestinationEndpointConnectionDetails =
-  | { Standard: StandardDestinationEndpointConnectionDetails; RouterInput?: never }
-  | { Standard?: never; RouterInput: RouterInputDestinationEndpointConnectionDetails };
+  | { Standard: StandardDestinationEndpointConnectionDetails; RouterInput?: undefined }
+  | { Standard?: undefined; RouterInput: RouterInputDestinationEndpointConnectionDetails };
 export type DestinationEndpointConnectionState =
   | "CONNECTED"
   | "DISCONNECTED"
@@ -921,16 +933,16 @@ export interface RouterInputDestinationEndpointAssociatedResourceDetails {
   Messages: RouterInputMessage[];
 }
 export type DestinationEndpointAssociatedResourceDetails =
-  | { Standard: StandardDestinationEndpointAssociatedResourceDetails; RouterInput?: never }
-  | { Standard?: never; RouterInput: RouterInputDestinationEndpointAssociatedResourceDetails };
+  | { Standard: StandardDestinationEndpointAssociatedResourceDetails; RouterInput?: undefined }
+  | { Standard?: undefined; RouterInput: RouterInputDestinationEndpointAssociatedResourceDetails };
 export interface DestinationEndpoint {
   Name: string;
   Arn: string;
   Id: string;
   Description: string;
   RegionName: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
   CreatedAt: Date;
   UpdatedAt: Date;
   LifecycleManagement: EndpointLifecycle;
@@ -940,11 +952,11 @@ export interface DestinationEndpoint {
   ResourceShareOwnership: ResourceShareOwnership;
   ResourceShareDetails: ResourceShareDetails;
   RegistrationState: DestinationEndpointRegistrationState;
-  ConnectionDetails?: DestinationEndpointConnectionDetails;
+  ConnectionDetails?: DestinationEndpointConnectionDetails | undefined;
   ConnectionState: DestinationEndpointConnectionState;
-  ConnectedSource?: string;
-  DecryptionType?: EndpointEncryptionType;
-  DecryptionConfiguration?: EndpointEncryptionConfiguration;
+  ConnectedSource?: string | undefined;
+  DecryptionType?: EndpointEncryptionType | undefined;
+  DecryptionConfiguration?: EndpointEncryptionConfiguration | undefined;
   AssociatedResourceDetails: DestinationEndpointAssociatedResourceDetails;
   Tags: { [key: string]: string | undefined };
 }
@@ -974,7 +986,7 @@ export type RouterInputType =
   | (string & {});
 export interface DestinationEndpointRouterInputConfiguration {
   EndpointLifecycleManagement: EndpointLifecycle;
-  SourceTransitDecryptionType?: EndpointEncryptionType;
+  SourceTransitDecryptionType?: EndpointEncryptionType | undefined;
   SourceTransitDecryption: EndpointEncryptionConfiguration;
 }
 export type RouterNetworkInterfaceArn = string;
@@ -988,61 +1000,91 @@ export interface SrtDecryptionConfiguration {
 export interface SrtListenerRouterInputConfiguration {
   Port: number;
   MinimumLatencyMilliseconds: number;
-  DecryptionConfiguration?: SrtDecryptionConfiguration;
+  DecryptionConfiguration?: SrtDecryptionConfiguration | undefined;
 }
 export interface SrtCallerRouterInputConfiguration {
   SourceAddress: string;
   SourcePort: number;
   MinimumLatencyMilliseconds: number;
-  StreamId?: string;
-  DecryptionConfiguration?: SrtDecryptionConfiguration;
+  StreamId?: string | undefined;
+  DecryptionConfiguration?: SrtDecryptionConfiguration | undefined;
 }
 export interface RtpRouterInputConfiguration {
   Port: number;
-  ForwardErrorCorrection?: ForwardErrorCorrectionState;
+  ForwardErrorCorrection?: ForwardErrorCorrectionState | undefined;
 }
 export type RouterInputProtocolConfiguration =
-  | { Rist: RistRouterInputConfiguration; SrtListener?: never; SrtCaller?: never; Rtp?: never }
   | {
-      Rist?: never;
-      SrtListener: SrtListenerRouterInputConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      Rist: RistRouterInputConfiguration;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
-  | { Rist?: never; SrtListener?: never; SrtCaller: SrtCallerRouterInputConfiguration; Rtp?: never }
-  | { Rist?: never; SrtListener?: never; SrtCaller?: never; Rtp: RtpRouterInputConfiguration };
+  | {
+      Rist?: undefined;
+      SrtListener: SrtListenerRouterInputConfiguration;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller: SrtCallerRouterInputConfiguration;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp: RtpRouterInputConfiguration;
+    };
 export type RouterInputProtocol = "RTP" | "RIST" | "SRT_CALLER" | "SRT_LISTENER" | (string & {});
 export interface StandardRouterInputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfiguration: RouterInputProtocolConfiguration;
-  Protocol?: RouterInputProtocol;
+  Protocol?: RouterInputProtocol | undefined;
 }
 export type MediaLiveChannelArn = string;
 export type MediaLiveChannelPipelineId = "PIPELINE_0" | "PIPELINE_1" | (string & {});
 export type MediaLiveTransitEncryptionKeyType = "SECRETS_MANAGER" | "AUTOMATIC" | (string & {});
 export type MediaLiveTransitEncryptionKeyConfiguration =
-  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: never }
-  | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: undefined }
+  | { SecretsManager?: undefined; Automatic: AutomaticEncryptionKeyConfiguration };
 export interface MediaLiveTransitEncryption {
-  EncryptionKeyType?: MediaLiveTransitEncryptionKeyType;
+  EncryptionKeyType?: MediaLiveTransitEncryptionKeyType | undefined;
   EncryptionKeyConfiguration: MediaLiveTransitEncryptionKeyConfiguration;
 }
 export interface MediaLiveChannelRouterInputConfiguration {
-  MediaLiveChannelArn?: string;
-  MediaLivePipelineId?: MediaLiveChannelPipelineId;
-  MediaLiveChannelOutputName?: string;
+  MediaLiveChannelArn?: string | undefined;
+  MediaLivePipelineId?: MediaLiveChannelPipelineId | undefined;
+  MediaLiveChannelOutputName?: string | undefined;
   SourceTransitDecryption: MediaLiveTransitEncryption;
 }
 export type FailoverRouterInputProtocolConfiguration =
-  | { Rist: RistRouterInputConfiguration; SrtListener?: never; SrtCaller?: never; Rtp?: never }
   | {
-      Rist?: never;
-      SrtListener: SrtListenerRouterInputConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      Rist: RistRouterInputConfiguration;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
-  | { Rist?: never; SrtListener?: never; SrtCaller: SrtCallerRouterInputConfiguration; Rtp?: never }
-  | { Rist?: never; SrtListener?: never; SrtCaller?: never; Rtp: RtpRouterInputConfiguration };
+  | {
+      Rist?: undefined;
+      SrtListener: SrtListenerRouterInputConfiguration;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller: SrtCallerRouterInputConfiguration;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp: RtpRouterInputConfiguration;
+    };
 export type FailoverRouterInputProtocolConfigurationList =
   FailoverRouterInputProtocolConfiguration[];
 export type FailoverInputSourcePriorityMode = "NO_PRIORITY" | "PRIMARY_SECONDARY" | (string & {});
@@ -1050,17 +1092,17 @@ export interface FailoverRouterInputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfigurations: FailoverRouterInputProtocolConfiguration[];
   SourcePriorityMode: FailoverInputSourcePriorityMode;
-  PrimarySourceIndex?: number;
+  PrimarySourceIndex?: number | undefined;
 }
 export type FlowOutputArn = string;
 export interface MediaConnectFlowRouterInputConfiguration {
-  FlowArn?: string;
-  FlowOutputArn?: string;
+  FlowArn?: string | undefined;
+  FlowOutputArn?: string | undefined;
   SourceTransitDecryption: FlowTransitEncryption;
 }
 export type MergeRouterInputProtocolConfiguration =
-  | { Rtp: RtpRouterInputConfiguration; Rist?: never }
-  | { Rtp?: never; Rist: RistRouterInputConfiguration };
+  | { Rtp: RtpRouterInputConfiguration; Rist?: undefined }
+  | { Rtp?: undefined; Rist: RistRouterInputConfiguration };
 export type MergeRouterInputProtocolConfigurationList = MergeRouterInputProtocolConfiguration[];
 export interface MergeRouterInputConfiguration {
   NetworkInterfaceArn: string;
@@ -1070,50 +1112,50 @@ export interface MergeRouterInputConfiguration {
 export type RouterInputConfiguration =
   | {
       DestinationEndpoint: DestinationEndpointRouterInputConfiguration;
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
+      DestinationEndpoint?: undefined;
       Standard: StandardRouterInputConfiguration;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
       MediaLiveChannel: MediaLiveChannelRouterInputConfiguration;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
-      MediaLiveChannel?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
       Failover: FailoverRouterInputConfiguration;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterInputConfiguration;
-      Merge?: never;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
       Merge: MergeRouterInputConfiguration;
     };
 export type RouterInputTier =
@@ -1126,20 +1168,20 @@ export type RouterInputTier =
 export type RoutingScope = "REGIONAL" | "GLOBAL" | (string & {});
 export type RouterInputTransitEncryptionKeyType = "SECRETS_MANAGER" | "AUTOMATIC" | (string & {});
 export type RouterInputTransitEncryptionKeyConfiguration =
-  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: never }
-  | { SecretsManager?: never; Automatic: AutomaticEncryptionKeyConfiguration };
+  | { SecretsManager: SecretsManagerEncryptionKeyConfiguration; Automatic?: undefined }
+  | { SecretsManager?: undefined; Automatic: AutomaticEncryptionKeyConfiguration };
 export interface RouterInputTransitEncryption {
-  EncryptionKeyType?: RouterInputTransitEncryptionKeyType;
+  EncryptionKeyType?: RouterInputTransitEncryptionKeyType | undefined;
   EncryptionKeyConfiguration: RouterInputTransitEncryptionKeyConfiguration;
 }
 export interface DestinationEndpointRouterInputStreamDetails {}
 export interface StandardRouterInputStreamDetails {
-  SourceIpAddress?: string;
+  SourceIpAddress?: string | undefined;
 }
 export interface MediaLiveChannelRouterInputStreamDetails {}
 export interface FailoverRouterInputIndexedStreamDetails {
   SourceIndex: number;
-  SourceIpAddress?: string;
+  SourceIpAddress?: string | undefined;
 }
 export interface FailoverRouterInputStreamDetails {
   SourceIndexZeroStreamDetails: FailoverRouterInputIndexedStreamDetails;
@@ -1148,7 +1190,7 @@ export interface FailoverRouterInputStreamDetails {
 export interface MediaConnectFlowRouterInputStreamDetails {}
 export interface MergeRouterInputIndexedStreamDetails {
   SourceIndex: number;
-  SourceIpAddress?: string;
+  SourceIpAddress?: string | undefined;
 }
 export interface MergeRouterInputStreamDetails {
   SourceIndexZeroStreamDetails: MergeRouterInputIndexedStreamDetails;
@@ -1157,50 +1199,50 @@ export interface MergeRouterInputStreamDetails {
 export type RouterInputStreamDetails =
   | {
       DestinationEndpoint: DestinationEndpointRouterInputStreamDetails;
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
+      DestinationEndpoint?: undefined;
       Standard: StandardRouterInputStreamDetails;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
       MediaLiveChannel: MediaLiveChannelRouterInputStreamDetails;
-      Failover?: never;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
-      MediaLiveChannel?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
       Failover: FailoverRouterInputStreamDetails;
-      MediaConnectFlow?: never;
-      Merge?: never;
+      MediaConnectFlow?: undefined;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterInputStreamDetails;
-      Merge?: never;
+      Merge?: undefined;
     }
   | {
-      DestinationEndpoint?: never;
-      Standard?: never;
-      MediaLiveChannel?: never;
-      Failover?: never;
-      MediaConnectFlow?: never;
+      DestinationEndpoint?: undefined;
+      Standard?: undefined;
+      MediaLiveChannel?: undefined;
+      Failover?: undefined;
+      MediaConnectFlow?: undefined;
       Merge: MergeRouterInputStreamDetails;
     };
 export type MaintenanceType = "PREFERRED_DAY_TIME" | "DEFAULT" | (string & {});
@@ -1219,8 +1261,8 @@ export interface PreferredDayTimeMaintenanceConfiguration {
 }
 export interface DefaultMaintenanceConfiguration {}
 export type MaintenanceConfiguration =
-  | { PreferredDayTime: PreferredDayTimeMaintenanceConfiguration; Default?: never }
-  | { PreferredDayTime?: never; Default: DefaultMaintenanceConfiguration };
+  | { PreferredDayTime: PreferredDayTimeMaintenanceConfiguration; Default?: undefined }
+  | { PreferredDayTime?: undefined; Default: DefaultMaintenanceConfiguration };
 export type MaintenanceScheduleType = "WINDOW" | (string & {});
 export interface WindowMaintenanceSchedule {
   Start: Date;
@@ -1244,9 +1286,9 @@ export interface SilentAudioConfiguration {
   ThresholdSeconds: number;
 }
 export interface ContentQualityAnalysisFeatureConfiguration {
-  BlackFrames?: BlackFramesConfiguration;
-  FrozenFrames?: FrozenFramesConfiguration;
-  SilentAudio?: SilentAudioConfiguration;
+  BlackFrames?: BlackFramesConfiguration | undefined;
+  FrozenFrames?: FrozenFramesConfiguration | undefined;
+  SilentAudio?: SilentAudioConfiguration | undefined;
 }
 export type RouterContentQualityAnalysisConfiguration = {
   ContentLevel: ContentQualityAnalysisFeatureConfiguration;
@@ -1259,7 +1301,7 @@ export interface RouterInput {
   InputType: RouterInputType;
   Configuration: RouterInputConfiguration;
   RoutedOutputs: number;
-  MaximumRoutedOutputs?: number;
+  MaximumRoutedOutputs?: number | undefined;
   RegionName: string;
   AvailabilityZone: string;
   MaximumBitrate: number;
@@ -1271,14 +1313,14 @@ export interface RouterInput {
   TransitEncryption: RouterInputTransitEncryption;
   Tags: { [key: string]: string | undefined };
   StreamDetails: RouterInputStreamDetails;
-  IpAddress?: string;
+  IpAddress?: string | undefined;
   MaintenanceType: MaintenanceType;
   MaintenanceConfiguration: MaintenanceConfiguration;
-  MaintenanceScheduleType?: MaintenanceScheduleType;
-  MaintenanceSchedule?: MaintenanceSchedule;
-  ContentQualityAnalysisType?: RouterContentQualityAnalysisType;
-  ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration;
-  AssociatedDestinationEndpointArns?: string[];
+  MaintenanceScheduleType?: MaintenanceScheduleType | undefined;
+  MaintenanceSchedule?: MaintenanceSchedule | undefined;
+  ContentQualityAnalysisType?: RouterContentQualityAnalysisType | undefined;
+  ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration | undefined;
+  AssociatedDestinationEndpointArns?: string[] | undefined;
 }
 export type RouterInputList = RouterInput[];
 export interface BatchGetRouterInputError_ {
@@ -1321,8 +1363,8 @@ export interface VpcRouterNetworkInterfaceConfiguration {
   SubnetId: string;
 }
 export type RouterNetworkInterfaceConfiguration =
-  | { Public: PublicRouterNetworkInterfaceConfiguration; Vpc?: never }
-  | { Public?: never; Vpc: VpcRouterNetworkInterfaceConfiguration };
+  | { Public: PublicRouterNetworkInterfaceConfiguration; Vpc?: undefined }
+  | { Public?: undefined; Vpc: VpcRouterNetworkInterfaceConfiguration };
 export interface RouterNetworkInterface {
   Name: string;
   Arn: string;
@@ -1382,13 +1424,13 @@ export interface SrtEncryptionConfiguration {
 export interface SrtListenerRouterOutputConfiguration {
   Port: number;
   MinimumLatencyMilliseconds: number;
-  EncryptionConfiguration?: SrtEncryptionConfiguration;
+  EncryptionConfiguration?: SrtEncryptionConfiguration | undefined;
 }
 export type TlsEncryptionType = "PUBLIC" | (string & {});
 export interface PublicTlsEncryptionConfiguration {}
 export type TlsEncryptionConfiguration = { Public: PublicTlsEncryptionConfiguration };
 export interface TlsEncryption {
-  EncryptionType?: TlsEncryptionType;
+  EncryptionType?: TlsEncryptionType | undefined;
   EncryptionConfiguration: TlsEncryptionConfiguration;
 }
 export interface RtmpPushRouterOutputConfiguration {
@@ -1396,54 +1438,54 @@ export interface RtmpPushRouterOutputConfiguration {
   DestinationPort: number;
   ApplicationName: string;
   StreamName: string;
-  TlsEncryption?: TlsEncryption;
+  TlsEncryption?: TlsEncryption | undefined;
 }
 export interface SrtCallerRouterOutputConfiguration {
   DestinationAddress: string;
   DestinationPort: number;
   MinimumLatencyMilliseconds: number;
-  StreamId?: string;
-  EncryptionConfiguration?: SrtEncryptionConfiguration;
+  StreamId?: string | undefined;
+  EncryptionConfiguration?: SrtEncryptionConfiguration | undefined;
 }
 export interface RtpRouterOutputConfiguration {
   DestinationAddress: string;
   DestinationPort: number;
-  ForwardErrorCorrection?: ForwardErrorCorrectionState;
+  ForwardErrorCorrection?: ForwardErrorCorrectionState | undefined;
 }
 export type RouterOutputProtocolConfiguration =
   | {
       Rist: RistRouterOutputConfiguration;
-      SrtListener?: never;
-      RtmpPush?: never;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
+      Rist?: undefined;
       SrtListener: SrtListenerRouterOutputConfiguration;
-      RtmpPush?: never;
-      SrtCaller?: never;
-      Rtp?: never;
+      RtmpPush?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
       RtmpPush: RtmpPushRouterOutputConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
-      RtmpPush?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller: SrtCallerRouterOutputConfiguration;
-      Rtp?: never;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
-      RtmpPush?: never;
-      SrtCaller?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
+      SrtCaller?: undefined;
       Rtp: RtpRouterOutputConfiguration;
     };
 export type RouterOutputProtocol =
@@ -1456,49 +1498,49 @@ export type RouterOutputProtocol =
 export interface StandardRouterOutputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfiguration: RouterOutputProtocolConfiguration;
-  Protocol?: RouterOutputProtocol;
+  Protocol?: RouterOutputProtocol | undefined;
 }
 export type FlowSourceArn = string;
 export interface MediaConnectFlowRouterOutputConfiguration {
-  FlowArn?: string;
-  FlowSourceArn?: string;
+  FlowArn?: string | undefined;
+  FlowSourceArn?: string | undefined;
   DestinationTransitEncryption: FlowTransitEncryption;
 }
 export type MediaLiveInputArn = string;
 export type MediaLiveInputPipelineId = "PIPELINE_0" | "PIPELINE_1" | (string & {});
 export interface MediaLiveInputRouterOutputConfiguration {
-  MediaLiveInputArn?: string;
-  MediaLivePipelineId?: MediaLiveInputPipelineId;
+  MediaLiveInputArn?: string | undefined;
+  MediaLivePipelineId?: MediaLiveInputPipelineId | undefined;
   DestinationTransitEncryption: MediaLiveTransitEncryption;
 }
 export interface SourceEndpointRouterOutputConfiguration {
   EndpointLifecycleManagement: EndpointLifecycle;
-  DestinationTransitEncryptionType?: EndpointEncryptionType;
+  DestinationTransitEncryptionType?: EndpointEncryptionType | undefined;
   DestinationTransitEncryption: EndpointEncryptionConfiguration;
 }
 export type RouterOutputConfiguration =
   | {
       Standard: StandardRouterOutputConfiguration;
-      MediaConnectFlow?: never;
-      MediaLiveInput?: never;
-      SourceEndpoint?: never;
+      MediaConnectFlow?: undefined;
+      MediaLiveInput?: undefined;
+      SourceEndpoint?: undefined;
     }
   | {
-      Standard?: never;
+      Standard?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterOutputConfiguration;
-      MediaLiveInput?: never;
-      SourceEndpoint?: never;
+      MediaLiveInput?: undefined;
+      SourceEndpoint?: undefined;
     }
   | {
-      Standard?: never;
-      MediaConnectFlow?: never;
+      Standard?: undefined;
+      MediaConnectFlow?: undefined;
       MediaLiveInput: MediaLiveInputRouterOutputConfiguration;
-      SourceEndpoint?: never;
+      SourceEndpoint?: undefined;
     }
   | {
-      Standard?: never;
-      MediaConnectFlow?: never;
-      MediaLiveInput?: never;
+      Standard?: undefined;
+      MediaConnectFlow?: undefined;
+      MediaLiveInput?: undefined;
       SourceEndpoint: SourceEndpointRouterOutputConfiguration;
     };
 export type RouterOutputRoutedState = "ROUTED" | "ROUTING" | "UNROUTED" | (string & {});
@@ -1515,7 +1557,7 @@ export interface RouterOutputMessage {
 }
 export type RouterOutputMessages = RouterOutputMessage[];
 export interface StandardRouterOutputStreamDetails {
-  DestinationIpAddress?: string;
+  DestinationIpAddress?: string | undefined;
 }
 export interface MediaConnectFlowRouterOutputStreamDetails {}
 export interface MediaLiveInputRouterOutputStreamDetails {}
@@ -1523,26 +1565,26 @@ export interface SourceEndpointRouterOutputStreamDetails {}
 export type RouterOutputStreamDetails =
   | {
       Standard: StandardRouterOutputStreamDetails;
-      MediaConnectFlow?: never;
-      MediaLiveInput?: never;
-      SourceEndpoint?: never;
+      MediaConnectFlow?: undefined;
+      MediaLiveInput?: undefined;
+      SourceEndpoint?: undefined;
     }
   | {
-      Standard?: never;
+      Standard?: undefined;
       MediaConnectFlow: MediaConnectFlowRouterOutputStreamDetails;
-      MediaLiveInput?: never;
-      SourceEndpoint?: never;
+      MediaLiveInput?: undefined;
+      SourceEndpoint?: undefined;
     }
   | {
-      Standard?: never;
-      MediaConnectFlow?: never;
+      Standard?: undefined;
+      MediaConnectFlow?: undefined;
       MediaLiveInput: MediaLiveInputRouterOutputStreamDetails;
-      SourceEndpoint?: never;
+      SourceEndpoint?: undefined;
     }
   | {
-      Standard?: never;
-      MediaConnectFlow?: never;
-      MediaLiveInput?: never;
+      Standard?: undefined;
+      MediaConnectFlow?: undefined;
+      MediaLiveInput?: undefined;
       SourceEndpoint: SourceEndpointRouterOutputStreamDetails;
     };
 export type FabricLatencyMode = "BALANCED" | "LOW_LATENCY" | (string & {});
@@ -1569,14 +1611,14 @@ export interface RouterOutput {
   Messages: RouterOutputMessage[];
   Tags: { [key: string]: string | undefined };
   StreamDetails: RouterOutputStreamDetails;
-  IpAddress?: string;
-  RoutedInputArn?: string;
+  IpAddress?: string | undefined;
+  RoutedInputArn?: string | undefined;
   MaintenanceType: MaintenanceType;
   MaintenanceConfiguration: MaintenanceConfiguration;
-  MaintenanceScheduleType?: MaintenanceScheduleType;
-  MaintenanceSchedule?: MaintenanceSchedule;
-  FabricConfiguration?: FabricConfiguration;
-  AssociatedSourceEndpointArns?: string[];
+  MaintenanceScheduleType?: MaintenanceScheduleType | undefined;
+  MaintenanceSchedule?: MaintenanceSchedule | undefined;
+  FabricConfiguration?: FabricConfiguration | undefined;
+  AssociatedSourceEndpointArns?: string[] | undefined;
 }
 export type RouterOutputList = RouterOutput[];
 export interface BatchGetRouterOutputError_ {
@@ -1610,8 +1652,8 @@ export interface VpcSourceEndpointNetworkingConfiguration {
   SubnetId: string;
 }
 export type StandardSourceEndpointNetworkingConfiguration =
-  | { Public: PublicSourceEndpointNetworkingConfiguration; Vpc?: never }
-  | { Public?: never; Vpc: VpcSourceEndpointNetworkingConfiguration };
+  | { Public: PublicSourceEndpointNetworkingConfiguration; Vpc?: undefined }
+  | { Public?: undefined; Vpc: VpcSourceEndpointNetworkingConfiguration };
 export interface RistStandardSourceEndpointConfiguration {
   DestinationIngestPort: number;
   RecoveryLatencyMilliseconds: number;
@@ -1620,13 +1662,13 @@ export interface SrtListenerStandardSourceEndpointConfiguration {
   SourceListenerPort: number;
   SourceAddress: string;
   MinimumLatencyMilliseconds: number;
-  StreamId?: string;
-  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration;
+  StreamId?: string | undefined;
+  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration | undefined;
 }
 export interface SrtCallerStandardSourceEndpointConfiguration {
   DestinationIngestPort: number;
   MinimumLatencyMilliseconds: number;
-  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration;
+  EncryptionPassphrase?: EndpointEncryptionSecretConfiguration | undefined;
 }
 export interface RtpStandardSourceEndpointConfiguration {
   DestinationIngestPort: number;
@@ -1635,26 +1677,26 @@ export interface RtpStandardSourceEndpointConfiguration {
 export type StandardSourceEndpointProtocolConfiguration =
   | {
       Rist: RistStandardSourceEndpointConfiguration;
-      SrtListener?: never;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
+      Rist?: undefined;
       SrtListener: SrtListenerStandardSourceEndpointConfiguration;
-      SrtCaller?: never;
-      Rtp?: never;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
       SrtCaller: SrtCallerStandardSourceEndpointConfiguration;
-      Rtp?: never;
+      Rtp?: undefined;
     }
   | {
-      Rist?: never;
-      SrtListener?: never;
-      SrtCaller?: never;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
       Rtp: RtpStandardSourceEndpointConfiguration;
     };
 export type SourceEndpointNetworkingType = "PUBLIC" | "VPC" | (string & {});
@@ -1663,15 +1705,15 @@ export interface StandardSourceEndpointConfiguration {
   Name: string;
   SourceNetworkingConfiguration: StandardSourceEndpointNetworkingConfiguration;
   ProtocolConfiguration: StandardSourceEndpointProtocolConfiguration;
-  SourceNetworkingType?: SourceEndpointNetworkingType;
-  Protocol?: SourceEndpointProtocol;
+  SourceNetworkingType?: SourceEndpointNetworkingType | undefined;
+  Protocol?: SourceEndpointProtocol | undefined;
 }
 export interface RouterOutputSourceEndpointConfiguration {
   RouterOutputArn: string;
 }
 export type SourceEndpointConfiguration =
-  | { Standard: StandardSourceEndpointConfiguration; RouterOutput?: never }
-  | { Standard?: never; RouterOutput: RouterOutputSourceEndpointConfiguration };
+  | { Standard: StandardSourceEndpointConfiguration; RouterOutput?: undefined }
+  | { Standard?: undefined; RouterOutput: RouterOutputSourceEndpointConfiguration };
 export type SourceEndpointRegistrationState =
   | "REGISTERED"
   | "REGISTERING"
@@ -1685,20 +1727,20 @@ export type SourceEndpointConnectionState =
   | "DISCONNECTING"
   | (string & {});
 export interface StandardSourceEndpointConnectionDetails {
-  DestinationIpAddress?: string;
-  DestinationIngestPort?: number;
-  DestinationDecryptionType?: EndpointEncryptionType;
-  DestinationDecryptionConfiguration?: EndpointEncryptionConfiguration;
-  DestinationEndpointType?: DestinationEndpointType;
+  DestinationIpAddress?: string | undefined;
+  DestinationIngestPort?: number | undefined;
+  DestinationDecryptionType?: EndpointEncryptionType | undefined;
+  DestinationDecryptionConfiguration?: EndpointEncryptionConfiguration | undefined;
+  DestinationEndpointType?: DestinationEndpointType | undefined;
 }
 export interface RouterOutputSourceEndpointConnectionDetails {
-  DestinationDecryptionType?: EndpointEncryptionType;
-  DestinationDecryptionConfiguration?: EndpointEncryptionConfiguration;
-  DestinationEndpointType?: DestinationEndpointType;
+  DestinationDecryptionType?: EndpointEncryptionType | undefined;
+  DestinationDecryptionConfiguration?: EndpointEncryptionConfiguration | undefined;
+  DestinationEndpointType?: DestinationEndpointType | undefined;
 }
 export type SourceEndpointConnectionDetails =
-  | { Standard: StandardSourceEndpointConnectionDetails; RouterOutput?: never }
-  | { Standard?: never; RouterOutput: RouterOutputSourceEndpointConnectionDetails };
+  | { Standard: StandardSourceEndpointConnectionDetails; RouterOutput?: undefined }
+  | { Standard?: undefined; RouterOutput: RouterOutputSourceEndpointConnectionDetails };
 export interface StandardSourceEndpointAssociatedResourceDetails {}
 export interface RouterOutputSourceEndpointAssociatedResourceDetails {
   Name: string;
@@ -1707,16 +1749,16 @@ export interface RouterOutputSourceEndpointAssociatedResourceDetails {
   Messages: RouterOutputMessage[];
 }
 export type SourceEndpointAssociatedResourceDetails =
-  | { Standard: StandardSourceEndpointAssociatedResourceDetails; RouterOutput?: never }
-  | { Standard?: never; RouterOutput: RouterOutputSourceEndpointAssociatedResourceDetails };
+  | { Standard: StandardSourceEndpointAssociatedResourceDetails; RouterOutput?: undefined }
+  | { Standard?: undefined; RouterOutput: RouterOutputSourceEndpointAssociatedResourceDetails };
 export interface SourceEndpoint {
   Name: string;
   Arn: string;
   Id: string;
   Description: string;
   RegionName: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
   CreatedAt: Date;
   UpdatedAt: Date;
   LifecycleManagement: EndpointLifecycle;
@@ -1727,10 +1769,10 @@ export interface SourceEndpoint {
   ResourceShareDetails: ResourceShareDetails;
   RegistrationState: SourceEndpointRegistrationState;
   ConnectionState: SourceEndpointConnectionState;
-  ConnectionDetails?: SourceEndpointConnectionDetails;
+  ConnectionDetails?: SourceEndpointConnectionDetails | undefined;
   ConnectedDestinations: string[];
-  EncryptionType?: EndpointEncryptionType;
-  EncryptionConfiguration?: EndpointEncryptionConfiguration;
+  EncryptionType?: EndpointEncryptionType | undefined;
+  EncryptionConfiguration?: EndpointEncryptionConfiguration | undefined;
   AssociatedResourceDetails: SourceEndpointAssociatedResourceDetails;
   Tags: { [key: string]: string | undefined };
 }
@@ -1756,35 +1798,35 @@ export interface ConnectEndpointsResponse {
   SourceEndpointName: string;
 }
 export interface AddEgressGatewayBridgeRequest {
-  MaxBitrate?: number;
+  MaxBitrate?: number | undefined;
 }
 export interface AddIngressGatewayBridgeRequest {
-  MaxBitrate?: number;
-  MaxOutputs?: number;
+  MaxBitrate?: number | undefined;
+  MaxOutputs?: number | undefined;
 }
 export type FailoverMode = "MERGE" | "FAILOVER" | (string & {});
 export interface SourcePriority {
-  PrimarySource?: string;
+  PrimarySource?: string | undefined;
 }
 export interface FailoverConfig {
-  FailoverMode?: FailoverMode;
-  RecoveryWindow?: number;
-  SourcePriority?: SourcePriority;
-  State?: State;
+  FailoverMode?: FailoverMode | undefined;
+  RecoveryWindow?: number | undefined;
+  SourcePriority?: SourcePriority | undefined;
+  State?: State | undefined;
 }
 export interface CreateBridgeRequest {
-  EgressGatewayBridge?: AddEgressGatewayBridgeRequest;
-  IngressGatewayBridge?: AddIngressGatewayBridgeRequest;
-  Name?: string;
-  Outputs?: AddBridgeOutputRequest[];
-  PlacementArn?: string;
-  SourceFailoverConfig?: FailoverConfig;
-  Sources?: AddBridgeSourceRequest[];
+  EgressGatewayBridge?: AddEgressGatewayBridgeRequest | undefined;
+  IngressGatewayBridge?: AddIngressGatewayBridgeRequest | undefined;
+  Name?: string | undefined;
+  Outputs?: AddBridgeOutputRequest[] | undefined;
+  PlacementArn?: string | undefined;
+  SourceFailoverConfig?: FailoverConfig | undefined;
+  Sources?: AddBridgeSourceRequest[] | undefined;
 }
 export interface MessageDetail {
-  Code?: string;
-  Message?: string;
-  ResourceName?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
+  ResourceName?: string | undefined;
 }
 export type __listOfMessageDetail = MessageDetail[];
 const __listOfMessageDetail = /*@__PURE__*/ __L.at(__c65, 1);
@@ -1803,67 +1845,69 @@ export type BridgeState =
   | "UPDATING"
   | (string & {});
 export interface EgressGatewayBridge {
-  InstanceId?: string;
-  MaxBitrate?: number;
+  InstanceId?: string | undefined;
+  MaxBitrate?: number | undefined;
 }
 export interface IngressGatewayBridge {
-  InstanceId?: string;
-  MaxBitrate?: number;
-  MaxOutputs?: number;
+  InstanceId?: string | undefined;
+  MaxBitrate?: number | undefined;
+  MaxOutputs?: number | undefined;
 }
 export interface Bridge {
-  BridgeArn?: string;
-  BridgeMessages?: MessageDetail[];
-  BridgeState?: BridgeState;
-  EgressGatewayBridge?: EgressGatewayBridge;
-  IngressGatewayBridge?: IngressGatewayBridge;
-  Name?: string;
-  Outputs?: BridgeOutput[];
-  PlacementArn?: string;
-  SourceFailoverConfig?: FailoverConfig;
-  Sources?: BridgeSource[];
+  BridgeArn?: string | undefined;
+  BridgeMessages?: MessageDetail[] | undefined;
+  BridgeState?: BridgeState | undefined;
+  EgressGatewayBridge?: EgressGatewayBridge | undefined;
+  IngressGatewayBridge?: IngressGatewayBridge | undefined;
+  Name?: string | undefined;
+  Outputs?: BridgeOutput[] | undefined;
+  PlacementArn?: string | undefined;
+  SourceFailoverConfig?: FailoverConfig | undefined;
+  Sources?: BridgeSource[] | undefined;
 }
 export interface CreateBridgeResponse {
-  Bridge?: Bridge & {
-    BridgeArn: string;
-    BridgeState: BridgeState;
-    Name: string;
-    PlacementArn: string;
-    BridgeMessages: (MessageDetail & { Code: string; Message: string })[];
-    EgressGatewayBridge: EgressGatewayBridge & { MaxBitrate: number };
-    IngressGatewayBridge: IngressGatewayBridge & { MaxBitrate: number; MaxOutputs: number };
-    Outputs: (BridgeOutput & {
-      FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
-      NetworkOutput: BridgeNetworkOutput & {
-        IpAddress: string;
+  Bridge?:
+    | (Bridge & {
+        BridgeArn: string;
+        BridgeState: BridgeState;
         Name: string;
-        NetworkName: string;
-        Port: number;
-        Protocol: Protocol;
-        Ttl: number;
-      };
-    })[];
-    Sources: (BridgeSource & {
-      FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
-      NetworkSource: BridgeNetworkSource & {
-        MulticastIp: string;
-        Name: string;
-        NetworkName: string;
-        Port: number;
-        Protocol: Protocol;
-      };
-    })[];
-  };
+        PlacementArn: string;
+        BridgeMessages: (MessageDetail & { Code: string; Message: string })[];
+        EgressGatewayBridge: EgressGatewayBridge & { MaxBitrate: number };
+        IngressGatewayBridge: IngressGatewayBridge & { MaxBitrate: number; MaxOutputs: number };
+        Outputs: (BridgeOutput & {
+          FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
+          NetworkOutput: BridgeNetworkOutput & {
+            IpAddress: string;
+            Name: string;
+            NetworkName: string;
+            Port: number;
+            Protocol: Protocol;
+            Ttl: number;
+          };
+        })[];
+        Sources: (BridgeSource & {
+          FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
+          NetworkSource: BridgeNetworkSource & {
+            MulticastIp: string;
+            Name: string;
+            NetworkName: string;
+            Port: number;
+            Protocol: Protocol;
+          };
+        })[];
+      })
+    | undefined;
 }
 export type EntitlementStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface GrantEntitlementRequest {
-  DataTransferSubscriberFeePercent?: number;
-  Description?: string;
-  Encryption?: Encryption;
-  EntitlementStatus?: EntitlementStatus;
-  Name?: string;
-  Subscribers?: string[];
-  EntitlementTags?: { [key: string]: string | undefined };
+  DataTransferSubscriberFeePercent?: number | undefined;
+  Description?: string | undefined;
+  Encryption?: Encryption | undefined;
+  EntitlementStatus?: EntitlementStatus | undefined;
+  Name?: string | undefined;
+  Subscribers?: string[] | undefined;
+  EntitlementTags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfGrantEntitlementRequest = GrantEntitlementRequest[];
 const __listOfGrantEntitlementRequest = /*@__PURE__*/ __L.at(__c74, 1);
@@ -1877,86 +1921,86 @@ export type MaintenanceDay =
   | "Sunday"
   | (string & {});
 export interface AddMaintenance {
-  MaintenanceDay?: MaintenanceDay;
-  MaintenanceStartHour?: string;
+  MaintenanceDay?: MaintenanceDay | undefined;
+  MaintenanceStartHour?: string | undefined;
 }
 export type ThumbnailState = "ENABLED" | "DISABLED" | (string & {});
 export interface SilentAudio {
-  State?: State;
-  ThresholdSeconds?: number;
+  State?: State | undefined;
+  ThresholdSeconds?: number | undefined;
 }
 export interface AudioMonitoringSetting {
-  SilentAudio?: SilentAudio;
+  SilentAudio?: SilentAudio | undefined;
 }
 export type __listOfAudioMonitoringSetting = AudioMonitoringSetting[];
 const __listOfAudioMonitoringSetting = /*@__PURE__*/ __L.at(__c70, 2);
 export interface BlackFrames {
-  State?: State;
-  ThresholdSeconds?: number;
+  State?: State | undefined;
+  ThresholdSeconds?: number | undefined;
 }
 export interface FrozenFrames {
-  State?: State;
-  ThresholdSeconds?: number;
+  State?: State | undefined;
+  ThresholdSeconds?: number | undefined;
 }
 export interface VideoMonitoringSetting {
-  BlackFrames?: BlackFrames;
-  FrozenFrames?: FrozenFrames;
+  BlackFrames?: BlackFrames | undefined;
+  FrozenFrames?: FrozenFrames | undefined;
 }
 export type __listOfVideoMonitoringSetting = VideoMonitoringSetting[];
 const __listOfVideoMonitoringSetting = /*@__PURE__*/ __L.at(__c70, 4);
 export interface MonitoringConfig {
-  ThumbnailState?: ThumbnailState;
-  AudioMonitoringSettings?: AudioMonitoringSetting[];
-  ContentQualityAnalysisState?: ContentQualityAnalysisState;
-  VideoMonitoringSettings?: VideoMonitoringSetting[];
+  ThumbnailState?: ThumbnailState | undefined;
+  AudioMonitoringSettings?: AudioMonitoringSetting[] | undefined;
+  ContentQualityAnalysisState?: ContentQualityAnalysisState | undefined;
+  VideoMonitoringSettings?: VideoMonitoringSetting[] | undefined;
 }
 export type FlowSize = "MEDIUM" | "LARGE" | "LARGE_4X" | (string & {});
 export type NdiState = "ENABLED" | "DISABLED" | (string & {});
 export interface NdiDiscoveryServerConfig {
-  DiscoveryServerAddress?: string;
-  DiscoveryServerPort?: number;
-  VpcInterfaceAdapter?: string;
+  DiscoveryServerAddress?: string | undefined;
+  DiscoveryServerPort?: number | undefined;
+  VpcInterfaceAdapter?: string | undefined;
 }
 export type __listOfNdiDiscoveryServerConfig = NdiDiscoveryServerConfig[];
 const __listOfNdiDiscoveryServerConfig = /*@__PURE__*/ __L.at(__c70, 7);
 export interface NdiConfig {
-  NdiState?: NdiState;
-  MachineName?: string;
-  NdiDiscoveryServers?: NdiDiscoveryServerConfig[];
+  NdiState?: NdiState | undefined;
+  MachineName?: string | undefined;
+  NdiDiscoveryServers?: NdiDiscoveryServerConfig[] | undefined;
 }
 export type EncodingProfile =
   | "DISTRIBUTION_H264_DEFAULT"
   | "CONTRIBUTION_H264_DEFAULT"
   | (string & {});
 export interface EncodingConfig {
-  EncodingProfile?: EncodingProfile;
-  VideoMaxBitrate?: number;
+  EncodingProfile?: EncodingProfile | undefined;
+  VideoMaxBitrate?: number | undefined;
 }
 export interface CreateFlowRequest {
-  AvailabilityZone?: string;
-  Entitlements?: GrantEntitlementRequest[];
-  MediaStreams?: AddMediaStreamRequest[];
-  Name?: string;
-  Outputs?: AddOutputRequest[];
-  Source?: SetSourceRequest;
-  SourceFailoverConfig?: FailoverConfig;
-  Sources?: SetSourceRequest[];
-  VpcInterfaces?: VpcInterfaceRequest[];
-  Maintenance?: AddMaintenance;
-  SourceMonitoringConfig?: MonitoringConfig;
-  FlowSize?: FlowSize;
-  NdiConfig?: NdiConfig;
-  EncodingConfig?: EncodingConfig;
-  FlowTags?: { [key: string]: string | undefined };
+  AvailabilityZone?: string | undefined;
+  Entitlements?: GrantEntitlementRequest[] | undefined;
+  MediaStreams?: AddMediaStreamRequest[] | undefined;
+  Name?: string | undefined;
+  Outputs?: AddOutputRequest[] | undefined;
+  Source?: SetSourceRequest | undefined;
+  SourceFailoverConfig?: FailoverConfig | undefined;
+  Sources?: SetSourceRequest[] | undefined;
+  VpcInterfaces?: VpcInterfaceRequest[] | undefined;
+  Maintenance?: AddMaintenance | undefined;
+  SourceMonitoringConfig?: MonitoringConfig | undefined;
+  FlowSize?: FlowSize | undefined;
+  NdiConfig?: NdiConfig | undefined;
+  EncodingConfig?: EncodingConfig | undefined;
+  FlowTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface Entitlement {
-  DataTransferSubscriberFeePercent?: number;
-  Description?: string;
-  Encryption?: Encryption;
-  EntitlementArn?: string;
-  EntitlementStatus?: EntitlementStatus;
-  Name?: string;
-  Subscribers?: string[];
+  DataTransferSubscriberFeePercent?: number | undefined;
+  Description?: string | undefined;
+  Encryption?: Encryption | undefined;
+  EntitlementArn?: string | undefined;
+  EntitlementStatus?: EntitlementStatus | undefined;
+  Name?: string | undefined;
+  Subscribers?: string[] | undefined;
 }
 export type __listOfEntitlement = Entitlement[];
 const __listOfEntitlement = /*@__PURE__*/ __L.at(__c71, 0);
@@ -1970,128 +2014,130 @@ export type Status =
   | "ERROR"
   | (string & {});
 export interface Maintenance {
-  MaintenanceDay?: MaintenanceDay;
-  MaintenanceDeadline?: string;
-  MaintenanceScheduledDate?: string;
-  MaintenanceStartHour?: string;
+  MaintenanceDay?: MaintenanceDay | undefined;
+  MaintenanceDeadline?: string | undefined;
+  MaintenanceScheduledDate?: string | undefined;
+  MaintenanceStartHour?: string | undefined;
 }
 export interface Flow {
-  AvailabilityZone?: string;
-  Description?: string;
-  EgressIp?: string;
-  Entitlements?: Entitlement[];
-  FlowArn?: string;
-  MediaStreams?: MediaStream[];
-  Name?: string;
-  Outputs?: Output[];
-  Source?: Source;
-  SourceFailoverConfig?: FailoverConfig;
-  Sources?: Source[];
-  Status?: Status;
-  VpcInterfaces?: VpcInterface[];
-  Maintenance?: Maintenance;
-  SourceMonitoringConfig?: MonitoringConfig;
-  FlowSize?: FlowSize;
-  NdiConfig?: NdiConfig;
-  EncodingConfig?: EncodingConfig;
+  AvailabilityZone?: string | undefined;
+  Description?: string | undefined;
+  EgressIp?: string | undefined;
+  Entitlements?: Entitlement[] | undefined;
+  FlowArn?: string | undefined;
+  MediaStreams?: MediaStream[] | undefined;
+  Name?: string | undefined;
+  Outputs?: Output[] | undefined;
+  Source?: Source | undefined;
+  SourceFailoverConfig?: FailoverConfig | undefined;
+  Sources?: Source[] | undefined;
+  Status?: Status | undefined;
+  VpcInterfaces?: VpcInterface[] | undefined;
+  Maintenance?: Maintenance | undefined;
+  SourceMonitoringConfig?: MonitoringConfig | undefined;
+  FlowSize?: FlowSize | undefined;
+  NdiConfig?: NdiConfig | undefined;
+  EncodingConfig?: EncodingConfig | undefined;
 }
 export interface CreateFlowResponse {
-  Flow?: Flow & {
-    AvailabilityZone: string;
-    Entitlements: (Entitlement & {
-      EntitlementArn: string;
-      Name: string;
-      Subscribers: __listOfString;
-      Encryption: Encryption & { RoleArn: string };
-    })[];
-    FlowArn: string;
-    Name: string;
-    Outputs: (Output & {
-      Name: string;
-      OutputArn: string;
-      Encryption: Encryption & { RoleArn: string };
-      MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        DestinationConfigurations: (DestinationConfiguration & {
-          DestinationIp: string;
-          DestinationPort: number;
-          Interface: Interface & { Name: string };
-          OutboundIp: string;
+  Flow?:
+    | (Flow & {
+        AvailabilityZone: string;
+        Entitlements: (Entitlement & {
+          EntitlementArn: string;
+          Name: string;
+          Subscribers: __listOfString;
+          Encryption: Encryption & { RoleArn: string };
         })[];
-        EncodingParameters: EncodingParameters & {
-          CompressionFactor: number;
-          EncoderProfile: EncoderProfile;
+        FlowArn: string;
+        Name: string;
+        Outputs: (Output & {
+          Name: string;
+          OutputArn: string;
+          Encryption: Encryption & { RoleArn: string };
+          MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            DestinationConfigurations: (DestinationConfiguration & {
+              DestinationIp: string;
+              DestinationPort: number;
+              Interface: Interface & { Name: string };
+              OutboundIp: string;
+            })[];
+            EncodingParameters: EncodingParameters & {
+              CompressionFactor: number;
+              EncoderProfile: EncoderProfile;
+            };
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+        })[];
+        Source: Source & {
+          Name: string;
+          SourceArn: string;
+          Decryption: Encryption & { RoleArn: string };
+          MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            InputConfigurations: (InputConfiguration & {
+              InputIp: string;
+              InputPort: number;
+              Interface: Interface & { Name: string };
+            })[];
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+          GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         };
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-    })[];
-    Source: Source & {
-      Name: string;
-      SourceArn: string;
-      Decryption: Encryption & { RoleArn: string };
-      MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        InputConfigurations: (InputConfiguration & {
-          InputIp: string;
-          InputPort: number;
-          Interface: Interface & { Name: string };
+        Status: Status;
+        MediaStreams: (MediaStream & {
+          Fmt: number;
+          MediaStreamId: number;
+          MediaStreamName: string;
+          MediaStreamType: MediaStreamType;
+          Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
         })[];
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-      GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-    };
-    Status: Status;
-    MediaStreams: (MediaStream & {
-      Fmt: number;
-      MediaStreamId: number;
-      MediaStreamName: string;
-      MediaStreamType: MediaStreamType;
-      Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
-    })[];
-    Sources: (Source & {
-      Name: string;
-      SourceArn: string;
-      Decryption: Encryption & { RoleArn: string };
-      MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        InputConfigurations: (InputConfiguration & {
-          InputIp: string;
-          InputPort: number;
-          Interface: Interface & { Name: string };
+        Sources: (Source & {
+          Name: string;
+          SourceArn: string;
+          Decryption: Encryption & { RoleArn: string };
+          MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            InputConfigurations: (InputConfiguration & {
+              InputIp: string;
+              InputPort: number;
+              Interface: Interface & { Name: string };
+            })[];
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+          GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         })[];
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-      GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-    })[];
-    VpcInterfaces: (VpcInterface & {
-      Name: string;
-      NetworkInterfaceIds: __listOfString;
-      NetworkInterfaceType: NetworkInterfaceType;
-      RoleArn: string;
-      SecurityGroupIds: __listOfString;
-      SubnetId: string;
-    })[];
-    NdiConfig: NdiConfig & {
-      NdiDiscoveryServers: (NdiDiscoveryServerConfig & {
-        DiscoveryServerAddress: string;
-        VpcInterfaceAdapter: string;
-      })[];
-    };
-  };
+        VpcInterfaces: (VpcInterface & {
+          Name: string;
+          NetworkInterfaceIds: __listOfString;
+          NetworkInterfaceType: NetworkInterfaceType;
+          RoleArn: string;
+          SecurityGroupIds: __listOfString;
+          SubnetId: string;
+        })[];
+        NdiConfig: NdiConfig & {
+          NdiDiscoveryServers: (NdiDiscoveryServerConfig & {
+            DiscoveryServerAddress: string;
+            VpcInterfaceAdapter: string;
+          })[];
+        };
+      })
+    | undefined;
 }
 export interface GatewayNetwork {
-  CidrBlock?: string;
-  Name?: string;
+  CidrBlock?: string | undefined;
+  Name?: string | undefined;
 }
 export type __listOfGatewayNetwork = GatewayNetwork[];
 const __listOfGatewayNetwork = /*@__PURE__*/ __L.at(__c76, 1);
 export interface CreateGatewayRequest {
-  EgressCidrBlocks?: string[];
-  Name?: string;
-  Networks?: GatewayNetwork[];
+  EgressCidrBlocks?: string[] | undefined;
+  Name?: string | undefined;
+  Networks?: GatewayNetwork[] | undefined;
 }
 export type GatewayState =
   | "CREATING"
@@ -2102,21 +2148,23 @@ export type GatewayState =
   | "DELETED"
   | (string & {});
 export interface Gateway {
-  EgressCidrBlocks?: string[];
-  GatewayArn?: string;
-  GatewayMessages?: MessageDetail[];
-  GatewayState?: GatewayState;
-  Name?: string;
-  Networks?: GatewayNetwork[];
+  EgressCidrBlocks?: string[] | undefined;
+  GatewayArn?: string | undefined;
+  GatewayMessages?: MessageDetail[] | undefined;
+  GatewayState?: GatewayState | undefined;
+  Name?: string | undefined;
+  Networks?: GatewayNetwork[] | undefined;
 }
 export interface CreateGatewayResponse {
-  Gateway?: Gateway & {
-    EgressCidrBlocks: __listOfString;
-    GatewayArn: string;
-    Name: string;
-    Networks: (GatewayNetwork & { CidrBlock: string; Name: string })[];
-    GatewayMessages: (MessageDetail & { Code: string; Message: string })[];
-  };
+  Gateway?:
+    | (Gateway & {
+        EgressCidrBlocks: __listOfString;
+        GatewayArn: string;
+        Name: string;
+        Networks: (GatewayNetwork & { CidrBlock: string; Name: string })[];
+        GatewayMessages: (MessageDetail & { Code: string; Message: string })[];
+      })
+    | undefined;
 }
 export type ClientToken = string;
 export interface CreateRouterInputRequest {
@@ -2125,13 +2173,13 @@ export interface CreateRouterInputRequest {
   MaximumBitrate: number;
   RoutingScope: RoutingScope;
   Tier: RouterInputTier;
-  RegionName?: string;
-  AvailabilityZone?: string;
-  TransitEncryption?: RouterInputTransitEncryption;
-  MaintenanceConfiguration?: MaintenanceConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
-  ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration;
+  RegionName?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  TransitEncryption?: RouterInputTransitEncryption | undefined;
+  MaintenanceConfiguration?: MaintenanceConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+  ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration | undefined;
 }
 export interface CreateRouterInputResponse {
   RouterInput: RouterInput & {
@@ -2142,9 +2190,9 @@ export interface CreateRouterInputResponse {
 export interface CreateRouterNetworkInterfaceRequest {
   Name: string;
   Configuration: RouterNetworkInterfaceConfiguration;
-  RegionName?: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  RegionName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateRouterNetworkInterfaceResponse {
   RouterNetworkInterface: RouterNetworkInterface;
@@ -2155,12 +2203,12 @@ export interface CreateRouterOutputRequest {
   MaximumBitrate: number;
   RoutingScope: RoutingScope;
   Tier: RouterOutputTier;
-  RegionName?: string;
-  AvailabilityZone?: string;
-  MaintenanceConfiguration?: MaintenanceConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  FabricConfiguration?: FabricConfiguration;
-  ClientToken?: string;
+  RegionName?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  MaintenanceConfiguration?: MaintenanceConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  FabricConfiguration?: FabricConfiguration | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateRouterOutputResponse {
   RouterOutput: RouterOutput & { FabricConfiguration: FabricConfiguration };
@@ -2169,21 +2217,21 @@ export interface DeleteBridgeRequest {
   BridgeArn: string;
 }
 export interface DeleteBridgeResponse {
-  BridgeArn?: string;
+  BridgeArn?: string | undefined;
 }
 export interface DeleteFlowRequest {
   FlowArn: string;
 }
 export interface DeleteFlowResponse {
-  FlowArn?: string;
-  Status?: Status;
+  FlowArn?: string | undefined;
+  Status?: Status | undefined;
 }
 export type GatewayArn = string;
 export interface DeleteGatewayRequest {
   GatewayArn: string;
 }
 export interface DeleteGatewayResponse {
-  GatewayArn?: string;
+  GatewayArn?: string | undefined;
 }
 export interface DeleteRouterInputRequest {
   Arn: string;
@@ -2218,7 +2266,7 @@ export interface DeregisterDestinationEndpointResponse {
 }
 export type GatewayInstanceArn = string;
 export interface DeregisterGatewayInstanceRequest {
-  Force?: boolean;
+  Force?: boolean | undefined;
   GatewayInstanceArn: string;
 }
 export type InstanceState =
@@ -2230,8 +2278,8 @@ export type InstanceState =
   | "DEREGISTRATION_ERROR"
   | (string & {});
 export interface DeregisterGatewayInstanceResponse {
-  GatewayInstanceArn?: string;
-  InstanceState?: InstanceState;
+  GatewayInstanceArn?: string | undefined;
+  InstanceState?: InstanceState | undefined;
 }
 export interface DeregisterSourceEndpointRequest {
   Arn: string;
@@ -2244,130 +2292,134 @@ export interface DescribeBridgeRequest {
   BridgeArn: string;
 }
 export interface DescribeBridgeResponse {
-  Bridge?: Bridge & {
-    BridgeArn: string;
-    BridgeState: BridgeState;
-    Name: string;
-    PlacementArn: string;
-    BridgeMessages: (MessageDetail & { Code: string; Message: string })[];
-    EgressGatewayBridge: EgressGatewayBridge & { MaxBitrate: number };
-    IngressGatewayBridge: IngressGatewayBridge & { MaxBitrate: number; MaxOutputs: number };
-    Outputs: (BridgeOutput & {
-      FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
-      NetworkOutput: BridgeNetworkOutput & {
-        IpAddress: string;
+  Bridge?:
+    | (Bridge & {
+        BridgeArn: string;
+        BridgeState: BridgeState;
         Name: string;
-        NetworkName: string;
-        Port: number;
-        Protocol: Protocol;
-        Ttl: number;
-      };
-    })[];
-    Sources: (BridgeSource & {
-      FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
-      NetworkSource: BridgeNetworkSource & {
-        MulticastIp: string;
-        Name: string;
-        NetworkName: string;
-        Port: number;
-        Protocol: Protocol;
-      };
-    })[];
-  };
+        PlacementArn: string;
+        BridgeMessages: (MessageDetail & { Code: string; Message: string })[];
+        EgressGatewayBridge: EgressGatewayBridge & { MaxBitrate: number };
+        IngressGatewayBridge: IngressGatewayBridge & { MaxBitrate: number; MaxOutputs: number };
+        Outputs: (BridgeOutput & {
+          FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
+          NetworkOutput: BridgeNetworkOutput & {
+            IpAddress: string;
+            Name: string;
+            NetworkName: string;
+            Port: number;
+            Protocol: Protocol;
+            Ttl: number;
+          };
+        })[];
+        Sources: (BridgeSource & {
+          FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
+          NetworkSource: BridgeNetworkSource & {
+            MulticastIp: string;
+            Name: string;
+            NetworkName: string;
+            Port: number;
+            Protocol: Protocol;
+          };
+        })[];
+      })
+    | undefined;
 }
 export interface DescribeFlowRequest {
   FlowArn: string;
 }
 export interface Messages {
-  Errors?: string[];
+  Errors?: string[] | undefined;
 }
 export interface DescribeFlowResponse {
-  Flow?: Flow & {
-    AvailabilityZone: string;
-    Entitlements: (Entitlement & {
-      EntitlementArn: string;
-      Name: string;
-      Subscribers: __listOfString;
-      Encryption: Encryption & { RoleArn: string };
-    })[];
-    FlowArn: string;
-    Name: string;
-    Outputs: (Output & {
-      Name: string;
-      OutputArn: string;
-      Encryption: Encryption & { RoleArn: string };
-      MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        DestinationConfigurations: (DestinationConfiguration & {
-          DestinationIp: string;
-          DestinationPort: number;
-          Interface: Interface & { Name: string };
-          OutboundIp: string;
+  Flow?:
+    | (Flow & {
+        AvailabilityZone: string;
+        Entitlements: (Entitlement & {
+          EntitlementArn: string;
+          Name: string;
+          Subscribers: __listOfString;
+          Encryption: Encryption & { RoleArn: string };
         })[];
-        EncodingParameters: EncodingParameters & {
-          CompressionFactor: number;
-          EncoderProfile: EncoderProfile;
+        FlowArn: string;
+        Name: string;
+        Outputs: (Output & {
+          Name: string;
+          OutputArn: string;
+          Encryption: Encryption & { RoleArn: string };
+          MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            DestinationConfigurations: (DestinationConfiguration & {
+              DestinationIp: string;
+              DestinationPort: number;
+              Interface: Interface & { Name: string };
+              OutboundIp: string;
+            })[];
+            EncodingParameters: EncodingParameters & {
+              CompressionFactor: number;
+              EncoderProfile: EncoderProfile;
+            };
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+        })[];
+        Source: Source & {
+          Name: string;
+          SourceArn: string;
+          Decryption: Encryption & { RoleArn: string };
+          MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            InputConfigurations: (InputConfiguration & {
+              InputIp: string;
+              InputPort: number;
+              Interface: Interface & { Name: string };
+            })[];
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+          GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         };
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-    })[];
-    Source: Source & {
-      Name: string;
-      SourceArn: string;
-      Decryption: Encryption & { RoleArn: string };
-      MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        InputConfigurations: (InputConfiguration & {
-          InputIp: string;
-          InputPort: number;
-          Interface: Interface & { Name: string };
+        Status: Status;
+        MediaStreams: (MediaStream & {
+          Fmt: number;
+          MediaStreamId: number;
+          MediaStreamName: string;
+          MediaStreamType: MediaStreamType;
+          Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
         })[];
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-      GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-    };
-    Status: Status;
-    MediaStreams: (MediaStream & {
-      Fmt: number;
-      MediaStreamId: number;
-      MediaStreamName: string;
-      MediaStreamType: MediaStreamType;
-      Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
-    })[];
-    Sources: (Source & {
-      Name: string;
-      SourceArn: string;
-      Decryption: Encryption & { RoleArn: string };
-      MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        InputConfigurations: (InputConfiguration & {
-          InputIp: string;
-          InputPort: number;
-          Interface: Interface & { Name: string };
+        Sources: (Source & {
+          Name: string;
+          SourceArn: string;
+          Decryption: Encryption & { RoleArn: string };
+          MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            InputConfigurations: (InputConfiguration & {
+              InputIp: string;
+              InputPort: number;
+              Interface: Interface & { Name: string };
+            })[];
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+          GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         })[];
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-      GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-    })[];
-    VpcInterfaces: (VpcInterface & {
-      Name: string;
-      NetworkInterfaceIds: __listOfString;
-      NetworkInterfaceType: NetworkInterfaceType;
-      RoleArn: string;
-      SecurityGroupIds: __listOfString;
-      SubnetId: string;
-    })[];
-    NdiConfig: NdiConfig & {
-      NdiDiscoveryServers: (NdiDiscoveryServerConfig & {
-        DiscoveryServerAddress: string;
-        VpcInterfaceAdapter: string;
-      })[];
-    };
-  };
-  Messages?: Messages & { Errors: __listOfString };
+        VpcInterfaces: (VpcInterface & {
+          Name: string;
+          NetworkInterfaceIds: __listOfString;
+          NetworkInterfaceType: NetworkInterfaceType;
+          RoleArn: string;
+          SecurityGroupIds: __listOfString;
+          SubnetId: string;
+        })[];
+        NdiConfig: NdiConfig & {
+          NdiDiscoveryServers: (NdiDiscoveryServerConfig & {
+            DiscoveryServerAddress: string;
+            VpcInterfaceAdapter: string;
+          })[];
+        };
+      })
+    | undefined;
+  Messages?: (Messages & { Errors: __listOfString }) | undefined;
 }
 export interface DescribeFlowSourceMetadataRequest {
   FlowArn: string;
@@ -2419,124 +2471,132 @@ export type VideoMatrixCoefficients =
   | "IPT_C2"
   | (string & {});
 export interface ColorInformation {
-  Colorimetry?: VideoColorimetry;
-  TransferCharacteristics?: VideoTransferCharacteristics;
-  MatrixCoefficients?: VideoMatrixCoefficients;
+  Colorimetry?: VideoColorimetry | undefined;
+  TransferCharacteristics?: VideoTransferCharacteristics | undefined;
+  MatrixCoefficients?: VideoMatrixCoefficients | undefined;
 }
 export interface FrameResolution {
-  FrameHeight?: number;
-  FrameWidth?: number;
+  FrameHeight?: number | undefined;
+  FrameWidth?: number | undefined;
 }
 export interface TransportStream {
-  Channels?: number;
-  Codec?: string;
-  Color?: ColorInformation;
-  FrameRate?: string;
-  FrameResolution?: FrameResolution;
-  Pid?: number;
-  SampleRate?: number;
-  SampleSize?: number;
-  StreamType?: string;
+  Channels?: number | undefined;
+  Codec?: string | undefined;
+  Color?: ColorInformation | undefined;
+  FrameRate?: string | undefined;
+  FrameResolution?: FrameResolution | undefined;
+  Pid?: number | undefined;
+  SampleRate?: number | undefined;
+  SampleSize?: number | undefined;
+  StreamType?: string | undefined;
 }
 export type __listOfTransportStream = TransportStream[];
 const __listOfTransportStream = /*@__PURE__*/ __L.at(__c98, 3);
 export interface TransportStreamProgram {
-  PcrPid?: number;
-  ProgramName?: string;
-  ProgramNumber?: number;
-  ProgramPid?: number;
-  Streams?: TransportStream[];
+  PcrPid?: number | undefined;
+  ProgramName?: string | undefined;
+  ProgramNumber?: number | undefined;
+  ProgramPid?: number | undefined;
+  Streams?: TransportStream[] | undefined;
 }
 export type __listOfTransportStreamProgram = TransportStreamProgram[];
 const __listOfTransportStreamProgram = /*@__PURE__*/ __L.at(__c98, 5);
 export interface TransportMediaInfo {
-  Programs?: TransportStreamProgram[];
-  TsId?: number;
+  Programs?: TransportStreamProgram[] | undefined;
+  TsId?: number | undefined;
 }
 export interface NdiSourceInfo {
-  SourceName?: string;
+  SourceName?: string | undefined;
 }
 export type __listOfNdiSourceInfo = NdiSourceInfo[];
 const __listOfNdiSourceInfo = /*@__PURE__*/ __L.at(__c97, 2);
 export interface NdiMediaStreamInfo {
-  StreamType?: string;
-  Codec?: string;
-  StreamId?: number;
-  ScanMode?: ScanMode;
-  Color?: ColorInformation;
-  FrameResolution?: FrameResolution;
-  FrameRate?: string;
-  Channels?: number;
-  SampleRate?: number;
+  StreamType?: string | undefined;
+  Codec?: string | undefined;
+  StreamId?: number | undefined;
+  ScanMode?: ScanMode | undefined;
+  Color?: ColorInformation | undefined;
+  FrameResolution?: FrameResolution | undefined;
+  FrameRate?: string | undefined;
+  Channels?: number | undefined;
+  SampleRate?: number | undefined;
 }
 export type __listOfNdiMediaStreamInfo = NdiMediaStreamInfo[];
 const __listOfNdiMediaStreamInfo = /*@__PURE__*/ __L.at(__c97, 4);
 export interface NdiMediaInfo {
-  Streams?: NdiMediaStreamInfo[];
+  Streams?: NdiMediaStreamInfo[] | undefined;
 }
 export interface NdiSourceMetadataInfo {
-  ActiveSource?: NdiSourceInfo;
-  DiscoveredSources?: NdiSourceInfo[];
-  MediaInfo?: NdiMediaInfo;
-  Messages?: MessageDetail[];
+  ActiveSource?: NdiSourceInfo | undefined;
+  DiscoveredSources?: NdiSourceInfo[] | undefined;
+  MediaInfo?: NdiMediaInfo | undefined;
+  Messages?: MessageDetail[] | undefined;
 }
 export interface DescribeFlowSourceMetadataResponse {
-  FlowArn?: string;
-  Messages?: (MessageDetail & { Code: string; Message: string })[];
-  Timestamp?: Date;
-  TransportMediaInfo?: TransportMediaInfo & {
-    Programs: (TransportStreamProgram & {
-      PcrPid: number;
-      ProgramNumber: number;
-      ProgramPid: number;
-      Streams: (TransportStream & {
-        Pid: number;
-        StreamType: string;
-        FrameResolution: FrameResolution & { FrameHeight: number; FrameWidth: number };
-      })[];
-    })[];
-  };
-  NdiInfo?: NdiSourceMetadataInfo & {
-    DiscoveredSources: (NdiSourceInfo & { SourceName: string })[];
-    MediaInfo: NdiMediaInfo & {
-      Streams: (NdiMediaStreamInfo & {
-        StreamType: string;
-        Codec: string;
-        StreamId: number;
-        FrameResolution: FrameResolution & { FrameHeight: number; FrameWidth: number };
-      })[];
-    };
-    Messages: (MessageDetail & { Code: string; Message: string })[];
-    ActiveSource: NdiSourceInfo & { SourceName: string };
-  };
+  FlowArn?: string | undefined;
+  Messages?: (MessageDetail & { Code: string; Message: string })[] | undefined;
+  Timestamp?: Date | undefined;
+  TransportMediaInfo?:
+    | (TransportMediaInfo & {
+        Programs: (TransportStreamProgram & {
+          PcrPid: number;
+          ProgramNumber: number;
+          ProgramPid: number;
+          Streams: (TransportStream & {
+            Pid: number;
+            StreamType: string;
+            FrameResolution: FrameResolution & { FrameHeight: number; FrameWidth: number };
+          })[];
+        })[];
+      })
+    | undefined;
+  NdiInfo?:
+    | (NdiSourceMetadataInfo & {
+        DiscoveredSources: (NdiSourceInfo & { SourceName: string })[];
+        MediaInfo: NdiMediaInfo & {
+          Streams: (NdiMediaStreamInfo & {
+            StreamType: string;
+            Codec: string;
+            StreamId: number;
+            FrameResolution: FrameResolution & { FrameHeight: number; FrameWidth: number };
+          })[];
+        };
+        Messages: (MessageDetail & { Code: string; Message: string })[];
+        ActiveSource: NdiSourceInfo & { SourceName: string };
+      })
+    | undefined;
 }
 export interface DescribeFlowSourceThumbnailRequest {
   FlowArn: string;
 }
 export interface ThumbnailDetails {
-  FlowArn?: string;
-  Thumbnail?: string;
-  ThumbnailMessages?: MessageDetail[];
-  Timecode?: string;
-  Timestamp?: Date;
+  FlowArn?: string | undefined;
+  Thumbnail?: string | undefined;
+  ThumbnailMessages?: MessageDetail[] | undefined;
+  Timecode?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface DescribeFlowSourceThumbnailResponse {
-  ThumbnailDetails?: ThumbnailDetails & {
-    FlowArn: string;
-    ThumbnailMessages: (MessageDetail & { Code: string; Message: string })[];
-  };
+  ThumbnailDetails?:
+    | (ThumbnailDetails & {
+        FlowArn: string;
+        ThumbnailMessages: (MessageDetail & { Code: string; Message: string })[];
+      })
+    | undefined;
 }
 export interface DescribeGatewayRequest {
   GatewayArn: string;
 }
 export interface DescribeGatewayResponse {
-  Gateway?: Gateway & {
-    EgressCidrBlocks: __listOfString;
-    GatewayArn: string;
-    Name: string;
-    Networks: (GatewayNetwork & { CidrBlock: string; Name: string })[];
-    GatewayMessages: (MessageDetail & { Code: string; Message: string })[];
-  };
+  Gateway?:
+    | (Gateway & {
+        EgressCidrBlocks: __listOfString;
+        GatewayArn: string;
+        Name: string;
+        Networks: (GatewayNetwork & { CidrBlock: string; Name: string })[];
+        GatewayMessages: (MessageDetail & { Code: string; Message: string })[];
+      })
+    | undefined;
 }
 export interface DescribeGatewayInstanceRequest {
   GatewayInstanceArn: string;
@@ -2544,26 +2604,28 @@ export interface DescribeGatewayInstanceRequest {
 export type BridgePlacement = "AVAILABLE" | "LOCKED" | (string & {});
 export type ConnectionStatus = "CONNECTED" | "DISCONNECTED" | (string & {});
 export interface GatewayInstance {
-  BridgePlacement?: BridgePlacement;
-  ConnectionStatus?: ConnectionStatus;
-  GatewayArn?: string;
-  GatewayInstanceArn?: string;
-  InstanceId?: string;
-  InstanceMessages?: MessageDetail[];
-  InstanceState?: InstanceState;
-  RunningBridgeCount?: number;
+  BridgePlacement?: BridgePlacement | undefined;
+  ConnectionStatus?: ConnectionStatus | undefined;
+  GatewayArn?: string | undefined;
+  GatewayInstanceArn?: string | undefined;
+  InstanceId?: string | undefined;
+  InstanceMessages?: MessageDetail[] | undefined;
+  InstanceState?: InstanceState | undefined;
+  RunningBridgeCount?: number | undefined;
 }
 export interface DescribeGatewayInstanceResponse {
-  GatewayInstance?: GatewayInstance & {
-    BridgePlacement: BridgePlacement;
-    ConnectionStatus: ConnectionStatus;
-    GatewayArn: string;
-    GatewayInstanceArn: string;
-    InstanceId: string;
-    InstanceState: InstanceState;
-    RunningBridgeCount: number;
-    InstanceMessages: (MessageDetail & { Code: string; Message: string })[];
-  };
+  GatewayInstance?:
+    | (GatewayInstance & {
+        BridgePlacement: BridgePlacement;
+        ConnectionStatus: ConnectionStatus;
+        GatewayArn: string;
+        GatewayInstanceArn: string;
+        InstanceId: string;
+        InstanceState: InstanceState;
+        RunningBridgeCount: number;
+        InstanceMessages: (MessageDetail & { Code: string; Message: string })[];
+      })
+    | undefined;
 }
 export type OfferingArn = string;
 export interface DescribeOfferingRequest {
@@ -2573,30 +2635,32 @@ export type DurationUnits = "MONTHS" | (string & {});
 export type PriceUnits = "HOURLY" | (string & {});
 export type ResourceType = "Mbps_Outbound_Bandwidth" | (string & {});
 export interface ResourceSpecification {
-  ReservedBitrate?: number;
-  ResourceType?: ResourceType;
+  ReservedBitrate?: number | undefined;
+  ResourceType?: ResourceType | undefined;
 }
 export interface Offering {
-  CurrencyCode?: string;
-  Duration?: number;
-  DurationUnits?: DurationUnits;
-  OfferingArn?: string;
-  OfferingDescription?: string;
-  PricePerUnit?: string;
-  PriceUnits?: PriceUnits;
-  ResourceSpecification?: ResourceSpecification;
+  CurrencyCode?: string | undefined;
+  Duration?: number | undefined;
+  DurationUnits?: DurationUnits | undefined;
+  OfferingArn?: string | undefined;
+  OfferingDescription?: string | undefined;
+  PricePerUnit?: string | undefined;
+  PriceUnits?: PriceUnits | undefined;
+  ResourceSpecification?: ResourceSpecification | undefined;
 }
 export interface DescribeOfferingResponse {
-  Offering?: Offering & {
-    CurrencyCode: string;
-    Duration: number;
-    DurationUnits: DurationUnits;
-    OfferingArn: string;
-    OfferingDescription: string;
-    PricePerUnit: string;
-    PriceUnits: PriceUnits;
-    ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
-  };
+  Offering?:
+    | (Offering & {
+        CurrencyCode: string;
+        Duration: number;
+        DurationUnits: DurationUnits;
+        OfferingArn: string;
+        OfferingDescription: string;
+        PricePerUnit: string;
+        PriceUnits: PriceUnits;
+        ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
+      })
+    | undefined;
 }
 export type ReservationArn = string;
 export interface DescribeReservationRequest {
@@ -2604,36 +2668,38 @@ export interface DescribeReservationRequest {
 }
 export type ReservationState = "ACTIVE" | "EXPIRED" | "PROCESSING" | "CANCELED" | (string & {});
 export interface Reservation {
-  CurrencyCode?: string;
-  Duration?: number;
-  DurationUnits?: DurationUnits;
-  End?: string;
-  OfferingArn?: string;
-  OfferingDescription?: string;
-  PricePerUnit?: string;
-  PriceUnits?: PriceUnits;
-  ReservationArn?: string;
-  ReservationName?: string;
-  ReservationState?: ReservationState;
-  ResourceSpecification?: ResourceSpecification;
-  Start?: string;
+  CurrencyCode?: string | undefined;
+  Duration?: number | undefined;
+  DurationUnits?: DurationUnits | undefined;
+  End?: string | undefined;
+  OfferingArn?: string | undefined;
+  OfferingDescription?: string | undefined;
+  PricePerUnit?: string | undefined;
+  PriceUnits?: PriceUnits | undefined;
+  ReservationArn?: string | undefined;
+  ReservationName?: string | undefined;
+  ReservationState?: ReservationState | undefined;
+  ResourceSpecification?: ResourceSpecification | undefined;
+  Start?: string | undefined;
 }
 export interface DescribeReservationResponse {
-  Reservation?: Reservation & {
-    CurrencyCode: string;
-    Duration: number;
-    DurationUnits: DurationUnits;
-    End: string;
-    OfferingArn: string;
-    OfferingDescription: string;
-    PricePerUnit: string;
-    PriceUnits: PriceUnits;
-    ReservationArn: string;
-    ReservationName: string;
-    ReservationState: ReservationState;
-    ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
-    Start: string;
-  };
+  Reservation?:
+    | (Reservation & {
+        CurrencyCode: string;
+        Duration: number;
+        DurationUnits: DurationUnits;
+        End: string;
+        OfferingArn: string;
+        OfferingDescription: string;
+        PricePerUnit: string;
+        PriceUnits: PriceUnits;
+        ReservationArn: string;
+        ReservationName: string;
+        ReservationState: ReservationState;
+        ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
+        Start: string;
+      })
+    | undefined;
 }
 export interface DisconnectEndpointsRequest {
   DestinationEndpointArn: string;
@@ -2667,7 +2733,7 @@ export type RouterInputMetadata = { TransportStreamMediaInfo: TransportMediaInfo
 export interface RouterInputSourceMetadataDetails {
   SourceMetadataMessages: RouterInputMessage[];
   Timestamp: Date;
-  RouterInputMetadata?: RouterInputMetadata;
+  RouterInputMetadata?: RouterInputMetadata | undefined;
 }
 export interface GetRouterInputSourceMetadataResponse {
   Arn: string;
@@ -2679,9 +2745,9 @@ export interface GetRouterInputThumbnailRequest {
 }
 export interface RouterInputThumbnailDetails {
   ThumbnailMessages: RouterInputMessage[];
-  Thumbnail?: Uint8Array;
-  Timecode?: string;
-  Timestamp?: Date;
+  Thumbnail?: Uint8Array | undefined;
+  Timecode?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export interface GetRouterInputThumbnailResponse {
   Arn: string;
@@ -2707,55 +2773,63 @@ export interface GetSourceEndpointResponse {
   SourceEndpoint: SourceEndpoint;
 }
 export interface GrantFlowEntitlementsRequest {
-  Entitlements?: GrantEntitlementRequest[];
+  Entitlements?: GrantEntitlementRequest[] | undefined;
   FlowArn: string;
 }
 export interface GrantFlowEntitlementsResponse {
-  Entitlements?: (Entitlement & {
-    EntitlementArn: string;
-    Name: string;
-    Subscribers: __listOfString;
-    Encryption: Encryption & { RoleArn: string };
-  })[];
-  FlowArn?: string;
+  Entitlements?:
+    | (Entitlement & {
+        EntitlementArn: string;
+        Name: string;
+        Subscribers: __listOfString;
+        Encryption: Encryption & { RoleArn: string };
+      })[]
+    | undefined;
+  FlowArn?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListBridgesRequest {
-  FilterArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  FilterArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedBridge {
-  BridgeArn?: string;
-  BridgeState?: BridgeState;
-  BridgeType?: string;
-  Name?: string;
-  PlacementArn?: string;
+  BridgeArn?: string | undefined;
+  BridgeState?: BridgeState | undefined;
+  BridgeType?: string | undefined;
+  Name?: string | undefined;
+  PlacementArn?: string | undefined;
 }
 export type __listOfListedBridge = ListedBridge[];
 const __listOfListedBridge = /*@__PURE__*/ __L.at(__c119, 2);
 export interface ListBridgesResponse {
-  Bridges?: (ListedBridge & {
-    BridgeArn: string;
-    BridgeState: BridgeState;
-    BridgeType: string;
-    Name: string;
-    PlacementArn: string;
-  })[];
-  NextToken?: string;
+  Bridges?:
+    | (ListedBridge & {
+        BridgeArn: string;
+        BridgeState: BridgeState;
+        BridgeType: string;
+        Name: string;
+        PlacementArn: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type StringList = string[];
 const StringList = __listOfString as any as S.Schema<StringList>;
 export type DestinationEndpointTypeList = DestinationEndpointType[];
 export type DestinationEndpointFilter =
-  | { RegionNames: string[]; DestinationTypes?: never; NameContains?: never }
-  | { RegionNames?: never; DestinationTypes: DestinationEndpointType[]; NameContains?: never }
-  | { RegionNames?: never; DestinationTypes?: never; NameContains: string[] };
+  | { RegionNames: string[]; DestinationTypes?: undefined; NameContains?: undefined }
+  | {
+      RegionNames?: undefined;
+      DestinationTypes: DestinationEndpointType[];
+      NameContains?: undefined;
+    }
+  | { RegionNames?: undefined; DestinationTypes?: undefined; NameContains: string[] };
 export type DestinationEndpointFilterList = DestinationEndpointFilter[];
 export interface ListDestinationEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: DestinationEndpointFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: DestinationEndpointFilter[] | undefined;
 }
 export interface ListedDestinationEndpoint {
   Name: string;
@@ -2763,8 +2837,8 @@ export interface ListedDestinationEndpoint {
   Id: string;
   DestinationType: DestinationEndpointType;
   RegionName: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
   CreatedAt: Date;
   UpdatedAt: Date;
   LifecycleManagement: EndpointLifecycle;
@@ -2773,179 +2847,191 @@ export interface ListedDestinationEndpoint {
   ResourceShareState: ResourceShareState;
   RegistrationState: DestinationEndpointRegistrationState;
   ConnectionState: DestinationEndpointConnectionState;
-  DecryptionType?: EndpointEncryptionType;
-  ConnectedSource?: string;
-  AssociatedResourceArn?: string;
+  DecryptionType?: EndpointEncryptionType | undefined;
+  ConnectedSource?: string | undefined;
+  AssociatedResourceArn?: string | undefined;
 }
 export type ListedDestinationEndpointList = ListedDestinationEndpoint[];
 export interface ListDestinationEndpointsResponse {
   DestinationEndpoints: ListedDestinationEndpoint[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListEntitlementsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedEntitlement {
-  DataTransferSubscriberFeePercent?: number;
-  EntitlementArn?: string;
-  EntitlementName?: string;
+  DataTransferSubscriberFeePercent?: number | undefined;
+  EntitlementArn?: string | undefined;
+  EntitlementName?: string | undefined;
 }
 export type __listOfListedEntitlement = ListedEntitlement[];
 const __listOfListedEntitlement = /*@__PURE__*/ __L.at(__c122, 2);
 export interface ListEntitlementsResponse {
-  Entitlements?: (ListedEntitlement & { EntitlementArn: string; EntitlementName: string })[];
-  NextToken?: string;
+  Entitlements?:
+    | (ListedEntitlement & { EntitlementArn: string; EntitlementName: string })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFlowsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SourceType = "OWNED" | "ENTITLED" | (string & {});
 export interface ListedFlow {
-  AvailabilityZone?: string;
-  Description?: string;
-  FlowArn?: string;
-  Name?: string;
-  SourceType?: SourceType;
-  Status?: Status;
-  Maintenance?: Maintenance;
+  AvailabilityZone?: string | undefined;
+  Description?: string | undefined;
+  FlowArn?: string | undefined;
+  Name?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Status?: Status | undefined;
+  Maintenance?: Maintenance | undefined;
 }
 export type __listOfListedFlow = ListedFlow[];
 const __listOfListedFlow = /*@__PURE__*/ __L.at(__c123, 2);
 export interface ListFlowsResponse {
-  Flows?: (ListedFlow & {
-    AvailabilityZone: string;
-    Description: string;
-    FlowArn: string;
-    Name: string;
-    SourceType: SourceType;
-    Status: Status;
-  })[];
-  NextToken?: string;
+  Flows?:
+    | (ListedFlow & {
+        AvailabilityZone: string;
+        Description: string;
+        FlowArn: string;
+        Name: string;
+        SourceType: SourceType;
+        Status: Status;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGatewayInstancesRequest {
-  FilterArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  FilterArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedGatewayInstance {
-  GatewayArn?: string;
-  GatewayInstanceArn?: string;
-  InstanceId?: string;
-  InstanceState?: InstanceState;
+  GatewayArn?: string | undefined;
+  GatewayInstanceArn?: string | undefined;
+  InstanceId?: string | undefined;
+  InstanceState?: InstanceState | undefined;
 }
 export type __listOfListedGatewayInstance = ListedGatewayInstance[];
 const __listOfListedGatewayInstance = /*@__PURE__*/ __L.at(__c124, 2);
 export interface ListGatewayInstancesResponse {
-  Instances?: (ListedGatewayInstance & {
-    GatewayArn: string;
-    GatewayInstanceArn: string;
-    InstanceId: string;
-  })[];
-  NextToken?: string;
+  Instances?:
+    | (ListedGatewayInstance & {
+        GatewayArn: string;
+        GatewayInstanceArn: string;
+        InstanceId: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGatewaysRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedGateway {
-  GatewayArn?: string;
-  GatewayState?: GatewayState;
-  Name?: string;
+  GatewayArn?: string | undefined;
+  GatewayState?: GatewayState | undefined;
+  Name?: string | undefined;
 }
 export type __listOfListedGateway = ListedGateway[];
 const __listOfListedGateway = /*@__PURE__*/ __L.at(__c125, 2);
 export interface ListGatewaysResponse {
-  Gateways?: (ListedGateway & { GatewayArn: string; GatewayState: GatewayState; Name: string })[];
-  NextToken?: string;
+  Gateways?:
+    | (ListedGateway & { GatewayArn: string; GatewayState: GatewayState; Name: string })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOfferingsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfOffering = Offering[];
 const __listOfOffering = /*@__PURE__*/ __L.at(__c126, 1);
 export interface ListOfferingsResponse {
-  NextToken?: string;
-  Offerings?: (Offering & {
-    CurrencyCode: string;
-    Duration: number;
-    DurationUnits: DurationUnits;
-    OfferingArn: string;
-    OfferingDescription: string;
-    PricePerUnit: string;
-    PriceUnits: PriceUnits;
-    ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
-  })[];
+  NextToken?: string | undefined;
+  Offerings?:
+    | (Offering & {
+        CurrencyCode: string;
+        Duration: number;
+        DurationUnits: DurationUnits;
+        OfferingArn: string;
+        OfferingDescription: string;
+        PricePerUnit: string;
+        PriceUnits: PriceUnits;
+        ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
+      })[]
+    | undefined;
 }
 export interface ListReservationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfReservation = Reservation[];
 const __listOfReservation = /*@__PURE__*/ __L.at(__c127, 1);
 export interface ListReservationsResponse {
-  NextToken?: string;
-  Reservations?: (Reservation & {
-    CurrencyCode: string;
-    Duration: number;
-    DurationUnits: DurationUnits;
-    End: string;
-    OfferingArn: string;
-    OfferingDescription: string;
-    PricePerUnit: string;
-    PriceUnits: PriceUnits;
-    ReservationArn: string;
-    ReservationName: string;
-    ReservationState: ReservationState;
-    ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
-    Start: string;
-  })[];
+  NextToken?: string | undefined;
+  Reservations?:
+    | (Reservation & {
+        CurrencyCode: string;
+        Duration: number;
+        DurationUnits: DurationUnits;
+        End: string;
+        OfferingArn: string;
+        OfferingDescription: string;
+        PricePerUnit: string;
+        PriceUnits: PriceUnits;
+        ReservationArn: string;
+        ReservationName: string;
+        ReservationState: ReservationState;
+        ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
+        Start: string;
+      })[]
+    | undefined;
 }
 export type RoutingScopeList = RoutingScope[];
 export type RouterInputTypeList = RouterInputType[];
 export type RouterInputFilter =
   | {
       NameContains: string[];
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      InputTypes?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
+      NameContains?: undefined;
       RegionNames: string[];
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      InputTypes?: never;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
-      RegionNames?: never;
+      NameContains?: undefined;
+      RegionNames?: undefined;
       NetworkInterfaceArns: string[];
-      RoutingScopes?: never;
-      InputTypes?: never;
+      RoutingScopes?: undefined;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
+      NameContains?: undefined;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
       RoutingScopes: RoutingScope[];
-      InputTypes?: never;
+      InputTypes?: undefined;
     }
   | {
-      NameContains?: never;
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
+      NameContains?: undefined;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
       InputTypes: RouterInputType[];
     };
 export type RouterInputFilterList = RouterInputFilter[];
 export interface ListRouterInputsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: RouterInputFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: RouterInputFilter[] | undefined;
 }
 export interface ListedRouterInput {
   Name: string;
@@ -2961,29 +3047,29 @@ export interface ListedRouterInput {
   CreatedAt: Date;
   UpdatedAt: Date;
   MessageCount: number;
-  NetworkInterfaceArn?: string;
-  MaintenanceScheduleType?: MaintenanceScheduleType;
-  MaintenanceSchedule?: MaintenanceSchedule;
+  NetworkInterfaceArn?: string | undefined;
+  MaintenanceScheduleType?: MaintenanceScheduleType | undefined;
+  MaintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export type ListedRouterInputList = ListedRouterInput[];
 export interface ListRouterInputsResponse {
   RouterInputs: ListedRouterInput[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type RouterNetworkInterfaceTypeList = RouterNetworkInterfaceType[];
 export type RouterNetworkInterfaceFilter =
-  | { RegionNames: string[]; NetworkInterfaceTypes?: never; NameContains?: never }
+  | { RegionNames: string[]; NetworkInterfaceTypes?: undefined; NameContains?: undefined }
   | {
-      RegionNames?: never;
+      RegionNames?: undefined;
       NetworkInterfaceTypes: RouterNetworkInterfaceType[];
-      NameContains?: never;
+      NameContains?: undefined;
     }
-  | { RegionNames?: never; NetworkInterfaceTypes?: never; NameContains: string[] };
+  | { RegionNames?: undefined; NetworkInterfaceTypes?: undefined; NameContains: string[] };
 export type RouterNetworkInterfaceFilterList = RouterNetworkInterfaceFilter[];
 export interface ListRouterNetworkInterfacesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: RouterNetworkInterfaceFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: RouterNetworkInterfaceFilter[] | undefined;
 }
 export interface ListedRouterNetworkInterface {
   Name: string;
@@ -3000,63 +3086,63 @@ export interface ListedRouterNetworkInterface {
 export type ListedRouterNetworkInterfaceList = ListedRouterNetworkInterface[];
 export interface ListRouterNetworkInterfacesResponse {
   RouterNetworkInterfaces: ListedRouterNetworkInterface[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type RouterOutputTypeList = RouterOutputType[];
 export type RouterOutputFilter =
   | {
       RegionNames: string[];
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      OutputTypes?: never;
-      RoutedInputArns?: never;
-      NameContains?: never;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
+      RegionNames?: undefined;
       NetworkInterfaceArns: string[];
-      RoutingScopes?: never;
-      OutputTypes?: never;
-      RoutedInputArns?: never;
-      NameContains?: never;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
       RoutingScopes: RoutingScope[];
-      OutputTypes?: never;
-      RoutedInputArns?: never;
-      NameContains?: never;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
       OutputTypes: RouterOutputType[];
-      RoutedInputArns?: never;
-      NameContains?: never;
+      RoutedInputArns?: undefined;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      OutputTypes?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
       RoutedInputArns: string[];
-      NameContains?: never;
+      NameContains?: undefined;
     }
   | {
-      RegionNames?: never;
-      NetworkInterfaceArns?: never;
-      RoutingScopes?: never;
-      OutputTypes?: never;
-      RoutedInputArns?: never;
+      RegionNames?: undefined;
+      NetworkInterfaceArns?: undefined;
+      RoutingScopes?: undefined;
+      OutputTypes?: undefined;
+      RoutedInputArns?: undefined;
       NameContains: string[];
     };
 export type RouterOutputFilterList = RouterOutputFilter[];
 export interface ListRouterOutputsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: RouterOutputFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: RouterOutputFilter[] | undefined;
 }
 export interface ListedRouterOutput {
   Name: string;
@@ -3072,26 +3158,26 @@ export interface ListedRouterOutput {
   CreatedAt: Date;
   UpdatedAt: Date;
   MessageCount: number;
-  RoutedInputArn?: string;
-  NetworkInterfaceArn?: string;
-  MaintenanceScheduleType?: MaintenanceScheduleType;
-  MaintenanceSchedule?: MaintenanceSchedule;
+  RoutedInputArn?: string | undefined;
+  NetworkInterfaceArn?: string | undefined;
+  MaintenanceScheduleType?: MaintenanceScheduleType | undefined;
+  MaintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export type ListedRouterOutputList = ListedRouterOutput[];
 export interface ListRouterOutputsResponse {
   RouterOutputs: ListedRouterOutput[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SourceEndpointTypeList = SourceEndpointType[];
 export type SourceEndpointFilter =
-  | { RegionNames: string[]; SourceTypes?: never; NameContains?: never }
-  | { RegionNames?: never; SourceTypes: SourceEndpointType[]; NameContains?: never }
-  | { RegionNames?: never; SourceTypes?: never; NameContains: string[] };
+  | { RegionNames: string[]; SourceTypes?: undefined; NameContains?: undefined }
+  | { RegionNames?: undefined; SourceTypes: SourceEndpointType[]; NameContains?: undefined }
+  | { RegionNames?: undefined; SourceTypes?: undefined; NameContains: string[] };
 export type SourceEndpointFilterList = SourceEndpointFilter[];
 export interface ListSourceEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: SourceEndpointFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: SourceEndpointFilter[] | undefined;
 }
 export interface ListedSourceEndpoint {
   Name: string;
@@ -3099,8 +3185,8 @@ export interface ListedSourceEndpoint {
   Id: string;
   SourceType: SourceEndpointType;
   RegionName: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
   CreatedAt: Date;
   UpdatedAt: Date;
   LifecycleManagement: EndpointLifecycle;
@@ -3109,65 +3195,67 @@ export interface ListedSourceEndpoint {
   ResourceShareState: ResourceShareState;
   RegistrationState: SourceEndpointRegistrationState;
   ConnectionState: SourceEndpointConnectionState;
-  EncryptionType?: EndpointEncryptionType;
+  EncryptionType?: EndpointEncryptionType | undefined;
   ConnectedDestinationCount: number;
-  AssociatedResourceArn?: string;
+  AssociatedResourceArn?: string | undefined;
 }
 export type ListedSourceEndpointList = ListedSourceEndpoint[];
 export interface ListSourceEndpointsResponse {
   SourceEndpoints: ListedSourceEndpoint[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForGlobalResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForGlobalResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PurchaseOfferingRequest {
   OfferingArn: string;
-  ReservationName?: string;
-  Start?: string;
+  ReservationName?: string | undefined;
+  Start?: string | undefined;
 }
 export interface PurchaseOfferingResponse {
-  Reservation?: Reservation & {
-    CurrencyCode: string;
-    Duration: number;
-    DurationUnits: DurationUnits;
-    End: string;
-    OfferingArn: string;
-    OfferingDescription: string;
-    PricePerUnit: string;
-    PriceUnits: PriceUnits;
-    ReservationArn: string;
-    ReservationName: string;
-    ReservationState: ReservationState;
-    ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
-    Start: string;
-  };
+  Reservation?:
+    | (Reservation & {
+        CurrencyCode: string;
+        Duration: number;
+        DurationUnits: DurationUnits;
+        End: string;
+        OfferingArn: string;
+        OfferingDescription: string;
+        PricePerUnit: string;
+        PriceUnits: PriceUnits;
+        ReservationArn: string;
+        ReservationName: string;
+        ReservationState: ReservationState;
+        ResourceSpecification: ResourceSpecification & { ResourceType: ResourceType };
+        Start: string;
+      })
+    | undefined;
 }
 export interface RegisterDestinationEndpointRequest {
-  Description?: string;
+  Description?: string | undefined;
   Configuration: DestinationEndpointConfiguration;
-  RegionName?: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  RegionName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface RegisterDestinationEndpointResponse {
   DestinationEndpoint: DestinationEndpoint;
 }
 export interface RegisterSourceEndpointRequest {
-  RegionName?: string;
-  Description?: string;
+  RegionName?: string | undefined;
+  Description?: string | undefined;
   Configuration: SourceEndpointConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface RegisterSourceEndpointResponse {
   SourceEndpoint: SourceEndpoint;
@@ -3177,49 +3265,49 @@ export interface RemoveBridgeOutputRequest {
   OutputName: string;
 }
 export interface RemoveBridgeOutputResponse {
-  BridgeArn?: string;
-  OutputName?: string;
+  BridgeArn?: string | undefined;
+  OutputName?: string | undefined;
 }
 export interface RemoveBridgeSourceRequest {
   BridgeArn: string;
   SourceName: string;
 }
 export interface RemoveBridgeSourceResponse {
-  BridgeArn?: string;
-  SourceName?: string;
+  BridgeArn?: string | undefined;
+  SourceName?: string | undefined;
 }
 export interface RemoveFlowMediaStreamRequest {
   FlowArn: string;
   MediaStreamName: string;
 }
 export interface RemoveFlowMediaStreamResponse {
-  FlowArn?: string;
-  MediaStreamName?: string;
+  FlowArn?: string | undefined;
+  MediaStreamName?: string | undefined;
 }
 export interface RemoveFlowOutputRequest {
   FlowArn: string;
   OutputArn: string;
 }
 export interface RemoveFlowOutputResponse {
-  FlowArn?: string;
-  OutputArn?: string;
+  FlowArn?: string | undefined;
+  OutputArn?: string | undefined;
 }
 export interface RemoveFlowSourceRequest {
   FlowArn: string;
   SourceArn: string;
 }
 export interface RemoveFlowSourceResponse {
-  FlowArn?: string;
-  SourceArn?: string;
+  FlowArn?: string | undefined;
+  SourceArn?: string | undefined;
 }
 export interface RemoveFlowVpcInterfaceRequest {
   FlowArn: string;
   VpcInterfaceName: string;
 }
 export interface RemoveFlowVpcInterfaceResponse {
-  FlowArn?: string;
-  NonDeletedNetworkInterfaceIds?: string[];
-  VpcInterfaceName?: string;
+  FlowArn?: string | undefined;
+  NonDeletedNetworkInterfaceIds?: string[] | undefined;
+  VpcInterfaceName?: string | undefined;
 }
 export interface RestartRouterInputRequest {
   Arn: string;
@@ -3242,15 +3330,15 @@ export interface RevokeFlowEntitlementRequest {
   FlowArn: string;
 }
 export interface RevokeFlowEntitlementResponse {
-  EntitlementArn?: string;
-  FlowArn?: string;
+  EntitlementArn?: string | undefined;
+  FlowArn?: string | undefined;
 }
 export interface StartFlowRequest {
   FlowArn: string;
 }
 export interface StartFlowResponse {
-  FlowArn?: string;
-  Status?: Status;
+  FlowArn?: string | undefined;
+  Status?: Status | undefined;
 }
 export interface StartRouterInputRequest {
   Arn: string;
@@ -3276,8 +3364,8 @@ export interface StopFlowRequest {
   FlowArn: string;
 }
 export interface StopFlowResponse {
-  FlowArn?: string;
-  Status?: Status;
+  FlowArn?: string | undefined;
+  Status?: Status | undefined;
 }
 export interface StopRouterInputRequest {
   Arn: string;
@@ -3297,422 +3385,438 @@ export interface StopRouterOutputResponse {
 }
 export interface TagGlobalResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagGlobalResourceResponse {}
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface TakeRouterInputRequest {
   RouterOutputArn: string;
-  RouterInputArn?: string;
+  RouterInputArn?: string | undefined;
 }
 export interface TakeRouterInputResponse {
   RoutedState: RouterOutputRoutedState;
   RouterOutputArn: string;
   RouterOutputName: string;
-  RouterInputArn?: string;
-  RouterInputName?: string;
+  RouterInputArn?: string | undefined;
+  RouterInputName?: string | undefined;
 }
 export interface UntagGlobalResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagGlobalResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateEgressGatewayBridgeRequest {
-  MaxBitrate?: number;
+  MaxBitrate?: number | undefined;
 }
 export interface UpdateIngressGatewayBridgeRequest {
-  MaxBitrate?: number;
-  MaxOutputs?: number;
+  MaxBitrate?: number | undefined;
+  MaxOutputs?: number | undefined;
 }
 export interface UpdateFailoverConfig {
-  FailoverMode?: FailoverMode;
-  RecoveryWindow?: number;
-  SourcePriority?: SourcePriority;
-  State?: State;
+  FailoverMode?: FailoverMode | undefined;
+  RecoveryWindow?: number | undefined;
+  SourcePriority?: SourcePriority | undefined;
+  State?: State | undefined;
 }
 export interface UpdateBridgeRequest {
   BridgeArn: string;
-  EgressGatewayBridge?: UpdateEgressGatewayBridgeRequest;
-  IngressGatewayBridge?: UpdateIngressGatewayBridgeRequest;
-  SourceFailoverConfig?: UpdateFailoverConfig;
+  EgressGatewayBridge?: UpdateEgressGatewayBridgeRequest | undefined;
+  IngressGatewayBridge?: UpdateIngressGatewayBridgeRequest | undefined;
+  SourceFailoverConfig?: UpdateFailoverConfig | undefined;
 }
 export interface UpdateBridgeResponse {
-  Bridge?: Bridge & {
-    BridgeArn: string;
-    BridgeState: BridgeState;
-    Name: string;
-    PlacementArn: string;
-    BridgeMessages: (MessageDetail & { Code: string; Message: string })[];
-    EgressGatewayBridge: EgressGatewayBridge & { MaxBitrate: number };
-    IngressGatewayBridge: IngressGatewayBridge & { MaxBitrate: number; MaxOutputs: number };
-    Outputs: (BridgeOutput & {
-      FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
-      NetworkOutput: BridgeNetworkOutput & {
-        IpAddress: string;
+  Bridge?:
+    | (Bridge & {
+        BridgeArn: string;
+        BridgeState: BridgeState;
         Name: string;
-        NetworkName: string;
-        Port: number;
-        Protocol: Protocol;
-        Ttl: number;
-      };
-    })[];
-    Sources: (BridgeSource & {
-      FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
-      NetworkSource: BridgeNetworkSource & {
-        MulticastIp: string;
-        Name: string;
-        NetworkName: string;
-        Port: number;
-        Protocol: Protocol;
-      };
-    })[];
-  };
+        PlacementArn: string;
+        BridgeMessages: (MessageDetail & { Code: string; Message: string })[];
+        EgressGatewayBridge: EgressGatewayBridge & { MaxBitrate: number };
+        IngressGatewayBridge: IngressGatewayBridge & { MaxBitrate: number; MaxOutputs: number };
+        Outputs: (BridgeOutput & {
+          FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
+          NetworkOutput: BridgeNetworkOutput & {
+            IpAddress: string;
+            Name: string;
+            NetworkName: string;
+            Port: number;
+            Protocol: Protocol;
+            Ttl: number;
+          };
+        })[];
+        Sources: (BridgeSource & {
+          FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
+          NetworkSource: BridgeNetworkSource & {
+            MulticastIp: string;
+            Name: string;
+            NetworkName: string;
+            Port: number;
+            Protocol: Protocol;
+          };
+        })[];
+      })
+    | undefined;
 }
 export interface UpdateBridgeNetworkOutputRequest {
-  IpAddress?: string;
-  NetworkName?: string;
-  Port?: number;
-  Protocol?: Protocol;
-  Ttl?: number;
+  IpAddress?: string | undefined;
+  NetworkName?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
+  Ttl?: number | undefined;
 }
 export interface UpdateBridgeOutputRequest {
   BridgeArn: string;
-  NetworkOutput?: UpdateBridgeNetworkOutputRequest;
+  NetworkOutput?: UpdateBridgeNetworkOutputRequest | undefined;
   OutputName: string;
 }
 export interface UpdateBridgeOutputResponse {
-  BridgeArn?: string;
-  Output?: BridgeOutput & {
-    FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
-    NetworkOutput: BridgeNetworkOutput & {
-      IpAddress: string;
-      Name: string;
-      NetworkName: string;
-      Port: number;
-      Protocol: Protocol;
-      Ttl: number;
-    };
-  };
+  BridgeArn?: string | undefined;
+  Output?:
+    | (BridgeOutput & {
+        FlowOutput: BridgeFlowOutput & { FlowArn: string; FlowSourceArn: string; Name: string };
+        NetworkOutput: BridgeNetworkOutput & {
+          IpAddress: string;
+          Name: string;
+          NetworkName: string;
+          Port: number;
+          Protocol: Protocol;
+          Ttl: number;
+        };
+      })
+    | undefined;
 }
 export interface UpdateBridgeFlowSourceRequest {
-  FlowArn?: string;
-  FlowVpcInterfaceAttachment?: VpcInterfaceAttachment;
+  FlowArn?: string | undefined;
+  FlowVpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
 }
 export interface UpdateBridgeNetworkSourceRequest {
-  MulticastIp?: string;
-  MulticastSourceSettings?: MulticastSourceSettings;
-  NetworkName?: string;
-  Port?: number;
-  Protocol?: Protocol;
+  MulticastIp?: string | undefined;
+  MulticastSourceSettings?: MulticastSourceSettings | undefined;
+  NetworkName?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
 }
 export interface UpdateBridgeSourceRequest {
   BridgeArn: string;
-  FlowSource?: UpdateBridgeFlowSourceRequest;
-  NetworkSource?: UpdateBridgeNetworkSourceRequest;
+  FlowSource?: UpdateBridgeFlowSourceRequest | undefined;
+  NetworkSource?: UpdateBridgeNetworkSourceRequest | undefined;
   SourceName: string;
 }
 export interface UpdateBridgeSourceResponse {
-  BridgeArn?: string;
-  Source?: BridgeSource & {
-    FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
-    NetworkSource: BridgeNetworkSource & {
-      MulticastIp: string;
-      Name: string;
-      NetworkName: string;
-      Port: number;
-      Protocol: Protocol;
-    };
-  };
+  BridgeArn?: string | undefined;
+  Source?:
+    | (BridgeSource & {
+        FlowSource: BridgeFlowSource & { FlowArn: string; Name: string };
+        NetworkSource: BridgeNetworkSource & {
+          MulticastIp: string;
+          Name: string;
+          NetworkName: string;
+          Port: number;
+          Protocol: Protocol;
+        };
+      })
+    | undefined;
 }
 export type DesiredState = "ACTIVE" | "STANDBY" | "DELETED" | (string & {});
 export interface UpdateBridgeStateRequest {
   BridgeArn: string;
-  DesiredState?: DesiredState;
+  DesiredState?: DesiredState | undefined;
 }
 export interface UpdateBridgeStateResponse {
-  BridgeArn?: string;
-  DesiredState?: DesiredState;
+  BridgeArn?: string | undefined;
+  DesiredState?: DesiredState | undefined;
 }
 export interface UpdateDestinationEndpointRequest {
   Arn: string;
-  Description?: string;
-  Configuration?: DestinationEndpointConfiguration;
+  Description?: string | undefined;
+  Configuration?: DestinationEndpointConfiguration | undefined;
 }
 export interface UpdateDestinationEndpointResponse {
   DestinationEndpoint: DestinationEndpoint;
 }
 export interface UpdateMaintenance {
-  MaintenanceDay?: MaintenanceDay;
-  MaintenanceScheduledDate?: string;
-  MaintenanceStartHour?: string;
+  MaintenanceDay?: MaintenanceDay | undefined;
+  MaintenanceScheduledDate?: string | undefined;
+  MaintenanceStartHour?: string | undefined;
 }
 export interface UpdateFlowRequest {
   FlowArn: string;
-  SourceFailoverConfig?: UpdateFailoverConfig;
-  Maintenance?: UpdateMaintenance;
-  SourceMonitoringConfig?: MonitoringConfig;
-  NdiConfig?: NdiConfig;
-  FlowSize?: FlowSize;
-  EncodingConfig?: EncodingConfig;
+  SourceFailoverConfig?: UpdateFailoverConfig | undefined;
+  Maintenance?: UpdateMaintenance | undefined;
+  SourceMonitoringConfig?: MonitoringConfig | undefined;
+  NdiConfig?: NdiConfig | undefined;
+  FlowSize?: FlowSize | undefined;
+  EncodingConfig?: EncodingConfig | undefined;
 }
 export interface UpdateFlowResponse {
-  Flow?: Flow & {
-    AvailabilityZone: string;
-    Entitlements: (Entitlement & {
-      EntitlementArn: string;
-      Name: string;
-      Subscribers: __listOfString;
-      Encryption: Encryption & { RoleArn: string };
-    })[];
-    FlowArn: string;
-    Name: string;
-    Outputs: (Output & {
-      Name: string;
-      OutputArn: string;
-      Encryption: Encryption & { RoleArn: string };
-      MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        DestinationConfigurations: (DestinationConfiguration & {
-          DestinationIp: string;
-          DestinationPort: number;
-          Interface: Interface & { Name: string };
-          OutboundIp: string;
+  Flow?:
+    | (Flow & {
+        AvailabilityZone: string;
+        Entitlements: (Entitlement & {
+          EntitlementArn: string;
+          Name: string;
+          Subscribers: __listOfString;
+          Encryption: Encryption & { RoleArn: string };
         })[];
-        EncodingParameters: EncodingParameters & {
-          CompressionFactor: number;
-          EncoderProfile: EncoderProfile;
+        FlowArn: string;
+        Name: string;
+        Outputs: (Output & {
+          Name: string;
+          OutputArn: string;
+          Encryption: Encryption & { RoleArn: string };
+          MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            DestinationConfigurations: (DestinationConfiguration & {
+              DestinationIp: string;
+              DestinationPort: number;
+              Interface: Interface & { Name: string };
+              OutboundIp: string;
+            })[];
+            EncodingParameters: EncodingParameters & {
+              CompressionFactor: number;
+              EncoderProfile: EncoderProfile;
+            };
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+        })[];
+        Source: Source & {
+          Name: string;
+          SourceArn: string;
+          Decryption: Encryption & { RoleArn: string };
+          MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            InputConfigurations: (InputConfiguration & {
+              InputIp: string;
+              InputPort: number;
+              Interface: Interface & { Name: string };
+            })[];
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+          GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         };
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-    })[];
-    Source: Source & {
-      Name: string;
-      SourceArn: string;
-      Decryption: Encryption & { RoleArn: string };
-      MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        InputConfigurations: (InputConfiguration & {
-          InputIp: string;
-          InputPort: number;
-          Interface: Interface & { Name: string };
+        Status: Status;
+        MediaStreams: (MediaStream & {
+          Fmt: number;
+          MediaStreamId: number;
+          MediaStreamName: string;
+          MediaStreamType: MediaStreamType;
+          Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
         })[];
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-      GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-    };
-    Status: Status;
-    MediaStreams: (MediaStream & {
-      Fmt: number;
-      MediaStreamId: number;
-      MediaStreamName: string;
-      MediaStreamType: MediaStreamType;
-      Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
-    })[];
-    Sources: (Source & {
-      Name: string;
-      SourceArn: string;
-      Decryption: Encryption & { RoleArn: string };
-      MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-        EncodingName: EncodingName;
-        MediaStreamName: string;
-        InputConfigurations: (InputConfiguration & {
-          InputIp: string;
-          InputPort: number;
-          Interface: Interface & { Name: string };
+        Sources: (Source & {
+          Name: string;
+          SourceArn: string;
+          Decryption: Encryption & { RoleArn: string };
+          MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+            EncodingName: EncodingName;
+            MediaStreamName: string;
+            InputConfigurations: (InputConfiguration & {
+              InputIp: string;
+              InputPort: number;
+              Interface: Interface & { Name: string };
+            })[];
+          })[];
+          Transport: Transport & { Protocol: Protocol };
+          GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         })[];
-      })[];
-      Transport: Transport & { Protocol: Protocol };
-      GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-    })[];
-    VpcInterfaces: (VpcInterface & {
-      Name: string;
-      NetworkInterfaceIds: __listOfString;
-      NetworkInterfaceType: NetworkInterfaceType;
-      RoleArn: string;
-      SecurityGroupIds: __listOfString;
-      SubnetId: string;
-    })[];
-    NdiConfig: NdiConfig & {
-      NdiDiscoveryServers: (NdiDiscoveryServerConfig & {
-        DiscoveryServerAddress: string;
-        VpcInterfaceAdapter: string;
-      })[];
-    };
-  };
+        VpcInterfaces: (VpcInterface & {
+          Name: string;
+          NetworkInterfaceIds: __listOfString;
+          NetworkInterfaceType: NetworkInterfaceType;
+          RoleArn: string;
+          SecurityGroupIds: __listOfString;
+          SubnetId: string;
+        })[];
+        NdiConfig: NdiConfig & {
+          NdiDiscoveryServers: (NdiDiscoveryServerConfig & {
+            DiscoveryServerAddress: string;
+            VpcInterfaceAdapter: string;
+          })[];
+        };
+      })
+    | undefined;
 }
 export interface UpdateEncryption {
-  Algorithm?: Algorithm;
-  ConstantInitializationVector?: string;
-  DeviceId?: string;
-  KeyType?: KeyType;
-  Region?: string;
-  ResourceId?: string;
-  RoleArn?: string;
-  SecretArn?: string;
-  Url?: string;
+  Algorithm?: Algorithm | undefined;
+  ConstantInitializationVector?: string | undefined;
+  DeviceId?: string | undefined;
+  KeyType?: KeyType | undefined;
+  Region?: string | undefined;
+  ResourceId?: string | undefined;
+  RoleArn?: string | undefined;
+  SecretArn?: string | undefined;
+  Url?: string | undefined;
 }
 export interface UpdateFlowEntitlementRequest {
-  Description?: string;
-  Encryption?: UpdateEncryption;
+  Description?: string | undefined;
+  Encryption?: UpdateEncryption | undefined;
   EntitlementArn: string;
-  EntitlementStatus?: EntitlementStatus;
+  EntitlementStatus?: EntitlementStatus | undefined;
   FlowArn: string;
-  Subscribers?: string[];
+  Subscribers?: string[] | undefined;
 }
 export interface UpdateFlowEntitlementResponse {
-  Entitlement?: Entitlement & {
-    EntitlementArn: string;
-    Name: string;
-    Subscribers: __listOfString;
-    Encryption: Encryption & { RoleArn: string };
-  };
-  FlowArn?: string;
+  Entitlement?:
+    | (Entitlement & {
+        EntitlementArn: string;
+        Name: string;
+        Subscribers: __listOfString;
+        Encryption: Encryption & { RoleArn: string };
+      })
+    | undefined;
+  FlowArn?: string | undefined;
 }
 export interface UpdateFlowMediaStreamRequest {
-  Attributes?: MediaStreamAttributesRequest;
-  ClockRate?: number;
-  Description?: string;
+  Attributes?: MediaStreamAttributesRequest | undefined;
+  ClockRate?: number | undefined;
+  Description?: string | undefined;
   FlowArn: string;
   MediaStreamName: string;
-  MediaStreamType?: MediaStreamType;
-  VideoFormat?: string;
+  MediaStreamType?: MediaStreamType | undefined;
+  VideoFormat?: string | undefined;
 }
 export interface UpdateFlowMediaStreamResponse {
-  FlowArn?: string;
-  MediaStream?: MediaStream & {
-    Fmt: number;
-    MediaStreamId: number;
-    MediaStreamName: string;
-    MediaStreamType: MediaStreamType;
-    Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
-  };
+  FlowArn?: string | undefined;
+  MediaStream?:
+    | (MediaStream & {
+        Fmt: number;
+        MediaStreamId: number;
+        MediaStreamName: string;
+        MediaStreamType: MediaStreamType;
+        Attributes: MediaStreamAttributes & { Fmtp: Fmtp };
+      })
+    | undefined;
 }
 export interface UpdateFlowOutputRequest {
-  CidrAllowList?: string[];
-  Description?: string;
-  Destination?: string;
-  Encryption?: UpdateEncryption;
+  CidrAllowList?: string[] | undefined;
+  Description?: string | undefined;
+  Destination?: string | undefined;
+  Encryption?: UpdateEncryption | undefined;
   FlowArn: string;
-  MaxLatency?: number;
-  MediaStreamOutputConfigurations?: MediaStreamOutputConfigurationRequest[];
-  MinLatency?: number;
+  MaxLatency?: number | undefined;
+  MediaStreamOutputConfigurations?: MediaStreamOutputConfigurationRequest[] | undefined;
+  MinLatency?: number | undefined;
   OutputArn: string;
-  Port?: number;
-  Protocol?: Protocol;
-  RemoteId?: string;
-  SenderControlPort?: number;
-  SenderIpAddress?: string;
-  SmoothingLatency?: number;
-  StreamId?: string;
-  VpcInterfaceAttachment?: VpcInterfaceAttachment;
-  OutputStatus?: OutputStatus;
-  NdiProgramName?: string;
-  NdiSpeedHqQuality?: number;
-  RouterIntegrationState?: State;
-  RouterIntegrationTransitEncryption?: FlowTransitEncryption;
-  NdiOutputTimecodeSource?: NdiOutputTimecodeSource;
-  NdiAudioReferenceLevel?: number;
+  Port?: number | undefined;
+  Protocol?: Protocol | undefined;
+  RemoteId?: string | undefined;
+  SenderControlPort?: number | undefined;
+  SenderIpAddress?: string | undefined;
+  SmoothingLatency?: number | undefined;
+  StreamId?: string | undefined;
+  VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
+  OutputStatus?: OutputStatus | undefined;
+  NdiProgramName?: string | undefined;
+  NdiSpeedHqQuality?: number | undefined;
+  RouterIntegrationState?: State | undefined;
+  RouterIntegrationTransitEncryption?: FlowTransitEncryption | undefined;
+  NdiOutputTimecodeSource?: NdiOutputTimecodeSource | undefined;
+  NdiAudioReferenceLevel?: number | undefined;
 }
 export interface UpdateFlowOutputResponse {
-  FlowArn?: string;
-  Output?: Output & {
-    Name: string;
-    OutputArn: string;
-    Encryption: Encryption & { RoleArn: string };
-    MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
-      EncodingName: EncodingName;
-      MediaStreamName: string;
-      DestinationConfigurations: (DestinationConfiguration & {
-        DestinationIp: string;
-        DestinationPort: number;
-        Interface: Interface & { Name: string };
-        OutboundIp: string;
-      })[];
-      EncodingParameters: EncodingParameters & {
-        CompressionFactor: number;
-        EncoderProfile: EncoderProfile;
-      };
-    })[];
-    Transport: Transport & { Protocol: Protocol };
-  };
+  FlowArn?: string | undefined;
+  Output?:
+    | (Output & {
+        Name: string;
+        OutputArn: string;
+        Encryption: Encryption & { RoleArn: string };
+        MediaStreamOutputConfigurations: (MediaStreamOutputConfiguration & {
+          EncodingName: EncodingName;
+          MediaStreamName: string;
+          DestinationConfigurations: (DestinationConfiguration & {
+            DestinationIp: string;
+            DestinationPort: number;
+            Interface: Interface & { Name: string };
+            OutboundIp: string;
+          })[];
+          EncodingParameters: EncodingParameters & {
+            CompressionFactor: number;
+            EncoderProfile: EncoderProfile;
+          };
+        })[];
+        Transport: Transport & { Protocol: Protocol };
+      })
+    | undefined;
 }
 export interface UpdateGatewayBridgeSourceRequest {
-  BridgeArn?: string;
-  VpcInterfaceAttachment?: VpcInterfaceAttachment;
+  BridgeArn?: string | undefined;
+  VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
 }
 export interface UpdateFlowSourceRequest {
-  Decryption?: UpdateEncryption;
-  Description?: string;
-  EntitlementArn?: string;
+  Decryption?: UpdateEncryption | undefined;
+  Description?: string | undefined;
+  EntitlementArn?: string | undefined;
   FlowArn: string;
-  IngestPort?: number;
-  MaxBitrate?: number;
-  MaxLatency?: number;
-  MaxSyncBuffer?: number;
-  MediaStreamSourceConfigurations?: MediaStreamSourceConfigurationRequest[];
-  MinLatency?: number;
-  Protocol?: Protocol;
-  SenderControlPort?: number;
-  SenderIpAddress?: string;
+  IngestPort?: number | undefined;
+  MaxBitrate?: number | undefined;
+  MaxLatency?: number | undefined;
+  MaxSyncBuffer?: number | undefined;
+  MediaStreamSourceConfigurations?: MediaStreamSourceConfigurationRequest[] | undefined;
+  MinLatency?: number | undefined;
+  Protocol?: Protocol | undefined;
+  SenderControlPort?: number | undefined;
+  SenderIpAddress?: string | undefined;
   SourceArn: string;
-  SourceListenerAddress?: string;
-  SourceListenerPort?: number;
-  StreamId?: string;
-  VpcInterfaceName?: string;
-  WhitelistCidr?: string;
-  GatewayBridgeSource?: UpdateGatewayBridgeSourceRequest;
-  NdiSourceSettings?: NdiSourceSettings;
-  RouterIntegrationState?: State;
-  RouterIntegrationTransitDecryption?: FlowTransitEncryption;
+  SourceListenerAddress?: string | undefined;
+  SourceListenerPort?: number | undefined;
+  StreamId?: string | undefined;
+  VpcInterfaceName?: string | undefined;
+  WhitelistCidr?: string | undefined;
+  GatewayBridgeSource?: UpdateGatewayBridgeSourceRequest | undefined;
+  NdiSourceSettings?: NdiSourceSettings | undefined;
+  RouterIntegrationState?: State | undefined;
+  RouterIntegrationTransitDecryption?: FlowTransitEncryption | undefined;
 }
 export interface UpdateFlowSourceResponse {
-  FlowArn?: string;
-  Source?: Source & {
-    Name: string;
-    SourceArn: string;
-    Decryption: Encryption & { RoleArn: string };
-    MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
-      EncodingName: EncodingName;
-      MediaStreamName: string;
-      InputConfigurations: (InputConfiguration & {
-        InputIp: string;
-        InputPort: number;
-        Interface: Interface & { Name: string };
-      })[];
-    })[];
-    Transport: Transport & { Protocol: Protocol };
-    GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
-  };
+  FlowArn?: string | undefined;
+  Source?:
+    | (Source & {
+        Name: string;
+        SourceArn: string;
+        Decryption: Encryption & { RoleArn: string };
+        MediaStreamSourceConfigurations: (MediaStreamSourceConfiguration & {
+          EncodingName: EncodingName;
+          MediaStreamName: string;
+          InputConfigurations: (InputConfiguration & {
+            InputIp: string;
+            InputPort: number;
+            Interface: Interface & { Name: string };
+          })[];
+        })[];
+        Transport: Transport & { Protocol: Protocol };
+        GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
+      })
+    | undefined;
 }
 export interface UpdateGatewayInstanceRequest {
-  BridgePlacement?: BridgePlacement;
+  BridgePlacement?: BridgePlacement | undefined;
   GatewayInstanceArn: string;
 }
 export interface UpdateGatewayInstanceResponse {
-  BridgePlacement?: BridgePlacement;
-  GatewayInstanceArn?: string;
+  BridgePlacement?: BridgePlacement | undefined;
+  GatewayInstanceArn?: string | undefined;
 }
 export interface UpdateRouterInputRequest {
   Arn: string;
-  Name?: string;
-  Configuration?: RouterInputConfiguration;
-  MaximumBitrate?: number;
-  RoutingScope?: RoutingScope;
-  Tier?: RouterInputTier;
-  TransitEncryption?: RouterInputTransitEncryption;
-  MaintenanceConfiguration?: MaintenanceConfiguration;
-  ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration;
+  Name?: string | undefined;
+  Configuration?: RouterInputConfiguration | undefined;
+  MaximumBitrate?: number | undefined;
+  RoutingScope?: RoutingScope | undefined;
+  Tier?: RouterInputTier | undefined;
+  TransitEncryption?: RouterInputTransitEncryption | undefined;
+  MaintenanceConfiguration?: MaintenanceConfiguration | undefined;
+  ContentQualityAnalysisConfiguration?: RouterContentQualityAnalysisConfiguration | undefined;
 }
 export interface UpdateRouterInputResponse {
   RouterInput: RouterInput & {
@@ -3722,29 +3826,29 @@ export interface UpdateRouterInputResponse {
 }
 export interface UpdateRouterNetworkInterfaceRequest {
   Arn: string;
-  Name?: string;
-  Configuration?: RouterNetworkInterfaceConfiguration;
+  Name?: string | undefined;
+  Configuration?: RouterNetworkInterfaceConfiguration | undefined;
 }
 export interface UpdateRouterNetworkInterfaceResponse {
   RouterNetworkInterface: RouterNetworkInterface;
 }
 export interface UpdateRouterOutputRequest {
   Arn: string;
-  Name?: string;
-  Configuration?: RouterOutputConfiguration;
-  MaximumBitrate?: number;
-  RoutingScope?: RoutingScope;
-  Tier?: RouterOutputTier;
-  MaintenanceConfiguration?: MaintenanceConfiguration;
-  FabricConfiguration?: FabricConfiguration;
+  Name?: string | undefined;
+  Configuration?: RouterOutputConfiguration | undefined;
+  MaximumBitrate?: number | undefined;
+  RoutingScope?: RoutingScope | undefined;
+  Tier?: RouterOutputTier | undefined;
+  MaintenanceConfiguration?: MaintenanceConfiguration | undefined;
+  FabricConfiguration?: FabricConfiguration | undefined;
 }
 export interface UpdateRouterOutputResponse {
   RouterOutput: RouterOutput & { FabricConfiguration: FabricConfiguration };
 }
 export interface UpdateSourceEndpointRequest {
   Arn: string;
-  Description?: string;
-  Configuration?: SourceEndpointConfiguration;
+  Description?: string | undefined;
+  Configuration?: SourceEndpointConfiguration | undefined;
 }
 export interface UpdateSourceEndpointResponse {
   SourceEndpoint: SourceEndpoint;

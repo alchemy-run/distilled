@@ -37,7 +37,7 @@ export interface GetUserInfoResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
 export type GetUserInfoResponseHardwareItemsList = Array<GetUserInfoResponseHardwareItemsItem>;
@@ -84,47 +84,47 @@ export interface GetUserInfoResponseOrgsItem {
   picture: string;
   /** Username of the organization */
   preferred_username: string;
-  plan?: GetUserInfoResponseOrgsItemPlan;
-  canPay?: boolean;
-  billingMode?: GetUserInfoResponseOrgsItemBillingMode;
-  roleInOrg?: GetUserInfoResponseOrgsItemRoleInOrg;
+  plan?: GetUserInfoResponseOrgsItemPlan | undefined;
+  canPay?: boolean | undefined;
+  billingMode?: GetUserInfoResponseOrgsItemBillingMode | undefined;
+  roleInOrg?: GetUserInfoResponseOrgsItemRoleInOrg | undefined;
   /** Current security restrictions for accessing data in this organization with current authentication method */
-  securityRestrictions?: GetUserInfoResponseOrgsItemSecurityRestrictionsList;
-  resourceGroups?: GetUserInfoResponseOrgsItemResourceGroupsList;
+  securityRestrictions?: GetUserInfoResponseOrgsItemSecurityRestrictionsList | undefined;
+  resourceGroups?: GetUserInfoResponseOrgsItemResourceGroupsList | undefined;
 }
 export type GetUserInfoResponseOrgsList = Array<GetUserInfoResponseOrgsItem>;
 export interface GetUserInfoResponse {
   /** ID of the user */
   sub: string;
   /** Full name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Username of the user */
-  preferred_username?: string;
+  preferred_username?: string | undefined;
   /** Profile URL of the user */
-  profile?: string;
+  profile?: string | undefined;
   /** Avatar URL of the user */
-  picture?: string;
+  picture?: string | undefined;
   /** Website of the user */
-  website?: string;
+  website?: string | undefined;
   /** Email of the user */
-  email?: string;
+  email?: string | undefined;
   /** Whether the email is verified */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
-  hardwareItems?: GetUserInfoResponseHardwareItemsList;
+  hardwareItems?: GetUserInfoResponseHardwareItemsList | undefined;
   /** Whether the user is a Pro user */
   isPro: boolean;
   /** Whether the user has access to billing. You should check `canPay` first. */
-  canPay?: boolean;
+  canPay?: boolean | undefined;
   /** Whether the user is on prepaid or postpaid billing */
-  billingMode?: GetUserInfoResponseBillingMode;
+  billingMode?: GetUserInfoResponseBillingMode | undefined;
   /** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
   groups: GetUserInfoResponseGroupsList;
   orgs: GetUserInfoResponseOrgsList;
 }
 export interface InitiateDeviceAuthorizationRequest {
   client_id: string;
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface InitiateDeviceAuthorizationResponse {
   device_code: string;
@@ -142,7 +142,7 @@ export interface PostUserInfoResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
 export type PostUserInfoResponseHardwareItemsList = Array<PostUserInfoResponseHardwareItemsItem>;
@@ -189,40 +189,40 @@ export interface PostUserInfoResponseOrgsItem {
   picture: string;
   /** Username of the organization */
   preferred_username: string;
-  plan?: PostUserInfoResponseOrgsItemPlan;
-  canPay?: boolean;
-  billingMode?: PostUserInfoResponseOrgsItemBillingMode;
-  roleInOrg?: PostUserInfoResponseOrgsItemRoleInOrg;
+  plan?: PostUserInfoResponseOrgsItemPlan | undefined;
+  canPay?: boolean | undefined;
+  billingMode?: PostUserInfoResponseOrgsItemBillingMode | undefined;
+  roleInOrg?: PostUserInfoResponseOrgsItemRoleInOrg | undefined;
   /** Current security restrictions for accessing data in this organization with current authentication method */
-  securityRestrictions?: PostUserInfoResponseOrgsItemSecurityRestrictionsList;
-  resourceGroups?: PostUserInfoResponseOrgsItemResourceGroupsList;
+  securityRestrictions?: PostUserInfoResponseOrgsItemSecurityRestrictionsList | undefined;
+  resourceGroups?: PostUserInfoResponseOrgsItemResourceGroupsList | undefined;
 }
 export type PostUserInfoResponseOrgsList = Array<PostUserInfoResponseOrgsItem>;
 export interface PostUserInfoResponse {
   /** ID of the user */
   sub: string;
   /** Full name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Username of the user */
-  preferred_username?: string;
+  preferred_username?: string | undefined;
   /** Profile URL of the user */
-  profile?: string;
+  profile?: string | undefined;
   /** Avatar URL of the user */
-  picture?: string;
+  picture?: string | undefined;
   /** Website of the user */
-  website?: string;
+  website?: string | undefined;
   /** Email of the user */
-  email?: string;
+  email?: string | undefined;
   /** Whether the email is verified */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
-  hardwareItems?: PostUserInfoResponseHardwareItemsList;
+  hardwareItems?: PostUserInfoResponseHardwareItemsList | undefined;
   /** Whether the user is a Pro user */
   isPro: boolean;
   /** Whether the user has access to billing. You should check `canPay` first. */
-  canPay?: boolean;
+  canPay?: boolean | undefined;
   /** Whether the user is on prepaid or postpaid billing */
-  billingMode?: PostUserInfoResponseBillingMode;
+  billingMode?: PostUserInfoResponseBillingMode | undefined;
   /** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
   groups: PostUserInfoResponseGroupsList;
   orgs: PostUserInfoResponseOrgsList;
@@ -234,15 +234,18 @@ export type RegisterOAuthAppRequestTokenEndpointAuthMethod =
   | "none"
   | "client_secret_post";
 export interface RegisterOAuthAppRequest {
-  redirect_uris?: RegisterOAuthAppRequestRedirectUrisList;
-  client_name?: string;
-  client_uri?: string;
-  logo_uri?: string;
-  scope?: string;
-  contacts?: RegisterOAuthAppRequestContactsList;
-  token_endpoint_auth_method?: RegisterOAuthAppRequestTokenEndpointAuthMethod | (string & {});
-  software_id?: string;
-  software_version?: string;
+  redirect_uris?: RegisterOAuthAppRequestRedirectUrisList | undefined;
+  client_name?: string | undefined;
+  client_uri?: string | undefined;
+  logo_uri?: string | undefined;
+  scope?: string | undefined;
+  contacts?: RegisterOAuthAppRequestContactsList | undefined;
+  token_endpoint_auth_method?:
+    | RegisterOAuthAppRequestTokenEndpointAuthMethod
+    | (string & {})
+    | undefined;
+  software_id?: string | undefined;
+  software_version?: string | undefined;
 }
 export type RegisterOAuthAppResponseRedirectUrisList = Array<string>;
 export type RegisterOAuthAppResponseGrantTypesItem =
@@ -258,19 +261,19 @@ export type RegisterOAuthAppResponseTokenEndpointAuthMethod =
   | "client_secret_post";
 export interface RegisterOAuthAppResponse {
   client_id: string;
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   client_id_issued_at: number;
   client_secret_expires_at: number;
   redirect_uris: RegisterOAuthAppResponseRedirectUrisList;
-  client_name?: string;
-  client_uri?: string;
-  logo_uri?: string;
+  client_name?: string | undefined;
+  client_uri?: string | undefined;
+  logo_uri?: string | undefined;
   scope: string;
   grant_types: RegisterOAuthAppResponseGrantTypesList;
-  contacts?: RegisterOAuthAppResponseContactsList;
-  token_endpoint_auth_method?: RegisterOAuthAppResponseTokenEndpointAuthMethod;
-  software_id?: string;
-  software_version?: string;
+  contacts?: RegisterOAuthAppResponseContactsList | undefined;
+  token_endpoint_auth_method?: RegisterOAuthAppResponseTokenEndpointAuthMethod | undefined;
+  software_id?: string | undefined;
+  software_version?: string | undefined;
 }
 export type GetUserInfoError = HuggingFaceOpError;
 /** Get user info Get information about the user. Only available through oauth access tokens. Information varies depending on the scope of the oauth app and what permissions the user granted to the oauth app. */

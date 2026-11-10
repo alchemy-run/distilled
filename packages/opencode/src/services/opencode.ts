@@ -76,10 +76,10 @@ export interface ActivateCredentialRequest {
 }
 export interface ActivateCredentialResponse {}
 export interface AddExperimentalIntegrationWellknownRequestLocation {
-  directory?: string | null;
+  directory?: string | null | undefined;
 }
 export interface AddExperimentalIntegrationWellknownRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   url: string;
 }
 export interface AddExperimentalIntegrationWellknownResponse {}
@@ -88,50 +88,50 @@ export type McpLocalConfigEncodedType = "local";
 export type McpLocalConfigEncodedCommandList = Array<string>;
 export type McpLocalConfigEncodedEnvironmentMap = { [key: string]: string | undefined };
 export interface McpLocalConfigEncodedTimeout {
-  startup?: number;
-  catalog?: number;
-  execution?: number;
+  startup?: number | undefined;
+  catalog?: number | undefined;
+  execution?: number | undefined;
 }
 /** MCP protocol negotiation. "legacy" (default) opens with the initialize handshake and speaks protocol revisions up to 2025-11-25. "auto" probes for the 2026-07-28 revision and falls back to legacy when the server does not support it. "2026-07-28" requires that revision and fails otherwise. */
 export type McpProtocol = "legacy" | "auto" | "2026-07-28";
 export interface McpLocalConfigEncoded {
   type: McpLocalConfigEncodedType;
   command: McpLocalConfigEncodedCommandList;
-  cwd?: string;
-  environment?: McpLocalConfigEncodedEnvironmentMap;
-  disabled?: boolean;
-  codemode?: boolean;
-  timeout?: McpLocalConfigEncodedTimeout;
-  protocol?: McpProtocol | (string & {});
-  pool?: boolean;
+  cwd?: string | undefined;
+  environment?: McpLocalConfigEncodedEnvironmentMap | undefined;
+  disabled?: boolean | undefined;
+  codemode?: boolean | undefined;
+  timeout?: McpLocalConfigEncodedTimeout | undefined;
+  protocol?: McpProtocol | (string & {}) | undefined;
+  pool?: boolean | undefined;
 }
 export type McpRemoteConfigEncodedType = "remote";
 export type McpRemoteConfigEncodedHeadersMap = { [key: string]: string | undefined };
 export interface McpOAuthConfigEncoded {
-  client_id?: string;
-  client_secret?: string | Redacted.Redacted<string>;
-  scope?: string;
-  callback_port?: number;
-  redirect_uri?: string;
-  auth_server_metadata_url?: string;
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  scope?: string | undefined;
+  callback_port?: number | undefined;
+  redirect_uri?: string | undefined;
+  auth_server_metadata_url?: string | undefined;
 }
 export type McpRemoteConfigEncodedOauth = McpOAuthConfigEncoded | boolean;
 export type McpRemoteConfigEncodedTimeout = McpLocalConfigEncodedTimeout;
 export interface McpRemoteConfigEncoded {
   type: McpRemoteConfigEncodedType;
   url: string;
-  headers?: McpRemoteConfigEncodedHeadersMap;
-  oauth?: McpRemoteConfigEncodedOauth;
-  disabled?: boolean;
-  codemode?: boolean;
-  timeout?: McpLocalConfigEncodedTimeout;
-  protocol?: McpProtocol | (string & {});
-  pool?: boolean;
+  headers?: McpRemoteConfigEncodedHeadersMap | undefined;
+  oauth?: McpRemoteConfigEncodedOauth | undefined;
+  disabled?: boolean | undefined;
+  codemode?: boolean | undefined;
+  timeout?: McpLocalConfigEncodedTimeout | undefined;
+  protocol?: McpProtocol | (string & {}) | undefined;
+  pool?: boolean | undefined;
 }
 export type AddExperimentalMcpRequestConfig = McpLocalConfigEncoded | McpRemoteConfigEncoded;
 export interface AddExperimentalMcpRequest {
   server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   config: AddExperimentalMcpRequestConfig;
 }
 export interface AddExperimentalMcpResponse {}
@@ -140,7 +140,7 @@ export type CancelIntegrationCommandRequestLocation =
 export interface CancelIntegrationCommandRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface CancelIntegrationCommandResponse {}
 export type CancelIntegrationOauthRequestLocation =
@@ -148,13 +148,13 @@ export type CancelIntegrationOauthRequestLocation =
 export interface CancelIntegrationOauthRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface CancelIntegrationOauthResponse {}
 export interface CancelSessionFormRequest {
   sessionID: string;
   formID: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface CancelSessionFormResponse {}
 export interface CancelSessionInboxRequest {
@@ -164,8 +164,8 @@ export interface CancelSessionInboxRequest {
 export interface CancelSessionInboxResponse {}
 export type CheckPluginRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface CheckPluginRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  target?: string | null;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  target?: string | null | undefined;
 }
 export interface LocationPublicRef {
   directory: string;
@@ -178,9 +178,9 @@ export type PluginSourceCase1Type = "package";
 export interface PluginSourceCase1 {
   type: PluginSourceCase1Type;
   target: string;
-  version?: string;
-  outdated?: boolean;
-  updating?: boolean;
+  version?: string | undefined;
+  outdated?: boolean | undefined;
+  updating?: boolean | undefined;
 }
 export type PluginSourceCase2Type = "local";
 export interface PluginSourceCase2 {
@@ -197,10 +197,10 @@ export type PluginSource =
   | PluginSourceCase2
   | PluginSourceCase3;
 export interface PluginFeatures {
-  server?: boolean;
-  tui?: boolean;
-  rpc?: boolean;
-  gui?: boolean;
+  server?: boolean | undefined;
+  tui?: boolean | undefined;
+  rpc?: boolean | undefined;
+  gui?: boolean | undefined;
 }
 export type PluginStateCase0Status = "active";
 export interface PluginStateCase0 {
@@ -210,11 +210,11 @@ export type PluginStateCase1Status = "failed";
 export interface PluginStateCase1 {
   status: PluginStateCase1Status;
   error: string;
-  ref?: string;
+  ref?: string | undefined;
 }
 export type PluginState = PluginStateCase0 | PluginStateCase1;
 export interface PluginInfo {
-  id?: string;
+  id?: string | undefined;
   source: PluginSource;
   features: PluginFeatures;
   state: PluginState;
@@ -235,8 +235,8 @@ export interface CommitSessionRevertResponse {}
 export type SessionInboxDelivery = "steer" | "queue";
 export interface CompactSessionRequest {
   sessionID: string;
-  id?: string | null;
-  delivery?: SessionInboxDelivery | (string & {}) | null;
+  id?: string | null | undefined;
+  delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
 }
 export interface SessionInboxCompactionTime {
   created: number;
@@ -258,8 +258,8 @@ export type CompleteIntegrationOauthRequestLocation =
 export interface CompleteIntegrationOauthRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  code?: string | null;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  code?: string | null | undefined;
 }
 export interface CompleteIntegrationOauthResponse {}
 export interface ConfigShellsRequest {}
@@ -274,26 +274,26 @@ export type ConnectExperimentalMcpRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ConnectExperimentalMcpRequest {
   server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface ConnectExperimentalMcpResponse {}
 export interface ConnectExperimentalPersistentPtyRequest {
   ptyID: string;
-  cursor?: string;
-  role?: string;
-  attachment_id?: string;
-  takeover?: string;
-  input_protocol?: string;
-  ticket?: string;
+  cursor?: string | undefined;
+  role?: string | undefined;
+  attachment_id?: string | undefined;
+  takeover?: string | undefined;
+  input_protocol?: string | undefined;
+  ticket?: string | undefined;
 }
 export type ConnectExperimentalPersistentPtyResponse = boolean;
 export type ConnectIntegrationCommandRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ConnectIntegrationCommandRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   methodID: string;
-  label?: string | null;
+  label?: string | null | undefined;
 }
 export type IntegrationCommandAttemptTimeCreatedCase1 = "Infinity" | "-Infinity" | "NaN";
 export type IntegrationCommandAttemptTimeCreated =
@@ -323,10 +323,10 @@ export type FormValue = string | number | FormValueCase2 | boolean | FormValueCa
 export type FormAnswer = { [key: string]: FormValue | undefined };
 export interface ConnectIntegrationOauthRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   methodID: string;
-  answer?: FormAnswer | null;
-  label?: string | null;
+  answer?: FormAnswer | null | undefined;
+  label?: string | null | undefined;
 }
 export type IntegrationAttemptEncodedMode = "auto" | "code";
 export type IntegrationAttemptEncodedTimeCreatedCase1 = "Infinity" | "-Infinity" | "NaN";
@@ -346,7 +346,7 @@ export interface IntegrationAttemptEncoded {
   url: string;
   instructions: string;
   mode: IntegrationAttemptEncodedMode;
-  paste?: boolean;
+  paste?: boolean | undefined;
   time: IntegrationAttemptEncodedTime;
 }
 export interface ConnectIntegrationOauthResponse {
@@ -355,9 +355,9 @@ export interface ConnectIntegrationOauthResponse {
 }
 export interface ConnectPtyRequest {
   ptyID: string;
-  location_directory_?: string;
-  cursor?: string;
-  ticket?: string;
+  location_directory_?: string | undefined;
+  cursor?: string | undefined;
+  ticket?: string | undefined;
 }
 export type ConnectPtyResponse = boolean;
 export interface ConnectServerRequest {
@@ -373,27 +373,27 @@ export interface CredentialOAuth {
   refresh: string;
   access: string;
   expires: number;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type CredentialKeyType = "key";
 export interface CredentialKey {
   type: CredentialKeyType;
   key: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type CredentialExternalType = "external";
 export interface CredentialExternal {
   type: CredentialExternalType;
   methodID: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type CredentialValue = CredentialOAuth | CredentialKey | CredentialExternal;
 export interface CreateCredentialRequest {
-  id?: string;
+  id?: string | undefined;
   integrationID: string;
-  label?: string;
+  label?: string | undefined;
   value: CredentialValue;
-  activate?: boolean;
+  activate?: boolean | undefined;
 }
 export interface CredentialEntry {
   id: string;
@@ -409,12 +409,12 @@ export type CreateExperimentalArtifactRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export type CreateExperimentalArtifactRequestFilesMap = { [key: string]: string | undefined };
 export interface CreateExperimentalArtifactRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   title: string;
   files: CreateExperimentalArtifactRequestFilesMap;
-  entry?: string;
-  provider?: string;
-  sessionID?: string;
+  entry?: string | undefined;
+  provider?: string | undefined;
+  sessionID?: string | undefined;
 }
 export interface ArtifactTime {
   created: number;
@@ -423,7 +423,7 @@ export interface ArtifactTime {
 export interface ArtifactInfo {
   id: string;
   provider: string;
-  sessionID?: string;
+  sessionID?: string | undefined;
   title: string;
   entry: string;
   url: string;
@@ -441,12 +441,12 @@ export interface CreateExperimentalPersistentPtyRequestSize {
 }
 export interface CreateExperimentalPersistentPtyRequest {
   sessionID: string;
-  command?: string;
+  command?: string | undefined;
   args: CreateExperimentalPersistentPtyRequestArgsList;
-  cwd?: string;
+  cwd?: string | undefined;
   title: string;
   env: CreateExperimentalPersistentPtyRequestEnvMap;
-  size?: CreateExperimentalPersistentPtyRequestSize;
+  size?: CreateExperimentalPersistentPtyRequestSize | undefined;
 }
 export type PersistentPtyInfoArgsList = Array<string>;
 export type PersistentPtyInfoStatus = "running" | "exited";
@@ -463,7 +463,7 @@ export interface PersistentPtyInfo {
   cwd: string;
   status: PersistentPtyInfoStatus;
   pid: number;
-  exitCode?: number;
+  exitCode?: number | undefined;
   sessionID: string;
   userTitle: string | null;
   foregroundProcess: string | null;
@@ -475,31 +475,31 @@ export interface CreateExperimentalPersistentPtyResponse {
 }
 export interface ScheduleWhenInputCase0 {
   in: string;
-  at?: unknown;
-  every?: unknown;
-  cron?: unknown;
-  tz?: string;
+  at?: unknown | undefined;
+  every?: unknown | undefined;
+  cron?: unknown | undefined;
+  tz?: string | undefined;
 }
 export interface ScheduleWhenInputCase1 {
   at: string;
-  in?: unknown;
-  every?: unknown;
-  cron?: unknown;
-  tz?: string;
+  in?: unknown | undefined;
+  every?: unknown | undefined;
+  cron?: unknown | undefined;
+  tz?: string | undefined;
 }
 export interface ScheduleWhenInputCase2 {
   every: string;
-  in?: unknown;
-  at?: unknown;
-  cron?: unknown;
-  tz?: string;
+  in?: unknown | undefined;
+  at?: unknown | undefined;
+  cron?: unknown | undefined;
+  tz?: string | undefined;
 }
 export interface ScheduleWhenInputCase3 {
   cron: string;
-  in?: unknown;
-  at?: unknown;
-  every?: unknown;
-  tz?: string;
+  in?: unknown | undefined;
+  at?: unknown | undefined;
+  every?: unknown | undefined;
+  tz?: string | undefined;
 }
 export type ScheduleWhenInput =
   | ScheduleWhenInputCase0
@@ -509,32 +509,32 @@ export type ScheduleWhenInput =
 export interface ScheduleConditionInputCase0 {
   /** Shell command to run in the Session's directory. Alone, exit 0 wakes and stdout is appended. */
   run: string;
-  is?: string;
-  matches?: string;
-  changes?: boolean;
-  code?: unknown;
+  is?: string | undefined;
+  matches?: string | undefined;
+  changes?: boolean | undefined;
+  code?: unknown | undefined;
 }
 export interface ScheduleConditionInputCase1 {
   /** Code Mode JavaScript check (no fetch; 30s, 20 tool calls, 32 KB output cap). Call tools statically as tools.<ns>.<tool>(...) or tools["ns-name"].tool(...); each is authorized once at creation to run unattended. Runs once at creation with state = null (if baselines state without waking; until matches immediately if true), with globals state, now (epoch ms) and runs. Return a boolean or { wake, state?, message? } (message is appended to prompt on wake), e.g.: const t = await tools.slack.read_thread({ id }); return { wake: state !== null && t.count > state.count, state: { count: t.count }, message: "New reply" } */
   code: string;
-  run?: unknown;
-  is?: unknown;
-  matches?: unknown;
-  changes?: unknown;
+  run?: unknown | undefined;
+  is?: unknown | undefined;
+  matches?: unknown | undefined;
+  changes?: unknown | undefined;
 }
 export type ScheduleConditionInput = ScheduleConditionInputCase0 | ScheduleConditionInputCase1;
 export interface ScheduleEnds {
-  after?: string;
-  at?: string;
-  times?: number;
+  after?: string | undefined;
+  at?: string | undefined;
+  times?: number | undefined;
 }
 export interface CreateExperimentalScheduleRequest {
   sessionID: string;
-  name?: string;
-  when?: ScheduleWhenInput;
-  if?: ScheduleConditionInput;
-  until?: ScheduleConditionInput;
-  ends?: ScheduleEnds;
+  name?: string | undefined;
+  when?: ScheduleWhenInput | undefined;
+  if?: ScheduleConditionInput | undefined;
+  until?: ScheduleConditionInput | undefined;
+  ends?: ScheduleEnds | undefined;
   /** The message the Session receives when the schedule wakes. */
   prompt: string;
 }
@@ -542,34 +542,34 @@ export type ScheduleWhenInType = "in";
 export interface ScheduleWhenIn {
   type: ScheduleWhenInType;
   in: string;
-  tz?: string;
+  tz?: string | undefined;
 }
 export type ScheduleWhenAtType = "at";
 export interface ScheduleWhenAt {
   type: ScheduleWhenAtType;
   at: string;
-  tz?: string;
+  tz?: string | undefined;
 }
 export type ScheduleWhenEveryType = "every";
 export interface ScheduleWhenEvery {
   type: ScheduleWhenEveryType;
   every: string;
-  tz?: string;
+  tz?: string | undefined;
 }
 export type ScheduleWhenCronType = "cron";
 export interface ScheduleWhenCron {
   type: ScheduleWhenCronType;
   cron: string;
-  tz?: string;
+  tz?: string | undefined;
 }
 export type ScheduleWhen = ScheduleWhenIn | ScheduleWhenAt | ScheduleWhenEvery | ScheduleWhenCron;
 export type ScheduleConditionShellType = "shell";
 export interface ScheduleConditionShell {
   type: ScheduleConditionShellType;
   run: string;
-  is?: string;
-  matches?: string;
-  changes?: boolean;
+  is?: string | undefined;
+  matches?: string | undefined;
+  changes?: boolean | undefined;
 }
 export type ScheduleConditionCodeType = "code";
 export interface ScheduleConditionCode {
@@ -594,21 +594,21 @@ export type ScheduleOutcome =
 export type ScheduleInfoTime = ArtifactTime;
 export interface ScheduleInfo {
   id: string;
-  sessionID?: string;
-  name?: string;
+  sessionID?: string | undefined;
+  name?: string | undefined;
   when: ScheduleWhen;
   tz: string;
-  if?: ScheduleCondition;
-  until?: ScheduleCondition;
+  if?: ScheduleCondition | undefined;
+  until?: ScheduleCondition | undefined;
   action: ScheduleActionPrompt;
   status: ScheduleStatus;
-  nextDueAt?: number;
-  endsAt?: number;
-  remainingRuns?: number;
+  nextDueAt?: number | undefined;
+  endsAt?: number | undefined;
+  remainingRuns?: number | undefined;
   runCount: number;
-  lastFiredAt?: number;
-  lastOutcome?: ScheduleOutcome;
-  lastOutput?: string;
+  lastFiredAt?: number | undefined;
+  lastOutcome?: ScheduleOutcome | undefined;
+  lastOutput?: string | undefined;
   time: ArtifactTime;
 }
 export interface CreateExperimentalScheduleResponse {
@@ -618,12 +618,12 @@ export type CreatePtyRequestLocation = AddExperimentalIntegrationWellknownReques
 export type CreatePtyRequestArgsList = Array<string>;
 export type CreatePtyRequestEnvMap = { [key: string]: string | undefined };
 export interface CreatePtyRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  command?: string;
-  args?: CreatePtyRequestArgsList;
-  cwd?: string;
-  title?: string;
-  env?: CreatePtyRequestEnvMap;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  command?: string | undefined;
+  args?: CreatePtyRequestArgsList | undefined;
+  cwd?: string | undefined;
+  title?: string | undefined;
+  env?: CreatePtyRequestEnvMap | undefined;
 }
 export type PtyArgsList = Array<string>;
 export type PtyStatus = "running" | "exited";
@@ -635,7 +635,7 @@ export interface Pty {
   cwd: string;
   status: PtyStatus;
   pid: number;
-  exitCode?: number;
+  exitCode?: number | undefined;
 }
 export interface CreatePtyResponse {
   location: LocationPublicRef;
@@ -644,7 +644,7 @@ export interface CreatePtyResponse {
 export interface ModelRef {
   id: string;
   providerID: string;
-  variant?: string;
+  variant?: string | undefined;
 }
 export type PermissionEffect = "allow" | "deny" | "ask";
 export interface PermissionRule {
@@ -654,14 +654,14 @@ export interface PermissionRule {
 }
 export type PermissionRuleset = Array<PermissionRule>;
 export interface CreateSessionRequest {
-  id?: string | null;
-  parentID?: string | null;
-  title?: string | null;
-  agent?: string | null;
-  model?: ModelRef | null;
-  location?: LocationPublicRef | null;
-  metadata?: unknown | null;
-  permissions?: PermissionRuleset | null;
+  id?: string | null | undefined;
+  parentID?: string | null | undefined;
+  title?: string | null | undefined;
+  agent?: string | null | undefined;
+  model?: ModelRef | null | undefined;
+  location?: LocationPublicRef | null | undefined;
+  metadata?: unknown | null | undefined;
+  permissions?: PermissionRuleset | null | undefined;
 }
 export type SessionForkBoundaryCase0Type = "before";
 export interface SessionForkBoundaryCase0 {
@@ -692,10 +692,10 @@ export type SessionInfoOutcome = "succeeded" | "failed" | "interrupted";
 export interface SessionInfoTime {
   created: number;
   updated: number;
-  busy?: number;
-  idle?: number;
-  viewed?: number;
-  archived?: number;
+  busy?: number | undefined;
+  idle?: number | undefined;
+  viewed?: number | undefined;
+  archived?: number | undefined;
 }
 export type FileDiffInfoStatus = "added" | "deleted" | "modified";
 export interface FileDiffInfo {
@@ -704,31 +704,31 @@ export interface FileDiffInfo {
   additions: number;
   deletions: number;
   status: FileDiffInfoStatus | (string & {});
-  more?: boolean;
+  more?: boolean | undefined;
 }
 export type SessionRevertFilesList = Array<FileDiffInfo>;
 export interface SessionRevert {
   messageID: string;
-  partID?: string;
-  snapshot?: string;
-  files?: SessionRevertFilesList;
+  partID?: string | undefined;
+  snapshot?: string | undefined;
+  files?: SessionRevertFilesList | undefined;
 }
 export interface SessionInfo {
   id: string;
-  parentID?: string;
-  fork?: SessionInfoFork;
+  parentID?: string | undefined;
+  fork?: SessionInfoFork | undefined;
   projectID: string;
-  agent?: string;
-  model?: ModelRef;
+  agent?: string | undefined;
+  model?: ModelRef | undefined;
   cost: number;
   tokens: TokenUsageInfo;
-  outcome?: SessionInfoOutcome | (string & {});
+  outcome?: SessionInfoOutcome | (string & {}) | undefined;
   time: SessionInfoTime;
-  title?: string;
-  subpath?: string;
-  metadata?: unknown;
-  permissions?: PermissionRuleset;
-  revert?: SessionRevert;
+  title?: string | undefined;
+  subpath?: string | undefined;
+  metadata?: unknown | undefined;
+  permissions?: PermissionRuleset | undefined;
+  revert?: SessionRevert | undefined;
   location: LocationPublicRef;
 }
 export interface CreateSessionResponse {
@@ -748,25 +748,25 @@ export type FormStringFieldFormat = "email" | "uri" | "date" | "date-time";
 export interface FormOption {
   value: string;
   label: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type FormStringFieldOptionsList = Array<FormOption>;
 export interface FormStringField {
   key: string;
-  title?: string;
-  description?: string;
-  required?: boolean;
-  hidden?: boolean;
-  when?: FormStringFieldWhenList;
+  title?: string | undefined;
+  description?: string | undefined;
+  required?: boolean | undefined;
+  hidden?: boolean | undefined;
+  when?: FormStringFieldWhenList | undefined;
   type: FormStringFieldType;
-  format?: FormStringFieldFormat | (string & {});
-  minLength?: number;
-  maxLength?: number;
-  pattern?: string;
-  placeholder?: string;
-  default?: string;
-  options?: FormStringFieldOptionsList;
-  custom?: boolean;
+  format?: FormStringFieldFormat | (string & {}) | undefined;
+  minLength?: number | undefined;
+  maxLength?: number | undefined;
+  pattern?: string | undefined;
+  placeholder?: string | undefined;
+  default?: string | undefined;
+  options?: FormStringFieldOptionsList | undefined;
+  custom?: boolean | undefined;
 }
 export type FormNumberFieldWhenList = Array<FormWhen>;
 export type FormNumberFieldType = "number";
@@ -778,15 +778,15 @@ export type FormNumberFieldDefaultCase1 = "Infinity" | "-Infinity" | "NaN";
 export type FormNumberFieldDefault = number | FormNumberFieldDefaultCase1;
 export interface FormNumberField {
   key: string;
-  title?: string;
-  description?: string;
-  required?: boolean;
-  hidden?: boolean;
-  when?: FormNumberFieldWhenList;
+  title?: string | undefined;
+  description?: string | undefined;
+  required?: boolean | undefined;
+  hidden?: boolean | undefined;
+  when?: FormNumberFieldWhenList | undefined;
   type: FormNumberFieldType;
-  minimum?: FormNumberFieldMinimum;
-  maximum?: FormNumberFieldMaximum;
-  default?: FormNumberFieldDefault;
+  minimum?: FormNumberFieldMinimum | undefined;
+  maximum?: FormNumberFieldMaximum | undefined;
+  default?: FormNumberFieldDefault | undefined;
 }
 export type FormIntegerFieldWhenList = Array<FormWhen>;
 export type FormIntegerFieldType = "integer";
@@ -798,27 +798,27 @@ export type FormIntegerFieldDefaultCase1 = "Infinity" | "-Infinity" | "NaN";
 export type FormIntegerFieldDefault = number | FormIntegerFieldDefaultCase1;
 export interface FormIntegerField {
   key: string;
-  title?: string;
-  description?: string;
-  required?: boolean;
-  hidden?: boolean;
-  when?: FormIntegerFieldWhenList;
+  title?: string | undefined;
+  description?: string | undefined;
+  required?: boolean | undefined;
+  hidden?: boolean | undefined;
+  when?: FormIntegerFieldWhenList | undefined;
   type: FormIntegerFieldType;
-  minimum?: FormIntegerFieldMinimum;
-  maximum?: FormIntegerFieldMaximum;
-  default?: FormIntegerFieldDefault;
+  minimum?: FormIntegerFieldMinimum | undefined;
+  maximum?: FormIntegerFieldMaximum | undefined;
+  default?: FormIntegerFieldDefault | undefined;
 }
 export type FormBooleanFieldWhenList = Array<FormWhen>;
 export type FormBooleanFieldType = "boolean";
 export interface FormBooleanField {
   key: string;
-  title?: string;
-  description?: string;
-  required?: boolean;
-  hidden?: boolean;
-  when?: FormBooleanFieldWhenList;
+  title?: string | undefined;
+  description?: string | undefined;
+  required?: boolean | undefined;
+  hidden?: boolean | undefined;
+  when?: FormBooleanFieldWhenList | undefined;
   type: FormBooleanFieldType;
-  default?: boolean;
+  default?: boolean | undefined;
 }
 export type FormMultiselectFieldWhenList = Array<FormWhen>;
 export type FormMultiselectFieldType = "multiselect";
@@ -826,25 +826,25 @@ export type FormMultiselectFieldOptionsList = Array<FormOption>;
 export type FormMultiselectFieldDefaultList = Array<string>;
 export interface FormMultiselectField {
   key: string;
-  title?: string;
-  description?: string;
-  required?: boolean;
-  hidden?: boolean;
-  when?: FormMultiselectFieldWhenList;
+  title?: string | undefined;
+  description?: string | undefined;
+  required?: boolean | undefined;
+  hidden?: boolean | undefined;
+  when?: FormMultiselectFieldWhenList | undefined;
   type: FormMultiselectFieldType;
   options: FormMultiselectFieldOptionsList;
-  minItems?: number;
-  maxItems?: number;
-  custom?: boolean;
-  default?: FormMultiselectFieldDefaultList;
+  minItems?: number | undefined;
+  maxItems?: number | undefined;
+  custom?: boolean | undefined;
+  default?: FormMultiselectFieldDefaultList | undefined;
 }
 export type FormExternalFieldType = "external";
 export interface FormExternalField {
   key: string;
   type: FormExternalFieldType;
   url: string;
-  title?: string;
-  description?: string;
+  title?: string | undefined;
+  description?: string | undefined;
 }
 export type FormField =
   | FormStringField
@@ -856,16 +856,16 @@ export type FormField =
 export type FormFields = Array<FormField>;
 export interface CreateSessionFormRequest {
   sessionID: string;
-  id?: string | null;
+  id?: string | null | undefined;
   title: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   fields: FormFields;
 }
 export interface FormInfo {
   id: string;
   sessionID: string;
   title: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   fields: FormFields;
 }
 export interface CreateSessionFormResponse {
@@ -881,13 +881,13 @@ export interface PermissionSource {
 }
 export interface CreateSessionPermissionRequest {
   sessionID: string;
-  id?: string | null;
+  id?: string | null | undefined;
   action: string;
   resources: CreateSessionPermissionRequestResourcesList;
-  save?: CreateSessionPermissionRequestSaveList;
-  metadata?: unknown;
-  source?: PermissionSource;
-  agent?: string | null;
+  save?: CreateSessionPermissionRequestSaveList | undefined;
+  metadata?: unknown | undefined;
+  source?: PermissionSource | undefined;
+  agent?: string | null | undefined;
 }
 export interface CreateSessionPermissionResponseData {
   id: string;
@@ -898,17 +898,17 @@ export interface CreateSessionPermissionResponse {
 }
 export type CreateShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface CreateShellRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   command: string;
-  cwd?: string;
-  timeout?: number;
-  metadata?: unknown;
+  cwd?: string | undefined;
+  timeout?: number | undefined;
+  metadata?: unknown | undefined;
 }
 export type ShellInfoStatus = "running" | "exited" | "timeout" | "killed";
 export interface ShellInfoTime {
   /** Start time in milliseconds since the Unix epoch */
   started: number;
-  completed?: number;
+  completed?: number | undefined;
 }
 export interface ShellInfo {
   id: string;
@@ -917,9 +917,9 @@ export interface ShellInfo {
   cwd: string;
   shell: string;
   file: string;
-  pid?: number;
-  exit?: number;
-  signal?: string;
+  pid?: number | undefined;
+  exit?: number | undefined;
+  signal?: string | undefined;
   metadata: unknown;
   time: ShellInfoTime;
 }
@@ -929,16 +929,16 @@ export interface CreateShellResponse {
 }
 export interface CreateWorktreeRequest {
   projectID: string;
-  from?: string;
-  branch?: string;
-  directory?: string;
-  name?: string;
+  from?: string | undefined;
+  branch?: string | undefined;
+  directory?: string | undefined;
+  name?: string | undefined;
 }
 export interface WorktreeInfo {
   directory: string;
 }
 export interface DebugHeapDumpRequest {
-  directory?: string;
+  directory?: string | undefined;
 }
 export type DebugHeapDumpResponseMemoryRssCase1 = "Infinity" | "-Infinity" | "NaN";
 export type DebugHeapDumpResponseMemoryRss = number | DebugHeapDumpResponseMemoryRssCase1;
@@ -970,14 +970,14 @@ export interface DebugHeapDumpResponse {
 }
 export type DebugLocationEvictRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface DebugLocationEvictRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface DebugLocationEvictResponse {}
 export type DeleteExperimentalArtifactRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface DeleteExperimentalArtifactRequest {
   artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface DeleteExperimentalArtifactResponse {}
 export interface DeleteExperimentalScheduleRequest {
@@ -988,13 +988,13 @@ export type DisconnectExperimentalMcpRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface DisconnectExperimentalMcpRequest {
   server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface DisconnectExperimentalMcpResponse {}
 export type ExperimentalArtifactsProvidersRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalArtifactsProvidersRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ArtifactCapability = "static" | "server-code" | "sqlite" | "durable-objects";
 export type ArtifactProviderCapabilitiesList = Array<ArtifactCapability>;
@@ -1013,20 +1013,20 @@ export type ExperimentalArtifactsViewRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalArtifactsViewRequest {
   artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface ExperimentalArtifactsViewResponse {}
 export type ExperimentalFsUnwatchRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalFsUnwatchRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   /** A file path relative to the requested location. */
   path: string;
 }
 export interface ExperimentalFsUnwatchResponse {}
 export type ExperimentalFsWriteRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalFsWriteRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   path: string;
 }
 export interface FileSystemWrite {
@@ -1051,7 +1051,7 @@ export interface GenerateDecisionFilePart {
   type: GenerateDecisionFilePartType;
   data: string;
   mime: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type GenerateDecisionPart =
   | GenerateDecisionTextPart
@@ -1072,7 +1072,7 @@ export type GenerateChoiceQuestionType = "choice";
 export type GenerateChoiceValue = string | boolean;
 export interface GenerateChoiceQuestionChoicesItem {
   value: GenerateChoiceValue;
-  description?: string;
+  description?: string | undefined;
 }
 export type GenerateChoiceQuestionChoicesList = Array<GenerateChoiceQuestionChoicesItem>;
 /** Pick one value from a fixed set */
@@ -1086,7 +1086,7 @@ export interface GenerateChoiceQuestion {
 export type GenerateScoreQuestionType = "score";
 export interface GenerateScoreQuestionLevelsItem {
   label: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type GenerateScoreQuestionLevelsList = Array<GenerateScoreQuestionLevelsItem>;
 /** Place the input on ordered levels, lowest first */
@@ -1151,7 +1151,7 @@ export interface GenerateErrorAnswer {
   name: string;
   /** Why the question has no answer, for example refusal */
   reason: string;
-  message?: string;
+  message?: string | undefined;
 }
 export type GenerateDecisionAnswer =
   | GeneratePredicateAnswer
@@ -1162,15 +1162,15 @@ export type GenerateDecisionAnswer =
 export type GenerateDecisionResultAnswersList = Array<GenerateDecisionAnswer>;
 /** Token counts, when the provider reports them */
 export interface GenerateUsage {
-  input?: number;
-  output?: number;
+  input?: number | undefined;
+  output?: number | undefined;
 }
 export interface GenerateDecisionResult {
   /** One answer per question, in question order */
   answers: GenerateDecisionResultAnswersList;
-  cost?: number;
-  tokens?: GenerateUsage;
-  native?: unknown;
+  cost?: number | undefined;
+  tokens?: GenerateUsage | undefined;
+  native?: unknown | undefined;
 }
 export interface GenerateDecisionsResponse {
   data: GenerateDecisionResult;
@@ -1178,7 +1178,7 @@ export interface GenerateDecisionsResponse {
 export interface GenerateFile {
   data: string;
   mime: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type ExperimentalGenerateImageRequestImagesList = Array<GenerateFile>;
 export type GenerateImageResolutionCase0 = "1K" | "2K" | "4K";
@@ -1187,31 +1187,31 @@ export type GenerateImageResolution = GenerateImageResolutionCase0 | string;
 export interface ExperimentalGenerateImageRequest {
   model: ModelRef;
   prompt: string;
-  images?: ExperimentalGenerateImageRequestImagesList;
-  n?: number;
-  aspect?: string;
-  resolution?: GenerateImageResolution;
+  images?: ExperimentalGenerateImageRequestImagesList | undefined;
+  n?: number | undefined;
+  aspect?: string | undefined;
+  resolution?: GenerateImageResolution | undefined;
 }
 export type GenerateImageOutputType = "image";
 export interface GenerateImageOutput {
   type: GenerateImageOutputType;
   data: string;
   mime: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type GenerateImageResultImagesList = Array<GenerateImageOutput>;
 export interface GenerateImageResult {
   images: GenerateImageResultImagesList;
-  cost?: number;
-  tokens?: GenerateUsage;
-  native?: unknown;
+  cost?: number | undefined;
+  tokens?: GenerateUsage | undefined;
+  native?: unknown | undefined;
 }
 export interface GenerateImageResponse {
   data: GenerateImageResult;
 }
 export interface ExperimentalGenerateTextRequest {
   prompt: string;
-  model?: ModelRef | null;
+  model?: ModelRef | null | undefined;
 }
 export interface GenerateTextResponseData {
   text: string;
@@ -1222,15 +1222,15 @@ export interface GenerateTextResponse {
 export type ExperimentalMcpClientRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalMcpClientRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   name: string;
-  ticket?: string;
+  ticket?: string | undefined;
 }
 export type ExperimentalMcpClientResponse = boolean;
 export type ExperimentalMcpClientTokenRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalMcpClientTokenRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   name: string;
 }
 export interface PtyTicketConnectToken {
@@ -1249,8 +1249,8 @@ export interface ExperimentalMigrationV1StatusResponseBodyCase0 {
 export type ExperimentalMigrationV1StatusResponseBodyCase1Status = "running";
 export interface ExperimentalMigrationV1StatusResponseBodyCase1Progress {
   label: string;
-  numerator?: number | null;
-  denominator?: number | null;
+  numerator?: number | null | undefined;
+  denominator?: number | null | undefined;
 }
 export interface ExperimentalMigrationV1StatusResponseBodyCase1 {
   status: ExperimentalMigrationV1StatusResponseBodyCase1Status;
@@ -1304,23 +1304,23 @@ export interface ExperimentalPersistentPtySnapshotResponse {
 }
 export interface ExperimentalSessionLogRequest {
   sessionID: string;
-  after?: string;
-  follow?: boolean;
+  after?: string | undefined;
+  follow?: boolean | undefined;
 }
 export interface ExperimentalSessionLogResponse {}
 export interface ExperimentalSessionSkillRequest {
   sessionID: string;
   id: string;
-  resume?: boolean | null;
+  resume?: boolean | null | undefined;
 }
 export interface ExperimentalSessionSkillResponse {}
 export type ExperimentalSessionStatsRequestTools = "none" | "summary" | "detail";
 export interface ExperimentalSessionStatsRequest {
-  from?: string;
-  to?: string;
-  project?: string;
-  timezone?: string;
-  tools?: ExperimentalSessionStatsRequestTools | (string & {});
+  from?: string | undefined;
+  to?: string | undefined;
+  project?: string | undefined;
+  timezone?: string | undefined;
+  tools?: ExperimentalSessionStatsRequestTools | (string & {}) | undefined;
 }
 export interface SessionStatsInfoRange {
   from: number;
@@ -1348,7 +1348,7 @@ export interface SessionStatsToolUsage {
   succeeded: number;
   failed: number;
   unfinished: number;
-  durationP50?: number;
+  durationP50?: number | undefined;
 }
 export type SessionStatsToolsCase2UsageList = Array<SessionStatsToolUsage>;
 export interface SessionStatsToolsCase2 {
@@ -1392,11 +1392,11 @@ export interface ExperimentalSessionStatsResponse {
 export type ExperimentalUsageLimitsRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ExperimentalUsageLimitsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface UsageLimitsInfoWorkspace {
   id: string;
-  name?: string;
+  name?: string | undefined;
   usageURL: string;
 }
 export interface UsageLimitsMeter {
@@ -1417,7 +1417,7 @@ export interface UsageLimitsBudgetModel {
   providerID: string;
   modelID: string;
   name: string;
-  spent?: number;
+  spent?: number | undefined;
 }
 export type UsageLimitsBudgetModelsList = Array<UsageLimitsBudgetModel>;
 export type UsageLimitsBudgetVendorsList = Array<string>;
@@ -1430,7 +1430,7 @@ export interface UsageLimitsBudget {
   coverage: UsageLimitsBudgetCoverage;
   models: UsageLimitsBudgetModelsList;
   vendors: UsageLimitsBudgetVendorsList;
-  inputPriceAtLeast?: number;
+  inputPriceAtLeast?: number | undefined;
   picked: boolean;
   shared: boolean;
   /** Milliseconds since the Unix epoch */
@@ -1439,7 +1439,7 @@ export interface UsageLimitsBudget {
 export type UsageLimitsInfoBudgetsList = Array<UsageLimitsBudget>;
 export interface UsageLimitsInfo {
   workspace: UsageLimitsInfoWorkspace;
-  go?: UsageLimitsGo;
+  go?: UsageLimitsGo | undefined;
   budgets: UsageLimitsInfoBudgetsList;
 }
 export interface ExperimentalUsageLimitsResponse {
@@ -1458,7 +1458,7 @@ export interface VoiceModel {
 export type VoiceModelsResponseDataModelsList = Array<VoiceModel>;
 export interface VoiceModelsResponseData {
   models: VoiceModelsResponseDataModelsList;
-  default?: string | null;
+  default?: string | null | undefined;
 }
 export interface VoiceModelsResponse {
   data: VoiceModelsResponseData;
@@ -1469,7 +1469,7 @@ export type VoiceWebRTCTransportInputDcid = number | VoiceWebRTCTransportInputDc
 export interface VoiceWebRTCTransportInput {
   type: VoiceWebRTCTransportInputType;
   sdp: string;
-  dcid?: VoiceWebRTCTransportInputDcid | null;
+  dcid?: VoiceWebRTCTransportInputDcid | null | undefined;
 }
 export type VoiceWebSocketTransportInputType = "websocket";
 export interface VoiceWebSocketTransportInput {
@@ -1478,7 +1478,7 @@ export interface VoiceWebSocketTransportInput {
 export type VoiceTransportInput = VoiceWebRTCTransportInput | VoiceWebSocketTransportInput;
 export interface ExperimentalVoiceSessionRequest {
   model: string;
-  session?: unknown | null;
+  session?: unknown | null | undefined;
   transport: VoiceTransportInput;
 }
 export type VoiceWebRTCTransportType = "webrtc";
@@ -1504,44 +1504,44 @@ export interface VoiceSessionResponse {
 }
 export interface ExportExperimentalSessionRequest {
   sessionID: string;
-  sanitize?: boolean;
+  sanitize?: boolean | undefined;
 }
 export type SessionMessageAgentSelectedTime = SessionInboxCompactionTime;
 export type SessionMessageAgentSelectedType = "agent-switched";
 export interface SessionMessageAgentSelected {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   type: SessionMessageAgentSelectedType;
   agent: string;
-  previous?: string;
+  previous?: string | undefined;
 }
 export type SessionMessageModelSelectedTime = SessionInboxCompactionTime;
 export type SessionMessageModelSelectedType = "model-switched";
 export interface SessionMessageModelSelected {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   type: SessionMessageModelSelectedType;
   model: ModelRef;
-  previous?: ModelRef;
+  previous?: ModelRef | undefined;
 }
 export type SessionMessageLocationSwitchedTime = SessionInboxCompactionTime;
 export type SessionMessageLocationSwitchedType = "location-switched";
 export interface SessionMessageLocationSwitchedPrevious {
   location: LocationPublicRef;
-  projectID?: string;
-  subpath?: string;
+  projectID?: string | undefined;
+  subpath?: string | undefined;
 }
 export interface SessionMessageLocationSwitched {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   type: SessionMessageLocationSwitchedType;
-  projectID?: string;
-  subpath?: string;
+  projectID?: string | undefined;
+  subpath?: string | undefined;
   location: LocationPublicRef;
-  previous?: SessionMessageLocationSwitchedPrevious | null;
+  previous?: SessionMessageLocationSwitchedPrevious | null | undefined;
 }
 export type SessionMessageUserTime = SessionInboxCompactionTime;
 export type PromptFileSourceCase0Type = "inline";
@@ -1563,59 +1563,59 @@ export interface PromptFileAttachment {
   data: string;
   mime: string;
   source: PromptFileSource;
-  name?: string;
-  description?: string;
-  mention?: PromptMention;
+  name?: string | undefined;
+  description?: string | undefined;
+  mention?: PromptMention | undefined;
 }
 export type SessionMessageUserFilesList = Array<PromptFileAttachment>;
 export interface PromptAgentAttachment {
   name: string;
-  mention?: PromptMention;
+  mention?: PromptMention | undefined;
 }
 export type SessionMessageUserAgentsList = Array<PromptAgentAttachment>;
 export interface PromptSkillAttachment {
   id: string;
   name: string;
-  text?: string;
-  mention?: PromptMention;
+  text?: string | undefined;
+  mention?: PromptMention | undefined;
 }
 export type SessionMessageUserSkillsList = Array<PromptSkillAttachment>;
 export type SessionMessageUserType = "user";
 export interface SessionMessageUser {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   text: string;
-  files?: SessionMessageUserFilesList;
-  agents?: SessionMessageUserAgentsList;
-  skills?: SessionMessageUserSkillsList;
+  files?: SessionMessageUserFilesList | undefined;
+  agents?: SessionMessageUserAgentsList | undefined;
+  skills?: SessionMessageUserSkillsList | undefined;
   type: SessionMessageUserType;
 }
 export type SessionMessageSyntheticTime = SessionInboxCompactionTime;
 export type SessionMessageSyntheticType = "synthetic";
 export interface SessionMessageSynthetic {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   text: string;
-  description?: string;
+  description?: string | undefined;
   type: SessionMessageSyntheticType;
 }
 export type SessionMessageSystemTime = SessionInboxCompactionTime;
 export type SessionMessageSystemType = "system";
 export interface SessionMessageSystem {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   type: SessionMessageSystemType;
   text: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type SessionMessageSkillTime = SessionInboxCompactionTime;
 export type SessionMessageSkillType = "skill";
 export interface SessionMessageSkill {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   type: SessionMessageSkillType;
   skill: string;
@@ -1624,7 +1624,7 @@ export interface SessionMessageSkill {
 }
 export interface SessionMessageShellTime {
   created: number;
-  completed?: number;
+  completed?: number | undefined;
 }
 export type SessionMessageShellType = "shell";
 export type SessionMessageShellStatus = "running" | "exited" | "timeout" | "killed";
@@ -1638,34 +1638,34 @@ export interface SessionMessageShellOutput {
 }
 export interface SessionMessageShell {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionMessageShellTime;
   type: SessionMessageShellType;
   shellID: string;
   command: string;
   status: SessionMessageShellStatus;
-  exit?: SessionMessageShellExit;
-  output?: SessionMessageShellOutput;
+  exit?: SessionMessageShellExit | undefined;
+  output?: SessionMessageShellOutput | undefined;
 }
 export interface SessionMessageAssistantTime {
   created: number;
-  streamed?: number;
-  completed?: number;
+  streamed?: number | undefined;
+  completed?: number | undefined;
 }
 export type SessionMessageAssistantType = "assistant";
 export type SessionMessageAssistantTextType = "text";
 export interface SessionMessageAssistantText {
   type: SessionMessageAssistantTextType;
   text: string;
-  native?: unknown;
+  native?: unknown | undefined;
 }
 export type SessionMessageAssistantReasoningType = "reasoning";
 export type SessionMessageAssistantReasoningTime = SessionMessageShellTime;
 export interface SessionMessageAssistantReasoning {
   type: SessionMessageAssistantReasoningType;
   text: string;
-  native?: unknown;
-  time?: SessionMessageShellTime;
+  native?: unknown | undefined;
+  time?: SessionMessageShellTime | undefined;
 }
 export type SessionMessageAssistantToolType = "tool";
 export type SessionMessageToolStateStreamingStatus = "streaming";
@@ -1690,7 +1690,7 @@ export interface ToolFileContent {
   type: ToolFileContentType;
   uri: string;
   mime: string;
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ToolContent = ToolTextContent | ToolFileContent;
 export type SessionMessageToolStateCompletedContentList = Array<ToolContent>;
@@ -1698,7 +1698,7 @@ export interface SessionMessageToolStateCompleted {
   status: SessionMessageToolStateCompletedStatus;
   input: unknown;
   content: SessionMessageToolStateCompletedContentList;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type SessionMessageToolStateErrorStatus = "error";
 export interface SessionStructuredErrorResponse {
@@ -1707,17 +1707,17 @@ export interface SessionStructuredErrorResponse {
 export interface SessionStructuredError {
   type: string;
   message: string;
-  status?: number;
-  response?: SessionStructuredErrorResponse;
-  retryAfterMs?: number;
+  status?: number | undefined;
+  response?: SessionStructuredErrorResponse | undefined;
+  retryAfterMs?: number | undefined;
 }
 export type SessionMessageToolStateErrorContentList = Array<ToolContent>;
 export interface SessionMessageToolStateError {
   status: SessionMessageToolStateErrorStatus;
   input: unknown;
   error: SessionStructuredError;
-  content?: SessionMessageToolStateErrorContentList;
-  metadata?: unknown;
+  content?: SessionMessageToolStateErrorContentList | undefined;
+  metadata?: unknown | undefined;
 }
 export type SessionMessageAssistantToolState =
   | SessionMessageToolStateStreaming
@@ -1726,15 +1726,15 @@ export type SessionMessageAssistantToolState =
   | SessionMessageToolStateError;
 export interface SessionMessageAssistantToolTime {
   created: number;
-  ran?: number;
-  completed?: number;
+  ran?: number | undefined;
+  completed?: number | undefined;
 }
 export interface SessionMessageAssistantTool {
   type: SessionMessageAssistantToolType;
   id: string;
   name: string;
-  executed?: boolean;
-  native?: unknown;
+  executed?: boolean | undefined;
+  native?: unknown | undefined;
   state: SessionMessageAssistantToolState;
   time: SessionMessageAssistantToolTime;
 }
@@ -1745,9 +1745,9 @@ export type SessionMessageAssistantContentItem =
 export type SessionMessageAssistantContentList = Array<SessionMessageAssistantContentItem>;
 export type SessionMessageAssistantSnapshotFilesList = Array<string>;
 export interface SessionMessageAssistantSnapshot {
-  start?: string;
-  end?: string;
-  files?: SessionMessageAssistantSnapshotFilesList;
+  start?: string | undefined;
+  end?: string | undefined;
+  files?: SessionMessageAssistantSnapshotFilesList | undefined;
 }
 export type SessionMessageAssistantFinish =
   | "stop"
@@ -1763,20 +1763,20 @@ export interface SessionMessageAssistantRetry {
 }
 export interface SessionMessageAssistant {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionMessageAssistantTime;
   type: SessionMessageAssistantType;
   agent: string;
   model: ModelRef;
   content: SessionMessageAssistantContentList;
-  snapshot?: SessionMessageAssistantSnapshot;
-  finish?: SessionMessageAssistantFinish;
-  rawFinish?: string;
-  native?: unknown;
-  cost?: number;
-  tokens?: TokenUsageInfo;
-  error?: SessionStructuredError;
-  retry?: SessionMessageAssistantRetry;
+  snapshot?: SessionMessageAssistantSnapshot | undefined;
+  finish?: SessionMessageAssistantFinish | undefined;
+  rawFinish?: string | undefined;
+  native?: unknown | undefined;
+  cost?: number | undefined;
+  tokens?: TokenUsageInfo | undefined;
+  error?: SessionStructuredError | undefined;
+  retry?: SessionMessageAssistantRetry | undefined;
 }
 export type SessionMessageCompactionRunningType = "compaction";
 export type SessionMessageCompactionRunningTime = SessionInboxCompactionTime;
@@ -1785,7 +1785,7 @@ export type SessionMessageCompactionRunningReason = "auto" | "manual";
 export interface SessionMessageCompactionRunning {
   type: SessionMessageCompactionRunningType;
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   status: SessionMessageCompactionRunningStatus;
   reason: SessionMessageCompactionRunningReason;
@@ -1798,15 +1798,15 @@ export type SessionMessageCompactionCompletedReason = "auto" | "manual";
 export interface SessionMessageCompactionCompleted {
   type: SessionMessageCompactionCompletedType;
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   status: SessionMessageCompactionCompletedStatus;
   reason: SessionMessageCompactionCompletedReason;
-  model?: ModelRef;
-  native?: unknown;
+  model?: ModelRef | undefined;
+  native?: unknown | undefined;
   summary: string;
-  cost?: number;
-  tokens?: TokenUsageInfo;
+  cost?: number | undefined;
+  tokens?: TokenUsageInfo | undefined;
 }
 export type SessionMessageCompactionFailedType = "compaction";
 export type SessionMessageCompactionFailedTime = SessionInboxCompactionTime;
@@ -1815,13 +1815,13 @@ export type SessionMessageCompactionFailedReason = "auto" | "manual";
 export interface SessionMessageCompactionFailed {
   type: SessionMessageCompactionFailedType;
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   status: SessionMessageCompactionFailedStatus;
   reason: SessionMessageCompactionFailedReason;
   error: SessionStructuredError;
-  cost?: number;
-  tokens?: TokenUsageInfo;
+  cost?: number | undefined;
+  tokens?: TokenUsageInfo | undefined;
 }
 export type SessionMessageCompaction =
   | SessionMessageCompactionRunning
@@ -1832,11 +1832,11 @@ export type SessionMessageIdleType = "idle";
 export type SessionMessageIdleOutcome = "succeeded" | "failed" | "interrupted";
 export interface SessionMessageIdle {
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   time: SessionInboxCompactionTime;
   type: SessionMessageIdleType;
   outcome: SessionMessageIdleOutcome;
-  error?: SessionStructuredError;
+  error?: SessionStructuredError | undefined;
 }
 export type SessionMessageInfo =
   | SessionMessageAgentSelected
@@ -1860,7 +1860,7 @@ export interface ExportExperimentalSessionResponse {
 }
 export interface ForkSessionRequest {
   sessionID: string;
-  before?: string | null;
+  before?: string | null | undefined;
 }
 export interface ForkSessionResponse {
   data: SessionInfo;
@@ -1868,10 +1868,10 @@ export interface ForkSessionResponse {
 export type FsFindRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export type FsFindRequestType = "file" | "directory";
 export interface FsFindRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   query: string;
-  type?: FsFindRequestType | (string & {});
-  limit?: string;
+  type?: FsFindRequestType | (string & {}) | undefined;
+  limit?: string | undefined;
 }
 export type FileSystemEntryType = "file" | "directory";
 export interface FileSystemEntry {
@@ -1894,7 +1894,7 @@ export interface SessionGenerateResponse {
 export type GetAgentRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetAgentRequest {
   agentID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ProviderSettingsTimeout = number | boolean;
 export type ProviderSettingsHeaderTimeout = number | boolean;
@@ -1911,24 +1911,24 @@ export type ProviderCompaction = ProviderCompactionCase0 | ProviderCompactionCas
 export type ProviderCacheWarmingCase1IntervalCase0 = "auto";
 export type ProviderCacheWarmingCase1Interval = ProviderCacheWarmingCase1IntervalCase0 | string;
 export interface ProviderCacheWarmingCase1 {
-  interval?: ProviderCacheWarmingCase1Interval;
-  duration?: string;
+  interval?: ProviderCacheWarmingCase1Interval | undefined;
+  duration?: string | undefined;
 }
 export type ProviderCacheWarming = boolean | ProviderCacheWarmingCase1;
 export interface ProviderCache {
-  ttl?: string;
-  warming?: ProviderCacheWarming;
+  ttl?: string | undefined;
+  warming?: ProviderCacheWarming | undefined;
 }
 export type ProviderTransport = "http" | "websocket";
 export type ProviderEncoding = "zstd" | "gzip" | "none";
 export interface ProviderSettings {
-  timeout?: ProviderSettingsTimeout;
-  headerTimeout?: ProviderSettingsHeaderTimeout;
-  chunkTimeout?: ProviderSettingsChunkTimeout;
-  compaction?: ProviderCompaction;
-  cache?: ProviderCache;
-  transport?: ProviderTransport;
-  encoding?: ProviderEncoding;
+  timeout?: ProviderSettingsTimeout | undefined;
+  headerTimeout?: ProviderSettingsHeaderTimeout | undefined;
+  chunkTimeout?: ProviderSettingsChunkTimeout | undefined;
+  compaction?: ProviderCompaction | undefined;
+  cache?: ProviderCache | undefined;
+  transport?: ProviderTransport | undefined;
+  encoding?: ProviderEncoding | undefined;
   [key: string]: unknown;
 }
 export type ProviderRequestHeadersMap = { [key: string]: string | undefined };
@@ -1941,14 +1941,14 @@ export type AgentInfoMode = "subagent" | "primary" | "all";
 export interface AgentInfo {
   id: string;
   name: string;
-  model?: ModelRef;
+  model?: ModelRef | undefined;
   request: ProviderRequest;
-  system?: string;
-  description?: string;
+  system?: string | undefined;
+  description?: string | undefined;
   mode: AgentInfoMode;
   hidden: boolean;
-  color?: string;
-  steps?: number;
+  color?: string | undefined;
+  steps?: number | undefined;
   permissions: PermissionRuleset;
 }
 export interface GetAgentResponse {
@@ -1957,19 +1957,19 @@ export interface GetAgentResponse {
 }
 export type GetConfigRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetConfigRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ConfigDocumentEncodedType = "document";
 export interface ConfigInfoEncodedModelCase1 {
   providerID: string;
   model: string;
-  variant?: string;
+  variant?: string | undefined;
 }
 export type ConfigInfoEncodedModel = string | ConfigInfoEncodedModelCase1;
 export type ConfigInfoEncodedUpdate = "disable" | "notify" | "auto";
 export type ConfigInfoEncodedShare = "manual" | "auto" | "disabled";
 export interface ConfigInfoEncodedEnterprise {
-  url?: string;
+  url?: string | undefined;
 }
 export type ConfigInfoEncodedPoliciesItemAction =
   | "provider.use"
@@ -1991,35 +1991,35 @@ export type ConfigAgentEncodedModelCase1 = ConfigInfoEncodedModelCase1;
 export type ConfigAgentEncodedModel = string | ConfigInfoEncodedModelCase1;
 export type ConfigAgentEncodedRequestHeadersMap = { [key: string]: string | undefined };
 export interface ConfigAgentEncodedRequest {
-  headers?: ConfigAgentEncodedRequestHeadersMap;
-  body?: unknown;
+  headers?: ConfigAgentEncodedRequestHeadersMap | undefined;
+  body?: unknown | undefined;
 }
 export type ConfigAgentEncodedMode = "subagent" | "primary" | "all";
 export interface ConfigAgentEncoded {
-  model?: ConfigAgentEncodedModel;
-  request?: ConfigAgentEncodedRequest;
-  system?: string;
-  description?: string;
-  mode?: ConfigAgentEncodedMode;
-  hidden?: boolean;
-  color?: string;
-  steps?: number;
-  disabled?: boolean;
-  permissions?: PermissionRuleset;
+  model?: ConfigAgentEncodedModel | undefined;
+  request?: ConfigAgentEncodedRequest | undefined;
+  system?: string | undefined;
+  description?: string | undefined;
+  mode?: ConfigAgentEncodedMode | undefined;
+  hidden?: boolean | undefined;
+  color?: string | undefined;
+  steps?: number | undefined;
+  disabled?: boolean | undefined;
+  permissions?: PermissionRuleset | undefined;
 }
 export type ConfigInfoEncodedAgentsMap = { [key: string]: ConfigAgentEncoded | undefined };
 export type ConfigInfoEncodedWatcherIgnoreList = Array<string>;
 export interface ConfigInfoEncodedWatcher {
-  ignore?: ConfigInfoEncodedWatcherIgnoreList;
+  ignore?: ConfigInfoEncodedWatcherIgnoreList | undefined;
 }
 export type ConfigFormatterEntryEncodedCommandList = Array<string>;
 export type ConfigFormatterEntryEncodedEnvironmentMap = { [key: string]: string | undefined };
 export type ConfigFormatterEntryEncodedExtensionsList = Array<string>;
 export interface ConfigFormatterEntryEncoded {
-  disabled?: boolean;
-  command?: ConfigFormatterEntryEncodedCommandList;
-  environment?: ConfigFormatterEntryEncodedEnvironmentMap;
-  extensions?: ConfigFormatterEntryEncodedExtensionsList;
+  disabled?: boolean | undefined;
+  command?: ConfigFormatterEntryEncodedCommandList | undefined;
+  environment?: ConfigFormatterEntryEncodedEnvironmentMap | undefined;
+  extensions?: ConfigFormatterEntryEncodedExtensionsList | undefined;
 }
 export type ConfigInfoEncodedFormatterCase1Map = {
   [key: string]: ConfigFormatterEntryEncoded | undefined;
@@ -2033,10 +2033,10 @@ export type ConfigLSPServerEncodedExtensionsList = Array<string>;
 export type ConfigLSPServerEncodedEnvMap = { [key: string]: string | undefined };
 export interface ConfigLSPServerEncoded {
   command: ConfigLSPServerEncodedCommandList;
-  extensions?: ConfigLSPServerEncodedExtensionsList;
-  disabled?: boolean;
-  env?: ConfigLSPServerEncodedEnvMap;
-  initialization?: unknown;
+  extensions?: ConfigLSPServerEncodedExtensionsList | undefined;
+  disabled?: boolean | undefined;
+  env?: ConfigLSPServerEncodedEnvMap | undefined;
+  initialization?: unknown | undefined;
 }
 export type ConfigInfoEncodedLspCase1Value =
   | ConfigInfoEncodedLspCase1ValueCase0
@@ -2046,17 +2046,17 @@ export type ConfigInfoEncodedLspCase1Map = {
 };
 export type ConfigInfoEncodedLsp = boolean | ConfigInfoEncodedLspCase1Map;
 export interface ConfigInfoEncodedMediaImage {
-  auto_resize?: boolean;
-  max_width?: number;
-  max_height?: number;
-  max_base64_bytes?: number;
+  auto_resize?: boolean | undefined;
+  max_width?: number | undefined;
+  max_height?: number | undefined;
+  max_base64_bytes?: number | undefined;
 }
 export interface ConfigInfoEncodedMedia {
-  image?: ConfigInfoEncodedMediaImage;
+  image?: ConfigInfoEncodedMediaImage | undefined;
 }
 export interface ConfigInfoEncodedToolOutput {
-  max_lines?: number;
-  max_bytes?: number;
+  max_lines?: number | undefined;
+  max_bytes?: number | undefined;
 }
 export type ConfigInfoEncodedMcpTimeout = McpLocalConfigEncodedTimeout;
 export type ConfigInfoEncodedMcpServersValue = McpLocalConfigEncoded | McpRemoteConfigEncoded;
@@ -2064,42 +2064,42 @@ export type ConfigInfoEncodedMcpServersMap = {
   [key: string]: ConfigInfoEncodedMcpServersValue | undefined;
 };
 export interface ConfigInfoEncodedMcp {
-  timeout?: McpLocalConfigEncodedTimeout;
-  servers?: ConfigInfoEncodedMcpServersMap;
+  timeout?: McpLocalConfigEncodedTimeout | undefined;
+  servers?: ConfigInfoEncodedMcpServersMap | undefined;
 }
 export interface ConfigInfoEncodedCompactionKeep {
-  tokens?: number;
+  tokens?: number | undefined;
 }
 export type ConfigInfoEncodedCompactionBuffer = string | number;
 export interface ConfigInfoEncodedCompaction {
-  auto?: boolean;
-  keep?: ConfigInfoEncodedCompactionKeep;
-  buffer?: ConfigInfoEncodedCompactionBuffer;
+  auto?: boolean | undefined;
+  keep?: ConfigInfoEncodedCompactionKeep | undefined;
+  buffer?: ConfigInfoEncodedCompactionBuffer | undefined;
 }
 export type ConfigInfoEncodedSkillsList = Array<string>;
 export type ConfigCommandEncodedModelCase1 = ConfigInfoEncodedModelCase1;
 export type ConfigCommandEncodedModel = string | ConfigInfoEncodedModelCase1;
 export interface ConfigCommandEncoded {
   template: string;
-  description?: string;
-  agent?: string;
-  model?: ConfigCommandEncodedModel;
-  subagent?: boolean;
+  description?: string | undefined;
+  agent?: string | undefined;
+  model?: ConfigCommandEncodedModel | undefined;
+  subagent?: boolean | undefined;
   /** Deprecated alias for subagent. */
-  subtask?: boolean;
+  subtask?: boolean | undefined;
 }
 export type ConfigInfoEncodedCommandsMap = { [key: string]: ConfigCommandEncoded | undefined };
 export type ConfigInfoEncodedInstructionsList = Array<string>;
 export interface ConfigReferenceGitEncoded {
   repository: string;
-  branch?: string;
-  description?: string;
-  hidden?: boolean;
+  branch?: string | undefined;
+  description?: string | undefined;
+  hidden?: boolean | undefined;
 }
 export interface ConfigReferenceLocalEncoded {
   path: string;
-  description?: string;
-  hidden?: boolean;
+  description?: string | undefined;
+  hidden?: boolean | undefined;
 }
 export type ConfigInfoEncodedReferencesValue =
   | string
@@ -2117,7 +2117,7 @@ export interface ConfigWebSearchInfoEncoded {
 export type ConfigInfoEncodedWebsearch = boolean | ConfigWebSearchInfoEncoded;
 export interface ConfigPluginEntryEncoded {
   package: string;
-  options?: unknown;
+  options?: unknown | undefined;
 }
 export type ConfigInfoEncodedPluginsItem = string | ConfigPluginEntryEncoded;
 export type ConfigInfoEncodedPluginsList = Array<ConfigInfoEncodedPluginsItem>;
@@ -2125,9 +2125,9 @@ export type ConfigWorktree = LocationPublicRef;
 export type ConfigWarmingEncodedIntervalCase0 = "auto";
 export type ConfigWarmingEncodedInterval = ConfigWarmingEncodedIntervalCase0 | string;
 export interface ConfigWarmingEncoded {
-  prompt?: string;
-  interval?: ConfigWarmingEncodedInterval;
-  duration?: string;
+  prompt?: string | undefined;
+  interval?: ConfigWarmingEncodedInterval | undefined;
+  duration?: string | undefined;
 }
 export type ConfigInfoEncodedWarming = boolean | ConfigWarmingEncoded;
 export type ConfigProviderEncodedEnvList = Array<string>;
@@ -2137,49 +2137,49 @@ export type ModelMaxTokensField = "max_completion_tokens" | "max_tokens";
 export type ModelCacheFormat = "anthropic" | "alibaba";
 export type ModelMediaInput = "assets" | "state" | "root";
 export interface ProviderCompatibility {
-  reasoningField?: ModelReasoningField;
-  requireReasoning?: boolean;
-  maxTokensField?: ModelMaxTokensField;
-  requireFinishReason?: boolean;
-  requireAssistantAfterTool?: boolean;
-  supportsPromptCacheKey?: boolean;
-  streamUsage?: boolean;
-  cacheFormat?: ModelCacheFormat;
-  mediaInput?: ModelMediaInput;
+  reasoningField?: ModelReasoningField | undefined;
+  requireReasoning?: boolean | undefined;
+  maxTokensField?: ModelMaxTokensField | undefined;
+  requireFinishReason?: boolean | undefined;
+  requireAssistantAfterTool?: boolean | undefined;
+  supportsPromptCacheKey?: boolean | undefined;
+  streamUsage?: boolean | undefined;
+  cacheFormat?: ModelCacheFormat | undefined;
+  mediaInput?: ModelMediaInput | undefined;
 }
 export type ConfigProviderSettingsTimeout = number | boolean;
 export type ConfigProviderSettingsHeaderTimeout = number | boolean;
 export type ConfigProviderSettingsChunkTimeout = number | boolean;
 export interface ConfigProviderSettings {
-  timeout?: ConfigProviderSettingsTimeout;
-  headerTimeout?: ConfigProviderSettingsHeaderTimeout;
-  chunkTimeout?: ConfigProviderSettingsChunkTimeout;
-  compaction?: ProviderCompaction;
-  cache?: ProviderCache;
-  transport?: ProviderTransport;
-  encoding?: ProviderEncoding;
+  timeout?: ConfigProviderSettingsTimeout | undefined;
+  headerTimeout?: ConfigProviderSettingsHeaderTimeout | undefined;
+  chunkTimeout?: ConfigProviderSettingsChunkTimeout | undefined;
+  compaction?: ProviderCompaction | undefined;
+  cache?: ProviderCache | undefined;
+  transport?: ProviderTransport | undefined;
+  encoding?: ProviderEncoding | undefined;
   [key: string]: unknown;
 }
 export type ConfigProviderEncodedHeadersMap = { [key: string]: string | undefined };
 export type ModelTypeCase0 = "chat" | "decision" | "image";
 export type ModelType = ModelTypeCase0 | string;
 export interface ModelCompatibility {
-  reasoningField?: ModelReasoningField;
-  requireReasoning?: boolean;
-  maxTokensField?: ModelMaxTokensField;
-  requireFinishReason?: boolean;
-  requireAssistantAfterTool?: boolean;
-  supportsPromptCacheKey?: boolean;
-  streamUsage?: boolean;
-  cacheFormat?: ModelCacheFormat;
-  supportsThinkingBlockBinding?: boolean;
-  supportsEffortUpdates?: boolean;
-  mediaInput?: ModelMediaInput;
+  reasoningField?: ModelReasoningField | undefined;
+  requireReasoning?: boolean | undefined;
+  maxTokensField?: ModelMaxTokensField | undefined;
+  requireFinishReason?: boolean | undefined;
+  requireAssistantAfterTool?: boolean | undefined;
+  supportsPromptCacheKey?: boolean | undefined;
+  streamUsage?: boolean | undefined;
+  cacheFormat?: ModelCacheFormat | undefined;
+  supportsThinkingBlockBinding?: boolean | undefined;
+  supportsEffortUpdates?: boolean | undefined;
+  mediaInput?: ModelMediaInput | undefined;
 }
 export interface ConfigModelSettings {
-  compaction?: ProviderCompaction;
-  cache?: ProviderCache;
-  encoding?: ProviderEncoding;
+  compaction?: ProviderCompaction | undefined;
+  cache?: ProviderCache | undefined;
+  encoding?: ProviderEncoding | undefined;
   [key: string]: unknown;
 }
 export type ConfigModelEncodedHeadersMap = { [key: string]: string | undefined };
@@ -2190,34 +2190,34 @@ export interface ConfigModelReasoningCase0 {
 }
 export type ConfigModelReasoningCase1EffortList = Array<string>;
 export interface ConfigModelReasoningCase1Budget {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export interface ConfigModelReasoningCase1 {
   supported: boolean;
-  toggle?: boolean;
-  effort?: ConfigModelReasoningCase1EffortList;
-  budget?: ConfigModelReasoningCase1Budget;
+  toggle?: boolean | undefined;
+  effort?: ConfigModelReasoningCase1EffortList | undefined;
+  budget?: ConfigModelReasoningCase1Budget | undefined;
 }
 export type ConfigModelReasoning = ConfigModelReasoningCase0 | ConfigModelReasoningCase1;
 export interface ConfigModelCapabilities {
-  tools?: boolean;
-  input?: ConfigModelCapabilitiesInputList;
-  output?: ConfigModelCapabilitiesOutputList;
-  temperature?: boolean;
-  reasoning?: ConfigModelReasoning;
+  tools?: boolean | undefined;
+  input?: ConfigModelCapabilitiesInputList | undefined;
+  output?: ConfigModelCapabilitiesOutputList | undefined;
+  temperature?: boolean | undefined;
+  reasoning?: ConfigModelReasoning | undefined;
 }
 export interface ConfigModelVariantSettings {
-  compaction?: ProviderCompaction;
-  encoding?: ProviderEncoding;
+  compaction?: ProviderCompaction | undefined;
+  encoding?: ProviderEncoding | undefined;
   [key: string]: unknown;
 }
 export type ConfigModelEncodedVariantsItemHeadersMap = { [key: string]: string | undefined };
 export interface ConfigModelEncodedVariantsItem {
   id: string;
-  settings?: ConfigModelVariantSettings;
-  headers?: ConfigModelEncodedVariantsItemHeadersMap;
-  body?: unknown;
+  settings?: ConfigModelVariantSettings | undefined;
+  headers?: ConfigModelEncodedVariantsItemHeadersMap | undefined;
+  body?: unknown | undefined;
 }
 export type ConfigModelEncodedVariantsList = Array<ConfigModelEncodedVariantsItem>;
 export type ConfigModelCostEncodedTierType = "context";
@@ -2226,51 +2226,51 @@ export interface ConfigModelCostEncodedTier {
   size: number;
 }
 export interface ConfigModelCostEncodedCache {
-  read?: number;
-  write?: number;
+  read?: number | undefined;
+  write?: number | undefined;
 }
 export interface ConfigModelCostEncoded {
-  tier?: ConfigModelCostEncodedTier;
+  tier?: ConfigModelCostEncodedTier | undefined;
   input: number;
   output: number;
-  cache?: ConfigModelCostEncodedCache;
+  cache?: ConfigModelCostEncodedCache | undefined;
 }
 export type ConfigModelEncodedCostCase1List = Array<ConfigModelCostEncoded>;
 export type ConfigModelEncodedCost = ConfigModelCostEncoded | ConfigModelEncodedCostCase1List;
 export interface ConfigModelEncodedLimit {
-  context?: number;
-  input?: number;
-  output?: number;
+  context?: number | undefined;
+  input?: number | undefined;
+  output?: number | undefined;
 }
 export interface ConfigModelEncoded {
-  modelID?: string;
-  type?: ModelType;
-  family?: string;
-  name?: string;
+  modelID?: string | undefined;
+  type?: ModelType | undefined;
+  family?: string | undefined;
+  name?: string | undefined;
   /** Release date as YYYY-MM-DD or YYYY-MM */
-  releaseDate?: string;
-  compatibility?: ModelCompatibility;
-  package?: string;
-  settings?: ConfigModelSettings;
-  headers?: ConfigModelEncodedHeadersMap;
-  body?: unknown;
-  capabilities?: ConfigModelCapabilities;
-  variants?: ConfigModelEncodedVariantsList;
-  cost?: ConfigModelEncodedCost;
-  disabled?: boolean;
-  limit?: ConfigModelEncodedLimit;
+  releaseDate?: string | undefined;
+  compatibility?: ModelCompatibility | undefined;
+  package?: string | undefined;
+  settings?: ConfigModelSettings | undefined;
+  headers?: ConfigModelEncodedHeadersMap | undefined;
+  body?: unknown | undefined;
+  capabilities?: ConfigModelCapabilities | undefined;
+  variants?: ConfigModelEncodedVariantsList | undefined;
+  cost?: ConfigModelEncodedCost | undefined;
+  disabled?: boolean | undefined;
+  limit?: ConfigModelEncodedLimit | undefined;
 }
 export type ConfigProviderEncodedModelsMap = { [key: string]: ConfigModelEncoded | undefined };
 export interface ConfigProviderEncoded {
-  canonical?: string;
-  name?: string;
-  env?: ConfigProviderEncodedEnvList;
-  package?: string;
-  compatibility?: ProviderCompatibility;
-  settings?: ConfigProviderSettings;
-  headers?: ConfigProviderEncodedHeadersMap;
-  body?: unknown;
-  models?: ConfigProviderEncodedModelsMap;
+  canonical?: string | undefined;
+  name?: string | undefined;
+  env?: ConfigProviderEncodedEnvList | undefined;
+  package?: string | undefined;
+  compatibility?: ProviderCompatibility | undefined;
+  settings?: ConfigProviderSettings | undefined;
+  headers?: ConfigProviderEncodedHeadersMap | undefined;
+  body?: unknown | undefined;
+  models?: ConfigProviderEncodedModelsMap | undefined;
 }
 export type ConfigInfoEncodedProvidersMap = { [key: string]: ConfigProviderEncoded | undefined };
 export type ConfigInfoEncodedExperimentalImageGenerateCase1ModelCase1 = ConfigInfoEncodedModelCase1;
@@ -2278,7 +2278,7 @@ export type ConfigInfoEncodedExperimentalImageGenerateCase1Model =
   | string
   | ConfigInfoEncodedModelCase1;
 export interface ConfigInfoEncodedExperimentalImageGenerateCase1 {
-  model?: ConfigInfoEncodedExperimentalImageGenerateCase1Model;
+  model?: ConfigInfoEncodedExperimentalImageGenerateCase1Model | undefined;
 }
 export type ConfigInfoEncodedExperimentalImageGenerate =
   | boolean
@@ -2302,55 +2302,55 @@ export interface ConfigInfoEncodedExperimentalPoliciesItem {
 export type ConfigInfoEncodedExperimentalPoliciesList =
   Array<ConfigInfoEncodedExperimentalPoliciesItem>;
 export interface ConfigInfoEncodedExperimental {
-  portable_shell_scanner?: boolean;
-  all_flags?: boolean;
-  todo?: boolean;
-  background_compaction?: boolean;
-  media_blob?: boolean;
-  schedules?: boolean;
-  artifacts?: boolean;
-  codemode_vm?: boolean;
-  part_rows?: boolean;
-  image_generate?: ConfigInfoEncodedExperimentalImageGenerate;
-  subagent_depth?: number;
-  location_idle_timeout?: ConfigInfoEncodedExperimentalLocationIdleTimeout;
-  policies?: ConfigInfoEncodedExperimentalPoliciesList;
+  portable_shell_scanner?: boolean | undefined;
+  all_flags?: boolean | undefined;
+  todo?: boolean | undefined;
+  background_compaction?: boolean | undefined;
+  media_blob?: boolean | undefined;
+  schedules?: boolean | undefined;
+  artifacts?: boolean | undefined;
+  codemode_vm?: boolean | undefined;
+  part_rows?: boolean | undefined;
+  image_generate?: ConfigInfoEncodedExperimentalImageGenerate | undefined;
+  subagent_depth?: number | undefined;
+  location_idle_timeout?: ConfigInfoEncodedExperimentalLocationIdleTimeout | undefined;
+  policies?: ConfigInfoEncodedExperimentalPoliciesList | undefined;
 }
 export interface ConfigInfoEncoded {
-  _schema?: string;
-  shell?: string;
-  model?: ConfigInfoEncodedModel;
-  default_agent?: string;
-  update?: ConfigInfoEncodedUpdate;
-  share?: ConfigInfoEncodedShare;
-  enterprise?: ConfigInfoEncodedEnterprise;
-  username?: string;
-  timezone?: string;
-  permissions?: PermissionRuleset;
-  policies?: ConfigInfoEncodedPoliciesList;
-  agents?: ConfigInfoEncodedAgentsMap;
-  snapshots?: boolean;
-  watcher?: ConfigInfoEncodedWatcher;
-  formatter?: ConfigInfoEncodedFormatter;
-  lsp?: ConfigInfoEncodedLsp;
-  media?: ConfigInfoEncodedMedia;
-  tool_output?: ConfigInfoEncodedToolOutput;
-  mcp?: ConfigInfoEncodedMcp;
-  compaction?: ConfigInfoEncodedCompaction;
-  skills?: ConfigInfoEncodedSkillsList;
-  commands?: ConfigInfoEncodedCommandsMap;
-  instructions?: ConfigInfoEncodedInstructionsList;
-  references?: ConfigInfoEncodedReferencesMap;
-  websearch?: ConfigInfoEncodedWebsearch;
-  plugins?: ConfigInfoEncodedPluginsList;
-  worktree?: LocationPublicRef;
-  warming?: ConfigInfoEncodedWarming;
-  providers?: ConfigInfoEncodedProvidersMap;
-  experimental?: ConfigInfoEncodedExperimental;
+  _schema?: string | undefined;
+  shell?: string | undefined;
+  model?: ConfigInfoEncodedModel | undefined;
+  default_agent?: string | undefined;
+  update?: ConfigInfoEncodedUpdate | undefined;
+  share?: ConfigInfoEncodedShare | undefined;
+  enterprise?: ConfigInfoEncodedEnterprise | undefined;
+  username?: string | undefined;
+  timezone?: string | undefined;
+  permissions?: PermissionRuleset | undefined;
+  policies?: ConfigInfoEncodedPoliciesList | undefined;
+  agents?: ConfigInfoEncodedAgentsMap | undefined;
+  snapshots?: boolean | undefined;
+  watcher?: ConfigInfoEncodedWatcher | undefined;
+  formatter?: ConfigInfoEncodedFormatter | undefined;
+  lsp?: ConfigInfoEncodedLsp | undefined;
+  media?: ConfigInfoEncodedMedia | undefined;
+  tool_output?: ConfigInfoEncodedToolOutput | undefined;
+  mcp?: ConfigInfoEncodedMcp | undefined;
+  compaction?: ConfigInfoEncodedCompaction | undefined;
+  skills?: ConfigInfoEncodedSkillsList | undefined;
+  commands?: ConfigInfoEncodedCommandsMap | undefined;
+  instructions?: ConfigInfoEncodedInstructionsList | undefined;
+  references?: ConfigInfoEncodedReferencesMap | undefined;
+  websearch?: ConfigInfoEncodedWebsearch | undefined;
+  plugins?: ConfigInfoEncodedPluginsList | undefined;
+  worktree?: LocationPublicRef | undefined;
+  warming?: ConfigInfoEncodedWarming | undefined;
+  providers?: ConfigInfoEncodedProvidersMap | undefined;
+  experimental?: ConfigInfoEncodedExperimental | undefined;
 }
 export interface ConfigDocumentEncoded {
   type: ConfigDocumentEncodedType;
-  path?: string;
+  path?: string | undefined;
   info: ConfigInfoEncoded;
 }
 export type ConfigDirectoryEncodedType = "directory";
@@ -2365,7 +2365,7 @@ export type GetExperimentalArtifactRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetExperimentalArtifactRequest {
   artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ArtifactContentFilesMap = { [key: string]: string | undefined };
 export interface ArtifactContent {
@@ -2395,14 +2395,14 @@ export interface GetExperimentalScheduleResponse {
 export type GetIntegrationRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetIntegrationRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type IntegrationOAuthMethodType = "oauth";
 export interface IntegrationOAuthMethod {
   id: string;
   type: IntegrationOAuthMethodType;
   label: string;
-  form?: FormFields;
+  form?: FormFields | undefined;
 }
 export type IntegrationCommandMethodType = "command";
 export type IntegrationCommandMethodCommandList = Array<string>;
@@ -2415,15 +2415,15 @@ export interface IntegrationCommandMethod {
 export type IntegrationKeyMethodType = "key";
 export interface IntegrationKeyMethod {
   type: IntegrationKeyMethodType;
-  label?: string;
-  form?: FormFields;
+  label?: string | undefined;
+  form?: FormFields | undefined;
 }
 export type IntegrationExternalMethodType = "external";
 export interface IntegrationExternalMethod {
   id: string;
   type: IntegrationExternalMethodType;
   label: string;
-  form?: FormFields;
+  form?: FormFields | undefined;
 }
 export type IntegrationEnvMethodType = "env";
 export type IntegrationEnvMethodNamesList = Array<string>;
@@ -2444,27 +2444,27 @@ export type ConnectionStatusStatus = "needs_auth";
 export interface ConnectionStatus {
   status: ConnectionStatusStatus;
   message: string;
-  url?: string;
+  url?: string | undefined;
 }
 export interface ConnectionCredentialInfo {
   type: ConnectionCredentialInfoType;
   id: string;
   label: string;
   method: ConnectionCredentialInfoMethod;
-  status?: ConnectionStatus;
+  status?: ConnectionStatus | undefined;
 }
 export type ConnectionEnvInfoType = "env";
 export interface ConnectionEnvInfo {
   type: ConnectionEnvInfoType;
   name: string;
-  status?: ConnectionStatus;
+  status?: ConnectionStatus | undefined;
 }
 export type ConnectionInfo = ConnectionCredentialInfo | ConnectionEnvInfo;
 export type IntegrationInfoConnectionsList = Array<ConnectionInfo>;
 export interface IntegrationInfo {
   id: string;
   name: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   methods: IntegrationInfoMethodsList;
   connections: IntegrationInfoConnectionsList;
 }
@@ -2474,7 +2474,7 @@ export interface GetIntegrationResponse {
 }
 export type GetLocationRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetLocationRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface LocationPublicInfoProject {
   id: string;
@@ -2488,21 +2488,21 @@ export interface LocationPublicInfo {
 export type GetProviderRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetProviderRequest {
   providerID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ProviderInfoActivation = "auto" | "enabled" | "disabled";
 export type ProviderInfoHeadersMap = { [key: string]: string | undefined };
 export interface ProviderInfo {
   id: string;
-  canonical?: string;
-  integrationID?: string;
+  canonical?: string | undefined;
+  integrationID?: string | undefined;
   name: string;
   activation: ProviderInfoActivation;
   package: string;
-  compatibility?: ProviderCompatibility;
-  settings?: ProviderSettings;
-  headers?: ProviderInfoHeadersMap;
-  body?: unknown;
+  compatibility?: ProviderCompatibility | undefined;
+  settings?: ProviderSettings | undefined;
+  headers?: ProviderInfoHeadersMap | undefined;
+  body?: unknown | undefined;
 }
 export interface GetProviderResponse {
   location: LocationPublicRef;
@@ -2511,7 +2511,7 @@ export interface GetProviderResponse {
 export type GetPtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetPtyRequest {
   ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface GetPtyResponse {
   location: LocationPublicRef;
@@ -2539,14 +2539,14 @@ export interface FormStateCase1 {
 export type FormStateCase2Status = "cancelled";
 export interface FormStateCase2 {
   status: FormStateCase2Status;
-  message?: string;
+  message?: string | undefined;
 }
 export type FormState = FormStateCase0 | FormStateCase1 | FormStateCase2;
 export interface FormDetail {
   id: string;
   sessionID: string;
   title: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   fields: FormFields;
   state: FormState;
 }
@@ -2571,10 +2571,10 @@ export interface PermissionRequest {
   sessionID: string;
   action: string;
   resources: PermissionRequestResourcesList;
-  save?: PermissionRequestSaveList;
-  metadata?: unknown;
-  source?: PermissionSource;
-  message?: string;
+  save?: PermissionRequestSaveList | undefined;
+  metadata?: unknown | undefined;
+  source?: PermissionSource | undefined;
+  message?: string | undefined;
 }
 export interface GetSessionPermissionResponse {
   data: PermissionRequest;
@@ -2582,7 +2582,7 @@ export interface GetSessionPermissionResponse {
 export type GetShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetShellRequest {
   id: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface GetShellResponse {
   location: LocationPublicRef;
@@ -2590,14 +2590,14 @@ export interface GetShellResponse {
 }
 export type GetVcsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface GetVcsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface VcsBranch {
-  current?: string;
-  default?: string;
+  current?: string | undefined;
+  default?: string | undefined;
 }
 export interface VcsInfo {
-  provider?: string;
+  provider?: string | undefined;
   branch: VcsBranch;
 }
 export interface GetVcsResponse {
@@ -2608,7 +2608,7 @@ export type ImportExperimentalSessionRequestMessagesList = Array<unknown>;
 export interface ImportExperimentalSessionRequest {
   info: SessionInfo;
   messages: ImportExperimentalSessionRequestMessagesList;
-  location?: LocationPublicRef | null;
+  location?: LocationPublicRef | null | undefined;
 }
 export interface ImportExperimentalSessionResponse {
   data: SessionInfo;
@@ -2618,7 +2618,7 @@ export type IntegrationCommandStatusRequestLocation =
 export interface IntegrationCommandStatusRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type IntegrationCommandAttemptStatusCase0Status = "pending";
 export type IntegrationCommandAttemptStatusCase0TimeCreatedCase1 = "Infinity" | "-Infinity" | "NaN";
@@ -2635,7 +2635,7 @@ export interface IntegrationCommandAttemptStatusCase0Time {
 }
 export interface IntegrationCommandAttemptStatusCase0 {
   status: IntegrationCommandAttemptStatusCase0Status;
-  message?: string;
+  message?: string | undefined;
   time: IntegrationCommandAttemptStatusCase0Time;
 }
 export type IntegrationCommandAttemptStatusCase1Status = "complete";
@@ -2703,20 +2703,20 @@ export type IntegrationConnectExternalRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface IntegrationConnectExternalRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   methodID: string;
-  answer?: FormAnswer | null;
-  label?: string | null;
+  answer?: FormAnswer | null | undefined;
+  label?: string | null | undefined;
 }
 export interface IntegrationConnectExternalResponse {}
 export type IntegrationConnectKeyRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface IntegrationConnectKeyRequest {
   integrationID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   key: string;
-  answer?: FormAnswer | null;
-  label?: string | null;
+  answer?: FormAnswer | null | undefined;
+  label?: string | null | undefined;
 }
 export interface IntegrationConnectKeyResponse {}
 export type IntegrationOauthStatusRequestLocation =
@@ -2724,7 +2724,7 @@ export type IntegrationOauthStatusRequestLocation =
 export interface IntegrationOauthStatusRequest {
   integrationID: string;
   attemptID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type IntegrationAttemptStatusCase0Status = "pending";
 export type IntegrationAttemptStatusCase0TimeCreatedCase1 = "Infinity" | "-Infinity" | "NaN";
@@ -2806,7 +2806,7 @@ export interface IntegrationOauthStatusResponse {
 }
 export type ListAgentRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListAgentRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListAgentResponseDataList = Array<AgentInfo>;
 export interface ListAgentResponse {
@@ -2815,11 +2815,11 @@ export interface ListAgentResponse {
 }
 export type ListCommandRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListCommandRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface CommandInfo {
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type ListCommandResponseDataList = Array<CommandInfo>;
 export interface ListCommandResponse {
@@ -2837,9 +2837,9 @@ export type ListDebugLocationResponse = ListDebugLocationResponseBodyList;
 export type ListExperimentalArtifactsRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListExperimentalArtifactsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  sessionID?: string;
-  provider?: string;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  sessionID?: string | undefined;
+  provider?: string | undefined;
 }
 export type ListExperimentalArtifactsResponseDataList = Array<ArtifactInfo>;
 export interface ListExperimentalArtifactsResponse {
@@ -2849,10 +2849,10 @@ export interface ListExperimentalArtifactsResponse {
 export type JobKind = "shell" | "subagent" | "image";
 export type JobStatus = "running" | "completed" | "error" | "cancelled";
 export interface ListExperimentalJobRequest {
-  sessionID?: string;
-  kind?: JobKind | (string & {});
-  status?: JobStatus | (string & {});
-  descendants?: boolean;
+  sessionID?: string | undefined;
+  kind?: JobKind | (string & {}) | undefined;
+  status?: JobStatus | (string & {}) | undefined;
+  descendants?: boolean | undefined;
 }
 export type JobShellKind = "shell";
 export type JobTime = ShellInfoTime;
@@ -2861,7 +2861,7 @@ export interface JobShell {
   id: string;
   sessionID: string;
   status: JobStatus;
-  title?: string;
+  title?: string | undefined;
   time: ShellInfoTime;
   shellID: string;
   command: string;
@@ -2872,7 +2872,7 @@ export interface JobSubagent {
   id: string;
   sessionID: string;
   status: JobStatus;
-  title?: string;
+  title?: string | undefined;
   time: ShellInfoTime;
   childSessionID: string;
   agent: string;
@@ -2884,7 +2884,7 @@ export interface JobImage {
   id: string;
   sessionID: string;
   status: JobStatus;
-  title?: string;
+  title?: string | undefined;
   time: ShellInfoTime;
   path: string;
   model: string;
@@ -2922,7 +2922,7 @@ export interface ListExperimentalSessionInstructionsEntryResponse {
 }
 export type ListFormRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListFormRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListFormResponseDataList = Array<FormInfo>;
 export interface ListFormResponse {
@@ -2931,8 +2931,8 @@ export interface ListFormResponse {
 }
 export type ListFsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListFsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  path?: string;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  path?: string | undefined;
 }
 export type ListFsResponseDataList = Array<FileSystemEntry>;
 export interface ListFsResponse {
@@ -2941,7 +2941,7 @@ export interface ListFsResponse {
 }
 export type ListIntegrationRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListIntegrationRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListIntegrationResponseDataList = Array<IntegrationInfo>;
 export interface ListIntegrationResponse {
@@ -2950,7 +2950,7 @@ export interface ListIntegrationResponse {
 }
 export type ListMcpRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListMcpRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type McpStatusConnectedStatus = "connected";
 export interface McpStatusConnected {
@@ -2983,8 +2983,8 @@ export type McpServerStatus =
 export interface McpServer {
   name: string;
   status: McpServerStatus;
-  title?: string;
-  integrationID?: string;
+  title?: string | undefined;
+  integrationID?: string | undefined;
 }
 export type ListMcpResponseDataList = Array<McpServer>;
 export interface ListMcpResponse {
@@ -2996,8 +2996,8 @@ export type ListModelRequestTypesCase1List = Array<ModelType>;
 /** Only list models of these types. Defaults to chat, the only type offered for sessions. */
 export type ListModelRequestTypes = ModelType | ListModelRequestTypesCase1List;
 export interface ListModelRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  types?: ListModelRequestTypes;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  types?: ListModelRequestTypes | undefined;
 }
 export type ModelSettings = ConfigModelSettings;
 export type ModelInfoHeadersMap = { [key: string]: string | undefined };
@@ -3007,15 +3007,15 @@ export interface ModelCapabilities {
   tools: boolean;
   input: ModelCapabilitiesInputList;
   output: ModelCapabilitiesOutputList;
-  temperature?: boolean;
+  temperature?: boolean | undefined;
 }
 export type ModelVariantSettings = ConfigModelVariantSettings;
 export type ModelVariantHeadersMap = { [key: string]: string | undefined };
 export interface ModelVariant {
   id: string;
-  settings?: ConfigModelVariantSettings;
-  headers?: ModelVariantHeadersMap;
-  body?: unknown;
+  settings?: ConfigModelVariantSettings | undefined;
+  headers?: ModelVariantHeadersMap | undefined;
+  body?: unknown | undefined;
 }
 export type ModelInfoVariantsList = Array<ModelVariant>;
 export interface ModelInfoTime {
@@ -3028,7 +3028,7 @@ export interface ModelCostTier {
 }
 export type ModelCostCache = TokenUsageInfoCache;
 export interface ModelCost {
-  tier?: ModelCostTier;
+  tier?: ModelCostTier | undefined;
   input: number;
   output: number;
   cache: TokenUsageInfoCache;
@@ -3037,22 +3037,22 @@ export type ModelInfoCostList = Array<ModelCost>;
 export type ModelInfoStatus = "alpha" | "beta" | "deprecated" | "active";
 export interface ModelInfoLimit {
   context: number;
-  input?: number;
+  input?: number | undefined;
   output: number;
 }
 export interface ModelInfo {
   id: string;
   modelID: string;
   providerID: string;
-  canonical?: string;
-  type?: ModelType;
-  family?: string;
+  canonical?: string | undefined;
+  type?: ModelType | undefined;
+  family?: string | undefined;
   name: string;
-  compatibility?: ModelCompatibility;
-  package?: string;
-  settings?: ConfigModelSettings;
-  headers?: ModelInfoHeadersMap;
-  body?: unknown;
+  compatibility?: ModelCompatibility | undefined;
+  package?: string | undefined;
+  settings?: ConfigModelSettings | undefined;
+  headers?: ModelInfoHeadersMap | undefined;
+  body?: unknown | undefined;
   capabilities: ModelCapabilities;
   variants: ModelInfoVariantsList;
   time: ModelInfoTime;
@@ -3069,7 +3069,7 @@ export interface ListModelResponse {
 export type ListPermissionRequestRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListPermissionRequestRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListPermissionRequestResponseDataList = Array<PermissionRequest>;
 export interface ListPermissionRequestResponse {
@@ -3077,7 +3077,7 @@ export interface ListPermissionRequestResponse {
   data: ListPermissionRequestResponseDataList;
 }
 export interface ListPermissionSavedRequest {
-  projectID?: string;
+  projectID?: string | undefined;
 }
 export type PermissionSavedInfoTime = ArtifactTime;
 export interface PermissionSavedInfo {
@@ -3093,7 +3093,7 @@ export interface ListPermissionSavedResponse {
 }
 export type ListPluginRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListPluginRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListPluginResponseDataList = Array<PluginInfo>;
 export interface ListPluginResponse {
@@ -3101,31 +3101,31 @@ export interface ListPluginResponse {
   data: ListPluginResponseDataList;
 }
 export interface ListProjectRequest {
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 export interface ProjectIcon {
-  url?: string;
-  override?: string;
-  color?: string;
+  url?: string | undefined;
+  override?: string | undefined;
+  color?: string | undefined;
 }
 export interface ProjectCommands {
   /** Startup script to run when creating a new workspace (worktree) */
-  start?: string;
+  start?: string | undefined;
 }
 export interface ProjectTime {
   created: number;
   updated: number;
   active: number;
-  archived?: number;
+  archived?: number | undefined;
 }
 export type ProjectSandboxesList = Array<string>;
 export interface Project {
   id: string;
   canonical: string;
-  vcs?: string;
-  name?: string;
-  icon?: ProjectIcon;
-  commands?: ProjectCommands;
+  vcs?: string | undefined;
+  name?: string | undefined;
+  icon?: ProjectIcon | undefined;
+  commands?: ProjectCommands | undefined;
   time: ProjectTime;
   sandboxes: ProjectSandboxesList;
 }
@@ -3133,7 +3133,7 @@ export type ListProjectResponseBodyList = Array<Project>;
 export type ListProjectResponse = ListProjectResponseBodyList;
 export type ListProviderRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListProviderRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListProviderResponseDataList = Array<ProviderInfo>;
 export interface ListProviderResponse {
@@ -3142,7 +3142,7 @@ export interface ListProviderResponse {
 }
 export type ListPtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListPtyRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListPtyResponseDataList = Array<Pty>;
 export interface ListPtyResponse {
@@ -3151,7 +3151,7 @@ export interface ListPtyResponse {
 }
 export type ListReferenceRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListReferenceRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ReferenceLocalSourceType = "local";
 export interface ReferenceLocalSource {
@@ -3162,14 +3162,14 @@ export type ReferenceGitSourceType = "git";
 export interface ReferenceGitSource {
   type: ReferenceGitSourceType;
   repository: string;
-  branch?: string;
+  branch?: string | undefined;
 }
 export type ReferenceSource = ReferenceLocalSource | ReferenceGitSource;
 export interface ReferenceInfo {
   name: string;
   path: string;
-  description?: string;
-  hidden?: boolean;
+  description?: string | undefined;
+  hidden?: boolean | undefined;
   source: ReferenceSource;
 }
 export type ListReferenceResponseDataList = Array<ReferenceInfo>;
@@ -3182,20 +3182,20 @@ export type ListSessionRequestParentIDCase1 = "null";
 /** Filter by parent session. Use null to return only root sessions. */
 export type ListSessionRequestParentID = string | ListSessionRequestParentIDCase1;
 export interface ListSessionRequest {
-  limit?: string;
-  order?: ListSessionRequestOrder | (string & {});
-  search?: string;
-  parentID?: ListSessionRequestParentID;
-  archived?: boolean;
-  directory?: string;
-  project?: string;
-  subpath?: string;
-  cursor?: string;
+  limit?: string | undefined;
+  order?: ListSessionRequestOrder | (string & {}) | undefined;
+  search?: string | undefined;
+  parentID?: ListSessionRequestParentID | undefined;
+  archived?: boolean | undefined;
+  directory?: string | undefined;
+  project?: string | undefined;
+  subpath?: string | undefined;
+  cursor?: string | undefined;
 }
 export type SessionsResponseDataList = Array<SessionInfo>;
 export interface SessionsResponseCursor {
-  previous?: string | null;
-  next?: string | null;
+  previous?: string | null | undefined;
+  next?: string | null | undefined;
 }
 export interface SessionsResponse {
   data: SessionsResponseDataList;
@@ -3218,10 +3218,10 @@ export type SessionInboxUserPayloadAgentsList = Array<PromptAgentAttachment>;
 export type SessionInboxUserPayloadSkillsList = Array<PromptSkillAttachment>;
 export interface SessionInboxUserPayload {
   text: string;
-  files?: SessionInboxUserPayloadFilesList;
-  agents?: SessionInboxUserPayloadAgentsList;
-  skills?: SessionInboxUserPayloadSkillsList;
-  metadata?: unknown;
+  files?: SessionInboxUserPayloadFilesList | undefined;
+  agents?: SessionInboxUserPayloadAgentsList | undefined;
+  skills?: SessionInboxUserPayloadSkillsList | undefined;
+  metadata?: unknown | undefined;
 }
 export interface SessionInboxUser {
   id: string;
@@ -3235,8 +3235,8 @@ export type SessionInboxSyntheticTime = SessionInboxCompactionTime;
 export type SessionInboxSyntheticType = "synthetic";
 export interface SessionInboxSyntheticPayload {
   text: string;
-  description?: string;
-  metadata?: unknown;
+  description?: string | undefined;
+  metadata?: unknown | undefined;
 }
 export interface SessionInboxSynthetic {
   id: string;
@@ -3250,7 +3250,7 @@ export type SessionInboxMoveTime = SessionInboxCompactionTime;
 export type SessionInboxMoveType = "move";
 export interface SessionInboxMovePayload {
   projectID: string;
-  subpath?: string;
+  subpath?: string | undefined;
   location: LocationPublicRef;
 }
 export interface SessionInboxMove {
@@ -3285,10 +3285,10 @@ export type ListSessionMessageRequestType =
   | "idle";
 export interface ListSessionMessageRequest {
   sessionID: string;
-  limit?: string;
-  order?: ListSessionMessageRequestOrder | (string & {});
-  cursor?: string;
-  type?: ListSessionMessageRequestType | (string & {});
+  limit?: string | undefined;
+  order?: ListSessionMessageRequestOrder | (string & {}) | undefined;
+  cursor?: string | undefined;
+  type?: ListSessionMessageRequestType | (string & {}) | undefined;
 }
 export type SessionMessagesResponseDataList = Array<SessionMessageInfo>;
 export type SessionMessagesResponseCursor = SessionsResponseCursor;
@@ -3305,7 +3305,7 @@ export interface ListSessionPermissionResponse {
 }
 export type ListShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListShellRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type ListShellResponseDataList = Array<ShellInfo>;
 export interface ListShellResponse {
@@ -3314,13 +3314,13 @@ export interface ListShellResponse {
 }
 export type ListSkillRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListSkillRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface SkillInfo {
   id: string;
   name: string;
-  description?: string;
-  autoinvoke?: boolean;
+  description?: string | undefined;
+  autoinvoke?: boolean | undefined;
   path: string;
   content: string;
 }
@@ -3331,9 +3331,9 @@ export interface ListSkillResponse {
 }
 export type ListVcsBranchRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ListVcsBranchRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  search?: string;
-  limit?: string;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  search?: string | undefined;
+  limit?: string | undefined;
 }
 export type VcsBranchList = Array<string>;
 export interface ListVcsBranchResponse {
@@ -3345,7 +3345,7 @@ export interface ListWorktreeRequest {
 }
 export interface WorktreeDirectory {
   directory: string;
-  strategy?: string;
+  strategy?: string | undefined;
 }
 export type WorktreeList = Array<WorktreeDirectory>;
 export type ListWorktreeResponse = WorktreeList;
@@ -3353,22 +3353,22 @@ export interface LocationReloadRequest {}
 export interface LocationReloadResponse {}
 export type McpResourceCatalogRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface McpResourceCatalogRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface McpResource {
   server: string;
   name: string;
   uri: string;
-  description?: string;
-  mimeType?: string;
+  description?: string | undefined;
+  mimeType?: string | undefined;
 }
 export type McpResourceCatalogResourcesList = Array<McpResource>;
 export interface McpResourceTemplate {
   server: string;
   name: string;
   uriTemplate: string;
-  description?: string;
-  mimeType?: string;
+  description?: string | undefined;
+  mimeType?: string | undefined;
 }
 export type McpResourceCatalogTemplatesList = Array<McpResourceTemplate>;
 export interface McpResourceCatalog {
@@ -3381,7 +3381,7 @@ export interface McpResourceCatalogResponse {
 }
 export type ModelDefaultRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ModelDefaultRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface ModelDefaultResponse {
   location: LocationPublicRef;
@@ -3390,7 +3390,7 @@ export interface ModelDefaultResponse {
 export interface MoveSessionRequest {
   sessionID: string;
   directory: string;
-  delivery?: SessionInboxDelivery | (string & {}) | null;
+  delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
 }
 export interface MoveSessionResponse {}
 export interface PauseExperimentalScheduleRequest {
@@ -3401,7 +3401,7 @@ export interface PauseExperimentalScheduleResponse {
 }
 export type PluginGuiRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface PluginGuiRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   id: string;
 }
 export interface PluginGuiBundle {
@@ -3416,7 +3416,7 @@ export interface PluginGuiResponse {
 export type PtyConnectTokenRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface PtyConnectTokenRequest {
   ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface PtyConnectTokenResponse {
   location: LocationPublicRef;
@@ -3430,7 +3430,7 @@ export interface PutExperimentalSessionInstructionsEntryRequest {
 export interface PutExperimentalSessionInstructionsEntryResponse {}
 export interface ReadExperimentalPersistentPtyRequest {
   sessionID: string;
-  lines?: string;
+  lines?: string | undefined;
 }
 export type PersistentPtyReadResultScreenCursor = PersistentPtySnapshotCursor;
 export interface PersistentPtyReadResultScreen {
@@ -3451,7 +3451,7 @@ export interface ReadExperimentalPersistentPtyResponse {
 }
 export type ReadFsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ReadFsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface ReadFsResponse {}
 export interface RefreshWorktreeRequest {
@@ -3466,7 +3466,7 @@ export type RemoveExperimentalMcpRequestLocation =
   AddExperimentalIntegrationWellknownRequestLocation;
 export interface RemoveExperimentalMcpRequest {
   server: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface RemoveExperimentalMcpResponse {}
 export interface RemoveExperimentalPersistentPtyRequest {
@@ -3485,7 +3485,7 @@ export interface RemovePermissionSavedResponse {}
 export type RemovePtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface RemovePtyRequest {
   ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface RemovePtyResponse {}
 export interface RemoveSessionRequest {
@@ -3495,7 +3495,7 @@ export interface RemoveSessionResponse {}
 export type RemoveShellRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface RemoveShellRequest {
   id: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface RemoveShellResponse {}
 export interface RemoveWorktreeRequest {
@@ -3515,7 +3515,7 @@ export interface ReplySessionPermissionRequest {
   sessionID: string;
   requestID: string;
   decision: PermissionReply | (string & {});
-  message?: string | null;
+  message?: string | null | undefined;
 }
 export interface ReplySessionPermissionResponse {}
 export interface ResumeExperimentalScheduleRequest {
@@ -3528,11 +3528,11 @@ export type RpcCallRequestLocation = AddExperimentalIntegrationWellknownRequestL
 export interface RpcCallRequest {
   rpcID: string;
   method: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  input?: unknown;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  input?: unknown | undefined;
 }
 export interface RpcOutput {
-  output?: unknown;
+  output?: unknown | undefined;
 }
 export interface ServerInfo2Request {}
 export type ServerInfoUrlsList = Array<string>;
@@ -3540,15 +3540,15 @@ export interface ServerInfoPaths {
   tmp: string;
 }
 export interface ServerInfoCapabilities {
-  persistentPty?: boolean | null;
+  persistentPty?: boolean | null | undefined;
 }
 export interface ServerInfo {
   version: string;
   pid: number;
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   urls: ServerInfoUrlsList;
   paths: ServerInfoPaths;
-  capabilities?: ServerInfoCapabilities | null;
+  capabilities?: ServerInfoCapabilities | null | undefined;
 }
 export interface ServerPairRequest {}
 export interface PairingCode {
@@ -3565,26 +3565,26 @@ export interface SessionBackgroundRequest {
 export interface SessionBackgroundResponse {}
 export interface PromptInputFileAttachment {
   uri: string;
-  source?: PromptFileSource;
-  name?: string;
-  description?: string;
-  mention?: PromptMention;
+  source?: PromptFileSource | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  mention?: PromptMention | undefined;
 }
 export type SessionCommandRequestFilesList = Array<PromptInputFileAttachment>;
 export type SessionCommandRequestAgentsList = Array<PromptAgentAttachment>;
 export interface PromptInputSkillAttachment {
   id: string;
-  mention?: PromptMention;
+  mention?: PromptMention | undefined;
 }
 export type SessionCommandRequestSkillsList = Array<PromptInputSkillAttachment>;
 export interface SessionCommandRequest {
   sessionID: string;
   name: string;
   text: string;
-  files?: SessionCommandRequestFilesList;
-  agents?: SessionCommandRequestAgentsList;
-  skills?: SessionCommandRequestSkillsList;
-  delivery?: SessionInboxDelivery | (string & {}) | null;
+  files?: SessionCommandRequestFilesList | undefined;
+  agents?: SessionCommandRequestAgentsList | undefined;
+  skills?: SessionCommandRequestSkillsList | undefined;
+  delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
 }
 export interface SessionCommandResponse {}
 export interface SessionContextRequest {
@@ -3596,9 +3596,9 @@ export interface SessionContextResponse {
 }
 export interface SessionDiffRequest {
   sessionID: string;
-  from?: string;
-  to?: string;
-  context?: string;
+  from?: string | undefined;
+  to?: string | undefined;
+  context?: string | undefined;
 }
 export type SessionDiffResponseDataList = Array<FileDiffInfo>;
 export interface SessionDiffResponse {
@@ -3612,7 +3612,7 @@ export interface SessionEnvironmentRequest {
 export interface SessionEnvironmentResponse {}
 export interface SessionInterruptRequest {
   sessionID: string;
-  resume?: boolean;
+  resume?: boolean | undefined;
 }
 export interface SessionInterruptResponse {
   /** Whether an active execution owned by this OpenCode process was interrupted. */
@@ -3623,14 +3623,14 @@ export type SessionPromptRequestAgentsList = Array<PromptAgentAttachment>;
 export type SessionPromptRequestSkillsList = Array<PromptInputSkillAttachment>;
 export interface SessionPromptRequest {
   sessionID: string;
-  id?: string | null;
+  id?: string | null | undefined;
   text: string;
-  files?: SessionPromptRequestFilesList;
-  agents?: SessionPromptRequestAgentsList;
-  skills?: SessionPromptRequestSkillsList;
-  metadata?: unknown;
-  delivery?: SessionInboxDelivery | (string & {}) | null;
-  resume?: boolean | null;
+  files?: SessionPromptRequestFilesList | undefined;
+  agents?: SessionPromptRequestAgentsList | undefined;
+  skills?: SessionPromptRequestSkillsList | undefined;
+  metadata?: unknown | undefined;
+  delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
+  resume?: boolean | null | undefined;
 }
 export interface SessionPromptResponse {
   data: SessionInboxUser;
@@ -3638,14 +3638,14 @@ export interface SessionPromptResponse {
 export interface SessionRevertStageRequest {
   sessionID: string;
   messageID: string;
-  files?: boolean | null;
+  files?: boolean | null | undefined;
 }
 export interface SessionRevertStageResponse {
   data: SessionRevert;
 }
 export interface SessionShellRequest {
   sessionID: string;
-  id?: string | null;
+  id?: string | null | undefined;
   command: string;
 }
 export interface SessionShellResponse {}
@@ -3661,12 +3661,12 @@ export interface SessionSwitchModelRequest {
 export interface SessionSwitchModelResponse {}
 export interface SessionSyntheticRequest {
   sessionID: string;
-  id?: string | null;
+  id?: string | null | undefined;
   text: string;
-  description?: string | null;
-  metadata?: unknown;
-  delivery?: SessionInboxDelivery | (string & {}) | null;
-  resume?: boolean | null;
+  description?: string | null | undefined;
+  metadata?: unknown | undefined;
+  delivery?: SessionInboxDelivery | (string & {}) | null | undefined;
+  resume?: boolean | null | undefined;
 }
 export interface SessionSyntheticResponse {
   data: SessionInboxSynthetic;
@@ -3679,9 +3679,9 @@ export interface SessionViewResponse {}
 export type ShellOutputRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface ShellOutputRequest {
   id: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  cursor?: string;
-  limit?: string;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  cursor?: string | undefined;
+  limit?: string | undefined;
 }
 export type ShellOutputResponseData = SessionMessageShellOutput;
 export interface ShellOutputResponse {
@@ -3890,7 +3890,7 @@ export type SubscribeEventRequestTypes =
   | string
   | SubscribeEventRequestTypesCase2List;
 export interface SubscribeEventRequest {
-  types?: SubscribeEventRequestTypes;
+  types?: SubscribeEventRequestTypes | undefined;
 }
 export interface SubscribeEventResponse {}
 export interface UpdateCredentialRequest {
@@ -3903,11 +3903,11 @@ export type UpdateExperimentalArtifactRequestLocation =
 export type UpdateExperimentalArtifactRequestFilesMap = { [key: string]: string | undefined };
 export interface UpdateExperimentalArtifactRequest {
   artifactID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  title?: string;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  title?: string | undefined;
   files: UpdateExperimentalArtifactRequestFilesMap;
-  entry?: string;
-  sessionID?: string;
+  entry?: string | undefined;
+  sessionID?: string | undefined;
 }
 export interface UpdateExperimentalArtifactResponse {
   location: LocationPublicRef;
@@ -3920,17 +3920,17 @@ export interface UpdateExperimentalConfigResponse {}
 export type UpdateExperimentalPersistentPtyRequestSize = CreateExperimentalPersistentPtyRequestSize;
 export interface UpdateExperimentalPersistentPtyRequest {
   ptyID: string;
-  attachmentID?: string;
-  size?: CreateExperimentalPersistentPtyRequestSize;
-  title?: string | null;
+  attachmentID?: string | undefined;
+  size?: CreateExperimentalPersistentPtyRequestSize | undefined;
+  title?: string | null | undefined;
 }
 export interface UpdateExperimentalPersistentPtyResponse {
   data: PersistentPtyInfo;
 }
 export interface UpdatePermissionSavedRequest {
   id: string;
-  action?: string | null;
-  resource?: string | null;
+  action?: string | null | undefined;
+  resource?: string | null | undefined;
 }
 export interface UpdatePermissionSavedResponse {
   data: PermissionSavedInfo;
@@ -3938,16 +3938,16 @@ export interface UpdatePermissionSavedResponse {
 export type UpdatePluginRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export type UpdatePluginRequestTargetsList = Array<string>;
 export interface UpdatePluginRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   targets: UpdatePluginRequestTargetsList;
 }
 export interface UpdatePluginResponse {}
 export interface UpdateProjectRequest {
   projectID: string;
-  canonical?: string;
-  name?: string;
-  icon?: ProjectIcon;
-  commands?: ProjectCommands;
+  canonical?: string | undefined;
+  name?: string | undefined;
+  icon?: ProjectIcon | undefined;
+  commands?: ProjectCommands | undefined;
 }
 export type UpdatePtyRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface UpdatePtyRequestSize {
@@ -3956,9 +3956,9 @@ export interface UpdatePtyRequestSize {
 }
 export interface UpdatePtyRequest {
   ptyID: string;
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  title?: string;
-  size?: UpdatePtyRequestSize;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  title?: string | undefined;
+  size?: UpdatePtyRequestSize | undefined;
 }
 export interface UpdatePtyResponse {
   location: LocationPublicRef;
@@ -3966,11 +3966,11 @@ export interface UpdatePtyResponse {
 }
 export interface UpdateSessionRequest {
   sessionID: string;
-  title?: string | null;
-  metadata?: unknown | null;
-  permissions?: PermissionRuleset | null;
+  title?: string | null | undefined;
+  metadata?: unknown | null | undefined;
+  permissions?: PermissionRuleset | null | undefined;
   /** Archive the session with true or restore it with false. Repeating the current state is a no-op. */
-  archived?: boolean | null;
+  archived?: boolean | null | undefined;
 }
 export interface UpdateSessionResponse {}
 export interface UpdateSessionInboxRequest {
@@ -3981,7 +3981,7 @@ export interface UpdateSessionInboxRequest {
 export interface UpdateSessionInboxResponse {}
 export type VcsBaseRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface VcsBaseRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type VcsBaseSource = "reflog" | "default";
 export interface VcsBase {
@@ -3997,11 +3997,11 @@ export type VcsDiffRequestLocation = AddExperimentalIntegrationWellknownRequestL
 export type VcsMode = "working" | "branch" | "committed";
 export type VcsUntracked = "files" | "folders";
 export interface VcsDiffRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   mode: VcsMode | (string & {});
-  base?: string;
-  context?: string;
-  untracked?: VcsUntracked | (string & {});
+  base?: string | undefined;
+  context?: string | undefined;
+  untracked?: VcsUntracked | (string & {}) | undefined;
 }
 export type VcsDiffResponseDataList = Array<FileDiffInfo>;
 export interface VcsDiffResponse {
@@ -4010,13 +4010,13 @@ export interface VcsDiffResponse {
 }
 export type VcsInitRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface VcsInitRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
-  provider?: string;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
+  provider?: string | undefined;
 }
 export interface VcsInitResponse {}
 export type VcsStatusRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface VcsStatusRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export type VcsFileStatusStatus = "added" | "deleted" | "modified";
 export interface VcsFileStatus {
@@ -4036,14 +4036,14 @@ export interface WaitExperimentalSessionRequest {
 export interface WaitExperimentalSessionResponse {}
 export type WatchExperimentalFsRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface WatchExperimentalFsRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   /** A file path relative to the requested location. */
   path: string;
 }
 export interface WatchExperimentalFsResponse {}
 export type WebsearchProvidersRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface WebsearchProvidersRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
 }
 export interface WebSearchProvider {
   id: string;
@@ -4056,17 +4056,17 @@ export interface WebsearchProvidersResponse {
 }
 export type WebsearchQueryRequestLocation = AddExperimentalIntegrationWellknownRequestLocation;
 export interface WebsearchQueryRequest {
-  location?: AddExperimentalIntegrationWellknownRequestLocation;
+  location?: AddExperimentalIntegrationWellknownRequestLocation | undefined;
   query: string;
-  providerID?: string;
+  providerID?: string | undefined;
 }
 export interface WebSearchResultTime {
-  published?: number;
+  published?: number | undefined;
 }
 export interface WebSearchResult {
   url: string;
-  title?: string;
-  content?: string;
+  title?: string | undefined;
+  content?: string | undefined;
   time: WebSearchResultTime;
 }
 export type WebSearchResponseEncodedResultsList = Array<WebSearchResult>;

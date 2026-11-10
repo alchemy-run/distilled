@@ -97,7 +97,7 @@ export interface DeleteAgentResponse {
 }
 export interface GetAgentRequest {
   agent_id: string;
-  verbose?: boolean;
+  verbose?: boolean | undefined;
 }
 /** What kind of agent this is: "notion_ai" is the personal agent; "custom_agent" is a standalone agent you chat with; "autofill_custom_agent" fills a database property; "external" runs through an external provider. */
 export type GetAgentResponseAgentType =
@@ -552,21 +552,21 @@ export interface GetAgentResponseTriggersItemSchedule {
   /** Multiplier on the frequency (e.g. every 2 weeks). */
   interval: number;
   /** Days of the week the schedule runs (e.g. "monday"). Present for weekly cadences and monthly weekday restrictions. */
-  weekdays?: GetAgentResponseTriggersItemScheduleWeekdaysList;
+  weekdays?: GetAgentResponseTriggersItemScheduleWeekdaysList | undefined;
   /** Days of the month the schedule runs. Present for monthly monthday restrictions. */
-  monthdays?: GetAgentResponseTriggersItemScheduleMonthdaysList;
+  monthdays?: GetAgentResponseTriggersItemScheduleMonthdaysList | undefined;
   /** Week-of-month ordinals for a monthly weekday restriction (e.g. [2, 3] for the 2nd and 3rd occurrence); -1 means the last week. */
-  week_numbers?: GetAgentResponseTriggersItemScheduleWeekNumbersList;
+  week_numbers?: GetAgentResponseTriggersItemScheduleWeekNumbersList | undefined;
   /** Hour of day (0-23) the schedule runs. */
-  hour?: number;
+  hour?: number | undefined;
   /** Minute of the hour (0-59) the schedule runs. */
-  minute?: number;
+  minute?: number | undefined;
   /** IANA timezone (e.g. "America/New_York"). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** ISO 8601 timestamp the schedule starts from. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** When the schedule stops, when it is bounded. */
-  end?: GetAgentResponseTriggersItemScheduleEnd;
+  end?: GetAgentResponseTriggersItemScheduleEnd | undefined;
 }
 /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
 export type GetAgentResponseTriggersItemConfigMap = { [key: string]: unknown | undefined };
@@ -576,9 +576,9 @@ export interface GetAgentResponseTriggersItem {
   /** Whether this trigger is currently enabled. */
   enabled: boolean;
   /** Structured recurrence cadence. Present only for recurrence triggers. */
-  schedule?: GetAgentResponseTriggersItemSchedule;
+  schedule?: GetAgentResponseTriggersItemSchedule | undefined;
   /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
-  config?: GetAgentResponseTriggersItemConfigMap;
+  config?: GetAgentResponseTriggersItemConfigMap | undefined;
 }
 /** The agent's configured triggers, each with a machine type, an enabled flag, and (for recurrence triggers) a structured schedule. */
 export type GetAgentResponseTriggersList = Array<GetAgentResponseTriggersItem>;
@@ -616,16 +616,16 @@ export interface GetAgentResponse {
   /** Whether this agent is in the caller's personal favorites, or null when the caller has no personal favorites scope. */
   is_favorited: boolean | null;
   /** Date and time when this agent was created. */
-  created_time?: string;
+  created_time?: string | undefined;
   /** Date and time when this agent was last edited. */
-  last_edited_time?: string;
+  last_edited_time?: string | undefined;
   /** The agent's inline instructions when verbose=true, or null when its instructions are stored on a page. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
 }
 export interface GetAgentInsightsRequest {
   agent_id: string;
-  start_time?: number;
-  end_time?: number;
+  start_time?: number | undefined;
+  end_time?: number | undefined;
 }
 /** One of: `notion_ai`, `custom_agent`, `autofill_custom_agent` */
 export type GetAgentInsightsResponseAgentType =
@@ -706,8 +706,8 @@ export interface QueryAgentsRequestFilterCase0Case2 {
   people: QueryAgentsRequestFilterCase0Case2People;
 }
 export interface QueryAgentsRequestFilterCase0Case3Date {
-  after?: string;
-  before?: string;
+  after?: string | undefined;
+  before?: string | undefined;
 }
 export interface QueryAgentsRequestFilterCase0Case3 {
   property: string;
@@ -1272,19 +1272,19 @@ export interface QueryAgentsRequestSortsItem {
 export type QueryAgentsRequestSortsList = Array<QueryAgentsRequestSortsItem>;
 export interface QueryAgentsRequest {
   /** Search agent names and descriptions using a case-insensitive substring match. */
-  query?: string;
+  query?: string | undefined;
   /** Filter agents by public properties, optionally combined with and/or. */
-  filter?: QueryAgentsRequestFilter;
+  filter?: QueryAgentsRequestFilter | undefined;
   /** Ordered sort precedence. Defaults to created_time descending. */
-  sorts?: QueryAgentsRequestSortsList;
+  sorts?: QueryAgentsRequestSortsList | undefined;
   /** Opaque continuation cursor from the previous page. */
-  start_cursor?: string;
+  start_cursor?: string | undefined;
   /** Number of agents to return. Maximum: 100. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Whether to include inline instructions for each agent. Defaults to false. */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
   /** Whether to include soft-deleted agents. Defaults to false. */
-  include_deleted?: boolean;
+  include_deleted?: boolean | undefined;
 }
 /** What kind of agent this is: "custom_agent" is a standalone agent you chat with; "autofill_custom_agent" fills a database property. */
 export type QueryAgentsResponseResultsItemCase0AgentType = "custom_agent" | "autofill_custom_agent";
@@ -1588,21 +1588,21 @@ export interface QueryAgentsResponseResultsItemCase0TriggersItemSchedule {
   /** Multiplier on the frequency (e.g. every 2 weeks). */
   interval: number;
   /** Days of the week the schedule runs (e.g. "monday"). Present for weekly cadences and monthly weekday restrictions. */
-  weekdays?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleWeekdaysList;
+  weekdays?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleWeekdaysList | undefined;
   /** Days of the month the schedule runs. Present for monthly monthday restrictions. */
-  monthdays?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleMonthdaysList;
+  monthdays?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleMonthdaysList | undefined;
   /** Week-of-month ordinals for a monthly weekday restriction (e.g. [2, 3] for the 2nd and 3rd occurrence); -1 means the last week. */
-  week_numbers?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleWeekNumbersList;
+  week_numbers?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleWeekNumbersList | undefined;
   /** Hour of day (0-23) the schedule runs. */
-  hour?: number;
+  hour?: number | undefined;
   /** Minute of the hour (0-59) the schedule runs. */
-  minute?: number;
+  minute?: number | undefined;
   /** IANA timezone (e.g. "America/New_York"). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** ISO 8601 timestamp the schedule starts from. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** When the schedule stops, when it is bounded. */
-  end?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleEnd;
+  end?: QueryAgentsResponseResultsItemCase0TriggersItemScheduleEnd | undefined;
 }
 /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
 export type QueryAgentsResponseResultsItemCase0TriggersItemConfigMap = {
@@ -1614,9 +1614,9 @@ export interface QueryAgentsResponseResultsItemCase0TriggersItem {
   /** Whether this trigger is currently enabled. */
   enabled: boolean;
   /** Structured recurrence cadence. Present only for recurrence triggers. */
-  schedule?: QueryAgentsResponseResultsItemCase0TriggersItemSchedule;
+  schedule?: QueryAgentsResponseResultsItemCase0TriggersItemSchedule | undefined;
   /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
-  config?: QueryAgentsResponseResultsItemCase0TriggersItemConfigMap;
+  config?: QueryAgentsResponseResultsItemCase0TriggersItemConfigMap | undefined;
 }
 /** The agent's configured triggers, each with a machine type, an enabled flag, and a structured recurrence schedule when applicable. */
 export type QueryAgentsResponseResultsItemCase0TriggersList =
@@ -1652,7 +1652,7 @@ export interface QueryAgentsResponseResultsItemCase0 {
   /** The agent's configured triggers, each with a machine type, an enabled flag, and a structured recurrence schedule when applicable. */
   triggers: QueryAgentsResponseResultsItemCase0TriggersList;
   /** The agent's inline instructions when verbose=true, or null when its instructions are stored on a page. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
 }
 /** The static and animated URLs for the agent avatar. */
 export type QueryAgentsResponseResultsItemCase1IconCase1CustomAgentAvatar =
@@ -1920,21 +1920,21 @@ export interface QueryAgentsResponseResultsItemCase1TriggersItemSchedule {
   /** Multiplier on the frequency (e.g. every 2 weeks). */
   interval: number;
   /** Days of the week the schedule runs (e.g. "monday"). Present for weekly cadences and monthly weekday restrictions. */
-  weekdays?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleWeekdaysList;
+  weekdays?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleWeekdaysList | undefined;
   /** Days of the month the schedule runs. Present for monthly monthday restrictions. */
-  monthdays?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleMonthdaysList;
+  monthdays?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleMonthdaysList | undefined;
   /** Week-of-month ordinals for a monthly weekday restriction (e.g. [2, 3] for the 2nd and 3rd occurrence); -1 means the last week. */
-  week_numbers?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleWeekNumbersList;
+  week_numbers?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleWeekNumbersList | undefined;
   /** Hour of day (0-23) the schedule runs. */
-  hour?: number;
+  hour?: number | undefined;
   /** Minute of the hour (0-59) the schedule runs. */
-  minute?: number;
+  minute?: number | undefined;
   /** IANA timezone (e.g. "America/New_York"). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** ISO 8601 timestamp the schedule starts from. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** When the schedule stops, when it is bounded. */
-  end?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleEnd;
+  end?: QueryAgentsResponseResultsItemCase1TriggersItemScheduleEnd | undefined;
 }
 /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
 export type QueryAgentsResponseResultsItemCase1TriggersItemConfigMap = {
@@ -1946,9 +1946,9 @@ export interface QueryAgentsResponseResultsItemCase1TriggersItem {
   /** Whether this trigger is currently enabled. */
   enabled: boolean;
   /** Structured recurrence cadence. Present only for recurrence triggers. */
-  schedule?: QueryAgentsResponseResultsItemCase1TriggersItemSchedule;
+  schedule?: QueryAgentsResponseResultsItemCase1TriggersItemSchedule | undefined;
   /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
-  config?: QueryAgentsResponseResultsItemCase1TriggersItemConfigMap;
+  config?: QueryAgentsResponseResultsItemCase1TriggersItemConfigMap | undefined;
 }
 export type QueryAgentsResponseResultsItemCase1TriggersList =
   Array<QueryAgentsResponseResultsItemCase1TriggersItem>;
@@ -2006,15 +2006,15 @@ export type UpdateAgentRequestModel = UpdateAgentRequestModelCase0 | UpdateAgent
 export interface UpdateAgentRequest {
   agent_id: string;
   /** Enable or disable the agent. Re-enabling works only for an agent an editor disabled, through the API or in agent settings. */
-  status?: UpdateAgentRequestStatus | (string & {});
+  status?: UpdateAgentRequestStatus | (string & {}) | undefined;
   /** The agent's display name. */
-  name?: string;
+  name?: string | undefined;
   /** The custom agent's short description. Use an empty string to clear it. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the personal-access-token owner has this agent in their favorites. */
-  is_favorited?: boolean;
+  is_favorited?: boolean | undefined;
   /** The model selection. Use auto to let Notion choose, or pinned with an available public model ID. */
-  model?: UpdateAgentRequestModel;
+  model?: UpdateAgentRequestModel | undefined;
 }
 /** What kind of agent this is: "notion_ai" is the personal agent; "custom_agent" is a standalone agent you chat with; "autofill_custom_agent" fills a database property; "external" runs through an external provider. */
 export type UpdateAgentResponseAgentType =
@@ -2311,21 +2311,21 @@ export interface UpdateAgentResponseTriggersItemSchedule {
   /** Multiplier on the frequency (e.g. every 2 weeks). */
   interval: number;
   /** Days of the week the schedule runs (e.g. "monday"). Present for weekly cadences and monthly weekday restrictions. */
-  weekdays?: UpdateAgentResponseTriggersItemScheduleWeekdaysList;
+  weekdays?: UpdateAgentResponseTriggersItemScheduleWeekdaysList | undefined;
   /** Days of the month the schedule runs. Present for monthly monthday restrictions. */
-  monthdays?: UpdateAgentResponseTriggersItemScheduleMonthdaysList;
+  monthdays?: UpdateAgentResponseTriggersItemScheduleMonthdaysList | undefined;
   /** Week-of-month ordinals for a monthly weekday restriction (e.g. [2, 3] for the 2nd and 3rd occurrence); -1 means the last week. */
-  week_numbers?: UpdateAgentResponseTriggersItemScheduleWeekNumbersList;
+  week_numbers?: UpdateAgentResponseTriggersItemScheduleWeekNumbersList | undefined;
   /** Hour of day (0-23) the schedule runs. */
-  hour?: number;
+  hour?: number | undefined;
   /** Minute of the hour (0-59) the schedule runs. */
-  minute?: number;
+  minute?: number | undefined;
   /** IANA timezone (e.g. "America/New_York"). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** ISO 8601 timestamp the schedule starts from. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** When the schedule stops, when it is bounded. */
-  end?: UpdateAgentResponseTriggersItemScheduleEnd;
+  end?: UpdateAgentResponseTriggersItemScheduleEnd | undefined;
 }
 /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
 export type UpdateAgentResponseTriggersItemConfigMap = { [key: string]: unknown | undefined };
@@ -2335,9 +2335,9 @@ export interface UpdateAgentResponseTriggersItem {
   /** Whether this trigger is currently enabled. */
   enabled: boolean;
   /** Structured recurrence cadence. Present only for recurrence triggers. */
-  schedule?: UpdateAgentResponseTriggersItemSchedule;
+  schedule?: UpdateAgentResponseTriggersItemSchedule | undefined;
   /** Remaining per-type trigger configuration (e.g. watched channel ids, reaction config), keys in snake_case. Present only when the trigger carries such state. */
-  config?: UpdateAgentResponseTriggersItemConfigMap;
+  config?: UpdateAgentResponseTriggersItemConfigMap | undefined;
 }
 /** The agent's configured triggers, each with a machine type, an enabled flag, and (for recurrence triggers) a structured schedule. */
 export type UpdateAgentResponseTriggersList = Array<UpdateAgentResponseTriggersItem>;
@@ -2375,11 +2375,11 @@ export interface UpdateAgentResponse {
   /** Whether this agent is in the caller's personal favorites, or null when the caller has no personal favorites scope. */
   is_favorited: boolean | null;
   /** Date and time when this agent was created. */
-  created_time?: string;
+  created_time?: string | undefined;
   /** Date and time when this agent was last edited. */
-  last_edited_time?: string;
+  last_edited_time?: string | undefined;
   /** The agent's inline instructions when verbose=true, or null when its instructions are stored on a page. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
 }
 export interface UpdateAgentCreditLimitRequest {
   agent_id: string;

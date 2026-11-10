@@ -27,7 +27,7 @@ export interface GenerateWorkflowDataSuggestionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Make new suggestions even when the cached ones are still valid. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 /** * `ready` - Ready * `generating` - Generating * `ai_not_approved` - Ai Not Approved * `unavailable` - Unavailable */
 export type DataSuggestionsStatusEnum = "ready" | "generating" | "ai_not_approved" | "unavailable";
@@ -91,9 +91,9 @@ export interface WorkflowDataSuggestionsBuildRequest {
   /** The id of a suggestion from the list endpoint. */
   suggestion_id: string;
   /** Start a new build when the last one failed. Leave it false when asking for a running build's status. */
-  retry?: boolean;
+  retry?: boolean | undefined;
   /** Save the built draft in the project and return its workflow_id. Blank settings, like a webhook URL, stay blank and are listed in missing_inputs. Leave it false to get the workflow back without saving. */
-  save_draft?: boolean;
+  save_draft?: boolean | undefined;
 }
 /** * `ready` - Ready * `building` - Building * `failed` - Failed */
 export type DataSuggestionBuildStatusEnum = "ready" | "building" | "failed";
@@ -127,7 +127,7 @@ export interface WorkflowDataSuggestionsBuildForEventsRequest {
   /** The events to build email workflows for, at most 5. Each event gets at most one draft workflow that starts when the event happens. */
   events: WorkflowDataSuggestionsBuildForEventsRequestEventsList;
   /** Start a new build when the last one for these events failed. Leave it false when asking for a running build's status. */
-  retry?: boolean;
+  retry?: boolean | undefined;
 }
 /** With status ready: the saved draft workflows, which never run until enabled. Empty otherwise. */
 export type EventWorkflowsBuildResponseWorkflowIdsList = Array<string>;

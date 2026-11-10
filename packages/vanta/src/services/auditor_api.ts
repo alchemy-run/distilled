@@ -301,9 +301,9 @@ export interface CreateCustomControlRequest {
   /** The category of the control. See the ControlDomain enum for possible values. */
   category: ControlDomain | (string & {});
   /** Framework sections that the control should be mapped to. */
-  sections?: CreateCustomControlRequestSectionsList | null;
+  sections?: CreateCustomControlRequestSectionsList | null | undefined;
   /** The GDPR role of the control, which specifies whether the data is being "collected" or "processed". See the GdprRole enum for possible values. This field should only be included for controls that are to be mapped to the GDPR framework. */
-  role?: GdprRole | (string & {}) | null;
+  role?: GdprRole | (string & {}) | null | undefined;
 }
 export type ControlSource = "Vanta" | "Custom";
 /** The security domains that the control belongs to. */
@@ -340,7 +340,7 @@ export interface AuditorApiControl {
   /** The control's owner. */
   owner: Owner | null;
   /** The control's GDPR role, if the control is a GDPR control. */
-  role?: string | null;
+  role?: string | null | undefined;
   /** The control's custom field values, if control custom fields is included in your Vanta instance. */
   customFields: AuditorApiControlCustomFieldsList;
   /** When the control was created. Returns null for Vanta library controls. */
@@ -399,17 +399,17 @@ export interface CreateInformationRequestRequest {
   /** Scope of evidence required. */
   requestType: InformationRequestType | (string & {});
   /** Detailed description explaining what evidence is needed. Helps the customer understand what to submit. Optional. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Framework codes this request addresses. An empty array if no framework codes are associated. */
   frameworkCodes: CreateInformationRequestRequestFrameworkCodesList;
   /** How frequently this request recurs. Null or omitted for one-time requests. */
-  cadence?: InformationRequestCadence | (string & {}) | null;
+  cadence?: InformationRequestCadence | (string & {}) | null | undefined;
   /** Deadline for fulfilling this request. Null or omitted if no deadline. Format: ISO 8601 UTC timestamp. */
-  dueDate?: string | null;
+  dueDate?: string | null | undefined;
   /** Start date of the audit period. Evidence before this date may not be accepted. Null or omitted if not restricted. Format: ISO 8601 UTC timestamp. */
-  evidenceCaptureDate?: string | null;
+  evidenceCaptureDate?: string | null | undefined;
   /** Control IDs to link directly to this request, beyond those automatically mapped from framework codes. Each must be the `id` of an existing control in the customer's organization (the identifier returned by the controls endpoints). Unknown IDs and controls without an active mapping to a framework in the audit are skipped. Omit or pass an empty array for no direct control links. */
-  additionalControlIds?: CreateInformationRequestRequestAdditionalControlIdsList;
+  additionalControlIds?: CreateInformationRequestRequestAdditionalControlIdsList | undefined;
 }
 export interface DeleteCommentForControlRequest {
   auditId: string;
@@ -544,7 +544,7 @@ export interface Audit {
   /** Generation status of this audit's Vanta-generated information request list (IRL). `PENDING`/`RUNNING` defer initial sync, `READY` permits a full sync, and `FAILED` is terminal. Null means the audit has no generated IRL. */
   irlGenerationStatus: AuditIrlGenerationStatus | null;
   /** Metadata about the auditor request list. This field is only present for IRL (Information Request List) based audits and will be undefined for standard audits. Use the presence of this field to differentiate between IRL and non-IRL audits. */
-  auditorRequestListMetadata?: AuditAuditorRequestListMetadata;
+  auditorRequestListMetadata?: AuditAuditorRequestListMetadata | undefined;
   /** The audit's scope as a list of segments. Always present. A live audit returns every in-scope program and system segment; more than one segment does not by itself imply more than one framework. Soft-deleted audits return an empty list. Prefer this over the deprecated top-level `framework` field. */
   segments: AuditSegmentsList;
 }
@@ -663,7 +663,7 @@ export interface UploadedDocumentEvidence {
   /** The unique identifier for the uploaded document in Vanta's system. */
   id: string;
   /** The original filename of the uploaded document. Undefined if the filename was not captured during upload. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type of the document indicating its file format. Common types: "application/pdf", "image/png", "image/jpeg", "text/plain" */
   mimeType: string;
   /** A presigned URL for downloading the document. This URL is temporary and expires after a limited time. Request a new evidence list to get a fresh URL if expired. */
@@ -674,7 +674,7 @@ export interface LinkEvidence {
   /** The title or descriptive name for the link. */
   title: string;
   /** Optional description providing additional context about the link. */
-  description?: string;
+  description?: string | undefined;
   /** The URL pointing to the external documentation or resource. */
   url: string;
 }
@@ -697,7 +697,7 @@ export interface VantaDocumentUploadedEvidence {
   /** The unique identifier for the file version in Vanta's system. */
   id: string;
   /** The original filename of the uploaded document. Undefined if the filename was not captured during upload. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type of the document indicating its file format. Common types: "application/pdf", "image/png", "image/jpeg", "text/plain" */
   mimeType: string;
   /** A presigned URL for downloading the document. This URL is temporary and expires after a limited time. Request a new evidence list to get a fresh URL if expired. */
@@ -721,11 +721,11 @@ export interface VantaDocumentEvidence {
   /** The title of the document as displayed in Vanta. */
   title: string;
   /** Optional description providing additional context about the document. */
-  description?: string;
+  description?: string | undefined;
   /** The date when the document version expires and should be renewed. Undefined if no expiration is set. Format: ISO 8601 UTC timestamp. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Information about the user who added this file version to the document. Undefined if the user information is not available. */
-  addedBy?: VantaDocumentEvidenceAddedBy;
+  addedBy?: VantaDocumentEvidenceAddedBy | undefined;
   /** The unique identifier of the document version submitted as evidence. */
   documentVersionId: string;
   /** The file or link associated with this document version. Use the `type` discriminator to determine whether it's an uploaded file or an external link. */
@@ -744,7 +744,7 @@ export interface VantaPolicyEvidenceFile {
   /** The MIME type of the policy document indicating its file format. Common types: "application/pdf", "application/msword" */
   mimeType: string;
   /** The original filename of the uploaded policy document. Undefined if the filename was not captured during upload. */
-  filename?: string;
+  filename?: string | undefined;
   /** The unique identifier for the uploaded policy file in Vanta's system. */
   id: string;
 }
@@ -753,11 +753,11 @@ export interface VantaPolicyEvidence {
   /** The title of the policy as displayed in Vanta. */
   title: string;
   /** Optional description providing additional context about the policy. */
-  description?: string;
+  description?: string | undefined;
   /** The date when the policy version expires and should be renewed. Undefined if no expiration is set. Format: ISO 8601 UTC timestamp. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Information about the user who last edited this policy version. Undefined if the user information is not available. */
-  lastEditedBy?: VantaDocumentEvidenceAddedBy;
+  lastEditedBy?: VantaDocumentEvidenceAddedBy | undefined;
   /** The policy type this evidence belongs to (e.g. "information-security-policy-bsi"). Policies prefixed with "custom-" are customer-defined; others are Vanta-provided templates. */
   policyId: string;
   /** The identifier of the approved policy version that was submitted as evidence. A new version is created each time a policy is updated and approved. */
@@ -835,13 +835,13 @@ export interface InformationRequestEvidence {
   /** Type of evidence attached to this information request. Determines the structure of the `evidence` field. */
   evidenceType: InformationRequestSupportedEvidenceType;
   /** Timestamp when the evidence was made visible to the auditor. Null if the customer has not yet shared this evidence with the auditor. Evidence must be shared before the auditor can review it. Format: ISO 8601 UTC timestamp. */
-  visibleToAuditorDate?: string | null;
+  visibleToAuditorDate?: string | null | undefined;
   /** Timestamp when the evidence was created/uploaded. Format: ISO 8601 UTC timestamp. */
   creationDate: string;
   /** Timestamp when the evidence was last modified. Format: ISO 8601 UTC timestamp. */
   modificationDate: string;
   /** Timestamp when the evidence was soft-deleted. Null if the evidence has not been deleted. Soft deletes retain evidence in the system for audit history while hiding it from normal operations. Format: ISO 8601 UTC timestamp. */
-  deletionDate?: string | null;
+  deletionDate?: string | null | undefined;
   /** IDs of the audit segments this evidence was relevant to when captured. Empty for uploaded, link and observation evidence, and for evidence captured before attribution was recorded. */
   capturedSegmentIds: InformationRequestEvidenceCapturedSegmentIdsList;
   /** The evidence content. Structure varies based on evidenceType. */
@@ -933,9 +933,9 @@ export interface VantaTestSnapshotEvidenceDetail {
   /** Raw test data captured at snapshot time. */
   rawTestData: VantaTestSnapshotEvidenceDetailRawTestDataList;
   /** Resources excluded from the test at snapshot time. Absent when the snapshot data could not be loaded; clients should treat a missing field as "unknown" rather than "nothing excluded". */
-  outOfScopeResources?: VantaTestSnapshotOutOfScopeResources;
+  outOfScopeResources?: VantaTestSnapshotOutOfScopeResources | undefined;
   /** API requests captured during the test run. Absent when the snapshot data could not be loaded. Empty array when the test does not perform API introspection. */
-  apiRequests?: VantaTestSnapshotEvidenceDetailApiRequestsList;
+  apiRequests?: VantaTestSnapshotEvidenceDetailApiRequestsList | undefined;
 }
 export interface GetOrganizationInformationRequest {
   /** The audit ID */
@@ -953,17 +953,17 @@ export interface AuditOrganizationInformation {
   /** Display name of the organization. */
   displayName: string;
   /** Legal name of the organization. */
-  legalName?: string | null;
+  legalName?: string | null | undefined;
   /** Incorporation status. Returns "Incorporated in the United States" when the organization is a US company, or null otherwise. */
-  incorporation?: string | null;
+  incorporation?: string | null | undefined;
   /** Organization URL. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Mailing address of the organization. */
-  mailingAddress?: string | null;
+  mailingAddress?: string | null | undefined;
   /** Telephone number of the organization. */
-  telephone?: string | null;
+  telephone?: string | null | undefined;
   /** Company logo reference (download URL), or null if no logo is uploaded. */
-  companyLogo?: AuditOrganizationCompanyLogo | null;
+  companyLogo?: AuditOrganizationCompanyLogo | null | undefined;
 }
 export interface GetOrganizationNotificationsRequest {
   /** The audit ID */
@@ -992,21 +992,21 @@ export interface AuditOrganizationNotifications {
   /** Domain identifier of the audited organization. */
   id: string;
   /** IANA timezone identifier that determines when scheduled reminder notifications are sent. `null` means the organization has no configured preference ("Anytime" in the UI). */
-  preferredTimeZone?: string | null;
+  preferredTimeZone?: string | null | undefined;
   /** Frequency at which personnel reminder digests are sent (e.g. `DAILY`, `WEEKLY`, or `NEVER`). `null` when no notification settings have been configured for the organization. */
-  employeeDigestFrequency?: string | null;
+  employeeDigestFrequency?: string | null | undefined;
   /** Channels on which the personnel reminder digest is delivered (e.g. `["EMAIL"]` or `["EMAIL", "SLACK"]`). */
-  subscribedChannelTypes?: AuditOrganizationNotificationsSubscribedChannelTypesList;
+  subscribedChannelTypes?: AuditOrganizationNotificationsSubscribedChannelTypesList | undefined;
   /** External notification subscriptions -- one row per mailing-list address plus category pairing. Covers Compliance, Vendors, Access Reviews, and Trust Center categories. */
-  externalNotifications?: AuditOrganizationNotificationsExternalNotificationsList;
+  externalNotifications?: AuditOrganizationNotificationsExternalNotificationsList | undefined;
 }
 export interface ListAccountAccessServicesRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
 }
 /** An account access service (identity provider, access credential, or external application) connected to the organization. These represent credentials for integrations like Okta, Azure AD, Google Workspace, etc. that provide identity and access management data for personnel, as well as external applications that provide received user accounts. */
 export interface AccountAccessService {
@@ -1040,10 +1040,10 @@ export interface PaginatedResponseAccountAccessService {
 }
 export interface ListAuditCommentsRequest {
   auditId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Includes all comments that have changed since changedSinceDate. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
 }
 export type PaginatedResponseCommentResultsDataList = Array<Comment>;
 export interface PaginatedResponseCommentResults {
@@ -1057,12 +1057,12 @@ export type ListAuditControlsRequestExternalIdMatchesAnyList = Array<string>;
 export type ListAuditControlsRequestSegmentIdsMatchesAnyList = Array<string>;
 export interface ListAuditControlsRequest {
   auditId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter controls whose externalId matches any of the provided values (exact, case-sensitive match). */
-  externalIdMatchesAny?: ListAuditControlsRequestExternalIdMatchesAnyList;
+  externalIdMatchesAny?: ListAuditControlsRequestExternalIdMatchesAnyList | undefined;
   /** Return only controls whose `inScopeSegmentIds` include at least one of these segment IDs from the audit's `segments[].id` (exact, case-sensitive). IDs that aren't segments on this audit match nothing. Repeat the parameter for several IDs, and send the same filters with every `pageCursor`. */
-  segmentIdsMatchesAny?: ListAuditControlsRequestSegmentIdsMatchesAnyList;
+  segmentIdsMatchesAny?: ListAuditControlsRequestSegmentIdsMatchesAnyList | undefined;
 }
 /** The security domains that the control belongs to. */
 export type AuditorControlDomainsList = Array<string>;
@@ -1127,7 +1127,7 @@ export interface AuditorControl {
   /** The control's owner. */
   owner: Owner | null;
   /** The control's GDPR role, if the control is a GDPR control. */
-  role?: string | null;
+  role?: string | null | undefined;
   /** The control's custom field values, if control custom fields is included in your Vanta instance. */
   customFields: AuditorControlCustomFieldsList;
   /** When the control was created. Returns null for Vanta library controls. */
@@ -1153,10 +1153,10 @@ export interface PaginatedResponseAuditorControl {
 }
 export interface ListAuditEvidenceRequest {
   auditId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Includes all audit evidence that have changed since changedSinceDate. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
 }
 export type PaginatedResponseEvidenceResultsDataList = Array<Evidence>;
 export interface PaginatedResponseEvidenceResults {
@@ -1169,8 +1169,8 @@ export interface PaginatedResponseEvidence {
 export interface ListAuditEvidenceUrlsRequest {
   auditId: string;
   auditEvidenceId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface EvidenceUrl {
   /** Vanta internal reference to evidence */
@@ -1201,25 +1201,25 @@ export interface ListAuditIssuesRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by issue title and description */
-  search?: string;
+  search?: string | undefined;
   /** Filter issues to specific snapshots by snapshot ID */
-  snapshotIdMatchesAny?: ListAuditIssuesRequestSnapshotIdMatchesAnyList;
+  snapshotIdMatchesAny?: ListAuditIssuesRequestSnapshotIdMatchesAnyList | undefined;
   /** Filter to issues created on or after this date (ISO 8601) */
-  createdAfterDate?: string;
+  createdAfterDate?: string | undefined;
   /** Filter to issues created on or before this date (ISO 8601) */
-  createdBeforeDate?: string;
+  createdBeforeDate?: string | undefined;
   /** Filter to issues detected on or after this date (ISO 8601) */
-  detectedAfterDate?: string;
+  detectedAfterDate?: string | undefined;
   /** Filter to issues detected on or before this date (ISO 8601) */
-  detectedBeforeDate?: string;
+  detectedBeforeDate?: string | undefined;
   /** Field to sort results by. Allowed: "createdAt", "lastModifiedAt", "detectedAt". Default: "createdAt" */
-  orderBy?: IssueSnapshotItemOrderBy | (string & {});
+  orderBy?: IssueSnapshotItemOrderBy | (string & {}) | undefined;
   /** Sort direction: "asc" or "desc". Default: "desc" */
-  orderDirection?: OrderDirection | (string & {});
+  orderDirection?: OrderDirection | (string & {}) | undefined;
 }
 export type IssueStatusTypeForSnapshot =
   | "IN_PROGRESS"
@@ -1237,9 +1237,9 @@ export interface IssueSnapshotItem {
   /** The unique identifier for the snapshot of an issue. This is distinct from the issueId, which identifies the underlying issue across snapshots. The snapshot item ID is unique to this specific snapshot of the issue. */
   id: string;
   /** The issue title */
-  title?: string;
+  title?: string | undefined;
   /** The issue description */
-  description?: string;
+  description?: string | undefined;
   /** The human-readable identifier for the issue. This field is unique per-domain, and can be used to correlate this issue snapshot item to the underlying issue across different snapshots. */
   readableIssueId: string;
   /** The globally unique identifier for the underlying issue across snapshots. This field can be used to correlate this snapshot item to the underlying issue across different snapshots. */
@@ -1247,17 +1247,17 @@ export interface IssueSnapshotItem {
   /** The identifier for the snapshot this issue item belongs to. */
   snapshotId: string;
   /** The due date for the issue. */
-  dueDate?: string | null;
+  dueDate?: string | null | undefined;
   /** The status of the issue. */
-  status?: IssueStatusTypeForSnapshot;
+  status?: IssueStatusTypeForSnapshot | undefined;
   /** The issue's approval progress at the time the snapshot was captured, or null if no approval was in progress or issue approvals are not enabled. */
-  approvalProgress?: IssueSnapshotItemApprovalProgress | null;
+  approvalProgress?: IssueSnapshotItemApprovalProgress | null | undefined;
   /** The date and time when the issue was last modified. */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
   /** The date and time when the issue was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The date and time when the issue was detected. */
-  detectedAt?: string;
+  detectedAt?: string | undefined;
 }
 export type PaginatedResponseIssueSnapshotItemResultsDataList = Array<IssueSnapshotItem>;
 export interface PaginatedResponseIssueSnapshotItemResults {
@@ -1284,15 +1284,15 @@ export interface ListAuditRisksRequest {
   /** The risk assessment snapshot ID */
   snapshotId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by risk scenario description */
-  search?: string;
+  search?: string | undefined;
   /** Field to sort results by. Allowed: "riskId", "riskScenario", "inherentRisk", "treatment", "residualRisk", "reviewStatus", "owner", "categories", "ciaCategories", "identified". Default: "identified" */
-  orderBy?: RiskOrderBy | (string & {});
+  orderBy?: RiskOrderBy | (string & {}) | undefined;
   /** Sort direction: "asc" or "desc". Default: "desc" */
-  orderDirection?: OrderDirection | (string & {});
+  orderDirection?: OrderDirection | (string & {}) | undefined;
 }
 /** Risk treatment strategy returned by the auditor API. */
 export type AuditRiskTreatment = "ACCEPT" | "AVOID" | "MITIGATE" | "TRANSFER";
@@ -1328,31 +1328,31 @@ export interface AuditRisk {
   /** Custom risk ID (e.g., "RISK-001"), or null if not available. */
   riskId: string | null;
   /** Description of the risk scenario, or null if not available. */
-  riskScenario?: string | null;
+  riskScenario?: string | null | undefined;
   /** Likelihood score of the risk, or null if not scored. Full Audit View only - omitted in Controlled Audit View. */
-  likelihood?: number | null;
+  likelihood?: number | null | undefined;
   /** Impact score of the risk, or null if not scored. Full Audit View only - omitted in Controlled Audit View. */
-  impact?: number | null;
+  impact?: number | null | undefined;
   /** Inherent risk score, or null if not scored. Defaults to the likelihood * impact product; when the organization scores risks by factors, this is the rolled-up factor score rounded to two decimals. */
-  inherentRisk?: number | null;
+  inherentRisk?: number | null | undefined;
   /** Risk treatment strategy, or null if not set. */
-  treatment?: AuditRiskTreatment | null;
+  treatment?: AuditRiskTreatment | null | undefined;
   /** Treatment implementation status, or null if not set. */
-  treatmentStatus?: AuditRiskTreatmentStatus | null;
+  treatmentStatus?: AuditRiskTreatmentStatus | null | undefined;
   /** Residual risk score after treatment, or null if not calculable. */
-  residualRisk?: number | null;
+  residualRisk?: number | null | undefined;
   /** Review status of the risk scenario, or null if not set. */
-  reviewStatus?: AuditRiskReviewStatus | null;
+  reviewStatus?: AuditRiskReviewStatus | null | undefined;
   /** Risk owner information, or null if no owner assigned. */
-  owner?: AuditRiskOwner | null;
+  owner?: AuditRiskOwner | null | undefined;
   /** Risk category names, or empty array if not categorized. */
-  categories?: AuditRiskCategoriesList;
+  categories?: AuditRiskCategoriesList | undefined;
   /** CIA triad categories, or empty array if not categorized. */
-  ciaCategories?: AuditRiskCiaCategoriesList;
+  ciaCategories?: AuditRiskCiaCategoriesList | undefined;
   /** IDs of controls linked to this risk scenario, or empty array if none. Full Audit View only - omitted in Controlled Audit View. */
-  linkedControlIds?: AuditRiskLinkedControlIdsList;
+  linkedControlIds?: AuditRiskLinkedControlIdsList | undefined;
   /** When the risk was identified, or null if not recorded. ISO 8601 format. */
-  identified?: string | null;
+  identified?: string | null | undefined;
 }
 export type PaginatedResponseAuditRiskResultsDataList = Array<AuditRisk>;
 export interface PaginatedResponseAuditRiskResults {
@@ -1363,12 +1363,12 @@ export interface PaginatedResponseAuditRisk {
   results: PaginatedResponseAuditRiskResults;
 }
 export interface ListAuditsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Includes all audits that have changed since changedSinceDate, including soft-deleted audits whose deletionDate is on or after that timestamp. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
   /** Includes only audits with no audit report uploaded */
-  isActiveAudit?: boolean;
+  isActiveAudit?: boolean | undefined;
 }
 export type PaginatedResponseAuditResultsDataList = Array<Audit>;
 export interface PaginatedResponseAuditResults {
@@ -1382,21 +1382,21 @@ export interface ListAuditSnapshotsRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by snapshot title and description */
-  search?: string;
+  search?: string | undefined;
 }
 export interface IssueSnapshotMetadata {
   /** The unique identifier for the issue snapshot. */
   id: string;
   /** The title of the snapshot */
-  title?: string;
+  title?: string | undefined;
   /** The description of the snapshot */
-  description?: string;
+  description?: string | undefined;
   /** The date and time when the snapshot was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
 }
 export type PaginatedResponseIssueSnapshotMetadataResultsDataList = Array<IssueSnapshotMetadata>;
 export interface PaginatedResponseIssueSnapshotMetadataResults {
@@ -1415,17 +1415,17 @@ export interface ListCodeChangesRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by code change title or repository name */
-  search?: string;
+  search?: string | undefined;
   /** Filter code changes by version control source (accepted values: github, gitlab, bitbucket, azuredevops) */
-  sourcesMatchesAny?: ListCodeChangesRequestSourcesMatchesAnyList;
+  sourcesMatchesAny?: ListCodeChangesRequestSourcesMatchesAnyList | undefined;
   /** Filter code changes closed on or after this date (ISO 8601) */
-  closedAfterDate?: string;
+  closedAfterDate?: string | undefined;
   /** Filter code changes closed on or before this date (ISO 8601) */
-  closedBeforeDate?: string;
+  closedBeforeDate?: string | undefined;
 }
 /** IDs of the audit segments this code change is in scope for. Omitted when segment scoping is disabled. */
 export type CodeChangeSegmentIdsList = Array<string>;
@@ -1436,17 +1436,17 @@ export interface CodeChange {
   /** Code change title (e.g. PR title) - always present. */
   codeChange: string;
   /** IDs of the audit segments this code change is in scope for. Omitted when segment scoping is disabled. */
-  segmentIds?: CodeChangeSegmentIdsList;
+  segmentIds?: CodeChangeSegmentIdsList | undefined;
   /** Code change identifier (e.g. PR number). */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Version control source where the change originated. Known values are listed in {@link ApiCodeChangeSource}; other strings may appear if a new source is onboarded before this enum is updated. */
-  service?: string;
+  service?: string | undefined;
   /** Repository name. */
-  repository?: string;
+  repository?: string | undefined;
   /** Date the code change was opened. */
-  openedAt?: string;
+  openedAt?: string | undefined;
   /** Date the code change was merged/closed. */
-  closedAt?: string;
+  closedAt?: string | undefined;
 }
 export type PaginatedResponseCodeChangeResultsDataList = Array<CodeChange>;
 export interface PaginatedResponseCodeChangeResults {
@@ -1460,11 +1460,11 @@ export interface ListCommentsForControlRequest {
   auditId: string;
   controlId: string;
   /** Maximum number of comments to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from a previous response. Provide to fetch the next page of comments. */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Includes all comments that have changed since changedSinceDate. Considers creationDate, modificationDate, and deletionDate timestamps when determining changes. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
 }
 export type PaginatedResponseAuditControlCommentResultsDataList = Array<AuditControlComment>;
 export interface PaginatedResponseAuditControlCommentResults {
@@ -1478,11 +1478,11 @@ export interface ListCommentsForInformationRequestRequest {
   auditId: string;
   requestId: string;
   /** Maximum number of comments to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from a previous response. Provide to fetch the next page of comments. */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Includes all comments that have changed since changedSinceDate. Considers creationDate, modificationDate, and deletionDate timestamps when determining changes. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
 }
 export type PaginatedResponseInformationRequestCommentResultsDataList =
   Array<InformationRequestComment>;
@@ -1497,11 +1497,11 @@ export interface ListInformationRequestActivityRequest {
   auditId: string;
   requestId: string;
   /** Maximum number of activity entries to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from a previous response. Provide to fetch the next page of activity logs. */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Includes activity logs that have changed since changedSinceDate. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
 }
 export type InformationRequestActivityType =
   | "AUDIT_DUPLICATION_AUDIT_TRAIL"
@@ -1565,13 +1565,15 @@ export interface ListInformationRequestEvidenceRequest {
   auditId: string;
   requestId: string;
   /** Maximum number of evidence entries to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from a previous response. Provide to fetch the next page of evidence. */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Includes all evidence that have changed since changedSinceDate. Considers creationDate, modificationDate, deletionDate, and visibleToAuditorDate timestamps when determining changes. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
   /** Limits results to the provided evidence types. Must include at least one of: UPLOADED_DOCUMENT, OBSERVATION, LINK, VANTA_DOCUMENT, VANTA_POLICY, VANTA_TEST, VANTA_TEST_SNAPSHOT. */
-  evidenceTypeMatchesAny?: ListInformationRequestEvidenceRequestEvidenceTypeMatchesAnyList;
+  evidenceTypeMatchesAny?:
+    | ListInformationRequestEvidenceRequestEvidenceTypeMatchesAnyList
+    | undefined;
 }
 export type PaginatedResponseInformationRequestEvidenceResultsDataList =
   Array<InformationRequestEvidence>;
@@ -1586,13 +1588,13 @@ export type ListInformationRequestsRequestSegmentIdsMatchesAnyList = Array<strin
 export interface ListInformationRequestsRequest {
   auditId: string;
   /** Maximum number of information requests to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from a previous response. Provide to fetch the next page of results. */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Includes all information requests that have changed since changedSinceDate. Considers creationDate, modificationDate, and deletionDate timestamps when determining changes. Does not include requests whose only change is the derived `segmentIds` projection after an audit-scope change. */
-  changedSinceDate?: string;
+  changedSinceDate?: string | undefined;
   /** Return requests whose stored segment assignment includes any of these IDs (OR). Omit to return all. A match can still come back with `segmentIds: []` if the stored ID is no longer in the audit's scope. */
-  segmentIdsMatchesAny?: ListInformationRequestsRequestSegmentIdsMatchesAnyList;
+  segmentIdsMatchesAny?: ListInformationRequestsRequestSegmentIdsMatchesAnyList | undefined;
 }
 export type PaginatedResponseInformationRequestResultsDataList = Array<InformationRequest>;
 export interface PaginatedResponseInformationRequestResults {
@@ -1606,9 +1608,9 @@ export interface ListInformationRequestsForControlRequest {
   auditId: string;
   controlId: string;
   /** Maximum number of information requests to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from a previous response. Provide to fetch the next page of results. */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
 }
 export type AuditIntegrationTag =
   | "ACCESS"
@@ -1663,15 +1665,15 @@ export interface ListIntegrationsRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by integration name */
-  search?: string;
+  search?: string | undefined;
   /** Filter integrations by tag values */
-  tagsMatchesAny?: ListIntegrationsRequestTagsMatchesAnyList;
+  tagsMatchesAny?: ListIntegrationsRequestTagsMatchesAnyList | undefined;
   /** Filter integrations by category values */
-  categoriesMatchesAny?: ListIntegrationsRequestCategoriesMatchesAnyList;
+  categoriesMatchesAny?: ListIntegrationsRequestCategoriesMatchesAnyList | undefined;
 }
 /** IDs of the audit segments this integration is in scope for. Omitted when segment scoping is disabled. */
 export type AuditIntegrationSegmentIdsList = Array<string>;
@@ -1686,11 +1688,11 @@ export interface AuditIntegration {
   /** Display name of the integration. */
   name: string;
   /** IDs of the audit segments this integration is in scope for. Omitted when segment scoping is disabled. */
-  segmentIds?: AuditIntegrationSegmentIdsList;
+  segmentIds?: AuditIntegrationSegmentIdsList | undefined;
   /** Integration tag display names describing what data this integration provides. */
-  tags?: AuditIntegrationTagsList;
+  tags?: AuditIntegrationTagsList | undefined;
   /** Category display names describing what the integration is used for. */
-  categories?: AuditIntegrationCategoriesList;
+  categories?: AuditIntegrationCategoriesList | undefined;
 }
 export type PaginatedResponseAuditIntegrationResultsDataList = Array<AuditIntegration>;
 export interface PaginatedResponseAuditIntegrationResults {
@@ -1708,13 +1710,13 @@ export interface ListPersonnelAccountAccessRequest {
   /** The service ID from the /services endpoint */
   serviceId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by account name or email */
-  search?: string;
+  search?: string | undefined;
   /** Filter by account status */
-  status?: AccountAccessStatus | (string & {});
+  status?: AccountAccessStatus | (string & {}) | undefined;
 }
 /** IDs of the audit segments this account is in scope for. Omitted when segment attribution is unavailable or scoping is disabled. */
 export type AccountAccessSegmentIdsList = Array<string>;
@@ -1727,19 +1729,19 @@ export interface AccountAccess {
   /** Account name or email address (primary identifier). */
   accountName: string;
   /** IDs of the audit segments this account is in scope for. Omitted when segment attribution is unavailable or scoping is disabled. */
-  segmentIds?: AccountAccessSegmentIdsList;
+  segmentIds?: AccountAccessSegmentIdsList | undefined;
   /** Display name of the account owner, or null when the column is visible but unknown. */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Account roles; empty array when the column is visible but has no roles. */
-  role?: AccountAccessRoleList;
+  role?: AccountAccessRoleList | undefined;
   /** Account status when present; omitted when the column is not in the response. */
-  status?: AccountAccessStatus;
+  status?: AccountAccessStatus | undefined;
   /** Multi-factor authentication (MFA) status when present. `true` = MFA enabled, `false` = MFA not enabled, `null` = visible but unknown. */
-  mfa?: boolean | null;
+  mfa?: boolean | null | undefined;
   /** Account creation date when present, or null when visible but absent. */
-  createdDate?: string | null;
+  createdDate?: string | null | undefined;
   /** Account deactivation date when present, or null when active. */
-  deactivatedDate?: string | null;
+  deactivatedDate?: string | null | undefined;
 }
 export type PaginatedResponseAccountAccessResultsDataList = Array<AccountAccess>;
 export interface PaginatedResponseAccountAccessResults {
@@ -1755,17 +1757,17 @@ export interface ListPersonnelGroupsRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by group name */
-  search?: string;
+  search?: string | undefined;
   /** Filter groups by IDP source service names */
-  sourcesMatchesAny?: ListPersonnelGroupsRequestSourcesMatchesAnyList;
+  sourcesMatchesAny?: ListPersonnelGroupsRequestSourcesMatchesAnyList | undefined;
   /** Field to sort results by. Allowed: "name", "members", "source", "tasksLastUpdated", "pointOfContact". Default: "name" */
-  orderBy?: GroupOrderBy | (string & {});
+  orderBy?: GroupOrderBy | (string & {}) | undefined;
   /** Sort direction: "asc" or "desc". Default: "asc" */
-  orderDirection?: OrderDirection | (string & {});
+  orderDirection?: OrderDirection | (string & {}) | undefined;
 }
 /** IDs of the audit segments this group is in scope for. Omitted when segment scoping is disabled. */
 export type PersonnelGroupSegmentIdsList = Array<string>;
@@ -1783,17 +1785,17 @@ export interface PersonnelGroup {
   /** Display name of the group. */
   name: string;
   /** IDs of the audit segments this group is in scope for. Omitted when segment scoping is disabled. */
-  segmentIds?: PersonnelGroupSegmentIdsList;
+  segmentIds?: PersonnelGroupSegmentIdsList | undefined;
   /** Number of people in this group within the audit scope. */
-  members?: number;
+  members?: number | undefined;
   /** The source of this group. For IDP-synced groups, this is the provider name (e.g., "Okta", "Azure AD"). For manually created groups, this is "Vanta". */
-  source?: string;
+  source?: string | undefined;
   /** Security tasks enabled for this group, or empty array if not available. */
-  tasks?: PersonnelGroupTasksList;
+  tasks?: PersonnelGroupTasksList | undefined;
   /** When the group's task configuration was last updated, or null if never updated. ISO 8601 format. */
-  tasksLastUpdated?: string | null;
+  tasksLastUpdated?: string | null | undefined;
   /** Display name of the group's designated point of contact, or null if not set. */
-  pointOfContact?: string | null;
+  pointOfContact?: string | null | undefined;
 }
 export type PaginatedResponsePersonnelGroupResultsDataList = Array<PersonnelGroup>;
 export interface PaginatedResponsePersonnelGroupResults {
@@ -1817,19 +1819,19 @@ export interface ListPersonnelPeopleRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by name or email */
-  search?: string;
+  search?: string | undefined;
   /** Employment status filter */
-  status?: PeopleEmploymentStatus | (string & {});
+  status?: PeopleEmploymentStatus | (string & {}) | undefined;
   /** Filter people by group IDs */
-  groupsMatchesAny?: ListPersonnelPeopleRequestGroupsMatchesAnyList;
+  groupsMatchesAny?: ListPersonnelPeopleRequestGroupsMatchesAnyList | undefined;
   /** Field to sort results by. Allowed: "name", "employmentStatus". Default: "name" */
-  orderBy?: PeopleOrderBy | (string & {});
+  orderBy?: PeopleOrderBy | (string & {}) | undefined;
   /** Sort direction: "asc" or "desc". Default: "asc" */
-  orderDirection?: OrderDirection | (string & {});
+  orderDirection?: OrderDirection | (string & {}) | undefined;
 }
 /** IDs of the audit segments this person is in scope for. Omitted when segment scoping is disabled. */
 export type PersonnelPersonSegmentIdsList = Array<string>;
@@ -1894,35 +1896,35 @@ export interface PersonnelPerson {
   /** Email address of the person - always present. */
   email: string;
   /** IDs of the audit segments this person is in scope for. Omitted when segment scoping is disabled. */
-  segmentIds?: PersonnelPersonSegmentIdsList;
+  segmentIds?: PersonnelPersonSegmentIdsList | undefined;
   /** Job title from HR system, or null if not available. */
-  jobTitle?: string | null;
+  jobTitle?: string | null | undefined;
   /** Employment status, or null if not available. */
-  employmentStatus?: PeopleEmploymentStatus | null;
+  employmentStatus?: PeopleEmploymentStatus | null | undefined;
   /** Start date in ISO 8601 format (YYYY-MM-DD), or null if not available. Timezone depends on source: UTC if from HR system, customer timezone if manually entered. */
-  startDate?: string | null;
+  startDate?: string | null | undefined;
   /** End date in ISO 8601 format (YYYY-MM-DD), or null if currently employed. */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Groups (roles) the person belongs to. Present only when the column is in the response; use an empty array when there are no groups. */
-  groups?: PersonnelPersonGroupsList;
+  groups?: PersonnelPersonGroupsList | undefined;
   /** Source of user data, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  source?: PeopleSourceInfo | null;
+  source?: PeopleSourceInfo | null | undefined;
   /** Overall task status information, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  taskStatus?: PeopleTaskStatusInfo | null;
+  taskStatus?: PeopleTaskStatusInfo | null | undefined;
   /** Last date user was sent an onboarding reminder email in ISO 8601 format, or null if never reminded. Full Audit View only - omitted in Controlled Audit View. */
-  lastReminded?: string | null;
+  lastReminded?: string | null | undefined;
   /** Policy acceptance task details, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  policies?: PeopleSecurityTaskDetails | null;
+  policies?: PeopleSecurityTaskDetails | null | undefined;
   /** Security training task details, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  trainings?: PeopleSecurityTaskDetails | null;
+  trainings?: PeopleSecurityTaskDetails | null | undefined;
   /** Background check task details, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  backgroundChecks?: PeopleSecurityTaskDetails | null;
+  backgroundChecks?: PeopleSecurityTaskDetails | null | undefined;
   /** Device monitoring task details, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  deviceMonitoring?: PeopleSecurityTaskDetails | null;
+  deviceMonitoring?: PeopleSecurityTaskDetails | null | undefined;
   /** Custom onboarding task details, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  customOnboarding?: PeopleSecurityTaskDetails | null;
+  customOnboarding?: PeopleSecurityTaskDetails | null | undefined;
   /** Custom offboarding task details, or null if not available. Full Audit View only - omitted in Controlled Audit View. */
-  customOffboarding?: PeopleSecurityTaskDetails | null;
+  customOffboarding?: PeopleSecurityTaskDetails | null | undefined;
 }
 export type PaginatedResponsePersonnelPersonResultsDataList = Array<PersonnelPerson>;
 export interface PaginatedResponsePersonnelPersonResults {
@@ -1936,9 +1938,9 @@ export interface ListRiskSnapshotsRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
 }
 /** A risk assessment snapshot available for an audit. Risk snapshots capture the state of an organization's risk register at a point in time. Use the snapshot `id` with the `/audits/{auditId}/risks/{snapshotId}` endpoint to retrieve the risk scenarios within a snapshot. */
 export interface RiskSnapshot {
@@ -1971,19 +1973,19 @@ export interface ListVendorsRequest {
   /** The audit ID */
   auditId: string;
   /** Maximum number of results per page (1-100, default 10) */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Pagination cursor from previous response */
-  pageCursor?: string;
+  pageCursor?: string | undefined;
   /** Search term for filtering by vendor name */
-  search?: string;
+  search?: string | undefined;
   /** Filter vendors by status values */
-  vendorStatusesMatchesAny?: ListVendorsRequestVendorStatusesMatchesAnyList;
+  vendorStatusesMatchesAny?: ListVendorsRequestVendorStatusesMatchesAnyList | undefined;
   /** Filter vendors by inherent risk level values */
-  inherentRiskMatchesAny?: ListVendorsRequestInherentRiskMatchesAnyList;
+  inherentRiskMatchesAny?: ListVendorsRequestInherentRiskMatchesAnyList | undefined;
   /** Field to sort results by. Allowed: "name", "inherentRisk". Default: "name" */
-  orderBy?: VendorOrderBy | (string & {});
+  orderBy?: VendorOrderBy | (string & {}) | undefined;
   /** Sort direction: "asc" or "desc". Default: "asc" */
-  orderDirection?: OrderDirection | (string & {});
+  orderDirection?: OrderDirection | (string & {}) | undefined;
 }
 /** IDs of the audit segments this vendor is in scope for. Omitted when segment scoping is disabled. */
 export type AuditVendorSegmentIdsList = Array<string>;
@@ -1999,25 +2001,25 @@ export interface AuditVendor {
   /** Vendor name. */
   name: string;
   /** IDs of the audit segments this vendor is in scope for. Omitted when segment scoping is disabled. */
-  segmentIds?: AuditVendorSegmentIdsList;
+  segmentIds?: AuditVendorSegmentIdsList | undefined;
   /** Inherent risk level of the vendor. */
-  inherentRisk?: AuditVendorRiskLevel;
+  inherentRisk?: AuditVendorRiskLevel | undefined;
   /** Vendor status. */
-  status?: AuditVendorStatus;
+  status?: AuditVendorStatus | undefined;
   /** Number of findings associated with the vendor. */
-  findings?: number;
+  findings?: number | undefined;
   /** Date when the last security review was completed, or null if none. */
-  lastReviewedCompleted?: string | null;
+  lastReviewedCompleted?: string | null | undefined;
   /** Date when the next security review is due, or null if not scheduled. */
-  nextSecurityReviewDueDate?: string | null;
+  nextSecurityReviewDueDate?: string | null | undefined;
   /** Vendor category (e.g. cloud provider, SaaS). */
-  vendorCategory?: string | null;
+  vendorCategory?: string | null | undefined;
   /** ID of the vendor's category. */
-  vendorCategoryId?: string | null;
+  vendorCategoryId?: string | null | undefined;
   /** Residual risk level of the vendor. Full Audit View only - omitted in Controlled Audit View. */
-  residualRisk?: AuditVendorRiskLevel | null;
+  residualRisk?: AuditVendorRiskLevel | null | undefined;
   /** BAA/DPA document completion counts, or null if no such documents are required. Full Audit View only - omitted in Controlled Audit View. */
-  dataAgreements?: AuditVendorDataAgreements | null;
+  dataAgreements?: AuditVendorDataAgreements | null | undefined;
 }
 export type PaginatedResponseAuditVendorResultsDataList = Array<AuditVendor>;
 export interface PaginatedResponseAuditVendorResults {
@@ -2042,7 +2044,7 @@ export interface UpdateAuditEvidenceRequestStatusUpdate {
 export interface UpdateAuditEvidenceRequest {
   auditId: string;
   auditEvidenceId: string;
-  statusUpdate?: UpdateAuditEvidenceRequestStatusUpdate;
+  statusUpdate?: UpdateAuditEvidenceRequestStatusUpdate | undefined;
 }
 export interface UpdateCommentForControlRequest {
   auditId: string;
@@ -2072,29 +2074,29 @@ export interface UpdateInformationRequestRequest {
   auditId: string;
   requestId: string;
   /** Framework codes are assigned only at creation; on update this field is a silent no-op -- a value sent here is accepted for backwards compatibility but ignored, leaving the request's framework codes unchanged. */
-  frameworkCodes?: UpdateInformationRequestRequestFrameworkCodesList;
+  frameworkCodes?: UpdateInformationRequestRequestFrameworkCodesList | undefined;
   /** Detailed description of what evidence is needed. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Deadline for fulfilling this request. Null if no deadline. Format: ISO 8601 UTC timestamp. */
-  dueDate?: string | null;
+  dueDate?: string | null | undefined;
   /** Start date of the audit period. Evidence before this date may not be accepted. Null if not restricted. Format: ISO 8601 UTC timestamp. */
-  evidenceCaptureDate?: string | null;
+  evidenceCaptureDate?: string | null | undefined;
   /** Scope of evidence required. */
-  requestType?: InformationRequestType | (string & {});
+  requestType?: InformationRequestType | (string & {}) | undefined;
   /** Short, descriptive title. */
-  title?: string;
+  title?: string | undefined;
   /** How frequently this request recurs. */
-  cadence?: InformationRequestCadence | (string & {});
+  cadence?: InformationRequestCadence | (string & {}) | undefined;
   /** This legacy field is accepted for backwards compatibility but ignored. Use `linkedControlIds` to replace the complete set of linked controls. */
-  additionalControlIds?: UpdateInformationRequestRequestAdditionalControlIdsList;
+  additionalControlIds?: UpdateInformationRequestRequestAdditionalControlIdsList | undefined;
   /** The complete desired set of control IDs linked to this request. Send the full list to replace the set, an empty array to clear it, or omit the property to leave links unchanged. Each ID must identify an existing control in the customer's organization and is returned by the audit controls endpoint. The request is rejected if any ID does not match a control. */
-  linkedControlIds?: UpdateInformationRequestRequestLinkedControlIdsList;
+  linkedControlIds?: UpdateInformationRequestRequestLinkedControlIdsList | undefined;
 }
 export interface UpsertAssessmentForControlRequest {
   auditId: string;
   controlId: string;
   /** The segment to assess: any segment on the audit, `PROGRAM` or `SYSTEM`. May be omitted only when the audit has exactly one segment; required otherwise. */
-  segmentId?: string;
+  segmentId?: string | undefined;
   /** The assessment state to record. Must be one of the states valid for the segment's framework; the request is rejected otherwise. */
   assessmentState: AuditControlAssessmentState | (string & {});
   /** Free-text reasoning for the assessment. Required, and at most 5000 characters. */

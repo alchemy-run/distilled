@@ -34,22 +34,22 @@ export interface CreateFunctionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
   projectId: string;
   /** Time the function was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ID of the currently-deployed revision associated with this function. */
-  current_revision?: string;
+  current_revision?: string | undefined;
   /** Unique identifier for the function. */
-  id?: string;
-  labels?: CreateFunctionRequestLabelsMap;
+  id?: string | undefined;
+  labels?: CreateFunctionRequestLabelsMap | undefined;
   /** User-defined name of the function. */
   name: string;
   /** Status of this function's latest revision. */
-  state?: CreateFunctionRequestState | (string & {});
+  state?: CreateFunctionRequestState | (string & {}) | undefined;
   /** Error message related to this function's status. */
-  state_error?: string;
+  state_error?: string | undefined;
   /** Time the function was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URLs that resolve to the function. */
-  url?: CreateFunctionRequestUrlList;
+  url?: CreateFunctionRequestUrlList | undefined;
 }
 export type FunctionLabelsMap = { [key: string]: string | undefined };
 /** Status of this function's latest revision. */
@@ -59,22 +59,22 @@ export type FunctionUrlList = Array<string>;
 /** Represents a STACKIT Functions function. */
 export interface Function {
   /** Time the function was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ID of the currently-deployed revision associated with this function. */
-  current_revision?: string;
+  current_revision?: string | undefined;
   /** Unique identifier for the function. */
-  id?: string;
-  labels?: FunctionLabelsMap;
+  id?: string | undefined;
+  labels?: FunctionLabelsMap | undefined;
   /** User-defined name of the function. */
   name: string;
   /** Status of this function's latest revision. */
-  state?: FunctionState;
+  state?: FunctionState | undefined;
   /** Error message related to this function's status. */
-  state_error?: string;
+  state_error?: string | undefined;
   /** Time the function was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** URLs that resolve to the function. */
-  url?: FunctionUrlList;
+  url?: FunctionUrlList | undefined;
 }
 export type CreatePullCredentialRequestLabelsMap = { [key: string]: string | undefined };
 export interface CreatePullCredentialRequest {
@@ -83,10 +83,10 @@ export interface CreatePullCredentialRequest {
   /** The OCI registry address. */
   address: string;
   /** Unique identifier for the OCI registry pull credential. */
-  id?: string;
-  labels?: CreatePullCredentialRequestLabelsMap;
+  id?: string | undefined;
+  labels?: CreatePullCredentialRequestLabelsMap | undefined;
   /** Unique name for the OCI registry pull credential. */
-  name?: string;
+  name?: string | undefined;
   /** The password for the OCI registry pull-credentials. */
   password: string | Redacted.Redacted<string>;
   /** The username for the OCI registry pull-credentials. */
@@ -97,10 +97,10 @@ export interface PullCredential {
   /** The OCI registry address. */
   address: string;
   /** Unique identifier for the OCI registry pull credential. */
-  id?: string;
-  labels?: PullCredentialLabelsMap;
+  id?: string | undefined;
+  labels?: PullCredentialLabelsMap | undefined;
   /** Unique name for the OCI registry pull credential. */
-  name?: string;
+  name?: string | undefined;
   /** The password for the OCI registry pull-credentials. */
   password: string | Redacted.Redacted<string>;
   /** The username for the OCI registry pull-credentials. */
@@ -112,7 +112,7 @@ export interface ResourceLimits {
   /** Maximum number of in-flight requests to a single instance */
   concurrency: number;
   /** Maximum number of running instances */
-  max_scale?: number;
+  max_scale?: number | undefined;
   plan: string;
 }
 /** Status of this revision. */
@@ -122,9 +122,9 @@ export interface RevisionVariable {
   /** Name of the variable (must match a variable definition on the function). */
   name: string;
   /** The value of the variable. Only present for normal variables. Secrets will have a vault reference instead. */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Reference to the vault secret. Only present for secret variables. */
-  vault_reference?: string | null;
+  vault_reference?: string | null | undefined;
 }
 /** Variable values for this revision. Each variable must reference a variable definition on the function. */
 export type CreateRevisionRequestVariablesList = Array<RevisionVariable>;
@@ -134,33 +134,33 @@ export interface CreateRevisionRequest {
   /** The STACKIT Functions functionId */
   functionId: string;
   /** Time the function was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A hashed fingerprint of the revision artifact. */
-  digest?: string;
+  digest?: string | undefined;
   /** The ID of the function associated with this revision. */
-  function_id?: string;
+  function_id?: string | undefined;
   /** The revision identifier. */
-  id?: string;
-  labels?: CreateRevisionRequestLabelsMap;
+  id?: string | undefined;
+  labels?: CreateRevisionRequestLabelsMap | undefined;
   limits: ResourceLimits;
   /** Revision message */
-  message?: string;
+  message?: string | undefined;
   /** The name of the the revision. Must be unique within the function. */
-  name?: string;
+  name?: string | undefined;
   /** OCI Registry pull credential to use for pulling the revision's image. */
-  oci_pull_credential_id?: string;
+  oci_pull_credential_id?: string | undefined;
   /** OCI reference for the revision. */
   oci_reference: string;
   /** Status of this revision. */
-  state?: CreateRevisionRequestState | (string & {});
+  state?: CreateRevisionRequestState | (string & {}) | undefined;
   /** Error message related to this revision. */
-  state_error?: string;
+  state_error?: string | undefined;
   /** Time the function was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Variable values for this revision. Each variable must reference a variable definition on the function. */
-  variables?: CreateRevisionRequestVariablesList;
+  variables?: CreateRevisionRequestVariablesList | undefined;
   /** The version number of the revision. */
-  version?: number;
+  version?: number | undefined;
 }
 export type RevisionLabelsMap = { [key: string]: string | undefined };
 /** Status of this revision. */
@@ -170,33 +170,33 @@ export type RevisionVariablesList = Array<RevisionVariable>;
 /** The function revision */
 export interface Revision {
   /** Time the function was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** A hashed fingerprint of the revision artifact. */
-  digest?: string;
+  digest?: string | undefined;
   /** The ID of the function associated with this revision. */
-  function_id?: string;
+  function_id?: string | undefined;
   /** The revision identifier. */
-  id?: string;
-  labels?: RevisionLabelsMap;
+  id?: string | undefined;
+  labels?: RevisionLabelsMap | undefined;
   limits: ResourceLimits;
   /** Revision message */
-  message?: string;
+  message?: string | undefined;
   /** The name of the the revision. Must be unique within the function. */
-  name?: string;
+  name?: string | undefined;
   /** OCI Registry pull credential to use for pulling the revision's image. */
-  oci_pull_credential_id?: string;
+  oci_pull_credential_id?: string | undefined;
   /** OCI reference for the revision. */
   oci_reference: string;
   /** Status of this revision. */
-  state?: RevisionState;
+  state?: RevisionState | undefined;
   /** Error message related to this revision. */
-  state_error?: string;
+  state_error?: string | undefined;
   /** Time the function was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Variable values for this revision. Each variable must reference a variable definition on the function. */
-  variables?: RevisionVariablesList;
+  variables?: RevisionVariablesList | undefined;
   /** The version number of the revision. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface DeleteFunctionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -249,9 +249,9 @@ export interface ListFunctionsRequest {
 export type ListFunctionsFunctionsList = Array<Function>;
 export interface ListFunctions {
   /** List of functions. */
-  functions?: ListFunctionsFunctionsList;
+  functions?: ListFunctionsFunctionsList | undefined;
   /** Token for the next page of results. */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
 }
 export interface ListPullCredentialsRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -261,9 +261,9 @@ export interface ListPullCredentialsRequest {
 export type ListPullCredentialsPullCredentialsList = Array<PullCredential>;
 export interface ListPullCredentials {
   /** Token for the next page of results. */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
   /** List of oci registries pull credentials associated with the project. */
-  pull_credentials?: ListPullCredentialsPullCredentialsList;
+  pull_credentials?: ListPullCredentialsPullCredentialsList | undefined;
 }
 export interface ListRevisionsRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -275,11 +275,11 @@ export interface ListRevisionsRequest {
 export type ListRevisionsRevisionListList = Array<Revision>;
 export interface ListRevisions {
   /** Maximum number of items */
-  maxItems?: number;
+  maxItems?: number | undefined;
   /** Token for the next page of results. */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
   /** List of revisions. */
-  revisionList?: ListRevisionsRevisionListList;
+  revisionList?: ListRevisionsRevisionListList | undefined;
 }
 export type UpdateFunctionRequestLabelsMap = { [key: string]: string | undefined };
 export interface UpdateFunctionRequest {
@@ -287,9 +287,9 @@ export interface UpdateFunctionRequest {
   projectId: string;
   /** The STACKIT Functions functionId */
   functionId: string;
-  labels?: UpdateFunctionRequestLabelsMap;
+  labels?: UpdateFunctionRequestLabelsMap | undefined;
   /** User-defined name of the function. */
-  name?: string;
+  name?: string | undefined;
 }
 export type UpdatePullCredentialRequestLabelsMap = { [key: string]: string | undefined };
 export interface UpdatePullCredentialRequest {
@@ -298,14 +298,14 @@ export interface UpdatePullCredentialRequest {
   /** The identifier of the OCI registry pull credential configuration */
   pullCredentialId: string;
   /** The OCI registry address. */
-  address?: string;
-  labels?: UpdatePullCredentialRequestLabelsMap;
+  address?: string | undefined;
+  labels?: UpdatePullCredentialRequestLabelsMap | undefined;
   /** Unique name for the OCI registry pull secret. */
-  name?: string;
+  name?: string | undefined;
   /** The password for the OCI registry pull-credentials. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The username for the OCI registry pull-credentials. */
-  username?: string;
+  username?: string | undefined;
 }
 export type UpdateRevisionRequestLabelsMap = { [key: string]: string | undefined };
 export interface UpdateRevisionRequest {
@@ -315,9 +315,9 @@ export interface UpdateRevisionRequest {
   functionId: string;
   /** The identifier of the revision */
   revisionId: string;
-  labels?: UpdateRevisionRequestLabelsMap;
+  labels?: UpdateRevisionRequestLabelsMap | undefined;
   /** The name of the the revision. Must be unique within the function. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CreateFunctionError = StackitOpError;
 /** Creates a new function. */

@@ -74,7 +74,7 @@ export type CredentialsParametersRolesItem =
 export type CredentialsParametersRolesList = Array<CredentialsParametersRolesItem | (string & {})>;
 export interface CredentialsParameters {
   /** A list of roles to assign to the generated credentials. If not provided, standard default role 'policymaker' will be assigned. */
-  roles?: CredentialsParametersRolesList;
+  roles?: CredentialsParametersRolesList | undefined;
 }
 export interface CreateCredentialsRequest {
   /** Project id on which user has permissions */
@@ -83,24 +83,24 @@ export interface CreateCredentialsRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  parameters?: CredentialsParameters;
+  parameters?: CredentialsParameters | undefined;
 }
 export type CredentialsHostsList = Array<string>;
 export type CredentialsHttpApiUrisList = Array<string>;
 export type CredentialsUrisList = Array<string>;
 export interface Credentials {
   host: string;
-  hosts?: CredentialsHostsList;
+  hosts?: CredentialsHostsList | undefined;
   /** for rabbitmq only */
-  http_api_uri?: string;
-  http_api_uris?: CredentialsHttpApiUrisList;
-  management?: string;
-  mqtt?: string;
+  http_api_uri?: string | undefined;
+  http_api_uris?: CredentialsHttpApiUrisList | undefined;
+  management?: string | undefined;
+  mqtt?: string | undefined;
   password: string | Redacted.Redacted<string>;
-  port?: number;
-  stomp?: string;
-  uri?: string;
-  uris?: CredentialsUrisList;
+  port?: number | undefined;
+  stomp?: string | undefined;
+  uri?: string | undefined;
+  uris?: CredentialsUrisList | undefined;
   username: string;
 }
 export interface RawCredentials {
@@ -108,7 +108,7 @@ export interface RawCredentials {
 }
 export interface CredentialsResponse {
   id: string;
-  raw?: RawCredentials;
+  raw?: RawCredentials | undefined;
   uri: string;
 }
 export type InstanceParametersPluginsItem =
@@ -134,27 +134,27 @@ export type InstanceParametersTlsProtocolsList = Array<
 >;
 export interface InstanceParameters {
   /** The unit is milliseconds. */
-  consumer_timeout?: number;
-  enable_monitoring?: boolean;
+  consumer_timeout?: number | undefined;
+  enable_monitoring?: boolean | undefined;
   /** If you want to monitor your service with Graphite, you can set the custom parameter graphite. It expects the host and port where the Graphite metrics should be sent to. */
-  graphite?: string;
+  graphite?: string | undefined;
   /** This component monitors ephemeral and persistent disk usage. If one of these disk usages reaches the default configured threshold of 80%, the a9s Parachute stops all processes on that node. */
-  max_disk_threshold?: number;
+  max_disk_threshold?: number | undefined;
   /** Frequency of metrics being emitted in seconds */
-  metrics_frequency?: number;
+  metrics_frequency?: number | undefined;
   /** Depending on your graphite provider, you might need to prefix the metrics with a certain value, like an API key for example. */
-  metrics_prefix?: string;
-  monitoring_instance_id?: string;
-  plugins?: InstanceParametersPluginsList;
+  metrics_prefix?: string | undefined;
+  monitoring_instance_id?: string | undefined;
+  plugins?: InstanceParametersPluginsList | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  roles?: InstanceParametersRolesList;
+  roles?: InstanceParametersRolesList | undefined;
   /** Comma separated list of IP networks in CIDR notation which are allowed to access this instance. */
-  sgw_acl?: string;
-  syslog?: InstanceParametersSyslogList;
+  sgw_acl?: string | undefined;
+  syslog?: InstanceParametersSyslogList | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  tls_ciphers?: InstanceParametersTlsCiphersList;
+  tls_ciphers?: InstanceParametersTlsCiphersList | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  tls_protocols?: InstanceParametersTlsProtocolsList;
+  tls_protocols?: InstanceParametersTlsProtocolsList | undefined;
 }
 export interface CreateInstanceRequest {
   /** Project id on which user has permissions */
@@ -162,7 +162,7 @@ export interface CreateInstanceRequest {
   /** region in which the project resides */
   regionId: string;
   instanceName: string;
-  parameters?: InstanceParameters;
+  parameters?: InstanceParameters | undefined;
   planId: string;
 }
 export interface CreateInstanceResponse {
@@ -241,9 +241,9 @@ export interface Instance {
   cfSpaceGuid: string;
   dashboardUrl: string;
   imageUrl: string;
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Current state of a service instance */
-  instanceStatus?: InstanceInstanceStatus;
+  instanceStatus?: InstanceInstanceStatus | undefined;
   lastOperation: InstanceLastOperation;
   name: string;
   offeringName: string;
@@ -252,7 +252,7 @@ export interface Instance {
   planId: string;
   planName: string;
   /** State of the last operation and this instance */
-  status?: InstanceStatus;
+  status?: InstanceStatus | undefined;
 }
 export interface GetMetricsRequest {
   /** Project id on which user has permissions */
@@ -263,10 +263,10 @@ export interface GetMetricsRequest {
   instanceId: string;
 }
 export interface GetMetricsResponse {
-  cpuIdleTime?: number;
+  cpuIdleTime?: number | undefined;
   cpuLoadPercent: number;
-  cpuSystemTime?: number;
-  cpuUserTime?: number;
+  cpuSystemTime?: number | undefined;
+  cpuUserTime?: number | undefined;
   diskEphemeralTotal: number;
   diskEphemeralUsed: number;
   diskPersistentTotal: number;
@@ -310,12 +310,12 @@ export interface ListBackupsRequest {
   instanceId: string;
 }
 export interface Backup {
-  downloadable?: boolean;
+  downloadable?: boolean | undefined;
   finished_at: string;
   id: number;
-  size?: number;
+  size?: number | undefined;
   status: string;
-  triggered_at?: string;
+  triggered_at?: string | undefined;
 }
 export type ListBackupsResponse = Array<Backup>;
 export type ListBackupsResponse2 = ListBackupsResponse;
@@ -370,11 +370,11 @@ export interface Offering {
   documentationUrl: string;
   imageUrl: string;
   latest: boolean;
-  lifecycle?: string;
+  lifecycle?: string | undefined;
   name: string;
   plans: OfferingPlansList;
   quotaCount: number;
-  schema?: InstanceSchema;
+  schema?: InstanceSchema | undefined;
   version: string;
 }
 export type ListOfferingsResponseOfferingsList = Array<Offering>;
@@ -394,7 +394,7 @@ export interface Restore {
   finished_at: string;
   id: number;
   status: string;
-  triggered_at?: string;
+  triggered_at?: string | undefined;
 }
 export type ListRestoresResponseInstanceRestoresList = Array<Restore>;
 export interface ListRestoresResponse {
@@ -407,9 +407,9 @@ export interface PartialUpdateInstanceRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  instanceName?: string;
-  parameters?: InstanceParameters;
-  planId?: string;
+  instanceName?: string | undefined;
+  parameters?: InstanceParameters | undefined;
+  planId?: string | undefined;
 }
 export interface PartialUpdateInstanceResponse {}
 export interface TriggerRecreateRequest {
@@ -456,7 +456,7 @@ export interface UpdateBackupsConfigRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  encryption_key?: string;
+  encryption_key?: string | undefined;
 }
 export interface UpdateBackupsConfigResponse {
   message: string;

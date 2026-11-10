@@ -89,7 +89,7 @@ export interface AcceptTermsProjectsRetailProjectRequest {
   /** Required. Full resource name of the project. Format: `projects/{project_number_or_id}/retailProject` */
   project: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAcceptTermsRequest;
+  body?: GoogleCloudRetailV2alphaAcceptTermsRequest | undefined;
 }
 export type GoogleCloudRetailV2alphaProjectEnrolledSolutionsItemEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -100,9 +100,9 @@ export type GoogleCloudRetailV2alphaProjectEnrolledSolutionsItemEnumList =
 /** Metadata that describes a Cloud Retail Project. */
 export interface GoogleCloudRetailV2alphaProject {
   /** Output only. AI Commerce Search API solutions that the project has enrolled. */
-  enrolledSolutions?: GoogleCloudRetailV2alphaProjectEnrolledSolutionsItemEnumList;
+  enrolledSolutions?: GoogleCloudRetailV2alphaProjectEnrolledSolutionsItemEnumList | undefined;
   /** Output only. Full resource name of the retail project, such as `projects/{project_id_or_number}/retailProject`. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaCatalogAttributeRetrievableOptionEnum =
   | "RETRIEVABLE_OPTION_UNSPECIFIED"
@@ -112,59 +112,63 @@ export type StringList = Array<string>;
 /** Replaces a set of textual facet values by the same (possibly different) merged facet value. Each facet value should appear at most once as a value per CatalogAttribute. This feature is available only for textual custom attributes. */
 export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetValue {
   /** All the facet values that are replaces by the same merged_value that follows. The maximum number of values per MergedFacetValue is 25. Each value can have up to 128 characters. */
-  values?: StringList;
+  values?: StringList | undefined;
   /** All the previous values are replaced by this merged facet value. This merged_value must be non-empty and can have up to 128 characters. */
-  mergedValue?: string;
+  mergedValue?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetValueList =
   Array<GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetValue>;
 /** Options to rerank based on facet values engaged by the user for the current key. That key needs to be a custom textual key and facetable. To use this control, you also need to pass all the facet keys engaged by the user in the request using the field [SearchRequest.FacetSpec]. In particular, if you don't pass the facet keys engaged that you want to rerank on, this control won't be effective. Moreover, to obtain better results, the facet values that you want to rerank on should be close to English (ideally made of words, underscores, and spaces). */
 export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigRerankConfig {
   /** If empty, rerank on all facet values for the current key. Otherwise, will rerank on the facet values from this list only. */
-  facetValues?: StringList;
+  facetValues?: StringList | undefined;
   /** If set to true, then we also rerank the dynamic facets based on the facet values engaged by the user for the current attribute key during serving. */
-  rerankFacet?: boolean;
+  rerankFacet?: boolean | undefined;
 }
 /** A floating point interval. */
 export interface GoogleCloudRetailV2alphaInterval {
   /** Inclusive upper bound. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** Exclusive lower bound. */
-  exclusiveMinimum?: number;
+  exclusiveMinimum?: number | undefined;
   /** Inclusive lower bound. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** Exclusive upper bound. */
-  exclusiveMaximum?: number;
+  exclusiveMaximum?: number | undefined;
 }
 export type GoogleCloudRetailV2alphaIntervalList = Array<GoogleCloudRetailV2alphaInterval>;
 /** The current facet key (i.e. attribute config) maps into the merged_facet_key. A facet key can have at most one child. The current facet key and the merged facet key need both to be textual custom attributes or both numerical custom attributes (same type). */
 export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacet {
   /** The merged facet key should be a valid facet key that is different than the facet key of the current catalog attribute. We refer this is merged facet key as the child of the current catalog attribute. This merged facet key can't be a parent of another facet key (i.e. no directed path of length 2). This merged facet key needs to be either a textual custom attribute or a numerical custom attribute. */
-  mergedFacetKey?: string;
+  mergedFacetKey?: string | undefined;
 }
 /** Facet values to ignore on facets during the specified time range for the given SearchResponse.Facet.key attribute. */
 export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacetValues {
   /** Time range for the current list of facet values to ignore. If multiple time ranges are specified for an facet value for the current attribute, consider all of them. If both are empty, ignore always. If start time and end time are set, then start time must be before end time. If start time is not empty and end time is empty, then will ignore these facet values after the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** List of facet values to ignore for the following time range. The facet values are the same as the attribute values. There is a limit of 10 values per instance of IgnoredFacetValues. Each value can have at most 128 characters. */
-  values?: StringList;
+  values?: StringList | undefined;
   /** If start time is empty and end time is not empty, then ignore these facet values before end time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacetValuesList =
   Array<GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacetValues>;
 /** Possible options for the facet that corresponds to the current attribute config. */
 export interface GoogleCloudRetailV2alphaCatalogAttributeFacetConfig {
   /** Each instance replaces a list of facet values by a merged facet value. If a facet value is not in any list, then it will stay the same. To avoid conflicts, only paths of length 1 are accepted. In other words, if "dark_blue" merged into "BLUE", then the latter can't merge into "blues" because this would create a path of length 2. The maximum number of instances of MergedFacetValue per CatalogAttribute is 100. This feature is available only for textual custom attributes. */
-  mergedFacetValues?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetValueList;
+  mergedFacetValues?:
+    | GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacetValueList
+    | undefined;
   /** Set this field only if you want to rerank based on facet values engaged by the user for the current key. This option is only possible for custom facetable textual keys. */
-  rerankConfig?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfigRerankConfig;
+  rerankConfig?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfigRerankConfig | undefined;
   /** If you don't set the facet SearchRequest.FacetSpec.FacetKey.intervals in the request to a numerical attribute, then we use the computed intervals with rounded bounds obtained from all its product numerical attribute values. The computed intervals might not be ideal for some attributes. Therefore, we give you the option to overwrite them with the facet_intervals field. The maximum of facet intervals per CatalogAttribute is 40. Each interval must have a lower bound or an upper bound. If both bounds are provided, then the lower bound must be smaller or equal than the upper bound. */
-  facetIntervals?: GoogleCloudRetailV2alphaIntervalList;
+  facetIntervals?: GoogleCloudRetailV2alphaIntervalList | undefined;
   /** Use this field only if you want to merge a facet key into another facet key. */
-  mergedFacet?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacet;
+  mergedFacet?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfigMergedFacet | undefined;
   /** Each instance represents a list of attribute values to ignore as facet values for a specific time range. The maximum number of instances per CatalogAttribute is 25. */
-  ignoredFacetValues?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacetValuesList;
+  ignoredFacetValues?:
+    | GoogleCloudRetailV2alphaCatalogAttributeFacetConfigIgnoredFacetValuesList
+    | undefined;
 }
 export type GoogleCloudRetailV2alphaCatalogAttributeExactSearchableOptionEnum =
   | "EXACT_SEARCHABLE_OPTION_UNSPECIFIED"
@@ -190,42 +194,54 @@ export type GoogleCloudRetailV2alphaCatalogAttributeTypeEnum = "UNKNOWN" | "TEXT
 /** Catalog level attribute config for an attribute. For example, if customers want to enable/disable facet for a specific attribute. */
 export interface GoogleCloudRetailV2alphaCatalogAttribute {
   /** If RETRIEVABLE_ENABLED, attribute values are retrievable in the search results. If unset, the server behavior defaults to RETRIEVABLE_DISABLED. */
-  retrievableOption?: GoogleCloudRetailV2alphaCatalogAttributeRetrievableOptionEnum | (string & {});
+  retrievableOption?:
+    | GoogleCloudRetailV2alphaCatalogAttributeRetrievableOptionEnum
+    | (string & {})
+    | undefined;
   /** Contains facet options. */
-  facetConfig?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfig;
+  facetConfig?: GoogleCloudRetailV2alphaCatalogAttributeFacetConfig | undefined;
   /** Output only. Indicates whether this attribute has been used by any products. `True` if at least one Product is using this attribute in Product.attributes. Otherwise, this field is `False`. CatalogAttribute can be pre-loaded by using CatalogService.AddCatalogAttribute or CatalogService.UpdateAttributesConfig APIs. This field is `False` for pre-loaded CatalogAttributes. Only pre-loaded catalog attributes that are neither in use by products nor predefined can be deleted. Catalog attributes that are either in use by products or are predefined attributes cannot be deleted; however, their configuration properties will reset to default values upon removal request. After catalog changes, it takes about 10 minutes for this field to update. */
-  inUse?: boolean;
+  inUse?: boolean | undefined;
   /** If EXACT_SEARCHABLE_ENABLED, attribute values will be exact searchable. This property only applies to textual custom attributes and requires indexable set to enabled to enable exact-searchable. If unset, the server behavior defaults to EXACT_SEARCHABLE_DISABLED. */
   exactSearchableOption?:
     | GoogleCloudRetailV2alphaCatalogAttributeExactSearchableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required. Attribute name. For example: `color`, `brands`, `attributes.custom_attribute`, such as `attributes.xyz`. To be indexable, the attribute name can contain only alpha-numeric characters and underscores. For example, an attribute named `attributes.abc_xyz` can be indexed, but an attribute named `attributes.abc-xyz` cannot be indexed. If the attribute key starts with `attributes.`, then the attribute is a custom attribute. Attributes such as `brands`, `patterns`, and `title` are built-in and called system attributes. */
-  key?: string;
+  key?: string | undefined;
   /** When AttributesConfig.attribute_config_level is CATALOG_LEVEL_ATTRIBUTE_CONFIG, if RECOMMENDATIONS_FILTERING_ENABLED, attribute values are filterable for recommendations. This option works for categorical features only, does not work for numerical features, inventory filtering. */
   recommendationsFilteringOption?:
     | GoogleCloudRetailV2alphaCatalogAttributeRecommendationsFilteringOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When AttributesConfig.attribute_config_level is CATALOG_LEVEL_ATTRIBUTE_CONFIG, if INDEXABLE_ENABLED attribute values are indexed so that it can be filtered, faceted, or boosted in SearchService.Search. Must be specified when AttributesConfig.attribute_config_level is CATALOG_LEVEL_ATTRIBUTE_CONFIG, otherwise throws INVALID_FORMAT error. */
-  indexableOption?: GoogleCloudRetailV2alphaCatalogAttributeIndexableOptionEnum | (string & {});
+  indexableOption?:
+    | GoogleCloudRetailV2alphaCatalogAttributeIndexableOptionEnum
+    | (string & {})
+    | undefined;
   /** When AttributesConfig.attribute_config_level is CATALOG_LEVEL_ATTRIBUTE_CONFIG, if SEARCHABLE_ENABLED, attribute values are searchable by text queries in SearchService.Search. If SEARCHABLE_ENABLED but attribute type is numerical, attribute values will not be searchable by text queries in SearchService.Search, as there are no text values associated to numerical attributes. Must be specified, when AttributesConfig.attribute_config_level is CATALOG_LEVEL_ATTRIBUTE_CONFIG, otherwise throws INVALID_FORMAT error. */
-  searchableOption?: GoogleCloudRetailV2alphaCatalogAttributeSearchableOptionEnum | (string & {});
+  searchableOption?:
+    | GoogleCloudRetailV2alphaCatalogAttributeSearchableOptionEnum
+    | (string & {})
+    | undefined;
   /** If DYNAMIC_FACETABLE_ENABLED, attribute values are available for dynamic facet. Could only be DYNAMIC_FACETABLE_DISABLED if CatalogAttribute.indexable_option is INDEXABLE_DISABLED. Otherwise, an INVALID_ARGUMENT error is returned. Must be specified, otherwise throws INVALID_FORMAT error. */
   dynamicFacetableOption?:
     | GoogleCloudRetailV2alphaCatalogAttributeDynamicFacetableOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The type of this attribute. This is derived from the attribute in Product.attributes. */
-  type?: GoogleCloudRetailV2alphaCatalogAttributeTypeEnum | (string & {});
+  type?: GoogleCloudRetailV2alphaCatalogAttributeTypeEnum | (string & {}) | undefined;
 }
 /** Request for CatalogService.AddCatalogAttribute method. */
 export interface GoogleCloudRetailV2alphaAddCatalogAttributeRequest {
   /** Required. The CatalogAttribute to add. */
-  catalogAttribute?: GoogleCloudRetailV2alphaCatalogAttribute;
+  catalogAttribute?: GoogleCloudRetailV2alphaCatalogAttribute | undefined;
 }
 export interface AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAddCatalogAttributeRequest;
+  body?: GoogleCloudRetailV2alphaAddCatalogAttributeRequest | undefined;
 }
 export type GoogleCloudRetailV2alphaCatalogAttributeMap = {
   [key: string]: GoogleCloudRetailV2alphaCatalogAttribute | undefined;
@@ -237,24 +253,25 @@ export type GoogleCloudRetailV2alphaAttributesConfigAttributeConfigLevelEnum =
 /** Catalog level attribute config. */
 export interface GoogleCloudRetailV2alphaAttributesConfig {
   /** Enable attribute(s) config at catalog level. For example, indexable, dynamic_facetable, or searchable for each attribute. The key is catalog attribute's name. For example: `color`, `brands`, `attributes.custom_attribute`, such as `attributes.xyz`. The maximum number of catalog attributes allowed in a request is 1000. */
-  catalogAttributes?: GoogleCloudRetailV2alphaCatalogAttributeMap;
+  catalogAttributes?: GoogleCloudRetailV2alphaCatalogAttributeMap | undefined;
   /** Required. Immutable. The fully qualified resource name of the attribute config. Format: `projects/*\/locations/*\/catalogs/*\/attributesConfig` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The AttributeConfigLevel used for this catalog. */
   attributeConfigLevel?:
     | GoogleCloudRetailV2alphaAttributesConfigAttributeConfigLevelEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Request for AddControl method. */
 export interface GoogleCloudRetailV2alphaAddControlRequest {
   /** Required. The id of the control to apply. Assumed to be in the same catalog as the serving config - if id is not found a NOT_FOUND error is returned. */
-  controlId?: string;
+  controlId?: string | undefined;
 }
 export interface AddControlProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The source ServingConfig resource name . Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAddControlRequest;
+  body?: GoogleCloudRetailV2alphaAddControlRequest | undefined;
 }
 export type GoogleCloudRetailV2alphaServingConfigSolutionTypesItemEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -270,7 +287,10 @@ export type GoogleCloudRetailV2alphaSearchRequestPersonalizationSpecModeEnum =
 /** The specification for personalization. */
 export interface GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec {
   /** Defaults to Mode.AUTO. */
-  mode?: GoogleCloudRetailV2alphaSearchRequestPersonalizationSpecModeEnum | (string & {});
+  mode?:
+    | GoogleCloudRetailV2alphaSearchRequestPersonalizationSpecModeEnum
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpecModeEnum =
   | "MODE_UNSPECIFIED"
@@ -279,7 +299,7 @@ export type GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpecModeEnum =
 /** The specifications of dynamically generated facets. */
 export interface GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec {
   /** Mode of the DynamicFacet feature. Defaults to Mode.DISABLED if it's unset. */
-  mode?: GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpecModeEnum | (string & {});
+  mode?: GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpecModeEnum | (string & {}) | undefined;
 }
 export type GoogleCloudRetailV2alphaServingConfigDiversityTypeEnum =
   | "DIVERSITY_TYPE_UNSPECIFIED"
@@ -288,110 +308,113 @@ export type GoogleCloudRetailV2alphaServingConfigDiversityTypeEnum =
 /** Configures metadata that is used to generate serving time results (e.g. search results or recommendation predictions). */
 export interface GoogleCloudRetailV2alphaServingConfig {
   /** When the flag is enabled, the products in the denylist will not be filtered out in the recommendation filtering results. */
-  ignoreRecsDenylist?: boolean;
+  ignoreRecsDenylist?: boolean | undefined;
   /** How much diversity to use in recommendation model results e.g. `medium-diversity` or `high-diversity`. Currently supported values: * `no-diversity` * `low-diversity` * `medium-diversity` * `high-diversity` * `auto-diversity` If not specified, we choose default based on recommendation model type. Default value: `no-diversity`. Can only be set if solution_types is SOLUTION_TYPE_RECOMMENDATION. */
-  diversityLevel?: string;
+  diversityLevel?: string | undefined;
   /** Required. Immutable. Specifies the solution types that a serving config can be associated with. Currently we support setting only one type of solution. */
-  solutionTypes?: GoogleCloudRetailV2alphaServingConfigSolutionTypesItemEnumList;
+  solutionTypes?: GoogleCloudRetailV2alphaServingConfigSolutionTypesItemEnumList | undefined;
   /** The specification for personalization spec. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set. SearchRequest.personalization_spec will override ServingConfig.personalization_spec. */
-  personalizationSpec?: GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec;
+  personalizationSpec?: GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec | undefined;
   /** Facet specifications for faceted search. If empty, no facets are returned. The ids refer to the ids of Control resources with only the Facet control set. These controls are assumed to be in the same Catalog as the ServingConfig. A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error is returned. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  facetControlIds?: StringList;
+  facetControlIds?: StringList | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/servingConfig/*` */
-  name?: string;
+  name?: string | undefined;
   /** Condition redirect specifications. Only the first triggered redirect action is applied, even if multiple apply. Maximum number of specifications is 1000. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  redirectControlIds?: StringList;
+  redirectControlIds?: StringList | undefined;
   /** The specification for dynamically generated facets. Notice that only textual facets can be dynamically generated. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  dynamicFacetSpec?: GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec;
+  dynamicFacetSpec?: GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec | undefined;
   /** Condition ignore specifications. If multiple ignore conditions match, all matching ignore controls in the list will execute. - Order does not matter. - Maximum number of specifications is 100. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  ignoreControlIds?: StringList;
+  ignoreControlIds?: StringList | undefined;
   /** Condition replacement specifications. - Applied according to the order in the list. - A previously replaced term can not be re-replaced. - Maximum number of specifications is 100. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  replacementControlIds?: StringList;
+  replacementControlIds?: StringList | undefined;
   /** The id of the model in the same Catalog to use at serving time. Currently only RecommendationModels are supported: https://cloud.google.com/retail/recommendations-ai/docs/create-models Can be changed but only to a compatible model (e.g. others-you-may-like CTR to others-you-may-like CVR). Required when solution_types is SOLUTION_TYPE_RECOMMENDATION. */
-  modelId?: string;
+  modelId?: string | undefined;
   /** Condition do not associate specifications. If multiple do not associate conditions match, all matching do not associate controls in the list will execute. - Order does not matter. - Maximum number of specifications is 100. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  doNotAssociateControlIds?: StringList;
+  doNotAssociateControlIds?: StringList | undefined;
   /** How much price ranking we want in serving results. Price reranking causes product items with a similar recommendation probability to be ordered by price, with the highest-priced items first. This setting could result in a decrease in click-through and conversion rates. Allowed values are: * `no-price-reranking` * `low-price-reranking` * `medium-price-reranking` * `high-price-reranking` If not specified, we choose default based on model type. Default value: `no-price-reranking`. Can only be set if solution_types is SOLUTION_TYPE_RECOMMENDATION. */
-  priceRerankingLevel?: string;
+  priceRerankingLevel?: string | undefined;
   /** Required. The human readable serving config display name. Used in Retail UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Condition oneway synonyms specifications. If multiple oneway synonyms conditions match, all matching oneway synonyms controls in the list will execute. Order of controls in the list will not matter. Maximum number of specifications is 100. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  onewaySynonymsControlIds?: StringList;
+  onewaySynonymsControlIds?: StringList | undefined;
   /** Whether to add additional category filters on the `similar-items` model. If not specified, we enable it by default. Allowed values are: * `no-category-match`: No additional filtering of original results from the model and the customer's filters. * `relaxed-category-match`: Only keep results with categories that match at least one item categories in the PredictRequests's context item. * If customer also sends filters in the PredictRequest, then the results will satisfy both conditions (user given and category match). Can only be set if solution_types is SOLUTION_TYPE_RECOMMENDATION. */
-  enableCategoryFilterLevel?: string;
+  enableCategoryFilterLevel?: string | undefined;
   /** Condition synonyms specifications. If multiple syonyms conditions match, all matching synonyms control in the list will execute. Order of controls in the list will not matter. Maximum number of specifications is 100. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  twowaySynonymsControlIds?: StringList;
+  twowaySynonymsControlIds?: StringList | undefined;
   /** Condition boost specifications. If a product matches multiple conditions in the specifications, boost scores from these specifications are all applied and combined in a non-linear way. Maximum number of specifications is 100. Notice that if both ServingConfig.boost_control_ids and SearchRequest.boost_spec are set, the boost conditions from both places are evaluated. If a search request matches multiple boost conditions, the final boost score is equal to the sum of the boost scores from all matched boost conditions. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  boostControlIds?: StringList;
+  boostControlIds?: StringList | undefined;
   /** What kind of diversity to use - data driven or rule based. If unset, the server behavior defaults to RULE_BASED_DIVERSITY. */
-  diversityType?: GoogleCloudRetailV2alphaServingConfigDiversityTypeEnum | (string & {});
+  diversityType?:
+    | GoogleCloudRetailV2alphaServingConfigDiversityTypeEnum
+    | (string & {})
+    | undefined;
   /** Condition filter specifications. If a product matches multiple conditions in the specifications, filters from these specifications are all applied and combined via the AND operator. Maximum number of specifications is 100. Can only be set if solution_types is SOLUTION_TYPE_SEARCH. */
-  filterControlIds?: StringList;
+  filterControlIds?: StringList | undefined;
 }
 /** Request message for ProductService.AddFulfillmentPlaces method. */
 export interface GoogleCloudRetailV2alphaAddFulfillmentPlacesRequest {
   /** Required. The IDs for this type, such as the store IDs for "pickup-in-store" or the region IDs for "same-day-delivery" to be added for this type. Duplicate IDs will be automatically ignored. At least 1 value is required, and a maximum of 2000 values are allowed. Each value must be a string with a length limit of 10 characters, matching the pattern `[a-zA-Z0-9_-]+`, such as "store1" or "REGION-2". Otherwise, an INVALID_ARGUMENT error is returned. If the total number of place IDs exceeds 2000 for this type after adding, then the update will be rejected. */
-  placeIds?: StringList;
+  placeIds?: StringList | undefined;
   /** If set to true, and the Product is not found, the fulfillment information will still be processed and retained for at most 1 day and processed once the Product is created. If set to false, a NOT_FOUND error is returned if the Product is not found. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** The time when the fulfillment updates are issued, used to prevent out-of-order updates on fulfillment information. If not provided, the internal system time will be used. */
-  addTime?: string;
+  addTime?: string | undefined;
   /** Required. The fulfillment type, including commonly used types (such as pickup in store and same day delivery), and custom types. Supported values: * "pickup-in-store" * "ship-to-store" * "same-day-delivery" * "next-day-delivery" * "custom-type-1" * "custom-type-2" * "custom-type-3" * "custom-type-4" * "custom-type-5" If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. This field directly corresponds to Product.fulfillment_info.type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAddFulfillmentPlacesRequest;
+  body?: GoogleCloudRetailV2alphaAddFulfillmentPlacesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** The price range of all variant Product having the same Product.primary_product_id. */
 export interface GoogleCloudRetailV2alphaPriceInfoPriceRange {
   /** The inclusive Product.pricing_info.price interval of all variant Product having the same Product.primary_product_id. */
-  price?: GoogleCloudRetailV2alphaInterval;
+  price?: GoogleCloudRetailV2alphaInterval | undefined;
   /** The inclusive Product.pricing_info.original_price internal of all variant Product having the same Product.primary_product_id. */
-  originalPrice?: GoogleCloudRetailV2alphaInterval;
+  originalPrice?: GoogleCloudRetailV2alphaInterval | undefined;
 }
 /** The price information of a Product. */
 export interface GoogleCloudRetailV2alphaPriceInfo {
   /** The costs associated with the sale of a particular product. Used for gross profit reporting. * Profit = price - cost Google Merchant Center property [cost_of_goods_sold](https://support.google.com/merchants/answer/9017895). */
-  cost?: number;
+  cost?: number | undefined;
   /** The 3-letter currency code defined in [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html). If this field is an unrecognizable currency code, an INVALID_ARGUMENT error is returned. The Product.Type.VARIANT Products with the same Product.primary_product_id must share the same currency_code. Otherwise, a FAILED_PRECONDITION error is returned. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Price of the product without any discount. If zero, by default set to be the price. If set, original_price should be greater than or equal to price, otherwise an INVALID_ARGUMENT error is thrown. */
-  originalPrice?: number;
+  originalPrice?: number | undefined;
   /** The timestamp when the price stops to be effective. The price is used for search before price_expire_time. If this field is set, the original_price must be set and original_price is used after price_expire_time. Do not set if price is always effective because it will cause additional latency during search. */
-  priceExpireTime?: string;
+  priceExpireTime?: string | undefined;
   /** Price of the product. Google Merchant Center property [price](https://support.google.com/merchants/answer/6324371). Schema.org property [Offer.price](https://schema.org/price). */
-  price?: number;
+  price?: number | undefined;
   /** Output only. The price range of all the child Product.Type.VARIANT Products grouped together on the Product.Type.PRIMARY Product. Only populated for Product.Type.PRIMARY Products. Note: This field is OUTPUT_ONLY for ProductService.GetProduct. Do not set this field in API requests. */
-  priceRange?: GoogleCloudRetailV2alphaPriceInfoPriceRange;
+  priceRange?: GoogleCloudRetailV2alphaPriceInfoPriceRange | undefined;
   /** The timestamp when the price starts to be effective. This can be set as a future timestamp, and the price is only used for search after price_effective_time. If so, the original_price must be set and original_price is used before price_effective_time. Do not set if price is always effective because it will cause additional latency during search. */
-  priceEffectiveTime?: string;
+  priceEffectiveTime?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaLocalInventoryAvailabilityEnum =
   | "AVAILABILITY_UNSPECIFIED"
@@ -403,13 +426,13 @@ export type DoubleList = Array<number>;
 /** A custom attribute that is not explicitly modeled in Product. */
 export interface GoogleCloudRetailV2alphaCustomAttribute {
   /** The numerical values of this custom attribute. For example, `[2.3, 15.4]` when the key is "lengths_cm". Exactly one of text or numbers should be set. Otherwise, an INVALID_ARGUMENT error is returned. */
-  numbers?: DoubleList;
+  numbers?: DoubleList | undefined;
   /** The textual values of this custom attribute. For example, `["yellow", "green"]` when the key is "color". Empty string is not allowed. Otherwise, an INVALID_ARGUMENT error is returned. Exactly one of text or numbers should be set. Otherwise, an INVALID_ARGUMENT error is returned. */
-  text?: StringList;
+  text?: StringList | undefined;
   /** This field is normally ignored unless AttributesConfig.attribute_config_level of the Catalog is set to the deprecated 'PRODUCT_LEVEL_ATTRIBUTE_CONFIG' mode. For information about product-level attribute configuration, see [Configuration modes](https://cloud.google.com/retail/docs/attribute-config#config-modes). If true, custom attribute values are searchable by text queries in SearchService.Search. This field is ignored in a UserEvent. Only set if type text is set. Otherwise, a INVALID_ARGUMENT error is returned. */
-  searchable?: boolean;
+  searchable?: boolean | undefined;
   /** This field is normally ignored unless AttributesConfig.attribute_config_level of the Catalog is set to the deprecated 'PRODUCT_LEVEL_ATTRIBUTE_CONFIG' mode. For information about product-level attribute configuration, see [Configuration modes](https://cloud.google.com/retail/docs/attribute-config#config-modes). If true, custom attribute values are indexed, so that they can be filtered, faceted or boosted in SearchService.Search. This field is ignored in a UserEvent. See SearchRequest.filter, SearchRequest.facet_specs and SearchRequest.boost_spec for more details. */
-  indexable?: boolean;
+  indexable?: boolean | undefined;
 }
 export type GoogleCloudRetailV2alphaCustomAttributeMap = {
   [key: string]: GoogleCloudRetailV2alphaCustomAttribute | undefined;
@@ -417,197 +440,197 @@ export type GoogleCloudRetailV2alphaCustomAttributeMap = {
 /** The inventory information at a place (e.g. a store) identified by a place ID. */
 export interface GoogleCloudRetailV2alphaLocalInventory {
   /** Optional. The place ID for the current set of inventory information. */
-  placeId?: string;
+  placeId?: string | undefined;
   /** Optional. Product price and cost information. Google Merchant Center property [price](https://support.google.com/merchants/answer/6324371). */
-  priceInfo?: GoogleCloudRetailV2alphaPriceInfo;
+  priceInfo?: GoogleCloudRetailV2alphaPriceInfo | undefined;
   /** Optional. The availability of the Product at this place_id. Default to Availability.IN_STOCK. For primary products with variants set the availability of the primary as Availability.OUT_OF_STOCK and set the true availability at the variant level. This way the primary product will be considered "in stock" as long as it has at least one variant in stock. For primary products with no variants set the true availability at the primary level. Corresponding properties: Google Merchant Center property [availability](https://support.google.com/merchants/answer/6324448). Schema.org property [Offer.availability](https://schema.org/availability). This field is currently only used by the Recommendations API. For Search, please make use of fulfillment_types or custom attributes for similar behaviour. See [here]( https://cloud.google.com/retail/docs/local-inventory-updates#local-inventory-update-methods) for more details. */
-  availability?: GoogleCloudRetailV2alphaLocalInventoryAvailabilityEnum | (string & {});
+  availability?: GoogleCloudRetailV2alphaLocalInventoryAvailabilityEnum | (string & {}) | undefined;
   /** Optional. Additional local inventory attributes, for example, store name, promotion tags, etc. This field needs to pass all below criteria, otherwise an INVALID_ARGUMENT error is returned: * At most 30 attributes are allowed. * The key must be a UTF-8 encoded string with a length limit of 32 characters. * The key must match the pattern: `a-zA-Z0-9*`. For example, key0LikeThis or KEY_1_LIKE_THIS. * The attribute values must be of the same type (text or number). * Only 1 value is allowed for each attribute. * For text values, the length limit is 256 UTF-8 characters. * The attribute does not support search. The `searchable` field should be unset or set to false. * The max summed total bytes of custom attribute keys and values per product is 5MiB. */
-  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap;
+  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap | undefined;
   /** Optional. Supported fulfillment types. Valid fulfillment type values include commonly used types (such as pickup in store and same day delivery), and custom types. Customers have to map custom types to their display names before rendering UI. Supported values: * "pickup-in-store" * "ship-to-store" * "same-day-delivery" * "next-day-delivery" * "custom-type-1" * "custom-type-2" * "custom-type-3" * "custom-type-4" * "custom-type-5" If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. All the elements must be distinct. Otherwise, an INVALID_ARGUMENT error is returned. */
-  fulfillmentTypes?: StringList;
+  fulfillmentTypes?: StringList | undefined;
 }
 export type GoogleCloudRetailV2alphaLocalInventoryList =
   Array<GoogleCloudRetailV2alphaLocalInventory>;
 /** Request message for ProductService.AddLocalInventories method. */
 export interface GoogleCloudRetailV2alphaAddLocalInventoriesRequest {
   /** Indicates which inventory fields in the provided list of LocalInventory to update. The field is updated to the provided value. If a field is set while the place does not have a previous local inventory, the local inventory at that store is created. If a field is set while the value of that field is not provided, the original field value, if it exists, is deleted. If the mask is not set or set with empty paths, all inventory fields will be updated. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned and the entire update will be ignored. */
-  addMask?: string;
+  addMask?: string | undefined;
   /** Required. A list of inventory information at difference places. Each place is identified by its place ID. At most 3000 inventories are allowed per request. */
-  localInventories?: GoogleCloudRetailV2alphaLocalInventoryList;
+  localInventories?: GoogleCloudRetailV2alphaLocalInventoryList | undefined;
   /** The time when the inventory updates are issued. Used to prevent out-of-order updates on local inventory fields. If not provided, the internal system time will be used. */
-  addTime?: string;
+  addTime?: string | undefined;
   /** If set to true, and the Product is not found, the local inventory will still be processed and retained for at most 1 day and processed once the Product is created. If set to false, a NOT_FOUND error is returned if the Product is not found. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
 }
 export interface AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAddLocalInventoriesRequest;
+  body?: GoogleCloudRetailV2alphaAddLocalInventoriesRequest | undefined;
 }
 /** Request for CatalogService.BatchRemoveCatalogAttributes method. */
 export interface GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesRequest {
   /** Required. The attribute name keys of the CatalogAttributes to delete. A maximum of 1000 catalog attributes can be deleted in a batch. */
-  attributeKeys?: StringList;
+  attributeKeys?: StringList | undefined;
 }
 export interface BatchRemoveCatalogAttributesProjectsLocationsCatalogsAttributesConfigRequest {
   /** Required. The attributes config resource shared by all catalog attributes being deleted. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesRequest;
+  body?: GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesRequest | undefined;
 }
 /** Response of the CatalogService.BatchRemoveCatalogAttributes. */
 export interface GoogleCloudRetailV2alphaBatchRemoveCatalogAttributesResponse {
   /** Catalog attributes that were deleted. Only pre-loaded catalog attributes that are neither in use by products nor predefined can be deleted. */
-  deletedCatalogAttributes?: StringList;
+  deletedCatalogAttributes?: StringList | undefined;
   /** Catalog attributes that were reset. Catalog attributes that are either in use by products or are predefined attributes cannot be deleted; however, their configuration properties will reset to default values upon removal request. */
-  resetCatalogAttributes?: StringList;
+  resetCatalogAttributes?: StringList | undefined;
 }
 /** Configuration for a single generated question. */
 export interface GoogleCloudRetailV2alphaGenerativeQuestionConfig {
   /** Output only. The ratio of how often a question was asked. */
-  frequency?: number;
+  frequency?: number | undefined;
   /** Output only. Values that can be used to answer the question. */
-  exampleValues?: StringList;
+  exampleValues?: StringList | undefined;
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
-  catalog?: string;
+  catalog?: string | undefined;
   /** Required. The facet to which the question is associated. */
-  facet?: string;
+  facet?: string | undefined;
   /** Optional. The question that will be used at serving time. Question can have a max length of 300 bytes. When not populated, generated_question should be used. */
-  finalQuestion?: string;
+  finalQuestion?: string | undefined;
   /** Output only. The LLM generated question. */
-  generatedQuestion?: string;
+  generatedQuestion?: string | undefined;
   /** Optional. Whether the question is asked at serving time. */
-  allowedInConversation?: boolean;
+  allowedInConversation?: boolean | undefined;
 }
 /** Request for UpdateGenerativeQuestionConfig method. */
 export interface GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequest {
   /** Required. The question to update. */
-  generativeQuestionConfig?: GoogleCloudRetailV2alphaGenerativeQuestionConfig;
+  generativeQuestionConfig?: GoogleCloudRetailV2alphaGenerativeQuestionConfig | undefined;
   /** Optional. Indicates which fields in the provided GenerativeQuestionConfig to update. The following are NOT supported: * GenerativeQuestionConfig.frequency If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequestList =
   Array<GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequest>;
 /** Request for BatchUpdateGenerativeQuestionConfig method. */
 export interface GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsRequest {
   /** Required. The updates question configs. */
-  requests?: GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequestList;
+  requests?: GoogleCloudRetailV2alphaUpdateGenerativeQuestionConfigRequestList | undefined;
 }
 export interface BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest {
   /** Optional. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsRequest;
+  body?: GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsRequest | undefined;
 }
 export type GoogleCloudRetailV2alphaGenerativeQuestionConfigList =
   Array<GoogleCloudRetailV2alphaGenerativeQuestionConfig>;
 /** Aggregated response for UpdateGenerativeQuestionConfig method. */
 export interface GoogleCloudRetailV2alphaBatchUpdateGenerativeQuestionConfigsResponse {
   /** Optional. The updates question configs. */
-  generativeQuestionConfigs?: GoogleCloudRetailV2alphaGenerativeQuestionConfigList;
+  generativeQuestionConfigs?: GoogleCloudRetailV2alphaGenerativeQuestionConfigList | undefined;
 }
 /** Request message for CollectUserEvent method. */
 export interface GoogleCloudRetailV2alphaCollectUserEventRequest {
   /** Required. URL encoded UserEvent proto with a length limit of 2,000,000 characters. */
-  userEvent?: string;
+  userEvent?: string | undefined;
   /** An arbitrary serialized JSON string that contains necessary information that can comprise a user event. When this field is specified, the user_event field will be ignored. Note: line-delimited JSON is not supported, a single JSON only. */
-  rawJson?: string;
+  rawJson?: string | undefined;
   /** The prebuilt rule name that can convert a specific type of raw_json. For example: "ga4_bq" rule for the GA4 user event schema. */
-  prebuiltRule?: string;
+  prebuiltRule?: string | undefined;
   /** The URL including cgi-parameters but excluding the hash fragment with a length limit of 5,000 characters. This is often more useful than the referer URL, because many browsers only send the domain for 3rd party requests. */
-  uri?: string;
+  uri?: string | undefined;
   /** The event timestamp in milliseconds. This prevents browser caching of otherwise identical get requests. The name is abbreviated to reduce the payload bytes. */
-  ets?: string;
+  ets?: string | undefined;
 }
 export interface CollectProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The parent catalog name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaCollectUserEventRequest;
+  body?: GoogleCloudRetailV2alphaCollectUserEventRequest | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface GoogleApiHttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
 }
 export interface CompleteQueryProjectsLocationsCatalogsRequest {
   /** Completion max suggestions. If left unset or set to 0, then will fallback to the configured value CompletionConfig.max_suggestions. The maximum allowed max suggestions is 20. If it is set higher, it will be capped by 20. */
-  maxSuggestions?: number;
+  maxSuggestions?: number | undefined;
   /** Determines which dataset to use for fetching completion. "user-data" will use the dataset imported through CompletionService.ImportCompletionData. `cloud-retail` will use the dataset generated by Cloud Retail based on user events. If left empty, completions will be fetched from the `user-data` dataset. Current supported values: * user-data * cloud-retail: This option requires enabling auto-learning function first. See [guidelines](https://cloud.google.com/retail/docs/completion-overview#generated-completion-dataset). */
-  dataset?: string;
+  dataset?: string | undefined;
   /** Recommended field. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  visitorId?: string;
+  visitorId?: string | undefined;
   /** Required. Catalog for which the completion is performed. Full resource name of catalog, such as `projects/*\/locations/global/catalogs/default_catalog`. */
   catalog: string;
   /** Required. The query used to generate suggestions. The maximum number of allowed characters is 255. */
-  query?: string;
+  query?: string | undefined;
   /** The device type context for completion suggestions. We recommend that you leave this field empty. It can apply different suggestions on different device types, e.g. `DESKTOP`, `MOBILE`. If it is empty, the suggestions are across all device types. Supported formats: * `UNKNOWN_DEVICE_TYPE` * `DESKTOP` * `MOBILE` * A customized string starts with `OTHER_`, e.g. `OTHER_IPHONE`. */
-  deviceType?: string;
+  deviceType?: string | undefined;
   /** The entity for customers who run multiple entities, domains, sites, or regions, for example, `Google US`, `Google Ads`, `Waymo`, `google.com`, `youtube.com`, etc. If this is set, it must be an exact match with UserEvent.entity to get per-entity autocomplete results. This field will be applied to `completion_results` only. It has no effect on the `attribute_results`. Also, this entity should be limited to 256 characters, if too long, it will be truncated to 256 characters in both generation and serving time, and may lead to mis-match. To ensure it works, please set the entity with string within 256 characters. */
-  entity?: string;
+  entity?: string | undefined;
   /** Note that this field applies for `user-data` dataset only. For requests with `cloud-retail` dataset, setting this field has no effect. The language filters applied to the output suggestions. If set, it should contain the language of the query. If not set, suggestions are returned without considering language restrictions. This is the BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see [Tags for Identifying Languages](https://tools.ietf.org/html/bcp47). The maximum number of language codes is 3. */
-  languageCodes?: StringList;
+  languageCodes?: StringList | undefined;
   /** If true, attribute suggestions are enabled and provided in the response. This field is only available for the `cloud-retail` dataset. */
-  enableAttributeSuggestions?: boolean;
+  enableAttributeSuggestions?: boolean | undefined;
 }
 /** A facet value which contains value names and their count. */
 export interface GoogleCloudRetailV2alphaSearchResponseFacetFacetValue {
   /** The maximum value in the FacetValue.interval. Only supported on numerical facets and returned if SearchRequest.FacetSpec.FacetKey.return_min_max is true. */
-  maxValue?: number;
+  maxValue?: number | undefined;
   /** Number of items that have this facet value. */
-  count?: string;
+  count?: string | undefined;
   /** The minimum value in the FacetValue.interval. Only supported on numerical facets and returned if SearchRequest.FacetSpec.FacetKey.return_min_max is true. */
-  minValue?: number;
+  minValue?: number | undefined;
   /** Interval value for a facet, such as [10, 20) for facet "price". */
-  interval?: GoogleCloudRetailV2alphaInterval;
+  interval?: GoogleCloudRetailV2alphaInterval | undefined;
   /** Text value of a facet, such as "Black" for facet "colorFamilies". */
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchResponseFacetFacetValueList =
   Array<GoogleCloudRetailV2alphaSearchResponseFacetFacetValue>;
 /** A facet result. */
 export interface GoogleCloudRetailV2alphaSearchResponseFacet {
   /** The key for this facet. E.g., "colorFamilies" or "price" or "attributes.attr1". */
-  key?: string;
+  key?: string | undefined;
   /** Whether the facet is dynamically generated. */
-  dynamicFacet?: boolean;
+  dynamicFacet?: boolean | undefined;
   /** The facet values for this field. */
-  values?: GoogleCloudRetailV2alphaSearchResponseFacetFacetValueList;
+  values?: GoogleCloudRetailV2alphaSearchResponseFacetFacetValueList | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchResponseFacetList =
   Array<GoogleCloudRetailV2alphaSearchResponseFacet>;
 /** A conversational prompt to trigger agents like Shopping Agent. */
 export interface GoogleCloudRetailV2alphaCompleteQueryResponseAgentPrompt {
   /** The conversational prompt string. */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaCompleteQueryResponseAgentPromptList =
   Array<GoogleCloudRetailV2alphaCompleteQueryResponseAgentPrompt>;
 /** Resource that represents completion results. */
 export interface GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResult {
   /** Facet information for the suggestion term. Gives the number of items resulting from a search with this suggestion term for each facet. This is an experimental feature for limited customers. If you want to receive this facet information, reach out to the Retail support team. */
-  facets?: GoogleCloudRetailV2alphaSearchResponseFacetList;
+  facets?: GoogleCloudRetailV2alphaSearchResponseFacetList | undefined;
   /** Deprecated: Use CompleteQueryResponse.agent_prompts instead. Conversational prompts to trigger agents like Shopping Agent. There may be multiple prompts for a single suggestion. This is an experimental feature for select customers. */
-  agentPrompts?: GoogleCloudRetailV2alphaCompleteQueryResponseAgentPromptList;
+  agentPrompts?: GoogleCloudRetailV2alphaCompleteQueryResponseAgentPromptList | undefined;
   /** Total number of products associated with a search with this suggestion. This is an experimental feature for limited customers. If you want to receive this product count information, reach out to the Retail support team. */
-  totalProductCount?: number;
+  totalProductCount?: number | undefined;
   /** The suggestion for the query. */
-  suggestion?: string;
+  suggestion?: string | undefined;
   /** Custom attributes for the suggestion term. * For `user-data`, the attributes are additional custom attributes ingested through BigQuery. * For `cloud-retail`, the attributes are product attributes generated by Cloud Retail. It requires UserEvent.product_details is imported properly. */
-  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap;
+  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap | undefined;
 }
 export type GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResultList =
   Array<GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResult>;
 /** Resource that represents attribute results. */
 export interface GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResult {
   /** The list of suggestions for the attribute. */
-  suggestions?: StringList;
+  suggestions?: StringList | undefined;
 }
 export type GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResultMap = {
   [key: string]: GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResult | undefined;
@@ -615,22 +638,24 @@ export type GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResultMap = {
 /** Deprecated: Recent search of this user. */
 export interface GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResult {
   /** The recent search query. */
-  recentSearch?: string;
+  recentSearch?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResultList =
   Array<GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResult>;
 /** Response of the autocomplete query. */
 export interface GoogleCloudRetailV2alphaCompleteQueryResponse {
   /** Results of the matching suggestions. The result list is ordered and the first result is top suggestion. */
-  completionResults?: GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResultList;
+  completionResults?: GoogleCloudRetailV2alphaCompleteQueryResponseCompletionResultList | undefined;
   /** A unique complete token. This should be included in the UserEvent.completion_detail for search events resulting from this completion, which enables accurate attribution of complete model performance. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** Conversational prompts to trigger agents like Shopping Agent. This is an experimental feature for select customers. */
-  agentPrompts?: GoogleCloudRetailV2alphaCompleteQueryResponseAgentPromptList;
+  agentPrompts?: GoogleCloudRetailV2alphaCompleteQueryResponseAgentPromptList | undefined;
   /** A map of matched attribute suggestions. This field is only available for `cloud-retail` dataset. Current supported keys: * `brands` * `categories` */
-  attributeResults?: GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResultMap;
+  attributeResults?: GoogleCloudRetailV2alphaCompleteQueryResponseAttributeResultMap | undefined;
   /** Deprecated. Matched recent searches of this user. The maximum number of recent searches is 10. This field is a restricted feature. If you want to enable it, contact Retail Search support. This feature is only available when CompleteQueryRequest.visitor_id field is set and UserEvent is imported. The recent searches satisfy the follow rules: * They are ordered from latest to oldest. * They are matched with CompleteQueryRequest.query case insensitively. * They are transformed to lower case. * They are UTF-8 safe. Recent searches are deduplicated. More recent searches will be reserved when duplication happens. */
-  recentSearchResults?: GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResultList;
+  recentSearchResults?:
+    | GoogleCloudRetailV2alphaCompleteQueryResponseRecentSearchResultList
+    | undefined;
 }
 export type GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFilteringSpecConversationalFilteringModeEnum =
   | "MODE_UNSPECIFIED"
@@ -640,71 +665,76 @@ export type GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFil
 /** Product attribute which structured by an attribute name and value. This structure is used in conversational search filters and answers. For example, if we have `name=color` and `value=red`, this means that the color is `red`. */
 export interface GoogleCloudRetailV2alphaProductAttributeValue {
   /** The attribute value. */
-  value?: string;
+  value?: string | undefined;
   /** The attribute name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** This field specifies the selected answers during the conversational search. */
 export interface GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswerSelectedAnswer {
   /** Optional. This field specifies the selected answer which is a attribute key-value. */
-  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue;
+  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue | undefined;
 }
 /** This field specifies the current user answer during the conversational filtering search. This can be either user selected from suggested answers or user input plain text. */
 export interface GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswer {
   /** This field specifies the incremental input text from the user during the conversational search. */
-  textAnswer?: string;
+  textAnswer?: string | undefined;
   /** Optional. This field specifies the selected answer during the conversational search. This should be a subset of ConversationalSearchResponse.FollowupQuestion.SuggestedAnswer. */
-  selectedAnswer?: GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswerSelectedAnswer;
+  selectedAnswer?:
+    | GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswerSelectedAnswer
+    | undefined;
 }
 /** This field specifies all conversational filtering related parameters addition to conversational retail search. */
 export interface GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFilteringSpec {
   /** Optional. Mode to control Conversational Filtering. Defaults to Mode.DISABLED if it's unset. */
   conversationalFilteringMode?:
     | GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFilteringSpecConversationalFilteringModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. This field specifies the current user answer during the conversational filtering search. It can be either user selected from suggested answers or user input plain text. */
-  userAnswer?: GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswer;
+  userAnswer?: GoogleCloudRetailV2alphaConversationalSearchRequestUserAnswer | undefined;
   /** Optional. This field is deprecated. Please use ConversationalFilteringSpec.conversational_filtering_mode instead. */
-  enableConversationalFiltering?: boolean;
+  enableConversationalFiltering?: boolean | undefined;
 }
 /** Information of an end user. */
 export interface GoogleCloudRetailV2alphaUserInfo {
   /** User agent as included in the HTTP header. The field must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. This should not be set when using the client side event reporting with GTM or JavaScript tag in UserEventService.CollectUserEvent or if direct_user_request is set. */
-  userAgent?: string;
+  userAgent?: string | undefined;
   /** True if the request is made directly from the end user, in which case the ip_address and user_agent can be populated from the HTTP request. This flag should be set only if the API request is made directly from the end user such as a mobile app (and not if a gateway or a server is processing and pushing the user events). This should not be set when using the JavaScript tag in UserEventService.CollectUserEvent. */
-  directUserRequest?: boolean;
+  directUserRequest?: boolean | undefined;
   /** Highly recommended for logged-in users. Unique identifier for logged-in user, such as a user name. Don't set for anonymous users. Always use a hashed value for this ID. Don't set the field to the same fixed ID for different users. This mixes the event history of those users together, which results in degraded model quality. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  userId?: string;
+  userId?: string | undefined;
   /** The end user's IP address. This field is used to extract location information for personalization. This field must be either an IPv4 address (e.g. "104.133.9.80") or an IPv6 address (e.g. "2001:0db8:85a3:0000:0000:8a2e:0370:7334"). Otherwise, an INVALID_ARGUMENT error is returned. This should not be set when: * setting SearchRequest.user_info. * using the JavaScript tag in UserEventService.CollectUserEvent or if direct_user_request is set. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Boost applies to products which match a condition. */
 export interface GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpec {
   /** Strength of the condition boost, which should be in [-1, 1]. Negative boost means demotion. Default is 0.0. Setting to 1.0 gives the item a big promotion. However, it does not necessarily mean that the boosted item will be the top result at all times, nor that other items will be excluded. Results could still be shown even when none of them matches the condition. And results that are significantly more relevant to the search query can still trump your heavily favored but irrelevant items. Setting to -1.0 gives the item a big demotion. However, results that are deeply relevant might still be shown. The item will have an upstream battle to get a fairly high ranking, but it is not blocked out completely. Setting to 0.0 means no boost applied. The boosting condition is ignored. */
-  boost?: number;
+  boost?: number | undefined;
   /** An expression which specifies a boost condition. The syntax and supported fields are the same as a filter expression. See SearchRequest.filter for detail syntax and limitations. Examples: * To boost products with product ID "product_1" or "product_2", and color "Red" or "Blue": * (id: ANY("product_1", "product_2")) AND (colorFamilies: ANY("Red","Blue")) */
-  condition?: string;
+  condition?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpecList =
   Array<GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpec>;
 /** Boost specification to boost certain items. */
 export interface GoogleCloudRetailV2alphaSearchRequestBoostSpec {
   /** Condition boost specifications. If a product matches multiple conditions in the specifications, boost scores from these specifications are all applied and combined in a non-linear way. Maximum number of specifications is 20. */
-  conditionBoostSpecs?: GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpecList;
+  conditionBoostSpecs?:
+    | GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpecList
+    | undefined;
   /** Whether to skip boostspec validation. If this field is set to true, invalid BoostSpec.condition_boost_specs will be ignored and valid BoostSpec.condition_boost_specs will still be applied. */
-  skipBoostSpecValidation?: boolean;
+  skipBoostSpecValidation?: boolean | undefined;
 }
 /** Search parameters. */
 export interface GoogleCloudRetailV2alphaConversationalSearchRequestSearchParams {
   /** Optional. The sort string to specify the sorting of search results. The syntax of the sort string is the same as SearchRequest.order_by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Optional. The boost spec to specify the boosting of search results. The syntax of the boost spec is the same as SearchRequest.boost_spec. */
-  boostSpec?: GoogleCloudRetailV2alphaSearchRequestBoostSpec;
+  boostSpec?: GoogleCloudRetailV2alphaSearchRequestBoostSpec | undefined;
   /** Optional. The filter string to restrict search results. The syntax of the filter string is the same as SearchRequest.filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The canonical filter string to restrict search results. The syntax of the canonical filter string is the same as SearchRequest.canonical_filter. */
-  canonicalFilter?: string;
+  canonicalFilter?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaSafetySettingMethodEnum =
   | "HARM_BLOCK_METHOD_UNSPECIFIED"
@@ -727,56 +757,60 @@ export type GoogleCloudRetailV2alphaSafetySettingThresholdEnum =
 /** Safety settings. */
 export interface GoogleCloudRetailV2alphaSafetySetting {
   /** Optional. Specify if the threshold is used for probability or severity score. If not specified, the threshold is used for probability score. */
-  method?: GoogleCloudRetailV2alphaSafetySettingMethodEnum | (string & {});
+  method?: GoogleCloudRetailV2alphaSafetySettingMethodEnum | (string & {}) | undefined;
   /** Harm category. */
-  category?: GoogleCloudRetailV2alphaSafetySettingCategoryEnum | (string & {});
+  category?: GoogleCloudRetailV2alphaSafetySettingCategoryEnum | (string & {}) | undefined;
   /** The harm block threshold. */
-  threshold?: GoogleCloudRetailV2alphaSafetySettingThresholdEnum | (string & {});
+  threshold?: GoogleCloudRetailV2alphaSafetySettingThresholdEnum | (string & {}) | undefined;
 }
 export type GoogleCloudRetailV2alphaSafetySettingList =
   Array<GoogleCloudRetailV2alphaSafetySetting>;
 /** Request message for ConversationalSearchService.ConversationalSearch method. */
 export interface GoogleCloudRetailV2alphaConversationalSearchRequest {
   /** Optional. This field specifies the conversation id, which maintains the state of the conversation between client side and server side. Use the value from the previous ConversationalSearchResponse.conversation_id. For the initial request, this should be empty. */
-  conversationId?: string;
+  conversationId?: string | undefined;
   /** Optional. Raw search query to be searched for. If this field is empty, the request is considered a category browsing request. */
-  query?: string;
+  query?: string | undefined;
   /** Optional. This field specifies all conversational filtering related parameters. */
-  conversationalFilteringSpec?: GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFilteringSpec;
+  conversationalFilteringSpec?:
+    | GoogleCloudRetailV2alphaConversationalSearchRequestConversationalFilteringSpec
+    | undefined;
   /** Required. The branch resource name, such as `projects/*\/locations/global/catalogs/default_catalog/branches/0`. Use "default_branch" as the branch ID or leave this field empty, to search products under the default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Optional. User information. */
-  userInfo?: GoogleCloudRetailV2alphaUserInfo;
+  userInfo?: GoogleCloudRetailV2alphaUserInfo | undefined;
   /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as UserEvent.page_categories; To represent the full path of category, use the '>' sign, with one space on each side, to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). Category pages include special pages such as sales or promotions. For instance, a special sale page may have the category hierarchy: "pageCategories" : ["Sales > 2017 Black Friday Deals"]. */
-  pageCategories?: StringList;
+  pageCategories?: StringList | undefined;
   /** Optional. The user labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This should be the same identifier as UserEvent.visitor_id. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  visitorId?: string;
+  visitorId?: string | undefined;
   /** Optional. Search parameters. */
-  searchParams?: GoogleCloudRetailV2alphaConversationalSearchRequestSearchParams;
+  searchParams?: GoogleCloudRetailV2alphaConversationalSearchRequestSearchParams | undefined;
   /** Optional. The safety settings to be applied to the generated content. */
-  safetySettings?: GoogleCloudRetailV2alphaSafetySettingList;
+  safetySettings?: GoogleCloudRetailV2alphaSafetySettingList | undefined;
 }
 export interface ConversationalSearchProjectsLocationsCatalogsPlacementsRequest {
   /** Required. The resource name of the search engine placement, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search` or `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` This field is used to identify the serving config name and the set of models that will be used to make the search. */
   placement: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaConversationalSearchRequest;
+  body?: GoogleCloudRetailV2alphaConversationalSearchRequest | undefined;
 }
 /** Suggested answers to the follow-up question. If it's numerical attribute, only ProductAttributeInterval will be set. If it's textual attribute, only productAttributeValue will be set. */
 export interface GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer {
   /** Product attribute value, including an attribute key and an attribute value. Other types can be added here in the future. */
-  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue;
+  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue | undefined;
 }
 export type GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswerList =
   Array<GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer>;
 /** The conversational followup question generated for Intent refinement. */
 export interface GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion {
   /** The answer options provided to client for the follow-up question. */
-  suggestedAnswers?: GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswerList;
+  suggestedAnswers?:
+    | GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswerList
+    | undefined;
   /** The conversational followup question generated for Intent refinement. */
-  followupQuestion?: string;
+  followupQuestion?: string | undefined;
 }
 /** Additional filter that client side need to apply. */
 export type GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResultAdditionalFilter =
@@ -784,14 +818,18 @@ export type GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFi
 /** This field specifies all related information that is needed on client side for UI rendering of conversational filtering search. */
 export interface GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResult {
   /** The conversational filtering question. */
-  followupQuestion?: GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion;
+  followupQuestion?:
+    | GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion
+    | undefined;
   /** This is the incremental additional filters implied from the current user answer. User should add the suggested addition filters to the previous ConversationalSearchRequest.SearchParams.filter and SearchRequest.filter, and use the merged filter in the follow up requests. */
-  additionalFilter?: GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer;
+  additionalFilter?:
+    | GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer
+    | undefined;
 }
 /** The proposed refined search for intent-refinement/bundled shopping conversation. When using CONVERSATIONAL_FILTER_ONLY mode, the refined_query from search response will be populated here. */
 export interface GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSearch {
   /** The query to be used for search. */
-  query?: string;
+  query?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSearchList =
   Array<GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSearch>;
@@ -802,53 +840,57 @@ export type GoogleCloudRetailV2alphaConversationalSearchResponseStateEnum =
 /** Response message for ConversationalSearchService.ConversationalSearch method. */
 export interface GoogleCloudRetailV2alphaConversationalSearchResponse {
   /** The conversational answer-based text response generated by the Server. */
-  conversationalTextResponse?: string;
+  conversationalTextResponse?: string | undefined;
   /** This field specifies all related information that is needed on client side for UI rendering of conversational filtering search. */
-  conversationalFilteringResult?: GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResult;
+  conversationalFilteringResult?:
+    | GoogleCloudRetailV2alphaConversationalSearchResponseConversationalFilteringResult
+    | undefined;
   /** Conversation UUID. This field will be stored in client side storage to maintain the conversation session with server and will be used for next search request's ConversationalSearchRequest.conversation_id to restore conversation state in server. */
-  conversationId?: string;
+  conversationId?: string | undefined;
   /** The proposed refined search queries. They can be used to fetch the relevant search results. When using CONVERSATIONAL_FILTER_ONLY mode, the refined_query from search response will be populated here. */
-  refinedSearch?: GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSearchList;
+  refinedSearch?: GoogleCloudRetailV2alphaConversationalSearchResponseRefinedSearchList | undefined;
   /** The conversational followup question generated for Intent refinement. */
-  followupQuestion?: GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion;
+  followupQuestion?:
+    | GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestion
+    | undefined;
   /** The types Retail classifies the search query as. Supported values are: - "ORDER_SUPPORT" - "SIMPLE_PRODUCT_SEARCH" - "INTENT_REFINEMENT" - "PRODUCT_DETAILS" - "PRODUCT_COMPARISON" - "DEALS_AND_COUPONS" - "STORE_RELEVANT" - "BLOCKLISTED" - "BEST_PRODUCT" - "RETAIL_SUPPORT" - "DISABLED" */
-  userQueryTypes?: StringList;
+  userQueryTypes?: StringList | undefined;
   /** Output only. The state of the response generation. */
-  state?: GoogleCloudRetailV2alphaConversationalSearchResponseStateEnum;
+  state?: GoogleCloudRetailV2alphaConversationalSearchResponseStateEnum | undefined;
 }
 export interface ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The resource name of the search engine placement, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search` or `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` This field is used to identify the serving config name and the set of models that will be used to make the search. */
   placement: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaConversationalSearchRequest;
+  body?: GoogleCloudRetailV2alphaConversationalSearchRequest | undefined;
 }
 export type IntegerList = Array<number>;
 /** The rating of a Product. */
 export interface GoogleCloudRetailV2alphaRating {
   /** List of rating counts per rating value (index = rating - 1). The list is empty if there is no rating. If the list is non-empty, its size is always 5. Otherwise, an INVALID_ARGUMENT error is returned. For example, [41, 14, 13, 47, 303]. It means that the Product got 41 ratings with 1 star, 14 ratings with 2 star, and so on. */
-  ratingHistogram?: IntegerList;
+  ratingHistogram?: IntegerList | undefined;
   /** The average rating of the Product. The rating is scaled at 1-5. Otherwise, an INVALID_ARGUMENT error is returned. */
-  averageRating?: number;
+  averageRating?: number | undefined;
   /** The total number of ratings. This value is independent of the value of rating_histogram. This value must be nonnegative. Otherwise, an INVALID_ARGUMENT error is returned. */
-  ratingCount?: number;
+  ratingCount?: number | undefined;
 }
 /** Fulfillment information, such as the store IDs for in-store pickup or region IDs for different shipping methods. */
 export interface GoogleCloudRetailV2alphaFulfillmentInfo {
   /** The fulfillment type, including commonly used types (such as pickup in store and same day delivery), and custom types. Customers have to map custom types to their display names before rendering UI. Supported values: * "pickup-in-store" * "ship-to-store" * "same-day-delivery" * "next-day-delivery" * "custom-type-1" * "custom-type-2" * "custom-type-3" * "custom-type-4" * "custom-type-5" If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. */
-  type?: string;
+  type?: string | undefined;
   /** The IDs for this type, such as the store IDs for FulfillmentInfo.type.pickup-in-store or the region IDs for FulfillmentInfo.type.same-day-delivery. A maximum of 3000 values are allowed. Each value must be a string with a length limit of 30 characters, matching the pattern `[a-zA-Z0-9_-]+`, such as "store1" or "REGION-2". Otherwise, an INVALID_ARGUMENT error is returned. */
-  placeIds?: StringList;
+  placeIds?: StringList | undefined;
 }
 export type GoogleCloudRetailV2alphaFulfillmentInfoList =
   Array<GoogleCloudRetailV2alphaFulfillmentInfo>;
 /** Product image. Recommendations AI and Retail Search use product images to improve prediction and search results. Product images can be returned in results, and are shown in prediction or search previews in the console. Please try to provide correct product images and avoid using images with size too small. */
 export interface GoogleCloudRetailV2alphaImage {
   /** Required. URI of the image. This field must be a valid UTF-8 encoded URI with a length limit of 5,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. Google Merchant Center property [image_link](https://support.google.com/merchants/answer/6324350). Schema.org property [Product.image](https://schema.org/image). */
-  uri?: string;
+  uri?: string | undefined;
   /** Height of the image in number of pixels. This field must be nonnegative. Otherwise, an INVALID_ARGUMENT error is returned. */
-  height?: number;
+  height?: number | undefined;
   /** Width of the image in number of pixels. This field must be nonnegative. Otherwise, an INVALID_ARGUMENT error is returned. */
-  width?: number;
+  width?: number | undefined;
 }
 export type GoogleCloudRetailV2alphaImageList = Array<GoogleCloudRetailV2alphaImage>;
 export type GoogleCloudRetailV2alphaProductTypeEnum =
@@ -865,102 +907,102 @@ export type GoogleCloudRetailV2alphaProductAvailabilityEnum =
 /** Promotion specification. */
 export interface GoogleCloudRetailV2alphaPromotion {
   /** Promotion identifier, which is the final component of name. For example, this field is "free_gift", if name is `projects/*\/locations/global/catalogs/default_catalog/promotions/free_gift`. The value must be a UTF-8 encoded string with a length limit of 128 characters, and match the pattern: `a-zA-Z*`. For example, id0LikeThis or ID_1_LIKE_THIS. Otherwise, an INVALID_ARGUMENT error is returned. Corresponds to Google Merchant Center property [promotion_id](https://support.google.com/merchants/answer/7050148). */
-  promotionId?: string;
+  promotionId?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaPromotionList = Array<GoogleCloudRetailV2alphaPromotion>;
 export type GoogleCloudRetailV2alphaProductList = Array<GoogleCloudRetailV2alphaProduct>;
 /** An intended audience of the Product for whom it's sold. */
 export interface GoogleCloudRetailV2alphaAudience {
   /** The genders of the audience. Strongly encouraged to use the standard values: "male", "female", "unisex". At most 5 values are allowed. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Google Merchant Center property [gender](https://support.google.com/merchants/answer/6324479). Schema.org property [Product.audience.suggestedGender](https://schema.org/suggestedGender). */
-  genders?: StringList;
+  genders?: StringList | undefined;
   /** The age groups of the audience. Strongly encouraged to use the standard values: "newborn" (up to 3 months old), "infant" (3-12 months old), "toddler" (1-5 years old), "kids" (5-13 years old), "adult" (typically teens or older). At most 5 values are allowed. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Google Merchant Center property [age_group](https://support.google.com/merchants/answer/6324463). Schema.org property [Product.audience.suggestedMinAge](https://schema.org/suggestedMinAge) and [Product.audience.suggestedMaxAge](https://schema.org/suggestedMaxAge). */
-  ageGroups?: StringList;
+  ageGroups?: StringList | undefined;
 }
 /** The color information of a Product. */
 export interface GoogleCloudRetailV2alphaColorInfo {
   /** The color display names, which may be different from standard color family names, such as the color aliases used in the website frontend. Normally it is expected to have only 1 color. May consider using single "Mixed" instead of multiple values. A maximum of 75 colors are allowed. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Google Merchant Center property [color](https://support.google.com/merchants/answer/6324487). Schema.org property [Product.color](https://schema.org/color). */
-  colors?: StringList;
+  colors?: StringList | undefined;
   /** The standard color families. Strongly recommended to use the following standard color groups: "Red", "Pink", "Orange", "Yellow", "Purple", "Green", "Cyan", "Blue", "Brown", "White", "Gray", "Black" and "Mixed". Normally it is expected to have only 1 color family. May consider using single "Mixed" instead of multiple values. A maximum of 5 values are allowed. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Google Merchant Center property [color](https://support.google.com/merchants/answer/6324487). Schema.org property [Product.color](https://schema.org/color). The colorFamilies field as a system attribute is not a required field but strongly recommended to be specified. Google Search models treat this field as more important than a custom product attribute when specified. */
-  colorFamilies?: StringList;
+  colorFamilies?: StringList | undefined;
 }
 /** Product captures all metadata information of items to be recommended or searched. */
 export interface GoogleCloudRetailV2alphaProduct {
   /** The rating of this product. */
-  rating?: GoogleCloudRetailV2alphaRating;
+  rating?: GoogleCloudRetailV2alphaRating | undefined;
   /** The brands of the product. A maximum of 30 brands are allowed unless overridden through the Google Cloud console. Each brand must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [brand](https://support.google.com/merchants/answer/6324351). Schema.org property [Product.brand](https://schema.org/brand). */
-  brands?: StringList;
+  brands?: StringList | undefined;
   /** Product description. This field must be a UTF-8 encoded string with a length limit of 5,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [description](https://support.google.com/merchants/answer/6324468). Schema.org property [Product.description](https://schema.org/description). */
-  description?: string;
+  description?: string | undefined;
   /** The size of the product. To represent different size systems or size types, consider using this format: [[[size_system:]size_type:]size_value]. For example, in "US:MENS:M", "US" represents size system; "MENS" represents size type; "M" represents size value. In "GIRLS:27", size system is empty; "GIRLS" represents size type; "27" represents size value. In "32 inches", both size system and size type are empty, while size value is "32 inches". A maximum of 20 values are allowed per Product by default. This limit can be increased using dynamic override configurations. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [size](https://support.google.com/merchants/answer/6324492), [size_type](https://support.google.com/merchants/answer/6324497), and [size_system](https://support.google.com/merchants/answer/6324502). Schema.org property [Product.size](https://schema.org/size). */
-  sizes?: StringList;
+  sizes?: StringList | undefined;
   /** Optional. Product categories. This field is repeated for supporting one product belonging to several parallel categories. Strongly recommended using the full path for better search / recommendation quality. To represent the full path of category, use the '>' sign, with one space on each side, to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). For example, if a shoes product belongs to both ["Shoes & Accessories" -> "Shoes"] and ["Sports & Fitness" -> "Athletic Clothing" -> "Shoes"], it could be represented as: "categories": [ "Shoes & Accessories > Shoes", "Sports & Fitness > Athletic Clothing > Shoes" ] Must be set for Type.PRIMARY Product otherwise an INVALID_ARGUMENT error is returned. At most 250 values are allowed per Product unless overridden through the Google Cloud console. Empty values are not allowed. Each value must be a UTF-8 encoded string with a length limit of 5,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property google_product_category. Schema.org property [Product.category] (https://schema.org/category). [mc_google_product_category]: https://support.google.com/merchants/answer/6324436 */
-  categories?: StringList;
+  categories?: StringList | undefined;
   /** The available quantity of the item. */
-  availableQuantity?: number;
+  availableQuantity?: number | undefined;
   /** Fulfillment information, such as the store IDs for in-store pickup or region IDs for different shipping methods. All the elements must have distinct FulfillmentInfo.type. Otherwise, an INVALID_ARGUMENT error is returned. */
-  fulfillmentInfo?: GoogleCloudRetailV2alphaFulfillmentInfoList;
+  fulfillmentInfo?: GoogleCloudRetailV2alphaFulfillmentInfoList | undefined;
   /** The timestamp when this Product becomes available for SearchService.Search. Note that this is only applicable to Type.PRIMARY and Type.COLLECTION, and ignored for Type.VARIANT. */
-  availableTime?: string;
+  availableTime?: string | undefined;
   /** Product images for the product. We highly recommend putting the main image first. A maximum of 300 images are allowed. Corresponding properties: Google Merchant Center property [image_link](https://support.google.com/merchants/answer/6324350). Schema.org property [Product.image](https://schema.org/image). */
-  images?: GoogleCloudRetailV2alphaImageList;
+  images?: GoogleCloudRetailV2alphaImageList | undefined;
   /** Indicates which fields in the Products are returned in SearchResponse. Supported fields for all types: * audience * availability * brands * color_info * conditions * gtin * materials * name * patterns * price_info * rating * sizes * title * uri Supported fields only for Type.PRIMARY and Type.COLLECTION: * categories * description * images Supported fields only for Type.VARIANT: * Only the first image in images To mark attributes as retrievable, include paths of the form "attributes.key" where "key" is the key of a custom attribute, as specified in attributes. For Type.PRIMARY and Type.COLLECTION, the following fields are always returned in SearchResponse by default: * name For Type.VARIANT, the following fields are always returned in by default: * name * color_info Note: Returning more fields in SearchResponse can increase response payload size and serving latency. This field is deprecated. Use the retrievable site-wide control instead. */
-  retrievableFields?: string;
+  retrievableFields?: string | undefined;
   /** Required. Product title. This field must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [title](https://support.google.com/merchants/answer/6324415). Schema.org property [Product.name](https://schema.org/name). */
-  title?: string;
+  title?: string | undefined;
   /** Immutable. The type of the product. Default to Catalog.product_level_config.ingestion_product_type if unset. */
-  type?: GoogleCloudRetailV2alphaProductTypeEnum | (string & {});
+  type?: GoogleCloudRetailV2alphaProductTypeEnum | (string & {}) | undefined;
   /** The online availability of the Product. Default to Availability.IN_STOCK. For primary products with variants set the availability of the primary as Availability.OUT_OF_STOCK and set the true availability at the variant level. This way the primary product will be considered "in stock" as long as it has at least one variant in stock. For primary products with no variants set the true availability at the primary level. Corresponding properties: Google Merchant Center property [availability](https://support.google.com/merchants/answer/6324448). Schema.org property [Offer.availability](https://schema.org/availability). */
-  availability?: GoogleCloudRetailV2alphaProductAvailabilityEnum | (string & {});
+  availability?: GoogleCloudRetailV2alphaProductAvailabilityEnum | (string & {}) | undefined;
   /** The pattern or graphic print of the product. For example, "striped", "polka dot", "paisley". A maximum of 20 values are allowed per Product. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [pattern](https://support.google.com/merchants/answer/6324483). Schema.org property [Product.pattern](https://schema.org/pattern). */
-  patterns?: StringList;
+  patterns?: StringList | undefined;
   /** The promotions applied to the product. A maximum of 10 values are allowed per Product. Only Promotion.promotion_id will be used, other fields will be ignored if set. */
-  promotions?: GoogleCloudRetailV2alphaPromotionList;
+  promotions?: GoogleCloudRetailV2alphaPromotionList | undefined;
   /** Immutable. Product identifier, which is the final component of name. For example, this field is "id_1", if name is `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/id_1`. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [id](https://support.google.com/merchants/answer/6324405). Schema.org property [Product.sku](https://schema.org/sku). */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp when this product becomes unavailable for SearchService.Search. If it is set, the Product is not available for SearchService.Search after expire_time. However, the product can still be retrieved by ProductService.GetProduct and ProductService.ListProducts. Note that this field is applied in the following ways: * If the Product is already expired when it is uploaded, this product is not indexed for search. * If the Product is not expired when it is uploaded, only the Type.PRIMARY's and Type.COLLECTION's expireTime is respected, and Type.VARIANT's expireTime is not used. In general, we suggest the users to delete the stale products explicitly, instead of using this field to determine staleness. expire_time must be later than available_time and publish_time, otherwise an INVALID_ARGUMENT error is thrown. Corresponding properties: Google Merchant Center property [expiration_date](https://support.google.com/merchants/answer/6324499). */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. Product variants grouped together on primary product which share similar product attributes. It's automatically grouped by primary_product_id for all the product variants. Only populated for Type.PRIMARY Products. Note: This field is OUTPUT_ONLY for ProductService.GetProduct. Do not set this field in API requests. */
-  variants?: GoogleCloudRetailV2alphaProductList;
+  variants?: GoogleCloudRetailV2alphaProductList | undefined;
   /** Custom tags associated with the product. At most 250 values are allowed per Product. This value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. This tag can be used for filtering recommendation results by passing the tag as part of the PredictRequest.filter. Corresponding properties: Google Merchant Center property [custom_label_0-4](https://support.google.com/merchants/answer/6324473). */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Highly encouraged. Extra product attributes to be included. For example, for products, this could include the store name, vendor, style, color, etc. These are very strong signals for recommendation model, thus we highly recommend providing the attributes here. Features that can take on one of a limited number of possible values. Two types of features can be set are: Textual features. some examples would be the brand/maker of a product, or country of a customer. Numerical features. Some examples would be the height/weight of a product, or age of a customer. For example: `{ "vendor": {"text": ["vendor123", "vendor456"]}, "lengths_cm": {"numbers":[2.3, 15.4]}, "heights_cm": {"numbers":[8.1, 6.4]} }`. This field needs to pass all below criteria, otherwise an INVALID_ARGUMENT error is returned: * Max entries count: 200. * The key must be a UTF-8 encoded string with a length limit of 128 characters. * For indexable attribute, the key must match the pattern: `a-zA-Z0-9*`. For example, `key0LikeThis` or `KEY_1_LIKE_THIS`. * For text attributes, at most 400 values are allowed. Empty values are not allowed. Each value must be a non-empty UTF-8 encoded string with a length limit of 256 characters. * For number attributes, at most 400 values are allowed. */
-  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap;
+  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap | undefined;
   /** The target group associated with a given audience (e.g. male, veterans, car owners, musicians, etc.) of the product. */
-  audience?: GoogleCloudRetailV2alphaAudience;
+  audience?: GoogleCloudRetailV2alphaAudience | undefined;
   /** Product price and cost information. Corresponding properties: Google Merchant Center property [price](https://support.google.com/merchants/answer/6324371). */
-  priceInfo?: GoogleCloudRetailV2alphaPriceInfo;
+  priceInfo?: GoogleCloudRetailV2alphaPriceInfo | undefined;
   /** Input only. The TTL (time to live) of the product. Note that this is only applicable to Type.PRIMARY and Type.COLLECTION, and ignored for Type.VARIANT. In general, we suggest the users to delete the stale products explicitly, instead of using this field to determine staleness. If it is set, it must be a non-negative value, and expire_time is set as current timestamp plus ttl. The derived expire_time is returned in the output and ttl is left blank when retrieving the Product. If it is set, the product is not available for SearchService.Search after current timestamp plus ttl. However, the product can still be retrieved by ProductService.GetProduct and ProductService.ListProducts. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** The id of the collection members when type is Type.COLLECTION. Non-existent product ids are allowed. The type of the members must be either Type.PRIMARY or Type.VARIANT otherwise an INVALID_ARGUMENT error is thrown. Should not set it for other types. A maximum of 1000 values are allowed. Otherwise, an INVALID_ARGUMENT error is return. */
-  collectionMemberIds?: StringList;
+  collectionMemberIds?: StringList | undefined;
   /** The Global Trade Item Number (GTIN) of the product. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. This field must be a Unigram. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [gtin](https://support.google.com/merchants/answer/6324461). Schema.org property [Product.isbn](https://schema.org/isbn), [Product.gtin8](https://schema.org/gtin8), [Product.gtin12](https://schema.org/gtin12), [Product.gtin13](https://schema.org/gtin13), or [Product.gtin14](https://schema.org/gtin14). If the value is not a valid GTIN, an INVALID_ARGUMENT error is returned. */
-  gtin?: string;
+  gtin?: string | undefined;
   /** Variant group identifier. Must be an id, with the same parent branch with this product. Otherwise, an error is thrown. For Type.PRIMARY Products, this field can only be empty or set to the same value as id. For VARIANT Products, this field cannot be empty. A maximum of 2,000 products are allowed to share the same Type.PRIMARY Product. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [item_group_id](https://support.google.com/merchants/answer/6324507). Schema.org property [Product.inProductGroupWithID](https://schema.org/inProductGroupWithID). */
-  primaryProductId?: string;
+  primaryProductId?: string | undefined;
   /** The color of the product. Corresponding properties: Google Merchant Center property [color](https://support.google.com/merchants/answer/6324487). Schema.org property [Product.color](https://schema.org/color). */
-  colorInfo?: GoogleCloudRetailV2alphaColorInfo;
+  colorInfo?: GoogleCloudRetailV2alphaColorInfo | undefined;
   /** Immutable. Full resource name of the product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
-  name?: string;
+  name?: string | undefined;
   /** Language of the title/description and other string attributes. Use language tags defined by [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). For product prediction, this field is ignored and the model automatically detects the text language. The Product can include text in different languages, but duplicating Products to provide text in multiple languages can result in degraded model performance. For product search this field is in use. It defaults to "en-US" if unset. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Canonical URL directly linking to the product detail page. It is strongly recommended to provide a valid uri for the product, otherwise the service performance could be significantly degraded. This field must be a UTF-8 encoded string with a length limit of 5,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [link](https://support.google.com/merchants/answer/6324416). Schema.org property [Offer.url](https://schema.org/url). */
-  uri?: string;
+  uri?: string | undefined;
   /** The timestamp when the product is published by the retailer for the first time, which indicates the freshness of the products. Note that this field is different from available_time, given it purely describes product freshness regardless of when it is available on search and recommendation. */
-  publishTime?: string;
+  publishTime?: string | undefined;
   /** Output only. A list of local inventories specific to different places. This field can be managed by ProductService.AddLocalInventories and ProductService.RemoveLocalInventories APIs if fine-grained, high-volume updates are necessary. */
-  localInventories?: GoogleCloudRetailV2alphaLocalInventoryList;
+  localInventories?: GoogleCloudRetailV2alphaLocalInventoryList | undefined;
   /** The material of the product. For example, "leather", "wooden". A maximum of 20 values are allowed. Each value must be a UTF-8 encoded string with a length limit of 200 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [material](https://support.google.com/merchants/answer/6324410). Schema.org property [Product.material](https://schema.org/material). */
-  materials?: StringList;
+  materials?: StringList | undefined;
   /** The condition of the product. Strongly encouraged to use the standard values: "new", "refurbished", "used". A maximum of 1 value is allowed per Product. Each value must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. Corresponding properties: Google Merchant Center property [condition](https://support.google.com/merchants/answer/6324469). Schema.org property [Offer.itemCondition](https://schema.org/itemCondition). */
-  conditions?: StringList;
+  conditions?: StringList | undefined;
 }
 export interface CreateProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. The parent catalog resource name, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch`. */
   parent: string;
   /** Required. The ID to use for the Product, which will become the final component of the Product.name. If the caller does not have permission to create the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. This field must be unique among all Products with the same parent. Otherwise, an ALREADY_EXISTS error is returned. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  productId?: string;
+  productId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaProduct;
+  body?: GoogleCloudRetailV2alphaProduct | undefined;
 }
 export type GoogleCloudRetailV2alphaControlSolutionTypesItemEnum =
   | "SOLUTION_TYPE_UNSPECIFIED"
@@ -979,157 +1021,161 @@ export type GoogleCloudRetailV2alphaControlSearchSolutionUseCaseItemEnumList = A
 /** A boost action to apply to results matching condition specified above. */
 export interface GoogleCloudRetailV2alphaRuleBoostAction {
   /** Strength of the condition boost, which must be in [-1, 1]. Negative boost means demotion. Default is 0.0. Setting to 1.0 gives the item a big promotion. However, it does not necessarily mean that the boosted item will be the top result at all times, nor that other items will be excluded. Results could still be shown even when none of them matches the condition. And results that are significantly more relevant to the search query can still trump your heavily favored but irrelevant items. Setting to -1.0 gives the item a big demotion. However, results that are deeply relevant might still be shown. The item will have an upstream battle to get a fairly high ranking, but it is not blocked out completely. Setting to 0.0 means no boost applied. The boosting condition is ignored. */
-  boost?: number;
+  boost?: number | undefined;
   /** The filter can have a max size of 5000 characters. An expression which specifies which products to apply an action to. The syntax and supported fields are the same as a filter expression. See SearchRequest.filter for detail syntax and limitations. Examples: * To boost products with product ID "product_1" or "product_2", and color "Red" or "Blue": *(id: ANY("product_1", "product_2")) * *AND * *(colorFamilies: ANY("Red", "Blue")) * */
-  productsFilter?: string;
+  productsFilter?: string | undefined;
 }
 /** Removes an attribute/facet in the request if is present. * Rule Condition: Must specify non-empty Condition.query_terms (for search only) or Condition.page_categories (for browse only), but can't specify both. * Action Input: attribute name * Action Result: Will remove the attribute (as a facet) from the request if it is present. Example: Suppose the query is "shoes", the Condition.query_terms is "shoes" and the attribute name "size", then facet key "size" will be removed from the request (if it is present). */
 export interface GoogleCloudRetailV2alphaRuleRemoveFacetAction {
   /** The attribute names (i.e. facet keys) to remove from the dynamic facets (if present in the request). There can't be more 3 attribute names. Each attribute name should be a valid attribute name, be non-empty and contain at most 80 characters. */
-  attributeNames?: StringList;
+  attributeNames?: StringList | undefined;
 }
 /** Used for time-dependent conditions. Example: Want to have rule applied for week long sale. */
 export interface GoogleCloudRetailV2alphaConditionTimeRange {
   /** End of time range. Range is inclusive. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Start of time range. Range is inclusive. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaConditionTimeRangeList =
   Array<GoogleCloudRetailV2alphaConditionTimeRange>;
 /** Query terms that we want to match on. */
 export interface GoogleCloudRetailV2alphaConditionQueryTerm {
   /** Whether this is supposed to be a full or partial match. */
-  fullMatch?: boolean;
+  fullMatch?: boolean | undefined;
   /** The value of the term to match on. Value cannot be empty. Value can have at most 3 terms if specified as a partial match. Each space separated string is considered as one term. For example, "a b c" is 3 terms and allowed, but " a b c d" is 4 terms and not allowed for a partial match. */
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaConditionQueryTermList =
   Array<GoogleCloudRetailV2alphaConditionQueryTerm>;
 /** Metadata that is used to define a condition that triggers an action. A valid condition must specify at least one of 'query_terms' or 'products_filter'. If multiple fields are specified, the condition is met if all the fields are satisfied e.g. if a set of query terms and product_filter are set, then only items matching the product_filter for requests with a query matching the query terms wil get boosted. */
 export interface GoogleCloudRetailV2alphaCondition {
   /** Used to support browse uses cases. A list (up to 10 entries) of categories or departments. The format should be the same as UserEvent.page_categories; */
-  pageCategories?: StringList;
+  pageCategories?: StringList | undefined;
   /** Range of time(s) specifying when Condition is active. Condition true if any time range matches. */
-  activeTimeRange?: GoogleCloudRetailV2alphaConditionTimeRangeList;
+  activeTimeRange?: GoogleCloudRetailV2alphaConditionTimeRangeList | undefined;
   /** A list (up to 10 entries) of terms to match the query on. If not specified, match all queries. If many query terms are specified, the condition is matched if any of the terms is a match (i.e. using the OR operator). */
-  queryTerms?: GoogleCloudRetailV2alphaConditionQueryTermList;
+  queryTerms?: GoogleCloudRetailV2alphaConditionQueryTermList | undefined;
 }
 /** Prevents `query_term` from being associated with specified terms during search. Example: Don't associate "gShoe" and "cheap". */
 export interface GoogleCloudRetailV2alphaRuleDoNotAssociateAction {
   /** Will be [deprecated = true] post migration; */
-  terms?: StringList;
+  terms?: StringList | undefined;
   /** Cannot contain duplicates or the query term. Can specify up to 100 terms. */
-  doNotAssociateTerms?: StringList;
+  doNotAssociateTerms?: StringList | undefined;
   /** Terms from the search query. Will not consider do_not_associate_terms for search if in search query. Can specify up to 100 terms. */
-  queryTerms?: StringList;
+  queryTerms?: StringList | undefined;
 }
 /** * Rule Condition: - No Condition.query_terms provided is a global match. - 1 or more Condition.query_terms provided are combined with OR operator. * Action Input: The request query and filter that are applied to the retrieved products, in addition to any filters already provided with the SearchRequest. The AND operator is used to combine the query's existing filters with the filter rule(s). NOTE: May result in 0 results when filters conflict. * Action Result: Filters the returned objects to be ONLY those that passed the filter. */
 export interface GoogleCloudRetailV2alphaRuleFilterAction {
   /** A filter to apply on the matching condition results. Supported features: * filter must be set. * Filter syntax is identical to SearchRequest.filter. For more information, see [Filter](/retail/docs/filter-and-order#filter). * To filter products with product ID "product_1" or "product_2", and color "Red" or "Blue": *(id: ANY("product_1", "product_2")) * *AND * *(colorFamilies: ANY("Red", "Blue")) * */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Creates a set of terms that will be treated as synonyms of each other. Example: synonyms of "sneakers" and "shoes": * "sneakers" will use a synonym of "shoes". * "shoes" will use a synonym of "sneakers". */
 export interface GoogleCloudRetailV2alphaRuleTwowaySynonymsAction {
   /** Defines a set of synonyms. Can specify up to 100 synonyms. Must specify at least 2 synonyms. */
-  synonyms?: StringList;
+  synonyms?: StringList | undefined;
 }
 /** Each facet position adjustment consists of a single attribute name (i.e. facet key) along with a specified position. */
 export interface GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPositionAdjustment {
   /** The attribute name to force return as a facet. Each attribute name should be a valid attribute name, be non-empty and contain at most 80 characters long. */
-  attributeName?: string;
+  attributeName?: string | undefined;
   /** This is the position in the request as explained above. It should be strictly positive be at most 100. */
-  position?: number;
+  position?: number | undefined;
 }
 export type GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPositionAdjustmentList =
   Array<GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPositionAdjustment>;
 /** Force returns an attribute/facet in the request around a certain position or above. * Rule Condition: Must specify non-empty Condition.query_terms (for search only) or Condition.page_categories (for browse only), but can't specify both. * Action Inputs: attribute name, position * Action Result: Will force return a facet key around a certain position or above if the condition is satisfied. Example: Suppose the query is "shoes", the Condition.query_terms is "shoes", the ForceReturnFacetAction.FacetPositionAdjustment.attribute_name is "size" and the ForceReturnFacetAction.FacetPositionAdjustment.position is 8. Two cases: a) The facet key "size" is not already in the top 8 slots, then the facet "size" will appear at a position close to 8. b) The facet key "size" in among the top 8 positions in the request, then it will stay at its current rank. */
 export interface GoogleCloudRetailV2alphaRuleForceReturnFacetAction {
   /** Each instance corresponds to a force return attribute for the given condition. There can't be more 15 instances here. */
-  facetPositionAdjustments?: GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPositionAdjustmentList;
+  facetPositionAdjustments?:
+    | GoogleCloudRetailV2alphaRuleForceReturnFacetActionFacetPositionAdjustmentList
+    | undefined;
 }
 /** Redirects a shopper to a specific page. * Rule Condition: Must specify Condition.query_terms. * Action Input: Request Query * Action Result: Redirects shopper to provided uri. */
 export interface GoogleCloudRetailV2alphaRuleRedirectAction {
   /** URL must have length equal or less than 2000 characters. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
 }
 /** Pins one or more specified products to a specific position in the results. * Rule Condition: Must specify non-empty Condition.query_terms (for search only) or Condition.page_categories (for browse only), but can't specify both. * Action Input: mapping of `[pin_position, product_id]` pairs (pin position uses 1-based indexing). * Action Result: Will pin products with matching ids to the position specified in the final result order. Example: Suppose the query is `shoes`, the Condition.query_terms is `shoes` and the pin_map has `{1, "pid1"}`, then product with `pid1` will be pinned to the top position in the final results. If multiple PinActions are matched to a single request the actions will be processed from most to least recently updated. Pins to positions larger than the max allowed page size of 120 are not allowed. */
 export interface GoogleCloudRetailV2alphaRulePinAction {
   /** Required. A map of positions to product_ids. Partial matches per action are allowed, if a certain position in the map is already filled that `[position, product_id]` pair will be ignored but the rest may still be applied. This case will only occur if multiple pin actions are matched to a single request, as the map guarantees that pin positions are unique within the same action. Duplicate product_ids are not permitted within a single pin map. The max size of this map is 120, equivalent to the max [request page size](https://cloud.google.com/retail/docs/reference/rest/v2/projects.locations.catalogs.placements/search#request-body). */
-  pinMap?: StringMap;
+  pinMap?: StringMap | undefined;
 }
 /** Replaces a term in the query. Multiple replacement candidates can be specified. All `query_terms` will be replaced with the replacement term. Example: Replace "gShoe" with "google shoe". */
 export interface GoogleCloudRetailV2alphaRuleReplacementAction {
   /** Terms from the search query. Will be replaced by replacement term. Can specify up to 100 terms. */
-  queryTerms?: StringList;
+  queryTerms?: StringList | undefined;
   /** Term that will be used for replacement. */
-  replacementTerm?: string;
+  replacementTerm?: string | undefined;
   /** Will be [deprecated = true] post migration; */
-  term?: string;
+  term?: string | undefined;
 }
 /** Prevents a term in the query from being used in search. Example: Don't search for "shoddy". */
 export interface GoogleCloudRetailV2alphaRuleIgnoreAction {
   /** Terms to ignore in the search query. */
-  ignoreTerms?: StringList;
+  ignoreTerms?: StringList | undefined;
 }
 /** Maps a set of terms to a set of synonyms. Set of synonyms will be treated as synonyms of each query term only. `query_terms` will not be treated as synonyms of each other. Example: "sneakers" will use a synonym of "shoes". "shoes" will not use a synonym of "sneakers". */
 export interface GoogleCloudRetailV2alphaRuleOnewaySynonymsAction {
   /** Will be [deprecated = true] post migration; */
-  onewayTerms?: StringList;
+  onewayTerms?: StringList | undefined;
   /** Terms from the search query. Will treat synonyms as their synonyms. Not themselves synonyms of the synonyms. Can specify up to 100 terms. */
-  queryTerms?: StringList;
+  queryTerms?: StringList | undefined;
   /** Defines a set of synonyms. Cannot contain duplicates. Can specify up to 100 synonyms. */
-  synonyms?: StringList;
+  synonyms?: StringList | undefined;
 }
 /** A rule is a condition-action pair * A condition defines when a rule is to be triggered. * An action specifies what occurs on that trigger. Currently rules only work for controls with SOLUTION_TYPE_SEARCH. */
 export interface GoogleCloudRetailV2alphaRule {
   /** A boost action. */
-  boostAction?: GoogleCloudRetailV2alphaRuleBoostAction;
+  boostAction?: GoogleCloudRetailV2alphaRuleBoostAction | undefined;
   /** Remove an attribute as a facet in the request (if present). */
-  removeFacetAction?: GoogleCloudRetailV2alphaRuleRemoveFacetAction;
+  removeFacetAction?: GoogleCloudRetailV2alphaRuleRemoveFacetAction | undefined;
   /** Required. The condition that triggers the rule. If the condition is empty, the rule will always apply. */
-  condition?: GoogleCloudRetailV2alphaCondition;
+  condition?: GoogleCloudRetailV2alphaCondition | undefined;
   /** Prevents term from being associated with other terms. */
-  doNotAssociateAction?: GoogleCloudRetailV2alphaRuleDoNotAssociateAction;
+  doNotAssociateAction?: GoogleCloudRetailV2alphaRuleDoNotAssociateAction | undefined;
   /** Filters results. */
-  filterAction?: GoogleCloudRetailV2alphaRuleFilterAction;
+  filterAction?: GoogleCloudRetailV2alphaRuleFilterAction | undefined;
   /** Treats a set of terms as synonyms of one another. */
-  twowaySynonymsAction?: GoogleCloudRetailV2alphaRuleTwowaySynonymsAction;
+  twowaySynonymsAction?: GoogleCloudRetailV2alphaRuleTwowaySynonymsAction | undefined;
   /** Force returns an attribute as a facet in the request. */
-  forceReturnFacetAction?: GoogleCloudRetailV2alphaRuleForceReturnFacetAction;
+  forceReturnFacetAction?: GoogleCloudRetailV2alphaRuleForceReturnFacetAction | undefined;
   /** Redirects a shopper to a specific page. */
-  redirectAction?: GoogleCloudRetailV2alphaRuleRedirectAction;
+  redirectAction?: GoogleCloudRetailV2alphaRuleRedirectAction | undefined;
   /** Pins one or more specified products to a specific position in the results. */
-  pinAction?: GoogleCloudRetailV2alphaRulePinAction;
+  pinAction?: GoogleCloudRetailV2alphaRulePinAction | undefined;
   /** Replaces specific terms in the query. */
-  replacementAction?: GoogleCloudRetailV2alphaRuleReplacementAction;
+  replacementAction?: GoogleCloudRetailV2alphaRuleReplacementAction | undefined;
   /** Ignores specific terms from query during search. */
-  ignoreAction?: GoogleCloudRetailV2alphaRuleIgnoreAction;
+  ignoreAction?: GoogleCloudRetailV2alphaRuleIgnoreAction | undefined;
   /** Treats specific term as a synonym with a group of terms. Group of terms will not be treated as synonyms with the specific term. */
-  onewaySynonymsAction?: GoogleCloudRetailV2alphaRuleOnewaySynonymsAction;
+  onewaySynonymsAction?: GoogleCloudRetailV2alphaRuleOnewaySynonymsAction | undefined;
 }
 /** Configures dynamic metadata that can be linked to a ServingConfig and affect search or recommendation results at serving time. */
 export interface GoogleCloudRetailV2alphaControl {
   /** Required. The human readable control display name. Used in Retail UI. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is thrown. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Immutable. The solution types that the control is used for. Currently we support setting only one type of solution at creation time. Only `SOLUTION_TYPE_SEARCH` value is supported at the moment. If no solution type is provided at creation time, will default to SOLUTION_TYPE_SEARCH. */
-  solutionTypes?: GoogleCloudRetailV2alphaControlSolutionTypesItemEnumList;
+  solutionTypes?: GoogleCloudRetailV2alphaControlSolutionTypesItemEnumList | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/controls/*` */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the use case for the control. Affects what condition fields can be set. Only settable by search controls. Will default to SEARCH_SOLUTION_USE_CASE_SEARCH if not specified. Currently only allow one search_solution_use_case per control. */
-  searchSolutionUseCase?: GoogleCloudRetailV2alphaControlSearchSolutionUseCaseItemEnumList;
+  searchSolutionUseCase?:
+    | GoogleCloudRetailV2alphaControlSearchSolutionUseCaseItemEnumList
+    | undefined;
   /** A rule control - a condition-action pair. Enacts a set action when the condition is triggered. For example: Boost "gShoe" when query full matches "Running Shoes". */
-  rule?: GoogleCloudRetailV2alphaRule;
+  rule?: GoogleCloudRetailV2alphaRule | undefined;
   /** Output only. List of serving config ids that are associated with this control in the same Catalog. Note the association is managed via the ServingConfig, this is an output only denormalized view. */
-  associatedServingConfigIds?: StringList;
+  associatedServingConfigIds?: StringList | undefined;
 }
 export interface CreateProjectsLocationsCatalogsControlsRequest {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value should be 4-63 characters, and valid characters are /a-z-_/. */
-  controlId?: string;
+  controlId?: string | undefined;
   /** Required. Full resource name of parent catalog. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaControl;
+  body?: GoogleCloudRetailV2alphaControl | undefined;
 }
 export type GoogleCloudRetailV2alphaMerchantCenterAccountLinkStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1139,47 +1185,49 @@ export type GoogleCloudRetailV2alphaMerchantCenterAccountLinkStateEnum =
 /** Merchant Center Feed filter criterion. */
 export interface GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenterFeedFilter {
   /** Merchant Center primary feed name. The name is used for the display purposes only. */
-  primaryFeedName?: string;
+  primaryFeedName?: string | undefined;
   /** Merchant Center primary feed ID. Deprecated: use data_source_id instead. */
-  primaryFeedId?: string;
+  primaryFeedId?: string | undefined;
   /** AFM data source ID. */
-  dataSourceId?: string;
+  dataSourceId?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenterFeedFilterList =
   Array<GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenterFeedFilter>;
 /** Represents a link between a Merchant Center account and a branch. After a link is established, products from the linked Merchant Center account are streamed to the linked branch. */
 export interface GoogleCloudRetailV2alphaMerchantCenterAccountLink {
   /** Output only. Represents the state of the link. */
-  state?: GoogleCloudRetailV2alphaMerchantCenterAccountLinkStateEnum | (string & {});
+  state?: GoogleCloudRetailV2alphaMerchantCenterAccountLinkStateEnum | (string & {}) | undefined;
   /** Criteria for the Merchant Center feeds to be ingested via the link. All offers will be ingested if the list is empty. Otherwise the offers will be ingested from selected feeds. */
-  feedFilters?: GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenterFeedFilterList;
+  feedFilters?:
+    | GoogleCloudRetailV2alphaMerchantCenterAccountLinkMerchantCenterFeedFilterList
+    | undefined;
   /** Output only. Immutable. MerchantCenterAccountLink identifier, which is the final component of name. This field is auto generated and follows the convention: `BranchId_MerchantCenterAccountId`. `projects/*\/locations/global/catalogs/default_catalog/merchantCenterAccountLinks/id_1`. */
-  id?: string;
+  id?: string | undefined;
   /** The FeedLabel used to perform filtering. Note: this replaces [region_id](https://developers.google.com/shopping-content/reference/rest/v2.1/products#Product.FIELDS.feed_label). Example value: `US`. Example value: `FeedLabel1`. */
-  feedLabel?: string;
+  feedLabel?: string | undefined;
   /** Optional. An optional arbitrary string that could be used as a tag for tracking link source. */
-  source?: string;
+  source?: string | undefined;
   /** Output only. Google Cloud project ID. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Output only. Immutable. Full resource name of the Merchant Center Account Link, such as `projects/*\/locations/global/catalogs/default_catalog/merchantCenterAccountLinks/merchant_center_account_link`. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The linked [Merchant center account id](https://developers.google.com/shopping-content/guides/accountstatuses). The account must be a standalone account or a sub-account of a MCA. */
-  merchantCenterAccountId?: string;
+  merchantCenterAccountId?: string | undefined;
   /** Required. The branch ID (e.g. 0/1/2) within the catalog that products from merchant_center_account_id are streamed to. When updating this field, an empty value will use the currently configured default branch. However, changing the default branch later on won't change the linked branch here. A single branch ID can only have one linked Merchant Center account ID. */
-  branchId?: string;
+  branchId?: string | undefined;
   /** Language of the title/description and other string attributes. Use language tags defined by [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). ISO 639-1. This specifies the language of offers in Merchant Center that will be accepted. If empty, no language filtering will be performed. Example value: `en`. */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export interface CreateProjectsLocationsCatalogsMerchantCenterAccountLinksRequest {
   /** Required. The branch resource where this MerchantCenterAccountLink will be created. Format: `projects/{PROJECT_NUMBER}/locations/global/catalogs/{CATALOG_ID}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaMerchantCenterAccountLink;
+  body?: GoogleCloudRetailV2alphaMerchantCenterAccountLink | undefined;
 }
 /** Represents an ordered combination of valid serving configs, which can be used for `PAGE_OPTIMIZATION` recommendations. */
 export interface GoogleCloudRetailV2alphaModelServingConfigList {
   /** Optional. A set of valid serving configs that may be used for `PAGE_OPTIMIZATION`. */
-  servingConfigIds?: StringList;
+  servingConfigIds?: StringList | undefined;
 }
 export type GoogleCloudRetailV2alphaModelServingConfigListList =
   Array<GoogleCloudRetailV2alphaModelServingConfigList>;
@@ -1200,29 +1248,32 @@ export type GoogleCloudRetailV2alphaModelPageOptimizationConfigRestrictionEnum =
 /** A candidate to consider for a given panel. Currently only ServingConfig are valid candidates. */
 export interface GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate {
   /** This has to be a valid ServingConfig identifier. For example, for a ServingConfig with full name: `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/my_candidate_config`, this would be `my_candidate_config`. */
-  servingConfigId?: string;
+  servingConfigId?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidateList =
   Array<GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate>;
 /** An individual panel with a list of ServingConfigs to consider for it. */
 export interface GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel {
   /** Required. The default candidate. If the model fails at serving time, we fall back to the default. */
-  defaultCandidate?: GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate;
+  defaultCandidate?: GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate | undefined;
   /** Required. The candidates to consider on the panel. */
-  candidates?: GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidateList;
+  candidates?: GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidateList | undefined;
   /** Optional. The name to display for the panel. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaModelPageOptimizationConfigPanelList =
   Array<GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel>;
 /** The PageOptimizationConfig for model training. This determines how many panels to optimize for, and which serving configs to consider for each panel. The purpose of this model is to optimize which ServingConfig to show on which panels in way that optimizes the visitors shopping journey. */
 export interface GoogleCloudRetailV2alphaModelPageOptimizationConfig {
   /** Required. The type of UserEvent this page optimization is shown for. Each page has an associated event type - this will be the corresponding event type for the page that the page optimization model is used on. Supported types: * `add-to-cart`: Products being added to cart. * `detail-page-view`: Products detail page viewed. * `home-page-view`: Homepage viewed * `category-page-view`: Homepage viewed * `shopping-cart-page-view`: User viewing a shopping cart. `home-page-view` only allows models with type `recommended-for-you`. All other page_optimization_event_type allow all Model.types. */
-  pageOptimizationEventType?: string;
+  pageOptimizationEventType?: string | undefined;
   /** Optional. How to restrict results across panels e.g. can the same ServingConfig be shown on multiple panels at once. If unspecified, default to `UNIQUE_MODEL_RESTRICTION`. */
-  restriction?: GoogleCloudRetailV2alphaModelPageOptimizationConfigRestrictionEnum | (string & {});
+  restriction?:
+    | GoogleCloudRetailV2alphaModelPageOptimizationConfigRestrictionEnum
+    | (string & {})
+    | undefined;
   /** Required. A list of panel configurations. Limit = 5. */
-  panels?: GoogleCloudRetailV2alphaModelPageOptimizationConfigPanelList;
+  panels?: GoogleCloudRetailV2alphaModelPageOptimizationConfigPanelList | undefined;
 }
 export type GoogleCloudRetailV2alphaModelServingStateEnum =
   | "SERVING_STATE_UNSPECIFIED"
@@ -1243,12 +1294,15 @@ export interface GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesCo
   /** Optional. Specifies the context of the model when it is used in predict requests. Can only be set for the `frequently-bought-together` type. If it isn't specified, it defaults to MULTIPLE_CONTEXT_PRODUCTS. */
   contextProductsType?:
     | GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesConfigContextProductsTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Additional model features config. */
 export interface GoogleCloudRetailV2alphaModelModelFeaturesConfig {
   /** Additional configs for frequently-bought-together models. */
-  frequentlyBoughtTogetherConfig?: GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesConfig;
+  frequentlyBoughtTogetherConfig?:
+    | GoogleCloudRetailV2alphaModelFrequentlyBoughtTogetherFeaturesConfig
+    | undefined;
 }
 export type GoogleCloudRetailV2alphaModelFilteringOptionEnum =
   | "RECOMMENDATIONS_FILTERING_OPTION_UNSPECIFIED"
@@ -1257,57 +1311,60 @@ export type GoogleCloudRetailV2alphaModelFilteringOptionEnum =
 /** Metadata that describes the training and serving parameters of a Model. A Model can be associated with a ServingConfig and then queried through the Predict API. */
 export interface GoogleCloudRetailV2alphaModel {
   /** Output only. Timestamp the Recommendation Model was created at. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The fully qualified resource name of the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` catalog_id has char limit of 50. recommendation_model_id has char limit of 40. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The list of valid serving configs associated with the PageOptimizationConfig. */
-  servingConfigLists?: GoogleCloudRetailV2alphaModelServingConfigListList;
+  servingConfigLists?: GoogleCloudRetailV2alphaModelServingConfigListList | undefined;
   /** Output only. The state of data requirements for this model: `DATA_OK` and `DATA_ERROR`. Recommendation model cannot be trained if the data is in `DATA_ERROR` state. Recommendation model can have `DATA_ERROR` state even if serving state is `ACTIVE`: models were trained successfully before, but cannot be refreshed because model no longer has sufficient data for training. */
-  dataState?: GoogleCloudRetailV2alphaModelDataStateEnum | (string & {});
+  dataState?: GoogleCloudRetailV2alphaModelDataStateEnum | (string & {}) | undefined;
   /** Output only. Timestamp the Recommendation Model was last updated. E.g. if a Recommendation Model was paused - this would be the time the pause was initiated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The timestamp when the latest successful tune finished. */
-  lastTuneTime?: string;
+  lastTuneTime?: string | undefined;
   /** Optional. The training state that the model is in (e.g. `TRAINING` or `PAUSED`). Since part of the cost of running the service is frequency of training - this can be used to determine when to train model in order to control cost. If not specified: the default value for `CreateModel` method is `TRAINING`. The default value for `UpdateModel` method is to keep the state the same as before. */
-  trainingState?: GoogleCloudRetailV2alphaModelTrainingStateEnum | (string & {});
+  trainingState?: GoogleCloudRetailV2alphaModelTrainingStateEnum | (string & {}) | undefined;
   /** Optional. The page optimization config. */
-  pageOptimizationConfig?: GoogleCloudRetailV2alphaModelPageOptimizationConfig;
+  pageOptimizationConfig?: GoogleCloudRetailV2alphaModelPageOptimizationConfig | undefined;
   /** Required. The type of model e.g. `home-page`. Currently supported values: `recommended-for-you`, `others-you-may-like`, `frequently-bought-together`, `page-optimization`, `similar-items`, `buy-it-again`, `on-sale-items`, and `recently-viewed`(readonly value). This field together with optimization_objective describe model metadata to use to control model training and serving. See https://cloud.google.com/retail/docs/models for more details on what the model metadata control and which combination of parameters are valid. For invalid combinations of parameters (e.g. type = `frequently-bought-together` and optimization_objective = `ctr`), you receive an error 400 if you try to create/update a recommendation with this set of knobs. */
-  type?: string;
+  type?: string | undefined;
   /** Optional. The optimization objective e.g. `cvr`. Currently supported values: `ctr`, `cvr`, `revenue-per-order`. If not specified, we choose default based on model type. Default depends on type of recommendation: `recommended-for-you` => `ctr` `others-you-may-like` => `ctr` `frequently-bought-together` => `revenue_per_order` This field together with optimization_objective describe model metadata to use to control model training and serving. See https://cloud.google.com/retail/docs/models for more details on what the model metadata control and which combination of parameters are valid. For invalid combinations of parameters (e.g. type = `frequently-bought-together` and optimization_objective = `ctr`), you receive an error 400 if you try to create/update a recommendation with this set of knobs. */
-  optimizationObjective?: string;
+  optimizationObjective?: string | undefined;
   /** Output only. The serving state of the model: `ACTIVE`, `NOT_ACTIVE`. */
-  servingState?: GoogleCloudRetailV2alphaModelServingStateEnum | (string & {});
+  servingState?: GoogleCloudRetailV2alphaModelServingStateEnum | (string & {}) | undefined;
   /** Optional. The state of periodic tuning. The period we use is 3 months - to do a one-off tune earlier use the `TuneModel` method. Default value is `PERIODIC_TUNING_ENABLED`. */
-  periodicTuningState?: GoogleCloudRetailV2alphaModelPeriodicTuningStateEnum | (string & {});
+  periodicTuningState?:
+    | GoogleCloudRetailV2alphaModelPeriodicTuningStateEnum
+    | (string & {})
+    | undefined;
   /** Optional. Additional model features config. */
-  modelFeaturesConfig?: GoogleCloudRetailV2alphaModelModelFeaturesConfig;
+  modelFeaturesConfig?: GoogleCloudRetailV2alphaModelModelFeaturesConfig | undefined;
   /** Required. The display name of the model. Should be human readable, used to display Recommendation Models in the Retail Cloud Console Dashboard. UTF-8 encoded string with limit of 1024 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. If `RECOMMENDATIONS_FILTERING_ENABLED`, recommendation filtering by attributes is enabled for the model. */
-  filteringOption?: GoogleCloudRetailV2alphaModelFilteringOptionEnum | (string & {});
+  filteringOption?: GoogleCloudRetailV2alphaModelFilteringOptionEnum | (string & {}) | undefined;
   /** Output only. The tune operation associated with the model. Can be used to determine if there is an ongoing tune for this recommendation. Empty field implies no tune is goig on. */
-  tuningOperation?: string;
+  tuningOperation?: string | undefined;
 }
 export interface CreateProjectsLocationsCatalogsModelsRequest {
   /** Required. The parent resource under which to create the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Optional. Whether to run a dry run to validate the request (without actually creating the model). */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaModel;
+  body?: GoogleCloudRetailV2alphaModel | undefined;
 }
 export interface CreateProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. Full resource name of parent. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-z-_/. */
-  servingConfigId?: string;
+  servingConfigId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaServingConfig;
+  body?: GoogleCloudRetailV2alphaServingConfig | undefined;
 }
 export interface DeleteProjectsLocationsCatalogsBranchesProductsRequest {
   /** This value only applies to the case when the target product is of type PRIMARY. When deleting a product of VARIANT/COLLECTION type, this value will be ignored. When set to true, the subsequent variant products will be deleted. When set to false, if the primary product has active variant products, an error will be returned. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to delete the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the Product to delete does not exist, a NOT_FOUND error is returned. The Product to delete can neither be a Product.Type.COLLECTION Product member nor a Product.Type.PRIMARY Product with more than one variants. Otherwise, an INVALID_ARGUMENT error is returned. All inventory information for the named Product will be deleted. */
   name: string;
 }
@@ -1336,60 +1393,60 @@ export type GoogleCloudRetailV2alphaEnrollSolutionRequestSolutionEnum =
 /** Request for EnrollSolution method. */
 export interface GoogleCloudRetailV2alphaEnrollSolutionRequest {
   /** Required. Solution to enroll. */
-  solution?: GoogleCloudRetailV2alphaEnrollSolutionRequestSolutionEnum | (string & {});
+  solution?: GoogleCloudRetailV2alphaEnrollSolutionRequestSolutionEnum | (string & {}) | undefined;
 }
 export interface EnrollSolutionProjectsRequest {
   /** Required. Full resource name of parent. Format: `projects/{project_number_or_id}` */
   project: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaEnrollSolutionRequest;
+  body?: GoogleCloudRetailV2alphaEnrollSolutionRequest | undefined;
 }
 /** The Google Cloud Storage output destination configuration. */
 export interface GoogleCloudRetailV2alphaOutputConfigGcsDestination {
   /** Required. The output uri prefix for saving output data to json files. Some mapping examples are as follows: output_uri_prefix sample output(assuming the object is foo.json) ======================== ============================================= gs://bucket/ gs://bucket/foo.json gs://bucket/folder/ gs://bucket/folder/foo.json gs://bucket/folder/item_ gs://bucket/folder/item_foo.json */
-  outputUriPrefix?: string;
+  outputUriPrefix?: string | undefined;
 }
 /** The BigQuery output destination configuration. */
 export interface GoogleCloudRetailV2alphaOutputConfigBigQueryDestination {
   /** Required. The prefix of exported BigQuery tables. */
-  tableIdPrefix?: string;
+  tableIdPrefix?: string | undefined;
   /** Required. Describes the table type. The following values are supported: * `table`: A BigQuery native table. * `view`: A virtual table defined by a SQL query. */
-  tableType?: string;
+  tableType?: string | undefined;
   /** Required. The ID of a BigQuery Dataset. */
-  datasetId?: string;
+  datasetId?: string | undefined;
 }
 /** The output configuration setting. */
 export interface GoogleCloudRetailV2alphaOutputConfig {
   /** The Google Cloud Storage location where the output is to be written to. */
-  gcsDestination?: GoogleCloudRetailV2alphaOutputConfigGcsDestination;
+  gcsDestination?: GoogleCloudRetailV2alphaOutputConfigGcsDestination | undefined;
   /** The BigQuery location where the output is to be written to. */
-  bigqueryDestination?: GoogleCloudRetailV2alphaOutputConfigBigQueryDestination;
+  bigqueryDestination?: GoogleCloudRetailV2alphaOutputConfigBigQueryDestination | undefined;
 }
 /** Request message for the `ExportAnalyticsMetrics` method. */
 export interface GoogleCloudRetailV2alphaExportAnalyticsMetricsRequest {
   /** Required. The output location of the data. Only `bigquery_destination` is supported, and `bigquery_destination.table_type` must be set to `view`. */
-  outputConfig?: GoogleCloudRetailV2alphaOutputConfig;
+  outputConfig?: GoogleCloudRetailV2alphaOutputConfig | undefined;
   /** A filtering expression to specify restrictions on returned metrics. The expression is a sequence of terms. Each term applies a restriction to the returned metrics. Use this expression to restrict results to a specific time range. Currently we expect only one types of fields: * `timestamp`: This can be specified twice, once with a less than operator and once with a greater than operator. The `timestamp` restriction should result in one, contiguous, valid, `timestamp` range. Some examples of valid filters expressions: * Example 1: `timestamp > "2012-04-23T18:25:43.511Z" timestamp < "2012-04-23T18:30:43.511Z"` * Example 2: `timestamp > "2012-04-23T18:25:43.511Z"` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ExportAnalyticsMetricsProjectsLocationsCatalogsRequest {
   /** Required. Full resource name of the parent catalog. Expected format: `projects/*\/locations/*\/catalogs/*` */
   catalog: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaExportAnalyticsMetricsRequest;
+  body?: GoogleCloudRetailV2alphaExportAnalyticsMetricsRequest | undefined;
 }
 /** Request message for ExportProducts method. */
 export interface GoogleCloudRetailV2alphaExportProductsRequest {
   /** Deprecated: This field is deprecated. Any filter provided will be ignored. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The output location of the data. Only `bigquery_destination` is supported, and `bigquery_destination.table_type` must be set to `view`. */
-  outputConfig?: GoogleCloudRetailV2alphaOutputConfig;
+  outputConfig?: GoogleCloudRetailV2alphaOutputConfig | undefined;
 }
 export interface ExportProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Resource name of a Branch, and `default_branch` for branch_id component is supported. For example `projects/1234/locations/global/catalogs/default_catalog/branches/default_branch` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaExportProductsRequest;
+  body?: GoogleCloudRetailV2alphaExportProductsRequest | undefined;
 }
 /** Request message for the `ExportUserEvents` method. */
 export type GoogleCloudRetailV2alphaExportUserEventsRequest =
@@ -1398,7 +1455,7 @@ export interface ExportProjectsLocationsCatalogsUserEventsRequest {
   /** Required. Resource name of a Catalog. For example `projects/1234/locations/global/catalogs/default_catalog` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaExportProductsRequest;
+  body?: GoogleCloudRetailV2alphaExportProductsRequest | undefined;
 }
 export interface GetAlertConfigProjectsRequest {
   /** Required. Full AlertConfig resource name. Format: projects/{project_number}/alertConfig */
@@ -1407,7 +1464,7 @@ export interface GetAlertConfigProjectsRequest {
 /** Recipient contact information. */
 export interface GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipient {
   /** Email address of the recipient. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipientList =
   Array<GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipient>;
@@ -1418,20 +1475,23 @@ export type GoogleCloudRetailV2alphaAlertConfigAlertPolicyEnrollStatusEnum =
 /** Alert policy for a customer. */
 export interface GoogleCloudRetailV2alphaAlertConfigAlertPolicy {
   /** The feature that provides alerting capability. Supported value: - `search-data-quality` for retail search customers. - `conv-data-quality` for retail conversation customers. */
-  alertGroup?: string;
+  alertGroup?: string | undefined;
   /** Recipients for the alert policy. One alert policy should not exceed 20 recipients. */
-  recipients?: GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipientList;
+  recipients?: GoogleCloudRetailV2alphaAlertConfigAlertPolicyRecipientList | undefined;
   /** The enrollment status of a customer. */
-  enrollStatus?: GoogleCloudRetailV2alphaAlertConfigAlertPolicyEnrollStatusEnum | (string & {});
+  enrollStatus?:
+    | GoogleCloudRetailV2alphaAlertConfigAlertPolicyEnrollStatusEnum
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudRetailV2alphaAlertConfigAlertPolicyList =
   Array<GoogleCloudRetailV2alphaAlertConfigAlertPolicy>;
 /** Project level alert config. */
 export interface GoogleCloudRetailV2alphaAlertConfig {
   /** Alert policies for a customer. They must be unique by [AlertPolicy.alert_group] */
-  alertPolicies?: GoogleCloudRetailV2alphaAlertConfigAlertPolicyList;
+  alertPolicies?: GoogleCloudRetailV2alphaAlertConfigAlertPolicyList | undefined;
   /** Required. Immutable. The name of the AlertConfig singleton resource. Format: projects/*\/alertConfig */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetAttributesConfigProjectsLocationsCatalogsRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
@@ -1444,58 +1504,58 @@ export interface GetCompletionConfigProjectsLocationsCatalogsRequest {
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface GoogleTypeDate {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
 }
 /** BigQuery source import data from. */
 export interface GoogleCloudRetailV2alphaBigQuerySource {
   /** Intermediate Cloud Storage directory used for the import with a length limit of 2,000 characters. Can be specified if one wants to have the BigQuery export to a specific Cloud Storage directory. */
-  gcsStagingDir?: string;
+  gcsStagingDir?: string | undefined;
   /** Required. The BigQuery table to copy the data from with a length limit of 1,024 characters. */
-  tableId?: string;
+  tableId?: string | undefined;
   /** The project ID (can be project # or ID) that the BigQuery source is in with a length limit of 128 characters. If not specified, inherits the project ID from the parent request. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required. The BigQuery data set to copy the data from with a length limit of 1,024 characters. */
-  datasetId?: string;
+  datasetId?: string | undefined;
   /** BigQuery time partitioned table's _PARTITIONDATE in YYYY-MM-DD format. */
-  partitionDate?: GoogleTypeDate;
+  partitionDate?: GoogleTypeDate | undefined;
   /** The schema to use when parsing the data from the source. Supported values for product imports: * `product` (default): One JSON Product per line. Each product must have a valid Product.id. * `product_merchant_center`: See [Importing catalog data from Merchant Center](https://cloud.google.com/retail/recommendations-ai/docs/upload-catalog#mc). Supported values for user events imports: * `user_event` (default): One JSON UserEvent per line. * `user_event_ga360`: The schema is available here: https://support.google.com/analytics/answer/3437719. * `user_event_ga4`: The schema is available here: https://support.google.com/analytics/answer/7029846. Supported values for autocomplete imports: * `suggestions` (default): One JSON completion suggestion per line. * `denylist`: One JSON deny suggestion per line. * `allowlist`: One JSON allow suggestion per line. */
-  dataSchema?: string;
+  dataSchema?: string | undefined;
 }
 /** The input config source for completion data. */
 export interface GoogleCloudRetailV2alphaCompletionDataInputConfig {
   /** Required. BigQuery input source. Add the IAM permission "BigQuery Data Viewer" for cloud-retail-customer-data-access@system.gserviceaccount.com before using this feature otherwise an error is thrown. */
-  bigQuerySource?: GoogleCloudRetailV2alphaBigQuerySource;
+  bigQuerySource?: GoogleCloudRetailV2alphaBigQuerySource | undefined;
 }
 /** Catalog level autocomplete config for customers to customize autocomplete feature's settings. */
 export interface GoogleCloudRetailV2alphaCompletionConfig {
   /** Output only. The source data for the latest import of the autocomplete allowlist phrases. */
-  allowlistInputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig;
+  allowlistInputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig | undefined;
   /** The minimum number of characters needed to be typed in order to get suggestions. Default value is 2. If left unset or set to 0, then will fallback to default value. Value range is 1 to 20. */
-  minPrefixLength?: number;
+  minPrefixLength?: number | undefined;
   /** Output only. Name of the LRO corresponding to the latest allowlist import. Can use GetOperation API to retrieve the latest state of the Long Running Operation. */
-  lastAllowlistImportOperation?: string;
+  lastAllowlistImportOperation?: string | undefined;
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/catalogs/*\/completionConfig` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The source data for the latest import of the autocomplete denylist phrases. */
-  denylistInputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig;
+  denylistInputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig | undefined;
   /** Specifies the matching order for autocomplete suggestions, e.g., a query consisting of 'sh' with 'out-of-order' specified would suggest "women's shoes", whereas a query of 'red s' with 'exact-prefix' specified would suggest "red shoes". Currently supported values: * 'out-of-order' * 'exact-prefix' Default value: 'exact-prefix'. */
-  matchingOrder?: string;
+  matchingOrder?: string | undefined;
   /** If set to true, the auto learning function is enabled. Auto learning uses user data to generate suggestions using ML techniques. Default value is false. Only after enabling auto learning can users use `cloud-retail` data in CompleteQueryRequest. */
-  autoLearning?: boolean;
+  autoLearning?: boolean | undefined;
   /** The maximum number of autocomplete suggestions returned per term. Default value is 20. If left unset or set to 0, then will fallback to default value. Value range is 1 to 20. */
-  maxSuggestions?: number;
+  maxSuggestions?: number | undefined;
   /** Optional. If set to true, the conversational shopping agent prompts will be served. Default value is false. */
-  enableAgentPrompts?: boolean;
+  enableAgentPrompts?: boolean | undefined;
   /** Output only. Name of the LRO corresponding to the latest suggestion terms list import. Can use GetOperation API method to retrieve the latest state of the Long Running Operation. */
-  lastSuggestionsImportOperation?: string;
+  lastSuggestionsImportOperation?: string | undefined;
   /** Output only. The source data for the latest import of the autocomplete suggestion phrases. */
-  suggestionsInputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig;
+  suggestionsInputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig | undefined;
   /** Output only. Name of the LRO corresponding to the latest denylist import. Can use GetOperation API to retrieve the latest state of the Long Running Operation. */
-  lastDenylistImportOperation?: string;
+  lastDenylistImportOperation?: string | undefined;
 }
 export interface GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
@@ -1504,13 +1564,13 @@ export interface GetConversationalSearchCustomizationConfigProjectsLocationsCata
 /** An example for intent classification. */
 export interface GoogleCloudRetailV2alphaIntentClassificationConfigExample {
   /** Optional. The intent_type must match one of the predefined intent types defined at https://cloud.google.com/retail/docs/reference/rpc/google.cloud.retail.v2alpha#querytype */
-  intentType?: string;
+  intentType?: string | undefined;
   /** Required. Whether the example is classified positively. */
-  classifiedPositive?: boolean;
+  classifiedPositive?: boolean | undefined;
   /** Optional. The reason for the intent classification. This is used to explain the intent classification decision. */
-  reason?: string;
+  reason?: string | undefined;
   /** Required. Example query. */
-  query?: string;
+  query?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaIntentClassificationConfigExampleList =
   Array<GoogleCloudRetailV2alphaIntentClassificationConfigExample>;
@@ -1521,42 +1581,45 @@ export type GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntentO
 /** An inline force intent classification configuration. */
 export interface GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntent {
   /** Optional. The intent_type must match one of the predefined intent types defined at https://cloud.google.com/retail/docs/reference/rpc/google.cloud.retail.v2alpha#querytype */
-  intentType?: string;
+  intentType?: string | undefined;
   /** Optional. The operation to perform for the query. */
   operation?:
     | GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntentOperationEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. A example query. */
-  query?: string;
+  query?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntentList =
   Array<GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntent>;
 /** Inline source for intent classifications. */
 export interface GoogleCloudRetailV2alphaIntentClassificationConfigInlineSource {
   /** Optional. A list of inline force intent classifications. */
-  inlineForceIntents?: GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntentList;
+  inlineForceIntents?:
+    | GoogleCloudRetailV2alphaIntentClassificationConfigInlineForceIntentList
+    | undefined;
 }
 /** The public proto to represent the intent classification config. It will be converted to the internal proto in the backend. */
 export interface GoogleCloudRetailV2alphaIntentClassificationConfig {
   /** Optional. A list of examples for intent classification. */
-  example?: GoogleCloudRetailV2alphaIntentClassificationConfigExampleList;
+  example?: GoogleCloudRetailV2alphaIntentClassificationConfigExampleList | undefined;
   /** Optional. A list of intent types that will be disabled for this customer. The intent types must match one of the predefined intent types defined at https://cloud.google.com/retail/docs/reference/rpc/google.cloud.retail.v2alpha#querytype */
-  disabledIntentTypes?: StringList;
+  disabledIntentTypes?: StringList | undefined;
   /** Optional. Inline source for intent classifications. */
-  inlineSource?: GoogleCloudRetailV2alphaIntentClassificationConfigInlineSource;
+  inlineSource?: GoogleCloudRetailV2alphaIntentClassificationConfigInlineSource | undefined;
   /** Optional. Customers can use the preamble to specify any requirements for blocklisting intent classification. This preamble will be added to the blocklisting intent classification model prompt. */
-  modelPreamble?: string;
+  modelPreamble?: string | undefined;
   /** Optional. A list of keywords that will be used to classify the query to the "BLOCKLISTED" intent type. The keywords are case insensitive. */
-  blocklistKeywords?: StringList;
+  blocklistKeywords?: StringList | undefined;
 }
 /** The public proto to represent the conversational search customization config. It will be converted to the internal proto in the backend. */
 export interface GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig {
   /** Optional. The configs for intent classification. */
-  intentClassificationConfig?: GoogleCloudRetailV2alphaIntentClassificationConfig;
+  intentClassificationConfig?: GoogleCloudRetailV2alphaIntentClassificationConfig | undefined;
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
-  catalog?: string;
+  catalog?: string | undefined;
   /** Optional. The retailer's display name that could be used in our LLM answers. Example - "Google" */
-  retailerDisplayName?: string;
+  retailerDisplayName?: string | undefined;
 }
 export interface GetDefaultBranchProjectsLocationsCatalogsRequest {
   /** The parent catalog resource name, such as `projects/*\/locations/global/catalogs/default_catalog`. */
@@ -1565,11 +1628,11 @@ export interface GetDefaultBranchProjectsLocationsCatalogsRequest {
 /** Response message of CatalogService.GetDefaultBranch. */
 export interface GoogleCloudRetailV2alphaGetDefaultBranchResponse {
   /** The time when this branch is set to default. */
-  setTime?: string;
+  setTime?: string | undefined;
   /** Full resource name of the branch id currently set as default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** This corresponds to SetDefaultBranchRequest.note field, when this branch was set as default. */
-  note?: string;
+  note?: string | undefined;
 }
 export interface GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
@@ -1578,11 +1641,11 @@ export interface GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest {
 /** Configuration for overall generative question feature state. */
 export interface GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig {
   /** Optional. Determines whether questions will be used at serving time. Note: This feature cannot be enabled until initial data requirements are satisfied. */
-  featureEnabled?: boolean;
+  featureEnabled?: boolean | undefined;
   /** Required. Resource name of the affected catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
-  catalog?: string;
+  catalog?: string | undefined;
   /** Optional. Minimum number of products in the response to trigger follow-up questions. Value must be 0 or positive. */
-  minimumProducts?: number;
+  minimumProducts?: number | undefined;
 }
 export interface GetLoggingConfigProjectsRequest {
   /** Required. Full LoggingConfig resource name. Format: projects/{project_number}/loggingConfig */
@@ -1597,29 +1660,32 @@ export type GoogleCloudRetailV2alphaLoggingConfigLogGenerationRuleLoggingLevelEn
 /** The logging configurations for services supporting log generation. */
 export interface GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule {
   /** The log sample rate for INFO level log entries. You can use this to reduce the number of entries generated for INFO level logs. DO NOT set this field if the logging_level is not LoggingLevel.LOG_ALL. Otherwise, an INVALID_ARGUMENT error is returned. Sample rate for INFO logs defaults to 1 when unset (generate and send all INFO logs to Cloud Logging). Its value must be greater than 0 and less than or equal to 1. */
-  infoLogSampleRate?: number;
+  infoLogSampleRate?: number | undefined;
   /** The logging level. By default it is set to `LOG_WARNINGS_AND_ABOVE`. */
   loggingLevel?:
     | GoogleCloudRetailV2alphaLoggingConfigLogGenerationRuleLoggingLevelEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The granular logging configurations for supported services. */
 export interface GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRule {
   /** Required. Supported service names: "CatalogService", "CompletionService", "ControlService", "MerchantCenterStreaming", "ModelService", "PredictionService", "ProductService", "ServingConfigService", "UserEventService", */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The log generation rule that applies to this service. */
-  logGenerationRule?: GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule;
+  logGenerationRule?: GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule | undefined;
 }
 export type GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRuleList =
   Array<GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRule>;
 /** Project level logging config to control what level of log will be generated and written to Cloud Logging. */
 export interface GoogleCloudRetailV2alphaLoggingConfig {
   /** Required. Immutable. The name of the LoggingConfig singleton resource. Format: projects/*\/loggingConfig */
-  name?: string;
+  name?: string | undefined;
   /** The log generation rule that applies by default to all services supporting log generation. It can be overridden by ServiceLogGenerationRule for service level control. */
-  defaultLogGenerationRule?: GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule;
+  defaultLogGenerationRule?: GoogleCloudRetailV2alphaLoggingConfigLogGenerationRule | undefined;
   /** Controls logging configurations more granularly for each supported service. This overrides the default_log_generation_rule for the services specified. For those not mentioned, they will fallback to the default log generation rule. */
-  serviceLogGenerationRules?: GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRuleList;
+  serviceLogGenerationRules?:
+    | GoogleCloudRetailV2alphaLoggingConfigServiceLogGenerationRuleList
+    | undefined;
 }
 export type GetProjectsLocationsCatalogsBranchesViewEnum =
   | "BRANCH_VIEW_UNSPECIFIED"
@@ -1629,7 +1695,7 @@ export interface GetProjectsLocationsCatalogsBranchesRequest {
   /** Required. The name of the branch to retrieve. Format: `projects/*\/locations/global/catalogs/default_catalog/branches/some_branch_id`. "default_branch" can be used as a special branch_id, it returns the default branch that has been set for the catalog. */
   name: string;
   /** The view to apply to the returned Branch. Defaults to [Branch.BranchView.BASIC] if unspecified. See documentation of fields of Branch to find what fields are excluded from BASIC view. */
-  view?: GetProjectsLocationsCatalogsBranchesViewEnum | (string & {});
+  view?: GetProjectsLocationsCatalogsBranchesViewEnum | (string & {}) | undefined;
 }
 export type GoogleCloudRetailV2alphaBranchProductCountStatisticScopeEnum =
   | "PRODUCT_COUNT_SCOPE_UNSPECIFIED"
@@ -1638,41 +1704,41 @@ export type GoogleCloudRetailV2alphaBranchProductCountStatisticScopeEnum =
 /** A statistic about the number of products in a branch. */
 export interface GoogleCloudRetailV2alphaBranchProductCountStatistic {
   /** The number of products in scope broken down into different groups. The key is a group representing a set of products, and the value is the number of products in that group. Note: keys in this map may change over time. Possible keys: * "primary-in-stock", products have Product.Type.PRIMARY type and Product.Availability.IN_STOCK availability. * "primary-out-of-stock", products have Product.Type.PRIMARY type and Product.Availability.OUT_OF_STOCK availability. * "primary-preorder", products have Product.Type.PRIMARY type and Product.Availability.PREORDER availability. * "primary-backorder", products have Product.Type.PRIMARY type and Product.Availability.BACKORDER availability. * "variant-in-stock", products have Product.Type.VARIANT type and Product.Availability.IN_STOCK availability. * "variant-out-of-stock", products have Product.Type.VARIANT type and Product.Availability.OUT_OF_STOCK availability. * "variant-preorder", products have Product.Type.VARIANT type and Product.Availability.PREORDER availability. * "variant-backorder", products have Product.Type.VARIANT type and Product.Availability.BACKORDER availability. * "price-discounted", products have [Product.price_info.price] < [Product.price_info.original_price]. */
-  counts?: StringMap;
+  counts?: StringMap | undefined;
   /** [ProductCountScope] of the [counts]. */
-  scope?: GoogleCloudRetailV2alphaBranchProductCountStatisticScopeEnum;
+  scope?: GoogleCloudRetailV2alphaBranchProductCountStatisticScopeEnum | undefined;
 }
 export type GoogleCloudRetailV2alphaBranchProductCountStatisticList =
   Array<GoogleCloudRetailV2alphaBranchProductCountStatistic>;
 /** Metric measured on a group of Products against a certain quality requirement. Contains the number of products that pass the check and the number of products that don't. */
 export interface GoogleCloudRetailV2alphaBranchQualityMetric {
   /** A list of a maximum of 100 sample products that do not qualify for this requirement. This field is only populated in the response to BranchService.GetBranch API, and is always empty for BranchService.ListBranches. Only the following fields are set in the Product. * Product.name * Product.id * Product.title */
-  unqualifiedSampleProducts?: GoogleCloudRetailV2alphaProductList;
+  unqualifiedSampleProducts?: GoogleCloudRetailV2alphaProductList | undefined;
   /** Number of products failing the quality requirement check. We only check searchable products. */
-  unqualifiedProductCount?: number;
+  unqualifiedProductCount?: number | undefined;
   /** The key that represents a quality requirement rule. Supported keys: * "has-valid-uri": product has a valid and accessible uri. * "available-expire-time-conformance": Product.available_time is early than "now", and Product.expire_time is greater than "now". * "has-searchable-attributes": product has at least one attribute set to searchable. * "has-description": product has non-empty description. * "has-at-least-bigram-title": Product title has at least two words. A comprehensive title helps to improve search quality. * "variant-has-image": the variant products has at least one image. You may ignore this metric if all your products are at primary level. * "variant-has-price-info": the variant products has price_info set. You may ignore this metric if all your products are at primary level. * "has-publish-time": product has non-empty publish_time. */
-  requirementKey?: string;
+  requirementKey?: string | undefined;
   /** Number of products passing the quality requirement check. We only check searchable products. */
-  qualifiedProductCount?: number;
+  qualifiedProductCount?: number | undefined;
   /** Value from 0 to 100 representing the suggested percentage of products that meet the quality requirements to get good search and recommendation performance. 100 * (qualified_product_count) / (qualified_product_count + unqualified_product_count) should be greater or equal to this suggestion. */
-  suggestedQualityPercentThreshold?: number;
+  suggestedQualityPercentThreshold?: number | undefined;
 }
 export type GoogleCloudRetailV2alphaBranchQualityMetricList =
   Array<GoogleCloudRetailV2alphaBranchQualityMetric>;
 /** A data branch that stores all instances of Products. */
 export interface GoogleCloudRetailV2alphaBranch {
   /** Output only. Timestamp of last import through ProductService.ImportProducts. Empty value means no import has been made to this branch. */
-  lastProductImportTime?: string;
+  lastProductImportTime?: string | undefined;
   /** Immutable. Full resource name of the branch, such as `projects/*\/locations/global/catalogs/default_catalog/branches/branch_id`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Indicates whether this branch is set as the default branch of its parent catalog. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Output only. Statistics for number of products in the branch, provided for different scopes. This field is not populated in BranchView.BRANCH_VIEW_BASIC view. */
-  productCountStats?: GoogleCloudRetailV2alphaBranchProductCountStatisticList;
+  productCountStats?: GoogleCloudRetailV2alphaBranchProductCountStatisticList | undefined;
   /** Output only. The quality metrics measured among products of this branch. See QualityMetric.requirement_key for supported metrics. Metrics could be missing if failed to retrieve. This field is not populated in BranchView.BRANCH_VIEW_BASIC view. */
-  qualityMetrics?: GoogleCloudRetailV2alphaBranchQualityMetricList;
+  qualityMetrics?: GoogleCloudRetailV2alphaBranchQualityMetricList | undefined;
   /** Output only. Human readable name of the branch to display in the UI. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsCatalogsBranchesOperationsRequest {
   /** The name of the operation resource. */
@@ -1717,28 +1783,28 @@ export interface GetRetailProjectProjectsRequest {
 /** Google Cloud Storage location for input content. */
 export interface GoogleCloudRetailV2alphaGcsSource {
   /** The schema to use when parsing the data from the source. Supported values for product imports: * `product` (default): One JSON Product per line. Each product must have a valid Product.id. * `product_merchant_center`: See [Importing catalog data from Merchant Center](https://cloud.google.com/retail/recommendations-ai/docs/upload-catalog#mc). Supported values for user events imports: * `user_event` (default): One JSON UserEvent per line. * `user_event_ga360`: Using https://support.google.com/analytics/answer/3437719. Supported values for control imports: * `control` (default): One JSON Control per line. Supported values for catalog attribute imports: * `catalog_attribute` (default): One CSV CatalogAttribute per line. */
-  dataSchema?: string;
+  dataSchema?: string | undefined;
   /** Required. Google Cloud Storage URIs to input files. URI can be up to 2000 characters long. URIs can match the full object path (for example, `gs://bucket/directory/object.json`) or a pattern matching one or more files, such as `gs://bucket/directory/*.json`. A request can contain at most 100 files, and each file can be up to 2 GB. See [Importing product information](https://cloud.google.com/retail/recommendations-ai/docs/upload-catalog) for the expected file format and setup instructions. */
-  inputUris?: StringList;
+  inputUris?: StringList | undefined;
 }
 /** The inline source for the input config for ImportProducts method. */
 export interface GoogleCloudRetailV2alphaProductInlineSource {
   /** Required. A list of products to update/create. Each product must have a valid Product.id. Recommended max of 100 items. */
-  products?: GoogleCloudRetailV2alphaProductList;
+  products?: GoogleCloudRetailV2alphaProductList | undefined;
 }
 /** The input config source for products. */
 export interface GoogleCloudRetailV2alphaProductInputConfig {
   /** Google Cloud Storage location for the input content. */
-  gcsSource?: GoogleCloudRetailV2alphaGcsSource;
+  gcsSource?: GoogleCloudRetailV2alphaGcsSource | undefined;
   /** BigQuery input source. */
-  bigQuerySource?: GoogleCloudRetailV2alphaBigQuerySource;
+  bigQuerySource?: GoogleCloudRetailV2alphaBigQuerySource | undefined;
   /** The Inline source for the input content for products. */
-  productInlineSource?: GoogleCloudRetailV2alphaProductInlineSource;
+  productInlineSource?: GoogleCloudRetailV2alphaProductInlineSource | undefined;
 }
 /** Configuration of destination for Import related errors. */
 export interface GoogleCloudRetailV2alphaImportErrorsConfig {
   /** Google Cloud Storage prefix for import errors. This must be an empty, existing Cloud Storage directory. Import errors are written to sharded files in this directory, one per line, as a JSON-encoded `google.rpc.Status` message. */
-  gcsPrefix?: string;
+  gcsPrefix?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaImportProductsRequestReconciliationModeEnum =
   | "RECONCILIATION_MODE_UNSPECIFIED"
@@ -1747,162 +1813,163 @@ export type GoogleCloudRetailV2alphaImportProductsRequestReconciliationModeEnum 
 /** Request message for Import methods. */
 export interface GoogleCloudRetailV2alphaImportProductsRequest {
   /** Required. The desired input location of the data. */
-  inputConfig?: GoogleCloudRetailV2alphaProductInputConfig;
+  inputConfig?: GoogleCloudRetailV2alphaProductInputConfig | undefined;
   /** The desired location of errors incurred during the Import. */
-  errorsConfig?: GoogleCloudRetailV2alphaImportErrorsConfig;
+  errorsConfig?: GoogleCloudRetailV2alphaImportErrorsConfig | undefined;
   /** Deprecated. This field has no effect. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** The mode of reconciliation between existing products and the products to be imported. Defaults to ReconciliationMode.INCREMENTAL. */
   reconciliationMode?:
     | GoogleCloudRetailV2alphaImportProductsRequestReconciliationModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** If true, this performs the FULL import even if it would delete a large proportion of the products in the default branch, which could potentially cause outages if you have live predict/search traffic. Only supported when ImportProductsRequest.reconciliation_mode is set to `FULL`. */
-  skipDefaultBranchProtection?: boolean;
+  skipDefaultBranchProtection?: boolean | undefined;
   /** Full Pub/Sub topic name for receiving notification. If this field is set, when the import is finished, a notification is sent to specified Pub/Sub topic. The message data is JSON string of a Operation. Format of the Pub/Sub topic is `projects/{project}/topics/{topic}`. It has to be within the same project as ImportProductsRequest.parent. Make sure that both `cloud-retail-customer-data-access@system.gserviceaccount.com` and `service-@gcp-sa-retail.iam.gserviceaccount.com` have the `pubsub.topics.publish` IAM permission on the topic. Only supported when ImportProductsRequest.reconciliation_mode is set to `FULL`. */
-  notificationPubsubTopic?: string;
+  notificationPubsubTopic?: string | undefined;
   /** Indicates which fields in the provided imported `products` to update. If not set, all fields are updated. If provided, only the existing product fields are updated. Missing products will not be created. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface ImportProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog/branches/default_branch` If no updateMask is specified, requires products.create permission. If updateMask is specified, requires products.update permission. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaImportProductsRequest;
+  body?: GoogleCloudRetailV2alphaImportProductsRequest | undefined;
 }
 /** Request message for ImportCompletionData methods. */
 export interface GoogleCloudRetailV2alphaImportCompletionDataRequest {
   /** Required. The desired input location of the data. */
-  inputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig;
+  inputConfig?: GoogleCloudRetailV2alphaCompletionDataInputConfig | undefined;
   /** Pub/Sub topic for receiving notification. If this field is set, when the import is finished, a notification is sent to specified Pub/Sub topic. The message data is JSON string of a Operation. Format of the Pub/Sub topic is `projects/{project}/topics/{topic}`. */
-  notificationPubsubTopic?: string;
+  notificationPubsubTopic?: string | undefined;
 }
 export interface ImportProjectsLocationsCatalogsCompletionDataRequest {
   /** Required. The catalog which the suggestions dataset belongs to. Format: `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaImportCompletionDataRequest;
+  body?: GoogleCloudRetailV2alphaImportCompletionDataRequest | undefined;
 }
 /** Detailed completion information including completion attribution token and clicked completion info. */
 export interface GoogleCloudRetailV2alphaCompletionDetail {
   /** Completion attribution token in CompleteQueryResponse.attribution_token. */
-  completionAttributionToken?: string;
+  completionAttributionToken?: string | undefined;
   /** End user selected CompleteQueryResponse.CompletionResult.suggestion. */
-  selectedSuggestion?: string;
+  selectedSuggestion?: string | undefined;
   /** End user selected CompleteQueryResponse.CompletionResult.suggestion position, starting from 0. */
-  selectedPosition?: number;
+  selectedPosition?: number | undefined;
 }
 /** Detailed product information associated with a user event. */
 export interface GoogleCloudRetailV2alphaProductDetail {
   /** Required. Product information. Required field(s): * Product.id Optional override field(s): * Product.price_info If any supported optional fields are provided, we will treat them as a full override when looking up product information from the catalog. Thus, it is important to ensure that the overriding fields are accurate and complete. All other product fields are ignored and instead populated via catalog lookup after event ingestion. */
-  product?: GoogleCloudRetailV2alphaProduct;
+  product?: GoogleCloudRetailV2alphaProduct | undefined;
   /** Quantity of the product associated with the user event. For example, this field will be 2 if two products are added to the shopping cart for `purchase-complete` event. Required for `add-to-cart` and `purchase-complete` event types. */
-  quantity?: number;
+  quantity?: number | undefined;
 }
 export type GoogleCloudRetailV2alphaProductDetailList =
   Array<GoogleCloudRetailV2alphaProductDetail>;
 /** A transaction represents the entire purchase transaction. */
 export interface GoogleCloudRetailV2alphaPurchaseTransaction {
   /** Required. Total non-zero revenue or grand total associated with the transaction. This value include shipping, tax, or other adjustments to total revenue that you want to include as part of your revenue calculations. */
-  revenue?: number;
+  revenue?: number | undefined;
   /** All the costs associated with the products. These can be manufacturing costs, shipping expenses not borne by the end user, or any other costs, such that: * Profit = revenue - tax - cost */
-  cost?: number;
+  cost?: number | undefined;
   /** The transaction ID with a length limit of 128 characters. */
-  id?: string;
+  id?: string | undefined;
   /** Required. Currency code. Use three-character ISO-4217 code. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** All the taxes associated with the transaction. */
-  tax?: number;
+  tax?: number | undefined;
 }
 /** Detailed panel information associated with a user event. */
 export interface GoogleCloudRetailV2alphaPanelInfo {
   /** Required. The panel ID. */
-  panelId?: string;
+  panelId?: string | undefined;
   /** Optional. The attribution token of the panel. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** Optional. The product details associated with the panel. */
-  productDetails?: GoogleCloudRetailV2alphaProductDetailList;
+  productDetails?: GoogleCloudRetailV2alphaProductDetailList | undefined;
   /** Optional. The display name of the panel. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. The ordered position of the panel, if shown to the user with other panels. If set, then total_panels must also be set. */
-  panelPosition?: number;
+  panelPosition?: number | undefined;
   /** Optional. The total number of panels, including this one, shown to the user. Must be set if panel_position is set. */
-  totalPanels?: number;
+  totalPanels?: number | undefined;
 }
 export type GoogleCloudRetailV2alphaPanelInfoList = Array<GoogleCloudRetailV2alphaPanelInfo>;
 /** UserEvent captures all metadata information AI Commerce Search API needs to know about how end users interact with customers' website. */
 export interface GoogleCloudRetailV2alphaUserEvent {
   /** Complete URL (window.location.href) of the user's current page. When using the client side event reporting with JavaScript pixel and Google Tag Manager, this value is filled in automatically. Maximum length 5,000 characters. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. User event type. Allowed values are: * `add-to-cart`: Products being added to cart. * `remove-from-cart`: Products being removed from cart. * `category-page-view`: Special pages such as sale or promotion pages viewed. * `detail-page-view`: Products detail page viewed. * `home-page-view`: Homepage viewed. * `purchase-complete`: User finishing a purchase. * `search`: Product search. * `shopping-cart-page-view`: User viewing a shopping cart. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The order in which products are returned. See SearchRequest.order_by for definition and syntax. The value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. This can only be set for `search` events. Other event types should not set this field. Otherwise, an INVALID_ARGUMENT error is returned. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A unique identifier for tracking a visitor session with a length limit of 128 bytes. A session is an aggregation of an end user behavior in a time span. A general guideline to populate the session_id: 1. If user has no activity for 30 min, a new session_id should be assigned. 2. The session_id should be unique across users, suggest use uuid or add visitor_id as prefix. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** An integer that specifies the current offset for pagination (the 0-indexed starting location, amongst the products deemed by the API as relevant). See SearchRequest.offset for definition. If this field is negative, an INVALID_ARGUMENT is returned. This can only be set for `search` events. Other event types should not set this field. Otherwise, an INVALID_ARGUMENT error is returned. */
-  offset?: number;
+  offset?: number | undefined;
   /** Extra user event features to include in the recommendation model. If you provide custom attributes for ingested user events, also include them in the user events that you associate with prediction requests. Custom attribute formatting must be consistent between imported events and events provided with prediction requests. This lets the AI Commerce Search API use those custom attributes when training models and serving predictions, which helps improve recommendation quality. This field needs to pass all below criteria, otherwise an INVALID_ARGUMENT error is returned: * The key must be a UTF-8 encoded string with a length limit of 5,000 characters. * For text attributes, at most 400 values are allowed. Empty values are not allowed. Each value must be a UTF-8 encoded string with a length limit of 256 characters. * For number attributes, at most 400 values are allowed. For product recommendations, an example of extra user information is traffic_channel, which is how a user arrives at the site. Users can arrive at the site by coming to the site directly, coming through Google search, or in other ways. */
-  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap;
+  attributes?: GoogleCloudRetailV2alphaCustomAttributeMap | undefined;
   /** The main auto-completion details related to the event. This field should be set for `search` event when autocomplete function is enabled and the user clicks a suggestion for search. */
-  completionDetail?: GoogleCloudRetailV2alphaCompletionDetail;
+  completionDetail?: GoogleCloudRetailV2alphaCompletionDetail | undefined;
   /** The referrer URL of the current page. When using the client side event reporting with JavaScript pixel and Google Tag Manager, this value is filled in automatically. */
-  referrerUri?: string;
+  referrerUri?: string | undefined;
   /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor log in/out of the website. Don't set the field to the same fixed ID for different users. This mixes the event history of those users together, which results in degraded model quality. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. The field should not contain PII or user-data. We recommend to use Google Analytics [Client ID](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#clientId) for this field. */
-  visitorId?: string;
+  visitorId?: string | undefined;
   /** Only required for UserEventService.ImportUserEvents method. Timestamp of when the user event happened. */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** Highly recommended for user events that are the result of PredictionService.Predict. This field enables accurate attribution of recommendation model performance. The value must be a valid PredictResponse.attribution_token for user events that are the result of PredictionService.Predict. The value must be a valid SearchResponse.attribution_token for user events that are the result of SearchService.Search. This token enables us to accurately attribute page view or purchase back to the event and the particular predict response containing this clicked/purchased product. If user clicks on product K in the recommendation results, pass PredictResponse.attribution_token as a URL parameter to product K's page. When recording events on product K's page, log the PredictResponse.attribution_token to this field. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** The main product details related to the event. This field is optional except for the following event types: * `add-to-cart` * `detail-page-view` * `purchase-complete` In a `search` event, this field represents the products returned to the end user on the current page (the end user may have not finished browsing the whole page yet). When a new page is returned to the end user, after pagination/filtering/ordering even for the same query, a new `search` event with different product_details is desired. The end user may have not finished browsing the whole page yet. */
-  productDetails?: GoogleCloudRetailV2alphaProductDetailList;
+  productDetails?: GoogleCloudRetailV2alphaProductDetailList | undefined;
   /** The entity for customers that may run multiple different entities, domains, sites or regions, for example, `Google US`, `Google Ads`, `Waymo`, `google.com`, `youtube.com`, etc. We recommend that you set this field to get better per-entity search, completion, and prediction results. */
-  entity?: string;
+  entity?: string | undefined;
   /** A list of identifiers for the independent experiment groups this user event belongs to. This is used to distinguish between user events associated with different experiment setups (such as by using AI Commerce Search API, or using different recommendation models). */
-  experimentIds?: StringList;
+  experimentIds?: StringList | undefined;
   /** The user's search query. See SearchRequest.query for definition. The value must be a UTF-8 encoded string with a length limit of 5,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. At least one of search_query or page_categories is required for `search` events. Other event types should not set this field. Otherwise, an INVALID_ARGUMENT error is returned. */
-  searchQuery?: string;
+  searchQuery?: string | undefined;
   /** The ID or name of the associated shopping cart. This ID is used to associate multiple items added or present in the cart before purchase. This can only be set for `add-to-cart`, `purchase-complete`, or `shopping-cart-page-view` events. */
-  cartId?: string;
+  cartId?: string | undefined;
   /** A unique ID of a web page view. This should be kept the same for all user events triggered from the same pageview. For example, an item detail page view could trigger multiple events as the user is browsing the page. The `pageViewId` property should be kept the same for all these events so that they can be grouped together properly. When using the client side event reporting with JavaScript pixel and Google Tag Manager, this value is filled in automatically. */
-  pageViewId?: string;
+  pageViewId?: string | undefined;
   /** User information. */
-  userInfo?: GoogleCloudRetailV2alphaUserInfo;
+  userInfo?: GoogleCloudRetailV2alphaUserInfo | undefined;
   /** Optional. The categories associated with a category page. To represent the full path of category, use the '>' sign, with one space on each side, to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). Category pages include special pages such as sales or promotions. For instance, a special sale page may have the category hierarchy: "pageCategories" : ["Sales > 2017 Black Friday Deals"]. Required for `category-page-view` events. At least one of search_query or page_categories is required for `search` events. Other event types should not set this field. Otherwise, an INVALID_ARGUMENT error is returned. */
-  pageCategories?: StringList;
+  pageCategories?: StringList | undefined;
   /** A transaction represents the entire purchase transaction. Required for `purchase-complete` events. Other event types should not set this field. Otherwise, an INVALID_ARGUMENT error is returned. */
-  purchaseTransaction?: GoogleCloudRetailV2alphaPurchaseTransaction;
+  purchaseTransaction?: GoogleCloudRetailV2alphaPurchaseTransaction | undefined;
   /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the products being filtered. See SearchRequest.filter for definition and syntax. The value must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. List of panels associated with this event. Used for panel-level impression data. */
-  panels?: GoogleCloudRetailV2alphaPanelInfoList;
+  panels?: GoogleCloudRetailV2alphaPanelInfoList | undefined;
 }
 export type GoogleCloudRetailV2alphaUserEventList = Array<GoogleCloudRetailV2alphaUserEvent>;
 /** The inline source for the input config for ImportUserEvents method. */
 export interface GoogleCloudRetailV2alphaUserEventInlineSource {
   /** Required. A list of user events to import. Recommended max of 10k items. */
-  userEvents?: GoogleCloudRetailV2alphaUserEventList;
+  userEvents?: GoogleCloudRetailV2alphaUserEventList | undefined;
 }
 /** The input config source for user events. */
 export interface GoogleCloudRetailV2alphaUserEventInputConfig {
   /** Required. Google Cloud Storage location for the input content. */
-  gcsSource?: GoogleCloudRetailV2alphaGcsSource;
+  gcsSource?: GoogleCloudRetailV2alphaGcsSource | undefined;
   /** Required. BigQuery input source. */
-  bigQuerySource?: GoogleCloudRetailV2alphaBigQuerySource;
+  bigQuerySource?: GoogleCloudRetailV2alphaBigQuerySource | undefined;
   /** Required. The Inline source for the input content for UserEvents. */
-  userEventInlineSource?: GoogleCloudRetailV2alphaUserEventInlineSource;
+  userEventInlineSource?: GoogleCloudRetailV2alphaUserEventInlineSource | undefined;
 }
 /** Request message for the ImportUserEvents request. */
 export interface GoogleCloudRetailV2alphaImportUserEventsRequest {
   /** Required. The desired input location of the data. */
-  inputConfig?: GoogleCloudRetailV2alphaUserEventInputConfig;
+  inputConfig?: GoogleCloudRetailV2alphaUserEventInputConfig | undefined;
   /** The desired location of errors incurred during the Import. Cannot be set for inline user event imports. */
-  errorsConfig?: GoogleCloudRetailV2alphaImportErrorsConfig;
+  errorsConfig?: GoogleCloudRetailV2alphaImportErrorsConfig | undefined;
 }
 export interface ImportProjectsLocationsCatalogsUserEventsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaImportUserEventsRequest;
+  body?: GoogleCloudRetailV2alphaImportUserEventsRequest | undefined;
 }
 export interface ListEnrolledSolutionsProjectsRequest {
   /** Required. Full resource name of parent. Format: `projects/{project_number_or_id}` */
@@ -1917,74 +1984,76 @@ export type GoogleCloudRetailV2alphaListEnrolledSolutionsResponseEnrolledSolutio
 /** Response for ListEnrolledSolutions method. */
 export interface GoogleCloudRetailV2alphaListEnrolledSolutionsResponse {
   /** AI Commerce Search API solutions that the project has enrolled. */
-  enrolledSolutions?: GoogleCloudRetailV2alphaListEnrolledSolutionsResponseEnrolledSolutionsItemEnumList;
+  enrolledSolutions?:
+    | GoogleCloudRetailV2alphaListEnrolledSolutionsResponseEnrolledSolutionsItemEnumList
+    | undefined;
 }
 export interface ListProjectsLocationsCatalogsRequest {
   /** Required. The account resource name with an associated location. If the caller does not have permission to list Catalogs under this location, regardless of whether or not this location exists, a PERMISSION_DENIED error is returned. */
   parent: string;
   /** Maximum number of Catalogs to return. If unspecified, defaults to 50. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token ListCatalogsResponse.next_page_token, received from a previous CatalogService.ListCatalogs call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to CatalogService.ListCatalogs must match the call that provided the page token. Otherwise, an INVALID_ARGUMENT error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Merchant Center Feed filter criterion. */
 export interface GoogleCloudRetailV2alphaMerchantCenterFeedFilter {
   /** AFM data source ID. */
-  dataSourceId?: string;
+  dataSourceId?: string | undefined;
   /** Merchant Center primary feed name. The name is used for the display purposes only. */
-  primaryFeedName?: string;
+  primaryFeedName?: string | undefined;
   /** Merchant Center primary feed ID. Deprecated: use data_source_id instead. */
-  primaryFeedId?: string;
+  primaryFeedId?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaMerchantCenterFeedFilterList =
   Array<GoogleCloudRetailV2alphaMerchantCenterFeedFilter>;
 /** Represents a link between a Merchant Center account and a branch. After a link is established, products from the linked Merchant Center account are streamed to the linked branch. */
 export interface GoogleCloudRetailV2alphaMerchantCenterLink {
   /** Criteria for the Merchant Center feeds to be ingested via the link. All offers will be ingested if the list is empty. Otherwise the offers will be ingested from selected feeds. */
-  feeds?: GoogleCloudRetailV2alphaMerchantCenterFeedFilterList;
+  feeds?: GoogleCloudRetailV2alphaMerchantCenterFeedFilterList | undefined;
   /** Required. The linked [Merchant Center account ID](https://developers.google.com/shopping-content/guides/accountstatuses). The account must be a standalone account or a sub-account of a MCA. */
-  merchantCenterAccountId?: string;
+  merchantCenterAccountId?: string | undefined;
   /** Region code of offers to accept. 2-letter Uppercase ISO 3166-1 alpha-2 code. List of values can be found [here](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) under the `region` tag. If left blank no region filtering will be performed. Example value: `US`. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** String representing the destination to import for, all if left empty. List of possible values is given in [Included destination](https://support.google.com/merchants/answer/7501026). List of allowed string values: "Shopping_ads", "Buy_on_google_listings", "Display_ads", "Local_inventory _ads", "Free_listings", "Free_local_listings" NOTE: The string values are case sensitive. */
-  destinations?: StringList;
+  destinations?: StringList | undefined;
   /** Language of the title/description and other string attributes. Use language tags defined by [BCP 47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt). ISO 639-1. This specifies the language of offers in Merchant Center that will be accepted. If empty no language filtering will be performed. Example value: `en`. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The branch ID (e.g. 0/1/2) within this catalog that products from merchant_center_account_id are streamed to. When updating this field, an empty value will use the currently configured default branch. However, changing the default branch later on won't change the linked branch here. A single branch ID can only have one linked Merchant Center account ID. */
-  branchId?: string;
+  branchId?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaMerchantCenterLinkList =
   Array<GoogleCloudRetailV2alphaMerchantCenterLink>;
 /** Configures Merchant Center linking. Links contained in the config will be used to sync data from a Merchant Center account to a Cloud Retail branch. */
 export interface GoogleCloudRetailV2alphaMerchantCenterLinkingConfig {
   /** Links between Merchant Center accounts and branches. */
-  links?: GoogleCloudRetailV2alphaMerchantCenterLinkList;
+  links?: GoogleCloudRetailV2alphaMerchantCenterLinkList | undefined;
 }
 /** Configures what level the product should be uploaded with regards to how users will be send events and how predictions will be made. */
 export interface GoogleCloudRetailV2alphaProductLevelConfig {
   /** The type of Products allowed to be ingested into the catalog. Acceptable values are: * `primary` (default): You can ingest Products of all types. When ingesting a Product, its type will default to Product.Type.PRIMARY if unset. * `variant` (incompatible with Retail Search): You can only ingest Product.Type.VARIANT Products. This means Product.primary_product_id cannot be empty. If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. If this field is `variant` and merchant_center_product_id_field is `itemGroupId`, an INVALID_ARGUMENT error is returned. See [Product levels](https://cloud.google.com/retail/docs/catalog#product-levels) for more details. */
-  ingestionProductType?: string;
+  ingestionProductType?: string | undefined;
   /** Which field of [Merchant Center Product](/bigquery-transfer/docs/merchant-center-products-schema) should be imported as Product.id. Acceptable values are: * `offerId` (default): Import `offerId` as the product ID. * `itemGroupId`: Import `itemGroupId` as the product ID. Notice that Retail API will choose one item from the ones with the same `itemGroupId`, and use it to represent the item group. If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. If this field is `itemGroupId` and ingestion_product_type is `variant`, an INVALID_ARGUMENT error is returned. See [Product levels](https://cloud.google.com/retail/docs/catalog#product-levels) for more details. */
-  merchantCenterProductIdField?: string;
+  merchantCenterProductIdField?: string | undefined;
 }
 /** The catalog configuration. */
 export interface GoogleCloudRetailV2alphaCatalog {
   /** The Merchant Center linking configuration. After a link is added, the data stream from Merchant Center to Cloud Retail will be enabled automatically. The requester must have access to the Merchant Center account in order to make changes to this field. */
-  merchantCenterLinkingConfig?: GoogleCloudRetailV2alphaMerchantCenterLinkingConfig;
+  merchantCenterLinkingConfig?: GoogleCloudRetailV2alphaMerchantCenterLinkingConfig | undefined;
   /** Required. Immutable. The catalog display name. This field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Immutable. The fully qualified resource name of the catalog. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The product level configuration. */
-  productLevelConfig?: GoogleCloudRetailV2alphaProductLevelConfig;
+  productLevelConfig?: GoogleCloudRetailV2alphaProductLevelConfig | undefined;
 }
 export type GoogleCloudRetailV2alphaCatalogList = Array<GoogleCloudRetailV2alphaCatalog>;
 /** Response for CatalogService.ListCatalogs method. */
 export interface GoogleCloudRetailV2alphaListCatalogsResponse {
   /** A token that can be sent as ListCatalogsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the customer's Catalogs. */
-  catalogs?: GoogleCloudRetailV2alphaCatalogList;
+  catalogs?: GoogleCloudRetailV2alphaCatalogList | undefined;
 }
 export type ListProjectsLocationsCatalogsBranchesViewEnum =
   | "BRANCH_VIEW_UNSPECIFIED"
@@ -1994,54 +2063,54 @@ export interface ListProjectsLocationsCatalogsBranchesRequest {
   /** Required. The parent catalog resource name. */
   parent: string;
   /** The view to apply to the returned Branch. Defaults to [Branch.BranchView.BASIC] if unspecified. See documentation of fields of Branch to find what fields are excluded from BASIC view. */
-  view?: ListProjectsLocationsCatalogsBranchesViewEnum | (string & {});
+  view?: ListProjectsLocationsCatalogsBranchesViewEnum | (string & {}) | undefined;
 }
 export type GoogleCloudRetailV2alphaBranchList = Array<GoogleCloudRetailV2alphaBranch>;
 /** Response for BranchService.ListBranches method. */
 export interface GoogleCloudRetailV2alphaListBranchesResponse {
   /** The Branches. */
-  branches?: GoogleCloudRetailV2alphaBranchList;
+  branches?: GoogleCloudRetailV2alphaBranchList | undefined;
 }
 export interface ListProjectsLocationsCatalogsBranchesProductsRequest {
   /** Maximum number of Products to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT error is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The fields of Product to return in the responses. If not set or empty, the following fields are returned: * Product.name * Product.id * Product.title * Product.uri * Product.images * Product.price_info * Product.brands If "*" is provided, all fields are returned. Product.name is always returned no matter what mask is set. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
-  readMask?: string;
+  readMask?: string | undefined;
   /** A page token ListProductsResponse.next_page_token, received from a previous ProductService.ListProducts call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ProductService.ListProducts must match the call that provided the page token. Otherwise, an INVALID_ARGUMENT error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to apply on the list results. Supported features: * List all the products under the parent branch if filter is unset. * List Product.Type.VARIANT Products sharing the same Product.Type.PRIMARY Product. For example: `primary_product_id = "some_product_id"` * List Products bundled in a Product.Type.COLLECTION Product. For example: `collection_product_id = "some_product_id"` * List Products with a partibular type. For example: `type = "PRIMARY"` `type = "VARIANT"` `type = "COLLECTION"` If the field is unrecognizable, an INVALID_ARGUMENT error is returned. If the specified Product.Type.PRIMARY Product or Product.Type.COLLECTION Product does not exist, a NOT_FOUND error is returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** If true and page_token is empty, ListProductsResponse.total_size is set to the total count of matched items irrespective of pagination. Notice that setting this field to true affects the performance. */
-  requireTotalSize?: boolean;
+  requireTotalSize?: boolean | undefined;
   /** Required. The parent branch resource name, such as `projects/*\/locations/global/catalogs/default_catalog/branches/0`. Use `default_branch` as the branch ID, to list products under the default branch. If the caller does not have permission to list Products under this branch, regardless of whether or not this branch exists, a PERMISSION_DENIED error is returned. */
   parent: string;
 }
 /** Response message for ProductService.ListProducts method. */
 export interface GoogleCloudRetailV2alphaListProductsResponse {
   /** A token that can be sent as ListProductsRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The Products. */
-  products?: GoogleCloudRetailV2alphaProductList;
+  products?: GoogleCloudRetailV2alphaProductList | undefined;
   /** The total count of matched Products irrespective of pagination. The total number of Products returned by pagination may be less than the total_size that matches. This field is ignored if ListProductsRequest.require_total_size is not set or ListProductsRequest.page_token is not empty. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 export interface ListProjectsLocationsCatalogsControlsRequest {
   /** Required. The catalog resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Optional. Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListControls` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A filter to apply on the list results. Supported features: * List all the products under the parent branch if filter is unset. * List controls that are used in a single ServingConfig: 'serving_config = "boosted_home_page_cvr"' */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaControlList = Array<GoogleCloudRetailV2alphaControl>;
 /** Response for ListControls method. */
 export interface GoogleCloudRetailV2alphaListControlsResponse {
   /** Pagination token, if not returned indicates the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the Controls for a given catalog. */
-  controls?: GoogleCloudRetailV2alphaControlList;
+  controls?: GoogleCloudRetailV2alphaControlList | undefined;
 }
 export interface ListProjectsLocationsCatalogsGenerativeQuestionsRequest {
   /** Required. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
@@ -2050,7 +2119,7 @@ export interface ListProjectsLocationsCatalogsGenerativeQuestionsRequest {
 /** Response for ListQuestions method. */
 export interface GoogleCloudRetailV2alphaListGenerativeQuestionConfigsResponse {
   /** All the questions for a given catalog. */
-  generativeQuestionConfigs?: GoogleCloudRetailV2alphaGenerativeQuestionConfigList;
+  generativeQuestionConfigs?: GoogleCloudRetailV2alphaGenerativeQuestionConfigList | undefined;
 }
 export interface ListProjectsLocationsCatalogsMerchantCenterAccountLinksRequest {
   /** Required. The parent Catalog of the resource. It must match this format: `projects/{PROJECT_NUMBER}/locations/global/catalogs/{CATALOG_ID}` */
@@ -2061,128 +2130,128 @@ export type GoogleCloudRetailV2alphaMerchantCenterAccountLinkList =
 /** Response for MerchantCenterAccountLinkService.ListMerchantCenterAccountLinks method. */
 export interface GoogleCloudRetailV2alphaListMerchantCenterAccountLinksResponse {
   /** The links. */
-  merchantCenterAccountLinks?: GoogleCloudRetailV2alphaMerchantCenterAccountLinkList;
+  merchantCenterAccountLinks?: GoogleCloudRetailV2alphaMerchantCenterAccountLinkList | undefined;
 }
 export interface ListProjectsLocationsCatalogsModelsRequest {
   /** Optional. Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent for which to list models. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Optional. A page token, received from a previous `ListModels` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaModelList = Array<GoogleCloudRetailV2alphaModel>;
 /** Response to a ListModelRequest. */
 export interface GoogleCloudRetailV2alphaListModelsResponse {
   /** List of Models. */
-  models?: GoogleCloudRetailV2alphaModelList;
+  models?: GoogleCloudRetailV2alphaModelList | undefined;
   /** Pagination token, if not returned indicates the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCatalogsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The catalog resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
   /** Optional. Maximum number of results to return. If unspecified, defaults to 100. If a value greater than 100 is provided, at most 100 results are returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListServingConfigs` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaServingConfigList =
   Array<GoogleCloudRetailV2alphaServingConfig>;
 /** Response for ListServingConfigs method. */
 export interface GoogleCloudRetailV2alphaListServingConfigsResponse {
   /** Pagination token, if not returned indicates the last page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** All the ServingConfigs for a given catalog. */
-  servingConfigs?: GoogleCloudRetailV2alphaServingConfigList;
+  servingConfigs?: GoogleCloudRetailV2alphaServingConfigList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
 export interface ListProjectsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface PatchProjectsLocationsCatalogsRequest {
   /** Required. Immutable. The fully qualified resource name of the catalog. */
   name: string;
   /** Optional. Indicates which fields in the provided Catalog to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaCatalog;
+  body?: GoogleCloudRetailV2alphaCatalog | undefined;
 }
 export interface PatchProjectsLocationsCatalogsBranchesProductsRequest {
   /** Immutable. Full resource name of the product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
   name: string;
   /** If set to true, and the Product is not found, a new Product will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Indicates which fields in the provided Product to update. The immutable and output only fields are NOT supported. If not set, all supported fields (the fields that are neither immutable nor output only) are updated. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. The attribute key can be updated by setting the mask path as "attributes.${key_name}". If a key name is present in the mask but not in the patching product from the request, this key will be deleted after the update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaProduct;
+  body?: GoogleCloudRetailV2alphaProduct | undefined;
 }
 export interface PatchProjectsLocationsCatalogsControlsRequest {
   /** Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/controls/*` */
   name: string;
   /** Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaControl;
+  body?: GoogleCloudRetailV2alphaControl | undefined;
 }
 export interface PatchProjectsLocationsCatalogsModelsRequest {
   /** Optional. Indicates which fields in the provided 'model' to update. If not set, by default updates all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The fully qualified resource name of the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` catalog_id has char limit of 50. recommendation_model_id has char limit of 40. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaModel;
+  body?: GoogleCloudRetailV2alphaModel | undefined;
 }
 export interface PatchProjectsLocationsCatalogsServingConfigsRequest {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Fully qualified name `projects/*\/locations/global/catalogs/*\/servingConfig/*` */
   name: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaServingConfig;
+  body?: GoogleCloudRetailV2alphaServingConfig | undefined;
 }
 /** Request for pausing training of a model. */
 export type GoogleCloudRetailV2alphaPauseModelRequest = GoogleCloudRetailV2alphaAcceptTermsRequest;
@@ -2190,82 +2259,82 @@ export interface PauseProjectsLocationsCatalogsModelsRequest {
   /** Required. The name of the model to pause. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAcceptTermsRequest;
+  body?: GoogleCloudRetailV2alphaAcceptTermsRequest | undefined;
 }
 /** Request message for Predict method. */
 export interface GoogleCloudRetailV2alphaPredictRequest {
   /** Filter for restricting prediction results with a length limit of 5,000 characters. Accepts values for tags and the `filterOutOfStockItems` flag. * Tag expressions. Restricts predictions to products that match all of the specified tags. Boolean operators `OR` and `NOT` are supported if the expression is enclosed in parentheses, and must be separated from the tag values by a space. `-"tagA"` is also supported and is equivalent to `NOT "tagA"`. Tag values must be double quoted UTF-8 encoded strings with a size limit of 1,000 characters. Note: "Recently viewed" models don't support tag filtering at the moment. * filterOutOfStockItems. Restricts predictions to products that do not have a stockState value of OUT_OF_STOCK. Examples: * tag=("Red" OR "Blue") tag="New-Arrival" tag=(NOT "promotional") * filterOutOfStockItems tag=(-"promotional") * filterOutOfStockItems If your filter blocks all prediction results, the API will return *no* results. If instead you want empty result sets to return generic (unfiltered) popular products, set `strictFiltering` to False in `PredictRequest.params`. Note that the API will never return items with storageStatus of "EXPIRED" or "DELETED" regardless of filter choices. If `filterSyntaxV2` is set to true under the `params` field, then attribute-based expressions are expected instead of the above described tag-based syntax. Examples: * (colors: ANY("Red", "Blue")) AND NOT (categories: ANY("Phones")) * (availability: ANY("IN_STOCK")) AND (colors: ANY("Red") OR categories: ANY("Phones")) For more information, see [Filter recommendations](https://cloud.google.com/retail/docs/filter-recs). */
-  filter?: string;
+  filter?: string | undefined;
   /** Additional domain specific parameters for the predictions. Allowed values: * `returnProduct`: Boolean. If set to true, the associated product object will be returned in the `results.metadata` field in the prediction response. * `returnScore`: Boolean. If set to true, the prediction 'score' corresponding to each returned product will be set in the `results.metadata` field in the prediction response. The given 'score' indicates the probability of a product being clicked/purchased given the user's context and history. * `strictFiltering`: Boolean. True by default. If set to false, the service will return generic (unfiltered) popular products instead of empty if your filter blocks all prediction results. * `priceRerankLevel`: String. Default empty. If set to be non-empty, then it needs to be one of {'no-price-reranking', 'low-price-reranking', 'medium-price-reranking', 'high-price-reranking'}. This gives request-level control and adjusts prediction results based on product price. * `diversityLevel`: String. Default empty. If set to be non-empty, then it needs to be one of {'no-diversity', 'low-diversity', 'medium-diversity', 'high-diversity', 'auto-diversity'}. This gives request-level control and adjusts prediction results based on product category. * `filterSyntaxV2`: Boolean. False by default. If set to true, the `filter` field is interpreteted according to the new, attribute-based syntax. */
-  params?: DocumentMap;
+  params?: DocumentMap | undefined;
   /** The labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. See [Google Cloud Document](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) for more details. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Maximum number of results to return. Set this property to the number of prediction results needed. If zero, the service will choose a reasonable default. The maximum allowed value is 100. Values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** This field is not used; leave it unset. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Use validate only mode for this prediction query. If set to true, a dummy model will be used that returns arbitrary products. Note that the validate only mode should only be used for testing the API, or if the model is not ready. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Context about the user, what they are looking at and what action they took to trigger the predict request. Note that this user event detail won't be ingested to userEvent logs. Thus, a separate userEvent write request is required for event logging. Don't set UserEvent.visitor_id or UserInfo.user_id to the same fixed ID for different users. If you are trying to receive non-personalized recommendations (not recommended; this can negatively impact model performance), instead set UserEvent.visitor_id to a random unique ID and leave UserInfo.user_id unset. */
-  userEvent?: GoogleCloudRetailV2alphaUserEvent;
+  userEvent?: GoogleCloudRetailV2alphaUserEvent | undefined;
 }
 export interface PredictProjectsLocationsCatalogsPlacementsRequest {
   /** Required. Full resource name of the format: `{placement=projects/*\/locations/global/catalogs/default_catalog/servingConfigs/*}` or `{placement=projects/*\/locations/global/catalogs/default_catalog/placements/*}`. We recommend using the `servingConfigs` resource. `placements` is a legacy resource. The ID of the Recommendations AI serving config or placement. Before you can request predictions from your model, you must create at least one serving config or placement for it. For more information, see [Manage serving configs] (https://cloud.google.com/retail/docs/manage-configs). The full list of available serving configs can be seen at https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs */
   placement: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaPredictRequest;
+  body?: GoogleCloudRetailV2alphaPredictRequest | undefined;
 }
 /** PredictionResult represents the recommendation prediction results. */
 export interface GoogleCloudRetailV2alphaPredictResponsePredictionResult {
   /** Additional product metadata / annotations. Possible values: * `product`: JSON representation of the product. Is set if `returnProduct` is set to true in `PredictRequest.params`. * `score`: Prediction score in double value. Is set if `returnScore` is set to true in `PredictRequest.params`. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** ID of the recommended product */
-  id?: string;
+  id?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaPredictResponsePredictionResultList =
   Array<GoogleCloudRetailV2alphaPredictResponsePredictionResult>;
 /** Response message for predict method. */
 export interface GoogleCloudRetailV2alphaPredictResponse {
   /** A unique attribution token. This should be included in the UserEvent logs resulting from this recommendation, which enables accurate attribution of recommendation model performance. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** A list of recommended products. The order represents the ranking (from the most relevant product to the least). */
-  results?: GoogleCloudRetailV2alphaPredictResponsePredictionResultList;
+  results?: GoogleCloudRetailV2alphaPredictResponsePredictionResultList | undefined;
   /** True if the validateOnly property was set in the request. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** IDs of products in the request that were missing from the inventory. */
-  missingIds?: StringList;
+  missingIds?: StringList | undefined;
 }
 export interface PredictProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. Full resource name of the format: `{placement=projects/*\/locations/global/catalogs/default_catalog/servingConfigs/*}` or `{placement=projects/*\/locations/global/catalogs/default_catalog/placements/*}`. We recommend using the `servingConfigs` resource. `placements` is a legacy resource. The ID of the Recommendations AI serving config or placement. Before you can request predictions from your model, you must create at least one serving config or placement for it. For more information, see [Manage serving configs] (https://cloud.google.com/retail/docs/manage-configs). The full list of available serving configs can be seen at https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs */
   placement: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaPredictRequest;
+  body?: GoogleCloudRetailV2alphaPredictRequest | undefined;
 }
 /** Request message for PurgeProducts method. */
 export interface GoogleCloudRetailV2alphaPurgeProductsRequest {
   /** Actually perform the purge. If `force` is set to false, the method will return the expected purge count without deleting any products. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. The filter string to specify the products to be deleted with a length limit of 5,000 characters. Empty string filter is not allowed. "*" implies delete all items in a branch. The eligible fields for filtering are: * `availability`: Double quoted Product.availability string. * `create_time` : in ISO 8601 "zulu" format. Supported syntax: * Comparators (">", "<", ">=", "<=", "="). Examples: * create_time <= "2015-02-13T17:05:46Z" * availability = "IN_STOCK" * Conjunctions ("AND") Examples: * create_time <= "2015-02-13T17:05:46Z" AND availability = "PREORDER" * Disjunctions ("OR") Examples: * create_time <= "2015-02-13T17:05:46Z" OR availability = "IN_STOCK" * Can support nested queries. Examples: * (create_time <= "2015-02-13T17:05:46Z" AND availability = "PREORDER") OR (create_time >= "2015-02-14T13:03:32Z" AND availability = "IN_STOCK") * Filter Limits: * Filter should not contain more than 6 conditions. * Max nesting depth should not exceed 2 levels. Examples queries: * Delete back order products created before a timestamp. create_time <= "2015-02-13T17:05:46Z" OR availability = "BACKORDER" */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface PurgeProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. The resource name of the branch under which the products are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}/branches/${branchId}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaPurgeProductsRequest;
+  body?: GoogleCloudRetailV2alphaPurgeProductsRequest | undefined;
 }
 /** Request message for PurgeUserEvents method. */
 export interface GoogleCloudRetailV2alphaPurgeUserEventsRequest {
   /** Required. The filter string to specify the events to be deleted with a length limit of 5,000 characters. Empty string filter is not allowed. The eligible fields for filtering are: * `eventType`: Double quoted UserEvent.event_type string. * `eventTime`: in ISO 8601 "zulu" format. * `visitorId`: Double quoted string. Specifying this will delete all events associated with a visitor. * `userId`: Double quoted string. Specifying this will delete all events associated with a user. Examples: * Deleting all events in a time range: `eventTime > "2012-04-23T18:25:43.511Z" eventTime < "2012-04-23T18:30:43.511Z"` * Deleting specific eventType in time range: `eventTime > "2012-04-23T18:25:43.511Z" eventType = "detail-page-view"` * Deleting all events for a specific visitor: `visitorId = "visitor1024"` The filtering fields are assumed to have an implicit AND. */
-  filter?: string;
+  filter?: string | undefined;
   /** Actually perform the purge. If `force` is set to false, the method will return the expected purge count without deleting any user events. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface PurgeProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaPurgeUserEventsRequest;
+  body?: GoogleCloudRetailV2alphaPurgeUserEventsRequest | undefined;
 }
 export type GoogleCloudRetailV2alphaRejoinUserEventsRequestUserEventRejoinScopeEnum =
   | "USER_EVENT_REJOIN_SCOPE_UNSPECIFIED"
@@ -2276,80 +2345,81 @@ export interface GoogleCloudRetailV2alphaRejoinUserEventsRequest {
   /** The type of the user event rejoin to define the scope and range of the user events to be rejoined with the latest product catalog. Defaults to `USER_EVENT_REJOIN_SCOPE_UNSPECIFIED` if this field is not set, or set to an invalid integer value. */
   userEventRejoinScope?:
     | GoogleCloudRetailV2alphaRejoinUserEventsRequestUserEventRejoinScopeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface RejoinProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The parent catalog resource name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaRejoinUserEventsRequest;
+  body?: GoogleCloudRetailV2alphaRejoinUserEventsRequest | undefined;
 }
 /** Request for CatalogService.RemoveCatalogAttribute method. */
 export interface GoogleCloudRetailV2alphaRemoveCatalogAttributeRequest {
   /** Required. The attribute name key of the CatalogAttribute to remove. */
-  key?: string;
+  key?: string | undefined;
 }
 export interface RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaRemoveCatalogAttributeRequest;
+  body?: GoogleCloudRetailV2alphaRemoveCatalogAttributeRequest | undefined;
 }
 /** Request for RemoveControl method. */
 export interface GoogleCloudRetailV2alphaRemoveControlRequest {
   /** Required. The id of the control to apply. Assumed to be in the same catalog as the serving config. */
-  controlId?: string;
+  controlId?: string | undefined;
 }
 export interface RemoveControlProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The source ServingConfig resource name . Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   servingConfig: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaRemoveControlRequest;
+  body?: GoogleCloudRetailV2alphaRemoveControlRequest | undefined;
 }
 /** Request message for ProductService.RemoveFulfillmentPlaces method. */
 export interface GoogleCloudRetailV2alphaRemoveFulfillmentPlacesRequest {
   /** The time when the fulfillment updates are issued, used to prevent out-of-order updates on fulfillment information. If not provided, the internal system time will be used. */
-  removeTime?: string;
+  removeTime?: string | undefined;
   /** Required. The IDs for this type, such as the store IDs for "pickup-in-store" or the region IDs for "same-day-delivery", to be removed for this type. At least 1 value is required, and a maximum of 2000 values are allowed. Each value must be a string with a length limit of 10 characters, matching the pattern `[a-zA-Z0-9_-]+`, such as "store1" or "REGION-2". Otherwise, an INVALID_ARGUMENT error is returned. */
-  placeIds?: StringList;
+  placeIds?: StringList | undefined;
   /** Required. The fulfillment type, including commonly used types (such as pickup in store and same day delivery), and custom types. Supported values: * "pickup-in-store" * "ship-to-store" * "same-day-delivery" * "next-day-delivery" * "custom-type-1" * "custom-type-2" * "custom-type-3" * "custom-type-4" * "custom-type-5" If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. This field directly corresponds to Product.fulfillment_info.type. */
-  type?: string;
+  type?: string | undefined;
   /** If set to true, and the Product is not found, the fulfillment information will still be processed and retained for at most 1 day and processed once the Product is created. If set to false, a NOT_FOUND error is returned if the Product is not found. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
 }
 export interface RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaRemoveFulfillmentPlacesRequest;
+  body?: GoogleCloudRetailV2alphaRemoveFulfillmentPlacesRequest | undefined;
 }
 /** Request message for ProductService.RemoveLocalInventories method. */
 export interface GoogleCloudRetailV2alphaRemoveLocalInventoriesRequest {
   /** Required. A list of place IDs to have their inventory deleted. At most 3000 place IDs are allowed per request. */
-  placeIds?: StringList;
+  placeIds?: StringList | undefined;
   /** If set to true, and the Product is not found, the local inventory removal request will still be processed and retained for at most 1 day and processed once the Product is created. If set to false, a NOT_FOUND error is returned if the Product is not found. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** The time when the inventory deletions are issued. Used to prevent out-of-order updates and deletions on local inventory fields. If not provided, the internal system time will be used. */
-  removeTime?: string;
+  removeTime?: string | undefined;
 }
 export interface RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaRemoveLocalInventoriesRequest;
+  body?: GoogleCloudRetailV2alphaRemoveLocalInventoriesRequest | undefined;
 }
 /** Request for CatalogService.ReplaceCatalogAttribute method. */
 export interface GoogleCloudRetailV2alphaReplaceCatalogAttributeRequest {
   /** Optional. Indicates which fields in the provided CatalogAttribute to update. The following are NOT supported: * CatalogAttribute.key If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The updated CatalogAttribute. */
-  catalogAttribute?: GoogleCloudRetailV2alphaCatalogAttribute;
+  catalogAttribute?: GoogleCloudRetailV2alphaCatalogAttribute | undefined;
 }
 export interface ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaReplaceCatalogAttributeRequest;
+  body?: GoogleCloudRetailV2alphaReplaceCatalogAttributeRequest | undefined;
 }
 /** Request for resuming training of a model. */
 export type GoogleCloudRetailV2alphaResumeModelRequest = GoogleCloudRetailV2alphaAcceptTermsRequest;
@@ -2357,7 +2427,7 @@ export interface ResumeProjectsLocationsCatalogsModelsRequest {
   /** Required. The name of the model to resume. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAcceptTermsRequest;
+  body?: GoogleCloudRetailV2alphaAcceptTermsRequest | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchRequestSearchModeEnum =
   | "SEARCH_MODE_UNSPECIFIED"
@@ -2366,34 +2436,34 @@ export type GoogleCloudRetailV2alphaSearchRequestSearchModeEnum =
 /** Specifies how a facet is computed. */
 export interface GoogleCloudRetailV2alphaSearchRequestFacetSpecFacetKey {
   /** Required. Supported textual and numerical facet keys in Product object, over which the facet values are computed. Facet key is case-sensitive. Allowed facet keys when FacetKey.query is not specified: * textual_field = * "brands" * "categories" * "genders" * "ageGroups" * "availability" * "colorFamilies" * "colors" * "sizes" * "materials" * "patterns" * "conditions" * "attributes.key" * "pickupInStore" * "shipToStore" * "sameDayDelivery" * "nextDayDelivery" * "customFulfillment1" * "customFulfillment2" * "customFulfillment3" * "customFulfillment4" * "customFulfillment5" * "inventory(place_id,attributes.key)" * numerical_field = * "price" * "discount" * "rating" * "ratingCount" * "attributes.key" * "inventory(place_id,price)" * "inventory(place_id,original_price)" * "inventory(place_id,attributes.key)" */
-  key?: string;
+  key?: string | undefined;
   /** Only get facet for the given restricted values. For example, when using "pickupInStore" as key and set restricted values to ["store123", "store456"], only facets for "store123" and "store456" are returned. Only supported on predefined textual fields, custom textual attributes and fulfillments. Maximum is 20. Must be set for the fulfillment facet keys: * pickupInStore * shipToStore * sameDayDelivery * nextDayDelivery * customFulfillment1 * customFulfillment2 * customFulfillment3 * customFulfillment4 * customFulfillment5 */
-  restrictedValues?: StringList;
+  restrictedValues?: StringList | undefined;
   /** Returns the min and max value for each numerical facet intervals. Ignored for textual facets. */
-  returnMinMax?: boolean;
+  returnMinMax?: boolean | undefined;
   /** True to make facet keys case insensitive when getting faceting values with prefixes or contains; false otherwise. */
-  caseInsensitive?: boolean;
+  caseInsensitive?: boolean | undefined;
   /** Only get facet values that start with the given string prefix. For example, suppose "categories" has three values "Women > Shoe", "Women > Dress" and "Men > Shoe". If set "prefixes" to "Women", the "categories" facet gives only "Women > Shoe" and "Women > Dress". Only supported on textual fields. Maximum is 10. */
-  prefixes?: StringList;
+  prefixes?: StringList | undefined;
   /** Set only if values should be bucketized into intervals. Must be set for facets with numerical values. Must not be set for facet with text values. Maximum number of intervals is 40. For all numerical facet keys that appear in the list of products from the catalog, the percentiles 0, 10, 30, 50, 70, 90, and 100 are computed from their distribution weekly. If the model assigns a high score to a numerical facet key and its intervals are not specified in the search request, these percentiles become the bounds for its intervals and are returned in the response. If the facet key intervals are specified in the request, then the specified intervals are returned instead. */
-  intervals?: GoogleCloudRetailV2alphaIntervalList;
+  intervals?: GoogleCloudRetailV2alphaIntervalList | undefined;
   /** The query that is used to compute facet for the given facet key. When provided, it overrides the default behavior of facet computation. The query syntax is the same as a filter expression. See SearchRequest.filter for detail syntax and limitations. Notice that there is no limitation on FacetKey.key when query is specified. In the response, SearchResponse.Facet.values.value is always "1" and SearchResponse.Facet.values.count is the number of results that match the query. For example, you can set a customized facet for "shipToStore", where FacetKey.key is "customizedShipToStore", and FacetKey.query is "availability: ANY(\"IN_STOCK\") AND shipToStore: ANY(\"123\")". Then the facet counts the products that are both in stock and ship to store "123". */
-  query?: string;
+  query?: string | undefined;
   /** The order in which SearchResponse.Facet.values are returned. Allowed values are: * "count desc", which means order by SearchResponse.Facet.values.count descending. * "value desc", which means order by SearchResponse.Facet.values.value descending. Only applies to textual facets. If not set, textual values are sorted in [natural order](https://en.wikipedia.org/wiki/Natural_sort_order); numerical intervals are sorted in the order given by FacetSpec.FacetKey.intervals; FulfillmentInfo.place_ids are sorted in the order given by FacetSpec.FacetKey.restricted_values. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Only get facet values that contains the given strings. For example, suppose "categories" has three values "Women > Shoe", "Women > Dress" and "Men > Shoe". If set "contains" to "Shoe", the "categories" facet gives only "Women > Shoe" and "Men > Shoe". Only supported on textual fields. Maximum is 10. */
-  contains?: StringList;
+  contains?: StringList | undefined;
 }
 /** A facet specification to perform faceted search. */
 export interface GoogleCloudRetailV2alphaSearchRequestFacetSpec {
   /** List of keys to exclude when faceting. By default, FacetKey.key is not excluded from the filter unless it is listed in this field. Listing a facet key in this field allows its values to appear as facet results, even when they are filtered out of search results. Using this field does not affect what search results are returned. For example, suppose there are 100 products with the color facet "Red" and 200 products with the color facet "Blue". A query containing the filter "colorFamilies:ANY("Red")" and having "colorFamilies" as FacetKey.key would by default return only "Red" products in the search results, and also return "Red" with count 100 as the only color facet. Although there are also blue products available, "Blue" would not be shown as an available facet value. If "colorFamilies" is listed in "excludedFilterKeys", then the query returns the facet values "Red" with count 100 and "Blue" with count 200, because the "colorFamilies" key is now excluded from the filter. Because this field doesn't affect search results, the search results are still correctly filtered to return only "Red" products. A maximum of 100 values are allowed. Otherwise, an INVALID_ARGUMENT error is returned. */
-  excludedFilterKeys?: StringList;
+  excludedFilterKeys?: StringList | undefined;
   /** Required. The facet key specification. */
-  facetKey?: GoogleCloudRetailV2alphaSearchRequestFacetSpecFacetKey;
+  facetKey?: GoogleCloudRetailV2alphaSearchRequestFacetSpecFacetKey | undefined;
   /** Maximum of facet values that should be returned for this facet. If unspecified, defaults to 50. The maximum allowed value is 300. Values above 300 will be coerced to 300. If this field is negative, an INVALID_ARGUMENT is returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Enables dynamic position for this facet. If set to true, the position of this facet among all facets in the response is determined by Google Retail Search. It is ordered together with dynamic facets if dynamic facets is enabled. If set to false, the position of this facet in the response is the same as in the request, and it is ranked before the facets with dynamic position enable and all dynamic facets. For example, you may always want to have rating facet returned in the response, but it's not necessarily to always display the rating facet at the top. In that case, you can set enable_dynamic_position to true so that the position of rating facet in response is determined by Google Retail Search. Another example, assuming you have the following facets in the request: * "rating", enable_dynamic_position = true * "price", enable_dynamic_position = false * "brands", enable_dynamic_position = false And also you have a dynamic facets enable, which generates a facet "gender". Then, the final order of the facets in the response can be ("price", "brands", "rating", "gender") or ("price", "brands", "gender", "rating") depends on how Google Retail Search orders "gender" and "rating" facets. However, notice that "price" and "brands" are always ranked at first and second position because their enable_dynamic_position values are false. */
-  enableDynamicPosition?: boolean;
+  enableDynamicPosition?: boolean | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchRequestFacetSpecList =
   Array<GoogleCloudRetailV2alphaSearchRequestFacetSpec>;
@@ -2402,25 +2472,27 @@ export type GoogleCloudRetailV2alphaProductAttributeValueList =
 /** This field specifies the selected answers during the conversational search. */
 export interface GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswerSelectedAnswer {
   /** This field is deprecated and should not be set. */
-  productAttributeValues?: GoogleCloudRetailV2alphaProductAttributeValueList;
+  productAttributeValues?: GoogleCloudRetailV2alphaProductAttributeValueList | undefined;
   /** This field specifies the selected answer which is a attribute key-value. */
-  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue;
+  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue | undefined;
 }
 /** This field specifies the current user answer during the conversational search. This can be either user selected from suggested answers or user input plain text. */
 export interface GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswer {
   /** This field specifies the incremental input text from the user during the conversational search. */
-  textAnswer?: string;
+  textAnswer?: string | undefined;
   /** This field specifies the selected attributes during the conversational search. This should be a subset of SearchResponse.ConversationalSearchResult.suggested_answers. */
-  selectedAnswer?: GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswerSelectedAnswer;
+  selectedAnswer?:
+    | GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswerSelectedAnswer
+    | undefined;
 }
 /** This field specifies all conversational related parameters addition to traditional retail search. */
 export interface GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpec {
   /** This field specifies whether the customer would like to do conversational search. If this field is set to true, conversational related extra information will be returned from server side, including follow-up question, answer options, etc. */
-  followupConversationRequested?: boolean;
+  followupConversationRequested?: boolean | undefined;
   /** This field specifies the conversation id, which maintains the state of the conversation between client side and server side. Use the value from the previous SearchResponse.ConversationalSearchResult.conversation_id. For the initial request, this should be empty. */
-  conversationId?: string;
+  conversationId?: string | undefined;
   /** This field specifies the current user answer during the conversational search. This can be either user selected from suggested answers or user input plain text. */
-  userAnswer?: GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswer;
+  userAnswer?: GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpecUserAnswer | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchRequestRelevanceThresholdEnum =
   | "RELEVANCE_THRESHOLD_UNSPECIFIED"
@@ -2435,7 +2507,10 @@ export type GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpecModeEnum =
 /** The specification for query spell correction. */
 export interface GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpec {
   /** The mode under which spell correction should take effect to replace the original search query. Default to Mode.AUTO. */
-  mode?: GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpecModeEnum | (string & {});
+  mode?:
+    | GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpecModeEnum
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpecConditionEnum =
   | "CONDITION_UNSPECIFIED"
@@ -2444,14 +2519,17 @@ export type GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpecConditionEnum
 /** Specification to determine under which conditions query expansion should occur. */
 export interface GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpec {
   /** The condition under which query expansion should occur. Default to Condition.DISABLED. */
-  condition?: GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpecConditionEnum | (string & {});
+  condition?:
+    | GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpecConditionEnum
+    | (string & {})
+    | undefined;
   /** Whether to pin unexpanded results. The default value is false. If this field is set to true, unexpanded products are always at the top of the search results, followed by the expanded results. */
-  pinUnexpandedResults?: boolean;
+  pinUnexpandedResults?: boolean | undefined;
 }
 /** A list of string values. */
 export interface GoogleCloudRetailV2alphaStringList {
   /** String values. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 export type GoogleCloudRetailV2alphaStringListMap = {
   [key: string]: GoogleCloudRetailV2alphaStringList | undefined;
@@ -2459,118 +2537,125 @@ export type GoogleCloudRetailV2alphaStringListMap = {
 /** Product attribute name and numeric interval. */
 export interface GoogleCloudRetailV2alphaProductAttributeInterval {
   /** The numeric interval (e.g. [10, 20)) */
-  interval?: GoogleCloudRetailV2alphaInterval;
+  interval?: GoogleCloudRetailV2alphaInterval | undefined;
   /** The attribute name (e.g. "length") */
-  name?: string;
+  name?: string | undefined;
 }
 /** This field specifies the tile information including an attribute key, attribute value. More fields will be added in the future, eg: product id or product counts, etc. */
 export interface GoogleCloudRetailV2alphaTile {
   /** The representative product id for this tile. */
-  representativeProductId?: string;
+  representativeProductId?: string | undefined;
   /** The product attribute key-numeric interval. */
-  productAttributeInterval?: GoogleCloudRetailV2alphaProductAttributeInterval;
+  productAttributeInterval?: GoogleCloudRetailV2alphaProductAttributeInterval | undefined;
   /** The product attribute key-value. */
-  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue;
+  productAttributeValue?: GoogleCloudRetailV2alphaProductAttributeValue | undefined;
 }
 export type GoogleCloudRetailV2alphaTileList = Array<GoogleCloudRetailV2alphaTile>;
 /** This field specifies tile navigation related parameters. */
 export interface GoogleCloudRetailV2alphaSearchRequestTileNavigationSpec {
   /** This optional field specifies the tiles which are already clicked in client side. While the feature works without this field set, particularly for an initial query, it is highly recommended to set this field because it can improve the quality of the search response and removes possible duplicate tiles. NOTE: This field is not being used for filtering search products. Client side should also put all the applied tiles in SearchRequest.filter. */
-  appliedTiles?: GoogleCloudRetailV2alphaTileList;
+  appliedTiles?: GoogleCloudRetailV2alphaTileList | undefined;
   /** This field specifies whether the customer would like to request tile navigation. */
-  tileNavigationRequested?: boolean;
+  tileNavigationRequested?: boolean | undefined;
 }
 /** Request message for SearchService.Search method. */
 export interface GoogleCloudRetailV2alphaSearchRequest {
   /** The search mode of the search request. If not specified, a single search request triggers both product search and faceted search. */
-  searchMode?: GoogleCloudRetailV2alphaSearchRequestSearchModeEnum | (string & {});
+  searchMode?: GoogleCloudRetailV2alphaSearchRequestSearchModeEnum | (string & {}) | undefined;
   /** User information. */
-  userInfo?: GoogleCloudRetailV2alphaUserInfo;
+  userInfo?: GoogleCloudRetailV2alphaUserInfo | undefined;
   /** A page token SearchResponse.next_page_token, received from a previous SearchService.Search call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SearchService.Search must match the call that provided the page token. Otherwise, an INVALID_ARGUMENT error is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. An ID for the experiment group this search belongs to. */
-  experimentId?: string;
+  experimentId?: string | undefined;
   /** Facet specifications for faceted search. If empty, no facets are returned. A maximum of 200 values are allowed. Otherwise, an INVALID_ARGUMENT error is returned. */
-  facetSpecs?: GoogleCloudRetailV2alphaSearchRequestFacetSpecList;
+  facetSpecs?: GoogleCloudRetailV2alphaSearchRequestFacetSpecList | undefined;
   /** Optional. The categories associated with a category page. Must be set for category navigation queries to achieve good search quality. The format should be the same as UserEvent.page_categories; To represent the full path of category, use '>' sign, with one space on each side, to separate different hierarchies. If '>' is part of the category name, replace it with other character(s). Category pages include special pages such as sales or promotions. For instance, a special sale page may have the category hierarchy: "pageCategories" : ["Sales > 2017 Black Friday Deals"]. */
-  pageCategories?: StringList;
+  pageCategories?: StringList | undefined;
   /** The labels applied to a resource must meet the following requirements: * Each resource can have multiple labels, up to a maximum of 64. * Each label must be a key-value pair. * Keys have a minimum length of 1 character and a maximum length of 63 characters and cannot be empty. Values can be empty and have a maximum length of 63 characters. * Keys and values can contain only lowercase letters, numeric characters, underscores, and dashes. All characters must use UTF-8 encoding, and international characters are allowed. * The key portion of a label must be unique. However, you can use the same key with multiple resources. * Keys must start with a lowercase letter or international character. For more information, see [Requirements for labels](https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements) in the Resource Manager documentation. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Raw search query. If this field is empty, the request is considered a category browsing request and returned results are based on filter and page_categories. */
-  query?: string;
+  query?: string | undefined;
   /** Optional. This field specifies all conversational related parameters addition to traditional retail search. */
-  conversationalSearchSpec?: GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpec;
+  conversationalSearchSpec?:
+    | GoogleCloudRetailV2alphaSearchRequestConversationalSearchSpec
+    | undefined;
   /** A 0-indexed integer that specifies the current offset (that is, starting result location, amongst the Products deemed by the API as relevant) in search results. This field is only considered if page_token is unset. If this field is negative, an INVALID_ARGUMENT is returned. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional. A list of control IDs to ignore. These controls will not be applied to the search request, even if they are specified in the serving config. */
-  ignoredControlIds?: StringList;
+  ignoredControlIds?: StringList | undefined;
   /** Deprecated. Refer to https://cloud.google.com/retail/docs/configs#dynamic to enable dynamic facets. Do not set this field. The specification for dynamically generated facets. Notice that only textual facets can be dynamically generated. */
-  dynamicFacetSpec?: GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec;
+  dynamicFacetSpec?: GoogleCloudRetailV2alphaSearchRequestDynamicFacetSpec | undefined;
   /** Optional. The BCP-47 language code, such as "en-US" or "sr-Latn" [list](https://www.unicode.org/cldr/charts/46/summary/root.html). For more information, see [Standardized codes](https://google.aip.dev/143). This field helps to better interpret the query. If a value isn't specified, the query language code is automatically detected, which may not be accurate. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The entity for customers that may run multiple different entities, domains, sites or regions, for example, `Google US`, `Google Ads`, `Waymo`, `google.com`, `youtube.com`, etc. If this is set, it should be exactly matched with UserEvent.entity to get search results boosted by entity. */
-  entity?: string;
+  entity?: string | undefined;
   /** Optional. An id corresponding to a place, such as a store id or region id. When specified, we use the price from the local inventory with the matching product's LocalInventory.place_id for revenue optimization. Note, the currency of the local inventory's price must match the currency of the product's price. */
-  placeId?: string;
+  placeId?: string | undefined;
   /** The relevance threshold of the search results. Defaults to RelevanceThreshold.HIGH, which means only the most relevant results are shown, and the least number of results are returned. For more information, see [Adjust result size](https://cloud.google.com/retail/docs/result-size#relevance_thresholding). */
-  relevanceThreshold?: GoogleCloudRetailV2alphaSearchRequestRelevanceThresholdEnum | (string & {});
+  relevanceThreshold?:
+    | GoogleCloudRetailV2alphaSearchRequestRelevanceThresholdEnum
+    | (string & {})
+    | undefined;
   /** Boost specification to boost certain products. For more information, see [Boost results](https://cloud.google.com/retail/docs/boosting). Notice that if both ServingConfig.boost_control_ids and SearchRequest.boost_spec are set, the boost conditions from both places are evaluated. If a search request matches multiple boost conditions, the final boost score is equal to the sum of the boost scores from all matched boost conditions. */
-  boostSpec?: GoogleCloudRetailV2alphaSearchRequestBoostSpec;
+  boostSpec?: GoogleCloudRetailV2alphaSearchRequestBoostSpec | undefined;
   /** The spell correction specification that specifies the mode under which spell correction will take effect. */
-  spellCorrectionSpec?: GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpec;
+  spellCorrectionSpec?: GoogleCloudRetailV2alphaSearchRequestSpellCorrectionSpec | undefined;
   /** The filter syntax consists of an expression language for constructing a predicate from one or more fields of the products being filtered. Filter expression is case-sensitive. For more information, see [Filter](https://cloud.google.com/retail/docs/filter-and-order#filter). If this field is unrecognizable, an INVALID_ARGUMENT is returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** The keys to fetch and rollup the matching variant Products attributes, FulfillmentInfo or LocalInventorys attributes. The attributes from all the matching variant Products or LocalInventorys are merged and de-duplicated. Notice that rollup attributes will lead to extra query latency. Maximum number of keys is 30. For FulfillmentInfo, a fulfillment type and a fulfillment ID must be provided in the format of "fulfillmentType.fulfillmentId". E.g., in "pickupInStore.store123", "pickupInStore" is fulfillment type and "store123" is the store ID. Supported keys are: * colorFamilies * price * originalPrice * discount * variantId * inventory(place_id,price) * inventory(place_id,original_price) * inventory(place_id,attributes.key), where key is any key in the Product.local_inventories.attributes map. * attributes.key, where key is any key in the Product.attributes map. * pickupInStore.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "pickup-in-store". * shipToStore.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "ship-to-store". * sameDayDelivery.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "same-day-delivery". * nextDayDelivery.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "next-day-delivery". * customFulfillment1.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "custom-type-1". * customFulfillment2.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "custom-type-2". * customFulfillment3.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "custom-type-3". * customFulfillment4.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "custom-type-4". * customFulfillment5.id, where id is any FulfillmentInfo.place_ids for FulfillmentInfo.type "custom-type-5". If this field is set to an invalid value other than these, an INVALID_ARGUMENT error is returned. */
-  variantRollupKeys?: StringList;
+  variantRollupKeys?: StringList | undefined;
   /** Optional. A set of controls that are applied dynamically to the search request. These controls are applied in addition to the controls specified in the serving config. These controls are expected to not yet be persisted in storage. A control could be applied twice if it is in both the serving config and specified here. A maximum of 5 values are allowed. Otherwise, an INVALID_ARGUMENT error is returned. */
-  dynamicControls?: GoogleCloudRetailV2alphaControlList;
+  dynamicControls?: GoogleCloudRetailV2alphaControlList | undefined;
   /** The order in which products are returned. Products can be ordered by a field in an Product object. Leave it unset if ordered by relevance. OrderBy expression is case-sensitive. For more information, see [Order](https://cloud.google.com/retail/docs/filter-and-order#order). If this field is unrecognizable, an INVALID_ARGUMENT is returned. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The query expansion specification that specifies the conditions under which query expansion occurs. For more information, see [Query expansion](https://cloud.google.com/retail/docs/result-size#query_expansion). */
-  queryExpansionSpec?: GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpec;
+  queryExpansionSpec?: GoogleCloudRetailV2alphaSearchRequestQueryExpansionSpec | undefined;
   /** Maximum number of Products to return. If unspecified, defaults to a reasonable value. The maximum allowed value is 120. Values above 120 will be coerced to 120. If this field is negative, an INVALID_ARGUMENT is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The branch resource name, such as `projects/*\/locations/global/catalogs/default_catalog/branches/0`. Use "default_branch" as the branch ID or leave this field empty, to search products under the default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** The specification for personalization. Notice that if both ServingConfig.personalization_spec and SearchRequest.personalization_spec are set. SearchRequest.personalization_spec will override ServingConfig.personalization_spec. */
-  personalizationSpec?: GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec;
+  personalizationSpec?: GoogleCloudRetailV2alphaSearchRequestPersonalizationSpec | undefined;
   /** Optional. The user attributes that could be used for personalization of search results. * Populate at most 100 key-value pairs per query. * Only supports string keys and repeated string values. * Duplicate keys are not allowed within a single query. Example: user_attributes: [ { key: "pets" value { values: "dog" values: "cat" } }, { key: "state" value { values: "CA" } } ] */
-  userAttributes?: GoogleCloudRetailV2alphaStringListMap;
+  userAttributes?: GoogleCloudRetailV2alphaStringListMap | undefined;
   /** Optional. The Unicode country/region code (CLDR) of a location, such as "US" and "419" [list](https://www.unicode.org/cldr/charts/46/supplemental/territory_information.html). For more information, see [Standardized codes](https://google.aip.dev/143). If set, then results will be boosted based on the region_code provided. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Optional. This field specifies tile navigation related parameters. */
-  tileNavigationSpec?: GoogleCloudRetailV2alphaSearchRequestTileNavigationSpec;
+  tileNavigationSpec?: GoogleCloudRetailV2alphaSearchRequestTileNavigationSpec | undefined;
   /** The default filter that is applied when a user performs a search without checking any filters on the search page. The filter applied to every search request when quality improvement such as query expansion is needed. In the case a query does not have a sufficient amount of results this filter will be used to determine whether or not to enable the query expansion flow. The original filter will still be used for the query expanded search. This field is strongly recommended to achieve high search quality. For more information about filter syntax, see SearchRequest.filter. */
-  canonicalFilter?: string;
+  canonicalFilter?: string | undefined;
   /** Required. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This should be the same identifier as UserEvent.visitor_id. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  visitorId?: string;
+  visitorId?: string | undefined;
 }
 export interface SearchProjectsLocationsCatalogsPlacementsRequest {
   /** Required. The resource name of the Retail Search serving config, such as `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` or the name of the legacy placement resource, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search`. This field is used to identify the serving config name and the set of models that are used to make the search. */
   placement: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaSearchRequest;
+  body?: GoogleCloudRetailV2alphaSearchRequest | undefined;
 }
 /** Information describing query expansion including whether expansion has occurred. */
 export interface GoogleCloudRetailV2alphaSearchResponseQueryExpansionInfo {
   /** Bool describing whether query expansion has occurred. */
-  expandedQuery?: boolean;
+  expandedQuery?: boolean | undefined;
   /** Number of pinned results. This field will only be set when expansion happens and SearchRequest.QueryExpansionSpec.pin_unexpanded_results is set to true. */
-  pinnedResultCount?: string;
+  pinnedResultCount?: string | undefined;
 }
 /** Metadata for active serving config A/B tests. */
 export interface GoogleCloudRetailV2alphaExperimentInfoServingConfigExperiment {
   /** The fully qualified resource name of the serving config `Experiment.VariantArm.serving_config_id` responsible for generating the search response. For example: `projects/*\/locations/*\/catalogs/*\/servingConfigs/*`. */
-  experimentServingConfig?: string;
+  experimentServingConfig?: string | undefined;
   /** The fully qualified resource name of the original SearchRequest.placement in the search request prior to reassignment by experiment API. For example: `projects/*\/locations/*\/catalogs/*\/servingConfigs/*`. */
-  originalServingConfig?: string;
+  originalServingConfig?: string | undefined;
 }
 /** Metadata for active A/B testing experiment. */
 export interface GoogleCloudRetailV2alphaExperimentInfo {
   /** A/B test between existing Cloud Retail Search ServingConfigs. */
-  servingConfigExperiment?: GoogleCloudRetailV2alphaExperimentInfoServingConfigExperiment;
+  servingConfigExperiment?:
+    | GoogleCloudRetailV2alphaExperimentInfoServingConfigExperiment
+    | undefined;
   /** The fully qualified resource name of the experiment that provides the serving config under test, should an active experiment exist. For example: `projects/*\/locations/global/catalogs/default_catalog/experiments/experiment_id` */
-  experiment?: string;
+  experiment?: string | undefined;
 }
 export type GoogleCloudRetailV2alphaExperimentInfoList =
   Array<GoogleCloudRetailV2alphaExperimentInfo>;
@@ -2587,27 +2672,33 @@ export type GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultSugg
 /** This field specifies all related information that is needed on client side for UI rendering of conversational retail search. */
 export interface GoogleCloudRetailV2alphaSearchResponseConversationalSearchResult {
   /** Conversation UUID. This field will be stored in client side storage to maintain the conversation session with server and will be used for next search request's SearchRequest.ConversationalSearchSpec.conversation_id to restore conversation state in server. */
-  conversationId?: string;
+  conversationId?: string | undefined;
   /** This field is deprecated but will be kept for backward compatibility. There is expected to have only one additional filter and the value will be the same to the same as field `additional_filter`. */
-  additionalFilters?: GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultAdditionalFilterList;
+  additionalFilters?:
+    | GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultAdditionalFilterList
+    | undefined;
   /** The current refined query for the conversational search. This field will be used in customer UI that the query in the search bar should be replaced with the refined query. For example, if SearchRequest.query is `dress` and next SearchRequest.ConversationalSearchSpec.UserAnswer.text_answer is `red color`, which does not match any product attribute value filters, the refined query will be `dress, red color`. */
-  refinedQuery?: string;
+  refinedQuery?: string | undefined;
   /** This is the incremental additional filters implied from the current user answer. User should add the suggested addition filters to the previous SearchRequest.filter, and use the merged filter in the follow up search request. */
-  additionalFilter?: GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer;
+  additionalFilter?:
+    | GoogleCloudRetailV2alphaConversationalSearchResponseFollowupQuestionSuggestedAnswer
+    | undefined;
   /** The follow-up question. e.g., `What is the color?` */
-  followupQuestion?: string;
+  followupQuestion?: string | undefined;
   /** The answer options provided to client for the follow-up question. */
-  suggestedAnswers?: GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultSuggestedAnswerList;
+  suggestedAnswers?:
+    | GoogleCloudRetailV2alphaSearchResponseConversationalSearchResultSuggestedAnswerList
+    | undefined;
 }
 /** This field specifies all related information for tile navigation that will be used in client side. */
 export interface GoogleCloudRetailV2alphaSearchResponseTileNavigationResult {
   /** The current tiles that are used for tile navigation, sorted by engagement. */
-  tiles?: GoogleCloudRetailV2alphaTileList;
+  tiles?: GoogleCloudRetailV2alphaTileList | undefined;
 }
 /** List of product ids which have associated pins. */
 export interface GoogleCloudRetailV2alphaPinControlMetadataProductPins {
   /** List of product ids which have associated pins. */
-  productId?: StringList;
+  productId?: StringList | undefined;
 }
 export type GoogleCloudRetailV2alphaPinControlMetadataProductPinsMap = {
   [key: string]: GoogleCloudRetailV2alphaPinControlMetadataProductPins | undefined;
@@ -2615,14 +2706,14 @@ export type GoogleCloudRetailV2alphaPinControlMetadataProductPinsMap = {
 /** Metadata for pinning to be returned in the response. This is used for distinguishing between applied vs dropped pins. */
 export interface GoogleCloudRetailV2alphaPinControlMetadata {
   /** Map of all matched pins, keyed by pin position. */
-  allMatchedPins?: GoogleCloudRetailV2alphaPinControlMetadataProductPinsMap;
+  allMatchedPins?: GoogleCloudRetailV2alphaPinControlMetadataProductPinsMap | undefined;
   /** Map of pins that were dropped due to overlap with other matching pins, keyed by pin position. */
-  droppedPins?: GoogleCloudRetailV2alphaPinControlMetadataProductPinsMap;
+  droppedPins?: GoogleCloudRetailV2alphaPinControlMetadataProductPinsMap | undefined;
 }
 /** A message with a list of double values. */
 export interface GoogleCloudRetailV2alphaDoubleList {
   /** The list of double values. */
-  values?: DoubleList;
+  values?: DoubleList | undefined;
 }
 export type GoogleCloudRetailV2alphaDoubleListMap = {
   [key: string]: GoogleCloudRetailV2alphaDoubleList | undefined;
@@ -2630,90 +2721,94 @@ export type GoogleCloudRetailV2alphaDoubleListMap = {
 /** Represents the search results. */
 export interface GoogleCloudRetailV2alphaSearchResponseSearchResult {
   /** Specifies previous events related to this product for this user based on UserEvent with same SearchRequest.visitor_id or UserInfo.user_id. This is set only when SearchRequest.PersonalizationSpec.mode is SearchRequest.PersonalizationSpec.Mode.AUTO. Possible values: * `purchased`: Indicates that this product has been purchased before. */
-  personalLabels?: StringList;
+  personalLabels?: StringList | undefined;
   /** Product.id of the searched Product. */
-  id?: string;
+  id?: string | undefined;
   /** The rollup matching variant Product attributes. The key is one of the SearchRequest.variant_rollup_keys. The values are the merged and de-duplicated Product attributes. Notice that the rollup values are respect filter. For example, when filtering by "colorFamilies:ANY(\"red\")" and rollup "colorFamilies", only "red" is returned. For textual and numerical attributes, the rollup values is a list of string or double values with type google.protobuf.ListValue. For example, if there are two variants with colors "red" and "blue", the rollup values are { key: "colorFamilies" value { list_value { values { string_value: "red" } values { string_value: "blue" } } } } For FulfillmentInfo, the rollup values is a double value with type google.protobuf.Value. For example, `{key: "pickupInStore.store1" value { number_value: 10 }}` means a there are 10 variants in this product are available in the store "store1". */
-  variantRollupValues?: DocumentMap;
+  variantRollupValues?: DocumentMap | undefined;
   /** Google provided available scores. */
-  modelScores?: GoogleCloudRetailV2alphaDoubleListMap;
+  modelScores?: GoogleCloudRetailV2alphaDoubleListMap | undefined;
   /** If a variant Product matches the search query, this map indicates which Product fields are matched. The key is the Product.name, the value is a field mask of the matched Product fields. If matched attributes cannot be determined, this map will be empty. For example, a key "sku1" with field mask "products.color_info" indicates there is a match between "sku1" ColorInfo and the query. */
-  matchingVariantFields?: StringMap;
+  matchingVariantFields?: StringMap | undefined;
   /** The count of matched variant Products. */
-  matchingVariantCount?: number;
+  matchingVariantCount?: number | undefined;
   /** The product data snippet in the search response. Only Product.name is guaranteed to be populated. Product.variants contains the product variants that match the search query. If there are multiple product variants matching the query, top 5 most relevant product variants are returned and ordered by relevancy. If relevancy can be deternmined, use matching_variant_fields to look up matched product variants fields. If relevancy cannot be determined, e.g. when searching "shoe" all products in a shoe product can be a match, 5 product variants are returned but order is meaningless. */
-  product?: GoogleCloudRetailV2alphaProduct;
+  product?: GoogleCloudRetailV2alphaProduct | undefined;
 }
 export type GoogleCloudRetailV2alphaSearchResponseSearchResultList =
   Array<GoogleCloudRetailV2alphaSearchResponseSearchResult>;
 /** Response message for SearchService.Search method. */
 export interface GoogleCloudRetailV2alphaSearchResponse {
   /** Query expansion information for the returned results. */
-  queryExpansionInfo?: GoogleCloudRetailV2alphaSearchResponseQueryExpansionInfo;
+  queryExpansionInfo?: GoogleCloudRetailV2alphaSearchResponseQueryExpansionInfo | undefined;
   /** Metadata related to A/B testing experiment associated with this response. Only exists when an experiment is triggered. */
-  experimentInfo?: GoogleCloudRetailV2alphaExperimentInfoList;
+  experimentInfo?: GoogleCloudRetailV2alphaExperimentInfoList | undefined;
   /** The estimated total count of matched items irrespective of pagination. The count of results returned by pagination may be less than the total_size that matches. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** The URI of a customer-defined redirect page. If redirect action is triggered, no search is performed, and only redirect_uri and attribution_token are set in the response. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** This field specifies all related information that is needed on client side for UI rendering of conversational retail search. */
-  conversationalSearchResult?: GoogleCloudRetailV2alphaSearchResponseConversationalSearchResult;
+  conversationalSearchResult?:
+    | GoogleCloudRetailV2alphaSearchResponseConversationalSearchResult
+    | undefined;
   /** The fully qualified resource name of applied [controls](https://cloud.google.com/retail/docs/serving-control-rules). */
-  appliedControls?: StringList;
+  appliedControls?: StringList | undefined;
   /** Contains the spell corrected query, if found. The search results are based on corrected_query by default. However, if SearchRequest.SpellCorrectionSpec.mode is set to SearchRequest.SpellCorrectionSpec.Mode.SUGGESTION_ONLY, the original query is used for search. */
-  correctedQuery?: string;
+  correctedQuery?: string | undefined;
   /** Results of facets requested by user. */
-  facets?: GoogleCloudRetailV2alphaSearchResponseFacetList;
+  facets?: GoogleCloudRetailV2alphaSearchResponseFacetList | undefined;
   /** A unique search token. This should be included in the UserEvent logs resulting from this search, which enables accurate attribution of search model performance. */
-  attributionToken?: string;
+  attributionToken?: string | undefined;
   /** This field specifies all related information for tile navigation that will be used in client side. */
-  tileNavigationResult?: GoogleCloudRetailV2alphaSearchResponseTileNavigationResult;
+  tileNavigationResult?: GoogleCloudRetailV2alphaSearchResponseTileNavigationResult | undefined;
   /** Metadata for pin controls which were applicable to the request. This contains two map fields, one for all matched pins and one for pins which were matched but not applied. The two maps are keyed by pin position, and the values are the product ids which were matched to that pin. */
-  pinControlMetadata?: GoogleCloudRetailV2alphaPinControlMetadata;
+  pinControlMetadata?: GoogleCloudRetailV2alphaPinControlMetadata | undefined;
   /** A list of matched items. The order represents the ranking. */
-  results?: GoogleCloudRetailV2alphaSearchResponseSearchResultList;
+  results?: GoogleCloudRetailV2alphaSearchResponseSearchResultList | undefined;
   /** The invalid SearchRequest.BoostSpec.condition_boost_specs that are not applied during serving. */
-  invalidConditionBoostSpecs?: GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpecList;
+  invalidConditionBoostSpecs?:
+    | GoogleCloudRetailV2alphaSearchRequestBoostSpecConditionBoostSpecList
+    | undefined;
   /** A token that can be sent as SearchRequest.page_token to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The resource name of the Retail Search serving config, such as `projects/*\/locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` or the name of the legacy placement resource, such as `projects/*\/locations/global/catalogs/default_catalog/placements/default_search`. This field is used to identify the serving config name and the set of models that are used to make the search. */
   placement: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaSearchRequest;
+  body?: GoogleCloudRetailV2alphaSearchRequest | undefined;
 }
 /** Request message to set a specified branch as new default_branch. */
 export interface GoogleCloudRetailV2alphaSetDefaultBranchRequest {
   /** If set to true, it permits switching to a branch with branch_id even if it has no sufficient active products. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Some note on this request, this can be retrieved by CatalogService.GetDefaultBranch before next valid default branch set occurs. This field must be a UTF-8 encoded string with a length limit of 1,000 characters. Otherwise, an INVALID_ARGUMENT error is returned. */
-  note?: string;
+  note?: string | undefined;
   /** The final component of the resource name of a branch. This field must be one of "0", "1" or "2". Otherwise, an INVALID_ARGUMENT error is returned. If there are no sufficient active products in the targeted branch and force is not set, a FAILED_PRECONDITION error is returned. */
-  branchId?: string;
+  branchId?: string | undefined;
 }
 export interface SetDefaultBranchProjectsLocationsCatalogsRequest {
   /** Full resource name of the catalog, such as `projects/*\/locations/global/catalogs/default_catalog`. */
   catalog: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaSetDefaultBranchRequest;
+  body?: GoogleCloudRetailV2alphaSetDefaultBranchRequest | undefined;
 }
 /** Request message for ProductService.SetInventory method. */
 export interface GoogleCloudRetailV2alphaSetInventoryRequest {
   /** Indicates which inventory fields in the provided Product to update. At least one field must be provided. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned and the entire update will be ignored. */
-  setMask?: string;
+  setMask?: string | undefined;
   /** The time when the request is issued, used to prevent out-of-order updates on inventory fields with the last update time recorded. If not provided, the internal system time will be used. */
-  setTime?: string;
+  setTime?: string | undefined;
   /** If set to true, and the Product with name Product.name is not found, the inventory update will still be processed and retained for at most 1 day until the Product is created. If set to false, a NOT_FOUND error is returned if the Product is not found. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. The inventory information to update. The allowable fields to update are: * Product.price_info * Product.availability * Product.available_quantity * Product.fulfillment_info The updated inventory fields must be specified in SetInventoryRequest.set_mask. If SetInventoryRequest.inventory.name is empty or invalid, an INVALID_ARGUMENT error is returned. If the caller does not have permission to update the Product named in Product.name, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the Product to update does not have existing inventory information, the provided inventory information will be inserted. If the Product to update has existing inventory information, the provided inventory information will be merged while respecting the last update time for each inventory field, using the provided or default value for SetInventoryRequest.set_time. The caller can replace place IDs for a subset of fulfillment types in the following ways: * Adds "fulfillment_info" in SetInventoryRequest.set_mask * Specifies only the desired fulfillment types and corresponding place IDs to update in SetInventoryRequest.inventory.fulfillment_info The caller can clear all place IDs from a subset of fulfillment types in the following ways: * Adds "fulfillment_info" in SetInventoryRequest.set_mask * Specifies only the desired fulfillment types to clear in SetInventoryRequest.inventory.fulfillment_info * Checks that only the desired fulfillment info types have empty SetInventoryRequest.inventory.fulfillment_info.place_ids The last update time is recorded for the following inventory fields: * Product.price_info * Product.availability * Product.available_quantity * Product.fulfillment_info If a full overwrite of inventory information while ignoring timestamps is needed, ProductService.UpdateProduct should be invoked instead. */
-  inventory?: GoogleCloudRetailV2alphaProduct;
+  inventory?: GoogleCloudRetailV2alphaProduct | undefined;
 }
 export interface SetInventoryProjectsLocationsCatalogsBranchesProductsRequest {
   /** Immutable. Full resource name of the product, such as `projects/*\/locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaSetInventoryRequest;
+  body?: GoogleCloudRetailV2alphaSetInventoryRequest | undefined;
 }
 /** Request to manually start a tuning process now (instead of waiting for the periodically scheduled tuning to happen). */
 export type GoogleCloudRetailV2alphaTuneModelRequest = GoogleCloudRetailV2alphaAcceptTermsRequest;
@@ -2721,71 +2816,71 @@ export interface TuneProjectsLocationsCatalogsModelsRequest {
   /** Required. The resource name of the model to tune. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` */
   name: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAcceptTermsRequest;
+  body?: GoogleCloudRetailV2alphaAcceptTermsRequest | undefined;
 }
 export interface UpdateAlertConfigProjectsRequest {
   /** Required. Immutable. The name of the AlertConfig singleton resource. Format: projects/*\/alertConfig */
   name: string;
   /** Indicates which fields in the provided AlertConfig to update. If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAlertConfig;
+  body?: GoogleCloudRetailV2alphaAlertConfig | undefined;
 }
 export interface UpdateAttributesConfigProjectsLocationsCatalogsRequest {
   /** Optional. Indicates which fields in the provided AttributesConfig to update. The following is the only supported field: * AttributesConfig.catalog_attributes If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Immutable. The fully qualified resource name of the attribute config. Format: `projects/*\/locations/*\/catalogs/*\/attributesConfig` */
   name: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaAttributesConfig;
+  body?: GoogleCloudRetailV2alphaAttributesConfig | undefined;
 }
 export interface UpdateCompletionConfigProjectsLocationsCatalogsRequest {
   /** Required. Immutable. Fully qualified name `projects/*\/locations/*\/catalogs/*\/completionConfig` */
   name: string;
   /** Optional. Indicates which fields in the provided CompletionConfig to update. The following are the only supported fields: * CompletionConfig.matching_order * CompletionConfig.max_suggestions * CompletionConfig.min_prefix_length * CompletionConfig.auto_learning If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaCompletionConfig;
+  body?: GoogleCloudRetailV2alphaCompletionConfig | undefined;
 }
 export interface UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest {
   /** Optional. Indicates which fields in the provided ConversationalSearchCustomizationConfig to update. If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig;
+  body?: GoogleCloudRetailV2alphaConversationalSearchCustomizationConfig | undefined;
 }
 export interface UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the affected catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
   /** Optional. Indicates which fields in the provided GenerativeQuestionsFeatureConfig to update. If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig;
+  body?: GoogleCloudRetailV2alphaGenerativeQuestionsFeatureConfig | undefined;
 }
 export interface UpdateGenerativeQuestionProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
   /** Optional. Indicates which fields in the provided GenerativeQuestionConfig to update. The following are NOT supported: * GenerativeQuestionConfig.frequency If not set or empty, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaGenerativeQuestionConfig;
+  body?: GoogleCloudRetailV2alphaGenerativeQuestionConfig | undefined;
 }
 export interface UpdateLoggingConfigProjectsRequest {
   /** Required. Immutable. The name of the LoggingConfig singleton resource. Format: projects/*\/loggingConfig */
   name: string;
   /** Indicates which fields in the provided LoggingConfig to update. The following are the only supported fields: * LoggingConfig.default_log_generation_rule * LoggingConfig.service_log_generation_rules If not set, all supported fields are updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaLoggingConfig;
+  body?: GoogleCloudRetailV2alphaLoggingConfig | undefined;
 }
 export interface WriteProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The parent catalog resource name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
   /** If set to true, the user event will be written asynchronously after validation, and the API will respond without waiting for the write. Therefore, silent failures can occur even if the API returns success. In case of silent failures, error messages can be found in Stackdriver logs. */
-  writeAsync?: boolean;
+  writeAsync?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRetailV2alphaUserEvent;
+  body?: GoogleCloudRetailV2alphaUserEvent | undefined;
 }
 export type AcceptTermsProjectsRetailProjectError =
   | NotFound

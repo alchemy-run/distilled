@@ -68,49 +68,49 @@ export interface CreateOrgPrivateRegistryRequest {
   /** The URL of the private registry. */
   url: string;
   /** The username to use when authenticating with the private registry. This field should be omitted if the private registry does not require a username for authentication. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** Whether this private registry should replace the base registry (e.g., npmjs.org for npm, rubygems.org for rubygems). When set to `true`, Dependabot will only use this registry and will not fall back to the public registry. When set to `false` (default), Dependabot will use this registry for scoped packages but may fall back to the public registry for other packages. */
-  replaces_base?: boolean;
+  replaces_base?: boolean | undefined;
   /** The value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get private registries public key for an organization](https://docs.github.com/rest/private-registries/organization-configurations#get-private-registries-public-key-for-an-organization) endpoint. Required when `auth_type` is `token` or `username_password`. Should be omitted for OIDC auth types. */
-  encrypted_value?: string;
+  encrypted_value?: string | undefined;
   /** The ID of the key you used to encrypt the secret. Required when `auth_type` is `token` or `username_password`. Should be omitted for OIDC auth types. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry. */
   visibility: CreateOrgPrivateRegistryRequestVisibility | (string & {});
   /** An array of repository IDs that can access the organization private registry. You can only provide a list of repository IDs when `visibility` is set to `selected`. You can manage the list of selected repositories using the [Update a private registry for an organization](https://docs.github.com/rest/private-registries/organization-configurations#update-a-private-registry-for-an-organization) endpoint. This field should be omitted if `visibility` is set to `all` or `private`. */
-  selected_repository_ids?: CreateOrgPrivateRegistryRequestSelectedRepositoryIdsList;
+  selected_repository_ids?: CreateOrgPrivateRegistryRequestSelectedRepositoryIdsList | undefined;
   /** The authentication type for the private registry. Defaults to `token` if not specified. Use `oidc_azure`, `oidc_aws`, `oidc_jfrog`, `oidc_cloudsmith`, or `oidc_gcp` for OIDC authentication. Use `anonymous` for registries that do not require authentication; `username`, `encrypted_value`, and `key_id` must be omitted. */
-  auth_type?: CreateOrgPrivateRegistryRequestAuthType | (string & {});
+  auth_type?: CreateOrgPrivateRegistryRequestAuthType | (string & {}) | undefined;
   /** The tenant ID of the Azure AD application. Required when `auth_type` is `oidc_azure`. */
-  tenant_id?: string;
+  tenant_id?: string | undefined;
   /** The client ID of the Azure AD application. Required when `auth_type` is `oidc_azure`. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The AWS region. Required when `auth_type` is `oidc_aws`. */
-  aws_region?: string;
+  aws_region?: string | undefined;
   /** The AWS account ID. Required when `auth_type` is `oidc_aws`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The AWS IAM role name. Required when `auth_type` is `oidc_aws`. */
-  role_name?: string;
+  role_name?: string | undefined;
   /** The CodeArtifact domain. Required when `auth_type` is `oidc_aws`. */
-  domain?: string;
+  domain?: string | undefined;
   /** The CodeArtifact domain owner (AWS account ID). Required when `auth_type` is `oidc_aws`. */
-  domain_owner?: string;
+  domain_owner?: string | undefined;
   /** The JFrog OIDC provider name. Required when `auth_type` is `oidc_jfrog`. */
-  jfrog_oidc_provider_name?: string;
+  jfrog_oidc_provider_name?: string | undefined;
   /** The OIDC audience. Optional for `oidc_aws`, `oidc_jfrog`, and `oidc_gcp`, and required for `oidc_cloudsmith` auth types. */
-  audience?: string;
+  audience?: string | undefined;
   /** The JFrog identity mapping name. Optional for `oidc_jfrog` auth type. */
-  identity_mapping_name?: string;
+  identity_mapping_name?: string | undefined;
   /** The Cloudsmith organization namespace. Required when `auth_type` is `oidc_cloudsmith`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The Cloudsmith service account slug. Required when `auth_type` is `oidc_cloudsmith`. */
-  service_slug?: string;
+  service_slug?: string | undefined;
   /** The Cloudsmith API host. Optional for `oidc_cloudsmith` auth type. If omitted, `api.cloudsmith.io` is used by default. */
-  api_host?: string;
+  api_host?: string | undefined;
   /** The full resource name of the GCP Workload Identity Provider (e.g. `projects/<NUM>/locations/global/workloadIdentityPools/<POOL>/providers/<PROVIDER>`). Required when `auth_type` is `oidc_gcp`. */
-  workload_identity_provider?: string;
+  workload_identity_provider?: string | undefined;
   /** The GCP service account email to impersonate. Optional for `oidc_gcp` auth type. If omitted, the federated token is used directly (direct WIF). */
-  service_account?: string;
+  service_account?: string | undefined;
 }
 /** The registry type. */
 export type OrgPrivateRegistryConfigurationWithSelectedRepositoriesRegistryType =
@@ -154,47 +154,49 @@ export interface OrgPrivateRegistryConfigurationWithSelectedRepositories {
   /** The registry type. */
   registry_type: OrgPrivateRegistryConfigurationWithSelectedRepositoriesRegistryType;
   /** The authentication type for the private registry. */
-  auth_type?: OrgPrivateRegistryConfigurationWithSelectedRepositoriesAuthType;
+  auth_type?: OrgPrivateRegistryConfigurationWithSelectedRepositoriesAuthType | undefined;
   /** The URL of the private registry. */
-  url?: string;
+  url?: string | undefined;
   /** The username to use when authenticating with the private registry. */
-  username?: string;
+  username?: string | undefined;
   /** Whether this private registry replaces the base registry (e.g., npmjs.org for npm, rubygems.org for rubygems). When `true`, Dependabot will only use this registry and will not fall back to the public registry. When `false` (default), Dependabot will use this registry for scoped packages but may fall back to the public registry for other packages. */
-  replaces_base?: boolean;
+  replaces_base?: boolean | undefined;
   /** Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry. */
   visibility: OrgPrivateRegistryConfigurationWithSelectedRepositoriesVisibility;
   /** An array of repository IDs that can access the organization private registry when `visibility` is set to `selected`. */
-  selected_repository_ids?: OrgPrivateRegistryConfigurationWithSelectedRepositoriesSelectedRepositoryIdsList;
+  selected_repository_ids?:
+    | OrgPrivateRegistryConfigurationWithSelectedRepositoriesSelectedRepositoryIdsList
+    | undefined;
   /** The tenant ID of the Azure AD application. */
-  tenant_id?: string;
+  tenant_id?: string | undefined;
   /** The client ID of the Azure AD application. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The AWS region. */
-  aws_region?: string;
+  aws_region?: string | undefined;
   /** The AWS account ID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The AWS IAM role name. */
-  role_name?: string;
+  role_name?: string | undefined;
   /** The CodeArtifact domain. */
-  domain?: string;
+  domain?: string | undefined;
   /** The CodeArtifact domain owner. */
-  domain_owner?: string;
+  domain_owner?: string | undefined;
   /** The JFrog OIDC provider name. */
-  jfrog_oidc_provider_name?: string;
+  jfrog_oidc_provider_name?: string | undefined;
   /** The OIDC audience. */
-  audience?: string;
+  audience?: string | undefined;
   /** The JFrog identity mapping name. */
-  identity_mapping_name?: string;
+  identity_mapping_name?: string | undefined;
   /** The Cloudsmith organization namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The Cloudsmith service account slug. */
-  service_slug?: string;
+  service_slug?: string | undefined;
   /** The Cloudsmith API host. */
-  api_host?: string;
+  api_host?: string | undefined;
   /** The full resource name of the GCP Workload Identity Provider (e.g. `projects/<NUM>/locations/global/workloadIdentityPools/<POOL>/providers/<PROVIDER>`). */
-  workload_identity_provider?: string;
+  workload_identity_provider?: string | undefined;
   /** The GCP service account email to impersonate. If omitted, the federated token is used directly (direct WIF). */
-  service_account?: string;
+  service_account?: string | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -247,45 +249,45 @@ export interface OrgPrivateRegistryConfiguration {
   /** The registry type. */
   registry_type: OrgPrivateRegistryConfigurationRegistryType;
   /** The authentication type for the private registry. */
-  auth_type?: OrgPrivateRegistryConfigurationAuthType;
+  auth_type?: OrgPrivateRegistryConfigurationAuthType | undefined;
   /** The URL of the private registry. */
-  url?: string;
+  url?: string | undefined;
   /** The username to use when authenticating with the private registry. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** Whether this private registry replaces the base registry (e.g., npmjs.org for npm, rubygems.org for rubygems). When `true`, Dependabot will only use this registry and will not fall back to the public registry. When `false` (default), Dependabot will use this registry for scoped packages but may fall back to the public registry for other packages. */
-  replaces_base?: boolean;
+  replaces_base?: boolean | undefined;
   /** Which type of organization repositories have access to the private registry. */
   visibility: OrgPrivateRegistryConfigurationVisibility;
   /** The tenant ID of the Azure AD application. */
-  tenant_id?: string;
+  tenant_id?: string | undefined;
   /** The client ID of the Azure AD application. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The AWS region. */
-  aws_region?: string;
+  aws_region?: string | undefined;
   /** The AWS account ID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The AWS IAM role name. */
-  role_name?: string;
+  role_name?: string | undefined;
   /** The CodeArtifact domain. */
-  domain?: string;
+  domain?: string | undefined;
   /** The CodeArtifact domain owner. */
-  domain_owner?: string;
+  domain_owner?: string | undefined;
   /** The JFrog OIDC provider name. */
-  jfrog_oidc_provider_name?: string;
+  jfrog_oidc_provider_name?: string | undefined;
   /** The OIDC audience. */
-  audience?: string;
+  audience?: string | undefined;
   /** The JFrog identity mapping name. */
-  identity_mapping_name?: string;
+  identity_mapping_name?: string | undefined;
   /** The Cloudsmith organization namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The Cloudsmith service account slug. */
-  service_slug?: string;
+  service_slug?: string | undefined;
   /** The Cloudsmith API host. */
-  api_host?: string;
+  api_host?: string | undefined;
   /** The full resource name of the GCP Workload Identity Provider (e.g. `projects/<NUM>/locations/global/workloadIdentityPools/<POOL>/providers/<PROVIDER>`). */
-  workload_identity_provider?: string;
+  workload_identity_provider?: string | undefined;
   /** The GCP service account email to impersonate. If omitted, the federated token is used directly (direct WIF). */
-  service_account?: string;
+  service_account?: string | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -303,9 +305,9 @@ export interface ListOrgPrivateRegistriesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListOrgPrivateRegistriesResponseConfigurationsList =
   Array<OrgPrivateRegistryConfiguration>;
@@ -350,53 +352,53 @@ export interface UpdateOrgPrivateRegistryRequest {
   /** The name of the secret. */
   secret_name: string;
   /** The registry type. */
-  registry_type?: UpdateOrgPrivateRegistryRequestRegistryType | (string & {});
+  registry_type?: UpdateOrgPrivateRegistryRequestRegistryType | (string & {}) | undefined;
   /** The URL of the private registry. */
-  url?: string;
+  url?: string | undefined;
   /** The username to use when authenticating with the private registry. This field should be omitted if the private registry does not require a username for authentication. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** Whether this private registry should replace the base registry (e.g., npmjs.org for npm, rubygems.org for rubygems). When set to `true`, Dependabot will only use this registry and will not fall back to the public registry. When set to `false` (default), Dependabot will use this registry for scoped packages but may fall back to the public registry for other packages. */
-  replaces_base?: boolean;
+  replaces_base?: boolean | undefined;
   /** The value for your secret, encrypted with [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages) using the public key retrieved from the [Get private registries public key for an organization](https://docs.github.com/rest/private-registries/organization-configurations#get-private-registries-public-key-for-an-organization) endpoint. */
-  encrypted_value?: string;
+  encrypted_value?: string | undefined;
   /** The ID of the key you used to encrypt the secret. */
-  key_id?: string;
+  key_id?: string | undefined;
   /** Which type of organization repositories have access to the private registry. `selected` means only the repositories specified by `selected_repository_ids` can access the private registry. */
-  visibility?: UpdateOrgPrivateRegistryRequestVisibility | (string & {});
+  visibility?: UpdateOrgPrivateRegistryRequestVisibility | (string & {}) | undefined;
   /** An array of repository IDs that can access the organization private registry. You can only provide a list of repository IDs when `visibility` is set to `selected`. This field should be omitted if `visibility` is set to `all` or `private`. */
-  selected_repository_ids?: UpdateOrgPrivateRegistryRequestSelectedRepositoryIdsList;
+  selected_repository_ids?: UpdateOrgPrivateRegistryRequestSelectedRepositoryIdsList | undefined;
   /** The authentication type for the private registry. This field cannot be changed after creation. If provided, it must match the existing `auth_type` of the configuration. To change the authentication type, delete and recreate the configuration. */
-  auth_type?: UpdateOrgPrivateRegistryRequestAuthType | (string & {});
+  auth_type?: UpdateOrgPrivateRegistryRequestAuthType | (string & {}) | undefined;
   /** The tenant ID of the Azure AD application. Required when `auth_type` is `oidc_azure`. */
-  tenant_id?: string;
+  tenant_id?: string | undefined;
   /** The client ID of the Azure AD application. Required when `auth_type` is `oidc_azure`. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The AWS region. Required when `auth_type` is `oidc_aws`. */
-  aws_region?: string;
+  aws_region?: string | undefined;
   /** The AWS account ID. Required when `auth_type` is `oidc_aws`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The AWS IAM role name. Required when `auth_type` is `oidc_aws`. */
-  role_name?: string;
+  role_name?: string | undefined;
   /** The CodeArtifact domain. Required when `auth_type` is `oidc_aws`. */
-  domain?: string;
+  domain?: string | undefined;
   /** The CodeArtifact domain owner (AWS account ID). Required when `auth_type` is `oidc_aws`. */
-  domain_owner?: string;
+  domain_owner?: string | undefined;
   /** The JFrog OIDC provider name. Required when `auth_type` is `oidc_jfrog`. */
-  jfrog_oidc_provider_name?: string;
+  jfrog_oidc_provider_name?: string | undefined;
   /** The OIDC audience. Optional for `oidc_aws`, `oidc_jfrog`, and `oidc_gcp`, and required for `oidc_cloudsmith` auth types. */
-  audience?: string;
+  audience?: string | undefined;
   /** The JFrog identity mapping name. Optional for `oidc_jfrog` auth type. */
-  identity_mapping_name?: string;
+  identity_mapping_name?: string | undefined;
   /** The Cloudsmith organization namespace. Required when `auth_type` is `oidc_cloudsmith`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The Cloudsmith service account slug. Required when `auth_type` is `oidc_cloudsmith`. */
-  service_slug?: string;
+  service_slug?: string | undefined;
   /** The Cloudsmith API host. Optional for `oidc_cloudsmith` auth type. If omitted, `api.cloudsmith.io` is used by default. */
-  api_host?: string;
+  api_host?: string | undefined;
   /** The full resource name of the GCP Workload Identity Provider (e.g. `projects/<NUM>/locations/global/workloadIdentityPools/<POOL>/providers/<PROVIDER>`). Required when `auth_type` is `oidc_gcp`. */
-  workload_identity_provider?: string;
+  workload_identity_provider?: string | undefined;
   /** The GCP service account email to impersonate. Optional for `oidc_gcp` auth type. If omitted, the federated token is used directly (direct WIF). */
-  service_account?: string;
+  service_account?: string | undefined;
 }
 export interface UpdateOrgPrivateRegistryResponse {}
 export type CreateOrgPrivateRegistryError = GithubOpError;

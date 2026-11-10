@@ -48,17 +48,17 @@ export interface CreateDataCatalogCertificationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Warehouse table id to certify (XOR the other targets). */
-  table_id?: string;
+  table_id?: string | undefined;
   /** Warehouse view (saved query) id to certify. */
-  saved_query_id?: string;
+  saved_query_id?: string | undefined;
   /** Queryable HogQL table name; 409 with candidates if ambiguous. */
-  table_name?: string;
+  table_name?: string | undefined;
   /** Queryable HogQL view name; 409 with candidates if ambiguous. */
-  view_name?: string;
+  view_name?: string | undefined;
   /** Why this mark exists. */
-  notes?: string;
+  notes?: string | undefined;
   /** Intent of the proposal: 'certified' to propose trusting this source, 'deprecated' to propose avoiding it (e.g. a stale or wrong source). * `certified` - certified * `deprecated` - deprecated */
-  proposed_status?: ProposedStatusEnum | (string & {});
+  proposed_status?: ProposedStatusEnum | (string & {}) | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -75,15 +75,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface DataCatalogCertification {
   id: string;
@@ -100,7 +100,7 @@ export interface DataCatalogCertification {
   /** The mark the proposal asks for: 'certified' (trust this source) or 'deprecated' (avoid this source). Informational once the mark is settled. */
   proposed_status: string;
   /** Why this mark exists, e.g. 'canonical MRR source'. */
-  notes?: string;
+  notes?: string | undefined;
   /** User who last set certified/deprecated, or null. */
   certified_by: UserBasic | null;
   certified_at: string | null;
@@ -129,27 +129,27 @@ export interface CreateDataCatalogMetricsRequest {
   /** Identifier-safe run handle, unique among the team's live metrics. Renaming or deleting a metric frees its name for reuse, and anything referencing the old name (SQL over information_schema.metrics, run URLs, links) stops resolving. */
   name: string;
   /** Human-friendly label. Mutable, unlike name. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** What the number is, in 1-2 short sentences under 300 characters: its meaning and grain plus any inclusion or exclusion that changes it. Leave out source tables or views, lineage, column lists, and comparisons with other metrics. Never narrate the query - the definition carries the mechanics; put the query's design decisions in 'reasoning'. */
   description: string;
   /** Unit of the result, e.g. usd, percent, cents. */
-  unit?: string;
+  unit?: string | undefined;
   /** Email of the human accountable for this metric, or null. Set it to the email of a member of this organization to reassign the metric, or to null to clear it. Changing the owner keeps the metric's approval. */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
-  definition?: CreateDataCatalogMetricsRequestDefinitionMap | null;
+  definition?: CreateDataCatalogMetricsRequestDefinitionMap | null | undefined;
   /** Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition. */
-  source_insight_short_id?: string | null;
+  source_insight_short_id?: string | null | undefined;
   /** Whether a human ('user') or an agent ('ai_generated') authored this metric. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum | (string & {});
+  created_source?: CreatedSourceEnum | (string & {}) | undefined;
   /** Model that generated the metric, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the proposal, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** Why the definition is shaped this way, in 1-3 short sentences. Name the main design decisions and trade-offs: the source table or view, a filter or exclusion, the grain, an approximation. Leave out the use case, who asked, run results, validation figures, and edit history. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** Replace the fields of the live metric that already holds this name. When false, a taken name returns 409 with code 'metric_name_taken' and the existing metric stays unchanged. Overwriting an approved metric with a changed name, description, unit, or definition resets it to 'proposed'. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
 }
 /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
 export type DataCatalogMetricDefinitionMap = { [key: string]: unknown | undefined };
@@ -158,15 +158,15 @@ export interface DataCatalogMetric {
   /** Identifier-safe run handle, unique among the team's live metrics. Renaming or deleting a metric frees its name for reuse, and anything referencing the old name (SQL over information_schema.metrics, run URLs, links) stops resolving. */
   name: string;
   /** Human-friendly label. Mutable, unlike name. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** What the number is, in 1-2 short sentences under 300 characters: its meaning and grain plus any inclusion or exclusion that changes it. Leave out source tables or views, lineage, column lists, and comparisons with other metrics. Never narrate the query - the definition carries the mechanics; put the query's design decisions in 'reasoning'. */
   description: string;
   /** Unit of the result, e.g. usd, percent, cents. */
-  unit?: string;
+  unit?: string | undefined;
   /** Email of the human accountable for this metric, or null. Set it to the email of a member of this organization to reassign the metric, or to null to clear it. Changing the owner keeps the metric's approval. */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
-  definition?: DataCatalogMetricDefinitionMap | null;
+  definition?: DataCatalogMetricDefinitionMap | null | undefined;
   /** Query kind of the definition (HogQLQuery, TrendsQuery, ...), or null for a stub. */
   definition_kind: string | null;
   /** Tables the definition directly references, extracted at write time for the catalog's denied-table filter. */
@@ -179,17 +179,17 @@ export interface DataCatalogMetric {
   /** User who approved this metric as canonical, or null. */
   approved_by: UserBasic | null;
   /** Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition. */
-  source_insight_short_id?: string | null;
+  source_insight_short_id?: string | null | undefined;
   /** When the metric was last run (30-minute throttle). */
   last_run_at: string | null;
   /** Whether a human ('user') or an agent ('ai_generated') authored this metric. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum;
+  created_source?: CreatedSourceEnum | undefined;
   /** Model that generated the metric, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the proposal, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** Why the definition is shaped this way, in 1-3 short sentences. Name the main design decisions and trade-offs: the source table or view, a filter or exclusion, the grain, an approximation. Leave out the use case, who asked, run results, validation figures, and edit history. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** User who first created this metric. */
   created_by: UserBasic;
   created_at: string;
@@ -217,17 +217,17 @@ export interface CreateDataCatalogMetricsRunRequest {
   project_id: string;
   name: string;
   /** Cache/execution behavior, same semantics as /query/. Omit to serve a fresh cache hit and calculate blocking when stale. * `blocking` - blocking * `async` - async * `lazy_async` - lazy_async * `force_blocking` - force_blocking * `force_async` - force_async * `force_cache` - force_cache */
-  refresh?: CreateDataCatalogMetricsRunRequestRefresh | (string & {});
+  refresh?: CreateDataCatalogMetricsRunRequestRefresh | (string & {}) | undefined;
   /** Override the start of the query window (e.g. '-7d'). Rejected for HogQLQuery metrics, whose window is fixed in SQL. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Override the end of the query window. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Override the bucket interval. Rejected for HogQLQuery metrics. * `second` - second * `minute` - minute * `hour` - hour * `day` - day * `week` - week * `month` - month * `quarter` - quarter * `year` - year */
-  interval?: IntervalTypeEnum | (string & {});
+  interval?: IntervalTypeEnum | (string & {}) | undefined;
   /** Rows to skip, to read the page after a run that returned has_more. Pass next_offset from that run. Only HogQLQuery metrics accept it. Runs made with a personal or project API key are rejected. */
-  offset?: number;
+  offset?: number | undefined;
   /** Client-supplied id to correlate or cancel the run. */
-  query_id?: string;
+  query_id?: string | undefined;
 }
 /** Names of the result columns, in the order of the values in each positional result row. Null when the results are already labeled, or the query kind returns no column names. */
 export type DataCatalogMetricRunColumnsList = Array<string>;
@@ -276,13 +276,13 @@ export interface CreateDataCatalogRelationshipProposalRequest {
   /** Accessor the join adds to the source table. */
   field_name: string;
   /** Extra join configuration, e.g. a field mapping. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
   /** Discovery confidence in this join, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** Why this join is proposed. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** Sampling evidence: match rates, sample values. */
-  evidence?: unknown;
+  evidence?: unknown | undefined;
 }
 export interface DataCatalogRelationshipProposal {
   id: string;
@@ -297,13 +297,13 @@ export interface DataCatalogRelationshipProposal {
   /** Accessor the join adds to the source table. */
   field_name: string;
   /** Extra join configuration, e.g. a field mapping. */
-  configuration?: unknown;
+  configuration?: unknown | undefined;
   /** Discovery confidence in this join, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** Why this join is proposed. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** Sampling evidence: match rates, sample values. */
-  evidence?: unknown;
+  evidence?: unknown | undefined;
   /** proposed, accepted (promoted to a real join), or rejected (never re-proposed). */
   status: string;
   /** User who accepted or rejected the proposal. */
@@ -328,7 +328,7 @@ export interface DataCatalogMetricsApproveCreateRequest {
   project_id: string;
   name: string;
   /** The metric's `updated_at` as last seen by the approver. When the metric changed since then, the API returns 409 and leaves it proposed. Omit to approve the current version. */
-  expected_updated_at?: string;
+  expected_updated_at?: string | undefined;
 }
 /** Names of the metrics to act on, at most 100. Duplicates are collapsed. */
 export type DataCatalogMetricsBulkApproveCreateRequestNamesList = Array<string>;
@@ -419,7 +419,7 @@ export interface DataCatalogRelationshipProposalsRejectCreateRequest {
   /** A UUID string identifying this relationship proposal. */
   id: string;
   /** Why the proposal is rejected. Persisted so it is never re-proposed. */
-  rejection_reason?: string;
+  rejection_reason?: string | undefined;
 }
 export interface GetDataCatalogCertificationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -442,62 +442,62 @@ export interface ListDataCatalogCertificationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
   /** Only certifications with this review status. */
-  status?: string;
+  status?: string | undefined;
 }
 export type PaginatedDataCatalogCertificationListResultsList = Array<DataCatalogCertification>;
 export interface PaginatedDataCatalogCertificationList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataCatalogCertificationListResultsList;
 }
 export interface ListDataCatalogMetricsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only metrics with this query node kind. */
-  definition_kind?: string;
+  definition_kind?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
   /** Only metrics with this review status. */
-  status?: string;
+  status?: string | undefined;
 }
 export type PaginatedDataCatalogMetricListResultsList = Array<DataCatalogMetric>;
 export interface PaginatedDataCatalogMetricList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataCatalogMetricListResultsList;
 }
 export interface ListDataCatalogRelationshipProposalsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by proposed/accepted/rejected. */
-  status?: string;
+  status?: string | undefined;
   /** Only relationships involving this table on either side. */
-  table_name?: string;
+  table_name?: string | undefined;
 }
 export type PaginatedDataCatalogRelationshipProposalListResultsList =
   Array<DataCatalogRelationshipProposal>;
 export interface PaginatedDataCatalogRelationshipProposalList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataCatalogRelationshipProposalListResultsList;
 }
 /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
@@ -507,25 +507,25 @@ export interface UpdateDataCatalogMetricsRequest {
   project_id: string;
   name: string;
   /** Human-friendly label. Mutable, unlike name. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** What the number is, in 1-2 short sentences under 300 characters: its meaning and grain plus any inclusion or exclusion that changes it. Leave out source tables or views, lineage, column lists, and comparisons with other metrics. Never narrate the query - the definition carries the mechanics; put the query's design decisions in 'reasoning'. */
   description: string;
   /** Unit of the result, e.g. usd, percent, cents. */
-  unit?: string;
+  unit?: string | undefined;
   /** Email of the human accountable for this metric, or null. Set it to the email of a member of this organization to reassign the metric, or to null to clear it. Changing the owner keeps the metric's approval. */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
-  definition?: UpdateDataCatalogMetricsRequestDefinitionMap | null;
+  definition?: UpdateDataCatalogMetricsRequestDefinitionMap | null | undefined;
   /** Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition. */
-  source_insight_short_id?: string | null;
+  source_insight_short_id?: string | null | undefined;
   /** Whether a human ('user') or an agent ('ai_generated') authored this metric. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum | (string & {});
+  created_source?: CreatedSourceEnum | (string & {}) | undefined;
   /** Model that generated the metric, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the proposal, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** Why the definition is shaped this way, in 1-3 short sentences. Name the main design decisions and trade-offs: the source table or view, a filter or exclusion, the grain, an approximation. Leave out the use case, who asked, run results, validation figures, and edit history. */
-  reasoning?: string;
+  reasoning?: string | undefined;
 }
 /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
 export type UpdateDataCatalogMetricsPartialRequestDefinitionMap = {
@@ -536,25 +536,25 @@ export interface UpdateDataCatalogMetricsPartialRequest {
   project_id: string;
   name: string;
   /** Human-friendly label. Mutable, unlike name. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** What the number is, in 1-2 short sentences under 300 characters: its meaning and grain plus any inclusion or exclusion that changes it. Leave out source tables or views, lineage, column lists, and comparisons with other metrics. Never narrate the query - the definition carries the mechanics; put the query's design decisions in 'reasoning'. */
-  description?: string;
+  description?: string | undefined;
   /** Unit of the result, e.g. usd, percent, cents. */
-  unit?: string;
+  unit?: string | undefined;
   /** Email of the human accountable for this metric, or null. Set it to the email of a member of this organization to reassign the metric, or to null to clear it. Changing the owner keeps the metric's approval. */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Machine-readable query. Omit for a name+description-only stub. Stored upgrade-canonical. */
-  definition?: UpdateDataCatalogMetricsPartialRequestDefinitionMap | null;
+  definition?: UpdateDataCatalogMetricsPartialRequestDefinitionMap | null | undefined;
   /** Create the metric from this insight's query (snapshotted server-side). Set to null to unlink. Mutually exclusive with definition. */
-  source_insight_short_id?: string | null;
+  source_insight_short_id?: string | null | undefined;
   /** Whether a human ('user') or an agent ('ai_generated') authored this metric. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum | (string & {});
+  created_source?: CreatedSourceEnum | (string & {}) | undefined;
   /** Model that generated the metric, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the proposal, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** Why the definition is shaped this way, in 1-3 short sentences. Name the main design decisions and trade-offs: the source table or view, a filter or exclusion, the grain, an approximation. Leave out the use case, who asked, run results, validation figures, and edit history. */
-  reasoning?: string;
+  reasoning?: string | undefined;
 }
 export type CreateDataCatalogCertificationError = PosthogOpError;
 /** Trust marks on warehouse tables and views. Reads exclude soft-deleted targets. */

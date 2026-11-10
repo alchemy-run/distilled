@@ -214,8 +214,8 @@ export class TransactionInProgressException
     /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export interface CustomRoutingEndpointConfiguration {
-  EndpointId?: string;
-  AttachmentArn?: string;
+  EndpointId?: string | undefined;
+  AttachmentArn?: string | undefined;
 }
 export type CustomRoutingEndpointConfigurations = CustomRoutingEndpointConfiguration[];
 export interface AddCustomRoutingEndpointsRequest {
@@ -223,19 +223,19 @@ export interface AddCustomRoutingEndpointsRequest {
   EndpointGroupArn: string;
 }
 export interface CustomRoutingEndpointDescription {
-  EndpointId?: string;
+  EndpointId?: string | undefined;
 }
 export type CustomRoutingEndpointDescriptions = CustomRoutingEndpointDescription[];
 export interface AddCustomRoutingEndpointsResponse {
-  EndpointDescriptions?: CustomRoutingEndpointDescription[];
-  EndpointGroupArn?: string;
+  EndpointDescriptions?: CustomRoutingEndpointDescription[] | undefined;
+  EndpointGroupArn?: string | undefined;
 }
 export type EndpointWeight = number;
 export interface EndpointConfiguration {
-  EndpointId?: string;
-  Weight?: number;
-  ClientIPPreservationEnabled?: boolean;
-  AttachmentArn?: string;
+  EndpointId?: string | undefined;
+  Weight?: number | undefined;
+  ClientIPPreservationEnabled?: boolean | undefined;
+  AttachmentArn?: string | undefined;
 }
 export type EndpointConfigurations = EndpointConfiguration[];
 export interface AddEndpointsRequest {
@@ -244,16 +244,16 @@ export interface AddEndpointsRequest {
 }
 export type HealthState = "INITIAL" | "HEALTHY" | "UNHEALTHY" | (string & {});
 export interface EndpointDescription {
-  EndpointId?: string;
-  Weight?: number;
-  HealthState?: HealthState;
-  HealthReason?: string;
-  ClientIPPreservationEnabled?: boolean;
+  EndpointId?: string | undefined;
+  Weight?: number | undefined;
+  HealthState?: HealthState | undefined;
+  HealthReason?: string | undefined;
+  ClientIPPreservationEnabled?: boolean | undefined;
 }
 export type EndpointDescriptions = EndpointDescription[];
 export interface AddEndpointsResponse {
-  EndpointDescriptions?: EndpointDescription[];
-  EndpointGroupArn?: string;
+  EndpointDescriptions?: EndpointDescription[] | undefined;
+  EndpointGroupArn?: string | undefined;
 }
 export interface AdvertiseByoipCidrRequest {
   Cidr: string;
@@ -272,17 +272,17 @@ export type ByoipCidrState =
   | "FAILED_DEPROVISION"
   | (string & {});
 export interface ByoipCidrEvent {
-  Message?: string;
-  Timestamp?: Date;
+  Message?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export type ByoipCidrEvents = ByoipCidrEvent[];
 export interface ByoipCidr {
-  Cidr?: string;
-  State?: ByoipCidrState;
-  Events?: ByoipCidrEvent[];
+  Cidr?: string | undefined;
+  State?: ByoipCidrState | undefined;
+  Events?: ByoipCidrEvent[] | undefined;
 }
 export interface AdvertiseByoipCidrResponse {
-  ByoipCidr?: ByoipCidr;
+  ByoipCidr?: ByoipCidr | undefined;
 }
 export type IpAddress = string;
 export type DestinationAddresses = string[];
@@ -291,9 +291,9 @@ export type DestinationPorts = number[];
 export interface AllowCustomRoutingTrafficRequest {
   EndpointGroupArn: string;
   EndpointId: string;
-  DestinationAddresses?: string[];
-  DestinationPorts?: number[];
-  AllowAllTrafficToEndpoint?: boolean;
+  DestinationAddresses?: string[] | undefined;
+  DestinationPorts?: number[] | undefined;
+  AllowAllTrafficToEndpoint?: boolean | undefined;
 }
 export interface AllowCustomRoutingTrafficResponse {}
 export type IpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
@@ -308,97 +308,97 @@ export interface Tag {
 export type Tags = Tag[];
 export interface CreateAcceleratorRequest {
   Name: string;
-  IpAddressType?: IpAddressType;
-  IpAddresses?: string[];
-  Enabled?: boolean;
+  IpAddressType?: IpAddressType | undefined;
+  IpAddresses?: string[] | undefined;
+  Enabled?: boolean | undefined;
   IdempotencyToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type IpAddressFamily = "IPv4" | "IPv6" | (string & {});
 export type NetworkZone = string;
 export interface IpAddressDetail {
-  IpAddress?: string;
-  NetworkZone?: string;
+  IpAddress?: string | undefined;
+  NetworkZone?: string | undefined;
 }
 export type IpAddressDetails = IpAddressDetail[];
 export interface IpSet {
-  IpFamily?: string;
-  IpAddresses?: string[];
-  IpAddressFamily?: IpAddressFamily;
-  IpAddressDetails?: IpAddressDetail[];
+  IpFamily?: string | undefined;
+  IpAddresses?: string[] | undefined;
+  IpAddressFamily?: IpAddressFamily | undefined;
+  IpAddressDetails?: IpAddressDetail[] | undefined;
 }
 export type IpSets = IpSet[];
 export type AcceleratorStatus = "DEPLOYED" | "IN_PROGRESS" | (string & {});
 export interface AcceleratorEvent {
-  Message?: string;
-  Timestamp?: Date;
+  Message?: string | undefined;
+  Timestamp?: Date | undefined;
 }
 export type AcceleratorEvents = AcceleratorEvent[];
 export interface Accelerator {
-  AcceleratorArn?: string;
-  Name?: string;
-  IpAddressType?: IpAddressType;
-  Enabled?: boolean;
-  IpSets?: IpSet[];
-  DnsName?: string;
-  Status?: AcceleratorStatus;
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
-  DualStackDnsName?: string;
-  Events?: AcceleratorEvent[];
+  AcceleratorArn?: string | undefined;
+  Name?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Enabled?: boolean | undefined;
+  IpSets?: IpSet[] | undefined;
+  DnsName?: string | undefined;
+  Status?: AcceleratorStatus | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
+  DualStackDnsName?: string | undefined;
+  Events?: AcceleratorEvent[] | undefined;
 }
 export interface CreateAcceleratorResponse {
-  Accelerator?: Accelerator;
+  Accelerator?: Accelerator | undefined;
 }
 export type AttachmentName = string;
 export type Principal = string;
 export type Principals = string[];
 export interface Resource {
-  EndpointId?: string;
-  Cidr?: string;
-  Region?: string;
+  EndpointId?: string | undefined;
+  Cidr?: string | undefined;
+  Region?: string | undefined;
 }
 export type Resources = Resource[];
 export interface CreateCrossAccountAttachmentRequest {
   Name: string;
-  Principals?: string[];
-  Resources?: Resource[];
+  Principals?: string[] | undefined;
+  Resources?: Resource[] | undefined;
   IdempotencyToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface Attachment {
-  AttachmentArn?: string;
-  Name?: string;
-  Principals?: string[];
-  Resources?: Resource[];
-  LastModifiedTime?: Date;
-  CreatedTime?: Date;
+  AttachmentArn?: string | undefined;
+  Name?: string | undefined;
+  Principals?: string[] | undefined;
+  Resources?: Resource[] | undefined;
+  LastModifiedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface CreateCrossAccountAttachmentResponse {
-  CrossAccountAttachment?: Attachment;
+  CrossAccountAttachment?: Attachment | undefined;
 }
 export interface CreateCustomRoutingAcceleratorRequest {
   Name: string;
-  IpAddressType?: IpAddressType;
-  IpAddresses?: string[];
-  Enabled?: boolean;
+  IpAddressType?: IpAddressType | undefined;
+  IpAddresses?: string[] | undefined;
+  Enabled?: boolean | undefined;
   IdempotencyToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type CustomRoutingAcceleratorStatus = "DEPLOYED" | "IN_PROGRESS" | (string & {});
 export interface CustomRoutingAccelerator {
-  AcceleratorArn?: string;
-  Name?: string;
-  IpAddressType?: IpAddressType;
-  Enabled?: boolean;
-  IpSets?: IpSet[];
-  DnsName?: string;
-  Status?: CustomRoutingAcceleratorStatus;
-  CreatedTime?: Date;
-  LastModifiedTime?: Date;
+  AcceleratorArn?: string | undefined;
+  Name?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  Enabled?: boolean | undefined;
+  IpSets?: IpSet[] | undefined;
+  DnsName?: string | undefined;
+  Status?: CustomRoutingAcceleratorStatus | undefined;
+  CreatedTime?: Date | undefined;
+  LastModifiedTime?: Date | undefined;
 }
 export interface CreateCustomRoutingAcceleratorResponse {
-  Accelerator?: CustomRoutingAccelerator;
+  Accelerator?: CustomRoutingAccelerator | undefined;
 }
 export type CustomRoutingProtocol = "TCP" | "UDP" | (string & {});
 export type CustomRoutingProtocols = CustomRoutingProtocol[];
@@ -417,23 +417,23 @@ export interface CreateCustomRoutingEndpointGroupRequest {
 export type Protocol = "TCP" | "UDP" | (string & {});
 export type Protocols = Protocol[];
 export interface CustomRoutingDestinationDescription {
-  FromPort?: number;
-  ToPort?: number;
-  Protocols?: Protocol[];
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
+  Protocols?: Protocol[] | undefined;
 }
 export type CustomRoutingDestinationDescriptions = CustomRoutingDestinationDescription[];
 export interface CustomRoutingEndpointGroup {
-  EndpointGroupArn?: string;
-  EndpointGroupRegion?: string;
-  DestinationDescriptions?: CustomRoutingDestinationDescription[];
-  EndpointDescriptions?: CustomRoutingEndpointDescription[];
+  EndpointGroupArn?: string | undefined;
+  EndpointGroupRegion?: string | undefined;
+  DestinationDescriptions?: CustomRoutingDestinationDescription[] | undefined;
+  EndpointDescriptions?: CustomRoutingEndpointDescription[] | undefined;
 }
 export interface CreateCustomRoutingEndpointGroupResponse {
-  EndpointGroup?: CustomRoutingEndpointGroup;
+  EndpointGroup?: CustomRoutingEndpointGroup | undefined;
 }
 export interface PortRange {
-  FromPort?: number;
-  ToPort?: number;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
 }
 export type PortRanges = PortRange[];
 export interface CreateCustomRoutingListenerRequest {
@@ -442,11 +442,11 @@ export interface CreateCustomRoutingListenerRequest {
   IdempotencyToken: string;
 }
 export interface CustomRoutingListener {
-  ListenerArn?: string;
-  PortRanges?: PortRange[];
+  ListenerArn?: string | undefined;
+  PortRanges?: PortRange[] | undefined;
 }
 export interface CreateCustomRoutingListenerResponse {
-  Listener?: CustomRoutingListener;
+  Listener?: CustomRoutingListener | undefined;
 }
 export type TrafficDialPercentage = number;
 export type HealthCheckPort = number;
@@ -455,54 +455,54 @@ export type HealthCheckPath = string;
 export type HealthCheckIntervalSeconds = number;
 export type ThresholdCount = number;
 export interface PortOverride {
-  ListenerPort?: number;
-  EndpointPort?: number;
+  ListenerPort?: number | undefined;
+  EndpointPort?: number | undefined;
 }
 export type PortOverrides = PortOverride[];
 export interface CreateEndpointGroupRequest {
   ListenerArn: string;
   EndpointGroupRegion: string;
-  EndpointConfigurations?: EndpointConfiguration[];
-  TrafficDialPercentage?: number;
-  HealthCheckPort?: number;
-  HealthCheckProtocol?: HealthCheckProtocol;
-  HealthCheckPath?: string;
-  HealthCheckIntervalSeconds?: number;
-  ThresholdCount?: number;
+  EndpointConfigurations?: EndpointConfiguration[] | undefined;
+  TrafficDialPercentage?: number | undefined;
+  HealthCheckPort?: number | undefined;
+  HealthCheckProtocol?: HealthCheckProtocol | undefined;
+  HealthCheckPath?: string | undefined;
+  HealthCheckIntervalSeconds?: number | undefined;
+  ThresholdCount?: number | undefined;
   IdempotencyToken: string;
-  PortOverrides?: PortOverride[];
+  PortOverrides?: PortOverride[] | undefined;
 }
 export interface EndpointGroup {
-  EndpointGroupArn?: string;
-  EndpointGroupRegion?: string;
-  EndpointDescriptions?: EndpointDescription[];
-  TrafficDialPercentage?: number;
-  HealthCheckPort?: number;
-  HealthCheckProtocol?: HealthCheckProtocol;
-  HealthCheckPath?: string;
-  HealthCheckIntervalSeconds?: number;
-  ThresholdCount?: number;
-  PortOverrides?: PortOverride[];
+  EndpointGroupArn?: string | undefined;
+  EndpointGroupRegion?: string | undefined;
+  EndpointDescriptions?: EndpointDescription[] | undefined;
+  TrafficDialPercentage?: number | undefined;
+  HealthCheckPort?: number | undefined;
+  HealthCheckProtocol?: HealthCheckProtocol | undefined;
+  HealthCheckPath?: string | undefined;
+  HealthCheckIntervalSeconds?: number | undefined;
+  ThresholdCount?: number | undefined;
+  PortOverrides?: PortOverride[] | undefined;
 }
 export interface CreateEndpointGroupResponse {
-  EndpointGroup?: EndpointGroup;
+  EndpointGroup?: EndpointGroup | undefined;
 }
 export type ClientAffinity = "NONE" | "SOURCE_IP" | (string & {});
 export interface CreateListenerRequest {
   AcceleratorArn: string;
   PortRanges: PortRange[];
   Protocol: Protocol;
-  ClientAffinity?: ClientAffinity;
+  ClientAffinity?: ClientAffinity | undefined;
   IdempotencyToken: string;
 }
 export interface Listener {
-  ListenerArn?: string;
-  PortRanges?: PortRange[];
-  Protocol?: Protocol;
-  ClientAffinity?: ClientAffinity;
+  ListenerArn?: string | undefined;
+  PortRanges?: PortRange[] | undefined;
+  Protocol?: Protocol | undefined;
+  ClientAffinity?: ClientAffinity | undefined;
 }
 export interface CreateListenerResponse {
-  Listener?: Listener;
+  Listener?: Listener | undefined;
 }
 export interface DeleteAcceleratorRequest {
   AcceleratorArn: string;
@@ -535,233 +535,233 @@ export interface DeleteListenerResponse {}
 export interface DenyCustomRoutingTrafficRequest {
   EndpointGroupArn: string;
   EndpointId: string;
-  DestinationAddresses?: string[];
-  DestinationPorts?: number[];
-  DenyAllTrafficToEndpoint?: boolean;
+  DestinationAddresses?: string[] | undefined;
+  DestinationPorts?: number[] | undefined;
+  DenyAllTrafficToEndpoint?: boolean | undefined;
 }
 export interface DenyCustomRoutingTrafficResponse {}
 export interface DeprovisionByoipCidrRequest {
   Cidr: string;
 }
 export interface DeprovisionByoipCidrResponse {
-  ByoipCidr?: ByoipCidr;
+  ByoipCidr?: ByoipCidr | undefined;
 }
 export interface DescribeAcceleratorRequest {
   AcceleratorArn: string;
 }
 export interface DescribeAcceleratorResponse {
-  Accelerator?: Accelerator;
+  Accelerator?: Accelerator | undefined;
 }
 export interface DescribeAcceleratorAttributesRequest {
   AcceleratorArn: string;
 }
 export interface AcceleratorAttributes {
-  FlowLogsEnabled?: boolean;
-  FlowLogsS3Bucket?: string;
-  FlowLogsS3Prefix?: string;
+  FlowLogsEnabled?: boolean | undefined;
+  FlowLogsS3Bucket?: string | undefined;
+  FlowLogsS3Prefix?: string | undefined;
 }
 export interface DescribeAcceleratorAttributesResponse {
-  AcceleratorAttributes?: AcceleratorAttributes;
+  AcceleratorAttributes?: AcceleratorAttributes | undefined;
 }
 export interface DescribeCrossAccountAttachmentRequest {
   AttachmentArn: string;
 }
 export interface DescribeCrossAccountAttachmentResponse {
-  CrossAccountAttachment?: Attachment;
+  CrossAccountAttachment?: Attachment | undefined;
 }
 export interface DescribeCustomRoutingAcceleratorRequest {
   AcceleratorArn: string;
 }
 export interface DescribeCustomRoutingAcceleratorResponse {
-  Accelerator?: CustomRoutingAccelerator;
+  Accelerator?: CustomRoutingAccelerator | undefined;
 }
 export interface DescribeCustomRoutingAcceleratorAttributesRequest {
   AcceleratorArn: string;
 }
 export interface CustomRoutingAcceleratorAttributes {
-  FlowLogsEnabled?: boolean;
-  FlowLogsS3Bucket?: string;
-  FlowLogsS3Prefix?: string;
+  FlowLogsEnabled?: boolean | undefined;
+  FlowLogsS3Bucket?: string | undefined;
+  FlowLogsS3Prefix?: string | undefined;
 }
 export interface DescribeCustomRoutingAcceleratorAttributesResponse {
-  AcceleratorAttributes?: CustomRoutingAcceleratorAttributes;
+  AcceleratorAttributes?: CustomRoutingAcceleratorAttributes | undefined;
 }
 export interface DescribeCustomRoutingEndpointGroupRequest {
   EndpointGroupArn: string;
 }
 export interface DescribeCustomRoutingEndpointGroupResponse {
-  EndpointGroup?: CustomRoutingEndpointGroup;
+  EndpointGroup?: CustomRoutingEndpointGroup | undefined;
 }
 export interface DescribeCustomRoutingListenerRequest {
   ListenerArn: string;
 }
 export interface DescribeCustomRoutingListenerResponse {
-  Listener?: CustomRoutingListener;
+  Listener?: CustomRoutingListener | undefined;
 }
 export interface DescribeEndpointGroupRequest {
   EndpointGroupArn: string;
 }
 export interface DescribeEndpointGroupResponse {
-  EndpointGroup?: EndpointGroup;
+  EndpointGroup?: EndpointGroup | undefined;
 }
 export interface DescribeListenerRequest {
   ListenerArn: string;
 }
 export interface DescribeListenerResponse {
-  Listener?: Listener;
+  Listener?: Listener | undefined;
 }
 export type MaxResults = number;
 export interface ListAcceleratorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Accelerators = Accelerator[];
 export interface ListAcceleratorsResponse {
-  Accelerators?: Accelerator[];
-  NextToken?: string;
+  Accelerators?: Accelerator[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListByoipCidrsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ByoipCidrs = ByoipCidr[];
 export interface ListByoipCidrsResponse {
-  ByoipCidrs?: ByoipCidr[];
-  NextToken?: string;
+  ByoipCidrs?: ByoipCidr[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCrossAccountAttachmentsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Attachments = Attachment[];
 export interface ListCrossAccountAttachmentsResponse {
-  CrossAccountAttachments?: Attachment[];
-  NextToken?: string;
+  CrossAccountAttachments?: Attachment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCrossAccountResourceAccountsRequest {}
 export type AwsAccountId = string;
 export type AwsAccountIds = string[];
 export interface ListCrossAccountResourceAccountsResponse {
-  ResourceOwnerAwsAccountIds?: string[];
+  ResourceOwnerAwsAccountIds?: string[] | undefined;
 }
 export interface ListCrossAccountResourcesRequest {
-  AcceleratorArn?: string;
+  AcceleratorArn?: string | undefined;
   ResourceOwnerAwsAccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CrossAccountResource {
-  EndpointId?: string;
-  Cidr?: string;
-  AttachmentArn?: string;
+  EndpointId?: string | undefined;
+  Cidr?: string | undefined;
+  AttachmentArn?: string | undefined;
 }
 export type CrossAccountResources = CrossAccountResource[];
 export interface ListCrossAccountResourcesResponse {
-  CrossAccountResources?: CrossAccountResource[];
-  NextToken?: string;
+  CrossAccountResources?: CrossAccountResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomRoutingAcceleratorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomRoutingAccelerators = CustomRoutingAccelerator[];
 export interface ListCustomRoutingAcceleratorsResponse {
-  Accelerators?: CustomRoutingAccelerator[];
-  NextToken?: string;
+  Accelerators?: CustomRoutingAccelerator[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomRoutingEndpointGroupsRequest {
   ListenerArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomRoutingEndpointGroups = CustomRoutingEndpointGroup[];
 export interface ListCustomRoutingEndpointGroupsResponse {
-  EndpointGroups?: CustomRoutingEndpointGroup[];
-  NextToken?: string;
+  EndpointGroups?: CustomRoutingEndpointGroup[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomRoutingListenersRequest {
   AcceleratorArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomRoutingListeners = CustomRoutingListener[];
 export interface ListCustomRoutingListenersResponse {
-  Listeners?: CustomRoutingListener[];
-  NextToken?: string;
+  Listeners?: CustomRoutingListener[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PortMappingsMaxResults = number;
 export interface ListCustomRoutingPortMappingsRequest {
   AcceleratorArn: string;
-  EndpointGroupArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  EndpointGroupArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SocketAddress {
-  IpAddress?: string;
-  Port?: number;
+  IpAddress?: string | undefined;
+  Port?: number | undefined;
 }
 export type CustomRoutingDestinationTrafficState = "ALLOW" | "DENY" | (string & {});
 export interface PortMapping {
-  AcceleratorPort?: number;
-  EndpointGroupArn?: string;
-  EndpointId?: string;
-  DestinationSocketAddress?: SocketAddress;
-  Protocols?: CustomRoutingProtocol[];
-  DestinationTrafficState?: CustomRoutingDestinationTrafficState;
+  AcceleratorPort?: number | undefined;
+  EndpointGroupArn?: string | undefined;
+  EndpointId?: string | undefined;
+  DestinationSocketAddress?: SocketAddress | undefined;
+  Protocols?: CustomRoutingProtocol[] | undefined;
+  DestinationTrafficState?: CustomRoutingDestinationTrafficState | undefined;
 }
 export type PortMappings = PortMapping[];
 export interface ListCustomRoutingPortMappingsResponse {
-  PortMappings?: PortMapping[];
-  NextToken?: string;
+  PortMappings?: PortMapping[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomRoutingPortMappingsByDestinationRequest {
   EndpointId: string;
   DestinationAddress: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SocketAddresses = SocketAddress[];
 export interface DestinationPortMapping {
-  AcceleratorArn?: string;
-  AcceleratorSocketAddresses?: SocketAddress[];
-  EndpointGroupArn?: string;
-  EndpointId?: string;
-  EndpointGroupRegion?: string;
-  DestinationSocketAddress?: SocketAddress;
-  IpAddressType?: IpAddressType;
-  DestinationTrafficState?: CustomRoutingDestinationTrafficState;
+  AcceleratorArn?: string | undefined;
+  AcceleratorSocketAddresses?: SocketAddress[] | undefined;
+  EndpointGroupArn?: string | undefined;
+  EndpointId?: string | undefined;
+  EndpointGroupRegion?: string | undefined;
+  DestinationSocketAddress?: SocketAddress | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  DestinationTrafficState?: CustomRoutingDestinationTrafficState | undefined;
 }
 export type DestinationPortMappings = DestinationPortMapping[];
 export interface ListCustomRoutingPortMappingsByDestinationResponse {
-  DestinationPortMappings?: DestinationPortMapping[];
-  NextToken?: string;
+  DestinationPortMappings?: DestinationPortMapping[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEndpointGroupsRequest {
   ListenerArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EndpointGroups = EndpointGroup[];
 export interface ListEndpointGroupsResponse {
-  EndpointGroups?: EndpointGroup[];
-  NextToken?: string;
+  EndpointGroups?: EndpointGroup[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListListenersRequest {
   AcceleratorArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Listeners = Listener[];
 export interface ListListenersResponse {
-  Listeners?: Listener[];
-  NextToken?: string;
+  Listeners?: Listener[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CidrAuthorizationContext {
   Message: string;
@@ -772,7 +772,7 @@ export interface ProvisionByoipCidrRequest {
   CidrAuthorizationContext: CidrAuthorizationContext;
 }
 export interface ProvisionByoipCidrResponse {
-  ByoipCidr?: ByoipCidr;
+  ByoipCidr?: ByoipCidr | undefined;
 }
 export type EndpointIds = string[];
 export interface RemoveCustomRoutingEndpointsRequest {
@@ -782,7 +782,7 @@ export interface RemoveCustomRoutingEndpointsRequest {
 export interface RemoveCustomRoutingEndpointsResponse {}
 export interface EndpointIdentifier {
   EndpointId: string;
-  ClientIPPreservationEnabled?: boolean;
+  ClientIPPreservationEnabled?: boolean | undefined;
 }
 export type EndpointIdentifiers = EndpointIdentifier[];
 export interface RemoveEndpointsRequest {
@@ -803,88 +803,88 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAcceleratorRequest {
   AcceleratorArn: string;
-  Name?: string;
-  IpAddressType?: IpAddressType;
-  IpAddresses?: string[];
-  Enabled?: boolean;
+  Name?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  IpAddresses?: string[] | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateAcceleratorResponse {
-  Accelerator?: Accelerator;
+  Accelerator?: Accelerator | undefined;
 }
 export interface UpdateAcceleratorAttributesRequest {
   AcceleratorArn: string;
-  FlowLogsEnabled?: boolean;
-  FlowLogsS3Bucket?: string;
-  FlowLogsS3Prefix?: string;
+  FlowLogsEnabled?: boolean | undefined;
+  FlowLogsS3Bucket?: string | undefined;
+  FlowLogsS3Prefix?: string | undefined;
 }
 export interface UpdateAcceleratorAttributesResponse {
-  AcceleratorAttributes?: AcceleratorAttributes;
+  AcceleratorAttributes?: AcceleratorAttributes | undefined;
 }
 export interface UpdateCrossAccountAttachmentRequest {
   AttachmentArn: string;
-  Name?: string;
-  AddPrincipals?: string[];
-  RemovePrincipals?: string[];
-  AddResources?: Resource[];
-  RemoveResources?: Resource[];
+  Name?: string | undefined;
+  AddPrincipals?: string[] | undefined;
+  RemovePrincipals?: string[] | undefined;
+  AddResources?: Resource[] | undefined;
+  RemoveResources?: Resource[] | undefined;
 }
 export interface UpdateCrossAccountAttachmentResponse {
-  CrossAccountAttachment?: Attachment;
+  CrossAccountAttachment?: Attachment | undefined;
 }
 export interface UpdateCustomRoutingAcceleratorRequest {
   AcceleratorArn: string;
-  Name?: string;
-  IpAddressType?: IpAddressType;
-  IpAddresses?: string[];
-  Enabled?: boolean;
+  Name?: string | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  IpAddresses?: string[] | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateCustomRoutingAcceleratorResponse {
-  Accelerator?: CustomRoutingAccelerator;
+  Accelerator?: CustomRoutingAccelerator | undefined;
 }
 export interface UpdateCustomRoutingAcceleratorAttributesRequest {
   AcceleratorArn: string;
-  FlowLogsEnabled?: boolean;
-  FlowLogsS3Bucket?: string;
-  FlowLogsS3Prefix?: string;
+  FlowLogsEnabled?: boolean | undefined;
+  FlowLogsS3Bucket?: string | undefined;
+  FlowLogsS3Prefix?: string | undefined;
 }
 export interface UpdateCustomRoutingAcceleratorAttributesResponse {
-  AcceleratorAttributes?: CustomRoutingAcceleratorAttributes;
+  AcceleratorAttributes?: CustomRoutingAcceleratorAttributes | undefined;
 }
 export interface UpdateCustomRoutingListenerRequest {
   ListenerArn: string;
   PortRanges: PortRange[];
 }
 export interface UpdateCustomRoutingListenerResponse {
-  Listener?: CustomRoutingListener;
+  Listener?: CustomRoutingListener | undefined;
 }
 export interface UpdateEndpointGroupRequest {
   EndpointGroupArn: string;
-  EndpointConfigurations?: EndpointConfiguration[];
-  TrafficDialPercentage?: number;
-  HealthCheckPort?: number;
-  HealthCheckProtocol?: HealthCheckProtocol;
-  HealthCheckPath?: string;
-  HealthCheckIntervalSeconds?: number;
-  ThresholdCount?: number;
-  PortOverrides?: PortOverride[];
+  EndpointConfigurations?: EndpointConfiguration[] | undefined;
+  TrafficDialPercentage?: number | undefined;
+  HealthCheckPort?: number | undefined;
+  HealthCheckProtocol?: HealthCheckProtocol | undefined;
+  HealthCheckPath?: string | undefined;
+  HealthCheckIntervalSeconds?: number | undefined;
+  ThresholdCount?: number | undefined;
+  PortOverrides?: PortOverride[] | undefined;
 }
 export interface UpdateEndpointGroupResponse {
-  EndpointGroup?: EndpointGroup;
+  EndpointGroup?: EndpointGroup | undefined;
 }
 export interface UpdateListenerRequest {
   ListenerArn: string;
-  PortRanges?: PortRange[];
-  Protocol?: Protocol;
-  ClientAffinity?: ClientAffinity;
+  PortRanges?: PortRange[] | undefined;
+  Protocol?: Protocol | undefined;
+  ClientAffinity?: ClientAffinity | undefined;
 }
 export interface UpdateListenerResponse {
-  Listener?: Listener;
+  Listener?: Listener | undefined;
 }
 export interface WithdrawByoipCidrRequest {
   Cidr: string;
 }
 export interface WithdrawByoipCidrResponse {
-  ByoipCidr?: ByoipCidr;
+  ByoipCidr?: ByoipCidr | undefined;
 }
 export type ErrorMessage = string;
 export type AddCustomRoutingEndpointsError =

@@ -111,7 +111,7 @@ export interface ProposedSchema {
   /** Names to try, in order, when the source does not discover a table called `name`. */
   alternative_names: ProposedSchemaAlternativeNamesList;
   /** The Fivetran table this plan comes from. Apply's `table_overrides` refer to it. */
-  vendor_table?: string | null;
+  vendor_table?: string | null | undefined;
 }
 /** Tables to sync, with their planned sync settings. Null means PostHog uses its default tables. */
 export type ItemProposalSchemasList = Array<ProposedSchema>;
@@ -157,11 +157,11 @@ export interface ItemProposal {
   /** Whether every table starts with syncing off, because the connection is paused in Fivetran. */
   start_paused: boolean;
   /** Tables that a naming rule paired. Ask the user to confirm each pair before applying. */
-  inferred_tables?: ItemProposalInferredTablesList;
+  inferred_tables?: ItemProposalInferredTablesList | undefined;
   /** Fivetran tables with no PostHog table. Compare them with the source's PostHog tables and propose one, or leave them out. */
-  unmatched_tables?: ItemProposalUnmatchedTablesList;
+  unmatched_tables?: ItemProposalUnmatchedTablesList | undefined;
   /** The source's PostHog tables that no Fivetran table maps to. Choose from these for the unmatched tables. Empty when every table matched. */
-  unused_posthog_tables?: ItemProposalUnusedPosthogTablesList;
+  unused_posthog_tables?: ItemProposalUnusedPosthogTablesList | undefined;
 }
 /** * `pending` - Pending * `applying` - Applying * `applied` - Applied * `skipped` - Skipped * `failed` - Failed */
 export type WarehouseMigrationItemStatusEnum =
@@ -201,15 +201,15 @@ export interface ListWarehouseMigrationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedWarehouseMigrationListResultsList = Array<WarehouseMigration>;
 export interface PaginatedWarehouseMigrationList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWarehouseMigrationListResultsList;
 }
 export interface ListWarehouseMigrationsItemsRequest {
@@ -217,15 +217,15 @@ export interface ListWarehouseMigrationsItemsRequest {
   project_id: string;
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedWarehouseMigrationItemListResultsList = Array<WarehouseMigrationItem>;
 export interface PaginatedWarehouseMigrationItemList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWarehouseMigrationItemListResultsList;
 }
 export type WarehouseMigrationsConnectLinkRetrieveRequestProvider = "fivetran";
@@ -258,9 +258,9 @@ export interface WarehouseMigrationsItemsBulkSkipCreateRequest {
   project_id: string;
   id: string;
   /** Items to skip. Pass this or `keep_item_ids`, not both. */
-  item_ids?: WarehouseMigrationsItemsBulkSkipCreateRequestItemIdsList;
+  item_ids?: WarehouseMigrationsItemsBulkSkipCreateRequestItemIdsList | undefined;
   /** Items to keep. Every other item is skipped, for example to migrate only one connection. */
-  keep_item_ids?: WarehouseMigrationsItemsBulkSkipCreateRequestKeepItemIdsList;
+  keep_item_ids?: WarehouseMigrationsItemsBulkSkipCreateRequestKeepItemIdsList | undefined;
 }
 /** Items that are now skipped, including ones skipped before. */
 export type WarehouseMigrationSkipItemsResponseSkippedItemIdsList = Array<string>;

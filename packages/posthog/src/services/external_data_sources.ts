@@ -73,21 +73,21 @@ export interface CreateExternalDataSourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The source type (e.g. 'Postgres', 'Stripe'). */
-  source_type?: string;
+  source_type?: string | undefined;
   /** Connection credentials. Keys depend on source_type. Add a 'schemas' array to pick which tables sync; omit it and every discovered table syncs with default settings. */
-  payload?: CreateExternalDataSourceRequestPayloadMap;
+  payload?: CreateExternalDataSourceRequestPayloadMap | undefined;
   /** Prefix added to the table names PostHog creates in HogQL. Does not filter which tables are imported. */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Human-readable description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Connection mode: 'warehouse' (import) or 'direct' (live query). * `warehouse` - warehouse * `direct` - direct */
-  access_method?: ExternalDataSourceAccessMethodEnum | (string & {});
+  access_method?: ExternalDataSourceAccessMethodEnum | (string & {}) | undefined;
   /** Where the request came from: `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls. `wizard` and `self_driving` cannot be set directly -- they are derived server-side for wizard- and PostHog Desktop-driven MCP calls. Defaults to `api`. * `web` - web * `api` - api * `mcp` - mcp */
-  created_via?: ExternalDataSourceCreateCreatedViaEnum | (string & {});
+  created_via?: ExternalDataSourceCreateCreatedViaEnum | (string & {}) | undefined;
   /** Whether a synced source should also be live-queryable via direct connection. Defaults to false; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Destinations every table on this source writes to. Set here rather than afterwards, so the opening sync already carries them. Omit to write to the PostHog warehouse only. */
-  destination_ids?: CreateExternalDataSourceRequestDestinationIdsList;
+  destination_ids?: CreateExternalDataSourceRequestDestinationIdsList | undefined;
 }
 export interface ExternalDataSourceCreateResponse {
   /** ID of the created external data source. */
@@ -116,18 +116,21 @@ export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequest 
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceResponse {}
 /** Values of the sibling fields named by the picker's `credentialFields`. Any other key is rejected. */
@@ -142,7 +145,7 @@ export interface CreateExternalDataSourcesCredentialAccountRequest {
   /** Values of the sibling fields named by the picker's `credentialFields`. Any other key is rejected. */
   credentials: CreateExternalDataSourcesCredentialAccountRequestCredentialsMap;
   /** Vendor API version the source is pinned to. Defaults to the source's current default. */
-  api_version?: string | null;
+  api_version?: string | null | undefined;
 }
 /** Short status chips for the account, e.g. ['Active'] or ['Pause']. */
 export type IntegrationAccountBadgesList = Array<string>;
@@ -171,18 +174,18 @@ export interface CreateExternalDataSourcesDatabaseSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The source type to validate against. */
-  source_type?: string;
+  source_type?: string | undefined;
 }
 export interface CreateExternalDataSourcesDatabaseSchemaResponse {}
 export interface CreateExternalDataSourcesDraftCustomManifestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional human name of the API being connected (e.g. 'Acme CRM'). Used only to orient the model. */
-  source_name?: string;
+  source_name?: string | undefined;
   /** URL of the API documentation to read. Provide this or docs_text; fetched server-side via the egress proxy. */
-  docs_url?: string;
+  docs_url?: string | undefined;
   /** Raw API documentation or an OpenAPI/Swagger spec, pasted directly. Provide this or docs_url. */
-  docs_text?: string;
+  docs_text?: string | undefined;
 }
 /** * `ok` - ok * `invalid` - invalid * `model_error` - model_error */
 export type DraftStatusEnum = "ok" | "invalid" | "model_error";
@@ -210,11 +213,11 @@ export interface CreateExternalDataSourcesPreviewResourceRequest {
   /** The source type to preview. Only 'Custom' (a user-defined REST API) is supported today. */
   source_type: string;
   /** Source config as flat keys. For source_type 'Custom': 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the manifest's declared auth type -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic). Secrets stay in these auth_* keys, never inline in the manifest. */
-  payload?: CreateExternalDataSourcesPreviewResourceRequestPayloadMap;
+  payload?: CreateExternalDataSourcesPreviewResourceRequestPayloadMap | undefined;
   /** Which manifest resource (table) to read a sample from -- one of the resource names in manifest_json. */
   resource_name: string;
   /** Maximum sample rows to return (1-50). Defaults to 10. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SourcePreviewResponseRowsItemMap = { [key: string]: unknown | undefined };
 /** Up to `limit` sample rows, after data_selector extraction -- the raw records the sync would ingest. */
@@ -245,18 +248,21 @@ export interface CreateExternalDataSourcesReloadRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: CreateExternalDataSourcesReloadRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | CreateExternalDataSourcesReloadRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface CreateExternalDataSourcesReloadResponse {}
 export interface CreateExternalDataSourcesRepairCdcRequest {
@@ -266,8 +272,8 @@ export interface CreateExternalDataSourcesRepairCdcRequest {
   id: string;
 }
 export interface CreateExternalDataSourcesRepairCdcResponse {
-  success?: boolean;
-  schemas_reset?: number;
+  success?: boolean | undefined;
+  schemas_reset?: number | undefined;
 }
 /** Connection details as flat keys for the source_type (discover required fields with the wizard tool). Prefer references over raw secrets: pass {'credential_id': <id>} referencing the connection details the user stored via the connect-link page (discover ids with the stored_credentials endpoint) -- they are merged in server-side and deleted once consumed. An already-connected OAuth integration can be passed via its id key instead (e.g. {'hubspot_integration_id': 123}). For source_type 'Custom' (a user-defined REST API) the keys are 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the auth type the manifest declares -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic); keep secrets in these auth_* keys, never inline in the manifest. A 'schemas' array is NOT required -- all discovered tables are enabled automatically with sensible sync defaults. */
 export type CreateExternalDataSourcesSetupRequestPayloadMap = {
@@ -279,13 +285,13 @@ export interface CreateExternalDataSourcesSetupRequest {
   /** The source type to set up (e.g. 'Stripe', 'Postgres', 'Hubspot'). */
   source_type: string;
   /** Connection details as flat keys for the source_type (discover required fields with the wizard tool). Prefer references over raw secrets: pass {'credential_id': <id>} referencing the connection details the user stored via the connect-link page (discover ids with the stored_credentials endpoint) -- they are merged in server-side and deleted once consumed. An already-connected OAuth integration can be passed via its id key instead (e.g. {'hubspot_integration_id': 123}). For source_type 'Custom' (a user-defined REST API) the keys are 'manifest_json' (a stringified RESTAPIConfig describing client.base_url, auth, and resources) plus the credential for the auth type the manifest declares -- 'auth_token' (bearer), 'auth_api_key' (api_key), or 'auth_password' (http_basic); keep secrets in these auth_* keys, never inline in the manifest. A 'schemas' array is NOT required -- all discovered tables are enabled automatically with sensible sync defaults. */
-  payload?: CreateExternalDataSourcesSetupRequestPayloadMap;
+  payload?: CreateExternalDataSourcesSetupRequestPayloadMap | undefined;
   /** Prefix added to the table names PostHog creates in HogQL, e.g. 'stripe' produces stripe_charges. Does not filter which tables are imported. Defaults to the source type. */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** Human-readable description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether a synced source should also be live-queryable via direct connection. Defaults to false; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
 }
 /** Webhook input names the user still needs to provide (e.g. a signing secret the external API did not return on create). Submit them via the update_webhook_inputs endpoint. */
 export type SourceSetupWebhookPendingInputsList = Array<string>;
@@ -303,7 +309,7 @@ export interface SourceSetupResponse {
   /** ID of the created external data source. */
   id: string;
   /** Outcome of automatic webhook registration. Only present for sources that support webhooks (e.g. Stripe) and have webhook-capable tables. */
-  webhook?: SourceSetupWebhook;
+  webhook?: SourceSetupWebhook | undefined;
 }
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
 export type CreateExternalDataSourcesSourcePrefixRequestAutoSyncSchemaPatternsList = Array<string>;
@@ -311,18 +317,21 @@ export interface CreateExternalDataSourcesSourcePrefixRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: CreateExternalDataSourcesSourcePrefixRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | CreateExternalDataSourcesSourcePrefixRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface CreateExternalDataSourcesSourcePrefixResponse {}
 /** Connection details as flat keys for the source_type -- the same fields the create flow accepts (host, port, password, API key, ...). Checked against a live connection before being stored. */
@@ -375,35 +384,35 @@ export type ExternalDataSourceBulkUpdateSchemaRowFiltersList =
   Array<ExternalDataSourceBulkUpdateSchemaRowFiltersItem>;
 export interface ExternalDataSourceBulkUpdateSchema {
   /** Schema identifier to update. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the schema should be queryable/synced. */
-  should_sync?: boolean;
+  should_sync?: boolean | undefined;
   /** Requested sync mode for the schema (incremental, full_refresh, append, cdc, or xmin). * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | (string & {}) | null | undefined;
   /** Incremental cursor field for incremental or append syncs. */
-  incremental_field?: string | null;
+  incremental_field?: string | null | undefined;
   /** Type of the incremental cursor field. */
-  incremental_field_type?: string | null;
+  incremental_field_type?: string | null | undefined;
   /** Human-readable sync frequency value. */
-  sync_frequency?: string | null;
+  sync_frequency?: string | null | undefined;
   /** UTC anchor time for scheduled syncs. */
-  sync_time_of_day?: string | null;
+  sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row. Re-imported rows count toward usage, and workflows and destinations that run on new rows of the table run again for every row. Incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
-  full_refresh_interval_days?: number | null;
+  full_refresh_interval_days?: number | null | undefined;
   /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
-  full_refresh_time_of_day?: string | null;
+  full_refresh_time_of_day?: string | null | undefined;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSourceBulkUpdateSchemaPrimaryKeyColumnsList | null;
+  primary_key_columns?: ExternalDataSourceBulkUpdateSchemaPrimaryKeyColumnsList | null | undefined;
   /** How CDC-backed tables should be exposed. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null;
+  cdc_table_mode?: CdcTableModeEnum | (string & {}) | null | undefined;
   /** Columns to sync. Null means sync all columns. */
-  enabled_columns?: ExternalDataSourceBulkUpdateSchemaEnabledColumnsList | null;
+  enabled_columns?: ExternalDataSourceBulkUpdateSchemaEnabledColumnsList | null | undefined;
   /** Columns whose values are replaced with a one-way digest at sync time. Null means mask nothing. Any change starts a full resync of the table. */
-  masked_columns?: ExternalDataSourceBulkUpdateSchemaMaskedColumnsList | null;
+  masked_columns?: ExternalDataSourceBulkUpdateSchemaMaskedColumnsList | null | undefined;
   /** Row-filter predicates ANDed onto the source query. Null/empty means sync all rows. */
-  row_filters?: ExternalDataSourceBulkUpdateSchemaRowFiltersList | null;
+  row_filters?: ExternalDataSourceBulkUpdateSchemaRowFiltersList | null | undefined;
   /** When true and the schema has no sync method configured yet (and this update does not set one), discover the table on the source and fill in default sync settings: incremental sync with an auto-selected tracking column where supported, otherwise append, otherwise full refresh. Ignored for schemas that already have a sync method. */
-  apply_sync_defaults?: boolean;
+  apply_sync_defaults?: boolean | undefined;
 }
 /** Schema updates to apply in a single batch. */
 export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateRequestSchemasList =
@@ -476,10 +485,10 @@ export type ExternalDataSchemaOutputAvailableColumnsItemSensitivity =
   | "card_number";
 export interface ExternalDataSchemaOutputAvailableColumnsItem {
   name: string;
-  data_type?: string;
-  is_nullable?: boolean;
+  data_type?: string | undefined;
+  is_nullable?: boolean | undefined;
   /** The kind of personal or secret data the column's name and type suggest, or null. */
-  sensitivity?: ExternalDataSchemaOutputAvailableColumnsItemSensitivity | null;
+  sensitivity?: ExternalDataSchemaOutputAvailableColumnsItemSensitivity | null | undefined;
 }
 /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
 export type ExternalDataSchemaOutputAvailableColumnsList =
@@ -487,16 +496,16 @@ export type ExternalDataSchemaOutputAvailableColumnsList =
 export type ExternalDataSchemaOutputSourceSupportedApiVersionsList = Array<string>;
 /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
 export interface ExternalDataSchemaOutputSource {
-  id?: string;
-  source_type?: string;
-  access_method?: string;
-  supports_column_selection?: boolean;
-  supports_row_filters?: boolean;
-  requires_exact_column_metadata?: boolean;
-  user_access_level?: string | null;
-  api_version?: string | null;
-  supported_api_versions?: ExternalDataSchemaOutputSourceSupportedApiVersionsList;
-  file_name?: string | null;
+  id?: string | undefined;
+  source_type?: string | undefined;
+  access_method?: string | undefined;
+  supports_column_selection?: boolean | undefined;
+  supports_row_filters?: boolean | undefined;
+  requires_exact_column_metadata?: boolean | undefined;
+  user_access_level?: string | null | undefined;
+  api_version?: string | null | undefined;
+  supported_api_versions?: ExternalDataSchemaOutputSourceSupportedApiVersionsList | undefined;
+  file_name?: string | null | undefined;
 }
 export interface ExternalDataSourceApiVersionDeprecation {
   /** The deprecated vendor API version this source is pinned to. */
@@ -508,71 +517,71 @@ export interface ExternalDataSourceApiVersionDeprecation {
 }
 /** A schema of an external data source: its sync configuration and the warehouse table it syncs into. */
 export interface ExternalDataSchemaOutput {
-  id?: string;
-  name?: string;
-  label?: string | null;
-  table?: ExternalDataSchemaOutputTableMap | null;
+  id?: string | undefined;
+  name?: string | undefined;
+  label?: string | null | undefined;
+  table?: ExternalDataSchemaOutputTableMap | null | undefined;
   /** The id of the warehouse table this schema syncs into. Set before the first sync for a table the schema already names, such as a migrated one. Null when there is none. */
   table_id: string | null;
-  should_sync?: boolean;
-  last_synced_at?: string | null;
+  should_sync?: boolean | undefined;
+  last_synced_at?: string | null | undefined;
   /** The latest error that occurred when syncing this schema. */
-  latest_error?: string | null;
-  incremental?: boolean;
-  status?: string | null;
+  latest_error?: string | null | undefined;
+  incremental?: boolean | undefined;
+  status?: string | null | undefined;
   /** Whether this schema is linked to an existing self-managed table that its first sync will import. Until then the table keeps reading the original bucket. */
   pending_self_managed_table: boolean;
   /** Sync strategy: incremental, full_refresh, append, cdc, or xmin. * `full_refresh` - full_refresh * `incremental` - incremental * `append` - append * `webhook` - webhook * `cdc` - cdc * `xmin` - xmin */
-  sync_type?: ExternalDataSchemaSyncTypeEnum | null;
+  sync_type?: ExternalDataSchemaSyncTypeEnum | null | undefined;
   /** Column name used to track sync progress. */
-  incremental_field?: string | null;
+  incremental_field?: string | null | undefined;
   /** Data type of the incremental field. * `integer` - integer * `numeric` - numeric * `datetime` - datetime * `date` - date * `timestamp` - timestamp * `objectid` - objectid * `xid` - xid */
-  incremental_field_type?: IncrementalFieldTypeEnum | null;
+  incremental_field_type?: IncrementalFieldTypeEnum | null | undefined;
   /** Seconds to subtract from the stored incremental watermark at sync time, so each incremental run re-reads a rolling overlap window and catches late or backdated rows. Applies to timestamp/date incremental fields only. The stored watermark is unchanged. Maximum 5184000 (60 days). */
-  incremental_field_lookback_seconds?: number | null;
+  incremental_field_lookback_seconds?: number | null | undefined;
   /** How often to sync. The fastest sync frequency is 5 minutes. * `never` - never * `5min` - 5min * `15min` - 15min * `30min` - 30min * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day * `30day` - 30day */
-  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null;
+  sync_frequency?: ExternalDataSchemaSyncFrequencyEnum | null | undefined;
   /** UTC time of day to run the sync (HH:MM:SS). */
-  sync_time_of_day?: string | null;
+  sync_time_of_day?: string | null | undefined;
   /** Days between scheduled full refreshes, from 1 to 90, or null for none. A full refresh wipes the table and re-imports every row, so rows deleted at the source are removed. It runs on the first scheduled sync once the interval has passed, counted from when it was saved or from the last full resync (or, when full_refresh_time_of_day is set, from the slot of that time the last refresh served), and can start up to an hour early. Queries keep returning the current rows until a full refresh finishes, and workflows and destinations that run on new rows of the table run again for every row. Available for incremental, append, and xmin syncs only, and never shorter than the sync frequency. */
-  full_refresh_interval_days?: number | null;
+  full_refresh_interval_days?: number | null | undefined;
   /** UTC time of day (HH:MM:SS) that scheduled full refreshes are due, for example outside working hours. The refresh runs on the first scheduled sync from up to an hour before this time, so on a table that syncs every few hours it can run hours later. Each interval counts from the slot of this time that the last refresh or save served, where a slot less than an hour away counts as served. Saving a new time restarts the clock, so the first refresh after a save can come up to a day before a full interval has passed. Null counts the interval from when it was saved or from the last full resync. Cleared when full_refresh_interval_days is null. */
-  full_refresh_time_of_day?: string | null;
+  full_refresh_time_of_day?: string | null | undefined;
   /** When the next scheduled full refresh is due. The first scheduled sync that starts at most an hour before this time re-imports the table. Saving a new interval or time, or any full resync, moves it one interval ahead, onto full_refresh_time_of_day when that is set. */
-  next_full_refresh_at?: string | null;
-  description?: string | null;
+  next_full_refresh_at?: string | null | undefined;
+  description?: string | null | undefined;
   /** Column names for primary key deduplication. */
-  primary_key_columns?: ExternalDataSchemaOutputPrimaryKeyColumnsList | null;
+  primary_key_columns?: ExternalDataSchemaOutputPrimaryKeyColumnsList | null | undefined;
   /** For CDC syncs: consolidated, cdc_only, or both. * `consolidated` - consolidated * `cdc_only` - cdc_only * `both` - both */
-  cdc_table_mode?: CdcTableModeEnum | null;
+  cdc_table_mode?: CdcTableModeEnum | null | undefined;
   /** Why the last sync run could not merge rows for this table, or `null` when no such failure is current, which includes a run that failed for another reason. A blocked table is disabled, and the resolution differs by reason. `missing_primary_key`: no key to merge on, so set `primary_key_columns` to a unique key, which is accepted because none was set before. `duplicate_primary_key`: the key in use does not identify one row, and that key cannot be swapped once data has synced, so either remove the duplicates at the source and set `should_sync` to true, or delete the synced data before setting a different key. Either reason also accepts a different `sync_type`: `append` is only safe for insert-only tables, because updated rows arrive again as duplicates, and `full_refresh` re-reads the whole table on every sync and bills every row. This reports the last run's failure, so it clears once a run succeeds or fails for another reason, not when an update lands. * `missing_primary_key` - Missing primary key * `duplicate_primary_key` - Duplicate primary key */
-  incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null;
+  incremental_sync_blocked?: IncrementalSyncBlockedReasonEnum | null | undefined;
   /** Whether this table uses webhook sync, but its source has no enabled webhook. Such a table gets no webhook updates. Each sync polls the source API instead, which is slower and can read the whole table. Set up the webhook on the source, or change `sync_type`. */
   webhook_not_registered: boolean;
   /** Names of source columns to sync. `null` (default) syncs all columns. Primary-key columns and the active incremental field are always retained, even if not listed here. */
-  enabled_columns?: ExternalDataSchemaOutputEnabledColumnsList | null;
+  enabled_columns?: ExternalDataSchemaOutputEnabledColumnsList | null | undefined;
   /** Names of source columns whose values are replaced with a deterministic one-way digest at sync time, for sensitive data such as passwords or PII. `null` (default) masks nothing. Primary-key, partition and incremental columns can't be masked, and direct query sources don't support masking. Any change to this list starts a full resync of the table (CDC tables take a new snapshot), or stages it until syncing is turned on. A synced webhook table can't change its masked columns, because its data can't be fetched again. */
-  masked_columns?: ExternalDataSchemaOutputMaskedColumnsList | null;
+  masked_columns?: ExternalDataSchemaOutputMaskedColumnsList | null | undefined;
   /** Predicates ANDed onto the source query so only matching rows sync. Each is `{column, operator, value}`; `null`/empty (default) syncs all rows. The operator must be one of `> >= < <= = != IN "NOT IN"` and the value must match the column's type (for `IN`/`NOT IN`, a comma-separated list like `1, 2, 3` or `'a','b'`). Applied on the next sync -- not retroactive to already-synced rows. */
-  row_filters?: ExternalDataSchemaOutputRowFiltersList | null;
+  row_filters?: ExternalDataSchemaOutputRowFiltersList | null | undefined;
   /** Columns a row filter on this schema may use, with the operators each accepts. `null` means any column in `available_columns` with any operator, which is the case for SQL sources. A list means the source can filter on these columns only; an empty list means this schema accepts no row filter. */
   row_filter_columns: ExternalDataSchemaOutputRowFilterColumnsList | null;
   /** Column metadata (name, data type, nullable) for this schema. For SQL sources this is the source-side schema discovered via `refresh_schemas`; for other sources (and once synced) it falls back to the synced table's columns. Empty only before the first successful sync/refresh. */
-  available_columns?: ExternalDataSchemaOutputAvailableColumnsList;
+  available_columns?: ExternalDataSchemaOutputAvailableColumnsList | undefined;
   /** Whether exact source-side column metadata is available for safe source-query projection. */
-  source_column_metadata_available?: boolean;
+  source_column_metadata_available?: boolean | undefined;
   /** Name of the history table that keeps every version of each row, or `null` when the table keeps no history. A history table created before `_history` names existed keeps its `_cdc` name. */
   history_table_name: string | null;
   /** Name of the history table registered for this schema, whether or not its mode still writes it, or `null` when none is registered. One the schema no longer writes can be removed with the `history_table` delete endpoint. Populated on the single-schema retrieve and update endpoints, `null` elsewhere. After an update that sent `drop_history_table`, a name means the history table was kept, for example because a sync started meanwhile. */
   registered_history_table_name: string | null;
   /** Lightweight parent-source summary (id, source_type, access_method, column-selection support, the requesting user's access level). Only populated on the single-schema retrieve endpoint -- `null` elsewhere -- so read-only views can render without fetching the full source and all its schemas. */
-  source?: ExternalDataSchemaOutputSource | null;
+  source?: ExternalDataSchemaOutputSource | null | undefined;
   /** Vendor API version override for this schema. `null` (default) syncs on the source's pinned version. Must be one of the source type's supported versions. User-managed: version-migration tooling never changes it. Not available for webhook-sync schemas. */
-  api_version?: string | null;
+  api_version?: string | null | undefined;
   /** Set when this schema's version override is deprecated by the vendor; null when there is no override or it is not deprecated. The source-level field covers the source pin. */
-  api_version_deprecation?: ExternalDataSourceApiVersionDeprecation | null;
+  api_version_deprecation?: ExternalDataSourceApiVersionDeprecation | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export type ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponseBodyList =
   Array<ExternalDataSchemaOutput>;
@@ -604,18 +613,21 @@ export interface ExternalDataSourcesCreateWebhookCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourcesCreateWebhookCreateRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourcesCreateWebhookCreateRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 /** Inputs the external service needs before delivery works. Submit via update_webhook_inputs. */
 export type CreateWebhookResponsePendingInputsList = Array<string>;
@@ -637,18 +649,21 @@ export interface ExternalDataSourcesDeleteWebhookCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourcesDeleteWebhookCreateRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourcesDeleteWebhookCreateRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface DeleteWebhookResponse {
   /** Whether the webhook delivery function was deleted. */
@@ -673,18 +688,21 @@ export interface ExternalDataSourcesDisableCdcCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourcesDisableCdcCreateRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourcesDisableCdcCreateRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface ExternalDataSourcesDisableCdcCreateResponse {}
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
@@ -695,18 +713,21 @@ export interface ExternalDataSourcesEnableCdcCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourcesEnableCdcCreateRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourcesEnableCdcCreateRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface CdcEnableResponse {
   /** Whether CDC was enabled on the source. */
@@ -723,18 +744,21 @@ export interface ExternalDataSourcesRefreshSchemasCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourcesRefreshSchemasCreateRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourcesRefreshSchemasCreateRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface ExternalDataSourcesRefreshSchemasCreateResponse {}
 export interface ExternalDataSourcesResumeCdcCreateRequest {
@@ -744,7 +768,7 @@ export interface ExternalDataSourcesResumeCdcCreateRequest {
   id: string;
 }
 export interface ExternalDataSourcesResumeCdcCreateResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
 export type ExternalDataSourcesUpdateCdcSettingsCreateRequestAutoSyncSchemaPatternsList =
@@ -755,18 +779,21 @@ export interface ExternalDataSourcesUpdateCdcSettingsCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourcesUpdateCdcSettingsCreateRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourcesUpdateCdcSettingsCreateRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface ExternalDataSourcesUpdateCdcSettingsCreateResponse {}
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
@@ -778,18 +805,21 @@ export interface ExternalDataSourcesUpdateWebhookInputsCreateRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourcesUpdateWebhookInputsCreateRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourcesUpdateWebhookInputsCreateRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface UpdateWebhookInputsResponse {
   /** Whether the inputs were saved and pushed to the external service. */
@@ -818,47 +848,50 @@ export type ExternalDataSourceSerializersOutputSchemasItemMap = {
 export type ExternalDataSourceSerializersOutputSchemasList =
   Array<ExternalDataSourceSerializersOutputSchemasItemMap>;
 export interface ExternalDataSourceRevenueAnalyticsConfig {
-  enabled?: boolean;
-  include_invoiceless_charges?: boolean;
+  enabled?: boolean | undefined;
+  include_invoiceless_charges?: boolean | undefined;
 }
 /** Mixin for serializers to add user access control fields */
 export interface ExternalDataSourceSerializersOutput {
-  id?: string;
-  created_at?: string;
-  created_by?: string | null;
+  id?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: string | null | undefined;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | null;
-  status?: string;
-  source_type?: string;
-  latest_error?: string | null;
-  prefix?: string | null;
-  description?: string | null;
-  access_method?: ExternalDataSourceAccessMethodEnum;
+  created_via?: ExternalDataSourceCreatedViaEnum | null | undefined;
+  status?: string | undefined;
+  source_type?: string | undefined;
+  latest_error?: string | null | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
+  access_method?: ExternalDataSourceAccessMethodEnum | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: ExternalDataSourceSerializersOutputAutoSyncSchemaPatternsList | null;
+  auto_sync_schema_patterns?:
+    | ExternalDataSourceSerializersOutputAutoSyncSchemaPatternsList
+    | null
+    | undefined;
   /** Backend engine detected for the direct connection. * `duckdb` - duckdb * `postgres` - postgres * `mysql` - mysql * `snowflake` - snowflake * `redshift` - redshift * `clickhouse` - clickhouse * `motherduck` - motherduck * `trino` - trino */
-  engine?: EngineEnum | null;
-  last_run_at?: string | null;
-  schemas?: ExternalDataSourceSerializersOutputSchemasList;
-  job_inputs?: unknown;
-  revenue_analytics_config?: ExternalDataSourceRevenueAnalyticsConfig;
+  engine?: EngineEnum | null | undefined;
+  last_run_at?: string | null | undefined;
+  schemas?: ExternalDataSourceSerializersOutputSchemasList | undefined;
+  job_inputs?: unknown | undefined;
+  revenue_analytics_config?: ExternalDataSourceRevenueAnalyticsConfig | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
-  supports_webhooks?: boolean;
+  user_access_level?: string | null | undefined;
+  supports_webhooks?: boolean | undefined;
   /** Whether at least one table of this source uses webhook sync, but the source has no enabled webhook. Those tables get no webhook updates. Each of their syncs polls the source API instead, which is slower and can read the whole table. Set up the webhook, or change the sync method of those tables. */
   webhook_not_registered: boolean;
   /** Whether this source supports per-column sync selection via `enabled_columns`. */
-  supports_column_selection?: boolean;
+  supports_column_selection?: boolean | undefined;
   /** The name of the file a file upload source imports. Null for other sources or when it is unknown. */
   file_name: string | null;
   /** Vendor API version this source is pinned to (an opaque vendor label, e.g. a Stripe date version). Null resolves to the source type's default version at sync time. */
-  api_version?: string | null;
+  api_version?: string | null | undefined;
   /** Set when the vendor has deprecated the API version this source is pinned to; null otherwise. Drives the in-product deprecation warning. */
-  api_version_deprecation?: ExternalDataSourceApiVersionDeprecation | null;
+  api_version_deprecation?: ExternalDataSourceApiVersionDeprecation | null | undefined;
   /** Set on an update response when the change was saved but the connection check from the API could not reach the database. Null otherwise. */
   connection_warning: string | null;
 }
@@ -876,25 +909,25 @@ export interface CdcStatus {
   /** Whether CDC is enabled on this source. */
   enabled: boolean;
   /** Who owns the slot and publication: PostHog or the customer. * `posthog` - posthog * `self_managed` - self_managed */
-  management_mode?: ManagementModeEnum;
+  management_mode?: ManagementModeEnum | undefined;
   /** Replication slot PostHog consumes from. Empty when unset. */
-  slot_name?: string;
+  slot_name?: string | undefined;
   /** Publication PostHog reads changes from. Empty when unset. */
-  publication_name?: string;
+  publication_name?: string | undefined;
   /** Lag in MB above which the UI warns. */
-  lag_warning_threshold_mb?: number;
+  lag_warning_threshold_mb?: number | undefined;
   /** Lag in MB above which the UI alerts. */
-  lag_critical_threshold_mb?: number;
+  lag_critical_threshold_mb?: number | undefined;
   /** True when a non-retryable failure paused the extraction schedule; the UI then offers Resume instead of Repair. Degrades to false when the schedule lookup fails. */
-  schedule_paused?: boolean;
+  schedule_paused?: boolean | undefined;
   /** Whether the replication slot exists on the source, when the source was reachable. */
-  slot_exists?: boolean;
+  slot_exists?: boolean | undefined;
   /** Whether the publication exists on the source, when the source was reachable. */
-  publication_exists?: boolean;
+  publication_exists?: boolean | undefined;
   /** Current slot lag in bytes, when the source was reachable. */
-  lag_bytes?: number | null;
+  lag_bytes?: number | null | undefined;
   /** Tables in the publication, when the source was reachable and a publication exists. */
-  published_tables?: CdcStatusPublishedTablesList;
+  published_tables?: CdcStatusPublishedTablesList | undefined;
 }
 export interface GetExternalDataSourcesDestinationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -923,7 +956,7 @@ export interface GetExternalDataSourcesOauthAccountRequest {
   /** The OAuth integration id whose accounts should be listed. */
   integration_id: number;
   /** Optional case-insensitive filter over account name/value, for sources whose resource list is large (e.g. GitHub repositories). */
-  search?: string;
+  search?: string | undefined;
   /** The data warehouse source type (e.g. 'BingAds', 'GoogleSearchConsole'). */
   source_type: string;
 }
@@ -953,12 +986,12 @@ export type WebhookInfoResponseSchemaMappingMap = { [key: string]: string | unde
 export type HogFunctionTemplatingEnum = "hog" | "liquid";
 export type InputsItemBytecodeList = Array<unknown>;
 export interface InputsItem {
-  value?: unknown;
-  templating?: HogFunctionTemplatingEnum;
-  bytecode?: InputsItemBytecodeList;
-  bytecode_contract?: string;
-  order?: number;
-  transpiled?: unknown;
+  value?: unknown | undefined;
+  templating?: HogFunctionTemplatingEnum | undefined;
+  bytecode?: InputsItemBytecodeList | undefined;
+  bytecode_contract?: string | undefined;
+  order?: number | undefined;
+  transpiled?: unknown | undefined;
 }
 /** Current webhook function inputs keyed by the source's declared webhook field names. */
 export type WebhookInfoResponseInputsMap = { [key: string]: InputsItem | undefined };
@@ -1000,19 +1033,19 @@ export interface WebhookInfoResponse {
   /** Resource name to external schema id, as configured on the webhook function. */
   schema_mapping: WebhookInfoResponseSchemaMappingMap;
   /** Current webhook function inputs keyed by the source's declared webhook field names. */
-  inputs?: WebhookInfoResponseInputsMap;
+  inputs?: WebhookInfoResponseInputsMap | undefined;
   /** Live webhook state as the external service reports it, when it could be read. */
   external_status: WebhookExternalStatus | null;
   /** Desired provider events not yet on the webhook (manual setup, or created before a new table). */
-  missing_events?: WebhookInfoResponseMissingEventsList;
+  missing_events?: WebhookInfoResponseMissingEventsList | undefined;
   /** Required webhook field names with no value yet. Deliveries are dropped while any is missing. */
-  missing_inputs?: WebhookInfoResponseMissingInputsList;
+  missing_inputs?: WebhookInfoResponseMissingInputsList | undefined;
 }
 export interface GetExternalDataSourcesWizardRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Comma-separated source type(s) to return config for, e.g. 'Postgres' or 'Postgres,Stripe'. Strongly recommended: the unfiltered response describes every supported source and is very large. Omit only to enumerate the available types. */
-  source_type?: string;
+  source_type?: string | undefined;
 }
 export type DataWarehouseSourceCategory =
   | "Databases"
@@ -1040,7 +1073,7 @@ export type SourceFieldInputConfigTypeEnum =
   | "number"
   | "textarea";
 export interface SourceFieldInputConfig {
-  caption?: string | null;
+  caption?: string | null | undefined;
   label: string;
   name: string;
   placeholder: string;
@@ -1056,38 +1089,38 @@ export interface SourceFieldOauthConfig {
   label: string;
   name: string;
   required: boolean;
-  requiredScopes?: string | null;
+  requiredScopes?: string | null | undefined;
   type: string;
 }
 export interface SourceFieldOauthAccountSelectConfig {
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** Keep the field in the config tree (so its value parses and survives job_inputs redaction) without rendering it in the source form. Used for legacy fields that a newer field supersedes. */
-  hidden?: boolean | null;
+  hidden?: boolean | null | undefined;
   /** Name of the OAuth integration id field this account selector reads from. */
   integrationField: string;
   /** Integration kind to validate and route the account fetch through. */
   integrationKind: string;
   label: string;
   /** Allow selecting multiple values; the field's payload value becomes string[]. */
-  multiple?: boolean | null;
+  multiple?: boolean | null | undefined;
   name: string;
-  placeholder?: string | null;
-  required?: boolean | null;
+  placeholder?: string | null | undefined;
+  required?: boolean | null | undefined;
   type: string;
 }
 /** Names of the sibling fields whose values the account listing needs. The form sends exactly these, and the listing endpoint accepts exactly these. */
 export type SourceFieldCredentialAccountSelectConfigCredentialFieldsList = Array<string>;
 /** Account picker for a source whose credentials are typed into the form, not held by an `Integration` row. Same `IntegrationAccount` shape and same picker as `oauth-account-select`; only where the credentials come from differs. `credentialFields` is the security boundary. The listing endpoint accepts those field names and no others, so the picker cannot be used to push arbitrary connection details into a source's client. */
 export interface SourceFieldCredentialAccountSelectConfig {
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** Names of the sibling fields whose values the account listing needs. The form sends exactly these, and the listing endpoint accepts exactly these. */
   credentialFields: SourceFieldCredentialAccountSelectConfigCredentialFieldsList;
   /** Name of an OAuth integration id field that lists the same accounts, for a source offering both a typed-in credential and a connected account. The form sends this instead of `credentialFields` when it holds a value, and the listing endpoint accepts it on the same allowlist. */
-  integrationField?: string | null;
+  integrationField?: string | null | undefined;
   label: string;
   name: string;
-  placeholder?: string | null;
-  required?: boolean | null;
+  placeholder?: string | null | undefined;
+  required?: boolean | null | undefined;
   type: string;
 }
 export type SourceFieldFileUploadJsonFormatConfigKeysCase1List = Array<string>;
@@ -1095,7 +1128,7 @@ export type SourceFieldFileUploadJsonFormatConfigKeys =
   | string
   | SourceFieldFileUploadJsonFormatConfigKeysCase1List;
 export interface SourceFieldFileUploadJsonFormatConfig {
-  format?: string;
+  format?: string | undefined;
   keys: SourceFieldFileUploadJsonFormatConfigKeys;
 }
 export interface SourceFieldFileUploadConfig {
@@ -1122,18 +1155,18 @@ export type SourceFieldSelectConfigOptionFieldsItem =
 export type SourceFieldSelectConfigOptionFieldsList =
   Array<SourceFieldSelectConfigOptionFieldsItem>;
 export interface SourceFieldSelectConfigOption {
-  fields?: SourceFieldSelectConfigOptionFieldsList | null;
+  fields?: SourceFieldSelectConfigOptionFieldsList | null | undefined;
   label: string;
   value: string;
 }
 export type SourceFieldSelectConfigOptionsList = Array<SourceFieldSelectConfigOption>;
 export interface SourceFieldSelectConfig {
-  caption?: string | null;
-  converter?: SourceFieldSelectConfigConverter | null;
+  caption?: string | null | undefined;
+  converter?: SourceFieldSelectConfigConverter | null | undefined;
   defaultValue: string;
   label: string;
   /** Allow selecting multiple values; the field's payload value becomes string[]. */
-  multiple?: boolean | null;
+  multiple?: boolean | null | undefined;
   name: string;
   options: SourceFieldSelectConfigOptionsList;
   required: boolean;
@@ -1150,7 +1183,7 @@ export type SourceFieldSwitchGroupConfigFieldsItem =
   | SourceFieldSSHTunnelConfig;
 export type SourceFieldSwitchGroupConfigFieldsList = Array<SourceFieldSwitchGroupConfigFieldsItem>;
 export interface SourceFieldSwitchGroupConfig {
-  caption?: string | null;
+  caption?: string | null | undefined;
   default: SourceFieldSwitchGroupConfigDefault;
   fields: SourceFieldSwitchGroupConfigFieldsList;
   label: string;
@@ -1171,7 +1204,7 @@ export type SourceConfigResponseKeywordsList = Array<string>;
 export type ReleaseStatus = "beta" | "ga";
 export interface SuggestedTable {
   table: string;
-  tooltip?: string | null;
+  tooltip?: string | null | undefined;
 }
 export type SourceConfigResponseSuggestedTablesList = Array<SuggestedTable>;
 export type SourceConfigResponseWebhookFieldsItem =
@@ -1189,7 +1222,7 @@ export type SourceConfigResponseVersionsList = Array<string>;
 export interface SourceVersionDeprecation {
   version: string;
   /** ISO date the vendor stops serving this version, or null when no date is announced. */
-  sunsetAt?: string | null;
+  sunsetAt?: string | null | undefined;
 }
 export type SourceConfigResponseDeprecatedVersionsList = Array<SourceVersionDeprecation>;
 /** Change data capture engine of a source type, which picks its CDC setup form and status panel. */
@@ -1200,7 +1233,7 @@ export type SourceDocumentedTablePrimaryKeysList = Array<string>;
 export interface SourceDocumentedTable {
   name: string;
   label: string;
-  description?: string | null;
+  description?: string | null | undefined;
   sync_methods: SourceDocumentedTableSyncMethodsList;
   incremental_fields: SourceDocumentedTableIncrementalFieldsList;
   primary_keys: SourceDocumentedTablePrimaryKeysList;
@@ -1208,44 +1241,44 @@ export interface SourceDocumentedTable {
 export type SourceConfigResponseTablesList = Array<SourceDocumentedTable>;
 /** A `SourceConfig` plus the runtime metadata the two catalog endpoints add per source. */
 export interface SourceConfigResponse {
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** Catalog bucket this source is grouped under in the new-source wizard. Optional at the type level so partial/in-progress sources don't break, but every registered source must set one (enforced by a test). */
-  category?: DataWarehouseSourceCategory | null;
-  disabledReason?: string | null;
-  docsUrl?: string | null;
-  existingSource?: boolean | null;
-  featureFlag?: string | null;
+  category?: DataWarehouseSourceCategory | null | undefined;
+  disabledReason?: string | null | undefined;
+  docsUrl?: string | null | undefined;
+  existingSource?: boolean | null | undefined;
+  featureFlag?: string | null | undefined;
   /** Whether this source should be prominently displayed in onboarding flows */
-  featured?: boolean | null;
+  featured?: boolean | null | undefined;
   fields: SourceConfigResponseFieldsList;
-  iconClassName?: string | null;
+  iconClassName?: string | null | undefined;
   iconPath: string;
   /** Extra search terms (alternate spellings, acronyms) for the catalog search, e.g. GoogleAnalytics -> ["ga4", "ga"]. Matched alongside name/label/category. */
-  keywords?: SourceConfigResponseKeywordsList | null;
-  label?: string | null;
+  keywords?: SourceConfigResponseKeywordsList | null | undefined;
+  label?: string | null | undefined;
   name: string;
-  permissionsCaption?: string | null;
-  releaseStatus?: ReleaseStatus | null;
+  permissionsCaption?: string | null | undefined;
+  releaseStatus?: ReleaseStatus | null | undefined;
   /** Tables to suggest enabling, with optional tooltip explaining why */
-  suggestedTables?: SourceConfigResponseSuggestedTablesList | null;
+  suggestedTables?: SourceConfigResponseSuggestedTablesList | null | undefined;
   /** Whether the source-creation wizard should expose the per-column projection picker. Mirrors `SQLSource.supports_column_selection` so the wizard doesn't show a picker for drivers that ignore `enabled_columns` at sync time. */
   supportsColumnSelection: boolean;
-  unreleasedSource?: boolean | null;
-  webhookFields?: SourceConfigResponseWebhookFieldsList | null;
+  unreleasedSource?: boolean | null | undefined;
+  webhookFields?: SourceConfigResponseWebhookFieldsList | null | undefined;
   /** If true, the source does not support automatic webhook registration via API (e.g. Slack, where the user must paste the URL into the source's app settings). Adjusts the setup UI copy to avoid promising automatic registration. */
-  webhookManualOnly?: boolean | null;
-  webhookSetupCaption?: string | null;
+  webhookManualOnly?: boolean | null | undefined;
+  webhookSetupCaption?: string | null | undefined;
   /** Vendor API version labels this source supports. */
   versions: SourceConfigResponseVersionsList;
   /** Version used when a source instance pins none. */
   defaultVersion: string;
   /** Vendor API docs or changelog URL, or null when the vendor publishes none. */
-  apiDocsUrl?: string | null;
+  apiDocsUrl?: string | null | undefined;
   deprecatedVersions: SourceConfigResponseDeprecatedVersionsList;
   /** Change data capture engine, which picks the CDC setup form and status panel. Null when the source has no CDC. */
-  cdcEngine?: CDCEngine | null;
+  cdcEngine?: CDCEngine | null | undefined;
   /** Credential-free documented table catalog, empty for SQL and file sources with user-defined schemas. The public endpoint sets it; the wizard omits it to keep its payload small. */
-  tables?: SourceConfigResponseTablesList | null;
+  tables?: SourceConfigResponseTablesList | null | undefined;
 }
 /** Map of source type identifier to its config, as both catalog endpoints return it. */
 export type SourceConfigMapResponse = { [key: string]: SourceConfigResponse | undefined };
@@ -1254,41 +1287,41 @@ export interface ListExternalDataSourcesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedExternalDataSourceSerializersListOutputResultsList =
   Array<ExternalDataSourceSerializersOutput>;
 export interface PaginatedExternalDataSourceSerializersListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedExternalDataSourceSerializersListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedExternalDataSourceSerializersListOutputResultsList | undefined;
 }
 export interface ListExternalDataSourcesConnectionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
 }
 export interface ExternalDataSourceConnectionOption {
-  id?: string;
+  id?: string | undefined;
   /** Default database schema used to group tables in the SQL editor. */
-  schema_name?: string | null;
-  prefix?: string | null;
+  schema_name?: string | null | undefined;
+  prefix?: string | null | undefined;
   /** Backend engine detected for the direct connection. */
-  engine?: EngineEnum | null;
+  engine?: EngineEnum | null | undefined;
   /** The source type (e.g. 'Postgres', 'MySQL', 'Snowflake'). */
-  source_type?: string;
+  source_type?: string | undefined;
   /** 'direct' for pure live-query sources; 'warehouse' for synced sources with direct query enabled. * `warehouse` - warehouse * `direct` - direct */
-  access_method?: ExternalDataSourceAccessMethodEnum;
+  access_method?: ExternalDataSourceAccessMethodEnum | undefined;
   /** Whether HogQL queries compile for this connection. When false, only raw SQL (sendRawQuery) works. */
-  supports_hogql?: boolean;
+  supports_hogql?: boolean | undefined;
   /** Whether this option is the built-in PostHog managed warehouse connection. */
-  is_builtin_managed_warehouse?: boolean;
+  is_builtin_managed_warehouse?: boolean | undefined;
   /** User-set description of the source, shown as its display name in the connection picker when set. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type ListExternalDataSourcesConnectionsResponseBodyList =
   Array<ExternalDataSourceConnectionOption>;
@@ -1318,23 +1351,23 @@ export interface ListExternalDataSourcesJobsRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** ISO timestamp -- only return jobs created after this date. */
-  after?: string;
+  after?: string | undefined;
   /** ISO timestamp -- only return jobs created before this date. */
-  before?: string;
+  before?: string | undefined;
   /** Filter jobs by table schema names. */
-  schemas?: ListExternalDataSourcesJobsRequestSchemasList;
+  schemas?: ListExternalDataSourcesJobsRequestSchemasList | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type BlankEnum = "";
 export type SimpleExternalDataSchemaSyncType = ExternalDataSchemaSyncTypeEnum | BlankEnum;
 export interface SimpleExternalDataSchema {
   id: string;
   name: string;
-  label?: string | null;
-  should_sync?: boolean;
-  last_synced_at?: string | null;
-  sync_type?: SimpleExternalDataSchemaSyncType | null;
+  label?: string | null | undefined;
+  should_sync?: boolean | undefined;
+  last_synced_at?: string | null | undefined;
+  sync_type?: SimpleExternalDataSchemaSyncType | null | undefined;
 }
 /** Destinations this run delivered to, snapshotted when it started. Empty on runs that predate destinations, which wrote to the PostHog warehouse alone. `rows_synced` counts the rows read from the source once, not once per destination. */
 export type ExternalDataJobSerializersDestinationIdsList = Array<string>;
@@ -1362,9 +1395,9 @@ export interface ListExternalDataSourcesStoredCredentialsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
   /** Only return stored credentials for this source type (e.g. 'Stripe', 'Postgres'). */
-  source_type?: string;
+  source_type?: string | undefined;
 }
 export type ListExternalDataSourcesStoredCredentialsResponseBodyList = Array<SourceCredential>;
 export type ListExternalDataSourcesStoredCredentialsResponse =
@@ -1377,18 +1410,21 @@ export interface UpdateExternalDataSourceRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: UpdateExternalDataSourceRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | UpdateExternalDataSourceRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 /** Destinations to sync to. On a table, null clears the override so the table follows its source again. */
 export type UpdateExternalDataSourcesDestinationsPartialRequestDestinationIdsList = Array<string>;
@@ -1398,7 +1434,10 @@ export interface UpdateExternalDataSourcesDestinationsPartialRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** Destinations to sync to. On a table, null clears the override so the table follows its source again. */
-  destination_ids?: UpdateExternalDataSourcesDestinationsPartialRequestDestinationIdsList | null;
+  destination_ids?:
+    | UpdateExternalDataSourcesDestinationsPartialRequestDestinationIdsList
+    | null
+    | undefined;
 }
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
 export type UpdateExternalDataSourcesPartialRequestAutoSyncSchemaPatternsList = Array<string>;
@@ -1408,18 +1447,21 @@ export interface UpdateExternalDataSourcesPartialRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: UpdateExternalDataSourcesPartialRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | UpdateExternalDataSourcesPartialRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
 export type UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequestAutoSyncSchemaPatternsList =
@@ -1430,18 +1472,21 @@ export interface UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequest {
   /** A UUID string identifying this external data source. */
   id: string;
   /** How this source was created. Defaults to `api` on create when omitted. `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup wizard and `self_driving` for the PostHog Desktop app (both derived server-side from the caller's user agent). Ignored on update. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving */
-  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null;
-  client_secret?: string | Redacted.Redacted<string>;
-  account_id?: string;
-  prefix?: string | null;
-  description?: string | null;
+  created_via?: ExternalDataSourceCreatedViaEnum | (string & {}) | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  account_id?: string | undefined;
+  prefix?: string | null | undefined;
+  description?: string | null | undefined;
   /** Whether this synced source is also live-queryable via direct connection. Defaults to false for new sources; ignored for pure direct-query sources. */
-  direct_query_enabled?: boolean;
+  direct_query_enabled?: boolean | undefined;
   /** Automatically enable syncing for schemas discovered on this source after creation, on both the scheduled discovery pass and manual schema refreshes. Defaults to false. Not supported for direct-query sources. */
-  auto_sync_new_schemas?: boolean;
+  auto_sync_new_schemas?: boolean | undefined;
   /** Optional fnmatch-style globs (`*` and `?` wildcards) restricting which newly discovered schema names auto-sync, matched case-insensitively against both the qualified and bare table name. Null or empty means every new schema qualifies. Only used when `auto_sync_new_schemas` is true. */
-  auto_sync_schema_patterns?: UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequestAutoSyncSchemaPatternsList | null;
-  job_inputs?: unknown;
+  auto_sync_schema_patterns?:
+    | UpdateExternalDataSourcesRevenueAnalyticsConfigPartialRequestAutoSyncSchemaPatternsList
+    | null
+    | undefined;
+  job_inputs?: unknown | undefined;
 }
 export interface UpdateExternalDataSourcesRevenueAnalyticsConfigPartialResponse {}
 export type CreateExternalDataSourceError = BadRequest | Forbidden | NotFound | PosthogOpError;

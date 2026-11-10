@@ -29,19 +29,19 @@ const TELEMETRY = {
 export type CreatePageRequestFilterPropertiesList = Array<string>;
 export interface CreatePageRequestParentCase0 {
   page_id: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreatePageRequestParentCase1 {
   database_id: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreatePageRequestParentCase2 {
   data_source_id: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreatePageRequestParentCase3 {
   workspace: boolean;
-  type?: string;
+  type?: string | undefined;
 }
 export type CreatePageRequestParent =
   | CreatePageRequestParentCase0
@@ -72,17 +72,17 @@ export type ApiColor =
   | "red_background";
 export interface AnnotationRequest {
   /** Whether the text is formatted as bold. */
-  bold?: boolean;
+  bold?: boolean | undefined;
   /** Whether the text is formatted as italic. */
-  italic?: boolean;
+  italic?: boolean | undefined;
   /** Whether the text is formatted with a strikethrough. */
-  strikethrough?: boolean;
+  strikethrough?: boolean | undefined;
   /** Whether the text is formatted with an underline. */
-  underline?: boolean;
+  underline?: boolean | undefined;
   /** Whether the text is formatted as code. */
-  code?: boolean;
+  code?: boolean | undefined;
   /** The color of the text. */
-  color?: ApiColor | (string & {});
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface RichTextItemRequestTextLink {
   /** The URL of the link. */
@@ -93,17 +93,17 @@ export interface RichTextItemRequestText {
   /** The actual text content of the text. */
   content: string;
   /** An object with information about any inline link in this text, if included. */
-  link?: RichTextItemRequestTextLink | null;
+  link?: RichTextItemRequestTextLink | null | undefined;
 }
 export interface PartialUserObjectRequest {
   /** The ID of the user. */
   id: string;
   /** The user object type name. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase0 {
   /** Always `user` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the user mention. */
   user: PartialUserObjectRequest;
 }
@@ -111,13 +111,13 @@ export interface DateRequest {
   /** The start date of the date object. */
   start: string;
   /** The end date of the date object, if any. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** The time zone of the date object, if any. E.g. America/Los_Angeles, Europe/London, etc. */
-  time_zone?: string | null;
+  time_zone?: string | null | undefined;
 }
 export interface RichTextItemRequestMentionCase1 {
   /** Always `date` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the date mention. */
   date: DateRequest;
 }
@@ -128,7 +128,7 @@ export interface RichTextItemRequestMentionCase2Page {
 }
 export interface RichTextItemRequestMentionCase2 {
   /** Always `page` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the page mention. */
   page: RichTextItemRequestMentionCase2Page;
 }
@@ -139,7 +139,7 @@ export interface RichTextItemRequestMentionCase3Database {
 }
 export interface RichTextItemRequestMentionCase3 {
   /** Always `database` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the database mention. */
   database: RichTextItemRequestMentionCase3Database;
 }
@@ -147,7 +147,7 @@ export interface RichTextItemRequestMentionCase3 {
 export type TemplateMentionDateTemplateMentionRequestTemplateMentionDate = "today" | "now";
 export interface TemplateMentionDateTemplateMentionRequest {
   /** Always `template_mention_date` */
-  type?: string;
+  type?: string | undefined;
   /** The date of the template mention. */
   template_mention_date:
     | TemplateMentionDateTemplateMentionRequestTemplateMentionDate
@@ -155,7 +155,7 @@ export interface TemplateMentionDateTemplateMentionRequest {
 }
 export interface TemplateMentionUserTemplateMentionRequest {
   /** Always `template_mention_user` */
-  type?: string;
+  type?: string | undefined;
   /** The user of the template mention. */
   template_mention_user: string;
 }
@@ -164,7 +164,7 @@ export type TemplateMentionRequest =
   | TemplateMentionUserTemplateMentionRequest;
 export interface RichTextItemRequestMentionCase4 {
   /** Always `template_mention` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the template mention. */
   template_mention: TemplateMentionRequest;
 }
@@ -173,13 +173,13 @@ export interface RichTextItemRequestMentionCase5CustomEmoji {
   /** The ID of the custom emoji. */
   id: string;
   /** The name of the custom emoji. */
-  name?: string;
+  name?: string | undefined;
   /** The URL of the custom emoji. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface RichTextItemRequestMentionCase5 {
   /** Always `custom_emoji` */
-  type?: string;
+  type?: string | undefined;
   /** Details of the custom emoji mention. */
   custom_emoji: RichTextItemRequestMentionCase5CustomEmoji;
 }
@@ -198,33 +198,33 @@ export interface RichTextItemRequestEquation {
 }
 export interface RichTextItemRequest {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
-  annotations?: AnnotationRequest;
+  annotations?: AnnotationRequest | undefined;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemRequestText;
+  text?: RichTextItemRequestText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemRequestMention;
+  mention?: RichTextItemRequestMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 export type PagePropertiesRequestValueCase0TitleList = Array<RichTextItemRequest>;
 export interface PagePropertiesRequestValueCase0 {
   title: PagePropertiesRequestValueCase0TitleList;
-  type?: string;
+  type?: string | undefined;
 }
 export type PagePropertiesRequestValueCase1RichTextList = Array<RichTextItemRequest>;
 export interface PagePropertiesRequestValueCase1 {
   rich_text: PagePropertiesRequestValueCase1RichTextList;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase2 {
   number: number | null;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase3 {
   url: string | null;
-  type?: string;
+  type?: string | undefined;
 }
 /** One of: `default`, `gray`, `brown`, `orange`, `yellow`, `green`, `blue`, `purple`, `pink`, `red` */
 export type SelectColor =
@@ -240,22 +240,22 @@ export type SelectColor =
   | "red";
 export interface PagePropertiesRequestValueCase4SelectCase0 {
   id: string;
-  name?: string;
-  color?: SelectColor | (string & {});
-  description?: string | null;
+  name?: string | undefined;
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
 }
 export interface PagePropertiesRequestValueCase4SelectCase1 {
   name: string;
-  id?: string;
-  color?: SelectColor | (string & {});
-  description?: string | null;
+  id?: string | undefined;
+  color?: SelectColor | (string & {}) | undefined;
+  description?: string | null | undefined;
 }
 export type PagePropertiesRequestValueCase4Select =
   | PagePropertiesRequestValueCase4SelectCase0
   | PagePropertiesRequestValueCase4SelectCase1;
 export interface PagePropertiesRequestValueCase4 {
   select: PagePropertiesRequestValueCase4Select | null;
-  type?: string;
+  type?: string | undefined;
 }
 export type PagePropertiesRequestValueCase5MultiSelectItemCase0 =
   PagePropertiesRequestValueCase4SelectCase0;
@@ -268,12 +268,12 @@ export type PagePropertiesRequestValueCase5MultiSelectList =
   Array<PagePropertiesRequestValueCase5MultiSelectItem>;
 export interface PagePropertiesRequestValueCase5 {
   multi_select: PagePropertiesRequestValueCase5MultiSelectList;
-  type?: string;
+  type?: string | undefined;
 }
 export interface GroupObjectRequest {
   id: string;
-  name?: string | null;
-  object?: string;
+  name?: string | null | undefined;
+  object?: string | undefined;
 }
 export type PagePropertiesRequestValueCase6PeopleItem =
   | PartialUserObjectRequest
@@ -282,23 +282,23 @@ export type PagePropertiesRequestValueCase6PeopleList =
   Array<PagePropertiesRequestValueCase6PeopleItem>;
 export interface PagePropertiesRequestValueCase6 {
   people: PagePropertiesRequestValueCase6PeopleList;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase7 {
   email: string | null;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase8 {
   phone_number: string | null;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase9 {
   date: DateRequest | null;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase10 {
   checkbox: boolean;
-  type?: string;
+  type?: string | undefined;
 }
 export interface RelationItemPropertyValueResponse {
   id: string;
@@ -306,16 +306,16 @@ export interface RelationItemPropertyValueResponse {
 export type PagePropertiesRequestValueCase11RelationList = Array<RelationItemPropertyValueResponse>;
 export interface PagePropertiesRequestValueCase11 {
   relation: PagePropertiesRequestValueCase11RelationList;
-  type?: string;
+  type?: string | undefined;
 }
 export interface InternalFileRequest {
   url: string;
-  expiry_time?: string;
+  expiry_time?: string | undefined;
 }
 export interface InternalOrExternalFileWithNameRequestCase0 {
   file: InternalFileRequest;
   name: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface ExternalFileRequest {
   url: string;
@@ -323,7 +323,7 @@ export interface ExternalFileRequest {
 export interface InternalOrExternalFileWithNameRequestCase1 {
   external: ExternalFileRequest;
   name: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type InternalOrExternalFileWithNameRequest =
   | InternalOrExternalFileWithNameRequestCase0
@@ -331,8 +331,8 @@ export type InternalOrExternalFileWithNameRequest =
 export type FileUploadIdRequest = RelationItemPropertyValueResponse;
 export interface FileUploadWithOptionalNameRequest {
   file_upload: RelationItemPropertyValueResponse;
-  type?: string;
-  name?: string;
+  type?: string | undefined;
+  name?: string | undefined;
 }
 export type PagePropertiesRequestValueCase12FilesItem =
   | InternalOrExternalFileWithNameRequest
@@ -341,7 +341,7 @@ export type PagePropertiesRequestValueCase12FilesList =
   Array<PagePropertiesRequestValueCase12FilesItem>;
 export interface PagePropertiesRequestValueCase12 {
   files: PagePropertiesRequestValueCase12FilesList;
-  type?: string;
+  type?: string | undefined;
 }
 export type PagePropertiesRequestValueCase13StatusCase0 =
   PagePropertiesRequestValueCase4SelectCase0;
@@ -352,23 +352,23 @@ export type PagePropertiesRequestValueCase13Status =
   | PagePropertiesRequestValueCase4SelectCase1;
 export interface PagePropertiesRequestValueCase13 {
   status: PagePropertiesRequestValueCase13Status | null;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase14Place {
   lat: number;
   lon: number;
-  name?: string | null;
-  address?: string | null;
-  aws_place_id?: string | null;
-  google_place_id?: string | null;
+  name?: string | null | undefined;
+  address?: string | null | undefined;
+  aws_place_id?: string | null | undefined;
+  google_place_id?: string | null | undefined;
 }
 export interface PagePropertiesRequestValueCase14 {
   place: PagePropertiesRequestValueCase14Place | null;
-  type?: string;
+  type?: string | undefined;
 }
 export interface PagePropertiesRequestValueCase15VerificationCase0 {
   state: string;
-  date?: DateRequest;
+  date?: DateRequest | undefined;
 }
 export interface PagePropertiesRequestValueCase15VerificationCase1 {
   state: string;
@@ -378,7 +378,7 @@ export type PagePropertiesRequestValueCase15Verification =
   | PagePropertiesRequestValueCase15VerificationCase1;
 export interface PagePropertiesRequestValueCase15 {
   verification: PagePropertiesRequestValueCase15Verification;
-  type?: string;
+  type?: string | undefined;
 }
 export type PagePropertiesRequestValue =
   | PagePropertiesRequestValueCase0
@@ -404,12 +404,12 @@ export interface FileUploadPageIconRequestFileUpload {
 }
 export interface FileUploadPageIconRequest {
   /** Always `file_upload` */
-  type?: string;
+  type?: string | undefined;
   file_upload: FileUploadPageIconRequestFileUpload;
 }
 export interface EmojiPageIconRequest {
   /** Always `emoji` */
-  type?: string;
+  type?: string | undefined;
   /** An emoji character. */
   emoji: string;
 }
@@ -419,13 +419,13 @@ export interface ExternalPageIconRequestExternal {
 }
 export interface ExternalPageIconRequest {
   /** Always `external` */
-  type?: string;
+  type?: string | undefined;
   external: ExternalPageIconRequestExternal;
 }
 export type CustomEmojiPageIconRequestCustomEmoji = RichTextItemRequestMentionCase5CustomEmoji;
 export interface CustomEmojiPageIconRequest {
   /** Always `custom_emoji` */
-  type?: string;
+  type?: string | undefined;
   custom_emoji: RichTextItemRequestMentionCase5CustomEmoji;
 }
 /** One of: `gray`, `lightgray`, `brown`, `yellow`, `orange`, `green`, `blue`, `purple`, `pink`, `red` */
@@ -445,11 +445,11 @@ export interface IconPageIconRequestIcon {
   /** The name of the Notion icon (e.g. pizza, meeting, home). See the Notion icon picker for valid names. */
   name: string;
   /** The color variant of the icon. Defaults to gray if not specified. Valid values: gray, lightgray, brown, yellow, orange, green, blue, purple, pink, red. */
-  color?: NoticonColor | (string & {});
+  color?: NoticonColor | (string & {}) | undefined;
 }
 export interface IconPageIconRequest {
   /** Always `icon` */
-  type?: string;
+  type?: string | undefined;
   /** A Notion native icon, specified by name and optional color. */
   icon: IconPageIconRequestIcon;
 }
@@ -463,7 +463,7 @@ export type PageIconRequest =
 export type FileUploadPageCoverRequestFileUpload = FileUploadPageIconRequestFileUpload;
 export interface FileUploadPageCoverRequest {
   /** Always `file_upload` */
-  type?: string;
+  type?: string | undefined;
   /** The file upload for the cover. */
   file_upload: FileUploadPageIconRequestFileUpload;
 }
@@ -471,7 +471,7 @@ export interface FileUploadPageCoverRequest {
 export type ExternalPageCoverRequestExternal = ExternalPageIconRequestExternal;
 export interface ExternalPageCoverRequest {
   /** Always `external` */
-  type?: string;
+  type?: string | undefined;
   /** External URL for the cover. */
   external: ExternalPageIconRequestExternal;
 }
@@ -479,83 +479,83 @@ export type PageCoverRequest = FileUploadPageCoverRequest | ExternalPageCoverReq
 export type MediaContentWithUrlAndCaptionRequestCaptionList = Array<RichTextItemRequest>;
 export interface MediaContentWithUrlAndCaptionRequest {
   url: string;
-  caption?: MediaContentWithUrlAndCaptionRequestCaptionList;
+  caption?: MediaContentWithUrlAndCaptionRequestCaptionList | undefined;
 }
 export type EmbedFileUploadRequestCaptionList = Array<RichTextItemRequest>;
 export interface EmbedFileUploadRequest {
   file_upload: RelationItemPropertyValueResponse;
-  type?: string;
-  caption?: EmbedFileUploadRequestCaptionList;
+  type?: string | undefined;
+  caption?: EmbedFileUploadRequestCaptionList | undefined;
 }
 export type BlockObjectRequestCase0Embed =
   | MediaContentWithUrlAndCaptionRequest
   | EmbedFileUploadRequest;
 export interface BlockObjectRequestCase0 {
   embed: BlockObjectRequestCase0Embed;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestCase1 {
   bookmark: MediaContentWithUrlAndCaptionRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type MediaContentWithFileAndCaptionRequestCase0CaptionList = Array<RichTextItemRequest>;
 export interface MediaContentWithFileAndCaptionRequestCase0 {
   external: ExternalFileRequest;
-  type?: string;
-  caption?: MediaContentWithFileAndCaptionRequestCase0CaptionList;
+  type?: string | undefined;
+  caption?: MediaContentWithFileAndCaptionRequestCase0CaptionList | undefined;
 }
 export type MediaContentWithFileAndCaptionRequestCase1CaptionList = Array<RichTextItemRequest>;
 export interface MediaContentWithFileAndCaptionRequestCase1 {
   file_upload: RelationItemPropertyValueResponse;
-  type?: string;
-  caption?: MediaContentWithFileAndCaptionRequestCase1CaptionList;
+  type?: string | undefined;
+  caption?: MediaContentWithFileAndCaptionRequestCase1CaptionList | undefined;
 }
 export type MediaContentWithFileAndCaptionRequest =
   | MediaContentWithFileAndCaptionRequestCase0
   | MediaContentWithFileAndCaptionRequestCase1;
 export interface BlockObjectRequestCase2 {
   image: MediaContentWithFileAndCaptionRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestCase3 {
   video: MediaContentWithFileAndCaptionRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestCase4 {
   pdf: MediaContentWithFileAndCaptionRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type MediaContentWithFileNameAndCaptionRequestCase0CaptionList = Array<RichTextItemRequest>;
 export interface MediaContentWithFileNameAndCaptionRequestCase0 {
   external: ExternalFileRequest;
-  type?: string;
-  caption?: MediaContentWithFileNameAndCaptionRequestCase0CaptionList;
-  name?: string;
+  type?: string | undefined;
+  caption?: MediaContentWithFileNameAndCaptionRequestCase0CaptionList | undefined;
+  name?: string | undefined;
 }
 export type MediaContentWithFileNameAndCaptionRequestCase1CaptionList = Array<RichTextItemRequest>;
 export interface MediaContentWithFileNameAndCaptionRequestCase1 {
   file_upload: RelationItemPropertyValueResponse;
-  type?: string;
-  caption?: MediaContentWithFileNameAndCaptionRequestCase1CaptionList;
-  name?: string;
+  type?: string | undefined;
+  caption?: MediaContentWithFileNameAndCaptionRequestCase1CaptionList | undefined;
+  name?: string | undefined;
 }
 export type MediaContentWithFileNameAndCaptionRequest =
   | MediaContentWithFileNameAndCaptionRequestCase0
   | MediaContentWithFileNameAndCaptionRequestCase1;
 export interface BlockObjectRequestCase5 {
   file: MediaContentWithFileNameAndCaptionRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestCase6 {
   audio: MediaContentWithFileAndCaptionRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase7CodeRichTextList = Array<RichTextItemRequest>;
 export type LanguageRequest =
@@ -653,30 +653,30 @@ export type BlockObjectRequestCase7CodeCaptionList = Array<RichTextItemRequest>;
 export interface BlockObjectRequestCase7Code {
   rich_text: BlockObjectRequestCase7CodeRichTextList;
   language: LanguageRequest | (string & {});
-  caption?: BlockObjectRequestCase7CodeCaptionList;
+  caption?: BlockObjectRequestCase7CodeCaptionList | undefined;
 }
 export interface BlockObjectRequestCase7 {
   code: BlockObjectRequestCase7Code;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface ContentWithExpressionRequest {
   expression: string;
 }
 export interface BlockObjectRequestCase8 {
   equation: ContentWithExpressionRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestCase9 {
   divider: unknown;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestCase10 {
   breadcrumb: unknown;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type ParagraphWithSingleLevelOfChildrenRequestRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestWithoutChildrenCase0Embed =
@@ -684,8 +684,8 @@ export type BlockObjectRequestWithoutChildrenCase0Embed =
   | EmbedFileUploadRequest;
 export interface BlockObjectRequestWithoutChildrenCase0 {
   embed: BlockObjectRequestWithoutChildrenCase0Embed;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestWithoutChildrenCase1 = BlockObjectRequestCase1;
 export type BlockObjectRequestWithoutChildrenCase2 = BlockObjectRequestCase2;
@@ -698,34 +698,34 @@ export type BlockObjectRequestWithoutChildrenCase7CodeCaptionList = Array<RichTe
 export interface BlockObjectRequestWithoutChildrenCase7Code {
   rich_text: BlockObjectRequestWithoutChildrenCase7CodeRichTextList;
   language: LanguageRequest | (string & {});
-  caption?: BlockObjectRequestWithoutChildrenCase7CodeCaptionList;
+  caption?: BlockObjectRequestWithoutChildrenCase7CodeCaptionList | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase7 {
   code: BlockObjectRequestWithoutChildrenCase7Code;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestWithoutChildrenCase8 = BlockObjectRequestCase8;
 export type BlockObjectRequestWithoutChildrenCase9 = BlockObjectRequestCase9;
 export type BlockObjectRequestWithoutChildrenCase10 = BlockObjectRequestCase10;
 export interface BlockObjectRequestWithoutChildrenCase11 {
   tab: unknown;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase12TableOfContents {
-  color?: ApiColor | (string & {});
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase12 {
   table_of_contents: BlockObjectRequestWithoutChildrenCase12TableOfContents;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestWithoutChildrenCase13LinkToPageCase0 = CreatePageRequestParentCase0;
 export type BlockObjectRequestWithoutChildrenCase13LinkToPageCase1 = CreatePageRequestParentCase1;
 export interface BlockObjectRequestWithoutChildrenCase13LinkToPageCase2 {
   comment_id: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type BlockObjectRequestWithoutChildrenCase13LinkToPage =
   | CreatePageRequestParentCase0
@@ -733,8 +733,8 @@ export type BlockObjectRequestWithoutChildrenCase13LinkToPage =
   | BlockObjectRequestWithoutChildrenCase13LinkToPageCase2;
 export interface BlockObjectRequestWithoutChildrenCase13 {
   link_to_page: BlockObjectRequestWithoutChildrenCase13LinkToPage;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type ContentWithTableRowRequestCellsItemList = Array<RichTextItemRequest>;
 export type ContentWithTableRowRequestCellsList = Array<ContentWithTableRowRequestCellsItemList>;
@@ -743,81 +743,81 @@ export interface ContentWithTableRowRequest {
 }
 export interface BlockObjectRequestWithoutChildrenCase14 {
   table_row: ContentWithTableRowRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type HeaderContentWithRichTextAndColorRequestRichTextList = Array<RichTextItemRequest>;
 export interface HeaderContentWithRichTextAndColorRequest {
   rich_text: HeaderContentWithRichTextAndColorRequestRichTextList;
-  color?: ApiColor | (string & {});
-  is_toggleable?: boolean;
+  color?: ApiColor | (string & {}) | undefined;
+  is_toggleable?: boolean | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase15 {
   heading_1: HeaderContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase16 {
   heading_2: HeaderContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase17 {
   heading_3: HeaderContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase18 {
   heading_4: HeaderContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type ContentWithRichTextColorAndIconRequestRichTextList = Array<RichTextItemRequest>;
 export interface ContentWithRichTextColorAndIconRequest {
   rich_text: ContentWithRichTextColorAndIconRequestRichTextList;
-  color?: ApiColor | (string & {});
-  icon?: PageIconRequest;
+  color?: ApiColor | (string & {}) | undefined;
+  icon?: PageIconRequest | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase19 {
   paragraph: ContentWithRichTextColorAndIconRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type ContentWithRichTextAndColorRequestRichTextList = Array<RichTextItemRequest>;
 export interface ContentWithRichTextAndColorRequest {
   rich_text: ContentWithRichTextAndColorRequestRichTextList;
-  color?: ApiColor | (string & {});
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase20 {
   bulleted_list_item: ContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase21 {
   numbered_list_item: ContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase22 {
   quote: ContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestWithoutChildrenCase23ToDoRichTextList = Array<RichTextItemRequest>;
 export interface BlockObjectRequestWithoutChildrenCase23ToDo {
   rich_text: BlockObjectRequestWithoutChildrenCase23ToDoRichTextList;
-  checked?: boolean;
-  color?: ApiColor | (string & {});
+  checked?: boolean | undefined;
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase23 {
   to_do: BlockObjectRequestWithoutChildrenCase23ToDo;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase24 {
   toggle: ContentWithRichTextAndColorRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type ContentWithRichTextRequestRichTextList = Array<RichTextItemRequest>;
 export interface ContentWithRichTextRequest {
@@ -825,31 +825,31 @@ export interface ContentWithRichTextRequest {
 }
 export interface BlockObjectRequestWithoutChildrenCase25 {
   template: ContentWithRichTextRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestWithoutChildrenCase26CalloutRichTextList = Array<RichTextItemRequest>;
 export interface BlockObjectRequestWithoutChildrenCase26Callout {
   rich_text: BlockObjectRequestWithoutChildrenCase26CalloutRichTextList;
-  icon?: PageIconRequest;
-  color?: ApiColor | (string & {});
+  icon?: PageIconRequest | undefined;
+  color?: ApiColor | (string & {}) | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase26 {
   callout: BlockObjectRequestWithoutChildrenCase26Callout;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase27SyncedBlockSyncedFrom {
   block_id: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface BlockObjectRequestWithoutChildrenCase27SyncedBlock {
   synced_from: BlockObjectRequestWithoutChildrenCase27SyncedBlockSyncedFrom | null;
 }
 export interface BlockObjectRequestWithoutChildrenCase27 {
   synced_block: BlockObjectRequestWithoutChildrenCase27SyncedBlock;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestWithoutChildren =
   | BlockObjectRequestWithoutChildrenCase0
@@ -884,14 +884,14 @@ export type ParagraphWithSingleLevelOfChildrenRequestChildrenList =
   Array<BlockObjectRequestWithoutChildren>;
 export interface ParagraphWithSingleLevelOfChildrenRequest {
   rich_text: ParagraphWithSingleLevelOfChildrenRequestRichTextList;
-  color?: ApiColor | (string & {});
-  icon?: PageIconRequest;
-  children?: ParagraphWithSingleLevelOfChildrenRequestChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  icon?: PageIconRequest | undefined;
+  children?: ParagraphWithSingleLevelOfChildrenRequestChildrenList | undefined;
 }
 export interface TabItemRequestWithSingleLevelOfChildren {
   paragraph: ParagraphWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type TabRequestWithNestedTabItemChildrenChildrenList =
   Array<TabItemRequestWithSingleLevelOfChildren>;
@@ -900,8 +900,8 @@ export interface TabRequestWithNestedTabItemChildren {
 }
 export interface BlockObjectRequestCase11 {
   tab: TabRequestWithNestedTabItemChildren;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase12TableOfContents =
   BlockObjectRequestWithoutChildrenCase12TableOfContents;
@@ -916,8 +916,8 @@ export type BlockObjectRequestCase13LinkToPage =
   | BlockObjectRequestWithoutChildrenCase13LinkToPageCase2;
 export interface BlockObjectRequestCase13 {
   link_to_page: BlockObjectRequestCase13LinkToPage;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase14 = BlockObjectRequestWithoutChildrenCase14;
 export type TableRowRequest = BlockObjectRequestWithoutChildrenCase14;
@@ -926,21 +926,21 @@ export type TableRequestWithTableRowChildrenChildrenList =
 export interface TableRequestWithTableRowChildren {
   table_width: number;
   children: TableRequestWithTableRowChildrenChildrenList;
-  has_column_header?: boolean;
-  has_row_header?: boolean;
+  has_column_header?: boolean | undefined;
+  has_row_header?: boolean | undefined;
 }
 export interface BlockObjectRequestCase15 {
   table: TableRequestWithTableRowChildren;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase0Embed =
   | MediaContentWithUrlAndCaptionRequest
   | EmbedFileUploadRequest;
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase0 {
   embed: BlockObjectWithSingleLevelOfChildrenRequestCase0Embed;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase1 = BlockObjectRequestCase1;
 export type BlockObjectWithSingleLevelOfChildrenRequestCase2 = BlockObjectRequestCase2;
@@ -955,12 +955,12 @@ export type BlockObjectWithSingleLevelOfChildrenRequestCase7CodeCaptionList =
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase7Code {
   rich_text: BlockObjectWithSingleLevelOfChildrenRequestCase7CodeRichTextList;
   language: LanguageRequest | (string & {});
-  caption?: BlockObjectWithSingleLevelOfChildrenRequestCase7CodeCaptionList;
+  caption?: BlockObjectWithSingleLevelOfChildrenRequestCase7CodeCaptionList | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase7 {
   code: BlockObjectWithSingleLevelOfChildrenRequestCase7Code;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase8 = BlockObjectRequestCase8;
 export type BlockObjectWithSingleLevelOfChildrenRequestCase9 = BlockObjectRequestCase9;
@@ -973,8 +973,8 @@ export interface TabRequestWithTabItemChildren {
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase11 {
   tab: TabRequestWithTabItemChildren;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase12TableOfContents =
   BlockObjectRequestWithoutChildrenCase12TableOfContents;
@@ -992,8 +992,8 @@ export type BlockObjectWithSingleLevelOfChildrenRequestCase13LinkToPage =
   | BlockObjectRequestWithoutChildrenCase13LinkToPageCase2;
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase13 {
   link_to_page: BlockObjectWithSingleLevelOfChildrenRequestCase13LinkToPage;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase14 =
   BlockObjectRequestWithoutChildrenCase14;
@@ -1002,29 +1002,29 @@ export type HeaderContentWithSingleLevelOfChildrenRequestChildrenList =
   Array<BlockObjectRequestWithoutChildren>;
 export interface HeaderContentWithSingleLevelOfChildrenRequest {
   rich_text: HeaderContentWithSingleLevelOfChildrenRequestRichTextList;
-  color?: ApiColor | (string & {});
-  is_toggleable?: boolean;
-  children?: HeaderContentWithSingleLevelOfChildrenRequestChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  is_toggleable?: boolean | undefined;
+  children?: HeaderContentWithSingleLevelOfChildrenRequestChildrenList | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase15 {
   heading_1: HeaderContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase16 {
   heading_2: HeaderContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase17 {
   heading_3: HeaderContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase18 {
   heading_4: HeaderContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase19 =
   TabItemRequestWithSingleLevelOfChildren;
@@ -1033,23 +1033,23 @@ export type ContentWithSingleLevelOfChildrenRequestChildrenList =
   Array<BlockObjectRequestWithoutChildren>;
 export interface ContentWithSingleLevelOfChildrenRequest {
   rich_text: ContentWithSingleLevelOfChildrenRequestRichTextList;
-  color?: ApiColor | (string & {});
-  children?: ContentWithSingleLevelOfChildrenRequestChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: ContentWithSingleLevelOfChildrenRequestChildrenList | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase20 {
   bulleted_list_item: ContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase21 {
   numbered_list_item: ContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase22 {
   quote: ContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase23 = BlockObjectRequestCase15;
 export type BlockObjectWithSingleLevelOfChildrenRequestCase24ToDoRichTextList =
@@ -1058,19 +1058,19 @@ export type BlockObjectWithSingleLevelOfChildrenRequestCase24ToDoChildrenList =
   Array<BlockObjectRequestWithoutChildren>;
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase24ToDo {
   rich_text: BlockObjectWithSingleLevelOfChildrenRequestCase24ToDoRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectWithSingleLevelOfChildrenRequestCase24ToDoChildrenList;
-  checked?: boolean;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectWithSingleLevelOfChildrenRequestCase24ToDoChildrenList | undefined;
+  checked?: boolean | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase24 {
   to_do: BlockObjectWithSingleLevelOfChildrenRequestCase24ToDo;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase25 {
   toggle: ContentWithSingleLevelOfChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase26TemplateRichTextList =
   Array<RichTextItemRequest>;
@@ -1078,12 +1078,12 @@ export type BlockObjectWithSingleLevelOfChildrenRequestCase26TemplateChildrenLis
   Array<BlockObjectRequestWithoutChildren>;
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase26Template {
   rich_text: BlockObjectWithSingleLevelOfChildrenRequestCase26TemplateRichTextList;
-  children?: BlockObjectWithSingleLevelOfChildrenRequestCase26TemplateChildrenList;
+  children?: BlockObjectWithSingleLevelOfChildrenRequestCase26TemplateChildrenList | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase26 {
   template: BlockObjectWithSingleLevelOfChildrenRequestCase26Template;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase27CalloutRichTextList =
   Array<RichTextItemRequest>;
@@ -1091,14 +1091,14 @@ export type BlockObjectWithSingleLevelOfChildrenRequestCase27CalloutChildrenList
   Array<BlockObjectRequestWithoutChildren>;
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase27Callout {
   rich_text: BlockObjectWithSingleLevelOfChildrenRequestCase27CalloutRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectWithSingleLevelOfChildrenRequestCase27CalloutChildrenList;
-  icon?: PageIconRequest;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectWithSingleLevelOfChildrenRequestCase27CalloutChildrenList | undefined;
+  icon?: PageIconRequest | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase27 {
   callout: BlockObjectWithSingleLevelOfChildrenRequestCase27Callout;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequestCase28SyncedBlockSyncedFrom =
   BlockObjectRequestWithoutChildrenCase27SyncedBlockSyncedFrom;
@@ -1106,12 +1106,12 @@ export type BlockObjectWithSingleLevelOfChildrenRequestCase28SyncedBlockChildren
   Array<BlockObjectRequestWithoutChildren>;
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase28SyncedBlock {
   synced_from: BlockObjectRequestWithoutChildrenCase27SyncedBlockSyncedFrom | null;
-  children?: BlockObjectWithSingleLevelOfChildrenRequestCase28SyncedBlockChildrenList;
+  children?: BlockObjectWithSingleLevelOfChildrenRequestCase28SyncedBlockChildrenList | undefined;
 }
 export interface BlockObjectWithSingleLevelOfChildrenRequestCase28 {
   synced_block: BlockObjectWithSingleLevelOfChildrenRequestCase28SyncedBlock;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectWithSingleLevelOfChildrenRequest =
   | BlockObjectWithSingleLevelOfChildrenRequestCase0
@@ -1148,12 +1148,12 @@ export type ColumnWithChildrenRequestChildrenList =
 export interface ColumnWithChildrenRequest {
   children: ColumnWithChildrenRequestChildrenList;
   /** Ratio between 0 and 1 of the width of this column relative to all columns in the list. If not provided, uses an equal width. */
-  width_ratio?: number;
+  width_ratio?: number | undefined;
 }
 export interface ColumnBlockWithChildrenRequest {
   column: ColumnWithChildrenRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type ColumnListRequestChildrenList = Array<ColumnBlockWithChildrenRequest>;
 export interface ColumnListRequest {
@@ -1161,8 +1161,8 @@ export interface ColumnListRequest {
 }
 export interface BlockObjectRequestCase16 {
   column_list: ColumnListRequest;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase17 = ColumnBlockWithChildrenRequest;
 export type BlockObjectRequestCase18Heading1RichTextList = Array<RichTextItemRequest>;
@@ -1170,162 +1170,162 @@ export type BlockObjectRequestCase18Heading1ChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase18Heading1 {
   rich_text: BlockObjectRequestCase18Heading1RichTextList;
-  color?: ApiColor | (string & {});
-  is_toggleable?: boolean;
-  children?: BlockObjectRequestCase18Heading1ChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  is_toggleable?: boolean | undefined;
+  children?: BlockObjectRequestCase18Heading1ChildrenList | undefined;
 }
 export interface BlockObjectRequestCase18 {
   heading_1: BlockObjectRequestCase18Heading1;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase19Heading2RichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase19Heading2ChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase19Heading2 {
   rich_text: BlockObjectRequestCase19Heading2RichTextList;
-  color?: ApiColor | (string & {});
-  is_toggleable?: boolean;
-  children?: BlockObjectRequestCase19Heading2ChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  is_toggleable?: boolean | undefined;
+  children?: BlockObjectRequestCase19Heading2ChildrenList | undefined;
 }
 export interface BlockObjectRequestCase19 {
   heading_2: BlockObjectRequestCase19Heading2;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase20Heading3RichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase20Heading3ChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase20Heading3 {
   rich_text: BlockObjectRequestCase20Heading3RichTextList;
-  color?: ApiColor | (string & {});
-  is_toggleable?: boolean;
-  children?: BlockObjectRequestCase20Heading3ChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  is_toggleable?: boolean | undefined;
+  children?: BlockObjectRequestCase20Heading3ChildrenList | undefined;
 }
 export interface BlockObjectRequestCase20 {
   heading_3: BlockObjectRequestCase20Heading3;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase21Heading4RichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase21Heading4ChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase21Heading4 {
   rich_text: BlockObjectRequestCase21Heading4RichTextList;
-  color?: ApiColor | (string & {});
-  is_toggleable?: boolean;
-  children?: BlockObjectRequestCase21Heading4ChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  is_toggleable?: boolean | undefined;
+  children?: BlockObjectRequestCase21Heading4ChildrenList | undefined;
 }
 export interface BlockObjectRequestCase21 {
   heading_4: BlockObjectRequestCase21Heading4;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase22ParagraphRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase22ParagraphChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase22Paragraph {
   rich_text: BlockObjectRequestCase22ParagraphRichTextList;
-  color?: ApiColor | (string & {});
-  icon?: PageIconRequest;
-  children?: BlockObjectRequestCase22ParagraphChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  icon?: PageIconRequest | undefined;
+  children?: BlockObjectRequestCase22ParagraphChildrenList | undefined;
 }
 export interface BlockObjectRequestCase22 {
   paragraph: BlockObjectRequestCase22Paragraph;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase23BulletedListItemRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase23BulletedListItemChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase23BulletedListItem {
   rich_text: BlockObjectRequestCase23BulletedListItemRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectRequestCase23BulletedListItemChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectRequestCase23BulletedListItemChildrenList | undefined;
 }
 export interface BlockObjectRequestCase23 {
   bulleted_list_item: BlockObjectRequestCase23BulletedListItem;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase24NumberedListItemRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase24NumberedListItemChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase24NumberedListItem {
   rich_text: BlockObjectRequestCase24NumberedListItemRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectRequestCase24NumberedListItemChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectRequestCase24NumberedListItemChildrenList | undefined;
 }
 export interface BlockObjectRequestCase24 {
   numbered_list_item: BlockObjectRequestCase24NumberedListItem;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase25QuoteRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase25QuoteChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase25Quote {
   rich_text: BlockObjectRequestCase25QuoteRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectRequestCase25QuoteChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectRequestCase25QuoteChildrenList | undefined;
 }
 export interface BlockObjectRequestCase25 {
   quote: BlockObjectRequestCase25Quote;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase26ToDoRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase26ToDoChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase26ToDo {
   rich_text: BlockObjectRequestCase26ToDoRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectRequestCase26ToDoChildrenList;
-  checked?: boolean;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectRequestCase26ToDoChildrenList | undefined;
+  checked?: boolean | undefined;
 }
 export interface BlockObjectRequestCase26 {
   to_do: BlockObjectRequestCase26ToDo;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase27ToggleRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase27ToggleChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase27Toggle {
   rich_text: BlockObjectRequestCase27ToggleRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectRequestCase27ToggleChildrenList;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectRequestCase27ToggleChildrenList | undefined;
 }
 export interface BlockObjectRequestCase27 {
   toggle: BlockObjectRequestCase27Toggle;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase28TemplateRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase28TemplateChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase28Template {
   rich_text: BlockObjectRequestCase28TemplateRichTextList;
-  children?: BlockObjectRequestCase28TemplateChildrenList;
+  children?: BlockObjectRequestCase28TemplateChildrenList | undefined;
 }
 export interface BlockObjectRequestCase28 {
   template: BlockObjectRequestCase28Template;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase29CalloutRichTextList = Array<RichTextItemRequest>;
 export type BlockObjectRequestCase29CalloutChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase29Callout {
   rich_text: BlockObjectRequestCase29CalloutRichTextList;
-  color?: ApiColor | (string & {});
-  children?: BlockObjectRequestCase29CalloutChildrenList;
-  icon?: PageIconRequest;
+  color?: ApiColor | (string & {}) | undefined;
+  children?: BlockObjectRequestCase29CalloutChildrenList | undefined;
+  icon?: PageIconRequest | undefined;
 }
 export interface BlockObjectRequestCase29 {
   callout: BlockObjectRequestCase29Callout;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequestCase30SyncedBlockSyncedFrom =
   BlockObjectRequestWithoutChildrenCase27SyncedBlockSyncedFrom;
@@ -1333,12 +1333,12 @@ export type BlockObjectRequestCase30SyncedBlockChildrenList =
   Array<BlockObjectWithSingleLevelOfChildrenRequest>;
 export interface BlockObjectRequestCase30SyncedBlock {
   synced_from: BlockObjectRequestWithoutChildrenCase27SyncedBlockSyncedFrom | null;
-  children?: BlockObjectRequestCase30SyncedBlockChildrenList;
+  children?: BlockObjectRequestCase30SyncedBlockChildrenList | undefined;
 }
 export interface BlockObjectRequestCase30 {
   synced_block: BlockObjectRequestCase30SyncedBlock;
-  type?: string;
-  object?: string;
+  type?: string | undefined;
+  object?: string | undefined;
 }
 export type BlockObjectRequest =
   | BlockObjectRequestCase0
@@ -1381,12 +1381,12 @@ export interface CreatePageRequestTemplateCase0 {
 }
 export interface CreatePageRequestTemplateCase1 {
   type: string;
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export interface CreatePageRequestTemplateCase2 {
   type: string;
   template_id: string;
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export type CreatePageRequestTemplate =
   | CreatePageRequestTemplateCase0
@@ -1409,22 +1409,22 @@ export interface PageWriteNotificationsSchema {
   mode: PageWriteNotificationsSchemaMode | (string & {});
 }
 export interface CreatePageRequest {
-  filter_properties?: CreatePageRequestFilterPropertiesList;
-  parent?: CreatePageRequestParent;
-  properties?: PagePropertiesRequest;
-  icon?: PageIconRequest | null;
-  cover?: PageCoverRequest | null;
-  content?: CreatePageRequestContentList;
-  children?: CreatePageRequestChildrenList;
+  filter_properties?: CreatePageRequestFilterPropertiesList | undefined;
+  parent?: CreatePageRequestParent | undefined;
+  properties?: PagePropertiesRequest | undefined;
+  icon?: PageIconRequest | null | undefined;
+  cover?: PageCoverRequest | null | undefined;
+  content?: CreatePageRequestContentList | undefined;
+  children?: CreatePageRequestChildrenList | undefined;
   /** Page content as Markdown, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). Mutually exclusive with content/children. */
-  markdown?: string;
+  markdown?: string | undefined;
   /** Set to true to receive an async_task response for markdown page creation. Only supported when markdown is provided. */
-  allow_async?: boolean;
+  allow_async?: boolean | undefined;
   /** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
-  markdown_version?: CreatePageRequestMarkdownVersion | (string & {});
-  template?: CreatePageRequestTemplate;
-  position?: PagePositionSchema;
-  notifications?: PageWriteNotificationsSchema;
+  markdown_version?: CreatePageRequestMarkdownVersion | (string & {}) | undefined;
+  template?: CreatePageRequestTemplate | undefined;
+  position?: PagePositionSchema | undefined;
+  notifications?: PageWriteNotificationsSchema | undefined;
 }
 export interface DatabaseParentResponse {
   /** The parent type. */
@@ -1514,11 +1514,11 @@ export interface InternalOrExternalFileWithNameResponse {
   /** The name of the file. */
   name: string;
   /** Type of attachment. In this case, a file uploaded to a Notion workspace. */
-  type?: string;
+  type?: string | undefined;
   /** The file URL. */
-  file?: InternalFileResponse;
+  file?: InternalFileResponse | undefined;
   /** The external URL. */
-  external?: InternalOrExternalFileWithNameResponseExternal;
+  external?: InternalOrExternalFileWithNameResponseExternal | undefined;
 }
 export type PagePropertyValueWithIdResponseFilesList =
   Array<InternalOrExternalFileWithNameResponse>;
@@ -1530,9 +1530,9 @@ export interface PartialUserObjectResponse {
 /** Details about the person, when the `type` of the user is `person`. */
 export interface UserObjectResponsePerson {
   /** The email of the person. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the person's email is verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
 }
 /** The person info of the user. */
 export type BotInfoResponseOwnerCase0UserCase0Person = UserObjectResponsePerson;
@@ -1595,11 +1595,11 @@ export interface UserObjectResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: UserObjectResponsePerson;
+  person?: UserObjectResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: UserObjectResponseBot;
+  bot?: UserObjectResponseBot | undefined;
 }
 export type UserValueResponse = PartialUserObjectResponse | UserObjectResponse;
 export interface BooleanFormulaPropertyValueResponse {
@@ -1697,25 +1697,25 @@ export interface LinkMentionResponse {
   /** The href of the link mention. */
   href: string;
   /** The title of the link. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the link. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the link. */
-  link_author?: string;
+  link_author?: string | undefined;
   /** The provider of the link. */
-  link_provider?: string;
+  link_provider?: string | undefined;
   /** The thumbnail URL of the link. */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /** The icon URL of the link. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The iframe URL of the link. */
-  iframe_url?: string;
+  iframe_url?: string | undefined;
   /** The height of the link preview iframe. */
-  height?: number;
+  height?: number | undefined;
   /** The padding of the link preview iframe. */
-  padding?: number;
+  padding?: number | undefined;
   /** The top padding of the link preview iframe. */
-  padding_top?: number;
+  padding_top?: number | undefined;
 }
 export interface RichTextItemResponseMentionCase3 {
   /** Always `link_mention` */
@@ -1796,13 +1796,13 @@ export interface RichTextItemResponse {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
   annotations: AnnotationResponse;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemResponseText;
+  text?: RichTextItemResponseText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemResponseMention;
+  mention?: RichTextItemResponseMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemRequestEquation;
+  equation?: RichTextItemRequestEquation | undefined;
 }
 export type PagePropertyValueWithIdResponseTitleList = Array<RichTextItemResponse>;
 export type PagePropertyValueWithIdResponseRichTextList = Array<RichTextItemResponse>;
@@ -1996,40 +1996,40 @@ export interface PartialRollupValueResponse {
   /** The function used for the rollup, e.g. count, count_values, percent_not_empty, max. */
   function: RollupFunction;
   /** Always `number` */
-  type?: string;
-  number?: number | null;
-  date?: DateResponse | null;
-  array?: PartialRollupValueResponseArrayList;
-  unsupported?: unknown;
+  type?: string | undefined;
+  number?: number | null | undefined;
+  date?: DateResponse | null | undefined;
+  array?: PartialRollupValueResponseArrayList | undefined;
+  unsupported?: unknown | undefined;
 }
 export interface PagePropertyValueWithIdResponse {
   id: string;
   /** Always `number` */
-  type?: string;
-  number?: number | null;
-  url?: string | null;
-  select?: PartialSelectPropertyValueResponse | null;
-  multi_select?: PagePropertyValueWithIdResponseMultiSelectList;
-  status?: PartialSelectPropertyValueResponse | null;
-  date?: DateResponse | null;
-  email?: string | null;
-  phone_number?: string | null;
-  checkbox?: boolean;
-  files?: PagePropertyValueWithIdResponseFilesList;
-  created_by?: UserValueResponse;
-  created_time?: string;
-  last_edited_by?: UserValueResponse;
-  last_edited_time?: string;
-  formula?: FormulaPropertyValueResponse;
-  button?: unknown;
-  unique_id?: UniqueIdPropertyValueResponse;
-  verification?: VerificationPropertyValueResponse | null;
-  place?: PagePropertiesRequestValueCase14Place | null;
-  title?: PagePropertyValueWithIdResponseTitleList;
-  rich_text?: PagePropertyValueWithIdResponseRichTextList;
-  people?: PagePropertyValueWithIdResponsePeopleList;
-  relation?: PagePropertyValueWithIdResponseRelationList;
-  rollup?: PartialRollupValueResponse;
+  type?: string | undefined;
+  number?: number | null | undefined;
+  url?: string | null | undefined;
+  select?: PartialSelectPropertyValueResponse | null | undefined;
+  multi_select?: PagePropertyValueWithIdResponseMultiSelectList | undefined;
+  status?: PartialSelectPropertyValueResponse | null | undefined;
+  date?: DateResponse | null | undefined;
+  email?: string | null | undefined;
+  phone_number?: string | null | undefined;
+  checkbox?: boolean | undefined;
+  files?: PagePropertyValueWithIdResponseFilesList | undefined;
+  created_by?: UserValueResponse | undefined;
+  created_time?: string | undefined;
+  last_edited_by?: UserValueResponse | undefined;
+  last_edited_time?: string | undefined;
+  formula?: FormulaPropertyValueResponse | undefined;
+  button?: unknown | undefined;
+  unique_id?: UniqueIdPropertyValueResponse | undefined;
+  verification?: VerificationPropertyValueResponse | null | undefined;
+  place?: PagePropertiesRequestValueCase14Place | null | undefined;
+  title?: PagePropertyValueWithIdResponseTitleList | undefined;
+  rich_text?: PagePropertyValueWithIdResponseRichTextList | undefined;
+  people?: PagePropertyValueWithIdResponsePeopleList | undefined;
+  relation?: PagePropertyValueWithIdResponseRelationList | undefined;
+  rollup?: PartialRollupValueResponse | undefined;
 }
 /** Property values of this page. */
 export type PageObjectResponsePropertiesMap = {
@@ -2138,7 +2138,7 @@ export type CreatePageResponse = CreatePageResponseBody;
 export type GetPageRequestFilterPropertiesList = Array<string>;
 export interface GetPageRequest {
   page_id: string;
-  filter_properties?: GetPageRequestFilterPropertiesList;
+  filter_properties?: GetPageRequestFilterPropertiesList | undefined;
 }
 export type GetPageResponseBody = PartialPageObjectResponse | PageObjectResponse;
 export type GetPageResponse = GetPageResponseBody;
@@ -2146,8 +2146,8 @@ export type GetPageResponse = GetPageResponseBody;
 export type GetPageMarkdownRequestMarkdownVersion = "v1" | "v2";
 export interface GetPageMarkdownRequest {
   page_id: string;
-  include_transcript?: boolean;
-  markdown_version?: GetPageMarkdownRequestMarkdownVersion | (string & {});
+  include_transcript?: boolean | undefined;
+  markdown_version?: GetPageMarkdownRequestMarkdownVersion | (string & {}) | undefined;
 }
 /** Block IDs that could not be loaded (appeared as <unknown> tags in the markdown). Pass these IDs back to this endpoint to fetch their content separately. */
 export type PageMarkdownResponseUnknownBlockIdsList = Array<string>;
@@ -2171,13 +2171,13 @@ export interface PageMarkdownResponse {
   /** Block IDs that could not be loaded (appeared as <unknown> tags in the markdown). Pass these IDs back to this endpoint to fetch their content separately. */
   unknown_block_ids: PageMarkdownResponseUnknownBlockIdsList;
   /** Content warnings from a synchronous update. Returned only when there is at least one warning. */
-  warnings?: PageMarkdownResponseWarningsList;
+  warnings?: PageMarkdownResponseWarningsList | undefined;
 }
 export interface GetPagePropertyRequest {
   page_id: string;
   property_id: string;
-  start_cursor?: string;
-  page_size?: number;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
 }
 export interface NumberPropertyItemObjectResponse {
   type: string;
@@ -2498,13 +2498,13 @@ export interface MovePageRequestParentCase0 {
   /** The ID of the parent page (with or without dashes), for example, 195de9221179449fab8075a27c979105 */
   page_id: string;
   /** Always `page_id` */
-  type?: string;
+  type?: string | undefined;
 }
 export interface MovePageRequestParentCase1 {
   /** The ID of the parent data source (collection), with or without dashes. For example, f336d0bc-b841-465b-8045-024475c079dd */
   data_source_id: string;
   /** Always `data_source_id` */
-  type?: string;
+  type?: string | undefined;
 }
 /** The new parent of the page. */
 export type MovePageRequestParent = MovePageRequestParentCase0 | MovePageRequestParentCase1;
@@ -2524,18 +2524,18 @@ export type UpdatePageRequestTemplate =
   | CreatePageRequestTemplateCase2;
 export interface UpdatePageRequest {
   page_id: string;
-  filter_properties?: UpdatePageRequestFilterPropertiesList;
-  properties?: PagePropertiesRequest;
-  icon?: PageIconRequest | null;
-  cover?: PageCoverRequest | null;
+  filter_properties?: UpdatePageRequestFilterPropertiesList | undefined;
+  properties?: PagePropertiesRequest | undefined;
+  icon?: PageIconRequest | null | undefined;
+  cover?: PageCoverRequest | null | undefined;
   /** Whether the page should be locked from editing in the Notion app UI. If not provided, the locked state will not be updated. */
-  is_locked?: boolean;
-  template?: UpdatePageRequestTemplate;
+  is_locked?: boolean | undefined;
+  template?: UpdatePageRequestTemplate | undefined;
   /** Whether to erase all existing content from the page. When used with a template, the template content replaces the existing content. When used without a template, simply clears the page content. */
-  erase_content?: boolean;
-  notifications?: PageWriteNotificationsSchema;
-  in_trash?: boolean;
-  is_archived?: boolean;
+  erase_content?: boolean | undefined;
+  notifications?: PageWriteNotificationsSchema | undefined;
+  in_trash?: boolean | undefined;
+  is_archived?: boolean | undefined;
 }
 export type UpdatePageResponseBody = PageObjectResponse | PartialPageObjectResponse;
 export type UpdatePageResponse = UpdatePageResponseBody;
@@ -2558,9 +2558,9 @@ export interface UpdatePageMarkdownRequestInsertContent {
   /** The Markdown content to insert into the page, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   content: string;
   /** Selection of existing content to insert after, using the ellipsis format ("start text...end text"). Omit to append at the end of the page. */
-  after?: string;
+  after?: string | undefined;
   /** Explicit position for inserted content. Use {"type":"start"} to prepend or {"type":"end"} to append. Cannot be combined with after. */
-  position?: UpdatePageMarkdownRequestInsertContentPosition;
+  position?: UpdatePageMarkdownRequestInsertContentPosition | undefined;
 }
 /** Replace a range of content in the page. */
 export interface UpdatePageMarkdownRequestReplaceContentRange {
@@ -2569,7 +2569,7 @@ export interface UpdatePageMarkdownRequestReplaceContentRange {
   /** Selection of existing content to replace, using the ellipsis format ("start text...end text"). */
   content_range: string;
   /** Set to true to allow the operation to delete child pages or databases. Defaults to false. */
-  allow_deleting_content?: boolean;
+  allow_deleting_content?: boolean | undefined;
 }
 export interface UpdatePageMarkdownRequestUpdateContentContentUpdatesItem {
   /** The existing content string to find and replace. Must exactly match the page content. */
@@ -2577,7 +2577,7 @@ export interface UpdatePageMarkdownRequestUpdateContentContentUpdatesItem {
   /** The new content string to replace old_str with. */
   new_str: string;
   /** If true, replaces all occurrences of old_str. If false (default), the operation fails if there are multiple matches. */
-  replace_all_matches?: boolean;
+  replace_all_matches?: boolean | undefined;
 }
 /** An array of search-and-replace operations, each with old_str (content to find) and new_str (replacement content). Operations that match are applied, and each one that matches nothing is reported in "warnings". The call fails only when no operation that changes content matches. */
 export type UpdatePageMarkdownRequestUpdateContentContentUpdatesList =
@@ -2587,31 +2587,31 @@ export interface UpdatePageMarkdownRequestUpdateContent {
   /** An array of search-and-replace operations, each with old_str (content to find) and new_str (replacement content). Operations that match are applied, and each one that matches nothing is reported in "warnings". The call fails only when no operation that changes content matches. */
   content_updates: UpdatePageMarkdownRequestUpdateContentContentUpdatesList;
   /** Set to true to allow the operation to delete child pages or databases. Defaults to false. */
-  allow_deleting_content?: boolean;
+  allow_deleting_content?: boolean | undefined;
 }
 /** Replace the entire page content with new markdown. */
 export interface UpdatePageMarkdownRequestReplaceContent {
   /** The new Markdown content to replace the entire page content, in the syntax set by `markdown_version`: Notion-flavored Markdown (`v2`, recommended) or enhanced markdown (`v1`, deprecated, the default on current Notion-Versions). */
   new_str: string;
   /** Set to true to allow the operation to delete child pages or databases. Defaults to false. */
-  allow_deleting_content?: boolean;
+  allow_deleting_content?: boolean | undefined;
 }
 export interface UpdatePageMarkdownRequest {
   page_id: string;
   /** Set to true to opt into receiving an async_task result when this update operation is accepted for background execution. If omitted or false, the endpoint keeps the existing synchronous response shape. */
-  allow_async?: boolean;
+  allow_async?: boolean | undefined;
   /** The Markdown syntax to use. `v2` is [Notion-flavored Markdown](/guides/data-apis/notion-flavored-markdown) and is recommended. `v1` is enhanced markdown. It's deprecated. It's the default on current Notion-Versions. The next Notion-Version rejects `v1` with a `400` `validation_error`. */
-  markdown_version?: UpdatePageMarkdownRequestMarkdownVersion | (string & {});
+  markdown_version?: UpdatePageMarkdownRequestMarkdownVersion | (string & {}) | undefined;
   /** Always `insert_content` */
-  type?: string;
+  type?: string | undefined;
   /** Insert new content into the page. */
-  insert_content?: UpdatePageMarkdownRequestInsertContent;
+  insert_content?: UpdatePageMarkdownRequestInsertContent | undefined;
   /** Replace a range of content in the page. */
-  replace_content_range?: UpdatePageMarkdownRequestReplaceContentRange;
+  replace_content_range?: UpdatePageMarkdownRequestReplaceContentRange | undefined;
   /** Update specific content using search-and-replace operations. */
-  update_content?: UpdatePageMarkdownRequestUpdateContent;
+  update_content?: UpdatePageMarkdownRequestUpdateContent | undefined;
   /** Replace the entire page content with new markdown. */
-  replace_content?: UpdatePageMarkdownRequestReplaceContent;
+  replace_content?: UpdatePageMarkdownRequestReplaceContent | undefined;
 }
 export type CreatePageError = NotionOpError;
 /** Create a page */

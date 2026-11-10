@@ -84,7 +84,7 @@ export interface GetSmartRoutingResponse {
   /** Specifies the enablement value of Argo Smart Routing. */
   value: SmartRoutingGetResponseValue;
   /** Specifies the time when the setting was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetTieredCachingRequest {
   /** Identifier. */
@@ -101,7 +101,7 @@ export interface GetTieredCachingResponse {
   /** Value of the Tiered Cache zone setting. */
   value: TieredCachingGetResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SmartRoutingEditRequestValue = "on" | "off";
 export interface PatchSmartRoutingRequest {
@@ -120,7 +120,7 @@ export interface PatchSmartRoutingResponse {
   /** Specifies the enablement value of Argo Smart Routing. */
   value: SmartRoutingEditResponseValue;
   /** Specifies the time when the setting was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type TieredCachingEditRequestValue = "on" | "off";
 export interface PatchTieredCachingRequest {
@@ -140,7 +140,7 @@ export interface PatchTieredCachingResponse {
   /** Value of the Tiered Cache zone setting. */
   value: TieredCachingEditResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type GetSmartRoutingError =
   | InvalidObjectIdentifier

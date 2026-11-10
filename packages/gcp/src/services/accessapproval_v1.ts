@@ -86,37 +86,37 @@ export class NotFound
 /** Request to approve an ApprovalRequest. */
 export interface ApproveApprovalRequestMessage {
   /** The expiration time of this approval. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 export interface ApproveFoldersApprovalRequestsRequest {
   /** Name of the approval request to approve. */
   name: string;
   /** Request body */
-  body?: ApproveApprovalRequestMessage;
+  body?: ApproveApprovalRequestMessage | undefined;
 }
 /** A decision that has been made to dismiss an approval request. */
 export interface DismissDecision {
   /** This field will be true if the ApprovalRequest was implicitly dismissed due to inaction by the access approval approvers (the request is not acted on by the approvers before the exiration time). */
-  implicit?: boolean;
+  implicit?: boolean | undefined;
   /** The time at which the approval request was dismissed. */
-  dismissTime?: string;
+  dismissTime?: string | undefined;
 }
 /** Physical assigned office and physical location of the Google administrator performing the access. */
 export interface AccessLocations {
   /** The "home office" location of the Google administrator. A two-letter country code (ISO 3166-1 alpha-2), such as "US", "DE" or "GB" or a region code. In some limited situations Google systems may refer refer to a region code instead of a country code. Possible Region Codes: * ASI: Asia * EUR: Europe * OCE: Oceania * AFR: Africa * NAM: North America * SAM: South America * ANT: Antarctica * ANY: Any location */
-  principalOfficeCountry?: string;
+  principalOfficeCountry?: string | undefined;
   /** Physical location of the Google administrator at the time of the access. A two-letter country code (ISO 3166-1 alpha-2), such as "US", "DE" or "GB" or a region code. In some limited situations Google systems may refer refer to a region code instead of a country code. Possible Region Codes: * ASI: Asia * EUR: Europe * OCE: Oceania * AFR: Africa * NAM: North America * SAM: South America * ANT: Antarctica * ANY: Any location */
-  principalPhysicalLocationCountry?: string;
+  principalPhysicalLocationCountry?: string | undefined;
 }
 /** The properties associated with the resource of the request. */
 export interface ResourceProperties {
   /** Whether an approval will exclude the descendants of the resource being requested. */
-  excludesDescendants?: boolean;
+  excludesDescendants?: boolean | undefined;
 }
 /** This field contains the augmented information of the request. Requires augmented administrative access to be enabled. */
 export interface AugmentedInfo {
   /** For command-line tools, the full command-line exactly as entered by the actor without adding any additional characters (such as quotation marks). */
-  command?: string;
+  command?: string | undefined;
 }
 export type AccessReasonTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -128,9 +128,9 @@ export type AccessReasonTypeEnum =
   | "CLOUD_INITIATED_ACCESS";
 export interface AccessReason {
   /** Type of access reason. */
-  type?: AccessReasonTypeEnum;
+  type?: AccessReasonTypeEnum | undefined;
   /** More detail about certain reason types. See comments for each type above. */
-  detail?: string;
+  detail?: string | undefined;
 }
 export type SignatureInfoGoogleKeyAlgorithmEnum =
   | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
@@ -186,67 +186,67 @@ export type SignatureInfoGoogleKeyAlgorithmEnum =
 /** Information about the digital signature of the resource. */
 export interface SignatureInfo {
   /** The ApprovalRequest that is serialized without the SignatureInfo message field. This data is used with the hashing algorithm to generate the digital signature, and it can be used for signature verification. */
-  serializedApprovalRequest?: string;
+  serializedApprovalRequest?: string | undefined;
   /** The hashing algorithm used for signature verification. It will only be present in the case of Google managed keys. */
-  googleKeyAlgorithm?: SignatureInfoGoogleKeyAlgorithmEnum;
+  googleKeyAlgorithm?: SignatureInfoGoogleKeyAlgorithmEnum | undefined;
   /** The resource name of the customer CryptoKeyVersion used for signing. */
-  customerKmsKeyVersion?: string;
+  customerKmsKeyVersion?: string | undefined;
   /** The public key for the Google default signing, encoded in PEM format. The signature was created using a private key which may be verified using this public key. */
-  googlePublicKeyPem?: string;
+  googlePublicKeyPem?: string | undefined;
   /** The digital signature. */
-  signature?: string;
+  signature?: string | undefined;
 }
 /** A decision that has been made to approve access to a resource. */
 export interface ApproveDecision {
   /** If set, denotes the timestamp at which the approval is invalidated. */
-  invalidateTime?: string;
+  invalidateTime?: string | undefined;
   /** The signature for the ApprovalRequest and details on how it was signed. */
-  signatureInfo?: SignatureInfo;
+  signatureInfo?: SignatureInfo | undefined;
   /** True when the request has been auto-approved. */
-  autoApproved?: boolean;
+  autoApproved?: boolean | undefined;
   /** True when the request has been approved by the customer's defined policy. */
-  policyApproved?: boolean;
+  policyApproved?: boolean | undefined;
   /** The time at which approval was granted. */
-  approveTime?: string;
+  approveTime?: string | undefined;
   /** The time at which the approval expires. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 /** A request for the customer to approve access to a resource. */
 export interface ApprovalRequest {
   /** The original requested expiration for the approval. Calculated by adding the requested_duration to the request_time. */
-  requestedExpiration?: string;
+  requestedExpiration?: string | undefined;
   /** The requested access duration. */
-  requestedDuration?: string;
+  requestedDuration?: string | undefined;
   /** The request was dismissed. */
-  dismiss?: DismissDecision;
+  dismiss?: DismissDecision | undefined;
   /** The locations for which approval is being requested. */
-  requestedLocations?: AccessLocations;
+  requestedLocations?: AccessLocations | undefined;
   /** Properties related to the resource represented by requested_resource_name. */
-  requestedResourceProperties?: ResourceProperties;
+  requestedResourceProperties?: ResourceProperties | undefined;
   /** This field contains the augmented information of the request. */
-  requestedAugmentedInfo?: AugmentedInfo;
+  requestedAugmentedInfo?: AugmentedInfo | undefined;
   /** The resource name of the request. Format is "{projects|folders|organizations}/{id}/approvalRequests/{approval_request}". */
-  name?: string;
+  name?: string | undefined;
   /** The resource for which approval is being requested. The format of the resource name is defined at https://cloud.google.com/apis/design/resource_names. The resource name here may either be a "full" resource name (e.g. "//library.googleapis.com/shelves/shelf1/books/book2") or a "relative" resource name (e.g. "shelves/shelf1/books/book2") as described in the resource name specification. */
-  requestedResourceName?: string;
+  requestedResourceName?: string | undefined;
   /** The access reason for which approval is being requested. */
-  requestedReason?: AccessReason;
+  requestedReason?: AccessReason | undefined;
   /** The time at which approval was requested. */
-  requestTime?: string;
+  requestTime?: string | undefined;
   /** Access was approved. */
-  approve?: ApproveDecision;
+  approve?: ApproveDecision | undefined;
 }
 export interface ApproveOrganizationsApprovalRequestsRequest {
   /** Name of the approval request to approve. */
   name: string;
   /** Request body */
-  body?: ApproveApprovalRequestMessage;
+  body?: ApproveApprovalRequestMessage | undefined;
 }
 export interface ApproveProjectsApprovalRequestsRequest {
   /** Name of the approval request to approve. */
   name: string;
   /** Request body */
-  body?: ApproveApprovalRequestMessage;
+  body?: ApproveApprovalRequestMessage | undefined;
 }
 export interface DeleteAccessApprovalSettingsFoldersRequest {
   /** Name of the AccessApprovalSettings to delete. */
@@ -268,19 +268,19 @@ export interface DismissFoldersApprovalRequestsRequest {
   /** Name of the ApprovalRequest to dismiss. */
   name: string;
   /** Request body */
-  body?: DismissApprovalRequestMessage;
+  body?: DismissApprovalRequestMessage | undefined;
 }
 export interface DismissOrganizationsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to dismiss. */
   name: string;
   /** Request body */
-  body?: DismissApprovalRequestMessage;
+  body?: DismissApprovalRequestMessage | undefined;
 }
 export interface DismissProjectsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to dismiss. */
   name: string;
   /** Request body */
-  body?: DismissApprovalRequestMessage;
+  body?: DismissApprovalRequestMessage | undefined;
 }
 export interface GetAccessApprovalSettingsFoldersRequest {
   /** The name of the AccessApprovalSettings to retrieve. Format: "{projects|folders|organizations}/{id}/accessApprovalSettings" */
@@ -290,9 +290,9 @@ export type EnrolledServiceEnrollmentLevelEnum = "ENROLLMENT_LEVEL_UNSPECIFIED" 
 /** Represents the enrollment of a cloud resource into a specific service. */
 export interface EnrolledService {
   /** The product for which Access Approval will be enrolled. Allowed values are listed below (case-sensitive): * all * GA * Access Context Manager * Anthos Identity Service * AlloyDB for PostgreSQL * Apigee * Application Integration * App Hub * Artifact Registry * Anthos Service Mesh * Access Transparency * BigQuery * Certificate Authority Service * Cloud Bigtable * CCAI Assist and Knowledge * Cloud Dataflow * Cloud Dataproc * CEP Security Gateway * Compliance Evaluation Service * Cloud Firestore * Cloud Healthcare API * Chronicle * Cloud AI Companion Gateway - Titan * Google Cloud Armor * Cloud Asset Inventory * Cloud Asset Search * Cloud Deploy * Cloud DNS * Cloud Latency * Cloud Memorystore for Redis * CloudNet Control * Cloud Riptide * Cloud Tasks * Cloud Trace * Cloud Data Transfer * Cloud Composer * Integration Connectors * Contact Center AI Insights * Cloud Pub/Sub * Cloud Run * Resource Manager * Cloud Spanner * Database Center * Cloud Dataform * Cloud Data Fusion * Dataplex * Dialogflow Customer Experience Edition * Cloud DLP * Document AI * Edge Container * Edge Network * Cloud EKM * Eventarc * Firebase Data Connect * Firebase Rules * App Engine * Cloud Build * Compute Engine * Cloud Functions (2nd Gen) * Cloud Filestore * Cloud Interconnect * Cloud NetApp Volumes * Cloud Storage * Generative AI App Builder * Google Kubernetes Engine * Backup for GKE API * GKE Connect * GKE Hub * Hoverboard * Cloud HSM * Cloud Identity and Access Management * Cloud Identity-Aware Proxy * Infrastructure Manager * Identity Storage Service * Key Access Justifications * Cloud Key Management Service * Cloud Logging * Looker (Google Cloud core) * Looker Studio * Management Hub * Model Armor * Cloud Monitoring * Cloud NAT * Connectivity Hub * External passthrough Network Load Balancer * OIDC One * Organization Policy Service * Org Lifecycle * Persistent Disk * Parameter Manager * Private Services Access * Regional Internal Application Load Balancer * Storage Batch Operations * Cloud Security Command Center * Secure Source Manager * Seeker * Service Provisioning * Speaker ID * Secret Manager * Cloud SQL * Cloud Speech-to-Text * Traffic Director * Cloud Text-to-Speech * USPS Andromeda * Vertex AI * Virtual Private Cloud (VPC) * VPC Access * VPC Service Controls Troubleshooter * VPC virtnet * Cloud Workstations * Web Risk Note: These values are supported as input for legacy purposes, but will not be returned from the API. * all * ga-only * appengine.googleapis.com * artifactregistry.googleapis.com * bigquery.googleapis.com * bigtable.googleapis.com * container.googleapis.com * cloudkms.googleapis.com * cloudresourcemanager.googleapis.com * cloudsql.googleapis.com * compute.googleapis.com * dataflow.googleapis.com * dataproc.googleapis.com * dlp.googleapis.com * iam.googleapis.com * logging.googleapis.com * orgpolicy.googleapis.com * pubsub.googleapis.com * spanner.googleapis.com * secretmanager.googleapis.com * speakerid.googleapis.com * storage.googleapis.com Calls to UpdateAccessApprovalSettings using 'all' or any of the XXX.googleapis.com will be translated to the associated product name ('all', 'App Engine', etc.). Note: 'all' will enroll the resource in all products supported at both 'GA' and 'Preview' levels. More information about levels of support is available at https://cloud.google.com/access-approval/docs/supported-services */
-  cloudProduct?: string;
+  cloudProduct?: string | undefined;
   /** The enrollment level of the service. */
-  enrollmentLevel?: EnrolledServiceEnrollmentLevelEnum | (string & {});
+  enrollmentLevel?: EnrolledServiceEnrollmentLevelEnum | (string & {}) | undefined;
 }
 export type EnrolledServiceList = Array<EnrolledService>;
 export type StringList = Array<string>;
@@ -312,42 +312,44 @@ export interface CustomerApprovalApprovalPolicy {
   /** Optional. Policy for approval based on the justification given. */
   justificationBasedApprovalPolicy?:
     | CustomerApprovalApprovalPolicyJustificationBasedApprovalPolicyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Settings on a Project/Folder/Organization related to Access Approval. */
 export interface AccessApprovalSettings {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
-  name?: string;
+  name?: string | undefined;
   /** Optional. When enabled, Google will only be able to send approval requests for access reasons with a customer accessible case ID in the reason detail. Also known as "Require customer initiated support case justification" */
-  requireCustomerVisibleJustification?: boolean;
+  requireCustomerVisibleJustification?: boolean | undefined;
   /** Set the default access approval request expiration time. This value is able to be set directly by the customer at the time of approval, overriding this suggested value. We recommend setting this value to 30 days. */
-  preferredRequestExpirationDays?: number;
+  preferredRequestExpirationDays?: number | undefined;
   /** This field is used to set a preference for granularity of an access approval request. If true, Google personnel will be asked to send resource-level requests when possible. If false, Google personnel will be asked to send requests at the project level. */
-  preferNoBroadApprovalRequests?: boolean;
+  preferNoBroadApprovalRequests?: boolean | undefined;
   /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that at least one service is enrolled for Access Approval in one or more ancestors of the Project or Folder (this field will always be unset for the organization since organizations do not have ancestors). */
-  enrolledAncestor?: boolean;
+  enrolledAncestor?: boolean | undefined;
   /** Optional. A pubsub topic that notifications relating to access approval are published to. Notifications include pre-approved accesses. */
-  notificationPubsubTopic?: string;
+  notificationPubsubTopic?: string | undefined;
   /** Output only. Field to differentiate ancestor enrolled services from locally enrolled services. */
-  ancestorsEnrolledServices?: EnrolledServiceList;
+  ancestorsEnrolledServices?: EnrolledServiceList | undefined;
   /** A list of email addresses to which notifications relating to approval requests should be sent. Notifications relating to a resource will be sent to all emails in the settings of ancestor resources of that resource. A maximum of 50 email addresses are allowed. */
-  notificationEmails?: StringList;
+  notificationEmails?: StringList | undefined;
   /** Optional. A setting that indicates the maximum scope of an Access Approval request: either organization, folder, or project. Google administrators will be asked to send requests no broader than the configured scope. */
   requestScopeMaxWidthPreference?:
     | AccessApprovalSettingsRequestScopeMaxWidthPreferenceEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** A list of Google Cloud Services for which the given resource has Access Approval enrolled. Access requests for the resource given by name against any of these services contained here will be required to have explicit approval. If name refers to an organization, enrollment can be done for individual services. If name refers to a folder or project, enrollment can only be done on an all or nothing basis. If a cloud_product is repeated in this list, the first entry will be honored and all following entries will be discarded. */
-  enrolledServices?: EnrolledServiceList;
+  enrolledServices?: EnrolledServiceList | undefined;
   /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that there is some configuration issue with the active_key_version configured at this level in the resource hierarchy (e.g. it doesn't exist or the Access Approval service account doesn't have the correct permissions on it, etc.) This key version is not necessarily the effective key version at this level, as key versions are inherited top-down. */
-  invalidKeyVersion?: boolean;
+  invalidKeyVersion?: boolean | undefined;
   /** Optional. Policy configuration for Access Approval that sets the operating mode. The available policies are Transparency, Streamlined Support, and Approval Required. */
-  approvalPolicy?: CustomerApprovalApprovalPolicy;
+  approvalPolicy?: CustomerApprovalApprovalPolicy | undefined;
   /** Output only. Effective policy applied for Access Approval, inclusive of inheritance. */
-  effectiveApprovalPolicy?: CustomerApprovalApprovalPolicy;
+  effectiveApprovalPolicy?: CustomerApprovalApprovalPolicy | undefined;
   /** Output only. This field is read only (not settable via UpdateAccessApprovalSettings method). If the field is true, that indicates that an ancestor of this Project or Folder has set active_key_version (this field will always be unset for the organization since organizations do not have ancestors). */
-  ancestorHasActiveKeyVersion?: boolean;
+  ancestorHasActiveKeyVersion?: boolean | undefined;
   /** The asymmetric crypto key version to use for signing approval requests. Empty active_key_version indicates that a Google-managed key should be used for signing. This property will be ignored if set by an ancestor of this resource, and new non-empty values may not be set. */
-  activeKeyVersion?: string;
+  activeKeyVersion?: string | undefined;
 }
 export interface GetAccessApprovalSettingsOrganizationsRequest {
   /** The name of the AccessApprovalSettings to retrieve. Format: "{projects|folders|organizations}/{id}/accessApprovalSettings" */
@@ -376,9 +378,9 @@ export interface GetServiceAccountFoldersRequest {
 /** Access Approval service account related to a project/folder/organization. */
 export interface AccessApprovalServiceAccount {
   /** The resource name of the Access Approval service account. Format is one of: * "projects/{project}/serviceAccount" * "folders/{folder}/serviceAccount" * "organizations/{organization}/serviceAccount" */
-  name?: string;
+  name?: string | undefined;
   /** Email address of the service account. */
-  accountEmail?: string;
+  accountEmail?: string | undefined;
 }
 export interface GetServiceAccountOrganizationsRequest {
   /** Name of the AccessApprovalServiceAccount to retrieve. */
@@ -394,27 +396,27 @@ export interface InvalidateFoldersApprovalRequestsRequest {
   /** Name of the ApprovalRequest to invalidate. */
   name: string;
   /** Request body */
-  body?: DismissApprovalRequestMessage;
+  body?: DismissApprovalRequestMessage | undefined;
 }
 export interface InvalidateOrganizationsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to invalidate. */
   name: string;
   /** Request body */
-  body?: DismissApprovalRequestMessage;
+  body?: DismissApprovalRequestMessage | undefined;
 }
 export interface InvalidateProjectsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to invalidate. */
   name: string;
   /** Request body */
-  body?: DismissApprovalRequestMessage;
+  body?: DismissApprovalRequestMessage | undefined;
 }
 export interface ListFoldersApprovalRequestsRequest {
   /** A token identifying the page of results to return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests. */
-  filter?: string;
+  filter?: string | undefined;
   /** Requested page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
   parent: string;
 }
@@ -422,53 +424,53 @@ export type ApprovalRequestList = Array<ApprovalRequest>;
 /** Response to listing of ApprovalRequest objects. */
 export interface ListApprovalRequestsResponse {
   /** Approval request details. */
-  approvalRequests?: ApprovalRequestList;
+  approvalRequests?: ApprovalRequestList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsApprovalRequestsRequest {
   /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
   parent: string;
   /** A token identifying the page of results to return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests. */
-  filter?: string;
+  filter?: string | undefined;
   /** Requested page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsApprovalRequestsRequest {
   /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
   parent: string;
   /** Requested page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter on the type of approval requests to retrieve. Must be one of the following values: * [not set]: Requests that are pending or have active approvals. * ALL: All requests. * PENDING: Only pending requests. * ACTIVE: Only active (i.e. currently approved) requests. * DISMISSED: Only requests that have been dismissed, or requests that are not approved and past expiration. * EXPIRED: Only requests that have been approved, and the approval has expired. * HISTORY: Active, dismissed and expired requests. */
-  filter?: string;
+  filter?: string | undefined;
   /** A token identifying the page of results to return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface UpdateAccessApprovalSettingsFoldersRequest {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: AccessApprovalSettings;
+  body?: AccessApprovalSettings | undefined;
 }
 export interface UpdateAccessApprovalSettingsOrganizationsRequest {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: AccessApprovalSettings;
+  body?: AccessApprovalSettings | undefined;
 }
 export interface UpdateAccessApprovalSettingsProjectsRequest {
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
   /** Request body */
-  body?: AccessApprovalSettings;
+  body?: AccessApprovalSettings | undefined;
 }
 export type ApproveFoldersApprovalRequestsError =
   | NotFound

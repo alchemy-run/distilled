@@ -70,7 +70,7 @@ export interface Suppression {
   /** Timestamp when the recipient was added to the suppression list */
   addedAt: string;
   /** Timestamp until which the recipient is blocked (null if permanent) */
-  blockedUntil?: string | null;
+  blockedUntil?: string | null | undefined;
   reason: SuppressionReason;
   /** The email address of the suppressed recipient */
   recipientAddress: string;
@@ -121,12 +121,12 @@ export type SendingDomainState =
   | "active"
   | "deleting";
 export interface CreateSendingDomainResponse {
-  blockedUntil?: string;
+  blockedUntil?: string | undefined;
   domain: string;
   /** UUID of the sending domain resource */
   id: string;
   /** List of errors related to state */
-  messages?: CreateSendingDomainResponseMessagesList;
+  messages?: CreateSendingDomainResponseMessagesList | undefined;
   state: SendingDomainState;
 }
 export type DeleteAuthorizedSenderRequestRegionId = "eu01" | "eu02";
@@ -211,10 +211,10 @@ export type DNSRecordsDkimList = Array<DNSRecord>;
 /** DNS configuration for the sending domain */
 export interface DNSRecords {
   /** List of DKIM records */
-  dkim?: DNSRecordsDkimList;
-  dmarc?: DNSRecord;
-  returnPath?: DNSRecord;
-  spf?: DNSRecord;
+  dkim?: DNSRecordsDkimList | undefined;
+  dmarc?: DNSRecord | undefined;
+  returnPath?: DNSRecord | undefined;
+  spf?: DNSRecord | undefined;
 }
 /** The current validation status of the sending domain */
 export type DomainValidationStatusStatus =
@@ -225,9 +225,9 @@ export type DomainValidationStatusStatus =
 /** Validation status of the DKIM Selector */
 export type DKIMValidationReportStatus = "Valid" | "Invalid";
 export interface DKIMValidationReport {
-  message?: string;
+  message?: string | undefined;
   /** DKIM Selector */
-  selector?: string;
+  selector?: string | undefined;
   /** Validation status of the DKIM Selector */
   status: DKIMValidationReportStatus;
 }
@@ -235,37 +235,37 @@ export type DomainValidationReportDkimList = Array<DKIMValidationReport>;
 /** Validation status of the DNS record */
 export type ValidationReportStatus = "Valid" | "Invalid" | "NotConfigured";
 export interface ValidationReport {
-  message?: string;
+  message?: string | undefined;
   /** Validation status of the DNS record */
   status: ValidationReportStatus;
 }
 export interface DomainValidationReport {
-  dkim?: DomainValidationReportDkimList;
-  dmarc?: ValidationReport;
-  returnPath?: ValidationReport;
-  spf?: ValidationReport;
+  dkim?: DomainValidationReportDkimList | undefined;
+  dmarc?: ValidationReport | undefined;
+  returnPath?: ValidationReport | undefined;
+  spf?: ValidationReport | undefined;
 }
 export interface DomainValidationStatus {
   /** The timestamp of the last validation */
-  lastValidationTime?: string;
+  lastValidationTime?: string | undefined;
   /** The current validation status of the sending domain */
-  status?: DomainValidationStatusStatus;
-  validationReport?: DomainValidationReport;
+  status?: DomainValidationStatusStatus | undefined;
+  validationReport?: DomainValidationReport | undefined;
 }
 /** Configuration returned for a single sending domain */
 export interface SendingDomainConfig {
-  dnsRecords?: DNSRecords;
-  domainValidationStatus?: DomainValidationStatus;
+  dnsRecords?: DNSRecords | undefined;
+  domainValidationStatus?: DomainValidationStatus | undefined;
   /** Region of this sending domain config (e.g. eu01) */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetSendingDomainResponse {
-  blockedUntil?: string;
+  blockedUntil?: string | undefined;
   domain: string;
   /** UUID of the sending domain resource */
   id: string;
   /** List of errors related to state */
-  messages?: GetSendingDomainResponseMessagesList;
+  messages?: GetSendingDomainResponseMessagesList | undefined;
   state: SendingDomainState;
   config: SendingDomainConfig;
 }
@@ -290,13 +290,13 @@ export type SendingDomainMessageDetailsStatus =
   | "Hard Bounce (OOB)";
 /** The logged email event details plus the resolved status. */
 export interface SendingDomainMessageDetails {
-  accepted_at?: string;
+  accepted_at?: string | undefined;
   attachment: string;
   attachment_size: number;
   attempts: number;
-  delivered_at?: string;
+  delivered_at?: string | undefined;
   from: string;
-  last_attempt?: string;
+  last_attempt?: string | undefined;
   message_direction: string;
   message_id: string;
   message_size: number;
@@ -327,11 +327,11 @@ export interface GetSendingDomainMetricsRequest {
   /** UUID of the sending domain resource */
   sendingDomainId: string;
   /** The time span for the metrics query. Can be combined with startTime or endTime to query relative time intervals (e.g., timespan=day with startTime queries 24h starting from startTime; timespan=week with endTime queries 7d ending at endTime). Ignored if both startTime and endTime are provided. Defaults to all time if omitted. */
-  timespan?: MetricsTimespan | (string & {});
+  timespan?: MetricsTimespan | (string & {}) | undefined;
   /** The start time for a metrics timespan (RFC 3339). Must not be after endTime (returns HTTP 400 if startTime > endTime). When specified with a timespan (e.g. day, week), the query interval spans forward by that duration starting from startTime. If timespan is 'all' or omitted, queries from startTime until the current time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time for a metrics timespan (RFC 3339). Must not be before startTime (returns HTTP 400 if startTime > endTime). When specified with a timespan (e.g. day, week), the query interval spans backward by that duration ending at endTime. If timespan is 'all' or omitted, queries all history up to endTime. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export interface MetricsResponse {
   /** Number of accepted e-mails */
@@ -380,23 +380,23 @@ export interface ListSendingDomainMessagesRequest {
   /** UUID of the sending domain resource */
   sendingDomainId: string;
   /** Maximum number of messages to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response's nextCursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by the state of the message (maps to event_type). */
-  state?: string;
+  state?: string | undefined;
   /** Case-insensitive substring search for subject (minimum 3 characters). */
-  subject?: string;
+  subject?: string | undefined;
   /** Case-insensitive substring search for sender address (minimum 3 characters). */
-  sender?: string;
+  sender?: string | undefined;
   /** Case-insensitive substring search for recipient address (minimum 3 characters). */
-  recipient?: string;
+  recipient?: string | undefined;
 }
 export type ListMessagesResponseItemsList = Array<SendingDomainMessage>;
 export interface ListMessagesResponse {
   items: ListMessagesResponseItemsList;
   /** Timestamp cursor for the next page. Absent when there are no more messages. */
-  nextCursor?: string;
+  nextCursor?: string | undefined;
 }
 export type ListSendingDomainsRequestRegionId = "eu01" | "eu02";
 export interface ListSendingDomainsRequest {
@@ -408,12 +408,12 @@ export interface ListSendingDomainsRequest {
 /** List of errors related to state */
 export type SendingDomainMessagesList = Array<string>;
 export interface SendingDomain {
-  blockedUntil?: string;
+  blockedUntil?: string | undefined;
   domain: string;
   /** UUID of the sending domain resource */
   id: string;
   /** List of errors related to state */
-  messages?: SendingDomainMessagesList;
+  messages?: SendingDomainMessagesList | undefined;
   state: SendingDomainState;
 }
 export type ListSendingDomainsResponseItemsList = Array<SendingDomain>;

@@ -28,21 +28,21 @@ export type EventFilterModeEnum = "disabled" | "dry_run" | "live";
 export interface CreateEventFilterRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  mode?: EventFilterModeEnum | (string & {});
+  mode?: EventFilterModeEnum | (string & {}) | undefined;
   /** Boolean expression tree. Nodes: {"type": "and"|"or", "children": [...]}, {"type": "not", "child": {...}}, {"type": "condition", "field": "event_name"|"distinct_id", "operator": "exact"|"contains", "value": "<string>"} */
-  filter_tree?: unknown;
+  filter_tree?: unknown | undefined;
   /** Test events to validate the filter. Each: {"event_name": "...", "distinct_id": "...", "expected_result": "drop"|"ingest"} */
-  test_cases?: unknown;
+  test_cases?: unknown | undefined;
 }
 export interface EventFilterConfig {
-  id?: string;
-  mode?: EventFilterModeEnum;
+  id?: string | undefined;
+  mode?: EventFilterModeEnum | undefined;
   /** Boolean expression tree. Nodes: {"type": "and"|"or", "children": [...]}, {"type": "not", "child": {...}}, {"type": "condition", "field": "event_name"|"distinct_id", "operator": "exact"|"contains", "value": "<string>"} */
-  filter_tree?: unknown;
+  filter_tree?: unknown | undefined;
   /** Test events to validate the filter. Each: {"event_name": "...", "distinct_id": "...", "expected_result": "drop"|"ingest"} */
-  test_cases?: unknown;
-  created_at?: string;
-  updated_at?: string;
+  test_cases?: unknown | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface GetEventFilterRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -55,13 +55,13 @@ export interface GetEventFilterMetricsRequest {
 export type AppMetricsResponseLabelsList = Array<string>;
 export type AppMetricSeriesValuesList = Array<number>;
 export interface AppMetricSeries {
-  name?: string;
-  values?: AppMetricSeriesValuesList;
+  name?: string | undefined;
+  values?: AppMetricSeriesValuesList | undefined;
 }
 export type AppMetricsResponseSeriesList = Array<AppMetricSeries>;
 export interface AppMetricsResponse {
-  labels?: AppMetricsResponseLabelsList;
-  series?: AppMetricsResponseSeriesList;
+  labels?: AppMetricsResponseLabelsList | undefined;
+  series?: AppMetricsResponseSeriesList | undefined;
 }
 export interface GetEventFilterMetricsTotalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -69,7 +69,7 @@ export interface GetEventFilterMetricsTotalRequest {
 }
 export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
 export interface AppMetricsTotalsResponse {
-  totals?: AppMetricsTotalsResponseTotalsMap;
+  totals?: AppMetricsTotalsResponseTotalsMap | undefined;
 }
 export type CreateEventFilterError = PosthogOpError;
 /** Create or update the event filter config. */

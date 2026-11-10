@@ -107,46 +107,46 @@ export type ContentAdsSettingsTypeEnum =
 /** Settings specific to content ads (AFC). */
 export interface ContentAdsSettings {
   /** Required. Size of the ad unit. e.g. "728x90", "1x3" (for responsive ad units). */
-  size?: string;
+  size?: string | undefined;
   /** Required. Type of the ad unit. */
-  type?: ContentAdsSettingsTypeEnum | (string & {});
+  type?: ContentAdsSettingsTypeEnum | (string & {}) | undefined;
 }
 export type AdUnitStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "ARCHIVED";
 /** Representation of an ad unit. An ad unit represents a saved ad unit with a specific set of ad settings that have been customized within an account. */
 export interface AdUnit {
   /** Required. Display name of the ad unit, as provided when the ad unit was created. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Unique ID of the ad unit as used in the `AD_UNIT_ID` reporting dimension. */
-  reportingDimensionId?: string;
+  reportingDimensionId?: string | undefined;
   /** Required. Settings specific to content ads (AFC). */
-  contentAdsSettings?: ContentAdsSettings;
+  contentAdsSettings?: ContentAdsSettings | undefined;
   /** Required. State of the ad unit. */
-  state?: AdUnitStateEnum | (string & {});
+  state?: AdUnitStateEnum | (string & {}) | undefined;
   /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateAccountsAdclientsAdunitsRequest {
   /** Required. Ad client to create an ad unit under. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
   /** Request body */
-  body?: AdUnit;
+  body?: AdUnit | undefined;
 }
 /** Representation of a custom channel. */
 export interface CustomChannel {
   /** Required. Display name of the custom channel. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether the custom channel is active and collecting data. See https://support.google.com/adsense/answer/10077192. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Output only. Unique ID of the custom channel as used in the `CUSTOM_CHANNEL_ID` reporting dimension. */
-  reportingDimensionId?: string;
+  reportingDimensionId?: string | undefined;
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateAccountsAdclientsCustomchannelsRequest {
   /** Required. The ad client to create a custom channel under. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
   /** Request body */
-  body?: CustomChannel;
+  body?: CustomChannel | undefined;
 }
 export interface DeleteAccountsAdclientsCustomchannelsRequest {
   /** Required. Name of the custom channel to delete. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
@@ -272,57 +272,57 @@ export type GenerateAccountsReportsDimensionsEnumList = Array<
 >;
 export interface GenerateAccountsReportsRequest {
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: GenerateAccountsReportsReportingTimeZoneEnum | (string & {});
+  reportingTimeZone?: GenerateAccountsReportsReportingTimeZoneEnum | (string & {}) | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  "endDate.day"?: number | undefined;
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   account: string;
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: GenerateAccountsReportsDateRangeEnum | (string & {});
+  dateRange?: GenerateAccountsReportsDateRangeEnum | (string & {}) | undefined;
   /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
-  filters?: StringList;
+  filters?: StringList | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  "startDate.month"?: number | undefined;
   /** Required. Reporting metrics. */
-  metrics?: GenerateAccountsReportsMetricsEnumList;
+  metrics?: GenerateAccountsReportsMetricsEnumList | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  "endDate.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "endDate.year"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "startDate.year"?: number | undefined;
   /** Dimensions to base the report on. */
-  dimensions?: GenerateAccountsReportsDimensionsEnumList;
+  dimensions?: GenerateAccountsReportsDimensionsEnumList | undefined;
   /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
-  limit?: number;
+  limit?: number | undefined;
   /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
-  orderBy?: StringList;
+  orderBy?: StringList | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "startDate.day"?: number | undefined;
 }
 /** Cell representation. */
 export interface Cell {
   /** Value in the cell. The dimension cells contain strings, and the metric cells contain numbers. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CellList = Array<Cell>;
 /** Row representation. */
 export interface Row {
   /** Cells in the row. */
-  cells?: CellList;
+  cells?: CellList | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Adsense_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 export type RowList = Array<Row>;
 export type HeaderTypeEnum =
@@ -336,31 +336,31 @@ export type HeaderTypeEnum =
 /** The header information of the columns requested in the report. */
 export interface Header {
   /** Required. Name of the header. */
-  name?: string;
+  name?: string | undefined;
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) of this column. Only present if the header type is METRIC_CURRENCY. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Required. Type of the header. */
-  type?: HeaderTypeEnum;
+  type?: HeaderTypeEnum | undefined;
 }
 export type HeaderList = Array<Header>;
 /** Result of a generated report. */
 export interface ReportResult {
   /** The averages of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
-  averages?: Row;
+  averages?: Row | undefined;
   /** Required. End date of the range (inclusive). */
-  endDate?: Adsense_Date;
+  endDate?: Adsense_Date | undefined;
   /** Any warnings associated with generation of the report. These warnings are always returned in English. */
-  warnings?: StringList;
+  warnings?: StringList | undefined;
   /** Required. Start date of the range (inclusive). */
-  startDate?: Adsense_Date;
+  startDate?: Adsense_Date | undefined;
   /** The output rows of the report. Each row is a list of cells; one for each dimension in the request, followed by one for each metric in the request. */
-  rows?: RowList;
+  rows?: RowList | undefined;
   /** The header information; one for each dimension in the request, followed by one for each metric in the request. */
-  headers?: HeaderList;
+  headers?: HeaderList | undefined;
   /** The total number of rows matched by the report request. */
-  totalMatchedRows?: string;
+  totalMatchedRows?: string | undefined;
   /** The totals of the report. This is the same length as any other row in the report; cells corresponding to dimension columns are empty. */
-  totals?: Row;
+  totals?: Row | undefined;
 }
 export type GenerateAccountsReportsSavedReportingTimeZoneEnum =
   | "REPORTING_TIME_ZONE_UNSPECIFIED"
@@ -377,27 +377,27 @@ export type GenerateAccountsReportsSavedDateRangeEnum =
   | "LAST_30_DAYS";
 export interface GenerateAccountsReportsSavedRequest {
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: GenerateAccountsReportsSavedReportingTimeZoneEnum | (string & {});
+  reportingTimeZone?: GenerateAccountsReportsSavedReportingTimeZoneEnum | (string & {}) | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "startDate.year"?: number | undefined;
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "endDate.year"?: number | undefined;
   /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "startDate.day"?: number | undefined;
   /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
   name: string;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  "endDate.day"?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  "endDate.month"?: number | undefined;
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: GenerateAccountsReportsSavedDateRangeEnum | (string & {});
+  dateRange?: GenerateAccountsReportsSavedDateRangeEnum | (string & {}) | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  "startDate.month"?: number | undefined;
 }
 export type GenerateCsvAccountsReportsMetricsEnum =
   | "METRIC_UNSPECIFIED"
@@ -516,48 +516,48 @@ export type GenerateCsvAccountsReportsReportingTimeZoneEnum =
   | "GOOGLE_TIME_ZONE";
 export interface GenerateCsvAccountsReportsRequest {
   /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Required. Reporting metrics. */
-  metrics?: GenerateCsvAccountsReportsMetricsEnumList;
+  metrics?: GenerateCsvAccountsReportsMetricsEnumList | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  "startDate.month"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "startDate.day"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "startDate.year"?: number | undefined;
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Dimensions to base the report on. */
-  dimensions?: GenerateCsvAccountsReportsDimensionsEnumList;
+  dimensions?: GenerateCsvAccountsReportsDimensionsEnumList | undefined;
   /** A list of [filters](/adsense/management/reporting/filtering) to apply to the report. All provided filters must match in order for the data to be included in the report. */
-  filters?: StringList;
+  filters?: StringList | undefined;
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   account: string;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  "endDate.month"?: number | undefined;
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: GenerateCsvAccountsReportsDateRangeEnum | (string & {});
+  dateRange?: GenerateCsvAccountsReportsDateRangeEnum | (string & {}) | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "endDate.year"?: number | undefined;
   /** The maximum number of rows of report data to return. Reports producing more rows than the requested limit will be truncated. If unset, this defaults to 100,000 rows for `Reports.GenerateReport` and 1,000,000 rows for `Reports.GenerateCsvReport`, which are also the maximum values permitted here. Report truncation can be identified (for `Reports.GenerateReport` only) by comparing the number of rows returned to the value returned in `total_matched_rows`. */
-  limit?: number;
+  limit?: number | undefined;
   /** The name of a dimension or metric to sort the resulting report on, can be prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending. */
-  orderBy?: StringList;
+  orderBy?: StringList | undefined;
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: GenerateCsvAccountsReportsReportingTimeZoneEnum | (string & {});
+  reportingTimeZone?: GenerateCsvAccountsReportsReportingTimeZoneEnum | (string & {}) | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  "endDate.day"?: number | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
 }
 export type GenerateCsvAccountsReportsSavedDateRangeEnum =
   | "REPORTING_DATE_RANGE_UNSPECIFIED"
@@ -574,27 +574,30 @@ export type GenerateCsvAccountsReportsSavedReportingTimeZoneEnum =
   | "GOOGLE_TIME_ZONE";
 export interface GenerateCsvAccountsReportsSavedRequest {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "startDate.year"?: number;
+  "startDate.year"?: number | undefined;
   /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
   name: string;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "endDate.month"?: number;
+  "endDate.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "endDate.year"?: number;
+  "endDate.year"?: number | undefined;
   /** The language to use for translating report output. If unspecified, this defaults to English ("en"). If the given language is not supported, report output will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "startDate.month"?: number;
+  "startDate.month"?: number | undefined;
   /** The [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217) to use when reporting on monetary metrics. Defaults to the account's currency if not set. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Date range of the report, if unset the range will be considered CUSTOM. */
-  dateRange?: GenerateCsvAccountsReportsSavedDateRangeEnum | (string & {});
+  dateRange?: GenerateCsvAccountsReportsSavedDateRangeEnum | (string & {}) | undefined;
   /** Timezone in which to generate the report. If unspecified, this defaults to the account timezone. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  reportingTimeZone?: GenerateCsvAccountsReportsSavedReportingTimeZoneEnum | (string & {});
+  reportingTimeZone?:
+    | GenerateCsvAccountsReportsSavedReportingTimeZoneEnum
+    | (string & {})
+    | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "endDate.day"?: number;
+  "endDate.day"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "startDate.day"?: number;
+  "startDate.day"?: number | undefined;
 }
 export interface GetAccountsRequest {
   /** Required. Account to get information about. Format: accounts/{account} */
@@ -603,27 +606,27 @@ export interface GetAccountsRequest {
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
+  version?: string | undefined;
   /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
+  id?: string | undefined;
 }
 export type AccountStateEnum = "STATE_UNSPECIFIED" | "READY" | "NEEDS_ATTENTION" | "CLOSED";
 /** Representation of an account. */
 export interface Account {
   /** The account time zone, as used by reporting. For more information, see [changing the time zone of your reports](https://support.google.com/adsense/answer/9830725). */
-  timeZone?: TimeZone;
+  timeZone?: TimeZone | undefined;
   /** Output only. Resource name of the account. Format: accounts/pub-[0-9]+ */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether this account is premium. Premium accounts have access to additional spam-related metrics. */
-  premium?: boolean;
+  premium?: boolean | undefined;
   /** Output only. State of the account. */
-  state?: AccountStateEnum;
+  state?: AccountStateEnum | undefined;
   /** Output only. Creation time of the account. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Display name of this account. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Outstanding tasks that need to be completed as part of the sign-up process for a new account. e.g. "billing-profile-creation", "phone-pin-verification". */
-  pendingTasks?: StringList;
+  pendingTasks?: StringList | undefined;
 }
 export interface GetAccountsAdclientsRequest {
   /** Required. The name of the ad client to retrieve. Format: accounts/{account}/adclients/{adclient} */
@@ -633,13 +636,13 @@ export type AdClientStateEnum = "STATE_UNSPECIFIED" | "READY" | "GETTING_READY" 
 /** Representation of an ad client. An ad client represents a user's subscription with a specific AdSense product. */
 export interface AdClient {
   /** Output only. Reporting product code of the ad client. For example, "AFC" for AdSense for Content. Corresponds to the `PRODUCT_CODE` dimension, and present only if the ad client supports reporting. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Output only. Resource name of the ad client. Format: accounts/{account}/adclients/{adclient} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Unique ID of the ad client as used in the `AD_CLIENT_ID` reporting dimension. Present only if the ad client supports reporting. */
-  reportingDimensionId?: string;
+  reportingDimensionId?: string | undefined;
   /** Output only. State of the ad client. */
-  state?: AdClientStateEnum;
+  state?: AdClientStateEnum | undefined;
 }
 export interface GetAccountsAdclientsAdunitsRequest {
   /** Required. AdUnit to get information about. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
@@ -656,11 +659,11 @@ export interface GetAccountsAdclientsUrlchannelsRequest {
 /** Representation of a URL channel. URL channels allow you to track the performance of particular pages in your site; see [URL channels](https://support.google.com/adsense/answer/2923836) for more information. */
 export interface UrlChannel {
   /** Output only. Resource name of the URL channel. Format: accounts/{account}/adclients/{adclient}/urlchannels/{urlchannel} */
-  name?: string;
+  name?: string | undefined;
   /** URI pattern of the channel. Does not include "http://" or "https://". Example: www.example.com/home */
-  uriPattern?: string;
+  uriPattern?: string | undefined;
   /** Output only. Unique ID of the custom channel as used in the `URL_CHANNEL_ID` reporting dimension. */
-  reportingDimensionId?: string;
+  reportingDimensionId?: string | undefined;
 }
 export interface GetAccountsPolicyIssuesRequest {
   /** Required. Name of the policy issue. Format: accounts/{account}/policyIssues/{policy_issue} */
@@ -674,11 +677,11 @@ export type PolicyTopicTypeEnum =
 /** Information about a particular policy topic. A policy topic represents a single class of policy issue that can impact ad serving for your site. For example, sexual content or having ads that obscure your content. A single policy issue can have multiple policy topics for a single entity. */
 export interface PolicyTopic {
   /** Optional. The type of policy topic. For example, "POLICY" represents all the policy topics that are related to the Google Publisher Policy (GPP). See https://support.google.com/adsense/answer/15689616. */
-  type?: PolicyTopicTypeEnum;
+  type?: PolicyTopicTypeEnum | undefined;
   /** Required. The policy topic. For example, "sexual-content" or "ads-obscuring-content"." */
-  topic?: string;
+  topic?: string | undefined;
   /** Required. Deprecated. Always set to false. */
-  mustFix?: boolean;
+  mustFix?: boolean | undefined;
 }
 export type PolicyTopicList = Array<PolicyTopic>;
 export type PolicyIssueEntityTypeEnum =
@@ -696,29 +699,29 @@ export type PolicyIssueActionEnum =
 /** Representation of a policy issue for a single entity (site, site-section, or page). All issues for a single entity are represented by a single PolicyIssue resource, though that PolicyIssue can have multiple causes (or "topics") that can change over time. Policy issues are removed if there are no issues detected recently or if there's a recent successful appeal for the entity. */
 export interface PolicyIssue {
   /** Required. Unordered list. The policy topics that this entity was found to violate over the past seven days. */
-  policyTopics?: PolicyTopicList;
+  policyTopics?: PolicyTopicList | undefined;
   /** Optional. List of ad clients associated with the policy issue (either as the primary ad client or an associated host/secondary ad client). In the latter case, this will be an ad client that is not owned by the current account. */
-  adClients?: StringList;
+  adClients?: StringList | undefined;
   /** Required. Type of the entity indicating if the entity is a site, site-section, or page. */
-  entityType?: PolicyIssueEntityTypeEnum;
+  entityType?: PolicyIssueEntityTypeEnum | undefined;
   /** Required. The most severe action taken on the entity over the past seven days. */
-  action?: PolicyIssueActionEnum;
+  action?: PolicyIssueActionEnum | undefined;
   /** Optional. URI of the page having policy violations (for example "foo.com/bar" or "www.foo.com/bar"). This will be present if the `entity_type` is `PAGE` and will be absent for other entity types. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. Prefix of the site-section having policy issues (For example "foo.com/bar-section"). This will be present if the `entity_type` is `SITE_SECTION` and will be absent for other entity types. */
-  siteSection?: string;
+  siteSection?: string | undefined;
   /** Required. Resource name of the entity with policy issues. Format: accounts/{account}/policyIssues/{policy_issue} */
-  name?: string;
+  name?: string | undefined;
   /** Required. Hostname/domain of the entity (for example "foo.com" or "www.foo.com"). This _should_ be a bare domain/host name without any protocol. This will be present for all policy issues. */
-  site?: string;
+  site?: string | undefined;
   /** Required. The date (in the America/Los_Angeles timezone) when policy violations were first detected on the entity. */
-  firstDetectedDate?: Adsense_Date;
+  firstDetectedDate?: Adsense_Date | undefined;
   /** Required. Total number of ad requests affected by the policy violations over the past seven days. */
-  adRequestCount?: string;
+  adRequestCount?: string | undefined;
   /** Required. The date (in the America/Los_Angeles timezone) when policy violations were last detected on the entity. */
-  lastDetectedDate?: Adsense_Date;
+  lastDetectedDate?: Adsense_Date | undefined;
   /** Optional. The date (in the America/Los_Angeles timezone) when the entity will have ad serving demand restricted or ad serving disabled. This is present only for issues with a `WARNED` enforcement action. See https://support.google.com/adsense/answer/11066888. */
-  warningEscalationDate?: Adsense_Date;
+  warningEscalationDate?: Adsense_Date | undefined;
 }
 export interface GetAccountsSitesRequest {
   /** Required. Name of the site. Format: accounts/{account}/sites/{site} */
@@ -733,15 +736,15 @@ export type SiteStateEnum =
 /** Representation of a Site. */
 export interface Site {
   /** Output only. Unique ID of the site as used in the `OWNED_SITE_ID` reporting dimension. */
-  reportingDimensionId?: string;
+  reportingDimensionId?: string | undefined;
   /** Domain (or subdomain) of the site, e.g. "example.com" or "www.example.com". This is used in the `OWNED_SITE_DOMAIN_NAME` reporting dimension. */
-  domain?: string;
+  domain?: string | undefined;
   /** Output only. Resource name of a site. Format: accounts/{account}/sites/{site} */
-  name?: string;
+  name?: string | undefined;
   /** Whether auto ads is turned on for the site. */
-  autoAdsEnabled?: boolean;
+  autoAdsEnabled?: boolean | undefined;
   /** Output only. State of a site. */
-  state?: SiteStateEnum;
+  state?: SiteStateEnum | undefined;
 }
 export interface GetAdBlockingRecoveryTagAccountsRequest {
   /** Required. The name of the account to get the tag for. Format: accounts/{account} */
@@ -750,9 +753,9 @@ export interface GetAdBlockingRecoveryTagAccountsRequest {
 /** Representation of an ad blocking recovery tag. See https://support.google.com/adsense/answer/11575177. */
 export interface AdBlockingRecoveryTag {
   /** The ad blocking recovery tag. Note that the message generated by the tag can be blocked by an ad blocking extension. If this is not your desired outcome, then you'll need to use it in conjunction with the error protection code. */
-  tag?: string;
+  tag?: string | undefined;
   /** Error protection code that can be used in conjunction with the tag. It'll display a message to users if an [ad blocking extension blocks their access to your site](https://support.google.com/adsense/answer/11575480). */
-  errorProtectionCode?: string;
+  errorProtectionCode?: string | undefined;
 }
 export interface GetAdcodeAccountsAdclientsRequest {
   /** Required. Name of the ad client for which to get the adcode. Format: accounts/{account}/adclients/{adclient} */
@@ -761,11 +764,11 @@ export interface GetAdcodeAccountsAdclientsRequest {
 /** Representation of the AdSense code for a given ad client. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634). */
 export interface AdClientAdCode {
   /** Output only. The AdSense code snippet to add to the body of an AMP page. */
-  ampBody?: string;
+  ampBody?: string | undefined;
   /** Output only. The AdSense code snippet to add to the head of an HTML page. */
-  adCode?: string;
+  adCode?: string | undefined;
   /** Output only. The AdSense code snippet to add to the head of an AMP page. */
-  ampHead?: string;
+  ampHead?: string | undefined;
 }
 export interface GetAdcodeAccountsAdclientsAdunitsRequest {
   /** Required. Name of the adunit for which to get the adcode. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
@@ -774,7 +777,7 @@ export interface GetAdcodeAccountsAdclientsAdunitsRequest {
 /** Representation of the ad unit code for a given ad unit. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634) and [Where to place the ad code in your HTML](https://support.google.com/adsense/answer/9190028). */
 export interface AdUnitAdCode {
   /** Output only. The code snippet to add to the body of an HTML page. */
-  adCode?: string;
+  adCode?: string | undefined;
 }
 export interface GetSavedAccountsReportsRequest {
   /** Required. The name of the saved report to retrieve. Format: accounts/{account}/reports/{report} */
@@ -783,29 +786,29 @@ export interface GetSavedAccountsReportsRequest {
 /** Representation of a saved report. */
 export interface SavedReport {
   /** Report title as specified by publisher. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. Resource name of the report. Format: accounts/{account}/reports/{report} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ListAccountsRequest {
   /** A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccounts` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response definition for the account list rpc. */
 export interface ListAccountsResponse {
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The accounts returned in this list response. */
-  accounts?: AccountList;
+  accounts?: AccountList | undefined;
 }
 export interface ListAccountsAdclientsRequest {
   /** The maximum number of ad clients to include in the response, used for paging. If unspecified, at most 10000 ad clients will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListAdClients` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdClients` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The account which owns the collection of ad clients. Format: accounts/{account} */
   parent: string;
 }
@@ -813,31 +816,31 @@ export type AdClientList = Array<AdClient>;
 /** Response definition for the ad client list rpc. */
 export interface ListAdClientsResponse {
   /** The ad clients returned in this list response. */
-  adClients?: AdClientList;
+  adClients?: AdClientList | undefined;
   /** Continuation token used to page through ad clients. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsAdclientsAdunitsRequest {
   /** Required. The ad client which owns the collection of ad units. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
   /** A page token, received from a previous `ListAdUnits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdUnits` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of ad units to include in the response, used for paging. If unspecified, at most 10000 ad units will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AdUnitList = Array<AdUnit>;
 /** Response definition for the adunit list rpc. */
 export interface ListAdUnitsResponse {
   /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The ad units returned in the list response. */
-  adUnits?: AdUnitList;
+  adUnits?: AdUnitList | undefined;
 }
 export interface ListAccountsAdclientsCustomchannelsRequest {
   /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListCustomChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCustomChannels` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The ad client which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
 }
@@ -845,49 +848,49 @@ export type CustomChannelList = Array<CustomChannel>;
 /** Response definition for the custom channel list rpc. */
 export interface ListCustomChannelsResponse {
   /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The custom channels returned in this list response. */
-  customChannels?: CustomChannelList;
+  customChannels?: CustomChannelList | undefined;
 }
 export interface ListAccountsAdclientsUrlchannelsRequest {
   /** Required. The ad client which owns the collection of url channels. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
   /** The maximum number of url channels to include in the response, used for paging. If unspecified, at most 10000 url channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListUrlChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUrlChannels` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type UrlChannelList = Array<UrlChannel>;
 /** Response definition for the url channels list rpc. */
 export interface ListUrlChannelsResponse {
   /** The url channels returned in this list response. */
-  urlChannels?: UrlChannelList;
+  urlChannels?: UrlChannelList | undefined;
   /** Continuation token used to page through url channels. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsAlertsRequest {
   /** Required. The account which owns the collection of alerts. Format: accounts/{account} */
   parent: string;
   /** The language to use for translating alert messages. If unspecified, this defaults to the user's display language. If the given language is not supported, alerts will be returned in English. The language is specified as an [IETF BCP-47 language code](https://en.wikipedia.org/wiki/IETF_language_tag). */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type AlertSeverityEnum = "SEVERITY_UNSPECIFIED" | "INFO" | "WARNING" | "SEVERE";
 /** Representation of an alert. */
 export interface Alert {
   /** Output only. Type of alert. This identifies the broad type of this alert, and provides a stable machine-readable identifier that will not be translated. For example, "payment-hold". */
-  type?: string;
+  type?: string | undefined;
   /** Output only. Severity of this alert. */
-  severity?: AlertSeverityEnum;
+  severity?: AlertSeverityEnum | undefined;
   /** Output only. The localized alert message. This may contain HTML markup, such as phrase elements or links. */
-  message?: string;
+  message?: string | undefined;
   /** Output only. Resource name of the alert. Format: accounts/{account}/alerts/{alert} */
-  name?: string;
+  name?: string | undefined;
 }
 export type AlertList = Array<Alert>;
 /** Response definition for the alerts list rpc. */
 export interface ListAlertsResponse {
   /** The alerts returned in this list response. */
-  alerts?: AlertList;
+  alerts?: AlertList | undefined;
 }
 export interface ListAccountsPaymentsRequest {
   /** Required. The account which owns the collection of payments. Format: accounts/{account} */
@@ -896,23 +899,23 @@ export interface ListAccountsPaymentsRequest {
 /** Representation of an unpaid or paid payment. See [Payment timelines for AdSense](https://support.google.com/adsense/answer/7164703) for more information about payments and the [YouTube homepage and payments account](https://support.google.com/adsense/answer/11622510) article for information about dedicated payments accounts for YouTube. */
 export interface Payment {
   /** Output only. Resource name of the payment. Format: - accounts/{account}/payments/unpaid for unpaid (current) AdSense earnings. - accounts/{account}/payments/youtube-unpaid for unpaid (current) YouTube earnings. - accounts/{account}/payments/yyyy-MM-dd for paid AdSense earnings. - accounts/{account}/payments/youtube-yyyy-MM-dd for paid YouTube earnings. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. For paid earnings, the date that the payment was credited. For unpaid earnings, this field is empty. Payment dates are always returned in the billing timezone (America/Los_Angeles). */
-  date?: Adsense_Date;
+  date?: Adsense_Date | undefined;
   /** Output only. The amount of unpaid or paid earnings, as a formatted string, including the currency. E.g. "¥1,235 JPY", "$1,234.57", "£87.65". */
-  amount?: string;
+  amount?: string | undefined;
 }
 export type PaymentList = Array<Payment>;
 /** Response definition for the payments list rpc. */
 export interface ListPaymentsResponse {
   /** The payments returned in this list response. */
-  payments?: PaymentList;
+  payments?: PaymentList | undefined;
 }
 export interface ListAccountsPolicyIssuesRequest {
   /** A page token, received from a previous `ListPolicyIssues` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPolicyIssues` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of policy issues to include in the response, used for paging. If unspecified, at most 10000 policy issues will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The account for which policy issues are being retrieved. Format: accounts/{account} */
   parent: string;
 }
@@ -920,15 +923,15 @@ export type PolicyIssueList = Array<PolicyIssue>;
 /** Response definition for the policy issues list rpc. Policy issues are reported only if the publisher has at least one AFC ad client in READY or GETTING_READY state. If the publisher has no such AFC ad client, the response will be an empty list. */
 export interface ListPolicyIssuesResponse {
   /** The policy issues returned in the list response. */
-  policyIssues?: PolicyIssueList;
+  policyIssues?: PolicyIssueList | undefined;
   /** Continuation token used to page through policy issues. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsReportsSavedRequest {
   /** A page token, received from a previous `ListSavedReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSavedReports` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of reports to include in the response, used for paging. If unspecified, at most 10000 reports will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   parent: string;
 }
@@ -936,15 +939,15 @@ export type SavedReportList = Array<SavedReport>;
 /** Response definition for the saved reports list rpc. */
 export interface ListSavedReportsResponse {
   /** Continuation token used to page through reports. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The reports returned in this list response. */
-  savedReports?: SavedReportList;
+  savedReports?: SavedReportList | undefined;
 }
 export interface ListAccountsSitesRequest {
   /** A page token, received from a previous `ListSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSites` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of sites to include in the response, used for paging. If unspecified, at most 10000 sites will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The account which owns the collection of sites. Format: accounts/{account} */
   parent: string;
 }
@@ -952,70 +955,70 @@ export type SiteList = Array<Site>;
 /** Response definition for the sites list rpc. */
 export interface ListSitesResponse {
   /** The sites returned in this list response. */
-  sites?: SiteList;
+  sites?: SiteList | undefined;
   /** Continuation token used to page through sites. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListChildAccountsAccountsRequest {
   /** A page token, received from a previous `ListChildAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListChildAccounts` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent account, which owns the child accounts. Format: accounts/{account} */
   parent: string;
 }
 /** Response definition for the child account list rpc. */
 export interface ListChildAccountsResponse {
   /** The accounts returned in this list response. */
-  accounts?: AccountList;
+  accounts?: AccountList | undefined;
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest {
   /** Required. The custom channel which owns the collection of ad units. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   parent: string;
   /** A page token, received from a previous `ListLinkedAdUnits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedAdUnits` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of ad units to include in the response, used for paging. If unspecified, at most 10000 ad units will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response definition for the ad units linked to a custom channel list rpc. */
 export interface ListLinkedAdUnitsResponse {
   /** Continuation token used to page through ad units. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The ad units returned in the list response. */
-  adUnits?: AdUnitList;
+  adUnits?: AdUnitList | undefined;
 }
 export interface ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest {
   /** Required. The ad unit which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   parent: string;
   /** A page token, received from a previous `ListLinkedCustomChannels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLinkedCustomChannels` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of custom channels to include in the response, used for paging. If unspecified, at most 10000 custom channels will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response definition for the custom channels linked to an adunit list rpc. */
 export interface ListLinkedCustomChannelsResponse {
   /** The custom channels returned in this list response. */
-  customChannels?: CustomChannelList;
+  customChannels?: CustomChannelList | undefined;
   /** Continuation token used to page through alerts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchAccountsAdclientsAdunitsRequest {
   /** The list of fields to update. If empty, a full update is performed. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   name: string;
   /** Request body */
-  body?: AdUnit;
+  body?: AdUnit | undefined;
 }
 export interface PatchAccountsAdclientsCustomchannelsRequest {
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name: string;
   /** The list of fields to update. If empty, a full update is performed. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: CustomChannel;
+  body?: CustomChannel | undefined;
 }
 export type CreateAccountsAdclientsAdunitsError =
   | NotFound

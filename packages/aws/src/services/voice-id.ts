@@ -149,13 +149,13 @@ export interface AssociateFraudsterRequest {
 export type GeneratedFraudsterId = string;
 export type ResponseWatchlistIds = string[];
 export interface Fraudster {
-  DomainId?: string;
-  GeneratedFraudsterId?: string;
-  CreatedAt?: Date;
-  WatchlistIds?: string[];
+  DomainId?: string | undefined;
+  GeneratedFraudsterId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export interface AssociateFraudsterResponse {
-  Fraudster?: Fraudster;
+  Fraudster?: Fraudster | undefined;
 }
 export type DomainName = string | redacted.Redacted<string>;
 export type Description = string | redacted.Redacted<string>;
@@ -173,56 +173,56 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateDomainRequest {
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
-  ClientToken?: string;
-  Tags?: Tag[];
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type Arn = string;
 export type DomainStatus = string;
 export type ServerSideEncryptionUpdateStatus = string;
 export interface ServerSideEncryptionUpdateDetails {
-  OldKmsKeyId?: string;
-  UpdateStatus?: string;
-  Message?: string;
+  OldKmsKeyId?: string | undefined;
+  UpdateStatus?: string | undefined;
+  Message?: string | undefined;
 }
 export interface WatchlistDetails {
   DefaultWatchlistId: string;
 }
 export interface Domain {
-  DomainId?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DomainStatus?: string;
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails;
-  WatchlistDetails?: WatchlistDetails;
+  DomainId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DomainStatus?: string | undefined;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails | undefined;
+  WatchlistDetails?: WatchlistDetails | undefined;
 }
 export interface CreateDomainResponse {
-  Domain?: Domain;
+  Domain?: Domain | undefined;
 }
 export type WatchlistName = string | redacted.Redacted<string>;
 export type WatchlistDescription = string | redacted.Redacted<string>;
 export interface CreateWatchlistRequest {
   DomainId: string;
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  ClientToken?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ClientToken?: string | undefined;
 }
 export interface Watchlist {
-  DomainId?: string;
-  WatchlistId?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DefaultWatchlist?: boolean;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  DomainId?: string | undefined;
+  WatchlistId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DefaultWatchlist?: boolean | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface CreateWatchlistResponse {
-  Watchlist?: Watchlist;
+  Watchlist?: Watchlist | undefined;
 }
 export interface DeleteDomainRequest {
   DomainId: string;
@@ -248,14 +248,14 @@ export interface DescribeDomainRequest {
   DomainId: string;
 }
 export interface DescribeDomainResponse {
-  Domain?: Domain;
+  Domain?: Domain | undefined;
 }
 export interface DescribeFraudsterRequest {
   DomainId: string;
   FraudsterId: string | redacted.Redacted<string>;
 }
 export interface DescribeFraudsterResponse {
-  Fraudster?: Fraudster;
+  Fraudster?: Fraudster | undefined;
 }
 export type JobId = string;
 export interface DescribeFraudsterRegistrationJobRequest {
@@ -269,9 +269,9 @@ export type DuplicateRegistrationAction = string;
 export type Score = number;
 export type RegistrationConfigWatchlistIds = string[];
 export interface RegistrationConfig {
-  DuplicateRegistrationAction?: string;
-  FraudsterSimilarityThreshold?: number;
-  WatchlistIds?: string[];
+  DuplicateRegistrationAction?: string | undefined;
+  FraudsterSimilarityThreshold?: number | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export type S3Uri = string;
 export interface InputDataConfig {
@@ -279,31 +279,31 @@ export interface InputDataConfig {
 }
 export interface OutputDataConfig {
   S3Uri: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface FailureDetails {
-  StatusCode?: number;
-  Message?: string;
+  StatusCode?: number | undefined;
+  Message?: string | undefined;
 }
 export interface JobProgress {
-  PercentComplete?: number;
+  PercentComplete?: number | undefined;
 }
 export interface FraudsterRegistrationJob {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  DataAccessRoleArn?: string;
-  RegistrationConfig?: RegistrationConfig;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  RegistrationConfig?: RegistrationConfig | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export interface DescribeFraudsterRegistrationJobResponse {
-  Job?: FraudsterRegistrationJob;
+  Job?: FraudsterRegistrationJob | undefined;
 }
 export interface DescribeSpeakerRequest {
   DomainId: string;
@@ -313,16 +313,16 @@ export type CustomerSpeakerId = string | redacted.Redacted<string>;
 export type GeneratedSpeakerId = string;
 export type SpeakerStatus = string;
 export interface Speaker {
-  DomainId?: string;
-  CustomerSpeakerId?: string | redacted.Redacted<string>;
-  GeneratedSpeakerId?: string;
-  Status?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  LastAccessedAt?: Date;
+  DomainId?: string | undefined;
+  CustomerSpeakerId?: string | redacted.Redacted<string> | undefined;
+  GeneratedSpeakerId?: string | undefined;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  LastAccessedAt?: Date | undefined;
 }
 export interface DescribeSpeakerResponse {
-  Speaker?: Speaker;
+  Speaker?: Speaker | undefined;
 }
 export interface DescribeSpeakerEnrollmentJobRequest {
   DomainId: string;
@@ -333,37 +333,37 @@ export type ExistingEnrollmentAction = string;
 export type FraudDetectionAction = string;
 export type EnrollmentJobFraudDetectionConfigWatchlistIds = string[];
 export interface EnrollmentJobFraudDetectionConfig {
-  FraudDetectionAction?: string;
-  RiskThreshold?: number;
-  WatchlistIds?: string[];
+  FraudDetectionAction?: string | undefined;
+  RiskThreshold?: number | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export interface EnrollmentConfig {
-  ExistingEnrollmentAction?: string;
-  FraudDetectionConfig?: EnrollmentJobFraudDetectionConfig;
+  ExistingEnrollmentAction?: string | undefined;
+  FraudDetectionConfig?: EnrollmentJobFraudDetectionConfig | undefined;
 }
 export interface SpeakerEnrollmentJob {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  DataAccessRoleArn?: string;
-  EnrollmentConfig?: EnrollmentConfig;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  DataAccessRoleArn?: string | undefined;
+  EnrollmentConfig?: EnrollmentConfig | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export interface DescribeSpeakerEnrollmentJobResponse {
-  Job?: SpeakerEnrollmentJob;
+  Job?: SpeakerEnrollmentJob | undefined;
 }
 export interface DescribeWatchlistRequest {
   DomainId: string;
   WatchlistId: string;
 }
 export interface DescribeWatchlistResponse {
-  Watchlist?: Watchlist;
+  Watchlist?: Watchlist | undefined;
 }
 export interface DisassociateFraudsterRequest {
   DomainId: string;
@@ -371,7 +371,7 @@ export interface DisassociateFraudsterRequest {
   FraudsterId: string | redacted.Redacted<string>;
 }
 export interface DisassociateFraudsterResponse {
-  Fraudster?: Fraudster;
+  Fraudster?: Fraudster | undefined;
 }
 export type SessionNameOrId = string;
 export interface EvaluateSessionRequest {
@@ -387,25 +387,25 @@ export interface AuthenticationConfiguration {
   AcceptanceThreshold: number;
 }
 export interface AuthenticationResult {
-  AuthenticationResultId?: string;
-  AudioAggregationStartedAt?: Date;
-  AudioAggregationEndedAt?: Date;
-  CustomerSpeakerId?: string | redacted.Redacted<string>;
-  GeneratedSpeakerId?: string;
-  Decision?: string;
-  Score?: number;
-  Configuration?: AuthenticationConfiguration;
+  AuthenticationResultId?: string | undefined;
+  AudioAggregationStartedAt?: Date | undefined;
+  AudioAggregationEndedAt?: Date | undefined;
+  CustomerSpeakerId?: string | redacted.Redacted<string> | undefined;
+  GeneratedSpeakerId?: string | undefined;
+  Decision?: string | undefined;
+  Score?: number | undefined;
+  Configuration?: AuthenticationConfiguration | undefined;
 }
 export interface FraudDetectionConfiguration {
-  RiskThreshold?: number;
-  WatchlistId?: string;
+  RiskThreshold?: number | undefined;
+  WatchlistId?: string | undefined;
 }
 export type FraudDetectionDecision = string;
 export type FraudDetectionReason = string;
 export type FraudDetectionReasons = string[];
 export interface KnownFraudsterRisk {
   RiskScore: number;
-  GeneratedFraudsterId?: string;
+  GeneratedFraudsterId?: string | undefined;
 }
 export interface VoiceSpoofingRisk {
   RiskScore: number;
@@ -415,180 +415,180 @@ export interface FraudRiskDetails {
   VoiceSpoofingRisk: VoiceSpoofingRisk;
 }
 export interface FraudDetectionResult {
-  FraudDetectionResultId?: string;
-  AudioAggregationStartedAt?: Date;
-  AudioAggregationEndedAt?: Date;
-  Configuration?: FraudDetectionConfiguration;
-  Decision?: string;
-  Reasons?: string[];
-  RiskDetails?: FraudRiskDetails;
+  FraudDetectionResultId?: string | undefined;
+  AudioAggregationStartedAt?: Date | undefined;
+  AudioAggregationEndedAt?: Date | undefined;
+  Configuration?: FraudDetectionConfiguration | undefined;
+  Decision?: string | undefined;
+  Reasons?: string[] | undefined;
+  RiskDetails?: FraudRiskDetails | undefined;
 }
 export interface EvaluateSessionResponse {
-  DomainId?: string;
-  SessionId?: string;
-  SessionName?: string;
-  StreamingStatus?: string;
-  AuthenticationResult?: AuthenticationResult;
-  FraudDetectionResult?: FraudDetectionResult;
+  DomainId?: string | undefined;
+  SessionId?: string | undefined;
+  SessionName?: string | undefined;
+  StreamingStatus?: string | undefined;
+  AuthenticationResult?: AuthenticationResult | undefined;
+  FraudDetectionResult?: FraudDetectionResult | undefined;
 }
 export type MaxResultsForListDomainFe = number;
 export type NextToken = string;
 export interface ListDomainsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DomainSummary {
-  DomainId?: string;
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DomainStatus?: string;
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails;
-  WatchlistDetails?: WatchlistDetails;
+  DomainId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DomainStatus?: string | undefined;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ServerSideEncryptionUpdateDetails?: ServerSideEncryptionUpdateDetails | undefined;
+  WatchlistDetails?: WatchlistDetails | undefined;
 }
 export type DomainSummaries = DomainSummary[];
 export interface ListDomainsResponse {
-  DomainSummaries?: DomainSummary[];
-  NextToken?: string;
+  DomainSummaries?: DomainSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsForList = number;
 export interface ListFraudsterRegistrationJobsRequest {
   DomainId: string;
-  JobStatus?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  JobStatus?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FraudsterRegistrationJobSummary {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export type FraudsterRegistrationJobSummaries = FraudsterRegistrationJobSummary[];
 export interface ListFraudsterRegistrationJobsResponse {
-  JobSummaries?: FraudsterRegistrationJobSummary[];
-  NextToken?: string;
+  JobSummaries?: FraudsterRegistrationJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFraudstersRequest {
   DomainId: string;
-  WatchlistId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  WatchlistId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FraudsterSummary {
-  DomainId?: string;
-  GeneratedFraudsterId?: string;
-  CreatedAt?: Date;
-  WatchlistIds?: string[];
+  DomainId?: string | undefined;
+  GeneratedFraudsterId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  WatchlistIds?: string[] | undefined;
 }
 export type FraudsterSummaries = FraudsterSummary[];
 export interface ListFraudstersResponse {
-  FraudsterSummaries?: FraudsterSummary[];
-  NextToken?: string;
+  FraudsterSummaries?: FraudsterSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSpeakerEnrollmentJobsRequest {
   DomainId: string;
-  JobStatus?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  JobStatus?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SpeakerEnrollmentJobSummary {
-  JobName?: string | redacted.Redacted<string>;
-  JobId?: string;
-  JobStatus?: string;
-  DomainId?: string;
-  CreatedAt?: Date;
-  EndedAt?: Date;
-  FailureDetails?: FailureDetails;
-  JobProgress?: JobProgress;
+  JobName?: string | redacted.Redacted<string> | undefined;
+  JobId?: string | undefined;
+  JobStatus?: string | undefined;
+  DomainId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  JobProgress?: JobProgress | undefined;
 }
 export type SpeakerEnrollmentJobSummaries = SpeakerEnrollmentJobSummary[];
 export interface ListSpeakerEnrollmentJobsResponse {
-  JobSummaries?: SpeakerEnrollmentJobSummary[];
-  NextToken?: string;
+  JobSummaries?: SpeakerEnrollmentJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSpeakersRequest {
   DomainId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SpeakerSummary {
-  DomainId?: string;
-  CustomerSpeakerId?: string | redacted.Redacted<string>;
-  GeneratedSpeakerId?: string;
-  Status?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  LastAccessedAt?: Date;
+  DomainId?: string | undefined;
+  CustomerSpeakerId?: string | redacted.Redacted<string> | undefined;
+  GeneratedSpeakerId?: string | undefined;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  LastAccessedAt?: Date | undefined;
 }
 export type SpeakerSummaries = SpeakerSummary[];
 export interface ListSpeakersResponse {
-  SpeakerSummaries?: SpeakerSummary[];
-  NextToken?: string;
+  SpeakerSummaries?: SpeakerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListWatchlistsRequest {
   DomainId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface WatchlistSummary {
-  DomainId?: string;
-  WatchlistId?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  DefaultWatchlist?: boolean;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  DomainId?: string | undefined;
+  WatchlistId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DefaultWatchlist?: boolean | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type WatchlistSummaries = WatchlistSummary[];
 export interface ListWatchlistsResponse {
-  WatchlistSummaries?: WatchlistSummary[];
-  NextToken?: string;
+  WatchlistSummaries?: WatchlistSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface OptOutSpeakerRequest {
   DomainId: string;
   SpeakerId: string | redacted.Redacted<string>;
 }
 export interface OptOutSpeakerResponse {
-  Speaker?: Speaker;
+  Speaker?: Speaker | undefined;
 }
 export interface StartFraudsterRegistrationJobRequest {
-  ClientToken?: string;
-  JobName?: string | redacted.Redacted<string>;
+  ClientToken?: string | undefined;
+  JobName?: string | redacted.Redacted<string> | undefined;
   DomainId: string;
   DataAccessRoleArn: string;
-  RegistrationConfig?: RegistrationConfig;
+  RegistrationConfig?: RegistrationConfig | undefined;
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
 }
 export interface StartFraudsterRegistrationJobResponse {
-  Job?: FraudsterRegistrationJob;
+  Job?: FraudsterRegistrationJob | undefined;
 }
 export interface StartSpeakerEnrollmentJobRequest {
-  ClientToken?: string;
-  JobName?: string | redacted.Redacted<string>;
+  ClientToken?: string | undefined;
+  JobName?: string | redacted.Redacted<string> | undefined;
   DomainId: string;
   DataAccessRoleArn: string;
-  EnrollmentConfig?: EnrollmentConfig;
+  EnrollmentConfig?: EnrollmentConfig | undefined;
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
 }
 export interface StartSpeakerEnrollmentJobResponse {
-  Job?: SpeakerEnrollmentJob;
+  Job?: SpeakerEnrollmentJob | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -604,20 +604,20 @@ export interface UntagResourceResponse {}
 export interface UpdateDomainRequest {
   DomainId: string;
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
 }
 export interface UpdateDomainResponse {
-  Domain?: Domain;
+  Domain?: Domain | undefined;
 }
 export interface UpdateWatchlistRequest {
   DomainId: string;
   WatchlistId: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateWatchlistResponse {
-  Watchlist?: Watchlist;
+  Watchlist?: Watchlist | undefined;
 }
 export type ConflictType = string;
 export type ResourceType = string;

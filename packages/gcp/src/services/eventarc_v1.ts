@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: GoogleLongrunningCancelOperationRequest;
+  body?: GoogleLongrunningCancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -97,128 +97,128 @@ export type StringMap = { [key: string]: string | undefined };
 /** A representation of the ChannelConnection resource. A ChannelConnection is a resource which event providers create during the activation process to establish a connection between the provider and the subscriber channel. */
 export interface ChannelConnection {
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Input only. Activation token for the channel. The token will be used during the creation of ChannelConnection to bind the channel with the provider project. This field will not be stored in the provider resource. */
-  activationToken?: string;
+  activationToken?: string | undefined;
   /** Output only. Server assigned ID of the resource. The server guarantees uniqueness and immutability until deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Required. The name of the connection. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The name of the connected subscriber Channel. This is a weak reference to avoid cross project and cross accounts references. This must be in `projects/{project}/location/{location}/channels/{channel_id}` format. */
-  channel?: string;
+  channel?: string | undefined;
   /** Optional. Resource labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsChannelConnectionsRequest {
   /** Required. The user-provided ID to be assigned to the channel connection. */
-  channelConnectionId?: string;
+  channelConnectionId?: string | undefined;
   /** Required. The parent collection in which to add this channel connection. */
   parent: string;
   /** Request body */
-  body?: ChannelConnection;
+  body?: ChannelConnection | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 export type ChannelStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "ACTIVE" | "INACTIVE";
 /** Represents a subscriber's intent to receive events from an event provider. Published events are delivered using the transport associated with the Channel resource. A channel is associated with exactly one event provider. */
 export interface Channel {
   /** Output only. The activation token for the channel. The token must be used by the provider to register the channel for publishing. */
-  activationToken?: string;
+  activationToken?: string | undefined;
   /** The name of the event provider (e.g. Eventarc SaaS partner) associated with the channel. This provider will be granted permissions to publish events to the channel. Format: `projects/{project}/locations/{location}/providers/{provider_id}`. */
-  provider?: string;
+  provider?: string | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Resource labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The state of a Channel. */
-  state?: ChannelStateEnum | (string & {});
+  state?: ChannelStateEnum | (string & {}) | undefined;
   /** Output only. The name of the Pub/Sub topic created and managed by Eventarc system as a transport for the event delivery. Format: `projects/{project}/topics/{topic_id}`. */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
   /** Output only. Whether or not this Channel satisfies the requirements of physical zone separation */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsChannelsRequest {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The parent collection in which to add this channel. */
   parent: string;
   /** Required. The user-provided ID to be assigned to the channel. */
-  channelId?: string;
+  channelId?: string | undefined;
   /** Request body */
-  body?: Channel;
+  body?: Channel | undefined;
 }
 /** An enrollment represents a subscription for messages on a particular message bus. It defines a matching criteria for messages on the bus and the subscriber endpoint where matched messages should be delivered. */
 export interface Enrollment {
   /** Required. A CEL expression identifying which messages this enrollment applies to. */
-  celMatch?: string;
+  celMatch?: string | undefined;
   /** Required. Destination is the Pipeline that the Enrollment is delivering to. It must point to the full resource name of a Pipeline. Format: "projects/{PROJECT_ID}/locations/{region}/pipelines/{PIPELINE_ID)" */
-  destination?: string;
+  destination?: string | undefined;
   /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. Immutable. Resource name of the message bus identifying the source of the messages. It matches the form projects/{project}/locations/{location}/messageBuses/{messageBus}. */
-  messageBus?: string;
+  messageBus?: string | undefined;
   /** Optional. Resource annotations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Resource display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/enrollments/{enrollment} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Resource labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsEnrollmentsRequest {
   /** Required. The parent collection in which to add this enrollment. */
   parent: string;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The user-provided ID to be assigned to the Enrollment. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  enrollmentId?: string;
+  enrollmentId?: string | undefined;
   /** Request body */
-  body?: Enrollment;
+  body?: Enrollment | undefined;
 }
 export type StringList = Array<string>;
 /** Config to enable subscribing to all events from a list of projects. */
 export interface ProjectSubscriptions {
   /** Required. A list of projects to receive events from. All the projects must be in the same org. The listed projects should have the format project/{identifier} where identifier can be either the project id for project number. A single list may contain both formats. At most 100 projects can be listed. */
-  list?: StringList;
+  list?: StringList | undefined;
 }
 export type LoggingConfigLogSeverityEnum =
   | "LOG_SEVERITY_UNSPECIFIED"
@@ -234,89 +234,89 @@ export type LoggingConfigLogSeverityEnum =
 /** The configuration for Platform Telemetry logging for Eventarc Advanced resources. */
 export interface LoggingConfig {
   /** Optional. The minimum severity of logs that will be sent to Stackdriver/Platform Telemetry. Logs at severitiy >= this value will be sent, unless it is NONE. */
-  logSeverity?: LoggingConfigLogSeverityEnum | (string & {});
+  logSeverity?: LoggingConfigLogSeverityEnum | (string & {}) | undefined;
 }
 /** Config to enabled subscribing to events from other projects in the org. */
 export interface OrganizationSubscription {
   /** Required. Enable org level subscription. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Represents a subscription to first-party events for a MessageBus resource. A GoogleApiSource resource lets you configure the delivery of events from Google API sources to a designated bus. */
 export interface GoogleApiSource {
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/googleApiSources/{google_api_source} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Config to enable subscribing to all events from a list of projects. All the projects must be in the same org as the GoogleApiSource. */
-  projectSubscriptions?: ProjectSubscriptions;
+  projectSubscriptions?: ProjectSubscriptions | undefined;
   /** Optional. Resource display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
   /** Optional. Config to control Platform logging for the GoogleApiSource. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. Resource annotations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Required. Destination is the message bus that the GoogleApiSource is delivering to. It must be point to the full resource name of a MessageBus. Format: "projects/{PROJECT_ID}/locations/{region}/messagesBuses/{MESSAGE_BUS_ID) */
-  destination?: string;
+  destination?: string | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Config to enable subscribing to events from all projects in the GoogleApiSource's org. */
-  organizationSubscription?: OrganizationSubscription;
+  organizationSubscription?: OrganizationSubscription | undefined;
   /** Optional. Resource labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsGoogleApiSourcesRequest {
   /** Required. The user-provided ID to be assigned to the GoogleApiSource. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  googleApiSourceId?: string;
+  googleApiSourceId?: string | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The parent collection in which to add this google api source. */
   parent: string;
   /** Request body */
-  body?: GoogleApiSource;
+  body?: GoogleApiSource | undefined;
 }
 /** MessageBus for the messages flowing through the system. The admin has visibility and control over the messages being published and consumed and can restrict publishers and subscribers to only a subset of data available in the system by defining authorization policies. */
 export interface MessageBus {
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Server assigned unique identifier for the channel. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Optional. Resource annotations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Resource labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Resource display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
   /** Optional. Config to control Platform logging for the Message Bus. This log configuration is applied to the Message Bus itself, and all the Enrollments attached to it. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
 }
 export interface CreateProjectsLocationsMessageBusesRequest {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The user-provided ID to be assigned to the MessageBus. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  messageBusId?: string;
+  messageBusId?: string | undefined;
   /** Required. The parent collection in which to add this message bus. */
   parent: string;
   /** Request body */
-  body?: MessageBus;
+  body?: MessageBus | undefined;
 }
 /** The format of a Protobuf message payload. */
 export interface GoogleCloudEventarcV1PipelineMessagePayloadFormatProtobufFormat {
   /** Optional. The entire schema definition is stored in this field. */
-  schemaDefinition?: string;
+  schemaDefinition?: string | undefined;
 }
 /** The format of a JSON message payload. */
 export type GoogleCloudEventarcV1PipelineMessagePayloadFormatJsonFormat =
@@ -327,200 +327,200 @@ export type GoogleCloudEventarcV1PipelineMessagePayloadFormatAvroFormat =
 /** Represents the format of message data. */
 export interface GoogleCloudEventarcV1PipelineMessagePayloadFormat {
   /** Optional. Protobuf format. */
-  protobuf?: GoogleCloudEventarcV1PipelineMessagePayloadFormatProtobufFormat;
+  protobuf?: GoogleCloudEventarcV1PipelineMessagePayloadFormatProtobufFormat | undefined;
   /** Optional. JSON format. */
-  json?: GoogleLongrunningCancelOperationRequest;
+  json?: GoogleLongrunningCancelOperationRequest | undefined;
   /** Optional. Avro format. */
-  avro?: GoogleCloudEventarcV1PipelineMessagePayloadFormatProtobufFormat;
+  avro?: GoogleCloudEventarcV1PipelineMessagePayloadFormatProtobufFormat | undefined;
 }
 /** Represents a HTTP endpoint destination. */
 export interface GoogleCloudEventarcV1PipelineDestinationHttpEndpoint {
   /** Required. The URI of the HTTP endpoint. The value must be a RFC2396 URI string. Examples: `https://svc.us-central1.p.local:8080/route`. Only the HTTPS protocol is supported. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. The CEL expression used to modify how the destination-bound HTTP request is constructed. If a binding expression is not specified here, the message is treated as a CloudEvent and is mapped to the HTTP request according to the CloudEvent HTTP Protocol Binding Binary Content Mode (https://github.com/cloudevents/spec/blob/main/cloudevents/bindings/http-protocol-binding.md#31-binary-content-mode). In this representation, all fields except the `data` and `datacontenttype` field on the message are mapped to HTTP request headers with a prefix of `ce-`. To construct the HTTP request payload and the value of the content-type HTTP header, the payload format is defined as follows: 1) Use the output_payload_format_type on the Pipeline.Destination if it is set, else: 2) Use the input_payload_format_type on the Pipeline if it is set, else: 3) Treat the payload as opaque binary data. The `data` field of the message is converted to the payload format or left as-is for case 3) and then attached as the payload of the HTTP request. The `content-type` header on the HTTP request is set to the payload format type or left empty for case 3). However, if a mediation has updated the `datacontenttype` field on the message so that it is not the same as the payload format type but it is still a prefix of the payload format type, then the `content-type` header on the HTTP request is set to this `datacontenttype` value. For example, if the `datacontenttype` is "application/json" and the payload format type is "application/json; charset=utf-8", then the `content-type` header on the HTTP request is set to "application/json; charset=utf-8". If a non-empty binding expression is specified then this expression is used to modify the default CloudEvent HTTP Protocol Binding Binary Content representation. The result of the CEL expression must be a map of key/value pairs which is used as follows: - If a map named `headers` exists on the result of the expression, then its key/value pairs are directly mapped to the HTTP request headers. The headers values are constructed from the corresponding value type's canonical representation. If the `headers` field doesn't exist then the resulting HTTP request will be the headers of the CloudEvent HTTP Binding Binary Content Mode representation of the final message. Note: If the specified binding expression, has updated the `datacontenttype` field on the message so that it is not the same as the payload format type but it is still a prefix of the payload format type, then the `content-type` header in the `headers` map is set to this `datacontenttype` value. - If a field named `body` exists on the result of the expression then its value is directly mapped to the body of the request. If the value of the `body` field is of type bytes or string then it is used for the HTTP request body as-is, with no conversion. If the body field is of any other type then it is converted to a JSON string. If the body field does not exist then the resulting payload of the HTTP request will be data value of the CloudEvent HTTP Binding Binary Content Mode representation of the final message as described earlier. - Any other fields in the resulting expression will be ignored. The CEL expression may access the incoming CloudEvent message in its definition, as follows: - The `data` field of the incoming CloudEvent message can be accessed using the `message.data` value. Subfields of `message.data` may also be accessed if an input_payload_format has been specified on the Pipeline. - Each attribute of the incoming CloudEvent message can be accessed using the `message.` value, where is replaced with the name of the attribute. - Existing headers can be accessed in the CEL expression using the `headers` variable. The `headers` variable defines a map of key/value pairs corresponding to the HTTP headers of the CloudEvent HTTP Binding Binary Content Mode representation of the final message as described earlier. For example, the following CEL expression can be used to construct an HTTP request by adding an additional header to the HTTP headers of the CloudEvent HTTP Binding Binary Content Mode representation of the final message and by overwriting the body of the request: ``` { "headers": headers.merge({"new-header-key": "new-header-value"}), "body": "new-body" } ``` - The default binding for the message payload can be accessed using the `body` variable. It conatins a string representation of the message payload in the format specified by the `output_payload_format` field. If the `input_payload_format` field is not set, the `body` variable contains the same message payload bytes that were published. Additionally, the following CEL extension functions are provided for use in this CEL expression: - toBase64Url: map.toBase64Url() -> string - Converts a CelValue to a base64url encoded string - toJsonString: map.toJsonString() -> string - Converts a CelValue to a JSON string - merge: map1.merge(map2) -> map3 - Merges the passed CEL map with the existing CEL map the function is applied to. - If the same key exists in both maps, if the key's value is type map both maps are merged else the value from the passed map is used. - denormalize: map.denormalize() -> map - Denormalizes a CEL map such that every value of type map or key in the map is expanded to return a single level map. - The resulting keys are "." separated indices of the map keys. - For example: { "a": 1, "b": { "c": 2, "d": 3 } "e": [4, 5] } .denormalize() -> { "a": 1, "b.c": 2, "b.d": 3, "e.0": 4, "e.1": 5 } - setField: map.setField(key, value) -> message - Sets the field of the message with the given key to the given value. - If the field is not present it will be added. - If the field is present it will be overwritten. - The key can be a dot separated path to set a field in a nested message. - Key must be of type string. - Value may be any valid type. - removeFields: map.removeFields([key1, key2, ...]) -> message - Removes the fields of the map with the given keys. - The keys can be a dot separated path to remove a field in a nested message. - If a key is not found it will be ignored. - Keys must be of type string. - toMap: [map1, map2, ...].toMap() -> map - Converts a CEL list of CEL maps to a single CEL map - toCloudEventJsonWithPayloadFormat: message.toCloudEventJsonWithPayloadFormat() -> map - Converts a message to the corresponding structure of JSON format for CloudEvents. - It converts `data` to destination payload format specified in `output_payload_format`. If `output_payload_format` is not set, the data will remain unchanged. - It also sets the corresponding datacontenttype of the CloudEvent, as indicated by `output_payload_format`. If no `output_payload_format` is set it will use the value of the "datacontenttype" attribute on the CloudEvent if present, else remove "datacontenttype" attribute. - This function expects that the content of the message will adhere to the standard CloudEvent format. If it doesn't then this function will fail. - The result is a CEL map that corresponds to the JSON representation of the CloudEvent. To convert that data to a JSON string it can be chained with the toJsonString function. The Pipeline expects that the message it receives adheres to the standard CloudEvent format. If it doesn't then the outgoing message request may fail with a persistent error. */
-  messageBindingTemplate?: string;
+  messageBindingTemplate?: string | undefined;
 }
 /** Represents a network config to be used for destination resolution and connectivity. */
 export interface GoogleCloudEventarcV1PipelineDestinationNetworkConfig {
   /** Required. Name of the NetworkAttachment that allows access to the consumer VPC. Format: `projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}` */
-  networkAttachment?: string;
+  networkAttachment?: string | undefined;
 }
 /** Contains information needed for generating an [OAuth token](https://developers.google.com/identity/protocols/OAuth2). This type of authorization should generally only be used when calling Google APIs hosted on *.googleapis.com. */
 export interface GoogleCloudEventarcV1PipelineDestinationAuthenticationConfigOAuthToken {
   /** Optional. OAuth scope to be used for generating OAuth access token. If not specified, "https://www.googleapis.com/auth/cloud-platform" will be used. */
-  scope?: string;
+  scope?: string | undefined;
   /** Required. Service account email used to generate the [OAuth token](https://developers.google.com/identity/protocols/OAuth2). The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts for more information. Eventarc service agents must have roles/roles/iam.serviceAccountTokenCreator role to allow Pipeline to create OAuth2 tokens for authenticated requests. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
 }
 /** Represents a config used to authenticate with a Google OIDC token using a Google Cloud service account. Use this authentication method to invoke your Cloud Run and Cloud Functions destinations or HTTP endpoints that support Google OIDC. */
 export interface GoogleCloudEventarcV1PipelineDestinationAuthenticationConfigOidcToken {
   /** Required. Service account email used to generate the OIDC Token. The principal who calls this API must have iam.serviceAccounts.actAs permission in the service account. See https://cloud.google.com/iam/docs/understanding-service-accounts for more information. Eventarc service agents must have roles/roles/iam.serviceAccountTokenCreator role to allow the Pipeline to create OpenID tokens for authenticated requests. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Audience to be used to generate the OIDC Token. The audience claim identifies the recipient that the JWT is intended for. If unspecified, the destination URI will be used. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** Represents a config used to authenticate message requests. */
 export interface GoogleCloudEventarcV1PipelineDestinationAuthenticationConfig {
   /** Optional. If specified, an [OAuth token](https://developers.google.com/identity/protocols/OAuth2) will be generated and attached as an `Authorization` header in the HTTP request. This type of authorization should generally only be used when calling Google APIs hosted on *.googleapis.com. */
-  oauthToken?: GoogleCloudEventarcV1PipelineDestinationAuthenticationConfigOAuthToken;
+  oauthToken?: GoogleCloudEventarcV1PipelineDestinationAuthenticationConfigOAuthToken | undefined;
   /** Optional. This authenticate method will apply Google OIDC tokens signed by a Google Cloud service account to the requests. */
-  googleOidc?: GoogleCloudEventarcV1PipelineDestinationAuthenticationConfigOidcToken;
+  googleOidc?: GoogleCloudEventarcV1PipelineDestinationAuthenticationConfigOidcToken | undefined;
 }
 /** Represents a target of an invocation over HTTP. */
 export interface GoogleCloudEventarcV1PipelineDestination {
   /** Optional. The message format before it is delivered to the destination. If not set, the message will be delivered in the format it was originally delivered to the Pipeline. This field can only be set if Pipeline.input_payload_format is also set. */
-  outputPayloadFormat?: GoogleCloudEventarcV1PipelineMessagePayloadFormat;
+  outputPayloadFormat?: GoogleCloudEventarcV1PipelineMessagePayloadFormat | undefined;
   /** Optional. The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the Pipeline. Format: `projects/{project}/locations/{location}/workflows/{workflow}` */
-  workflow?: string;
+  workflow?: string | undefined;
   /** Optional. The resource name of the Message Bus to which events should be published. The Message Bus resource should exist in the same project as the Pipeline. Format: `projects/{project}/locations/{location}/messageBuses/{message_bus}` */
-  messageBus?: string;
+  messageBus?: string | undefined;
   /** Optional. The resource name of the Pub/Sub topic to which events should be published. Format: `projects/{project}/locations/{location}/topics/{topic}` */
-  topic?: string;
+  topic?: string | undefined;
   /** Optional. An HTTP endpoint destination described by an URI. If a DNS FQDN is provided as the endpoint, Pipeline will create a peering zone to the consumer VPC and forward DNS requests to the VPC specified by network config to resolve the service endpoint. See: https://cloud.google.com/dns/docs/zones/zones-overview#peering_zones */
-  httpEndpoint?: GoogleCloudEventarcV1PipelineDestinationHttpEndpoint;
+  httpEndpoint?: GoogleCloudEventarcV1PipelineDestinationHttpEndpoint | undefined;
   /** Optional. Network config is used to configure how Pipeline resolves and connects to a destination. */
-  networkConfig?: GoogleCloudEventarcV1PipelineDestinationNetworkConfig;
+  networkConfig?: GoogleCloudEventarcV1PipelineDestinationNetworkConfig | undefined;
   /** Optional. An authentication config used to authenticate message requests, such that destinations can verify the source. For example, this can be used with private Google Cloud destinations that require Google Cloud credentials for access like Cloud Run. This field is optional and should be set only by users interested in authenticated push. */
-  authenticationConfig?: GoogleCloudEventarcV1PipelineDestinationAuthenticationConfig;
+  authenticationConfig?: GoogleCloudEventarcV1PipelineDestinationAuthenticationConfig | undefined;
 }
 export type GoogleCloudEventarcV1PipelineDestinationList =
   Array<GoogleCloudEventarcV1PipelineDestination>;
 /** The retry policy configuration for the Pipeline. The pipeline exponentially backs off in case the destination is non responsive or returns a retryable error code. The default semantics are as follows: The backoff starts with a 5 second delay and doubles the delay after each failed attempt (10 seconds, 20 seconds, 40 seconds, etc.). The delay is capped at 60 seconds by default. Please note that if you set the min_retry_delay and max_retry_delay fields to the same value this will make the duration between retries constant. */
 export interface GoogleCloudEventarcV1PipelineRetryPolicy {
   /** Optional. The minimum amount of seconds to wait between retry attempts. The value must be between 1 and 600. The default value for this field is 5. */
-  minRetryDelay?: string;
+  minRetryDelay?: string | undefined;
   /** Optional. The maximum amount of seconds to wait between retry attempts. The value must be between 1 and 600. The default value for this field is 60. */
-  maxRetryDelay?: string;
+  maxRetryDelay?: string | undefined;
   /** Optional. The maximum number of delivery attempts for any message. The value must be between 1 and 100. The default value for this field is 5. */
-  maxAttempts?: number;
+  maxAttempts?: number | undefined;
 }
 /** Transformation defines the way to transform an incoming message. */
 export interface GoogleCloudEventarcV1PipelineMediationTransformation {
   /** Optional. The CEL expression template to apply to transform messages. The following CEL extension functions are provided for use in this CEL expression: - merge: map1.merge(map2) -> map3 - Merges the passed CEL map with the existing CEL map the function is applied to. - If the same key exists in both maps, if the key's value is type map both maps are merged else the value from the passed map is used. - denormalize: map.denormalize() -> map - Denormalizes a CEL map such that every value of type map or key in the map is expanded to return a single level map. - The resulting keys are "." separated indices of the map keys. - For example: { "a": 1, "b": { "c": 2, "d": 3 } "e": [4, 5] } .denormalize() -> { "a": 1, "b.c": 2, "b.d": 3, "e.0": 4, "e.1": 5 } - setField: map.setField(key, value) -> message - Sets the field of the message with the given key to the given value. - If the field is not present it will be added. - If the field is present it will be overwritten. - The key can be a dot separated path to set a field in a nested message. - Key must be of type string. - Value may be any valid type. - removeFields: map.removeFields([key1, key2, ...]) -> message - Removes the fields of the map with the given keys. - The keys can be a dot separated path to remove a field in a nested message. - If a key is not found it will be ignored. - Keys must be of type string. - toMap: [map1, map2, ...].toMap() -> map - Converts a CEL list of CEL maps to a single CEL map - toDestinationPayloadFormat(): message.data.toDestinationPayloadFormat() -> string or bytes - Converts the message data to the destination payload format specified in Pipeline.Destination.output_payload_format - This function is meant to be applied to the message.data field. - If the destination payload format is not set, the function will return the message data unchanged. - toCloudEventJsonWithPayloadFormat: message.toCloudEventJsonWithPayloadFormat() -> map - Converts a message to the corresponding structure of JSON format for CloudEvents - This function applies toDestinationPayloadFormat() to the message data. It also sets the corresponding datacontenttype of the CloudEvent, as indicated by Pipeline.Destination.output_payload_format. If no output_payload_format is set it will use the existing datacontenttype on the CloudEvent if present, else leave datacontenttype absent. - This function expects that the content of the message will adhere to the standard CloudEvent format. If it doesn't then this function will fail. - The result is a CEL map that corresponds to the JSON representation of the CloudEvent. To convert that data to a JSON string it can be chained with the toJsonString function. */
-  transformationTemplate?: string;
+  transformationTemplate?: string | undefined;
 }
 /** Mediation defines different ways to modify the Pipeline. */
 export interface GoogleCloudEventarcV1PipelineMediation {
   /** Optional. How the Pipeline is to transform messages */
-  transformation?: GoogleCloudEventarcV1PipelineMediationTransformation;
+  transformation?: GoogleCloudEventarcV1PipelineMediationTransformation | undefined;
 }
 export type GoogleCloudEventarcV1PipelineMediationList =
   Array<GoogleCloudEventarcV1PipelineMediation>;
 /** A representation of the Pipeline resource. */
 export interface Pipeline {
   /** Required. List of destinations to which messages will be forwarded. Currently, exactly one destination is supported per Pipeline. */
-  destinations?: GoogleCloudEventarcV1PipelineDestinationList;
+  destinations?: GoogleCloudEventarcV1PipelineDestinationList | undefined;
   /** Output only. Whether or not this Pipeline satisfies the requirements of physical zone separation */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Identifier. The resource name of the Pipeline. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/pipelines/{pipeline}` format. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The creation time. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Server-assigned unique identifier for the Pipeline. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. The last-modified time. A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z". */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt the event data. If not set, an internal Google-owned key will be used to encrypt messages. It must match the pattern "projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}". */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
   /** Optional. Config to control Platform Logging for Pipelines. */
-  loggingConfig?: LoggingConfig;
+  loggingConfig?: LoggingConfig | undefined;
   /** Optional. User labels attached to the Pipeline that can be used to group resources. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1.3kg", "count": "3" }. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. The retry policy to use in the pipeline. */
-  retryPolicy?: GoogleCloudEventarcV1PipelineRetryPolicy;
+  retryPolicy?: GoogleCloudEventarcV1PipelineRetryPolicy | undefined;
   /** Optional. User-defined annotations. See https://google.aip.dev/128#annotations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Optional. The payload format expected for the messages received by the Pipeline. If input_payload_format is set then any messages not matching this format will be treated as persistent errors. If input_payload_format is not set, then the message data will be treated as an opaque binary and no output format can be set on the Pipeline through the Pipeline.Destination.output_payload_format field. Any Mediations on the Pipeline that involve access to the data field will fail as persistent errors. */
-  inputPayloadFormat?: GoogleCloudEventarcV1PipelineMessagePayloadFormat;
+  inputPayloadFormat?: GoogleCloudEventarcV1PipelineMessagePayloadFormat | undefined;
   /** Optional. Display name of resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on create requests to ensure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. List of mediation operations to be performed on the message. Currently, only one Transformation operation is allowed in each Pipeline. */
-  mediations?: GoogleCloudEventarcV1PipelineMediationList;
+  mediations?: GoogleCloudEventarcV1PipelineMediationList | undefined;
 }
 export interface CreateProjectsLocationsPipelinesRequest {
   /** Required. The user-provided ID to be assigned to the Pipeline. It should match the format `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  pipelineId?: string;
+  pipelineId?: string | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The parent collection in which to add this pipeline. */
   parent: string;
   /** Request body */
-  body?: Pipeline;
+  body?: Pipeline | undefined;
 }
 /** Represents a Pub/Sub transport. */
 export interface Pubsub {
   /** Optional. The name of the Pub/Sub topic created and managed by Eventarc as a transport for the event delivery. Format: `projects/{PROJECT_ID}/topics/{TOPIC_NAME}`. You can set an existing topic for triggers of the type `google.cloud.pubsub.topic.v1.messagePublished`. The topic you provide here is not deleted by Eventarc at trigger deletion. */
-  topic?: string;
+  topic?: string | undefined;
   /** Output only. The name of the Pub/Sub subscription created and managed by Eventarc as a transport for the event delivery. Format: `projects/{PROJECT_ID}/subscriptions/{SUBSCRIPTION_NAME}`. */
-  subscription?: string;
+  subscription?: string | undefined;
 }
 /** Represents the transport intermediaries created for the trigger to deliver events. */
 export interface Transport {
   /** The Pub/Sub topic and subscription used by Eventarc as a transport intermediary. */
-  pubsub?: Pubsub;
+  pubsub?: Pubsub | undefined;
 }
 /** Represents a HTTP endpoint destination. */
 export interface HttpEndpoint {
   /** Required. The URI of the HTTP endpoint. The value must be a RFC2396 URI string. Examples: `http://10.10.10.8:80/route`, `http://svc.us-central1.p.local:8080/`. Only HTTP and HTTPS protocols are supported. The host can be either a static IP addressable from the VPC specified by the network config, or an internal DNS hostname of the service resolvable via Cloud DNS. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Network Configuration that can be inherited by other protos. */
 export interface NetworkConfig {
   /** Required. Name of the NetworkAttachment that allows access to the customer's VPC. Format: `projects/{PROJECT_ID}/regions/{REGION}/networkAttachments/{NETWORK_ATTACHMENT_NAME}` */
-  networkAttachment?: string;
+  networkAttachment?: string | undefined;
 }
 /** Represents a GKE destination. */
 export interface GKE {
   /** Required. Name of the GKE service. */
-  service?: string;
+  service?: string | undefined;
   /** Required. The name of the Google Compute Engine in which the cluster resides, which can either be compute zone (for example, us-central1-a) for the zonal clusters or region (for example, us-central1) for regional clusters. */
-  location?: string;
+  location?: string | undefined;
   /** Required. The namespace the GKE service is running in. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Optional. The relative path on the GKE service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: "/route", "route", "route/subroute". */
-  path?: string;
+  path?: string | undefined;
   /** Required. The name of the cluster the GKE service is running in. The cluster must be running in the same project as the trigger being created. */
-  cluster?: string;
+  cluster?: string | undefined;
 }
 /** Represents a Cloud Run destination. */
 export interface CloudRun {
   /** Required. The name of the Cloud Run service being addressed. See https://cloud.google.com/run/docs/reference/rest/v1/namespaces.services. Only services located in the same project as the trigger object can be addressed. */
-  service?: string;
+  service?: string | undefined;
   /** Required. The region the Cloud Run service is deployed in. */
-  region?: string;
+  region?: string | undefined;
   /** Optional. The relative path on the Cloud Run service the events should be sent to. The value must conform to the definition of a URI path segment (section 3.3 of RFC2396). Examples: "/route", "route", "route/subroute". */
-  path?: string;
+  path?: string | undefined;
 }
 /** Represents a target of an invocation over HTTP. */
 export interface Destination {
   /** An HTTP endpoint destination described by an URI. */
-  httpEndpoint?: HttpEndpoint;
+  httpEndpoint?: HttpEndpoint | undefined;
   /** The resource name of the Workflow whose Executions are triggered by the events. The Workflow resource should be deployed in the same project as the trigger. Format: `projects/{project}/locations/{location}/workflows/{workflow}` */
-  workflow?: string;
+  workflow?: string | undefined;
   /** Optional. Network config is used to configure how Eventarc resolves and connect to a destination. This should only be used with HttpEndpoint destination type. */
-  networkConfig?: NetworkConfig;
+  networkConfig?: NetworkConfig | undefined;
   /** The Cloud Function resource name. Cloud Functions V1 and V2 are supported. Format: `projects/{project}/locations/{location}/functions/{function}` This is a read-only field. Creating Cloud Functions V1/V2 triggers is only supported via the Cloud Functions product. An error will be returned if the user sets this value. */
-  cloudFunction?: string;
+  cloudFunction?: string | undefined;
   /** A GKE service capable of receiving events. The service should be running in the same project as the trigger. */
-  gke?: GKE;
+  gke?: GKE | undefined;
   /** Cloud Run fully-managed resource that receives the events. The resource should be in the same project as the trigger. */
-  cloudRun?: CloudRun;
+  cloudRun?: CloudRun | undefined;
 }
 /** The retry policy configuration for the Trigger. Can only be set with Cloud Run destinations. */
 export interface RetryPolicy {
   /** Optional. The maximum number of delivery attempts for any message. The only valid value is 1. */
-  maxAttempts?: number;
+  maxAttempts?: number | undefined;
 }
 /** Filters events based on exact matches on the CloudEvents attributes. */
 export interface EventFilter {
   /** Optional. The operator used for matching the events with the value of the filter. If not specified, only events that have an exact key-value pair specified in the filter are matched. The allowed values are `path_pattern` and `match-path-pattern`. `path_pattern` is only allowed for GCFv1 triggers. */
-  operator?: string;
+  operator?: string | undefined;
   /** Required. The name of a CloudEvents attribute. Currently, only a subset of attributes are supported for filtering. You can [retrieve a specific provider's supported event types](/eventarc/docs/list-providers#describe-provider). All triggers MUST provide a filter for the 'type' attribute. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** Required. The value for the attribute. */
-  value?: string;
+  value?: string | undefined;
 }
 export type EventFilterList = Array<EventFilter>;
 export type StateConditionCodeEnum =
@@ -544,53 +544,53 @@ export type StateConditionCodeEnum =
 /** A condition that is part of the trigger state computation. */
 export interface StateCondition {
   /** The canonical code of the condition. */
-  code?: StateConditionCodeEnum | (string & {});
+  code?: StateConditionCodeEnum | (string & {}) | undefined;
   /** Human-readable message. */
-  message?: string;
+  message?: string | undefined;
 }
 export type StateConditionMap = { [key: string]: StateCondition | undefined };
 /** A representation of the trigger resource. */
 export interface Trigger {
   /** Optional. To deliver messages, Eventarc might use other Google Cloud products as a transport intermediary. This field contains a reference to that transport intermediary. This information can be used for debugging purposes. */
-  transport?: Transport;
+  transport?: Transport | undefined;
   /** Optional. EventDataContentType specifies the type of payload in MIME format that is expected from the CloudEvent data field. This is set to `application/json` if the value is not defined. */
-  eventDataContentType?: string;
+  eventDataContentType?: string | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Server-assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Optional. The IAM service account email associated with the trigger. The service account represents the identity of the trigger. The `iam.serviceAccounts.actAs` permission must be granted on the service account to allow a principal to impersonate the service account. For more information, see the [Roles and permissions](/eventarc/docs/all-roles-permissions) page specific to the trigger destination. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. This checksum is computed by the server based on the value of other fields, and might be sent only on create requests to ensure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. Destination specifies where the events should be sent to. */
-  destination?: Destination;
+  destination?: Destination | undefined;
   /** Optional. The retry policy to use in the Trigger. If unset, event delivery will be retried for up to 24 hours by default: https://cloud.google.com/eventarc/docs/retry-events */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** Optional. Unordered list. The list of filters that applies to event attributes. Only events that match all the provided filters are sent to the destination. */
-  eventFilters?: EventFilterList;
+  eventFilters?: EventFilterList | undefined;
   /** Optional. User labels attached to the triggers that can be used to group resources. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. The resource name of the trigger. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/triggers/{trigger}` format. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether or not this Trigger satisfies the requirements of physical zone separation */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. The reason(s) why a trigger is in FAILED state. */
-  conditions?: StateConditionMap;
+  conditions?: StateConditionMap | undefined;
   /** Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners. */
-  channel?: string;
+  channel?: string | undefined;
 }
 export interface CreateProjectsLocationsTriggersRequest {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The user-provided ID to be assigned to the trigger. */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** Required. The parent collection in which to add this trigger. */
   parent: string;
   /** Request body */
-  body?: Trigger;
+  body?: Trigger | undefined;
 }
 export interface DeleteProjectsLocationsChannelConnectionsRequest {
   /** Required. The name of the channel connection to delete. */
@@ -600,25 +600,25 @@ export interface DeleteProjectsLocationsChannelsRequest {
   /** Required. The name of the channel to be deleted. */
   name: string;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsEnrollmentsRequest {
   /** Required. The name of the Enrollment to be deleted. */
   name: string;
   /** Optional. If provided, the Enrollment will only be deleted if the etag matches the current etag on the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set to true, and the Enrollment is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsGoogleApiSourcesRequest {
   /** Optional. If provided, the GoogleApiSource will only be deleted if the etag matches the current etag on the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set to true, and the GoogleApiSource is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The name of the GoogleApiSource to be deleted. */
   name: string;
 }
@@ -626,11 +626,11 @@ export interface DeleteProjectsLocationsMessageBusesRequest {
   /** Required. The name of the MessageBus to be deleted. */
   name: string;
   /** Optional. If set to true, and the MessageBus is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If provided, the MessageBus will only be deleted if the etag matches the current etag on the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -640,21 +640,21 @@ export interface DeleteProjectsLocationsPipelinesRequest {
   /** Required. The name of the Pipeline to be deleted. */
   name: string;
   /** Optional. If set to true, and the Pipeline is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If provided, the Pipeline will only be deleted if the etag matches the current etag on the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsTriggersRequest {
   /** Required. The name of the trigger to be deleted. */
   name: string;
   /** If set to true, and the trigger is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** If provided, the trigger will only be deleted if the etag matches the current etag on the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetGoogleChannelConfigProjectsLocationsRequest {
   /** Required. The name of the config to get. */
@@ -663,39 +663,39 @@ export interface GetGoogleChannelConfigProjectsLocationsRequest {
 /** Can be used to customize security settings for Eventarc first-party triggers in a specific region. Once the GoogleChannelConfig resource is configured, first-party event data is protected using the specified customer-managed encryption key instead of a Google-managed encryption key. */
 export interface GoogleChannelConfig {
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Resource labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
   /** Required. The resource name of the config. Must be in the format of, `projects/{project}/locations/{location}/googleChannelConfig`. In API responses, the config name always includes the projectID, regardless of whether the projectID or projectNumber was provided. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsChannelConnectionsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -706,39 +706,39 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsChannelsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsEnrollmentsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -746,25 +746,25 @@ export interface GetIamPolicyProjectsLocationsGoogleApiSourcesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsMessageBusesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsPipelinesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsTriggersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -773,15 +773,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsChannelConnectionsRequest {
   /** Required. The name of the channel connection to get. */
@@ -818,35 +818,35 @@ export interface GetProjectsLocationsProvidersRequest {
 /** A representation of the FilteringAttribute resource. Filtering attributes are per event type. */
 export interface FilteringAttribute {
   /** Output only. If true, the triggers for this provider should always specify a filter on these attributes. Trigger creation will fail otherwise. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Output only. Attribute used for filtering the event type. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** Output only. If true, the attribute accepts matching expressions in the Eventarc PathPattern format. */
-  pathPatternSupported?: boolean;
+  pathPatternSupported?: boolean | undefined;
   /** Output only. Description of the purpose of the attribute. */
-  description?: string;
+  description?: string | undefined;
 }
 export type FilteringAttributeList = Array<FilteringAttribute>;
 /** A representation of the event type resource. */
 export interface EventType {
   /** Output only. URI for the event schema. For example "https://github.com/googleapis/google-cloudevents/blob/master/proto/google/events/cloud/storage/v1/events.proto" */
-  eventSchemaUri?: string;
+  eventSchemaUri?: string | undefined;
   /** Output only. Filtering attributes for the event type. */
-  filteringAttributes?: FilteringAttributeList;
+  filteringAttributes?: FilteringAttributeList | undefined;
   /** Output only. The full name of the event type (for example, "google.cloud.storage.object.v1.finalized"). In the form of {provider-specific-prefix}.{resource}.{version}.{verb}. Types MUST be versioned and event schemas are guaranteed to remain backward compatible within one version. Note that event type versions and API versions do not need to match. */
-  type?: string;
+  type?: string | undefined;
   /** Output only. Human friendly description of what the event type is about. For example "Bucket created in Cloud Storage". */
-  description?: string;
+  description?: string | undefined;
 }
 export type EventTypeList = Array<EventType>;
 /** A representation of the Provider resource. */
 export interface Provider {
   /** Output only. Human friendly name for the Provider. For example "Cloud Storage". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. In `projects/{project}/locations/{location}/providers/{provider_id}` format. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Event types for this provider. */
-  eventTypes?: EventTypeList;
+  eventTypes?: EventTypeList | undefined;
 }
 export interface GetProjectsLocationsTriggersRequest {
   /** Required. The name of the trigger to get. */
@@ -854,110 +854,110 @@ export interface GetProjectsLocationsTriggersRequest {
 }
 export interface ListEnrollmentsProjectsLocationsMessageBusesRequest {
   /** Optional. The page token; provide the value from the `next_page_token` field in a previous call to retrieve the subsequent page. When paginating, all other parameters provided must match the previous call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return on each page. Note: The service may send fewer. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent message bus to list enrollments on. */
   parent: string;
 }
 /** The response message for the `ListMessageBusEnrollments` method.` */
 export interface ListMessageBusEnrollmentsResponse {
   /** A page token that can be sent to `ListMessageBusEnrollments` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested enrollments, up to the number specified in `page_size`. */
-  enrollments?: StringList;
+  enrollments?: StringList | undefined;
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsChannelConnectionsRequest {
   /** The maximum number of channel connections to return on each page. Note: The service may send fewer responses. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent collection from which to list channel connections. */
   parent: string;
   /** The page token; provide the value from the `next_page_token` field in a previous `ListChannelConnections` call to retrieve the subsequent page. When paginating, all other parameters provided to `ListChannelConnetions` match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ChannelConnectionList = Array<ChannelConnection>;
 /** The response message for the `ListChannelConnections` method. */
 export interface ListChannelConnectionsResponse {
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The requested channel connections, up to the number specified in `page_size`. */
-  channelConnections?: ChannelConnectionList;
+  channelConnections?: ChannelConnectionList | undefined;
   /** A page token that can be sent to `ListChannelConnections` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsChannelsRequest {
   /** The sorting order of the resources returned. Value should be a comma-separated list of fields. The default sorting order is ascending. To specify descending order for a field, append a `desc` suffix; for example: `name desc, channel_id`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent collection to list channels on. */
   parent: string;
   /** The maximum number of channels to return on each page. Note: The service may send fewer. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The page token; provide the value from the `next_page_token` field in a previous `ListChannels` call to retrieve the subsequent page. When paginating, all other parameters provided to `ListChannels` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ChannelList = Array<Channel>;
 /** The response message for the `ListChannels` method. */
 export interface ListChannelsResponse {
   /** A page token that can be sent to `ListChannels` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested channels, up to the number specified in `page_size`. */
-  channels?: ChannelList;
+  channels?: ChannelList | undefined;
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsEnrollmentsRequest {
   /** Optional. The filter field that the list request will filter on. Possible filtersare described in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of results to return on each page. Note: The service may send fewer. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent collection to list triggers on. */
   parent: string;
   /** Optional. The page token; provide the value from the `next_page_token` field in a previous call to retrieve the subsequent page. When paginating, all other parameters provided must match the previous call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The sorting order of the resources returned. Value should be a comma-separated list of fields. The default sorting order is ascending. To specify descending order for a field, append a `desc` suffix; for example: `name desc, update_time`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type EnrollmentList = Array<Enrollment>;
 /** The response message for the `ListEnrollments` method. */
 export interface ListEnrollmentsResponse {
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A page token that can be sent to `ListEnrollments` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested Enrollments, up to the number specified in `page_size`. */
-  enrollments?: EnrollmentList;
+  enrollments?: EnrollmentList | undefined;
 }
 export interface ListProjectsLocationsGoogleApiSourcesRequest {
   /** Optional. The page token; provide the value from the `next_page_token` field in a previous call to retrieve the subsequent page. When paginating, all other parameters provided must match the previous call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The filter field that the list request will filter on. Possible filtersare described in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of results to return on each page. Note: The service may send fewer. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The sorting order of the resources returned. Value should be a comma-separated list of fields. The default sorting order is ascending. To specify descending order for a field, append a `desc` suffix; for example: `name desc, update_time`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent collection to list GoogleApiSources on. */
   parent: string;
 }
@@ -965,87 +965,87 @@ export type GoogleApiSourceList = Array<GoogleApiSource>;
 /** The response message for the `ListGoogleApiSources` method. */
 export interface ListGoogleApiSourcesResponse {
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A page token that can be sent to `ListMessageBusEnrollments` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested GoogleApiSources, up to the number specified in `page_size`. */
-  googleApiSources?: GoogleApiSourceList;
+  googleApiSources?: GoogleApiSourceList | undefined;
 }
 export interface ListProjectsLocationsMessageBusesRequest {
   /** Optional. The sorting order of the resources returned. Value should be a comma-separated list of fields. The default sorting order is ascending. To specify descending order for a field, append a `desc` suffix; for example: `name desc, update_time`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent collection to list message buses on. */
   parent: string;
   /** Optional. The filter field that the list request will filter on. Possible filtersare described in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of results to return on each page. Note: The service may send fewer. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The page token; provide the value from the `next_page_token` field in a previous call to retrieve the subsequent page. When paginating, all other parameters provided must match the previous call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type MessageBusList = Array<MessageBus>;
 /** The response message for the `ListMessageBuses` method. */
 export interface ListMessageBusesResponse {
   /** A page token that can be sent to `ListMessageBuses` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested message buses, up to the number specified in `page_size`. */
-  messageBuses?: MessageBusList;
+  messageBuses?: MessageBusList | undefined;
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPipelinesRequest {
   /** Required. The parent collection to list pipelines on. */
   parent: string;
   /** Optional. The page token; provide the value from the `next_page_token` field in a previous call to retrieve the subsequent page. When paginating, all other parameters provided must match the previous call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of results to return on each page. Note: The service may send fewer. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The sorting order of the resources returned. Value should be a comma-separated list of fields. The default sorting order is ascending. To specify descending order for a field, append a `desc` suffix; for example: `name desc, update_time`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The filter field that the list request will filter on. Possible filters are described in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type PipelineList = Array<Pipeline>;
 /** The response message for the ListPipelines method. */
 export interface ListPipelinesResponse {
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The requested pipelines, up to the number specified in `page_size`. */
-  pipelines?: PipelineList;
+  pipelines?: PipelineList | undefined;
   /** A page token that can be sent to `ListPipelines` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProvidersRequest {
   /** The sorting order of the resources returned. Value should be a comma-separated list of fields. The default sorting oder is ascending. To specify descending order for a field, append a `desc` suffix; for example: `name desc, _id`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** The maximum number of providers to return on each page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The page token; provide the value from the `next_page_token` field in a previous `ListProviders` call to retrieve the subsequent page. When paginating, all other parameters provided to `ListProviders` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The filter field that the list request will filter on. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent of the provider to get. */
   parent: string;
 }
@@ -1053,212 +1053,212 @@ export type ProviderList = Array<Provider>;
 /** The response message for the `ListProviders` method. */
 export interface ListProvidersResponse {
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A page token that can be sent to `ListProviders` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested providers, up to the number specified in `page_size`. */
-  providers?: ProviderList;
+  providers?: ProviderList | undefined;
 }
 export interface ListProjectsLocationsTriggersRequest {
   /** The page token; provide the value from the `next_page_token` field in a previous `ListTriggers` call to retrieve the subsequent page. When paginating, all other parameters provided to `ListTriggers` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent collection to list triggers on. */
   parent: string;
   /** Filter field. Used to filter the Triggers to be listed. Possible filters are described in https://google.aip.dev/160. For example, using "?filter=destination:gke" would list only Triggers with a gke destination. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of triggers to return on each page. Note: The service may send fewer. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The sorting order of the resources returned. Value should be a comma-separated list of fields. The default sorting order is ascending. To specify descending order for a field, append a `desc` suffix; for example: `name desc, trigger_id`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type TriggerList = Array<Trigger>;
 /** The response message for the `ListTriggers` method. */
 export interface ListTriggersResponse {
   /** The requested triggers, up to the number specified in `page_size`. */
-  triggers?: TriggerList;
+  triggers?: TriggerList | undefined;
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A page token that can be sent to `ListTriggers` to request the next page. If this is empty, then there are no more pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsChannelsRequest {
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
   name: string;
   /** Request body */
-  body?: Channel;
+  body?: Channel | undefined;
 }
 export interface PatchProjectsLocationsEnrollmentsRequest {
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set to true, and the Enrollment is not found, a new Enrollment will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/enrollments/{enrollment} */
   name: string;
   /** Request body */
-  body?: Enrollment;
+  body?: Enrollment | undefined;
 }
 export interface PatchProjectsLocationsGoogleApiSourcesRequest {
   /** Optional. If set to true, and the GoogleApiSource is not found, a new GoogleApiSource will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/googleApiSources/{google_api_source} */
   name: string;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleApiSource;
+  body?: GoogleApiSource | undefined;
 }
 export interface PatchProjectsLocationsMessageBusesRequest {
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus} */
   name: string;
   /** Optional. If set to true, and the MessageBus is not found, a new MessageBus will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: MessageBus;
+  body?: MessageBus | undefined;
 }
 export interface PatchProjectsLocationsPipelinesRequest {
   /** Identifier. The resource name of the Pipeline. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/pipelines/{pipeline}` format. */
   name: string;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set to true, and the Pipeline is not found, a new Pipeline will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: Pipeline;
+  body?: Pipeline | undefined;
 }
 export interface PatchProjectsLocationsTriggersRequest {
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** If set to true, and the trigger is not found, a new trigger will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The resource name of the trigger. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/triggers/{trigger}` format. */
   name: string;
   /** Request body */
-  body?: Trigger;
+  body?: Trigger | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsChannelConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsChannelsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsEnrollmentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsGoogleApiSourcesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsMessageBusesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsPipelinesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTriggersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsChannelConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsChannelsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsEnrollmentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsGoogleApiSourcesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsMessageBusesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsPipelinesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsTriggersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UpdateGoogleChannelConfigProjectsLocationsRequest {
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The resource name of the config. Must be in the format of, `projects/{project}/locations/{location}/googleChannelConfig`. In API responses, the config name always includes the projectID, regardless of whether the projectID or projectNumber was provided. */
   name: string;
   /** Request body */
-  body?: GoogleChannelConfig;
+  body?: GoogleChannelConfig | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

@@ -180,18 +180,18 @@ export type CustomerId = string;
 export interface PhysicalResourceId {
   identifier: string;
   type: PhysicalIdentifierType;
-  awsRegion?: string;
-  awsAccountId?: string;
+  awsRegion?: string | undefined;
+  awsAccountId?: string | undefined;
 }
 export interface ResourceMapping {
-  resourceName?: string;
-  logicalStackName?: string;
-  appRegistryAppName?: string;
-  resourceGroupName?: string;
+  resourceName?: string | undefined;
+  logicalStackName?: string | undefined;
+  appRegistryAppName?: string | undefined;
+  resourceGroupName?: string | undefined;
   mappingType: ResourceMappingType;
   physicalResourceId: PhysicalResourceId;
-  terraformSourceName?: string;
-  eksSourceName?: string;
+  terraformSourceName?: string | undefined;
+  eksSourceName?: string | undefined;
 }
 export type ResourceMappingList = ResourceMapping[];
 export interface AddDraftAppVersionResourceMappingsRequest {
@@ -207,9 +207,9 @@ export interface AddDraftAppVersionResourceMappingsResponse {
 export type SpecReferenceId = string;
 export type String500 = string;
 export interface UpdateRecommendationStatusItem {
-  resourceId?: string;
-  targetAccountId?: string;
-  targetRegion?: string;
+  resourceId?: string | undefined;
+  targetAccountId?: string | undefined;
+  targetRegion?: string | undefined;
 }
 export type EntityName255 = string;
 export type ExcludeRecommendationReason =
@@ -220,10 +220,10 @@ export type ExcludeRecommendationReason =
 export interface UpdateRecommendationStatusRequestEntry {
   entryId: string;
   referenceId: string;
-  item?: UpdateRecommendationStatusItem;
+  item?: UpdateRecommendationStatusItem | undefined;
   excluded: boolean;
-  appComponentId?: string;
-  excludeReason?: ExcludeRecommendationReason;
+  appComponentId?: string | undefined;
+  excludeReason?: ExcludeRecommendationReason | undefined;
 }
 export type UpdateRecommendationStatusRequestEntries = UpdateRecommendationStatusRequestEntry[];
 export interface BatchUpdateRecommendationStatusRequest {
@@ -233,10 +233,10 @@ export interface BatchUpdateRecommendationStatusRequest {
 export interface BatchUpdateRecommendationStatusSuccessfulEntry {
   entryId: string;
   referenceId: string;
-  item?: UpdateRecommendationStatusItem;
+  item?: UpdateRecommendationStatusItem | undefined;
   excluded: boolean;
-  appComponentId?: string;
-  excludeReason?: ExcludeRecommendationReason;
+  appComponentId?: string | undefined;
+  excludeReason?: ExcludeRecommendationReason | undefined;
 }
 export type BatchUpdateRecommendationStatusSuccessfulEntries =
   BatchUpdateRecommendationStatusSuccessfulEntry[];
@@ -263,26 +263,26 @@ export type IamRoleArn = string;
 export type IamRoleArnList = string[];
 export interface PermissionModel {
   type: PermissionModelType;
-  invokerRoleName?: string;
-  crossAccountRoleArns?: string[];
+  invokerRoleName?: string | undefined;
+  crossAccountRoleArns?: string[] | undefined;
 }
 export type EventType = "ScheduledAssessmentFailure" | "DriftDetected" | (string & {});
 export interface EventSubscription {
   name: string;
   eventType: EventType;
-  snsTopicArn?: string;
+  snsTopicArn?: string | undefined;
 }
 export type EventSubscriptionList = EventSubscription[];
 export interface CreateAppRequest {
   name: string;
-  description?: string;
-  policyArn?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-  assessmentSchedule?: AppAssessmentScheduleType;
-  permissionModel?: PermissionModel;
-  eventSubscriptions?: EventSubscription[];
-  awsApplicationArn?: string;
+  description?: string | undefined;
+  policyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  assessmentSchedule?: AppAssessmentScheduleType | undefined;
+  permissionModel?: PermissionModel | undefined;
+  eventSubscriptions?: EventSubscription[] | undefined;
+  awsApplicationArn?: string | undefined;
 }
 export type AppStatusType = "Active" | "Deleting" | (string & {});
 export type AppComplianceStatusType =
@@ -297,23 +297,23 @@ export type AppDriftStatusType = "NotChecked" | "NotDetected" | "Detected" | (st
 export interface App {
   appArn: string;
   name: string;
-  description?: string;
-  policyArn?: string;
+  description?: string | undefined;
+  policyArn?: string | undefined;
   creationTime: Date;
-  status?: AppStatusType;
-  complianceStatus?: AppComplianceStatusType;
-  lastAppComplianceEvaluationTime?: Date;
-  resiliencyScore?: number;
-  lastResiliencyScoreEvaluationTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  assessmentSchedule?: AppAssessmentScheduleType;
-  permissionModel?: PermissionModel;
-  eventSubscriptions?: EventSubscription[];
-  driftStatus?: AppDriftStatusType;
-  lastDriftEvaluationTime?: Date;
-  rtoInSecs?: number;
-  rpoInSecs?: number;
-  awsApplicationArn?: string;
+  status?: AppStatusType | undefined;
+  complianceStatus?: AppComplianceStatusType | undefined;
+  lastAppComplianceEvaluationTime?: Date | undefined;
+  resiliencyScore?: number | undefined;
+  lastResiliencyScoreEvaluationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  assessmentSchedule?: AppAssessmentScheduleType | undefined;
+  permissionModel?: PermissionModel | undefined;
+  eventSubscriptions?: EventSubscription[] | undefined;
+  driftStatus?: AppDriftStatusType | undefined;
+  lastDriftEvaluationTime?: Date | undefined;
+  rtoInSecs?: number | undefined;
+  rpoInSecs?: number | undefined;
+  awsApplicationArn?: string | undefined;
 }
 export interface CreateAppResponse {
   app: App;
@@ -324,61 +324,61 @@ export type AdditionalInfoValueList = string[];
 export type AdditionalInfoMap = { [key: string]: string[] | undefined };
 export interface CreateAppVersionAppComponentRequest {
   appArn: string;
-  id?: string;
+  id?: string | undefined;
   name: string;
   type: string;
-  additionalInfo?: { [key: string]: string[] | undefined };
-  clientToken?: string;
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface AppComponent {
   name: string;
   type: string;
-  id?: string;
-  additionalInfo?: { [key: string]: string[] | undefined };
+  id?: string | undefined;
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface CreateAppVersionAppComponentResponse {
   appArn: string;
   appVersion: string;
-  appComponent?: AppComponent;
+  appComponent?: AppComponent | undefined;
 }
 export interface LogicalResourceId {
   identifier: string;
-  logicalStackName?: string;
-  resourceGroupName?: string;
-  terraformSourceName?: string;
-  eksSourceName?: string;
+  logicalStackName?: string | undefined;
+  resourceGroupName?: string | undefined;
+  terraformSourceName?: string | undefined;
+  eksSourceName?: string | undefined;
 }
 export type String2048 = string;
 export type AppComponentNameList = string[];
 export interface CreateAppVersionResourceRequest {
   appArn: string;
-  resourceName?: string;
+  resourceName?: string | undefined;
   logicalResourceId: LogicalResourceId;
   physicalResourceId: string;
-  awsRegion?: string;
-  awsAccountId?: string;
+  awsRegion?: string | undefined;
+  awsAccountId?: string | undefined;
   resourceType: string;
   appComponents: string[];
-  additionalInfo?: { [key: string]: string[] | undefined };
-  clientToken?: string;
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type AppComponentList = AppComponent[];
 export type ResourceSourceType = "AppTemplate" | "Discovered" | (string & {});
 export interface PhysicalResource {
-  resourceName?: string;
+  resourceName?: string | undefined;
   logicalResourceId: LogicalResourceId;
   physicalResourceId: PhysicalResourceId;
   resourceType: string;
-  appComponents?: AppComponent[];
-  additionalInfo?: { [key: string]: string[] | undefined };
-  excluded?: boolean;
-  sourceType?: ResourceSourceType;
-  parentResourceName?: string;
+  appComponents?: AppComponent[] | undefined;
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
+  excluded?: boolean | undefined;
+  sourceType?: ResourceSourceType | undefined;
+  parentResourceName?: string | undefined;
 }
 export interface CreateAppVersionResourceResponse {
   appArn: string;
   appVersion: string;
-  physicalResource?: PhysicalResource;
+  physicalResource?: PhysicalResource | undefined;
 }
 export type Uuid = string;
 export type RecommendationIdList = string[];
@@ -386,18 +386,18 @@ export type TemplateFormat = "CfnYaml" | "CfnJson" | (string & {});
 export type RenderRecommendationType = "Alarm" | "Sop" | "Test" | (string & {});
 export type RenderRecommendationTypeList = RenderRecommendationType[];
 export interface CreateRecommendationTemplateRequest {
-  recommendationIds?: string[];
-  format?: TemplateFormat;
-  recommendationTypes?: RenderRecommendationType[];
+  recommendationIds?: string[] | undefined;
+  format?: TemplateFormat | undefined;
+  recommendationTypes?: RenderRecommendationType[] | undefined;
   assessmentArn: string;
   name: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  bucketName?: string;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  bucketName?: string | undefined;
 }
 export interface S3Location {
-  bucket?: string;
-  prefix?: string;
+  bucket?: string | undefined;
+  prefix?: string | undefined;
 }
 export type RecommendationTemplateStatus =
   | "Pending"
@@ -406,23 +406,23 @@ export type RecommendationTemplateStatus =
   | "Success"
   | (string & {});
 export interface RecommendationTemplate {
-  templatesLocation?: S3Location;
+  templatesLocation?: S3Location | undefined;
   assessmentArn: string;
-  appArn?: string;
-  recommendationIds?: string[];
+  appArn?: string | undefined;
+  recommendationIds?: string[] | undefined;
   recommendationTypes: RenderRecommendationType[];
   format: TemplateFormat;
   recommendationTemplateArn: string;
-  message?: string;
+  message?: string | undefined;
   status: RecommendationTemplateStatus;
   name: string;
-  startTime?: Date;
-  endTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  needsReplacements?: boolean;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  needsReplacements?: boolean | undefined;
 }
 export interface CreateRecommendationTemplateResponse {
-  recommendationTemplate?: RecommendationTemplate;
+  recommendationTemplate?: RecommendationTemplate | undefined;
 }
 export type DataLocationConstraint =
   | "AnyLocation"
@@ -443,42 +443,42 @@ export interface FailurePolicy {
   rtoInSecs: number;
   rpoInSecs: number;
 }
-export type DisruptionPolicy = { [key in DisruptionType]?: FailurePolicy };
+export type DisruptionPolicy = { [key in DisruptionType]?: FailurePolicy | undefined };
 export interface CreateResiliencyPolicyRequest {
   policyName: string;
-  policyDescription?: string;
-  dataLocationConstraint?: DataLocationConstraint;
+  policyDescription?: string | undefined;
+  dataLocationConstraint?: DataLocationConstraint | undefined;
   tier: ResiliencyPolicyTier;
   policy: { [key: string]: FailurePolicy | undefined };
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EstimatedCostTier = "L1" | "L2" | "L3" | "L4" | (string & {});
 export interface ResiliencyPolicy {
-  policyArn?: string;
-  policyName?: string;
-  policyDescription?: string;
-  dataLocationConstraint?: DataLocationConstraint;
-  tier?: ResiliencyPolicyTier;
-  estimatedCostTier?: EstimatedCostTier;
-  policy?: { [key: string]: FailurePolicy | undefined };
-  creationTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  policyArn?: string | undefined;
+  policyName?: string | undefined;
+  policyDescription?: string | undefined;
+  dataLocationConstraint?: DataLocationConstraint | undefined;
+  tier?: ResiliencyPolicyTier | undefined;
+  estimatedCostTier?: EstimatedCostTier | undefined;
+  policy?: { [key: string]: FailurePolicy | undefined } | undefined;
+  creationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateResiliencyPolicyResponse {
   policy: ResiliencyPolicy;
 }
 export interface DeleteAppRequest {
   appArn: string;
-  forceDelete?: boolean;
-  clientToken?: string;
+  forceDelete?: boolean | undefined;
+  clientToken?: string | undefined;
 }
 export interface DeleteAppResponse {
   appArn: string;
 }
 export interface DeleteAppAssessmentRequest {
   assessmentArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type AssessmentStatus = "Pending" | "InProgress" | "Failed" | "Success" | (string & {});
 export interface DeleteAppAssessmentResponse {
@@ -496,50 +496,50 @@ export interface EksSourceClusterNamespace {
 }
 export interface DeleteAppInputSourceRequest {
   appArn: string;
-  sourceArn?: string;
-  terraformSource?: TerraformSource;
-  clientToken?: string;
-  eksSourceClusterNamespace?: EksSourceClusterNamespace;
+  sourceArn?: string | undefined;
+  terraformSource?: TerraformSource | undefined;
+  clientToken?: string | undefined;
+  eksSourceClusterNamespace?: EksSourceClusterNamespace | undefined;
 }
 export interface AppInputSource {
-  sourceName?: string;
+  sourceName?: string | undefined;
   importType: ResourceMappingType;
-  sourceArn?: string;
-  terraformSource?: TerraformSource;
-  resourceCount?: number;
-  eksSourceClusterNamespace?: EksSourceClusterNamespace;
+  sourceArn?: string | undefined;
+  terraformSource?: TerraformSource | undefined;
+  resourceCount?: number | undefined;
+  eksSourceClusterNamespace?: EksSourceClusterNamespace | undefined;
 }
 export interface DeleteAppInputSourceResponse {
-  appArn?: string;
-  appInputSource?: AppInputSource;
+  appArn?: string | undefined;
+  appInputSource?: AppInputSource | undefined;
 }
 export interface DeleteAppVersionAppComponentRequest {
   appArn: string;
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAppVersionAppComponentResponse {
   appArn: string;
   appVersion: string;
-  appComponent?: AppComponent;
+  appComponent?: AppComponent | undefined;
 }
 export interface DeleteAppVersionResourceRequest {
   appArn: string;
-  resourceName?: string;
-  logicalResourceId?: LogicalResourceId;
-  physicalResourceId?: string;
-  awsRegion?: string;
-  awsAccountId?: string;
-  clientToken?: string;
+  resourceName?: string | undefined;
+  logicalResourceId?: LogicalResourceId | undefined;
+  physicalResourceId?: string | undefined;
+  awsRegion?: string | undefined;
+  awsAccountId?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface DeleteAppVersionResourceResponse {
   appArn: string;
   appVersion: string;
-  physicalResource?: PhysicalResource;
+  physicalResource?: PhysicalResource | undefined;
 }
 export interface DeleteRecommendationTemplateRequest {
   recommendationTemplateArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteRecommendationTemplateResponse {
   recommendationTemplateArn: string;
@@ -547,7 +547,7 @@ export interface DeleteRecommendationTemplateResponse {
 }
 export interface DeleteResiliencyPolicyRequest {
   policyArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteResiliencyPolicyResponse {
   policyArn: string;
@@ -569,21 +569,21 @@ export interface Cost {
   currency: string;
   frequency: CostFrequency;
 }
-export type DisruptionResiliencyScore = { [key in DisruptionType]?: number };
+export type DisruptionResiliencyScore = { [key in DisruptionType]?: number | undefined };
 export type ResiliencyScoreType = "Compliance" | "Test" | "Alarm" | "Sop" | (string & {});
 export interface ScoringComponentResiliencyScore {
-  score?: number;
-  possibleScore?: number;
-  outstandingCount?: number;
-  excludedCount?: number;
+  score?: number | undefined;
+  possibleScore?: number | undefined;
+  outstandingCount?: number | undefined;
+  excludedCount?: number | undefined;
 }
 export type ScoringComponentResiliencyScores = {
-  [key in ResiliencyScoreType]?: ScoringComponentResiliencyScore;
+  [key in ResiliencyScoreType]?: ScoringComponentResiliencyScore | undefined;
 };
 export interface ResiliencyScore {
   score: number;
   disruptionScore: { [key: string]: number | undefined };
-  componentScore?: { [key: string]: ScoringComponentResiliencyScore | undefined };
+  componentScore?: { [key: string]: ScoringComponentResiliencyScore | undefined } | undefined;
 }
 export type ComplianceStatus =
   | "PolicyBreached"
@@ -592,59 +592,59 @@ export type ComplianceStatus =
   | "MissingPolicy"
   | (string & {});
 export interface DisruptionCompliance {
-  achievableRtoInSecs?: number;
-  currentRtoInSecs?: number;
-  rtoReferenceId?: string;
-  rtoDescription?: string;
-  currentRpoInSecs?: number;
-  rpoReferenceId?: string;
-  rpoDescription?: string;
+  achievableRtoInSecs?: number | undefined;
+  currentRtoInSecs?: number | undefined;
+  rtoReferenceId?: string | undefined;
+  rtoDescription?: string | undefined;
+  currentRpoInSecs?: number | undefined;
+  rpoReferenceId?: string | undefined;
+  rpoDescription?: string | undefined;
   complianceStatus: ComplianceStatus;
-  achievableRpoInSecs?: number;
-  message?: string;
+  achievableRpoInSecs?: number | undefined;
+  message?: string | undefined;
 }
-export type AssessmentCompliance = { [key in DisruptionType]?: DisruptionCompliance };
+export type AssessmentCompliance = { [key in DisruptionType]?: DisruptionCompliance | undefined };
 export interface ResourceError {
-  logicalResourceId?: string;
-  physicalResourceId?: string;
-  reason?: string;
+  logicalResourceId?: string | undefined;
+  physicalResourceId?: string | undefined;
+  reason?: string | undefined;
 }
 export type ResourceErrorList = ResourceError[];
 export interface ResourceErrorsDetails {
-  resourceErrors?: ResourceError[];
-  hasMoreErrors?: boolean;
+  resourceErrors?: ResourceError[] | undefined;
+  hasMoreErrors?: boolean | undefined;
 }
 export type DriftStatus = "NotChecked" | "NotDetected" | "Detected" | (string & {});
 export interface AssessmentRiskRecommendation {
-  risk?: string;
-  recommendation?: string;
-  appComponents?: string[];
+  risk?: string | undefined;
+  recommendation?: string | undefined;
+  appComponents?: string[] | undefined;
 }
 export type AssessmentRiskRecommendationList = AssessmentRiskRecommendation[];
 export interface AssessmentSummary {
-  summary?: string;
-  riskRecommendations?: AssessmentRiskRecommendation[];
+  summary?: string | undefined;
+  riskRecommendations?: AssessmentRiskRecommendation[] | undefined;
 }
 export interface AppAssessment {
-  appArn?: string;
-  appVersion?: string;
+  appArn?: string | undefined;
+  appVersion?: string | undefined;
   invoker: AssessmentInvoker;
-  cost?: Cost;
-  resiliencyScore?: ResiliencyScore;
-  compliance?: { [key: string]: DisruptionCompliance | undefined };
-  complianceStatus?: ComplianceStatus;
+  cost?: Cost | undefined;
+  resiliencyScore?: ResiliencyScore | undefined;
+  compliance?: { [key: string]: DisruptionCompliance | undefined } | undefined;
+  complianceStatus?: ComplianceStatus | undefined;
   assessmentStatus: AssessmentStatus;
-  startTime?: Date;
-  endTime?: Date;
-  message?: string;
-  assessmentName?: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  message?: string | undefined;
+  assessmentName?: string | undefined;
   assessmentArn: string;
-  policy?: ResiliencyPolicy;
-  tags?: { [key: string]: string | undefined };
-  resourceErrorsDetails?: ResourceErrorsDetails;
-  versionName?: string;
-  driftStatus?: DriftStatus;
-  summary?: AssessmentSummary;
+  policy?: ResiliencyPolicy | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  resourceErrorsDetails?: ResourceErrorsDetails | undefined;
+  versionName?: string | undefined;
+  driftStatus?: DriftStatus | undefined;
+  summary?: AssessmentSummary | undefined;
 }
 export interface DescribeAppAssessmentResponse {
   assessment: AppAssessment;
@@ -656,7 +656,7 @@ export interface DescribeAppVersionRequest {
 export interface DescribeAppVersionResponse {
   appArn: string;
   appVersion: string;
-  additionalInfo?: { [key: string]: string[] | undefined };
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface DescribeAppVersionAppComponentRequest {
   appArn: string;
@@ -666,26 +666,26 @@ export interface DescribeAppVersionAppComponentRequest {
 export interface DescribeAppVersionAppComponentResponse {
   appArn: string;
   appVersion: string;
-  appComponent?: AppComponent;
+  appComponent?: AppComponent | undefined;
 }
 export interface DescribeAppVersionResourceRequest {
   appArn: string;
   appVersion: string;
-  resourceName?: string;
-  logicalResourceId?: LogicalResourceId;
-  physicalResourceId?: string;
-  awsRegion?: string;
-  awsAccountId?: string;
+  resourceName?: string | undefined;
+  logicalResourceId?: LogicalResourceId | undefined;
+  physicalResourceId?: string | undefined;
+  awsRegion?: string | undefined;
+  awsAccountId?: string | undefined;
 }
 export interface DescribeAppVersionResourceResponse {
   appArn: string;
   appVersion: string;
-  physicalResource?: PhysicalResource;
+  physicalResource?: PhysicalResource | undefined;
 }
 export interface DescribeAppVersionResourcesResolutionStatusRequest {
   appArn: string;
   appVersion: string;
-  resolutionId?: string;
+  resolutionId?: string | undefined;
 }
 export type ResourceResolutionStatusType =
   | "Pending"
@@ -698,7 +698,7 @@ export interface DescribeAppVersionResourcesResolutionStatusResponse {
   appVersion: string;
   resolutionId: string;
   status: ResourceResolutionStatusType;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface DescribeAppVersionTemplateRequest {
   appArn: string;
@@ -720,7 +720,7 @@ export type ResourceImportStatusType =
   | "Success"
   | (string & {});
 export interface ErrorDetail {
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type ErrorDetailList = ErrorDetail[];
 export interface DescribeDraftAppVersionResourcesImportStatusResponse {
@@ -728,8 +728,8 @@ export interface DescribeDraftAppVersionResourcesImportStatusResponse {
   appVersion: string;
   status: ResourceImportStatusType;
   statusChangeTime: Date;
-  errorMessage?: string;
-  errorDetails?: ErrorDetail[];
+  errorMessage?: string | undefined;
+  errorDetails?: ErrorDetail[] | undefined;
 }
 export interface DescribeMetricsExportRequest {
   metricsExportId: string;
@@ -743,8 +743,8 @@ export type MetricsExportStatusType =
 export interface DescribeMetricsExportResponse {
   metricsExportId: string;
   status: MetricsExportStatusType;
-  exportLocation?: S3Location;
-  errorMessage?: string;
+  exportLocation?: S3Location | undefined;
+  errorMessage?: string | undefined;
 }
 export interface DescribeResiliencyPolicyRequest {
   policyArn: string;
@@ -754,7 +754,7 @@ export interface DescribeResiliencyPolicyResponse {
 }
 export interface DescribeResourceGroupingRecommendationTaskRequest {
   appArn: string;
-  groupingId?: string;
+  groupingId?: string | undefined;
 }
 export type ResourcesGroupingRecGenStatusType =
   | "Pending"
@@ -765,7 +765,7 @@ export type ResourcesGroupingRecGenStatusType =
 export interface DescribeResourceGroupingRecommendationTaskResponse {
   groupingId: string;
   status: ResourcesGroupingRecGenStatusType;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type ArnList = string[];
 export type TerraformSourceList = TerraformSource[];
@@ -778,45 +778,45 @@ export interface EksSource {
 export type EksSourceList = EksSource[];
 export interface ImportResourcesToDraftAppVersionRequest {
   appArn: string;
-  sourceArns?: string[];
-  terraformSources?: TerraformSource[];
-  importStrategy?: ResourceImportStrategyType;
-  eksSources?: EksSource[];
+  sourceArns?: string[] | undefined;
+  terraformSources?: TerraformSource[] | undefined;
+  importStrategy?: ResourceImportStrategyType | undefined;
+  eksSources?: EksSource[] | undefined;
 }
 export interface ImportResourcesToDraftAppVersionResponse {
   appArn: string;
   appVersion: string;
-  sourceArns?: string[];
+  sourceArns?: string[] | undefined;
   status: ResourceImportStatusType;
-  terraformSources?: TerraformSource[];
-  eksSources?: EksSource[];
+  terraformSources?: TerraformSource[] | undefined;
+  eksSources?: EksSource[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListAlarmRecommendationsRequest {
   assessmentArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AlarmType = "Metric" | "Composite" | "Canary" | "Logs" | "Event" | (string & {});
 export type EntityId = string;
 export interface Experiment {
-  experimentArn?: string;
-  experimentTemplateId?: string;
+  experimentArn?: string | undefined;
+  experimentTemplateId?: string | undefined;
 }
 export interface Alarm {
-  alarmArn?: string;
-  source?: string;
+  alarmArn?: string | undefined;
+  source?: string | undefined;
 }
 export interface RecommendationItem {
-  resourceId?: string;
-  targetAccountId?: string;
-  targetRegion?: string;
-  alreadyImplemented?: boolean;
-  excluded?: boolean;
-  excludeReason?: ExcludeRecommendationReason;
-  latestDiscoveredExperiment?: Experiment;
-  discoveredAlarm?: Alarm;
+  resourceId?: string | undefined;
+  targetAccountId?: string | undefined;
+  targetRegion?: string | undefined;
+  alreadyImplemented?: boolean | undefined;
+  excluded?: boolean | undefined;
+  excludeReason?: ExcludeRecommendationReason | undefined;
+  latestDiscoveredExperiment?: Experiment | undefined;
+  discoveredAlarm?: Alarm | undefined;
 }
 export type RecommendationItemList = RecommendationItem[];
 export type RecommendationStatus =
@@ -829,23 +829,23 @@ export interface AlarmRecommendation {
   recommendationId: string;
   referenceId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: AlarmType;
-  appComponentName?: string;
-  items?: RecommendationItem[];
-  prerequisite?: string;
-  appComponentNames?: string[];
-  recommendationStatus?: RecommendationStatus;
+  appComponentName?: string | undefined;
+  items?: RecommendationItem[] | undefined;
+  prerequisite?: string | undefined;
+  appComponentNames?: string[] | undefined;
+  recommendationStatus?: RecommendationStatus | undefined;
 }
 export type AlarmRecommendationList = AlarmRecommendation[];
 export interface ListAlarmRecommendationsResponse {
   alarmRecommendations: AlarmRecommendation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppAssessmentComplianceDriftsRequest {
   assessmentArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DriftType =
   | "ApplicationCompliance"
@@ -853,97 +853,97 @@ export type DriftType =
   | (string & {});
 export type DifferenceType = "NotEqual" | "Added" | "Removed" | (string & {});
 export interface ComplianceDrift {
-  entityId?: string;
-  entityType?: string;
-  driftType?: DriftType;
-  appId?: string;
-  appVersion?: string;
-  expectedReferenceId?: string;
-  expectedValue?: { [key: string]: DisruptionCompliance | undefined };
-  actualReferenceId?: string;
-  actualValue?: { [key: string]: DisruptionCompliance | undefined };
-  diffType?: DifferenceType;
+  entityId?: string | undefined;
+  entityType?: string | undefined;
+  driftType?: DriftType | undefined;
+  appId?: string | undefined;
+  appVersion?: string | undefined;
+  expectedReferenceId?: string | undefined;
+  expectedValue?: { [key: string]: DisruptionCompliance | undefined } | undefined;
+  actualReferenceId?: string | undefined;
+  actualValue?: { [key: string]: DisruptionCompliance | undefined } | undefined;
+  diffType?: DifferenceType | undefined;
 }
 export type ComplianceDriftList = ComplianceDrift[];
 export interface ListAppAssessmentComplianceDriftsResponse {
   complianceDrifts: ComplianceDrift[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppAssessmentResourceDriftsRequest {
   assessmentArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ResourceIdentifier {
-  logicalResourceId?: LogicalResourceId;
-  resourceType?: string;
+  logicalResourceId?: LogicalResourceId | undefined;
+  resourceType?: string | undefined;
 }
 export interface ResourceDrift {
-  appArn?: string;
-  appVersion?: string;
-  referenceId?: string;
-  resourceIdentifier?: ResourceIdentifier;
-  diffType?: DifferenceType;
+  appArn?: string | undefined;
+  appVersion?: string | undefined;
+  referenceId?: string | undefined;
+  resourceIdentifier?: ResourceIdentifier | undefined;
+  diffType?: DifferenceType | undefined;
 }
 export type ResourceDriftList = ResourceDrift[];
 export interface ListAppAssessmentResourceDriftsResponse {
   resourceDrifts: ResourceDrift[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AssessmentStatusList = AssessmentStatus[];
 export interface ListAppAssessmentsRequest {
-  appArn?: string;
-  assessmentName?: string;
-  assessmentStatus?: AssessmentStatus[];
-  complianceStatus?: ComplianceStatus;
-  invoker?: AssessmentInvoker;
-  reverseOrder?: boolean;
-  nextToken?: string;
-  maxResults?: number;
+  appArn?: string | undefined;
+  assessmentName?: string | undefined;
+  assessmentStatus?: AssessmentStatus[] | undefined;
+  complianceStatus?: ComplianceStatus | undefined;
+  invoker?: AssessmentInvoker | undefined;
+  reverseOrder?: boolean | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AppAssessmentSummary {
-  appArn?: string;
-  appVersion?: string;
+  appArn?: string | undefined;
+  appVersion?: string | undefined;
   assessmentStatus: AssessmentStatus;
-  invoker?: AssessmentInvoker;
-  startTime?: Date;
-  endTime?: Date;
-  message?: string;
-  assessmentName?: string;
+  invoker?: AssessmentInvoker | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  message?: string | undefined;
+  assessmentName?: string | undefined;
   assessmentArn: string;
-  complianceStatus?: ComplianceStatus;
-  cost?: Cost;
-  resiliencyScore?: number;
-  versionName?: string;
-  driftStatus?: DriftStatus;
+  complianceStatus?: ComplianceStatus | undefined;
+  cost?: Cost | undefined;
+  resiliencyScore?: number | undefined;
+  versionName?: string | undefined;
+  driftStatus?: DriftStatus | undefined;
 }
 export type AppAssessmentSummaryList = AppAssessmentSummary[];
 export interface ListAppAssessmentsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   assessmentSummaries: AppAssessmentSummary[];
 }
 export interface ListAppComponentCompliancesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   assessmentArn: string;
 }
 export interface AppComponentCompliance {
-  cost?: Cost;
-  appComponentName?: string;
-  compliance?: { [key: string]: DisruptionCompliance | undefined };
-  message?: string;
-  status?: ComplianceStatus;
-  resiliencyScore?: ResiliencyScore;
+  cost?: Cost | undefined;
+  appComponentName?: string | undefined;
+  compliance?: { [key: string]: DisruptionCompliance | undefined } | undefined;
+  message?: string | undefined;
+  status?: ComplianceStatus | undefined;
+  resiliencyScore?: ResiliencyScore | undefined;
 }
 export type ComponentCompliancesList = AppComponentCompliance[];
 export interface ListAppComponentCompliancesResponse {
   componentCompliances: AppComponentCompliance[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppComponentRecommendationsRequest {
   assessmentArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RecommendationComplianceStatus =
   | "BreachedUnattainable"
@@ -953,13 +953,13 @@ export type RecommendationComplianceStatus =
   | (string & {});
 export interface RecommendationDisruptionCompliance {
   expectedComplianceStatus: ComplianceStatus;
-  expectedRtoInSecs?: number;
-  expectedRtoDescription?: string;
-  expectedRpoInSecs?: number;
-  expectedRpoDescription?: string;
+  expectedRtoInSecs?: number | undefined;
+  expectedRtoDescription?: string | undefined;
+  expectedRpoInSecs?: number | undefined;
+  expectedRpoDescription?: string | undefined;
 }
 export type RecommendationCompliance = {
-  [key in DisruptionType]?: RecommendationDisruptionCompliance;
+  [key in DisruptionType]?: RecommendationDisruptionCompliance | undefined;
 };
 export type ConfigRecommendationOptimizationType =
   | "LeastCost"
@@ -978,15 +978,17 @@ export type HaArchitecture =
   | "NoRecoveryPlan"
   | (string & {});
 export interface ConfigRecommendation {
-  cost?: Cost;
-  appComponentName?: string;
-  compliance?: { [key: string]: DisruptionCompliance | undefined };
-  recommendationCompliance?: { [key: string]: RecommendationDisruptionCompliance | undefined };
+  cost?: Cost | undefined;
+  appComponentName?: string | undefined;
+  compliance?: { [key: string]: DisruptionCompliance | undefined } | undefined;
+  recommendationCompliance?:
+    | { [key: string]: RecommendationDisruptionCompliance | undefined }
+    | undefined;
   optimizationType: ConfigRecommendationOptimizationType;
   name: string;
-  description?: string;
-  suggestedChanges?: string[];
-  haArchitecture?: HaArchitecture;
+  description?: string | undefined;
+  suggestedChanges?: string[] | undefined;
+  haArchitecture?: HaArchitecture | undefined;
   referenceId: string;
 }
 export type ConfigRecommendationList = ConfigRecommendation[];
@@ -998,106 +1000,106 @@ export interface ComponentRecommendation {
 export type ComponentRecommendationList = ComponentRecommendation[];
 export interface ListAppComponentRecommendationsResponse {
   componentRecommendations: ComponentRecommendation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppInputSourcesRequest {
   appArn: string;
   appVersion: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AppInputSourceList = AppInputSource[];
 export interface ListAppInputSourcesResponse {
   appInputSources: AppInputSource[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  name?: string;
-  appArn?: string;
-  fromLastAssessmentTime?: Date;
-  toLastAssessmentTime?: Date;
-  reverseOrder?: boolean;
-  awsApplicationArn?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  name?: string | undefined;
+  appArn?: string | undefined;
+  fromLastAssessmentTime?: Date | undefined;
+  toLastAssessmentTime?: Date | undefined;
+  reverseOrder?: boolean | undefined;
+  awsApplicationArn?: string | undefined;
 }
 export interface AppSummary {
   appArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   creationTime: Date;
-  complianceStatus?: AppComplianceStatusType;
-  resiliencyScore?: number;
-  assessmentSchedule?: AppAssessmentScheduleType;
-  status?: AppStatusType;
-  driftStatus?: AppDriftStatusType;
-  lastAppComplianceEvaluationTime?: Date;
-  rtoInSecs?: number;
-  rpoInSecs?: number;
-  awsApplicationArn?: string;
+  complianceStatus?: AppComplianceStatusType | undefined;
+  resiliencyScore?: number | undefined;
+  assessmentSchedule?: AppAssessmentScheduleType | undefined;
+  status?: AppStatusType | undefined;
+  driftStatus?: AppDriftStatusType | undefined;
+  lastAppComplianceEvaluationTime?: Date | undefined;
+  rtoInSecs?: number | undefined;
+  rpoInSecs?: number | undefined;
+  awsApplicationArn?: string | undefined;
 }
 export type AppSummaryList = AppSummary[];
 export interface ListAppsResponse {
   appSummaries: AppSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppVersionAppComponentsRequest {
   appArn: string;
   appVersion: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAppVersionAppComponentsResponse {
   appArn: string;
   appVersion: string;
-  appComponents?: AppComponent[];
-  nextToken?: string;
+  appComponents?: AppComponent[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAppVersionResourceMappingsRequest {
   appArn: string;
   appVersion: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAppVersionResourceMappingsResponse {
   resourceMappings: ResourceMapping[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppVersionResourcesRequest {
   appArn: string;
   appVersion: string;
-  resolutionId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  resolutionId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PhysicalResourceList = PhysicalResource[];
 export interface ListAppVersionResourcesResponse {
   physicalResources: PhysicalResource[];
   resolutionId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppVersionsRequest {
   appArn: string;
-  nextToken?: string;
-  maxResults?: number;
-  startTime?: Date;
-  endTime?: Date;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface AppVersionSummary {
   appVersion: string;
-  identifier?: number;
-  creationTime?: Date;
-  versionName?: string;
+  identifier?: number | undefined;
+  creationTime?: Date | undefined;
+  versionName?: string | undefined;
 }
 export type AppVersionList = AppVersionSummary[];
 export interface ListAppVersionsResponse {
   appVersions: AppVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type FieldAggregationType = "Min" | "Max" | "Sum" | "Avg" | "Count" | (string & {});
 export interface Field {
   name: string;
-  aggregation?: FieldAggregationType;
+  aggregation?: FieldAggregationType | undefined;
 }
 export type FieldList = Field[];
 export type ConditionOperatorType =
@@ -1111,57 +1113,57 @@ export type ConditionOperatorType =
 export interface Condition {
   field: string;
   operator: ConditionOperatorType;
-  value?: string;
+  value?: string | undefined;
 }
 export type ConditionList = Condition[];
 export interface Sort {
   field: string;
-  ascending?: boolean;
+  ascending?: boolean | undefined;
 }
 export type SortList = Sort[];
 export interface ListMetricsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  fields?: Field[];
-  dataSource?: string;
-  conditions?: Condition[];
-  sorts?: Sort[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  fields?: Field[] | undefined;
+  dataSource?: string | undefined;
+  conditions?: Condition[] | undefined;
+  sorts?: Sort[] | undefined;
 }
 export type Row = string[];
 export type RowList = string[][];
 export interface ListMetricsResponse {
   rows: string[][];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type RecommendationTemplateStatusList = RecommendationTemplateStatus[];
 export interface ListRecommendationTemplatesRequest {
-  assessmentArn?: string;
-  reverseOrder?: boolean;
-  status?: RecommendationTemplateStatus[];
-  recommendationTemplateArn?: string;
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  assessmentArn?: string | undefined;
+  reverseOrder?: boolean | undefined;
+  status?: RecommendationTemplateStatus[] | undefined;
+  recommendationTemplateArn?: string | undefined;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RecommendationTemplateList = RecommendationTemplate[];
 export interface ListRecommendationTemplatesResponse {
-  nextToken?: string;
-  recommendationTemplates?: RecommendationTemplate[];
+  nextToken?: string | undefined;
+  recommendationTemplates?: RecommendationTemplate[] | undefined;
 }
 export interface ListResiliencyPoliciesRequest {
-  policyName?: string;
-  nextToken?: string;
-  maxResults?: number;
+  policyName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ResiliencyPolicies = ResiliencyPolicy[];
 export interface ListResiliencyPoliciesResponse {
   resiliencyPolicies: ResiliencyPolicy[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListResourceGroupingRecommendationsRequest {
-  appArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  appArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GroupingAppComponent {
   appComponentId: string;
@@ -1198,118 +1200,118 @@ export interface GroupingRecommendation {
   status: GroupingRecommendationStatusType;
   confidenceLevel: GroupingRecommendationConfidenceLevel;
   creationTime: Date;
-  rejectionReason?: GroupingRecommendationRejectionReason;
+  rejectionReason?: GroupingRecommendationRejectionReason | undefined;
 }
 export type GroupingRecommendationList = GroupingRecommendation[];
 export interface ListResourceGroupingRecommendationsResponse {
   groupingRecommendations: GroupingRecommendation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSopRecommendationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   assessmentArn: string;
 }
 export type SopServiceType = "SSM" | (string & {});
 export type DocumentName = string;
 export interface SopRecommendation {
   serviceType: SopServiceType;
-  appComponentName?: string;
-  description?: string;
+  appComponentName?: string | undefined;
+  description?: string | undefined;
   recommendationId: string;
-  name?: string;
-  items?: RecommendationItem[];
+  name?: string | undefined;
+  items?: RecommendationItem[] | undefined;
   referenceId: string;
-  prerequisite?: string;
-  recommendationStatus?: RecommendationStatus;
+  prerequisite?: string | undefined;
+  recommendationStatus?: RecommendationStatus | undefined;
 }
 export type SopRecommendationList = SopRecommendation[];
 export interface ListSopRecommendationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   sopRecommendations: SopRecommendation[];
 }
 export interface ListSuggestedResiliencyPoliciesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListSuggestedResiliencyPoliciesResponse {
   resiliencyPolicies: ResiliencyPolicy[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTestRecommendationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   assessmentArn: string;
 }
 export type TestRisk = "Small" | "Medium" | "High" | (string & {});
 export type TestType = "Software" | "Hardware" | "AZ" | "Region" | (string & {});
 export type AlarmReferenceIdList = string[];
 export interface TestRecommendation {
-  recommendationId?: string;
+  recommendationId?: string | undefined;
   referenceId: string;
-  appComponentId?: string;
-  appComponentName?: string;
-  name?: string;
-  intent?: string;
-  risk?: TestRisk;
-  type?: TestType;
-  description?: string;
-  items?: RecommendationItem[];
-  prerequisite?: string;
-  dependsOnAlarms?: string[];
-  recommendationStatus?: RecommendationStatus;
+  appComponentId?: string | undefined;
+  appComponentName?: string | undefined;
+  name?: string | undefined;
+  intent?: string | undefined;
+  risk?: TestRisk | undefined;
+  type?: TestType | undefined;
+  description?: string | undefined;
+  items?: RecommendationItem[] | undefined;
+  prerequisite?: string | undefined;
+  dependsOnAlarms?: string[] | undefined;
+  recommendationStatus?: RecommendationStatus | undefined;
 }
 export type TestRecommendationList = TestRecommendation[];
 export interface ListTestRecommendationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   testRecommendations: TestRecommendation[];
 }
 export interface ListUnsupportedAppVersionResourcesRequest {
   appArn: string;
   appVersion: string;
-  resolutionId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  resolutionId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface UnsupportedResource {
   logicalResourceId: LogicalResourceId;
   physicalResourceId: PhysicalResourceId;
   resourceType: string;
-  unsupportedResourceStatus?: string;
+  unsupportedResourceStatus?: string | undefined;
 }
 export type UnsupportedResourceList = UnsupportedResource[];
 export interface ListUnsupportedAppVersionResourcesResponse {
   unsupportedResources: UnsupportedResource[];
   resolutionId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PublishAppVersionRequest {
   appArn: string;
-  versionName?: string;
+  versionName?: string | undefined;
 }
 export interface PublishAppVersionResponse {
   appArn: string;
-  appVersion?: string;
-  identifier?: number;
-  versionName?: string;
+  appVersion?: string | undefined;
+  identifier?: number | undefined;
+  versionName?: string | undefined;
 }
 export interface PutDraftAppVersionTemplateRequest {
   appArn: string;
   appTemplateBody: string;
 }
 export interface PutDraftAppVersionTemplateResponse {
-  appArn?: string;
-  appVersion?: string;
+  appArn?: string | undefined;
+  appVersion?: string | undefined;
 }
 export interface RejectGroupingRecommendationEntry {
   groupingRecommendationId: string;
-  rejectionReason?: GroupingRecommendationRejectionReason;
+  rejectionReason?: GroupingRecommendationRejectionReason | undefined;
 }
 export type RejectGroupingRecommendationEntries = RejectGroupingRecommendationEntry[];
 export interface RejectResourceGroupingRecommendationsRequest {
@@ -1323,16 +1325,16 @@ export interface RejectResourceGroupingRecommendationsResponse {
 export type EntityNameList = string[];
 export interface RemoveDraftAppVersionResourceMappingsRequest {
   appArn: string;
-  resourceNames?: string[];
-  logicalStackNames?: string[];
-  appRegistryAppNames?: string[];
-  resourceGroupNames?: string[];
-  terraformSourceNames?: string[];
-  eksSourceNames?: string[];
+  resourceNames?: string[] | undefined;
+  logicalStackNames?: string[] | undefined;
+  appRegistryAppNames?: string[] | undefined;
+  resourceGroupNames?: string[] | undefined;
+  terraformSourceNames?: string[] | undefined;
+  eksSourceNames?: string[] | undefined;
 }
 export interface RemoveDraftAppVersionResourceMappingsResponse {
-  appArn?: string;
-  appVersion?: string;
+  appArn?: string | undefined;
+  appVersion?: string | undefined;
 }
 export interface ResolveAppVersionResourcesRequest {
   appArn: string;
@@ -1348,15 +1350,15 @@ export interface StartAppAssessmentRequest {
   appArn: string;
   appVersion: string;
   assessmentName: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartAppAssessmentResponse {
   assessment: AppAssessment;
 }
 export interface StartMetricsExportRequest {
-  bucketName?: string;
-  clientToken?: string;
+  bucketName?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartMetricsExportResponse {
   metricsExportId: string;
@@ -1369,7 +1371,7 @@ export interface StartResourceGroupingRecommendationTaskResponse {
   appArn: string;
   groupingId: string;
   status: ResourcesGroupingRecGenStatusType;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1384,61 +1386,61 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAppRequest {
   appArn: string;
-  description?: string;
-  policyArn?: string;
-  clearResiliencyPolicyArn?: boolean;
-  assessmentSchedule?: AppAssessmentScheduleType;
-  permissionModel?: PermissionModel;
-  eventSubscriptions?: EventSubscription[];
+  description?: string | undefined;
+  policyArn?: string | undefined;
+  clearResiliencyPolicyArn?: boolean | undefined;
+  assessmentSchedule?: AppAssessmentScheduleType | undefined;
+  permissionModel?: PermissionModel | undefined;
+  eventSubscriptions?: EventSubscription[] | undefined;
 }
 export interface UpdateAppResponse {
   app: App;
 }
 export interface UpdateAppVersionRequest {
   appArn: string;
-  additionalInfo?: { [key: string]: string[] | undefined };
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateAppVersionResponse {
   appArn: string;
   appVersion: string;
-  additionalInfo?: { [key: string]: string[] | undefined };
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateAppVersionAppComponentRequest {
   appArn: string;
   id: string;
-  name?: string;
-  type?: string;
-  additionalInfo?: { [key: string]: string[] | undefined };
+  name?: string | undefined;
+  type?: string | undefined;
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateAppVersionAppComponentResponse {
   appArn: string;
   appVersion: string;
-  appComponent?: AppComponent;
+  appComponent?: AppComponent | undefined;
 }
 export interface UpdateAppVersionResourceRequest {
   appArn: string;
-  resourceName?: string;
-  logicalResourceId?: LogicalResourceId;
-  physicalResourceId?: string;
-  awsRegion?: string;
-  awsAccountId?: string;
-  resourceType?: string;
-  appComponents?: string[];
-  additionalInfo?: { [key: string]: string[] | undefined };
-  excluded?: boolean;
+  resourceName?: string | undefined;
+  logicalResourceId?: LogicalResourceId | undefined;
+  physicalResourceId?: string | undefined;
+  awsRegion?: string | undefined;
+  awsAccountId?: string | undefined;
+  resourceType?: string | undefined;
+  appComponents?: string[] | undefined;
+  additionalInfo?: { [key: string]: string[] | undefined } | undefined;
+  excluded?: boolean | undefined;
 }
 export interface UpdateAppVersionResourceResponse {
   appArn: string;
   appVersion: string;
-  physicalResource?: PhysicalResource;
+  physicalResource?: PhysicalResource | undefined;
 }
 export interface UpdateResiliencyPolicyRequest {
   policyArn: string;
-  policyName?: string;
-  policyDescription?: string;
-  dataLocationConstraint?: DataLocationConstraint;
-  tier?: ResiliencyPolicyTier;
-  policy?: { [key: string]: FailurePolicy | undefined };
+  policyName?: string | undefined;
+  policyDescription?: string | undefined;
+  dataLocationConstraint?: DataLocationConstraint | undefined;
+  tier?: ResiliencyPolicyTier | undefined;
+  policy?: { [key: string]: FailurePolicy | undefined } | undefined;
 }
 export interface UpdateResiliencyPolicyResponse {
   policy: ResiliencyPolicy;

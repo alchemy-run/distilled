@@ -87,119 +87,119 @@ export interface GetCustomerUsageReportsRequest {
   /** Represents the date the usage occurred, based on UTC-8:00 (Pacific Standard Time). The timestamp is in the [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), `yyyy-mm-dd`. */
   date: string;
   /** The unique ID of the customer to retrieve data for. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The `parameters` query string is a comma-separated list of event parameters that refine a report's results. The parameter is associated with a specific application. The application values for the Customers usage report include `accounts`, `app_maker`, `apps_scripts`, `calendar`, `chat`, `classroom`, `cros`, `docs`, `gmail`, `gplus`, `device_management`, `meet`, and `sites`. A `parameters` query string is in the CSV form of `app_name1:param_name1, app_name2:param_name2`. *Note:* The API doesn't accept multiple values of a parameter. If a particular parameter is supplied more than once in the API request, the API only accepts the last value of that request parameter. In addition, if an invalid request parameter is supplied in the API request, the API ignores that request parameter and returns the response corresponding to the remaining valid request parameters. An example of an invalid request parameter is one that does not belong to the application. If no parameters are requested, all parameters are returned. */
-  parameters?: string;
+  parameters?: string | undefined;
   /** Token to specify next page. A report with multiple pages has a `nextPageToken` property in the response. For your follow-on requests getting all of the report's pages, enter the `nextPageToken` value in the `pageToken` query string. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface UsageReportsWarningsItemDataItem {
   /** Value associated with a key-value pair to give detailed information on the warning. */
-  value?: string;
+  value?: string | undefined;
   /** Key associated with a key-value pair to give detailed information on the warning. */
-  key?: string;
+  key?: string | undefined;
 }
 export type UsageReportsWarningsItemDataItemList = Array<UsageReportsWarningsItemDataItem>;
 export interface UsageReportsWarningsItem {
   /** The human readable messages for a warning are: - Data is not available warning - Sorry, data for date yyyy-mm-dd for application "`application name`" is not available. - Partial data is available warning - Data for date yyyy-mm-dd for application "`application name`" is not available right now, please try again after a few hours. */
-  message?: string;
+  message?: string | undefined;
   /** Key-value pairs to give detailed information on the warning. */
-  data?: UsageReportsWarningsItemDataItemList;
+  data?: UsageReportsWarningsItemDataItemList | undefined;
   /** Machine readable code or warning type. The warning code value is `200`. */
-  code?: string;
+  code?: string | undefined;
 }
 export type UsageReportsWarningsItemList = Array<UsageReportsWarningsItem>;
 export interface UsageReportEntity {
   /** Output only. The user's immutable Google Workspace profile identifier. */
-  profileId?: string;
+  profileId?: string | undefined;
   /** Output only. The user's email address. Only relevant if entity.type = "USER" */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Output only. Object key. Only relevant if entity.type = "OBJECT" Note: external-facing name of report is "Entities" rather than "Objects". */
-  entityId?: string;
+  entityId?: string | undefined;
   /** Output only. The type of item. The value is `user`. */
-  type?: string;
+  type?: string | undefined;
   /** Output only. The unique identifier of the customer's account. */
-  customerId?: string;
+  customerId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 export interface UsageReportParametersItem {
   /** The name of the parameter. For the User Usage Report parameter names, see the User Usage parameters reference. */
-  name?: string;
+  name?: string | undefined;
   /** The RFC 3339 formatted value of the parameter, for example 2010-10-28T10:26:35.000Z. */
-  datetimeValue?: string;
+  datetimeValue?: string | undefined;
   /** Output only. Nested message value of the parameter. */
-  msgValue?: DocumentMapList;
+  msgValue?: DocumentMapList | undefined;
   /** Output only. Integer value of the parameter. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** Output only. String value of the parameter. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Output only. Boolean value of the parameter. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
 }
 export type UsageReportParametersItemList = Array<UsageReportParametersItem>;
 /** JSON template for a usage report. */
 export interface UsageReport {
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. Information about the type of the item. */
-  entity?: UsageReportEntity;
+  entity?: UsageReportEntity | undefined;
   /** Output only. Parameter value pairs for various applications. For the Entity Usage Report parameters and values, see [the Entity Usage parameters reference](https://developers.google.com/workspace/admin/reports/v1/reference/usage-ref-appendix-a/entities). */
-  parameters?: UsageReportParametersItemList;
+  parameters?: UsageReportParametersItemList | undefined;
   /** Output only. The date of the report request. */
-  date?: string;
+  date?: string | undefined;
   /** The type of API resource. For a usage report, the value is `admin#reports#usageReport`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type UsageReportList = Array<UsageReport>;
 export interface UsageReports {
   /** The type of API resource. For a usage report, the value is `admin#reports#usageReports`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Warnings, if any. */
-  warnings?: UsageReportsWarningsItemList;
+  warnings?: UsageReportsWarningsItemList | undefined;
   /** Token to specify next page. A report with multiple pages has a `nextPageToken` property in the response. For your follow-on requests getting all of the report's pages, enter the `nextPageToken` value in the `pageToken` query string. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Various application parameter records. */
-  usageReports?: UsageReportList;
+  usageReports?: UsageReportList | undefined;
 }
 export type GetEntityUsageReportsEntityTypeEnum = "gplus_communities";
 export interface GetEntityUsageReportsRequest {
   /** Represents the type of entity for the report. */
   entityType: GetEntityUsageReportsEntityTypeEnum | (string & {});
   /** The `filters` query string is a comma-separated list of an application's event parameters where the parameter's value is manipulated by a relational operator. The `filters` query string includes the name of the application whose usage is returned in the report. The application values for the Entities usage report include `accounts`, `docs`, and `gmail`. Filters are in the form `[application name]:parameter name[parameter value],...`. In this example, the `<>` 'not equal to' operator is URL-encoded in the request's query string (%3C%3E): GET https://www.googleapis.com/admin/reports/v1/usage/gplus_communities/all/dates/2017-12-01 ?parameters=gplus:community_name,gplus:num_total_members &filters=gplus:num_total_members%3C%3E0 The relational operators include: - `==` - 'equal to'. - `<>` - 'not equal to'. It is URL-encoded (%3C%3E). - `<` - 'less than'. It is URL-encoded (%3C). - `<=` - 'less than or equal to'. It is URL-encoded (%3C=). - `>` - 'greater than'. It is URL-encoded (%3E). - `>=` - 'greater than or equal to'. It is URL-encoded (%3E=). Filters can only be applied to numeric parameters. */
-  filters?: string;
+  filters?: string | undefined;
   /** The unique ID of the customer to retrieve data for. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The `parameters` query string is a comma-separated list of event parameters that refine a report's results. The parameter is associated with a specific application. The application values for the Entities usage report are only `gplus`. A `parameter` query string is in the CSV form of `[app_name1:param_name1], [app_name2:param_name2]...`. *Note:* The API doesn't accept multiple values of a parameter. If a particular parameter is supplied more than once in the API request, the API only accepts the last value of that request parameter. In addition, if an invalid request parameter is supplied in the API request, the API ignores that request parameter and returns the response corresponding to the remaining valid request parameters. An example of an invalid request parameter is one that does not belong to the application. If no parameters are requested, all parameters are returned. */
-  parameters?: string;
+  parameters?: string | undefined;
   /** Represents the key of the object to filter the data with. It is a string which can take the value `all` to get activity events for all users, or any other value for an app-specific entity. For details on how to obtain the `entityKey` for a particular `entityType`, see the Entities Usage parameters reference guides. */
   entityKey: string;
   /** Token to specify next page. A report with multiple pages has a `nextPageToken` property in the response. In your follow-on request getting the next page of the report, enter the `nextPageToken` value in the `pageToken` query string. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Represents the date the usage occurred, based on UTC-8:00 (Pacific Standard Time). The timestamp is in the [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), `yyyy-mm-dd`. */
   date: string;
   /** Determines how many activity records are shown on each response page. For example, if the request sets `maxResults=1` and the report has two activities, the report has two pages. The response's `nextPageToken` property has the token to the second page. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export interface GetUserUsageReportRequest {
   /** Determines how many activity records are shown on each response page. For example, if the request sets `maxResults=1` and the report has two activities, the report has two pages. The response's `nextPageToken` property has the token to the second page. The `maxResults` query string is optional. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The `parameters` query string is a comma-separated list of event parameters that refine a report's results. The parameter is associated with a specific application. The application values for the Customers Usage report include `accounts`, `app_maker`, `apps_scripts`, `calendar`, `chat`, `classroom`, `cros`, `docs`, `gmail`, `gplus`, `device_management`, `meet`, and `sites`. A `parameters` query string is in the CSV form of `app_name1:param_name1, app_name2:param_name2`. *Note:* The API doesn't accept multiple values of a parameter. If a particular parameter is supplied more than once in the API request, the API only accepts the last value of that request parameter. In addition, if an invalid request parameter is supplied in the API request, the API ignores that request parameter and returns the response corresponding to the remaining valid request parameters. An example of an invalid request parameter is one that does not belong to the application. If no parameters are requested, all parameters are returned. */
-  parameters?: string;
+  parameters?: string | undefined;
   /** The `filters` query string is a comma-separated list of an application's event parameters where the parameter's value is manipulated by a relational operator. The `filters` query string includes the name of the application whose usage is returned in the report. The application values for the Users Usage Report include `accounts`, `chat`, `docs`, and `gmail`. Filters are in the form `[application name]:parameter name[parameter value],...`. In this example, the `<>` 'not equal to' operator is URL-encoded in the request's query string (%3C%3E): GET https://www.googleapis.com/admin/reports/v1/usage/users/all/dates/2013-03-03 ?parameters=accounts:last_login_time &filters=accounts:last_login_time%3C%3E2010-10-28T10:26:35.000Z The relational operators include: - `==` - 'equal to'. - `<>` - 'not equal to'. It is URL-encoded (%3C%3E). - `<` - 'less than'. It is URL-encoded (%3C). - `<=` - 'less than or equal to'. It is URL-encoded (%3C=). - `>` - 'greater than'. It is URL-encoded (%3E). - `>=` - 'greater than or equal to'. It is URL-encoded (%3E=). */
-  filters?: string;
+  filters?: string | undefined;
   /** Represents the date the usage occurred, based on UTC-8:00 (Pacific Standard Time). The timestamp is in the [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), `yyyy-mm-dd`. */
   date: string;
   /** ID of the organizational unit to report on. User activity will be shown only for users who belong to the specified organizational unit. Data before Dec 17, 2018 doesn't appear in the filtered results. */
-  orgUnitID?: string;
+  orgUnitID?: string | undefined;
   /** The unique ID of the customer to retrieve data for. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Comma separated group ids (obfuscated) on which user activities are filtered, i.e. the response will contain activities for only those users that are a part of at least one of the group ids mentioned here. Format: "id:abc123,id:xyz456" */
-  groupIdFilter?: string;
+  groupIdFilter?: string | undefined;
   /** Token to specify next page. A report with multiple pages has a `nextPageToken` property in the response. In your follow-on request getting the next page of the report, enter the `nextPageToken` value in the `pageToken` query string. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
 }
@@ -248,67 +248,67 @@ export type ListActivitiesApplicationNameEnum =
   | "gemini_notebook";
 export interface ListActivitiesRequest {
   /** The unique ID of the customer to retrieve data for. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Application name for which the events are to be retrieved. */
   applicationName: ListActivitiesApplicationNameEnum | (string & {});
   /** The Internet Protocol (IP) Address of host where the event was performed. This is an additional way to filter a report's summary using the IP address of the user whose activity is being reported. This IP address may or may not reflect the user's physical location. For example, the IP address can be the user's proxy server's address or a virtual private network (VPN) address. This parameter supports both IPv4 and IPv6 address versions. */
-  actorIpAddress?: string;
+  actorIpAddress?: string | undefined;
   /** Optional. When set to `true`, this field allows sensitive user-generated content to be included in the returned audit logs. This parameter is supported only for Rules (DLP), Chat and Workspace Studio applications; using it with any other application will result in a permission error. */
-  includeSensitiveData?: boolean;
+  includeSensitiveData?: boolean | undefined;
   /** ID of the organizational unit to report on. Activity records will be shown only for users who belong to the specified organizational unit. Data before Dec 17, 2018 doesn't appear in the filtered results. */
-  orgUnitID?: string;
+  orgUnitID?: string | undefined;
   /** Comma separated group ids (obfuscated) on which user activities are filtered, i.e. the response will contain activities for only those users that are a part of at least one of the group ids mentioned here. Format: "id:abc123,id:xyz456" *Important:* To filter by groups, you must explicitly add the groups to your filtering groups allowlist. For more information about adding groups to filtering groups allowlist, see [Filter results by Google Group](https://support.google.com/a/answer/11482175) */
-  groupIdFilter?: string;
+  groupIdFilter?: string | undefined;
   /** Optional. Used to filter on the `regionCode` field present in [`NetworkInfo`](#networkinfo) message. **Usage** ``` GET...&networkInfoFilter=regionCode="IN" GET...&networkInfoFilter=regionCode=%22IN%22 ``` */
-  networkInfoFilter?: string;
+  networkInfoFilter?: string | undefined;
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
   /** Optional. Used to filter on the `oAuthClientId` field present in [`ApplicationInfo`](#applicationinfo) message. **Usage** ``` GET...&applicationInfoFilter=oAuthClientId="clientId" GET...&applicationInfoFilter=oAuthClientId=%22clientId%22 ``` */
-  applicationInfoFilter?: string;
+  applicationInfoFilter?: string | undefined;
   /** The token to specify next page. A report with multiple pages has a `nextPageToken` property in the response. In your follow-on request getting the next page of the report, enter the `nextPageToken` value in the `pageToken` query string. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Used to filter on the `statusCode` field present in [`Status`](#status) message. **Usage** ``` GET...&statusFilter=statusCode="200" GET...&statusFilter=statusCode=%22200%22 ``` */
-  statusFilter?: string;
+  statusFilter?: string | undefined;
   /** The `filters` query string is a comma-separated list composed of event parameters manipulated by relational operators. Event parameters are in the form `{parameter1 name}{relational operator}{parameter1 value},{parameter2 name}{relational operator}{parameter2 value},...` These event parameters are associated with a specific `eventName`. An empty report is returned if the request's parameter doesn't belong to the `eventName`. For more information about the available `eventName` fields for each application and their associated parameters, go to the [ApplicationName](#applicationname) table, then click through to the Activity Events page in the Appendix for the application you want. In the following Drive activity examples, the returned list consists of all `edit` events where the `doc_id` parameter value matches the conditions defined by the relational operator. In the first example, the request returns all edited documents with a `doc_id` value equal to `12345`. In the second example, the report returns any edited documents where the `doc_id` value is not equal to `98765`. The `<>` operator is URL-encoded in the request's query string (`%3C%3E`): ``` GET...&eventName=edit&filters=doc_id==12345 GET...&eventName=edit&filters=doc_id%3C%3E98765 ``` A `filters` query supports these relational operators: * `==`--'equal to'. * `<>`--'not equal to'. Must be URL-encoded (%3C%3E). * `<`--'less than'. Must be URL-encoded (%3C). * `<=`--'less than or equal to'. Must be URL-encoded (%3C=). * `>`--'greater than'. Must be URL-encoded (%3E). * `>=`--'greater than or equal to'. Must be URL-encoded (%3E=). **Note:** The API doesn't accept multiple values of the same parameter. If a parameter is supplied more than once in the API request, the API only accepts the last value of that parameter. In addition, if an invalid parameter is supplied in the API request, the API ignores that parameter and returns the response corresponding to the remaining valid parameters. If no parameters are requested, all parameters are returned. */
-  filters?: string;
+  filters?: string | undefined;
   /** The name of the event being queried by the API. Each `eventName` is related to a specific Google Workspace service or feature which the API organizes into types of events. An example is the Google Calendar events in the Admin console application's reports. The Calendar Settings `type` structure has all of the Calendar `eventName` activities reported by the API. When an administrator changes a Calendar setting, the API reports this activity in the Calendar Settings `type` and `eventName` parameters. For more information about `eventName` query strings and parameters, see the list of event names for various applications above in `applicationName`. */
-  eventName?: string;
+  eventName?: string | undefined;
   /** Sets the beginning of the range of time shown in the report. The date is in the RFC 3339 format, for example 2010-10-28T10:26:35.000Z. The report returns all activities from `startTime` until `endTime`. The `startTime` must be before the `endTime` (if specified) and the current time when the request is made, or the API returns an error. For Gmail requests, `startTime` and `endTime` must be provided and the difference must not be greater than 30 days. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. Filters on agent info fields in the activity. This filter gets applied in conjunction(AND) with other filters. Example: "agentInfoFilter=agentId=\"agent-id\" AND agentName=\"agent-name\" AND agentOwnerEmail=\"agent-owner-email\"" */
-  agentInfoFilter?: string;
+  agentInfoFilter?: string | undefined;
   /** Determines how many activity records are shown on each response page. For example, if the request sets `maxResults=1` and the report has two activities, the report has two pages. The response's `nextPageToken` property has the token to the second page. The `maxResults` query string is optional in the request. The default value is 1000. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Optional. Used to filter on the fields present in [`UserDeviceInfo`](#userdeviceinfo) message like `deviceId`, `deviceType`, and `deviceOsVersion`. **Usage** ``` GET...&deviceFilter=deviceId="123" GET...&deviceFilter=deviceType="ANDROID" GET...&deviceFilter=deviceOsVersion="14.0" ``` */
-  deviceFilter?: string;
+  deviceFilter?: string | undefined;
   /** Sets the end of the range of time shown in the report. The date is in the RFC 3339 format, for example 2010-10-28T10:26:35.000Z. The default value is the approximate time of the API request. An API report has three basic time concepts: - *Date of the API's request for a report*: When the API created and retrieved the report. - *Report's start time*: The beginning of the timespan shown in the report. The `startTime` must be before the `endTime` (if specified) and the current time when the request is made, or the API returns an error. - *Report's end time*: The end of the timespan shown in the report. For example, the timespan of events summarized in a report can start in April and end in May. The report itself can be requested in August. If the `endTime` is not specified, the report returns all activities from the `startTime` until the current time or the most recent 180 days if the `startTime` is more than 180 days in the past. For Gmail requests, `startTime` and `endTime` must be provided and the difference must not be greater than 30 days. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Optional. The `resourceDetailsFilter` query string is an AND separated list composed of [Resource Details](#resourcedetails) fields manipulated by relational operators. Resource Details Filters are in the form `{resourceDetails.field1}{relational operator}{field1 value} AND {resourceDetails.field2}{relational operator}{field2 value}...` All the inner fields are traversed using the `.` operator, as shown in the following example: ``` resourceDetails.id = "resourceId" AND resourceDetails.appliedLabels.id = "appliedLabelId" AND resourceDetails.appliedLabels.fieldValue.id = "fieldValueId" ``` `resourceDetailsFilter` query supports these relational operators: * `=`--'equal to'. * `!=`--'not equal to'. * `:`--'exists'. This is used for filtering on repeated fields. [`FieldValue`](#fieldvalue) types that are repeated in nature uses `exists` operator for filtering. The following [`FieldValue`](#fieldvalue) types are repeated: * [`TextListValue`](#textlistvalue) * [`SelectionListValue`](#selectionlistvalue) * [`UserListValue`](#userlistvalue) For example, in the following filter, [`SelectionListValue`](#selectionlistvalue), is a repeated field. The filter checks whether [`SelectionListValue`](#selectionlistvalue) contains `selection_id`: ``` resourceDetails.id = "resourceId" AND resourceDetails.appliedLabels.id = "appliedLabelId" AND resourceDetails.appliedLabels.fieldValue.id = "fieldValueId" AND resourceDetails.appliedLabels.fieldValue.type = "SELECTION_LIST_VALUE" AND resourceDetails.appliedLabels.fieldValue.selectionListValue.id: "id" ``` **Usage** ``` GET...&resourceDetailsFilter=resourceDetails.id = "resourceId" AND resourceDetails.appliedLabels.id = "appliedLabelId" GET...&resourceDetailsFilter=resourceDetails.id=%22resourceId%22%20AND%20resourceDetails.appliedLabels.id=%22appliedLabelId%22 ``` **Note the following**: * You must URL encode the query string before sending the request. * The API supports a maximum of 5 fields separated by the AND operator. - When filtering on deeper levels (e.g., [`AppliedLabel`](#appliedlabel), [`FieldValue`](#fieldvalue)), the IDs of all preceding levels in the hierarchy must be included in the filter. For example: Filtering on [`FieldValue`](#fieldvalue) requires [`AppliedLabel`](#appliedlabel) ID and resourceDetails ID to be present. *Sample Query*: ``` resourceDetails.id = "resourceId" AND resourceDetails.appliedLabels.id = "appliedLabelId" AND resourceDetails.appliedLabels.fieldValue.id = "fieldValueId" ``` * Filtering on inner [`FieldValue`](#fieldvalue) types like `longTextValue` and `textValue` requires `resourceDetails.appliedLabels.fieldValue.type` to be present. * Only Filtering on a single [`AppliedLabel`](#appliedlabel) id and [`FieldValue`](#fieldvalue) id is supported. */
-  resourceDetailsFilter?: string;
+  resourceDetailsFilter?: string | undefined;
 }
 export type StringList = Array<string>;
 export type BooleanList = Array<boolean>;
 /** JSON template for a parameter used in various reports. */
 export interface NestedParameter {
   /** The name of the parameter. */
-  name?: string;
+  name?: string | undefined;
   /** Multiple string values of the parameter. */
-  multiValue?: StringList;
+  multiValue?: StringList | undefined;
   /** Boolean value of the parameter. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** Multiple boolean values of the parameter. */
-  multiBoolValue?: BooleanList;
+  multiBoolValue?: BooleanList | undefined;
   /** Multiple integer values of the parameter. */
-  multiIntValue?: StringList;
+  multiIntValue?: StringList | undefined;
   /** String value of the parameter. */
-  value?: string;
+  value?: string | undefined;
   /** Integer value of the parameter. */
-  intValue?: string;
+  intValue?: string | undefined;
 }
 export type NestedParameterList = Array<NestedParameter>;
 export interface ActivityEventsItemSensitiveParametersItemMultiMessageValueItem {
   /** Parameter values */
-  parameter?: NestedParameterList;
+  parameter?: NestedParameterList | undefined;
 }
 export type ActivityEventsItemSensitiveParametersItemMultiMessageValueItemList =
   Array<ActivityEventsItemSensitiveParametersItemMultiMessageValueItem>;
@@ -316,34 +316,36 @@ export type ActivityEventsItemSensitiveParametersItemMessageValue =
   ActivityEventsItemSensitiveParametersItemMultiMessageValueItem;
 export interface ActivityEventsItemSensitiveParametersItem {
   /** String values of the parameter. */
-  multiValue?: StringList;
+  multiValue?: StringList | undefined;
   /** Boolean value of the parameter. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** List of `messageValue` objects. */
-  multiMessageValue?: ActivityEventsItemSensitiveParametersItemMultiMessageValueItemList;
+  multiMessageValue?:
+    | ActivityEventsItemSensitiveParametersItemMultiMessageValueItemList
+    | undefined;
   /** The name of the parameter. */
-  name?: string;
+  name?: string | undefined;
   /** Integer value of the parameter. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** String value of the parameter. */
-  value?: string;
+  value?: string | undefined;
   /** Nested parameter value pairs associated with this parameter. Complex value type for a parameter are returned as a list of parameter values. For example, the address parameter may have a value as `[{parameter: [{name: city, value: abc}]}]` */
-  messageValue?: ActivityEventsItemSensitiveParametersItemMultiMessageValueItem;
+  messageValue?: ActivityEventsItemSensitiveParametersItemMultiMessageValueItem | undefined;
   /** Integer values of the parameter. */
-  multiIntValue?: StringList;
+  multiIntValue?: StringList | undefined;
 }
 export type ActivityEventsItemSensitiveParametersItemList =
   Array<ActivityEventsItemSensitiveParametersItem>;
 /** Status of the event. Note: Not all events have status. */
 export interface ActivityEventsStatus {
   /** Status code of the event. Note: Field can be empty. */
-  httpStatusCode?: number;
+  httpStatusCode?: number | undefined;
   /** Status of the event. Possible values if not empty: - UNKNOWN_EVENT_STATUS - SUCCEEDED - SUCCEEDED_WITH_WARNINGS - FAILED - SKIPPED */
-  eventStatus?: string;
+  eventStatus?: string | undefined;
   /** Error code of the event. Note: Field can be empty. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Error message of the event. Note: Field can be empty. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type ActivityEventsItemParametersItemMessageValue =
   ActivityEventsItemSensitiveParametersItemMultiMessageValueItem;
@@ -353,289 +355,289 @@ export type ActivityEventsItemParametersItemMultiMessageValueItemList =
   Array<ActivityEventsItemSensitiveParametersItemMultiMessageValueItem>;
 export interface ActivityEventsItemParametersItem {
   /** Integer values of the parameter. */
-  multiIntValue?: StringList;
+  multiIntValue?: StringList | undefined;
   /** Integer value of the parameter. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** Nested parameter value pairs associated with this parameter. Complex value type for a parameter are returned as a list of parameter values. For example, the address parameter may have a value as `[{parameter: [{name: city, value: abc}]}]` */
-  messageValue?: ActivityEventsItemSensitiveParametersItemMultiMessageValueItem;
+  messageValue?: ActivityEventsItemSensitiveParametersItemMultiMessageValueItem | undefined;
   /** List of `messageValue` objects. */
-  multiMessageValue?: ActivityEventsItemParametersItemMultiMessageValueItemList;
+  multiMessageValue?: ActivityEventsItemParametersItemMultiMessageValueItemList | undefined;
   /** Boolean value of the parameter. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** String value of the parameter. */
-  value?: string;
+  value?: string | undefined;
   /** The name of the parameter. */
-  name?: string;
+  name?: string | undefined;
   /** String values of the parameter. */
-  multiValue?: StringList;
+  multiValue?: StringList | undefined;
 }
 export type ActivityEventsItemParametersItemList = Array<ActivityEventsItemParametersItem>;
 export interface ActivityEventsItem {
   /** Includes sensitive parameter value pairs for various applications. */
-  sensitiveParameters?: ActivityEventsItemSensitiveParametersItemList;
+  sensitiveParameters?: ActivityEventsItemSensitiveParametersItemList | undefined;
   /** Name of the event. This is the specific name of the activity reported by the API. And each `eventName` is related to a specific Google Workspace service or feature which the API organizes into types of events. For `eventName` request parameters in general: - If no `eventName` is given, the report returns all possible instances of an `eventName`. - When you request an `eventName`, the API's response returns all activities which contain that `eventName`. For more information about `eventName` properties, see the list of event names for various applications above in `applicationName`. */
-  name?: string;
+  name?: string | undefined;
   /** Type of event. The Google Workspace service or feature that an administrator changes is identified in the `type` property which identifies an event using the `eventName` property. For a full list of the API's `type` categories, see the list of event names for various applications above in `applicationName`. */
-  type?: string;
+  type?: string | undefined;
   /** Status of the event. Note: Not all events have status. */
-  status?: ActivityEventsStatus;
+  status?: ActivityEventsStatus | undefined;
   /** Parameter value pairs for various applications. For more information about `eventName` parameters, see the list of event names for various applications above in `applicationName`. */
-  parameters?: ActivityEventsItemParametersItemList;
+  parameters?: ActivityEventsItemParametersItemList | undefined;
   /** Resource ids associated with the event. */
-  resourceIds?: StringList;
+  resourceIds?: StringList | undefined;
 }
 export type ActivityEventsItemList = Array<ActivityEventsItem>;
 /** Identity of the group who owns the resource. */
 export interface GroupIdentity {
   /** Group gaia id. */
-  id?: string;
+  id?: string | undefined;
   /** Group email. */
-  groupEmail?: string;
+  groupEmail?: string | undefined;
 }
 /** Identity of the shared drive who owns the resource. */
 export interface SharedDriveIdentity {
   /** Shared drive gaia id. */
-  id?: string;
+  id?: string | undefined;
   /** Shared drive name. */
-  sharedDriveName?: string;
+  sharedDriveName?: string | undefined;
 }
 /** Identity of the Google Workspace customer who owns the resource. */
 export interface CustomerIdentity {
   /** Customer id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Identity of the user who owns the resource. */
 export interface UserIdentity {
   /** User email. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** User gaia id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Identity details of the owner of the resource. */
 export interface OwnerIdentity {
   /** Identity of the group who owns the resource. */
-  groupIdentity?: GroupIdentity;
+  groupIdentity?: GroupIdentity | undefined;
   /** Identity of the shared drive who owns the resource. */
-  sharedDriveIdentity?: SharedDriveIdentity;
+  sharedDriveIdentity?: SharedDriveIdentity | undefined;
   /** Identity of the Google Workspace customer who owns the resource. */
-  customerIdentity?: CustomerIdentity;
+  customerIdentity?: CustomerIdentity | undefined;
   /** Identity of the user who owns the resource. */
-  userIdentity?: UserIdentity;
+  userIdentity?: UserIdentity | undefined;
 }
 export type OwnerIdentityList = Array<OwnerIdentity>;
 /** Details of the owner of the resource. */
 export interface OwnerDetails {
   /** Type of the owner of the resource. */
-  ownerType?: string;
+  ownerType?: string | undefined;
   /** Identity details of the owner(s) of the resource. */
-  ownerIdentity?: OwnerIdentityList;
+  ownerIdentity?: OwnerIdentityList | undefined;
 }
 /** The reason why the label/field was applied. */
 export interface Reason {
   /** The type of the reason. */
-  reasonType?: string;
+  reasonType?: string | undefined;
 }
 /** Setting a text list value. */
 export interface FieldValueTextListValue {
   /** List of text values. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 /** Setting a selection value by selecting a single value from a dropdown. */
 export interface FieldValueSelectionValue {
   /** Whether the selection is badged. */
-  badged?: boolean;
+  badged?: boolean | undefined;
   /** Display name of the selection. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier of the selection. */
-  id?: string;
+  id?: string | undefined;
 }
 export type FieldValueSelectionValueList = Array<FieldValueSelectionValue>;
 /** Setting a selection list value by selecting multiple values from a dropdown. */
 export interface FieldValueSelectionListValue {
   /** List of selections. */
-  values?: FieldValueSelectionValueList;
+  values?: FieldValueSelectionValueList | undefined;
 }
 /** Setting a user value by selecting a single user. */
 export interface FieldValueUserValue {
   /** Email of the user. */
-  email?: string;
+  email?: string | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Admin_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
 }
 export type FieldValueUserValueList = Array<FieldValueUserValue>;
 /** Setting a user list value by selecting multiple users. */
 export interface FieldValueUserListValue {
   /** List of users. */
-  values?: FieldValueUserValueList;
+  values?: FieldValueUserValueList | undefined;
 }
 /** Details of the field value set by the user for the particular label. */
 export interface FieldValue {
   /** Setting a text value. */
-  textValue?: string;
+  textValue?: string | undefined;
   /** Setting a text list value. */
-  textListValue?: FieldValueTextListValue;
+  textListValue?: FieldValueTextListValue | undefined;
   /** Setting an integer value. */
-  integerValue?: string;
+  integerValue?: string | undefined;
   /** Setting a selection list value by selecting multiple values from a dropdown. */
-  selectionListValue?: FieldValueSelectionListValue;
+  selectionListValue?: FieldValueSelectionListValue | undefined;
   /** Setting a long text value. */
-  longTextValue?: string;
+  longTextValue?: string | undefined;
   /** Setting a user value by selecting a single user. */
-  userValue?: FieldValueUserValue;
+  userValue?: FieldValueUserValue | undefined;
   /** Setting a date value. */
-  dateValue?: Admin_Date;
+  dateValue?: Admin_Date | undefined;
   /** Display name of the field */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier of the field */
-  id?: string;
+  id?: string | undefined;
   /** The reason why the field was applied to the label. */
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** Type of the field */
-  type?: string;
+  type?: string | undefined;
   /** If the field is unset, this will be true. */
-  unsetValue?: boolean;
+  unsetValue?: boolean | undefined;
   /** Setting a user list value by selecting multiple users. */
-  userListValue?: FieldValueUserListValue;
+  userListValue?: FieldValueUserListValue | undefined;
   /** Setting a selection value by selecting a single value from a dropdown. */
-  selectionValue?: FieldValueSelectionValue;
+  selectionValue?: FieldValueSelectionValue | undefined;
 }
 export type FieldValueList = Array<FieldValue>;
 /** Details of the label applied on the resource. */
 export interface AppliedLabel {
   /** The reason why the label was applied on the resource. */
-  reason?: Reason;
+  reason?: Reason | undefined;
   /** Title of the label */
-  title?: string;
+  title?: string | undefined;
   /** Identifier of the label - Only the label id, not the full OnePlatform resource name. */
-  id?: string;
+  id?: string | undefined;
   /** List of fields which are part of the label and have been set by the user. If label has a field which was not set by the user, it would not be present in this list. */
-  fieldValues?: FieldValueList;
+  fieldValues?: FieldValueList | undefined;
 }
 export type AppliedLabelList = Array<AppliedLabel>;
 /** Details of the resource on which the action was performed. */
 export interface ResourceDetails {
   /** Owner details of the resource. */
-  ownerDetails?: OwnerDetails;
+  ownerDetails?: OwnerDetails | undefined;
   /** List of labels applied on the resource */
-  appliedLabels?: AppliedLabelList;
+  appliedLabels?: AppliedLabelList | undefined;
   /** Defines relationship of the resource to the events */
-  relation?: string;
+  relation?: string | undefined;
   /** Type of the resource - document, email, chat message */
-  type?: string;
+  type?: string | undefined;
   /** Title of the resource. For instance, in case of a drive document, this would be the title of the document. In case of an email, this would be the subject. */
-  title?: string;
+  title?: string | undefined;
   /** Identifier of the resource, such as a doc_id for a Drive document, a conference_id for a Meet conference, or a "gaia_id/rfc2822_message_id" for an email. */
-  id?: string;
+  id?: string | undefined;
 }
 export type ResourceDetailsList = Array<ResourceDetails>;
 export type IntegerList = Array<number>;
 /** Network information of the user doing the action. */
 export interface ActivityNetworkInfo {
   /** ISO 3166-1 alpha-2 region code of the user doing the action. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** IP Address of the user doing the action. */
-  ipAsn?: IntegerList;
+  ipAsn?: IntegerList | undefined;
   /** ISO 3166-2 region code (states and provinces) for countries of the user doing the action. */
-  subdivisionCode?: string;
+  subdivisionCode?: string | undefined;
 }
 export interface ActivityId {
   /** Time of occurrence of the activity. This is in UNIX epoch time in seconds. */
-  time?: string;
+  time?: string | undefined;
   /** Application name to which the event belongs. For possible values see the list of applications above in `applicationName`. */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** The unique identifier for a Google Workspace account. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Unique qualifier if multiple events have the same time. */
-  uniqueQualifier?: string;
+  uniqueQualifier?: string | undefined;
 }
 export interface ActivityActorApplicationInfo {
   /** OAuth client id of the third party application used to perform the action. */
-  oauthClientId?: string;
+  oauthClientId?: string | undefined;
   /** Name of the application used to perform the action. */
-  applicationName?: string;
+  applicationName?: string | undefined;
   /** Whether the application was impersonating a user. */
-  impersonation?: boolean;
+  impersonation?: boolean | undefined;
 }
 /** Details of the owner of the AI agent. */
 export interface AgentAttributionInfoAgentOwner {
   /** The email of the agent owner. */
-  email?: string;
+  email?: string | undefined;
 }
 /** Details of the AI agent that was the actor for the activity. */
 export interface AgentAttributionInfo {
   /** Type of the agent. */
-  agentType?: string;
+  agentType?: string | undefined;
   /** The user visible name of the agent. */
-  agentName?: string;
+  agentName?: string | undefined;
   /** The owner of the agent. */
-  agentOwner?: AgentAttributionInfoAgentOwner;
+  agentOwner?: AgentAttributionInfoAgentOwner | undefined;
   /** The ID of the agent. */
-  agentId?: string;
+  agentId?: string | undefined;
 }
 export interface ActivityActor {
   /** The type of actor. */
-  callerType?: string;
+  callerType?: string | undefined;
   /** The unique Google Workspace profile ID of the actor. This value might be absent if the actor is not a Google Workspace user, or may be the number 105250506097979753968 which acts as a placeholder ID. */
-  profileId?: string;
+  profileId?: string | undefined;
   /** Details of the application that was the actor for the activity. */
-  applicationInfo?: ActivityActorApplicationInfo;
+  applicationInfo?: ActivityActorApplicationInfo | undefined;
   /** Details of the AI agent that was the actor for the activity. */
-  agentAttributionInfo?: AgentAttributionInfo;
+  agentAttributionInfo?: AgentAttributionInfo | undefined;
   /** Only present when `callerType` is `KEY`. Can be the `consumer_key` of the requestor for OAuth 2LO API requests or an identifier for robot accounts. */
-  key?: string;
+  key?: string | undefined;
   /** The primary email address of the actor. May be absent if there is no email address associated with the actor. */
-  email?: string;
+  email?: string | undefined;
 }
 /** Device details of the user doing the action. */
 export interface ActivityUserDeviceInfo {
   /** Output only. The type of the user's device. */
-  deviceType?: string;
+  deviceType?: string | undefined;
   /** Output only. Device ID of the user's device. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Output only. Device OS version of the user's device. */
-  deviceOsVersion?: string;
+  deviceOsVersion?: string | undefined;
 }
 /** JSON template for the activity resource. */
 export interface Activity {
   /** This is the domain that is affected by the report's event. For example domain of Admin console or the Drive application's document owner. */
-  ownerDomain?: string;
+  ownerDomain?: string | undefined;
   /** Activity events in the report. */
-  events?: ActivityEventsItemList;
+  events?: ActivityEventsItemList | undefined;
   /** ETag of the entry. */
-  etag?: string;
+  etag?: string | undefined;
   /** Details of the resource on which the action was performed. */
-  resourceDetails?: ResourceDetailsList;
+  resourceDetails?: ResourceDetailsList | undefined;
   /** Whether the activity was performed by an agent. */
-  isAgenticAction?: boolean;
+  isAgenticAction?: boolean | undefined;
   /** IP address of the user doing the action. This is the Internet Protocol (IP) address of the user when logging into Google Workspace, which may or may not reflect the user's physical location. For example, the IP address can be the user's proxy server's address or a virtual private network (VPN) address. The API supports IPv4 and IPv6. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Network information of the user doing the action. */
-  networkInfo?: ActivityNetworkInfo;
+  networkInfo?: ActivityNetworkInfo | undefined;
   /** Unique identifier for each activity record. */
-  id?: ActivityId;
+  id?: ActivityId | undefined;
   /** The type of API resource. For an activity report, the value is `audit#activity`. */
-  kind?: string;
+  kind?: string | undefined;
   /** User doing the action. */
-  actor?: ActivityActor;
+  actor?: ActivityActor | undefined;
   /** Device details of the user doing the action. This field is only exposed for the `contacts`, `gemini_in_workspace_apps`, `keep`, `meet_hardware`, `meet`, `chat`, `chrome`, `directory_sync`, `drive`, `groups`, `rules`, `data_studio`, `saml` applications. */
-  userDeviceInfo?: ActivityUserDeviceInfo;
+  userDeviceInfo?: ActivityUserDeviceInfo | undefined;
 }
 export type ActivityList = Array<Activity>;
 /** JSON template for a collection of activities. */
 export interface Activities {
   /** Token for retrieving the follow-on next page of the report. The `nextPageToken` value is used in the request's `pageToken` query string. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The type of API resource. For an activity report, the value is `reports#activities`. */
-  kind?: string;
+  kind?: string | undefined;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Each activity record in the response. */
   items: ActivityList;
 }
@@ -643,29 +645,29 @@ export type StringMap = { [key: string]: string | undefined };
 /** A notification channel used to watch for resource changes. */
 export interface Channel {
   /** Identifies this as a notification channel used to watch for changes to a resource, which is "`api#channel`". */
-  kind?: string;
+  kind?: string | undefined;
   /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap;
+  params?: StringMap | undefined;
   /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string;
+  token?: string | undefined;
   /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** A version-specific identifier for the watched resource. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** A Boolean value to indicate whether payload is wanted. A payload is data that is sent in the body of an HTTP POST, PUT, or PATCH message and contains important information about the request. Optional. */
-  payload?: boolean;
+  payload?: boolean | undefined;
   /** A UUID or similar unique string that identifies this channel. */
-  id?: string;
+  id?: string | undefined;
   /** The address where notifications are delivered for this channel. */
-  address?: string;
+  address?: string | undefined;
   /** The type of delivery mechanism used for this channel. The value should be set to `"web_hook"`. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface StopChannelsRequest {
   /** Request body */
-  body?: Channel;
+  body?: Channel | undefined;
 }
 export interface StopChannelsResponse {}
 export type WatchActivitiesApplicationNameEnum =
@@ -693,31 +695,31 @@ export type WatchActivitiesApplicationNameEnum =
   | "classroom";
 export interface WatchActivitiesRequest {
   /** `Deprecated`. This field is deprecated and is no longer supported. Comma separated group ids (obfuscated) on which user activities are filtered, i.e. the response will contain activities for only those users that are a part of at least one of the group ids mentioned here. Format: "id:abc123,id:xyz456" *Important:* To filter by groups, you must explicitly add the groups to your filtering groups allowlist. For more information about adding groups to filtering groups allowlist, see [Filter results by Google Group](https://support.google.com/a/answer/11482175) */
-  groupIdFilter?: string;
+  groupIdFilter?: string | undefined;
   /** The unique ID of the customer to retrieve data for. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** The token to specify next page. A report with multiple pages has a `nextPageToken` property in the response. In your follow-on request getting the next page of the report, enter the `nextPageToken` value in the `pageToken` query string. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Application name for which the events are to be retrieved. */
   applicationName: WatchActivitiesApplicationNameEnum | (string & {});
   /** The `filters` query string is a comma-separated list composed of event parameters manipulated by relational operators. Event parameters are in the form `{parameter1 name}{relational operator}{parameter1 value},{parameter2 name}{relational operator}{parameter2 value},...` These event parameters are associated with a specific `eventName`. An empty report is returned if the request's parameter doesn't belong to the `eventName`. For more information about the available `eventName` fields for each application and their associated parameters, go to the [ApplicationName](#applicationname) table, then click through to the Activity Events page in the Appendix for the application you want. In the following Drive activity examples, the returned list consists of all `edit` events where the `doc_id` parameter value matches the conditions defined by the relational operator. In the first example, the request returns all edited documents with a `doc_id` value equal to `12345`. In the second example, the report returns any edited documents where the `doc_id` value is not equal to `98765`. The `<>` operator is URL-encoded in the request's query string (`%3C%3E`): ``` GET...&eventName=edit&filters=doc_id==12345 GET...&eventName=edit&filters=doc_id%3C%3E98765 ``` A `filters` query supports these relational operators: * `==`--'equal to'. * `<>`--'not equal to'. Must be URL-encoded (%3C%3E). * `<`--'less than'. Must be URL-encoded (%3C). * `<=`--'less than or equal to'. Must be URL-encoded (%3C=). * `>`--'greater than'. Must be URL-encoded (%3E). * `>=`--'greater than or equal to'. Must be URL-encoded (%3E=). **Note:** The API doesn't accept multiple values of the same parameter. If a parameter is supplied more than once in the API request, the API only accepts the last value of that parameter. In addition, if an invalid parameter is supplied in the API request, the API ignores that parameter and returns the response corresponding to the remaining valid parameters. If no parameters are requested, all parameters are returned. */
-  filters?: string;
+  filters?: string | undefined;
   /** The name of the event being queried by the API. Each `eventName` is related to a specific Google Workspace service or feature which the API organizes into types of events. An example is the Google Calendar events in the Admin console application's reports. The Calendar Settings `type` structure has all of the Calendar `eventName` activities reported by the API. When an administrator changes a Calendar setting, the API reports this activity in the Calendar Settings `type` and `eventName` parameters. For more information about `eventName` query strings and parameters, see the list of event names for various applications above in `applicationName`. */
-  eventName?: string;
+  eventName?: string | undefined;
   /** Sets the beginning of the range of time shown in the report. The date is in the RFC 3339 format, for example 2010-10-28T10:26:35.000Z. The report returns all activities from `startTime` until `endTime`. The `startTime` must be before the `endTime` (if specified) and the current time when the request is made, or the API returns an error. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
   /** Sets the end of the range of time shown in the report. The date is in the RFC 3339 format, for example 2010-10-28T10:26:35.000Z. The default value is the approximate time of the API request. An API report has three basic time concepts: - *Date of the API's request for a report*: When the API created and retrieved the report. - *Report's start time*: The beginning of the timespan shown in the report. The `startTime` must be before the `endTime` (if specified) and the current time when the request is made, or the API returns an error. - *Report's end time*: The end of the timespan shown in the report. For example, the timespan of events summarized in a report can start in April and end in May. The report itself can be requested in August. If the `endTime` is not specified, the report returns all activities from the `startTime` until the current time or the most recent 180 days if the `startTime` is more than 180 days in the past. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The Internet Protocol (IP) Address of host where the event was performed. This is an additional way to filter a report's summary using the IP address of the user whose activity is being reported. This IP address may or may not reflect the user's physical location. For example, the IP address can be the user's proxy server's address or a virtual private network (VPN) address. This parameter supports both IPv4 and IPv6 address versions. */
-  actorIpAddress?: string;
+  actorIpAddress?: string | undefined;
   /** Determines how many activity records are shown on each response page. For example, if the request sets `maxResults=1` and the report has two activities, the report has two pages. The response's `nextPageToken` property has the token to the second page. The `maxResults` query string is optional in the request. The default value is 1000. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** `Deprecated`. This field is deprecated and is no longer supported. ID of the organizational unit to report on. Activity records will be shown only for users who belong to the specified organizational unit. Data before Dec 17, 2018 doesn't appear in the filtered results. */
-  orgUnitID?: string;
+  orgUnitID?: string | undefined;
   /** Request body */
-  body?: Channel;
+  body?: Channel | undefined;
 }
 export type GetCustomerUsageReportsError = NotFound | Forbidden | GcpOpError;
 /** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */

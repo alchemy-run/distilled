@@ -51,7 +51,7 @@ export interface CreateWorkloadTrustPolicyRequestRequest {
   /** The workload's immutable ID, from the provider's subject claim, for example a repository ID. Matched exactly together with the name, so a deleted and re-created workload with the same name does not match. */
   subject: string;
   /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
-  conditions?: CreateWorkloadTrustPolicyRequestRequestConditionsMap;
+  conditions?: CreateWorkloadTrustPolicyRequestRequestConditionsMap | undefined;
   /** The scopes the policy's tokens would carry. */
   scopes: CreateWorkloadTrustPolicyRequestRequestScopesList;
 }
@@ -93,13 +93,13 @@ export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
   id: number;
   uuid: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
   email: string;
-  is_email_verified?: boolean | null;
+  is_email_verified?: boolean | null | undefined;
   hedgehog_config: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface WorkloadTrustPolicyRequest {
   id: string;
@@ -116,7 +116,7 @@ export interface WorkloadTrustPolicyRequest {
   /** The workload's immutable ID, from the provider's subject claim, for example a repository ID. Matched exactly together with the name, so a deleted and re-created workload with the same name does not match. */
   subject: string;
   /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
-  conditions?: WorkloadTrustPolicyRequestConditionsMap;
+  conditions?: WorkloadTrustPolicyRequestConditionsMap | undefined;
   /** How the provider names the subject, the subject name and each condition claim, for display. */
   claim_labels: WorkloadClaimLabels;
   /** The scopes the policy's tokens would carry. */
@@ -275,7 +275,7 @@ export interface GetWorkloadTrustPolicyRequestsResolveSubjectRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The policy's conditions as claim=value, repeated. PostHog refuses a lookup they rule out, like a repository on a forge the lookup doesn't ask. */
-  condition?: GetWorkloadTrustPolicyRequestsResolveSubjectRequestConditionList;
+  condition?: GetWorkloadTrustPolicyRequestsResolveSubjectRequestConditionList | undefined;
   /** The OIDC issuer of the workload provider, from the list of supported providers. */
   issuer: string;
   /** The name people know the workload by, from the provider's subject name claim, for example owner/repo. */
@@ -293,15 +293,15 @@ export interface ListWorkloadTrustPolicyRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedWorkloadTrustPolicyRequestListResultsList = Array<WorkloadTrustPolicyRequest>;
 export interface PaginatedWorkloadTrustPolicyRequestList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWorkloadTrustPolicyRequestListResultsList;
 }
 export interface WorkloadTrustPolicyRequestsApproveCreateRequest {

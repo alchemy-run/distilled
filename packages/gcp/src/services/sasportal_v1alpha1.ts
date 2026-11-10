@@ -101,32 +101,32 @@ export type StringList = Array<string>;
 /** The Deployment. */
 export interface SasPortalDeployment {
   /** Output only. The FCC Registration Numbers (FRNs) copied from its direct parent. */
-  frns?: StringList;
+  frns?: StringList | undefined;
   /** User ID used by the devices belonging to this deployment. Each deployment should be associated with one unique user ID. */
-  sasUserIds?: StringList;
+  sasUserIds?: StringList | undefined;
   /** The deployment's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Resource name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateCustomersDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
   /** Request body */
-  body?: SasPortalDeployment;
+  body?: SasPortalDeployment | undefined;
 }
 /** Information about the model of the device. */
 export interface SasPortalDeviceModel {
   /** The name of the device model. */
-  name?: string;
+  name?: string | undefined;
   /** The software version of the device. */
-  softwareVersion?: string;
+  softwareVersion?: string | undefined;
   /** The hardware version of the device. */
-  hardwareVersion?: string;
+  hardwareVersion?: string | undefined;
   /** The firmware version of the device. */
-  firmwareVersion?: string;
+  firmwareVersion?: string | undefined;
   /** The name of the device vendor. */
-  vendor?: string;
+  vendor?: string | undefined;
 }
 export type SasPortalDeviceConfigMeasurementCapabilitiesItemEnum =
   | "MEASUREMENT_CAPABILITY_UNSPECIFIED"
@@ -150,9 +150,9 @@ export type SasPortalDeviceAirInterfaceRadioTechnologyEnum =
 /** Information about the device's air interface. */
 export interface SasPortalDeviceAirInterface {
   /** Conditional. This field specifies the radio access technology that is used for the CBSD. */
-  radioTechnology?: SasPortalDeviceAirInterfaceRadioTechnologyEnum | (string & {});
+  radioTechnology?: SasPortalDeviceAirInterfaceRadioTechnologyEnum | (string & {}) | undefined;
   /** Optional. This field is related to the `radioTechnology` and provides the air interface specification that the CBSD is compliant with at the time of registration. */
-  supportedSpec?: string;
+  supportedSpec?: string | undefined;
 }
 export type SasPortalDeviceConfigCategoryEnum =
   | "DEVICE_CATEGORY_UNSPECIFIED"
@@ -165,98 +165,98 @@ export type SasPortalInstallationParamsHeightTypeEnum =
 /** Information about the device installation parameters. */
 export interface SasPortalInstallationParams {
   /** Specifies how the height is measured. */
-  heightType?: SasPortalInstallationParamsHeightTypeEnum | (string & {});
+  heightType?: SasPortalInstallationParamsHeightTypeEnum | (string & {}) | undefined;
   /** This parameter is the maximum device EIRP in units of dBm/10MHz and is an integer with a value between -127 and +47 (dBm/10 MHz) inclusive. If not included, SAS interprets it as maximum allowable EIRP in units of dBm/10MHz for device category. */
-  eirpCapability?: number;
+  eirpCapability?: number | undefined;
   /** Boresight direction of the horizontal plane of the antenna in degrees with respect to true north. The value of this parameter is an integer with a value between 0 and 359 inclusive. A value of 0 degrees means true north; a value of 90 degrees means east. This parameter is optional for Category A devices and conditional for Category B devices. */
-  antennaAzimuth?: number;
+  antennaAzimuth?: number | undefined;
   /** Peak antenna gain in dBi. This parameter is a double with a value between -127 and +128 (dBi) inclusive. Part of Release 2 to support floating-point value */
-  antennaGain?: number;
+  antennaGain?: number | undefined;
   /** 3-dB antenna beamwidth of the antenna in the horizontal-plane in degrees. This parameter is an unsigned integer having a value between 0 and 360 (degrees) inclusive; it is optional for Category A devices and conditional for Category B devices. */
-  antennaBeamwidth?: number;
+  antennaBeamwidth?: number | undefined;
   /** Antenna downtilt in degrees and is an integer with a value between -90 and +90 inclusive; a negative value means the antenna is tilted up (above horizontal). This parameter is optional for Category A devices and conditional for Category B devices. */
-  antennaDowntilt?: number;
+  antennaDowntilt?: number | undefined;
   /** Device antenna height in meters. When the `heightType` parameter value is "AGL", the antenna height should be given relative to ground level. When the `heightType` parameter value is "AMSL", it is given with respect to WGS84 datum. */
-  height?: number;
+  height?: number | undefined;
   /** A positive number in meters to indicate accuracy of the device antenna vertical location. This optional parameter should only be present if its value is less than the FCC requirement of 3 meters. */
-  verticalAccuracy?: number;
+  verticalAccuracy?: number | undefined;
   /** Longitude of the device antenna location in degrees relative to the WGS 84 datum. The allowed range is from -180.000000 to +180.000000. Positive values represent longitudes east of the prime meridian; negative values west of the prime meridian. */
-  longitude?: number;
+  longitude?: number | undefined;
   /** Latitude of the device antenna location in degrees relative to the WGS 84 datum. The allowed range is from -90.000000 to +90.000000. Positive values represent latitudes north of the equator; negative values south of the equator. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** If present, this parameter specifies whether the CBSD is a CPE-CBSD or not. */
-  cpeCbsdIndication?: boolean;
+  cpeCbsdIndication?: boolean | undefined;
   /** A positive number in meters to indicate accuracy of the device antenna horizontal location. This optional parameter should only be present if its value is less than the FCC requirement of 50 meters. */
-  horizontalAccuracy?: number;
+  horizontalAccuracy?: number | undefined;
   /** If an external antenna is used, the antenna model is optionally provided in this field. The string has a maximum length of 128 octets. */
-  antennaModel?: string;
+  antennaModel?: string | undefined;
   /** Whether the device antenna is indoor or not. `true`: indoor. `false`: outdoor. */
-  indoorDeployment?: boolean;
+  indoorDeployment?: boolean | undefined;
 }
 /** Information about the device configuration. */
 export interface SasPortalDeviceConfig {
   /** Information about this device model. */
-  model?: SasPortalDeviceModel;
+  model?: SasPortalDeviceModel | undefined;
   /** Measurement reporting capabilities of the device. */
-  measurementCapabilities?: SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList;
+  measurementCapabilities?: SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList | undefined;
   /** State of the configuration. */
-  state?: SasPortalDeviceConfigStateEnum | (string & {});
+  state?: SasPortalDeviceConfigStateEnum | (string & {}) | undefined;
   /** Output only. Whether the configuration has been signed by a CPI. */
-  isSigned?: boolean;
+  isSigned?: boolean | undefined;
   /** Output only. The last time the device configuration was edited. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Information about this device's air interface. */
-  airInterface?: SasPortalDeviceAirInterface;
+  airInterface?: SasPortalDeviceAirInterface | undefined;
   /** The identifier of a device user. */
-  userId?: string;
+  userId?: string | undefined;
   /** FCC category of the device. */
-  category?: SasPortalDeviceConfigCategoryEnum | (string & {});
+  category?: SasPortalDeviceConfigCategoryEnum | (string & {}) | undefined;
   /** Installation parameters for the device. */
-  installationParams?: SasPortalInstallationParams;
+  installationParams?: SasPortalInstallationParams | undefined;
   /** The call sign of the device operator. */
-  callSign?: string;
+  callSign?: string | undefined;
 }
 /** Frequency range from `low_frequency` to `high_frequency`. */
 export interface SasPortalFrequencyRange {
   /** The highest frequency of the frequency range in MHz. */
-  highFrequencyMhz?: number;
+  highFrequencyMhz?: number | undefined;
   /** The lowest frequency of the frequency range in MHz. */
-  lowFrequencyMhz?: number;
+  lowFrequencyMhz?: number | undefined;
 }
 /** The channel with score. */
 export interface SasPortalChannelWithScore {
   /** The channel score, normalized to be in the range [0,100]. */
-  score?: number;
+  score?: number | undefined;
   /** The frequency range of the channel. */
-  frequencyRange?: SasPortalFrequencyRange;
+  frequencyRange?: SasPortalFrequencyRange | undefined;
 }
 export type SasPortalChannelWithScoreList = Array<SasPortalChannelWithScore>;
 export type SasPortalNrqzValidationStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "FINAL";
 /** Information about National Radio Quiet Zone validation. */
 export interface SasPortalNrqzValidation {
   /** Device latitude that's associated with the validation. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** State of the NRQZ validation info. */
-  state?: SasPortalNrqzValidationStateEnum | (string & {});
+  state?: SasPortalNrqzValidationStateEnum | (string & {}) | undefined;
   /** Device longitude that's associated with the validation. */
-  longitude?: number;
+  longitude?: number | undefined;
   /** Validation case ID. */
-  caseId?: string;
+  caseId?: string | undefined;
   /** CPI who signed the validation. */
-  cpiId?: string;
+  cpiId?: string | undefined;
 }
 /** Device data overridable by both SAS Portal and registration requests. */
 export interface SasPortalDeviceMetadata {
   /** Output only. National Radio Quiet Zone validation info. */
-  nrqzValidation?: SasPortalNrqzValidation;
+  nrqzValidation?: SasPortalNrqzValidation | undefined;
   /** Output only. Set to `true` if a CPI has validated that they have coordinated with the National Quiet Zone office. */
-  nrqzValidated?: boolean;
+  nrqzValidated?: boolean | undefined;
   /** If populated, the Antenna Model Pattern to use. Format is: `RecordCreatorId:PatternId` */
-  antennaModel?: string;
+  antennaModel?: string | undefined;
   /** Common Channel Group (CCG). A group of CBSDs in the same ICG requesting a common primary channel assignment. For more details, see [CBRSA-TS-2001 V3.0.0](https://ongoalliance.org/wp-content/uploads/2020/02/CBRSA-TS-2001-V3.0.0_Approved-for-publication.pdf). */
-  commonChannelGroup?: string;
+  commonChannelGroup?: string | undefined;
   /** Interference Coordination Group (ICG). A group of CBSDs that manage their own interference with the group. For more details, see [CBRSA-TS-2001 V3.0.0](https://ongoalliance.org/wp-content/uploads/2020/02/CBRSA-TS-2001-V3.0.0_Approved-for-publication.pdf). */
-  interferenceCoordinationGroup?: string;
+  interferenceCoordinationGroup?: string | undefined;
 }
 export type SasPortalFrequencyRangeList = Array<SasPortalFrequencyRange>;
 export type SasPortalDeviceGrantChannelTypeEnum =
@@ -273,31 +273,31 @@ export type SasPortalDeviceGrantStateEnum =
 /** An entry in a DPA's move list. */
 export interface SasPortalDpaMoveList {
   /** The ID of the DPA. */
-  dpaId?: string;
+  dpaId?: string | undefined;
   /** The frequency range that the move list affects. */
-  frequencyRange?: SasPortalFrequencyRange;
+  frequencyRange?: SasPortalFrequencyRange | undefined;
 }
 export type SasPortalDpaMoveListList = Array<SasPortalDpaMoveList>;
 /** Device grant. It is an authorization provided by the Spectrum Access System to a device to transmit using specified operating parameters after a successful heartbeat by the device. */
 export interface SasPortalDeviceGrant {
   /** Type of channel used. */
-  channelType?: SasPortalDeviceGrantChannelTypeEnum | (string & {});
+  channelType?: SasPortalDeviceGrantChannelTypeEnum | (string & {}) | undefined;
   /** State of the grant. */
-  state?: SasPortalDeviceGrantStateEnum | (string & {});
+  state?: SasPortalDeviceGrantStateEnum | (string & {}) | undefined;
   /** The DPA move lists on which this grant appears. */
-  moveList?: SasPortalDpaMoveListList;
+  moveList?: SasPortalDpaMoveListList | undefined;
   /** Maximum Equivalent Isotropically Radiated Power (EIRP) permitted by the grant. The maximum EIRP is in units of dBm/MHz. The value of `maxEirp` represents the average (RMS) EIRP that would be measured by the procedure defined in FCC part 96.41(e)(3). */
-  maxEirp?: number;
+  maxEirp?: number | undefined;
   /** Grant Id. */
-  grantId?: string;
+  grantId?: string | undefined;
   /** The transmit expiration time of the last heartbeat. */
-  lastHeartbeatTransmitExpireTime?: string;
+  lastHeartbeatTransmitExpireTime?: string | undefined;
   /** The expiration time of the grant. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The transmission frequency range. */
-  frequencyRange?: SasPortalFrequencyRange;
+  frequencyRange?: SasPortalFrequencyRange | undefined;
   /** If the grant is suspended, the reason(s) for suspension. */
-  suspensionReason?: StringList;
+  suspensionReason?: StringList | undefined;
 }
 export type SasPortalDeviceGrantList = Array<SasPortalDeviceGrant>;
 export type SasPortalDeviceStateEnum =
@@ -307,151 +307,151 @@ export type SasPortalDeviceStateEnum =
   | "DEREGISTERED";
 export interface SasPortalDevice {
   /** Configuration of the device, as specified via SAS Portal API. */
-  preloadedConfig?: SasPortalDeviceConfig;
+  preloadedConfig?: SasPortalDeviceConfig | undefined;
   /** Output only. Current channels with scores. */
-  currentChannels?: SasPortalChannelWithScoreList;
+  currentChannels?: SasPortalChannelWithScoreList | undefined;
   /** Device parameters that can be overridden by both SAS Portal and SAS registration requests. */
-  deviceMetadata?: SasPortalDeviceMetadata;
+  deviceMetadata?: SasPortalDeviceMetadata | undefined;
   /** Output only. Current configuration of the device as registered to the SAS. */
-  activeConfig?: SasPortalDeviceConfig;
+  activeConfig?: SasPortalDeviceConfig | undefined;
   /** A serial number assigned to the device by the device manufacturer. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Only ranges that are within the allowlists are available for new grants. */
-  grantRangeAllowlists?: SasPortalFrequencyRangeList;
+  grantRangeAllowlists?: SasPortalFrequencyRangeList | undefined;
   /** Device display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Grants held by the device. */
-  grants?: SasPortalDeviceGrantList;
+  grants?: SasPortalDeviceGrantList | undefined;
   /** Output only. The resource path name. */
-  name?: string;
+  name?: string | undefined;
   /** The FCC identifier of the device. Refer to https://www.fcc.gov/oet/ea/fccid for FccID format. Accept underscores and periods because some test-SAS customers use them. */
-  fccId?: string;
+  fccId?: string | undefined;
   /** Output only. Device state. */
-  state?: SasPortalDeviceStateEnum | (string & {});
+  state?: SasPortalDeviceStateEnum | (string & {}) | undefined;
 }
 export interface CreateCustomersDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface CreateCustomersDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 /** The Node. */
 export interface SasPortalNode {
   /** User ids used by the devices belonging to this node. */
-  sasUserIds?: StringList;
+  sasUserIds?: StringList | undefined;
   /** Output only. Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The node's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateCustomersNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
   /** Request body */
-  body?: SasPortalNode;
+  body?: SasPortalNode | undefined;
 }
 export interface CreateCustomersNodesDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
   /** Request body */
-  body?: SasPortalDeployment;
+  body?: SasPortalDeployment | undefined;
 }
 export interface CreateCustomersNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface CreateCustomersNodesNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
   /** Request body */
-  body?: SasPortalNode;
+  body?: SasPortalNode | undefined;
 }
 export interface CreateNodesDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface CreateNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface CreateNodesNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
   /** Request body */
-  body?: SasPortalNode;
+  body?: SasPortalNode | undefined;
 }
 export interface CreateNodesNodesDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
   /** Request body */
-  body?: SasPortalDeployment;
+  body?: SasPortalDeployment | undefined;
 }
 export interface CreateNodesNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface CreateNodesNodesNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
   /** Request body */
-  body?: SasPortalNode;
+  body?: SasPortalNode | undefined;
 }
 /** Request for CreateSignedDevice. */
 export interface SasPortalCreateSignedDeviceRequest {
   /** Required. JSON Web Token signed using a CPI private key. Payload must be the JSON encoding of the device. The user_id field must be set. */
-  encodedDevice?: string;
+  encodedDevice?: string | undefined;
   /** Required. Unique installer id (CPI ID) from the Certified Professional Installers database. */
-  installerId?: string;
+  installerId?: string | undefined;
 }
 export interface CreateSignedCustomersDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest;
+  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
 export interface CreateSignedCustomersDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest;
+  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
 export interface CreateSignedCustomersNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest;
+  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
 export interface CreateSignedNodesDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest;
+  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
 export interface CreateSignedNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest;
+  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
 export interface CreateSignedNodesNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
   /** Request body */
-  body?: SasPortalCreateSignedDeviceRequest;
+  body?: SasPortalCreateSignedDeviceRequest | undefined;
 }
 export interface DeleteCustomersDeploymentsRequest {
   /** Required. The name of the deployment. */
@@ -487,12 +487,12 @@ export interface DeleteNodesNodesRequest {
 export interface SasPortalGenerateSecretRequest {}
 export interface GenerateSecretInstallerRequest {
   /** Request body */
-  body?: SasPortalGenerateSecretRequest;
+  body?: SasPortalGenerateSecretRequest | undefined;
 }
 /** Response for GenerateSecret. */
 export interface SasPortalGenerateSecretResponse {
   /** The secret generated by the string and used by ValidateInstaller. */
-  secret?: string;
+  secret?: string | undefined;
 }
 export interface GetCustomersRequest {
   /** Required. The name of the customer. */
@@ -501,11 +501,11 @@ export interface GetCustomersRequest {
 /** Entity representing a SAS customer. */
 export interface SasPortalCustomer {
   /** Required. Name of the organization that the customer entity represents. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** User IDs used by the devices belonging to this customer. */
-  sasUserIds?: StringList;
+  sasUserIds?: StringList | undefined;
   /** Output only. Resource name of the customer. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetCustomersDeploymentsRequest {
   /** Required. The name of the deployment. */
@@ -546,48 +546,48 @@ export interface GetNodesNodesRequest {
 /** Request message for `GetPolicy` method. */
 export interface SasPortalGetPolicyRequest {
   /** Required. The resource for which the policy is being requested. */
-  resource?: string;
+  resource?: string | undefined;
 }
 export interface GetPoliciesRequest {
   /** Request body */
-  body?: SasPortalGetPolicyRequest;
+  body?: SasPortalGetPolicyRequest | undefined;
 }
 /** Associates `members` with a `role`. */
 export interface SasPortalAssignment {
   /** The identities the role is assigned to. It can have the following values: * `{user_email}`: An email address that represents a specific Google account. For example: `alice@gmail.com`. * `{group_email}`: An email address that represents a Google group. For example, `viewers@gmail.com`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** Required. Role that is assigned to `members`. */
-  role?: string;
+  role?: string | undefined;
 }
 export type SasPortalAssignmentList = Array<SasPortalAssignment>;
 /** Defines an access control policy to the resources. */
 export interface SasPortalPolicy {
   /** The etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the etag in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An etag is returned in the response to GetPolicy, and systems are expected to put that etag in the request to SetPolicy to ensure that their change will be applied to the same version of the policy. If no etag is provided in the call to GetPolicy, then the existing policy is overwritten blindly. */
-  etag?: string;
+  etag?: string | undefined;
   /** List of assignments */
-  assignments?: SasPortalAssignmentList;
+  assignments?: SasPortalAssignmentList | undefined;
 }
 export interface ListCustomersRequest {
   /** A pagination token returned from a previous call to ListCustomers that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of customers to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type SasPortalCustomerList = Array<SasPortalCustomer>;
 /** Response for `ListCustomers`. */
 export interface SasPortalListCustomersResponse {
   /** A pagination token returned from a previous call to ListCustomers that indicates from where listing should continue. If the field is missing or empty, it means there are no more customers. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of customers that match the request. */
-  customers?: SasPortalCustomerList;
+  customers?: SasPortalCustomerList | undefined;
 }
 export interface ListCustomersDeploymentsRequest {
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of deployments to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
 }
@@ -595,35 +595,35 @@ export type SasPortalDeploymentList = Array<SasPortalDeployment>;
 /** Response for ListDeployments. */
 export interface SasPortalListDeploymentsResponse {
   /** The deployments that match the request. */
-  deployments?: SasPortalDeploymentList;
+  deployments?: SasPortalDeploymentList | undefined;
   /** A pagination token returned from a previous call to ListDeployments that indicates from where listing should continue. If the field is missing or empty, it means there are no more deployments. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersDeploymentsDevicesRequest {
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SasPortalDeviceList = Array<SasPortalDevice>;
 /** Response for ListDevices. */
 export interface SasPortalListDevicesResponse {
   /** A pagination token returned from a previous call to ListDevices that indicates from where listing should continue. If the field is missing or empty, it means there is no more devices. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The devices that match the request. */
-  devices?: SasPortalDeviceList;
+  devices?: SasPortalDeviceList | undefined;
 }
 export interface ListCustomersDevicesRequest {
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
 }
@@ -631,115 +631,115 @@ export interface ListCustomersNodesRequest {
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
   /** The maximum number of nodes to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SasPortalNodeList = Array<SasPortalNode>;
 /** Response for ListNodes. */
 export interface SasPortalListNodesResponse {
   /** The nodes that match the request. */
-  nodes?: SasPortalNodeList;
+  nodes?: SasPortalNodeList | undefined;
   /** A pagination token returned from a previous call to ListNodes that indicates from where listing should continue. If the field is missing or empty, it means there is no more nodes. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersNodesDeploymentsRequest {
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
   /** The maximum number of deployments to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListCustomersNodesDevicesRequest {
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
 }
 export interface ListCustomersNodesNodesRequest {
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of nodes to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListGcpProjectDeploymentsCustomersRequest {}
 /** Deployment associated with the GCP project. Includes whether SAS analytics has been enabled or not. */
 export interface SasPortalGcpProjectDeployment {
   /** Whether SAS analytics has been enabled. */
-  hasEnabledAnalytics?: boolean;
+  hasEnabledAnalytics?: boolean | undefined;
   /** Deployment associated with the GCP project. */
-  deployment?: SasPortalDeployment;
+  deployment?: SasPortalDeployment | undefined;
 }
 export type SasPortalGcpProjectDeploymentList = Array<SasPortalGcpProjectDeployment>;
 /** Response for [ListGcpProjectDeployments]. */
 export interface SasPortalListGcpProjectDeploymentsResponse {
   /** Optional. Deployments associated with the GCP project */
-  deployments?: SasPortalGcpProjectDeploymentList;
+  deployments?: SasPortalGcpProjectDeploymentList | undefined;
 }
 export interface ListLegacyOrganizationsCustomersRequest {}
 /** Organization details. */
 export interface SasPortalOrganization {
   /** Name of organization */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Id of organization */
-  id?: string;
+  id?: string | undefined;
 }
 export type SasPortalOrganizationList = Array<SasPortalOrganization>;
 /** Response for [ListLegacyOrganizations]. [spectrum.sas.portal.v1alpha1.Provisioning.ListLegacyOrganizations]. */
 export interface SasPortalListLegacyOrganizationsResponse {
   /** Optional. Legacy SAS organizations. */
-  organizations?: SasPortalOrganizationList;
+  organizations?: SasPortalOrganizationList | undefined;
 }
 export interface ListNodesDeploymentsRequest {
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
   /** The maximum number of deployments to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListNodesDeploymentsDevicesRequest {
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListNodesDevicesRequest {
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
+  filter?: string | undefined;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListNodesNodesRequest {
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of nodes to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
 }
@@ -747,302 +747,302 @@ export interface ListNodesNodesDeploymentsRequest {
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of deployments to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListNodesNodesDevicesRequest {
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the parent resource. */
   parent: string;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListNodesNodesNodesRequest {
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of nodes to return in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Request for [MigrateOrganization]. [spectrum.sas.portal.v1alpha1.Provisioning.MigrateOrganization]. GCP Project, Organization Info, and caller's GAIA ID should be retrieved from the RPC handler, and used to check authorization on SAS Portal organization and to create GCP Projects. */
 export interface SasPortalMigrateOrganizationRequest {
   /** Required. Id of the SAS organization to be migrated. */
-  organizationId?: string;
+  organizationId?: string | undefined;
 }
 export interface MigrateOrganizationCustomersRequest {
   /** Request body */
-  body?: SasPortalMigrateOrganizationRequest;
+  body?: SasPortalMigrateOrganizationRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface SasPortalStatus {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface SasPortalOperation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: SasPortalStatus;
+  error?: SasPortalStatus | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 /** Request for MoveDeployment. */
 export interface SasPortalMoveDeploymentRequest {
   /** Required. The name of the new parent resource node or customer to reparent the deployment under. */
-  destination?: string;
+  destination?: string | undefined;
 }
 export interface MoveCustomersDeploymentsRequest {
   /** Required. The name of the deployment to move. */
   name: string;
   /** Request body */
-  body?: SasPortalMoveDeploymentRequest;
+  body?: SasPortalMoveDeploymentRequest | undefined;
 }
 /** Request for MoveDevice. */
 export interface SasPortalMoveDeviceRequest {
   /** Required. The name of the new parent resource node or customer to reparent the device under. */
-  destination?: string;
+  destination?: string | undefined;
 }
 export interface MoveCustomersDevicesRequest {
   /** Required. The name of the device to move. */
   name: string;
   /** Request body */
-  body?: SasPortalMoveDeviceRequest;
+  body?: SasPortalMoveDeviceRequest | undefined;
 }
 /** Request for MoveNode. */
 export interface SasPortalMoveNodeRequest {
   /** Required. The name of the new parent resource node or customer to reparent the node under. */
-  destination?: string;
+  destination?: string | undefined;
 }
 export interface MoveCustomersNodesRequest {
   /** Required. The name of the node to move. */
   name: string;
   /** Request body */
-  body?: SasPortalMoveNodeRequest;
+  body?: SasPortalMoveNodeRequest | undefined;
 }
 export interface MoveDeploymentsDevicesRequest {
   /** Required. The name of the device to move. */
   name: string;
   /** Request body */
-  body?: SasPortalMoveDeviceRequest;
+  body?: SasPortalMoveDeviceRequest | undefined;
 }
 export interface MoveNodesDeploymentsRequest {
   /** Required. The name of the deployment to move. */
   name: string;
   /** Request body */
-  body?: SasPortalMoveDeploymentRequest;
+  body?: SasPortalMoveDeploymentRequest | undefined;
 }
 export interface MoveNodesDevicesRequest {
   /** Required. The name of the device to move. */
   name: string;
   /** Request body */
-  body?: SasPortalMoveDeviceRequest;
+  body?: SasPortalMoveDeviceRequest | undefined;
 }
 export interface MoveNodesNodesRequest {
   /** Required. The name of the node to move. */
   name: string;
   /** Request body */
-  body?: SasPortalMoveNodeRequest;
+  body?: SasPortalMoveNodeRequest | undefined;
 }
 export interface PatchCustomersRequest {
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Resource name of the customer. */
   name: string;
   /** Request body */
-  body?: SasPortalCustomer;
+  body?: SasPortalCustomer | undefined;
 }
 export interface PatchCustomersDeploymentsRequest {
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Resource name. */
   name: string;
   /** Request body */
-  body?: SasPortalDeployment;
+  body?: SasPortalDeployment | undefined;
 }
 export interface PatchCustomersDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface PatchCustomersNodesRequest {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SasPortalNode;
+  body?: SasPortalNode | undefined;
 }
 export interface PatchDeploymentsDevicesRequest {
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. The resource path name. */
   name: string;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface PatchNodesDeploymentsRequest {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SasPortalDeployment;
+  body?: SasPortalDeployment | undefined;
 }
 export interface PatchNodesDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SasPortalDevice;
+  body?: SasPortalDevice | undefined;
 }
 export interface PatchNodesNodesRequest {
   /** Output only. Resource name. */
   name: string;
   /** Fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SasPortalNode;
+  body?: SasPortalNode | undefined;
 }
 /** Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller's GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment. */
 export interface SasPortalProvisionDeploymentRequest {
   /** Optional. If this field is set, and a new SAS Portal Organization needs to be created, its display name will be set to the value of this field. */
-  newOrganizationDisplayName?: string;
+  newOrganizationDisplayName?: string | undefined;
   /** Optional. If this field is set, and a new SAS Portal Deployment needs to be created, its display name will be set to the value of this field. */
-  newDeploymentDisplayName?: string;
+  newDeploymentDisplayName?: string | undefined;
   /** Optional. If this field is set then a new deployment will be created under the organization specified by this id. */
-  organizationId?: string;
+  organizationId?: string | undefined;
 }
 export interface ProvisionDeploymentCustomersRequest {
   /** Request body */
-  body?: SasPortalProvisionDeploymentRequest;
+  body?: SasPortalProvisionDeploymentRequest | undefined;
 }
 /** Response for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. */
 export interface SasPortalProvisionDeploymentResponse {
   /** Optional. Optional error message if the provisioning request is not successful. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** Request message for `SetPolicy` method. */
 export interface SasPortalSetPolicyRequest {
   /** Required. The resource for which the policy is being specified. This policy replaces any existing policy. */
-  resource?: string;
+  resource?: string | undefined;
   /** Optional. Set the field as `true` to disable the onboarding notification. */
-  disableNotification?: boolean;
+  disableNotification?: boolean | undefined;
   /** Required. The policy to be applied to the `resource`. */
-  policy?: SasPortalPolicy;
+  policy?: SasPortalPolicy | undefined;
 }
 export interface SetPoliciesRequest {
   /** Request body */
-  body?: SasPortalSetPolicyRequest;
+  body?: SasPortalSetPolicyRequest | undefined;
 }
 /** Request for the SetupSasAnalytics rpc. */
 export interface SasPortalSetupSasAnalyticsRequest {
   /** Optional. User id to setup analytics for, if not provided the user id associated with the project is used. optional */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface SetupSasAnalyticsCustomersRequest {
   /** Request body */
-  body?: SasPortalSetupSasAnalyticsRequest;
+  body?: SasPortalSetupSasAnalyticsRequest | undefined;
 }
 /** Request for SignDevice. */
 export interface SasPortalSignDeviceRequest {
   /** Required. The device to sign. The device fields name, fcc_id and serial_number must be set. The user_id field must be set. */
-  device?: SasPortalDevice;
+  device?: SasPortalDevice | undefined;
 }
 export interface SignDeviceCustomersDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
   /** Request body */
-  body?: SasPortalSignDeviceRequest;
+  body?: SasPortalSignDeviceRequest | undefined;
 }
 export interface SignDeviceDeploymentsDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
   /** Request body */
-  body?: SasPortalSignDeviceRequest;
+  body?: SasPortalSignDeviceRequest | undefined;
 }
 export interface SignDeviceNodesDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
   /** Request body */
-  body?: SasPortalSignDeviceRequest;
+  body?: SasPortalSignDeviceRequest | undefined;
 }
 /** Request message for `TestPermissions` method. */
 export interface SasPortalTestPermissionsRequest {
   /** Required. The resource for which the permissions are being requested. */
-  resource?: string;
+  resource?: string | undefined;
   /** The set of permissions to check for the `resource`. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestPoliciesRequest {
   /** Request body */
-  body?: SasPortalTestPermissionsRequest;
+  body?: SasPortalTestPermissionsRequest | undefined;
 }
 /** Response message for `TestPermissions` method. */
 export interface SasPortalTestPermissionsResponse {
   /** A set of permissions that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 /** Request for UpdateSignedDevice. */
 export interface SasPortalUpdateSignedDeviceRequest {
   /** Required. The JSON Web Token signed using a CPI private key. Payload must be the JSON encoding of the device. The user_id field must be set. */
-  encodedDevice?: string;
+  encodedDevice?: string | undefined;
   /** Required. Unique installer ID (CPI ID) from the Certified Professional Installers database. */
-  installerId?: string;
+  installerId?: string | undefined;
 }
 export interface UpdateSignedCustomersDevicesRequest {
   /** Required. The name of the device to update. */
   name: string;
   /** Request body */
-  body?: SasPortalUpdateSignedDeviceRequest;
+  body?: SasPortalUpdateSignedDeviceRequest | undefined;
 }
 export interface UpdateSignedDeploymentsDevicesRequest {
   /** Required. The name of the device to update. */
   name: string;
   /** Request body */
-  body?: SasPortalUpdateSignedDeviceRequest;
+  body?: SasPortalUpdateSignedDeviceRequest | undefined;
 }
 export interface UpdateSignedNodesDevicesRequest {
   /** Required. The name of the device to update. */
   name: string;
   /** Request body */
-  body?: SasPortalUpdateSignedDeviceRequest;
+  body?: SasPortalUpdateSignedDeviceRequest | undefined;
 }
 /** Request for ValidateInstaller. */
 export interface SasPortalValidateInstallerRequest {
   /** Required. Secret returned by the GenerateSecret. */
-  secret?: string;
+  secret?: string | undefined;
   /** Required. Unique installer id (CPI ID) from the Certified Professional Installers database. */
-  installerId?: string;
+  installerId?: string | undefined;
   /** Required. JSON Web Token signed using a CPI private key. Payload must include a "secret" claim whose value is the secret. */
-  encodedSecret?: string;
+  encodedSecret?: string | undefined;
 }
 export interface ValidateInstallerRequest {
   /** Request body */
-  body?: SasPortalValidateInstallerRequest;
+  body?: SasPortalValidateInstallerRequest | undefined;
 }
 /** Response for ValidateInstaller. */
 export interface SasPortalValidateInstallerResponse {}

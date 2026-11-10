@@ -33,13 +33,13 @@ export interface CreateMessagingCategoriesSaveTrackConfigRequest {
   /** Display name of the category, shown in the PostHog app. */
   name: string;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum | (string & {});
+  category_type?: MessageCategoryTypeEnum | (string & {}) | undefined;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface MessageCategory {
   /** Category ID. Workflow message steps take it as `message_category_id`, and the opt-out of messages step takes it as its `category_id` input. */
@@ -49,11 +49,11 @@ export interface MessageCategory {
   /** Display name of the category, shown in the PostHog app. */
   name: string;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum;
+  category_type?: MessageCategoryTypeEnum | undefined;
   /** When the category was created. */
   created_at: string;
   /** When the category was last changed. */
@@ -61,7 +61,7 @@ export interface MessageCategory {
   /** ID of the user who created the category. Null when the user no longer exists. */
   created_by: number | null;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface CreateMessagingCategoriesSaveWebhookConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -71,13 +71,13 @@ export interface CreateMessagingCategoriesSaveWebhookConfigRequest {
   /** Display name of the category, shown in the PostHog app. */
   name: string;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum | (string & {});
+  category_type?: MessageCategoryTypeEnum | (string & {}) | undefined;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface CreateMessagingCategoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -87,13 +87,13 @@ export interface CreateMessagingCategoryRequest {
   /** Display name of the category, shown in the PostHog app. */
   name: string;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum | (string & {});
+  category_type?: MessageCategoryTypeEnum | (string & {}) | undefined;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface GetMessagingCategoriesOptoutSyncConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -109,15 +109,15 @@ export interface ListMessagingCategoriesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedMessageCategoryListResultsList = Array<MessageCategory>;
 export interface PaginatedMessageCategoryList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMessageCategoryListResultsList;
 }
 export interface MessagingCategoriesDestroyRequest {
@@ -135,13 +135,13 @@ export interface MessagingCategoriesImportFromCustomerioCreateRequest {
   /** Display name of the category, shown in the PostHog app. */
   name: string;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum | (string & {});
+  category_type?: MessageCategoryTypeEnum | (string & {}) | undefined;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface MessagingCategoriesImportPreferencesCsvCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -151,13 +151,13 @@ export interface MessagingCategoriesImportPreferencesCsvCreateRequest {
   /** Display name of the category, shown in the PostHog app. */
   name: string;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum | (string & {});
+  category_type?: MessageCategoryTypeEnum | (string & {}) | undefined;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface RemoveMessagingCategoryCustomerioAppConfigDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -180,17 +180,17 @@ export interface UpdateMessagingCategoriesPartialRequest {
   /** A UUID string identifying this message category. */
   id: string;
   /** Stable identifier for the category, unique within the project, for example `newsletter`. Opt-out lists and preference imports refer to categories by key. You can't change the key after creation. */
-  key?: string;
+  key?: string | undefined;
   /** Display name of the category, shown in the PostHog app. */
-  name?: string;
+  name?: string | undefined;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum | (string & {});
+  category_type?: MessageCategoryTypeEnum | (string & {}) | undefined;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface UpdateMessagingCategoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -202,13 +202,13 @@ export interface UpdateMessagingCategoryRequest {
   /** Display name of the category, shown in the PostHog app. */
   name: string;
   /** Internal notes about which messages belong to this category. Recipients don't see it. */
-  description?: string;
+  description?: string | undefined;
   /** Description that recipients see next to the category on the preferences page. */
-  public_description?: string;
+  public_description?: string | undefined;
   /** `marketing` (the default): recipients can opt out of it, and sends skip recipients who did. `transactional`: for messages a recipient must get, such as receipts or password resets. Sends ignore opt-outs, and the category doesn't appear on the preferences page. Set `message_category_type` on a workflow message step to the type of its category. * `marketing` - Marketing * `transactional` - Transactional */
-  category_type?: MessageCategoryTypeEnum | (string & {});
+  category_type?: MessageCategoryTypeEnum | (string & {}) | undefined;
   /** Set to true to archive the category. Archived categories don't appear in lists. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type CreateMessagingCategoriesSaveTrackConfigError = PosthogOpError;
 /** Save Customer.io Track API credentials and/or toggle outbound sync. Accepts: - site_id (optional): set on first creation only - api_key (optional): set on first creation only - region (optional): "us" or "eu", set on first creation only - track_enabled (required): enable or disable outbound sync */

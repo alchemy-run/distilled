@@ -86,27 +86,27 @@ export class NotFound
 /** Represents an organization that can access a custom app. */
 export interface Organization {
   /** Optional. A human-readable name of the organization, to help recognize the organization. */
-  organizationName?: string;
+  organizationName?: string | undefined;
   /** Required. ID of the organization. */
-  organizationId?: string;
+  organizationId?: string | undefined;
 }
 export type OrganizationList = Array<Organization>;
 /** This resource represents a custom app. */
 export interface CustomApp {
   /** Title for the Android app. */
-  title?: string;
+  title?: string | undefined;
   /** Organizations to which the custom app should be made available. If the request contains any organizations, then the app will be restricted to only these organizations. To support the organization linked to the developer account, the organization ID should be provided explicitly together with other organizations. If no organizations are provided, then the app is only available to the organization linked to the developer account. */
-  organizations?: OrganizationList;
+  organizations?: OrganizationList | undefined;
   /** Output only. Package name of the created Android app. Only present in the API response. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Default listing language in BCP 47 format. */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export interface CreateAccountsCustomAppsRequest {
   /** Developer account ID. */
   account: string;
   /** Request body */
-  body?: CustomApp;
+  body?: CustomApp | undefined;
 }
 export type CreateAccountsCustomAppsError =
   | NotFound

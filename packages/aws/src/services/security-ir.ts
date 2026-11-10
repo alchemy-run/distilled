@@ -128,9 +128,9 @@ export type MembershipAccountRelationshipStatus =
   | (string & {});
 export type MembershipAccountRelationshipType = "Organization" | "Unrelated" | (string & {});
 export interface GetMembershipAccountDetailItem {
-  accountId?: string;
-  relationshipStatus?: MembershipAccountRelationshipStatus;
-  relationshipType?: MembershipAccountRelationshipType;
+  accountId?: string | undefined;
+  relationshipStatus?: MembershipAccountRelationshipStatus | undefined;
+  relationshipType?: MembershipAccountRelationshipType | undefined;
 }
 export type GetMembershipAccountDetailItems = GetMembershipAccountDetailItem[];
 export interface GetMembershipAccountDetailError {
@@ -140,8 +140,8 @@ export interface GetMembershipAccountDetailError {
 }
 export type GetMembershipAccountDetailErrors = GetMembershipAccountDetailError[];
 export interface BatchGetMemberAccountDetailsResponse {
-  items?: GetMembershipAccountDetailItem[];
-  errors?: GetMembershipAccountDetailError[];
+  items?: GetMembershipAccountDetailItem[] | undefined;
+  errors?: GetMembershipAccountDetailError[] | undefined;
 }
 export interface CancelMembershipRequest {
   membershipId: string;
@@ -163,8 +163,8 @@ export type CaseStatus =
   | "Closed"
   | (string & {});
 export interface CloseCaseResponse {
-  caseStatus?: CaseStatus;
-  closedDate?: Date;
+  caseStatus?: CaseStatus | undefined;
+  closedDate?: Date | undefined;
 }
 export type ResolverType = "AWS" | "Self" | (string & {});
 export type CaseTitle = string | redacted.Redacted<string>;
@@ -176,15 +176,15 @@ export type PersonName = string | redacted.Redacted<string>;
 export type JobTitle = string | redacted.Redacted<string>;
 export interface Watcher {
   email: string | redacted.Redacted<string>;
-  name?: string | redacted.Redacted<string>;
-  jobTitle?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  jobTitle?: string | redacted.Redacted<string> | undefined;
 }
 export type Watchers = Watcher[];
 export type IPAddress = string | redacted.Redacted<string>;
 export type UserAgent = string;
 export interface ThreatActorIp {
   ipAddress: string | redacted.Redacted<string>;
-  userAgent?: string;
+  userAgent?: string | undefined;
 }
 export type ThreatActorIpList = ThreatActorIp[];
 export type AwsService = string;
@@ -235,7 +235,7 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateCaseRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   resolverType: ResolverType;
   title: string | redacted.Redacted<string>;
   description: string | redacted.Redacted<string>;
@@ -243,10 +243,10 @@ export interface CreateCaseRequest {
   reportedIncidentStartDate: Date;
   impactedAccounts: string[];
   watchers: Watcher[];
-  threatActorIpAddresses?: ThreatActorIp[];
-  impactedServices?: string[];
-  impactedAwsRegions?: ImpactedAwsRegion[];
-  tags?: { [key: string]: string | undefined };
+  threatActorIpAddresses?: ThreatActorIp[] | undefined;
+  impactedServices?: string[] | undefined;
+  impactedAwsRegions?: ImpactedAwsRegion[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCaseResponse {
   caseId: string;
@@ -254,7 +254,7 @@ export interface CreateCaseResponse {
 export type CommentBody = string | redacted.Redacted<string>;
 export interface CreateCaseCommentRequest {
   caseId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   body: string | redacted.Redacted<string>;
 }
 export type CommentId = string;
@@ -286,7 +286,7 @@ export interface IncidentResponder {
   name: string | redacted.Redacted<string>;
   jobTitle: string | redacted.Redacted<string>;
   email: string | redacted.Redacted<string>;
-  communicationPreferences?: CommunicationType[];
+  communicationPreferences?: CommunicationType[] | undefined;
 }
 export type IncidentResponseTeam = IncidentResponder[];
 export type OptInFeatureName = "Triage" | (string & {});
@@ -296,12 +296,12 @@ export interface OptInFeature {
 }
 export type OptInFeatures = OptInFeature[];
 export interface CreateMembershipRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   membershipName: string | redacted.Redacted<string>;
   incidentResponseTeam: IncidentResponder[];
-  optInFeatures?: OptInFeature[];
-  tags?: { [key: string]: string | undefined };
-  coverEntireOrganization?: boolean;
+  optInFeatures?: OptInFeature[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  coverEntireOrganization?: boolean | undefined;
 }
 export interface CreateMembershipResponse {
   membershipId: string;
@@ -335,26 +335,26 @@ export interface CaseMetadataEntry {
 }
 export type CaseMetadata = CaseMetadataEntry[];
 export interface GetCaseResponse {
-  title?: string | redacted.Redacted<string>;
-  caseArn?: string;
-  description?: string | redacted.Redacted<string>;
-  caseStatus?: CaseStatus;
-  engagementType?: EngagementType;
-  reportedIncidentStartDate?: Date;
-  actualIncidentStartDate?: Date;
-  impactedAwsRegions?: ImpactedAwsRegion[];
-  threatActorIpAddresses?: ThreatActorIp[];
-  pendingAction?: PendingAction;
-  impactedAccounts?: string[];
-  watchers?: Watcher[];
-  createdDate?: Date;
-  lastUpdatedDate?: Date;
-  closureCode?: ClosureCode;
-  resolverType?: ResolverType;
-  impactedServices?: string[];
-  caseAttachments?: CaseAttachmentAttributes[];
-  closedDate?: Date;
-  caseMetadata?: CaseMetadataEntry[];
+  title?: string | redacted.Redacted<string> | undefined;
+  caseArn?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  caseStatus?: CaseStatus | undefined;
+  engagementType?: EngagementType | undefined;
+  reportedIncidentStartDate?: Date | undefined;
+  actualIncidentStartDate?: Date | undefined;
+  impactedAwsRegions?: ImpactedAwsRegion[] | undefined;
+  threatActorIpAddresses?: ThreatActorIp[] | undefined;
+  pendingAction?: PendingAction | undefined;
+  impactedAccounts?: string[] | undefined;
+  watchers?: Watcher[] | undefined;
+  createdDate?: Date | undefined;
+  lastUpdatedDate?: Date | undefined;
+  closureCode?: ClosureCode | undefined;
+  resolverType?: ResolverType | undefined;
+  impactedServices?: string[] | undefined;
+  caseAttachments?: CaseAttachmentAttributes[] | undefined;
+  closedDate?: Date | undefined;
+  caseMetadata?: CaseMetadataEntry[] | undefined;
 }
 export interface GetCaseAttachmentDownloadUrlRequest {
   caseId: string;
@@ -369,7 +369,7 @@ export interface GetCaseAttachmentUploadUrlRequest {
   caseId: string;
   fileName: string | redacted.Redacted<string>;
   contentLength: number;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface GetCaseAttachmentUploadUrlResponse {
   attachmentPresignedUrl: string | redacted.Redacted<string>;
@@ -401,87 +401,87 @@ export type CustomerType = "Standalone" | "Organization" | (string & {});
 export type OrganizationalUnitId = string;
 export type OrganizationalUnits = string[];
 export interface MembershipAccountsConfigurations {
-  coverEntireOrganization?: boolean;
-  organizationalUnits?: string[];
+  coverEntireOrganization?: boolean | undefined;
+  organizationalUnits?: string[] | undefined;
 }
 export interface GetMembershipResponse {
   membershipId: string;
-  accountId?: string;
-  region?: AwsRegion;
-  membershipName?: string | redacted.Redacted<string>;
-  membershipArn?: string;
-  membershipStatus?: MembershipStatus;
-  membershipActivationTimestamp?: Date;
-  membershipDeactivationTimestamp?: Date;
-  customerType?: CustomerType;
-  numberOfAccountsCovered?: number;
-  incidentResponseTeam?: IncidentResponder[];
-  optInFeatures?: OptInFeature[];
-  membershipAccountsConfigurations?: MembershipAccountsConfigurations;
+  accountId?: string | undefined;
+  region?: AwsRegion | undefined;
+  membershipName?: string | redacted.Redacted<string> | undefined;
+  membershipArn?: string | undefined;
+  membershipStatus?: MembershipStatus | undefined;
+  membershipActivationTimestamp?: Date | undefined;
+  membershipDeactivationTimestamp?: Date | undefined;
+  customerType?: CustomerType | undefined;
+  numberOfAccountsCovered?: number | undefined;
+  incidentResponseTeam?: IncidentResponder[] | undefined;
+  optInFeatures?: OptInFeature[] | undefined;
+  membershipAccountsConfigurations?: MembershipAccountsConfigurations | undefined;
 }
 export interface ListCaseEditsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   caseId: string;
 }
 export type CaseEditAction = string;
 export type CaseEditMessage = string;
 export interface CaseEditItem {
-  eventTimestamp?: Date;
-  principal?: string;
-  action?: string;
-  message?: string;
+  eventTimestamp?: Date | undefined;
+  principal?: string | undefined;
+  action?: string | undefined;
+  message?: string | undefined;
 }
 export type CaseEditItems = CaseEditItem[];
 export interface ListCaseEditsResponse {
-  nextToken?: string;
-  items?: CaseEditItem[];
-  total?: number;
+  nextToken?: string | undefined;
+  items?: CaseEditItem[] | undefined;
+  total?: number | undefined;
 }
 export interface ListCasesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListCasesItem {
   caseId: string;
-  lastUpdatedDate?: Date;
-  title?: string | redacted.Redacted<string>;
-  caseArn?: string;
-  engagementType?: EngagementType;
-  caseStatus?: CaseStatus;
-  createdDate?: Date;
-  closedDate?: Date;
-  resolverType?: ResolverType;
-  pendingAction?: PendingAction;
+  lastUpdatedDate?: Date | undefined;
+  title?: string | redacted.Redacted<string> | undefined;
+  caseArn?: string | undefined;
+  engagementType?: EngagementType | undefined;
+  caseStatus?: CaseStatus | undefined;
+  createdDate?: Date | undefined;
+  closedDate?: Date | undefined;
+  resolverType?: ResolverType | undefined;
+  pendingAction?: PendingAction | undefined;
 }
 export type ListCasesItems = ListCasesItem[];
 export interface ListCasesResponse {
-  nextToken?: string;
-  items?: ListCasesItem[];
-  total?: number;
+  nextToken?: string | undefined;
+  items?: ListCasesItem[] | undefined;
+  total?: number | undefined;
 }
 export interface ListCommentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   caseId: string;
 }
 export interface ListCommentsItem {
   commentId: string;
-  createdDate?: Date;
-  lastUpdatedDate?: Date;
-  creator?: string;
-  lastUpdatedBy?: string;
-  body?: string | redacted.Redacted<string>;
+  createdDate?: Date | undefined;
+  lastUpdatedDate?: Date | undefined;
+  creator?: string | undefined;
+  lastUpdatedBy?: string | undefined;
+  body?: string | redacted.Redacted<string> | undefined;
 }
 export type ListCommentsItems = ListCommentsItem[];
 export interface ListCommentsResponse {
-  nextToken?: string;
-  items?: ListCommentsItem[];
-  total?: number;
+  nextToken?: string | undefined;
+  items?: ListCommentsItem[] | undefined;
+  total?: number | undefined;
 }
 export interface ListInvestigationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   caseId: string;
 }
 export type InvestigationId = string;
@@ -499,9 +499,9 @@ export type ExecutionStatus =
 export type UsefulnessRating = "USEFUL" | "NOT_USEFUL" | (string & {});
 export type FeedbackComment = string;
 export interface InvestigationFeedback {
-  usefulness?: UsefulnessRating;
-  comment?: string;
-  submittedAt?: Date;
+  usefulness?: UsefulnessRating | undefined;
+  comment?: string | undefined;
+  submittedAt?: Date | undefined;
 }
 export interface InvestigationAction {
   investigationId: string;
@@ -510,28 +510,28 @@ export interface InvestigationAction {
   content: string;
   status: ExecutionStatus;
   lastUpdated: Date;
-  feedback?: InvestigationFeedback;
+  feedback?: InvestigationFeedback | undefined;
 }
 export type InvestigationActionList = InvestigationAction[];
 export interface ListInvestigationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   investigationActions: InvestigationAction[];
 }
 export interface ListMembershipsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListMembershipItem {
   membershipId: string;
-  accountId?: string;
-  region?: AwsRegion;
-  membershipArn?: string;
-  membershipStatus?: MembershipStatus;
+  accountId?: string | undefined;
+  region?: AwsRegion | undefined;
+  membershipArn?: string | undefined;
+  membershipStatus?: MembershipStatus | undefined;
 }
 export type ListMembershipItems = ListMembershipItem[];
 export interface ListMembershipsResponse {
-  nextToken?: string;
-  items?: ListMembershipItem[];
+  nextToken?: string | undefined;
+  items?: ListMembershipItem[] | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceInput {
@@ -545,7 +545,7 @@ export interface SendFeedbackRequest {
   caseId: string;
   resultId: string;
   usefulness: UsefulnessRating;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface SendFeedbackResponse {}
 export interface TagResourceInput {
@@ -561,22 +561,22 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateCaseRequest {
   caseId: string;
-  title?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  reportedIncidentStartDate?: Date;
-  actualIncidentStartDate?: Date;
-  engagementType?: EngagementType;
-  watchersToAdd?: Watcher[];
-  watchersToDelete?: Watcher[];
-  threatActorIpAddressesToAdd?: ThreatActorIp[];
-  threatActorIpAddressesToDelete?: ThreatActorIp[];
-  impactedServicesToAdd?: string[];
-  impactedServicesToDelete?: string[];
-  impactedAwsRegionsToAdd?: ImpactedAwsRegion[];
-  impactedAwsRegionsToDelete?: ImpactedAwsRegion[];
-  impactedAccountsToAdd?: string[];
-  impactedAccountsToDelete?: string[];
-  caseMetadata?: CaseMetadataEntry[];
+  title?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  reportedIncidentStartDate?: Date | undefined;
+  actualIncidentStartDate?: Date | undefined;
+  engagementType?: EngagementType | undefined;
+  watchersToAdd?: Watcher[] | undefined;
+  watchersToDelete?: Watcher[] | undefined;
+  threatActorIpAddressesToAdd?: ThreatActorIp[] | undefined;
+  threatActorIpAddressesToDelete?: ThreatActorIp[] | undefined;
+  impactedServicesToAdd?: string[] | undefined;
+  impactedServicesToDelete?: string[] | undefined;
+  impactedAwsRegionsToAdd?: ImpactedAwsRegion[] | undefined;
+  impactedAwsRegionsToDelete?: ImpactedAwsRegion[] | undefined;
+  impactedAccountsToAdd?: string[] | undefined;
+  impactedAccountsToDelete?: string[] | undefined;
+  caseMetadata?: CaseMetadataEntry[] | undefined;
 }
 export interface UpdateCaseResponse {}
 export interface UpdateCaseCommentRequest {
@@ -586,7 +586,7 @@ export interface UpdateCaseCommentRequest {
 }
 export interface UpdateCaseCommentResponse {
   commentId: string;
-  body?: string | redacted.Redacted<string>;
+  body?: string | redacted.Redacted<string> | undefined;
 }
 export type SelfManagedCaseStatus =
   | "Submitted"
@@ -599,20 +599,20 @@ export interface UpdateCaseStatusRequest {
   caseStatus: SelfManagedCaseStatus;
 }
 export interface UpdateCaseStatusResponse {
-  caseStatus?: SelfManagedCaseStatus;
+  caseStatus?: SelfManagedCaseStatus | undefined;
 }
 export interface MembershipAccountsConfigurationsUpdate {
-  coverEntireOrganization?: boolean;
-  organizationalUnitsToAdd?: string[];
-  organizationalUnitsToRemove?: string[];
+  coverEntireOrganization?: boolean | undefined;
+  organizationalUnitsToAdd?: string[] | undefined;
+  organizationalUnitsToRemove?: string[] | undefined;
 }
 export interface UpdateMembershipRequest {
   membershipId: string;
-  membershipName?: string | redacted.Redacted<string>;
-  incidentResponseTeam?: IncidentResponder[];
-  optInFeatures?: OptInFeature[];
-  membershipAccountsConfigurationsUpdate?: MembershipAccountsConfigurationsUpdate;
-  undoMembershipCancellation?: boolean;
+  membershipName?: string | redacted.Redacted<string> | undefined;
+  incidentResponseTeam?: IncidentResponder[] | undefined;
+  optInFeatures?: OptInFeature[] | undefined;
+  membershipAccountsConfigurationsUpdate?: MembershipAccountsConfigurationsUpdate | undefined;
+  undoMembershipCancellation?: boolean | undefined;
 }
 export interface UpdateMembershipResponse {}
 export interface UpdateResolverTypeRequest {
@@ -621,8 +621,8 @@ export interface UpdateResolverTypeRequest {
 }
 export interface UpdateResolverTypeResponse {
   caseId: string;
-  caseStatus?: CaseStatus;
-  resolverType?: ResolverType;
+  caseStatus?: CaseStatus | undefined;
+  resolverType?: ResolverType | undefined;
 }
 export type ValidationExceptionReason =
   | "UNKNOWN_OPERATION"

@@ -55,7 +55,7 @@ export interface CreateResourcePoolRequest {
   /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
   ipAcl: CreateResourcePoolRequestIpAclList;
   /** An optional object that represents the labels associated with the resource pool. */
-  labels?: CreateResourcePoolRequestLabelsMap;
+  labels?: CreateResourcePoolRequestLabelsMap | undefined;
   /** Name of the Resource Pool */
   name: string;
   /** Name of the performance class */
@@ -63,100 +63,100 @@ export interface CreateResourcePoolRequest {
   /** Size of the Resource Pool (unit: gibibytes) */
   sizeGigabytes: number;
   /** (optional) Id of the Snapshot Policy to use */
-  snapshotPolicyId?: string;
+  snapshotPolicyId?: string | undefined;
   /** Whether the .snapshot directory is visible when mounting the resource pool. Setting this value to false might prevent you from accessing the snapshots (e.g. for security reasons). Additionally, the access to the snapshots is always controlled by the export policy of the resource pool. That means, if snapshots are visible and the export policy allows for reading the resource pool, then it also allows reading the snapshot of all shares. */
-  snapshotsAreVisible?: boolean;
+  snapshotsAreVisible?: boolean | undefined;
 }
 /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
 export type ResourcePoolIpAclList = Array<string>;
 export type ResourcePoolLabelsMap = { [key: string]: string | undefined };
 export interface ResourcePoolPerformanceClass {
   /** Name of the performance class */
-  name?: string;
+  name?: string | undefined;
   /** Max. IOPS of the Resource Pool. This is shared between every Share in the Resource Pool. */
-  peakIops?: number;
+  peakIops?: number | undefined;
   /** Throughput of the Resource Pool. */
-  throughput?: number;
+  throughput?: number | undefined;
 }
 export interface ResourcePoolSnapshotPolicy {
   /** ID of the Snapshot Policy */
-  id?: string;
+  id?: string | undefined;
   /** Name of the Snapshot Policy */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ResourcePoolSpace {
   /** Available space of the Resource Pool (only available when retrieving a single Resource Pool by ID) */
-  availableGigabytes?: number | null;
+  availableGigabytes?: number | null | undefined;
   /** Size of the Resource Pool in Gibibytes. */
-  sizeGigabytes?: number;
+  sizeGigabytes?: number | undefined;
   /** Used space by snapshots (only available when retrieving a single Resource Pool by ID) */
-  usedBySnapshotsGigabytes?: number | null;
+  usedBySnapshotsGigabytes?: number | null | undefined;
   /** Used space of the Resource Pool (only available when retrieving a single Resource Pool by ID) */
-  usedGigabytes?: number | null;
+  usedGigabytes?: number | null | undefined;
 }
 export interface ResourcePool {
   /** Name of the respective availability zone */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** Number of Shares in the Resource Pool */
-  countShares?: number;
-  createdAt?: string;
+  countShares?: number | undefined;
+  createdAt?: string | undefined;
   /** ID of the Resource Pool */
-  id?: string;
+  id?: string | undefined;
   /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
-  ipAcl?: ResourcePoolIpAclList;
-  labels?: ResourcePoolLabelsMap;
+  ipAcl?: ResourcePoolIpAclList | undefined;
+  labels?: ResourcePoolLabelsMap | undefined;
   /** Mount path of the Resource Pool, used to mount the Resource Pool Note that a Resource Pool can only be mounted in read-only */
-  mountPath?: string;
+  mountPath?: string | undefined;
   /** Name of the Resource Pool */
-  name?: string;
+  name?: string | undefined;
   /** Information about the performance class */
-  performanceClass?: ResourcePoolPerformanceClass;
+  performanceClass?: ResourcePoolPerformanceClass | undefined;
   /** Time when the performance class can be downgraded again. */
-  performanceClassDowngradableAt?: string;
+  performanceClassDowngradableAt?: string | undefined;
   /** Time when the size can be reduced again. */
-  sizeReducibleAt?: string;
+  sizeReducibleAt?: string | undefined;
   /** (optional) Snapshot Policy */
-  snapshotPolicy?: ResourcePoolSnapshotPolicy | null;
+  snapshotPolicy?: ResourcePoolSnapshotPolicy | null | undefined;
   /** Whether the .snapshot directory is visible when mounting the resource pool. Setting this value to false might prevent you from accessing the snapshots (e.g. for security reasons). Additionally, the access to the snapshots is always controlled by the export policy of the resource pool. That means, if snapshots are visible and the export policy allows for reading the resource pool, then it also allows reading the snapshot of all shares. */
-  snapshotsAreVisible?: boolean;
+  snapshotsAreVisible?: boolean | undefined;
   /** Space information */
-  space?: ResourcePoolSpace;
+  space?: ResourcePoolSpace | undefined;
   /** State of the Resource Pool (possible values: ["pending", "creating", "created", "updating", "error", "deleting"]) */
-  state?: string;
+  state?: string | undefined;
 }
 export interface CreateResourcePoolResponse {
   /** Created Resource Pool */
-  resourcePool?: ResourcePool;
+  resourcePool?: ResourcePool | undefined;
 }
 export interface CreateResourcePoolSnapshotRequest {
   projectId: string;
   region: string;
   resourcePoolId: string;
   /** (optional) A comment to add more information about a snapshot */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Name of the Resource Pool Snapshot */
-  name?: string;
+  name?: string | undefined;
   /** (optional) Time in hours after which snaplock on the snapshot expires */
-  snaplockRetentionHours?: number | null;
+  snaplockRetentionHours?: number | null | undefined;
 }
 export interface ResourcePoolSnapshot {
   /** (optional) A comment to add more information about a snapshot */
-  comment?: string | null;
-  createdAt?: string;
+  comment?: string | null | undefined;
+  createdAt?: string | undefined;
   /** Represents the user-visible data size at the time of the snapshot in Gibibytes (e.g. what's in the snapshot) */
-  logicalSizeGigabytes?: number;
+  logicalSizeGigabytes?: number | undefined;
   /** ID of the Resource Pool of the Snapshot */
-  resourcePoolId?: string;
+  resourcePoolId?: string | undefined;
   /** Reflects the actual storage footprint in the backend at snapshot time in Gibibytes (e.g. how much storage from the Resource Pool does it use). */
-  sizeGigabytes?: number;
+  sizeGigabytes?: number | undefined;
   /** Represents the snaplock expiry time if snaplock is enabled for the resource pool */
-  snaplockExpiryTime?: string | null;
+  snaplockExpiryTime?: string | null | undefined;
   /** Name of the Resource Pool Snapshot */
-  snapshotName?: string;
+  snapshotName?: string | undefined;
 }
 export interface CreateResourcePoolSnapshotResponse {
   /** Created Resource Pool Snapshot */
-  resourcePoolSnapshot?: ResourcePoolSnapshot;
+  resourcePoolSnapshot?: ResourcePoolSnapshot | undefined;
 }
 /** An optional object that represents the labels associated with the share. */
 export type CreateShareRequestLabelsMap = { [key: string]: string | undefined };
@@ -165,9 +165,9 @@ export interface CreateShareRequest {
   region: string;
   resourcePoolId: string;
   /** Name of the Share Export Policy to use in the Share. Note that if this is not set, the Share can only be mounted in read only by clients with IPs matching the IP ACL of the Resource Pool hosting this Share. You can also assign a Share Export Policy after creating the Share */
-  exportPolicyName?: string | null;
+  exportPolicyName?: string | null | undefined;
   /** An optional object that represents the labels associated with the share. */
-  labels?: CreateShareRequestLabelsMap;
+  labels?: CreateShareRequestLabelsMap | undefined;
   /** Name of the Share */
   name: string;
   /** Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in. (unit: gibibytes) */
@@ -178,59 +178,59 @@ export type ShareExportPolicyLabelsMap = { [key: string]: string | undefined };
 /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.251/32" for a specific IP) This array cannot be empty */
 export type ShareExportPolicyRuleIpAclList = Array<string>;
 export interface ShareExportPolicyRule {
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the Rule (optional) */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ID of the Share Export Policy Rule */
-  id?: string;
+  id?: string | undefined;
   /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.251/32" for a specific IP) This array cannot be empty */
-  ipAcl?: ShareExportPolicyRuleIpAclList;
+  ipAcl?: ShareExportPolicyRuleIpAclList | undefined;
   /** Order of the rule within a Share Export Policy. The order is used so that when a client IP matches multiple rules, the first rule is applied This field must be set */
-  order?: number;
+  order?: number | undefined;
   /** Flag to indicate if client IPs matching this rule can only mount the share in read only mode Default: false */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Flag to honor set UUID Default: false */
-  setUuid?: boolean;
+  setUuid?: boolean | undefined;
   /** Flag to indicate if client IPs matching this rule have root access on the Share Default: true */
-  superUser?: boolean;
+  superUser?: boolean | undefined;
 }
 /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
 export type ShareExportPolicyRulesList = Array<ShareExportPolicyRule>;
 export interface ShareExportPolicy {
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the Share Export Policy */
-  id?: string;
+  id?: string | undefined;
   /** An optional object that represents the labels associated with the share export policy. */
-  labels?: ShareExportPolicyLabelsMap;
+  labels?: ShareExportPolicyLabelsMap | undefined;
   /** Name of the Share Export Policy */
-  name?: string;
+  name?: string | undefined;
   /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
-  rules?: ShareExportPolicyRulesList;
+  rules?: ShareExportPolicyRulesList | undefined;
   /** Number of Shares using this Share Export Policy */
-  sharesUsingExportPolicy?: number;
+  sharesUsingExportPolicy?: number | undefined;
 }
 /** An optional object that represents the labels associated with the share. */
 export type ShareLabelsMap = { [key: string]: string | undefined };
 export interface Share {
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Details of the Share Export Policy to use in the Share. Note that if this is not set, the Share can only be mounted in read only by clients with IPs matching the IP ACL of the Resource Pool hosting this Share */
-  exportPolicy?: ShareExportPolicy | null;
+  exportPolicy?: ShareExportPolicy | null | undefined;
   /** ID of the Share */
-  id?: string;
+  id?: string | undefined;
   /** An optional object that represents the labels associated with the share. */
-  labels?: ShareLabelsMap;
+  labels?: ShareLabelsMap | undefined;
   /** Mount path of the Share, used to mount the Share */
-  mountPath?: string;
+  mountPath?: string | undefined;
   /** Name of the Share */
-  name?: string;
+  name?: string | undefined;
   /** Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in. (unit: gibibytes) */
-  spaceHardLimitGigabytes?: number;
+  spaceHardLimitGigabytes?: number | undefined;
   /** State of the Resource Pool Snapshot (possible values: ["pending", "creating", "created", "error", "deleting"]) */
-  state?: string;
+  state?: string | undefined;
 }
 export interface CreateShareResponse {
   /** Created Share */
-  share?: Share;
+  share?: Share | undefined;
 }
 /** An optional object that represents the labels associated with the share export policy. */
 export type CreateShareExportPolicyRequestLabelsMap = { [key: string]: string | undefined };
@@ -238,17 +238,17 @@ export type CreateShareExportPolicyRequestLabelsMap = { [key: string]: string | 
 export type CreateShareExportPolicyRequestRuleIpAclList = Array<string>;
 export interface CreateShareExportPolicyRequestRule {
   /** Description of the Rule (optional) */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) This array cannot be empty */
-  ipAcl?: CreateShareExportPolicyRequestRuleIpAclList;
+  ipAcl?: CreateShareExportPolicyRequestRuleIpAclList | undefined;
   /** Order of the rule within a Share Export Policy. The order is used so that when a client IP matches multiple rules, the first rule is applied This field must be set */
-  order?: number;
+  order?: number | undefined;
   /** Flag to indicate if client IPs matching this rule can only mount the share in read only mode Default: false */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Flag to honor set UUID Default: false */
-  setUuid?: boolean;
+  setUuid?: boolean | undefined;
   /** Flag to indicate if client IPs matching this rule have root access on the Share Default: true */
-  superUser?: boolean;
+  superUser?: boolean | undefined;
 }
 /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
 export type CreateShareExportPolicyRequestRulesList = Array<CreateShareExportPolicyRequestRule>;
@@ -256,15 +256,15 @@ export interface CreateShareExportPolicyRequest {
   projectId: string;
   region: string;
   /** An optional object that represents the labels associated with the share export policy. */
-  labels?: CreateShareExportPolicyRequestLabelsMap;
+  labels?: CreateShareExportPolicyRequestLabelsMap | undefined;
   /** Name of the Share Export Policy */
   name: string;
   /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
-  rules?: CreateShareExportPolicyRequestRulesList;
+  rules?: CreateShareExportPolicyRequestRulesList | undefined;
 }
 export interface CreateShareExportPolicyResponse {
   /** Created Share Export Policy */
-  shareExportPolicy?: ShareExportPolicy;
+  shareExportPolicy?: ShareExportPolicy | undefined;
 }
 export interface DeleteResourcePoolRequest {
   projectId: string;
@@ -302,14 +302,14 @@ export interface EnableLockRequest {
   projectId: string;
 }
 export interface EnableLockResponse {
-  lockId?: string;
+  lockId?: string | undefined;
 }
 export interface GetLockRequest {
   region: string;
   projectId: string;
 }
 export interface GetLockResponse {
-  lockId?: string;
+  lockId?: string | undefined;
 }
 export interface GetResourcePoolRequest {
   projectId: string;
@@ -318,7 +318,7 @@ export interface GetResourcePoolRequest {
 }
 export interface GetResourcePoolResponse {
   /** Resource Pool */
-  resourcePool?: ResourcePool;
+  resourcePool?: ResourcePool | undefined;
 }
 export interface GetResourcePoolSnapshotRequest {
   projectId: string;
@@ -328,7 +328,7 @@ export interface GetResourcePoolSnapshotRequest {
 }
 export interface GetResourcePoolSnapshotResponse {
   /** Resource Pool Snapshot */
-  resourcePoolSnapshot?: ResourcePoolSnapshot;
+  resourcePoolSnapshot?: ResourcePoolSnapshot | undefined;
 }
 export interface GetShareRequest {
   projectId: string;
@@ -338,7 +338,7 @@ export interface GetShareRequest {
 }
 export interface GetShareResponse {
   /** Share */
-  share?: Share;
+  share?: Share | undefined;
 }
 export interface GetShareExportPolicyRequest {
   projectId: string;
@@ -347,7 +347,7 @@ export interface GetShareExportPolicyRequest {
 }
 export interface GetShareExportPolicyResponse {
   /** Share Export Policies */
-  shareExportPolicy?: ShareExportPolicy;
+  shareExportPolicy?: ShareExportPolicy | undefined;
 }
 export interface GetSnapshotPolicyRequest {
   projectId: string;
@@ -355,69 +355,69 @@ export interface GetSnapshotPolicyRequest {
 }
 export interface SnapshotPolicySchedule {
   /** Retention Count */
-  count?: number;
+  count?: number | undefined;
   /** Interval of the Schedule (follows the cron schedule expression in Unix-like systems) */
-  interval?: string;
+  interval?: string | undefined;
   /** Prefix used for the snapshots created by this policy */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Retention Period (ISO 8601 format or "infinite") */
-  retentionPeriod?: string;
+  retentionPeriod?: string | undefined;
   /** ID of the Schedule */
-  scheduleId?: string;
+  scheduleId?: string | undefined;
 }
 /** (deprecated) associated schedules */
 export type SnapshotPolicySchedulesList = Array<SnapshotPolicySchedule>;
 export interface SnapshotPolicySnapshotPolicySchedule {
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** ID of the Schedule */
-  id?: string;
+  id?: string | undefined;
   /** Interval of the Schedule (follows the cron schedule expression in Unix-like systems) */
-  interval?: string;
+  interval?: string | undefined;
   /** Name of the Schedule */
-  name?: string;
+  name?: string | undefined;
   /** Prefix used for the snapshots created by this policy */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Retention Count */
-  retentionCount?: number;
+  retentionCount?: number | undefined;
   /** Retention Period (ISO 8601 format or "infinite") */
-  retentionPeriod?: string;
+  retentionPeriod?: string | undefined;
 }
 /** associated schedules */
 export type SnapshotPolicySnapshotSchedulesList = Array<SnapshotPolicySnapshotPolicySchedule>;
 export interface SnapshotPolicy {
   /** Comment of the Snapshot Policy */
-  comment?: string;
+  comment?: string | undefined;
   /** created at timestamp */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Wether the Snapshot Policy is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** ID of the Snapshot Policy */
-  id?: string;
+  id?: string | undefined;
   /** Name of the Snapshot Policy */
-  name?: string;
+  name?: string | undefined;
   /** (deprecated) associated schedules */
-  schedules?: SnapshotPolicySchedulesList;
+  schedules?: SnapshotPolicySchedulesList | undefined;
   /** associated schedules */
-  snapshotSchedules?: SnapshotPolicySnapshotSchedulesList;
+  snapshotSchedules?: SnapshotPolicySnapshotSchedulesList | undefined;
 }
 export interface GetSnapshotPolicyResponse {
   /** Snapshot Policy */
-  snapshotPolicy?: SnapshotPolicy;
+  snapshotPolicy?: SnapshotPolicy | undefined;
 }
 export interface ListPerformanceClassesRequest {}
 export interface PerformanceClass {
   /** IOPS of the Performance Class */
-  iops?: number;
+  iops?: number | undefined;
   /** Name of the Performance Class */
-  name?: string;
+  name?: string | undefined;
   /** Throughput of the Performance Class */
-  throughput?: number;
+  throughput?: number | undefined;
 }
 /** List of Performance Classes */
 export type ListPerformanceClassesResponsePerformanceClassesList = Array<PerformanceClass>;
 export interface ListPerformanceClassesResponse {
   /** List of Performance Classes */
-  performanceClasses?: ListPerformanceClassesResponsePerformanceClassesList;
+  performanceClasses?: ListPerformanceClassesResponsePerformanceClassesList | undefined;
 }
 export interface ListResourcePoolsRequest {
   projectId: string;
@@ -427,7 +427,7 @@ export interface ListResourcePoolsRequest {
 export type ListResourcePoolsResponseResourcePoolsList = Array<ResourcePool>;
 export interface ListResourcePoolsResponse {
   /** List of Resource Pools */
-  resourcePools?: ListResourcePoolsResponseResourcePoolsList;
+  resourcePools?: ListResourcePoolsResponseResourcePoolsList | undefined;
 }
 export interface ListResourcePoolSnapshotsRequest {
   projectId: string;
@@ -439,7 +439,7 @@ export type ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList =
   Array<ResourcePoolSnapshot>;
 export interface ListResourcePoolSnapshotsResponse {
   /** List of Resource Pool Snapshots */
-  resourcePoolSnapshots?: ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList;
+  resourcePoolSnapshots?: ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList | undefined;
 }
 export interface ListShareExportPoliciesRequest {
   projectId: string;
@@ -449,7 +449,7 @@ export interface ListShareExportPoliciesRequest {
 export type ListShareExportPoliciesResponseShareExportPoliciesList = Array<ShareExportPolicy>;
 export interface ListShareExportPoliciesResponse {
   /** List of Share Export Policies */
-  shareExportPolicies?: ListShareExportPoliciesResponseShareExportPoliciesList;
+  shareExportPolicies?: ListShareExportPoliciesResponseShareExportPoliciesList | undefined;
 }
 export interface ListSharesRequest {
   projectId: string;
@@ -460,17 +460,17 @@ export interface ListSharesRequest {
 export type ListSharesResponseSharesList = Array<Share>;
 export interface ListSharesResponse {
   /** List of Shares */
-  shares?: ListSharesResponseSharesList;
+  shares?: ListSharesResponseSharesList | undefined;
 }
 export interface ListSnapshotPoliciesRequest {
   projectId: string;
-  immutable?: boolean;
+  immutable?: boolean | undefined;
 }
 /** List of Snapshot Policies */
 export type ListSnapshotPoliciesResponseSnapshotPoliciesList = Array<SnapshotPolicy>;
 export interface ListSnapshotPoliciesResponse {
   /** List of Snapshot Policies */
-  snapshotPolicies?: ListSnapshotPoliciesResponseSnapshotPoliciesList;
+  snapshotPolicies?: ListSnapshotPoliciesResponseSnapshotPoliciesList | undefined;
 }
 /** (optional) List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
 export type UpdateResourcePoolRequestIpAclList = Array<string>;
@@ -481,21 +481,21 @@ export interface UpdateResourcePoolRequest {
   region: string;
   resourcePoolId: string;
   /** (optional) List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
-  ipAcl?: UpdateResourcePoolRequestIpAclList;
+  ipAcl?: UpdateResourcePoolRequestIpAclList | undefined;
   /** An optional object that represents the labels associated with the resource pool. */
-  labels?: UpdateResourcePoolRequestLabelsMap;
+  labels?: UpdateResourcePoolRequestLabelsMap | undefined;
   /** (optional) Name of the performance class */
-  performanceClass?: string;
+  performanceClass?: string | undefined;
   /** (optional) Size of the Resource Pool (unit: gigabytes) */
-  sizeGigabytes?: number | null;
+  sizeGigabytes?: number | null | undefined;
   /** (optional) Id of the Snapshot Policy to use If not set, the Snapshot Policy is not updated If set to an empty string, the Snapshot Policy is removed */
-  snapshotPolicyId?: string | null;
+  snapshotPolicyId?: string | null | undefined;
   /** Whether the .snapshot directory is visible when mounting the resource pool. Setting this value to false might prevent you from accessing the snapshots (e.g. for security reasons). Additionally, the access to the snapshots is always controlled by the export policy of the resource pool. That means, if snapshots are visible and the export policy allows for reading the resource pool, then it also allows reading the snapshot of all shares. */
-  snapshotsAreVisible?: boolean;
+  snapshotsAreVisible?: boolean | undefined;
 }
 export interface UpdateResourcePoolResponse {
   /** Updated Resource Pool */
-  resourcePool?: ResourcePool;
+  resourcePool?: ResourcePool | undefined;
 }
 export interface UpdateResourcePoolSnapshotRequest {
   projectId: string;
@@ -503,13 +503,13 @@ export interface UpdateResourcePoolSnapshotRequest {
   resourcePoolId: string;
   snapshotName: string;
   /** (optional) A comment to add more information about a snapshot */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** (optional) name of the Resource Pool Snapshot */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface UpdateResourcePoolSnapshotResponse {
   /** Updated Resource Pool Snapshot */
-  resourcePoolSnapshot?: ResourcePoolSnapshot;
+  resourcePoolSnapshot?: ResourcePoolSnapshot | undefined;
 }
 /** An optional object that represents the labels associated with the share. */
 export type UpdateShareRequestLabelsMap = { [key: string]: string | undefined };
@@ -519,15 +519,15 @@ export interface UpdateShareRequest {
   resourcePoolId: string;
   shareId: string;
   /** Name of the Share Export Policy to use in the Share. The behavior depends on the value: - If not set (null): Keep the existing export policy (if any) - If set to empty string (""): Remove the existing export policy - If set to a policy name: Update to use the specified policy, creating a new association if none exists */
-  exportPolicyName?: string | null;
+  exportPolicyName?: string | null | undefined;
   /** An optional object that represents the labels associated with the share. */
-  labels?: UpdateShareRequestLabelsMap;
+  labels?: UpdateShareRequestLabelsMap | undefined;
   /** Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in. (unit: gibibytes) */
-  spaceHardLimitGigabytes?: number | null;
+  spaceHardLimitGigabytes?: number | null | undefined;
 }
 export interface UpdateShareResponse {
   /** Updated Share */
-  share?: Share;
+  share?: Share | undefined;
 }
 /** An optional object that represents the labels associated with the share export policy. */
 export type UpdateShareExportPolicyRequestLabelsMap = { [key: string]: string | undefined };
@@ -535,17 +535,17 @@ export type UpdateShareExportPolicyRequestLabelsMap = { [key: string]: string | 
 export type UpdateShareExportPolicyBodyRuleIpAclList = Array<string>;
 export interface UpdateShareExportPolicyBodyRule {
   /** Description of the Rule (optional) */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) This array cannot be empty */
-  ipAcl?: UpdateShareExportPolicyBodyRuleIpAclList;
+  ipAcl?: UpdateShareExportPolicyBodyRuleIpAclList | undefined;
   /** Order of the rule within a Share Export Policy. The order is used so that when a client IP matches multiple rules, the first rule is applied This field must be set */
-  order?: number;
+  order?: number | undefined;
   /** Flag to indicate if client IPs matching this rule can only mount the share in read only mode Default: false */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Flag to honor set UUID Default: false */
-  setUuid?: boolean;
+  setUuid?: boolean | undefined;
   /** Flag to indicate if client IPs matching this rule have root access on the Share Default: true */
-  superUser?: boolean;
+  superUser?: boolean | undefined;
 }
 /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule. The whole set of rules needs to be sent in the same request, e.g. if 1 rule is sent, the share export policy will have just that 1 rule, as opposed to extending the existing set of rules with the 1 rule that was sent Important note: the array of rules passed always overwrites the rule array (i.e. sending an empty array removes all rules) */
 export type UpdateShareExportPolicyRequestRulesList = Array<UpdateShareExportPolicyBodyRule>;
@@ -554,12 +554,12 @@ export interface UpdateShareExportPolicyRequest {
   region: string;
   policyId: string;
   /** An optional object that represents the labels associated with the share export policy. */
-  labels?: UpdateShareExportPolicyRequestLabelsMap;
+  labels?: UpdateShareExportPolicyRequestLabelsMap | undefined;
   /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule. The whole set of rules needs to be sent in the same request, e.g. if 1 rule is sent, the share export policy will have just that 1 rule, as opposed to extending the existing set of rules with the 1 rule that was sent Important note: the array of rules passed always overwrites the rule array (i.e. sending an empty array removes all rules) */
-  rules?: UpdateShareExportPolicyRequestRulesList | null;
+  rules?: UpdateShareExportPolicyRequestRulesList | null | undefined;
 }
 export interface UpdateShareExportPolicyResponse {
-  shareExportPolicy?: ShareExportPolicy;
+  shareExportPolicy?: ShareExportPolicy | undefined;
 }
 export type CreateResourcePoolError = BadRequest | Conflict | StackitOpError;
 /** Create Resource Pool Create a Resource Pool in a project. */

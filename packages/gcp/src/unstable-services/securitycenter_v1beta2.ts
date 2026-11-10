@@ -85,7 +85,7 @@ export class NotFound
 
 export interface CalculateFoldersContainerThreatDetectionSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export type ContainerThreatDetectionSettingsServiceEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -99,21 +99,22 @@ export type ConfigModuleEnablementStateEnum =
   | "DISABLED";
 export type DocumentMap = { [key: string]: unknown | undefined };
 export interface Config {
-  moduleEnablementState?: ConfigModuleEnablementStateEnum | (string & {});
-  value?: DocumentMap;
+  moduleEnablementState?: ConfigModuleEnablementStateEnum | (string & {}) | undefined;
+  value?: DocumentMap | undefined;
 }
 export type ConfigMap = { [key: string]: Config | undefined };
 export interface ContainerThreatDetectionSettings {
-  name?: string;
+  name?: string | undefined;
   serviceEnablementState?:
     | ContainerThreatDetectionSettingsServiceEnablementStateEnum
-    | (string & {});
-  serviceAccount?: string;
-  updateTime?: string;
-  modules?: ConfigMap;
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface CalculateFoldersEventThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
   name: string;
 }
 export type EventThreatDetectionSettingsServiceEnablementStateEnum =
@@ -122,10 +123,13 @@ export type EventThreatDetectionSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface EventThreatDetectionSettings {
-  updateTime?: string;
-  serviceEnablementState?: EventThreatDetectionSettingsServiceEnablementStateEnum | (string & {});
-  name?: string;
-  modules?: ConfigMap;
+  updateTime?: string | undefined;
+  serviceEnablementState?:
+    | EventThreatDetectionSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  name?: string | undefined;
+  modules?: ConfigMap | undefined;
 }
 export interface CalculateFoldersRapidVulnerabilityDetectionSettingsRequest {
   name: string;
@@ -136,16 +140,17 @@ export type RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface RapidVulnerabilityDetectionSettings {
-  name?: string;
-  modules?: ConfigMap;
-  updateTime?: string;
+  name?: string | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
   serviceEnablementState?:
     | RapidVulnerabilityDetectionSettingsServiceEnablementStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface CalculateFoldersSecurityHealthAnalyticsSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export type SecurityHealthAnalyticsSettingsServiceEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -155,14 +160,15 @@ export type SecurityHealthAnalyticsSettingsServiceEnablementStateEnum =
 export interface SecurityHealthAnalyticsSettings {
   serviceEnablementState?:
     | SecurityHealthAnalyticsSettingsServiceEnablementStateEnum
-    | (string & {});
-  name?: string;
-  modules?: ConfigMap;
-  updateTime?: string;
-  serviceAccount?: string;
+    | (string & {})
+    | undefined;
+  name?: string | undefined;
+  modules?: ConfigMap | undefined;
+  updateTime?: string | undefined;
+  serviceAccount?: string | undefined;
 }
 export interface CalculateFoldersVirtualMachineThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
   name: string;
 }
 export type VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum =
@@ -171,16 +177,17 @@ export type VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface VirtualMachineThreatDetectionSettings {
-  name?: string;
-  modules?: ConfigMap;
+  name?: string | undefined;
+  modules?: ConfigMap | undefined;
   serviceEnablementState?:
     | VirtualMachineThreatDetectionSettingsServiceEnablementStateEnum
-    | (string & {});
-  serviceAccount?: string;
-  updateTime?: string;
+    | (string & {})
+    | undefined;
+  serviceAccount?: string | undefined;
+  updateTime?: string | undefined;
 }
 export interface CalculateFoldersWebSecurityScannerSettingsRequest {
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
   name: string;
 }
 export type WebSecurityScannerSettingsServiceEnablementStateEnum =
@@ -189,60 +196,63 @@ export type WebSecurityScannerSettingsServiceEnablementStateEnum =
   | "ENABLED"
   | "DISABLED";
 export interface WebSecurityScannerSettings {
-  serviceEnablementState?: WebSecurityScannerSettingsServiceEnablementStateEnum | (string & {});
-  modules?: ConfigMap;
-  name?: string;
-  updateTime?: string;
+  serviceEnablementState?:
+    | WebSecurityScannerSettingsServiceEnablementStateEnum
+    | (string & {})
+    | undefined;
+  modules?: ConfigMap | undefined;
+  name?: string | undefined;
+  updateTime?: string | undefined;
 }
 export interface CalculateOrganizationsContainerThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
   name: string;
 }
 export interface CalculateOrganizationsEventThreatDetectionSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateOrganizationsRapidVulnerabilityDetectionSettingsRequest {
   name: string;
 }
 export interface CalculateOrganizationsSecurityHealthAnalyticsSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateOrganizationsVirtualMachineThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
   name: string;
 }
 export interface CalculateOrganizationsWebSecurityScannerSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateProjectsContainerThreatDetectionSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateProjectsEventThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
   name: string;
 }
 export interface CalculateProjectsLocationsClustersContainerThreatDetectionSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateProjectsRapidVulnerabilityDetectionSettingsRequest {
   name: string;
 }
 export interface CalculateProjectsSecurityHealthAnalyticsSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface CalculateProjectsVirtualMachineThreatDetectionSettingsRequest {
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
   name: string;
 }
 export interface CalculateProjectsWebSecurityScannerSettingsRequest {
   name: string;
-  showEligibleModulesOnly?: boolean;
+  showEligibleModulesOnly?: boolean | undefined;
 }
 export interface GetContainerThreatDetectionSettingsFoldersRequest {
   name: string;
@@ -278,11 +288,11 @@ export interface GetSecurityCenterSettingsFoldersRequest {
   name: string;
 }
 export interface SecurityCenterSettings {
-  name?: string;
-  orgServiceAccount?: string;
-  onboardingTime?: string;
-  logSinkProject?: string;
-  cryptoKeyName?: string;
+  name?: string | undefined;
+  orgServiceAccount?: string | undefined;
+  onboardingTime?: string | undefined;
+  logSinkProject?: string | undefined;
+  cryptoKeyName?: string | undefined;
 }
 export interface GetSecurityCenterSettingsOrganizationsRequest {
   name: string;
@@ -319,14 +329,14 @@ export type DetailsTypeEnum =
   | "SUB_FIXED"
   | "SUB_BASE_OVERAGE";
 export interface Details {
-  type?: DetailsTypeEnum;
-  startTime?: string;
-  endTime?: string;
+  type?: DetailsTypeEnum | undefined;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
 }
 export interface Subscription {
-  tier?: SubscriptionTierEnum;
-  name?: string;
-  details?: Details;
+  tier?: SubscriptionTierEnum | undefined;
+  name?: string | undefined;
+  details?: Details | undefined;
 }
 export interface GetVirtualMachineThreatDetectionSettingsFoldersRequest {
   name: string;
@@ -348,117 +358,117 @@ export interface GetWebSecurityScannerSettingsProjectsRequest {
 }
 export interface UpdateContainerThreatDetectionSettingsFoldersRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: ContainerThreatDetectionSettings;
+  body?: ContainerThreatDetectionSettings | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsOrganizationsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: ContainerThreatDetectionSettings;
+  body?: ContainerThreatDetectionSettings | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsProjectsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: ContainerThreatDetectionSettings;
+  body?: ContainerThreatDetectionSettings | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsProjectsLocationsClustersRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: ContainerThreatDetectionSettings;
+  body?: ContainerThreatDetectionSettings | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsFoldersRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: EventThreatDetectionSettings;
+  body?: EventThreatDetectionSettings | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsOrganizationsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: EventThreatDetectionSettings;
+  body?: EventThreatDetectionSettings | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsProjectsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: EventThreatDetectionSettings;
+  body?: EventThreatDetectionSettings | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsFoldersRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: RapidVulnerabilityDetectionSettings;
+  body?: RapidVulnerabilityDetectionSettings | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsOrganizationsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: RapidVulnerabilityDetectionSettings;
+  body?: RapidVulnerabilityDetectionSettings | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsProjectsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: RapidVulnerabilityDetectionSettings;
+  body?: RapidVulnerabilityDetectionSettings | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsFoldersRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SecurityHealthAnalyticsSettings;
+  body?: SecurityHealthAnalyticsSettings | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsOrganizationsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SecurityHealthAnalyticsSettings;
+  body?: SecurityHealthAnalyticsSettings | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsProjectsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SecurityHealthAnalyticsSettings;
+  body?: SecurityHealthAnalyticsSettings | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsFoldersRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: VirtualMachineThreatDetectionSettings;
+  body?: VirtualMachineThreatDetectionSettings | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: VirtualMachineThreatDetectionSettings;
+  body?: VirtualMachineThreatDetectionSettings | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsProjectsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: VirtualMachineThreatDetectionSettings;
+  body?: VirtualMachineThreatDetectionSettings | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsFoldersRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: WebSecurityScannerSettings;
+  body?: WebSecurityScannerSettings | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsOrganizationsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: WebSecurityScannerSettings;
+  body?: WebSecurityScannerSettings | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsProjectsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: WebSecurityScannerSettings;
+  body?: WebSecurityScannerSettings | undefined;
 }
 export type CalculateFoldersContainerThreatDetectionSettingsError =
   | NotFound

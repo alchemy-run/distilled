@@ -164,7 +164,7 @@ export interface CreateSecurityRequirementEntry {
   description: string;
   domain: string;
   evaluation: string;
-  remediation?: string;
+  remediation?: string | undefined;
 }
 export type CreateSecurityRequirementEntryList = CreateSecurityRequirementEntry[];
 export interface BatchCreateSecurityRequirementsInput {
@@ -177,7 +177,7 @@ export interface BatchCreateSecurityRequirementResult {
   description: string;
   domain: string;
   evaluation: string;
-  remediation?: string;
+  remediation?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -198,13 +198,13 @@ export interface BatchDeleteCodeReviewsInput {
   agentSpaceId: string;
 }
 export interface DeleteCodeReviewFailure {
-  codeReviewId?: string;
-  reason?: string;
+  codeReviewId?: string | undefined;
+  reason?: string | undefined;
 }
 export type DeleteCodeReviewFailureList = DeleteCodeReviewFailure[];
 export interface BatchDeleteCodeReviewsOutput {
-  deleted?: string[];
-  failed?: DeleteCodeReviewFailure[];
+  deleted?: string[] | undefined;
+  failed?: DeleteCodeReviewFailure[] | undefined;
 }
 export type PentestIdList = string[];
 export interface BatchDeletePentestsInput {
@@ -212,7 +212,7 @@ export interface BatchDeletePentestsInput {
   agentSpaceId: string;
 }
 export interface Endpoint {
-  uri?: string;
+  uri?: string | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c96, 0) as any as S.Schema<Endpoint>;
 export type EndpointList = Endpoint[];
@@ -224,17 +224,17 @@ export type AuthenticationProviderType =
   | "AWS_INTERNAL"
   | (string & {});
 export interface Authentication {
-  providerType?: AuthenticationProviderType;
-  value?: string;
+  providerType?: AuthenticationProviderType | undefined;
+  value?: string | undefined;
 }
 export type SensitiveEmailAddress = string | redacted.Redacted<string>;
 export interface Actor {
-  identifier?: string;
-  uris?: string[];
-  authentication?: Authentication;
-  description?: string;
-  enableEmailMfa?: boolean;
-  mfaForwardingAddress?: string | redacted.Redacted<string>;
+  identifier?: string | undefined;
+  uris?: string[] | undefined;
+  authentication?: Authentication | undefined;
+  description?: string | undefined;
+  enableEmailMfa?: boolean | undefined;
+  mfaForwardingAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type ActorList = Actor[];
 export interface IntegratedDocument {
@@ -242,26 +242,30 @@ export interface IntegratedDocument {
   resourceId: string;
 }
 export interface DocumentInfo {
-  s3Location?: string;
-  artifactId?: string;
-  integratedDocument?: IntegratedDocument;
+  s3Location?: string | undefined;
+  artifactId?: string | undefined;
+  integratedDocument?: IntegratedDocument | undefined;
 }
 export type DocumentList = DocumentInfo[];
 export interface SourceCodeRepository {
-  s3Location?: string;
+  s3Location?: string | undefined;
 }
 export type SourceCodeRepositoryList = SourceCodeRepository[];
 export interface IntegratedRepository {
   integrationId: string;
   providerResourceId: string;
-  branch?: string;
+  branch?: string | undefined;
 }
 export type IntegratedRepositoryList = IntegratedRepository[];
 export type CaCertificatePem = string | redacted.Redacted<string>;
 export type CaCertificateSource =
-  | { inlinePem: string | redacted.Redacted<string>; artifactId?: never; s3Location?: never }
-  | { inlinePem?: never; artifactId: string; s3Location?: never }
-  | { inlinePem?: never; artifactId?: never; s3Location: string };
+  | {
+      inlinePem: string | redacted.Redacted<string>;
+      artifactId?: undefined;
+      s3Location?: undefined;
+    }
+  | { inlinePem?: undefined; artifactId: string; s3Location?: undefined }
+  | { inlinePem?: undefined; artifactId?: undefined; s3Location: string };
 export interface TrustedCaCertificate {
   source: CaCertificateSource;
 }
@@ -275,13 +279,13 @@ export interface ClientCertificate {
 }
 export type ClientCertificateList = ClientCertificate[];
 export interface Assets {
-  endpoints?: Endpoint[];
-  actors?: Actor[];
-  documents?: DocumentInfo[];
-  sourceCode?: SourceCodeRepository[];
-  integratedRepositories?: IntegratedRepository[];
-  trustedCaCertificates?: TrustedCaCertificate[];
-  clientCertificates?: ClientCertificate[];
+  endpoints?: Endpoint[] | undefined;
+  actors?: Actor[] | undefined;
+  documents?: DocumentInfo[] | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  trustedCaCertificates?: TrustedCaCertificate[] | undefined;
+  clientCertificates?: ClientCertificate[] | undefined;
 }
 export type RiskType =
   | "CROSS_SITE_SCRIPTING"
@@ -316,8 +320,8 @@ export type RiskType =
 export type RiskTypeList = RiskType[];
 export type ServiceRole = string;
 export interface CloudWatchLog {
-  logGroup?: string;
-  logStream?: string;
+  logGroup?: string | undefined;
+  logStream?: string | undefined;
 }
 export type VpcArn = string;
 export type SecurityGroupArn = string;
@@ -325,26 +329,26 @@ export type SecurityGroupArns = string[];
 export type SubnetArn = string;
 export type SubnetArns = string[];
 export interface VpcConfig {
-  vpcArn?: string;
-  securityGroupArns?: string[];
-  subnetArns?: string[];
+  vpcArn?: string | undefined;
+  securityGroupArns?: string[] | undefined;
+  subnetArns?: string[] | undefined;
 }
 export type NetworkTrafficRuleEffect = "ALLOW" | "DENY" | (string & {});
 export type NetworkTrafficRuleType = "URL" | (string & {});
 export interface NetworkTrafficRule {
-  effect?: NetworkTrafficRuleEffect;
-  pattern?: string;
-  networkTrafficRuleType?: NetworkTrafficRuleType;
+  effect?: NetworkTrafficRuleEffect | undefined;
+  pattern?: string | undefined;
+  networkTrafficRuleType?: NetworkTrafficRuleType | undefined;
 }
 export type NetworkTrafficRuleList = NetworkTrafficRule[];
 export interface CustomHeader {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type CustomHeaderList = CustomHeader[];
 export interface NetworkTrafficConfig {
-  rules?: NetworkTrafficRule[];
-  customHeaders?: CustomHeader[];
+  rules?: NetworkTrafficRule[] | undefined;
+  customHeaders?: CustomHeader[] | undefined;
 }
 export type CodeRemediationStrategy = "AUTOMATIC" | "DISABLED" | (string & {});
 export type CleanUpStrategy = "BEST_EFFORT_DELETE" | "RETAIN_ALL" | (string & {});
@@ -353,8 +357,8 @@ export type SkillTypeList = SkillType[];
 export interface ReportDestination {
   integrationId: string;
   containerId: string;
-  parentId?: string;
-  documentId?: string;
+  parentId?: string | undefined;
+  documentId?: string | undefined;
 }
 export type RiskLevel =
   | "UNKNOWN"
@@ -387,17 +391,17 @@ export type TaskExecutionStatus =
   | (string & {});
 export type TaskExecutionStatusFilterList = TaskExecutionStatus[];
 export interface ReportFilters {
-  riskLevels?: RiskLevel[];
-  confidenceLevels?: ConfidenceLevel[];
-  statuses?: FindingStatus[];
-  riskTypes?: RiskType[];
-  findingTypes?: string[];
-  taskStatuses?: TaskExecutionStatus[];
-  annotationNotes?: boolean;
-  complianceReport?: boolean;
+  riskLevels?: RiskLevel[] | undefined;
+  confidenceLevels?: ConfidenceLevel[] | undefined;
+  statuses?: FindingStatus[] | undefined;
+  riskTypes?: RiskType[] | undefined;
+  findingTypes?: string[] | undefined;
+  taskStatuses?: TaskExecutionStatus[] | undefined;
+  annotationNotes?: boolean | undefined;
+  complianceReport?: boolean | undefined;
 }
 export interface CiCdConfiguration {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type TestScopeType = "WEB_APP" | "GENERATIVE_AI_APP" | (string & {});
 export interface TestScope {
@@ -408,31 +412,31 @@ export interface Pentest {
   agentSpaceId: string;
   title: string;
   assets: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  cleanUpStrategy?: CleanUpStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
-  testScope?: TestScope;
-  createdAt?: Date;
-  updatedAt?: Date;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  cleanUpStrategy?: CleanUpStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PentestList = Pentest[];
 export interface DeletePentestFailure {
-  pentestId?: string;
-  reason?: string;
+  pentestId?: string | undefined;
+  reason?: string | undefined;
 }
 export type DeletePentestFailureList = DeletePentestFailure[];
 export interface BatchDeletePentestsOutput {
-  deleted?: Pentest[];
-  failed?: DeletePentestFailure[];
+  deleted?: Pentest[] | undefined;
+  failed?: DeletePentestFailure[] | undefined;
 }
 export type SecurityRequirementNameList = string[];
 export interface BatchDeleteSecurityRequirementsInput {
@@ -449,19 +453,19 @@ export interface BatchDeleteThreatModelsInput {
   agentSpaceId: string;
 }
 export interface DeleteThreatModelFailure {
-  threatModelId?: string;
-  reason?: string;
+  threatModelId?: string | undefined;
+  reason?: string | undefined;
 }
 export type DeleteThreatModelFailureList = DeleteThreatModelFailure[];
 export interface BatchDeleteThreatModelsOutput {
-  deleted?: string[];
-  failed?: DeleteThreatModelFailure[];
+  deleted?: string[] | undefined;
+  failed?: DeleteThreatModelFailure[] | undefined;
 }
 export type FindingIdList = string[];
 export interface BatchDisassociateFindingIssueInput {
   agentSpaceId: string;
-  pentestJobId?: string;
-  codeReviewJobId?: string;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
   findingIds: string[];
 }
 export type ErrorCode = "CLIENT_ERROR" | "INTERNAL_ERROR" | "STOPPED_BY_USER" | (string & {});
@@ -480,8 +484,8 @@ export interface IssueDestination {
 }
 export interface BatchExportFindingsInput {
   agentSpaceId: string;
-  pentestJobId?: string;
-  codeReviewJobId?: string;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
   issueDestination: IssueDestination;
   findingIds: string[];
 }
@@ -494,13 +498,13 @@ export type Provider =
   | "JIRA"
   | (string & {});
 export interface LinkedIssue {
-  provider?: Provider;
-  integrationId?: string;
-  projectKey?: string;
-  issueKey?: string;
-  issueId?: string;
-  issueUrl?: string;
-  siteUrl?: string;
+  provider?: Provider | undefined;
+  integrationId?: string | undefined;
+  projectKey?: string | undefined;
+  issueKey?: string | undefined;
+  issueId?: string | undefined;
+  issueUrl?: string | undefined;
+  siteUrl?: string | undefined;
 }
 export interface BatchExportFindingResult {
   findingId: string;
@@ -532,12 +536,12 @@ export type LambdaFunctionArn = string;
 export type LambdaFunctionArns = string[];
 export type IamRoles = string[];
 export interface AWSResources {
-  vpcs?: VpcConfig[];
-  logGroups?: string[];
-  s3Buckets?: string[];
-  secretArns?: string[];
-  lambdaFunctionArns?: string[];
-  iamRoles?: string[];
+  vpcs?: VpcConfig[] | undefined;
+  logGroups?: string[] | undefined;
+  s3Buckets?: string[] | undefined;
+  secretArns?: string[] | undefined;
+  lambdaFunctionArns?: string[] | undefined;
+  iamRoles?: string[] | undefined;
 }
 export type TargetDomainIdList = string[];
 export interface CodeReviewSettings {
@@ -548,18 +552,18 @@ export type KmsKeyId = string;
 export interface AgentSpace {
   agentSpaceId: string;
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  kmsKeyId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  kmsKeyId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type AgentSpaceList = AgentSpace[];
 export interface BatchGetAgentSpacesOutput {
-  agentSpaces?: AgentSpace[];
-  notFound?: string[];
+  agentSpaces?: AgentSpace[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type ArtifactIds = string[];
 export interface BatchGetArtifactMetadataInput {
@@ -603,47 +607,47 @@ export type StepStatus =
   | "STOPPED"
   | (string & {});
 export interface Step {
-  name?: StepName;
-  status?: StepStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  name?: StepName | undefined;
+  status?: StepStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type StepList = Step[];
 export type ContextType = "ERROR" | "CLIENT_ERROR" | "WARNING" | "INFO" | (string & {});
 export interface ExecutionContext {
-  contextType?: ContextType;
-  context?: string;
-  timestamp?: Date;
+  contextType?: ContextType | undefined;
+  context?: string | undefined;
+  timestamp?: Date | undefined;
 }
 export type ExecutionContextList = ExecutionContext[];
 export interface ErrorInformation {
-  code?: ErrorCode;
-  message?: string;
+  code?: ErrorCode | undefined;
+  message?: string | undefined;
 }
 export interface CodeReviewJob {
-  codeReviewJobId?: string;
-  codeReviewId?: string;
-  title?: string;
-  overview?: string;
-  status?: JobStatus;
-  documents?: DocumentInfo[];
-  sourceCode?: SourceCodeRepository[];
-  steps?: Step[];
-  executionContext?: ExecutionContext[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  errorInformation?: ErrorInformation;
-  integratedRepositories?: IntegratedRepository[];
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  createdAt?: Date;
-  updatedAt?: Date;
+  codeReviewJobId?: string | undefined;
+  codeReviewId?: string | undefined;
+  title?: string | undefined;
+  overview?: string | undefined;
+  status?: JobStatus | undefined;
+  documents?: DocumentInfo[] | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  steps?: Step[] | undefined;
+  executionContext?: ExecutionContext[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  errorInformation?: ErrorInformation | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobList = CodeReviewJob[];
 export interface BatchGetCodeReviewJobsOutput {
-  codeReviewJobs?: CodeReviewJob[];
-  notFound?: string[];
+  codeReviewJobs?: CodeReviewJob[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type TaskIdList = string[];
 export interface BatchGetCodeReviewJobTasksInput {
@@ -651,33 +655,33 @@ export interface BatchGetCodeReviewJobTasksInput {
   codeReviewJobTaskIds: string[];
 }
 export interface Category {
-  name?: string;
-  isPrimary?: boolean;
+  name?: string | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type CategoryList = Category[];
 export type LogType = "CLOUDWATCH" | (string & {});
 export interface LogLocation {
-  logType?: LogType;
-  cloudWatchLog?: CloudWatchLog;
+  logType?: LogType | undefined;
+  cloudWatchLog?: CloudWatchLog | undefined;
 }
 export interface CodeReviewJobTask {
   taskId: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  description?: string;
-  categories?: Category[];
-  riskType?: RiskType;
-  executionStatus?: TaskExecutionStatus;
-  logsLocation?: LogLocation;
-  createdAt?: Date;
-  updatedAt?: Date;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  categories?: Category[] | undefined;
+  riskType?: RiskType | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  logsLocation?: LogLocation | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobTaskList = CodeReviewJobTask[];
 export interface BatchGetCodeReviewJobTasksOutput {
-  codeReviewJobTasks?: CodeReviewJobTask[];
-  notFound?: string[];
+  codeReviewJobTasks?: CodeReviewJobTask[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetCodeReviewsInput {
   codeReviewIds: string[];
@@ -689,20 +693,20 @@ export interface CodeReview {
   agentSpaceId: string;
   title: string;
   assets: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  createdAt?: Date;
-  updatedAt?: Date;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewList = CodeReview[];
 export interface BatchGetCodeReviewsOutput {
-  codeReviews?: CodeReview[];
-  notFound?: string[];
+  codeReviews?: CodeReview[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetFindingsInput {
   findingIds: string[];
@@ -717,70 +721,70 @@ export type ValidationStatus =
   | (string & {});
 export type CodeRemediationTaskStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export interface CodeRemediationTaskDetails {
-  repoName?: string;
-  codeDiffLink?: string;
-  pullRequestLink?: string;
+  repoName?: string | undefined;
+  codeDiffLink?: string | undefined;
+  pullRequestLink?: string | undefined;
 }
 export type CodeRemediationTaskDetailsList = CodeRemediationTaskDetails[];
 export interface CodeRemediationTask {
   status: CodeRemediationTaskStatus;
-  statusReason?: string;
-  taskDetails?: CodeRemediationTaskDetails[];
+  statusReason?: string | undefined;
+  taskDetails?: CodeRemediationTaskDetails[] | undefined;
 }
 export interface CodeLocation {
   filePath: string;
-  lineStart?: number;
-  lineEnd?: number;
-  label?: string;
+  lineStart?: number | undefined;
+  lineEnd?: number | undefined;
+  label?: string | undefined;
 }
 export type CodeLocationList = CodeLocation[];
 export interface VerificationScriptEnvVar {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type VerificationScriptEnvVarList = VerificationScriptEnvVar[];
 export interface VerificationScript {
-  scriptType?: string;
-  scriptUrl?: string;
-  instructions?: string;
-  envVars?: VerificationScriptEnvVar[];
+  scriptType?: string | undefined;
+  scriptUrl?: string | undefined;
+  instructions?: string | undefined;
+  envVars?: VerificationScriptEnvVar[] | undefined;
 }
 export type StringList = string[];
 export interface Finding {
   findingId: string;
   agentSpaceId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  taskId?: string;
-  name?: string;
-  description?: string;
-  status?: FindingStatus;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  riskScore?: string;
-  reasoning?: string;
-  confidence?: ConfidenceLevel;
-  validationStatus?: ValidationStatus;
-  attackScript?: string;
-  remediationCode?: string;
-  codeRemediationTask?: CodeRemediationTask;
-  lastUpdatedBy?: string;
-  customerNote?: string;
-  codeLocations?: CodeLocation[];
-  verificationScript?: VerificationScript;
-  alignmentRationale?: string;
-  revalidationJobIds?: string[];
-  originalFindingId?: string;
-  linkedIssue?: LinkedIssue;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  taskId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: FindingStatus | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  riskScore?: string | undefined;
+  reasoning?: string | undefined;
+  confidence?: ConfidenceLevel | undefined;
+  validationStatus?: ValidationStatus | undefined;
+  attackScript?: string | undefined;
+  remediationCode?: string | undefined;
+  codeRemediationTask?: CodeRemediationTask | undefined;
+  lastUpdatedBy?: string | undefined;
+  customerNote?: string | undefined;
+  codeLocations?: CodeLocation[] | undefined;
+  verificationScript?: VerificationScript | undefined;
+  alignmentRationale?: string | undefined;
+  revalidationJobIds?: string[] | undefined;
+  originalFindingId?: string | undefined;
+  linkedIssue?: LinkedIssue | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type FindingList = Finding[];
 export interface BatchGetFindingsOutput {
-  findings?: Finding[];
-  notFound?: string[];
+  findings?: Finding[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type PentestJobIdList = string[];
 export interface BatchGetPentestJobsInput {
@@ -796,53 +800,53 @@ export interface ScopeResult {
 export interface ScopeChange {
   integrationId: string;
   providerResourceId: string;
-  baseCommitSha?: string;
+  baseCommitSha?: string | undefined;
   headCommitSha: string;
-  triggerRunId?: string;
+  triggerRunId?: string | undefined;
 }
 export type ScopeChangeList = ScopeChange[];
 export interface PentestJob {
-  pentestJobId?: string;
-  pentestId?: string;
-  title?: string;
-  overview?: string;
-  status?: JobStatus;
-  endpoints?: Endpoint[];
-  actors?: Actor[];
-  documents?: DocumentInfo[];
-  sourceCode?: SourceCodeRepository[];
-  excludePaths?: Endpoint[];
-  allowedDomains?: Endpoint[];
-  excludeRiskTypes?: RiskType[];
-  steps?: Step[];
-  executionContext?: ExecutionContext[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  errorInformation?: ErrorInformation;
-  integratedRepositories?: IntegratedRepository[];
-  trustedCaCertificates?: TrustedCaCertificate[];
-  clientCertificates?: ClientCertificate[];
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  cleanUpStrategy?: CleanUpStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  jobType?: JobType;
-  selectedFindingIds?: string[];
-  reportDestination?: ReportDestination;
-  reportUrl?: string;
-  scopeResult?: ScopeResult;
-  scopeChanges?: ScopeChange[];
-  cicdConfiguration?: CiCdConfiguration;
-  testScope?: TestScope;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestJobId?: string | undefined;
+  pentestId?: string | undefined;
+  title?: string | undefined;
+  overview?: string | undefined;
+  status?: JobStatus | undefined;
+  endpoints?: Endpoint[] | undefined;
+  actors?: Actor[] | undefined;
+  documents?: DocumentInfo[] | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  excludePaths?: Endpoint[] | undefined;
+  allowedDomains?: Endpoint[] | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  steps?: Step[] | undefined;
+  executionContext?: ExecutionContext[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  errorInformation?: ErrorInformation | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  trustedCaCertificates?: TrustedCaCertificate[] | undefined;
+  clientCertificates?: ClientCertificate[] | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  cleanUpStrategy?: CleanUpStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  jobType?: JobType | undefined;
+  selectedFindingIds?: string[] | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportUrl?: string | undefined;
+  scopeResult?: ScopeResult | undefined;
+  scopeChanges?: ScopeChange[] | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PentestJobList = PentestJob[];
 export interface BatchGetPentestJobsOutput {
-  pentestJobs?: PentestJob[];
-  notFound?: string[];
+  pentestJobs?: PentestJob[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetPentestJobTasksInput {
   agentSpaceId: string;
@@ -850,32 +854,32 @@ export interface BatchGetPentestJobTasksInput {
 }
 export interface Task {
   taskId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  description?: string;
-  categories?: Category[];
-  riskType?: RiskType;
-  targetEndpoint?: Endpoint;
-  executionStatus?: TaskExecutionStatus;
-  logsLocation?: LogLocation;
-  taskHours?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  categories?: Category[] | undefined;
+  riskType?: RiskType | undefined;
+  targetEndpoint?: Endpoint | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  logsLocation?: LogLocation | undefined;
+  taskHours?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type TaskList = Task[];
 export interface BatchGetPentestJobTasksOutput {
-  tasks?: Task[];
-  notFound?: string[];
+  tasks?: Task[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetPentestsInput {
   pentestIds: string[];
   agentSpaceId: string;
 }
 export interface BatchGetPentestsOutput {
-  pentests?: Pentest[];
-  notFound?: string[];
+  pentests?: Pentest[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetSecurityRequirementsInput {
   packId: string;
@@ -887,7 +891,7 @@ export interface BatchGetSecurityRequirementResult {
   description: string;
   domain: string;
   evaluation: string;
-  remediation?: string;
+  remediation?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -904,32 +908,32 @@ export type TargetDomainStatus = "PENDING" | "VERIFIED" | "FAILED" | "UNREACHABL
 export type DomainVerificationMethod = "DNS_TXT" | "HTTP_ROUTE" | "PRIVATE_VPC" | (string & {});
 export type DNSRecordType = "TXT" | (string & {});
 export interface DnsVerification {
-  token?: string;
-  dnsRecordName?: string;
-  dnsRecordType?: DNSRecordType;
+  token?: string | undefined;
+  dnsRecordName?: string | undefined;
+  dnsRecordType?: DNSRecordType | undefined;
 }
 export interface HttpVerification {
-  token?: string;
-  routePath?: string;
+  token?: string | undefined;
+  routePath?: string | undefined;
 }
 export interface VerificationDetails {
-  method?: DomainVerificationMethod;
-  dnsTxt?: DnsVerification;
-  httpRoute?: HttpVerification;
+  method?: DomainVerificationMethod | undefined;
+  dnsTxt?: DnsVerification | undefined;
+  httpRoute?: HttpVerification | undefined;
 }
 export interface TargetDomain {
   targetDomainId: string;
   domainName: string;
-  verificationStatus?: TargetDomainStatus;
-  verificationStatusReason?: string;
-  verificationDetails?: VerificationDetails;
-  createdAt?: Date;
-  verifiedAt?: Date;
+  verificationStatus?: TargetDomainStatus | undefined;
+  verificationStatusReason?: string | undefined;
+  verificationDetails?: VerificationDetails | undefined;
+  createdAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
 }
 export type TargetDomainList = TargetDomain[];
 export interface BatchGetTargetDomainsOutput {
-  targetDomains?: TargetDomain[];
-  notFound?: string[];
+  targetDomains?: TargetDomain[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type ThreatModelJobIdList = string[];
 export interface BatchGetThreatModelJobsInput {
@@ -937,27 +941,27 @@ export interface BatchGetThreatModelJobsInput {
   agentSpaceId: string;
 }
 export interface ThreatModelJob {
-  threatModelJobId?: string;
-  threatModelId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  executionStartTime?: Date;
-  executionEndTime?: Date;
-  sourceCode?: SourceCodeRepository[];
-  integratedRepositories?: IntegratedRepository[];
-  documents?: DocumentInfo[];
-  scopeDocs?: DocumentInfo[];
-  errorInformation?: ErrorInformation;
-  systemOverview?: string;
-  reportDestination?: ReportDestination;
+  threatModelJobId?: string | undefined;
+  threatModelId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  executionStartTime?: Date | undefined;
+  executionEndTime?: Date | undefined;
+  sourceCode?: SourceCodeRepository[] | undefined;
+  integratedRepositories?: IntegratedRepository[] | undefined;
+  documents?: DocumentInfo[] | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  errorInformation?: ErrorInformation | undefined;
+  systemOverview?: string | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export type ThreatModelJobList = ThreatModelJob[];
 export interface BatchGetThreatModelJobsOutput {
-  threatModelJobs?: ThreatModelJob[];
-  notFound?: string[];
+  threatModelJobs?: ThreatModelJob[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetThreatModelJobTasksInput {
   agentSpaceId: string;
@@ -965,20 +969,20 @@ export interface BatchGetThreatModelJobTasksInput {
 }
 export interface ThreatModelJobTask {
   taskId: string;
-  threatModelId?: string;
-  threatModelJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  description?: string;
-  executionStatus?: TaskExecutionStatus;
-  logsLocation?: LogLocation;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatModelId?: string | undefined;
+  threatModelJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  logsLocation?: LogLocation | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelJobTaskList = ThreatModelJobTask[];
 export interface BatchGetThreatModelJobTasksOutput {
-  threatModelJobTasks?: ThreatModelJobTask[];
-  notFound?: string[];
+  threatModelJobTasks?: ThreatModelJobTask[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface BatchGetThreatModelsInput {
   threatModelIds: string[];
@@ -988,19 +992,19 @@ export interface ThreatModel {
   threatModelId: string;
   agentSpaceId: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   assets: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  reportDestination?: ReportDestination;
-  createdAt?: Date;
-  updatedAt?: Date;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  reportDestination?: ReportDestination | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelList = ThreatModel[];
 export interface BatchGetThreatModelsOutput {
-  threatModels?: ThreatModel[];
-  notFound?: string[];
+  threatModels?: ThreatModel[] | undefined;
+  notFound?: string[] | undefined;
 }
 export type ThreatIdList = string[];
 export interface BatchGetThreatsInput {
@@ -1010,13 +1014,13 @@ export interface BatchGetThreatsInput {
 export type ThreatSeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO" | (string & {});
 export type ThreatStatus = "OPEN" | "RESOLVED" | "DISMISSED" | (string & {});
 export interface ThreatAnchorShape {
-  kind?: string;
-  id?: string;
-  packageId?: string;
+  kind?: string | undefined;
+  id?: string | undefined;
+  packageId?: string | undefined;
 }
 export interface ThreatEvidenceShape {
-  packageId?: string;
-  path?: string;
+  packageId?: string | undefined;
+  path?: string | undefined;
 }
 export type ThreatEvidenceList = ThreatEvidenceShape[];
 export type StrideCategory =
@@ -1030,39 +1034,39 @@ export type StrideCategory =
 export type StrideCategoryList = StrideCategory[];
 export type ThreatActor = "CUSTOMER" | "AGENT" | (string & {});
 export interface Threat {
-  threatId?: string;
-  threatJobId?: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  comments?: string;
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  stride?: StrideCategory[];
-  recommendation?: string;
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatId?: string | undefined;
+  threatJobId?: string | undefined;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  stride?: StrideCategory[] | undefined;
+  recommendation?: string | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatList = Threat[];
 export interface BatchGetThreatsOutput {
-  threats?: Threat[];
-  notFound?: string[];
+  threats?: Threat[] | undefined;
+  notFound?: string[] | undefined;
 }
 export interface UpdateSecurityRequirementEntry {
   name: string;
-  description?: string;
-  domain?: string;
-  evaluation?: string;
-  remediation?: string;
+  description?: string | undefined;
+  domain?: string | undefined;
+  evaluation?: string | undefined;
+  remediation?: string | undefined;
 }
 export type UpdateSecurityRequirementEntryList = UpdateSecurityRequirementEntry[];
 export interface BatchUpdateSecurityRequirementsInput {
@@ -1079,32 +1083,32 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateAgentSpaceInput {
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAgentSpaceOutput {
   agentSpaceId: string;
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  kmsKeyId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  kmsKeyId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type IdCInstanceArn = string;
 export type RoleArn = string;
 export type DefaultKmsKeyId = string;
 export interface CreateApplicationRequest {
-  idcInstanceArn?: string;
-  roleArn?: string;
-  defaultKmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  idcInstanceArn?: string | undefined;
+  roleArn?: string | undefined;
+  defaultKmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ApplicationId = string;
 export interface CreateApplicationResponse {
@@ -1114,28 +1118,28 @@ export interface CreateCodeReviewInput {
   title: string;
   agentSpaceId: string;
   assets: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
 export interface CreateCodeReviewOutput {
   codeReviewId: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
 export type AuthCode = string;
 export type CsrfState = string;
@@ -1143,17 +1147,17 @@ export type TargetUrl = string;
 export interface GitHubIntegrationInput {
   code: string;
   state: string;
-  organizationName?: string;
-  targetUrl?: string;
-  installationId?: string;
+  organizationName?: string | undefined;
+  targetUrl?: string | undefined;
+  installationId?: string | undefined;
 }
 export type AccessToken = string | redacted.Redacted<string>;
 export type GitLabTokenType = "PERSONAL" | "GROUP" | (string & {});
 export interface GitLabIntegrationInput {
   accessToken: string | redacted.Redacted<string>;
-  targetUrl?: string;
+  targetUrl?: string | undefined;
   tokenType: GitLabTokenType;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export type BitbucketInstallationId = string;
 export type BitbucketWorkspace = string;
@@ -1192,65 +1196,65 @@ export interface JiraIntegrationInput {
 export type ProviderInput =
   | {
       github: GitHubIntegrationInput;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
+      github?: undefined;
       gitlab: GitLabIntegrationInput;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
+      github?: undefined;
+      gitlab?: undefined;
       bitbucket: BitbucketIntegrationInput;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
       confluence: ConfluenceIntegrationInput;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
       azureDevOps: AzureDevOpsIntegrationInput;
-      bitbucketDataCenter?: never;
-      jira?: never;
+      bitbucketDataCenter?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
       bitbucketDataCenter: BitbucketDataCenterIntegrationInput;
-      jira?: never;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      bitbucketDataCenter?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      bitbucketDataCenter?: undefined;
       jira: JiraIntegrationInput;
     };
 export type PrivateConnectionName = string;
@@ -1258,9 +1262,9 @@ export interface CreateIntegrationInput {
   provider: Provider;
   input: ProviderInput;
   integrationDisplayName: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  privateConnectionName?: string;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  privateConnectionName?: string | undefined;
 }
 export type IntegrationId = string;
 export interface CreateIntegrationOutput {
@@ -1270,7 +1274,7 @@ export type MembershipId = string;
 export type MembershipType = "USER" | "GROUP" | (string & {});
 export type UserRole = "MEMBER" | (string & {});
 export interface UserConfig {
-  role?: UserRole;
+  role?: UserRole | undefined;
 }
 export type MembershipConfig = { user: UserConfig };
 export interface CreateMembershipRequest {
@@ -1278,40 +1282,40 @@ export interface CreateMembershipRequest {
   agentSpaceId: string;
   membershipId: string;
   memberType: MembershipType;
-  config?: MembershipConfig;
+  config?: MembershipConfig | undefined;
 }
 export interface CreateMembershipResponse {}
 export interface CreatePentestInput {
   title: string;
   agentSpaceId: string;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
-  testScope?: TestScope;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export interface CreatePentestOutput {
-  pentestId?: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
-  testScope?: TestScope;
+  pentestId?: string | undefined;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export type HostAddress = string;
 export type PrivateConnectionVpcId = string;
@@ -1329,25 +1333,25 @@ export interface ServiceManagedInput {
   hostAddress: string;
   vpcId: string;
   subnetIds: string[];
-  securityGroupIds?: string[];
-  ipAddressType?: IpAddressType;
-  ipv4AddressesPerEni?: number;
-  portRanges?: string[];
-  certificate?: string | redacted.Redacted<string>;
-  dnsResolution?: ResourceConfigDnsResolution;
+  securityGroupIds?: string[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  ipv4AddressesPerEni?: number | undefined;
+  portRanges?: string[] | undefined;
+  certificate?: string | redacted.Redacted<string> | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
 }
 export type ResourceConfigurationId = string;
 export interface SelfManagedInput {
   resourceConfigurationId: string;
-  certificate?: string | redacted.Redacted<string>;
+  certificate?: string | redacted.Redacted<string> | undefined;
 }
 export type PrivateConnectionMode =
-  | { serviceManaged: ServiceManagedInput; selfManaged?: never }
-  | { serviceManaged?: never; selfManaged: SelfManagedInput };
+  | { serviceManaged: ServiceManagedInput; selfManaged?: undefined }
+  | { serviceManaged?: undefined; selfManaged: SelfManagedInput };
 export interface CreatePrivateConnectionInput {
   privateConnectionName: string;
   mode: PrivateConnectionMode;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PrivateConnectionType = "SERVICE_MANAGED" | "SELF_MANAGED" | (string & {});
 export type PrivateConnectionStatus =
@@ -1362,112 +1366,112 @@ export interface CreatePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SecurityRequirementPackName = string;
 export type SecurityRequirementPackStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateSecurityRequirementPackInput {
   name: string;
-  description?: string;
-  status?: SecurityRequirementPackStatus;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSecurityRequirementPackOutput {
   packId: string;
   status: SecurityRequirementPackStatus;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateTargetDomainInput {
   targetDomainName: string;
   verificationMethod: DomainVerificationMethod;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTargetDomainOutput {
   targetDomainId: string;
   domainName: string;
   verificationStatus: TargetDomainStatus;
-  verificationStatusReason?: string;
-  verificationDetails?: VerificationDetails;
-  createdAt?: Date;
-  verifiedAt?: Date;
+  verificationStatusReason?: string | undefined;
+  verificationDetails?: VerificationDetails | undefined;
+  createdAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
 }
 export interface CreateThreatInput {
   agentSpaceId: string;
   threatJobId: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  comments?: string;
-  stride?: StrideCategory[];
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  comments?: string | undefined;
+  stride?: StrideCategory[] | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
 }
 export interface CreateThreatOutput {
   threatId: string;
   threatJobId: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  comments?: string;
-  stride?: StrideCategory[];
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  stride?: StrideCategory[] | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateThreatModelInput {
   title: string;
   agentSpaceId: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
   serviceRole: string;
-  logConfig?: CloudWatchLog;
-  reportDestination?: ReportDestination;
+  logConfig?: CloudWatchLog | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface CreateThreatModelOutput {
   threatModelId: string;
-  title?: string;
-  agentSpaceId?: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  createdAt?: Date;
-  updatedAt?: Date;
-  reportDestination?: ReportDestination;
+  title?: string | undefined;
+  agentSpaceId?: string | undefined;
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface DeleteAgentSpaceInput {
   agentSpaceId: string;
 }
 export interface DeleteAgentSpaceOutput {
-  agentSpaceId?: string;
+  agentSpaceId?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   applicationId: string;
@@ -1486,7 +1490,7 @@ export interface DeleteMembershipRequest {
   applicationId: string;
   agentSpaceId: string;
   membershipId: string;
-  memberType?: MembershipType;
+  memberType?: MembershipType | undefined;
 }
 export interface DeleteMembershipResponse {}
 export interface DeletePrivateConnectionInput {
@@ -1496,14 +1500,14 @@ export interface DeletePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteSecurityRequirementPackInput {
   packId: string;
@@ -1513,7 +1517,7 @@ export interface DeleteTargetDomainInput {
   targetDomainId: string;
 }
 export interface DeleteTargetDomainOutput {
-  targetDomainId?: string;
+  targetDomainId?: string | undefined;
 }
 export interface DescribePrivateConnectionInput {
   privateConnectionName: string;
@@ -1522,14 +1526,14 @@ export interface DescribePrivateConnectionOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetApplicationRequest {
   applicationId: string;
@@ -1537,16 +1541,16 @@ export interface GetApplicationRequest {
 export type ApplicationDomain = string;
 export type IdCApplicationArn = string;
 export interface IdCConfiguration {
-  idcApplicationArn?: string;
-  idcInstanceArn?: string;
+  idcApplicationArn?: string | undefined;
+  idcInstanceArn?: string | undefined;
 }
 export interface GetApplicationResponse {
   applicationId: string;
   domain: string;
-  applicationName?: string;
-  idcConfiguration?: IdCConfiguration;
-  roleArn?: string;
-  defaultKmsKeyId?: string;
+  applicationName?: string | undefined;
+  idcConfiguration?: IdCConfiguration | undefined;
+  roleArn?: string | undefined;
+  defaultKmsKeyId?: string | undefined;
 }
 export interface GetArtifactInput {
   agentSpaceId: string;
@@ -1572,12 +1576,12 @@ export interface GetIntegrationOutput {
   installationId: string;
   provider: Provider;
   providerType: ProviderType;
-  displayName?: string;
-  kmsKeyId?: string;
-  targetUrl?: string;
-  siteUrl?: string;
-  webhookUrl?: string;
-  privateConnectionName?: string;
+  displayName?: string | undefined;
+  kmsKeyId?: string | undefined;
+  targetUrl?: string | undefined;
+  siteUrl?: string | undefined;
+  webhookUrl?: string | undefined;
+  privateConnectionName?: string | undefined;
 }
 export interface GetSecurityRequirementPackInput {
   packId: string;
@@ -1592,14 +1596,14 @@ export type SecurityRequirementPackImportStatus =
 export interface GetSecurityRequirementPackOutput {
   packId: string;
   name: string;
-  description?: string;
-  vendorName?: string;
+  description?: string | undefined;
+  vendorName?: string | undefined;
   managementType: ManagementType;
   status: SecurityRequirementPackStatus;
-  importStatus?: SecurityRequirementPackImportStatus;
+  importStatus?: SecurityRequirementPackImportStatus | undefined;
   createdAt: Date;
   updatedAt: Date;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export type SecurityRequirementArtifactName = string;
 export type SecurityRequirementArtifactFormat =
@@ -1629,10 +1633,10 @@ export type ClientId = string;
 export type ClientSecret = string | redacted.Redacted<string>;
 export interface InitiateProviderRegistrationInput {
   provider: Provider;
-  targetUrl?: string;
-  organizationName?: string;
-  clientId?: string;
-  clientSecret?: string | redacted.Redacted<string>;
+  targetUrl?: string | undefined;
+  organizationName?: string | undefined;
+  clientId?: string | undefined;
+  clientSecret?: string | redacted.Redacted<string> | undefined;
 }
 export type Location = string;
 export interface InitiateProviderRegistrationOutput {
@@ -1642,8 +1646,8 @@ export interface InitiateProviderRegistrationOutput {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListActorMessagesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
   pentestId: string;
   actorIdentifier: string;
@@ -1652,50 +1656,50 @@ export type SensitiveMessageSender = string | redacted.Redacted<string>;
 export type SensitiveMessageSubject = string | redacted.Redacted<string>;
 export type SensitiveMessageBody = string | redacted.Redacted<string>;
 export interface ActorMessage {
-  sender?: string | redacted.Redacted<string>;
-  subject?: string | redacted.Redacted<string>;
-  body?: string | redacted.Redacted<string>;
-  receivedAt?: Date;
+  sender?: string | redacted.Redacted<string> | undefined;
+  subject?: string | redacted.Redacted<string> | undefined;
+  body?: string | redacted.Redacted<string> | undefined;
+  receivedAt?: Date | undefined;
 }
 export type ActorMessageList = ActorMessage[];
 export interface ListActorMessagesOutput {
-  messages?: ActorMessage[];
-  nextToken?: string;
+  messages?: ActorMessage[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAgentSpacesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AgentSpaceSummary {
   agentSpaceId: string;
   name: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type AgentSpaceSummaryList = AgentSpaceSummary[];
 export interface ListAgentSpacesOutput {
-  agentSpaceSummaries?: AgentSpaceSummary[];
-  nextToken?: string;
+  agentSpaceSummaries?: AgentSpaceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ApplicationSummary {
   applicationId: string;
   applicationName: string;
   domain: string;
-  defaultKmsKeyId?: string;
+  defaultKmsKeyId?: string | undefined;
 }
 export type ApplicationSummaryList = ApplicationSummary[];
 export interface ListApplicationsResponse {
   applicationSummaries: ApplicationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListArtifactsInput {
   agentSpaceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ArtifactSummary {
   artifactId: string;
@@ -1705,129 +1709,129 @@ export interface ArtifactSummary {
 export type ArtifactSummaryList = ArtifactSummary[];
 export interface ListArtifactsOutput {
   artifactSummaries: ArtifactSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCodeReviewJobsForCodeReviewInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   codeReviewId: string;
   agentSpaceId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface CodeReviewJobSummary {
   codeReviewJobId: string;
   codeReviewId: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobSummaryList = CodeReviewJobSummary[];
 export interface ListCodeReviewJobsForCodeReviewOutput {
-  codeReviewJobSummaries?: CodeReviewJobSummary[];
-  nextToken?: string;
+  codeReviewJobSummaries?: CodeReviewJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCodeReviewJobTasksInput {
   agentSpaceId: string;
-  maxResults?: number;
-  codeReviewJobId?: string;
-  stepName?: StepName;
-  categoryName?: string;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  codeReviewJobId?: string | undefined;
+  stepName?: StepName | undefined;
+  categoryName?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface CodeReviewJobTaskSummary {
   taskId: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  riskType?: RiskType;
-  executionStatus?: TaskExecutionStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  riskType?: RiskType | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewJobTaskSummaryList = CodeReviewJobTaskSummary[];
 export interface ListCodeReviewJobTasksOutput {
-  codeReviewJobTaskSummaries?: CodeReviewJobTaskSummary[];
-  nextToken?: string;
+  codeReviewJobTaskSummaries?: CodeReviewJobTaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCodeReviewsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
 }
 export interface CodeReviewSummary {
   codeReviewId: string;
   agentSpaceId: string;
   title: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CodeReviewSummaryList = CodeReviewSummary[];
 export interface ListCodeReviewsOutput {
-  codeReviewSummaries?: CodeReviewSummary[];
-  nextToken?: string;
+  codeReviewSummaries?: CodeReviewSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDiscoveredEndpointsInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   pentestJobId: string;
   agentSpaceId: string;
-  prefix?: string;
-  nextToken?: string;
+  prefix?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface DiscoveredEndpoint {
   uri: string;
   pentestJobId: string;
   taskId: string;
   agentSpaceId: string;
-  evidence?: string;
-  operation?: string;
-  description?: string;
+  evidence?: string | undefined;
+  operation?: string | undefined;
+  description?: string | undefined;
 }
 export type DiscoveredEndpointList = DiscoveredEndpoint[];
 export interface ListDiscoveredEndpointsOutput {
-  discoveredEndpoints?: DiscoveredEndpoint[];
-  nextToken?: string;
+  discoveredEndpoints?: DiscoveredEndpoint[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFindingsInput {
-  maxResults?: number;
-  pentestJobId?: string;
-  codeReviewJobId?: string;
+  maxResults?: number | undefined;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
   agentSpaceId: string;
-  nextToken?: string;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  status?: FindingStatus;
-  confidence?: ConfidenceLevel;
-  name?: string;
+  nextToken?: string | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  status?: FindingStatus | undefined;
+  confidence?: ConfidenceLevel | undefined;
+  name?: string | undefined;
 }
 export interface FindingSummary {
   findingId: string;
   agentSpaceId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  codeReviewId?: string;
-  codeReviewJobId?: string;
-  name?: string;
-  status?: FindingStatus;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  confidence?: ConfidenceLevel;
-  validationStatus?: ValidationStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  codeReviewId?: string | undefined;
+  codeReviewJobId?: string | undefined;
+  name?: string | undefined;
+  status?: FindingStatus | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  confidence?: ConfidenceLevel | undefined;
+  validationStatus?: ValidationStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type FindingSummaryList = FindingSummary[];
 export interface ListFindingsOutput {
-  findingsSummaries?: FindingSummary[];
-  nextToken?: string;
+  findingsSummaries?: FindingSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceType = "CODE_REPOSITORY" | "DOCUMENT" | "PROJECT" | (string & {});
 export interface ListIntegratedResourcesInput {
   agentSpaceId: string;
-  integrationId?: string;
-  resourceType?: ResourceType;
-  nextToken?: string;
-  maxResults?: number;
+  integrationId?: string | undefined;
+  resourceType?: ResourceType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ProviderResourceName = string;
 export type ProviderResourceId = string;
@@ -1837,92 +1841,92 @@ export interface GitHubRepositoryMetadata {
   name: string;
   providerResourceId: string;
   owner: string;
-  accessType?: AccessType;
+  accessType?: AccessType | undefined;
 }
 export type GitLabNamespace = string;
 export interface GitLabRepositoryMetadata {
   name: string;
   providerResourceId: string;
   namespace: string;
-  accessType?: AccessType;
+  accessType?: AccessType | undefined;
 }
 export interface BitbucketRepositoryMetadata {
   name: string;
   providerResourceId: string;
   workspace: string;
-  accessType?: AccessType;
+  accessType?: AccessType | undefined;
 }
 export interface ConfluenceDocumentMetadata {
   name: string;
   providerResourceId: string;
   spaceKey: string;
   pageId: string;
-  title?: string;
-  spaceTitle?: string;
+  title?: string | undefined;
+  spaceTitle?: string | undefined;
 }
 export type AzureDevOpsOrganization = string;
 export interface AzureDevOpsRepositoryMetadata {
   name: string;
   providerResourceId: string;
   organization: string;
-  project?: string;
-  projectId?: string;
-  accessType?: AccessType;
+  project?: string | undefined;
+  projectId?: string | undefined;
+  accessType?: AccessType | undefined;
 }
 export interface JiraProjectMetadata {
   name: string;
   providerResourceId: string;
   projectKey: string;
   projectId: string;
-  projectName?: string;
+  projectName?: string | undefined;
 }
 export type IntegratedResourceMetadata =
   | {
       githubRepository: GitHubRepositoryMetadata;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
+      githubRepository?: undefined;
       gitlabRepository: GitLabRepositoryMetadata;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
       bitbucketRepository: BitbucketRepositoryMetadata;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
       confluenceDocument: ConfluenceDocumentMetadata;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
       azureDevOpsRepository: AzureDevOpsRepositoryMetadata;
-      jiraProject?: never;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
       jiraProject: JiraProjectMetadata;
     };
 export type TriggerEvent =
@@ -1938,109 +1942,109 @@ export type TriggerFilterMatchMode = "INCLUDE" | "EXCLUDE" | (string & {});
 export interface TriggerFilter {
   type: TriggerFilterType;
   patterns: string[];
-  matchMode?: TriggerFilterMatchMode;
+  matchMode?: TriggerFilterMatchMode | undefined;
 }
 export type TriggerFilterList = TriggerFilter[];
 export interface TriggerFilterGroup {
-  events?: TriggerEvent[];
-  filters?: TriggerFilter[];
+  events?: TriggerEvent[] | undefined;
+  filters?: TriggerFilter[] | undefined;
 }
 export type TriggerFilterGroups = TriggerFilterGroup[];
 export interface GitHubResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
 }
 export interface GitLabResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
 }
 export interface BitbucketResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
 }
 export interface ConfluenceResourceCapabilities {
-  fetchDocument?: boolean;
-  createDocument?: boolean;
-  updateDocument?: boolean;
+  fetchDocument?: boolean | undefined;
+  createDocument?: boolean | undefined;
+  updateDocument?: boolean | undefined;
 }
 export interface AzureDevOpsResourceCapabilities {
-  triggerFilterGroups?: TriggerFilterGroup[];
-  leaveComments?: boolean;
-  remediateCode?: boolean;
+  triggerFilterGroups?: TriggerFilterGroup[] | undefined;
+  leaveComments?: boolean | undefined;
+  remediateCode?: boolean | undefined;
 }
 export interface JiraResourceCapabilities {
-  createIssue?: boolean;
-  commentIssue?: boolean;
+  createIssue?: boolean | undefined;
+  commentIssue?: boolean | undefined;
 }
 export type ProviderResourceCapabilities =
   | {
       github: GitHubResourceCapabilities;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      jira?: never;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
+      github?: undefined;
       gitlab: GitLabResourceCapabilities;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
-      jira?: never;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
+      github?: undefined;
+      gitlab?: undefined;
       bitbucket: BitbucketResourceCapabilities;
-      confluence?: never;
-      azureDevOps?: never;
-      jira?: never;
+      confluence?: undefined;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
       confluence: ConfluenceResourceCapabilities;
-      azureDevOps?: never;
-      jira?: never;
+      azureDevOps?: undefined;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
       azureDevOps: AzureDevOpsResourceCapabilities;
-      jira?: never;
+      jira?: undefined;
     }
   | {
-      github?: never;
-      gitlab?: never;
-      bitbucket?: never;
-      confluence?: never;
-      azureDevOps?: never;
+      github?: undefined;
+      gitlab?: undefined;
+      bitbucket?: undefined;
+      confluence?: undefined;
+      azureDevOps?: undefined;
       jira: JiraResourceCapabilities;
     };
 export interface IntegratedResourceSummary {
   integrationId: string;
   resource: IntegratedResourceMetadata;
-  capabilities?: ProviderResourceCapabilities;
+  capabilities?: ProviderResourceCapabilities | undefined;
 }
 export type IntegratedResourceSummaryList = IntegratedResourceSummary[];
 export interface ListIntegratedResourcesOutput {
   integratedResourceSummaries: IntegratedResourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type IntegrationFilter =
-  | { provider: Provider; providerType?: never }
-  | { provider?: never; providerType: ProviderType };
+  | { provider: Provider; providerType?: undefined }
+  | { provider?: undefined; providerType: ProviderType };
 export interface ListIntegrationsInput {
-  filter?: IntegrationFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: IntegrationFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IntegrationSummary {
   integrationId: string;
@@ -2048,22 +2052,22 @@ export interface IntegrationSummary {
   provider: Provider;
   providerType: ProviderType;
   displayName: string;
-  targetUrl?: string;
-  webhookUrl?: string;
-  privateConnectionName?: string;
+  targetUrl?: string | undefined;
+  webhookUrl?: string | undefined;
+  privateConnectionName?: string | undefined;
 }
 export type IntegrationSummaryList = IntegrationSummary[];
 export interface ListIntegrationsOutput {
   integrationSummaries: IntegrationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MembershipTypeFilter = "USER" | "GROUP" | "ALL" | (string & {});
 export interface ListMembershipsRequest {
   applicationId: string;
   agentSpaceId: string;
-  memberType?: MembershipTypeFilter;
-  maxResults?: number;
-  nextToken?: string;
+  memberType?: MembershipTypeFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SensitiveEmail = string;
 export interface UserMetadata {
@@ -2071,19 +2075,19 @@ export interface UserMetadata {
   email: string;
 }
 export interface GroupMetadata {
-  displayName?: string;
-  description?: string;
+  displayName?: string | undefined;
+  description?: string | undefined;
 }
 export type MemberMetadata =
-  | { user: UserMetadata; group?: never }
-  | { user?: never; group: GroupMetadata };
+  | { user: UserMetadata; group?: undefined }
+  | { user?: undefined; group: GroupMetadata };
 export interface MembershipSummary {
   membershipId: string;
   applicationId: string;
   agentSpaceId: string;
   memberType: MembershipType;
-  config?: MembershipConfig;
-  metadata?: MemberMetadata;
+  config?: MembershipConfig | undefined;
+  metadata?: MemberMetadata | undefined;
   createdAt: Date;
   updatedAt: Date;
   createdBy: string;
@@ -2092,108 +2096,108 @@ export interface MembershipSummary {
 export type MembershipSummaryList = MembershipSummary[];
 export interface ListMembershipsResponse {
   membershipSummaries: MembershipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPentestJobsForPentestInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   pentestId: string;
   agentSpaceId: string;
-  nextToken?: string;
-  jobType?: JobType;
+  nextToken?: string | undefined;
+  jobType?: JobType | undefined;
 }
 export interface PentestJobSummary {
   pentestJobId: string;
   pentestId: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  jobType?: JobType;
-  reportUrl?: string;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  jobType?: JobType | undefined;
+  reportUrl?: string | undefined;
 }
 export type PentestJobSummaryList = PentestJobSummary[];
 export interface ListPentestJobsForPentestOutput {
-  pentestJobSummaries?: PentestJobSummary[];
-  nextToken?: string;
+  pentestJobSummaries?: PentestJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPentestJobTasksInput {
   agentSpaceId: string;
-  maxResults?: number;
-  pentestJobId?: string;
-  stepName?: StepName;
-  categoryName?: string;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  pentestJobId?: string | undefined;
+  stepName?: StepName | undefined;
+  categoryName?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface TaskSummary {
   taskId: string;
-  pentestId?: string;
-  pentestJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  riskType?: RiskType;
-  executionStatus?: TaskExecutionStatus;
-  taskHours?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  riskType?: RiskType | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  taskHours?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type TaskSummaryList = TaskSummary[];
 export interface ListPentestJobTasksOutput {
-  taskSummaries?: TaskSummary[];
-  nextToken?: string;
+  taskSummaries?: TaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPentestsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
 }
 export interface PentestSummary {
   pentestId: string;
   agentSpaceId: string;
   title: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PentestSummaryList = PentestSummary[];
 export interface ListPentestsOutput {
-  pentestSummaries?: PentestSummary[];
-  nextToken?: string;
+  pentestSummaries?: PentestSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPrivateConnectionsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PrivateConnectionSummary {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PrivateConnectionList = PrivateConnectionSummary[];
 export interface ListPrivateConnectionsOutput {
   privateConnections: PrivateConnectionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityRequirementPackFilter {
-  managementType?: ManagementType;
-  status?: SecurityRequirementPackStatus;
+  managementType?: ManagementType | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
 }
 export interface ListSecurityRequirementPacksInput {
-  filter?: ListSecurityRequirementPackFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: ListSecurityRequirementPackFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityRequirementPackSummary {
   packId: string;
   name: string;
-  description?: string;
-  vendorName?: string;
+  description?: string | undefined;
+  vendorName?: string | undefined;
   managementType: ManagementType;
   status: SecurityRequirementPackStatus;
   createdAt: Date;
@@ -2202,12 +2206,12 @@ export interface SecurityRequirementPackSummary {
 export type SecurityRequirementPackSummaryList = SecurityRequirementPackSummary[];
 export interface ListSecurityRequirementPacksOutput {
   securityRequirementPackSummaries: SecurityRequirementPackSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityRequirementsInput {
   packId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityRequirementSummary {
   packId: string;
@@ -2219,115 +2223,115 @@ export interface SecurityRequirementSummary {
 export type SecurityRequirementSummaryList = SecurityRequirementSummary[];
 export interface ListSecurityRequirementsOutput {
   securityRequirementSummaries: SecurityRequirementSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTargetDomainsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TargetDomainSummary {
   targetDomainId: string;
   domainName: string;
-  verificationStatus?: TargetDomainStatus;
+  verificationStatus?: TargetDomainStatus | undefined;
 }
 export type TargetDomainSummaryList = TargetDomainSummary[];
 export interface ListTargetDomainsOutput {
-  targetDomainSummaries?: TargetDomainSummary[];
-  nextToken?: string;
+  targetDomainSummaries?: TargetDomainSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatModelJobsInput {
-  maxResults?: number;
+  maxResults?: number | undefined;
   threatModelId: string;
   agentSpaceId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ThreatModelJobSummary {
   threatModelJobId: string;
   threatModelId: string;
-  agentSpaceId?: string;
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelJobSummaryList = ThreatModelJobSummary[];
 export interface ListThreatModelJobsOutput {
-  threatModelJobSummaries?: ThreatModelJobSummary[];
-  nextToken?: string;
+  threatModelJobSummaries?: ThreatModelJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatModelJobTasksInput {
   agentSpaceId: string;
-  maxResults?: number;
+  maxResults?: number | undefined;
   threatModelJobId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ThreatModelJobTaskSummary {
   taskId: string;
-  threatModelId?: string;
-  threatModelJobId?: string;
-  agentSpaceId?: string;
-  title?: string;
-  executionStatus?: TaskExecutionStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatModelId?: string | undefined;
+  threatModelJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
+  title?: string | undefined;
+  executionStatus?: TaskExecutionStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelJobTaskSummaryList = ThreatModelJobTaskSummary[];
 export interface ListThreatModelJobTasksOutput {
-  threatModelJobTaskSummaries?: ThreatModelJobTaskSummary[];
-  nextToken?: string;
+  threatModelJobTaskSummaries?: ThreatModelJobTaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatModelsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   agentSpaceId: string;
 }
 export interface ThreatModelSummary {
   threatModelId: string;
   agentSpaceId: string;
   title: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatModelSummaryList = ThreatModelSummary[];
 export interface ListThreatModelsOutput {
-  threatModelSummaries?: ThreatModelSummary[];
-  nextToken?: string;
+  threatModelSummaries?: ThreatModelSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThreatsInput {
   threatJobId: string;
   agentSpaceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ThreatSummary {
-  threatId?: string;
-  threatJobId?: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  stride?: StrideCategory[];
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  threatId?: string | undefined;
+  threatJobId?: string | undefined;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  stride?: StrideCategory[] | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ThreatSummaryList = ThreatSummary[];
 export interface ListThreatsOutput {
-  threats?: ThreatSummary[];
-  nextToken?: string;
+  threats?: ThreatSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartCodeRemediationInput {
   agentSpaceId: string;
-  pentestJobId?: string;
-  codeReviewJobId?: string;
+  pentestJobId?: string | undefined;
+  codeReviewJobId?: string | undefined;
   findingIds: string[];
 }
 export interface StartCodeRemediationOutput {}
@@ -2335,45 +2339,45 @@ export type DiffSource = { s3Uri: string };
 export interface StartCodeReviewJobInput {
   agentSpaceId: string;
   codeReviewId: string;
-  diffSource?: DiffSource;
+  diffSource?: DiffSource | undefined;
 }
 export interface StartCodeReviewJobOutput {
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   codeReviewId: string;
   codeReviewJobId: string;
-  agentSpaceId?: string;
+  agentSpaceId?: string | undefined;
 }
 export interface StartPentestJobInput {
   agentSpaceId: string;
   pentestId: string;
-  jobType?: JobType;
-  selectedFindingIds?: string[];
-  scopeChanges?: ScopeChange[];
+  jobType?: JobType | undefined;
+  selectedFindingIds?: string[] | undefined;
+  scopeChanges?: ScopeChange[] | undefined;
 }
 export interface StartPentestJobOutput {
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  pentestId?: string;
-  pentestJobId?: string;
-  agentSpaceId?: string;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  pentestId?: string | undefined;
+  pentestJobId?: string | undefined;
+  agentSpaceId?: string | undefined;
 }
 export interface StartThreatModelJobInput {
   agentSpaceId: string;
   threatModelId: string;
 }
 export interface StartThreatModelJobOutput {
-  title?: string;
-  status?: JobStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  threatModelId?: string;
+  title?: string | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  threatModelId?: string | undefined;
   threatModelJobId: string;
-  agentSpaceId?: string;
+  agentSpaceId?: string | undefined;
 }
 export interface StopCodeReviewJobInput {
   agentSpaceId: string;
@@ -2403,26 +2407,26 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateAgentSpaceInput {
   agentSpaceId: string;
-  name?: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
+  name?: string | undefined;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
 }
 export interface UpdateAgentSpaceOutput {
   agentSpaceId: string;
   name: string;
-  description?: string;
-  awsResources?: AWSResources;
-  targetDomainIds?: string[];
-  codeReviewSettings?: CodeReviewSettings;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  awsResources?: AWSResources | undefined;
+  targetDomainIds?: string[] | undefined;
+  codeReviewSettings?: CodeReviewSettings | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateApplicationRequest {
   applicationId: string;
-  roleArn?: string;
-  defaultKmsKeyId?: string;
+  roleArn?: string | undefined;
+  defaultKmsKeyId?: string | undefined;
 }
 export interface UpdateApplicationResponse {
   applicationId: string;
@@ -2430,43 +2434,43 @@ export interface UpdateApplicationResponse {
 export interface UpdateCodeReviewInput {
   codeReviewId: string;
   agentSpaceId: string;
-  title?: string;
-  assets?: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  title?: string | undefined;
+  assets?: Assets | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
 export interface UpdateCodeReviewOutput {
   codeReviewId: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  validationMode?: ValidationMode;
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  validationMode?: ValidationMode | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
 }
 export interface UpdateFindingInput {
   findingId: string;
   agentSpaceId: string;
-  name?: string;
-  description?: string;
-  riskType?: string;
-  riskLevel?: RiskLevel;
-  riskScore?: string;
-  attackScript?: string;
-  reasoning?: string;
-  status?: FindingStatus;
-  customerNote?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  riskType?: string | undefined;
+  riskLevel?: RiskLevel | undefined;
+  riskScore?: string | undefined;
+  attackScript?: string | undefined;
+  reasoning?: string | undefined;
+  status?: FindingStatus | undefined;
+  customerNote?: string | undefined;
 }
 export interface UpdateFindingOutput {}
 export interface GitHubRepositoryResource {
@@ -2485,72 +2489,72 @@ export interface ConfluenceDocumentResource {
   name: string;
   spaceKey: string;
   pageId: string;
-  title?: string;
-  spaceTitle?: string;
+  title?: string | undefined;
+  spaceTitle?: string | undefined;
 }
 export interface AzureDevOpsRepositoryResource {
   name: string;
   organization: string;
-  project?: string;
+  project?: string | undefined;
 }
 export interface JiraProjectResource {
   name: string;
   projectKey: string;
   projectId: string;
-  projectName?: string;
+  projectName?: string | undefined;
 }
 export type IntegratedResource =
   | {
       githubRepository: GitHubRepositoryResource;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
+      githubRepository?: undefined;
       gitlabRepository: GitLabRepositoryResource;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
       bitbucketRepository: BitbucketRepositoryResource;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
       confluenceDocument: ConfluenceDocumentResource;
-      azureDevOpsRepository?: never;
-      jiraProject?: never;
+      azureDevOpsRepository?: undefined;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
       azureDevOpsRepository: AzureDevOpsRepositoryResource;
-      jiraProject?: never;
+      jiraProject?: undefined;
     }
   | {
-      githubRepository?: never;
-      gitlabRepository?: never;
-      bitbucketRepository?: never;
-      confluenceDocument?: never;
-      azureDevOpsRepository?: never;
+      githubRepository?: undefined;
+      gitlabRepository?: undefined;
+      bitbucketRepository?: undefined;
+      confluenceDocument?: undefined;
+      azureDevOpsRepository?: undefined;
       jiraProject: JiraProjectResource;
     };
 export interface IntegratedResourceInputItem {
   resource: IntegratedResource;
-  capabilities?: ProviderResourceCapabilities;
+  capabilities?: ProviderResourceCapabilities | undefined;
 }
 export type IntegratedResourceInputItemList = IntegratedResourceInputItem[];
 export interface UpdateIntegratedResourcesInput {
@@ -2567,41 +2571,41 @@ export interface UpdateIntegrationInput {
 export type WebhookSecret = string | redacted.Redacted<string>;
 export interface UpdateIntegrationOutput {
   integrationId: string;
-  webhookUrl?: string;
-  secret?: string | redacted.Redacted<string>;
+  webhookUrl?: string | undefined;
+  secret?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePentestInput {
   pentestId: string;
   agentSpaceId: string;
-  title?: string;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  vpcConfig?: VpcConfig;
-  networkTrafficConfig?: NetworkTrafficConfig;
-  codeRemediationStrategy?: CodeRemediationStrategy;
-  disableManagedSkills?: SkillType[];
-  maxTaskHours?: number;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
-  testScope?: TestScope;
+  title?: string | undefined;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  vpcConfig?: VpcConfig | undefined;
+  networkTrafficConfig?: NetworkTrafficConfig | undefined;
+  codeRemediationStrategy?: CodeRemediationStrategy | undefined;
+  disableManagedSkills?: SkillType[] | undefined;
+  maxTaskHours?: number | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export interface UpdatePentestOutput {
-  pentestId?: string;
-  title?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  assets?: Assets;
-  excludeRiskTypes?: RiskType[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  agentSpaceId?: string;
-  reportDestination?: ReportDestination;
-  reportFilters?: ReportFilters;
-  cicdConfiguration?: CiCdConfiguration;
-  testScope?: TestScope;
+  pentestId?: string | undefined;
+  title?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  assets?: Assets | undefined;
+  excludeRiskTypes?: RiskType[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  agentSpaceId?: string | undefined;
+  reportDestination?: ReportDestination | undefined;
+  reportFilters?: ReportFilters | undefined;
+  cicdConfiguration?: CiCdConfiguration | undefined;
+  testScope?: TestScope | undefined;
 }
 export interface UpdatePrivateConnectionCertificateInput {
   privateConnectionName: string;
@@ -2611,26 +2615,26 @@ export interface UpdatePrivateConnectionCertificateOutput {
   name: string;
   type: PrivateConnectionType;
   status: PrivateConnectionStatus;
-  resourceGatewayId?: string;
-  hostAddress?: string;
-  vpcId?: string;
-  resourceConfigurationId?: string;
-  certificateExpiryTime?: Date;
-  dnsResolution?: ResourceConfigDnsResolution;
-  failureMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  resourceGatewayId?: string | undefined;
+  hostAddress?: string | undefined;
+  vpcId?: string | undefined;
+  resourceConfigurationId?: string | undefined;
+  certificateExpiryTime?: Date | undefined;
+  dnsResolution?: ResourceConfigDnsResolution | undefined;
+  failureMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateSecurityRequirementPackInput {
   packId: string;
-  name?: string;
-  description?: string;
-  status?: SecurityRequirementPackStatus;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
 }
 export interface UpdateSecurityRequirementPackOutput {
   packId: string;
-  name?: string;
-  description?: string;
-  status?: SecurityRequirementPackStatus;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: SecurityRequirementPackStatus | undefined;
 }
 export interface UpdateTargetDomainInput {
   targetDomainId: string;
@@ -2640,87 +2644,87 @@ export interface UpdateTargetDomainOutput {
   targetDomainId: string;
   domainName: string;
   verificationStatus: TargetDomainStatus;
-  verificationStatusReason?: string;
-  verificationDetails?: VerificationDetails;
-  createdAt?: Date;
-  verifiedAt?: Date;
+  verificationStatusReason?: string | undefined;
+  verificationDetails?: VerificationDetails | undefined;
+  createdAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
 }
 export interface UpdateThreatInput {
   threatId: string;
   agentSpaceId: string;
-  title?: string;
-  status?: ThreatStatus;
-  comments?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
+  title?: string | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
 }
 export interface UpdateThreatOutput {
   threatId: string;
   threatJobId: string;
-  title?: string;
-  statement?: string;
-  severity?: ThreatSeverity;
-  status?: ThreatStatus;
-  comments?: string;
-  stride?: StrideCategory[];
-  threatSource?: string;
-  prerequisites?: string;
-  threatAction?: string;
-  threatImpact?: string;
-  impactedGoal?: string[];
-  impactedAssets?: string[];
-  anchor?: ThreatAnchorShape;
-  evidence?: ThreatEvidenceShape[];
-  recommendation?: string;
-  createdBy?: ThreatActor;
-  updatedBy?: ThreatActor;
-  createdAt?: Date;
-  updatedAt?: Date;
+  title?: string | undefined;
+  statement?: string | undefined;
+  severity?: ThreatSeverity | undefined;
+  status?: ThreatStatus | undefined;
+  comments?: string | undefined;
+  stride?: StrideCategory[] | undefined;
+  threatSource?: string | undefined;
+  prerequisites?: string | undefined;
+  threatAction?: string | undefined;
+  threatImpact?: string | undefined;
+  impactedGoal?: string[] | undefined;
+  impactedAssets?: string[] | undefined;
+  anchor?: ThreatAnchorShape | undefined;
+  evidence?: ThreatEvidenceShape[] | undefined;
+  recommendation?: string | undefined;
+  createdBy?: ThreatActor | undefined;
+  updatedBy?: ThreatActor | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateThreatModelInput {
   threatModelId: string;
   agentSpaceId: string;
-  title?: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  reportDestination?: ReportDestination;
+  title?: string | undefined;
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface UpdateThreatModelOutput {
   threatModelId: string;
-  title?: string;
-  agentSpaceId?: string;
-  description?: string;
-  assets?: Assets;
-  scopeDocs?: DocumentInfo[];
-  serviceRole?: string;
-  logConfig?: CloudWatchLog;
-  createdAt?: Date;
-  updatedAt?: Date;
-  reportDestination?: ReportDestination;
+  title?: string | undefined;
+  agentSpaceId?: string | undefined;
+  description?: string | undefined;
+  assets?: Assets | undefined;
+  scopeDocs?: DocumentInfo[] | undefined;
+  serviceRole?: string | undefined;
+  logConfig?: CloudWatchLog | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  reportDestination?: ReportDestination | undefined;
 }
 export interface VerifyTargetDomainInput {
   targetDomainId: string;
 }
 export interface VerifyTargetDomainOutput {
-  targetDomainId?: string;
-  domainName?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  verifiedAt?: Date;
-  status?: TargetDomainStatus;
-  verificationStatusReason?: string;
+  targetDomainId?: string | undefined;
+  domainName?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  verifiedAt?: Date | undefined;
+  status?: TargetDomainStatus | undefined;
+  verificationStatusReason?: string | undefined;
 }
 export interface ValidationExceptionField {
   path: string;

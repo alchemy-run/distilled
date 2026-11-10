@@ -170,14 +170,14 @@ export interface AddRegionRequest {
 }
 export type RegionStatus = "ACTIVE" | "ADDING" | "REMOVING" | (string & {});
 export interface AddRegionResponse {
-  Status?: RegionStatus;
+  Status?: RegionStatus | undefined;
 }
 export type PermissionSetArn = string;
 export type ManagedPolicyName = string;
 export type ManagedPolicyPath = string;
 export interface CustomerManagedPolicyReference {
   Name: string;
-  Path?: string;
+  Path?: string | undefined;
 }
 export interface AttachCustomerManagedPolicyReferenceToPermissionSetRequest {
   InstanceArn: string;
@@ -208,18 +208,18 @@ export type StatusValues = "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {}
 export type UUId = string;
 export type Reason = string;
 export interface AccountAssignmentOperationStatus {
-  Status?: StatusValues;
-  RequestId?: string;
-  FailureReason?: string;
-  TargetId?: string;
-  TargetType?: TargetType;
-  PermissionSetArn?: string;
-  PrincipalType?: PrincipalType;
-  PrincipalId?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  FailureReason?: string | undefined;
+  TargetId?: string | undefined;
+  TargetType?: TargetType | undefined;
+  PermissionSetArn?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
+  PrincipalId?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export interface CreateAccountAssignmentResponse {
-  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export type ApplicationProviderArn = string;
 export type ApplicationNameType = string;
@@ -228,12 +228,12 @@ export type SignInOrigin = "IDENTITY_CENTER" | "APPLICATION" | (string & {});
 export type ApplicationUrl = string;
 export interface SignInOptions {
   Origin: SignInOrigin;
-  ApplicationUrl?: string;
+  ApplicationUrl?: string | undefined;
 }
 export type ApplicationVisibility = "ENABLED" | "DISABLED" | (string & {});
 export interface PortalOptions {
-  SignInOptions?: SignInOptions;
-  Visibility?: ApplicationVisibility;
+  SignInOptions?: SignInOptions | undefined;
+  Visibility?: ApplicationVisibility | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -248,18 +248,18 @@ export interface CreateApplicationRequest {
   InstanceArn: string;
   ApplicationProviderArn: string;
   Name: string;
-  Description?: string;
-  PortalOptions?: PortalOptions;
-  Tags?: Tag[];
-  Status?: ApplicationStatus;
-  ClientToken?: string;
+  Description?: string | undefined;
+  PortalOptions?: PortalOptions | undefined;
+  Tags?: Tag[] | undefined;
+  Status?: ApplicationStatus | undefined;
+  ClientToken?: string | undefined;
 }
 export type ApplicationArn = string;
 export type IdentityStoreArn = string;
 export interface CreateApplicationResponse {
-  ApplicationArn?: string;
-  InstanceArn?: string;
-  IdentityStoreArn?: string;
+  ApplicationArn?: string | undefined;
+  InstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
 }
 export interface CreateApplicationAssignmentRequest {
   ApplicationArn: string;
@@ -269,12 +269,12 @@ export interface CreateApplicationAssignmentRequest {
 export interface CreateApplicationAssignmentResponse {}
 export type NameType = string;
 export interface CreateInstanceRequest {
-  Name?: string;
-  ClientToken?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateInstanceResponse {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
 }
 export type AccessControlAttributeKey = string;
 export type AccessControlAttributeValueSource = string;
@@ -301,22 +301,22 @@ export type Duration = string;
 export type RelayState = string;
 export interface CreatePermissionSetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   InstanceArn: string;
-  SessionDuration?: string;
-  RelayState?: string;
-  Tags?: Tag[];
+  SessionDuration?: string | undefined;
+  RelayState?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PermissionSet {
-  Name?: string;
-  PermissionSetArn?: string;
-  Description?: string;
-  CreatedDate?: Date;
-  SessionDuration?: string;
-  RelayState?: string;
+  Name?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  Description?: string | undefined;
+  CreatedDate?: Date | undefined;
+  SessionDuration?: string | undefined;
+  RelayState?: string | undefined;
 }
 export interface CreatePermissionSetResponse {
-  PermissionSet?: PermissionSet;
+  PermissionSet?: PermissionSet | undefined;
 }
 export type TrustedTokenIssuerName = string;
 export type TrustedTokenIssuerType = "OIDC_JWT" | (string & {});
@@ -336,12 +336,12 @@ export interface CreateTrustedTokenIssuerRequest {
   Name: string;
   TrustedTokenIssuerType: TrustedTokenIssuerType;
   TrustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration;
-  ClientToken?: string;
-  Tags?: Tag[];
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TrustedTokenIssuerArn = string;
 export interface CreateTrustedTokenIssuerResponse {
-  TrustedTokenIssuerArn?: string;
+  TrustedTokenIssuerArn?: string | undefined;
 }
 export interface DeleteAccountAssignmentRequest {
   InstanceArn: string;
@@ -352,7 +352,7 @@ export interface DeleteAccountAssignmentRequest {
   PrincipalId: string;
 }
 export interface DeleteAccountAssignmentResponse {
-  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export interface DeleteApplicationRequest {
   ApplicationArn: string;
@@ -419,31 +419,31 @@ export interface DescribeAccountAssignmentCreationStatusRequest {
   AccountAssignmentCreationRequestId: string;
 }
 export interface DescribeAccountAssignmentCreationStatusResponse {
-  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export interface DescribeAccountAssignmentDeletionStatusRequest {
   InstanceArn: string;
   AccountAssignmentDeletionRequestId: string;
 }
 export interface DescribeAccountAssignmentDeletionStatusResponse {
-  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export interface DescribeApplicationRequest {
   ApplicationArn: string;
 }
 export type AccountId = string;
 export interface DescribeApplicationResponse {
-  ApplicationArn?: string;
-  ApplicationProviderArn?: string;
-  Name?: string;
-  ApplicationAccount?: string;
-  InstanceArn?: string;
-  IdentityStoreArn?: string;
-  Status?: ApplicationStatus;
-  PortalOptions?: PortalOptions;
-  Description?: string;
-  CreatedDate?: Date;
-  CreatedFrom?: string;
+  ApplicationArn?: string | undefined;
+  ApplicationProviderArn?: string | undefined;
+  Name?: string | undefined;
+  ApplicationAccount?: string | undefined;
+  InstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  PortalOptions?: PortalOptions | undefined;
+  Description?: string | undefined;
+  CreatedDate?: Date | undefined;
+  CreatedFrom?: string | undefined;
 }
 export interface DescribeApplicationAssignmentRequest {
   ApplicationArn: string;
@@ -451,9 +451,9 @@ export interface DescribeApplicationAssignmentRequest {
   PrincipalType: PrincipalType;
 }
 export interface DescribeApplicationAssignmentResponse {
-  PrincipalType?: PrincipalType;
-  PrincipalId?: string;
-  ApplicationArn?: string;
+  PrincipalType?: PrincipalType | undefined;
+  PrincipalId?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export interface DescribeApplicationProviderRequest {
   ApplicationProviderArn: string;
@@ -462,24 +462,24 @@ export type FederationProtocol = "SAML" | "OAUTH" | (string & {});
 export type Name = string;
 export type IconUrl = string;
 export interface DisplayData {
-  DisplayName?: string;
-  IconUrl?: string;
-  Description?: string;
+  DisplayName?: string | undefined;
+  IconUrl?: string | undefined;
+  Description?: string | undefined;
 }
 export type ResourceServerScope = string;
 export interface ResourceServerScopeDetails {
-  LongDescription?: string;
-  DetailedTitle?: string;
+  LongDescription?: string | undefined;
+  DetailedTitle?: string | undefined;
 }
 export type ResourceServerScopes = { [key: string]: ResourceServerScopeDetails | undefined };
 export interface ResourceServerConfig {
-  Scopes?: { [key: string]: ResourceServerScopeDetails | undefined };
+  Scopes?: { [key: string]: ResourceServerScopeDetails | undefined } | undefined;
 }
 export interface DescribeApplicationProviderResponse {
   ApplicationProviderArn: string;
-  FederationProtocol?: FederationProtocol;
-  DisplayData?: DisplayData;
-  ResourceServerConfig?: ResourceServerConfig;
+  FederationProtocol?: FederationProtocol | undefined;
+  DisplayData?: DisplayData | undefined;
+  ResourceServerConfig?: ResourceServerConfig | undefined;
 }
 export interface DescribeInstanceRequest {
   InstanceArn: string;
@@ -494,34 +494,34 @@ export type InstanceStatus =
   | (string & {});
 export type IsPrimaryRegion = boolean;
 export interface RegionMetadata {
-  RegionName?: string;
-  Status?: RegionStatus;
-  AddedDate?: Date;
-  IsPrimaryRegion?: boolean;
+  RegionName?: string | undefined;
+  Status?: RegionStatus | undefined;
+  AddedDate?: Date | undefined;
+  IsPrimaryRegion?: boolean | undefined;
 }
 export type RegionMetadataList = RegionMetadata[];
 export type KmsKeyType = "AWS_OWNED_KMS_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export type KmsKeyArn = string;
 export type KmsKeyStatus = "UPDATING" | "ENABLED" | "UPDATE_FAILED" | (string & {});
 export interface EncryptionConfigurationDetails {
-  KeyType?: KmsKeyType;
-  KmsKeyArn?: string;
-  EncryptionStatus?: KmsKeyStatus;
-  EncryptionStatusReason?: string;
+  KeyType?: KmsKeyType | undefined;
+  KmsKeyArn?: string | undefined;
+  EncryptionStatus?: KmsKeyStatus | undefined;
+  EncryptionStatusReason?: string | undefined;
 }
 export interface DescribeInstanceResponse {
-  InstanceArn?: string;
-  IdentityStoreId?: string;
-  IdentityStoreArn?: string;
-  OwnerAccountId?: string;
-  Name?: string;
-  CreatedDate?: Date;
-  Status?: InstanceStatus;
-  StatusReason?: string;
-  PrimaryRegion?: string;
-  Regions?: RegionMetadata[];
-  EncryptionConfigurationDetails?: EncryptionConfigurationDetails;
-  PermissionSetsEnabled?: boolean;
+  InstanceArn?: string | undefined;
+  IdentityStoreId?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  Name?: string | undefined;
+  CreatedDate?: Date | undefined;
+  Status?: InstanceStatus | undefined;
+  StatusReason?: string | undefined;
+  PrimaryRegion?: string | undefined;
+  Regions?: RegionMetadata[] | undefined;
+  EncryptionConfigurationDetails?: EncryptionConfigurationDetails | undefined;
+  PermissionSetsEnabled?: boolean | undefined;
 }
 export interface DescribeInstanceAccessControlAttributeConfigurationRequest {
   InstanceArn: string;
@@ -533,50 +533,52 @@ export type InstanceAccessControlAttributeConfigurationStatus =
   | (string & {});
 export type InstanceAccessControlAttributeConfigurationStatusReason = string;
 export interface DescribeInstanceAccessControlAttributeConfigurationResponse {
-  Status?: InstanceAccessControlAttributeConfigurationStatus;
-  StatusReason?: string;
-  InstanceAccessControlAttributeConfiguration?: InstanceAccessControlAttributeConfiguration;
+  Status?: InstanceAccessControlAttributeConfigurationStatus | undefined;
+  StatusReason?: string | undefined;
+  InstanceAccessControlAttributeConfiguration?:
+    | InstanceAccessControlAttributeConfiguration
+    | undefined;
 }
 export interface DescribePermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
 }
 export interface DescribePermissionSetResponse {
-  PermissionSet?: PermissionSet;
+  PermissionSet?: PermissionSet | undefined;
 }
 export interface DescribePermissionSetProvisioningStatusRequest {
   InstanceArn: string;
   ProvisionPermissionSetRequestId: string;
 }
 export interface PermissionSetProvisioningStatus {
-  Status?: StatusValues;
-  RequestId?: string;
-  AccountId?: string;
-  PermissionSetArn?: string;
-  FailureReason?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  AccountId?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  FailureReason?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export interface DescribePermissionSetProvisioningStatusResponse {
-  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus;
+  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus | undefined;
 }
 export interface DescribeRegionRequest {
   InstanceArn: string;
   RegionName: string;
 }
 export interface DescribeRegionResponse {
-  RegionName?: string;
-  Status?: RegionStatus;
-  AddedDate?: Date;
-  IsPrimaryRegion?: boolean;
+  RegionName?: string | undefined;
+  Status?: RegionStatus | undefined;
+  AddedDate?: Date | undefined;
+  IsPrimaryRegion?: boolean | undefined;
 }
 export interface DescribeTrustedTokenIssuerRequest {
   TrustedTokenIssuerArn: string;
 }
 export interface DescribeTrustedTokenIssuerResponse {
-  TrustedTokenIssuerArn?: string;
-  Name?: string;
-  TrustedTokenIssuerType?: TrustedTokenIssuerType;
-  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerConfiguration;
+  TrustedTokenIssuerArn?: string | undefined;
+  Name?: string | undefined;
+  TrustedTokenIssuerType?: TrustedTokenIssuerType | undefined;
+  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerConfiguration | undefined;
 }
 export interface DetachCustomerManagedPolicyReferenceFromPermissionSetRequest {
   InstanceArn: string;
@@ -598,7 +600,7 @@ export type ScopeTarget = string;
 export type ScopeTargets = string[];
 export interface GetApplicationAccessScopeResponse {
   Scope: string;
-  AuthorizedTargets?: string[];
+  AuthorizedTargets?: string[] | undefined;
 }
 export interface GetApplicationAssignmentConfigurationRequest {
   ApplicationArn: string;
@@ -617,7 +619,7 @@ export interface IamAuthenticationMethod {
 }
 export type AuthenticationMethod = { Iam: IamAuthenticationMethod };
 export interface GetApplicationAuthenticationMethodResponse {
-  AuthenticationMethod?: AuthenticationMethod;
+  AuthenticationMethod?: AuthenticationMethod | undefined;
 }
 export interface GetApplicationGrantRequest {
   ApplicationArn: string;
@@ -626,43 +628,43 @@ export interface GetApplicationGrantRequest {
 export type URI = string;
 export type RedirectUris = string[];
 export interface AuthorizationCodeGrant {
-  RedirectUris?: string[];
+  RedirectUris?: string[] | undefined;
 }
 export type TokenIssuerAudience = string;
 export type TokenIssuerAudiences = string[];
 export interface AuthorizedTokenIssuer {
-  TrustedTokenIssuerArn?: string;
-  AuthorizedAudiences?: string[];
+  TrustedTokenIssuerArn?: string | undefined;
+  AuthorizedAudiences?: string[] | undefined;
 }
 export type AuthorizedTokenIssuers = AuthorizedTokenIssuer[];
 export interface JwtBearerGrant {
-  AuthorizedTokenIssuers?: AuthorizedTokenIssuer[];
+  AuthorizedTokenIssuers?: AuthorizedTokenIssuer[] | undefined;
 }
 export interface RefreshTokenGrant {}
 export interface TokenExchangeGrant {}
 export type Grant =
   | {
       AuthorizationCode: AuthorizationCodeGrant;
-      JwtBearer?: never;
-      RefreshToken?: never;
-      TokenExchange?: never;
+      JwtBearer?: undefined;
+      RefreshToken?: undefined;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
+      AuthorizationCode?: undefined;
       JwtBearer: JwtBearerGrant;
-      RefreshToken?: never;
-      TokenExchange?: never;
+      RefreshToken?: undefined;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
-      JwtBearer?: never;
+      AuthorizationCode?: undefined;
+      JwtBearer?: undefined;
       RefreshToken: RefreshTokenGrant;
-      TokenExchange?: never;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
-      JwtBearer?: never;
-      RefreshToken?: never;
+      AuthorizationCode?: undefined;
+      JwtBearer?: undefined;
+      RefreshToken?: undefined;
       TokenExchange: TokenExchangeGrant;
     };
 export interface GetApplicationGrantResponse {
@@ -673,7 +675,7 @@ export interface GetApplicationSessionConfigurationRequest {
 }
 export type UserBackgroundSessionApplicationStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface GetApplicationSessionConfigurationResponse {
-  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus;
+  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus | undefined;
 }
 export interface GetInlinePolicyForPermissionSetRequest {
   InstanceArn: string;
@@ -681,89 +683,89 @@ export interface GetInlinePolicyForPermissionSetRequest {
 }
 export type PermissionSetPolicyDocument = string;
 export interface GetInlinePolicyForPermissionSetResponse {
-  InlinePolicy?: string;
+  InlinePolicy?: string | undefined;
 }
 export interface GetPermissionsBoundaryForPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
 }
 export interface PermissionsBoundary {
-  CustomerManagedPolicyReference?: CustomerManagedPolicyReference;
-  ManagedPolicyArn?: string;
+  CustomerManagedPolicyReference?: CustomerManagedPolicyReference | undefined;
+  ManagedPolicyArn?: string | undefined;
 }
 export interface GetPermissionsBoundaryForPermissionSetResponse {
-  PermissionsBoundary?: PermissionsBoundary;
+  PermissionsBoundary?: PermissionsBoundary | undefined;
 }
 export type MaxResults = number;
 export type Token = string;
 export interface OperationStatusFilter {
-  Status?: StatusValues;
+  Status?: StatusValues | undefined;
 }
 export interface ListAccountAssignmentCreationStatusRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: OperationStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: OperationStatusFilter | undefined;
 }
 export interface AccountAssignmentOperationStatusMetadata {
-  Status?: StatusValues;
-  RequestId?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export type AccountAssignmentOperationStatusList = AccountAssignmentOperationStatusMetadata[];
 export interface ListAccountAssignmentCreationStatusResponse {
-  AccountAssignmentsCreationStatus?: AccountAssignmentOperationStatusMetadata[];
-  NextToken?: string;
+  AccountAssignmentsCreationStatus?: AccountAssignmentOperationStatusMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountAssignmentDeletionStatusRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: OperationStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: OperationStatusFilter | undefined;
 }
 export interface ListAccountAssignmentDeletionStatusResponse {
-  AccountAssignmentsDeletionStatus?: AccountAssignmentOperationStatusMetadata[];
-  NextToken?: string;
+  AccountAssignmentsDeletionStatus?: AccountAssignmentOperationStatusMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountAssignmentsRequest {
   InstanceArn: string;
   AccountId: string;
   PermissionSetArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AccountAssignment {
-  AccountId?: string;
-  PermissionSetArn?: string;
-  PrincipalType?: PrincipalType;
-  PrincipalId?: string;
+  AccountId?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
+  PrincipalId?: string | undefined;
 }
 export type AccountAssignmentList = AccountAssignment[];
 export interface ListAccountAssignmentsResponse {
-  AccountAssignments?: AccountAssignment[];
-  NextToken?: string;
+  AccountAssignments?: AccountAssignment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountAssignmentsFilter {
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface ListAccountAssignmentsForPrincipalRequest {
   InstanceArn: string;
   PrincipalId: string;
   PrincipalType: PrincipalType;
-  Filter?: ListAccountAssignmentsFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ListAccountAssignmentsFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AccountAssignmentForPrincipal {
-  AccountId?: string;
-  PermissionSetArn?: string;
-  PrincipalId?: string;
-  PrincipalType?: PrincipalType;
+  AccountId?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  PrincipalId?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
 }
 export type AccountAssignmentListForPrincipal = AccountAssignmentForPrincipal[];
 export interface ListAccountAssignmentsForPrincipalResponse {
-  AccountAssignments?: AccountAssignmentForPrincipal[];
-  NextToken?: string;
+  AccountAssignments?: AccountAssignmentForPrincipal[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProvisioningStatus =
   | "LATEST_PERMISSION_SET_PROVISIONED"
@@ -772,33 +774,33 @@ export type ProvisioningStatus =
 export interface ListAccountsForProvisionedPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  ProvisioningStatus?: ProvisioningStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  ProvisioningStatus?: ProvisioningStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountList = string[];
 export interface ListAccountsForProvisionedPermissionSetResponse {
-  AccountIds?: string[];
-  NextToken?: string;
+  AccountIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAccessScopesRequest {
   ApplicationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ScopeDetails {
   Scope: string;
-  AuthorizedTargets?: string[];
+  AuthorizedTargets?: string[] | undefined;
 }
 export type Scopes = ScopeDetails[];
 export interface ListApplicationAccessScopesResponse {
   Scopes: ScopeDetails[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAssignmentsRequest {
   ApplicationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApplicationAssignment {
   ApplicationArn: string;
@@ -807,46 +809,46 @@ export interface ApplicationAssignment {
 }
 export type ApplicationAssignmentsList = ApplicationAssignment[];
 export interface ListApplicationAssignmentsResponse {
-  ApplicationAssignments?: ApplicationAssignment[];
-  NextToken?: string;
+  ApplicationAssignments?: ApplicationAssignment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAssignmentsFilter {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export interface ListApplicationAssignmentsForPrincipalRequest {
   InstanceArn: string;
   PrincipalId: string;
   PrincipalType: PrincipalType;
-  Filter?: ListApplicationAssignmentsFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ListApplicationAssignmentsFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ApplicationAssignmentForPrincipal {
-  ApplicationArn?: string;
-  PrincipalId?: string;
-  PrincipalType?: PrincipalType;
+  ApplicationArn?: string | undefined;
+  PrincipalId?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
 }
 export type ApplicationAssignmentListForPrincipal = ApplicationAssignmentForPrincipal[];
 export interface ListApplicationAssignmentsForPrincipalResponse {
-  ApplicationAssignments?: ApplicationAssignmentForPrincipal[];
-  NextToken?: string;
+  ApplicationAssignments?: ApplicationAssignmentForPrincipal[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAuthenticationMethodsRequest {
   ApplicationArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface AuthenticationMethodItem {
-  AuthenticationMethodType?: AuthenticationMethodType;
-  AuthenticationMethod?: AuthenticationMethod;
+  AuthenticationMethodType?: AuthenticationMethodType | undefined;
+  AuthenticationMethod?: AuthenticationMethod | undefined;
 }
 export type AuthenticationMethods = AuthenticationMethodItem[];
 export interface ListApplicationAuthenticationMethodsResponse {
-  AuthenticationMethods?: AuthenticationMethodItem[];
-  NextToken?: string;
+  AuthenticationMethods?: AuthenticationMethodItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationGrantsRequest {
   ApplicationArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GrantItem {
   GrantType: GrantType;
@@ -855,184 +857,184 @@ export interface GrantItem {
 export type Grants = GrantItem[];
 export interface ListApplicationGrantsResponse {
   Grants: GrantItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationProvidersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApplicationProvider {
   ApplicationProviderArn: string;
-  FederationProtocol?: FederationProtocol;
-  DisplayData?: DisplayData;
-  ResourceServerConfig?: ResourceServerConfig;
+  FederationProtocol?: FederationProtocol | undefined;
+  DisplayData?: DisplayData | undefined;
+  ResourceServerConfig?: ResourceServerConfig | undefined;
 }
 export type ApplicationProviderList = ApplicationProvider[];
 export interface ListApplicationProvidersResponse {
-  ApplicationProviders?: ApplicationProvider[];
-  NextToken?: string;
+  ApplicationProviders?: ApplicationProvider[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationsFilter {
-  ApplicationAccount?: string;
-  ApplicationProvider?: string;
+  ApplicationAccount?: string | undefined;
+  ApplicationProvider?: string | undefined;
 }
 export interface ListApplicationsRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: ListApplicationsFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: ListApplicationsFilter | undefined;
 }
 export interface Application {
-  ApplicationArn?: string;
-  ApplicationProviderArn?: string;
-  Name?: string;
-  ApplicationAccount?: string;
-  InstanceArn?: string;
-  IdentityStoreArn?: string;
-  Status?: ApplicationStatus;
-  PortalOptions?: PortalOptions;
-  Description?: string;
-  CreatedDate?: Date;
-  CreatedFrom?: string;
+  ApplicationArn?: string | undefined;
+  ApplicationProviderArn?: string | undefined;
+  Name?: string | undefined;
+  ApplicationAccount?: string | undefined;
+  InstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  PortalOptions?: PortalOptions | undefined;
+  Description?: string | undefined;
+  CreatedDate?: Date | undefined;
+  CreatedFrom?: string | undefined;
 }
 export type ApplicationList = Application[];
 export interface ListApplicationsResponse {
-  Applications?: Application[];
-  NextToken?: string;
+  Applications?: Application[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomerManagedPolicyReferencesInPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomerManagedPolicyReferenceList = CustomerManagedPolicyReference[];
 export interface ListCustomerManagedPolicyReferencesInPermissionSetResponse {
-  CustomerManagedPolicyReferences?: CustomerManagedPolicyReference[];
-  NextToken?: string;
+  CustomerManagedPolicyReferences?: CustomerManagedPolicyReference[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RegionScope = "CURRENT_REGION" | "ALL_REGIONS" | (string & {});
 export interface ListInstancesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  RegionScope?: RegionScope;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RegionScope?: RegionScope | undefined;
 }
 export interface InstanceMetadata {
-  InstanceArn?: string;
-  IdentityStoreId?: string;
-  IdentityStoreArn?: string;
-  OwnerAccountId?: string;
-  Name?: string;
-  CreatedDate?: Date;
-  Status?: InstanceStatus;
-  StatusReason?: string;
-  PrimaryRegion?: string;
-  Regions?: RegionMetadata[];
+  InstanceArn?: string | undefined;
+  IdentityStoreId?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  Name?: string | undefined;
+  CreatedDate?: Date | undefined;
+  Status?: InstanceStatus | undefined;
+  StatusReason?: string | undefined;
+  PrimaryRegion?: string | undefined;
+  Regions?: RegionMetadata[] | undefined;
 }
 export type InstanceList = InstanceMetadata[];
 export interface ListInstancesResponse {
-  Instances?: InstanceMetadata[];
-  NextToken?: string;
+  Instances?: InstanceMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedPoliciesInPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AttachedManagedPolicy {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type AttachedManagedPolicyList = AttachedManagedPolicy[];
 export interface ListManagedPoliciesInPermissionSetResponse {
-  AttachedManagedPolicies?: AttachedManagedPolicy[];
-  NextToken?: string;
+  AttachedManagedPolicies?: AttachedManagedPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetProvisioningStatusRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: OperationStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: OperationStatusFilter | undefined;
 }
 export interface PermissionSetProvisioningStatusMetadata {
-  Status?: StatusValues;
-  RequestId?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export type PermissionSetProvisioningStatusList = PermissionSetProvisioningStatusMetadata[];
 export interface ListPermissionSetProvisioningStatusResponse {
-  PermissionSetsProvisioningStatus?: PermissionSetProvisioningStatusMetadata[];
-  NextToken?: string;
+  PermissionSetsProvisioningStatus?: PermissionSetProvisioningStatusMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetsRequest {
   InstanceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PermissionSetList = string[];
 export interface ListPermissionSetsResponse {
-  PermissionSets?: string[];
-  NextToken?: string;
+  PermissionSets?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetsProvisionedToAccountRequest {
   InstanceArn: string;
   AccountId: string;
-  ProvisioningStatus?: ProvisioningStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  ProvisioningStatus?: ProvisioningStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetsProvisionedToAccountResponse {
-  NextToken?: string;
-  PermissionSets?: string[];
+  NextToken?: string | undefined;
+  PermissionSets?: string[] | undefined;
 }
 export interface ListRegionsRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRegionsResponse {
-  Regions?: RegionMetadata[];
-  NextToken?: string;
+  Regions?: RegionMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
   ResourceArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTrustedTokenIssuersRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TrustedTokenIssuerMetadata {
-  TrustedTokenIssuerArn?: string;
-  Name?: string;
-  TrustedTokenIssuerType?: TrustedTokenIssuerType;
+  TrustedTokenIssuerArn?: string | undefined;
+  Name?: string | undefined;
+  TrustedTokenIssuerType?: TrustedTokenIssuerType | undefined;
 }
 export type TrustedTokenIssuerList = TrustedTokenIssuerMetadata[];
 export interface ListTrustedTokenIssuersResponse {
-  TrustedTokenIssuers?: TrustedTokenIssuerMetadata[];
-  NextToken?: string;
+  TrustedTokenIssuers?: TrustedTokenIssuerMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProvisionTargetType = "AWS_ACCOUNT" | "ALL_PROVISIONED_ACCOUNTS" | (string & {});
 export interface ProvisionPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  TargetId?: string;
+  TargetId?: string | undefined;
   TargetType: ProvisionTargetType;
 }
 export interface ProvisionPermissionSetResponse {
-  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus;
+  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus | undefined;
 }
 export interface PutApplicationAccessScopeRequest {
   Scope: string;
-  AuthorizedTargets?: string[];
+  AuthorizedTargets?: string[] | undefined;
   ApplicationArn: string;
 }
 export interface PutApplicationAccessScopeResponse {}
@@ -1055,7 +1057,7 @@ export interface PutApplicationGrantRequest {
 export interface PutApplicationGrantResponse {}
 export interface PutApplicationSessionConfigurationRequest {
   ApplicationArn: string;
-  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus;
+  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus | undefined;
 }
 export interface PutApplicationSessionConfigurationResponse {}
 export interface PutInlinePolicyToPermissionSetRequest {
@@ -1075,41 +1077,41 @@ export interface RemoveRegionRequest {
   RegionName: string;
 }
 export interface RemoveRegionResponse {
-  Status?: RegionStatus;
+  Status?: RegionStatus | undefined;
 }
 export interface TagResourceRequest {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
   ResourceArn: string;
   Tags: Tag[];
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
   ResourceArn: string;
   TagKeys: string[];
 }
 export interface UntagResourceResponse {}
 export interface UpdateApplicationPortalOptions {
-  SignInOptions?: SignInOptions;
+  SignInOptions?: SignInOptions | undefined;
 }
 export interface UpdateApplicationRequest {
   ApplicationArn: string;
-  Name?: string;
-  Description?: string;
-  Status?: ApplicationStatus;
-  PortalOptions?: UpdateApplicationPortalOptions;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  PortalOptions?: UpdateApplicationPortalOptions | undefined;
 }
 export interface UpdateApplicationResponse {}
 export interface EncryptionConfiguration {
   KeyType: KmsKeyType;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export interface UpdateInstanceRequest {
-  Name?: string;
+  Name?: string | undefined;
   InstanceArn: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  PermissionSetsEnabled?: boolean;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  PermissionSetsEnabled?: boolean | undefined;
 }
 export interface UpdateInstanceResponse {}
 export interface UpdateInstanceAccessControlAttributeConfigurationRequest {
@@ -1120,23 +1122,23 @@ export interface UpdateInstanceAccessControlAttributeConfigurationResponse {}
 export interface UpdatePermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  Description?: string;
-  SessionDuration?: string;
-  RelayState?: string;
+  Description?: string | undefined;
+  SessionDuration?: string | undefined;
+  RelayState?: string | undefined;
 }
 export interface UpdatePermissionSetResponse {}
 export interface OidcJwtUpdateConfiguration {
-  ClaimAttributePath?: string;
-  IdentityStoreAttributePath?: string;
-  JwksRetrievalOption?: JwksRetrievalOption;
+  ClaimAttributePath?: string | undefined;
+  IdentityStoreAttributePath?: string | undefined;
+  JwksRetrievalOption?: JwksRetrievalOption | undefined;
 }
 export type TrustedTokenIssuerUpdateConfiguration = {
   OidcJwtConfiguration: OidcJwtUpdateConfiguration;
 };
 export interface UpdateTrustedTokenIssuerRequest {
   TrustedTokenIssuerArn: string;
-  Name?: string;
-  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerUpdateConfiguration;
+  Name?: string | undefined;
+  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerUpdateConfiguration | undefined;
 }
 export interface UpdateTrustedTokenIssuerResponse {}
 export type AccessDeniedExceptionMessage = string;

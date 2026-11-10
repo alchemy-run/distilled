@@ -65,16 +65,16 @@ export class NotFound
 export type AddRouteRequestRouteSrcSyntax = "equals" | "path-to-regexp" | "regex";
 export type AddRouteRequestRouteRouteHasItemType = "host" | "header" | "cookie" | "query";
 export interface AddRouteRequestRouteRouteHasItem {
-  type?: AddRouteRequestRouteRouteHasItemType | (string & {});
-  key?: string;
-  value?: string;
+  type?: AddRouteRequestRouteRouteHasItemType | (string & {}) | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type AddRouteRequestRouteRouteHasList = Array<AddRouteRequestRouteRouteHasItem>;
 export type AddRouteRequestRouteRouteMissingItemType = "host" | "header" | "cookie" | "query";
 export interface AddRouteRequestRouteRouteMissingItem {
-  type?: AddRouteRequestRouteRouteMissingItemType | (string & {});
-  key?: string;
-  value?: string;
+  type?: AddRouteRequestRouteRouteMissingItemType | (string & {}) | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type AddRouteRequestRouteRouteMissingList = Array<AddRouteRequestRouteRouteMissingItem>;
 export type AddRouteRequestRouteRouteTransformsItemType =
@@ -84,31 +84,31 @@ export type AddRouteRequestRouteRouteTransformsItemType =
 export type AddRouteRequestRouteRouteTransformsItemOp = "append" | "set" | "delete";
 export type AddRouteRequestRouteRouteTransformsItemEnvList = Array<string>;
 export interface AddRouteRequestRouteRouteTransformsItem {
-  type?: AddRouteRequestRouteRouteTransformsItemType | (string & {});
-  op?: AddRouteRequestRouteRouteTransformsItemOp | (string & {});
-  target?: unknown;
-  args?: unknown;
-  env?: AddRouteRequestRouteRouteTransformsItemEnvList;
+  type?: AddRouteRequestRouteRouteTransformsItemType | (string & {}) | undefined;
+  op?: AddRouteRequestRouteRouteTransformsItemOp | (string & {}) | undefined;
+  target?: unknown | undefined;
+  args?: unknown | undefined;
+  env?: AddRouteRequestRouteRouteTransformsItemEnvList | undefined;
 }
 export type AddRouteRequestRouteRouteTransformsList =
   Array<AddRouteRequestRouteRouteTransformsItem>;
 export interface AddRouteRequestRouteRoute {
   src: string;
-  dest?: string;
-  headers?: unknown;
-  caseSensitive?: boolean;
-  status?: number;
-  has?: AddRouteRequestRouteRouteHasList;
-  missing?: AddRouteRequestRouteRouteMissingList;
-  transforms?: AddRouteRequestRouteRouteTransformsList;
-  respectOriginCacheControl?: boolean;
+  dest?: string | undefined;
+  headers?: unknown | undefined;
+  caseSensitive?: boolean | undefined;
+  status?: number | undefined;
+  has?: AddRouteRequestRouteRouteHasList | undefined;
+  missing?: AddRouteRequestRouteRouteMissingList | undefined;
+  transforms?: AddRouteRequestRouteRouteTransformsList | undefined;
+  respectOriginCacheControl?: boolean | undefined;
 }
 export interface AddRouteRequestRoute {
   name: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
   /** Pattern syntax type. If not provided, inferred from pattern. */
-  srcSyntax?: AddRouteRequestRouteSrcSyntax | (string & {});
+  srcSyntax?: AddRouteRequestRouteSrcSyntax | (string & {}) | undefined;
   route: AddRouteRequestRouteRoute;
 }
 /** "after"/"before" require referenceId. */
@@ -116,28 +116,28 @@ export type AddRouteRequestPositionPlacement = "start" | "end" | "after" | "befo
 /** Controls where the route is inserted. Defaults to "end" if omitted. */
 export interface AddRouteRequestPosition {
   /** "after"/"before" require referenceId. */
-  placement?: AddRouteRequestPositionPlacement | (string & {});
+  placement?: AddRouteRequestPositionPlacement | (string & {}) | undefined;
   /** Route ID to insert after/before. Required for "after"/"before". */
-  referenceId?: string;
+  referenceId?: string | undefined;
 }
 export interface AddRouteRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   route: AddRouteRequestRoute;
   /** Controls where the route is inserted. Defaults to "end" if omitted. */
-  position?: AddRouteRequestPosition;
+  position?: AddRouteRequestPosition | undefined;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
 export type AddRouteResponseRouteRouteDestinationCase1Type = "service";
 export interface AddRouteResponseRouteRouteDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: AddRouteResponseRouteRouteDestinationCase1Type;
+  type?: AddRouteResponseRouteRouteDestinationCase1Type | undefined;
 }
 export type AddRouteResponseRouteRouteDestination =
   | string
@@ -148,17 +148,17 @@ export type AddRouteResponseRouteRouteHasItemCase0ValueCase1Eq = string | number
 export type AddRouteResponseRouteRouteHasItemCase0ValueCase1IncList = Array<string>;
 export type AddRouteResponseRouteRouteHasItemCase0ValueCase1NincList = Array<string>;
 export interface AddRouteResponseRouteRouteHasItemCase0ValueCase1 {
-  eq?: AddRouteResponseRouteRouteHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: AddRouteResponseRouteRouteHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: AddRouteResponseRouteRouteHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: AddRouteResponseRouteRouteHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: AddRouteResponseRouteRouteHasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: AddRouteResponseRouteRouteHasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type AddRouteResponseRouteRouteHasItemCase0Value =
   | string
@@ -172,17 +172,17 @@ export type AddRouteResponseRouteRouteHasItemCase1ValueCase1Eq = string | number
 export type AddRouteResponseRouteRouteHasItemCase1ValueCase1IncList = Array<string>;
 export type AddRouteResponseRouteRouteHasItemCase1ValueCase1NincList = Array<string>;
 export interface AddRouteResponseRouteRouteHasItemCase1ValueCase1 {
-  eq?: AddRouteResponseRouteRouteHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: AddRouteResponseRouteRouteHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: AddRouteResponseRouteRouteHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: AddRouteResponseRouteRouteHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: AddRouteResponseRouteRouteHasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: AddRouteResponseRouteRouteHasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type AddRouteResponseRouteRouteHasItemCase1Value =
   | string
@@ -190,7 +190,7 @@ export type AddRouteResponseRouteRouteHasItemCase1Value =
 export interface AddRouteResponseRouteRouteHasItemCase1 {
   key: string;
   type: AddRouteResponseRouteRouteHasItemCase1Type;
-  value?: AddRouteResponseRouteRouteHasItemCase1Value;
+  value?: AddRouteResponseRouteRouteHasItemCase1Value | undefined;
 }
 export type AddRouteResponseRouteRouteHasItem =
   | AddRouteResponseRouteRouteHasItemCase0
@@ -199,8 +199,8 @@ export type AddRouteResponseRouteRouteHasList = Array<AddRouteResponseRouteRoute
 export type AddRouteResponseRouteRouteHeadersMap = { [key: string]: string | undefined };
 export type AddRouteResponseRouteRouteLocaleRedirectMap = { [key: string]: string | undefined };
 export interface AddRouteResponseRouteRouteLocale {
-  cookie?: string;
-  redirect?: AddRouteResponseRouteRouteLocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: AddRouteResponseRouteRouteLocaleRedirectMap | undefined;
 }
 export type AddRouteResponseRouteRouteMethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -210,17 +210,17 @@ export type AddRouteResponseRouteRouteMissingItemCase0ValueCase1Eq = string | nu
 export type AddRouteResponseRouteRouteMissingItemCase0ValueCase1IncList = Array<string>;
 export type AddRouteResponseRouteRouteMissingItemCase0ValueCase1NincList = Array<string>;
 export interface AddRouteResponseRouteRouteMissingItemCase0ValueCase1 {
-  eq?: AddRouteResponseRouteRouteMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: AddRouteResponseRouteRouteMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: AddRouteResponseRouteRouteMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: AddRouteResponseRouteRouteMissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: AddRouteResponseRouteRouteMissingItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: AddRouteResponseRouteRouteMissingItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type AddRouteResponseRouteRouteMissingItemCase0Value =
   | string
@@ -234,17 +234,17 @@ export type AddRouteResponseRouteRouteMissingItemCase1ValueCase1Eq = string | nu
 export type AddRouteResponseRouteRouteMissingItemCase1ValueCase1IncList = Array<string>;
 export type AddRouteResponseRouteRouteMissingItemCase1ValueCase1NincList = Array<string>;
 export interface AddRouteResponseRouteRouteMissingItemCase1ValueCase1 {
-  eq?: AddRouteResponseRouteRouteMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: AddRouteResponseRouteRouteMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: AddRouteResponseRouteRouteMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: AddRouteResponseRouteRouteMissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: AddRouteResponseRouteRouteMissingItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: AddRouteResponseRouteRouteMissingItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type AddRouteResponseRouteRouteMissingItemCase1Value =
   | string
@@ -252,7 +252,7 @@ export type AddRouteResponseRouteRouteMissingItemCase1Value =
 export interface AddRouteResponseRouteRouteMissingItemCase1 {
   key: string;
   type: AddRouteResponseRouteRouteMissingItemCase1Type;
-  value?: AddRouteResponseRouteRouteMissingItemCase1Value;
+  value?: AddRouteResponseRouteRouteMissingItemCase1Value | undefined;
 }
 export type AddRouteResponseRouteRouteMissingItem =
   | AddRouteResponseRouteRouteMissingItemCase0
@@ -272,16 +272,16 @@ export type AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1Eq = stri
 export type AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1IncList = Array<string>;
 export type AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1NincList = Array<string>;
 export interface AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1 {
-  eq?: AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?: AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: AddRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1NincList | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type AddRouteResponseRouteRouteTransformsItemCase0TargetKey =
   | string
@@ -294,8 +294,8 @@ export type AddRouteResponseRouteRouteTransformsItemCase0Type =
   | "request.query"
   | "response.headers";
 export interface AddRouteResponseRouteRouteTransformsItemCase0 {
-  args?: AddRouteResponseRouteRouteTransformsItemCase0Args;
-  env?: AddRouteResponseRouteRouteTransformsItemCase0EnvList;
+  args?: AddRouteResponseRouteRouteTransformsItemCase0Args | undefined;
+  env?: AddRouteResponseRouteRouteTransformsItemCase0EnvList | undefined;
   op: AddRouteResponseRouteRouteTransformsItemCase0Op;
   target: AddRouteResponseRouteRouteTransformsItemCase0Target;
   type: AddRouteResponseRouteRouteTransformsItemCase0Type;
@@ -305,9 +305,9 @@ export type AddRouteResponseRouteRouteTransformsItemCase1Op = "set";
 export type AddRouteResponseRouteRouteTransformsItemCase1Type = "request.path";
 export interface AddRouteResponseRouteRouteTransformsItemCase1 {
   args: string;
-  env?: AddRouteResponseRouteRouteTransformsItemCase1EnvList;
+  env?: AddRouteResponseRouteRouteTransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: AddRouteResponseRouteRouteTransformsItemCase1Op;
   type: AddRouteResponseRouteRouteTransformsItemCase1Type;
 }
@@ -318,74 +318,74 @@ export type AddRouteResponseRouteRouteTransformsList =
   Array<AddRouteResponseRouteRouteTransformsItem>;
 /** The route definition from @vercel/routing-utils. */
 export interface AddRouteResponseRouteRoute {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: AddRouteResponseRouteRouteDestination;
-  env?: AddRouteResponseRouteRouteEnvList;
-  has?: AddRouteResponseRouteRouteHasList;
-  headers?: AddRouteResponseRouteRouteHeadersMap;
-  important?: boolean;
-  locale?: AddRouteResponseRouteRouteLocale;
-  methods?: AddRouteResponseRouteRouteMethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: AddRouteResponseRouteRouteDestination | undefined;
+  env?: AddRouteResponseRouteRouteEnvList | undefined;
+  has?: AddRouteResponseRouteRouteHasList | undefined;
+  headers?: AddRouteResponseRouteRouteHeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: AddRouteResponseRouteRouteLocale | undefined;
+  methods?: AddRouteResponseRouteRouteMethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: AddRouteResponseRouteRouteMiddlewareRawSrcList;
-  missing?: AddRouteResponseRouteRouteMissingList;
-  mitigate?: AddRouteResponseRouteRouteMitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?: AddRouteResponseRouteRouteMiddlewareRawSrcList | undefined;
+  missing?: AddRouteResponseRouteRouteMissingList | undefined;
+  mitigate?: AddRouteResponseRouteRouteMitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: AddRouteResponseRouteRouteTransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: AddRouteResponseRouteRouteTransformsList | undefined;
 }
 export type AddRouteResponseRouteRouteType = "redirect" | "rewrite" | "set_status" | "transform";
 /** The syntax type of the source pattern. Determines how the pattern is compiled to regex. */
 export type AddRouteResponseRouteSrcSyntax = "equals" | "path-to-regexp" | "regex";
 export interface AddRouteResponseRoute {
   /** Optional description of what the routing rule does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the routing rule is enabled. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Unique identifier for the routing rule. */
   id: string;
   /** Human-readable name for the routing rule. */
   name: string;
   /** Original destination provided by user. */
-  rawDest?: string;
+  rawDest?: string | undefined;
   /** Original source pattern provided by user (path-to-regexp or regex). Used to display the user's input in API responses. */
-  rawSrc?: string;
+  rawSrc?: string | undefined;
   /** The route definition from @vercel/routing-utils. */
   route: AddRouteResponseRouteRoute;
-  routeType?: AddRouteResponseRouteRouteType;
+  routeType?: AddRouteResponseRouteRouteType | undefined;
   /** The syntax type of the source pattern. Determines how the pattern is compiled to regex. */
-  srcSyntax?: AddRouteResponseRouteSrcSyntax;
+  srcSyntax?: AddRouteResponseRouteSrcSyntax | undefined;
   /** Whether this route is new and not yet published to production. Set to true only when a route is first created via add-route. Cleared (set to false) when a version is promoted to production. */
-  staged?: boolean;
+  staged?: boolean | undefined;
 }
 /** A version of routing rules stored in S3. */
 export interface AddRouteResponseVersion {
   /** The staging alias for previewing this version. */
-  alias?: string;
+  alias?: string | undefined;
   /** The user who created this version. */
   createdBy: string;
   /** Unique identifier for the version. */
   id: string;
   /** Whether this version is currently live in production. */
-  isLive?: boolean;
+  isLive?: boolean | undefined;
   /** Whether this version is staged and not yet promoted to production. */
-  isStaging?: boolean;
+  isStaging?: boolean | undefined;
   /** Timestamp of when this version was last modified. */
   lastModified: number;
   /** The number of routing rules in this version. */
-  ruleCount?: number;
+  ruleCount?: number | undefined;
   /** The S3 key where the routing rules are stored. */
   s3Key: string;
 }
@@ -399,9 +399,9 @@ export type DeleteRoutesRequestRouteIdsList = Array<string>;
 export interface DeleteRoutesRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The IDs of the routes to delete */
   routeIds: DeleteRoutesRequestRouteIdsList;
 }
@@ -416,16 +416,16 @@ export interface DeleteRoutesResponse {
 export type EditRouteRequestRouteSrcSyntax = "equals" | "path-to-regexp" | "regex";
 export type EditRouteRequestRouteRouteHasItemType = "host" | "header" | "cookie" | "query";
 export interface EditRouteRequestRouteRouteHasItem {
-  type?: EditRouteRequestRouteRouteHasItemType | (string & {});
-  key?: string;
-  value?: string;
+  type?: EditRouteRequestRouteRouteHasItemType | (string & {}) | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type EditRouteRequestRouteRouteHasList = Array<EditRouteRequestRouteRouteHasItem>;
 export type EditRouteRequestRouteRouteMissingItemType = "host" | "header" | "cookie" | "query";
 export interface EditRouteRequestRouteRouteMissingItem {
-  type?: EditRouteRequestRouteRouteMissingItemType | (string & {});
-  key?: string;
-  value?: string;
+  type?: EditRouteRequestRouteRouteMissingItemType | (string & {}) | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type EditRouteRequestRouteRouteMissingList = Array<EditRouteRequestRouteRouteMissingItem>;
 export type EditRouteRequestRouteRouteTransformsItemType =
@@ -435,54 +435,54 @@ export type EditRouteRequestRouteRouteTransformsItemType =
 export type EditRouteRequestRouteRouteTransformsItemOp = "append" | "set" | "delete";
 export type EditRouteRequestRouteRouteTransformsItemEnvList = Array<string>;
 export interface EditRouteRequestRouteRouteTransformsItem {
-  type?: EditRouteRequestRouteRouteTransformsItemType | (string & {});
-  op?: EditRouteRequestRouteRouteTransformsItemOp | (string & {});
-  target?: unknown;
-  args?: unknown;
-  env?: EditRouteRequestRouteRouteTransformsItemEnvList;
+  type?: EditRouteRequestRouteRouteTransformsItemType | (string & {}) | undefined;
+  op?: EditRouteRequestRouteRouteTransformsItemOp | (string & {}) | undefined;
+  target?: unknown | undefined;
+  args?: unknown | undefined;
+  env?: EditRouteRequestRouteRouteTransformsItemEnvList | undefined;
 }
 export type EditRouteRequestRouteRouteTransformsList =
   Array<EditRouteRequestRouteRouteTransformsItem>;
 export interface EditRouteRequestRouteRoute {
   src: string;
-  dest?: string;
-  headers?: unknown;
-  caseSensitive?: boolean;
-  status?: number;
-  has?: EditRouteRequestRouteRouteHasList;
-  missing?: EditRouteRequestRouteRouteMissingList;
-  transforms?: EditRouteRequestRouteRouteTransformsList;
-  respectOriginCacheControl?: boolean;
+  dest?: string | undefined;
+  headers?: unknown | undefined;
+  caseSensitive?: boolean | undefined;
+  status?: number | undefined;
+  has?: EditRouteRequestRouteRouteHasList | undefined;
+  missing?: EditRouteRequestRouteRouteMissingList | undefined;
+  transforms?: EditRouteRequestRouteRouteTransformsList | undefined;
+  respectOriginCacheControl?: boolean | undefined;
 }
 /** The full route object to replace the existing route with */
 export interface EditRouteRequestRoute {
   name: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
   /** Pattern syntax type. If not provided, inferred from pattern. */
-  srcSyntax?: EditRouteRequestRouteSrcSyntax | (string & {});
+  srcSyntax?: EditRouteRequestRouteSrcSyntax | (string & {}) | undefined;
   route: EditRouteRequestRouteRoute;
 }
 export interface EditRouteRequest {
   projectId: string;
   routeId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The full route object to replace the existing route with */
-  route?: EditRouteRequestRoute;
+  route?: EditRouteRequestRoute | undefined;
   /** If true, restores the staged route to the value in the production version. */
-  restore?: boolean;
+  restore?: boolean | undefined;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
 export type EditRouteResponseRouteRouteDestinationCase1Type = "service";
 export interface EditRouteResponseRouteRouteDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: EditRouteResponseRouteRouteDestinationCase1Type;
+  type?: EditRouteResponseRouteRouteDestinationCase1Type | undefined;
 }
 export type EditRouteResponseRouteRouteDestination =
   | string
@@ -493,17 +493,17 @@ export type EditRouteResponseRouteRouteHasItemCase0ValueCase1Eq = string | numbe
 export type EditRouteResponseRouteRouteHasItemCase0ValueCase1IncList = Array<string>;
 export type EditRouteResponseRouteRouteHasItemCase0ValueCase1NincList = Array<string>;
 export interface EditRouteResponseRouteRouteHasItemCase0ValueCase1 {
-  eq?: EditRouteResponseRouteRouteHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: EditRouteResponseRouteRouteHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: EditRouteResponseRouteRouteHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: EditRouteResponseRouteRouteHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: EditRouteResponseRouteRouteHasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: EditRouteResponseRouteRouteHasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type EditRouteResponseRouteRouteHasItemCase0Value =
   | string
@@ -517,17 +517,17 @@ export type EditRouteResponseRouteRouteHasItemCase1ValueCase1Eq = string | numbe
 export type EditRouteResponseRouteRouteHasItemCase1ValueCase1IncList = Array<string>;
 export type EditRouteResponseRouteRouteHasItemCase1ValueCase1NincList = Array<string>;
 export interface EditRouteResponseRouteRouteHasItemCase1ValueCase1 {
-  eq?: EditRouteResponseRouteRouteHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: EditRouteResponseRouteRouteHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: EditRouteResponseRouteRouteHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: EditRouteResponseRouteRouteHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: EditRouteResponseRouteRouteHasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: EditRouteResponseRouteRouteHasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type EditRouteResponseRouteRouteHasItemCase1Value =
   | string
@@ -535,7 +535,7 @@ export type EditRouteResponseRouteRouteHasItemCase1Value =
 export interface EditRouteResponseRouteRouteHasItemCase1 {
   key: string;
   type: EditRouteResponseRouteRouteHasItemCase1Type;
-  value?: EditRouteResponseRouteRouteHasItemCase1Value;
+  value?: EditRouteResponseRouteRouteHasItemCase1Value | undefined;
 }
 export type EditRouteResponseRouteRouteHasItem =
   | EditRouteResponseRouteRouteHasItemCase0
@@ -544,8 +544,8 @@ export type EditRouteResponseRouteRouteHasList = Array<EditRouteResponseRouteRou
 export type EditRouteResponseRouteRouteHeadersMap = { [key: string]: string | undefined };
 export type EditRouteResponseRouteRouteLocaleRedirectMap = { [key: string]: string | undefined };
 export interface EditRouteResponseRouteRouteLocale {
-  cookie?: string;
-  redirect?: EditRouteResponseRouteRouteLocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: EditRouteResponseRouteRouteLocaleRedirectMap | undefined;
 }
 export type EditRouteResponseRouteRouteMethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -555,17 +555,17 @@ export type EditRouteResponseRouteRouteMissingItemCase0ValueCase1Eq = string | n
 export type EditRouteResponseRouteRouteMissingItemCase0ValueCase1IncList = Array<string>;
 export type EditRouteResponseRouteRouteMissingItemCase0ValueCase1NincList = Array<string>;
 export interface EditRouteResponseRouteRouteMissingItemCase0ValueCase1 {
-  eq?: EditRouteResponseRouteRouteMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: EditRouteResponseRouteRouteMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: EditRouteResponseRouteRouteMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: EditRouteResponseRouteRouteMissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: EditRouteResponseRouteRouteMissingItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: EditRouteResponseRouteRouteMissingItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type EditRouteResponseRouteRouteMissingItemCase0Value =
   | string
@@ -579,17 +579,17 @@ export type EditRouteResponseRouteRouteMissingItemCase1ValueCase1Eq = string | n
 export type EditRouteResponseRouteRouteMissingItemCase1ValueCase1IncList = Array<string>;
 export type EditRouteResponseRouteRouteMissingItemCase1ValueCase1NincList = Array<string>;
 export interface EditRouteResponseRouteRouteMissingItemCase1ValueCase1 {
-  eq?: EditRouteResponseRouteRouteMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: EditRouteResponseRouteRouteMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: EditRouteResponseRouteRouteMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: EditRouteResponseRouteRouteMissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: EditRouteResponseRouteRouteMissingItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: EditRouteResponseRouteRouteMissingItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type EditRouteResponseRouteRouteMissingItemCase1Value =
   | string
@@ -597,7 +597,7 @@ export type EditRouteResponseRouteRouteMissingItemCase1Value =
 export interface EditRouteResponseRouteRouteMissingItemCase1 {
   key: string;
   type: EditRouteResponseRouteRouteMissingItemCase1Type;
-  value?: EditRouteResponseRouteRouteMissingItemCase1Value;
+  value?: EditRouteResponseRouteRouteMissingItemCase1Value | undefined;
 }
 export type EditRouteResponseRouteRouteMissingItem =
   | EditRouteResponseRouteRouteMissingItemCase0
@@ -617,16 +617,16 @@ export type EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1Eq = str
 export type EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1IncList = Array<string>;
 export type EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1NincList = Array<string>;
 export interface EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1 {
-  eq?: EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?: EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: EditRouteResponseRouteRouteTransformsItemCase0TargetKeyCase1NincList | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type EditRouteResponseRouteRouteTransformsItemCase0TargetKey =
   | string
@@ -639,8 +639,8 @@ export type EditRouteResponseRouteRouteTransformsItemCase0Type =
   | "request.query"
   | "response.headers";
 export interface EditRouteResponseRouteRouteTransformsItemCase0 {
-  args?: EditRouteResponseRouteRouteTransformsItemCase0Args;
-  env?: EditRouteResponseRouteRouteTransformsItemCase0EnvList;
+  args?: EditRouteResponseRouteRouteTransformsItemCase0Args | undefined;
+  env?: EditRouteResponseRouteRouteTransformsItemCase0EnvList | undefined;
   op: EditRouteResponseRouteRouteTransformsItemCase0Op;
   target: EditRouteResponseRouteRouteTransformsItemCase0Target;
   type: EditRouteResponseRouteRouteTransformsItemCase0Type;
@@ -650,9 +650,9 @@ export type EditRouteResponseRouteRouteTransformsItemCase1Op = "set";
 export type EditRouteResponseRouteRouteTransformsItemCase1Type = "request.path";
 export interface EditRouteResponseRouteRouteTransformsItemCase1 {
   args: string;
-  env?: EditRouteResponseRouteRouteTransformsItemCase1EnvList;
+  env?: EditRouteResponseRouteRouteTransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: EditRouteResponseRouteRouteTransformsItemCase1Op;
   type: EditRouteResponseRouteRouteTransformsItemCase1Type;
 }
@@ -663,116 +663,116 @@ export type EditRouteResponseRouteRouteTransformsList =
   Array<EditRouteResponseRouteRouteTransformsItem>;
 /** The route definition from @vercel/routing-utils. */
 export interface EditRouteResponseRouteRoute {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: EditRouteResponseRouteRouteDestination;
-  env?: EditRouteResponseRouteRouteEnvList;
-  has?: EditRouteResponseRouteRouteHasList;
-  headers?: EditRouteResponseRouteRouteHeadersMap;
-  important?: boolean;
-  locale?: EditRouteResponseRouteRouteLocale;
-  methods?: EditRouteResponseRouteRouteMethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: EditRouteResponseRouteRouteDestination | undefined;
+  env?: EditRouteResponseRouteRouteEnvList | undefined;
+  has?: EditRouteResponseRouteRouteHasList | undefined;
+  headers?: EditRouteResponseRouteRouteHeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: EditRouteResponseRouteRouteLocale | undefined;
+  methods?: EditRouteResponseRouteRouteMethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: EditRouteResponseRouteRouteMiddlewareRawSrcList;
-  missing?: EditRouteResponseRouteRouteMissingList;
-  mitigate?: EditRouteResponseRouteRouteMitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?: EditRouteResponseRouteRouteMiddlewareRawSrcList | undefined;
+  missing?: EditRouteResponseRouteRouteMissingList | undefined;
+  mitigate?: EditRouteResponseRouteRouteMitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: EditRouteResponseRouteRouteTransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: EditRouteResponseRouteRouteTransformsList | undefined;
 }
 export type EditRouteResponseRouteRouteType = "redirect" | "rewrite" | "set_status" | "transform";
 /** The syntax type of the source pattern. Determines how the pattern is compiled to regex. */
 export type EditRouteResponseRouteSrcSyntax = "equals" | "path-to-regexp" | "regex";
 export interface EditRouteResponseRoute {
   /** Optional description of what the routing rule does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the routing rule is enabled. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Unique identifier for the routing rule. */
   id: string;
   /** Human-readable name for the routing rule. */
   name: string;
   /** Original destination provided by user. */
-  rawDest?: string;
+  rawDest?: string | undefined;
   /** Original source pattern provided by user (path-to-regexp or regex). Used to display the user's input in API responses. */
-  rawSrc?: string;
+  rawSrc?: string | undefined;
   /** The route definition from @vercel/routing-utils. */
   route: EditRouteResponseRouteRoute;
-  routeType?: EditRouteResponseRouteRouteType;
+  routeType?: EditRouteResponseRouteRouteType | undefined;
   /** The syntax type of the source pattern. Determines how the pattern is compiled to regex. */
-  srcSyntax?: EditRouteResponseRouteSrcSyntax;
+  srcSyntax?: EditRouteResponseRouteSrcSyntax | undefined;
   /** Whether this route is new and not yet published to production. Set to true only when a route is first created via add-route. Cleared (set to false) when a version is promoted to production. */
-  staged?: boolean;
+  staged?: boolean | undefined;
 }
 /** A version of routing rules stored in S3. */
 export type EditRouteResponseVersion = AddRouteResponseVersion;
 export interface EditRouteResponse {
-  route?: EditRouteResponseRoute;
+  route?: EditRouteResponseRoute | undefined;
   /** A version of routing rules stored in S3. */
   version: AddRouteResponseVersion;
 }
 export interface GenerateRouteRequestCurrentRoutePathCondition {
-  value?: string;
-  syntax?: string;
+  value?: string | undefined;
+  syntax?: string | undefined;
 }
 export interface GenerateRouteRequestCurrentRouteConditionsItem {
-  field?: string;
-  operator?: string;
-  key?: string;
-  value?: string;
-  missing?: boolean;
+  field?: string | undefined;
+  operator?: string | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
+  missing?: boolean | undefined;
 }
 export type GenerateRouteRequestCurrentRouteConditionsList =
   Array<GenerateRouteRequestCurrentRouteConditionsItem>;
 export interface GenerateRouteRequestCurrentRouteActionsItemHeadersItem {
-  key?: string;
-  value?: string;
-  op?: string;
+  key?: string | undefined;
+  value?: string | undefined;
+  op?: string | undefined;
 }
 export type GenerateRouteRequestCurrentRouteActionsItemHeadersList =
   Array<GenerateRouteRequestCurrentRouteActionsItemHeadersItem>;
 export interface GenerateRouteRequestCurrentRouteActionsItem {
-  type?: string;
-  subType?: string;
-  dest?: string;
-  status?: number;
-  headers?: GenerateRouteRequestCurrentRouteActionsItemHeadersList;
+  type?: string | undefined;
+  subType?: string | undefined;
+  dest?: string | undefined;
+  status?: number | undefined;
+  headers?: GenerateRouteRequestCurrentRouteActionsItemHeadersList | undefined;
 }
 export type GenerateRouteRequestCurrentRouteActionsList =
   Array<GenerateRouteRequestCurrentRouteActionsItem>;
 export interface GenerateRouteRequestCurrentRoute {
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   pathCondition: GenerateRouteRequestCurrentRoutePathCondition;
-  caseSensitive?: boolean;
-  conditions?: GenerateRouteRequestCurrentRouteConditionsList;
+  caseSensitive?: boolean | undefined;
+  conditions?: GenerateRouteRequestCurrentRouteConditionsList | undefined;
   actions: GenerateRouteRequestCurrentRouteActionsList;
 }
 export interface GenerateRouteRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   prompt: string;
-  currentRoute?: GenerateRouteRequestCurrentRoute;
+  currentRoute?: GenerateRouteRequestCurrentRoute | undefined;
 }
 export type GenerateRouteResponseRouteActionsItemHeadersItemOp = "append" | "delete" | "set";
 export interface GenerateRouteResponseRouteActionsItemHeadersItem {
   key: string;
   op: GenerateRouteResponseRouteActionsItemHeadersItemOp;
-  value?: string;
+  value?: string | undefined;
 }
 export type GenerateRouteResponseRouteActionsItemHeadersList =
   Array<GenerateRouteResponseRouteActionsItemHeadersItem>;
@@ -786,10 +786,10 @@ export type GenerateRouteResponseRouteActionsItemType =
   | "rewrite"
   | "set-status";
 export interface GenerateRouteResponseRouteActionsItem {
-  dest?: string;
-  headers?: GenerateRouteResponseRouteActionsItemHeadersList;
-  status?: number;
-  subType?: GenerateRouteResponseRouteActionsItemSubType;
+  dest?: string | undefined;
+  headers?: GenerateRouteResponseRouteActionsItemHeadersList | undefined;
+  status?: number | undefined;
+  subType?: GenerateRouteResponseRouteActionsItemSubType | undefined;
   type: GenerateRouteResponseRouteActionsItemType;
 }
 export type GenerateRouteResponseRouteActionsList = Array<GenerateRouteResponseRouteActionsItem>;
@@ -797,10 +797,10 @@ export type GenerateRouteResponseRouteConditionsItemField = "cookie" | "header" 
 export type GenerateRouteResponseRouteConditionsItemOperator = "contains" | "eq" | "exists" | "re";
 export interface GenerateRouteResponseRouteConditionsItem {
   field: GenerateRouteResponseRouteConditionsItemField;
-  key?: string;
+  key?: string | undefined;
   missing: boolean;
   operator: GenerateRouteResponseRouteConditionsItemOperator;
-  value?: string;
+  value?: string | undefined;
 }
 export type GenerateRouteResponseRouteConditionsList =
   Array<GenerateRouteResponseRouteConditionsItem>;
@@ -811,38 +811,38 @@ export interface GenerateRouteResponseRoutePathCondition {
 }
 export interface GenerateRouteResponseRoute {
   actions: GenerateRouteResponseRouteActionsList;
-  caseSensitive?: boolean;
-  conditions?: GenerateRouteResponseRouteConditionsList;
+  caseSensitive?: boolean | undefined;
+  conditions?: GenerateRouteResponseRouteConditionsList | undefined;
   description: string;
   name: string;
   pathCondition: GenerateRouteResponseRoutePathCondition;
 }
 export interface GenerateRouteResponse {
-  error?: string;
-  route?: GenerateRouteResponseRoute;
+  error?: string | undefined;
+  route?: GenerateRouteResponseRoute | undefined;
 }
 export type GetRoutesRequestFilter = "rewrite" | "redirect" | "set_status" | "transform";
 export type GetRoutesRequestDiffCase1 = "only";
 export type GetRoutesRequestDiff = boolean | GetRoutesRequestDiffCase1;
 export interface GetRoutesRequest {
   projectId: string;
-  versionId?: string;
-  q?: string;
-  filter?: GetRoutesRequestFilter | (string & {});
-  diff?: GetRoutesRequestDiff;
+  versionId?: string | undefined;
+  q?: string | undefined;
+  filter?: GetRoutesRequestFilter | (string & {}) | undefined;
+  diff?: GetRoutesRequestDiff | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
 export type GetRoutesResponseBodyCase1RoutesItemRouteDestinationCase1Type = "service";
 export interface GetRoutesResponseBodyCase1RoutesItemRouteDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: GetRoutesResponseBodyCase1RoutesItemRouteDestinationCase1Type;
+  type?: GetRoutesResponseBodyCase1RoutesItemRouteDestinationCase1Type | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteDestination =
   | string
@@ -853,17 +853,17 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1Eq = 
 export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1IncList = Array<string>;
 export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1NincList = Array<string>;
 export interface GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1 {
-  eq?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0Value =
   | string
@@ -880,17 +880,17 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1Eq = 
 export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1IncList = Array<string>;
 export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1NincList = Array<string>;
 export interface GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1 {
-  eq?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1Value =
   | string
@@ -898,7 +898,7 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1Value =
 export interface GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1 {
   key: string;
   type: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1Type;
-  value?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1Value;
+  value?: GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase1Value | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteHasItem =
   | GetRoutesResponseBodyCase1RoutesItemRouteHasItemCase0
@@ -912,8 +912,8 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteLocaleRedirectMap = {
   [key: string]: string | undefined;
 };
 export interface GetRoutesResponseBodyCase1RoutesItemRouteLocale {
-  cookie?: string;
-  redirect?: GetRoutesResponseBodyCase1RoutesItemRouteLocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: GetRoutesResponseBodyCase1RoutesItemRouteLocaleRedirectMap | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteMethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -925,17 +925,17 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1I
 export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1 {
-  eq?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0Value =
   | string
@@ -954,17 +954,17 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1I
 export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1 {
-  eq?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1Value =
   | string
@@ -972,7 +972,7 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1Value =
 export interface GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1 {
   key: string;
   type: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1Type;
-  value?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1Value;
+  value?: GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase1Value | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteMissingItem =
   | GetRoutesResponseBodyCase1RoutesItemRouteMissingItemCase0
@@ -1001,16 +1001,20 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKe
 export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1 {
-  eq?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0TargetKey =
   | string
@@ -1023,8 +1027,8 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0Type =
   | "request.query"
   | "response.headers";
 export interface GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0 {
-  args?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0Args;
-  env?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0EnvList;
+  args?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0Args | undefined;
+  env?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0EnvList | undefined;
   op: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0Op;
   target: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0Target;
   type: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase0Type;
@@ -1034,9 +1038,9 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1Op = "se
 export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1Type = "request.path";
 export interface GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1 {
   args: string;
-  env?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1EnvList;
+  env?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1Op;
   type: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1Type;
 }
@@ -1047,33 +1051,33 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsList =
   Array<GetRoutesResponseBodyCase1RoutesItemRouteTransformsItem>;
 /** The route definition from @vercel/routing-utils. */
 export interface GetRoutesResponseBodyCase1RoutesItemRoute {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: GetRoutesResponseBodyCase1RoutesItemRouteDestination;
-  env?: GetRoutesResponseBodyCase1RoutesItemRouteEnvList;
-  has?: GetRoutesResponseBodyCase1RoutesItemRouteHasList;
-  headers?: GetRoutesResponseBodyCase1RoutesItemRouteHeadersMap;
-  important?: boolean;
-  locale?: GetRoutesResponseBodyCase1RoutesItemRouteLocale;
-  methods?: GetRoutesResponseBodyCase1RoutesItemRouteMethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: GetRoutesResponseBodyCase1RoutesItemRouteDestination | undefined;
+  env?: GetRoutesResponseBodyCase1RoutesItemRouteEnvList | undefined;
+  has?: GetRoutesResponseBodyCase1RoutesItemRouteHasList | undefined;
+  headers?: GetRoutesResponseBodyCase1RoutesItemRouteHeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: GetRoutesResponseBodyCase1RoutesItemRouteLocale | undefined;
+  methods?: GetRoutesResponseBodyCase1RoutesItemRouteMethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: GetRoutesResponseBodyCase1RoutesItemRouteMiddlewareRawSrcList;
-  missing?: GetRoutesResponseBodyCase1RoutesItemRouteMissingList;
-  mitigate?: GetRoutesResponseBodyCase1RoutesItemRouteMitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?: GetRoutesResponseBodyCase1RoutesItemRouteMiddlewareRawSrcList | undefined;
+  missing?: GetRoutesResponseBodyCase1RoutesItemRouteMissingList | undefined;
+  mitigate?: GetRoutesResponseBodyCase1RoutesItemRouteMitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsList | undefined;
 }
 /** Computed route type based on the route configuration. Only present in API responses, not stored in S3. */
 export type GetRoutesResponseBodyCase1RoutesItemRouteType =
@@ -1086,25 +1090,25 @@ export type GetRoutesResponseBodyCase1RoutesItemSrcSyntax = "equals" | "path-to-
 /** A routing rule with metadata for project-level routing. */
 export interface GetRoutesResponseBodyCase1RoutesItem {
   /** Optional description of what the routing rule does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the routing rule is enabled. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Unique identifier for the routing rule. */
   id: string;
   /** Human-readable name for the routing rule. */
   name: string;
   /** Original destination provided by user. */
-  rawDest?: string;
+  rawDest?: string | undefined;
   /** Original source pattern provided by user (path-to-regexp or regex). Used to display the user's input in API responses. */
-  rawSrc?: string;
+  rawSrc?: string | undefined;
   /** The route definition from @vercel/routing-utils. */
   route: GetRoutesResponseBodyCase1RoutesItemRoute;
   /** Computed route type based on the route configuration. Only present in API responses, not stored in S3. */
-  routeType?: GetRoutesResponseBodyCase1RoutesItemRouteType;
+  routeType?: GetRoutesResponseBodyCase1RoutesItemRouteType | undefined;
   /** The syntax type of the source pattern. Determines how the pattern is compiled to regex. */
-  srcSyntax?: GetRoutesResponseBodyCase1RoutesItemSrcSyntax;
+  srcSyntax?: GetRoutesResponseBodyCase1RoutesItemSrcSyntax | undefined;
   /** Whether this route is new and not yet published to production. Set to true only when a route is first created via add-route. Cleared (set to false) when a version is promoted to production. */
-  staged?: boolean;
+  staged?: boolean | undefined;
 }
 export type GetRoutesResponseBodyCase1RoutesList = Array<GetRoutesResponseBodyCase1RoutesItem>;
 /** A version of routing rules stored in S3. */
@@ -1119,10 +1123,10 @@ export interface GetRoutesResponseBodyCase1 {
 export type GetRoutesResponseBodyCase2RoutesItemRouteDestinationCase1Type = "service";
 export interface GetRoutesResponseBodyCase2RoutesItemRouteDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: GetRoutesResponseBodyCase2RoutesItemRouteDestinationCase1Type;
+  type?: GetRoutesResponseBodyCase2RoutesItemRouteDestinationCase1Type | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteDestination =
   | string
@@ -1133,17 +1137,17 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1Eq = 
 export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1IncList = Array<string>;
 export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1NincList = Array<string>;
 export interface GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1 {
-  eq?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0Value =
   | string
@@ -1160,17 +1164,17 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1Eq = 
 export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1IncList = Array<string>;
 export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1NincList = Array<string>;
 export interface GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1 {
-  eq?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1Value =
   | string
@@ -1178,7 +1182,7 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1Value =
 export interface GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1 {
   key: string;
   type: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1Type;
-  value?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1Value;
+  value?: GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase1Value | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteHasItem =
   | GetRoutesResponseBodyCase2RoutesItemRouteHasItemCase0
@@ -1192,8 +1196,8 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteLocaleRedirectMap = {
   [key: string]: string | undefined;
 };
 export interface GetRoutesResponseBodyCase2RoutesItemRouteLocale {
-  cookie?: string;
-  redirect?: GetRoutesResponseBodyCase2RoutesItemRouteLocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: GetRoutesResponseBodyCase2RoutesItemRouteLocaleRedirectMap | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteMethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -1205,17 +1209,17 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1I
 export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1 {
-  eq?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0Value =
   | string
@@ -1234,17 +1238,17 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1I
 export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1 {
-  eq?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1Value =
   | string
@@ -1252,7 +1256,7 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1Value =
 export interface GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1 {
   key: string;
   type: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1Type;
-  value?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1Value;
+  value?: GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase1Value | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteMissingItem =
   | GetRoutesResponseBodyCase2RoutesItemRouteMissingItemCase0
@@ -1281,16 +1285,20 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKe
 export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1 {
-  eq?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0TargetKey =
   | string
@@ -1303,8 +1311,8 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0Type =
   | "request.query"
   | "response.headers";
 export interface GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0 {
-  args?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0Args;
-  env?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0EnvList;
+  args?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0Args | undefined;
+  env?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0EnvList | undefined;
   op: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0Op;
   target: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0Target;
   type: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase0Type;
@@ -1314,9 +1322,9 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1Op = "se
 export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1Type = "request.path";
 export interface GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1 {
   args: string;
-  env?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1EnvList;
+  env?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1Op;
   type: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1Type;
 }
@@ -1327,33 +1335,33 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsList =
   Array<GetRoutesResponseBodyCase2RoutesItemRouteTransformsItem>;
 /** The route definition from @vercel/routing-utils. */
 export interface GetRoutesResponseBodyCase2RoutesItemRoute {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: GetRoutesResponseBodyCase2RoutesItemRouteDestination;
-  env?: GetRoutesResponseBodyCase2RoutesItemRouteEnvList;
-  has?: GetRoutesResponseBodyCase2RoutesItemRouteHasList;
-  headers?: GetRoutesResponseBodyCase2RoutesItemRouteHeadersMap;
-  important?: boolean;
-  locale?: GetRoutesResponseBodyCase2RoutesItemRouteLocale;
-  methods?: GetRoutesResponseBodyCase2RoutesItemRouteMethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: GetRoutesResponseBodyCase2RoutesItemRouteDestination | undefined;
+  env?: GetRoutesResponseBodyCase2RoutesItemRouteEnvList | undefined;
+  has?: GetRoutesResponseBodyCase2RoutesItemRouteHasList | undefined;
+  headers?: GetRoutesResponseBodyCase2RoutesItemRouteHeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: GetRoutesResponseBodyCase2RoutesItemRouteLocale | undefined;
+  methods?: GetRoutesResponseBodyCase2RoutesItemRouteMethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: GetRoutesResponseBodyCase2RoutesItemRouteMiddlewareRawSrcList;
-  missing?: GetRoutesResponseBodyCase2RoutesItemRouteMissingList;
-  mitigate?: GetRoutesResponseBodyCase2RoutesItemRouteMitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?: GetRoutesResponseBodyCase2RoutesItemRouteMiddlewareRawSrcList | undefined;
+  missing?: GetRoutesResponseBodyCase2RoutesItemRouteMissingList | undefined;
+  mitigate?: GetRoutesResponseBodyCase2RoutesItemRouteMitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsList | undefined;
 }
 /** Computed route type based on the route configuration. Only present in API responses, not stored in S3. */
 export type GetRoutesResponseBodyCase2RoutesItemRouteType =
@@ -1366,25 +1374,25 @@ export type GetRoutesResponseBodyCase2RoutesItemSrcSyntax = "equals" | "path-to-
 /** A routing rule with metadata for project-level routing. */
 export interface GetRoutesResponseBodyCase2RoutesItem {
   /** Optional description of what the routing rule does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the routing rule is enabled. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Unique identifier for the routing rule. */
   id: string;
   /** Human-readable name for the routing rule. */
   name: string;
   /** Original destination provided by user. */
-  rawDest?: string;
+  rawDest?: string | undefined;
   /** Original source pattern provided by user (path-to-regexp or regex). Used to display the user's input in API responses. */
-  rawSrc?: string;
+  rawSrc?: string | undefined;
   /** The route definition from @vercel/routing-utils. */
   route: GetRoutesResponseBodyCase2RoutesItemRoute;
   /** Computed route type based on the route configuration. Only present in API responses, not stored in S3. */
-  routeType?: GetRoutesResponseBodyCase2RoutesItemRouteType;
+  routeType?: GetRoutesResponseBodyCase2RoutesItemRouteType | undefined;
   /** The syntax type of the source pattern. Determines how the pattern is compiled to regex. */
-  srcSyntax?: GetRoutesResponseBodyCase2RoutesItemSrcSyntax;
+  srcSyntax?: GetRoutesResponseBodyCase2RoutesItemSrcSyntax | undefined;
   /** Whether this route is new and not yet published to production. Set to true only when a route is first created via add-route. Cleared (set to false) when a version is promoted to production. */
-  staged?: boolean;
+  staged?: boolean | undefined;
 }
 export type GetRoutesResponseBodyCase2RoutesList = Array<GetRoutesResponseBodyCase2RoutesItem>;
 /** A version of routing rules stored in S3. */
@@ -1402,10 +1410,10 @@ export interface GetRoutesResponseBodyCase3Limit {
 export type GetRoutesResponseBodyCase3RoutesItemRouteDestinationCase1Type = "service";
 export interface GetRoutesResponseBodyCase3RoutesItemRouteDestinationCase1 {
   /** Routing-only path used to select a route inside the target service. */
-  path?: string;
+  path?: string | undefined;
   service: string;
   /** Optional explicit format marker. The destination is identified by the presence of `service`, so `type` is no longer required. */
-  type?: GetRoutesResponseBodyCase3RoutesItemRouteDestinationCase1Type;
+  type?: GetRoutesResponseBodyCase3RoutesItemRouteDestinationCase1Type | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteDestination =
   | string
@@ -1416,17 +1424,17 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1Eq = 
 export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1IncList = Array<string>;
 export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1NincList = Array<string>;
 export interface GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1 {
-  eq?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0Value =
   | string
@@ -1443,17 +1451,17 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1Eq = 
 export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1IncList = Array<string>;
 export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1NincList = Array<string>;
 export interface GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1 {
-  eq?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1Value =
   | string
@@ -1461,7 +1469,7 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1Value =
 export interface GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1 {
   key: string;
   type: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1Type;
-  value?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1Value;
+  value?: GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase1Value | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteHasItem =
   | GetRoutesResponseBodyCase3RoutesItemRouteHasItemCase0
@@ -1475,8 +1483,8 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteLocaleRedirectMap = {
   [key: string]: string | undefined;
 };
 export interface GetRoutesResponseBodyCase3RoutesItemRouteLocale {
-  cookie?: string;
-  redirect?: GetRoutesResponseBodyCase3RoutesItemRouteLocaleRedirectMap;
+  cookie?: string | undefined;
+  redirect?: GetRoutesResponseBodyCase3RoutesItemRouteLocaleRedirectMap | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteMethodsList = Array<string>;
 /** The original middleware matchers. */
@@ -1488,17 +1496,17 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1I
 export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1 {
-  eq?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0Value =
   | string
@@ -1517,17 +1525,17 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1I
 export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1 {
-  eq?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1NincList;
-  pre?: string;
-  re?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1IncList | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1ValueCase1NincList | undefined;
+  pre?: string | undefined;
+  re?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1Value =
   | string
@@ -1535,7 +1543,7 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1Value =
 export interface GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1 {
   key: string;
   type: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1Type;
-  value?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1Value;
+  value?: GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase1Value | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteMissingItem =
   | GetRoutesResponseBodyCase3RoutesItemRouteMissingItemCase0
@@ -1564,16 +1572,20 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKe
 export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList =
   Array<string>;
 export interface GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1 {
-  eq?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1Eq;
-  gt?: number;
-  gte?: number;
-  inc?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1IncList;
-  lt?: number;
-  lte?: number;
-  neq?: string;
-  ninc?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList;
-  pre?: string;
-  suf?: string;
+  eq?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1Eq | undefined;
+  gt?: number | undefined;
+  gte?: number | undefined;
+  inc?:
+    | GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1IncList
+    | undefined;
+  lt?: number | undefined;
+  lte?: number | undefined;
+  neq?: string | undefined;
+  ninc?:
+    | GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKeyCase1NincList
+    | undefined;
+  pre?: string | undefined;
+  suf?: string | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0TargetKey =
   | string
@@ -1586,8 +1598,8 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0Type =
   | "request.query"
   | "response.headers";
 export interface GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0 {
-  args?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0Args;
-  env?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0EnvList;
+  args?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0Args | undefined;
+  env?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0EnvList | undefined;
   op: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0Op;
   target: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0Target;
   type: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase0Type;
@@ -1597,9 +1609,9 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1Op = "se
 export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1Type = "request.path";
 export interface GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1 {
   args: string;
-  env?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1EnvList;
+  env?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1EnvList | undefined;
   /** Keep an earlier request.path value. Builders use this for fallback routes. */
-  fallback?: boolean;
+  fallback?: boolean | undefined;
   op: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1Op;
   type: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1Type;
 }
@@ -1610,33 +1622,33 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsList =
   Array<GetRoutesResponseBodyCase3RoutesItemRouteTransformsItem>;
 /** The route definition from @vercel/routing-utils. */
 export interface GetRoutesResponseBodyCase3RoutesItemRoute {
-  caseSensitive?: boolean;
-  check?: boolean;
-  continue?: boolean;
-  dest?: string;
-  destination?: GetRoutesResponseBodyCase3RoutesItemRouteDestination;
-  env?: GetRoutesResponseBodyCase3RoutesItemRouteEnvList;
-  has?: GetRoutesResponseBodyCase3RoutesItemRouteHasList;
-  headers?: GetRoutesResponseBodyCase3RoutesItemRouteHeadersMap;
-  important?: boolean;
-  locale?: GetRoutesResponseBodyCase3RoutesItemRouteLocale;
-  methods?: GetRoutesResponseBodyCase3RoutesItemRouteMethodsList;
+  caseSensitive?: boolean | undefined;
+  check?: boolean | undefined;
+  continue?: boolean | undefined;
+  dest?: string | undefined;
+  destination?: GetRoutesResponseBodyCase3RoutesItemRouteDestination | undefined;
+  env?: GetRoutesResponseBodyCase3RoutesItemRouteEnvList | undefined;
+  has?: GetRoutesResponseBodyCase3RoutesItemRouteHasList | undefined;
+  headers?: GetRoutesResponseBodyCase3RoutesItemRouteHeadersMap | undefined;
+  important?: boolean | undefined;
+  locale?: GetRoutesResponseBodyCase3RoutesItemRouteLocale | undefined;
+  methods?: GetRoutesResponseBodyCase3RoutesItemRouteMethodsList | undefined;
   /** A middleware index in the `middleware` key under the build result */
-  middleware?: number;
+  middleware?: number | undefined;
   /** A middleware key within the `output` key under the build result. Overrides a `middleware` definition. */
-  middlewarePath?: string;
+  middlewarePath?: string | undefined;
   /** The original middleware matchers. */
-  middlewareRawSrc?: GetRoutesResponseBodyCase3RoutesItemRouteMiddlewareRawSrcList;
-  missing?: GetRoutesResponseBodyCase3RoutesItemRouteMissingList;
-  mitigate?: GetRoutesResponseBodyCase3RoutesItemRouteMitigate;
-  override?: boolean;
-  respectOriginCacheControl?: boolean;
+  middlewareRawSrc?: GetRoutesResponseBodyCase3RoutesItemRouteMiddlewareRawSrcList | undefined;
+  missing?: GetRoutesResponseBodyCase3RoutesItemRouteMissingList | undefined;
+  mitigate?: GetRoutesResponseBodyCase3RoutesItemRouteMitigate | undefined;
+  override?: boolean | undefined;
+  respectOriginCacheControl?: boolean | undefined;
   /** Aliases for `src`, `dest`, and `status`. These provide consistency with the `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`, and `statusCode`. During normalization, the string forms are converted to their canonical forms (`src`, `dest`, `status`) and stripped from the route object. `destination` may also be a service-targeted object, in which case routing is delegated into the named service's internal route table and the object is preserved as-is (not folded into `dest`). */
-  source?: string;
+  source?: string | undefined;
   src: string;
-  status?: number;
-  statusCode?: number;
-  transforms?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsList;
+  status?: number | undefined;
+  statusCode?: number | undefined;
+  transforms?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsList | undefined;
 }
 /** Computed route type based on the route configuration. Only present in API responses, not stored in S3. */
 export type GetRoutesResponseBodyCase3RoutesItemRouteType =
@@ -1649,25 +1661,25 @@ export type GetRoutesResponseBodyCase3RoutesItemSrcSyntax = "equals" | "path-to-
 /** A routing rule with metadata for project-level routing. */
 export interface GetRoutesResponseBodyCase3RoutesItem {
   /** Optional description of what the routing rule does. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the routing rule is enabled. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Unique identifier for the routing rule. */
   id: string;
   /** Human-readable name for the routing rule. */
   name: string;
   /** Original destination provided by user. */
-  rawDest?: string;
+  rawDest?: string | undefined;
   /** Original source pattern provided by user (path-to-regexp or regex). Used to display the user's input in API responses. */
-  rawSrc?: string;
+  rawSrc?: string | undefined;
   /** The route definition from @vercel/routing-utils. */
   route: GetRoutesResponseBodyCase3RoutesItemRoute;
   /** Computed route type based on the route configuration. Only present in API responses, not stored in S3. */
-  routeType?: GetRoutesResponseBodyCase3RoutesItemRouteType;
+  routeType?: GetRoutesResponseBodyCase3RoutesItemRouteType | undefined;
   /** The syntax type of the source pattern. Determines how the pattern is compiled to regex. */
-  srcSyntax?: GetRoutesResponseBodyCase3RoutesItemSrcSyntax;
+  srcSyntax?: GetRoutesResponseBodyCase3RoutesItemSrcSyntax | undefined;
   /** Whether this route is new and not yet published to production. Set to true only when a route is first created via add-route. Cleared (set to false) when a version is promoted to production. */
-  staged?: boolean;
+  staged?: boolean | undefined;
 }
 export type GetRoutesResponseBodyCase3RoutesList = Array<GetRoutesResponseBodyCase3RoutesItem>;
 /** A version of routing rules stored in S3. */
@@ -1687,9 +1699,9 @@ export type GetRoutesResponse = GetRoutesResponseBody;
 export interface GetRouteVersionsRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** A version of routing rules stored in S3. */
 export type GetRouteVersionsResponseVersionsItem = AddRouteResponseVersion;
@@ -1699,9 +1711,9 @@ export interface GetRouteVersionsResponse {
 }
 export type StageRoutesRequestRoutesItemRouteHasItemType = "host" | "header" | "cookie" | "query";
 export interface StageRoutesRequestRoutesItemRouteHasItem {
-  type?: StageRoutesRequestRoutesItemRouteHasItemType | (string & {});
-  key?: string;
-  value?: string;
+  type?: StageRoutesRequestRoutesItemRouteHasItemType | (string & {}) | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type StageRoutesRequestRoutesItemRouteHasList =
   Array<StageRoutesRequestRoutesItemRouteHasItem>;
@@ -1711,9 +1723,9 @@ export type StageRoutesRequestRoutesItemRouteMissingItemType =
   | "cookie"
   | "query";
 export interface StageRoutesRequestRoutesItemRouteMissingItem {
-  type?: StageRoutesRequestRoutesItemRouteMissingItemType | (string & {});
-  key?: string;
-  value?: string;
+  type?: StageRoutesRequestRoutesItemRouteMissingItemType | (string & {}) | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type StageRoutesRequestRoutesItemRouteMissingList =
   Array<StageRoutesRequestRoutesItemRouteMissingItem>;
@@ -1724,41 +1736,41 @@ export type StageRoutesRequestRoutesItemRouteTransformsItemType =
 export type StageRoutesRequestRoutesItemRouteTransformsItemOp = "append" | "set" | "delete";
 export type StageRoutesRequestRoutesItemRouteTransformsItemEnvList = Array<string>;
 export interface StageRoutesRequestRoutesItemRouteTransformsItem {
-  type?: StageRoutesRequestRoutesItemRouteTransformsItemType | (string & {});
-  op?: StageRoutesRequestRoutesItemRouteTransformsItemOp | (string & {});
-  target?: unknown;
-  args?: unknown;
-  env?: StageRoutesRequestRoutesItemRouteTransformsItemEnvList;
+  type?: StageRoutesRequestRoutesItemRouteTransformsItemType | (string & {}) | undefined;
+  op?: StageRoutesRequestRoutesItemRouteTransformsItemOp | (string & {}) | undefined;
+  target?: unknown | undefined;
+  args?: unknown | undefined;
+  env?: StageRoutesRequestRoutesItemRouteTransformsItemEnvList | undefined;
 }
 export type StageRoutesRequestRoutesItemRouteTransformsList =
   Array<StageRoutesRequestRoutesItemRouteTransformsItem>;
 export interface StageRoutesRequestRoutesItemRoute {
   src: string;
-  dest?: string;
-  headers?: unknown;
-  caseSensitive?: boolean;
-  status?: number;
-  has?: StageRoutesRequestRoutesItemRouteHasList;
-  missing?: StageRoutesRequestRoutesItemRouteMissingList;
-  transforms?: StageRoutesRequestRoutesItemRouteTransformsList;
-  respectOriginCacheControl?: boolean;
+  dest?: string | undefined;
+  headers?: unknown | undefined;
+  caseSensitive?: boolean | undefined;
+  status?: number | undefined;
+  has?: StageRoutesRequestRoutesItemRouteHasList | undefined;
+  missing?: StageRoutesRequestRoutesItemRouteMissingList | undefined;
+  transforms?: StageRoutesRequestRoutesItemRouteTransformsList | undefined;
+  respectOriginCacheControl?: boolean | undefined;
 }
 export interface StageRoutesRequestRoutesItem {
   id: string;
   name: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
   route: StageRoutesRequestRoutesItemRoute;
 }
 export type StageRoutesRequestRoutesList = Array<StageRoutesRequestRoutesItem>;
 export interface StageRoutesRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  overwrite?: boolean;
-  routes?: StageRoutesRequestRoutesList;
+  slug?: string | undefined;
+  overwrite?: boolean | undefined;
+  routes?: StageRoutesRequestRoutesList | undefined;
 }
 /** A version of routing rules stored in S3. */
 export type StageRoutesResponseVersion = AddRouteResponseVersion;
@@ -1770,9 +1782,9 @@ export type UpdateRouteVersionsRequestAction = "promote" | "restore" | "discard"
 export interface UpdateRouteVersionsRequest {
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   id: string;
   action: UpdateRouteVersionsRequestAction | (string & {});
 }

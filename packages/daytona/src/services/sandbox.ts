@@ -173,7 +173,7 @@ export class WindowsSandboxesUnavailable
 export interface ArchiveSandboxRequest {
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** Environment variables for the sandbox */
 export type SandboxEnvMap = { [key: string]: string | undefined };
@@ -227,7 +227,7 @@ export interface SandboxVolume {
   /** The mount path for the volume */
   mountPath: string;
   /** Optional subpath within the volume to mount. When specified, only this S3 prefix will be accessible. When omitted, the entire volume is mounted. */
-  subpath?: string;
+  subpath?: string | undefined;
 }
 /** Array of volumes attached to the sandbox */
 export type SandboxVolumesList = Array<SandboxVolume>;
@@ -235,9 +235,9 @@ export type SandboxVolumesList = Array<SandboxVolume>;
 export type BuildInfoContextHashesList = Array<string>;
 export interface BuildInfo {
   /** The Dockerfile content used for the build */
-  dockerfileContent?: string;
+  dockerfileContent?: string | undefined;
   /** The context hashes used for the build */
-  contextHashes?: BuildInfoContextHashesList;
+  contextHashes?: BuildInfoContextHashesList | undefined;
   /** The creation timestamp */
   createdAt: string;
   /** The last update timestamp */
@@ -255,7 +255,7 @@ export interface Sandbox2 {
   /** The name of the sandbox */
   name: string;
   /** The snapshot used for the sandbox */
-  snapshot?: string;
+  snapshot?: string | undefined;
   /** The user associated with the project */
   user: string;
   /** Environment variables for the sandbox */
@@ -269,13 +269,13 @@ export interface Sandbox2 {
   /** Whether the sandbox exposes KVM (/dev/kvm) to its guest */
   kvm: boolean;
   /** Comma-separated list of allowed CIDR network addresses for the sandbox */
-  networkAllowList?: string;
+  networkAllowList?: string | undefined;
   /** Comma-separated list of allowed domains for the sandbox */
-  domainAllowList?: string;
+  domainAllowList?: string | undefined;
   /** Outbound proxy URL the sandbox HTTP(S) traffic is routed through. Applied via the HTTP(S)_PROXY environment variables (convenience routing); network-layer enforcement applies only when the sandbox also has a domainAllowList. Only returned on single-sandbox reads -- never on list responses. */
-  outboundProxyUrl?: string;
+  outboundProxyUrl?: string | undefined;
   /** OTel collector endpoint override for this sandbox. When set, sandbox OTel data is sent to this endpoint instead of the default collector and is not available in the Daytona analytics API or dashboard. Only returned on single-sandbox reads -- never on list responses. */
-  otelEndpointOverride?: string;
+  otelEndpointOverride?: string | undefined;
   /** The target environment for the sandbox */
   target: string;
   /** The CPU quota for the sandbox */
@@ -283,63 +283,63 @@ export interface Sandbox2 {
   /** The GPU quota for the sandbox */
   gpu: number;
   /** Whether this is a spot GPU sandbox. Spot sandboxes may be instantly terminated to free capacity for on-demand GPU sandboxes. Absent on APIs that predate this field; treat as false. */
-  spot?: boolean;
+  spot?: boolean | undefined;
   /** When this sandbox was destroyed by spot preemption. Set only for spot-evicted sandboxes, which stay retrievable by ID for 24 hours after eviction. */
-  spotEvictedAt?: string;
+  spotEvictedAt?: string | undefined;
   /** When this sandbox was destroyed because it waited too long for a runner. Set only for queue-timeout sandboxes, which stay retrievable by ID for 24 hours after the timeout. */
-  queueTimedOutAt?: string;
+  queueTimedOutAt?: string | undefined;
   /** The GPU type assigned to the sandbox */
-  gpuType?: GpuType;
+  gpuType?: GpuType | undefined;
   /** The memory quota for the sandbox */
   memory: number;
   /** The disk quota for the sandbox */
   disk: number;
   /** The state of the sandbox */
-  state?: SandboxState;
+  state?: SandboxState | undefined;
   /** The desired state of the sandbox */
-  desiredState?: SandboxDesiredState;
+  desiredState?: SandboxDesiredState | undefined;
   /** The error reason of the sandbox */
-  errorReason?: string;
+  errorReason?: string | undefined;
   /** Outcome of the runner's most recent network policy change: why the network settings fields (what was requested) are not what the runner enforces. Absent when the latest change was applied; a new request leaves it as it is until its own outcome is known. */
-  networkPolicyError?: string;
+  networkPolicyError?: string | undefined;
   /** Whether the sandbox error is recoverable. */
-  recoverable?: boolean;
+  recoverable?: boolean | undefined;
   /** Id of the warm pool this sandbox waits in; set only while it is an unclaimed member. */
-  warmPoolId?: string;
+  warmPoolId?: string | undefined;
   /** The state of the backup */
-  backupState?: SandboxBackupState;
+  backupState?: SandboxBackupState | undefined;
   /** The creation timestamp of the last backup */
-  backupCreatedAt?: string;
+  backupCreatedAt?: string | undefined;
   /** Auto-stop interval in minutes (0 means disabled) */
-  autoStopInterval?: number;
+  autoStopInterval?: number | undefined;
   /** Auto-pause interval in minutes (0 means disabled) */
-  autoPauseInterval?: number;
+  autoPauseInterval?: number | undefined;
   /** Auto-archive interval in minutes */
-  autoArchiveInterval?: number;
+  autoArchiveInterval?: number | undefined;
   /** Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping) */
-  autoDeleteInterval?: number;
+  autoDeleteInterval?: number | undefined;
   /** When the sandbox will be automatically destroyed, regardless of its state (only set when a TTL is configured) */
-  autoDestroyAt?: string;
+  autoDestroyAt?: string | undefined;
   /** Minutes to wait for runner assignment before cancelling sandbox creation. Null means the wait is unlimited. */
-  queueTimeout?: number | null;
+  queueTimeout?: number | null | undefined;
   /** Array of volumes attached to the sandbox */
-  volumes?: SandboxVolumesList;
+  volumes?: SandboxVolumesList | undefined;
   /** Build information for the sandbox */
-  buildInfo?: BuildInfo;
+  buildInfo?: BuildInfo | undefined;
   /** The creation timestamp of the sandbox */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The last update timestamp of the sandbox */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The last activity timestamp of the sandbox */
-  lastActivityAt?: string;
+  lastActivityAt?: string | undefined;
   /** The class of the sandbox */
-  sandboxClass?: SandboxSandboxClass;
+  sandboxClass?: SandboxSandboxClass | undefined;
   /** The version of the daemon running in the sandbox */
-  daemonVersion?: string;
+  daemonVersion?: string | undefined;
   /** The runner ID of the sandbox */
-  runnerId?: string;
+  runnerId?: string | undefined;
   /** ID of the sandbox this sandbox is linked to. When set, the sandbox is co-located on the same runner as the linked sandbox. */
-  linkedSandboxId?: string;
+  linkedSandboxId?: string | undefined;
   /** The toolbox proxy URL for the sandbox */
   toolboxProxyUrl: string;
 }
@@ -357,89 +357,89 @@ export interface CreateBuildInfo {
   /** The Dockerfile content used for the build */
   dockerfileContent: string;
   /** The context hashes used for the build */
-  contextHashes?: CreateBuildInfoContextHashesList;
+  contextHashes?: CreateBuildInfoContextHashesList | undefined;
 }
 export type CreateSandboxRequestSecretsItemMap = { [key: string]: string | undefined };
 /** Secrets to mount in this sandbox. Each entry maps an env var name to a vault secret name. */
 export type CreateSandboxRequestSecretsList = Array<CreateSandboxRequestSecretsItemMap>;
 export interface CreateSandboxRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** The name of the sandbox. If not provided, the sandbox ID will be used as the name */
-  name?: string;
+  name?: string | undefined;
   /** The ID or name of the snapshot used for the sandbox */
-  snapshot?: string;
+  snapshot?: string | undefined;
   /** The user associated with the project */
-  user?: string;
+  user?: string | undefined;
   /** Environment variables for the sandbox */
-  env?: CreateSandboxRequestEnvMap;
+  env?: CreateSandboxRequestEnvMap | undefined;
   /** Labels for the sandbox */
-  labels?: CreateSandboxRequestLabelsMap;
+  labels?: CreateSandboxRequestLabelsMap | undefined;
   /** Whether the sandbox http preview is publicly accessible */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Whether to block all network access for the sandbox */
-  networkBlockAll?: boolean;
+  networkBlockAll?: boolean | undefined;
   /** Expose KVM (/dev/kvm) inside the sandbox via nested virtualization. linux-vm snapshots only. Requires the sandbox_kvm feature for the organization. */
-  kvm?: boolean;
+  kvm?: boolean | undefined;
   /** Comma-separated list of allowed CIDR network addresses for the sandbox */
-  networkAllowList?: string;
+  networkAllowList?: string | undefined;
   /** Comma-separated list of allowed domains for the sandbox */
-  domainAllowList?: string;
+  domainAllowList?: string | undefined;
   /** Outbound proxy URL to route the sandbox HTTP(S) traffic through (http or https; credentials may be included in the URL). On its own this is convenience routing, not a security boundary: it is applied by injecting the standard HTTP(S)_PROXY environment variables at creation, so a process that clears those variables egresses directly. Combine with domainAllowList to have web-port (80/443) egress transparently redirected through the proxy chain at the network layer, which cannot be bypassed from inside the sandbox. */
-  outboundProxyUrl?: string;
+  outboundProxyUrl?: string | undefined;
   /** OTel collector endpoint override for this sandbox. When set, sandbox OTel data is sent to this endpoint instead of the default collector (the Daytona-hosted collector or the region-configured endpoint) and will not be available in the Daytona analytics API or dashboard. */
-  otelEndpointOverride?: string;
+  otelEndpointOverride?: string | undefined;
   /** The target (region) where the sandbox will be created */
-  target?: string;
+  target?: string | undefined;
   /** CPU cores allocated to the sandbox */
-  cpu?: number;
+  cpu?: number | undefined;
   /** GPU units allocated to the sandbox */
-  gpu?: number;
+  gpu?: number | undefined;
   /** Preferred GPU type for the sandbox. Accepts a single value or an ordered preference list -- the scheduler tries each in order and pins the sandbox to the first that has capacity. */
-  gpuType?: CreateSandboxRequestGpuTypeList;
+  gpuType?: CreateSandboxRequestGpuTypeList | undefined;
   /** GPU-only. When true, the sandbox may be instantly terminated without notice to free GPU capacity for an on-demand (non-spot) GPU sandbox. Ignored / rejected when the sandbox requests no GPUs. */
-  spot?: boolean;
+  spot?: boolean | undefined;
   /** Memory allocated to the sandbox in GB */
-  memory?: number;
+  memory?: number | undefined;
   /** Disk space allocated to the sandbox in GB */
-  disk?: number;
+  disk?: number | undefined;
   /** Auto-stop interval in minutes (0 means disabled) */
-  autoStopInterval?: number;
+  autoStopInterval?: number | undefined;
   /** Auto-pause interval in minutes (0 means disabled). Only supported for sandbox classes that support pausing. Not allowed for ephemeral sandboxes. At most one of autoStopInterval and autoPauseInterval may be non-zero. For non-ephemeral sandbox classes that support pausing, defaults to 60 minutes (with auto-stop disabled) when neither interval is provided. */
-  autoPauseInterval?: number;
+  autoPauseInterval?: number | undefined;
   /** Auto-archive interval in minutes (0 means the maximum interval will be used) */
-  autoArchiveInterval?: number;
+  autoArchiveInterval?: number | undefined;
   /** Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping) */
-  autoDeleteInterval?: number;
+  autoDeleteInterval?: number | undefined;
   /** Maximum time to live in minutes, counted as wall-clock time since creation regardless of sandbox state (0 means disabled). When it elapses the sandbox is destroyed, even if it is stopped, paused, or archived. Subject to the maximum sandbox lifespan configured for the organization region and sandbox class, in which case it also defaults to that maximum and cannot be disabled. */
-  ttlMinutes?: number;
+  ttlMinutes?: number | undefined;
   /** Minutes to wait for runner assignment before cancelling sandbox creation. Applies only while the sandbox is unassigned in pending_build or pulling_snapshot. Only honored when default queue timeout is enabled for the organization. Omit to use the organization default; null/omit with no organization default leaves the wait unlimited. Must be a positive integer. */
-  queueTimeout?: number;
+  queueTimeout?: number | undefined;
   /** Array of volumes to attach to the sandbox */
-  volumes?: CreateSandboxRequestVolumesList;
+  volumes?: CreateSandboxRequestVolumesList | undefined;
   /** Build information for the sandbox */
-  buildInfo?: CreateBuildInfo;
+  buildInfo?: CreateBuildInfo | undefined;
   /** ID or name of an existing sandbox to link the new sandbox to. The new sandbox will be scheduled on the same runner as the linked sandbox so a local network can be established between them. Linked sandboxes must be ephemeral (autoDeleteInterval=0) and cannot themselves be linked to another sandbox. GPU sandboxes cannot participate in links in either direction: a GPU sandbox cannot specify linkedSandbox, and cannot be the link target of another sandbox. */
-  linkedSandbox?: string;
+  linkedSandbox?: string | undefined;
   /** Secrets to mount in this sandbox. Each entry maps an env var name to a vault secret name. */
-  secrets?: CreateSandboxRequestSecretsList;
+  secrets?: CreateSandboxRequestSecretsList | undefined;
 }
 export interface CreateSandboxSnapshotRequest {
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Name for the new snapshot */
   name: string;
   /** Include the VM's memory in the snapshot. VM sandboxes only. When true the sandbox must be STARTED; when false (default) VM sandboxes must be STOPPED. Container sandboxes do not support memory snapshots. */
-  includeMemory?: boolean;
+  includeMemory?: boolean | undefined;
 }
 export interface CreateSshAccessRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Expiration time in minutes (default: 60, maximum: 1440) */
-  expiresInMinutes?: number;
+  expiresInMinutes?: number | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SshAccessDto {
   /** Unique identifier for the SSH access */
@@ -461,7 +461,7 @@ export interface DeleteSandboxRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface ExpireSignedPortPreviewUrlRequest {
   /** ID or name of the sandbox */
@@ -471,21 +471,21 @@ export interface ExpireSignedPortPreviewUrlRequest {
   /** Token to expire signed preview URL for */
   token: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface ExpireSignedPortPreviewUrlResponse {}
 export interface ForkSandboxRequest {
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** The name for the forked sandbox. If not provided, a unique name will be generated. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetBuildLogsUrlRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface Url {
   /** URL response */
@@ -495,7 +495,7 @@ export interface GetOrganizationBySandboxIdRequest {
   /** ID of the sandbox */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** Connection state of the WorkOS SCIM directory, as last reported by WorkOS (absent when no directory has ever reported in) */
 export type DirectorySyncStatus = "active" | "inactive" | "deleted";
@@ -505,9 +505,9 @@ export interface OtelConfig {
   /** Endpoint */
   endpoint: string;
   /** Headers */
-  headers?: OtelConfigHeadersMap | null;
+  headers?: OtelConfigHeadersMap | null | undefined;
   /** Organization ID the config belongs to */
-  organizationId?: string;
+  organizationId?: string | undefined;
 }
 export interface Organization {
   /** Organization ID */
@@ -555,15 +555,15 @@ export interface Organization {
   /** Whether this organization may use SCIM directory sync */
   scimEnabled: boolean;
   /** Default region ID */
-  defaultRegionId?: string;
+  defaultRegionId?: string | undefined;
   /** ID of the WorkOS organization mirrored from this organization (absent for personal organizations, which are never mirrored) */
-  workosOrgId?: string;
+  workosOrgId?: string | undefined;
   /** Connection state of the WorkOS SCIM directory, as last reported by WorkOS (absent when no directory has ever reported in) */
-  directorySyncStatus?: DirectorySyncStatus;
+  directorySyncStatus?: DirectorySyncStatus | undefined;
   /** When the directory sync status last changed */
-  directorySyncStatusChangedAt?: string;
+  directorySyncStatusChangedAt?: string | undefined;
   /** When the directory bearer token was revoked; absent while a valid token exists. A revoked token stops provisioning even if the directory is still active. */
-  directorySyncTokenRevokedAt?: string;
+  directorySyncTokenRevokedAt?: string | undefined;
   /** Authenticated rate limit per minute */
   authenticatedRateLimit: number | null;
   /** Sandbox create rate limit per minute */
@@ -587,7 +587,7 @@ export interface GetPortPreviewUrlRequest {
   /** Port number to get preview URL for */
   port: number;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface PortPreviewUrl {
   /** ID of the sandbox */
@@ -601,7 +601,7 @@ export interface GetRegionQuotaBySandboxIdRequest {
   /** ID of the sandbox */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type SandboxClass = "linux-vm" | "container" | "windows";
 export type RegionQuotaAllowedGpuTypesList = Array<GpuType>;
@@ -613,7 +613,7 @@ export interface RegionQuota {
   totalMemoryQuota: number;
   totalDiskQuota: number;
   totalGpuQuota: number;
-  allowedGpuTypes?: RegionQuotaAllowedGpuTypesList;
+  allowedGpuTypes?: RegionQuotaAllowedGpuTypesList | undefined;
   maxCpuPerSandbox: number | null;
   maxMemoryPerSandbox: number | null;
   maxDiskPerSandbox: number | null;
@@ -631,32 +631,32 @@ export interface GetSandboxRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Include verbose output */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface GetSandboxAncestorsRequest {
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type GetSandboxAncestorsResponseBodyList = Array<Sandbox2>;
 export type GetSandboxAncestorsResponse = GetSandboxAncestorsResponseBodyList;
 export interface GetSandboxesForRunnerRequest {
   /** Comma-separated list of sandbox states to filter by */
-  states?: string;
+  states?: string | undefined;
   /** Skip sandboxes where state differs from desired state */
-  skipReconcilingSandboxes?: boolean;
+  skipReconcilingSandboxes?: boolean | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type GetSandboxesForRunnerResponseBodyList = Array<Sandbox2>;
 export type GetSandboxesForRunnerResponse = GetSandboxesForRunnerResponseBodyList;
 export interface GetSandboxForksRequest {
   sandboxIdOrName: string;
-  includeDestroyed?: boolean;
+  includeDestroyed?: boolean | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type GetSandboxForksResponseBodyList = Array<Sandbox2>;
 export type GetSandboxForksResponse = GetSandboxForksResponseBodyList;
@@ -669,15 +669,15 @@ export interface GetSandboxLogsRequest {
   /** End of time range (ISO 8601) */
   to: string;
   /** Page number (1-indexed) */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by severity levels (DEBUG, INFO, WARN, ERROR) */
-  severities?: GetSandboxLogsRequestSeveritiesList;
+  severities?: GetSandboxLogsRequestSeveritiesList | undefined;
   /** Search in log body */
-  search?: string;
+  search?: string | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** Resource attributes from OTEL */
 export type LogEntryResourceAttributesMap = { [key: string]: string | undefined };
@@ -691,7 +691,7 @@ export interface LogEntry {
   /** Severity level text (e.g., INFO, WARN, ERROR) */
   severityText: string;
   /** Severity level number */
-  severityNumber?: number;
+  severityNumber?: number | undefined;
   /** Service name that generated the log */
   serviceName: string;
   /** Resource attributes from OTEL */
@@ -699,9 +699,9 @@ export interface LogEntry {
   /** Log-specific attributes */
   logAttributes: LogEntryLogAttributesMap;
   /** Associated trace ID if available */
-  traceId?: string;
+  traceId?: string | undefined;
   /** Associated span ID if available */
-  spanId?: string;
+  spanId?: string | undefined;
 }
 /** List of log entries */
 export type PaginatedLogsItemsList = Array<LogEntry>;
@@ -724,9 +724,9 @@ export interface GetSandboxMetricsRequest {
   /** End of time range (ISO 8601) */
   to: string;
   /** Filter by metric names */
-  metricNames?: GetSandboxMetricsRequestMetricNamesList;
+  metricNames?: GetSandboxMetricsRequestMetricNamesList | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface MetricDataPoint {
   /** Timestamp of the data point */
@@ -751,13 +751,13 @@ export interface MetricsResponse {
 export interface GetSandboxParentRequest {
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface GetSandboxSigningKeyRequest {
   /** ID of the sandbox */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type GetSandboxSigningKeyResponse = string;
 export interface GetSandboxTracesRequest {
@@ -768,11 +768,11 @@ export interface GetSandboxTracesRequest {
   /** End of time range (ISO 8601) */
   to: string;
   /** Page number (1-indexed) */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface TraceSummary {
   /** Unique trace identifier */
@@ -788,7 +788,7 @@ export interface TraceSummary {
   /** Number of spans in this trace */
   spanCount: number;
   /** Status code of the trace */
-  statusCode?: string;
+  statusCode?: string | undefined;
 }
 /** List of trace summaries */
 export type PaginatedTracesItemsList = Array<TraceSummary>;
@@ -808,7 +808,7 @@ export interface GetSandboxTraceSpansRequest {
   /** ID of the trace */
   traceId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** Span attributes */
 export type TraceSpanSpanAttributesMap = { [key: string]: string | undefined };
@@ -818,7 +818,7 @@ export interface TraceSpan {
   /** Span identifier */
   spanId: string;
   /** Parent span identifier */
-  parentSpanId?: string;
+  parentSpanId?: string | undefined;
   /** Span name */
   spanName: string;
   /** Span start timestamp */
@@ -828,9 +828,9 @@ export interface TraceSpan {
   /** Span attributes */
   spanAttributes: TraceSpanSpanAttributesMap;
   /** Status code of the span */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Status message */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
 }
 export type GetSandboxTraceSpansResponseBodyList = Array<TraceSpan>;
 export type GetSandboxTraceSpansResponse = GetSandboxTraceSpansResponseBodyList;
@@ -840,9 +840,9 @@ export interface GetSignedPortPreviewUrlRequest {
   /** Port number to get signed preview URL for */
   port: number;
   /** Expiration time in seconds (default: 60 seconds) */
-  expiresInSeconds?: number;
+  expiresInSeconds?: number | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SignedPortPreviewUrl {
   /** ID of the sandbox */
@@ -858,7 +858,7 @@ export interface GetToolboxProxyUrlRequest {
   /** ID of the sandbox */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface ToolboxProxyUrl {
   /** The toolbox proxy URL for the sandbox */
@@ -878,65 +878,65 @@ export type SandboxListSortField =
 export type SandboxListSortDirection = "asc" | "desc";
 export interface ListSandboxesRequest {
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of results per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by ID prefix (case-insensitive) */
-  id?: string;
+  id?: string | undefined;
   /** Filter by name prefix (case-insensitive) */
-  name?: string;
+  name?: string | undefined;
   /** JSON encoded labels to filter by */
-  labels?: string;
+  labels?: string | undefined;
   /** Include results with errored state and deleted desired state */
-  includeErroredDeleted?: boolean;
+  includeErroredDeleted?: boolean | undefined;
   /** Include unclaimed warm pool sandboxes (excluded by default) */
-  includeWarm?: boolean;
+  includeWarm?: boolean | undefined;
   /** List of states to filter by. */
-  states?: ListSandboxesRequestStatesList;
+  states?: ListSandboxesRequestStatesList | undefined;
   /** List of snapshot names to filter by */
-  snapshots?: ListSandboxesRequestSnapshotsList;
+  snapshots?: ListSandboxesRequestSnapshotsList | undefined;
   /** List of regions IDs to filter by */
-  regionIds?: ListSandboxesRequestRegionIdsList;
+  regionIds?: ListSandboxesRequestRegionIdsList | undefined;
   /** List of sandbox classes to filter by */
-  sandboxClasses?: ListSandboxesRequestSandboxClassesList;
+  sandboxClasses?: ListSandboxesRequestSandboxClassesList | undefined;
   /** Minimum CPU */
-  minCpu?: number;
+  minCpu?: number | undefined;
   /** Maximum CPU */
-  maxCpu?: number;
+  maxCpu?: number | undefined;
   /** Minimum memory in GiB */
-  minMemoryGiB?: number;
+  minMemoryGiB?: number | undefined;
   /** Maximum memory in GiB */
-  maxMemoryGiB?: number;
+  maxMemoryGiB?: number | undefined;
   /** Minimum disk space in GiB */
-  minDiskGiB?: number;
+  minDiskGiB?: number | undefined;
   /** Maximum disk space in GiB */
-  maxDiskGiB?: number;
+  maxDiskGiB?: number | undefined;
   /** Minimum GPU */
-  minGpu?: number;
+  minGpu?: number | undefined;
   /** Maximum GPU */
-  maxGpu?: number;
+  maxGpu?: number | undefined;
   /** Filter by public status */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
   /** Filter by recoverable status */
-  isRecoverable?: boolean;
+  isRecoverable?: boolean | undefined;
   /** Include items created after this timestamp */
-  createdAtAfter?: string;
+  createdAtAfter?: string | undefined;
   /** Include items created before this timestamp */
-  createdAtBefore?: string;
+  createdAtBefore?: string | undefined;
   /** Include items with last event after this timestamp */
-  lastEventAfter?: string;
+  lastEventAfter?: string | undefined;
   /** Include items with last event before this timestamp */
-  lastEventBefore?: string;
+  lastEventBefore?: string | undefined;
   /** Include items scheduled for auto destroy after this timestamp */
-  autoDestroyAtAfter?: string;
+  autoDestroyAtAfter?: string | undefined;
   /** Include items scheduled for auto destroy before this timestamp */
-  autoDestroyAtBefore?: string;
+  autoDestroyAtBefore?: string | undefined;
   /** Field to sort by */
-  sort?: SandboxListSortField | (string & {});
+  sort?: SandboxListSortField | (string & {}) | undefined;
   /** Direction to sort by */
-  order?: SandboxListSortDirection | (string & {});
+  order?: SandboxListSortDirection | (string & {}) | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** Labels for the sandbox */
 export type SandboxListItemLabelsMap = { [key: string]: string | undefined };
@@ -952,41 +952,41 @@ export interface SandboxListItem {
   /** The target environment for the sandbox */
   target: string;
   /** The runner ID of the sandbox */
-  runnerId?: string;
+  runnerId?: string | undefined;
   /** The class of the sandbox */
-  sandboxClass?: SandboxClass;
+  sandboxClass?: SandboxClass | undefined;
   /** The state of the sandbox */
-  state?: SandboxState;
+  state?: SandboxState | undefined;
   /** The desired state of the sandbox */
-  desiredState?: SandboxDesiredState;
+  desiredState?: SandboxDesiredState | undefined;
   /** The snapshot used for the sandbox */
-  snapshot?: string;
+  snapshot?: string | undefined;
   /** The user associated with the project */
   user: string;
   /** The error reason of the sandbox */
-  errorReason?: string;
+  errorReason?: string | undefined;
   /** Whether the sandbox error is recoverable. */
-  recoverable?: boolean;
+  recoverable?: boolean | undefined;
   /** Whether the sandbox http preview is public */
   public: boolean;
   /** Whether to block all network access for the sandbox */
   networkBlockAll: boolean;
   /** Comma-separated list of allowed CIDR network addresses for the sandbox */
-  networkAllowList?: string;
+  networkAllowList?: string | undefined;
   /** Comma-separated list of allowed domains for the sandbox */
-  domainAllowList?: string;
+  domainAllowList?: string | undefined;
   /** The CPU quota for the sandbox */
   cpu: number;
   /** The GPU quota for the sandbox */
   gpu: number;
   /** Whether this is a spot GPU sandbox. Spot sandboxes may be instantly terminated to free capacity for on-demand GPU sandboxes. Absent on APIs that predate this field; treat as false. */
-  spot?: boolean;
+  spot?: boolean | undefined;
   /** When this sandbox was evicted by spot preemption. Set as soon as the sandbox is marked for eviction, so it is already present while the sandbox is still winding down. */
-  spotEvictedAt?: string;
+  spotEvictedAt?: string | undefined;
   /** When this sandbox was destroyed because it waited too long for a runner. Set only for queue-timeout sandboxes, which stay retrievable by ID for 24 hours after the timeout. */
-  queueTimedOutAt?: string;
+  queueTimedOutAt?: string | undefined;
   /** The GPU type assigned to the sandbox */
-  gpuType?: GpuType;
+  gpuType?: GpuType | undefined;
   /** The memory quota for the sandbox */
   memory: number;
   /** The disk quota for the sandbox */
@@ -994,29 +994,29 @@ export interface SandboxListItem {
   /** Labels for the sandbox */
   labels: SandboxListItemLabelsMap;
   /** The state of the backup */
-  backupState?: SandboxListItemBackupState;
+  backupState?: SandboxListItemBackupState | undefined;
   /** Auto-stop interval in minutes (0 means disabled) */
-  autoStopInterval?: number;
+  autoStopInterval?: number | undefined;
   /** Auto-pause interval in minutes (0 means disabled) */
-  autoPauseInterval?: number;
+  autoPauseInterval?: number | undefined;
   /** Auto-archive interval in minutes */
-  autoArchiveInterval?: number;
+  autoArchiveInterval?: number | undefined;
   /** Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping) */
-  autoDeleteInterval?: number;
+  autoDeleteInterval?: number | undefined;
   /** When the sandbox will be automatically destroyed, regardless of its state (only set when a TTL is configured) */
-  autoDestroyAt?: string;
+  autoDestroyAt?: string | undefined;
   /** Minutes to wait for runner assignment before cancelling sandbox creation. Null means the wait is unlimited. */
-  queueTimeout?: number | null;
+  queueTimeout?: number | null | undefined;
   /** The creation timestamp of the sandbox */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The last update timestamp of the sandbox */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The last activity timestamp of the sandbox */
-  lastActivityAt?: string;
+  lastActivityAt?: string | undefined;
   /** The version of the daemon running in the sandbox */
-  daemonVersion?: string;
+  daemonVersion?: string | undefined;
   /** Id of the warm pool this sandbox waits in; set only while it is an unclaimed member */
-  warmPoolId?: string;
+  warmPoolId?: string | undefined;
   /** The toolbox proxy URL for the sandbox */
   toolboxProxyUrl: string;
 }
@@ -1032,15 +1032,15 @@ export interface PauseSandboxRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface RecoverSandboxRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** If true, the sandbox is left in STOPPED after recovery instead of being started. */
-  skipStart?: boolean;
+  skipStart?: boolean | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** Key-value pairs of labels */
 export type ReplaceLabelsRequestLabelsMap = { [key: string]: string | undefined };
@@ -1048,7 +1048,7 @@ export interface ReplaceLabelsRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Key-value pairs of labels */
   labels: ReplaceLabelsRequestLabelsMap;
 }
@@ -1062,26 +1062,26 @@ export interface ResizeSandboxRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** CPU cores to allocate to the sandbox (minimum: 1) */
-  cpu?: number;
+  cpu?: number | undefined;
   /** Memory in GB to allocate to the sandbox (minimum: 1) */
-  memory?: number;
+  memory?: number | undefined;
   /** Disk space in GB to allocate to the sandbox (can only be increased) */
-  disk?: number;
+  disk?: number | undefined;
 }
 export interface ResolveSandboxSecretsRequest {
   /** Sandbox ID */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ResolveSandboxSecrets200ResponseInnerHostsList = Array<string>;
 export interface ResolveSandboxSecrets200ResponseInner {
-  env?: string;
-  placeholder?: string;
-  value?: string;
-  hosts?: ResolveSandboxSecrets200ResponseInnerHostsList;
+  env?: string | undefined;
+  placeholder?: string | undefined;
+  value?: string | undefined;
+  hosts?: ResolveSandboxSecrets200ResponseInnerHostsList | undefined;
 }
 export type ResolveSandboxSecretsResponseBodyList = Array<ResolveSandboxSecrets200ResponseInner>;
 export type ResolveSandboxSecretsResponse = ResolveSandboxSecretsResponseBodyList;
@@ -1089,15 +1089,15 @@ export interface RevokeSshAccessRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** SSH access token to revoke. If not provided, all SSH access for the sandbox will be revoked. */
-  token?: string;
+  token?: string | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface RotateSigningKeyRequest {
   /** ID of the sandbox */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type RotateSigningKeyResponse = string;
 export interface SetAutoArchiveIntervalRequest {
@@ -1106,7 +1106,7 @@ export interface SetAutoArchiveIntervalRequest {
   /** Auto-archive interval in minutes (0 means the maximum interval will be used) */
   interval: number;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SetAutoDeleteIntervalRequest {
   /** ID or name of the sandbox */
@@ -1114,7 +1114,7 @@ export interface SetAutoDeleteIntervalRequest {
   /** Auto-delete interval in minutes (negative value means disabled, 0 means delete immediately upon stopping) */
   interval: number;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SetAutoPauseIntervalRequest {
   /** ID or name of the sandbox */
@@ -1122,7 +1122,7 @@ export interface SetAutoPauseIntervalRequest {
   /** Auto-pause interval in minutes (0 to disable) */
   interval: number;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SetAutostopIntervalRequest {
   /** ID or name of the sandbox */
@@ -1130,7 +1130,7 @@ export interface SetAutostopIntervalRequest {
   /** Auto-stop interval in minutes (0 to disable) */
   interval: number;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SetTtlRequest {
   /** ID or name of the sandbox */
@@ -1138,42 +1138,42 @@ export interface SetTtlRequest {
   /** Maximum time to live in minutes, re-anchored from the current time (0 to disable). When it elapses the sandbox is destroyed, even if it is stopped, paused, or archived */
   ttlMinutes: number;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface StartSandboxRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface StopSandboxRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Force stop the sandbox using SIGKILL instead of SIGTERM */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface UpdateLastActivityRequest {
   /** ID of the sandbox */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Optional type of interaction that reset the activity timer. */
-  activityType?: string;
+  activityType?: string | undefined;
 }
 export interface UpdateLastActivityResponse {}
 export interface UpdateNetworkSettingsRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Whether to block all network access for the sandbox */
-  networkBlockAll?: boolean;
+  networkBlockAll?: boolean | undefined;
   /** Comma-separated list of allowed CIDR network addresses for the sandbox */
-  networkAllowList?: string;
+  networkAllowList?: string | undefined;
   /** Comma-separated list of allowed domains for the sandbox */
-  domainAllowList?: string;
+  domainAllowList?: string | undefined;
 }
 export interface UpdatePublicStatusRequest {
   /** ID or name of the sandbox */
@@ -1181,7 +1181,7 @@ export interface UpdatePublicStatusRequest {
   /** Public status to set */
   isPublic: boolean;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type UpdateSandboxSecretsRequestSecretsItemMap = { [key: string]: string | undefined };
 /** Secrets to mount in this sandbox, replacing the previously mounted set. Each entry maps an env var name to a vault secret name. Pass an empty array to detach all secrets. */
@@ -1191,7 +1191,7 @@ export interface UpdateSandboxSecretsRequest {
   /** ID or name of the sandbox */
   sandboxIdOrName: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Secrets to mount in this sandbox, replacing the previously mounted set. Each entry maps an env var name to a vault secret name. Pass an empty array to detach all secrets. */
   secrets: UpdateSandboxSecretsRequestSecretsList;
 }
@@ -1223,20 +1223,20 @@ export interface UpdateSandboxStateRequest {
   /** ID of the sandbox */
   sandboxId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** The new state for the sandbox */
   state: UpdateSandboxStateRequestState | (string & {});
   /** Optional error message when reporting an error state */
-  errorReason?: string;
+  errorReason?: string | undefined;
   /** Whether the sandbox is recoverable */
-  recoverable?: boolean;
+  recoverable?: boolean | undefined;
 }
 export interface UpdateSandboxStateResponse {}
 export interface ValidateSshAccessRequest {
   /** SSH access token to validate */
   token: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface SshAccessValidationDto {
   /** Whether the SSH access token is valid */

@@ -213,9 +213,9 @@ export interface PortRange {
   endPort: number;
 }
 export type PortSpecification =
-  | { port: number; range?: never; allPorts?: never }
-  | { port?: never; range: PortRange; allPorts?: never }
-  | { port?: never; range?: never; allPorts: Record<string, never> };
+  | { port: number; range?: undefined; allPorts?: undefined }
+  | { port?: undefined; range: PortRange; allPorts?: undefined }
+  | { port?: undefined; range?: undefined; allPorts: Record<string, never> };
 export type ListOfPortSpecification = PortSpecification[];
 export interface CreateMicrovmAuthTokenRequest {
   microvmIdentifier: string;
@@ -234,12 +234,12 @@ export type RoleArn = string;
 export type CodeArtifact = { uri: string };
 export interface LoggingDisabled {}
 export interface CloudWatchLogging {
-  logGroup?: string;
-  logStream?: string;
+  logGroup?: string | undefined;
+  logStream?: string | undefined;
 }
 export type Logging =
-  | { disabled: LoggingDisabled; cloudWatch?: never }
-  | { disabled?: never; cloudWatch: CloudWatchLogging };
+  | { disabled: LoggingDisabled; cloudWatch?: undefined }
+  | { disabled?: undefined; cloudWatch: CloudWatchLogging };
 export type NetworkConnector = string;
 export type NetworkConnectorList = string[];
 export type Architecture = "ARM_64" | "X86_64" | (string & {});
@@ -255,25 +255,25 @@ export type Capability = "ALL" | (string & {});
 export type CapabilityList = Capability[];
 export type HookState = "DISABLED" | "ENABLED" | (string & {});
 export interface MicrovmHooks {
-  run?: HookState;
-  runTimeoutInSeconds?: number;
-  resume?: HookState;
-  resumeTimeoutInSeconds?: number;
-  suspend?: HookState;
-  suspendTimeoutInSeconds?: number;
-  terminate?: HookState;
-  terminateTimeoutInSeconds?: number;
+  run?: HookState | undefined;
+  runTimeoutInSeconds?: number | undefined;
+  resume?: HookState | undefined;
+  resumeTimeoutInSeconds?: number | undefined;
+  suspend?: HookState | undefined;
+  suspendTimeoutInSeconds?: number | undefined;
+  terminate?: HookState | undefined;
+  terminateTimeoutInSeconds?: number | undefined;
 }
 export interface MicrovmImageHooks {
-  ready?: HookState;
-  readyTimeoutInSeconds?: number;
-  validate?: HookState;
-  validateTimeoutInSeconds?: number;
+  ready?: HookState | undefined;
+  readyTimeoutInSeconds?: number | undefined;
+  validate?: HookState | undefined;
+  validateTimeoutInSeconds?: number | undefined;
 }
 export interface Hooks {
-  port?: number;
-  microvmHooks?: MicrovmHooks;
-  microvmImageHooks?: MicrovmImageHooks;
+  port?: number | undefined;
+  microvmHooks?: MicrovmHooks | undefined;
+  microvmImageHooks?: MicrovmImageHooks | undefined;
 }
 export type EnvironmentVariableKey = string;
 export type EnvironmentVariableValue = string | redacted.Redacted<string>;
@@ -286,20 +286,22 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateMicrovmImageRequest {
   baseImageArn: string;
-  baseImageVersion?: string;
+  baseImageVersion?: string | undefined;
   buildRoleArn: string;
-  description?: string;
+  description?: string | undefined;
   codeArtifact: CodeArtifact;
-  logging?: Logging;
-  egressNetworkConnectors?: string[];
-  cpuConfigurations?: CpuConfiguration[];
-  resources?: Resources[];
-  additionalOsCapabilities?: Capability[];
-  hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  logging?: Logging | undefined;
+  egressNetworkConnectors?: string[] | undefined;
+  cpuConfigurations?: CpuConfiguration[] | undefined;
+  resources?: Resources[] | undefined;
+  additionalOsCapabilities?: Capability[] | undefined;
+  hooks?: Hooks | undefined;
+  environmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   name: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type MicrovmImageState =
   | "CREATING"
@@ -316,23 +318,25 @@ export interface CreateMicrovmImageResponse {
   imageArn: string;
   name: string;
   state: MicrovmImageState;
-  latestActiveImageVersion?: string;
-  latestFailedImageVersion?: string;
+  latestActiveImageVersion?: string | undefined;
+  latestFailedImageVersion?: string | undefined;
   createdAt: Date;
   baseImageArn: string;
-  baseImageVersion?: string;
+  baseImageVersion?: string | undefined;
   buildRoleArn: string;
-  description?: string;
+  description?: string | undefined;
   codeArtifact: CodeArtifact;
-  logging?: Logging;
-  egressNetworkConnectors?: string[];
-  cpuConfigurations?: CpuConfiguration[];
-  resources?: Resources[];
-  additionalOsCapabilities?: Capability[];
-  hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  tags?: { [key: string]: string | undefined };
-  updatedAt?: Date;
+  logging?: Logging | undefined;
+  egressNetworkConnectors?: string[] | undefined;
+  cpuConfigurations?: CpuConfiguration[] | undefined;
+  resources?: Resources[] | undefined;
+  additionalOsCapabilities?: Capability[] | undefined;
+  hooks?: Hooks | undefined;
+  environmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  updatedAt?: Date | undefined;
   imageVersion: string;
 }
 export interface CreateMicrovmShellAuthTokenRequest {
@@ -391,14 +395,14 @@ export interface GetMicrovmResponse {
   endpoint: string;
   imageArn: string;
   imageVersion: string;
-  executionRoleArn?: string;
-  idlePolicy?: IdlePolicy;
+  executionRoleArn?: string | undefined;
+  idlePolicy?: IdlePolicy | undefined;
   maximumDurationInSeconds: number;
   startedAt: Date;
-  terminatedAt?: Date;
-  stateReason?: string;
-  ingressNetworkConnectors?: string[];
-  egressNetworkConnectors?: string[];
+  terminatedAt?: Date | undefined;
+  stateReason?: string | undefined;
+  ingressNetworkConnectors?: string[] | undefined;
+  egressNetworkConnectors?: string[] | undefined;
 }
 export interface GetMicrovmImageInput {
   imageIdentifier: string;
@@ -407,11 +411,11 @@ export interface GetMicrovmImageOutput {
   imageArn: string;
   name: string;
   state: MicrovmImageState;
-  latestActiveImageVersion?: string;
-  latestFailedImageVersion?: string;
+  latestActiveImageVersion?: string | undefined;
+  latestFailedImageVersion?: string | undefined;
   createdAt: Date;
-  tags?: { [key: string]: string | undefined };
-  updatedAt?: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetMicrovmImageBuildInput {
   imageIdentifier: string;
@@ -421,9 +425,9 @@ export interface GetMicrovmImageBuildInput {
 export type BuildState = "PENDING" | "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | (string & {});
 export type Chipset = "GRAVITON" | "INTEL" | (string & {});
 export interface SnapshotBuild {
-  memorySnapshotSizeInBytes?: number;
-  codeInstallSizeInBytes?: number;
-  diskSnapshotSizeInBytes?: number;
+  memorySnapshotSizeInBytes?: number | undefined;
+  codeInstallSizeInBytes?: number | undefined;
+  diskSnapshotSizeInBytes?: number | undefined;
 }
 export interface GetMicrovmImageBuildOutput {
   imageArn: string;
@@ -433,9 +437,9 @@ export interface GetMicrovmImageBuildOutput {
   architecture: Architecture;
   chipset: Chipset;
   chipsetGeneration: string;
-  stateReason?: string;
+  stateReason?: string | undefined;
   createdAt: Date;
-  snapshotBuild?: SnapshotBuild;
+  snapshotBuild?: SnapshotBuild | undefined;
 }
 export interface GetMicrovmImageVersionInput {
   imageIdentifier: string;
@@ -444,43 +448,45 @@ export interface GetMicrovmImageVersionInput {
 export type MicrovmImageVersionStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export interface GetMicrovmImageVersionOutput {
   baseImageArn: string;
-  baseImageVersion?: string;
+  baseImageVersion?: string | undefined;
   buildRoleArn: string;
-  description?: string;
+  description?: string | undefined;
   codeArtifact: CodeArtifact;
-  logging?: Logging;
-  egressNetworkConnectors?: string[];
-  cpuConfigurations?: CpuConfiguration[];
-  resources?: Resources[];
-  additionalOsCapabilities?: Capability[];
-  hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  logging?: Logging | undefined;
+  egressNetworkConnectors?: string[] | undefined;
+  cpuConfigurations?: CpuConfiguration[] | undefined;
+  resources?: Resources[] | undefined;
+  additionalOsCapabilities?: Capability[] | undefined;
+  hooks?: Hooks | undefined;
+  environmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
   status: MicrovmImageVersionStatus;
   createdAt: Date;
-  updatedAt?: Date;
-  stateReason?: string;
-  tags?: { [key: string]: string | undefined };
+  updatedAt?: Date | undefined;
+  stateReason?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListManagedMicrovmImagesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ManagedMicrovmImageSummary {
   imageArn: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export type ManagedMicrovmImageSummaryList = ManagedMicrovmImageSummary[];
 export interface ListManagedMicrovmImagesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: ManagedMicrovmImageSummary[];
 }
 export interface ListManagedMicrovmImageVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   imageIdentifier: string;
 }
 export type ManagedMicrovmImageVersionStatus =
@@ -491,24 +497,24 @@ export type ManagedMicrovmImageVersionStatus =
 export interface ManagedMicrovmImageVersion {
   imageArn: string;
   imageVersion: string;
-  status?: ManagedMicrovmImageVersionStatus;
-  supportedCpuConfigurations?: CpuConfiguration[];
+  status?: ManagedMicrovmImageVersionStatus | undefined;
+  supportedCpuConfigurations?: CpuConfiguration[] | undefined;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export type ManagedMicrovmImageVersionList = ManagedMicrovmImageVersion[];
 export interface ListManagedMicrovmImageVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: ManagedMicrovmImageVersion[];
 }
 export interface ListMicrovmImageBuildsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   imageIdentifier: string;
   imageVersion: string;
-  architecture?: Architecture;
-  chipset?: Chipset;
-  chipsetGeneration?: string;
+  architecture?: Architecture | undefined;
+  chipset?: Chipset | undefined;
+  chipsetGeneration?: string | undefined;
 }
 export interface MicrovmImageBuildSummary {
   imageArn: string;
@@ -518,69 +524,71 @@ export interface MicrovmImageBuildSummary {
   architecture: Architecture;
   chipset: Chipset;
   chipsetGeneration: string;
-  stateReason?: string;
+  stateReason?: string | undefined;
   createdAt: Date;
 }
 export type MicrovmImageBuildSummaries = MicrovmImageBuildSummary[];
 export interface ListMicrovmImageBuildsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: MicrovmImageBuildSummary[];
 }
 export interface ListMicrovmImagesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  nameFilter?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  nameFilter?: string | undefined;
 }
 export interface MicrovmImageSummary {
   imageArn: string;
   name: string;
   state: MicrovmImageState;
-  latestActiveImageVersion?: string;
-  latestFailedImageVersion?: string;
+  latestActiveImageVersion?: string | undefined;
+  latestFailedImageVersion?: string | undefined;
   createdAt: Date;
 }
 export type MicrovmImageSummaries = MicrovmImageSummary[];
 export interface ListMicrovmImagesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: MicrovmImageSummary[];
 }
 export interface ListMicrovmImageVersionsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   imageIdentifier: string;
 }
 export interface MicrovmImageVersionSummary {
   baseImageArn: string;
-  baseImageVersion?: string;
+  baseImageVersion?: string | undefined;
   buildRoleArn: string;
-  description?: string;
+  description?: string | undefined;
   codeArtifact: CodeArtifact;
-  logging?: Logging;
-  egressNetworkConnectors?: string[];
-  cpuConfigurations?: CpuConfiguration[];
-  resources?: Resources[];
-  additionalOsCapabilities?: Capability[];
-  hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  logging?: Logging | undefined;
+  egressNetworkConnectors?: string[] | undefined;
+  cpuConfigurations?: CpuConfiguration[] | undefined;
+  resources?: Resources[] | undefined;
+  additionalOsCapabilities?: Capability[] | undefined;
+  hooks?: Hooks | undefined;
+  environmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
   status: MicrovmImageVersionStatus;
   createdAt: Date;
-  updatedAt?: Date;
-  stateReason?: string;
-  tags?: { [key: string]: string | undefined };
+  updatedAt?: Date | undefined;
+  stateReason?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MicrovmImageVersionSummaryList = MicrovmImageVersionSummary[];
 export interface ListMicrovmImageVersionsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: MicrovmImageVersionSummary[];
 }
 export interface ListMicrovmsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  imageIdentifier?: string;
-  imageVersion?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  imageIdentifier?: string | undefined;
+  imageVersion?: string | undefined;
 }
 export interface MicrovmItem {
   microvmId: string;
@@ -591,7 +599,7 @@ export interface MicrovmItem {
 }
 export type MicrovmItemList = MicrovmItem[];
 export interface ListMicrovmsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   items: MicrovmItem[];
 }
 export type TaggableResource = string;
@@ -599,7 +607,7 @@ export interface ListTagsRequest {
   Resource: string;
 }
 export interface ListTagsResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ResumeMicrovmRequest {
   microvmIdentifier: string;
@@ -607,16 +615,16 @@ export interface ResumeMicrovmRequest {
 export interface ResumeMicrovmResponse {}
 export type RunHookPayload = string | redacted.Redacted<string>;
 export interface RunMicrovmRequest {
-  ingressNetworkConnectors?: string[];
-  egressNetworkConnectors?: string[];
+  ingressNetworkConnectors?: string[] | undefined;
+  egressNetworkConnectors?: string[] | undefined;
   imageIdentifier: string;
-  imageVersion?: string;
-  executionRoleArn?: string;
-  idlePolicy?: IdlePolicy;
-  logging?: Logging;
-  runHookPayload?: string | redacted.Redacted<string>;
-  maximumDurationInSeconds?: number;
-  clientToken?: string;
+  imageVersion?: string | undefined;
+  executionRoleArn?: string | undefined;
+  idlePolicy?: IdlePolicy | undefined;
+  logging?: Logging | undefined;
+  runHookPayload?: string | redacted.Redacted<string> | undefined;
+  maximumDurationInSeconds?: number | undefined;
+  clientToken?: string | undefined;
 }
 export interface RunMicrovmResponse {
   microvmId: string;
@@ -624,14 +632,14 @@ export interface RunMicrovmResponse {
   endpoint: string;
   imageArn: string;
   imageVersion: string;
-  executionRoleArn?: string;
-  idlePolicy?: IdlePolicy;
+  executionRoleArn?: string | undefined;
+  idlePolicy?: IdlePolicy | undefined;
   maximumDurationInSeconds: number;
   startedAt: Date;
-  terminatedAt?: Date;
-  stateReason?: string;
-  ingressNetworkConnectors?: string[];
-  egressNetworkConnectors?: string[];
+  terminatedAt?: Date | undefined;
+  stateReason?: string | undefined;
+  ingressNetworkConnectors?: string[] | undefined;
+  egressNetworkConnectors?: string[] | undefined;
 }
 export interface SuspendMicrovmRequest {
   microvmIdentifier: string;
@@ -654,39 +662,43 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateMicrovmImageRequest {
   baseImageArn: string;
-  baseImageVersion?: string;
+  baseImageVersion?: string | undefined;
   buildRoleArn: string;
-  description?: string;
+  description?: string | undefined;
   codeArtifact: CodeArtifact;
-  logging?: Logging;
-  egressNetworkConnectors?: string[];
-  cpuConfigurations?: CpuConfiguration[];
-  resources?: Resources[];
-  additionalOsCapabilities?: Capability[];
-  hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  logging?: Logging | undefined;
+  egressNetworkConnectors?: string[] | undefined;
+  cpuConfigurations?: CpuConfiguration[] | undefined;
+  resources?: Resources[] | undefined;
+  additionalOsCapabilities?: Capability[] | undefined;
+  hooks?: Hooks | undefined;
+  environmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   imageIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateMicrovmImageResponse {
   imageArn: string;
   name: string;
   state: MicrovmImageState;
-  latestActiveImageVersion?: string;
-  latestFailedImageVersion?: string;
+  latestActiveImageVersion?: string | undefined;
+  latestFailedImageVersion?: string | undefined;
   createdAt: Date;
   baseImageArn: string;
-  baseImageVersion?: string;
+  baseImageVersion?: string | undefined;
   buildRoleArn: string;
-  description?: string;
+  description?: string | undefined;
   codeArtifact: CodeArtifact;
-  logging?: Logging;
-  egressNetworkConnectors?: string[];
-  cpuConfigurations?: CpuConfiguration[];
-  resources?: Resources[];
-  additionalOsCapabilities?: Capability[];
-  hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  logging?: Logging | undefined;
+  egressNetworkConnectors?: string[] | undefined;
+  cpuConfigurations?: CpuConfiguration[] | undefined;
+  resources?: Resources[] | undefined;
+  additionalOsCapabilities?: Capability[] | undefined;
+  hooks?: Hooks | undefined;
+  environmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   updatedAt: Date;
   imageVersion: string;
 }
@@ -697,25 +709,27 @@ export interface UpdateMicrovmImageVersionRequest {
 }
 export interface UpdateMicrovmImageVersionResponse {
   baseImageArn: string;
-  baseImageVersion?: string;
+  baseImageVersion?: string | undefined;
   buildRoleArn: string;
-  description?: string;
+  description?: string | undefined;
   codeArtifact: CodeArtifact;
-  logging?: Logging;
-  egressNetworkConnectors?: string[];
-  cpuConfigurations?: CpuConfiguration[];
-  resources?: Resources[];
-  additionalOsCapabilities?: Capability[];
-  hooks?: Hooks;
-  environmentVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  logging?: Logging | undefined;
+  egressNetworkConnectors?: string[] | undefined;
+  cpuConfigurations?: CpuConfiguration[] | undefined;
+  resources?: Resources[] | undefined;
+  additionalOsCapabilities?: Capability[] | undefined;
+  hooks?: Hooks | undefined;
+  environmentVariables?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
   imageArn: string;
   imageVersion: string;
   state: MicrovmImageVersionState;
   status: MicrovmImageVersionStatus;
   createdAt: Date;
-  updatedAt?: Date;
-  stateReason?: string;
-  tags?: { [key: string]: string | undefined };
+  updatedAt?: Date | undefined;
+  stateReason?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CreateMicrovmAuthTokenError =
   | AccessDeniedException

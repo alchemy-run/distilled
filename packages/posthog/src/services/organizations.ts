@@ -56,36 +56,36 @@ export interface BillingSpendExportDownloadRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingSpendExportDownloadResponse {}
 export interface BillingUsageExportDownloadRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** JSON-encoded array of breakdown dimensions. Omit it for one series across the whole organization. Pass `["type"]` for a series per product. Pass `["type","team"]` for a series per product per project. To break usage down by project, pass `"type"` with `"team"`: billing counts usage per product, and the counts do not add up across products. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface BillingUsageExportDownloadResponse {}
 export interface CimdVerificationTokensDestroyRequest {
@@ -105,32 +105,32 @@ export interface OrganizationMemberNotice {
   /** HTML shown in the banner. Supports formatting tags and links (<b>, <strong>, <i>, <em>, <u>, <s>, <code>, <br>, <p>, <span>, <ul>, <ol>, <li>, <a href>). Other tags, styles and scripts are removed. */
   message: string;
   /** Optional link button shown on the right of the banner. */
-  action?: OrganizationMemberNoticeAction | null;
+  action?: OrganizationMemberNoticeAction | null | undefined;
 }
 export interface CreateRequest {
-  name?: string;
-  logo_media_id?: string | null;
-  enforce_2fa?: boolean | null;
+  name?: string | undefined;
+  logo_media_id?: string | null | undefined;
+  enforce_2fa?: boolean | null | undefined;
   /** When True, logins, signups, and invites for this organization are restricted to email addresses on its verified domains. */
-  enforce_verified_domains?: boolean | null;
-  members_can_invite?: boolean | null;
+  enforce_verified_domains?: boolean | null | undefined;
+  members_can_invite?: boolean | null | undefined;
   /** When True, organization members (below admin) are allowed to create new projects. Admins and owners can always create projects. */
-  members_can_create_projects?: boolean | null;
-  members_can_use_personal_api_keys?: boolean;
+  members_can_create_projects?: boolean | null | undefined;
+  members_can_use_personal_api_keys?: boolean | undefined;
   /** When False, members (below admin) only see themselves in the members list and only project members in access control. */
-  members_can_see_org_members?: boolean;
-  allow_publicly_shared_resources?: boolean;
+  members_can_see_org_members?: boolean | undefined;
+  allow_publicly_shared_resources?: boolean | undefined;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
-  read_only_mcp_access?: boolean | null;
+  read_only_mcp_access?: boolean | null | undefined;
   /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
-  member_notice?: OrganizationMemberNotice | null;
-  is_ai_data_processing_approved?: boolean | null;
+  member_notice?: OrganizationMemberNotice | null | undefined;
+  is_ai_data_processing_approved?: boolean | null | undefined;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
-  is_ai_training_opted_in?: boolean | null;
+  is_ai_training_opted_in?: boolean | null | undefined;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
-  default_anonymize_ips?: boolean;
+  default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
-  default_role_id?: string | null;
+  default_role_id?: string | null | undefined;
 }
 /** * `1` - member * `8` - administrator * `15` - owner */
 export type OrganizationMembershipLevelEnum = 1 | 8 | 15;
@@ -758,59 +758,59 @@ export type OrganizationProjectsList = Array<OrganizationProjectsItemMap>;
 export type OrganizationAvailableProductFeaturesList = Array<unknown>;
 export type OrganizationMetadataMap = { [key: string]: string | undefined };
 export interface Organization {
-  id?: string;
-  name?: string;
-  slug?: string;
-  logo_media_id?: string | null;
-  created_at?: string;
-  updated_at?: string;
-  membership_level?: OrganizationMembershipLevelEnum;
+  id?: string | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  logo_media_id?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  membership_level?: OrganizationMembershipLevelEnum | undefined;
   /** When the requesting user joined this organization. Null if the user is not a member. */
   membership_joined_at: string | null;
-  plugins_access_level?: OrganizationPluginsAccessLevelEnum;
-  teams?: OrganizationTeamsList;
-  projects?: OrganizationProjectsList;
-  available_product_features?: OrganizationAvailableProductFeaturesList | null;
+  plugins_access_level?: OrganizationPluginsAccessLevelEnum | undefined;
+  teams?: OrganizationTeamsList | undefined;
+  projects?: OrganizationProjectsList | undefined;
+  available_product_features?: OrganizationAvailableProductFeaturesList | null | undefined;
   /** Legacy field; member-join emails are controlled per user in account notification settings. */
-  is_member_join_email_enabled?: boolean;
-  metadata?: OrganizationMetadataMap;
-  customer_id?: string | null;
-  enforce_2fa?: boolean | null;
+  is_member_join_email_enabled?: boolean | undefined;
+  metadata?: OrganizationMetadataMap | undefined;
+  customer_id?: string | null | undefined;
+  enforce_2fa?: boolean | null | undefined;
   /** When True, logins, signups, and invites for this organization are restricted to email addresses on its verified domains. */
-  enforce_verified_domains?: boolean | null;
-  members_can_invite?: boolean | null;
+  enforce_verified_domains?: boolean | null | undefined;
+  members_can_invite?: boolean | null | undefined;
   /** When True, organization members (below admin) are allowed to create new projects. Admins and owners can always create projects. */
-  members_can_create_projects?: boolean | null;
-  members_can_use_personal_api_keys?: boolean;
+  members_can_create_projects?: boolean | null | undefined;
+  members_can_use_personal_api_keys?: boolean | undefined;
   /** When False, members (below admin) only see themselves in the members list and only project members in access control. */
-  members_can_see_org_members?: boolean;
-  allow_publicly_shared_resources?: boolean;
+  members_can_see_org_members?: boolean | undefined;
+  allow_publicly_shared_resources?: boolean | undefined;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
-  read_only_mcp_access?: boolean | null;
+  read_only_mcp_access?: boolean | null | undefined;
   /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
-  member_notice?: OrganizationMemberNotice | null;
-  member_count?: number;
-  is_ai_data_processing_approved?: boolean | null;
+  member_notice?: OrganizationMemberNotice | null | undefined;
+  member_count?: number | undefined;
+  is_ai_data_processing_approved?: boolean | null | undefined;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
-  is_ai_training_opted_in?: boolean | null;
+  is_ai_training_opted_in?: boolean | null | undefined;
   /** When True, the AI training opt-out setting cannot be modified through the UI or API. */
-  is_ai_training_locked?: boolean | null;
+  is_ai_training_locked?: boolean | null | undefined;
   /** When True, in-app callouts inviting members to enable AI training are shown. */
-  is_ai_training_cta_shown?: boolean | null;
+  is_ai_training_cta_shown?: boolean | null | undefined;
   /** Whether the organization has a countersigned Business Associate Agreement on file. When true, AI training stays opted out and cannot be changed. */
-  has_signed_baa?: boolean;
+  has_signed_baa?: boolean | undefined;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
-  default_anonymize_ips?: boolean;
+  default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
-  default_role_id?: string | null;
+  default_role_id?: string | null | undefined;
   /** Set this to 'No' to temporarily disable an organization. */
-  is_active?: boolean | null;
+  is_active?: boolean | null | undefined;
   /** (optional) reason for why the organization has been de-activated. This will be displayed to users on the web app. */
-  is_not_active_reason?: string | null;
+  is_not_active_reason?: string | null | undefined;
   /** Set to True when org deletion has been initiated. Blocks all UI access until the async task completes. */
-  is_pending_deletion?: boolean | null;
+  is_pending_deletion?: boolean | null | undefined;
   /** When True, access controls resolve with the most specific matching rule. When False, the legacy resolution order applies. */
-  uses_most_specific_access_resolution?: boolean | null;
+  uses_most_specific_access_resolution?: boolean | null | undefined;
 }
 export interface CreateCimdVerificationTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -835,15 +835,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Create-response variant that includes the plaintext token. Only emitted from the create endpoint - storage-side we only persist the hash, so subsequent reads use the base serializer. */
 export interface CIMDVerificationTokenWithValue {
@@ -865,9 +865,9 @@ export interface CreateCrossProjectDashboardRequest {
   /** Name shown in the dashboard list and page header. */
   name: string;
   /** Optional longer description. */
-  description?: string;
+  description?: string | undefined;
   /** Dashboard-level filters applied to every tile. Supports a date range, an interval, and property filters that refer to a property by name. Filters carrying a project-specific id are rejected. */
-  filters?: unknown;
+  filters?: unknown | undefined;
 }
 export interface CrossProjectDashboardTile {
   /** Id of the tile. */
@@ -877,11 +877,11 @@ export interface CrossProjectDashboardTile {
   /** Id of the insight the tile renders. */
   insight_id: number;
   /** Grid position and size of the tile, keyed by layout size. */
-  layouts?: unknown;
+  layouts?: unknown | undefined;
   /** Optional color applied to the tile. */
-  color?: string | null;
+  color?: string | null | undefined;
   /** Filters applied to this tile only, overriding the dashboard's. Supports a date range and an interval. Filters carrying a project-specific id are rejected. */
-  filters_overrides?: unknown;
+  filters_overrides?: unknown | undefined;
 }
 /** Tiles from the projects the reader can open. */
 export type CrossProjectDashboardTilesList = Array<CrossProjectDashboardTile>;
@@ -900,9 +900,9 @@ export interface CrossProjectDashboard {
   /** Name shown in the dashboard list and page header. */
   name: string;
   /** Optional longer description. */
-  description?: string;
+  description?: string | undefined;
   /** Dashboard-level filters applied to every tile. Supports a date range, an interval, and property filters that refer to a property by name. Filters carrying a project-specific id are rejected. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Tiles from the projects the reader can open. */
   tiles: CrossProjectDashboardTilesList;
   /** The user who created the dashboard. */
@@ -922,29 +922,29 @@ export interface CreateCrossProjectDashboardsTileRequest {
   /** Id of the insight the tile renders. */
   insight_id: number;
   /** Grid position and size of the tile, keyed by layout size. */
-  layouts?: unknown;
+  layouts?: unknown | undefined;
   /** Optional color applied to the tile. */
-  color?: string | null;
+  color?: string | null | undefined;
   /** Filters applied to this tile only, overriding the dashboard's. Supports a date range and an interval. Filters carrying a project-specific id are rejected. */
-  filters_overrides?: unknown;
+  filters_overrides?: unknown | undefined;
 }
 export interface CreateDomainRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
-  domain?: string;
-  jit_provisioning_enabled?: boolean;
-  sso_enforcement?: string;
+  domain?: string | undefined;
+  jit_provisioning_enabled?: boolean | undefined;
+  sso_enforcement?: string | undefined;
 }
 export interface OrganizationDomain {
-  id?: string;
-  domain?: string;
+  id?: string | undefined;
+  domain?: string | undefined;
   /** Determines whether a domain is verified or not. */
-  is_verified?: boolean;
-  verified_at?: string | null;
-  verification_challenge?: string;
-  jit_provisioning_enabled?: boolean;
-  sso_enforcement?: string;
-  scim_base_url?: string | null;
+  is_verified?: boolean | undefined;
+  verified_at?: string | null | undefined;
+  verification_challenge?: string | undefined;
+  jit_provisioning_enabled?: boolean | undefined;
+  sso_enforcement?: string | undefined;
+  scim_base_url?: string | null | undefined;
 }
 /** * `all` - All * `selected` - Selected */
 export type DomainScopeEnum = "all" | "selected";
@@ -962,33 +962,35 @@ export interface CreateIdentityProviderConfigRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Display name for this IdP configuration (e.g. 'Okta production'). */
-  name?: string;
+  name?: string | undefined;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
-  domain_scope?: CreateIdentityProviderConfigRequestDomainScope | null;
+  domain_scope?: CreateIdentityProviderConfigRequestDomainScope | null | undefined;
   /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
-  config_scope?: CreateIdentityProviderConfigRequestConfigScope | null;
+  config_scope?: CreateIdentityProviderConfigRequestConfigScope | null | undefined;
   /** Organization domain IDs that this identity provider configuration applies to. */
-  organization_domain_ids?: CreateIdentityProviderConfigRequestOrganizationDomainIdsList;
+  organization_domain_ids?:
+    | CreateIdentityProviderConfigRequestOrganizationDomainIdsList
+    | undefined;
   /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
-  oidc_issuer_url?: string;
+  oidc_issuer_url?: string | undefined;
   /** Client ID of the organization's OIDC application. */
-  oidc_client_id?: string;
+  oidc_client_id?: string | undefined;
   /** OIDC client secret. Omit to keep the saved secret. Set to an empty string to remove it. Never returned in responses. */
-  oidc_client_secret?: string | Redacted.Redacted<string>;
+  oidc_client_secret?: string | Redacted.Redacted<string> | undefined;
   /** SAML IdP entity ID (issuer). */
-  saml_entity_id?: string | null;
+  saml_entity_id?: string | null | undefined;
   /** SAML single sign-on (ACS) URL the IdP redirects to. */
-  saml_acs_url?: string | null;
+  saml_acs_url?: string | null | undefined;
   /** SAML IdP X.509 signing certificate (PEM). */
-  saml_x509_cert?: string | null;
+  saml_x509_cert?: string | null | undefined;
   /** Whether SCIM provisioning is enabled. Setting this true generates a bearer token (returned once); setting it false clears the token. */
-  scim_enabled?: boolean;
+  scim_enabled?: boolean | undefined;
   /** Trusted IdP issuer URL for ID-JAG (XAA). Required to enable ID-JAG. */
-  id_jag_issuer_url?: string | null;
+  id_jag_issuer_url?: string | null | undefined;
   /** Override JWKS URL. Defaults to OIDC discovery on the issuer URL. */
-  id_jag_jwks_url?: string | null;
+  id_jag_jwks_url?: string | null | undefined;
   /** Allowed ID-JAG client IDs. Empty list allows any client_id. */
-  id_jag_allowed_clients?: CreateIdentityProviderConfigRequestIdJagAllowedClientsList;
+  id_jag_allowed_clients?: CreateIdentityProviderConfigRequestIdJagAllowedClientsList | undefined;
 }
 /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
 export type IdentityProviderConfigOutputDomainScope = DomainScopeEnum | BlankEnum;
@@ -1001,13 +1003,13 @@ export type IdentityProviderConfigOutputIdJagAllowedClientsList = Array<string>;
 export interface IdentityProviderConfigOutput {
   id: string;
   /** Display name for this IdP configuration (e.g. 'Okta production'). */
-  name?: string;
+  name?: string | undefined;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
-  domain_scope?: IdentityProviderConfigOutputDomainScope | null;
+  domain_scope?: IdentityProviderConfigOutputDomainScope | null | undefined;
   /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
-  config_scope?: IdentityProviderConfigOutputConfigScope | null;
+  config_scope?: IdentityProviderConfigOutputConfigScope | null | undefined;
   /** Organization domain IDs that this identity provider configuration applies to. */
-  organization_domain_ids?: IdentityProviderConfigOutputOrganizationDomainIdsList;
+  organization_domain_ids?: IdentityProviderConfigOutputOrganizationDomainIdsList | undefined;
   created_at: string;
   updated_at: string;
   /** Whether SAML is fully configured on this config. */
@@ -1017,21 +1019,21 @@ export interface IdentityProviderConfigOutput {
   /** Whether an encrypted OIDC client secret is saved. */
   has_oidc_client_secret: boolean;
   /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
-  oidc_issuer_url?: string;
+  oidc_issuer_url?: string | undefined;
   /** Client ID of the organization's OIDC application. */
-  oidc_client_id?: string;
+  oidc_client_id?: string | undefined;
   /** Stable UUID sent as SAML RelayState to route authentication responses to this IdP configuration. */
   saml_relay_state: string;
   /** SAML IdP entity ID (issuer). */
-  saml_entity_id?: string | null;
+  saml_entity_id?: string | null | undefined;
   /** SAML single sign-on (ACS) URL the IdP redirects to. */
-  saml_acs_url?: string | null;
+  saml_acs_url?: string | null | undefined;
   /** SAML IdP X.509 signing certificate (PEM). */
-  saml_x509_cert?: string | null;
+  saml_x509_cert?: string | null | undefined;
   /** Whether SCIM is enabled and a bearer token is set on this config. */
   has_scim: boolean;
   /** Whether SCIM provisioning is enabled. Setting this true generates a bearer token (returned once); setting it false clears the token. */
-  scim_enabled?: boolean;
+  scim_enabled?: boolean | undefined;
   /** SCIM base URL for this identity provider configuration. */
   scim_base_url: string;
   /** Plaintext SCIM bearer token. Only returned once, immediately after SCIM is enabled or the token is regenerated; null otherwise. */
@@ -1039,11 +1041,11 @@ export interface IdentityProviderConfigOutput {
   /** Whether ID-JAG (XAA) is configured on this config. */
   has_id_jag: boolean;
   /** Trusted IdP issuer URL for ID-JAG (XAA). Required to enable ID-JAG. */
-  id_jag_issuer_url?: string | null;
+  id_jag_issuer_url?: string | null | undefined;
   /** Override JWKS URL. Defaults to OIDC discovery on the issuer URL. */
-  id_jag_jwks_url?: string | null;
+  id_jag_jwks_url?: string | null | undefined;
   /** Allowed ID-JAG client IDs. Empty list allows any client_id. */
-  id_jag_allowed_clients?: IdentityProviderConfigOutputIdJagAllowedClientsList;
+  id_jag_allowed_clients?: IdentityProviderConfigOutputIdJagAllowedClientsList | undefined;
 }
 export interface CreateIdentityProviderConfigsScimTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -1060,33 +1062,33 @@ export interface SCIMTokenResponse {
 export interface CreateInviteRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
-  target_email?: string;
-  first_name?: string;
-  level?: OrganizationMembershipLevelEnum | (number & {});
+  target_email?: string | undefined;
+  first_name?: string | undefined;
+  level?: OrganizationMembershipLevelEnum | (number & {}) | undefined;
   /** Optional personal message in the invite email. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** List of team IDs and corresponding access levels to private projects. */
-  private_project_access?: unknown;
-  send_email?: boolean;
-  combine_pending_invites?: boolean;
+  private_project_access?: unknown | undefined;
+  send_email?: boolean | undefined;
+  combine_pending_invites?: boolean | undefined;
 }
 export interface OrganizationInviteOutput {
-  id?: string;
-  target_email?: string;
-  first_name?: string;
-  emailing_attempt_made?: boolean;
+  id?: string | undefined;
+  target_email?: string | undefined;
+  first_name?: string | undefined;
+  emailing_attempt_made?: boolean | undefined;
   /** True when the email provider reported the target address as suppressed at send time. */
   email_suppressed: boolean;
-  level?: OrganizationMembershipLevelEnum;
+  level?: OrganizationMembershipLevelEnum | undefined;
   /** Check if invite is older than INVITE_DAYS_VALIDITY days. */
-  is_expired?: boolean;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
+  is_expired?: boolean | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** Optional personal message in the invite email. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** List of team IDs and corresponding access levels to private projects. */
-  private_project_access?: unknown;
+  private_project_access?: unknown | undefined;
 }
 export interface CreateInvitesDelegateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -1094,9 +1096,9 @@ export interface CreateInvitesDelegateRequest {
   /** Email of the teammate who should complete setup on the inviter's behalf. Receives a PostHog-branded delegation invite granting admin-level membership on accept. */
   target_email: string;
   /** Optional personal message included in the delegation email (up to 1000 characters). */
-  message?: string;
+  message?: string | undefined;
   /** Onboarding step key the delegator was on when delegating, for analytics only. */
-  step_at_delegation?: string;
+  step_at_delegation?: string | undefined;
 }
 /** * `BAA` - BAA * `DPA` - DPA */
 export type DocumentTypeEnum = "BAA" | "DPA";
@@ -1104,28 +1106,28 @@ export interface CreateLegalDocumentRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Either 'BAA' or 'DPA'. * `BAA` - BAA * `DPA` - DPA */
-  document_type?: DocumentTypeEnum | (string & {});
+  document_type?: DocumentTypeEnum | (string & {}) | undefined;
   /** The customer legal entity entering the agreement (PandaDoc's Client.Company). */
-  company_name?: string;
+  company_name?: string | undefined;
   /** The customer address (PandaDoc's Client.StreetAddress). */
-  company_address?: string;
+  company_address?: string | undefined;
   /** Email the signed PandaDoc envelope is sent to (PandaDoc's Client.Email). */
-  representative_email?: string;
+  representative_email?: string | undefined;
 }
 export interface LegalDocumentCreator {
-  first_name?: string;
-  email?: string;
+  first_name?: string | undefined;
+  email?: string | undefined;
 }
 /** Output serializer -- what the API returns for every row. */
 export interface LegalDocumentDTO {
-  id?: string;
-  document_type?: string;
-  company_name?: string;
-  representative_email?: string;
-  status?: string;
-  signed_pdf_stored?: boolean;
-  created_by?: LegalDocumentCreator | null;
-  created_at?: string;
+  id?: string | undefined;
+  document_type?: string | undefined;
+  company_name?: string | undefined;
+  representative_email?: string | undefined;
+  status?: string | undefined;
+  signed_pdf_stored?: boolean | undefined;
+  created_by?: LegalDocumentCreator | null | undefined;
+  created_at?: string | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type CreateOrganizationsProjectRequestTagsList = Array<string>;
@@ -1308,25 +1310,25 @@ export type BaseCurrencyEnum =
   | "ZAR"
   | "ZMW";
 export interface TeamRevenueAnalyticsConfig {
-  base_currency?: BaseCurrencyEnum | (string & {});
-  events?: unknown;
-  filter_test_accounts?: boolean;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
+  events?: unknown | undefined;
+  filter_test_accounts?: boolean | undefined;
 }
 export interface SourceMap {
-  ad_group_id?: string | null;
-  ad_group_name?: string | null;
-  ad_id?: string | null;
-  ad_name?: string | null;
-  campaign?: string | null;
-  clicks?: string | null;
-  cost?: string | null;
-  currency?: string | null;
-  date?: string | null;
-  id?: string | null;
-  impressions?: string | null;
-  reported_conversion?: string | null;
-  reported_conversion_value?: string | null;
-  source?: string | null;
+  ad_group_id?: string | null | undefined;
+  ad_group_name?: string | null | undefined;
+  ad_id?: string | null | undefined;
+  ad_name?: string | null | undefined;
+  campaign?: string | null | undefined;
+  clicks?: string | null | undefined;
+  cost?: string | null | undefined;
+  currency?: string | null | undefined;
+  date?: string | null | undefined;
+  id?: string | null | undefined;
+  impressions?: string | null | undefined;
+  reported_conversion?: string | null | undefined;
+  reported_conversion_value?: string | null | undefined;
+  source?: string | null | undefined;
 }
 /** Mapping of external data source id to that source's column mapping. */
 export type MarketingAnalyticsSourceMapping = { [key: string]: SourceMap | undefined };
@@ -1537,8 +1539,8 @@ export type CurrencyCode =
   | "ZAR"
   | "ZMW";
 export interface RevenueCurrencyPropertyConfig {
-  property?: string | null;
-  static?: CurrencyCode | (string & {}) | null;
+  property?: string | null | undefined;
+  static?: CurrencyCode | (string & {}) | null | undefined;
 }
 export type MarketingAnalyticsEventConversionGoalOrderByList = Array<string>;
 export type PropertyOperator =
@@ -1589,12 +1591,12 @@ export type EventPropertyFilterValue =
   | number
   | boolean;
 export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -1604,24 +1606,24 @@ export type PersonPropertyFilterValue =
   | number
   | boolean;
 export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
   /** Set by the feature flag API when the cohort is deleted or does not exist. */
-  cohort_deleted?: boolean | null;
+  cohort_deleted?: boolean | null | undefined;
   /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
-  cohort_missing?: boolean | null;
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value?: number | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -1632,11 +1634,11 @@ export type ElementPropertyFilterValue =
   | number
   | boolean;
 export interface ElementPropertyFilter {
-  key?: Key10 | (string & {});
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  key?: Key10 | (string & {}) | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
@@ -1646,10 +1648,10 @@ export type HogQLPropertyFilterValue =
   | number
   | boolean;
 export interface HogQLPropertyFilter {
-  key?: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -1660,11 +1662,11 @@ export type DataWarehousePropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type MarketingAnalyticsEventConversionGoalPropertiesItem =
   | EventPropertyFilter
@@ -1687,30 +1689,30 @@ export interface MarketingAnalyticsEventConversionGoal {
   conversion_goal_id: string;
   conversion_goal_name: string;
   /** Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions -- its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false. */
-  counts_as_customer?: boolean | null;
+  counts_as_customer?: boolean | null | undefined;
   /** Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false. */
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
   /** The event or `null` for all events. */
-  event?: string | null;
+  event?: string | null | undefined;
   kind: string;
-  limit?: number | null;
-  math?: MarketingAnalyticsEventConversionGoalMath | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
+  limit?: number | null | undefined;
+  math?: MarketingAnalyticsEventConversionGoalMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
   name: string;
-  optionalInFunnel?: boolean | null;
+  optionalInFunnel?: boolean | null | undefined;
   /** Columns to order by */
-  orderBy?: MarketingAnalyticsEventConversionGoalOrderByList | null;
-  properties?: MarketingAnalyticsEventConversionGoalPropertiesList | null;
-  response?: MarketingAnalyticsEventConversionGoalResponseMap | null;
+  orderBy?: MarketingAnalyticsEventConversionGoalOrderByList | null | undefined;
+  properties?: MarketingAnalyticsEventConversionGoalPropertiesList | null | undefined;
+  response?: MarketingAnalyticsEventConversionGoalResponseMap | null | undefined;
   schema_map: MarketingAnalyticsEventConversionGoalSchemaMapMap;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type MarketingAnalyticsActionConversionGoalMath =
   | BaseMathType
@@ -1742,26 +1744,26 @@ export interface MarketingAnalyticsActionConversionGoal {
   conversion_goal_id: string;
   conversion_goal_name: string;
   /** Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions -- its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false. */
-  counts_as_customer?: boolean | null;
+  counts_as_customer?: boolean | null | undefined;
   /** Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false. */
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
   id: number;
   kind: string;
-  math?: MarketingAnalyticsActionConversionGoalMath | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
+  math?: MarketingAnalyticsActionConversionGoalMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
   name: string;
-  optionalInFunnel?: boolean | null;
-  properties?: MarketingAnalyticsActionConversionGoalPropertiesList | null;
-  response?: MarketingAnalyticsActionConversionGoalResponseMap | null;
+  optionalInFunnel?: boolean | null | undefined;
+  properties?: MarketingAnalyticsActionConversionGoalPropertiesList | null | undefined;
+  response?: MarketingAnalyticsActionConversionGoalResponseMap | null | undefined;
   schema_map: MarketingAnalyticsActionConversionGoalSchemaMapMap;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type MarketingAnalyticsWarehouseConversionGoalMath =
   | BaseMathType
@@ -1793,31 +1795,31 @@ export interface MarketingAnalyticsWarehouseConversionGoal {
   conversion_goal_id: string;
   conversion_goal_name: string;
   /** Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions -- its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false. */
-  counts_as_customer?: boolean | null;
+  counts_as_customer?: boolean | null | undefined;
   /** Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false. */
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
   distinct_id_field: string;
-  dw_source_type?: string | null;
+  dw_source_type?: string | null | undefined;
   id: string;
   id_field: string;
   kind: string;
-  math?: MarketingAnalyticsWarehouseConversionGoalMath | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
+  math?: MarketingAnalyticsWarehouseConversionGoalMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
   name: string;
-  optionalInFunnel?: boolean | null;
-  properties?: MarketingAnalyticsWarehouseConversionGoalPropertiesList | null;
-  response?: MarketingAnalyticsWarehouseConversionGoalResponseMap | null;
+  optionalInFunnel?: boolean | null | undefined;
+  properties?: MarketingAnalyticsWarehouseConversionGoalPropertiesList | null | undefined;
+  response?: MarketingAnalyticsWarehouseConversionGoalResponseMap | null | undefined;
   schema_map: MarketingAnalyticsWarehouseConversionGoalSchemaMapMap;
   table_name: string;
   timestamp_field: string;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type MarketingAnalyticsConversionGoalListItem =
   | MarketingAnalyticsEventConversionGoal
@@ -1855,21 +1857,21 @@ export type MarketingAnalyticsCampaignFieldPreferences = {
 };
 export interface TeamMarketingAnalyticsConfig {
   /** Column mapping per external data source, keyed by source id. Tells marketing analytics which column holds campaign, source, cost, clicks and impressions for that source. */
-  sources_map?: MarketingAnalyticsSourceMapping;
+  sources_map?: MarketingAnalyticsSourceMapping | undefined;
   /** Conversion goals to attribute against, in display order. Each goal points at an event, an action or a data warehouse table, and carries a schema_map describing which fields hold the UTM parameters, the timestamp and the distinct id. Replaces the whole list on write. */
-  conversion_goals?: MarketingAnalyticsConversionGoalList;
+  conversion_goals?: MarketingAnalyticsConversionGoalList | undefined;
   /** How many days back a touchpoint can be credited for a conversion. Between 1 and 90. */
-  attribution_window_days?: number;
+  attribution_window_days?: number | undefined;
   /** How credit is split across touchpoints when a person saw several campaigns before converting. * `first_touch` - First Touch * `last_touch` - Last Touch * `linear` - Linear * `time_decay` - Time Decay * `position_based` - Position Based */
-  attribution_mode?: AttributionModeEnum | (string & {});
+  attribution_mode?: AttributionModeEnum | (string & {}) | undefined;
   /** Whether marketing analytics drops traffic matching the project's test-account filters. Off by default. */
-  filter_test_accounts?: boolean;
+  filter_test_accounts?: boolean | undefined;
   /** Manual campaign name aliases, keyed by integration type then by canonical campaign name, with the list of names that should be folded into it. Applied before automatic matching. */
-  campaign_name_mappings?: MarketingAnalyticsCampaignNameMappings;
+  campaign_name_mappings?: MarketingAnalyticsCampaignNameMappings | undefined;
   /** Custom UTM source values to fold into an integration, keyed by integration type. A UTM source can only belong to one integration. */
-  custom_source_mappings?: MarketingAnalyticsCustomSourceMappings;
+  custom_source_mappings?: MarketingAnalyticsCustomSourceMappings | undefined;
   /** Which field to match campaigns on per integration type, campaign_name or campaign_id. Manual mappings in campaign_name_mappings still take precedence. */
-  campaign_field_preferences?: MarketingAnalyticsCampaignFieldPreferences;
+  campaign_field_preferences?: MarketingAnalyticsCampaignFieldPreferences | undefined;
 }
 /** * `custom_property` - Custom property * `relationship` - Relationship * `account_field` - Account field */
 export type AccountPropertyPinKindEnum = "custom_property" | "relationship" | "account_field";
@@ -1884,57 +1886,57 @@ export type TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList =
   Array<TeamCustomerAnalyticsPinnedAccountProperty>;
 export interface TeamCustomerAnalyticsConfig {
   /** Event used as the activity signal (DAU/WAU/MAU). */
-  activity_event?: unknown;
+  activity_event?: unknown | undefined;
   /** Event used to count signup pageviews on dashboards. */
-  signup_pageview_event?: unknown;
+  signup_pageview_event?: unknown | undefined;
   /** Event used to count signups on dashboards. */
-  signup_event?: unknown;
+  signup_event?: unknown | undefined;
   /** Event used to count subscriptions on dashboards. */
-  subscription_event?: unknown;
+  subscription_event?: unknown | undefined;
   /** Event used to count payments on dashboards. */
-  payment_event?: unknown;
+  payment_event?: unknown | undefined;
   /** Index of the group type to treat as an Account in customer analytics. Must reference an existing group type configured for the project. */
-  account_group_type_index?: number | null;
+  account_group_type_index?: number | null | undefined;
   /** Ordered account properties shown until a user saves a personal pinned-property selection. Pass an empty list to show no properties by default. */
-  default_pinned_properties?: TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList;
+  default_pinned_properties?: TeamCustomerAnalyticsConfigDefaultPinnedPropertiesList | undefined;
 }
 /** * `off` - Off * `opt_out` - Opt Out * `opt_in` - Opt In */
 export type EmailTrackingConsentModeEnum = "off" | "opt_out" | "opt_in";
 export interface EmailUtmParams {
   /** Default utm_source. Supports Liquid variables. */
-  utm_source?: string;
+  utm_source?: string | undefined;
   /** Default utm_medium. Supports Liquid variables. */
-  utm_medium?: string;
+  utm_medium?: string | undefined;
   /** Default utm_campaign. Empty uses the broadcast or workflow name. Supports Liquid variables. */
-  utm_campaign?: string;
+  utm_campaign?: string | undefined;
   /** Default utm_content. Empty uses the email step name. Supports Liquid variables. */
-  utm_content?: string;
+  utm_content?: string | undefined;
 }
 export interface TeamWorkflowsConfig {
   /** When enabled, workflows engagement activity (email sends, opens, clicks, bounces, spam reports, unsubscribes) is captured as standard PostHog events ($workflows_email_*) alongside the existing workflow metrics. */
-  capture_workflows_engagement_events?: boolean;
+  capture_workflows_engagement_events?: boolean | undefined;
   /** Recipient-consent enforcement for open/click tracking on marketing workflow emails. 'off': no enforcement, tracking follows each email step's own setting. 'opt_out': track by default but not recipients who have opted out. 'opt_in': only track recipients who have explicitly opted in. Transactional emails are exempt from consent enforcement. * `off` - Off * `opt_out` - Opt Out * `opt_in` - Opt In */
-  email_tracking_consent_mode?: EmailTrackingConsentModeEnum | (string & {});
+  email_tracking_consent_mode?: EmailTrackingConsentModeEnum | (string & {}) | undefined;
   /** Whether new email steps and broadcasts start with UTM tags on their links. Each email can still change it. Existing emails change only through apply_utm_defaults. */
-  email_utm_tags_enabled?: boolean;
+  email_utm_tags_enabled?: boolean | undefined;
   /** Default UTM values that new email steps and broadcasts copy. An empty value keeps the built-in default for that tag. */
-  email_utm_params?: EmailUtmParams;
+  email_utm_params?: EmailUtmParams | undefined;
   /** How many AI tasks one workflow can create in a rolling 24 hours. Null uses the default of 100; zero pauses task creation for every workflow in the project. Support raises the limit above 500. */
-  workflow_task_rate_limit_per_day?: number | null;
+  workflow_task_rate_limit_per_day?: number | null | undefined;
   /** How many AI tasks all workflows in the project can create together in a rolling 24 hours. Null uses the default of 500; zero pauses task creation for the project. Support raises the limit above 2500. */
-  workflow_task_team_rate_limit_per_day?: number | null;
+  workflow_task_team_rate_limit_per_day?: number | null | undefined;
   /** How many Replay Vision scans one workflow can request in a rolling 24 hours. Null uses the default of 100; zero pauses scans for every workflow in the project. Support raises the limit above 500. */
-  replay_vision_scan_rate_limit_per_day?: number | null;
+  replay_vision_scan_rate_limit_per_day?: number | null | undefined;
   /** How many Replay Vision scans all workflows in the project request together in a rolling 24 hours. Null uses the default of 500; zero pauses scans for the project. Support raises the limit above 2500. */
-  replay_vision_scan_team_rate_limit_per_day?: number | null;
+  replay_vision_scan_team_rate_limit_per_day?: number | null | undefined;
   /** ID of the verified email integration that new broadcasts and workflow email steps use as their sender. Null means no default. Set automatically when the project's first email sender is verified, and cleared when that integration is deleted. */
-  default_email_integration_id?: number | null;
+  default_email_integration_id?: number | null | undefined;
   /** Most marketing messages one person can get in the window, across all workflows. Set this together with marketing_frequency_cap_window_days. Set both to null to turn the cap off. */
-  marketing_frequency_cap_max_messages?: number | null;
+  marketing_frequency_cap_max_messages?: number | null | undefined;
   /** Length of the rolling frequency cap window in days. Set this together with marketing_frequency_cap_max_messages. Set both to null to turn the cap off. */
-  marketing_frequency_cap_window_days?: number | null;
+  marketing_frequency_cap_window_days?: number | null | undefined;
   /** How many hours a marketing message over the frequency cap waits for a free slot before it is skipped. Null skips it right away. */
-  marketing_frequency_cap_hold_hours?: number | null;
+  marketing_frequency_cap_hold_hours?: number | null | undefined;
 }
 /** Domains to block from feature flag requests (/flags and /decide), up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with the Referer header when Origin is missing. Entries are stored lowercase without duplicates. A pasted URL is reduced to its domain, and an internationalized domain is stored as punycode. */
 export type TeamFeatureFlagPolicyConfigBlockedHostsList = Array<string>;
@@ -1942,11 +1944,11 @@ export type TeamFeatureFlagPolicyConfigBlockedHostsList = Array<string>;
 export type TeamFeatureFlagPolicyConfigBlockedIpsList = Array<string>;
 export interface TeamFeatureFlagPolicyConfig {
   /** When enabled, a new feature flag needs at least one tag, and a tagged flag cannot lose its last one. A create that declares it comes from a survey, experiment, early access feature, product tour, or web experiment is exempt, because those forms have no tag input. The caller sets that declaration, so a flag can still be created without a tag. */
-  require_tags?: boolean;
+  require_tags?: boolean | undefined;
   /** Domains to block from feature flag requests (/flags and /decide), up to 100. A domain also covers its subdomains. It is compared with the Origin header, or with the Referer header when Origin is missing. Entries are stored lowercase without duplicates. A pasted URL is reduced to its domain, and an internationalized domain is stored as punycode. */
-  blocked_hosts?: TeamFeatureFlagPolicyConfigBlockedHostsList;
+  blocked_hosts?: TeamFeatureFlagPolicyConfigBlockedHostsList | undefined;
   /** IPv4 or IPv6 addresses or CIDR ranges to block from feature flag requests (/flags and /decide), up to 100. Ranges can be /8 or narrower for IPv4 and /16 or narrower for IPv6. Entries are stored in canonical form without duplicates, and an IPv4-mapped IPv6 address is stored as IPv4. */
-  blocked_ips?: TeamFeatureFlagPolicyConfigBlockedIpsList;
+  blocked_ips?: TeamFeatureFlagPolicyConfigBlockedIpsList | undefined;
 }
 /** * `0` - Disabled * `1` - Stateless * `2` - Stateful */
 export type CookielessServerHashModeEnum = 0 | 1 | 2;
@@ -1954,105 +1956,123 @@ export interface CreateOrganizationsProjectRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: CreateOrganizationsProjectRequestTagsList;
-  app_urls?: CreateOrganizationsProjectRequestAppUrlsList;
+  tags?: CreateOrganizationsProjectRequestTagsList | undefined;
+  app_urls?: CreateOrganizationsProjectRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: CreateOrganizationsProjectRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | CreateOrganizationsProjectRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: CreateOrganizationsProjectRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: CreateOrganizationsProjectRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: CreateOrganizationsProjectRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | CreateOrganizationsProjectRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | CreateOrganizationsProjectRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | CreateOrganizationsProjectRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
-  live_events_columns?: CreateOrganizationsProjectRequestLiveEventsColumnsList | null;
+  primary_dashboard?: number | null | undefined;
+  live_events_columns?: CreateOrganizationsProjectRequestLiveEventsColumnsList | null | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: CreateOrganizationsProjectRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?: CreateOrganizationsProjectRequestRecordingDomainsList | null | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: CreateOrganizationsProjectRequestBusinessModel | null;
+  business_model?: CreateOrganizationsProjectRequestBusinessModel | null | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: CreateOrganizationsProjectRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | CreateOrganizationsProjectRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type ProjectBackwardCompatTagsList = Array<string>;
@@ -2069,10 +2089,10 @@ export type ProjectBackwardCompatLiveEventsColumnsList = Array<string>;
 export type ProjectBackwardCompatRecordingDomainsList = Array<string | null>;
 export type ProjectBackwardCompatDefaultModifiersMap = { [key: string]: unknown | undefined };
 export interface ProjectBackwardCompatProductIntentsItem {
-  product_type?: string;
-  created_at?: string;
-  onboarding_completed_at?: string | null;
-  updated_at?: string;
+  product_type?: string | undefined;
+  created_at?: string | undefined;
+  onboarding_completed_at?: string | null | undefined;
+  updated_at?: string | undefined;
 }
 export type ProjectBackwardCompatProductIntentsList =
   Array<ProjectBackwardCompatProductIntentsItem>;
@@ -2152,144 +2172,156 @@ export type ProjectBackwardCompatManagedViewsetsMap = { [key: string]: boolean |
 export type FlagEvaluationsModeEnum = 0 | 1 | 2;
 /** A project and its settings, including the settings that live on its passthrough Team. This shape is a superset of TeamSerializer's, so a request rewritten from /api/environments/ onto /api/projects/ never loses a field. */
 export interface ProjectBackwardCompat {
-  id?: number;
-  organization?: string;
+  id?: number | undefined;
+  organization?: string | undefined;
   /** Whether the project's organization approved AI data processing. AI features need this approval. */
   is_ai_data_processing_approved: boolean | null;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: ProjectBackwardCompatTagsList;
-  created_at?: string;
-  effective_membership_level?: OrganizationMembershipLevelEnum;
-  has_group_types?: boolean;
-  group_types?: ProjectBackwardCompatGroupTypesList;
-  live_events_token?: string | null;
-  updated_at?: string | null;
-  uuid?: string;
-  api_token?: string | Redacted.Redacted<string>;
-  app_urls?: ProjectBackwardCompatAppUrlsList;
+  tags?: ProjectBackwardCompatTagsList | undefined;
+  created_at?: string | undefined;
+  effective_membership_level?: OrganizationMembershipLevelEnum | undefined;
+  has_group_types?: boolean | undefined;
+  group_types?: ProjectBackwardCompatGroupTypesList | undefined;
+  live_events_token?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  uuid?: string | undefined;
+  api_token?: string | Redacted.Redacted<string> | undefined;
+  app_urls?: ProjectBackwardCompatAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
-  ingested_event?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
+  ingested_event?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum;
+  timezone?: TimezoneEnum | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: ProjectBackwardCompatPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | ProjectBackwardCompatPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: ProjectBackwardCompatSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: ProjectBackwardCompatSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: ProjectBackwardCompatSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | ProjectBackwardCompatSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | ProjectBackwardCompatSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | ProjectBackwardCompatSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum;
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | null;
+  week_start_day?: WeekStartDayEnum | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: ProjectBackwardCompatLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?: ProjectBackwardCompatLiveEventsColumnsList | null | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: ProjectBackwardCompatRecordingDomainsList | null;
-  person_on_events_querying_enabled?: boolean;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  default_modifiers?: ProjectBackwardCompatDefaultModifiersMap;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?: ProjectBackwardCompatRecordingDomainsList | null | undefined;
+  person_on_events_querying_enabled?: boolean | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  default_modifiers?: ProjectBackwardCompatDefaultModifiersMap | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
-  product_intents?: ProjectBackwardCompatProductIntentsList;
+  heatmaps_opt_in?: boolean | null | undefined;
+  product_intents?: ProjectBackwardCompatProductIntentsList | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  secret_api_token?: string | null;
-  secret_api_token_backup?: string | null;
+  flags_persistence_default?: boolean | null | undefined;
+  secret_api_token?: string | null | undefined;
+  secret_api_token_backup?: string | null | undefined;
   /** Value this project's heatmap screenshots send as a cookie scoped to your domain, so bot protection can allow them. Only project admins can read it; null for everyone else and when none has been generated. */
-  heatmaps_screenshot_secret?: string | Redacted.Redacted<string> | null;
-  receive_org_level_activity_logs?: boolean | null;
+  heatmaps_screenshot_secret?: string | Redacted.Redacted<string> | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: ProjectBackwardCompatBusinessModel | null;
+  business_model?: ProjectBackwardCompatBusinessModel | null | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: ProjectBackwardCompatConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  available_setup_task_ids?: ProjectBackwardCompatAvailableSetupTaskIdsList;
+  conversations_settings?: ProjectBackwardCompatConversationsSettingsMap | null | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  available_setup_task_ids?: ProjectBackwardCompatAvailableSetupTaskIdsList | undefined;
   /** Set to True when project deletion has been initiated. Blocks UI access to this project until the async task completes. */
-  is_pending_deletion?: boolean | null;
+  is_pending_deletion?: boolean | null | undefined;
   /** When the scheduled project deletion will run. */
-  deletion_scheduled_at?: string | null;
+  deletion_scheduled_at?: string | null | undefined;
   /** ID of the project this environment belongs to. */
-  project_id?: number;
+  project_id?: number | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
-  managed_viewsets?: ProjectBackwardCompatManagedViewsetsMap;
+  user_access_level?: string | null | undefined;
+  managed_viewsets?: ProjectBackwardCompatManagedViewsetsMap | undefined;
   /** Which table this project's feature flag usage data is read from. PostHog sets it for the whole organization. 0 reads the events table. 1 and 2 read the flag_evaluations table. */
-  flag_evaluations_mode?: FlagEvaluationsModeEnum;
+  flag_evaluations_mode?: FlagEvaluationsModeEnum | undefined;
   /** Host the PostHog SDKs send events to, set as their `api_host` option. It is `https://us.i.posthog.com` on US Cloud, `https://eu.i.posthog.com` on EU Cloud, and the instance URL when self-hosted. */
   api_host: string;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type CreateOrganizationsProjectsChangeOrganizationRequestTagsList = Array<string>;
@@ -2323,109 +2355,136 @@ export interface CreateOrganizationsProjectsChangeOrganizationRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: CreateOrganizationsProjectsChangeOrganizationRequestTagsList;
-  app_urls?: CreateOrganizationsProjectsChangeOrganizationRequestAppUrlsList;
+  tags?: CreateOrganizationsProjectsChangeOrganizationRequestTagsList | undefined;
+  app_urls?: CreateOrganizationsProjectsChangeOrganizationRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: CreateOrganizationsProjectsChangeOrganizationRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: CreateOrganizationsProjectsChangeOrganizationRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: CreateOrganizationsProjectsChangeOrganizationRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: CreateOrganizationsProjectsChangeOrganizationRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: CreateOrganizationsProjectsChangeOrganizationRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: CreateOrganizationsProjectsChangeOrganizationRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: CreateOrganizationsProjectsChangeOrganizationRequestBusinessModel | null;
+  business_model?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: CreateOrganizationsProjectsChangeOrganizationRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | CreateOrganizationsProjectsChangeOrganizationRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type CreateOrganizationsProjectsDefaultEvaluationContextRequestTagsList = Array<string>;
@@ -2461,109 +2520,136 @@ export interface CreateOrganizationsProjectsDefaultEvaluationContextRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: CreateOrganizationsProjectsDefaultEvaluationContextRequestTagsList;
-  app_urls?: CreateOrganizationsProjectsDefaultEvaluationContextRequestAppUrlsList;
+  tags?: CreateOrganizationsProjectsDefaultEvaluationContextRequestTagsList | undefined;
+  app_urls?: CreateOrganizationsProjectsDefaultEvaluationContextRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: CreateOrganizationsProjectsDefaultEvaluationContextRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: CreateOrganizationsProjectsDefaultEvaluationContextRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: CreateOrganizationsProjectsDefaultEvaluationContextRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: CreateOrganizationsProjectsDefaultEvaluationContextRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: CreateOrganizationsProjectsDefaultEvaluationContextRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: CreateOrganizationsProjectsDefaultEvaluationContextRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: CreateOrganizationsProjectsDefaultEvaluationContextRequestBusinessModel | null;
+  business_model?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: CreateOrganizationsProjectsDefaultEvaluationContextRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | CreateOrganizationsProjectsDefaultEvaluationContextRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 export interface CreateOrganizationsProjectsEvaluationContextSuggestionRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -2592,79 +2678,79 @@ export interface OrganizationAIAccessRequestResponse {
 export interface CreateRoleRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type RoleMembersItemMap = { [key: string]: unknown | undefined };
 /** Members assigned to this role */
 export type RoleMembersList = Array<RoleMembersItemMap>;
 export interface Role {
-  id?: string;
-  name?: string;
-  created_at?: string;
-  created_by?: UserBasic | null;
+  id?: string | undefined;
+  name?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
   /** Members assigned to this role */
-  members?: RoleMembersList;
-  is_default?: boolean;
+  members?: RoleMembersList | undefined;
+  is_default?: boolean | undefined;
 }
 export interface CreateRoleExternalReferenceRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Integration kind (e.g., github, linear, jira, slack). */
-  provider?: string;
+  provider?: string | undefined;
   /** Provider organization/workspace/site identifier. */
-  provider_organization_id?: string;
+  provider_organization_id?: string | undefined;
   /** Stable provider role identifier. */
-  provider_role_id?: string;
+  provider_role_id?: string | undefined;
   /** Human-friendly provider role identifier. */
-  provider_role_slug?: string | null;
+  provider_role_slug?: string | null | undefined;
   /** Display name of the provider role. */
-  provider_role_name?: string;
+  provider_role_name?: string | undefined;
   /** PostHog role UUID this external role maps to. */
-  role?: string;
+  role?: string | undefined;
 }
 export interface RoleExternalReference {
-  id?: string;
+  id?: string | undefined;
   /** Integration kind (e.g., github, linear, jira, slack). */
-  provider?: string;
+  provider?: string | undefined;
   /** Provider organization/workspace/site identifier. */
-  provider_organization_id?: string;
+  provider_organization_id?: string | undefined;
   /** Stable provider role identifier. */
-  provider_role_id?: string;
+  provider_role_id?: string | undefined;
   /** Human-friendly provider role identifier. */
-  provider_role_slug?: string | null;
+  provider_role_slug?: string | null | undefined;
   /** Display name of the provider role. */
-  provider_role_name?: string;
+  provider_role_name?: string | undefined;
   /** PostHog role UUID this external role maps to. */
-  role?: string;
-  created_at?: string;
-  created_by?: UserBasic | null;
+  role?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
 }
 export interface CreateRolesRoleMembershipRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   role_id: string;
-  user_uuid?: string;
+  user_uuid?: string | undefined;
 }
 export type SearchMatchTypeEnum = "exact" | "similar";
 export interface OrganizationMember {
-  id?: string;
-  user?: UserBasic | null;
-  level?: OrganizationMembershipLevelEnum;
-  joined_at?: string;
-  updated_at?: string;
-  is_2fa_enabled?: boolean;
-  has_social_auth?: boolean;
-  last_login?: string;
+  id?: string | undefined;
+  user?: UserBasic | null | undefined;
+  level?: OrganizationMembershipLevelEnum | undefined;
+  joined_at?: string | undefined;
+  updated_at?: string | undefined;
+  is_2fa_enabled?: boolean | undefined;
+  has_social_auth?: boolean | undefined;
+  last_login?: string | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
 }
 export interface RoleMembershipOutput {
-  id?: string;
-  role_id?: string;
-  organization_member?: OrganizationMember;
-  user?: UserBasic | null;
-  joined_at?: string;
-  updated_at?: string;
+  id?: string | undefined;
+  role_id?: string | undefined;
+  organization_member?: OrganizationMember | undefined;
+  user?: UserBasic | null | undefined;
+  joined_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CrossProjectDashboardsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -2699,9 +2785,9 @@ export interface DomainsVerifyCreateRequest {
   organization_id: string;
   /** A UUID string identifying this domain. */
   id: string;
-  domain?: string;
-  jit_provisioning_enabled?: boolean;
-  sso_enforcement?: string;
+  domain?: string | undefined;
+  jit_provisioning_enabled?: boolean | undefined;
+  sso_enforcement?: string | undefined;
 }
 export interface DomainsVerifyCreateResponse {}
 export interface GetRequest {
@@ -2716,12 +2802,12 @@ export interface ProductFeature {
   key: string;
   name: string;
   description: string;
-  unit?: string | null;
-  limit?: number | null;
-  note?: string | null;
-  is_plan_default?: boolean;
-  entitlement_only?: boolean | null;
-  category?: string | null;
+  unit?: string | null | undefined;
+  limit?: number | null | undefined;
+  note?: string | null | undefined;
+  is_plan_default?: boolean | undefined;
+  entitlement_only?: boolean | null | undefined;
+  category?: string | null | undefined;
 }
 export type BillingFeaturesAvailableProductFeaturesList = Array<ProductFeature>;
 export interface BillingFeatures {
@@ -2753,7 +2839,7 @@ export interface ForecastItem {
   usage_key: string | null;
   projected_usage: number | null;
   projected_amount_usd: string | null;
-  projected_amount_usd_with_limit?: string | null;
+  projected_amount_usd_with_limit?: string | null | undefined;
   tier_forecast: ForecastItemTierForecastList | null;
 }
 export type ProductForecastAddonsList = Array<ForecastItem>;
@@ -2763,7 +2849,7 @@ export interface ProductForecast {
   usage_key: string | null;
   projected_usage: number | null;
   projected_amount_usd: string | null;
-  projected_amount_usd_with_limit?: string | null;
+  projected_amount_usd_with_limit?: string | null | undefined;
   tier_forecast: ProductForecastTierForecastList | null;
   addons: ProductForecastAddonsList;
 }
@@ -2805,7 +2891,7 @@ export interface GetBillingProductRequest {
   /** The product's key. */
   product_key: string;
   /** Add the `plans` list to each product and add-on. Most of the payload. */
-  include_plans?: boolean;
+  include_plans?: boolean | undefined;
 }
 export interface PriceTier {
   flat_amount_usd: string;
@@ -2832,17 +2918,17 @@ export interface ProductPlan {
   contact_support: boolean | null;
   unit_amount_usd: string | null;
   current_plan: boolean;
-  initial_billing_limit?: number | null;
+  initial_billing_limit?: number | null | undefined;
 }
 export type BillingProductPlansList = Array<ProductPlan>;
 export interface ProductBaseFeature {
   key: string;
   name: string;
   description: string;
-  images?: unknown;
-  icon_key?: string | null;
-  type?: string | null;
-  category?: string | null;
+  images?: unknown | undefined;
+  icon_key?: string | null | undefined;
+  type?: string | null | undefined;
+  category?: string | null | undefined;
 }
 export type BillingProductFeaturesList = Array<ProductBaseFeature>;
 export interface ProductTrialConfig {
@@ -2874,7 +2960,7 @@ export interface BillingAddon {
   tiered: boolean;
   unit_amount_usd: string | null;
   tiers: BillingAddonTiersList | null;
-  plans?: BillingAddonPlansList;
+  plans?: BillingAddonPlansList | undefined;
   features: BillingAddonFeaturesList;
   trial: ProductTrialConfig | null;
   included_with_main_product: boolean;
@@ -2905,7 +2991,7 @@ export interface BillingProduct {
   tiered: boolean;
   unit_amount_usd: string | null;
   tiers: BillingProductTiersList | null;
-  plans?: BillingProductPlansList;
+  plans?: BillingProductPlansList | undefined;
   features: BillingProductFeaturesList;
   trial: ProductTrialConfig | null;
   headline: string | null;
@@ -2977,7 +3063,7 @@ export interface SpendItem {
   key: string;
   usage_key: string | null;
   current_amount_usd: string | null;
-  current_amount_usd_before_addons?: string | null;
+  current_amount_usd_before_addons?: string | null | undefined;
   tier_spend: SpendItemTierSpendList | null;
 }
 export type ProductSpendAddonsList = Array<SpendItem>;
@@ -2986,7 +3072,7 @@ export interface ProductSpend {
   key: string;
   usage_key: string | null;
   current_amount_usd: string | null;
-  current_amount_usd_before_addons?: string | null;
+  current_amount_usd_before_addons?: string | null | undefined;
   tier_spend: ProductSpendTierSpendList | null;
   addons: ProductSpendAddonsList;
 }
@@ -3002,34 +3088,34 @@ export interface GetBillingSpendTimeseriesRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** The cursor from a previous page's `next` link. Opaque. Ignored without `limit`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Series per page, ranked by total, with a `next` link for the page after. Requires a project breakdown and is ignored without one. Omit it to get every series at once. */
-  limit?: number;
+  limit?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export type BillingTimeSeriesPointDataList = Array<number>;
 export type BillingTimeSeriesPointDatesList = Array<string>;
 /** * `type` - type * `team` - team * `multiple` - multiple */
 export type BreakdownTypeEnum = "type" | "team" | "multiple";
 export interface BillingTimeSeriesPoint {
-  id?: number;
-  label?: string;
-  data?: BillingTimeSeriesPointDataList;
-  dates?: BillingTimeSeriesPointDatesList;
-  breakdown_type?: BreakdownTypeEnum | null;
-  breakdown_value?: unknown;
+  id?: number | undefined;
+  label?: string | undefined;
+  data?: BillingTimeSeriesPointDataList | undefined;
+  dates?: BillingTimeSeriesPointDatesList | undefined;
+  breakdown_type?: BreakdownTypeEnum | null | undefined;
+  breakdown_value?: unknown | undefined;
 }
 export type PaginatedBillingTimeSeriesPointListResultsList = Array<BillingTimeSeriesPoint>;
 export interface PaginatedBillingTimeSeriesPointList {
@@ -3073,7 +3159,7 @@ export interface BillingSubscription {
   startup_program_label: string | null;
   startup_program_label_previous: string | null;
   billing_portal_url: string;
-  invoices_url?: string;
+  invoices_url?: string | undefined;
   license: License;
   /** Set when a provisioning partner pays for this organization and the organization has no Stripe customer of its own. Self-serve subscription and payment changes are refused while it is set. Null otherwise. */
   billing_managed_by_partner: BillingManagedByPartner | null;
@@ -3118,7 +3204,7 @@ export interface UsageKeySummary {
   usage_key: string;
   usage: number | null;
   limit: number | null;
-  todays_usage?: number | null;
+  todays_usage?: number | null | undefined;
   quota_limited_until: string | null;
   quota_limiting_suspended_until: string | null;
 }
@@ -3162,22 +3248,22 @@ export interface GetBillingUsageTimeseriesRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** JSON-encoded array of breakdown dimensions. Omit it for one series across the whole organization. Pass `["type"]` for a series per product. Pass `["type","team"]` for a series per product per project. To break usage down by project, pass `"type"` with `"team"`: billing counts usage per product, and the counts do not add up across products. */
-  breakdowns?: string;
+  breakdowns?: string | undefined;
   /** The cursor from a previous page's `next` link. Opaque. Ignored without `limit`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
-  end_date?: string;
-  interval?: string;
+  end_date?: string | undefined;
+  interval?: string | undefined;
   /** Series per page, ranked by total, with a `next` link for the page after. Requires a project breakdown and is ignored without one. Omit it to get every series at once. */
-  limit?: number;
+  limit?: number | undefined;
   /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
-  top_projects?: number;
+  top_projects?: number | undefined;
   /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, signals_spend_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_and_traces_mb_in_period, logs_mb_in_period, apm_tracing_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
-  usage_types?: string;
+  usage_types?: string | undefined;
 }
 export interface GetCimdVerificationTokenRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -3223,19 +3309,19 @@ export interface GetDomainsScimLogRequest {
   /** A UUID string identifying this domain. */
   id: string;
   /** Include requests at or after this time. */
-  after?: string;
+  after?: string | undefined;
   /** Include requests at or before this time. */
-  before?: string;
+  before?: string | undefined;
   /** Page number to return. */
-  page?: number;
+  page?: number | undefined;
   /** Number of requests to return per page. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Search request paths and masked request bodies. */
-  search?: string;
+  search?: string | undefined;
   /** Maximum HTTP response status to include, such as 499. */
-  status_max?: number;
+  status_max?: number | undefined;
   /** Minimum HTTP response status to include, such as 400. */
-  status_min?: number;
+  status_min?: number | undefined;
 }
 export interface SCIMRequestLog {
   id: string;
@@ -3273,19 +3359,19 @@ export interface GetIdentityProviderConfigsScimLogRequest {
   /** A UUID string identifying this identity provider config. */
   id: string;
   /** Include requests at or after this time. */
-  after?: string;
+  after?: string | undefined;
   /** Include requests at or before this time. */
-  before?: string;
+  before?: string | undefined;
   /** Page number to return. */
-  page?: number;
+  page?: number | undefined;
   /** Number of requests to return per page. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Search request paths and masked request bodies. */
-  search?: string;
+  search?: string | undefined;
   /** Maximum HTTP response status to include, such as 499. */
-  status_max?: number;
+  status_max?: number | undefined;
   /** Minimum HTTP response status to include, such as 400. */
-  status_min?: number;
+  status_min?: number | undefined;
 }
 export interface GetLegalDocumentRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -3330,9 +3416,9 @@ export interface MemberOffboardingResource {
   /** When the subscription was created, if applicable. */
   created_at: string | null;
   /** Subscription delivery channel: email, slack, or teams. */
-  destination_type?: string | null;
+  destination_type?: string | null | undefined;
   /** Subscription recipients, Slack channels, or safe webhook host. */
-  destination?: string | null;
+  destination?: string | null | undefined;
   /** Whether all active public links require a password. */
   password_protected: boolean;
   /** Project-scoped path to open the resource in PostHog. */
@@ -3344,7 +3430,7 @@ export interface GetMembersProjectAccessRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Narrow the list to one organization membership id. */
-  member_id?: string;
+  member_id?: string | undefined;
 }
 /** * `object` - object * `parent_object` - parent_object * `resource` - resource * `parent_resource` - parent_resource * `system_default` - system_default * `org_admin` - org_admin * `creator` - creator * `org_membership` - org_membership */
 export type ResolvedAccessSourceEnum =
@@ -3655,7 +3741,7 @@ export interface GetOrganizationsProjectsAccessControlMemberRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Narrow the list to one organization membership id. */
-  member_id?: string;
+  member_id?: string | undefined;
 }
 /** The project access levels, lowest first. */
 export type AccessControlMembersResponseAvailableProjectLevelsList = Array<string>;
@@ -3752,7 +3838,7 @@ export interface GetOrganizationsProjectsAccessControlRoleRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Narrow the list to one role. */
-  role_id?: string;
+  role_id?: string | undefined;
 }
 /** The project access levels, lowest first. */
 export type AccessControlRolesResponseAvailableProjectLevelsList = Array<string>;
@@ -3873,7 +3959,7 @@ export interface TeamTracingConfig {
   /** Ordered list of span or resource attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the session ID under different attributes. */
   tracing_session_id_attribute_keys: TeamTracingConfigTracingSessionIdAttributeKeysList;
   /** How long spans are kept before they are deleted, in days. Applied at ingest, so a change only affects spans received after it. Can be changed at most once per 24 hours. Span retention rules override this period for the spans they match. */
-  retention_days?: number;
+  retention_days?: number | undefined;
   retention_last_updated: string | null;
 }
 export interface GetRoleRequest {
@@ -3890,13 +3976,13 @@ export interface GetRoleExternalReferencesLookupRequest {
   /** Provider organization/workspace/site identifier. */
   provider_organization_id: string;
   /** Stable provider role identifier. */
-  provider_role_id?: string;
+  provider_role_id?: string | undefined;
   /** Human-friendly provider role identifier. */
-  provider_role_slug?: string;
+  provider_role_slug?: string | undefined;
 }
 export interface RoleLookupResponse {
   /** Matching reference, or null if none exists. */
-  reference?: RoleExternalReference | null;
+  reference?: RoleExternalReference | null | undefined;
 }
 export interface GetRolesRoleMembershipRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -3944,54 +4030,54 @@ export interface GetWelcomeCurrentRequest {
   organization_id: string;
 }
 export interface WelcomeInviter {
-  name?: string;
-  email?: string;
+  name?: string | undefined;
+  email?: string | undefined;
 }
 /** * `today` - today * `this_week` - this_week * `inactive` - inactive * `never` - never */
 export type LastActiveEnum = "today" | "this_week" | "inactive" | "never";
 export interface WelcomeTeamMember {
-  name?: string;
-  email?: string;
-  avatar?: string | null;
-  role?: string;
-  last_active?: LastActiveEnum;
+  name?: string | undefined;
+  email?: string | undefined;
+  avatar?: string | null | undefined;
+  role?: string | undefined;
+  last_active?: LastActiveEnum | undefined;
 }
 export type WelcomeResponseTeamMembersList = Array<WelcomeTeamMember>;
 export interface WelcomeRecentActivity {
   /** Scope.activity pair, e.g. 'Insight.created'. */
-  type?: string;
-  actor_name?: string;
-  entity_name?: string;
-  entity_url?: string | null;
-  timestamp?: string;
+  type?: string | undefined;
+  actor_name?: string | undefined;
+  entity_name?: string | undefined;
+  entity_url?: string | null | undefined;
+  timestamp?: string | undefined;
 }
 export type WelcomeResponseRecentActivityList = Array<WelcomeRecentActivity>;
 export interface WelcomePopularDashboard {
-  id?: number;
-  name?: string;
-  description?: string;
-  team_id?: number;
-  url?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  team_id?: number | undefined;
+  url?: string | undefined;
 }
 export type WelcomeResponsePopularDashboardsList = Array<WelcomePopularDashboard>;
 export type WelcomeResponseProductsInUseList = Array<string>;
 export interface WelcomeSuggestedStep {
-  label?: string;
-  href?: string;
-  reason?: string;
-  docs_href?: string;
-  product_key?: string;
+  label?: string | undefined;
+  href?: string | undefined;
+  reason?: string | undefined;
+  docs_href?: string | undefined;
+  product_key?: string | undefined;
 }
 export type WelcomeResponseSuggestedNextStepsList = Array<WelcomeSuggestedStep>;
 export interface WelcomeResponse {
-  organization_name?: string;
-  inviter?: WelcomeInviter | null;
-  team_members?: WelcomeResponseTeamMembersList;
-  recent_activity?: WelcomeResponseRecentActivityList;
-  popular_dashboards?: WelcomeResponsePopularDashboardsList;
-  products_in_use?: WelcomeResponseProductsInUseList;
-  suggested_next_steps?: WelcomeResponseSuggestedNextStepsList;
-  is_organization_first_user?: boolean;
+  organization_name?: string | undefined;
+  inviter?: WelcomeInviter | null | undefined;
+  team_members?: WelcomeResponseTeamMembersList | undefined;
+  recent_activity?: WelcomeResponseRecentActivityList | undefined;
+  popular_dashboards?: WelcomeResponsePopularDashboardsList | undefined;
+  products_in_use?: WelcomeResponseProductsInUseList | undefined;
+  suggested_next_steps?: WelcomeResponseSuggestedNextStepsList | undefined;
+  is_organization_first_user?: boolean | undefined;
 }
 export interface IdentityProviderConfigsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4003,15 +4089,15 @@ export interface IdentityProviderConfigsDestroyResponse {}
 export interface InvitesBulkCreateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
-  target_email?: string;
-  first_name?: string;
-  level?: OrganizationMembershipLevelEnum | (number & {});
+  target_email?: string | undefined;
+  first_name?: string | undefined;
+  level?: OrganizationMembershipLevelEnum | (number & {}) | undefined;
   /** Optional personal message in the invite email. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** List of team IDs and corresponding access levels to private projects. */
-  private_project_access?: unknown;
-  send_email?: boolean;
-  combine_pending_invites?: boolean;
+  private_project_access?: unknown | undefined;
+  send_email?: boolean | undefined;
+  combine_pending_invites?: boolean | undefined;
 }
 export interface InvitesBulkCreateResponse {}
 export interface InvitesDestroyRequest {
@@ -4035,27 +4121,27 @@ export interface LegalDocumentsDownloadRetrieveRequest {
 export interface LegalDocumentsDownloadRetrieveResponse {}
 export interface ListRequest {
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedOrganizationListResultsList = Array<Organization>;
 export interface PaginatedOrganizationList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedOrganizationListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedOrganizationListResultsList | undefined;
 }
 export type ListBillingInvoicesRequestStatus = "open" | "paid" | "uncollectible" | "void";
 export interface ListBillingInvoicesRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** The cursor from a previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Invoices per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Only invoices in this state. * `open` - open * `paid` - paid * `uncollectible` - uncollectible * `void` - void */
-  status?: ListBillingInvoicesRequestStatus | (string & {});
+  status?: ListBillingInvoicesRequestStatus | (string & {}) | undefined;
 }
 /** * `open` - open * `paid` - paid * `uncollectible` - uncollectible * `void` - void */
 export type BillingInvoiceStatusEnum = "open" | "paid" | "uncollectible" | "void";
@@ -4083,7 +4169,7 @@ export interface ListBillingProductsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Add the `plans` list to each product and add-on. Most of the payload. */
-  include_plans?: boolean;
+  include_plans?: boolean | undefined;
 }
 export type BillingProductsResultsList = Array<BillingProduct>;
 export interface BillingProducts {
@@ -4110,24 +4196,24 @@ export interface ListCimdVerificationTokensRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedCIMDVerificationTokenListResultsList = Array<CIMDVerificationToken>;
 export interface PaginatedCIMDVerificationTokenList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCIMDVerificationTokenListResultsList;
 }
 export interface ListCrossProjectDashboardsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** A dashboard in the list. It counts its tiles instead of carrying them; read one dashboard for its tiles. */
 export interface CrossProjectDashboardListItem {
@@ -4154,8 +4240,8 @@ export type PaginatedCrossProjectDashboardListItemListResultsList =
   Array<CrossProjectDashboardListItem>;
 export interface PaginatedCrossProjectDashboardListItemList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCrossProjectDashboardListItemListResultsList;
 }
 export interface ListCrossProjectDashboardsTilesRequest {
@@ -4164,173 +4250,173 @@ export interface ListCrossProjectDashboardsTilesRequest {
   /** Id of the dashboard. */
   dashboard_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedCrossProjectDashboardTileListResultsList = Array<CrossProjectDashboardTile>;
 export interface PaginatedCrossProjectDashboardTileList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCrossProjectDashboardTileListResultsList;
 }
 export interface ListDomainsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedOrganizationDomainListResultsList = Array<OrganizationDomain>;
 export interface PaginatedOrganizationDomainList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedOrganizationDomainListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedOrganizationDomainListResultsList | undefined;
 }
 export interface ListIdentityProviderConfigsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedIdentityProviderConfigListOutputResultsList =
   Array<IdentityProviderConfigOutput>;
 export interface PaginatedIdentityProviderConfigListOutput {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedIdentityProviderConfigListOutputResultsList;
 }
 export interface ListInvitesRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedOrganizationInviteListOutputResultsList = Array<OrganizationInviteOutput>;
 export interface PaginatedOrganizationInviteListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedOrganizationInviteListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedOrganizationInviteListOutputResultsList | undefined;
 }
 export interface ListLegalDocumentsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLegalDocumentDTOListResultsList = Array<LegalDocumentDTO>;
 export interface PaginatedLegalDocumentDTOList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLegalDocumentDTOListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLegalDocumentDTOListResultsList | undefined;
 }
 export type ListMembersRequestOrder = "-joined_at" | "joined_at";
 export interface ListMembersRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Only return members whose email address is on this domain (case-insensitive). */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** Comma-separated membership levels to return, e.g. `1,8`. Levels are 1 member, 8 admin, 15 owner. */
-  levels?: string;
+  levels?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort order. Defaults to `-joined_at`. */
-  order?: ListMembersRequestOrder | (string & {});
+  order?: ListMembersRequestOrder | (string & {}) | undefined;
   /** When `true`, only return members whose email domain is not one of the organization's verified domains -- the members who would lose access under verified-domain enforcement. */
-  outside_verified_domains?: boolean;
+  outside_verified_domains?: boolean | undefined;
   /** Match against member `first_name`, `last_name`, and `email`. Returns exact (case-insensitive substring) matches only; if no exact match exists, returns similar (fuzzy trigram -- typos, prefix-as-you-type) matches instead. Each result's `search_match_type` is `exact` or `similar`. Capped at 200 characters. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedOrganizationMemberListResultsList = Array<OrganizationMember>;
 export interface PaginatedOrganizationMemberList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedOrganizationMemberListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedOrganizationMemberListResultsList | undefined;
 }
 export interface ListOauthApplicationsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type OrganizationOAuthApplicationRedirectUrisListList = Array<string>;
 /** Serializer for organization-scoped OAuth applications (read-only). */
 export interface OrganizationOAuthApplication {
-  id?: string;
-  name?: string;
-  client_id?: string;
-  redirect_uris_list?: OrganizationOAuthApplicationRedirectUrisListList;
+  id?: string | undefined;
+  name?: string | undefined;
+  client_id?: string | undefined;
+  redirect_uris_list?: OrganizationOAuthApplicationRedirectUrisListList | undefined;
   /** True if this application has been verified by PostHog */
-  is_verified?: boolean;
-  created?: string;
-  updated?: string;
+  is_verified?: boolean | undefined;
+  created?: string | undefined;
+  updated?: string | undefined;
 }
 export type PaginatedOrganizationOAuthApplicationListResultsList =
   Array<OrganizationOAuthApplication>;
 export interface PaginatedOrganizationOAuthApplicationList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedOrganizationOAuthApplicationListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedOrganizationOAuthApplicationListResultsList | undefined;
 }
 export type ListOrganizationsProjectsRequestTagsMatch = "all" | "any";
 export interface ListOrganizationsProjectsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
   /** Comma-separated tag names to filter by, for example `production,eu-region`. Names are trimmed and lowercased before matching. At most 20 distinct tags per request. */
-  tags?: string;
+  tags?: string | undefined;
   /** How to combine the `tags` filter. `all` (the default) returns projects carrying every listed tag; `any` returns projects carrying at least one. */
-  tags_match?: ListOrganizationsProjectsRequestTagsMatch | (string & {});
+  tags_match?: ListOrganizationsProjectsRequestTagsMatch | (string & {}) | undefined;
 }
 /** Labels applied to this project. */
 export type ProjectBackwardCompatBasicTagsList = Array<string>;
 /** Like `ProjectBasicSerializer`, but also works as a drop-in replacement for `TeamBasicSerializer` by way of passthrough fields. This allows the meaning of `Team` to change from "project" to "environment" without breaking backward compatibility of the REST API. Do not use this in greenfield endpoints! */
 export interface ProjectBackwardCompatBasic {
-  id?: number;
-  uuid?: string;
-  organization?: string;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  organization?: string | undefined;
   /** ID of the project this environment belongs to. */
-  project_id?: number;
-  api_token?: string | Redacted.Redacted<string>;
-  name?: string;
-  completed_snippet_onboarding?: boolean;
-  has_completed_onboarding_for?: unknown;
-  ingested_event?: boolean;
-  is_demo?: boolean;
-  timezone?: TimezoneEnum;
-  access_control?: boolean;
+  project_id?: number | undefined;
+  api_token?: string | Redacted.Redacted<string> | undefined;
+  name?: string | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
+  ingested_event?: boolean | undefined;
+  is_demo?: boolean | undefined;
+  timezone?: TimezoneEnum | undefined;
+  access_control?: boolean | undefined;
   /** Labels applied to this project. */
-  tags?: ProjectBackwardCompatBasicTagsList;
+  tags?: ProjectBackwardCompatBasicTagsList | undefined;
 }
 export type PaginatedProjectBackwardCompatBasicListResultsList = Array<ProjectBackwardCompatBasic>;
 export interface PaginatedProjectBackwardCompatBasicList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedProjectBackwardCompatBasicListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedProjectBackwardCompatBasicListResultsList | undefined;
 }
 export interface ListOrganizationsProjectsEventIngestionRestrictionsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4338,7 +4424,7 @@ export interface ListOrganizationsProjectsEventIngestionRestrictionsRequest {
   /** A unique value identifying this project. */
   id: number;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 /** * `skip_person_processing` - Skip Person Processing * `drop_event_from_ingestion` - Drop Event From Ingestion * `force_overflow_from_ingestion` - Force Overflow From Ingestion * `redirect_to_dlq` - Redirect To Dlq * `redirect_to_topic` - Redirect To Topic */
 export type RestrictionTypeEnum =
@@ -4387,47 +4473,47 @@ export interface ListRoleExternalReferencesRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedRoleExternalReferenceListResultsList = Array<RoleExternalReference>;
 export interface PaginatedRoleExternalReferenceList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedRoleExternalReferenceListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedRoleExternalReferenceListResultsList | undefined;
 }
 export interface ListRolesRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedRoleListResultsList = Array<Role>;
 export interface PaginatedRoleList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedRoleListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedRoleListResultsList | undefined;
 }
 export interface ListRolesRoleMembershipsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   role_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedRoleMembershipListOutputResultsList = Array<RoleMembershipOutput>;
 export interface PaginatedRoleMembershipListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedRoleMembershipListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedRoleMembershipListOutputResultsList | undefined;
 }
 export interface MembersDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4469,109 +4555,136 @@ export interface OrganizationsProjectsAddProductIntentPartialUpdateRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: OrganizationsProjectsAddProductIntentPartialUpdateRequestTagsList;
-  app_urls?: OrganizationsProjectsAddProductIntentPartialUpdateRequestAppUrlsList;
+  tags?: OrganizationsProjectsAddProductIntentPartialUpdateRequestTagsList | undefined;
+  app_urls?: OrganizationsProjectsAddProductIntentPartialUpdateRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: OrganizationsProjectsAddProductIntentPartialUpdateRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: OrganizationsProjectsAddProductIntentPartialUpdateRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: OrganizationsProjectsAddProductIntentPartialUpdateRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: OrganizationsProjectsAddProductIntentPartialUpdateRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: OrganizationsProjectsAddProductIntentPartialUpdateRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: OrganizationsProjectsAddProductIntentPartialUpdateRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: OrganizationsProjectsAddProductIntentPartialUpdateRequestBusinessModel | null;
+  business_model?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: OrganizationsProjectsAddProductIntentPartialUpdateRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | OrganizationsProjectsAddProductIntentPartialUpdateRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 export interface OrganizationsProjectsCancelDeletionCreateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4585,17 +4698,17 @@ export type ProjectTagsList = Array<string>;
 export interface Project {
   id: number;
   organization_id: string;
-  name?: string;
+  name?: string | undefined;
   /** ID of the uploaded image shown as this project's logo. Null when the project has no logo. */
   logo_media_id: string | null;
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   created_at: string;
   /** Set to True when project deletion has been initiated. Blocks UI access to this project until the async task completes. */
   is_pending_deletion: boolean | null;
   /** When the scheduled project deletion will run. */
   deletion_scheduled_at: string | null;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: ProjectTagsList;
+  tags?: ProjectTagsList | undefined;
 }
 export interface OrganizationsProjectsDefaultEvaluationContextsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4637,109 +4750,138 @@ export interface OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateReques
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestTagsList;
-  app_urls?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestAppUrlsList;
+  tags?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestTagsList | undefined;
+  app_urls?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestAppUrlsList
+    | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel | null;
+  business_model?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 export interface OrganizationsProjectsDestroyRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -4789,109 +4931,138 @@ export interface OrganizationsProjectsGenerateConversationsPublicTokenCreateRequ
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestTagsList;
-  app_urls?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestAppUrlsList;
+  tags?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestTagsList | undefined;
+  app_urls?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestAppUrlsList
+    | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestBusinessModel | null;
+  business_model?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type OrganizationsProjectsResetTokenPartialUpdateRequestTagsList = Array<string>;
@@ -4925,109 +5096,136 @@ export interface OrganizationsProjectsResetTokenPartialUpdateRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: OrganizationsProjectsResetTokenPartialUpdateRequestTagsList;
-  app_urls?: OrganizationsProjectsResetTokenPartialUpdateRequestAppUrlsList;
+  tags?: OrganizationsProjectsResetTokenPartialUpdateRequestTagsList | undefined;
+  app_urls?: OrganizationsProjectsResetTokenPartialUpdateRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: OrganizationsProjectsResetTokenPartialUpdateRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: OrganizationsProjectsResetTokenPartialUpdateRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: OrganizationsProjectsResetTokenPartialUpdateRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: OrganizationsProjectsResetTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: OrganizationsProjectsResetTokenPartialUpdateRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: OrganizationsProjectsResetTokenPartialUpdateRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: OrganizationsProjectsResetTokenPartialUpdateRequestBusinessModel | null;
+  business_model?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: OrganizationsProjectsResetTokenPartialUpdateRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | OrganizationsProjectsResetTokenPartialUpdateRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 export interface OrganizationsProjectsRotateHeatmapsScreenshotSecretPartialUpdateRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5069,109 +5267,136 @@ export interface OrganizationsProjectsRotateSecretTokenPartialUpdateRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestTagsList;
-  app_urls?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestAppUrlsList;
+  tags?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestTagsList | undefined;
+  app_urls?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel | null;
+  business_model?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | OrganizationsProjectsRotateSecretTokenPartialUpdateRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 export interface RemoveBlockedMembersAndEnforceVerifiedDomainsCreateRequest {
   /** A UUID string identifying this organization. */
@@ -5208,29 +5433,29 @@ export interface RolesRoleMembershipsDestroyResponse {}
 export interface UpdateRequest {
   /** A UUID string identifying this organization. */
   id: string;
-  name?: string;
-  logo_media_id?: string | null;
-  enforce_2fa?: boolean | null;
+  name?: string | undefined;
+  logo_media_id?: string | null | undefined;
+  enforce_2fa?: boolean | null | undefined;
   /** When True, logins, signups, and invites for this organization are restricted to email addresses on its verified domains. */
-  enforce_verified_domains?: boolean | null;
-  members_can_invite?: boolean | null;
+  enforce_verified_domains?: boolean | null | undefined;
+  members_can_invite?: boolean | null | undefined;
   /** When True, organization members (below admin) are allowed to create new projects. Admins and owners can always create projects. */
-  members_can_create_projects?: boolean | null;
-  members_can_use_personal_api_keys?: boolean;
+  members_can_create_projects?: boolean | null | undefined;
+  members_can_use_personal_api_keys?: boolean | undefined;
   /** When False, members (below admin) only see themselves in the members list and only project members in access control. */
-  members_can_see_org_members?: boolean;
-  allow_publicly_shared_resources?: boolean;
+  members_can_see_org_members?: boolean | undefined;
+  allow_publicly_shared_resources?: boolean | undefined;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
-  read_only_mcp_access?: boolean | null;
+  read_only_mcp_access?: boolean | null | undefined;
   /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
-  member_notice?: OrganizationMemberNotice | null;
-  is_ai_data_processing_approved?: boolean | null;
+  member_notice?: OrganizationMemberNotice | null | undefined;
+  is_ai_data_processing_approved?: boolean | null | undefined;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
-  is_ai_training_opted_in?: boolean | null;
+  is_ai_training_opted_in?: boolean | null | undefined;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
-  default_anonymize_ips?: boolean;
+  default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
-  default_role_id?: string | null;
+  default_role_id?: string | null | undefined;
 }
 export interface UpdateCimdVerificationTokensPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5238,7 +5463,7 @@ export interface UpdateCimdVerificationTokensPartialRequest {
   /** A UUID string identifying this CIMD Verification Token. */
   id: string;
   /** HTTPS URL of the CIMD metadata document to bind this token to. Only settable once, on a token with no existing binding; an already-bound token must be reissued instead. */
-  cimd_url?: string;
+  cimd_url?: string | undefined;
 }
 export interface UpdateCrossProjectDashboardsPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5246,11 +5471,11 @@ export interface UpdateCrossProjectDashboardsPartialRequest {
   /** Id of the dashboard. */
   id: string;
   /** Name shown in the dashboard list and page header. */
-  name?: string;
+  name?: string | undefined;
   /** Optional longer description. */
-  description?: string;
+  description?: string | undefined;
   /** Dashboard-level filters applied to every tile. Supports a date range, an interval, and property filters that refer to a property by name. Filters carrying a project-specific id are rejected. */
-  filters?: unknown;
+  filters?: unknown | undefined;
 }
 export interface UpdateCrossProjectDashboardsTilesPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5260,29 +5485,29 @@ export interface UpdateCrossProjectDashboardsTilesPartialRequest {
   /** Id of the tile. */
   id: string;
   /** Grid position and size of the tile, keyed by layout size. */
-  layouts?: unknown;
+  layouts?: unknown | undefined;
   /** Optional color applied to the tile. */
-  color?: string | null;
+  color?: string | null | undefined;
   /** Filters applied to this tile only, overriding the dashboard's. Supports a date range and an interval. Filters carrying a project-specific id are rejected. */
-  filters_overrides?: unknown;
+  filters_overrides?: unknown | undefined;
 }
 export interface UpdateDomainRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** A UUID string identifying this domain. */
   id: string;
-  domain?: string;
-  jit_provisioning_enabled?: boolean;
-  sso_enforcement?: string;
+  domain?: string | undefined;
+  jit_provisioning_enabled?: boolean | undefined;
+  sso_enforcement?: string | undefined;
 }
 export interface UpdateDomainsPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** A UUID string identifying this domain. */
   id: string;
-  domain?: string;
-  jit_provisioning_enabled?: boolean;
-  sso_enforcement?: string;
+  domain?: string | undefined;
+  jit_provisioning_enabled?: boolean | undefined;
+  sso_enforcement?: string | undefined;
 }
 /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
 export type UpdateIdentityProviderConfigRequestDomainScope = DomainScopeEnum | BlankEnum;
@@ -5298,33 +5523,35 @@ export interface UpdateIdentityProviderConfigRequest {
   /** A UUID string identifying this identity provider config. */
   id: string;
   /** Display name for this IdP configuration (e.g. 'Okta production'). */
-  name?: string;
+  name?: string | undefined;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
-  domain_scope?: UpdateIdentityProviderConfigRequestDomainScope | null;
+  domain_scope?: UpdateIdentityProviderConfigRequestDomainScope | null | undefined;
   /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
-  config_scope?: UpdateIdentityProviderConfigRequestConfigScope | null;
+  config_scope?: UpdateIdentityProviderConfigRequestConfigScope | null | undefined;
   /** Organization domain IDs that this identity provider configuration applies to. */
-  organization_domain_ids?: UpdateIdentityProviderConfigRequestOrganizationDomainIdsList;
+  organization_domain_ids?:
+    | UpdateIdentityProviderConfigRequestOrganizationDomainIdsList
+    | undefined;
   /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
-  oidc_issuer_url?: string;
+  oidc_issuer_url?: string | undefined;
   /** Client ID of the organization's OIDC application. */
-  oidc_client_id?: string;
+  oidc_client_id?: string | undefined;
   /** OIDC client secret. Omit to keep the saved secret. Set to an empty string to remove it. Never returned in responses. */
-  oidc_client_secret?: string | Redacted.Redacted<string>;
+  oidc_client_secret?: string | Redacted.Redacted<string> | undefined;
   /** SAML IdP entity ID (issuer). */
-  saml_entity_id?: string | null;
+  saml_entity_id?: string | null | undefined;
   /** SAML single sign-on (ACS) URL the IdP redirects to. */
-  saml_acs_url?: string | null;
+  saml_acs_url?: string | null | undefined;
   /** SAML IdP X.509 signing certificate (PEM). */
-  saml_x509_cert?: string | null;
+  saml_x509_cert?: string | null | undefined;
   /** Whether SCIM provisioning is enabled. Setting this true generates a bearer token (returned once); setting it false clears the token. */
-  scim_enabled?: boolean;
+  scim_enabled?: boolean | undefined;
   /** Trusted IdP issuer URL for ID-JAG (XAA). Required to enable ID-JAG. */
-  id_jag_issuer_url?: string | null;
+  id_jag_issuer_url?: string | null | undefined;
   /** Override JWKS URL. Defaults to OIDC discovery on the issuer URL. */
-  id_jag_jwks_url?: string | null;
+  id_jag_jwks_url?: string | null | undefined;
   /** Allowed ID-JAG client IDs. Empty list allows any client_id. */
-  id_jag_allowed_clients?: UpdateIdentityProviderConfigRequestIdJagAllowedClientsList;
+  id_jag_allowed_clients?: UpdateIdentityProviderConfigRequestIdJagAllowedClientsList | undefined;
 }
 /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
 export type UpdateIdentityProviderConfigsPartialRequestDomainScope = DomainScopeEnum | BlankEnum;
@@ -5340,33 +5567,37 @@ export interface UpdateIdentityProviderConfigsPartialRequest {
   /** A UUID string identifying this identity provider config. */
   id: string;
   /** Display name for this IdP configuration (e.g. 'Okta production'). */
-  name?: string;
+  name?: string | undefined;
   /** Domains this configuration applies to. An unset value behaves like selected domains. * `all` - All * `selected` - Selected */
-  domain_scope?: UpdateIdentityProviderConfigsPartialRequestDomainScope | null;
+  domain_scope?: UpdateIdentityProviderConfigsPartialRequestDomainScope | null | undefined;
   /** Feature configured by this identity provider configuration. * `saml` - Saml * `oidc` - Oidc * `scim` - Scim * `xaa` - Xaa */
-  config_scope?: UpdateIdentityProviderConfigsPartialRequestConfigScope | null;
+  config_scope?: UpdateIdentityProviderConfigsPartialRequestConfigScope | null | undefined;
   /** Organization domain IDs that this identity provider configuration applies to. */
-  organization_domain_ids?: UpdateIdentityProviderConfigsPartialRequestOrganizationDomainIdsList;
+  organization_domain_ids?:
+    | UpdateIdentityProviderConfigsPartialRequestOrganizationDomainIdsList
+    | undefined;
   /** HTTPS issuer URL. Must exactly match the issuer in the OIDC discovery document. */
-  oidc_issuer_url?: string;
+  oidc_issuer_url?: string | undefined;
   /** Client ID of the organization's OIDC application. */
-  oidc_client_id?: string;
+  oidc_client_id?: string | undefined;
   /** OIDC client secret. Omit to keep the saved secret. Set to an empty string to remove it. Never returned in responses. */
-  oidc_client_secret?: string | Redacted.Redacted<string>;
+  oidc_client_secret?: string | Redacted.Redacted<string> | undefined;
   /** SAML IdP entity ID (issuer). */
-  saml_entity_id?: string | null;
+  saml_entity_id?: string | null | undefined;
   /** SAML single sign-on (ACS) URL the IdP redirects to. */
-  saml_acs_url?: string | null;
+  saml_acs_url?: string | null | undefined;
   /** SAML IdP X.509 signing certificate (PEM). */
-  saml_x509_cert?: string | null;
+  saml_x509_cert?: string | null | undefined;
   /** Whether SCIM provisioning is enabled. Setting this true generates a bearer token (returned once); setting it false clears the token. */
-  scim_enabled?: boolean;
+  scim_enabled?: boolean | undefined;
   /** Trusted IdP issuer URL for ID-JAG (XAA). Required to enable ID-JAG. */
-  id_jag_issuer_url?: string | null;
+  id_jag_issuer_url?: string | null | undefined;
   /** Override JWKS URL. Defaults to OIDC discovery on the issuer URL. */
-  id_jag_jwks_url?: string | null;
+  id_jag_jwks_url?: string | null | undefined;
   /** Allowed ID-JAG client IDs. Empty list allows any client_id. */
-  id_jag_allowed_clients?: UpdateIdentityProviderConfigsPartialRequestIdJagAllowedClientsList;
+  id_jag_allowed_clients?:
+    | UpdateIdentityProviderConfigsPartialRequestIdJagAllowedClientsList
+    | undefined;
 }
 export interface UpdateIntegrationsEnvironmentMappingPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5378,25 +5609,25 @@ export interface UpdateIntegrationsEnvironmentMappingPartialRequest {
 export type OrganizationIntegrationKindEnum = "vercel";
 /** Serializer for organization-level integrations. */
 export interface OrganizationIntegration {
-  id?: string;
-  kind?: OrganizationIntegrationKindEnum;
-  integration_id?: string | null;
-  config?: unknown;
-  created_at?: string;
-  updated_at?: string;
-  created_by?: UserBasic | null;
+  id?: string | undefined;
+  kind?: OrganizationIntegrationKindEnum | undefined;
+  integration_id?: string | null | undefined;
+  config?: unknown | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
 }
 export interface UpdateMemberRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   user__uuid: string;
-  level?: OrganizationMembershipLevelEnum | (number & {});
+  level?: OrganizationMembershipLevelEnum | (number & {}) | undefined;
 }
 export interface UpdateMembersPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   user__uuid: string;
-  level?: OrganizationMembershipLevelEnum | (number & {});
+  level?: OrganizationMembershipLevelEnum | (number & {}) | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type UpdateOrganizationsProjectRequestTagsList = Array<string>;
@@ -5424,109 +5655,127 @@ export interface UpdateOrganizationsProjectRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: UpdateOrganizationsProjectRequestTagsList;
-  app_urls?: UpdateOrganizationsProjectRequestAppUrlsList;
+  tags?: UpdateOrganizationsProjectRequestTagsList | undefined;
+  app_urls?: UpdateOrganizationsProjectRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: UpdateOrganizationsProjectRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | UpdateOrganizationsProjectRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: UpdateOrganizationsProjectRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: UpdateOrganizationsProjectRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: UpdateOrganizationsProjectRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | UpdateOrganizationsProjectRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | UpdateOrganizationsProjectRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | UpdateOrganizationsProjectRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: UpdateOrganizationsProjectRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?: UpdateOrganizationsProjectRequestLiveEventsColumnsList | null | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: UpdateOrganizationsProjectRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?: UpdateOrganizationsProjectRequestRecordingDomainsList | null | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: UpdateOrganizationsProjectRequestBusinessModel | null;
+  business_model?: UpdateOrganizationsProjectRequestBusinessModel | null | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: UpdateOrganizationsProjectRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | UpdateOrganizationsProjectRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 export interface UpdateOrganizationsProjectsAccessControlManagementRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -5569,109 +5818,138 @@ export interface UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequ
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestTagsList;
-  app_urls?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestAppUrlsList;
+  tags?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestTagsList | undefined;
+  app_urls?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestAppUrlsList
+    | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestBusinessModel | null;
+  business_model?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type UpdateOrganizationsProjectsDefaultReleaseConditionRequestTagsList = Array<string>;
@@ -5707,109 +5985,136 @@ export interface UpdateOrganizationsProjectsDefaultReleaseConditionRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestTagsList;
-  app_urls?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestAppUrlsList;
+  tags?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestTagsList | undefined;
+  app_urls?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestBusinessModel | null;
+  business_model?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: UpdateOrganizationsProjectsDefaultReleaseConditionRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | UpdateOrganizationsProjectsDefaultReleaseConditionRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type UpdateOrganizationsProjectsExperimentsConfigPartialRequestTagsList = Array<string>;
@@ -5845,109 +6150,136 @@ export interface UpdateOrganizationsProjectsExperimentsConfigPartialRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestTagsList;
-  app_urls?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestAppUrlsList;
+  tags?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestTagsList | undefined;
+  app_urls?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestBusinessModel | null;
+  business_model?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestBusinessModel
+    | null
+    | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: UpdateOrganizationsProjectsExperimentsConfigPartialRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | UpdateOrganizationsProjectsExperimentsConfigPartialRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Log attribute keys whose values should match a person's distinct_id -- a log links to a person when any of these attributes equals one of their distinct IDs. Used by the person profile Logs tab and the `query-logs` MCP tool. Defaults to ['posthogDistinctId'] -- the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the person identifier under different attributes. */
 export type UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList =
@@ -5964,11 +6296,17 @@ export interface UpdateOrganizationsProjectsLogsConfigPartialRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Log attribute keys whose values should match a person's distinct_id -- a log links to a person when any of these attributes equals one of their distinct IDs. Used by the person profile Logs tab and the `query-logs` MCP tool. Defaults to ['posthogDistinctId'] -- the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the person identifier under different attributes. */
-  logs_distinct_id_attribute_keys?: UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList;
+  logs_distinct_id_attribute_keys?:
+    | UpdateOrganizationsProjectsLogsConfigPartialRequestLogsDistinctIdAttributeKeysList
+    | undefined;
   /** Ordered list of log attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'] -- the convention documented at https://posthog.com/docs/logs/link-session-replay and the key the posthog-js / posthog-react-native SDKs auto-attach. Add keys only if your pipeline emits the session ID under different attributes. */
-  logs_session_id_attribute_keys?: UpdateOrganizationsProjectsLogsConfigPartialRequestLogsSessionIdAttributeKeysList;
+  logs_session_id_attribute_keys?:
+    | UpdateOrganizationsProjectsLogsConfigPartialRequestLogsSessionIdAttributeKeysList
+    | undefined;
   /** Ordered list of top-level JSON keys whose value is the message text that log patterns are derived from. Keys are matched literally at the top level of the log body; a dot in a key is part of the key name, not a path into nested objects. Selection checks keys in order; the first key whose value is a non-empty string wins. Defaults to ['message', 'msg', 'event']. An empty list turns message extraction off, so JSON log bodies group by their key set instead. The stored log body is never changed by this setting. */
-  logs_pattern_message_keys?: UpdateOrganizationsProjectsLogsConfigPartialRequestLogsPatternMessageKeysList;
+  logs_pattern_message_keys?:
+    | UpdateOrganizationsProjectsLogsConfigPartialRequestLogsPatternMessageKeysList
+    | undefined;
 }
 /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
 export type UpdateOrganizationsProjectsPartialRequestTagsList = Array<string>;
@@ -5998,109 +6336,133 @@ export interface UpdateOrganizationsProjectsPartialRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Project name. Must be unique within the organization (case-insensitive). If omitted on creation, a unique default name is generated. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an image uploaded to this project, shown as the project's logo. Set to null to show a lettermark instead. */
-  logo_media_id?: string | null;
+  logo_media_id?: string | null | undefined;
   /** Short description of what the project is about. This is helpful to give our AI agents context about your project. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Labels applied to this project. Names are trimmed and lowercased, and sending this field replaces the project's existing tags. */
-  tags?: UpdateOrganizationsProjectsPartialRequestTagsList;
-  app_urls?: UpdateOrganizationsProjectsPartialRequestAppUrlsList;
+  tags?: UpdateOrganizationsProjectsPartialRequestTagsList | undefined;
+  app_urls?: UpdateOrganizationsProjectsPartialRequestAppUrlsList | undefined;
   /** When true, PostHog drops the IP address from every ingested event. */
-  anonymize_ips?: boolean;
-  completed_snippet_onboarding?: boolean;
+  anonymize_ips?: boolean | undefined;
+  completed_snippet_onboarding?: boolean | undefined;
   /** Filter groups that identify internal/test traffic to be excluded from insights. */
-  test_account_filters?: unknown;
+  test_account_filters?: unknown | undefined;
   /** When true, new insights default to excluding internal/test users. */
-  test_account_filters_default_checked?: boolean | null;
+  test_account_filters_default_checked?: boolean | null | undefined;
   /** Regex rewrite rules that collapse dynamic path segments (e.g. user IDs) before displaying URLs in paths. */
-  path_cleaning_filters?: unknown;
-  is_demo?: boolean;
+  path_cleaning_filters?: unknown | undefined;
+  is_demo?: boolean | undefined;
   /** IANA timezone used for date-based filters and reporting (e.g. `America/Los_Angeles`). * `Africa/Abidjan` - Africa/Abidjan * `Africa/Accra` - Africa/Accra * `Africa/Addis_Ababa` - Africa/Addis_Ababa * `Africa/Algiers` - Africa/Algiers * `Africa/Asmara` - Africa/Asmara * `Africa/Asmera` - Africa/Asmera * `Africa/Bamako` - Africa/Bamako * `Africa/Bangui` - Africa/Bangui * `Africa/Banjul` - Africa/Banjul * `Africa/Bissau` - Africa/Bissau * `Africa/Blantyre` - Africa/Blantyre * `Africa/Brazzaville` - Africa/Brazzaville * `Africa/Bujumbura` - Africa/Bujumbura * `Africa/Cairo` - Africa/Cairo * `Africa/Casablanca` - Africa/Casablanca * `Africa/Ceuta` - Africa/Ceuta * `Africa/Conakry` - Africa/Conakry * `Africa/Dakar` - Africa/Dakar * `Africa/Dar_es_Salaam` - Africa/Dar_es_Salaam * `Africa/Djibouti` - Africa/Djibouti * `Africa/Douala` - Africa/Douala * `Africa/El_Aaiun` - Africa/El_Aaiun * `Africa/Freetown` - Africa/Freetown * `Africa/Gaborone` - Africa/Gaborone * `Africa/Harare` - Africa/Harare * `Africa/Johannesburg` - Africa/Johannesburg * `Africa/Juba` - Africa/Juba * `Africa/Kampala` - Africa/Kampala * `Africa/Khartoum` - Africa/Khartoum * `Africa/Kigali` - Africa/Kigali * `Africa/Kinshasa` - Africa/Kinshasa * `Africa/Lagos` - Africa/Lagos * `Africa/Libreville` - Africa/Libreville * `Africa/Lome` - Africa/Lome * `Africa/Luanda` - Africa/Luanda * `Africa/Lubumbashi` - Africa/Lubumbashi * `Africa/Lusaka` - Africa/Lusaka * `Africa/Malabo` - Africa/Malabo * `Africa/Maputo` - Africa/Maputo * `Africa/Maseru` - Africa/Maseru * `Africa/Mbabane` - Africa/Mbabane * `Africa/Mogadishu` - Africa/Mogadishu * `Africa/Monrovia` - Africa/Monrovia * `Africa/Nairobi` - Africa/Nairobi * `Africa/Ndjamena` - Africa/Ndjamena * `Africa/Niamey` - Africa/Niamey * `Africa/Nouakchott` - Africa/Nouakchott * `Africa/Ouagadougou` - Africa/Ouagadougou * `Africa/Porto-Novo` - Africa/Porto-Novo * `Africa/Sao_Tome` - Africa/Sao_Tome * `Africa/Timbuktu` - Africa/Timbuktu * `Africa/Tripoli` - Africa/Tripoli * `Africa/Tunis` - Africa/Tunis * `Africa/Windhoek` - Africa/Windhoek * `America/Adak` - America/Adak * `America/Anchorage` - America/Anchorage * `America/Anguilla` - America/Anguilla * `America/Antigua` - America/Antigua * `America/Araguaina` - America/Araguaina * `America/Argentina/Buenos_Aires` - America/Argentina/Buenos_Aires * `America/Argentina/Catamarca` - America/Argentina/Catamarca * `America/Argentina/ComodRivadavia` - America/Argentina/ComodRivadavia * `America/Argentina/Cordoba` - America/Argentina/Cordoba * `America/Argentina/Jujuy` - America/Argentina/Jujuy * `America/Argentina/La_Rioja` - America/Argentina/La_Rioja * `America/Argentina/Mendoza` - America/Argentina/Mendoza * `America/Argentina/Rio_Gallegos` - America/Argentina/Rio_Gallegos * `America/Argentina/Salta` - America/Argentina/Salta * `America/Argentina/San_Juan` - America/Argentina/San_Juan * `America/Argentina/San_Luis` - America/Argentina/San_Luis * `America/Argentina/Tucuman` - America/Argentina/Tucuman * `America/Argentina/Ushuaia` - America/Argentina/Ushuaia * `America/Aruba` - America/Aruba * `America/Asuncion` - America/Asuncion * `America/Atikokan` - America/Atikokan * `America/Atka` - America/Atka * `America/Bahia` - America/Bahia * `America/Bahia_Banderas` - America/Bahia_Banderas * `America/Barbados` - America/Barbados * `America/Belem` - America/Belem * `America/Belize` - America/Belize * `America/Blanc-Sablon` - America/Blanc-Sablon * `America/Boa_Vista` - America/Boa_Vista * `America/Bogota` - America/Bogota * `America/Boise` - America/Boise * `America/Buenos_Aires` - America/Buenos_Aires * `America/Cambridge_Bay` - America/Cambridge_Bay * `America/Campo_Grande` - America/Campo_Grande * `America/Cancun` - America/Cancun * `America/Caracas` - America/Caracas * `America/Catamarca` - America/Catamarca * `America/Cayenne` - America/Cayenne * `America/Cayman` - America/Cayman * `America/Chicago` - America/Chicago * `America/Chihuahua` - America/Chihuahua * `America/Ciudad_Juarez` - America/Ciudad_Juarez * `America/Coral_Harbour` - America/Coral_Harbour * `America/Cordoba` - America/Cordoba * `America/Costa_Rica` - America/Costa_Rica * `America/Coyhaique` - America/Coyhaique * `America/Creston` - America/Creston * `America/Cuiaba` - America/Cuiaba * `America/Curacao` - America/Curacao * `America/Danmarkshavn` - America/Danmarkshavn * `America/Dawson` - America/Dawson * `America/Dawson_Creek` - America/Dawson_Creek * `America/Denver` - America/Denver * `America/Detroit` - America/Detroit * `America/Dominica` - America/Dominica * `America/Edmonton` - America/Edmonton * `America/Eirunepe` - America/Eirunepe * `America/El_Salvador` - America/El_Salvador * `America/Ensenada` - America/Ensenada * `America/Fort_Nelson` - America/Fort_Nelson * `America/Fort_Wayne` - America/Fort_Wayne * `America/Fortaleza` - America/Fortaleza * `America/Glace_Bay` - America/Glace_Bay * `America/Godthab` - America/Godthab * `America/Goose_Bay` - America/Goose_Bay * `America/Grand_Turk` - America/Grand_Turk * `America/Grenada` - America/Grenada * `America/Guadeloupe` - America/Guadeloupe * `America/Guatemala` - America/Guatemala * `America/Guayaquil` - America/Guayaquil * `America/Guyana` - America/Guyana * `America/Halifax` - America/Halifax * `America/Havana` - America/Havana * `America/Hermosillo` - America/Hermosillo * `America/Indiana/Indianapolis` - America/Indiana/Indianapolis * `America/Indiana/Knox` - America/Indiana/Knox * `America/Indiana/Marengo` - America/Indiana/Marengo * `America/Indiana/Petersburg` - America/Indiana/Petersburg * `America/Indiana/Tell_City` - America/Indiana/Tell_City * `America/Indiana/Vevay` - America/Indiana/Vevay * `America/Indiana/Vincennes` - America/Indiana/Vincennes * `America/Indiana/Winamac` - America/Indiana/Winamac * `America/Indianapolis` - America/Indianapolis * `America/Inuvik` - America/Inuvik * `America/Iqaluit` - America/Iqaluit * `America/Jamaica` - America/Jamaica * `America/Jujuy` - America/Jujuy * `America/Juneau` - America/Juneau * `America/Kentucky/Louisville` - America/Kentucky/Louisville * `America/Kentucky/Monticello` - America/Kentucky/Monticello * `America/Knox_IN` - America/Knox_IN * `America/Kralendijk` - America/Kralendijk * `America/La_Paz` - America/La_Paz * `America/Lima` - America/Lima * `America/Los_Angeles` - America/Los_Angeles * `America/Louisville` - America/Louisville * `America/Lower_Princes` - America/Lower_Princes * `America/Maceio` - America/Maceio * `America/Managua` - America/Managua * `America/Manaus` - America/Manaus * `America/Marigot` - America/Marigot * `America/Martinique` - America/Martinique * `America/Matamoros` - America/Matamoros * `America/Mazatlan` - America/Mazatlan * `America/Mendoza` - America/Mendoza * `America/Menominee` - America/Menominee * `America/Merida` - America/Merida * `America/Metlakatla` - America/Metlakatla * `America/Mexico_City` - America/Mexico_City * `America/Miquelon` - America/Miquelon * `America/Moncton` - America/Moncton * `America/Monterrey` - America/Monterrey * `America/Montevideo` - America/Montevideo * `America/Montreal` - America/Montreal * `America/Montserrat` - America/Montserrat * `America/Nassau` - America/Nassau * `America/New_York` - America/New_York * `America/Nipigon` - America/Nipigon * `America/Nome` - America/Nome * `America/Noronha` - America/Noronha * `America/North_Dakota/Beulah` - America/North_Dakota/Beulah * `America/North_Dakota/Center` - America/North_Dakota/Center * `America/North_Dakota/New_Salem` - America/North_Dakota/New_Salem * `America/Nuuk` - America/Nuuk * `America/Ojinaga` - America/Ojinaga * `America/Panama` - America/Panama * `America/Pangnirtung` - America/Pangnirtung * `America/Paramaribo` - America/Paramaribo * `America/Phoenix` - America/Phoenix * `America/Port-au-Prince` - America/Port-au-Prince * `America/Port_of_Spain` - America/Port_of_Spain * `America/Porto_Acre` - America/Porto_Acre * `America/Porto_Velho` - America/Porto_Velho * `America/Puerto_Rico` - America/Puerto_Rico * `America/Punta_Arenas` - America/Punta_Arenas * `America/Rainy_River` - America/Rainy_River * `America/Rankin_Inlet` - America/Rankin_Inlet * `America/Recife` - America/Recife * `America/Regina` - America/Regina * `America/Resolute` - America/Resolute * `America/Rio_Branco` - America/Rio_Branco * `America/Rosario` - America/Rosario * `America/Santa_Isabel` - America/Santa_Isabel * `America/Santarem` - America/Santarem * `America/Santiago` - America/Santiago * `America/Santo_Domingo` - America/Santo_Domingo * `America/Sao_Paulo` - America/Sao_Paulo * `America/Scoresbysund` - America/Scoresbysund * `America/Shiprock` - America/Shiprock * `America/Sitka` - America/Sitka * `America/St_Barthelemy` - America/St_Barthelemy * `America/St_Johns` - America/St_Johns * `America/St_Kitts` - America/St_Kitts * `America/St_Lucia` - America/St_Lucia * `America/St_Thomas` - America/St_Thomas * `America/St_Vincent` - America/St_Vincent * `America/Swift_Current` - America/Swift_Current * `America/Tegucigalpa` - America/Tegucigalpa * `America/Thule` - America/Thule * `America/Thunder_Bay` - America/Thunder_Bay * `America/Tijuana` - America/Tijuana * `America/Toronto` - America/Toronto * `America/Tortola` - America/Tortola * `America/Vancouver` - America/Vancouver * `America/Virgin` - America/Virgin * `America/Whitehorse` - America/Whitehorse * `America/Winnipeg` - America/Winnipeg * `America/Yakutat` - America/Yakutat * `America/Yellowknife` - America/Yellowknife * `Antarctica/Casey` - Antarctica/Casey * `Antarctica/Davis` - Antarctica/Davis * `Antarctica/DumontDUrville` - Antarctica/DumontDUrville * `Antarctica/Macquarie` - Antarctica/Macquarie * `Antarctica/Mawson` - Antarctica/Mawson * `Antarctica/McMurdo` - Antarctica/McMurdo * `Antarctica/Palmer` - Antarctica/Palmer * `Antarctica/Rothera` - Antarctica/Rothera * `Antarctica/South_Pole` - Antarctica/South_Pole * `Antarctica/Syowa` - Antarctica/Syowa * `Antarctica/Troll` - Antarctica/Troll * `Antarctica/Vostok` - Antarctica/Vostok * `Arctic/Longyearbyen` - Arctic/Longyearbyen * `Asia/Aden` - Asia/Aden * `Asia/Almaty` - Asia/Almaty * `Asia/Amman` - Asia/Amman * `Asia/Anadyr` - Asia/Anadyr * `Asia/Aqtau` - Asia/Aqtau * `Asia/Aqtobe` - Asia/Aqtobe * `Asia/Ashgabat` - Asia/Ashgabat * `Asia/Ashkhabad` - Asia/Ashkhabad * `Asia/Atyrau` - Asia/Atyrau * `Asia/Baghdad` - Asia/Baghdad * `Asia/Bahrain` - Asia/Bahrain * `Asia/Baku` - Asia/Baku * `Asia/Bangkok` - Asia/Bangkok * `Asia/Barnaul` - Asia/Barnaul * `Asia/Beirut` - Asia/Beirut * `Asia/Bishkek` - Asia/Bishkek * `Asia/Brunei` - Asia/Brunei * `Asia/Calcutta` - Asia/Calcutta * `Asia/Chita` - Asia/Chita * `Asia/Choibalsan` - Asia/Choibalsan * `Asia/Chongqing` - Asia/Chongqing * `Asia/Chungking` - Asia/Chungking * `Asia/Colombo` - Asia/Colombo * `Asia/Dacca` - Asia/Dacca * `Asia/Damascus` - Asia/Damascus * `Asia/Dhaka` - Asia/Dhaka * `Asia/Dili` - Asia/Dili * `Asia/Dubai` - Asia/Dubai * `Asia/Dushanbe` - Asia/Dushanbe * `Asia/Famagusta` - Asia/Famagusta * `Asia/Gaza` - Asia/Gaza * `Asia/Harbin` - Asia/Harbin * `Asia/Hebron` - Asia/Hebron * `Asia/Ho_Chi_Minh` - Asia/Ho_Chi_Minh * `Asia/Hong_Kong` - Asia/Hong_Kong * `Asia/Hovd` - Asia/Hovd * `Asia/Irkutsk` - Asia/Irkutsk * `Asia/Istanbul` - Asia/Istanbul * `Asia/Jakarta` - Asia/Jakarta * `Asia/Jayapura` - Asia/Jayapura * `Asia/Jerusalem` - Asia/Jerusalem * `Asia/Kabul` - Asia/Kabul * `Asia/Kamchatka` - Asia/Kamchatka * `Asia/Karachi` - Asia/Karachi * `Asia/Kashgar` - Asia/Kashgar * `Asia/Kathmandu` - Asia/Kathmandu * `Asia/Katmandu` - Asia/Katmandu * `Asia/Khandyga` - Asia/Khandyga * `Asia/Kolkata` - Asia/Kolkata * `Asia/Krasnoyarsk` - Asia/Krasnoyarsk * `Asia/Kuala_Lumpur` - Asia/Kuala_Lumpur * `Asia/Kuching` - Asia/Kuching * `Asia/Kuwait` - Asia/Kuwait * `Asia/Macao` - Asia/Macao * `Asia/Macau` - Asia/Macau * `Asia/Magadan` - Asia/Magadan * `Asia/Makassar` - Asia/Makassar * `Asia/Manila` - Asia/Manila * `Asia/Muscat` - Asia/Muscat * `Asia/Nicosia` - Asia/Nicosia * `Asia/Novokuznetsk` - Asia/Novokuznetsk * `Asia/Novosibirsk` - Asia/Novosibirsk * `Asia/Omsk` - Asia/Omsk * `Asia/Oral` - Asia/Oral * `Asia/Phnom_Penh` - Asia/Phnom_Penh * `Asia/Pontianak` - Asia/Pontianak * `Asia/Pyongyang` - Asia/Pyongyang * `Asia/Qatar` - Asia/Qatar * `Asia/Qostanay` - Asia/Qostanay * `Asia/Qyzylorda` - Asia/Qyzylorda * `Asia/Rangoon` - Asia/Rangoon * `Asia/Riyadh` - Asia/Riyadh * `Asia/Saigon` - Asia/Saigon * `Asia/Sakhalin` - Asia/Sakhalin * `Asia/Samarkand` - Asia/Samarkand * `Asia/Seoul` - Asia/Seoul * `Asia/Shanghai` - Asia/Shanghai * `Asia/Singapore` - Asia/Singapore * `Asia/Srednekolymsk` - Asia/Srednekolymsk * `Asia/Taipei` - Asia/Taipei * `Asia/Tashkent` - Asia/Tashkent * `Asia/Tbilisi` - Asia/Tbilisi * `Asia/Tehran` - Asia/Tehran * `Asia/Tel_Aviv` - Asia/Tel_Aviv * `Asia/Thimbu` - Asia/Thimbu * `Asia/Thimphu` - Asia/Thimphu * `Asia/Tokyo` - Asia/Tokyo * `Asia/Tomsk` - Asia/Tomsk * `Asia/Ujung_Pandang` - Asia/Ujung_Pandang * `Asia/Ulaanbaatar` - Asia/Ulaanbaatar * `Asia/Ulan_Bator` - Asia/Ulan_Bator * `Asia/Urumqi` - Asia/Urumqi * `Asia/Ust-Nera` - Asia/Ust-Nera * `Asia/Vientiane` - Asia/Vientiane * `Asia/Vladivostok` - Asia/Vladivostok * `Asia/Yakutsk` - Asia/Yakutsk * `Asia/Yangon` - Asia/Yangon * `Asia/Yekaterinburg` - Asia/Yekaterinburg * `Asia/Yerevan` - Asia/Yerevan * `Atlantic/Azores` - Atlantic/Azores * `Atlantic/Bermuda` - Atlantic/Bermuda * `Atlantic/Canary` - Atlantic/Canary * `Atlantic/Cape_Verde` - Atlantic/Cape_Verde * `Atlantic/Faeroe` - Atlantic/Faeroe * `Atlantic/Faroe` - Atlantic/Faroe * `Atlantic/Jan_Mayen` - Atlantic/Jan_Mayen * `Atlantic/Madeira` - Atlantic/Madeira * `Atlantic/Reykjavik` - Atlantic/Reykjavik * `Atlantic/South_Georgia` - Atlantic/South_Georgia * `Atlantic/St_Helena` - Atlantic/St_Helena * `Atlantic/Stanley` - Atlantic/Stanley * `Australia/ACT` - Australia/ACT * `Australia/Adelaide` - Australia/Adelaide * `Australia/Brisbane` - Australia/Brisbane * `Australia/Broken_Hill` - Australia/Broken_Hill * `Australia/Canberra` - Australia/Canberra * `Australia/Currie` - Australia/Currie * `Australia/Darwin` - Australia/Darwin * `Australia/Eucla` - Australia/Eucla * `Australia/Hobart` - Australia/Hobart * `Australia/LHI` - Australia/LHI * `Australia/Lindeman` - Australia/Lindeman * `Australia/Lord_Howe` - Australia/Lord_Howe * `Australia/Melbourne` - Australia/Melbourne * `Australia/NSW` - Australia/NSW * `Australia/North` - Australia/North * `Australia/Perth` - Australia/Perth * `Australia/Queensland` - Australia/Queensland * `Australia/South` - Australia/South * `Australia/Sydney` - Australia/Sydney * `Australia/Tasmania` - Australia/Tasmania * `Australia/Victoria` - Australia/Victoria * `Australia/West` - Australia/West * `Australia/Yancowinna` - Australia/Yancowinna * `Brazil/Acre` - Brazil/Acre * `Brazil/DeNoronha` - Brazil/DeNoronha * `Brazil/East` - Brazil/East * `Brazil/West` - Brazil/West * `CET` - CET * `CST6CDT` - CST6CDT * `Canada/Atlantic` - Canada/Atlantic * `Canada/Central` - Canada/Central * `Canada/Eastern` - Canada/Eastern * `Canada/Mountain` - Canada/Mountain * `Canada/Newfoundland` - Canada/Newfoundland * `Canada/Pacific` - Canada/Pacific * `Canada/Saskatchewan` - Canada/Saskatchewan * `Canada/Yukon` - Canada/Yukon * `Chile/Continental` - Chile/Continental * `Chile/EasterIsland` - Chile/EasterIsland * `Cuba` - Cuba * `EET` - EET * `EST` - EST * `EST5EDT` - EST5EDT * `Egypt` - Egypt * `Eire` - Eire * `Etc/GMT` - Etc/GMT * `Etc/GMT+0` - Etc/GMT+0 * `Etc/GMT+1` - Etc/GMT+1 * `Etc/GMT+10` - Etc/GMT+10 * `Etc/GMT+11` - Etc/GMT+11 * `Etc/GMT+12` - Etc/GMT+12 * `Etc/GMT+2` - Etc/GMT+2 * `Etc/GMT+3` - Etc/GMT+3 * `Etc/GMT+4` - Etc/GMT+4 * `Etc/GMT+5` - Etc/GMT+5 * `Etc/GMT+6` - Etc/GMT+6 * `Etc/GMT+7` - Etc/GMT+7 * `Etc/GMT+8` - Etc/GMT+8 * `Etc/GMT+9` - Etc/GMT+9 * `Etc/GMT-0` - Etc/GMT-0 * `Etc/GMT-1` - Etc/GMT-1 * `Etc/GMT-10` - Etc/GMT-10 * `Etc/GMT-11` - Etc/GMT-11 * `Etc/GMT-12` - Etc/GMT-12 * `Etc/GMT-13` - Etc/GMT-13 * `Etc/GMT-14` - Etc/GMT-14 * `Etc/GMT-2` - Etc/GMT-2 * `Etc/GMT-3` - Etc/GMT-3 * `Etc/GMT-4` - Etc/GMT-4 * `Etc/GMT-5` - Etc/GMT-5 * `Etc/GMT-6` - Etc/GMT-6 * `Etc/GMT-7` - Etc/GMT-7 * `Etc/GMT-8` - Etc/GMT-8 * `Etc/GMT-9` - Etc/GMT-9 * `Etc/GMT0` - Etc/GMT0 * `Etc/Greenwich` - Etc/Greenwich * `Etc/UCT` - Etc/UCT * `Etc/UTC` - Etc/UTC * `Etc/Universal` - Etc/Universal * `Etc/Zulu` - Etc/Zulu * `Europe/Amsterdam` - Europe/Amsterdam * `Europe/Andorra` - Europe/Andorra * `Europe/Astrakhan` - Europe/Astrakhan * `Europe/Athens` - Europe/Athens * `Europe/Belfast` - Europe/Belfast * `Europe/Belgrade` - Europe/Belgrade * `Europe/Berlin` - Europe/Berlin * `Europe/Bratislava` - Europe/Bratislava * `Europe/Brussels` - Europe/Brussels * `Europe/Bucharest` - Europe/Bucharest * `Europe/Budapest` - Europe/Budapest * `Europe/Busingen` - Europe/Busingen * `Europe/Chisinau` - Europe/Chisinau * `Europe/Copenhagen` - Europe/Copenhagen * `Europe/Dublin` - Europe/Dublin * `Europe/Gibraltar` - Europe/Gibraltar * `Europe/Guernsey` - Europe/Guernsey * `Europe/Helsinki` - Europe/Helsinki * `Europe/Isle_of_Man` - Europe/Isle_of_Man * `Europe/Istanbul` - Europe/Istanbul * `Europe/Jersey` - Europe/Jersey * `Europe/Kaliningrad` - Europe/Kaliningrad * `Europe/Kiev` - Europe/Kiev * `Europe/Kirov` - Europe/Kirov * `Europe/Kyiv` - Europe/Kyiv * `Europe/Lisbon` - Europe/Lisbon * `Europe/Ljubljana` - Europe/Ljubljana * `Europe/London` - Europe/London * `Europe/Luxembourg` - Europe/Luxembourg * `Europe/Madrid` - Europe/Madrid * `Europe/Malta` - Europe/Malta * `Europe/Mariehamn` - Europe/Mariehamn * `Europe/Minsk` - Europe/Minsk * `Europe/Monaco` - Europe/Monaco * `Europe/Moscow` - Europe/Moscow * `Europe/Nicosia` - Europe/Nicosia * `Europe/Oslo` - Europe/Oslo * `Europe/Paris` - Europe/Paris * `Europe/Podgorica` - Europe/Podgorica * `Europe/Prague` - Europe/Prague * `Europe/Riga` - Europe/Riga * `Europe/Rome` - Europe/Rome * `Europe/Samara` - Europe/Samara * `Europe/San_Marino` - Europe/San_Marino * `Europe/Sarajevo` - Europe/Sarajevo * `Europe/Saratov` - Europe/Saratov * `Europe/Simferopol` - Europe/Simferopol * `Europe/Skopje` - Europe/Skopje * `Europe/Sofia` - Europe/Sofia * `Europe/Stockholm` - Europe/Stockholm * `Europe/Tallinn` - Europe/Tallinn * `Europe/Tirane` - Europe/Tirane * `Europe/Tiraspol` - Europe/Tiraspol * `Europe/Ulyanovsk` - Europe/Ulyanovsk * `Europe/Uzhgorod` - Europe/Uzhgorod * `Europe/Vaduz` - Europe/Vaduz * `Europe/Vatican` - Europe/Vatican * `Europe/Vienna` - Europe/Vienna * `Europe/Vilnius` - Europe/Vilnius * `Europe/Volgograd` - Europe/Volgograd * `Europe/Warsaw` - Europe/Warsaw * `Europe/Zagreb` - Europe/Zagreb * `Europe/Zaporozhye` - Europe/Zaporozhye * `Europe/Zurich` - Europe/Zurich * `GB` - GB * `GB-Eire` - GB-Eire * `GMT` - GMT * `GMT+0` - GMT+0 * `GMT-0` - GMT-0 * `GMT0` - GMT0 * `Greenwich` - Greenwich * `HST` - HST * `Hongkong` - Hongkong * `Iceland` - Iceland * `Indian/Antananarivo` - Indian/Antananarivo * `Indian/Chagos` - Indian/Chagos * `Indian/Christmas` - Indian/Christmas * `Indian/Cocos` - Indian/Cocos * `Indian/Comoro` - Indian/Comoro * `Indian/Kerguelen` - Indian/Kerguelen * `Indian/Mahe` - Indian/Mahe * `Indian/Maldives` - Indian/Maldives * `Indian/Mauritius` - Indian/Mauritius * `Indian/Mayotte` - Indian/Mayotte * `Indian/Reunion` - Indian/Reunion * `Iran` - Iran * `Israel` - Israel * `Jamaica` - Jamaica * `Japan` - Japan * `Kwajalein` - Kwajalein * `Libya` - Libya * `MET` - MET * `MST` - MST * `MST7MDT` - MST7MDT * `Mexico/BajaNorte` - Mexico/BajaNorte * `Mexico/BajaSur` - Mexico/BajaSur * `Mexico/General` - Mexico/General * `NZ` - NZ * `NZ-CHAT` - NZ-CHAT * `Navajo` - Navajo * `PRC` - PRC * `PST8PDT` - PST8PDT * `Pacific/Apia` - Pacific/Apia * `Pacific/Auckland` - Pacific/Auckland * `Pacific/Bougainville` - Pacific/Bougainville * `Pacific/Chatham` - Pacific/Chatham * `Pacific/Chuuk` - Pacific/Chuuk * `Pacific/Easter` - Pacific/Easter * `Pacific/Efate` - Pacific/Efate * `Pacific/Enderbury` - Pacific/Enderbury * `Pacific/Fakaofo` - Pacific/Fakaofo * `Pacific/Fiji` - Pacific/Fiji * `Pacific/Funafuti` - Pacific/Funafuti * `Pacific/Galapagos` - Pacific/Galapagos * `Pacific/Gambier` - Pacific/Gambier * `Pacific/Guadalcanal` - Pacific/Guadalcanal * `Pacific/Guam` - Pacific/Guam * `Pacific/Honolulu` - Pacific/Honolulu * `Pacific/Johnston` - Pacific/Johnston * `Pacific/Kanton` - Pacific/Kanton * `Pacific/Kiritimati` - Pacific/Kiritimati * `Pacific/Kosrae` - Pacific/Kosrae * `Pacific/Kwajalein` - Pacific/Kwajalein * `Pacific/Majuro` - Pacific/Majuro * `Pacific/Marquesas` - Pacific/Marquesas * `Pacific/Midway` - Pacific/Midway * `Pacific/Nauru` - Pacific/Nauru * `Pacific/Niue` - Pacific/Niue * `Pacific/Norfolk` - Pacific/Norfolk * `Pacific/Noumea` - Pacific/Noumea * `Pacific/Pago_Pago` - Pacific/Pago_Pago * `Pacific/Palau` - Pacific/Palau * `Pacific/Pitcairn` - Pacific/Pitcairn * `Pacific/Pohnpei` - Pacific/Pohnpei * `Pacific/Ponape` - Pacific/Ponape * `Pacific/Port_Moresby` - Pacific/Port_Moresby * `Pacific/Rarotonga` - Pacific/Rarotonga * `Pacific/Saipan` - Pacific/Saipan * `Pacific/Samoa` - Pacific/Samoa * `Pacific/Tahiti` - Pacific/Tahiti * `Pacific/Tarawa` - Pacific/Tarawa * `Pacific/Tongatapu` - Pacific/Tongatapu * `Pacific/Truk` - Pacific/Truk * `Pacific/Wake` - Pacific/Wake * `Pacific/Wallis` - Pacific/Wallis * `Pacific/Yap` - Pacific/Yap * `Poland` - Poland * `Portugal` - Portugal * `ROC` - ROC * `ROK` - ROK * `Singapore` - Singapore * `Turkey` - Turkey * `UCT` - UCT * `US/Alaska` - US/Alaska * `US/Aleutian` - US/Aleutian * `US/Arizona` - US/Arizona * `US/Central` - US/Central * `US/East-Indiana` - US/East-Indiana * `US/Eastern` - US/Eastern * `US/Hawaii` - US/Hawaii * `US/Indiana-Starke` - US/Indiana-Starke * `US/Michigan` - US/Michigan * `US/Mountain` - US/Mountain * `US/Pacific` - US/Pacific * `US/Samoa` - US/Samoa * `UTC` - UTC * `Universal` - Universal * `W-SU` - W-SU * `WET` - WET * `Zulu` - Zulu */
-  timezone?: TimezoneEnum | (string & {});
+  timezone?: TimezoneEnum | (string & {}) | undefined;
   /** Element attributes that posthog-js should capture as action identifiers (e.g. `['data-attr']`). */
-  data_attributes?: unknown;
+  data_attributes?: unknown | undefined;
   /** Ordered list of person properties used to render a human-friendly display name in the UI. */
-  person_display_name_properties?: UpdateOrganizationsProjectsPartialRequestPersonDisplayNamePropertiesList | null;
+  person_display_name_properties?:
+    | UpdateOrganizationsProjectsPartialRequestPersonDisplayNamePropertiesList
+    | null
+    | undefined;
   /** Disables posthog-js autocapture (clicks, page views) when true. */
-  autocapture_opt_out?: boolean | null;
+  autocapture_opt_out?: boolean | null | undefined;
   /** Enables automatic capture of JavaScript exceptions via the SDK. */
-  autocapture_exceptions_opt_in?: boolean | null;
+  autocapture_exceptions_opt_in?: boolean | null | undefined;
   /** Enables automatic capture of Core Web Vitals performance metrics. */
-  autocapture_web_vitals_opt_in?: boolean | null;
-  autocapture_web_vitals_allowed_metrics?: unknown;
-  autocapture_exceptions_errors_to_ignore?: unknown;
+  autocapture_web_vitals_opt_in?: boolean | null | undefined;
+  autocapture_web_vitals_allowed_metrics?: unknown | undefined;
+  autocapture_exceptions_errors_to_ignore?: unknown | undefined;
   /** Enables capturing browser console logs alongside session replays. */
-  capture_console_log_opt_in?: boolean | null;
+  capture_console_log_opt_in?: boolean | null | undefined;
   /** Enables capturing performance timing and network requests. */
-  capture_performance_opt_in?: boolean | null;
+  capture_performance_opt_in?: boolean | null | undefined;
   /** Enables session replay recording for this project. */
-  session_recording_opt_in?: boolean;
+  session_recording_opt_in?: boolean | undefined;
   /** Fraction of sessions to record, as a decimal string between `0.00` and `1.00` (e.g. `0.1` = 10%). */
-  session_recording_sample_rate?: string | null;
+  session_recording_sample_rate?: string | null | undefined;
   /** Skip saving sessions shorter than this many milliseconds. */
-  session_recording_minimum_duration_milliseconds?: number | null;
-  session_recording_linked_flag?: unknown;
-  session_recording_network_payload_capture_config?: unknown;
-  session_recording_masking_config?: unknown;
-  session_recording_url_trigger_config?: UpdateOrganizationsProjectsPartialRequestSessionRecordingUrlTriggerConfigList | null;
-  session_recording_url_blocklist_config?: UpdateOrganizationsProjectsPartialRequestSessionRecordingUrlBlocklistConfigList | null;
-  session_recording_event_trigger_config?: UpdateOrganizationsProjectsPartialRequestSessionRecordingEventTriggerConfigList | null;
-  session_recording_trigger_match_type_config?: string | null;
+  session_recording_minimum_duration_milliseconds?: number | null | undefined;
+  session_recording_linked_flag?: unknown | undefined;
+  session_recording_network_payload_capture_config?: unknown | undefined;
+  session_recording_masking_config?: unknown | undefined;
+  session_recording_url_trigger_config?:
+    | UpdateOrganizationsProjectsPartialRequestSessionRecordingUrlTriggerConfigList
+    | null
+    | undefined;
+  session_recording_url_blocklist_config?:
+    | UpdateOrganizationsProjectsPartialRequestSessionRecordingUrlBlocklistConfigList
+    | null
+    | undefined;
+  session_recording_event_trigger_config?:
+    | UpdateOrganizationsProjectsPartialRequestSessionRecordingEventTriggerConfigList
+    | null
+    | undefined;
+  session_recording_trigger_match_type_config?: string | null | undefined;
   /** V2 trigger groups configuration for session recording. If present, takes precedence over legacy trigger fields. */
-  session_recording_trigger_groups?: unknown;
+  session_recording_trigger_groups?: unknown | undefined;
   /** How long to retain new session recordings. One of `30d`, `90d`, `1y`, or `5y` (availability depends on plan). * `30d` - 30 Days * `90d` - 90 Days * `1y` - 1 Year * `5y` - 5 Years */
-  session_recording_retention_period?: SessionRecordingRetentionPeriodEnum | (string & {});
-  session_replay_config?: unknown;
-  survey_config?: unknown;
-  access_control?: boolean;
+  session_recording_retention_period?:
+    | SessionRecordingRetentionPeriodEnum
+    | (string & {})
+    | undefined;
+  session_replay_config?: unknown | undefined;
+  survey_config?: unknown | undefined;
+  access_control?: boolean | undefined;
   /** First day of the week for date range filters. 0 = Sunday, 1 = Monday. * `0` - Sunday * `1` - Monday */
-  week_start_day?: WeekStartDayEnum | (number & {}) | null;
+  week_start_day?: WeekStartDayEnum | (number & {}) | null | undefined;
   /** ID of the dashboard shown as the project's default landing dashboard. */
-  primary_dashboard?: number | null;
+  primary_dashboard?: number | null | undefined;
   /** ID of the dashboard shown on the product analytics Home tab. Null shows the built-in generic view. */
-  home_tab_dashboard?: number | null;
-  live_events_columns?: UpdateOrganizationsProjectsPartialRequestLiveEventsColumnsList | null;
+  home_tab_dashboard?: number | null | undefined;
+  live_events_columns?:
+    | UpdateOrganizationsProjectsPartialRequestLiveEventsColumnsList
+    | null
+    | undefined;
   /** Origins permitted to record session replays and heatmaps. Empty list allows all origins. */
-  recording_domains?: UpdateOrganizationsProjectsPartialRequestRecordingDomainsList | null;
-  inject_web_apps?: boolean | null;
-  extra_settings?: unknown;
-  modifiers?: unknown;
-  has_completed_onboarding_for?: unknown;
+  recording_domains?:
+    | UpdateOrganizationsProjectsPartialRequestRecordingDomainsList
+    | null
+    | undefined;
+  inject_web_apps?: boolean | null | undefined;
+  extra_settings?: unknown | undefined;
+  modifiers?: unknown | undefined;
+  has_completed_onboarding_for?: unknown | undefined;
   /** Enables displaying surveys via posthog-js on allowed origins. */
-  surveys_opt_in?: boolean | null;
+  surveys_opt_in?: boolean | null | undefined;
   /** Enables heatmap recording on pages that host posthog-js. */
-  heatmaps_opt_in?: boolean | null;
+  heatmaps_opt_in?: boolean | null | undefined;
   /** Default value for the `persist` option on newly created feature flags. */
-  flags_persistence_default?: boolean | null;
-  receive_org_level_activity_logs?: boolean | null;
+  flags_persistence_default?: boolean | null | undefined;
+  receive_org_level_activity_logs?: boolean | null | undefined;
   /** Whether this project serves B2B or B2C customers. Used to optimize default UI layouts. * `b2b` - B2B * `b2c` - B2C * `other` - Other */
-  business_model?: UpdateOrganizationsProjectsPartialRequestBusinessModel | null;
+  business_model?: UpdateOrganizationsProjectsPartialRequestBusinessModel | null | undefined;
   /** Enables the customer conversations / live chat product for this project. */
-  conversations_enabled?: boolean | null;
+  conversations_enabled?: boolean | null | undefined;
   /** Settings for Conversations. Must be a JSON object or null. */
-  conversations_settings?: UpdateOrganizationsProjectsPartialRequestConversationsSettingsMap | null;
-  logs_settings?: unknown;
-  proactive_tasks_enabled?: boolean | null;
-  revenue_analytics_config?: TeamRevenueAnalyticsConfig;
-  marketing_analytics_config?: TeamMarketingAnalyticsConfig;
-  customer_analytics_config?: TeamCustomerAnalyticsConfig;
-  workflows_config?: TeamWorkflowsConfig;
-  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig;
-  base_currency?: BaseCurrencyEnum | (string & {});
+  conversations_settings?:
+    | UpdateOrganizationsProjectsPartialRequestConversationsSettingsMap
+    | null
+    | undefined;
+  logs_settings?: unknown | undefined;
+  proactive_tasks_enabled?: boolean | null | undefined;
+  revenue_analytics_config?: TeamRevenueAnalyticsConfig | undefined;
+  marketing_analytics_config?: TeamMarketingAnalyticsConfig | undefined;
+  customer_analytics_config?: TeamCustomerAnalyticsConfig | undefined;
+  workflows_config?: TeamWorkflowsConfig | undefined;
+  feature_flag_policy_config?: TeamFeatureFlagPolicyConfig | undefined;
+  base_currency?: BaseCurrencyEnum | (string & {}) | undefined;
   /** Enables capturing clicks that had no effect (rage-click detection). */
-  capture_dead_clicks?: boolean | null;
-  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null;
-  human_friendly_comparison_periods?: boolean | null;
-  feature_flag_confirmation_enabled?: boolean | null;
-  feature_flag_confirmation_message?: string | null;
+  capture_dead_clicks?: boolean | null | undefined;
+  cookieless_server_hash_mode?: CookielessServerHashModeEnum | (number & {}) | null | undefined;
+  human_friendly_comparison_periods?: boolean | null | undefined;
+  feature_flag_confirmation_enabled?: boolean | null | undefined;
+  feature_flag_confirmation_message?: string | null | undefined;
   /** Whether to automatically apply default evaluation contexts to new feature flags */
-  default_evaluation_contexts_enabled?: boolean | null;
+  default_evaluation_contexts_enabled?: boolean | null | undefined;
   /** Whether to require at least one evaluation context tag when creating new feature flags */
-  require_evaluation_contexts?: boolean | null;
-  default_data_theme?: number | null;
-  onboarding_tasks?: unknown;
-  web_analytics_pre_aggregated_tables_enabled?: boolean | null;
+  require_evaluation_contexts?: boolean | null | undefined;
+  default_data_theme?: number | null | undefined;
+  onboarding_tasks?: unknown | undefined;
+  web_analytics_pre_aggregated_tables_enabled?: boolean | null | undefined;
 }
 /** Span or resource attribute keys whose values should match a person's distinct_id -- a span links to a person when any of these attributes holds one of their distinct IDs. Defaults to ['posthogDistinctId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the person identifier under different attributes. */
 export type UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList =
@@ -6114,52 +6476,56 @@ export interface UpdateOrganizationsProjectsTracingConfigPartialRequest {
   /** A unique value identifying this project. */
   id: number;
   /** Span or resource attribute keys whose values should match a person's distinct_id -- a span links to a person when any of these attributes holds one of their distinct IDs. Defaults to ['posthogDistinctId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the person identifier under different attributes. */
-  tracing_distinct_id_attribute_keys?: UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList;
+  tracing_distinct_id_attribute_keys?:
+    | UpdateOrganizationsProjectsTracingConfigPartialRequestTracingDistinctIdAttributeKeysList
+    | undefined;
   /** Ordered list of span or resource attribute keys whose values hold the PostHog session ID. Detection checks keys in order, then falls back to common session ID attribute conventions; the first key with a value wins. Defaults to ['sessionId'], the key the posthog-js / posthog-react-native SDKs attach to the OTel signals they emit. Add keys only if your pipeline emits the session ID under different attributes. */
-  tracing_session_id_attribute_keys?: UpdateOrganizationsProjectsTracingConfigPartialRequestTracingSessionIdAttributeKeysList;
+  tracing_session_id_attribute_keys?:
+    | UpdateOrganizationsProjectsTracingConfigPartialRequestTracingSessionIdAttributeKeysList
+    | undefined;
   /** How long spans are kept before they are deleted, in days. Applied at ingest, so a change only affects spans received after it. Can be changed at most once per 24 hours. Span retention rules override this period for the spans they match. */
-  retention_days?: number;
+  retention_days?: number | undefined;
 }
 export interface UpdatePartialRequest {
   /** A UUID string identifying this organization. */
   id: string;
-  name?: string;
-  logo_media_id?: string | null;
-  enforce_2fa?: boolean | null;
+  name?: string | undefined;
+  logo_media_id?: string | null | undefined;
+  enforce_2fa?: boolean | null | undefined;
   /** When True, logins, signups, and invites for this organization are restricted to email addresses on its verified domains. */
-  enforce_verified_domains?: boolean | null;
-  members_can_invite?: boolean | null;
+  enforce_verified_domains?: boolean | null | undefined;
+  members_can_invite?: boolean | null | undefined;
   /** When True, organization members (below admin) are allowed to create new projects. Admins and owners can always create projects. */
-  members_can_create_projects?: boolean | null;
-  members_can_use_personal_api_keys?: boolean;
+  members_can_create_projects?: boolean | null | undefined;
+  members_can_use_personal_api_keys?: boolean | undefined;
   /** When False, members (below admin) only see themselves in the members list and only project members in access control. */
-  members_can_see_org_members?: boolean;
-  allow_publicly_shared_resources?: boolean;
+  members_can_see_org_members?: boolean | undefined;
+  allow_publicly_shared_resources?: boolean | undefined;
   /** When True, requests through the PostHog MCP server can read but not change this organization's data. */
-  read_only_mcp_access?: boolean | null;
+  read_only_mcp_access?: boolean | null | undefined;
   /** Notice shown in a banner to every member of the organization. Set to null to remove it. */
-  member_notice?: OrganizationMemberNotice | null;
-  is_ai_data_processing_approved?: boolean | null;
+  member_notice?: OrganizationMemberNotice | null | undefined;
+  is_ai_data_processing_approved?: boolean | null | undefined;
   /** When True, this organization allows its data to be used to train PostHog AI models. */
-  is_ai_training_opted_in?: boolean | null;
+  is_ai_training_opted_in?: boolean | null | undefined;
   /** Default setting for 'Discard client IP data' for new projects in this organization. */
-  default_anonymize_ips?: boolean;
+  default_anonymize_ips?: boolean | undefined;
   /** ID of the role to automatically assign to new members joining the organization */
-  default_role_id?: string | null;
+  default_role_id?: string | null | undefined;
 }
 export interface UpdateRoleRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** A UUID string identifying this role. */
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateRolesPartialRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
   /** A UUID string identifying this role. */
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type BillingSpendExportDownloadError = PosthogOpError;
 /** Export spend as CSV In beta: the organization billing API is behind the organization-billing-api feature flag and answers 403 without it, so ask support for access. Its shapes may change while it is in beta. */

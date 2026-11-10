@@ -66,7 +66,7 @@ export type ContainerEnvVarType =
 export interface ContainerEnvVar {
   /** Environment variable key. */
   key: string;
-  origin?: ContainerEnvVarType | (string & {});
+  origin?: ContainerEnvVarType | (string & {}) | undefined;
   /** Environment variable value. */
   value: string;
 }
@@ -75,17 +75,17 @@ export type ContainerEnvironmentVariablesList = Array<ContainerEnvVar>;
 /** Container describes a simplified container configuration for the application. */
 export interface Container {
   /** Container argument override. */
-  args?: ContainerArgsList;
+  args?: ContainerArgsList | undefined;
   /** Container command override. */
-  command?: ContainerCommandList;
+  command?: ContainerCommandList | undefined;
   /** CPU limit for the container. */
-  cpu?: number;
+  cpu?: number | undefined;
   /** Environment variables exposed to the container. */
-  environmentVariables?: ContainerEnvironmentVariablesList;
+  environmentVariables?: ContainerEnvironmentVariablesList | undefined;
   /** Container image configuration. */
   image: string;
   /** Memory limit for the container. */
-  memory?: number;
+  memory?: number | undefined;
   /** Container name. */
   name: string;
 }
@@ -95,7 +95,7 @@ export interface ApplicationInternalNetwork {
   /** Enable or disable internal networking. */
   enabled: boolean;
   /** Port to expose the application internally. */
-  port?: number;
+  port?: number | undefined;
 }
 /** List of IPv4 CIDR ranges that the application is allowed to communicate with. */
 export type ApplicationAccessControlEgressList = Array<string>;
@@ -103,21 +103,21 @@ export type ApplicationAccessControlEgressList = Array<string>;
 export type ApplicationAccessControlIngressList = Array<string>;
 export interface ApplicationAccessControl {
   /** List of IPv4 CIDR ranges that the application is allowed to communicate with. */
-  egress?: ApplicationAccessControlEgressList;
+  egress?: ApplicationAccessControlEgressList | undefined;
   /** List of IPv4 CIDR ranges allowed to access the application. */
-  ingress?: ApplicationAccessControlIngressList;
+  ingress?: ApplicationAccessControlIngressList | undefined;
 }
 export interface ApplicationPublicNetwork {
-  accessControl?: ApplicationAccessControl;
+  accessControl?: ApplicationAccessControl | undefined;
   /** Enable or disable public networking. */
   enabled: boolean;
   /** Port to expose the application. */
-  port?: number;
+  port?: number | undefined;
 }
 /** Network configuration for an application. */
 export interface ApplicationNetwork {
-  internal?: ApplicationInternalNetwork;
-  public?: ApplicationPublicNetwork;
+  internal?: ApplicationInternalNetwork | undefined;
+  public?: ApplicationPublicNetwork | undefined;
 }
 /** CustomRuleParameter defines a single scaler parameter from KEDA Scaler metadata configuration. */
 export interface ApplicationCustomRuleParameter {
@@ -141,25 +141,25 @@ export type ApplicationCustomScaleRuleSecretsMappingList =
 /** CustomScaleRule defines parameters for KEDA Scalers. */
 export interface ApplicationCustomScaleRule {
   /** Scaler parameters. */
-  parameters?: ApplicationCustomScaleRuleParametersList;
+  parameters?: ApplicationCustomScaleRuleParametersList | undefined;
   /** Secret mappings for the scaler. */
-  secretsMapping?: ApplicationCustomScaleRuleSecretsMappingList;
+  secretsMapping?: ApplicationCustomScaleRuleSecretsMappingList | undefined;
   /** Scaler type. */
   type: string;
 }
 /** HttpScaleRule defines parameters for HTTP-based scaling. */
 export interface ApplicationHttpScaleRule {
   /** Target concurrency per instance. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** Target requests per second per instance. */
-  rps?: number;
+  rps?: number | undefined;
 }
 /** - RULE_TYPE_UNSPECIFIED: Used as zero value. - RULE_TYPE_HTTP: HTTP scaling rule. - RULE_TYPE_CUSTOM: Custom scaling rule (e.g. KEDA). */
 export type ApplicationRuleType = "RULE_TYPE_UNSPECIFIED" | "RULE_TYPE_HTTP" | "RULE_TYPE_CUSTOM";
 /** ScaleRule defines one autoscaling trigger. */
 export interface ApplicationScaleRule {
-  customRule?: ApplicationCustomScaleRule;
-  httpRule?: ApplicationHttpScaleRule;
+  customRule?: ApplicationCustomScaleRule | undefined;
+  httpRule?: ApplicationHttpScaleRule | undefined;
   /** Rule name. */
   name: string;
   type: ApplicationRuleType | (string & {});
@@ -169,7 +169,7 @@ export type ApplicationAutoScalingRulesList = Array<ApplicationScaleRule>;
 /** AutoScaling configuration. */
 export interface ApplicationAutoScaling {
   /** Allow automatically scale to zero. */
-  allowScaleToZero?: boolean;
+  allowScaleToZero?: boolean | undefined;
   /** Maximum number of instances. */
   maxInstances: number;
   /** Minimum number of instances. */
@@ -189,8 +189,8 @@ export type ApplicationScalingType =
   | "SCALING_TYPE_MANUAL";
 /** Scaling configuration for the application. */
 export interface ApplicationScaling {
-  autoScaling?: ApplicationAutoScaling;
-  manualScaling?: ApplicationManualScaling;
+  autoScaling?: ApplicationAutoScaling | undefined;
+  manualScaling?: ApplicationManualScaling | undefined;
   type: ApplicationScalingType | (string & {});
 }
 export interface CreateApplicationRequest {
@@ -204,10 +204,10 @@ export interface CreateApplicationRequest {
   containers: CreateApplicationRequestContainersList;
   /** Human-readable display name. */
   displayName: string;
-  network?: ApplicationNetwork;
+  network?: ApplicationNetwork | undefined;
   scaling: ApplicationScaling;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
 }
 /** Containers to deploy for the application. */
 export type ApplicationContainersList = Array<Container>;
@@ -222,9 +222,9 @@ export type ApplicationCurrentStatus =
 /** List of application domains. */
 export interface ApplicationDomains {
   /** Default domain for the application. */
-  default?: string;
+  default?: string | undefined;
   /** Internal domain for the application. */
-  internal?: string;
+  internal?: string | undefined;
 }
 /** - INSTANCE_STATUS_PROGRESSING: Instance is being created. - INSTANCE_STATUS_RUNNING: Instance is available and running. - INSTANCE_STATUS_FAILED: Instance is not available and has some error. */
 export type ApplicationInstanceStatus =
@@ -234,41 +234,41 @@ export type ApplicationInstanceStatus =
 /** Application instance summary. */
 export interface ApplicationInstance {
   /** Instance's name. */
-  name?: string;
-  status?: ApplicationInstanceStatus;
+  name?: string | undefined;
+  status?: ApplicationInstanceStatus | undefined;
 }
 export type ApplicationStatusInstancesList = Array<ApplicationInstance>;
 /** Status of the application. */
 export interface ApplicationStatus {
-  current?: ApplicationCurrentStatus;
-  domains?: ApplicationDomains;
-  instances?: ApplicationStatusInstancesList;
+  current?: ApplicationCurrentStatus | undefined;
+  domains?: ApplicationDomains | undefined;
+  instances?: ApplicationStatusInstancesList | undefined;
   /** Last time the application was deployed. */
-  lastDeployment?: string;
+  lastDeployment?: string | undefined;
 }
 /** Application describes a deployable multi-container workload instance. */
 export interface Application {
   /** Containers to deploy for the application. */
   containers: ApplicationContainersList;
   /** Creation date in RFC3339 format. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Human-readable display name. */
   displayName: string;
   /** Environment identifier where the application belongs. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Environment human-readable display name. */
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Application identifier. */
-  id?: string;
-  network?: ApplicationNetwork;
+  id?: string | undefined;
+  network?: ApplicationNetwork | undefined;
   /** Region of the environment. */
-  region?: string;
+  region?: string | undefined;
   scaling: ApplicationScaling;
-  status?: ApplicationStatus;
+  status?: ApplicationStatus | undefined;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
   /** Last update date in RFC3339 format. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CreateEnvironmentRequest {
   /** Project to create the environment */
@@ -286,22 +286,22 @@ export type EnvironmentCurrentStatus =
 /** Status of the environment. */
 export interface EnvironmentStatus {
   /** Amount of applications in the environment. */
-  applicationsNumber?: number;
-  current?: EnvironmentCurrentStatus;
+  applicationsNumber?: number | undefined;
+  current?: EnvironmentCurrentStatus | undefined;
 }
 /** Environment describes an isolated container scope within a project. */
 export interface Environment {
   /** Creation date in RFC3339 format. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Is the default environmet. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Human-readable display name. */
   displayName: string;
   /** Environment identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Region of the environment. */
-  region?: string;
-  status?: EnvironmentStatus;
+  region?: string | undefined;
+  status?: EnvironmentStatus | undefined;
 }
 export interface DeleteApplicationRequest {
   /** Project to delete the application in. */
@@ -336,14 +336,14 @@ export interface GetApplicationEventsRequest {
 /** Event defines an event line. */
 export interface ApplicationEvent {
   /** Event message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Events list. */
 export type GetApplicationEventsResponseEventsList = Array<ApplicationEvent>;
 /** GetApplicationEventsResponse contains an application's events list. */
 export interface GetApplicationEventsResponse {
   /** Events list. */
-  events?: GetApplicationEventsResponseEventsList;
+  events?: GetApplicationEventsResponseEventsList | undefined;
 }
 export interface GetApplicationLogsRequest {
   /** Project to fetch the application logs from. */
@@ -359,19 +359,19 @@ export interface GetApplicationLogsRequest {
   /** Container name to collect logs. */
   container: string;
   /** Get previous failed execution of the container. */
-  previous?: boolean;
+  previous?: boolean | undefined;
 }
 /** Log defines a log line. */
 export interface ApplicationLog {
   /** Log message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Logs list. */
 export type GetApplicationLogsResponseLogsList = Array<ApplicationLog>;
 /** GetApplicationLogsResponse contains an application's logs list. */
 export interface GetApplicationLogsResponse {
   /** Logs list. */
-  logs?: GetApplicationLogsResponseLogsList;
+  logs?: GetApplicationLogsResponseLogsList | undefined;
 }
 export interface GetEnvironmentRequest {
   /** Project to retrieve the environment */
@@ -390,15 +390,15 @@ export interface GetOverviewRequest {
 /** Summary describes the current status of a project. */
 export interface OverviewSummary {
   /** Number of applications running in a project. */
-  applicationsRunning?: number;
+  applicationsRunning?: number | undefined;
   /** Number of applications created in a project. */
-  applicationsTotal?: number;
+  applicationsTotal?: number | undefined;
 }
 /** GetOverviewResponse contains a summary of the current state of the project's application. */
 export interface GetOverviewResponse {
   /** Region where the overview is being fetched from. */
-  region?: string;
-  summary?: OverviewSummary;
+  region?: string | undefined;
+  summary?: OverviewSummary | undefined;
 }
 export interface ListApplicationsRequest {
   /** Project to list the applications from. */
@@ -411,29 +411,29 @@ export interface ListApplicationsRequest {
 /** ApplicationSummary describes a briefer representation of an application. */
 export interface ApplicationSummary {
   /** Creation date in RFC3339 format. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Environment identifier where the application belongs. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Environment human-readable display name. */
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Application identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Region of the environment. */
-  region?: string;
-  status?: ApplicationStatus;
+  region?: string | undefined;
+  status?: ApplicationStatus | undefined;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
   /** Last update date in RFC3339 format. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Applications summaries under the requested parent. */
 export type ListApplicationsResponseItemsList = Array<ApplicationSummary>;
 /** ListApplicationsResponse contains applications and pagination metadata. */
 export interface ListApplicationsResponse {
   /** Applications summaries under the requested parent. */
-  items?: ListApplicationsResponseItemsList;
+  items?: ListApplicationsResponseItemsList | undefined;
 }
 export interface ListEnvironmentRegistriesRequest {
   /** Project to fetch the environment registries from. */
@@ -446,34 +446,34 @@ export interface ListEnvironmentRegistriesRequest {
 /** RegistryConsumer lists the usages of a single Environment registry. */
 export interface RegistryConsumer {
   /** The container where the registry is used. */
-  container?: string;
+  container?: string | undefined;
   /** The display name of the entity. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The entity that is consuming the registry. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of entities actively consuming this registry. */
 export type EnvironmentRegistryStatusConsumersList = Array<RegistryConsumer>;
 /** EnvironmentRegistryStatus computed fields for a single registry. */
 export interface EnvironmentRegistryStatus {
   /** List of entities actively consuming this registry. */
-  consumers?: EnvironmentRegistryStatusConsumersList;
+  consumers?: EnvironmentRegistryStatusConsumersList | undefined;
 }
 /** EnvironmentRegistry defines a single registry representation. */
 export interface EnvironmentRegistry {
   /** Creation timestamp of this registry entry. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Registry password. Omit or set to null to keep the existing value unchanged. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Registry region. */
-  region?: string;
+  region?: string | undefined;
   /** Registry server. */
   server: string;
-  status?: EnvironmentRegistryStatus;
+  status?: EnvironmentRegistryStatus | undefined;
   /** Last update timestamp of this registry entry. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Registry username. Omit or set to null to keep the existing value unchanged. */
-  username?: string;
+  username?: string | undefined;
 }
 /** The collection of configured registries. */
 export type EnvironmentRegistriesVaultRegistriesList = Array<EnvironmentRegistry>;
@@ -493,7 +493,7 @@ export type ListEnvironmentsResponseItemsList = Array<Environment>;
 /** ListEnvironmentsResponse contains environments and pagination metadata. */
 export interface ListEnvironmentsResponse {
   /** Environments under the requested parent. */
-  items?: ListEnvironmentsResponseItemsList;
+  items?: ListEnvironmentsResponseItemsList | undefined;
 }
 export interface ListEnvironmentSecretsRequest {
   /** Project to fetch the environment secrets from. */
@@ -506,32 +506,32 @@ export interface ListEnvironmentSecretsRequest {
 /** SecretConsumer lists the usages of a single Environment secret. */
 export interface SecretConsumer {
   /** The container where the secret is used. */
-  container?: string;
+  container?: string | undefined;
   /** The display name of the entity. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The entity that is consuming the secret. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of entities actively consuming this secret. */
 export type EnvironmentSecretStatusConsumersList = Array<SecretConsumer>;
 /** EnvironmentSecretStatus computed fields for a single secret. */
 export interface EnvironmentSecretStatus {
   /** List of entities actively consuming this secret. */
-  consumers?: EnvironmentSecretStatusConsumersList;
+  consumers?: EnvironmentSecretStatusConsumersList | undefined;
 }
 /** EnvironmentSecret defines a single secret representation. */
 export interface EnvironmentSecret {
   /** Creation timestamp of this registry entry. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Secret key. */
   key: string;
   /** Secret region. */
-  region?: string;
-  status?: EnvironmentSecretStatus;
+  region?: string | undefined;
+  status?: EnvironmentSecretStatus | undefined;
   /** Last update timestamp of this registry entry. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The collection of configured secrets. */
 export type EnvironmentSecretsVaultSecretsList = Array<EnvironmentSecret>;
@@ -561,19 +561,19 @@ export interface UpdateApplicationRequest {
   containers: UpdateApplicationRequestContainersList;
   /** Human-readable display name. */
   displayName: string;
-  network?: ApplicationNetwork;
+  network?: ApplicationNetwork | undefined;
   scaling: ApplicationScaling;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
 }
 /** EnvironmentRegistry defines a single registry representation. */
 export interface EnvironmentRegistryInput {
   /** Registry password. Omit or set to null to keep the existing value unchanged. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Registry server. */
   server: string;
   /** Registry username. Omit or set to null to keep the existing value unchanged. */
-  username?: string;
+  username?: string | undefined;
 }
 /** The collection of configured registries. */
 export type UpdateEnvironmentRegistriesRequestRegistriesList = Array<EnvironmentRegistryInput>;
@@ -592,7 +592,7 @@ export interface EnvironmentSecretInput {
   /** Secret key. */
   key: string;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The collection of configured secrets. */
 export type UpdateEnvironmentSecretsRequestSecretsList = Array<EnvironmentSecretInput>;

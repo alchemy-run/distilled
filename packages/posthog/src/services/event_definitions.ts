@@ -58,18 +58,18 @@ export type CreateEventDefinitionRequestDefaultColumnsList = Array<string>;
 export interface CreateEventDefinitionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string;
+  name?: string | undefined;
   /** ID of the user responsible for the event. Null removes the owner. */
-  owner?: number | null;
-  description?: string | null;
-  tags?: CreateEventDefinitionRequestTagsList;
-  verified?: boolean;
-  hidden?: boolean | null;
-  enforcement_mode?: SchemaEnforcementModeEnum | (string & {});
+  owner?: number | null | undefined;
+  description?: string | null | undefined;
+  tags?: CreateEventDefinitionRequestTagsList | undefined;
+  verified?: boolean | undefined;
+  hidden?: boolean | null | undefined;
+  enforcement_mode?: SchemaEnforcementModeEnum | (string & {}) | undefined;
   /** Name of a single property on this event that PostHog UIs should display alongside the event (for example `$pathname` on `$pageview`). When set, surfaces like the session replay inspector show the property's value next to the event name without the user having to open the event. */
-  primary_property?: string | null;
-  post_to_slack?: boolean;
-  default_columns?: CreateEventDefinitionRequestDefaultColumnsList;
+  primary_property?: string | null | undefined;
+  post_to_slack?: boolean | undefined;
+  default_columns?: CreateEventDefinitionRequestDefaultColumnsList | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -86,47 +86,47 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export type EnterpriseEventDefinitionTagsList = Array<unknown>;
 export type EnterpriseEventDefinitionDefaultColumnsList = Array<string>;
 export type EnterpriseEventDefinitionMediaPreviewUrlsList = Array<string>;
 /** Serializer mixin that handles tags for objects. */
 export interface EnterpriseEventDefinition {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   /** The user responsible for the event, or null when it has no owner. */
-  owner?: UserBasic | null;
-  description?: string | null;
-  tags?: EnterpriseEventDefinitionTagsList;
-  created_at?: string | null;
-  updated_at?: string;
-  updated_by?: UserBasic | null;
-  last_seen_at?: string | null;
-  last_updated_at?: string;
-  verified?: boolean;
-  verified_at?: string | null;
-  verified_by?: UserBasic | null;
-  hidden?: boolean | null;
-  enforcement_mode?: SchemaEnforcementModeEnum;
+  owner?: UserBasic | null | undefined;
+  description?: string | null | undefined;
+  tags?: EnterpriseEventDefinitionTagsList | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | undefined;
+  updated_by?: UserBasic | null | undefined;
+  last_seen_at?: string | null | undefined;
+  last_updated_at?: string | undefined;
+  verified?: boolean | undefined;
+  verified_at?: string | null | undefined;
+  verified_by?: UserBasic | null | undefined;
+  hidden?: boolean | null | undefined;
+  enforcement_mode?: SchemaEnforcementModeEnum | undefined;
   /** Name of a single property on this event that PostHog UIs should display alongside the event (for example `$pathname` on `$pageview`). When set, surfaces like the session replay inspector show the property's value next to the event name without the user having to open the event. */
-  primary_property?: string | null;
-  is_action?: boolean;
-  action_id?: number;
-  is_calculating?: boolean;
-  last_calculated_at?: string;
-  created_by?: UserBasic | null;
-  post_to_slack?: boolean;
-  default_columns?: EnterpriseEventDefinitionDefaultColumnsList;
-  media_preview_urls?: EnterpriseEventDefinitionMediaPreviewUrlsList;
+  primary_property?: string | null | undefined;
+  is_action?: boolean | undefined;
+  action_id?: number | undefined;
+  is_calculating?: boolean | undefined;
+  last_calculated_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  post_to_slack?: boolean | undefined;
+  default_columns?: EnterpriseEventDefinitionDefaultColumnsList | undefined;
+  media_preview_urls?: EnterpriseEventDefinitionMediaPreviewUrlsList | undefined;
 }
 /** List of event definition UUIDs to update. */
 export type EventDefinitionsBulkUpdateVerifiedCreateRequestIdsList = Array<string>;
@@ -183,21 +183,21 @@ export interface GetEventDefinitionsByNameRequest {
 export type EventDefinitionRecordTagsList = Array<unknown>;
 /** Serializer mixin that handles tags for objects. */
 export interface EventDefinitionRecord {
-  id?: string;
-  name?: string;
-  created_at?: string | null;
-  last_seen_at?: string | null;
-  last_updated_at?: string;
-  tags?: EventDefinitionRecordTagsList;
-  enforcement_mode?: SchemaEnforcementModeEnum;
+  id?: string | undefined;
+  name?: string | undefined;
+  created_at?: string | null | undefined;
+  last_seen_at?: string | null | undefined;
+  last_updated_at?: string | undefined;
+  tags?: EventDefinitionRecordTagsList | undefined;
+  enforcement_mode?: SchemaEnforcementModeEnum | undefined;
   /** Name of a single property on this event that PostHog UIs should display alongside the event (for example `$pathname` on `$pageview`). When set, surfaces like the session replay inspector show the property's value next to the event name without the user having to open the event. */
-  primary_property?: string | null;
-  is_action?: boolean;
-  action_id?: number;
-  is_calculating?: boolean;
-  last_calculated_at?: string;
-  created_by?: UserBasic | null;
-  post_to_slack?: boolean;
+  primary_property?: string | null | undefined;
+  is_action?: boolean | undefined;
+  action_id?: number | undefined;
+  is_calculating?: boolean | undefined;
+  last_calculated_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  post_to_slack?: boolean | undefined;
 }
 export interface GetEventDefinitionsGolangRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -209,7 +209,7 @@ export interface GetEventDefinitionsPrimaryPropertyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional: restrict the response to these event names. Repeat the parameter for multiple names (e.g. `?names=a&names=b`). When omitted, returns every team-configured primary property. */
-  names?: GetEventDefinitionsPrimaryPropertyRequestNamesList;
+  names?: GetEventDefinitionsPrimaryPropertyRequestNamesList | undefined;
 }
 /** Mapping from event name to the team-configured primary property for that event. Names without a configured primary property are omitted; callers should fall back to the core taxonomy defaults for those. */
 export type PrimaryPropertiesResponsePrimaryPropertiesMap = { [key: string]: string | undefined };
@@ -247,38 +247,38 @@ export interface ListEventDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** `event_custom` keeps only names without a `$` prefix and `event_posthog` only names with one. Default `event`. */
-  event_type?: ListEventDefinitionsRequestEventType | (string & {});
+  event_type?: ListEventDefinitionsRequestEventType | (string & {}) | undefined;
   /** When true, omit events that have been explicitly hidden by a team admin (Enterprise only). */
-  exclude_hidden?: boolean;
+  exclude_hidden?: boolean | undefined;
   /** When true, omit events whose last ingested occurrence is older than 30 days. Events that have never been seen (`last_seen_at` is null) are kept so newly-defined events remain discoverable. Default false. If a search returns zero results with this filter on, retry with `exclude_stale=false` and tell the user the matches are stale. */
-  exclude_stale?: boolean;
+  exclude_stale?: boolean | undefined;
   /** JSON-encoded list of event names to omit. The name matches the property definitions endpoint that shares it. */
-  excluded_properties?: string;
+  excluded_properties?: string | undefined;
   /** When true, find similar event names only if the filtered search has no matches. */
-  fuzzy_search?: boolean;
+  fuzzy_search?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return exact matches for these event names. Pass names as repeated or comma-separated values. */
-  names?: ListEventDefinitionsRequestNamesList;
+  names?: ListEventDefinitionsRequestNamesList | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort keys, prefixed with `-` for descending. Default `-last_seen_at::date` then `name`. Projects with more than 100000 event definitions default to `name`, unless the request sets `search`, `exclude_stale`, `verified`, `names`, `tags` or `event_type=event_posthog`. */
-  ordering?: ListEventDefinitionsRequestOrderingList;
+  ordering?: ListEventDefinitionsRequestOrderingList | undefined;
   /** Case-insensitive match on the event name. Every whitespace-separated term has to match. */
-  search?: string;
+  search?: string | undefined;
   /** JSON-encoded list of tag names. Keeps events that carry any of them. */
-  tags?: string;
+  tags?: string | undefined;
   /** When true, keep only verified events and core PostHog events. When false, keep the rest (Enterprise only). */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 export type PaginatedEnterpriseEventDefinitionListResultsList = Array<EnterpriseEventDefinition>;
 export interface PaginatedEnterpriseEventDefinitionList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedEnterpriseEventDefinitionListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedEnterpriseEventDefinitionListResultsList | undefined;
   /** True when `count` stopped at a cap, so it is a lower bound and `next` keeps paging past it. */
-  count_is_capped?: boolean;
+  count_is_capped?: boolean | undefined;
 }
 export type UpdateEventDefinitionRequestTagsList = Array<unknown>;
 export type UpdateEventDefinitionRequestDefaultColumnsList = Array<string>;
@@ -287,18 +287,18 @@ export interface UpdateEventDefinitionRequest {
   project_id: string;
   /** A UUID string identifying this event definition. */
   id: string;
-  name?: string;
+  name?: string | undefined;
   /** ID of the user responsible for the event. Null removes the owner. */
-  owner?: number | null;
-  description?: string | null;
-  tags?: UpdateEventDefinitionRequestTagsList;
-  verified?: boolean;
-  hidden?: boolean | null;
-  enforcement_mode?: SchemaEnforcementModeEnum | (string & {});
+  owner?: number | null | undefined;
+  description?: string | null | undefined;
+  tags?: UpdateEventDefinitionRequestTagsList | undefined;
+  verified?: boolean | undefined;
+  hidden?: boolean | null | undefined;
+  enforcement_mode?: SchemaEnforcementModeEnum | (string & {}) | undefined;
   /** Name of a single property on this event that PostHog UIs should display alongside the event (for example `$pathname` on `$pageview`). When set, surfaces like the session replay inspector show the property's value next to the event name without the user having to open the event. */
-  primary_property?: string | null;
-  post_to_slack?: boolean;
-  default_columns?: UpdateEventDefinitionRequestDefaultColumnsList;
+  primary_property?: string | null | undefined;
+  post_to_slack?: boolean | undefined;
+  default_columns?: UpdateEventDefinitionRequestDefaultColumnsList | undefined;
 }
 export type UpdateEventDefinitionsPartialRequestTagsList = Array<unknown>;
 export type UpdateEventDefinitionsPartialRequestDefaultColumnsList = Array<string>;
@@ -307,18 +307,18 @@ export interface UpdateEventDefinitionsPartialRequest {
   project_id: string;
   /** A UUID string identifying this event definition. */
   id: string;
-  name?: string;
+  name?: string | undefined;
   /** ID of the user responsible for the event. Null removes the owner. */
-  owner?: number | null;
-  description?: string | null;
-  tags?: UpdateEventDefinitionsPartialRequestTagsList;
-  verified?: boolean;
-  hidden?: boolean | null;
-  enforcement_mode?: SchemaEnforcementModeEnum | (string & {});
+  owner?: number | null | undefined;
+  description?: string | null | undefined;
+  tags?: UpdateEventDefinitionsPartialRequestTagsList | undefined;
+  verified?: boolean | undefined;
+  hidden?: boolean | null | undefined;
+  enforcement_mode?: SchemaEnforcementModeEnum | (string & {}) | undefined;
   /** Name of a single property on this event that PostHog UIs should display alongside the event (for example `$pathname` on `$pageview`). When set, surfaces like the session replay inspector show the property's value next to the event name without the user having to open the event. */
-  primary_property?: string | null;
-  post_to_slack?: boolean;
-  default_columns?: UpdateEventDefinitionsPartialRequestDefaultColumnsList;
+  primary_property?: string | null | undefined;
+  post_to_slack?: boolean | undefined;
+  default_columns?: UpdateEventDefinitionsPartialRequestDefaultColumnsList | undefined;
 }
 export type CreateEventDefinitionError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createEventDefinition: API.OperationMethod<

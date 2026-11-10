@@ -67,18 +67,20 @@ export type JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsV6Ite
 export type JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsV6List =
   Array<JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem>;
 export interface JitAccessResponseOutputUserRolesItemAllowedNetworks {
-  allowed_cidrs?: JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsList;
-  allowed_cidrs_v6?: JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsV6List;
+  allowed_cidrs?: JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsList | undefined;
+  allowed_cidrs_v6?:
+    | JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsV6List
+    | undefined;
 }
 export interface JitAccessResponseOutputUserRolesItem {
   role: string;
-  expires_at?: number;
-  allowed_networks?: JitAccessResponseOutputUserRolesItemAllowedNetworks;
-  branches_only?: boolean;
+  expires_at?: number | undefined;
+  allowed_networks?: JitAccessResponseOutputUserRolesItemAllowedNetworks | undefined;
+  branches_only?: boolean | undefined;
 }
 export type JitAccessResponseOutputUserRolesList = Array<JitAccessResponseOutputUserRolesItem>;
 export interface JitAccessResponseOutput {
-  user_id?: string;
+  user_id?: string | undefined;
   user_roles: JitAccessResponseOutputUserRolesList;
 }
 export interface V1ActivateCustomHostnameRequest {
@@ -102,8 +104,8 @@ export type JsonValueOutput =
 export type UpdateCustomHostnameResponseOutputDataErrorsList = Array<JsonValueOutput>;
 export type UpdateCustomHostnameResponseOutputDataMessagesList = Array<JsonValueOutput>;
 export interface UpdateCustomHostnameResponseOutputDataResultSslValidationRecordsItem {
-  txt_name?: string;
-  txt_value?: string;
+  txt_name?: string | undefined;
+  txt_value?: string | undefined;
 }
 export type UpdateCustomHostnameResponseOutputDataResultSslValidationRecordsList =
   Array<UpdateCustomHostnameResponseOutputDataResultSslValidationRecordsItem>;
@@ -113,24 +115,32 @@ export interface UpdateCustomHostnameResponseOutputDataResultSslValidationErrors
 export type UpdateCustomHostnameResponseOutputDataResultSslValidationErrorsList =
   Array<UpdateCustomHostnameResponseOutputDataResultSslValidationErrorsItem>;
 export interface UpdateCustomHostnameResponseOutputDataResultSsl {
-  status?: string;
-  validation_records?: UpdateCustomHostnameResponseOutputDataResultSslValidationRecordsList;
-  validation_errors?: UpdateCustomHostnameResponseOutputDataResultSslValidationErrorsList;
+  status?: string | undefined;
+  validation_records?:
+    | UpdateCustomHostnameResponseOutputDataResultSslValidationRecordsList
+    | undefined;
+  validation_errors?:
+    | UpdateCustomHostnameResponseOutputDataResultSslValidationErrorsList
+    | undefined;
 }
 export interface UpdateCustomHostnameResponseOutputDataResultOwnershipVerification {
-  type?: string;
-  name?: string;
-  value?: string;
+  type?: string | undefined;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type UpdateCustomHostnameResponseOutputDataResultVerificationErrorsList = Array<string>;
 export interface UpdateCustomHostnameResponseOutputDataResult {
   id: string;
   hostname: string;
-  ssl?: UpdateCustomHostnameResponseOutputDataResultSsl;
-  ownership_verification?: UpdateCustomHostnameResponseOutputDataResultOwnershipVerification;
-  custom_origin_server?: string;
-  verification_errors?: UpdateCustomHostnameResponseOutputDataResultVerificationErrorsList;
-  status?: string;
+  ssl?: UpdateCustomHostnameResponseOutputDataResultSsl | undefined;
+  ownership_verification?:
+    | UpdateCustomHostnameResponseOutputDataResultOwnershipVerification
+    | undefined;
+  custom_origin_server?: string | undefined;
+  verification_errors?:
+    | UpdateCustomHostnameResponseOutputDataResultVerificationErrorsList
+    | undefined;
+  status?: string | undefined;
 }
 export interface UpdateCustomHostnameResponseOutputData {
   success: boolean;
@@ -140,7 +150,7 @@ export interface UpdateCustomHostnameResponseOutputData {
 }
 export interface UpdateCustomHostnameResponseOutput {
   status: UpdateCustomHostnameResponseOutputStatus;
-  custom_hostname?: string;
+  custom_hostname?: string | undefined;
   data: UpdateCustomHostnameResponseOutputData;
 }
 export interface V1ActivateVanitySubdomainConfigRequest {
@@ -155,8 +165,8 @@ export interface V1ApplyAMigrationRequest {
   /** Project ref */
   ref: string;
   query: string;
-  name?: string;
-  rollback?: string;
+  name?: string | undefined;
+  rollback?: string | undefined;
 }
 export interface V1ApplyAMigrationResponse {}
 export type V1ApplyProjectAddonRequestAddonVariantCase0 =
@@ -221,18 +231,22 @@ export type JitAuthorizeAccessResponseOutputUserRoleAllowedNetworksAllowedCidrsV
 export type JitAuthorizeAccessResponseOutputUserRoleAllowedNetworksAllowedCidrsV6List =
   Array<JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem>;
 export interface JitAuthorizeAccessResponseOutputUserRoleAllowedNetworks {
-  allowed_cidrs?: JitAuthorizeAccessResponseOutputUserRoleAllowedNetworksAllowedCidrsList;
-  allowed_cidrs_v6?: JitAuthorizeAccessResponseOutputUserRoleAllowedNetworksAllowedCidrsV6List;
+  allowed_cidrs?:
+    | JitAuthorizeAccessResponseOutputUserRoleAllowedNetworksAllowedCidrsList
+    | undefined;
+  allowed_cidrs_v6?:
+    | JitAuthorizeAccessResponseOutputUserRoleAllowedNetworksAllowedCidrsV6List
+    | undefined;
 }
 export interface JitAuthorizeAccessResponseOutputUserRole {
   role: string;
-  expires_at?: number;
-  allowed_networks?: JitAuthorizeAccessResponseOutputUserRoleAllowedNetworks;
-  branches_only?: boolean;
+  expires_at?: number | undefined;
+  allowed_networks?: JitAuthorizeAccessResponseOutputUserRoleAllowedNetworks | undefined;
+  branches_only?: boolean | undefined;
 }
 export interface JitAuthorizeAccessResponseOutput {
-  user_id?: string;
-  act?: string;
+  user_id?: string | undefined;
+  act?: string | undefined;
   user_role: JitAuthorizeAccessResponseOutputUserRole;
 }
 export type V1AuthorizeUserRequestResponseType = "code" | "token" | "id_token token";
@@ -241,16 +255,16 @@ export interface V1AuthorizeUserRequest {
   client_id: string;
   response_type: V1AuthorizeUserRequestResponseType | (string & {});
   redirect_uri: string;
-  scope?: string;
-  state?: string;
-  response_mode?: string;
-  code_challenge?: string;
-  code_challenge_method?: V1AuthorizeUserRequestCodeChallengeMethod | (string & {});
+  scope?: string | undefined;
+  state?: string | undefined;
+  response_mode?: string | undefined;
+  code_challenge?: string | undefined;
+  code_challenge_method?: V1AuthorizeUserRequestCodeChallengeMethod | (string & {}) | undefined;
   /** Organization slug */
-  organization_slug?: string;
-  target_flow?: string;
+  organization_slug?: string | undefined;
+  target_flow?: string | undefined;
   /** Resource indicator for MCP (Model Context Protocol) clients */
-  resource?: string;
+  resource?: string | undefined;
 }
 export interface V1AuthorizeUserResponse {}
 export interface CreateSecretBodyItem {
@@ -279,12 +293,12 @@ export interface BulkUpdateFunctionBodyItem {
   name: string;
   status: BulkUpdateFunctionBodyItemStatus | (string & {});
   version: number;
-  created_at?: number;
-  verify_jwt?: boolean;
-  import_map?: boolean;
-  entrypoint_path?: string;
-  import_map_path?: string;
-  ezbr_sha256?: string;
+  created_at?: number | undefined;
+  verify_jwt?: boolean | undefined;
+  import_map?: boolean | undefined;
+  entrypoint_path?: string | undefined;
+  import_map_path?: string | undefined;
+  ezbr_sha256?: string | undefined;
 }
 export type BulkUpdateFunctionBody = Array<BulkUpdateFunctionBodyItem>;
 export interface V1BulkUpdateFunctionsRequest {
@@ -304,11 +318,11 @@ export interface BulkUpdateFunctionResponseOutputFunctionsItem {
   version: number;
   created_at: number;
   updated_at: number;
-  verify_jwt?: boolean;
-  import_map?: boolean;
-  entrypoint_path?: string;
-  import_map_path?: string;
-  ezbr_sha256?: string;
+  verify_jwt?: boolean | undefined;
+  import_map?: boolean | undefined;
+  entrypoint_path?: string | undefined;
+  import_map_path?: string | undefined;
+  ezbr_sha256?: string | undefined;
 }
 export type BulkUpdateFunctionResponseOutputFunctionsList =
   Array<BulkUpdateFunctionResponseOutputFunctionsItem>;
@@ -370,19 +384,19 @@ export interface V1CreateABranchRequest {
   /** Project ref */
   ref: string;
   branch_name: string;
-  git_branch?: string;
-  is_default?: boolean;
-  persistent?: boolean;
-  region?: string;
-  desired_instance_size?: V1CreateABranchRequestDesiredInstanceSize | (string & {});
+  git_branch?: string | undefined;
+  is_default?: boolean | undefined;
+  persistent?: boolean | undefined;
+  region?: string | undefined;
+  desired_instance_size?: V1CreateABranchRequestDesiredInstanceSize | (string & {}) | undefined;
   /** Release channel. If not provided, GA will be used. */
-  release_channel?: V1CreateABranchRequestReleaseChannel | (string & {});
+  release_channel?: V1CreateABranchRequestReleaseChannel | (string & {}) | undefined;
   /** Postgres engine version. If not provided, the latest version will be used. */
-  postgres_engine?: V1CreateABranchRequestPostgresEngine | (string & {});
-  secrets?: V1CreateABranchRequestSecretsMap;
-  with_data?: boolean;
+  postgres_engine?: V1CreateABranchRequestPostgresEngine | (string & {}) | undefined;
+  secrets?: V1CreateABranchRequestSecretsMap | undefined;
+  with_data?: boolean | undefined;
   /** HTTP endpoint to receive branch status updates. */
-  notify_url?: string;
+  notify_url?: string | undefined;
 }
 /** This field is deprecated. List action runs to get branch status instead. */
 export type BranchResponseOutputStatus =
@@ -415,20 +429,20 @@ export interface BranchResponseOutput {
   project_ref: string;
   parent_project_ref: string;
   is_default: boolean;
-  git_branch?: string;
-  pr_number?: number;
+  git_branch?: string | undefined;
+  pr_number?: number | undefined;
   /** This field is deprecated and will not be populated. */
-  latest_check_run_id?: number;
+  latest_check_run_id?: number | undefined;
   persistent: boolean;
   /** This field is deprecated. List action runs to get branch status instead. */
   status: BranchResponseOutputStatus;
   created_at: string;
   updated_at: string;
-  review_requested_at?: string;
+  review_requested_at?: string | undefined;
   with_data: boolean;
-  notify_url?: string;
-  deletion_scheduled_at?: string;
-  preview_project_status?: BranchResponseOutputPreviewProjectStatus;
+  notify_url?: string | undefined;
+  deletion_scheduled_at?: string | undefined;
+  preview_project_status?: BranchResponseOutputPreviewProjectStatus | undefined;
 }
 export interface V1CreateAnOrganizationRequest {
   name: string;
@@ -527,25 +541,25 @@ export interface V1CreateAProjectRequest {
   /** Name of your project */
   name: string;
   /** Deprecated: Use `organization_slug` instead. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Organization slug */
   organization_slug: string;
   /** Subscription Plan is now set on organization level and is ignored in this request */
-  plan?: V1CreateAProjectRequestPlan | (string & {});
+  plan?: V1CreateAProjectRequestPlan | (string & {}) | undefined;
   /** Region you want your server to reside in. Use region_selection instead. */
-  region?: V1CreateAProjectRequestRegion | (string & {});
+  region?: V1CreateAProjectRequestRegion | (string & {}) | undefined;
   /** Region selection. Only one of region or region_selection can be specified. */
-  region_selection?: V1CreateAProjectRequestRegionSelection;
+  region_selection?: V1CreateAProjectRequestRegionSelection | undefined;
   /** This field is deprecated and is ignored in this request */
-  kps_enabled?: boolean;
+  kps_enabled?: boolean | undefined;
   /** Desired instance size. Omit this field to always default to the smallest possible size. */
-  desired_instance_size?: V1CreateAProjectRequestDesiredInstanceSize | (string & {});
+  desired_instance_size?: V1CreateAProjectRequestDesiredInstanceSize | (string & {}) | undefined;
   /** Template URL used to create the project from the CLI. */
-  template_url?: string;
-  release_channel?: unknown | null;
-  postgres_engine?: unknown | null;
+  template_url?: string | undefined;
+  release_channel?: unknown | null | undefined;
+  postgres_engine?: unknown | null | undefined;
   /** [Experimental] Whether to enable high availability for the project. */
-  high_availability?: boolean;
+  high_availability?: boolean | undefined;
 }
 export type V1ProjectResponseOutputStatus =
   | "INACTIVE"
@@ -591,10 +605,10 @@ export type V1CreateASsoProviderRequestAttributeMappingKeysValueDefault =
   | string
   | boolean;
 export interface V1CreateASsoProviderRequestAttributeMappingKeysValue {
-  name?: string;
-  names?: V1CreateASsoProviderRequestAttributeMappingKeysValueNamesList;
-  array?: boolean;
-  default?: V1CreateASsoProviderRequestAttributeMappingKeysValueDefault;
+  name?: string | undefined;
+  names?: V1CreateASsoProviderRequestAttributeMappingKeysValueNamesList | undefined;
+  array?: boolean | undefined;
+  default?: V1CreateASsoProviderRequestAttributeMappingKeysValueDefault | undefined;
 }
 export type V1CreateASsoProviderRequestAttributeMappingKeysMap = {
   [key: string]: V1CreateASsoProviderRequestAttributeMappingKeysValue | undefined;
@@ -612,11 +626,11 @@ export interface V1CreateASsoProviderRequest {
   ref: string;
   /** What type of provider will be created */
   type: V1CreateASsoProviderRequestType | (string & {});
-  metadata_xml?: string;
-  metadata_url?: string;
-  domains?: V1CreateASsoProviderRequestDomainsList;
-  attribute_mapping?: V1CreateASsoProviderRequestAttributeMapping;
-  name_id_format?: V1CreateASsoProviderRequestNameIdFormat | (string & {});
+  metadata_xml?: string | undefined;
+  metadata_url?: string | undefined;
+  domains?: V1CreateASsoProviderRequestDomainsList | undefined;
+  attribute_mapping?: V1CreateASsoProviderRequestAttributeMapping | undefined;
+  name_id_format?: V1CreateASsoProviderRequestNameIdFormat | (string & {}) | undefined;
 }
 export type CreateProviderResponseOutputSamlAttributeMappingKeysValueNamesList = Array<string>;
 export type CreateProviderResponseOutputSamlAttributeMappingKeysValueDefault =
@@ -625,10 +639,10 @@ export type CreateProviderResponseOutputSamlAttributeMappingKeysValueDefault =
   | string
   | boolean;
 export interface CreateProviderResponseOutputSamlAttributeMappingKeysValue {
-  name?: string;
-  names?: CreateProviderResponseOutputSamlAttributeMappingKeysValueNamesList;
-  array?: boolean;
-  default?: CreateProviderResponseOutputSamlAttributeMappingKeysValueDefault;
+  name?: string | undefined;
+  names?: CreateProviderResponseOutputSamlAttributeMappingKeysValueNamesList | undefined;
+  array?: boolean | undefined;
+  default?: CreateProviderResponseOutputSamlAttributeMappingKeysValueDefault | undefined;
 }
 export type CreateProviderResponseOutputSamlAttributeMappingKeysMap = {
   [key: string]: CreateProviderResponseOutputSamlAttributeMappingKeysValue | undefined;
@@ -643,24 +657,24 @@ export type CreateProviderResponseOutputSamlNameIdFormat =
   | "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent";
 export interface CreateProviderResponseOutputSaml {
   entity_id: string;
-  metadata_url?: string;
-  metadata_xml?: string;
-  attribute_mapping?: CreateProviderResponseOutputSamlAttributeMapping;
-  name_id_format?: CreateProviderResponseOutputSamlNameIdFormat;
+  metadata_url?: string | undefined;
+  metadata_xml?: string | undefined;
+  attribute_mapping?: CreateProviderResponseOutputSamlAttributeMapping | undefined;
+  name_id_format?: CreateProviderResponseOutputSamlNameIdFormat | undefined;
 }
 export interface CreateProviderResponseOutputDomainsItem {
-  domain?: string;
-  created_at?: string;
-  updated_at?: string;
+  domain?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type CreateProviderResponseOutputDomainsList =
   Array<CreateProviderResponseOutputDomainsItem>;
 export interface CreateProviderResponseOutput {
   id: string;
-  saml?: CreateProviderResponseOutputSaml;
-  domains?: CreateProviderResponseOutputDomainsList;
-  created_at?: string;
-  updated_at?: string;
+  saml?: CreateProviderResponseOutputSaml | undefined;
+  domains?: CreateProviderResponseOutputDomainsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface V1CreateLegacySigningKeyRequest {
   /** Project ref */
@@ -694,25 +708,25 @@ export interface V1CreateProjectApiKeyRequest {
   /** Project ref */
   ref: string;
   /** Boolean string. Truthy values: `true`, `1`, `yes`, `on`, `y`, `enabled` Falsy values: `false`, `0`, `no`, `off`, `n`, `disabled` */
-  reveal?: string;
+  reveal?: string | undefined;
   type: V1CreateProjectApiKeyRequestType | (string & {});
   name: string;
-  description?: string | null;
-  secret_jwt_template?: V1CreateProjectApiKeyRequestSecretJwtTemplateMap | null;
+  description?: string | null | undefined;
+  secret_jwt_template?: V1CreateProjectApiKeyRequestSecretJwtTemplateMap | null | undefined;
 }
 export type ApiKeyResponseOutputType = "legacy" | "publishable" | "secret";
 export type ApiKeyResponseOutputSecretJwtTemplateMap = { [key: string]: unknown | undefined };
 export interface ApiKeyResponseOutput {
-  api_key?: T.Sensitive | null;
-  id?: string | null;
-  type?: ApiKeyResponseOutputType | null;
-  prefix?: string | null;
+  api_key?: T.Sensitive | null | undefined;
+  id?: string | null | undefined;
+  type?: ApiKeyResponseOutputType | null | undefined;
+  prefix?: string | null | undefined;
   name: string;
-  description?: string | null;
-  hash?: string | null;
-  secret_jwt_template?: ApiKeyResponseOutputSecretJwtTemplateMap | null;
-  inserted_at?: string | null;
-  updated_at?: string | null;
+  description?: string | null | undefined;
+  hash?: string | null | undefined;
+  secret_jwt_template?: ApiKeyResponseOutputSecretJwtTemplateMap | null | undefined;
+  inserted_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface V1CreateProjectClaimTokenRequest {
   /** Project ref */
@@ -736,12 +750,12 @@ export type V1CreateProjectSigningKeyRequestPrivateJwkCase0Kty = "RSA";
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase0Alg = "RS256";
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase0E = "AQAB";
 export interface V1CreateProjectSigningKeyRequestPrivateJwkCase0 {
-  kid?: string;
-  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase0Use | (string & {});
-  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase0KeyOpsList;
-  ext?: boolean;
+  kid?: string | undefined;
+  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase0Use | (string & {}) | undefined;
+  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase0KeyOpsList | undefined;
+  ext?: boolean | undefined;
   kty: V1CreateProjectSigningKeyRequestPrivateJwkCase0Kty;
-  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase0Alg | (string & {});
+  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase0Alg | (string & {}) | undefined;
   n: string;
   e: V1CreateProjectSigningKeyRequestPrivateJwkCase0E;
   d: string;
@@ -760,12 +774,12 @@ export type V1CreateProjectSigningKeyRequestPrivateJwkCase1Kty = "EC";
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase1Alg = "ES256";
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase1Crv = "P-256";
 export interface V1CreateProjectSigningKeyRequestPrivateJwkCase1 {
-  kid?: string;
-  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase1Use | (string & {});
-  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase1KeyOpsList;
-  ext?: boolean;
+  kid?: string | undefined;
+  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase1Use | (string & {}) | undefined;
+  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase1KeyOpsList | undefined;
+  ext?: boolean | undefined;
   kty: V1CreateProjectSigningKeyRequestPrivateJwkCase1Kty;
-  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase1Alg | (string & {});
+  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase1Alg | (string & {}) | undefined;
   crv: V1CreateProjectSigningKeyRequestPrivateJwkCase1Crv;
   x: string;
   y: string;
@@ -780,12 +794,12 @@ export type V1CreateProjectSigningKeyRequestPrivateJwkCase2Kty = "OKP";
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase2Alg = "EdDSA";
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase2Crv = "Ed25519";
 export interface V1CreateProjectSigningKeyRequestPrivateJwkCase2 {
-  kid?: string;
-  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase2Use | (string & {});
-  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase2KeyOpsList;
-  ext?: boolean;
+  kid?: string | undefined;
+  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase2Use | (string & {}) | undefined;
+  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase2KeyOpsList | undefined;
+  ext?: boolean | undefined;
   kty: V1CreateProjectSigningKeyRequestPrivateJwkCase2Kty;
-  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase2Alg | (string & {});
+  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase2Alg | (string & {}) | undefined;
   crv: V1CreateProjectSigningKeyRequestPrivateJwkCase2Crv;
   x: string;
   d: string;
@@ -798,12 +812,12 @@ export type V1CreateProjectSigningKeyRequestPrivateJwkCase3KeyOpsList = Array<
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase3Kty = "oct";
 export type V1CreateProjectSigningKeyRequestPrivateJwkCase3Alg = "HS256";
 export interface V1CreateProjectSigningKeyRequestPrivateJwkCase3 {
-  kid?: string;
-  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase3Use | (string & {});
-  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase3KeyOpsList;
-  ext?: boolean;
+  kid?: string | undefined;
+  use?: V1CreateProjectSigningKeyRequestPrivateJwkCase3Use | (string & {}) | undefined;
+  key_ops?: V1CreateProjectSigningKeyRequestPrivateJwkCase3KeyOpsList | undefined;
+  ext?: boolean | undefined;
   kty: V1CreateProjectSigningKeyRequestPrivateJwkCase3Kty;
-  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase3Alg | (string & {});
+  alg?: V1CreateProjectSigningKeyRequestPrivateJwkCase3Alg | (string & {}) | undefined;
   k: string;
 }
 export type V1CreateProjectSigningKeyRequestPrivateJwk =
@@ -815,26 +829,26 @@ export interface V1CreateProjectSigningKeyRequest {
   /** Project ref */
   ref: string;
   algorithm: V1CreateProjectSigningKeyRequestAlgorithm | (string & {});
-  status?: V1CreateProjectSigningKeyRequestStatus | (string & {});
-  private_jwk?: V1CreateProjectSigningKeyRequestPrivateJwk;
+  status?: V1CreateProjectSigningKeyRequestStatus | (string & {}) | undefined;
+  private_jwk?: V1CreateProjectSigningKeyRequestPrivateJwk | undefined;
 }
 export interface V1CreateProjectTpaIntegrationRequest {
   /** Project ref */
   ref: string;
-  oidc_issuer_url?: string;
-  jwks_url?: string;
-  custom_jwks?: unknown;
+  oidc_issuer_url?: string | undefined;
+  jwks_url?: string | undefined;
+  custom_jwks?: unknown | undefined;
 }
 export interface ThirdPartyAuthOutput {
   id: string;
   type: string;
-  oidc_issuer_url?: string | null;
-  jwks_url?: string | null;
-  custom_jwks?: unknown | null;
-  resolved_jwks?: unknown | null;
+  oidc_issuer_url?: string | null | undefined;
+  jwks_url?: string | null | undefined;
+  custom_jwks?: unknown | null | undefined;
+  resolved_jwks?: unknown | null | undefined;
   inserted_at: string;
   updated_at: string;
-  resolved_at?: string | null;
+  resolved_at?: string | null | undefined;
 }
 export interface V1CreateRestorePointRequest {
   /** Project ref */
@@ -856,7 +870,7 @@ export interface V1DeleteABranchRequest {
   /** Branch ref or deprecated branch ID */
   branch_id_or_ref: string;
   /** If set to false, schedule deletion with 1-hour grace period (only when soft deletion is enabled). */
-  force?: string;
+  force?: string | undefined;
 }
 export type BranchDeleteResponseOutputMessage = "ok";
 export interface BranchDeleteResponseOutput {
@@ -890,10 +904,10 @@ export type DeleteProviderResponseOutputSamlAttributeMappingKeysValueDefault =
   | string
   | boolean;
 export interface DeleteProviderResponseOutputSamlAttributeMappingKeysValue {
-  name?: string;
-  names?: DeleteProviderResponseOutputSamlAttributeMappingKeysValueNamesList;
-  array?: boolean;
-  default?: DeleteProviderResponseOutputSamlAttributeMappingKeysValueDefault;
+  name?: string | undefined;
+  names?: DeleteProviderResponseOutputSamlAttributeMappingKeysValueNamesList | undefined;
+  array?: boolean | undefined;
+  default?: DeleteProviderResponseOutputSamlAttributeMappingKeysValueDefault | undefined;
 }
 export type DeleteProviderResponseOutputSamlAttributeMappingKeysMap = {
   [key: string]: DeleteProviderResponseOutputSamlAttributeMappingKeysValue | undefined;
@@ -908,26 +922,26 @@ export type DeleteProviderResponseOutputSamlNameIdFormat =
   | "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent";
 export interface DeleteProviderResponseOutputSaml {
   entity_id: string;
-  metadata_url?: string;
-  metadata_xml?: string;
-  attribute_mapping?: DeleteProviderResponseOutputSamlAttributeMapping;
-  name_id_format?: DeleteProviderResponseOutputSamlNameIdFormat;
+  metadata_url?: string | undefined;
+  metadata_xml?: string | undefined;
+  attribute_mapping?: DeleteProviderResponseOutputSamlAttributeMapping | undefined;
+  name_id_format?: DeleteProviderResponseOutputSamlNameIdFormat | undefined;
 }
 export type DeleteProviderResponseOutputDomainsItem = CreateProviderResponseOutputDomainsItem;
 export type DeleteProviderResponseOutputDomainsList =
   Array<CreateProviderResponseOutputDomainsItem>;
 export interface DeleteProviderResponseOutput {
   id: string;
-  saml?: DeleteProviderResponseOutputSaml;
-  domains?: DeleteProviderResponseOutputDomainsList;
-  created_at?: string;
-  updated_at?: string;
+  saml?: DeleteProviderResponseOutputSaml | undefined;
+  domains?: DeleteProviderResponseOutputDomainsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface V1DeleteHostnameConfigRequest {
   /** Project ref */
   ref: string;
   /** If true, also removes the custom domain add-on from the project subscription. */
-  remove_addon?: string;
+  remove_addon?: string | undefined;
 }
 export interface V1DeleteHostnameConfigResponse {}
 export interface V1DeleteInviteExternalJitAccessRequest {
@@ -958,8 +972,8 @@ export interface V1DeleteNetworkBansRequest {
   /** List of IP addresses to unban. */
   ipv4_addresses: V1DeleteNetworkBansRequestIpv4AddressesList;
   /** Include requester's public IP in the list of addresses to unban. */
-  requester_ip?: boolean;
-  identifier?: string;
+  requester_ip?: boolean | undefined;
+  identifier?: string | undefined;
 }
 export interface V1DeleteNetworkBansResponse {}
 export interface V1DeleteProjectApiKeyRequest {
@@ -967,10 +981,10 @@ export interface V1DeleteProjectApiKeyRequest {
   ref: string;
   id: string;
   /** Boolean string, true or false */
-  reveal?: string;
+  reveal?: string | undefined;
   /** Boolean string, true or false */
-  was_compromised?: string;
-  reason?: string;
+  was_compromised?: string | undefined;
+  reason?: string | undefined;
 }
 export interface V1DeleteProjectClaimTokenRequest {
   /** Project ref */
@@ -986,16 +1000,16 @@ export type V1DeployAFunctionRequestFileList = Array<string>;
 export type V1DeployAFunctionRequestMetadataStaticPatternsList = Array<string>;
 export interface V1DeployAFunctionRequestMetadata {
   entrypoint_path: string;
-  import_map_path?: string;
-  static_patterns?: V1DeployAFunctionRequestMetadataStaticPatternsList;
-  verify_jwt?: boolean;
-  name?: string;
+  import_map_path?: string | undefined;
+  static_patterns?: V1DeployAFunctionRequestMetadataStaticPatternsList | undefined;
+  verify_jwt?: boolean | undefined;
+  name?: string | undefined;
 }
 export interface V1DeployAFunctionRequest {
   /** Project ref */
   ref: string;
-  slug?: string;
-  bundleOnly?: string;
+  slug?: string | undefined;
+  bundleOnly?: string | undefined;
   file: V1DeployAFunctionRequestFileList;
   metadata: V1DeployAFunctionRequestMetadata;
 }
@@ -1006,20 +1020,20 @@ export interface DeployFunctionResponseOutput {
   name: string;
   status: DeployFunctionResponseOutputStatus;
   version: number;
-  created_at?: number;
-  updated_at?: number;
-  verify_jwt?: boolean;
-  import_map?: boolean;
-  entrypoint_path?: string;
-  import_map_path?: string;
-  ezbr_sha256?: string;
+  created_at?: number | undefined;
+  updated_at?: number | undefined;
+  verify_jwt?: boolean | undefined;
+  import_map?: boolean | undefined;
+  entrypoint_path?: string | undefined;
+  import_map_path?: string | undefined;
+  ezbr_sha256?: string | undefined;
 }
 export interface V1DiffABranchRequest {
   /** Branch ref or deprecated branch ID */
   branch_id_or_ref: string;
-  included_schemas?: string;
+  included_schemas?: string | undefined;
   /** Use pg-delta instead of Migra for diffing when true. Boolean string. Truthy values: `true`, `1`, `yes`, `on`, `y`, `enabled` Falsy values: `false`, `0`, `no`, `off`, `n`, `disabled` */
-  pgdelta?: string;
+  pgdelta?: string | undefined;
 }
 export interface V1DiffABranchResponse {}
 export interface V1DisablePreviewBranchingRequest {
@@ -1042,18 +1056,18 @@ export type V1ExchangeOauthTokenRequestGrantType =
   | "refresh_token"
   | "urn:ietf:params:oauth:grant-type:jwt-bearer";
 export interface V1ExchangeOauthTokenRequest {
-  grant_type?: V1ExchangeOauthTokenRequestGrantType | (string & {});
-  client_id?: string;
-  client_secret?: T.Sensitive;
-  code?: string;
-  code_verifier?: string;
-  redirect_uri?: string;
-  refresh_token?: T.Sensitive;
+  grant_type?: V1ExchangeOauthTokenRequestGrantType | (string & {}) | undefined;
+  client_id?: string | undefined;
+  client_secret?: T.Sensitive | undefined;
+  code?: string | undefined;
+  code_verifier?: string | undefined;
+  redirect_uri?: string | undefined;
+  refresh_token?: T.Sensitive | undefined;
   /** IDJAG assertion JWT for grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer. Beta - available on Team and Enterprise plans only. */
-  assertion?: string;
+  assertion?: string | undefined;
   /** Resource indicator for MCP (Model Context Protocol) clients */
-  resource?: string;
-  scope?: string;
+  resource?: string | undefined;
+  scope?: string | undefined;
 }
 export type OAuthTokenResponseOutputTokenType = "Bearer";
 /** Project refs the token is limited to. `null` means all projects. */
@@ -1061,18 +1075,18 @@ export type OAuthTokenResponseOutputProjectRefsList = Array<string>;
 export interface OAuthTokenResponseOutput {
   access_token: T.Sensitive;
   /** The `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type issues access tokens only, no refresh token is returned and the token cannot be revoked via `/v1/oauth/revoke`. */
-  refresh_token?: T.Sensitive;
+  refresh_token?: T.Sensitive | undefined;
   expires_in: number;
   token_type: OAuthTokenResponseOutputTokenType;
   /** Space-delimited scopes granted to the token. Omitted when no scopes were granted. */
-  scope?: string;
+  scope?: string | undefined;
   /** Project refs the token is limited to. `null` means all projects. */
   project_refs: OAuthTokenResponseOutputProjectRefsList | null;
 }
 export interface V1GenerateTypescriptTypesRequest {
   /** Project ref */
   ref: string;
-  included_schemas?: string;
+  included_schemas?: string | undefined;
 }
 export interface TypescriptResponseOutput {
   types: string;
@@ -1111,9 +1125,9 @@ export interface BranchDetailResponseOutput {
   status: BranchDetailResponseOutputStatus;
   db_host: string;
   db_port: number;
-  db_user?: string;
-  db_pass?: string;
-  jwt_secret?: T.Sensitive;
+  db_user?: string | undefined;
+  db_pass?: string | undefined;
+  jwt_secret?: T.Sensitive | undefined;
 }
 export interface V1GetActionRunRequest {
   /** Project ref */
@@ -1148,7 +1162,7 @@ export interface ActionRunResponseOutput {
   id: string;
   branch_id: string;
   run_steps: ActionRunResponseOutputRunStepsList;
-  git_config?: unknown | null;
+  git_config?: unknown | null | undefined;
   workdir: string | null;
   check_run_id: number | null;
   created_at: string;
@@ -1176,11 +1190,11 @@ export interface FunctionSlugResponseOutput {
   version: number;
   created_at: number;
   updated_at: number;
-  verify_jwt?: boolean;
-  import_map?: boolean;
-  entrypoint_path?: string;
-  import_map_path?: string;
-  ezbr_sha256?: string;
+  verify_jwt?: boolean | undefined;
+  import_map?: boolean | undefined;
+  entrypoint_path?: string | undefined;
+  import_map_path?: string | undefined;
+  ezbr_sha256?: string | undefined;
 }
 export interface V1GetAFunctionBodyRequest {
   /** Project ref */
@@ -1198,15 +1212,15 @@ export interface V1GetAllProjectsForOrganizationRequest {
   /** Organization slug */
   slug: string;
   /** Number of projects to skip */
-  offset?: number;
+  offset?: number | undefined;
   /** Number of projects to return per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Search projects by name */
-  search?: string;
+  search?: string | undefined;
   /** Sort order for projects */
-  sort?: V1GetAllProjectsForOrganizationRequestSort | (string & {});
+  sort?: V1GetAllProjectsForOrganizationRequestSort | (string & {}) | undefined;
   /** A comma-separated list of project statuses to filter by. The following values are supported: `ACTIVE_HEALTHY`, `INACTIVE`. */
-  statuses?: string;
+  statuses?: string | undefined;
 }
 export type OrganizationProjectsResponseOutputProjectsItemStatus =
   | "INACTIVE"
@@ -1264,16 +1278,18 @@ export type OrganizationProjectsResponseOutputProjectsItemDatabasesItemType =
   | "READ_REPLICA";
 export type OrganizationProjectsResponseOutputProjectsItemDatabasesItemDiskType = "gp3" | "io2";
 export interface OrganizationProjectsResponseOutputProjectsItemDatabasesItem {
-  infra_compute_size?: OrganizationProjectsResponseOutputProjectsItemDatabasesItemInfraComputeSize;
+  infra_compute_size?:
+    | OrganizationProjectsResponseOutputProjectsItemDatabasesItemInfraComputeSize
+    | undefined;
   region: string;
   status: OrganizationProjectsResponseOutputProjectsItemDatabasesItemStatus;
   cloud_provider: string;
   identifier: string;
   type: OrganizationProjectsResponseOutputProjectsItemDatabasesItemType;
-  disk_volume_size_gb?: number;
-  disk_type?: OrganizationProjectsResponseOutputProjectsItemDatabasesItemDiskType;
-  disk_throughput_mbps?: number;
-  disk_last_modified_at?: string;
+  disk_volume_size_gb?: number | undefined;
+  disk_type?: OrganizationProjectsResponseOutputProjectsItemDatabasesItemDiskType | undefined;
+  disk_throughput_mbps?: number | undefined;
+  disk_last_modified_at?: string | undefined;
 }
 export type OrganizationProjectsResponseOutputProjectsItemDatabasesList =
   Array<OrganizationProjectsResponseOutputProjectsItemDatabasesItem>;
@@ -1310,11 +1326,11 @@ export type V1GetMigrationResponseOutputStatementsList = Array<string>;
 export type V1GetMigrationResponseOutputRollbackList = Array<string>;
 export interface V1GetMigrationResponseOutput {
   version: string;
-  name?: string;
-  statements?: V1GetMigrationResponseOutputStatementsList;
-  rollback?: V1GetMigrationResponseOutputRollbackList;
-  created_by?: string;
-  idempotency_key?: string;
+  name?: string | undefined;
+  statements?: V1GetMigrationResponseOutputStatementsList | undefined;
+  rollback?: V1GetMigrationResponseOutputRollbackList | undefined;
+  created_by?: string | undefined;
+  idempotency_key?: string | undefined;
 }
 export interface V1GetAnOrganizationRequest {
   /** Organization slug */
@@ -1344,7 +1360,7 @@ export type V1OrganizationSlugResponseOutputAllowedReleaseChannelsList =
 export interface V1OrganizationSlugResponseOutput {
   id: string;
   name: string;
-  plan?: V1OrganizationSlugResponseOutputPlan;
+  plan?: V1OrganizationSlugResponseOutputPlan | undefined;
   opt_in_tags: V1OrganizationSlugResponseOutputOptInTagsList;
   allowed_release_channels: V1OrganizationSlugResponseOutputAllowedReleaseChannelsList;
 }
@@ -1364,8 +1380,8 @@ export interface SnippetResponseOutputOwner {
 export type SnippetResponseOutputUpdatedBy = SnippetResponseOutputOwner;
 export interface SnippetResponseOutputContent {
   /** Deprecated: Rely on root-level favorite property instead. */
-  favorite?: boolean;
-  schema_version?: string;
+  favorite?: boolean | undefined;
+  schema_version?: string | undefined;
   sql: string;
 }
 export interface SnippetResponseOutput {
@@ -1394,10 +1410,10 @@ export type GetProviderResponseOutputSamlAttributeMappingKeysValueDefault =
   | string
   | boolean;
 export interface GetProviderResponseOutputSamlAttributeMappingKeysValue {
-  name?: string;
-  names?: GetProviderResponseOutputSamlAttributeMappingKeysValueNamesList;
-  array?: boolean;
-  default?: GetProviderResponseOutputSamlAttributeMappingKeysValueDefault;
+  name?: string | undefined;
+  names?: GetProviderResponseOutputSamlAttributeMappingKeysValueNamesList | undefined;
+  array?: boolean | undefined;
+  default?: GetProviderResponseOutputSamlAttributeMappingKeysValueDefault | undefined;
 }
 export type GetProviderResponseOutputSamlAttributeMappingKeysMap = {
   [key: string]: GetProviderResponseOutputSamlAttributeMappingKeysValue | undefined;
@@ -1412,19 +1428,19 @@ export type GetProviderResponseOutputSamlNameIdFormat =
   | "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent";
 export interface GetProviderResponseOutputSaml {
   entity_id: string;
-  metadata_url?: string;
-  metadata_xml?: string;
-  attribute_mapping?: GetProviderResponseOutputSamlAttributeMapping;
-  name_id_format?: GetProviderResponseOutputSamlNameIdFormat;
+  metadata_url?: string | undefined;
+  metadata_xml?: string | undefined;
+  attribute_mapping?: GetProviderResponseOutputSamlAttributeMapping | undefined;
+  name_id_format?: GetProviderResponseOutputSamlNameIdFormat | undefined;
 }
 export type GetProviderResponseOutputDomainsItem = CreateProviderResponseOutputDomainsItem;
 export type GetProviderResponseOutputDomainsList = Array<CreateProviderResponseOutputDomainsItem>;
 export interface GetProviderResponseOutput {
   id: string;
-  saml?: GetProviderResponseOutputSaml;
-  domains?: GetProviderResponseOutputDomainsList;
-  created_at?: string;
-  updated_at?: string;
+  saml?: GetProviderResponseOutputSaml | undefined;
+  domains?: GetProviderResponseOutputDomainsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface V1GetAuthServiceConfigRequest {
   /** Project ref */
@@ -1708,9 +1724,12 @@ export interface V1GetAvailableRegionsRequest {
   /** Slug of your organization */
   organization_slug: string;
   /** Continent code to determine regional recommendations: NA (North America), SA (South America), EU (Europe), AF (Africa), AS (Asia), OC (Oceania), AN (Antarctica) */
-  continent?: V1GetAvailableRegionsRequestContinent | (string & {});
+  continent?: V1GetAvailableRegionsRequestContinent | (string & {}) | undefined;
   /** Desired instance size. Omit this field to always default to the smallest possible size. */
-  desired_instance_size?: V1GetAvailableRegionsRequestDesiredInstanceSize | (string & {});
+  desired_instance_size?:
+    | V1GetAvailableRegionsRequestDesiredInstanceSize
+    | (string & {})
+    | undefined;
 }
 export type RegionsInfoV1OutputRecommendationsSmartGroupCode = "americas" | "emea" | "apac";
 export type RegionsInfoV1OutputRecommendationsSmartGroupType = "smartGroup";
@@ -1749,7 +1768,7 @@ export interface RegionsInfoV1OutputRecommendationsSpecificItem {
   code: RegionsInfoV1OutputRecommendationsSpecificItemCode;
   type: RegionsInfoV1OutputRecommendationsSpecificItemType;
   provider: RegionsInfoV1OutputRecommendationsSpecificItemProvider;
-  status?: RegionsInfoV1OutputRecommendationsSpecificItemStatus;
+  status?: RegionsInfoV1OutputRecommendationsSpecificItemStatus | undefined;
 }
 export type RegionsInfoV1OutputRecommendationsSpecificList =
   Array<RegionsInfoV1OutputRecommendationsSpecificItem>;
@@ -1792,7 +1811,7 @@ export interface RegionsInfoV1OutputAllSpecificItem {
   code: RegionsInfoV1OutputAllSpecificItemCode;
   type: RegionsInfoV1OutputAllSpecificItemType;
   provider: RegionsInfoV1OutputAllSpecificItemProvider;
-  status?: RegionsInfoV1OutputAllSpecificItemStatus;
+  status?: RegionsInfoV1OutputAllSpecificItemStatus | undefined;
 }
 export type RegionsInfoV1OutputAllSpecificList = Array<RegionsInfoV1OutputAllSpecificItem>;
 export interface RegionsInfoV1OutputAll {
@@ -1821,7 +1840,7 @@ export type DiskResponseOutputAttributesCase0Type = "gp3";
 export interface DiskResponseOutputAttributesCase0 {
   iops: number;
   size_gb: number;
-  throughput_mibps?: number;
+  throughput_mibps?: number | undefined;
   type: DiskResponseOutputAttributesCase0Type;
 }
 export type DiskResponseOutputAttributesCase1Type = "io2";
@@ -1835,7 +1854,7 @@ export type DiskResponseOutputAttributes =
   | DiskResponseOutputAttributesCase1;
 export interface DiskResponseOutput {
   attributes: DiskResponseOutputAttributes;
-  last_modified_at?: string;
+  last_modified_at?: string | undefined;
 }
 export interface V1GetDatabaseMetadataRequest {
   /** Project ref */
@@ -1859,7 +1878,7 @@ export interface V1GetDatabaseOpenapiRequest {
   /** Project ref */
   ref: string;
   /** The database schema to generate the OpenAPI spec for */
-  schema?: string;
+  schema?: string | undefined;
 }
 export type V1GetDatabaseOpenapiResponse = unknown;
 export interface V1GetDiskUtilizationRequest {
@@ -1890,7 +1909,7 @@ export interface V1GetJitAccessConfigRequest {
 export type V1GetJitAccessConfigResponseBodyCase0State = "enabled" | "disabled";
 export interface V1GetJitAccessConfigResponseBodyCase0 {
   state: V1GetJitAccessConfigResponseBodyCase0State;
-  appliedSuccessfully?: boolean;
+  appliedSuccessfully?: boolean | undefined;
 }
 export type V1GetJitAccessConfigResponseBodyCase1UnavailableReason =
   | "platform_unsupported"
@@ -1918,22 +1937,22 @@ export type NetworkRestrictionsResponseOutputConfigDbAllowedCidrsList = Array<st
 export type NetworkRestrictionsResponseOutputConfigDbAllowedCidrsV6List = Array<string>;
 /** At any given point in time, this is the config that the user has requested be applied to their project. The `status` field indicates if it has been applied to the project, or is pending. When an updated config is received, the applied config is moved to `old_config`. */
 export interface NetworkRestrictionsResponseOutputConfig {
-  dbAllowedCidrs?: NetworkRestrictionsResponseOutputConfigDbAllowedCidrsList;
-  dbAllowedCidrsV6?: NetworkRestrictionsResponseOutputConfigDbAllowedCidrsV6List;
+  dbAllowedCidrs?: NetworkRestrictionsResponseOutputConfigDbAllowedCidrsList | undefined;
+  dbAllowedCidrsV6?: NetworkRestrictionsResponseOutputConfigDbAllowedCidrsV6List | undefined;
 }
 export type NetworkRestrictionsResponseOutputOldConfigDbAllowedCidrsList = Array<string>;
 export type NetworkRestrictionsResponseOutputOldConfigDbAllowedCidrsV6List = Array<string>;
 /** Populated when a new config has been received, but not registered as successfully applied to a project. */
 export interface NetworkRestrictionsResponseOutputOldConfig {
-  dbAllowedCidrs?: NetworkRestrictionsResponseOutputOldConfigDbAllowedCidrsList;
-  dbAllowedCidrsV6?: NetworkRestrictionsResponseOutputOldConfigDbAllowedCidrsV6List;
+  dbAllowedCidrs?: NetworkRestrictionsResponseOutputOldConfigDbAllowedCidrsList | undefined;
+  dbAllowedCidrsV6?: NetworkRestrictionsResponseOutputOldConfigDbAllowedCidrsV6List | undefined;
 }
 export type NetworkRestrictionsResponseOutputPendingConfigDbAllowedCidrsList = Array<string>;
 export type NetworkRestrictionsResponseOutputPendingConfigDbAllowedCidrsV6List = Array<string>;
 /** Present when a change that was never applied is waiting for review. `config` is the list the project enforces. Apply or reject the change with `POST /v1/projects/{ref}/network-restrictions/review`; submitting a new config also replaces it. */
 export interface NetworkRestrictionsResponseOutputPendingConfig {
-  dbAllowedCidrs?: NetworkRestrictionsResponseOutputPendingConfigDbAllowedCidrsList;
-  dbAllowedCidrsV6?: NetworkRestrictionsResponseOutputPendingConfigDbAllowedCidrsV6List;
+  dbAllowedCidrs?: NetworkRestrictionsResponseOutputPendingConfigDbAllowedCidrsList | undefined;
+  dbAllowedCidrsV6?: NetworkRestrictionsResponseOutputPendingConfigDbAllowedCidrsV6List | undefined;
 }
 export type NetworkRestrictionsResponseOutputStatus = "stored" | "applied";
 export interface NetworkRestrictionsResponseOutput {
@@ -1941,14 +1960,14 @@ export interface NetworkRestrictionsResponseOutput {
   /** At any given point in time, this is the config that the user has requested be applied to their project. The `status` field indicates if it has been applied to the project, or is pending. When an updated config is received, the applied config is moved to `old_config`. */
   config: NetworkRestrictionsResponseOutputConfig;
   /** Populated when a new config has been received, but not registered as successfully applied to a project. */
-  old_config?: NetworkRestrictionsResponseOutputOldConfig;
+  old_config?: NetworkRestrictionsResponseOutputOldConfig | undefined;
   /** Present when a change that was never applied is waiting for review. `config` is the list the project enforces. Apply or reject the change with `POST /v1/projects/{ref}/network-restrictions/review`; submitting a new config also replaces it. */
-  pending_config?: NetworkRestrictionsResponseOutputPendingConfig;
+  pending_config?: NetworkRestrictionsResponseOutputPendingConfig | undefined;
   /** When the change in `pending_config` was requested. Send it as `requested_at` to the review endpoint. */
-  pending_requested_at?: string;
+  pending_requested_at?: string | undefined;
   status: NetworkRestrictionsResponseOutputStatus;
-  updated_at?: string;
-  applied_at?: string;
+  updated_at?: string | undefined;
+  applied_at?: string | undefined;
 }
 export interface V1GetOrganizationEntitlementsRequest {
   /** Organization slug */
@@ -2184,12 +2203,12 @@ export type V1ProjectAdvisorsResponseOutputLintsItemMetadataType =
   | "health";
 export type V1ProjectAdvisorsResponseOutputLintsItemMetadataFkeyColumnsList = Array<number>;
 export interface V1ProjectAdvisorsResponseOutputLintsItemMetadata {
-  schema?: string;
-  name?: string;
-  entity?: string;
-  type?: V1ProjectAdvisorsResponseOutputLintsItemMetadataType;
-  fkey_name?: string;
-  fkey_columns?: V1ProjectAdvisorsResponseOutputLintsItemMetadataFkeyColumnsList;
+  schema?: string | undefined;
+  name?: string | undefined;
+  entity?: string | undefined;
+  type?: V1ProjectAdvisorsResponseOutputLintsItemMetadataType | undefined;
+  fkey_name?: string | undefined;
+  fkey_columns?: V1ProjectAdvisorsResponseOutputLintsItemMetadataFkeyColumnsList | undefined;
 }
 export interface V1ProjectAdvisorsResponseOutputLintsItem {
   name: V1ProjectAdvisorsResponseOutputLintsItemName;
@@ -2200,9 +2219,9 @@ export interface V1ProjectAdvisorsResponseOutputLintsItem {
   description: string;
   detail: string;
   remediation: string;
-  metadata?: V1ProjectAdvisorsResponseOutputLintsItemMetadata;
+  metadata?: V1ProjectAdvisorsResponseOutputLintsItemMetadata | undefined;
   cache_key: string;
-  observed_at?: string;
+  observed_at?: string | undefined;
 }
 export type V1ProjectAdvisorsResponseOutputLintsList =
   Array<V1ProjectAdvisorsResponseOutputLintsItem>;
@@ -2246,53 +2265,53 @@ export interface V1GetPostgresConfigRequest {
 }
 export type PostgresConfigResponseOutputSessionReplicationRole = "origin" | "replica" | "local";
 export interface PostgresConfigResponseOutput {
-  effective_cache_size?: string;
-  logical_decoding_work_mem?: string;
-  pg_stat_statements_max?: number;
-  pg_net_batch_size?: number;
-  autovacuum_max_workers?: number;
-  autovacuum_work_mem?: string;
-  cron_log_statement?: boolean;
+  effective_cache_size?: string | undefined;
+  logical_decoding_work_mem?: string | undefined;
+  pg_stat_statements_max?: number | undefined;
+  pg_net_batch_size?: number | undefined;
+  autovacuum_max_workers?: number | undefined;
+  autovacuum_work_mem?: string | undefined;
+  cron_log_statement?: boolean | undefined;
   /** Default unit: ms */
-  log_autovacuum_min_duration?: string;
-  log_checkpoints?: boolean;
-  log_connections?: boolean;
-  log_disconnections?: boolean;
-  log_duration?: boolean;
-  log_lock_waits?: boolean;
-  log_recovery_conflict_waits?: boolean;
-  log_replication_commands?: boolean;
+  log_autovacuum_min_duration?: string | undefined;
+  log_checkpoints?: boolean | undefined;
+  log_connections?: boolean | undefined;
+  log_disconnections?: boolean | undefined;
+  log_duration?: boolean | undefined;
+  log_lock_waits?: boolean | undefined;
+  log_recovery_conflict_waits?: boolean | undefined;
+  log_replication_commands?: boolean | undefined;
   /** Default unit: ms */
-  log_startup_progress_interval?: string;
-  log_temp_files?: string;
-  maintenance_work_mem?: string;
-  track_activity_query_size?: string;
-  max_connections?: number;
-  max_locks_per_transaction?: number;
-  max_logical_replication_workers?: number;
-  max_parallel_maintenance_workers?: number;
-  max_parallel_workers?: number;
-  max_parallel_workers_per_gather?: number;
-  max_replication_slots?: number;
-  max_slot_wal_keep_size?: string;
-  max_standby_archive_delay?: string;
-  max_standby_streaming_delay?: string;
-  max_sync_workers_per_subscription?: number;
-  max_wal_size?: string;
-  max_wal_senders?: number;
-  max_worker_processes?: number;
-  session_replication_role?: PostgresConfigResponseOutputSessionReplicationRole;
-  shared_buffers?: string;
+  log_startup_progress_interval?: string | undefined;
+  log_temp_files?: string | undefined;
+  maintenance_work_mem?: string | undefined;
+  track_activity_query_size?: string | undefined;
+  max_connections?: number | undefined;
+  max_locks_per_transaction?: number | undefined;
+  max_logical_replication_workers?: number | undefined;
+  max_parallel_maintenance_workers?: number | undefined;
+  max_parallel_workers?: number | undefined;
+  max_parallel_workers_per_gather?: number | undefined;
+  max_replication_slots?: number | undefined;
+  max_slot_wal_keep_size?: string | undefined;
+  max_standby_archive_delay?: string | undefined;
+  max_standby_streaming_delay?: string | undefined;
+  max_sync_workers_per_subscription?: number | undefined;
+  max_wal_size?: string | undefined;
+  max_wal_senders?: number | undefined;
+  max_worker_processes?: number | undefined;
+  session_replication_role?: PostgresConfigResponseOutputSessionReplicationRole | undefined;
+  shared_buffers?: string | undefined;
   /** Default unit: ms */
-  statement_timeout?: string;
-  track_commit_timestamp?: boolean;
-  wal_keep_size?: string;
+  statement_timeout?: string | undefined;
+  track_commit_timestamp?: boolean | undefined;
+  wal_keep_size?: string | undefined;
   /** Default unit: ms */
-  wal_sender_timeout?: string;
-  work_mem?: string;
+  wal_sender_timeout?: string | undefined;
+  work_mem?: string | undefined;
   /** Default unit: s */
-  checkpoint_timeout?: string;
-  hot_standby_feedback?: boolean;
+  checkpoint_timeout?: string | undefined;
+  hot_standby_feedback?: boolean | undefined;
 }
 export interface V1GetPostgrestServiceConfigRequest {
   /** Project ref */
@@ -2310,7 +2329,7 @@ export interface PostgrestConfigWithJWTSecretResponseOutput {
   db_pool_max_lifetime: number | null;
   /** If `null`, the value is automatically configured to 30. */
   db_pool_max_idletime: number | null;
-  jwt_secret?: T.Sensitive;
+  jwt_secret?: T.Sensitive | undefined;
 }
 export interface V1GetPostgresUpgradeEligibilityRequest {
   /** Project ref */
@@ -2500,7 +2519,7 @@ export interface ProjectUpgradeEligibilityResponseOutput {
 export interface V1GetPostgresUpgradeStatusRequest {
   /** Project ref */
   ref: string;
-  tracking_id?: string;
+  tracking_id?: string | undefined;
 }
 export type DatabaseUpgradeStatusResponseOutputDatabaseUpgradeStatusError =
   | "1_upgraded_instance_launch_failed"
@@ -2528,8 +2547,8 @@ export interface DatabaseUpgradeStatusResponseOutputDatabaseUpgradeStatus {
   initiated_at: string;
   latest_status_at: string;
   target_version: string;
-  error?: DatabaseUpgradeStatusResponseOutputDatabaseUpgradeStatusError;
-  progress?: DatabaseUpgradeStatusResponseOutputDatabaseUpgradeStatusProgress;
+  error?: DatabaseUpgradeStatusResponseOutputDatabaseUpgradeStatusError | undefined;
+  progress?: DatabaseUpgradeStatusResponseOutputDatabaseUpgradeStatusProgress | undefined;
   status: number;
 }
 export interface DatabaseUpgradeStatusResponseOutput {
@@ -2595,13 +2614,13 @@ export interface V1GetProjectApiKeyRequest {
   ref: string;
   id: string;
   /** Boolean string. Truthy values: `true`, `1`, `yes`, `on`, `y`, `enabled` Falsy values: `false`, `0`, `no`, `off`, `n`, `disabled` */
-  reveal?: string;
+  reveal?: string | undefined;
 }
 export interface V1GetProjectApiKeysRequest {
   /** Project ref */
   ref: string;
   /** Boolean string. Truthy values: `true`, `1`, `yes`, `on`, `y`, `enabled` Falsy values: `false`, `0`, `no`, `off`, `n`, `disabled` */
-  reveal?: string;
+  reveal?: string | undefined;
 }
 export type V1GetProjectApiKeysResponseBodyList = Array<ApiKeyResponseOutput>;
 export type V1GetProjectApiKeysResponse = V1GetProjectApiKeysResponseBodyList;
@@ -2652,8 +2671,8 @@ export interface AnalyticsResponseOutputErrorCase1 {
 }
 export type AnalyticsResponseOutputError = string | AnalyticsResponseOutputErrorCase1;
 export interface AnalyticsResponseOutput {
-  result?: AnalyticsResponseOutputResultList;
-  error?: AnalyticsResponseOutputError;
+  result?: AnalyticsResponseOutputResultList | undefined;
+  error?: AnalyticsResponseOutputError | undefined;
 }
 export interface V1GetProjectLegacyApiKeysRequest {
   /** Project ref */
@@ -2666,9 +2685,9 @@ export interface V1GetProjectLogsRequest {
   /** Project ref */
   ref: string;
   /** Custom SQL query to execute on the logs. See [querying logs](https://supabase.com/docs/guides/monitoring-and-debugging/logs#querying-with-the-logs-explorer) for more details. */
-  sql?: string;
-  iso_timestamp_start?: string;
-  iso_timestamp_end?: string;
+  sql?: string | undefined;
+  iso_timestamp_start?: string | undefined;
+  iso_timestamp_end?: string | undefined;
 }
 export interface V1GetProjectPgbouncerConfigRequest {
   /** Project ref */
@@ -2676,15 +2695,15 @@ export interface V1GetProjectPgbouncerConfigRequest {
 }
 export type V1PgbouncerConfigResponseOutputPoolMode = "transaction" | "session" | "statement";
 export interface V1PgbouncerConfigResponseOutput {
-  default_pool_size?: number;
-  ignore_startup_parameters?: string;
-  max_client_conn?: number;
-  pool_mode?: V1PgbouncerConfigResponseOutputPoolMode;
-  connection_string?: T.Sensitive;
-  server_idle_timeout?: number;
-  server_lifetime?: number;
-  query_wait_timeout?: number;
-  reserve_pool_size?: number;
+  default_pool_size?: number | undefined;
+  ignore_startup_parameters?: string | undefined;
+  max_client_conn?: number | undefined;
+  pool_mode?: V1PgbouncerConfigResponseOutputPoolMode | undefined;
+  connection_string?: T.Sensitive | undefined;
+  server_idle_timeout?: number | undefined;
+  server_lifetime?: number | undefined;
+  query_wait_timeout?: number | undefined;
+  reserve_pool_size?: number | undefined;
 }
 export interface V1GetProjectSigningKeyRequest {
   /** Project ref */
@@ -2729,7 +2748,7 @@ export type V1GetProjectUsageApiCountRequestInterval =
 export interface V1GetProjectUsageApiCountRequest {
   /** Project ref */
   ref: string;
-  interval?: V1GetProjectUsageApiCountRequestInterval | (string & {});
+  interval?: V1GetProjectUsageApiCountRequestInterval | (string & {}) | undefined;
 }
 export interface V1GetUsageApiCountResponseOutputResultItem {
   timestamp: string;
@@ -2754,8 +2773,8 @@ export type V1GetUsageApiCountResponseOutputError =
   | string
   | V1GetUsageApiCountResponseOutputErrorCase1;
 export interface V1GetUsageApiCountResponseOutput {
-  result?: V1GetUsageApiCountResponseOutputResultList;
-  error?: V1GetUsageApiCountResponseOutputError;
+  result?: V1GetUsageApiCountResponseOutputResultList | undefined;
+  error?: V1GetUsageApiCountResponseOutputError | undefined;
 }
 export interface V1GetProjectUsageRequestCountRequest {
   /** Project ref */
@@ -2780,8 +2799,8 @@ export type V1GetUsageApiRequestsCountResponseOutputError =
   | string
   | V1GetUsageApiRequestsCountResponseOutputErrorCase1;
 export interface V1GetUsageApiRequestsCountResponseOutput {
-  result?: V1GetUsageApiRequestsCountResponseOutputResultList;
-  error?: V1GetUsageApiRequestsCountResponseOutputError;
+  result?: V1GetUsageApiRequestsCountResponseOutputResultList | undefined;
+  error?: V1GetUsageApiRequestsCountResponseOutputError | undefined;
 }
 export interface V1GetReadonlyModeStatusRequest {
   /** Project ref */
@@ -2827,13 +2846,13 @@ export interface RealtimeConfigResponseOutput {
 export interface V1GetRestorePointRequest {
   /** Project ref */
   ref: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type V1GetSecurityAdvisorsRequestLintType = "sql";
 export interface V1GetSecurityAdvisorsRequest {
   /** Project ref */
   ref: string;
-  lint_type?: V1GetSecurityAdvisorsRequestLintType | (string & {});
+  lint_type?: V1GetSecurityAdvisorsRequestLintType | (string & {}) | undefined;
 }
 export type V1GetServicesHealthRequestServicesCase1Item =
   | "auth"
@@ -2856,7 +2875,7 @@ export interface V1GetServicesHealthRequest {
   ref: string;
   /** Comma-separated list of enums or array of enums. */
   services: V1GetServicesHealthRequestServices;
-  timeout_ms?: number;
+  timeout_ms?: number | undefined;
 }
 export type V1ServiceHealthResponseOutputName =
   | "auth"
@@ -2893,8 +2912,8 @@ export interface V1ServiceHealthResponseOutput {
   /** Deprecated. Use `status` instead. */
   healthy: boolean;
   status: V1ServiceHealthResponseOutputStatus;
-  info?: V1ServiceHealthResponseOutputInfo;
-  error?: string;
+  info?: V1ServiceHealthResponseOutputInfo | undefined;
+  error?: string | undefined;
 }
 export type V1GetServicesHealthResponseBodyList = Array<V1ServiceHealthResponseOutput>;
 export type V1GetServicesHealthResponse = V1GetServicesHealthResponseBodyList;
@@ -2963,7 +2982,7 @@ export type VanitySubdomainConfigResponseOutputStatus =
   | "active";
 export interface VanitySubdomainConfigResponseOutput {
   status: VanitySubdomainConfigResponseOutputStatus;
-  custom_domain?: string;
+  custom_domain?: string | undefined;
 }
 export type V1InviteExternalJitAccessRequestRolesItemAllowedNetworksAllowedCidrsItem =
   JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem;
@@ -2974,14 +2993,18 @@ export type V1InviteExternalJitAccessRequestRolesItemAllowedNetworksAllowedCidrs
 export type V1InviteExternalJitAccessRequestRolesItemAllowedNetworksAllowedCidrsV6List =
   Array<JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem>;
 export interface V1InviteExternalJitAccessRequestRolesItemAllowedNetworks {
-  allowed_cidrs?: V1InviteExternalJitAccessRequestRolesItemAllowedNetworksAllowedCidrsList;
-  allowed_cidrs_v6?: V1InviteExternalJitAccessRequestRolesItemAllowedNetworksAllowedCidrsV6List;
+  allowed_cidrs?:
+    | V1InviteExternalJitAccessRequestRolesItemAllowedNetworksAllowedCidrsList
+    | undefined;
+  allowed_cidrs_v6?:
+    | V1InviteExternalJitAccessRequestRolesItemAllowedNetworksAllowedCidrsV6List
+    | undefined;
 }
 export interface V1InviteExternalJitAccessRequestRolesItem {
   role: string;
-  expires_at?: number;
-  allowed_networks?: V1InviteExternalJitAccessRequestRolesItemAllowedNetworks;
-  branches_only?: boolean;
+  expires_at?: number | undefined;
+  allowed_networks?: V1InviteExternalJitAccessRequestRolesItemAllowedNetworks | undefined;
+  branches_only?: boolean | undefined;
 }
 export type V1InviteExternalJitAccessRequestRolesList =
   Array<V1InviteExternalJitAccessRequestRolesItem>;
@@ -3000,14 +3023,18 @@ export type InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworksAllow
 export type InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworksAllowedCidrsV6List =
   Array<JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem>;
 export interface InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworks {
-  allowed_cidrs?: InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworksAllowedCidrsList;
-  allowed_cidrs_v6?: InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworksAllowedCidrsV6List;
+  allowed_cidrs?:
+    | InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworksAllowedCidrsList
+    | undefined;
+  allowed_cidrs_v6?:
+    | InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworksAllowedCidrsV6List
+    | undefined;
 }
 export interface InviteExternalUserJitResponseOutputUserRolesItem {
   role: string;
-  expires_at?: number;
-  allowed_networks?: InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworks;
-  branches_only?: boolean;
+  expires_at?: number | undefined;
+  allowed_networks?: InviteExternalUserJitResponseOutputUserRolesItemAllowedNetworks | undefined;
+  branches_only?: boolean | undefined;
 }
 export type InviteExternalUserJitResponseOutputUserRolesList =
   Array<InviteExternalUserJitResponseOutputUserRolesItem>;
@@ -3019,8 +3046,8 @@ export interface InviteExternalUserJitResponseOutput {
 export interface V1ListActionRunsRequest {
   /** Project ref */
   ref: string;
-  offset?: number;
-  limit?: number;
+  offset?: number | undefined;
+  limit?: number | undefined;
 }
 export type ListActionRunResponseOutputItemRunStepsItemName =
   | "clone"
@@ -3050,7 +3077,7 @@ export interface ListActionRunResponseOutputItem {
   id: string;
   branch_id: string;
   run_steps: ListActionRunResponseOutputItemRunStepsList;
-  git_config?: unknown | null;
+  git_config?: unknown | null | undefined;
   workdir: string | null;
   check_run_id: number | null;
   created_at: string;
@@ -3077,8 +3104,8 @@ export interface V1BackupsResponseOutputBackupsItem {
 }
 export type V1BackupsResponseOutputBackupsList = Array<V1BackupsResponseOutputBackupsItem>;
 export interface V1BackupsResponseOutputPhysicalBackupData {
-  earliest_physical_backup_date_unix?: number;
-  latest_physical_backup_date_unix?: number;
+  earliest_physical_backup_date_unix?: number | undefined;
+  latest_physical_backup_date_unix?: number | undefined;
 }
 export interface V1BackupsResponseOutput {
   region: string;
@@ -3120,11 +3147,11 @@ export interface FunctionResponseOutput {
   version: number;
   created_at: number;
   updated_at: number;
-  verify_jwt?: boolean;
-  import_map?: boolean;
-  entrypoint_path?: string;
-  import_map_path?: string;
-  ezbr_sha256?: string;
+  verify_jwt?: boolean | undefined;
+  import_map?: boolean | undefined;
+  entrypoint_path?: string | undefined;
+  import_map_path?: string | undefined;
+  ezbr_sha256?: string | undefined;
 }
 export type V1ListAllFunctionsResponseBodyList = Array<FunctionResponseOutput>;
 export type V1ListAllFunctionsResponse = V1ListAllFunctionsResponseBodyList;
@@ -3163,7 +3190,7 @@ export interface V1ListAllSecretsRequest {
 export interface SecretResponseOutput {
   name: string;
   value: string;
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type V1ListAllSecretsResponseBodyList = Array<SecretResponseOutput>;
 export type V1ListAllSecretsResponse = V1ListAllSecretsResponseBodyList;
@@ -3171,11 +3198,11 @@ export type V1ListAllSnippetsRequestSortBy = "name" | "inserted_at";
 export type V1ListAllSnippetsRequestSortOrder = "asc" | "desc";
 export interface V1ListAllSnippetsRequest {
   /** Project ref */
-  project_ref?: string;
-  cursor?: string;
-  limit?: string;
-  sort_by?: V1ListAllSnippetsRequestSortBy | (string & {});
-  sort_order?: V1ListAllSnippetsRequestSortOrder | (string & {});
+  project_ref?: string | undefined;
+  cursor?: string | undefined;
+  limit?: string | undefined;
+  sort_by?: V1ListAllSnippetsRequestSortBy | (string & {}) | undefined;
+  sort_order?: V1ListAllSnippetsRequestSortOrder | (string & {}) | undefined;
 }
 export type SnippetListOutputDataItemType = "sql";
 export type SnippetListOutputDataItemVisibility = "user" | "project" | "org" | "public";
@@ -3198,7 +3225,7 @@ export interface SnippetListOutputDataItem {
 export type SnippetListOutputDataList = Array<SnippetListOutputDataItem>;
 export interface SnippetListOutput {
   data: SnippetListOutputDataList;
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface V1ListAllSsoProviderRequest {
   /** Project ref */
@@ -3212,10 +3239,10 @@ export type ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValueDef
   | string
   | boolean;
 export interface ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValue {
-  name?: string;
-  names?: ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValueNamesList;
-  array?: boolean;
-  default?: ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValueDefault;
+  name?: string | undefined;
+  names?: ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValueNamesList | undefined;
+  array?: boolean | undefined;
+  default?: ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValueDefault | undefined;
 }
 export type ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysMap = {
   [key: string]: ListProvidersResponseOutputItemsItemSamlAttributeMappingKeysValue | undefined;
@@ -3230,10 +3257,10 @@ export type ListProvidersResponseOutputItemsItemSamlNameIdFormat =
   | "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent";
 export interface ListProvidersResponseOutputItemsItemSaml {
   entity_id: string;
-  metadata_url?: string;
-  metadata_xml?: string;
-  attribute_mapping?: ListProvidersResponseOutputItemsItemSamlAttributeMapping;
-  name_id_format?: ListProvidersResponseOutputItemsItemSamlNameIdFormat;
+  metadata_url?: string | undefined;
+  metadata_xml?: string | undefined;
+  attribute_mapping?: ListProvidersResponseOutputItemsItemSamlAttributeMapping | undefined;
+  name_id_format?: ListProvidersResponseOutputItemsItemSamlNameIdFormat | undefined;
 }
 export type ListProvidersResponseOutputItemsItemDomainsItem =
   CreateProviderResponseOutputDomainsItem;
@@ -3241,10 +3268,10 @@ export type ListProvidersResponseOutputItemsItemDomainsList =
   Array<CreateProviderResponseOutputDomainsItem>;
 export interface ListProvidersResponseOutputItemsItem {
   id: string;
-  saml?: ListProvidersResponseOutputItemsItemSaml;
-  domains?: ListProvidersResponseOutputItemsItemDomainsList;
-  created_at?: string;
-  updated_at?: string;
+  saml?: ListProvidersResponseOutputItemsItemSaml | undefined;
+  domains?: ListProvidersResponseOutputItemsItemDomainsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ListProvidersResponseOutputItemsList = Array<ListProvidersResponseOutputItemsItem>;
 export interface ListProvidersResponseOutput {
@@ -3290,14 +3317,20 @@ export type JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetwork
 export type JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworksAllowedCidrsV6List =
   Array<JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem>;
 export interface JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworks {
-  allowed_cidrs?: JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworksAllowedCidrsList;
-  allowed_cidrs_v6?: JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworksAllowedCidrsV6List;
+  allowed_cidrs?:
+    | JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworksAllowedCidrsList
+    | undefined;
+  allowed_cidrs_v6?:
+    | JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworksAllowedCidrsV6List
+    | undefined;
 }
 export interface JitListAccessResponseOutputItemsItemCase0UserRolesItem {
   role: string;
-  expires_at?: number;
-  allowed_networks?: JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworks;
-  branches_only?: boolean;
+  expires_at?: number | undefined;
+  allowed_networks?:
+    | JitListAccessResponseOutputItemsItemCase0UserRolesItemAllowedNetworks
+    | undefined;
+  branches_only?: boolean | undefined;
 }
 export type JitListAccessResponseOutputItemsItemCase0UserRolesList =
   Array<JitListAccessResponseOutputItemsItemCase0UserRolesItem>;
@@ -3317,14 +3350,20 @@ export type JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetwork
 export type JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworksAllowedCidrsV6List =
   Array<JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem>;
 export interface JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworks {
-  allowed_cidrs?: JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworksAllowedCidrsList;
-  allowed_cidrs_v6?: JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworksAllowedCidrsV6List;
+  allowed_cidrs?:
+    | JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworksAllowedCidrsList
+    | undefined;
+  allowed_cidrs_v6?:
+    | JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworksAllowedCidrsV6List
+    | undefined;
 }
 export interface JitListAccessResponseOutputItemsItemCase1UserRolesItem {
   role: string;
-  expires_at?: number;
-  allowed_networks?: JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworks;
-  branches_only?: boolean;
+  expires_at?: number | undefined;
+  allowed_networks?:
+    | JitListAccessResponseOutputItemsItemCase1UserRolesItemAllowedNetworks
+    | undefined;
+  branches_only?: boolean | undefined;
 }
 export type JitListAccessResponseOutputItemsItemCase1UserRolesList =
   Array<JitListAccessResponseOutputItemsItemCase1UserRolesItem>;
@@ -3348,7 +3387,7 @@ export interface V1ListMigrationHistoryRequest {
 }
 export interface V1ListMigrationsResponseOutputItem {
   version: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type V1ListMigrationsResponseOutput = Array<V1ListMigrationsResponseOutputItem>;
 export type V1ListMigrationHistoryResponse = V1ListMigrationsResponseOutput;
@@ -3359,8 +3398,8 @@ export interface V1ListOrganizationMembersRequest {
 export interface V1OrganizationMemberResponseOutput {
   user_id: string;
   user_name: string;
-  email?: string;
-  role_name?: string;
+  email?: string | undefined;
+  role_name?: string | undefined;
   mfa_enabled: boolean;
   avatar_url: string | null;
 }
@@ -3434,7 +3473,7 @@ export interface ListProjectAddonsResponseOutputSelectedAddonsItemVariant {
   id: ListProjectAddonsResponseOutputSelectedAddonsItemVariantId;
   name: string;
   price: ListProjectAddonsResponseOutputSelectedAddonsItemVariantPrice;
-  meta?: JsonValueOutput;
+  meta?: JsonValueOutput | undefined;
 }
 export interface ListProjectAddonsResponseOutputSelectedAddonsItem {
   type: ListProjectAddonsResponseOutputSelectedAddonsItemType;
@@ -3509,7 +3548,7 @@ export interface ListProjectAddonsResponseOutputAvailableAddonsItemVariantsItem 
   id: ListProjectAddonsResponseOutputAvailableAddonsItemVariantsItemId;
   name: string;
   price: ListProjectAddonsResponseOutputAvailableAddonsItemVariantsItemPrice;
-  meta?: JsonValueOutput;
+  meta?: JsonValueOutput | undefined;
 }
 export type ListProjectAddonsResponseOutputAvailableAddonsItemVariantsList =
   Array<ListProjectAddonsResponseOutputAvailableAddonsItemVariantsItem>;
@@ -3533,7 +3572,7 @@ export type V1ListProjectTpaIntegrationsResponse = V1ListProjectTpaIntegrationsR
 export interface V1MergeABranchRequest {
   /** Branch ref or deprecated branch ID */
   branch_id_or_ref: string;
-  migration_version?: string;
+  migration_version?: string | undefined;
 }
 export type BranchUpdateResponseOutputMessage = "ok";
 export interface BranchUpdateResponseOutput {
@@ -3544,7 +3583,7 @@ export type V1ModifyDatabaseDiskRequestAttributesCase0Type = "gp3";
 export interface V1ModifyDatabaseDiskRequestAttributesCase0 {
   iops: number;
   size_gb: number;
-  throughput_mibps?: number;
+  throughput_mibps?: number | undefined;
   type: V1ModifyDatabaseDiskRequestAttributesCase0Type;
 }
 export type V1ModifyDatabaseDiskRequestAttributesCase1Type = "io2";
@@ -3570,37 +3609,40 @@ export interface V1OauthAuthorizeProjectClaimRequest {
   client_id: string;
   response_type: V1OauthAuthorizeProjectClaimRequestResponseType | (string & {});
   redirect_uri: string;
-  state?: string;
-  response_mode?: string;
-  code_challenge?: string;
-  code_challenge_method?: V1OauthAuthorizeProjectClaimRequestCodeChallengeMethod | (string & {});
+  state?: string | undefined;
+  response_mode?: string | undefined;
+  code_challenge?: string | undefined;
+  code_challenge_method?:
+    | V1OauthAuthorizeProjectClaimRequestCodeChallengeMethod
+    | (string & {})
+    | undefined;
 }
 export interface V1OauthAuthorizeProjectClaimResponse {}
 export interface V1PatchAMigrationRequest {
   /** Project ref */
   ref: string;
   version: string;
-  name?: string;
-  rollback?: string;
+  name?: string | undefined;
+  rollback?: string | undefined;
 }
 export interface V1PatchAMigrationResponse {}
 export type V1PatchNetworkRestrictionsRequestAddDbAllowedCidrsList = Array<string>;
 export type V1PatchNetworkRestrictionsRequestAddDbAllowedCidrsV6List = Array<string>;
 export interface V1PatchNetworkRestrictionsRequestAdd {
-  dbAllowedCidrs?: V1PatchNetworkRestrictionsRequestAddDbAllowedCidrsList;
-  dbAllowedCidrsV6?: V1PatchNetworkRestrictionsRequestAddDbAllowedCidrsV6List;
+  dbAllowedCidrs?: V1PatchNetworkRestrictionsRequestAddDbAllowedCidrsList | undefined;
+  dbAllowedCidrsV6?: V1PatchNetworkRestrictionsRequestAddDbAllowedCidrsV6List | undefined;
 }
 export type V1PatchNetworkRestrictionsRequestRemoveDbAllowedCidrsList = Array<string>;
 export type V1PatchNetworkRestrictionsRequestRemoveDbAllowedCidrsV6List = Array<string>;
 export interface V1PatchNetworkRestrictionsRequestRemove {
-  dbAllowedCidrs?: V1PatchNetworkRestrictionsRequestRemoveDbAllowedCidrsList;
-  dbAllowedCidrsV6?: V1PatchNetworkRestrictionsRequestRemoveDbAllowedCidrsV6List;
+  dbAllowedCidrs?: V1PatchNetworkRestrictionsRequestRemoveDbAllowedCidrsList | undefined;
+  dbAllowedCidrsV6?: V1PatchNetworkRestrictionsRequestRemoveDbAllowedCidrsV6List | undefined;
 }
 export interface V1PatchNetworkRestrictionsRequest {
   /** Project ref */
   ref: string;
-  add?: V1PatchNetworkRestrictionsRequestAdd;
-  remove?: V1PatchNetworkRestrictionsRequestRemove;
+  add?: V1PatchNetworkRestrictionsRequestAdd | undefined;
+  remove?: V1PatchNetworkRestrictionsRequestRemove | undefined;
 }
 export type NetworkRestrictionsV2ResponseOutputEntitlement = "disallowed" | "allowed";
 export type NetworkRestrictionsV2ResponseOutputConfigDbAllowedCidrsItemType = "v4" | "v6";
@@ -3612,7 +3654,7 @@ export type NetworkRestrictionsV2ResponseOutputConfigDbAllowedCidrsList =
   Array<NetworkRestrictionsV2ResponseOutputConfigDbAllowedCidrsItem>;
 /** At any given point in time, this is the config that the user has requested be applied to their project. The `status` field indicates if it has been applied to the project, or is pending. When an updated config is received, the applied config is moved to `old_config`. */
 export interface NetworkRestrictionsV2ResponseOutputConfig {
-  dbAllowedCidrs?: NetworkRestrictionsV2ResponseOutputConfigDbAllowedCidrsList;
+  dbAllowedCidrs?: NetworkRestrictionsV2ResponseOutputConfigDbAllowedCidrsList | undefined;
 }
 export type NetworkRestrictionsV2ResponseOutputOldConfigDbAllowedCidrsItemType = "v4" | "v6";
 export interface NetworkRestrictionsV2ResponseOutputOldConfigDbAllowedCidrsItem {
@@ -3623,7 +3665,7 @@ export type NetworkRestrictionsV2ResponseOutputOldConfigDbAllowedCidrsList =
   Array<NetworkRestrictionsV2ResponseOutputOldConfigDbAllowedCidrsItem>;
 /** Populated when a new config has been received, but not registered as successfully applied to a project. */
 export interface NetworkRestrictionsV2ResponseOutputOldConfig {
-  dbAllowedCidrs?: NetworkRestrictionsV2ResponseOutputOldConfigDbAllowedCidrsList;
+  dbAllowedCidrs?: NetworkRestrictionsV2ResponseOutputOldConfigDbAllowedCidrsList | undefined;
 }
 export type NetworkRestrictionsV2ResponseOutputStatus = "stored" | "applied";
 export interface NetworkRestrictionsV2ResponseOutput {
@@ -3631,63 +3673,66 @@ export interface NetworkRestrictionsV2ResponseOutput {
   /** At any given point in time, this is the config that the user has requested be applied to their project. The `status` field indicates if it has been applied to the project, or is pending. When an updated config is received, the applied config is moved to `old_config`. */
   config: NetworkRestrictionsV2ResponseOutputConfig;
   /** Populated when a new config has been received, but not registered as successfully applied to a project. */
-  old_config?: NetworkRestrictionsV2ResponseOutputOldConfig;
-  updated_at?: string;
-  applied_at?: string;
+  old_config?: NetworkRestrictionsV2ResponseOutputOldConfig | undefined;
+  updated_at?: string | undefined;
+  applied_at?: string | undefined;
   status: NetworkRestrictionsV2ResponseOutputStatus;
 }
 export type V1PatchPostgresConfigRequestSessionReplicationRole = "origin" | "replica" | "local";
 export interface V1PatchPostgresConfigRequest {
   /** Project ref */
   ref: string;
-  effective_cache_size?: string;
-  logical_decoding_work_mem?: string;
-  pg_stat_statements_max?: number;
-  pg_net_batch_size?: number;
-  autovacuum_max_workers?: number;
-  autovacuum_work_mem?: string;
-  cron_log_statement?: boolean;
+  effective_cache_size?: string | undefined;
+  logical_decoding_work_mem?: string | undefined;
+  pg_stat_statements_max?: number | undefined;
+  pg_net_batch_size?: number | undefined;
+  autovacuum_max_workers?: number | undefined;
+  autovacuum_work_mem?: string | undefined;
+  cron_log_statement?: boolean | undefined;
   /** Default unit: ms */
-  log_autovacuum_min_duration?: string;
-  log_checkpoints?: boolean;
-  log_connections?: boolean;
-  log_disconnections?: boolean;
-  log_duration?: boolean;
-  log_lock_waits?: boolean;
-  log_recovery_conflict_waits?: boolean;
-  log_replication_commands?: boolean;
+  log_autovacuum_min_duration?: string | undefined;
+  log_checkpoints?: boolean | undefined;
+  log_connections?: boolean | undefined;
+  log_disconnections?: boolean | undefined;
+  log_duration?: boolean | undefined;
+  log_lock_waits?: boolean | undefined;
+  log_recovery_conflict_waits?: boolean | undefined;
+  log_replication_commands?: boolean | undefined;
   /** Default unit: ms */
-  log_startup_progress_interval?: string;
-  log_temp_files?: string;
-  maintenance_work_mem?: string;
-  track_activity_query_size?: string;
-  max_connections?: number;
-  max_locks_per_transaction?: number;
-  max_logical_replication_workers?: number;
-  max_parallel_maintenance_workers?: number;
-  max_parallel_workers?: number;
-  max_parallel_workers_per_gather?: number;
-  max_replication_slots?: number;
-  max_slot_wal_keep_size?: string;
-  max_standby_archive_delay?: string;
-  max_standby_streaming_delay?: string;
-  max_sync_workers_per_subscription?: number;
-  max_wal_size?: string;
-  max_wal_senders?: number;
-  max_worker_processes?: number;
-  session_replication_role?: V1PatchPostgresConfigRequestSessionReplicationRole | (string & {});
-  shared_buffers?: string;
+  log_startup_progress_interval?: string | undefined;
+  log_temp_files?: string | undefined;
+  maintenance_work_mem?: string | undefined;
+  track_activity_query_size?: string | undefined;
+  max_connections?: number | undefined;
+  max_locks_per_transaction?: number | undefined;
+  max_logical_replication_workers?: number | undefined;
+  max_parallel_maintenance_workers?: number | undefined;
+  max_parallel_workers?: number | undefined;
+  max_parallel_workers_per_gather?: number | undefined;
+  max_replication_slots?: number | undefined;
+  max_slot_wal_keep_size?: string | undefined;
+  max_standby_archive_delay?: string | undefined;
+  max_standby_streaming_delay?: string | undefined;
+  max_sync_workers_per_subscription?: number | undefined;
+  max_wal_size?: string | undefined;
+  max_wal_senders?: number | undefined;
+  max_worker_processes?: number | undefined;
+  session_replication_role?:
+    | V1PatchPostgresConfigRequestSessionReplicationRole
+    | (string & {})
+    | undefined;
+  shared_buffers?: string | undefined;
   /** Default unit: ms */
-  statement_timeout?: string;
-  track_commit_timestamp?: boolean;
-  wal_keep_size?: string;
+  statement_timeout?: string | undefined;
+  track_commit_timestamp?: boolean | undefined;
+  wal_keep_size?: string | undefined;
   /** Default unit: ms */
-  wal_sender_timeout?: string;
-  work_mem?: string;
+  wal_sender_timeout?: string | undefined;
+  work_mem?: string | undefined;
   /** Default unit: s */
-  checkpoint_timeout?: string;
-  hot_standby_feedback?: boolean;
-  restart_database?: boolean;
+  checkpoint_timeout?: string | undefined;
+  hot_standby_feedback?: boolean | undefined;
+  restart_database?: boolean | undefined;
 }
 export interface V1PauseAProjectRequest {
   /** Project ref */
@@ -3697,14 +3742,14 @@ export interface V1PauseAProjectResponse {}
 export interface V1PushABranchRequest {
   /** Branch ref or deprecated branch ID */
   branch_id_or_ref: string;
-  migration_version?: string;
+  migration_version?: string | undefined;
 }
 export type V1ReadOnlyQueryRequestParametersList = Array<unknown>;
 export interface V1ReadOnlyQueryRequest {
   /** Project ref */
   ref: string;
   query: string;
-  parameters?: V1ReadOnlyQueryRequestParametersList;
+  parameters?: V1ReadOnlyQueryRequestParametersList | undefined;
 }
 export interface V1ReadOnlyQueryResponse {}
 export interface V1RemoveAReadReplicaRequest {
@@ -3727,7 +3772,7 @@ export interface V1RemoveProjectSigningKeyRequest {
 export interface V1ResetABranchRequest {
   /** Branch ref or deprecated branch ID */
   branch_id_or_ref: string;
-  migration_version?: string;
+  migration_version?: string | undefined;
 }
 export interface V1RestartAProjectRequest {
   /** Project ref */
@@ -3787,8 +3832,8 @@ export interface V1RunAQueryRequest {
   /** Project ref */
   ref: string;
   query: string;
-  parameters?: V1RunAQueryRequestParametersList;
-  read_only?: boolean;
+  parameters?: V1RunAQueryRequestParametersList | undefined;
+  read_only?: boolean | undefined;
 }
 export interface V1RunAQueryResponse {}
 export interface V1ScrapeProjectMetricsRequest {
@@ -3844,15 +3889,15 @@ export type V1UpdateABranchConfigRequestStatus =
 export interface V1UpdateABranchConfigRequest {
   /** Branch ref or deprecated branch ID */
   branch_id_or_ref: string;
-  branch_name?: string;
-  git_branch?: string;
+  branch_name?: string | undefined;
+  git_branch?: string | undefined;
   /** This field is deprecated and will be ignored. Use v1-reset-a-branch endpoint directly instead. */
-  reset_on_push?: boolean;
-  persistent?: boolean;
-  status?: V1UpdateABranchConfigRequestStatus | (string & {});
-  request_review?: boolean;
+  reset_on_push?: boolean | undefined;
+  persistent?: boolean | undefined;
+  status?: V1UpdateABranchConfigRequestStatus | (string & {}) | undefined;
+  request_review?: boolean | undefined;
   /** HTTP endpoint to receive branch status updates. */
-  notify_url?: string;
+  notify_url?: string | undefined;
 }
 export type V1UpdateActionRunStatusRequestClone =
   | "CREATED"
@@ -3915,13 +3960,13 @@ export interface V1UpdateActionRunStatusRequest {
   ref: string;
   /** Action Run ID */
   run_id: string;
-  clone?: V1UpdateActionRunStatusRequestClone | (string & {});
-  pull?: V1UpdateActionRunStatusRequestPull | (string & {});
-  health?: V1UpdateActionRunStatusRequestHealth | (string & {});
-  configure?: V1UpdateActionRunStatusRequestConfigure | (string & {});
-  migrate?: V1UpdateActionRunStatusRequestMigrate | (string & {});
-  seed?: V1UpdateActionRunStatusRequestSeed | (string & {});
-  deploy?: V1UpdateActionRunStatusRequestDeploy | (string & {});
+  clone?: V1UpdateActionRunStatusRequestClone | (string & {}) | undefined;
+  pull?: V1UpdateActionRunStatusRequestPull | (string & {}) | undefined;
+  health?: V1UpdateActionRunStatusRequestHealth | (string & {}) | undefined;
+  configure?: V1UpdateActionRunStatusRequestConfigure | (string & {}) | undefined;
+  migrate?: V1UpdateActionRunStatusRequestMigrate | (string & {}) | undefined;
+  seed?: V1UpdateActionRunStatusRequestSeed | (string & {}) | undefined;
+  deploy?: V1UpdateActionRunStatusRequestDeploy | (string & {}) | undefined;
 }
 export type UpdateRunStatusResponseOutputMessage = "ok";
 export interface UpdateRunStatusResponseOutput {
@@ -3932,14 +3977,14 @@ export interface V1UpdateAFunctionRequest {
   ref: string;
   /** Function slug */
   function_slug: string;
-  slug?: string;
-  name?: string;
-  verify_jwt?: string;
-  import_map?: string;
-  entrypoint_path?: string;
-  import_map_path?: string;
-  ezbr_sha256?: string;
-  body?: string;
+  slug?: string | undefined;
+  name?: string | undefined;
+  verify_jwt?: string | undefined;
+  import_map?: string | undefined;
+  entrypoint_path?: string | undefined;
+  import_map_path?: string | undefined;
+  ezbr_sha256?: string | undefined;
+  body?: string | undefined;
 }
 export interface V1UpdateAProjectRequest {
   /** Project ref */
@@ -3954,10 +3999,10 @@ export type V1UpdateASsoProviderRequestAttributeMappingKeysValueDefault =
   | string
   | boolean;
 export interface V1UpdateASsoProviderRequestAttributeMappingKeysValue {
-  name?: string;
-  names?: V1UpdateASsoProviderRequestAttributeMappingKeysValueNamesList;
-  array?: boolean;
-  default?: V1UpdateASsoProviderRequestAttributeMappingKeysValueDefault;
+  name?: string | undefined;
+  names?: V1UpdateASsoProviderRequestAttributeMappingKeysValueNamesList | undefined;
+  array?: boolean | undefined;
+  default?: V1UpdateASsoProviderRequestAttributeMappingKeysValueDefault | undefined;
 }
 export type V1UpdateASsoProviderRequestAttributeMappingKeysMap = {
   [key: string]: V1UpdateASsoProviderRequestAttributeMappingKeysValue | undefined;
@@ -3974,11 +4019,11 @@ export interface V1UpdateASsoProviderRequest {
   /** Project ref */
   ref: string;
   provider_id: string;
-  metadata_xml?: string;
-  metadata_url?: string;
-  domains?: V1UpdateASsoProviderRequestDomainsList;
-  attribute_mapping?: V1UpdateASsoProviderRequestAttributeMapping;
-  name_id_format?: V1UpdateASsoProviderRequestNameIdFormat | (string & {});
+  metadata_xml?: string | undefined;
+  metadata_url?: string | undefined;
+  domains?: V1UpdateASsoProviderRequestDomainsList | undefined;
+  attribute_mapping?: V1UpdateASsoProviderRequestAttributeMapping | undefined;
+  name_id_format?: V1UpdateASsoProviderRequestNameIdFormat | (string & {}) | undefined;
 }
 export type UpdateProviderResponseOutputSamlAttributeMappingKeysValueNamesList = Array<string>;
 export type UpdateProviderResponseOutputSamlAttributeMappingKeysValueDefault =
@@ -3987,10 +4032,10 @@ export type UpdateProviderResponseOutputSamlAttributeMappingKeysValueDefault =
   | string
   | boolean;
 export interface UpdateProviderResponseOutputSamlAttributeMappingKeysValue {
-  name?: string;
-  names?: UpdateProviderResponseOutputSamlAttributeMappingKeysValueNamesList;
-  array?: boolean;
-  default?: UpdateProviderResponseOutputSamlAttributeMappingKeysValueDefault;
+  name?: string | undefined;
+  names?: UpdateProviderResponseOutputSamlAttributeMappingKeysValueNamesList | undefined;
+  array?: boolean | undefined;
+  default?: UpdateProviderResponseOutputSamlAttributeMappingKeysValueDefault | undefined;
 }
 export type UpdateProviderResponseOutputSamlAttributeMappingKeysMap = {
   [key: string]: UpdateProviderResponseOutputSamlAttributeMappingKeysValue | undefined;
@@ -4005,20 +4050,20 @@ export type UpdateProviderResponseOutputSamlNameIdFormat =
   | "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent";
 export interface UpdateProviderResponseOutputSaml {
   entity_id: string;
-  metadata_url?: string;
-  metadata_xml?: string;
-  attribute_mapping?: UpdateProviderResponseOutputSamlAttributeMapping;
-  name_id_format?: UpdateProviderResponseOutputSamlNameIdFormat;
+  metadata_url?: string | undefined;
+  metadata_xml?: string | undefined;
+  attribute_mapping?: UpdateProviderResponseOutputSamlAttributeMapping | undefined;
+  name_id_format?: UpdateProviderResponseOutputSamlNameIdFormat | undefined;
 }
 export type UpdateProviderResponseOutputDomainsItem = CreateProviderResponseOutputDomainsItem;
 export type UpdateProviderResponseOutputDomainsList =
   Array<CreateProviderResponseOutputDomainsItem>;
 export interface UpdateProviderResponseOutput {
   id: string;
-  saml?: UpdateProviderResponseOutputSaml;
-  domains?: UpdateProviderResponseOutputDomainsList;
-  created_at?: string;
-  updated_at?: string;
+  saml?: UpdateProviderResponseOutputSaml | undefined;
+  domains?: UpdateProviderResponseOutputDomainsList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type V1UpdateAuthServiceConfigRequestSecurityCaptchaProvider = "turnstile" | "hcaptcha";
 export type V1UpdateAuthServiceConfigRequestPasswordRequiredCharacters =
@@ -4036,251 +4081,257 @@ export type V1UpdateAuthServiceConfigRequestDbMaxPoolSizeUnit = "connections" | 
 export interface V1UpdateAuthServiceConfigRequest {
   /** Project ref */
   ref: string;
-  site_url?: string | null;
-  disable_signup?: boolean | null;
-  jwt_exp?: number | null;
-  smtp_admin_email?: string | null;
-  smtp_host?: string | null;
-  smtp_port?: string | null;
-  smtp_user?: string | null;
-  smtp_pass?: string | null;
-  smtp_max_frequency?: number | null;
-  smtp_sender_name?: string | null;
-  mailer_allow_unverified_email_sign_ins?: boolean | null;
-  mailer_autoconfirm?: boolean | null;
-  mailer_subjects_invite?: string | null;
-  mailer_subjects_confirmation?: string | null;
-  mailer_subjects_recovery?: string | null;
-  mailer_subjects_email_change?: string | null;
-  mailer_subjects_magic_link?: string | null;
-  mailer_subjects_reauthentication?: string | null;
-  mailer_subjects_password_changed_notification?: T.Sensitive | null;
-  mailer_subjects_email_changed_notification?: string | null;
-  mailer_subjects_phone_changed_notification?: string | null;
-  mailer_subjects_mfa_factor_enrolled_notification?: string | null;
-  mailer_subjects_mfa_factor_unenrolled_notification?: string | null;
-  mailer_subjects_identity_linked_notification?: string | null;
-  mailer_subjects_identity_unlinked_notification?: string | null;
-  mailer_templates_invite_content?: string | null;
-  mailer_templates_confirmation_content?: string | null;
-  mailer_templates_recovery_content?: string | null;
-  mailer_templates_email_change_content?: string | null;
-  mailer_templates_magic_link_content?: string | null;
-  mailer_templates_reauthentication_content?: string | null;
-  mailer_templates_password_changed_notification_content?: T.Sensitive | null;
-  mailer_templates_email_changed_notification_content?: string | null;
-  mailer_templates_phone_changed_notification_content?: string | null;
-  mailer_templates_mfa_factor_enrolled_notification_content?: string | null;
-  mailer_templates_mfa_factor_unenrolled_notification_content?: string | null;
-  mailer_templates_identity_linked_notification_content?: string | null;
-  mailer_templates_identity_unlinked_notification_content?: string | null;
-  mailer_notifications_password_changed_enabled?: boolean | null;
-  mailer_notifications_email_changed_enabled?: boolean | null;
-  mailer_notifications_phone_changed_enabled?: boolean | null;
-  mailer_notifications_mfa_factor_enrolled_enabled?: boolean | null;
-  mailer_notifications_mfa_factor_unenrolled_enabled?: boolean | null;
-  mailer_notifications_identity_linked_enabled?: boolean | null;
-  mailer_notifications_identity_unlinked_enabled?: boolean | null;
-  mfa_max_enrolled_factors?: number | null;
-  uri_allow_list?: string | null;
-  external_anonymous_users_enabled?: boolean | null;
-  external_email_enabled?: boolean | null;
-  external_phone_enabled?: boolean | null;
-  saml_enabled?: boolean | null;
-  saml_external_url?: string | null;
-  security_sb_forwarded_for_enabled?: boolean | null;
-  security_captcha_enabled?: boolean | null;
+  site_url?: string | null | undefined;
+  disable_signup?: boolean | null | undefined;
+  jwt_exp?: number | null | undefined;
+  smtp_admin_email?: string | null | undefined;
+  smtp_host?: string | null | undefined;
+  smtp_port?: string | null | undefined;
+  smtp_user?: string | null | undefined;
+  smtp_pass?: string | null | undefined;
+  smtp_max_frequency?: number | null | undefined;
+  smtp_sender_name?: string | null | undefined;
+  mailer_allow_unverified_email_sign_ins?: boolean | null | undefined;
+  mailer_autoconfirm?: boolean | null | undefined;
+  mailer_subjects_invite?: string | null | undefined;
+  mailer_subjects_confirmation?: string | null | undefined;
+  mailer_subjects_recovery?: string | null | undefined;
+  mailer_subjects_email_change?: string | null | undefined;
+  mailer_subjects_magic_link?: string | null | undefined;
+  mailer_subjects_reauthentication?: string | null | undefined;
+  mailer_subjects_password_changed_notification?: T.Sensitive | null | undefined;
+  mailer_subjects_email_changed_notification?: string | null | undefined;
+  mailer_subjects_phone_changed_notification?: string | null | undefined;
+  mailer_subjects_mfa_factor_enrolled_notification?: string | null | undefined;
+  mailer_subjects_mfa_factor_unenrolled_notification?: string | null | undefined;
+  mailer_subjects_identity_linked_notification?: string | null | undefined;
+  mailer_subjects_identity_unlinked_notification?: string | null | undefined;
+  mailer_templates_invite_content?: string | null | undefined;
+  mailer_templates_confirmation_content?: string | null | undefined;
+  mailer_templates_recovery_content?: string | null | undefined;
+  mailer_templates_email_change_content?: string | null | undefined;
+  mailer_templates_magic_link_content?: string | null | undefined;
+  mailer_templates_reauthentication_content?: string | null | undefined;
+  mailer_templates_password_changed_notification_content?: T.Sensitive | null | undefined;
+  mailer_templates_email_changed_notification_content?: string | null | undefined;
+  mailer_templates_phone_changed_notification_content?: string | null | undefined;
+  mailer_templates_mfa_factor_enrolled_notification_content?: string | null | undefined;
+  mailer_templates_mfa_factor_unenrolled_notification_content?: string | null | undefined;
+  mailer_templates_identity_linked_notification_content?: string | null | undefined;
+  mailer_templates_identity_unlinked_notification_content?: string | null | undefined;
+  mailer_notifications_password_changed_enabled?: boolean | null | undefined;
+  mailer_notifications_email_changed_enabled?: boolean | null | undefined;
+  mailer_notifications_phone_changed_enabled?: boolean | null | undefined;
+  mailer_notifications_mfa_factor_enrolled_enabled?: boolean | null | undefined;
+  mailer_notifications_mfa_factor_unenrolled_enabled?: boolean | null | undefined;
+  mailer_notifications_identity_linked_enabled?: boolean | null | undefined;
+  mailer_notifications_identity_unlinked_enabled?: boolean | null | undefined;
+  mfa_max_enrolled_factors?: number | null | undefined;
+  uri_allow_list?: string | null | undefined;
+  external_anonymous_users_enabled?: boolean | null | undefined;
+  external_email_enabled?: boolean | null | undefined;
+  external_phone_enabled?: boolean | null | undefined;
+  saml_enabled?: boolean | null | undefined;
+  saml_external_url?: string | null | undefined;
+  security_sb_forwarded_for_enabled?: boolean | null | undefined;
+  security_captcha_enabled?: boolean | null | undefined;
   security_captcha_provider?:
     | V1UpdateAuthServiceConfigRequestSecurityCaptchaProvider
     | (string & {})
-    | null;
-  security_captcha_secret?: T.Sensitive | null;
+    | null
+    | undefined;
+  security_captcha_secret?: T.Sensitive | null | undefined;
   /** Session timebox in hours. Maximum 8760 hours (1 year). */
-  sessions_timebox?: number | null;
+  sessions_timebox?: number | null | undefined;
   /** Session inactivity timeout in hours. Maximum 8760 hours (1 year). */
-  sessions_inactivity_timeout?: number | null;
-  sessions_single_per_user?: boolean | null;
-  sessions_tags?: string | null;
-  rate_limit_anonymous_users?: number | null;
-  rate_limit_email_sent?: number | null;
-  rate_limit_sms_sent?: number | null;
-  rate_limit_verify?: number | null;
-  rate_limit_token_refresh?: number | null;
-  rate_limit_otp?: number | null;
-  rate_limit_web3?: number | null;
-  mailer_secure_email_change_enabled?: boolean | null;
-  refresh_token_rotation_enabled?: boolean | null;
-  password_hibp_enabled?: boolean | null;
-  password_min_length?: number | null;
+  sessions_inactivity_timeout?: number | null | undefined;
+  sessions_single_per_user?: boolean | null | undefined;
+  sessions_tags?: string | null | undefined;
+  rate_limit_anonymous_users?: number | null | undefined;
+  rate_limit_email_sent?: number | null | undefined;
+  rate_limit_sms_sent?: number | null | undefined;
+  rate_limit_verify?: number | null | undefined;
+  rate_limit_token_refresh?: number | null | undefined;
+  rate_limit_otp?: number | null | undefined;
+  rate_limit_web3?: number | null | undefined;
+  mailer_secure_email_change_enabled?: boolean | null | undefined;
+  refresh_token_rotation_enabled?: boolean | null | undefined;
+  password_hibp_enabled?: boolean | null | undefined;
+  password_min_length?: number | null | undefined;
   password_required_characters?:
     | V1UpdateAuthServiceConfigRequestPasswordRequiredCharacters
     | (string & {})
-    | null;
-  security_manual_linking_enabled?: boolean | null;
-  security_update_password_require_reauthentication?: boolean | null;
+    | null
+    | undefined;
+  security_manual_linking_enabled?: boolean | null | undefined;
+  security_update_password_require_reauthentication?: boolean | null | undefined;
   /** Require the user's current password when updating their password. */
-  security_update_password_require_current_password?: boolean | null;
+  security_update_password_require_current_password?: boolean | null | undefined;
   /** Refresh token reuse interval in seconds. Maximum 300 seconds (5 minutes). */
-  security_refresh_token_reuse_interval?: number | null;
-  mailer_otp_exp?: number;
-  mailer_otp_length?: number | null;
-  sms_autoconfirm?: boolean | null;
-  sms_max_frequency?: number | null;
-  sms_otp_exp?: number | null;
-  sms_otp_length?: number;
-  sms_provider?: V1UpdateAuthServiceConfigRequestSmsProvider | (string & {}) | null;
-  sms_messagebird_access_key?: string | null;
-  sms_messagebird_originator?: string | null;
-  sms_test_otp?: string | null;
-  sms_test_otp_valid_until?: string | null;
-  sms_textlocal_api_key?: string | null;
-  sms_textlocal_sender?: string | null;
-  sms_twilio_account_sid?: string | null;
-  sms_twilio_auth_token?: string | null;
-  sms_twilio_content_sid?: string | null;
-  sms_twilio_message_service_sid?: string | null;
-  sms_twilio_verify_account_sid?: string | null;
-  sms_twilio_verify_auth_token?: string | null;
-  sms_twilio_verify_message_service_sid?: string | null;
-  sms_vonage_api_key?: string | null;
-  sms_vonage_api_secret?: T.Sensitive | null;
-  sms_vonage_from?: string | null;
-  sms_template?: string | null;
-  hook_mfa_verification_attempt_enabled?: boolean | null;
-  hook_mfa_verification_attempt_uri?: string | null;
-  hook_mfa_verification_attempt_secrets?: string | null;
-  hook_password_verification_attempt_enabled?: boolean | null;
-  hook_password_verification_attempt_uri?: T.Sensitive | null;
-  hook_password_verification_attempt_secrets?: T.Sensitive | null;
-  hook_custom_access_token_enabled?: boolean | null;
-  hook_custom_access_token_uri?: string | null;
-  hook_custom_access_token_secrets?: string | null;
-  hook_send_sms_enabled?: boolean | null;
-  hook_send_sms_uri?: string | null;
-  hook_send_sms_secrets?: string | null;
-  hook_send_email_enabled?: boolean | null;
-  hook_send_email_uri?: string | null;
-  hook_send_email_secrets?: string | null;
-  hook_before_user_created_enabled?: boolean | null;
-  hook_before_user_created_uri?: string | null;
-  hook_before_user_created_secrets?: string | null;
-  hook_after_user_created_enabled?: boolean | null;
-  hook_after_user_created_uri?: string | null;
-  hook_after_user_created_secrets?: string | null;
-  external_apple_enabled?: boolean | null;
-  external_apple_client_id?: string | null;
-  external_apple_email_optional?: boolean | null;
-  external_apple_secret?: T.Sensitive | null;
-  external_apple_additional_client_ids?: string | null;
-  external_azure_enabled?: boolean | null;
-  external_azure_client_id?: string | null;
-  external_azure_email_optional?: boolean | null;
-  external_azure_secret?: T.Sensitive | null;
-  external_azure_url?: string | null;
-  external_bitbucket_enabled?: boolean | null;
-  external_bitbucket_client_id?: string | null;
-  external_bitbucket_email_optional?: boolean | null;
-  external_bitbucket_secret?: T.Sensitive | null;
-  external_discord_enabled?: boolean | null;
-  external_discord_client_id?: string | null;
-  external_discord_email_optional?: boolean | null;
-  external_discord_secret?: T.Sensitive | null;
-  external_facebook_enabled?: boolean | null;
-  external_facebook_client_id?: string | null;
-  external_facebook_email_optional?: boolean | null;
-  external_facebook_secret?: T.Sensitive | null;
-  external_figma_enabled?: boolean | null;
-  external_figma_client_id?: string | null;
-  external_figma_email_optional?: boolean | null;
-  external_figma_secret?: T.Sensitive | null;
-  external_github_enabled?: boolean | null;
-  external_github_client_id?: string | null;
-  external_github_email_optional?: boolean | null;
-  external_github_secret?: T.Sensitive | null;
-  external_gitlab_enabled?: boolean | null;
-  external_gitlab_client_id?: string | null;
-  external_gitlab_email_optional?: boolean | null;
-  external_gitlab_secret?: T.Sensitive | null;
-  external_gitlab_url?: string | null;
-  external_google_enabled?: boolean | null;
-  external_google_client_id?: string | null;
-  external_google_email_optional?: boolean | null;
-  external_google_secret?: T.Sensitive | null;
-  external_google_additional_client_ids?: string | null;
-  external_google_skip_nonce_check?: boolean | null;
-  external_kakao_enabled?: boolean | null;
-  external_kakao_client_id?: string | null;
-  external_kakao_email_optional?: boolean | null;
-  external_kakao_secret?: T.Sensitive | null;
-  external_keycloak_enabled?: boolean | null;
-  external_keycloak_client_id?: string | null;
-  external_keycloak_email_optional?: boolean | null;
-  external_keycloak_secret?: T.Sensitive | null;
-  external_keycloak_url?: string | null;
-  external_linkedin_oidc_enabled?: boolean | null;
-  external_linkedin_oidc_client_id?: string | null;
-  external_linkedin_oidc_email_optional?: boolean | null;
-  external_linkedin_oidc_secret?: T.Sensitive | null;
-  external_slack_oidc_enabled?: boolean | null;
-  external_slack_oidc_client_id?: string | null;
-  external_slack_oidc_email_optional?: boolean | null;
-  external_slack_oidc_secret?: T.Sensitive | null;
-  external_notion_enabled?: boolean | null;
-  external_notion_client_id?: string | null;
-  external_notion_email_optional?: boolean | null;
-  external_notion_secret?: T.Sensitive | null;
-  external_slack_enabled?: boolean | null;
-  external_slack_client_id?: string | null;
-  external_slack_email_optional?: boolean | null;
-  external_slack_secret?: T.Sensitive | null;
-  external_spotify_enabled?: boolean | null;
-  external_spotify_client_id?: string | null;
-  external_spotify_email_optional?: boolean | null;
-  external_spotify_secret?: T.Sensitive | null;
-  external_twitch_enabled?: boolean | null;
-  external_twitch_client_id?: string | null;
-  external_twitch_email_optional?: boolean | null;
-  external_twitch_secret?: T.Sensitive | null;
-  external_twitter_enabled?: boolean | null;
-  external_twitter_client_id?: string | null;
-  external_twitter_email_optional?: boolean | null;
-  external_twitter_secret?: T.Sensitive | null;
-  external_x_enabled?: boolean | null;
-  external_x_client_id?: string | null;
-  external_x_email_optional?: boolean | null;
-  external_x_secret?: T.Sensitive | null;
-  external_workos_enabled?: boolean | null;
-  external_workos_client_id?: string | null;
-  external_workos_secret?: T.Sensitive | null;
-  external_workos_url?: string | null;
-  external_web3_solana_enabled?: boolean | null;
-  external_web3_ethereum_enabled?: boolean | null;
-  external_zoom_enabled?: boolean | null;
-  external_zoom_client_id?: string | null;
-  external_zoom_email_optional?: boolean | null;
-  external_zoom_secret?: T.Sensitive | null;
-  db_max_pool_size?: number | null;
-  db_max_pool_size_unit?: V1UpdateAuthServiceConfigRequestDbMaxPoolSizeUnit | (string & {}) | null;
-  api_max_request_duration?: number | null;
-  mfa_totp_enroll_enabled?: boolean | null;
-  mfa_totp_verify_enabled?: boolean | null;
-  mfa_web_authn_enroll_enabled?: boolean | null;
-  mfa_web_authn_verify_enabled?: boolean | null;
-  passkey_enabled?: boolean;
-  webauthn_rp_display_name?: string | null;
-  webauthn_rp_id?: string | null;
-  webauthn_rp_origins?: string | null;
-  mfa_phone_enroll_enabled?: boolean | null;
-  mfa_phone_verify_enabled?: boolean | null;
-  mfa_phone_max_frequency?: number | null;
-  mfa_phone_otp_length?: number | null;
-  mfa_phone_template?: string | null;
-  nimbus_oauth_client_id?: string | null;
-  nimbus_oauth_client_secret?: T.Sensitive | null;
-  oauth_server_enabled?: boolean | null;
-  oauth_server_allow_dynamic_registration?: boolean | null;
-  oauth_server_authorization_path?: string | null;
-  custom_oauth_enabled?: boolean;
+  security_refresh_token_reuse_interval?: number | null | undefined;
+  mailer_otp_exp?: number | undefined;
+  mailer_otp_length?: number | null | undefined;
+  sms_autoconfirm?: boolean | null | undefined;
+  sms_max_frequency?: number | null | undefined;
+  sms_otp_exp?: number | null | undefined;
+  sms_otp_length?: number | undefined;
+  sms_provider?: V1UpdateAuthServiceConfigRequestSmsProvider | (string & {}) | null | undefined;
+  sms_messagebird_access_key?: string | null | undefined;
+  sms_messagebird_originator?: string | null | undefined;
+  sms_test_otp?: string | null | undefined;
+  sms_test_otp_valid_until?: string | null | undefined;
+  sms_textlocal_api_key?: string | null | undefined;
+  sms_textlocal_sender?: string | null | undefined;
+  sms_twilio_account_sid?: string | null | undefined;
+  sms_twilio_auth_token?: string | null | undefined;
+  sms_twilio_content_sid?: string | null | undefined;
+  sms_twilio_message_service_sid?: string | null | undefined;
+  sms_twilio_verify_account_sid?: string | null | undefined;
+  sms_twilio_verify_auth_token?: string | null | undefined;
+  sms_twilio_verify_message_service_sid?: string | null | undefined;
+  sms_vonage_api_key?: string | null | undefined;
+  sms_vonage_api_secret?: T.Sensitive | null | undefined;
+  sms_vonage_from?: string | null | undefined;
+  sms_template?: string | null | undefined;
+  hook_mfa_verification_attempt_enabled?: boolean | null | undefined;
+  hook_mfa_verification_attempt_uri?: string | null | undefined;
+  hook_mfa_verification_attempt_secrets?: string | null | undefined;
+  hook_password_verification_attempt_enabled?: boolean | null | undefined;
+  hook_password_verification_attempt_uri?: T.Sensitive | null | undefined;
+  hook_password_verification_attempt_secrets?: T.Sensitive | null | undefined;
+  hook_custom_access_token_enabled?: boolean | null | undefined;
+  hook_custom_access_token_uri?: string | null | undefined;
+  hook_custom_access_token_secrets?: string | null | undefined;
+  hook_send_sms_enabled?: boolean | null | undefined;
+  hook_send_sms_uri?: string | null | undefined;
+  hook_send_sms_secrets?: string | null | undefined;
+  hook_send_email_enabled?: boolean | null | undefined;
+  hook_send_email_uri?: string | null | undefined;
+  hook_send_email_secrets?: string | null | undefined;
+  hook_before_user_created_enabled?: boolean | null | undefined;
+  hook_before_user_created_uri?: string | null | undefined;
+  hook_before_user_created_secrets?: string | null | undefined;
+  hook_after_user_created_enabled?: boolean | null | undefined;
+  hook_after_user_created_uri?: string | null | undefined;
+  hook_after_user_created_secrets?: string | null | undefined;
+  external_apple_enabled?: boolean | null | undefined;
+  external_apple_client_id?: string | null | undefined;
+  external_apple_email_optional?: boolean | null | undefined;
+  external_apple_secret?: T.Sensitive | null | undefined;
+  external_apple_additional_client_ids?: string | null | undefined;
+  external_azure_enabled?: boolean | null | undefined;
+  external_azure_client_id?: string | null | undefined;
+  external_azure_email_optional?: boolean | null | undefined;
+  external_azure_secret?: T.Sensitive | null | undefined;
+  external_azure_url?: string | null | undefined;
+  external_bitbucket_enabled?: boolean | null | undefined;
+  external_bitbucket_client_id?: string | null | undefined;
+  external_bitbucket_email_optional?: boolean | null | undefined;
+  external_bitbucket_secret?: T.Sensitive | null | undefined;
+  external_discord_enabled?: boolean | null | undefined;
+  external_discord_client_id?: string | null | undefined;
+  external_discord_email_optional?: boolean | null | undefined;
+  external_discord_secret?: T.Sensitive | null | undefined;
+  external_facebook_enabled?: boolean | null | undefined;
+  external_facebook_client_id?: string | null | undefined;
+  external_facebook_email_optional?: boolean | null | undefined;
+  external_facebook_secret?: T.Sensitive | null | undefined;
+  external_figma_enabled?: boolean | null | undefined;
+  external_figma_client_id?: string | null | undefined;
+  external_figma_email_optional?: boolean | null | undefined;
+  external_figma_secret?: T.Sensitive | null | undefined;
+  external_github_enabled?: boolean | null | undefined;
+  external_github_client_id?: string | null | undefined;
+  external_github_email_optional?: boolean | null | undefined;
+  external_github_secret?: T.Sensitive | null | undefined;
+  external_gitlab_enabled?: boolean | null | undefined;
+  external_gitlab_client_id?: string | null | undefined;
+  external_gitlab_email_optional?: boolean | null | undefined;
+  external_gitlab_secret?: T.Sensitive | null | undefined;
+  external_gitlab_url?: string | null | undefined;
+  external_google_enabled?: boolean | null | undefined;
+  external_google_client_id?: string | null | undefined;
+  external_google_email_optional?: boolean | null | undefined;
+  external_google_secret?: T.Sensitive | null | undefined;
+  external_google_additional_client_ids?: string | null | undefined;
+  external_google_skip_nonce_check?: boolean | null | undefined;
+  external_kakao_enabled?: boolean | null | undefined;
+  external_kakao_client_id?: string | null | undefined;
+  external_kakao_email_optional?: boolean | null | undefined;
+  external_kakao_secret?: T.Sensitive | null | undefined;
+  external_keycloak_enabled?: boolean | null | undefined;
+  external_keycloak_client_id?: string | null | undefined;
+  external_keycloak_email_optional?: boolean | null | undefined;
+  external_keycloak_secret?: T.Sensitive | null | undefined;
+  external_keycloak_url?: string | null | undefined;
+  external_linkedin_oidc_enabled?: boolean | null | undefined;
+  external_linkedin_oidc_client_id?: string | null | undefined;
+  external_linkedin_oidc_email_optional?: boolean | null | undefined;
+  external_linkedin_oidc_secret?: T.Sensitive | null | undefined;
+  external_slack_oidc_enabled?: boolean | null | undefined;
+  external_slack_oidc_client_id?: string | null | undefined;
+  external_slack_oidc_email_optional?: boolean | null | undefined;
+  external_slack_oidc_secret?: T.Sensitive | null | undefined;
+  external_notion_enabled?: boolean | null | undefined;
+  external_notion_client_id?: string | null | undefined;
+  external_notion_email_optional?: boolean | null | undefined;
+  external_notion_secret?: T.Sensitive | null | undefined;
+  external_slack_enabled?: boolean | null | undefined;
+  external_slack_client_id?: string | null | undefined;
+  external_slack_email_optional?: boolean | null | undefined;
+  external_slack_secret?: T.Sensitive | null | undefined;
+  external_spotify_enabled?: boolean | null | undefined;
+  external_spotify_client_id?: string | null | undefined;
+  external_spotify_email_optional?: boolean | null | undefined;
+  external_spotify_secret?: T.Sensitive | null | undefined;
+  external_twitch_enabled?: boolean | null | undefined;
+  external_twitch_client_id?: string | null | undefined;
+  external_twitch_email_optional?: boolean | null | undefined;
+  external_twitch_secret?: T.Sensitive | null | undefined;
+  external_twitter_enabled?: boolean | null | undefined;
+  external_twitter_client_id?: string | null | undefined;
+  external_twitter_email_optional?: boolean | null | undefined;
+  external_twitter_secret?: T.Sensitive | null | undefined;
+  external_x_enabled?: boolean | null | undefined;
+  external_x_client_id?: string | null | undefined;
+  external_x_email_optional?: boolean | null | undefined;
+  external_x_secret?: T.Sensitive | null | undefined;
+  external_workos_enabled?: boolean | null | undefined;
+  external_workos_client_id?: string | null | undefined;
+  external_workos_secret?: T.Sensitive | null | undefined;
+  external_workos_url?: string | null | undefined;
+  external_web3_solana_enabled?: boolean | null | undefined;
+  external_web3_ethereum_enabled?: boolean | null | undefined;
+  external_zoom_enabled?: boolean | null | undefined;
+  external_zoom_client_id?: string | null | undefined;
+  external_zoom_email_optional?: boolean | null | undefined;
+  external_zoom_secret?: T.Sensitive | null | undefined;
+  db_max_pool_size?: number | null | undefined;
+  db_max_pool_size_unit?:
+    | V1UpdateAuthServiceConfigRequestDbMaxPoolSizeUnit
+    | (string & {})
+    | null
+    | undefined;
+  api_max_request_duration?: number | null | undefined;
+  mfa_totp_enroll_enabled?: boolean | null | undefined;
+  mfa_totp_verify_enabled?: boolean | null | undefined;
+  mfa_web_authn_enroll_enabled?: boolean | null | undefined;
+  mfa_web_authn_verify_enabled?: boolean | null | undefined;
+  passkey_enabled?: boolean | undefined;
+  webauthn_rp_display_name?: string | null | undefined;
+  webauthn_rp_id?: string | null | undefined;
+  webauthn_rp_origins?: string | null | undefined;
+  mfa_phone_enroll_enabled?: boolean | null | undefined;
+  mfa_phone_verify_enabled?: boolean | null | undefined;
+  mfa_phone_max_frequency?: number | null | undefined;
+  mfa_phone_otp_length?: number | null | undefined;
+  mfa_phone_template?: string | null | undefined;
+  nimbus_oauth_client_id?: string | null | undefined;
+  nimbus_oauth_client_secret?: T.Sensitive | null | undefined;
+  oauth_server_enabled?: boolean | null | undefined;
+  oauth_server_allow_dynamic_registration?: boolean | null | undefined;
+  oauth_server_authorization_path?: string | null | undefined;
+  custom_oauth_enabled?: boolean | undefined;
 }
 export interface V1UpdateBackupScheduleRequest {
   /** Project ref */
@@ -4310,14 +4361,14 @@ export type V1UpdateJitAccessRequestRolesItemAllowedNetworksAllowedCidrsV6Item =
 export type V1UpdateJitAccessRequestRolesItemAllowedNetworksAllowedCidrsV6List =
   Array<JitAccessResponseOutputUserRolesItemAllowedNetworksAllowedCidrsItem>;
 export interface V1UpdateJitAccessRequestRolesItemAllowedNetworks {
-  allowed_cidrs?: V1UpdateJitAccessRequestRolesItemAllowedNetworksAllowedCidrsList;
-  allowed_cidrs_v6?: V1UpdateJitAccessRequestRolesItemAllowedNetworksAllowedCidrsV6List;
+  allowed_cidrs?: V1UpdateJitAccessRequestRolesItemAllowedNetworksAllowedCidrsList | undefined;
+  allowed_cidrs_v6?: V1UpdateJitAccessRequestRolesItemAllowedNetworksAllowedCidrsV6List | undefined;
 }
 export interface V1UpdateJitAccessRequestRolesItem {
   role: string;
-  expires_at?: number;
-  allowed_networks?: V1UpdateJitAccessRequestRolesItemAllowedNetworks;
-  branches_only?: boolean;
+  expires_at?: number | undefined;
+  allowed_networks?: V1UpdateJitAccessRequestRolesItemAllowedNetworks | undefined;
+  branches_only?: boolean | undefined;
 }
 export type V1UpdateJitAccessRequestRolesList = Array<V1UpdateJitAccessRequestRolesItem>;
 export interface V1UpdateJitAccessRequest {
@@ -4335,7 +4386,7 @@ export interface V1UpdateJitAccessConfigRequest {
 export type V1UpdateJitAccessConfigResponseBodyCase0State = "enabled" | "disabled";
 export interface V1UpdateJitAccessConfigResponseBodyCase0 {
   state: V1UpdateJitAccessConfigResponseBodyCase0State;
-  appliedSuccessfully?: boolean;
+  appliedSuccessfully?: boolean | undefined;
 }
 export type V1UpdateJitAccessConfigResponseBodyCase1UnavailableReason =
   | "platform_unsupported"
@@ -4355,8 +4406,8 @@ export type V1UpdateNetworkRestrictionsRequestDbAllowedCidrsV6List = Array<strin
 export interface V1UpdateNetworkRestrictionsRequest {
   /** Project ref */
   ref: string;
-  dbAllowedCidrs?: V1UpdateNetworkRestrictionsRequestDbAllowedCidrsList;
-  dbAllowedCidrsV6?: V1UpdateNetworkRestrictionsRequestDbAllowedCidrsV6List;
+  dbAllowedCidrs?: V1UpdateNetworkRestrictionsRequestDbAllowedCidrsList | undefined;
+  dbAllowedCidrsV6?: V1UpdateNetworkRestrictionsRequestDbAllowedCidrsV6List | undefined;
 }
 export interface V1UpdatePgsodiumConfigRequest {
   /** Project ref */
@@ -4369,9 +4420,9 @@ export type V1UpdatePoolerConfigRequestPoolMode = "transaction" | "session";
 export interface V1UpdatePoolerConfigRequest {
   /** Project ref */
   ref: string;
-  default_pool_size?: number | null;
+  default_pool_size?: number | null | undefined;
   /** Dedicated pooler mode for the project */
-  pool_mode?: V1UpdatePoolerConfigRequestPoolMode | (string & {});
+  pool_mode?: V1UpdatePoolerConfigRequestPoolMode | (string & {}) | undefined;
 }
 export interface UpdateSupavisorConfigResponseOutput {
   default_pool_size: number | null;
@@ -4381,65 +4432,68 @@ export type V1UpdatePostgresConfigRequestSessionReplicationRole = "origin" | "re
 export interface V1UpdatePostgresConfigRequest {
   /** Project ref */
   ref: string;
-  effective_cache_size?: string;
-  logical_decoding_work_mem?: string;
-  pg_stat_statements_max?: number;
-  pg_net_batch_size?: number;
-  autovacuum_max_workers?: number;
-  autovacuum_work_mem?: string;
-  cron_log_statement?: boolean;
+  effective_cache_size?: string | undefined;
+  logical_decoding_work_mem?: string | undefined;
+  pg_stat_statements_max?: number | undefined;
+  pg_net_batch_size?: number | undefined;
+  autovacuum_max_workers?: number | undefined;
+  autovacuum_work_mem?: string | undefined;
+  cron_log_statement?: boolean | undefined;
   /** Default unit: ms */
-  log_autovacuum_min_duration?: string;
-  log_checkpoints?: boolean;
-  log_connections?: boolean;
-  log_disconnections?: boolean;
-  log_duration?: boolean;
-  log_lock_waits?: boolean;
-  log_recovery_conflict_waits?: boolean;
-  log_replication_commands?: boolean;
+  log_autovacuum_min_duration?: string | undefined;
+  log_checkpoints?: boolean | undefined;
+  log_connections?: boolean | undefined;
+  log_disconnections?: boolean | undefined;
+  log_duration?: boolean | undefined;
+  log_lock_waits?: boolean | undefined;
+  log_recovery_conflict_waits?: boolean | undefined;
+  log_replication_commands?: boolean | undefined;
   /** Default unit: ms */
-  log_startup_progress_interval?: string;
-  log_temp_files?: string;
-  maintenance_work_mem?: string;
-  track_activity_query_size?: string;
-  max_connections?: number;
-  max_locks_per_transaction?: number;
-  max_logical_replication_workers?: number;
-  max_parallel_maintenance_workers?: number;
-  max_parallel_workers?: number;
-  max_parallel_workers_per_gather?: number;
-  max_replication_slots?: number;
-  max_slot_wal_keep_size?: string;
-  max_standby_archive_delay?: string;
-  max_standby_streaming_delay?: string;
-  max_sync_workers_per_subscription?: number;
-  max_wal_size?: string;
-  max_wal_senders?: number;
-  max_worker_processes?: number;
-  session_replication_role?: V1UpdatePostgresConfigRequestSessionReplicationRole | (string & {});
-  shared_buffers?: string;
+  log_startup_progress_interval?: string | undefined;
+  log_temp_files?: string | undefined;
+  maintenance_work_mem?: string | undefined;
+  track_activity_query_size?: string | undefined;
+  max_connections?: number | undefined;
+  max_locks_per_transaction?: number | undefined;
+  max_logical_replication_workers?: number | undefined;
+  max_parallel_maintenance_workers?: number | undefined;
+  max_parallel_workers?: number | undefined;
+  max_parallel_workers_per_gather?: number | undefined;
+  max_replication_slots?: number | undefined;
+  max_slot_wal_keep_size?: string | undefined;
+  max_standby_archive_delay?: string | undefined;
+  max_standby_streaming_delay?: string | undefined;
+  max_sync_workers_per_subscription?: number | undefined;
+  max_wal_size?: string | undefined;
+  max_wal_senders?: number | undefined;
+  max_worker_processes?: number | undefined;
+  session_replication_role?:
+    | V1UpdatePostgresConfigRequestSessionReplicationRole
+    | (string & {})
+    | undefined;
+  shared_buffers?: string | undefined;
   /** Default unit: ms */
-  statement_timeout?: string;
-  track_commit_timestamp?: boolean;
-  wal_keep_size?: string;
+  statement_timeout?: string | undefined;
+  track_commit_timestamp?: boolean | undefined;
+  wal_keep_size?: string | undefined;
   /** Default unit: ms */
-  wal_sender_timeout?: string;
-  work_mem?: string;
+  wal_sender_timeout?: string | undefined;
+  work_mem?: string | undefined;
   /** Default unit: s */
-  checkpoint_timeout?: string;
-  hot_standby_feedback?: boolean;
-  restart_database?: boolean;
+  checkpoint_timeout?: string | undefined;
+  hot_standby_feedback?: boolean | undefined;
+  restart_database?: boolean | undefined;
 }
 export interface V1UpdatePostgrestServiceConfigRequest {
   /** Project ref */
   ref: string;
-  db_extra_search_path?: string;
-  db_schema?: string;
-  max_rows?: number;
-  db_pool?: number;
-  db_pool_acquisition_timeout?: number;
-  db_pool_max_lifetime?: number;
-  db_pool_max_idletime?: number;
+  db_extra_search_path?: string | undefined;
+  db_schema?: string | undefined;
+  max_rows?: number | undefined;
+  db_pool?: number | undefined;
+  db_pool_acquisition_timeout?: number | undefined;
+  db_pool_max_lifetime?: number | undefined;
+  db_pool_max_idletime?: number | undefined;
 }
 export interface V1PostgrestConfigResponseOutput {
   db_schema: string;
@@ -4462,10 +4516,10 @@ export interface V1UpdateProjectApiKeyRequest {
   ref: string;
   id: string;
   /** Boolean string. Truthy values: `true`, `1`, `yes`, `on`, `y`, `enabled` Falsy values: `false`, `0`, `no`, `off`, `n`, `disabled` */
-  reveal?: string;
-  name?: string;
-  description?: string | null;
-  secret_jwt_template?: V1UpdateProjectApiKeyRequestSecretJwtTemplateMap | null;
+  reveal?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  secret_jwt_template?: V1UpdateProjectApiKeyRequestSecretJwtTemplateMap | null | undefined;
 }
 export interface V1UpdateProjectLegacyApiKeysRequest {
   /** Project ref */
@@ -4488,29 +4542,29 @@ export interface V1UpdateRealtimeConfigRequest {
   /** Project ref */
   ref: string;
   /** Whether to only allow private channels */
-  private_only?: boolean;
+  private_only?: boolean | undefined;
   /** Sets connection pool size for Realtime Authorization */
-  connection_pool?: number;
+  connection_pool?: number | undefined;
   /** Sets connection pool size used to create Postgres Changes subscriptions */
-  postgres_changes_pool?: number;
+  postgres_changes_pool?: number | undefined;
   /** Sets maximum number of concurrent users rate limit */
-  max_concurrent_users?: number;
+  max_concurrent_users?: number | undefined;
   /** Sets maximum number of events per second rate per channel limit */
-  max_events_per_second?: number;
+  max_events_per_second?: number | undefined;
   /** Sets maximum number of bytes per second rate per channel limit */
-  max_bytes_per_second?: number;
+  max_bytes_per_second?: number | undefined;
   /** Sets maximum number of channels per client rate limit */
-  max_channels_per_client?: number;
+  max_channels_per_client?: number | undefined;
   /** Sets maximum number of joins per second rate limit */
-  max_joins_per_second?: number;
+  max_joins_per_second?: number | undefined;
   /** Sets maximum number of presence events per second rate limit */
-  max_presence_events_per_second?: number;
+  max_presence_events_per_second?: number | undefined;
   /** Sets maximum number of payload size in KB rate limit */
-  max_payload_size_in_kb?: number;
+  max_payload_size_in_kb?: number | undefined;
   /** Disables the Realtime service for this project when true. Set to false to re-enable it. */
-  suspend?: boolean;
+  suspend?: boolean | undefined;
   /** Whether to enable presence */
-  presence_enabled?: boolean;
+  presence_enabled?: boolean | undefined;
 }
 export interface V1UpdateRealtimeConfigResponse {}
 export type V1UpdateSslEnforcementConfigRequestRequestedConfig =
@@ -4531,11 +4585,11 @@ export type V1UpdateStorageConfigRequestFeaturesIcebergCatalog =
 export type V1UpdateStorageConfigRequestFeaturesVectorBuckets =
   StorageConfigResponseOutputFeaturesVectorBuckets;
 export interface V1UpdateStorageConfigRequestFeatures {
-  imageTransformation?: V1ListEntitlementsResponseOutputEntitlementsItemConfigCase0;
-  s3Protocol?: V1ListEntitlementsResponseOutputEntitlementsItemConfigCase0;
-  purgeCache?: V1ListEntitlementsResponseOutputEntitlementsItemConfigCase0;
-  icebergCatalog?: StorageConfigResponseOutputFeaturesIcebergCatalog;
-  vectorBuckets?: StorageConfigResponseOutputFeaturesVectorBuckets;
+  imageTransformation?: V1ListEntitlementsResponseOutputEntitlementsItemConfigCase0 | undefined;
+  s3Protocol?: V1ListEntitlementsResponseOutputEntitlementsItemConfigCase0 | undefined;
+  purgeCache?: V1ListEntitlementsResponseOutputEntitlementsItemConfigCase0 | undefined;
+  icebergCatalog?: StorageConfigResponseOutputFeaturesIcebergCatalog | undefined;
+  vectorBuckets?: StorageConfigResponseOutputFeaturesVectorBuckets | undefined;
 }
 export type V1UpdateStorageConfigRequestExternalUpstreamTarget = "main" | "canary";
 export interface V1UpdateStorageConfigRequestExternal {
@@ -4544,9 +4598,9 @@ export interface V1UpdateStorageConfigRequestExternal {
 export interface V1UpdateStorageConfigRequest {
   /** Project ref */
   ref: string;
-  fileSizeLimit?: number;
-  features?: V1UpdateStorageConfigRequestFeatures;
-  external?: V1UpdateStorageConfigRequestExternal;
+  fileSizeLimit?: number | undefined;
+  features?: V1UpdateStorageConfigRequestFeatures | undefined;
+  external?: V1UpdateStorageConfigRequestExternal | undefined;
 }
 export interface V1UpdateStorageConfigResponse {}
 export type V1UpgradePostgresVersionRequestReleaseChannel =
@@ -4560,7 +4614,7 @@ export interface V1UpgradePostgresVersionRequest {
   /** Project ref */
   ref: string;
   target_version: string;
-  release_channel?: V1UpgradePostgresVersionRequestReleaseChannel | (string & {});
+  release_channel?: V1UpgradePostgresVersionRequestReleaseChannel | (string & {}) | undefined;
 }
 export interface ProjectUpgradeInitiateResponseOutput {
   tracking_id: string;
@@ -4569,8 +4623,8 @@ export interface V1UpsertAMigrationRequest {
   /** Project ref */
   ref: string;
   query: string;
-  name?: string;
-  rollback?: string;
+  name?: string | undefined;
+  rollback?: string | undefined;
 }
 export interface V1UpsertAMigrationResponse {}
 export interface V1VerifyDnsConfigRequest {

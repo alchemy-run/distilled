@@ -159,9 +159,9 @@ export type JwtToken = string | redacted.Redacted<string>;
 export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
   token: string | redacted.Redacted<string>;
-  eksNodeName?: string;
-  instanceId?: string;
-  zone?: string;
+  eksNodeName?: string | undefined;
+  instanceId?: string | undefined;
+  zone?: string | undefined;
 }
 export interface Subject {
   namespace: string;
@@ -187,7 +187,7 @@ export interface AssumeRoleForPodIdentityResponse {
   podIdentityAssociation: PodIdentityAssociation;
   assumedRoleUser: AssumedRoleUser;
   credentials: Credentials;
-  workloadIdentityProviderArn?: string;
+  workloadIdentityProviderArn?: string | undefined;
 }
 export type AssumeRoleForPodIdentityError =
   | AccessDeniedException

@@ -63,9 +63,9 @@ export class NotFound
 
 export interface CreateVercelCiTaskAnalysisRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   owner: string;
   repo: string;
 }
@@ -82,9 +82,9 @@ export type CreateVercelCiTaskConfigurationPullRequestRequestTasksList =
 export interface CreateVercelCiTaskConfigurationPullRequestRequest {
   analysisId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   tasks: CreateVercelCiTaskConfigurationPullRequestRequestTasksList;
 }
 export type CreateVercelCiTaskConfigurationPullRequestResponseChangedTaskNamesList = Array<string>;
@@ -96,9 +96,9 @@ export interface GetVercelCiInvocationRequest {
   invocationId: string;
   attempt: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetVercelCiInvocationResponseInvocationSourceCase0 {
   type: string;
@@ -123,22 +123,22 @@ export type GetVercelCiInvocationResponseInvocationBootstrappingFailed =
 export interface GetVercelCiInvocationResponseInvocationSandboxSnapshotted {
   sandboxSnapshotId: string;
   workingDirectory: string;
-  snapshottedAt?: number;
+  snapshottedAt?: number | undefined;
 }
 export interface GetVercelCiInvocationResponseInvocationSandboxNamed {
   sandboxName: string;
   workingDirectory: string;
-  readyAt?: number;
+  readyAt?: number | undefined;
 }
 export type GetVercelCiInvocationResponseInvocationJobDefinitionsCreatedNamesList = Array<string>;
 export interface GetVercelCiInvocationResponseInvocationJobDefinitionsCreated {
   names: GetVercelCiInvocationResponseInvocationJobDefinitionsCreatedNamesList;
-  source?: string;
-  scheduledAt?: number;
+  source?: string | undefined;
+  scheduledAt?: number | undefined;
 }
 export interface GetVercelCiInvocationResponseInvocationCompleted {
   completedAt: number;
-  conclusion?: string;
+  conclusion?: string | undefined;
 }
 /** The terminal setup result. Omitted while invocation setup is still running. */
 export interface GetVercelCiInvocationResponseInvocationSetupConclusion {
@@ -156,17 +156,17 @@ export interface GetVercelCiInvocationResponseInvocation {
   repositoryKey: string;
   ref: string;
   commitSha: string;
-  skipped?: GetVercelCiInvocationResponseInvocationSkipped;
-  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped;
-  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted;
-  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed;
-  jobDefinitionsCreated?: GetVercelCiInvocationResponseInvocationJobDefinitionsCreated;
-  completed?: GetVercelCiInvocationResponseInvocationCompleted;
+  skipped?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted | undefined;
+  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed | undefined;
+  jobDefinitionsCreated?: GetVercelCiInvocationResponseInvocationJobDefinitionsCreated | undefined;
+  completed?: GetVercelCiInvocationResponseInvocationCompleted | undefined;
   /** The terminal setup result. Omitted while invocation setup is still running. */
-  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   /** The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job -> "failed"; any (non-cascade) skipped job -> "skipped"; else "succeeded". Present on completed invocations written after the field shipped; absent on older rows. */
-  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   status: string;
 }
 export interface GetVercelCiInvocationResponse {
@@ -190,11 +190,11 @@ export interface GetVercelCiInvocationLogsRequest {
   invocationId: string;
   attempt: string;
   /** Only return log lines with one of these levels. */
-  level?: GetVercelCiInvocationLogsRequestLevelList;
+  level?: GetVercelCiInvocationLogsRequestLevelList | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetVercelCiInvocationLogsResponseLinesItem {
   level: string;
@@ -211,13 +211,13 @@ export type GetVercelCiInvocationTreeRequestFollow = 0 | 1;
 export interface GetVercelCiInvocationTreeRequest {
   invocationId: string;
   /** Invocation attempt to return. Defaults to the latest attempt. */
-  attempt?: string;
+  attempt?: string | undefined;
   /** When 1, stream the tree as newline-delimited JSON until the attempt finishes. */
-  follow?: GetVercelCiInvocationTreeRequestFollow | (number & {});
+  follow?: GetVercelCiInvocationTreeRequestFollow | (number & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetVercelCiInvocationTreeResponseInvocationSourceCase0 =
   GetVercelCiInvocationResponseInvocationSourceCase0;
@@ -240,8 +240,8 @@ export type GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreatedName
   Array<string>;
 export interface GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreated {
   names: GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreatedNamesList;
-  source?: string;
-  scheduledAt?: number;
+  source?: string | undefined;
+  scheduledAt?: number | undefined;
 }
 export type GetVercelCiInvocationTreeResponseInvocationCompleted =
   GetVercelCiInvocationResponseInvocationCompleted;
@@ -260,17 +260,19 @@ export interface GetVercelCiInvocationTreeResponseInvocation {
   repositoryKey: string;
   ref: string;
   commitSha: string;
-  skipped?: GetVercelCiInvocationResponseInvocationSkipped;
-  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped;
-  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted;
-  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed;
-  jobDefinitionsCreated?: GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreated;
-  completed?: GetVercelCiInvocationResponseInvocationCompleted;
+  skipped?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted | undefined;
+  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed | undefined;
+  jobDefinitionsCreated?:
+    | GetVercelCiInvocationTreeResponseInvocationJobDefinitionsCreated
+    | undefined;
+  completed?: GetVercelCiInvocationResponseInvocationCompleted | undefined;
   /** The terminal setup result. Omitted while invocation setup is still running. */
-  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   /** The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job -> "failed"; any (non-cascade) skipped job -> "skipped"; else "succeeded". Present on completed invocations written after the field shipped; absent on older rows. */
-  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   status: string;
 }
 export interface GetVercelCiInvocationTreeResponseJobsItemDefinition {
@@ -306,8 +308,8 @@ export interface GetVercelCiInvocationTreeResponseJobsItemRun {
   jobDefinitionId: string;
   attempt: number;
   createdAt: number;
-  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  completed?: GetVercelCiInvocationTreeResponseJobsItemRunCompleted;
+  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  completed?: GetVercelCiInvocationTreeResponseJobsItemRunCompleted | undefined;
 }
 export interface GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperationCase0 {
   kind: string;
@@ -330,7 +332,7 @@ export interface GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinition {
   jobRunAttempt: number;
   taskDefinitionId: string;
   name: string;
-  packageDirectory?: string;
+  packageDirectory?: string | undefined;
   operation: GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperation;
   dependencyTaskDefinitionIds: GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionDependencyTaskDefinitionIdsList;
   createdAt: number;
@@ -358,7 +360,7 @@ export interface GetVercelCiInvocationTreeResponseJobsItemTasksItemRunDeployment
   deploymentId: string;
   deploymentCreatedAt: number;
   eventAt: number;
-  readyState?: string;
+  readyState?: string | undefined;
 }
 export interface GetVercelCiInvocationTreeResponseJobsItemTasksItemRun {
   invocationId: string;
@@ -368,19 +370,21 @@ export interface GetVercelCiInvocationTreeResponseJobsItemTasksItemRun {
   taskDefinitionId: string;
   attempt: number;
   createdAt: number;
-  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  completed?: GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompleted;
-  deploymentBinding?: GetVercelCiInvocationTreeResponseJobsItemTasksItemRunDeploymentBinding;
+  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  completed?: GetVercelCiInvocationTreeResponseJobsItemTasksItemRunCompleted | undefined;
+  deploymentBinding?:
+    | GetVercelCiInvocationTreeResponseJobsItemTasksItemRunDeploymentBinding
+    | undefined;
 }
 export interface GetVercelCiInvocationTreeResponseJobsItemTasksItem {
   definition: GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinition;
-  run?: GetVercelCiInvocationTreeResponseJobsItemTasksItemRun;
+  run?: GetVercelCiInvocationTreeResponseJobsItemTasksItemRun | undefined;
 }
 export type GetVercelCiInvocationTreeResponseJobsItemTasksList =
   Array<GetVercelCiInvocationTreeResponseJobsItemTasksItem>;
 export interface GetVercelCiInvocationTreeResponseJobsItem {
   definition: GetVercelCiInvocationTreeResponseJobsItemDefinition;
-  run?: GetVercelCiInvocationTreeResponseJobsItemRun;
+  run?: GetVercelCiInvocationTreeResponseJobsItemRun | undefined;
   tasks: GetVercelCiInvocationTreeResponseJobsItemTasksList;
 }
 export type GetVercelCiInvocationTreeResponseJobsList =
@@ -395,9 +399,9 @@ export interface GetVercelCiJobDefinitionRequest {
   attempt: string;
   jobDefinitionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetVercelCiJobDefinitionResponseJobDefinition =
   GetVercelCiInvocationTreeResponseJobsItemDefinition;
@@ -410,9 +414,9 @@ export interface GetVercelCiJobRunRequest {
   jobDefinitionId: string;
   runAttempt: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetVercelCiJobRunResponseJobRunStarted =
   GetVercelCiInvocationResponseInvocationBootstrappingStarted;
@@ -436,8 +440,8 @@ export interface GetVercelCiJobRunResponseJobRun {
   jobDefinitionId: string;
   attempt: number;
   createdAt: number;
-  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  completed?: GetVercelCiJobRunResponseJobRunCompleted;
+  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  completed?: GetVercelCiJobRunResponseJobRunCompleted | undefined;
 }
 export interface GetVercelCiJobRunResponse {
   jobRun: GetVercelCiJobRunResponseJobRun;
@@ -461,14 +465,14 @@ export interface GetVercelCiJobRunLogsRequest {
   attempt: string;
   jobDefinitionId: string;
   runAttempt: string;
-  follow?: GetVercelCiJobRunLogsRequestFollow | (number & {});
-  since?: number;
+  follow?: GetVercelCiJobRunLogsRequestFollow | (number & {}) | undefined;
+  since?: number | undefined;
   /** Only return log lines with one of these levels. */
-  level?: GetVercelCiJobRunLogsRequestLevelList;
+  level?: GetVercelCiJobRunLogsRequestLevelList | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetVercelCiJobRunLogsResponseLinesItem = GetVercelCiInvocationLogsResponseLinesItem;
 export type GetVercelCiJobRunLogsResponseLinesList =
@@ -487,29 +491,29 @@ export interface GetVercelCiRepositorySettingsRequest {
   organizationId: string;
   repository: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetVercelCiRepositorySettingsResponse {
   provider: string;
   organizationId: string;
   repository: string;
   ciEnabled: boolean;
-  ciEnabledAt?: number;
-  updatedAt?: number;
+  ciEnabledAt?: number | undefined;
+  updatedAt?: number | undefined;
 }
 export interface GetVercelCiTaskAnalysisRequest {
   analysisId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetVercelCiTaskAnalysisResponse {
   analysisId: string;
   status: string;
-  failureReason?: string;
+  failureReason?: string | undefined;
 }
 /** Only return tasks with one of these names (e.g., \"web#test\"). */
 export type GetVercelCiTaskLogsRequestTaskList = Array<string>;
@@ -539,19 +543,19 @@ export interface GetVercelCiTaskLogsRequest {
   invocationId: string;
   attempt: string;
   /** Only return tasks with one of these names (e.g., \"web#test\"). */
-  task?: GetVercelCiTaskLogsRequestTaskList;
+  task?: GetVercelCiTaskLogsRequestTaskList | undefined;
   /** Only return completed tasks with one of these conclusions. */
-  conclusion?: GetVercelCiTaskLogsRequestConclusionList;
+  conclusion?: GetVercelCiTaskLogsRequestConclusionList | undefined;
   /** Only return log lines with one of these levels. */
-  level?: GetVercelCiTaskLogsRequestLevelList;
+  level?: GetVercelCiTaskLogsRequestLevelList | undefined;
   /** Only return log lines containing this text, ignoring case. Tasks without matching lines are left out, `limit` is ignored, and at most 1000 lines are returned. */
-  search?: string;
+  search?: string | undefined;
   /** Maximum number of tasks to return (default: 10, max: 25). */
-  limit?: number;
+  limit?: number | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetVercelCiTaskLogsResponseTasksItemConclusionCase0 =
   GetVercelCiInvocationResponseInvocationSetupConclusion;
@@ -576,8 +580,8 @@ export interface GetVercelCiTaskLogsResponseTasksItem {
   jobRunAttempt: number;
   taskDefinitionId: string;
   taskName: string;
-  taskRunAttempt?: number;
-  conclusion?: GetVercelCiTaskLogsResponseTasksItemConclusion;
+  taskRunAttempt?: number | undefined;
+  conclusion?: GetVercelCiTaskLogsResponseTasksItemConclusion | undefined;
   lines: GetVercelCiTaskLogsResponseTasksItemLinesList;
 }
 export type GetVercelCiTaskLogsResponseTasksList = Array<GetVercelCiTaskLogsResponseTasksItem>;
@@ -609,14 +613,14 @@ export interface GetVercelCiTaskRunLogsRequest {
   taskDefinitionId: string;
   taskRunAttempt: string;
   /** When 1, stream log lines as newline-delimited JSON until the task run finishes. */
-  follow?: GetVercelCiTaskRunLogsRequestFollow | (number & {});
-  since?: number;
+  follow?: GetVercelCiTaskRunLogsRequestFollow | (number & {}) | undefined;
+  since?: number | undefined;
   /** Only return log lines with one of these levels. */
-  level?: GetVercelCiTaskRunLogsRequestLevelList;
+  level?: GetVercelCiTaskRunLogsRequestLevelList | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetVercelCiTaskRunLogsResponseLinesItem = GetVercelCiInvocationLogsResponseLinesItem;
 export type GetVercelCiTaskRunLogsResponseLinesList =
@@ -625,12 +629,12 @@ export interface GetVercelCiTaskRunLogsResponse {
   lines: GetVercelCiTaskRunLogsResponseLinesList;
 }
 export interface ListVercelCiBranchesRequest {
-  query?: string;
-  limit?: number;
+  query?: string | undefined;
+  limit?: number | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListVercelCiBranchesResponseBranchesItem {
   name: string;
@@ -644,9 +648,9 @@ export interface ListVercelCiBranchesResponse {
 export interface ListVercelCiInvocationAttemptsRequest {
   invocationId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListVercelCiInvocationAttemptsResponseAttemptsItemSourceCase0 =
   GetVercelCiInvocationResponseInvocationSourceCase0;
@@ -669,8 +673,8 @@ export type ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCrea
   Array<string>;
 export interface ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreated {
   names: ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreatedNamesList;
-  source?: string;
-  scheduledAt?: number;
+  source?: string | undefined;
+  scheduledAt?: number | undefined;
 }
 export type ListVercelCiInvocationAttemptsResponseAttemptsItemCompleted =
   GetVercelCiInvocationResponseInvocationCompleted;
@@ -689,17 +693,19 @@ export interface ListVercelCiInvocationAttemptsResponseAttemptsItem {
   repositoryKey: string;
   ref: string;
   commitSha: string;
-  skipped?: GetVercelCiInvocationResponseInvocationSkipped;
-  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped;
-  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted;
-  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed;
-  jobDefinitionsCreated?: ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreated;
-  completed?: GetVercelCiInvocationResponseInvocationCompleted;
+  skipped?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted | undefined;
+  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed | undefined;
+  jobDefinitionsCreated?:
+    | ListVercelCiInvocationAttemptsResponseAttemptsItemJobDefinitionsCreated
+    | undefined;
+  completed?: GetVercelCiInvocationResponseInvocationCompleted | undefined;
   /** The terminal setup result. Omitted while invocation setup is still running. */
-  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   /** The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job -> "failed"; any (non-cascade) skipped job -> "skipped"; else "succeeded". Present on completed invocations written after the field shipped; absent on older rows. */
-  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   status: string;
 }
 export type ListVercelCiInvocationAttemptsResponseAttemptsList =
@@ -736,29 +742,29 @@ export type ListVercelCiInvocationsRequestSourceList = Array<
 >;
 export interface ListVercelCiInvocationsRequest {
   /** Repository provider (e.g., \"github\"). */
-  provider?: ListVercelCiInvocationsRequestProvider | (string & {});
+  provider?: ListVercelCiInvocationsRequestProvider | (string & {}) | undefined;
   /** Repository slug (e.g., \"vercel/next.js\"). */
-  repository?: string;
+  repository?: string | undefined;
   /** Branch name (e.g., \"main\"). */
-  branchName?: string;
+  branchName?: string | undefined;
   /** Snapshot/commit hash. */
-  snapshot?: string;
-  status?: ListVercelCiInvocationsRequestStatusList;
-  conclusion?: ListVercelCiInvocationsRequestConclusionList;
-  source?: ListVercelCiInvocationsRequestSourceList;
-  authorGitHubId?: string;
+  snapshot?: string | undefined;
+  status?: ListVercelCiInvocationsRequestStatusList | undefined;
+  conclusion?: ListVercelCiInvocationsRequestConclusionList | undefined;
+  source?: ListVercelCiInvocationsRequestSourceList | undefined;
+  authorGitHubId?: string | undefined;
   /** GitHub author login. */
-  author?: string;
-  createdAfter?: number;
-  createdBefore?: number;
+  author?: string | undefined;
+  createdAfter?: number | undefined;
+  createdBefore?: number | undefined;
   /** Number of results per page (default: 20, max: 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListVercelCiInvocationsResponseInvocationsItemSourceCase0 =
   GetVercelCiInvocationResponseInvocationSourceCase0;
@@ -781,8 +787,8 @@ export type ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreatedN
   Array<string>;
 export interface ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreated {
   names: ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreatedNamesList;
-  source?: string;
-  scheduledAt?: number;
+  source?: string | undefined;
+  scheduledAt?: number | undefined;
 }
 export type ListVercelCiInvocationsResponseInvocationsItemCompleted =
   GetVercelCiInvocationResponseInvocationCompleted;
@@ -801,23 +807,25 @@ export interface ListVercelCiInvocationsResponseInvocationsItem {
   repositoryKey: string;
   ref: string;
   commitSha: string;
-  skipped?: GetVercelCiInvocationResponseInvocationSkipped;
-  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped;
-  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted;
-  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed;
-  jobDefinitionsCreated?: ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreated;
-  completed?: GetVercelCiInvocationResponseInvocationCompleted;
+  skipped?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  bootstrappingStarted?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  bootstrappingFailed?: GetVercelCiInvocationResponseInvocationSkipped | undefined;
+  sandboxSnapshotted?: GetVercelCiInvocationResponseInvocationSandboxSnapshotted | undefined;
+  sandboxNamed?: GetVercelCiInvocationResponseInvocationSandboxNamed | undefined;
+  jobDefinitionsCreated?:
+    | ListVercelCiInvocationsResponseInvocationsItemJobDefinitionsCreated
+    | undefined;
+  completed?: GetVercelCiInvocationResponseInvocationCompleted | undefined;
   /** The terminal setup result. Omitted while invocation setup is still running. */
-  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  setupConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   /** The aggregate outcome of every job in the invocation. Omitted while jobs are still running. Any failed job -> "failed"; any (non-cascade) skipped job -> "skipped"; else "succeeded". Present on completed invocations written after the field shipped; absent on older rows. */
-  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion;
+  runConclusion?: GetVercelCiInvocationResponseInvocationSetupConclusion | undefined;
   status: string;
 }
 export type ListVercelCiInvocationsResponseInvocationsList =
   Array<ListVercelCiInvocationsResponseInvocationsItem>;
 export interface ListVercelCiInvocationsResponsePagination {
-  nextCursor?: string;
+  nextCursor?: string | undefined;
 }
 export interface ListVercelCiInvocationsResponse {
   invocations: ListVercelCiInvocationsResponseInvocationsList;
@@ -828,9 +836,9 @@ export interface ListVercelCiJobDefinitionsRequest {
   invocationId: string;
   attempt: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListVercelCiJobDefinitionsResponseJobDefinitionsItem =
   GetVercelCiInvocationTreeResponseJobsItemDefinition;
@@ -844,9 +852,9 @@ export interface ListVercelCiJobRunsRequest {
   attempt: string;
   jobDefinitionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListVercelCiJobRunsResponseJobRunsItemStarted =
   GetVercelCiInvocationResponseInvocationBootstrappingStarted;
@@ -870,8 +878,8 @@ export interface ListVercelCiJobRunsResponseJobRunsItem {
   jobDefinitionId: string;
   attempt: number;
   createdAt: number;
-  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  completed?: ListVercelCiJobRunsResponseJobRunsItemCompleted;
+  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  completed?: ListVercelCiJobRunsResponseJobRunsItemCompleted | undefined;
 }
 export type ListVercelCiJobRunsResponseJobRunsList = Array<ListVercelCiJobRunsResponseJobRunsItem>;
 export interface ListVercelCiJobRunsResponse {
@@ -879,12 +887,12 @@ export interface ListVercelCiJobRunsResponse {
 }
 export interface ListVercelCiTaskAnalysisTasksRequest {
   analysisId: string;
-  cursor?: string;
-  limit?: string;
+  cursor?: string | undefined;
+  limit?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListVercelCiTaskAnalysisTasksResponseTasksItemRecommendationReasonsList = Array<string>;
 export interface ListVercelCiTaskAnalysisTasksResponseTasksItem {
@@ -906,9 +914,9 @@ export interface ListVercelCiTaskDefinitionsRequest {
   jobDefinitionId: string;
   runAttempt: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperationCase0 =
   GetVercelCiInvocationTreeResponseJobsItemTasksItemDefinitionOperationCase0;
@@ -926,7 +934,7 @@ export interface ListVercelCiTaskDefinitionsResponseTaskDefinitionsItem {
   jobRunAttempt: number;
   taskDefinitionId: string;
   name: string;
-  packageDirectory?: string;
+  packageDirectory?: string | undefined;
   operation: ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemOperation;
   dependencyTaskDefinitionIds: ListVercelCiTaskDefinitionsResponseTaskDefinitionsItemDependencyTaskDefinitionIdsList;
   createdAt: number;
@@ -941,11 +949,11 @@ export interface ListVercelCiTaskRunsRequest {
   attempt: string;
   jobDefinitionId: string;
   runAttempt: string;
-  taskRunAttempt?: string;
+  taskRunAttempt?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListVercelCiTaskRunsResponseTaskRunsItemStarted =
   GetVercelCiInvocationResponseInvocationBootstrappingStarted;
@@ -976,9 +984,11 @@ export interface ListVercelCiTaskRunsResponseTaskRunsItem {
   taskDefinitionId: string;
   attempt: number;
   createdAt: number;
-  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted;
-  completed?: ListVercelCiTaskRunsResponseTaskRunsItemCompleted;
-  deploymentBinding?: GetVercelCiInvocationTreeResponseJobsItemTasksItemRunDeploymentBinding;
+  started?: GetVercelCiInvocationResponseInvocationBootstrappingStarted | undefined;
+  completed?: ListVercelCiTaskRunsResponseTaskRunsItemCompleted | undefined;
+  deploymentBinding?:
+    | GetVercelCiInvocationTreeResponseJobsItemTasksItemRunDeploymentBinding
+    | undefined;
 }
 export type ListVercelCiTaskRunsResponseTaskRunsList =
   Array<ListVercelCiTaskRunsResponseTaskRunsItem>;
@@ -989,9 +999,9 @@ export interface RetryVercelCiInvocationRequest {
   invocationId: string;
   attempt: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface RetryVercelCiInvocationResponse {
   invocationId: string;
@@ -1018,11 +1028,11 @@ export interface SearchVercelCiLogsRequest {
   /** Only return log lines containing this text, ignoring case. */
   search: string;
   /** Only return log lines with one of these levels. */
-  level?: SearchVercelCiLogsRequestLevelList;
+  level?: SearchVercelCiLogsRequestLevelList | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type SearchVercelCiLogsResponseInvocationsItemTasksItemConclusionCase0 =
   GetVercelCiInvocationResponseInvocationSetupConclusion;
@@ -1047,8 +1057,8 @@ export interface SearchVercelCiLogsResponseInvocationsItemTasksItem {
   jobRunAttempt: number;
   taskDefinitionId: string;
   taskName: string;
-  taskRunAttempt?: number;
-  conclusion?: SearchVercelCiLogsResponseInvocationsItemTasksItemConclusion;
+  taskRunAttempt?: number | undefined;
+  conclusion?: SearchVercelCiLogsResponseInvocationsItemTasksItemConclusion | undefined;
   lines: SearchVercelCiLogsResponseInvocationsItemTasksItemLinesList;
 }
 export type SearchVercelCiLogsResponseInvocationsItemTasksList =
@@ -1076,9 +1086,9 @@ export interface UpdateVercelCiRepositorySettingsRequest {
   organizationId: string;
   repository: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   ciEnabled: boolean;
 }
 export interface UpdateVercelCiRepositorySettingsResponse {
@@ -1086,8 +1096,8 @@ export interface UpdateVercelCiRepositorySettingsResponse {
   organizationId: string;
   repository: string;
   ciEnabled: boolean;
-  ciEnabledAt?: number;
-  updatedAt?: number;
+  ciEnabledAt?: number | undefined;
+  updatedAt?: number | undefined;
 }
 export type CreateVercelCiTaskAnalysisError =
   | BadRequest

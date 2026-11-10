@@ -73,31 +73,31 @@ export class PaymentRequired
 
 export interface CreateTeamRequestAttributionUtm {
   /** UTM source */
-  utmSource?: string;
+  utmSource?: string | undefined;
   /** UTM medium */
-  utmMedium?: string;
+  utmMedium?: string | undefined;
   /** UTM campaign */
-  utmCampaign?: string;
+  utmCampaign?: string | undefined;
   /** UTM term */
-  utmTerm?: string;
+  utmTerm?: string | undefined;
 }
 /** Attribution information for the session or current page */
 export interface CreateTeamRequestAttribution {
   /** Session referrer */
-  sessionReferrer?: string;
+  sessionReferrer?: string | undefined;
   /** Session landing page */
-  landingPage?: string;
+  landingPage?: string | undefined;
   /** Referrer to the signup page */
-  pageBeforeConversionPage?: string;
-  utm?: CreateTeamRequestAttributionUtm;
+  pageBeforeConversionPage?: string | undefined;
+  utm?: CreateTeamRequestAttributionUtm | undefined;
 }
 export interface CreateTeamRequest {
   /** The desired slug for the Team */
   slug: string;
   /** The desired name for the Team. It will be generated from the provided slug if nothing is provided */
-  name?: string;
+  name?: string | undefined;
   /** Attribution information for the session or current page */
-  attribution?: CreateTeamRequestAttribution;
+  attribution?: CreateTeamRequestAttribution | undefined;
 }
 export interface CreateTeamResponse {
   /** Id of the created team */
@@ -127,7 +127,7 @@ export interface CreateTeamDsyncRoleRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Directory groups to role or access group mappings. */
   roles: CreateTeamDsyncRoleRequestRolesMap;
 }
@@ -140,7 +140,7 @@ export interface DeleteMicrofrontendsGroupRequest {
   /** The microfrontend group ID to delete. */
   groupId: string;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteMicrofrontendsGroupResponse = unknown;
 /** An object describing the reason why the team is being deleted. */
@@ -156,17 +156,17 @@ export interface DeleteTeamRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** Id of the team to be set as the new default team */
-  newDefaultTeamId?: string;
+  newDefaultTeamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Optional array of objects that describe the reason why the team is being deleted. */
-  reasons?: DeleteTeamRequestReasonsList;
+  reasons?: DeleteTeamRequestReasonsList | undefined;
 }
 export interface DeleteTeamResponse {
   /** The ID of the deleted Team */
   id: string;
   /** Signifies whether the default team update has failed, when newDefaultTeamId is provided in request query. */
-  newDefaultTeamIdError?: boolean;
+  newDefaultTeamIdError?: boolean | undefined;
 }
 export interface DeleteTeamInviteCodeRequest {
   /** The Team identifier to perform the request on behalf of. */
@@ -181,7 +181,7 @@ export interface DeleteTeamInviteCodeResponse {
 export interface GetTeamRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
-  slug?: string;
+  slug?: string | undefined;
 }
 export type TeamBillingPlan = "enterprise" | "hobby" | "pro";
 /** The team's billing plan. */
@@ -189,7 +189,7 @@ export interface TeamBilling {
   plan: TeamBillingPlan;
 }
 export interface TeamConnect {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Default continuous-usage billing kind for projects under this team. Absent means projects stay unmetered. */
 export type TeamDefaultContinuousUsageKind = "metered" | "unmetered";
@@ -200,21 +200,21 @@ export type TeamDefaultDeploymentProtectionSsoProtection =
   TeamDefaultDeploymentProtectionPasswordProtection;
 /** Deployment protection defaults for new projects in this team. When no Vercel Authentication default is saved, `ssoProtection` shows Standard Protection. An explicitly saved `null` remains disabled. Organization policy may override the team default during project creation. */
 export interface TeamDefaultDeploymentProtection {
-  passwordProtection?: TeamDefaultDeploymentProtectionPasswordProtection | null;
-  ssoProtection?: TeamDefaultDeploymentProtectionPasswordProtection | null;
+  passwordProtection?: TeamDefaultDeploymentProtectionPasswordProtection | null | undefined;
+  ssoProtection?: TeamDefaultDeploymentProtectionPasswordProtection | null | undefined;
 }
 /** Default deployment expiration settings for this team */
 export interface TeamDefaultExpirationSettings {
   /** Minimum number of production deployments to keep for this project, even if they are over the production expiration limit. */
-  deploymentsToKeep?: number;
+  deploymentsToKeep?: number | undefined;
   /** Number of days to keep non-production deployments (mostly preview deployments) before soft deletion. */
-  expirationDays?: number;
+  expirationDays?: number | undefined;
   /** Number of days to keep canceled deployments before soft deletion. */
-  expirationDaysCanceled?: number;
+  expirationDaysCanceled?: number | undefined;
   /** Number of days to keep errored deployments before soft deletion. */
-  expirationDaysErrored?: number;
+  expirationDaysErrored?: number | undefined;
   /** Number of days to keep production deployments before soft deletion. */
-  expirationDaysProduction?: number;
+  expirationDaysProduction?: number | undefined;
 }
 /** Default Passport configuration for new projects in this team. */
 export type TeamDefaultPassportDeploymentType =
@@ -267,15 +267,15 @@ export interface TeamDefaultProjectJobsTypecheck {
 /** Default job configuration applied to new projects created in this team. */
 export interface TeamDefaultProjectJobs {
   /** Default job configuration applied to new projects created in this team. */
-  flag_definitions_present?: TeamDefaultProjectJobsFlagDefinitionsPresent;
+  flag_definitions_present?: TeamDefaultProjectJobsFlagDefinitionsPresent | undefined;
   /** Default job configuration applied to new projects created in this team. */
-  health_check?: TeamDefaultProjectJobsHealthCheck;
+  health_check?: TeamDefaultProjectJobsHealthCheck | undefined;
   /** Default job configuration applied to new projects created in this team. */
-  lint?: TeamDefaultProjectJobsLint;
+  lint?: TeamDefaultProjectJobsLint | undefined;
   /** Default job configuration applied to new projects created in this team. */
-  mfe_config_present?: TeamDefaultProjectJobsMfeConfigPresent;
+  mfe_config_present?: TeamDefaultProjectJobsMfeConfigPresent | undefined;
   /** Default job configuration applied to new projects created in this team. */
-  typecheck?: TeamDefaultProjectJobsTypecheck;
+  typecheck?: TeamDefaultProjectJobsTypecheck | undefined;
 }
 export type TeamDefaultRolesTeamPermissionsItem =
   | "AiGatewayBudgetManager"
@@ -310,8 +310,8 @@ export type TeamDefaultRolesTeamRolesItem =
 export type TeamDefaultRolesTeamRolesList = Array<TeamDefaultRolesTeamRolesItem>;
 /** Default roles for the team. */
 export interface TeamDefaultRoles {
-  teamPermissions?: TeamDefaultRolesTeamPermissionsList;
-  teamRoles?: TeamDefaultRolesTeamRolesList;
+  teamPermissions?: TeamDefaultRolesTeamPermissionsList | undefined;
+  teamRoles?: TeamDefaultRolesTeamRolesList | undefined;
 }
 export type TeamDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0Target =
   | "preview"
@@ -372,13 +372,13 @@ export type TeamDeploymentPolicyGitSourcesItemSourcesItemCase0Provider = "bitbuc
 export interface TeamDeploymentPolicyGitSourcesItemSourcesItemCase0 {
   org: string;
   provider: TeamDeploymentPolicyGitSourcesItemSourcesItemCase0Provider;
-  repo?: string;
+  repo?: string | undefined;
 }
 export type TeamDeploymentPolicyGitSourcesItemSourcesItemCase1Provider = "gitlab";
 /** Allowlist entry for GitLab, which uses nested groups rather than a flat org/repo. `namespace` is the full group path (e.g. `group` or `group/subgroup`); `project` is the leaf project name. Omit `project` to match any project under the namespace. Namespace is matched case-insensitively. */
 export interface TeamDeploymentPolicyGitSourcesItemSourcesItemCase1 {
   namespace: string;
-  project?: string;
+  project?: string | undefined;
   provider: TeamDeploymentPolicyGitSourcesItemSourcesItemCase1Provider;
 }
 export type TeamDeploymentPolicyGitSourcesItemSourcesItem =
@@ -395,8 +395,8 @@ export interface TeamDeploymentPolicyGitSourcesItem {
 export type TeamDeploymentPolicyGitSourcesList = Array<TeamDeploymentPolicyGitSourcesItem>;
 /** Composable deployment-time policy for the team. Used as the default for every project on the team, with optional per-project overrides on `project.deploymentPolicy`. */
 export interface TeamDeploymentPolicy {
-  deploymentSources?: TeamDeploymentPolicyDeploymentSourcesList;
-  gitSources?: TeamDeploymentPolicyGitSourcesList;
+  deploymentSources?: TeamDeploymentPolicyDeploymentSourcesList | undefined;
+  gitSources?: TeamDeploymentPolicyGitSourcesList | undefined;
 }
 export type TeamDeploymentStorageRolloutCohort =
   | "already_metered"
@@ -414,12 +414,12 @@ export type TeamDeploymentStorageRolloutMeterReason =
 export interface TeamDeploymentStorageRollout {
   cohort: TeamDeploymentStorageRolloutCohort;
   /** When team-wide metering was recorded for this rollout. */
-  meteredAt?: number;
-  meterReason?: TeamDeploymentStorageRolloutMeterReason;
+  meteredAt?: number | undefined;
+  meterReason?: TeamDeploymentStorageRolloutMeterReason | undefined;
   /** When the calendar retention-reduce migration applied 30d retention. */
-  retentionAppliedAt?: number;
+  retentionAppliedAt?: number | undefined;
   /** When the customer chose "keep my retention" before reduce day. */
-  retentionOptOutAt?: number;
+  retentionOptOutAt?: number | undefined;
 }
 export type TeamDisableHardAutoBlocks = number | boolean;
 /** Require production secrets to use a different value than preview or development. */
@@ -444,8 +444,8 @@ export type TeamEnableProductionFeedback =
   | "on-force";
 export interface TeamIpBucketsItem {
   bucket: string;
-  default?: boolean;
-  supportUntil?: number;
+  default?: boolean | undefined;
+  supportUntil?: number | undefined;
 }
 export type TeamIpBucketsList = Array<TeamIpBucketsItem>;
 export interface TeamMembershipEntitlementsItem {
@@ -475,17 +475,17 @@ export type TeamMembershipJoinedFromOrigin =
   | "saml"
   | "teams";
 export interface TeamMembershipJoinedFrom {
-  commitId?: string;
-  dsyncConnectedAt?: number;
-  dsyncUserId?: string;
-  gitUserId?: TeamMembershipJoinedFromGitUserId;
-  gitUserLogin?: string;
-  idpUserId?: string;
+  commitId?: string | undefined;
+  dsyncConnectedAt?: number | undefined;
+  dsyncUserId?: string | undefined;
+  gitUserId?: TeamMembershipJoinedFromGitUserId | undefined;
+  gitUserLogin?: string | undefined;
+  idpUserId?: string | undefined;
   origin: TeamMembershipJoinedFromOrigin;
-  repoId?: string;
-  repoPath?: string;
-  ssoConnectedAt?: number;
-  ssoUserId?: string;
+  repoId?: string | undefined;
+  repoPath?: string | undefined;
+  ssoConnectedAt?: number | undefined;
+  ssoUserId?: string | undefined;
 }
 export type TeamMembershipRole =
   | "BILLING"
@@ -529,19 +529,19 @@ export type TeamMembershipTeamRolesItem =
 export type TeamMembershipTeamRolesList = Array<TeamMembershipTeamRolesItem>;
 /** The membership of the authenticated User in relation to the Team. */
 export interface TeamMembership {
-  accessRequestedAt?: number;
+  accessRequestedAt?: number | undefined;
   confirmed: boolean;
   created: number;
   createdAt: number;
-  entitlements?: TeamMembershipEntitlementsList;
-  isOrgBackingTeamMembership?: boolean;
-  joinedFrom?: TeamMembershipJoinedFrom;
-  organizationId?: string;
+  entitlements?: TeamMembershipEntitlementsList | undefined;
+  isOrgBackingTeamMembership?: boolean | undefined;
+  joinedFrom?: TeamMembershipJoinedFrom | undefined;
+  organizationId?: string | undefined;
   role: TeamMembershipRole;
-  teamId?: string;
-  teamPermissions?: TeamMembershipTeamPermissionsList;
-  teamRoles?: TeamMembershipTeamRolesList;
-  uid?: string;
+  teamId?: string | undefined;
+  teamPermissions?: TeamMembershipTeamPermissionsList | undefined;
+  teamRoles?: TeamMembershipTeamRolesList | undefined;
+  uid?: string | undefined;
 }
 export type TeamNsnbConfigPreference = "auto-approval" | "block" | "manual-approval";
 /** NSNB configuration for the team. */
@@ -551,7 +551,7 @@ export interface TeamNsnbConfig {
 /** Is remote caching enabled for this team */
 export type TeamRemoteCaching = TeamConnect;
 export interface TeamResourceConfigBuildEntitlements {
-  enhancedBuilds?: boolean;
+  enhancedBuilds?: boolean | undefined;
 }
 /** Default build machine type for new builds */
 export type TeamResourceConfigBuildMachineDefault =
@@ -563,30 +563,30 @@ export type TeamResourceConfigBuildMachineDefault =
 /** Build machine configuration */
 export interface TeamResourceConfigBuildMachine {
   /** Default build machine type for new builds */
-  default?: TeamResourceConfigBuildMachineDefault;
+  default?: TeamResourceConfigBuildMachineDefault | undefined;
 }
 export interface TeamResourceConfig {
   /** The maximum number of blob stores an account can create. */
-  blobStores?: number;
-  buildEntitlements?: TeamResourceConfigBuildEntitlements;
+  blobStores?: number | undefined;
+  buildEntitlements?: TeamResourceConfigBuildEntitlements | undefined;
   /** Build machine configuration */
-  buildMachine?: TeamResourceConfigBuildMachine;
+  buildMachine?: TeamResourceConfigBuildMachine | undefined;
   /** The total amount of concurrent builds that can be used. */
-  concurrentBuilds?: number;
+  concurrentBuilds?: number | undefined;
   /** The maximum number of custom environments allowed per project. */
-  customEnvironmentsPerProject?: number;
+  customEnvironmentsPerProject?: number | undefined;
   /** The maximum number of edge configs an account can create. */
-  edgeConfigs?: number;
+  edgeConfigs?: number | undefined;
   /** The maximum size in kilobytes of a Global Config. Only specified if a custom limit is set. */
-  edgeConfigSize?: number;
+  edgeConfigSize?: number | undefined;
   /** Whether every build for this team / user has elastic concurrency enabled automatically. */
-  elasticConcurrencyEnabled?: boolean;
+  elasticConcurrencyEnabled?: boolean | undefined;
   /** The maximum number of kv databases an account can create. */
-  kvDatabases?: number;
+  kvDatabases?: number | undefined;
   /** The maximum number of postgres databases an account can create. */
-  postgresDatabases?: number;
+  postgresDatabases?: number | undefined;
   /** The maximum memory size (in MB) for a serverless function. Only specified if a custom limit is set. */
-  serverlessFunctionMaxMemorySize?: number;
+  serverlessFunctionMaxMemorySize?: number | undefined;
 }
 /** Controls whether directory sync events are processed. - 'SETUP': Directory connected but role mappings not yet configured. Events are acknowledged but not processed. - 'ACTIVE': Fully configured. Events are processed normally. - undefined: Legacy directory (pre-feature), treat as 'ACTIVE' for backwards compatibility. */
 export type TeamSamlConnectionSyncState = "ACTIVE" | "SETUP";
@@ -595,13 +595,13 @@ export interface TeamSamlConnection {
   /** Timestamp (in milliseconds) of when the configuration was connected. */
   connectedAt: number;
   /** Timestamp (in milliseconds) of when the last webhook event was received from WorkOS. */
-  lastReceivedWebhookEvent?: number;
+  lastReceivedWebhookEvent?: number | undefined;
   /** Timestamp (in milliseconds) of when the last directory sync was performed. */
-  lastSyncedAt?: number;
+  lastSyncedAt?: number | undefined;
   /** Current state of the connection. */
   state: string;
   /** Controls whether directory sync events are processed. - 'SETUP': Directory connected but role mappings not yet configured. Events are acknowledged but not processed. - 'ACTIVE': Fully configured. Events are processed normally. - undefined: Legacy directory (pre-feature), treat as 'ACTIVE' for backwards compatibility. */
-  syncState?: TeamSamlConnectionSyncState;
+  syncState?: TeamSamlConnectionSyncState | undefined;
   /** The Identity Provider "type", for example Okta. */
   type: string;
   status: string;
@@ -615,13 +615,13 @@ export interface TeamSamlDirectory {
   /** Timestamp (in milliseconds) of when the configuration was connected. */
   connectedAt: number;
   /** Timestamp (in milliseconds) of when the last webhook event was received from WorkOS. */
-  lastReceivedWebhookEvent?: number;
+  lastReceivedWebhookEvent?: number | undefined;
   /** Timestamp (in milliseconds) of when the last directory sync was performed. */
-  lastSyncedAt?: number;
+  lastSyncedAt?: number | undefined;
   /** Current state of the connection. */
   state: string;
   /** Controls whether directory sync events are processed. - 'SETUP': Directory connected but role mappings not yet configured. Events are acknowledged but not processed. - 'ACTIVE': Fully configured. Events are processed normally. - undefined: Legacy directory (pre-feature), treat as 'ACTIVE' for backwards compatibility. */
-  syncState?: TeamSamlDirectorySyncState;
+  syncState?: TeamSamlDirectorySyncState | undefined;
   /** The Identity Provider "type", for example Okta. */
   type: string;
 }
@@ -661,7 +661,7 @@ export type TeamSamlRolesValueCase1TeamRolesItem =
 export type TeamSamlRolesValueCase1TeamRolesList = Array<TeamSamlRolesValueCase1TeamRolesItem>;
 /** When "Directory Sync" is configured, this object contains a mapping of which Directory Group (by ID) should be assigned to which Vercel Team roles and permissions, or an access group. Bare team roles are deprecated in favor of DirectorySyncRolesMapping. */
 export interface TeamSamlRolesValueCase1 {
-  teamPermissions?: TeamSamlRolesValueCase1TeamPermissionsList;
+  teamPermissions?: TeamSamlRolesValueCase1TeamPermissionsList | undefined;
   teamRoles: TeamSamlRolesValueCase1TeamRolesList;
 }
 export type TeamSamlRolesValueCase2 =
@@ -682,15 +682,15 @@ export type TeamSamlRolesMap = { [key: string]: TeamSamlRolesValue | undefined }
 /** When "Single Sign-On (SAML)" is configured, this object contains information regarding the configuration of the Identity Provider (IdP). */
 export interface TeamSaml {
   /** Information for the SAML Single Sign-On configuration. */
-  connection?: TeamSamlConnection;
+  connection?: TeamSamlConnection | undefined;
   /** The default redirect URI to use after successful SAML authentication. */
-  defaultRedirectUri?: TeamSamlDefaultRedirectUri;
+  defaultRedirectUri?: TeamSamlDefaultRedirectUri | undefined;
   /** Information for the Directory Sync configuration. */
-  directory?: TeamSamlDirectory;
+  directory?: TeamSamlDirectory | undefined;
   /** When `true`, interactions with the Team **must** be done with an authentication token that has been authenticated with the Team's SAML Single Sign-On provider. */
   enforced: boolean;
   /** When "Directory Sync" is configured, this object contains a mapping of which Directory Group (by ID) should be assigned to which Vercel Team roles and permissions, or an access group. Bare team roles are deprecated in favor of DirectorySyncRolesMapping. */
-  roles?: TeamSamlRolesMap;
+  roles?: TeamSamlRolesMap | undefined;
 }
 /** Sensitive environment variable policy for this team */
 export type TeamSensitiveEnvironmentVariablePolicy = "default" | "off" | "on";
@@ -708,99 +708,99 @@ export type TeamStrictShareableLinks = TeamStrictConnectors;
 /** Data representing a Team. */
 export interface Team {
   /** Timestamp (ms) after which API keys created at or before this time are considered invalid for this team. */
-  apiKeysInvalidatedAt?: number;
+  apiKeysInvalidatedAt?: number | undefined;
   /** Timestamp (ms) after which Vercel App tokens created at or before this time are considered invalid for this team. */
-  appTokensInvalidatedAt?: number;
+  appTokensInvalidatedAt?: number | undefined;
   /** The ID of the file used as avatar for this Team. */
   avatar: string | null;
   /** The team's billing plan. */
   billing: TeamBilling | null;
-  connect?: TeamConnect;
+  connect?: TeamConnect | undefined;
   /** UNIX timestamp (in milliseconds) when the Team was created. */
   createdAt: number;
   /** The ID of the user who created the Team. */
   creatorId: string;
   /** Default continuous-usage billing kind for projects under this team. Absent means projects stay unmetered. */
-  defaultContinuousUsageKind?: TeamDefaultContinuousUsageKind;
+  defaultContinuousUsageKind?: TeamDefaultContinuousUsageKind | undefined;
   /** Deployment protection defaults for new projects in this team. When no Vercel Authentication default is saved, `ssoProtection` shows Standard Protection. An explicitly saved `null` remains disabled. Organization policy may override the team default during project creation. */
   defaultDeploymentProtection: TeamDefaultDeploymentProtection;
   /** Default deployment expiration settings for this team */
-  defaultExpirationSettings?: TeamDefaultExpirationSettings;
+  defaultExpirationSettings?: TeamDefaultExpirationSettings | undefined;
   /** Default Passport configuration for new projects in this team. */
-  defaultPassport?: TeamDefaultPassport | null;
+  defaultPassport?: TeamDefaultPassport | null | undefined;
   /** Default job configuration applied to new projects created in this team. */
-  defaultProjectJobs?: TeamDefaultProjectJobs;
+  defaultProjectJobs?: TeamDefaultProjectJobs | undefined;
   /** Default roles for the team. */
-  defaultRoles?: TeamDefaultRoles;
+  defaultRoles?: TeamDefaultRoles | undefined;
   /** Composable deployment-time policy for the team. Used as the default for every project on the team, with optional per-project overrides on `project.deploymentPolicy`. */
-  deploymentPolicy?: TeamDeploymentPolicy;
+  deploymentPolicy?: TeamDeploymentPolicy | undefined;
   /** Pro deployment-storage pricing rollout cohort and milestones. Absent when the team has not been placed in a rollout cohort yet. */
-  deploymentStorageRollout?: TeamDeploymentStorageRollout;
+  deploymentStorageRollout?: TeamDeploymentStorageRollout | undefined;
   /** A short description of the Team. */
   description: string | null;
-  disableHardAutoBlocks?: TeamDisableHardAutoBlocks;
+  disableHardAutoBlocks?: TeamDisableHardAutoBlocks | undefined;
   /** Default for projects in the team. When `true`, projects in this team will not emit GitHub repository-dispatch events on deployment events unless the project explicitly overrides this setting via `project.gitProviderOptions.disableRepositoryDispatchEvents`. */
-  disableRepositoryDispatchEvents?: boolean;
+  disableRepositoryDispatchEvents?: boolean | undefined;
   /** Require production secrets to use a different value than preview or development. */
-  disjunctiveProductionSecretPolicy?: TeamDisjunctiveProductionSecretPolicy | null;
+  disjunctiveProductionSecretPolicy?: TeamDisjunctiveProductionSecretPolicy | null | undefined;
   /** Controls who can request access to protected deployments. */
-  dpAccessRequestsMode?: TeamDpAccessRequestsMode;
+  dpAccessRequestsMode?: TeamDpAccessRequestsMode | undefined;
   /** Hostname that'll be matched with emails on sign-up to automatically join the Team. */
-  emailDomain?: string | null;
+  emailDomain?: string | null | undefined;
   /** Whether toolbar is enabled on preview deployments */
-  enablePreviewFeedback?: TeamEnablePreviewFeedback | null;
+  enablePreviewFeedback?: TeamEnablePreviewFeedback | null | undefined;
   /** Whether toolbar is enabled on production deployments */
-  enableProductionFeedback?: TeamEnableProductionFeedback | null;
+  enableProductionFeedback?: TeamEnableProductionFeedback | null | undefined;
   /** Indicates if IP addresses should be accessible in observability (o11y) tooling */
-  hideIpAddresses?: boolean | null;
+  hideIpAddresses?: boolean | null | undefined;
   /** Indicates if IP addresses should be accessible in log drains */
-  hideIpAddressesInLogDrains?: boolean | null;
+  hideIpAddressesInLogDrains?: boolean | null | undefined;
   /** The Team's unique identifier. */
   id: string;
   /** Timestamp (ms) after which integration tokens created at or before this time are considered invalid for this team. */
-  integrationTokensInvalidatedAt?: number;
+  integrationTokensInvalidatedAt?: number | undefined;
   /** Code that can be used to join this Team. Only visible to Team owners. */
-  inviteCode?: string;
-  ipBuckets?: TeamIpBucketsList;
+  inviteCode?: string | undefined;
+  ipBuckets?: TeamIpBucketsList | undefined;
   /** Property indicating that this Team data contains full information. Limited Team data has `limited: true`. */
   limited: boolean;
   /** The membership of the authenticated User in relation to the Team. */
-  membership?: TeamMembership;
+  membership?: TeamMembership | undefined;
   /** Name associated with the Team account, or `null` if none has been provided. */
   name: string | null;
   /** NSNB configuration for the team. */
-  nsnbConfig?: TeamNsnbConfig;
+  nsnbConfig?: TeamNsnbConfig | undefined;
   /** Best-effort ID of the organization's root billing team. When present, compare `orgRootTeamId === id` to identify the root team. It may be omitted even when `parentId` is set if organization resolution fails or the referenced organization is missing. Always omitted for non-organization teams. */
-  orgRootTeamId?: string;
+  orgRootTeamId?: string | undefined;
   /** The organizationId for teams that belong to an organization (set on both the organization's root team and its child teams). */
-  parentId?: string;
+  parentId?: string | undefined;
   /** Timestamp (ms) after which personal access tokens created at or before this time are considered invalid for this team. */
-  personalAccessTokensInvalidatedAt?: number;
+  personalAccessTokensInvalidatedAt?: number | undefined;
   /** Whether the team is a platform team. */
-  platform?: boolean;
+  platform?: boolean | undefined;
   /** The hostname that is current set as preview deployment suffix. */
-  previewDeploymentSuffix?: string | null;
+  previewDeploymentSuffix?: string | null | undefined;
   /** Is remote caching enabled for this team */
-  remoteCaching?: TeamConnect;
+  remoteCaching?: TeamConnect | undefined;
   /** When enabled, all projects in the team require commits to be signed and verified by the git provider before deployments will be created. Projects may override this via `project.gitProviderOptions.requireVerifiedCommits` (gated by `Project:Update`). */
-  requireVerifiedCommits?: boolean;
-  resourceConfig?: TeamResourceConfig;
+  requireVerifiedCommits?: boolean | undefined;
+  resourceConfig?: TeamResourceConfig | undefined;
   /** When "Single Sign-On (SAML)" is configured, this object contains information regarding the configuration of the Identity Provider (IdP). */
-  saml?: TeamSaml;
+  saml?: TeamSaml | undefined;
   /** Sensitive environment variable policy for this team */
-  sensitiveEnvironmentVariablePolicy?: TeamSensitiveEnvironmentVariablePolicy | null;
+  sensitiveEnvironmentVariablePolicy?: TeamSensitiveEnvironmentVariablePolicy | null | undefined;
   /** The Team's slug, which is unique across the Vercel platform. */
   slug: string;
   /** The prefix that is prepended to automatic aliases. */
   stagingPrefix: string;
   /** When enabled, creating and managing connectors requires Owner role or the ConnectorManager permission. */
-  strictConnectors?: TeamStrictConnectors;
+  strictConnectors?: TeamStrictConnectors | undefined;
   /** When enabled, deployment protection settings require stricter permissions (owner-only). */
-  strictDeploymentProtectionSettings?: TeamStrictConnectors;
+  strictDeploymentProtectionSettings?: TeamStrictConnectors | undefined;
   /** When enabled, adding, changing, or removing project password protection requires Owner role. */
-  strictPasswordProtectionSettings?: TeamStrictConnectors;
+  strictPasswordProtectionSettings?: TeamStrictConnectors | undefined;
   /** When enabled, creating shareable links requires Owner role. */
-  strictShareableLinks?: TeamStrictConnectors;
+  strictShareableLinks?: TeamStrictConnectors | undefined;
   /** Timestamp (in milliseconds) of when the Team was last updated. */
   updatedAt: number;
   [key: string]: unknown;
@@ -811,7 +811,7 @@ export interface GetTeamAccessRequestRequest {
 }
 /** Map of the connected Bitbucket account. */
 export interface GetTeamAccessRequestResponseBitbucket {
-  login?: string;
+  login?: string | undefined;
 }
 /** Map of the connected GitHub account. */
 export type GetTeamAccessRequestResponseGithub = GetTeamAccessRequestResponseBitbucket;
@@ -841,17 +841,17 @@ export type GetTeamAccessRequestResponseJoinedFromOrigin =
   | "teams";
 /** A map that describes the origin from where the user joined. */
 export interface GetTeamAccessRequestResponseJoinedFrom {
-  commitId?: string;
-  dsyncConnectedAt?: number;
-  dsyncUserId?: string;
-  gitUserId?: GetTeamAccessRequestResponseJoinedFromGitUserId;
-  gitUserLogin?: string;
-  idpUserId?: string;
+  commitId?: string | undefined;
+  dsyncConnectedAt?: number | undefined;
+  dsyncUserId?: string | undefined;
+  gitUserId?: GetTeamAccessRequestResponseJoinedFromGitUserId | undefined;
+  gitUserLogin?: string | undefined;
+  idpUserId?: string | undefined;
   origin: GetTeamAccessRequestResponseJoinedFromOrigin;
-  repoId?: string;
-  repoPath?: string;
-  ssoConnectedAt?: number;
-  ssoUserId?: string;
+  repoId?: string | undefined;
+  repoPath?: string | undefined;
+  ssoConnectedAt?: number | undefined;
+  ssoUserId?: string | undefined;
 }
 export interface GetTeamAccessRequestResponse {
   /** Timestamp in milliseconds when the user requested access to the team. */
@@ -885,21 +885,21 @@ export interface GetTeamMembersRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** Limit how many teams should be returned */
-  limit?: number;
+  limit?: number | undefined;
   /** Timestamp in milliseconds to only include members added since then. */
-  since?: number;
+  since?: number | undefined;
   /** Timestamp in milliseconds to only include members added until then. */
-  until?: number;
+  until?: number | undefined;
   /** Search team members by their name, username, and email. */
-  search?: string;
+  search?: string | undefined;
   /** Only return members with the specified team role. */
-  role?: GetTeamMembersRequestRole | (string & {});
+  role?: GetTeamMembersRequestRole | (string & {}) | undefined;
   /** Exclude members who belong to the specified project. */
-  excludeProject?: string;
+  excludeProject?: string | undefined;
   /** Include team members who are eligible to be members of the specified project. */
-  eligibleMembersForProjectId?: string;
+  eligibleMembersForProjectId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetTeamMembersResponseEmailInviteCodesItemAccessGroupsList = Array<string>;
 export type GetTeamMembersResponseEmailInviteCodesItemEntitlementsList = Array<string>;
@@ -954,17 +954,17 @@ export type GetTeamMembersResponseEmailInviteCodesItemTeamRolesItem =
 export type GetTeamMembersResponseEmailInviteCodesItemTeamRolesList =
   Array<GetTeamMembersResponseEmailInviteCodesItemTeamRolesItem>;
 export interface GetTeamMembersResponseEmailInviteCodesItem {
-  accessGroups?: GetTeamMembersResponseEmailInviteCodesItemAccessGroupsList;
-  createdAt?: number;
-  email?: string;
-  entitlements?: GetTeamMembersResponseEmailInviteCodesItemEntitlementsList;
-  expired?: boolean;
+  accessGroups?: GetTeamMembersResponseEmailInviteCodesItemAccessGroupsList | undefined;
+  createdAt?: number | undefined;
+  email?: string | undefined;
+  entitlements?: GetTeamMembersResponseEmailInviteCodesItemEntitlementsList | undefined;
+  expired?: boolean | undefined;
   id: string;
   isDSyncUser: boolean;
-  projects?: GetTeamMembersResponseEmailInviteCodesItemProjectsMap;
-  role?: GetTeamMembersResponseEmailInviteCodesItemRole;
-  teamPermissions?: GetTeamMembersResponseEmailInviteCodesItemTeamPermissionsList;
-  teamRoles?: GetTeamMembersResponseEmailInviteCodesItemTeamRolesList;
+  projects?: GetTeamMembersResponseEmailInviteCodesItemProjectsMap | undefined;
+  role?: GetTeamMembersResponseEmailInviteCodesItemRole | undefined;
+  teamPermissions?: GetTeamMembersResponseEmailInviteCodesItemTeamPermissionsList | undefined;
+  teamRoles?: GetTeamMembersResponseEmailInviteCodesItemTeamRolesList | undefined;
 }
 export type GetTeamMembersResponseEmailInviteCodesList =
   Array<GetTeamMembersResponseEmailInviteCodesItem>;
@@ -998,17 +998,17 @@ export type GetTeamMembersResponseMembersItemJoinedFromOrigin =
   | "teams";
 /** Map with information about the members origin if they joined by requesting access. */
 export interface GetTeamMembersResponseMembersItemJoinedFrom {
-  commitId?: string;
-  dsyncConnectedAt?: number;
-  dsyncUserId?: string;
-  gitUserId?: GetTeamMembersResponseMembersItemJoinedFromGitUserId;
-  gitUserLogin?: string;
-  idpUserId?: string;
+  commitId?: string | undefined;
+  dsyncConnectedAt?: number | undefined;
+  dsyncUserId?: string | undefined;
+  gitUserId?: GetTeamMembersResponseMembersItemJoinedFromGitUserId | undefined;
+  gitUserLogin?: string | undefined;
+  idpUserId?: string | undefined;
   origin: GetTeamMembersResponseMembersItemJoinedFromOrigin;
-  repoId?: string;
-  repoPath?: string;
-  ssoConnectedAt?: number;
-  ssoUserId?: string;
+  repoId?: string | undefined;
+  repoPath?: string | undefined;
+  ssoConnectedAt?: number | undefined;
+  ssoUserId?: string | undefined;
 }
 export type GetTeamMembersResponseMembersItemProjectsItemRole =
   | "ADMIN"
@@ -1019,7 +1019,7 @@ export type GetTeamMembersResponseMembersItemProjectsItemRole =
 export interface GetTeamMembersResponseMembersItemProjectsItem {
   id: string;
   name: string;
-  role?: GetTeamMembersResponseMembersItemProjectsItemRole;
+  role?: GetTeamMembersResponseMembersItemProjectsItemRole | undefined;
 }
 /** Array of project memberships */
 export type GetTeamMembersResponseMembersItemProjectsList =
@@ -1036,11 +1036,11 @@ export type GetTeamMembersResponseMembersItemRole =
   | "VIEWER_FOR_PLUS";
 export interface GetTeamMembersResponseMembersItem {
   /** Timestamp in milliseconds for when this team member was accepted by an owner. */
-  accessRequestedAt?: number;
+  accessRequestedAt?: number | undefined;
   /** ID of the file for the Avatar of this member. */
-  avatar?: string;
+  avatar?: string | undefined;
   /** Information about the Bitbucket account of this user. */
-  bitbucket?: GetTeamAccessRequestResponseBitbucket;
+  bitbucket?: GetTeamAccessRequestResponseBitbucket | undefined;
   /** Boolean that indicates if this member was confirmed by an owner. */
   confirmed: boolean;
   /** Timestamp in milliseconds when this member was added. */
@@ -1048,17 +1048,17 @@ export interface GetTeamMembersResponseMembersItem {
   /** The email of this member. */
   email: string;
   /** Information about the GitHub account for this user. */
-  github?: GetTeamAccessRequestResponseBitbucket;
+  github?: GetTeamAccessRequestResponseBitbucket | undefined;
   /** Information about the GitLab account of this user. */
-  gitlab?: GetTeamAccessRequestResponseBitbucket;
+  gitlab?: GetTeamAccessRequestResponseBitbucket | undefined;
   /** Indicates whether the user is managed by an enterprise. */
-  isEnterpriseManaged?: boolean;
+  isEnterpriseManaged?: boolean | undefined;
   /** Map with information about the members origin if they joined by requesting access. */
-  joinedFrom?: GetTeamMembersResponseMembersItemJoinedFrom;
+  joinedFrom?: GetTeamMembersResponseMembersItemJoinedFrom | undefined;
   /** The name of this user. */
-  name?: string;
+  name?: string | undefined;
   /** Array of project memberships */
-  projects?: GetTeamMembersResponseMembersItemProjectsList;
+  projects?: GetTeamMembersResponseMembersItemProjectsList | undefined;
   /** Role of this user in the team. */
   role: GetTeamMembersResponseMembersItemRole;
   /** The ID of this user. */
@@ -1077,17 +1077,17 @@ export interface GetTeamMembersResponsePagination {
   prev: number | null;
 }
 export interface GetTeamMembersResponse {
-  emailInviteCodes?: GetTeamMembersResponseEmailInviteCodesList;
+  emailInviteCodes?: GetTeamMembersResponseEmailInviteCodesList | undefined;
   members: GetTeamMembersResponseMembersList;
   pagination: GetTeamMembersResponsePagination;
 }
 export interface GetTeamsRequest {
   /** Maximum number of Teams which may be returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Timestamp (in milliseconds) to only include Teams created since then. */
-  since?: number;
+  since?: number | undefined;
   /** Timestamp (in milliseconds) to only include Teams created until then. */
-  until?: number;
+  until?: number | undefined;
 }
 /** This object contains information related to the pagination of the current request, including the necessary parameters to get the next or previous page of data. */
 export interface Pagination {
@@ -1125,17 +1125,17 @@ export type TeamLimitedMembershipJoinedFromOrigin =
   | "saml"
   | "teams";
 export interface TeamLimitedMembershipJoinedFrom {
-  commitId?: string;
-  dsyncConnectedAt?: number;
-  dsyncUserId?: string;
-  gitUserId?: TeamLimitedMembershipJoinedFromGitUserId;
-  gitUserLogin?: string;
-  idpUserId?: string;
+  commitId?: string | undefined;
+  dsyncConnectedAt?: number | undefined;
+  dsyncUserId?: string | undefined;
+  gitUserId?: TeamLimitedMembershipJoinedFromGitUserId | undefined;
+  gitUserLogin?: string | undefined;
+  idpUserId?: string | undefined;
   origin: TeamLimitedMembershipJoinedFromOrigin;
-  repoId?: string;
-  repoPath?: string;
-  ssoConnectedAt?: number;
-  ssoUserId?: string;
+  repoId?: string | undefined;
+  repoPath?: string | undefined;
+  ssoConnectedAt?: number | undefined;
+  ssoUserId?: string | undefined;
 }
 export type TeamLimitedMembershipRole =
   | "BILLING"
@@ -1180,19 +1180,19 @@ export type TeamLimitedMembershipTeamRolesItem =
 export type TeamLimitedMembershipTeamRolesList = Array<TeamLimitedMembershipTeamRolesItem>;
 /** The membership of the authenticated User in relation to the Team. */
 export interface TeamLimitedMembership {
-  accessRequestedAt?: number;
+  accessRequestedAt?: number | undefined;
   confirmed: boolean;
   created: number;
   createdAt: number;
-  entitlements?: TeamLimitedMembershipEntitlementsList;
-  isOrgBackingTeamMembership?: boolean;
-  joinedFrom?: TeamLimitedMembershipJoinedFrom;
-  organizationId?: string;
+  entitlements?: TeamLimitedMembershipEntitlementsList | undefined;
+  isOrgBackingTeamMembership?: boolean | undefined;
+  joinedFrom?: TeamLimitedMembershipJoinedFrom | undefined;
+  organizationId?: string | undefined;
   role: TeamLimitedMembershipRole;
-  teamId?: string;
-  teamPermissions?: TeamLimitedMembershipTeamPermissionsList;
-  teamRoles?: TeamLimitedMembershipTeamRolesList;
-  uid?: string;
+  teamId?: string | undefined;
+  teamPermissions?: TeamLimitedMembershipTeamPermissionsList | undefined;
+  teamRoles?: TeamLimitedMembershipTeamRolesList | undefined;
+  uid?: string | undefined;
 }
 /** Controls whether directory sync events are processed. - 'SETUP': Directory connected but role mappings not yet configured. Events are acknowledged but not processed. - 'ACTIVE': Fully configured. Events are processed normally. - undefined: Legacy directory (pre-feature), treat as 'ACTIVE' for backwards compatibility. */
 export type TeamLimitedSamlConnectionSyncState = "ACTIVE" | "SETUP";
@@ -1201,13 +1201,13 @@ export interface TeamLimitedSamlConnection {
   /** Timestamp (in milliseconds) of when the configuration was connected. */
   connectedAt: number;
   /** Timestamp (in milliseconds) of when the last webhook event was received from WorkOS. */
-  lastReceivedWebhookEvent?: number;
+  lastReceivedWebhookEvent?: number | undefined;
   /** Timestamp (in milliseconds) of when the last directory sync was performed. */
-  lastSyncedAt?: number;
+  lastSyncedAt?: number | undefined;
   /** Current state of the connection. */
   state: string;
   /** Controls whether directory sync events are processed. - 'SETUP': Directory connected but role mappings not yet configured. Events are acknowledged but not processed. - 'ACTIVE': Fully configured. Events are processed normally. - undefined: Legacy directory (pre-feature), treat as 'ACTIVE' for backwards compatibility. */
-  syncState?: TeamLimitedSamlConnectionSyncState;
+  syncState?: TeamLimitedSamlConnectionSyncState | undefined;
   /** The Identity Provider "type", for example Okta. */
   type: string;
   status: string;
@@ -1219,22 +1219,22 @@ export interface TeamLimitedSamlDirectory {
   /** Timestamp (in milliseconds) of when the configuration was connected. */
   connectedAt: number;
   /** Timestamp (in milliseconds) of when the last webhook event was received from WorkOS. */
-  lastReceivedWebhookEvent?: number;
+  lastReceivedWebhookEvent?: number | undefined;
   /** Timestamp (in milliseconds) of when the last directory sync was performed. */
-  lastSyncedAt?: number;
+  lastSyncedAt?: number | undefined;
   /** Current state of the connection. */
   state: string;
   /** Controls whether directory sync events are processed. - 'SETUP': Directory connected but role mappings not yet configured. Events are acknowledged but not processed. - 'ACTIVE': Fully configured. Events are processed normally. - undefined: Legacy directory (pre-feature), treat as 'ACTIVE' for backwards compatibility. */
-  syncState?: TeamLimitedSamlDirectorySyncState;
+  syncState?: TeamLimitedSamlDirectorySyncState | undefined;
   /** The Identity Provider "type", for example Okta. */
   type: string;
 }
 /** When "Single Sign-On (SAML)" is configured, this object contains information that allows the client-side to identify whether or not this Team has SAML enforced. */
 export interface TeamLimitedSaml {
   /** Information for the SAML Single Sign-On configuration. */
-  connection?: TeamLimitedSamlConnection;
+  connection?: TeamLimitedSamlConnection | undefined;
   /** Information for the Directory Sync configuration. */
-  directory?: TeamLimitedSamlDirectory;
+  directory?: TeamLimitedSamlDirectory | undefined;
   /** When `true`, interactions with the Team **must** be done with an authentication token that has been authenticated with the Team's SAML Single Sign-On provider. */
   enforced: boolean;
 }
@@ -1250,15 +1250,15 @@ export interface TeamLimited {
   limited: boolean;
   limitedBy: TeamLimitedLimitedByList;
   /** The membership of the authenticated User in relation to the Team. */
-  membership?: TeamLimitedMembership;
+  membership?: TeamLimitedMembership | undefined;
   /** Name associated with the Team account, or `null` if none has been provided. */
   name: string | null;
   /** Best-effort ID of the organization's root billing team. When present, compare `orgRootTeamId === id` to identify the root team. It may be omitted even when `parentId` is set if organization resolution fails or the referenced organization is missing. Always omitted for non-organization teams. */
-  orgRootTeamId?: string;
+  orgRootTeamId?: string | undefined;
   /** The organizationId for teams that belong to an organization (set on both the organization's root team and its child teams). */
-  parentId?: string;
+  parentId?: string | undefined;
   /** When "Single Sign-On (SAML)" is configured, this object contains information that allows the client-side to identify whether or not this Team has SAML enforced. */
-  saml?: TeamLimitedSaml;
+  saml?: TeamLimitedSaml | undefined;
   /** The Team's slug, which is unique across the Vercel platform. */
   slug: string;
 }
@@ -1296,16 +1296,16 @@ export interface InviteUserToTeamRequestBodyItem {
   /** The email address of the user to invite */
   email: string;
   /** The role of the user to invite */
-  role?: InviteUserToTeamRequestBodyItemRole | (string & {});
-  projects?: InviteUserToTeamRequestBodyItemProjectsList;
+  role?: InviteUserToTeamRequestBodyItemRole | (string & {}) | undefined;
+  projects?: InviteUserToTeamRequestBodyItemProjectsList | undefined;
 }
 export type InviteUserToTeamRequestBodyList = Array<InviteUserToTeamRequestBodyItem>;
 export interface InviteUserToTeamRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  body?: InviteUserToTeamRequestBodyList;
+  slug?: string | undefined;
+  body?: InviteUserToTeamRequestBodyList | undefined;
 }
 /** The role used for the invitation */
 export type InvitedTeamMemberRole =
@@ -1359,9 +1359,9 @@ export interface InvitedTeamMember {
   /** The role used for the invitation */
   role: InvitedTeamMemberRole;
   /** The team permissions of the user */
-  teamPermissions?: InvitedTeamMemberTeamPermissionsList;
+  teamPermissions?: InvitedTeamMemberTeamPermissionsList | undefined;
   /** The team roles of the user */
-  teamRoles?: InvitedTeamMemberTeamRolesList;
+  teamRoles?: InvitedTeamMemberTeamRolesList | undefined;
   /** The ID of the invited user */
   uid: string;
   /** The username of the invited user */
@@ -1370,7 +1370,7 @@ export interface InvitedTeamMember {
 export interface JoinTeamRequest {
   teamId: string;
   /** The invite code to join the team. */
-  inviteCode?: string;
+  inviteCode?: string | undefined;
 }
 export interface JoinTeamResponse {
   /** The origin of how the user joined. */
@@ -1387,7 +1387,7 @@ export interface RemoveTeamMemberRequest {
   /** The user ID of the member. */
   uid: string;
   /** The ID of the team to set as the new default team for the Northstar user. */
-  newDefaultTeamId?: string;
+  newDefaultTeamId?: string | undefined;
 }
 export interface RemoveTeamMemberResponse {
   /** ID of the team. */
@@ -1408,15 +1408,15 @@ export interface RequestAccessToTeamRequestJoinedFrom {
   /** The origin of the request. */
   origin: RequestAccessToTeamRequestJoinedFromOrigin | (string & {});
   /** The commit sha if the origin is a git provider. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** The ID of the repository for the given Git provider. */
-  repoId?: string;
+  repoId?: string | undefined;
   /** The path to the repository for the given Git provider. */
-  repoPath?: string;
+  repoPath?: string | undefined;
   /** The ID of the Git account of the user who requests access. */
-  gitUserId?: RequestAccessToTeamRequestJoinedFromGitUserId;
+  gitUserId?: RequestAccessToTeamRequestJoinedFromGitUserId | undefined;
   /** The login name for the Git account of the user who requests access. */
-  gitUserLogin?: string;
+  gitUserLogin?: string | undefined;
 }
 export interface RequestAccessToTeamRequest {
   teamId: string;
@@ -1448,25 +1448,25 @@ export type RequestAccessToTeamResponseJoinedFromOrigin =
   | "saml"
   | "teams";
 export interface RequestAccessToTeamResponseJoinedFrom {
-  commitId?: string;
-  dsyncConnectedAt?: number;
-  dsyncUserId?: string;
-  gitUserId?: RequestAccessToTeamResponseJoinedFromGitUserId;
-  gitUserLogin?: string;
-  idpUserId?: string;
+  commitId?: string | undefined;
+  dsyncConnectedAt?: number | undefined;
+  dsyncUserId?: string | undefined;
+  gitUserId?: RequestAccessToTeamResponseJoinedFromGitUserId | undefined;
+  gitUserLogin?: string | undefined;
+  idpUserId?: string | undefined;
   origin: RequestAccessToTeamResponseJoinedFromOrigin;
-  repoId?: string;
-  repoPath?: string;
-  ssoConnectedAt?: number;
-  ssoUserId?: string;
+  repoId?: string | undefined;
+  repoPath?: string | undefined;
+  ssoConnectedAt?: number | undefined;
+  ssoUserId?: string | undefined;
 }
 export interface RequestAccessToTeamResponse {
-  accessRequestedAt?: number;
+  accessRequestedAt?: number | undefined;
   bitbucket: GetTeamAccessRequestResponseBitbucket | null;
   confirmed: boolean;
   github: GetTeamAccessRequestResponseBitbucket | null;
   gitlab: GetTeamAccessRequestResponseBitbucket | null;
-  joinedFrom?: RequestAccessToTeamResponseJoinedFrom;
+  joinedFrom?: RequestAccessToTeamResponseJoinedFrom | undefined;
   teamName: string;
   teamSlug: string;
 }
@@ -1475,20 +1475,20 @@ export interface UpdateMicrofrontendsGroupRequest {
   teamId: string;
   groupId: string;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The new name for the existing microfrontends group. */
-  name?: string;
+  name?: string | undefined;
   /** The new fallback environment for the microfrontends group. Must be "SAME_ENV", "PRODUCTION", or a valid custom environment slug from the default app. */
-  fallbackEnvironment?: string;
+  fallbackEnvironment?: string | undefined;
   /** Whether Preview Deployments can link to branches with the same name in other Git repositories. */
-  enablePolyrepoBranchRouting?: boolean;
+  enablePolyrepoBranchRouting?: boolean | undefined;
 }
 export interface UpdateMicrofrontendsGroupResponseUpdatedMicrofrontendsGroup {
-  enablePolyrepoBranchRouting?: boolean;
-  fallbackEnvironment?: string;
+  enablePolyrepoBranchRouting?: boolean | undefined;
+  fallbackEnvironment?: string | undefined;
   id: string;
-  name?: string;
-  slug?: string;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 export interface UpdateMicrofrontendsGroupResponse {
   updatedMicrofrontendsGroup: UpdateMicrofrontendsGroupResponseUpdatedMicrofrontendsGroup;
@@ -1512,14 +1512,14 @@ export type UpdateTeamRequestSamlRolesMap = {
 };
 export interface UpdateTeamRequestSaml {
   /** Require that members of the team use SAML Single Sign-On. */
-  enforced?: boolean;
+  enforced?: boolean | undefined;
   /** Directory groups to role or access group mappings. */
-  roles?: UpdateTeamRequestSamlRolesMap;
+  roles?: UpdateTeamRequestSamlRolesMap | undefined;
 }
 /** Whether or not remote caching is enabled for the team */
 export interface UpdateTeamRequestRemoteCaching {
   /** Enable or disable remote caching for the team. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Controls who can request access to protected deployments. */
 export type UpdateTeamRequestDpAccessRequestsMode = "all" | "none" | "email-domain";
@@ -1536,7 +1536,7 @@ export interface UpdateTeamRequestDefaultDeploymentProtectionPasswordProtection 
     | UpdateTeamRequestDefaultDeploymentProtectionPasswordProtectionDeploymentType
     | (string & {});
   /** The password that will be used to protect Project Deployments */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Specify if the Vercel Authentication (SSO Protection) will apply to every Deployment Target or just Preview */
 export type UpdateTeamRequestDefaultDeploymentProtectionSsoProtectionDeploymentType =
@@ -1554,9 +1554,12 @@ export interface UpdateTeamRequestDefaultDeploymentProtectionSsoProtection {
 /** Default deployment protection settings for new projects. */
 export interface UpdateTeamRequestDefaultDeploymentProtection {
   /** Allows to protect project deployments with a password */
-  passwordProtection?: UpdateTeamRequestDefaultDeploymentProtectionPasswordProtection | null;
+  passwordProtection?:
+    | UpdateTeamRequestDefaultDeploymentProtectionPasswordProtection
+    | null
+    | undefined;
   /** Ensures visitors to your Preview Deployments are logged into Vercel and have a minimum of Viewer access on your team */
-  ssoProtection?: UpdateTeamRequestDefaultDeploymentProtectionSsoProtection | null;
+  ssoProtection?: UpdateTeamRequestDefaultDeploymentProtectionSsoProtection | null | undefined;
 }
 export type UpdateTeamRequestDefaultPassportDeploymentType =
   | "all"
@@ -1566,7 +1569,7 @@ export type UpdateTeamRequestDefaultPassportDeploymentType =
 /** Default Passport configuration for new projects. */
 export interface UpdateTeamRequestDefaultPassport {
   connectorId: string;
-  deploymentType?: UpdateTeamRequestDefaultPassportDeploymentType | (string & {});
+  deploymentType?: UpdateTeamRequestDefaultPassportDeploymentType | (string & {}) | undefined;
 }
 /** The time period to keep non-production deployments for */
 export type UpdateTeamRequestDefaultExpirationSettingsExpiration =
@@ -1618,19 +1621,26 @@ export type UpdateTeamRequestDefaultExpirationSettingsExpirationErrored =
   | "unlimited";
 export interface UpdateTeamRequestDefaultExpirationSettings {
   /** The time period to keep non-production deployments for */
-  expiration?: UpdateTeamRequestDefaultExpirationSettingsExpiration | (string & {});
+  expiration?: UpdateTeamRequestDefaultExpirationSettingsExpiration | (string & {}) | undefined;
   /** The time period to keep production deployments for */
   expirationProduction?:
     | UpdateTeamRequestDefaultExpirationSettingsExpirationProduction
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The time period to keep canceled deployments for */
-  expirationCanceled?: UpdateTeamRequestDefaultExpirationSettingsExpirationCanceled | (string & {});
+  expirationCanceled?:
+    | UpdateTeamRequestDefaultExpirationSettingsExpirationCanceled
+    | (string & {})
+    | undefined;
   /** The time period to keep errored deployments for */
-  expirationErrored?: UpdateTeamRequestDefaultExpirationSettingsExpirationErrored | (string & {});
+  expirationErrored?:
+    | UpdateTeamRequestDefaultExpirationSettingsExpirationErrored
+    | (string & {})
+    | undefined;
   /** When true, opts a Pro team out of the upcoming deployment-storage retention reduce. Does not change expiration settings. Unmetered teams also require acknowledgeStorageBilling. */
-  keepCurrentRetention?: boolean;
+  keepCurrentRetention?: boolean | undefined;
   /** Required with keepCurrentRetention for unmetered Pro teams; acknowledges that keeping current retention will incur storage billing on a later date. */
-  acknowledgeStorageBilling?: boolean;
+  acknowledgeStorageBilling?: boolean | undefined;
 }
 export type UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemEnvironmentsItemCase0Type =
   "system";
@@ -1662,14 +1672,14 @@ export interface UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemSource
     | UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemSourcesItemCase0Provider
     | (string & {});
   org: string;
-  repo?: string;
+  repo?: string | undefined;
 }
 export type UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemSourcesItemCase1Provider =
   "gitlab";
 export interface UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemSourcesItemCase1 {
   provider: UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemSourcesItemCase1Provider;
   namespace: string;
-  project?: string;
+  project?: string | undefined;
 }
 export type UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemSourcesItem =
   | UpdateTeamRequestDeploymentPolicyCase0GitSourcesCase0ItemSourcesItemCase0
@@ -1730,8 +1740,8 @@ export type UpdateTeamRequestDeploymentPolicyCase0DeploymentSources =
   | string;
 /** Composable deployment-time policy. Each rule type holds a list of rules, one per environment scope. */
 export interface UpdateTeamRequestDeploymentPolicyCase0 {
-  gitSources?: UpdateTeamRequestDeploymentPolicyCase0GitSources;
-  deploymentSources?: UpdateTeamRequestDeploymentPolicyCase0DeploymentSources;
+  gitSources?: UpdateTeamRequestDeploymentPolicyCase0GitSources | undefined;
+  deploymentSources?: UpdateTeamRequestDeploymentPolicyCase0DeploymentSources | undefined;
 }
 export type UpdateTeamRequestDeploymentPolicy = UpdateTeamRequestDeploymentPolicyCase0 | string;
 /** When enabled, deployment protection settings require stricter permissions (owner-only). */
@@ -1775,8 +1785,8 @@ export interface UpdateTeamRequestDefaultProjectJobsCase0Typecheck {
 }
 /** Default job configuration applied to new projects created in this team. */
 export interface UpdateTeamRequestDefaultProjectJobsCase0 {
-  lint?: UpdateTeamRequestDefaultProjectJobsCase0Lint;
-  typecheck?: UpdateTeamRequestDefaultProjectJobsCase0Typecheck;
+  lint?: UpdateTeamRequestDefaultProjectJobsCase0Lint | undefined;
+  typecheck?: UpdateTeamRequestDefaultProjectJobsCase0Typecheck | undefined;
 }
 export type UpdateTeamRequestDefaultProjectJobs = UpdateTeamRequestDefaultProjectJobsCase0 | string;
 /** Default build machine type for new builds: standard, enhanced, turbo, or elastic. */
@@ -1789,68 +1799,70 @@ export type UpdateTeamRequestResourceConfigBuildMachineDefault =
 /** Build machine configuration. */
 export interface UpdateTeamRequestResourceConfigBuildMachine {
   /** Default build machine type for new builds: standard, enhanced, turbo, or elastic. */
-  default?: UpdateTeamRequestResourceConfigBuildMachineDefault | (string & {});
+  default?: UpdateTeamRequestResourceConfigBuildMachineDefault | (string & {}) | undefined;
 }
 /** Resource configuration for the team. */
 export interface UpdateTeamRequestResourceConfig {
   /** Build machine configuration. */
-  buildMachine?: UpdateTeamRequestResourceConfigBuildMachine;
+  buildMachine?: UpdateTeamRequestResourceConfigBuildMachine | undefined;
 }
 export interface UpdateTeamRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId: string;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The hash value of an uploaded image, or `null` to clear the avatar. */
-  avatar?: string | null;
+  avatar?: string | null | undefined;
   /** A short text that describes the team. Set to an empty string to clear the description. Omit to keep the current description. */
-  description?: string;
-  emailDomain?: string | null;
+  description?: string | undefined;
+  emailDomain?: string | null | undefined;
   /** The name of the team. */
-  name?: string;
+  name?: string | undefined;
   /** Suffix that will be used for all preview deployments. */
-  previewDeploymentSuffix?: string | null;
+  previewDeploymentSuffix?: string | null | undefined;
   /** Create a new invite code and replace the current one. */
-  regenerateInviteCode?: boolean;
-  saml?: UpdateTeamRequestSaml;
+  regenerateInviteCode?: boolean | undefined;
+  saml?: UpdateTeamRequestSaml | undefined;
   /** Enable preview toolbar: one of on, off or default. */
-  enablePreviewFeedback?: string;
+  enablePreviewFeedback?: string | undefined;
   /** Enable production toolbar: one of on, off or default. */
-  enableProductionFeedback?: string;
+  enableProductionFeedback?: string | undefined;
   /** Sensitive environment variable policy: one of on, off or default. */
-  sensitiveEnvironmentVariablePolicy?: string;
+  sensitiveEnvironmentVariablePolicy?: string | undefined;
   /** Require production secrets to be in their own environment group: one of on, off or default. */
-  disjunctiveProductionSecretPolicy?: string;
+  disjunctiveProductionSecretPolicy?: string | undefined;
   /** Whether or not remote caching is enabled for the team */
-  remoteCaching?: UpdateTeamRequestRemoteCaching;
+  remoteCaching?: UpdateTeamRequestRemoteCaching | undefined;
   /** Display or hide IP addresses in Monitoring queries. */
-  hideIpAddresses?: boolean;
+  hideIpAddresses?: boolean | undefined;
   /** Display or hide IP addresses in Log Drains. */
-  hideIpAddressesInLogDrains?: boolean;
+  hideIpAddressesInLogDrains?: boolean | undefined;
   /** Controls who can request access to protected deployments. */
-  dpAccessRequestsMode?: UpdateTeamRequestDpAccessRequestsMode | (string & {});
+  dpAccessRequestsMode?: UpdateTeamRequestDpAccessRequestsMode | (string & {}) | undefined;
   /** When enabled, all projects in the team require commits to be signed and verified by the git provider before deployments will be created. */
-  requireVerifiedCommits?: boolean;
+  requireVerifiedCommits?: boolean | undefined;
   /** Default for projects in the team. When `true`, projects in this team will not emit GitHub repository-dispatch events on deployment events unless the project explicitly overrides this setting. */
-  disableRepositoryDispatchEvents?: boolean;
+  disableRepositoryDispatchEvents?: boolean | undefined;
   /** Default deployment protection settings for new projects. */
-  defaultDeploymentProtection?: UpdateTeamRequestDefaultDeploymentProtection;
+  defaultDeploymentProtection?: UpdateTeamRequestDefaultDeploymentProtection | undefined;
   /** Default Passport configuration for new projects. */
-  defaultPassport?: UpdateTeamRequestDefaultPassport | null;
-  defaultExpirationSettings?: UpdateTeamRequestDefaultExpirationSettings;
-  deploymentPolicy?: UpdateTeamRequestDeploymentPolicy;
+  defaultPassport?: UpdateTeamRequestDefaultPassport | null | undefined;
+  defaultExpirationSettings?: UpdateTeamRequestDefaultExpirationSettings | undefined;
+  deploymentPolicy?: UpdateTeamRequestDeploymentPolicy | undefined;
   /** When enabled, deployment protection settings require stricter permissions (owner-only). */
-  strictDeploymentProtectionSettings?: UpdateTeamRequestStrictDeploymentProtectionSettings;
+  strictDeploymentProtectionSettings?:
+    | UpdateTeamRequestStrictDeploymentProtectionSettings
+    | undefined;
   /** When enabled, creating shareable links requires Owner role. */
-  strictShareableLinks?: UpdateTeamRequestStrictShareableLinks;
+  strictShareableLinks?: UpdateTeamRequestStrictShareableLinks | undefined;
   /** When enabled, adding, changing, or removing project password protection requires Owner role. */
-  strictPasswordProtectionSettings?: UpdateTeamRequestStrictPasswordProtectionSettings;
+  strictPasswordProtectionSettings?: UpdateTeamRequestStrictPasswordProtectionSettings | undefined;
   /** When enabled, creating and managing connectors requires Owner role. */
-  strictConnectors?: UpdateTeamRequestStrictConnectors;
-  nsnbConfig?: UpdateTeamRequestNsnbConfig;
-  defaultProjectJobs?: UpdateTeamRequestDefaultProjectJobs;
+  strictConnectors?: UpdateTeamRequestStrictConnectors | undefined;
+  nsnbConfig?: UpdateTeamRequestNsnbConfig | undefined;
+  defaultProjectJobs?: UpdateTeamRequestDefaultProjectJobs | undefined;
   /** Resource configuration for the team. */
-  resourceConfig?: UpdateTeamRequestResourceConfig;
+  resourceConfig?: UpdateTeamRequestResourceConfig | undefined;
 }
 export type UpdateTeamMemberRequestTeamPermissionsItem =
   | "ConnectorManager"
@@ -1889,20 +1901,20 @@ export interface UpdateTeamMemberRequestProjectsItem {
 }
 export type UpdateTeamMemberRequestProjectsList = Array<UpdateTeamMemberRequestProjectsItem>;
 export interface UpdateTeamMemberRequestJoinedFrom {
-  ssoUserId?: unknown | null;
+  ssoUserId?: unknown | null | undefined;
 }
 export interface UpdateTeamMemberRequest {
   teamId: string;
   /** The ID of the member. */
   uid: string;
   /** Accept a user who requested access to the team. */
-  confirmed?: boolean;
+  confirmed?: boolean | undefined;
   /** The role in the team of the member. */
-  role?: string;
+  role?: string | undefined;
   /** The team permissions to set for the member. Permissions must be available to the team and compatible with the team roles assigned to the member. */
-  teamPermissions?: UpdateTeamMemberRequestTeamPermissionsList;
-  projects?: UpdateTeamMemberRequestProjectsList;
-  joinedFrom?: UpdateTeamMemberRequestJoinedFrom;
+  teamPermissions?: UpdateTeamMemberRequestTeamPermissionsList | undefined;
+  projects?: UpdateTeamMemberRequestProjectsList | undefined;
+  joinedFrom?: UpdateTeamMemberRequestJoinedFrom | undefined;
 }
 export interface UpdateTeamMemberResponse {
   /** ID of the team. */

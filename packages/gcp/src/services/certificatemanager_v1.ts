@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -97,12 +97,12 @@ export type StringMap = { [key: string]: string | undefined };
 /** Contains information required to contact CA service. */
 export interface CertificateAuthorityServiceConfig {
   /** Required. A CA pool resource used to issue a certificate. The CA pool string has a relative resource path following the form "projects/{project}/locations/{location}/caPools/{ca_pool}". */
-  caPool?: string;
+  caPool?: string | undefined;
 }
 /** The CA that issues the workload certificate. It includes CA address, type, authentication to CA service, etc. */
 export interface CertificateAuthorityConfig {
   /** Defines a CertificateAuthorityServiceConfig. */
-  certificateAuthorityServiceConfig?: CertificateAuthorityServiceConfig;
+  certificateAuthorityServiceConfig?: CertificateAuthorityServiceConfig | undefined;
 }
 export type CertificateIssuanceConfigKeyAlgorithmEnum =
   | "KEY_ALGORITHM_UNSPECIFIED"
@@ -111,101 +111,101 @@ export type CertificateIssuanceConfigKeyAlgorithmEnum =
 /** CertificateIssuanceConfig specifies how to issue and manage a certificate. */
 export interface CertificateIssuanceConfig {
   /** Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Output only. The creation timestamp of a CertificateIssuanceConfig. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Specifies the percentage of elapsed time of the certificate lifetime to wait before renewing the certificate. Must be a number between 1-99, inclusive. */
-  rotationWindowPercentage?: number;
+  rotationWindowPercentage?: number | undefined;
   /** Required. Workload certificate lifetime requested. */
-  lifetime?: string;
+  lifetime?: string | undefined;
   /** Required. The CA that issues the workload certificate. It includes the CA address, type, authentication to CA service, etc. */
-  certificateAuthorityConfig?: CertificateAuthorityConfig;
+  certificateAuthorityConfig?: CertificateAuthorityConfig | undefined;
   /** Optional. Set of labels associated with a CertificateIssuanceConfig. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. The key algorithm to use when generating the private key. */
-  keyAlgorithm?: CertificateIssuanceConfigKeyAlgorithmEnum | (string & {});
+  keyAlgorithm?: CertificateIssuanceConfigKeyAlgorithmEnum | (string & {}) | undefined;
   /** Optional. One or more paragraphs of text description of a CertificateIssuanceConfig. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The last update timestamp of a CertificateIssuanceConfig. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. The parent resource of the certificate issuance config. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate config. */
-  certificateIssuanceConfigId?: string;
+  certificateIssuanceConfigId?: string | undefined;
   /** Request body */
-  body?: CertificateIssuanceConfig;
+  body?: CertificateIssuanceConfig | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export type IntegerList = Array<number>;
 /** Defines IP configuration where this Certificate Map is serving. */
 export interface IpConfig {
   /** Output only. Ports. */
-  ports?: IntegerList;
+  ports?: IntegerList | undefined;
   /** Output only. An external IP address. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type IpConfigList = Array<IpConfig>;
 /** Describes a Target Proxy that uses this Certificate Map. */
 export interface GclbTarget {
   /** Output only. This field returns the resource name in the following format: `//compute.googleapis.com/projects/*\/global/targetHttpsProxies/*`. */
-  targetHttpsProxy?: string;
+  targetHttpsProxy?: string | undefined;
   /** Output only. This field returns the resource name in the following format: `//compute.googleapis.com/projects/*\/global/targetSslProxies/*`. */
-  targetSslProxy?: string;
+  targetSslProxy?: string | undefined;
   /** Output only. IP configurations for this Target Proxy where the Certificate Map is serving. */
-  ipConfigs?: IpConfigList;
+  ipConfigs?: IpConfigList | undefined;
 }
 export type GclbTargetList = Array<GclbTarget>;
 /** Defines a collection of certificate configurations. */
 export interface CertificateMap {
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. One or more paragraphs of text description of a certificate map. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. A list of GCLB targets that use this Certificate Map. A Target Proxy is only present on this list if it's attached to a Forwarding Rule. */
-  gclbTargets?: GclbTargetList;
+  gclbTargets?: GclbTargetList | undefined;
   /** Output only. The creation timestamp of a Certificate Map. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The update timestamp of a Certificate Map. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Set of labels associated with a Certificate Map. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsCertificateMapsRequest {
   /** Required. The parent resource of the certificate map. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate map. */
-  certificateMapId?: string;
+  certificateMapId?: string | undefined;
   /** Request body */
-  body?: CertificateMap;
+  body?: CertificateMap | undefined;
 }
 export type StringList = Array<string>;
 export type CertificateMapEntryStateEnum = "SERVING_STATE_UNSPECIFIED" | "ACTIVE" | "PENDING";
@@ -213,31 +213,31 @@ export type CertificateMapEntryMatcherEnum = "MATCHER_UNSPECIFIED" | "PRIMARY";
 /** Defines a certificate map entry. */
 export interface CertificateMapEntry {
   /** Optional. A set of Certificates defines for the given `hostname`. There can be defined up to four certificates in each Certificate Map Entry. Each certificate must match pattern `projects/*\/locations/*\/certificates/*`. */
-  certificates?: StringList;
+  certificates?: StringList | undefined;
   /** Optional. One or more paragraphs of text description of a certificate map entry. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The update timestamp of a Certificate Map Entry. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. A serving state of this Certificate Map Entry. */
-  state?: CertificateMapEntryStateEnum | (string & {});
+  state?: CertificateMapEntryStateEnum | (string & {}) | undefined;
   /** A Hostname (FQDN, e.g. `example.com`) or a wildcard hostname expression (`*.example.com`) for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for selecting a proper certificate. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** A predefined matcher for particular cases, other than SNI selection. */
-  matcher?: CertificateMapEntryMatcherEnum | (string & {});
+  matcher?: CertificateMapEntryMatcherEnum | (string & {}) | undefined;
   /** Optional. Set of labels associated with a Certificate Map Entry. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The creation timestamp of a Certificate Map Entry. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Required. The parent resource of the certificate map entry. Must be in the format `projects/*\/locations/*\/certificateMaps/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate map entry. */
-  certificateMapEntryId?: string;
+  certificateMapEntryId?: string | undefined;
   /** Request body */
-  body?: CertificateMapEntry;
+  body?: CertificateMapEntry | undefined;
 }
 export type ProvisioningIssueReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -246,9 +246,9 @@ export type ProvisioningIssueReasonEnum =
 /** Information about issues with provisioning a Managed Certificate. */
 export interface ProvisioningIssue {
   /** Output only. Human readable explanation about the issue. Provided to help address the configuration issues. Not guaranteed to be stable. For programmatic access use Reason enum. */
-  details?: string;
+  details?: string | undefined;
   /** Output only. Reason for provisioning failures. */
-  reason?: ProvisioningIssueReasonEnum | (string & {});
+  reason?: ProvisioningIssueReasonEnum | (string & {}) | undefined;
 }
 export type ManagedCertificateStateEnum =
   | "STATE_UNSPECIFIED"
@@ -278,67 +278,67 @@ export type TroubleshootingIssuesItemEnumList = Array<
 /** IPs troubleshooting information. */
 export interface IPs {
   /** Output only. The list of IP addresses, where the certificate is attached, but port 443 is not open. */
-  servingOnAltPorts?: StringList;
+  servingOnAltPorts?: StringList | undefined;
   /** Output only. The list of IP addresses resolved from the domain's A/AAAA records. Can contain both ipv4 and ipv6 addresses. */
-  resolved?: StringList;
+  resolved?: StringList | undefined;
   /** Output only. The list of IP addresses, where the certificate is attached and port 443 is open. */
-  serving?: StringList;
+  serving?: StringList | undefined;
 }
 /** CNAME troubleshooting information. */
 export interface CNAME {
   /** Output only. The expected value of the CNAME record for the domain, equals to `dns_resource_record.data` in the corresponding `DnsAuthorization`. */
-  expectedData?: string;
+  expectedData?: string | undefined;
   /** Output only. The resolved CNAME chain. Empty list if the CNAME record for `CNAME.name` is not found. Otherwise the first item is the value of the CNAME record for `CNAME.name`. If the CNAME chain is longer, the second item is the value of the CNAME record for the first item, and so on. */
-  resolvedData?: StringList;
+  resolvedData?: StringList | undefined;
   /** Output only. The name of the CNAME record for the domain, equals to `dns_resource_record.name` in the corresponding `DnsAuthorization`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Troubleshooting information for the authorization attempt. */
 export interface Troubleshooting {
   /** Output only. The list of issues discovered during the authorization attempt. */
-  issues?: TroubleshootingIssuesItemEnumList;
+  issues?: TroubleshootingIssuesItemEnumList | undefined;
   /** Output only. IPs troubleshooting information. */
-  ips?: IPs;
+  ips?: IPs | undefined;
   /** Output only. CNAME troubleshooting information. */
-  cname?: CNAME;
+  cname?: CNAME | undefined;
 }
 /** State of the latest attempt to authorize a domain for certificate issuance. */
 export interface AuthorizationAttemptInfo {
   /** Output only. State of the domain for managed certificate issuance. */
-  state?: AuthorizationAttemptInfoStateEnum | (string & {});
+  state?: AuthorizationAttemptInfoStateEnum | (string & {}) | undefined;
   /** Output only. Domain name of the authorization attempt. */
-  domain?: string;
+  domain?: string | undefined;
   /** Output only. Reason for failure of the authorization attempt for the domain. */
-  failureReason?: AuthorizationAttemptInfoFailureReasonEnum | (string & {});
+  failureReason?: AuthorizationAttemptInfoFailureReasonEnum | (string & {}) | undefined;
   /** Output only. Human readable explanation for reaching the state. Provided to help address the configuration issues. Not guaranteed to be stable. For programmatic access use FailureReason enum. */
-  details?: string;
+  details?: string | undefined;
   /** Output only. Troubleshooting information for the authorization attempt. This field is only populated if the authorization attempt failed. */
-  troubleshooting?: Troubleshooting;
+  troubleshooting?: Troubleshooting | undefined;
   /** Output only. The timestamp, when the authorization attempt was made. */
-  attemptTime?: string;
+  attemptTime?: string | undefined;
 }
 export type AuthorizationAttemptInfoList = Array<AuthorizationAttemptInfo>;
 /** Configuration and state of a Managed Certificate. Certificate Manager provisions and renews Managed Certificates automatically, for as long as it's authorized to do so. */
 export interface ManagedCertificate {
   /** Optional. Immutable. The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format `projects/*\/locations/*\/certificateIssuanceConfigs/*`. If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa. */
-  issuanceConfig?: string;
+  issuanceConfig?: string | undefined;
   /** Optional. Immutable. The domains for which a managed SSL certificate will be generated. Wildcard domains are only supported with DNS challenge resolution. */
-  domains?: StringList;
+  domains?: StringList | undefined;
   /** Output only. Information about issues with provisioning a Managed Certificate. */
-  provisioningIssue?: ProvisioningIssue;
+  provisioningIssue?: ProvisioningIssue | undefined;
   /** Output only. State of the managed certificate resource. */
-  state?: ManagedCertificateStateEnum | (string & {});
+  state?: ManagedCertificateStateEnum | (string & {}) | undefined;
   /** Optional. Immutable. Authorizations that will be used for performing domain authorization. */
-  dnsAuthorizations?: StringList;
+  dnsAuthorizations?: StringList | undefined;
   /** Output only. Detailed state of the latest authorization attempt for each domain specified for managed certificate resource. */
-  authorizationAttemptInfo?: AuthorizationAttemptInfoList;
+  authorizationAttemptInfo?: AuthorizationAttemptInfoList | undefined;
 }
 /** Certificate data for a SelfManaged Certificate. SelfManaged Certificates are uploaded by the user. Updating such certificates before they expire remains the user's responsibility. */
 export interface SelfManagedCertificate {
   /** Optional. Input only. The PEM-encoded certificate chain. Leaf certificate comes first, followed by intermediate ones if any. */
-  pemCertificate?: string;
+  pemCertificate?: string | undefined;
   /** Optional. Input only. The PEM-encoded private key of the leaf certificate. */
-  pemPrivateKey?: string;
+  pemPrivateKey?: string | undefined;
 }
 export type ManagedIdentityCertificateStateEnum =
   | "STATE_UNSPECIFIED"
@@ -348,154 +348,154 @@ export type ManagedIdentityCertificateStateEnum =
 /** Configuration and state of a Managed Identity Certificate. Certificate Manager provisions and renews Managed Identity Certificates automatically, for as long as it's authorized to do so. */
 export interface ManagedIdentityCertificate {
   /** Output only. Information about issues with provisioning a managed certificate. */
-  provisioningIssue?: ProvisioningIssue;
+  provisioningIssue?: ProvisioningIssue | undefined;
   /** Required. Immutable. SPIFFE ID of the Managed Identity used for this certificate. */
-  identity?: string;
+  identity?: string | undefined;
   /** Output only. State of the managed certificate resource. */
-  state?: ManagedIdentityCertificateStateEnum | (string & {});
+  state?: ManagedIdentityCertificateStateEnum | (string & {}) | undefined;
 }
 /** Defines a resource that uses the certificate. */
 export interface UsedBy {
   /** Output only. Full name of the resource https://google.aip.dev/122#full-resource-names, e.g. `//certificatemanager.googleapis.com/projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*` or `//compute.googleapis.com/projects/*\/locations/*\/targetHttpsProxies/*`. */
-  name?: string;
+  name?: string | undefined;
 }
 export type UsedByList = Array<UsedBy>;
 export type CertificateScopeEnum = "DEFAULT" | "EDGE_CACHE" | "ALL_REGIONS" | "CLIENT_AUTH";
 /** Defines TLS certificate. */
 export interface Certificate {
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
-  name?: string;
+  name?: string | undefined;
   /** If set, contains configuration and state of a managed certificate. */
-  managed?: ManagedCertificate;
+  managed?: ManagedCertificate | undefined;
   /** Optional. Set of labels associated with a Certificate. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The creation timestamp of a Certificate. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. One or more paragraphs of text description of a certificate. */
-  description?: string;
+  description?: string | undefined;
   /** If set, defines data of a self-managed certificate. */
-  selfManaged?: SelfManagedCertificate;
+  selfManaged?: SelfManagedCertificate | undefined;
   /** Output only. The list of Subject Alternative Names of dnsName type defined in the certificate (see RFC 5280 4.2.1.6). Managed certificates that haven't been provisioned yet have this field populated with a value of the managed.domains field. */
-  sanDnsnames?: StringList;
+  sanDnsnames?: StringList | undefined;
   /** Output only. The PEM-encoded certificate chain. */
-  pemCertificate?: string;
+  pemCertificate?: string | undefined;
   /** If set, contains configuration and state of a managed identity certificate. */
-  managedIdentity?: ManagedIdentityCertificate;
+  managedIdentity?: ManagedIdentityCertificate | undefined;
   /** Output only. The last update timestamp of a Certificate. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The expiry timestamp of a Certificate. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. The list of resources that use this Certificate. */
-  usedBy?: UsedByList;
+  usedBy?: UsedByList | undefined;
   /** Optional. Immutable. The scope of the certificate. */
-  scope?: CertificateScopeEnum | (string & {});
+  scope?: CertificateScopeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsCertificatesRequest {
   /** Required. The parent resource of the certificate. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the certificate. */
-  certificateId?: string;
+  certificateId?: string | undefined;
   /** Request body */
-  body?: Certificate;
+  body?: Certificate | undefined;
 }
 export type DnsAuthorizationTypeEnum = "TYPE_UNSPECIFIED" | "FIXED_RECORD" | "PER_PROJECT_RECORD";
 /** The structure describing the DNS Resource Record that needs to be added to DNS configuration for the authorization to be usable by certificate. */
 export interface DnsResourceRecord {
   /** Output only. Fully qualified name of the DNS Resource Record. e.g. `_acme-challenge.example.com` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Type of the DNS Resource Record. Currently always set to "CNAME". */
-  type?: string;
+  type?: string | undefined;
   /** Output only. Data of the DNS Resource Record. */
-  data?: string;
+  data?: string | undefined;
 }
 /** A DnsAuthorization resource describes a way to perform domain authorization for certificate issuance. */
 export interface DnsAuthorization {
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Identifier. A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/*\/locations/*\/dnsAuthorizations/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. One or more paragraphs of text description of a DnsAuthorization. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The last update timestamp of a DnsAuthorization. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Set of labels associated with a DnsAuthorization. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. Immutable. A domain that is being authorized. A DnsAuthorization resource covers a single domain and its wildcard, e.g. authorization for `example.com` can be used to issue certificates for `example.com` and `*.example.com`. */
-  domain?: string;
+  domain?: string | undefined;
   /** Optional. Immutable. Type of DnsAuthorization. If unset during resource creation the following default will be used: - in location `global`: FIXED_RECORD, - in other locations: PER_PROJECT_RECORD. */
-  type?: DnsAuthorizationTypeEnum | (string & {});
+  type?: DnsAuthorizationTypeEnum | (string & {}) | undefined;
   /** Output only. DNS Resource Record that needs to be added to DNS configuration. */
-  dnsResourceRecord?: DnsResourceRecord;
+  dnsResourceRecord?: DnsResourceRecord | undefined;
   /** Output only. The creation timestamp of a DnsAuthorization. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsDnsAuthorizationsRequest {
   /** Required. The parent resource of the dns authorization. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the dns authorization. */
-  dnsAuthorizationId?: string;
+  dnsAuthorizationId?: string | undefined;
   /** Request body */
-  body?: DnsAuthorization;
+  body?: DnsAuthorization | undefined;
 }
 /** Defines a trust anchor. */
 export interface TrustAnchor {
   /** PEM root certificate of the PKI used for validation. Each certificate provided in PEM format may occupy up to 5kB. */
-  pemCertificate?: string;
+  pemCertificate?: string | undefined;
 }
 export type TrustAnchorList = Array<TrustAnchor>;
 /** Defines an intermediate CA. */
 export interface IntermediateCA {
   /** PEM intermediate certificate used for building up paths for validation. Each certificate provided in PEM format may occupy up to 5kB. */
-  pemCertificate?: string;
+  pemCertificate?: string | undefined;
 }
 export type IntermediateCAList = Array<IntermediateCA>;
 /** Defines a trust store. */
 export interface TrustStore {
   /** Optional. List of Trust Anchors to be used while performing validation against a given TrustStore. */
-  trustAnchors?: TrustAnchorList;
+  trustAnchors?: TrustAnchorList | undefined;
   /** Optional. Set of intermediate CA certificates used for the path building phase of chain validation. The field is currently not supported if TrustConfig is used for the workload certificate feature. */
-  intermediateCas?: IntermediateCAList;
+  intermediateCas?: IntermediateCAList | undefined;
 }
 export type TrustStoreMap = { [key: string]: TrustStore | undefined };
 export type TrustStoreList = Array<TrustStore>;
 /** Defines an allowlisted certificate. */
 export interface AllowlistedCertificate {
   /** Required. PEM certificate that is allowlisted. The certificate can be up to 5k bytes, and must be a parseable X.509 certificate. */
-  pemCertificate?: string;
+  pemCertificate?: string | undefined;
 }
 export type AllowlistedCertificateList = Array<AllowlistedCertificate>;
 /** Defines a trust config. */
 export interface TrustConfig {
   /** Output only. The creation timestamp of a TrustConfig. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. One or more paragraphs of text description of a TrustConfig. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Set of labels associated with a TrustConfig. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The last update timestamp of a TrustConfig. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Defines a mapping from a trust domain to a TrustStore. This is used for SPIFFE certificate validation. */
-  spiffeTrustStores?: TrustStoreMap;
+  spiffeTrustStores?: TrustStoreMap | undefined;
   /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/*\/locations/*\/trustConfigs/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Set of trust stores to perform validation against. This field is supported when TrustConfig is configured with Load Balancers, currently not supported for SPIFFE certificate validation. Only one TrustStore specified is currently allowed. */
-  trustStores?: TrustStoreList;
+  trustStores?: TrustStoreList | undefined;
   /** Optional. A certificate matching an allowlisted certificate is always considered valid as long as the certificate is parseable, proof of private key possession is established, and constraints on the certificate's SAN field are met. */
-  allowlistedCertificates?: AllowlistedCertificateList;
+  allowlistedCertificates?: AllowlistedCertificateList | undefined;
 }
 export interface CreateProjectsLocationsTrustConfigsRequest {
   /** Required. The parent resource of the TrustConfig. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. A user-provided name of the TrustConfig. Must match the regexp `[a-z0-9-]{1,63}`. */
-  trustConfigId?: string;
+  trustConfigId?: string | undefined;
   /** Request body */
-  body?: TrustConfig;
+  body?: TrustConfig | undefined;
 }
 export interface DeleteProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. A name of the certificate issuance config to delete. Must be in the format `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
@@ -523,7 +523,7 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsTrustConfigsRequest {
   /** Optional. The current etag of the TrustConfig. If an etag is provided and does not match the current etag of the resource, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. A name of the TrustConfig to delete. Must be in the format `projects/*\/locations/*\/trustConfigs/*`. */
   name: string;
 }
@@ -534,15 +534,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. A name of the certificate issuance config to describe. Must be in the format `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
@@ -574,33 +574,33 @@ export interface GetProjectsLocationsTrustConfigsRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Optional. Maximum number of certificate configs to return per call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A list of Certificate Config field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter expression to restrict the Certificates Configs returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The value returned by the last `ListCertificateIssuanceConfigsResponse`. Indicates that this is a continuation of a prior `ListCertificateIssuanceConfigs` call, and that the system should return the next page of data. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The project and location from which the certificate should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
 }
@@ -608,109 +608,109 @@ export type CertificateIssuanceConfigList = Array<CertificateIssuanceConfig>;
 /** Response for the `ListCertificateIssuanceConfigs` method. */
 export interface ListCertificateIssuanceConfigsResponse {
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of certificate configs for the parent resource. */
-  certificateIssuanceConfigs?: CertificateIssuanceConfigList;
+  certificateIssuanceConfigs?: CertificateIssuanceConfigList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsCertificateMapsRequest {
   /** Optional. The value returned by the last `ListCertificateMapsResponse`. Indicates that this is a continuation of a prior `ListCertificateMaps` call, and that the system should return the next page of data. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filter expression to restrict the Certificates Maps returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of certificate maps to return per call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The project and location from which the certificate maps should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. A list of Certificate Map field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type CertificateMapList = Array<CertificateMap>;
 /** Response for the `ListCertificateMaps` method. */
 export interface ListCertificateMapsResponse {
   /** A list of certificate maps for the parent resource. */
-  certificateMaps?: CertificateMapList;
+  certificateMaps?: CertificateMapList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Optional. Maximum number of certificate map entries to return. The service may return fewer than this value. If unspecified, at most 50 certificate map entries will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A list of Certificate Map Entry field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter expression to restrict the returned Certificate Map Entries. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The project, location and certificate map from which the certificate map entries should be listed, specified in the format `projects/*\/locations/*\/certificateMaps/*`. */
   parent: string;
   /** Optional. The value returned by the last `ListCertificateMapEntriesResponse`. Indicates that this is a continuation of a prior `ListCertificateMapEntries` call, and that the system should return the next page of data. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CertificateMapEntryList = Array<CertificateMapEntry>;
 /** Response for the `ListCertificateMapEntries` method. */
 export interface ListCertificateMapEntriesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of certificate map entries for the parent resource. */
-  certificateMapEntries?: CertificateMapEntryList;
+  certificateMapEntries?: CertificateMapEntryList | undefined;
 }
 export interface ListProjectsLocationsCertificatesRequest {
   /** Optional. Maximum number of certificates to return per call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The value returned by the last `ListCertificatesResponse`. Indicates that this is a continuation of a prior `ListCertificates` call, and that the system should return the next page of data. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A list of Certificate field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The project and location from which the certificate should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. Filter expression to restrict the Certificates returned. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type CertificateList = Array<Certificate>;
 /** Response for the `ListCertificates` method. */
 export interface ListCertificatesResponse {
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of certificates for the parent resource. */
-  certificates?: CertificateList;
+  certificates?: CertificateList | undefined;
 }
 export interface ListProjectsLocationsDnsAuthorizationsRequest {
   /** Optional. The value returned by the last `ListDnsAuthorizationsResponse`. Indicates that this is a continuation of a prior `ListDnsAuthorizations` call, and that the system should return the next page of data. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The project and location from which the dns authorizations should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. Maximum number of dns authorizations to return per call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter expression to restrict the Dns Authorizations returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A list of Dns Authorization field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type DnsAuthorizationList = Array<DnsAuthorization>;
 /** Response for the `ListDnsAuthorizations` method. */
 export interface ListDnsAuthorizationsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of dns authorizations for the parent resource. */
-  dnsAuthorizations?: DnsAuthorizationList;
+  dnsAuthorizations?: DnsAuthorizationList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -718,81 +718,81 @@ export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsTrustConfigsRequest {
   /** Required. The project and location from which the TrustConfigs should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. Filter expression to restrict the TrustConfigs returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of TrustConfigs to return per call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The value returned by the last `ListTrustConfigsResponse`. Indicates that this is a continuation of a prior `ListTrustConfigs` call, and that the system should return the next page of data. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. A list of TrustConfig field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type TrustConfigList = Array<TrustConfig>;
 /** Response for the `ListTrustConfigs` method. */
 export interface ListTrustConfigsResponse {
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of TrustConfigs for the parent resource. */
-  trustConfigs?: TrustConfigList;
+  trustConfigs?: TrustConfigList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface PatchProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: CertificateIssuanceConfig;
+  body?: CertificateIssuanceConfig | undefined;
 }
 export interface PatchProjectsLocationsCertificateMapsRequest {
   /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: CertificateMap;
+  body?: CertificateMap | undefined;
 }
 export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: CertificateMapEntry;
+  body?: CertificateMapEntry | undefined;
 }
 export interface PatchProjectsLocationsCertificatesRequest {
   /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Certificate;
+  body?: Certificate | undefined;
 }
 export interface PatchProjectsLocationsDnsAuthorizationsRequest {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/*\/locations/*\/dnsAuthorizations/*`. */
   name: string;
   /** Request body */
-  body?: DnsAuthorization;
+  body?: DnsAuthorization | undefined;
 }
 export interface PatchProjectsLocationsTrustConfigsRequest {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/*\/locations/*\/trustConfigs/*`. */
   name: string;
   /** Request body */
-  body?: TrustConfig;
+  body?: TrustConfig | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

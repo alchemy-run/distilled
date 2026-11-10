@@ -48,11 +48,11 @@ export interface AEOPromptImport {
   /** The question to ask the answer engines, as a user would phrase it. Matching ignores case and whitespace, so a re-import updates the existing prompt. */
   prompt: string;
   /** Theme the prompt belongs to. The runner alternates between topics on each run. */
-  topic?: string;
+  topic?: string | undefined;
   /** Share of answers (0-100) that mention the brand for this prompt, as reported by the tool the prompt set came from. Kept to benchmark against our own citation rate. */
-  external_visibility?: number | null;
+  external_visibility?: number | null | undefined;
   /** Where the prompt text came from: api (written by a person) or suggestion (picked from aeo_prompts/suggest). Stored in the prompt's evidence so suggested prompts can be audited later. * `api` - Api * `suggestion` - Suggestion */
-  origin?: PromptOriginEnum | (string & {});
+  origin?: PromptOriginEnum | (string & {}) | undefined;
 }
 /** Prompts to add or update, at most 2000 per request. */
 export type AeoPromptsBulkImportRequestPromptsList = Array<AEOPromptImport>;
@@ -75,17 +75,17 @@ export interface AeoPromptsChecksRequest {
   project_id: string;
   id: string;
   /** Only list checks from this answer engine, for example 'claude-web-search'. */
-  engine?: string;
+  engine?: string | undefined;
   /** Set to false to return answer_text as null on every check. Use it to page through history without the engines' answers. */
-  include_answer_text?: boolean;
+  include_answer_text?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only list checks that ran at or after this time, in ISO 8601 (for example 2026-10-01T00:00:00Z). */
-  since?: string;
+  since?: string | undefined;
   /** Only list checks that ran this version of the prompt. */
-  version?: number;
+  version?: number | undefined;
 }
 /** URLs the answer cites, in first-mention order. */
 export type AEOPromptCheckCitedUrlsList = Array<string>;
@@ -127,15 +127,15 @@ export interface AEOPromptCheck {
   /** Version of the prompt that ran. Null for checks recorded before prompts had versions. */
   prompt_version: number | null;
   /** Sentiment of the sentences that name the brand: 'positive', 'neutral' or 'negative'. Null until scored, and when the answer never names the brand. */
-  brand_sentiment?: string | null;
+  brand_sentiment?: string | null | undefined;
   /** Classifier confidence (0-1) in 'brand_sentiment'. Null when 'brand_sentiment' is null. */
-  brand_sentiment_score?: number | null;
+  brand_sentiment_score?: number | null | undefined;
 }
 export type PaginatedAEOPromptCheckListResultsList = Array<AEOPromptCheck>;
 export interface PaginatedAEOPromptCheckList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAEOPromptCheckListResultsList;
 }
 export interface AeoPromptsDestroyRequest {
@@ -148,7 +148,7 @@ export interface AeoPromptsOverviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Length of the window in days, ending today in the project's timezone. Default 30, at most 90. */
-  days?: number;
+  days?: number | undefined;
 }
 export interface AEOPromptSetCounts {
   /** Share of answered checks that cited a target domain. Share (0-1) of answered checks in the window. Failed checks are left out. Null when no check was answered. */
@@ -373,15 +373,15 @@ export interface AeoPromptsSuggestRequest {
   /** The site to suggest prompts for, for example posthog.com. The model reads it with web search. */
   domain: string;
   /** The brand name. Inferred from the site when empty. */
-  brand?: string;
+  brand?: string | undefined;
   /** What the product does and who it is for. Inferred from the site when empty. */
-  description?: string;
+  description?: string | undefined;
   /** Competitor names or domains. The model picks the main ones when empty. */
-  competitors?: AeoPromptsSuggestRequestCompetitorsList;
+  competitors?: AeoPromptsSuggestRequestCompetitorsList | undefined;
   /** Topics to spread the prompts across. The model picks 3 to 6 when empty. */
-  topics?: AeoPromptsSuggestRequestTopicsList;
+  topics?: AeoPromptsSuggestRequestTopicsList | undefined;
   /** How many prompts to suggest, at most 50. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface AeoPromptsSuggestResponse {}
 export interface AeoPromptsTopicsRequest {
@@ -447,15 +447,15 @@ export type ContentAutopilotSnapshotContentBoundariesList = Array<string>;
 export type ContentAutopilotSnapshotBrandRulesList = Array<string>;
 export interface ContentAutopilotSnapshot {
   /** Site domain used for the run. */
-  domain?: string;
+  domain?: string | undefined;
   /** Confidence level based on the available data sources. * `standard` - Standard * `lower` - Lower */
-  confidence?: ContentAutopilotSnapshotConfidenceEnum;
+  confidence?: ContentAutopilotSnapshotConfidenceEnum | undefined;
   /** Public sources authorized for this run. */
-  source_urls?: ContentAutopilotSnapshotSourceUrlsList;
+  source_urls?: ContentAutopilotSnapshotSourceUrlsList | undefined;
   /** Site paths authorized for this run. */
-  content_boundaries?: ContentAutopilotSnapshotContentBoundariesList;
+  content_boundaries?: ContentAutopilotSnapshotContentBoundariesList | undefined;
   /** Editorial rules captured for this run. */
-  brand_rules?: ContentAutopilotSnapshotBrandRulesList;
+  brand_rules?: ContentAutopilotSnapshotBrandRulesList | undefined;
 }
 export interface ContentAutopilotError {
   /** Stable machine-readable error code. */
@@ -502,9 +502,9 @@ export interface ContentAutopilotEvidence {
   /** Plain-language explanation of the supporting evidence. */
   explanation: string;
   /** Page supported by this evidence. */
-  page_url?: string;
+  page_url?: string | undefined;
   /** Search query supported by this evidence. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Why this opportunity was selected. */
 export type ContentAutopilotOpportunityEvidenceList = Array<ContentAutopilotEvidence>;
@@ -536,7 +536,7 @@ export interface ContentAutopilotCitationGap {
   /** Checks whose answer cited the site. */
   cited_checks: number;
   /** Checks whose answer named the site's brand or cited the site. */
-  mentioned_checks?: number;
+  mentioned_checks?: number | undefined;
   /** Share of checks that cited the site, from 0 to 1. */
   citation_rate: number;
   /** Engines that answered the prompt. */
@@ -617,9 +617,9 @@ export interface ContentAutopilotPackage {
   /** Portable source notes included with the export. */
   source_notes: ContentAutopilotPackageSourceNotesList;
   /** JSON-LD structured data to embed in the page, such as an FAQPage document. */
-  json_ld?: string;
+  json_ld?: string | undefined;
   /** Suggested llms.txt entry for the page. */
-  llms_txt_line?: string;
+  llms_txt_line?: string | undefined;
 }
 export interface EditWebAnalyticsContentAutopilotProposalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -678,29 +678,29 @@ export type ContentAutopilotBriefQuestionsToAnswerList = Array<string>;
 export type ContentAutopilotBriefCompetitorCoverageList = Array<string>;
 export interface ContentAutopilotBrief {
   /** What the person asking wants to know or decide. */
-  intent?: string;
+  intent?: string | undefined;
   /** Who the content is for. */
-  audience?: string;
+  audience?: string | undefined;
   /** Whether the brief recommends new_content or page_improvement. */
-  recommended_type?: string;
+  recommended_type?: string | undefined;
   /** Site page the brief chose to improve. Empty for a new page. */
-  target_page?: string;
+  target_page?: string | undefined;
   /** Site pages the brief asked to read for facts. */
-  site_pages_to_read?: ContentAutopilotBriefSitePagesToReadList;
+  site_pages_to_read?: ContentAutopilotBriefSitePagesToReadList | undefined;
   /** Products the brief asked to research for a comparison. */
-  competitors_to_research?: ContentAutopilotBriefCompetitorsToResearchList;
+  competitors_to_research?: ContentAutopilotBriefCompetitorsToResearchList | undefined;
   /** Working title for the page. */
-  working_title?: string;
+  working_title?: string | undefined;
   /** Planned sections, in order. */
-  outline?: ContentAutopilotBriefOutlineList;
+  outline?: ContentAutopilotBriefOutlineList | undefined;
   /** Questions the page must answer. */
-  questions_to_answer?: ContentAutopilotBriefQuestionsToAnswerList;
+  questions_to_answer?: ContentAutopilotBriefQuestionsToAnswerList | undefined;
   /** Topics the cited competitor pages cover that the site's pages don't. */
-  competitor_coverage?: ContentAutopilotBriefCompetitorCoverageList;
+  competitor_coverage?: ContentAutopilotBriefCompetitorCoverageList | undefined;
   /** What AI answer engines currently say, including what they get wrong. */
-  engine_answer_summary?: string;
+  engine_answer_summary?: string | undefined;
   /** What the question means, when AI answer engines misread which product or company it asks about. */
-  disambiguation?: string;
+  disambiguation?: string | undefined;
 }
 /** * `site` - site * `competitor` - competitor */
 export type ContentAutopilotSourceLedgerEntryKindEnum = "site" | "competitor";
@@ -712,7 +712,7 @@ export interface ContentAutopilotSourceLedgerEntry {
   /** Short quote from the source page. */
   quote: string;
   /** Whether the source is one of the site's pages or a competitor's own page. * `site` - site * `competitor` - competitor */
-  kind?: ContentAutopilotSourceLedgerEntryKindEnum;
+  kind?: ContentAutopilotSourceLedgerEntryKindEnum | undefined;
 }
 /** Factual claims in the draft and the site pages that support them. */
 export type ContentAutopilotProposalSourceLedgerList = Array<ContentAutopilotSourceLedgerEntry>;
@@ -895,7 +895,7 @@ export interface AEOPromptSuggestionJob {
   /** pending while Claude works, then completed or failed. * `pending` - Pending * `completed` - Completed * `failed` - Failed */
   status: AEOPromptSuggestionJobStatusEnum;
   /** Why the job failed. Empty unless status is failed. */
-  error?: string;
+  error?: string | undefined;
 }
 export type ListAeoBrandsRequestKind = "own" | "competitor" | "publisher" | "unknown";
 export type ListAeoBrandsRequestStatus = "suggested" | "confirmed" | "ignored";
@@ -903,42 +903,42 @@ export interface ListAeoBrandsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only list brands of this kind. * `own` - Own * `competitor` - Competitor * `publisher` - Publisher * `unknown` - Unknown */
-  kind?: ListAeoBrandsRequestKind | (string & {});
+  kind?: ListAeoBrandsRequestKind | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only list brands with this review status. * `suggested` - Suggested * `confirmed` - Confirmed * `ignored` - Ignored */
-  status?: ListAeoBrandsRequestStatus | (string & {});
+  status?: ListAeoBrandsRequestStatus | (string & {}) | undefined;
 }
 export type PaginatedAEOBrandListResultsList = Array<AEOBrand>;
 export interface PaginatedAEOBrandList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAEOBrandListResultsList;
 }
 export interface ListAeoPromptsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only list prompts that are on (true) or off (false). Omit to list both. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Also list archived prompts. Archived prompts are left out by default. */
-  include_archived?: boolean;
+  include_archived?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Only list prompts that the engines answered in the last 30 days without citing a target domain. Prompts with no answered check in that window are left out. */
-  needs_improvement?: boolean;
+  needs_improvement?: boolean | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only list prompts with this topic. An empty value lists the prompts that have no topic. */
-  topic?: string;
+  topic?: string | undefined;
 }
 export type PaginatedAEOPromptListResultsList = Array<AEOPrompt>;
 export interface PaginatedAEOPromptList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAEOPromptListResultsList;
 }
 export interface RefreshWebAnalyticsContentAutopilotOpportunityRequest {
@@ -978,30 +978,30 @@ export interface UpdateAeoBrandsPartialRequest {
   project_id: string;
   id: string;
   /** Brand name as people say it. */
-  name?: string;
+  name?: string | undefined;
   /** What the brand is to the project: 'own', 'competitor', 'publisher' or 'unknown'. * `own` - Own * `competitor` - Competitor * `publisher` - Publisher * `unknown` - Unknown */
-  kind?: BrandKindEnum | (string & {});
+  kind?: BrandKindEnum | (string & {}) | undefined;
   /** 'confirmed' to accept the brand, 'ignored' to hide it, 'suggested' to put it back for review. * `suggested` - Suggested * `confirmed` - Confirmed * `ignored` - Ignored */
-  status?: BrandStatusEnum | (string & {});
+  status?: BrandStatusEnum | (string & {}) | undefined;
   /** Replaces the brand's other names. Names are trimmed, and repeated names are dropped. */
-  aliases?: UpdateAeoBrandsPartialRequestAliasesList;
+  aliases?: UpdateAeoBrandsPartialRequestAliasesList | undefined;
 }
 export interface UpdateAeoPromptsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Turn the prompt on or off for future runs. */
-  active?: boolean | null;
+  active?: boolean | null | undefined;
   /** New topic for the prompt. An empty string removes the topic. Past checks keep the topic they ran with. */
-  topic?: string;
+  topic?: string | undefined;
   /** New text for the prompt. A change adds the next version and makes it current; the prompt keeps its id and its check history, and each check records the version that ran. A change of case or whitespace only adds no version. Fails with 409 when another prompt in the set already has the text. */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Optional note on what the text change does, stored on the new version. Send it with 'prompt'. */
-  version_description?: string;
+  version_description?: string | undefined;
   /** Make an existing version current again, for example to roll back a text change. Adds no version. Fails with 400 when the version does not exist, and with 409 when another prompt has its text. */
-  current_version?: number | null;
+  current_version?: number | null | undefined;
   /** True archives the prompt: it is turned off, never runs again, and keeps its check history. Send it without other fields. False restores an archived prompt. A restored prompt stays off unless 'active' is true in the same request. An archived prompt accepts no other change until it is restored. */
-  archived?: boolean | null;
+  archived?: boolean | null | undefined;
 }
 /** Opportunities to draft, up to 5 at a time. */
 export type WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList = Array<string>;
@@ -1044,69 +1044,69 @@ export interface WebAnalyticsRecapRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true (default), include period-over-period change for each metric comparing against the prior equal-length period. Set to false to skip the comparison query. */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** Lookback window in days (1-90). Defaults to 7. */
-  days?: number;
+  days?: number | undefined;
 }
 /** * `Up` - Up * `Down` - Down */
 export type WoWChangeDirectionEnum = "Up" | "Down";
 export interface WoWChange {
   /** Absolute percentage change, rounded to nearest integer. */
-  percent?: number;
+  percent?: number | undefined;
   /** Direction of the change relative to the prior period. * `Up` - Up * `Down` - Down */
-  direction?: WoWChangeDirectionEnum;
+  direction?: WoWChangeDirectionEnum | undefined;
   /** Hex color indicating whether the change is a positive or negative signal. */
-  color?: string;
+  color?: string | undefined;
   /** Short label, e.g. 'Up 12%'. */
-  text?: string;
+  text?: string | undefined;
   /** Verbose label, e.g. 'Up 12% from prior period'. */
-  long_text?: string;
+  long_text?: string | undefined;
 }
 export interface NumericMetric {
   /** Value for the most recent period. */
-  current?: number;
+  current?: number | undefined;
   /** Value for the prior period, if available. */
-  previous?: number | null;
+  previous?: number | null | undefined;
   /** Period-over-period change, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 export interface DurationMetric {
   /** Human-readable duration, e.g. '2m 34s'. */
-  current?: string;
+  current?: string | undefined;
   /** Prior-period duration, e.g. '2m 10s'. */
-  previous?: string | null;
+  previous?: string | null | undefined;
   /** Period-over-period change, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 export interface TopPage {
   /** Host for the page, if recorded. */
-  host?: string;
+  host?: string | undefined;
   /** URL path. */
-  path?: string;
+  path?: string | undefined;
   /** Unique visitors in the period. */
-  visitors?: number;
+  visitors?: number | undefined;
   /** Period-over-period change in visitors, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 /** Top 5 pages by unique visitors. */
 export type WebAnalyticsRecapResponseTopPagesList = Array<TopPage>;
 export interface TopSource {
   /** Initial referring domain. */
-  name?: string;
+  name?: string | undefined;
   /** Unique visitors from this source. */
-  visitors?: number;
+  visitors?: number | undefined;
   /** Period-over-period change in visitors, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 /** Top 5 traffic sources by unique visitors. */
 export type WebAnalyticsRecapResponseTopSourcesList = Array<TopSource>;
 export interface Goal {
   /** Goal name (action name). */
-  name?: string;
+  name?: string | undefined;
   /** Total conversions in the period. */
-  conversions?: number;
+  conversions?: number | undefined;
   /** Period-over-period change in conversions, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 /** Goal conversions. */
 export type WebAnalyticsRecapResponseGoalsList = Array<Goal>;
@@ -1194,9 +1194,9 @@ export interface WebAnalyticsWeeklyDigestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true (default), include period-over-period change for each metric comparing against the prior equal-length period. Set to false to skip the comparison query (faster). */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** Lookback window in days (1-90). Defaults to 7. */
-  days?: number;
+  days?: number | undefined;
 }
 /** Top 5 pages by unique visitors. */
 export type WeeklyDigestResponseTopPagesList = Array<TopPage>;
@@ -1206,25 +1206,25 @@ export type WeeklyDigestResponseTopSourcesList = Array<TopSource>;
 export type WeeklyDigestResponseGoalsList = Array<Goal>;
 export interface WeeklyDigestResponse {
   /** Unique visitors. */
-  visitors?: NumericMetric;
+  visitors?: NumericMetric | undefined;
   /** Total pageviews. */
-  pageviews?: NumericMetric;
+  pageviews?: NumericMetric | undefined;
   /** Total sessions. */
-  sessions?: NumericMetric;
+  sessions?: NumericMetric | undefined;
   /** Bounce rate (0-100). */
-  bounce_rate?: NumericMetric;
+  bounce_rate?: NumericMetric | undefined;
   /** Average session duration. */
-  avg_session_duration?: DurationMetric;
+  avg_session_duration?: DurationMetric | undefined;
   /** Top 5 pages by unique visitors. */
-  top_pages?: WeeklyDigestResponseTopPagesList;
+  top_pages?: WeeklyDigestResponseTopPagesList | undefined;
   /** Top 5 traffic sources by unique visitors. */
-  top_sources?: WeeklyDigestResponseTopSourcesList;
+  top_sources?: WeeklyDigestResponseTopSourcesList | undefined;
   /** Goal conversions. */
-  goals?: WeeklyDigestResponseGoalsList;
+  goals?: WeeklyDigestResponseGoalsList | undefined;
   /** Period, filters and metric definitions behind the numbers, and a status that explains a zero. */
-  metadata?: DigestMetadata;
+  metadata?: DigestMetadata | undefined;
   /** Link to the Web analytics dashboard for this project. */
-  dashboard_url?: string;
+  dashboard_url?: string | undefined;
 }
 export type AeoPromptsBulkImportError = PosthogOpError;
 /** Import AEO prompts Adds prompts to the project's AEO prompt set, or updates the topic and visibility of prompts that already exist. Existing prompts keep their active state. Prompts whose text matches an archived prompt are skipped. */

@@ -84,7 +84,7 @@ export class NotFound
 
 export interface GetMetadataUrlNotificationsRequest {
   /** URL that is being queried. */
-  url?: string;
+  url?: string | undefined;
 }
 export type UrlNotificationTypeEnum =
   | "URL_NOTIFICATION_TYPE_UNSPECIFIED"
@@ -93,29 +93,29 @@ export type UrlNotificationTypeEnum =
 /** `UrlNotification` is the resource used in all Indexing API calls. It describes one event in the life cycle of a Web Document. */
 export interface UrlNotification {
   /** The URL life cycle event that Google is being notified about. */
-  type?: UrlNotificationTypeEnum | (string & {});
+  type?: UrlNotificationTypeEnum | (string & {}) | undefined;
   /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
-  notifyTime?: string;
+  notifyTime?: string | undefined;
   /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Summary of the most recent Indexing API notifications successfully received, for a given URL. */
 export interface UrlNotificationMetadata {
   /** URL to which this metadata refers. */
-  url?: string;
+  url?: string | undefined;
   /** Latest notification received with type `URL_REMOVED`. */
-  latestRemove?: UrlNotification;
+  latestRemove?: UrlNotification | undefined;
   /** Latest notification received with type `URL_UPDATED`. */
-  latestUpdate?: UrlNotification;
+  latestUpdate?: UrlNotification | undefined;
 }
 export interface PublishUrlNotificationsRequest {
   /** Request body */
-  body?: UrlNotification;
+  body?: UrlNotification | undefined;
 }
 /** Output for PublishUrlNotification */
 export interface PublishUrlNotificationResponse {
   /** Description of the notification events received for this URL. */
-  urlNotificationMetadata?: UrlNotificationMetadata;
+  urlNotificationMetadata?: UrlNotificationMetadata | undefined;
 }
 export type GetMetadataUrlNotificationsError = NotFound | Forbidden | GcpOpError;
 /** Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API. */

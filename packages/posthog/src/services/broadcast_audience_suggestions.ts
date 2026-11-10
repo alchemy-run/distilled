@@ -67,7 +67,7 @@ export interface GenerateBroadcastAudienceSuggestionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Make new suggestions even when the cached ones are still valid. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 export type BroadcastAudienceSuggestionsCurrentError = PosthogOpError;
 /** Broadcast audiences written by AI from the project's own events. Both calls are free for the customer. */

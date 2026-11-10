@@ -122,16 +122,16 @@ export interface CreateBucketRequest {
   namespace: string;
   repo: string;
   /** Bucket visibility. Defaults to public. Cannot be specified along with visibility. */
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Bucket visibility. Cannot be specified along with private. */
-  visibility?: CreateBucketRequestVisibility | (string & {});
-  resourceGroupId?: string;
+  visibility?: CreateBucketRequestVisibility | (string & {}) | undefined;
+  resourceGroupId?: string | undefined;
   /** CDN pre-warming regions */
-  cdn?: CreateBucketRequestCdnList;
+  cdn?: CreateBucketRequestCdnList | undefined;
   /** The region where the bucket is hosted. */
-  region?: CreateBucketRequestRegion | (string & {});
+  region?: CreateBucketRequestRegion | (string & {}) | undefined;
   /** Free-text description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateBucketResponse {
   url: string;
@@ -152,7 +152,7 @@ export interface DuplicateXetFilesRequestTarget {
 export interface DuplicateXetFilesRequestFilesItem {
   xetHash: string;
   sha256: string;
-  filename?: string;
+  filename?: string | undefined;
 }
 export type DuplicateXetFilesRequestFilesList = Array<DuplicateXetFilesRequestFilesItem>;
 export interface DuplicateXetFilesRequest {
@@ -184,8 +184,8 @@ export interface DuplicateXetFilesResponse {
 export interface FollowChangesRequest {
   namespace: string;
   repo: string;
-  cursor?: string;
-  since?: string;
+  cursor?: string | undefined;
+  since?: string | undefined;
 }
 export interface FollowChangesResponse {}
 export interface GetBucketDetailsRequest {
@@ -196,7 +196,7 @@ export type GetBucketDetailsResponseRepoType = "bucket" | "container";
 export type GetBucketDetailsResponseAdminTagsList = Array<string>;
 export interface GetBucketDetailsResponseDisabled {
   reason: string;
-  hideReadme?: boolean;
+  hideReadme?: boolean | undefined;
 }
 export type GetBucketDetailsResponseCdnRegionsItemProvider = "gcp" | "aws";
 export type GetBucketDetailsResponseCdnRegionsItemRegion = "us" | "eu";
@@ -209,16 +209,16 @@ export interface GetBucketDetailsResponseResourceGroup {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export interface GetBucketDetailsResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -227,18 +227,18 @@ export interface GetBucketDetailsResponse {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: GetBucketDetailsResponseRepoType;
-  adminTags?: GetBucketDetailsResponseAdminTagsList;
-  disabled?: GetBucketDetailsResponseDisabled;
+  adminTags?: GetBucketDetailsResponseAdminTagsList | undefined;
+  disabled?: GetBucketDetailsResponseDisabled | undefined;
   cdnRegions: GetBucketDetailsResponseCdnRegionsList;
-  resourceGroup?: GetBucketDetailsResponseResourceGroup;
+  resourceGroup?: GetBucketDetailsResponseResourceGroup | undefined;
 }
 export interface GetFileMetadataRequest {
   namespace: string;
   repo: string;
   path: string;
-  noContentDisposition?: string;
-  download?: string;
-  accept?: string;
+  noContentDisposition?: string | undefined;
+  download?: string | undefined;
+  accept?: string | undefined;
 }
 export interface GetFileMetadataResponse {
   /** The XET hash of the file */
@@ -252,7 +252,7 @@ export interface GetFileMetadataResponse {
   /** The size of the file */
   size: number;
   /** The content type of the file */
-  contentType?: string;
+  contentType?: string | undefined;
   /** ISO 8601 timestamp of when the file was added to the bucket */
   uploadedAt: string;
 }
@@ -264,7 +264,7 @@ export interface GetResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 /** Sort order. `path` (default) sorts lexicographically; `uploadedAt` sorts by most recent upload first. In recursive mode `uploadedAt` is only supported at the bucket root (no path prefix). In non-recursive mode, only supported at root or exact folder prefixes. */
 export type ListFilesRequestSort = "path" | "uploadedAt";
@@ -274,31 +274,31 @@ export interface ListFilesRequest {
   namespace: string;
   repo: string;
   path: string;
-  limit?: number;
-  cursor?: string;
-  startAfter?: string;
-  recursive?: string;
-  sort?: ListFilesRequestSort | (string & {});
-  direction?: ListFilesRequestDirection | (string & {});
+  limit?: number | undefined;
+  cursor?: string | undefined;
+  startAfter?: string | undefined;
+  recursive?: string | undefined;
+  sort?: ListFilesRequestSort | (string & {}) | undefined;
+  direction?: ListFilesRequestDirection | (string & {}) | undefined;
 }
 export type ListFilesResponseBodyItemType = "file" | "directory";
 export interface ListFilesResponseBodyItem {
   type: ListFilesResponseBodyItemType;
   path: string;
-  size?: number;
+  size?: number | undefined;
   /** Not defined for directories */
-  xetHash?: string;
-  mtime?: string;
+  xetHash?: string | undefined;
+  mtime?: string | undefined;
   /** Sub-millisecond remainder of mtime, in nanoseconds (0-999_999) */
-  mtimeNanos?: number;
+  mtimeNanos?: number | undefined;
   uploadedAt: string;
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export type ListFilesResponseBodyList = Array<ListFilesResponseBodyItem>;
 export type ListFilesResponse = ListFilesResponseBodyList;
 export interface ListNamespaceBucketsRequest {
   namespace: string;
-  search?: string;
+  search?: string | undefined;
 }
 export type ListNamespaceBucketsResponseBodyItemRepoType = "bucket" | "container";
 export type ListNamespaceBucketsResponseBodyItemAdminTagsList = Array<string>;
@@ -319,9 +319,9 @@ export interface ListNamespaceBucketsResponseBodyItem {
   _id: string;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -330,10 +330,10 @@ export interface ListNamespaceBucketsResponseBodyItem {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: ListNamespaceBucketsResponseBodyItemRepoType;
-  adminTags?: ListNamespaceBucketsResponseBodyItemAdminTagsList;
-  disabled?: GetBucketDetailsResponseDisabled;
+  adminTags?: ListNamespaceBucketsResponseBodyItemAdminTagsList | undefined;
+  disabled?: GetBucketDetailsResponseDisabled | undefined;
   cdnRegions: ListNamespaceBucketsResponseBodyItemCdnRegionsList;
-  resourceGroup?: GetBucketDetailsResponseResourceGroup;
+  resourceGroup?: GetBucketDetailsResponseResourceGroup | undefined;
 }
 export type ListNamespaceBucketsResponseBodyList = Array<ListNamespaceBucketsResponseBodyItem>;
 export type ListNamespaceBucketsResponse = ListNamespaceBucketsResponseBodyList;
@@ -348,14 +348,14 @@ export type ListPathsInfoResponseBodyItemType = "file" | "directory";
 export interface ListPathsInfoResponseBodyItem {
   type: ListPathsInfoResponseBodyItemType;
   path: string;
-  size?: number;
+  size?: number | undefined;
   /** Not defined for directories */
-  xetHash?: string;
-  mtime?: string;
+  xetHash?: string | undefined;
+  mtime?: string | undefined;
   /** Sub-millisecond remainder of mtime, in nanoseconds (0-999_999) */
-  mtimeNanos?: number;
+  mtimeNanos?: number | undefined;
   uploadedAt: string;
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export type ListPathsInfoResponseBodyList = Array<ListPathsInfoResponseBodyItem>;
 export type ListPathsInfoResponse = ListPathsInfoResponseBodyList;
@@ -370,8 +370,8 @@ export type UpdateBucketSettingsRequestCdnRegionsList =
 export interface UpdateBucketSettingsRequest {
   namespace: string;
   repo: string;
-  private?: unknown;
-  cdnRegions?: UpdateBucketSettingsRequestCdnRegionsList;
+  private?: unknown | undefined;
+  cdnRegions?: UpdateBucketSettingsRequestCdnRegionsList | undefined;
 }
 export type UpdateBucketSettingsResponseCdnRegionsItemProvider = "gcp" | "aws";
 export type UpdateBucketSettingsResponseCdnRegionsItemRegion = "us" | "eu";
@@ -382,8 +382,8 @@ export interface UpdateBucketSettingsResponseCdnRegionsItem {
 export type UpdateBucketSettingsResponseCdnRegionsList =
   Array<UpdateBucketSettingsResponseCdnRegionsItem>;
 export interface UpdateBucketSettingsResponse {
-  private?: boolean;
-  cdnRegions?: UpdateBucketSettingsResponseCdnRegionsList;
+  private?: boolean | undefined;
+  cdnRegions?: UpdateBucketSettingsResponseCdnRegionsList | undefined;
 }
 export interface XetReadTokenRequest {
   namespace: string;

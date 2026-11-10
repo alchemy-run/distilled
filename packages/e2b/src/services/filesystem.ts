@@ -35,18 +35,18 @@ export class SandboxNotRunning
   ) {}
 
 export interface CreateWatcherRequest {
-  path?: string;
-  recursive?: boolean;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
   /** If true, each FilesystemEvent includes the EntryInfo of the affected entry, when available. */
-  includeEntry?: boolean;
+  includeEntry?: boolean | undefined;
   /** If true, allows watching paths on network filesystem mounts (NFS, CIFS, SMB, FUSE). Events on network mounts may be unreliable or not delivered at all. */
-  allowNetworkMounts?: boolean;
+  allowNetworkMounts?: boolean | undefined;
 }
 export interface CreateWatcherResponse {
   watcherId: string;
 }
 export interface GetWatcherEventsRequest {
-  watcherId?: string;
+  watcherId?: string | undefined;
 }
 export type EventType =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -70,9 +70,9 @@ export interface EntryInfo {
   permissions: string;
   owner: string;
   group: string;
-  modifiedTime?: string;
+  modifiedTime?: string | undefined;
   /** If the entry is a symlink, this field contains the target of the symlink. */
-  symlinkTarget?: string;
+  symlinkTarget?: string | undefined;
   /** User-defined metadata stored as extended attributes (xattrs) on the file. Keys live under the `user.e2b.` xattr namespace; the prefix is stripped here. Plain `user.*` xattrs written by other tooling are not reflected. */
   metadata: StringMap;
   /** True when the entry itself is a symlink; type then describes the symlink's target. */
@@ -82,46 +82,46 @@ export interface FilesystemEvent {
   name: string;
   type: EventType;
   /** Info of the entry that triggered the event. Only populated when include_entry was requested and the entry could be stat-ed (e.g. not set for remove/rename-away events, where the entry no longer exists at this path). */
-  entry?: EntryInfo;
+  entry?: EntryInfo | undefined;
 }
 export type FilesystemEventList = Array<FilesystemEvent>;
 export interface GetWatcherEventsResponse {
   events: FilesystemEventList;
 }
 export interface ListDirRequest {
-  path?: string;
-  depth?: number;
+  path?: string | undefined;
+  depth?: number | undefined;
 }
 export type EntryInfoList = Array<EntryInfo>;
 export interface ListDirResponse {
   entries: EntryInfoList;
 }
 export interface MakeDirRequest {
-  path?: string;
+  path?: string | undefined;
 }
 export interface MakeDirResponse {
-  entry?: EntryInfo;
+  entry?: EntryInfo | undefined;
 }
 export interface MoveRequest {
-  source?: string;
-  destination?: string;
+  source?: string | undefined;
+  destination?: string | undefined;
 }
 export interface MoveResponse {
-  entry?: EntryInfo;
+  entry?: EntryInfo | undefined;
 }
 export interface RemoveRequest {
-  path?: string;
+  path?: string | undefined;
 }
 export interface RemoveResponse {}
 export interface RemoveWatcherRequest {
-  watcherId?: string;
+  watcherId?: string | undefined;
 }
 export interface RemoveWatcherResponse {}
 export interface StatRequest {
-  path?: string;
+  path?: string | undefined;
 }
 export interface StatResponse {
-  entry?: EntryInfo;
+  entry?: EntryInfo | undefined;
 }
 export type CreateWatcherError = SandboxNotRunning | E2BOpError;
 /** Non-streaming versions of WatchDir */

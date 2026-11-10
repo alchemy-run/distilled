@@ -46,33 +46,33 @@ export interface CreateDataQualityCheckRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional identifier-safe handle, unique per project. Omit to address the check by id. */
-  name?: string;
+  name?: string | undefined;
   /** Why this check exists and what a failure means. */
-  description?: string;
+  description?: string | undefined;
   /** Kind of object to check: 'table', 'view', 'metric', or 'posthog_table'. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
   subject_type: SubjectTypeEnum | (string & {});
   /** Id of the table, view, metric, or PostHog table to check. */
   subject_uuid: string;
   /** Column the check applies to. Omit for table-scoped types like row_count. */
-  column_name?: string;
+  column_name?: string | undefined;
   /** Which assertion to make. Determines the shape of config; see /check_types/. * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
   check_type: CheckTypeEnum | (string & {});
   /** Type-specific configuration, validated against the check type's JSON schema. */
-  config?: CreateDataQualityCheckRequestConfigMap;
+  config?: CreateDataQualityCheckRequestConfigMap | undefined;
   /** 'error' failures mark the subject failing and notify; 'warn' failures only surface. * `error` - error * `warn` - warn */
-  severity?: DataQualityCheckSeverityEnum | (string & {});
+  severity?: DataQualityCheckSeverityEnum | (string & {}) | undefined;
   /** Disabled checks are never run by any trigger. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Free-form string labels for grouping and filtering. */
-  tags?: CreateDataQualityCheckRequestTagsList;
+  tags?: CreateDataQualityCheckRequestTagsList | undefined;
   /** Whether a human ('user') or an agent ('ai_generated') authored this check. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum | (string & {});
+  created_source?: CreatedSourceEnum | (string & {}) | undefined;
   /** Model that generated the check, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the check, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** AI author's reasoning, surfaced as review context. */
-  reasoning?: string;
+  reasoning?: string | undefined;
 }
 /** Type-specific configuration, validated against the check type's JSON schema. */
 export type DataQualityCheckCreateConfigMap = { [key: string]: unknown | undefined };
@@ -93,23 +93,23 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** The create body, where the subject is named for the only time in a check's life. */
 export interface DataQualityCheckCreate {
   id: string;
   /** Optional identifier-safe handle, unique per project. Omit to address the check by id. */
-  name?: string;
+  name?: string | undefined;
   /** Why this check exists and what a failure means. */
-  description?: string;
+  description?: string | undefined;
   /** Kind of object to check: 'table', 'view', 'metric', or 'posthog_table'. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
   subject_type: SubjectTypeEnum;
   /** Id of the table, view, metric, or PostHog table to check. */
@@ -119,17 +119,17 @@ export interface DataQualityCheckCreate {
   /** 'orphaned' once the subject stops resolving. Orphaned checks are skipped, not deleted. */
   subject_status: string;
   /** Column the check applies to. Omit for table-scoped types like row_count. */
-  column_name?: string;
+  column_name?: string | undefined;
   /** Which assertion to make. Determines the shape of config; see /check_types/. * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
   check_type: CheckTypeEnum;
   /** Type-specific configuration, validated against the check type's JSON schema. */
-  config?: DataQualityCheckCreateConfigMap;
+  config?: DataQualityCheckCreateConfigMap | undefined;
   /** 'error' failures mark the subject failing and notify; 'warn' failures only surface. * `error` - error * `warn` - warn */
-  severity?: DataQualityCheckSeverityEnum;
+  severity?: DataQualityCheckSeverityEnum | undefined;
   /** Disabled checks are never run by any trigger. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Free-form string labels for grouping and filtering. */
-  tags?: DataQualityCheckCreateTagsList;
+  tags?: DataQualityCheckCreateTagsList | undefined;
   /** Email of the human accountable for this check, or null. */
   owner: string | null;
   /** When the check last executed. */
@@ -143,13 +143,13 @@ export interface DataQualityCheckCreate {
   /** sha256 of the subject, type, column, and config. Re-creating the same check upserts. */
   fingerprint: string;
   /** Whether a human ('user') or an agent ('ai_generated') authored this check. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum;
+  created_source?: CreatedSourceEnum | undefined;
   /** Model that generated the check, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the check, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** AI author's reasoning, surfaced as review context. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** User who first created this check. */
   created_by: UserBasic;
   created_at: string;
@@ -203,9 +203,9 @@ export type DataQualityCheckTagsList = Array<string>;
 export interface DataQualityCheck {
   id: string;
   /** Optional identifier-safe handle, unique per project. Omit to address the check by id. */
-  name?: string;
+  name?: string | undefined;
   /** Why this check exists and what a failure means. */
-  description?: string;
+  description?: string | undefined;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
   subject_type: SubjectTypeEnum;
   /** Id of the table, view, metric, or PostHog table being checked. Null once the subject is deleted. */
@@ -215,17 +215,17 @@ export interface DataQualityCheck {
   /** 'orphaned' once the subject stops resolving. Orphaned checks are skipped, not deleted. */
   subject_status: string;
   /** Column the check applies to. Omit for table-scoped types like row_count. */
-  column_name?: string;
+  column_name?: string | undefined;
   /** Which assertion to make. Determines the shape of config; see /check_types/. * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
   check_type: CheckTypeEnum;
   /** Type-specific configuration, validated against the check type's JSON schema. */
-  config?: DataQualityCheckConfigMap;
+  config?: DataQualityCheckConfigMap | undefined;
   /** 'error' failures mark the subject failing and notify; 'warn' failures only surface. * `error` - error * `warn` - warn */
-  severity?: DataQualityCheckSeverityEnum;
+  severity?: DataQualityCheckSeverityEnum | undefined;
   /** Disabled checks are never run by any trigger. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Free-form string labels for grouping and filtering. */
-  tags?: DataQualityCheckTagsList;
+  tags?: DataQualityCheckTagsList | undefined;
   /** Email of the human accountable for this check, or null. */
   owner: string | null;
   /** When the check last executed. */
@@ -239,13 +239,13 @@ export interface DataQualityCheck {
   /** sha256 of the subject, type, column, and config. Re-creating the same check upserts. */
   fingerprint: string;
   /** Whether a human ('user') or an agent ('ai_generated') authored this check. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum;
+  created_source?: CreatedSourceEnum | undefined;
   /** Model that generated the check, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the check, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** AI author's reasoning, surfaced as review context. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** User who first created this check. */
   created_by: UserBasic;
   created_at: string;
@@ -260,9 +260,9 @@ export interface GetDataQualityChecksOutputSchemaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. */
-  subject_type?: GetDataQualityChecksOutputSchemaRequestSubjectType | (string & {});
+  subject_type?: GetDataQualityChecksOutputSchemaRequestSubjectType | (string & {}) | undefined;
   /** Id of the table, view, metric, or PostHog table. */
-  subject_uuid?: string;
+  subject_uuid?: string | undefined;
 }
 export interface DataQualityOutputColumn {
   /** Output column name available through the {metric} relation. */
@@ -285,9 +285,9 @@ export interface GetDataQualityChecksScheduleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. */
-  subject_type?: GetDataQualityChecksScheduleRequestSubjectType | (string & {});
+  subject_type?: GetDataQualityChecksScheduleRequestSubjectType | (string & {}) | undefined;
   /** Id of the table, view, metric, or PostHog table. */
-  subject_uuid?: string;
+  subject_uuid?: string | undefined;
 }
 /** * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day */
 export type DataQualityScheduleIntervalEnum = "1hour" | "6hour" | "12hour" | "24hour" | "7day";
@@ -318,15 +318,15 @@ export interface ListDataQualityChecksRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only the checks that make this assertion. See /check_types/. */
-  check_type?: ListDataQualityChecksRequestCheckType | (string & {});
+  check_type?: ListDataQualityChecksRequestCheckType | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. */
-  subject_type?: ListDataQualityChecksRequestSubjectType | (string & {});
+  subject_type?: ListDataQualityChecksRequestSubjectType | (string & {}) | undefined;
   /** Id of the table, view, metric, or PostHog table. */
-  subject_uuid?: string;
+  subject_uuid?: string | undefined;
 }
 /** Type-specific configuration, validated against the check type's JSON schema. */
 export type DataQualityOverviewCheckConfigMap = { [key: string]: unknown | undefined };
@@ -336,9 +336,9 @@ export type DataQualityOverviewCheckTagsList = Array<string>;
 export interface DataQualityOverviewCheck {
   id: string;
   /** Optional identifier-safe handle, unique per project. Omit to address the check by id. */
-  name?: string;
+  name?: string | undefined;
   /** Why this check exists and what a failure means. */
-  description?: string;
+  description?: string | undefined;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
   subject_type: SubjectTypeEnum;
   /** Id of the table, view, metric, or PostHog table being checked. Null once the subject is deleted. */
@@ -348,17 +348,17 @@ export interface DataQualityOverviewCheck {
   /** 'orphaned' once the subject stops resolving. Orphaned checks are skipped, not deleted. */
   subject_status: string;
   /** Column the check applies to. Omit for table-scoped types like row_count. */
-  column_name?: string;
+  column_name?: string | undefined;
   /** Which assertion to make. Determines the shape of config; see /check_types/. * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
   check_type: CheckTypeEnum;
   /** Type-specific configuration, validated against the check type's JSON schema. */
-  config?: DataQualityOverviewCheckConfigMap;
+  config?: DataQualityOverviewCheckConfigMap | undefined;
   /** 'error' failures mark the subject failing and notify; 'warn' failures only surface. * `error` - error * `warn` - warn */
-  severity?: DataQualityCheckSeverityEnum;
+  severity?: DataQualityCheckSeverityEnum | undefined;
   /** Disabled checks are never run by any trigger. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Free-form string labels for grouping and filtering. */
-  tags?: DataQualityOverviewCheckTagsList;
+  tags?: DataQualityOverviewCheckTagsList | undefined;
   /** Email of the human accountable for this check, or null. */
   owner: string | null;
   /** When the check last executed. */
@@ -372,13 +372,13 @@ export interface DataQualityOverviewCheck {
   /** sha256 of the subject, type, column, and config. Re-creating the same check upserts. */
   fingerprint: string;
   /** Whether a human ('user') or an agent ('ai_generated') authored this check. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum;
+  created_source?: CreatedSourceEnum | undefined;
   /** Model that generated the check, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the check, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** AI author's reasoning, surfaced as review context. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** User who first created this check. */
   created_by: UserBasic;
   created_at: string;
@@ -395,8 +395,8 @@ export interface DataQualityOverviewCheck {
 export type PaginatedDataQualityOverviewCheckListResultsList = Array<DataQualityOverviewCheck>;
 export interface PaginatedDataQualityOverviewCheckList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataQualityOverviewCheckListResultsList;
 }
 export type ListDataQualityChecksCheckTypesRequestSubjectType =
@@ -408,7 +408,7 @@ export interface ListDataQualityChecksCheckTypesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. */
-  subject_type?: ListDataQualityChecksCheckTypesRequestSubjectType | (string & {});
+  subject_type?: ListDataQualityChecksCheckTypesRequestSubjectType | (string & {}) | undefined;
 }
 /** JSON schema the config object is validated against. */
 export type DataQualityCheckTypeConfigSchemaMap = { [key: string]: unknown | undefined };
@@ -435,9 +435,9 @@ export interface ListDataQualityChecksHealthRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. */
-  subject_type?: ListDataQualityChecksHealthRequestSubjectType | (string & {});
+  subject_type?: ListDataQualityChecksHealthRequestSubjectType | (string & {}) | undefined;
   /** Id of the table, view, metric, or PostHog table. */
-  subject_uuid?: string;
+  subject_uuid?: string | undefined;
 }
 /** Per-subject rollup, the same rule the information_schema.data_quality_health table uses. */
 export interface DataQualitySubjectHealth {
@@ -547,15 +547,15 @@ export interface ListDataQualityChecksSubjectsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Set to false to return an empty columns map for every subject. Use it to find a subject id without reading every column schema. */
-  include_columns?: boolean;
+  include_columns?: boolean | undefined;
   /** Maximum number of subjects to return. Omit to return every match. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of matching subjects to skip. Subjects are sorted by subject_type, then name. When a response has limit rows, call again with offset increased by limit to read the next page. */
-  offset?: number;
+  offset?: number | undefined;
   /** Return only subjects whose name or display name contains this text, ignoring case. */
-  search?: string;
+  search?: string | undefined;
   /** Return only subjects of this kind: 'table', 'view', 'metric', or 'posthog_table'. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
-  subject_type?: ListDataQualityChecksSubjectsRequestSubjectType | (string & {});
+  subject_type?: ListDataQualityChecksSubjectsRequestSubjectType | (string & {}) | undefined;
 }
 /** Column name to ClickHouse type. Empty for a metric, and for a view that has not run yet. */
 export type DataQualitySubjectColumnsMap = { [key: string]: string | undefined };
@@ -588,29 +588,29 @@ export interface UpdateDataQualityCheckRequest {
   /** A UUID string identifying this data quality check. */
   id: string;
   /** Optional identifier-safe handle, unique per project. Omit to address the check by id. */
-  name?: string;
+  name?: string | undefined;
   /** Why this check exists and what a failure means. */
-  description?: string;
+  description?: string | undefined;
   /** Column the check applies to. Omit for table-scoped types like row_count. */
-  column_name?: string;
+  column_name?: string | undefined;
   /** Which assertion to make. Determines the shape of config; see /check_types/. * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
   check_type: CheckTypeEnum | (string & {});
   /** Type-specific configuration, validated against the check type's JSON schema. */
-  config?: UpdateDataQualityCheckRequestConfigMap;
+  config?: UpdateDataQualityCheckRequestConfigMap | undefined;
   /** 'error' failures mark the subject failing and notify; 'warn' failures only surface. * `error` - error * `warn` - warn */
-  severity?: DataQualityCheckSeverityEnum | (string & {});
+  severity?: DataQualityCheckSeverityEnum | (string & {}) | undefined;
   /** Disabled checks are never run by any trigger. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Free-form string labels for grouping and filtering. */
-  tags?: UpdateDataQualityCheckRequestTagsList;
+  tags?: UpdateDataQualityCheckRequestTagsList | undefined;
   /** Whether a human ('user') or an agent ('ai_generated') authored this check. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum | (string & {});
+  created_source?: CreatedSourceEnum | (string & {}) | undefined;
   /** Model that generated the check, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the check, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** AI author's reasoning, surfaced as review context. */
-  reasoning?: string;
+  reasoning?: string | undefined;
 }
 /** Type-specific configuration, validated against the check type's JSON schema. */
 export type UpdateDataQualityChecksPartialRequestConfigMap = { [key: string]: unknown | undefined };
@@ -622,41 +622,41 @@ export interface UpdateDataQualityChecksPartialRequest {
   /** A UUID string identifying this data quality check. */
   id: string;
   /** Optional identifier-safe handle, unique per project. Omit to address the check by id. */
-  name?: string;
+  name?: string | undefined;
   /** Why this check exists and what a failure means. */
-  description?: string;
+  description?: string | undefined;
   /** Column the check applies to. Omit for table-scoped types like row_count. */
-  column_name?: string;
+  column_name?: string | undefined;
   /** Which assertion to make. Determines the shape of config; see /check_types/. * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
-  check_type?: CheckTypeEnum | (string & {});
+  check_type?: CheckTypeEnum | (string & {}) | undefined;
   /** Type-specific configuration, validated against the check type's JSON schema. */
-  config?: UpdateDataQualityChecksPartialRequestConfigMap;
+  config?: UpdateDataQualityChecksPartialRequestConfigMap | undefined;
   /** 'error' failures mark the subject failing and notify; 'warn' failures only surface. * `error` - error * `warn` - warn */
-  severity?: DataQualityCheckSeverityEnum | (string & {});
+  severity?: DataQualityCheckSeverityEnum | (string & {}) | undefined;
   /** Disabled checks are never run by any trigger. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Free-form string labels for grouping and filtering. */
-  tags?: UpdateDataQualityChecksPartialRequestTagsList;
+  tags?: UpdateDataQualityChecksPartialRequestTagsList | undefined;
   /** Whether a human ('user') or an agent ('ai_generated') authored this check. * `user` - user * `ai_generated` - ai_generated */
-  created_source?: CreatedSourceEnum | (string & {});
+  created_source?: CreatedSourceEnum | (string & {}) | undefined;
   /** Model that generated the check, if AI-authored. */
-  ai_model?: string;
+  ai_model?: string | undefined;
   /** AI author's confidence in the check, 0-1. */
-  confidence?: number | null;
+  confidence?: number | null | undefined;
   /** AI author's reasoning, surfaced as review context. */
-  reasoning?: string;
+  reasoning?: string | undefined;
 }
 export interface UpdateDataQualityChecksSchedulePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Kind of object: 'table', 'view', 'metric', or 'posthog_table'. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
-  subject_type?: SubjectTypeEnum | (string & {});
+  subject_type?: SubjectTypeEnum | (string & {}) | undefined;
   /** Id of the table, view, metric, or PostHog table. */
-  subject_uuid?: string;
+  subject_uuid?: string | undefined;
   /** How often all enabled checks on the subject run. * `1hour` - 1hour * `6hour` - 6hour * `12hour` - 12hour * `24hour` - 24hour * `7day` - 7day */
-  interval?: DataQualityScheduleIntervalEnum | (string & {});
+  interval?: DataQualityScheduleIntervalEnum | (string & {}) | undefined;
   /** Whether checks run automatically on this schedule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type CreateDataQualityCheckError = PosthogOpError;
 /** Create a check on the table, view or metric named by subject_type and subject_uuid, or refine the one already carrying the same fingerprint. Re-creating a semantically identical check returns 200 and the existing row, never a duplicate. */

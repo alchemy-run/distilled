@@ -31,11 +31,11 @@ export interface CreateItemRequest {
   /** ID of the List to add the item to. */
   list_id: string;
   /** ID of the record to make a copy of. */
-  duplicated_item_id?: string;
+  duplicated_item_id?: string | undefined;
   /** ID of the parent record for this subtask. */
-  parent_item_id?: string;
+  parent_item_id?: string | undefined;
   /** Initial item data. */
-  initial_fields?: CreateItemRequestInitialFieldsList;
+  initial_fields?: CreateItemRequestInitialFieldsList | undefined;
 }
 export interface CreateItemResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -50,15 +50,15 @@ export interface CreateSlackListRequest {
   /** Name of the List. */
   name: string;
   /** A rich text description of the List. */
-  description_blocks?: CreateSlackListRequestDescriptionBlocksList;
+  description_blocks?: CreateSlackListRequestDescriptionBlocksList | undefined;
   /** Column definition for the List. */
-  schema?: CreateSlackListRequestSchemaList;
+  schema?: CreateSlackListRequestSchemaList | undefined;
   /** ID of the List to copy. */
-  copy_from_list_id?: string;
+  copy_from_list_id?: string | undefined;
   /** Boolean indicating whether to include records when a List is copied. */
-  include_copied_list_records?: boolean;
+  include_copied_list_records?: boolean | undefined;
   /** Boolean indicating whether the List should be used to track todo tasks. */
-  todo_mode?: boolean;
+  todo_mode?: boolean | undefined;
 }
 export interface CreateSlackListResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -66,7 +66,7 @@ export interface CreateSlackListResponse {
   /** The ID of the List created. */
   list_id: string;
   /** The metadata of the List created. */
-  list_metadata?: unknown;
+  list_metadata?: unknown | undefined;
 }
 /** List of channels you wish to update access for. Can only be used if `user_ids` is not provided. */
 export type DeleteAccessRequestChannelIdsList = Array<string>;
@@ -76,9 +76,9 @@ export interface DeleteAccessRequest {
   /** Encoded ID of the List. */
   list_id: string;
   /** List of channels you wish to update access for. Can only be used if `user_ids` is not provided. */
-  channel_ids?: DeleteAccessRequestChannelIdsList;
+  channel_ids?: DeleteAccessRequestChannelIdsList | undefined;
   /** List of users you wish to update access for. Can only be used if `channel_ids` is not provided. */
-  user_ids?: DeleteAccessRequestUserIdsList;
+  user_ids?: DeleteAccessRequestUserIdsList | undefined;
 }
 /** The channel IDs that could not be updated. */
 export type DeleteAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -88,9 +88,9 @@ export interface DeleteAccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The channel IDs that could not be updated. */
-  failed_to_update_channel_ids?: DeleteAccessResponseFailedToUpdateChannelIdsList;
+  failed_to_update_channel_ids?: DeleteAccessResponseFailedToUpdateChannelIdsList | undefined;
   /** The user IDs that could not be updated. */
-  failed_to_update_user_ids?: DeleteAccessResponseFailedToUpdateUserIdsList;
+  failed_to_update_user_ids?: DeleteAccessResponseFailedToUpdateUserIdsList | undefined;
 }
 export interface DeleteItemRequest {
   /** ID of the List containing the item. */
@@ -118,13 +118,13 @@ export interface DownloadGetRequest {
   /** The ID of the recently started job to export the List. */
   job_id: string;
   /** Format the export was started with. Must match the `format` passed to `slackLists.download.start`. Defaults to `csv`. */
-  format?: string;
+  format?: string | undefined;
   /** Must match the `include_threads` passed to `slackLists.download.start`. The returned `download_url` carries this through so the served export matches what was generated. Only applies when `format` is `json`. */
-  include_threads?: boolean;
+  include_threads?: boolean | undefined;
   /** Must match the `include_attachments` passed to `slackLists.download.start`. The returned `download_url` carries this through so the served export matches what was generated. Only applies when `format` is `json`. */
-  include_attachments?: boolean;
+  include_attachments?: boolean | undefined;
   /** Must match the `include_archived` passed to `slackLists.download.start`. The returned `download_url` carries this through so the served export includes archived items when they were requested. */
-  include_archived?: boolean;
+  include_archived?: boolean | undefined;
 }
 export interface DownloadGetResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -132,18 +132,18 @@ export interface DownloadGetResponse {
   /** Current status of the export job. */
   status: unknown;
   /** The URL at which to download the CSV. */
-  download_url?: string;
+  download_url?: string | undefined;
 }
 export interface DownloadStartRequest {
   /** ID of the List to export. */
   list_id: string;
-  include_archived?: boolean;
+  include_archived?: boolean | undefined;
   /** Format of the export. Defaults to `csv` for backward compatibility. Use `json` for a complete, hierarchical export. */
-  format?: string;
+  format?: string | undefined;
   /** Include each item's conversation thread in the export. Only applies when `format` is `json`. */
-  include_threads?: boolean;
+  include_threads?: boolean | undefined;
   /** Include file attachment metadata and access paths in the export. Only applies when `format` is `json`. */
-  include_attachments?: boolean;
+  include_attachments?: boolean | undefined;
 }
 export interface DownloadStartResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -157,7 +157,7 @@ export interface ItemsInfoRequest {
   /** ID of the row to get. */
   id: string;
   /** Set to `true` to include `is_subscribed` data for the returned List row. */
-  include_is_subscribed?: boolean;
+  include_is_subscribed?: boolean | undefined;
 }
 export type ItemsInfoResponseSubtasksList = Array<unknown>;
 export interface ItemsInfoResponse {
@@ -165,35 +165,35 @@ export interface ItemsInfoResponse {
   ok: boolean;
   list: unknown;
   record: unknown;
-  parent_task?: unknown;
-  subtasks?: ItemsInfoResponseSubtasksList;
+  parent_task?: unknown | undefined;
+  subtasks?: ItemsInfoResponseSubtasksList | undefined;
 }
 export interface ListItemsRequest {
   /** ID of the List. */
   list_id: string;
   /** The maximum number of records to return, up to the list row limit of 5000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Next cursor for pagination. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Boolean indicating whether archived items or normal items should be returned. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Set to `true` to also return the parent `list` object, including its title, column schema, and total row count. Defaults to `false` to keep the response small. */
-  include_list?: boolean;
+  include_list?: boolean | undefined;
 }
 export type ListItemsResponseItemsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListItemsResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListItemsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   items: ListItemsResponseItemsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListItemsResponseResponseMetadata;
+  response_metadata?: ListItemsResponseResponseMetadata | undefined;
   /** The parent list. Only returned when `include_list` is `true`. `list_limits` carries `row_count` and no other key: the number of items matching this request's `archived` value, counting Slack-suggested items that `items` itself does not return, so it can exceed the number of items you can page through. Sharing and access fields (`channels`, `groups`, `ims`, `access`) are omitted; call `files.info` if you need those or the full set of list limits. */
-  list?: unknown;
+  list?: unknown | undefined;
 }
 /** List of channels you wish to update access for. Can only be used if `user_ids` is not provided. */
 export type SetAccessRequestChannelIdsList = Array<string>;
@@ -205,9 +205,9 @@ export interface SetAccessRequest {
   /** Desired level of access. */
   access_level: string;
   /** List of channels you wish to update access for. Can only be used if `user_ids` is not provided. */
-  channel_ids?: SetAccessRequestChannelIdsList;
+  channel_ids?: SetAccessRequestChannelIdsList | undefined;
   /** List of users you wish to update access for. Can only be used if `channel_ids` is not provided. */
-  user_ids?: SetAccessRequestUserIdsList;
+  user_ids?: SetAccessRequestUserIdsList | undefined;
 }
 /** The channel IDs that could not be updated. */
 export type SetAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -217,9 +217,9 @@ export interface SetAccessResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The channel IDs that could not be updated. */
-  failed_to_update_channel_ids?: SetAccessResponseFailedToUpdateChannelIdsList;
+  failed_to_update_channel_ids?: SetAccessResponseFailedToUpdateChannelIdsList | undefined;
   /** The user IDs that could not be updated. */
-  failed_to_update_user_ids?: SetAccessResponseFailedToUpdateUserIdsList;
+  failed_to_update_user_ids?: SetAccessResponseFailedToUpdateUserIdsList | undefined;
 }
 /** Cells to update. */
 export type UpdateItemRequestCellsList = Array<unknown>;
@@ -239,11 +239,11 @@ export interface UpdateSlackListRequest {
   /** The ID of the List to update. */
   id: string;
   /** The updated name of the List. */
-  name?: string;
+  name?: string | undefined;
   /** A rich text description of the List. */
-  description_blocks?: UpdateSlackListRequestDescriptionBlocksList;
+  description_blocks?: UpdateSlackListRequestDescriptionBlocksList | undefined;
   /** Boolean indicating whether the List should be in todo mode. */
-  todo_mode?: boolean;
+  todo_mode?: boolean | undefined;
 }
 export interface UpdateSlackListResponse {
   /** Always `true` (a failed call raises a typed error instead). */

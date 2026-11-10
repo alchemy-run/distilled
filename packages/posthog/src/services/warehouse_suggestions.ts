@@ -31,11 +31,11 @@ export interface CreateWarehouseSuggestionsDismissRequest {
   project_id: string;
   id: string;
   /** Page the decision was made on. Only recorded on the analytics event. * `models` - Models * `catalog` - Data catalog */
-  surface?: CreateWarehouseSuggestionsDismissRequestSurface | (string & {});
+  surface?: CreateWarehouseSuggestionsDismissRequestSurface | (string & {}) | undefined;
   /** Why the suggestion is dismissed. * `not_useful` - Not useful * `not_now` - Not now * `other` - Other */
   reason: WarehouseSuggestionDismissalReasonEnum | (string & {});
   /** Optional note about the dismissal. */
-  note?: string;
+  note?: string | undefined;
 }
 export interface WarehouseSuggestionCertifyPayload {
   /** Name of the view or table to certify. */
@@ -49,7 +49,7 @@ export interface WarehouseSuggestionDeprecatePayload {
   /** Bytes its refreshes read in a month. */
   refresh_bytes_per_month: number;
   /** Whether the view is materialized. A plain view has no refreshes, so both refresh costs are 0. */
-  materialized?: boolean;
+  materialized?: boolean | undefined;
 }
 /** Names of the sources the caller may see. */
 export type WarehouseSuggestionVisibleSourcesNamesList = Array<string>;
@@ -96,19 +96,19 @@ export interface WarehouseSuggestionMaterializePayload {
   /** How old the data can be once materialized, in seconds. */
   freshness_after_seconds: number;
   /** Output column whose advancing value marks new rows. A proposal only uses a date or datetime column the query groups by. Null for a full refresh. */
-  incremental_key?: string | null;
+  incremental_key?: string | null | undefined;
   /** Output columns that identify a row, so a refresh updates rows instead of adding duplicates. Empty for a full refresh. */
-  unique_key?: WarehouseSuggestionMaterializePayloadUniqueKeyList;
+  unique_key?: WarehouseSuggestionMaterializePayloadUniqueKeyList | undefined;
   /** How far before the last refresh's highest incremental_key value each refresh reads again, in seconds. The last incremental_key value is always read again. */
-  lookback_seconds?: number;
+  lookback_seconds?: number | undefined;
   /** How many materialized views compute this view again on every refresh, because it is not stored. 0 when the saving comes only from people's reads. */
-  recomputed_by_views?: number;
+  recomputed_by_views?: number | undefined;
   /** Part of saves_seconds_per_month that people, agents and API callers spend waiting on reads of this view, in seconds. Null on suggestions made before this was recorded. */
-  waiting_seconds_saved_per_month?: number | null;
+  waiting_seconds_saved_per_month?: number | null | undefined;
   /** Part of saves_seconds_per_month that background refreshes spend, in seconds. Negative when refreshing the stored copy costs more background time than it saves. Null on suggestions made before this was recorded. */
-  background_seconds_saved_per_month?: number | null;
+  background_seconds_saved_per_month?: number | null | undefined;
   /** How long one read of the view takes today, in seconds. Null when no read was measured on its own. */
-  read_seconds?: number | null;
+  read_seconds?: number | null | undefined;
 }
 export interface WarehouseSuggestionUnmaterializePayload {
   /** Name of the rarely read materialized view to turn back into a plain view. */
@@ -133,19 +133,19 @@ export type WarehouseSuggestionPayload =
 export type WarehouseSuggestionEvidenceRequestsBySurfaceMap = { [key: string]: number | undefined };
 export interface WarehouseSuggestionEvidence {
   /** Days of the 30-day usage window that PostHog has read history for. It counts days with reads in any project, so it shows how much history exists, not how active this project is. */
-  days_with_data?: number;
+  days_with_data?: number | undefined;
   /** Queries people ran that read the subject in the usage window. */
-  human_requests?: number;
+  human_requests?: number | undefined;
   /** Distinct people who ran those queries. */
-  human_users?: number;
+  human_users?: number | undefined;
   /** Days on which people read the subject. */
-  human_days?: number;
+  human_days?: number | undefined;
   /** Queries PostHog ran on its own that read the subject, such as cache warming and alerts. */
-  background_requests?: number;
+  background_requests?: number | undefined;
   /** Queries people ran per place they ran them, such as sql_editor, dashboard, insight or mcp. */
-  requests_by_surface?: WarehouseSuggestionEvidenceRequestsBySurfaceMap;
+  requests_by_surface?: WarehouseSuggestionEvidenceRequestsBySurfaceMap | undefined;
   /** When any query last read the subject, including queries PostHog ran on its own. */
-  last_read_at?: string;
+  last_read_at?: string | undefined;
 }
 /** What accepting this suggestion created. Null until accepted. */
 export type WarehouseSuggestionCreatedAssetMap = { [key: string]: unknown | undefined };
@@ -216,9 +216,9 @@ export interface WarehouseSuggestion {
   /** Whether the caller has edit access to the subject and so may accept, dismiss or resume. */
   can_act: boolean;
   /** Warehouse source that syncs the subject table, for linking to its schema page. Null for views and for tables no source syncs. */
-  subject_source_id?: string | null;
+  subject_source_id?: string | null | undefined;
   /** Source schema that syncs the subject table, for linking to its schema page. Null for views and for tables no source syncs. */
-  subject_schema_id?: string | null;
+  subject_schema_id?: string | null | undefined;
 }
 export interface GetWarehouseSuggestionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -258,23 +258,23 @@ export interface ListWarehouseSuggestionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return suggestions assigned to the user with this ID. */
-  assignee_id?: number;
+  assignee_id?: number | undefined;
   /** Only return suggestions of this kind. * `certify` - Certify * `deprecate` - Deprecate * `materialize` - Materialize * `unmaterialize` - Unmaterialize */
-  kind?: ListWarehouseSuggestionsRequestKind | (string & {});
+  kind?: ListWarehouseSuggestionsRequestKind | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return suggestions in this status. * `proposed` - Proposed * `accepted` - Accepted * `dismissed` - Dismissed * `expired` - Expired * `auto_resolved` - Auto-resolved */
-  status?: ListWarehouseSuggestionsRequestStatus | (string & {});
+  status?: ListWarehouseSuggestionsRequestStatus | (string & {}) | undefined;
   /** Only return suggestions about the view or table with this ID. */
-  subject_id?: string;
+  subject_id?: string | undefined;
 }
 export type PaginatedWarehouseSuggestionListResultsList = Array<WarehouseSuggestion>;
 export interface PaginatedWarehouseSuggestionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWarehouseSuggestionListResultsList;
 }
 export type WarehouseSuggestionsAcceptCreateRequestSurface = "models" | "catalog";
@@ -285,21 +285,21 @@ export interface WarehouseSuggestionsAcceptCreateRequest {
   project_id: string;
   id: string;
   /** Page the decision was made on. Only recorded on the analytics event. * `models` - Models * `catalog` - Data catalog */
-  surface?: WarehouseSuggestionsAcceptCreateRequestSurface | (string & {});
+  surface?: WarehouseSuggestionsAcceptCreateRequestSurface | (string & {}) | undefined;
   /** Materialize only: refresh interval to use instead of the proposed one, in seconds. Omit to keep the proposed interval. */
-  refresh_interval_seconds?: number;
+  refresh_interval_seconds?: number | undefined;
   /** Materialize only: incremental or full, instead of the proposed refresh_mode. Omit to keep the proposed one. Switching to incremental needs incremental_key and unique_key when the payload has none. * `full` - Full * `incremental` - Incremental */
-  refresh_mode?: WarehouseSuggestionRefreshModeEnum | (string & {});
+  refresh_mode?: WarehouseSuggestionRefreshModeEnum | (string & {}) | undefined;
   /** Materialize only, incremental refresh only: an output column whose value only grows as rows arrive, such as a date, a datetime or an increasing number, instead of the proposed one. view-check-incremental lists the columns that qualify. Omit to keep the proposed key. */
-  incremental_key?: string;
+  incremental_key?: string | undefined;
   /** Materialize only, incremental refresh only: output columns that identify a row, instead of the proposed ones. Must include every GROUP BY column. Omit to keep the proposed key. */
-  unique_key?: WarehouseSuggestionsAcceptCreateRequestUniqueKeyList;
+  unique_key?: WarehouseSuggestionsAcceptCreateRequestUniqueKeyList | undefined;
   /** Materialize only, incremental refresh only: how far before the last refresh's highest incremental_key value each refresh reads again, in seconds, so late rows are picked up. Omit to keep the proposed lookback. */
-  lookback_seconds?: number;
+  lookback_seconds?: number | undefined;
   /** Deprecate only: true to keep a materialized view refreshing after it is deprecated. By default, accepting a deprecate suggestion also stops the view's refreshes and deletes its stored table, unless other views or syncs depend on it. */
-  keep_materialized?: boolean;
+  keep_materialized?: boolean | undefined;
   /** Deprecate only: true to delete the view instead of marking it deprecated. Deleting also drops its stored table and refreshes, and cannot be undone. Refused when another view now reads it, or when it feeds person properties, account properties, a destination or a workflow. Refused with a 400 when any day in the read window has no read data, because a view read only on those days would look unread. */
-  delete_view?: boolean;
+  delete_view?: boolean | undefined;
 }
 export interface WarehouseSuggestionsAssignCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

@@ -30,13 +30,13 @@ export type ObjectSuggestRequestObjectSuggestKind =
   | "OBJECT_SUGGEST_KIND_SERVER";
 export interface ObjectSuggestRequest {
   /** Empty selects the workspace's default environment. */
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Required; UNSPECIFIED is invalid. */
-  kind?: ObjectSuggestRequestObjectSuggestKind | (string & {});
+  kind?: ObjectSuggestRequestObjectSuggestKind | (string & {}) | undefined;
   /** The reference exactly as typed. For Functions and Servers this may be an APP_NAME/OBJECT_NAME reference or a reference with an incorrect separator. */
-  query?: string;
+  query?: string | undefined;
   /** Maximum number of suggestions. Zero defaults to 3; values above 10 are capped at 10. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ObjectSuggestion {
   /** Set for Functions and Servers; empty for Apps. */

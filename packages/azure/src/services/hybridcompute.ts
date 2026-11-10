@@ -43,11 +43,11 @@ export interface DeleteGatewayRequest {
 }
 export interface DeleteGatewayResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -59,9 +59,9 @@ export interface DeleteLicenseRequest {
 }
 export interface DeleteLicenseResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteLicenseProfileRequestLicenseProfileName = "default";
 export interface DeleteLicenseProfileRequest {
@@ -76,11 +76,11 @@ export interface DeleteLicenseProfileRequest {
 }
 export interface DeleteLicenseProfileResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -92,11 +92,11 @@ export interface DeleteMachineRequest {
 }
 export interface DeleteMachineResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMachineExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -110,11 +110,11 @@ export interface DeleteMachineExtensionRequest {
 }
 export interface DeleteMachineExtensionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMachineRunCommandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -128,11 +128,11 @@ export interface DeleteMachineRunCommandRequest {
 }
 export interface DeleteMachineRunCommandResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -146,11 +146,11 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -162,11 +162,11 @@ export interface DeletePrivateLinkScopeRequest {
 }
 export interface DeletePrivateLinkScopeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVmApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -180,9 +180,9 @@ export interface DeleteVmApplicationRequest {
 }
 export interface DeleteVmApplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type GatewaysCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -195,11 +195,11 @@ export type GatewayPropertiesInputGatewayBypassList = Array<string>;
 /** Describes the properties of a Gateway Profile. */
 export interface GatewayPropertiesInput {
   /** The type of the Gateway resource. */
-  gatewayType?: GatewayType | (string & {});
+  gatewayType?: GatewayType | (string & {}) | undefined;
   /** Specifies the list of features that are enabled for this Gateway. */
-  allowedFeatures?: GatewayPropertiesInputAllowedFeaturesList;
+  allowedFeatures?: GatewayPropertiesInputAllowedFeaturesList | undefined;
   /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
-  gatewayBypass?: GatewayPropertiesInputGatewayBypassList;
+  gatewayBypass?: GatewayPropertiesInputGatewayBypassList | undefined;
 }
 export interface GatewaysCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -209,11 +209,11 @@ export interface GatewaysCreateOrUpdateRequest {
   /** The name of the Gateway. */
   gatewayName: string;
   /** Resource tags. */
-  tags?: GatewaysCreateOrUpdateRequestTagsMap;
+  tags?: GatewaysCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Gateway properties */
-  properties?: GatewayPropertiesInput;
+  properties?: GatewayPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -222,17 +222,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GatewaysCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -253,39 +253,39 @@ export type GatewayPropertiesGatewayBypassList = Array<string>;
 /** Describes the properties of a Gateway Profile. */
 export interface GatewayProperties {
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** A unique, immutable, identifier for the Gateway. */
-  gatewayId?: string;
+  gatewayId?: string | undefined;
   /** The type of the Gateway resource. */
-  gatewayType?: GatewayType;
+  gatewayType?: GatewayType | undefined;
   /** The endpoint fqdn for the Gateway. */
-  gatewayEndpoint?: string;
+  gatewayEndpoint?: string | undefined;
   /** Specifies the list of features that are enabled for this Gateway. */
-  allowedFeatures?: GatewayPropertiesAllowedFeaturesList;
+  allowedFeatures?: GatewayPropertiesAllowedFeaturesList | undefined;
   /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
-  gatewayBypass?: GatewayPropertiesGatewayBypassList;
+  gatewayBypass?: GatewayPropertiesGatewayBypassList | undefined;
 }
 export interface GatewaysCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GatewaysCreateOrUpdateResponseTagsMap;
+  tags?: GatewaysCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Gateway properties */
-  properties?: GatewayProperties;
+  properties?: GatewayProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetExtensionMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -302,23 +302,23 @@ export interface GetExtensionMetadataRequest {
 /** Describes Extension Metadata properties */
 export interface ExtensionValueProperties {
   /** The version of the Extension being received. */
-  version?: string;
+  version?: string | undefined;
   /** The type of the Extension being received. */
-  extensionType?: string;
+  extensionType?: string | undefined;
   /** The publisher of the Extension being received. */
-  publisher?: string;
+  publisher?: string | undefined;
 }
 export interface GetExtensionMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The single extension based on search criteria */
-  properties?: ExtensionValueProperties;
+  properties?: ExtensionValueProperties | undefined;
 }
 export interface GetExtensionMetadataV2Request {
   /** The location of the Extension being received. */
@@ -337,31 +337,31 @@ export type ExtensionValueV2PropertiesArchitectureList = Array<string>;
 /** Describes Extension Metadata properties. */
 export interface ExtensionValueV2Properties {
   /** The version of the Extension being received. */
-  version?: string;
+  version?: string | undefined;
   /** The type of the Extension being received. */
-  extensionType?: string;
+  extensionType?: string | undefined;
   /** The publisher of the Extension being received. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** A list of locations where the extension packages can be found. */
-  extensionUris?: ExtensionValueV2PropertiesExtensionUrisList;
+  extensionUris?: ExtensionValueV2PropertiesExtensionUrisList | undefined;
   /** Location of the signature files for the extension. */
-  extensionSignatureUri?: string;
+  extensionSignatureUri?: string | undefined;
   /** The operating system (Windows, Linux, etc.) this extension supports. */
-  operatingSystem?: string;
+  operatingSystem?: string | undefined;
   /** Architectures (x64, arms64, etc.) that this extension supports. */
-  architecture?: ExtensionValueV2PropertiesArchitectureList;
+  architecture?: ExtensionValueV2PropertiesArchitectureList | undefined;
 }
 export interface GetExtensionMetadataV2Response {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The single extension based on search criteria. */
-  properties?: ExtensionValueV2Properties;
+  properties?: ExtensionValueV2Properties | undefined;
 }
 export interface GetGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -375,19 +375,19 @@ export interface GetGatewayRequest {
 export type GetGatewayResponseTagsMap = { [key: string]: string | undefined };
 export interface GetGatewayResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetGatewayResponseTagsMap;
+  tags?: GetGatewayResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Gateway properties */
-  properties?: GatewayProperties;
+  properties?: GatewayProperties | undefined;
 }
 export interface GetLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -416,57 +416,57 @@ export type LicenseCoreType = "pCore" | "vCore";
 export type ProgramYear = "Year 1" | "Year 2" | "Year 3";
 export interface VolumeLicenseDetails {
   /** Describes the program year the volume license is for. */
-  programYear?: ProgramYear | (string & {});
+  programYear?: ProgramYear | (string & {}) | undefined;
   /** The invoice id for the volume license. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
 }
 /** A list of volume license details. */
 export type LicenseDetailsVolumeLicenseDetailsList = Array<VolumeLicenseDetails>;
 /** Describes the properties of a License. */
 export interface LicenseDetails {
   /** Describes the state of the license. */
-  state?: LicenseState;
+  state?: LicenseState | undefined;
   /** Describes the license target server. */
-  target?: LicenseTarget;
+  target?: LicenseTarget | undefined;
   /** Describes the edition of the license. The values are either Standard or Datacenter. */
-  edition?: LicenseEdition;
+  edition?: LicenseEdition | undefined;
   /** Describes the license core type (pCore or vCore). */
-  type?: LicenseCoreType;
+  type?: LicenseCoreType | undefined;
   /** Describes the number of processors. */
-  processors?: number;
+  processors?: number | undefined;
   /** Describes the number of assigned licenses. */
-  assignedLicenses?: number;
+  assignedLicenses?: number | undefined;
   /** Describes the immutable id. */
-  immutableId?: string;
+  immutableId?: string | undefined;
   /** A list of volume license details. */
-  volumeLicenseDetails?: LicenseDetailsVolumeLicenseDetailsList;
+  volumeLicenseDetails?: LicenseDetailsVolumeLicenseDetailsList | undefined;
 }
 /** Describes the properties of a License Profile. */
 export interface LicenseProperties {
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Describes the tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of the license resource. */
-  licenseType?: LicenseType;
+  licenseType?: LicenseType | undefined;
   /** Describes the properties of a License. */
-  licenseDetails?: LicenseDetails;
+  licenseDetails?: LicenseDetails | undefined;
 }
 export interface GetLicenseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetLicenseResponseTagsMap;
+  tags?: GetLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicenseProperties;
+  properties?: LicenseProperties | undefined;
 }
 export type GetLicenseProfileRequestLicenseProfileName = "default";
 export interface GetLicenseProfileRequest {
@@ -483,14 +483,14 @@ export interface GetLicenseProfileRequest {
 export type GetLicenseProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface LicenseProfilePropertiesSoftwareAssurance {
   /** Specifies if this machine is licensed as part of a Software Assurance agreement. */
-  softwareAssuranceCustomer?: boolean;
+  softwareAssuranceCustomer?: boolean | undefined;
 }
 /** ESU key */
 export interface EsuKey {
   /** SKU number. */
-  sku?: string;
+  sku?: string | undefined;
   /** The current status of the license profile key. Represented by the same integer value that is presented on the machine itself when querying the license key status. */
-  licenseStatus?: number;
+  licenseStatus?: number | undefined;
 }
 /** The list of ESU keys. */
 export type LicenseProfileArmEsuPropertiesEsuKeysList = Array<EsuKey>;
@@ -503,17 +503,17 @@ export type EsuKeyState = "Inactive" | "Active";
 /** Describes the properties of a License Profile ARM model. */
 export interface LicenseProfileArmEsuProperties {
   /** The guid id of the license. */
-  assignedLicenseImmutableId?: string;
+  assignedLicenseImmutableId?: string | undefined;
   /** The list of ESU keys. */
-  esuKeys?: LicenseProfileArmEsuPropertiesEsuKeysList;
+  esuKeys?: LicenseProfileArmEsuPropertiesEsuKeysList | undefined;
   /** The type of the Esu servers. */
-  serverType?: EsuServerType;
+  serverType?: EsuServerType | undefined;
   /** Indicates the eligibility state of Esu. */
-  esuEligibility?: EsuEligibility;
+  esuEligibility?: EsuEligibility | undefined;
   /** Indicates whether there is an ESU Key currently active for the machine. */
-  esuKeyState?: EsuKeyState;
+  esuKeyState?: EsuKeyState | undefined;
   /** The resource id of the license. */
-  assignedLicense?: string;
+  assignedLicense?: string | undefined;
 }
 /** Subscription status of the OS or Product feature. */
 export type LicenseProfileSubscriptionStatus =
@@ -530,24 +530,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type LicenseProfileArmProductProfilePropertiesErrorDetailsList = Array<ErrorDetail>;
@@ -557,15 +557,15 @@ export type LicenseProfileArmProductProfilePropertiesErrorAdditionalInfoList =
 /** The error detail. */
 export interface LicenseProfileArmProductProfilePropertiesError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: LicenseProfileArmProductProfilePropertiesErrorDetailsList;
+  details?: LicenseProfileArmProductProfilePropertiesErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: LicenseProfileArmProductProfilePropertiesErrorAdditionalInfoList;
+  additionalInfo?: LicenseProfileArmProductProfilePropertiesErrorAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type ProductFeatureErrorDetailsList = Array<ErrorDetail>;
@@ -574,79 +574,79 @@ export type ProductFeatureErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ProductFeatureError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ProductFeatureErrorDetailsList;
+  details?: ProductFeatureErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ProductFeatureErrorAdditionalInfoList;
+  additionalInfo?: ProductFeatureErrorAdditionalInfoList | undefined;
 }
 /** Product Feature */
 export interface ProductFeature {
   /** Product feature name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates the current status of the product features. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatus;
+  subscriptionStatus?: LicenseProfileSubscriptionStatus | undefined;
   /** The timestamp in UTC when the user enrolls the feature. */
-  enrollmentDate?: string;
+  enrollmentDate?: string | undefined;
   /** The timestamp in UTC when the billing starts. */
-  billingStartDate?: string;
+  billingStartDate?: string | undefined;
   /** The timestamp in UTC when the user disenrolled the feature. */
-  disenrollmentDate?: string;
+  disenrollmentDate?: string | undefined;
   /** The timestamp in UTC when the billing ends. */
-  billingEndDate?: string;
+  billingEndDate?: string | undefined;
   /** The error detail. */
-  error?: ProductFeatureError;
+  error?: ProductFeatureError | undefined;
 }
 /** The list of product features. */
 export type LicenseProfileArmProductProfilePropertiesProductFeaturesList = Array<ProductFeature>;
 /** Describes the properties of a Product License Profile ARM model. */
 export interface LicenseProfileArmProductProfileProperties {
   /** Indicates the subscription status of the product. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatus;
+  subscriptionStatus?: LicenseProfileSubscriptionStatus | undefined;
   /** Indicates the product type of the license. */
-  productType?: LicenseProfileProductType;
+  productType?: LicenseProfileProductType | undefined;
   /** The timestamp in UTC when the user enrolls the feature. */
-  enrollmentDate?: string;
+  enrollmentDate?: string | undefined;
   /** The timestamp in UTC when the billing starts. */
-  billingStartDate?: string;
+  billingStartDate?: string | undefined;
   /** The timestamp in UTC when the user disenrolled the feature. */
-  disenrollmentDate?: string;
+  disenrollmentDate?: string | undefined;
   /** The timestamp in UTC when the billing ends. */
-  billingEndDate?: string;
+  billingEndDate?: string | undefined;
   /** The error detail. */
-  error?: LicenseProfileArmProductProfilePropertiesError;
+  error?: LicenseProfileArmProductProfilePropertiesError | undefined;
   /** The list of product features. */
-  productFeatures?: LicenseProfileArmProductProfilePropertiesProductFeaturesList;
+  productFeatures?: LicenseProfileArmProductProfilePropertiesProductFeaturesList | undefined;
 }
 /** Describe the properties of a license profile. */
 export interface LicenseProfileProperties {
-  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance;
+  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance | undefined;
   /** Hybrid Compute ESU Profile properties */
-  esuProfile?: LicenseProfileArmEsuProperties;
+  esuProfile?: LicenseProfileArmEsuProperties | undefined;
   /** Hybrid Compute Product Profile properties */
-  productProfile?: LicenseProfileArmProductProfileProperties;
+  productProfile?: LicenseProfileArmProductProfileProperties | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetLicenseProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetLicenseProfileResponseTagsMap;
+  tags?: GetLicenseProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describe the properties of a license profile. */
-  properties?: LicenseProfileProperties;
+  properties?: LicenseProfileProperties | undefined;
 }
 export type GetMachineRequestExpand = "instanceView";
 export interface GetMachineRequest {
@@ -657,7 +657,7 @@ export interface GetMachineRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: GetMachineRequestExpand | (string & {});
+  _expand?: GetMachineRequestExpand | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type GetMachineResponseTagsMap = { [key: string]: string | undefined };
@@ -666,20 +666,20 @@ export interface MachinePropertiesLocationData {
   /** A canonical name for the geographic or physical location. */
   name: string;
   /** The city or locality where the resource is located. */
-  city?: string;
+  city?: string | undefined;
   /** The district, state, or province where the resource is located. */
-  district?: string;
+  district?: string | undefined;
   /** The country or region where the resource is located */
-  countryOrRegion?: string;
+  countryOrRegion?: string | undefined;
 }
 /** Specifies the list of ports that the agent will be able to listen on. */
 export type AgentConfigurationIncomingConnectionsPortsList = Array<string>;
 /** Describes properties that can identify extensions. */
 export interface ConfigurationExtension {
   /** Publisher of the extension. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Type of the extension. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Array of extensions that are allowed to be installed or updated. */
 export type AgentConfigurationExtensionsAllowListList = Array<ConfigurationExtension>;
@@ -692,108 +692,108 @@ export type AgentConfigurationMode = "full" | "monitor";
 /** Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM. */
 export interface AgentConfiguration {
   /** Specifies the URL of the proxy to be used. */
-  proxyUrl?: string;
+  proxyUrl?: string | undefined;
   /** Specifies the list of ports that the agent will be able to listen on. */
-  incomingConnectionsPorts?: AgentConfigurationIncomingConnectionsPortsList;
+  incomingConnectionsPorts?: AgentConfigurationIncomingConnectionsPortsList | undefined;
   /** Array of extensions that are allowed to be installed or updated. */
-  extensionsAllowList?: AgentConfigurationExtensionsAllowListList;
+  extensionsAllowList?: AgentConfigurationExtensionsAllowListList | undefined;
   /** Array of extensions that are blocked (cannot be installed or updated) */
-  extensionsBlockList?: AgentConfigurationExtensionsBlockListList;
+  extensionsBlockList?: AgentConfigurationExtensionsBlockListList | undefined;
   /** List of service names which should not use the specified proxy server. */
-  proxyBypass?: AgentConfigurationProxyBypassList;
+  proxyBypass?: AgentConfigurationProxyBypassList | undefined;
   /** Specifies whether the extension service is enabled or disabled. */
-  extensionsEnabled?: string;
+  extensionsEnabled?: string | undefined;
   /** Specified whether the guest configuration service is enabled or disabled. */
-  guestConfigurationEnabled?: string;
+  guestConfigurationEnabled?: string | undefined;
   /** Name of configuration mode to use. Modes are pre-defined configurations of security controls, extension allowlists and guest configuration, maintained by Microsoft. */
-  configMode?: AgentConfigurationMode;
+  configMode?: AgentConfigurationMode | undefined;
 }
 /** Describes the status and behavior of a service. */
 export interface ServiceStatus {
   /** The current status of the service. */
-  status?: string;
+  status?: string | undefined;
   /** The behavior of the service when the Arc-enabled machine starts up. */
-  startupType?: string;
+  startupType?: string | undefined;
 }
 /** Reports the state and behavior of dependent services. */
 export interface ServiceStatuses {
   /** The state of the extension service on the Arc-enabled machine. */
-  extensionService?: ServiceStatus;
+  extensionService?: ServiceStatus | undefined;
   /** The state of the guest configuration service on the Arc-enabled machine. */
-  guestConfigurationService?: ServiceStatus;
+  guestConfigurationService?: ServiceStatus | undefined;
 }
 /** Describes the firmware of the machine */
 export interface Processor {
   /** The name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** The total number of physical cores on the processor. */
-  numberOfCores?: number;
+  numberOfCores?: number | undefined;
 }
 /** The physical processors of the machine. */
 export type HardwareProfileProcessorsList = Array<Processor>;
 /** Describes the hardware of the machine */
 export interface HardwareProfile {
   /** The total physical memory on the machine */
-  totalPhysicalMemoryInBytes?: number;
+  totalPhysicalMemoryInBytes?: number | undefined;
   /** The total number of CPU sockets available on the machine */
-  numberOfCpuSockets?: number;
+  numberOfCpuSockets?: number | undefined;
   /** The physical processors of the machine. */
-  processors?: HardwareProfileProcessorsList;
+  processors?: HardwareProfileProcessorsList | undefined;
 }
 /** Describes a disk on the machine */
 export interface Disk {
   /** The path of the disk. */
-  path?: string;
+  path?: string | undefined;
   /** The type of the disk. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** The generated ID of the disk. */
-  generatedId?: string;
+  generatedId?: string | undefined;
   /** The ID of the disk. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the disk. */
-  name?: string;
+  name?: string | undefined;
   /** The size of the disk, in bytes */
-  maxSizeInBytes?: number;
+  maxSizeInBytes?: number | undefined;
   /** The amount of space used on the disk, in bytes */
-  usedSpaceInBytes?: number;
+  usedSpaceInBytes?: number | undefined;
 }
 /** The disks on the machine. */
 export type StorageProfileDisksList = Array<Disk>;
 /** Describes the storage configuration of the machine */
 export interface StorageProfile {
   /** The disks on the machine. */
-  disks?: StorageProfileDisksList;
+  disks?: StorageProfileDisksList | undefined;
 }
 /** Describes the firmware of the machine */
 export interface FirmwareProfile {
   /** The serial number of the firmware */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The type of the firmware */
-  type?: string;
+  type?: string | undefined;
 }
 /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
 export interface CloudMetadata {
   /** Specifies the cloud provider (Azure/AWS/GCP...). */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** Specifies the status of Agent Upgrade. */
 export type LastAttemptStatusEnum = "Success" | "Failed";
 /** The info w.r.t Agent Upgrade. */
 export interface AgentUpgrade {
   /** Specifies the version info w.r.t AgentUpgrade for the machine. */
-  desiredVersion?: string;
+  desiredVersion?: string | undefined;
   /** The correlation ID associated with an agent upgrade operation. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Specifies if the machine's agent should be upgraded */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Specifies the version of the last attempt */
-  lastAttemptDesiredVersion?: string;
+  lastAttemptDesiredVersion?: string | undefined;
   /** Timestamp of last upgrade attempt */
-  lastAttemptTimestamp?: string;
+  lastAttemptTimestamp?: string | undefined;
   /** Specifies the status of Agent Upgrade. */
-  lastAttemptStatus?: LastAttemptStatusEnum;
+  lastAttemptStatus?: LastAttemptStatusEnum | undefined;
   /** Failure message of last upgrade attempt if any. */
-  lastAttemptMessage?: string;
+  lastAttemptMessage?: string | undefined;
 }
 /** Specifies the assessment mode. */
 export type AssessmentModeTypes = "ImageDefault" | "AutomaticByPlatform";
@@ -813,49 +813,49 @@ export type PatchSettingsStatusErrorAdditionalInfoList = Array<ErrorAdditionalIn
 /** The error detail. */
 export interface PatchSettingsStatusError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: PatchSettingsStatusErrorDetailsList;
+  details?: PatchSettingsStatusErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: PatchSettingsStatusErrorAdditionalInfoList;
+  additionalInfo?: PatchSettingsStatusErrorAdditionalInfoList | undefined;
 }
 /** Status of the hotpatch capability enrollment or disenrollment. */
 export interface PatchSettingsStatus {
   /** Indicates the current status of the hotpatch being enabled or disabled. */
-  hotpatchEnablementStatus?: HotpatchEnablementStatus;
+  hotpatchEnablementStatus?: HotpatchEnablementStatus | undefined;
   /** The error detail. */
-  error?: PatchSettingsStatusError;
+  error?: PatchSettingsStatusError | undefined;
 }
 /** Specifies the patch settings. */
 export interface PatchSettings {
   /** Specifies the assessment mode. */
-  assessmentMode?: AssessmentModeTypes;
+  assessmentMode?: AssessmentModeTypes | undefined;
   /** Specifies the patch mode. */
-  patchMode?: PatchModeTypes;
+  patchMode?: PatchModeTypes | undefined;
   /** Captures the hotpatch capability enrollment intent of the customers, which enables customers to patch their Windows machines without requiring a reboot. */
-  enableHotpatching?: boolean;
+  enableHotpatching?: boolean | undefined;
   /** Status of the hotpatch capability enrollment or disenrollment. */
-  status?: PatchSettingsStatus;
+  status?: PatchSettingsStatus | undefined;
 }
 /** Specifies the windows configuration for update management. */
 export interface OSProfileWindowsConfiguration {
   /** Specifies the patch settings. */
-  patchSettings?: PatchSettings;
+  patchSettings?: PatchSettings | undefined;
 }
 /** Specifies the linux configuration for update management. */
 export type OSProfileLinuxConfiguration = OSProfileWindowsConfiguration;
 /** Specifies the operating system settings for the hybrid machine. */
 export interface OSProfile {
   /** Specifies the host OS name of the hybrid machine. */
-  computerName?: string;
+  computerName?: string | undefined;
   /** Specifies the windows configuration for update management. */
-  windowsConfiguration?: OSProfileWindowsConfiguration;
+  windowsConfiguration?: OSProfileWindowsConfiguration | undefined;
   /** Specifies the linux configuration for update management. */
-  linuxConfiguration?: OSProfileWindowsConfiguration;
+  linuxConfiguration?: OSProfileWindowsConfiguration | undefined;
 }
 /** The license status. */
 export type LicenseStatus =
@@ -875,50 +875,50 @@ export type LicenseTagsMap = { [key: string]: string | undefined };
 /** Describes a license in a hybrid machine. */
 export interface License {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: LicenseTagsMap;
+  tags?: LicenseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicenseProperties;
+  properties?: LicenseProperties | undefined;
 }
 /** Describes the license assignment state (Assigned or NotAssigned). */
 export type LicenseAssignmentState = "Assigned" | "NotAssigned";
 /** Properties for the Machine ESU profile. */
 export interface LicenseProfileMachineInstanceViewEsuProperties {
   /** The guid id of the license. */
-  assignedLicenseImmutableId?: string;
+  assignedLicenseImmutableId?: string | undefined;
   /** The list of ESU keys. */
-  esuKeys?: LicenseProfileMachineInstanceViewEsuPropertiesEsuKeysList;
+  esuKeys?: LicenseProfileMachineInstanceViewEsuPropertiesEsuKeysList | undefined;
   /** The type of the Esu servers. */
-  serverType?: EsuServerType;
+  serverType?: EsuServerType | undefined;
   /** Indicates the eligibility state of Esu. */
-  esuEligibility?: EsuEligibility;
+  esuEligibility?: EsuEligibility | undefined;
   /** Indicates whether there is an ESU Key currently active for the machine. */
-  esuKeyState?: EsuKeyState;
+  esuKeyState?: EsuKeyState | undefined;
   /** The assigned license resource. */
-  assignedLicense?: License;
+  assignedLicense?: License | undefined;
   /** Describes the license assignment state (Assigned or NotAssigned). */
-  licenseAssignmentState?: LicenseAssignmentState;
+  licenseAssignmentState?: LicenseAssignmentState | undefined;
 }
 /** License Profile Instance View in Machine Properties. */
 export interface LicenseProfileMachineInstanceView {
   /** Indicates the license status of the OS. */
-  licenseStatus?: LicenseStatus;
+  licenseStatus?: LicenseStatus | undefined;
   /** Indicates the license channel. */
-  licenseChannel?: string;
-  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance;
+  licenseChannel?: string | undefined;
+  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance | undefined;
   /** Properties for the Machine ESU profile. */
-  esuProfile?: LicenseProfileMachineInstanceViewEsuProperties;
+  esuProfile?: LicenseProfileMachineInstanceViewEsuProperties | undefined;
   /** Hybrid Compute Product Profile properties */
-  productProfile?: LicenseProfileArmProductProfileProperties;
+  productProfile?: LicenseProfileArmProductProfileProperties | undefined;
 }
 /** The reason describing why the service set the machine status to a particular value. */
 export type MachineStatusReason = "Cloned";
@@ -931,15 +931,15 @@ export type MachinePropertiesErrorDetailsItemAdditionalInfoList = Array<ErrorAdd
 /** The error detail. */
 export interface MachinePropertiesErrorDetailsItem {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: MachinePropertiesErrorDetailsItemDetailsList;
+  details?: MachinePropertiesErrorDetailsItemDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: MachinePropertiesErrorDetailsItemAdditionalInfoList;
+  additionalInfo?: MachinePropertiesErrorDetailsItemAdditionalInfoList | undefined;
 }
 /** Details about the error state. */
 export type MachinePropertiesErrorDetailsList = Array<MachinePropertiesErrorDetailsItem>;
@@ -950,26 +950,26 @@ export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Instance view status. */
 export interface MachineExtensionInstanceViewStatus {
   /** The status code. */
-  code?: string;
+  code?: string | undefined;
   /** The level code. */
-  level?: StatusLevelTypes | (string & {});
+  level?: StatusLevelTypes | (string & {}) | undefined;
   /** The short localizable label for the status. */
-  displayStatus?: string;
+  displayStatus?: string | undefined;
   /** The detailed status message, including for alerts and error messages. */
-  message?: string;
+  message?: string | undefined;
   /** The time of the status. */
-  time?: string;
+  time?: string | undefined;
 }
 /** Describes the Machine Extension Instance View. */
 export interface MachineExtensionInstanceView {
   /** The machine extension name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Instance view status. */
-  status?: MachineExtensionInstanceViewStatus;
+  status?: MachineExtensionInstanceViewStatus | undefined;
 }
 /** Machine Extensions information (deprecated field) */
 export type MachinePropertiesExtensionsList = Array<MachineExtensionInstanceView>;
@@ -978,115 +978,115 @@ export type MachinePropertiesDetectedPropertiesMap = { [key: string]: string | u
 /** Describes the subnet. */
 export interface Subnet {
   /** Represents address prefix. */
-  addressPrefix?: string;
+  addressPrefix?: string | undefined;
 }
 /** Describes properties of the IP address. */
 export interface IpAddress {
   /** Represents the IP Address. */
-  address?: string;
+  address?: string | undefined;
   /** Represents the Ip Address Version. */
-  ipAddressVersion?: string;
+  ipAddressVersion?: string | undefined;
   /** The subnet to which this IP address belongs. */
-  subnet?: Subnet;
+  subnet?: Subnet | undefined;
 }
 /** The list of IP addresses in this interface. */
 export type NetworkInterfaceIpAddressesList = Array<IpAddress>;
 /** Describes a network interface. */
 export interface NetworkInterface {
   /** Represents MAC address of the network interface. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Represents the ID of the network interface. */
-  id?: string;
+  id?: string | undefined;
   /** Represents the name of the network interface. */
-  name?: string;
+  name?: string | undefined;
   /** The list of IP addresses in this interface. */
-  ipAddresses?: NetworkInterfaceIpAddressesList;
+  ipAddresses?: NetworkInterfaceIpAddressesList | undefined;
 }
 /** The list of network interfaces. */
 export type NetworkProfileNetworkInterfacesList = Array<NetworkInterface>;
 /** Describes the network information on this machine. */
 export interface NetworkProfile {
   /** The list of network interfaces. */
-  networkInterfaces?: NetworkProfileNetworkInterfacesList;
+  networkInterfaces?: NetworkProfileNetworkInterfacesList | undefined;
 }
 /** Describes the properties of a hybrid machine. */
 export interface MachineProperties {
   /** Metadata pertaining to the geographic location of the resource. */
-  locationData?: MachinePropertiesLocationData;
+  locationData?: MachinePropertiesLocationData | undefined;
   /** Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM. */
-  agentConfiguration?: AgentConfiguration;
+  agentConfiguration?: AgentConfiguration | undefined;
   /** Statuses of dependent services that are reported back to ARM. */
-  serviceStatuses?: ServiceStatuses;
+  serviceStatuses?: ServiceStatuses | undefined;
   /** Information about the machine's hardware */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** Information about the machine's storage */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Information about the machine's firmware */
-  firmwareProfile?: FirmwareProfile;
+  firmwareProfile?: FirmwareProfile | undefined;
   /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
-  cloudMetadata?: CloudMetadata;
+  cloudMetadata?: CloudMetadata | undefined;
   /** The info of the machine w.r.t Agent Upgrade */
-  agentUpgrade?: AgentUpgrade;
+  agentUpgrade?: AgentUpgrade | undefined;
   /** Specifies the operating system settings for the hybrid machine. */
-  osProfile?: OSProfile;
+  osProfile?: OSProfile | undefined;
   /** Specifies the License related properties for a machine. */
-  licenseProfile?: LicenseProfileMachineInstanceView;
+  licenseProfile?: LicenseProfileMachineInstanceView | undefined;
   /** Indicates whether the service has detected that this Arc machine is a clone of another onboarded machine. Service-computed; not settable by the user. */
-  statusReason?: MachineStatusReason;
+  statusReason?: MachineStatusReason | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The status of the hybrid machine agent. */
-  status?: StatusTypes;
+  status?: StatusTypes | undefined;
   /** The time of the last status change. */
-  lastStatusChange?: string;
+  lastStatusChange?: string | undefined;
   /** Details about the error state. */
-  errorDetails?: MachinePropertiesErrorDetailsList;
+  errorDetails?: MachinePropertiesErrorDetailsList | undefined;
   /** The hybrid machine agent full version. */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Specifies the hybrid machine unique ID. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Specifies the hybrid machine display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Specifies the hybrid machine FQDN. */
-  machineFqdn?: string;
+  machineFqdn?: string | undefined;
   /** Public Key that the client provides to be used during initial resource onboarding */
-  clientPublicKey?: string;
+  clientPublicKey?: string | undefined;
   /** Specifies the identity key store a machine is using. */
-  identityKeyStore?: IdentityKeyStore;
+  identityKeyStore?: IdentityKeyStore | undefined;
   /** Endorsement Key Certificate of the Trusted Platform Module (TPM) that the client provides to be used during initial resource onboarding. */
-  tpmEkCertificate?: string;
+  tpmEkCertificate?: string | undefined;
   /** The Operating System running on the hybrid machine. */
-  osName?: string;
+  osName?: string | undefined;
   /** The version of Operating System running on the hybrid machine. */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** The type of Operating System (windows/linux). */
-  osType?: string;
+  osType?: string | undefined;
   /** Specifies the Arc Machine's unique SMBIOS ID */
-  vmUuid?: string;
+  vmUuid?: string | undefined;
   /** Machine Extensions information (deprecated field) */
-  extensions?: MachinePropertiesExtensionsList;
+  extensions?: MachinePropertiesExtensionsList | undefined;
   /** Specifies the Operating System product SKU. */
-  osSku?: string;
+  osSku?: string | undefined;
   /** The edition of the Operating System. */
-  osEdition?: string;
+  osEdition?: string | undefined;
   /** Specifies the Windows domain name. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Specifies the AD fully qualified display name. */
-  adFqdn?: string;
+  adFqdn?: string | undefined;
   /** Specifies the DNS fully qualified display name. */
-  dnsFqdn?: string;
+  dnsFqdn?: string | undefined;
   /** The resource id of the private link scope this machine is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
+  privateLinkScopeResourceId?: string | undefined;
   /** The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any. */
-  parentClusterResourceId?: string;
+  parentClusterResourceId?: string | undefined;
   /** Specifies the resource ID of the associated hardware device. Only settable by HCI RP. */
-  hardwareResourceId?: string;
+  hardwareResourceId?: string | undefined;
   /** Specifies whether any MS SQL instance is discovered on the machine. */
-  mssqlDiscovered?: string;
+  mssqlDiscovered?: string | undefined;
   /** Detected properties from the machine. */
-  detectedProperties?: MachinePropertiesDetectedPropertiesMap;
+  detectedProperties?: MachinePropertiesDetectedPropertiesMap | undefined;
   /** Information about the network the machine is on. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
 /** Resource tags. */
 export type MachineExtensionTagsMap = { [key: string]: string | undefined };
@@ -1097,42 +1097,42 @@ export type MachineExtensionPropertiesProtectedSettingsMap = { [key: string]: un
 /** Describes the properties of a Machine Extension. */
 export interface MachineExtensionProperties {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: MachineExtensionPropertiesSettingsMap;
+  settings?: MachineExtensionPropertiesSettingsMap | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: MachineExtensionPropertiesProtectedSettingsMap;
+  protectedSettings?: MachineExtensionPropertiesProtectedSettingsMap | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The machine extension instance view. */
-  instanceView?: MachineExtensionInstanceView;
+  instanceView?: MachineExtensionInstanceView | undefined;
 }
 /** Describes a Machine Extension. */
 export interface MachineExtension {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MachineExtensionTagsMap;
+  tags?: MachineExtensionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Machine Extension Properties. */
-  properties?: MachineExtensionProperties;
+  properties?: MachineExtensionProperties | undefined;
 }
 /** The list of extensions affiliated to the machine */
 export type GetMachineResponseResourcesList = Array<MachineExtension>;
@@ -1145,9 +1145,9 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetMachineResponseIdentityUserAssignedIdentitiesMap = {
@@ -1156,36 +1156,36 @@ export type GetMachineResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetMachineResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetMachineResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetMachineResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
 export type ArcKindEnum = "AVS" | "HCI" | "SCVMM" | "VMware" | "EPS" | "GCP" | "AWS";
 export interface GetMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMachineResponseTagsMap;
+  tags?: GetMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Machine properties */
-  properties?: MachineProperties;
+  properties?: MachineProperties | undefined;
   /** The list of extensions affiliated to the machine */
-  resources?: GetMachineResponseResourcesList;
+  resources?: GetMachineResponseResourcesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetMachineResponseIdentity;
+  identity?: GetMachineResponseIdentity | undefined;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
-  kind?: ArcKindEnum;
+  kind?: ArcKindEnum | undefined;
 }
 export interface GetMachineExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1201,19 +1201,19 @@ export interface GetMachineExtensionRequest {
 export type GetMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetMachineExtensionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMachineExtensionResponseTagsMap;
+  tags?: GetMachineExtensionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Machine Extension Properties. */
-  properties?: MachineExtensionProperties;
+  properties?: MachineExtensionProperties | undefined;
 }
 export interface GetMachineRunCommandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1230,20 +1230,20 @@ export type GetMachineRunCommandResponseTagsMap = { [key: string]: string | unde
 /** Contains clientId or objectId (use only one, not both) of a user-assigned managed identity that has access to storage blob used in Run Command. Use an empty RunCommandManagedIdentity object in case of system-assigned identity. Make sure the Azure storage blob exists in case of scriptUri, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment with scriptUri blob and 'Storage Blob Data Contributor' for Append blobs(outputBlobUri, errorBlobUri). In case of user assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
 export interface RunCommandManagedIdentity {
   /** Client Id (GUID value) of the user-assigned managed identity. ObjectId should not be used if this is provided. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Object Id (GUID value) of the user-assigned managed identity. ClientId should not be used if this is provided. */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 /** Describes the script sources for run command. Use only one of script, scriptUri, commandId. */
 export interface MachineRunCommandScriptSource {
   /** Specifies the script content to be executed on the machine. */
-  script?: string;
+  script?: string | undefined;
   /** Specifies the script download location. It can be either SAS URI of an Azure storage blob with read access or public URI. */
-  scriptUri?: string;
+  scriptUri?: string | undefined;
   /** Specifies the commandId of predefined built-in script. */
-  commandId?: string;
+  commandId?: string | undefined;
   /** User-assigned managed identity that has access to scriptUri in case of Azure storage blob. Use an empty object in case of system-assigned identity. Make sure the Azure storage blob exists, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
-  scriptUriManagedIdentity?: RunCommandManagedIdentity;
+  scriptUriManagedIdentity?: RunCommandManagedIdentity | undefined;
 }
 /** Describes the properties of a run command parameter. */
 export interface RunCommandInputParameter {
@@ -1270,81 +1270,81 @@ export type ExtensionsStatusLevelTypes = "Info" | "Warning" | "Error";
 /** Instance view status. */
 export interface ExtensionsResourceStatus {
   /** The status code. */
-  code?: string;
+  code?: string | undefined;
   /** The level code. */
-  level?: ExtensionsStatusLevelTypes;
+  level?: ExtensionsStatusLevelTypes | undefined;
   /** The short localizable label for the status. */
-  displayStatus?: string;
+  displayStatus?: string | undefined;
   /** The detailed status message, including for alerts and error messages. */
-  message?: string;
+  message?: string | undefined;
   /** The time of the status. */
-  time?: string;
+  time?: string | undefined;
 }
 /** The status information. */
 export type MachineRunCommandInstanceViewStatusesList = Array<ExtensionsResourceStatus>;
 /** The instance view of a machine run command. */
 export interface MachineRunCommandInstanceView {
   /** Script execution status. */
-  executionState?: ExecutionState;
+  executionState?: ExecutionState | undefined;
   /** Communicate script configuration errors or execution messages. */
-  executionMessage?: string;
+  executionMessage?: string | undefined;
   /** Exit code returned from script execution. */
-  exitCode?: number;
+  exitCode?: number | undefined;
   /** Script output stream. */
-  output?: string;
+  output?: string | undefined;
   /** Script error stream. */
-  error?: string;
+  error?: string | undefined;
   /** Script start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Script end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The status information. */
-  statuses?: MachineRunCommandInstanceViewStatusesList;
+  statuses?: MachineRunCommandInstanceViewStatusesList | undefined;
 }
 /** Describes the properties of a run command. */
 export interface MachineRunCommandProperties {
   /** The source of the run command script. */
-  source?: MachineRunCommandScriptSource;
+  source?: MachineRunCommandScriptSource | undefined;
   /** The parameters used by the script. */
-  parameters?: MachineRunCommandPropertiesParametersList;
+  parameters?: MachineRunCommandPropertiesParametersList | undefined;
   /** The parameters used by the script. */
-  protectedParameters?: MachineRunCommandPropertiesProtectedParametersList;
+  protectedParameters?: MachineRunCommandPropertiesProtectedParametersList | undefined;
   /** Optional. If set to true, provisioning will complete as soon as script starts and will not wait for script to complete. */
-  asyncExecution?: boolean;
+  asyncExecution?: boolean | undefined;
   /** Specifies the user account on the machine when executing the run command. */
-  runAsUser?: string;
+  runAsUser?: string | undefined;
   /** Specifies the user account password on the machine when executing the run command. */
-  runAsPassword?: string | Redacted.Redacted<string>;
+  runAsPassword?: string | Redacted.Redacted<string> | undefined;
   /** The timeout in seconds to execute the run command. */
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
   /** Specifies the Azure storage blob where script output stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer outputBlobManagedIdentity parameter. */
-  outputBlobUri?: string;
+  outputBlobUri?: string | undefined;
   /** Specifies the Azure storage blob where script error stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer errorBlobManagedIdentity parameter. */
-  errorBlobUri?: string;
+  errorBlobUri?: string | undefined;
   /** User-assigned managed identity that has access to outputBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  outputBlobManagedIdentity?: RunCommandManagedIdentity;
+  outputBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** User-assigned managed identity that has access to errorBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  errorBlobManagedIdentity?: RunCommandManagedIdentity;
+  errorBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The machine run command instance view. */
-  instanceView?: MachineRunCommandInstanceView;
+  instanceView?: MachineRunCommandInstanceView | undefined;
 }
 export interface GetMachineRunCommandResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMachineRunCommandResponseTagsMap;
+  tags?: GetMachineRunCommandResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Run Command Properties */
-  properties?: MachineRunCommandProperties;
+  properties?: MachineRunCommandProperties | undefined;
 }
 export interface GetNetworkProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1381,38 +1381,38 @@ export type AccessRulePropertiesAddressPrefixesList = Array<string>;
 /** Properties of an access rule. */
 export interface AccessRuleProperties {
   /** Direction of the access rule. */
-  direction?: AccessRuleDirection;
+  direction?: AccessRuleDirection | undefined;
   /** Address prefixes that are allowed access. */
-  addressPrefixes?: AccessRulePropertiesAddressPrefixesList;
+  addressPrefixes?: AccessRulePropertiesAddressPrefixesList | undefined;
 }
 /** Access rule. */
 export interface AccessRule {
   /** Name of the access rule. */
-  name?: string;
+  name?: string | undefined;
   /** Access rule properties */
-  properties?: AccessRuleProperties;
+  properties?: AccessRuleProperties | undefined;
 }
 /** Access rules that can be added to the perimeter to remediate the issue */
 export type ProvisioningIssuePropertiesSuggestedAccessRulesList = Array<AccessRule>;
 /** Properties of a provisioning issue. */
 export interface ProvisioningIssueProperties {
   /** Issue type */
-  issueType?: ProvisioningIssueType;
+  issueType?: ProvisioningIssueType | undefined;
   /** Severity of the provisioning issue. */
-  severity?: ProvisioningIssueSeverity;
+  severity?: ProvisioningIssueSeverity | undefined;
   /** Description of the provisioning issue. */
-  description?: string;
+  description?: string | undefined;
   /** ARM Ids of the resources that can be associated to the same perimeter to remediate the issue */
-  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList;
+  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList | undefined;
   /** Access rules that can be added to the perimeter to remediate the issue */
-  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList;
+  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList | undefined;
 }
 /** Details on issues that occurred during provisioning. */
 export interface ProvisioningIssue {
   /** Name of the provisioning issue. */
-  name?: string;
+  name?: string | undefined;
   /** Provisioning issue properties */
-  properties?: ProvisioningIssueProperties;
+  properties?: ProvisioningIssueProperties | undefined;
 }
 /** Provisioning issues. */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -1420,20 +1420,20 @@ export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesLis
 /** Properties that define a Network Security Perimeter resource. */
 export interface NetworkSecurityPerimeter {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Guid of the Network Security Perimeter */
-  perimeterGuid?: string;
+  perimeterGuid?: string | undefined;
   /** Regional location of the perimeter */
-  location?: string;
+  location?: string | undefined;
 }
 /** Property that impacts a resource's logging behavior and its connectivity with other resources and public networks. */
 export type AccessMode = "enforced" | "audit" | "learning";
 /** Properties that define a Resource Association. */
 export interface ResourceAssociation {
   /** Name of the Resource Association */
-  name?: string;
+  name?: string | undefined;
   /** The access mode */
-  accessMode?: AccessMode;
+  accessMode?: AccessMode | undefined;
 }
 /** Collection of access rules for the profile */
 export type NetworkSecurityPerimeterProfileAccessRulesList = Array<AccessRule>;
@@ -1442,40 +1442,42 @@ export type NetworkSecurityPerimeterProfileEnabledLogCategoriesList = Array<stri
 /** Network Security Perimeter profile */
 export interface NetworkSecurityPerimeterProfile {
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Access rules version number */
-  accessRulesVersion?: number;
+  accessRulesVersion?: number | undefined;
   /** Collection of access rules for the profile */
-  accessRules?: NetworkSecurityPerimeterProfileAccessRulesList;
+  accessRules?: NetworkSecurityPerimeterProfileAccessRulesList | undefined;
   /** Diagnostic settings version number */
-  diagnosticSettingsVersion?: number;
+  diagnosticSettingsVersion?: number | undefined;
   /** Collection of enabled log categories for the profile */
-  enabledLogCategories?: NetworkSecurityPerimeterProfileEnabledLogCategoriesList;
+  enabledLogCategories?: NetworkSecurityPerimeterProfileEnabledLogCategoriesList | undefined;
 }
 /** Properties that define a Network Security Perimeter resource. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
   /** Current state of this NetworkSecurityPerimeter: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Provisioning ,Succeeded, Canceled and Failed. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Provisioning issues. */
-  provisioningIssues?: NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList;
+  provisioningIssues?:
+    | NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList
+    | undefined;
   /** The Network Security Perimeter associated with this configuration. */
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  networkSecurityPerimeter?: NetworkSecurityPerimeter | undefined;
   /** The Resource Association. */
-  resourceAssociation?: ResourceAssociation;
+  resourceAssociation?: ResourceAssociation | undefined;
   /** Network Security Perimeter profile */
-  profile?: NetworkSecurityPerimeterProfile;
+  profile?: NetworkSecurityPerimeterProfile | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationByPrivateLinkScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties that define a Network Security Perimeter resource. */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1490,7 +1492,7 @@ export interface GetPrivateEndpointConnectionRequest {
 /** Private endpoint which the connection belongs to. */
 export interface PrivateEndpointProperty {
   /** Resource id of the private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** State of the private endpoint connection. */
 export interface PrivateLinkServiceConnectionStateProperty {
@@ -1499,32 +1501,32 @@ export interface PrivateLinkServiceConnectionStateProperty {
   /** The private link service connection description. */
   description: string;
   /** The actions required for private link service connection. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** List of group IDs. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty | undefined;
   /** State of the private endpoint connection. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** List of group IDs. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1543,23 +1545,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required DNS zone names of the the private link resource. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1576,13 +1578,13 @@ export type HybridComputePrivateLinkScopePropertiesPublicNetworkAccess = "Enable
 /** The Data Model for a Private Endpoint Connection associated with a Private Link Scope */
 export interface PrivateEndpointConnectionDataModel {
   /** The ARM Resource Id of the Private Endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The Name of the Private Endpoint. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** The Private Endpoint Connection properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The collection of associated Private Endpoint Connections. */
 export type HybridComputePrivateLinkScopePropertiesPrivateEndpointConnectionsList =
@@ -1592,40 +1594,45 @@ export type ServiceExtensionPublicNetworkAccess = "Enabled" | "Disabled";
 /** Enable private link validation for an Azure Arc Extension */
 export interface ServiceExtension {
   /** The name of the Azure Arc Extension. */
-  serviceExtensionType?: string;
+  serviceExtensionType?: string | undefined;
   /** The network access policy to determine if the specified Azure Arc Extension can use public Azure Arc Extension service endpoints. */
-  serviceExtensionPublicNetworkAccess?: ServiceExtensionPublicNetworkAccess | (string & {});
+  serviceExtensionPublicNetworkAccess?:
+    | ServiceExtensionPublicNetworkAccess
+    | (string & {})
+    | undefined;
 }
 /** Enable private link validation for an Azure Arc Extension. */
 export type HybridComputePrivateLinkScopePropertiesServiceExtensionsList = Array<ServiceExtension>;
 /** Properties that define a Azure Arc PrivateLinkScope resource. */
 export interface HybridComputePrivateLinkScopeProperties {
   /** Indicates whether machines associated with the private link scope can also use public Azure Arc service endpoints. */
-  publicNetworkAccess?: HybridComputePrivateLinkScopePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: HybridComputePrivateLinkScopePropertiesPublicNetworkAccess | undefined;
   /** Current state of this PrivateLinkScope: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Provisioning ,Succeeded, Canceled and Failed. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The Guid id of the private link scope. */
-  privateLinkScopeId?: string;
+  privateLinkScopeId?: string | undefined;
   /** The collection of associated Private Endpoint Connections. */
-  privateEndpointConnections?: HybridComputePrivateLinkScopePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | HybridComputePrivateLinkScopePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Enable private link validation for an Azure Arc Extension. */
-  serviceExtensions?: HybridComputePrivateLinkScopePropertiesServiceExtensionsList;
+  serviceExtensions?: HybridComputePrivateLinkScopePropertiesServiceExtensionsList | undefined;
 }
 export interface GetPrivateLinkScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPrivateLinkScopeResponseTagsMap;
+  tags?: GetPrivateLinkScopeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Azure Arc PrivateLinkScope resource. */
-  properties?: HybridComputePrivateLinkScopeProperties;
+  properties?: HybridComputePrivateLinkScopeProperties | undefined;
 }
 export interface GetPrivateLinkScopeValidationDetailsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1639,25 +1646,25 @@ export interface GetPrivateLinkScopeValidationDetailsRequest {
 export type PrivateLinkScopeValidationDetailsPublicNetworkAccess = "Enabled" | "Disabled";
 export interface ConnectionDetail {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** The private endpoint connection private ip address */
-  privateIpAddress?: string;
+  privateIpAddress?: string | undefined;
   /** The private endpoint connection link identifier */
-  linkIdentifier?: string;
+  linkIdentifier?: string | undefined;
   /** The private endpoint connection group id */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private endpoint connection member name */
-  memberName?: string;
+  memberName?: string | undefined;
 }
 /** List of Private Endpoint Connection details. */
 export type PrivateLinkScopeValidationDetailsConnectionDetailsList = Array<ConnectionDetail>;
 export interface PrivateLinkScopeValidationDetails {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether machines associated with the private link scope can also use public Azure Arc service endpoints. */
-  publicNetworkAccess?: PrivateLinkScopeValidationDetailsPublicNetworkAccess;
+  publicNetworkAccess?: PrivateLinkScopeValidationDetailsPublicNetworkAccess | undefined;
   /** List of Private Endpoint Connection details. */
-  connectionDetails?: PrivateLinkScopeValidationDetailsConnectionDetailsList;
+  connectionDetails?: PrivateLinkScopeValidationDetailsConnectionDetailsList | undefined;
 }
 export interface GetPrivateLinkScopeValidationDetailsForMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1684,26 +1691,26 @@ export interface GetSettingsRequest {
 /** Settings Gateway properties */
 export interface SettingsGatewayProperties {
   /** Associated Gateway Resource Id */
-  gatewayResourceId?: string;
+  gatewayResourceId?: string | undefined;
 }
 /** Settings properties */
 export interface SettingsProperties {
   /** Azure resource tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Settings Gateway properties */
-  gatewayProperties?: SettingsGatewayProperties;
+  gatewayProperties?: SettingsGatewayProperties | undefined;
 }
 export interface GetSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Settings properties */
-  properties?: SettingsProperties;
+  properties?: SettingsProperties | undefined;
 }
 export interface GetVmApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1720,57 +1727,57 @@ export type GetVmApplicationResponseTagsMap = { [key: string]: string | undefine
 /** An action recently performed for a VM application. */
 export interface VmApplicationInstanceViewAction {
   /** The operation that was performed. */
-  operation?: string;
+  operation?: string | undefined;
   /** The result of the operation. */
-  result?: string;
+  result?: string | undefined;
 }
 /** The recent actions performed for the application. */
 export type VmApplicationInstanceViewActionsPerformedList = Array<VmApplicationInstanceViewAction>;
 /** The instance view of a VM application. */
 export interface VmApplicationInstanceView {
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application version. */
-  version?: string;
+  version?: string | undefined;
   /** The current installation result. */
-  result?: string;
+  result?: string | undefined;
   /** The recent actions performed for the application. */
-  actionsPerformed?: VmApplicationInstanceViewActionsPerformedList;
+  actionsPerformed?: VmApplicationInstanceViewActionsPerformedList | undefined;
 }
 /** The properties of a VM application. Exactly one gallery application reference must be specified when creating or replacing the resource. */
 export interface VmApplicationProperties {
   /** The order in which the application is installed. */
-  order?: number;
+  order?: number | undefined;
   /** The resource ID of the gallery application version. The version name can be `latest` or a specific version. This property is mutually exclusive with sharedGalleryApplicationId and communityGalleryApplicationId. */
-  packageReferenceId?: string;
+  packageReferenceId?: string | undefined;
   /** The identifier of a direct shared gallery application version. Use `/sharedGalleries/{sharedGalleryUniqueName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and communityGalleryApplicationId. */
-  sharedGalleryApplicationId?: string;
+  sharedGalleryApplicationId?: string | undefined;
   /** The identifier of a community gallery application version. Use `/communityGalleries/{communityGalleryPublicName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and sharedGalleryApplicationId. */
-  communityGalleryApplicationId?: string;
+  communityGalleryApplicationId?: string | undefined;
   /** The URI of configuration data that replaces the package's default configuration. */
-  configurationReference?: string;
+  configurationReference?: string | undefined;
   /** Indicates whether an application operation failure causes the deployment to fail. */
-  treatFailureAsDeploymentFailure?: boolean;
+  treatFailureAsDeploymentFailure?: boolean | undefined;
   /** The provisioning state of the VM application. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The instance view of the VM application. */
-  instanceView?: VmApplicationInstanceView;
+  instanceView?: VmApplicationInstanceView | undefined;
 }
 export interface GetVmApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVmApplicationResponseTagsMap;
+  tags?: GetVmApplicationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The VM application properties. */
-  properties?: VmApplicationProperties;
+  properties?: VmApplicationProperties | undefined;
 }
 export interface GetVmApplicationInstanceViewRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1786,19 +1793,19 @@ export interface GetVmApplicationInstanceViewRequest {
 export type GetVmApplicationInstanceViewResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVmApplicationInstanceViewResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVmApplicationInstanceViewResponseTagsMap;
+  tags?: GetVmApplicationInstanceViewResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The VM application properties. */
-  properties?: VmApplicationProperties;
+  properties?: VmApplicationProperties | undefined;
 }
 /** Defines when it is acceptable to reboot a VM during a software update operation. */
 export type VMGuestPatchRebootSetting = "IfRequired" | "Never" | "Always";
@@ -1826,19 +1833,19 @@ export type WindowsParametersPatchNameMasksToExcludeList = Array<string>;
 /** Input for InstallPatches on a Windows VM, as directly received by the API */
 export interface WindowsParameters {
   /** The update classifications to select when installing patches for Windows. */
-  classificationsToInclude?: WindowsParametersClassificationsToIncludeList;
+  classificationsToInclude?: WindowsParametersClassificationsToIncludeList | undefined;
   /** Kbs to include in the patch operation */
-  kbNumbersToInclude?: WindowsParametersKbNumbersToIncludeList;
+  kbNumbersToInclude?: WindowsParametersKbNumbersToIncludeList | undefined;
   /** Kbs to exclude in the patch operation */
-  kbNumbersToExclude?: WindowsParametersKbNumbersToExcludeList;
+  kbNumbersToExclude?: WindowsParametersKbNumbersToExcludeList | undefined;
   /** Filters out Kbs that don't have an InstallationRebootBehavior of 'NeverReboots' when this is set to true. */
-  excludeKbsRequiringReboot?: boolean;
+  excludeKbsRequiringReboot?: boolean | undefined;
   /** This is used to install patches that were published on or before this given max published date. */
-  maxPatchPublishDate?: string;
+  maxPatchPublishDate?: string | undefined;
   /** This is used to include patches that match the given patch name masks. Alphanumeric strings and wildcard expressions consisting of * and ? are only supported as input values in the list. Null, empty and only whitespaces strings as inputs values are not supported. */
-  patchNameMasksToInclude?: WindowsParametersPatchNameMasksToIncludeList;
+  patchNameMasksToInclude?: WindowsParametersPatchNameMasksToIncludeList | undefined;
   /** This is used to exclude patches that match the given patch name masks. Alphanumeric strings and wildcard expressions consisting of * and ? are only supported as input values in the list. Null, empty and only whitespaces strings as inputs values are not supported. */
-  patchNameMasksToExclude?: WindowsParametersPatchNameMasksToExcludeList;
+  patchNameMasksToExclude?: WindowsParametersPatchNameMasksToExcludeList | undefined;
 }
 export type VMGuestPatchClassificationLinux = "Critical" | "Security" | "Other";
 /** The update classifications to select when installing patches for Linux. */
@@ -1852,11 +1859,11 @@ export type LinuxParametersPackageNameMasksToExcludeList = Array<string>;
 /** Input for InstallPatches on a Linux VM, as directly received by the API */
 export interface LinuxParameters {
   /** The update classifications to select when installing patches for Linux. */
-  classificationsToInclude?: LinuxParametersClassificationsToIncludeList;
+  classificationsToInclude?: LinuxParametersClassificationsToIncludeList | undefined;
   /** packages to include in the patch operation. Format: packageName_packageVersion */
-  packageNameMasksToInclude?: LinuxParametersPackageNameMasksToIncludeList;
+  packageNameMasksToInclude?: LinuxParametersPackageNameMasksToIncludeList | undefined;
   /** packages to exclude in the patch operation. Format: packageName_packageVersion */
-  packageNameMasksToExclude?: LinuxParametersPackageNameMasksToExcludeList;
+  packageNameMasksToExclude?: LinuxParametersPackageNameMasksToExcludeList | undefined;
 }
 export interface InstallMachinePatchesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1870,9 +1877,9 @@ export interface InstallMachinePatchesRequest {
   /** Defines when it is acceptable to reboot a VM during a software update operation. */
   rebootSetting: VMGuestPatchRebootSetting | (string & {});
   /** Input for InstallPatches on a Windows VM, as directly received by the API */
-  windowsParameters?: WindowsParameters;
+  windowsParameters?: WindowsParameters | undefined;
   /** Input for InstallPatches on a Linux VM, as directly received by the API */
-  linuxParameters?: LinuxParameters;
+  linuxParameters?: LinuxParameters | undefined;
 }
 /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
 export type PatchOperationStatus =
@@ -1902,52 +1909,52 @@ export type MachineInstallPatchesResultErrorDetailsAdditionalInfoList = Array<Er
 /** The error detail. */
 export interface MachineInstallPatchesResultErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: MachineInstallPatchesResultErrorDetailsDetailsList;
+  details?: MachineInstallPatchesResultErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: MachineInstallPatchesResultErrorDetailsAdditionalInfoList;
+  additionalInfo?: MachineInstallPatchesResultErrorDetailsAdditionalInfoList | undefined;
 }
 /** The result summary of an installation operation. */
 export interface MachineInstallPatchesResult {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", "Unknown" or "CompletedWithWarnings." */
-  status?: PatchOperationStatus;
+  status?: PatchOperationStatus | undefined;
   /** The activity ID of the operation that produced this result. */
-  installationActivityId?: string;
+  installationActivityId?: string | undefined;
   /** The reboot state of the VM following completion of the operation. */
-  rebootStatus?: VMGuestPatchRebootStatus;
+  rebootStatus?: VMGuestPatchRebootStatus | undefined;
   /** Whether the operation ran out of time before it completed all its intended actions. */
-  maintenanceWindowExceeded?: boolean;
+  maintenanceWindowExceeded?: boolean | undefined;
   /** The number of patches that were not installed due to the user blocking their installation. */
-  excludedPatchCount?: number;
+  excludedPatchCount?: number | undefined;
   /** The number of patches that were detected as available for install, but did not meet the operation's criteria. */
-  notSelectedPatchCount?: number;
+  notSelectedPatchCount?: number | undefined;
   /** The number of patches that were identified as meeting the installation criteria, but were not able to be installed. Typically this happens when maintenanceWindowExceeded == true. */
-  pendingPatchCount?: number;
+  pendingPatchCount?: number | undefined;
   /** The number of patches successfully installed. */
-  installedPatchCount?: number;
+  installedPatchCount?: number | undefined;
   /** The number of patches that could not be installed due to some issue. See errors for details. */
-  failedPatchCount?: number;
+  failedPatchCount?: number | undefined;
   /** The UTC timestamp when the operation began. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** The UTC timestamp when the operation finished. */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** Indicates if operation was triggered by user or by platform. */
-  startedBy?: PatchOperationStartedBy;
+  startedBy?: PatchOperationStartedBy | undefined;
   /** Specifies the patch service used for the operation. */
-  patchServiceUsed?: PatchServiceUsed;
+  patchServiceUsed?: PatchServiceUsed | undefined;
   /** The operating system type of the machine. */
-  osType?: OsType;
+  osType?: OsType | undefined;
   /** The error detail. */
-  errorDetails?: MachineInstallPatchesResultErrorDetails;
+  errorDetails?: MachineInstallPatchesResultErrorDetails | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type LicenseProfilesCreateOrUpdateRequestLicenseProfileName = "default";
 /** Resource tags. */
@@ -1955,7 +1962,7 @@ export type LicenseProfilesCreateOrUpdateRequestTagsMap = { [key: string]: strin
 /** Describes the properties of a License Profile ARM model. */
 export interface LicenseProfileArmEsuPropertiesInput {
   /** The resource id of the license. */
-  assignedLicense?: string;
+  assignedLicense?: string | undefined;
 }
 /** The error detail. */
 export interface LicenseProfileArmProductProfilePropertiesInputError {}
@@ -1964,11 +1971,11 @@ export type ProductFeatureInputError = LicenseProfileArmProductProfileProperties
 /** Product Feature */
 export interface ProductFeatureInput {
   /** Product feature name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates the current status of the product features. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatus | (string & {});
+  subscriptionStatus?: LicenseProfileSubscriptionStatus | (string & {}) | undefined;
   /** The error detail. */
-  error?: LicenseProfileArmProductProfilePropertiesInputError;
+  error?: LicenseProfileArmProductProfilePropertiesInputError | undefined;
 }
 /** The list of product features. */
 export type LicenseProfileArmProductProfilePropertiesInputProductFeaturesList =
@@ -1976,21 +1983,21 @@ export type LicenseProfileArmProductProfilePropertiesInputProductFeaturesList =
 /** Describes the properties of a Product License Profile ARM model. */
 export interface LicenseProfileArmProductProfilePropertiesInput {
   /** Indicates the subscription status of the product. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatus | (string & {});
+  subscriptionStatus?: LicenseProfileSubscriptionStatus | (string & {}) | undefined;
   /** Indicates the product type of the license. */
-  productType?: LicenseProfileProductType | (string & {});
+  productType?: LicenseProfileProductType | (string & {}) | undefined;
   /** The error detail. */
-  error?: LicenseProfileArmProductProfilePropertiesInputError;
+  error?: LicenseProfileArmProductProfilePropertiesInputError | undefined;
   /** The list of product features. */
-  productFeatures?: LicenseProfileArmProductProfilePropertiesInputProductFeaturesList;
+  productFeatures?: LicenseProfileArmProductProfilePropertiesInputProductFeaturesList | undefined;
 }
 /** Describe the properties of a license profile. */
 export interface LicenseProfilePropertiesInput {
-  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance;
+  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance | undefined;
   /** Hybrid Compute ESU Profile properties */
-  esuProfile?: LicenseProfileArmEsuPropertiesInput;
+  esuProfile?: LicenseProfileArmEsuPropertiesInput | undefined;
   /** Hybrid Compute Product Profile properties */
-  productProfile?: LicenseProfileArmProductProfilePropertiesInput;
+  productProfile?: LicenseProfileArmProductProfilePropertiesInput | undefined;
 }
 export interface LicenseProfilesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2002,35 +2009,35 @@ export interface LicenseProfilesCreateOrUpdateRequest {
   /** The name of the license profile. */
   licenseProfileName: LicenseProfilesCreateOrUpdateRequestLicenseProfileName | (string & {});
   /** Resource tags. */
-  tags?: LicenseProfilesCreateOrUpdateRequestTagsMap;
+  tags?: LicenseProfilesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describe the properties of a license profile. */
-  properties?: LicenseProfilePropertiesInput;
+  properties?: LicenseProfilePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type LicenseProfilesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface LicenseProfilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: LicenseProfilesCreateOrUpdateResponseTagsMap;
+  tags?: LicenseProfilesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describe the properties of a license profile. */
-  properties?: LicenseProfileProperties;
+  properties?: LicenseProfileProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type LicensesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2039,26 +2046,26 @@ export type LicenseDetailsInputVolumeLicenseDetailsList = Array<VolumeLicenseDet
 /** Describes the properties of a License. */
 export interface LicenseDetailsInput {
   /** Describes the state of the license. */
-  state?: LicenseState | (string & {});
+  state?: LicenseState | (string & {}) | undefined;
   /** Describes the license target server. */
-  target?: LicenseTarget | (string & {});
+  target?: LicenseTarget | (string & {}) | undefined;
   /** Describes the edition of the license. The values are either Standard or Datacenter. */
-  edition?: LicenseEdition | (string & {});
+  edition?: LicenseEdition | (string & {}) | undefined;
   /** Describes the license core type (pCore or vCore). */
-  type?: LicenseCoreType | (string & {});
+  type?: LicenseCoreType | (string & {}) | undefined;
   /** Describes the number of processors. */
-  processors?: number;
+  processors?: number | undefined;
   /** A list of volume license details. */
-  volumeLicenseDetails?: LicenseDetailsInputVolumeLicenseDetailsList;
+  volumeLicenseDetails?: LicenseDetailsInputVolumeLicenseDetailsList | undefined;
 }
 /** Describes the properties of a License Profile. */
 export interface LicensePropertiesInput {
   /** Describes the tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of the license resource. */
-  licenseType?: LicenseType | (string & {});
+  licenseType?: LicenseType | (string & {}) | undefined;
   /** Describes the properties of a License. */
-  licenseDetails?: LicenseDetailsInput;
+  licenseDetails?: LicenseDetailsInput | undefined;
 }
 export interface LicensesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2068,33 +2075,33 @@ export interface LicensesCreateOrUpdateRequest {
   /** The name of the license. */
   licenseName: string;
   /** Resource tags. */
-  tags?: LicensesCreateOrUpdateRequestTagsMap;
+  tags?: LicensesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicensePropertiesInput;
+  properties?: LicensePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type LicensesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface LicensesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: LicensesCreateOrUpdateResponseTagsMap;
+  tags?: LicensesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicenseProperties;
+  properties?: LicenseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListExtensionMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2109,24 +2116,24 @@ export interface ListExtensionMetadataRequest {
 /** Describes a Extension Metadata */
 export interface ExtensionValue {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The single extension based on search criteria */
-  properties?: ExtensionValueProperties;
+  properties?: ExtensionValueProperties | undefined;
 }
 /** The list of extension metadata */
 export type ExtensionValueListResultValueList = Array<ExtensionValue>;
 /** The List Extension Metadata response. */
 export interface ExtensionValueListResult {
   /** The list of extension metadata */
-  value?: ExtensionValueListResultValueList;
+  value?: ExtensionValueListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExtensionMetadataV2Request {
   /** The location of the Extension being received. */
@@ -2139,15 +2146,15 @@ export interface ListExtensionMetadataV2Request {
 /** Describes an Extension Metadata. */
 export interface ExtensionValueV2 {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The single extension based on search criteria. */
-  properties?: ExtensionValueV2Properties;
+  properties?: ExtensionValueV2Properties | undefined;
 }
 /** The ExtensionValueV2 items on this page */
 export type ExtensionValueListResultV2ValueList = Array<ExtensionValueV2>;
@@ -2156,7 +2163,7 @@ export interface ExtensionValueListResultV2 {
   /** The ExtensionValueV2 items on this page */
   value: ExtensionValueListResultV2ValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExtensionPublisherRequest {
   /** The name of the Azure region. */
@@ -2165,9 +2172,9 @@ export interface ListExtensionPublisherRequest {
 /** Describes an Extension Publisher. */
 export interface ExtensionPublisher {
   /** The ID of the extension publisher. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the extension publisher. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The ExtensionPublisher items on this page */
 export type ExtensionPublisherListResultValueList = Array<ExtensionPublisher>;
@@ -2176,7 +2183,7 @@ export interface ExtensionPublisherListResult {
   /** The ExtensionPublisher items on this page */
   value: ExtensionPublisherListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListExtensionTypeRequest {
   /** The name of the Azure region. */
@@ -2187,9 +2194,9 @@ export interface ListExtensionTypeRequest {
 /** Describes an Extension Type. */
 export interface ExtensionType {
   /** The ID of the extension type. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the extension type. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The ExtensionType items on this page */
 export type ExtensionTypeListResultValueList = Array<ExtensionType>;
@@ -2198,7 +2205,7 @@ export interface ExtensionTypeListResult {
   /** The ExtensionType items on this page */
   value: ExtensionTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2211,19 +2218,19 @@ export type GatewayTagsMap = { [key: string]: string | undefined };
 /** Describes an Arc Gateway. */
 export interface Gateway {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GatewayTagsMap;
+  tags?: GatewayTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Gateway properties */
-  properties?: GatewayProperties;
+  properties?: GatewayProperties | undefined;
 }
 /** The Gateway items on this page */
 export type GatewaysListResultValueList = Array<Gateway>;
@@ -2232,7 +2239,7 @@ export interface GatewaysListResult {
   /** The Gateway items on this page */
   value: GatewaysListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2251,7 +2258,7 @@ export interface LicensesListResult {
   /** The License items on this page */
   value: LicensesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLicenseBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2270,19 +2277,19 @@ export type LicenseProfileTagsMap = { [key: string]: string | undefined };
 /** Describes a license profile in a hybrid machine. */
 export interface LicenseProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: LicenseProfileTagsMap;
+  tags?: LicenseProfileTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describe the properties of a license profile. */
-  properties?: LicenseProfileProperties;
+  properties?: LicenseProfileProperties | undefined;
 }
 /** The LicenseProfile items on this page */
 export type LicenseProfilesListResultValueList = Array<LicenseProfile>;
@@ -2291,7 +2298,7 @@ export interface LicenseProfilesListResult {
   /** The LicenseProfile items on this page */
   value: LicenseProfilesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMachineByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2299,7 +2306,7 @@ export interface ListMachineByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Expands referenced resources. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type MachineTagsMap = { [key: string]: string | undefined };
@@ -2312,35 +2319,35 @@ export type MachineIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface MachineIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: MachineIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: MachineIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Describes a hybrid machine. */
 export interface Machine {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MachineTagsMap;
+  tags?: MachineTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Machine properties */
-  properties?: MachineProperties;
+  properties?: MachineProperties | undefined;
   /** The list of extensions affiliated to the machine */
-  resources?: MachineResourcesList;
+  resources?: MachineResourcesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MachineIdentity;
+  identity?: MachineIdentity | undefined;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
-  kind?: ArcKindEnum;
+  kind?: ArcKindEnum | undefined;
 }
 /** The Machine items on this page */
 export type MachineListResultValueList = Array<Machine>;
@@ -2349,7 +2356,7 @@ export interface MachineListResult {
   /** The Machine items on this page */
   value: MachineListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2363,7 +2370,7 @@ export interface ListMachineExtensionsRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The MachineExtension items on this page */
 export type MachineExtensionsListResultValueList = Array<MachineExtension>;
@@ -2372,7 +2379,7 @@ export interface MachineExtensionsListResult {
   /** The MachineExtension items on this page */
   value: MachineExtensionsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMachineRunCommandsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2382,26 +2389,26 @@ export interface ListMachineRunCommandsRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** The expand expression to apply on the operation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type MachineRunCommandTagsMap = { [key: string]: string | undefined };
 /** Describes a Run Command */
 export interface MachineRunCommand {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MachineRunCommandTagsMap;
+  tags?: MachineRunCommandTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Run Command Properties */
-  properties?: MachineRunCommandProperties;
+  properties?: MachineRunCommandProperties | undefined;
 }
 /** The MachineRunCommand items on this page */
 export type MachineRunCommandsListResultValueList = Array<MachineRunCommand>;
@@ -2410,7 +2417,7 @@ export interface MachineRunCommandsListResult {
   /** The MachineRunCommand items on this page */
   value: MachineRunCommandsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkSecurityPerimeterConfigurationByPrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2423,15 +2430,15 @@ export interface ListNetworkSecurityPerimeterConfigurationByPrivateLinkScopeRequ
 /** Properties that define a Network Security Perimeter resource. */
 export interface NetworkSecurityPerimeterConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties that define a Network Security Perimeter resource. */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 /** The NetworkSecurityPerimeterConfiguration items on this page */
 export type NetworkSecurityPerimeterConfigurationListResultValueList =
@@ -2441,39 +2448,39 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   /** The NetworkSecurityPerimeterConfiguration items on this page */
   value: NetworkSecurityPerimeterConfigurationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Describes the properties of a Hybrid Compute Operation Value Display. */
 export interface OperationValueDisplay {
   /** The display name of the compute operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The display name of the resource the operation applies to. */
-  resource?: string;
+  resource?: string | undefined;
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The resource provider for the operation. */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** Describes the properties of a Compute Operation value. */
 export interface OperationValue {
   /** The origin of the compute operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** The name of the compute operation. */
-  name?: string;
+  name?: string | undefined;
   /** Display properties */
-  display?: OperationValueDisplay;
+  display?: OperationValueDisplay | undefined;
   /** This property indicates if the operation is an action or a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** The list of operations. */
 export type OperationListResultValueList = Array<OperationValue>;
 /** The List of Operations. */
 export interface OperationListResult {
   /** The list of operations. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByPrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2486,15 +2493,15 @@ export interface ListPrivateEndpointConnectionByPrivateLinkScopeRequest {
 /** A private endpoint connection */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -2503,7 +2510,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByPrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2516,15 +2523,15 @@ export interface ListPrivateLinkResourceByPrivateLinkScopeRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -2533,7 +2540,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkScopeByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2546,19 +2553,19 @@ export type HybridComputePrivateLinkScopeTagsMap = { [key: string]: string | und
 /** An Azure Arc PrivateLinkScope definition. */
 export interface HybridComputePrivateLinkScope {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HybridComputePrivateLinkScopeTagsMap;
+  tags?: HybridComputePrivateLinkScopeTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Azure Arc PrivateLinkScope resource. */
-  properties?: HybridComputePrivateLinkScopeProperties;
+  properties?: HybridComputePrivateLinkScopeProperties | undefined;
 }
 /** The HybridComputePrivateLinkScope items on this page */
 export type HybridComputePrivateLinkScopeListResultValueList = Array<HybridComputePrivateLinkScope>;
@@ -2567,7 +2574,7 @@ export interface HybridComputePrivateLinkScopeListResult {
   /** The HybridComputePrivateLinkScope items on this page */
   value: HybridComputePrivateLinkScopeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkScopesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2581,28 +2588,28 @@ export interface ListVmApplicationsRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** The maximum number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The continuation token for the next page of results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type VmApplicationTagsMap = { [key: string]: string | undefined };
 /** A VM application installed on a hybrid machine. */
 export interface VmApplication {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VmApplicationTagsMap;
+  tags?: VmApplicationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The VM application properties. */
-  properties?: VmApplicationProperties;
+  properties?: VmApplicationProperties | undefined;
 }
 /** The VmApplication items on this page */
 export type VmApplicationsListResultValueList = Array<VmApplication>;
@@ -2611,7 +2618,7 @@ export interface VmApplicationsListResult {
   /** The VmApplication items on this page */
   value: VmApplicationsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MachineExtensionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2624,23 +2631,23 @@ export type MachineExtensionPropertiesInputProtectedSettingsMap = {
 /** Describes the properties of a Machine Extension. */
 export interface MachineExtensionPropertiesInput {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: MachineExtensionPropertiesInputSettingsMap;
+  settings?: MachineExtensionPropertiesInputSettingsMap | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: MachineExtensionPropertiesInputProtectedSettingsMap;
+  protectedSettings?: MachineExtensionPropertiesInputProtectedSettingsMap | undefined;
   /** The machine extension instance view. */
-  instanceView?: MachineExtensionInstanceView;
+  instanceView?: MachineExtensionInstanceView | undefined;
 }
 export interface MachineExtensionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2652,33 +2659,33 @@ export interface MachineExtensionsCreateOrUpdateRequest {
   /** The name of the machine extension. */
   extensionName: string;
   /** Resource tags. */
-  tags?: MachineExtensionsCreateOrUpdateRequestTagsMap;
+  tags?: MachineExtensionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Machine Extension Properties. */
-  properties?: MachineExtensionPropertiesInput;
+  properties?: MachineExtensionPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type MachineExtensionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface MachineExtensionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MachineExtensionsCreateOrUpdateResponseTagsMap;
+  tags?: MachineExtensionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Machine Extension Properties. */
-  properties?: MachineExtensionProperties;
+  properties?: MachineExtensionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type MachineRunCommandsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2690,27 +2697,27 @@ export type MachineRunCommandPropertiesInputProtectedParametersList =
 /** Describes the properties of a run command. */
 export interface MachineRunCommandPropertiesInput {
   /** The source of the run command script. */
-  source?: MachineRunCommandScriptSource;
+  source?: MachineRunCommandScriptSource | undefined;
   /** The parameters used by the script. */
-  parameters?: MachineRunCommandPropertiesInputParametersList;
+  parameters?: MachineRunCommandPropertiesInputParametersList | undefined;
   /** The parameters used by the script. */
-  protectedParameters?: MachineRunCommandPropertiesInputProtectedParametersList;
+  protectedParameters?: MachineRunCommandPropertiesInputProtectedParametersList | undefined;
   /** Optional. If set to true, provisioning will complete as soon as script starts and will not wait for script to complete. */
-  asyncExecution?: boolean;
+  asyncExecution?: boolean | undefined;
   /** Specifies the user account on the machine when executing the run command. */
-  runAsUser?: string;
+  runAsUser?: string | undefined;
   /** Specifies the user account password on the machine when executing the run command. */
-  runAsPassword?: string | Redacted.Redacted<string>;
+  runAsPassword?: string | Redacted.Redacted<string> | undefined;
   /** The timeout in seconds to execute the run command. */
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
   /** Specifies the Azure storage blob where script output stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer outputBlobManagedIdentity parameter. */
-  outputBlobUri?: string;
+  outputBlobUri?: string | undefined;
   /** Specifies the Azure storage blob where script error stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer errorBlobManagedIdentity parameter. */
-  errorBlobUri?: string;
+  errorBlobUri?: string | undefined;
   /** User-assigned managed identity that has access to outputBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  outputBlobManagedIdentity?: RunCommandManagedIdentity;
+  outputBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
   /** User-assigned managed identity that has access to errorBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
-  errorBlobManagedIdentity?: RunCommandManagedIdentity;
+  errorBlobManagedIdentity?: RunCommandManagedIdentity | undefined;
 }
 export interface MachineRunCommandsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2722,35 +2729,35 @@ export interface MachineRunCommandsCreateOrUpdateRequest {
   /** The name of the run command. */
   runCommandName: string;
   /** Resource tags. */
-  tags?: MachineRunCommandsCreateOrUpdateRequestTagsMap;
+  tags?: MachineRunCommandsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Run Command Properties */
-  properties?: MachineRunCommandPropertiesInput;
+  properties?: MachineRunCommandPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type MachineRunCommandsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface MachineRunCommandsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MachineRunCommandsCreateOrUpdateResponseTagsMap;
+  tags?: MachineRunCommandsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Run Command Properties */
-  properties?: MachineRunCommandProperties;
+  properties?: MachineRunCommandProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MachinesAssessPatchesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2763,23 +2770,23 @@ export interface MachinesAssessPatchesRequest {
 /** Summarization of patches available for installation on the machine by classification. */
 export interface AvailablePatchCountByClassification {
   /** Number of security patches available for installation. */
-  security?: number;
+  security?: number | undefined;
   /** Number of critical patches available for installation. */
-  critical?: number;
+  critical?: number | undefined;
   /** Number of definition patches available for installation. */
-  definition?: number;
+  definition?: number | undefined;
   /** Number of update Rollup patches available for installation. */
-  updateRollup?: number;
+  updateRollup?: number | undefined;
   /** Number of feature pack patches available for installation. */
-  featurePack?: number;
+  featurePack?: number | undefined;
   /** Number of service pack patches available for installation. */
-  servicePack?: number;
+  servicePack?: number | undefined;
   /** Number of tools patches available for installation. */
-  tools?: number;
+  tools?: number | undefined;
   /** Number of updates category patches available for installation. */
-  updates?: number;
+  updates?: number | undefined;
   /** Number of other patches available for installation. */
-  other?: number;
+  other?: number | undefined;
 }
 /** The error details. */
 export type MachineAssessPatchesResultErrorDetailsDetailsList = Array<ErrorDetail>;
@@ -2788,42 +2795,42 @@ export type MachineAssessPatchesResultErrorDetailsAdditionalInfoList = Array<Err
 /** The error detail. */
 export interface MachineAssessPatchesResultErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: MachineAssessPatchesResultErrorDetailsDetailsList;
+  details?: MachineAssessPatchesResultErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: MachineAssessPatchesResultErrorDetailsAdditionalInfoList;
+  additionalInfo?: MachineAssessPatchesResultErrorDetailsAdditionalInfoList | undefined;
 }
 /** Describes the properties of an AssessPatches result. */
 export interface MachineAssessPatchesResult {
   /** The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings." */
-  status?: PatchOperationStatus;
+  status?: PatchOperationStatus | undefined;
   /** The activity ID of the operation that produced this result. */
-  assessmentActivityId?: string;
+  assessmentActivityId?: string | undefined;
   /** The overall reboot status of the VM. It will be true when partially installed patches require a reboot to complete installation but the reboot has not yet occurred. */
-  rebootPending?: boolean;
+  rebootPending?: boolean | undefined;
   /** Summarization of patches available for installation on the machine by classification. */
-  availablePatchCountByClassification?: AvailablePatchCountByClassification;
+  availablePatchCountByClassification?: AvailablePatchCountByClassification | undefined;
   /** The UTC timestamp when the operation began. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** The UTC timestamp when the operation finished. */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** Indicates if operation was triggered by user or by platform. */
-  startedBy?: PatchOperationStartedBy;
+  startedBy?: PatchOperationStartedBy | undefined;
   /** Specifies the patch service used for the operation. */
-  patchServiceUsed?: PatchServiceUsed;
+  patchServiceUsed?: PatchServiceUsed | undefined;
   /** The operating system type of the machine. */
-  osType?: OsType;
+  osType?: OsType | undefined;
   /** The error detail. */
-  errorDetails?: MachineAssessPatchesResultErrorDetails;
+  errorDetails?: MachineAssessPatchesResultErrorDetails | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type MachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2834,94 +2841,94 @@ export type CloudMetadataInput = LicenseProfileArmProductProfilePropertiesInputE
 /** The info w.r.t Agent Upgrade. */
 export interface AgentUpgradeInput {
   /** Specifies the version info w.r.t AgentUpgrade for the machine. */
-  desiredVersion?: string;
+  desiredVersion?: string | undefined;
   /** The correlation ID associated with an agent upgrade operation. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Specifies if the machine's agent should be upgraded */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
 }
 /** Specifies the patch settings. */
 export interface PatchSettingsInput {
   /** Specifies the assessment mode. */
-  assessmentMode?: AssessmentModeTypes | (string & {});
+  assessmentMode?: AssessmentModeTypes | (string & {}) | undefined;
   /** Specifies the patch mode. */
-  patchMode?: PatchModeTypes | (string & {});
+  patchMode?: PatchModeTypes | (string & {}) | undefined;
   /** Captures the hotpatch capability enrollment intent of the customers, which enables customers to patch their Windows machines without requiring a reboot. */
-  enableHotpatching?: boolean;
+  enableHotpatching?: boolean | undefined;
 }
 /** Specifies the windows configuration for update management. */
 export interface OSProfileWindowsConfigurationInput {
   /** Specifies the patch settings. */
-  patchSettings?: PatchSettingsInput;
+  patchSettings?: PatchSettingsInput | undefined;
 }
 /** Specifies the linux configuration for update management. */
 export type OSProfileLinuxConfigurationInput = OSProfileWindowsConfigurationInput;
 /** Specifies the operating system settings for the hybrid machine. */
 export interface OSProfileInput {
   /** Specifies the windows configuration for update management. */
-  windowsConfiguration?: OSProfileWindowsConfigurationInput;
+  windowsConfiguration?: OSProfileWindowsConfigurationInput | undefined;
   /** Specifies the linux configuration for update management. */
-  linuxConfiguration?: OSProfileWindowsConfigurationInput;
+  linuxConfiguration?: OSProfileWindowsConfigurationInput | undefined;
 }
 /** Resource tags. */
 export type LicenseInputTagsMap = { [key: string]: string | undefined };
 /** Describes a license in a hybrid machine. */
 export interface LicenseInput {
   /** Resource tags. */
-  tags?: LicenseInputTagsMap;
+  tags?: LicenseInputTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicensePropertiesInput;
+  properties?: LicensePropertiesInput | undefined;
 }
 /** Properties for the Machine ESU profile. */
 export interface LicenseProfileMachineInstanceViewEsuPropertiesInput {
   /** The assigned license resource. */
-  assignedLicense?: LicenseInput;
+  assignedLicense?: LicenseInput | undefined;
   /** Describes the license assignment state (Assigned or NotAssigned). */
-  licenseAssignmentState?: LicenseAssignmentState | (string & {});
+  licenseAssignmentState?: LicenseAssignmentState | (string & {}) | undefined;
 }
 /** License Profile Instance View in Machine Properties. */
 export interface LicenseProfileMachineInstanceViewInput {
   /** Properties for the Machine ESU profile. */
-  esuProfile?: LicenseProfileMachineInstanceViewEsuPropertiesInput;
+  esuProfile?: LicenseProfileMachineInstanceViewEsuPropertiesInput | undefined;
 }
 /** Machine Extensions information (deprecated field) */
 export type MachinePropertiesInputExtensionsList = Array<MachineExtensionInstanceView>;
 /** Describes the properties of a hybrid machine. */
 export interface MachinePropertiesInput {
   /** Metadata pertaining to the geographic location of the resource. */
-  locationData?: MachinePropertiesLocationData;
+  locationData?: MachinePropertiesLocationData | undefined;
   /** Statuses of dependent services that are reported back to ARM. */
-  serviceStatuses?: ServiceStatuses;
+  serviceStatuses?: ServiceStatuses | undefined;
   /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
-  cloudMetadata?: LicenseProfileArmProductProfilePropertiesInputError;
+  cloudMetadata?: LicenseProfileArmProductProfilePropertiesInputError | undefined;
   /** The info of the machine w.r.t Agent Upgrade */
-  agentUpgrade?: AgentUpgradeInput;
+  agentUpgrade?: AgentUpgradeInput | undefined;
   /** Specifies the operating system settings for the hybrid machine. */
-  osProfile?: OSProfileInput;
+  osProfile?: OSProfileInput | undefined;
   /** Specifies the License related properties for a machine. */
-  licenseProfile?: LicenseProfileMachineInstanceViewInput;
+  licenseProfile?: LicenseProfileMachineInstanceViewInput | undefined;
   /** Specifies the hybrid machine unique ID. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Public Key that the client provides to be used during initial resource onboarding */
-  clientPublicKey?: string;
+  clientPublicKey?: string | undefined;
   /** Specifies the identity key store a machine is using. */
-  identityKeyStore?: IdentityKeyStore | (string & {});
+  identityKeyStore?: IdentityKeyStore | (string & {}) | undefined;
   /** Endorsement Key Certificate of the Trusted Platform Module (TPM) that the client provides to be used during initial resource onboarding. */
-  tpmEkCertificate?: string;
+  tpmEkCertificate?: string | undefined;
   /** The type of Operating System (windows/linux). */
-  osType?: string;
+  osType?: string | undefined;
   /** Machine Extensions information (deprecated field) */
-  extensions?: MachinePropertiesInputExtensionsList;
+  extensions?: MachinePropertiesInputExtensionsList | undefined;
   /** The resource id of the private link scope this machine is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
+  privateLinkScopeResourceId?: string | undefined;
   /** The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any. */
-  parentClusterResourceId?: string;
+  parentClusterResourceId?: string | undefined;
   /** Specifies the resource ID of the associated hardware device. Only settable by HCI RP. */
-  hardwareResourceId?: string;
+  hardwareResourceId?: string | undefined;
   /** Specifies whether any MS SQL instance is discovered on the machine. */
-  mssqlDiscovered?: string;
+  mssqlDiscovered?: string | undefined;
 }
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = LicenseProfileArmProductProfilePropertiesInputError;
@@ -2933,7 +2940,9 @@ export type MachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
 export interface MachinesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: MachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | MachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface MachinesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2943,17 +2952,17 @@ export interface MachinesCreateOrUpdateRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** Expands referenced resources. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Resource tags. */
-  tags?: MachinesCreateOrUpdateRequestTagsMap;
+  tags?: MachinesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Machine properties */
-  properties?: MachinePropertiesInput;
+  properties?: MachinePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MachinesCreateOrUpdateRequestIdentity;
+  identity?: MachinesCreateOrUpdateRequestIdentity | undefined;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
-  kind?: ArcKindEnum | (string & {});
+  kind?: ArcKindEnum | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type MachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2966,34 +2975,36 @@ export type MachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface MachinesCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: MachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | MachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface MachinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MachinesCreateOrUpdateResponseTagsMap;
+  tags?: MachinesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Machine properties */
-  properties?: MachineProperties;
+  properties?: MachineProperties | undefined;
   /** The list of extensions affiliated to the machine */
-  resources?: MachinesCreateOrUpdateResponseResourcesList;
+  resources?: MachinesCreateOrUpdateResponseResourcesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: MachinesCreateOrUpdateResponseIdentity;
+  identity?: MachinesCreateOrUpdateResponseIdentity | undefined;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
-  kind?: ArcKindEnum;
+  kind?: ArcKindEnum | undefined;
 }
 export interface NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3008,18 +3019,18 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkSc
 /** Result of network security perimeter configurations. */
 export interface NetworkSecurityPerimeterConfigurationReconcileResult {
   /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
+  location?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Settings properties */
 export interface SettingsPropertiesInput {
   /** Settings Gateway properties */
-  gatewayProperties?: SettingsGatewayProperties;
+  gatewayProperties?: SettingsGatewayProperties | undefined;
 }
 export interface PatchSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3035,19 +3046,19 @@ export interface PatchSettingsRequest {
   /** The name of the settings resource. */
   settingsResourceName: string;
   /** Settings properties */
-  properties?: SettingsPropertiesInput;
+  properties?: SettingsPropertiesInput | undefined;
 }
 export interface PatchSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Settings properties */
-  properties?: SettingsProperties;
+  properties?: SettingsProperties | undefined;
 }
 /** State of the private endpoint connection. */
 export interface PrivateLinkServiceConnectionStatePropertyInput {
@@ -3059,9 +3070,9 @@ export interface PrivateLinkServiceConnectionStatePropertyInput {
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStatePropertyInput;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStatePropertyInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3073,23 +3084,23 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type PrivateLinkScopesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -3105,9 +3116,10 @@ export interface HybridComputePrivateLinkScopePropertiesInput {
   /** Indicates whether machines associated with the private link scope can also use public Azure Arc service endpoints. */
   publicNetworkAccess?:
     | HybridComputePrivateLinkScopePropertiesInputPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Enable private link validation for an Azure Arc Extension. */
-  serviceExtensions?: HybridComputePrivateLinkScopePropertiesInputServiceExtensionsList;
+  serviceExtensions?: HybridComputePrivateLinkScopePropertiesInputServiceExtensionsList | undefined;
 }
 export interface PrivateLinkScopesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3117,29 +3129,29 @@ export interface PrivateLinkScopesCreateOrUpdateRequest {
   /** The name of the Azure Arc PrivateLinkScope resource. */
   scopeName: string;
   /** Resource tags. */
-  tags?: PrivateLinkScopesCreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkScopesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Azure Arc PrivateLinkScope resource. */
-  properties?: HybridComputePrivateLinkScopePropertiesInput;
+  properties?: HybridComputePrivateLinkScopePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type PrivateLinkScopesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PrivateLinkScopesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PrivateLinkScopesCreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkScopesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Azure Arc PrivateLinkScope resource. */
-  properties?: HybridComputePrivateLinkScopeProperties;
+  properties?: HybridComputePrivateLinkScopeProperties | undefined;
 }
 /** The list of extensions */
 export type SetupExtensionsRequestExtensionsList = Array<MachineExtensionPropertiesInput>;
@@ -3151,19 +3163,19 @@ export interface SetupExtensionsRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** The list of extensions */
-  extensions?: SetupExtensionsRequestExtensionsList;
+  extensions?: SetupExtensionsRequestExtensionsList | undefined;
 }
 /** The list of extensions */
 export type SetupExtensionRequestExtensionsList = Array<MachineExtensionProperties>;
 export interface SetupExtensionRequest {
   /** The list of extensions */
-  extensions?: SetupExtensionRequestExtensionsList;
+  extensions?: SetupExtensionRequestExtensionsList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateGatewayRequestTagsMap = { [key: string]: string | undefined };
@@ -3174,9 +3186,9 @@ export type GatewayUpdatePropertiesGatewayBypassList = Array<string>;
 /** Describes the Update properties of a Gateway Profile. */
 export interface GatewayUpdateProperties {
   /** Specifies the list of features that are enabled for this Gateway. */
-  allowedFeatures?: GatewayUpdatePropertiesAllowedFeaturesList;
+  allowedFeatures?: GatewayUpdatePropertiesAllowedFeaturesList | undefined;
   /** Specifies the list of domain names that should bypass the gateway. Each entry must be a valid DNS hostname. */
-  gatewayBypass?: GatewayUpdatePropertiesGatewayBypassList;
+  gatewayBypass?: GatewayUpdatePropertiesGatewayBypassList | undefined;
 }
 export interface UpdateGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3186,47 +3198,47 @@ export interface UpdateGatewayRequest {
   /** The name of the Gateway. */
   gatewayName: string;
   /** Resource tags */
-  tags?: UpdateGatewayRequestTagsMap;
+  tags?: UpdateGatewayRequestTagsMap | undefined;
   /** Gateway Update properties */
-  properties?: GatewayUpdateProperties;
+  properties?: GatewayUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateGatewayResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateGatewayResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateGatewayResponseTagsMap;
+  tags?: UpdateGatewayResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Gateway properties */
-  properties?: GatewayProperties;
+  properties?: GatewayProperties | undefined;
 }
 /** Resource tags */
 export type UpdateLicenseRequestTagsMap = { [key: string]: string | undefined };
 export interface LicenseUpdatePropertiesLicenseDetails {
   /** Describes the state of the license. */
-  state?: LicenseState | (string & {});
+  state?: LicenseState | (string & {}) | undefined;
   /** Describes the license target server. */
-  target?: LicenseTarget | (string & {});
+  target?: LicenseTarget | (string & {}) | undefined;
   /** Describes the edition of the license. The values are either Standard or Datacenter. */
-  edition?: LicenseEdition | (string & {});
+  edition?: LicenseEdition | (string & {}) | undefined;
   /** Describes the license core type (pCore or vCore). */
-  type?: LicenseCoreType | (string & {});
+  type?: LicenseCoreType | (string & {}) | undefined;
   /** Describes the number of processors. */
-  processors?: number;
+  processors?: number | undefined;
 }
 /** Describes the Update properties of a License Profile. */
 export interface LicenseUpdateProperties {
   /** The type of the license resource. */
-  licenseType?: LicenseType | (string & {});
-  licenseDetails?: LicenseUpdatePropertiesLicenseDetails;
+  licenseType?: LicenseType | (string & {}) | undefined;
+  licenseDetails?: LicenseUpdatePropertiesLicenseDetails | undefined;
 }
 export interface UpdateLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3236,31 +3248,31 @@ export interface UpdateLicenseRequest {
   /** The name of the license. */
   licenseName: string;
   /** Resource tags */
-  tags?: UpdateLicenseRequestTagsMap;
+  tags?: UpdateLicenseRequestTagsMap | undefined;
   /** License Update properties */
-  properties?: LicenseUpdateProperties;
+  properties?: LicenseUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateLicenseResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateLicenseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateLicenseResponseTagsMap;
+  tags?: UpdateLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicenseProperties;
+  properties?: LicenseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type UpdateLicenseProfileRequestLicenseProfileName = "default";
 /** Resource tags */
@@ -3274,28 +3286,28 @@ export type LicenseProfileSubscriptionStatusUpdate = "Enable" | "Disable";
 /** Product Feature */
 export interface ProductFeatureUpdate {
   /** Product feature name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates the new status of the product feature. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate | (string & {});
+  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate | (string & {}) | undefined;
 }
 /** The list of product feature updates. */
 export type ProductProfileUpdatePropertiesProductFeaturesList = Array<ProductFeatureUpdate>;
 /** Describes the Update properties of a Product Profile. */
 export interface ProductProfileUpdateProperties {
   /** Indicates the subscription status of the product. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate | (string & {});
+  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate | (string & {}) | undefined;
   /** Indicates the product type of the license. */
-  productType?: LicenseProfileProductType | (string & {});
+  productType?: LicenseProfileProductType | (string & {}) | undefined;
   /** The list of product feature updates. */
-  productFeatures?: ProductProfileUpdatePropertiesProductFeaturesList;
+  productFeatures?: ProductProfileUpdatePropertiesProductFeaturesList | undefined;
 }
 /** Describe the Update properties of a license profile. */
 export interface LicenseProfileUpdateProperties {
-  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance;
+  softwareAssurance?: LicenseProfilePropertiesSoftwareAssurance | undefined;
   /** Hybrid Compute ESU Profile Update properties */
-  esuProfile?: LicenseProfileArmEsuPropertiesInput;
+  esuProfile?: LicenseProfileArmEsuPropertiesInput | undefined;
   /** Hybrid Compute Product Profile Update properties */
-  productProfile?: ProductProfileUpdateProperties;
+  productProfile?: ProductProfileUpdateProperties | undefined;
 }
 export interface UpdateLicenseProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3307,33 +3319,33 @@ export interface UpdateLicenseProfileRequest {
   /** The name of the license profile. */
   licenseProfileName: UpdateLicenseProfileRequestLicenseProfileName | (string & {});
   /** Resource tags */
-  tags?: UpdateLicenseProfileRequestTagsMap;
+  tags?: UpdateLicenseProfileRequestTagsMap | undefined;
   /** Describe the Update properties of a license profile. */
-  properties?: LicenseProfileUpdateProperties;
+  properties?: LicenseProfileUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateLicenseProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateLicenseProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateLicenseProfileResponseTagsMap;
+  tags?: UpdateLicenseProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describe the properties of a license profile. */
-  properties?: LicenseProfileProperties;
+  properties?: LicenseProfileProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateMachineRequestTagsMap = { [key: string]: string | undefined };
@@ -3345,30 +3357,30 @@ export type UpdateMachineRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateMachineRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateMachineRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateMachineRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Metadata pertaining to the geographic location of the resource. */
 export type MachineUpdatePropertiesInputLocationData = MachinePropertiesLocationData;
 /** Describes the ARM updatable properties of a hybrid machine. */
 export interface MachineUpdatePropertiesInput {
   /** Metadata pertaining to the geographic location of the resource. */
-  locationData?: MachinePropertiesLocationData;
+  locationData?: MachinePropertiesLocationData | undefined;
   /** Specifies the operating system settings for the hybrid machine. */
-  osProfile?: OSProfileInput;
+  osProfile?: OSProfileInput | undefined;
   /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
-  cloudMetadata?: LicenseProfileArmProductProfilePropertiesInputError;
+  cloudMetadata?: LicenseProfileArmProductProfilePropertiesInputError | undefined;
   /** The info of the machine w.r.t Agent Upgrade */
-  agentUpgrade?: AgentUpgradeInput;
+  agentUpgrade?: AgentUpgradeInput | undefined;
   /** The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any. */
-  parentClusterResourceId?: string;
+  parentClusterResourceId?: string | undefined;
   /** The resource id of the private link scope this machine is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
+  privateLinkScopeResourceId?: string | undefined;
   /** Identity key store type of the machine */
-  identityKeyStore?: string;
+  identityKeyStore?: string | undefined;
   /** Endorsement Key Certificate of the Trusted Platform Module (TPM) that the client provides to be used during initial resource onboarding. */
-  tpmEkCertificate?: string;
+  tpmEkCertificate?: string | undefined;
   /** Public Key that the client provides to be used during initial resource onboarding */
-  clientPublicKey?: string;
+  clientPublicKey?: string | undefined;
 }
 export interface UpdateMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3378,13 +3390,13 @@ export interface UpdateMachineRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** Resource tags */
-  tags?: UpdateMachineRequestTagsMap;
+  tags?: UpdateMachineRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateMachineRequestIdentity;
+  identity?: UpdateMachineRequestIdentity | undefined;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
-  kind?: ArcKindEnum | (string & {});
+  kind?: ArcKindEnum | (string & {}) | undefined;
   /** Hybrid Compute Machine properties */
-  properties?: MachineUpdatePropertiesInput;
+  properties?: MachineUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateMachineResponseTagsMap = { [key: string]: string | undefined };
@@ -3397,34 +3409,34 @@ export type UpdateMachineResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateMachineResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateMachineResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateMachineResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMachineResponseTagsMap;
+  tags?: UpdateMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute Machine properties */
-  properties?: MachineProperties;
+  properties?: MachineProperties | undefined;
   /** The list of extensions affiliated to the machine */
-  resources?: UpdateMachineResponseResourcesList;
+  resources?: UpdateMachineResponseResourcesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateMachineResponseIdentity;
+  identity?: UpdateMachineResponseIdentity | undefined;
   /** Indicates which kind of Arc machine placement on-premises, such as HCI, SCVMM or VMware etc. */
-  kind?: ArcKindEnum;
+  kind?: ArcKindEnum | undefined;
 }
 /** Resource tags */
 export type UpdateMachineExtensionRequestTagsMap = { [key: string]: string | undefined };
@@ -3437,21 +3449,21 @@ export type MachineExtensionUpdatePropertiesProtectedSettingsMap = {
 /** Describes the properties of a Machine Extension. */
 export interface MachineExtensionUpdateProperties {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** The name of the extension handler publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
+  type?: string | undefined;
   /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
+  typeHandlerVersion?: string | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: MachineExtensionUpdatePropertiesSettingsMap;
+  settings?: MachineExtensionUpdatePropertiesSettingsMap | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: MachineExtensionUpdatePropertiesProtectedSettingsMap;
+  protectedSettings?: MachineExtensionUpdatePropertiesProtectedSettingsMap | undefined;
 }
 export interface UpdateMachineExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3463,33 +3475,33 @@ export interface UpdateMachineExtensionRequest {
   /** The name of the machine extension. */
   extensionName: string;
   /** Resource tags */
-  tags?: UpdateMachineExtensionRequestTagsMap;
+  tags?: UpdateMachineExtensionRequestTagsMap | undefined;
   /** Describes Machine Extension Update Properties. */
-  properties?: MachineExtensionUpdateProperties;
+  properties?: MachineExtensionUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMachineExtensionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMachineExtensionResponseTagsMap;
+  tags?: UpdateMachineExtensionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Machine Extension Properties. */
-  properties?: MachineExtensionProperties;
+  properties?: MachineExtensionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdatePrivateLinkScopeTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -3501,25 +3513,25 @@ export interface UpdatePrivateLinkScopeTagsRequest {
   /** The name of the Azure Arc PrivateLinkScope resource. */
   scopeName: string;
   /** Resource tags */
-  tags?: UpdatePrivateLinkScopeTagsRequestTagsMap;
+  tags?: UpdatePrivateLinkScopeTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePrivateLinkScopeTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePrivateLinkScopeTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePrivateLinkScopeTagsResponseTagsMap;
+  tags?: UpdatePrivateLinkScopeTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties that define a Azure Arc PrivateLinkScope resource. */
-  properties?: HybridComputePrivateLinkScopeProperties;
+  properties?: HybridComputePrivateLinkScopeProperties | undefined;
 }
 export interface UpdateSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3535,36 +3547,36 @@ export interface UpdateSettingsRequest {
   /** The name of the settings resource. */
   settingsResourceName: string;
   /** Settings properties */
-  properties?: SettingsPropertiesInput;
+  properties?: SettingsPropertiesInput | undefined;
 }
 export interface UpdateSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Settings properties */
-  properties?: SettingsProperties;
+  properties?: SettingsProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateVmApplicationRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the VmApplication. */
 export interface VmApplicationUpdateProperties {
   /** The order in which the application is installed. */
-  order?: number;
+  order?: number | undefined;
   /** The resource ID of the gallery application version. The version name can be `latest` or a specific version. This property is mutually exclusive with sharedGalleryApplicationId and communityGalleryApplicationId. */
-  packageReferenceId?: string;
+  packageReferenceId?: string | undefined;
   /** The identifier of a direct shared gallery application version. Use `/sharedGalleries/{sharedGalleryUniqueName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and communityGalleryApplicationId. */
-  sharedGalleryApplicationId?: string;
+  sharedGalleryApplicationId?: string | undefined;
   /** The identifier of a community gallery application version. Use `/communityGalleries/{communityGalleryPublicName}/applications/{applicationName}/versions/{versionName}`, where the version name can be `latest` or a specific version. This property is mutually exclusive with packageReferenceId and sharedGalleryApplicationId. */
-  communityGalleryApplicationId?: string;
+  communityGalleryApplicationId?: string | undefined;
   /** The URI of configuration data that replaces the package's default configuration. */
-  configurationReference?: string;
+  configurationReference?: string | undefined;
   /** Indicates whether an application operation failure causes the deployment to fail. */
-  treatFailureAsDeploymentFailure?: boolean;
+  treatFailureAsDeploymentFailure?: boolean | undefined;
 }
 export interface UpdateVmApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3576,36 +3588,36 @@ export interface UpdateVmApplicationRequest {
   /** The name of the VM application. When creating the resource, this name must match the application name in the selected gallery reference. */
   applicationName: string;
   /** Resource tags. */
-  tags?: UpdateVmApplicationRequestTagsMap;
+  tags?: UpdateVmApplicationRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: VmApplicationUpdateProperties;
+  properties?: VmApplicationUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateVmApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVmApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVmApplicationResponseTagsMap;
+  tags?: UpdateVmApplicationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The VM application properties. */
-  properties?: VmApplicationProperties;
+  properties?: VmApplicationProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Describes the Machine Extension Target Version Properties */
 export interface ExtensionTargetProperties {
   /** Properties for the specified Extension to Upgrade. */
-  targetVersion?: string;
+  targetVersion?: string | undefined;
 }
 /** Describes the Extension Target Properties. */
 export type UpgradeExtensionsRequestExtensionTargetsMap = {
@@ -3619,15 +3631,15 @@ export interface UpgradeExtensionsRequest {
   /** The name of the hybrid machine. */
   machineName: string;
   /** Describes the Extension Target Properties. */
-  extensionTargets?: UpgradeExtensionsRequestExtensionTargetsMap;
+  extensionTargets?: UpgradeExtensionsRequestExtensionTargetsMap | undefined;
 }
 export interface UpgradeExtensionsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ValidateLicenseLicenseRequestTagsMap = { [key: string]: string | undefined };
@@ -3635,33 +3647,33 @@ export interface ValidateLicenseLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Resource tags. */
-  tags?: ValidateLicenseLicenseRequestTagsMap;
+  tags?: ValidateLicenseLicenseRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicensePropertiesInput;
+  properties?: LicensePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ValidateLicenseLicenseResponseTagsMap = { [key: string]: string | undefined };
 export interface ValidateLicenseLicenseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ValidateLicenseLicenseResponseTagsMap;
+  tags?: ValidateLicenseLicenseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Hybrid Compute License properties */
-  properties?: LicenseProperties;
+  properties?: LicenseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VmApplicationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -3675,33 +3687,33 @@ export interface VmApplicationsCreateOrUpdateRequest {
   /** The name of the VM application. When creating the resource, this name must match the application name in the selected gallery reference. */
   applicationName: string;
   /** Resource tags. */
-  tags?: VmApplicationsCreateOrUpdateRequestTagsMap;
+  tags?: VmApplicationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The VM application properties. */
-  properties?: VmApplicationProperties;
+  properties?: VmApplicationProperties | undefined;
 }
 /** Resource tags. */
 export type VmApplicationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface VmApplicationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VmApplicationsCreateOrUpdateResponseTagsMap;
+  tags?: VmApplicationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The VM application properties. */
-  properties?: VmApplicationProperties;
+  properties?: VmApplicationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteGatewayError = AzureOpError;
 /** The operation to delete a gateway. */

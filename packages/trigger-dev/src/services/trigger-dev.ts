@@ -81,59 +81,59 @@ export interface ActivateScheduleV1Request {
 }
 export type ScheduleObjectGeneratorType = "CRON";
 export interface ScheduleObjectGenerator {
-  type?: ScheduleObjectGeneratorType;
+  type?: ScheduleObjectGeneratorType | undefined;
   /** The cron expression used to generate the schedule */
-  expression?: string;
+  expression?: string | undefined;
   /** The description of the generator in plain english */
-  description?: string;
+  description?: string | undefined;
 }
 /** Why the minimum window is applied. */
 export type ScheduleObjectAppliedSchedulePolicyReason = "free_schedule";
 /** Present only when a non-overridable plan policy applies a minimum window to this schedule (for example, a free-plan schedule's minimum run interval). The configured `window` is returned separately and unchanged. */
 export interface ScheduleObjectAppliedSchedulePolicy {
   /** The minimum window, in seconds, applied on top of the configured window. */
-  minimumWindowSeconds?: number;
+  minimumWindowSeconds?: number | undefined;
   /** Why the minimum window is applied. */
-  reason?: ScheduleObjectAppliedSchedulePolicyReason;
+  reason?: ScheduleObjectAppliedSchedulePolicyReason | undefined;
 }
 export interface ScheduleEnvironment {
-  id?: string;
-  type?: string;
-  userName?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  userName?: string | undefined;
 }
 export type ScheduleObjectEnvironmentsList = Array<ScheduleEnvironment>;
 export interface ScheduleObject {
   /** The unique ID of the schedule, prefixed with 'sched_' */
-  id?: string;
+  id?: string | undefined;
   /** The id of the scheduled task that will be triggered by this schedule */
-  task?: string;
+  task?: string | undefined;
   /** The type of schedule, `DECLARATIVE` or `IMPERATIVE`. Declarative schedules are declared in your code by setting the `cron` property on a `schedules.task`. Imperative schedules are created in the dashboard or by using the imperative SDK functions like `schedules.create()`. */
-  type?: string;
+  type?: string | undefined;
   /** Whether the schedule is active or not */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The deduplication key used to prevent creating duplicate schedules */
-  deduplicationKey?: string;
+  deduplicationKey?: string | undefined;
   /** The external ID of the schedule. Can be anything that is useful to you (e.g., user ID, org ID, etc.) */
-  externalId?: string;
-  generator?: ScheduleObjectGenerator;
+  externalId?: string | undefined;
+  generator?: ScheduleObjectGenerator | undefined;
   /** Defaults to UTC. In IANA format, if set then it will trigger at the CRON frequency in that timezone and respect daylight savings time. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** The next time the schedule will run */
-  nextRun?: string;
+  nextRun?: string | undefined;
   /** Present only when a non-overridable plan policy applies a minimum window to this schedule (for example, a free-plan schedule's minimum run interval). The configured `window` is returned separately and unchanged. */
-  appliedSchedulePolicy?: ScheduleObjectAppliedSchedulePolicy;
-  environments?: ScheduleObjectEnvironmentsList;
+  appliedSchedulePolicy?: ScheduleObjectAppliedSchedulePolicy | undefined;
+  environments?: ScheduleObjectEnvironmentsList | undefined;
 }
 export type DashboardWidgetDisplayCase0Type = "table";
 export interface DashboardWidgetDisplayCase0SortingItem {
-  id?: string;
-  desc?: boolean;
+  id?: string | undefined;
+  desc?: boolean | undefined;
 }
 export type DashboardWidgetDisplayCase0SortingList = Array<DashboardWidgetDisplayCase0SortingItem>;
 export interface DashboardWidgetDisplayCase0 {
   type: DashboardWidgetDisplayCase0Type;
-  prettyFormatting?: boolean;
-  sorting?: DashboardWidgetDisplayCase0SortingList;
+  prettyFormatting?: boolean | undefined;
+  sorting?: DashboardWidgetDisplayCase0SortingList | undefined;
 }
 export type DashboardWidgetDisplayCase1Type = "chart";
 export type DashboardWidgetDisplayCase1ChartType = "bar" | "line";
@@ -151,7 +151,7 @@ export interface DashboardWidgetDisplayCase1 {
   sortByColumn: string | null;
   sortDirection: DashboardWidgetDisplayCase1SortDirection | (string & {});
   aggregation: DashboardWidgetDisplayCase1Aggregation | (string & {});
-  seriesColors?: DashboardWidgetDisplayCase1SeriesColorsMap;
+  seriesColors?: DashboardWidgetDisplayCase1SeriesColorsMap | undefined;
 }
 export type DashboardWidgetDisplayCase2Type = "bignumber";
 export type DashboardWidgetDisplayCase2Aggregation =
@@ -167,10 +167,10 @@ export interface DashboardWidgetDisplayCase2 {
   type: DashboardWidgetDisplayCase2Type;
   column: string;
   aggregation: DashboardWidgetDisplayCase2Aggregation | (string & {});
-  sortDirection?: DashboardWidgetDisplayCase2SortDirection | (string & {});
-  abbreviate?: boolean;
-  prefix?: string;
-  suffix?: string;
+  sortDirection?: DashboardWidgetDisplayCase2SortDirection | (string & {}) | undefined;
+  abbreviate?: boolean | undefined;
+  prefix?: string | undefined;
+  suffix?: string | undefined;
 }
 export type DashboardWidgetDisplayCase3Type = "title";
 export interface DashboardWidgetDisplayCase3 {
@@ -193,40 +193,40 @@ export interface AddDashboardWidgetV1Request {
   /** The custom dashboard id, starting with `dashboard_` */
   dashboardId: string;
   /** Omit to generate one. Letters, numbers, `_` and `-`, unique within the dashboard. */
-  id?: string;
+  id?: string | undefined;
   title: string;
   /** A TRQL query. Required unless the display type is `title`. */
-  query?: string;
+  query?: string | undefined;
   display: DashboardWidgetDisplay;
   /** Fill empty time buckets, carrying gauges forward and zero-filling counters. */
-  fillGaps?: boolean;
-  position?: DashboardWidgetPosition;
-  revision?: string;
+  fillGaps?: boolean | undefined;
+  position?: DashboardWidgetPosition | undefined;
+  revision?: string | undefined;
 }
 export interface DashboardObjectWidgetsItem {
-  id?: string;
-  title?: string;
-  query?: string;
-  display?: DashboardWidgetDisplay;
-  fillGaps?: boolean;
-  position?: DashboardWidgetPosition;
+  id?: string | undefined;
+  title?: string | undefined;
+  query?: string | undefined;
+  display?: DashboardWidgetDisplay | undefined;
+  fillGaps?: boolean | undefined;
+  position?: DashboardWidgetPosition | undefined;
 }
 /** Widgets in grid order, top to bottom then left to right. */
 export type DashboardObjectWidgetsList = Array<DashboardObjectWidgetsItem>;
 export interface DashboardObject {
   /** The dashboard id, starting with `dashboard_` */
-  id?: string;
-  title?: string;
-  description?: string;
-  revision?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  id?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  revision?: string | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
   /** Widgets in grid order, top to bottom then left to right. */
-  widgets?: DashboardObjectWidgetsList;
+  widgets?: DashboardObjectWidgetsList | undefined;
 }
 export interface AddDashboardWidgetV1Response {
-  widgetId?: string;
-  dashboard?: DashboardObject;
+  widgetId?: string | undefined;
+  dashboard?: DashboardObject | undefined;
 }
 export type RunTagsCase1List = Array<string>;
 /** One or more tags to attach to a run. Runs can have a maximum of 10 tags. */
@@ -237,7 +237,7 @@ export interface AddRunTagsV1Request {
   tags: RunTags;
 }
 export interface AddRunTagsV1Response {
-  message?: string;
+  message?: string | undefined;
 }
 export interface BulkAbortActionV1Request {
   /** The ID of a bulk action, starts with `bulk_`. */
@@ -252,7 +252,7 @@ export interface CancelRunV1Request {
 }
 export interface CancelRunV1Response {
   /** The ID of the run that was canceled. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CancelWebhookWaiterV1Request {
   /** The waiter's id, which is also its waitpoint id. */
@@ -263,15 +263,15 @@ export type CancelWebhookWaiterResponseReason = "too_late";
 export interface CancelWebhookWaiterResponse {
   cancelled: boolean;
   /** Present when `cancelled` is `false`. A delivery already claimed the waiter. */
-  reason?: CancelWebhookWaiterResponseReason;
+  reason?: CancelWebhookWaiterResponseReason | undefined;
   /** With `too_late`, the delivery that resumed the run. */
-  deliveryId?: string;
+  deliveryId?: string | undefined;
 }
 export interface CloseSessionV1Request {
   /** The session's friendly ID (`session_...`) or your `externalId`. The server disambiguates by the `session_` prefix. */
   session: string;
   /** Optional reason recorded on the session row. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Base payload passed to every run this session triggers. For `chat.agent` this carries `{ chatId, ...clientData }`. */
 export type SessionTriggerConfigBasePayloadMap = { [key: string]: unknown | undefined };
@@ -282,21 +282,21 @@ export interface SessionTriggerConfig {
   /** Base payload passed to every run this session triggers. For `chat.agent` this carries `{ chatId, ...clientData }`. */
   basePayload: SessionTriggerConfigBasePayloadMap;
   /** Machine preset for each run, e.g. `small-1x`. */
-  machine?: string;
+  machine?: string | undefined;
   /** Queue to schedule runs on. */
-  queue?: string;
+  queue?: string | undefined;
   /** Tags applied to every run this session triggers. */
-  tags?: SessionTriggerConfigTagsList;
+  tags?: SessionTriggerConfigTagsList | undefined;
   /** Maximum retry attempts per run. */
-  maxAttempts?: number;
+  maxAttempts?: number | undefined;
   /** Per-run wall-clock cap in seconds. */
-  maxDuration?: number;
+  maxDuration?: number | undefined;
   /** Pin every run to a specific worker version. */
-  lockToVersion?: string;
+  lockToVersion?: string | undefined;
   /** Region to schedule runs in. */
-  region?: string;
+  region?: string | undefined;
   /** Idle timeout surfaced to `chat.agent` via the wire payload. */
-  idleTimeoutInSeconds?: number;
+  idleTimeoutInSeconds?: number | undefined;
 }
 /** Tags on the session row. */
 export type SessionObjectTagsList = Array<string>;
@@ -307,24 +307,24 @@ export interface SessionObject {
   /** The session's friendly ID, prefixed with `session_`. */
   id: string;
   /** Your stable identity for the session, if one was set. */
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   /** The session type discriminator. */
   type: string;
   /** The task this session triggers runs against. */
   taskIdentifier: string;
-  triggerConfig?: SessionTriggerConfig;
+  triggerConfig?: SessionTriggerConfig | undefined;
   /** Friendly ID of the live run for this session, if any. Prefixed with `run_`. Omitted on list rows. */
-  currentRunId?: string | null;
+  currentRunId?: string | null | undefined;
   /** Tags on the session row. */
   tags: SessionObjectTagsList;
   /** Arbitrary JSON metadata, or `null` if unset. */
-  metadata?: SessionObjectMetadataMap | null;
+  metadata?: SessionObjectMetadataMap | null | undefined;
   /** When the session was closed, or `null` if open. */
-  closedAt?: string | null;
+  closedAt?: string | null | undefined;
   /** The optional reason recorded when the session was closed. */
-  closedReason?: string | null;
+  closedReason?: string | null | undefined;
   /** The session's retention deadline, or `null` if none. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   createdAt: string;
   updatedAt: string;
 }
@@ -342,7 +342,7 @@ export interface CompleteWaitpointTokenV1Request {
   /** The ID of the waitpoint token to complete. */
   waitpointId: string;
   /** Any JSON-serializable value to pass back to the run waiting on this token. The data will be returned from `wait.forToken()` as the result payload. */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export type CreateBulkActionRequestBodyCase0Action = "cancel";
 export type BulkActionFilterStatusCase0 =
@@ -401,61 +401,61 @@ export type BulkActionFilterRegionCase1List = Array<string>;
 export type BulkActionFilterRegion = string | BulkActionFilterRegionCase1List;
 /** Selects runs using SDK-style run-list filter fields, excluding pagination fields. In HTTP requests these fields are sent as JSON body properties, so time fields are top-level (`from`, `to`, `period`) instead of nested under `createdAt`. Provide at least one property. */
 export interface BulkActionFilter {
-  status?: BulkActionFilterStatus;
+  status?: BulkActionFilterStatus | undefined;
   /** The identifier of the task that was run. */
-  taskIdentifier?: BulkActionFilterTaskIdentifier;
+  taskIdentifier?: BulkActionFilterTaskIdentifier | undefined;
   /** The worker version that executed the run. */
-  version?: BulkActionFilterVersion;
+  version?: BulkActionFilterVersion | undefined;
   /** Start of the time range as an ISO date string or Unix timestamp in milliseconds. */
-  from?: BulkActionFilterFrom;
+  from?: BulkActionFilterFrom | undefined;
   /** End of the time range as an ISO date string or Unix timestamp in milliseconds. */
-  to?: BulkActionFilterTo;
+  to?: BulkActionFilterTo | undefined;
   /** Relative time period to select, such as `24h` or `30d`. */
-  period?: string;
+  period?: string | undefined;
   /** Select runs that were processed by another bulk action. */
-  bulkAction?: string;
+  bulkAction?: string | undefined;
   /** Select runs with one or more tags. */
-  tag?: BulkActionFilterTag;
+  tag?: BulkActionFilterTag | undefined;
   /** Select runs created by a schedule. */
-  schedule?: string;
+  schedule?: string | undefined;
   /** Select test or non-test runs. */
-  isTest?: boolean;
+  isTest?: boolean | undefined;
   /** Select runs in a batch. */
-  batch?: string;
-  queue?: BulkActionFilterQueue;
+  batch?: string | undefined;
+  queue?: BulkActionFilterQueue | undefined;
   /** Select runs by machine preset. */
-  machine?: BulkActionFilterMachine;
+  machine?: BulkActionFilterMachine | undefined;
   /** Select runs by region. */
-  region?: BulkActionFilterRegion;
+  region?: BulkActionFilterRegion | undefined;
 }
 export interface CreateBulkActionRequestBodyCase0 {
   action: CreateBulkActionRequestBodyCase0Action;
   filter: BulkActionFilter;
-  name?: string;
+  name?: string | undefined;
 }
 export type CreateBulkActionRequestBodyCase1Action = "cancel";
 export type CreateBulkActionRequestBodyCase1RunIdsList = Array<string>;
 export interface CreateBulkActionRequestBodyCase1 {
   action: CreateBulkActionRequestBodyCase1Action;
   runIds: CreateBulkActionRequestBodyCase1RunIdsList;
-  name?: string;
+  name?: string | undefined;
 }
 export type CreateBulkActionRequestBodyCase2Action = "replay";
 export interface CreateBulkActionRequestBodyCase2 {
   action: CreateBulkActionRequestBodyCase2Action;
   filter: BulkActionFilter;
-  name?: string;
+  name?: string | undefined;
   /** Region identifier to replay runs in. When omitted, each replay keeps the original run's region. */
-  targetRegion?: string;
+  targetRegion?: string | undefined;
 }
 export type CreateBulkActionRequestBodyCase3Action = "replay";
 export type CreateBulkActionRequestBodyCase3RunIdsList = Array<string>;
 export interface CreateBulkActionRequestBodyCase3 {
   action: CreateBulkActionRequestBodyCase3Action;
   runIds: CreateBulkActionRequestBodyCase3RunIdsList;
-  name?: string;
+  name?: string | undefined;
   /** Region identifier to replay runs in. When omitted, each replay keeps the original run's region. */
-  targetRegion?: string;
+  targetRegion?: string | undefined;
 }
 export type CreateBulkActionRequestBody =
   | CreateBulkActionRequestBodyCase0
@@ -468,22 +468,22 @@ export interface CreateBulkActionV1Request {
 export interface CreateBulkActionV1Response {}
 export interface DashboardWidgetInput {
   /** Omit to generate one. Letters, numbers, `_` and `-`, unique within the dashboard. */
-  id?: string;
+  id?: string | undefined;
   title: string;
   /** A TRQL query. Required unless the display type is `title`. */
-  query?: string;
+  query?: string | undefined;
   display: DashboardWidgetDisplay;
   /** Fill empty time buckets, carrying gauges forward and zero-filling counters. */
-  fillGaps?: boolean;
-  position?: DashboardWidgetPosition;
+  fillGaps?: boolean | undefined;
+  position?: DashboardWidgetPosition | undefined;
 }
 /** Widgets without a position are stacked full width below the positioned ones, in order. */
 export type CreateDashboardV1RequestWidgetsList = Array<DashboardWidgetInput>;
 export interface CreateDashboardV1Request {
   title: string;
-  description?: string;
+  description?: string | undefined;
   /** Widgets without a position are stacked full width below the positioned ones, in order. */
-  widgets?: CreateDashboardV1RequestWidgetsList;
+  widgets?: CreateDashboardV1RequestWidgetsList | undefined;
 }
 export type CreateProjectEnvvarV1RequestEnv = "dev" | "staging" | "prod";
 export interface CreateProjectEnvvarV1Request {
@@ -501,9 +501,9 @@ export interface CreateScheduleV1Request {
   task: string;
   cron: string;
   deduplicationKey: string;
-  externalId?: string;
+  externalId?: string | undefined;
   /** Defaults to "UTC". In IANA format ("America/New_York"). If set then it will trigger at the CRON frequency in that timezone and respect daylight savings time. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** Up to 10 tags on the session row, for dashboard filtering. */
 export type CreateSessionV1RequestTagsList = Array<string>;
@@ -516,13 +516,13 @@ export interface CreateSessionV1Request {
   taskIdentifier: string;
   triggerConfig: SessionTriggerConfig;
   /** Your stable identity for the session, unique per environment. Cannot start with the reserved `session_` prefix. Reusing an `externalId` makes create idempotent; reusing one whose session is closed or expired returns `409`. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Up to 10 tags on the session row, for dashboard filtering. */
-  tags?: CreateSessionV1RequestTagsList;
+  tags?: CreateSessionV1RequestTagsList | undefined;
   /** Arbitrary JSON metadata. */
-  metadata?: CreateSessionV1RequestMetadataMap;
+  metadata?: CreateSessionV1RequestMetadataMap | undefined;
   /** Absolute expiry timestamp for retention. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
 }
 /** Tags on the session row. */
 export type CreateSessionV1ResponseTagsList = Array<string>;
@@ -532,24 +532,24 @@ export interface CreateSessionV1Response {
   /** The session's friendly ID, prefixed with `session_`. */
   id: string;
   /** Your stable identity for the session, if one was set. */
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   /** The session type discriminator. */
   type: string;
   /** The task this session triggers runs against. */
   taskIdentifier: string;
-  triggerConfig?: SessionTriggerConfig;
+  triggerConfig?: SessionTriggerConfig | undefined;
   /** Friendly ID of the live run for this session, if any. Prefixed with `run_`. Omitted on list rows. */
-  currentRunId?: string | null;
+  currentRunId?: string | null | undefined;
   /** Tags on the session row. */
   tags: CreateSessionV1ResponseTagsList;
   /** Arbitrary JSON metadata, or `null` if unset. */
-  metadata?: CreateSessionV1ResponseMetadataMap | null;
+  metadata?: CreateSessionV1ResponseMetadataMap | null | undefined;
   /** When the session was closed, or `null` if open. */
-  closedAt?: string | null;
+  closedAt?: string | null | undefined;
   /** The optional reason recorded when the session was closed. */
-  closedReason?: string | null;
+  closedReason?: string | null | undefined;
   /** The session's retention deadline, or `null` if none. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   createdAt: string;
   updatedAt: string;
   /** Friendly ID of the first run triggered alongside the session. */
@@ -564,13 +564,13 @@ export type CreateWaitpointTokenV1RequestTagsCase1List = Array<string>;
 export type CreateWaitpointTokenV1RequestTags = string | CreateWaitpointTokenV1RequestTagsCase1List;
 export interface CreateWaitpointTokenV1Request {
   /** An optional idempotency key. If you pass the same key twice before it expires, you will receive the original token back. The returned token may already be completed, in which case `wait.forToken()` will continue immediately. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** How long the idempotency key is valid, after which passing the same key creates a new waitpoint. Accepts durations like "30s", "1m", "2h", "3d". */
-  idempotencyKeyTTL?: string;
+  idempotencyKeyTTL?: string | undefined;
   /** How long to wait before the token times out. When a run is waiting for a timed-out token, `wait.forToken()` returns with `ok: false`. Accepts an ISO 8601 date string or duration shorthand like "30s", "1m", "2h", "3d", "4w". */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Tags to attach to the waitpoint. You can set up to 10 tags, each under 128 characters. We recommend namespacing tags with a prefix like `user:1234567` or `org_9876543`. */
-  tags?: CreateWaitpointTokenV1RequestTags;
+  tags?: CreateWaitpointTokenV1RequestTags | undefined;
 }
 export interface CreateWaitpointTokenResponse {
   /** The unique ID of the waitpoint token. */
@@ -592,23 +592,23 @@ export interface CreateWebhookWaiterV1Request {
   /** The endpoint's declared id (the `id` passed to `webhooks.endpoint.define`) or its `wh_` id. A value starting with `wh_` is always a generated id, since declared ids can't start with `wh_`. A declared id names the endpoint's declared instance in the key's environment. */
   endpointId: string;
   /** Up to five paths, each mapped to the value it must equal. `event.*` reads the event body, `header.*` a request header (case-insensitive) and `webhook.*` the endpoint (`id`, `source`, `externalRef`, `tenantId` or `deliveryId`). Omit it to create a waiter with its own `url`. */
-  match?: CreateWebhookWaiterV1RequestMatchMap;
+  match?: CreateWebhookWaiterV1RequestMatchMap | undefined;
   /** A [filter](/webhooks/filters) the event must also pass, checked after `match`. */
-  filter?: string;
+  filter?: string | undefined;
   /** A duration such as `30m` or `1h`, or an ISO 8601 date. Defaults to 24 hours, up to 90 days. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Up to 10 tags, added to the `webhook:<endpoint id>` tag every waiter gets. */
-  tags?: CreateWebhookWaiterV1RequestTags;
+  tags?: CreateWebhookWaiterV1RequestTags | undefined;
   /** A create with a key already used in the environment returns the original waiter with `isCached: true`, even if it has completed. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** How long the idempotency key lasts, such as `1h` or `30d`. */
-  idempotencyKeyTTL?: string;
+  idempotencyKeyTTL?: string | undefined;
 }
 export interface CreateWebhookWaiterResponse {
   /** The waiter's id, which is also its waitpoint id. Wait on it with `webhooks.waiter.wait()` or `wait.forToken()`. */
   id: string;
   /** Only for a waiter created without `match`: the URL to give the provider as its per-request webhook. A delivery to it is verified with the endpoint's source and resumes only this waiter. */
-  url?: string;
+  url?: string | undefined;
   /** When the waiter times out. */
   expiresAt: string;
   /** `true` if an existing waiter was returned for the same `idempotencyKey`. */
@@ -623,7 +623,7 @@ export interface DeleteDashboardV1Request {
   dashboardId: string;
 }
 export interface DeleteDashboardV1Response {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DeleteDashboardWidgetV1Request {
   /** The custom dashboard id, starting with `dashboard_` */
@@ -631,7 +631,7 @@ export interface DeleteDashboardWidgetV1Request {
   /** The widget id */
   widgetId: string;
   /** The revision you last read. The delete fails with a 409 if the dashboard changed since. */
-  revision?: string;
+  revision?: string | undefined;
 }
 export type DeleteProjectEnvvarV1RequestEnv = "dev" | "staging" | "prod";
 export interface DeleteProjectEnvvarV1Request {
@@ -759,31 +759,31 @@ export interface ExecuteQueryV1Request {
   /** The TRQL query to execute */
   query: string;
   /** The scope of data to query - environment (default), project, or organization */
-  scope?: ExecuteQueryV1RequestScope | (string & {});
+  scope?: ExecuteQueryV1RequestScope | (string & {}) | undefined;
   /** Time period shorthand (e.g., "7d", "30d", "1h"). Cannot be used with from/to. */
-  period?: string | null;
+  period?: string | null | undefined;
   /** Start of time range as ISO 8601 timestamp. Must be used with 'to'. */
-  from?: string | null;
+  from?: string | null | undefined;
   /** End of time range as ISO 8601 timestamp. Must be used with 'from'. */
-  to?: string | null;
+  to?: string | null | undefined;
   /** Response format - "json" returns structured data (default), "csv" returns CSV string */
-  format?: ExecuteQueryV1RequestFormat | (string & {});
+  format?: ExecuteQueryV1RequestFormat | (string & {}) | undefined;
 }
 export type ExecuteQueryResponseCase0Format = "json";
 /** Array of result rows */
 export type ExecuteQueryResponseCase0ResultsList = Array<unknown>;
 /** JSON format response */
 export interface ExecuteQueryResponseCase0 {
-  format?: ExecuteQueryResponseCase0Format;
+  format?: ExecuteQueryResponseCase0Format | undefined;
   /** Array of result rows */
-  results?: ExecuteQueryResponseCase0ResultsList;
+  results?: ExecuteQueryResponseCase0ResultsList | undefined;
 }
 export type ExecuteQueryResponseCase1Format = "csv";
 /** CSV format response */
 export interface ExecuteQueryResponseCase1 {
-  format?: ExecuteQueryResponseCase1Format;
+  format?: ExecuteQueryResponseCase1Format | undefined;
   /** CSV-formatted results */
-  results?: string;
+  results?: string | undefined;
 }
 export type ExecuteQueryResponse = ExecuteQueryResponseCase0 | ExecuteQueryResponseCase1;
 export type ExecuteQueryV1Response = ExecuteQueryResponse;
@@ -793,7 +793,7 @@ export interface GetBatchResultsV1Request {
 }
 export interface GetBatchResultsV1ResponseItemsItemUsage {
   /** Duration of the run in milliseconds. */
-  durationMs?: number;
+  durationMs?: number | undefined;
 }
 export interface GetBatchResultsV1ResponseItemsItem {
   /** Whether this run completed successfully. */
@@ -801,22 +801,22 @@ export interface GetBatchResultsV1ResponseItemsItem {
   /** The run ID. */
   id: string;
   /** The serialized output as a string (present when ok is true). Use outputType to determine how to parse it -- for "application/json" use JSON.parse(). */
-  output?: string;
+  output?: string | undefined;
   /** The content type of the serialized output, e.g. "application/json". */
-  outputType?: string;
+  outputType?: string | undefined;
   /** Error details (present when ok is false). */
-  error?: unknown;
-  usage?: GetBatchResultsV1ResponseItemsItemUsage;
+  error?: unknown | undefined;
+  usage?: GetBatchResultsV1ResponseItemsItemUsage | undefined;
   /** The task identifier. */
-  taskIdentifier?: string;
+  taskIdentifier?: string | undefined;
 }
 /** Execution results for each run in the batch. */
 export type GetBatchResultsV1ResponseItemsList = Array<GetBatchResultsV1ResponseItemsItem>;
 export interface GetBatchResultsV1Response {
   /** The batch ID. */
-  id?: string;
+  id?: string | undefined;
   /** Execution results for each run in the batch. */
-  items?: GetBatchResultsV1ResponseItemsList;
+  items?: GetBatchResultsV1ResponseItemsList | undefined;
 }
 export interface GetBatchV1Request {
   /** The ID of the batch, starts with `batch_`. */
@@ -833,35 +833,35 @@ export type GetBatchV1ResponseStatus =
 export type GetBatchV1ResponseRunsList = Array<string>;
 export interface GetBatchV1ResponseErrorsItem {
   /** The index of the failed item. */
-  index?: number;
+  index?: number | undefined;
   /** The task identifier of the failed item. */
-  taskIdentifier?: string;
+  taskIdentifier?: string | undefined;
   /** The error details. */
-  error?: unknown;
+  error?: unknown | undefined;
   /** An optional error code. */
-  errorCode?: string | null;
+  errorCode?: string | null | undefined;
 }
 /** Error details for failed items (present for PARTIAL_FAILED batches). */
 export type GetBatchV1ResponseErrorsList = Array<GetBatchV1ResponseErrorsItem>;
 export interface GetBatchV1Response {
   /** The batch ID. */
-  id?: string;
+  id?: string | undefined;
   /** The current status of the batch. */
-  status?: GetBatchV1ResponseStatus;
+  status?: GetBatchV1ResponseStatus | undefined;
   /** The idempotency key provided when triggering, if any. */
-  idempotencyKey?: string | null;
-  createdAt?: string;
-  updatedAt?: string;
+  idempotencyKey?: string | null | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
   /** The total number of runs in the batch. */
-  runCount?: number;
+  runCount?: number | undefined;
   /** Array of run IDs in the batch. */
-  runs?: GetBatchV1ResponseRunsList;
+  runs?: GetBatchV1ResponseRunsList | undefined;
   /** Number of successful runs (populated after completion). */
-  successfulRunCount?: number | null;
+  successfulRunCount?: number | null | undefined;
   /** Number of failed runs (populated after completion). */
-  failedRunCount?: number | null;
+  failedRunCount?: number | null | undefined;
   /** Error details for failed items (present for PARTIAL_FAILED batches). */
-  errors?: GetBatchV1ResponseErrorsList | null;
+  errors?: GetBatchV1ResponseErrorsList | null | undefined;
 }
 export interface GetBulkActionV1Request {
   /** The ID of a bulk action, starts with `bulk_`. */
@@ -881,40 +881,40 @@ export interface BulkActionObject {
   /** The bulk action ID, prefixed with `bulk_`. */
   id: string;
   /** The name provided when the bulk action was created. */
-  name?: string;
+  name?: string | undefined;
   type: BulkActionObjectType;
   status: BulkActionObjectStatus;
   counts: BulkActionObjectCounts;
   createdAt: string;
-  completedAt?: string;
+  completedAt?: string | undefined;
 }
 export interface GetConcurrencyLimitV1Request {
   /** The limit's name, as declared with `concurrencyLimit()` */
   name: string;
   /** Return the view for this concurrencyKey instead of the limit itself. */
-  concurrencyKey?: string;
+  concurrencyKey?: string | undefined;
 }
 /** Caps each concurrencyKey pool; runs without a key share one pool */
 export interface ConcurrencyLimitObjectPerKey {
   /** Enforced right now (null = no per-key bound). Enforcement clamps it to the environment concurrency limit at admit time. */
-  current?: number | null;
+  current?: number | null | undefined;
   /** The declared value an override reverts to on reset */
-  base?: number | null;
+  base?: number | null | undefined;
   /** The overridden value, when an override is active */
-  override?: number | null;
+  override?: number | null | undefined;
   /** When the override was applied */
-  overriddenAt?: string | null;
+  overriddenAt?: string | null | undefined;
 }
 /** Caps every run holding this limit, keys or not */
 export interface ConcurrencyLimitObjectTotal {
   /** Enforced right now (null = no total bound). Enforcement clamps it to the environment concurrency limit at admit time. */
-  current?: number | null;
+  current?: number | null | undefined;
   /** The declared value an override reverts to on reset */
-  base?: number | null;
+  base?: number | null | undefined;
   /** The overridden value, when an override is active */
-  override?: number | null;
+  override?: number | null | undefined;
   /** When the override was applied */
-  overriddenAt?: string | null;
+  overriddenAt?: string | null | undefined;
 }
 export interface ConcurrencyLimitObject {
   /** The limit's id, starting with `climit_` */
@@ -930,18 +930,18 @@ export interface ConcurrencyLimitObject {
   /** Runs that are queued and must clear this limit to execute */
   queued: number;
   /** Whether the limit is paused. A paused limit admits no runs until resumed; its configured bounds are kept. */
-  paused?: boolean;
+  paused?: boolean | undefined;
 }
 /** The per-key bound for this key */
 export interface ConcurrencyLimitKeyObjectPerKey {
   /** Enforced right now for this key (the override when one is in force, else the limit's perKey), clamped to the environment concurrency limit */
-  current?: number | null;
+  current?: number | null | undefined;
   /** The limit's own perKey as enforced */
-  base?: number | null;
+  base?: number | null | undefined;
   /** The key's temporary override, when one is in force */
-  override?: number | null;
+  override?: number | null | undefined;
   /** When the key's override lapses; null when there is none */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
 }
 /** A limit's view for one concurrencyKey, returned when a request names a concurrencyKey. */
 export interface ConcurrencyLimitKeyObject {
@@ -977,41 +977,41 @@ export type GetDeploymentV1ResponseStatus =
   | "CANCELED"
   | "TIMED_OUT";
 export interface GetDeploymentV1ResponseWorkerTasksItem {
-  id?: string;
-  slug?: string;
-  filePath?: string;
-  exportName?: string;
+  id?: string | undefined;
+  slug?: string | undefined;
+  filePath?: string | undefined;
+  exportName?: string | undefined;
 }
 export type GetDeploymentV1ResponseWorkerTasksList = Array<GetDeploymentV1ResponseWorkerTasksItem>;
 /** Worker information if available */
 export interface GetDeploymentV1ResponseWorker {
-  id?: string;
-  version?: string;
-  tasks?: GetDeploymentV1ResponseWorkerTasksList;
+  id?: string | undefined;
+  version?: string | undefined;
+  tasks?: GetDeploymentV1ResponseWorkerTasksList | undefined;
 }
 export interface GetDeploymentV1Response {
   /** The deployment ID */
-  id?: string;
+  id?: string | undefined;
   /** The current status of the deployment */
-  status?: GetDeploymentV1ResponseStatus;
+  status?: GetDeploymentV1ResponseStatus | undefined;
   /** Hash of the deployment content */
-  contentHash?: string;
+  contentHash?: string | undefined;
   /** The short code for the deployment */
-  shortCode?: string;
+  shortCode?: string | undefined;
   /** The deployment version (e.g., "20250228.1") */
-  version?: string;
+  version?: string | undefined;
   /** Reference to the deployment image */
-  imageReference?: string | null;
+  imageReference?: string | null | undefined;
   /** Platform of the deployment image */
-  imagePlatform?: string;
+  imagePlatform?: string | undefined;
   /** The external deployment id this deployment was deployed under (`--external-id`), used by version skew protection to pin runs. Absent if the deployment was deployed without one */
-  externalId?: string;
+  externalId?: string | undefined;
   /** External build data if applicable */
-  externalBuildData?: unknown | null;
+  externalBuildData?: unknown | null | undefined;
   /** Error data if the deployment failed */
-  errorData?: unknown | null;
+  errorData?: unknown | null | undefined;
   /** Worker information if available */
-  worker?: GetDeploymentV1ResponseWorker | null;
+  worker?: GetDeploymentV1ResponseWorker | null | undefined;
 }
 export interface GetErrorV1Request {
   /** The ID of an error group, starts with `error_`. */
@@ -1038,16 +1038,16 @@ export interface ErrorObject {
   /** The most recent worker versions the error has occurred in (up to five) */
   affectedVersions: ErrorObjectAffectedVersionsList;
   status: ErrorObjectStatus;
-  resolvedAt?: string | null;
-  resolvedInVersion?: string | null;
+  resolvedAt?: string | null | undefined;
+  resolvedInVersion?: string | null | undefined;
   /** The ID of the user who resolved the error, when attributable */
-  resolvedBy?: string | null;
-  ignoredAt?: string | null;
-  ignoredUntil?: string | null;
-  ignoredReason?: string | null;
-  ignoredByUserId?: string | null;
-  ignoredUntilOccurrenceRate?: number | null;
-  ignoredUntilTotalOccurrences?: number | null;
+  resolvedBy?: string | null | undefined;
+  ignoredAt?: string | null | undefined;
+  ignoredUntil?: string | null | undefined;
+  ignoredReason?: string | null | undefined;
+  ignoredByUserId?: string | null | undefined;
+  ignoredUntilOccurrenceRate?: number | null | undefined;
+  ignoredUntilTotalOccurrences?: number | null | undefined;
 }
 export interface GetLatestDeploymentV1Request {}
 /** The current status of the deployment */
@@ -1062,19 +1062,19 @@ export type GetLatestDeploymentV1ResponseStatus =
   | "TIMED_OUT";
 export interface GetLatestDeploymentV1Response {
   /** The deployment ID */
-  id?: string;
+  id?: string | undefined;
   /** The current status of the deployment */
-  status?: GetLatestDeploymentV1ResponseStatus;
+  status?: GetLatestDeploymentV1ResponseStatus | undefined;
   /** Hash of the deployment content */
-  contentHash?: string;
+  contentHash?: string | undefined;
   /** The short code for the deployment */
-  shortCode?: string;
+  shortCode?: string | undefined;
   /** The deployment version (e.g., "20250228.1") */
-  version?: string;
+  version?: string | undefined;
   /** Reference to the deployment image */
-  imageReference?: string | null;
+  imageReference?: string | null | undefined;
   /** Error data if the deployment failed */
-  errorData?: unknown | null;
+  errorData?: unknown | null | undefined;
 }
 export type GetProjectEnvvarV1RequestEnv = "dev" | "staging" | "prod";
 export interface GetProjectEnvvarV1Request {
@@ -1094,39 +1094,39 @@ export interface GetQuerySchemaV1Request {}
 export type GetQuerySchemaV1ResponseTablesItemColumnsItemAllowedValuesList = Array<string>;
 export interface GetQuerySchemaV1ResponseTablesItemColumnsItem {
   /** Column name */
-  name?: string;
+  name?: string | undefined;
   /** ClickHouse data type */
-  type?: string;
+  type?: string | undefined;
   /** Column description */
-  description?: string;
+  description?: string | undefined;
   /** Example value */
-  example?: string;
+  example?: string | undefined;
   /** Allowed values for enum-like columns */
-  allowedValues?: GetQuerySchemaV1ResponseTablesItemColumnsItemAllowedValuesList;
+  allowedValues?: GetQuerySchemaV1ResponseTablesItemColumnsItemAllowedValuesList | undefined;
   /** Whether this is a core column included in default queries */
-  coreColumn?: boolean;
+  coreColumn?: boolean | undefined;
 }
 export type GetQuerySchemaV1ResponseTablesItemColumnsList =
   Array<GetQuerySchemaV1ResponseTablesItemColumnsItem>;
 export interface GetQuerySchemaV1ResponseTablesItem {
   /** Table name used in TRQL queries */
-  name?: string;
+  name?: string | undefined;
   /** Description of the table */
-  description?: string;
+  description?: string | undefined;
   /** The primary time column for this table */
-  timeColumn?: string;
-  columns?: GetQuerySchemaV1ResponseTablesItemColumnsList;
+  timeColumn?: string | undefined;
+  columns?: GetQuerySchemaV1ResponseTablesItemColumnsList | undefined;
 }
 export type GetQuerySchemaV1ResponseTablesList = Array<GetQuerySchemaV1ResponseTablesItem>;
 export interface GetQuerySchemaV1Response {
-  tables?: GetQuerySchemaV1ResponseTablesList;
+  tables?: GetQuerySchemaV1ResponseTablesList | undefined;
 }
 export type GetQueueV1RequestType = "id" | "task" | "custom";
 export interface GetQueueV1Request {
   /** The queue ID (e.g., `queue_1234`), or the name of the queue when using the `type` query parameter. */
   queueParam: string;
   /** How to interpret the `queueParam` path parameter: - `id`: Treat as a queue ID (default) - `task`: Treat as a task ID to get the task's default queue - `custom`: Treat as a custom queue name */
-  type?: GetQueueV1RequestType | (string & {});
+  type?: GetQueueV1RequestType | (string & {}) | undefined;
 }
 /** The type of queue: - `task`: Created automatically for each task - `custom`: Created explicitly in your code using `queue()` */
 export type QueueObjectType = "task" | "custom";
@@ -1135,15 +1135,15 @@ export type QueueObjectVersion = "V1" | "V2";
 /** Detailed concurrency information. V1 queues only. */
 export interface QueueObjectConcurrency {
   /** The effective/current concurrency limit */
-  current?: number | null;
+  current?: number | null | undefined;
   /** The base concurrency limit defined in code */
-  base?: number | null;
+  base?: number | null | undefined;
   /** The override concurrency limit (if set) */
-  override?: number | null;
+  override?: number | null | undefined;
   /** When the concurrency limit was overridden */
-  overriddenAt?: string | null;
+  overriddenAt?: string | null | undefined;
   /** Who overrode the concurrency limit (null if via API) */
-  overriddenBy?: string | null;
+  overriddenBy?: string | null | undefined;
 }
 export interface QueueObject {
   /** The queue ID, e.g., `queue_1234` */
@@ -1161,9 +1161,9 @@ export interface QueueObject {
   /** Whether the queue is paused. When paused, no new runs will start. */
   paused: boolean;
   /** The queue's own concurrency limit. Meaningful on V1 queues; always null on V2 queues. */
-  concurrencyLimit?: number | null;
+  concurrencyLimit?: number | null | undefined;
   /** Detailed concurrency information. V1 queues only. */
-  concurrency?: QueueObjectConcurrency;
+  concurrency?: QueueObjectConcurrency | undefined;
 }
 export interface GetRunEventsV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -1189,11 +1189,11 @@ export type GetRunEventsV1ResponseEventsItemKind =
   | "LOG";
 export interface GetRunEventsV1ResponseEventsItemEventsItem {
   /** The event name (e.g. "exception", "cancellation", "attempt_failed"). */
-  name?: string;
+  name?: string | undefined;
   /** The time the event occurred. */
-  time?: string;
+  time?: string | undefined;
   /** Event-specific properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Span events (e.g. exceptions, cancellations) that occurred during this event. */
 export type GetRunEventsV1ResponseEventsItemEventsList =
@@ -1201,53 +1201,53 @@ export type GetRunEventsV1ResponseEventsItemEventsList =
 export type GetRunEventsV1ResponseEventsItemStyleAccessoryStyle = "codepath";
 /** Accessory display element. */
 export interface GetRunEventsV1ResponseEventsItemStyleAccessory {
-  text?: string;
-  style?: GetRunEventsV1ResponseEventsItemStyleAccessoryStyle;
+  text?: string | undefined;
+  style?: GetRunEventsV1ResponseEventsItemStyleAccessoryStyle | undefined;
 }
 /** Display style metadata for the event. */
 export interface GetRunEventsV1ResponseEventsItemStyle {
   /** Icon identifier for display. */
-  icon?: string;
+  icon?: string | undefined;
   /** Visual variant (e.g. "success", "failure"). */
-  variant?: string;
+  variant?: string | undefined;
   /** Accessory display element. */
-  accessory?: GetRunEventsV1ResponseEventsItemStyleAccessory;
+  accessory?: GetRunEventsV1ResponseEventsItemStyleAccessory | undefined;
 }
 export interface GetRunEventsV1ResponseEventsItem {
   /** The span ID of the event. */
-  spanId?: string;
+  spanId?: string | undefined;
   /** The parent span ID, if any. */
-  parentId?: string | null;
+  parentId?: string | null | undefined;
   /** The run ID associated with this event. */
-  runId?: string | null;
+  runId?: string | null | undefined;
   /** The event message. */
-  message?: string;
+  message?: string | undefined;
   /** The start time of the event as a bigint string (nanoseconds since epoch). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The duration of the event in nanoseconds. */
-  duration?: number;
+  duration?: number | undefined;
   /** Whether this event represents an error. */
-  isError?: boolean;
+  isError?: boolean | undefined;
   /** Whether this event is partial (still in progress). */
-  isPartial?: boolean;
+  isPartial?: boolean | undefined;
   /** Whether this event was cancelled. */
-  isCancelled?: boolean;
+  isCancelled?: boolean | undefined;
   /** The log level of the event. */
-  level?: GetRunEventsV1ResponseEventsItemLevel;
+  level?: GetRunEventsV1ResponseEventsItemLevel | undefined;
   /** The kind of span event. */
-  kind?: GetRunEventsV1ResponseEventsItemKind;
+  kind?: GetRunEventsV1ResponseEventsItemKind | undefined;
   /** The attempt number this event belongs to. */
-  attemptNumber?: number | null;
+  attemptNumber?: number | null | undefined;
   /** The task identifier. */
-  taskSlug?: string;
+  taskSlug?: string | undefined;
   /** Span events (e.g. exceptions, cancellations) that occurred during this event. */
-  events?: GetRunEventsV1ResponseEventsItemEventsList;
+  events?: GetRunEventsV1ResponseEventsItemEventsList | undefined;
   /** Display style metadata for the event. */
-  style?: GetRunEventsV1ResponseEventsItemStyle;
+  style?: GetRunEventsV1ResponseEventsItemStyle | undefined;
 }
 export type GetRunEventsV1ResponseEventsList = Array<GetRunEventsV1ResponseEventsItem>;
 export interface GetRunEventsV1Response {
-  events?: GetRunEventsV1ResponseEventsList;
+  events?: GetRunEventsV1ResponseEventsList | undefined;
 }
 export interface GetRunResultV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
@@ -1261,23 +1261,23 @@ export interface GetRunResultV1Response {
   /** The run ID. */
   id: string;
   /** The serialized output as a string (present when ok is true). Use outputType to determine how to parse it -- for "application/json" use JSON.parse(). */
-  output?: string;
+  output?: string | undefined;
   /** The content type of the serialized output, e.g. "application/json". */
-  outputType?: string;
+  outputType?: string | undefined;
   /** Error details (present when ok is false). */
-  error?: unknown;
+  error?: unknown | undefined;
   /** Execution usage stats. */
-  usage?: GetBatchResultsV1ResponseItemsItemUsage;
+  usage?: GetBatchResultsV1ResponseItemsItemUsage | undefined;
   /** The task identifier. */
-  taskIdentifier?: string;
+  taskIdentifier?: string | undefined;
 }
 export interface GetRunTraceV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
   runId: string;
   /** Turns on paging. Spans per page; values are clamped to 1,000-10,000. Defaults to 10,000 when only `page[after]` is sent. */
-  page_size_?: number;
+  page_size_?: number | undefined;
   /** Turns on paging. The `pagination.next` cursor from the previous page, passed back unchanged. Omit it for the first page. */
-  page_after_?: string;
+  page_after_?: string | undefined;
 }
 export type SpanDetailedSummaryDataLevel = "TRACE" | "DEBUG" | "LOG" | "INFO" | "WARN" | "ERROR";
 export type SpanDetailedSummaryDataEventsItem = GetRunEventsV1ResponseEventsItemEventsItem;
@@ -1285,44 +1285,44 @@ export type SpanDetailedSummaryDataEventsItem = GetRunEventsV1ResponseEventsItem
 export type SpanDetailedSummaryDataEventsList = Array<GetRunEventsV1ResponseEventsItemEventsItem>;
 export interface SpanDetailedSummaryData {
   /** The span message. */
-  message?: string;
+  message?: string | undefined;
   /** The task identifier, if applicable. */
-  taskSlug?: string;
+  taskSlug?: string | undefined;
   /** The start time of the span. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The duration of the span in nanoseconds. */
-  duration?: number;
-  isError?: boolean;
-  isPartial?: boolean;
-  isCancelled?: boolean;
-  level?: SpanDetailedSummaryDataLevel;
-  attemptNumber?: number | null;
+  duration?: number | undefined;
+  isError?: boolean | undefined;
+  isPartial?: boolean | undefined;
+  isCancelled?: boolean | undefined;
+  level?: SpanDetailedSummaryDataLevel | undefined;
+  attemptNumber?: number | null | undefined;
   /** Arbitrary OTel attributes attached to the span. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Span events (e.g. exceptions, cancellations) that occurred during this span. */
-  events?: SpanDetailedSummaryDataEventsList;
+  events?: SpanDetailedSummaryDataEventsList | undefined;
 }
 /** Nested child spans. Each child has the same structure as the parent span. */
 export type SpanDetailedSummaryChildrenList = Array<SpanDetailedSummary>;
 export interface SpanDetailedSummary {
   /** The span ID. */
-  id?: string;
+  id?: string | undefined;
   /** The parent span ID, if any. */
-  parentId?: string | null;
+  parentId?: string | null | undefined;
   /** The run ID this span belongs to. */
-  runId?: string;
-  data?: SpanDetailedSummaryData;
+  runId?: string | undefined;
+  data?: SpanDetailedSummaryData | undefined;
   /** Nested child spans. Each child has the same structure as the parent span. */
-  children?: SpanDetailedSummaryChildrenList;
+  children?: SpanDetailedSummaryChildrenList | undefined;
 }
 export interface GetRunTraceV1ResponseBodyCase0Trace {
   /** The OTel trace ID. */
-  traceId?: string;
+  traceId?: string | undefined;
   /** The requested run's span, with nested descendant spans as `children`. Not necessarily the trace-wide root span. */
-  rootSpan?: SpanDetailedSummary;
+  rootSpan?: SpanDetailedSummary | undefined;
 }
 export interface GetRunTraceV1ResponseBodyCase0 {
-  trace?: GetRunTraceV1ResponseBodyCase0Trace;
+  trace?: GetRunTraceV1ResponseBodyCase0Trace | undefined;
 }
 export type GetRunTraceV1ResponseBodyCase1DataItemLevel =
   | "TRACE"
@@ -1332,42 +1332,42 @@ export type GetRunTraceV1ResponseBodyCase1DataItemLevel =
   | "WARN"
   | "ERROR";
 export interface GetRunTraceV1ResponseBodyCase1DataItem {
-  id?: string;
-  parentId?: string;
-  runId?: string;
-  message?: string;
-  startTime?: string;
+  id?: string | undefined;
+  parentId?: string | undefined;
+  runId?: string | undefined;
+  message?: string | undefined;
+  startTime?: string | undefined;
   /** Duration in nanoseconds. */
-  duration?: number;
-  isError?: boolean;
+  duration?: number | undefined;
+  isError?: boolean | undefined;
   /** Still in progress. */
-  isPartial?: boolean;
-  isCancelled?: boolean;
-  level?: GetRunTraceV1ResponseBodyCase1DataItemLevel;
-  attemptNumber?: number;
+  isPartial?: boolean | undefined;
+  isCancelled?: boolean | undefined;
+  level?: GetRunTraceV1ResponseBodyCase1DataItemLevel | undefined;
+  attemptNumber?: number | undefined;
 }
 /** Spans on this page, in start-time order. A span can appear on two pages (in progress, then finished); keep the finished one. */
 export type GetRunTraceV1ResponseBodyCase1DataList = Array<GetRunTraceV1ResponseBodyCase1DataItem>;
 export interface GetRunTraceV1ResponseBodyCase1AttemptFailuresItem {
-  spanId?: string;
-  attemptNumber?: number;
-  runId?: string;
+  spanId?: string | undefined;
+  attemptNumber?: number | undefined;
+  runId?: string | undefined;
 }
 /** Failed-attempt records on this page. A span still in progress under a failed attempt of its run counts as errored. */
 export type GetRunTraceV1ResponseBodyCase1AttemptFailuresList =
   Array<GetRunTraceV1ResponseBodyCase1AttemptFailuresItem>;
 export interface GetRunTraceV1ResponseBodyCase1Pagination {
   /** Cursor for the next page. Absent on the last page. */
-  next?: string;
+  next?: string | undefined;
   /** Some spans or records were left out. Either paging stopped early (for example while an emergency span limit is in place) or a span had more records than one read allows; `next` is still returned in that case. */
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export interface GetRunTraceV1ResponseBodyCase1 {
   /** Spans on this page, in start-time order. A span can appear on two pages (in progress, then finished); keep the finished one. */
-  data?: GetRunTraceV1ResponseBodyCase1DataList;
+  data?: GetRunTraceV1ResponseBodyCase1DataList | undefined;
   /** Failed-attempt records on this page. A span still in progress under a failed attempt of its run counts as errored. */
-  attemptFailures?: GetRunTraceV1ResponseBodyCase1AttemptFailuresList;
-  pagination?: GetRunTraceV1ResponseBodyCase1Pagination;
+  attemptFailures?: GetRunTraceV1ResponseBodyCase1AttemptFailuresList | undefined;
+  pagination?: GetRunTraceV1ResponseBodyCase1Pagination | undefined;
 }
 export type GetRunTraceV1ResponseBody =
   | GetRunTraceV1ResponseBodyCase0
@@ -1429,65 +1429,65 @@ export interface CommonRunObject {
   /** The identifier of the task that was run */
   taskIdentifier: string;
   /** The version of the worker that executed the run */
-  version?: string;
+  version?: string | undefined;
   /** The idempotency key used to prevent creating duplicate runs, if provided */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   createdAt: string;
   updatedAt: string;
   /** Whether the run is a test run or not */
-  isTest?: boolean;
+  isTest?: boolean | undefined;
   /** The time the run started */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The time the run finished */
-  finishedAt?: string;
+  finishedAt?: string | undefined;
   /** If the run was triggered with a delay, this will be the time the run will be enqueued to execute */
-  delayedUntil?: string;
-  ttl?: unknown;
+  delayedUntil?: string | undefined;
+  ttl?: unknown | undefined;
   /** If the run had a TTL and that time has passed, when the run "expired". */
-  expiredAt?: string;
+  expiredAt?: string | undefined;
   /** Tags can be attached to a run to make it easy to find runs (in the dashboard or using SDK functions like `runs.list`) */
-  tags?: CommonRunObjectTagsList;
+  tags?: CommonRunObjectTagsList | undefined;
   /** The metadata of the run. See [Metadata](/runs/metadata) for more information. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The compute cost of the run (so far) in cents. This cost does not apply to DEV runs. */
-  costInCents?: number;
+  costInCents?: number | undefined;
   /** The invocation cost of the run in cents. This cost does not apply to DEV runs. */
-  baseCostInCents?: number;
+  baseCostInCents?: number | undefined;
   /** The duration of compute (so far) in milliseconds. This does not include waits. */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** The depth of the run in the task run hierarchy. The root run has a depth of 0. */
-  depth?: number;
+  depth?: number | undefined;
   /** The ID of the batch that this run belongs to */
-  batchId?: string;
+  batchId?: string | undefined;
   /** The name of the function that triggered the run */
-  triggerFunction?: CommonRunObjectTriggerFunction;
+  triggerFunction?: CommonRunObjectTriggerFunction | undefined;
 }
 /** The immediate children of the run. Will be omitted if the run has no children */
 export type GetRunV1ResponseRelatedRunsChildrenList = Array<CommonRunObject>;
 export interface GetRunV1ResponseRelatedRuns {
   /** The root run of the run hierarchy. Will be omitted if the run is the root run */
-  root?: CommonRunObject;
+  root?: CommonRunObject | undefined;
   /** The parent run of the run. Will be omitted if the run is the root run */
-  parent?: CommonRunObject;
+  parent?: CommonRunObject | undefined;
   /** The immediate children of the run. Will be omitted if the run has no children */
-  children?: GetRunV1ResponseRelatedRunsChildrenList;
+  children?: GetRunV1ResponseRelatedRunsChildrenList | undefined;
 }
 export type GetRunV1ResponseScheduleGeneratorType = "CRON";
 export interface GetRunV1ResponseScheduleGenerator {
-  type?: GetRunV1ResponseScheduleGeneratorType;
+  type?: GetRunV1ResponseScheduleGeneratorType | undefined;
   /** The cron expression used to generate the schedule */
-  expression?: string;
+  expression?: string | undefined;
   /** The description of the generator in plain english */
-  description?: string;
+  description?: string | undefined;
 }
 /** The schedule that triggered the run. Will be omitted if the run was not triggered by a schedule */
 export interface GetRunV1ResponseSchedule {
   /** The unique ID of the schedule, prefixed with `sched_` */
   id: string;
   /** The external ID of the schedule. Can be anything that is useful to you (e.g., user ID, org ID, etc.) */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The deduplication key used to prevent creating duplicate schedules */
-  deduplicationKey?: string;
+  deduplicationKey?: string | undefined;
   generator: GetRunV1ResponseScheduleGenerator;
 }
 export type GetRunV1ResponseAttemptsItemStatus =
@@ -1499,18 +1499,18 @@ export type GetRunV1ResponseAttemptsItemStatus =
   | "CANCELED";
 export interface SerializedError {
   message: string;
-  name?: string;
-  stackTrace?: string;
+  name?: string | undefined;
+  stackTrace?: string | undefined;
 }
 export interface GetRunV1ResponseAttemptsItem {
   /** The unique ID of the attempt, prefixed with `attempt_` */
   id: string;
   status: GetRunV1ResponseAttemptsItemStatus;
-  error?: SerializedError;
+  error?: SerializedError | undefined;
   createdAt: string;
   updatedAt: string;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
 }
 export type GetRunV1ResponseAttemptsList = Array<GetRunV1ResponseAttemptsItem>;
 export interface GetRunV1Response {
@@ -1521,49 +1521,49 @@ export interface GetRunV1Response {
   /** The identifier of the task that was run */
   taskIdentifier: string;
   /** The version of the worker that executed the run */
-  version?: string;
+  version?: string | undefined;
   /** The idempotency key used to prevent creating duplicate runs, if provided */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   createdAt: string;
   updatedAt: string;
   /** Whether the run is a test run or not */
-  isTest?: boolean;
+  isTest?: boolean | undefined;
   /** The time the run started */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The time the run finished */
-  finishedAt?: string;
+  finishedAt?: string | undefined;
   /** If the run was triggered with a delay, this will be the time the run will be enqueued to execute */
-  delayedUntil?: string;
-  ttl?: unknown;
+  delayedUntil?: string | undefined;
+  ttl?: unknown | undefined;
   /** If the run had a TTL and that time has passed, when the run "expired". */
-  expiredAt?: string;
+  expiredAt?: string | undefined;
   /** Tags can be attached to a run to make it easy to find runs (in the dashboard or using SDK functions like `runs.list`) */
-  tags?: GetRunV1ResponseTagsList;
+  tags?: GetRunV1ResponseTagsList | undefined;
   /** The metadata of the run. See [Metadata](/runs/metadata) for more information. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The compute cost of the run (so far) in cents. This cost does not apply to DEV runs. */
-  costInCents?: number;
+  costInCents?: number | undefined;
   /** The invocation cost of the run in cents. This cost does not apply to DEV runs. */
-  baseCostInCents?: number;
+  baseCostInCents?: number | undefined;
   /** The duration of compute (so far) in milliseconds. This does not include waits. */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** The depth of the run in the task run hierarchy. The root run has a depth of 0. */
-  depth?: number;
+  depth?: number | undefined;
   /** The ID of the batch that this run belongs to */
-  batchId?: string;
+  batchId?: string | undefined;
   /** The name of the function that triggered the run */
-  triggerFunction?: GetRunV1ResponseTriggerFunction;
+  triggerFunction?: GetRunV1ResponseTriggerFunction | undefined;
   /** The payload that was sent to the task. Will be omitted if the request was made with a Public API key */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** The presigned URL to download the payload. Will only be included if the payload is too large to be included in the response. Expires in 5 minutes. */
-  payloadPresignedUrl?: string;
+  payloadPresignedUrl?: string | undefined;
   /** The output of the run. Will be omitted if the request was made with a Public API key */
-  output?: unknown;
+  output?: unknown | undefined;
   /** The presigned URL to download the output. Will only be included if the output is too large to be included in the response. Expires in 5 minutes. */
-  outputPresignedUrl?: string;
-  relatedRuns?: GetRunV1ResponseRelatedRuns;
+  outputPresignedUrl?: string | undefined;
+  relatedRuns?: GetRunV1ResponseRelatedRuns | undefined;
   /** The schedule that triggered the run. Will be omitted if the run was not triggered by a schedule */
-  schedule?: GetRunV1ResponseSchedule;
+  schedule?: GetRunV1ResponseSchedule | undefined;
   attempts: GetRunV1ResponseAttemptsList;
 }
 export interface GetScheduleV1Request {
@@ -1576,11 +1576,11 @@ export interface GetSessionV1Request {
 }
 export interface GetTimezonesV1Request {
   /** Defaults to false. Whether to include UTC in the results or not. */
-  excludeUtc?: boolean;
+  excludeUtc?: boolean | undefined;
 }
 export type GetTimezonesResultTimezonesList = Array<string>;
 export interface GetTimezonesResult {
-  timezones?: GetTimezonesResultTimezonesList;
+  timezones?: GetTimezonesResultTimezonesList | undefined;
 }
 export interface GetWaitpointTokenV1Request {
   /** The ID of the waitpoint token. */
@@ -1598,19 +1598,19 @@ export interface WaitpointTokenObject {
   /** The current status of the waitpoint token. */
   status: WaitpointTokenObjectStatus;
   /** The idempotency key used when creating the token, if any. */
-  idempotencyKey?: string | null;
+  idempotencyKey?: string | null | undefined;
   /** When the idempotency key expires. */
-  idempotencyKeyExpiresAt?: string | null;
+  idempotencyKeyExpiresAt?: string | null | undefined;
   /** When the token will time out, if a timeout was set. */
-  timeoutAt?: string | null;
+  timeoutAt?: string | null | undefined;
   /** When the token was completed, if it has been completed. */
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** The serialized output data passed when completing the token. Only present when `status` is `COMPLETED`. */
-  output?: string | null;
+  output?: string | null | undefined;
   /** The content type of the output (e.g. `"application/json"`). */
-  outputType?: string | null;
+  outputType?: string | null | undefined;
   /** Whether the output represents an error (e.g. a timeout). */
-  outputIsError?: boolean | null;
+  outputIsError?: boolean | null | undefined;
   /** Tags attached to the waitpoint. */
   tags: WaitpointTokenObjectTagsList;
   /** When the waitpoint token was created. */
@@ -1741,50 +1741,50 @@ export interface IgnoreErrorV1Request {
   /** The ID of an error group, starts with `error_`. */
   errorId: string;
   /** How long to ignore the error for, in milliseconds. */
-  duration?: number;
+  duration?: number | undefined;
   /** Re-surface the error if its occurrence rate exceeds this many occurrences per minute. */
-  occurrenceRate?: number;
+  occurrenceRate?: number | undefined;
   /** Re-surface the error once it accrues this many new occurrences after being ignored. */
-  totalOccurrences?: number;
+  totalOccurrences?: number | undefined;
   /** An optional human-readable reason for ignoring the error. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface ListBulkActionsV1RequestPage {
   /** Number of bulk actions per page. Maximum is 100. */
-  size?: number;
+  size?: number | undefined;
   /** The cursor to start the page after. */
-  after?: string;
+  after?: string | undefined;
   /** The cursor to start the page before. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListBulkActionsV1Request {
   /** Use this parameter to paginate bulk actions. Pass `page[after]` or `page[before]` using the cursor returned in the previous response. */
-  page?: ListBulkActionsV1RequestPage;
+  page?: ListBulkActionsV1RequestPage | undefined;
 }
 export type ListBulkActionsResultDataList = Array<BulkActionObject>;
 export interface ListBulkActionsResultPagination {
   /** Pass this cursor as `page[after]` to retrieve the next page. */
-  next?: string;
+  next?: string | undefined;
   /** Pass this cursor as `page[before]` to retrieve the previous page. */
-  previous?: string;
+  previous?: string | undefined;
 }
 export interface ListBulkActionsResult {
   data: ListBulkActionsResultDataList;
   pagination: ListBulkActionsResultPagination;
 }
 export interface ListConcurrencyLimitsV1Request {
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type ListConcurrencyLimitsV1ResponseDataList = Array<ConcurrencyLimitObject>;
 export interface ListConcurrencyLimitsV1ResponsePagination {
-  currentPage?: number;
-  totalPages?: number;
-  count?: number;
+  currentPage?: number | undefined;
+  totalPages?: number | undefined;
+  count?: number | undefined;
 }
 export interface ListConcurrencyLimitsV1Response {
-  data?: ListConcurrencyLimitsV1ResponseDataList;
-  pagination?: ListConcurrencyLimitsV1ResponsePagination;
+  data?: ListConcurrencyLimitsV1ResponseDataList | undefined;
+  pagination?: ListConcurrencyLimitsV1ResponsePagination | undefined;
 }
 export interface ListDashboardsV1Request {}
 /** Built-in dashboards are read-only. Custom dashboards can be changed with the endpoints below. */
@@ -1793,30 +1793,30 @@ export type ListDashboardsV1ResponseDashboardsItemType = "builtIn" | "custom";
 export type ListDashboardsV1ResponseDashboardsItemWidgetsItemType = "bignumber" | "chart" | "table";
 export interface ListDashboardsV1ResponseDashboardsItemWidgetsItem {
   /** Widget identifier */
-  id?: string;
+  id?: string | undefined;
   /** Widget display title */
-  title?: string;
+  title?: string | undefined;
   /** The TRQL query this widget executes */
-  query?: string;
+  query?: string | undefined;
   /** Widget display type */
-  type?: ListDashboardsV1ResponseDashboardsItemWidgetsItemType;
+  type?: ListDashboardsV1ResponseDashboardsItemWidgetsItemType | undefined;
 }
 export type ListDashboardsV1ResponseDashboardsItemWidgetsList =
   Array<ListDashboardsV1ResponseDashboardsItemWidgetsItem>;
 export interface ListDashboardsV1ResponseDashboardsItem {
   /** Dashboard identifier. Built-in dashboards use a key like "overview" or "llm"; custom dashboards use their id. */
-  key?: string;
+  key?: string | undefined;
   /** Dashboard display title */
-  title?: string;
+  title?: string | undefined;
   /** Built-in dashboards are read-only. Custom dashboards can be changed with the endpoints below. */
-  type?: ListDashboardsV1ResponseDashboardsItemType;
+  type?: ListDashboardsV1ResponseDashboardsItemType | undefined;
   /** The dashboard description (custom dashboards only) */
-  description?: string;
-  widgets?: ListDashboardsV1ResponseDashboardsItemWidgetsList;
+  description?: string | undefined;
+  widgets?: ListDashboardsV1ResponseDashboardsItemWidgetsList | undefined;
 }
 export type ListDashboardsV1ResponseDashboardsList = Array<ListDashboardsV1ResponseDashboardsItem>;
 export interface ListDashboardsV1Response {
-  dashboards?: ListDashboardsV1ResponseDashboardsList;
+  dashboards?: ListDashboardsV1ResponseDashboardsList | undefined;
 }
 export type ListDeploymentsV1RequestStatus =
   | "PENDING"
@@ -1828,17 +1828,17 @@ export type ListDeploymentsV1RequestStatus =
   | "TIMED_OUT";
 export interface ListDeploymentsV1Request {
   /** The deployment ID to start the search from, to get the next page. */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** The number of deployments to return (default 20, min 5, max 100). */
-  page_size_?: number;
+  page_size_?: number | undefined;
   /** Filter deployments by status. */
-  status?: ListDeploymentsV1RequestStatus | (string & {});
+  status?: ListDeploymentsV1RequestStatus | (string & {}) | undefined;
   /** Filter deployments created within this period (e.g. 1d, 7d, 3h). */
-  period?: string;
+  period?: string | undefined;
   /** Filter deployments created on or after this date (ISO 8601). */
-  from?: string;
+  from?: string | undefined;
   /** Filter deployments created on or before this date (ISO 8601). Only applied when `from` is also provided. */
-  to?: string;
+  to?: string | undefined;
 }
 /** The current status of the deployment */
 export type ListDeploymentsV1ResponseDataItemStatus =
@@ -1851,44 +1851,44 @@ export type ListDeploymentsV1ResponseDataItemStatus =
   | "TIMED_OUT";
 export interface ListDeploymentsV1ResponseDataItem {
   /** The deployment ID */
-  id?: string;
+  id?: string | undefined;
   /** When the deployment was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The short code for the deployment */
-  shortCode?: string;
+  shortCode?: string | undefined;
   /** The deployment version (e.g., "20250228.1") */
-  version?: string;
+  version?: string | undefined;
   /** The runtime used (e.g., "node") */
-  runtime?: string | null;
+  runtime?: string | null | undefined;
   /** The runtime version */
-  runtimeVersion?: string | null;
+  runtimeVersion?: string | null | undefined;
   /** The current status of the deployment */
-  status?: ListDeploymentsV1ResponseDataItemStatus;
+  status?: ListDeploymentsV1ResponseDataItemStatus | undefined;
   /** When the deployment was promoted to DEPLOYED */
-  deployedAt?: string | null;
+  deployedAt?: string | null | undefined;
   /** Git metadata associated with the deployment */
-  git?: unknown | null;
+  git?: unknown | null | undefined;
   /** Error data if the deployment failed */
-  error?: unknown | null;
+  error?: unknown | null | undefined;
   /** The external deployment id this deployment was deployed under (`--external-id`), used by version skew protection to pin runs. Absent if the deployment was deployed without one */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export type ListDeploymentsV1ResponseDataList = Array<ListDeploymentsV1ResponseDataItem>;
 export interface ListDeploymentsV1ResponsePagination {
   /** Cursor for the next page. Pass as `page[after]` to get the next page. Omitted if there are no more results. */
-  next?: string;
+  next?: string | undefined;
 }
 export interface ListDeploymentsV1Response {
-  data?: ListDeploymentsV1ResponseDataList;
-  pagination?: ListDeploymentsV1ResponsePagination;
+  data?: ListDeploymentsV1ResponseDataList | undefined;
+  pagination?: ListDeploymentsV1ResponsePagination | undefined;
 }
 export interface ListErrorsV1RequestPage {
   /** Number of errors per page. Maximum is 100. */
-  size?: number;
+  size?: number | undefined;
   /** The ID of the error to start the page after. Sets the pagination direction to forward. */
-  after?: string;
+  after?: string | undefined;
   /** The ID of the error to start the page before. Sets the pagination direction to backward. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The identifier of the task the error belongs to */
 export type ErrorsFilterTaskIdentifierList = Array<string>;
@@ -1899,25 +1899,25 @@ export type ErrorsFilterStatusItem = "unresolved" | "resolved" | "ignored";
 export type ErrorsFilterStatusList = Array<ErrorsFilterStatusItem | (string & {})>;
 export interface ErrorsFilter {
   /** The identifier of the task the error belongs to */
-  taskIdentifier?: ErrorsFilterTaskIdentifierList;
+  taskIdentifier?: ErrorsFilterTaskIdentifierList | undefined;
   /** The worker version the error occurred in */
-  version?: ErrorsFilterVersionList;
+  version?: ErrorsFilterVersionList | undefined;
   /** The lifecycle status of the error group */
-  status?: ErrorsFilterStatusList;
+  status?: ErrorsFilterStatusList | undefined;
   /** Free-text search across the error type and message */
-  search?: string;
+  search?: string | undefined;
   /** The start of the time range to count occurrences within */
-  from?: string;
+  from?: string | undefined;
   /** The end of the time range to count occurrences within */
-  to?: string;
+  to?: string | undefined;
   /** A relative time range to count occurrences within */
-  period?: string;
+  period?: string | undefined;
 }
 export interface ListErrorsV1Request {
   /** Paginate the results. Specify the number of errors per page, and the ID of the error to start the page after or before. For object fields like `page`, use the "form" encoding style. For example, to get the next page, use `page[after]=error_1234`. */
-  page?: ListErrorsV1RequestPage;
+  page?: ListErrorsV1RequestPage | undefined;
   /** Filter the error groups. Filter by task identifier, version, status, search text, and time range. For array fields, provide multiple values as a comma-separated list. For example, to get unresolved and ignored errors, use `filter[status]=unresolved,ignored`. For the time range, use `filter[period]` (e.g. `filter[period]=7d`) or `filter[from]` / `filter[to]` with ISO timestamps. */
-  filter?: ErrorsFilter;
+  filter?: ErrorsFilter | undefined;
 }
 export type ErrorListItemStatus = "unresolved" | "resolved" | "ignored";
 export interface ErrorListItem {
@@ -1938,19 +1938,19 @@ export interface ErrorListItem {
   firstSeen: string;
   /** When the error group was last seen (global) */
   lastSeen: string;
-  resolvedAt?: string | null;
-  ignoredUntil?: string | null;
+  resolvedAt?: string | null | undefined;
+  ignoredUntil?: string | null | undefined;
 }
 export type ListErrorsResultDataList = Array<ErrorListItem>;
 export interface ListErrorsResultPagination {
   /** The error ID to start the next page after. Pass it as `page[after]`. */
-  next?: string;
+  next?: string | undefined;
   /** The error ID to start the previous page before. Pass it as `page[before]`. */
-  previous?: string;
+  previous?: string | undefined;
 }
 export interface ListErrorsResult {
-  data?: ListErrorsResultDataList;
-  pagination?: ListErrorsResultPagination;
+  data?: ListErrorsResultDataList | undefined;
+  pagination?: ListErrorsResultPagination | undefined;
 }
 export type ListProjectEnvvarsV1RequestEnv = "dev" | "staging" | "prod";
 export interface ListProjectEnvvarsV1Request {
@@ -1967,19 +1967,19 @@ export type ListEnvironmentVariablesResponse = Array<EnvVar>;
 export type ListProjectEnvvarsV1Response = ListEnvironmentVariablesResponse;
 export interface ListProjectRunsV1RequestPage {
   /** Number of runs per page. Maximum is 100. */
-  size?: number;
+  size?: number | undefined;
   /** The ID of the run to start the page after. This will set the direction of the pagination to forward. */
-  after?: string;
+  after?: string | undefined;
   /** The ID of the run to start the page before. This will set the direction of the pagination to backward. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListProjectRunsV1RequestFilterCreatedAt {
   /** The start date to filter the runs by */
-  from?: string;
+  from?: string | undefined;
   /** The end date to filter the runs by */
-  to?: string;
+  to?: string | undefined;
   /** The period to filter the runs by */
-  period?: string;
+  period?: string | undefined;
 }
 /** The status of the run */
 export type ListProjectRunsV1RequestFilterStatusItem =
@@ -2009,31 +2009,31 @@ export type ListProjectRunsV1RequestFilterEnvList = Array<
   ListProjectRunsV1RequestFilterEnvItem | (string & {})
 >;
 export interface ListProjectRunsV1RequestFilter {
-  createdAt?: ListProjectRunsV1RequestFilterCreatedAt;
-  status?: ListProjectRunsV1RequestFilterStatusList;
+  createdAt?: ListProjectRunsV1RequestFilterCreatedAt | undefined;
+  status?: ListProjectRunsV1RequestFilterStatusList | undefined;
   /** The identifier of the task that was run */
-  taskIdentifier?: ListProjectRunsV1RequestFilterTaskIdentifierList;
+  taskIdentifier?: ListProjectRunsV1RequestFilterTaskIdentifierList | undefined;
   /** The version of the worker that executed the run */
-  version?: ListProjectRunsV1RequestFilterVersionList;
+  version?: ListProjectRunsV1RequestFilterVersionList | undefined;
   /** The bulk action ID to filter the runs by */
-  bulkAction?: string;
+  bulkAction?: string | undefined;
   /** The schedule ID to filter the runs by */
-  schedule?: string;
+  schedule?: string | undefined;
   /** Whether the run is a test run or not */
-  isTest?: boolean;
+  isTest?: boolean | undefined;
   /** The tags that are attached to the run */
-  tag?: ListProjectRunsV1RequestFilterTagList;
+  tag?: ListProjectRunsV1RequestFilterTagList | undefined;
   /** An error group ID (starts with `error_`). Lists the runs behind that error group. */
-  error?: string;
-  env?: ListProjectRunsV1RequestFilterEnvList;
+  error?: string | undefined;
+  env?: ListProjectRunsV1RequestFilterEnvList | undefined;
 }
 export interface ListProjectRunsV1Request {
   /** The external ref of the project. You can find this in the project settings. Starts with `proj_`. */
   projectRef: string;
   /** Use this parameter to paginate the results. You can specify the number of runs per page, and the ID of the run to start the page after or before. For object fields like `page`, you should use the "form" encoding style. For example, to get the next page of runs, you can use `page[after]=run_1234`. */
-  page?: ListProjectRunsV1RequestPage;
+  page?: ListProjectRunsV1RequestPage | undefined;
   /** Use this parameter to filter the runs. You can filter by created at, environment, status, task identifier, and version. For array fields, you can provide multiple values to filter by using a comma-separated list. For example, to get QUEUED and EXECUTING runs, you can use `filter[status]=QUEUED,EXECUTING`. For object fields, you should use the "form" encoding style. For example, to filter by the period, you can use `filter[createdAt][period]=1d`. */
-  filter?: ListProjectRunsV1RequestFilter;
+  filter?: ListProjectRunsV1RequestFilter | undefined;
 }
 /** The status of the run */
 export type ListRunItemStatus =
@@ -2055,7 +2055,7 @@ export interface ListRunItemEnv {
   /** The name of the environment */
   name: string;
   /** If this is a dev environment, the username of the user represented by this environment */
-  user?: string;
+  user?: string | undefined;
 }
 /** Tags can be attached to a run to make it easy to find runs (in the dashboard or using SDK functions like `runs.list`) */
 export type ListRunItemTagsList = Array<string>;
@@ -2067,59 +2067,59 @@ export interface ListRunItem {
   /** The identifier of the task that was run */
   taskIdentifier: string;
   /** The version of the worker that executed the run */
-  version?: string;
+  version?: string | undefined;
   /** The environment of the run */
   env: ListRunItemEnv;
   /** The idempotency key used to prevent creating duplicate runs, if provided */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Whether the run is a test run or not */
   isTest: boolean;
   createdAt: string;
   updatedAt: string;
   /** The time the run started */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The time the run finished */
-  finishedAt?: string;
+  finishedAt?: string | undefined;
   /** If the run was triggered with a delay, this will be the time the run will be enqueued to execute */
-  delayedUntil?: string;
-  ttl?: unknown;
+  delayedUntil?: string | undefined;
+  ttl?: unknown | undefined;
   /** If the run had a TTL and that time has passed, when the run "expired". */
-  expiredAt?: string;
+  expiredAt?: string | undefined;
   /** Tags can be attached to a run to make it easy to find runs (in the dashboard or using SDK functions like `runs.list`) */
-  tags?: ListRunItemTagsList;
+  tags?: ListRunItemTagsList | undefined;
   /** The compute cost of the run (so far) in cents. This cost does not apply to DEV runs. */
-  costInCents?: number;
+  costInCents?: number | undefined;
   /** The invocation cost of the run in cents. This cost does not apply to DEV runs. */
-  baseCostInCents?: number;
+  baseCostInCents?: number | undefined;
   /** The duration of compute (so far) in milliseconds. This does not include waits. */
-  durationMs?: number;
+  durationMs?: number | undefined;
 }
 export type ListRunsResultDataList = Array<ListRunItem>;
 export interface ListRunsResultPagination {
   /** The run ID to start the next page after. This should be used as the `page[after]` parameter in the next request. */
-  next?: string;
+  next?: string | undefined;
   /** The run ID to start the previous page before. This should be used as the `page[before]` parameter in the next request. */
-  previous?: string;
+  previous?: string | undefined;
 }
 export interface ListRunsResult {
-  data?: ListRunsResultDataList;
-  pagination?: ListRunsResultPagination;
+  data?: ListRunsResultDataList | undefined;
+  pagination?: ListRunsResultPagination | undefined;
 }
 export interface ListQueuesV1Request {
   /** Page number of the queue listing (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** Number of queues per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 /** An array of queue objects */
 export type ListQueuesResultDataList = Array<QueueObject>;
 export interface ListQueuesResultPagination {
   /** The current page number */
-  currentPage?: number;
+  currentPage?: number | undefined;
   /** The total number of pages */
-  totalPages?: number;
+  totalPages?: number | undefined;
   /** The total number of queues */
-  count?: number;
+  count?: number | undefined;
 }
 export interface ListQueuesResult {
   /** An array of queue objects */
@@ -2149,48 +2149,48 @@ export type CommonRunsFilterVersionList = Array<string>;
 /** The tags that are attached to the run */
 export type CommonRunsFilterTagList = Array<string>;
 export interface CommonRunsFilter {
-  createdAt?: ListProjectRunsV1RequestFilterCreatedAt;
-  status?: CommonRunsFilterStatusList;
+  createdAt?: ListProjectRunsV1RequestFilterCreatedAt | undefined;
+  status?: CommonRunsFilterStatusList | undefined;
   /** The identifier of the task that was run */
-  taskIdentifier?: CommonRunsFilterTaskIdentifierList;
+  taskIdentifier?: CommonRunsFilterTaskIdentifierList | undefined;
   /** The version of the worker that executed the run */
-  version?: CommonRunsFilterVersionList;
+  version?: CommonRunsFilterVersionList | undefined;
   /** The bulk action ID to filter the runs by */
-  bulkAction?: string;
+  bulkAction?: string | undefined;
   /** The schedule ID to filter the runs by */
-  schedule?: string;
+  schedule?: string | undefined;
   /** Whether the run is a test run or not */
-  isTest?: boolean;
+  isTest?: boolean | undefined;
   /** The tags that are attached to the run */
-  tag?: CommonRunsFilterTagList;
+  tag?: CommonRunsFilterTagList | undefined;
   /** An error group ID (starts with `error_`). Lists the runs behind that error group. */
-  error?: string;
+  error?: string | undefined;
 }
 export interface ListRunsV1Request {
   /** Use this parameter to paginate the results. You can specify the number of runs per page, and the ID of the run to start the page after or before. For object fields like `page`, you should use the "form" encoding style. For example, to get the next page of runs, you can use `page[after]=run_1234`. */
-  page?: ListProjectRunsV1RequestPage;
+  page?: ListProjectRunsV1RequestPage | undefined;
   /** Use this parameter to filter the runs. You can filter by created at, status, task identifier, and version. For array fields, you can provide multiple values to filter by using a comma-separated list. For example, to get QUEUED and EXECUTING runs, you can use `filter[status]=QUEUED,EXECUTING`. For object fields, you should use the "form" encoding style. For example, to filter by the period, you can use `filter[createdAt][period]=1d`. */
-  filter?: CommonRunsFilter;
+  filter?: CommonRunsFilter | undefined;
 }
 export interface ListSchedulesV1Request {
   /** Page number of the schedule listing */
-  page?: number;
+  page?: number | undefined;
   /** Number of schedules per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListSchedulesResultDataList = Array<ScheduleObject>;
 export type ListSchedulesResultPagination = ListConcurrencyLimitsV1ResponsePagination;
 export interface ListSchedulesResult {
-  data?: ListSchedulesResultDataList;
-  pagination?: ListConcurrencyLimitsV1ResponsePagination;
+  data?: ListSchedulesResultDataList | undefined;
+  pagination?: ListConcurrencyLimitsV1ResponsePagination | undefined;
 }
 export interface ListSessionsV1RequestPage {
   /** Number of sessions per page. Maximum is 100. */
-  size?: number;
+  size?: number | undefined;
   /** The ID of the session to start the page after. Sets the pagination direction to forward. */
-  after?: string;
+  after?: string | undefined;
   /** The ID of the session to start the page before. Sets the pagination direction to backward. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The session type(s) to filter by. */
 export type SessionsFilterTypeList = Array<string>;
@@ -2203,69 +2203,69 @@ export type SessionsFilterStatusItem = "ACTIVE" | "CLOSED" | "EXPIRED";
 export type SessionsFilterStatusList = Array<SessionsFilterStatusItem | (string & {})>;
 export interface SessionsFilterCreatedAt {
   /** The start date to filter the sessions by. */
-  from?: string;
+  from?: string | undefined;
   /** The end date to filter the sessions by. */
-  to?: string;
+  to?: string | undefined;
   /** The period to filter the sessions by. */
-  period?: string;
+  period?: string | undefined;
 }
 export interface SessionsFilter {
   /** The session type(s) to filter by. */
-  type?: SessionsFilterTypeList;
+  type?: SessionsFilterTypeList | undefined;
   /** The tags to filter by. */
-  tags?: SessionsFilterTagsList;
+  tags?: SessionsFilterTagsList | undefined;
   /** The task identifier(s) to filter by. */
-  taskIdentifier?: SessionsFilterTaskIdentifierList;
+  taskIdentifier?: SessionsFilterTaskIdentifierList | undefined;
   /** Exact match on your `externalId`. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The lifecycle status(es) to filter by. */
-  status?: SessionsFilterStatusList;
-  createdAt?: SessionsFilterCreatedAt;
+  status?: SessionsFilterStatusList | undefined;
+  createdAt?: SessionsFilterCreatedAt | undefined;
 }
 export interface ListSessionsV1Request {
   /** Paginate the results. Specify the number of sessions per page, and the ID of the session to start the page after or before. For object fields like `page`, use the "form" encoding style. For example, to get the next page, use `page[after]=session_1234`. */
-  page?: ListSessionsV1RequestPage;
+  page?: ListSessionsV1RequestPage | undefined;
   /** Use this parameter to filter the sessions. You can filter by type, tags, task identifier, external id, status, and created at. For array fields, you can provide multiple values to filter by using a comma-separated list. For example, to get ACTIVE and CLOSED sessions, you can use `filter[status]=ACTIVE,CLOSED`. For object fields, you should use the "form" encoding style. For example, to filter by the period, you can use `filter[createdAt][period]=1d`. */
-  filter?: SessionsFilter;
+  filter?: SessionsFilter | undefined;
 }
 export type ListSessionsResultDataList = Array<SessionObject>;
 export interface ListSessionsResultPagination {
   /** The session ID to start the next page after. Pass it as the `page[after]` parameter on the next request. */
-  next?: string;
+  next?: string | undefined;
   /** The session ID to start the previous page before. Pass it as the `page[before]` parameter on the next request. */
-  previous?: string;
+  previous?: string | undefined;
 }
 export interface ListSessionsResult {
-  data?: ListSessionsResultDataList;
-  pagination?: ListSessionsResultPagination;
+  data?: ListSessionsResultDataList | undefined;
+  pagination?: ListSessionsResultPagination | undefined;
 }
 export interface ListWaitpointTokensV1Request {
   /** Number of tokens to return per page (1-100). */
-  page_size_?: number;
+  page_size_?: number | undefined;
   /** Return tokens after this cursor (from `pagination.next` in a previous response). */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Return tokens before this cursor (from `pagination.previous` in a previous response). */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** Comma-separated list of statuses to filter by. Allowed values: `WAITING`, `COMPLETED`, `TIMED_OUT`. */
-  filter_status_?: string;
+  filter_status_?: string | undefined;
   /** Filter by idempotency key. */
-  filter_idempotencyKey_?: string;
+  filter_idempotencyKey_?: string | undefined;
   /** Comma-separated list of tags to filter by. */
-  filter_tags_?: string;
+  filter_tags_?: string | undefined;
   /** Shorthand time period to filter by creation date (e.g. `1h`, `24h`, `7d`). Cannot be combined with `filter[createdAt][from]` or `filter[createdAt][to]`. */
-  filter_createdAt__period_?: string;
+  filter_createdAt__period_?: string | undefined;
   /** Filter tokens created at or after this ISO 8601 timestamp. */
-  filter_createdAt__from_?: string;
+  filter_createdAt__from_?: string | undefined;
   /** Filter tokens created at or before this ISO 8601 timestamp. */
-  filter_createdAt__to_?: string;
+  filter_createdAt__to_?: string | undefined;
 }
 /** An array of waitpoint token objects. */
 export type ListWaitpointTokensResultDataList = Array<WaitpointTokenObject>;
 export interface ListWaitpointTokensResultPagination {
   /** Cursor for the next page. Pass as `page[after]` in the next request. */
-  next?: string | null;
+  next?: string | null | undefined;
   /** Cursor for the previous page. Pass as `page[before]` in the next request. */
-  previous?: string | null;
+  previous?: string | null | undefined;
 }
 export interface ListWaitpointTokensResult {
   /** An array of waitpoint token objects. */
@@ -2274,21 +2274,21 @@ export interface ListWaitpointTokensResult {
 }
 export interface ListWebhookDeliveriesV1Request {
   /** Number of deliveries to return per page (1 to 100). */
-  page_size_?: number;
+  page_size_?: number | undefined;
   /** Return older deliveries, after this cursor (from `pagination.next` in a previous response). */
-  page_after_?: string;
+  page_after_?: string | undefined;
   /** Return newer deliveries, before this cursor (from `pagination.previous` in a previous response). */
-  page_before_?: string;
+  page_before_?: string | undefined;
   /** Comma-separated endpoints, each a declared id or a `wh_` id. */
-  filter_endpoint_?: string;
+  filter_endpoint_?: string | undefined;
   /** Comma-separated statuses. Allowed values: `pending`, `processing`, `succeeded`, `failed`, `filtered`, `unmatched`. */
-  filter_status_?: string;
+  filter_status_?: string | undefined;
   /** A duration back from now, such as `1h` or `7d`. */
-  filter_period_?: string;
+  filter_period_?: string | undefined;
   /** Only deliveries created at or after this ISO 8601 timestamp. */
-  filter_from_?: string;
+  filter_from_?: string | undefined;
   /** Only deliveries created at or before this ISO 8601 timestamp. */
-  filter_to_?: string;
+  filter_to_?: string | undefined;
 }
 /** The endpoint the delivery arrived on, or `null` if it has since been removed. */
 export type WebhookDeliveryListItemEndpoint = GetWebhookDeliveryV1ResponseEndpoint;
@@ -2308,9 +2308,9 @@ export interface WebhookDeliveryListItem {
 export type ListWebhookDeliveriesResultDataList = Array<WebhookDeliveryListItem>;
 export interface ListWebhookDeliveriesResultPagination {
   /** Pass as `page[after]` to get the next, older page. */
-  next?: string;
+  next?: string | undefined;
   /** Pass as `page[before]` to get the previous, newer page. */
-  previous?: string;
+  previous?: string | undefined;
 }
 export interface ListWebhookDeliveriesResult {
   data: ListWebhookDeliveriesResultDataList;
@@ -2318,7 +2318,7 @@ export interface ListWebhookDeliveriesResult {
 }
 export interface ListWebhookEndpointsV1Request {
   /** Comma-separated declared endpoint ids to return. */
-  filter_webhook_?: string;
+  filter_webhook_?: string | undefined;
 }
 /** `active` accepts deliveries. `inactive` was disabled, or is no longer in the current deployment, and its URL responds with `404`. */
 export type WebhookEndpointObjectStatus = "active" | "inactive" | "deleting";
@@ -2353,9 +2353,9 @@ export interface ListWebhookEndpointsResult {
 /** Override the limit itself. At least one of `perKey` or `total` must be provided. */
 export interface OverrideConcurrencyLimitV1RequestBodyCase0 {
   /** Caps each concurrencyKey pool; runs without a key share one pool. May not exceed the environment concurrency limit. */
-  perKey?: number;
+  perKey?: number | undefined;
   /** Caps every run holding this limit, keys or not. May not exceed the environment concurrency limit. */
-  total?: number;
+  total?: number | undefined;
 }
 /** How long the override lasts, as a duration such as "7d" or a number of seconds. Default 7 days, maximum 30 days. */
 export type OverrideConcurrencyLimitV1RequestBodyCase1Ttl = string | number;
@@ -2366,7 +2366,7 @@ export interface OverrideConcurrencyLimitV1RequestBodyCase1 {
   /** The cap for this key; `0` blocks it. May not exceed the environment concurrency limit. */
   perKey: number;
   /** How long the override lasts, as a duration such as "7d" or a number of seconds. Default 7 days, maximum 30 days. */
-  ttl?: OverrideConcurrencyLimitV1RequestBodyCase1Ttl;
+  ttl?: OverrideConcurrencyLimitV1RequestBodyCase1Ttl | undefined;
 }
 export type OverrideConcurrencyLimitV1RequestBody =
   | OverrideConcurrencyLimitV1RequestBodyCase0
@@ -2386,7 +2386,7 @@ export interface OverrideQueueConcurrencyV1Request {
   /** The queue ID (e.g., `queue_1234`), or the name of the queue when using the `type` body parameter. */
   queueParam: string;
   /** How to interpret the `queueParam` path parameter: - `id`: Treat as a queue ID (default) - `task`: Treat as a task ID to get the task's default queue - `custom`: Treat as a custom queue name */
-  type?: OverrideQueueConcurrencyV1RequestType | (string & {});
+  type?: OverrideQueueConcurrencyV1RequestType | (string & {}) | undefined;
   /** The new concurrency limit to set for the queue. It may not exceed your environment's maximum concurrency limit: a higher value is rejected with a 400, not capped to the maximum. */
   concurrencyLimit: number;
 }
@@ -2406,7 +2406,7 @@ export interface PauseQueueV1Request {
   /** The queue ID (e.g., `queue_1234`), or the name of the queue when using the `type` body parameter. */
   queueParam: string;
   /** How to interpret the `queueParam` path parameter: - `id`: Treat as a queue ID (default) - `task`: Treat as a task ID to get the task's default queue - `custom`: Treat as a custom queue name */
-  type?: PauseQueueV1RequestType | (string & {});
+  type?: PauseQueueV1RequestType | (string & {}) | undefined;
   /** Whether to pause or resume the queue */
   action: PauseQueueV1RequestAction | (string & {});
 }
@@ -2416,26 +2416,26 @@ export interface PromoteDeploymentV1Request {
 }
 export interface PromoteDeploymentV1Response {
   /** The deployment ID */
-  id?: string;
+  id?: string | undefined;
   /** The deployment version (e.g., "20250228.1") */
-  version?: string;
+  version?: string | undefined;
   /** The short code for the deployment */
-  shortCode?: string;
+  shortCode?: string | undefined;
 }
 export type ReplaceDashboardV1RequestWidgetsList = Array<DashboardWidgetInput>;
 export interface ReplaceDashboardV1Request {
   /** The custom dashboard id, starting with `dashboard_` */
   dashboardId: string;
-  title?: string;
-  description?: string;
+  title?: string | undefined;
+  description?: string | undefined;
   widgets: ReplaceDashboardV1RequestWidgetsList;
-  revision?: string;
+  revision?: string | undefined;
 }
 export interface ReplayWebhookDeliveryV1Request {
   /** The delivery's id, starts with `whd_`. */
   deliveryId: string;
   /** The subscriber to replay to: a `webhook()` task's id, or `agentId:eventId` for an agent's `chat.event` or channel. Listed in the endpoint's `subscribers`. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 export interface ReplayWebhookDeliveryResponse {
   /** The new delivery. Retrieve it once it's processed to see the runs it started. */
@@ -2447,7 +2447,7 @@ export interface ResetConcurrencyLimitV1Request {
   /** The limit's name */
   name: string;
   /** Clear the per-key override for this concurrencyKey only. */
-  concurrencyKey?: string;
+  concurrencyKey?: string | undefined;
 }
 export type ResetConcurrencyLimitV1ResponseBody =
   | ConcurrencyLimitObject
@@ -2459,18 +2459,18 @@ export interface ResetQueueConcurrencyV1Request {
   /** The queue ID (e.g., `queue_1234`), or the name of the queue when using the `type` body parameter. */
   queueParam: string;
   /** How to interpret the `queueParam` path parameter: - `id`: Treat as a queue ID (default) - `task`: Treat as a task ID to get the task's default queue - `custom`: Treat as a custom queue name */
-  type?: ResetQueueConcurrencyV1RequestType | (string & {});
+  type?: ResetQueueConcurrencyV1RequestType | (string & {}) | undefined;
 }
 export interface ResolveErrorV1Request {
   /** The ID of an error group, starts with `error_`. */
   errorId: string;
   /** The worker version the error was resolved in. */
-  resolvedInVersion?: string;
+  resolvedInVersion?: string | undefined;
 }
 export interface RotateWebhookEndpointSecretV1Request {
   /** The endpoint's declared id (the `id` passed to `webhooks.endpoint.define`) or its `wh_` id. A value starting with `wh_` is always a generated id, since declared ids can't start with `wh_`. A declared id names the endpoint's declared instance in the key's environment. */
   endpointId: string;
-  previousSecretTtlSeconds?: number;
+  previousSecretTtlSeconds?: number | undefined;
 }
 export interface RotateWebhookEndpointSecretResponse {
   /** The endpoint's `wh_` id. */
@@ -2479,7 +2479,7 @@ export interface RotateWebhookEndpointSecretResponse {
   /** The new signing secret. It is returned only in this response and can't be read again. */
   secret: string | Redacted.Redacted<string>;
   /** When the replaced secret stops verifying deliveries. Absent when it was replaced immediately. */
-  previousSecretExpiresAt?: string;
+  previousSecretExpiresAt?: string | undefined;
 }
 /** How `payload` is encoded. Defaults to `application/json`. With `application/super+json`, `payload` must be a SuperJSON string, which keeps types like `Date` and `BigInt`. The SDK sends this automatically. */
 export type RunReplayV1RequestPayloadType = "application/json" | "application/super+json";
@@ -2500,46 +2500,46 @@ export interface RunReplayV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
   runId: string;
   /** The payload for the new run. Omit it to reuse the original run's payload. */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** How `payload` is encoded. Defaults to `application/json`. With `application/super+json`, `payload` must be a SuperJSON string, which keeps types like `Date` and `BigInt`. The SDK sends this automatically. */
-  payloadType?: RunReplayV1RequestPayloadType | (string & {});
+  payloadType?: RunReplayV1RequestPayloadType | (string & {}) | undefined;
   /** Metadata for the new run. Omit it to reuse the original run's metadata. */
-  metadata?: RunReplayV1RequestMetadataMap;
+  metadata?: RunReplayV1RequestMetadataMap | undefined;
   /** Tags for the new run. Replaces the original run's tags. */
-  tags?: RunTags;
+  tags?: RunTags | undefined;
   /** The name of an existing queue in the environment to run on. */
-  queue?: string;
+  queue?: string | undefined;
   /** The concurrency key for the new run. */
-  concurrencyKey?: string;
+  concurrencyKey?: string | undefined;
   /** The machine preset for the new run. */
-  machine?: RunReplayV1RequestMachine | (string & {});
+  machine?: RunReplayV1RequestMachine | (string & {}) | undefined;
   /** Lock the new run to this deployed version, for example `20250101.1`. Defaults to the current version. */
-  version?: string;
+  version?: string | undefined;
   /** The region to run in. Defaults to the original run's region. */
-  region?: string;
+  region?: string | undefined;
   /** Delay the new run, as a duration (`1h30m`) or an ISO 8601 date. */
-  delay?: string;
+  delay?: string | undefined;
   /** How long the new run can stay queued before it expires, as a duration string (`10m`) or a number of seconds. */
-  ttl?: RunReplayV1RequestTtl;
+  ttl?: RunReplayV1RequestTtl | undefined;
   /** An idempotency key for the new run. A repeated request with the same key returns the same run. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** How long the idempotency key is valid, as a duration (`1h`). */
-  idempotencyKeyTTL?: string;
+  idempotencyKeyTTL?: string | undefined;
   /** The maximum number of attempts for the new run. */
-  maxAttempts?: number;
+  maxAttempts?: number | undefined;
   /** The maximum duration of the new run in seconds. */
-  maxDuration?: number;
+  maxDuration?: number | undefined;
   /** Priority offset in seconds. Higher values are dequeued sooner. */
-  priority?: number;
+  priority?: number | undefined;
 }
 export interface RunReplayV1Response {
   /** The ID of the new run. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface RunRescheduleV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
   runId: string;
-  delay?: string;
+  delay?: string | undefined;
 }
 /** The status of the run */
 export type RunRescheduleV1ResponseStatus =
@@ -2567,28 +2567,28 @@ export type RunRescheduleV1ResponseTriggerFunction =
 export type RunRescheduleV1ResponseRelatedRunsChildrenList = Array<CommonRunObject>;
 export interface RunRescheduleV1ResponseRelatedRuns {
   /** The root run of the run hierarchy. Will be omitted if the run is the root run */
-  root?: CommonRunObject;
+  root?: CommonRunObject | undefined;
   /** The parent run of the run. Will be omitted if the run is the root run */
-  parent?: CommonRunObject;
+  parent?: CommonRunObject | undefined;
   /** The immediate children of the run. Will be omitted if the run has no children */
-  children?: RunRescheduleV1ResponseRelatedRunsChildrenList;
+  children?: RunRescheduleV1ResponseRelatedRunsChildrenList | undefined;
 }
 export type RunRescheduleV1ResponseScheduleGeneratorType = "CRON";
 export interface RunRescheduleV1ResponseScheduleGenerator {
-  type?: RunRescheduleV1ResponseScheduleGeneratorType;
+  type?: RunRescheduleV1ResponseScheduleGeneratorType | undefined;
   /** The cron expression used to generate the schedule */
-  expression?: string;
+  expression?: string | undefined;
   /** The description of the generator in plain english */
-  description?: string;
+  description?: string | undefined;
 }
 /** The schedule that triggered the run. Will be omitted if the run was not triggered by a schedule */
 export interface RunRescheduleV1ResponseSchedule {
   /** The unique ID of the schedule, prefixed with `sched_` */
   id: string;
   /** The external ID of the schedule. Can be anything that is useful to you (e.g., user ID, org ID, etc.) */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The deduplication key used to prevent creating duplicate schedules */
-  deduplicationKey?: string;
+  deduplicationKey?: string | undefined;
   generator: RunRescheduleV1ResponseScheduleGenerator;
 }
 export type RunRescheduleV1ResponseAttemptsItemStatus =
@@ -2602,11 +2602,11 @@ export interface RunRescheduleV1ResponseAttemptsItem {
   /** The unique ID of the attempt, prefixed with `attempt_` */
   id: string;
   status: RunRescheduleV1ResponseAttemptsItemStatus;
-  error?: SerializedError;
+  error?: SerializedError | undefined;
   createdAt: string;
   updatedAt: string;
-  startedAt?: string;
-  completedAt?: string;
+  startedAt?: string | undefined;
+  completedAt?: string | undefined;
 }
 export type RunRescheduleV1ResponseAttemptsList = Array<RunRescheduleV1ResponseAttemptsItem>;
 export interface RunRescheduleV1Response {
@@ -2617,49 +2617,49 @@ export interface RunRescheduleV1Response {
   /** The identifier of the task that was run */
   taskIdentifier: string;
   /** The version of the worker that executed the run */
-  version?: string;
+  version?: string | undefined;
   /** The idempotency key used to prevent creating duplicate runs, if provided */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   createdAt: string;
   updatedAt: string;
   /** Whether the run is a test run or not */
-  isTest?: boolean;
+  isTest?: boolean | undefined;
   /** The time the run started */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The time the run finished */
-  finishedAt?: string;
+  finishedAt?: string | undefined;
   /** If the run was triggered with a delay, this will be the time the run will be enqueued to execute */
-  delayedUntil?: string;
-  ttl?: unknown;
+  delayedUntil?: string | undefined;
+  ttl?: unknown | undefined;
   /** If the run had a TTL and that time has passed, when the run "expired". */
-  expiredAt?: string;
+  expiredAt?: string | undefined;
   /** Tags can be attached to a run to make it easy to find runs (in the dashboard or using SDK functions like `runs.list`) */
-  tags?: RunRescheduleV1ResponseTagsList;
+  tags?: RunRescheduleV1ResponseTagsList | undefined;
   /** The metadata of the run. See [Metadata](/runs/metadata) for more information. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The compute cost of the run (so far) in cents. This cost does not apply to DEV runs. */
-  costInCents?: number;
+  costInCents?: number | undefined;
   /** The invocation cost of the run in cents. This cost does not apply to DEV runs. */
-  baseCostInCents?: number;
+  baseCostInCents?: number | undefined;
   /** The duration of compute (so far) in milliseconds. This does not include waits. */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** The depth of the run in the task run hierarchy. The root run has a depth of 0. */
-  depth?: number;
+  depth?: number | undefined;
   /** The ID of the batch that this run belongs to */
-  batchId?: string;
+  batchId?: string | undefined;
   /** The name of the function that triggered the run */
-  triggerFunction?: RunRescheduleV1ResponseTriggerFunction;
+  triggerFunction?: RunRescheduleV1ResponseTriggerFunction | undefined;
   /** The payload that was sent to the task. Will be omitted if the request was made with a Public API key */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** The presigned URL to download the payload. Will only be included if the payload is too large to be included in the response. Expires in 5 minutes. */
-  payloadPresignedUrl?: string;
+  payloadPresignedUrl?: string | undefined;
   /** The output of the run. Will be omitted if the request was made with a Public API key */
-  output?: unknown;
+  output?: unknown | undefined;
   /** The presigned URL to download the output. Will only be included if the output is too large to be included in the response. Expires in 5 minutes. */
-  outputPresignedUrl?: string;
-  relatedRuns?: RunRescheduleV1ResponseRelatedRuns;
+  outputPresignedUrl?: string | undefined;
+  relatedRuns?: RunRescheduleV1ResponseRelatedRuns | undefined;
   /** The schedule that triggered the run. Will be omitted if the run was not triggered by a schedule */
-  schedule?: RunRescheduleV1ResponseSchedule;
+  schedule?: RunRescheduleV1ResponseSchedule | undefined;
   attempts: RunRescheduleV1ResponseAttemptsList;
 }
 export interface SetWebhookEndpointSecretV1Request {
@@ -2667,20 +2667,20 @@ export interface SetWebhookEndpointSecretV1Request {
   endpointId: string;
   /** The signing secret or public key. Leading and trailing whitespace is trimmed. */
   secret: string | Redacted.Redacted<string>;
-  previousSecretTtlSeconds?: number;
+  previousSecretTtlSeconds?: number | undefined;
 }
 export interface SetWebhookEndpointSecretResponse {
   /** The endpoint's `wh_` id. */
   id: string;
   secretSet: boolean;
   /** When the replaced secret stops verifying deliveries. Absent when it was replaced immediately. */
-  previousSecretExpiresAt?: string;
+  previousSecretExpiresAt?: string | undefined;
 }
 export interface QueueOptions {
   /** You can define a shared queue and then pass the name in to your task. */
-  name?: string;
+  name?: string | undefined;
   /** An optional property that specifies the maximum number of concurrent run executions. If this property is omitted, the task can potentially use up the full concurrency of an environment. */
-  concurrencyLimit?: number;
+  concurrencyLimit?: number | undefined;
 }
 /** The machine preset to use for this run. This will override the task's machine preset and any defaults. */
 export type TriggerTaskRequestBodyOptionsMachine =
@@ -2692,24 +2692,24 @@ export type TriggerTaskRequestBodyOptionsMachine =
   | "large-1x"
   | "large-2x";
 export interface TriggerTaskRequestBodyOptions {
-  queue?: QueueOptions;
+  queue?: QueueOptions | undefined;
   /** Scope the concurrency limit to a specific key. */
-  concurrencyKey?: string;
+  concurrencyKey?: string | undefined;
   /** An optional property that specifies the idempotency key used to prevent creating duplicate runs. If you provide an existing idempotency key, we will return the existing run ID. */
-  idempotencyKey?: string;
-  ttl?: unknown;
-  delay?: string;
+  idempotencyKey?: string | undefined;
+  ttl?: unknown | undefined;
+  delay?: string | undefined;
   /** Tags to attach to the run. Tags can be used to filter runs in the dashboard and using the SDK. You can set up to 10 tags per run, each must be less than 128 characters. We recommend prefixing tags with a namespace using an underscore or colon, like `user_1234567` or `org:9876543`. Stripe uses underscores. */
-  tags?: RunTags;
+  tags?: RunTags | undefined;
   /** The machine preset to use for this run. This will override the task's machine preset and any defaults. */
-  machine?: TriggerTaskRequestBodyOptionsMachine | (string & {});
+  machine?: TriggerTaskRequestBodyOptionsMachine | (string & {}) | undefined;
 }
 export interface TriggerTaskRequestBody {
   /** The payload can include any valid JSON */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** The context can include any valid JSON */
-  context?: unknown;
-  options?: TriggerTaskRequestBodyOptions;
+  context?: unknown | undefined;
+  options?: TriggerTaskRequestBodyOptions | undefined;
 }
 /** An array of payloads to trigger the task with (max 1,000 items). */
 export type TriggerBatchTaskByIdV1RequestItemsList = Array<TriggerTaskRequestBody>;
@@ -2737,24 +2737,24 @@ export type BatchTriggerTaskRequestBodyItemOptionsMachine =
   | "large-1x"
   | "large-2x";
 export interface BatchTriggerTaskRequestBodyItemOptions {
-  queue?: QueueOptions;
+  queue?: QueueOptions | undefined;
   /** Scope the concurrency limit to a specific key. */
-  concurrencyKey?: string;
+  concurrencyKey?: string | undefined;
   /** An optional property that specifies the idempotency key used to prevent creating duplicate runs. If you provide an existing idempotency key, we will return the existing run ID. */
-  idempotencyKey?: string;
-  ttl?: unknown;
-  delay?: string;
+  idempotencyKey?: string | undefined;
+  ttl?: unknown | undefined;
+  delay?: string | undefined;
   /** Tags to attach to the run. Tags can be used to filter runs in the dashboard and using the SDK. You can set up to 10 tags per run, each must be less than 128 characters. We recommend prefixing tags with a namespace using an underscore or colon, like `user_1234567` or `org:9876543`. Stripe uses underscores. */
-  tags?: RunTags;
+  tags?: RunTags | undefined;
   /** The machine preset to use for this run. This will override the task's machine preset and any defaults. */
-  machine?: BatchTriggerTaskRequestBodyItemOptionsMachine | (string & {});
+  machine?: BatchTriggerTaskRequestBodyItemOptionsMachine | (string & {}) | undefined;
 }
 export interface BatchTriggerTaskRequestBodyItem {
   /** The payload can include any valid JSON */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** The context can include any valid JSON */
-  context?: unknown;
-  options?: BatchTriggerTaskRequestBodyItemOptions;
+  context?: unknown | undefined;
+  options?: BatchTriggerTaskRequestBodyItemOptions | undefined;
   /** The task identifier to trigger. This is the `id` set in your `task()` functions. */
   task: string;
 }
@@ -2774,30 +2774,30 @@ export type TriggerTaskV1RequestOptionsMachine =
   | "large-1x"
   | "large-2x";
 export interface TriggerTaskV1RequestOptions {
-  queue?: QueueOptions;
+  queue?: QueueOptions | undefined;
   /** Scope the concurrency limit to a specific key. */
-  concurrencyKey?: string;
+  concurrencyKey?: string | undefined;
   /** An optional property that specifies the idempotency key used to prevent creating duplicate runs. If you provide an existing idempotency key, we will return the existing run ID. */
-  idempotencyKey?: string;
-  ttl?: unknown;
-  delay?: string;
+  idempotencyKey?: string | undefined;
+  ttl?: unknown | undefined;
+  delay?: string | undefined;
   /** Tags to attach to the run. Tags can be used to filter runs in the dashboard and using the SDK. You can set up to 10 tags per run, each must be less than 128 characters. We recommend prefixing tags with a namespace using an underscore or colon, like `user_1234567` or `org:9876543`. Stripe uses underscores. */
-  tags?: RunTags;
+  tags?: RunTags | undefined;
   /** The machine preset to use for this run. This will override the task's machine preset and any defaults. */
-  machine?: TriggerTaskV1RequestOptionsMachine | (string & {});
+  machine?: TriggerTaskV1RequestOptionsMachine | (string & {}) | undefined;
 }
 export interface TriggerTaskV1Request {
   /** The id of a task. If the id contains characters that are reserved in a URL path, such as a slash (`/`), percent-encode it when building the request path (e.g. `types/zod` becomes `types%2Fzod`). */
   taskIdentifier: string;
   /** The payload can include any valid JSON */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** The context can include any valid JSON */
-  context?: unknown;
-  options?: TriggerTaskV1RequestOptions;
+  context?: unknown | undefined;
+  options?: TriggerTaskV1RequestOptions | undefined;
 }
 export interface TriggerTaskResponse {
   /** The ID of the run that was triggered. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface UnresolveErrorV1Request {
   /** The ID of an error group, starts with `error_`. */
@@ -2806,21 +2806,21 @@ export interface UnresolveErrorV1Request {
 export interface UpdateDashboardV1Request {
   /** The custom dashboard id, starting with `dashboard_` */
   dashboardId: string;
-  title?: string;
-  description?: string;
-  revision?: string;
+  title?: string | undefined;
+  description?: string | undefined;
+  revision?: string | undefined;
 }
 export interface UpdateDashboardWidgetV1Request {
   /** The custom dashboard id, starting with `dashboard_` */
   dashboardId: string;
   /** The widget id */
   widgetId: string;
-  title?: string;
-  query?: string;
-  display?: DashboardWidgetDisplay;
-  fillGaps?: boolean;
-  position?: DashboardWidgetPosition;
-  revision?: string;
+  title?: string | undefined;
+  query?: string | undefined;
+  display?: DashboardWidgetDisplay | undefined;
+  fillGaps?: boolean | undefined;
+  position?: DashboardWidgetPosition | undefined;
+  revision?: string | undefined;
 }
 export type UpdateProjectEnvvarV1RequestEnv = "dev" | "staging" | "prod";
 export interface UpdateProjectEnvvarV1Request {
@@ -2837,20 +2837,20 @@ export interface UpdateRunMetadataV1Request {
   /** The ID of an run, starts with `run_`. The run ID will be returned when you trigger a run on a task. */
   runId: string;
   /** The new metadata to set on the run. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface UpdateRunMetadataV1Response {
   /** The updated metadata of the run. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface UpdateScheduleV1Request {
   /** The ID of the schedule. */
   schedule_id: string;
   task: string;
   cron: string;
-  externalId?: string;
+  externalId?: string | undefined;
   /** Defaults to "UTC". In IANA format ("America/New_York"). If set then it will trigger at the CRON frequency in that timezone and respect daylight savings time. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** Replaces the tags on the session row. */
 export type UpdateSessionV1RequestTagsList = Array<string>;
@@ -2860,11 +2860,11 @@ export interface UpdateSessionV1Request {
   /** The session's friendly ID (`session_...`) or your `externalId`. The server disambiguates by the `session_` prefix. */
   session: string;
   /** Replaces the tags on the session row. */
-  tags?: UpdateSessionV1RequestTagsList;
+  tags?: UpdateSessionV1RequestTagsList | undefined;
   /** Replaces the metadata. Pass `null` to clear it. */
-  metadata?: UpdateSessionV1RequestMetadataMap | null;
+  metadata?: UpdateSessionV1RequestMetadataMap | null | undefined;
   /** Read-only after create: cannot be changed or cleared. Sending a value different from the current one (including `null` when one is set) returns `422`; sending the same value is idempotent. */
-  externalId?: string | null;
+  externalId?: string | null | undefined;
 }
 export type UploadProjectEnvvarsV1RequestEnv = "dev" | "staging" | "prod";
 export type UploadProjectEnvvarsV1RequestVariablesList = Array<EnvVar>;
@@ -2875,7 +2875,7 @@ export interface UploadProjectEnvvarsV1Request {
   env: UploadProjectEnvvarsV1RequestEnv | (string & {});
   variables: UploadProjectEnvvarsV1RequestVariablesList;
   /** Whether to override existing variables or not */
-  override?: boolean;
+  override?: boolean | undefined;
 }
 export type ActivateScheduleV1Error = NotFound | TriggerDevOpError;
 /** Activate Schedule Activate a schedule by its ID. This will only work on `IMPERATIVE` schedules that were created in the dashboard or using the imperative SDK functions like `schedules.create()`. */

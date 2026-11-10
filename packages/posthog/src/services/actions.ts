@@ -57,7 +57,7 @@ export interface ActionsDestroyRequest {
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: ActionsDestroyRequestFormat | (string & {});
+  format?: ActionsDestroyRequestFormat | (string & {}) | undefined;
 }
 export interface ActionsDestroyResponse {}
 export type CreateActionRequestFormat = "csv" | "json";
@@ -109,26 +109,26 @@ export type StringMatchOperatorEnum =
 /** Matches string values with text-oriented operators. */
 export interface StringPropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
-  key?: string;
+  key?: string | undefined;
   /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
-  type?: PropertyFilterTypeEnum | (string & {});
+  type?: PropertyFilterTypeEnum | (string & {}) | undefined;
   /** String value to match against. */
-  value?: string;
+  value?: string | undefined;
   /** String comparison operator. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex */
-  operator?: StringMatchOperatorEnum | (string & {});
+  operator?: StringMatchOperatorEnum | (string & {}) | undefined;
 }
 /** * `exact` - exact * `is_not` - is_not * `gt` - gt * `lt` - lt * `gte` - gte * `lte` - lte */
 export type NumericPropertyFilterOperatorEnum = "exact" | "is_not" | "gt" | "lt" | "gte" | "lte";
 /** Matches numeric values with comparison operators. */
 export interface NumericPropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
-  key?: string;
+  key?: string | undefined;
   /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
-  type?: PropertyFilterTypeEnum | (string & {});
+  type?: PropertyFilterTypeEnum | (string & {}) | undefined;
   /** Numeric value to compare against. */
-  value?: number;
+  value?: number | undefined;
   /** Numeric comparison operator. * `exact` - exact * `is_not` - is_not * `gt` - gt * `lt` - lt * `gte` - gte * `lte` - lte */
-  operator?: NumericPropertyFilterOperatorEnum | (string & {});
+  operator?: NumericPropertyFilterOperatorEnum | (string & {}) | undefined;
 }
 /** List of values to match. For example `["test@example.com", "ok@example.com"]`. */
 export type ArrayPropertyFilterValueList = Array<string>;
@@ -137,37 +137,37 @@ export type ArrayPropertyFilterOperatorEnum = "exact" | "is_not" | "in" | "not_i
 /** Matches against a list of values (OR semantics for exact/is_not, set membership for in/not_in). */
 export interface ArrayPropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
-  key?: string;
+  key?: string | undefined;
   /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
-  type?: PropertyFilterTypeEnum | (string & {});
+  type?: PropertyFilterTypeEnum | (string & {}) | undefined;
   /** List of values to match. For example `["test@example.com", "ok@example.com"]`. */
-  value?: ArrayPropertyFilterValueList;
+  value?: ArrayPropertyFilterValueList | undefined;
   /** Array comparison operator. * `exact` - exact * `is_not` - is_not * `in` - in * `not_in` - not_in */
-  operator?: ArrayPropertyFilterOperatorEnum | (string & {});
+  operator?: ArrayPropertyFilterOperatorEnum | (string & {}) | undefined;
 }
 /** * `is_date_exact` - is_date_exact * `is_date_before` - is_date_before * `is_date_after` - is_date_after */
 export type DateOperatorEnum = "is_date_exact" | "is_date_before" | "is_date_after";
 /** Matches date/datetime values with date-specific operators. */
 export interface DatePropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
-  key?: string;
+  key?: string | undefined;
   /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
-  type?: PropertyFilterTypeEnum | (string & {});
+  type?: PropertyFilterTypeEnum | (string & {}) | undefined;
   /** Date or datetime string in ISO 8601 format (e.g. '2024-01-15' or '2024-01-15T10:30:00Z'). */
-  value?: string;
+  value?: string | undefined;
   /** Date comparison operator. * `is_date_exact` - is_date_exact * `is_date_before` - is_date_before * `is_date_after` - is_date_after */
-  operator?: DateOperatorEnum | (string & {});
+  operator?: DateOperatorEnum | (string & {}) | undefined;
 }
 /** * `is_set` - is_set * `is_not_set` - is_not_set */
 export type ExistenceOperatorEnum = "is_set" | "is_not_set";
 /** Checks whether a property is set or not, without comparing values. */
 export interface ExistencePropertyFilter {
   /** Key of the property you're filtering on. For example `email` or `$current_url`. */
-  key?: string;
+  key?: string | undefined;
   /** Property type (event, person, session, etc.). * `event` - event * `event_metadata` - event_metadata * `feature` - feature * `person` - person * `person_metadata` - person_metadata * `cohort` - cohort * `element` - element * `static-cohort` - static-cohort * `dynamic-cohort` - dynamic-cohort * `precalculated-cohort` - precalculated-cohort * `group` - group * `recording` - recording * `log_entry` - log_entry * `behavioral` - behavioral * `session` - session * `hogql` - hogql * `data_warehouse` - data_warehouse * `data_warehouse_person_property` - data_warehouse_person_property * `error_tracking_issue` - error_tracking_issue * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute * `metric_attribute` - metric_attribute * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute * `revenue_analytics` - revenue_analytics * `account_custom_property` - account_custom_property * `flag` - flag * `workflow_variable` - workflow_variable */
-  type?: PropertyFilterTypeEnum | (string & {});
+  type?: PropertyFilterTypeEnum | (string & {}) | undefined;
   /** Existence check operator. * `is_set` - is_set * `is_not_set` - is_not_set */
-  operator?: ExistenceOperatorEnum | (string & {});
+  operator?: ExistenceOperatorEnum | (string & {}) | undefined;
 }
 export type ActionStepPropertyFilter =
   | StringPropertyFilter
@@ -181,77 +181,77 @@ export type ActionStepJSONInputPropertiesList = Array<ActionStepPropertyFilter>;
 export type ActionStepMatchingEnum = "contains" | "regex" | "exact";
 export interface ActionStepJSONInput {
   /** Event name to match (e.g. '$pageview', '$autocapture', or a custom event name). */
-  event?: string | null;
+  event?: string | null | undefined;
   /** Event or person property filters. Each item should have 'key' (string), 'value' (string, number, boolean, or array), optional 'operator' (exact, is_not, is_set, is_not_set, icontains, not_icontains, regex, not_regex, gt, gte, lt, lte), and optional 'type' (event, person). */
-  properties?: ActionStepJSONInputPropertiesList | null;
+  properties?: ActionStepJSONInputPropertiesList | null | undefined;
   /** CSS selector to match the target element (e.g. 'div > button.cta'). */
-  selector?: string | null;
+  selector?: string | null | undefined;
   /** HTML tag name to match (e.g. "button", "a", "input"). */
-  tag_name?: string | null;
+  tag_name?: string | null | undefined;
   /** Element text content to match. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** How to match the text value. Defaults to exact. * `contains` - contains * `regex` - regex * `exact` - exact */
-  text_matching?: ActionStepMatchingEnum | (string & {}) | null;
+  text_matching?: ActionStepMatchingEnum | (string & {}) | null | undefined;
   /** Link href attribute to match. */
-  href?: string | null;
+  href?: string | null | undefined;
   /** How to match the href value. Defaults to exact. * `contains` - contains * `regex` - regex * `exact` - exact */
-  href_matching?: ActionStepMatchingEnum | (string & {}) | null;
+  href_matching?: ActionStepMatchingEnum | (string & {}) | null | undefined;
   /** Page URL to match. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** How to match the URL value. Defaults to contains. * `contains` - contains * `regex` - regex * `exact` - exact */
-  url_matching?: ActionStepMatchingEnum | (string & {}) | null;
+  url_matching?: ActionStepMatchingEnum | (string & {}) | null | undefined;
 }
 /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
 export type CreateActionRequestStepsList = Array<ActionStepJSONInput>;
 export interface CreateActionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: CreateActionRequestFormat | (string & {});
+  format?: CreateActionRequestFormat | (string & {}) | undefined;
   /** Name of the action (must be unique within the project). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this action represents. */
-  description?: string;
-  tags?: CreateActionRequestTagsList;
+  description?: string | undefined;
+  tags?: CreateActionRequestTagsList | undefined;
   /** Whether to post a notification to Slack when this action is triggered. */
-  post_to_slack?: boolean;
+  post_to_slack?: boolean | undefined;
   /** Custom Slack message format. Supports templates with event properties. */
-  slack_message_format?: string;
+  slack_message_format?: string | undefined;
   /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-  steps?: CreateActionRequestStepsList;
-  deleted?: boolean;
-  last_calculated_at?: string;
+  steps?: CreateActionRequestStepsList | undefined;
+  deleted?: boolean | undefined;
+  last_calculated_at?: string | undefined;
   /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
-  pinned_at?: string | null;
-  _create_in_folder?: string;
+  pinned_at?: string | null | undefined;
+  _create_in_folder?: string | undefined;
 }
 export type ActionOutputTagsList = Array<unknown>;
 /** Event or person property filters. Each item should have 'key' (string), 'value' (string, number, boolean, or array), optional 'operator' (exact, is_not, is_set, is_not_set, icontains, not_icontains, regex, not_regex, gt, gte, lt, lte), and optional 'type' (event, person). */
 export type ActionStepJSONPropertiesList = Array<ActionStepPropertyFilter>;
 export interface ActionStepJSON {
   /** Event name to match (e.g. '$pageview', '$autocapture', or a custom event name). */
-  event?: string | null;
+  event?: string | null | undefined;
   /** Event or person property filters. Each item should have 'key' (string), 'value' (string, number, boolean, or array), optional 'operator' (exact, is_not, is_set, is_not_set, icontains, not_icontains, regex, not_regex, gt, gte, lt, lte), and optional 'type' (event, person). */
-  properties?: ActionStepJSONPropertiesList | null;
+  properties?: ActionStepJSONPropertiesList | null | undefined;
   /** CSS selector to match the target element (e.g. 'div > button.cta'). */
-  selector?: string | null;
+  selector?: string | null | undefined;
   /** Compiled regex the selector matches against the event elements chain. Null when no selector is set. */
-  selector_regex?: string | null;
+  selector_regex?: string | null | undefined;
   /** Set when the selector compiles to a matcher that cannot match any event. Null when the selector is valid or absent. */
   selector_warning: string | null;
   /** HTML tag name to match (e.g. "button", "a", "input"). */
-  tag_name?: string | null;
+  tag_name?: string | null | undefined;
   /** Element text content to match. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** How to match the text value. Defaults to exact. * `contains` - contains * `regex` - regex * `exact` - exact */
-  text_matching?: ActionStepMatchingEnum | null;
+  text_matching?: ActionStepMatchingEnum | null | undefined;
   /** Link href attribute to match. */
-  href?: string | null;
+  href?: string | null | undefined;
   /** How to match the href value. Defaults to exact. * `contains` - contains * `regex` - regex * `exact` - exact */
-  href_matching?: ActionStepMatchingEnum | null;
+  href_matching?: ActionStepMatchingEnum | null | undefined;
   /** Page URL to match. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** How to match the URL value. Defaults to contains. * `contains` - contains * `regex` - regex * `exact` - exact */
-  url_matching?: ActionStepMatchingEnum | null;
+  url_matching?: ActionStepMatchingEnum | null | undefined;
 }
 /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
 export type ActionOutputStepsList = Array<ActionStepJSON>;
@@ -270,43 +270,43 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Serializer mixin that handles tags for objects. */
 export interface ActionOutput {
-  id?: number;
+  id?: number | undefined;
   /** Name of the action (must be unique within the project). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this action represents. */
-  description?: string;
-  tags?: ActionOutputTagsList;
+  description?: string | undefined;
+  tags?: ActionOutputTagsList | undefined;
   /** Whether to post a notification to Slack when this action is triggered. */
-  post_to_slack?: boolean;
+  post_to_slack?: boolean | undefined;
   /** Custom Slack message format. Supports templates with event properties. */
-  slack_message_format?: string;
+  slack_message_format?: string | undefined;
   /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-  steps?: ActionOutputStepsList;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  deleted?: boolean;
-  is_calculating?: boolean;
-  last_calculated_at?: string;
-  team_id?: number;
-  is_action?: boolean;
-  bytecode_error?: string | null;
+  steps?: ActionOutputStepsList | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  deleted?: boolean | undefined;
+  is_calculating?: boolean | undefined;
+  last_calculated_at?: string | undefined;
+  team_id?: number | undefined;
+  is_action?: boolean | undefined;
+  bytecode_error?: string | null | undefined;
   /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
-  pinned_at?: string | null;
-  creation_context?: string | null;
+  pinned_at?: string | null | undefined;
+  creation_context?: string | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export type GetActionRequestFormat = "csv" | "json";
 export interface GetActionRequest {
@@ -314,33 +314,33 @@ export interface GetActionRequest {
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: GetActionRequestFormat | (string & {});
+  format?: GetActionRequestFormat | (string & {}) | undefined;
 }
 export type ListActionsRequestFormat = "csv" | "json";
 export interface ListActionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Comma-separated list of creator user ids. Returns only actions created by these users. */
-  created_by?: string;
-  format?: ListActionsRequestFormat | (string & {});
+  created_by?: string | undefined;
+  format?: ListActionsRequestFormat | (string & {}) | undefined;
   /** Maximum number of actions to return. Omit to return all. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of actions to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Field to order by (name, created_at, pinned_at, created_by). Prefix with '-' for descending. */
-  ordering?: string;
+  ordering?: string | undefined;
   /** Case-insensitive substring match on the action name. */
-  search?: string;
+  search?: string | undefined;
   /** JSON-encoded array of tag names, e.g. ["billing","beta"]. Returns actions having any of these tags. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Actions on this page, or every matching action without `limit`. */
 export type ActionListResponseOutputResultsList = Array<ActionOutput>;
 export interface ActionListResponseOutput {
   /** Number of actions that match the filters. Without `limit`, it is `offset` plus the number of actions returned. */
-  count?: number;
+  count?: number | undefined;
   /** Actions on this page, or every matching action without `limit`. */
-  results?: ActionListResponseOutputResultsList;
+  results?: ActionListResponseOutputResultsList | undefined;
 }
 export type ListActionsReferencesRequestFormat = "csv" | "json";
 export interface ListActionsReferencesRequest {
@@ -348,21 +348,21 @@ export interface ListActionsReferencesRequest {
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: ListActionsReferencesRequestFormat | (string & {});
+  format?: ListActionsReferencesRequestFormat | (string & {}) | undefined;
 }
 export interface ActionReference {
   /** Resource type: insight, experiment, cohort, or hog_function */
-  type?: string;
+  type?: string | undefined;
   /** Resource ID (integer or UUID depending on type) */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Relative URL to the resource */
-  url?: string;
+  url?: string | undefined;
   /** When the resource was created */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** User who created the resource */
-  created_by?: UserBasic | null;
+  created_by?: UserBasic | null | undefined;
 }
 export type ListActionsReferencesResponseBodyList = Array<ActionReference>;
 export type ListActionsReferencesResponse = ListActionsReferencesResponseBodyList;
@@ -373,7 +373,7 @@ export interface ListActionsSelectorMatchChangesRequest {
   project_id: string;
   /** Action IDs used by the insight. Accepts repeated or comma-separated values. */
   action_ids: ListActionsSelectorMatchChangesRequestActionIdsList;
-  format?: ListActionsSelectorMatchChangesRequestFormat | (string & {});
+  format?: ListActionsSelectorMatchChangesRequestFormat | (string & {}) | undefined;
 }
 /** CSS selectors whose matching behavior changed, in action step order. */
 export type ActionSelectorMatchChangeSelectorsList = Array<string>;
@@ -397,23 +397,23 @@ export interface UpdateActionRequest {
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: UpdateActionRequestFormat | (string & {});
+  format?: UpdateActionRequestFormat | (string & {}) | undefined;
   /** Name of the action (must be unique within the project). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this action represents. */
-  description?: string;
-  tags?: UpdateActionRequestTagsList;
+  description?: string | undefined;
+  tags?: UpdateActionRequestTagsList | undefined;
   /** Whether to post a notification to Slack when this action is triggered. */
-  post_to_slack?: boolean;
+  post_to_slack?: boolean | undefined;
   /** Custom Slack message format. Supports templates with event properties. */
-  slack_message_format?: string;
+  slack_message_format?: string | undefined;
   /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-  steps?: UpdateActionRequestStepsList;
-  deleted?: boolean;
-  last_calculated_at?: string;
+  steps?: UpdateActionRequestStepsList | undefined;
+  deleted?: boolean | undefined;
+  last_calculated_at?: string | undefined;
   /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
-  pinned_at?: string | null;
-  _create_in_folder?: string;
+  pinned_at?: string | null | undefined;
+  _create_in_folder?: string | undefined;
 }
 export type UpdateActionsPartialRequestFormat = "csv" | "json";
 export type UpdateActionsPartialRequestTagsList = Array<unknown>;
@@ -424,23 +424,23 @@ export interface UpdateActionsPartialRequest {
   project_id: string;
   /** A unique integer value identifying this action. */
   id: number;
-  format?: UpdateActionsPartialRequestFormat | (string & {});
+  format?: UpdateActionsPartialRequestFormat | (string & {}) | undefined;
   /** Name of the action (must be unique within the project). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Human-readable description of what this action represents. */
-  description?: string;
-  tags?: UpdateActionsPartialRequestTagsList;
+  description?: string | undefined;
+  tags?: UpdateActionsPartialRequestTagsList | undefined;
   /** Whether to post a notification to Slack when this action is triggered. */
-  post_to_slack?: boolean;
+  post_to_slack?: boolean | undefined;
   /** Custom Slack message format. Supports templates with event properties. */
-  slack_message_format?: string;
+  slack_message_format?: string | undefined;
   /** Action steps defining trigger conditions. Each step matches events by name, properties, URL, or element attributes. Multiple steps are OR-ed together. */
-  steps?: UpdateActionsPartialRequestStepsList;
-  deleted?: boolean;
-  last_calculated_at?: string;
+  steps?: UpdateActionsPartialRequestStepsList | undefined;
+  deleted?: boolean | undefined;
+  last_calculated_at?: string | undefined;
   /** ISO 8601 timestamp when the action was pinned, or null if not pinned. Set any value to pin, null to unpin. */
-  pinned_at?: string | null;
-  _create_in_folder?: string;
+  pinned_at?: string | null | undefined;
+  _create_in_folder?: string | undefined;
 }
 export type ActionsDestroyError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Hard delete of this model is not allowed. Use a patch API call to set "deleted" to true */

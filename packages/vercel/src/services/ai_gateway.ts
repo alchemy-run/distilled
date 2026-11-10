@@ -67,15 +67,15 @@ export interface ArchiveAiGatewayBudgetRequest {
   /** The budget scope to archive. */
   scopeType: ArchiveAiGatewayBudgetRequestScopeType | (string & {});
   /** Required when scopeType is \"project\". */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required when scopeType is \"user\". */
-  userId?: string;
+  userId?: string | undefined;
   /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. */
-  justification?: string;
+  justification?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetAlertThresholdsList = Array<number>;
 export type AiGatewayBudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
@@ -84,21 +84,21 @@ export type AiGatewayBudgetScopeType = "api-key" | "project" | "team" | "user";
 export type AiGatewayBudgetSource = "default";
 export interface AiGatewayBudget {
   active: boolean;
-  alertThresholds?: AiGatewayBudgetAlertThresholdsList;
+  alertThresholds?: AiGatewayBudgetAlertThresholdsList | undefined;
   archived: boolean;
   createdAt: number;
   currentByokSpend: number;
   currentSpend: number;
   includeByokInQuota: boolean;
   limitAmount: number;
-  name?: string;
+  name?: string | undefined;
   quotaEntityId: string;
   refreshPeriod: AiGatewayBudgetRefreshPeriod;
   /** The native Vercel id of the scoped entity. Team/project ids already carry their prefix, so this equals `quotaEntityId` (`team_...` / `prj_...`); for the api-key scope it is the api key id (the `api_key_id_` prefix stripped). */
   scopeId: string;
   scopeType: AiGatewayBudgetScopeType;
   /** Set when the row is inherited from the team's budget default. */
-  source?: AiGatewayBudgetSource;
+  source?: AiGatewayBudgetSource | undefined;
   updatedAt: number;
 }
 /** The budget default scope to delete. */
@@ -107,11 +107,11 @@ export interface ArchiveAiGatewayBudgetDefaultRequest {
   /** The budget default scope to delete. */
   scopeType: ArchiveAiGatewayBudgetDefaultRequestScopeType | (string & {});
   /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. Only recorded when scopeType is set. */
-  justification?: string;
+  justification?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ArchiveAiGatewayBudgetDefaultResponse {}
 export interface CreateAiGatewayByokCredentialRequestMappingsItem {
@@ -125,23 +125,23 @@ export type CreateAiGatewayByokCredentialRequestMappingsList =
   Array<CreateAiGatewayByokCredentialRequestMappingsItem>;
 export interface CreateAiGatewayByokCredentialRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The owner ID for this credential. Ignored for customer tokens, which always create in their own team. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The provider slug this credential is for (e.g., "openai", "anthropic") */
   providerSlug: string;
   /** The developer-entered name for this credential */
   name: string;
   /** Whether the credential is active and can be used */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the customer attested this external credential has a zero data retention policy */
-  zeroDataRetention?: boolean;
+  zeroDataRetention?: boolean | undefined;
   /** The ID of the user performing this action, used for Activity-log attribution. */
-  userId?: string;
+  userId?: string | undefined;
   /** Model mappings to create atomically with the credential (e.g. Azure deployments). One DynamoDB transaction holds the credential plus all mappings, so at most 99 mappings fit. */
-  mappings?: CreateAiGatewayByokCredentialRequestMappingsList;
+  mappings?: CreateAiGatewayByokCredentialRequestMappingsList | undefined;
 }
 export interface CreateAiGatewayByokCredentialResponse {
   active: boolean;
@@ -157,38 +157,38 @@ export interface CreateAiGatewayByokCredentialResponse {
 }
 export interface CreateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface AiGatewayRuleAction {
-  reason?: string;
-  rewriteModel?: string;
+  reason?: string | undefined;
+  rewriteModel?: string | undefined;
 }
 export interface AiGatewayRuleMatch {
-  model?: string;
+  model?: string | undefined;
 }
 export type AiGatewayRuleType = "deny" | "rewrite";
 /** Public response shape for AI Gateway routing rules. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types. */
 export interface AiGatewayRule {
-  action?: AiGatewayRuleAction;
+  action?: AiGatewayRuleAction | undefined;
   createdAt: number;
-  createdBy?: string;
-  deleted?: boolean;
-  description?: string;
+  createdBy?: string | undefined;
+  deleted?: boolean | undefined;
+  description?: string | undefined;
   enabled: boolean;
-  match?: AiGatewayRuleMatch;
+  match?: AiGatewayRuleMatch | undefined;
   ownerId: string;
   ruleId: string;
   type: AiGatewayRuleType;
   updatedAt: number;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
 }
 export interface CreateAiGatewayVirtualModelConfigRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** BYOK credential IDs allowed for this VMC. */
 export type AiGatewayVirtualModelConfigByokCredentialIdsList = Array<string>;
@@ -211,11 +211,11 @@ export type AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope =
 /** Per-provider region overrides keyed by provider slug. */
 export interface AiGatewayVirtualModelConfigInferenceRegionProvidersValue {
   /** Geo zone (e.g. "us", "eu"). */
-  geoRegion?: string;
+  geoRegion?: string | undefined;
   /** Provider-specific region identifier. */
-  providerRegion?: string;
+  providerRegion?: string | undefined;
   /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
-  scope?: AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope;
+  scope?: AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope | undefined;
 }
 /** Per-provider region overrides keyed by provider slug. */
 export type AiGatewayVirtualModelConfigInferenceRegionProvidersMap = {
@@ -226,30 +226,30 @@ export type AiGatewayVirtualModelConfigInferenceRegionScope = "global" | "specif
 /** Region pinned on the VMC for system-credential routing (alias/router only). */
 export interface AiGatewayVirtualModelConfigInferenceRegion {
   /** Geo zone (e.g. "us", "eu"). */
-  geoRegion?: string;
+  geoRegion?: string | undefined;
   /** Provider-specific region identifier. */
-  providerRegion?: string;
+  providerRegion?: string | undefined;
   /** Per-provider region overrides keyed by provider slug. */
-  providers?: AiGatewayVirtualModelConfigInferenceRegionProvidersMap;
+  providers?: AiGatewayVirtualModelConfigInferenceRegionProvidersMap | undefined;
   /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
-  scope?: AiGatewayVirtualModelConfigInferenceRegionScope;
+  scope?: AiGatewayVirtualModelConfigInferenceRegionScope | undefined;
 }
 /** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
 export interface AiGatewayVirtualModelConfigModelsItemCase1 {
   /** Highest task level the member handles, in [0, 1]. Read by the intelligence selector. */
-  intelligence?: number;
+  intelligence?: number | undefined;
   slug: string;
 }
 /** Without a question, checks every Choice and Score question. */
 export interface AiGatewayEvaluationFallbackConditionCase0 {
   confidenceBelow: number;
-  question?: string;
+  question?: string | undefined;
 }
 export type AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList = Array<number>;
 /** Without a question, checks every Boolean question. */
 export interface AiGatewayEvaluationFallbackConditionCase1 {
   probabilityBetween: AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList;
-  question?: string;
+  question?: string | undefined;
 }
 export type AiGatewayEvaluationFallbackConditionCase2AnyList =
   Array<AiGatewayEvaluationFallbackCondition>;
@@ -304,7 +304,7 @@ export type AiGatewayVirtualModelConfigProviderTimeoutsByokMap = {
 };
 /** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
 export interface AiGatewayVirtualModelConfigProviderTimeouts {
-  byok?: AiGatewayVirtualModelConfigProviderTimeoutsByokMap;
+  byok?: AiGatewayVirtualModelConfigProviderTimeoutsByokMap | undefined;
 }
 /** For kind=router: how to order candidates. Absent means declared order. */
 export type AiGatewayVirtualModelConfigSelector = "cost" | "tps" | "ttft";
@@ -312,9 +312,9 @@ export type AiGatewayVirtualModelConfigSelector = "cost" | "tps" | "ttft";
 export type AiGatewayRouterSelectorOptionBag = { [key: string]: unknown | undefined };
 /** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
 export interface AiGatewayVirtualModelConfigSelectorOptions {
-  cost?: AiGatewayRouterSelectorOptionBag;
-  tps?: AiGatewayRouterSelectorOptionBag;
-  ttft?: AiGatewayRouterSelectorOptionBag;
+  cost?: AiGatewayRouterSelectorOptionBag | undefined;
+  tps?: AiGatewayRouterSelectorOptionBag | undefined;
+  ttft?: AiGatewayRouterSelectorOptionBag | undefined;
 }
 /** Service tier for providers that support it. */
 export type AiGatewayVirtualModelConfigServiceTier = "fast" | "flex" | "priority";
@@ -331,126 +331,126 @@ export type AiGatewayVirtualModelConfigSpeed = "fast";
 /** Active and archived router configurations owned by the authenticated team. */
 export interface AiGatewayVirtualModelConfig {
   /** Allow fallback from fast to standard providers on failure. */
-  allowFallbackFromFast?: boolean;
+  allowFallbackFromFast?: boolean | undefined;
   /** For kind=relay: URL the gateway forwards requests to as a transparent proxy. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** BYOK credential IDs allowed for this VMC. */
-  byokCredentialIds?: AiGatewayVirtualModelConfigByokCredentialIdsList;
+  byokCredentialIds?: AiGatewayVirtualModelConfigByokCredentialIdsList | undefined;
   /** Use caching if available. */
-  caching?: AiGatewayVirtualModelConfigCaching;
+  caching?: AiGatewayVirtualModelConfigCaching | undefined;
   /** Creation timestamp (epoch ms). */
   createdAt: number;
   /** User or app id that created this VMC. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Whether this VMC is soft-deleted. */
   deleted: boolean;
   /** Optional description for UI. */
-  description?: string;
+  description?: string | undefined;
   /** Only use providers that will not train on your prompts. */
-  disallowPromptTraining?: boolean;
+  disallowPromptTraining?: boolean | undefined;
   /** Human-readable name for UI. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Limit providers to those with these features. */
-  has?: AiGatewayVirtualModelConfigHasList;
+  has?: AiGatewayVirtualModelConfigHasList | undefined;
   /** Only use HIPAA-compliant providers. */
-  hipaaCompliant?: boolean;
+  hipaaCompliant?: boolean | undefined;
   /** Region pinned on the VMC for system-credential routing (alias/router only). */
-  inferenceRegion?: AiGatewayVirtualModelConfigInferenceRegion;
+  inferenceRegion?: AiGatewayVirtualModelConfigInferenceRegion | undefined;
   /** The concrete model-provider instance this VMC resolves to. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** VMC kind: alias, relay, or router. */
   kind: string;
   /** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
-  models?: AiGatewayVirtualModelConfigModelsList;
+  models?: AiGatewayVirtualModelConfigModelsList | undefined;
   /** Canonical model slug this VMC maps to (e.g. "creator/model"). Not used by kind=router. */
-  modelSlug?: string;
+  modelSlug?: string | undefined;
   /** Observability tags attached to requests through this VMC. */
-  observabilityTags?: AiGatewayVirtualModelConfigObservabilityTagsList;
+  observabilityTags?: AiGatewayVirtualModelConfigObservabilityTagsList | undefined;
   /** Team (owner) that owns this VMC. */
   ownerId: string;
   /** Restrict routing to only these providers. */
-  providerOnly?: AiGatewayVirtualModelConfigProviderOnlyList;
+  providerOnly?: AiGatewayVirtualModelConfigProviderOnlyList | undefined;
   /** Arbitrary per-provider AI SDK options, keyed by gateway provider slug. */
-  providerOptions?: AiGatewayVirtualModelConfigProviderOptionsMap;
+  providerOptions?: AiGatewayVirtualModelConfigProviderOptionsMap | undefined;
   /** Ordered list of providers to try as fallbacks on failure. */
-  providerOrder?: AiGatewayVirtualModelConfigProviderOrderList;
+  providerOrder?: AiGatewayVirtualModelConfigProviderOrderList | undefined;
   /** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
-  providerTimeouts?: AiGatewayVirtualModelConfigProviderTimeouts;
+  providerTimeouts?: AiGatewayVirtualModelConfigProviderTimeouts | undefined;
   /** For kind=router: how to order candidates. Absent means declared order. */
-  selector?: AiGatewayVirtualModelConfigSelector;
+  selector?: AiGatewayVirtualModelConfigSelector | undefined;
   /** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
-  selectorOptions?: AiGatewayVirtualModelConfigSelectorOptions;
+  selectorOptions?: AiGatewayVirtualModelConfigSelectorOptions | undefined;
   /** Service tier for providers that support it. */
-  serviceTier?: AiGatewayVirtualModelConfigServiceTier;
+  serviceTier?: AiGatewayVirtualModelConfigServiceTier | undefined;
   /** Rank eligible providers by an attribute. */
-  sort?: AiGatewayVirtualModelConfigSort;
+  sort?: AiGatewayVirtualModelConfigSort | undefined;
   /** Only use fastest providers with short timeouts. */
-  speed?: AiGatewayVirtualModelConfigSpeed;
+  speed?: AiGatewayVirtualModelConfigSpeed | undefined;
   /** UI lifecycle status: draft, active, or archived. */
   status: string;
   /** Last update timestamp (epoch ms). */
   updatedAt: number;
   /** User or app id that last updated this VMC. */
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   /** Client-facing alias used as the model slug in Gateway calls. */
   virtualModelSlug: string;
   /** Visibility in listings: public, internal, or stealth. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** Only use providers with zero data retention. */
-  zeroDataRetention?: boolean;
+  zeroDataRetention?: boolean | undefined;
 }
 export interface DeleteAiGatewayByokCredentialRequest {
   /** The unique ID of the credential to delete */
   credentialId: string;
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The ID of the user performing this action, used for Activity-log attribution. */
-  userId?: string;
+  userId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAiGatewayByokCredentialResponse = unknown;
 export interface DeleteAiGatewayRuleRequest {
   ruleId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAiGatewayRuleResponse = unknown;
 export interface DeleteAiGatewayVirtualModelConfigRequest {
-  ownerId?: string;
+  ownerId?: string | undefined;
   virtualModelSlug: string;
-  updatedBy?: string;
-  actingIp?: string;
-  actingUserAgent?: string;
+  updatedBy?: string | undefined;
+  actingIp?: string | undefined;
+  actingUserAgent?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAiGatewayVirtualModelConfigResponse = unknown;
 export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
-  ownerId?: string;
-  updatedBy?: string;
-  actingIp?: string;
-  actingUserAgent?: string;
+  ownerId?: string | undefined;
+  updatedBy?: string | undefined;
+  actingIp?: string | undefined;
+  actingUserAgent?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown;
 export interface GetAiGatewayByokCredentialRequest {
   /** The unique ID of the credential */
   credentialId: string;
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetAiGatewayByokCredentialResponse {
   active: boolean;
@@ -465,14 +465,14 @@ export interface GetAiGatewayByokCredentialResponse {
   zeroDataRetention: boolean;
 }
 export interface GetAiGatewayVirtualModelConfigRequest {
-  ownerId?: string;
-  virtualModelSlug?: string;
-  limit?: number;
-  cursor?: string;
+  ownerId?: string | undefined;
+  virtualModelSlug?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The page of VMCs. */
 export type AiGatewayVirtualModelConfigListVirtualModelConfigsList =
@@ -489,24 +489,24 @@ export type GetAiGatewayVirtualModelConfigResponseBody =
 export type GetAiGatewayVirtualModelConfigResponse = GetAiGatewayVirtualModelConfigResponseBody;
 export interface GetAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListAiGatewayBudgetDefaultsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetDefaultAlertThresholdsList = Array<number>;
 export type AiGatewayBudgetDefaultRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
 export type AiGatewayBudgetDefaultScopeType = "api-key" | "project" | "team" | "user";
 export interface AiGatewayBudgetDefault {
   active: boolean;
-  alertThresholds?: AiGatewayBudgetDefaultAlertThresholdsList;
+  alertThresholds?: AiGatewayBudgetDefaultAlertThresholdsList | undefined;
   createdAt: number;
   limitAmount: number;
   refreshPeriod: AiGatewayBudgetDefaultRefreshPeriod;
@@ -521,17 +521,17 @@ export interface AiGatewayBudgetDefaultList {
 export type ListAiGatewayBudgetsRequestScopeType = "team" | "project" | "user" | "api-key";
 export interface ListAiGatewayBudgetsRequest {
   /** Restrict the list to a single budget scope. */
-  scopeType?: ListAiGatewayBudgetsRequestScopeType | (string & {});
+  scopeType?: ListAiGatewayBudgetsRequestScopeType | (string & {}) | undefined;
   /** Whether to include rows inherited from a budget default (`source: "default"`). Defaults to true. */
-  includeDefaultCovered?: boolean;
+  includeDefaultCovered?: boolean | undefined;
   /** Maximum number of budgets to return (capped at 200). Enables pagination. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque cursor returned by a prior call as nextCursor. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetListBudgetsList = Array<AiGatewayBudget>;
 /** Paged requests only: `source: 'default'` rows per scope type across the whole `scopeType`-filtered list, independent of the page and of `includeDefaultCovered`. */
@@ -544,25 +544,25 @@ export interface AiGatewayBudgetListDefaultCoveredCounts {
 export interface AiGatewayBudgetList {
   budgets: AiGatewayBudgetListBudgetsList;
   /** Paged requests only: `source: 'default'` rows per scope type across the whole `scopeType`-filtered list, independent of the page and of `includeDefaultCovered`. */
-  defaultCoveredCounts?: AiGatewayBudgetListDefaultCoveredCounts;
+  defaultCoveredCounts?: AiGatewayBudgetListDefaultCoveredCounts | undefined;
   /** Paged requests only (`limit` or `cursor` set): pass as `cursor` to read the next page; null on the last page. */
-  nextCursor?: string | null;
+  nextCursor?: string | null | undefined;
 }
 export interface ListAiGatewayByokCredentialsRequest {
   /** The owner ID to list credentials for. Ignored for customer tokens, which always list their own team. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** Optional provider slug to filter credentials by */
-  providerSlug?: string;
+  providerSlug?: string | undefined;
   /** Whether to include soft-deleted credentials */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Not supported. Credential values are never returned. */
-  decrypt?: boolean;
+  decrypt?: boolean | undefined;
   /** Whether to include model mappings for each credential in the response */
-  includeModelMappings?: boolean;
+  includeModelMappings?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListAiGatewayByokCredentialsResponseCredentialsItemModelMappingsItem {
   customModelId: string;
@@ -592,11 +592,11 @@ export interface ListAiGatewayByokCredentialsResponse {
 }
 export interface ListAiGatewayRoutersRequest {
   /** The owner (team) ID to list routers for. Only trusted-origin callers use this. Public callers select their team with `teamId` or `slug`, and a supplied ownerId never overrides the authenticated team. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Active and archived router configurations owned by the authenticated team. */
 export type AiGatewayRouterListRoutersList = Array<AiGatewayVirtualModelConfig>;
@@ -605,34 +605,34 @@ export interface AiGatewayRouterList {
   routers: AiGatewayRouterListRoutersList;
 }
 export interface ListAiGatewayRulesRequest {
-  includeDisabled?: boolean;
+  includeDisabled?: boolean | undefined;
   /** Maximum number of rules to return (capped at 200). Enables pagination. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque cursor returned by a prior call as nextCursor. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayRuleListItemAction = AiGatewayRuleAction;
 export type AiGatewayRuleListItemMatch = AiGatewayRuleMatch;
 export type AiGatewayRuleListItemType = "deny" | "rewrite";
 export interface AiGatewayRuleListItem {
-  action?: AiGatewayRuleAction;
+  action?: AiGatewayRuleAction | undefined;
   createdAt: number;
-  createdBy?: string;
-  deleted?: boolean;
-  description?: string;
+  createdBy?: string | undefined;
+  deleted?: boolean | undefined;
+  description?: string | undefined;
   enabled: boolean;
-  match?: AiGatewayRuleMatch;
+  match?: AiGatewayRuleMatch | undefined;
   ownerId: string;
   ruleId: string;
   /** Rule that takes precedence over this enabled rule for the same model, so this one never applies */
-  shadowedBy?: string;
+  shadowedBy?: string | undefined;
   type: AiGatewayRuleListItemType;
   updatedAt: number;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
 }
 export type AiGatewayRuleListRulesList = Array<AiGatewayRuleListItem>;
 export interface AiGatewayRuleList {
@@ -640,31 +640,31 @@ export interface AiGatewayRuleList {
   rules: AiGatewayRuleListRulesList;
 }
 export interface ListAiGatewayVirtualModelConfigsRequest {
-  ownerId?: string;
-  limit?: number;
-  cursor?: string;
-  includeArchived?: boolean;
+  ownerId?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
+  includeArchived?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayByokCredentialRequest {
   /** The unique ID of the credential to update */
   credentialId: string;
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The new name for the credential */
-  name?: string;
+  name?: string | undefined;
   /** Whether the credential should be active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the customer attested this external credential has a zero data retention policy */
-  zeroDataRetention?: boolean;
+  zeroDataRetention?: boolean | undefined;
   /** The ID of the user performing this action, used for Activity-log attribution. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface UpdateAiGatewayByokCredentialResponse {
   active: boolean;
@@ -680,22 +680,22 @@ export interface UpdateAiGatewayByokCredentialResponse {
 }
 export interface UpdateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayVirtualModelConfigRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** How often the quota refreshes. */
 export type UpdateApiKeyQuotaRequestRefreshPeriod = "daily" | "weekly" | "monthly" | "none";
@@ -708,19 +708,19 @@ export interface UpdateApiKeyQuotaRequest {
   /** The ID of the API key whose quota should be updated. */
   apiKeyID: string;
   /** The quota limit amount. Required if the quota does not yet exist. */
-  limitAmount?: number;
+  limitAmount?: number | undefined;
   /** Whether BYOK (Bring Your Own Key) usage counts against the quota. */
-  includeByokInQuota?: boolean;
+  includeByokInQuota?: boolean | undefined;
   /** How often the quota refreshes. */
-  refreshPeriod?: UpdateApiKeyQuotaRequestRefreshPeriod | (string & {});
+  refreshPeriod?: UpdateApiKeyQuotaRequestRefreshPeriod | (string & {}) | undefined;
   /** Whether the quota is currently active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Set to true to archive (soft-delete) the quota. The api key itself is unaffected. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Pass an empty array to disable alerts. */
-  alertThresholds?: UpdateApiKeyQuotaRequestAlertThresholdsList;
+  alertThresholds?: UpdateApiKeyQuotaRequestAlertThresholdsList | undefined;
   /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains. */
-  justification?: string;
+  justification?: string | undefined;
 }
 /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
 export type APIKeyQuotaAlertThresholdsList = Array<number>;
@@ -743,7 +743,7 @@ export interface APIKeyQuota {
   /** Whether the quota has been archived. */
   archived: boolean;
   /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
-  alertThresholds?: APIKeyQuotaAlertThresholdsList;
+  alertThresholds?: APIKeyQuotaAlertThresholdsList | undefined;
   /** Timestamp (in milliseconds) of when the quota was created. */
   createdAt: number;
   /** Timestamp (in milliseconds) of when the quota was last updated. */
@@ -777,9 +777,9 @@ export interface APIKey {
   leakedUrl: string | null;
   /** The ID of the app that created the API key, if any */
   createdByAppId: string | null;
-  quota?: APIKeyQuota;
+  quota?: APIKeyQuota | undefined;
   /** Generic metadata attached to the API key. The accepted shape depends on the key's `purpose` and is validated when the key is created. For `ai-gateway` keys this carries `environment` and `spendAttribution`. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface UpdateApiKeyQuotaResponse {
   apiKey: APIKey;
@@ -793,22 +793,22 @@ export type UpsertAiGatewayBudgetRequestAlertThresholdsList = Array<
 >;
 export interface UpsertAiGatewayBudgetRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   scopeType: UpsertAiGatewayBudgetRequestScopeType | (string & {});
   /** Required when scopeType is \"project\". */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required when scopeType is \"user\". */
-  userId?: string;
+  userId?: string | undefined;
   /** Budget limit in dollars. */
   limitAmount: number;
-  refreshPeriod?: UpsertAiGatewayBudgetRequestRefreshPeriod | (string & {});
+  refreshPeriod?: UpsertAiGatewayBudgetRequestRefreshPeriod | (string & {}) | undefined;
   /** Whether BYOK usage counts toward this budget. */
-  includeByokInQuota?: boolean;
-  alertThresholds?: UpsertAiGatewayBudgetRequestAlertThresholdsList;
+  includeByokInQuota?: boolean | undefined;
+  alertThresholds?: UpsertAiGatewayBudgetRequestAlertThresholdsList | undefined;
   /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. */
-  justification?: string;
+  justification?: string | undefined;
 }
 export type UpsertAiGatewayBudgetDefaultRequestScopeType = "team" | "project" | "api-key" | "user";
 export type UpsertAiGatewayBudgetDefaultRequestRefreshPeriod =
@@ -822,16 +822,16 @@ export type UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList = Array<
 >;
 export interface UpsertAiGatewayBudgetDefaultRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   scopeType: UpsertAiGatewayBudgetDefaultRequestScopeType | (string & {});
   /** Default budget limit in dollars. */
   limitAmount: number;
-  refreshPeriod?: UpsertAiGatewayBudgetDefaultRequestRefreshPeriod | (string & {});
-  alertThresholds?: UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList;
+  refreshPeriod?: UpsertAiGatewayBudgetDefaultRequestRefreshPeriod | (string & {}) | undefined;
+  alertThresholds?: UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList | undefined;
   /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. */
-  justification?: string;
+  justification?: string | undefined;
 }
 export type ArchiveAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Archive AI Gateway budget Archive a team-, project-, or user-scope AI Gateway budget. */

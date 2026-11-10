@@ -87,162 +87,162 @@ export type StringMap = { [key: string]: string | undefined };
 /** The key used to identify the target on which the policy will be applied. */
 export interface GoogleChromePolicyVersionsV1PolicyTargetKey {
   /** The target resource on which this policy is applied. The following resources are supported: * Organizational Unit ("orgunits/{orgunit_id}") * Group ("groups/{group_id}") */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Map containing the additional target key name and value pairs used to further identify the target of the policy. */
-  additionalTargetKeys?: StringMap;
+  additionalTargetKeys?: StringMap | undefined;
 }
 /** Request parameters for deleting the policy value of a specific group target. */
 export interface GoogleChromePolicyVersionsV1DeleteGroupPolicyRequest {
   /** Required. The key of the target for which we want to modify a policy. The target resource must point to a Group. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** The fully qualified name of the policy schema that is being inherited. */
-  policySchema?: string;
+  policySchema?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1DeleteGroupPolicyRequestList =
   Array<GoogleChromePolicyVersionsV1DeleteGroupPolicyRequest>;
 /** Request message for specifying that multiple policy values will be deleted. */
 export interface GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest {
   /** List of policies that will be deleted as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to a group resource. 3. All `policyTargetKey` values must have the same `app_id` key name in the `additionalTargetKeys`. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
-  requests?: GoogleChromePolicyVersionsV1DeleteGroupPolicyRequestList;
+  requests?: GoogleChromePolicyVersionsV1DeleteGroupPolicyRequestList | undefined;
 }
 export interface BatchDeleteCustomersPoliciesGroupsRequest {
   /** ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest;
+  body?: GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
 /** Request parameters for inheriting policy value of a specific org unit target from the policy value of its parent org unit. */
 export interface GoogleChromePolicyVersionsV1InheritOrgUnitPolicyRequest {
   /** The fully qualified name of the policy schema that is being inherited. */
-  policySchema?: string;
+  policySchema?: string | undefined;
   /** Required. The key of the target for which we want to modify a policy. The target resource must point to an Org Unit. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
 }
 export type GoogleChromePolicyVersionsV1InheritOrgUnitPolicyRequestList =
   Array<GoogleChromePolicyVersionsV1InheritOrgUnitPolicyRequest>;
 /** Request message for specifying that multiple policy values inherit their value from their parents. */
 export interface GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest {
   /** List of policies that have to inherit their values as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to an org unit resource. 3. All `policyTargetKey` values must have the same key names in the ` additionalTargetKeys`. This also means if one of the targets has an empty `additionalTargetKeys` map, all of the targets must have an empty `additionalTargetKeys` map. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
-  requests?: GoogleChromePolicyVersionsV1InheritOrgUnitPolicyRequestList;
+  requests?: GoogleChromePolicyVersionsV1InheritOrgUnitPolicyRequestList | undefined;
 }
 export interface BatchInheritCustomersPoliciesOrgunitsRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest;
+  body?: GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** A particular value for a policy managed by the service. */
 export interface GoogleChromePolicyVersionsV1PolicyValue {
   /** The fully qualified name of the policy schema associated with this policy. */
-  policySchema?: string;
+  policySchema?: string | undefined;
   /** The value of the policy that is compatible with the schema that it is associated with. */
-  value?: DocumentMap;
+  value?: DocumentMap | undefined;
 }
 /** Request parameters for modifying a policy value for a specific group target. */
 export interface GoogleChromePolicyVersionsV1ModifyGroupPolicyRequest {
   /** The new value for the policy. */
-  policyValue?: GoogleChromePolicyVersionsV1PolicyValue;
+  policyValue?: GoogleChromePolicyVersionsV1PolicyValue | undefined;
   /** Required. Policy fields to update. Only fields in this mask will be updated; other fields in `policy_value` will be ignored (even if they have values). If a field is in this list it must have a value in 'policy_value'. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The key of the target for which we want to modify a policy. The target resource must point to a Group. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
 }
 export type GoogleChromePolicyVersionsV1ModifyGroupPolicyRequestList =
   Array<GoogleChromePolicyVersionsV1ModifyGroupPolicyRequest>;
 /** Request message for modifying multiple policy values for a specific group-based target. */
 export interface GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest {
   /** List of policies to modify as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to a group resource. 3. All `policyTargetKey` values must have the same `app_id` key name in the `additionalTargetKeys`. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
-  requests?: GoogleChromePolicyVersionsV1ModifyGroupPolicyRequestList;
+  requests?: GoogleChromePolicyVersionsV1ModifyGroupPolicyRequestList | undefined;
 }
 export interface BatchModifyCustomersPoliciesGroupsRequest {
   /** ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest;
+  body?: GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest | undefined;
 }
 /** Request parameters for modifying a policy value for a specific org unit target. */
 export interface GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequest {
   /** The new value for the policy. */
-  policyValue?: GoogleChromePolicyVersionsV1PolicyValue;
+  policyValue?: GoogleChromePolicyVersionsV1PolicyValue | undefined;
   /** Required. The key of the target for which we want to modify a policy. The target resource must point to an Org Unit. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** Required. Policy fields to update. Only fields in this mask will be updated; other fields in `policy_value` will be ignored (even if they have values). If a field is in this list it must have a value in 'policy_value'. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequestList =
   Array<GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequest>;
 /** Request message for modifying multiple policy values for a specific target. */
 export interface GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest {
   /** List of policies to modify as defined by the `requests`. All requests in the list must follow these restrictions: 1. All schemas in the list must have the same root namespace. 2. All `policyTargetKey.targetResource` values must point to an org unit resource. 3. All `policyTargetKey` values must have the same key names in the ` additionalTargetKeys`. This also means if one of the targets has an empty `additionalTargetKeys` map, all of the targets must have an empty `additionalTargetKeys` map. 4. No two modification requests can reference the same `policySchema` + ` policyTargetKey` pair. */
-  requests?: GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequestList;
+  requests?: GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequestList | undefined;
 }
 export interface BatchModifyCustomersPoliciesOrgunitsRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest;
+  body?: GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest | undefined;
 }
 /** A network setting contains network configurations. It adheres to the PolicyAPI formats defined under the namespace chrome.networks.{wifi/ethernet/cellular/vpn}.Details */
 export interface GoogleChromePolicyVersionsV1NetworkSetting {
   /** The fully qualified name of the network setting. */
-  policySchema?: string;
+  policySchema?: string | undefined;
   /** The value of the network setting. */
-  value?: DocumentMap;
+  value?: DocumentMap | undefined;
 }
 export type GoogleChromePolicyVersionsV1NetworkSettingList =
   Array<GoogleChromePolicyVersionsV1NetworkSetting>;
 /** Request object for creating a certificate. */
 export interface GoogleChromePolicyVersionsV1DefineCertificateRequest {
   /** Optional. Certificate settings within the chrome.networks.certificates namespace. */
-  settings?: GoogleChromePolicyVersionsV1NetworkSettingList;
+  settings?: GoogleChromePolicyVersionsV1NetworkSettingList | undefined;
   /** Required. The raw contents of the .PEM, .CRT, or .CER file. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Required. The target resource on which this certificate is applied. The following resources are supported: * Organizational Unit ("orgunits/{orgunit_id}") */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Optional. The optional name of the certificate. If not specified, the certificate issuer will be used as the name. */
-  ceritificateName?: string;
+  ceritificateName?: string | undefined;
 }
 export interface DefineCertificateCustomersPoliciesNetworksRequest {
   /** Required. The customer for which the certificate will apply. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1DefineCertificateRequest;
+  body?: GoogleChromePolicyVersionsV1DefineCertificateRequest | undefined;
 }
 /** Response object for creating a certificate. */
 export interface GoogleChromePolicyVersionsV1DefineCertificateResponse {
   /** the affiliated settings of the certificate (NOT IMPLEMENTED) */
-  settings?: GoogleChromePolicyVersionsV1NetworkSettingList;
+  settings?: GoogleChromePolicyVersionsV1NetworkSettingList | undefined;
   /** The guid of the certificate created by the action. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** the resource at which the certificate is defined. */
-  targetResource?: string;
+  targetResource?: string | undefined;
 }
 /** Request object for creating a new network. */
 export interface GoogleChromePolicyVersionsV1DefineNetworkRequest {
   /** Required. Detailed network settings. */
-  settings?: GoogleChromePolicyVersionsV1NetworkSettingList;
+  settings?: GoogleChromePolicyVersionsV1NetworkSettingList | undefined;
   /** Required. The target resource on which this new network will be defined. The following resources are supported: * Organizational Unit ("orgunits/{orgunit_id}") */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Required. Name of the new created network. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface DefineNetworkCustomersPoliciesNetworksRequest {
   /** Required. The customer who will own this new network. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1DefineNetworkRequest;
+  body?: GoogleChromePolicyVersionsV1DefineNetworkRequest | undefined;
 }
 /** Response object for creating a network. */
 export interface GoogleChromePolicyVersionsV1DefineNetworkResponse {
   /** Network ID of the new created network. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** The target resource on which this new network will be defined. The following resources are supported: * Organizational Unit ("orgunits/{orgunit_id}") */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Detailed network settings of the new created network */
-  settings?: GoogleChromePolicyVersionsV1NetworkSettingList;
+  settings?: GoogleChromePolicyVersionsV1NetworkSettingList | undefined;
 }
 export interface GetCustomersPolicySchemasRequest {
   /** Required. The policy schema resource name to query. */
@@ -251,13 +251,13 @@ export interface GetCustomersPolicySchemasRequest {
 /** Provides special notice messages related to a particular value in a field that is part of a PolicySchema. */
 export interface GoogleChromePolicyVersionsV1PolicySchemaNoticeDescription {
   /** Output only. The field name associated with the notice. */
-  field?: string;
+  field?: string | undefined;
   /** Output only. The notice message associate with the value of the field. */
-  noticeMessage?: string;
+  noticeMessage?: string | undefined;
   /** Output only. Whether the user needs to acknowledge the notice message before the value can be set. */
-  acknowledgementRequired?: boolean;
+  acknowledgementRequired?: boolean | undefined;
   /** Output only. The value of the field that has a notice. When setting the field to this value, the user may be required to acknowledge the notice message in order for the value to be set. */
-  noticeValue?: string;
+  noticeValue?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1PolicySchemaNoticeDescriptionList =
   Array<GoogleChromePolicyVersionsV1PolicySchemaNoticeDescription>;
@@ -275,16 +275,16 @@ export type Proto2EnumDescriptorProtoVisibilityEnum =
   | "VISIBILITY_EXPORT";
 /** Describes a value within an enum. */
 export interface Proto2EnumValueDescriptorProto {
-  name?: string;
-  number?: number;
+  name?: string | undefined;
+  number?: number | undefined;
 }
 export type Proto2EnumValueDescriptorProtoList = Array<Proto2EnumValueDescriptorProto>;
 /** Describes an enum type. */
 export interface Proto2EnumDescriptorProto {
   /** Support for `export` and `local` keywords on enums. */
-  visibility?: Proto2EnumDescriptorProtoVisibilityEnum;
-  name?: string;
-  value?: Proto2EnumValueDescriptorProtoList;
+  visibility?: Proto2EnumDescriptorProtoVisibilityEnum | undefined;
+  name?: string | undefined;
+  value?: Proto2EnumValueDescriptorProtoList | undefined;
 }
 export type Proto2EnumDescriptorProtoList = Array<Proto2EnumDescriptorProto>;
 export type StringList = Array<string>;
@@ -313,26 +313,26 @@ export type Proto2FieldDescriptorProtoLabelEnum =
   | "LABEL_REQUIRED";
 /** Describes a field within a message. */
 export interface Proto2FieldDescriptorProto {
-  number?: number;
+  number?: number | undefined;
   /** For message and enum types, this is the name of the type. If the name starts with a '.', it is fully-qualified. Otherwise, C++-like scoping rules are used to find the type (i.e. first the nested types within this message are searched, then within the parent, on up to the root namespace). */
-  typeName?: string;
+  typeName?: string | undefined;
   /** JSON name of this field. The value is set by protocol compiler. If the user has set a "json_name" option on this field, that option's value will be used. Otherwise, it's deduced from the field's name by converting it to camelCase. */
-  jsonName?: string;
+  jsonName?: string | undefined;
   /** If true, this is a proto3 "optional". When a proto3 field is optional, it tracks presence regardless of field type. When proto3_optional is true, this field must belong to a oneof to signal to old proto3 clients that presence is tracked for this field. This oneof is known as a "synthetic" oneof, and this field must be its sole member (each proto3 optional field gets its own synthetic oneof). Synthetic oneofs exist in the descriptor only, and do not generate any API. Synthetic oneofs must be ordered after all "real" oneofs. For message fields, proto3_optional doesn't create any semantic change, since non-repeated message fields always track presence. However it still indicates the semantic detail of whether the user wrote "optional" or not. This can be useful for round-tripping the .proto file. For consistency we give message fields a synthetic oneof also, even though it is not required to track presence. This is especially important because the parser can't tell if a field is a message or an enum, so it must always create a synthetic oneof. Proto2 optional fields do not set this flag, because they already indicate optional with `LABEL_OPTIONAL`. */
-  proto3Optional?: boolean;
+  proto3Optional?: boolean | undefined;
   /** If set, gives the index of a oneof in the containing type's oneof_decl list. This field is a member of that oneof. */
-  oneofIndex?: number;
+  oneofIndex?: number | undefined;
   /** If type_name is set, this need not be set. If both this and type_name are set, this must be one of TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP. */
-  type?: Proto2FieldDescriptorProtoTypeEnum;
-  name?: string;
-  label?: Proto2FieldDescriptorProtoLabelEnum;
+  type?: Proto2FieldDescriptorProtoTypeEnum | undefined;
+  name?: string | undefined;
+  label?: Proto2FieldDescriptorProtoLabelEnum | undefined;
   /** For numeric types, contains the original text representation of the value. For booleans, "true" or "false". For strings, contains the default text contents (not escaped in any way). For bytes, contains the C escaped value. All bytes >= 128 are escaped. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
 }
 export type Proto2FieldDescriptorProtoList = Array<Proto2FieldDescriptorProto>;
 /** Describes a oneof. */
 export interface Proto2OneofDescriptorProto {
-  name?: string;
+  name?: string | undefined;
 }
 export type Proto2OneofDescriptorProtoList = Array<Proto2OneofDescriptorProto>;
 export type Proto2DescriptorProtoVisibilityEnum =
@@ -341,30 +341,30 @@ export type Proto2DescriptorProtoVisibilityEnum =
   | "VISIBILITY_EXPORT";
 /** Describes a message type. */
 export interface Proto2DescriptorProto {
-  field?: Proto2FieldDescriptorProtoList;
-  name?: string;
-  nestedType?: Proto2DescriptorProtoList;
-  enumType?: Proto2EnumDescriptorProtoList;
-  oneofDecl?: Proto2OneofDescriptorProtoList;
+  field?: Proto2FieldDescriptorProtoList | undefined;
+  name?: string | undefined;
+  nestedType?: Proto2DescriptorProtoList | undefined;
+  enumType?: Proto2EnumDescriptorProtoList | undefined;
+  oneofDecl?: Proto2OneofDescriptorProtoList | undefined;
   /** Support for `export` and `local` keywords on enums. */
-  visibility?: Proto2DescriptorProtoVisibilityEnum;
+  visibility?: Proto2DescriptorProtoVisibilityEnum | undefined;
 }
 export type Proto2DescriptorProtoList = Array<Proto2DescriptorProto>;
 /** Describes a complete .proto file. */
 export interface Proto2FileDescriptorProto {
   /** The syntax of the proto file. The supported values are "proto2", "proto3", and "editions". If `edition` is present, this value must be "editions". WARNING: This field should only be used by protobuf plugins or special cases like the proto compiler. Other uses are discouraged and developers should rely on the protoreflect APIs for their client language. */
-  syntax?: string;
+  syntax?: string | undefined;
   /** copybara:strip_begin TODO(b/538805613) Deprecate and remove this field in favor of enums. copybara:strip_end */
-  editionDeprecated?: string;
-  enumType?: Proto2EnumDescriptorProtoList;
+  editionDeprecated?: string | undefined;
+  enumType?: Proto2EnumDescriptorProtoList | undefined;
   /** e.g. "foo", "foo.bar", etc. */
-  package?: string;
+  package?: string | undefined;
   /** Names of files imported by this file purely for the purpose of providing option extensions. These are excluded from the dependency list above. */
-  optionDependency?: StringList;
+  optionDependency?: StringList | undefined;
   /** All top-level definitions in this file. */
-  messageType?: Proto2DescriptorProtoList;
+  messageType?: Proto2DescriptorProtoList | undefined;
   /** file name, relative to root of source tree */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1UploadedFileConstraintsSupportedContentTypesItemEnum =
   | "CONTENT_TYPE_UNSPECIFIED"
@@ -384,77 +384,83 @@ export type GoogleChromePolicyVersionsV1UploadedFileConstraintsSupportedContentT
 /** Constraints on the uploaded file of a file policy. */
 export interface GoogleChromePolicyVersionsV1UploadedFileConstraints {
   /** The size limit of uploaded files for a setting, in bytes. */
-  sizeLimitBytes?: string;
+  sizeLimitBytes?: string | undefined;
   /** File types that can be uploaded for a setting. */
-  supportedContentTypes?: GoogleChromePolicyVersionsV1UploadedFileConstraintsSupportedContentTypesItemEnumList;
+  supportedContentTypes?:
+    | GoogleChromePolicyVersionsV1UploadedFileConstraintsSupportedContentTypesItemEnumList
+    | undefined;
 }
 /** A constraint on upper and/or lower bounds, with at least one being set. */
 export interface GoogleChromePolicyVersionsV1NumericRangeConstraint {
   /** Minimum value. */
-  minimum?: string;
+  minimum?: string | undefined;
   /** Maximum value. */
-  maximum?: string;
+  maximum?: string | undefined;
 }
 /** Information about any range constraints. */
 export interface GoogleChromePolicyVersionsV1FieldConstraints {
   /** Constraints on the uploaded file of a file policy. If present, this policy requires a URL that can be fetched by uploading a file with the constraints specified in this proto. */
-  uploadedFileConstraints?: GoogleChromePolicyVersionsV1UploadedFileConstraints;
+  uploadedFileConstraints?: GoogleChromePolicyVersionsV1UploadedFileConstraints | undefined;
   /** The allowed range for numeric fields. */
-  numericRangeConstraint?: GoogleChromePolicyVersionsV1NumericRangeConstraint;
+  numericRangeConstraint?: GoogleChromePolicyVersionsV1NumericRangeConstraint | undefined;
 }
 /** The fields that will become required based on the value of this field. */
 export interface GoogleChromePolicyVersionsV1PolicySchemaRequiredItems {
   /** The value(s) of the field that provoke required field enforcement. An empty field_conditions implies that any value assigned to this field will provoke required field enforcement. */
-  fieldConditions?: StringList;
+  fieldConditions?: StringList | undefined;
   /** The fields that are required as a consequence of the field conditions. */
-  requiredFields?: StringList;
+  requiredFields?: StringList | undefined;
 }
 export type GoogleChromePolicyVersionsV1PolicySchemaRequiredItemsList =
   Array<GoogleChromePolicyVersionsV1PolicySchemaRequiredItems>;
 /** The field and the value it must have for another field to be allowed to be set. */
 export interface GoogleChromePolicyVersionsV1PolicySchemaFieldDependencies {
   /** The value which the source field must have for this field to be allowed to be set. */
-  sourceFieldValue?: string;
+  sourceFieldValue?: string | undefined;
   /** The source field which this field depends on. */
-  sourceField?: string;
+  sourceField?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1PolicySchemaFieldDependenciesList =
   Array<GoogleChromePolicyVersionsV1PolicySchemaFieldDependencies>;
 /** Provides detailed information about a known value that is allowed for a particular field in a PolicySchema. */
 export interface GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescription {
   /** Output only. Additional description for this value. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Field conditions required for this value to be valid. */
-  fieldDependencies?: GoogleChromePolicyVersionsV1PolicySchemaFieldDependenciesList;
+  fieldDependencies?: GoogleChromePolicyVersionsV1PolicySchemaFieldDependenciesList | undefined;
   /** Output only. The string represenstation of the value that can be set for the field. */
-  value?: string;
+  value?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescriptionList =
   Array<GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescription>;
 /** Provides detailed information for a particular field that is part of a PolicySchema. */
 export interface GoogleChromePolicyVersionsV1PolicySchemaFieldDescription {
   /** Output only. Client default if the policy is unset. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** Output only. The description of the field. */
-  fieldDescription?: string;
+  fieldDescription?: string | undefined;
   /** Output only. Information on any input constraints associated on the values for the field. */
-  fieldConstraints?: GoogleChromePolicyVersionsV1FieldConstraints;
+  fieldConstraints?: GoogleChromePolicyVersionsV1FieldConstraints | undefined;
   /** Output only. The name of the field for associated with this description. */
-  field?: string;
+  field?: string | undefined;
   /** Output only. Provides a list of fields that are required to be set if this field has a certain value. */
-  requiredItems?: GoogleChromePolicyVersionsV1PolicySchemaRequiredItemsList;
+  requiredItems?: GoogleChromePolicyVersionsV1PolicySchemaRequiredItemsList | undefined;
   /** Output only. Any input constraints associated on the values for the field. */
-  inputConstraint?: string;
+  inputConstraint?: string | undefined;
   /** Output only. Provides the description of the fields nested in this field, if the field is a message type that defines multiple fields. Fields are suggested to be displayed by the ordering in this list, not by field number. */
-  nestedFieldDescriptions?: GoogleChromePolicyVersionsV1PolicySchemaFieldDescriptionList;
+  nestedFieldDescriptions?:
+    | GoogleChromePolicyVersionsV1PolicySchemaFieldDescriptionList
+    | undefined;
   /** Output only. The name of the field. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Provides a list of fields and values. At least one of the fields must have the corresponding value in order for this field to be allowed to be set. */
-  fieldDependencies?: GoogleChromePolicyVersionsV1PolicySchemaFieldDependenciesList;
+  fieldDependencies?: GoogleChromePolicyVersionsV1PolicySchemaFieldDependenciesList | undefined;
   /** Output only. If the field has a set of known values, this field will provide a description for these values. */
-  knownValueDescriptions?: GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescriptionList;
+  knownValueDescriptions?:
+    | GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescriptionList
+    | undefined;
   /** Deprecated. Use name and field_description instead. The description for the field. */
-  description?: string;
+  description?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1PolicySchemaFieldDescriptionList =
   Array<GoogleChromePolicyVersionsV1PolicySchemaFieldDescription>;
@@ -467,20 +473,20 @@ export type GoogleChromePolicyVersionsV1PolicySchemaValidTargetResourcesItemEnum
 /** Additional key names that will be used to identify the target of the policy value. */
 export interface GoogleChromePolicyVersionsV1AdditionalTargetKeyName {
   /** Key name. */
-  key?: string;
+  key?: string | undefined;
   /** Key description. */
-  keyDescription?: string;
+  keyDescription?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1AdditionalTargetKeyNameList =
   Array<GoogleChromePolicyVersionsV1AdditionalTargetKeyName>;
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface GoogleTypeDate {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 export type GoogleChromePolicyVersionsV1PolicyApiLifecyclePolicyApiLifecycleStageEnum =
   | "API_UNSPECIFIED"
@@ -491,189 +497,195 @@ export type GoogleChromePolicyVersionsV1PolicyApiLifecyclePolicyApiLifecycleStag
 /** Lifecycle information. */
 export interface GoogleChromePolicyVersionsV1PolicyApiLifecycle {
   /** In the event that this policy was deprecated in favor of another policy, the fully qualified namespace(s) of the new policies as they will show in PolicyAPI. Could only be set if policy_api_lifecycle_stage is API_DEPRECATED. */
-  deprecatedInFavorOf?: StringList;
+  deprecatedInFavorOf?: StringList | undefined;
   /** End supporting date for current policy. Attempting to modify a policy after its end support date will result in a Bad Request (400 error). Could only be set if policy_api_lifecycle_stage is API_DEPRECATED. */
-  endSupport?: GoogleTypeDate;
+  endSupport?: GoogleTypeDate | undefined;
   /** Description about current life cycle. */
-  description?: string;
+  description?: string | undefined;
   /** Corresponding to deprecated_in_favor_of, the fully qualified namespace(s) of the old policies that will be deprecated because of introduction of this policy. */
-  scheduledToDeprecatePolicies?: StringList;
+  scheduledToDeprecatePolicies?: StringList | undefined;
   /** Indicates current life cycle stage of the policy API. */
-  policyApiLifecycleStage?: GoogleChromePolicyVersionsV1PolicyApiLifecyclePolicyApiLifecycleStageEnum;
+  policyApiLifecycleStage?:
+    | GoogleChromePolicyVersionsV1PolicyApiLifecyclePolicyApiLifecycleStageEnum
+    | undefined;
 }
 /** Resource representing a policy schema. */
 export interface GoogleChromePolicyVersionsV1PolicySchema {
   /** Output only. Special notice messages related to setting certain values in certain fields in the schema. */
-  notices?: GoogleChromePolicyVersionsV1PolicySchemaNoticeDescriptionList;
+  notices?: GoogleChromePolicyVersionsV1PolicySchemaNoticeDescriptionList | undefined;
   /** Output only. List indicates that the policy will only apply to devices/users on these platforms. */
-  supportedPlatforms?: GoogleChromePolicyVersionsV1PolicySchemaSupportedPlatformsItemEnumList;
+  supportedPlatforms?:
+    | GoogleChromePolicyVersionsV1PolicySchemaSupportedPlatformsItemEnumList
+    | undefined;
   /** Output only. URI to related support article for this schema. */
-  supportUri?: string;
+  supportUri?: string | undefined;
   /** Schema definition using proto descriptor. */
-  definition?: Proto2FileDescriptorProto;
+  definition?: Proto2FileDescriptorProto | undefined;
   /** Output only. Detailed description of each field that is part of the schema. Fields are suggested to be displayed by the ordering in this list, not by field number. */
-  fieldDescriptions?: GoogleChromePolicyVersionsV1PolicySchemaFieldDescriptionList;
+  fieldDescriptions?: GoogleChromePolicyVersionsV1PolicySchemaFieldDescriptionList | undefined;
   /** Output only. Specific access restrictions related to this policy. */
-  accessRestrictions?: StringList;
+  accessRestrictions?: StringList | undefined;
   /** Format: name=customers/{customer}/policySchemas/{schema_namespace} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Description about the policy schema for user consumption. */
-  policyDescription?: string;
+  policyDescription?: string | undefined;
   /** Output only. Information about applicable target resources for the policy. */
-  validTargetResources?: GoogleChromePolicyVersionsV1PolicySchemaValidTargetResourcesItemEnumList;
+  validTargetResources?:
+    | GoogleChromePolicyVersionsV1PolicySchemaValidTargetResourcesItemEnumList
+    | undefined;
   /** Title of the category in which a setting belongs. */
-  categoryTitle?: string;
+  categoryTitle?: string | undefined;
   /** Output only. Additional key names that will be used to identify the target of the policy value. When specifying a `policyTargetKey`, each of the additional keys specified here will have to be included in the `additionalTargetKeys` map. */
-  additionalTargetKeyNames?: GoogleChromePolicyVersionsV1AdditionalTargetKeyNameList;
+  additionalTargetKeyNames?: GoogleChromePolicyVersionsV1AdditionalTargetKeyNameList | undefined;
   /** Output only. The fully qualified name of the policy schema. This value is used to fill the field `policy_schema` in PolicyValue when calling BatchInheritOrgUnitPolicies BatchModifyOrgUnitPolicies BatchModifyGroupPolicies or BatchDeleteGroupPolicies. */
-  schemaName?: string;
+  schemaName?: string | undefined;
   /** Output only. Current lifecycle information. */
-  policyApiLifecycle?: GoogleChromePolicyVersionsV1PolicyApiLifecycle;
+  policyApiLifecycle?: GoogleChromePolicyVersionsV1PolicyApiLifecycle | undefined;
 }
 export interface ListCustomersPolicySchemasRequest {
   /** The schema filter used to find a particular schema based on fields like its resource name, description and `additionalTargetKeyNames`. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of policy schemas to return, defaults to 100 and has a maximum of 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The customer for which the listing request will apply. */
   parent: string;
   /** The page token used to retrieve a specific page of the listing request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleChromePolicyVersionsV1PolicySchemaList =
   Array<GoogleChromePolicyVersionsV1PolicySchema>;
 /** Response message for listing policy schemas that match a filter. */
 export interface GoogleChromePolicyVersionsV1ListPolicySchemasResponse {
   /** The list of policy schemas that match the query. */
-  policySchemas?: GoogleChromePolicyVersionsV1PolicySchemaList;
+  policySchemas?: GoogleChromePolicyVersionsV1PolicySchemaList | undefined;
   /** The page token used to get the next page of policy schemas. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message for listing the group priority ordering of an app. */
 export interface GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest {
   /** The schema name of the policy for the request. */
-  policySchema?: string;
+  policySchema?: string | undefined;
   /** Required. The key of the target for which we want to retrieve the group priority ordering. The target resource must point to an app. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** The namespace of the policy type for the request. */
-  policyNamespace?: string;
+  policyNamespace?: string | undefined;
 }
 export interface ListGroupPriorityOrderingCustomersPoliciesGroupsRequest {
   /** Required. ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest;
+  body?: GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest | undefined;
 }
 /** Response message for listing the group priority ordering of an app. */
 export interface GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse {
   /** Output only. The group IDs, in priority ordering. */
-  groupIds?: StringList;
+  groupIds?: StringList | undefined;
   /** Output only. The schema name of the policy for the group IDs. */
-  policySchema?: string;
+  policySchema?: string | undefined;
   /** Output only. The target resource for which the group priority ordering has been retrieved. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** Output only. The namespace of the policy type of the group IDs. */
-  policyNamespace?: string;
+  policyNamespace?: string | undefined;
 }
 /** Request object for removing a certificate. */
 export interface GoogleChromePolicyVersionsV1RemoveCertificateRequest {
   /** Required. The GUID of the certificate to remove. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Required. The target resource on which this certificate will be removed. The following resources are supported: * Organizational Unit ("orgunits/{orgunit_id}") */
-  targetResource?: string;
+  targetResource?: string | undefined;
 }
 export interface RemoveCertificateCustomersPoliciesNetworksRequest {
   /** Required. The customer whose certificate will be removed. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1RemoveCertificateRequest;
+  body?: GoogleChromePolicyVersionsV1RemoveCertificateRequest | undefined;
 }
 /** Response object for removing a certificate. */
 export interface GoogleChromePolicyVersionsV1RemoveCertificateResponse {}
 /** Request object for removing a network */
 export interface GoogleChromePolicyVersionsV1RemoveNetworkRequest {
   /** Required. The target resource on which this network will be removed. The following resources are supported: * Organizational Unit ("orgunits/{orgunit_id}") */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Required. The GUID of the network to remove. */
-  networkId?: string;
+  networkId?: string | undefined;
 }
 export interface RemoveNetworkCustomersPoliciesNetworksRequest {
   /** Required. The customer whose network will be removed. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1RemoveNetworkRequest;
+  body?: GoogleChromePolicyVersionsV1RemoveNetworkRequest | undefined;
 }
 /** Response object for removing a network. */
 export interface GoogleChromePolicyVersionsV1RemoveNetworkResponse {}
 /** Request message for getting the resolved policy value for a specific target. */
 export interface GoogleChromePolicyVersionsV1ResolveRequest {
   /** The page token used to retrieve a specific page of the request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The key of the target resource on which the policies should be resolved. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** Required. The schema filter to apply to the resolve request. Specify a schema name to view a particular schema, for example: chrome.users.ShowLogoutButton Wildcards are supported, but only in the leaf portion of the schema name. Wildcards cannot be used in namespace directly. Please read https://developers.google.com/chrome/policy/guides/policy-schemas for details on schema namespaces. For example: Valid: "chrome.users.*", "chrome.users.apps.*", "chrome.printers.*" Invalid: "*", "*.users", "chrome.*", "chrome.*.apps.*" */
-  policySchemaFilter?: string;
+  policySchemaFilter?: string | undefined;
   /** The maximum number of policies to return, defaults to 100 and has a maximum of 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ResolveCustomersPoliciesRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1ResolveRequest;
+  body?: GoogleChromePolicyVersionsV1ResolveRequest | undefined;
 }
 /** The resolved value of a policy for a given target. */
 export interface GoogleChromePolicyVersionsV1ResolvedPolicy {
   /** Output only. The target resource for which the resolved policy value applies. */
-  targetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  targetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** Output only. The source resource from which this policy value is obtained. May be the same as `targetKey` if the policy is directly modified on the target, otherwise it would be another resource from which the policy gets its value (if applicable). If not present, the source is the default value for the customer. */
-  sourceKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  sourceKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** Output only. The resolved value of the policy. */
-  value?: GoogleChromePolicyVersionsV1PolicyValue;
+  value?: GoogleChromePolicyVersionsV1PolicyValue | undefined;
   /** Output only. The added source key establishes at which level an entity was explicitly added for management. This is useful for certain type of policies that are only applied if they are explicitly added for management. For example: apps and networks. An entity can only be deleted from management in an Organizational Unit that it was explicitly added to. If this is not present it means that the policy is managed without the need to explicitly add an entity, for example: standard user or device policies. */
-  addedSourceKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  addedSourceKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
 }
 export type GoogleChromePolicyVersionsV1ResolvedPolicyList =
   Array<GoogleChromePolicyVersionsV1ResolvedPolicy>;
 /** Response message for getting the resolved policy value for a specific target. */
 export interface GoogleChromePolicyVersionsV1ResolveResponse {
   /** The list of resolved policies found by the resolve request. */
-  resolvedPolicies?: GoogleChromePolicyVersionsV1ResolvedPolicyList;
+  resolvedPolicies?: GoogleChromePolicyVersionsV1ResolvedPolicyList | undefined;
   /** The page token used to get the next set of resolved policies found by the request. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message for updating the group priority ordering of an app. */
 export interface GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest {
   /** Required. The key of the target for which we want to update the group priority ordering. The target resource must point to an app. */
-  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey;
+  policyTargetKey?: GoogleChromePolicyVersionsV1PolicyTargetKey | undefined;
   /** The namespace of the policy type for the request. */
-  policyNamespace?: string;
+  policyNamespace?: string | undefined;
   /** The schema name of the policy for the request. */
-  policySchema?: string;
+  policySchema?: string | undefined;
   /** Required. The group IDs, in desired priority ordering. */
-  groupIds?: StringList;
+  groupIds?: StringList | undefined;
 }
 export interface UpdateGroupPriorityOrderingCustomersPoliciesGroupsRequest {
   /** Required. ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest;
+  body?: GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest | undefined;
 }
 /** Request message for uploading a file for a policy. */
 export interface GoogleChromePolicyVersionsV1UploadPolicyFileRequest {
   /** Required. The fully qualified policy schema and field name this file is uploaded for. This information will be used to validate the content type of the file. */
-  policyField?: string;
+  policyField?: string | undefined;
 }
 export interface UploadMediaRequest {
   /** Required. The customer for which the file upload will apply. */
   customer: string;
   /** Request body */
-  body?: GoogleChromePolicyVersionsV1UploadPolicyFileRequest;
+  body?: GoogleChromePolicyVersionsV1UploadPolicyFileRequest | undefined;
 }
 /** Response message for downloading an uploaded file. */
 export interface GoogleChromePolicyVersionsV1UploadPolicyFileResponse {
   /** The uri for end user to download the file. */
-  downloadUri?: string;
+  downloadUri?: string | undefined;
 }
 export type BatchDeleteCustomersPoliciesGroupsError =
   | NotFound

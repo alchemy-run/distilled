@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -97,21 +97,21 @@ export type IntegerList = Array<number>;
 /** Configuration options for Cluster HTTP Gateway. */
 export interface GatewayConfig {
   /** Optional. Whether HTTP/2 is enabled for this workstation cluster. Defaults to false. */
-  http2Enabled?: boolean;
+  http2Enabled?: boolean | undefined;
   /** Optional. Specifies VM ports that can be accessed using the standard `$HOSTNAME:$PORT` format in addition to the service's default `$PORT-$HOSTNAME` format. See [Access HTTP Servers Running on Workstations] (https://docs.cloud.google.com/workstations/docs/access-http-servers-running-on-workstations). Note: This only controls the routing URL format. Network-level access is still controlled by `allowed_ports` on WorkstationConfig. All `allowed_ports` remain accessible via the default `$PORT-$HOSTNAME` format. */
-  directAccessPorts?: IntegerList;
+  directAccessPorts?: IntegerList | undefined;
 }
 export type StringList = Array<string>;
 /** Configuration options for private workstation clusters. */
 export interface PrivateClusterConfig {
   /** Immutable. Whether Workstations endpoint is private. */
-  enablePrivateEndpoint?: boolean;
+  enablePrivateEndpoint?: boolean | undefined;
   /** Output only. Service attachment URI for the workstation cluster. The service attachment is created when private endpoint is enabled. To access workstations in the workstation cluster, configure access to the managed service using [Private Service Connect](https://cloud.google.com/vpc/docs/configure-private-service-connect-services). */
-  serviceAttachmentUri?: string;
+  serviceAttachmentUri?: string | undefined;
   /** Output only. Hostname for the workstation cluster. This field will be populated only when private endpoint is enabled. To access workstations in the workstation cluster, create a new DNS zone mapping this domain name to an internal IP address and a forwarding rule mapping that address to the service attachment. */
-  clusterHostname?: string;
+  clusterHostname?: string | undefined;
   /** Optional. Additional projects that are allowed to attach to the workstation cluster's service attachment. By default, the workstation cluster's project and the VPC host project (if different) are allowed. */
-  allowedProjects?: StringList;
+  allowedProjects?: StringList | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type DocumentMap = { [key: string]: unknown | undefined };
@@ -119,98 +119,98 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 export type StatusList = Array<Status>;
 /** Configuration options for a custom domain. */
 export interface DomainConfig {
   /** Immutable. Domain used by Workstations for HTTP ingress. */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** A workstation cluster resource in the Cloud Workstations API. Defines a group of workstations in a particular region and the VPC network they're attached to. */
 export interface WorkstationCluster {
   /** Output only. Time when this workstation cluster was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Configuration options for Cluster HTTP Gateway. */
-  gatewayConfig?: GatewayConfig;
+  gatewayConfig?: GatewayConfig | undefined;
   /** Optional. Configuration for private workstation cluster. */
-  privateClusterConfig?: PrivateClusterConfig;
+  privateClusterConfig?: PrivateClusterConfig | undefined;
   /** Immutable. Name of the Compute Engine subnetwork in which instances associated with this workstation cluster will be created. Must be part of the subnetwork specified for this workstation cluster. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Immutable. Name of the Compute Engine network in which instances associated with this workstation cluster will be created. */
-  network?: string;
+  network?: string | undefined;
   /** Output only. Whether this workstation cluster is in degraded mode, in which case it may require user action to restore full functionality. The conditions field contains detailed information about the status of the cluster. */
-  degraded?: boolean;
+  degraded?: boolean | undefined;
   /** Optional. Specifies the redirect URL for unauthorized requests received by workstation VMs in this cluster. Redirects to this endpoint will send a base64 encoded `state` query param containing the target workstation name and original request hostname. The endpoint is responsible for retrieving a token using `GenerateAccessToken` and redirecting back to the original hostname with the token. */
-  workstationAuthorizationUrl?: string;
+  workstationAuthorizationUrl?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. Client-specified annotations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. A system-assigned unique identifier for this workstation cluster. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Indicates whether this workstation cluster is currently being updated to match its intended state. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Optional. Specifies the launch URL for workstations in this cluster. Requests sent to unstarted workstations will be redirected to this URL. Requests redirected to the launch endpoint will be sent with a `workstation` and `project` query parameter containing the full workstation resource name and project ID, respectively. The launch endpoint is responsible for starting the workstation, polling it until it reaches `STATE_RUNNING`, and then issuing a redirect to the workstation's host URL. */
-  workstationLaunchUrl?: string;
+  workstationLaunchUrl?: string | undefined;
   /** Optional. Human-readable name for this workstation cluster. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identifier. Full name of this workstation cluster. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Status conditions describing the workstation cluster's current state. */
-  conditions?: StatusList;
+  conditions?: StatusList | undefined;
   /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation cluster and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Time when this workstation cluster was soft-deleted. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Optional. Configuration options for a custom domain. */
-  domainConfig?: DomainConfig;
+  domainConfig?: DomainConfig | undefined;
   /** Output only. Time when this workstation cluster was most recently updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Optional. Specifies a custom base URL for the Google Cloud Console. This field is intended to be user-configurable to support data residency for Cloud Workstations users. This will be used generally for user journeys where users need to go to the Cloud Console from Code OSS. When the Auth and Launch URLs are unset, this will be used as the base URL for those endpoints if set. */
-  consoleBaseUrl?: string;
+  consoleBaseUrl?: string | undefined;
   /** Output only. The private IP address of the control plane for this workstation cluster. Workstation VMs need access to this IP address to work with the service, so make sure that your firewall rules allow egress from the workstation VMs to this address. */
-  controlPlaneIp?: string;
+  controlPlaneIp?: string | undefined;
 }
 export interface CreateProjectsLocationsWorkstationClustersRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Parent resource name. */
   parent: string;
   /** Required. ID to use for the workstation cluster. */
-  workstationClusterId?: string;
+  workstationClusterId?: string | undefined;
   /** Request body */
-  body?: WorkstationCluster;
+  body?: WorkstationCluster | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** An accelerator card attached to the instance. */
 export interface Accelerator {
   /** Optional. Type of accelerator resource to attach to the instance, for example, `"nvidia-tesla-p100"`. */
-  type?: string;
+  type?: string | undefined;
   /** Optional. Number of accelerator cards exposed to the instance. */
-  count?: number;
+  count?: number | undefined;
 }
 export type AcceleratorList = Array<Accelerator>;
 export type ReservationAffinityConsumeReservationTypeEnum =
@@ -221,122 +221,125 @@ export type ReservationAffinityConsumeReservationTypeEnum =
 /** ReservationAffinity is the configuration of the desired reservation from which instances can consume resources. */
 export interface ReservationAffinity {
   /** Optional. Corresponds to the label values of reservation resources. Valid values are either the name of a reservation in the same project or "projects/{project}/reservations/{reservation}" to target a shared reservation in the same zone but in a different project. */
-  values?: StringList;
+  values?: StringList | undefined;
   /** Optional. Corresponds to the label key of reservation resource. */
-  key?: string;
+  key?: string | undefined;
   /** Optional. Corresponds to the type of reservation consumption. */
-  consumeReservationType?: ReservationAffinityConsumeReservationTypeEnum | (string & {});
+  consumeReservationType?:
+    | ReservationAffinityConsumeReservationTypeEnum
+    | (string & {})
+    | undefined;
 }
 /** A boost configuration is a set of resources that a workstation can use to increase its performance. If you specify a boost configuration, upon startup, workstation users can choose to use a VM provisioned under the boost config by passing the boost config ID in the start request. If the workstation user does not provide a boost config ID in the start request, the system will choose a VM from the pool provisioned under the default config. */
 export interface BoostConfig {
   /** Optional. The type of machine that boosted VM instances will use--for example, `e2-standard-4`. For more information about machine types that Cloud Workstations supports, see the list of [available machine types](https://cloud.google.com/workstations/docs/available-machine-types). Defaults to `e2-standard-4`. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Required. The ID to be used for the boost configuration. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. Whether to enable nested virtualization on boosted Cloud Workstations VMs running using this boost configuration. Defaults to false. Nested virtualization lets you run virtual machine (VM) instances inside your workstation. Before enabling nested virtualization, consider the following important considerations. Cloud Workstations instances are subject to the [same restrictions as Compute Engine instances](https://cloud.google.com/compute/docs/instances/nested-virtualization/overview#restrictions): * **Organization policy**: projects, folders, or organizations may be restricted from creating nested VMs if the **Disable VM nested virtualization** constraint is enforced in the organization policy. For more information, see the Compute Engine section, [Checking whether nested virtualization is allowed](https://cloud.google.com/compute/docs/instances/nested-virtualization/managing-constraint#checking_whether_nested_virtualization_is_allowed). * **Performance**: nested VMs might experience a 10% or greater decrease in performance for workloads that are CPU-bound and possibly greater than a 10% decrease for workloads that are input/output bound. * **Machine Type**: nested virtualization can only be enabled on boost configurations that specify a machine_type in the N1 or N2 machine series. */
-  enableNestedVirtualization?: boolean;
+  enableNestedVirtualization?: boolean | undefined;
   /** Optional. The number of boost VMs that the system should keep idle so that workstations can be boosted quickly. Defaults to `0`. */
-  poolSize?: number;
+  poolSize?: number | undefined;
   /** Optional. A list of the type and count of accelerator cards attached to the boost instance. Defaults to `none`. */
-  accelerators?: AcceleratorList;
+  accelerators?: AcceleratorList | undefined;
   /** Optional. Indicates if this boost config is eligible for automatic failover when the service cannot provision the default VM type. Defaults to `false`. */
-  enableAutomaticFailover?: boolean;
+  enableAutomaticFailover?: boolean | undefined;
   /** Optional. [ReservationAffinity](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) specifies a reservation that can be consumed to create boost VM instances. If SPECIFIC_RESERVATION is specified, Cloud Workstations will only create VMs in the zone where the reservation is located. This would affect availability since the service will no longer be resilient to zonal outages. If ANY_RESERVATION is specified, creating reservations in both zones that the config creates VMs in will ensure higher availability. **Important Considerations for Reservation Affinity:** * This feature is intended for advanced users and requires familiarity with Google Compute Engine reservations. * Using reservations incurs charges, regardless of utilization. * The resources in the pool will consume the specified reservation. Take this into account when setting the pool size. */
-  reservationAffinity?: ReservationAffinity;
+  reservationAffinity?: ReservationAffinity | undefined;
   /** Optional. The size of the boot disk for the VM in gigabytes (GB). The minimum boot disk size is `30` GB. Defaults to `50` GB. */
-  bootDiskSizeGb?: number;
+  bootDiskSizeGb?: number | undefined;
 }
 export type BoostConfigList = Array<BoostConfig>;
 /** A set of Compute Engine Confidential VM instance options. */
 export interface GceConfidentialInstanceConfig {
   /** Optional. Whether the instance has confidential compute enabled. */
-  enableConfidentialCompute?: boolean;
+  enableConfidentialCompute?: boolean | undefined;
 }
 /** A set of Compute Engine Shielded instance options. */
 export interface GceShieldedInstanceConfig {
   /** Optional. Whether the instance has Secure Boot enabled. */
-  enableSecureBoot?: boolean;
+  enableSecureBoot?: boolean | undefined;
   /** Optional. Whether the instance has integrity monitoring enabled. */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
   /** Optional. Whether the instance has the vTPM enabled. */
-  enableVtpm?: boolean;
+  enableVtpm?: boolean | undefined;
 }
 /** A runtime using a Compute Engine instance. */
 export interface GceInstance {
   /** Optional. A list of the type and count of accelerator cards attached to the instance. */
-  accelerators?: AcceleratorList;
+  accelerators?: AcceleratorList | undefined;
   /** Output only. Number of instances currently available in the pool for faster workstation startup. */
-  pooledInstances?: number;
+  pooledInstances?: number | undefined;
   /** Optional. Link to the startup script stored in Cloud Storage. This script will be run on the host workstation VM when the VM is created. The URI must be of the form gs://{bucket-name}/{object-name}. If specifying a startup script, the service account must have [Permission to access the bucket and script file in Cloud Storage](https://cloud.google.com/storage/docs/access-control/iam-permissions). Otherwise, the script must be publicly accessible. Note that the service regularly updates the OS version of the host VM, and it is the responsibility of the user to ensure the script stays compatible with the OS version. */
-  startupScriptUri?: string;
+  startupScriptUri?: string | undefined;
   /** Optional. Custom metadata to apply to Compute Engine instances. */
-  instanceMetadata?: StringMap;
+  instanceMetadata?: StringMap | undefined;
   /** Optional. Whether to enable nested virtualization on Cloud Workstations VMs created using this workstation configuration. Defaults to false. Nested virtualization lets you run virtual machine (VM) instances inside your workstation. Before enabling nested virtualization, consider the following important considerations. Cloud Workstations instances are subject to the [same restrictions as Compute Engine instances](https://cloud.google.com/compute/docs/instances/nested-virtualization/overview#restrictions): * **Organization policy**: projects, folders, or organizations may be restricted from creating nested VMs if the **Disable VM nested virtualization** constraint is enforced in the organization policy. For more information, see the Compute Engine section, [Checking whether nested virtualization is allowed](https://cloud.google.com/compute/docs/instances/nested-virtualization/managing-constraint#checking_whether_nested_virtualization_is_allowed). * **Performance**: nested VMs might experience a 10% or greater decrease in performance for workloads that are CPU-bound and possibly greater than a 10% decrease for workloads that are input/output bound. * **Machine Type**: nested virtualization can only be enabled on workstation configurations that specify a machine_type in the N1 or N2 machine series. */
-  enableNestedVirtualization?: boolean;
+  enableNestedVirtualization?: boolean | undefined;
   /** Optional. The email address of the service account for Cloud Workstations VMs created with this configuration. When specified, be sure that the service account has `logging.logEntries.create` and `monitoring.timeSeries.create` permissions on the project so it can write logs out to Cloud Logging. If using a custom container image, the service account must have [Artifact Registry Reader](https://cloud.google.com/artifact-registry/docs/access-control#roles) permission to pull the specified image. If you as the administrator want to be able to `ssh` into the underlying VM, you need to set this value to a service account for which you have the `iam.serviceAccounts.actAs` permission. Conversely, if you don't want anyone to be able to `ssh` into the underlying VM, use a service account where no one has that permission. If not set, VMs run with a service account provided by the Cloud Workstations service, and the image must be publicly accessible. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. [ReservationAffinity](https://cloud.google.com/compute/docs/instances/reserving-zonal-resources) specifies a reservation that can be consumed to create VM instances. If SPECIFIC_RESERVATION is specified, Cloud Workstations will only create VMs in the zone where the reservation is located. This would affect availability since the service will no longer be resilient to zonal outages. If ANY_RESERVATION is specified, creating reservations in both zones that the config creates VMs in will ensure higher availability. **Important Considerations for Reservation Affinity:** * This feature is intended for advanced users and requires familiarity with Google Compute Engine reservations. * Using reservations incurs charges, regardless of utilization. * The resources in the pool will consume the specified reservation. Take this into account when setting the pool size. */
-  reservationAffinity?: ReservationAffinity;
+  reservationAffinity?: ReservationAffinity | undefined;
   /** Optional. When set to true, disables public IP addresses for VMs. If you disable public IP addresses, you must set up Private Google Access or Cloud NAT on your network. If you use Private Google Access and you use `private.googleapis.com` or `restricted.googleapis.com` for Container Registry and Artifact Registry, make sure that you set up DNS records for domains `*.gcr.io` and `*.pkg.dev`. Defaults to false (VMs have public IP addresses). */
-  disablePublicIpAddresses?: boolean;
+  disablePublicIpAddresses?: boolean | undefined;
   /** Optional. Whether to disable SSH access to the VM. */
-  disableSsh?: boolean;
+  disableSsh?: boolean | undefined;
   /** Optional. The number of VMs that the system should keep idle so that new workstations can be started quickly for new users. Defaults to `0` in the API. */
-  poolSize?: number;
+  poolSize?: number | undefined;
   /** Optional. Network tags to add to the Compute Engine VMs backing the workstations. This option applies [network tags](https://cloud.google.com/vpc/docs/add-remove-network-tags) to VMs created with this configuration. These network tags enable the creation of [firewall rules](https://cloud.google.com/workstations/docs/configure-firewall-rules). */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Optional. Scopes to grant to the service_account. When specified, users of workstations under this configuration must have `iam.serviceAccounts.actAs` on the service account. */
-  serviceAccountScopes?: StringList;
+  serviceAccountScopes?: StringList | undefined;
   /** Optional. Resource manager tags to be bound to this instance. Tag keys and values have the same definition as [resource manager tags](https://cloud.google.com/resource-manager/docs/tags/tags-overview). Keys must be in the format `tagKeys/{tag_key_id}`, and values are in the format `tagValues/456`. */
-  vmTags?: StringMap;
+  vmTags?: StringMap | undefined;
   /** Optional. A list of the boost configurations that workstations created using this workstation configuration are allowed to use. If specified, users will have the option to choose from the list of boost configs when starting a workstation. */
-  boostConfigs?: BoostConfigList;
+  boostConfigs?: BoostConfigList | undefined;
   /** Optional. The size of the boot disk for the VM in gigabytes (GB). The minimum boot disk size is `30` GB. Defaults to `50` GB. */
-  bootDiskSizeGb?: number;
+  bootDiskSizeGb?: number | undefined;
   /** Optional. A set of Compute Engine Confidential VM instance options. */
-  confidentialInstanceConfig?: GceConfidentialInstanceConfig;
+  confidentialInstanceConfig?: GceConfidentialInstanceConfig | undefined;
   /** Optional. The type of machine to use for VM instances--for example, `"e2-standard-4"`. For more information about machine types that Cloud Workstations supports, see the list of [available machine types](https://cloud.google.com/workstations/docs/available-machine-types). */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. A set of Compute Engine Shielded instance options. */
-  shieldedInstanceConfig?: GceShieldedInstanceConfig;
+  shieldedInstanceConfig?: GceShieldedInstanceConfig | undefined;
 }
 /** Runtime host for a workstation. */
 export interface Host {
   /** Specifies a Compute Engine instance as the host. */
-  gceInstance?: GceInstance;
+  gceInstance?: GceInstance | undefined;
 }
 /** A Docker container. */
 export interface Container {
   /** Optional. If set, overrides the USER specified in the image with the given uid. */
-  runAsUser?: number;
+  runAsUser?: number | undefined;
   /** Optional. Environment variables passed to the container's entrypoint. */
-  env?: StringMap;
+  env?: StringMap | undefined;
   /** Optional. If set, overrides the default DIR specified by the image. */
-  workingDir?: string;
+  workingDir?: string | undefined;
   /** Optional. Arguments passed to the entrypoint. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Optional. A Docker container image that defines a custom environment. Cloud Workstations provides a number of [preconfigured images](https://cloud.google.com/workstations/docs/preconfigured-base-images), but you can create your own [custom container images](https://cloud.google.com/workstations/docs/custom-container-images). If using a private image, the `host.gceInstance.serviceAccount` field must be specified in the workstation configuration. If using a custom container image, the service account must have [Artifact Registry Reader](https://cloud.google.com/artifact-registry/docs/access-control#roles) permission to pull the specified image. Otherwise, the image must be publicly accessible. */
-  image?: string;
+  image?: string | undefined;
   /** Optional. If set, overrides the default ENTRYPOINT specified by the image. */
-  command?: StringList;
+  command?: StringList | undefined;
 }
 /** An EphemeralDirectory is backed by a Compute Engine persistent disk. */
 export interface GcePersistentDisk {
   /** Optional. Name of the disk image to use as the source for the disk. Must be empty if source_snapshot is set. Updating source_image will update content in the ephemeral directory after the workstation is restarted. Only file systems supported by Container-Optimized OS (COS) are explicitly supported. For a list of supported file systems, please refer to the [COS documentation](https://cloud.google.com/container-optimized-os/docs/concepts/supported-filesystems). This field is mutable. */
-  sourceImage?: string;
+  sourceImage?: string | undefined;
   /** Optional. Type of the disk to use. Defaults to `"pd-standard"`. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Optional. Name of the snapshot to use as the source for the disk. Must be empty if source_image is set. Must be empty if read_only is false. Updating source_snapshot will update content in the ephemeral directory after the workstation is restarted. Only file systems supported by Container-Optimized OS (COS) are explicitly supported. For a list of supported file systems, see [the filesystems available in Container-Optimized OS](https://cloud.google.com/container-optimized-os/docs/concepts/supported-filesystems). This field is mutable. */
-  sourceSnapshot?: string;
+  sourceSnapshot?: string | undefined;
   /** Optional. Whether the disk is read only. If true, the disk may be shared by multiple VMs and source_snapshot must be set. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** An ephemeral directory which won't persist across workstation sessions. It is freshly created on every workstation start operation. */
 export interface EphemeralDirectory {
   /** Required. Location of this directory in the running workstation. */
-  mountPath?: string;
+  mountPath?: string | undefined;
   /** An EphemeralDirectory backed by a Compute Engine persistent disk. */
-  gcePd?: GcePersistentDisk;
+  gcePd?: GcePersistentDisk | undefined;
 }
 export type EphemeralDirectoryList = Array<EphemeralDirectory>;
 export type GceRegionalPersistentDiskReclaimPolicyEnum =
@@ -346,19 +349,19 @@ export type GceRegionalPersistentDiskReclaimPolicyEnum =
 /** A Persistent Directory backed by a Compute Engine regional persistent disk. The persistent_directories field is repeated, but it may contain only one entry. It creates a [persistent disk](https://cloud.google.com/compute/docs/disks/persistent-disks) that mounts to the workstation VM at `/home` when the session starts and detaches when the session ends. If this field is empty, workstations created with this configuration do not have a persistent home directory. */
 export interface GceRegionalPersistentDisk {
   /** Optional. The GB capacity of a persistent home directory for each workstation created with this configuration. Must be empty if source_snapshot is set. Valid values are `10`, `50`, `100`, `200`, `500`, or `1000`. Defaults to `200`. If less than `200` GB, the disk_type must be `"pd-balanced"` or `"pd-ssd"`. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
   /** Optional. Number of seconds to wait after initially creating or subsequently shutting down the workstation before converting its disk into a snapshot. This generally saves costs at the expense of greater startup time on next workstation start, as the service will need to create a disk from the archival snapshot. A value of `"0s"` indicates that the disk will never be archived. */
-  archiveTimeout?: string;
+  archiveTimeout?: string | undefined;
   /** Optional. Maximum size in GB to which this persistent directory can be resized. Defaults to `0`, which indicates no maximum limit is enforced by this configuration. Resizing is still subject to the quotas and limits of the underlying disk type. */
-  maxSizeGb?: number;
+  maxSizeGb?: number | undefined;
   /** Optional. The [type of the persistent disk](https://cloud.google.com/compute/docs/disks#disk-types) for the home directory. Defaults to `"pd-standard"`. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Optional. Whether the persistent disk should be deleted when the workstation is deleted. Valid values are `DELETE` and `RETAIN`. Defaults to `DELETE`. */
-  reclaimPolicy?: GceRegionalPersistentDiskReclaimPolicyEnum | (string & {});
+  reclaimPolicy?: GceRegionalPersistentDiskReclaimPolicyEnum | (string & {}) | undefined;
   /** Optional. Name of the snapshot to use as the source for the disk. If set, size_gb and fs_type must be empty. Must be formatted as ext4 file system with no partitions. */
-  sourceSnapshot?: string;
+  sourceSnapshot?: string | undefined;
   /** Optional. Type of file system that the disk should be formatted with. The workstation image must support this file system type. Must be empty if source_snapshot is set. Defaults to `"ext4"`. */
-  fsType?: string;
+  fsType?: string | undefined;
 }
 export type GceHyperdiskBalancedHighAvailabilityReclaimPolicyEnum =
   | "RECLAIM_POLICY_UNSPECIFIED"
@@ -367,142 +370,142 @@ export type GceHyperdiskBalancedHighAvailabilityReclaimPolicyEnum =
 /** A Persistent Directory backed by a Compute Engine [Hyperdisk Balanced High Availability Disk](https://cloud.google.com/compute/docs/disks/hd-types/hyperdisk-balanced-ha). This is a high-availability block storage solution that offers a balance between performance and cost for most general-purpose workloads. */
 export interface GceHyperdiskBalancedHighAvailability {
   /** Optional. Number of seconds to wait after initially creating or subsequently shutting down the workstation before converting its disk into a snapshot. This generally saves costs at the expense of greater startup time on next workstation start, as the service will need to create a disk from the archival snapshot. A value of `"0s"` indicates that the disk will never be archived. */
-  archiveTimeout?: string;
+  archiveTimeout?: string | undefined;
   /** Optional. Name of the snapshot to use as the source for the disk. If set, size_gb must be empty. Must be formatted as ext4 file system with no partitions. */
-  sourceSnapshot?: string;
+  sourceSnapshot?: string | undefined;
   /** Optional. Maximum size in GB to which this persistent directory can be resized. Defaults to `0`, which indicates no maximum limit is enforced by this configuration. Resizing is still subject to the quotas and limits of the underlying disk type. */
-  maxSizeGb?: number;
+  maxSizeGb?: number | undefined;
   /** Optional. The GB capacity of a persistent home directory for each workstation created with this configuration. Must be empty if source_snapshot is set. Valid values are `10`, `50`, `100`, `200`, `500`, or `1000`. Defaults to `200`. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
   /** Optional. Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be between 3,000 and 100,000. */
-  provisionedIops?: string;
+  provisionedIops?: string | undefined;
   /** Optional. Indicates how much throughput to provision for the disk. This sets the number of throughput MB per second that the disk can handle. Values must be between 1 and 2,400. */
-  provisionedThroughput?: string;
+  provisionedThroughput?: string | undefined;
   /** Optional. Whether the persistent disk should be deleted when the workstation is deleted. Valid values are `DELETE` and `RETAIN`. Defaults to `DELETE`. */
-  reclaimPolicy?: GceHyperdiskBalancedHighAvailabilityReclaimPolicyEnum | (string & {});
+  reclaimPolicy?: GceHyperdiskBalancedHighAvailabilityReclaimPolicyEnum | (string & {}) | undefined;
 }
 /** A directory to persist across workstation sessions. Updates to this field will not update existing workstations and will only take effect on new workstations. */
 export interface PersistentDirectory {
   /** A PersistentDirectory backed by a Compute Engine persistent disk. */
-  gcePd?: GceRegionalPersistentDisk;
+  gcePd?: GceRegionalPersistentDisk | undefined;
   /** A PersistentDirectory backed by a Compute Engine hyperdisk high availability disk. */
-  gceHd?: GceHyperdiskBalancedHighAvailability;
+  gceHd?: GceHyperdiskBalancedHighAvailability | undefined;
   /** Optional. Location of this directory in the running workstation. */
-  mountPath?: string;
+  mountPath?: string | undefined;
 }
 export type PersistentDirectoryList = Array<PersistentDirectory>;
 /** A readiness check to be performed on a workstation. */
 export interface ReadinessCheck {
   /** Optional. Path to which the request should be sent. */
-  path?: string;
+  path?: string | undefined;
   /** Optional. Port to which the request should be sent. */
-  port?: number;
+  port?: number | undefined;
 }
 export type ReadinessCheckList = Array<ReadinessCheck>;
 export type WorkstationConfigIdleActionEnum = "IDLE_ACTION_UNSPECIFIED" | "STOP" | "SUSPEND";
 /** A customer-managed encryption key (CMEK) for the Compute Engine resources of the associated workstation configuration. Specify the name of your Cloud KMS encryption key and the default service account. We recommend that you use a separate service account and follow [Cloud KMS best practices](https://cloud.google.com/kms/docs/separation-of-duties). */
 export interface CustomerEncryptionKey {
   /** Immutable. The name of the Google Cloud KMS encryption key. For example, `"projects/PROJECT_ID/locations/REGION/keyRings/KEY_RING/cryptoKeys/KEY_NAME"`. The key must be in the same region as the workstation configuration. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Immutable. The service account to use with the specified KMS key. We recommend that you use a separate service account and follow KMS best practices. For more information, see [Separation of duties](https://cloud.google.com/kms/docs/separation-of-duties) and `gcloud kms keys add-iam-policy-binding` [`--member`](https://cloud.google.com/sdk/gcloud/reference/kms/keys/add-iam-policy-binding#--member). */
-  kmsKeyServiceAccount?: string;
+  kmsKeyServiceAccount?: string | undefined;
 }
 /** A PortRange defines a range of ports. Both first and last are inclusive. To specify a single port, both first and last should be the same. */
 export interface PortRange {
   /** Required. Ending port number for the current range of ports. Valid ports are 22, 80, and ports within the range 1024-65535. */
-  last?: number;
+  last?: number | undefined;
   /** Required. Starting port number for the current range of ports. Valid ports are 22, 80, and ports within the range 1024-65535. */
-  first?: number;
+  first?: number | undefined;
 }
 export type PortRangeList = Array<PortRange>;
 /** HTTP options for the running workstations. */
 export interface HttpOptions {
   /** Optional. By default, the workstations service makes sure that all requests to the workstation are authenticated. CORS preflight requests do not include cookies or custom headers, and so are considered unauthenticated and blocked by the workstations service. Enabling this option allows these unauthenticated CORS preflight requests through to the workstation, where it becomes the responsibility of the destination server in the workstation to validate the request. */
-  allowedUnauthenticatedCorsPreflightRequests?: boolean;
+  allowedUnauthenticatedCorsPreflightRequests?: boolean | undefined;
   /** Optional. By default, the workstations service replaces references to localhost, 127.0.0.1, and 0.0.0.0 with the workstation's hostname in http responses from the workstation so that applications under development run properly on the workstation. This may intefere with some applications, and so this option allows that behavior to be disabled. */
-  disableLocalhostReplacement?: boolean;
+  disableLocalhostReplacement?: boolean | undefined;
 }
 /** A workstation configuration resource in the Cloud Workstations API. Workstation configurations act as templates for workstations. The workstation configuration defines details such as the workstation virtual machine (VM) instance type, persistent storage, container image defining environment, which IDE or Code Editor to use, and more. Administrators and platform teams can also use [Identity and Access Management (IAM)](https://cloud.google.com/iam/docs/overview) rules to grant access to teams or to individual developers. */
 export interface WorkstationConfig {
   /** Output only. Status conditions describing the workstation configuration's current state. */
-  conditions?: StatusList;
+  conditions?: StatusList | undefined;
   /** Optional. Runtime host for the workstation. */
-  host?: Host;
+  host?: Host | undefined;
   /** Optional. Container that runs upon startup for each workstation using this workstation configuration. */
-  container?: Container;
+  container?: Container | undefined;
   /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Number of seconds to wait before automatically stopping a workstation. We recommend that workstations be stopped daily so that security updates can be applied upon restart. The idle_timeout and running_timeout fields are independent of each other. Note that the running_timeout field stops workstations after the specified time, regardless of whether or not the workstations are idle. Note: This timeout applies to workstations in the following states: - STATE_RUNNING - STATE_SUSPENDED Suspending a workstation does not reset this timeout. Provide duration terminated by `s` for seconds--for example, `"54000s"` (15 hours). Defaults to `"43200s"` (12 hours). A value of `"0s"` indicates that workstations using this configuration should never time out. If encryption_key is set, it must be greater than `"0s"` and less than `"86400s"` (24 hours). Warning: A value of `"0s"` indicates that Cloud Workstations VMs created with this configuration have no maximum running time. This is strongly discouraged because you incur costs and will not pick up security updates. */
-  runningTimeout?: string;
+  runningTimeout?: string | undefined;
   /** Identifier. Full name of this workstation configuration. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Immutable. Specifies the zones used to replicate the VM and disk resources within the region. If set, exactly two zones within the workstation cluster's region must be specified--for example, `['us-central1-a', 'us-central1-f']`. If this field is empty, two default zones within the region are used. Immutable after the workstation configuration is created. */
-  replicaZones?: StringList;
+  replicaZones?: StringList | undefined;
   /** Optional. Ephemeral directories which won't persist across workstation sessions. */
-  ephemeralDirectories?: EphemeralDirectoryList;
+  ephemeralDirectories?: EphemeralDirectoryList | undefined;
   /** Optional. Directories to persist across workstation sessions. */
-  persistentDirectories?: PersistentDirectoryList;
+  persistentDirectories?: PersistentDirectoryList | undefined;
   /** Output only. Time when this workstation configuration was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Human-readable name for this workstation configuration. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Whether to enable Linux `auditd` logging on the workstation. When enabled, a service_account must also be specified that has `roles/logging.logWriter` and `roles/monitoring.metricWriter` on the project. Operating system audit logging is distinct from [Cloud Audit Logs](https://cloud.google.com/workstations/docs/audit-logging) and [Container output logging](https://cloud.google.com/workstations/docs/container-output-logging#overview). Operating system audit logs are available in the [Cloud Logging](https://cloud.google.com/logging/docs) console by querying: resource.type="gce_instance" log_name:"/logs/linux-auditd" */
-  enableAuditAgent?: boolean;
+  enableAuditAgent?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. Readiness checks to perform when starting a workstation using this workstation configuration. Mark a workstation as running only after all specified readiness checks return 200 status codes. */
-  readinessChecks?: ReadinessCheckList;
+  readinessChecks?: ReadinessCheckList | undefined;
   /** Optional. Disables support for plain TCP connections in the workstation. By default the service supports TCP connections through a websocket relay. Setting this option to true disables that relay, which prevents the usage of services that require plain TCP connections, such as SSH. When enabled, all communication must occur over HTTPS or WSS. */
-  disableTcpConnections?: boolean;
+  disableTcpConnections?: boolean | undefined;
   /** Optional. Grant creator of a workstation `roles/workstations.policyAdmin` role along with `roles/workstations.user` role on the workstation created by them. This allows workstation users to share access to either their entire workstation, or individual ports. Defaults to false. */
-  grantWorkstationAdminRoleOnCreate?: boolean;
+  grantWorkstationAdminRoleOnCreate?: boolean | undefined;
   /** Optional. The action to take when the workstation has been idle for the duration specified in idle_timeout. Defaults to STOP. */
-  idleAction?: WorkstationConfigIdleActionEnum | (string & {});
+  idleAction?: WorkstationConfigIdleActionEnum | (string & {}) | undefined;
   /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation configuration and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Whether this workstation configuration is in degraded mode, in which case it may require user action to restore full functionality. The conditions field contains detailed information about the status of the configuration. */
-  degraded?: boolean;
+  degraded?: boolean | undefined;
   /** Immutable. Encrypts resources of this workstation configuration using a customer-managed encryption key (CMEK). If specified, the boot disk of the Compute Engine instance and the persistent disk are encrypted using this encryption key. If this field is not set, the disks are encrypted using a generated key. Customer-managed encryption keys do not protect disk metadata. If the customer-managed encryption key is rotated, when the workstation instance is stopped, the system attempts to recreate the persistent disk with the new version of the key. Be sure to keep older versions of the key until the persistent disk is recreated. Otherwise, data on the persistent disk might be lost. If the encryption key is revoked, the workstation session automatically stops within 7 hours. Immutable after the workstation configuration is created. */
-  encryptionKey?: CustomerEncryptionKey;
+  encryptionKey?: CustomerEncryptionKey | undefined;
   /** Output only. Indicates whether this workstation configuration is currently being updated to match its intended state. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Optional. Client-specified annotations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Optional. Number of seconds to wait before automatically stopping or suspending a workstation after it last received user traffic. See idle_action to configure whether to stop or suspend idle workstations. A value of `"0s"` indicates that Cloud Workstations VMs created with this configuration should never time out due to idleness. Provide [duration](https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration) terminated by `s` for seconds--for example, `"7200s"` (2 hours). The default is `"1200s"` (20 minutes). */
-  idleTimeout?: string;
+  idleTimeout?: string | undefined;
   /** Optional. A list of PortRanges specifying single ports or ranges of ports that are externally accessible in the workstation. Allowed ports must be one of 22, 80, or within range 1024-65535. If not specified defaults to ports 22, 80, and ports 1024-65535. */
-  allowedPorts?: PortRangeList;
+  allowedPorts?: PortRangeList | undefined;
   /** Output only. Time when this workstation configuration was most recently updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Time when this workstation configuration was soft-deleted. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. A system-assigned unique identifier for this workstation configuration. */
-  uid?: string;
+  uid?: string | undefined;
   /** Optional. Enables pushing user provided credentials to Workstations by calling workstations.pushCredentials. If application_default_credentials are supplied to pushCredentials, the provided token is returned when tools and applications running in the user container make a request for Default Application Credentials. Please note that any credentials supplied are made available to all users with access to the workstation. */
-  enablePushingCredentials?: boolean;
+  enablePushingCredentials?: boolean | undefined;
   /** Optional. HTTP options that customize the behavior of the workstation service's HTTP proxy. */
-  httpOptions?: HttpOptions;
+  httpOptions?: HttpOptions | undefined;
   /** Optional. Maximum number of workstations under this configuration a user can have `workstations.workstation.use` permission on. Only enforced on CreateWorkstation API calls on the user issuing the API request. Can be overridden by: - granting a user workstations.workstationConfigs.exemptMaxUsableWorkstationLimit permission, or - having a user with that permission create a workstation and granting another user `workstations.workstation.use` permission on that workstation. If not specified, defaults to `0`, which indicates unlimited. */
-  maxUsableWorkstations?: number;
+  maxUsableWorkstations?: number | undefined;
 }
 export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Parent resource name. */
   parent: string;
   /** Required. ID to use for the workstation configuration. */
-  workstationConfigId?: string;
+  workstationConfigId?: string | undefined;
   /** Request body */
-  body?: WorkstationConfig;
+  body?: WorkstationConfig | undefined;
 }
 /** Boost configuration for this workstation. This object is populated from the parent workstation configuration. */
 export interface WorkstationBoostConfig {
   /** Output only. Boost configuration ID. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Whether or not the current workstation is actively boosted with this id. */
-  running?: boolean;
+  running?: boolean | undefined;
 }
 export type WorkstationBoostConfigList = Array<WorkstationBoostConfig>;
 export type WorkstationStateEnum =
@@ -516,83 +519,83 @@ export type WorkstationStateEnum =
 /** A directory to persist across workstation sessions. Updates to this field will only take effect on this workstation after it is restarted. */
 export interface WorkstationPersistentDirectory {
   /** Optional. Size of the persistent directory in GB. If specified in an update request, this is the desired size of the directory. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
   /** Optional. The mount path of the persistent directory. */
-  mountPath?: string;
+  mountPath?: string | undefined;
 }
 export type WorkstationPersistentDirectoryList = Array<WorkstationPersistentDirectory>;
 /** The Compute Engine instance host. */
 export interface GceInstanceHost {
   /** Optional. Output only. The ID of the Compute Engine instance. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. Output only. The name of the Compute Engine instance. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Output only. The zone of the Compute Engine instance. */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Runtime host for the workstation. */
 export interface RuntimeHost {
   /** Specifies a Compute Engine instance as the host. */
-  gceInstanceHost?: GceInstanceHost;
+  gceInstanceHost?: GceInstanceHost | undefined;
 }
 /** A single instance of a developer workstation with its own persistent storage. */
 export interface Workstation {
   /** Output only. A system-assigned unique identifier for this workstation. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. List of available boost configuration IDs that this workstation can be boosted up to. */
-  boostConfigs?: WorkstationBoostConfigList;
+  boostConfigs?: WorkstationBoostConfigList | undefined;
   /** Output only. Time when this workstation was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Current state of the workstation. */
-  state?: WorkstationStateEnum | (string & {});
+  state?: WorkstationStateEnum | (string & {}) | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. [Labels](https://cloud.google.com/workstations/docs/label-resources) that are applied to the workstation and that are also propagated to the underlying Compute Engine resources. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Indicates whether this workstation is currently being updated to match its intended state. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Optional. Checksum computed by the server. May be sent on update and delete requests to make sure that the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Client-specified annotations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Identifier. Full name of this workstation. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. Host to which clients can send HTTPS traffic that will be received by the workstation. Authorized traffic will be received to the workstation as HTTP on port 80. To send traffic to a different port, clients may prefix the host with the destination port in the format `{port}-{host}`. */
-  host?: string;
+  host?: string | undefined;
   /** Output only. The name of the Google Cloud KMS encryption key used to encrypt this workstation. The KMS key can only be configured in the WorkstationConfig. The expected format is `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Output only. Status conditions describing the workstation's current state. */
-  conditions?: StatusList;
+  conditions?: StatusList | undefined;
   /** Optional. Human-readable name for this workstation. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Time when this workstation was most recently successfully started, regardless of the workstation's initial state. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. Directories to persist across workstation sessions. */
-  persistentDirectories?: WorkstationPersistentDirectoryList;
+  persistentDirectories?: WorkstationPersistentDirectoryList | undefined;
   /** Output only. Whether this workstation is in degraded mode, in which case it may require user action to restore full functionality. The conditions field contains detailed information about the status of the workstation. */
-  degraded?: boolean;
+  degraded?: boolean | undefined;
   /** Optional. The source workstation from which this workstation's persistent directories were cloned on creation. */
-  sourceWorkstation?: string;
+  sourceWorkstation?: string | undefined;
   /** Output only. Time when this workstation was soft-deleted. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Optional. Environment variables passed to the workstation container's entrypoint. */
-  env?: StringMap;
+  env?: StringMap | undefined;
   /** Optional. Output only. Runtime host for the workstation when in STATE_RUNNING. */
-  runtimeHost?: RuntimeHost;
+  runtimeHost?: RuntimeHost | undefined;
   /** Output only. Time when this workstation was most recently updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. ID to use for the workstation. */
-  workstationId?: string;
+  workstationId?: string | undefined;
   /** Request body */
-  body?: Workstation;
+  body?: Workstation | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -600,11 +603,11 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsWorkstationClustersRequest {
   /** Optional. If set, the request will be rejected if the latest version of the workstation cluster on the server does not have this ETag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set, any workstation configurations and workstations in the workstation cluster are also deleted. Otherwise, the request only works if the workstation cluster has no configurations or workstations. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. If set, validate the request and preview the result, but do not apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Name of the workstation cluster to delete. */
   name: string;
 }
@@ -612,47 +615,47 @@ export interface DeleteProjectsLocationsWorkstationClustersWorkstationConfigsReq
   /** Required. Name of the workstation configuration to delete. */
   name: string;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set, the request is rejected if the latest version of the workstation configuration on the server does not have this ETag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set, any workstations in the workstation configuration are also deleted. Otherwise, the request works only if the workstation configuration has no workstations. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. Name of the workstation to delete. */
   name: string;
 }
 /** Request message for GenerateAccessToken. */
 export interface GenerateAccessTokenRequest {
   /** Optional. Port for which the access token should be generated. If specified, the generated access token grants access only to the specified port of the workstation. If specified, values must be within the range [1 - 65535]. If not specified, the generated access token grants access to all ports of the workstation. */
-  port?: number;
+  port?: number | undefined;
   /** Desired lifetime duration of the access token. This value must be at most 24 hours. If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the workstation for which the access token should be generated. */
   workstation: string;
   /** Request body */
-  body?: GenerateAccessTokenRequest;
+  body?: GenerateAccessTokenRequest | undefined;
 }
 /** Response message for GenerateAccessToken. */
 export interface GenerateAccessTokenResponse {
   /** Time at which the generated token will expire. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The generated bearer access token. To use this token, include it in an Authorization header of an HTTP request sent to the associated workstation's hostname--for example, `Authorization: Bearer `. */
-  accessToken?: string;
+  accessToken?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -662,54 +665,54 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -731,226 +734,226 @@ export interface GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkst
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsWorkstationClustersRequest {
   /** Optional. Maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter the WorkstationClusters to be listed. Possible filters are described in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type WorkstationClusterList = Array<WorkstationCluster>;
 /** Response message for ListWorkstationClusters. */
 export interface ListWorkstationClustersResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The requested workstation clusters. */
-  workstationClusters?: WorkstationClusterList;
+  workstationClusters?: WorkstationClusterList | undefined;
 }
 export interface ListProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Optional. next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. Filter the WorkstationConfigs to be listed. Possible filters are described in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type WorkstationConfigList = Array<WorkstationConfig>;
 /** Response message for ListWorkstationConfigs. */
 export interface ListWorkstationConfigsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested configs. */
-  workstationConfigs?: WorkstationConfigList;
+  workstationConfigs?: WorkstationConfigList | undefined;
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Optional. Filter the Workstations to be listed. Possible filters are described in https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type WorkstationList = Array<Workstation>;
 /** Response message for ListWorkstations. */
 export interface ListWorkstationsResponse {
   /** Optional. Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The requested workstations. */
-  workstations?: WorkstationList;
+  workstations?: WorkstationList | undefined;
   /** Optional. Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message for ListUsableWorkstationConfigs. */
 export interface ListUsableWorkstationConfigsResponse {
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The requested configs. */
-  workstationConfigs?: WorkstationConfigList;
+  workstationConfigs?: WorkstationConfigList | undefined;
 }
 export interface ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Parent resource name. */
   parent: string;
   /** Optional. next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message for ListUsableWorkstations. */
 export interface ListUsableWorkstationsResponse {
   /** The requested workstations. */
-  workstations?: WorkstationList;
+  workstations?: WorkstationList | undefined;
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkstationClustersRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set, and the workstation cluster is not found, a new workstation cluster will be created. In this situation, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Identifier. Full name of this workstation cluster. */
   name: string;
   /** Required. Mask that specifies which fields in the workstation cluster should be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: WorkstationCluster;
+  body?: WorkstationCluster | undefined;
 }
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Required. Mask specifying which fields in the workstation configuration should be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set and the workstation configuration is not found, a new workstation configuration will be created. In this situation, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Identifier. Full name of this workstation configuration. */
   name: string;
   /** Request body */
-  body?: WorkstationConfig;
+  body?: WorkstationConfig | undefined;
 }
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set and the workstation is not found, a new workstation is created. In this situation, update_mask is ignored. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Identifier. Full name of this workstation. */
   name: string;
   /** Required. Mask specifying which fields in the workstation should be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Workstation;
+  body?: Workstation | undefined;
 }
 /** Represents an OAuth 2.0 access token and its associated metadata. */
 export interface OAuthToken {
   /** Required. The OAuth 2.0 access token value. */
-  accessToken?: string;
+  accessToken?: string | undefined;
   /** Optional. The time the OAuth access token will expire. This should be the time the access token was generated plus the expires_in offset returned from the Access Token Response. Only one of `expire_time` or `expires_in` should be specified. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Optional. The email address associated with the OAuth 2.0 access token. */
-  email?: string;
+  email?: string | undefined;
   /** Optional. The lifetime duration of the access token. Only one of `expire_time` or `expires_in` should be specified. */
-  expiresIn?: string;
+  expiresIn?: string | undefined;
   /** Optional. The scopes associated with the OAuth 2.0 access token. See https://developers.google.com/identity/protocols/oauth2/scopes for more information. */
-  scopes?: string;
+  scopes?: string | undefined;
 }
 /** Request message for PushCredentials. */
 export interface PushCredentialsRequest {
   /** Optional. Credentials used by Cloud Client Libraries, Google API Client Libraries, and other tooling within the user container. For more information, see https://cloud.google.com/docs/authentication/application-default-credentials */
-  applicationDefaultCredentials?: OAuthToken;
+  applicationDefaultCredentials?: OAuthToken | undefined;
 }
 export interface PushCredentialsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the workstation for which the credentials should be pushed. */
   workstation: string;
   /** Request body */
-  body?: PushCredentialsRequest;
+  body?: PushCredentialsRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for StartWorkstation. */
 export interface StartWorkstationRequest {
   /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set, the workstation starts using the boost configuration with the specified ID. */
-  boostConfig?: string;
+  boostConfig?: string | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the workstation to start. */
   name: string;
   /** Request body */
-  body?: StartWorkstationRequest;
+  body?: StartWorkstationRequest | undefined;
 }
 /** Request message for StopWorkstation. */
 export interface StopWorkstationRequest {
   /** Optional. If set, the request will be rejected if the latest version of the workstation on the server does not have this ETag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set, validate the request and preview the result, but do not actually apply it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the workstation to stop. */
   name: string;
   /** Request body */
-  body?: StopWorkstationRequest;
+  body?: StopWorkstationRequest | undefined;
 }
 /** Request message for SuspendWorkstation. */
 export type SuspendWorkstationRequest = StopWorkstationRequest;
@@ -958,29 +961,29 @@ export interface SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWo
   /** Required. Name of the workstation to suspend. */
   name: string;
   /** Request body */
-  body?: StopWorkstationRequest;
+  body?: StopWorkstationRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

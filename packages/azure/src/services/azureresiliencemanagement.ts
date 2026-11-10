@@ -40,18 +40,18 @@ export interface AddDrillRunNotesRequest {
   /** The name of the DrillRun (GUID). */
   drillRunName: string;
   /** The notes string. */
-  notes?: string;
+  notes?: string | undefined;
 }
 /** Request body for TestFailoverCleanup API. */
 export interface DrillRunActionResponse {
   /** JobId of the RO job. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CancelRecoveryJobRequest {
   /** The name of the service group. */
@@ -61,39 +61,39 @@ export interface CancelRecoveryJobRequest {
   /** The unique name (GUID) of the recovery job. */
   recoveryJobName: string;
   /** User-provided input for the action. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The error details. */
 export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 export interface CancelRecoveryJobResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckDrillsResyncReadinessRequest {
   /** The name of the service group. */
@@ -103,11 +103,11 @@ export interface CheckDrillsResyncReadinessRequest {
 }
 export interface CheckDrillsResyncReadinessResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckRecoveryPlanActionReadinessRequest {
   /** The name of the service group. */
@@ -120,11 +120,11 @@ export interface RecoveryPlanActionBaseResponse {
   /** JobId of the job triggered for Recovery Orchestration Plan. */
   jobId: string;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CommitRecoveryPlanActionsFailoverRequest {
   /** The name of the service group. */
@@ -165,13 +165,13 @@ export type MarkAsCompleteResponseSupportedVerbsForStageList = Array<SupportedVe
 /** Response body for MarkAsComplete API. */
 export interface MarkAsCompleteResponse {
   /** Matrix of Actions supported on Operations. */
-  supportedVerbsForStage?: MarkAsCompleteResponseSupportedVerbsForStageList;
+  supportedVerbsForStage?: MarkAsCompleteResponseSupportedVerbsForStageList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type AssociatedIdentityType =
@@ -184,7 +184,7 @@ export interface AssociatedIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: AssociatedIdentityType | (string & {});
   /** User assigned identity id linked with the resource */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** RecoveryPlan properties. */
 export interface RecoveryPlanPropertiesOfDrillInput {
@@ -203,7 +203,7 @@ export interface AssetPropertiesOfDrill {
   /** Region where Drill's internal resources will be created. */
   region: string;
   /** Resource group where Drill's internal resources will be created. If not specified, defaults to 'AzureResilienceManagementDrills'. This value is immutable after drill creation. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** Chaos Resource properties. */
 export interface ChaosResourcePropertiesOfDrillInput {
@@ -219,7 +219,7 @@ export type DrillType = "Zonal" | "Regional";
 /** Drill monitoring properties. */
 export interface MonitoringPropertiesOfDrillInput {
   /** Identity to use for Drill monitoring operations. */
-  identity?: AssociatedIdentity;
+  identity?: AssociatedIdentity | undefined;
 }
 /** Azure Health Model monitoring properties of a Drill. Exactly one Health Model may be selected per Drill. */
 export interface HealthModelMonitoringProperties {
@@ -251,25 +251,25 @@ export interface DrillPropertiesInputErrorDetails {}
 /** Properties of the Resiliency Drill. */
 export interface DrillPropertiesInput {
   /** ROPlan properties. */
-  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillInput;
+  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillInput | undefined;
   /** Goal Assignment properties. */
-  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrillInput;
+  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrillInput | undefined;
   /** Properties for internal resources that are created for the Drill. */
-  drillAssetProperties?: AssetPropertiesOfDrill;
+  drillAssetProperties?: AssetPropertiesOfDrill | undefined;
   /** Chaos Resource properties. */
-  chaosResourceProperties?: ChaosResourcePropertiesOfDrillInput;
+  chaosResourceProperties?: ChaosResourcePropertiesOfDrillInput | undefined;
   /** RBAC setup mode. */
-  rbacSetupMode?: RBACSetupMode | (string & {});
+  rbacSetupMode?: RBACSetupMode | (string & {}) | undefined;
   /** The discriminator for the Drill object hierarchy. */
   drillType: DrillType | (string & {});
   /** Monitoring properties of the Drill. */
-  monitoringProperties?: MonitoringPropertiesOfDrillInput;
+  monitoringProperties?: MonitoringPropertiesOfDrillInput | undefined;
   /** Azure Health Model monitoring properties of the Drill. */
-  healthModelMonitoringProperties?: HealthModelMonitoringProperties;
+  healthModelMonitoringProperties?: HealthModelMonitoringProperties | undefined;
   /** SLI monitoring properties of the Drill. */
-  sliMonitoringProperties?: SliMonitoringProperties;
+  sliMonitoringProperties?: SliMonitoringProperties | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails;
+  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -287,7 +287,7 @@ export type CreateDrillRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateDrillRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateDrillRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateDrillRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateDrillRequest {
   /** The name of the service group. */
@@ -295,9 +295,9 @@ export interface CreateDrillRequest {
   /** The name of the Drill */
   drillName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DrillPropertiesInput;
+  properties?: DrillPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateDrillRequestIdentity;
+  identity?: CreateDrillRequestIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -306,17 +306,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The status of the current operation. */
 export type ProvisioningState =
@@ -333,16 +333,16 @@ export interface RecoveryPlanPropertiesOfDrill {
   /** Identity to use for RecoveryPlan operations. */
   identity: AssociatedIdentity;
   /** Recovery Orchestration plan associated with this Drill. */
-  recoveryPlanId?: string;
+  recoveryPlanId?: string | undefined;
   /** Excluded resource count in RecoveryPlan. */
-  recoveryPlanResourceExcludedCount?: number;
+  recoveryPlanResourceExcludedCount?: number | undefined;
 }
 /** Goal assignment properties. */
 export interface GoalAssignmentPropertiesOfDrill {
   /** Identity to use for goal assignment operations. */
   identity: AssociatedIdentity;
   /** Goal assignment id. */
-  goalAssignmentId?: string;
+  goalAssignmentId?: string | undefined;
 }
 /** Chaos Resource properties. */
 export interface ChaosResourcePropertiesOfDrill {
@@ -351,9 +351,9 @@ export interface ChaosResourcePropertiesOfDrill {
   /** Identity to be used by the Chaos Resource for invoking faults on resources. */
   chaosResourceIdentityForFaults: AssociatedIdentity;
   /** Chaos Resource created for this Drill */
-  chaosResourceId?: string;
+  chaosResourceId?: string | undefined;
   /** Duration of faults. */
-  faultDurationInMin?: number;
+  faultDurationInMin?: number | undefined;
 }
 /** Drill Execution State */
 export type ExecutionState = "NotRunning" | "Running" | "Paused";
@@ -382,7 +382,7 @@ export interface ErrorDetails {
   /** Error message. */
   message: string;
   /** A list of recommendations to resolve the error. */
-  recommendations?: ErrorDetailsRecommendationsList;
+  recommendations?: ErrorDetailsRecommendationsList | undefined;
 }
 /** Errors related to Drill Monitoring resources. */
 export type AttentionReasonDrillMonitoringErrorsList = Array<ErrorDetails>;
@@ -405,13 +405,13 @@ export interface SliAttentionStatus {
   /** User-declared category of the SLI. */
   type: SliType;
   /** Whether the selected SLI still exists. */
-  exists?: ExtensionObjectState;
+  exists?: ExtensionObjectState | undefined;
   /** Whether the user-declared SLI type matches the SLI's actual category. */
-  typeMatch?: SliTypeMatchState;
+  typeMatch?: SliTypeMatchState | undefined;
   /** Rolled-up RBAC state: NotSet if the Drill identity is missing Monitoring Reader on any of the SLI's destination Azure Monitor Workspaces. */
-  drillRbacOnDestinationAmw?: RBACState;
+  drillRbacOnDestinationAmw?: RBACState | undefined;
   /** The destination Azure Monitor Workspaces that are still missing the Monitoring Reader grant for the Drill identity. */
-  rbacNeededOnDestinationAmws?: SliAttentionStatusRbacNeededOnDestinationAmwsList;
+  rbacNeededOnDestinationAmws?: SliAttentionStatusRbacNeededOnDestinationAmwsList | undefined;
 }
 /** Per-SLI attention status for each SLI selected for Drill monitoring. */
 export type AttentionReasonSliAttentionStatusesList = Array<SliAttentionStatus>;
@@ -420,71 +420,85 @@ export type AttentionReasonRbacNeededForDrillOnGoalAssignmentList = Array<string
 /** Reason why the Drill is in NeedsAttention state, and not ready to run. */
 export interface AttentionReason {
   /** Drill object does not have the necessary RBAC to run the chaos resource. */
-  drillRbacOnChaosResource?: RBACState;
+  drillRbacOnChaosResource?: RBACState | undefined;
   /** Permissions needed by the Drill MSI to run the chaos resource. */
-  rbacNeededForDrillOnChaosResource?: AttentionReasonRbacNeededForDrillOnChaosResourceList;
+  rbacNeededForDrillOnChaosResource?:
+    | AttentionReasonRbacNeededForDrillOnChaosResourceList
+    | undefined;
   /** Drill object does not have the necessary RBAC to run the Recovery Plan. */
-  drillRbacOnRecoveryPlan?: RBACState;
+  drillRbacOnRecoveryPlan?: RBACState | undefined;
   /** Permissions needed by the Drill MSI to run the Recovery Plan. */
-  rbacNeededForDrillOnRecoveryPlan?: AttentionReasonRbacNeededForDrillOnRecoveryPlanList;
+  rbacNeededForDrillOnRecoveryPlan?:
+    | AttentionReasonRbacNeededForDrillOnRecoveryPlanList
+    | undefined;
   /** Associated RO ready or not. */
-  roReadiness?: RecoveryPlanState;
+  roReadiness?: RecoveryPlanState | undefined;
   /** RBAC required by Chaos Resource MSI not setup on the target resources. */
-  rbacOnTargetResources?: RBACState;
+  rbacOnTargetResources?: RBACState | undefined;
   /** RBAC required by AutomationAccount for runbook MSI not setup on the target resources. */
-  runbookFaultRbacOnTargets?: RBACState;
+  runbookFaultRbacOnTargets?: RBACState | undefined;
   /** Chaos resource for faulting exists or not. */
-  chaosResource?: ExtensionObjectState;
+  chaosResource?: ExtensionObjectState | undefined;
   /** Reason for Chaos Resource Creation failure */
-  chaosResourceCreationFailureReasons?: AttentionReasonChaosResourceCreationFailureReasonsList;
+  chaosResourceCreationFailureReasons?:
+    | AttentionReasonChaosResourceCreationFailureReasonsList
+    | undefined;
   /** Resources associated in Recovery Plan and Drill are out of sync. */
-  recoveryPlanAndDrillResourcesState?: RelativeResourceCompositionState;
+  recoveryPlanAndDrillResourcesState?: RelativeResourceCompositionState | undefined;
   /** Resources in Service Group and Drill are out of sync. */
-  serviceGroupAndDrillResourcesState?: RelativeResourceCompositionState;
+  serviceGroupAndDrillResourcesState?: RelativeResourceCompositionState | undefined;
   /** User MSI associated with Drill object is deleted. */
-  drillUserMsi?: ExtensionObjectState;
+  drillUserMsi?: ExtensionObjectState | undefined;
   /** User MSI associated with chaos resource object is deleted. */
-  chaosResourceUserMsi?: ExtensionObjectState;
+  chaosResourceUserMsi?: ExtensionObjectState | undefined;
   /** Included resource in Drill. */
-  includedResourceInDrill?: ExtensionObjectState;
+  includedResourceInDrill?: ExtensionObjectState | undefined;
   /** Drill MSI does not have the necessary RBAC to read the Drill Monitoring resources. */
-  drillRbacOnMonitoringResources?: RBACState;
+  drillRbacOnMonitoringResources?: RBACState | undefined;
   /** Errors related to Drill Monitoring resources. */
-  drillMonitoringErrors?: AttentionReasonDrillMonitoringErrorsList;
+  drillMonitoringErrors?: AttentionReasonDrillMonitoringErrorsList | undefined;
   /** Monitoring Resources created for Drill */
-  drillMonitoringResources?: ExtensionObjectState;
+  drillMonitoringResources?: ExtensionObjectState | undefined;
   /** Monitoring RBAC required by Drill MSI not setup on the target resources. */
-  monitoringRbacOnDrillResources?: RBACState;
+  monitoringRbacOnDrillResources?: RBACState | undefined;
   /** Permissions needed by the Drill MSI to Upload service group health data for monitoring. */
-  rbacNeededForDrillOnDrillMonitoringResources?: AttentionReasonRbacNeededForDrillOnDrillMonitoringResourcesList;
+  rbacNeededForDrillOnDrillMonitoringResources?:
+    | AttentionReasonRbacNeededForDrillOnDrillMonitoringResourcesList
+    | undefined;
   /** Permissions needed by the Drill MSI to read health metrics data for resources in service group. */
-  rbacNeededForDrillOnDrillResources?: AttentionReasonRbacNeededForDrillOnDrillResourcesList;
+  rbacNeededForDrillOnDrillResources?:
+    | AttentionReasonRbacNeededForDrillOnDrillResourcesList
+    | undefined;
   /** List of required required Azure resource providers that are not registered in the subscription specified for chaos resource. */
-  missingRequiredResourceProviders?: AttentionReasonMissingRequiredResourceProvidersList;
+  missingRequiredResourceProviders?:
+    | AttentionReasonMissingRequiredResourceProvidersList
+    | undefined;
   /** Neither an Azure Health Model nor an SLI is configured for the Drill. Execution is blocked until a monitoring source is configured. */
-  monitoringSourceNotConfigured?: boolean;
+  monitoringSourceNotConfigured?: boolean | undefined;
   /** Whether the selected Azure Health Model still exists. */
-  healthModelExists?: ExtensionObjectState;
+  healthModelExists?: ExtensionObjectState | undefined;
   /** Whether the selected discovery rule still exists. */
-  discoveryRuleExists?: ExtensionObjectState;
+  discoveryRuleExists?: ExtensionObjectState | undefined;
   /** Whether the Drill identity has the necessary RBAC (Reader) to read the selected Azure Health Model. */
-  drillRbacOnHealthModel?: RBACState;
+  drillRbacOnHealthModel?: RBACState | undefined;
   /** Permissions needed by the Drill identity to read the selected Azure Health Model. */
-  rbacNeededForDrillOnHealthModel?: AttentionReasonRbacNeededForDrillOnHealthModelList;
+  rbacNeededForDrillOnHealthModel?: AttentionReasonRbacNeededForDrillOnHealthModelList | undefined;
   /** Rolled-up RBAC state: NotSet if the Drill identity is missing the necessary RBAC to read any selected SLI. */
-  drillRbacOnSli?: RBACState;
+  drillRbacOnSli?: RBACState | undefined;
   /** Per-SLI attention status for each SLI selected for Drill monitoring. */
-  sliAttentionStatuses?: AttentionReasonSliAttentionStatusesList;
+  sliAttentionStatuses?: AttentionReasonSliAttentionStatusesList | undefined;
   /** Drill object does not have the necessary RBAC on Goal Assignment. */
-  drillRbacOnGoalAssignment?: RBACState;
+  drillRbacOnGoalAssignment?: RBACState | undefined;
   /** Permissions needed by the Drill MSI on Goal Assignment. */
-  rbacNeededForDrillOnGoalAssignment?: AttentionReasonRbacNeededForDrillOnGoalAssignmentList;
+  rbacNeededForDrillOnGoalAssignment?:
+    | AttentionReasonRbacNeededForDrillOnGoalAssignmentList
+    | undefined;
   /** Goal Assignment not present. */
-  goalAssignment?: ExtensionObjectState;
+  goalAssignment?: ExtensionObjectState | undefined;
   /** Recovery plan not present. */
-  recoveryPlan?: ExtensionObjectState;
+  recoveryPlan?: ExtensionObjectState | undefined;
   /** Indicates whether any entity in the selected Azure Health Model references the Drill Service Group through properties.signalGroups.azureResource.azureResourceId. */
-  healthModelAssociatedWithServiceGroup?: ExtensionObjectState;
+  healthModelAssociatedWithServiceGroup?: ExtensionObjectState | undefined;
 }
 /** Enum for Initial config of Drill object. */
 export type InitialConfig = "Pending" | "Complete";
@@ -497,7 +511,7 @@ export interface SystemMetadata {
   /** Indicates if the Initial system configuration of the Drill is complete or not. */
   initialConfig: InitialConfig;
   /** An indication whether a intrested resource type is present in drill resource. */
-  resourceTypeCategories?: SystemMetadataResourceTypeCategoriesList;
+  resourceTypeCategories?: SystemMetadataResourceTypeCategoriesList | undefined;
 }
 /** Job Statuses */
 export type JobStatus =
@@ -517,26 +531,26 @@ export type DrillAttestation = "Success" | "Failed";
 /** Definition of Last Run properties. */
 export interface LastRunProperties {
   /** Timestamp of the last run of this Drill. */
-  lastRunTime?: string;
+  lastRunTime?: string | undefined;
   /** Status of the last run of this Drill. */
-  lastRunState?: JobStatus;
+  lastRunState?: JobStatus | undefined;
   /** Timespan of the last run of this Drill. */
-  lastRunDuration?: string;
+  lastRunDuration?: string | undefined;
   /** Attestation state of the last run of this Drill. */
-  lastRunAttestation?: DrillAttestation;
+  lastRunAttestation?: DrillAttestation | undefined;
 }
 /** Drill monitoring properties. */
 export interface MonitoringPropertiesOfDrill {
   /** Identity to use for Drill monitoring operations. */
-  identity?: AssociatedIdentity;
+  identity?: AssociatedIdentity | undefined;
   /** Full ARM Id of the Log analytics workspace created by Resiliency service where health data is collected. */
-  logAnalyticsWorkspaceId?: string;
+  logAnalyticsWorkspaceId?: string | undefined;
   /** Full ARM Id of the Data collection rule created by Resiliency service which will route data for RAW health data for service group resources. */
-  rawMetricsDataCollectionRuleId?: string;
+  rawMetricsDataCollectionRuleId?: string | undefined;
   /** Full ARM Id of the Data collection rule created by Resiliency service which will route data for Aggregate health data of service group. */
-  serviceGroupMetricsDataCollectionRuleId?: string;
+  serviceGroupMetricsDataCollectionRuleId?: string | undefined;
   /** Full ARM Id of the Data collection endpoint created by Resiliency service which will route data for service group and its resources. */
-  dataCollectionEndpointId?: string;
+  dataCollectionEndpointId?: string | undefined;
 }
 /** The error details. */
 export type DrillPropertiesErrorDetailsDetailsList = Array<ErrorDetail>;
@@ -545,63 +559,63 @@ export type DrillPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAdditiona
 /** The error detail. */
 export interface DrillPropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: DrillPropertiesErrorDetailsDetailsList;
+  details?: DrillPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: DrillPropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: DrillPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Properties of the Resiliency Drill. */
 export interface DrillProperties {
   /** Status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Parent SG resource. */
-  serviceGroupId?: string;
+  serviceGroupId?: string | undefined;
   /** ROPlan properties. */
-  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrill;
+  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrill | undefined;
   /** Goal Assignment properties. */
-  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill;
+  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrill | undefined;
   /** Properties for internal resources that are created for the Drill. */
-  drillAssetProperties?: AssetPropertiesOfDrill;
+  drillAssetProperties?: AssetPropertiesOfDrill | undefined;
   /** Chaos Resource properties. */
-  chaosResourceProperties?: ChaosResourcePropertiesOfDrill;
+  chaosResourceProperties?: ChaosResourcePropertiesOfDrill | undefined;
   /** Execution state of the Drill. Whether it is currently running or not. */
-  executionState?: ExecutionState;
+  executionState?: ExecutionState | undefined;
   /** Readiness state of the Drill. */
-  executionReadinessState?: ExecutionReadinessState;
+  executionReadinessState?: ExecutionReadinessState | undefined;
   /** RBAC setup mode. */
-  rbacSetupMode?: RBACSetupMode;
+  rbacSetupMode?: RBACSetupMode | undefined;
   /** Attention reason if the ReadinessState is 'NeedsAttention'. */
-  attentionReason?: AttentionReason;
+  attentionReason?: AttentionReason | undefined;
   /** Internal System Metadata, to be used by internal components only. */
-  systemMetadata?: SystemMetadata;
+  systemMetadata?: SystemMetadata | undefined;
   /** Last run properties. */
-  lastRunProperties?: LastRunProperties;
+  lastRunProperties?: LastRunProperties | undefined;
   /** Last sync time. */
-  lastSyncTime?: string;
+  lastSyncTime?: string | undefined;
   /** Last resync and readiness check time. */
-  lastResyncReadinessCheckTime?: string;
+  lastResyncReadinessCheckTime?: string | undefined;
   /** The discriminator for the Drill object hierarchy. */
   drillType: DrillType;
   /** Monitoring properties of the Drill. */
-  monitoringProperties?: MonitoringPropertiesOfDrill;
+  monitoringProperties?: MonitoringPropertiesOfDrill | undefined;
   /** Azure Health Model monitoring properties of the Drill. */
-  healthModelMonitoringProperties?: HealthModelMonitoringProperties;
+  healthModelMonitoringProperties?: HealthModelMonitoringProperties | undefined;
   /** SLI monitoring properties of the Drill. */
-  sliMonitoringProperties?: SliMonitoringProperties;
+  sliMonitoringProperties?: SliMonitoringProperties | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesErrorDetails;
+  errorDetails?: DrillPropertiesErrorDetails | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateDrillResponseIdentityUserAssignedIdentitiesMap = {
@@ -610,30 +624,30 @@ export type CreateDrillResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateDrillResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateDrillResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateDrillResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateDrillResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillProperties;
+  properties?: DrillProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateDrillResponseIdentity;
+  identity?: CreateDrillResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDrillRequest {
   /** The name of the service group. */
@@ -643,9 +657,9 @@ export interface DeleteDrillRequest {
 }
 export interface DeleteDrillResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEnrollmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -659,9 +673,9 @@ export interface DeleteEnrollmentRequest {
 }
 export interface DeleteEnrollmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteGoalAssignmentRequest {
   /** The name of the service group. */
@@ -671,11 +685,11 @@ export interface DeleteGoalAssignmentRequest {
 }
 export interface DeleteGoalAssignmentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRecoveryPlanRequest {
   /** The name of the service group. */
@@ -685,9 +699,9 @@ export interface DeleteRecoveryPlanRequest {
 }
 export interface DeleteRecoveryPlanResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteUsagePlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -699,9 +713,9 @@ export interface DeleteUsagePlanRequest {
 }
 export interface DeleteUsagePlanResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Enum for AutoFailover */
 export type AutoFailover = "Enable" | "Disable";
@@ -723,16 +737,16 @@ export interface FailoverRequestProperties {
   /** Source locations from where resources to be failed-over. */
   sourceLocations: FailoverRequestPropertiesSourceLocationsList;
   /** Selected recovery resource Ids to be processed. If not provided, all qualified resources based on the source location(s) will be processed. */
-  selectedResourceIds?: FailoverRequestPropertiesSelectedResourceIdsList;
+  selectedResourceIds?: FailoverRequestPropertiesSelectedResourceIdsList | undefined;
   /** Execution configurations for the recovery action. */
-  executionConfigurations?: ExecutionConfigurations;
+  executionConfigurations?: ExecutionConfigurations | undefined;
 }
 /** Failover post action request. */
 export interface FailoverRequest {
   /** Type of Failover direction. */
   failoverDirection: FailoverDirectionTypes | (string & {});
   /** Additional properties for Failover. */
-  failoverRequestProperties?: FailoverRequestProperties;
+  failoverRequestProperties?: FailoverRequestProperties | undefined;
 }
 export interface DrillRunsFailOverRequest {
   /** The name of the service group. */
@@ -756,34 +770,34 @@ export interface DrillRunsListReportDownloadUrlRequest {
   /** The name of the DrillRun (GUID). */
   drillRunName: string;
   /** Format of the report to download. Defaults to Html when not specified. */
-  format?: DrillReportFormat | (string & {});
+  format?: DrillReportFormat | (string & {}) | undefined;
 }
 /** Response containing a short-lived, read-only download URL for a Drill Run report. */
 export interface ListReportDownloadUrlResponse {
   /** Format of the report the download URL refers to. */
-  format?: DrillReportFormat;
+  format?: DrillReportFormat | undefined;
   /** Short-lived, read-only URL to download the report. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** Timestamp at which the download URL expires. */
-  expiryTimestamp?: string;
+  expiryTimestamp?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Selected recovery resource Ids to be processed. If not provided, all qualified resources will be processed. */
 export type ReprotectRequestPropertiesSelectedResourceIdsList = Array<string>;
 /** Additional properties for Reprotect. */
 export interface ReprotectRequestProperties {
   /** Selected recovery resource Ids to be processed. If not provided, all qualified resources will be processed. */
-  selectedResourceIds?: ReprotectRequestPropertiesSelectedResourceIdsList;
+  selectedResourceIds?: ReprotectRequestPropertiesSelectedResourceIdsList | undefined;
 }
 /** Reprotect post action request. */
 export interface ReprotectRequest {
   /** Additional properties for Reprotect. */
-  reprotectRequestProperties?: ReprotectRequestProperties;
+  reprotectRequestProperties?: ReprotectRequestProperties | undefined;
 }
 export interface DrillRunsReprotectRequest {
   /** The name of the service group. */
@@ -814,16 +828,16 @@ export interface CustomFaultDetails {
 /** Fault Properties */
 export interface FaultPropertiesInput {
   /** Override fault provided by the user. */
-  overriddenDefaultFault?: FaultDetails;
+  overriddenDefaultFault?: FaultDetails | undefined;
   /** Custom Fault Details selected by user */
-  customFault?: CustomFaultDetails;
+  customFault?: CustomFaultDetails | undefined;
 }
 /** Include or Update resource */
 export interface IncludeOrUpdateResourceInput {
   /** Id of the DrillResource to be included (NOT the ARM Id of the underlying resource). */
   id: string;
   /** Fault properties. */
-  faultProperties?: FaultPropertiesInput;
+  faultProperties?: FaultPropertiesInput | undefined;
 }
 /** Include resource */
 export type ResourceListsInputIncludeResourcesList = Array<IncludeOrUpdateResourceInput>;
@@ -834,11 +848,11 @@ export type ResourceListsInputUpdateResourcesList = Array<IncludeOrUpdateResourc
 /** Add, Update, Delete resource lists */
 export interface ResourceListsInput {
   /** Include resource */
-  includeResources?: ResourceListsInputIncludeResourcesList;
+  includeResources?: ResourceListsInputIncludeResourcesList | undefined;
   /** Excluded resource */
-  excludeResources?: ResourceListsInputExcludeResourcesList;
+  excludeResources?: ResourceListsInputExcludeResourcesList | undefined;
   /** Update resource */
-  updateResources?: ResourceListsInputUpdateResourcesList;
+  updateResources?: ResourceListsInputUpdateResourcesList | undefined;
 }
 /** Enum for ForceInclusionAndUpdate */
 export type ForceInclusionAndUpdate = "Enable" | "Disable";
@@ -850,17 +864,17 @@ export interface DrillsAddOrUpdateResourcesRequest {
   /** Duration of faults. */
   faultDurationInMin: number;
   /** Add, Update, Delete resource lists */
-  resourceLists?: ResourceListsInput;
+  resourceLists?: ResourceListsInput | undefined;
   /** Whether to allow inclusion and update despite attention reasons. */
-  forceInclusionAndUpdate?: ForceInclusionAndUpdate | (string & {});
+  forceInclusionAndUpdate?: ForceInclusionAndUpdate | (string & {}) | undefined;
 }
 export interface DrillsAddOrUpdateResourcesResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DrillsEndRequest {
   /** The name of the service group. */
@@ -875,13 +889,13 @@ export interface DrillsEndRequest {
 /** Response body of Drill actions */
 export interface DrillActionResponse {
   /** JobId of the Drill */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The error detail. */
 export type EnrollmentPropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
@@ -890,7 +904,7 @@ export interface EnrollmentPropertiesInput {
   /** ARM resource identifier of the service group associated with this usage plan. */
   serviceGroupId: string;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails;
+  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
 }
 export interface EnrollmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -902,7 +916,7 @@ export interface EnrollmentsCreateOrUpdateRequest {
   /** The name of the enrollment. */
   enrollmentName: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnrollmentPropertiesInput;
+  properties?: EnrollmentPropertiesInput | undefined;
 }
 /** The error details. */
 export type EnrollmentPropertiesErrorDetailsDetailsList = Array<ErrorDetail>;
@@ -911,40 +925,40 @@ export type EnrollmentPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAddi
 /** The error detail. */
 export interface EnrollmentPropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: EnrollmentPropertiesErrorDetailsDetailsList;
+  details?: EnrollmentPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: EnrollmentPropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: EnrollmentPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Definition of enrollment properties. */
 export interface EnrollmentProperties {
   /** ARM resource identifier of the service group associated with this usage plan. */
   serviceGroupId: string;
   /** Provisioning state of the enrollment. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The error detail. */
-  errorDetails?: EnrollmentPropertiesErrorDetails;
+  errorDetails?: EnrollmentPropertiesErrorDetails | undefined;
 }
 export interface EnrollmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EnrollmentProperties;
+  properties?: EnrollmentProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FinalizeRecoveryPlanActionRequest {
   /** The name of the service group. */
@@ -954,11 +968,11 @@ export interface FinalizeRecoveryPlanActionRequest {
 }
 export interface FinalizeRecoveryPlanActionResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateDrillRunReportRequest {
   /** The name of the service group. */
@@ -975,11 +989,11 @@ export interface ReportStageStatus {
   /** Name of the Drill Run stage this status applies to. */
   drillRunStage: DrillRunSubtasks;
   /** Report generation status for this stage. */
-  generationStatus?: DrillReportGenerationStatus;
+  generationStatus?: DrillReportGenerationStatus | undefined;
   /** Timestamp of the last report generation attempt for this stage. */
-  lastAttemptTimestamp?: string;
+  lastAttemptTimestamp?: string | undefined;
   /** Error from the last failed report generation attempt for this stage. */
-  lastError?: ErrorDetails;
+  lastError?: ErrorDetails | undefined;
 }
 /** Per-stage report generation statuses. */
 export type DrillReportSummaryStageStatusesList = Array<ReportStageStatus>;
@@ -990,25 +1004,25 @@ export type DrillReportFinalizationState = "NotFinalized" | "Finalized";
 /** Public, read-only summary of report generation for a Drill Run. Exposes status and pointers only - the report content and internal storage locations are never surfaced. */
 export interface GenerateDrillRunReportResponse {
   /** Overall report generation status for the Drill Run. */
-  generationStatus?: DrillReportGenerationStatus;
+  generationStatus?: DrillReportGenerationStatus | undefined;
   /** Per-stage report generation statuses. */
-  stageStatuses?: DrillReportSummaryStageStatusesList;
+  stageStatuses?: DrillReportSummaryStageStatusesList | undefined;
   /** Formats the report is currently available for download in. */
-  availableFormats?: DrillReportSummaryAvailableFormatsList;
+  availableFormats?: DrillReportSummaryAvailableFormatsList | undefined;
   /** Timestamp of the last successful report generation. */
-  lastGeneratedTimestamp?: string;
+  lastGeneratedTimestamp?: string | undefined;
   /** Schema version of the generated report content. */
-  schemaVersion?: string;
+  schemaVersion?: string | undefined;
   /** Finalization state of the report. A finalized report is immutable. */
-  finalizationState?: DrillReportFinalizationState;
+  finalizationState?: DrillReportFinalizationState | undefined;
   /** Error from the last failed report generation attempt. */
-  lastError?: ErrorDetails;
+  lastError?: ErrorDetails | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetDrillRequest {
   /** The name of the service group. */
@@ -1023,26 +1037,26 @@ export type GetDrillResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetDrillResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetDrillResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetDrillResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetDrillResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillProperties;
+  properties?: DrillProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetDrillResponseIdentity;
+  identity?: GetDrillResponseIdentity | undefined;
 }
 export interface GetDrillResourceRequest {
   /** The name of the service group. */
@@ -1078,13 +1092,13 @@ export type FaultPropertiesAvailableFaultsList = Array<FaultDetails>;
 /** Fault Properties */
 export interface FaultProperties {
   /** Available faults for this resource. */
-  availableFaults?: FaultPropertiesAvailableFaultsList;
+  availableFaults?: FaultPropertiesAvailableFaultsList | undefined;
   /** Default fault provided by the system. */
-  defaultFault?: FaultDetails;
+  defaultFault?: FaultDetails | undefined;
   /** Override fault provided by the user. */
-  overriddenDefaultFault?: FaultDetails;
+  overriddenDefaultFault?: FaultDetails | undefined;
   /** Custom Fault Details selected by user */
-  customFault?: CustomFaultDetails;
+  customFault?: CustomFaultDetails | undefined;
 }
 /** Drill Resource State (wrt SG and RO). */
 export type DrillResourceState =
@@ -1098,13 +1112,13 @@ export type DrillResourceAttentionReasonResourceStateList = Array<DrillResourceS
 /** Reason why the Drill resource is in NeedsAttention state. */
 export interface DrillResourceAttentionReason {
   /** Chaos Resource MSI does not have the desired RBAC on the resource. */
-  faultRbacOnTargetResource?: RBACState;
+  faultRbacOnTargetResource?: RBACState | undefined;
   /** RBAC required by AutomationAccount for runbook MSI not setup on the target resources. */
-  runbookFaultRbacOnTargets?: RBACState;
+  runbookFaultRbacOnTargets?: RBACState | undefined;
   /** RBAC required by Drill MSI on the target resource for monitoring. */
-  monitoringRbacOnTargets?: RBACState;
+  monitoringRbacOnTargets?: RBACState | undefined;
   /** Drill Resource State (wrt SG and RO). */
-  resourceState?: DrillResourceAttentionReasonResourceStateList;
+  resourceState?: DrillResourceAttentionReasonResourceStateList | undefined;
 }
 /** Properties of the Resiliency Drill Resource */
 export interface DrillResourceProperties {
@@ -1113,49 +1127,49 @@ export interface DrillResourceProperties {
   /** Type of the Drill resource. */
   resourceType: string;
   /** Active location and zones of the Azure resource. */
-  activeLocations?: DrillResourcePropertiesActiveLocationsList;
+  activeLocations?: DrillResourcePropertiesActiveLocationsList | undefined;
   /** List of recovery locations and zones of the Azure resource. */
-  recoveryLocations?: DrillResourcePropertiesRecoveryLocationsList;
+  recoveryLocations?: DrillResourcePropertiesRecoveryLocationsList | undefined;
   /** Inclusion State of the Drill resource in Drill */
-  inclusionState?: DrillResourceInclusionState;
+  inclusionState?: DrillResourceInclusionState | undefined;
   /** Inclusion State of the Drill resource in Recovery Plan */
-  recoveryPlanInclusionState?: ResourceInclusionState;
+  recoveryPlanInclusionState?: ResourceInclusionState | undefined;
   /** Exclusion reason of the Drill resource in Recovery Plan */
-  recoveryPlanExclusionReason?: RecoveryPlanExclusionReason;
+  recoveryPlanExclusionReason?: RecoveryPlanExclusionReason | undefined;
   /** Protection Solution Type of the Drill resource */
-  resourceProtectionSolutionType?: ResourceProtectionSolutionType;
+  resourceProtectionSolutionType?: ResourceProtectionSolutionType | undefined;
   /** Readiness State of the Drill resource */
-  readinessState?: DrillResourceReadinessState;
+  readinessState?: DrillResourceReadinessState | undefined;
   /** Fault State of the Drill resource */
-  faultState?: DrillResourceFaultState;
+  faultState?: DrillResourceFaultState | undefined;
   /** Fault Properties */
-  faultProperties?: FaultProperties;
+  faultProperties?: FaultProperties | undefined;
   /** ForceInclusion status for this resource. Has the customer forceIncluded it? */
-  forceInclusionState?: ForceInclusionAndUpdate;
+  forceInclusionState?: ForceInclusionAndUpdate | undefined;
   /** Attention reason if the Status is 'NeedsAttention'. */
-  attentionReason?: DrillResourceAttentionReason;
+  attentionReason?: DrillResourceAttentionReason | undefined;
   /** Recommendation Type Id for the recommendation. */
-  advisorRecommendationTypeId?: string;
+  advisorRecommendationTypeId?: string | undefined;
   /** Last RBAC assignment error, if any. */
-  rbacAssignmentError?: ErrorDetails;
+  rbacAssignmentError?: ErrorDetails | undefined;
   /** Monitoring RBAC assignment error, if any. */
-  monitoringRbacAssignmentError?: ErrorDetails;
+  monitoringRbacAssignmentError?: ErrorDetails | undefined;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The discriminator for the Drill Resource object hierarchy. Matches the parent Drill type. */
   drillType: DrillType;
 }
 export interface GetDrillResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillResourceProperties;
+  properties?: DrillResourceProperties | undefined;
 }
 export interface GetDrillRunRequest {
   /** The name of the service group. */
@@ -1170,41 +1184,41 @@ export type JobErrorInfoRecommendationsList = Array<string>;
 /** Job Error information. */
 export interface JobErrorInfo {
   /** A code representing the error. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** A detailed message explaining the error. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** A list of recommendations to resolve the error. */
-  recommendations?: JobErrorInfoRecommendationsList;
+  recommendations?: JobErrorInfoRecommendationsList | undefined;
 }
 /** The type of user comment. */
 export type CommentType = "Description" | "ResumeReason";
 /** Job User's Comment. */
 export interface JobUserComment {
   /** The type of the user comment. */
-  commentType?: CommentType;
+  commentType?: CommentType | undefined;
   /** The time of user comment. */
-  commentTime?: string;
+  commentTime?: string | undefined;
   /** User Comment */
-  comments?: string;
+  comments?: string | undefined;
 }
 /** User Comments. */
 export type JobRetryDetailsUserCommentsList = Array<JobUserComment>;
 /** Job Retry Details. */
 export interface JobRetryDetails {
   /** The current status of the job execution. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The start time of the job execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the job execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time elapsed during the execution of this job. */
-  duration?: string;
+  duration?: string | undefined;
   /** Details of any errors that occurred during the execution of this job. */
-  errorDetails?: JobErrorInfo;
+  errorDetails?: JobErrorInfo | undefined;
   /** The retry attempt number of the job. */
   retryAttempt: number;
   /** User Comments. */
-  userComments?: JobRetryDetailsUserCommentsList;
+  userComments?: JobRetryDetailsUserCommentsList | undefined;
 }
 /** Details of any retries that have been attempted for this job. */
 export type DrillRunPropertiesRetryDetailsList = Array<JobRetryDetails>;
@@ -1219,36 +1233,36 @@ export type JobTaskDetailRetryDetailsList = Array<JobRetryDetails>;
 /** Job task details. */
 export interface JobTaskDetail {
   /** The current status of the job execution. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The start time of the job execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the job execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time elapsed during the execution of this job. */
-  duration?: string;
+  duration?: string | undefined;
   /** Details of any errors that occurred during the execution of this job. */
-  errorDetails?: JobErrorInfo;
+  errorDetails?: JobErrorInfo | undefined;
   /** Identifier of the task. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Friendly name of the task. */
-  taskName?: string;
+  taskName?: string | undefined;
   /** Identifiers of linked jobs to this task. */
-  linkedJobIds?: JobTaskDetailLinkedJobIdsList;
+  linkedJobIds?: JobTaskDetailLinkedJobIdsList | undefined;
   /** User Comments. */
-  userComments?: JobTaskDetailUserCommentsList;
+  userComments?: JobTaskDetailUserCommentsList | undefined;
   /** List of sub-tasks associated with this job. */
-  subTasksList?: JobTaskDetailSubTasksListList;
+  subTasksList?: JobTaskDetailSubTasksListList | undefined;
   /** Retry details of the task. */
-  retryDetails?: JobTaskDetailRetryDetailsList;
+  retryDetails?: JobTaskDetailRetryDetailsList | undefined;
 }
 /** List of tasks associated with this job. */
 export type JobExtendedInfoTasksListList = Array<JobTaskDetail>;
 /** Additional information for job. */
 export interface JobExtendedInfo {
   /** List of tasks associated with this job. */
-  tasksList?: JobExtendedInfoTasksListList;
+  tasksList?: JobExtendedInfoTasksListList | undefined;
   /** Non localized error message on job execution. */
-  dynamicErrorMessage?: string;
+  dynamicErrorMessage?: string | undefined;
 }
 /** User Comments. */
 export type DrillRunPropertiesUserCommentsList = Array<JobUserComment>;
@@ -1265,74 +1279,74 @@ export type DrillRunPropertiesSupportedVerbsForStageList = Array<SupportedVerbsF
 /** Public, read-only summary of report generation for a Drill Run. Exposes status and pointers only - the report content and internal storage locations are never surfaced. */
 export interface DrillReportSummary {
   /** Overall report generation status for the Drill Run. */
-  generationStatus?: DrillReportGenerationStatus;
+  generationStatus?: DrillReportGenerationStatus | undefined;
   /** Per-stage report generation statuses. */
-  stageStatuses?: DrillReportSummaryStageStatusesList;
+  stageStatuses?: DrillReportSummaryStageStatusesList | undefined;
   /** Formats the report is currently available for download in. */
-  availableFormats?: DrillReportSummaryAvailableFormatsList;
+  availableFormats?: DrillReportSummaryAvailableFormatsList | undefined;
   /** Timestamp of the last successful report generation. */
-  lastGeneratedTimestamp?: string;
+  lastGeneratedTimestamp?: string | undefined;
   /** Schema version of the generated report content. */
-  schemaVersion?: string;
+  schemaVersion?: string | undefined;
   /** Finalization state of the report. A finalized report is immutable. */
-  finalizationState?: DrillReportFinalizationState;
+  finalizationState?: DrillReportFinalizationState | undefined;
   /** Error from the last failed report generation attempt. */
-  lastError?: ErrorDetails;
+  lastError?: ErrorDetails | undefined;
 }
 /** Properties of the Resiliency DrillRun. */
 export interface DrillRunProperties {
   /** The current status of the job execution. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The start time of the job execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the job execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time elapsed during the execution of this job. */
-  duration?: string;
+  duration?: string | undefined;
   /** Details of any errors that occurred during the execution of this job. */
-  errorDetails?: JobErrorInfo;
+  errorDetails?: JobErrorInfo | undefined;
   /** The resource for which this job was created. This is typically the resource that the job is intended to manage or operate on. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The operation that this job is intended to perform. */
-  operation?: string;
+  operation?: string | undefined;
   /** Details of any retries that have been attempted for this job. */
-  retryDetails?: DrillRunPropertiesRetryDetailsList;
+  retryDetails?: DrillRunPropertiesRetryDetailsList | undefined;
   /** Additional information about the job. */
-  jobExtendedInfo?: JobExtendedInfo;
+  jobExtendedInfo?: JobExtendedInfo | undefined;
   /** User Comments. */
-  userComments?: DrillRunPropertiesUserCommentsList;
+  userComments?: DrillRunPropertiesUserCommentsList | undefined;
   /** The type of job. */
   jobType: JobType;
   /** Execution configurations for the job. */
-  executionConfigurations?: ExecutionConfigurations;
+  executionConfigurations?: ExecutionConfigurations | undefined;
   /** Indicates whether the job was triggered by the system or a user. */
-  triggeredBy?: JobTriggeredBy;
+  triggeredBy?: JobTriggeredBy | undefined;
   /** Parent Drill resource. */
-  drillId?: string;
+  drillId?: string | undefined;
   /** Drill mode. */
-  drillMode?: DrillMode;
+  drillMode?: DrillMode | undefined;
   /** Attestation of this Drill Run. */
-  attestation?: DrillAttestation;
+  attestation?: DrillAttestation | undefined;
   /** Notes for this Drill. */
-  notes?: DrillRunPropertiesNotesList;
+  notes?: DrillRunPropertiesNotesList | undefined;
   /** Matrix of Actions supported on Operations. */
-  supportedVerbsForStage?: DrillRunPropertiesSupportedVerbsForStageList;
+  supportedVerbsForStage?: DrillRunPropertiesSupportedVerbsForStageList | undefined;
   /** The currently active operationID on this Drill Run. There can be only one active. */
-  currentActiveOperationId?: string;
+  currentActiveOperationId?: string | undefined;
   /** Summary of report generation for this Drill Run. */
-  report?: DrillReportSummary;
+  report?: DrillReportSummary | undefined;
 }
 export interface GetDrillRunResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillRunProperties;
+  properties?: DrillRunProperties | undefined;
 }
 export interface GetDrillRunResourceRequest {
   /** The name of the service group. */
@@ -1353,47 +1367,47 @@ export type JobResourceType = "Invalid" | "RecoveryPlan" | "DrillRun";
 /** Properties of a Drill Run resource. */
 export interface DrillRunResourceProperties {
   /** The current status of the job execution. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The start time of the job execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the job execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time elapsed during the execution of this job. */
-  duration?: string;
+  duration?: string | undefined;
   /** Details of any errors that occurred during the execution of this job. */
-  errorDetails?: JobErrorInfo;
+  errorDetails?: JobErrorInfo | undefined;
   /** The resource for which this job was created. This is typically the resource that the job is intended to manage or operate on. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The operation that this job is intended to perform. */
-  operation?: string;
+  operation?: string | undefined;
   /** Details of any retries that have been attempted for this job. */
-  retryDetails?: DrillRunResourcePropertiesRetryDetailsList;
+  retryDetails?: DrillRunResourcePropertiesRetryDetailsList | undefined;
   /** Additional information about the job. */
-  jobExtendedInfo?: JobExtendedInfo;
+  jobExtendedInfo?: JobExtendedInfo | undefined;
   /** User Comments. */
-  userComments?: DrillRunResourcePropertiesUserCommentsList;
+  userComments?: DrillRunResourcePropertiesUserCommentsList | undefined;
   /** Id of the Job under which this job-resource exists. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Id of the job-task to which this job resource is associated. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Friendly name of the job-task to which this job resource is associated. */
-  taskName?: string;
+  taskName?: string | undefined;
   /** Discriminator for the JobResource object hierarchy. */
   jobResourceType: JobResourceType;
   /** The provisioning state of the Drill Run Resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetDrillRunResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillRunResourceProperties;
+  properties?: DrillRunResourceProperties | undefined;
 }
 export interface GetEnrollmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1407,15 +1421,15 @@ export interface GetEnrollmentRequest {
 }
 export interface GetEnrollmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EnrollmentProperties;
+  properties?: EnrollmentProperties | undefined;
 }
 export interface GetGoalAssignmentRequest {
   /** The name of the service group. */
@@ -1437,38 +1451,38 @@ export type GoalAssignmentPropertiesErrorDetailsAdditionalInfoList = Array<Error
 /** The error detail. */
 export interface GoalAssignmentPropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: GoalAssignmentPropertiesErrorDetailsDetailsList;
+  details?: GoalAssignmentPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: GoalAssignmentPropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: GoalAssignmentPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Properties of a goal assignment. */
 export interface GoalAssignmentProperties {
   /** Whether zonal resiliency is required for this goal assignment. */
   requireZonalResiliency: boolean;
   /** List of service level resources. */
-  serviceLevelResources?: GoalAssignmentPropertiesServiceLevelResourcesList;
+  serviceLevelResources?: GoalAssignmentPropertiesServiceLevelResourcesList | undefined;
   /** The provisioning state of the goal assignment. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The error detail. */
-  errorDetails?: GoalAssignmentPropertiesErrorDetails;
+  errorDetails?: GoalAssignmentPropertiesErrorDetails | undefined;
 }
 export interface GetGoalAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GoalAssignmentProperties;
+  properties?: GoalAssignmentProperties | undefined;
 }
 export interface GetGoalResourceRequest {
   /** The name of the service group. */
@@ -1506,41 +1520,41 @@ export interface UserConfirmationItem {
   /** The confirmation status of the high availability solution. */
   confirmationStatus: ConfirmationStatus | (string & {});
   /** The reason for requesting user confirmation for the high availability solution. */
-  reasonForRequestingConfirmation?: ReasonForRequestingConfirmation | (string & {});
+  reasonForRequestingConfirmation?: ReasonForRequestingConfirmation | (string & {}) | undefined;
 }
 /** User confirmations for resiliency solutions recommended for the ARM resource. */
 export type ResiliencyPropertiesUserConfirmationList = Array<UserConfirmationItem>;
 /** Resiliency posture for a goal resource. */
 export interface ResiliencyProperties {
   /** Indicates whether the ARM resource is excluded from resiliency recommendations. */
-  goalParticipation?: ExclusionState | (string & {});
+  goalParticipation?: ExclusionState | (string & {}) | undefined;
   /** Indicates whether the ARM resource's resiliency posture is manually attested. */
-  attestationStatus?: AttestationState | (string & {});
+  attestationStatus?: AttestationState | (string & {}) | undefined;
   /** The reason the ARM resource is excluded from resiliency goals. */
-  exclusionReason?: ExclusionReason | (string & {});
+  exclusionReason?: ExclusionReason | (string & {}) | undefined;
   /** User confirmations for resiliency solutions recommended for the ARM resource. */
-  userConfirmation?: ResiliencyPropertiesUserConfirmationList;
+  userConfirmation?: ResiliencyPropertiesUserConfirmationList | undefined;
 }
 /** Properties of a goal resource. */
 export interface GoalResourceProperties {
   /** The fully qualified ARM resource ID represented by this goal resource. */
   resourceArmId: string;
   /** The zonal resiliency posture for the ARM resource, including participation, attestation, exclusion reason, and user confirmations. */
-  zonalResiliency?: ResiliencyProperties;
+  zonalResiliency?: ResiliencyProperties | undefined;
   /** The provisioning state of the goal resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetGoalResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GoalResourceProperties;
+  properties?: GoalResourceProperties | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The name of the Azure region. */
@@ -1553,45 +1567,45 @@ export type OperationStatusResultOperationsList = Array<OperationStatusResult>;
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationStatusResponseOperationsList;
+  operations?: GetOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface GetRecoveryJobRequest {
   /** The name of the service group. */
@@ -1608,45 +1622,45 @@ export type RecoveryJobPropertiesUserCommentsList = Array<JobUserComment>;
 /** Definition of recovery job associated with Recovery Orchestration Plan. */
 export interface RecoveryJobProperties {
   /** The current status of the job execution. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The start time of the job execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the job execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time elapsed during the execution of this job. */
-  duration?: string;
+  duration?: string | undefined;
   /** Details of any errors that occurred during the execution of this job. */
-  errorDetails?: JobErrorInfo;
+  errorDetails?: JobErrorInfo | undefined;
   /** The resource for which this job was created. This is typically the resource that the job is intended to manage or operate on. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The operation that this job is intended to perform. */
-  operation?: string;
+  operation?: string | undefined;
   /** Details of any retries that have been attempted for this job. */
-  retryDetails?: RecoveryJobPropertiesRetryDetailsList;
+  retryDetails?: RecoveryJobPropertiesRetryDetailsList | undefined;
   /** Additional information about the job. */
-  jobExtendedInfo?: JobExtendedInfo;
+  jobExtendedInfo?: JobExtendedInfo | undefined;
   /** User Comments. */
-  userComments?: RecoveryJobPropertiesUserCommentsList;
+  userComments?: RecoveryJobPropertiesUserCommentsList | undefined;
   /** The type of job. */
   jobType: JobType;
   /** Execution configurations for the job. */
-  executionConfigurations?: ExecutionConfigurations;
+  executionConfigurations?: ExecutionConfigurations | undefined;
   /** Indicates whether the job was triggered by the system or a user. */
-  triggeredBy?: JobTriggeredBy;
+  triggeredBy?: JobTriggeredBy | undefined;
   /** The provisioning state of the recovery job. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetRecoveryJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryJobProperties;
+  properties?: RecoveryJobProperties | undefined;
 }
 export interface GetRecoveryJobResourceRequest {
   /** The name of the service group. */
@@ -1669,64 +1683,64 @@ export type RecoveryGroupActionType = "ManualAction" | "CustomRunbook";
 /** Settings for a recovery group action. */
 export interface RecoveryGroupActionSettings {
   /** The action task associated with this job resource. */
-  actionTask?: ActionTask;
+  actionTask?: ActionTask | undefined;
   /** Sequence number for the action. */
-  actionSequence?: number;
+  actionSequence?: number | undefined;
   /** Type of the recovery group action. */
-  recoveryGroupActionType?: RecoveryGroupActionType;
+  recoveryGroupActionType?: RecoveryGroupActionType | undefined;
   /** Name of the action. */
-  actionName?: string;
+  actionName?: string | undefined;
   /** User description of the action. */
-  actionDescription?: string;
+  actionDescription?: string | undefined;
 }
 /** Properties of a recovery orchestration job resource associated with a recovery orchestration plan. */
 export interface RecoveryJobResourceProperties {
   /** The current status of the job execution. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The start time of the job execution. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the job execution. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time elapsed during the execution of this job. */
-  duration?: string;
+  duration?: string | undefined;
   /** Details of any errors that occurred during the execution of this job. */
-  errorDetails?: JobErrorInfo;
+  errorDetails?: JobErrorInfo | undefined;
   /** The resource for which this job was created. This is typically the resource that the job is intended to manage or operate on. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The operation that this job is intended to perform. */
-  operation?: string;
+  operation?: string | undefined;
   /** Details of any retries that have been attempted for this job. */
-  retryDetails?: RecoveryJobResourcePropertiesRetryDetailsList;
+  retryDetails?: RecoveryJobResourcePropertiesRetryDetailsList | undefined;
   /** Additional information about the job. */
-  jobExtendedInfo?: JobExtendedInfo;
+  jobExtendedInfo?: JobExtendedInfo | undefined;
   /** User Comments. */
-  userComments?: RecoveryJobResourcePropertiesUserCommentsList;
+  userComments?: RecoveryJobResourcePropertiesUserCommentsList | undefined;
   /** Id of the Job under which this job-resource exists. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Id of the job-task to which this job resource is associated. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Friendly name of the job-task to which this job resource is associated. */
-  taskName?: string;
+  taskName?: string | undefined;
   /** Discriminator for the JobResource object hierarchy. */
   jobResourceType: JobResourceType;
   /** The provisioning state of the recovery job resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** A setting that indicates the protection solution selected. */
-  protectionSolutionType?: ResourceProtectionSolutionType;
+  protectionSolutionType?: ResourceProtectionSolutionType | undefined;
   /** The recovery action settings. */
-  recoveryGroupActionSettings?: RecoveryGroupActionSettings;
+  recoveryGroupActionSettings?: RecoveryGroupActionSettings | undefined;
 }
 export interface GetRecoveryJobResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryJobResourceProperties;
+  properties?: RecoveryJobResourceProperties | undefined;
 }
 export interface GetRecoveryPlanRequest {
   /** The name of the service group. */
@@ -1741,7 +1755,7 @@ export interface RecoveryGroupBaseAction {
   /** The name of the recovery orchestration group action. */
   name: string;
   /** A description of the recovery orchestration group action, containing the instructions to be performed during this action. */
-  description?: string;
+  description?: string | undefined;
   /** The type of the recovery orchestration group action. */
   type: RecoveryGroupActionType | (string & {});
   /** The maximum amount of time, in minutes, allowed for the action to complete before it times out. */
@@ -1760,22 +1774,22 @@ export interface RecoveryGroupProperties {
   /** A description of the recovery orchestration group. */
   description: string;
   /** Pre-actions for the recovery orchestration group. */
-  preActions?: RecoveryGroupPropertiesPreActionsList;
+  preActions?: RecoveryGroupPropertiesPreActionsList | undefined;
   /** Post-actions for the recovery orchestration group. */
-  postActions?: RecoveryGroupPropertiesPostActionsList;
+  postActions?: RecoveryGroupPropertiesPostActionsList | undefined;
 }
 /** Represents a recovery orchestration group resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryGroupProperties;
+  properties?: RecoveryGroupProperties | undefined;
 }
 /** Additional recovery orchestration group settings. */
 export type RecoveryGroupsSettingAdditionalGroupsList = Array<RecoveryGroup>;
@@ -1784,7 +1798,7 @@ export interface RecoveryGroupsSetting {
   /** The default recovery orchestration group setting. Every recovery orchestration plan has a default recovery orchestration group. */
   defaultGroup: RecoveryGroup;
   /** Additional recovery orchestration group settings. */
-  additionalGroups?: RecoveryGroupsSettingAdditionalGroupsList;
+  additionalGroups?: RecoveryGroupsSettingAdditionalGroupsList | undefined;
 }
 /** Specifies the operation status for failover and validation. */
 export type RecoveryOperationStatus =
@@ -1804,26 +1818,26 @@ export type RecoveryPlanFailoverOperationStatusErrorDetailsAdditionalInfoList =
 /** The error detail. */
 export interface RecoveryPlanFailoverOperationStatusErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: RecoveryPlanFailoverOperationStatusErrorDetailsDetailsList;
+  details?: RecoveryPlanFailoverOperationStatusErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: RecoveryPlanFailoverOperationStatusErrorDetailsAdditionalInfoList;
+  additionalInfo?: RecoveryPlanFailoverOperationStatusErrorDetailsAdditionalInfoList | undefined;
 }
 /** Details of the recovery orchestration plan failover operation execution. */
 export interface RecoveryPlanFailoverOperationStatus {
   /** The most recent execution time of the recovery orchestration plan in UTC. */
-  lastExecutedAt?: string;
+  lastExecutedAt?: string | undefined;
   /** The status of the most recent execution of the recovery orchestration plan. */
-  operationStatus?: RecoveryOperationStatus;
+  operationStatus?: RecoveryOperationStatus | undefined;
   /** The error detail. */
-  errorDetails?: RecoveryPlanFailoverOperationStatusErrorDetails;
+  errorDetails?: RecoveryPlanFailoverOperationStatusErrorDetails | undefined;
   /** The actual recovery time of the most recent recovery orchestration plan. */
-  recoveryTimeActual?: string;
+  recoveryTimeActual?: string | undefined;
 }
 /** The error details. */
 export type RecoveryPlanOperationStatusErrorDetailsDetailsList = Array<ErrorDetail>;
@@ -1832,24 +1846,24 @@ export type RecoveryPlanOperationStatusErrorDetailsAdditionalInfoList = Array<Er
 /** The error detail. */
 export interface RecoveryPlanOperationStatusErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: RecoveryPlanOperationStatusErrorDetailsDetailsList;
+  details?: RecoveryPlanOperationStatusErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: RecoveryPlanOperationStatusErrorDetailsAdditionalInfoList;
+  additionalInfo?: RecoveryPlanOperationStatusErrorDetailsAdditionalInfoList | undefined;
 }
 /** Details of the recovery orchestration plan operation execution. */
 export interface RecoveryPlanOperationStatus {
   /** The most recent execution time of the recovery orchestration plan in UTC. */
-  lastExecutedAt?: string;
+  lastExecutedAt?: string | undefined;
   /** The status of the most recent execution of the recovery orchestration plan. */
-  operationStatus?: RecoveryOperationStatus;
+  operationStatus?: RecoveryOperationStatus | undefined;
   /** The error detail. */
-  errorDetails?: RecoveryPlanOperationStatusErrorDetails;
+  errorDetails?: RecoveryPlanOperationStatusErrorDetails | undefined;
 }
 /** The error details. */
 export type RecoveryPlanPropertiesErrorDetailsDetailsList = Array<ErrorDetail>;
@@ -1858,34 +1872,34 @@ export type RecoveryPlanPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAd
 /** The error detail. */
 export interface RecoveryPlanPropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: RecoveryPlanPropertiesErrorDetailsDetailsList;
+  details?: RecoveryPlanPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: RecoveryPlanPropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: RecoveryPlanPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Properties of the recovery orchestration plan. */
 export interface RecoveryPlanProperties {
   /** The provisioning state of the recovery orchestration plan. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The type of the recovery orchestration plan, which can be set during creation but cannot be changed afterward. */
   planType: RecoveryPlanType;
   /** The current state of the recovery orchestration plan. */
-  planState?: RecoveryPlanState;
+  planState?: RecoveryPlanState | undefined;
   /** A description of the recovery orchestration plan. */
   planDescription: string;
   /** Settings for the recovery orchestration groups associated with the recovery orchestration plan. */
   recoveryGroupsSetting: RecoveryGroupsSetting;
   /** The status of the most recent failover operation executed. */
-  latestFailoverStatus?: RecoveryPlanFailoverOperationStatus;
+  latestFailoverStatus?: RecoveryPlanFailoverOperationStatus | undefined;
   /** The status of the most recent validation performed. */
-  latestValidationStatus?: RecoveryPlanOperationStatus;
+  latestValidationStatus?: RecoveryPlanOperationStatus | undefined;
   /** The error detail. */
-  errorDetails?: RecoveryPlanPropertiesErrorDetails;
+  errorDetails?: RecoveryPlanPropertiesErrorDetails | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetRecoveryPlanResponseIdentityUserAssignedIdentitiesMap = {
@@ -1894,26 +1908,26 @@ export type GetRecoveryPlanResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetRecoveryPlanResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetRecoveryPlanResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetRecoveryPlanResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetRecoveryPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPlanProperties;
+  properties?: RecoveryPlanProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetRecoveryPlanResponseIdentity;
+  identity?: GetRecoveryPlanResponseIdentity | undefined;
 }
 export interface GetRecoveryResourceRequest {
   /** The name of the service group. */
@@ -1950,31 +1964,31 @@ export type TestFailoverState = "None" | "TestFailoverCleanupPending";
 /** Definition of recovery resource resource protection solution settings. */
 export interface ResourceProtectionSolutionSettings {
   /** A setting that indicates the resource protected with which recovery solution. */
-  protectionSolutionType?: ResourceProtectionSolutionType;
+  protectionSolutionType?: ResourceProtectionSolutionType | undefined;
   /** A status that indicates the protection status of a resource with an Azure solution for regional or zonal recovery. */
-  protectionStatus?: ResourceProtectionStatus;
+  protectionStatus?: ResourceProtectionStatus | undefined;
   /** Resource ID of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Active location of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
-  activeLocation?: string;
+  activeLocation?: string | undefined;
   /** Active locations of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
-  activeLocations?: ResourceProtectionSolutionSettingsActiveLocationsList;
+  activeLocations?: ResourceProtectionSolutionSettingsActiveLocationsList | undefined;
   /** Active Resource location and physical zones of Azure Resource. */
-  activePhysicalZones?: ResourceProtectionSolutionSettingsActivePhysicalZonesList;
+  activePhysicalZones?: ResourceProtectionSolutionSettingsActivePhysicalZonesList | undefined;
   /** List of recovery locations of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
-  recoveryLocations?: ResourceProtectionSolutionSettingsRecoveryLocationsList;
+  recoveryLocations?: ResourceProtectionSolutionSettingsRecoveryLocationsList | undefined;
   /** Specifies the role of the resource in the replication process. */
-  replicationRole?: ResourceReplicationRole;
+  replicationRole?: ResourceReplicationRole | undefined;
   /** Primary resource which is getting replicated. */
-  primaryResource?: string;
+  primaryResource?: string | undefined;
   /** List of Replica resources to which replication is happening. */
-  replicaResources?: ResourceProtectionSolutionSettingsReplicaResourcesList;
+  replicaResources?: ResourceProtectionSolutionSettingsReplicaResourcesList | undefined;
   /** Is AutoFailover configured for the resource replication. */
   isAutoFailover: boolean;
   /** Failover state of the recovery orchestration resource. */
-  failoverState?: FailoverState;
+  failoverState?: FailoverState | undefined;
   /** TestFailover state of the recovery orchestration resource. */
-  testFailoverState?: TestFailoverState;
+  testFailoverState?: TestFailoverState | undefined;
 }
 /** A list of ResourceProtectionSolutions with which the recovery orchestration resource is protected. */
 export type RecoveryResourcePropertiesResourceProtectionSolutionsList =
@@ -1991,60 +2005,62 @@ export type RecoveryResourcePropertiesErrorDetailsAdditionalInfoList = Array<Err
 /** The error detail. */
 export interface RecoveryResourcePropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: RecoveryResourcePropertiesErrorDetailsDetailsList;
+  details?: RecoveryResourcePropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: RecoveryResourcePropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: RecoveryResourcePropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Definition of recovery orchestration resource property associated with recovery orchestration plan. */
 export interface RecoveryResourceProperties {
   /** A unique id for the recovery resource, which is a GUID. */
   recoveryResourceUniqueId: string;
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Resource ID of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Original location of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Physical zones of the Azure resource associated with the recovery orchestration plan and linked to the recovery resource. */
-  resourcePhysicalZones?: RecoveryResourcePropertiesResourcePhysicalZonesList;
+  resourcePhysicalZones?: RecoveryResourcePropertiesResourcePhysicalZonesList | undefined;
   /** A state that indicates the resource status with respect to the recovery orchestration plan. */
-  inclusionState?: ResourceInclusionState;
+  inclusionState?: ResourceInclusionState | undefined;
   /** Indicating if resource needs user attention and action, details will be found in attentionReasons */
-  needsAttention?: boolean;
+  needsAttention?: boolean | undefined;
   /** Reason for the resource to be in need of attention */
-  attentionReasons?: RecoveryResourcePropertiesAttentionReasonsList;
+  attentionReasons?: RecoveryResourcePropertiesAttentionReasonsList | undefined;
   /** A status that indicates the protection status of a resource with an Azure solution for regional or zonal recovery. */
-  protectionStatus?: ResourceProtectionStatus;
+  protectionStatus?: ResourceProtectionStatus | undefined;
   /** A list of ResourceProtectionSolutions with which the recovery orchestration resource is protected. */
-  resourceProtectionSolutions?: RecoveryResourcePropertiesResourceProtectionSolutionsList;
+  resourceProtectionSolutions?:
+    | RecoveryResourcePropertiesResourceProtectionSolutionsList
+    | undefined;
   /** A setting that indicates the protection solution selected. */
-  selectedProtectionSolutionType?: ResourceProtectionSolutionType;
+  selectedProtectionSolutionType?: ResourceProtectionSolutionType | undefined;
   /** Resource protection solution settings of the protection solutions recovery orchestration resource is protected with. */
-  selectedProtectionSolutionSetting?: ResourceBaseProtectionSolutionSetting;
+  selectedProtectionSolutionSetting?: ResourceBaseProtectionSolutionSetting | undefined;
   /** The recovery orchestration group id associated with the recovery resources. */
-  recoveryGroupId?: string;
+  recoveryGroupId?: string | undefined;
   /** Identity details associated to the resource, which will be used for performing any operations on it */
-  associatedIdentity?: AssociatedIdentity;
+  associatedIdentity?: AssociatedIdentity | undefined;
   /** The error detail. */
-  errorDetails?: RecoveryResourcePropertiesErrorDetails;
+  errorDetails?: RecoveryResourcePropertiesErrorDetails | undefined;
 }
 export interface GetRecoveryResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryResourceProperties;
+  properties?: RecoveryResourceProperties | undefined;
 }
 export interface GetUnifiedResilienceItemRequest {
   /** The name of the service group. */
@@ -2062,20 +2078,20 @@ export interface GoalsData {
   /** Arm id of the goal assignment. */
   assignmentId: string;
   /** Zonal resiliency goal copied from the goal assignment. */
-  zonalResiliency?: UnifiedResilienceItemGoalRequirement;
+  zonalResiliency?: UnifiedResilienceItemGoalRequirement | undefined;
 }
 /** Definition of the zonal resiliency posture computed for the unified resilience item. */
 export interface UnifiedResilienceItemZonalResiliencyPosture {
   /** Count of resources that have zonal resiliency enabled. */
-  enabledResourceCount?: number;
+  enabledResourceCount?: number | undefined;
   /** Count of resources that do not have zonal resiliency enabled. */
-  notEnabledResourceCount?: number;
+  notEnabledResourceCount?: number | undefined;
   /** Count of resources that have not been evaluated for zonal resiliency. */
-  notEvaluatedResourceCount?: number;
+  notEvaluatedResourceCount?: number | undefined;
   /** Count of resources that require user confirmation for zonal resiliency. */
-  userConfirmationNeededCount?: number;
+  userConfirmationNeededCount?: number | undefined;
   /** The date and time when the zonal resiliency posture was last evaluated. */
-  evaluationDateTime?: string;
+  evaluationDateTime?: string | undefined;
 }
 /** Definition of the resiliency posture computed for the unified resilience item. */
 export interface UnifiedResilienceItemResiliencyPosture {
@@ -2090,53 +2106,53 @@ export type UnifiedResilienceItemBillingInfoErrorDetailsAdditionalInfoList =
 /** The error detail. */
 export interface UnifiedResilienceItemBillingInfoErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: UnifiedResilienceItemBillingInfoErrorDetailsDetailsList;
+  details?: UnifiedResilienceItemBillingInfoErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: UnifiedResilienceItemBillingInfoErrorDetailsAdditionalInfoList;
+  additionalInfo?: UnifiedResilienceItemBillingInfoErrorDetailsAdditionalInfoList | undefined;
 }
 /** Definition of billing information in unified resilience item. */
 export interface UnifiedResilienceItemBillingInfo {
   /** Arm id of the usage plan applied to the service group. */
-  usagePlanArmId?: string;
+  usagePlanArmId?: string | undefined;
   /** Arm id of the usage plan enrollment that links the usage plan to the service group. */
-  usagePlanEnrollmentArmId?: string;
+  usagePlanEnrollmentArmId?: string | undefined;
   /** The date and time when the usage plan enrollment was created. */
-  usagePlanEnrollmentCreatedOn?: string;
+  usagePlanEnrollmentCreatedOn?: string | undefined;
   /** The date and time when the usage plan enrollment was last updated. */
-  usagePlanEnrollmentLastUpdatedOn?: string;
+  usagePlanEnrollmentLastUpdatedOn?: string | undefined;
   /** The error detail. */
-  errorDetails?: UnifiedResilienceItemBillingInfoErrorDetails;
+  errorDetails?: UnifiedResilienceItemBillingInfoErrorDetails | undefined;
 }
 /** Definition of unified resilience item property. */
 export interface UnifiedResilienceItemProperties {
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Computed and copied data of resilience goals. */
   goals: GoalsData;
   /** Resiliency posture computed for the service group. */
   resiliencyPosture: UnifiedResilienceItemResiliencyPosture;
   /** Usage plan and enrollment billing information for the service group. */
-  billingInfo?: UnifiedResilienceItemBillingInfo;
+  billingInfo?: UnifiedResilienceItemBillingInfo | undefined;
   /** Last modified time of the unified resilience item. */
   lastModifiedTime: string;
 }
 export interface GetUnifiedResilienceItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UnifiedResilienceItemProperties;
+  properties?: UnifiedResilienceItemProperties | undefined;
 }
 export interface GetUsagePlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2157,40 +2173,40 @@ export type UsagePlanPropertiesErrorDetailsAdditionalInfoList = Array<ErrorAddit
 /** The error detail. */
 export interface UsagePlanPropertiesErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: UsagePlanPropertiesErrorDetailsDetailsList;
+  details?: UsagePlanPropertiesErrorDetailsDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: UsagePlanPropertiesErrorDetailsAdditionalInfoList;
+  additionalInfo?: UsagePlanPropertiesErrorDetailsAdditionalInfoList | undefined;
 }
 /** Definition of usage plan properties. */
 export interface UsagePlanProperties {
   /** The type of the usage plan. */
-  planType?: UsagePlanType;
+  planType?: UsagePlanType | undefined;
   /** Provisioning state of the usage plan. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The error detail. */
-  errorDetails?: UsagePlanPropertiesErrorDetails;
+  errorDetails?: UsagePlanPropertiesErrorDetails | undefined;
 }
 export interface GetUsagePlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetUsagePlanResponseTagsMap;
+  tags?: GetUsagePlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: UsagePlanProperties;
+  properties?: UsagePlanProperties | undefined;
 }
 /** List of service level resources. */
 export type GoalAssignmentPropertiesInputServiceLevelResourcesList = Array<ServiceLevelResource>;
@@ -2201,9 +2217,9 @@ export interface GoalAssignmentPropertiesInput {
   /** Whether zonal resiliency is required for this goal assignment. */
   requireZonalResiliency: boolean;
   /** List of service level resources. */
-  serviceLevelResources?: GoalAssignmentPropertiesInputServiceLevelResourcesList;
+  serviceLevelResources?: GoalAssignmentPropertiesInputServiceLevelResourcesList | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails;
+  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
 }
 export interface GoalAssignmentsCreateOrUpdateRequest {
   /** The name of the service group. */
@@ -2211,25 +2227,25 @@ export interface GoalAssignmentsCreateOrUpdateRequest {
   /** The name of the goal assignment. */
   goalAssignmentName: string;
   /** The resource-specific properties for this resource. */
-  properties?: GoalAssignmentPropertiesInput;
+  properties?: GoalAssignmentPropertiesInput | undefined;
 }
 export interface GoalAssignmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GoalAssignmentProperties;
+  properties?: GoalAssignmentProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Azure resource IDs to evaluate for resiliency. Pass an empty array to automatically discover and evaluate non-resilient resources in the service group. Maximum 50 resources per request. */
 export type GoalAssignmentsRecommendCapacityRequestResourceIdsList = Array<string>;
@@ -2261,25 +2277,25 @@ export interface RecommendCapacityResourceResult {
   /** Fully qualified ARM resource ID of the evaluated resource. */
   resourceId: string;
   /** ARM resource type (e.g., 'Microsoft.Compute/virtualMachines', 'Microsoft.Storage/storageAccounts'). */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Current SKU or pricing tier of the resource (e.g., 'Standard_D4s_v3', 'Standard_LRS'). */
-  skuName?: string;
+  skuName?: string | undefined;
   /** Azure region where the resource is deployed (e.g., 'eastus', 'westeurope'). */
-  location?: string;
+  location?: string | undefined;
   /** Human-readable assessment of this resource's resiliency posture. Contains actionable recommendations when available, or null when the AI advisor is unavailable. */
-  capacityAssessment?: string;
+  capacityAssessment?: string | undefined;
   /** Error message if the resource could not be evaluated (e.g., resource not found or access denied). Other fields may be empty when this is set. */
-  error?: string;
+  error?: string | undefined;
   /** Resiliency eligibility classification for this resource. See ResiliencyEligibilityCategory for possible values. */
-  category?: ResiliencyEligibilityCategory;
+  category?: ResiliencyEligibilityCategory | undefined;
   /** Alternative Azure regions that support resiliency for this resource type. Populated when the current region does not support the required redundancy. */
-  suggestedRegions?: RecommendCapacityResourceResultSuggestedRegionsList;
+  suggestedRegions?: RecommendCapacityResourceResultSuggestedRegionsList | undefined;
   /** Alternative SKUs that support redundancy for this resource type in the current region. Populated when the current SKU is not eligible for resiliency. */
-  suggestedSkus?: RecommendCapacityResourceResultSuggestedSkusList;
+  suggestedSkus?: RecommendCapacityResourceResultSuggestedSkusList | undefined;
   /** Ordered list of actions to enable or improve resiliency for this resource. */
-  steps?: RecommendCapacityResourceResultStepsList;
+  steps?: RecommendCapacityResourceResultStepsList | undefined;
   /** Links to relevant Azure documentation for configuring resiliency. */
-  links?: RecommendCapacityResourceResultLinksList;
+  links?: RecommendCapacityResourceResultLinksList | undefined;
 }
 /** Individual resiliency assessment for each evaluated resource. */
 export type RecommendCapacityResultResourceCapacitiesList = Array<RecommendCapacityResourceResult>;
@@ -2292,13 +2308,13 @@ export interface RecommendCapacityResult {
   /** High-level recommendations that apply across multiple resources (e.g., regional migration patterns, common SKU upgrades). */
   recommendations: RecommendCapacityResultRecommendationsList;
   /** Error message from the AI advisor, if the advisory enrichment failed. The deterministic assessment results are still available even when this field is set. */
-  agentError?: string;
+  agentError?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListDrillResourcesRequest {
   /** The name of the service group. */
@@ -2306,22 +2322,22 @@ export interface ListDrillResourcesRequest {
   /** The name of the Drill */
   drillName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Drill Resource */
 export interface DrillResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillResourceProperties;
+  properties?: DrillResourceProperties | undefined;
 }
 /** The DrillResource items on this page */
 export type DrillResourceListResultValueList = Array<DrillResource>;
@@ -2330,7 +2346,7 @@ export interface DrillResourceListResult {
   /** The DrillResource items on this page */
   value: DrillResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDrillRunResourcesRequest {
   /** The name of the service group. */
@@ -2343,15 +2359,15 @@ export interface ListDrillRunResourcesRequest {
 /** Represents a Drill Run job resource in the Azure Resilience Management provider namespace. */
 export interface DrillRunResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillRunResourceProperties;
+  properties?: DrillRunResourceProperties | undefined;
 }
 /** The DrillRunResource items on this page */
 export type DrillRunResourceListResultValueList = Array<DrillRunResource>;
@@ -2360,7 +2376,7 @@ export interface DrillRunResourceListResult {
   /** The DrillRunResource items on this page */
   value: DrillRunResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDrillRunsRequest {
   /** The name of the service group. */
@@ -2371,15 +2387,15 @@ export interface ListDrillRunsRequest {
 /** DrillRun resource. */
 export interface DrillRun {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillRunProperties;
+  properties?: DrillRunProperties | undefined;
 }
 /** The DrillRun items on this page */
 export type DrillRunListResultValueList = Array<DrillRun>;
@@ -2388,15 +2404,15 @@ export interface DrillRunListResult {
   /** The DrillRun items on this page */
   value: DrillRunListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDrillsRequest {
   /** The name of the service group. */
   serviceGroupName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type DrillIdentityUserAssignedIdentitiesMap = {
@@ -2405,27 +2421,27 @@ export type DrillIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface DrillIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: DrillIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: DrillIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Drill resource */
 export interface Drill {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillProperties;
+  properties?: DrillProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: DrillIdentity;
+  identity?: DrillIdentity | undefined;
 }
 /** The Drill items on this page */
 export type DrillListResultValueList = Array<Drill>;
@@ -2434,7 +2450,7 @@ export interface DrillListResult {
   /** The Drill items on this page */
   value: DrillListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnrollmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2447,15 +2463,15 @@ export interface ListEnrollmentsRequest {
 /** An enrollment that links a usage plan to a service group. */
 export interface Enrollment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EnrollmentProperties;
+  properties?: EnrollmentProperties | undefined;
 }
 /** The Enrollment items on this page */
 export type EnrollmentListResultValueList = Array<Enrollment>;
@@ -2464,28 +2480,28 @@ export interface EnrollmentListResult {
   /** The Enrollment items on this page */
   value: EnrollmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGoalAssignmentsRequest {
   /** The name of the service group. */
   serviceGroupName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** A goal assignment resource in the Azure Resilience Management provider. */
 export interface GoalAssignment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GoalAssignmentProperties;
+  properties?: GoalAssignmentProperties | undefined;
 }
 /** The GoalAssignment items on this page */
 export type GoalAssignmentListResultValueList = Array<GoalAssignment>;
@@ -2494,7 +2510,7 @@ export interface GoalAssignmentListResult {
   /** The GoalAssignment items on this page */
   value: GoalAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGoalResourcesRequest {
   /** The name of the service group. */
@@ -2502,22 +2518,22 @@ export interface ListGoalResourcesRequest {
   /** The name of the goal assignment. */
   goalAssignmentName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** A goal resource in the Azure Resilience Management provider. */
 export interface GoalResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GoalResourceProperties;
+  properties?: GoalResourceProperties | undefined;
 }
 /** The GoalResource items on this page */
 export type GoalResourceListResultValueList = Array<GoalResource>;
@@ -2526,19 +2542,19 @@ export interface GoalResourceListResult {
   /** The GoalResource items on this page */
   value: GoalResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2547,23 +2563,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecoveryJobResourcesRequest {
   /** The name of the service group. */
@@ -2576,15 +2592,15 @@ export interface ListRecoveryJobResourcesRequest {
 /** Represents a recovery orchestration job resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryJobResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryJobResourceProperties;
+  properties?: RecoveryJobResourceProperties | undefined;
 }
 /** The RecoveryJobResource items on this page */
 export type RecoveryJobResourceListResultValueList = Array<RecoveryJobResource>;
@@ -2593,7 +2609,7 @@ export interface RecoveryJobResourceListResult {
   /** The RecoveryJobResource items on this page */
   value: RecoveryJobResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecoveryJobsRequest {
   /** The name of the service group. */
@@ -2604,15 +2620,15 @@ export interface ListRecoveryJobsRequest {
 /** Represents a recovery job resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryJob {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryJobProperties;
+  properties?: RecoveryJobProperties | undefined;
 }
 /** The RecoveryJob items on this page */
 export type RecoveryJobListResultValueList = Array<RecoveryJob>;
@@ -2621,15 +2637,15 @@ export interface RecoveryJobListResult {
   /** The RecoveryJob items on this page */
   value: RecoveryJobListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecoveryPlansRequest {
   /** The name of the service group. */
   serviceGroupName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type RecoveryPlanIdentityUserAssignedIdentitiesMap = {
@@ -2638,27 +2654,27 @@ export type RecoveryPlanIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface RecoveryPlanIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: RecoveryPlanIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: RecoveryPlanIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Represents a recovery orchestration plan resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryPlan {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPlanProperties;
+  properties?: RecoveryPlanProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: RecoveryPlanIdentity;
+  identity?: RecoveryPlanIdentity | undefined;
 }
 /** The RecoveryPlan items on this page */
 export type RecoveryPlanListResultValueList = Array<RecoveryPlan>;
@@ -2667,7 +2683,7 @@ export interface RecoveryPlanListResult {
   /** The RecoveryPlan items on this page */
   value: RecoveryPlanListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecoveryResourcesRequest {
   /** The name of the service group. */
@@ -2678,15 +2694,15 @@ export interface ListRecoveryResourcesRequest {
 /** RecoveryPlan Resource a AzureResilienceProviderHub resource */
 export interface RecoveryResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryResourceProperties;
+  properties?: RecoveryResourceProperties | undefined;
 }
 /** The RecoveryResource items on this page */
 export type RecoveryResourceListResultValueList = Array<RecoveryResource>;
@@ -2695,28 +2711,28 @@ export interface RecoveryResourceListResult {
   /** The RecoveryResource items on this page */
   value: RecoveryResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUnifiedResilienceItemsRequest {
   /** The name of the service group. */
   serviceGroupName: string;
   /** Skip over when retrieving results. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Number of elements to return when retrieving results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** A unified resilience item represents a computed and aggregated resilience information of Azure Applications. */
 export interface UnifiedResilienceItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UnifiedResilienceItemProperties;
+  properties?: UnifiedResilienceItemProperties | undefined;
 }
 /** The UnifiedResilienceItem items on this page */
 export type UnifiedResilienceItemListResultValueList = Array<UnifiedResilienceItem>;
@@ -2725,7 +2741,7 @@ export interface UnifiedResilienceItemListResult {
   /** The UnifiedResilienceItem items on this page */
   value: UnifiedResilienceItemListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagePlanByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2738,19 +2754,19 @@ export type UsagePlanTagsMap = { [key: string]: string | undefined };
 /** A usage plan resource for Resiliency feature billing. */
 export interface UsagePlan {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UsagePlanTagsMap;
+  tags?: UsagePlanTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: UsagePlanProperties;
+  properties?: UsagePlanProperties | undefined;
 }
 /** The UsagePlan items on this page */
 export type UsagePlanListResultValueList = Array<UsagePlan>;
@@ -2759,7 +2775,7 @@ export interface UsagePlanListResult {
   /** The UsagePlan items on this page */
   value: UsagePlanListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagePlanBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2773,7 +2789,7 @@ export interface RecoveryPlanActionsFailoverRequest {
   /** Type of Failover direction. */
   failoverDirection: FailoverDirectionTypes | (string & {});
   /** Additional properties for Failover. */
-  failoverRequestProperties?: FailoverRequestProperties;
+  failoverRequestProperties?: FailoverRequestProperties | undefined;
 }
 export interface RecoveryPlanActionsReprotectRequest {
   /** The name of the service group. */
@@ -2781,12 +2797,12 @@ export interface RecoveryPlanActionsReprotectRequest {
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
   /** Additional properties for Reprotect. */
-  reprotectRequestProperties?: ReprotectRequestProperties;
+  reprotectRequestProperties?: ReprotectRequestProperties | undefined;
 }
 /** Represents a recovery orchestration group resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryGroupInput {
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryGroupProperties;
+  properties?: RecoveryGroupProperties | undefined;
 }
 /** Additional recovery orchestration group settings. */
 export type RecoveryGroupsSettingInputAdditionalGroupsList = Array<RecoveryGroupInput>;
@@ -2795,7 +2811,7 @@ export interface RecoveryGroupsSettingInput {
   /** The default recovery orchestration group setting. Every recovery orchestration plan has a default recovery orchestration group. */
   defaultGroup: RecoveryGroupInput;
   /** Additional recovery orchestration group settings. */
-  additionalGroups?: RecoveryGroupsSettingInputAdditionalGroupsList;
+  additionalGroups?: RecoveryGroupsSettingInputAdditionalGroupsList | undefined;
 }
 /** The error detail. */
 export type RecoveryPlanPropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
@@ -2808,7 +2824,7 @@ export interface RecoveryPlanPropertiesInput {
   /** Settings for the recovery orchestration groups associated with the recovery orchestration plan. */
   recoveryGroupsSetting: RecoveryGroupsSettingInput;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails;
+  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type RecoveryPlansCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
@@ -2818,7 +2834,9 @@ export type RecoveryPlansCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap 
 export interface RecoveryPlansCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: RecoveryPlansCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | RecoveryPlansCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface RecoveryPlansCreateOrUpdateRequest {
   /** The name of the service group. */
@@ -2826,9 +2844,9 @@ export interface RecoveryPlansCreateOrUpdateRequest {
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPlanPropertiesInput;
+  properties?: RecoveryPlanPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: RecoveryPlansCreateOrUpdateRequestIdentity;
+  identity?: RecoveryPlansCreateOrUpdateRequestIdentity | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type RecoveryPlansCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -2837,30 +2855,32 @@ export type RecoveryPlansCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface RecoveryPlansCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: RecoveryPlansCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | RecoveryPlansCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface RecoveryPlansCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPlanProperties;
+  properties?: RecoveryPlanProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: RecoveryPlansCreateOrUpdateResponseIdentity;
+  identity?: RecoveryPlansCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshGoalAssignmentGoalResourcesRequest {
   /** The name of the service group. */
@@ -2871,15 +2891,15 @@ export interface RefreshGoalAssignmentGoalResourcesRequest {
 /** Response model for refresh goal resources. */
 export interface RefreshGoalResourcesResponse {
   /** Total count of resources under the goal assignment after refresh. */
-  resourceCount?: number;
+  resourceCount?: number | undefined;
   /** Time when the refresh operation was last performed. */
-  lastRefreshTime?: string;
+  lastRefreshTime?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResumeDrillRunRequest {
   /** The name of the service group. */
@@ -2897,15 +2917,15 @@ export interface ResumeRecoveryJobRequest {
   /** The unique name (GUID) of the recovery job. */
   recoveryJobName: string;
   /** User-provided input for the action. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ResumeRecoveryJobResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RetryRecoveryJobRequest {
   /** The name of the service group. */
@@ -2917,11 +2937,11 @@ export interface RetryRecoveryJobRequest {
 }
 export interface RetryRecoveryJobResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartDrillRequest {
   /** The name of the service group. */
@@ -2939,7 +2959,7 @@ export interface TestRecoveryPlanActionFailoverRequest {
   /** Type of Failover direction. */
   failoverDirection: FailoverDirectionTypes | (string & {});
   /** Additional properties for Failover. */
-  failoverRequestProperties?: FailoverRequestProperties;
+  failoverRequestProperties?: FailoverRequestProperties | undefined;
 }
 export interface TestRecoveryPlanActionFailoverCleanupRequest {
   /** The name of the service group. */
@@ -2947,7 +2967,7 @@ export interface TestRecoveryPlanActionFailoverCleanupRequest {
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
   /** Comments for test failover cleanup. */
-  comments?: string;
+  comments?: string | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType =
@@ -2964,9 +2984,14 @@ export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUser
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType | (string & {});
+  type?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType
+    | (string & {})
+    | undefined;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap
+    | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type AssociatedIdentityUpdateType =
@@ -2977,73 +3002,73 @@ export type AssociatedIdentityUpdateType =
 /** Definition of associated identity linked with the various resources. */
 export interface AssociatedIdentityUpdate {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: AssociatedIdentityUpdateType | (string & {});
+  type?: AssociatedIdentityUpdateType | (string & {}) | undefined;
   /** User assigned identity id linked with the resource */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** RecoveryPlan properties. */
 export interface RecoveryPlanPropertiesOfDrillUpdate {
   /** Identity to use for RecoveryPlan operations. */
-  identity?: AssociatedIdentityUpdate;
+  identity?: AssociatedIdentityUpdate | undefined;
 }
 /** Goal assignment properties. */
 export interface GoalAssignmentPropertiesOfDrillUpdate {
   /** Identity to use for goal assignment operations. */
-  identity?: AssociatedIdentityUpdate;
+  identity?: AssociatedIdentityUpdate | undefined;
 }
 /** Drill asset properties. */
 export interface AssetPropertiesOfDrillUpdate {
   /** Subscription where Drill's internal resources will be created. */
-  subscription?: string;
+  subscription?: string | undefined;
   /** Region where Drill's internal resources will be created. */
-  region?: string;
+  region?: string | undefined;
 }
 /** Chaos Resource properties. */
 export interface ChaosResourcePropertiesOfDrillUpdate {
   /** Identity to use for Chaos Resource operations. */
-  identity?: AssociatedIdentityUpdate;
+  identity?: AssociatedIdentityUpdate | undefined;
   /** Identity to be used by the Chaos Resource for invoking faults on resources. */
-  chaosResourceIdentityForFaults?: AssociatedIdentityUpdate;
+  chaosResourceIdentityForFaults?: AssociatedIdentityUpdate | undefined;
 }
 /** Drill monitoring properties. */
 export interface MonitoringPropertiesOfDrillUpdate {
   /** Identity to use for Drill monitoring operations. */
-  identity?: AssociatedIdentityUpdate;
+  identity?: AssociatedIdentityUpdate | undefined;
 }
 /** Azure Health Model monitoring properties of a Drill. Exactly one Health Model may be selected per Drill. */
 export interface HealthModelMonitoringPropertiesUpdate {
   /** Identity that the Drill uses to read the Azure Health Model. The Drill is granted Reader on the Health Model for this identity. */
-  identity?: AssociatedIdentityUpdate;
+  identity?: AssociatedIdentityUpdate | undefined;
   /** Full ARM Id of the Azure Health Model selected for Drill monitoring. */
-  healthModelId?: string;
+  healthModelId?: string | undefined;
 }
 /** The SLIs selected for Drill monitoring. Maximum of two entries: at most one Availability and one Latency. Duplicate types or duplicate SLI Ids are rejected. */
 export type SliMonitoringPropertiesUpdateSlisList = Array<SliSelection>;
 /** SLI monitoring properties of a Drill. At most two SLIs may be selected: at most one Availability and one Latency. */
 export interface SliMonitoringPropertiesUpdate {
   /** Identity that the Drill uses to read evaluated SLI results from each SLI's destination Azure Monitor Workspace. The Drill is granted Monitoring Reader on every destination AMW of every selected SLI for this identity. */
-  identity?: AssociatedIdentityUpdate;
+  identity?: AssociatedIdentityUpdate | undefined;
   /** The SLIs selected for Drill monitoring. Maximum of two entries: at most one Availability and one Latency. Duplicate types or duplicate SLI Ids are rejected. */
-  slis?: SliMonitoringPropertiesUpdateSlisList;
+  slis?: SliMonitoringPropertiesUpdateSlisList | undefined;
 }
 /** The updatable properties of the Drill. */
 export interface DrillUpdateProperties {
   /** Recovery Plan properties. */
-  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillUpdate;
+  recoveryPlanProperties?: RecoveryPlanPropertiesOfDrillUpdate | undefined;
   /** Goal Assignment properties. */
-  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrillUpdate;
+  goalAssignmentProperties?: GoalAssignmentPropertiesOfDrillUpdate | undefined;
   /** Properties for internal resources that are created for the Drill. */
-  drillAssetProperties?: AssetPropertiesOfDrillUpdate;
+  drillAssetProperties?: AssetPropertiesOfDrillUpdate | undefined;
   /** Chaos Resource properties. */
-  chaosResourceProperties?: ChaosResourcePropertiesOfDrillUpdate;
+  chaosResourceProperties?: ChaosResourcePropertiesOfDrillUpdate | undefined;
   /** RBAC setup mode. */
-  rbacSetupMode?: RBACSetupMode | (string & {});
+  rbacSetupMode?: RBACSetupMode | (string & {}) | undefined;
   /** Monitoring properties of the Drill. */
-  monitoringProperties?: MonitoringPropertiesOfDrillUpdate;
+  monitoringProperties?: MonitoringPropertiesOfDrillUpdate | undefined;
   /** Azure Health Model monitoring properties of the Drill. Send null to clear the selection. */
-  healthModelMonitoringProperties?: HealthModelMonitoringPropertiesUpdate | null;
+  healthModelMonitoringProperties?: HealthModelMonitoringPropertiesUpdate | null | undefined;
   /** SLI monitoring properties of the Drill. Send null to clear the selection; the submitted slis array is the new desired state. */
-  sliMonitoringProperties?: SliMonitoringPropertiesUpdate | null;
+  sliMonitoringProperties?: SliMonitoringPropertiesUpdate | null | undefined;
 }
 export interface UpdateDrillRequest {
   /** The name of the service group. */
@@ -3051,9 +3076,9 @@ export interface UpdateDrillRequest {
   /** The name of the Drill */
   drillName: string;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillUpdateProperties;
+  properties?: DrillUpdateProperties | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateDrillResponseIdentityUserAssignedIdentitiesMap = {
@@ -3062,41 +3087,41 @@ export type UpdateDrillResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateDrillResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateDrillResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateDrillResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateDrillResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DrillProperties;
+  properties?: DrillProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateDrillResponseIdentity;
+  identity?: UpdateDrillResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of service level resources. */
 export type GoalAssignmentPropertiesUpdateServiceLevelResourcesList = Array<ServiceLevelResource>;
 /** Properties of a goal assignment. */
 export interface GoalAssignmentPropertiesUpdate {
   /** Whether zonal resiliency is required for this goal assignment. */
-  requireZonalResiliency?: boolean;
+  requireZonalResiliency?: boolean | undefined;
   /** List of service level resources. */
-  serviceLevelResources?: GoalAssignmentPropertiesUpdateServiceLevelResourcesList;
+  serviceLevelResources?: GoalAssignmentPropertiesUpdateServiceLevelResourcesList | undefined;
 }
 export interface UpdateGoalAssignmentRequest {
   /** The name of the service group. */
@@ -3104,37 +3129,37 @@ export interface UpdateGoalAssignmentRequest {
   /** The name of the goal assignment. */
   goalAssignmentName: string;
   /** The resource-specific properties for this resource. */
-  properties?: GoalAssignmentPropertiesUpdate;
+  properties?: GoalAssignmentPropertiesUpdate | undefined;
 }
 export interface UpdateGoalAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GoalAssignmentProperties;
+  properties?: GoalAssignmentProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of a goal resource. */
 export interface GoalResourcePropertiesInput {
   /** The fully qualified ARM resource ID represented by this goal resource. */
   resourceArmId: string;
   /** The zonal resiliency posture for the ARM resource, including participation, attestation, exclusion reason, and user confirmations. */
-  zonalResiliency?: ResiliencyProperties;
+  zonalResiliency?: ResiliencyProperties | undefined;
 }
 /** A goal resource in the Azure Resilience Management provider. */
 export interface GoalResourceInput {
   /** The resource-specific properties for this resource. */
-  properties?: GoalResourcePropertiesInput;
+  properties?: GoalResourcePropertiesInput | undefined;
 }
 /** The goal resources to update. */
 export type UpdateGoalAssignmentGoalResourcesRequestResourcesList = Array<GoalResourceInput>;
@@ -3153,11 +3178,11 @@ export interface UpdateGoalResourceResponse {
   /** The updated goal resources. */
   resources: UpdateGoalResourceResponseResourcesList;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Pre-actions for the recovery orchestration group. */
 export type RecoveryGroupPropertiesUpdatePreActionsList = Array<RecoveryGroupBaseAction>;
@@ -3166,36 +3191,36 @@ export type RecoveryGroupPropertiesUpdatePostActionsList = Array<RecoveryGroupBa
 /** Properties of the recovery orchestration group. */
 export interface RecoveryGroupPropertiesUpdate {
   /** A unique id for the recovery orchestration group, which is a GUID. */
-  groupUniqueId?: string;
+  groupUniqueId?: string | undefined;
   /** The order ID of the recovery orchestration group. */
-  orderId?: number;
+  orderId?: number | undefined;
   /** A description of the recovery orchestration group. */
-  description?: string;
+  description?: string | undefined;
   /** Pre-actions for the recovery orchestration group. */
-  preActions?: RecoveryGroupPropertiesUpdatePreActionsList;
+  preActions?: RecoveryGroupPropertiesUpdatePreActionsList | undefined;
   /** Post-actions for the recovery orchestration group. */
-  postActions?: RecoveryGroupPropertiesUpdatePostActionsList;
+  postActions?: RecoveryGroupPropertiesUpdatePostActionsList | undefined;
 }
 /** Represents a recovery orchestration group resource in the Azure Resilience Management provider namespace. */
 export interface RecoveryGroupUpdateInput {
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryGroupPropertiesUpdate;
+  properties?: RecoveryGroupPropertiesUpdate | undefined;
 }
 /** Additional recovery orchestration group settings. */
 export type RecoveryGroupsSettingUpdateInputAdditionalGroupsList = Array<RecoveryGroupInput>;
 /** Settings for the recovery orchestration groups. */
 export interface RecoveryGroupsSettingUpdateInput {
   /** The default recovery orchestration group setting. Every recovery orchestration plan has a default recovery orchestration group. */
-  defaultGroup?: RecoveryGroupUpdateInput;
+  defaultGroup?: RecoveryGroupUpdateInput | undefined;
   /** Additional recovery orchestration group settings. */
-  additionalGroups?: RecoveryGroupsSettingUpdateInputAdditionalGroupsList;
+  additionalGroups?: RecoveryGroupsSettingUpdateInputAdditionalGroupsList | undefined;
 }
 /** Properties of the recovery orchestration plan. */
 export interface RecoveryPlanPropertiesUpdateInput {
   /** A description of the recovery orchestration plan. */
-  planDescription?: string;
+  planDescription?: string | undefined;
   /** Settings for the recovery orchestration groups associated with the recovery orchestration plan. */
-  recoveryGroupsSetting?: RecoveryGroupsSettingUpdateInput;
+  recoveryGroupsSetting?: RecoveryGroupsSettingUpdateInput | undefined;
 }
 export interface UpdateRecoveryPlanRequest {
   /** The name of the service group. */
@@ -3203,9 +3228,9 @@ export interface UpdateRecoveryPlanRequest {
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPlanPropertiesUpdateInput;
+  properties?: RecoveryPlanPropertiesUpdateInput | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateRecoveryPlanResponseIdentityUserAssignedIdentitiesMap = {
@@ -3214,30 +3239,30 @@ export type UpdateRecoveryPlanResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateRecoveryPlanResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateRecoveryPlanResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateRecoveryPlanResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateRecoveryPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPlanProperties;
+  properties?: RecoveryPlanProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateRecoveryPlanResponseIdentity;
+  identity?: UpdateRecoveryPlanResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The error detail. */
 export type RecoveryResourcePropertiesInputErrorDetails = DrillPropertiesInputErrorDetails;
@@ -3246,22 +3271,22 @@ export interface RecoveryResourcePropertiesInput {
   /** A unique id for the recovery resource, which is a GUID. */
   recoveryResourceUniqueId: string;
   /** A state that indicates the resource status with respect to the recovery orchestration plan. */
-  inclusionState?: ResourceInclusionState | (string & {});
+  inclusionState?: ResourceInclusionState | (string & {}) | undefined;
   /** A setting that indicates the protection solution selected. */
-  selectedProtectionSolutionType?: ResourceProtectionSolutionType | (string & {});
+  selectedProtectionSolutionType?: ResourceProtectionSolutionType | (string & {}) | undefined;
   /** Resource protection solution settings of the protection solutions recovery orchestration resource is protected with. */
-  selectedProtectionSolutionSetting?: ResourceBaseProtectionSolutionSetting;
+  selectedProtectionSolutionSetting?: ResourceBaseProtectionSolutionSetting | undefined;
   /** The recovery orchestration group id associated with the recovery resources. */
-  recoveryGroupId?: string;
+  recoveryGroupId?: string | undefined;
   /** Identity details associated to the resource, which will be used for performing any operations on it */
-  associatedIdentity?: AssociatedIdentity;
+  associatedIdentity?: AssociatedIdentity | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails;
+  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
 }
 /** RecoveryPlan Resource a AzureResilienceProviderHub resource */
 export interface RecoveryResourceInput {
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryResourcePropertiesInput;
+  properties?: RecoveryResourcePropertiesInput | undefined;
 }
 /** A list of recovery orchestration resources whose properties need to be updated. */
 export type UpdateRecoveryPlanActionResourcesRequestResourcesToUpdateList =
@@ -3274,20 +3299,20 @@ export interface UpdateRecoveryPlanActionResourcesRequest {
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
   /** A list of recovery orchestration resources whose properties need to be updated. */
-  resourcesToUpdate?: UpdateRecoveryPlanActionResourcesRequestResourcesToUpdateList;
+  resourcesToUpdate?: UpdateRecoveryPlanActionResourcesRequestResourcesToUpdateList | undefined;
   /** A list of recovery orchestration resources that need to be removed from the recovery orchestration plan. */
-  resourcesToRemove?: UpdateRecoveryPlanActionResourcesRequestResourcesToRemoveList;
+  resourcesToRemove?: UpdateRecoveryPlanActionResourcesRequestResourcesToRemoveList | undefined;
 }
 /** A list of error details associated with resources for which the update has failed. */
 export type UpdateRecoveryResourcesResponseFailedResourcesList = Array<RecoveryResource>;
 /** RecoveryResources post action request to update in batch. */
 export interface UpdateRecoveryResourcesResponse {
   /** A list of error details associated with resources for which the update has failed. */
-  failedResources?: UpdateRecoveryResourcesResponseFailedResourcesList;
+  failedResources?: UpdateRecoveryResourcesResponseFailedResourcesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateUsagePlanRequestTagsMap = { [key: string]: string | undefined };
@@ -3299,29 +3324,29 @@ export interface UpdateUsagePlanRequest {
   /** The name of the usage plan. */
   usagePlanName: string;
   /** Resource tags. */
-  tags?: UpdateUsagePlanRequestTagsMap;
+  tags?: UpdateUsagePlanRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateUsagePlanResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateUsagePlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateUsagePlanResponseTagsMap;
+  tags?: UpdateUsagePlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: UsagePlanProperties;
+  properties?: UsagePlanProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UsagePlansCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -3330,9 +3355,9 @@ export type UsagePlanPropertiesInputErrorDetails = DrillPropertiesInputErrorDeta
 /** Definition of usage plan properties. */
 export interface UsagePlanPropertiesInput {
   /** The type of the usage plan. */
-  planType?: UsagePlanType | (string & {});
+  planType?: UsagePlanType | (string & {}) | undefined;
   /** The error detail. */
-  errorDetails?: DrillPropertiesInputErrorDetails;
+  errorDetails?: DrillPropertiesInputErrorDetails | undefined;
 }
 export interface UsagePlansCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3342,33 +3367,33 @@ export interface UsagePlansCreateOrUpdateRequest {
   /** The name of the usage plan. */
   usagePlanName: string;
   /** Resource tags. */
-  tags?: UsagePlansCreateOrUpdateRequestTagsMap;
+  tags?: UsagePlansCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: UsagePlanPropertiesInput;
+  properties?: UsagePlanPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UsagePlansCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface UsagePlansCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UsagePlansCreateOrUpdateResponseTagsMap;
+  tags?: UsagePlansCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: UsagePlanProperties;
+  properties?: UsagePlanProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Enum for DrillRun Tasks. */
 export type DrillRunTasks = "Failover" | "Reprotect" | "FailoverReverse" | "ReprotectReverse";
@@ -3377,9 +3402,9 @@ export type ValidateForExecutionPropertiesSourceLocationsList = Array<string>;
 /** Additional properties for Failover. */
 export interface ValidateForExecutionProperties {
   /** Operation name for which the validation is being done. This is needed to determine the set of validations to be done for the operation. */
-  operationName?: DrillRunTasks | (string & {});
+  operationName?: DrillRunTasks | (string & {}) | undefined;
   /** Physiscal Source locations from where resources to be failed-over or faulted. */
-  sourceLocations?: ValidateForExecutionPropertiesSourceLocationsList;
+  sourceLocations?: ValidateForExecutionPropertiesSourceLocationsList | undefined;
 }
 export interface ValidateDrillForExecutionRequest {
   /** The name of the service group. */
@@ -3387,7 +3412,7 @@ export interface ValidateDrillForExecutionRequest {
   /** The name of the Drill */
   drillName: string;
   /** Additional properties for Validate for execute. */
-  validateForExecutionProperties?: ValidateForExecutionProperties;
+  validateForExecutionProperties?: ValidateForExecutionProperties | undefined;
 }
 /** Active Resource location and zones of Azure Resource. */
 export type DrillsQualifiedResourceActiveLocationsList = Array<string>;
@@ -3405,33 +3430,33 @@ export interface DrillsQualifiedResource {
   /** ARM Resource ID of the Azure resource. */
   resourceId: string;
   /** Drill Resource ID of the Azure resource. */
-  drillResourceId?: string;
+  drillResourceId?: string | undefined;
   /** Active Resource location and zones of Azure Resource. */
-  activeLocations?: DrillsQualifiedResourceActiveLocationsList;
+  activeLocations?: DrillsQualifiedResourceActiveLocationsList | undefined;
   /** Recovery Resource location and zones of HA Azure Resource. */
-  recoveryLocations?: DrillsQualifiedResourceRecoveryLocationsList;
+  recoveryLocations?: DrillsQualifiedResourceRecoveryLocationsList | undefined;
   /** Active Resource location and physical zones of Azure Resource. */
-  activePhysicalZones?: DrillsQualifiedResourceActivePhysicalZonesList;
+  activePhysicalZones?: DrillsQualifiedResourceActivePhysicalZonesList | undefined;
   /** Recovery Resource location and physical zones of HA Azure Resource. */
-  recoveryPhysicalZones?: DrillsQualifiedResourceRecoveryPhysicalZonesList;
+  recoveryPhysicalZones?: DrillsQualifiedResourceRecoveryPhysicalZonesList | undefined;
   /** Inclusion State of the Drill resource in Drill */
-  drillInclusionState?: DrillResourceInclusionState;
+  drillInclusionState?: DrillResourceInclusionState | undefined;
   /** A state that indicates the resource status with respect to the recovery orchestration plan. */
-  recoveryInclusionState?: ResourceInclusionState;
+  recoveryInclusionState?: ResourceInclusionState | undefined;
   /** A status that indicates the protection status of a resource with an Azure solution for regional or zonal recovery. */
-  protectionStatus?: ResourceProtectionStatus;
+  protectionStatus?: ResourceProtectionStatus | undefined;
   /** A setting that indicates the protection solution selected. */
-  selectedProtectionSolutionType?: ResourceProtectionSolutionType;
+  selectedProtectionSolutionType?: ResourceProtectionSolutionType | undefined;
   /** A list of ResourceProtectionSolutions with which the recovery orchestration resource is protected. */
-  resourceProtectionSolutions?: DrillsQualifiedResourceResourceProtectionSolutionsList;
+  resourceProtectionSolutions?: DrillsQualifiedResourceResourceProtectionSolutionsList | undefined;
   /** Resource protection solution settings of the protection solutions recovery orchestration resource is protected with. */
-  selectedProtectionSolutionSetting?: ResourceBaseProtectionSolutionSetting;
+  selectedProtectionSolutionSetting?: ResourceBaseProtectionSolutionSetting | undefined;
   /** Fault State of the Drill resource */
-  faultState?: DrillResourceFaultState;
+  faultState?: DrillResourceFaultState | undefined;
   /** Fault Properties */
-  faultProperties?: FaultProperties;
+  faultProperties?: FaultProperties | undefined;
   /** Resource Protection Solution Display Name */
-  resourceProtectionSolutionDisplayName?: string;
+  resourceProtectionSolutionDisplayName?: string | undefined;
 }
 /** A state type that indicates qualification of a resource for an operation. */
 export type QualificationState = "Unknown" | "Qualified" | "NotQualified" | "Excluded";
@@ -3453,9 +3478,11 @@ export interface ResourceQualificationDetails {
   /** Resource qualification state for the operation. */
   recoveryQualificationState: QualificationState;
   /** Reasons for resource not qualified for the recovery operation. */
-  recoveryNotQualifiedReasons?: ResourceQualificationDetailsRecoveryNotQualifiedReasonsList;
+  recoveryNotQualifiedReasons?:
+    | ResourceQualificationDetailsRecoveryNotQualifiedReasonsList
+    | undefined;
   /** Reasons for resource not qualified for the drills operation. */
-  drillsNotQualifiedReasons?: ResourceQualificationDetailsDrillsNotQualifiedReasonsList;
+  drillsNotQualifiedReasons?: ResourceQualificationDetailsDrillsNotQualifiedReasonsList | undefined;
 }
 /** Details of qualified resources for validateForExecution operation. */
 export interface DrillResourceQualification {
@@ -3472,11 +3499,11 @@ export interface ValidateForExecutionResponse {
   /** Qualification details of resources for the operation. */
   drillResourceQualifications: ValidateForExecutionResponseDrillResourceQualificationsList;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateRecoveryPlanActionForFailoverRequest {
   /** The name of the service group. */
@@ -3486,7 +3513,7 @@ export interface ValidateRecoveryPlanActionForFailoverRequest {
   /** Type of Failover direction. */
   failoverDirection: FailoverDirectionTypes | (string & {});
   /** Additional properties for Failover. */
-  failoverRequestProperties?: FailoverRequestProperties;
+  failoverRequestProperties?: FailoverRequestProperties | undefined;
 }
 /** Reasons for resource not qualified for the operation. */
 export type OperationQualificationDetailsNotQualifiedReasonsList = Array<string>;
@@ -3497,15 +3524,15 @@ export interface SkuDetails {
   /** The Azure SKU name. */
   sku: string;
   /** Number of virtual CPUs for the SKU. Absent when SKU specifications are unavailable. */
-  vCpu?: number;
+  vCpu?: number | undefined;
   /** Memory in GiB for the SKU. Absent when SKU specifications are unavailable. */
-  ram?: number;
+  ram?: number | undefined;
   /** Estimated monthly price. Absent when pricing is unavailable. */
-  monthlyPrice?: number;
+  monthlyPrice?: number | undefined;
   /** ISO 4217 currency code for `monthlyPrice`. */
-  currency?: string;
+  currency?: string | undefined;
   /** Identifier of the Azure offering used to estimate `monthlyPrice`. */
-  offeringId?: string;
+  offeringId?: string | undefined;
 }
 /** Outcome of a resource feasibility review for a recovery resource. */
 export type ResourceFeasibilityReviewStatus =
@@ -3522,11 +3549,11 @@ export interface ResourceFeasibilityReview {
   /** Fully qualified ARM resource type evaluated, e.g. `Microsoft.Compute/virtualMachines`. */
   resourceType: string;
   /** The SKU the resource is currently configured to recover into, enriched for comparison against the recommendations. Absent when it could not be resolved, and always absent on `Passed` and `NotApplicable` reviews. */
-  currentTargetSku?: SkuDetails;
+  currentTargetSku?: SkuDetails | undefined;
   /** Outcome of this feasibility review. */
   status: ResourceFeasibilityReviewStatus;
   /** Alternative SKUs surfaced for this review. Absent or empty means a `Flagged` review has no alternatives, an `Unavailable` review has no applicable recommendations to surface, or the review has a minimal `Passed` / `NotApplicable` outcome. Callers should treat an absent array and an empty array identically. */
-  recommendedTargetSkus?: ResourceFeasibilityReviewRecommendedTargetSkusList;
+  recommendedTargetSkus?: ResourceFeasibilityReviewRecommendedTargetSkusList | undefined;
 }
 /** Advisory resource feasibility reviews. Absent when no review was evaluated for this resource. */
 export type OperationQualificationDetailsResourceFeasibilityReviewsList =
@@ -3536,9 +3563,11 @@ export interface OperationQualificationDetails {
   /** Resource qualification state for the operation. */
   qualificationState: QualificationState;
   /** Reasons for resource not qualified for the operation. */
-  notQualifiedReasons?: OperationQualificationDetailsNotQualifiedReasonsList;
+  notQualifiedReasons?: OperationQualificationDetailsNotQualifiedReasonsList | undefined;
   /** Advisory resource feasibility reviews. Absent when no review was evaluated for this resource. */
-  resourceFeasibilityReviews?: OperationQualificationDetailsResourceFeasibilityReviewsList;
+  resourceFeasibilityReviews?:
+    | OperationQualificationDetailsResourceFeasibilityReviewsList
+    | undefined;
 }
 /** Details of resource and its qualification for an operation */
 export interface RecoveryResourceQualification {
@@ -3555,9 +3584,9 @@ export interface ValidateForRecoveryOperationBaseResponse {
   /** Qualification details of resources for the operation. */
   recoveryResourceQualifications: ValidateForRecoveryOperationBaseResponseRecoveryResourceQualificationsList;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateRecoveryPlanActionForFailoverCommitRequest {
   /** The name of the service group. */
@@ -3582,11 +3611,11 @@ export interface ValidateRecoveryPlanActionForOperationRequest {
 }
 export interface ValidateRecoveryPlanActionForOperationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateRecoveryPlanActionForReprotectRequest {
   /** The name of the service group. */
@@ -3594,7 +3623,7 @@ export interface ValidateRecoveryPlanActionForReprotectRequest {
   /** The name of the recovery orchestration plan. */
   recoveryPlanName: string;
   /** Additional properties for Reprotect. */
-  reprotectRequestProperties?: ReprotectRequestProperties;
+  reprotectRequestProperties?: ReprotectRequestProperties | undefined;
 }
 export interface ValidateRecoveryPlanActionForTestFailoverRequest {
   /** The name of the service group. */
@@ -3604,7 +3633,7 @@ export interface ValidateRecoveryPlanActionForTestFailoverRequest {
   /** Type of Failover direction. */
   failoverDirection: FailoverDirectionTypes | (string & {});
   /** Additional properties for Failover. */
-  failoverRequestProperties?: FailoverRequestProperties;
+  failoverRequestProperties?: FailoverRequestProperties | undefined;
 }
 export interface ValidateRecoveryPlanActionForTestFailoverCleanupRequest {
   /** The name of the service group. */

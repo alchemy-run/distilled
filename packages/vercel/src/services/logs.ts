@@ -58,9 +58,9 @@ export interface GetRuntimeLogsRequest {
   /** The ID or hostname of the deployment. */
   deploymentId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetRuntimeLogsResponse {}
 export type GetRuntimeLogsError = BadRequest | Forbidden | NotFound | VercelOpError;

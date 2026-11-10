@@ -91,35 +91,35 @@ export type DocumentTypeEnum = "TYPE_UNSPECIFIED" | "PLAIN_TEXT" | "HTML";
 /** Represents the input to API methods. */
 export interface Document {
   /** The content of the input in string format. Cloud audit logging exempt since it is based on user data. */
-  content?: string;
+  content?: string | undefined;
   /** The web URI where the document comes from. This URI is not used for fetching the content, but as a hint for analyzing the document. */
-  referenceWebUri?: string;
+  referenceWebUri?: string | undefined;
   /** The language of the document (if not specified, the language is automatically detected). Both ISO and BCP-47 language codes are accepted. [Language Support](https://cloud.google.com/natural-language/docs/languages) lists currently supported languages for each API method. If the language (either specified by the caller or automatically detected) is not supported by the called API method, an `INVALID_ARGUMENT` error is returned. */
-  language?: string;
+  language?: string | undefined;
   /** Indicates how detected boilerplate(e.g. advertisements, copyright declarations, banners) should be handled for this document. If not specified, boilerplate will be treated the same as content. */
-  boilerplateHandling?: DocumentBoilerplateHandlingEnum | (string & {});
+  boilerplateHandling?: DocumentBoilerplateHandlingEnum | (string & {}) | undefined;
   /** Required. If the type is not set or is `TYPE_UNSPECIFIED`, returns an `INVALID_ARGUMENT` error. */
-  type?: DocumentTypeEnum | (string & {});
+  type?: DocumentTypeEnum | (string & {}) | undefined;
   /** The Google Cloud Storage URI where the file content is located. This URI must be of the form: gs://bucket_name/object_name. For more details, see https://cloud.google.com/storage/docs/reference-uris. NOTE: Cloud Storage object versioning is not supported. */
-  gcsContentUri?: string;
+  gcsContentUri?: string | undefined;
 }
 /** The entity analysis request message. */
 export interface AnalyzeEntitiesRequest {
   /** The encoding type used by the API to calculate offsets. */
-  encodingType?: AnalyzeEntitiesRequestEncodingTypeEnum | (string & {});
+  encodingType?: AnalyzeEntitiesRequestEncodingTypeEnum | (string & {}) | undefined;
   /** Required. Input document. */
-  document?: Document;
+  document?: Document | undefined;
 }
 export interface AnalyzeEntitiesDocumentsRequest {
   /** Request body */
-  body?: AnalyzeEntitiesRequest;
+  body?: AnalyzeEntitiesRequest | undefined;
 }
 /** Represents the feeling associated with the entire text or entities in the text. */
 export interface Sentiment {
   /** A non-negative number in the [0, +inf] range, which represents the absolute magnitude of sentiment regardless of score (positive or negative). */
-  magnitude?: number;
+  magnitude?: number | undefined;
   /** Sentiment score between -1.0 (negative sentiment) and 1.0 (positive sentiment). */
-  score?: number;
+  score?: number | undefined;
 }
 export type EntityTypeEnum =
   | "UNKNOWN"
@@ -138,104 +138,104 @@ export type EntityTypeEnum =
 /** Represents a text span in the input document. */
 export interface TextSpan {
   /** The content of the text span, which is a substring of the document. */
-  content?: string;
+  content?: string | undefined;
   /** The API calculates the beginning offset of the content in the original document according to the EncodingType specified in the API request. */
-  beginOffset?: number;
+  beginOffset?: number | undefined;
 }
 export type EntityMentionTypeEnum = "TYPE_UNKNOWN" | "PROPER" | "COMMON";
 /** Represents a mention for an entity in the text. Currently, proper noun mentions are supported. */
 export interface EntityMention {
   /** The mention text. */
-  text?: TextSpan;
+  text?: TextSpan | undefined;
   /** The type of the entity mention. */
-  type?: EntityMentionTypeEnum;
+  type?: EntityMentionTypeEnum | undefined;
   /** For calls to AnalyzeEntitySentiment or if AnnotateTextRequest.Features.extract_entity_sentiment is set to true, this field will contain the sentiment expressed for this mention of the entity in the provided document. */
-  sentiment?: Sentiment;
+  sentiment?: Sentiment | undefined;
 }
 export type EntityMentionList = Array<EntityMention>;
 export type StringMap = { [key: string]: string | undefined };
 /** Represents a phrase in the text that is a known entity, such as a person, an organization, or location. The API associates information, such as salience and mentions, with entities. */
 export interface Entity {
   /** The salience score associated with the entity in the [0, 1.0] range. The salience score for an entity provides information about the importance or centrality of that entity to the entire document text. Scores closer to 0 are less salient, while scores closer to 1.0 are highly salient. */
-  salience?: number;
+  salience?: number | undefined;
   /** For calls to AnalyzeEntitySentiment or if AnnotateTextRequest.Features.extract_entity_sentiment is set to true, this field will contain the aggregate sentiment expressed for this entity in the provided document. */
-  sentiment?: Sentiment;
+  sentiment?: Sentiment | undefined;
   /** The entity type. */
-  type?: EntityTypeEnum;
+  type?: EntityTypeEnum | undefined;
   /** The mentions of this entity in the input document. The API currently supports proper noun mentions. */
-  mentions?: EntityMentionList;
+  mentions?: EntityMentionList | undefined;
   /** Metadata associated with the entity. For most entity types, the metadata is a Wikipedia URL (`wikipedia_url`) and Knowledge Graph MID (`mid`), if they are available. For the metadata associated with other entity types, see the Type table below. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** The representative name for the entity. */
-  name?: string;
+  name?: string | undefined;
 }
 export type EntityList = Array<Entity>;
 /** The entity analysis response message. */
 export interface AnalyzeEntitiesResponse {
   /** The recognized entities in the input document. */
-  entities?: EntityList;
+  entities?: EntityList | undefined;
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
-  language?: string;
+  language?: string | undefined;
 }
 export type AnalyzeEntitySentimentRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
 /** The entity-level sentiment analysis request message. */
 export interface AnalyzeEntitySentimentRequest {
   /** The encoding type used by the API to calculate offsets. */
-  encodingType?: AnalyzeEntitySentimentRequestEncodingTypeEnum | (string & {});
+  encodingType?: AnalyzeEntitySentimentRequestEncodingTypeEnum | (string & {}) | undefined;
   /** Required. Input document. */
-  document?: Document;
+  document?: Document | undefined;
 }
 export interface AnalyzeEntitySentimentDocumentsRequest {
   /** Request body */
-  body?: AnalyzeEntitySentimentRequest;
+  body?: AnalyzeEntitySentimentRequest | undefined;
 }
 /** The entity-level sentiment analysis response message. */
 export interface AnalyzeEntitySentimentResponse {
   /** The recognized entities in the input document with associated sentiments. */
-  entities?: EntityList;
+  entities?: EntityList | undefined;
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
-  language?: string;
+  language?: string | undefined;
 }
 export type AnalyzeSentimentRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
 /** The sentiment analysis request message. */
 export interface AnalyzeSentimentRequest {
   /** Required. Input document. */
-  document?: Document;
+  document?: Document | undefined;
   /** The encoding type used by the API to calculate sentence offsets for the sentence sentiment. */
-  encodingType?: AnalyzeSentimentRequestEncodingTypeEnum | (string & {});
+  encodingType?: AnalyzeSentimentRequestEncodingTypeEnum | (string & {}) | undefined;
 }
 export interface AnalyzeSentimentDocumentsRequest {
   /** Request body */
-  body?: AnalyzeSentimentRequest;
+  body?: AnalyzeSentimentRequest | undefined;
 }
 /** Represents a sentence in the input document. */
 export interface Sentence {
   /** For calls to AnalyzeSentiment or if AnnotateTextRequest.Features.extract_document_sentiment is set to true, this field will contain the sentiment for the sentence. */
-  sentiment?: Sentiment;
+  sentiment?: Sentiment | undefined;
   /** The sentence text. */
-  text?: TextSpan;
+  text?: TextSpan | undefined;
 }
 export type SentenceList = Array<Sentence>;
 /** The sentiment analysis response message. */
 export interface AnalyzeSentimentResponse {
   /** The overall sentiment of the input document. */
-  documentSentiment?: Sentiment;
+  documentSentiment?: Sentiment | undefined;
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
-  language?: string;
+  language?: string | undefined;
   /** The sentiment for all the sentences in the document. */
-  sentences?: SentenceList;
+  sentences?: SentenceList | undefined;
 }
 export type AnalyzeSyntaxRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
 /** The syntax analysis request message. */
 export interface AnalyzeSyntaxRequest {
   /** The encoding type used by the API to calculate offsets. */
-  encodingType?: AnalyzeSyntaxRequestEncodingTypeEnum | (string & {});
+  encodingType?: AnalyzeSyntaxRequestEncodingTypeEnum | (string & {}) | undefined;
   /** Required. Input document. */
-  document?: Document;
+  document?: Document | undefined;
 }
 export interface AnalyzeSyntaxDocumentsRequest {
   /** Request body */
-  body?: AnalyzeSyntaxRequest;
+  body?: AnalyzeSyntaxRequest | undefined;
 }
 export type DependencyEdgeLabelEnum =
   | "UNKNOWN"
@@ -324,9 +324,9 @@ export type DependencyEdgeLabelEnum =
 /** Represents dependency parse tree information for a token. */
 export interface DependencyEdge {
   /** Represents the head of this token in the dependency tree. This is the index of the token which has an arc going to this token. The index is the position of the token in the array of tokens returned by the API method. If this token is a root token, then the `head_token_index` is its own index. */
-  headTokenIndex?: number;
+  headTokenIndex?: number | undefined;
   /** The parse label for the token. */
-  label?: DependencyEdgeLabelEnum;
+  label?: DependencyEdgeLabelEnum | undefined;
 }
 export type PartOfSpeechGenderEnum = "GENDER_UNKNOWN" | "FEMININE" | "MASCULINE" | "NEUTER";
 export type PartOfSpeechTenseEnum =
@@ -407,50 +407,50 @@ export type PartOfSpeechFormEnum =
 /** Represents part of speech information for a token. */
 export interface PartOfSpeech {
   /** The grammatical gender. */
-  gender?: PartOfSpeechGenderEnum;
+  gender?: PartOfSpeechGenderEnum | undefined;
   /** The grammatical tense. */
-  tense?: PartOfSpeechTenseEnum;
+  tense?: PartOfSpeechTenseEnum | undefined;
   /** The grammatical voice. */
-  voice?: PartOfSpeechVoiceEnum;
+  voice?: PartOfSpeechVoiceEnum | undefined;
   /** The part of speech tag. */
-  tag?: PartOfSpeechTagEnum;
+  tag?: PartOfSpeechTagEnum | undefined;
   /** The grammatical aspect. */
-  aspect?: PartOfSpeechAspectEnum;
+  aspect?: PartOfSpeechAspectEnum | undefined;
   /** The grammatical case. */
-  case?: PartOfSpeechCaseEnum;
+  case?: PartOfSpeechCaseEnum | undefined;
   /** The grammatical number. */
-  number?: PartOfSpeechNumberEnum;
+  number?: PartOfSpeechNumberEnum | undefined;
   /** The grammatical reciprocity. */
-  reciprocity?: PartOfSpeechReciprocityEnum;
+  reciprocity?: PartOfSpeechReciprocityEnum | undefined;
   /** The grammatical mood. */
-  mood?: PartOfSpeechMoodEnum;
+  mood?: PartOfSpeechMoodEnum | undefined;
   /** The grammatical person. */
-  person?: PartOfSpeechPersonEnum;
+  person?: PartOfSpeechPersonEnum | undefined;
   /** The grammatical properness. */
-  proper?: PartOfSpeechProperEnum;
+  proper?: PartOfSpeechProperEnum | undefined;
   /** The grammatical form. */
-  form?: PartOfSpeechFormEnum;
+  form?: PartOfSpeechFormEnum | undefined;
 }
 /** Represents the smallest syntactic building block of the text. */
 export interface Token {
   /** Dependency tree parse for this token. */
-  dependencyEdge?: DependencyEdge;
+  dependencyEdge?: DependencyEdge | undefined;
   /** The token text. */
-  text?: TextSpan;
+  text?: TextSpan | undefined;
   /** Parts of speech tag for this token. */
-  partOfSpeech?: PartOfSpeech;
+  partOfSpeech?: PartOfSpeech | undefined;
   /** [Lemma](https://en.wikipedia.org/wiki/Lemma_%28morphology%29) of the token. */
-  lemma?: string;
+  lemma?: string | undefined;
 }
 export type TokenList = Array<Token>;
 /** The syntax analysis response message. */
 export interface AnalyzeSyntaxResponse {
   /** Sentences in the input document. */
-  sentences?: SentenceList;
+  sentences?: SentenceList | undefined;
   /** Tokens, along with their syntactic information, in the input document. */
-  tokens?: TokenList;
+  tokens?: TokenList | undefined;
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
-  language?: string;
+  language?: string | undefined;
 }
 /** Options for the V1 model. */
 export interface ClassificationModelOptionsV1Model {}
@@ -463,100 +463,101 @@ export interface ClassificationModelOptionsV2Model {
   /** The content categories used for classification. */
   contentCategoriesVersion?:
     | ClassificationModelOptionsV2ModelContentCategoriesVersionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Model options available for classification requests. */
 export interface ClassificationModelOptions {
   /** Setting this field will use the V1 model and V1 content categories version. The V1 model is a legacy model; support for this will be discontinued in the future. */
-  v1Model?: ClassificationModelOptionsV1Model;
+  v1Model?: ClassificationModelOptionsV1Model | undefined;
   /** Setting this field will use the V2 model with the appropriate content categories version. The V2 model is a better performing model. */
-  v2Model?: ClassificationModelOptionsV2Model;
+  v2Model?: ClassificationModelOptionsV2Model | undefined;
 }
 /** All available features for sentiment, syntax, and semantic analysis. Setting each one to true will enable that specific analysis for the input. */
 export interface AnnotateTextRequestFeatures {
   /** Moderate the document for harmful and sensitive categories. */
-  moderateText?: boolean;
+  moderateText?: boolean | undefined;
   /** Extract document-level sentiment. */
-  extractDocumentSentiment?: boolean;
+  extractDocumentSentiment?: boolean | undefined;
   /** Extract entities. */
-  extractEntities?: boolean;
+  extractEntities?: boolean | undefined;
   /** Extract syntax information. */
-  extractSyntax?: boolean;
+  extractSyntax?: boolean | undefined;
   /** Classify the full document into categories. If this is true, the API will use the default model which classifies into a [predefined taxonomy](https://cloud.google.com/natural-language/docs/categories). */
-  classifyText?: boolean;
+  classifyText?: boolean | undefined;
   /** Optional. The model options to use for classification. Defaults to v1 options if not specified. Only used if `classify_text` is set to true. */
-  classificationModelOptions?: ClassificationModelOptions;
+  classificationModelOptions?: ClassificationModelOptions | undefined;
   /** Extract entities and their associated sentiment. */
-  extractEntitySentiment?: boolean;
+  extractEntitySentiment?: boolean | undefined;
 }
 export type AnnotateTextRequestEncodingTypeEnum = "NONE" | "UTF8" | "UTF16" | "UTF32";
 /** The request message for the text annotation API, which can perform multiple analysis types (sentiment, entities, and syntax) in one call. */
 export interface AnnotateTextRequest {
   /** Required. Input document. */
-  document?: Document;
+  document?: Document | undefined;
   /** Required. The enabled features. */
-  features?: AnnotateTextRequestFeatures;
+  features?: AnnotateTextRequestFeatures | undefined;
   /** The encoding type used by the API to calculate offsets. */
-  encodingType?: AnnotateTextRequestEncodingTypeEnum | (string & {});
+  encodingType?: AnnotateTextRequestEncodingTypeEnum | (string & {}) | undefined;
 }
 export interface AnnotateTextDocumentsRequest {
   /** Request body */
-  body?: AnnotateTextRequest;
+  body?: AnnotateTextRequest | undefined;
 }
 /** Represents a category returned from the text classifier. */
 export interface ClassificationCategory {
   /** The classifier's confidence of the category. Number represents how certain the classifier is that this category represents the given text. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** The name of the category representing the document. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ClassificationCategoryList = Array<ClassificationCategory>;
 /** The text annotations response message. */
 export interface AnnotateTextResponse {
   /** The language of the text, which will be the same as the language specified in the request or, if not specified, the automatically-detected language. See Document.language field for more details. */
-  language?: string;
+  language?: string | undefined;
   /** Sentences in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_syntax. */
-  sentences?: SentenceList;
+  sentences?: SentenceList | undefined;
   /** The overall sentiment for the document. Populated if the user enables AnnotateTextRequest.Features.extract_document_sentiment. */
-  documentSentiment?: Sentiment;
+  documentSentiment?: Sentiment | undefined;
   /** Tokens, along with their syntactic information, in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_syntax. */
-  tokens?: TokenList;
+  tokens?: TokenList | undefined;
   /** Harmful and sensitive categories identified in the input document. */
-  moderationCategories?: ClassificationCategoryList;
+  moderationCategories?: ClassificationCategoryList | undefined;
   /** Entities, along with their semantic information, in the input document. Populated if the user enables AnnotateTextRequest.Features.extract_entities. */
-  entities?: EntityList;
+  entities?: EntityList | undefined;
   /** Categories identified in the input document. */
-  categories?: ClassificationCategoryList;
+  categories?: ClassificationCategoryList | undefined;
 }
 /** The document classification request message. */
 export interface ClassifyTextRequest {
   /** Optional. Model options to use for classification. Defaults to v1 options if not specified. */
-  classificationModelOptions?: ClassificationModelOptions;
+  classificationModelOptions?: ClassificationModelOptions | undefined;
   /** Required. Input document. */
-  document?: Document;
+  document?: Document | undefined;
 }
 export interface ClassifyTextDocumentsRequest {
   /** Request body */
-  body?: ClassifyTextRequest;
+  body?: ClassifyTextRequest | undefined;
 }
 /** The document classification response message. */
 export interface ClassifyTextResponse {
   /** Categories representing the input document. */
-  categories?: ClassificationCategoryList;
+  categories?: ClassificationCategoryList | undefined;
 }
 /** The document moderation request message. */
 export interface ModerateTextRequest {
   /** Required. Input document. */
-  document?: Document;
+  document?: Document | undefined;
 }
 export interface ModerateTextDocumentsRequest {
   /** Request body */
-  body?: ModerateTextRequest;
+  body?: ModerateTextRequest | undefined;
 }
 /** The document moderation response message. */
 export interface ModerateTextResponse {
   /** Harmful and sensitive categories representing the input document. */
-  moderationCategories?: ClassificationCategoryList;
+  moderationCategories?: ClassificationCategoryList | undefined;
 }
 export type AnalyzeEntitiesDocumentsError =
   | NotFound

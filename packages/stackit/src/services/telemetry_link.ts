@@ -60,9 +60,9 @@ export interface CreateFolderBackflushJobRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateFolderBackflushJobRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The STACKIT region name the resource is located in. */
 export type BackflushJobResponseRegionId = "eu01" | "eu02";
@@ -77,9 +77,9 @@ export interface BackflushJobResponse {
   /** The point in time the resource was created. */
   createTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A auto generated unique id which identifies the resource. */
   id: string;
   /** The STACKIT region name the resource is located in. */
@@ -94,9 +94,9 @@ export interface CreateOrganizationBackflushJobRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateOrganizationBackflushJobRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type CreateOrUpdateFolderTelemetryLinkRequestRegionId = "eu01" | "eu02";
 /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
@@ -111,15 +111,15 @@ export interface CreateOrUpdateFolderTelemetryLinkRequest {
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
   telemetryRouterId: string;
   /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
-  resourceLabels?: CreateOrUpdateFolderTelemetryLinkRequestResourceLabelsMap;
+  resourceLabels?: CreateOrUpdateFolderTelemetryLinkRequestResourceLabelsMap | undefined;
 }
 /** The STACKIT region name the resource is located in. */
 export type TelemetryLinkResponseRegionId = "eu01" | "eu02";
@@ -134,11 +134,11 @@ export type TelemetryLinkResponseStatus =
   | "deleting";
 export interface TelemetryLinkResponse {
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The point in time the resource was created. */
   createTime: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
@@ -148,7 +148,7 @@ export interface TelemetryLinkResponse {
   /** The STACKIT region name the resource is located in. */
   regionId: TelemetryLinkResponseRegionId;
   /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
-  resourceLabels?: TelemetryLinkResponseResourceLabelsMap;
+  resourceLabels?: TelemetryLinkResponseResourceLabelsMap | undefined;
   /** The current state of the link. */
   status: TelemetryLinkResponseStatus;
   /** The ID of the telemetry-router to route the telemetry data. */
@@ -167,15 +167,15 @@ export interface CreateOrUpdateOrganizationTelemetryLinkRequest {
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
   telemetryRouterId: string;
   /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
-  resourceLabels?: CreateOrUpdateOrganizationTelemetryLinkRequestResourceLabelsMap;
+  resourceLabels?: CreateOrUpdateOrganizationTelemetryLinkRequestResourceLabelsMap | undefined;
 }
 export type CreateOrUpdateProjectTelemetryLinkRequestRegionId = "eu01" | "eu02";
 /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
@@ -190,15 +190,15 @@ export interface CreateOrUpdateProjectTelemetryLinkRequest {
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
   telemetryRouterId: string;
   /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
-  resourceLabels?: CreateOrUpdateProjectTelemetryLinkRequestResourceLabelsMap;
+  resourceLabels?: CreateOrUpdateProjectTelemetryLinkRequestResourceLabelsMap | undefined;
 }
 export type CreateProjectBackflushJobRequestRegionId = "eu01" | "eu02";
 export interface CreateProjectBackflushJobRequest {
@@ -207,9 +207,9 @@ export interface CreateProjectBackflushJobRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateProjectBackflushJobRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type DeleteFolderTelemetryLinkRequestRegionId = "eu01" | "eu02";
 export interface DeleteFolderTelemetryLinkRequest {
@@ -290,15 +290,15 @@ export interface ListFolderBackflushJobsRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListFolderBackflushJobsRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListBackflushJobsResponseBackflushJobsList = Array<BackflushJobResponse>;
 export interface ListBackflushJobsResponse {
   backflushJobs: ListBackflushJobsResponseBackflushJobsList;
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListOrganizationBackflushJobsRequestRegionId = "eu01" | "eu02";
 export interface ListOrganizationBackflushJobsRequest {
@@ -307,9 +307,9 @@ export interface ListOrganizationBackflushJobsRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListOrganizationBackflushJobsRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListProjectBackflushJobsRequestRegionId = "eu01" | "eu02";
 export interface ListProjectBackflushJobsRequest {
@@ -318,9 +318,9 @@ export interface ListProjectBackflushJobsRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListProjectBackflushJobsRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type PartialUpdateFolderTelemetryLinkRequestRegionId = "eu01" | "eu02";
 /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
@@ -333,17 +333,17 @@ export interface PartialUpdateFolderTelemetryLinkRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: PartialUpdateFolderTelemetryLinkRequestRegionId | (string & {});
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
-  telemetryRouterId?: string;
+  telemetryRouterId?: string | undefined;
   /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
-  resourceLabels?: PartialUpdateFolderTelemetryLinkRequestResourceLabelsMap;
+  resourceLabels?: PartialUpdateFolderTelemetryLinkRequestResourceLabelsMap | undefined;
 }
 export type PartialUpdateOrganizationTelemetryLinkRequestRegionId = "eu01" | "eu02";
 /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
@@ -356,17 +356,17 @@ export interface PartialUpdateOrganizationTelemetryLinkRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: PartialUpdateOrganizationTelemetryLinkRequestRegionId | (string & {});
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
-  telemetryRouterId?: string;
+  telemetryRouterId?: string | undefined;
   /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
-  resourceLabels?: PartialUpdateOrganizationTelemetryLinkRequestResourceLabelsMap;
+  resourceLabels?: PartialUpdateOrganizationTelemetryLinkRequestResourceLabelsMap | undefined;
 }
 export type PartialUpdateProjectTelemetryLinkRequestRegionId = "eu01" | "eu02";
 /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
@@ -379,17 +379,17 @@ export interface PartialUpdateProjectTelemetryLinkRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: PartialUpdateProjectTelemetryLinkRequestRegionId | (string & {});
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates whether routing through the link to a telemetry-router is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the telemetry-router to route the telemetry data. */
-  telemetryRouterId?: string;
+  telemetryRouterId?: string | undefined;
   /** Resource lables as described [in the documentation](https://docs.stackit.cloud/platform/cost-and-billing/labels/) */
-  resourceLabels?: PartialUpdateProjectTelemetryLinkRequestResourceLabelsMap;
+  resourceLabels?: PartialUpdateProjectTelemetryLinkRequestResourceLabelsMap | undefined;
 }
 export type CreateFolderBackflushJobError = BadRequest | Conflict | StackitOpError;
 /** Creates a new Backflush Job for the folder. */

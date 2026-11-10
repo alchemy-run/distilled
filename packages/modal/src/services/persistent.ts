@@ -82,27 +82,27 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType | (string & {});
+  type?: GPUType | (string & {}) | undefined;
   /** Deprecated, at some point */
-  count?: number;
-  gpuType?: string;
+  count?: number | undefined;
+  gpuType?: string | undefined;
 }
 /** milli CPU cores */
 export interface Resources {
-  memoryMb?: number;
+  memoryMb?: number | undefined;
   /** MiB */
-  milliCpu?: number;
+  milliCpu?: number | undefined;
   /** milli CPU cores */
-  gpuConfig?: GPUConfig;
-  memoryMbMax?: number;
+  gpuConfig?: GPUConfig | undefined;
+  memoryMbMax?: number | undefined;
   /** MiB */
-  ephemeralDiskMb?: number;
+  ephemeralDiskMb?: number | undefined;
   /** MiB */
-  milliCpuMax?: number;
+  milliCpuMax?: number | undefined;
   /** milli CPU cores */
-  rdma?: boolean;
+  rdma?: boolean | undefined;
   /** Whether to use RDMA interfaces */
-  skipNumThreadsEnvVars?: boolean;
+  skipNumThreadsEnvVars?: boolean | undefined;
 }
 /** libmodal/modal-go: Go SDK, since version modal-go/v0.0.15 */
 export type CloudProvider =
@@ -112,16 +112,16 @@ export type CloudProvider =
   | "CLOUD_PROVIDER_AUTO"
   | "CLOUD_PROVIDER_OCI";
 export interface SharedVolumeMount {
-  mountPath?: string;
-  sharedVolumeId?: string;
-  cloudProvider?: CloudProvider | (string & {});
+  mountPath?: string | undefined;
+  sharedVolumeId?: string | undefined;
+  cloudProvider?: CloudProvider | (string & {}) | undefined;
 }
 export type SharedVolumeMountList = Array<SharedVolumeMount>;
 export interface S3Mount {
-  bucketName?: string;
-  mountPath?: string;
-  credentialsSecretId?: string;
-  readOnly?: boolean;
+  bucketName?: string | undefined;
+  mountPath?: string | undefined;
+  credentialsSecretId?: string | undefined;
+  readOnly?: boolean | undefined;
 }
 export type S3MountList = Array<S3Mount>;
 export type CloudBucketMountBucketType = "UNSPECIFIED" | "S3" | "R2" | "GCP";
@@ -130,97 +130,97 @@ export type CloudBucketMountMetadataTTLType =
   | "METADATA_TTL_TYPE_MINIMAL"
   | "METADATA_TTL_TYPE_INDEFINITE";
 export interface CloudBucketMount {
-  bucketName?: string;
-  mountPath?: string;
-  credentialsSecretId?: string;
-  readOnly?: boolean;
-  bucketType?: CloudBucketMountBucketType | (string & {});
-  requesterPays?: boolean;
-  bucketEndpointUrl?: string;
-  keyPrefix?: string;
-  oidcAuthRoleArn?: string;
-  forcePathStyle?: boolean;
-  metadataTtlType?: CloudBucketMountMetadataTTLType | (string & {});
-  metadataTtlSeconds?: string;
+  bucketName?: string | undefined;
+  mountPath?: string | undefined;
+  credentialsSecretId?: string | undefined;
+  readOnly?: boolean | undefined;
+  bucketType?: CloudBucketMountBucketType | (string & {}) | undefined;
+  requesterPays?: boolean | undefined;
+  bucketEndpointUrl?: string | undefined;
+  keyPrefix?: string | undefined;
+  oidcAuthRoleArn?: string | undefined;
+  forcePathStyle?: boolean | undefined;
+  metadataTtlType?: CloudBucketMountMetadataTTLType | (string & {}) | undefined;
+  metadataTtlSeconds?: string | undefined;
 }
 export type CloudBucketMountList = Array<CloudBucketMount>;
 export interface VolumeMount {
-  volumeId?: string;
-  mountPath?: string;
-  allowBackgroundCommits?: boolean;
-  readOnly?: boolean;
-  subPath?: string;
+  volumeId?: string | undefined;
+  mountPath?: string | undefined;
+  allowBackgroundCommits?: boolean | undefined;
+  readOnly?: boolean | undefined;
+  subPath?: string | undefined;
 }
 export type VolumeMountList = Array<VolumeMount>;
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soon deprecated */
-  winszRows?: number;
-  winszCols?: number;
-  envTerm?: string;
-  envColorterm?: string;
-  envTermProgram?: string;
+  winszRows?: number | undefined;
+  winszCols?: number | undefined;
+  envTerm?: string | undefined;
+  envColorterm?: string | undefined;
+  envTermProgram?: string | undefined;
   /** Replace function with shell */
-  ptyType?: PTYInfoPTYType | (string & {});
-  noTerminateOnIdleStdin?: boolean;
+  ptyType?: PTYInfoPTYType | (string & {}) | undefined;
+  noTerminateOnIdleStdin?: boolean | undefined;
 }
 /** Scheduling constraints for Functions and Sandboxes. */
 export interface SchedulerPlacement {
-  regions?: StringList;
-  Zone?: string;
-  Lifecycle?: string;
-  InstanceTypes?: StringList;
-  nonpreemptible?: boolean;
+  regions?: StringList | undefined;
+  Zone?: string | undefined;
+  Lifecycle?: string | undefined;
+  InstanceTypes?: StringList | undefined;
+  nonpreemptible?: boolean | undefined;
 }
 export type TunnelType = "TUNNEL_TYPE_UNSPECIFIED" | "TUNNEL_TYPE_H2";
 export interface PortSpec {
-  port?: number;
-  unencrypted?: boolean;
-  tunnelType?: TunnelType | (string & {});
+  port?: number | undefined;
+  unencrypted?: boolean | undefined;
+  tunnelType?: TunnelType | (string & {}) | undefined;
 }
 export type PortSpecList = Array<PortSpec>;
 export interface PortSpecs {
-  ports?: PortSpecList;
+  ports?: PortSpecList | undefined;
 }
 export type NetworkAccessNetworkAccessType = "UNSPECIFIED" | "OPEN" | "BLOCKED" | "ALLOWLIST";
 export interface NetworkAccess {
-  networkAccessType?: NetworkAccessNetworkAccessType | (string & {});
-  allowedCidrs?: StringList;
-  allowedDomains?: StringList;
+  networkAccessType?: NetworkAccessNetworkAccessType | (string & {}) | undefined;
+  allowedCidrs?: StringList | undefined;
+  allowedDomains?: StringList | undefined;
 }
 export type BooleanMap = { [key: string]: boolean | undefined };
 export type StringMap = { [key: string]: string | undefined };
 export interface ProbeExecCommand {
   /** Command and args to execute directly (argv form, not shell-parsed). */
-  argv?: StringList;
+  argv?: StringList | undefined;
 }
 export interface Probe {
-  tcpPort?: number;
-  execCommand?: ProbeExecCommand;
-  intervalMs?: number;
+  tcpPort?: number | undefined;
+  execCommand?: ProbeExecCommand | undefined;
+  intervalMs?: number | undefined;
 }
 export interface StringMap2 {
-  contents?: StringMap;
+  contents?: StringMap | undefined;
 }
 export interface ExperimentalOutboundPolicyHeaderReplacement {
   /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
-  domain?: string;
+  domain?: string | undefined;
   /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
-  headers?: StringMap;
+  headers?: StringMap | undefined;
 }
 export type ExperimentalOutboundPolicyHeaderReplacementList =
   Array<ExperimentalOutboundPolicyHeaderReplacement>;
 /** Experimental policy for outbound traffic from a sandbox: header replacements. */
 export interface ExperimentalOutboundPolicy {
   /** Replace headers in outbound HTTPS requests, potentially with secret values. */
-  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList;
+  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList | undefined;
 }
 export interface OutboundPolicyTLSDecryption {
   /** Generate a certificate authority for the sandbox and attempt to make the sandbox trust it, so that routes that need to can decrypt its TLS traffic. Decrypts nothing on its own. Required by HTTPS routes. Fixed at creation. */
-  allowed?: boolean;
+  allowed?: boolean | undefined;
 }
 export type OutboundPolicyTransport =
   | "TRANSPORT_UNSPECIFIED"
@@ -229,173 +229,173 @@ export type OutboundPolicyTransport =
   | "TRANSPORT_UDP";
 /** An inclusive range of ports. A single port has start == end. */
 export interface OutboundPolicyPortRange {
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export type OutboundPolicyPortRangeList = Array<OutboundPolicyPortRange>;
 export interface OutboundPolicyRedirectBlock {}
 export interface OutboundPolicyRedirectViaProxy {
-  proxyId?: string;
+  proxyId?: string | undefined;
 }
 export interface OutboundPolicyRedirectViaSidecar {
-  sidecarName?: string;
+  sidecarName?: string | undefined;
 }
 export interface OutboundPolicyRedirect {
-  block?: OutboundPolicyRedirectBlock;
-  viaProxy?: OutboundPolicyRedirectViaProxy;
-  viaSidecar?: OutboundPolicyRedirectViaSidecar;
+  block?: OutboundPolicyRedirectBlock | undefined;
+  viaProxy?: OutboundPolicyRedirectViaProxy | undefined;
+  viaSidecar?: OutboundPolicyRedirectViaSidecar | undefined;
 }
 /** Traffic to these CIDRs. */
 export interface OutboundPolicyIPRoute {
   /** Unspecified means any transport. */
-  transport?: OutboundPolicyTransport | (string & {});
+  transport?: OutboundPolicyTransport | (string & {}) | undefined;
   /** Empty means every port. */
-  ports?: OutboundPolicyPortRangeList;
-  cidrs?: StringList;
-  redirect?: OutboundPolicyRedirect;
+  ports?: OutboundPolicyPortRangeList | undefined;
+  cidrs?: StringList | undefined;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 /** Connections that carry TLS from the first byte to these domains. Never decrypted. */
 export interface OutboundPolicyTLSRoute {
   /** Unspecified means TCP. */
-  transport?: OutboundPolicyTransport | (string & {});
+  transport?: OutboundPolicyTransport | (string & {}) | undefined;
   /** Empty means port 443. */
-  ports?: OutboundPolicyPortRangeList;
+  ports?: OutboundPolicyPortRangeList | undefined;
   /** Supports `*.` wildcard prefixes and a bare `*`. */
-  domains?: StringList;
-  redirect?: OutboundPolicyRedirect;
+  domains?: StringList | undefined;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 export interface OutboundPolicyHeaderReplacement {
   /** Secret whose keys the header value templates may reference. Empty for static values. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Header name -> value template. A $-prefixed key name in the secret is replaced with the secret value; `$$` is a literal `$`. */
-  headers?: StringMap;
+  headers?: StringMap | undefined;
 }
 export type OutboundPolicyHeaderReplacementList = Array<OutboundPolicyHeaderReplacement>;
 /** HTTPS connections to these domains. Always decrypted, which requires TLS decryption to be allowed. */
 export interface OutboundPolicyHTTPSRoute {
   /** Unspecified means TCP. */
-  transport?: OutboundPolicyTransport | (string & {});
+  transport?: OutboundPolicyTransport | (string & {}) | undefined;
   /** Empty means port 443. */
-  ports?: OutboundPolicyPortRangeList;
+  ports?: OutboundPolicyPortRangeList | undefined;
   /** Supports `*.` wildcard prefixes and a bare `*`. */
-  domains?: StringList;
-  headerReplacements?: OutboundPolicyHeaderReplacementList;
-  redirect?: OutboundPolicyRedirect;
+  domains?: StringList | undefined;
+  headerReplacements?: OutboundPolicyHeaderReplacementList | undefined;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 /** Everything earlier routes didn't match. */
 export interface OutboundPolicyAnyRoute {
-  redirect?: OutboundPolicyRedirect;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 export interface OutboundPolicyRoute {
-  ip?: OutboundPolicyIPRoute;
-  tls?: OutboundPolicyTLSRoute;
-  https?: OutboundPolicyHTTPSRoute;
-  any?: OutboundPolicyAnyRoute;
+  ip?: OutboundPolicyIPRoute | undefined;
+  tls?: OutboundPolicyTLSRoute | undefined;
+  https?: OutboundPolicyHTTPSRoute | undefined;
+  any?: OutboundPolicyAnyRoute | undefined;
 }
 export type OutboundPolicyRouteList = Array<OutboundPolicyRoute>;
 /** Route-based policy for outbound network traffic. A sandbox applies it to its main container. Routes are evaluated in order and the first match decides what happens to a connection or packet. The last route must be the policy's only `any` route, which decides what happens to traffic no other route matches. Traffic a route matches without a redirect goes to its original destination. */
 export interface OutboundPolicy {
-  tlsDecryption?: OutboundPolicyTLSDecryption;
-  routes?: OutboundPolicyRouteList;
+  tlsDecryption?: OutboundPolicyTLSDecryption | undefined;
+  routes?: OutboundPolicyRouteList | undefined;
 }
 export interface Sandbox {
-  entrypointArgs?: StringList;
-  mountIds?: StringList;
-  imageId?: string;
-  secretIds?: StringList;
-  resources?: Resources;
-  cloudProvider?: CloudProvider | (string & {});
+  entrypointArgs?: StringList | undefined;
+  mountIds?: StringList | undefined;
+  imageId?: string | undefined;
+  secretIds?: StringList | undefined;
+  resources?: Resources | undefined;
+  cloudProvider?: CloudProvider | (string & {}) | undefined;
   /** Deprecated at some point */
-  timeoutSecs?: number;
+  timeoutSecs?: number | undefined;
   /** The max lifetime of a sandbox in seconds. */
-  workdir?: string;
-  nfsMounts?: SharedVolumeMountList;
-  runtimeDebug?: boolean;
+  workdir?: string | undefined;
+  nfsMounts?: SharedVolumeMountList | undefined;
+  runtimeDebug?: boolean | undefined;
   /** For internal debugging use only. */
-  blockNetwork?: boolean;
+  blockNetwork?: boolean | undefined;
   /** deprecated, use network_access instead */
-  s3Mounts?: S3MountList;
-  cloudBucketMounts?: CloudBucketMountList;
-  volumeMounts?: VolumeMountList;
-  ptyInfo?: PTYInfo;
+  s3Mounts?: S3MountList | undefined;
+  cloudBucketMounts?: CloudBucketMountList | undefined;
+  volumeMounts?: VolumeMountList | undefined;
+  ptyInfo?: PTYInfo | undefined;
   /** _experimental_scheduler */
-  schedulerPlacement?: SchedulerPlacement;
+  schedulerPlacement?: SchedulerPlacement | undefined;
   /** _experimental_resources */
-  workerId?: string;
+  workerId?: string | undefined;
   /** for internal debugging use only */
-  openPorts?: PortSpecs;
-  i6pnEnabled?: boolean;
+  openPorts?: PortSpecs | undefined;
+  i6pnEnabled?: boolean | undefined;
   /** Network access configuration beyond simple allow/block. */
-  networkAccess?: NetworkAccess;
-  proxyId?: string;
+  networkAccess?: NetworkAccess | undefined;
+  proxyId?: string | undefined;
   /** Enable snapshotting the sandbox (both memory and filesystem). This doesn't need to be enabled to save the filesystem as an image (i.e. a filesystem-only snapshot). */
-  enableSnapshot?: boolean;
+  enableSnapshot?: boolean | undefined;
   /** Used to pin gVisor version for memory-snapshottable sandboxes. This field is set by the server, not the client. */
-  snapshotVersion?: number;
-  cloudProviderStr?: string;
+  snapshotVersion?: number | undefined;
+  cloudProviderStr?: string | undefined;
   /** Supersedes cloud_provider Specifies container runtime behavior for sandboxes which are restored from a snapshot. Set by the backend at snapshot creation time. */
-  runscRuntimeVersion?: string;
+  runscRuntimeVersion?: string | undefined;
   /** Runtime the sandbox runs in: "vm" for a virtual machine, or a container runtime such as "gvisor". Leave it unset to let Modal pick. */
-  runtime?: string;
+  runtime?: string | undefined;
   /** If set, the sandbox will be created with verbose logging enabled. */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
   /** If set, the sandbox will be created with a name. */
-  name?: string;
+  name?: string | undefined;
   /** Deprecated: use experimental_options_v2 instead. */
-  experimentalOptions?: BooleanMap;
+  experimentalOptions?: BooleanMap | undefined;
   /** Experimental options */
-  experimentalOptionsV2?: StringMap;
-  preloadPathPrefixes?: StringList;
+  experimentalOptionsV2?: StringMap | undefined;
+  preloadPathPrefixes?: StringList | undefined;
   /** Internal use only. Optional idle timeout in seconds. If set, the sandbox will be terminated after being idle for this duration. */
-  idleTimeoutSecs?: number;
+  idleTimeoutSecs?: number | undefined;
   /** Deprecated: direct sandbox commands are always enabled. */
-  directSandboxCommandsEnabled?: boolean;
+  directSandboxCommandsEnabled?: boolean | undefined;
   /** Internal: restricts sandbox to run on this specific instance type. Set by server during SandboxRestore to ensure the restored sandbox runs on the same instance type as the original snapshot. */
-  RestoreInstanceType?: string;
+  RestoreInstanceType?: string | undefined;
   /** If set, connections to this sandbox will be subdomains of this domain rather than the default. */
-  customDomain?: string;
+  customDomain?: string | undefined;
   /** If set, the sandbox will receive a MODAL_IDENTITY_TOKEN env var, similar to how modal Function containers do. This can be used for OIDC-based authentication (e.g. to AWS, GCP). */
-  includeOidcIdentityToken?: boolean;
+  includeOidcIdentityToken?: boolean | undefined;
   /** Probe used to determine when the sandbox has become ready. */
-  readinessProbe?: Probe;
+  readinessProbe?: Probe | undefined;
   /** If set, only connections from these CIDRs will be allowed to connect to the sandbox (tunnels and auth proxy). */
-  inboundCidrAllowlist?: StringList;
-  environmentVariables?: StringMap2;
-  experimentalOutboundPolicy?: ExperimentalOutboundPolicy;
+  inboundCidrAllowlist?: StringList | undefined;
+  environmentVariables?: StringMap2 | undefined;
+  experimentalOutboundPolicy?: ExperimentalOutboundPolicy | undefined;
   /** If set, the sandbox's main container is served an X.509-SVID over a SPIFFE Workload API socket, addressed by SPIFFE_ENDPOINT_SOCKET. The certificate federates into a cloud account (AWS IAM Roles Anywhere). Sidecars are not served one. */
-  includeX509Svid?: boolean;
+  includeX509Svid?: boolean | undefined;
   /** Route-based outbound policy. Mutually exclusive with experimental_outbound_policy (superseded, experimental API) and with any network_access other than OPEN. */
-  outboundPolicy?: OutboundPolicy;
+  outboundPolicy?: OutboundPolicy | undefined;
 }
 export interface CreatePersistentSandboxRequest {
-  appId?: string;
-  definition?: Sandbox;
+  appId?: string | undefined;
+  definition?: Sandbox | undefined;
 }
 export interface CreatePersistentSandboxResponse {
   persistentSandboxId: string;
   sandboxId: string;
 }
 export interface PersistentSandboxNameLookup {
-  appName?: string;
-  environmentName?: string;
-  name?: string;
+  appName?: string | undefined;
+  environmentName?: string | undefined;
+  name?: string | undefined;
 }
 export interface GetPersistentSandboxRequest {
-  persistentSandboxId?: string;
-  name?: PersistentSandboxNameLookup;
+  persistentSandboxId?: string | undefined;
+  name?: PersistentSandboxNameLookup | undefined;
 }
 export interface GetPersistentSandboxResponse {
   persistentSandboxId: string;
   sandboxId: string;
 }
 export interface ResumePersistentSandboxRequest {
-  persistentSandboxId?: string;
+  persistentSandboxId?: string | undefined;
 }
 export interface ResumePersistentSandboxResponse {
   sandboxId: string;
 }
 export interface TerminatePersistentSandboxRequest {
-  persistentSandboxId?: string;
+  persistentSandboxId?: string | undefined;
 }
 export interface TerminatePersistentSandboxResponse {}
 export type CreatePersistentSandboxError =

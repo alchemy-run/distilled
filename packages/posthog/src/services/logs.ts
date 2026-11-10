@@ -109,12 +109,12 @@ export type EventPropertyFilterValue =
   | number
   | boolean;
 export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -124,12 +124,12 @@ export type PersonPropertyFilterValue =
   | number
   | boolean;
 export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -141,11 +141,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -156,11 +156,11 @@ export type ElementPropertyFilterValue =
   | number
   | boolean;
 export interface ElementPropertyFilter {
-  key?: Key10 | (string & {});
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  key?: Key10 | (string & {}) | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -171,11 +171,11 @@ export type EventMetadataPropertyFilterValue =
   | number
   | boolean;
 export interface EventMetadataPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -185,23 +185,23 @@ export type SessionPropertyFilterValue =
   | number
   | boolean;
 export interface SessionPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
   /** Set by the feature flag API when the cohort is deleted or does not exist. */
-  cohort_deleted?: boolean | null;
+  cohort_deleted?: boolean | null | undefined;
   /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
-  cohort_missing?: boolean | null;
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value?: number | undefined;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export type RecordingPropertyFilterKey = DurationType | string;
@@ -213,11 +213,11 @@ export type RecordingPropertyFilterValue =
   | number
   | boolean;
 export interface RecordingPropertyFilter {
-  key?: RecordingPropertyFilterKey;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  key?: RecordingPropertyFilterKey | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -227,11 +227,11 @@ export type LogEntryPropertyFilterValue =
   | number
   | boolean;
 export interface LogEntryPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -242,13 +242,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -258,25 +258,25 @@ export type FeaturePropertyFilterValue =
   | number
   | boolean;
 export interface FeaturePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
-  key?: string;
-  label?: string | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
-  value?: FlagPropertyFilterValue;
+  value?: FlagPropertyFilterValue | undefined;
 }
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
@@ -286,13 +286,13 @@ export type HogQLPropertyFilterValue =
   | number
   | boolean;
 export interface HogQLPropertyFilter {
-  key?: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -303,11 +303,11 @@ export type DataWarehousePropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -318,11 +318,11 @@ export type DataWarehousePersonPropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -332,22 +332,22 @@ export type ErrorTrackingIssueFilterValue =
   | number
   | boolean;
 export interface ErrorTrackingIssueFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
 export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0Item>;
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: LogPropertyFilterType | (string & {}) | undefined;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -358,21 +358,21 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
 export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase0Item>;
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: SpanPropertyFilterType | (string & {}) | undefined;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -383,11 +383,11 @@ export type RevenueAnalyticsPropertyFilterValue =
   | number
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -399,11 +399,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -414,11 +414,11 @@ export type WorkflowVariablePropertyFilterValue =
   | number
   | boolean;
 export interface WorkflowVariablePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -433,25 +433,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type PropertyGroupFilterValueValuesItem =
@@ -482,35 +482,35 @@ export type PropertyGroupFilterValueValuesItem =
   | BehavioralPropertyFilter;
 export type PropertyGroupFilterValueValuesList = Array<PropertyGroupFilterValueValuesItem>;
 export interface PropertyGroupFilterValue {
-  type?: FilterLogicalOperator | (string & {});
-  values?: PropertyGroupFilterValueValuesList;
+  type?: FilterLogicalOperator | (string & {}) | undefined;
+  values?: PropertyGroupFilterValueValuesList | undefined;
 }
 export type PropertyGroupFilterValuesList = Array<PropertyGroupFilterValue>;
 export interface PropertyGroupFilter {
-  type?: FilterLogicalOperator | (string & {});
-  values?: PropertyGroupFilterValuesList;
+  type?: FilterLogicalOperator | (string & {}) | undefined;
+  values?: PropertyGroupFilterValuesList | undefined;
 }
 export type LogsAlertFiltersServiceNamesList = Array<string>;
 export type LogSeverityLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
 export type LogsAlertFiltersSeverityLevelsList = Array<LogSeverityLevel | (string & {})>;
 export interface LogsAlertFilters {
-  filterGroup?: PropertyGroupFilter | null;
-  serviceNames?: LogsAlertFiltersServiceNamesList | null;
-  severityLevels?: LogsAlertFiltersSeverityLevelsList | null;
+  filterGroup?: PropertyGroupFilter | null | undefined;
+  serviceNames?: LogsAlertFiltersServiceNamesList | null | undefined;
+  severityLevels?: LogsAlertFiltersSeverityLevelsList | null | undefined;
 }
 /** * `above` - Above * `below` - Below */
 export type LogsAlertConfigurationThresholdOperatorEnum = "above" | "below";
 export interface AlertScheduleRestrictionWindow {
   /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
-  start?: string;
+  start?: string | undefined;
   /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
 export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
 export interface AlertScheduleRestriction {
   /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList;
+  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
 }
 /** * `single` - Single * `by_result_labels` - By result labels */
 export type GroupingModeEnum = "single" | "by_result_labels";
@@ -523,39 +523,39 @@ export interface LogsAlertGrouping {
   /** single keeps one instance for the whole alert. by_result_labels keeps one instance per distinct value of the labels in keys, so each group fires and resolves on its own. * `single` - Single * `by_result_labels` - By result labels */
   mode: GroupingModeEnum | (string & {});
   /** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
-  keys?: LogsAlertGroupingKeysList;
+  keys?: LogsAlertGroupingKeysList | undefined;
   /** Most instances the alert keeps at once. Groups past it are not tracked, and the last message says how many were left out. */
-  max_instances?: number;
+  max_instances?: number | undefined;
   /** What happens to groups past max_instances. degrade_visible names how many were left out. * `degrade_visible` - Degrade visible */
-  on_overflow?: OnOverflowEnum | (string & {});
+  on_overflow?: OnOverflowEnum | (string & {}) | undefined;
 }
 export interface CreateLogsAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
-  grouping?: LogsAlertGrouping;
+  grouping?: LogsAlertGrouping | undefined;
 }
 /** * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
 export type LogsAlertConfigurationStateEnum =
@@ -567,13 +567,13 @@ export type LogsAlertConfigurationStateEnum =
   | "broken";
 export interface LogsAlertStateInterval {
   /** Interval start (UTC, inclusive). */
-  start?: string;
+  start?: string | undefined;
   /** Interval end (UTC, exclusive). */
-  end?: string;
+  end?: string | undefined;
   /** Alert state during this interval. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
-  state?: LogsAlertConfigurationStateEnum;
+  state?: LogsAlertConfigurationStateEnum | undefined;
   /** Whether the alert was enabled during this interval. Disabled alerts keep their state but are inactive. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. For an alert the alerts platform evaluates, state changes come from the platform's check history instead. Drives the 'Last 24h' status bar on the alert list. */
 export type LogsAlertConfigurationStateTimelineList = Array<LogsAlertStateInterval>;
@@ -596,70 +596,70 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface LogsAlertConfiguration {
   /** Unique identifier for this alert. */
-  id?: string;
+  id?: string | undefined;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum;
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** How often the alert is evaluated, in minutes. Server-managed. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Current alert state: not_firing, firing, pending_resolve, errored, or snoozed. Server-managed. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
-  state?: LogsAlertConfigurationStateEnum;
+  state?: LogsAlertConfigurationStateEnum | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** When the next evaluation is scheduled. Server-managed. */
-  next_check_at?: string | null;
+  next_check_at?: string | null | undefined;
   /** When the last notification was sent. Server-managed. */
-  last_notified_at?: string | null;
+  last_notified_at?: string | null | undefined;
   /** When the alert was last evaluated. Server-managed. */
-  last_checked_at?: string | null;
+  last_checked_at?: string | null | undefined;
   /** Number of consecutive evaluation failures. Resets on success. Server-managed. */
-  consecutive_failures?: number;
+  consecutive_failures?: number | undefined;
   /** Error message from the most recent errored check, or null if the alert's most recent check was successful. Sourced from LogsAlertEvent without denormalization so retention-aware cleanup rules stay the only source of truth. For an alert the alerts platform evaluates, sourced from the platform's check history. */
-  last_error_message?: string | null;
+  last_error_message?: string | null | undefined;
   /** Continuous state intervals over the last 24h, ordered oldest-first. Each interval covers a span during which (state, enabled) was constant. Derived from LogsAlertEvent rows walked in chronological order; consecutive identical intervals are collapsed. For an alert the alerts platform evaluates, state changes come from the platform's check history instead. Drives the 'Last 24h' status bar on the alert list. */
-  state_timeline?: LogsAlertConfigurationStateTimelineList;
+  state_timeline?: LogsAlertConfigurationStateTimelineList | undefined;
   /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
-  destination_types?: LogsAlertConfigurationDestinationTypesList;
+  destination_types?: LogsAlertConfigurationDestinationTypesList | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
-  grouping?: LogsAlertGrouping;
+  grouping?: LogsAlertGrouping | undefined;
   /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set a grouping other than single. */
   platform_owned: boolean;
   /** When the alert was first enabled. Null means the alert is still in draft state. */
-  first_enabled_at?: string | null;
+  first_enabled_at?: string | null | undefined;
   /** When the alert was created. */
-  created_at?: string;
-  created_by?: UserBasic | null;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
   /** When the alert was last modified. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 /** * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
 export type PagerDutySeverityEnum = "critical" | "error" | "warning" | "info";
@@ -671,77 +671,77 @@ export interface CreateLogsAlertsDestinationRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** Notification destination type. * `slack` - slack * `webhook` - webhook * `teams` - teams * `pagerduty` - pagerduty */
-  type?: LogsAlertDestinationTypeEnum | (string & {});
+  type?: LogsAlertDestinationTypeEnum | (string & {}) | undefined;
   /** Integration ID for the Slack workspace. Required when type=slack. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID. Required when type=slack. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Human-readable channel name for display. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** HTTPS endpoint to post to. Required for webhook and teams. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
   /** Integration key of a PagerDuty Events API v2 integration. Required when type=pagerduty. */
-  pagerduty_routing_key?: string;
+  pagerduty_routing_key?: string | undefined;
   /** Severity PagerDuty records on the incident. Used when type=pagerduty. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
-  pagerduty_severity?: PagerDutySeverityEnum | (string & {});
+  pagerduty_severity?: PagerDutySeverityEnum | (string & {}) | undefined;
   /** PagerDuty service region of the account. Used when type=pagerduty. * `us` - us * `eu` - eu */
-  pagerduty_region?: PagerDutyRegionEnum | (string & {});
+  pagerduty_region?: PagerDutyRegionEnum | (string & {}) | undefined;
 }
 export type LogsAlertDestinationResponseHogFunctionIdsList = Array<string>;
 export interface LogsAlertDestinationResponse {
-  hog_function_ids?: LogsAlertDestinationResponseHogFunctionIdsList;
+  hog_function_ids?: LogsAlertDestinationResponseHogFunctionIdsList | undefined;
 }
 export interface CreateLogsAlertsSimulateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter criteria -- same format as LogsAlertConfiguration.filters. */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Threshold count to evaluate against. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Window size in minutes -- determines bucket interval. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** How often the alert is evaluated, in minutes. */
-  check_interval_minutes?: number;
+  check_interval_minutes?: number | undefined;
   /** Total check periods in the N-of-M evaluation window (M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods must breach to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications. A fire or resolve notification inside the cooldown is skipped. 0 means no minimum. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Relative date string for how far back to simulate (e.g. '-24h', '-7d', '-30d'). */
-  date_from?: string;
+  date_from?: string | undefined;
 }
 export interface LogsAlertSimulateBucket {
   /** Bucket start timestamp. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Number of matching logs in this bucket. */
-  count?: number;
+  count?: number | undefined;
   /** Whether the count crossed the threshold in this bucket. */
-  threshold_breached?: boolean;
+  threshold_breached?: boolean | undefined;
   /** Alert state after evaluating this bucket. */
-  state?: string;
+  state?: string | undefined;
   /** Notification action: none, fire, or resolve. */
-  notification?: string;
+  notification?: string | undefined;
   /** Human-readable explanation of the state transition. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Time-bucketed counts with full state machine evaluation. */
 export type LogsAlertSimulateResponseBucketsList = Array<LogsAlertSimulateBucket>;
 export interface LogsAlertSimulateResponse {
   /** Time-bucketed counts with full state machine evaluation. */
-  buckets?: LogsAlertSimulateResponseBucketsList;
+  buckets?: LogsAlertSimulateResponseBucketsList | undefined;
   /** Number of times the alert would have sent a fire notification. */
-  fire_count?: number;
+  fire_count?: number | undefined;
   /** Number of times the alert would have sent a resolve notification. */
-  resolve_count?: number;
+  resolve_count?: number | undefined;
   /** Total number of buckets in the simulation window. */
-  total_buckets?: number;
+  total_buckets?: number | undefined;
   /** Threshold count used for evaluation. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Threshold operator used for evaluation. */
-  threshold_operator?: string;
+  threshold_operator?: string | undefined;
 }
 export interface ScanDateRange {
   /** Start of the evaluation window (ISO 8601). Buckets before this are only used as baseline history. */
@@ -851,9 +851,9 @@ export interface LogsAnomalyScanResponse {
 }
 export interface SeriesBandsDateRange {
   /** Start of the window. Accepts ISO 8601 timestamps or relative formats: -7d, -1h, -1wStart, etc. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of the window. Same format as date_from. Omit or null for "now". */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 /** * `5` - 5 * `15` - 15 * `30` - 30 * `60` - 60 */
 export type IntervalMinutesEnum = 5 | 15 | 30 | 60;
@@ -863,9 +863,9 @@ export interface CreateLogsAnomaliesSeriesBandRequest {
   /** Service whose per-series volume to chart (the log record's service_name). */
   serviceName: string;
   /** Window to chart. Defaults to the last 7 days. It may span at most 7 days and start at most 35 days ago, past which the volume rollup no longer reaches. */
-  dateRange?: SeriesBandsDateRange;
+  dateRange?: SeriesBandsDateRange | undefined;
   /** Display grain in minutes for buckets and bands. One of 5, 15, 30, 60. The window may hold at most 500 buckets per series at the chosen grain, so a finer grain needs a shorter window. Omit it to let the window pick its grain, the coarsest that still cuts it into about 168 buckets. A series too sparse to read at this grain is returned at a coarser one; see each series' interval_minutes. * `5` - 5 * `15` - 15 * `30` - 30 * `60` - 60 */
-  intervalMinutes?: IntervalMinutesEnum | (number & {}) | null;
+  intervalMinutes?: IntervalMinutesEnum | (number & {}) | null | undefined;
 }
 /** * `sparse` - sparse * `quiet` - quiet */
 export type CoarsenedReasonEnum = "sparse" | "quiet";
@@ -925,9 +925,9 @@ export interface LogsSeriesBandsResponse {
 }
 export interface DateRange {
   /** Start of the date range. Accepts ISO 8601 timestamps or relative formats: -7d, -1h, -1mStart, etc. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of the date range. Same format as date_from. Omit or null for "now". */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 /** * `trace` - trace * `debug` - debug * `info` - info * `warn` - warn * `error` - error * `fatal` - fatal */
 export type SeverityLevelsEnum = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
@@ -958,37 +958,37 @@ export type LogPropertyFilterOperatorEnum =
   | "is_not_set";
 export interface LogPropertyFilter2 {
   /** Attribute key. For type "log", use "message" for the body text, or a log column: "pattern" and "pattern_version" (the patterns pivot), "severity_level", "service_name", "trace_id", "span_id". For "log_attribute"/"log_resource_attribute", use the attribute key (e.g. "k8s.container.name"). */
-  key?: string;
+  key?: string | undefined;
   /** "log" filters the log body/message. "log_attribute" filters log-level attributes. "log_resource_attribute" filters resource-level attributes. * `log` - log * `log_attribute` - log_attribute * `log_resource_attribute` - log_resource_attribute */
-  type?: LogPropertyFilterTypeEnum | (string & {});
+  type?: LogPropertyFilterTypeEnum | (string & {}) | undefined;
   /** Comparison operator. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex * `gt` - gt * `lt` - lt * `is_date_exact` - is_date_exact * `is_date_before` - is_date_before * `is_date_after` - is_date_after * `is_set` - is_set * `is_not_set` - is_not_set */
-  operator?: LogPropertyFilterOperatorEnum | (string & {});
+  operator?: LogPropertyFilterOperatorEnum | (string & {}) | undefined;
   /** Value to compare against. String, number, or array of strings. Omit for is_set/is_not_set operators. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** Property filters for the query. */
 export type LogsCountBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsCountBody {
   /** Date range for the count. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsCountBodySeverityLevelsList;
+  severityLevels?: LogsCountBodySeverityLevelsList | undefined;
   /** Filter by service names. */
-  serviceNames?: LogsCountBodyServiceNamesList;
+  serviceNames?: LogsCountBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters for the query. */
-  filterGroup?: LogsCountBodyFilterGroupList;
+  filterGroup?: LogsCountBodyFilterGroupList | undefined;
 }
 export interface CreateLogsCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The count query to execute. */
-  query?: LogsCountBody;
+  query?: LogsCountBody | undefined;
 }
 export interface LogsCountResponse {
   /** Number of log entries matching the filters. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Filter by log severity levels. Applied before bucketing. */
 export type LogsCountRangesBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
@@ -998,17 +998,17 @@ export type LogsCountRangesBodyServiceNamesList = Array<string>;
 export type LogsCountRangesBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsCountRangesBody {
   /** Window to bucket. Defaults to last hour. Use a bucket's date_from/date_to from a prior response to recursively narrow into a sub-range. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Approximate number of buckets to return. The bucket interval is picked adaptively from a fixed list (1/5/10s, 1/2/5/10/15/30/60/120/240/360/720/1440m) to land near this target. Defaults to 10, capped at 100. */
-  targetBuckets?: number;
+  targetBuckets?: number | undefined;
   /** Filter by log severity levels. Applied before bucketing. */
-  severityLevels?: LogsCountRangesBodySeverityLevelsList;
+  severityLevels?: LogsCountRangesBodySeverityLevelsList | undefined;
   /** Filter by service names. Applied before bucketing. */
-  serviceNames?: LogsCountRangesBodyServiceNamesList;
+  serviceNames?: LogsCountRangesBodyServiceNamesList | undefined;
   /** Full-text search across log bodies. Applied before bucketing. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters applied before bucketing. Same shape as `query-logs`. */
-  filterGroup?: LogsCountRangesBodyFilterGroupList;
+  filterGroup?: LogsCountRangesBodyFilterGroupList | undefined;
 }
 export interface CreateLogsCountRangeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1036,19 +1036,19 @@ export interface CreateLogsExplainLogWithAIRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** UUID of the log entry to explain */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Timestamp of the log entry (used for efficient lookup) */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Force regenerate explanation, bypassing cache */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
 }
 export interface ExplainRequest {
   /** UUID of the log entry to explain */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Timestamp of the log entry (used for efficient lookup) */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Force regenerate explanation, bypassing cache */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
 }
 /** * `severity_text` - severity_text * `service_name` - service_name */
 export type FacetFieldEnum = "severity_text" | "service_name";
@@ -1060,27 +1060,27 @@ export type LogsFacetValuesBodyServiceNamesList = Array<string>;
 export type LogsFacetValuesBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsFacetValuesBody {
   /** Top-level column to facet on. Provide exactly one of facetField, facetResourceAttribute or facetAttribute. Counts come from a rollup with 5-minute buckets, so the window widens to the buckets that contain date_from and date_to. The rollup honours severityLevels and serviceNames, but not body search, log-attribute filters, or resource-attribute filters. When personId or sessionId is set, counts come from the logs table with the exact window and every other filter. Both paths exclude this facet's own filter. * `severity_text` - severity_text * `service_name` - service_name */
-  facetField?: FacetFieldEnum | (string & {}) | null;
+  facetField?: FacetFieldEnum | (string & {}) | null | undefined;
   /** Resource attribute key to facet on (e.g. 'k8s.namespace.name'). Provide exactly one of facetField, facetResourceAttribute or facetAttribute. Its own log_resource_attribute filter is excluded so counts reflect the other active filters. */
-  facetResourceAttribute?: string | null;
+  facetResourceAttribute?: string | null | undefined;
   /** Log attribute key to facet on (e.g. 'log.iostream'). Provide exactly one of facetField, facetResourceAttribute or facetAttribute. Counts honour severity, service and resource-attribute filters, but not body search, other log-attribute filters, or this facet's own filter. */
-  facetAttribute?: string | null;
+  facetAttribute?: string | null | undefined;
   /** Date range. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels (ignored when faceting on severity_text). */
-  severityLevels?: LogsFacetValuesBodySeverityLevelsList;
+  severityLevels?: LogsFacetValuesBodySeverityLevelsList | undefined;
   /** Filter by service names (ignored when faceting on service_name). */
-  serviceNames?: LogsFacetValuesBodyServiceNamesList;
+  serviceNames?: LogsFacetValuesBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Type-ahead filter over the faceted field's own values (case-insensitive substring match). Distinct from searchTerm, which searches log bodies. */
-  facetSearch?: string;
+  facetSearch?: string | undefined;
   /** Property filters for the query. */
-  filterGroup?: LogsFacetValuesBodyFilterGroupList;
+  filterGroup?: LogsFacetValuesBodyFilterGroupList | undefined;
   /** Scope counts to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope counts to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsFacetValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1112,7 +1112,7 @@ export interface LogsGroupByDimension {
   /** The key this dimension groups by -- an attribute key (e.g. "session_id", "service.name") or, when source is "column", one of the top-level log fields: "severity_level", "service_name", "trace_id", "span_id", "pattern" (the masked message template). */
   key: string;
   /** Where this dimension's key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields. * `log` - log * `resource` - resource * `column` - column */
-  source?: LogsGroupBySourceEnum | (string & {});
+  source?: LogsGroupBySourceEnum | (string & {}) | undefined;
 }
 /** Ordered group-by dimensions to combine (a group is one combination of per-dimension values), up to 4. Takes precedence over groupBy/groupBySource; one of the two must be provided. */
 export type LogsGroupByBodyGroupBysList = Array<LogsGroupByDimension>;
@@ -1120,29 +1120,29 @@ export type LogsGroupByBodyGroupBysList = Array<LogsGroupByDimension>;
 export type OrderGroupsByEnum = "log_count" | "error_count" | "last_seen";
 export interface LogsGroupByBody {
   /** Date range to aggregate over. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels before grouping. */
-  severityLevels?: LogsGroupByBodySeverityLevelsList;
+  severityLevels?: LogsGroupByBodySeverityLevelsList | undefined;
   /** Restrict grouping to these service names. */
-  serviceNames?: LogsGroupByBodyServiceNamesList;
+  serviceNames?: LogsGroupByBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies before grouping. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters applied before grouping. Same shape as the query-logs endpoint. */
-  filterGroup?: LogsGroupByBodyFilterGroupList;
+  filterGroup?: LogsGroupByBodyFilterGroupList | undefined;
   /** The key to group logs by -- an attribute key (e.g. "session_id", "service.name") or, when groupBySource is "column", one of the top-level log fields: "severity_level", "service_name", "trace_id", "span_id", "pattern". Ignored when groupBys is provided. */
-  groupBy?: string;
+  groupBy?: string | undefined;
   /** Where the grouping key lives: "log" for log-level attributes, "resource" for resource-level attributes, "column" for top-level log fields. Ignored when groupBys is provided. * `log` - log * `resource` - resource * `column` - column */
-  groupBySource?: LogsGroupBySourceEnum | (string & {});
+  groupBySource?: LogsGroupBySourceEnum | (string & {}) | undefined;
   /** Ordered group-by dimensions to combine (a group is one combination of per-dimension values), up to 4. Takes precedence over groupBy/groupBySource; one of the two must be provided. */
-  groupBys?: LogsGroupByBodyGroupBysList;
+  groupBys?: LogsGroupByBodyGroupBysList | undefined;
   /** Aggregate to rank groups by (descending): "log_count" for the noisiest groups, "error_count" for the most failing, "last_seen" for the most recent. * `log_count` - log_count * `error_count` - error_count * `last_seen` - last_seen */
-  orderGroupsBy?: OrderGroupsByEnum | (string & {});
+  orderGroupsBy?: OrderGroupsByEnum | (string & {}) | undefined;
   /** Maximum number of groups to return (top-N by orderGroupsBy). Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Scope grouping to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope grouping to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsGroupByRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1162,7 +1162,7 @@ export interface LogsGroupByGroup {
   /** Number of matching logs in this group at severity "error" or "fatal". */
   error_count: number;
   /** ISO 8601 timestamp of the earliest matching log in this group. */
-  first_seen?: string;
+  first_seen?: string | undefined;
   /** ISO 8601 timestamp of the most recent matching log in this group. */
   last_seen: string;
 }
@@ -1232,15 +1232,15 @@ export interface CreateLogsMetricRuleRequest {
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
   metric_name: string;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: CreateLogsMetricRuleRequestGroupByList;
+  group_by?: CreateLogsMetricRuleRequestGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum | (string & {});
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
 export type LogsMetricRuleGroupByList = Array<string>;
@@ -1252,15 +1252,15 @@ export interface LogsMetricRule {
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
   metric_name: string;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: LogsMetricRuleGroupByList;
+  group_by?: LogsMetricRuleGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum;
+  source?: LogsMetricRuleRecordSourceEnum | undefined;
   /** Incremented on each update for worker cache coherency. */
   version: number;
   created_by: number;
@@ -1269,9 +1269,9 @@ export interface LogsMetricRule {
 }
 export interface LogsNaturalLanguageDateRange {
   /** Start of the date range. Accepts ISO 8601 timestamps or relative formats such as -1h or -7d. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of the date range. Same format as date_from. Null means "now". */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 export interface CreateLogsNaturalLanguageQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1279,7 +1279,7 @@ export interface CreateLogsNaturalLanguageQueryRequest {
   /** The plain-language request, for example 'error logs from checkout in the last 2 hours'. */
   query: string;
   /** The viewer's current date range. Used when the request names no time, and to scope the service and attribute lists the model may choose from. */
-  dateRange?: LogsNaturalLanguageDateRange;
+  dateRange?: LogsNaturalLanguageDateRange | undefined;
 }
 /** Severity levels to keep. Empty means all levels. */
 export type LogsNaturalLanguageCandidateQuerySeverityLevelsList = Array<SeverityLevelsEnum>;
@@ -1295,7 +1295,7 @@ export interface LogsNaturalLanguageCandidateFilter {
   /** Property operator, for example exact, icontains or is_set. */
   operator: string;
   /** A list of strings for exact and is_not, a string for text operators, absent for is_set. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** Attribute and message filters, combined with AND. */
 export type LogsNaturalLanguageCandidateQueryFilterGroupList =
@@ -1340,19 +1340,19 @@ export type LogsPatternsBodyServiceNamesList = Array<string>;
 export type LogsPatternsBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsPatternsBody {
   /** Date range to mine patterns from. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels before mining. */
-  severityLevels?: LogsPatternsBodySeverityLevelsList;
+  severityLevels?: LogsPatternsBodySeverityLevelsList | undefined;
   /** Restrict mining to these service names. */
-  serviceNames?: LogsPatternsBodyServiceNamesList;
+  serviceNames?: LogsPatternsBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies before mining. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters applied before mining. Same shape as the query-logs endpoint. */
-  filterGroup?: LogsPatternsBodyFilterGroupList;
+  filterGroup?: LogsPatternsBodyFilterGroupList | undefined;
   /** Scope mining to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope mining to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsPatternRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1418,9 +1418,9 @@ export interface LogPattern {
   /** Longest literal run in the template, for plain-text (icontains) filtering when `match_regex` is null. Null when the template has no usable literal content. */
   match_literal: string | null;
   /** Exact canonical members of a stored-pattern group. Filter pattern IN these values AND pattern_version equals this group's version. Empty for body mining. */
-  match_patterns?: LogPatternMatchPatternsList;
+  match_patterns?: LogPatternMatchPatternsList | undefined;
   /** Version required by match_patterns. Null for body mining. */
-  pattern_version?: number | null;
+  pattern_version?: number | null | undefined;
 }
 /** Pattern groups ordered by count. Stored-pattern counts are exact; body-mining counts describe the sample. */
 export type LogsPatternsResponsePatternsList = Array<LogPattern>;
@@ -1434,17 +1434,17 @@ export interface LogsPatternsSparklineBucket {
 export type LogsPatternsResponseSparklineBucketsList = Array<LogsPatternsSparklineBucket>;
 export interface LogsPatternsResponse {
   /** Whether counts come from stored-pattern aggregation or body masking and Drain3 mining. * `stored_patterns` - stored_patterns * `body_mining` - body_mining */
-  source?: LogsPatternsSourceEnum;
+  source?: LogsPatternsSourceEnum | undefined;
   /** Stored pattern version used. Null for body mining. */
-  pattern_version?: number | null;
+  pattern_version?: number | null | undefined;
   /** Why body mining was used. Null for stored-pattern aggregation. * `flag_disabled` - flag_disabled * `insufficient_version_coverage` - insufficient_version_coverage * `empty_window` - empty_window * `comparison` - comparison */
-  fallback_reason?: FallbackReasonEnum | null;
+  fallback_reason?: FallbackReasonEnum | null | undefined;
   /** Percentage of all matching rows with a nonempty pattern at the selected version. Null for body mining. */
-  pattern_coverage_pct?: number | null;
+  pattern_coverage_pct?: number | null | undefined;
   /** Exact rows represented by the returned stored-pattern groups. Null for body mining. */
-  represented_count?: number | null;
+  represented_count?: number | null | undefined;
   /** Matching rows outside returned groups, including other versions, unstamped rows and the long tail. Null for body mining. */
-  remainder_count?: number | null;
+  remainder_count?: number | null | undefined;
   /** Pattern groups ordered by count. Stored-pattern counts are exact; body-mining counts describe the sample. */
   patterns: LogsPatternsResponsePatternsList;
   /** Rows scanned: the sample size for body mining, or the full matching count for stored-pattern aggregation. */
@@ -1466,21 +1466,21 @@ export type LogsPatternsDiffBodyServiceNamesList = Array<string>;
 export type LogsPatternsDiffBodyFilterGroupList = Array<LogPropertyFilter2>;
 export interface LogsPatternsDiffBody {
   /** Date range to mine patterns from. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels before mining. */
-  severityLevels?: LogsPatternsDiffBodySeverityLevelsList;
+  severityLevels?: LogsPatternsDiffBodySeverityLevelsList | undefined;
   /** Restrict mining to these service names. */
-  serviceNames?: LogsPatternsDiffBodyServiceNamesList;
+  serviceNames?: LogsPatternsDiffBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies before mining. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters applied before mining. Same shape as the query-logs endpoint. */
-  filterGroup?: LogsPatternsDiffBodyFilterGroupList;
+  filterGroup?: LogsPatternsDiffBodyFilterGroupList | undefined;
   /** Scope mining to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope mining to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Return at most this many entries, most interesting first. Omit for all. Sets `truncated`. */
-  limit?: number | null;
+  limit?: number | null | undefined;
 }
 export interface CreateLogsPatternsDiffRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1488,7 +1488,7 @@ export interface CreateLogsPatternsDiffRequest {
   /** The patterns query for the current (foreground) window: date range plus any severity/service/search/property filters. The same filters are applied to the baseline window. */
   query: LogsPatternsDiffBody;
   /** Baseline window to compare against. Omit to default to the current window shifted back exactly one week, which absorbs daily and weekly log-volume cycles. Pass an explicit range to compare against a specific period, e.g. pre-deploy or pre-incident. */
-  baselineDateRange?: DateRange;
+  baselineDateRange?: DateRange | undefined;
 }
 export interface LogsAgentWindowBounds {
   /** Window start, ISO 8601 UTC with a Z suffix (inclusive). */
@@ -1500,7 +1500,7 @@ export interface LogsAgentWindow {
   /** Absolute bounds the server used for the current window. */
   current: LogsAgentWindowBounds;
   /** Absolute bounds the server used for the baseline window, when there is one. */
-  baseline?: LogsAgentWindowBounds;
+  baseline?: LogsAgentWindowBounds | undefined;
   /** Always "UTC". */
   timezone: string;
 }
@@ -1546,17 +1546,17 @@ export interface LogPatternDiffEntry {
 export type LogsPatternsDiffResponseEntriesList = Array<LogPatternDiffEntry>;
 export interface LogsPatternsDiffWindow {
   /** Whether counts come from stored-pattern aggregation or body masking and Drain3 mining. * `stored_patterns` - stored_patterns * `body_mining` - body_mining */
-  source?: LogsPatternsSourceEnum;
+  source?: LogsPatternsSourceEnum | undefined;
   /** Stored pattern version used. Null for body mining. */
-  pattern_version?: number | null;
+  pattern_version?: number | null | undefined;
   /** Why body mining was used. Null for stored-pattern aggregation. * `flag_disabled` - flag_disabled * `insufficient_version_coverage` - insufficient_version_coverage * `empty_window` - empty_window * `comparison` - comparison */
-  fallback_reason?: FallbackReasonEnum | null;
+  fallback_reason?: FallbackReasonEnum | null | undefined;
   /** Percentage of all matching rows with a nonempty pattern at the selected version. Null for body mining. */
-  pattern_coverage_pct?: number | null;
+  pattern_coverage_pct?: number | null | undefined;
   /** Exact rows represented by the returned stored-pattern groups. Null for body mining. */
-  represented_count?: number | null;
+  represented_count?: number | null | undefined;
   /** Matching rows outside returned groups, including other versions, unstamped rows and the long tail. Null for body mining. */
-  remainder_count?: number | null;
+  remainder_count?: number | null | undefined;
   /** Log rows fed to the miner for this window (sample size). */
   scanned_count: number;
   /** Total log rows matching the filters in this window. */
@@ -1621,35 +1621,35 @@ export type LogsFilterGroupInput = LogsFilterGroupInputCase0List | LogsFilterGro
 export type LogsQueryBodyCustomColumnsList = Array<string>;
 export interface LogsQueryBody {
   /** Date range for the query. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsQueryBodySeverityLevelsList;
+  severityLevels?: LogsQueryBodySeverityLevelsList | undefined;
   /** Filter by service names. */
-  serviceNames?: LogsQueryBodyServiceNamesList;
+  serviceNames?: LogsQueryBodyServiceNamesList | undefined;
   /** Order results by timestamp. * `latest` - latest * `earliest` - earliest */
-  orderBy?: OrderByEnum | (string & {});
+  orderBy?: OrderByEnum | (string & {}) | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters for the query. Pass a list of filters, which are all combined with AND, or a filter group object with nested AND/OR groups. */
-  filterGroup?: LogsFilterGroupInput;
+  filterGroup?: LogsFilterGroupInput | undefined;
   /** Max results. Values above 2000 are capped at 2000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from previous response. */
-  after?: string;
+  after?: string | undefined;
   /** Omit the per-log attributes and resource_attributes maps from results to keep payloads compact. Defaults to false. */
-  excludeAttributes?: boolean;
+  excludeAttributes?: boolean | undefined;
   /** Custom column expressions evaluated per log row. Each entry is either a source-prefixed shorthand (`attributes.<key>`, `resource_attributes.<key>`, `body.<json.path>`) or a scalar HogQL expression (`upper(level)`, `coalesce(attributes['a'], attributes['b'])`). Aggregations and subqueries are rejected. Values come back on each result row keyed by the aliases echoed in the response `columns` field. */
-  customColumns?: LogsQueryBodyCustomColumnsList;
+  customColumns?: LogsQueryBodyCustomColumnsList | undefined;
   /** Scope results to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope results to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The logs query to execute. */
-  query?: LogsQueryBody;
+  query?: LogsQueryBody | undefined;
 }
 /** The parsed query that was executed, echoed back for confirmation. */
 export type LogsQueryResponseQueryMap = { [key: string]: unknown | undefined };
@@ -1658,28 +1658,28 @@ export type LogEntryAttributesMap = { [key: string]: string | undefined };
 /** Resource-level attributes (service.name, k8s.*, host.hostname, etc.) as a string-keyed map. Repeats across all logs from the same pod/host. */
 export type LogEntryResourceAttributesMap = { [key: string]: string | undefined };
 export interface LogEntry {
-  uuid?: string;
+  uuid?: string | undefined;
   /** ISO 8601 timestamp of the original log event. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** ISO 8601 timestamp the log pipeline observed the event (may differ from `timestamp`). */
-  observed_timestamp?: string;
-  body?: string;
+  observed_timestamp?: string | undefined;
+  body?: string | undefined;
   /** Log severity as a string (e.g. "info", "error"). Preferred over severity_number. */
-  severity_text?: string;
+  severity_text?: string | undefined;
   /** Log severity as a numeric code. Redundant with severity_text; kept for OpenTelemetry compatibility. */
-  severity_number?: number;
+  severity_number?: number | undefined;
   /** ClickHouse alias for severity_text. Redundant; prefer severity_text. */
-  level?: string;
+  level?: string | undefined;
   /** Trace ID. Returns "00000000000000000000000000000000" when not set (padding, not null). */
-  trace_id?: string;
+  trace_id?: string | undefined;
   /** Span ID. Returns "0000000000000000" when not set (padding, not null). */
-  span_id?: string;
+  span_id?: string | undefined;
   /** Log-level attributes as a string-keyed map. Values are strings (numeric/datetime attributes are also accessible via materialized columns). */
-  attributes?: LogEntryAttributesMap;
+  attributes?: LogEntryAttributesMap | undefined;
   /** Resource-level attributes (service.name, k8s.*, host.hostname, etc.) as a string-keyed map. Repeats across all logs from the same pod/host. */
-  resource_attributes?: LogEntryResourceAttributesMap;
+  resource_attributes?: LogEntryResourceAttributesMap | undefined;
   /** OpenTelemetry event name, if set. */
-  event_name?: string;
+  event_name?: string | undefined;
   /** OpenTelemetry instrumentation scope name. Empty when not set. */
   instrumentation_scope: string;
   /** Hash of the resource attributes. Logs from the same pod or host share it. */
@@ -1693,17 +1693,17 @@ export type LogsQueryResponseResultsList = Array<LogEntry>;
 export type LogsQueryResponseColumnsList = Array<string>;
 export interface LogsQueryResponse {
   /** The parsed query that was executed, echoed back for confirmation. */
-  query?: LogsQueryResponseQueryMap;
+  query?: LogsQueryResponseQueryMap | undefined;
   /** Log entries matching the query. */
-  results?: LogsQueryResponseResultsList;
+  results?: LogsQueryResponseResultsList | undefined;
   /** True if more results exist beyond this page. */
-  hasMore?: boolean;
+  hasMore?: boolean | undefined;
   /** Opaque cursor to pass as `after` in the next request to fetch the next page. Null when hasMore is false. */
-  nextCursor?: string | null;
+  nextCursor?: string | null | undefined;
   /** Maximum number of rows the `export` endpoint will produce -- informational. */
-  maxExportableLogs?: number;
+  maxExportableLogs?: number | undefined;
   /** Aliases for the requested `customColumns`, in request order. Each result row carries its custom column values under these keys. Null when no custom columns were requested. */
-  columns?: LogsQueryResponseColumnsList | null;
+  columns?: LogsQueryResponseColumnsList | null | undefined;
 }
 export interface CreateLogsRetentionRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1711,9 +1711,9 @@ export interface CreateLogsRetentionRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
 }
@@ -1723,9 +1723,9 @@ export interface LogsRetentionRule {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
   /** Incremented on each update for worker cache coherency. */
@@ -1740,17 +1740,17 @@ export interface CreateLogsRetentionRulesReorderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Rule IDs in the desired evaluation order (first element is highest priority / lowest order index). */
   ordered_ids: CreateLogsRetentionRulesReorderRequestOrderedIdsList;
 }
 export type PaginatedLogsRetentionRuleListResultsList = Array<LogsRetentionRule>;
 export interface PaginatedLogsRetentionRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLogsRetentionRuleListResultsList;
 }
 export interface CreateLogsRetentionRulesSuggestNameRequest {
@@ -1779,17 +1779,17 @@ export interface CreateLogsSamplingRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
   rule_type: LogsExclusionRuleRuleTypeEnum | (string & {});
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: CreateLogsSamplingRuleRequestScopeAttributeFiltersList;
+  scope_attribute_filters?: CreateLogsSamplingRuleRequestScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
 }
@@ -1803,17 +1803,17 @@ export interface LogsSamplingRule {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
   rule_type: LogsExclusionRuleRuleTypeEnum;
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: LogsSamplingRuleScopeAttributeFiltersList;
+  scope_attribute_filters?: LogsSamplingRuleScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
   /** Incremented on each update for worker cache coherency. */
@@ -1828,17 +1828,17 @@ export interface CreateLogsSamplingRulesReorderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Rule IDs in the desired evaluation order (first element is highest priority / lowest order index). */
   ordered_ids: CreateLogsSamplingRulesReorderRequestOrderedIdsList;
 }
 export type PaginatedLogsSamplingRuleListResultsList = Array<LogsSamplingRule>;
 export interface PaginatedLogsSamplingRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLogsSamplingRuleListResultsList;
 }
 export interface CreateLogsSamplingRulesSimulateRequest {
@@ -1863,29 +1863,29 @@ export type LogsServicesBodyFilterGroupList = Array<LogPropertyFilter2>;
 export type LogsCompareModeEnum = "none" | "previous_period" | "previous_day" | "previous_week";
 export interface LogsServicesBody {
   /** Date range for the services aggregation. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsServicesBodySeverityLevelsList;
+  severityLevels?: LogsServicesBodySeverityLevelsList | undefined;
   /** Restrict the aggregation to these service names. */
-  serviceNames?: LogsServicesBodyServiceNamesList;
+  serviceNames?: LogsServicesBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Case-insensitive substring match on service name, applied before aggregation. Use to reach services beyond the response cap. */
-  serviceNameSearch?: string;
+  serviceNameSearch?: string | undefined;
   /** Property filters for the query. */
-  filterGroup?: LogsServicesBodyFilterGroupList;
+  filterGroup?: LogsServicesBodyFilterGroupList | undefined;
   /** Deployment environment, matched without case against the first set resource attribute of deployment.environment.name, deployment.environment and env. "(none)" matches logs without one. */
-  environment?: string;
+  environment?: string | undefined;
   /** Baseline window for per-service status: the window just before, the same window a day or a week earlier, or none. Silent services (logs in the baseline, none now) only appear with a baseline. * `none` - No baseline * `previous_period` - Previous period * `previous_day` - Same window a day earlier * `previous_week` - Same window a week earlier */
-  compare?: LogsCompareModeEnum | (string & {});
+  compare?: LogsCompareModeEnum | (string & {}) | undefined;
 }
 export interface CreateLogsServiceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The services aggregation query to execute. */
-  query?: LogsServicesBody;
+  query?: LogsServicesBody | undefined;
   /** Explicit baseline window. Takes precedence over `query.compare`. */
-  baselineDateRange?: DateRange;
+  baselineDateRange?: DateRange | undefined;
 }
 /** * `ok` - OK * `degraded` - Error rate 5% or more * `regressed` - Error rate worse than the baseline * `improved` - Error rate better than the baseline * `recovered` - No longer degraded * `new` - No logs in the baseline * `silent` - Logs stopped */
 export type LogsServiceStatusEnum =
@@ -1911,41 +1911,41 @@ export interface LogsServiceActiveRule {
 export type LogsServiceAggregateActiveRulesList = Array<LogsServiceActiveRule>;
 export interface LogsServiceAggregate {
   /** Service name, or "(no value)" / "(no service)" placeholder for unset entries. */
-  service_name?: string;
+  service_name?: string | undefined;
   /** ok, degraded (error rate of 5% or more), regressed or improved (error rate up or down by 1 pp and 2x), recovered (back under 5%), new (no baseline logs) or silent (baseline logs, none in the window). * `ok` - OK * `degraded` - Error rate 5% or more * `regressed` - Error rate worse than the baseline * `improved` - Error rate better than the baseline * `recovered` - No longer degraded * `new` - No logs in the baseline * `silent` - Logs stopped */
-  status?: LogsServiceStatusEnum;
+  status?: LogsServiceStatusEnum | undefined;
   /** Short reason for the status, e.g. "error rate 0.4% -> 3.1%". */
-  reason?: string;
+  reason?: string | undefined;
   /** Error rate in percent, rounded to 1 decimal. */
-  error_rate_pct?: number;
+  error_rate_pct?: number | undefined;
   /** Logs in the baseline. Null without one. */
-  baseline_log_count?: number | null;
+  baseline_log_count?: number | null | undefined;
   /** Error rate change against the baseline, in percentage points. */
-  error_rate_delta_pp?: number | null;
+  error_rate_delta_pp?: number | null | undefined;
   /** Log volume change against the baseline, in percent. */
-  log_count_change_pct?: number | null;
+  log_count_change_pct?: number | null | undefined;
   /** Latest log time (UTC). From the rollup, and for silent services, the start of the last 5-minute bucket. */
-  last_seen?: string | null;
+  last_seen?: string | null | undefined;
   /** Total log entries from this service in the window. */
-  log_count?: number;
+  log_count?: number | undefined;
   /** Count of logs at severity "error" or "fatal". */
-  error_count?: number;
+  error_count?: number | undefined;
   /** Pre-computed error_count / log_count, rounded to 4 decimals. Useful for ranking noisy services. */
-  error_rate?: number;
+  error_rate?: number | undefined;
   /** Share of total log volume in the window for this service (0-100). */
-  volume_share_pct?: number;
+  volume_share_pct?: number | undefined;
   /** Counts by coarse severity bucket (debug, info, warn, error+fatal). */
-  severity_breakdown?: LogsServiceSeverityBreakdown;
+  severity_breakdown?: LogsServiceSeverityBreakdown | undefined;
   /** Enabled sampling rules whose scope includes this service. */
-  active_rules?: LogsServiceAggregateActiveRulesList;
+  active_rules?: LogsServiceAggregateActiveRulesList | undefined;
 }
 /** Per-service aggregates, ordered by log_count descending. Capped at 10000 services. */
 export type LogsServicesResponseServicesList = Array<LogsServiceAggregate>;
 export interface LogsServicesSparklineBucket {
   /** Bucket start time (ISO 8601). */
-  time?: string;
-  service_name?: string;
-  count?: number;
+  time?: string | undefined;
+  service_name?: string | undefined;
+  count?: number | undefined;
 }
 /** Time-bucketed counts broken down by service, for plotting volume over time. Covers only the top 25 services in this response; re-request with `serviceNames` to get sparklines for specific services. */
 export type LogsServicesResponseSparklineList = Array<LogsServicesSparklineBucket>;
@@ -1957,9 +1957,9 @@ export interface LogsServicesSummary {
   /** Combined volume share (percent) of the top services by log_count. */
   top_services_volume_share_pct: number;
   /** Service rows per status. */
-  status_counts?: LogsServicesSummaryStatusCountsMap;
+  status_counts?: LogsServicesSummaryStatusCountsMap | undefined;
   /** True when more services matched than `services` holds. */
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 /** `from` and `to` of the queried window, ISO 8601 UTC. */
 export type LogsWindowCurrentMap = { [key: string]: string | undefined };
@@ -1969,7 +1969,7 @@ export interface LogsWindow {
   /** `from` and `to` of the queried window, ISO 8601 UTC. */
   current: LogsWindowCurrentMap;
   /** `from` and `to` of the baseline. Absent without one. */
-  baseline?: LogsWindowBaselineMap;
+  baseline?: LogsWindowBaselineMap | undefined;
   /** Always UTC. */
   timezone: string;
 }
@@ -1987,25 +1987,25 @@ export interface LogsNextStep {
   /** Prefilled `query` for that tool. */
   query: LogsNextStepQueryMap;
   /** Prefilled sibling `baselineDateRange` argument, for tools that take one. */
-  baselineDateRange?: LogsNextStepBaselineDateRangeMap;
+  baselineDateRange?: LogsNextStepBaselineDateRangeMap | undefined;
 }
 /** Prefilled follow-up calls for problem services. */
 export type LogsServicesResponseNextList = Array<LogsNextStep>;
 export interface LogsServicesResponse {
   /** Per-service aggregates, ordered by log_count descending. Capped at 10000 services. */
-  services?: LogsServicesResponseServicesList;
+  services?: LogsServicesResponseServicesList | undefined;
   /** Time-bucketed counts broken down by service, for plotting volume over time. Covers only the top 25 services in this response; re-request with `serviceNames` to get sparklines for specific services. */
-  sparkline?: LogsServicesResponseSparklineList;
+  sparkline?: LogsServicesResponseSparklineList | undefined;
   /** True distinct service count for the window and filters, unaffected by the 10000-service cap on `services`. Greater than the length of `services` when the response is truncated. */
-  total_services?: number;
+  total_services?: number | undefined;
   /** Roll-up stats for the Services tab header. */
-  summary?: LogsServicesSummary;
+  summary?: LogsServicesSummary | undefined;
   /** Absolute UTC bounds of the window and the baseline. */
-  window?: LogsWindow;
+  window?: LogsWindow | undefined;
   /** rollup: 5-minute rollup only. rollup+raw: rollup plus raw logs at unaligned window edges. * `rollup` - Rollup * `rollup+raw` - Rollup Raw * `raw` - Raw */
-  source?: LogsServicesSourceEnum;
+  source?: LogsServicesSourceEnum | undefined;
   /** Prefilled follow-up calls for problem services. */
-  next?: LogsServicesResponseNextList;
+  next?: LogsServicesResponseNextList | undefined;
 }
 /** Filter by log severity levels. */
 export type LogsSparklineBodySeverityLevelsList = Array<SeverityLevelsEnum | (string & {})>;
@@ -2017,40 +2017,40 @@ export type SparklineBreakdownByEnum = "severity" | "service";
 export type SparklineRankByEnum = "count" | "bytes";
 export interface LogsSparklineBody {
   /** Date range for the sparkline. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Filter by log severity levels. */
-  severityLevels?: LogsSparklineBodySeverityLevelsList;
+  severityLevels?: LogsSparklineBodySeverityLevelsList | undefined;
   /** Filter by service names. */
-  serviceNames?: LogsSparklineBodyServiceNamesList;
+  serviceNames?: LogsSparklineBodyServiceNamesList | undefined;
   /** Full-text search term to filter log bodies. */
-  searchTerm?: string;
+  searchTerm?: string | undefined;
   /** Property filters for the query. Pass a list of filters, which are all combined with AND, or a filter group object with nested AND/OR groups. */
-  filterGroup?: LogsFilterGroupInput;
+  filterGroup?: LogsFilterGroupInput | undefined;
   /** Break down sparkline by "severity" (default) or "service". * `severity` - severity * `service` - service */
-  sparklineBreakdownBy?: SparklineBreakdownByEnum | (string & {});
+  sparklineBreakdownBy?: SparklineBreakdownByEnum | (string & {}) | undefined;
   /** Rank breakdown values by "count" (default) or "bytes" before collapsing the tail into "other". * `count` - count * `bytes` - bytes */
-  sparklineRankBy?: SparklineRankByEnum | (string & {});
+  sparklineRankBy?: SparklineRankByEnum | (string & {}) | undefined;
   /** Scope results to one person (UUID or numeric ID). Expanded server-side to the person's distinct IDs and matched against the team's configured distinct-id log attribute keys. */
-  personId?: string;
+  personId?: string | undefined;
   /** Scope results to one session ID. Matched server-side against the team's configured session-id log attribute keys plus the built-in conventions, in both log attributes and resource attributes. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface CreateLogsSparklineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The sparkline query to execute. */
-  query?: LogsSparklineBody;
+  query?: LogsSparklineBody | undefined;
 }
 export interface LogsSparklineBucket {
   /** Bucket start time (ISO 8601). */
-  time?: string;
+  time?: string | undefined;
   /** Severity label when sparklineBreakdownBy="severity". Present only for severity-broken-down sparklines. */
-  severity?: string;
+  severity?: string | undefined;
   /** Service name when sparklineBreakdownBy="service". Present only for service-broken-down sparklines. */
-  service?: string;
-  count?: number;
+  service?: string | undefined;
+  count?: number | undefined;
   /** Sum of uncompressed bytes for the bucket. */
-  bytes_uncompressed?: number;
+  bytes_uncompressed?: number | undefined;
 }
 export type CreateLogsSparklineResponseBodyList = Array<LogsSparklineBucket>;
 export type CreateLogsSparklineResponse = CreateLogsSparklineResponseBodyList;
@@ -2074,40 +2074,40 @@ export interface LogsViewColumn {
   /** Column type. Most built-in types resolve client-side from log row fields; `pattern` and `custom` columns are computed server-side, the latter from `expression`. * `timestamp` - timestamp * `level` - level * `source` - source * `trace_id` - trace_id * `span_id` - span_id * `person` - person * `session` - session * `pattern` - pattern * `message` - message * `custom` - custom */
   type: LogsViewColumnTypeEnum | (string & {});
   /** Header label override. Defaults to the built-in type's label, or to the expression for custom columns. */
-  name?: string;
+  name?: string | undefined;
   /** Only meaningful for `type: custom`: a source-prefixed shorthand (`attributes.<key>`, `resource_attributes.<key>`, `body.<json.path>`) or a scalar HogQL expression, sent verbatim in the logs query's `customColumns`. */
-  expression?: string;
+  expression?: string | undefined;
   /** Column width in pixels (1-2000). Omitted for the default width; ignored for the flex message column. */
-  width?: number;
+  width?: number | undefined;
 }
 /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
 export type CreateLogsViewRequestColumnsList = Array<LogsViewColumn>;
 export interface CreateLogsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: CreateLogsViewRequestFiltersMap;
+  filters?: CreateLogsViewRequestFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: CreateLogsViewRequestColumnsList | null;
-  pinned?: boolean;
+  columns?: CreateLogsViewRequestColumnsList | null | undefined;
+  pinned?: boolean | undefined;
 }
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type LogsViewFiltersMap = { [key: string]: unknown | undefined };
 /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
 export type LogsViewColumnsList = Array<LogsViewColumn>;
 export interface LogsView {
-  id?: string;
-  short_id?: string;
-  name?: string;
+  id?: string | undefined;
+  short_id?: string | undefined;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: LogsViewFiltersMap;
+  filters?: LogsViewFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: LogsViewColumnsList | null;
-  pinned?: boolean;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string | null;
+  columns?: LogsViewColumnsList | null | undefined;
+  pinned?: boolean | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface GetLogsAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2128,16 +2128,16 @@ export interface LogsAlertDestinationConfig {
   enabled: boolean;
   /** Whether any HogFunction in the group sends something other than the stock message, such as an edited body, headers, method or code. A customized destination sends exactly what its HogFunctions build. */
   message_customized: boolean;
-  slack_workspace_id?: number;
-  slack_channel_id?: string;
+  slack_workspace_id?: number | undefined;
+  slack_channel_id?: string | undefined;
   /** Webhook endpoint reduced to scheme and host. The path, query and userinfo carry the secret. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
   /** PagerDuty integration key reduced to its last four characters. */
-  pagerduty_routing_key?: string;
+  pagerduty_routing_key?: string | undefined;
   /** Severity of the PagerDuty incident. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
-  pagerduty_severity?: PagerDutySeverityEnum;
+  pagerduty_severity?: PagerDutySeverityEnum | undefined;
   /** PagerDuty service region the events go to. * `us` - us * `eu` - eu */
-  pagerduty_region?: PagerDutyRegionEnum;
+  pagerduty_region?: PagerDutyRegionEnum | undefined;
 }
 /** This alert's notification destinations, one entry per destination. Each carries the HogFunction IDs that delete it as a group, and its configuration with credential-bearing URL components removed. */
 export type LogsAlertConfigurationDetailDestinationsList = Array<LogsAlertDestinationConfig>;
@@ -2146,31 +2146,31 @@ export interface LogsAlertConfigurationDetail {
   /** Unique identifier for this alert. */
   id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum;
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** How often the alert is evaluated, in minutes. Server-managed. */
   check_interval_minutes: number;
   /** Current alert state: not_firing, firing, pending_resolve, errored, or snoozed. Server-managed. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
   state: LogsAlertConfigurationStateEnum;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** When the next evaluation is scheduled. Server-managed. */
   next_check_at: string | null;
   /** When the last notification was sent. Server-managed. */
@@ -2186,7 +2186,7 @@ export interface LogsAlertConfigurationDetail {
   /** Notification destination types configured for this alert -- e.g. 'slack', 'webhook'. Empty list means no notifications will fire. One or more destinations should be added after creating an alert. */
   destination_types: LogsAlertConfigurationDetailDestinationTypesList;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
-  grouping?: LogsAlertGrouping;
+  grouping?: LogsAlertGrouping | undefined;
   /** Whether the alerts platform evaluates this alert and sends its notifications. Only such an alert can set a grouping other than single. */
   platform_owned: boolean;
   /** When the alert was first enabled. Null means the alert is still in draft state. */
@@ -2206,46 +2206,46 @@ export interface GetLogsAttributeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of attributes: "log" for log attributes, "resource" for resource attributes. Defaults to "log". * `log` - log * `resource` - resource */
-  attribute_type?: GetLogsAttributeRequestAttributeType | (string & {});
+  attribute_type?: GetLogsAttributeRequestAttributeType | (string & {}) | undefined;
   /** Date range to search within. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Start of the range as a top-level parameter. The endpoint ignores it when you send dateRange. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the range as a top-level parameter. The endpoint ignores it when you send dateRange. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Property filters to narrow which logs are scanned for attributes. */
-  filterGroup?: GetLogsAttributeRequestFilterGroupList;
+  filterGroup?: GetLogsAttributeRequestFilterGroupList | undefined;
   /** Comma-separated list of attribute keys. The endpoint returns only keys that exactly match an entry in the list. */
-  keys?: string;
+  keys?: string | undefined;
   /** Max results (default: 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination offset (default: 0) */
-  offset?: number;
+  offset?: number | undefined;
   /** Search filter for attribute names */
-  search?: string;
+  search?: string | undefined;
   /** When true, the search query also matches attribute values (not just keys). Each result indicates whether it matched on key or value. */
-  search_values?: boolean;
+  search_values?: boolean | undefined;
   /** Filter attributes to those appearing in logs from these services. */
-  serviceNames?: GetLogsAttributeRequestServiceNamesList;
+  serviceNames?: GetLogsAttributeRequestServiceNamesList | undefined;
 }
 /** * `key` - key * `value` - value */
 export type MatchedOnEnum = "key" | "value";
 export interface LogAttributeEntry {
-  name?: string;
+  name?: string | undefined;
   /** Property filter type: "log_attribute" or "log_resource_attribute". Use this as the `type` field when filtering. */
-  propertyFilterType?: string;
+  propertyFilterType?: string | undefined;
   /** How the search query matched this row: "key" if the attribute key matched, "value" if a value matched. * `key` - key * `value` - value */
-  matchedOn?: MatchedOnEnum;
+  matchedOn?: MatchedOnEnum | undefined;
   /** Sample matching value -- only set when matchedOn is "value". */
-  matchedValue?: string | null;
+  matchedValue?: string | null | undefined;
 }
 /** Available attribute keys matching the filters. */
 export type LogsAttributesResponseResultsList = Array<LogAttributeEntry>;
 export interface LogsAttributesResponse {
   /** Available attribute keys matching the filters. */
-  results?: LogsAttributesResponseResultsList;
+  results?: LogsAttributesResponseResultsList | undefined;
   /** Total attribute keys matched (not paginated). */
-  count?: number;
+  count?: number | undefined;
 }
 export interface GetLogsHasLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2278,33 +2278,33 @@ export interface GetLogsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of attribute: "log" or "resource". Defaults to "log". * `log` - log * `resource` - resource */
-  attribute_type?: GetLogsValueRequestAttributeType | (string & {});
+  attribute_type?: GetLogsValueRequestAttributeType | (string & {}) | undefined;
   /** Date range to search within. Defaults to last hour. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Property filters to narrow which logs are scanned for values. */
-  filterGroup?: GetLogsValueRequestFilterGroupList;
+  filterGroup?: GetLogsValueRequestFilterGroupList | undefined;
   /** The attribute key to get values for */
   key: string;
   /** Filter values to those appearing in logs from these services. */
-  serviceNames?: GetLogsValueRequestServiceNamesList;
+  serviceNames?: GetLogsValueRequestServiceNamesList | undefined;
   /** Search filter for attribute values. Omit it or pass an empty string to list all values. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface LogAttributeValue {
   /** Attribute value (used as the identifier). */
-  id?: string;
+  id?: string | undefined;
   /** Display name -- currently identical to `id`. */
-  name?: string;
+  name?: string | undefined;
   /** Number of log records with this attribute value, scoped to the current date range, service, and resource filters. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Distinct values observed for the requested attribute. */
 export type LogsValuesResponseResultsList = Array<LogAttributeValue>;
 export interface LogsValuesResponse {
   /** Distinct values observed for the requested attribute. */
-  results?: LogsValuesResponseResultsList;
+  results?: LogsValuesResponseResultsList | undefined;
   /** Always false -- reserved for future cached-value refresh signalling. */
-  refreshing?: boolean;
+  refreshing?: boolean | undefined;
 }
 export interface GetLogsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2315,18 +2315,18 @@ export interface ListLogsAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return log alerts created by the user with this UUID. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLogsAlertConfigurationListResultsList = Array<LogsAlertConfiguration>;
 export interface PaginatedLogsAlertConfigurationList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLogsAlertConfigurationListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLogsAlertConfigurationListResultsList | undefined;
 }
 export type ListLogsAlertsDestinationsSendsRequestHogFunctionIdsList = Array<string>;
 export interface ListLogsAlertsDestinationsSendsRequest {
@@ -2360,9 +2360,9 @@ export interface ListLogsAlertsEventsRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** * `check` - Check * `reset` - Reset * `enable` - Enable * `disable` - Disable * `snooze` - Snooze * `unsnooze` - Unsnooze * `threshold_change` - Threshold change * `broken_config` - Broken config * `handback` - Handback */
 export type LogsAlertEventKindEnum =
@@ -2376,68 +2376,68 @@ export type LogsAlertEventKindEnum =
   | "broken_config"
   | "handback";
 export interface LogsAlertEvent {
-  id?: string;
-  created_at?: string;
-  kind?: LogsAlertEventKindEnum;
-  state_before?: string;
-  state_after?: string;
-  threshold_breached?: boolean;
-  result_count?: number | null;
-  error_message?: string | null;
-  query_duration_ms?: number | null;
+  id?: string | undefined;
+  created_at?: string | undefined;
+  kind?: LogsAlertEventKindEnum | undefined;
+  state_before?: string | undefined;
+  state_after?: string | undefined;
+  threshold_breached?: boolean | undefined;
+  result_count?: number | null | undefined;
+  error_message?: string | null | undefined;
+  query_duration_ms?: number | null | undefined;
 }
 export type PaginatedLogsAlertEventListResultsList = Array<LogsAlertEvent>;
 export interface PaginatedLogsAlertEventList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLogsAlertEventListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLogsAlertEventListResultsList | undefined;
 }
 export interface ListLogsMetricRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLogsMetricRuleListResultsList = Array<LogsMetricRule>;
 export interface PaginatedLogsMetricRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLogsMetricRuleListResultsList;
 }
 export interface ListLogsRetentionRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListLogsSamplingRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListLogsViewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLogsViewListResultsList = Array<LogsView>;
 export interface PaginatedLogsViewList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedLogsViewListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedLogsViewListResultsList | undefined;
 }
 /** HogFunction IDs to delete as one atomic destination group. */
 export type LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList = Array<string>;
@@ -2447,7 +2447,7 @@ export interface LogsAlertsDestinationsDeleteCreateRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** HogFunction IDs to delete as one atomic destination group. */
-  hog_function_ids?: LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList;
+  hog_function_ids?: LogsAlertsDestinationsDeleteCreateRequestHogFunctionIdsList | undefined;
 }
 export interface LogsAlertsDestinationsDeleteCreateResponse {}
 export interface LogsAlertsDestroyRequest {
@@ -2502,29 +2502,29 @@ export interface UpdateLogsAlertRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
-  grouping?: LogsAlertGrouping;
+  grouping?: LogsAlertGrouping | undefined;
 }
 export interface UpdateLogsAlertsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2532,29 +2532,29 @@ export interface UpdateLogsAlertsPartialRequest {
   /** A UUID string identifying this logs alert configuration. */
   id: string;
   /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is actively being evaluated. Disabling resets the state to not_firing. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. Must contain at least one of: severityLevels (list of severity strings), serviceNames (list of service name strings), or filterGroup (property filter group object). May be empty on draft alerts (enabled=false). */
-  filters?: LogsAlertFilters;
+  filters?: LogsAlertFilters | undefined;
   /** Number of matching log entries that constitutes a threshold breach within the evaluation window. Defaults to 100. Use 0 with the 'above' operator to fire on any matching log. */
-  threshold_count?: number;
+  threshold_count?: number | undefined;
   /** Whether the alert fires when the count is above or below the threshold. * `above` - Above * `below` - Below */
-  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {});
+  threshold_operator?: LogsAlertConfigurationThresholdOperatorEnum | (string & {}) | undefined;
   /** Time window in minutes over which log entries are counted. Allowed values: 5, 10, 15, 30, 60. */
-  window_minutes?: number;
+  window_minutes?: number | undefined;
   /** Total number of check periods in the sliding evaluation window for firing (M in N-of-M). */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** How many periods within the evaluation window must breach the threshold to fire (N in N-of-M). */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications. The alert notifies once when it starts firing and once when it resolves. It does not notify again on each check while it stays firing. A fire or resolve notification inside the cooldown is skipped. Cooldown does not apply to PagerDuty incidents. 0 means no minimum. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Blocked local time windows when the alert must not run. Times use the project timezone. Null disables quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
-  snooze_until?: string | null;
+  snooze_until?: string | null | undefined;
   /** How the alert splits its results into instances. Mode single keeps one instance for the whole alert. Mode by_result_labels with keys service_name and/or severity_text keeps one instance per service or severity, each firing and resolving on its own, and needs threshold_operator above. Only an alert the alerts platform evaluates can group. Any other alert reads as single and rejects a different value. Omit it on update to keep the current grouping. Changing the keys deletes the existing instances and closes their notification threads without a message. */
-  grouping?: LogsAlertGrouping;
+  grouping?: LogsAlertGrouping | undefined;
 }
 /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
 export type UpdateLogsMetricRuleRequestGroupByList = Array<string>;
@@ -2568,15 +2568,15 @@ export interface UpdateLogsMetricRuleRequest {
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
   metric_name: string;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: UpdateLogsMetricRuleRequestGroupByList;
+  group_by?: UpdateLogsMetricRuleRequestGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum | (string & {});
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
 export type UpdateLogsMetricRulesPartialRequestGroupByList = Array<string>;
@@ -2586,19 +2586,19 @@ export interface UpdateLogsMetricRulesPartialRequest {
   /** A UUID string identifying this logs metric rule. */
   id: string;
   /** User-visible label for this rule. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the generated metric as it appears in the Metrics product. Must start with a letter and contain only letters, digits, dots, underscores, and dashes. Unique per project and immutable after creation -- create a new rule to emit under a different name. */
-  metric_name?: string;
+  metric_name?: string | undefined;
   /** When true, ingestion evaluates this rule against every log record. At most 10 rules can be enabled per project. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** PropertyGroupFilter JSON (AND/OR tree of property predicates) selecting which log records feed the metric, e.g. `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api","type":"log_attribute"}]}]}`. Null matches every ingested log record. Every group must contain at least one filter -- empty groups never match. */
-  filter_group?: unknown;
+  filter_group?: unknown | undefined;
   /** Attribute key holding a numeric value to aggregate into a distribution (count + sum), e.g. `attributes.duration_ms` or `resource_attributes.batch.size`, prefixed with `attributes.` / `resource_attributes.`. For `source=spans` rules, the span pseudo-key `duration_ms` (span wall-clock duration) is also allowed. Omit to count matching records instead. Immutable after creation -- it determines the emitted metric type. */
-  value_attribute?: string | null;
+  value_attribute?: string | null | undefined;
   /** Up to 5 dimension keys; each distinct value combination becomes its own metric series. For `source=logs` rules allowed: service_name, severity_text, event_name; for `source=spans` rules allowed: service_name, name, status_code, kind; for either, map keys prefixed with `attributes.` / `resource_attributes.`. Avoid high-cardinality keys (user IDs, request IDs) -- excess series are dropped at ingestion. For `source=spans` rules, note that `name` is high-cardinality on poorly instrumented services (route params or SQL fragments in the span name), so grouping by `name` can overflow the per-rule series cap on its own. */
-  group_by?: UpdateLogsMetricRulesPartialRequestGroupByList;
+  group_by?: UpdateLogsMetricRulesPartialRequestGroupByList | undefined;
   /** Record source the rule tallies: `logs` (default) evaluates in the logs consumer, `spans` in the traces consumer. Immutable after creation -- it decides which keys are valid and which pipeline runs the rule. * `logs` - Logs * `spans` - Spans */
-  source?: LogsMetricRuleRecordSourceEnum | (string & {});
+  source?: LogsMetricRuleRecordSourceEnum | (string & {}) | undefined;
 }
 export interface UpdateLogsRetentionRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2608,9 +2608,9 @@ export interface UpdateLogsRetentionRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
 }
@@ -2620,13 +2620,13 @@ export interface UpdateLogsRetentionRulesPartialRequest {
   /** A UUID string identifying this logs retention rule. */
   id: string;
   /** User-visible label for this rule. */
-  name?: string;
+  name?: string | undefined;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 export type UpdateLogsSamplingRuleRequestScopeAttributeFiltersItemMap = {
   [key: string]: unknown | undefined;
@@ -2642,17 +2642,17 @@ export interface UpdateLogsSamplingRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
   rule_type: LogsExclusionRuleRuleTypeEnum | (string & {});
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: UpdateLogsSamplingRuleRequestScopeAttributeFiltersList;
+  scope_attribute_filters?: UpdateLogsSamplingRuleRequestScopeAttributeFiltersList | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
   config: unknown;
 }
@@ -2668,21 +2668,23 @@ export interface UpdateLogsSamplingRulesPartialRequest {
   /** A UUID string identifying this logs exclusion rule. */
   id: string;
   /** User-visible label for this rule. */
-  name?: string;
+  name?: string | undefined;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Rule kind: severity_sampling, path_drop, or rate_limit (caps matching log volume at ingestion). * `severity_sampling` - Severity-based reduction * `path_drop` - Path exclusion * `rate_limit` - Rate limit */
-  rule_type?: LogsExclusionRuleRuleTypeEnum | (string & {});
+  rule_type?: LogsExclusionRuleRuleTypeEnum | (string & {}) | undefined;
   /** Optional legacy service-name scope; new rules use `config.filter_group` for matching instead. */
-  scope_service?: string | null;
+  scope_service?: string | null | undefined;
   /** Optional regex matched against a path-like log attribute when present. */
-  scope_path_pattern?: string | null;
+  scope_path_pattern?: string | null | undefined;
   /** Optional list of predicates over string attributes, e.g. [{"key":"http.route","op":"eq","value":"/api"}]. */
-  scope_attribute_filters?: UpdateLogsSamplingRulesPartialRequestScopeAttributeFiltersList;
+  scope_attribute_filters?:
+    | UpdateLogsSamplingRulesPartialRequestScopeAttributeFiltersList
+    | undefined;
   /** Type-specific JSON. For path_drop: object with optional `filter_group` (PropertyGroupFilter shape -- AND/OR tree of property predicates evaluated per record) and/or legacy `patterns` (list of regex strings) + `match_attribute_key` (string). When both are present a record is dropped if EITHER matches. Filter group example: `{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}`. Every group in `filter_group` must contain at least one filter -- empty groups never match, so the rule would never apply. For severity_sampling: object with `actions` per severity level and optional `always_keep`. For rate_limit: object with EITHER `logs_per_second` (integer 1-1000000, optional `burst_logs` integer >= logs_per_second, max 10000000) OR `kb_per_second` (integer 1-1000000 = 1 GB/s, optional `burst_kb` integer >= kb_per_second, max 10000000) -- not both. Plus optional `filter_group` to narrow which logs the cap applies to. KB-mode charges each log its own uncompressed byte size, matching how billing measures ingested bytes. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type UpdateLogsViewRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -2692,12 +2694,12 @@ export interface UpdateLogsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
-  name?: string;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: UpdateLogsViewRequestFiltersMap;
+  filters?: UpdateLogsViewRequestFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: UpdateLogsViewRequestColumnsList | null;
-  pinned?: boolean;
+  columns?: UpdateLogsViewRequestColumnsList | null | undefined;
+  pinned?: boolean | undefined;
 }
 /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
 export type UpdateLogsViewsPartialRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -2707,12 +2709,12 @@ export interface UpdateLogsViewsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
-  name?: string;
+  name?: string | undefined;
   /** Filter criteria -- subset of LogsViewerFilters. May contain severityLevels, serviceNames, searchTerm, filterGroup, dateRange, and other keys. */
-  filters?: UpdateLogsViewsPartialRequestFiltersMap;
+  filters?: UpdateLogsViewsPartialRequestFiltersMap | undefined;
   /** Ordered column configuration for the logs table (LogsColumnConfig[]). Order is array index. Null means the view has no column preference and the client renders its default column set. Omitting the field on update leaves the saved configuration unchanged; send null to clear it. */
-  columns?: UpdateLogsViewsPartialRequestColumnsList | null;
-  pinned?: boolean;
+  columns?: UpdateLogsViewsPartialRequestColumnsList | null | undefined;
+  pinned?: boolean | undefined;
 }
 export type CreateLogsAlertError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createLogsAlert: API.OperationMethod<

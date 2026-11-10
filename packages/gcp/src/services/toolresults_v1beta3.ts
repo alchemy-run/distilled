@@ -87,46 +87,46 @@ export interface AccessibilityClustersProjectsHistoriesExecutionsStepsRequest {
   /** A full resource name of the step. For example, projects/my-project/histories/bh.1234567890abcdef/executions/ 1234567890123456789/steps/bs.1234567890abcdef Required. */
   name: string;
   /** The accepted format is the canonical Unicode format with hyphen as a delimiter. Language must be lowercase, Language Script - Capitalized, Region - UPPERCASE. See http://www.unicode.org/reports/tr35/#Unicode_locale_identifier for details. Required. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** IMPORTANT: It is unsafe to accept this message from an untrusted source, since it's trivial for an attacker to forge serialized messages that don't fulfill the type's safety contract -- for example, it could contain attacker controlled script. A system which receives a SafeHtmlProto implicitly trusts the producer of the SafeHtmlProto. So, it's generally safe to return this message in RPC responses, but generally unsafe to accept it in RPC requests. */
 export interface SafeHtmlProto {
   /** IMPORTANT: Never set or read this field, even from tests, it is private. See documentation at the top of .proto file for programming language packages with which to create or read this message. */
-  privateDoNotAccessOrElseSafeHtmlWrappedValue?: string;
+  privateDoNotAccessOrElseSafeHtmlWrappedValue?: string | undefined;
 }
 export type SuggestionProtoPriorityEnum = "unknownPriority" | "error" | "warning" | "info";
 /** A rectangular region. */
 export interface RegionProto {
   /** The top of the rectangle, in pixels. Always set. */
-  topPx?: number;
+  topPx?: number | undefined;
   /** The left side of the rectangle, in pixels. Always set. */
-  leftPx?: number;
+  leftPx?: number | undefined;
   /** The width, in pixels. Always set. */
-  widthPx?: number;
+  widthPx?: number | undefined;
   /** The height, in pixels. Always set. */
-  heightPx?: number;
+  heightPx?: number | undefined;
 }
 export interface SuggestionProto {
   /** Concise message, in the user's language, representing the suggestion, which may contain markup. Always set. */
-  shortMessage?: SafeHtmlProto;
+  shortMessage?: SafeHtmlProto | undefined;
   /** Reference to a help center article concerning this type of suggestion. Always set. */
-  helpUrl?: string;
+  helpUrl?: string | undefined;
   /** A somewhat human readable identifier of the source view, if it does not have a resource_name. This is a path within the accessibility hierarchy, an element with resource name; similar to an XPath. */
-  pseudoResourceId?: string;
+  pseudoResourceId?: string | undefined;
   /** Reference to a view element, identified by its resource name, if it has one. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Message, in the user's language, explaining the suggestion, which may contain markup. Always set. */
-  longMessage?: SafeHtmlProto;
+  longMessage?: SafeHtmlProto | undefined;
   /** Relative importance of a suggestion. Always set. */
-  priority?: SuggestionProtoPriorityEnum;
+  priority?: SuggestionProtoPriorityEnum | undefined;
   /** ID of the screen for the suggestion. It is used for getting the corresponding screenshot path. For example, screen_id "1" corresponds to "1.png" file in GCS. Always set. */
-  screenId?: string;
+  screenId?: string | undefined;
   /** General title for the suggestion, in the user's language, without markup. Always set. */
-  title?: string;
+  title?: string | undefined;
   /** Region within the screenshot that is relevant to this suggestion. Optional. */
-  region?: RegionProto;
+  region?: RegionProto | undefined;
   /** Relative importance of a suggestion as compared with other suggestions that have the same priority and category. This is a meaningless value that can be used to order suggestions that are in the same category and have the same priority. The larger values have higher priority (i.e., are more important). Optional. */
-  secondaryPriority?: number;
+  secondaryPriority?: number | undefined;
 }
 export type SuggestionProtoList = Array<SuggestionProto>;
 export type SuggestionClusterProtoCategoryEnum =
@@ -138,37 +138,37 @@ export type SuggestionClusterProtoCategoryEnum =
 /** A set of similar suggestions that we suspect are closely related. This proto and most of the nested protos are branched from foxandcrown.prelaunchreport.service.SuggestionClusterProto, replacing PLR's dependencies with FTL's. */
 export interface SuggestionClusterProto {
   /** A sequence of suggestions. All of the suggestions within a cluster must have the same SuggestionPriority and belong to the same SuggestionCategory. Suggestions with the same screenshot URL should be adjacent. */
-  suggestions?: SuggestionProtoList;
+  suggestions?: SuggestionProtoList | undefined;
   /** Category in which these types of suggestions should appear. Always set. */
-  category?: SuggestionClusterProtoCategoryEnum;
+  category?: SuggestionClusterProtoCategoryEnum | undefined;
 }
 export type SuggestionClusterProtoList = Array<SuggestionClusterProto>;
 /** Response message for AccessibilityService.ListStepAccessibilityClusters. */
 export interface ListStepAccessibilityClustersResponse {
   /** A sequence of accessibility suggestions, grouped into clusters. Within the sequence, clusters that belong to the same SuggestionCategory should be adjacent. Within each category, clusters should be ordered by their SuggestionPriority (ERRORs first). The categories should be ordered by their highest priority cluster. */
-  clusters?: SuggestionClusterProtoList;
+  clusters?: SuggestionClusterProtoList | undefined;
   /** A full resource name of the step. For example, projects/my-project/histories/bh.1234567890abcdef/executions/ 1234567890123456789/steps/bs.1234567890abcdef Always presents. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A Timestamp represents a point in time independent of any time zone or local calendar, encoded as a count of seconds and fractions of seconds at nanosecond resolution. The count is relative to an epoch at UTC midnight on January 1, 1970, in the proleptic Gregorian calendar which extends the Gregorian calendar backwards to year one. All minutes are 60 seconds long. Leap seconds are "smeared" so that no leap second table is needed for interpretation, using a [24-hour linear smear](https://developers.google.com/time/smear). The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By restricting to that range, we ensure that we can convert to and from [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) date strings. */
 export interface Timestamp {
   /** Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive. */
-  seconds?: string;
+  seconds?: string | undefined;
   /** Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. */
-  nanos?: number;
+  nanos?: number | undefined;
 }
 /** Resource representing a single performance measure or data point */
 export interface PerfSample {
   /** Timestamp of collection. */
-  sampleTime?: Timestamp;
+  sampleTime?: Timestamp | undefined;
   /** Value observed */
-  value?: number;
+  value?: number | undefined;
 }
 export type PerfSampleList = Array<PerfSample>;
 /** The request must provide up to a maximum of 5000 samples to be created; a larger sample size will cause an INVALID_ARGUMENT error */
 export interface BatchCreatePerfSamplesRequest {
   /** The set of PerfSamples to create should not include existing timestamps */
-  perfSamples?: PerfSampleList;
+  perfSamples?: PerfSampleList | undefined;
 }
 export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest {
   /** The cloud project */
@@ -182,164 +182,164 @@ export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamp
   /** A tool results history ID. */
   historyId: string;
   /** Request body */
-  body?: BatchCreatePerfSamplesRequest;
+  body?: BatchCreatePerfSamplesRequest | undefined;
 }
 export interface BatchCreatePerfSamplesResponse {
-  perfSamples?: PerfSampleList;
+  perfSamples?: PerfSampleList | undefined;
 }
 export type HistoryTestPlatformEnum = "unknownPlatform" | "android" | "ios";
 /** A History represents a sorted list of Executions ordered by the start_timestamp_millis field (descending). It can be used to group all the Executions of a continuous build. Note that the ordering only operates on one-dimension. If a repository has multiple branches, it means that multiple histories will need to be used in order to order Executions per branch. */
 export interface History {
   /** A short human-readable (plain text) name to display in the UI. Maximum of 100 characters. - In response: present if set during create. - In create request: optional */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The platform of the test history. - In response: always set. Returns the platform of the last execution if unknown. */
-  testPlatform?: HistoryTestPlatformEnum | (string & {});
+  testPlatform?: HistoryTestPlatformEnum | (string & {}) | undefined;
   /** A name to uniquely identify a history within a project. Maximum of 200 characters. - In response always set - In create request: always set */
-  name?: string;
+  name?: string | undefined;
   /** A unique identifier within a project for this History. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response always set - In create request: never set */
-  historyId?: string;
+  historyId?: string | undefined;
 }
 export interface CreateProjectsHistoriesRequest {
   /** A Project id. Required. */
   projectId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: History;
+  body?: History | undefined;
 }
 export type StringList = Array<string>;
 /** A test of an Android application that can control an Android component independently of its normal lifecycle. See for more information on types of Android tests. */
 export interface AndroidInstrumentationTest {
   /** Each target must be fully qualified with the package name or class name, in one of these formats: - "package package_name" - "class package_name.class_name" - "class package_name.class_name#method_name" If empty, all targets in the module will be run. */
-  testTargets?: StringList;
+  testTargets?: StringList | undefined;
   /** The InstrumentationTestRunner class. Required */
-  testRunnerClass?: string;
+  testRunnerClass?: string | undefined;
   /** The flag indicates whether Android Test Orchestrator will be used to run test or not. */
-  useOrchestrator?: boolean;
+  useOrchestrator?: boolean | undefined;
   /** The java package for the test to be executed. Required */
-  testPackageId?: string;
+  testPackageId?: string | undefined;
 }
 /** Test Loops are tests that can be launched by the app itself, determining when to run by listening for an intent. */
 export interface AndroidTestLoop {}
 /** A Duration represents a signed, fixed-length span of time represented as a count of seconds and fractions of seconds at nanosecond resolution. It is independent of any calendar and concepts like "day" or "month". It is related to Timestamp in that the difference between two Timestamp values is a Duration and it can be added or subtracted from a Timestamp. Range is approximately +-10,000 years. */
 export interface Duration {
   /** Signed seconds of the span of time. Must be from -315,576,000,000 to +315,576,000,000 inclusive. Note: these bounds are computed from: 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years */
-  seconds?: string;
+  seconds?: string | undefined;
   /** Signed fractions of a second at nanosecond resolution of the span of time. Durations less than one second are represented with a 0 `seconds` field and a positive or negative `nanos` field. For durations of one second or more, a non-zero value for the `nanos` field must be of the same sign as the `seconds` field. Must be from -999,999,999 to +999,999,999 inclusive. */
-  nanos?: number;
+  nanos?: number | undefined;
 }
 /** A test of an android application that explores the application on a virtual or physical Android device, finding culprits and crashes as it goes. */
 export interface AndroidRoboTest {
   /** The runner class for the bootstrap. Optional */
-  bootstrapRunnerClass?: string;
+  bootstrapRunnerClass?: string | undefined;
   /** The initial activity that should be used to start the app. Optional */
-  appInitialActivity?: string;
+  appInitialActivity?: string | undefined;
   /** The max depth of the traversal stack Robo can explore. Optional */
-  maxDepth?: number;
+  maxDepth?: number | undefined;
   /** The max number of steps/actions Robo can execute. Default is no limit (0). Optional */
-  maxSteps?: number;
+  maxSteps?: number | undefined;
   /** The java package for the bootstrap. Optional */
-  bootstrapPackageId?: string;
+  bootstrapPackageId?: string | undefined;
 }
 /** Android app information. */
 export interface AndroidAppInfo {
   /** The name of the app. Optional */
-  name?: string;
+  name?: string | undefined;
   /** The version name of the app. Optional. */
-  versionName?: string;
+  versionName?: string | undefined;
   /** The internal version code of the app. Optional. */
-  versionCode?: string;
+  versionCode?: string | undefined;
   /** The package name of the app. Required. */
-  packageName?: string;
+  packageName?: string | undefined;
 }
 /** An Android mobile test specification. */
 export interface AndroidTest {
   /** An Android instrumentation test. */
-  androidInstrumentationTest?: AndroidInstrumentationTest;
+  androidInstrumentationTest?: AndroidInstrumentationTest | undefined;
   /** An Android test loop. */
-  androidTestLoop?: AndroidTestLoop;
+  androidTestLoop?: AndroidTestLoop | undefined;
   /** Max time a test is allowed to run before it is automatically cancelled. */
-  testTimeout?: Duration;
+  testTimeout?: Duration | undefined;
   /** An Android robo test. */
-  androidRoboTest?: AndroidRoboTest;
+  androidRoboTest?: AndroidRoboTest | undefined;
   /** Information about the application under test. */
-  androidAppInfo?: AndroidAppInfo;
+  androidAppInfo?: AndroidAppInfo | undefined;
 }
 /** A game loop test of an iOS application. */
 export interface IosTestLoop {
   /** Bundle ID of the app. */
-  bundleId?: string;
+  bundleId?: string | undefined;
 }
 /** A test of an iOS application that uses the XCTest framework. */
 export interface IosXcTest {
   /** Bundle ID of the app. */
-  bundleId?: string;
+  bundleId?: string | undefined;
   /** Xcode version that the test was run with. */
-  xcodeVersion?: string;
+  xcodeVersion?: string | undefined;
 }
 /** A Robo test for an iOS application. */
 export type IosRoboTest = AndroidTestLoop;
 /** iOS app information */
 export interface IosAppInfo {
   /** The name of the app. Required */
-  name?: string;
+  name?: string | undefined;
 }
 /** A iOS mobile test specification */
 export interface IosTest {
   /** An iOS test loop. */
-  iosTestLoop?: IosTestLoop;
+  iosTestLoop?: IosTestLoop | undefined;
   /** An iOS XCTest. */
-  iosXcTest?: IosXcTest;
+  iosXcTest?: IosXcTest | undefined;
   /** Max time a test is allowed to run before it is automatically cancelled. */
-  testTimeout?: Duration;
+  testTimeout?: Duration | undefined;
   /** An iOS Robo test. */
-  iosRoboTest?: AndroidTestLoop;
+  iosRoboTest?: AndroidTestLoop | undefined;
   /** Information about the application under test. */
-  iosAppInfo?: IosAppInfo;
+  iosAppInfo?: IosAppInfo | undefined;
 }
 /** The details about how to run the execution. */
 export interface Specification {
   /** An Android mobile test execution specification. */
-  androidTest?: AndroidTest;
+  androidTest?: AndroidTest | undefined;
   /** An iOS mobile test execution specification. */
-  iosTest?: IosTest;
+  iosTest?: IosTest | undefined;
 }
 /** Details for an outcome with an INCONCLUSIVE outcome summary. */
 export interface InconclusiveDetail {
   /** If the end user aborted the test execution before a pass or fail could be determined. For example, the user pressed ctrl-c which sent a kill signal to the test runner while the test was running. */
-  abortedByUser?: boolean;
+  abortedByUser?: boolean | undefined;
   /** If the test runner could not determine success or failure because the test depends on a component other than the system under test which failed. For example, a mobile test requires provisioning a device where the test executes, and that provisioning can fail. */
-  infrastructureFailure?: boolean;
+  infrastructureFailure?: boolean | undefined;
   /** If results are being provided to the user in certain cases of infrastructure failures */
-  hasErrorLogs?: boolean;
+  hasErrorLogs?: boolean | undefined;
 }
 /** Details for an outcome with a SKIPPED outcome summary. */
 export interface SkippedDetail {
   /** If the App doesn't run on the specific architecture, for example, x86. */
-  incompatibleArchitecture?: boolean;
+  incompatibleArchitecture?: boolean | undefined;
   /** Indicates that the test could not be scheduled in the requested time because no suitable device was available. */
-  pendingTimeout?: boolean;
+  pendingTimeout?: boolean | undefined;
   /** If the App doesn't support the specific API level. */
-  incompatibleAppVersion?: boolean;
+  incompatibleAppVersion?: boolean | undefined;
   /** If the requested OS version doesn't run on the specific device model. */
-  incompatibleDevice?: boolean;
+  incompatibleDevice?: boolean | undefined;
 }
 /** Details for an outcome with a FAILURE outcome summary. */
 export interface FailureDetail {
   /** If the robo was unable to crawl the app; perhaps because the app did not start. */
-  unableToCrawl?: boolean;
+  unableToCrawl?: boolean | undefined;
   /** If the failure was severe because the system (app) under test crashed. */
-  crashed?: boolean;
+  crashed?: boolean | undefined;
   /** If a native process (including any other than the app) crashed. */
-  otherNativeCrash?: boolean;
+  otherNativeCrash?: boolean | undefined;
   /** If the test overran some time limit, and that is why it failed. */
-  timedOut?: boolean;
+  timedOut?: boolean | undefined;
   /** If the Roboscript failed to complete successfully, e.g., because a Roboscript action or assertion failed or a Roboscript action could not be matched during the entire crawl. */
-  failedRoboscript?: boolean;
+  failedRoboscript?: boolean | undefined;
   /** If the device ran out of memory during a test, causing the test to crash. */
-  deviceOutOfMemory?: boolean;
+  deviceOutOfMemory?: boolean | undefined;
   /** If an app is not installed and thus no test can be run with the app. This might be caused by trying to run a test on an unsupported platform. */
-  notInstalled?: boolean;
+  notInstalled?: boolean | undefined;
 }
 export type OutcomeSummaryEnum =
   | "unset"
@@ -351,20 +351,20 @@ export type OutcomeSummaryEnum =
 /** Details for an outcome with a SUCCESS outcome summary. LINT.IfChange */
 export interface SuccessDetail {
   /** If a native process other than the app crashed. */
-  otherNativeCrash?: boolean;
+  otherNativeCrash?: boolean | undefined;
 }
 /** Interprets a result so that humans and machines can act on it. */
 export interface Outcome {
   /** More information about an INCONCLUSIVE outcome. Returns INVALID_ARGUMENT if this field is set but the summary is not INCONCLUSIVE. Optional */
-  inconclusiveDetail?: InconclusiveDetail;
+  inconclusiveDetail?: InconclusiveDetail | undefined;
   /** More information about a SKIPPED outcome. Returns INVALID_ARGUMENT if this field is set but the summary is not SKIPPED. Optional */
-  skippedDetail?: SkippedDetail;
+  skippedDetail?: SkippedDetail | undefined;
   /** More information about a FAILURE outcome. Returns INVALID_ARGUMENT if this field is set but the summary is not FAILURE. Optional */
-  failureDetail?: FailureDetail;
+  failureDetail?: FailureDetail | undefined;
   /** The simplest way to interpret a result. Required */
-  summary?: OutcomeSummaryEnum | (string & {});
+  summary?: OutcomeSummaryEnum | (string & {}) | undefined;
   /** More information about a SUCCESS outcome. Returns INVALID_ARGUMENT if this field is set but the summary is not SUCCESS. Optional */
-  successDetail?: SuccessDetail;
+  successDetail?: SuccessDetail | undefined;
 }
 /** One dimension of the matrix of different runs of a step. */
 export type MatrixDimensionDefinition = AndroidTestLoop;
@@ -373,35 +373,35 @@ export type ExecutionStateEnum = "unknownState" | "pending" | "inProgress" | "co
 /** An Execution represents a collection of Steps. For instance, it could represent: - a mobile test executed across a range of device configurations - a jenkins job with a build step followed by a test step The maximum size of an execution message is 1 MiB. An Execution can be updated until its state is set to COMPLETE at which point it becomes immutable. */
 export interface Execution {
   /** The time when the Execution was created. This value will be set automatically when CreateExecution is called. - In response: always set - In create/update request: never set */
-  creationTime?: Timestamp;
+  creationTime?: Timestamp | undefined;
   /** Lightweight information about execution request. - In response: present if set by create - In create: optional - In update: optional */
-  specification?: Specification;
+  specification?: Specification | undefined;
   /** The time when the Execution status transitioned to COMPLETE. This value will be set automatically when state transitions to COMPLETE. - In response: set if the execution state is COMPLETE. - In create/update request: never set */
-  completionTime?: Timestamp;
+  completionTime?: Timestamp | undefined;
   /** Classify the result, for example into SUCCESS or FAILURE - In response: present if set by create/update request - In create/update request: optional */
-  outcome?: Outcome;
+  outcome?: Outcome | undefined;
   /** A unique identifier within a History for this Execution. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response always set - In create/update request: never set */
-  executionId?: string;
+  executionId?: string | undefined;
   /** The dimensions along which different steps in this execution may vary. This must remain fixed over the life of the execution. Returns INVALID_ARGUMENT if this field is set in an update request. Returns INVALID_ARGUMENT if the same name occurs in more than one dimension_definition. Returns INVALID_ARGUMENT if the size of the list is over 100. - In response: present if set by create - In create request: optional - In update request: never set */
-  dimensionDefinitions?: MatrixDimensionDefinitionList;
+  dimensionDefinitions?: MatrixDimensionDefinitionList | undefined;
   /** The initial state is IN_PROGRESS. The only legal state transitions is from IN_PROGRESS to COMPLETE. A PRECONDITION_FAILED will be returned if an invalid transition is requested. The state can only be set to COMPLETE once. A FAILED_PRECONDITION will be returned if the state is set to COMPLETE multiple times. If the state is set to COMPLETE, all the in-progress steps within the execution will be set as COMPLETE. If the outcome of the step is not set, the outcome will be set to INCONCLUSIVE. - In response always set - In create/update request: optional */
-  state?: ExecutionStateEnum | (string & {});
+  state?: ExecutionStateEnum | (string & {}) | undefined;
   /** TestExecution Matrix ID that the TestExecutionService uses. - In response: present if set by create - In create: optional - In update: never set */
-  testExecutionMatrixId?: string;
+  testExecutionMatrixId?: string | undefined;
 }
 export interface CreateProjectsHistoriesExecutionsRequest {
   /** A History id. Required. */
   historyId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** A Project id. Required. */
   projectId: string;
   /** Request body */
-  body?: Execution;
+  body?: Execution | undefined;
 }
 export interface StepLabelsEntry {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type StepLabelsEntryList = Array<StepLabelsEntry>;
 export type PrimaryStepRollUpEnum =
@@ -420,87 +420,87 @@ export type IndividualOutcomeOutcomeSummaryEnum =
   | "flaky";
 /** Step Id and outcome of each individual step that was run as a group with other steps with the same configuration. */
 export interface IndividualOutcome {
-  stepId?: string;
+  stepId?: string | undefined;
   /** Unique int given to each step. Ranges from 0(inclusive) to total number of steps(exclusive). The primary step is 0. */
-  multistepNumber?: number;
+  multistepNumber?: number | undefined;
   /** How long it took for this step to run. */
-  runDuration?: Duration;
-  outcomeSummary?: IndividualOutcomeOutcomeSummaryEnum | (string & {});
+  runDuration?: Duration | undefined;
+  outcomeSummary?: IndividualOutcomeOutcomeSummaryEnum | (string & {}) | undefined;
 }
 export type IndividualOutcomeList = Array<IndividualOutcome>;
 /** Stores rollup test status of multiple steps that were run as a group and outcome of each individual step. */
 export interface PrimaryStep {
   /** Rollup test status of multiple steps that were run with the same configuration as a group. */
-  rollUp?: PrimaryStepRollUpEnum | (string & {});
+  rollUp?: PrimaryStepRollUpEnum | (string & {}) | undefined;
   /** Step Id and outcome of each individual step. */
-  individualOutcome?: IndividualOutcomeList;
+  individualOutcome?: IndividualOutcomeList | undefined;
 }
 /** Details when multiple steps are run with the same configuration as a group. */
 export interface MultiStep {
   /** Step Id of the primary (original) step, which might be this step. */
-  primaryStepId?: string;
+  primaryStepId?: string | undefined;
   /** Present if it is a primary (original) step. */
-  primaryStep?: PrimaryStep;
+  primaryStep?: PrimaryStep | undefined;
   /** Unique int given to each step. Ranges from 0(inclusive) to total number of steps(exclusive). The primary step is 0. */
-  multistepNumber?: number;
+  multistepNumber?: number | undefined;
 }
 /** A reference to a file. */
 export interface FileReference {
   /** The URI of a file stored in Google Cloud Storage. For example: `http://storage.googleapis.com/mybucket/path/to/test.xml` or in Cloud Storage URI format: `gs://mybucket/path/to/test.xml` with version-specific info, `gs://mybucket/path/to/test.xml#1360383693690000` An INVALID_ARGUMENT error will be returned if the URI format is not supported. - In response: always set - In create/update request: always set */
-  fileUri?: string;
+  fileUri?: string | undefined;
 }
 export type FileReferenceList = Array<FileReference>;
 /** Exit code from a tool execution. */
 export interface ToolExitCode {
   /** Tool execution exit code. A value of 0 means that the execution was successful. - In response: always set - In create/update request: always set */
-  number?: number;
+  number?: number | undefined;
 }
 /** A reference to a test case. Test case references are canonically ordered lexicographically by these three factors: * First, by test_suite_name. * Second, by class_name. * Third, by name. */
 export interface TestCaseReference {
   /** The name of the test case. Required. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the test suite to which this test case belongs. */
-  testSuiteName?: string;
+  testSuiteName?: string | undefined;
   /** The name of the class. */
-  className?: string;
+  className?: string | undefined;
 }
 /** A reference to a ToolExecution output file. */
 export interface ToolOutputReference {
   /** The test case to which this output file belongs. - In response: present if set by create/update request - In create/update request: optional */
-  testCase?: TestCaseReference;
+  testCase?: TestCaseReference | undefined;
   /** The creation time of the file. - In response: present if set by create/update request - In create/update request: optional */
-  creationTime?: Timestamp;
+  creationTime?: Timestamp | undefined;
   /** A FileReference to an output file. - In response: always set - In create/update request: always set */
-  output?: FileReference;
+  output?: FileReference | undefined;
 }
 export type ToolOutputReferenceList = Array<ToolOutputReference>;
 /** An execution of an arbitrary tool. It could be a test runner or a tool copying artifacts or deploying code. */
 export interface ToolExecution {
   /** The full tokenized command line including the program name (equivalent to argv in a C program). - In response: present if set by create request - In create request: optional - In update request: never set */
-  commandLineArguments?: StringList;
+  commandLineArguments?: StringList | undefined;
   /** References to any plain text logs output the tool execution. This field can be set before the tool has exited in order to be able to have access to a live view of the logs while the tool is running. The maximum allowed number of tool logs per step is 1000. - In response: present if set by create/update request - In create request: optional - In update request: optional, any value provided will be appended to the existing list */
-  toolLogs?: FileReferenceList;
+  toolLogs?: FileReferenceList | undefined;
   /** Tool execution exit code. This field will be set once the tool has exited. - In response: present if set by create/update request - In create request: optional - In update request: optional, a FAILED_PRECONDITION error will be returned if an exit_code is already set. */
-  exitCode?: ToolExitCode;
+  exitCode?: ToolExitCode | undefined;
   /** References to opaque files of any format output by the tool execution. The maximum allowed number of tool outputs per step is 1000. - In response: present if set by create/update request - In create request: optional - In update request: optional, any value provided will be appended to the existing list */
-  toolOutputs?: ToolOutputReferenceList;
+  toolOutputs?: ToolOutputReferenceList | undefined;
 }
 /** Generic tool step to be used for binaries we do not explicitly support. For example: running cp to copy artifacts from one location to another. */
 export interface ToolExecutionStep {
   /** A Tool execution. - In response: present if set by create/update request - In create/update request: optional */
-  toolExecution?: ToolExecution;
+  toolExecution?: ToolExecution | undefined;
 }
 /** Testing timing break down to know phases. */
 export interface TestTiming {
   /** How long it took to run the test process. - In response: present if previously set. - In create/update request: optional */
-  testProcessDuration?: Duration;
+  testProcessDuration?: Duration | undefined;
 }
 /** `Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++. Foo foo = ...; Any any; any.PackFrom(foo); ... if (any.UnpackTo(&foo)) { ... } Example 2: Pack and unpack a message in Java. Foo foo = ...; Any any = Any.pack(foo); ... if (any.is(Foo.class)) { foo = any.unpack(Foo.class); } Example 3: Pack and unpack a message in Python. foo = Foo(...) any = Any() any.Pack(foo) ... if any.Is(Foo.DESCRIPTOR): any.Unpack(foo) ... Example 4: Pack and unpack a message in Go foo := &pb.Foo{...} any, err := ptypes.MarshalAny(foo) ... foo := &pb.Foo{} if err := ptypes.UnmarshalAny(any, foo); err != nil { ... } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example "foo.bar.com/x/y.z" will yield type name "y.z". # JSON The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example: package google.profile; message Person { string first_name = 1; string last_name = 2; } { "@type": "type.googleapis.com/google.profile.Person", "firstName": , "lastName": } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message google.protobuf.Duration): { "@type": "type.googleapis.com/google.protobuf.Duration", "value": "1.212s" } */
 export interface Any {
   /** A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one "/" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading "." is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a google.protobuf.Type value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the URL, or have them precompiled into a binary to avoid any lookup. Therefore, binary compatibility needs to be preserved on changes to types. (Use versioned type names to manage breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics. */
-  typeUrl?: string;
+  typeUrl?: string | undefined;
   /** Must be a valid serialized protocol buffer of the above specified type. */
-  value?: string;
+  value?: string | undefined;
 }
 export type TestIssueTypeEnum =
   | "unspecifiedType"
@@ -548,139 +548,139 @@ export type TestIssueCategoryEnum = "unspecifiedCategory" | "common" | "robo";
 /** A stacktrace. */
 export interface StackTrace {
   /** The stack trace message. Required */
-  exception?: string;
+  exception?: string | undefined;
 }
 /** An issue detected occurring during a test execution. */
 export interface TestIssue {
   /** Warning message with additional details of the issue. Should always be a message from com.google.devtools.toolresults.v1.warnings */
-  warning_migration?: Any;
+  warning_migration?: Any | undefined;
   /** Type of issue. Required. */
-  type?: TestIssueTypeEnum | (string & {});
+  type?: TestIssueTypeEnum | (string & {}) | undefined;
   /** A brief human-readable message describing the issue. Required. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Severity of issue. Required. */
-  severity?: TestIssueSeverityEnum | (string & {});
+  severity?: TestIssueSeverityEnum | (string & {}) | undefined;
   /** Category of issue. Required. */
-  category?: TestIssueCategoryEnum | (string & {});
+  category?: TestIssueCategoryEnum | (string & {}) | undefined;
   /** Deprecated in favor of stack trace fields inside specific warnings. */
-  stackTrace?: StackTrace;
+  stackTrace?: StackTrace | undefined;
 }
 export type TestIssueList = Array<TestIssue>;
 /** A summary of a test suite result either parsed from XML or uploaded directly by a user. Note: the API related comments are for StepService only. This message is also being used in ExecutionService in a read only mode for the corresponding step. */
 export interface TestSuiteOverview {
   /** Number of test cases not run, typically set by the service by parsing the xml_source. - In create/response: always set - In update request: never */
-  skippedCount?: number;
+  skippedCount?: number | undefined;
   /** The name of the test suite. - In create/response: always set - In update request: never */
-  name?: string;
+  name?: string | undefined;
   /** Number of flaky test cases, set by the service by rolling up flaky test attempts. Present only for rollup test suite overview at environment level. A step cannot have flaky test cases. */
-  flakyCount?: number;
+  flakyCount?: number | undefined;
   /** Number of test cases, typically set by the service by parsing the xml_source. - In create/response: always set - In update request: never */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** Number of test cases in error, typically set by the service by parsing the xml_source. - In create/response: always set - In update request: never */
-  errorCount?: number;
+  errorCount?: number | undefined;
   /** Number of failed test cases, typically set by the service by parsing the xml_source. May also be set by the user. - In create/response: always set - In update request: never */
-  failureCount?: number;
+  failureCount?: number | undefined;
   /** If this test suite was parsed from XML, this is the URI where the original XML file is stored. Note: Multiple test suites can share the same xml_source Returns INVALID_ARGUMENT if the uri format is not supported. - In create/response: optional - In update request: never */
-  xmlSource?: FileReference;
+  xmlSource?: FileReference | undefined;
   /** Elapsed time of test suite. */
-  elapsedTime?: Duration;
+  elapsedTime?: Duration | undefined;
 }
 export type TestSuiteOverviewList = Array<TestSuiteOverview>;
 /** A step that represents running tests. It accepts ant-junit xml files which will be parsed into structured test results by the service. Xml file paths are updated in order to append more files, however they can't be deleted. Users can also add test results manually by using the test_result field. */
 export interface TestExecutionStep {
   /** Represents the execution of the test runner. The exit code of this tool will be used to determine if the test passed. - In response: always set - In create/update request: optional */
-  toolExecution?: ToolExecution;
+  toolExecution?: ToolExecution | undefined;
   /** The timing break down of the test execution. - In response: present if set by create or update - In create/update request: optional */
-  testTiming?: TestTiming;
+  testTiming?: TestTiming | undefined;
   /** Issues observed during the test execution. For example, if the mobile app under test crashed during the test, the error message and the stack trace content can be recorded here to assist debugging. - In response: present if set by create or update - In create/update request: optional */
-  testIssues?: TestIssueList;
+  testIssues?: TestIssueList | undefined;
   /** List of test suite overview contents. This could be parsed from xUnit XML log by server, or uploaded directly by user. This references should only be called when test suites are fully parsed or uploaded. The maximum allowed number of test suite overviews per step is 1000. - In response: always set - In create request: optional - In update request: never (use publishXunitXmlFiles custom method instead) */
-  testSuiteOverviews?: TestSuiteOverviewList;
+  testSuiteOverviews?: TestSuiteOverviewList | undefined;
 }
 export interface StepDimensionValueEntry {
-  value?: string;
-  key?: string;
+  value?: string | undefined;
+  key?: string | undefined;
 }
 export type StepDimensionValueEntryList = Array<StepDimensionValueEntry>;
 export type StepStateEnum = "unknownState" | "pending" | "inProgress" | "complete";
 /** A Step represents a single operation performed as part of Execution. A step can be used to represent the execution of a tool ( for example a test runner execution or an execution of a compiler). Steps can overlap (for instance two steps might have the same start time if some operations are done in parallel). Here is an example, let's consider that we have a continuous build is executing a test runner for each iteration. The workflow would look like: - user creates a Execution with id 1 - user creates a TestExecutionStep with id 100 for Execution 1 - user update TestExecutionStep with id 100 to add a raw xml log + the service parses the xml logs and returns a TestExecutionStep with updated TestResult(s). - user update the status of TestExecutionStep with id 100 to COMPLETE A Step can be updated until its state is set to COMPLETE at which points it becomes immutable. */
 export interface Step {
   /** Arbitrary user-supplied key/value pairs that are associated with the step. Users are responsible for managing the key namespace such that keys don't accidentally collide. An INVALID_ARGUMENT will be returned if the number of labels exceeds 100 or if the length of any of the keys or values exceeds 100 characters. - In response: always set - In create request: optional - In update request: optional; any new key/value pair will be added to the map, and any new value for an existing key will update that key's value */
-  labels?: StepLabelsEntryList;
+  labels?: StepLabelsEntryList | undefined;
   /** Details when multiple steps are run with the same configuration as a group. These details can be used identify which group this step is part of. It also identifies the groups 'primary step' which indexes all the group members. - In response: present if previously set. - In create request: optional, set iff this step was performed more than once. - In update request: optional */
-  multiStep?: MultiStep;
+  multiStep?: MultiStep | undefined;
   /** The time when the step status was set to complete. This value will be set automatically when state transitions to COMPLETE. - In response: set if the execution state is COMPLETE. - In create/update request: never set */
-  completionTime?: Timestamp;
+  completionTime?: Timestamp | undefined;
   /** Classification of the result, for example into SUCCESS or FAILURE - In response: present if set by create/update request - In create/update request: optional */
-  outcome?: Outcome;
+  outcome?: Outcome | undefined;
   /** A short human-readable name to display in the UI. Maximum of 100 characters. For example: Clean build A PRECONDITION_FAILED will be returned upon creating a new step if it shares its name and dimension_value with an existing step. If two steps represent a similar action, but have different dimension values, they should share the same name. For instance, if the same set of tests is run on two different platforms, the two steps should have the same name. - In response: always set - In create request: always set - In update request: never set */
-  name?: string;
+  name?: string | undefined;
   /** How long it took for this step to run. If unset, this is set to the difference between creation_time and completion_time when the step is set to the COMPLETE state. In some cases, it is appropriate to set this value separately: For instance, if a step is created, but the operation it represents is queued for a few minutes before it executes, it would be appropriate not to include the time spent queued in its run_duration. PRECONDITION_FAILED will be returned if one attempts to set a run_duration on a step which already has this field set. - In response: present if previously set; always present on COMPLETE step - In create request: optional - In update request: optional */
-  runDuration?: Duration;
+  runDuration?: Duration | undefined;
   /** Whether any of the outputs of this step are images whose thumbnails can be fetched with ListThumbnails. - In response: always set - In create/update request: never set */
-  hasImages?: boolean;
+  hasImages?: boolean | undefined;
   /** An execution of a tool (used for steps we don't explicitly support). */
-  toolExecutionStep?: ToolExecutionStep;
+  toolExecutionStep?: ToolExecutionStep | undefined;
   /** An execution of a test runner. */
-  testExecutionStep?: TestExecutionStep;
+  testExecutionStep?: TestExecutionStep | undefined;
   /** If the execution containing this step has any dimension_definition set, then this field allows the child to specify the values of the dimensions. The keys must exactly match the dimension_definition of the execution. For example, if the execution has `dimension_definition = ['attempt', 'device']` then a step must define values for those dimensions, eg. `dimension_value = ['attempt': '1', 'device': 'Nexus 6']` If a step does not participate in one dimension of the matrix, the value for that dimension should be empty string. For example, if one of the tests is executed by a runner which does not support retries, the step could have `dimension_value = ['attempt': '', 'device': 'Nexus 6']` If the step does not participate in any dimensions of the matrix, it may leave dimension_value unset. A PRECONDITION_FAILED will be returned if any of the keys do not exist in the dimension_definition of the execution. A PRECONDITION_FAILED will be returned if another step in this execution already has the same name and dimension_value, but differs on other data fields, for example, step field is different. A PRECONDITION_FAILED will be returned if dimension_value is set, and there is a dimension_definition in the execution which is not specified as one of the keys. - In response: present if set by create - In create request: optional - In update request: never set */
-  dimensionValue?: StepDimensionValueEntryList;
+  dimensionValue?: StepDimensionValueEntryList | undefined;
   /** A unique identifier within a Execution for this Step. Returns INVALID_ARGUMENT if this field is set or overwritten by the caller. - In response: always set - In create/update request: never set */
-  stepId?: string;
+  stepId?: string | undefined;
   /** A description of this tool For example: mvn clean package -D skipTests=true - In response: present if set by create/update request - In create/update request: optional */
-  description?: string;
+  description?: string | undefined;
   /** The time when the step was created. - In response: always set - In create/update request: never set */
-  creationTime?: Timestamp;
+  creationTime?: Timestamp | undefined;
   /** The initial state is IN_PROGRESS. The only legal state transitions are * IN_PROGRESS -> COMPLETE A PRECONDITION_FAILED will be returned if an invalid transition is requested. It is valid to create Step with a state set to COMPLETE. The state can only be set to COMPLETE once. A PRECONDITION_FAILED will be returned if the state is set to COMPLETE multiple times. - In response: always set - In create/update request: optional */
-  state?: StepStateEnum | (string & {});
+  state?: StepStateEnum | (string & {}) | undefined;
   /** How much the device resource is used to perform the test. This is the device usage used for billing purpose, which is different from the run_duration, for example, infrastructure failure won't be charged for device usage. PRECONDITION_FAILED will be returned if one attempts to set a device_usage on a step which already has this field set. - In response: present if previously set. - In create request: optional - In update request: optional */
-  deviceUsageDuration?: Duration;
+  deviceUsageDuration?: Duration | undefined;
 }
 export interface CreateProjectsHistoriesExecutionsStepsRequest {
   /** Required. A History id. */
   historyId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. An Execution id. */
   executionId: string;
   /** Required. A Project id. */
   projectId: string;
   /** Request body */
-  body?: Step;
+  body?: Step | undefined;
 }
 export interface GraphicsStatsBucket {
   /** Lower bound of render time in milliseconds. */
-  renderMillis?: string;
+  renderMillis?: string | undefined;
   /** Number of frames in the bucket. */
-  frameCount?: string;
+  frameCount?: string | undefined;
 }
 export type GraphicsStatsBucketList = Array<GraphicsStatsBucket>;
 /** Graphics statistics for the App. The information is collected from 'adb shell dumpsys graphicsstats'. For more info see: https://developer.android.com/training/testing/performance.html Statistics will only be present for API 23+. */
 export interface GraphicsStats {
   /** Total "slow UI thread" events. */
-  slowUiThreadCount?: string;
+  slowUiThreadCount?: string | undefined;
   /** 95th percentile frame render time in milliseconds. */
-  p95Millis?: string;
+  p95Millis?: string | undefined;
   /** Total "missed vsync" events. */
-  missedVsyncCount?: string;
+  missedVsyncCount?: string | undefined;
   /** Total "slow bitmap upload" events. */
-  slowBitmapUploadCount?: string;
+  slowBitmapUploadCount?: string | undefined;
   /** Total "slow draw" events. */
-  slowDrawCount?: string;
+  slowDrawCount?: string | undefined;
   /** Histogram of frame render times. There should be 154 buckets ranging from [5ms, 6ms) to [4950ms, infinity) */
-  buckets?: GraphicsStatsBucketList;
+  buckets?: GraphicsStatsBucketList | undefined;
   /** 99th percentile frame render time in milliseconds. */
-  p99Millis?: string;
+  p99Millis?: string | undefined;
   /** 90th percentile frame render time in milliseconds. */
-  p90Millis?: string;
+  p90Millis?: string | undefined;
   /** 50th percentile frame render time in milliseconds. */
-  p50Millis?: string;
+  p50Millis?: string | undefined;
   /** Total "high input latency" events. */
-  highInputLatencyCount?: string;
+  highInputLatencyCount?: string | undefined;
   /** Total frames rendered by package. */
-  totalFrames?: string;
+  totalFrames?: string | undefined;
   /** Total frames with slow render time. Should be <= total_frames. */
-  jankyFrames?: string;
+  jankyFrames?: string | undefined;
 }
 export type PerfMetricsSummaryPerfMetricsItemEnum =
   | "perfMetricTypeUnspecified"
@@ -693,48 +693,48 @@ export type PerfMetricsSummaryPerfMetricsItemEnumList = Array<
 >;
 export interface CPUInfo {
   /** description of the device processor ie '1.8 GHz hexa core 64-bit ARMv8-A' */
-  cpuProcessor?: string;
+  cpuProcessor?: string | undefined;
   /** the number of CPU cores */
-  numberOfCores?: number;
+  numberOfCores?: number | undefined;
   /** the CPU clock speed in GHz */
-  cpuSpeedInGhz?: number;
+  cpuSpeedInGhz?: number | undefined;
 }
 export interface MemoryInfo {
   /** Maximum memory that can be allocated to the process in KiB */
-  memoryCapInKibibyte?: string;
+  memoryCapInKibibyte?: string | undefined;
   /** Total memory available on the device in KiB */
-  memoryTotalInKibibyte?: string;
+  memoryTotalInKibibyte?: string | undefined;
 }
 /** Encapsulates performance environment info */
 export interface PerfEnvironment {
   /** CPU related environment info */
-  cpuInfo?: CPUInfo;
+  cpuInfo?: CPUInfo | undefined;
   /** Memory related environment info */
-  memoryInfo?: MemoryInfo;
+  memoryInfo?: MemoryInfo | undefined;
 }
 export interface AppStartTime {
   /** The time from app start to the first displayed activity being drawn, as reported in Logcat. See https://developer.android.com/topic/performance/launch-time.html#time-initial */
-  initialDisplayTime?: Duration;
+  initialDisplayTime?: Duration | undefined;
   /** Optional. The time from app start to reaching the developer-reported "fully drawn" time. This is only stored if the app includes a call to Activity.reportFullyDrawn(). See https://developer.android.com/topic/performance/launch-time.html#time-full */
-  fullyDrawnTime?: Duration;
+  fullyDrawnTime?: Duration | undefined;
 }
 /** A summary of perf metrics collected and performance environment info */
 export interface PerfMetricsSummary {
   /** Graphics statistics for the entire run. Statistics are reset at the beginning of the run and collected at the end of the run. */
-  graphicsStats?: GraphicsStats;
+  graphicsStats?: GraphicsStats | undefined;
   /** The cloud project @OutputOnly */
-  projectId?: string;
+  projectId?: string | undefined;
   /** A tool results execution ID. @OutputOnly */
-  executionId?: string;
+  executionId?: string | undefined;
   /** A tool results step ID. @OutputOnly */
-  stepId?: string;
+  stepId?: string | undefined;
   /** Set of resource collected */
-  perfMetrics?: PerfMetricsSummaryPerfMetricsItemEnumList;
+  perfMetrics?: PerfMetricsSummaryPerfMetricsItemEnumList | undefined;
   /** Describes the environment in which the performance metrics were collected */
-  perfEnvironment?: PerfEnvironment;
-  appStartTime?: AppStartTime;
+  perfEnvironment?: PerfEnvironment | undefined;
+  appStartTime?: AppStartTime | undefined;
   /** A tool results history ID. @OutputOnly */
-  historyId?: string;
+  historyId?: string | undefined;
 }
 export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest {
   /** A tool results history ID. */
@@ -746,7 +746,7 @@ export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest
   /** A tool results execution ID. */
   executionId: string;
   /** Request body */
-  body?: PerfMetricsSummary;
+  body?: PerfMetricsSummary | undefined;
 }
 export type BasicPerfSampleSeriesPerfMetricTypeEnum =
   | "perfMetricTypeUnspecified"
@@ -777,24 +777,24 @@ export type BasicPerfSampleSeriesSampleSeriesLabelEnum =
   | "graphicsFrameRate";
 /** Encapsulates the metadata for basic sample series represented by a line chart */
 export interface BasicPerfSampleSeries {
-  perfMetricType?: BasicPerfSampleSeriesPerfMetricTypeEnum | (string & {});
-  perfUnit?: BasicPerfSampleSeriesPerfUnitEnum | (string & {});
-  sampleSeriesLabel?: BasicPerfSampleSeriesSampleSeriesLabelEnum | (string & {});
+  perfMetricType?: BasicPerfSampleSeriesPerfMetricTypeEnum | (string & {}) | undefined;
+  perfUnit?: BasicPerfSampleSeriesPerfUnitEnum | (string & {}) | undefined;
+  sampleSeriesLabel?: BasicPerfSampleSeriesSampleSeriesLabelEnum | (string & {}) | undefined;
 }
 /** Resource representing a collection of performance samples (or data points) */
 export interface PerfSampleSeries {
   /** A tool results history ID. @OutputOnly */
-  historyId?: string;
+  historyId?: string | undefined;
   /** A tool results execution ID. @OutputOnly */
-  executionId?: string;
+  executionId?: string | undefined;
   /** A tool results step ID. @OutputOnly */
-  stepId?: string;
+  stepId?: string | undefined;
   /** A sample series id @OutputOnly */
-  sampleSeriesId?: string;
+  sampleSeriesId?: string | undefined;
   /** Basic series represented by a line chart */
-  basicPerfSampleSeries?: BasicPerfSampleSeries;
+  basicPerfSampleSeries?: BasicPerfSampleSeries | undefined;
   /** The cloud project @OutputOnly */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
   /** A tool results history ID. */
@@ -806,7 +806,7 @@ export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
   /** A tool results execution ID. */
   executionId: string;
   /** Request body */
-  body?: PerfSampleSeries;
+  body?: PerfSampleSeries | undefined;
 }
 export interface GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsRequest {
   /** A tool results step ID. */
@@ -844,24 +844,24 @@ export interface GetProjectsHistoriesExecutionsClustersRequest {
 }
 export interface Screen {
   /** File reference of the png file. Required. */
-  fileReference?: string;
+  fileReference?: string | undefined;
   /** OS version of the device that the screenshot was taken on. Required. */
-  version?: string;
+  version?: string | undefined;
   /** Locale of the device that the screenshot was taken on. Required. */
-  locale?: string;
+  locale?: string | undefined;
   /** Model of the device that the screenshot was taken on. Required. */
-  model?: string;
+  model?: string | undefined;
 }
 export type ScreenList = Array<Screen>;
 export interface ScreenshotCluster {
   /** Full list of screens. */
-  screens?: ScreenList;
+  screens?: ScreenList | undefined;
   /** A singular screen that represents the cluster as a whole. This screen will act as the "cover" of the entire cluster. When users look at the clusters, only the key screen from each cluster will be shown. Which screen is the key screen is determined by the ClusteringAlgorithm */
-  keyScreen?: Screen;
+  keyScreen?: Screen | undefined;
   /** A string that describes the activity of every screen in the cluster. */
-  activity?: string;
+  activity?: string | undefined;
   /** A unique identifier for the cluster. @OutputOnly */
-  clusterId?: string;
+  clusterId?: string | undefined;
 }
 export interface GetProjectsHistoriesExecutionsEnvironmentsRequest {
   /** Required. A Project id. */
@@ -880,18 +880,18 @@ export type MergedResultStateEnum = "unknownState" | "pending" | "inProgress" | 
 /** Merged test result for environment. If the environment has only one step (no reruns or shards), then the merged result is the same as the step result. If the environment has multiple shards and/or reruns, then the results of shards and reruns that belong to the same environment are merged into one environment result. */
 export interface MergedResult {
   /** State of the resource */
-  state?: MergedResultStateEnum;
+  state?: MergedResultStateEnum | undefined;
   /** Outcome of the resource */
-  outcome?: Outcome;
+  outcome?: Outcome | undefined;
   /** The combined and rolled-up result of each test suite that was run as part of this environment. Combining: When the test cases from a suite are run in different steps (sharding), the results are added back together in one overview. (e.g., if shard1 has 2 failures and shard2 has 1 failure than the overview failure_count = 3). Rollup: When test cases from the same suite are run multiple times (flaky), the results are combined (e.g., if testcase1.run1 fails, testcase1.run2 passes, and both testcase2.run1 and testcase2.run2 fail then the overview flaky_count = 1 and failure_count = 1). */
-  testSuiteOverviews?: TestSuiteOverviewList;
+  testSuiteOverviews?: TestSuiteOverviewList | undefined;
 }
 /** Result summary for a shard in an environment. */
 export interface ShardSummary {
   /** Summaries of the steps belonging to the shard. With flaky_test_attempts enabled from TestExecutionService, more than one run (Step) can present. And the runs will be sorted by multistep_number. */
-  runs?: StepSummaryList;
+  runs?: StepSummaryList | undefined;
   /** Merged result of the shard. */
-  shardResult?: MergedResult;
+  shardResult?: MergedResult | undefined;
 }
 export type ShardSummaryList = Array<ShardSummary>;
 export type EnvironmentDimensionValueEntry = StepLabelsEntry;
@@ -899,34 +899,34 @@ export type EnvironmentDimensionValueEntryList = Array<StepLabelsEntry>;
 /** The storage for test results. */
 export interface ResultsStorage {
   /** The root directory for test results. */
-  resultsStoragePath?: FileReference;
+  resultsStoragePath?: FileReference | undefined;
   /** The path to the Xunit XML file. */
-  xunitXmlFile?: FileReference;
+  xunitXmlFile?: FileReference | undefined;
 }
 /** An Environment represents the set of test runs (Steps) from the parent Execution that are configured with the same set of dimensions (Model, Version, Locale, and Orientation). Multiple such runs occur particularly because of features like sharding (splitting up a test suite to run in parallel across devices) and reruns (running a test multiple times to check for different outcomes). */
 export interface Environment {
   /** A short human-readable name to display in the UI. Maximum of 100 characters. For example: Nexus 5, API 27. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. An Environment id. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Output only. The time when the Environment was created. */
-  creationTime?: Timestamp;
+  creationTime?: Timestamp | undefined;
   /** Output only. A Project id. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Output only. Summaries of shards. Only one shard will present unless sharding feature is enabled in TestExecutionService. */
-  shardSummaries?: ShardSummaryList;
+  shardSummaries?: ShardSummaryList | undefined;
   /** Merged result of the environment. */
-  environmentResult?: MergedResult;
+  environmentResult?: MergedResult | undefined;
   /** Dimension values describing the environment. Dimension values always consist of "Model", "Version", "Locale", and "Orientation". - In response: always set - In create request: always set - In update request: never set */
-  dimensionValue?: EnvironmentDimensionValueEntryList;
+  dimensionValue?: EnvironmentDimensionValueEntryList | undefined;
   /** Output only. The time when the Environment status was set to complete. This value will be set automatically when state transitions to COMPLETE. */
-  completionTime?: Timestamp;
+  completionTime?: Timestamp | undefined;
   /** The location where output files are stored in the user bucket. */
-  resultsStorage?: ResultsStorage;
+  resultsStorage?: ResultsStorage | undefined;
   /** Output only. An Execution id. */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Output only. A History id. */
-  historyId?: string;
+  historyId?: string | undefined;
 }
 export interface GetProjectsHistoriesExecutionsStepsRequest {
   /** A Project id. Required. */
@@ -966,23 +966,23 @@ export type StackTraceList = Array<StackTrace>;
 export type TestCaseStatusEnum = "passed" | "failed" | "error" | "skipped" | "flaky";
 export interface TestCase {
   /** Test case reference, e.g. name, class name and test suite name. Required. */
-  testCaseReference?: TestCaseReference;
+  testCaseReference?: TestCaseReference | undefined;
   /** Why the test case was skipped. Present only for skipped test case */
-  skippedMessage?: string;
+  skippedMessage?: string | undefined;
   /** The start time of the test case. */
-  startTime?: Timestamp;
+  startTime?: Timestamp | undefined;
   /** The stack trace details if the test case failed or encountered an error. The maximum size of the stack traces is 100KiB, beyond which the stack track will be truncated. Zero if the test case passed. */
-  stackTraces?: StackTraceList;
+  stackTraces?: StackTraceList | undefined;
   /** The status of the test case. Required. */
-  status?: TestCaseStatusEnum;
+  status?: TestCaseStatusEnum | undefined;
   /** The end time of the test case. */
-  endTime?: Timestamp;
+  endTime?: Timestamp | undefined;
   /** References to opaque files of any format output by the tool execution. @OutputOnly */
-  toolOutputs?: ToolOutputReferenceList;
+  toolOutputs?: ToolOutputReferenceList | undefined;
   /** A unique identifier within a Step for this Test Case. */
-  testCaseId?: string;
+  testCaseId?: string | undefined;
   /** The elapsed run time of the test case. Required. */
-  elapsedTime?: Duration;
+  elapsedTime?: Duration | undefined;
 }
 export interface GetSettingsProjectsRequest {
   /** A Project id. Required. */
@@ -991,9 +991,9 @@ export interface GetSettingsProjectsRequest {
 /** Per-project settings for the Tool Results service. */
 export interface ProjectSettings {
   /** The name of the project's settings. Always of the form: projects/{project-id}/settings In update request: never set In response: always set */
-  name?: string;
+  name?: string | undefined;
   /** The name of the Google Cloud Storage bucket to which results are written. By default, this is unset. In update request: optional In response: optional */
-  defaultBucket?: string;
+  defaultBucket?: string | undefined;
 }
 export interface InitializeSettingsProjectsRequest {
   /** A Project id. Required. */
@@ -1001,38 +1001,38 @@ export interface InitializeSettingsProjectsRequest {
 }
 export interface ListProjectsHistoriesRequest {
   /** A continuation token to resume the query at the next item. Optional. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A Project id. Required. */
   projectId: string;
   /** If set, only return histories with the given name. Optional. */
-  filterByName?: string;
+  filterByName?: string | undefined;
   /** The maximum number of Histories to fetch. Default value: 20. The server will use this default if the field is not set or has a value of 0. Any value greater than 100 will be treated as 100. Optional. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type HistoryList = Array<History>;
 /** Response message for HistoryService.List */
 export interface ListHistoriesResponse {
   /** A continuation token to resume the query at the next item. Will only be set if there are more histories to fetch. Tokens are valid for up to one hour from the time of the first list request. For instance, if you make a list request at 1PM and use the token from this first request 10 minutes later, the token from this second response will only be valid for 50 minutes. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Histories. */
-  histories?: HistoryList;
+  histories?: HistoryList | undefined;
 }
 export interface ListProjectsHistoriesExecutionsRequest {
   /** The maximum number of Executions to fetch. Default value: 25. The server will use this default if the field is not set or has a value of 0. Optional. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A Project id. Required. */
   projectId: string;
   /** A History id. Required. */
   historyId: string;
   /** A continuation token to resume the query at the next item. Optional. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ExecutionList = Array<Execution>;
 export interface ListExecutionsResponse {
   /** Executions. Always set. */
-  executions?: ExecutionList;
+  executions?: ExecutionList | undefined;
   /** A continuation token to resume the query at the next item. Will only be set if there are more Executions to fetch. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsHistoriesExecutionsClustersRequest {
   /** A History id. Required. */
@@ -1045,15 +1045,15 @@ export interface ListProjectsHistoriesExecutionsClustersRequest {
 export type ScreenshotClusterList = Array<ScreenshotCluster>;
 export interface ListScreenshotClustersResponse {
   /** The set of clusters associated with an execution Always set */
-  clusters?: ScreenshotClusterList;
+  clusters?: ScreenshotClusterList | undefined;
 }
 export interface ListProjectsHistoriesExecutionsEnvironmentsRequest {
   /** Required. A History id. */
   historyId: string;
   /** The maximum number of Environments to fetch. Default value: 25. The server will use this default if the field is not set or has a value of 0. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A continuation token to resume the query at the next item. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. An Execution id. */
   executionId: string;
   /** Required. A Project id. */
@@ -1063,25 +1063,25 @@ export type EnvironmentList = Array<Environment>;
 /** Response message for EnvironmentService.ListEnvironments. */
 export interface ListEnvironmentsResponse {
   /** A Project id. Always set. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** A Execution id Always set. */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Environments. Always set. */
-  environments?: EnvironmentList;
+  environments?: EnvironmentList | undefined;
   /** A History id. Always set. */
-  historyId?: string;
+  historyId?: string | undefined;
   /** A continuation token to resume the query at the next item. Will only be set if there are more Environments to fetch. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsHistoriesExecutionsStepsRequest {
   /** A Project id. Required. */
   projectId: string;
   /** A continuation token to resume the query at the next item. Optional. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A Execution id. Required. */
   executionId: string;
   /** The maximum number of Steps to fetch. Default value: 25. The server will use this default if the field is not set or has a value of 0. Optional. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A History id. Required. */
   historyId: string;
 }
@@ -1089,9 +1089,9 @@ export type StepList = Array<Step>;
 /** Response message for StepService.List. */
 export interface ListStepsResponse {
   /** A continuation token to resume the query at the next item. If set, indicates that there are more steps to read, by calling list again with this value in the page_token field. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Steps. */
-  steps?: StepList;
+  steps?: StepList | undefined;
 }
 export type ListProjectsHistoriesExecutionsStepsPerfSampleSeriesFilterEnum =
   | "perfMetricTypeUnspecified"
@@ -1104,7 +1104,7 @@ export type ListProjectsHistoriesExecutionsStepsPerfSampleSeriesFilterEnumList =
 >;
 export interface ListProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
   /** Specify one or more PerfMetricType values such as CPU to filter the result */
-  filter?: ListProjectsHistoriesExecutionsStepsPerfSampleSeriesFilterEnumList;
+  filter?: ListProjectsHistoriesExecutionsStepsPerfSampleSeriesFilterEnumList | undefined;
   /** A tool results execution ID. */
   executionId: string;
   /** The cloud project */
@@ -1117,7 +1117,7 @@ export interface ListProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
 export type PerfSampleSeriesList = Array<PerfSampleSeries>;
 export interface ListPerfSampleSeriesResponse {
   /** The resulting PerfSampleSeries sorted by id */
-  perfSampleSeries?: PerfSampleSeriesList;
+  perfSampleSeries?: PerfSampleSeriesList | undefined;
 }
 export interface ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest {
   /** A tool results history ID. */
@@ -1125,9 +1125,9 @@ export interface ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequ
   /** A sample series id */
   sampleSeriesId: string;
   /** The default page size is 500 samples, and the maximum size is 5000. If the page_size is greater than 5000, the effective page size will be 5000 */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional, the next_page_token returned in the previous response */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A tool results execution ID. */
   executionId: string;
   /** The cloud project */
@@ -1136,9 +1136,9 @@ export interface ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequ
   stepId: string;
 }
 export interface ListPerfSamplesResponse {
-  perfSamples?: PerfSampleList;
+  perfSamples?: PerfSampleList | undefined;
   /** Optional, returned if result size exceeds the page size specified in the request (or the default page size, 500, if unspecified). It indicates the last sample timestamp to be used as page_token in subsequent request */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsHistoriesExecutionsStepsTestCasesRequest {
   /** A Project id. Required. */
@@ -1146,9 +1146,9 @@ export interface ListProjectsHistoriesExecutionsStepsTestCasesRequest {
   /** A Step id. Note: This step must include a TestExecutionStep. Required. */
   stepId: string;
   /** The maximum number of TestCases to fetch. Default value: 100. The server will use this default if the field is not set or has a value of 0. Optional. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A continuation token to resume the query at the next item. Optional. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A History id. Required. */
   historyId: string;
   /** A Execution id Required. */
@@ -1157,9 +1157,9 @@ export interface ListProjectsHistoriesExecutionsStepsTestCasesRequest {
 export type TestCaseList = Array<TestCase>;
 /** Response message for StepService.ListTestCases. */
 export interface ListTestCasesResponse {
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of test cases. */
-  testCases?: TestCaseList;
+  testCases?: TestCaseList | undefined;
 }
 export interface ListProjectsHistoriesExecutionsStepsThumbnailsRequest {
   /** A Step id. Required. */
@@ -1171,54 +1171,54 @@ export interface ListProjectsHistoriesExecutionsStepsThumbnailsRequest {
   /** An Execution id. Required. */
   executionId: string;
   /** A continuation token to resume the query at the next item. Optional. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of thumbnails to fetch. Default value: 50. The server will use this default if the field is not set or has a value of 0. Optional. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** A single thumbnail, with its size and format. */
 export interface Thumbnail {
   /** The thumbnail file itself. That is, the bytes here are precisely the bytes that make up the thumbnail file; they can be served as an image as-is (with the appropriate content type.) Always set. */
-  data?: string;
+  data?: string | undefined;
   /** The height of the thumbnail, in pixels. Always set. */
-  heightPx?: number;
+  heightPx?: number | undefined;
   /** The width of the thumbnail, in pixels. Always set. */
-  widthPx?: number;
+  widthPx?: number | undefined;
   /** The thumbnail's content type, i.e. "image/png". Always set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** An image, with a link to the main image and a thumbnail. */
 export interface Image {
   /** A reference to the full-size, original image. This is the same as the tool_outputs entry for the image under its Step. Always set. */
-  sourceImage?: ToolOutputReference;
+  sourceImage?: ToolOutputReference | undefined;
   /** The step to which the image is attached. Always set. */
-  stepId?: string;
+  stepId?: string | undefined;
   /** The thumbnail. */
-  thumbnail?: Thumbnail;
+  thumbnail?: Thumbnail | undefined;
   /** An error explaining why the thumbnail could not be rendered. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type ImageList = Array<Image>;
 /** A response containing the thumbnails in a step. */
 export interface ListStepThumbnailsResponse {
   /** A list of image data. Images are returned in a deterministic order; they are ordered by these factors, in order of importance: * First, by their associated test case. Images without a test case are considered greater than images with one. * Second, by their creation time. Images without a creation time are greater than images with one. * Third, by the order in which they were added to the step (by calls to CreateStep or UpdateStep). */
-  thumbnails?: ImageList;
+  thumbnails?: ImageList | undefined;
   /** A continuation token to resume the query at the next item. If set, indicates that there are more thumbnails to read, by calling list again with this value in the page_token field. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsHistoriesExecutionsRequest {
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** A Project id. Required. */
   projectId: string;
   /** Required. */
@@ -1226,13 +1226,13 @@ export interface PatchProjectsHistoriesExecutionsRequest {
   /** Required. */
   historyId: string;
   /** Request body */
-  body?: Execution;
+  body?: Execution | undefined;
 }
 export interface PatchProjectsHistoriesExecutionsStepsRequest {
   /** A Step id. Required. */
   stepId: string;
   /** A unique request ID for server to detect duplicated requests. For example, a UUID. Optional, but strongly recommended. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** A Project id. Required. */
   projectId: string;
   /** A Execution id. Required. */
@@ -1240,12 +1240,12 @@ export interface PatchProjectsHistoriesExecutionsStepsRequest {
   /** A History id. Required. */
   historyId: string;
   /** Request body */
-  body?: Step;
+  body?: Step | undefined;
 }
 /** Request message for StepService.PublishXunitXmlFiles. */
 export interface PublishXunitXmlFilesRequest {
   /** URI of the Xunit XML files to publish. The maximum size of the file this reference is pointing to is 50MB. Required. */
-  xunitXmlFiles?: FileReferenceList;
+  xunitXmlFiles?: FileReferenceList | undefined;
 }
 export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest {
   /** A Step id. Note: This step must include a TestExecutionStep. Required. */
@@ -1257,7 +1257,7 @@ export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest {
   /** A Project id. Required. */
   projectId: string;
   /** Request body */
-  body?: PublishXunitXmlFilesRequest;
+  body?: PublishXunitXmlFilesRequest | undefined;
 }
 export type AccessibilityClustersProjectsHistoriesExecutionsStepsError =
   | NotFound

@@ -84,13 +84,13 @@ export type CreateHogFlowRequestTagsList = Array<string>;
 export type HogFlowStateEnum = "draft" | "active" | "archived";
 export interface HogFlowMasking {
   /** Seconds (60 to ~94M / 3y) to suppress repeat firings of the same hash. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** Fire once per N matches of the same hash within ttl -- a sampler: N=3 fires on the 1st, 4th, 7th... match. Omit to fire on the first match, then suppress repeats within ttl. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** HogQL template defining the dedup/grouping key, e.g. '{person.id}' (once per person) within ttl. */
-  hash?: string;
+  hash?: string | undefined;
   /** Auto-compiled from hash. Do not set. */
-  bytecode?: unknown;
+  bytecode?: unknown | undefined;
 }
 export type HogFlowConversionFiltersItemMap = { [key: string]: unknown | undefined };
 /** Property-based conversion conditions, as an ARRAY of property filters: [{key, value, operator, type: event|person|group}, ...]. Event-based goals do NOT go here -- put them in 'events'. Empty array = any event within the window converts. */
@@ -111,16 +111,16 @@ export type HogFunctionFiltersDataWarehouseList = Array<HogFunctionFiltersDataWa
 export type HogFunctionFiltersPropertiesItemMap = { [key: string]: unknown | undefined };
 export type HogFunctionFiltersPropertiesList = Array<HogFunctionFiltersPropertiesItemMap>;
 export interface HogFunctionFilters {
-  source?: HogFunctionFiltersSourceEnum | (string & {});
-  actions?: HogFunctionFiltersActionsList;
-  events?: HogFunctionFiltersEventsList;
-  data_warehouse?: HogFunctionFiltersDataWarehouseList;
-  properties?: HogFunctionFiltersPropertiesList;
-  bytecode?: unknown;
-  transpiled?: unknown;
-  filter_test_accounts?: boolean;
-  bytecode_error?: string;
-  bytecode_contract?: string;
+  source?: HogFunctionFiltersSourceEnum | (string & {}) | undefined;
+  actions?: HogFunctionFiltersActionsList | undefined;
+  events?: HogFunctionFiltersEventsList | undefined;
+  data_warehouse?: HogFunctionFiltersDataWarehouseList | undefined;
+  properties?: HogFunctionFiltersPropertiesList | undefined;
+  bytecode?: unknown | undefined;
+  transpiled?: unknown | undefined;
+  filter_test_accounts?: boolean | undefined;
+  bytecode_error?: string | undefined;
+  bytecode_contract?: string | undefined;
 }
 export interface HogFlowConversionEvent {
   /** Event/action filters for this conversion event, same shape as trigger filters: {events: [{id, name, type: 'events', properties?: [<cond>]}], actions?: [...], properties?: [<cond>]}. bytecode is compiled server-side. */
@@ -130,13 +130,13 @@ export interface HogFlowConversionEvent {
 export type HogFlowConversionEventsList = Array<HogFlowConversionEvent>;
 export interface HogFlowConversion {
   /** Property-based conversion conditions, as an ARRAY of property filters: [{key, value, operator, type: event|person|group}, ...]. Event-based goals do NOT go here -- put them in 'events'. Empty array = any event within the window converts. */
-  filters?: HogFlowConversionFiltersList;
+  filters?: HogFlowConversionFiltersList | undefined;
   /** Event-based conversion goals: [{filters: {events: [{id, name, type: 'events'}], ...}}]. */
-  events?: HogFlowConversionEventsList;
+  events?: HogFlowConversionEventsList | undefined;
   /** How long after entering the workflow a conversion still counts, as a duration string: '7d', '12h', '30m', '45s'. Same form the delay steps use. Must be longer than zero, and at most '365d'. Omit it to use the default of 90 days. */
-  window?: string | null;
+  window?: string | null | undefined;
   /** Compiled server-side from 'filters'. Do not set; ignored if sent. */
-  bytecode?: unknown;
+  bytecode?: unknown | undefined;
 }
 /** * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
 export type ExitConditionEnum =
@@ -160,7 +160,7 @@ export interface HogFlowEdge {
   /** continue: fall-through (sequential or the no-match path of conditional_branch). branch: requires 'index' matching config.conditions[index]. * `continue` - continue * `branch` - branch */
   type: HogFlowEdgeTypeEnum | (string & {});
   /** Required for type='branch'. conditional_branch: index into config.conditions[index]. random_cohort_branch: index into config.cohorts[index]. wait_until_condition: use index:0 -- it advances via the index:0 branch edge when it resolves (a condition match or an events entry firing). */
-  index?: number;
+  index?: number | undefined;
   /** Source action id. */
   from: string;
 }
@@ -186,24 +186,24 @@ export type HogFlowActionConfigCase0Map = { [key: string]: unknown | undefined }
 /** Property-based wait condition; continues when the person matches. A condition with no property filters is ignored -- the wait then relies on 'events' and the max_wait_duration timeout. */
 export interface HogFlowActionConfigCase1Condition {
   /** Property conditions, e.g. {properties: [{key, value, operator, type}]}. */
-  filters?: HogFunctionFilters | null;
+  filters?: HogFunctionFilters | null | undefined;
   /** Optional display name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface HogFlowActionConfigCase1EventsItem {
   /** Event/action filters; the workflow wakes when a matching event fires. Must target at least one event or action (entries targeting neither are dropped). */
-  filters?: HogFunctionFilters | null;
+  filters?: HogFunctionFilters | null | undefined;
   /** Optional display name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Events to wait for: continues when ANY entry fires (OR'd with 'condition'). Each entry: {filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}. */
 export type HogFlowActionConfigCase1EventsList = Array<HogFlowActionConfigCase1EventsItem>;
 /** Config for type='wait_until_condition'. Provide 'condition' and/or 'events' -- an events-only wait (no condition) is valid. */
 export interface HogFlowActionConfigCase1 {
   /** Property-based wait condition; continues when the person matches. A condition with no property filters is ignored -- the wait then relies on 'events' and the max_wait_duration timeout. */
-  condition?: HogFlowActionConfigCase1Condition;
+  condition?: HogFlowActionConfigCase1Condition | undefined;
   /** Events to wait for: continues when ANY entry fires (OR'd with 'condition'). Each entry: {filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}. */
-  events?: HogFlowActionConfigCase1EventsList;
+  events?: HogFlowActionConfigCase1EventsList | undefined;
   /** '<number><unit>' with unit s|m|h|d, e.g. '30m' (same rules as delay). */
   max_wait_duration: string;
 }
@@ -211,25 +211,25 @@ export interface HogFlowActionConfigCase1 {
 export type HogFlowActionConfig = HogFlowActionConfigCase0Map | HogFlowActionConfigCase1;
 export interface HogFlowAction {
   /** Unique node ID within the workflow. */
-  id?: string;
+  id?: string | undefined;
   /** Display name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** On failure: continue (skip the action and proceed) or abort (stop the run). * `continue` - continue * `abort` - abort */
-  on_error?: OnErrorEnum | (string & {}) | null;
+  on_error?: OnErrorEnum | (string & {}) | null | undefined;
   /** Created at (epoch ms). Frontend-managed. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Updated at (epoch ms). Frontend-managed. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Property filters gating this action. */
-  filters?: HogFunctionFilters | null;
+  filters?: HogFunctionFilters | null | undefined;
   /** One of: trigger | function | function_email | function_sms | function_push | delay | wait_until_condition | wait_until_time_window | conditional_branch | random_cohort_branch | exit. * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit */
-  type?: HogFlowActionTypeEnum | (string & {});
+  type?: HogFlowActionTypeEnum | (string & {}) | undefined;
   /** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. An active event trigger must name at least one event, action or property filter; with filters.source 'person-updates' that means at least one property filter. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assignment_status: 'all'|'assigned'|'unassigned', and assigned_to_user_ids: [<int>] when assignment_status is 'assigned'. all_roles_unassigned remains accepted for workflows saved before assignment_status was added. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). function_push also accepts sensitive?: <bool> (default false) - when true, the notification is still sent but PostHog keeps no copy of its title, subtitle, body or image, and the run keeps no variables, so it can't be rerun. Dictionary input values are template strings too -- write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date -- set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d, at most 365d, 24h, 60m or 60s. Fractions OK ('1.5d'=36h). A larger value is rejected. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, at most 365d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same format as delay, at most 30d). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
-  config?: HogFlowActionConfig;
+  config?: HogFlowActionConfig | undefined;
   /** Output variable for downstream actions: {key, result_path?, spread?, label?} or a list of those. */
-  output_variable?: unknown;
+  output_variable?: unknown | undefined;
 }
 /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
 export type CreateHogFlowRequestActionsList = Array<HogFlowAction>;
@@ -241,31 +241,31 @@ export interface CreateHogFlowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Workflow name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: CreateHogFlowRequestTagsList;
+  tags?: CreateHogFlowRequestTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStateEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {}) | undefined;
   /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
-  origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
+  origin_product?: HogFlowOriginProductEnum | (string & {}) | null | undefined;
   /** The record another product's entry point started this workflow from, as '<kind>:<id>'. Set only when creating a workflow. Filter the list with `?source_record=`. */
-  source_record?: string | null;
+  source_record?: string | null | undefined;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash -- a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
+  trigger_masking?: HogFlowMasking | null | undefined;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
+  conversion?: HogFlowConversion | null | undefined;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). Only event and cohort triggers are re-checked, so on any other trigger these two are stored as exit_only_at_end and exit_on_conversion. A cohort trigger no longer matches once the person leaves the cohort (or rejoins it, for a 'left' trigger). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum | (string & {});
+  exit_condition?: ExitConditionEnum | (string & {}) | undefined;
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
-  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: CreateHogFlowRequestEdgesList;
+  edges?: CreateHogFlowRequestEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: CreateHogFlowRequestActionsList;
+  actions?: CreateHogFlowRequestActionsList | undefined;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: CreateHogFlowRequestVariablesList;
+  variables?: CreateHogFlowRequestVariablesList | undefined;
 }
 /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
 export type HogFlowOutputTagsList = Array<string>;
@@ -284,15 +284,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
 export type HogFlowOutputEdgesList = Array<HogFlowEdge>;
@@ -305,21 +305,21 @@ export type HogFlowOutputVariablesList = Array<HogFlowOutputVariablesItemMap>;
 /** * `active` - Active * `paused` - Paused * `completed` - Completed */
 export type HogFlowScheduleStatusEnum = "active" | "paused" | "completed";
 export interface HogFlowSchedule {
-  id?: string;
+  id?: string | undefined;
   /** iCalendar RRULE string (e.g. 'FREQ=DAILY;INTERVAL=1'). Must produce occurrences at most once per hour. */
-  rrule?: string;
+  rrule?: string | undefined;
   /** ISO 8601 datetime the schedule starts from. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** IANA timezone for interpreting the RRULE (default 'UTC'). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Variable value overrides merged with the workflow defaults on each run. */
-  variables?: unknown;
+  variables?: unknown | undefined;
   /** active, paused, or completed (set once the RRULE's COUNT/UNTIL is exhausted). * `active` - Active * `paused` - Paused * `completed` - Completed */
-  status?: HogFlowScheduleStatusEnum;
+  status?: HogFlowScheduleStatusEnum | undefined;
   /** Next scheduled fire time, computed by the scheduler. */
-  next_run_at?: string | null;
-  created_at?: string;
-  updated_at?: string;
+  next_run_at?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Recurring schedules attached to this workflow (read-only here; manage via the schedules sub-resource). A batch/schedule workflow only fires when it's active AND has an active schedule. Empty for non-scheduled workflows. */
 export type HogFlowOutputSchedulesList = Array<HogFlowSchedule>;
@@ -335,60 +335,60 @@ export interface HogFlowLastRun {
 }
 /** Mixin for serializers to add user access control fields */
 export interface HogFlowOutput {
-  id?: string;
+  id?: string | undefined;
   /** Workflow name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: HogFlowOutputTagsList;
-  version?: number;
+  tags?: HogFlowOutputTagsList | undefined;
+  version?: number | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStateEnum;
+  status?: HogFlowStateEnum | undefined;
   /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
-  origin_product?: HogFlowOriginProductEnum | null;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
-  trigger?: unknown;
+  origin_product?: HogFlowOriginProductEnum | null | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
+  trigger?: unknown | undefined;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash -- a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
+  trigger_masking?: HogFlowMasking | null | undefined;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
+  conversion?: HogFlowConversion | null | undefined;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). Only event and cohort triggers are re-checked, so on any other trigger these two are stored as exit_only_at_end and exit_on_conversion. A cohort trigger no longer matches once the person leaves the cohort (or rejoins it, for a 'left' trigger). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum;
+  exit_condition?: ExitConditionEnum | undefined;
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
-  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowOutputEdgesList;
+  edges?: HogFlowOutputEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowOutputActionsList;
-  abort_action?: string | null;
+  actions?: HogFlowOutputActionsList | undefined;
+  abort_action?: string | null | undefined;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowOutputVariablesList;
-  billable_action_types?: unknown;
+  variables?: HogFlowOutputVariablesList | undefined;
+  billable_action_types?: unknown | undefined;
   /** Recurring schedules attached to this workflow (read-only here; manage via the schedules sub-resource). A batch/schedule workflow only fires when it's active AND has an active schedule. Empty for non-scheduled workflows. */
-  schedules?: HogFlowOutputSchedulesList;
+  schedules?: HogFlowOutputSchedulesList | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
   /** Staged content changes awaiting publish -- a full snapshot of the workflow's actions, edges and settings. Null when there's nothing staged. Test it with a use_draft test run, then promote it with the publish endpoint or throw it away with discard_draft. */
-  draft?: unknown;
+  draft?: unknown | undefined;
   /** When the draft was last written; null when there's no staged draft. Pass this to publish (and as base_updated_at on further draft edits) so a concurrent editor's changes aren't clobbered -- a mismatch returns 409. */
-  draft_updated_at?: string | null;
+  draft_updated_at?: string | null | undefined;
   /** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
-  action_redirects?: HogFlowOutputActionRedirectsMap | null;
+  action_redirects?: HogFlowOutputActionRedirectsMap | null | undefined;
   /** When PostHog paused this workflow's email automatically because its spam complaint or hard bounce rate crossed a threshold. Null when sending is not paused. Read-only: only the resume_email_sending endpoint clears a pause, so a normal update or publish can't lift it. */
-  email_sending_paused_at?: string | null;
+  email_sending_paused_at?: string | null | undefined;
   /** Plain-language reason for the pause, naming the signal and the window. Empty when not paused. */
-  email_sending_paused_reason?: string;
+  email_sending_paused_reason?: string | undefined;
   /** Who paused it: "auto" for the deliverability detector, "staff" for PostHog staff. A staff pause can only be resumed by staff, so the resume endpoint refuses it. Empty when not paused. */
-  email_sending_paused_by?: string;
+  email_sending_paused_by?: string | undefined;
   /** True when only PostHog staff can lift the current pause: staff placed it, or it landed shortly after a resume, so another self-serve resume is not offered. False when not paused or when the resume endpoint would accept the caller. */
-  email_sending_pause_requires_support?: boolean;
+  email_sending_pause_requires_support?: boolean | undefined;
   /** When sending was last resumed. Every detector window starts after this, so resuming does not immediately re-trip on the feedback that caused the pause. Null if never paused. */
-  email_sending_resumed_at?: string | null;
+  email_sending_resumed_at?: string | null | undefined;
   /** Newest task this loop workflow created, as its last run. Null when the workflow is not a loop or has not run. */
-  last_run?: HogFlowLastRun | null;
+  last_run?: HogFlowLastRun | null | undefined;
 }
 /** * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `partially_failed` - Partially failed * `cancelled` - Cancelled * `failed` - Failed */
 export type HogFlowBatchJobStateEnum =
@@ -405,23 +405,23 @@ export interface CreateHogFlowsBatchJobRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Status of the batch run. waiting: the audience's cohort is still calculating. queued and active: the run is enrolling its audience. completed: the whole audience was enrolled. When every enrolled person's run has ended, or a day after the run completed, PostHog checks for errored sends. A completed run stays completed when no send errored, becomes partially_failed when some sends errored, and becomes failed when every send errored. failed also means the run could not enroll its audience. cancelled: someone stopped the run. A send errors when its step throws, for example on a template that does not render. Provider failures such as bounces are not errored sends; read them from the run's metrics. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `partially_failed` - Partially failed * `cancelled` - Cancelled * `failed` - Failed */
-  status?: HogFlowBatchJobStateEnum | (string & {});
+  status?: HogFlowBatchJobStateEnum | (string & {}) | undefined;
   /** ID of the workflow this batch run belongs to. */
   hog_flow: string;
   /** Variable value overrides applied to this run. */
-  variables?: unknown;
+  variables?: unknown | undefined;
 }
 export interface HogFlowBatchJob {
   /** ID of the batch run. */
   id: string;
   /** Status of the batch run. waiting: the audience's cohort is still calculating. queued and active: the run is enrolling its audience. completed: the whole audience was enrolled. When every enrolled person's run has ended, or a day after the run completed, PostHog checks for errored sends. A completed run stays completed when no send errored, becomes partially_failed when some sends errored, and becomes failed when every send errored. failed also means the run could not enroll its audience. cancelled: someone stopped the run. A send errors when its step throws, for example on a template that does not render. Provider failures such as bounces are not errored sends; read them from the run's metrics. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `partially_failed` - Partially failed * `cancelled` - Cancelled * `failed` - Failed */
-  status?: HogFlowBatchJobStateEnum;
+  status?: HogFlowBatchJobStateEnum | undefined;
   /** ID of the workflow this batch run belongs to. */
   hog_flow: string;
   /** Audience snapshot the run fanned out to, taken from the workflow's batch trigger filters. */
   filters: unknown;
   /** Variable value overrides applied to this run. */
-  variables?: unknown;
+  variables?: unknown | undefined;
   /** When the batch run was created. */
   created_at: string;
   /** User who started the batch run. */
@@ -448,31 +448,31 @@ export type HogFlowInputVariablesList = Array<HogFlowInputVariablesItemMap>;
 /** Mixin for serializers to add user access control fields */
 export interface HogFlowInput {
   /** Workflow name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: HogFlowInputTagsList;
+  tags?: HogFlowInputTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStateEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {}) | undefined;
   /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
-  origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
+  origin_product?: HogFlowOriginProductEnum | (string & {}) | null | undefined;
   /** The record another product's entry point started this workflow from, as '<kind>:<id>'. Set only when creating a workflow. Filter the list with `?source_record=`. */
-  source_record?: string | null;
+  source_record?: string | null | undefined;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash -- a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
+  trigger_masking?: HogFlowMasking | null | undefined;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
+  conversion?: HogFlowConversion | null | undefined;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). Only event and cohort triggers are re-checked, so on any other trigger these two are stored as exit_only_at_end and exit_on_conversion. A cohort trigger no longer matches once the person leaves the cohort (or rejoins it, for a 'left' trigger). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum | (string & {});
+  exit_condition?: ExitConditionEnum | (string & {}) | undefined;
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
-  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowInputEdgesList;
+  edges?: HogFlowInputEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowInputActionsList;
+  actions?: HogFlowInputActionsList | undefined;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowInputVariablesList;
+  variables?: HogFlowInputVariablesList | undefined;
 }
 /** Test trigger payload, typically {event, person, groups}. Shape it like the trigger's real payload: an event matching the trigger filters for event triggers, or for an internal-event trigger an event named in its filters.events (e.g. $slack_message_received with Slack properties like channel, user, text, ts) and no person. */
 export type CreateHogFlowsInvocationRequestGlobalsMap = { [key: string]: unknown | undefined };
@@ -482,15 +482,15 @@ export interface CreateHogFlowsInvocationRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Optional override; omit to use saved definition. */
-  configuration?: HogFlowInput;
+  configuration?: HogFlowInput | undefined;
   /** Test trigger payload, typically {event, person, groups}. Shape it like the trigger's real payload: an event matching the trigger filters for event triggers, or for an internal-event trigger an event named in its filters.events (e.g. $slack_message_received with Slack properties like channel, user, text, ts) and no person. */
-  globals?: CreateHogFlowsInvocationRequestGlobalsMap;
+  globals?: CreateHogFlowsInvocationRequestGlobalsMap | undefined;
   /** True (default) mocks HTTP/email/SMS. False fires real side effects. */
-  mock_async_functions?: boolean;
+  mock_async_functions?: boolean | undefined;
   /** Start execution from this action ID instead of the trigger. Each test run executes a single node and returns the next action id. */
-  current_action_id?: string;
+  current_action_id?: string | undefined;
   /** Test the workflow's staged draft instead of its live config. Set this only when workflows-get returns a non-null 'draft'; it can't be combined with an explicit configuration override. */
-  use_draft?: boolean;
+  use_draft?: boolean | undefined;
 }
 export interface CreateHogFlowsInvocationResponse {}
 export interface CreateHogFlowsOptimizationRequest {
@@ -542,13 +542,13 @@ export interface CreateHogFlowsProposalRequest {
   /** Only the workflow content fields this proposal changes. Approving merges them over the live content to build the staged draft, so unrelated parts of the workflow stay as they are. In `actions`, send each step you change with its `id` and only the fields you change; they merge into the live step, and a null field deletes it. */
   content: CreateHogFlowsProposalRequestContentMap;
   /** The metric numbers behind the proposal, so a human can judge it without re-deriving them. */
-  evidence?: CreateHogFlowsProposalRequestEvidenceMap;
+  evidence?: CreateHogFlowsProposalRequestEvidenceMap | undefined;
   /** Workflow version this was authored against, as read from the workflow. It is the snapshot approve compares against to tell whether someone edited the same steps or fields since, and a defaulted version would read as current however long the producer took. */
   base_version: number;
   /** The step this is about. Send it for a change to one step: both the evidence and the outcome then read that step's metrics, so a change to one email in a sequence is not measured against the rest. Leave it out only for a change that spans the workflow, such as its exit condition or a step being taken out, which is measured on the workflow's own numbers. */
-  step_id?: string | null;
+  step_id?: string | null | undefined;
   /** Stable id of the producing agent run or finding. Posting the same one twice returns the existing proposal instead of creating a duplicate. */
-  source_id?: string | null;
+  source_id?: string | null | undefined;
 }
 /** Only the content fields the proposal changes. Valid keys: actions, edges, trigger_masking, conversion, exit_condition, email_sending_rate_limit, variables. Each value has the same shape as on the workflow itself. */
 export type WorkflowProposalContentMap = { [key: string]: unknown | undefined };
@@ -600,17 +600,17 @@ export interface HogInvocationRerunFilter {
   /** Exclusive upper bound on `scheduled_at` (UTC). */
   window_end: string;
   /** Restrict to invocations whose latest status is one of these. Defaults to ['failed']. */
-  status?: HogInvocationRerunFilterStatusList;
+  status?: HogInvocationRerunFilterStatusList | undefined;
   /** Restrict to invocations whose error_kind matches one of these (e.g. 'http_5xx', 'timeout'). */
-  error_kind?: HogInvocationRerunFilterErrorKindList;
+  error_kind?: HogInvocationRerunFilterErrorKindList | undefined;
   /** Restrict to invocations whose error_message contains this substring (case-insensitive). Use to isolate one failure mode when error_kind is too coarse (most app-level errors share the 'hog_error' kind). */
-  error_message_contains?: string;
+  error_message_contains?: string | undefined;
   /** Skip invocations that have already been attempted this many times or more. */
-  max_attempts?: number;
+  max_attempts?: number | undefined;
   /** Maximum number of invocations to rerun in this request. Server-side cap is 10000. */
-  max_count?: number;
+  max_count?: number | undefined;
   /** Optional restriction to specific invocation IDs within the window. Capped at 10000 per request. Always combined with `window_start`/`window_end` so the ClickHouse query can be partition-pruned. */
-  invocation_ids?: HogInvocationRerunFilterInvocationIdsList;
+  invocation_ids?: HogInvocationRerunFilterInvocationIdsList | undefined;
 }
 export interface CreateHogFlowsRerunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -637,7 +637,7 @@ export interface CreateHogFlowsRunRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Variable value overrides, merged with the workflow's own variable defaults for this run only. */
-  variables?: CreateHogFlowsRunRequestVariablesMap;
+  variables?: CreateHogFlowsRunRequestVariablesMap | undefined;
 }
 export interface HogFlowRunResponse {
   /** 'queued' once the invocation has been queued for execution. */
@@ -651,13 +651,13 @@ export interface CreateHogFlowsScheduleRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** iCalendar RRULE string (e.g. 'FREQ=DAILY;INTERVAL=1'). Must produce occurrences at most once per hour. */
-  rrule?: string;
+  rrule?: string | undefined;
   /** ISO 8601 datetime the schedule starts from. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** IANA timezone for interpreting the RRULE (default 'UTC'). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Variable value overrides merged with the workflow defaults on each run. */
-  variables?: unknown;
+  variables?: unknown | undefined;
 }
 /** Property filters to apply */
 export type CreateHogFlowsUserBlastRadiusRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -667,13 +667,13 @@ export interface CreateHogFlowsUserBlastRadiusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Property filters to apply */
-  filters?: CreateHogFlowsUserBlastRadiusRequestFiltersMap;
+  filters?: CreateHogFlowsUserBlastRadiusRequestFiltersMap | undefined;
   /** Group type index for group-based targeting */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** When 'email', count unique email addresses instead of persons, matching how batch email sends deduplicate recipients. * `email` - email */
-  dedupe_key?: DedupeKeyEnum | (string & {}) | null;
+  dedupe_key?: DedupeKeyEnum | (string & {}) | null | undefined;
   /** Whether the workflow contains an email step. The tiered audience limit only applies to email sends; SMS, push, and webhook batches keep the flat limit. Defaults to true. */
-  sends_email?: boolean;
+  sends_email?: boolean | undefined;
 }
 /** * `ready` - Ready * `building` - Building * `rebuilding` - Rebuilding * `needs_attention` - Needs attention */
 export type RealtimeAudienceCohortStateEnum =
@@ -699,19 +699,19 @@ export interface RealtimeCohortRef {
 }
 export interface BlastRadius {
   /** Number of users matching the filters */
-  affected?: number;
+  affected?: number | undefined;
   /** Total number of users */
-  total?: number;
+  total?: number | undefined;
   /** Maximum allowed audience size for batch triggers for this team. */
-  limit?: number;
+  limit?: number | undefined;
   /** The dedupe key that was actually applied to 'affected'. 'email' means it counts unique email addresses; null means it counts persons. * `email` - email */
-  dedupe_key?: DedupeKeyEnum | null;
+  dedupe_key?: DedupeKeyEnum | null | undefined;
   /** Proof this audience was previewed: pass it to the batch dispatch (confirm_token) after echoing 'affected' to the user. Signs these exact filters; expires in 15 minutes. */
-  confirm_token?: string;
+  confirm_token?: string | undefined;
   /** Set when the audience is one realtime cohort. 'affected' is then the cohort's last calculated size, and a batch run waits until the cohort is ready. */
-  realtime_cohort?: RealtimeCohortStatus | null;
+  realtime_cohort?: RealtimeCohortStatus | null | undefined;
   /** Set when a realtime cohort shares the audience with other conditions. Saving that audience fails: a realtime cohort has to be the only condition. */
-  realtime_cohort_with_other_conditions?: RealtimeCohortRef | null;
+  realtime_cohort_with_other_conditions?: RealtimeCohortRef | null | undefined;
 }
 export interface GetHogFlowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -725,23 +725,23 @@ export interface GetHogFlowsAssetRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Only return assets sent by this email step (action node id) -- used to drill in from a step's metric. */
-  action_id?: string;
+  action_id?: string | undefined;
   /** Start of the time range, matched on sent time. Relative ('-30d', '-24h') or ISO 8601. Defaults to -30d (the retention window) -- bounds the ClickHouse partition scan. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range, matched on sent time. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Only return assets sent to this distinct_id. */
-  distinct_id?: string;
+  distinct_id?: string | undefined;
   /** Only return the asset for this specific workflow run -- used to deep-link from a single log entry to the email it sent. Returns 0 rows when the send had no captured asset (text-only, kill-switch off, or standalone email). */
-  invocation_id?: string;
+  invocation_id?: string | undefined;
   /** Maximum number of assets to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of assets to skip, for pagination. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return assets for this batch run (HogFlowBatchJob id). Pass an empty string to return only event-triggered (non-batch) assets; omit to return all. */
-  parent_run_id?: string;
+  parent_run_id?: string | undefined;
   /** Case-insensitive substring match on recipient email or subject. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface MessageAsset {
   /** The workflow run this email was sent in. */
@@ -777,7 +777,7 @@ export interface GetHogFlowsAssetContentRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** The email step (action node) that sent the email. Defaults to empty for standalone email sends. */
-  action_id?: string;
+  action_id?: string | undefined;
   /** The workflow run the email was sent in. */
   invocation_id: string;
 }
@@ -838,17 +838,17 @@ export interface GetHogFlowsInvocationResultRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Start of the time range, matched on scheduled time. Relative ('-7d', '-24h') or ISO 8601. Defaults to -7d -- bounds the ClickHouse partition scan, so widen it explicitly for older runs. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range, matched on scheduled time. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Only return invocations triggered for this distinct_id (the person the run executed for). */
-  distinct_id?: string;
+  distinct_id?: string | undefined;
   /** Only return invocations whose latest error_message contains this substring (case-insensitive). Matches the rerun endpoint's filter of the same name, so callers can check what a rerun would target. */
-  error_message_contains?: string;
+  error_message_contains?: string | undefined;
   /** Maximum number of invocations to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated invocation statuses to include, e.g. 'failed' or 'success,failed'. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface HogInvocationResult {
   invocation_id: string;
@@ -897,15 +897,15 @@ export interface GetHogFlowsInvocationResultsCountRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Start of the time range, matched on scheduled time. Relative ('-7d', '-24h') or ISO 8601. Defaults to -7d -- bounds the ClickHouse partition scan, so widen it explicitly for older runs. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range, matched on scheduled time. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Only return invocations triggered for this distinct_id (the person the run executed for). */
-  distinct_id?: string;
+  distinct_id?: string | undefined;
   /** Only return invocations whose latest error_message contains this substring (case-insensitive). Matches the rerun endpoint's filter of the same name, so callers can check what a rerun would target. */
-  error_message_contains?: string;
+  error_message_contains?: string | undefined;
   /** Comma-separated invocation statuses to include, e.g. 'failed' or 'success,failed'. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface HogInvocationResultsCount {
   /** Number of invocations matching the filters, without the list endpoint's 500-row cap. */
@@ -917,19 +917,19 @@ export interface GetHogFlowsLogRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back. */
-  after?: string;
+  after?: string | undefined;
   /** Only return entries before this ISO 8601 timestamp. */
-  before?: string;
+  before?: string | undefined;
   /** Filter logs to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Comma-separated log levels to include, e.g. 'WARN,ERROR'. Valid levels: DEBUG, LOG, INFO, WARN, ERROR. */
-  level?: string;
+  level?: string | undefined;
   /** Maximum number of log entries to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of log entries to skip before the first returned entry (default 0). */
-  offset?: number;
+  offset?: number | undefined;
   /** Case-insensitive substring search across log messages. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GetHogFlowsLogResponse {}
 export type GetHogFlowsMetricsRequestBreakdownBy = "name" | "kind";
@@ -940,38 +940,38 @@ export interface GetHogFlowsMetricsRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: GetHogFlowsMetricsRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFlowsMetricsRequestBreakdownBy | (string & {}) | undefined;
   /** Filter metrics to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: GetHogFlowsMetricsRequestInterval | (string & {});
+  interval?: GetHogFlowsMetricsRequestInterval | (string & {}) | undefined;
   /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
-  kind?: string;
+  kind?: string | undefined;
   /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AppMetricsResponseLabelsList = Array<string>;
 export type AppMetricSeriesValuesList = Array<number>;
 export interface AppMetricSeries {
-  name?: string;
-  values?: AppMetricSeriesValuesList;
+  name?: string | undefined;
+  values?: AppMetricSeriesValuesList | undefined;
 }
 export type AppMetricsResponseSeriesList = Array<AppMetricSeries>;
 export interface AppMetricsResponse {
-  labels?: AppMetricsResponseLabelsList;
-  series?: AppMetricsResponseSeriesList;
+  labels?: AppMetricsResponseLabelsList | undefined;
+  series?: AppMetricsResponseSeriesList | undefined;
 }
 export interface GetHogFlowsMetricsGlobalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Start of the window, matched on metric time. Relative ('-7d', '-24h') or ISO 8601. Defaults to -7d. */
-  after?: string;
+  after?: string | undefined;
   /** End of the window. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface WorkflowStatsRow {
   /** The workflow these counts are for. */
@@ -991,23 +991,23 @@ export interface GetHogFlowsMetricsTotalRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: GetHogFlowsMetricsTotalRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFlowsMetricsTotalRequestBreakdownBy | (string & {}) | undefined;
   /** Filter metrics to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: GetHogFlowsMetricsTotalRequestInterval | (string & {});
+  interval?: GetHogFlowsMetricsTotalRequestInterval | (string & {}) | undefined;
   /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
-  kind?: string;
+  kind?: string | undefined;
   /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
 export interface AppMetricsTotalsResponse {
-  totals?: AppMetricsTotalsResponseTotalsMap;
+  totals?: AppMetricsTotalsResponseTotalsMap | undefined;
 }
 export type GetHogFlowsMetricsVersionRequestBreakdownBy = "name" | "kind";
 export type GetHogFlowsMetricsVersionRequestInterval = "hour" | "day" | "week";
@@ -1017,19 +1017,19 @@ export interface GetHogFlowsMetricsVersionRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
-  after?: string;
+  after?: string | undefined;
   /** End of the time range. Same format as 'after'. Defaults to now. */
-  before?: string;
+  before?: string | undefined;
   /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
-  breakdown_by?: GetHogFlowsMetricsVersionRequestBreakdownBy | (string & {});
+  breakdown_by?: GetHogFlowsMetricsVersionRequestBreakdownBy | (string & {}) | undefined;
   /** Filter metrics to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
-  interval?: GetHogFlowsMetricsVersionRequestInterval | (string & {});
+  interval?: GetHogFlowsMetricsVersionRequestInterval | (string & {}) | undefined;
   /** Comma-separated metric kinds to filter by, up to 50, e.g. 'success,failure'. With breakdown_by=kind, each named kind is returned, as zeros when it has no rows. */
-  kind?: string;
+  kind?: string | undefined;
   /** Comma-separated metric names to filter by, up to 50. With breakdown_by=name, each named metric is returned, as zeros when it has no rows. */
-  name?: string;
+  name?: string | undefined;
   /** Read one workflow version's series: every run of that version, keyed on the workflow. The unversioned read keys batch and broadcast runs on the run instead, so it is not the sum of the versions; compare versions with each other, not with it. */
   version: number;
 }
@@ -1087,25 +1087,25 @@ export interface WorkflowProposalVersionOutcome {
   /** Workflow version these numbers belong to. */
   version: number;
   /** Whether the suggestion went live as this version. */
-  applied?: boolean;
+  applied?: boolean | undefined;
   /** Whether the suggestion was written against this version. */
-  proposed_against?: boolean;
+  proposed_against?: boolean | undefined;
   /** Whether this version still holds what the suggestion changed. */
-  carries_change?: boolean;
+  carries_change?: boolean | undefined;
   /** Whether this version also changed something the suggestion did not, which the numbers cannot separate. */
-  other_changes?: boolean;
+  other_changes?: boolean | undefined;
   /** What this version changed against the version before it. */
-  changes?: WorkflowProposalVersionOutcomeChangesList;
+  changes?: WorkflowProposalVersionOutcomeChangesList | undefined;
   /** When this version went live. */
-  published_at?: string | null;
+  published_at?: string | null | undefined;
   /** Who published this version. */
-  published_by?: UserBasic | null;
+  published_by?: UserBasic | null | undefined;
   /** Every version summed into these numbers. The after side runs on while later versions keep the change. */
-  versions?: WorkflowProposalVersionOutcomeVersionsList;
+  versions?: WorkflowProposalVersionOutcomeVersionsList | undefined;
   /** The metric the suggestion aimed at. */
   target: WorkflowProposalMetric;
   /** The rate read beside the target, so a lift in one is visible against the other. */
-  secondary?: WorkflowProposalMetric;
+  secondary?: WorkflowProposalMetric | undefined;
   /** Click-through rate over the same window and denominator, since opens alone can move without clicks. */
   click_through: WorkflowProposalMetric;
   /** Counter-metrics over the same window, so a harmful win is visible. */
@@ -1131,7 +1131,7 @@ export interface GetHogFlowsReputationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Case-insensitive workflow name filter. Applied before the worst-50 cap, so it finds workflows the unfiltered response cuts off. */
-  search?: string;
+  search?: string | undefined;
 }
 /** * `healthy` - healthy * `warning` - warning * `critical` - critical * `suspended` - suspended */
 export type AwsTenantReputationHealthEnum = "healthy" | "warning" | "critical" | "suspended";
@@ -1286,9 +1286,9 @@ export interface HogFlowsApplyUtmDefaultsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, only count the emails the change would update. Nothing is saved. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
   /** Also turn UTM tags on in emails that have them off. Off by default, so those emails keep sending untagged links. */
-  enable_where_off?: boolean;
+  enable_where_off?: boolean | undefined;
 }
 export interface ApplyUtmDefaultsResponse {
   /** Email steps that get (or would get) the team defaults. */
@@ -1340,31 +1340,31 @@ export interface HogFlowsBulkDeleteCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Workflow name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: HogFlowsBulkDeleteCreateRequestTagsList;
+  tags?: HogFlowsBulkDeleteCreateRequestTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStateEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {}) | undefined;
   /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow, and never to `transactional_email_keys`: the email send API sets that one. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
-  origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
+  origin_product?: HogFlowOriginProductEnum | (string & {}) | null | undefined;
   /** The record another product's entry point started this workflow from, as '<kind>:<id>'. Set only when creating a workflow. Filter the list with `?source_record=`. */
-  source_record?: string | null;
+  source_record?: string | null | undefined;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash -- a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
+  trigger_masking?: HogFlowMasking | null | undefined;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
+  conversion?: HogFlowConversion | null | undefined;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). Only event and cohort triggers are re-checked, so on any other trigger these two are stored as exit_only_at_end and exit_on_conversion. A cohort trigger no longer matches once the person leaves the cohort (or rejoins it, for a 'left' trigger). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum | (string & {});
+  exit_condition?: ExitConditionEnum | (string & {}) | undefined;
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
-  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowsBulkDeleteCreateRequestEdgesList;
+  edges?: HogFlowsBulkDeleteCreateRequestEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: HogFlowsBulkDeleteCreateRequestActionsList;
+  actions?: HogFlowsBulkDeleteCreateRequestActionsList | undefined;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowsBulkDeleteCreateRequestVariablesList;
+  variables?: HogFlowsBulkDeleteCreateRequestVariablesList | undefined;
 }
 /** List of object UUIDs to update tags on. */
 export type HogFlowsBulkUpdateTagsCreateRequestIdsList = Array<string>;
@@ -1421,9 +1421,9 @@ export interface HogFlowsInvocationsCancelCreateRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Cancel these specific invocations. Capped at 10000 per request. Invocations that already finished are skipped rather than failing the request. */
-  invocation_ids?: HogFlowsInvocationsCancelCreateRequestInvocationIdsList;
+  invocation_ids?: HogFlowsInvocationsCancelCreateRequestInvocationIdsList | undefined;
   /** Cancel every in-flight invocation of this workflow, including parked delays and waits. */
-  all?: boolean;
+  all?: boolean | undefined;
 }
 /** Response from the cancel endpoint. Cancellation is asynchronous: this call flags runs, and the workflow workers terminate them shortly after (immediately for parked runs, at the next step boundary for runs mid-execution). A run stays 'running' in listings until that happens. */
 export interface HogInvocationCancelResponse {
@@ -1442,9 +1442,9 @@ export interface HogFlowsProposalsApproveCreateRequest {
   /** Proposal to approve. */
   proposal_id: string;
   /** Replace the open staged draft with this proposal's content. Without it, approving while a draft is open returns 409. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** The draft_updated_at of the staged draft this overwrite was confirmed against. A draft with a different stamp returns 409 instead of being overwritten. Omit to overwrite unconditionally. */
-  expected_draft_updated_at?: string | null;
+  expected_draft_updated_at?: string | null | undefined;
 }
 export interface HogFlowsProposalsRejectCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1454,7 +1454,7 @@ export interface HogFlowsProposalsRejectCreateRequest {
   /** Proposal to reject. */
   proposal_id: string;
   /** Why this suggestion is wrong for this workflow, in a sentence. Optional. The producer reads it before suggesting again, so a reason stops the same idea coming back in other words. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface HogFlowsPublishCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1462,9 +1462,9 @@ export interface HogFlowsPublishCreateRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** False (default) previews the publish: returns the impact on people in-flight without changing anything. True applies the staged draft to the live workflow. */
-  confirm?: boolean;
+  confirm?: boolean | undefined;
   /** From the preview response -- required when confirm=true. Expires after 15 minutes, and any draft edit invalidates it (409), so you always publish the exact draft you previewed. */
-  confirm_token?: string;
+  confirm_token?: string | undefined;
 }
 export interface HogFlowPublishImpactMoveTarget {
   /** Id of the surviving step runs will continue at. */
@@ -1530,7 +1530,7 @@ export interface HogFlowPublishResponseOutput {
   /** What publishing does to people in-flight. Only set on previews; counts are approximate. */
   impact: HogFlowPublishImpact | null;
   /** The workflow after publishing (only set when published=true). */
-  workflow?: HogFlowOutput | null;
+  workflow?: HogFlowOutput | null | undefined;
 }
 export interface HogFlowsRevisionsRestoreCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1540,9 +1540,9 @@ export interface HogFlowsRevisionsRestoreCreateRequest {
   /** Workflow version to restore. */
   version: number;
   /** Replace the open staged draft with this revision's content. Without it, restoring while a draft is open returns 409. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** The draft_updated_at of the staged draft this overwrite was confirmed against. If a draft exists with a different stamp (it was staged or edited since the confirmation was shown), the restore returns 409 instead of overwriting it. Omit to overwrite unconditionally. */
-  expected_draft_updated_at?: string | null;
+  expected_draft_updated_at?: string | null | undefined;
 }
 export interface HogFlowsSchedulesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1610,81 +1610,81 @@ export interface ListHogFlowsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Pass `true` to return broadcasts plus the ordinary workflows the broadcasts UI can render: a batch trigger and a single email step. */
-  broadcast_eligible?: boolean;
+  broadcast_eligible?: boolean | undefined;
   /** Comma-separated broadcast statuses as the broadcasts UI shows them: draft, scheduled, sending, sent, partially_sent, failed, archived. Scheduled, sending, sent, partially_sent and failed come from the latest run and whether a schedule still has sends to come. A latest run that is completed reads as sent, partially_failed as partially_sent, and failed or cancelled as failed. With a schedule still to come, a completed or partially_failed latest run reads as scheduled. */
-  broadcast_status?: string;
-  created_at?: string;
+  broadcast_status?: string | undefined;
+  created_at?: string | undefined;
   /** Filter to workflows created by the user with this uuid. */
-  created_by?: string;
-  id?: string;
+  created_by?: string | undefined;
+  id?: string | undefined;
   /** Pass `true` to order by when each workflow's newest completed or partially_failed run finished, newest first. Workflows that never finished such a run come last. */
-  latest_send_first?: boolean;
+  latest_send_first?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Only workflows whose name contains this text, ignoring case. Unlike `search`, it never reads descriptions, tags or step content. */
-  name?: string;
+  name?: string | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only workflows someone turned suggestions on for. */
-  optimization_enabled?: boolean;
+  optimization_enabled?: boolean | undefined;
   /** Filter to workflows owned by a product surface, e.g. `loops` for Desktop loops. */
-  origin_product?: ListHogFlowsRequestOriginProduct | (string & {});
+  origin_product?: ListHogFlowsRequestOriginProduct | (string & {}) | undefined;
   /** Case-insensitive search. Matches workflow name, description and tag names first; only when nothing matches those, it matches step names and the subject line, preheader and body text of email steps, in both the live workflow and its pending draft. */
-  search?: string;
+  search?: string | undefined;
   /** Filter to workflows started from this record, as '<kind>:<id>', e.g. `early_access:<id>`. */
-  source_record?: string;
+  source_record?: string | undefined;
   /** * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: ListHogFlowsRequestStatus | (string & {});
+  status?: ListHogFlowsRequestStatus | (string & {}) | undefined;
   /** JSON-encoded list of tag names, e.g. ["growth", "onboarding"]. Returns workflows that carry at least one of these tags. */
-  tags?: string;
+  tags?: string | undefined;
   /** Filter by trigger config as a JSON object. Returns workflows whose trigger contains the given object, e.g. {"type": "event"}. */
-  trigger?: string;
+  trigger?: string | undefined;
   /** Comma-separated workflow types. `loop` and `broadcast` return the workflows those surfaces own; `messaging` returns the remaining workflows with an email, SMS, or push action, and `automation` the rest. */
-  type?: string;
-  updated_at?: string;
+  type?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Tags for organizing workflows, for example by team or use case. Sorted by name. */
 export type HogFlowMinimalTagsList = Array<string>;
 /** Mixin for serializers to add user access control fields */
 export interface HogFlowMinimal {
-  id?: string;
-  name?: string | null;
-  description?: string;
+  id?: string | undefined;
+  name?: string | null | undefined;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Sorted by name. */
   tags: HogFlowMinimalTagsList;
-  version?: number;
-  status?: HogFlowStateEnum;
-  origin_product?: HogFlowOriginProductEnum | null;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
-  trigger?: unknown;
-  trigger_masking?: unknown;
-  conversion?: unknown;
-  exit_condition?: ExitConditionEnum;
-  email_sending_rate_limit?: unknown;
-  edges?: unknown;
-  actions?: unknown;
+  version?: number | undefined;
+  status?: HogFlowStateEnum | undefined;
+  origin_product?: HogFlowOriginProductEnum | null | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
+  trigger?: unknown | undefined;
+  trigger_masking?: unknown | undefined;
+  conversion?: unknown | undefined;
+  exit_condition?: ExitConditionEnum | undefined;
+  email_sending_rate_limit?: unknown | undefined;
+  edges?: unknown | undefined;
+  actions?: unknown | undefined;
   /** Staged content changes awaiting publish -- a full snapshot of the workflow's actions, edges and settings. Null when there's nothing staged. Test it with a use_draft test run, then promote it with the publish endpoint or throw it away with discard_draft. */
-  draft?: unknown;
-  abort_action?: string | null;
-  variables?: unknown;
-  billable_action_types?: unknown;
+  draft?: unknown | undefined;
+  abort_action?: string | null | undefined;
+  variables?: unknown | undefined;
+  billable_action_types?: unknown | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
   /** Newest task this loop workflow created, as its last run. Null when the workflow is not a loop or has not run. */
-  last_run?: HogFlowLastRun | null;
+  last_run?: HogFlowLastRun | null | undefined;
   /** How many suggested changes are waiting for a person on this workflow. Counted on the list only. */
-  pending_suggestions?: number | null;
+  pending_suggestions?: number | null | undefined;
   /** Whether someone turned suggestions on for this workflow. Read on the list only. */
-  suggestions_enabled?: boolean | null;
+  suggestions_enabled?: boolean | null | undefined;
 }
 export type PaginatedHogFlowMinimalListResultsList = Array<HogFlowMinimal>;
 export interface PaginatedHogFlowMinimalList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedHogFlowMinimalListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedHogFlowMinimalListResultsList | undefined;
 }
 export interface ListHogFlowsBatchJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1701,17 +1701,17 @@ export interface ListHogFlowsProposalsRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return proposals in this status (suggested, approved, rejected, applied). */
-  status?: ListHogFlowsProposalsRequestStatus | (string & {});
+  status?: ListHogFlowsProposalsRequestStatus | (string & {}) | undefined;
 }
 export type PaginatedWorkflowProposalListResultsList = Array<WorkflowProposal>;
 export interface PaginatedWorkflowProposalList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWorkflowProposalListResultsList;
 }
 export interface ListHogFlowsRevisionsRequest {
@@ -1720,9 +1720,9 @@ export interface ListHogFlowsRevisionsRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface HogFlowRevisionBasic {
   /** Workflow version this snapshot was published as. */
@@ -1734,8 +1734,8 @@ export interface HogFlowRevisionBasic {
 export type PaginatedHogFlowRevisionBasicListResultsList = Array<HogFlowRevisionBasic>;
 export interface PaginatedHogFlowRevisionBasicList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedHogFlowRevisionBasicListResultsList;
 }
 export interface ListHogFlowsSchedulesRequest {
@@ -1779,27 +1779,27 @@ export interface UpdateHogFlowRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Workflow name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: UpdateHogFlowRequestTagsList;
+  tags?: UpdateHogFlowRequestTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStateEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {}) | undefined;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash -- a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
+  trigger_masking?: HogFlowMasking | null | undefined;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
+  conversion?: HogFlowConversion | null | undefined;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). Only event and cohort triggers are re-checked, so on any other trigger these two are stored as exit_only_at_end and exit_on_conversion. A cohort trigger no longer matches once the person leaves the cohort (or rejoins it, for a 'left' trigger). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum | (string & {});
+  exit_condition?: ExitConditionEnum | (string & {}) | undefined;
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
-  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: UpdateHogFlowRequestEdgesList;
+  edges?: UpdateHogFlowRequestEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
   actions: UpdateHogFlowRequestActionsList;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: UpdateHogFlowRequestVariablesList;
+  variables?: UpdateHogFlowRequestVariablesList | undefined;
 }
 /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
 export type HogFlowUpdateTagsList = Array<string>;
@@ -1819,14 +1819,14 @@ export type HogFlowUpdateActionRedirectsMap = { [key: string]: string | undefine
 export interface HogFlowUpdate {
   id: string;
   /** Workflow name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: HogFlowUpdateTagsList;
+  tags?: HogFlowUpdateTagsList | undefined;
   version: number;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStateEnum;
+  status?: HogFlowStateEnum | undefined;
   /** Product surface that owns this workflow. This value cannot change after creation. * `loops` - Loops * `broadcasts` - Broadcasts * `transactional_emails` - Transactional emails * `transactional_email_keys` - Transactional email keys */
   origin_product: HogFlowOriginProductEnum | null;
   created_at: string;
@@ -1834,20 +1834,20 @@ export interface HogFlowUpdate {
   updated_at: string;
   trigger: unknown;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash -- a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
+  trigger_masking?: HogFlowMasking | null | undefined;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
+  conversion?: HogFlowConversion | null | undefined;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). Only event and cohort triggers are re-checked, so on any other trigger these two are stored as exit_only_at_end and exit_on_conversion. A cohort trigger no longer matches once the person leaves the cohort (or rejoins it, for a 'left' trigger). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum;
+  exit_condition?: ExitConditionEnum | undefined;
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
-  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: HogFlowUpdateEdgesList;
+  edges?: HogFlowUpdateEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
   actions: HogFlowUpdateActionsList;
   abort_action: string | null;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: HogFlowUpdateVariablesList;
+  variables?: HogFlowUpdateVariablesList | undefined;
   billable_action_types: unknown;
   /** Recurring schedules attached to this workflow (read-only here; manage via the schedules sub-resource). A batch/schedule workflow only fires when it's active AND has an active schedule. Empty for non-scheduled workflows. */
   schedules: HogFlowUpdateSchedulesList;
@@ -1887,17 +1887,17 @@ export interface DesignOperation {
   /** Design edit. update_content {id, patch}: deep-merge patch into the content block's fields (a null leaf deletes that key) -- the surgical path, e.g. change just values.text. update_row / update_column {id, patch} and update_body {patch}: same deep-merge for row/column/body-level settings. add_content {column_id, content, index?}: insert a content block into a column (id and Unlayer numbering are filled in for you). remove_content {id} / move_content {id, column_id, index?}: delete or relocate a block. add_row {row, index?} / remove_row {id}: add or delete a row. * `update_content` - update_content * `update_column` - update_column * `update_row` - update_row * `update_body` - update_body * `add_content` - add_content * `remove_content` - remove_content * `move_content` - move_content * `add_row` - add_row * `remove_row` - remove_row */
   op: EmailTemplateDesignOperationEnum | (string & {});
   /** Target node id. Required for update_content/column/row, remove_content, remove_row, move_content. */
-  id?: string;
+  id?: string | undefined;
   /** Target column id. Required for add_content and move_content. */
-  column_id?: string;
+  column_id?: string | undefined;
   /** update_* only. Partial fields deep-merged into the existing node; a null leaf deletes that key. e.g. {values: {text: '<p>Hi</p>'}} changes only the block's text. */
-  patch?: unknown;
+  patch?: unknown | undefined;
   /** add_content only. A content block {type, values: {...}}; omit id and values._meta -- they're assigned server-side. type is one of text, heading, button, image, divider, html, etc. */
-  content?: unknown;
+  content?: unknown | undefined;
   /** add_row only. A full row {cells, columns: [{contents: [...], values}], values}; ids and Unlayer numbering are assigned server-side for the row and everything nested in it. */
-  row?: unknown;
+  row?: unknown | undefined;
   /** add_*\/move_content only. 0-based insert position; omit to append to the end. */
-  index?: number;
+  index?: number | undefined;
 }
 /** Ordered design edits applied atomically to this step's email design - the same operations as the email template patch. The result is re-rendered to HTML server-side, so the sent email always matches the patched design. */
 export type UpdateHogFlowsActionsEmailPartialRequestOperationsList = Array<DesignOperation>;
@@ -1909,11 +1909,11 @@ export interface UpdateHogFlowsActionsEmailPartialRequest {
   /** Id of the function_email step to edit. */
   action_id: string;
   /** Optimistic concurrency: the updated_at (or draft_updated_at) last loaded. If the stored workflow is newer, the patch is rejected with 409 instead of clobbering a concurrent edit. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
   /** Ordered design edits applied atomically to this step's email design - the same operations as the email template patch. The result is re-rendered to HTML server-side, so the sent email always matches the patched design. */
-  operations?: UpdateHogFlowsActionsEmailPartialRequestOperationsList;
+  operations?: UpdateHogFlowsActionsEmailPartialRequestOperationsList | undefined;
   /** Partial email fields deep-merged into the step's email (a null leaf deletes the key): subject, preheader, text, to, from, replyTo, cc, bcc. The sender is from: {integrationId, email?, name?}, where email and name are optional templated overrides resolved per invocation; the address must resolve to the selected sender's verified domain or the send fails. The design is edited via operations, and html is always re-rendered from it. */
-  email_patch?: unknown;
+  email_patch?: unknown | undefined;
 }
 /** * `update_action` - update_action * `add_action` - add_action * `remove_action` - remove_action * `add_edge` - add_edge * `remove_edge` - remove_edge * `replace_action_edges` - replace_action_edges */
 export type HogFlowGraphOperationOpEnum =
@@ -1929,15 +1929,15 @@ export interface HogFlowGraphOperation {
   /** Graph edit. update_action {id, patch}: deep-merge patch into the action's fields (a null leaf deletes that key) -- the surgical path for tweaking one config value. add_action {action, edges?}: append a full action node, optionally wiring its edges in the same op. remove_action {id}: delete a node and reconnect its incoming edges to its first outgoer. add_edge {edge} / remove_edge {edge}: add or delete one edge. replace_action_edges {id, edges}: replace this action's outgoing edges with the given set (use when adding/removing branch conditions); incoming edges are left intact. * `update_action` - update_action * `add_action` - add_action * `remove_action` - remove_action * `add_edge` - add_edge * `remove_edge` - remove_edge * `replace_action_edges` - replace_action_edges */
   op: HogFlowGraphOperationOpEnum | (string & {});
   /** Action id. Required for update_action, remove_action, replace_action_edges. */
-  id?: string;
+  id?: string | undefined;
   /** update_action only. Partial action fields, deep-merged into the existing action; a null leaf deletes that key. e.g. {config: {inputs: {subject: {value: 'Hi'}}}} changes only that input. */
-  patch?: unknown;
+  patch?: unknown | undefined;
   /** add_action only. A full action node {id, name, type, config, ...}; same shape as in actions. */
-  action?: unknown;
+  action?: unknown | undefined;
   /** add_edge / remove_edge only. The edge {from, to, type, index?}. */
-  edge?: HogFlowEdge;
+  edge?: HogFlowEdge | undefined;
   /** replace_action_edges: the complete set of the action's outgoing edges (incoming edges are preserved). add_action: optional edges to wire the new node in the same op. */
-  edges?: HogFlowGraphOperationEdgesList;
+  edges?: HogFlowGraphOperationEdgesList | undefined;
 }
 /** Ordered graph edits applied atomically to a draft workflow: the stored graph is read, the ops are applied in order, the result is fully validated, and it's saved only if valid -- otherwise the workflow is unchanged. Reference nodes/edges by id so you never resend the whole graph. The full updated workflow is returned. */
 export type UpdateHogFlowsGraphPartialRequestOperationsList = Array<HogFlowGraphOperation>;
@@ -1947,9 +1947,9 @@ export interface UpdateHogFlowsGraphPartialRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Optimistic concurrency: the updated_at (or draft_updated_at) last loaded. If the stored graph is newer, the patch is rejected with 409 instead of clobbering a concurrent edit. */
-  base_updated_at?: string;
+  base_updated_at?: string | undefined;
   /** Ordered graph edits applied atomically to a draft workflow: the stored graph is read, the ops are applied in order, the result is fully validated, and it's saved only if valid -- otherwise the workflow is unchanged. Reference nodes/edges by id so you never resend the whole graph. The full updated workflow is returned. */
-  operations?: UpdateHogFlowsGraphPartialRequestOperationsList;
+  operations?: UpdateHogFlowsGraphPartialRequestOperationsList | undefined;
 }
 /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
 export type UpdateHogFlowsPartialRequestTagsList = Array<string>;
@@ -1968,27 +1968,27 @@ export interface UpdateHogFlowsPartialRequest {
   /** A UUID string identifying this hog flow. */
   id: string;
   /** Workflow name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional description. */
-  description?: string;
+  description?: string | undefined;
   /** Tags for organizing workflows, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: UpdateHogFlowsPartialRequestTagsList;
+  tags?: UpdateHogFlowsPartialRequestTagsList | undefined;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
-  status?: HogFlowStateEnum | (string & {});
+  status?: HogFlowStateEnum | (string & {}) | undefined;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash -- a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
-  trigger_masking?: HogFlowMasking | null;
+  trigger_masking?: HogFlowMasking | null | undefined;
   /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
-  conversion?: HogFlowConversion | null;
+  conversion?: HogFlowConversion | null | undefined;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). Only event and cohort triggers are re-checked, so on any other trigger these two are stored as exit_only_at_end and exit_on_conversion. A cohort trigger no longer matches once the person leaves the cohort (or rejoins it, for a 'left' trigger). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
-  exit_condition?: ExitConditionEnum | (string & {});
+  exit_condition?: ExitConditionEnum | (string & {}) | undefined;
   /** Optional email pacing for deliverability: {count, period: 'minute' | 'hour'}. The email worker spreads this workflow's sends to stay under the limit; over-limit sends wait for capacity instead of failing. Null disables pacing. */
-  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null;
+  email_sending_rate_limit?: HogFlowEmailSendingRateLimit | null | undefined;
   /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
-  edges?: UpdateHogFlowsPartialRequestEdgesList;
+  edges?: UpdateHogFlowsPartialRequestEdgesList | undefined;
   /** Ordered action nodes. Exactly one type='trigger' required. Typically one type='exit' too. */
-  actions?: UpdateHogFlowsPartialRequestActionsList;
+  actions?: UpdateHogFlowsPartialRequestActionsList | undefined;
   /** Workflow vars (key, type, default). Total <5KB. */
-  variables?: UpdateHogFlowsPartialRequestVariablesList;
+  variables?: UpdateHogFlowsPartialRequestVariablesList | undefined;
 }
 export interface UpdateHogFlowsSchedulesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1997,13 +1997,13 @@ export interface UpdateHogFlowsSchedulesPartialRequest {
   id: string;
   schedule_id: string;
   /** iCalendar RRULE string (e.g. 'FREQ=DAILY;INTERVAL=1'). Must produce occurrences at most once per hour. */
-  rrule?: string;
+  rrule?: string | undefined;
   /** ISO 8601 datetime the schedule starts from. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** IANA timezone for interpreting the RRULE (default 'UTC'). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Variable value overrides merged with the workflow defaults on each run. */
-  variables?: unknown;
+  variables?: unknown | undefined;
 }
 export type ConvertHogFlowToBroadcastError = PosthogOpError;
 /** Move a workflow to broadcasts. It keeps its id, runs and metrics, leaves the workflows list and opens in the broadcast editor. This cannot be undone. */

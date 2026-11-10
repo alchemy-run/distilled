@@ -107,43 +107,43 @@ export type DeviceIdentifierDeviceTypeEnum =
 /** Encapsulates hardware and product IDs to identify a manufactured device. To understand requirements on identifier sets, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
 export interface DeviceIdentifier {
   /** An identifier provided by OEMs, carried through the production and sales process. Only applicable to Chrome OS devices. */
-  chromeOsAttestedDeviceId?: string;
+  chromeOsAttestedDeviceId?: string | undefined;
   /** The device manufacturer's name. Matches the device's built-in value returned from `android.os.Build.MANUFACTURER`. Allowed values are listed in [Android manufacturers](/zero-touch/resources/manufacturer-names#manufacturers-names). */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** The device's second IMEI number. */
-  imei2?: string;
+  imei2?: string | undefined;
   /** The device's IMEI number. Validated on input. */
-  imei?: string;
+  imei?: string | undefined;
   /** The device model's name. Allowed values are listed in [Android models](/zero-touch/resources/manufacturer-names#model-names) and [Chrome OS models](https://support.google.com/chrome/a/answer/10130175#identify_compatible). */
-  model?: string;
+  model?: string | undefined;
   /** The device's MEID number. */
-  meid?: string;
+  meid?: string | undefined;
   /** The type of the device */
-  deviceType?: DeviceIdentifierDeviceTypeEnum | (string & {});
+  deviceType?: DeviceIdentifierDeviceTypeEnum | (string & {}) | undefined;
   /** The device's second MEID number. */
-  meid2?: string;
+  meid2?: string | undefined;
   /** The manufacturer's serial number for the device. This value might not be unique across different device models. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 /** A `DeviceReference` is an API abstraction that lets you supply a _device_ argument to a method using one of the following identifier types: * A numeric API resource ID. * Real-world hardware IDs, such as IMEI number, belonging to the manufactured device. Methods that operate on devices take a `DeviceReference` as a parameter type because it's more flexible for the caller. To learn more about device identifiers, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
 export interface DeviceReference {
   /** The hardware IDs of the device. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
   /** The ID of the device. */
-  deviceId?: string;
+  deviceId?: string | undefined;
 }
 /** Request message for customer to assign a configuration to device. */
 export interface CustomerApplyConfigurationRequest {
   /** Required. The device the configuration is applied to. There are custom validations in ApplyConfigurationRequestValidator */
-  device?: DeviceReference;
+  device?: DeviceReference | undefined;
   /** Required. The configuration applied to the device in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. */
-  configuration?: string;
+  configuration?: string | undefined;
 }
 export interface ApplyConfigurationCustomersDevicesRequest {
   /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
   /** Request body */
-  body?: CustomerApplyConfigurationRequest;
+  body?: CustomerApplyConfigurationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -151,7 +151,7 @@ export type StringMap = { [key: string]: string | undefined };
 /** Metadata entries that can be attached to a `Device`. To learn more, read [Device metadata](https://developers.google.com/zero-touch/guides/metadata). */
 export interface DeviceMetadata {
   /** Metadata entries recorded as key-value pairs. */
-  entries?: StringMap;
+  entries?: StringMap | undefined;
 }
 export type PartnerClaimSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -160,57 +160,57 @@ export type PartnerClaimSectionTypeEnum =
 /** Identifies one claim request. */
 export interface PartnerClaim {
   /** Required. The metadata to attach to the device at claim. */
-  deviceMetadata?: DeviceMetadata;
+  deviceMetadata?: DeviceMetadata | undefined;
   /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
-  simlockProfileId?: string;
+  simlockProfileId?: string | undefined;
   /** Optional. The ID of the configuration applied to the device section. */
-  configurationId?: string;
+  configurationId?: string | undefined;
   /** The Google Workspace customer ID. */
-  googleWorkspaceCustomerId?: string;
+  googleWorkspaceCustomerId?: string | undefined;
   /** The ID of the customer for whom the device is being claimed. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Optional. Must and can only be set for Chrome OS devices. */
-  preProvisioningToken?: string;
+  preProvisioningToken?: string | undefined;
   /** Required. The section type of the device's provisioning record. */
-  sectionType?: PartnerClaimSectionTypeEnum | (string & {});
+  sectionType?: PartnerClaimSectionTypeEnum | (string & {}) | undefined;
   /** Required. Required. Device identifier of the device. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 export type PartnerClaimList = Array<PartnerClaim>;
 /** Request to claim devices asynchronously in batch. Claiming a device adds the device to zero-touch enrollment and shows the device in the customer's view of the portal. */
 export interface ClaimDevicesRequest {
   /** Required. A list of device claims. */
-  claims?: PartnerClaimList;
+  claims?: PartnerClaimList | undefined;
 }
 export interface ClaimAsyncPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
   /** Request body */
-  body?: ClaimDevicesRequest;
+  body?: ClaimDevicesRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** This field will contain a `DevicesLongRunningOperationResponse` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** This field will contain a `DevicesLongRunningOperationMetadata` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** This field will always be not set if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. In this case, error information for each device is set in `response.perDeviceStatus.result.status`. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type ClaimDeviceRequestSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -219,65 +219,65 @@ export type ClaimDeviceRequestSectionTypeEnum =
 /** Request message to claim a device on behalf of a customer. */
 export interface ClaimDeviceRequest {
   /** Optional. The ID of the configuration applied to the device section. */
-  configurationId?: string;
+  configurationId?: string | undefined;
   /** Optional. Must and can only be set for Chrome OS devices. */
-  preProvisioningToken?: string;
+  preProvisioningToken?: string | undefined;
   /** The Google Workspace customer ID. */
-  googleWorkspaceCustomerId?: string;
+  googleWorkspaceCustomerId?: string | undefined;
   /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
-  simlockProfileId?: string;
+  simlockProfileId?: string | undefined;
   /** Required. The section type of the device's provisioning record. */
-  sectionType?: ClaimDeviceRequestSectionTypeEnum | (string & {});
+  sectionType?: ClaimDeviceRequestSectionTypeEnum | (string & {}) | undefined;
   /** Optional. The metadata to attach to the device. */
-  deviceMetadata?: DeviceMetadata;
+  deviceMetadata?: DeviceMetadata | undefined;
   /** The ID of the customer for whom the device is being claimed. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Required. Required. The device identifier of the device to claim. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 export interface ClaimPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
   /** Request body */
-  body?: ClaimDeviceRequest;
+  body?: ClaimDeviceRequest | undefined;
 }
 /** Response message containing device id of the claim. */
 export interface ClaimDeviceResponse {
   /** The device ID of the claimed device. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** The resource name of the device in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. */
-  deviceName?: string;
+  deviceName?: string | undefined;
 }
 /** A configuration collects the provisioning options for Android devices. Each configuration combines the following: * The EMM device policy controller (DPC) installed on the devices. * EMM policies enforced on the devices. * Metadata displayed on the device to help users during setup. Customers can add as many configurations as they need. However, zero-touch enrollment works best when a customer sets a default configuration that's applied to any new devices the organization purchases. */
 export interface Configuration {
   /** Required. The telephone number that device users can call, using another device, to get help. Zero-touch enrollment shows this number to device users before device provisioning. Accepts numerals, spaces, the plus sign, hyphens, and parentheses. */
-  contactPhone?: string;
+  contactPhone?: string | undefined;
   /** Optional. The timeout before forcing factory reset the device if the device doesn't go through provisioning in the setup wizard, usually due to lack of network connectivity during setup wizard. Ranges from 0-6 hours, with 2 hours being the default if unset. */
-  forcedResetTime?: string;
+  forcedResetTime?: string | undefined;
   /** The JSON-formatted EMM provisioning extras that are passed to the DPC. */
-  dpcExtras?: string;
+  dpcExtras?: string | undefined;
   /** Required. Whether this is the default configuration that zero-touch enrollment applies to any new devices the organization purchases in the future. Only one customer configuration can be the default. Setting this value to `true`, changes the previous default configuration's `isDefault` value to `false`. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Output only. The ID of the configuration. Assigned by the server. */
-  configurationId?: string;
+  configurationId?: string | undefined;
   /** Required. The name of the organization. Zero-touch enrollment shows this organization name to device users during device provisioning. */
-  companyName?: string;
+  companyName?: string | undefined;
   /** Required. A short name that describes the configuration's purpose. For example, _Sales team_ or _Temporary employees_. The zero-touch enrollment portal displays this name to IT admins. */
-  configurationName?: string;
+  configurationName?: string | undefined;
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
-  name?: string;
+  name?: string | undefined;
   /** A message, containing one or two sentences, to help device users get help or give them more details about what's happening to their device. Zero-touch enrollment shows this message before the device is provisioned. */
-  customMessage?: string;
+  customMessage?: string | undefined;
   /** Required. The resource name of the selected DPC (device policy controller) in the format `customers/[CUSTOMER_ID]/dpcs/*`. To list the supported DPCs, call `customers.dpcs.list`. */
-  dpcResourcePath?: string;
+  dpcResourcePath?: string | undefined;
   /** Required. The email address that device users can contact to get help. Zero-touch enrollment shows this email address to device users before device provisioning. The value is validated on input. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
 }
 export interface CreateCustomersConfigurationsRequest {
   /** Required. The customer that manages the configuration. An API resource name in the format `customers/[CUSTOMER_ID]`. This field has custom validation in CreateConfigurationRequestValidator */
   parent: string;
   /** Request body */
-  body?: Configuration;
+  body?: Configuration | undefined;
 }
 export type StringList = Array<string>;
 export type CompanyTermsStatusEnum =
@@ -288,41 +288,41 @@ export type CompanyTermsStatusEnum =
 /** A Google Workspace customer. */
 export interface GoogleWorkspaceAccount {
   /** Required. The customer ID. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Output only. The pre-provisioning tokens previously used to claim devices. */
-  preProvisioningTokens?: StringList;
+  preProvisioningTokens?: StringList | undefined;
 }
 /** A reseller, vendor, or customer in the zero-touch reseller and customer APIs. */
 export interface Company {
   /** Optional. Email address of customer's users in the admin role. Each email address must be associated with a Google Account. */
-  adminEmails?: StringList;
+  adminEmails?: StringList | undefined;
   /** Output only. Whether any user from the company has accepted the latest Terms of Service (ToS). See TermsStatus. */
-  termsStatus?: CompanyTermsStatusEnum | (string & {});
+  termsStatus?: CompanyTermsStatusEnum | (string & {}) | undefined;
   /** Required. The name of the company. For example _XYZ Corp_. Displayed to the company's employees in the zero-touch enrollment portal. */
-  companyName?: string;
+  companyName?: string | undefined;
   /** Output only. The API resource name of the company. The resource name is one of the following formats: * `partners/[PARTNER_ID]/customers/[CUSTOMER_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]/customers/[CUSTOMER_ID]` Assigned by the server. */
-  name?: string;
+  name?: string | undefined;
   /** Input only. The preferred locale of the customer represented as a BCP47 language code. This field is validated on input and requests containing unsupported language codes will be rejected. Supported language codes: Arabic (ar) Chinese (Hong Kong) (zh-HK) Chinese (Simplified) (zh-CN) Chinese (Traditional) (zh-TW) Czech (cs) Danish (da) Dutch (nl) English (UK) (en-GB) English (US) (en-US) Filipino (fil) Finnish (fi) French (fr) German (de) Hebrew (iw) Hindi (hi) Hungarian (hu) Indonesian (id) Italian (it) Japanese (ja) Korean (ko) Norwegian (Bokmal) (no) Polish (pl) Portuguese (Brazil) (pt-BR) Portuguese (Portugal) (pt-PT) Russian (ru) Spanish (es) Spanish (Latin America) (es-419) Swedish (sv) Thai (th) Turkish (tr) Ukrainian (uk) Vietnamese (vi) */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Input only. Deprecated: This field is no longer supported and is ignored by the server. */
-  skipWelcomeEmail?: boolean;
+  skipWelcomeEmail?: boolean | undefined;
   /** Output only. The Google Workspace account associated with this customer. Only used for customer Companies. */
-  googleWorkspaceAccount?: GoogleWorkspaceAccount;
+  googleWorkspaceAccount?: GoogleWorkspaceAccount | undefined;
   /** Output only. The ID of the company. Assigned by the server. */
-  companyId?: string;
+  companyId?: string | undefined;
   /** Required. Input only. Email address of customer's users in the owner role. At least one `owner_email` is required. Owners share the same access as admins but can also add, delete, and edit your organization's portal users. */
-  ownerEmails?: StringList;
+  ownerEmails?: StringList | undefined;
 }
 /** Request message to create a customer. */
 export interface CreateCustomerRequest {
   /** Required. The company data to populate the new customer. Must contain a value for `companyName` and at least one `owner_email` that's associated with a Google Account. The values for `companyId` and `name` must be empty. */
-  customer?: Company;
+  customer?: Company | undefined;
 }
 export interface CreatePartnersCustomersRequest {
   /** Required. The parent resource ID in the format `partners/[PARTNER_ID]` that identifies the reseller. */
   parent: string;
   /** Request body */
-  body?: CreateCustomerRequest;
+  body?: CreateCustomerRequest | undefined;
 }
 export interface DeleteCustomersConfigurationsRequest {
   /** Required. The configuration to delete. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. If the configuration is applied to any devices, the API call fails. */
@@ -331,17 +331,17 @@ export interface DeleteCustomersConfigurationsRequest {
 /** Request to find devices. */
 export interface FindDevicesByDeviceIdentifierRequest {
   /** Required. Required. The device identifier to search for. If serial number is provided then case insensitive serial number matches are allowed. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
   /** A token specifying which result page to return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
-  limit?: string;
+  limit?: string | undefined;
 }
 export interface FindByIdentifierPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
   /** Request body */
-  body?: FindDevicesByDeviceIdentifierRequest;
+  body?: FindDevicesByDeviceIdentifierRequest | undefined;
 }
 export type DeviceClaimSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -353,45 +353,45 @@ export type DeviceClaimAdditionalServiceEnum =
 /** A record of a device claimed by a reseller for a customer. Devices claimed for zero-touch enrollment have a claim with the type `SECTION_TYPE_ZERO_TOUCH`. To learn more, read [Claim devices for customers](/zero-touch/guides/how-it-works#claim). */
 export interface DeviceClaim {
   /** Output only. The type of claim made on the device. */
-  sectionType?: DeviceClaimSectionTypeEnum;
+  sectionType?: DeviceClaimSectionTypeEnum | undefined;
   /** The ID of the Google Workspace account that owns the Chrome OS device. */
-  googleWorkspaceCustomerId?: string;
+  googleWorkspaceCustomerId?: string | undefined;
   /** The timestamp when the device was put into 'vacation mode'. This value is present iff the device is in 'vacation mode'. */
-  vacationModeStartTime?: string;
+  vacationModeStartTime?: string | undefined;
   /** The Additional service registered for the device. */
-  additionalService?: DeviceClaimAdditionalServiceEnum;
+  additionalService?: DeviceClaimAdditionalServiceEnum | undefined;
   /** The ID of the reseller that claimed the device. */
-  resellerId?: string;
+  resellerId?: string | undefined;
   /** The ID of the Customer that purchased the device. */
-  ownerCompanyId?: string;
+  ownerCompanyId?: string | undefined;
   /** The timestamp when the device will exit 'vacation mode'. This value is present iff the device is in 'vacation mode'. */
-  vacationModeExpireTime?: string;
+  vacationModeExpireTime?: string | undefined;
 }
 export type DeviceClaimList = Array<DeviceClaim>;
 /** An Android or Chrome OS device registered for zero-touch enrollment. */
 export interface Device {
   /** The hardware IDs that identify a manufactured device. To learn more, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
   /** Output only. The ID of the device. Assigned by the server. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** The metadata attached to the device. Structured as key-value pairs. To learn more, read [Device metadata](https://developers.google.com/zero-touch/guides/metadata). */
-  deviceMetadata?: DeviceMetadata;
+  deviceMetadata?: DeviceMetadata | undefined;
   /** Output only. The provisioning claims for a device. Devices claimed for zero-touch enrollment have a claim with the type `SECTION_TYPE_ZERO_TOUCH`. Call `partners.devices.unclaim` or `partners.devices.unclaimAsync` to remove the device from zero-touch enrollment. */
-  claims?: DeviceClaimList;
+  claims?: DeviceClaimList | undefined;
   /** Output only. The API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. Assigned by the server. */
-  name?: string;
+  name?: string | undefined;
   /** Not available to resellers. */
-  configuration?: string;
+  configuration?: string | undefined;
 }
 export type DeviceList = Array<Device>;
 /** Response containing found devices. */
 export interface FindDevicesByDeviceIdentifierResponse {
   /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** A token used to access the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Found devices. */
-  devices?: DeviceList;
+  devices?: DeviceList | undefined;
 }
 export type FindDevicesByOwnerRequestSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -400,30 +400,30 @@ export type FindDevicesByOwnerRequestSectionTypeEnum =
 /** Request to find devices by customers. */
 export interface FindDevicesByOwnerRequest {
   /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
-  limit?: string;
+  limit?: string | undefined;
   /** The list of IDs of Google Workspace accounts to search for. */
-  googleWorkspaceCustomerId?: StringList;
+  googleWorkspaceCustomerId?: StringList | undefined;
   /** The list of customer IDs to search for. */
-  customerId?: StringList;
+  customerId?: StringList | undefined;
   /** Required. The section type of the device's provisioning record. */
-  sectionType?: FindDevicesByOwnerRequestSectionTypeEnum | (string & {});
+  sectionType?: FindDevicesByOwnerRequestSectionTypeEnum | (string & {}) | undefined;
   /** A token specifying which result page to return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface FindByOwnerPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
   /** Request body */
-  body?: FindDevicesByOwnerRequest;
+  body?: FindDevicesByOwnerRequest | undefined;
 }
 /** Response containing found devices. */
 export interface FindDevicesByOwnerResponse {
   /** A token used to access the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** The customer's devices. */
-  devices?: DeviceList;
+  devices?: DeviceList | undefined;
 }
 export interface GetCustomersConfigurationsRequest {
   /** Required. The configuration to get. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. */
@@ -444,13 +444,13 @@ export interface GetPartnersDevicesRequest {
 /** Request to get a device's SIM lock status. */
 export interface GetDeviceSimLockStateRequest {
   /** Required. Required. The device identifier to search for. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 export interface GetSimLockStatePartnersDevicesRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
   /** Request body */
-  body?: GetDeviceSimLockStateRequest;
+  body?: GetDeviceSimLockStateRequest | undefined;
 }
 export type GetDeviceSimLockStateResponseSimLockStateEnum =
   | "SIM_LOCK_STATE_UNSPECIFIED"
@@ -459,21 +459,21 @@ export type GetDeviceSimLockStateResponseSimLockStateEnum =
   | "LOCKED_TO_OTHER_PARTNER";
 /** Response containing a device's SimLock state. */
 export interface GetDeviceSimLockStateResponse {
-  simLockState?: GetDeviceSimLockStateResponseSimLockStateEnum;
+  simLockState?: GetDeviceSimLockStateResponseSimLockStateEnum | undefined;
 }
 export interface ListCustomersRequest {
   /** Required. The maximum number of customers to show in a page of results. A number between 1 and 100 (inclusive). */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A token specifying which result page to return. This field has custom validations in ListCustomersRequestValidator */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CompanyList = Array<Company>;
 /** Response message for listing my customers. */
 export interface CustomerListCustomersResponse {
   /** The customer accounts the calling user is a member of. */
-  customers?: CompanyList;
+  customers?: CompanyList | undefined;
   /** A token used to access the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersConfigurationsRequest {
   /** Required. The customer that manages the listed configurations. An API resource name in the format `customers/[CUSTOMER_ID]`. */
@@ -483,22 +483,22 @@ export type ConfigurationList = Array<Configuration>;
 /** Response message of customer's listing configuration. */
 export interface CustomerListConfigurationsResponse {
   /** The configurations. */
-  configurations?: ConfigurationList;
+  configurations?: ConfigurationList | undefined;
 }
 export interface ListCustomersDevicesRequest {
   /** Required. The customer managing the devices. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
   /** A token specifying which result page to return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of devices to show in a page of results. If unset or `0`, defaults to `5000`. If a value greater than `10000` is specified, it will be coerced to `10000`. */
-  pageSize?: string;
+  pageSize?: string | undefined;
 }
 /** Response message of customer's liting devices. */
 export interface CustomerListDevicesResponse {
   /** The customer's devices. */
-  devices?: DeviceList;
+  devices?: DeviceList | undefined;
   /** A token used to access the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersDpcsRequest {
   /** Required. The customer that can use the DPCs in configurations. An API resource name in the format `customers/[CUSTOMER_ID]`. */
@@ -507,73 +507,73 @@ export interface ListCustomersDpcsRequest {
 /** An EMM's DPC ([device policy controller](http://developer.android.com/work/dpc/build-dpc.html)). Zero-touch enrollment installs a DPC (listed in the `Configuration`) on a device to maintain the customer's mobile policies. All the DPCs listed by the API support zero-touch enrollment and are available in Google Play. */
 export interface Dpc {
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/dpcs/[DPC_ID]`. Assigned by the server. To maintain a reference to a DPC across customer accounts, persist and match the last path component (`DPC_ID`). */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The DPC's Android application ID that looks like a Java package name. Zero-touch enrollment installs the DPC app onto a device using this identifier. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Output only. The title of the DPC app in Google Play. For example, _Google Apps Device Policy_. Useful in an application's user interface. */
-  dpcName?: string;
+  dpcName?: string | undefined;
 }
 export type DpcList = Array<Dpc>;
 /** Response message of customer's listing DPCs. */
 export interface CustomerListDpcsResponse {
   /** The list of DPCs available to the customer that support zero-touch enrollment. */
-  dpcs?: DpcList;
+  dpcs?: DpcList | undefined;
 }
 export interface ListPartnersCustomersRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
   /** The maximum number of results to be returned. If not specified or 0, all the records are returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message of all customers related to this partner. */
 export interface ListCustomersResponse {
   /** List of customers related to this reseller partner. */
-  customers?: CompanyList;
+  customers?: CompanyList | undefined;
   /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** A token to retrieve the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPartnersVendorsRequest {
   /** Required. The resource name in the format `partners/[PARTNER_ID]`. */
   parent: string;
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message to list vendors of the partner. */
 export interface ListVendorsResponse {
   /** A token to retrieve the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of vendors of the reseller partner. Fields `name`, `companyId` and `companyName` are populated to the Company object. */
-  vendors?: CompanyList;
+  vendors?: CompanyList | undefined;
   /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 export interface ListPartnersVendorsCustomersRequest {
   /** A token identifying a page of results returned by the server. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The resource name in the format `partners/[PARTNER_ID]/vendors/[VENDOR_ID]`. */
   parent: string;
 }
 /** Response message to list customers of the vendor. */
 export interface ListVendorCustomersResponse {
   /** A token to retrieve the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of customers of the vendor. */
-  customers?: CompanyList;
+  customers?: CompanyList | undefined;
   /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 /** Request to set metadata for a device. */
 export interface UpdateDeviceMetadataRequest {
   /** Required. The metadata to attach to the device. */
-  deviceMetadata?: DeviceMetadata;
+  deviceMetadata?: DeviceMetadata | undefined;
 }
 export interface MetadataPartnersDevicesRequest {
   /** Required. The ID of the device. */
@@ -581,26 +581,26 @@ export interface MetadataPartnersDevicesRequest {
   /** Required. The owner of the newly set metadata. Set this to the partner ID. */
   metadataOwnerId: string;
   /** Request body */
-  body?: UpdateDeviceMetadataRequest;
+  body?: UpdateDeviceMetadataRequest | undefined;
 }
 export interface PatchCustomersConfigurationsRequest {
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
   name: string;
   /** Required. The field mask applied to the target `Configuration` before updating the fields. To learn more about using field masks, read [FieldMask](/protocol-buffers/docs/reference/google.protobuf#fieldmask) in the Protocol Buffers documentation. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Configuration;
+  body?: Configuration | undefined;
 }
 /** Request message for customer to remove the configuration from device. */
 export interface CustomerRemoveConfigurationRequest {
   /** Required. The device to remove the configuration from. There are custom validations in RemoveConfigurationRequestValidator */
-  device?: DeviceReference;
+  device?: DeviceReference | undefined;
 }
 export interface RemoveConfigurationCustomersDevicesRequest {
   /** Required. The customer managing the device in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
   /** Request body */
-  body?: CustomerRemoveConfigurationRequest;
+  body?: CustomerRemoveConfigurationRequest | undefined;
 }
 export type PartnerUnclaimSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -609,38 +609,38 @@ export type PartnerUnclaimSectionTypeEnum =
 /** Identifies one unclaim request. */
 export interface PartnerUnclaim {
   /** Optional. The expiration time of the vacation unlock. */
-  vacationModeExpireTime?: string;
+  vacationModeExpireTime?: string | undefined;
   /** Required. Device identifier of the device. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
   /** Required. The section type of the device's provisioning record. */
-  sectionType?: PartnerUnclaimSectionTypeEnum | (string & {});
+  sectionType?: PartnerUnclaimSectionTypeEnum | (string & {}) | undefined;
   /** Required. Device ID of the device. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Optional. The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
-  vacationModeDays?: number;
+  vacationModeDays?: number | undefined;
 }
 export type PartnerUnclaimList = Array<PartnerUnclaim>;
 /** Request to unclaim devices asynchronously in batch. */
 export interface UnclaimDevicesRequest {
   /** Required. The list of devices to unclaim. */
-  unclaims?: PartnerUnclaimList;
+  unclaims?: PartnerUnclaimList | undefined;
 }
 export interface UnclaimAsyncPartnersDevicesRequest {
   /** Required. The reseller partner ID. */
   partnerId: string;
   /** Request body */
-  body?: UnclaimDevicesRequest;
+  body?: UnclaimDevicesRequest | undefined;
 }
 /** Request message for customer to unclaim a device. */
 export interface CustomerUnclaimDeviceRequest {
   /** Required. The device to unclaim. There are custom validations in UnclaimDeviceRequestValidator. */
-  device?: DeviceReference;
+  device?: DeviceReference | undefined;
 }
 export interface UnclaimCustomersDevicesRequest {
   /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
   /** Request body */
-  body?: CustomerUnclaimDeviceRequest;
+  body?: CustomerUnclaimDeviceRequest | undefined;
 }
 export type UnclaimDeviceRequestSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -649,42 +649,42 @@ export type UnclaimDeviceRequestSectionTypeEnum =
 /** Request message to unclaim a device. */
 export interface UnclaimDeviceRequest {
   /** Required. The device identifier you used when you claimed this device. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
   /** Required. The section type of the device's provisioning record. */
-  sectionType?: UnclaimDeviceRequestSectionTypeEnum | (string & {});
+  sectionType?: UnclaimDeviceRequestSectionTypeEnum | (string & {}) | undefined;
   /** Required. The device ID returned by `ClaimDevice`. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
-  vacationModeDays?: number;
+  vacationModeDays?: number | undefined;
   /** The expiration time of the vacation unlock. */
-  vacationModeExpireTime?: string;
+  vacationModeExpireTime?: string | undefined;
 }
 export interface UnclaimPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
   /** Request body */
-  body?: UnclaimDeviceRequest;
+  body?: UnclaimDeviceRequest | undefined;
 }
 /** Identifies metadata updates to one device. */
 export interface UpdateMetadataArguments {
   /** Required. Device ID of the device. */
-  deviceId?: string;
+  deviceId?: string | undefined;
   /** Required. The metadata to update. */
-  deviceMetadata?: DeviceMetadata;
+  deviceMetadata?: DeviceMetadata | undefined;
   /** Required. Device identifier. */
-  deviceIdentifier?: DeviceIdentifier;
+  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 export type UpdateMetadataArgumentsList = Array<UpdateMetadataArguments>;
 /** Request to update device metadata in batch. */
 export interface UpdateDeviceMetadataInBatchRequest {
   /** Required. The list of metadata updates. */
-  updates?: UpdateMetadataArgumentsList;
+  updates?: UpdateMetadataArgumentsList | undefined;
 }
 export interface UpdateMetadataAsyncPartnersDevicesRequest {
   /** Required. The reseller partner ID. */
   partnerId: string;
   /** Request body */
-  body?: UpdateDeviceMetadataInBatchRequest;
+  body?: UpdateDeviceMetadataInBatchRequest | undefined;
 }
 export type ApplyConfigurationCustomersDevicesError =
   | NotFound

@@ -68,9 +68,9 @@ export interface CreateMessagingPreferenceRequest {
   /** The recipient's email address, exactly as Workflows sends to it. Matching is exact, so `Jane@example.com` and `jane@example.com` are two recipients. */
   identifier: string;
   /** `false` opts the recipient out of every marketing topic. `true` lifts that opt-out. Applied before `topics`. */
-  all_marketing?: boolean;
+  all_marketing?: boolean | undefined;
   /** Topic key to `false` to opt the recipient out of that topic, or `true` to opt them back in. Opting back in to one marketing topic after an all-marketing opt-out lifts that opt-out, so `all_marketing` becomes `true`, and keeps the other marketing topics opted out. Topics you leave out keep their current choice. */
-  topics?: CreateMessagingPreferenceRequestTopicsMap;
+  topics?: CreateMessagingPreferenceRequestTopicsMap | undefined;
 }
 /** Topic key to `false` (opted out) or `true` (opted in), for every topic the recipient chose. A topic without a choice is not listed. */
 export type TopicPreferencesTopicsMap = { [key: string]: boolean | undefined };
@@ -126,9 +126,9 @@ export interface EmailAttachment {
   /** The file's bytes as standard base64, without line breaks. */
   content: string;
   /** MIME type of the file, such as `application/pdf`. Without it, the type follows from the file name. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Content ID that the HTML body references as `cid:<content_id>` to show the file inline, such as `logo`. Without `<` or `>`. */
-  content_id?: string;
+  content_id?: string | undefined;
 }
 /** Files attached to the email your code rendered: up to 10, and at most 512 KB in total after decoding. File types mailbox providers block, such as `.exe`, are refused. Doesn't apply to a send with `template_id`, which refuses any file here. */
 export type MessagingSendEmailCreateRequestAttachmentsList = Array<EmailAttachment>;
@@ -138,31 +138,31 @@ export interface MessagingSendEmailCreateRequest {
   /** Email address of the recipient. */
   to: string;
   /** Data for the template's Liquid placeholders, available as `variables`. For example `{"reset_link": "https://..."}` fills `{{ variables.reset_link }}`. */
-  message_data?: MessagingSendEmailCreateRequestMessageDataMap;
+  message_data?: MessagingSendEmailCreateRequestMessageDataMap | undefined;
   /** ID of the email template to send. The template must be made transactional first. Send either `template_id` or `template_key`. */
-  template_id?: string;
+  template_id?: string | undefined;
   /** Names an email whose content your code rendered, such as `order-shipped`, so its metrics, logs and status group under it. Letters, numbers, hyphens (-) and underscores (_) only. Send it with `subject` and `html` or `text`. PostHog sends the content as is and never stores it as a template. */
-  template_key?: string;
+  template_key?: string | undefined;
   /** Distinct ID of the recipient's person. The email's engagement events (sent, delivered, opened, clicked, bounced) and the send itself are recorded against that person. Defaults to the recipient's email address. The template can't read the person's properties, so pass everything it needs in `message_data`. */
-  distinct_id?: string | null;
+  distinct_id?: string | null | undefined;
   /** Subject of the email your code rendered. */
-  subject?: string;
+  subject?: string | undefined;
   /** HTML body of the email your code rendered, at most 5 MiB as UTF-8. */
-  html?: string;
+  html?: string | undefined;
   /** Plain text body of the email your code rendered, at most 5 MiB as UTF-8. Without it, PostHog derives the text from `html`. */
-  text?: string;
+  text?: string | undefined;
   /** Addresses replies to the email your code rendered go to. */
-  reply_to?: MessagingSendEmailCreateRequestReplyToList;
+  reply_to?: MessagingSendEmailCreateRequestReplyToList | undefined;
   /** Addresses that get a visible copy of the email your code rendered: one address, or a list of up to 10. Each is a bare address such as `jane@example.com`, with no name. Doesn't apply to a send with `template_id`, which refuses any address here. */
-  cc?: MessagingSendEmailCreateRequestCc | null;
+  cc?: MessagingSendEmailCreateRequestCc | null | undefined;
   /** Addresses that get a hidden copy of the email your code rendered: one address, or a list of up to 10. Each is a bare address such as `jane@example.com`, with no name. Doesn't apply to a send with `template_id`, which refuses any address here. */
-  bcc?: MessagingSendEmailCreateRequestBcc | null;
+  bcc?: MessagingSendEmailCreateRequestBcc | null | undefined;
   /** Files attached to the email your code rendered: up to 10, and at most 512 KB in total after decoding. File types mailbox providers block, such as `.exe`, are refused. Doesn't apply to a send with `template_id`, which refuses any file here. */
-  attachments?: MessagingSendEmailCreateRequestAttachmentsList | null;
+  attachments?: MessagingSendEmailCreateRequestAttachmentsList | null | undefined;
   /** Whether the engagement events (sent, delivered, opened, clicked, bounced) of the email your code rendered are captured as analytics events of the recipient. Defaults to true. A project whose admin turned engagement capture off captures nothing, whatever the send says. */
-  capture_engagement?: boolean;
+  capture_engagement?: boolean | undefined;
   /** Sender of the email your code rendered, as `security@example.com` or `Example <security@example.com>`, on a verified domain of the project. Without it, the email goes out from the project's default sender, or from its only verified sender when it has no default. */
-  from?: string;
+  from?: string | undefined;
 }
 export interface MessagingSendEmailCreateResponse {}
 export type CreateMessagingPreferenceError = NotFound | PosthogOpError;

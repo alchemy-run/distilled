@@ -52,16 +52,16 @@ export type CreateMeetingNoteRequestLanguage =
 /** Optional processing settings. */
 export interface CreateMeetingNoteRequestOptions {
   /** Whether to start summary generation after transcription. */
-  kickoff_summary?: boolean;
+  kickoff_summary?: boolean | undefined;
 }
 /** Audio or video source for the meeting note. */
 export interface CreateMeetingNoteRequestSource {
   /** Always "file_upload". */
-  type?: string;
+  type?: string | undefined;
   /** ID of a completed public API file upload. */
-  file_upload_id?: string;
+  file_upload_id?: string | undefined;
   /** ID of an existing audio, video, or file block. */
-  block_id?: string;
+  block_id?: string | undefined;
 }
 /** Parent page for the new meeting note. */
 export interface CreateMeetingNoteRequestParent {
@@ -72,15 +72,15 @@ export interface CreateMeetingNoteRequestParent {
 }
 export interface CreateMeetingNoteRequest {
   /** Title for the meeting note. */
-  title?: string;
+  title?: string | undefined;
   /** Language hint for transcription. Defaults to automatic detection. */
-  language?: CreateMeetingNoteRequestLanguage | (string & {});
+  language?: CreateMeetingNoteRequestLanguage | (string & {}) | undefined;
   /** Optional processing settings. */
-  options?: CreateMeetingNoteRequestOptions;
+  options?: CreateMeetingNoteRequestOptions | undefined;
   /** Audio or video source for the meeting note. */
-  source?: CreateMeetingNoteRequestSource;
+  source?: CreateMeetingNoteRequestSource | undefined;
   /** Parent page for the new meeting note. */
-  parent?: CreateMeetingNoteRequestParent;
+  parent?: CreateMeetingNoteRequestParent | undefined;
 }
 export interface CreateMeetingNoteResponseBodyCase0 {
   /** Always "block". */
@@ -137,9 +137,9 @@ export interface PartialUserObjectResponse {
 /** Details about the person, when the `type` of the user is `person`. */
 export interface UserObjectResponsePerson {
   /** The email of the person. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the person's email is verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
 }
 /** The person info of the user. */
 export type BotInfoResponseOwnerCase0UserCase0Person = UserObjectResponsePerson;
@@ -202,11 +202,11 @@ export interface UserObjectResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: UserObjectResponsePerson;
+  person?: UserObjectResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: UserObjectResponseBot;
+  bot?: UserObjectResponseBot | undefined;
 }
 export type UserValueResponse = PartialUserObjectResponse | UserObjectResponse;
 export interface RichTextItemResponseMentionCase0 {
@@ -243,25 +243,25 @@ export interface LinkMentionResponse {
   /** The href of the link mention. */
   href: string;
   /** The title of the link. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the link. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the link. */
-  link_author?: string;
+  link_author?: string | undefined;
   /** The provider of the link. */
-  link_provider?: string;
+  link_provider?: string | undefined;
   /** The thumbnail URL of the link. */
-  thumbnail_url?: string;
+  thumbnail_url?: string | undefined;
   /** The icon URL of the link. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** The iframe URL of the link. */
-  iframe_url?: string;
+  iframe_url?: string | undefined;
   /** The height of the link preview iframe. */
-  height?: number;
+  height?: number | undefined;
   /** The padding of the link preview iframe. */
-  padding?: number;
+  padding?: number | undefined;
   /** The top padding of the link preview iframe. */
-  padding_top?: number;
+  padding_top?: number | undefined;
 }
 export interface RichTextItemResponseMentionCase3 {
   /** Always `link_mention` */
@@ -351,13 +351,13 @@ export interface RichTextItemResponse {
   /** All rich text objects contain an annotations object that sets the styling for the rich text. */
   annotations: AnnotationResponse;
   /** Always `text` */
-  type?: string;
+  type?: string | undefined;
   /** If a rich text object's type value is `text`, then the corresponding text field contains an object including the text content and any inline link. */
-  text?: RichTextItemResponseText;
+  text?: RichTextItemResponseText | undefined;
   /** Mention objects represent an inline mention of a database, date, link preview mention, page, template mention, or user. A mention is created in the Notion UI when a user types `@` followed by the name of the reference. */
-  mention?: RichTextItemResponseMention;
+  mention?: RichTextItemResponseMention | undefined;
   /** Notion supports inline LaTeX equations as rich text objects with a type value of `equation`. */
-  equation?: RichTextItemResponseEquation;
+  equation?: RichTextItemResponseEquation | undefined;
 }
 /** Title of the meeting note as rich text. */
 export type CreateMeetingNoteResponseBodyCase1MeetingNotesTitleList = Array<RichTextItemResponse>;
@@ -372,11 +372,11 @@ export type CreateMeetingNoteResponseBodyCase1MeetingNotesStatus =
 /** Block IDs for each tab (summary, notes, transcript). */
 export interface CreateMeetingNoteResponseBodyCase1MeetingNotesChildren {
   /** Block ID of the AI summary tab. */
-  summary_block_id?: string;
+  summary_block_id?: string | undefined;
   /** Block ID of the meeting notes tab. */
-  notes_block_id?: string;
+  notes_block_id?: string | undefined;
   /** Block ID of the transcript tab. */
-  transcript_block_id?: string;
+  transcript_block_id?: string | undefined;
 }
 /** List of attendee user IDs. */
 export type CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEventAttendeesList =
@@ -388,31 +388,31 @@ export interface CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent {
   /** ISO-8601 end time of the calendar event. */
   end_time: string;
   /** ID of the calendar event, as returned by the calendar tools. */
-  event_id?: string;
+  event_id?: string | undefined;
   /** List of attendee user IDs. */
-  attendees?: CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEventAttendeesList;
+  attendees?: CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEventAttendeesList | undefined;
 }
 /** Start and end times of the actual recording. */
 export interface CreateMeetingNoteResponseBodyCase1MeetingNotesRecording {
   /** ISO-8601 timestamp when the recording started. */
-  start_time?: string;
+  start_time?: string | undefined;
   /** ISO-8601 timestamp when the recording ended. */
-  end_time?: string;
+  end_time?: string | undefined;
 }
 /** Meeting note content fields. */
 export interface CreateMeetingNoteResponseBodyCase1MeetingNotes {
   /** Whether this is a full-page meeting note. */
   is_full_page: boolean;
   /** Title of the meeting note as rich text. */
-  title?: CreateMeetingNoteResponseBodyCase1MeetingNotesTitleList;
+  title?: CreateMeetingNoteResponseBodyCase1MeetingNotesTitleList | undefined;
   /** Current processing status of the meeting note transcription. */
-  status?: CreateMeetingNoteResponseBodyCase1MeetingNotesStatus;
+  status?: CreateMeetingNoteResponseBodyCase1MeetingNotesStatus | undefined;
   /** Block IDs for each tab (summary, notes, transcript). */
-  children?: CreateMeetingNoteResponseBodyCase1MeetingNotesChildren;
+  children?: CreateMeetingNoteResponseBodyCase1MeetingNotesChildren | undefined;
   /** Calendar event metadata associated with this meeting note. */
-  calendar_event?: CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent;
+  calendar_event?: CreateMeetingNoteResponseBodyCase1MeetingNotesCalendarEvent | undefined;
   /** Start and end times of the actual recording. */
-  recording?: CreateMeetingNoteResponseBodyCase1MeetingNotesRecording;
+  recording?: CreateMeetingNoteResponseBodyCase1MeetingNotesRecording | undefined;
 }
 export interface CreateMeetingNoteResponseBodyCase1 {
   /** Always "block". */
@@ -565,7 +565,7 @@ export interface MeetingNotesPropertyFilterFilterCase2 {
   /** The date to compare against. */
   value: MeetingNotesPropertyFilterFilterCase2Value;
   /** Compare against the end of a date range rather than its start. */
-  use_end?: boolean;
+  use_end?: boolean | undefined;
 }
 /** How to compare the date against the range. */
 export type MeetingNotesPropertyFilterFilterCase3Operator =
@@ -617,9 +617,9 @@ export interface MeetingNotesPropertyFilterFilterCase3ValueCase3Value {
   /** Always `daterange` */
   type: string;
   /** Inclusive start of the range as an ISO 8601 date string, if any. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Inclusive end of the range as an ISO 8601 date string, if any. */
-  end_date?: string;
+  end_date?: string | undefined;
 }
 export interface MeetingNotesPropertyFilterFilterCase3ValueCase3 {
   /** Always `exact` */
@@ -639,7 +639,7 @@ export interface MeetingNotesPropertyFilterFilterCase3 {
   /** The range to compare against. */
   value: MeetingNotesPropertyFilterFilterCase3Value;
   /** Compare against the end of a date range rather than its start. */
-  use_end?: boolean;
+  use_end?: boolean | undefined;
 }
 /** Whether the property must be empty or set. */
 export type MeetingNotesPropertyFilterFilterCase4Operator = "is_empty" | "is_not_empty";
@@ -682,7 +682,7 @@ export interface QueryMeetingNotesRequestFilter {
   /** Operator for combinator filters. */
   operator: QueryMeetingNotesRequestFilterOperator | (string & {});
   /** Nested filters; each may be a combinator (and/or) or property filter. */
-  filters?: QueryMeetingNotesRequestFilterFiltersList;
+  filters?: QueryMeetingNotesRequestFilterFiltersList | undefined;
 }
 /** Property name to sort by. */
 export type QueryMeetingNotesRequestSortItemProperty =
@@ -704,11 +704,11 @@ export interface QueryMeetingNotesRequestSortItem {
 export type QueryMeetingNotesRequestSortList = Array<QueryMeetingNotesRequestSortItem>;
 export interface QueryMeetingNotesRequest {
   /** Optional filter for querying meeting notes. Supports combinator (and/or) and property filters on title, attendees, created_time, created_by, last_edited_time, last_edited_by. */
-  filter?: QueryMeetingNotesRequestFilter;
+  filter?: QueryMeetingNotesRequestFilter | undefined;
   /** Optional sort order for the results. Each entry specifies a property name and direction. */
-  sort?: QueryMeetingNotesRequestSortList;
+  sort?: QueryMeetingNotesRequestSortList | undefined;
   /** Maximum number of results to return. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Title of the meeting note as rich text. */
 export type QueryMeetingNotesResponseResultsItemMeetingNotesTitleList = Array<RichTextItemResponse>;
@@ -733,9 +733,11 @@ export interface QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEvent {
   /** ISO-8601 end time of the calendar event. */
   end_time: string;
   /** ID of the calendar event, as returned by the calendar tools. */
-  event_id?: string;
+  event_id?: string | undefined;
   /** List of attendee user IDs. */
-  attendees?: QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEventAttendeesList;
+  attendees?:
+    | QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEventAttendeesList
+    | undefined;
 }
 /** Start and end times of the actual recording. */
 export type QueryMeetingNotesResponseResultsItemMeetingNotesRecording =
@@ -745,15 +747,15 @@ export interface QueryMeetingNotesResponseResultsItemMeetingNotes {
   /** Whether this is a full-page meeting note. */
   is_full_page: boolean;
   /** Title of the meeting note as rich text. */
-  title?: QueryMeetingNotesResponseResultsItemMeetingNotesTitleList;
+  title?: QueryMeetingNotesResponseResultsItemMeetingNotesTitleList | undefined;
   /** Current processing status of the meeting note transcription. */
-  status?: QueryMeetingNotesResponseResultsItemMeetingNotesStatus;
+  status?: QueryMeetingNotesResponseResultsItemMeetingNotesStatus | undefined;
   /** Block IDs for each tab (summary, notes, transcript). */
-  children?: CreateMeetingNoteResponseBodyCase1MeetingNotesChildren;
+  children?: CreateMeetingNoteResponseBodyCase1MeetingNotesChildren | undefined;
   /** Calendar event metadata associated with this meeting note. */
-  calendar_event?: QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEvent;
+  calendar_event?: QueryMeetingNotesResponseResultsItemMeetingNotesCalendarEvent | undefined;
   /** Start and end times of the actual recording. */
-  recording?: CreateMeetingNoteResponseBodyCase1MeetingNotesRecording;
+  recording?: CreateMeetingNoteResponseBodyCase1MeetingNotesRecording | undefined;
 }
 export interface QueryMeetingNotesResponseResultsItem {
   /** Always "block". */

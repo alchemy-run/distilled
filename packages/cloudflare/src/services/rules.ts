@@ -86,7 +86,7 @@ export interface CreateListRequest {
   /** An informative name for the list. Use this name in filter and rule expressions. */
   name: string;
   /** An informative summary of the list. */
-  description?: string;
+  description?: string | undefined;
 }
 export type ListsCreateResponseKind = "ip" | "redirect" | "hostname" | "asn";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -106,13 +106,13 @@ export interface CreateListResponse {
   /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface ListsItemsCreateRequestBodyItemListsListItemIPComment {
   /** An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR. */
   ip: string;
   /** Defines an informative summary of the list item. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirectStatusCode =
   | 301
@@ -122,36 +122,37 @@ export type ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirectS
 export interface ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirect {
   sourceUrl: string;
   targetUrl: string;
-  includeSubdomains?: boolean;
-  preservePathSuffix?: boolean;
-  preserveQueryString?: boolean;
+  includeSubdomains?: boolean | undefined;
+  preservePathSuffix?: boolean | undefined;
+  preserveQueryString?: boolean | undefined;
   statusCode?:
     | ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirectStatusCode
-    | (number & {});
-  subpathMatching?: boolean;
+    | (number & {})
+    | undefined;
+  subpathMatching?: boolean | undefined;
 }
 export interface ListsItemsCreateRequestBodyItemListsListItemRedirectComment {
   /** The definition of the redirect. */
   redirect: ListsItemsCreateRequestBodyItemListsListItemRedirectCommentRedirect;
   /** Defines an informative summary of the list item. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname {
   urlHostname: string;
   /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains. */
-  excludeExactHostname?: boolean;
+  excludeExactHostname?: boolean | undefined;
 }
 export interface ListsItemsCreateRequestBodyItemListsListItemHostnameComment {
   /** Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
   hostname: ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname;
   /** Defines an informative summary of the list item. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface ListsItemsCreateRequestBodyItemListsListItemASNComment {
   /** Defines a non-negative 32 bit integer. */
   asn: number;
   /** Defines an informative summary of the list item. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type ListsItemsCreateRequestBodyItem =
   | ListsItemsCreateRequestBodyItemListsListItemIPComment
@@ -193,7 +194,7 @@ export interface DeleteListItemRequest {
   /** The unique ID of the list. */
   listId: string;
   /** The list items to delete, identified by their unique IDs. */
-  items?: ListsItemsDeleteRequestItemsList;
+  items?: ListsItemsDeleteRequestItemsList | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteListItemResponse {
@@ -224,7 +225,7 @@ export interface GetListResponse {
   /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface GetListBulkOperationRequest {
   /** The Account ID for this resource. */
@@ -284,12 +285,12 @@ export interface ListsItemsGetResultListsListItemIPFull {
   /** The RFC 3339 timestamp of when the list was last modified. */
   modifiedOn: string;
   /** Defines an informative summary of the list item. */
-  comment?: string | null;
+  comment?: string | null | undefined;
 }
 export interface ListsItemsGetResultListsListItemHostnameFullHostname {
   urlHostname: string;
   /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains. */
-  excludeExactHostname?: boolean | null;
+  excludeExactHostname?: boolean | null | undefined;
 }
 export interface ListsItemsGetResultListsListItemHostnameFull {
   /** Defines the unique ID of the item in the List. */
@@ -301,17 +302,17 @@ export interface ListsItemsGetResultListsListItemHostnameFull {
   /** The RFC 3339 timestamp of when the list was last modified. */
   modifiedOn: string;
   /** Defines an informative summary of the list item. */
-  comment?: string | null;
+  comment?: string | null | undefined;
 }
 export type ListsItemsGetResultListsListItemRedirectFullRedirectStatusCode = 301 | 302 | 307 | 308;
 export interface ListsItemsGetResultListsListItemRedirectFullRedirect {
   sourceUrl: string;
   targetUrl: string;
-  includeSubdomains?: boolean | null;
-  preservePathSuffix?: boolean | null;
-  preserveQueryString?: boolean | null;
-  statusCode?: ListsItemsGetResultListsListItemRedirectFullRedirectStatusCode | null;
-  subpathMatching?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
+  preservePathSuffix?: boolean | null | undefined;
+  preserveQueryString?: boolean | null | undefined;
+  statusCode?: ListsItemsGetResultListsListItemRedirectFullRedirectStatusCode | null | undefined;
+  subpathMatching?: boolean | null | undefined;
 }
 export interface ListsItemsGetResultListsListItemRedirectFull {
   /** Defines the unique ID of the item in the List. */
@@ -323,7 +324,7 @@ export interface ListsItemsGetResultListsListItemRedirectFull {
   /** The definition of the redirect. */
   redirect: ListsItemsGetResultListsListItemRedirectFullRedirect;
   /** Defines an informative summary of the list item. */
-  comment?: string | null;
+  comment?: string | null | undefined;
 }
 export interface ListsItemsGetResultListsListItemASNFull {
   /** Defines the unique ID of the item in the List. */
@@ -335,7 +336,7 @@ export interface ListsItemsGetResultListsListItemASNFull {
   /** The RFC 3339 timestamp of when the list was last modified. */
   modifiedOn: string;
   /** Defines an informative summary of the list item. */
-  comment?: string | null;
+  comment?: string | null | undefined;
 }
 export type ListsItemsGetResult =
   | ListsItemsGetResultListsListItemIPFull
@@ -349,11 +350,11 @@ export interface ListListItemsRequest {
   /** The unique ID of the list. */
   listId: string;
   /** The pagination cursor. An opaque string token that indicates where to continue when requesting the next/previous set of records. The response provides cursor values under `result_info.cursors`. You should make no assumptions about a cursor's content or length. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Amount of results to include in each paginated response. A non-negative 32 bit integer. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** A search query to filter returned items. Its meaning depends on the list type: IP addresses must start with the provided string, hostnames and bulk redirects must contain the string, and ASNs must match the string exactly. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListsItemsListResultItemListsListItemIPFull = ListsItemsGetResultListsListItemIPFull;
 export type ListsItemsListResultItemListsListItemHostnameFullHostname =
@@ -368,11 +369,14 @@ export type ListsItemsListResultItemListsListItemRedirectFullRedirectStatusCode 
 export interface ListsItemsListResultItemListsListItemRedirectFullRedirect {
   sourceUrl: string;
   targetUrl: string;
-  includeSubdomains?: boolean | null;
-  preservePathSuffix?: boolean | null;
-  preserveQueryString?: boolean | null;
-  statusCode?: ListsItemsListResultItemListsListItemRedirectFullRedirectStatusCode | null;
-  subpathMatching?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
+  preservePathSuffix?: boolean | null | undefined;
+  preserveQueryString?: boolean | null | undefined;
+  statusCode?:
+    | ListsItemsListResultItemListsListItemRedirectFullRedirectStatusCode
+    | null
+    | undefined;
+  subpathMatching?: boolean | null | undefined;
 }
 export interface ListsItemsListResultItemListsListItemRedirectFull {
   /** Defines the unique ID of the item in the List. */
@@ -384,7 +388,7 @@ export interface ListsItemsListResultItemListsListItemRedirectFull {
   /** The definition of the redirect. */
   redirect: ListsItemsListResultItemListsListItemRedirectFullRedirect;
   /** Defines an informative summary of the list item. */
-  comment?: string | null;
+  comment?: string | null | undefined;
 }
 export type ListsItemsListResultItemListsListItemASNFull = ListsItemsGetResultListsListItemASNFull;
 export type ListsItemsListResultItem =
@@ -397,7 +401,7 @@ export interface ListListItemsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListsItemsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListListsRequest {
   /** The Account ID for this resource. */
@@ -420,14 +424,14 @@ export interface ListsListResultItem {
   /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type ListsListResultList = Array<ListsListResultItem>;
 export interface ListListsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateListRequest {
   /** The Account ID for this resource. */
@@ -435,7 +439,7 @@ export interface UpdateListRequest {
   /** The unique ID of the list. */
   listId: string;
   /** An informative summary of the list. */
-  description?: string;
+  description?: string | undefined;
 }
 export type ListsUpdateResponseKind = "ip" | "redirect" | "hostname" | "asn";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -455,7 +459,7 @@ export interface UpdateListResponse {
   /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type ListsItemsUpdateRequestBodyItemListsListItemIPComment =
   ListsItemsCreateRequestBodyItemListsListItemIPComment;
@@ -467,19 +471,20 @@ export type ListsItemsUpdateRequestBodyItemListsListItemRedirectCommentRedirectS
 export interface ListsItemsUpdateRequestBodyItemListsListItemRedirectCommentRedirect {
   sourceUrl: string;
   targetUrl: string;
-  includeSubdomains?: boolean;
-  preservePathSuffix?: boolean;
-  preserveQueryString?: boolean;
+  includeSubdomains?: boolean | undefined;
+  preservePathSuffix?: boolean | undefined;
+  preserveQueryString?: boolean | undefined;
   statusCode?:
     | ListsItemsUpdateRequestBodyItemListsListItemRedirectCommentRedirectStatusCode
-    | (number & {});
-  subpathMatching?: boolean;
+    | (number & {})
+    | undefined;
+  subpathMatching?: boolean | undefined;
 }
 export interface ListsItemsUpdateRequestBodyItemListsListItemRedirectComment {
   /** The definition of the redirect. */
   redirect: ListsItemsUpdateRequestBodyItemListsListItemRedirectCommentRedirect;
   /** Defines an informative summary of the list item. */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type ListsItemsUpdateRequestBodyItemListsListItemHostnameCommentHostname =
   ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname;

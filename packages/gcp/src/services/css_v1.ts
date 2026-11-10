@@ -87,27 +87,27 @@ export type AccountLabelLabelTypeEnum = "LABEL_TYPE_UNSPECIFIED" | "MANUAL" | "A
 /** Label assigned by CSS domain or CSS group to one of its sub-accounts. */
 export interface AccountLabel {
   /** Output only. The type of this label. */
-  labelType?: AccountLabelLabelTypeEnum | (string & {});
+  labelType?: AccountLabelLabelTypeEnum | (string & {}) | undefined;
   /** The display name of this label. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of this label. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The ID of account this label belongs to. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The ID of the label. */
-  labelId?: string;
+  labelId?: string | undefined;
 }
 export interface CreateAccountsLabelsRequest {
   /** Required. The parent account. Format: accounts/{account} */
   parent: string;
   /** Request body */
-  body?: AccountLabel;
+  body?: AccountLabel | undefined;
 }
 export interface DeleteAccountsCssProductInputsRequest {
   /** The Content API Supplemental Feed ID. The field must not be set if the action applies to a primary feed. If the field is set, then product action applies to a supplemental feed instead of primary Content API feed. */
-  supplementalFeedId?: string;
+  supplementalFeedId?: string | undefined;
   /** Required. The name of the CSS product input resource to delete. Format: accounts/{account}/cssProductInputs/{css_product_input}, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
   name: string;
 }
@@ -119,7 +119,7 @@ export interface DeleteAccountsLabelsRequest {
 }
 export interface GetAccountsRequest {
   /** Optional. Only required when retrieving MC account information. The CSS domain that is the parent resource of the MC account. Format: accounts/{account} */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. The name of the managed CSS/MC account. Format: accounts/{account} */
   name: string;
 }
@@ -137,21 +137,21 @@ export type AccountAccountTypeEnum =
 /** Information about CSS/MC account. */
 export interface Account {
   /** The CSS/MC account's short display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The label resource name. Format: accounts/{account} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Immutable. The CSS/MC account's full name. */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Automatically created label IDs assigned to the MC account by CSS Center. */
-  automaticLabelIds?: StringList;
+  automaticLabelIds?: StringList | undefined;
   /** The CSS/MC account's parent resource. CSS group for CSS domains; CSS domain for MC accounts. Returned only if the user has access to the parent account. Note: For MC sub-accounts, this is also the CSS domain that is the parent resource of the MCA account, since we are effectively flattening the hierarchy." */
-  parent?: string;
+  parent?: string | undefined;
   /** Manually created label IDs assigned to the CSS/MC account by a CSS parent account. */
-  labelIds?: StringList;
+  labelIds?: StringList | undefined;
   /** Output only. Immutable. The CSS/MC account's homepage. */
-  homepageUri?: string;
+  homepageUri?: string | undefined;
   /** Output only. The type of this account. */
-  accountType?: AccountAccountTypeEnum;
+  accountType?: AccountAccountTypeEnum | undefined;
 }
 export interface GetAccountsCssProductsRequest {
   /** Required. The name of the CSS product to retrieve. Format: `accounts/{account}/cssProducts/{css_product}` */
@@ -160,35 +160,35 @@ export interface GetAccountsCssProductsRequest {
 /** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
 export interface CustomAttribute {
   /** The name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the attribute. If `value` is not empty, `group_values` must be empty. */
-  value?: string;
+  value?: string | undefined;
   /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
-  groupValues?: CustomAttributeList;
+  groupValues?: CustomAttributeList | undefined;
 }
 export type CustomAttributeList = Array<CustomAttribute>;
 /** The price represented as a number and currency. */
 export interface Price {
   /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
-  amountMicros?: string;
+  amountMicros?: string | undefined;
   /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
 }
 /** A message that represents installment. */
 export interface HeadlineOfferInstallment {
   /** The number of installments the buyer has to pay. */
-  months?: string;
+  months?: string | undefined;
   /** The amount the buyer has to pay per month. */
-  amount?: Price;
+  amount?: Price | undefined;
   /** The up-front down payment amount the buyer has to pay. */
-  downpayment?: Price;
+  downpayment?: Price | undefined;
 }
 /** The dimension of the product. */
 export interface ProductDimension {
   /** Required. The dimension value represented as a number. The value can have a maximum precision of four decimal places. */
-  value?: number;
+  value?: number | undefined;
   /** Required. The dimension units. Acceptable values are: * "`in`" * "`cm`" */
-  unit?: string;
+  unit?: string | undefined;
 }
 export type HeadlineOfferSubscriptionCostPeriodEnum =
   | "SUBSCRIPTION_PERIOD_UNSPECIFIED"
@@ -197,246 +197,246 @@ export type HeadlineOfferSubscriptionCostPeriodEnum =
 /** The SubscriptionCost of the product. */
 export interface HeadlineOfferSubscriptionCost {
   /** The amount the buyer has to pay per subscription period. */
-  amount?: Price;
+  amount?: Price | undefined;
   /** The number of subscription periods the buyer has to pay. */
-  periodLength?: string;
+  periodLength?: string | undefined;
   /** The type of subscription period. Supported values are: * "`month`" * "`year`" */
-  period?: HeadlineOfferSubscriptionCostPeriodEnum | (string & {});
+  period?: HeadlineOfferSubscriptionCostPeriodEnum | (string & {}) | undefined;
 }
 /** The product details. */
 export interface ProductDetail {
   /** The section header used to group a set of product details. */
-  sectionName?: string;
+  sectionName?: string | undefined;
   /** The value of the product detail. */
-  attributeValue?: string;
+  attributeValue?: string | undefined;
   /** The name of the product detail. */
-  attributeName?: string;
+  attributeName?: string | undefined;
 }
 export type ProductDetailList = Array<ProductDetail>;
 /** The certification for the product. Use the this attribute to describe certifications, such as energy efficiency ratings, associated with a product. */
 export interface Certification {
   /** The code of the certification. For example, for the EPREL certificate with the link https://eprel.ec.europa.eu/screen/product/dishwashers2019/123456 the code is 123456. The code is required for European Energy Labels. */
-  code?: string;
+  code?: string | undefined;
   /** The authority or certification body responsible for issuing the certification. At this time, the most common value is "EC" or "European_Commission" for energy labels in the EU. */
-  authority?: string;
+  authority?: string | undefined;
   /** The name of the certification. At this time, the most common value is "EPREL", which represents energy efficiency certifications in the EU European Registry for Energy Labeling (EPREL) database. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CertificationList = Array<Certification>;
 /** The weight of the product. */
 export interface ProductWeight {
   /** Required. The weight unit. Acceptable values are: * "`g`" * "`kg`" * "`oz`" * "`lb`" */
-  unit?: string;
+  unit?: string | undefined;
   /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Attributes for CSS Product. */
 export interface Attributes {
   /** Date on which the item should expire, as specified upon insertion, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. The actual expiration date is exposed in `productstatuses` as [googleExpirationDate](https://support.google.com/merchants/answer/6324499) and might be earlier if `expirationDate` is too far in the future. Note: It may take 2+ days from the expiration date for the item to actually get deleted. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Bullet points describing the most relevant highlights of a product. */
-  productHighlights?: StringList;
+  productHighlights?: StringList | undefined;
   /** URL directly linking to your the Product Detail Page of the CSS. */
-  cppLink?: string;
+  cppLink?: string | undefined;
   /** Product Related Attributes.[14-36] Brand of the item. */
-  brand?: string;
+  brand?: string | undefined;
   /** Description of the item. */
-  description?: string;
+  description?: string | undefined;
   /** The list of destinations to exclude for this target (corresponds to unchecked check boxes in Merchant Center). Supported values are: - `css_ads_experiences` - `css_organic_experiences` */
-  excludedDestinations?: StringList;
+  excludedDestinations?: StringList | undefined;
   /** Google's category of the item (see [Google product taxonomy](https://support.google.com/merchants/answer/1705911)). When querying products, this field will contain the user provided value. There is currently no way to get back the auto assigned google product categories through the API. */
-  googleProductCategory?: string;
+  googleProductCategory?: string | undefined;
   /** Headline Price of the CSS Product. */
-  headlineOfferShippingPrice?: Price;
+  headlineOfferShippingPrice?: Price | undefined;
   /** Additional URL of images of the item. */
-  additionalImageLinks?: StringList;
+  additionalImageLinks?: StringList | undefined;
   /** Custom label 4 for custom grouping of items in a Shopping campaign. */
-  customLabel4?: string;
+  customLabel4?: string | undefined;
   /** Target gender of the item. */
-  gender?: string;
+  gender?: string | undefined;
   /** Allows advertisers to override the item URL when the product is shown within the context of Product Ads. */
-  cppAdsRedirect?: string;
+  cppAdsRedirect?: string | undefined;
   /** Custom label 3 for custom grouping of items in a Shopping campaign. */
-  customLabel3?: string;
+  customLabel3?: string | undefined;
   /** The cut of the item. It can be used to represent combined size types for apparel items. Maximum two of size types can be provided (see [size type](https://support.google.com/merchants/answer/6324497). */
-  sizeTypes?: StringList;
+  sizeTypes?: StringList | undefined;
   /** Number and amount of installments to pay for an item. */
-  headlineOfferInstallment?: HeadlineOfferInstallment;
+  headlineOfferInstallment?: HeadlineOfferInstallment | undefined;
   /** Mobile Link to the headline offer. */
-  headlineOfferMobileLink?: string;
+  headlineOfferMobileLink?: string | undefined;
   /** Condition of the headline offer. */
-  headlineOfferCondition?: string;
+  headlineOfferCondition?: string | undefined;
   /** Whether the item is a merchant-defined bundle. A bundle is a custom grouping of different products sold by a merchant for a single price. */
-  isBundle?: boolean;
+  isBundle?: boolean | undefined;
   /** The height of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productHeight?: ProductDimension;
+  productHeight?: ProductDimension | undefined;
   /** Set to true if the item is targeted towards adults. */
-  adult?: boolean;
+  adult?: boolean | undefined;
   /** Shared identifier for all variants of the same product. */
-  itemGroupId?: string;
+  itemGroupId?: string | undefined;
   /** Headline Price of the CSS Product. */
-  headlineOfferPrice?: Price;
+  headlineOfferPrice?: Price | undefined;
   /** The width of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productWidth?: ProductDimension;
+  productWidth?: ProductDimension | undefined;
   /** Color of the item. */
-  color?: string;
+  color?: string | undefined;
   /** The number of CSS Products. */
-  numberOfOffers?: string;
+  numberOfOffers?: string | undefined;
   /** Number of reviews of the product. Required if `rating` is provided. */
-  reviewCount?: string;
+  reviewCount?: string | undefined;
   /** The length of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productLength?: ProductDimension;
+  productLength?: ProductDimension | undefined;
   /** URL of an image of the item. */
-  imageLink?: string;
+  imageLink?: string | undefined;
   /** Number of periods (months or years) and amount of payment per period for an item with an associated subscription contract. */
-  headlineOfferSubscriptionCost?: HeadlineOfferSubscriptionCost;
+  headlineOfferSubscriptionCost?: HeadlineOfferSubscriptionCost | undefined;
   /** Technical specification or additional product details. */
-  productDetails?: ProductDetailList;
+  productDetails?: ProductDetailList | undefined;
   /** Low Price of the CSS Product. */
-  lowPrice?: Price;
+  lowPrice?: Price | undefined;
   /** Target age group of the item. */
-  ageGroup?: string;
+  ageGroup?: string | undefined;
   /** Minimum rating score of the product. Required if `rating` is provided. */
-  minRating?: string;
+  minRating?: string | undefined;
   /** Average rating score of the product. The value must be within the range of [`min_rating`, `max_rating`], inclusive. When displayed on the product page, this rating is normalized to a scale of [1, 5] with one decimal place. If provided, `review_count`, `min_rating`, and `max_rating` are also required. */
-  rating?: number;
+  rating?: number | undefined;
   /** Global Trade Item Number ([GTIN](https://support.google.com/merchants/answer/188494#gtin)) of the item. */
-  gtin?: string;
+  gtin?: string | undefined;
   /** URL for the mobile-optimized version of the Product Detail Page of the CSS. */
-  cppMobileLink?: string;
+  cppMobileLink?: string | undefined;
   /** Custom label 0 for custom grouping of items in a Shopping campaign. */
-  customLabel0?: string;
+  customLabel0?: string | undefined;
   /** The list of destinations to include for this target (corresponds to checked check boxes in Merchant Center). Default destinations are always included unless provided in `excluded_destinations`. Supported values are: - `css_ads_experiences` - `css_organic_experiences` */
-  includedDestinations?: StringList;
+  includedDestinations?: StringList | undefined;
   /** Categories of the item (formatted as in [products data specification](https://support.google.com/merchants/answer/6324406)). */
-  productTypes?: StringList;
+  productTypes?: StringList | undefined;
   /** Maximum rating score of the product. Required if `rating` is provided. */
-  maxRating?: string;
+  maxRating?: string | undefined;
   /** Manufacturer Part Number ([MPN](https://support.google.com/merchants/answer/188494#mpn)) of the item. */
-  mpn?: string;
+  mpn?: string | undefined;
   /** Size of the item. Only one value is allowed. For variants with different sizes, insert a separate product for each size with the same `itemGroupId` value (see [https://support.google.com/merchants/answer/6324492](size definition)). */
-  size?: string;
+  size?: string | undefined;
   /** System in which the size is specified. Recommended for apparel items. */
-  sizeSystem?: string;
+  sizeSystem?: string | undefined;
   /** The item's pattern (e.g. polka dots). */
-  pattern?: string;
+  pattern?: string | undefined;
   /** A list of certificates claimed by the CSS for the given product. */
-  certifications?: CertificationList;
+  certifications?: CertificationList | undefined;
   /** Link to the headline offer. */
-  headlineOfferLink?: string;
+  headlineOfferLink?: string | undefined;
   /** Custom label 1 for custom grouping of items in a Shopping campaign. */
-  customLabel1?: string;
+  customLabel1?: string | undefined;
   /** Title of the item. */
-  title?: string;
+  title?: string | undefined;
   /** The weight of the product in the units provided. The value must be between 0 (exclusive) and 2000 (inclusive). */
-  productWeight?: ProductWeight;
+  productWeight?: ProductWeight | undefined;
   /** The material of which the item is made. */
-  material?: string;
+  material?: string | undefined;
   /** High Price of the CSS Product. */
-  highPrice?: Price;
+  highPrice?: Price | undefined;
   /** The number of identical products in a merchant-defined multipack. */
-  multipack?: string;
+  multipack?: string | undefined;
   /** Publication of this item will be temporarily paused. */
-  pause?: string;
+  pause?: string | undefined;
   /** Custom label 2 for custom grouping of items in a Shopping campaign. */
-  customLabel2?: string;
+  customLabel2?: string | undefined;
 }
 /** The ItemLevelIssue of the product status. */
 export interface ItemLevelIssue {
   /** A detailed issue description in English. */
-  detail?: string;
+  detail?: string | undefined;
   /** A short issue description in English. */
-  description?: string;
+  description?: string | undefined;
   /** The error code of the issue. */
-  code?: string;
+  code?: string | undefined;
   /** The URL of a web page to help with resolving this issue. */
-  documentation?: string;
+  documentation?: string | undefined;
   /** List of country codes (ISO 3166-1 alpha-2) where issue applies to the CSS Product. */
-  applicableCountries?: StringList;
+  applicableCountries?: StringList | undefined;
   /** How this issue affects serving of the CSS Product. */
-  servability?: string;
+  servability?: string | undefined;
   /** The attribute's name, if the issue is caused by a single attribute. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** The destination the issue applies to. */
-  destination?: string;
+  destination?: string | undefined;
   /** Whether the issue can be resolved by the merchant. */
-  resolution?: string;
+  resolution?: string | undefined;
 }
 export type ItemLevelIssueList = Array<ItemLevelIssue>;
 /** The destination status of the product status. */
 export interface DestinationStatus {
   /** List of country codes (ISO 3166-1 alpha-2) where the CSS Product is pending approval. */
-  pendingCountries?: StringList;
+  pendingCountries?: StringList | undefined;
   /** List of country codes (ISO 3166-1 alpha-2) where the CSS Product is disapproved. */
-  disapprovedCountries?: StringList;
+  disapprovedCountries?: StringList | undefined;
   /** List of country codes (ISO 3166-1 alpha-2) where the CSS Product is approved. */
-  approvedCountries?: StringList;
+  approvedCountries?: StringList | undefined;
   /** The name of the destination */
-  destination?: string;
+  destination?: string | undefined;
 }
 export type DestinationStatusList = Array<DestinationStatus>;
 /** The status of the Css Product, data validation issues, that is, information about the Css Product computed asynchronously. */
 export interface CssProductStatus {
   /** A list of all issues associated with the product. */
-  itemLevelIssues?: ItemLevelIssueList;
+  itemLevelIssues?: ItemLevelIssueList | undefined;
   /** Date on which the item expires, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  googleExpirationDate?: string;
+  googleExpirationDate?: string | undefined;
   /** The intended destinations for the product. */
-  destinationStatuses?: DestinationStatusList;
+  destinationStatuses?: DestinationStatusList | undefined;
   /** Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  lastUpdateDate?: string;
+  lastUpdateDate?: string | undefined;
 }
 /** The processed CSS Product. */
 export interface CssProduct {
   /** Output only. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the product. */
-  contentLanguage?: string;
+  contentLanguage?: string | undefined;
   /** Output only. A list of custom (CSS-provided) attributes. It can also be used to submit any attribute of the feed specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google. */
-  customAttributes?: CustomAttributeList;
+  customAttributes?: CustomAttributeList | undefined;
   /** Output only. A list of product attributes. */
-  attributes?: Attributes;
+  attributes?: Attributes | undefined;
   /** The name of the CSS Product. Format: `"accounts/{account}/cssProducts/{css_product}"` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The status of a product, data validation issues, that is, information about a product computed asynchronously. */
-  cssProductStatus?: CssProductStatus;
+  cssProductStatus?: CssProductStatus | undefined;
   /** Output only. The feed label for the product. */
-  feedLabel?: string;
+  feedLabel?: string | undefined;
   /** Output only. Your unique raw identifier for the product. */
-  rawProvidedId?: string;
+  rawProvidedId?: string | undefined;
 }
 /** This resource represents input data you submit for a CSS Product, not the processed CSS Product that you see in CSS Center, in Shopping Ads, or across Google surfaces. */
 export interface CssProductInput {
   /** Required. Your unique identifier for the CSS Product. This is the same for the CSS Product input and processed CSS Product. We only allow ids with alphanumerics, underscores and dashes. See the [products feed specification](https://support.google.com/merchants/answer/188494#id) for details. */
-  rawProvidedId?: string;
+  rawProvidedId?: string | undefined;
   /** A list of custom (CSS-provided) attributes. It can also be used for submitting any attribute of the feed specification in its generic form (for example: `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google. */
-  customAttributes?: CustomAttributeList;
+  customAttributes?: CustomAttributeList | undefined;
   /** Required. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the CSS Product. */
-  contentLanguage?: string;
+  contentLanguage?: string | undefined;
   /** Required. The [feed label](https://developers.google.com/shopping-content/guides/products/feed-labels) for the CSS Product. Feed Label is synonymous to "target country" and hence should always be a valid region code. For example: 'DE' for Germany, 'FR' for France. */
-  feedLabel?: string;
+  feedLabel?: string | undefined;
   /** Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
-  name?: string;
+  name?: string | undefined;
   /** A list of CSS Product attributes. */
-  attributes?: Attributes;
+  attributes?: Attributes | undefined;
   /** DEPRECATED. Use expiration_date instead. Represents the existing version (freshness) of the CSS Product, which can be used to preserve the right order when multiple updates are done at the same time. This field must not be set to the future time. If set, the update is prevented if a newer version of the item already exists in our system (that is the last update time of the existing CSS products is later than the freshness time set in the update). If the update happens, the last update time is then set to this freshness time. If not set, the update will not be prevented and the last update time will default to when this request was received by the CSS API. If the operation is prevented, the aborted exception will be thrown. */
-  freshnessTime?: string;
+  freshnessTime?: string | undefined;
   /** Output only. The name of the processed CSS Product. Format: `accounts/{account}/cssProducts/{css_product}` " */
-  finalName?: string;
+  finalName?: string | undefined;
 }
 export interface InsertAccountsCssProductInputsRequest {
   /** Optional. DEPRECATED. Feed id is not required for CSS Products. The primary or supplemental feed id. If CSS Product already exists and feed id provided is different, then the CSS Product will be moved to a new feed. Note: For now, CSSs do not need to provide feed ids as we create feeds on the fly. We do not have supplemental feed support for CSS Products yet. */
-  feedId?: string;
+  feedId?: string | undefined;
   /** Required. The account where this CSS Product will be inserted. Format: accounts/{account} */
   parent: string;
   /** Request body */
-  body?: CssProductInput;
+  body?: CssProductInput | undefined;
 }
 export interface ListAccountsCssProductsRequest {
   /** A page token, received from a previous `ListCssProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCssProducts` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of CSS Products to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified, the maximum number of CSS products will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The account/domain to list processed CSS Products for. Format: accounts/{account} */
   parent: string;
 }
@@ -444,15 +444,15 @@ export type CssProductList = Array<CssProduct>;
 /** Response message for the ListCssProducts method. */
 export interface ListCssProductsResponse {
   /** The processed CSS products from the specified account. These are your processed CSS products after applying rules and supplemental feeds. */
-  cssProducts?: CssProductList;
+  cssProducts?: CssProductList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsLabelsRequest {
   /** The maximum number of labels to return. The service may return fewer than this value. If unspecified, at most 50 labels will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListAccountLabels` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccountLabels` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent account. Format: accounts/{account} */
   parent: string;
 }
@@ -460,97 +460,97 @@ export type AccountLabelList = Array<AccountLabel>;
 /** Response message for the `ListAccountLabels` method. */
 export interface ListAccountLabelsResponse {
   /** The labels from the specified account. */
-  accountLabels?: AccountLabelList;
+  accountLabels?: AccountLabelList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsQuotasRequest {
   /** Required. The CSS account that owns the collection of method quotas and resources. In most cases, this is the CSS domain. Format: accounts/{account} */
   parent: string;
   /** Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of quotas to return in the response, used for paging. Defaults to 500; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** The method details per method in the CSS API. */
 export interface MethodDetails {
   /** Output only. The sub-API that the method belongs to. In the CSS API, this is always `css`. */
-  subapi?: string;
+  subapi?: string | undefined;
   /** Output only. The name of the method for example `cssproductsservice.listcssproducts`. */
-  method?: string;
+  method?: string | undefined;
   /** Output only. The path for the method such as `v1/cssproductsservice.listcssproducts`. */
-  path?: string;
+  path?: string | undefined;
   /** Output only. The API version that the method belongs to. */
-  version?: string;
+  version?: string | undefined;
 }
 export type MethodDetailsList = Array<MethodDetails>;
 /** The group information for methods in the CSS API. The quota is shared between all methods in the group. Even if none of the methods within the group have usage the information for the group is returned. */
 export interface QuotaGroup {
   /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at 12:00 PM midday UTC. */
-  quotaUsage?: string;
+  quotaUsage?: string | undefined;
   /** Output only. The maximum number of calls allowed per minute for the group. */
-  quotaMinuteLimit?: string;
+  quotaMinuteLimit?: string | undefined;
   /** Output only. The maximum number of calls allowed per day for the group. */
-  quotaLimit?: string;
+  quotaLimit?: string | undefined;
   /** Output only. List of all methods group quota applies to. */
-  methodDetails?: MethodDetailsList;
+  methodDetails?: MethodDetailsList | undefined;
   /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Example: `accounts/12345678/quotas/css-products-insert` Note: The {group} part is not guaranteed to follow a specific pattern. */
-  name?: string;
+  name?: string | undefined;
 }
 export type QuotaGroupList = Array<QuotaGroup>;
 /** Response message for the ListMethodGroups method. */
 export interface ListQuotaGroupsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The methods, current quota usage and limits per each group. The quota is shared between all methods in the group. The groups are sorted in descending order based on quota_usage. */
-  quotaGroups?: QuotaGroupList;
+  quotaGroups?: QuotaGroupList | undefined;
 }
 export interface ListChildAccountsAccountsRequest {
   /** Optional. The maximum number of accounts to return. The service may return fewer than this value. If unspecified, at most 50 accounts will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListChildAccounts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListChildAccounts` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent account. Must be a CSS group or domain. Format: accounts/{account} */
   parent: string;
   /** If set, only the MC accounts with the given name (case sensitive) will be returned. */
-  fullName?: string;
+  fullName?: string | undefined;
   /** If set, only the MC accounts with the given label ID will be returned. */
-  labelId?: string;
+  labelId?: string | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response message for the `ListChildAccounts` method. */
 export interface ListChildAccountsResponse {
   /** The CSS/MC accounts returned for the specified CSS parent account. */
-  accounts?: AccountList;
+  accounts?: AccountList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchAccountsCssProductInputsRequest {
   /** The list of CSS product attributes to be updated. If the update mask is omitted, then it is treated as implied field mask equivalent to all fields that are populated (have a non-empty value). Attributes specified in the update mask without a value specified in the body will be deleted from the CSS product. Update mask can only be specified for top level fields in attributes and custom attributes. To specify the update mask for custom attributes you need to add the `custom_attribute.` prefix. Providing special "*" value for full CSS product replacement is not supported. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
   name: string;
   /** Request body */
-  body?: CssProductInput;
+  body?: CssProductInput | undefined;
 }
 export interface PatchAccountsLabelsRequest {
   /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
   name: string;
   /** Request body */
-  body?: AccountLabel;
+  body?: AccountLabel | undefined;
 }
 /** The request message for the `UpdateLabels` method. */
 export interface UpdateAccountLabelsRequest {
   /** The list of label IDs to overwrite the existing account label IDs. If the list is empty, all currently assigned label IDs will be deleted. */
-  labelIds?: StringList;
+  labelIds?: StringList | undefined;
   /** Optional. Only required when updating MC account labels. The CSS domain that is the parent resource of the MC account. Format: accounts/{account} */
-  parent?: string;
+  parent?: string | undefined;
 }
 export interface UpdateLabelsAccountsRequest {
   /** Required. The label resource name. Format: accounts/{account} */
   name: string;
   /** Request body */
-  body?: UpdateAccountLabelsRequest;
+  body?: UpdateAccountLabelsRequest | undefined;
 }
 export type CreateAccountsLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new label, not assigned to any account. */

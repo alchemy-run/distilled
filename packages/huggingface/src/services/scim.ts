@@ -54,7 +54,7 @@ export type CreateScimGroupRequestMembersList = Array<CreateScimGroupRequestMemb
 export interface CreateScimGroupRequest {
   name: string;
   displayName: string;
-  externalId?: string;
+  externalId?: string | undefined;
   /** Array of SCIM user ids */
   members: CreateScimGroupRequestMembersList;
 }
@@ -72,7 +72,7 @@ export interface CreateScimGroupResponse {
   id: string;
   displayName: string;
   members: CreateScimGroupResponseMembersList;
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   meta: CreateScimGroupResponseMeta;
 }
 export type CreateScimInvitationRequestSchemasList = Array<string>;
@@ -84,7 +84,7 @@ export interface CreateScimInvitationRequest {
   /** IdP username. Ignored: the user is matched by confirmed email */
   userName: string;
   emails: CreateScimInvitationRequestEmailsList;
-  active?: boolean;
+  active?: boolean | undefined;
   /** SSO unique identifier (SAML nameid or OIDC sub claim) - required for SSO login */
   externalId: string;
 }
@@ -102,7 +102,7 @@ export interface CreateScimInvitationResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: CreateScimInvitationResponseEmailsItemType;
+  type?: CreateScimInvitationResponseEmailsItemType | undefined;
 }
 export type CreateScimInvitationResponseEmailsList = Array<CreateScimInvitationResponseEmailsItem>;
 export type CreateScimInvitationResponseMetaResourceType = "User";
@@ -128,7 +128,7 @@ export type CreateScimProvisioningGroupRequestMembersList =
 export interface CreateScimProvisioningGroupRequest {
   name: string;
   displayName: string;
-  externalId?: string;
+  externalId?: string | undefined;
   /** Array of SCIM user ids */
   members: CreateScimProvisioningGroupRequestMembersList;
 }
@@ -149,7 +149,7 @@ export interface CreateScimProvisioningGroupResponse {
   id: string;
   displayName: string;
   members: CreateScimProvisioningGroupResponseMembersList;
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   meta: CreateScimProvisioningGroupResponseMeta;
 }
 export type CreateScimUserRequestSchemasList = Array<string>;
@@ -161,7 +161,7 @@ export interface CreateScimUserRequest {
   /** Username for the user, it should respect the hub rules: No consecutive dashes, No digit-only, Does not start or end with a dash, Only dashes, letters or numbers, Not 24 chars hex string */
   userName: string;
   emails: CreateScimUserRequestEmailsList;
-  active?: boolean;
+  active?: boolean | undefined;
   /** External ID for the user, it must be unique within the organization and is required for managed users */
   externalId: string;
 }
@@ -174,7 +174,7 @@ export interface CreateScimUserResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: CreateScimUserResponseEmailsItemType;
+  type?: CreateScimUserResponseEmailsItemType | undefined;
 }
 export type CreateScimUserResponseEmailsList = Array<CreateScimUserResponseEmailsItem>;
 export type CreateScimUserResponseMetaResourceType = "User";
@@ -260,7 +260,7 @@ export interface GetScimConfigurationResponse {
 export interface GetScimGroupRequest {
   name: string;
   groupId: string;
-  excludedAttributes?: string;
+  excludedAttributes?: string | undefined;
 }
 export type GetScimGroupResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:Group";
 export type GetScimGroupResponseSchemasList = Array<GetScimGroupResponseSchemasItem>;
@@ -275,14 +275,14 @@ export interface GetScimGroupResponse {
   schemas: GetScimGroupResponseSchemasList;
   id: string;
   displayName: string;
-  members?: GetScimGroupResponseMembersList;
-  externalId?: string | null;
+  members?: GetScimGroupResponseMembersList | undefined;
+  externalId?: string | null | undefined;
   meta: GetScimGroupResponseMeta;
 }
 export interface GetScimProvisioningGroupRequest {
   name: string;
   groupId: string;
-  excludedAttributes?: string;
+  excludedAttributes?: string | undefined;
 }
 export type GetScimProvisioningGroupResponseSchemasItem =
   "urn:ietf:params:scim:schemas:core:2.0:Group";
@@ -299,8 +299,8 @@ export interface GetScimProvisioningGroupResponse {
   schemas: GetScimProvisioningGroupResponseSchemasList;
   id: string;
   displayName: string;
-  members?: GetScimProvisioningGroupResponseMembersList;
-  externalId?: string | null;
+  members?: GetScimProvisioningGroupResponseMembersList | undefined;
+  externalId?: string | null | undefined;
   meta: GetScimProvisioningGroupResponseMeta;
 }
 export interface GetScimProvisioningUserRequest {
@@ -318,7 +318,7 @@ export interface GetScimProvisioningUserResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: GetScimProvisioningUserResponseEmailsItemType;
+  type?: GetScimProvisioningUserResponseEmailsItemType | undefined;
 }
 export type GetScimProvisioningUserResponseEmailsList =
   Array<GetScimProvisioningUserResponseEmailsItem>;
@@ -398,7 +398,7 @@ export interface GetScimUserResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: GetScimUserResponseEmailsItemType;
+  type?: GetScimUserResponseEmailsItemType | undefined;
 }
 export type GetScimUserResponseEmailsList = Array<GetScimUserResponseEmailsItem>;
 export type GetScimUserResponseMetaResourceType = "User";
@@ -419,10 +419,10 @@ export interface GetScimUserResponse {
 }
 export interface ListScimGroupsRequest {
   name: string;
-  startIndex?: number;
-  count?: number;
-  filter?: string;
-  excludedAttributes?: string;
+  startIndex?: number | undefined;
+  count?: number | undefined;
+  filter?: string | undefined;
+  excludedAttributes?: string | undefined;
 }
 export type ListScimGroupsResponseSchemasItem =
   "urn:ietf:params:scim:api:messages:2.0:ListResponse";
@@ -443,8 +443,8 @@ export interface ListScimGroupsResponseResourcesItem {
   schemas: ListScimGroupsResponseResourcesItemSchemasList;
   id: string;
   displayName: string;
-  members?: ListScimGroupsResponseResourcesItemMembersList;
-  externalId?: string | null;
+  members?: ListScimGroupsResponseResourcesItemMembersList | undefined;
+  externalId?: string | null | undefined;
   meta: ListScimGroupsResponseResourcesItemMeta;
 }
 export type ListScimGroupsResponseResourcesList = Array<ListScimGroupsResponseResourcesItem>;
@@ -457,9 +457,9 @@ export interface ListScimGroupsResponse {
 }
 export interface ListScimManagedUsersRequest {
   name: string;
-  startIndex?: number;
-  count?: number;
-  filter?: string;
+  startIndex?: number | undefined;
+  count?: number | undefined;
+  filter?: string | undefined;
 }
 export type ListScimManagedUsersResponseSchemasItem =
   "urn:ietf:params:scim:api:messages:2.0:ListResponse";
@@ -476,7 +476,7 @@ export interface ListScimManagedUsersResponseResourcesItemEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: ListScimManagedUsersResponseResourcesItemEmailsItemType;
+  type?: ListScimManagedUsersResponseResourcesItemEmailsItemType | undefined;
 }
 export type ListScimManagedUsersResponseResourcesItemEmailsList =
   Array<ListScimManagedUsersResponseResourcesItemEmailsItem>;
@@ -507,10 +507,10 @@ export interface ListScimManagedUsersResponse {
 }
 export interface ListScimProvisioningGroupsRequest {
   name: string;
-  startIndex?: number;
-  count?: number;
-  filter?: string;
-  excludedAttributes?: string;
+  startIndex?: number | undefined;
+  count?: number | undefined;
+  filter?: string | undefined;
+  excludedAttributes?: string | undefined;
 }
 export type ListScimProvisioningGroupsResponseSchemasItem =
   "urn:ietf:params:scim:api:messages:2.0:ListResponse";
@@ -533,8 +533,8 @@ export interface ListScimProvisioningGroupsResponseResourcesItem {
   schemas: ListScimProvisioningGroupsResponseResourcesItemSchemasList;
   id: string;
   displayName: string;
-  members?: ListScimProvisioningGroupsResponseResourcesItemMembersList;
-  externalId?: string | null;
+  members?: ListScimProvisioningGroupsResponseResourcesItemMembersList | undefined;
+  externalId?: string | null | undefined;
   meta: ListScimProvisioningGroupsResponseResourcesItemMeta;
 }
 export type ListScimProvisioningGroupsResponseResourcesList =
@@ -548,9 +548,9 @@ export interface ListScimProvisioningGroupsResponse {
 }
 export interface ListScimUsersRequest {
   name: string;
-  startIndex?: number;
-  count?: number;
-  filter?: string;
+  startIndex?: number | undefined;
+  count?: number | undefined;
+  filter?: string | undefined;
 }
 export type ListScimUsersResponseSchemasItem = "urn:ietf:params:scim:api:messages:2.0:ListResponse";
 export type ListScimUsersResponseSchemasList = Array<ListScimUsersResponseSchemasItem>;
@@ -565,7 +565,7 @@ export interface ListScimUsersResponseResourcesItemEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: ListScimUsersResponseResourcesItemEmailsItemType;
+  type?: ListScimUsersResponseResourcesItemEmailsItemType | undefined;
 }
 export type ListScimUsersResponseResourcesItemEmailsList =
   Array<ListScimUsersResponseResourcesItemEmailsItem>;
@@ -601,7 +601,7 @@ export interface ReplaceScimGroupRequest {
   groupId: string;
   schemas: ReplaceScimGroupRequestSchemasList;
   displayName: string;
-  externalId?: string;
+  externalId?: string | undefined;
   members: ReplaceScimGroupRequestMembersList;
 }
 export type ReplaceScimGroupResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:Group";
@@ -618,7 +618,7 @@ export interface ReplaceScimGroupResponse {
   id: string;
   displayName: string;
   members: ReplaceScimGroupResponseMembersList;
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   meta: ReplaceScimGroupResponseMeta;
 }
 export type ReplaceScimProvisioningGroupRequestSchemasList = Array<string>;
@@ -630,7 +630,7 @@ export interface ReplaceScimProvisioningGroupRequest {
   groupId: string;
   schemas: ReplaceScimProvisioningGroupRequestSchemasList;
   displayName: string;
-  externalId?: string;
+  externalId?: string | undefined;
   members: ReplaceScimProvisioningGroupRequestMembersList;
 }
 export type ReplaceScimProvisioningGroupResponseSchemasItem =
@@ -650,7 +650,7 @@ export interface ReplaceScimProvisioningGroupResponse {
   id: string;
   displayName: string;
   members: ReplaceScimProvisioningGroupResponseMembersList;
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   meta: ReplaceScimProvisioningGroupResponseMeta;
 }
 export type ReplaceScimProvisioningUserRequestSchemasList = Array<string>;
@@ -658,7 +658,7 @@ export interface ReplaceScimProvisioningUserRequest {
   name: string;
   userId: string;
   schemas: ReplaceScimProvisioningUserRequestSchemasList;
-  active?: boolean;
+  active?: boolean | undefined;
   externalId: string;
 }
 export type ReplaceScimProvisioningUserResponseSchemasItem =
@@ -672,7 +672,7 @@ export interface ReplaceScimProvisioningUserResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: ReplaceScimProvisioningUserResponseEmailsItemType;
+  type?: ReplaceScimProvisioningUserResponseEmailsItemType | undefined;
 }
 export type ReplaceScimProvisioningUserResponseEmailsList =
   Array<ReplaceScimProvisioningUserResponseEmailsItem>;
@@ -702,7 +702,7 @@ export interface ReplaceScimUserRequest {
   /** Username for the user, it should respect the hub rules: No consecutive dashes, No digit-only, Does not start or end with a dash, Only dashes, letters or numbers, Not 24 chars hex string */
   userName: string;
   emails: ReplaceScimUserRequestEmailsList;
-  active?: boolean;
+  active?: boolean | undefined;
   externalId: string;
 }
 export type ReplaceScimUserResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:User";
@@ -714,7 +714,7 @@ export interface ReplaceScimUserResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: ReplaceScimUserResponseEmailsItemType;
+  type?: ReplaceScimUserResponseEmailsItemType | undefined;
 }
 export type ReplaceScimUserResponseEmailsList = Array<ReplaceScimUserResponseEmailsItem>;
 export type ReplaceScimUserResponseMetaResourceType = "User";
@@ -740,11 +740,11 @@ export type UpdateScimGroupRequestOperationsItemCase0ValueList =
 export interface UpdateScimGroupRequestOperationsItemCase0 {
   op: string;
   path: string;
-  value?: UpdateScimGroupRequestOperationsItemCase0ValueList;
+  value?: UpdateScimGroupRequestOperationsItemCase0ValueList | undefined;
 }
 export interface UpdateScimGroupRequestOperationsItemCase1 {
   op: string;
-  path?: string;
+  path?: string | undefined;
   value: unknown;
 }
 export type UpdateScimGroupRequestOperationsItem =
@@ -771,7 +771,7 @@ export interface UpdateScimGroupResponse {
   id: string;
   displayName: string;
   members: UpdateScimGroupResponseMembersList;
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   meta: UpdateScimGroupResponseMeta;
 }
 export type UpdateScimProvisioningGroupRequestSchemasList = Array<string>;
@@ -782,7 +782,7 @@ export type UpdateScimProvisioningGroupRequestOperationsItemCase0ValueList =
 export interface UpdateScimProvisioningGroupRequestOperationsItemCase0 {
   op: string;
   path: string;
-  value?: UpdateScimProvisioningGroupRequestOperationsItemCase0ValueList;
+  value?: UpdateScimProvisioningGroupRequestOperationsItemCase0ValueList | undefined;
 }
 export type UpdateScimProvisioningGroupRequestOperationsItemCase1 =
   UpdateScimGroupRequestOperationsItemCase1;
@@ -814,7 +814,7 @@ export interface UpdateScimProvisioningGroupResponse {
   id: string;
   displayName: string;
   members: UpdateScimProvisioningGroupResponseMembersList;
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   meta: UpdateScimProvisioningGroupResponseMeta;
 }
 export type UpdateScimProvisioningUserRequestSchemasList = Array<string>;
@@ -828,7 +828,7 @@ export type UpdateScimProvisioningUserRequestOperationsItemPath =
 export interface UpdateScimProvisioningUserRequestOperationsItem {
   /** `remove` operation is not supported for non-managed organizations */
   op: string;
-  path?: UpdateScimProvisioningUserRequestOperationsItemPath | (string & {});
+  path?: UpdateScimProvisioningUserRequestOperationsItemPath | (string & {}) | undefined;
   value: unknown;
 }
 export type UpdateScimProvisioningUserRequestOperationsList =
@@ -850,7 +850,7 @@ export interface UpdateScimProvisioningUserResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: UpdateScimProvisioningUserResponseEmailsItemType;
+  type?: UpdateScimProvisioningUserResponseEmailsItemType | undefined;
 }
 export type UpdateScimProvisioningUserResponseEmailsList =
   Array<UpdateScimProvisioningUserResponseEmailsItem>;
@@ -880,7 +880,7 @@ export type UpdateScimUserRequestOperationsItemPath =
   | "name.familyName";
 export interface UpdateScimUserRequestOperationsItem {
   op: string;
-  path?: UpdateScimUserRequestOperationsItemPath | (string & {});
+  path?: UpdateScimUserRequestOperationsItemPath | (string & {}) | undefined;
   value: unknown;
 }
 export type UpdateScimUserRequestOperationsList = Array<UpdateScimUserRequestOperationsItem>;
@@ -899,7 +899,7 @@ export interface UpdateScimUserResponseEmailsItem {
   value: string;
   primary: boolean;
   /** We only support work emails, other types are converted to work */
-  type?: UpdateScimUserResponseEmailsItemType;
+  type?: UpdateScimUserResponseEmailsItemType | undefined;
 }
 export type UpdateScimUserResponseEmailsList = Array<UpdateScimUserResponseEmailsItem>;
 export type UpdateScimUserResponseMetaResourceType = "User";

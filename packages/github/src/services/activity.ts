@@ -59,29 +59,29 @@ export type FeedLinksCurrentUserOrganizationsList = Array<LinkWithType>;
 export interface FeedLinks {
   timeline: LinkWithType;
   user: LinkWithType;
-  security_advisories?: LinkWithType;
-  current_user?: LinkWithType;
-  current_user_public?: LinkWithType;
-  current_user_actor?: LinkWithType;
-  current_user_organization?: LinkWithType;
-  current_user_organizations?: FeedLinksCurrentUserOrganizationsList;
-  repository_discussions?: LinkWithType;
-  repository_discussions_category?: LinkWithType;
+  security_advisories?: LinkWithType | undefined;
+  current_user?: LinkWithType | undefined;
+  current_user_public?: LinkWithType | undefined;
+  current_user_actor?: LinkWithType | undefined;
+  current_user_organization?: LinkWithType | undefined;
+  current_user_organizations?: FeedLinksCurrentUserOrganizationsList | undefined;
+  repository_discussions?: LinkWithType | undefined;
+  repository_discussions_category?: LinkWithType | undefined;
 }
 /** Feed */
 export interface Feed {
   timeline_url: string;
   user_url: string;
-  current_user_public_url?: string;
-  current_user_url?: string;
-  current_user_actor_url?: string;
-  current_user_organization_url?: string;
-  current_user_organization_urls?: FeedCurrentUserOrganizationUrlsList;
-  security_advisories_url?: string;
+  current_user_public_url?: string | undefined;
+  current_user_url?: string | undefined;
+  current_user_actor_url?: string | undefined;
+  current_user_organization_url?: string | undefined;
+  current_user_organization_urls?: FeedCurrentUserOrganizationUrlsList | undefined;
+  security_advisories_url?: string | undefined;
   /** A feed of discussions for a given repository. */
-  repository_discussions_url?: string;
+  repository_discussions_url?: string | undefined;
   /** A feed of discussions for a given repository and category. */
-  repository_discussions_category_url?: string;
+  repository_discussions_category_url?: string | undefined;
   _links: FeedLinks;
 }
 export interface GetRepoSubscriptionRequest {
@@ -116,9 +116,9 @@ export interface GetStargazerHistoryForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 30). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** The number of stars created on each day of the week, starting on Sunday. */
 export type StargazerHistoryDaysList = Array<number>;
@@ -139,8 +139,8 @@ export interface GetThreadRequest {
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -159,73 +159,73 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -241,28 +241,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -295,7 +301,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -307,7 +313,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -315,53 +321,53 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 export interface ThreadSubject {
   title: string;
@@ -392,22 +398,22 @@ export interface ThreadSubscription {
   reason: string | null;
   created_at: string | null;
   url: string;
-  thread_url?: string;
-  repository_url?: string;
+  thread_url?: string | undefined;
+  repository_url?: string | undefined;
 }
 export interface ListEventsForAuthenticatedUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Actor */
 export interface Actor {
   id: number;
   login: string;
-  display_login?: string;
+  display_login?: string | undefined;
   gravatar_id: string | null;
   url: string;
   avatar_url: string;
@@ -422,7 +428,7 @@ export interface CreateEvent {
   ref_type: string;
   full_ref: string;
   master_branch: string;
-  description?: string | null;
+  description?: string | null | undefined;
   pusher_type: string;
 }
 export interface DeleteEvent {
@@ -433,28 +439,28 @@ export interface DeleteEvent {
 }
 export type DiscussionAnswerChosenByType = "Bot" | "User" | "Organization";
 export interface DiscussionAnswerChosenBy {
-  avatar_url?: string;
-  deleted?: boolean;
-  email?: string | null;
-  events_url?: string;
-  followers_url?: string;
-  following_url?: string;
-  gists_url?: string;
-  gravatar_id?: string;
-  html_url?: string;
+  avatar_url?: string | undefined;
+  deleted?: boolean | undefined;
+  email?: string | null | undefined;
+  events_url?: string | undefined;
+  followers_url?: string | undefined;
+  following_url?: string | undefined;
+  gists_url?: string | undefined;
+  gravatar_id?: string | undefined;
+  html_url?: string | undefined;
   id: number;
   login: string;
-  name?: string;
-  node_id?: string;
-  organizations_url?: string;
-  received_events_url?: string;
-  repos_url?: string;
-  site_admin?: boolean;
-  starred_url?: string;
-  subscriptions_url?: string;
-  type?: DiscussionAnswerChosenByType;
-  url?: string;
-  user_view_type?: string;
+  name?: string | undefined;
+  node_id?: string | undefined;
+  organizations_url?: string | undefined;
+  received_events_url?: string | undefined;
+  repos_url?: string | undefined;
+  site_admin?: boolean | undefined;
+  starred_url?: string | undefined;
+  subscriptions_url?: string | undefined;
+  type?: DiscussionAnswerChosenByType | undefined;
+  url?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** How the author is associated with the repository. */
 export type DiscussionAuthorAssociation =
@@ -473,7 +479,7 @@ export interface DiscussionCategory {
   id: number;
   is_answerable: boolean;
   name: string;
-  node_id?: string;
+  node_id?: string | undefined;
   repository_id: number;
   slug: string;
   updated_at: string;
@@ -496,28 +502,28 @@ export type DiscussionState = "open" | "closed" | "locked" | "converting" | "tra
 export type DiscussionStateReason = "resolved" | "outdated" | "duplicate" | "reopened";
 export type DiscussionUserType = "Bot" | "User" | "Organization";
 export interface DiscussionUser {
-  avatar_url?: string;
-  deleted?: boolean;
-  email?: string | null;
-  events_url?: string;
-  followers_url?: string;
-  following_url?: string;
-  gists_url?: string;
-  gravatar_id?: string;
-  html_url?: string;
+  avatar_url?: string | undefined;
+  deleted?: boolean | undefined;
+  email?: string | null | undefined;
+  events_url?: string | undefined;
+  followers_url?: string | undefined;
+  following_url?: string | undefined;
+  gists_url?: string | undefined;
+  gravatar_id?: string | undefined;
+  html_url?: string | undefined;
   id: number;
   login: string;
-  name?: string;
-  node_id?: string;
-  organizations_url?: string;
-  received_events_url?: string;
-  repos_url?: string;
-  site_admin?: boolean;
-  starred_url?: string;
-  subscriptions_url?: string;
-  type?: DiscussionUserType;
-  url?: string;
-  user_view_type?: string;
+  name?: string | undefined;
+  node_id?: string | undefined;
+  organizations_url?: string | undefined;
+  received_events_url?: string | undefined;
+  repos_url?: string | undefined;
+  site_admin?: boolean | undefined;
+  starred_url?: string | undefined;
+  subscriptions_url?: string | undefined;
+  type?: DiscussionUserType | undefined;
+  url?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** Color-coded labels help you categorize and filter your issues (just like labels in Gmail). */
 export interface Label {
@@ -547,7 +553,7 @@ export interface Discussion {
   answer_chosen_by: DiscussionAnswerChosenBy | null;
   answer_html_url: string | null;
   /** How the author is associated with the repository. */
-  author_association?: DiscussionAuthorAssociation;
+  author_association?: DiscussionAuthorAssociation | undefined;
   body: string;
   category: DiscussionCategory;
   comments: number;
@@ -557,17 +563,17 @@ export interface Discussion {
   locked: boolean;
   node_id: string;
   number: number;
-  reactions?: DiscussionReactions;
+  reactions?: DiscussionReactions | undefined;
   repository_url: string;
   /** The current state of the discussion. `converting` means that the discussion is being converted from an issue. `transferring` means that the discussion is being transferred from another repository. */
   state: DiscussionState;
   /** The reason for the current state */
   state_reason: DiscussionStateReason | null;
-  timeline_url?: string;
+  timeline_url?: string | undefined;
   title: string;
   updated_at: string;
   user: DiscussionUser | null;
-  labels?: DiscussionLabelsList;
+  labels?: DiscussionLabelsList | undefined;
 }
 export interface DiscussionEvent {
   action: string;
@@ -578,15 +584,15 @@ export type IssueStateReason = "completed" | "reopened" | "not_planned" | "dupli
 /** A GitHub user. */
 export type NullableSimpleUser = SimpleUser;
 export interface IssueLabelsItemCase1 {
-  id?: number;
-  node_id?: string;
-  url?: string;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
-  default?: boolean;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  url?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
+  default?: boolean | undefined;
   /** The user who archived the label, or `null` if it has not been archived. */
-  archived_by?: SimpleUser | null;
+  archived_by?: SimpleUser | null | undefined;
 }
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
 /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
@@ -617,7 +623,7 @@ export interface NullableMilestone {
   due_on: string | null;
 }
 export interface IssuePullRequest {
-  merged_at?: string | null;
+  merged_at?: string | null | undefined;
   diff_url: string | null;
   html_url: string | null;
   patch_url: string | null;
@@ -644,13 +650,13 @@ export interface IssueType {
   /** The description of the issue type. */
   description: string | null;
   /** The color of the issue type. */
-  color?: IssueTypeColor | null;
+  color?: IssueTypeColor | null | undefined;
   /** The time the issue type created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the issue type last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The enabled state of the issue type. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 /** License Simple */
 export interface NullableLicenseSimple {
@@ -659,14 +665,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -681,8 +687,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -694,7 +700,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: SimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -754,8 +760,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -766,64 +772,64 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
+  allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -838,11 +844,11 @@ export interface Enterprise {
 export type NullableIntegrationOwner = SimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface NullableIntegrationPermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -852,9 +858,9 @@ export interface NullableIntegration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: NullableIntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -868,7 +874,7 @@ export interface NullableIntegration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: NullableIntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -915,19 +921,19 @@ export interface NullableIssueComment {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: SimpleUser | null;
   created_at: string;
   updated_at: string;
   issue_url: string;
-  author_association?: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  author_association?: AuthorAssociation | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
 }
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -956,16 +962,16 @@ export interface IssueFieldValue {
   /** Unique identifier for the issue field. */
   issue_field_id: number;
   /** The human-readable name of the issue field. */
-  issue_field_name?: string;
+  issue_field_name?: string | undefined;
   node_id: string;
   /** The data type of the issue field */
   data_type: IssueFieldValueDataType;
   /** The value of the issue field */
   value: IssueFieldValueValue | null;
   /** Details about the selected option (only present for single_select fields) */
-  single_select_option?: IssueFieldValueSingleSelectOption | null;
+  single_select_option?: IssueFieldValueSingleSelectOption | null | undefined;
   /** Details about the selected options */
-  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null;
+  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null | undefined;
 }
 export type IssueIssueFieldValuesList = Array<IssueFieldValue>;
 /** Issues are a great way to keep track of tasks, enhancements, and bugs for your projects. */
@@ -984,50 +990,50 @@ export interface Issue {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: IssueStateReason | null;
+  state_reason?: IssueStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: SimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: IssueLabelsList;
   assignee: SimpleUser | null;
-  assignees?: IssueAssigneesList;
+  assignees?: IssueAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: SimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: SimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: IssueIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: IssueIssueFieldValuesList | undefined;
 }
 export type IssuesEventAssigneesList = Array<SimpleUser>;
 export type IssuesEventLabelsList = Array<Label>;
 export interface IssuesEvent {
   action: string;
   issue: Issue;
-  assignee?: SimpleUser;
-  assignees?: IssuesEventAssigneesList;
-  label?: Label;
-  labels?: IssuesEventLabelsList;
+  assignee?: SimpleUser | undefined;
+  assignees?: IssuesEventAssigneesList | undefined;
+  label?: Label | undefined;
+  labels?: IssuesEventLabelsList | undefined;
 }
 /** Comments provide a way for people to collaborate on an issue. */
 export type IssueComment = NullableIssueComment;
@@ -1040,101 +1046,101 @@ export interface IssueCommentEvent {
 export type ForkEventForkeePullRequestCreationPolicy = "all" | "collaborators_only";
 export type ForkEventForkeeTopicsList = Array<string>;
 export interface ForkEventForkee {
-  id?: number;
-  node_id?: string;
-  name?: string;
-  full_name?: string;
-  private?: boolean;
-  owner?: SimpleUser;
-  html_url?: string;
-  description?: string | null;
-  fork?: boolean;
-  url?: string;
-  forks_url?: string;
-  keys_url?: string;
-  collaborators_url?: string;
-  teams_url?: string;
-  hooks_url?: string;
-  issue_events_url?: string;
-  events_url?: string;
-  assignees_url?: string;
-  branches_url?: string;
-  tags_url?: string;
-  blobs_url?: string;
-  git_tags_url?: string;
-  git_refs_url?: string;
-  trees_url?: string;
-  statuses_url?: string;
-  languages_url?: string;
-  stargazers_url?: string;
-  contributors_url?: string;
-  subscribers_url?: string;
-  subscription_url?: string;
-  commits_url?: string;
-  git_commits_url?: string;
-  comments_url?: string;
-  issue_comment_url?: string;
-  contents_url?: string;
-  compare_url?: string;
-  merges_url?: string;
-  archive_url?: string;
-  downloads_url?: string;
-  issues_url?: string;
-  pulls_url?: string;
-  milestones_url?: string;
-  notifications_url?: string;
-  labels_url?: string;
-  releases_url?: string;
-  deployments_url?: string;
-  created_at?: string | null;
-  updated_at?: string | null;
-  pushed_at?: string | null;
-  git_url?: string;
-  ssh_url?: string;
-  clone_url?: string;
-  svn_url?: string;
-  homepage?: string | null;
-  size?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
-  language?: string | null;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_downloads?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  name?: string | undefined;
+  full_name?: string | undefined;
+  private?: boolean | undefined;
+  owner?: SimpleUser | undefined;
+  html_url?: string | undefined;
+  description?: string | null | undefined;
+  fork?: boolean | undefined;
+  url?: string | undefined;
+  forks_url?: string | undefined;
+  keys_url?: string | undefined;
+  collaborators_url?: string | undefined;
+  teams_url?: string | undefined;
+  hooks_url?: string | undefined;
+  issue_events_url?: string | undefined;
+  events_url?: string | undefined;
+  assignees_url?: string | undefined;
+  branches_url?: string | undefined;
+  tags_url?: string | undefined;
+  blobs_url?: string | undefined;
+  git_tags_url?: string | undefined;
+  git_refs_url?: string | undefined;
+  trees_url?: string | undefined;
+  statuses_url?: string | undefined;
+  languages_url?: string | undefined;
+  stargazers_url?: string | undefined;
+  contributors_url?: string | undefined;
+  subscribers_url?: string | undefined;
+  subscription_url?: string | undefined;
+  commits_url?: string | undefined;
+  git_commits_url?: string | undefined;
+  comments_url?: string | undefined;
+  issue_comment_url?: string | undefined;
+  contents_url?: string | undefined;
+  compare_url?: string | undefined;
+  merges_url?: string | undefined;
+  archive_url?: string | undefined;
+  downloads_url?: string | undefined;
+  issues_url?: string | undefined;
+  pulls_url?: string | undefined;
+  milestones_url?: string | undefined;
+  notifications_url?: string | undefined;
+  labels_url?: string | undefined;
+  releases_url?: string | undefined;
+  deployments_url?: string | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  pushed_at?: string | null | undefined;
+  git_url?: string | undefined;
+  ssh_url?: string | undefined;
+  clone_url?: string | undefined;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  size?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
+  language?: string | null | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: ForkEventForkeePullRequestCreationPolicy;
-  forks_count?: number;
-  mirror_url?: string | null;
-  archived?: boolean;
-  disabled?: boolean;
-  open_issues_count?: number;
-  license?: NullableLicenseSimple | null;
-  allow_forking?: boolean;
-  is_template?: boolean;
-  web_commit_signoff_required?: boolean;
-  topics?: ForkEventForkeeTopicsList;
-  visibility?: string;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  default_branch?: string;
-  public?: boolean;
+  pull_request_creation_policy?: ForkEventForkeePullRequestCreationPolicy | undefined;
+  forks_count?: number | undefined;
+  mirror_url?: string | null | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  open_issues_count?: number | undefined;
+  license?: NullableLicenseSimple | null | undefined;
+  allow_forking?: boolean | undefined;
+  is_template?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  topics?: ForkEventForkeeTopicsList | undefined;
+  visibility?: string | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  default_branch?: string | undefined;
+  public?: boolean | undefined;
 }
 export interface ForkEvent {
   action: string;
   forkee: ForkEventForkee;
 }
 export interface GollumEventPagesItem {
-  page_name?: string | null;
-  title?: string | null;
-  summary?: string | null;
-  action?: string;
-  sha?: string;
-  html_url?: string;
+  page_name?: string | null | undefined;
+  title?: string | null | undefined;
+  summary?: string | null | undefined;
+  action?: string | undefined;
+  sha?: string | undefined;
+  html_url?: string | undefined;
 }
 export type GollumEventPagesList = Array<GollumEventPagesItem>;
 export interface GollumEvent {
@@ -1176,35 +1182,35 @@ export interface PullRequestEvent {
   action: string;
   number: number;
   pull_request: PullRequestMinimal;
-  assignee?: SimpleUser;
-  assignees?: PullRequestEventAssigneesList;
-  label?: Label;
-  labels?: PullRequestEventLabelsList;
+  assignee?: SimpleUser | undefined;
+  assignees?: PullRequestEventAssigneesList | undefined;
+  label?: Label | undefined;
+  labels?: PullRequestEventLabelsList | undefined;
 }
 export type PullRequestReviewCommentEventCommentUserType = "Bot" | "User" | "Organization";
 export interface PullRequestReviewCommentEventCommentUser {
-  avatar_url?: string;
-  deleted?: boolean;
-  email?: string | null;
-  events_url?: string;
-  followers_url?: string;
-  following_url?: string;
-  gists_url?: string;
-  gravatar_id?: string;
-  html_url?: string;
-  id?: number;
-  login?: string;
-  name?: string;
-  node_id?: string;
-  organizations_url?: string;
-  received_events_url?: string;
-  repos_url?: string;
-  site_admin?: boolean;
-  starred_url?: string;
-  subscriptions_url?: string;
-  type?: PullRequestReviewCommentEventCommentUserType;
-  url?: string;
-  user_view_type?: string;
+  avatar_url?: string | undefined;
+  deleted?: boolean | undefined;
+  email?: string | null | undefined;
+  events_url?: string | undefined;
+  followers_url?: string | undefined;
+  following_url?: string | undefined;
+  gists_url?: string | undefined;
+  gravatar_id?: string | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  node_id?: string | undefined;
+  organizations_url?: string | undefined;
+  received_events_url?: string | undefined;
+  repos_url?: string | undefined;
+  site_admin?: boolean | undefined;
+  starred_url?: string | undefined;
+  subscriptions_url?: string | undefined;
+  type?: PullRequestReviewCommentEventCommentUserType | undefined;
+  url?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export interface PullRequestReviewCommentEventCommentLinksHtml {
   href: string;
@@ -1219,16 +1225,16 @@ export interface PullRequestReviewCommentEventCommentLinks {
   self: PullRequestReviewCommentEventCommentLinksHtml;
 }
 export interface PullRequestReviewCommentEventCommentReactions {
-  _1?: number;
-  _1_2?: number;
-  confused?: number;
-  eyes?: number;
-  heart?: number;
-  hooray?: number;
-  laugh?: number;
-  rocket?: number;
-  total_count?: number;
-  url?: string;
+  _1?: number | undefined;
+  _1_2?: number | undefined;
+  confused?: number | undefined;
+  eyes?: number | undefined;
+  heart?: number | undefined;
+  hooray?: number | undefined;
+  laugh?: number | undefined;
+  rocket?: number | undefined;
+  total_count?: number | undefined;
+  url?: string | undefined;
 }
 export interface PullRequestReviewCommentEventComment {
   id: number;
@@ -1239,7 +1245,7 @@ export interface PullRequestReviewCommentEventComment {
   path: string;
   position: number | null;
   original_position: number;
-  subject_type?: string | null;
+  subject_type?: string | null | undefined;
   commit_id: string;
   user: PullRequestReviewCommentEventCommentUser | null;
   body: string;
@@ -1250,7 +1256,7 @@ export interface PullRequestReviewCommentEventComment {
   _links: PullRequestReviewCommentEventCommentLinks;
   original_commit_id: string;
   reactions: PullRequestReviewCommentEventCommentReactions;
-  in_reply_to_id?: number;
+  in_reply_to_id?: number | undefined;
 }
 export interface PullRequestReviewCommentEvent {
   action: string;
@@ -1265,17 +1271,17 @@ export interface PullRequestReviewEventReviewLinks {
   pull_request: PullRequestReviewCommentEventCommentLinksHtml;
 }
 export interface PullRequestReviewEventReview {
-  id?: number;
-  node_id?: string;
-  user?: SimpleUser | null;
-  body?: string;
-  commit_id?: string;
-  submitted_at?: string | null;
-  state?: string;
-  html_url?: string;
-  pull_request_url?: string;
-  _links?: PullRequestReviewEventReviewLinks;
-  updated_at?: string;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  user?: SimpleUser | null | undefined;
+  body?: string | undefined;
+  commit_id?: string | undefined;
+  submitted_at?: string | null | undefined;
+  state?: string | undefined;
+  html_url?: string | undefined;
+  pull_request_url?: string | undefined;
+  _links?: PullRequestReviewEventReviewLinks | undefined;
+  updated_at?: string | undefined;
 }
 export interface PullRequestReviewEvent {
   action: string;
@@ -1283,19 +1289,19 @@ export interface PullRequestReviewEvent {
   pull_request: PullRequestMinimal;
 }
 export interface CommitCommentEventComment {
-  html_url?: string;
-  url?: string;
-  id?: number;
-  node_id?: string;
-  body?: string;
-  path?: string | null;
-  position?: number | null;
-  line?: number | null;
-  commit_id?: string;
-  user?: SimpleUser | null;
-  created_at?: string;
-  updated_at?: string;
-  reactions?: ReactionRollup;
+  html_url?: string | undefined;
+  url?: string | undefined;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  body?: string | undefined;
+  path?: string | null | undefined;
+  position?: number | null | undefined;
+  line?: number | null | undefined;
+  commit_id?: string | undefined;
+  user?: SimpleUser | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  reactions?: ReactionRollup | undefined;
 }
 export interface CommitCommentEvent {
   action: string;
@@ -1337,26 +1343,26 @@ export interface ReleaseEventRelease {
   /** Specifies the commitish value that determines where the Git tag is created from. */
   target_commitish: string;
   name: string | null;
-  body?: string | null;
+  body?: string | null | undefined;
   /** true to create a draft (unpublished) release, false to create a published one. */
   draft: boolean;
   /** Whether to identify the release as a prerelease or a full release. */
   prerelease: boolean;
   /** Whether or not the release is immutable. */
-  immutable?: boolean;
+  immutable?: boolean | undefined;
   created_at: string;
   published_at: string | null;
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
   author: SimpleUser;
   assets: ReleaseEventReleaseAssetsList;
-  body_html?: string;
-  body_text?: string;
-  mentions_count?: number;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  mentions_count?: number | undefined;
   /** The URL of the release discussion. */
-  discussion_url?: string;
-  reactions?: ReactionRollup;
-  is_short_description_html_truncated?: boolean;
-  short_description_html?: string;
+  discussion_url?: string | undefined;
+  reactions?: ReactionRollup | undefined;
+  is_short_description_html_truncated?: boolean | undefined;
+  short_description_html?: string | undefined;
 }
 export interface ReleaseEvent {
   action: string;
@@ -1388,7 +1394,7 @@ export interface Event {
   type: string | null;
   actor: Actor;
   repo: EventRepo;
-  org?: Actor;
+  org?: Actor | undefined;
   payload: EventPayload;
   public: boolean;
   created_at: string | null;
@@ -1397,19 +1403,19 @@ export type ListEventsForAuthenticatedUserResponseBodyList = Array<Event>;
 export type ListEventsForAuthenticatedUserResponse = ListEventsForAuthenticatedUserResponseBodyList;
 export interface ListNotificationsForAuthenticatedUserRequest {
   /** If `true`, show notifications marked as read. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Whether to return only done notifications (`true`) or exclude them (`false`). When omitted, notifications are not filtered by done status. Use `all=true&is_done=true` for done notifications or `all=true&is_done=false` for both read and unread inbox notifications. If `all` is omitted or `false`, `is_done=true` returns no notifications. */
-  is_done?: boolean;
+  is_done?: boolean | undefined;
   /** If `true`, only shows notifications in which the user is directly participating or mentioned. */
-  participating?: boolean;
+  participating?: boolean | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  before?: string;
+  before?: string | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 50). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListNotificationsForAuthenticatedUserResponseBodyList = Array<Thread>;
 export type ListNotificationsForAuthenticatedUserResponse =
@@ -1420,18 +1426,18 @@ export interface ListOrgEventsForAuthenticatedUserRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListOrgEventsForAuthenticatedUserResponseBodyList = Array<Event>;
 export type ListOrgEventsForAuthenticatedUserResponse =
   ListOrgEventsForAuthenticatedUserResponseBodyList;
 export interface ListPublicEventsRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicEventsResponseBodyList = Array<Event>;
 export type ListPublicEventsResponse = ListPublicEventsResponseBodyList;
@@ -1441,9 +1447,9 @@ export interface ListPublicEventsForRepoNetworkRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicEventsForRepoNetworkResponseBodyList = Array<Event>;
 export type ListPublicEventsForRepoNetworkResponse = ListPublicEventsForRepoNetworkResponseBodyList;
@@ -1451,9 +1457,9 @@ export interface ListPublicEventsForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicEventsForUserResponseBodyList = Array<Event>;
 export type ListPublicEventsForUserResponse = ListPublicEventsForUserResponseBodyList;
@@ -1461,9 +1467,9 @@ export interface ListPublicOrgEventsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicOrgEventsResponseBodyList = Array<Event>;
 export type ListPublicOrgEventsResponse = ListPublicOrgEventsResponseBodyList;
@@ -1471,9 +1477,9 @@ export interface ListReceivedEventsForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReceivedEventsForUserResponseBodyList = Array<Event>;
 export type ListReceivedEventsForUserResponse = ListReceivedEventsForUserResponseBodyList;
@@ -1481,9 +1487,9 @@ export interface ListReceivedPublicEventsForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReceivedPublicEventsForUserResponseBodyList = Array<Event>;
 export type ListReceivedPublicEventsForUserResponse =
@@ -1494,9 +1500,9 @@ export interface ListRepoEventsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoEventsResponseBodyList = Array<Event>;
 export type ListRepoEventsResponse = ListRepoEventsResponseBodyList;
@@ -1506,19 +1512,19 @@ export interface ListRepoNotificationsForAuthenticatedUserRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** If `true`, show notifications marked as read. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Whether to return only done notifications (`true`) or exclude them (`false`). When omitted, notifications are not filtered by done status. Use `all=true&is_done=true` for done notifications or `all=true&is_done=false` for both read and unread inbox notifications. If `all` is omitted or `false`, `is_done=true` returns no notifications. */
-  is_done?: boolean;
+  is_done?: boolean | undefined;
   /** If `true`, only shows notifications in which the user is directly participating or mentioned. */
-  participating?: boolean;
+  participating?: boolean | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  before?: string;
+  before?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRepoNotificationsForAuthenticatedUserResponseBodyList = Array<Thread>;
 export type ListRepoNotificationsForAuthenticatedUserResponse =
@@ -1527,13 +1533,13 @@ export type ListReposStarredByAuthenticatedUserRequestSort = "created" | "update
 export type ListReposStarredByAuthenticatedUserRequestDirection = "asc" | "desc";
 export interface ListReposStarredByAuthenticatedUserRequest {
   /** The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to. */
-  sort?: ListReposStarredByAuthenticatedUserRequestSort | (string & {});
+  sort?: ListReposStarredByAuthenticatedUserRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListReposStarredByAuthenticatedUserRequestDirection | (string & {});
+  direction?: ListReposStarredByAuthenticatedUserRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReposStarredByAuthenticatedUserResponseBodyList = Array<Repository>;
 export type ListReposStarredByAuthenticatedUserResponse =
@@ -1544,13 +1550,13 @@ export interface ListReposStarredByUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to. */
-  sort?: ListReposStarredByUserRequestSort | (string & {});
+  sort?: ListReposStarredByUserRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListReposStarredByUserRequestDirection | (string & {});
+  direction?: ListReposStarredByUserRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Starred Repository */
 export interface StarredRepository {
@@ -1567,9 +1573,9 @@ export interface ListReposWatchedByUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReposWatchedByUserResponseBodyList = Array<MinimalRepository>;
 export type ListReposWatchedByUserResponse = ListReposWatchedByUserResponseBodyList;
@@ -1579,9 +1585,9 @@ export interface ListStargazersForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListStargazersForRepoResponseBodyCase0List = Array<SimpleUser>;
 /** Stargazer */
@@ -1596,9 +1602,9 @@ export type ListStargazersForRepoResponseBody =
 export type ListStargazersForRepoResponse = ListStargazersForRepoResponseBody;
 export interface ListWatchedReposForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListWatchedReposForAuthenticatedUserResponseBodyList = Array<MinimalRepository>;
 export type ListWatchedReposForAuthenticatedUserResponse =
@@ -1609,9 +1615,9 @@ export interface ListWatchersForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListWatchersForRepoResponseBodyList = Array<SimpleUser>;
 export type ListWatchersForRepoResponse = ListWatchersForRepoResponseBodyList;
@@ -1622,9 +1628,9 @@ export interface MarkThreadAsDoneRequest {
 export interface MarkThreadAsDoneResponse {}
 export interface ReadMarkNotificationsAsRequest {
   /** Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp. */
-  last_read_at?: string;
+  last_read_at?: string | undefined;
   /** Whether the notification has been read. */
-  read?: boolean;
+  read?: boolean | undefined;
 }
 export interface ReadMarkNotificationsAsResponse {}
 export interface ReadMarkRepoNotificationsAsRequest {
@@ -1633,7 +1639,7 @@ export interface ReadMarkRepoNotificationsAsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp. */
-  last_read_at?: string;
+  last_read_at?: string | undefined;
 }
 export interface ReadMarkRepoNotificationsAsResponse {}
 export interface ReadMarkThreadAsRequest {
@@ -1647,15 +1653,15 @@ export interface SetRepoSubscriptionRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Determines if notifications should be received from this repository. */
-  subscribed?: boolean;
+  subscribed?: boolean | undefined;
   /** Determines if all notifications should be blocked from this repository. */
-  ignored?: boolean;
+  ignored?: boolean | undefined;
 }
 export interface SetThreadSubscriptionRequest {
   /** The unique identifier of the notification thread. This corresponds to the value returned in the `id` field when you retrieve notifications (for example with the [`GET /notifications` operation](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user)). */
   thread_id: number;
   /** Whether to block all notifications from a thread. */
-  ignored?: boolean;
+  ignored?: boolean | undefined;
 }
 export interface StarRepoForAuthenticatedUserRequest {
   /** The account owner of the repository. The name is not case sensitive. */

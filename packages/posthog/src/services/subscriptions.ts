@@ -57,15 +57,15 @@ export type CreateSubscriptionRequestDashboardExportInsightsList = Array<number>
 export type SubscriptionAIWindowModeEnum = "since_last_sent" | "last_n_days" | "days_ago_range";
 export interface AIWindowConfig {
   /** What the report analyzes each run: * `since_last_sent` (default) -- everything since the previous successful scheduled delivery (gap-free; test/manual sends don't move the anchor) * `last_n_days` -- a fixed trailing window of start_days_ago days * `days_ago_range` -- the explicit range from start_days_ago to end_days_ago days ago * `since_last_sent` - Since last report * `last_n_days` - Last N days * `days_ago_range` - Between X and Y days ago */
-  mode?: SubscriptionAIWindowModeEnum | (string & {});
+  mode?: SubscriptionAIWindowModeEnum | (string & {}) | undefined;
   /** Lower bound of the analysis window, in days before the run. Required for 'last_n_days' (the N) and 'days_ago_range'; ignored for 'since_last_sent'. 1-365. */
-  start_days_ago?: number | null;
+  start_days_ago?: number | null | undefined;
   /** Upper bound of the analysis window, in days before the run (0 = now). Required for 'days_ago_range' and must be less than start_days_ago; ignored for other modes. 0-365. */
-  end_days_ago?: number | null;
+  end_days_ago?: number | null | undefined;
 }
 export interface AIPromptConfig {
   /** Analysis window for the report. Omitted = 'since_last_sent' (everything since the previous scheduled delivery). */
-  window?: AIWindowConfig;
+  window?: AIWindowConfig | undefined;
 }
 export interface CreateSubscriptionRequestContextsItemCase0 {
   dashboard_id: number;
@@ -98,31 +98,31 @@ export type CreateSubscriptionRequestByweekdayList = Array<
 /** Typed view over the Subscription.delivery_config JSON blob. */
 export interface DeliveryConfig {
   /** Slack subscriptions only. Insight and dashboard subscriptions: when true, upload all insight images together in the main Slack message instead of posting the first image in the main message and the rest as threaded replies. Prompt subscriptions: when true, post the chart images in the main message with the summary; when false, post them in the first thread reply. Defaults to false. The request is rejected when target_type is not 'slack', or when an insight or dashboard subscription's Slack integration does not hold the files:write permission. Omit it unless the user asks for all images or charts in the main message. */
-  post_all_insights_in_main_message?: boolean;
+  post_all_insights_in_main_message?: boolean | undefined;
   /** Prompt subscriptions only: include generated chart images. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
-  include_images?: boolean;
+  include_images?: boolean | undefined;
   /** Prompt subscriptions only: include report feedback links. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
-  include_feedback?: boolean;
+  include_feedback?: boolean | undefined;
   /** Prompt subscriptions only: include a link to manage the subscription. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
-  include_manage_link?: boolean;
+  include_manage_link?: boolean | undefined;
   /** Prompt subscriptions only: include PostHog product guidance. Defaults to true when omitted. Only a Slack report renders the guidance. Email and Microsoft Teams reports leave it out and accept the option without an error, unlike post_all_insights_in_main_message. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that. */
-  include_posthog_hint?: boolean;
+  include_posthog_hint?: boolean | undefined;
 }
 export interface CreateSubscriptionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Dashboard ID to subscribe to (mutually exclusive with insight on create). */
-  dashboard?: number | null;
+  dashboard?: number | null | undefined;
   /** Insight ID to subscribe to (mutually exclusive with dashboard on create). */
-  insight?: number | null;
+  insight?: number | null | undefined;
   /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
-  dashboard_export_insights?: CreateSubscriptionRequestDashboardExportInsightsList;
+  dashboard_export_insights?: CreateSubscriptionRequestDashboardExportInsightsList | undefined;
   /** Free-text prompt that drives the AI-generated report. Required when resource_type is 'ai_prompt'. Max 4000 characters. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
-  ai_prompt_config?: AIPromptConfig;
+  ai_prompt_config?: AIPromptConfig | undefined;
   /** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
-  contexts?: CreateSubscriptionRequestContextsList;
+  contexts?: CreateSubscriptionRequestContextsList | undefined;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
   target_type: SubscriptionTargetEnum | (string & {});
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
@@ -132,33 +132,33 @@ export interface CreateSubscriptionRequest {
   /** Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater. */
   interval: number;
   /** Days of week for daily or weekly subscriptions: monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
-  byweekday?: CreateSubscriptionRequestByweekdayList | null;
+  byweekday?: CreateSubscriptionRequestByweekdayList | null | undefined;
   /** Position within byweekday set for monthly frequency (e.g. 1 for first, -1 for last). */
-  bysetpos?: number | null;
+  bysetpos?: number | null | undefined;
   /** Total number of deliveries before the subscription stops. Null for unlimited. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute. */
   start_date: string;
   /** When to stop delivering (ISO 8601 datetime). Null for indefinite. */
-  until_date?: string | null;
+  until_date?: string | null | undefined;
   /** Set to true to soft-delete. Subscriptions cannot be hard-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Whether the subscription is active. Set to false to pause delivery without deleting. Auto-set to false when the delivery integration becomes invalid. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Human-readable name for this subscription. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** ID of a connected Slack integration. Required when target_type is slack. */
-  integration_id?: number | null;
+  integration_id?: number | null | undefined;
   /** Optional message included in the invitation email when adding new recipients. */
-  invite_message?: string | null;
+  invite_message?: string | null | undefined;
   /** Whether to immediately deliver the subscription once on save so the editor can confirm it looks right. Defaults to true on create. When omitted on update, a delivery is sent only if the edit changed what gets delivered (recipient, channel, source) or re-enabled the subscription. The recurring schedule is unaffected. */
-  send_test_now?: boolean;
+  send_test_now?: boolean | undefined;
   /** Whether to attach an AI-generated summary to each delivery (insight and dashboard subscriptions only). Requires the organization to have approved AI data processing, and is subject to the org's active-summary cap and AI credit budget; otherwise the write is rejected. Not applicable to prompt subscriptions, which are themselves AI-generated. */
-  summary_enabled?: boolean;
+  summary_enabled?: boolean | undefined;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
-  summary_prompt_guide?: string;
+  summary_prompt_guide?: string | undefined;
   /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
-  delivery_config?: DeliveryConfig;
+  delivery_config?: DeliveryConfig | undefined;
 }
 /** * `insight` - Insight * `dashboard` - Dashboard * `ai_prompt` - AI prompt */
 export type SubscriptionResourceTypeEnum = "insight" | "dashboard" | "ai_prompt";
@@ -208,76 +208,76 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Standard Subscription serializer. */
 export interface SubscriptionOutput {
-  id?: number;
+  id?: number | undefined;
   /** What the subscription delivers: 'insight' (snapshot of one insight), 'dashboard' (snapshot of one dashboard), or 'ai_prompt' (LLM-generated report). Read-only -- derived from the populated target (insight -> insight, dashboard -> dashboard, prompt -> ai_prompt). * `insight` - Insight * `dashboard` - Dashboard * `ai_prompt` - AI prompt */
-  resource_type?: SubscriptionResourceTypeEnum;
+  resource_type?: SubscriptionResourceTypeEnum | undefined;
   /** Dashboard ID to subscribe to (mutually exclusive with insight on create). */
-  dashboard?: number | null;
+  dashboard?: number | null | undefined;
   /** Insight ID to subscribe to (mutually exclusive with dashboard on create). */
-  insight?: number | null;
-  insight_short_id?: string | null;
-  resource_name?: string | null;
+  insight?: number | null | undefined;
+  insight_short_id?: string | null | undefined;
+  resource_name?: string | null | undefined;
   /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
-  dashboard_export_insights?: SubscriptionOutputDashboardExportInsightsList;
+  dashboard_export_insights?: SubscriptionOutputDashboardExportInsightsList | undefined;
   /** Free-text prompt that drives the AI-generated report. Required when resource_type is 'ai_prompt'. Max 4000 characters. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
-  ai_prompt_config?: AIPromptConfig;
+  ai_prompt_config?: AIPromptConfig | undefined;
   /** Dashboards and insights that ground this AI report. Deleted resources are omitted. */
-  contexts?: SubscriptionOutputContextsList;
+  contexts?: SubscriptionOutputContextsList | undefined;
   /** Query plan reuse state for AI prompt subscriptions: frozen, not_frozen, or planner_updated. Null for other subscription types. */
-  ai_query_plan_status?: AIQueryPlanStatusEnum | null;
+  ai_query_plan_status?: AIQueryPlanStatusEnum | null | undefined;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
-  target_type?: SubscriptionTargetEnum;
+  target_type?: SubscriptionTargetEnum | undefined;
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
-  target_value?: string;
+  target_value?: string | undefined;
   /** How often to deliver: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  frequency?: RecurrenceIntervalEnum;
+  frequency?: RecurrenceIntervalEnum | undefined;
   /** Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater. */
-  interval?: number;
+  interval?: number | undefined;
   /** Days of week for daily or weekly subscriptions: monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
-  byweekday?: SubscriptionOutputByweekdayList | null;
+  byweekday?: SubscriptionOutputByweekdayList | null | undefined;
   /** Position within byweekday set for monthly frequency (e.g. 1 for first, -1 for last). */
-  bysetpos?: number | null;
+  bysetpos?: number | null | undefined;
   /** Total number of deliveries before the subscription stops. Null for unlimited. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** When to stop delivering (ISO 8601 datetime). Null for indefinite. */
-  until_date?: string | null;
-  created_at?: string;
-  created_by?: UserBasic | null;
+  until_date?: string | null | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
   /** Set to true to soft-delete. Subscriptions cannot be hard-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Whether the subscription is active. Set to false to pause delivery without deleting. Auto-set to false when the delivery integration becomes invalid. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Human-readable name for this subscription. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Human-readable schedule summary, e.g. 'sent daily'. */
-  summary?: string;
-  next_delivery_date?: string | null;
+  summary?: string | undefined;
+  next_delivery_date?: string | null | undefined;
   /** ID of a connected Slack integration. Required when target_type is slack. */
-  integration_id?: number | null;
+  integration_id?: number | null | undefined;
   /** Optional message included in the invitation email when adding new recipients. */
-  invite_message?: string | null;
+  invite_message?: string | null | undefined;
   /** Whether to attach an AI-generated summary to each delivery (insight and dashboard subscriptions only). Requires the organization to have approved AI data processing, and is subject to the org's active-summary cap and AI credit budget; otherwise the write is rejected. Not applicable to prompt subscriptions, which are themselves AI-generated. */
-  summary_enabled?: boolean;
+  summary_enabled?: boolean | undefined;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
-  summary_prompt_guide?: string;
+  summary_prompt_guide?: string | undefined;
   /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
-  delivery_config?: DeliveryConfig;
+  delivery_config?: DeliveryConfig | undefined;
 }
 export interface CreateSubscriptionsTakeOwnershipRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -318,9 +318,9 @@ export interface AIReportQueryDiagnostic {
   /** Exception class name when the query failed; null on success. */
   error_type: string | null;
   /** Stable query API error code when available; null on success and for unclassified errors. */
-  error_code?: string | null;
+  error_code?: string | null | undefined;
   /** Human-readable failure reason, present only for query errors safe to surface to the subscription owner (e.g. an unresolved field name); null on success and for internal errors, which expose error_type only. */
-  human_readable_error?: string | null;
+  human_readable_error?: string | null | undefined;
 }
 /** Per-step query diagnostics (generated HogQL + failure type) for this report. Null for non-AI deliveries or runs without persisted diagnostics. */
 export type SubscriptionDeliveryAiReportDiagnosticsList = Array<AIReportQueryDiagnostic>;
@@ -336,49 +336,49 @@ export interface AIReportChart {
 export type SubscriptionDeliveryAiReportChartsList = Array<AIReportChart>;
 export interface SubscriptionDelivery {
   /** Primary key for this delivery row. */
-  id?: string;
+  id?: string | undefined;
   /** Parent subscription id. */
-  subscription?: number;
+  subscription?: number | undefined;
   /** Temporal workflow id for this delivery run. */
-  temporal_workflow_id?: string;
+  temporal_workflow_id?: string | undefined;
   /** Dedupes activity retries for the same logical run. */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
   /** Why the run started (e.g. scheduled, manual, subscription update). */
-  trigger_type?: string;
+  trigger_type?: string | undefined;
   /** Planned send time when applicable. */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** Channel snapshot at send time: email, slack, or teams. */
-  target_type?: string;
+  target_type?: string | undefined;
   /** Destination snapshot at send time: the email list, the Slack channel id, or the host of the Microsoft Teams webhook. The webhook URL itself is never returned. */
-  target_value?: string;
+  target_value?: string | undefined;
   /** ExportedAsset ids generated for this send. */
-  exported_asset_ids?: SubscriptionDeliveryExportedAssetIdsList;
+  exported_asset_ids?: SubscriptionDeliveryExportedAssetIdsList | undefined;
   /** Snapshot at send time: dashboard metadata, total_insight_count, and per-exported-insight entries (id, short_id, name, query_hash, cache_key, query_results, optional query_error). */
-  content_snapshot?: unknown;
+  content_snapshot?: unknown | undefined;
   /** Per-destination outcomes; items use status success, failed, or partial. */
-  recipient_results?: unknown;
+  recipient_results?: unknown | undefined;
   /** Overall run status: starting, completed, failed, or skipped. * `starting` - Starting * `completed` - Completed * `failed` - Failed * `skipped` - Skipped */
-  status?: SubscriptionDeliveryStatusEnum;
+  status?: SubscriptionDeliveryStatusEnum | undefined;
   /** Top-level failure payload when status is failed, if any. */
-  error?: unknown;
+  error?: unknown | undefined;
   /** When the delivery row was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Last ORM update to this row. */
-  last_updated_at?: string;
+  last_updated_at?: string | undefined;
   /** When the run finished, if applicable. */
-  finished_at?: string | null;
+  finished_at?: string | null | undefined;
   /** AI-generated summary included in this delivery, when one was produced. */
-  change_summary?: string | null;
+  change_summary?: string | null | undefined;
   /** AI-generated report markdown delivered by this run. Null for non-AI deliveries or runs without a persisted report. */
-  ai_report?: string | null;
+  ai_report?: string | null | undefined;
   /** Per-step query diagnostics (generated HogQL + failure type) for this report. Null for non-AI deliveries or runs without persisted diagnostics. */
-  ai_report_diagnostics?: SubscriptionDeliveryAiReportDiagnosticsList | null;
+  ai_report_diagnostics?: SubscriptionDeliveryAiReportDiagnosticsList | null | undefined;
   /** Charts rendered for this report, in the order they were delivered. Empty when the report had no charts. Null for non-AI deliveries and for deliveries recorded before charts existed. */
-  ai_report_charts?: SubscriptionDeliveryAiReportChartsList | null;
+  ai_report_charts?: SubscriptionDeliveryAiReportChartsList | null | undefined;
   /** The subscription's prompt as it was when this report was generated. Null for older deliveries and non-AI deliveries. */
-  ai_report_prompt?: string | null;
+  ai_report_prompt?: string | null | undefined;
   /** Query plan state recorded for this delivery: frozen, not_frozen, or planner_updated. Null for older deliveries and non-AI deliveries. */
-  ai_query_plan_status?: AIQueryPlanStatusEnum | null;
+  ai_query_plan_status?: AIQueryPlanStatusEnum | null | undefined;
 }
 export interface GetSubscriptionsSummaryQuotaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -395,34 +395,34 @@ export interface ListSubscriptionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by creator user UUID. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** Filter by dashboard ID. */
-  dashboard?: number;
+  dashboard?: number | undefined;
   /** Filter to subscriptions on insights that are tiles of the given dashboard ID. */
-  dashboard_tiles?: number;
+  dashboard_tiles?: number | undefined;
   /** Filter by insight ID. */
-  insight?: number;
+  insight?: number | undefined;
   /** Filter by a comma-separated list of insight IDs. */
-  insights?: string;
+  insights?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Which field to use when ordering the results. */
-  ordering?: string;
+  ordering?: string | undefined;
   /** Filter by subscription resource: insight, dashboard export, or AI report. */
-  resource_type?: ListSubscriptionsRequestResourceType | (string & {});
+  resource_type?: ListSubscriptionsRequestResourceType | (string & {}) | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by delivery channel: email, Slack, or Microsoft Teams. */
-  target_type?: ListSubscriptionsRequestTargetType | (string & {});
+  target_type?: ListSubscriptionsRequestTargetType | (string & {}) | undefined;
 }
 export type PaginatedSubscriptionListOutputResultsList = Array<SubscriptionOutput>;
 export interface PaginatedSubscriptionListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedSubscriptionListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedSubscriptionListOutputResultsList | undefined;
 }
 export type ListSubscriptionsDeliveriesRequestStatus =
   | "completed"
@@ -434,26 +434,26 @@ export interface ListSubscriptionsDeliveriesRequest {
   project_id: string;
   subscription_id: number;
   /** The pagination cursor value. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Return only deliveries in this run status (starting, completed, failed, or skipped). */
-  status?: ListSubscriptionsDeliveriesRequestStatus | (string & {});
+  status?: ListSubscriptionsDeliveriesRequestStatus | (string & {}) | undefined;
 }
 export type PaginatedSubscriptionDeliveryListResultsList = Array<SubscriptionDelivery>;
 export interface PaginatedSubscriptionDeliveryList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedSubscriptionDeliveryListResultsList;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedSubscriptionDeliveryListResultsList | undefined;
 }
 export interface ListSubscriptionsSummariesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The pagination cursor value. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Dashboard ID. Returns summaries from the subscriptions on this dashboard. Set either dashboard or insight. */
-  dashboard?: number;
+  dashboard?: number | undefined;
   /** Insight ID. Returns summaries from the subscriptions on this insight. Set either insight or dashboard. */
-  insight?: number;
+  insight?: number | undefined;
 }
 export interface SubscriptionSummary {
   /** ID of the delivery that included this summary. */
@@ -474,8 +474,8 @@ export interface SubscriptionSummary {
 export type PaginatedSubscriptionSummaryListResultsList = Array<SubscriptionSummary>;
 export interface PaginatedSubscriptionSummaryList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedSubscriptionSummaryListResultsList;
 }
 export interface SubscriptionsDestroyRequest {
@@ -513,17 +513,17 @@ export interface UpdateSubscriptionRequest {
   /** A unique integer value identifying this subscription. */
   id: number;
   /** Dashboard ID to subscribe to (mutually exclusive with insight on create). */
-  dashboard?: number | null;
+  dashboard?: number | null | undefined;
   /** Insight ID to subscribe to (mutually exclusive with dashboard on create). */
-  insight?: number | null;
+  insight?: number | null | undefined;
   /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
-  dashboard_export_insights?: UpdateSubscriptionRequestDashboardExportInsightsList;
+  dashboard_export_insights?: UpdateSubscriptionRequestDashboardExportInsightsList | undefined;
   /** Free-text prompt that drives the AI-generated report. Required when resource_type is 'ai_prompt'. Max 4000 characters. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
-  ai_prompt_config?: AIPromptConfig;
+  ai_prompt_config?: AIPromptConfig | undefined;
   /** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
-  contexts?: UpdateSubscriptionRequestContextsList;
+  contexts?: UpdateSubscriptionRequestContextsList | undefined;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
   target_type: SubscriptionTargetEnum | (string & {});
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
@@ -533,33 +533,33 @@ export interface UpdateSubscriptionRequest {
   /** Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater. */
   interval: number;
   /** Days of week for daily or weekly subscriptions: monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
-  byweekday?: UpdateSubscriptionRequestByweekdayList | null;
+  byweekday?: UpdateSubscriptionRequestByweekdayList | null | undefined;
   /** Position within byweekday set for monthly frequency (e.g. 1 for first, -1 for last). */
-  bysetpos?: number | null;
+  bysetpos?: number | null | undefined;
   /** Total number of deliveries before the subscription stops. Null for unlimited. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute. */
   start_date: string;
   /** When to stop delivering (ISO 8601 datetime). Null for indefinite. */
-  until_date?: string | null;
+  until_date?: string | null | undefined;
   /** Set to true to soft-delete. Subscriptions cannot be hard-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Whether the subscription is active. Set to false to pause delivery without deleting. Auto-set to false when the delivery integration becomes invalid. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Human-readable name for this subscription. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** ID of a connected Slack integration. Required when target_type is slack. */
-  integration_id?: number | null;
+  integration_id?: number | null | undefined;
   /** Optional message included in the invitation email when adding new recipients. */
-  invite_message?: string | null;
+  invite_message?: string | null | undefined;
   /** Whether to immediately deliver the subscription once on save so the editor can confirm it looks right. Defaults to true on create. When omitted on update, a delivery is sent only if the edit changed what gets delivered (recipient, channel, source) or re-enabled the subscription. The recurring schedule is unaffected. */
-  send_test_now?: boolean;
+  send_test_now?: boolean | undefined;
   /** Whether to attach an AI-generated summary to each delivery (insight and dashboard subscriptions only). Requires the organization to have approved AI data processing, and is subject to the org's active-summary cap and AI credit budget; otherwise the write is rejected. Not applicable to prompt subscriptions, which are themselves AI-generated. */
-  summary_enabled?: boolean;
+  summary_enabled?: boolean | undefined;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
-  summary_prompt_guide?: string;
+  summary_prompt_guide?: string | undefined;
   /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
-  delivery_config?: DeliveryConfig;
+  delivery_config?: DeliveryConfig | undefined;
 }
 /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
 export type UpdateSubscriptionsPartialRequestDashboardExportInsightsList = Array<number>;
@@ -592,53 +592,55 @@ export interface UpdateSubscriptionsPartialRequest {
   /** A unique integer value identifying this subscription. */
   id: number;
   /** Dashboard ID to subscribe to (mutually exclusive with insight on create). */
-  dashboard?: number | null;
+  dashboard?: number | null | undefined;
   /** Insight ID to subscribe to (mutually exclusive with dashboard on create). */
-  insight?: number | null;
+  insight?: number | null | undefined;
   /** List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 20. */
-  dashboard_export_insights?: UpdateSubscriptionsPartialRequestDashboardExportInsightsList;
+  dashboard_export_insights?:
+    | UpdateSubscriptionsPartialRequestDashboardExportInsightsList
+    | undefined;
   /** Free-text prompt that drives the AI-generated report. Required when resource_type is 'ai_prompt'. Max 4000 characters. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes. */
-  ai_prompt_config?: AIPromptConfig;
+  ai_prompt_config?: AIPromptConfig | undefined;
   /** Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts. */
-  contexts?: UpdateSubscriptionsPartialRequestContextsList;
+  contexts?: UpdateSubscriptionsPartialRequestContextsList | undefined;
   /** Delivery channel: email, slack, or teams. * `email` - Email * `slack` - Slack * `teams` - Microsoft Teams */
-  target_type?: SubscriptionTargetEnum | (string & {});
+  target_type?: SubscriptionTargetEnum | (string & {}) | undefined;
   /** Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it. */
-  target_value?: string;
+  target_value?: string | undefined;
   /** How often to deliver: daily, weekly, monthly, or yearly. * `daily` - Daily * `weekly` - Weekly * `monthly` - Monthly * `yearly` - Yearly */
-  frequency?: RecurrenceIntervalEnum | (string & {});
+  frequency?: RecurrenceIntervalEnum | (string & {}) | undefined;
   /** Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater. */
-  interval?: number;
+  interval?: number | undefined;
   /** Days of week for daily or weekly subscriptions: monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
-  byweekday?: UpdateSubscriptionsPartialRequestByweekdayList | null;
+  byweekday?: UpdateSubscriptionsPartialRequestByweekdayList | null | undefined;
   /** Position within byweekday set for monthly frequency (e.g. 1 for first, -1 for last). */
-  bysetpos?: number | null;
+  bysetpos?: number | null | undefined;
   /** Total number of deliveries before the subscription stops. Null for unlimited. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** When to stop delivering (ISO 8601 datetime). Null for indefinite. */
-  until_date?: string | null;
+  until_date?: string | null | undefined;
   /** Set to true to soft-delete. Subscriptions cannot be hard-deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Whether the subscription is active. Set to false to pause delivery without deleting. Auto-set to false when the delivery integration becomes invalid. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Human-readable name for this subscription. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** ID of a connected Slack integration. Required when target_type is slack. */
-  integration_id?: number | null;
+  integration_id?: number | null | undefined;
   /** Optional message included in the invitation email when adding new recipients. */
-  invite_message?: string | null;
+  invite_message?: string | null | undefined;
   /** Whether to immediately deliver the subscription once on save so the editor can confirm it looks right. Defaults to true on create. When omitted on update, a delivery is sent only if the edit changed what gets delivered (recipient, channel, source) or re-enabled the subscription. The recurring schedule is unaffected. */
-  send_test_now?: boolean;
+  send_test_now?: boolean | undefined;
   /** Whether to attach an AI-generated summary to each delivery (insight and dashboard subscriptions only). Requires the organization to have approved AI data processing, and is subject to the org's active-summary cap and AI credit budget; otherwise the write is rejected. Not applicable to prompt subscriptions, which are themselves AI-generated. */
-  summary_enabled?: boolean;
+  summary_enabled?: boolean | undefined;
   /** Optional free-text guidance (max 500 chars) steering the AI summary, e.g. which metrics to emphasize. Only settable when AI summary context is enabled for the organization; clearing it (empty string) is always allowed. */
-  summary_prompt_guide?: string;
+  summary_prompt_guide?: string | undefined;
   /** Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options. */
-  delivery_config?: DeliveryConfig;
+  delivery_config?: DeliveryConfig | undefined;
 }
 export type CreateSubscriptionError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createSubscription: API.OperationMethod<

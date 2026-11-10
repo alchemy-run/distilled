@@ -134,10 +134,12 @@ export type GoogleCloudSecuritycenterV1SensitiveDataProtectionMappingMediumSensi
 export interface GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping {
   highSensitivityMapping?:
     | GoogleCloudSecuritycenterV1SensitiveDataProtectionMappingHighSensitivityMappingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   mediumSensitivityMapping?:
     | GoogleCloudSecuritycenterV1SensitiveDataProtectionMappingMediumSensitivityMappingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
@@ -153,91 +155,99 @@ export type GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum =
   | "LOW"
   | "NONE";
 export interface GoogleCloudSecuritycenterV1ResourceValueConfig {
-  name?: string;
-  sensitiveDataProtectionMapping?: GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping;
-  cloudProvider?: GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum | (string & {});
-  scope?: string;
-  resourceLabelsSelector?: StringMap;
-  updateTime?: string;
-  description?: string;
-  resourceType?: string;
-  tagValues?: StringList;
-  resourceValue?: GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum | (string & {});
-  createTime?: string;
+  name?: string | undefined;
+  sensitiveDataProtectionMapping?:
+    | GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping
+    | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1ResourceValueConfigCloudProviderEnum
+    | (string & {})
+    | undefined;
+  scope?: string | undefined;
+  resourceLabelsSelector?: StringMap | undefined;
+  updateTime?: string | undefined;
+  description?: string | undefined;
+  resourceType?: string | undefined;
+  tagValues?: StringList | undefined;
+  resourceValue?:
+    | GoogleCloudSecuritycenterV1ResourceValueConfigResourceValueEnum
+    | (string & {})
+    | undefined;
+  createTime?: string | undefined;
 }
 export interface CreateResourceValueConfigRequest {
-  resourceValueConfig?: GoogleCloudSecuritycenterV1ResourceValueConfig;
-  parent?: string;
+  resourceValueConfig?: GoogleCloudSecuritycenterV1ResourceValueConfig | undefined;
+  parent?: string | undefined;
 }
 export type CreateResourceValueConfigRequestList = Array<CreateResourceValueConfigRequest>;
 export interface BatchCreateResourceValueConfigsRequest {
-  requests?: CreateResourceValueConfigRequestList;
+  requests?: CreateResourceValueConfigRequestList | undefined;
 }
 export interface BatchCreateOrganizationsResourceValueConfigsRequest {
   parent: string;
   /** Request body */
-  body?: BatchCreateResourceValueConfigsRequest;
+  body?: BatchCreateResourceValueConfigsRequest | undefined;
 }
 export type GoogleCloudSecuritycenterV1ResourceValueConfigList =
   Array<GoogleCloudSecuritycenterV1ResourceValueConfig>;
 export interface BatchCreateResourceValueConfigsResponse {
-  resourceValueConfigs?: GoogleCloudSecuritycenterV1ResourceValueConfigList;
+  resourceValueConfigs?: GoogleCloudSecuritycenterV1ResourceValueConfigList | undefined;
 }
 export type BulkMuteFindingsRequestMuteStateEnum = "MUTE_STATE_UNSPECIFIED" | "MUTED" | "UNDEFINED";
 export interface BulkMuteFindingsRequest {
-  muteState?: BulkMuteFindingsRequestMuteStateEnum | (string & {});
-  muteAnnotation?: string;
-  filter?: string;
+  muteState?: BulkMuteFindingsRequestMuteStateEnum | (string & {}) | undefined;
+  muteAnnotation?: string | undefined;
+  filter?: string | undefined;
 }
 export interface BulkMuteFoldersFindingsRequest {
   parent: string;
   /** Request body */
-  body?: BulkMuteFindingsRequest;
+  body?: BulkMuteFindingsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
-  details?: DocumentMapList;
-  code?: number;
-  message?: string;
+  details?: DocumentMapList | undefined;
+  code?: number | undefined;
+  message?: string | undefined;
 }
 export interface Operation {
-  name?: string;
-  done?: boolean;
-  response?: DocumentMap;
-  error?: Status;
-  metadata?: DocumentMap;
+  name?: string | undefined;
+  done?: boolean | undefined;
+  response?: DocumentMap | undefined;
+  error?: Status | undefined;
+  metadata?: DocumentMap | undefined;
 }
 export interface BulkMuteOrganizationsFindingsRequest {
   parent: string;
   /** Request body */
-  body?: BulkMuteFindingsRequest;
+  body?: BulkMuteFindingsRequest | undefined;
 }
 export interface BulkMuteProjectsFindingsRequest {
   parent: string;
   /** Request body */
-  body?: BulkMuteFindingsRequest;
+  body?: BulkMuteFindingsRequest | undefined;
 }
 export interface CancelOrganizationsOperationsRequest {
   name: string;
 }
 export interface Empty {}
 export interface GoogleCloudSecuritycenterV1BigQueryExport {
-  updateTime?: string;
-  filter?: string;
-  createTime?: string;
-  deletionNotificationsEnabled?: boolean;
-  name?: string;
-  dataset?: string;
-  description?: string;
-  mostRecentEditor?: string;
-  principal?: string;
+  updateTime?: string | undefined;
+  filter?: string | undefined;
+  createTime?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  name?: string | undefined;
+  dataset?: string | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  principal?: string | undefined;
 }
 export interface CreateFoldersBigQueryExportsRequest {
   parent: string;
-  bigQueryExportId?: string;
+  bigQueryExportId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport;
+  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
 export type EventThreatDetectionCustomModuleEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -250,59 +260,59 @@ export type EventThreatDetectionCustomModuleCloudProviderEnum =
   | "AMAZON_WEB_SERVICES"
   | "MICROSOFT_AZURE";
 export interface EventThreatDetectionCustomModule {
-  type?: string;
-  config?: DocumentMap;
-  ancestorModule?: string;
-  lastEditor?: string;
-  description?: string;
-  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {});
-  displayName?: string;
-  name?: string;
-  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {});
-  updateTime?: string;
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
+  ancestorModule?: string | undefined;
+  lastEditor?: string | undefined;
+  description?: string | undefined;
+  enablementState?: EventThreatDetectionCustomModuleEnablementStateEnum | (string & {}) | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
+  cloudProvider?: EventThreatDetectionCustomModuleCloudProviderEnum | (string & {}) | undefined;
+  updateTime?: string | undefined;
 }
 export interface CreateFoldersEventThreatDetectionSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: EventThreatDetectionCustomModule;
+  body?: EventThreatDetectionCustomModule | undefined;
 }
 export type GoogleCloudSecuritycenterV1MuteConfigTypeEnum =
   | "MUTE_CONFIG_TYPE_UNSPECIFIED"
   | "STATIC"
   | "DYNAMIC";
 export interface GoogleCloudSecuritycenterV1MuteConfig {
-  updateTime?: string;
-  createTime?: string;
-  expiryTime?: string;
-  displayName?: string;
-  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {});
-  description?: string;
-  mostRecentEditor?: string;
-  filter?: string;
-  name?: string;
+  updateTime?: string | undefined;
+  createTime?: string | undefined;
+  expiryTime?: string | undefined;
+  displayName?: string | undefined;
+  type?: GoogleCloudSecuritycenterV1MuteConfigTypeEnum | (string & {}) | undefined;
+  description?: string | undefined;
+  mostRecentEditor?: string | undefined;
+  filter?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateFoldersMuteConfigsRequest {
   parent: string;
-  muteConfigId?: string;
+  muteConfigId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface StreamingConfig {
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface NotificationConfig {
-  name?: string;
-  deletionNotificationsEnabled?: boolean;
-  serviceAccount?: string;
-  streamingConfig?: StreamingConfig;
-  description?: string;
-  pubsubTopic?: string;
+  name?: string | undefined;
+  deletionNotificationsEnabled?: boolean | undefined;
+  serviceAccount?: string | undefined;
+  streamingConfig?: StreamingConfig | undefined;
+  description?: string | undefined;
+  pubsubTopic?: string | undefined;
 }
 export interface CreateFoldersNotificationConfigsRequest {
   parent: string;
-  configId?: string;
+  configId?: string | undefined;
   /** Request body */
-  body?: NotificationConfig;
+  body?: NotificationConfig | undefined;
 }
 export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum =
   | "ENABLEMENT_STATE_UNSPECIFIED"
@@ -315,18 +325,18 @@ export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudP
   | "AMAZON_WEB_SERVICES"
   | "MICROSOFT_AZURE";
 export interface Expr {
-  location?: string;
-  title?: string;
-  description?: string;
-  expression?: string;
+  location?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  expression?: string | undefined;
 }
 export interface GoogleCloudSecuritycenterV1Property {
-  valueExpression?: Expr;
-  name?: string;
+  valueExpression?: Expr | undefined;
+  name?: string | undefined;
 }
 export type GoogleCloudSecuritycenterV1PropertyList = Array<GoogleCloudSecuritycenterV1Property>;
 export interface GoogleCloudSecuritycenterV1CustomOutputSpec {
-  properties?: GoogleCloudSecuritycenterV1PropertyList;
+  properties?: GoogleCloudSecuritycenterV1PropertyList | undefined;
 }
 export type GoogleCloudSecuritycenterV1CustomConfigSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -335,73 +345,75 @@ export type GoogleCloudSecuritycenterV1CustomConfigSeverityEnum =
   | "MEDIUM"
   | "LOW";
 export interface GoogleCloudSecuritycenterV1ResourceSelector {
-  resourceTypes?: StringList;
+  resourceTypes?: StringList | undefined;
 }
 export interface GoogleCloudSecuritycenterV1CustomConfig {
-  customOutput?: GoogleCloudSecuritycenterV1CustomOutputSpec;
-  recommendation?: string;
-  severity?: GoogleCloudSecuritycenterV1CustomConfigSeverityEnum | (string & {});
-  predicate?: Expr;
-  resourceSelector?: GoogleCloudSecuritycenterV1ResourceSelector;
-  description?: string;
+  customOutput?: GoogleCloudSecuritycenterV1CustomOutputSpec | undefined;
+  recommendation?: string | undefined;
+  severity?: GoogleCloudSecuritycenterV1CustomConfigSeverityEnum | (string & {}) | undefined;
+  predicate?: Expr | undefined;
+  resourceSelector?: GoogleCloudSecuritycenterV1ResourceSelector | undefined;
+  description?: string | undefined;
 }
 export interface GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule {
   enablementState?:
     | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleEnablementStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   cloudProvider?:
     | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleCloudProviderEnum
-    | (string & {});
-  ancestorModule?: string;
-  name?: string;
-  displayName?: string;
-  updateTime?: string;
-  customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
-  lastEditor?: string;
+    | (string & {})
+    | undefined;
+  ancestorModule?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  updateTime?: string | undefined;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  lastEditor?: string | undefined;
 }
 export interface CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule;
+  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface CreateOrganizationsBigQueryExportsRequest {
   parent: string;
-  bigQueryExportId?: string;
+  bigQueryExportId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport;
+  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
 export interface CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: EventThreatDetectionCustomModule;
+  body?: EventThreatDetectionCustomModule | undefined;
 }
 export interface CreateOrganizationsMuteConfigsRequest {
-  muteConfigId?: string;
+  muteConfigId?: string | undefined;
   parent: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface CreateOrganizationsNotificationConfigsRequest {
-  configId?: string;
+  configId?: string | undefined;
   parent: string;
   /** Request body */
-  body?: NotificationConfig;
+  body?: NotificationConfig | undefined;
 }
 export interface CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule;
+  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface Source {
-  description?: string;
-  name?: string;
-  displayName?: string;
-  canonicalName?: string;
+  description?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  canonicalName?: string | undefined;
 }
 export interface CreateOrganizationsSourcesRequest {
   parent: string;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 export type ConnectionProtocolEnum =
   | "PROTOCOL_UNSPECIFIED"
@@ -411,98 +423,98 @@ export type ConnectionProtocolEnum =
   | "GRE"
   | "ESP";
 export interface Connection {
-  sourcePort?: number;
-  sourceIp?: string;
-  protocol?: ConnectionProtocolEnum | (string & {});
-  destinationPort?: number;
-  destinationIp?: string;
+  sourcePort?: number | undefined;
+  sourceIp?: string | undefined;
+  protocol?: ConnectionProtocolEnum | (string & {}) | undefined;
+  destinationPort?: number | undefined;
+  destinationIp?: string | undefined;
 }
 export type ConnectionList = Array<Connection>;
 export type FindingMuteEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
 export interface AgentSession {
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export type AgentSessionList = Array<AgentSession>;
 export interface Label {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type LabelList = Array<Label>;
 export interface Container {
-  name?: string;
-  labels?: LabelList;
-  uri?: string;
-  createTime?: string;
-  imageId?: string;
+  name?: string | undefined;
+  labels?: LabelList | undefined;
+  uri?: string | undefined;
+  createTime?: string | undefined;
+  imageId?: string | undefined;
 }
 export type ContainerList = Array<Container>;
 export interface Pod {
-  name?: string;
-  labels?: LabelList;
-  containers?: ContainerList;
-  ns?: string;
+  name?: string | undefined;
+  labels?: LabelList | undefined;
+  containers?: ContainerList | undefined;
+  ns?: string | undefined;
 }
 export type PodList = Array<Pod>;
 export interface Node {
-  name?: string;
+  name?: string | undefined;
 }
 export type NodeList = Array<Node>;
 export interface NodePool {
-  name?: string;
-  nodes?: NodeList;
+  name?: string | undefined;
+  nodes?: NodeList | undefined;
 }
 export type NodePoolList = Array<NodePool>;
 export type RoleKindEnum = "KIND_UNSPECIFIED" | "ROLE" | "CLUSTER_ROLE";
 export interface Role {
-  kind?: RoleKindEnum | (string & {});
-  name?: string;
-  ns?: string;
+  kind?: RoleKindEnum | (string & {}) | undefined;
+  name?: string | undefined;
+  ns?: string | undefined;
 }
 export type RoleList = Array<Role>;
 export interface AccessReview {
-  subresource?: string;
-  resource?: string;
-  name?: string;
-  verb?: string;
-  version?: string;
-  ns?: string;
-  group?: string;
+  subresource?: string | undefined;
+  resource?: string | undefined;
+  name?: string | undefined;
+  verb?: string | undefined;
+  version?: string | undefined;
+  ns?: string | undefined;
+  group?: string | undefined;
 }
 export type AccessReviewList = Array<AccessReview>;
 export interface Securitycenter_Object {
-  containers?: ContainerList;
-  ns?: string;
-  kind?: string;
-  group?: string;
-  name?: string;
+  containers?: ContainerList | undefined;
+  ns?: string | undefined;
+  kind?: string | undefined;
+  group?: string | undefined;
+  name?: string | undefined;
 }
 export type Securitycenter_ObjectList = Array<Securitycenter_Object>;
 export type SubjectKindEnum = "AUTH_TYPE_UNSPECIFIED" | "USER" | "SERVICEACCOUNT" | "GROUP";
 export interface Subject {
-  name?: string;
-  kind?: SubjectKindEnum | (string & {});
-  ns?: string;
+  name?: string | undefined;
+  kind?: SubjectKindEnum | (string & {}) | undefined;
+  ns?: string | undefined;
 }
 export type SubjectList = Array<Subject>;
 export interface GoogleCloudSecuritycenterV1Binding {
-  subjects?: SubjectList;
-  ns?: string;
-  name?: string;
-  role?: Role;
+  subjects?: SubjectList | undefined;
+  ns?: string | undefined;
+  name?: string | undefined;
+  role?: Role | undefined;
 }
 export type GoogleCloudSecuritycenterV1BindingList = Array<GoogleCloudSecuritycenterV1Binding>;
 export interface Kubernetes {
-  pods?: PodList;
-  nodePools?: NodePoolList;
-  nodes?: NodeList;
-  roles?: RoleList;
-  accessReviews?: AccessReviewList;
-  objects?: Securitycenter_ObjectList;
-  bindings?: GoogleCloudSecuritycenterV1BindingList;
+  pods?: PodList | undefined;
+  nodePools?: NodePoolList | undefined;
+  nodes?: NodeList | undefined;
+  roles?: RoleList | undefined;
+  accessReviews?: AccessReviewList | undefined;
+  objects?: Securitycenter_ObjectList | undefined;
+  bindings?: GoogleCloudSecuritycenterV1BindingList | undefined;
 }
 export interface ToxicCombination {
-  relatedFindings?: StringList;
-  attackExposureScore?: number;
+  relatedFindings?: StringList | undefined;
+  attackExposureScore?: number | undefined;
 }
 export type CloudDlpDataProfileParentTypeEnum =
   | "PARENT_TYPE_UNSPECIFIED"
@@ -515,22 +527,22 @@ export type SensitivityScoreScoreEnum =
   | "SENSITIVITY_MODERATE"
   | "SENSITIVITY_HIGH";
 export interface SensitivityScore {
-  score?: SensitivityScoreScoreEnum | (string & {});
+  score?: SensitivityScoreScoreEnum | (string & {}) | undefined;
 }
 export interface InfoType {
-  version?: string;
-  name?: string;
-  sensitivityScore?: SensitivityScore;
+  version?: string | undefined;
+  name?: string | undefined;
+  sensitivityScore?: SensitivityScore | undefined;
 }
 export type InfoTypeList = Array<InfoType>;
 export interface CloudDlpDataProfile {
-  dataProfile?: string;
-  parentType?: CloudDlpDataProfileParentTypeEnum | (string & {});
-  infoTypes?: InfoTypeList;
+  dataProfile?: string | undefined;
+  parentType?: CloudDlpDataProfileParentTypeEnum | (string & {}) | undefined;
+  infoTypes?: InfoTypeList | undefined;
 }
 export interface Control {
-  controlName?: string;
-  displayName?: string;
+  controlName?: string | undefined;
+  displayName?: string | undefined;
 }
 export type ControlList = Array<Control>;
 export type FrameworkCategoryItemEnum =
@@ -546,24 +558,24 @@ export type FrameworkTypeEnum =
   | "FRAMEWORK_TYPE_BUILT_IN"
   | "FRAMEWORK_TYPE_CUSTOM";
 export interface Framework {
-  name?: string;
-  controls?: ControlList;
-  category?: FrameworkCategoryItemEnumList;
-  displayName?: string;
-  type?: FrameworkTypeEnum | (string & {});
+  name?: string | undefined;
+  controls?: ControlList | undefined;
+  category?: FrameworkCategoryItemEnumList | undefined;
+  displayName?: string | undefined;
+  type?: FrameworkTypeEnum | (string & {}) | undefined;
 }
 export type FrameworkList = Array<Framework>;
 export type CloudControlTypeEnum = "CLOUD_CONTROL_TYPE_UNSPECIFIED" | "BUILT_IN" | "CUSTOM";
 export interface CloudControl {
-  version?: number;
-  cloudControlName?: string;
-  type?: CloudControlTypeEnum | (string & {});
-  policyType?: string;
+  version?: number | undefined;
+  cloudControlName?: string | undefined;
+  type?: CloudControlTypeEnum | (string & {}) | undefined;
+  policyType?: string | undefined;
 }
 export interface ComplianceDetails {
-  frameworks?: FrameworkList;
-  cloudControlDeploymentNames?: StringList;
-  cloudControl?: CloudControl;
+  frameworks?: FrameworkList | undefined;
+  cloudControlDeploymentNames?: StringList | undefined;
+  cloudControl?: CloudControl | undefined;
 }
 export type OrgPolicy = Node;
 export type OrgPolicyList = Array<Node>;
@@ -574,81 +586,81 @@ export type DataRetentionDeletionEventEventTypeEnum =
   | "EVENT_TYPE_MAX_TTL_FROM_LAST_MODIFICATION"
   | "EVENT_TYPE_MIN_TTL_FROM_CREATION";
 export interface DataRetentionDeletionEvent {
-  maxRetentionAllowed?: string;
-  eventType?: DataRetentionDeletionEventEventTypeEnum | (string & {});
-  eventDetectionTime?: string;
-  minRetentionAllowed?: string;
-  dataObjectCount?: string;
+  maxRetentionAllowed?: string | undefined;
+  eventType?: DataRetentionDeletionEventEventTypeEnum | (string & {}) | undefined;
+  eventDetectionTime?: string | undefined;
+  minRetentionAllowed?: string | undefined;
+  dataObjectCount?: string | undefined;
 }
 export type DataRetentionDeletionEventList = Array<DataRetentionDeletionEvent>;
 export type AgentDataAccessEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
 export interface AgentDataAccessEvent {
-  operation?: AgentDataAccessEventOperationEnum | (string & {});
-  principalSubject?: string;
-  eventId?: string;
-  eventTime?: string;
+  operation?: AgentDataAccessEventOperationEnum | (string & {}) | undefined;
+  principalSubject?: string | undefined;
+  eventId?: string | undefined;
+  eventTime?: string | undefined;
 }
 export type AgentDataAccessEventList = Array<AgentDataAccessEvent>;
 export interface Contact {
-  email?: string;
+  email?: string | undefined;
 }
 export type ContactList = Array<Contact>;
 export interface ContactDetails {
-  contacts?: ContactList;
+  contacts?: ContactList | undefined;
 }
 export type ContactDetailsMap = { [key: string]: ContactDetails | undefined };
 export interface BackupDisasterRecovery {
-  backupType?: string;
-  host?: string;
-  policies?: StringList;
-  policyOptions?: StringList;
-  backupTemplate?: string;
-  appliance?: string;
-  profile?: string;
-  backupCreateTime?: string;
-  storagePool?: string;
-  applications?: StringList;
+  backupType?: string | undefined;
+  host?: string | undefined;
+  policies?: StringList | undefined;
+  policyOptions?: StringList | undefined;
+  backupTemplate?: string | undefined;
+  appliance?: string | undefined;
+  profile?: string | undefined;
+  backupCreateTime?: string | undefined;
+  storagePool?: string | undefined;
+  applications?: StringList | undefined;
 }
 export interface Pipeline {
-  displayName?: string;
-  name?: string;
+  displayName?: string | undefined;
+  name?: string | undefined;
 }
 export type PipelineList = Array<Pipeline>;
 export interface Dataset {
-  source?: string;
-  displayName?: string;
-  name?: string;
+  source?: string | undefined;
+  displayName?: string | undefined;
+  name?: string | undefined;
 }
 export type DatasetList = Array<Dataset>;
 export interface VertexAi {
-  pipelines?: PipelineList;
-  datasets?: DatasetList;
+  pipelines?: PipelineList | undefined;
+  datasets?: DatasetList | undefined;
 }
 export type AttackExposureStateEnum = "STATE_UNSPECIFIED" | "CALCULATED" | "NOT_CALCULATED";
 export interface AttackExposure {
-  latestCalculationTime?: string;
-  score?: number;
-  exposedMediumValueResourcesCount?: number;
-  exposedLowValueResourcesCount?: number;
-  state?: AttackExposureStateEnum | (string & {});
-  attackExposureResult?: string;
-  exposedHighValueResourcesCount?: number;
+  latestCalculationTime?: string | undefined;
+  score?: number | undefined;
+  exposedMediumValueResourcesCount?: number | undefined;
+  exposedLowValueResourcesCount?: number | undefined;
+  state?: AttackExposureStateEnum | (string & {}) | undefined;
+  attackExposureResult?: string | undefined;
+  exposedHighValueResourcesCount?: number | undefined;
 }
 export type FindingStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 export interface CloudRun {
-  revisions?: StringList;
+  revisions?: StringList | undefined;
 }
 export interface Compliance {
-  version?: string;
-  ids?: StringList;
-  standard?: string;
+  version?: string | undefined;
+  ids?: StringList | undefined;
+  standard?: string | undefined;
 }
 export type ComplianceList = Array<Compliance>;
 export interface SecretFilePath {
-  path?: string;
+  path?: string | undefined;
 }
 export interface SecretEnvironmentVariable {
-  key?: string;
+  key?: string | undefined;
 }
 export type SecretStatusValidityEnum =
   | "SECRET_VALIDITY_UNSPECIFIED"
@@ -657,73 +669,73 @@ export type SecretStatusValidityEnum =
   | "SECRET_VALIDITY_INVALID"
   | "SECRET_VALIDITY_VALID";
 export interface SecretStatus {
-  lastUpdatedTime?: string;
-  validity?: SecretStatusValidityEnum | (string & {});
+  lastUpdatedTime?: string | undefined;
+  validity?: SecretStatusValidityEnum | (string & {}) | undefined;
 }
 export interface Secret {
-  type?: string;
-  filePath?: SecretFilePath;
-  environmentVariable?: SecretEnvironmentVariable;
-  status?: SecretStatus;
+  type?: string | undefined;
+  filePath?: SecretFilePath | undefined;
+  environmentVariable?: SecretEnvironmentVariable | undefined;
+  status?: SecretStatus | undefined;
 }
 export interface TicketInfo {
-  assignee?: string;
-  status?: string;
-  id?: string;
-  uri?: string;
-  updateTime?: string;
-  description?: string;
+  assignee?: string | undefined;
+  status?: string | undefined;
+  id?: string | undefined;
+  uri?: string | undefined;
+  updateTime?: string | undefined;
+  description?: string | undefined;
 }
 export interface GoogleCloudSecuritycenterV1ExternalSystem {
-  caseCloseTime?: string;
-  externalSystemUpdateTime?: string;
-  caseSla?: string;
-  externalUid?: string;
-  caseCreateTime?: string;
-  status?: string;
-  assignees?: StringList;
-  casePriority?: string;
-  caseUri?: string;
-  ticketInfo?: TicketInfo;
-  name?: string;
+  caseCloseTime?: string | undefined;
+  externalSystemUpdateTime?: string | undefined;
+  caseSla?: string | undefined;
+  externalUid?: string | undefined;
+  caseCreateTime?: string | undefined;
+  status?: string | undefined;
+  assignees?: StringList | undefined;
+  casePriority?: string | undefined;
+  caseUri?: string | undefined;
+  ticketInfo?: TicketInfo | undefined;
+  name?: string | undefined;
 }
 export type GoogleCloudSecuritycenterV1ExternalSystemMap = {
   [key: string]: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
 };
 export type DataAccessEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
 export interface DataAccessEvent {
-  operation?: DataAccessEventOperationEnum | (string & {});
-  eventTime?: string;
-  principalEmail?: string;
-  eventId?: string;
+  operation?: DataAccessEventOperationEnum | (string & {}) | undefined;
+  eventTime?: string | undefined;
+  principalEmail?: string | undefined;
+  eventId?: string | undefined;
 }
 export type DataAccessEventList = Array<DataAccessEvent>;
 export interface AffectedResources {
-  count?: string;
+  count?: string | undefined;
 }
 export interface Chokepoint {
-  relatedFindings?: StringList;
+  relatedFindings?: StringList | undefined;
 }
 export interface Geolocation {
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export interface ServiceAccountDelegationInfo {
-  principalEmail?: string;
-  principalSubject?: string;
+  principalEmail?: string | undefined;
+  principalSubject?: string | undefined;
 }
 export type ServiceAccountDelegationInfoList = Array<ServiceAccountDelegationInfo>;
 export interface Access {
-  serviceAccountKeyName?: string;
-  methodName?: string;
-  callerIp?: string;
-  callerIpGeo?: Geolocation;
-  principalSubject?: string;
-  serviceAccountDelegationInfo?: ServiceAccountDelegationInfoList;
-  userAgent?: string;
-  serviceName?: string;
-  userName?: string;
-  principalEmail?: string;
-  userAgentFamily?: string;
+  serviceAccountKeyName?: string | undefined;
+  methodName?: string | undefined;
+  callerIp?: string | undefined;
+  callerIpGeo?: Geolocation | undefined;
+  principalSubject?: string | undefined;
+  serviceAccountDelegationInfo?: ServiceAccountDelegationInfoList | undefined;
+  userAgent?: string | undefined;
+  serviceName?: string | undefined;
+  userName?: string | undefined;
+  principalEmail?: string | undefined;
+  userAgentFamily?: string | undefined;
 }
 export type FindingFindingClassEnum =
   | "FINDING_CLASS_UNSPECIFIED"
@@ -743,37 +755,37 @@ export type GroupMembershipGroupTypeEnum =
   | "GROUP_TYPE_TOXIC_COMBINATION"
   | "GROUP_TYPE_CHOKEPOINT";
 export interface GroupMembership {
-  groupType?: GroupMembershipGroupTypeEnum | (string & {});
-  groupId?: string;
+  groupType?: GroupMembershipGroupTypeEnum | (string & {}) | undefined;
+  groupId?: string | undefined;
 }
 export type GroupMembershipList = Array<GroupMembership>;
 export interface HttpResponse {
-  path?: string;
-  statusCode?: string;
+  path?: string | undefined;
+  statusCode?: string | undefined;
 }
 export type HttpResponseList = Array<HttpResponse>;
 export interface ExternalExposure {
-  networkIngressFirewallPolicy?: string;
-  networkEndpointGroup?: string;
-  internalBackendService?: string;
-  hostnameUri?: string;
-  instanceGroup?: string;
-  backendService?: string;
-  publicIpAddress?: string;
-  exposedApplication?: string;
-  serviceFirewallPolicy?: string;
-  backendBucket?: string;
-  pscNetworkAttachment?: string;
-  privateIpAddress?: string;
-  pscServiceAttachment?: string;
-  forwardingRule?: string;
-  loadBalancerFirewallPolicy?: string;
-  privatePort?: string;
-  exposedService?: string;
-  publicPort?: string;
-  httpResponse?: HttpResponseList;
-  networkPathInsightsGenerationTime?: string;
-  exposedEndpoint?: string;
+  networkIngressFirewallPolicy?: string | undefined;
+  networkEndpointGroup?: string | undefined;
+  internalBackendService?: string | undefined;
+  hostnameUri?: string | undefined;
+  instanceGroup?: string | undefined;
+  backendService?: string | undefined;
+  publicIpAddress?: string | undefined;
+  exposedApplication?: string | undefined;
+  serviceFirewallPolicy?: string | undefined;
+  backendBucket?: string | undefined;
+  pscNetworkAttachment?: string | undefined;
+  privateIpAddress?: string | undefined;
+  pscServiceAttachment?: string | undefined;
+  forwardingRule?: string | undefined;
+  loadBalancerFirewallPolicy?: string | undefined;
+  privatePort?: string | undefined;
+  exposedService?: string | undefined;
+  publicPort?: string | undefined;
+  httpResponse?: HttpResponseList | undefined;
+  networkPathInsightsGenerationTime?: string | undefined;
+  exposedEndpoint?: string | undefined;
 }
 export type FileFileLoadStateEnum =
   | "FILE_LOAD_STATE_UNSPECIFIED"
@@ -787,38 +799,38 @@ export type FileOperationTypeEnum =
   | "WRITE"
   | "EXECUTE";
 export interface FileOperation {
-  type?: FileOperationTypeEnum | (string & {});
+  type?: FileOperationTypeEnum | (string & {}) | undefined;
 }
 export type FileOperationList = Array<FileOperation>;
 export interface DiskPath {
-  partitionUuid?: string;
-  relativePath?: string;
+  partitionUuid?: string | undefined;
+  relativePath?: string | undefined;
 }
 export interface File {
-  partiallyHashed?: boolean;
-  sha256?: string;
-  fileLoadState?: FileFileLoadStateEnum | (string & {});
-  operations?: FileOperationList;
-  path?: string;
-  size?: string;
-  hashedSize?: string;
-  diskPath?: DiskPath;
-  contents?: string;
+  partiallyHashed?: boolean | undefined;
+  sha256?: string | undefined;
+  fileLoadState?: FileFileLoadStateEnum | (string & {}) | undefined;
+  operations?: FileOperationList | undefined;
+  path?: string | undefined;
+  size?: string | undefined;
+  hashedSize?: string | undefined;
+  diskPath?: DiskPath | undefined;
+  contents?: string | undefined;
 }
 export type FileList = Array<File>;
 export type IamBindingActionEnum = "ACTION_UNSPECIFIED" | "ADD" | "REMOVE";
 export interface IamBinding {
-  role?: string;
-  action?: IamBindingActionEnum | (string & {});
-  member?: string;
+  role?: string | undefined;
+  action?: IamBindingActionEnum | (string & {}) | undefined;
+  member?: string | undefined;
 }
 export type IamBindingList = Array<IamBinding>;
 export type JobStateEnum = "JOB_STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED";
 export interface Job {
-  state?: JobStateEnum | (string & {});
-  name?: string;
-  errorCode?: number;
-  location?: string;
+  state?: JobStateEnum | (string & {}) | undefined;
+  name?: string | undefined;
+  errorCode?: number | undefined;
+  location?: string | undefined;
 }
 export type AiModelDeploymentPlatformEnum =
   | "DEPLOYMENT_PLATFORM_UNSPECIFIED"
@@ -827,27 +839,27 @@ export type AiModelDeploymentPlatformEnum =
   | "GCE"
   | "FINE_TUNED_MODEL";
 export interface AiModel {
-  deploymentPlatform?: AiModelDeploymentPlatformEnum | (string & {});
-  domain?: string;
-  displayName?: string;
-  usageCategory?: string;
-  publisher?: string;
-  name?: string;
-  library?: string;
-  location?: string;
+  deploymentPlatform?: AiModelDeploymentPlatformEnum | (string & {}) | undefined;
+  domain?: string | undefined;
+  displayName?: string | undefined;
+  usageCategory?: string | undefined;
+  publisher?: string | undefined;
+  name?: string | undefined;
+  library?: string | undefined;
+  location?: string | undefined;
 }
 export interface Agent {
-  displayName?: string;
-  id?: string;
+  displayName?: string | undefined;
+  id?: string | undefined;
 }
 export interface CloudLoggingEntry {
-  resourceContainer?: string;
-  insertId?: string;
-  logId?: string;
-  timestamp?: string;
+  resourceContainer?: string | undefined;
+  insertId?: string | undefined;
+  logId?: string | undefined;
+  timestamp?: string | undefined;
 }
 export interface LogEntry {
-  cloudLoggingEntry?: CloudLoggingEntry;
+  cloudLoggingEntry?: CloudLoggingEntry | undefined;
 }
 export type LogEntryList = Array<LogEntry>;
 export type DiscoveredWorkloadConfidenceEnum = "CONFIDENCE_UNSPECIFIED" | "CONFIDENCE_HIGH";
@@ -857,11 +869,11 @@ export type DiscoveredWorkloadWorkloadTypeEnum =
   | "AI_INFERENCE"
   | "AGENT";
 export interface DiscoveredWorkload {
-  detectedRelevantHardware?: boolean;
-  detectedRelevantKeywords?: boolean;
-  detectedRelevantPackages?: boolean;
-  confidence?: DiscoveredWorkloadConfidenceEnum | (string & {});
-  workloadType?: DiscoveredWorkloadWorkloadTypeEnum | (string & {});
+  detectedRelevantHardware?: boolean | undefined;
+  detectedRelevantKeywords?: boolean | undefined;
+  detectedRelevantPackages?: boolean | undefined;
+  confidence?: DiscoveredWorkloadConfidenceEnum | (string & {}) | undefined;
+  workloadType?: DiscoveredWorkloadWorkloadTypeEnum | (string & {}) | undefined;
 }
 export type MitreAttackPrimaryTechniquesItemEnum =
   | "TECHNIQUE_UNSPECIFIED"
@@ -1185,148 +1197,148 @@ export type MitreAttackAdditionalTechniquesItemEnumList = Array<
   MitreAttackAdditionalTechniquesItemEnum | (string & {})
 >;
 export interface MitreAttack {
-  primaryTechniques?: MitreAttackPrimaryTechniquesItemEnumList;
-  version?: string;
-  additionalTactics?: MitreAttackAdditionalTacticsItemEnumList;
-  primaryTactic?: MitreAttackPrimaryTacticEnum | (string & {});
-  additionalTechniques?: MitreAttackAdditionalTechniquesItemEnumList;
+  primaryTechniques?: MitreAttackPrimaryTechniquesItemEnumList | undefined;
+  version?: string | undefined;
+  additionalTactics?: MitreAttackAdditionalTacticsItemEnumList | undefined;
+  primaryTactic?: MitreAttackPrimaryTacticEnum | (string & {}) | undefined;
+  additionalTechniques?: MitreAttackAdditionalTechniquesItemEnumList | undefined;
 }
 export type Disk = Node;
 export interface Database {
-  name?: string;
-  displayName?: string;
-  userName?: string;
-  version?: string;
-  query?: string;
-  grantees?: StringList;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  userName?: string | undefined;
+  version?: string | undefined;
+  query?: string | undefined;
+  grantees?: StringList | undefined;
 }
 export interface PolicyDriftDetails {
-  field?: string;
-  detectedValue?: string;
-  expectedValue?: string;
+  field?: string | undefined;
+  detectedValue?: string | undefined;
+  expectedValue?: string | undefined;
 }
 export type PolicyDriftDetailsList = Array<PolicyDriftDetails>;
 export interface SecurityPosture {
-  policySet?: string;
-  postureDeployment?: string;
-  changedPolicy?: string;
-  name?: string;
-  policy?: string;
-  policyDriftDetails?: PolicyDriftDetailsList;
-  revisionId?: string;
-  postureDeploymentResource?: string;
+  policySet?: string | undefined;
+  postureDeployment?: string | undefined;
+  changedPolicy?: string | undefined;
+  name?: string | undefined;
+  policy?: string | undefined;
+  policyDriftDetails?: PolicyDriftDetailsList | undefined;
+  revisionId?: string | undefined;
+  postureDeploymentResource?: string | undefined;
 }
 export interface Notebook {
-  notebookUpdateTime?: string;
-  service?: string;
-  name?: string;
-  lastAuthor?: string;
+  notebookUpdateTime?: string | undefined;
+  service?: string | undefined;
+  name?: string | undefined;
+  lastAuthor?: string | undefined;
 }
 export interface CloudDlpInspection {
-  infoType?: string;
-  fullScan?: boolean;
-  infoTypeCount?: string;
-  inspectJob?: string;
+  infoType?: string | undefined;
+  fullScan?: boolean | undefined;
+  infoTypeCount?: string | undefined;
+  inspectJob?: string | undefined;
 }
 export interface ExfilResource {
-  components?: StringList;
-  name?: string;
+  components?: StringList | undefined;
+  name?: string | undefined;
 }
 export type ExfilResourceList = Array<ExfilResource>;
 export interface Exfiltration {
-  sources?: ExfilResourceList;
-  targets?: ExfilResourceList;
-  totalExfiltratedBytes?: string;
+  sources?: ExfilResourceList | undefined;
+  targets?: ExfilResourceList | undefined;
+  totalExfiltratedBytes?: string | undefined;
 }
 export type ProcessSignatureSignatureTypeEnum =
   | "SIGNATURE_TYPE_UNSPECIFIED"
   | "SIGNATURE_TYPE_PROCESS"
   | "SIGNATURE_TYPE_FILE";
 export interface YaraRuleSignature {
-  yaraRule?: string;
+  yaraRule?: string | undefined;
 }
 export interface Detection {
-  binary?: string;
-  percentPagesMatched?: number;
+  binary?: string | undefined;
+  percentPagesMatched?: number | undefined;
 }
 export type DetectionList = Array<Detection>;
 export interface MemoryHashSignature {
-  binaryFamily?: string;
-  detections?: DetectionList;
+  binaryFamily?: string | undefined;
+  detections?: DetectionList | undefined;
 }
 export interface ProcessSignature {
-  signatureType?: ProcessSignatureSignatureTypeEnum | (string & {});
-  yaraRuleSignature?: YaraRuleSignature;
-  memoryHashSignature?: MemoryHashSignature;
+  signatureType?: ProcessSignatureSignatureTypeEnum | (string & {}) | undefined;
+  yaraRuleSignature?: YaraRuleSignature | undefined;
+  memoryHashSignature?: MemoryHashSignature | undefined;
 }
 export type ProcessSignatureList = Array<ProcessSignature>;
 export interface Indicator {
-  uris?: StringList;
-  ipAddresses?: StringList;
-  signatures?: ProcessSignatureList;
-  domains?: StringList;
+  uris?: StringList | undefined;
+  ipAddresses?: StringList | undefined;
+  signatures?: ProcessSignatureList | undefined;
+  domains?: StringList | undefined;
 }
 export type DataFlowEventOperationEnum = "OPERATION_UNSPECIFIED" | "READ" | "MOVE" | "COPY";
 export interface DataFlowEvent {
-  violatedLocation?: string;
-  eventTime?: string;
-  operation?: DataFlowEventOperationEnum | (string & {});
-  principalEmail?: string;
-  eventId?: string;
+  violatedLocation?: string | undefined;
+  eventTime?: string | undefined;
+  operation?: DataFlowEventOperationEnum | (string & {}) | undefined;
+  principalEmail?: string | undefined;
+  eventId?: string | undefined;
 }
 export type DataFlowEventList = Array<DataFlowEvent>;
 export type ArtifactGuardPolicyTypeEnum =
   | "ARTIFACT_GUARD_POLICY_TYPE_UNSPECIFIED"
   | "VULNERABILITY";
 export interface ArtifactGuardPolicy {
-  policyId?: string;
-  failureReason?: string;
-  type?: ArtifactGuardPolicyTypeEnum | (string & {});
+  policyId?: string | undefined;
+  failureReason?: string | undefined;
+  type?: ArtifactGuardPolicyTypeEnum | (string & {}) | undefined;
 }
 export type ArtifactGuardPolicyList = Array<ArtifactGuardPolicy>;
 export interface ArtifactGuardPolicies {
-  resourceId?: string;
-  failingPolicies?: ArtifactGuardPolicyList;
+  resourceId?: string | undefined;
+  failingPolicies?: ArtifactGuardPolicyList | undefined;
 }
 export interface EnvironmentVariable {
-  name?: string;
-  val?: string;
+  name?: string | undefined;
+  val?: string | undefined;
 }
 export type EnvironmentVariableList = Array<EnvironmentVariable>;
 export interface Process {
-  userId?: string;
-  envVariablesTruncated?: boolean;
-  name?: string;
-  pid?: string;
-  libraries?: FileList;
-  script?: File;
-  args?: StringList;
-  envVariables?: EnvironmentVariableList;
-  argumentsTruncated?: boolean;
-  binary?: File;
-  parentPid?: string;
+  userId?: string | undefined;
+  envVariablesTruncated?: boolean | undefined;
+  name?: string | undefined;
+  pid?: string | undefined;
+  libraries?: FileList | undefined;
+  script?: File | undefined;
+  args?: StringList | undefined;
+  envVariables?: EnvironmentVariableList | undefined;
+  argumentsTruncated?: boolean | undefined;
+  binary?: File | undefined;
+  parentPid?: string | undefined;
 }
 export type ProcessList = Array<Process>;
 export interface PolicyViolationSummary {
-  outOfScopeResourcesCount?: string;
-  policyViolationsCount?: string;
-  evaluationErrorsCount?: string;
-  conformantResourcesCount?: string;
+  outOfScopeResourcesCount?: string | undefined;
+  policyViolationsCount?: string | undefined;
+  evaluationErrorsCount?: string | undefined;
+  conformantResourcesCount?: string | undefined;
 }
 export interface Package {
-  cpeUri?: string;
-  packageType?: string;
-  packageVersion?: string;
-  packageName?: string;
+  cpeUri?: string | undefined;
+  packageType?: string | undefined;
+  packageVersion?: string | undefined;
+  packageName?: string | undefined;
 }
 export interface Reference {
-  uri?: string;
-  source?: string;
+  uri?: string | undefined;
+  source?: string | undefined;
 }
 export type ReferenceList = Array<Reference>;
 export interface Cwe {
-  id?: string;
-  references?: ReferenceList;
+  id?: string | undefined;
+  references?: ReferenceList | undefined;
 }
 export type CweList = Array<Cwe>;
 export type CveExploitationActivityEnum =
@@ -1372,60 +1384,60 @@ export type Cvssv3AvailabilityImpactEnum =
   | "IMPACT_LOW"
   | "IMPACT_NONE";
 export interface Cvssv3 {
-  attackComplexity?: Cvssv3AttackComplexityEnum | (string & {});
-  integrityImpact?: Cvssv3IntegrityImpactEnum | (string & {});
-  attackVector?: Cvssv3AttackVectorEnum | (string & {});
-  userInteraction?: Cvssv3UserInteractionEnum | (string & {});
-  privilegesRequired?: Cvssv3PrivilegesRequiredEnum | (string & {});
-  scope?: Cvssv3ScopeEnum | (string & {});
-  baseScore?: number;
-  confidentialityImpact?: Cvssv3ConfidentialityImpactEnum | (string & {});
-  availabilityImpact?: Cvssv3AvailabilityImpactEnum | (string & {});
+  attackComplexity?: Cvssv3AttackComplexityEnum | (string & {}) | undefined;
+  integrityImpact?: Cvssv3IntegrityImpactEnum | (string & {}) | undefined;
+  attackVector?: Cvssv3AttackVectorEnum | (string & {}) | undefined;
+  userInteraction?: Cvssv3UserInteractionEnum | (string & {}) | undefined;
+  privilegesRequired?: Cvssv3PrivilegesRequiredEnum | (string & {}) | undefined;
+  scope?: Cvssv3ScopeEnum | (string & {}) | undefined;
+  baseScore?: number | undefined;
+  confidentialityImpact?: Cvssv3ConfidentialityImpactEnum | (string & {}) | undefined;
+  availabilityImpact?: Cvssv3AvailabilityImpactEnum | (string & {}) | undefined;
 }
 export type CveImpactEnum = "RISK_RATING_UNSPECIFIED" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
 export interface Cve {
-  firstExploitationDate?: string;
-  exploitationActivity?: CveExploitationActivityEnum | (string & {});
-  cvssv3?: Cvssv3;
-  references?: ReferenceList;
-  exploitReleaseDate?: string;
-  impact?: CveImpactEnum | (string & {});
-  id?: string;
-  zeroDay?: boolean;
-  observedInTheWild?: boolean;
-  upstreamFixAvailable?: boolean;
+  firstExploitationDate?: string | undefined;
+  exploitationActivity?: CveExploitationActivityEnum | (string & {}) | undefined;
+  cvssv3?: Cvssv3 | undefined;
+  references?: ReferenceList | undefined;
+  exploitReleaseDate?: string | undefined;
+  impact?: CveImpactEnum | (string & {}) | undefined;
+  id?: string | undefined;
+  zeroDay?: boolean | undefined;
+  observedInTheWild?: boolean | undefined;
+  upstreamFixAvailable?: boolean | undefined;
 }
 export interface SecurityBulletin {
-  bulletinId?: string;
-  submissionTime?: string;
-  suggestedUpgradeVersion?: string;
+  bulletinId?: string | undefined;
+  submissionTime?: string | undefined;
+  suggestedUpgradeVersion?: string | undefined;
 }
 export interface Vulnerability {
-  reachable?: boolean;
-  fixedPackage?: Package;
-  offendingPackage?: Package;
-  cwes?: CweList;
-  cve?: Cve;
-  providerRiskScore?: string;
-  securityBulletin?: SecurityBulletin;
+  reachable?: boolean | undefined;
+  fixedPackage?: Package | undefined;
+  offendingPackage?: Package | undefined;
+  cwes?: CweList | undefined;
+  cve?: Cve | undefined;
+  providerRiskScore?: string | undefined;
+  securityBulletin?: SecurityBulletin | undefined;
 }
 export interface GoogleCloudSecuritycenterV1IamRolePermission {
-  name?: string;
-  role?: string;
+  name?: string | undefined;
+  role?: string | undefined;
 }
 export type GoogleCloudSecuritycenterV1IamRolePermissionList =
   Array<GoogleCloudSecuritycenterV1IamRolePermission>;
 export interface GoogleCloudSecuritycenterV1IamDetails {
-  iamRolePermissions?: GoogleCloudSecuritycenterV1IamRolePermissionList;
+  iamRolePermissions?: GoogleCloudSecuritycenterV1IamRolePermissionList | undefined;
 }
 export interface Application {
-  fullUri?: string;
-  baseUri?: string;
+  fullUri?: string | undefined;
+  baseUri?: string | undefined;
 }
 export interface SecurityMarks {
-  canonicalName?: string;
-  name?: string;
-  marks?: StringMap;
+  canonicalName?: string | undefined;
+  name?: string | undefined;
+  marks?: StringMap | undefined;
 }
 export type DetectorReferenceSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -1434,212 +1446,212 @@ export type DetectorReferenceSeverityEnum =
   | "MEDIUM"
   | "LOW";
 export interface DetectorReference {
-  recommendation?: string;
-  explanation?: string;
-  displayName?: string;
-  detectorId?: string;
-  severity?: DetectorReferenceSeverityEnum | (string & {});
+  recommendation?: string | undefined;
+  explanation?: string | undefined;
+  displayName?: string | undefined;
+  detectorId?: string | undefined;
+  severity?: DetectorReferenceSeverityEnum | (string & {}) | undefined;
 }
 export type DetectorReferenceList = Array<DetectorReference>;
 export interface InvocationReference {
-  invocationId?: string;
+  invocationId?: string | undefined;
 }
 export type InvocationReferenceList = Array<InvocationReference>;
 export interface AgentAnomaly {
-  detectorReferences?: DetectorReferenceList;
-  confidenceScore?: number;
-  invocationReferences?: InvocationReferenceList;
+  detectorReferences?: DetectorReferenceList | undefined;
+  confidenceScore?: number | undefined;
+  invocationReferences?: InvocationReferenceList | undefined;
 }
 export type IpRulesDirectionEnum = "DIRECTION_UNSPECIFIED" | "INGRESS" | "EGRESS";
 export interface PortRange {
-  min?: string;
-  max?: string;
+  min?: string | undefined;
+  max?: string | undefined;
 }
 export type PortRangeList = Array<PortRange>;
 export interface IpRule {
-  portRanges?: PortRangeList;
-  protocol?: string;
+  portRanges?: PortRangeList | undefined;
+  protocol?: string | undefined;
 }
 export type IpRuleList = Array<IpRule>;
 export interface Allowed {
-  ipRules?: IpRuleList;
+  ipRules?: IpRuleList | undefined;
 }
 export type Denied = Allowed;
 export interface IpRules {
-  exposedServices?: StringList;
-  direction?: IpRulesDirectionEnum | (string & {});
-  destinationIpRanges?: StringList;
-  allowed?: Allowed;
-  sourceIpRanges?: StringList;
-  denied?: Allowed;
+  exposedServices?: StringList | undefined;
+  direction?: IpRulesDirectionEnum | (string & {}) | undefined;
+  destinationIpRanges?: StringList | undefined;
+  allowed?: Allowed | undefined;
+  sourceIpRanges?: StringList | undefined;
+  denied?: Allowed | undefined;
 }
 export interface Requests {
-  longTermDenied?: number;
-  ratio?: number;
-  shortTermAllowed?: number;
-  longTermAllowed?: number;
+  longTermDenied?: number | undefined;
+  ratio?: number | undefined;
+  shortTermAllowed?: number | undefined;
+  longTermAllowed?: number | undefined;
 }
 export interface Attack {
-  classification?: string;
-  volumeBpsLong?: string;
-  volumePpsLong?: string;
-  volumePps?: number;
-  volumeBps?: number;
+  classification?: string | undefined;
+  volumeBpsLong?: string | undefined;
+  volumePpsLong?: string | undefined;
+  volumePps?: number | undefined;
+  volumeBps?: number | undefined;
 }
 export interface SecurityPolicy {
-  preview?: boolean;
-  name?: string;
-  type?: string;
+  preview?: boolean | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export interface AdaptiveProtection {
-  confidence?: number;
+  confidence?: number | undefined;
 }
 export interface CloudArmor {
-  requests?: Requests;
-  attack?: Attack;
-  securityPolicy?: SecurityPolicy;
-  threatVector?: string;
-  duration?: string;
-  adaptiveProtection?: AdaptiveProtection;
+  requests?: Requests | undefined;
+  attack?: Attack | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  threatVector?: string | undefined;
+  duration?: string | undefined;
+  adaptiveProtection?: AdaptiveProtection | undefined;
 }
 export interface KernelRootkit {
-  unexpectedInterruptHandler?: boolean;
-  unexpectedKprobeHandler?: boolean;
-  unexpectedCodeModification?: boolean;
-  unexpectedSystemCallHandler?: boolean;
-  unexpectedProcessesInRunqueue?: boolean;
-  name?: string;
-  unexpectedKernelCodePages?: boolean;
-  unexpectedReadOnlyDataModification?: boolean;
-  unexpectedFtraceHandler?: boolean;
+  unexpectedInterruptHandler?: boolean | undefined;
+  unexpectedKprobeHandler?: boolean | undefined;
+  unexpectedCodeModification?: boolean | undefined;
+  unexpectedSystemCallHandler?: boolean | undefined;
+  unexpectedProcessesInRunqueue?: boolean | undefined;
+  name?: string | undefined;
+  unexpectedKernelCodePages?: boolean | undefined;
+  unexpectedReadOnlyDataModification?: boolean | undefined;
+  unexpectedFtraceHandler?: boolean | undefined;
 }
 export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 export type StaticMuteStateEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
 export interface StaticMute {
-  applyTime?: string;
-  state?: StaticMuteStateEnum | (string & {});
+  applyTime?: string | undefined;
+  state?: StaticMuteStateEnum | (string & {}) | undefined;
 }
 export interface DynamicMuteRecord {
-  muteConfig?: string;
-  matchTime?: string;
+  muteConfig?: string | undefined;
+  matchTime?: string | undefined;
 }
 export type DynamicMuteRecordList = Array<DynamicMuteRecord>;
 export interface MuteInfo {
-  staticMute?: StaticMute;
-  dynamicMuteRecords?: DynamicMuteRecordList;
+  staticMute?: StaticMute | undefined;
+  dynamicMuteRecords?: DynamicMuteRecordList | undefined;
 }
 export type Network = Node;
 export type NetworkList = Array<Node>;
 export type LoadBalancer = Node;
 export type LoadBalancerList = Array<Node>;
 export interface Finding {
-  connections?: ConnectionList;
-  mute?: FindingMuteEnum | (string & {});
-  agentSessions?: AgentSessionList;
-  kubernetes?: Kubernetes;
-  toxicCombination?: ToxicCombination;
-  cloudDlpDataProfile?: CloudDlpDataProfile;
-  complianceDetails?: ComplianceDetails;
-  orgPolicies?: OrgPolicyList;
-  dataRetentionDeletionEvents?: DataRetentionDeletionEventList;
-  agentDataAccessEvents?: AgentDataAccessEventList;
-  contacts?: ContactDetailsMap;
-  backupDisasterRecovery?: BackupDisasterRecovery;
-  parent?: string;
-  vertexAi?: VertexAi;
-  moduleName?: string;
-  attackExposure?: AttackExposure;
-  state?: FindingStateEnum | (string & {});
-  cloudRun?: CloudRun;
-  compliances?: ComplianceList;
-  secret?: Secret;
-  eventTime?: string;
-  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap;
-  description?: string;
-  name?: string;
-  dataAccessEvents?: DataAccessEventList;
-  affectedResources?: AffectedResources;
-  chokepoint?: Chokepoint;
-  access?: Access;
-  findingClass?: FindingFindingClassEnum | (string & {});
-  groupMemberships?: GroupMembershipList;
-  externalExposure?: ExternalExposure;
-  files?: FileList;
-  iamBindings?: IamBindingList;
-  parentDisplayName?: string;
-  job?: Job;
-  aiModel?: AiModel;
-  agent?: Agent;
-  logEntries?: LogEntryList;
-  nextSteps?: string;
-  discoveredWorkload?: DiscoveredWorkload;
-  mitreAttack?: MitreAttack;
-  disk?: Node;
-  database?: Database;
-  canonicalName?: string;
-  securityPosture?: SecurityPosture;
-  notebook?: Notebook;
-  cloudDlpInspection?: CloudDlpInspection;
-  exfiltration?: Exfiltration;
-  indicator?: Indicator;
-  externalUri?: string;
-  createTime?: string;
-  dataFlowEvents?: DataFlowEventList;
-  category?: string;
-  artifactGuardPolicies?: ArtifactGuardPolicies;
-  processes?: ProcessList;
-  policyViolationSummary?: PolicyViolationSummary;
-  vulnerability?: Vulnerability;
-  iamDetails?: GoogleCloudSecuritycenterV1IamDetails;
-  muteInitiator?: string;
-  application?: Application;
-  muteUpdateTime?: string;
-  containers?: ContainerList;
-  securityMarks?: SecurityMarks;
-  sourceProperties?: DocumentMap;
-  agentAnomaly?: AgentAnomaly;
-  ipRules?: IpRules;
-  cloudArmor?: CloudArmor;
-  kernelRootkit?: KernelRootkit;
-  resourceName?: string;
-  severity?: FindingSeverityEnum | (string & {});
-  muteInfo?: MuteInfo;
-  networks?: NetworkList;
-  loadBalancers?: LoadBalancerList;
+  connections?: ConnectionList | undefined;
+  mute?: FindingMuteEnum | (string & {}) | undefined;
+  agentSessions?: AgentSessionList | undefined;
+  kubernetes?: Kubernetes | undefined;
+  toxicCombination?: ToxicCombination | undefined;
+  cloudDlpDataProfile?: CloudDlpDataProfile | undefined;
+  complianceDetails?: ComplianceDetails | undefined;
+  orgPolicies?: OrgPolicyList | undefined;
+  dataRetentionDeletionEvents?: DataRetentionDeletionEventList | undefined;
+  agentDataAccessEvents?: AgentDataAccessEventList | undefined;
+  contacts?: ContactDetailsMap | undefined;
+  backupDisasterRecovery?: BackupDisasterRecovery | undefined;
+  parent?: string | undefined;
+  vertexAi?: VertexAi | undefined;
+  moduleName?: string | undefined;
+  attackExposure?: AttackExposure | undefined;
+  state?: FindingStateEnum | (string & {}) | undefined;
+  cloudRun?: CloudRun | undefined;
+  compliances?: ComplianceList | undefined;
+  secret?: Secret | undefined;
+  eventTime?: string | undefined;
+  externalSystems?: GoogleCloudSecuritycenterV1ExternalSystemMap | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
+  dataAccessEvents?: DataAccessEventList | undefined;
+  affectedResources?: AffectedResources | undefined;
+  chokepoint?: Chokepoint | undefined;
+  access?: Access | undefined;
+  findingClass?: FindingFindingClassEnum | (string & {}) | undefined;
+  groupMemberships?: GroupMembershipList | undefined;
+  externalExposure?: ExternalExposure | undefined;
+  files?: FileList | undefined;
+  iamBindings?: IamBindingList | undefined;
+  parentDisplayName?: string | undefined;
+  job?: Job | undefined;
+  aiModel?: AiModel | undefined;
+  agent?: Agent | undefined;
+  logEntries?: LogEntryList | undefined;
+  nextSteps?: string | undefined;
+  discoveredWorkload?: DiscoveredWorkload | undefined;
+  mitreAttack?: MitreAttack | undefined;
+  disk?: Node | undefined;
+  database?: Database | undefined;
+  canonicalName?: string | undefined;
+  securityPosture?: SecurityPosture | undefined;
+  notebook?: Notebook | undefined;
+  cloudDlpInspection?: CloudDlpInspection | undefined;
+  exfiltration?: Exfiltration | undefined;
+  indicator?: Indicator | undefined;
+  externalUri?: string | undefined;
+  createTime?: string | undefined;
+  dataFlowEvents?: DataFlowEventList | undefined;
+  category?: string | undefined;
+  artifactGuardPolicies?: ArtifactGuardPolicies | undefined;
+  processes?: ProcessList | undefined;
+  policyViolationSummary?: PolicyViolationSummary | undefined;
+  vulnerability?: Vulnerability | undefined;
+  iamDetails?: GoogleCloudSecuritycenterV1IamDetails | undefined;
+  muteInitiator?: string | undefined;
+  application?: Application | undefined;
+  muteUpdateTime?: string | undefined;
+  containers?: ContainerList | undefined;
+  securityMarks?: SecurityMarks | undefined;
+  sourceProperties?: DocumentMap | undefined;
+  agentAnomaly?: AgentAnomaly | undefined;
+  ipRules?: IpRules | undefined;
+  cloudArmor?: CloudArmor | undefined;
+  kernelRootkit?: KernelRootkit | undefined;
+  resourceName?: string | undefined;
+  severity?: FindingSeverityEnum | (string & {}) | undefined;
+  muteInfo?: MuteInfo | undefined;
+  networks?: NetworkList | undefined;
+  loadBalancers?: LoadBalancerList | undefined;
 }
 export interface CreateOrganizationsSourcesFindingsRequest {
   parent: string;
-  findingId?: string;
+  findingId?: string | undefined;
   /** Request body */
-  body?: Finding;
+  body?: Finding | undefined;
 }
 export interface CreateProjectsBigQueryExportsRequest {
-  bigQueryExportId?: string;
+  bigQueryExportId?: string | undefined;
   parent: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport;
+  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
 export interface CreateProjectsEventThreatDetectionSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: EventThreatDetectionCustomModule;
+  body?: EventThreatDetectionCustomModule | undefined;
 }
 export interface CreateProjectsMuteConfigsRequest {
   parent: string;
-  muteConfigId?: string;
+  muteConfigId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface CreateProjectsNotificationConfigsRequest {
-  configId?: string;
+  configId?: string | undefined;
   parent: string;
   /** Request body */
-  body?: NotificationConfig;
+  body?: NotificationConfig | undefined;
 }
 export interface CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule;
+  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface DeleteFoldersBigQueryExportsRequest {
   name: string;
@@ -1720,13 +1732,13 @@ export type EffectiveEventThreatDetectionCustomModuleCloudProviderEnum =
   | "AMAZON_WEB_SERVICES"
   | "MICROSOFT_AZURE";
 export interface EffectiveEventThreatDetectionCustomModule {
-  enablementState?: EffectiveEventThreatDetectionCustomModuleEnablementStateEnum;
-  description?: string;
-  name?: string;
-  cloudProvider?: EffectiveEventThreatDetectionCustomModuleCloudProviderEnum;
-  displayName?: string;
-  type?: string;
-  config?: DocumentMap;
+  enablementState?: EffectiveEventThreatDetectionCustomModuleEnablementStateEnum | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
+  cloudProvider?: EffectiveEventThreatDetectionCustomModuleCloudProviderEnum | undefined;
+  displayName?: string | undefined;
+  type?: string | undefined;
+  config?: DocumentMap | undefined;
 }
 export interface GetFoldersLocationsMuteConfigsRequest {
   name: string;
@@ -1753,27 +1765,31 @@ export type GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomMod
   | "ENABLED"
   | "DISABLED";
 export interface GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule {
-  customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
-  name?: string;
-  cloudProvider?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleCloudProviderEnum;
-  displayName?: string;
-  enablementState?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  name?: string | undefined;
+  cloudProvider?:
+    | GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleCloudProviderEnum
+    | undefined;
+  displayName?: string | undefined;
+  enablementState?:
+    | GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleEnablementStateEnum
+    | undefined;
 }
 export interface GetPolicyOptions {
-  requestedPolicyVersion?: number;
+  requestedPolicyVersion?: number | undefined;
 }
 export interface GetIamPolicyRequest {
-  options?: GetPolicyOptions;
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetIamPolicyOrganizationsSourcesRequest {
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface Binding {
-  condition?: Expr;
-  role?: string;
-  members?: StringList;
+  condition?: Expr | undefined;
+  role?: string | undefined;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -1782,20 +1798,20 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_WRITE"
   | "DATA_READ";
 export interface AuditLogConfig {
-  exemptedMembers?: StringList;
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  exemptedMembers?: StringList | undefined;
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 export interface AuditConfig {
-  auditLogConfigs?: AuditLogConfigList;
-  service?: string;
+  auditLogConfigs?: AuditLogConfigList | undefined;
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 export interface Policy {
-  bindings?: BindingList;
-  version?: number;
-  auditConfigs?: AuditConfigList;
-  etag?: string;
+  bindings?: BindingList | undefined;
+  version?: number | undefined;
+  auditConfigs?: AuditConfigList | undefined;
+  etag?: string | undefined;
 }
 export interface GetOrganizationsBigQueryExportsRequest {
   name: string;
@@ -1808,14 +1824,14 @@ export type AssetDiscoveryConfigInclusionModeEnum =
   | "INCLUDE_ONLY"
   | "EXCLUDE";
 export interface AssetDiscoveryConfig {
-  projectIds?: StringList;
-  folderIds?: StringList;
-  inclusionMode?: AssetDiscoveryConfigInclusionModeEnum | (string & {});
+  projectIds?: StringList | undefined;
+  folderIds?: StringList | undefined;
+  inclusionMode?: AssetDiscoveryConfigInclusionModeEnum | (string & {}) | undefined;
 }
 export interface OrganizationSettings {
-  enableAssetDiscovery?: boolean;
-  assetDiscoveryConfig?: AssetDiscoveryConfig;
-  name?: string;
+  enableAssetDiscovery?: boolean | undefined;
+  assetDiscoveryConfig?: AssetDiscoveryConfig | undefined;
+  name?: string | undefined;
 }
 export interface GetOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   name: string;
@@ -1855,10 +1871,10 @@ export type SimulationCloudProviderEnum =
   | "AMAZON_WEB_SERVICES"
   | "MICROSOFT_AZURE";
 export interface Simulation {
-  createTime?: string;
-  name?: string;
-  resourceValueConfigsMetadata?: ResourceValueConfigMetadataList;
-  cloudProvider?: SimulationCloudProviderEnum;
+  createTime?: string | undefined;
+  name?: string | undefined;
+  resourceValueConfigsMetadata?: ResourceValueConfigMetadataList | undefined;
+  cloudProvider?: SimulationCloudProviderEnum | undefined;
 }
 export interface GetOrganizationsSimulationsValuedResourcesRequest {
   name: string;
@@ -1869,13 +1885,13 @@ export type ValuedResourceResourceValueEnum =
   | "RESOURCE_VALUE_MEDIUM"
   | "RESOURCE_VALUE_HIGH";
 export interface ValuedResource {
-  resource?: string;
-  resourceType?: string;
-  exposedScore?: number;
-  resourceValueConfigsUsed?: ResourceValueConfigMetadataList;
-  resourceValue?: ValuedResourceResourceValueEnum;
-  name?: string;
-  displayName?: string;
+  resource?: string | undefined;
+  resourceType?: string | undefined;
+  exposedScore?: number | undefined;
+  resourceValueConfigsUsed?: ResourceValueConfigMetadataList | undefined;
+  resourceValue?: ValuedResourceResourceValueEnum | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
 }
 export interface GetOrganizationsSourcesRequest {
   name: string;
@@ -1905,251 +1921,259 @@ export interface GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModule
   name: string;
 }
 export interface GroupAssetsRequest {
-  compareDuration?: string;
-  pageSize?: number;
-  pageToken?: string;
-  filter?: string;
-  groupBy?: string;
-  readTime?: string;
+  compareDuration?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  groupBy?: string | undefined;
+  readTime?: string | undefined;
 }
 export interface GroupFoldersAssetsRequest {
   parent: string;
   /** Request body */
-  body?: GroupAssetsRequest;
+  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupResult {
-  properties?: DocumentMap;
-  count?: string;
+  properties?: DocumentMap | undefined;
+  count?: string | undefined;
 }
 export type GroupResultList = Array<GroupResult>;
 export interface GroupAssetsResponse {
-  nextPageToken?: string;
-  totalSize?: number;
-  groupByResults?: GroupResultList;
-  readTime?: string;
+  nextPageToken?: string | undefined;
+  totalSize?: number | undefined;
+  groupByResults?: GroupResultList | undefined;
+  readTime?: string | undefined;
 }
 export interface GroupFindingsRequest {
-  pageToken?: string;
-  readTime?: string;
-  compareDuration?: string;
-  filter?: string;
-  pageSize?: number;
-  groupBy?: string;
+  pageToken?: string | undefined;
+  readTime?: string | undefined;
+  compareDuration?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  groupBy?: string | undefined;
 }
 export interface GroupFoldersSourcesFindingsRequest {
   parent: string;
   /** Request body */
-  body?: GroupFindingsRequest;
+  body?: GroupFindingsRequest | undefined;
 }
 export interface GroupFindingsResponse {
-  nextPageToken?: string;
-  readTime?: string;
-  totalSize?: number;
-  groupByResults?: GroupResultList;
+  nextPageToken?: string | undefined;
+  readTime?: string | undefined;
+  totalSize?: number | undefined;
+  groupByResults?: GroupResultList | undefined;
 }
 export interface GroupOrganizationsAssetsRequest {
   parent: string;
   /** Request body */
-  body?: GroupAssetsRequest;
+  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupOrganizationsSourcesFindingsRequest {
   parent: string;
   /** Request body */
-  body?: GroupFindingsRequest;
+  body?: GroupFindingsRequest | undefined;
 }
 export interface GroupProjectsAssetsRequest {
   parent: string;
   /** Request body */
-  body?: GroupAssetsRequest;
+  body?: GroupAssetsRequest | undefined;
 }
 export interface GroupProjectsSourcesFindingsRequest {
   parent: string;
   /** Request body */
-  body?: GroupFindingsRequest;
+  body?: GroupFindingsRequest | undefined;
 }
 export interface ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   parent: string;
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type EventThreatDetectionCustomModuleList = Array<EventThreatDetectionCustomModule>;
 export interface ListDescendantEventThreatDetectionCustomModulesResponse {
-  eventThreatDetectionCustomModules?: EventThreatDetectionCustomModuleList;
-  nextPageToken?: string;
+  eventThreatDetectionCustomModules?: EventThreatDetectionCustomModuleList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export type GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList =
   Array<GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule>;
 export interface ListDescendantSecurityHealthAnalyticsCustomModulesResponse {
-  securityHealthAnalyticsCustomModules?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList;
-  nextPageToken?: string;
+  securityHealthAnalyticsCustomModules?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList
+    | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export interface ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ListFoldersAssetsRequest {
-  compareDuration?: string;
-  fieldMask?: string;
-  pageSize?: number;
-  filter?: string;
-  pageToken?: string;
-  orderBy?: string;
-  readTime?: string;
+  compareDuration?: string | undefined;
+  fieldMask?: string | undefined;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
+  orderBy?: string | undefined;
+  readTime?: string | undefined;
   parent: string;
 }
 export type ListAssetsResultStateChangeEnum = "UNUSED" | "ADDED" | "REMOVED" | "ACTIVE";
 export interface IamPolicy {
-  policyBlob?: string;
+  policyBlob?: string | undefined;
 }
 export interface Folder {
-  resourceFolder?: string;
-  resourceFolderDisplayName?: string;
+  resourceFolder?: string | undefined;
+  resourceFolderDisplayName?: string | undefined;
 }
 export type FolderList = Array<Folder>;
 export interface SecurityCenterProperties {
-  resourceDisplayName?: string;
-  resourceProject?: string;
-  resourceName?: string;
-  resourceType?: string;
-  folders?: FolderList;
-  resourceParent?: string;
-  resourceProjectDisplayName?: string;
-  resourceParentDisplayName?: string;
-  resourceOwners?: StringList;
+  resourceDisplayName?: string | undefined;
+  resourceProject?: string | undefined;
+  resourceName?: string | undefined;
+  resourceType?: string | undefined;
+  folders?: FolderList | undefined;
+  resourceParent?: string | undefined;
+  resourceProjectDisplayName?: string | undefined;
+  resourceParentDisplayName?: string | undefined;
+  resourceOwners?: StringList | undefined;
 }
 export interface Asset {
-  resourceProperties?: DocumentMap;
-  securityMarks?: SecurityMarks;
-  canonicalName?: string;
-  iamPolicy?: IamPolicy;
-  updateTime?: string;
-  securityCenterProperties?: SecurityCenterProperties;
-  createTime?: string;
-  name?: string;
+  resourceProperties?: DocumentMap | undefined;
+  securityMarks?: SecurityMarks | undefined;
+  canonicalName?: string | undefined;
+  iamPolicy?: IamPolicy | undefined;
+  updateTime?: string | undefined;
+  securityCenterProperties?: SecurityCenterProperties | undefined;
+  createTime?: string | undefined;
+  name?: string | undefined;
 }
 export interface ListAssetsResult {
-  stateChange?: ListAssetsResultStateChangeEnum;
-  asset?: Asset;
+  stateChange?: ListAssetsResultStateChangeEnum | undefined;
+  asset?: Asset | undefined;
 }
 export type ListAssetsResultList = Array<ListAssetsResult>;
 export interface ListAssetsResponse {
-  totalSize?: number;
-  readTime?: string;
-  listAssetsResults?: ListAssetsResultList;
-  nextPageToken?: string;
+  totalSize?: number | undefined;
+  readTime?: string | undefined;
+  listAssetsResults?: ListAssetsResultList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersBigQueryExportsRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export type GoogleCloudSecuritycenterV1BigQueryExportList =
   Array<GoogleCloudSecuritycenterV1BigQueryExport>;
 export interface ListBigQueryExportsResponse {
-  nextPageToken?: string;
-  bigQueryExports?: GoogleCloudSecuritycenterV1BigQueryExportList;
+  nextPageToken?: string | undefined;
+  bigQueryExports?: GoogleCloudSecuritycenterV1BigQueryExportList | undefined;
 }
 export interface ListFoldersEventThreatDetectionSettingsCustomModulesRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export interface ListEventThreatDetectionCustomModulesResponse {
-  eventThreatDetectionCustomModules?: EventThreatDetectionCustomModuleList;
-  nextPageToken?: string;
+  eventThreatDetectionCustomModules?: EventThreatDetectionCustomModuleList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type EffectiveEventThreatDetectionCustomModuleList =
   Array<EffectiveEventThreatDetectionCustomModule>;
 export interface ListEffectiveEventThreatDetectionCustomModulesResponse {
-  effectiveEventThreatDetectionCustomModules?: EffectiveEventThreatDetectionCustomModuleList;
-  nextPageToken?: string;
+  effectiveEventThreatDetectionCustomModules?:
+    | EffectiveEventThreatDetectionCustomModuleList
+    | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersMuteConfigsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export type GoogleCloudSecuritycenterV1MuteConfigList =
   Array<GoogleCloudSecuritycenterV1MuteConfig>;
 export interface ListMuteConfigsResponse {
-  nextPageToken?: string;
-  muteConfigs?: GoogleCloudSecuritycenterV1MuteConfigList;
+  nextPageToken?: string | undefined;
+  muteConfigs?: GoogleCloudSecuritycenterV1MuteConfigList | undefined;
 }
 export interface ListFoldersNotificationConfigsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export type NotificationConfigList = Array<NotificationConfig>;
 export interface ListNotificationConfigsResponse {
-  nextPageToken?: string;
-  notificationConfigs?: NotificationConfigList;
+  nextPageToken?: string | undefined;
+  notificationConfigs?: NotificationConfigList | undefined;
 }
 export interface ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export interface ListSecurityHealthAnalyticsCustomModulesResponse {
-  nextPageToken?: string;
-  securityHealthAnalyticsCustomModules?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList;
+  nextPageToken?: string | undefined;
+  securityHealthAnalyticsCustomModules?:
+    | GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModuleList
+    | undefined;
 }
 export interface ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleList =
   Array<GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule>;
 export interface ListEffectiveSecurityHealthAnalyticsCustomModulesResponse {
-  effectiveSecurityHealthAnalyticsCustomModules?: GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleList;
-  nextPageToken?: string;
+  effectiveSecurityHealthAnalyticsCustomModules?:
+    | GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModuleList
+    | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersSourcesRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export type SourceList = Array<Source>;
 export interface ListSourcesResponse {
-  sources?: SourceList;
-  nextPageToken?: string;
+  sources?: SourceList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersSourcesFindingsRequest {
-  pageSize?: number;
-  compareDuration?: string;
-  orderBy?: string;
-  filter?: string;
-  readTime?: string;
-  fieldMask?: string;
+  pageSize?: number | undefined;
+  compareDuration?: string | undefined;
+  orderBy?: string | undefined;
+  filter?: string | undefined;
+  readTime?: string | undefined;
+  fieldMask?: string | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListFindingsResultStateChangeEnum =
   | "UNUSED"
@@ -2167,7 +2191,7 @@ export type GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticalityT
   | "MEDIUM"
   | "LOW";
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality {
-  type?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticalityTypeEnum;
+  type?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticalityTypeEnum | undefined;
 }
 export type GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum =
   | "ENVIRONMENT_TYPE_UNSPECIFIED"
@@ -2176,18 +2200,24 @@ export type GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentT
   | "TEST"
   | "DEVELOPMENT";
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment {
-  type?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum;
+  type?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironmentTypeEnum | undefined;
 }
 export interface GoogleCloudSecuritycenterV1ResourceApplicationAttributes {
-  developerOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
-  criticality?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality;
-  environment?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment;
-  businessOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
-  operatorOwners?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList;
+  developerOwners?:
+    | GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList
+    | undefined;
+  criticality?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesCriticality | undefined;
+  environment?: GoogleCloudSecuritycenterV1ResourceApplicationAttributesEnvironment | undefined;
+  businessOwners?:
+    | GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList
+    | undefined;
+  operatorOwners?:
+    | GoogleCloudSecuritycenterV1ResourceApplicationAttributesContactInfoList
+    | undefined;
 }
 export interface AdcApplication {
-  attributes?: GoogleCloudSecuritycenterV1ResourceApplicationAttributes;
-  name?: string;
+  attributes?: GoogleCloudSecuritycenterV1ResourceApplicationAttributes | undefined;
+  name?: string | undefined;
 }
 export type ResourcePathNodeNodeTypeEnum =
   | "RESOURCE_PATH_NODE_TYPE_UNSPECIFIED"
@@ -2201,13 +2231,13 @@ export type ResourcePathNodeNodeTypeEnum =
   | "AZURE_SUBSCRIPTION"
   | "AZURE_RESOURCE_GROUP";
 export interface ResourcePathNode {
-  nodeType?: ResourcePathNodeNodeTypeEnum;
-  id?: string;
-  displayName?: string;
+  nodeType?: ResourcePathNodeNodeTypeEnum | undefined;
+  id?: string | undefined;
+  displayName?: string | undefined;
 }
 export type ResourcePathNodeList = Array<ResourcePathNode>;
 export interface ResourcePath {
-  nodes?: ResourcePathNodeList;
+  nodes?: ResourcePathNodeList | undefined;
 }
 export type ResourceCloudProviderEnum =
   | "CLOUD_PROVIDER_UNSPECIFIED"
@@ -2215,89 +2245,89 @@ export type ResourceCloudProviderEnum =
   | "AMAZON_WEB_SERVICES"
   | "MICROSOFT_AZURE";
 export interface AwsOrganization {
-  id?: string;
+  id?: string | undefined;
 }
 export interface AwsAccount {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type AwsOrganizationalUnit = AwsAccount;
 export type AwsOrganizationalUnitList = Array<AwsAccount>;
 export interface AwsMetadata {
-  organization?: AwsOrganization;
-  account?: AwsAccount;
-  organizationalUnits?: AwsOrganizationalUnitList;
+  organization?: AwsOrganization | undefined;
+  account?: AwsAccount | undefined;
+  organizationalUnits?: AwsOrganizationalUnitList | undefined;
 }
 export type GoogleCloudSecuritycenterV1ResourceApplication = AdcApplication;
 export interface AzureSubscription {
-  id?: string;
-  displayName?: string;
+  id?: string | undefined;
+  displayName?: string | undefined;
 }
 export type AzureManagementGroup = AzureSubscription;
 export type AzureManagementGroupList = Array<AzureSubscription>;
 export type AzureResourceGroup = AwsAccount;
 export type AzureTenant = Agent;
 export interface AzureMetadata {
-  subscription?: AzureSubscription;
-  managementGroups?: AzureManagementGroupList;
-  resourceGroup?: AwsAccount;
-  tenant?: Agent;
+  subscription?: AzureSubscription | undefined;
+  managementGroups?: AzureManagementGroupList | undefined;
+  resourceGroup?: AwsAccount | undefined;
+  tenant?: Agent | undefined;
 }
 export type AdcApplicationTemplateRevision = Node;
 export type AdcSharedTemplateRevision = Node;
 export interface Resource {
-  parentDisplayName?: string;
-  adcApplication?: AdcApplication;
-  resourcePath?: ResourcePath;
-  projectName?: string;
-  resourcePathString?: string;
-  service?: string;
-  cloudProvider?: ResourceCloudProviderEnum;
-  awsMetadata?: AwsMetadata;
-  application?: AdcApplication;
-  location?: string;
-  name?: string;
-  displayName?: string;
-  folders?: FolderList;
-  azureMetadata?: AzureMetadata;
-  projectDisplayName?: string;
-  adcApplicationTemplate?: Node;
-  parentName?: string;
-  adcSharedTemplate?: Node;
-  organization?: string;
-  type?: string;
+  parentDisplayName?: string | undefined;
+  adcApplication?: AdcApplication | undefined;
+  resourcePath?: ResourcePath | undefined;
+  projectName?: string | undefined;
+  resourcePathString?: string | undefined;
+  service?: string | undefined;
+  cloudProvider?: ResourceCloudProviderEnum | undefined;
+  awsMetadata?: AwsMetadata | undefined;
+  application?: AdcApplication | undefined;
+  location?: string | undefined;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  folders?: FolderList | undefined;
+  azureMetadata?: AzureMetadata | undefined;
+  projectDisplayName?: string | undefined;
+  adcApplicationTemplate?: Node | undefined;
+  parentName?: string | undefined;
+  adcSharedTemplate?: Node | undefined;
+  organization?: string | undefined;
+  type?: string | undefined;
 }
 export interface ListFindingsResult {
-  finding?: Finding;
-  stateChange?: ListFindingsResultStateChangeEnum;
-  resource?: Resource;
+  finding?: Finding | undefined;
+  stateChange?: ListFindingsResultStateChangeEnum | undefined;
+  resource?: Resource | undefined;
 }
 export type ListFindingsResultList = Array<ListFindingsResult>;
 export interface ListFindingsResponse {
-  nextPageToken?: string;
-  listFindingsResults?: ListFindingsResultList;
-  readTime?: string;
-  totalSize?: number;
+  nextPageToken?: string | undefined;
+  listFindingsResults?: ListFindingsResultList | undefined;
+  readTime?: string | undefined;
+  totalSize?: number | undefined;
 }
 export interface ListOrganizationsAssetsRequest {
-  pageSize?: number;
-  filter?: string;
-  pageToken?: string;
-  orderBy?: string;
-  readTime?: string;
-  compareDuration?: string;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
+  orderBy?: string | undefined;
+  readTime?: string | undefined;
+  compareDuration?: string | undefined;
   parent: string;
-  fieldMask?: string;
+  fieldMask?: string | undefined;
 }
 export interface ListOrganizationsAttackPathsRequest {
-  filter?: string;
-  pageToken?: string;
+  filter?: string | undefined;
+  pageToken?: string | undefined;
   parent: string;
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface AttackPathEdge {
-  source?: string;
-  destination?: string;
+  source?: string | undefined;
+  destination?: string | undefined;
 }
 export type AttackPathEdgeList = Array<AttackPathEdge>;
 export type AttackStepNodeTypeEnum =
@@ -2307,551 +2337,551 @@ export type AttackStepNodeTypeEnum =
   | "NODE_TYPE_DEFENSE"
   | "NODE_TYPE_ATTACKER";
 export interface AttackStepNode {
-  displayName?: string;
-  labels?: StringMap;
-  description?: string;
-  type?: AttackStepNodeTypeEnum;
-  uuid?: string;
+  displayName?: string | undefined;
+  labels?: StringMap | undefined;
+  description?: string | undefined;
+  type?: AttackStepNodeTypeEnum | undefined;
+  uuid?: string | undefined;
 }
 export type AttackStepNodeList = Array<AttackStepNode>;
 export interface PathNodeAssociatedFinding {
-  canonicalFinding?: string;
-  findingCategory?: string;
-  name?: string;
+  canonicalFinding?: string | undefined;
+  findingCategory?: string | undefined;
+  name?: string | undefined;
 }
 export type PathNodeAssociatedFindingList = Array<PathNodeAssociatedFinding>;
 export interface AttackPathNode {
-  attackSteps?: AttackStepNodeList;
-  displayName?: string;
-  uuid?: string;
-  resource?: string;
-  resourceType?: string;
-  associatedFindings?: PathNodeAssociatedFindingList;
+  attackSteps?: AttackStepNodeList | undefined;
+  displayName?: string | undefined;
+  uuid?: string | undefined;
+  resource?: string | undefined;
+  resourceType?: string | undefined;
+  associatedFindings?: PathNodeAssociatedFindingList | undefined;
 }
 export type AttackPathNodeList = Array<AttackPathNode>;
 export interface AttackPath {
-  name?: string;
-  edges?: AttackPathEdgeList;
-  pathNodes?: AttackPathNodeList;
+  name?: string | undefined;
+  edges?: AttackPathEdgeList | undefined;
+  pathNodes?: AttackPathNodeList | undefined;
 }
 export type AttackPathList = Array<AttackPath>;
 export interface ListAttackPathsResponse {
-  attackPaths?: AttackPathList;
-  nextPageToken?: string;
+  attackPaths?: AttackPathList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsBigQueryExportsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ListOrganizationsMuteConfigsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListOrganizationsNotificationConfigsRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export interface ListOrganizationsOperationsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   name: string;
-  pageSize?: number;
-  filter?: string;
-  returnPartialSuccess?: boolean;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 export interface ListOperationsResponse {
-  unreachable?: StringList;
-  nextPageToken?: string;
-  operations?: OperationList;
+  unreachable?: StringList | undefined;
+  nextPageToken?: string | undefined;
+  operations?: OperationList | undefined;
 }
 export interface ListOrganizationsResourceValueConfigsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListResourceValueConfigsResponse {
-  nextPageToken?: string;
-  resourceValueConfigs?: GoogleCloudSecuritycenterV1ResourceValueConfigList;
+  nextPageToken?: string | undefined;
+  resourceValueConfigs?: GoogleCloudSecuritycenterV1ResourceValueConfigList | undefined;
 }
 export interface ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export interface ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   parent: string;
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
 }
 export interface ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest {
-  filter?: string;
-  pageSize?: number;
-  pageToken?: string;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ValuedResourceList = Array<ValuedResource>;
 export interface ListValuedResourcesResponse {
-  valuedResources?: ValuedResourceList;
-  nextPageToken?: string;
-  totalSize?: number;
+  valuedResources?: ValuedResourceList | undefined;
+  nextPageToken?: string | undefined;
+  totalSize?: number | undefined;
 }
 export interface ListOrganizationsSimulationsAttackPathsRequest {
-  pageSize?: number;
-  filter?: string;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListOrganizationsSimulationsValuedResourcesRequest {
-  orderBy?: string;
-  pageSize?: number;
-  pageToken?: string;
-  filter?: string;
+  orderBy?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
   parent: string;
 }
 export interface ListOrganizationsSimulationsValuedResourcesAttackPathsRequest {
   parent: string;
-  filter?: string;
-  pageSize?: number;
-  pageToken?: string;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ListOrganizationsSourcesRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListOrganizationsSourcesFindingsRequest {
   parent: string;
-  pageToken?: string;
-  readTime?: string;
-  orderBy?: string;
-  fieldMask?: string;
-  compareDuration?: string;
-  pageSize?: number;
-  filter?: string;
+  pageToken?: string | undefined;
+  readTime?: string | undefined;
+  orderBy?: string | undefined;
+  fieldMask?: string | undefined;
+  compareDuration?: string | undefined;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
 }
 export interface ListOrganizationsValuedResourcesRequest {
   parent: string;
-  orderBy?: string;
-  pageToken?: string;
-  filter?: string;
-  pageSize?: number;
+  orderBy?: string | undefined;
+  pageToken?: string | undefined;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsAssetsRequest {
-  filter?: string;
-  pageSize?: number;
-  fieldMask?: string;
-  pageToken?: string;
-  orderBy?: string;
-  readTime?: string;
+  filter?: string | undefined;
+  pageSize?: number | undefined;
+  fieldMask?: string | undefined;
+  pageToken?: string | undefined;
+  orderBy?: string | undefined;
+  readTime?: string | undefined;
   parent: string;
-  compareDuration?: string;
+  compareDuration?: string | undefined;
 }
 export interface ListProjectsBigQueryExportsRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   parent: string;
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsEventThreatDetectionSettingsCustomModulesRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   parent: string;
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsMuteConfigsRequest {
-  pageSize?: number;
-  pageToken?: string;
+  pageSize?: number | undefined;
+  pageToken?: string | undefined;
   parent: string;
 }
 export interface ListProjectsNotificationConfigsRequest {
-  pageToken?: string;
-  pageSize?: number;
+  pageToken?: string | undefined;
+  pageSize?: number | undefined;
   parent: string;
 }
 export interface ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   parent: string;
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListProjectsSourcesRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsSourcesFindingsRequest {
   parent: string;
-  pageToken?: string;
-  orderBy?: string;
-  readTime?: string;
-  compareDuration?: string;
-  fieldMask?: string;
-  pageSize?: number;
-  filter?: string;
+  pageToken?: string | undefined;
+  orderBy?: string | undefined;
+  readTime?: string | undefined;
+  compareDuration?: string | undefined;
+  fieldMask?: string | undefined;
+  pageSize?: number | undefined;
+  filter?: string | undefined;
 }
 export interface PatchFoldersBigQueryExportsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport;
+  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
 export interface PatchFoldersEventThreatDetectionSettingsCustomModulesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: EventThreatDetectionCustomModule;
+  body?: EventThreatDetectionCustomModule | undefined;
 }
 export interface PatchFoldersLocationsMuteConfigsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface PatchFoldersMuteConfigsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface PatchFoldersNotificationConfigsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: NotificationConfig;
+  body?: NotificationConfig | undefined;
 }
 export interface PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule;
+  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface PatchFoldersSourcesFindingsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: Finding;
+  body?: Finding | undefined;
 }
 export interface PatchFoldersSourcesFindingsExternalSystemsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem;
+  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
 }
 export interface PatchOrganizationsBigQueryExportsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport;
+  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
 export interface PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: EventThreatDetectionCustomModule;
+  body?: EventThreatDetectionCustomModule | undefined;
 }
 export interface PatchOrganizationsLocationsMuteConfigsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface PatchOrganizationsMuteConfigsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface PatchOrganizationsNotificationConfigsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: NotificationConfig;
+  body?: NotificationConfig | undefined;
 }
 export interface PatchOrganizationsResourceValueConfigsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1ResourceValueConfig;
+  body?: GoogleCloudSecuritycenterV1ResourceValueConfig | undefined;
 }
 export interface PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule;
+  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface PatchOrganizationsSourcesRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 export interface PatchOrganizationsSourcesFindingsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: Finding;
+  body?: Finding | undefined;
 }
 export interface PatchOrganizationsSourcesFindingsExternalSystemsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem;
+  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
 }
 export interface PatchProjectsBigQueryExportsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1BigQueryExport;
+  body?: GoogleCloudSecuritycenterV1BigQueryExport | undefined;
 }
 export interface PatchProjectsEventThreatDetectionSettingsCustomModulesRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: EventThreatDetectionCustomModule;
+  body?: EventThreatDetectionCustomModule | undefined;
 }
 export interface PatchProjectsLocationsMuteConfigsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface PatchProjectsMuteConfigsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1MuteConfig;
+  body?: GoogleCloudSecuritycenterV1MuteConfig | undefined;
 }
 export interface PatchProjectsNotificationConfigsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: NotificationConfig;
+  body?: NotificationConfig | undefined;
 }
 export interface PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule;
+  body?: GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule | undefined;
 }
 export interface PatchProjectsSourcesFindingsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: Finding;
+  body?: Finding | undefined;
 }
 export interface PatchProjectsSourcesFindingsExternalSystemsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
   /** Request body */
-  body?: GoogleCloudSecuritycenterV1ExternalSystem;
+  body?: GoogleCloudSecuritycenterV1ExternalSystem | undefined;
 }
 export interface RunAssetDiscoveryRequest {}
 export interface RunDiscoveryOrganizationsAssetsRequest {
   parent: string;
   /** Request body */
-  body?: RunAssetDiscoveryRequest;
+  body?: RunAssetDiscoveryRequest | undefined;
 }
 export interface SetIamPolicyRequest {
-  policy?: Policy;
-  updateMask?: string;
+  policy?: Policy | undefined;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyOrganizationsSourcesRequest {
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export type SetMuteRequestMuteEnum = "MUTE_UNSPECIFIED" | "MUTED" | "UNMUTED" | "UNDEFINED";
 export interface SetMuteRequest {
-  mute?: SetMuteRequestMuteEnum | (string & {});
+  mute?: SetMuteRequestMuteEnum | (string & {}) | undefined;
 }
 export interface SetMuteFoldersSourcesFindingsRequest {
   name: string;
   /** Request body */
-  body?: SetMuteRequest;
+  body?: SetMuteRequest | undefined;
 }
 export interface SetMuteOrganizationsSourcesFindingsRequest {
   name: string;
   /** Request body */
-  body?: SetMuteRequest;
+  body?: SetMuteRequest | undefined;
 }
 export interface SetMuteProjectsSourcesFindingsRequest {
   name: string;
   /** Request body */
-  body?: SetMuteRequest;
+  body?: SetMuteRequest | undefined;
 }
 export type SetFindingStateRequestStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 export interface SetFindingStateRequest {
-  startTime?: string;
-  state?: SetFindingStateRequestStateEnum | (string & {});
+  startTime?: string | undefined;
+  state?: SetFindingStateRequestStateEnum | (string & {}) | undefined;
 }
 export interface SetStateFoldersSourcesFindingsRequest {
   name: string;
   /** Request body */
-  body?: SetFindingStateRequest;
+  body?: SetFindingStateRequest | undefined;
 }
 export interface SetStateOrganizationsSourcesFindingsRequest {
   name: string;
   /** Request body */
-  body?: SetFindingStateRequest;
+  body?: SetFindingStateRequest | undefined;
 }
 export interface SetStateProjectsSourcesFindingsRequest {
   name: string;
   /** Request body */
-  body?: SetFindingStateRequest;
+  body?: SetFindingStateRequest | undefined;
 }
 export interface SimulatedResource {
-  iamPolicyData?: Policy;
-  resourceType?: string;
-  resourceData?: DocumentMap;
+  iamPolicyData?: Policy | undefined;
+  resourceType?: string | undefined;
+  resourceData?: DocumentMap | undefined;
 }
 export interface SimulateSecurityHealthAnalyticsCustomModuleRequest {
-  customConfig?: GoogleCloudSecuritycenterV1CustomConfig;
-  resource?: SimulatedResource;
+  customConfig?: GoogleCloudSecuritycenterV1CustomConfig | undefined;
+  resource?: SimulatedResource | undefined;
 }
 export interface SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest;
+  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
 }
 export interface SimulatedResult {
-  error?: Status;
-  noViolation?: Empty;
-  finding?: Finding;
+  error?: Status | undefined;
+  noViolation?: Empty | undefined;
+  finding?: Finding | undefined;
 }
 export interface SimulateSecurityHealthAnalyticsCustomModuleResponse {
-  result?: SimulatedResult;
+  result?: SimulatedResult | undefined;
 }
 export interface SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest;
+  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
 }
 export interface SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   parent: string;
   /** Request body */
-  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest;
+  body?: SimulateSecurityHealthAnalyticsCustomModuleRequest | undefined;
 }
 export interface TestIamPermissionsRequest {
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsOrganizationsSourcesRequest {
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsResponse {
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface UpdateOrganizationSettingsOrganizationsRequest {
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: OrganizationSettings;
+  body?: OrganizationSettings | undefined;
 }
 export interface UpdateSecurityMarksFoldersAssetsRequest {
   name: string;
-  updateMask?: string;
-  startTime?: string;
+  updateMask?: string | undefined;
+  startTime?: string | undefined;
   /** Request body */
-  body?: SecurityMarks;
+  body?: SecurityMarks | undefined;
 }
 export interface UpdateSecurityMarksFoldersSourcesFindingsRequest {
-  startTime?: string;
+  startTime?: string | undefined;
   name: string;
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SecurityMarks;
+  body?: SecurityMarks | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsAssetsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
-  startTime?: string;
+  startTime?: string | undefined;
   /** Request body */
-  body?: SecurityMarks;
+  body?: SecurityMarks | undefined;
 }
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
-  updateMask?: string;
-  startTime?: string;
+  updateMask?: string | undefined;
+  startTime?: string | undefined;
   name: string;
   /** Request body */
-  body?: SecurityMarks;
+  body?: SecurityMarks | undefined;
 }
 export interface UpdateSecurityMarksProjectsAssetsRequest {
   name: string;
-  startTime?: string;
-  updateMask?: string;
+  startTime?: string | undefined;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SecurityMarks;
+  body?: SecurityMarks | undefined;
 }
 export interface UpdateSecurityMarksProjectsSourcesFindingsRequest {
-  updateMask?: string;
+  updateMask?: string | undefined;
   name: string;
-  startTime?: string;
+  startTime?: string | undefined;
   /** Request body */
-  body?: SecurityMarks;
+  body?: SecurityMarks | undefined;
 }
 export interface ValidateEventThreatDetectionCustomModuleRequest {
-  type?: string;
-  rawText?: string;
+  type?: string | undefined;
+  rawText?: string | undefined;
 }
 export interface ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest {
   parent: string;
   /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest;
+  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
 }
 export interface Position {
-  columnNumber?: number;
-  lineNumber?: number;
+  columnNumber?: number | undefined;
+  lineNumber?: number | undefined;
 }
 export interface CustomModuleValidationError {
-  start?: Position;
-  fieldPath?: string;
-  end?: Position;
-  description?: string;
+  start?: Position | undefined;
+  fieldPath?: string | undefined;
+  end?: Position | undefined;
+  description?: string | undefined;
 }
 export type CustomModuleValidationErrorList = Array<CustomModuleValidationError>;
 export interface CustomModuleValidationErrors {
-  errors?: CustomModuleValidationErrorList;
+  errors?: CustomModuleValidationErrorList | undefined;
 }
 export interface ValidateEventThreatDetectionCustomModuleResponse {
-  errors?: CustomModuleValidationErrors;
+  errors?: CustomModuleValidationErrors | undefined;
 }
 export interface ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest {
   parent: string;
   /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest;
+  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
 }
 export interface ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest {
   parent: string;
   /** Request body */
-  body?: ValidateEventThreatDetectionCustomModuleRequest;
+  body?: ValidateEventThreatDetectionCustomModuleRequest | undefined;
 }
 export type BatchCreateOrganizationsResourceValueConfigsError =
   | NotFound

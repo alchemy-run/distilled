@@ -24,7 +24,7 @@ const TELEMETRY = {
 } as const;
 
 export interface ContainerCheckpointRequest {
-  checkpointId?: string;
+  checkpointId?: string | undefined;
 }
 export interface ContainerCheckpointResponse {}
 export type FileDescriptor =
@@ -33,12 +33,12 @@ export type FileDescriptor =
   | "FILE_DESCRIPTOR_STDERR"
   | "FILE_DESCRIPTOR_INFO";
 export interface ContainerExecGetOutputRequest {
-  execId?: string;
-  timeout?: number;
-  lastBatchIndex?: string;
-  fileDescriptor?: FileDescriptor | (string & {});
+  execId?: string | undefined;
+  timeout?: number | undefined;
+  lastBatchIndex?: string | undefined;
+  fileDescriptor?: FileDescriptor | (string & {}) | undefined;
   /** Old clients (up to 0.65.39) expect string output. Newer clients stream raw bytes */
-  getRawBytes?: boolean;
+  getRawBytes?: boolean | undefined;
 }
 /** Used for `modal container exec`, `modal shell`, and Sandboxes */
 export interface RuntimeOutputMessage {
@@ -52,7 +52,7 @@ export interface RuntimeOutputBatch {
   items: RuntimeOutputMessageList;
   batchIndex: string;
   /** if an exit code is given, this is the final message that will be sent. */
-  exitCode?: number;
+  exitCode?: number | undefined;
   stdout: RuntimeOutputMessageList;
   stderr: RuntimeOutputMessageList;
   info: RuntimeOutputMessageList;
@@ -64,27 +64,27 @@ export interface ContainerExecGetOutputStream {
 }
 /** Leave thread-count env vars (OMP_NUM_THREADS, ...) unset so libraries size themselves from the visible CPUs. Ignored on runc. */
 export interface RuntimeInputMessage {
-  message?: string;
-  messageIndex?: string;
-  eof?: boolean;
+  message?: string | undefined;
+  messageIndex?: string | undefined;
+  eof?: boolean | undefined;
 }
 export interface ContainerExecPutInputRequest {
-  execId?: string;
-  input?: RuntimeInputMessage;
+  execId?: string | undefined;
+  input?: RuntimeInputMessage | undefined;
 }
 export interface ContainerExecPutInputResponse {}
 export interface ContainerExecWaitRequest {
-  execId?: string;
-  timeout?: number;
+  execId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface ContainerExecWaitResponse {
-  exitCode?: number;
+  exitCode?: number | undefined;
   completed: boolean;
 }
 export interface ContainerHeartbeatRequest {
-  canceledInputsReturnOutputs?: boolean;
+  canceledInputsReturnOutputs?: boolean | undefined;
   /** Bad client version. */
-  canceledInputsReturnOutputsV2?: boolean;
+  canceledInputsReturnOutputsV2?: boolean | undefined;
 }
 export type StringList = Array<string>;
 export interface CancelInputEvent {
@@ -93,7 +93,7 @@ export interface CancelInputEvent {
   cancellationReason: string;
 }
 export interface ContainerHeartbeatResponse {
-  cancelInputEvent?: CancelInputEvent;
+  cancelInputEvent?: CancelInputEvent | undefined;
 }
 export interface ContainerHelloRequest {}
 export interface ContainerHelloResponse {}
@@ -112,46 +112,46 @@ export type TaskState =
   | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
 export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
 export interface TaskProgress {
-  len?: string;
-  pos?: string;
-  progressType?: ProgressType | (string & {});
-  description?: string;
+  len?: string | undefined;
+  pos?: string | undefined;
+  progressType?: ProgressType | (string & {}) | undefined;
+  description?: string | undefined;
 }
 export interface TaskLogs {
-  data?: string;
-  taskState?: TaskState | (string & {});
-  timestamp?: number;
-  fileDescriptor?: FileDescriptor | (string & {});
-  taskProgress?: TaskProgress;
-  functionCallId?: string;
-  inputId?: string;
-  timestampNs?: string;
-  containerId?: string;
-  containerName?: string;
+  data?: string | undefined;
+  taskState?: TaskState | (string & {}) | undefined;
+  timestamp?: number | undefined;
+  fileDescriptor?: FileDescriptor | (string & {}) | undefined;
+  taskProgress?: TaskProgress | undefined;
+  functionCallId?: string | undefined;
+  inputId?: string | undefined;
+  timestampNs?: string | undefined;
+  containerId?: string | undefined;
+  containerName?: string | undefined;
 }
 export type TaskLogsList = Array<TaskLogs>;
 export interface ContainerLogRequest {
-  logs?: TaskLogsList;
+  logs?: TaskLogsList | undefined;
 }
 export interface ContainerLogResponse {}
 export interface ContainerReloadVolumesRequest {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface ContainerReloadVolumesResponse {}
 export interface ContainerServerLifecycleReadyRequest {}
 export interface ContainerServerLifecycleReadyResponse {}
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soon deprecated */
-  winszRows?: number;
-  winszCols?: number;
-  envTerm?: string;
-  envColorterm?: string;
-  envTermProgram?: string;
+  winszRows?: number | undefined;
+  winszCols?: number | undefined;
+  envTerm?: string | undefined;
+  envColorterm?: string | undefined;
+  envTermProgram?: string | undefined;
   /** Replace function with shell */
-  ptyType?: PTYInfoPTYType | (string & {});
-  noTerminateOnIdleStdin?: boolean;
+  ptyType?: PTYInfoPTYType | (string & {}) | undefined;
+  noTerminateOnIdleStdin?: boolean | undefined;
 }
 export type ExecOutputOption =
   | "EXEC_OUTPUT_OPTION_UNSPECIFIED"
@@ -159,99 +159,99 @@ export type ExecOutputOption =
   | "EXEC_OUTPUT_OPTION_PIPE"
   | "EXEC_OUTPUT_OPTION_STDOUT";
 export interface ExecContainerRequest {
-  taskId?: string;
-  command?: StringList;
+  taskId?: string | undefined;
+  command?: StringList | undefined;
   /** If pty_info is provided, open a PTY, but also this container exec is treated an "interactive shell" request, and it will be terminated if messages are not periodically sent on the stdin stream on some interval (currently 40 seconds). */
-  ptyInfo?: PTYInfo;
+  ptyInfo?: PTYInfo | undefined;
   /** Send SIGTERM to running container on exit of exec command. */
-  terminateContainerOnExit?: boolean;
-  runtimeDebug?: boolean;
+  terminateContainerOnExit?: boolean | undefined;
+  runtimeDebug?: boolean | undefined;
   /** For internal debugging use only. */
-  stdoutOutput?: ExecOutputOption | (string & {});
-  stderrOutput?: ExecOutputOption | (string & {});
-  timeoutSecs?: number;
-  workdir?: string;
-  secretIds?: StringList;
+  stdoutOutput?: ExecOutputOption | (string & {}) | undefined;
+  stderrOutput?: ExecOutputOption | (string & {}) | undefined;
+  timeoutSecs?: number | undefined;
+  workdir?: string | undefined;
+  secretIds?: StringList | undefined;
 }
 export interface ExecContainerResponse {
   execId: string;
 }
 export interface ContainerFileOpenRequest {
   /** file descriptor is hydrated when sent from server -> worker */
-  fileDescriptor?: string;
-  path?: string;
-  mode?: string;
+  fileDescriptor?: string | undefined;
+  path?: string | undefined;
+  mode?: string | undefined;
 }
 export interface ContainerFileWriteRequest {
-  fileDescriptor?: string;
-  data?: string;
+  fileDescriptor?: string | undefined;
+  data?: string | undefined;
 }
 export interface ContainerFileReadRequest {
-  fileDescriptor?: string;
-  n?: number;
+  fileDescriptor?: string | undefined;
+  n?: number | undefined;
 }
 export interface ContainerFileFlushRequest {
-  fileDescriptor?: string;
+  fileDescriptor?: string | undefined;
 }
 export type ContainerFileReadLineRequest = ContainerFileFlushRequest;
 export type SeekWhence = "SEEK_SET" | "SEEK_CUR" | "SEEK_END";
 export interface ContainerFileSeekRequest {
-  fileDescriptor?: string;
-  offset?: number;
-  whence?: SeekWhence | (string & {});
+  fileDescriptor?: string | undefined;
+  offset?: number | undefined;
+  whence?: SeekWhence | (string & {}) | undefined;
 }
 export interface ContainerFileDeleteBytesRequest {
-  fileDescriptor?: string;
-  startInclusive?: number;
-  endExclusive?: number;
+  fileDescriptor?: string | undefined;
+  startInclusive?: number | undefined;
+  endExclusive?: number | undefined;
 }
 export interface ContainerFileWriteReplaceBytesRequest {
-  fileDescriptor?: string;
-  data?: string;
-  startInclusive?: number;
-  endExclusive?: number;
+  fileDescriptor?: string | undefined;
+  data?: string | undefined;
+  startInclusive?: number | undefined;
+  endExclusive?: number | undefined;
 }
 export type ContainerFileCloseRequest = ContainerFileFlushRequest;
 export interface ContainerFileLsRequest {
-  path?: string;
+  path?: string | undefined;
 }
 export interface ContainerFileMkdirRequest {
-  path?: string;
-  makeParents?: boolean;
+  path?: string | undefined;
+  makeParents?: boolean | undefined;
 }
 export interface ContainerFileRmRequest {
-  path?: string;
-  recursive?: boolean;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export interface ContainerFileWatchRequest {
-  path?: string;
-  recursive?: boolean;
-  timeoutSecs?: string;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
+  timeoutSecs?: string | undefined;
 }
 export interface ExecContainerFilesystemRequest {
-  fileOpenRequest?: ContainerFileOpenRequest;
-  fileWriteRequest?: ContainerFileWriteRequest;
-  fileReadRequest?: ContainerFileReadRequest;
-  fileFlushRequest?: ContainerFileFlushRequest;
-  fileReadLineRequest?: ContainerFileFlushRequest;
-  fileSeekRequest?: ContainerFileSeekRequest;
-  fileDeleteBytesRequest?: ContainerFileDeleteBytesRequest;
-  fileWriteReplaceBytesRequest?: ContainerFileWriteReplaceBytesRequest;
-  fileCloseRequest?: ContainerFileFlushRequest;
-  fileLsRequest?: ContainerFileLsRequest;
-  fileMkdirRequest?: ContainerFileMkdirRequest;
-  fileRmRequest?: ContainerFileRmRequest;
-  fileWatchRequest?: ContainerFileWatchRequest;
-  taskId?: string;
+  fileOpenRequest?: ContainerFileOpenRequest | undefined;
+  fileWriteRequest?: ContainerFileWriteRequest | undefined;
+  fileReadRequest?: ContainerFileReadRequest | undefined;
+  fileFlushRequest?: ContainerFileFlushRequest | undefined;
+  fileReadLineRequest?: ContainerFileFlushRequest | undefined;
+  fileSeekRequest?: ContainerFileSeekRequest | undefined;
+  fileDeleteBytesRequest?: ContainerFileDeleteBytesRequest | undefined;
+  fileWriteReplaceBytesRequest?: ContainerFileWriteReplaceBytesRequest | undefined;
+  fileCloseRequest?: ContainerFileFlushRequest | undefined;
+  fileLsRequest?: ContainerFileLsRequest | undefined;
+  fileMkdirRequest?: ContainerFileMkdirRequest | undefined;
+  fileRmRequest?: ContainerFileRmRequest | undefined;
+  fileWatchRequest?: ContainerFileWatchRequest | undefined;
+  taskId?: string | undefined;
 }
 export interface ExecContainerFilesystemResponse {
   execId: string;
   /** only set when the request opens a new file, i.e., ContainerFileOpenRequest */
-  fileDescriptor?: string;
+  fileDescriptor?: string | undefined;
 }
 export interface StopContainerRequest {
-  taskId?: string;
-  graceful?: boolean;
+  taskId?: string | undefined;
+  graceful?: boolean | undefined;
 }
 export interface StopContainerResponse {}
 export type ContainerCheckpointError = ModalOpError;

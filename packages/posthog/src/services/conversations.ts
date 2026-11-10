@@ -157,11 +157,11 @@ export interface CreateConversationsMacrosRequest {
   /** Name shown in the macro list and the composer menu. */
   name: string;
   /** Slash command for this macro, without the leading slash. Lowercase letters, numbers, and hyphens. A shared shortcut is unique among the project's shared macros, and a personal one among the creator's personal macros. Null when the macro has no shortcut. */
-  shortcut?: string | null;
+  shortcut?: string | null | undefined;
   /** Reply text in markdown. May contain {{customer.first_name}}, {{customer.name}}, {{customer.email}}, {{agent.first_name}}, {{agent.name}}, and {{ticket.number}}. Variables are filled in when an agent inserts the macro. */
   body: string;
   /** Who can see and use the macro. 'shared' is everyone in the project, the default. 'personal' is only the person who created it. * `shared` - Everyone in the project * `personal` - Only the creator */
-  visibility?: TicketMacroVisibilityEnum | (string & {});
+  visibility?: TicketMacroVisibilityEnum | (string & {}) | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -178,15 +178,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface TicketMacro {
   /** UUID of the macro. */
@@ -194,11 +194,11 @@ export interface TicketMacro {
   /** Name shown in the macro list and the composer menu. */
   name: string;
   /** Slash command for this macro, without the leading slash. Lowercase letters, numbers, and hyphens. A shared shortcut is unique among the project's shared macros, and a personal one among the creator's personal macros. Null when the macro has no shortcut. */
-  shortcut?: string | null;
+  shortcut?: string | null | undefined;
   /** Reply text in markdown. May contain {{customer.first_name}}, {{customer.name}}, {{customer.email}}, {{agent.first_name}}, {{agent.name}}, and {{ticket.number}}. Variables are filled in when an agent inserts the macro. */
   body: string;
   /** Who can see and use the macro. 'shared' is everyone in the project, the default. 'personal' is only the person who created it. * `shared` - Everyone in the project * `personal` - Only the creator */
-  visibility?: TicketMacroVisibilityEnum;
+  visibility?: TicketMacroVisibilityEnum | undefined;
   /** How many times agents have inserted this macro. */
   usage_count: number;
   /** When an agent last inserted this macro. Null if it has never been used. */
@@ -228,7 +228,7 @@ export interface CreateConversationsTicketsAiFeedbackRequest {
   /** Reviewer rating: good or bad. * `good` - good * `bad` - bad */
   rating: RatingEnum | (string & {});
   /** Optional text explaining a bad rating. */
-  feedback_text?: string;
+  feedback_text?: string | undefined;
 }
 export interface CreateConversationsTicketsAiFeedbackResponse {}
 /** * `used` - used * `edited` - edited */
@@ -270,17 +270,17 @@ export interface CreateConversationsTicketsComposeRequest {
   /** Recipient email address. */
   recipient_email: string;
   /** PostHog distinct_id to link the ticket to a person. Falls back to recipient_email. */
-  recipient_distinct_id?: string;
+  recipient_distinct_id?: string | undefined;
   /** Email subject line. */
-  email_subject?: string;
+  email_subject?: string | undefined;
   /** ID of the support email channel to send from. Omit it to send from the team's default support channel. */
-  email_config_id?: string | null;
+  email_config_id?: string | null | undefined;
   /** Message content in markdown. */
   message: string;
   /** TipTap rich content JSON for formatted messages. */
-  rich_content?: unknown;
+  rich_content?: unknown | undefined;
   /** Tags to apply to the new ticket, e.g. to mark its source. Each is normalized (lowercased, trimmed). Up to 100. */
-  tags?: CreateConversationsTicketsComposeRequestTagsList;
+  tags?: CreateConversationsTicketsComposeRequestTagsList | undefined;
 }
 export interface ComposeTicketResponse {
   /** Created ticket UUID. */
@@ -296,7 +296,7 @@ export interface CreateConversationsTicketsNoteRequest {
   /** Note content in markdown. The note is visible to your team only and is never sent to the customer. */
   message: string;
   /** Optional TipTap rich content JSON for the note. Omit it to show the markdown message. */
-  rich_content?: unknown;
+  rich_content?: unknown | undefined;
 }
 /** * `customer_message` - Customer message * `sent_reply` - Sent reply * `internal_note` - Internal note * `ai_draft` - AI draft */
 export type TicketMessageTypeEnum =
@@ -336,9 +336,9 @@ export interface CreateConversationsTicketsReplyRequest {
   /** Reply content in markdown. */
   message: string;
   /** If true, store as an internal note (not sent to the customer). If false, the reply is delivered to the customer over the ticket's channel. */
-  is_private?: boolean;
+  is_private?: boolean | undefined;
   /** Optional TipTap rich content JSON for formatted messages. */
-  rich_content?: unknown;
+  rich_content?: unknown | undefined;
 }
 /** Ticket statuses to include. Empty or omitted means all statuses. */
 export type TicketViewFiltersStatusList = Array<TicketStatusEnum | (string & {})>;
@@ -396,57 +396,57 @@ export interface TicketViewSorting {
 /** Canonical shape of a saved ticket view's filters. Every field is optional; an omitted field (or an 'all' sentinel) leaves that dimension unfiltered. */
 export interface TicketViewFilters {
   /** Ticket statuses to include. Empty or omitted means all statuses. */
-  status?: TicketViewFiltersStatusList;
+  status?: TicketViewFiltersStatusList | undefined;
   /** Ticket priorities to include. Empty or omitted means all priorities. */
-  priority?: TicketViewFiltersPriorityList;
+  priority?: TicketViewFiltersPriorityList | undefined;
   /** Channel the ticket originated from. 'all' disables the filter. * `widget` - widget * `email` - email * `slack` - slack * `teams` - teams * `github` - github * `all` - all */
-  channel?: TicketChannelFilterEnum | (string & {});
+  channel?: TicketChannelFilterEnum | (string & {}) | undefined;
   /** SLA state: 'breached' is past due, 'at-risk' is due within the next hour, 'on-track' has more than an hour remaining. 'all' disables the filter. * `breached` - breached * `at-risk` - at-risk * `on-track` - on-track * `all` - all */
-  sla?: TicketSlaFilterEnum | (string & {});
+  sla?: TicketSlaFilterEnum | (string & {}) | undefined;
   /** AI triage outcomes to include. 'in_progress' matches tickets still being triaged. Valid values: persisted, suggested, escalated_with_findings, escalated_with_best, escalated_no_reply, skipped_unactionable, skipped_team_replied, skipped_channel_excluded, blocked_unsafe, blocked_unsafe_reply, clarified, suggested_clarification, in_progress. */
-  aiTriageResult?: TicketViewFiltersAiTriageResultList;
+  aiTriageResult?: TicketViewFiltersAiTriageResultList | undefined;
   /** Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. Send a list. Views saved earlier can hold a single value instead of a list, or the value 'all'. Wrap a single value in a list, and replace 'all' with an empty list to apply no assignee filter. */
-  assignee?: TicketViewFiltersAssigneeList;
+  assignee?: TicketViewFiltersAssigneeList | undefined;
   /** Tag names to match, combined according to tagsMatch. */
-  tags?: TicketViewFiltersTagsList;
+  tags?: TicketViewFiltersTagsList | undefined;
   /** 'any' returns tickets with at least one of tags (OR); 'all' requires every tag (AND). * `any` - any * `all` - all */
-  tagsMatch?: TicketTagsMatchEnum | (string & {});
+  tagsMatch?: TicketTagsMatchEnum | (string & {}) | undefined;
   /** Tickets carrying any of these tags are excluded. */
-  tagsExclude?: TicketViewFiltersTagsExcludeList;
+  tagsExclude?: TicketViewFiltersTagsExcludeList | undefined;
   /** Only include tickets updated on or after this date. Accepts absolute dates (2026-01-01) or relative ones (-7d). 'all' or null disables the bound. */
-  dateFrom?: string | null;
+  dateFrom?: string | null | undefined;
   /** Only include tickets updated on or before this date. Same format as dateFrom. */
-  dateTo?: string | null;
+  dateTo?: string | null | undefined;
   /** Sort order for the ticket list. */
-  sorting?: TicketViewSorting | null;
+  sorting?: TicketViewSorting | null | undefined;
   /** Free-text search. A numeric value matches a ticket number exactly; otherwise matches the customer's name or email, the email subject, or message content. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface CreateConversationsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Display name of the view, as it appears in the ticket views list. */
-  name?: string;
+  name?: string | undefined;
   /** Saved ticket filter criteria: status, priority, channel, sla, aiTriageResult, assignee, tags, tagsMatch, tagsExclude, dateFrom, dateTo, sorting, and search. */
-  filters?: TicketViewFilters;
+  filters?: TicketViewFilters | undefined;
   /** Whether the current user has favorited this view. Favorited views sort to the top of the list. Favorites are personal to each user. */
-  is_favorited?: boolean;
+  is_favorited?: boolean | undefined;
 }
 export interface TicketView {
   /** Internal UUID of the view. */
-  id?: string;
+  id?: string | undefined;
   /** Stable short identifier for the view. Use it to address the view in this API, to open it at /support/tickets?view=<short_id>, and as the `view` parameter when listing tickets. */
-  short_id?: string;
+  short_id?: string | undefined;
   /** Display name of the view, as it appears in the ticket views list. */
-  name?: string;
+  name?: string | undefined;
   /** Saved ticket filter criteria: status, priority, channel, sla, aiTriageResult, assignee, tags, tagsMatch, tagsExclude, dateFrom, dateTo, sorting, and search. */
-  filters?: TicketViewFilters;
+  filters?: TicketViewFilters | undefined;
   /** When the view was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The user who created this view. */
-  created_by?: UserBasic | null;
+  created_by?: UserBasic | null | undefined;
   /** Whether the current user has favorited this view. Favorited views sort to the top of the list. Favorites are personal to each user. */
-  is_favorited?: boolean;
+  is_favorited?: boolean | undefined;
 }
 export interface GetConversationsAiReplyPlaybookRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -498,82 +498,82 @@ export type TicketAssignmentUserMap = { [key: string]: string | undefined };
 export type TicketAssignmentRoleMap = { [key: string]: string | undefined };
 /** Serializer for ticket assignment (user or role). */
 export interface TicketAssignment {
-  id?: string | null;
-  type?: string;
-  user?: TicketAssignmentUserMap | null;
-  role?: TicketAssignmentRoleMap | null;
+  id?: string | null | undefined;
+  type?: string | undefined;
+  user?: TicketAssignmentUserMap | null | undefined;
+  role?: TicketAssignmentRoleMap | null | undefined;
 }
 /** Context captured with the ticket. Values are strings, numbers or booleans. Keys are whatever the widget sent, commonly current_url, replay_url, browser, os and sdk_version. */
 export interface TicketSessionContext {
   /** Page the reporter was on. */
-  current_url?: string;
+  current_url?: string | undefined;
   /** Replay of the session the ticket came from. */
-  replay_url?: string;
+  replay_url?: string | undefined;
   [key: string]: unknown;
 }
 export type TicketPersonDistinctIdsList = Array<string>;
 export type TicketPersonPropertiesMap = { [key: string]: unknown | undefined };
 /** Minimal person serializer for embedding in ticket responses. */
 export interface TicketPerson {
-  id?: string;
-  name?: string;
-  distinct_ids?: TicketPersonDistinctIdsList;
-  properties?: TicketPersonPropertiesMap;
-  created_at?: string;
-  is_identified?: boolean;
+  id?: string | undefined;
+  name?: string | undefined;
+  distinct_ids?: TicketPersonDistinctIdsList | undefined;
+  properties?: TicketPersonPropertiesMap | undefined;
+  created_at?: string | undefined;
+  is_identified?: boolean | undefined;
 }
 export type TicketTagsList = Array<unknown>;
 /** Mixin for serializers to add user access control fields */
 export interface Ticket {
-  id?: string;
-  ticket_number?: number;
-  channel_source?: ChannelEnum;
-  channel_detail?: ChannelDetailEnum | null;
-  distinct_id?: string;
+  id?: string | undefined;
+  ticket_number?: number | undefined;
+  channel_source?: ChannelEnum | undefined;
+  channel_detail?: ChannelDetailEnum | null | undefined;
+  distinct_id?: string | undefined;
   /** Ticket status: new, open, pending, on_hold, or resolved * `new` - New * `open` - Open * `pending` - Pending * `on_hold` - On hold * `resolved` - Resolved */
-  status?: TicketStatusEnum;
+  status?: TicketStatusEnum | undefined;
   /** Ticket priority: low, medium, high, or critical. Null if unset. * `low` - Low * `medium` - Medium * `high` - High * `critical` - Critical */
-  priority?: TicketPriority | null;
-  assignee?: TicketAssignment;
+  priority?: TicketPriority | null | undefined;
+  assignee?: TicketAssignment | undefined;
   /** Customer-provided traits such as name and email */
-  anonymous_traits?: unknown;
+  anonymous_traits?: unknown | undefined;
   /** Trust signal indicating whether the ticket's claimed identity was attested by the server (widget HMAC, SPF-authenticated email, or a signature-validated platform webhook). True when verified, false when assessed but not attested, null when unknown (e.g. created before this signal existed). */
-  identity_verified?: boolean | null;
-  ai_resolved?: boolean;
-  escalation_reason?: string | null;
+  identity_verified?: boolean | null | undefined;
+  ai_resolved?: boolean | undefined;
+  escalation_reason?: string | null | undefined;
   /** AI support pipeline triage and outcome (status, result, ticket_type, confidence, attempts, verdict, blocker, sources). Retrieve hydrates sources from citations. */
-  ai_triage?: unknown;
-  created_at?: string;
-  updated_at?: string;
-  message_count?: number;
-  last_message_at?: string | null;
-  last_message_text?: string | null;
-  unread_team_count?: number;
-  unread_customer_count?: number;
-  session_id?: string | null;
+  ai_triage?: unknown | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  message_count?: number | undefined;
+  last_message_at?: string | null | undefined;
+  last_message_text?: string | null | undefined;
+  unread_team_count?: number | undefined;
+  unread_customer_count?: number | undefined;
+  session_id?: string | null | undefined;
   /** Context captured with the ticket. Values are strings, numbers or booleans. Keys are whatever the widget sent, commonly current_url, replay_url, browser, os and sdk_version. */
-  session_context?: TicketSessionContext;
+  session_context?: TicketSessionContext | undefined;
   /** SLA deadline set via workflows. Null means no SLA. */
-  sla_due_at?: string | null;
-  snoozed_until?: string | null;
-  slack_channel_id?: string | null;
-  slack_thread_ts?: string | null;
-  slack_team_id?: string | null;
-  email_subject?: string | null;
-  email_from?: string | null;
-  email_to?: string | null;
-  cc_participants?: unknown;
-  github_repo?: string | null;
-  github_issue_number?: number | null;
-  zendesk_ticket_id?: number | null;
+  sla_due_at?: string | null | undefined;
+  snoozed_until?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  slack_thread_ts?: string | null | undefined;
+  slack_team_id?: string | null | undefined;
+  email_subject?: string | null | undefined;
+  email_from?: string | null | undefined;
+  email_to?: string | null | undefined;
+  cc_participants?: unknown | undefined;
+  github_repo?: string | null | undefined;
+  github_issue_number?: number | null | undefined;
+  zendesk_ticket_id?: number | null | undefined;
   /** Customer's PostHog organization group key, resolved at ticket creation. Null when unknown. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** How organization_id was resolved: 'person' (from the requester's identity) or 'slack_channel_account' (inferred from the customer analytics account linked to the ticket's Slack channel). Null when organization_id is unset. */
-  organization_id_source?: string | null;
-  person?: TicketPerson | null;
-  tags?: TicketTagsList;
+  organization_id_source?: string | null | undefined;
+  person?: TicketPerson | null | undefined;
+  tags?: TicketTagsList | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface GetConversationsTicketsMessagesFullEmailRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -610,15 +610,15 @@ export interface ListConversationsMacrosRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedTicketMacroListResultsList = Array<TicketMacro>;
 export interface PaginatedTicketMacroList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTicketMacroListResultsList;
 }
 export type ListConversationsTicketsRequestChannelDetail =
@@ -650,52 +650,52 @@ export interface ListConversationsTicketsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by AI triage outcome. Accepts a single value or a comma-separated list. Valid values: `persisted`, `suggested`, `escalated_with_findings`, `escalated_with_best`, `escalated_no_reply`, `skipped_unactionable`, `skipped_team_replied`, `skipped_channel_excluded`, `blocked_unsafe`, `blocked_unsafe_reply`, `clarified`, `suggested_clarification`, `in_progress`. */
-  ai_triage_result?: string;
+  ai_triage_result?: string | undefined;
   /** Filter by assignee. Accepts a single value or a comma-separated list (matches any, max 100 entries). Each entry is `unassigned` (no assignee), `me` (the requesting user), `user:<user_id>`, or `role:<role_uuid>`, e.g. `assignee=unassigned,user:123`. */
-  assignee?: string;
+  assignee?: string | undefined;
   /** Filter by the channel sub-type (e.g. `widget_embedded`, `slack_bot_mention`). */
-  channel_detail?: ListConversationsTicketsRequestChannelDetail | (string & {});
+  channel_detail?: ListConversationsTicketsRequestChannelDetail | (string & {}) | undefined;
   /** Filter by the channel the ticket originated from. */
-  channel_source?: ListConversationsTicketsRequestChannelSource | (string & {});
+  channel_source?: ListConversationsTicketsRequestChannelSource | (string & {}) | undefined;
   /** Only include tickets updated on or after this date. Accepts absolute dates (`2026-01-01`) or relative ones (`-7d`, `-1mStart`). Pass `all` to disable the filter. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Only include tickets updated on or before this date. Same format as `date_from`. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Comma-separated list of person `distinct_id`s to filter by (max 100). */
-  distinct_ids?: string;
+  distinct_ids?: string | undefined;
   /** Comma-separated list of email addresses to filter by, matched case-insensitively against `email_from` (max 100). When combined with `distinct_ids`, tickets matching either the distinct_ids or the emails are returned (OR). */
-  emails?: string;
+  emails?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort order. Prefix with `-` for descending. Defaults to `-updated_at`. */
-  order_by?: ListConversationsTicketsRequestOrderBy | (string & {});
+  order_by?: ListConversationsTicketsRequestOrderBy | (string & {}) | undefined;
   /** Filter by priority. Accepts a single value or a comma-separated list (e.g. `medium,high`). Valid values: `low`, `medium`, `high`, `critical`. */
-  priority?: string;
+  priority?: string | undefined;
   /** Free-text search. A numeric value (optionally prefixed with `#`) matches a ticket number exactly; otherwise matches against the customer's name or email, the email subject, or message content (case-insensitive, partial match). */
-  search?: string;
+  search?: string | undefined;
   /** Filter by SLA state. `breached` = past `sla_due_at`, `at-risk` = due within the next hour, `on-track` = more than an hour remaining. */
-  sla?: ListConversationsTicketsRequestSla | (string & {});
+  sla?: ListConversationsTicketsRequestSla | (string & {}) | undefined;
   /** Filter by snooze state: `true` returns only snoozed tickets, `false` only non-snoozed. */
-  snoozed?: boolean;
+  snoozed?: boolean | undefined;
   /** Filter by status. Accepts a single value or a comma-separated list (e.g. `new,open,pending`). Valid values: `new`, `open`, `pending`, `on_hold`, `resolved`. */
-  status?: string;
+  status?: string | undefined;
   /** JSON-encoded array of tag names; returns tickets with ANY of them (OR), e.g. `["billing","urgent"]`. */
-  tags?: string;
+  tags?: string | undefined;
   /** JSON-encoded array of tag names; returns tickets that have ALL of them (AND), e.g. `["billing","urgent"]`. */
-  tags_all?: string;
+  tags_all?: string | undefined;
   /** JSON-encoded array of tag names; returns tickets that have NONE of them (NOT), e.g. `["escalated"]`. */
-  tags_exclude?: string;
+  tags_exclude?: string | undefined;
   /** Apply a saved ticket view's filters by its `short_id` (list views via the `conversations/views` endpoint). Any filter param passed explicitly overrides the view's saved value for that dimension. Returns 400 if no view matches. */
-  view?: string;
+  view?: string | undefined;
 }
 export type PaginatedTicketListResultsList = Array<Ticket>;
 export interface PaginatedTicketList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedTicketListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedTicketListResultsList | undefined;
 }
 export interface ListConversationsTicketsMessagesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -703,31 +703,31 @@ export interface ListConversationsTicketsMessagesRequest {
   /** The ticket's UUID or its numeric ticket number. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedTicketMessageListResultsList = Array<TicketMessage>;
 export interface PaginatedTicketMessageList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTicketMessageListResultsList;
 }
 export interface ListConversationsViewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedTicketViewListResultsList = Array<TicketView>;
 export interface PaginatedTicketViewList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedTicketViewListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedTicketViewListResultsList | undefined;
 }
 export interface UpdateConversationsMacrosPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -735,13 +735,13 @@ export interface UpdateConversationsMacrosPartialRequest {
   /** A UUID string identifying this ticket macro. */
   id: string;
   /** Name shown in the macro list and the composer menu. */
-  name?: string;
+  name?: string | undefined;
   /** Slash command for this macro, without the leading slash. Lowercase letters, numbers, and hyphens. A shared shortcut is unique among the project's shared macros, and a personal one among the creator's personal macros. Null when the macro has no shortcut. */
-  shortcut?: string | null;
+  shortcut?: string | null | undefined;
   /** Reply text in markdown. May contain {{customer.first_name}}, {{customer.name}}, {{customer.email}}, {{agent.first_name}}, {{agent.name}}, and {{ticket.number}}. Variables are filled in when an agent inserts the macro. */
-  body?: string;
+  body?: string | undefined;
   /** Who can see and use the macro. 'shared' is everyone in the project, the default. 'personal' is only the person who created it. * `shared` - Everyone in the project * `personal` - Only the creator */
-  visibility?: TicketMacroVisibilityEnum | (string & {});
+  visibility?: TicketMacroVisibilityEnum | (string & {}) | undefined;
 }
 /** Ticket priority: low, medium, high, or critical. Pass null to clear it. * `low` - Low * `medium` - Medium * `high` - High * `critical` - Critical */
 export type UpdateConversationsTicketRequestPriority = TicketPriorityEnum | BlankEnum;
@@ -766,23 +766,23 @@ export interface UpdateConversationsTicketRequest {
   /** The ticket's UUID or its numeric ticket number. */
   id: string;
   /** Ticket status: new, open, pending, on_hold, or resolved. * `new` - New * `open` - Open * `pending` - Pending * `on_hold` - On hold * `resolved` - Resolved */
-  status?: TicketStatusEnum | (string & {});
+  status?: TicketStatusEnum | (string & {}) | undefined;
   /** Ticket priority: low, medium, high, or critical. Pass null to clear it. * `low` - Low * `medium` - Medium * `high` - High * `critical` - Critical */
-  priority?: UpdateConversationsTicketRequestPriority | null;
+  priority?: UpdateConversationsTicketRequestPriority | null | undefined;
   /** User or role to assign. Pass null to remove the current assignee. */
-  assignee?: TicketAssigneeRequest | null;
+  assignee?: TicketAssigneeRequest | null | undefined;
   /** Customer details such as name and email. */
-  anonymous_traits?: unknown;
+  anonymous_traits?: unknown | undefined;
   /** Whether AI resolved the ticket. */
-  ai_resolved?: boolean;
+  ai_resolved?: boolean | undefined;
   /** Reason the ticket was escalated. Pass null to clear it. */
-  escalation_reason?: string | null;
+  escalation_reason?: string | null | undefined;
   /** SLA deadline. Pass null to clear it. */
-  sla_due_at?: string | null;
+  sla_due_at?: string | null | undefined;
   /** Time to reopen the ticket. Pass null to reopen it now. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Tag names to set on the ticket. */
-  tags?: UpdateConversationsTicketRequestTagsList;
+  tags?: UpdateConversationsTicketRequestTagsList | undefined;
 }
 export interface UpdateConversationsTicketsNotesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -792,9 +792,9 @@ export interface UpdateConversationsTicketsNotesPartialRequest {
   /** The UUID of the private note (comment) to edit or delete. */
   message_id: string;
   /** Updated note content in markdown. */
-  message?: string;
+  message?: string | undefined;
   /** Optional TipTap rich content JSON. Omit or pass null to clear previous rich content so the thread falls back to the markdown message. */
-  rich_content?: unknown;
+  rich_content?: unknown | undefined;
 }
 /** Ticket priority: low, medium, high, or critical. Pass null to clear it. * `low` - Low * `medium` - Medium * `high` - High * `critical` - Critical */
 export type UpdateConversationsTicketsPartialRequestPriority = TicketPriorityEnum | BlankEnum;
@@ -806,34 +806,34 @@ export interface UpdateConversationsTicketsPartialRequest {
   /** The ticket's UUID or its numeric ticket number. */
   id: string;
   /** Ticket status: new, open, pending, on_hold, or resolved. * `new` - New * `open` - Open * `pending` - Pending * `on_hold` - On hold * `resolved` - Resolved */
-  status?: TicketStatusEnum | (string & {});
+  status?: TicketStatusEnum | (string & {}) | undefined;
   /** Ticket priority: low, medium, high, or critical. Pass null to clear it. * `low` - Low * `medium` - Medium * `high` - High * `critical` - Critical */
-  priority?: UpdateConversationsTicketsPartialRequestPriority | null;
+  priority?: UpdateConversationsTicketsPartialRequestPriority | null | undefined;
   /** User or role to assign. Pass null to remove the current assignee. */
-  assignee?: TicketAssigneeRequest | null;
+  assignee?: TicketAssigneeRequest | null | undefined;
   /** Customer details such as name and email. */
-  anonymous_traits?: unknown;
+  anonymous_traits?: unknown | undefined;
   /** Whether AI resolved the ticket. */
-  ai_resolved?: boolean;
+  ai_resolved?: boolean | undefined;
   /** Reason the ticket was escalated. Pass null to clear it. */
-  escalation_reason?: string | null;
+  escalation_reason?: string | null | undefined;
   /** SLA deadline. Pass null to clear it. */
-  sla_due_at?: string | null;
+  sla_due_at?: string | null | undefined;
   /** Time to reopen the ticket. Pass null to reopen it now. */
-  snoozed_until?: string | null;
+  snoozed_until?: string | null | undefined;
   /** Tag names to set on the ticket. */
-  tags?: UpdateConversationsTicketsPartialRequestTagsList;
+  tags?: UpdateConversationsTicketsPartialRequestTagsList | undefined;
 }
 export interface UpdateConversationsViewsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
   /** Display name of the view, as it appears in the ticket views list. */
-  name?: string;
+  name?: string | undefined;
   /** Saved ticket filter criteria: status, priority, channel, sla, aiTriageResult, assignee, tags, tagsMatch, tagsExclude, dateFrom, dateTo, sorting, and search. */
-  filters?: TicketViewFilters;
+  filters?: TicketViewFilters | undefined;
   /** Whether the current user has favorited this view. Favorited views sort to the top of the list. Favorites are personal to each user. */
-  is_favorited?: boolean;
+  is_favorited?: boolean | undefined;
 }
 export type ConversationsMacrosDestroyError = PosthogOpError;
 export const conversationsMacrosDestroy: API.OperationMethod<

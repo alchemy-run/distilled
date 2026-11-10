@@ -55,7 +55,7 @@ export interface CreateMessagingProviderImportRequest {
   /** Keys of the steps to run, from the `providers` endpoint. They run in the provider's order, whatever order you send. */
   steps: CreateMessagingProviderImportRequestStepsList;
   /** The provider's API key. For Customer.io, an App API key. Leave it out to reuse the stored key. */
-  api_key?: string | Redacted.Redacted<string>;
+  api_key?: string | Redacted.Redacted<string> | undefined;
 }
 /** * `queued` - Waiting to start * `running` - Importing * `completed` - Imported * `failed` - Failed */
 export type ProviderImportStatusEnum = "queued" | "running" | "completed" | "failed";

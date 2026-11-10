@@ -159,7 +159,7 @@ export type ClientToken = string;
 export interface CreateAssertionRequest {
   serviceArn: string;
   text: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type Uuid = string;
 export type AssertionSource = "AI_GENERATED" | "USER" | (string & {});
@@ -168,8 +168,8 @@ export interface Assertion {
   assertionId: string;
   text: string;
   source: AssertionSource;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateAssertionResponse {
   assertion: Assertion;
@@ -198,58 +198,58 @@ export type EksLabelValueList = string[];
 export interface EksLabelSelectorRequirement {
   key: string;
   operator: EksLabelSelectorOperator;
-  values?: string[];
+  values?: string[] | undefined;
 }
 export type EksLabelSelectorRequirementList = EksLabelSelectorRequirement[];
 export interface EksLabelSelector {
-  matchLabels?: { [key: string]: string | undefined };
-  matchExpressions?: EksLabelSelectorRequirement[];
+  matchLabels?: { [key: string]: string | undefined } | undefined;
+  matchExpressions?: EksLabelSelectorRequirement[] | undefined;
 }
 export interface EksSource {
   clusterArn: string;
   namespaces: string[];
-  labelSelector?: EksLabelSelector;
+  labelSelector?: EksLabelSelector | undefined;
 }
 export type ResourceConfiguration =
   | {
       resourceTags: ResourceTag[];
-      cfnStackArn?: never;
-      tfStateFileUrl?: never;
-      eks?: never;
-      designFileS3Url?: never;
+      cfnStackArn?: undefined;
+      tfStateFileUrl?: undefined;
+      eks?: undefined;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
+      resourceTags?: undefined;
       cfnStackArn: string;
-      tfStateFileUrl?: never;
-      eks?: never;
-      designFileS3Url?: never;
+      tfStateFileUrl?: undefined;
+      eks?: undefined;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
-      cfnStackArn?: never;
+      resourceTags?: undefined;
+      cfnStackArn?: undefined;
       tfStateFileUrl: string;
-      eks?: never;
-      designFileS3Url?: never;
+      eks?: undefined;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
-      cfnStackArn?: never;
-      tfStateFileUrl?: never;
+      resourceTags?: undefined;
+      cfnStackArn?: undefined;
+      tfStateFileUrl?: undefined;
       eks: EksSource;
-      designFileS3Url?: never;
+      designFileS3Url?: undefined;
     }
   | {
-      resourceTags?: never;
-      cfnStackArn?: never;
-      tfStateFileUrl?: never;
-      eks?: never;
+      resourceTags?: undefined;
+      cfnStackArn?: undefined;
+      tfStateFileUrl?: undefined;
+      eks?: undefined;
       designFileS3Url: string;
     };
 export interface CreateInputSourceRequest {
   serviceArn: string;
   resourceConfiguration: ResourceConfiguration;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type InputSourceId = string;
 export interface CreateInputSourceResponse {
@@ -259,7 +259,7 @@ export interface CreateInputSourceResponse {
 export type EntityName = string;
 export type LongDescription = string;
 export interface AvailabilitySlo {
-  target?: number;
+  target?: number | undefined;
 }
 export type MultiAzDisasterRecoveryApproach =
   | "ACTIVE_ACTIVE"
@@ -269,9 +269,9 @@ export type MultiAzDisasterRecoveryApproach =
   | "BACKUP_AND_RESTORE"
   | (string & {});
 export interface MultiAzTargets {
-  rtoInMinutes?: number;
-  rpoInMinutes?: number;
-  disasterRecoveryApproach?: MultiAzDisasterRecoveryApproach;
+  rtoInMinutes?: number | undefined;
+  rpoInMinutes?: number | undefined;
+  disasterRecoveryApproach?: MultiAzDisasterRecoveryApproach | undefined;
 }
 export type MultiRegionDisasterRecoveryApproach =
   | "ACTIVE_ACTIVE"
@@ -281,43 +281,43 @@ export type MultiRegionDisasterRecoveryApproach =
   | "BACKUP_AND_RESTORE"
   | (string & {});
 export interface MultiRegionTargets {
-  rtoInMinutes?: number;
-  rpoInMinutes?: number;
-  disasterRecoveryApproach?: MultiRegionDisasterRecoveryApproach;
+  rtoInMinutes?: number | undefined;
+  rpoInMinutes?: number | undefined;
+  disasterRecoveryApproach?: MultiRegionDisasterRecoveryApproach | undefined;
 }
 export interface DataRecoveryTargets {
-  timeBetweenBackupsInMinutes?: number;
+  timeBetweenBackupsInMinutes?: number | undefined;
 }
 export type KmsKeyId = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreatePolicyRequest {
   name: string;
-  description?: string;
-  availabilitySlo?: AvailabilitySlo;
-  multiAz?: MultiAzTargets;
-  multiRegion?: MultiRegionTargets;
-  dataRecovery?: DataRecoveryTargets;
-  sharingEnabled?: boolean;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | undefined;
+  availabilitySlo?: AvailabilitySlo | undefined;
+  multiAz?: MultiAzTargets | undefined;
+  multiRegion?: MultiRegionTargets | undefined;
+  dataRecovery?: DataRecoveryTargets | undefined;
+  sharingEnabled?: boolean | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type OrganizationId = string;
 export interface Policy {
   policyArn: string;
   name: string;
-  description?: string;
-  availabilitySlo?: AvailabilitySlo;
-  multiAz?: MultiAzTargets;
-  multiRegion?: MultiRegionTargets;
-  dataRecovery?: DataRecoveryTargets;
-  sharingEnabled?: boolean;
-  organizationId?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  associatedServiceCount?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  availabilitySlo?: AvailabilitySlo | undefined;
+  multiAz?: MultiAzTargets | undefined;
+  multiRegion?: MultiRegionTargets | undefined;
+  dataRecovery?: DataRecoveryTargets | undefined;
+  sharingEnabled?: boolean | undefined;
+  organizationId?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  associatedServiceCount?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreatePolicyResponse {
   policy: Policy;
@@ -326,7 +326,7 @@ export type ReportType = "FAILURE_MODE" | "TESTING" | (string & {});
 export interface CreateReportRequest {
   serviceArn: string;
   reportType: ReportType;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ReportGenerationStatus = "PENDING" | "SUCCEEDED" | "FAILED" | (string & {});
 export type TestRunId = string;
@@ -341,20 +341,20 @@ export type ReportGenerationErrorCode =
   | (string & {});
 export interface FailedReportOutput {
   errorCode: ReportGenerationErrorCode;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type ReportOutput =
-  | { s3ReportOutput: S3ReportOutput; failedReportOutput?: never }
-  | { s3ReportOutput?: never; failedReportOutput: FailedReportOutput };
+  | { s3ReportOutput: S3ReportOutput; failedReportOutput?: undefined }
+  | { s3ReportOutput?: undefined; failedReportOutput: FailedReportOutput };
 export interface ReportGenerationResult {
   reportType: ReportType;
   status: ReportGenerationStatus;
-  serviceArn?: string;
-  assessmentId?: string;
-  testRunId?: string;
-  testTemplateArn?: string;
-  createdAt?: Date;
-  reportOutput?: ReportOutput;
+  serviceArn?: string | undefined;
+  assessmentId?: string | undefined;
+  testRunId?: string | undefined;
+  testTemplateArn?: string | undefined;
+  createdAt?: Date | undefined;
+  reportOutput?: ReportOutput | undefined;
 }
 export interface CreateReportResponse {
   reportGenerationResult: ReportGenerationResult;
@@ -363,8 +363,8 @@ export type UserJourneyId = string;
 export type UserJourneyIdList = string[];
 export interface AssociatedSystem {
   systemArn: string;
-  systemName?: string;
-  userJourneyIds?: string[];
+  systemName?: string | undefined;
+  userJourneyIds?: string[] | undefined;
 }
 export type AssociatedSystemList = AssociatedSystem[];
 export type AwsRegion = string;
@@ -373,12 +373,12 @@ export type IamRoleName = string;
 export type IamRoleArn = string;
 export interface CrossAccountRole {
   crossAccountRoleArn: string;
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export type CrossAccountRoleList = CrossAccountRole[];
 export interface PermissionModel {
   invokerRoleName: string;
-  crossAccountRoles?: CrossAccountRole[];
+  crossAccountRoles?: CrossAccountRole[] | undefined;
 }
 export type DependencyDiscoveryInput = "ENABLED" | "DISABLED" | (string & {});
 export type S3BucketPath = string;
@@ -394,66 +394,66 @@ export interface ServiceReportConfiguration {
 }
 export type DevOpsAgentSpaceArn = string;
 export interface DevOpsAgentConfiguration {
-  agentSpaceArn?: string;
+  agentSpaceArn?: string | undefined;
 }
 export interface CreateServiceRequest {
   name: string;
-  description?: string;
-  associatedSystems?: AssociatedSystem[];
-  policyArn?: string;
+  description?: string | undefined;
+  associatedSystems?: AssociatedSystem[] | undefined;
+  policyArn?: string | undefined;
   regions: string[];
   permissionModel: PermissionModel;
-  dependencyDiscovery?: DependencyDiscoveryInput;
-  reportConfiguration?: ServiceReportConfiguration;
-  kmsKeyId?: string;
-  devOpsAgentConfiguration?: DevOpsAgentConfiguration;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  dependencyDiscovery?: DependencyDiscoveryInput | undefined;
+  reportConfiguration?: ServiceReportConfiguration | undefined;
+  kmsKeyId?: string | undefined;
+  devOpsAgentConfiguration?: DevOpsAgentConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type DependencyDiscoveryStatus = "ENABLED" | "INITIALIZING" | "DISABLED" | (string & {});
 export interface DependencyDiscoveryConfig {
   status: DependencyDiscoveryStatus;
-  updatedAt?: Date;
-  eligibleResourceCount?: number;
-  message?: string;
+  updatedAt?: Date | undefined;
+  eligibleResourceCount?: number | undefined;
+  message?: string | undefined;
 }
 export type PolicyValueSource = "SELF" | "CROSS_ACCOUNT" | (string & {});
 export interface SloSource {
-  value?: number;
-  policyName?: string;
-  source?: PolicyValueSource;
+  value?: number | undefined;
+  policyName?: string | undefined;
+  source?: PolicyValueSource | undefined;
 }
 export interface TargetSource {
-  value?: number;
-  policyName?: string;
-  source?: PolicyValueSource;
+  value?: number | undefined;
+  policyName?: string | undefined;
+  source?: PolicyValueSource | undefined;
 }
 export interface DisasterRecoverySource {
-  value?: string;
-  policyName?: string;
-  source?: PolicyValueSource;
+  value?: string | undefined;
+  policyName?: string | undefined;
+  source?: PolicyValueSource | undefined;
 }
 export interface EffectivePolicyValues {
-  availabilitySlo?: SloSource;
-  multiAzRto?: TargetSource;
-  multiAzRpo?: TargetSource;
-  multiAzDrApproach?: DisasterRecoverySource;
-  multiRegionRto?: TargetSource;
-  multiRegionRpo?: TargetSource;
-  multiRegionDrApproach?: DisasterRecoverySource;
-  dataRecoveryTimeBetweenBackups?: TargetSource;
+  availabilitySlo?: SloSource | undefined;
+  multiAzRto?: TargetSource | undefined;
+  multiAzRpo?: TargetSource | undefined;
+  multiAzDrApproach?: DisasterRecoverySource | undefined;
+  multiRegionRto?: TargetSource | undefined;
+  multiRegionRpo?: TargetSource | undefined;
+  multiRegionDrApproach?: DisasterRecoverySource | undefined;
+  dataRecoveryTimeBetweenBackups?: TargetSource | undefined;
 }
 export type AchievabilityStatus = "ACHIEVABLE" | "NOT_ACHIEVABLE" | (string & {});
 export interface Achievability {
-  availabilitySlo?: AchievabilityStatus;
-  multiAzRtoRpo?: AchievabilityStatus;
-  multiRegionRtoRpo?: AchievabilityStatus;
-  dataRecoveryTimeBetweenBackups?: AchievabilityStatus;
+  availabilitySlo?: AchievabilityStatus | undefined;
+  multiAzRtoRpo?: AchievabilityStatus | undefined;
+  multiRegionRtoRpo?: AchievabilityStatus | undefined;
+  dataRecoveryTimeBetweenBackups?: AchievabilityStatus | undefined;
 }
 export type CostCurrency = "USD" | (string & {});
 export interface AssessmentCost {
-  amount?: number;
-  currency?: CostCurrency;
+  amount?: number | undefined;
+  currency?: CostCurrency | undefined;
 }
 export type ResourceDiscoveryRunStatus =
   | "RUNNING"
@@ -472,10 +472,10 @@ export type ResourceDiscoveryErrorCode =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface ResourceDiscoveryStatus {
-  status?: ResourceDiscoveryRunStatus;
-  lastRunAt?: Date;
-  errorCode?: ResourceDiscoveryErrorCode;
-  errorMessage?: string;
+  status?: ResourceDiscoveryRunStatus | undefined;
+  lastRunAt?: Date | undefined;
+  errorCode?: ResourceDiscoveryErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type AssessmentStatus =
   | "NOT_STARTED"
@@ -495,40 +495,40 @@ export type DevOpsAgentConnectionStatus =
   | "FAILED"
   | (string & {});
 export interface DevOpsAgentConfigurationView {
-  agentSpaceArn?: string;
-  agentSpaceId?: string;
-  region?: string;
-  status?: DevOpsAgentConnectionStatus;
-  operatorAppUrl?: string;
-  connectedAt?: Date;
-  statusReason?: string;
+  agentSpaceArn?: string | undefined;
+  agentSpaceId?: string | undefined;
+  region?: string | undefined;
+  status?: DevOpsAgentConnectionStatus | undefined;
+  operatorAppUrl?: string | undefined;
+  connectedAt?: Date | undefined;
+  statusReason?: string | undefined;
 }
 export interface Service {
   serviceArn: string;
   name: string;
-  description?: string;
-  associatedSystems?: AssociatedSystem[];
-  policyArn?: string;
-  regions?: string[];
-  permissionModel?: PermissionModel;
-  dependencyDiscovery?: DependencyDiscoveryConfig;
-  effectivePolicyValues?: EffectivePolicyValues;
-  achievability?: Achievability;
-  reportConfiguration?: ServiceReportConfiguration;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  estimatedAssessmentCost?: AssessmentCost;
-  resourceDiscovery?: ResourceDiscoveryStatus;
-  assessmentStatus?: AssessmentStatus;
-  rerunAssessment?: boolean;
-  openFindingsCount?: number;
-  resolvedFindingsCount?: number;
-  organizationId?: string;
-  ouId?: string;
-  accountId?: string;
-  devOpsAgentConfiguration?: DevOpsAgentConfigurationView;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  associatedSystems?: AssociatedSystem[] | undefined;
+  policyArn?: string | undefined;
+  regions?: string[] | undefined;
+  permissionModel?: PermissionModel | undefined;
+  dependencyDiscovery?: DependencyDiscoveryConfig | undefined;
+  effectivePolicyValues?: EffectivePolicyValues | undefined;
+  achievability?: Achievability | undefined;
+  reportConfiguration?: ServiceReportConfiguration | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  estimatedAssessmentCost?: AssessmentCost | undefined;
+  resourceDiscovery?: ResourceDiscoveryStatus | undefined;
+  assessmentStatus?: AssessmentStatus | undefined;
+  rerunAssessment?: boolean | undefined;
+  openFindingsCount?: number | undefined;
+  resolvedFindingsCount?: number | undefined;
+  organizationId?: string | undefined;
+  ouId?: string | undefined;
+  accountId?: string | undefined;
+  devOpsAgentConfiguration?: DevOpsAgentConfigurationView | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateServiceResponse {
   service: Service;
@@ -539,9 +539,9 @@ export type ServiceFunctionCriticality = "PRIMARY" | "SUPPLEMENTAL" | (string & 
 export interface CreateServiceFunctionRequest {
   name: string;
   serviceArn: string;
-  description?: string;
+  description?: string | undefined;
   criticality: ServiceFunctionCriticality;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type EntityId = string;
 export type ServiceFunctionSource = "AI_GENERATED" | "USER" | (string & {});
@@ -549,12 +549,12 @@ export interface ServiceFunction {
   serviceArn: string;
   serviceFunctionId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   criticality: ServiceFunctionCriticality;
-  resourceCount?: number;
-  source?: ServiceFunctionSource;
-  createdAt?: Date;
-  updatedAt?: Date;
+  resourceCount?: number | undefined;
+  source?: ServiceFunctionSource | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateServiceFunctionResponse {
   serviceFunction: ServiceFunction;
@@ -566,39 +566,39 @@ export interface CreateServiceFunctionResourcesRequest {
   resources: string[];
 }
 export interface CreateServiceFunctionResourcesResponse {
-  serviceArn?: string;
-  serviceFunctionId?: string;
-  resources?: string[];
+  serviceArn?: string | undefined;
+  serviceFunctionId?: string | undefined;
+  resources?: string[] | undefined;
 }
 export interface CreateSystemRequest {
   name: string;
-  description?: string;
-  sharingEnabled?: boolean;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | undefined;
+  sharingEnabled?: boolean | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type SystemId = string;
 export interface System {
   systemArn: string;
   systemId: string;
   name: string;
-  description?: string;
-  sharingEnabled?: boolean;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyId?: string;
-  organizationId?: string;
-  ouId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  sharingEnabled?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyId?: string | undefined;
+  organizationId?: string | undefined;
+  ouId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateSystemResponse {
   system: System;
 }
 export interface LoggingConfiguration {
-  s3BucketName?: string;
-  cloudWatchLogGroupArn?: string;
-  logSchemaVersion?: string;
+  s3BucketName?: string | undefined;
+  cloudWatchLogGroupArn?: string | undefined;
+  logSchemaVersion?: string | undefined;
 }
 export type StopConditionSource = "aws:cloudwatch:alarm" | "none" | (string & {});
 export interface StopCondition {
@@ -613,15 +613,15 @@ export type TestParameters = { [key: string]: string[] | undefined };
 export interface CreateTestRequest {
   serviceArn: string;
   testTemplateArn: string;
-  loggingConfiguration?: LoggingConfiguration;
-  stopConditions?: StopCondition[];
-  roleName?: string;
-  parameters?: { [key: string]: string[] | undefined };
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  stopConditions?: StopCondition[] | undefined;
+  roleName?: string | undefined;
+  parameters?: { [key: string]: string[] | undefined } | undefined;
 }
 export type TestId = string;
 export interface TestAction {
   actionId: string;
-  description?: string;
+  description?: string | undefined;
   resourceType: string;
 }
 export type TestActionList = TestAction[];
@@ -630,11 +630,11 @@ export interface Test {
   testTemplateArn: string;
   serviceArn: string;
   name: string;
-  actions?: TestAction[];
-  loggingConfiguration?: LoggingConfiguration;
-  stopConditions?: StopCondition[];
-  roleName?: string;
-  parameters?: { [key: string]: string[] | undefined };
+  actions?: TestAction[] | undefined;
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  stopConditions?: StopCondition[] | undefined;
+  roleName?: string | undefined;
+  parameters?: { [key: string]: string[] | undefined } | undefined;
   totalTestRuns: number;
   successfulTestRuns: number;
   creationTime: Date;
@@ -645,17 +645,17 @@ export interface CreateTestResponse {
 export interface CreateUserJourneyRequest {
   systemArn: string;
   name: string;
-  description?: string;
-  policyArn?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policyArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UserJourney {
   userJourneyId: string;
   name: string;
-  description?: string;
-  policyArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  policyArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateUserJourneyResponse {
   userJourney: UserJourney;
@@ -665,7 +665,7 @@ export interface DeleteAssertionRequest {
   assertionId: string;
 }
 export interface DeleteAssertionResponse {
-  assertionId?: string;
+  assertionId?: string | undefined;
 }
 export interface DeleteInputSourceRequest {
   serviceArn: string;
@@ -692,7 +692,7 @@ export interface DeleteServiceFunctionRequest {
   serviceFunctionId: string;
 }
 export interface DeleteServiceFunctionResponse {
-  serviceFunctionId?: string;
+  serviceFunctionId?: string | undefined;
 }
 export interface DeleteServiceFunctionResourcesRequest {
   serviceArn: string;
@@ -700,9 +700,9 @@ export interface DeleteServiceFunctionResourcesRequest {
   resources: string[];
 }
 export interface DeleteServiceFunctionResourcesResponse {
-  serviceArn?: string;
-  serviceFunctionId?: string;
-  resources?: string[];
+  serviceArn?: string | undefined;
+  serviceFunctionId?: string | undefined;
+  resources?: string[] | undefined;
 }
 export interface DeleteSystemRequest {
   systemArn: string;
@@ -725,8 +725,8 @@ export interface ObservabilityAlarmInput {
   alarmArn: string;
 }
 export type TestSourceInput =
-  | { successCriteriaAlarm: SuccessCriteriaAlarmInput; observabilityAlarm?: never }
-  | { successCriteriaAlarm?: never; observabilityAlarm: ObservabilityAlarmInput };
+  | { successCriteriaAlarm: SuccessCriteriaAlarmInput; observabilityAlarm?: undefined }
+  | { successCriteriaAlarm?: undefined; observabilityAlarm: ObservabilityAlarmInput };
 export type TestSourceInputList = TestSourceInput[];
 export interface DeleteTestSourcesRequest {
   testId: string;
@@ -763,12 +763,12 @@ export type DependencyInsightsErrorCode =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface GetDependencyInsightsResponse {
-  overview?: string;
-  insights?: DependencyInsight[];
+  overview?: string | undefined;
+  insights?: DependencyInsight[] | undefined;
   status: DependencyInsightsStatus;
-  createdAt?: Date;
-  errorCode?: DependencyInsightsErrorCode;
-  errorMessage?: string;
+  createdAt?: Date | undefined;
+  errorCode?: DependencyInsightsErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export interface GetFailureModeFindingRequest {
   findingId: string;
@@ -792,36 +792,36 @@ export type PolicyComponent =
   | (string & {});
 export type SuggestedChangesList = string[];
 export interface InfrastructureAndCodeRecommendation {
-  suggestedChanges?: string[];
+  suggestedChanges?: string[] | undefined;
 }
 export type InfrastructureAndCodeRecommendationsList = InfrastructureAndCodeRecommendation[];
 export interface ObservabilityRecommendation {
-  suggestedChanges?: string[];
+  suggestedChanges?: string[] | undefined;
 }
 export type ObservabilityRecommendationsList = ObservabilityRecommendation[];
 export interface TestingRecommendation {
-  suggestedChanges?: string[];
+  suggestedChanges?: string[] | undefined;
 }
 export type TestingRecommendationsList = TestingRecommendation[];
 export interface Finding {
-  findingId?: string;
-  name?: string;
-  description?: string;
-  failureCategory?: FailureCategory;
-  status?: FindingStatus;
-  reasoning?: string;
-  comment?: string;
-  severity?: FindingSeverity;
-  serviceFunctions?: string[];
-  policyComponent?: PolicyComponent;
-  infrastructureAndCodeRecommendations?: InfrastructureAndCodeRecommendation[];
-  observabilityRecommendations?: ObservabilityRecommendation[];
-  testingRecommendations?: TestingRecommendation[];
-  updatedAt?: Date;
-  investigationDeepLink?: string;
+  findingId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  failureCategory?: FailureCategory | undefined;
+  status?: FindingStatus | undefined;
+  reasoning?: string | undefined;
+  comment?: string | undefined;
+  severity?: FindingSeverity | undefined;
+  serviceFunctions?: string[] | undefined;
+  policyComponent?: PolicyComponent | undefined;
+  infrastructureAndCodeRecommendations?: InfrastructureAndCodeRecommendation[] | undefined;
+  observabilityRecommendations?: ObservabilityRecommendation[] | undefined;
+  testingRecommendations?: TestingRecommendation[] | undefined;
+  updatedAt?: Date | undefined;
+  investigationDeepLink?: string | undefined;
 }
 export interface GetFailureModeFindingResponse {
-  finding?: Finding;
+  finding?: Finding | undefined;
 }
 export interface GetPolicyRequest {
   policyArn: string;
@@ -863,19 +863,19 @@ export type TestRunStatus =
   | (string & {});
 export interface ExperimentDetails {
   experimentArn: string;
-  details?: string;
+  details?: string | undefined;
 }
 export type ExperimentDetailsList = ExperimentDetails[];
 export interface TestRunReportConfiguration {
   reportOutput: ReportOutputConfiguration[];
 }
 export interface TestRunPolicySnapshot {
-  policyArn?: string;
-  name?: string;
-  availabilitySlo?: AvailabilitySlo;
-  multiAz?: MultiAzTargets;
-  multiRegion?: MultiRegionTargets;
-  dataRecovery?: DataRecoveryTargets;
+  policyArn?: string | undefined;
+  name?: string | undefined;
+  availabilitySlo?: AvailabilitySlo | undefined;
+  multiAz?: MultiAzTargets | undefined;
+  multiRegion?: MultiRegionTargets | undefined;
+  dataRecovery?: DataRecoveryTargets | undefined;
 }
 export type RegionSwitchExecutionId = string;
 export type AccountTargeting = "SINGLE_ACCOUNT" | "MULTI_ACCOUNT" | (string & {});
@@ -890,36 +890,36 @@ export type DevOpsAgentInvestigationStatus =
   | "CANCELED"
   | (string & {});
 export interface DevOpsAgentInvestigation {
-  verdict?: DevOpsAgentVerdict;
-  confidence?: DevOpsAgentConfidence;
-  deepLink?: string;
-  status?: DevOpsAgentInvestigationStatus;
-  summary?: string;
+  verdict?: DevOpsAgentVerdict | undefined;
+  confidence?: DevOpsAgentConfidence | undefined;
+  deepLink?: string | undefined;
+  status?: DevOpsAgentInvestigationStatus | undefined;
+  summary?: string | undefined;
 }
 export interface TestRun {
   testRunId: string;
   testId: string;
   status: TestRunStatus;
-  serviceArn?: string;
+  serviceArn?: string | undefined;
   startedAt: Date;
-  endedAt?: Date;
-  experiments?: ExperimentDetails[];
-  eventCount?: number;
-  parameters?: { [key: string]: string[] | undefined };
-  errorMessage?: string;
-  stopConditions?: StopCondition[];
-  loggingConfiguration?: LoggingConfiguration;
-  roleName?: string;
+  endedAt?: Date | undefined;
+  experiments?: ExperimentDetails[] | undefined;
+  eventCount?: number | undefined;
+  parameters?: { [key: string]: string[] | undefined } | undefined;
+  errorMessage?: string | undefined;
+  stopConditions?: StopCondition[] | undefined;
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  roleName?: string | undefined;
   testTemplateArn: string;
-  reportConfiguration?: TestRunReportConfiguration;
-  policy?: TestRunPolicySnapshot;
-  reportOutput?: ReportGenerationResult;
-  regionSwitchPlanArn?: string;
-  regionSwitchExecutionId?: string;
-  permissionModel?: PermissionModel;
-  regions?: string[];
-  accountTargeting?: AccountTargeting;
-  devOpsAgentInvestigation?: DevOpsAgentInvestigation;
+  reportConfiguration?: TestRunReportConfiguration | undefined;
+  policy?: TestRunPolicySnapshot | undefined;
+  reportOutput?: ReportGenerationResult | undefined;
+  regionSwitchPlanArn?: string | undefined;
+  regionSwitchExecutionId?: string | undefined;
+  permissionModel?: PermissionModel | undefined;
+  regions?: string[] | undefined;
+  accountTargeting?: AccountTargeting | undefined;
+  devOpsAgentInvestigation?: DevOpsAgentInvestigation | undefined;
 }
 export interface GetTestRunResponse {
   testRun: TestRun;
@@ -930,19 +930,19 @@ export interface GetTestTemplateRequest {
 export type ParameterType = "STRING" | "STRING_LIST" | "INTEGER" | (string & {});
 export interface TestTemplateParameter {
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: ParameterType;
   required: boolean;
-  defaultValue?: string;
-  maxValues?: number;
+  defaultValue?: string | undefined;
+  maxValues?: number | undefined;
 }
 export type TestTemplateParameterList = TestTemplateParameter[];
 export interface TestTemplate {
   testTemplateArn: string;
   name: string;
-  description?: string;
-  parameters?: TestTemplateParameter[];
-  actions?: TestAction[];
+  description?: string | undefined;
+  parameters?: TestTemplateParameter[] | undefined;
+  actions?: TestAction[] | undefined;
 }
 export interface GetTestTemplateResponse {
   testTemplate: TestTemplate;
@@ -956,24 +956,24 @@ export interface GetUserJourneyResponse {
 }
 export interface ImportAppRequest {
   v1AppArn: string;
-  policyArn?: string;
-  kmsKeyId?: string;
-  skipManuallyAddedResources?: boolean;
-  associatedSystems?: AssociatedSystem[];
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  policyArn?: string | undefined;
+  kmsKeyId?: string | undefined;
+  skipManuallyAddedResources?: boolean | undefined;
+  associatedSystems?: AssociatedSystem[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface ImportAppResponse {
   service: Service;
 }
 export interface ImportPolicyRequest {
   v1PolicyArn: string;
-  kmsKeyId?: string;
-  availabilitySlo?: AvailabilitySlo;
-  multiAzDisasterRecoveryApproach?: MultiAzDisasterRecoveryApproach;
-  multiRegionDisasterRecoveryApproach?: MultiRegionDisasterRecoveryApproach;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  kmsKeyId?: string | undefined;
+  availabilitySlo?: AvailabilitySlo | undefined;
+  multiAzDisasterRecoveryApproach?: MultiAzDisasterRecoveryApproach | undefined;
+  multiRegionDisasterRecoveryApproach?: MultiRegionDisasterRecoveryApproach | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface ImportPolicyResponse {
   policy: Policy;
@@ -982,23 +982,23 @@ export type MaxResults = number;
 export type NextToken = string;
 export interface ListAssertionsRequest {
   serviceArn: string;
-  source?: AssertionSource;
-  maxResults?: number;
-  nextToken?: string;
+  source?: AssertionSource | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AssertionList = Assertion[];
 export interface ListAssertionsResponse {
   assertions: Assertion[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type QueryGranularity = "HOURLY" | "DAILY" | (string & {});
 export interface ListDependenciesRequest {
-  serviceArn?: string;
-  queryRangeStartTime?: Date;
-  queryRangeEndTime?: Date;
-  queryRangeGranularity?: QueryGranularity;
-  maxResults?: number;
-  nextToken?: string;
+  serviceArn?: string | undefined;
+  queryRangeStartTime?: Date | undefined;
+  queryRangeEndTime?: Date | undefined;
+  queryRangeGranularity?: QueryGranularity | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface QueryDataPoint {
   timestamp: Date;
@@ -1020,28 +1020,28 @@ export interface DependencySummary {
   location: string;
   lastDetectedTime: Date;
   sourceRegions: string[];
-  provider?: string;
+  provider?: string | undefined;
   queryRange: QueryRange;
   criticality: DependencyCriticality;
-  comment?: string;
+  comment?: string | undefined;
 }
 export type DependencySummaryList = DependencySummary[];
 export interface ListDependenciesResponse {
   dependencySummaries: DependencySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AssessmentStatusList = AssessmentStatus[];
 export type AssessmentSortField = "STARTED_AT" | (string & {});
 export type SortOrder = "ASC" | "DESC" | (string & {});
 export interface ListFailureModeAssessmentsRequest {
   serviceArn: string;
-  assessmentStatuses?: AssessmentStatus[];
-  startedAfter?: Date;
-  endedBefore?: Date;
-  sortBy?: AssessmentSortField;
-  sortOrder?: SortOrder;
-  maxResults?: number;
-  nextToken?: string;
+  assessmentStatuses?: AssessmentStatus[] | undefined;
+  startedAfter?: Date | undefined;
+  endedBefore?: Date | undefined;
+  sortBy?: AssessmentSortField | undefined;
+  sortOrder?: SortOrder | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AssessmentStep =
   | "TOPOLOGY_GENERATION"
@@ -1064,46 +1064,46 @@ export type AssessmentErrorCode =
 export interface AssessmentSummary {
   assessmentId: string;
   serviceArn: string;
-  assessmentStatus?: AssessmentStatus;
-  assessmentStep?: AssessmentStep;
-  totalFindings?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  errorMessage?: string;
-  errorCode?: AssessmentErrorCode;
-  assessmentCost?: AssessmentCost;
-  billableAssessmentUnitCount?: number;
-  achievability?: Achievability;
+  assessmentStatus?: AssessmentStatus | undefined;
+  assessmentStep?: AssessmentStep | undefined;
+  totalFindings?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: AssessmentErrorCode | undefined;
+  assessmentCost?: AssessmentCost | undefined;
+  billableAssessmentUnitCount?: number | undefined;
+  achievability?: Achievability | undefined;
 }
 export type AssessmentSummaryList = AssessmentSummary[];
 export interface ListFailureModeAssessmentsResponse {
   assessmentSummaries: AssessmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFailureModeFindingsRequest {
   serviceArn: string;
-  severity?: FindingSeverity;
-  failureCategory?: FailureCategory;
-  status?: FindingStatus;
-  maxResults?: number;
-  nextToken?: string;
+  severity?: FindingSeverity | undefined;
+  failureCategory?: FailureCategory | undefined;
+  status?: FindingStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FindingSummary {
-  serviceArn?: string;
-  findingId?: string;
-  name?: string;
-  description?: string;
-  failureCategory?: FailureCategory;
-  severity?: FindingSeverity;
-  status?: FindingStatus;
-  policyComponent?: PolicyComponent;
-  updatedAt?: Date;
-  investigationDeepLink?: string;
+  serviceArn?: string | undefined;
+  findingId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  failureCategory?: FailureCategory | undefined;
+  severity?: FindingSeverity | undefined;
+  status?: FindingStatus | undefined;
+  policyComponent?: PolicyComponent | undefined;
+  updatedAt?: Date | undefined;
+  investigationDeepLink?: string | undefined;
 }
 export type FindingsList = FindingSummary[];
 export interface ListFailureModeFindingsResponse {
   findingsSummary: FindingSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type InputSourceType =
   | "CFN_STACK"
@@ -1115,47 +1115,47 @@ export type InputSourceType =
   | (string & {});
 export interface ListInputSourcesRequest {
   serviceArn: string;
-  type?: InputSourceType;
-  maxResults?: number;
-  nextToken?: string;
+  type?: InputSourceType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface InputSourceSummary {
   inputSourceId: string;
-  type?: InputSourceType;
-  resourceTags?: ResourceTag[];
-  cfnStackArn?: string;
-  tfStateFileUrl?: string;
-  eks?: EksSource;
-  designFileS3Url?: string;
-  createdAt?: Date;
+  type?: InputSourceType | undefined;
+  resourceTags?: ResourceTag[] | undefined;
+  cfnStackArn?: string | undefined;
+  tfStateFileUrl?: string | undefined;
+  eks?: EksSource | undefined;
+  designFileS3Url?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type InputSourceSummaryList = InputSourceSummary[];
 export interface ListInputSourcesResponse {
   inputSourceSummaries: InputSourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPoliciesRequest {
-  accountId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  accountId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PolicySummary {
   policyArn: string;
   name: string;
-  availabilitySlo?: AvailabilitySlo;
-  multiAz?: MultiAzTargets;
-  multiRegion?: MultiRegionTargets;
-  dataRecovery?: DataRecoveryTargets;
-  sharingEnabled?: boolean;
-  organizationId?: string;
-  associatedServiceCount?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  availabilitySlo?: AvailabilitySlo | undefined;
+  multiAz?: MultiAzTargets | undefined;
+  multiRegion?: MultiRegionTargets | undefined;
+  dataRecovery?: DataRecoveryTargets | undefined;
+  sharingEnabled?: boolean | undefined;
+  organizationId?: string | undefined;
+  associatedServiceCount?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PolicySummaryList = PolicySummary[];
 export interface ListPoliciesResponse {
   policySummaries: PolicySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PolicyEventType =
   | "POLICY_ATTACHED_TO_SERVICE"
@@ -1166,62 +1166,62 @@ export type PolicyEventType =
 export type PolicyEventTypeList = PolicyEventType[];
 export interface ListPolicyEventsRequest {
   policyArn: string;
-  eventTypes?: PolicyEventType[];
-  startTime?: Date;
-  endTime?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  eventTypes?: PolicyEventType[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ActorType = "USER" | "SYSTEM" | (string & {});
 export interface EventActor {
   type: ActorType;
   principalId: string;
-  accountId?: string;
-  userName?: string;
+  accountId?: string | undefined;
+  userName?: string | undefined;
 }
 export interface PolicyAttachedToServiceMetadata {
-  serviceArn?: string;
-  accountId?: string;
+  serviceArn?: string | undefined;
+  accountId?: string | undefined;
 }
 export interface PolicyDetachedFromServiceMetadata {
-  serviceArn?: string;
-  accountId?: string;
+  serviceArn?: string | undefined;
+  accountId?: string | undefined;
 }
 export interface PolicySharingRevokedMetadata {
-  affectedServiceCount?: number;
+  affectedServiceCount?: number | undefined;
 }
 export interface PolicyDeletedMetadata {
-  affectedServiceCount?: number;
+  affectedServiceCount?: number | undefined;
 }
 export type PolicyEventMetadata =
   | {
       policyAttachedToService: PolicyAttachedToServiceMetadata;
-      policyDetachedFromService?: never;
-      policySharingRevoked?: never;
-      policyDeleted?: never;
+      policyDetachedFromService?: undefined;
+      policySharingRevoked?: undefined;
+      policyDeleted?: undefined;
     }
   | {
-      policyAttachedToService?: never;
+      policyAttachedToService?: undefined;
       policyDetachedFromService: PolicyDetachedFromServiceMetadata;
-      policySharingRevoked?: never;
-      policyDeleted?: never;
+      policySharingRevoked?: undefined;
+      policyDeleted?: undefined;
     }
   | {
-      policyAttachedToService?: never;
-      policyDetachedFromService?: never;
+      policyAttachedToService?: undefined;
+      policyDetachedFromService?: undefined;
       policySharingRevoked: PolicySharingRevokedMetadata;
-      policyDeleted?: never;
+      policyDeleted?: undefined;
     }
   | {
-      policyAttachedToService?: never;
-      policyDetachedFromService?: never;
-      policySharingRevoked?: never;
+      policyAttachedToService?: undefined;
+      policyDetachedFromService?: undefined;
+      policySharingRevoked?: undefined;
       policyDeleted: PolicyDeletedMetadata;
     };
 export interface PolicyEventDetails {
   title: string;
   description: string;
-  eventMetadata?: PolicyEventMetadata;
+  eventMetadata?: PolicyEventMetadata | undefined;
 }
 export interface PolicyEvent {
   eventId: string;
@@ -1234,25 +1234,25 @@ export interface PolicyEvent {
 export type PolicyEventList = PolicyEvent[];
 export interface ListPolicyEventsResponse {
   events: PolicyEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListReportsRequest {
-  serviceArn?: string;
-  reportType?: ReportType;
-  testRunId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  serviceArn?: string | undefined;
+  reportType?: ReportType | undefined;
+  testRunId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ReportGenerationResultList = ReportGenerationResult[];
 export interface ListReportsResponse {
   reportGenerationResults: ReportGenerationResult[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListResolvedTestRunTargetResourcesRequest {
   testRunId: string;
   serviceArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ResolvedTargetInformationKey = string;
 export type ResolvedTargetInformationValue = string;
@@ -1265,18 +1265,18 @@ export interface ResolvedTargetResource {
 export type ResolvedTargetResourceList = ResolvedTargetResource[];
 export interface ListResolvedTestRunTargetResourcesResponse {
   resolvedTargetResources: ResolvedTargetResource[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceTypeFilter = string;
 export type ResourceTypeFilterList = string[];
 export interface ListResourcesRequest {
   serviceArn: string;
-  serviceFunctionId?: string;
-  awsRegion?: string;
-  resourceTypes?: string[];
-  billable?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  serviceFunctionId?: string | undefined;
+  awsRegion?: string | undefined;
+  resourceTypes?: string[] | undefined;
+  billable?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface InputSource {
   identifier: string;
@@ -1284,24 +1284,24 @@ export interface InputSource {
 }
 export interface Resource {
   identifier: string;
-  awsRegion?: string;
-  awsAccountId?: string;
-  resourceType?: string;
-  availabilityZoneId?: string;
-  availabilityZoneName?: string;
-  containmentParentId?: string;
-  logicalResourceGroupId?: string;
+  awsRegion?: string | undefined;
+  awsAccountId?: string | undefined;
+  resourceType?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  availabilityZoneName?: string | undefined;
+  containmentParentId?: string | undefined;
+  logicalResourceGroupId?: string | undefined;
 }
 export interface ServiceResource {
   resourceIdentifier: string;
-  inputSource?: InputSource;
+  inputSource?: InputSource | undefined;
   resource: Resource;
 }
 export type ServiceResourceList = ServiceResource[];
 export interface ListResourcesResponse {
-  serviceFunctionId?: string;
-  serviceResources?: ServiceResource[];
-  nextToken?: string;
+  serviceFunctionId?: string | undefined;
+  serviceResources?: ServiceResource[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ServiceEventType =
   | "SERVICE_CREATED"
@@ -1327,42 +1327,42 @@ export type ServiceEventType =
 export type ServiceEventTypeList = ServiceEventType[];
 export interface ListServiceEventsRequest {
   serviceArn: string;
-  eventTypes?: ServiceEventType[];
-  startTime?: Date;
-  endTime?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  eventTypes?: ServiceEventType[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ServiceCreatedMetadata {}
 export interface ServiceDeletedMetadata {}
 export interface ServiceSystemAssociatedMetadata {
-  systemName?: string;
-  systemArn?: string;
+  systemName?: string | undefined;
+  systemArn?: string | undefined;
 }
 export interface ServiceSystemDisassociatedMetadata {
-  systemId?: string;
-  systemName?: string;
-  systemArn?: string;
+  systemId?: string | undefined;
+  systemName?: string | undefined;
+  systemArn?: string | undefined;
 }
 export type ResourceTypeList = string[];
 export interface ServiceResourcesAssociatedMetadata {
-  resourceCount?: number;
-  resourceTypes?: string[];
+  resourceCount?: number | undefined;
+  resourceTypes?: string[] | undefined;
 }
 export interface ServiceResourcesDisassociatedMetadata {
-  resourceCount?: number;
-  resourceTypes?: string[];
+  resourceCount?: number | undefined;
+  resourceTypes?: string[] | undefined;
 }
 export interface ServiceWorkflowUpdatedMetadata {
-  serviceFunctionId?: string;
-  serviceFunctionName?: string;
+  serviceFunctionId?: string | undefined;
+  serviceFunctionName?: string | undefined;
 }
 export interface ServiceInputSourcesUpdatedMetadata {}
 export interface ServicePolicyAssociatedMetadata {
-  policyName?: string;
-  policyArn?: string;
-  policyOwnerAccountId?: string;
-  policySource?: PolicyValueSource;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
+  policyOwnerAccountId?: string | undefined;
+  policySource?: PolicyValueSource | undefined;
 }
 export type PolicyDisassociationReason =
   | "REPLACED_BY_UPDATE"
@@ -1370,459 +1370,459 @@ export type PolicyDisassociationReason =
   | "POLICY_DELETED"
   | (string & {});
 export interface ServicePolicyDisassociatedMetadata {
-  policyName?: string;
-  policyArn?: string;
-  policyOwnerAccountId?: string;
-  policySource?: PolicyValueSource;
-  reason?: PolicyDisassociationReason;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
+  policyOwnerAccountId?: string | undefined;
+  policySource?: PolicyValueSource | undefined;
+  reason?: PolicyDisassociationReason | undefined;
 }
 export interface ServiceFunctionCreatedMetadata {
-  serviceFunctionId?: string;
-  serviceFunctionName?: string;
+  serviceFunctionId?: string | undefined;
+  serviceFunctionName?: string | undefined;
 }
 export type ArnList = string[];
 export interface ServiceFunctionUpdatedMetadata {
-  serviceFunctionId?: string;
-  serviceFunctionName?: string;
-  resourcesAdded?: string[];
-  resourcesRemoved?: string[];
+  serviceFunctionId?: string | undefined;
+  serviceFunctionName?: string | undefined;
+  resourcesAdded?: string[] | undefined;
+  resourcesRemoved?: string[] | undefined;
 }
 export interface ServiceFunctionDeletedMetadata {
-  serviceFunctionId?: string;
-  serviceFunctionName?: string;
+  serviceFunctionId?: string | undefined;
+  serviceFunctionName?: string | undefined;
 }
 export interface ServiceFunctionResourcesAddedMetadata {
-  serviceFunctionId?: string;
-  serviceFunctionName?: string;
-  resourcesAdded?: string[];
+  serviceFunctionId?: string | undefined;
+  serviceFunctionName?: string | undefined;
+  resourcesAdded?: string[] | undefined;
 }
 export interface ServiceFunctionResourcesRemovedMetadata {
-  serviceFunctionId?: string;
-  serviceFunctionName?: string;
-  resourcesRemoved?: string[];
+  serviceFunctionId?: string | undefined;
+  serviceFunctionName?: string | undefined;
+  resourcesRemoved?: string[] | undefined;
 }
 export interface ServiceAchievabilityUpdatedMetadata {
-  assessmentId?: string;
-  availabilitySlo?: string;
-  multiAzRtoRpo?: string;
-  multiRegionRtoRpo?: string;
+  assessmentId?: string | undefined;
+  availabilitySlo?: string | undefined;
+  multiAzRtoRpo?: string | undefined;
+  multiRegionRtoRpo?: string | undefined;
 }
 export interface AssertionCreatedMetadata {
-  assertionId?: string;
-  assertionName?: string;
+  assertionId?: string | undefined;
+  assertionName?: string | undefined;
 }
 export interface AssertionUpdatedMetadata {
-  assertionId?: string;
-  assertionName?: string;
+  assertionId?: string | undefined;
+  assertionName?: string | undefined;
 }
 export interface AssertionDeletedMetadata {
-  assertionId?: string;
-  assertionName?: string;
+  assertionId?: string | undefined;
+  assertionName?: string | undefined;
 }
 export type ServiceEventMetadata =
   | {
       serviceCreated: ServiceCreatedMetadata;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
+      serviceCreated?: undefined;
       serviceDeleted: ServiceDeletedMetadata;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
       serviceSystemAssociated: ServiceSystemAssociatedMetadata;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
       serviceSystemDisassociated: ServiceSystemDisassociatedMetadata;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
       serviceResourcesAssociated: ServiceResourcesAssociatedMetadata;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
       serviceResourcesDisassociated: ServiceResourcesDisassociatedMetadata;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
       serviceWorkflowUpdated: ServiceWorkflowUpdatedMetadata;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
       serviceInputSourcesUpdated: ServiceInputSourcesUpdatedMetadata;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
       servicePolicyAssociated: ServicePolicyAssociatedMetadata;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
       servicePolicyDisassociated: ServicePolicyDisassociatedMetadata;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
       serviceFunctionCreated: ServiceFunctionCreatedMetadata;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
       serviceFunctionUpdated: ServiceFunctionUpdatedMetadata;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
       serviceFunctionDeleted: ServiceFunctionDeletedMetadata;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
       serviceFunctionResourcesAdded: ServiceFunctionResourcesAddedMetadata;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
       serviceFunctionResourcesRemoved: ServiceFunctionResourcesRemovedMetadata;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
       serviceAchievabilityUpdated: ServiceAchievabilityUpdatedMetadata;
-      assertionCreated?: never;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
       assertionCreated: AssertionCreatedMetadata;
-      assertionUpdated?: never;
-      assertionDeleted?: never;
+      assertionUpdated?: undefined;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
       assertionUpdated: AssertionUpdatedMetadata;
-      assertionDeleted?: never;
+      assertionDeleted?: undefined;
     }
   | {
-      serviceCreated?: never;
-      serviceDeleted?: never;
-      serviceSystemAssociated?: never;
-      serviceSystemDisassociated?: never;
-      serviceResourcesAssociated?: never;
-      serviceResourcesDisassociated?: never;
-      serviceWorkflowUpdated?: never;
-      serviceInputSourcesUpdated?: never;
-      servicePolicyAssociated?: never;
-      servicePolicyDisassociated?: never;
-      serviceFunctionCreated?: never;
-      serviceFunctionUpdated?: never;
-      serviceFunctionDeleted?: never;
-      serviceFunctionResourcesAdded?: never;
-      serviceFunctionResourcesRemoved?: never;
-      serviceAchievabilityUpdated?: never;
-      assertionCreated?: never;
-      assertionUpdated?: never;
+      serviceCreated?: undefined;
+      serviceDeleted?: undefined;
+      serviceSystemAssociated?: undefined;
+      serviceSystemDisassociated?: undefined;
+      serviceResourcesAssociated?: undefined;
+      serviceResourcesDisassociated?: undefined;
+      serviceWorkflowUpdated?: undefined;
+      serviceInputSourcesUpdated?: undefined;
+      servicePolicyAssociated?: undefined;
+      servicePolicyDisassociated?: undefined;
+      serviceFunctionCreated?: undefined;
+      serviceFunctionUpdated?: undefined;
+      serviceFunctionDeleted?: undefined;
+      serviceFunctionResourcesAdded?: undefined;
+      serviceFunctionResourcesRemoved?: undefined;
+      serviceAchievabilityUpdated?: undefined;
+      assertionCreated?: undefined;
+      assertionUpdated?: undefined;
       assertionDeleted: AssertionDeletedMetadata;
     };
 export interface ServiceEventDetails {
   title: string;
   description: string;
-  eventMetadata?: ServiceEventMetadata;
+  eventMetadata?: ServiceEventMetadata | undefined;
 }
 export interface ServiceEvent {
   eventId: string;
@@ -1835,56 +1835,56 @@ export interface ServiceEvent {
 export type ServiceEventList = ServiceEvent[];
 export interface ListServiceEventsResponse {
   events: ServiceEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceFunctionsRequest {
   serviceArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ServiceFunctionList = ServiceFunction[];
 export interface ListServiceFunctionsResponse {
   serviceFunctions: ServiceFunction[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServicesRequest {
-  systemArn?: string;
-  userJourneyId?: string;
-  ouId?: string;
-  accountId?: string;
-  assessmentStatus?: AssessmentStatus;
-  policyArn?: string;
-  maxResults?: number;
-  nextToken?: string;
+  systemArn?: string | undefined;
+  userJourneyId?: string | undefined;
+  ouId?: string | undefined;
+  accountId?: string | undefined;
+  assessmentStatus?: AssessmentStatus | undefined;
+  policyArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ServiceSummary {
   serviceArn: string;
   name: string;
-  associatedSystems?: AssociatedSystem[];
-  regions?: string[];
-  policyArn?: string;
-  assessmentStatus?: AssessmentStatus;
-  devOpsAgentStatus?: DevOpsAgentConnectionStatus;
-  devOpsAgentSpaceArn?: string;
-  openFindingsCount?: number;
-  resolvedFindingsCount?: number;
-  dependencyDiscovery?: DependencyDiscoveryConfig;
-  achievability?: Achievability;
-  organizationId?: string;
-  ouId?: string;
-  accountId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  associatedSystems?: AssociatedSystem[] | undefined;
+  regions?: string[] | undefined;
+  policyArn?: string | undefined;
+  assessmentStatus?: AssessmentStatus | undefined;
+  devOpsAgentStatus?: DevOpsAgentConnectionStatus | undefined;
+  devOpsAgentSpaceArn?: string | undefined;
+  openFindingsCount?: number | undefined;
+  resolvedFindingsCount?: number | undefined;
+  dependencyDiscovery?: DependencyDiscoveryConfig | undefined;
+  achievability?: Achievability | undefined;
+  organizationId?: string | undefined;
+  ouId?: string | undefined;
+  accountId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ServiceSummaryList = ServiceSummary[];
 export interface ListServicesResponse {
   serviceSummaries: ServiceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListServiceTopologyEdgesRequest {
   serviceArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TopologyType =
   | "CONTAINMENT"
@@ -1893,23 +1893,23 @@ export type TopologyType =
   | "PERMISSIONS"
   | (string & {});
 export interface EdgePropertySummary {
-  topologyType?: TopologyType;
-  label?: string;
+  topologyType?: TopologyType | undefined;
+  label?: string | undefined;
 }
 export type EdgePropertyList = EdgePropertySummary[];
 export interface ServiceTopologyEdgeSummary {
   sourceResourceIdentifier: string;
   destinationResourceIdentifier: string;
-  sourceRegion?: string;
-  destinationRegion?: string;
-  sourceAccount?: string;
-  destinationAccount?: string;
-  properties?: EdgePropertySummary[];
+  sourceRegion?: string | undefined;
+  destinationRegion?: string | undefined;
+  sourceAccount?: string | undefined;
+  destinationAccount?: string | undefined;
+  properties?: EdgePropertySummary[] | undefined;
 }
 export type ServiceTopologyEdgeSummaryList = ServiceTopologyEdgeSummary[];
 export interface ListServiceTopologyEdgesResponse {
-  serviceTopologyEdgeSummaries?: ServiceTopologyEdgeSummary[];
-  nextToken?: string;
+  serviceTopologyEdgeSummaries?: ServiceTopologyEdgeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SystemEventType =
   | "SYSTEM_CREATED"
@@ -1925,167 +1925,167 @@ export type SystemEventType =
 export type SystemEventTypeList = SystemEventType[];
 export interface ListSystemEventsRequest {
   systemArn: string;
-  eventTypes?: SystemEventType[];
-  startTime?: Date;
-  endTime?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  eventTypes?: SystemEventType[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SystemCreatedMetadata {}
 export interface SystemDeletedMetadata {}
 export interface ServiceReference {
-  serviceId?: string;
-  serviceName?: string;
+  serviceId?: string | undefined;
+  serviceName?: string | undefined;
 }
 export type ServiceReferenceList = ServiceReference[];
 export interface SystemUserJourneyCreatedMetadata {
-  userJourneyName?: string;
-  associatedServices?: ServiceReference[];
+  userJourneyName?: string | undefined;
+  associatedServices?: ServiceReference[] | undefined;
 }
 export interface StringChange {
-  oldValue?: string;
-  newValue?: string;
+  oldValue?: string | undefined;
+  newValue?: string | undefined;
 }
 export interface ServiceReferenceChanges {
-  added?: ServiceReference[];
-  removed?: ServiceReference[];
+  added?: ServiceReference[] | undefined;
+  removed?: ServiceReference[] | undefined;
 }
 export interface UserJourneyChanges {
-  journeyDescription?: StringChange;
-  associatedServices?: ServiceReferenceChanges;
+  journeyDescription?: StringChange | undefined;
+  associatedServices?: ServiceReferenceChanges | undefined;
 }
 export interface SystemUserJourneyUpdatedMetadata {
-  userJourneyName?: string;
-  changes?: UserJourneyChanges;
+  userJourneyName?: string | undefined;
+  changes?: UserJourneyChanges | undefined;
 }
 export interface SystemUserJourneyDeletedMetadata {
-  userJourneyName?: string;
-  associatedServicesAtDeletion?: ServiceReference[];
+  userJourneyName?: string | undefined;
+  associatedServicesAtDeletion?: ServiceReference[] | undefined;
 }
 export type UserJourneyNameList = string[];
 export interface SystemServiceAssociatedMetadata {
-  serviceName?: string;
-  serviceArn?: string;
-  userJourneys?: string[];
+  serviceName?: string | undefined;
+  serviceArn?: string | undefined;
+  userJourneys?: string[] | undefined;
 }
 export interface SystemServiceDisassociatedMetadata {
-  serviceName?: string;
-  serviceArn?: string;
-  userJourneysAffected?: string[];
-  comment?: string;
+  serviceName?: string | undefined;
+  serviceArn?: string | undefined;
+  userJourneysAffected?: string[] | undefined;
+  comment?: string | undefined;
 }
 export interface SystemPolicyAssociatedMetadata {
-  policyName?: string;
-  policyArn?: string;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
 }
 export interface SystemPolicyDisassociatedMetadata {
-  policyName?: string;
-  policyArn?: string;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
 }
 export type SystemEventMetadata =
   | {
       systemCreated: SystemCreatedMetadata;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
+      systemCreated?: undefined;
       systemDeleted: SystemDeletedMetadata;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
       systemUserJourneyCreated: SystemUserJourneyCreatedMetadata;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
       systemUserJourneyUpdated: SystemUserJourneyUpdatedMetadata;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
       systemUserJourneyDeleted: SystemUserJourneyDeletedMetadata;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
       systemServiceAssociated: SystemServiceAssociatedMetadata;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
       systemServiceDisassociated: SystemServiceDisassociatedMetadata;
-      systemPolicyAssociated?: never;
-      systemPolicyDisassociated?: never;
+      systemPolicyAssociated?: undefined;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
       systemPolicyAssociated: SystemPolicyAssociatedMetadata;
-      systemPolicyDisassociated?: never;
+      systemPolicyDisassociated?: undefined;
     }
   | {
-      systemCreated?: never;
-      systemDeleted?: never;
-      systemUserJourneyCreated?: never;
-      systemUserJourneyUpdated?: never;
-      systemUserJourneyDeleted?: never;
-      systemServiceAssociated?: never;
-      systemServiceDisassociated?: never;
-      systemPolicyAssociated?: never;
+      systemCreated?: undefined;
+      systemDeleted?: undefined;
+      systemUserJourneyCreated?: undefined;
+      systemUserJourneyUpdated?: undefined;
+      systemUserJourneyDeleted?: undefined;
+      systemServiceAssociated?: undefined;
+      systemServiceDisassociated?: undefined;
+      systemPolicyAssociated?: undefined;
       systemPolicyDisassociated: SystemPolicyDisassociatedMetadata;
     };
 export interface SystemEventDetails {
   title: string;
   description: string;
-  eventMetadata?: SystemEventMetadata;
+  eventMetadata?: SystemEventMetadata | undefined;
 }
 export interface SystemEvent {
   eventId: string;
@@ -2098,64 +2098,64 @@ export interface SystemEvent {
 export type SystemEventList = SystemEvent[];
 export interface ListSystemEventsResponse {
   events: SystemEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSystemsRequest {
-  ouId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  ouId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SystemSummary {
   systemId: string;
   name: string;
-  systemArn?: string;
-  userJourneysCount?: number;
-  servicesCount?: number;
-  organizationId?: string;
-  ouId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  systemArn?: string | undefined;
+  userJourneysCount?: number | undefined;
+  servicesCount?: number | undefined;
+  organizationId?: string | undefined;
+  ouId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type SystemSummaryList = SystemSummary[];
 export interface ListSystemsResponse {
   systemSummaries: SystemSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTestRunDependenciesRequest {
   testRunId: string;
   serviceArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestRunDependencySource = "DISCOVERED" | "MANUAL" | (string & {});
 export interface TestRunDependencySummary {
-  dependencyId?: string;
+  dependencyId?: string | undefined;
   dependencyName: string;
   dnsName: string;
   criticality: DependencyCriticality;
   source: TestRunDependencySource;
-  location?: string;
-  sourceRegions?: string[];
-  provider?: string;
+  location?: string | undefined;
+  sourceRegions?: string[] | undefined;
+  provider?: string | undefined;
 }
 export type TestRunDependencySummaryList = TestRunDependencySummary[];
 export interface ListTestRunDependenciesResponse {
   dependencies: TestRunDependencySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTestRunEventsRequest {
   testRunId: string;
   serviceArn: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestRunEventAttributeKey = string;
 export type TestRunEventAttributeValue = string;
@@ -2165,48 +2165,48 @@ export interface TestRunEvent {
   eventType: string;
   message: string;
   timestamp: Date;
-  attributes?: { [key: string]: string | undefined };
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type TestRunEventList = TestRunEvent[];
 export interface ListTestRunEventsResponse {
   events: TestRunEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTestRunsRequest {
   serviceArn: string;
-  testId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  testId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TestRunSummary {
   testRunId: string;
   status: TestRunStatus;
   startedAt: Date;
-  endedAt?: Date;
+  endedAt?: Date | undefined;
   testTemplateArn: string;
-  serviceArn?: string;
-  errorMessage?: string;
-  accountTargeting?: AccountTargeting;
+  serviceArn?: string | undefined;
+  errorMessage?: string | undefined;
+  accountTargeting?: AccountTargeting | undefined;
 }
 export type TestRunSummaryList = TestRunSummary[];
 export interface ListTestRunsResponse {
   testRuns: TestRunSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TestRunSourceArn = string;
 export interface ListTestRunSourceEventsRequest {
   testRunId: string;
   serviceArn: string;
   sourceArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestRunSourceEventType = "ALARM" | (string & {});
 export type AlarmState = "OK" | "ALARM" | "INSUFFICIENT_DATA" | (string & {});
 export interface AlarmStateChangeDetail {
   state: AlarmState;
-  previousState?: AlarmState;
-  reason?: string;
+  previousState?: AlarmState | undefined;
+  reason?: string | undefined;
 }
 export type TestRunSourceEventErrorCode = "ACCESS_DENIED" | "INTERNAL_ERROR" | (string & {});
 export interface TestRunSourceEventError {
@@ -2214,8 +2214,8 @@ export interface TestRunSourceEventError {
   errorMessage: string;
 }
 export type TestRunSourceEventDetail =
-  | { alarmStateChange: AlarmStateChangeDetail; error?: never }
-  | { alarmStateChange?: never; error: TestRunSourceEventError };
+  | { alarmStateChange: AlarmStateChangeDetail; error?: undefined }
+  | { alarmStateChange?: undefined; error: TestRunSourceEventError };
 export interface TestRunSourceEvent {
   timestamp: Date;
   sourceArn: string;
@@ -2225,15 +2225,15 @@ export interface TestRunSourceEvent {
 export type TestRunSourceEventList = TestRunSourceEvent[];
 export interface ListTestRunSourceEventsResponse {
   testRunSourceEvents: TestRunSourceEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TestRunSourceType = "SUCCESS_CRITERIA" | "OBSERVABILITY" | (string & {});
 export interface ListTestRunSourcesRequest {
   testRunId: string;
   serviceArn: string;
-  type?: TestRunSourceType;
-  maxResults?: number;
-  nextToken?: string;
+  type?: TestRunSourceType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TestSourceOutcome = "PASSED" | "FAILED" | "ERROR" | (string & {});
 export interface TestRunSuccessCriteriaAlarmSummary {
@@ -2241,8 +2241,8 @@ export interface TestRunSuccessCriteriaAlarmSummary {
   alarmName: string;
   region: string;
   accountId: string;
-  outcome?: TestSourceOutcome;
-  outcomeReason?: string;
+  outcome?: TestSourceOutcome | undefined;
+  outcomeReason?: string | undefined;
 }
 export interface TestRunObservabilityAlarmSummary {
   alarmArn: string;
@@ -2251,17 +2251,17 @@ export interface TestRunObservabilityAlarmSummary {
   accountId: string;
 }
 export type TestRunSourceSummary =
-  | { successCriteriaAlarm: TestRunSuccessCriteriaAlarmSummary; observabilityAlarm?: never }
-  | { successCriteriaAlarm?: never; observabilityAlarm: TestRunObservabilityAlarmSummary };
+  | { successCriteriaAlarm: TestRunSuccessCriteriaAlarmSummary; observabilityAlarm?: undefined }
+  | { successCriteriaAlarm?: undefined; observabilityAlarm: TestRunObservabilityAlarmSummary };
 export type TestRunSourceSummaryList = TestRunSourceSummary[];
 export interface ListTestRunSourcesResponse {
   testRunSources: TestRunSourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTestsRequest {
   serviceArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TestSummary {
   testId: string;
@@ -2274,37 +2274,37 @@ export interface TestSummary {
 export type TestSummaryList = TestSummary[];
 export interface ListTestsResponse {
   tests: TestSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TestSourceType = "SUCCESS_CRITERIA" | "OBSERVABILITY" | (string & {});
 export interface ListTestSourcesRequest {
   testId: string;
   serviceArn: string;
-  type?: TestSourceType;
-  maxResults?: number;
-  nextToken?: string;
+  type?: TestSourceType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SuccessCriteriaAlarmSummary {
   alarmArn: string;
   alarmName: string;
   region: string;
   accountId: string;
-  createdAt?: Date;
+  createdAt?: Date | undefined;
 }
 export interface ObservabilityAlarmSummary {
   alarmArn: string;
   alarmName: string;
   region: string;
   accountId: string;
-  createdAt?: Date;
+  createdAt?: Date | undefined;
 }
 export type TestSourceSummary =
-  | { successCriteriaAlarm: SuccessCriteriaAlarmSummary; observabilityAlarm?: never }
-  | { successCriteriaAlarm?: never; observabilityAlarm: ObservabilityAlarmSummary };
+  | { successCriteriaAlarm: SuccessCriteriaAlarmSummary; observabilityAlarm?: undefined }
+  | { successCriteriaAlarm?: undefined; observabilityAlarm: ObservabilityAlarmSummary };
 export type TestSourceSummaryList = TestSourceSummary[];
 export interface ListTestSourcesResponse {
   testSources: TestSourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTestTemplatesRequest {}
 export interface TestTemplateSummary {
@@ -2318,19 +2318,19 @@ export interface ListTestTemplatesResponse {
 }
 export interface ListUserJourneysRequest {
   systemArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface UserJourneySummary {
   userJourneyId: string;
   name: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type UserJourneySummaryList = UserJourneySummary[];
 export interface ListUserJourneysResponse {
   userJourneySummaries: UserJourneySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutTestSourcesRequest {
   testId: string;
@@ -2340,20 +2340,20 @@ export interface PutTestSourcesRequest {
 export interface PutTestSourcesResponse {}
 export interface StartDependencyInsightsRequest {
   serviceArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartDependencyInsightsResponse {
   status: DependencyInsightsStatus;
 }
 export interface StartFailureModeAssessmentRequest {
   serviceArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartFailureModeAssessmentResponse {
-  assessmentId?: string;
-  serviceArn?: string;
-  assessmentStatus?: AssessmentStatus;
-  startedAt?: Date;
+  assessmentId?: string | undefined;
+  serviceArn?: string | undefined;
+  assessmentStatus?: AssessmentStatus | undefined;
+  startedAt?: Date | undefined;
 }
 export interface StartTestRunRequest {
   testId: string;
@@ -2387,7 +2387,7 @@ export interface UntagResourceResponse {}
 export interface UpdateAssertionRequest {
   serviceArn: string;
   assertionId: string;
-  text?: string;
+  text?: string | undefined;
 }
 export interface UpdateAssertionResponse {
   assertion: Assertion;
@@ -2395,49 +2395,49 @@ export interface UpdateAssertionResponse {
 export interface UpdateDependencyRequest {
   serviceArn: string;
   dependencyId: string;
-  criticality?: DependencyCriticality;
-  comment?: string;
+  criticality?: DependencyCriticality | undefined;
+  comment?: string | undefined;
 }
 export interface UpdateDependencyResponse {
   dependencyId: string;
   dependencyName: string;
   location: string;
   criticality: DependencyCriticality;
-  comment?: string;
-  provider?: string;
+  comment?: string | undefined;
+  provider?: string | undefined;
   updatedAt: Date;
 }
 export interface UpdateFailureModeFindingRequest {
   findingId: string;
   status: FindingStatus;
   serviceArn: string;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface UpdateFailureModeFindingResponse {
-  finding?: Finding;
+  finding?: Finding | undefined;
 }
 export interface UpdatePolicyRequest {
   policyArn: string;
-  description?: string;
-  availabilitySlo?: AvailabilitySlo;
-  multiAz?: MultiAzTargets;
-  multiRegion?: MultiRegionTargets;
-  dataRecovery?: DataRecoveryTargets;
-  sharingEnabled?: boolean;
+  description?: string | undefined;
+  availabilitySlo?: AvailabilitySlo | undefined;
+  multiAz?: MultiAzTargets | undefined;
+  multiRegion?: MultiRegionTargets | undefined;
+  dataRecovery?: DataRecoveryTargets | undefined;
+  sharingEnabled?: boolean | undefined;
 }
 export interface UpdatePolicyResponse {
   policy: Policy;
 }
 export interface UpdateServiceRequest {
   serviceArn: string;
-  description?: string;
-  associatedSystems?: AssociatedSystem[];
-  policyArn?: string;
-  regions?: string[];
-  permissionModel?: PermissionModel;
-  dependencyDiscovery?: DependencyDiscoveryInput;
-  reportConfiguration?: ServiceReportConfiguration;
-  devOpsAgentConfiguration?: DevOpsAgentConfiguration;
+  description?: string | undefined;
+  associatedSystems?: AssociatedSystem[] | undefined;
+  policyArn?: string | undefined;
+  regions?: string[] | undefined;
+  permissionModel?: PermissionModel | undefined;
+  dependencyDiscovery?: DependencyDiscoveryInput | undefined;
+  reportConfiguration?: ServiceReportConfiguration | undefined;
+  devOpsAgentConfiguration?: DevOpsAgentConfiguration | undefined;
 }
 export interface UpdateServiceResponse {
   service: Service;
@@ -2445,17 +2445,17 @@ export interface UpdateServiceResponse {
 export interface UpdateServiceFunctionRequest {
   serviceArn: string;
   serviceFunctionId: string;
-  name?: string;
-  description?: string;
-  criticality?: ServiceFunctionCriticality;
+  name?: string | undefined;
+  description?: string | undefined;
+  criticality?: ServiceFunctionCriticality | undefined;
 }
 export interface UpdateServiceFunctionResponse {
   serviceFunction: ServiceFunction;
 }
 export interface UpdateSystemRequest {
   systemArn: string;
-  description?: string;
-  sharingEnabled?: boolean;
+  description?: string | undefined;
+  sharingEnabled?: boolean | undefined;
 }
 export interface UpdateSystemResponse {
   system: System;
@@ -2463,10 +2463,10 @@ export interface UpdateSystemResponse {
 export interface UpdateTestRequest {
   testId: string;
   serviceArn: string;
-  loggingConfiguration?: LoggingConfiguration;
-  stopConditions?: StopCondition[];
-  roleName?: string;
-  parameters?: { [key: string]: string[] | undefined };
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  stopConditions?: StopCondition[] | undefined;
+  roleName?: string | undefined;
+  parameters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateTestResponse {
   test: Test;
@@ -2474,9 +2474,9 @@ export interface UpdateTestResponse {
 export interface UpdateUserJourneyRequest {
   systemArn: string;
   userJourneyId: string;
-  name?: string;
-  description?: string;
-  policyArn?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  policyArn?: string | undefined;
 }
 export interface UpdateUserJourneyResponse {
   userJourney: UserJourney;

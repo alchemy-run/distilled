@@ -81,25 +81,25 @@ export class VolumeAttached
   ) {}
 
 export interface AuthenticateTokenRequest {
-  header?: string;
+  header?: string | undefined;
 }
 export type MacaroonCaveatSetCaveatsList = Array<unknown>;
 export interface MacaroonCaveatSet {
-  caveats?: MacaroonCaveatSetCaveatsList;
+  caveats?: MacaroonCaveatSetCaveatsList | undefined;
 }
 export type MacaroonNonceKidList = Array<number>;
 export type MacaroonNonceRndList = Array<number>;
 export interface MacaroonNonce {
-  kid?: MacaroonNonceKidList;
-  proof?: boolean;
-  rnd?: MacaroonNonceRndList;
+  kid?: MacaroonNonceKidList | undefined;
+  proof?: boolean | undefined;
+  rnd?: MacaroonNonceRndList | undefined;
 }
 export type RootVerifiedTokenPermissionTokenList = Array<number>;
 export interface RootVerifiedToken {
-  caveats?: MacaroonCaveatSet;
-  header?: string;
-  nonce?: MacaroonNonce;
-  permission_token?: RootVerifiedTokenPermissionTokenList;
+  caveats?: MacaroonCaveatSet | undefined;
+  header?: string | undefined;
+  nonce?: MacaroonNonce | undefined;
+  permission_token?: RootVerifiedTokenPermissionTokenList | undefined;
 }
 export type AuthenticateTokenResponseBodyList = Array<RootVerifiedToken>;
 export type AuthenticateTokenResponse = AuthenticateTokenResponseBodyList;
@@ -108,55 +108,55 @@ export type RessetAction = 1 | 2 | 4 | 8 | 16 | 31 | 0;
 export type MainTokenAccessCommandList = Array<string>;
 export interface MainTokenAccess {
   /** Action is the action being taken on the specified resource. This is the combination of individual action characters (e.g "rw") - r: read - w: write - c: create - d: delete - C: control */
-  action?: RessetAction | (number & {});
+  action?: RessetAction | (number & {}) | undefined;
   /** AppFeature is a named set of functionality associated with the app. If this is specified, the AppName field must be set. - images: images in the fly.io registry */
-  app_feature?: string;
+  app_feature?: string | undefined;
   /** AppName is the name of the app being accessed. */
-  app_name?: string;
+  app_name?: string | undefined;
   /** Command is the command being executed on a machine. If this is specified, the Machine must be set. */
-  command?: MainTokenAccessCommandList;
+  command?: MainTokenAccessCommandList | undefined;
   /** MachineFeature is a named set of functionality associated with the machine. If this is specified, the Machine field must be set. - metadata: machine metadata service - oidc: OIDC tokens - kmstoken: Petsem tokens for KMS access */
-  machine_feature?: string;
+  machine_feature?: string | undefined;
   /** MachineID is the ID of the machine being accessed (e.g. 7811701f564258). */
-  machine_id?: string;
+  machine_id?: string | undefined;
   /** Mutation is the GraphQL mutation being performed. */
-  mutation?: string;
+  mutation?: string | undefined;
   /** OrgFeature is a named set of functionality associated with the organization. If this is specified, the OrgSlug field must be set. - wg: WireGuard peers - builder: remote builders - addon: addons - membership: organization membership - billing: billing - litefs-cloud: LiteFS Cloud - authentication: authentication settings */
-  org_feature?: string;
+  org_feature?: string | undefined;
   /** OrgSlug is the slug of the organization being accessed. */
-  org_slug?: string;
+  org_slug?: string | undefined;
   /** SourceMachine is the machine ID of the actor attempting access. */
-  source_machine?: string;
+  source_machine?: string | undefined;
   /** StorageObject is the storage object being accessed. If this is specified, the OrgSlug must be set. */
-  storage_object?: string;
+  storage_object?: string | undefined;
   /** VolumeID is the encoded ID of the volume being accessed (e.g. vol_r1p6pln1k9m9j7zr). */
-  volume_id?: string;
+  volume_id?: string | undefined;
 }
 export interface AuthorizeTokenRequest {
-  access?: MainTokenAccess;
-  header?: string;
+  access?: MainTokenAccess | undefined;
+  header?: string | undefined;
 }
 export type FlyioAccessCommandList = Array<string>;
 export interface FlyioAccess {
-  action?: RessetAction;
-  app_feature?: string;
-  appid?: number;
-  cluster?: string;
-  command?: FlyioAccessCommandList;
-  feature?: string;
-  machine?: string;
-  machine_feature?: string;
-  mutation?: string;
-  orgid?: number;
-  sourceApp?: string;
-  sourceMachine?: string;
-  sourceOrganization?: string;
-  storage_object?: string;
-  volume?: string;
+  action?: RessetAction | undefined;
+  app_feature?: string | undefined;
+  appid?: number | undefined;
+  cluster?: string | undefined;
+  command?: FlyioAccessCommandList | undefined;
+  feature?: string | undefined;
+  machine?: string | undefined;
+  machine_feature?: string | undefined;
+  mutation?: string | undefined;
+  orgid?: number | undefined;
+  sourceApp?: string | undefined;
+  sourceMachine?: string | undefined;
+  sourceOrganization?: string | undefined;
+  storage_object?: string | undefined;
+  volume?: string | undefined;
 }
 export interface AuthorizeResponse {
-  access?: FlyioAccess;
-  verified_token?: RootVerifiedToken;
+  access?: FlyioAccess | undefined;
+  verified_token?: RootVerifiedToken | undefined;
 }
 export interface CheckAppCertificateRequest {
   /** Fly App Name */
@@ -166,20 +166,20 @@ export interface CheckAppCertificateRequest {
 }
 export type IssuedCertificateType = "rsa" | "ecdsa";
 export interface IssuedCertificate {
-  certificate_authority?: string;
-  expires_at?: string;
-  type?: IssuedCertificateType;
+  certificate_authority?: string | undefined;
+  expires_at?: string | undefined;
+  type?: IssuedCertificateType | undefined;
 }
 export type CertificateEntryIssuedList = Array<IssuedCertificate>;
 export type CertificateEntrySource = "custom" | "fly";
 export type CertificateEntryStatus = "active" | "pending_ownership" | "pending_validation";
 export interface CertificateEntry {
-  created_at?: string;
-  expires_at?: string;
-  issued?: CertificateEntryIssuedList;
-  issuer?: string;
-  source?: CertificateEntrySource;
-  status?: CertificateEntryStatus;
+  created_at?: string | undefined;
+  expires_at?: string | undefined;
+  issued?: CertificateEntryIssuedList | undefined;
+  issuer?: string | undefined;
+  source?: CertificateEntrySource | undefined;
+  status?: CertificateEntryStatus | undefined;
 }
 export type CertificateCheckResponseCertificatesList = Array<CertificateEntry>;
 export type DNSRecordsAList = Array<string>;
@@ -187,117 +187,117 @@ export type DNSRecordsAaaaList = Array<string>;
 export type DNSRecordsCnameList = Array<string>;
 export type DNSRecordsResolvedAddressesList = Array<string>;
 export interface DNSRecords {
-  a?: DNSRecordsAList;
-  aaaa?: DNSRecordsAaaaList;
-  acme_challenge_cname?: string;
-  cname?: DNSRecordsCnameList;
-  ownership_txt?: string;
-  resolved_addresses?: DNSRecordsResolvedAddressesList;
-  soa?: string;
+  a?: DNSRecordsAList | undefined;
+  aaaa?: DNSRecordsAaaaList | undefined;
+  acme_challenge_cname?: string | undefined;
+  cname?: DNSRecordsCnameList | undefined;
+  ownership_txt?: string | undefined;
+  resolved_addresses?: DNSRecordsResolvedAddressesList | undefined;
+  soa?: string | undefined;
 }
 export type DNSRequirementsAList = Array<string>;
 export type DNSRequirementsAaaaList = Array<string>;
 export interface AcmeChallenge {
-  name?: string;
-  target?: string;
+  name?: string | undefined;
+  target?: string | undefined;
 }
 export interface OwnershipVerification {
-  app_value?: string;
-  name?: string;
-  org_value?: string;
+  app_value?: string | undefined;
+  name?: string | undefined;
+  org_value?: string | undefined;
 }
 export interface DNSRequirements {
-  a?: DNSRequirementsAList;
-  aaaa?: DNSRequirementsAaaaList;
-  acme_challenge?: AcmeChallenge;
-  cname?: string;
-  ownership?: OwnershipVerification;
+  a?: DNSRequirementsAList | undefined;
+  aaaa?: DNSRequirementsAaaaList | undefined;
+  acme_challenge?: AcmeChallenge | undefined;
+  cname?: string | undefined;
+  ownership?: OwnershipVerification | undefined;
 }
 export interface CertificateValidation {
-  alpn_configured?: boolean;
-  dns_configured?: boolean;
-  http_configured?: boolean;
-  ownership_txt_configured?: boolean;
+  alpn_configured?: boolean | undefined;
+  dns_configured?: boolean | undefined;
+  http_configured?: boolean | undefined;
+  ownership_txt_configured?: boolean | undefined;
 }
 export interface CertificateValidationError {
-  code?: string;
-  message?: string;
-  remediation?: string;
-  timestamp?: string;
+  code?: string | undefined;
+  message?: string | undefined;
+  remediation?: string | undefined;
+  timestamp?: string | undefined;
 }
 export type CertificateCheckResponseValidationErrorsList = Array<CertificateValidationError>;
 export interface CertificateCheckResponse {
-  acme_requested?: boolean;
-  certificates?: CertificateCheckResponseCertificatesList;
-  configured?: boolean;
-  dns_provider?: string;
-  dns_records?: DNSRecords;
-  dns_requirements?: DNSRequirements;
-  hostname?: string;
-  rate_limited_until?: string;
-  status?: string;
-  validation?: CertificateValidation;
-  validation_errors?: CertificateCheckResponseValidationErrorsList;
+  acme_requested?: boolean | undefined;
+  certificates?: CertificateCheckResponseCertificatesList | undefined;
+  configured?: boolean | undefined;
+  dns_provider?: string | undefined;
+  dns_records?: DNSRecords | undefined;
+  dns_requirements?: DNSRequirements | undefined;
+  hostname?: string | undefined;
+  rate_limited_until?: string | undefined;
+  status?: string | undefined;
+  validation?: CertificateValidation | undefined;
+  validation_errors?: CertificateCheckResponseValidationErrorsList | undefined;
 }
 export interface CordonMachineRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  lease_nonce?: string;
+  lease_nonce?: string | undefined;
 }
 export interface OkResponse {
-  ok?: boolean;
+  ok?: boolean | undefined;
 }
 export interface CreateAppRequest {
   /** Request a wildcard TLS certificate for *.svc.<app-name>.fly.dev. Defaults to false. Certificate provisioning is asynchronous; this does not create services or configure their routing. */
-  enable_subdomains?: boolean;
+  enable_subdomains?: boolean | undefined;
   /** When set, makes a retry of this exact request safe: a second create with the same key and the same name (or no name) returns the app the first request created, instead of erroring on a false name conflict or creating a duplicate. A second create with the same key but a *different* name is rejected outright; it won't silently hand back the first app. */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
   /** Globally unique name for the app. Required. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the organization's private network to attach the app to. Creates the network if it does not exist. Omit, use an empty string, or use "default" to select the organization's default network. */
-  network?: string;
+  network?: string | undefined;
   /** Slug of the organization that will own the app, or "personal" for your personal organization. Required. */
-  org_slug?: string;
+  org_slug?: string | undefined;
 }
 export interface CreateAppResponse {
-  created_at?: number;
-  id?: string;
+  created_at?: number | undefined;
+  id?: string | undefined;
 }
 export interface CreateAppAcmeCertificateRequest {
   /** Fly App Name */
   app_name: string;
-  hostname?: string;
+  hostname?: string | undefined;
 }
 export type CertificateDetailCertificatesList = Array<CertificateEntry>;
 export type CertificateDetailValidationErrorsList = Array<CertificateValidationError>;
 export interface CertificateDetail {
-  acme_requested?: boolean;
-  certificates?: CertificateDetailCertificatesList;
-  configured?: boolean;
-  dns_provider?: string;
-  dns_requirements?: DNSRequirements;
-  hostname?: string;
-  rate_limited_until?: string;
-  status?: string;
-  validation?: CertificateValidation;
-  validation_errors?: CertificateDetailValidationErrorsList;
+  acme_requested?: boolean | undefined;
+  certificates?: CertificateDetailCertificatesList | undefined;
+  configured?: boolean | undefined;
+  dns_provider?: string | undefined;
+  dns_requirements?: DNSRequirements | undefined;
+  hostname?: string | undefined;
+  rate_limited_until?: string | undefined;
+  status?: string | undefined;
+  validation?: CertificateValidation | undefined;
+  validation_errors?: CertificateDetailValidationErrorsList | undefined;
 }
 export interface CreateAppCustomCertificateRequest {
   /** Fly App Name */
   app_name: string;
-  fullchain?: string;
-  hostname?: string;
-  private_key?: string | Redacted.Redacted<string>;
+  fullchain?: string | undefined;
+  hostname?: string | undefined;
+  private_key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateAppDeployTokenRequest {
   /** Fly App Name */
   app_name: string;
-  expiry?: string;
+  expiry?: string | undefined;
 }
 export interface CreateAppDeployTokenResponse {
-  token?: string | Redacted.Redacted<string>;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Type of IP address to allocate. "egress-pair" allocates both v4 and v6 egress IP addresses (recommended when using egress IPs). */
 export type IPAssignmentType =
@@ -311,72 +311,72 @@ export type IPAssignmentType =
 export interface CreateAppIPAssignmentRequest {
   /** Fly App Name */
   app_name: string;
-  network?: string;
-  org_slug?: string;
-  region?: string;
-  service_name?: string;
-  type?: IPAssignmentType | (string & {});
+  network?: string | undefined;
+  org_slug?: string | undefined;
+  region?: string | undefined;
+  service_name?: string | undefined;
+  type?: IPAssignmentType | (string & {}) | undefined;
 }
 export interface IPPair {
-  v4?: string;
-  v6?: string;
+  v4?: string | undefined;
+  v6?: string | undefined;
 }
 /** The 6PN network a Flycast (private_v6) address belongs to. Null for all other IP types. */
 export interface IPAssignmentNetwork {
   /** Network name; empty for the organization's default network. */
-  name?: string;
-  org_slug?: string;
+  name?: string | undefined;
+  org_slug?: string | undefined;
 }
 export interface AssignIPResponse {
-  created_at?: string;
-  egress?: boolean;
-  ip?: string;
+  created_at?: string | undefined;
+  egress?: boolean | undefined;
+  ip?: string | undefined;
   /** ip_pair is returned when "egress-pair" IP type is requested; in this case, ip is null. */
-  ip_pair?: IPPair;
-  network?: IPAssignmentNetwork | null;
-  region?: string;
-  service_name?: string;
-  shared?: boolean;
+  ip_pair?: IPPair | undefined;
+  network?: IPAssignmentNetwork | null | undefined;
+  region?: string | undefined;
+  service_name?: string | undefined;
+  shared?: boolean | undefined;
 }
 export interface FlyMachineCacheDrive {
-  size_mb?: number;
+  size_mb?: number | undefined;
 }
 /** The header value */
 export type FlyMachineHTTPHeaderValuesList = Array<string>;
 /** For http checks, an array of objects with string field Name and array of strings field Values. The key/value pairs specify header and header values that will get passed with the check call. */
 export interface FlyMachineHTTPHeader {
   /** The header name */
-  name?: string;
+  name?: string | undefined;
   /** The header value */
-  values?: FlyMachineHTTPHeaderValuesList;
+  values?: FlyMachineHTTPHeaderValuesList | undefined;
 }
 export type FlyMachineCheckHeadersList = Array<FlyMachineHTTPHeader>;
 /** Kind of the check (informational, readiness) */
 export type FlyMachineCheckKind = "informational" | "readiness";
 export interface FlyMachineCheck {
   /** The time to wait after a VM starts before checking its health */
-  grace_period?: string;
-  headers?: FlyMachineCheckHeadersList;
+  grace_period?: string | undefined;
+  headers?: FlyMachineCheckHeadersList | undefined;
   /** The time between connectivity checks */
-  interval?: string;
+  interval?: string | undefined;
   /** Kind of the check (informational, readiness) */
-  kind?: FlyMachineCheckKind | (string & {});
+  kind?: FlyMachineCheckKind | (string & {}) | undefined;
   /** For http checks, the HTTP method to use to when making the request */
-  method?: string;
+  method?: string | undefined;
   /** For http checks, the path to send the request to */
-  path?: string;
+  path?: string | undefined;
   /** The port to connect to, often the same as internal_port */
-  port?: number;
+  port?: number | undefined;
   /** For http checks, whether to use http or https */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The maximum time a connection can take before being reported as failing its health check */
-  timeout?: string;
+  timeout?: string | undefined;
   /** If the protocol is https, the hostname to use for TLS certificate validation */
-  tls_server_name?: string;
+  tls_server_name?: string | undefined;
   /** For http checks with https protocol, whether or not to verify the TLS certificate */
-  tls_skip_verify?: boolean;
+  tls_skip_verify?: boolean | undefined;
   /** tcp or http */
-  type?: string;
+  type?: string | undefined;
 }
 /** An optional object that defines one or more named top-level checks. The key for each check is the check name. */
 export type FlyMachineConfigChecksMap = { [key: string]: FlyMachineCheck | undefined };
@@ -384,8 +384,8 @@ export type FlyMachineConfigChecksMap = { [key: string]: FlyMachineCheck | undef
 export type FlyContainerConfigCmdList = Array<string>;
 export type FlyContainerDependencyCondition = "exited_successfully" | "healthy" | "started";
 export interface FlyContainerDependency {
-  condition?: FlyContainerDependencyCondition | (string & {});
-  name?: string;
+  condition?: FlyContainerDependencyCondition | (string & {}) | undefined;
+  name?: string | undefined;
 }
 /** DependsOn can be used to define dependencies between containers. The container will only be started after all of its dependent conditions have been satisfied. */
 export type FlyContainerConfigDependsOnList = Array<FlyContainerDependency>;
@@ -398,9 +398,9 @@ export type FlyEnvFromFieldRef = "id" | "version" | "app_name" | "private_ip" | 
 /** EnvVar defines an environment variable to be populated from a machine field, env_var */
 export interface FlyEnvFrom {
   /** EnvVar is required and is the name of the environment variable that will be set from the secret. It must be a valid environment variable name. */
-  env_var?: string;
+  env_var?: string | undefined;
   /** FieldRef selects a field of the Machine: supports id, version, app_name, private_ip, region, image. */
-  field_ref?: FlyEnvFromFieldRef | (string & {});
+  field_ref?: FlyEnvFromFieldRef | (string & {}) | undefined;
 }
 /** EnvFrom can be provided to set environment variables from machine fields. */
 export type FlyContainerConfigEnvFromList = Array<FlyEnvFrom>;
@@ -409,15 +409,15 @@ export type FlyContainerConfigExecList = Array<string>;
 /** A file that will be written to the Machine. One of RawValue or SecretName must be set. */
 export interface FlyFile {
   /** GuestPath is the path on the machine where the file will be written and must be an absolute path. For example: /full/path/to/file.json */
-  guest_path?: string;
+  guest_path?: string | undefined;
   /** The name of an image to use the OCI image config as the file contents. */
-  image_config?: string;
+  image_config?: string | undefined;
   /** Mode bits used to set permissions on this file as accepted by chmod(2). */
-  mode?: number;
+  mode?: number | undefined;
   /** The base64 encoded string of the file contents. */
-  raw_value?: string;
+  raw_value?: string | undefined;
   /** The name of the secret that contains the base64 encoded file contents. */
-  secret_name?: string;
+  secret_name?: string | undefined;
 }
 /** Files are files that will be written to the container file system. */
 export type FlyContainerConfigFilesList = Array<FlyFile>;
@@ -425,53 +425,53 @@ export type FlyContainerConfigFilesList = Array<FlyFile>;
 export type FlyExecHealthcheckCommandList = Array<string>;
 export interface FlyExecHealthcheck {
   /** The command to run to check the health of the container (e.g. ["cat", "/tmp/healthy"]) */
-  command?: FlyExecHealthcheckCommandList;
+  command?: FlyExecHealthcheckCommandList | undefined;
 }
 /** Additional headers to send with the request */
 export type FlyHTTPHealthcheckHeadersList = Array<FlyMachineHTTPHeader>;
 export type FlyContainerHealthcheckScheme = "http" | "https";
 export interface FlyHTTPHealthcheck {
   /** Additional headers to send with the request */
-  headers?: FlyHTTPHealthcheckHeadersList;
+  headers?: FlyHTTPHealthcheckHeadersList | undefined;
   /** The HTTP method to use to when making the request */
-  method?: string;
+  method?: string | undefined;
   /** The path to send the request to */
-  path?: string;
+  path?: string | undefined;
   /** The port to connect to, often the same as internal_port */
-  port?: number;
+  port?: number | undefined;
   /** Whether to use http or https */
-  scheme?: FlyContainerHealthcheckScheme | (string & {});
+  scheme?: FlyContainerHealthcheckScheme | (string & {}) | undefined;
   /** If the protocol is https, the hostname to use for TLS certificate validation */
-  tls_server_name?: string;
+  tls_server_name?: string | undefined;
   /** If the protocol is https, whether or not to verify the TLS certificate */
-  tls_skip_verify?: boolean;
+  tls_skip_verify?: boolean | undefined;
 }
 export type FlyContainerHealthcheckKind = "readiness" | "liveness";
 export interface FlyTCPHealthcheck {
   /** The port to connect to, often the same as internal_port */
-  port?: number;
+  port?: number | undefined;
 }
 export type FlyUnhealthyPolicy = "stop";
 export interface FlyContainerHealthcheck {
-  exec?: FlyExecHealthcheck;
+  exec?: FlyExecHealthcheck | undefined;
   /** The number of times the check must fail before considering the container unhealthy. */
-  failure_threshold?: number;
+  failure_threshold?: number | undefined;
   /** The time in seconds to wait after a container starts before checking its health. */
-  grace_period?: number;
-  http?: FlyHTTPHealthcheck;
+  grace_period?: number | undefined;
+  http?: FlyHTTPHealthcheck | undefined;
   /** The time in seconds between executing the defined check. */
-  interval?: number;
+  interval?: number | undefined;
   /** Kind of healthcheck (readiness, liveness) */
-  kind?: FlyContainerHealthcheckKind | (string & {});
+  kind?: FlyContainerHealthcheckKind | (string & {}) | undefined;
   /** The name of the check. Must be unique within the container. */
-  name?: string;
+  name?: string | undefined;
   /** The number of times the check must succeeed before considering the container healthy. */
-  success_threshold?: number;
-  tcp?: FlyTCPHealthcheck;
+  success_threshold?: number | undefined;
+  tcp?: FlyTCPHealthcheck | undefined;
   /** The time in seconds to wait for the check to complete. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Unhealthy policy that determines what action to take if a container is deemed unhealthy */
-  unhealthy?: FlyUnhealthyPolicy | (string & {});
+  unhealthy?: FlyUnhealthyPolicy | (string & {}) | undefined;
 }
 /** Healthchecks determine the health of your containers. Healthchecks can use HTTP, TCP or an Exec command. */
 export type FlyContainerConfigHealthchecksList = Array<FlyContainerHealthcheck>;
@@ -480,16 +480,16 @@ export type FlyMachineRestartPolicy = "no" | "always" | "on-failure";
 /** The Machine restart policy defines whether and how flyd restarts a Machine after its main process exits. See https://fly.io/docs/machines/guides-examples/machine-restart-policy/. */
 export interface FlyMachineRestart {
   /** When policy is on-failure, the maximum number of times to attempt to restart the Machine before letting it stop. */
-  max_retries?: number;
+  max_retries?: number | undefined;
   /** * no - Never try to restart a Machine automatically when its main process exits, whether that's on purpose or on a crash. * always - Always restart a Machine automatically and never let it enter a stopped state, even when the main process exits cleanly. * on-failure - Try up to MaxRetries times to automatically restart the Machine if it exits with a non-zero exit code. Default when no explicit policy is set, and for Machines with schedules. */
-  policy?: FlyMachineRestartPolicy | (string & {});
+  policy?: FlyMachineRestartPolicy | (string & {}) | undefined;
 }
 /** A Secret needing to be set in the environment of the Machine. env_var is required */
 export interface FlyMachineSecret {
   /** EnvVar is required and is the name of the environment variable that will be set from the secret. It must be a valid environment variable name. */
-  env_var?: string;
+  env_var?: string | undefined;
   /** Name is optional and when provided is used to reference a secret name where the EnvVar is different from what was set as the secret name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
 export type FlyContainerConfigSecretsList = Array<FlyMachineSecret>;
@@ -502,61 +502,61 @@ export type FlyStopConfigSignal =
   | "SIGUSR2"
   | "SIGTERM";
 export interface FlyStopConfig {
-  signal?: FlyStopConfigSignal | (string & {});
-  timeout?: string;
+  signal?: FlyStopConfigSignal | (string & {}) | undefined;
+  timeout?: string | undefined;
 }
 export interface FlyContainerConfig {
   /** CmdOverride is used to override the default command of the image. */
-  cmd?: FlyContainerConfigCmdList;
+  cmd?: FlyContainerConfigCmdList | undefined;
   /** DependsOn can be used to define dependencies between containers. The container will only be started after all of its dependent conditions have been satisfied. */
-  depends_on?: FlyContainerConfigDependsOnList;
+  depends_on?: FlyContainerConfigDependsOnList | undefined;
   /** EntrypointOverride is used to override the default entrypoint of the image. */
-  entrypoint?: FlyContainerConfigEntrypointList;
+  entrypoint?: FlyContainerConfigEntrypointList | undefined;
   /** ExtraEnv is used to add additional environment variables to the container. */
-  env?: FlyContainerConfigEnvMap;
+  env?: FlyContainerConfigEnvMap | undefined;
   /** EnvFrom can be provided to set environment variables from machine fields. */
-  env_from?: FlyContainerConfigEnvFromList;
+  env_from?: FlyContainerConfigEnvFromList | undefined;
   /** Image Config overrides - these fields are used to override the image configuration. If not provided, the image configuration will be used. ExecOverride is used to override the default command of the image. */
-  exec?: FlyContainerConfigExecList;
+  exec?: FlyContainerConfigExecList | undefined;
   /** Files are files that will be written to the container file system. */
-  files?: FlyContainerConfigFilesList;
+  files?: FlyContainerConfigFilesList | undefined;
   /** Healthchecks determine the health of your containers. Healthchecks can use HTTP, TCP or an Exec command. */
-  healthchecks?: FlyContainerConfigHealthchecksList;
+  healthchecks?: FlyContainerConfigHealthchecksList | undefined;
   /** Image is the docker image to run. */
-  image?: string;
+  image?: string | undefined;
   /** Name is used to identify the container in the machine. */
-  name?: string;
+  name?: string | undefined;
   /** Restart is used to define the restart policy for the container. */
-  restart?: FlyMachineRestart;
+  restart?: FlyMachineRestart | undefined;
   /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
-  secrets?: FlyContainerConfigSecretsList;
+  secrets?: FlyContainerConfigSecretsList | undefined;
   /** Stop is used to define the signal and timeout for stopping the container. */
-  stop?: FlyStopConfig;
+  stop?: FlyStopConfig | undefined;
   /** UserOverride is used to override the default user of the image. */
-  user?: string;
+  user?: string | undefined;
 }
 /** Containers are a list of containers that will run in the machine, each from its own image. */
 export type FlyMachineConfigContainersList = Array<FlyContainerConfig>;
 export interface FlyDnsForwardRule {
-  addr?: string;
-  basename?: string;
+  addr?: string | undefined;
+  basename?: string | undefined;
 }
 export type FlyDNSConfigDnsForwardRulesList = Array<FlyDnsForwardRule>;
 export type FlyDNSConfigNameserversList = Array<string>;
 export interface FlyDnsOption {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type FlyDNSConfigOptionsList = Array<FlyDnsOption>;
 export type FlyDNSConfigSearchesList = Array<string>;
 export interface FlyDNSConfig {
-  dns_forward_rules?: FlyDNSConfigDnsForwardRulesList;
-  hostname?: string;
-  hostname_fqdn?: string;
-  nameservers?: FlyDNSConfigNameserversList;
-  options?: FlyDNSConfigOptionsList;
-  searches?: FlyDNSConfigSearchesList;
-  skip_registration?: boolean;
+  dns_forward_rules?: FlyDNSConfigDnsForwardRulesList | undefined;
+  hostname?: string | undefined;
+  hostname_fqdn?: string | undefined;
+  nameservers?: FlyDNSConfigNameserversList | undefined;
+  options?: FlyDNSConfigOptionsList | undefined;
+  searches?: FlyDNSConfigSearchesList | undefined;
+  skip_registration?: boolean | undefined;
 }
 /** An object filled with key/value pairs to be set as environment variables */
 export type FlyMachineConfigEnvMap = { [key: string]: string | undefined };
@@ -567,50 +567,50 @@ export type FlyMachineGuestKernelArgsList = Array<string>;
 export type FlyMachineGuestPersistRootfs = "never" | "always" | "restart";
 export type FlyMachineGuestRequiredHostFeaturesList = Array<string>;
 export interface FlyMachineGuest {
-  cpu_kind?: string;
-  cpus?: number;
-  gpu_kind?: string;
-  gpus?: number;
-  host_dedication_id?: string;
-  kernel_args?: FlyMachineGuestKernelArgsList;
-  max_memory_mb?: number;
-  memory_mb?: number;
+  cpu_kind?: string | undefined;
+  cpus?: number | undefined;
+  gpu_kind?: string | undefined;
+  gpus?: number | undefined;
+  host_dedication_id?: string | undefined;
+  kernel_args?: FlyMachineGuestKernelArgsList | undefined;
+  max_memory_mb?: number | undefined;
+  memory_mb?: number | undefined;
   /** Deprecated: use MachineConfig.Rootfs instead */
-  persist_rootfs?: FlyMachineGuestPersistRootfs | (string & {});
-  required_host_features?: FlyMachineGuestRequiredHostFeaturesList;
+  persist_rootfs?: FlyMachineGuestPersistRootfs | (string & {}) | undefined;
+  required_host_features?: FlyMachineGuestRequiredHostFeaturesList | undefined;
 }
 export type FlyMachineInitCmdList = Array<string>;
 export type FlyMachineInitEntrypointList = Array<string>;
 export type FlyMachineInitExecList = Array<string>;
 export type FlyMachineInitKernelArgsList = Array<string>;
 export interface FlyMachineInit {
-  cmd?: FlyMachineInitCmdList;
-  entrypoint?: FlyMachineInitEntrypointList;
-  exec?: FlyMachineInitExecList;
-  kernel_args?: FlyMachineInitKernelArgsList;
-  swap_size_mb?: number;
-  tty?: boolean;
+  cmd?: FlyMachineInitCmdList | undefined;
+  entrypoint?: FlyMachineInitEntrypointList | undefined;
+  exec?: FlyMachineInitExecList | undefined;
+  kernel_args?: FlyMachineInitKernelArgsList | undefined;
+  swap_size_mb?: number | undefined;
+  tty?: boolean | undefined;
 }
 /** Key/value pairs of Machine metadata. Fly.io uses metadata internally for routing, process groups, and clusters */
 export type FlyMachineConfigMetadataMap = { [key: string]: string | undefined };
 export interface FlyMachineMetrics {
-  https?: boolean;
-  path?: string;
-  port?: number;
+  https?: boolean | undefined;
+  path?: string | undefined;
+  port?: number | undefined;
 }
 export interface FlyMachineMount {
-  add_size_gb?: number;
+  add_size_gb?: number | undefined;
   /** AddSizePercent grows by a percentage of the current size, rounded up to GiB. It is mutually exclusive with AddSizeGb. */
-  add_size_percent?: number;
-  encrypted?: boolean;
-  extend_threshold_percent?: number;
+  add_size_percent?: number | undefined;
+  encrypted?: boolean | undefined;
+  extend_threshold_percent?: number | undefined;
   /** MinAddSizeGb is the minimum proportional growth in GiB (default 1). */
-  min_add_size_gb?: number;
-  name?: string;
-  path?: string;
-  size_gb?: number;
-  size_gb_limit?: number;
-  volume?: string;
+  min_add_size_gb?: number | undefined;
+  name?: string | undefined;
+  path?: string | undefined;
+  size_gb?: number | undefined;
+  size_gb_limit?: number | undefined;
+  volume?: string | undefined;
 }
 /** Persistent volumes to mount in the Machine. A Machine can mount at most one volume, which must be on the same host. The mounted volume cannot be changed by updating the Machine */
 export type FlyMachineConfigMountsList = Array<FlyMachineMount>;
@@ -623,24 +623,24 @@ export type FlyMachineProcessExecList = Array<string>;
 /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
 export type FlyMachineProcessSecretsList = Array<FlyMachineSecret>;
 export interface FlyMachineProcess {
-  cmd?: FlyMachineProcessCmdList;
-  entrypoint?: FlyMachineProcessEntrypointList;
-  env?: FlyMachineProcessEnvMap;
+  cmd?: FlyMachineProcessCmdList | undefined;
+  entrypoint?: FlyMachineProcessEntrypointList | undefined;
+  env?: FlyMachineProcessEnvMap | undefined;
   /** EnvFrom can be provided to set environment variables from machine fields. */
-  env_from?: FlyMachineProcessEnvFromList;
-  exec?: FlyMachineProcessExecList;
+  env_from?: FlyMachineProcessEnvFromList | undefined;
+  exec?: FlyMachineProcessExecList | undefined;
   /** IgnoreAppSecrets can be set to true to ignore the secrets for the App the Machine belongs to and only use the secrets provided at the process level. The default/legacy behavior is to use the secrets provided at the App level. */
-  ignore_app_secrets?: boolean;
+  ignore_app_secrets?: boolean | undefined;
   /** Secrets can be provided at the process level to explicitly indicate which secrets should be used for the process. If not provided, the secrets provided at the machine level will be used. */
-  secrets?: FlyMachineProcessSecretsList;
-  user?: string;
+  secrets?: FlyMachineProcessSecretsList | undefined;
+  user?: string | undefined;
 }
 /** Multiple processes to run within this one Machine, all from the Machine's image. Unrelated to the process groups in fly.toml, which run on separate Machines. To run processes from different images, use containers instead */
 export type FlyMachineConfigProcessesList = Array<FlyMachineProcess>;
 export type FlyMachineRootfsPersist = "never" | "always" | "restart";
 export interface FlyMachineRootfs {
-  persist?: FlyMachineRootfsPersist | (string & {});
-  size_gb?: number;
+  persist?: FlyMachineRootfsPersist | (string & {}) | undefined;
+  size_gb?: number | undefined;
 }
 /** Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for "off" and "stop" in responses. * "off" or false - Do not autostop the Machine. * "stop" or true - Automatically stop the Machine. * "suspend" - Automatically suspend the Machine, falling back to a full stop if this is not possible. */
 export type FlyMachineServiceAutostopMode = "off" | "stop" | "suspend";
@@ -649,101 +649,101 @@ export type FlyMachineServiceAutostop = FlyMachineServiceAutostopMode | (string 
 export type FlyMachineServiceCheckHeadersList = Array<FlyMachineHTTPHeader>;
 export interface FlyMachineServiceCheck {
   /** The time to wait after a VM starts before checking its health */
-  grace_period?: string;
-  headers?: FlyMachineServiceCheckHeadersList;
+  grace_period?: string | undefined;
+  headers?: FlyMachineServiceCheckHeadersList | undefined;
   /** The time between connectivity checks */
-  interval?: string;
+  interval?: string | undefined;
   /** For http checks, the HTTP method to use to when making the request */
-  method?: string;
+  method?: string | undefined;
   /** For http checks, the path to send the request to */
-  path?: string;
+  path?: string | undefined;
   /** The port to connect to, often the same as internal_port */
-  port?: number;
+  port?: number | undefined;
   /** For http checks, whether to use http or https */
-  protocol?: string;
+  protocol?: string | undefined;
   /** The maximum time a connection can take before being reported as failing its health check */
-  timeout?: string;
+  timeout?: string | undefined;
   /** If the protocol is https, the hostname to use for TLS certificate validation */
-  tls_server_name?: string;
+  tls_server_name?: string | undefined;
   /** For http checks with https protocol, whether or not to verify the TLS certificate */
-  tls_skip_verify?: boolean;
+  tls_skip_verify?: boolean | undefined;
   /** tcp or http */
-  type?: string;
+  type?: string | undefined;
 }
 /** An optional list of service checks */
 export type FlyMachineServiceChecksList = Array<FlyMachineServiceCheck>;
 export interface FlyMachineServiceConcurrency {
-  hard_limit?: number;
-  soft_limit?: number;
-  type?: string;
+  hard_limit?: number | undefined;
+  soft_limit?: number | undefined;
+  type?: string | undefined;
 }
 export type FlyMachinePortHandlersList = Array<string>;
 /** Currently either "cookie" or "header" */
 export type FlyReplayCacheType = "cookie" | "header";
 export interface FlyReplayCache {
-  allow_bypass?: boolean;
+  allow_bypass?: boolean | undefined;
   /** Name of the cookie or header to key the cache on */
-  name?: string;
-  path_prefix?: string;
-  ttl_seconds?: number;
+  name?: string | undefined;
+  path_prefix?: string | undefined;
+  ttl_seconds?: number | undefined;
   /** Currently either "cookie" or "header" */
-  type?: FlyReplayCacheType | (string & {});
+  type?: FlyReplayCacheType | (string & {}) | undefined;
 }
 export type FlyHTTPOptionsReplayCacheList = Array<FlyReplayCache>;
 export type FlyHTTPResponseOptionsHeadersMap = { [key: string]: unknown | undefined };
 export interface FlyHTTPResponseOptions {
-  headers?: FlyHTTPResponseOptionsHeadersMap;
-  pristine?: boolean;
+  headers?: FlyHTTPResponseOptionsHeadersMap | undefined;
+  pristine?: boolean | undefined;
 }
 export interface FlyHTTPOptions {
-  compress?: boolean;
-  h2_backend?: boolean;
-  headers_read_timeout?: number;
-  idle_timeout?: number;
-  replay_cache?: FlyHTTPOptionsReplayCacheList;
-  response?: FlyHTTPResponseOptions;
+  compress?: boolean | undefined;
+  h2_backend?: boolean | undefined;
+  headers_read_timeout?: number | undefined;
+  idle_timeout?: number | undefined;
+  replay_cache?: FlyHTTPOptionsReplayCacheList | undefined;
+  response?: FlyHTTPResponseOptions | undefined;
 }
 export interface FlyProxyProtoOptions {
-  fly_src?: boolean;
-  version?: string;
+  fly_src?: boolean | undefined;
+  version?: string | undefined;
 }
 export type FlyTLSOptionsAlpnList = Array<string>;
 export type FlyTLSOptionsVersionsList = Array<string>;
 export interface FlyTLSOptions {
-  alpn?: FlyTLSOptionsAlpnList;
-  default_self_signed?: boolean;
-  versions?: FlyTLSOptionsVersionsList;
+  alpn?: FlyTLSOptionsAlpnList | undefined;
+  default_self_signed?: boolean | undefined;
+  versions?: FlyTLSOptionsVersionsList | undefined;
 }
 export interface FlyMachinePort {
-  end_port?: number;
-  force_https?: boolean;
-  handlers?: FlyMachinePortHandlersList;
-  http_options?: FlyHTTPOptions;
-  port?: number;
-  proxy_proto_options?: FlyProxyProtoOptions;
-  start_port?: number;
-  tls_options?: FlyTLSOptions;
+  end_port?: number | undefined;
+  force_https?: boolean | undefined;
+  handlers?: FlyMachinePortHandlersList | undefined;
+  http_options?: FlyHTTPOptions | undefined;
+  port?: number | undefined;
+  proxy_proto_options?: FlyProxyProtoOptions | undefined;
+  start_port?: number | undefined;
+  tls_options?: FlyTLSOptions | undefined;
 }
 export type FlyMachineServicePortsList = Array<FlyMachinePort>;
 export interface FlyMachineService {
-  autostart?: boolean;
+  autostart?: boolean | undefined;
   /** Accepts a string (new format) or a boolean (old format). For backward compatibility with older clients, the API continues to use booleans for "off" and "stop" in responses. * "off" or false - Do not autostop the Machine. * "stop" or true - Automatically stop the Machine. * "suspend" - Automatically suspend the Machine, falling back to a full stop if this is not possible. */
-  autostop?: FlyMachineServiceAutostop;
+  autostop?: FlyMachineServiceAutostop | undefined;
   /** An optional list of service checks */
-  checks?: FlyMachineServiceChecksList;
-  concurrency?: FlyMachineServiceConcurrency;
-  force_instance_description?: string;
-  force_instance_key?: string;
-  internal_port?: number;
-  min_machines_running?: number;
-  ports?: FlyMachineServicePortsList;
-  protocol?: string;
+  checks?: FlyMachineServiceChecksList | undefined;
+  concurrency?: FlyMachineServiceConcurrency | undefined;
+  force_instance_description?: string | undefined;
+  force_instance_key?: string | undefined;
+  internal_port?: number | undefined;
+  min_machines_running?: number | undefined;
+  ports?: FlyMachineServicePortsList | undefined;
+  protocol?: string | undefined;
 }
 /** Network services that Fly Proxy routes traffic to */
 export type FlyMachineConfigServicesList = Array<FlyMachineService>;
 export interface FlyMachineSpot {
   /** MaxPriceFraction is the maximum fraction of the full Machine price you will pay for this Machine. Range: (0, 1.0] */
-  max_price_fraction?: number;
+  max_price_fraction?: number | undefined;
 }
 /** Standbys enable a machine to be a standby for another. In the event of a hardware failure, the standby machine will be started. */
 export type FlyMachineConfigStandbysList = Array<string>;
@@ -751,9 +751,9 @@ export interface FlyStatic {
   /** The path inside the Machine, or inside tigris_bucket when set, where the files to serve are located */
   guest_path: string;
   /** The document served for requests to the URL prefix or any of its subfolders. Only works with tigris_bucket */
-  index_document?: string;
+  index_document?: string | undefined;
   /** An existing Tigris bucket belonging to the app to read the files from, instead of the Machine's filesystem. The files are still served through the Machine */
-  tigris_bucket?: string;
+  tigris_bucket?: string | undefined;
   /** The URL prefix under which the files are served */
   url_prefix: string;
 }
@@ -761,152 +761,152 @@ export interface FlyStatic {
 export type FlyMachineConfigStaticsList = Array<FlyStatic>;
 export interface FlyMachineConfig {
   /** Optional boolean telling the Machine to destroy itself once it's complete (default false) */
-  auto_destroy?: boolean;
+  auto_destroy?: boolean | undefined;
   /** A cache drive attached to the Machine */
-  cache_drive?: FlyMachineCacheDrive;
+  cache_drive?: FlyMachineCacheDrive | undefined;
   /** An optional object that defines one or more named top-level checks. The key for each check is the check name. */
-  checks?: FlyMachineConfigChecksMap;
+  checks?: FlyMachineConfigChecksMap | undefined;
   /** Containers are a list of containers that will run in the machine, each from its own image. */
-  containers?: FlyMachineConfigContainersList;
+  containers?: FlyMachineConfigContainersList | undefined;
   /** Deprecated: use Service.Autostart instead */
-  disable_machine_autostart?: boolean;
+  disable_machine_autostart?: boolean | undefined;
   /** DNS settings for the Machine */
-  dns?: FlyDNSConfig;
+  dns?: FlyDNSConfig | undefined;
   /** An object filled with key/value pairs to be set as environment variables */
-  env?: FlyMachineConfigEnvMap;
+  env?: FlyMachineConfigEnvMap | undefined;
   /** Files to write into the Machine, from either a raw value or an app secret */
-  files?: FlyMachineConfigFilesList;
+  files?: FlyMachineConfigFilesList | undefined;
   /** The resources (CPUs, memory, etc.) allocated to the Machine */
-  guest?: FlyMachineGuest;
+  guest?: FlyMachineGuest | undefined;
   /** The docker image to run */
-  image?: string;
+  image?: string | undefined;
   /** Arguments for init, Fly.io's footprint inside the Machine, which controls how your own code is run */
-  init?: FlyMachineInit;
+  init?: FlyMachineInit | undefined;
   /** Key/value pairs of Machine metadata. Fly.io uses metadata internally for routing, process groups, and clusters */
-  metadata?: FlyMachineConfigMetadataMap;
+  metadata?: FlyMachineConfigMetadataMap | undefined;
   /** An optional metrics endpoint for Prometheus on Fly.io to scrape */
-  metrics?: FlyMachineMetrics;
+  metrics?: FlyMachineMetrics | undefined;
   /** Persistent volumes to mount in the Machine. A Machine can mount at most one volume, which must be on the same host. The mounted volume cannot be changed by updating the Machine */
-  mounts?: FlyMachineConfigMountsList;
+  mounts?: FlyMachineConfigMountsList | undefined;
   /** Multiple processes to run within this one Machine, all from the Machine's image. Unrelated to the process groups in fly.toml, which run on separate Machines. To run processes from different images, use containers instead */
-  processes?: FlyMachineConfigProcessesList;
+  processes?: FlyMachineConfigProcessesList | undefined;
   /** Whether and how the Machine is restarted after its main process exits */
-  restart?: FlyMachineRestart;
+  restart?: FlyMachineRestart | undefined;
   /** The size of the Machine's root filesystem and whether it persists */
-  rootfs?: FlyMachineRootfs;
+  rootfs?: FlyMachineRootfs | undefined;
   /** Run the Machine at an interval: one of hourly, daily, weekly or monthly. The interval starts when the Machine is created */
-  schedule?: string;
+  schedule?: string | undefined;
   /** Network services that Fly Proxy routes traffic to */
-  services?: FlyMachineConfigServicesList;
+  services?: FlyMachineConfigServicesList | undefined;
   /** Deprecated: use Guest instead */
-  size?: string;
+  size?: string | undefined;
   /** Spot pricing settings for the Machine */
-  spot?: FlyMachineSpot;
+  spot?: FlyMachineSpot | undefined;
   /** Standbys enable a machine to be a standby for another. In the event of a hardware failure, the standby machine will be started. */
-  standbys?: FlyMachineConfigStandbysList;
+  standbys?: FlyMachineConfigStandbysList | undefined;
   /** Static files to serve under a URL prefix. Fly Proxy routes matching requests to a file server inside the Machine, bypassing your application's own process; the Machine must be running. The files are read either from a path inside the Machine or from a Tigris bucket that belongs to the app; no bucket is created for you */
-  statics?: FlyMachineConfigStaticsList;
+  statics?: FlyMachineConfigStaticsList | undefined;
   /** How the Machine is shut down gracefully: the signal sent to it and how long to wait before a hard shutdown */
-  stop_config?: FlyStopConfig;
+  stop_config?: FlyStopConfig | undefined;
 }
 export interface CreateMachineRequest {
   /** Fly App Name */
   app_name: string;
   /** An object defining the Machine configuration */
-  config?: FlyMachineConfig;
-  lease_ttl?: number;
+  config?: FlyMachineConfig | undefined;
+  lease_ttl?: number | undefined;
   /** The minimum version of the app's secrets the Machine must run with. Set it to the `version` returned by the endpoints that set or delete app secrets, so that the Machine is guaranteed to see those changes. This field belongs at the top level of the request body, not in `config`. If omitted, the app's current secrets version is looked up for you. */
-  min_secrets_version?: number;
+  min_secrets_version?: number | undefined;
   /** Unique name for this Machine. If omitted, one is generated for you */
-  name?: string;
+  name?: string | undefined;
   /** The target region. Omitting this param launches in the same region as your WireGuard peer connection (somewhere near you). */
-  region?: string;
-  skip_launch?: boolean;
-  skip_secrets?: boolean;
-  skip_service_registration?: boolean;
+  region?: string | undefined;
+  skip_launch?: boolean | undefined;
+  skip_secrets?: boolean | undefined;
+  skip_service_registration?: boolean | undefined;
 }
 export interface CheckStatus {
-  name?: string;
-  output?: string;
-  status?: string;
-  updated_at?: string;
+  name?: string | undefined;
+  output?: string | undefined;
+  status?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type MachineChecksList = Array<CheckStatus>;
 export interface MachineEvent {
-  id?: string;
-  request?: unknown;
-  source?: string;
-  status?: string;
-  timestamp?: number;
-  type?: string;
+  id?: string | undefined;
+  request?: unknown | undefined;
+  source?: string | undefined;
+  status?: string | undefined;
+  timestamp?: number | undefined;
+  type?: string | undefined;
 }
 export type MachineEventsList = Array<MachineEvent>;
 export type MachineHostFeaturesList = Array<string>;
 export type MachineHostStatus = "ok" | "unknown" | "unreachable";
 export type ImageRefLabelsMap = { [key: string]: string | undefined };
 export interface ImageRef {
-  digest?: string;
-  labels?: ImageRefLabelsMap;
-  registry?: string;
-  repository?: string;
-  tag?: string;
+  digest?: string | undefined;
+  labels?: ImageRefLabelsMap | undefined;
+  registry?: string | undefined;
+  repository?: string | undefined;
+  tag?: string | undefined;
 }
 export interface StrippedLease {
-  description?: string;
-  expires_at?: number;
-  owner?: string;
+  description?: string | undefined;
+  expires_at?: number | undefined;
+  owner?: string | undefined;
 }
 export interface Machine {
-  checks?: MachineChecksList;
-  config?: FlyMachineConfig;
-  cordoned?: boolean;
-  created_at?: string;
-  events?: MachineEventsList;
-  host_features?: MachineHostFeaturesList;
-  host_status?: MachineHostStatus;
-  id?: string;
-  image_ref?: ImageRef;
-  incomplete_config?: FlyMachineConfig;
+  checks?: MachineChecksList | undefined;
+  config?: FlyMachineConfig | undefined;
+  cordoned?: boolean | undefined;
+  created_at?: string | undefined;
+  events?: MachineEventsList | undefined;
+  host_features?: MachineHostFeaturesList | undefined;
+  host_status?: MachineHostStatus | undefined;
+  id?: string | undefined;
+  image_ref?: ImageRef | undefined;
+  incomplete_config?: FlyMachineConfig | undefined;
   /** InstanceID is the same value as `version`. Deprecated: use `version`. */
-  instance_id?: string;
-  lease?: StrippedLease;
-  name?: string;
+  instance_id?: string | undefined;
+  lease?: StrippedLease | undefined;
+  name?: string | undefined;
   /** Nonce is only every returned on machine creation if a lease_duration was provided. */
-  nonce?: string;
+  nonce?: string | undefined;
   /** PrivateIP is the internal 6PN address of the machine. */
-  private_ip?: string;
-  region?: string;
-  state?: string;
-  updated_at?: string;
+  private_ip?: string | undefined;
+  region?: string | undefined;
+  state?: string | undefined;
+  updated_at?: string | undefined;
   /** Version is unique for each version of the machine. Pass it as `current_version` when updating the Machine to reject the update if the Machine has changed since this version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateMachineLeaseRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  description?: string;
+  description?: string | undefined;
   /** seconds lease will be valid */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Existing lease nonce when refreshing; omit to acquire a new lease. Keep the nonce private. */
-  lease_nonce?: string;
+  lease_nonce?: string | undefined;
 }
 export interface Lease {
   /** Description or reason for the Lease. */
-  description?: string;
+  description?: string | undefined;
   /** ExpiresAt is the unix timestamp in UTC to denote when the Lease will no longer be valid. */
-  expires_at?: number;
+  expires_at?: number | undefined;
   /** Nonce is the unique ID autogenerated and associated with the Lease. */
-  nonce?: string;
+  nonce?: string | undefined;
   /** Owner is the user identifier which acquired the Lease. */
-  owner?: string;
+  owner?: string | undefined;
   /** Machine version */
-  version?: string;
+  version?: string | undefined;
 }
 export interface MachineLease {
-  status?: string;
-  data?: Lease;
+  status?: string | undefined;
+  data?: Lease | undefined;
 }
 /** Postgres major version. */
 export type CreatePostgresRequestPgMajorVersion = "16" | "17";
@@ -916,25 +916,25 @@ export type CreatePostgresRequestPlan = "basic" | "starter" | "launch" | "scale"
 export type CreatePostgresRequestPoolMode = "session" | "transaction";
 export interface CreatePostgresRequest {
   /** Disk size in gigabytes. */
-  disk_size_gb?: number;
+  disk_size_gb?: number | undefined;
   /** Name for the cluster. A name is generated when omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Slug of the organization that will own the cluster, or "personal" for the caller's personal organization. */
   org_slug: string;
   /** Postgres major version. */
-  pg_major_version?: CreatePostgresRequestPgMajorVersion | (string & {});
+  pg_major_version?: CreatePostgresRequestPgMajorVersion | (string & {}) | undefined;
   /** Plan slug selecting CPU, memory, and disk sizing. Matched case-insensitively. */
   plan: CreatePostgresRequestPlan | (string & {});
   /** Connection pooler mode. */
-  pool_mode?: CreatePostgresRequestPoolMode | (string & {});
+  pool_mode?: CreatePostgresRequestPoolMode | (string & {}) | undefined;
   /** Enable PostGIS support, required to later enable PostGIS extensions. */
-  postgis_enabled?: boolean;
+  postgis_enabled?: boolean | undefined;
   /** Fly region code where the cluster's primary runs. */
   region: string;
 }
 export interface PostgresAttachedApp {
   /** Attached Fly app name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Apps attached to the cluster. */
 export type PostgresClusterAttachedAppsList = Array<PostgresAttachedApp>;
@@ -942,25 +942,25 @@ export type PostgresClusterAttachedAppsList = Array<PostgresAttachedApp>;
 export type PostgresClusterCpuKind = "shared" | "performance";
 export interface PostgresEndpoint {
   /** Hostname to connect to. */
-  host?: string;
+  host?: string | undefined;
   /** TCP port. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface PostgresNodeEndpoints {
   /** Unpooled connection to the cluster node. */
-  direct?: PostgresEndpoint;
+  direct?: PostgresEndpoint | undefined;
   /** Pooled connection to the cluster node (through PgBouncer). */
-  pooler?: PostgresEndpoint;
+  pooler?: PostgresEndpoint | undefined;
 }
 export interface PostgresClusterEndpoints {
   /** Endpoints for connecting to the primary node. */
-  primary?: PostgresNodeEndpoints;
+  primary?: PostgresNodeEndpoints | undefined;
 }
 export interface OrganizationRef {
   /** Organization name. */
-  name?: string;
+  name?: string | undefined;
   /** Organization slug. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** Postgres major version. */
 export type PostgresClusterPgMajorVersion = "16" | "17";
@@ -976,43 +976,43 @@ export type PostgresClusterStatus =
   | "failed";
 export interface PostgresCluster {
   /** Apps attached to the cluster. */
-  attached_apps?: PostgresClusterAttachedAppsList;
+  attached_apps?: PostgresClusterAttachedAppsList | undefined;
   /** CPU class. */
-  cpu_kind?: PostgresClusterCpuKind;
+  cpu_kind?: PostgresClusterCpuKind | undefined;
   /** vCPUs per node. */
-  cpus?: number;
+  cpus?: number | undefined;
   /** RFC 3339 creation timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Disk size in gigabytes, for one replica. */
-  disk_size_gb?: number;
+  disk_size_gb?: number | undefined;
   /** Connection endpoints. Populated once the cluster is ready. */
-  endpoints?: PostgresClusterEndpoints;
+  endpoints?: PostgresClusterEndpoints | undefined;
   /** Cluster ID. */
-  id?: string;
+  id?: string | undefined;
   /** Memory per node in megabytes. */
-  memory_mb?: number;
+  memory_mb?: number | undefined;
   /** Cluster name. */
-  name?: string;
-  organization?: OrganizationRef;
+  name?: string | undefined;
+  organization?: OrganizationRef | undefined;
   /** Postgres major version. */
-  pg_major_version?: PostgresClusterPgMajorVersion;
+  pg_major_version?: PostgresClusterPgMajorVersion | undefined;
   /** Plan slug. */
-  plan?: PostgresClusterPlan;
+  plan?: PostgresClusterPlan | undefined;
   /** Whether PostGIS support is enabled. */
-  postgis_enabled?: boolean;
+  postgis_enabled?: boolean | undefined;
   /** Fly region code. */
-  region?: string;
+  region?: string | undefined;
   /** Number of replicas. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Current lifecycle status. */
-  status?: PostgresClusterStatus;
+  status?: PostgresClusterStatus | undefined;
   /** Storage provisioned, summed across the cluster's volumes and measured hourly. Null until first measured. */
-  storage_provisioned_bytes?: number | null;
+  storage_provisioned_bytes?: number | null | undefined;
   /** Storage used, summed across the cluster's volumes and measured hourly. Null until first measured. */
-  storage_used_bytes?: number | null;
+  storage_used_bytes?: number | null | undefined;
 }
 export interface ShowPostgresClusterResponse {
-  data?: PostgresCluster;
+  data?: PostgresCluster | undefined;
 }
 export interface CreatePostgresAttachmentRequest {
   /** Managed Postgres Cluster ID */
@@ -1022,14 +1022,14 @@ export interface CreatePostgresAttachmentRequest {
 }
 export interface PostgresAttachment {
   /** Attached Fly app name. */
-  app_name?: string;
+  app_name?: string | undefined;
   /** RFC 3339 timestamp when the attachment was created. */
-  attached_at?: string;
+  attached_at?: string | undefined;
   /** Cluster ID the app is attached to. */
-  postgres_cluster_id?: string;
+  postgres_cluster_id?: string | undefined;
 }
 export interface CreatePostgresAttachmentResponse {
-  data?: PostgresAttachment;
+  data?: PostgresAttachment | undefined;
 }
 /** Backup type. */
 export type CreatePostgresBackupRequestType = "full" | "incr" | "diff";
@@ -1048,10 +1048,10 @@ export interface CreatePostgresDatabaseRequest {
 }
 export interface PostgresDatabase {
   /** Database name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PostgresDatabaseResponse {
-  data?: PostgresDatabase;
+  data?: PostgresDatabase | undefined;
 }
 /** Role to grant the user. */
 export type CreatePostgresUserRequestRole = "schema_admin" | "writer" | "reader";
@@ -1067,79 +1067,79 @@ export interface CreatePostgresUserRequest {
 export type PostgresUserRole = "schema_admin" | "writer" | "reader";
 export interface PostgresUser {
   /** User role. */
-  role?: PostgresUserRole;
+  role?: PostgresUserRole | undefined;
   /** User name. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface CreatePostgresUserResponse {
-  data?: PostgresUser;
+  data?: PostgresUser | undefined;
 }
 export interface CreateSecretRequest {
   /** Fly App Name */
   app_name: string;
   /** App secret name */
   secret_name: string;
-  value?: string;
+  value?: string | undefined;
 }
 export interface SetAppSecretResponse {
   /** DEPRECATED */
-  Version?: number;
-  created_at?: string;
-  digest?: string;
-  name?: string;
-  updated_at?: string;
-  value?: string;
+  Version?: number | undefined;
+  created_at?: string | undefined;
+  digest?: string | undefined;
+  name?: string | undefined;
+  updated_at?: string | undefined;
+  value?: string | undefined;
   /** The app's secrets version after this change. Pass it as `min_secrets_version` when creating or updating Machines so that they are guaranteed to see the change. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface CreateVolumeRequest {
   /** Fly App Name */
   app_name: string;
   /** enable scheduled automatic snapshots. Defaults to `true` */
-  auto_backup_enabled?: boolean;
-  compute?: FlyMachineGuest;
-  compute_image?: string;
-  encrypted?: boolean;
-  fstype?: string;
-  name?: string;
-  region?: string;
-  require_unique_zone?: boolean;
-  size_gb?: number;
+  auto_backup_enabled?: boolean | undefined;
+  compute?: FlyMachineGuest | undefined;
+  compute_image?: string | undefined;
+  encrypted?: boolean | undefined;
+  fstype?: string | undefined;
+  name?: string | undefined;
+  region?: string | undefined;
+  require_unique_zone?: boolean | undefined;
+  size_gb?: number | undefined;
   /** restore from snapshot */
-  snapshot_id?: string;
-  snapshot_retention?: number;
+  snapshot_id?: string | undefined;
+  snapshot_retention?: number | undefined;
   /** fork from remote volume */
-  source_volume_id?: string;
-  unique_zone_app_wide?: boolean;
+  source_volume_id?: string | undefined;
+  unique_zone_app_wide?: boolean | undefined;
 }
 export type VolumeHostFeaturesList = Array<string>;
 export type VolumeHostStatus = "ok" | "unknown" | "unreachable";
 export type VolumeRequiredHostFeaturesList = Array<string>;
 export type VolumeType = "local" | "cache";
 export interface Volume {
-  attached_alloc_id?: string;
-  attached_machine_id?: string;
-  auto_backup_enabled?: boolean;
-  block_size?: number;
-  blocks?: number;
-  blocks_avail?: number;
-  blocks_free?: number;
-  bytes_total?: number;
-  bytes_used?: number;
-  created_at?: string;
-  encrypted?: boolean;
-  fstype?: string;
-  host_features?: VolumeHostFeaturesList;
-  host_status?: VolumeHostStatus;
-  id?: string;
-  name?: string;
-  region?: string;
-  required_host_features?: VolumeRequiredHostFeaturesList;
-  size_gb?: number;
-  snapshot_retention?: number;
-  state?: string;
-  type?: VolumeType;
-  zone?: string;
+  attached_alloc_id?: string | undefined;
+  attached_machine_id?: string | undefined;
+  auto_backup_enabled?: boolean | undefined;
+  block_size?: number | undefined;
+  blocks?: number | undefined;
+  blocks_avail?: number | undefined;
+  blocks_free?: number | undefined;
+  bytes_total?: number | undefined;
+  bytes_used?: number | undefined;
+  created_at?: string | undefined;
+  encrypted?: boolean | undefined;
+  fstype?: string | undefined;
+  host_features?: VolumeHostFeaturesList | undefined;
+  host_status?: VolumeHostStatus | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  region?: string | undefined;
+  required_host_features?: VolumeRequiredHostFeaturesList | undefined;
+  size_gb?: number | undefined;
+  snapshot_retention?: number | undefined;
+  state?: string | undefined;
+  type?: VolumeType | undefined;
+  zone?: string | undefined;
 }
 export interface CreateVolumeSnapshotRequest {
   /** Fly App Name */
@@ -1154,12 +1154,12 @@ export interface DecryptSecretKeyRequest {
   /** Secret key name */
   secret_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
-  associated_data?: string;
-  ciphertext?: string;
+  min_version?: string | undefined;
+  associated_data?: string | undefined;
+  ciphertext?: string | undefined;
 }
 export interface DecryptSecretkeyResponse {
-  plaintext?: string | Redacted.Redacted<string>;
+  plaintext?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteAppRequest {
   /** Fly App Name */
@@ -1189,17 +1189,17 @@ export type DestroyCustomCertificateResponseCertificatesList = Array<Certificate
 export type DestroyCustomCertificateResponseValidationErrorsList =
   Array<CertificateValidationError>;
 export interface DestroyCustomCertificateResponse {
-  acme_requested?: boolean;
-  certificates?: DestroyCustomCertificateResponseCertificatesList;
-  configured?: boolean;
-  dns_provider?: string;
-  dns_requirements?: DNSRequirements;
-  hostname?: string;
-  rate_limited_until?: string;
-  status?: string;
-  validation?: CertificateValidation;
-  validation_errors?: DestroyCustomCertificateResponseValidationErrorsList;
-  warning?: string;
+  acme_requested?: boolean | undefined;
+  certificates?: DestroyCustomCertificateResponseCertificatesList | undefined;
+  configured?: boolean | undefined;
+  dns_provider?: string | undefined;
+  dns_requirements?: DNSRequirements | undefined;
+  hostname?: string | undefined;
+  rate_limited_until?: string | undefined;
+  status?: string | undefined;
+  validation?: CertificateValidation | undefined;
+  validation_errors?: DestroyCustomCertificateResponseValidationErrorsList | undefined;
+  warning?: string | undefined;
 }
 export interface DeleteAppIPAssignmentRequest {
   /** Fly App Name */
@@ -1214,8 +1214,8 @@ export interface DeleteMachineRequest {
   /** Machine ID */
   machine_id: string;
   /** Kill the Machine first if it's not stopped, suspended, failed, pending or archived */
-  force?: boolean;
-  lease_nonce?: string;
+  force?: boolean | undefined;
+  lease_nonce?: string | undefined;
 }
 export interface DeleteMachineMetadataRequest {
   /** Fly App Name */
@@ -1259,9 +1259,9 @@ export interface DeleteSecretRequest {
 }
 export interface DeleteAppSecretResponse {
   /** DEPRECATED */
-  Version?: number;
+  Version?: number | undefined;
   /** The app's secrets version after this change. Pass it as `min_secrets_version` when creating or updating Machines so that they are guaranteed to see the change. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface DeleteSecretKeyRequest {
   /** Fly App Name */
@@ -1271,8 +1271,8 @@ export interface DeleteSecretKeyRequest {
 }
 export interface DeleteSecretkeyResponse {
   /** DEPRECATED */
-  Version?: number;
-  version?: number;
+  Version?: number | undefined;
+  version?: number | undefined;
 }
 export interface DeleteVolumeRequest {
   /** Fly App Name */
@@ -1288,7 +1288,7 @@ export interface DisablePostgresExtensionRequest {
   /** Extension Name */
   extension_name: string;
   /** Also drop objects that depend on the extension */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DisablePostgresExtensionResponse {}
 export interface EnablePostgresExtensionRequest {
@@ -1297,11 +1297,11 @@ export interface EnablePostgresExtensionRequest {
   /** Database Name */
   database_name: string;
   /** Create the schema first if it does not exist. */
-  create_schema?: boolean;
+  create_schema?: boolean | undefined;
   /** Extension to enable. */
   name: string;
   /** Schema to install the extension into. Defaults to the database's default schema. */
-  schema?: string;
+  schema?: string | undefined;
 }
 export interface EnablePostgresExtensionResponse {}
 export interface EncryptSecretKeyRequest {
@@ -1310,12 +1310,12 @@ export interface EncryptSecretKeyRequest {
   /** Secret key name */
   secret_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
-  associated_data?: string;
-  plaintext?: string | Redacted.Redacted<string>;
+  min_version?: string | undefined;
+  associated_data?: string | undefined;
+  plaintext?: string | Redacted.Redacted<string> | undefined;
 }
 export interface EncryptSecretkeyResponse {
-  ciphertext?: string;
+  ciphertext?: string | undefined;
 }
 export type ExecMachineRequestCommandList = Array<string>;
 export interface ExecMachineRequest {
@@ -1324,30 +1324,30 @@ export interface ExecMachineRequest {
   /** Machine ID */
   machine_id: string;
   /** Deprecated: use Command instead */
-  cmd?: string;
-  command?: ExecMachineRequestCommandList;
-  container?: string;
+  cmd?: string | undefined;
+  command?: ExecMachineRequestCommandList | undefined;
+  container?: string | undefined;
   /** Machine runs the command in the machine's own namespace instead of in a container. It is mutually exclusive with Container. */
-  machine?: boolean;
-  stdin?: string;
-  timeout?: number;
+  machine?: boolean | undefined;
+  stdin?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface Flydv1ExecResponse {
-  exit_code?: number;
-  exit_signal?: number;
-  stderr?: string;
-  stdout?: string;
+  exit_code?: number | undefined;
+  exit_signal?: number | undefined;
+  stderr?: string | undefined;
+  stdout?: string | undefined;
 }
 export interface ExtendVolumeRequest {
   /** Fly App Name */
   app_name: string;
   /** Volume ID */
   volume_id: string;
-  size_gb?: number;
+  size_gb?: number | undefined;
 }
 export interface ExtendVolumeResponse {
-  needs_restart?: boolean;
-  volume?: Volume;
+  needs_restart?: boolean | undefined;
+  volume?: Volume | undefined;
 }
 /** Plan slug selecting CPU and memory sizing for the fork. Defaults to the source cluster's plan. Matched case-insensitively. */
 export type ForkPostgresRequestPlan = "basic" | "starter" | "launch" | "scale" | "Performance";
@@ -1355,9 +1355,9 @@ export interface ForkPostgresRequest {
   /** Managed Postgres Cluster ID */
   postgres_cluster_id: string;
   /** Name for the forked cluster. Defaults to the source name with a -fork suffix. */
-  name?: string;
+  name?: string | undefined;
   /** Plan slug selecting CPU and memory sizing for the fork. Defaults to the source cluster's plan. Matched case-insensitively. */
-  plan?: ForkPostgresRequestPlan | (string & {});
+  plan?: ForkPostgresRequestPlan | (string & {}) | undefined;
 }
 export type GenerateSecretKeyRequestValueList = Array<number>;
 export interface GenerateSecretKeyRequest {
@@ -1365,38 +1365,38 @@ export interface GenerateSecretKeyRequest {
   app_name: string;
   /** Secret key name */
   secret_name: string;
-  type?: string;
-  value?: GenerateSecretKeyRequestValueList;
+  type?: string | undefined;
+  value?: GenerateSecretKeyRequestValueList | undefined;
 }
 export interface SetSecretkeyResponse {
   /** DEPRECATED */
-  Version?: number;
-  created_at?: string;
-  name?: string;
-  public_key?: string;
-  type?: string;
-  updated_at?: string;
-  version?: number;
+  Version?: number | undefined;
+  created_at?: string | undefined;
+  name?: string | undefined;
+  public_key?: string | undefined;
+  type?: string | undefined;
+  updated_at?: string | undefined;
+  version?: number | undefined;
 }
 export interface GetAppRequest {
   /** Fly App Name */
   app_name: string;
 }
 export interface AppOrganizationInfo {
-  internal_numeric_id?: number;
-  name?: string;
-  slug?: string;
+  internal_numeric_id?: number | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 export interface App {
-  id?: string;
-  internal_numeric_id?: number;
-  machine_count?: number;
-  name?: string;
-  network?: string;
-  network_cidr?: string;
-  organization?: AppOrganizationInfo;
-  status?: string;
-  volume_count?: number;
+  id?: string | undefined;
+  internal_numeric_id?: number | undefined;
+  machine_count?: number | undefined;
+  name?: string | undefined;
+  network?: string | undefined;
+  network_cidr?: string | undefined;
+  organization?: AppOrganizationInfo | undefined;
+  status?: string | undefined;
+  volume_count?: number | undefined;
 }
 export interface GetAppCertificateRequest {
   /** Fly App Name */
@@ -1407,20 +1407,20 @@ export interface GetAppCertificateRequest {
 export interface GetCurrentTokenRequest {}
 export type MainTokenInfoAppsList = Array<string>;
 export interface MainTokenInfo {
-  apps?: MainTokenInfoAppsList;
-  org_slug?: string;
-  organization?: string;
+  apps?: MainTokenInfoAppsList | undefined;
+  org_slug?: string | undefined;
+  organization?: string | undefined;
   /** Machine the token is restricted to (FromMachine caveat) */
-  restricted_to_machine?: string;
+  restricted_to_machine?: string | undefined;
   /** Machine making the request */
-  source_machine_id?: string;
-  token_id?: string;
+  source_machine_id?: string | undefined;
+  token_id?: string | undefined;
   /** User identifier if token is for a user */
-  user?: string;
+  user?: string | undefined;
 }
 export type CurrentTokenResponseTokensList = Array<MainTokenInfo>;
 export interface CurrentTokenResponse {
-  tokens?: CurrentTokenResponseTokensList;
+  tokens?: CurrentTokenResponseTokensList | undefined;
 }
 export interface GetMachineRequest {
   /** Fly App Name */
@@ -1428,9 +1428,9 @@ export interface GetMachineRequest {
   /** Machine ID */
   machine_id: string;
   /** 26-character Machine version ID; returns that version of the Machine instead of the current one */
-  version?: string;
+  version?: string | undefined;
   /** Include machine lease */
-  include_leases?: boolean;
+  include_leases?: boolean | undefined;
 }
 export interface GetMachineLeaseRequest {
   /** Fly App Name */
@@ -1445,8 +1445,8 @@ export interface GetMachineMemoryRequest {
   machine_id: string;
 }
 export interface MainMemoryResponse {
-  available_mb?: number;
-  limit_mb?: number;
+  available_mb?: number | undefined;
+  limit_mb?: number | undefined;
 }
 export interface GetMachineMetadataRequest {
   /** Fly App Name */
@@ -1465,30 +1465,30 @@ export interface GetMachineMetadataKeyRequest {
   key: string;
 }
 export interface MetadataValueResponse {
-  value?: string;
+  value?: string | undefined;
 }
 export type PlacementWeights = { [key: string]: number | undefined };
 export interface GetPlacementsRequest {
   /** Resource requirements for the Machine to simulate. Defaults to a performance-1x machine */
-  compute?: FlyMachineGuest;
+  compute?: FlyMachineGuest | undefined;
   /** Number of machines to simulate placement. Defaults to 0, which returns the org-specific limit for each region. */
-  count?: number;
+  count?: number | undefined;
   org_slug: string;
   /** Region expression for placement as a comma-delimited set of regions or aliases. Defaults to "[region],any", to prefer the API endpoint's local region with any other region as fallback. */
-  region?: string;
-  volume_name?: string;
-  volume_size_bytes?: number;
+  region?: string | undefined;
+  volume_name?: string | undefined;
+  volume_size_bytes?: number | undefined;
   /** Optional weights to override default placement preferences. */
-  weights?: PlacementWeights;
+  weights?: PlacementWeights | undefined;
 }
 export interface PlacementRegionPlacement {
-  concurrency?: number;
-  count?: number;
-  region?: string;
+  concurrency?: number | undefined;
+  count?: number | undefined;
+  region?: string | undefined;
 }
 export type MainGetPlacementsResponseRegionsList = Array<PlacementRegionPlacement>;
 export interface MainGetPlacementsResponse {
-  regions?: MainGetPlacementsResponseRegionsList;
+  regions?: MainGetPlacementsResponseRegionsList | undefined;
 }
 export interface GetPostgresRequest {
   /** Managed Postgres Cluster ID */
@@ -1496,20 +1496,20 @@ export interface GetPostgresRequest {
 }
 export interface GetRegionsRequest {}
 export interface MainRegionRow {
-  code?: string;
-  deprecated?: boolean;
-  gateway_available?: boolean;
-  geo_region?: string;
-  latitude?: number;
-  longitude?: number;
-  mpg_available?: boolean;
-  name?: string;
-  requires_paid_plan?: boolean;
+  code?: string | undefined;
+  deprecated?: boolean | undefined;
+  gateway_available?: boolean | undefined;
+  geo_region?: string | undefined;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
+  mpg_available?: boolean | undefined;
+  name?: string | undefined;
+  requires_paid_plan?: boolean | undefined;
 }
 export type MainRegionResponseRegionsList = Array<MainRegionRow>;
 export interface MainRegionResponse {
-  nearest?: string;
-  regions?: MainRegionResponseRegionsList;
+  nearest?: string | undefined;
+  regions?: MainRegionResponseRegionsList | undefined;
 }
 export interface GetSecretRequest {
   /** Fly App Name */
@@ -1517,16 +1517,16 @@ export interface GetSecretRequest {
   /** App secret name */
   secret_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
+  min_version?: string | undefined;
   /** Show the secret value. */
-  show_secrets?: boolean;
+  show_secrets?: boolean | undefined;
 }
 export interface AppSecret {
-  created_at?: string;
-  digest?: string;
-  name?: string;
-  updated_at?: string;
-  value?: string;
+  created_at?: string | undefined;
+  digest?: string | undefined;
+  name?: string | undefined;
+  updated_at?: string | undefined;
+  value?: string | undefined;
 }
 export interface GetSecretKeyRequest {
   /** Fly App Name */
@@ -1534,14 +1534,14 @@ export interface GetSecretKeyRequest {
   /** Secret key name */
   secret_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
+  min_version?: string | undefined;
 }
 export interface SecretKey {
-  created_at?: string;
-  name?: string;
-  public_key?: string;
-  type?: string;
-  updated_at?: string;
+  created_at?: string | undefined;
+  name?: string | undefined;
+  public_key?: string | undefined;
+  type?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface GetVolumeByIdRequest {
   /** Fly App Name */
@@ -1553,68 +1553,68 @@ export interface ListAppCertificatesRequest {
   /** Fly App Name */
   app_name: string;
   /** Hostname filter (substring match) */
-  filter?: string;
+  filter?: string | undefined;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of results per page (default 25, max 500) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface CertificateSummary {
-  acme_alpn_configured?: boolean;
-  acme_dns_configured?: boolean;
-  acme_http_configured?: boolean;
-  acme_requested?: boolean;
-  configured?: boolean;
-  created_at?: string;
-  dns_provider?: string;
-  has_custom_certificate?: boolean;
-  has_fly_certificate?: boolean;
-  hostname?: string;
-  ownership_txt_configured?: boolean;
-  status?: string;
-  updated_at?: string;
+  acme_alpn_configured?: boolean | undefined;
+  acme_dns_configured?: boolean | undefined;
+  acme_http_configured?: boolean | undefined;
+  acme_requested?: boolean | undefined;
+  configured?: boolean | undefined;
+  created_at?: string | undefined;
+  dns_provider?: string | undefined;
+  has_custom_certificate?: boolean | undefined;
+  has_fly_certificate?: boolean | undefined;
+  hostname?: string | undefined;
+  ownership_txt_configured?: boolean | undefined;
+  status?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ListCertificatesResponseCertificatesList = Array<CertificateSummary>;
 export interface ListCertificatesResponse {
-  certificates?: ListCertificatesResponseCertificatesList;
-  next_cursor?: string;
-  total_count?: number;
+  certificates?: ListCertificatesResponseCertificatesList | undefined;
+  next_cursor?: string | undefined;
+  total_count?: number | undefined;
 }
 export interface ListAppIPAssignmentsRequest {
   /** Fly App Name */
   app_name: string;
 }
 export interface IPAssignment {
-  created_at?: string;
-  egress?: boolean;
-  ip?: string;
-  network?: IPAssignmentNetwork | null;
-  region?: string;
-  service_name?: string;
-  shared?: boolean;
-  type?: string;
+  created_at?: string | undefined;
+  egress?: boolean | undefined;
+  ip?: string | undefined;
+  network?: IPAssignmentNetwork | null | undefined;
+  region?: string | undefined;
+  service_name?: string | undefined;
+  shared?: boolean | undefined;
+  type?: string | undefined;
 }
 export type ListIPAssignmentsResponseIpsList = Array<IPAssignment>;
 export interface ListIPAssignmentsResponse {
-  ips?: ListIPAssignmentsResponseIpsList;
+  ips?: ListIPAssignmentsResponseIpsList | undefined;
 }
 export interface ListAppsRequest {
   /** The org slug, or 'personal', to filter apps */
   org_slug: string;
   /** Filter apps by role */
-  app_role?: string;
+  app_role?: string | undefined;
   /** The number of apps to fetch (must be between 1 and 5000). Providing a limit enables pagination. Without it, all apps are returned in one response. */
-  limit?: number;
+  limit?: number | undefined;
   /** Value of next_cursor from the previous page. Requires limit. Later pages only include apps that existed when the first page was requested. Apps created in the seconds before the first page was requested may be missing. Cursors expire 30 minutes after the first page was requested. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListAppsResponseAppsList = Array<App>;
 export interface ListAppsResponse {
-  apps?: ListAppsResponseAppsList;
+  apps?: ListAppsResponseAppsList | undefined;
   /** Pagination cursor for the next page. Absent when no more apps remain. Cursors expire 30 minutes after the first page was requested. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
   /** The number of apps matching the request, across all pages. When paginating, it is counted once when the first page is requested and not updated afterwards, so it may differ slightly from the number of apps returned: it excludes apps created later and includes apps deleted while paginating. Apps created in the seconds before the first page may also be counted but missing from the pages. */
-  total_apps?: number;
+  total_apps?: number | undefined;
 }
 export interface ListMachineEventsRequest {
   /** Fly App Name */
@@ -1622,7 +1622,7 @@ export interface ListMachineEventsRequest {
   /** Machine ID */
   machine_id: string;
   /** The number of events to fetch (max of 50). If omitted, this is set to 20 by default. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListMachineEventsResponseBodyList = Array<MachineEvent>;
 export type ListMachineEventsResponse = ListMachineEventsResponseBodyList;
@@ -1632,24 +1632,24 @@ export interface ListMachineProcessesRequest {
   /** Machine ID */
   machine_id: string;
   /** Sort by */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Order */
-  order?: string;
+  order?: string | undefined;
 }
 export interface ListenSocket {
-  address?: string;
-  proto?: string;
+  address?: string | undefined;
+  proto?: string | undefined;
 }
 export type ProcessStatListenSocketsList = Array<ListenSocket>;
 export interface ProcessStat {
-  command?: string;
-  cpu?: number;
-  directory?: string;
-  listen_sockets?: ProcessStatListenSocketsList;
-  pid?: number;
-  rss?: number;
-  rtime?: number;
-  stime?: number;
+  command?: string | undefined;
+  cpu?: number | undefined;
+  directory?: string | undefined;
+  listen_sockets?: ProcessStatListenSocketsList | undefined;
+  pid?: number | undefined;
+  rss?: number | undefined;
+  rtime?: number | undefined;
+  stime?: number | undefined;
 }
 export type ListMachineProcessesResponseBodyList = Array<ProcessStat>;
 export type ListMachineProcessesResponse = ListMachineProcessesResponseBodyList;
@@ -1657,21 +1657,21 @@ export interface ListMachinesRequest {
   /** Fly App Name */
   app_name: string;
   /** Include deleted machines */
-  include_deleted?: boolean;
+  include_deleted?: boolean | undefined;
   /** Include machine leases */
-  include_leases?: boolean;
+  include_leases?: boolean | undefined;
   /** Region filter */
-  region?: string;
+  region?: string | undefined;
   /** comma separated list of states to filter (created, started, stopped, suspended) */
-  state?: string;
+  state?: string | undefined;
   /** Only return summary info about machines (omit config, checks, events, host_status, nonce, etc.) */
-  summary?: boolean;
+  summary?: boolean | undefined;
   /** Filter by a machine metadata key and exact value. Replace {key} with the metadata key, for example metadata.foo=bar. Specify multiple metadata filters to require all matches. */
-  metadata__key_?: string;
+  metadata__key_?: string | undefined;
   /** Value of the fly-next-cursor response header from the previous page. Requires limit. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of machines to fetch (must be between 1 and 1000). Providing a limit enables pagination. This limit is advisory; responses may be shorter, or even empty, even when more machines remain. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListMachinesResponseBodyList = Array<Machine>;
 export type ListMachinesResponse = ListMachinesResponseBodyList;
@@ -1679,46 +1679,46 @@ export interface ListMachinesOrgRequest {
   /** Fly Organization Slug */
   org_slug: string;
   /** Include deleted machines */
-  include_deleted?: boolean;
+  include_deleted?: boolean | undefined;
   /** Region filter */
-  region?: string;
+  region?: string | undefined;
   /** Comma separated list of states to filter (created, started, stopped, suspended) */
-  state?: string;
+  state?: string | undefined;
   /** Omit config from responses */
-  summary?: boolean;
+  summary?: boolean | undefined;
   /** Only return machines updated after this time. Timestamp must be in the RFC 3339 format */
-  updated_after?: string;
+  updated_after?: string | undefined;
   /** Pagination cursor from previous response (takes precedence over updated_after). Note that there is no guarantee that all machines returned by this endpoint are sorted by their updated_at fields. Pagination may reveal machines older than the last updated_at. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of machines to fetch (max of 1000). This limit is advisory. Responses may be shorter, or even empty, even when more machines remain. If omitted, the maximum is used */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgMachinesResponseErrorRegionsList = Array<string>;
 export type MachineOverviewConfigMetadataMap = { [key: string]: string | undefined };
 export interface MachineOverviewConfig {
-  guest?: FlyMachineGuest;
-  image?: string;
-  metadata?: MachineOverviewConfigMetadataMap;
+  guest?: FlyMachineGuest | undefined;
+  image?: string | undefined;
+  metadata?: MachineOverviewConfigMetadataMap | undefined;
 }
 export interface OrgMachine {
-  app_name?: string;
-  config?: MachineOverviewConfig;
-  created_at?: string;
-  id?: string;
-  name?: string;
-  private_ip?: string;
-  region?: string;
-  state?: string;
-  updated_at?: string;
-  version?: string;
+  app_name?: string | undefined;
+  config?: MachineOverviewConfig | undefined;
+  created_at?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  private_ip?: string | undefined;
+  region?: string | undefined;
+  state?: string | undefined;
+  updated_at?: string | undefined;
+  version?: string | undefined;
 }
 export type OrgMachinesResponseMachinesList = Array<OrgMachine>;
 export interface OrgMachinesResponse {
-  error_regions?: OrgMachinesResponseErrorRegionsList;
-  last_machine_id?: string;
-  last_updated_at?: string;
-  machines?: OrgMachinesResponseMachinesList;
-  next_cursor?: string;
+  error_regions?: OrgMachinesResponseErrorRegionsList | undefined;
+  last_machine_id?: string | undefined;
+  last_updated_at?: string | undefined;
+  machines?: OrgMachinesResponseMachinesList | undefined;
+  next_cursor?: string | undefined;
 }
 export interface ListMachineVersionsRequest {
   /** Fly App Name */
@@ -1727,8 +1727,8 @@ export interface ListMachineVersionsRequest {
   machine_id: string;
 }
 export interface MachineVersion {
-  user_config?: FlyMachineConfig;
-  version?: string;
+  user_config?: FlyMachineConfig | undefined;
+  version?: string | undefined;
 }
 export type ListMachineVersionsResponseBodyList = Array<MachineVersion>;
 export type ListMachineVersionsResponse = ListMachineVersionsResponseBodyList;
@@ -1736,7 +1736,7 @@ export interface ListPostgresRequest {
   /** Fly Organization Slug, or 'personal' for the caller's personal organization */
   org_slug: string;
   /** Include deleted clusters */
-  include_deleted?: boolean;
+  include_deleted?: boolean | undefined;
 }
 /** Apps attached to the cluster. */
 export type PostgresClusterSummaryAttachedAppsList = Array<PostgresAttachedApp>;
@@ -1752,25 +1752,25 @@ export type PostgresClusterSummaryStatus =
   | "failed";
 export interface PostgresClusterSummary {
   /** Apps attached to the cluster. */
-  attached_apps?: PostgresClusterSummaryAttachedAppsList;
+  attached_apps?: PostgresClusterSummaryAttachedAppsList | undefined;
   /** RFC 3339 creation timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** RFC 3339 deletion timestamp; present for deleted clusters. */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** Cluster ID. */
-  id?: string;
+  id?: string | undefined;
   /** Cluster name. */
-  name?: string;
+  name?: string | undefined;
   /** Plan slug. */
-  plan?: PostgresClusterSummaryPlan;
+  plan?: PostgresClusterSummaryPlan | undefined;
   /** Fly region code. */
-  region?: string;
+  region?: string | undefined;
   /** Current lifecycle status. */
-  status?: PostgresClusterSummaryStatus;
+  status?: PostgresClusterSummaryStatus | undefined;
 }
 export type ListPostgresClustersResponseDataList = Array<PostgresClusterSummary>;
 export interface ListPostgresClustersResponse {
-  data?: ListPostgresClustersResponseDataList;
+  data?: ListPostgresClustersResponseDataList | undefined;
 }
 export interface ListPostgresBackupsRequest {
   /** Managed Postgres Cluster ID */
@@ -1780,21 +1780,21 @@ export interface ListPostgresBackupsRequest {
 export type PostgresBackupType = "full" | "incr" | "diff";
 export interface PostgresBackup {
   /** RFC 3339 stop timestamp. */
-  finished_at?: string;
+  finished_at?: string | undefined;
   /** Backup ID. */
-  id?: string;
+  id?: string | undefined;
   /** Backup size in bytes. */
-  size_bytes?: number;
+  size_bytes?: number | undefined;
   /** RFC 3339 start timestamp. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** Backup status. */
-  status?: string;
+  status?: string | undefined;
   /** Backup type. */
-  type?: PostgresBackupType;
+  type?: PostgresBackupType | undefined;
 }
 export type ListPostgresBackupsResponseDataList = Array<PostgresBackup>;
 export interface ListPostgresBackupsResponse {
-  data?: ListPostgresBackupsResponseDataList;
+  data?: ListPostgresBackupsResponseDataList | undefined;
 }
 export interface ListPostgresDatabasesRequest {
   /** Managed Postgres Cluster ID */
@@ -1802,7 +1802,7 @@ export interface ListPostgresDatabasesRequest {
 }
 export type ListPostgresDatabasesResponseDataList = Array<PostgresDatabase>;
 export interface ListPostgresDatabasesResponse {
-  data?: ListPostgresDatabasesResponseDataList;
+  data?: ListPostgresDatabasesResponseDataList | undefined;
 }
 export interface ListPostgresExtensionsRequest {
   /** Managed Postgres Cluster ID */
@@ -1813,25 +1813,25 @@ export interface ListPostgresExtensionsRequest {
 /** Installation details, or null when the extension is not installed. */
 export interface PostgresExtensionInstalled {
   /** Schema the extension is installed into. */
-  schema?: string;
+  schema?: string | undefined;
   /** Installed version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface PostgresExtension {
   /** Default version installed when enabled. */
-  default_version?: string;
+  default_version?: string | undefined;
   /** Human-readable description. */
-  description?: string;
+  description?: string | undefined;
   /** Installation details, or null when the extension is not installed. */
-  installed?: PostgresExtensionInstalled | null;
+  installed?: PostgresExtensionInstalled | null | undefined;
   /** Extension name. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is a system extension that cannot be disabled. */
-  system?: boolean;
+  system?: boolean | undefined;
 }
 export type ListPostgresExtensionsResponseDataList = Array<PostgresExtension>;
 export interface ListPostgresExtensionsResponse {
-  data?: ListPostgresExtensionsResponseDataList;
+  data?: ListPostgresExtensionsResponseDataList | undefined;
 }
 export interface ListPostgresPlansRequest {
   /** Fly Organization Slug, or 'personal' for the caller's personal organization */
@@ -1843,19 +1843,19 @@ export type PostgresPlanCpuKind = "shared" | "performance";
 export type PostgresPlanPlan = "basic" | "starter" | "launch" | "scale" | "Performance";
 export interface PostgresPlan {
   /** CPU class. */
-  cpu_kind?: PostgresPlanCpuKind;
+  cpu_kind?: PostgresPlanCpuKind | undefined;
   /** vCPUs per node. */
-  cpus?: number;
+  cpus?: number | undefined;
   /** Memory per node in megabytes. */
-  memory_mb?: number;
+  memory_mb?: number | undefined;
   /** Base monthly price in US dollars. */
-  monthly_price_usd?: number;
+  monthly_price_usd?: number | undefined;
   /** Plan slug. Pass it as `plan` when creating or forking a cluster. */
-  plan?: PostgresPlanPlan;
+  plan?: PostgresPlanPlan | undefined;
 }
 export type ListPostgresPlansResponseDataList = Array<PostgresPlan>;
 export interface ListPostgresPlansResponse {
-  data?: ListPostgresPlansResponseDataList;
+  data?: ListPostgresPlansResponseDataList | undefined;
 }
 export interface ListPostgresUsersRequest {
   /** Managed Postgres Cluster ID */
@@ -1863,41 +1863,41 @@ export interface ListPostgresUsersRequest {
 }
 export type ListPostgresUsersResponseDataList = Array<PostgresUser>;
 export interface ListPostgresUsersResponse {
-  data?: ListPostgresUsersResponseDataList;
+  data?: ListPostgresUsersResponseDataList | undefined;
 }
 export interface ListSecretKeysRequest {
   /** Fly App Name */
   app_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
+  min_version?: string | undefined;
   /** Comma-seperated list of secret keys to list */
-  types?: string;
+  types?: string | undefined;
 }
 export type SecretKeysSecretKeysList = Array<SecretKey>;
 export interface SecretKeys {
-  secret_keys?: SecretKeysSecretKeysList;
+  secret_keys?: SecretKeysSecretKeysList | undefined;
 }
 export interface ListSecretsRequest {
   /** Fly App Name */
   app_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
+  min_version?: string | undefined;
   /** Show the secret values. */
-  show_secrets?: boolean;
+  show_secrets?: boolean | undefined;
 }
 export type AppSecretsSecretsList = Array<AppSecret>;
 export interface AppSecrets {
-  secrets?: AppSecretsSecretsList;
+  secrets?: AppSecretsSecretsList | undefined;
 }
 export interface ListVolumesRequest {
   /** Fly App Name */
   app_name: string;
   /** Only return summary info about volumes (omit blocks, block size, etc) */
-  summary?: boolean;
+  summary?: boolean | undefined;
   /** Value of the fly-next-cursor response header from the previous page. Requires limit. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of volumes to fetch (must be between 1 and 1000). Providing a limit enables pagination. This limit is advisory; responses may be shorter, or even empty, even when more volumes remain. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListVolumesResponseBodyList = Array<Volume>;
 export type ListVolumesResponse = ListVolumesResponseBodyList;
@@ -1908,13 +1908,13 @@ export interface ListVolumeSnapshotsRequest {
   volume_id: string;
 }
 export interface VolumeSnapshot {
-  created_at?: string;
-  digest?: string;
-  id?: string;
-  retention_days?: number;
-  size?: number;
-  status?: string;
-  volume_size?: number;
+  created_at?: string | undefined;
+  digest?: string | undefined;
+  id?: string | undefined;
+  retention_days?: number | undefined;
+  size?: number | undefined;
+  status?: string | undefined;
+  volume_size?: number | undefined;
 }
 export type ListVolumeSnapshotsResponseBodyList = Array<VolumeSnapshot>;
 export type ListVolumeSnapshotsResponse = ListVolumeSnapshotsResponseBodyList;
@@ -1922,57 +1922,57 @@ export interface ListVolumesOrgRequest {
   /** Fly Organization Slug */
   org_slug: string;
   /** Include deleted volumes */
-  include_deleted?: boolean;
+  include_deleted?: boolean | undefined;
   /** Region filter */
-  region?: string;
+  region?: string | undefined;
   /** Comma separated list of volume states to filter */
-  state?: string;
+  state?: string | undefined;
   /** Only return summary info about volumes (omit blocks, block size, etc) */
-  summary?: boolean;
+  summary?: boolean | undefined;
   /** Only return volumes updated after this time. Timestamp must be in the RFC 3339 format */
-  updated_after?: string;
+  updated_after?: string | undefined;
   /** Pagination cursor from previous response (takes precedence over updated_after) */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of volumes to fetch (max of 1000). This limit is advisory. Responses may be shorter, even when more volumes remain. If omitted, the maximum is used */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrgVolumeHostFeaturesList = Array<string>;
 export type OrgVolumeHostStatus = "ok" | "unknown" | "unreachable";
 export type OrgVolumeRequiredHostFeaturesList = Array<string>;
 export type OrgVolumeType = "local" | "cache";
 export interface OrgVolume {
-  app_name?: string;
-  attached_alloc_id?: string;
-  attached_machine_id?: string;
-  auto_backup_enabled?: boolean;
-  block_size?: number;
-  blocks?: number;
-  blocks_avail?: number;
-  blocks_free?: number;
-  bytes_total?: number;
-  bytes_used?: number;
-  created_at?: string;
-  encrypted?: boolean;
-  fstype?: string;
-  host_features?: OrgVolumeHostFeaturesList;
-  host_status?: OrgVolumeHostStatus;
-  id?: string;
-  name?: string;
-  region?: string;
-  required_host_features?: OrgVolumeRequiredHostFeaturesList;
-  size_gb?: number;
-  snapshot_retention?: number;
-  state?: string;
-  type?: OrgVolumeType;
-  updated_at?: string;
-  zone?: string;
+  app_name?: string | undefined;
+  attached_alloc_id?: string | undefined;
+  attached_machine_id?: string | undefined;
+  auto_backup_enabled?: boolean | undefined;
+  block_size?: number | undefined;
+  blocks?: number | undefined;
+  blocks_avail?: number | undefined;
+  blocks_free?: number | undefined;
+  bytes_total?: number | undefined;
+  bytes_used?: number | undefined;
+  created_at?: string | undefined;
+  encrypted?: boolean | undefined;
+  fstype?: string | undefined;
+  host_features?: OrgVolumeHostFeaturesList | undefined;
+  host_status?: OrgVolumeHostStatus | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  region?: string | undefined;
+  required_host_features?: OrgVolumeRequiredHostFeaturesList | undefined;
+  size_gb?: number | undefined;
+  snapshot_retention?: number | undefined;
+  state?: string | undefined;
+  type?: OrgVolumeType | undefined;
+  updated_at?: string | undefined;
+  zone?: string | undefined;
 }
 export type OrgVolumesResponseVolumesList = Array<OrgVolume>;
 export interface OrgVolumesResponse {
-  last_updated_at?: string;
-  last_volume_id?: string;
-  next_cursor?: string;
-  volumes?: OrgVolumesResponseVolumesList;
+  last_updated_at?: string | undefined;
+  last_volume_id?: string | undefined;
+  next_cursor?: string | undefined;
+  volumes?: OrgVolumesResponseVolumesList | undefined;
 }
 export interface MachinesReleaseLeaseRequest {
   /** Fly App Name */
@@ -1989,9 +1989,9 @@ export interface PatchMachineMetadataRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  machine_version?: string;
-  metadata?: PatchMachineMetadataRequestMetadataMap;
-  updated_at?: string;
+  machine_version?: string | undefined;
+  metadata?: PatchMachineMetadataRequestMetadataMap | undefined;
+  updated_at?: string | undefined;
 }
 export interface PatchMachineMetadataResponse {}
 export interface PostgresQueriesActiveRequest {
@@ -2002,59 +2002,59 @@ export interface PostgresQueriesActiveRequest {
 }
 export interface PostgresActiveQuery {
   /** Application connected to the backend. */
-  application_name?: string;
+  application_name?: string | undefined;
   /** Client address. */
-  client?: string;
+  client?: string | undefined;
   /** Database name. */
-  database?: string;
+  database?: string | undefined;
   /** Query duration in seconds. */
-  duration_seconds?: number;
+  duration_seconds?: number | undefined;
   /** Process ID of the backend running the query. */
-  pid?: number;
+  pid?: number | undefined;
   /** Full query text. */
-  query?: string;
+  query?: string | undefined;
   /** Current backend state. */
-  state?: string;
+  state?: string | undefined;
   /** Time spent in the current state, in seconds. */
-  state_duration_seconds?: number;
+  state_duration_seconds?: number | undefined;
   /** User running the query. */
-  user?: string;
+  user?: string | undefined;
   /** Event the backend is waiting for. */
-  wait_event?: string;
+  wait_event?: string | undefined;
   /** Type of event the backend is waiting for. */
-  wait_event_type?: string;
+  wait_event_type?: string | undefined;
 }
 export type ListPostgresActiveQueriesResponseDataList = Array<PostgresActiveQuery>;
 export interface ListPostgresActiveQueriesResponse {
-  data?: ListPostgresActiveQueriesResponseDataList;
+  data?: ListPostgresActiveQueriesResponseDataList | undefined;
 }
 export interface PostgresQueriesSlowRequest {
   /** Managed Postgres Cluster ID */
   postgres_cluster_id: string;
   /** Metrics lookback in seconds */
-  range?: number;
+  range?: number | undefined;
 }
 export interface PostgresSlowQuery {
   /** Cumulative number of executions. */
-  calls?: number;
+  calls?: number | undefined;
   /** Database name. */
-  database?: string;
+  database?: string | undefined;
   /** Maximum execution time in seconds. */
-  max_exec_time_seconds?: number;
+  max_exec_time_seconds?: number | undefined;
   /** Mean execution time in seconds. */
-  mean_exec_time_seconds?: number;
+  mean_exec_time_seconds?: number | undefined;
   /** Full query pattern. */
-  query?: string;
+  query?: string | undefined;
   /** Query identifier. */
-  query_id?: string;
+  query_id?: string | undefined;
   /** Cumulative total execution time in seconds. */
-  total_exec_time_seconds?: number;
+  total_exec_time_seconds?: number | undefined;
   /** User running the query. */
-  user?: string;
+  user?: string | undefined;
 }
 export type ListPostgresSlowQueriesResponseDataList = Array<PostgresSlowQuery>;
 export interface ListPostgresSlowQueriesResponse {
-  data?: ListPostgresSlowQueriesResponseDataList;
+  data?: ListPostgresSlowQueriesResponseDataList | undefined;
 }
 export interface PostgresUsersCredentialsRequest {
   /** Managed Postgres Cluster ID */
@@ -2064,28 +2064,28 @@ export interface PostgresUsersCredentialsRequest {
 }
 export interface PostgresUserCredentials {
   /** User password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** User name. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetPostgresUserCredentialsResponse {
-  data?: PostgresUserCredentials;
+  data?: PostgresUserCredentials | undefined;
 }
 export interface ReclaimMachineMemoryRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  amount_mb?: number;
+  amount_mb?: number | undefined;
 }
 export interface MainReclaimMemoryResponse {
-  actual_mb?: number;
+  actual_mb?: number | undefined;
 }
 export interface RequestKmsTokenRequest {}
 export interface RequestKmsTokenResponse {}
 export interface RequestOidcTokenRequest {
-  aud?: string;
-  aws_principal_tags?: boolean;
+  aud?: string | undefined;
+  aws_principal_tags?: boolean | undefined;
 }
 export interface RequestOidcTokenResponse {}
 export type RestartMachineRequestSignal =
@@ -2102,20 +2102,20 @@ export interface RestartMachineRequest {
   /** Machine ID */
   machine_id: string;
   /** Restart timeout as a Go duration string or number of seconds */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Unix signal name */
-  signal?: RestartMachineRequestSignal | (string & {});
-  lease_nonce?: string;
+  signal?: RestartMachineRequestSignal | (string & {}) | undefined;
+  lease_nonce?: string | undefined;
 }
 export interface RestorePostgresRequest {
   /** Managed Postgres Cluster ID */
   postgres_cluster_id: string;
   /** Backup label to restore from, as returned by the backups list. Mutually exclusive with pitr_time. */
-  backup_id?: string;
+  backup_id?: string | undefined;
   /** Name for the restored cluster. Defaults to a generated name derived from the source cluster and backup/point in time when omitted or blank. */
-  name?: string;
+  name?: string | undefined;
   /** Point in time to restore to, as an RFC3339 timestamp with an explicit offset from UTC (e.g. Z or +02:00). Normalized to UTC and must fall within the cluster's PITR recovery window. Mutually exclusive with backup_id. */
-  pitr_time?: string;
+  pitr_time?: string | undefined;
 }
 export interface RotatePostgresUserPasswordRequest {
   /** Managed Postgres Cluster ID */
@@ -2123,17 +2123,17 @@ export interface RotatePostgresUserPasswordRequest {
   /** Postgres User Name */
   username: string;
   /** Terminate the user's existing sessions after rotating. */
-  kill_sessions?: boolean;
+  kill_sessions?: boolean | undefined;
 }
 export interface RotatePostgresPasswordResponse {
-  data?: PostgresUserCredentials;
+  data?: PostgresUserCredentials | undefined;
 }
 export interface SetMachineMemoryLimitRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  limit_mb?: number;
+  limit_mb?: number | undefined;
 }
 export type SetSecretKeyRequestValueList = Array<number>;
 export interface SetSecretKeyRequest {
@@ -2141,8 +2141,8 @@ export interface SetSecretKeyRequest {
   app_name: string;
   /** Secret key name */
   secret_name: string;
-  type?: string;
-  value?: SetSecretKeyRequestValueList;
+  type?: string | undefined;
+  value?: SetSecretKeyRequestValueList | undefined;
 }
 export type SignalMachineRequestSignal =
   | "SIGABRT"
@@ -2164,7 +2164,7 @@ export interface SignalMachineRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  signal?: SignalMachineRequestSignal | (string & {});
+  signal?: SignalMachineRequestSignal | (string & {}) | undefined;
 }
 export interface SignSecretKeyRequest {
   /** Fly App Name */
@@ -2172,26 +2172,26 @@ export interface SignSecretKeyRequest {
   /** Secret key name */
   secret_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
-  plaintext?: string | Redacted.Redacted<string>;
+  min_version?: string | undefined;
+  plaintext?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SignSecretkeyResponse {
-  signature?: string;
+  signature?: string | undefined;
 }
 export interface StartMachineRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  lease_nonce?: string;
+  lease_nonce?: string | undefined;
 }
 export interface StartMachineResponse {
   /** Whether the Machine was moved to another host to be started */
-  migrated?: boolean;
+  migrated?: boolean | undefined;
   /** The host the Machine was moved to, if it was migrated */
-  new_host?: string;
+  new_host?: string | undefined;
   /** The state the Machine was in before it was started */
-  previous_state?: string;
+  previous_state?: string | undefined;
 }
 export type StopMachineRequestSignal =
   | "SIGHUP"
@@ -2206,23 +2206,23 @@ export interface StopMachineRequest {
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  signal?: StopMachineRequestSignal | (string & {});
-  timeout?: string;
-  lease_nonce?: string;
+  signal?: StopMachineRequestSignal | (string & {}) | undefined;
+  timeout?: string | undefined;
+  lease_nonce?: string | undefined;
 }
 export interface SuspendMachineRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  lease_nonce?: string;
+  lease_nonce?: string | undefined;
 }
 export interface UncordonMachineRequest {
   /** Fly App Name */
   app_name: string;
   /** Machine ID */
   machine_id: string;
-  lease_nonce?: string;
+  lease_nonce?: string | undefined;
 }
 export interface UpdateMachineRequest {
   /** Fly App Name */
@@ -2230,20 +2230,20 @@ export interface UpdateMachineRequest {
   /** Machine ID */
   machine_id: string;
   /** An object defining the Machine configuration */
-  config?: FlyMachineConfig;
+  config?: FlyMachineConfig | undefined;
   /** CurrentVersion is an optional optimistic-concurrency guard: the Machine's `version`, as returned by create, get or a previous update. When set and it is no longer the Machine's current version, the update is rejected with 409 Conflict and nothing changes. Omit it to update unconditionally. */
-  current_version?: string;
-  lease_ttl?: number;
+  current_version?: string | undefined;
+  lease_ttl?: number | undefined;
   /** The minimum version of the app's secrets the Machine must run with. Set it to the `version` returned by the endpoints that set or delete app secrets, so that the Machine is guaranteed to see those changes. This field belongs at the top level of the request body, not in `config`. If omitted, the app's current secrets version is looked up for you. */
-  min_secrets_version?: number;
+  min_secrets_version?: number | undefined;
   /** Unique name for this Machine. If omitted, one is generated for you */
-  name?: string;
+  name?: string | undefined;
   /** The target region. Omitting this param launches in the same region as your WireGuard peer connection (somewhere near you). */
-  region?: string;
-  skip_launch?: boolean;
-  skip_secrets?: boolean;
-  skip_service_registration?: boolean;
-  lease_nonce?: string;
+  region?: string | undefined;
+  skip_launch?: boolean | undefined;
+  skip_secrets?: boolean | undefined;
+  skip_service_registration?: boolean | undefined;
+  lease_nonce?: string | undefined;
 }
 /** New role for the user. */
 export type UpdatePostgresUserRoleRequestRole = "schema_admin" | "writer" | "reader";
@@ -2260,23 +2260,23 @@ export type UpdateSecretsRequestValuesMap = { [key: string]: string | undefined 
 export interface UpdateSecretsRequest {
   /** Fly App Name */
   app_name: string;
-  values?: UpdateSecretsRequestValuesMap;
+  values?: UpdateSecretsRequestValuesMap | undefined;
 }
 export type AppSecretsUpdateRespSecretsList = Array<AppSecret>;
 export interface AppSecretsUpdateResp {
   /** DEPRECATED */
-  Version?: number;
-  secrets?: AppSecretsUpdateRespSecretsList;
+  Version?: number | undefined;
+  secrets?: AppSecretsUpdateRespSecretsList | undefined;
   /** The app's secrets version after this change. Pass it as `min_secrets_version` when creating or updating Machines so that they are guaranteed to see the change. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface UpdateVolumeRequest {
   /** Fly App Name */
   app_name: string;
   /** Volume ID */
   volume_id: string;
-  auto_backup_enabled?: boolean;
-  snapshot_retention?: number;
+  auto_backup_enabled?: boolean | undefined;
+  snapshot_retention?: number | undefined;
 }
 export interface UpsertMachineMetadataRequest {
   /** Fly App Name */
@@ -2285,8 +2285,8 @@ export interface UpsertMachineMetadataRequest {
   machine_id: string;
   /** Metadata Key */
   key: string;
-  updated_at?: string;
-  value?: string;
+  updated_at?: string | undefined;
+  value?: string | undefined;
 }
 export interface UpsertMachineMetadataResponse {}
 export interface VerifySecretKeyRequest {
@@ -2295,9 +2295,9 @@ export interface VerifySecretKeyRequest {
   /** Secret key name */
   secret_name: string;
   /** Minimum secrets version to return. Returned when setting a new secret */
-  min_version?: string;
-  plaintext?: string | Redacted.Redacted<string>;
-  signature?: string;
+  min_version?: string | undefined;
+  plaintext?: string | Redacted.Redacted<string> | undefined;
+  signature?: string | undefined;
 }
 export interface VerifySecretKeyResponse {}
 export type WaitMachineRequestState =
@@ -2313,21 +2313,21 @@ export interface WaitMachineRequest {
   /** Machine ID */
   machine_id: string;
   /** 26-character Machine version ID */
-  version?: string;
+  version?: string | undefined;
   /** 26-character Machine version ID (deprecated; use version) */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** 26-character Machine event ID to start waiting after */
-  from_event_id?: string;
+  from_event_id?: string | undefined;
   /** wait timeout. default 60s */
-  timeout?: number;
+  timeout?: number | undefined;
   /** desired state(s), supports repeated or comma-separated values */
-  state?: WaitMachineRequestState | (string & {});
+  state?: WaitMachineRequestState | (string & {}) | undefined;
 }
 export interface WaitMachineResponse {
-  event_id?: string;
-  ok?: boolean;
-  state?: string;
-  version?: string;
+  event_id?: string | undefined;
+  ok?: boolean | undefined;
+  state?: string | undefined;
+  version?: string | undefined;
 }
 export type AuthenticateTokenError = BadRequest | FlyIoOpError;
 /** Authenticate token header Verify a token header without checking resource access. */

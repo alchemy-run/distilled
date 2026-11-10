@@ -62,8 +62,8 @@ export class NotFound
   ) {}
 
 export interface AcceptResolutionCenterCaseRequestAttachmentsItem {
-  direct_upload_id?: string;
-  id?: string;
+  direct_upload_id?: string | undefined;
+  id?: string | undefined;
 }
 /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
 export type AcceptResolutionCenterCaseRequestAttachmentsList =
@@ -72,13 +72,13 @@ export interface AcceptResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: AcceptResolutionCenterCaseRequestAttachmentsList;
+  attachments?: AcceptResolutionCenterCaseRequestAttachmentsList | undefined;
   /** An optional note to the customer, recorded on the case timeline. */
-  message?: string;
+  message?: string | undefined;
   /** Whether to also terminate the customer's membership. */
-  terminate_membership?: boolean;
+  terminate_membership?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -213,11 +213,11 @@ export interface AppealResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: AppealResolutionCenterCaseRequestAttachmentsList;
+  attachments?: AppealResolutionCenterCaseRequestAttachmentsList | undefined;
   /** Why you are appealing the decision. */
   message: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CreateResolutionCenterCaseRequestAttachmentsItem =
   AcceptResolutionCenterCaseRequestAttachmentsItem;
@@ -231,7 +231,7 @@ export type CreateResolutionCenterCaseRequestReason =
   | "product_unacceptable"
   | "subscription_canceled";
 export interface CreateResolutionCenterCaseRequest {
-  attachments?: CreateResolutionCenterCaseRequestAttachmentsList;
+  attachments?: CreateResolutionCenterCaseRequestAttachmentsList | undefined;
   /** The customer's explanation. */
   message: string;
   /** What went wrong. Uses the same vocabulary as `/disputes`. */
@@ -239,7 +239,7 @@ export interface CreateResolutionCenterCaseRequest {
   /** The payment to open the case against (`pay_` tag). */
   receipt_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type DenyResolutionCenterCaseRequestAttachmentsItem =
   AcceptResolutionCenterCaseRequestAttachmentsItem;
@@ -250,11 +250,11 @@ export interface DenyResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: DenyResolutionCenterCaseRequestAttachmentsList;
+  attachments?: DenyResolutionCenterCaseRequestAttachmentsList | undefined;
   /** Why the claim is being denied. Shown to the customer. */
   message: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
@@ -290,21 +290,21 @@ export type GetResolutionCenterCaseSummaryRequestOutcomeList = Array<
 >;
 export interface GetResolutionCenterCaseSummaryRequest {
   /** Which breakdowns to return, keyed by these names under `groups`. Repeat the parameter to ask for several; omit it for all of them. */
-  groups?: GetResolutionCenterCaseSummaryRequestGroupsList;
+  groups?: GetResolutionCenterCaseSummaryRequestGroupsList | undefined;
   /** The account to summarize cases for (`biz_` tag). */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only cases opened by this customer -- a `user_` tag, or `me` for the calling user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Only cases in these statuses. */
-  status?: GetResolutionCenterCaseSummaryRequestStatusList;
+  status?: GetResolutionCenterCaseSummaryRequestStatusList | undefined;
   /** Only cases opened for these reasons. */
-  reason?: GetResolutionCenterCaseSummaryRequestReasonList;
+  reason?: GetResolutionCenterCaseSummaryRequestReasonList | undefined;
   /** Only closed cases that ended these ways. */
-  outcome?: GetResolutionCenterCaseSummaryRequestOutcomeList;
+  outcome?: GetResolutionCenterCaseSummaryRequestOutcomeList | undefined;
   /** Only count cases created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only count cases created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
 }
 /** How many of the matching cases ended each way. Every outcome is present, including those with a count of zero; open cases are counted in none of them. */
 export interface GetResolutionCenterCaseSummaryResponseGroupsOutcome {
@@ -330,11 +330,11 @@ export interface GetResolutionCenterCaseSummaryResponseGroupsStatus {
 /** One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent. */
 export interface GetResolutionCenterCaseSummaryResponseGroups {
   /** How many of the matching cases ended each way. Every outcome is present, including those with a count of zero; open cases are counted in none of them. */
-  outcome?: GetResolutionCenterCaseSummaryResponseGroupsOutcome;
+  outcome?: GetResolutionCenterCaseSummaryResponseGroupsOutcome | undefined;
   /** How many of the matching cases were opened for each reason. Every reason is present, including those with a count of zero. */
-  reason?: GetResolutionCenterCaseSummaryResponseGroupsReason;
+  reason?: GetResolutionCenterCaseSummaryResponseGroupsReason | undefined;
   /** How many of the matching cases are in each status. Every status is present, including those with a count of zero. */
-  status?: GetResolutionCenterCaseSummaryResponseGroupsStatus;
+  status?: GetResolutionCenterCaseSummaryResponseGroupsStatus | undefined;
 }
 export interface GetResolutionCenterCaseSummaryResponse {
   /** One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent. */
@@ -346,13 +346,13 @@ export interface ListResolutionCenterCaseEventsRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The action recorded in this event. */
 export type ResolutionEventAction =
@@ -436,31 +436,31 @@ export type ListResolutionCenterCasesRequestOutcomeList = Array<
 >;
 export interface ListResolutionCenterCasesRequest {
   /** Only cases filed against this account (`biz_` tag). With read access to the account this lists its whole queue; without, only the cases you opened against it. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only cases opened by this customer -- a `user_` tag, or `me` for the calling user. It narrows what you can already read, so `me` lists the cases you opened without the ones on accounts you are a team member of. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort cases by. */
-  order?: ListResolutionCenterCasesRequestOrder | (string & {});
+  order?: ListResolutionCenterCasesRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListResolutionCenterCasesRequestDirection | (string & {});
+  direction?: ListResolutionCenterCasesRequestDirection | (string & {}) | undefined;
   /** Only cases in these statuses. Repeat the parameter to pass several -- one paginated list covers all of them. */
-  status?: ListResolutionCenterCasesRequestStatusList;
+  status?: ListResolutionCenterCasesRequestStatusList | undefined;
   /** Only cases opened for these reasons. Repeat the parameter to pass several. */
-  reason?: ListResolutionCenterCasesRequestReasonList;
+  reason?: ListResolutionCenterCasesRequestReasonList | undefined;
   /** Only closed cases that ended these ways. Repeat the parameter to pass several. */
-  outcome?: ListResolutionCenterCasesRequestOutcomeList;
+  outcome?: ListResolutionCenterCasesRequestOutcomeList | undefined;
   /** Only cases created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only cases created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
 }
 export type ListResolutionCenterCasesResponseDataList = Array<ResolutionCenterCase>;
 export type ListResolutionCenterCasesResponsePageInfo =
@@ -478,11 +478,11 @@ export interface ReplyToResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: ReplyToResolutionCenterCaseRequestAttachmentsList;
+  attachments?: ReplyToResolutionCenterCaseRequestAttachmentsList | undefined;
   /** The reply to add to the case. */
   message: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type RequestResolutionCenterCaseInfoRequestAttachmentsItem =
   AcceptResolutionCenterCaseRequestAttachmentsItem;
@@ -493,17 +493,17 @@ export interface RequestResolutionCenterCaseInfoRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: RequestResolutionCenterCaseInfoRequestAttachmentsList;
+  attachments?: RequestResolutionCenterCaseInfoRequestAttachmentsList | undefined;
   /** What you need from the customer. */
-  message?: string;
+  message?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface WithdrawResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type AcceptResolutionCenterCaseError = Forbidden | Conflict | WhopOpError;
 /** Accept a Case Accepts the case in the customer's favor, as the merchant: refunds the payment in full and closes the case. */

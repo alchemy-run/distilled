@@ -187,23 +187,23 @@ export interface AddGroupMembershipsControllerMemberRequest {
   /** Unique identifier of the Group. */
   groupId: string;
   /** The ID of the Organization Membership to add to the group. */
-  organization_membership_id?: string;
+  organization_membership_id?: string | undefined;
 }
 export interface Group {
   /** The Group object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the Group. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the Organization the Group belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The name of the Group. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the Group. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The user to attach to the claim attempt, identified by email and external ID. */
 export interface AgentAdminControllerLinkClaimAttemptToExternalUserRequestUser {
@@ -220,7 +220,7 @@ export interface AgentAdminControllerLinkClaimAttemptToExternalUserRequest {
   /** The user to attach to the claim attempt, identified by email and external ID. */
   user: AgentAdminControllerLinkClaimAttemptToExternalUserRequestUser;
   /** The organization to place the agent in. Required when the user belongs to more than one organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** Current status of the agent registration. */
 export type ClaimViewResponseStatus = "unverified" | "verified" | "expired" | "revoked";
@@ -248,7 +248,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase0 {
   /** The access token of the user delegating to the agent. The token identifies the user and organization; effective permissions are resolved server-side. */
   user_access_token: string;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
-  intent?: string;
+  intent?: string | undefined;
 }
 export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase1 {
   /** How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`. */
@@ -256,7 +256,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase1 {
   /** The organization the agent acts within when operating as itself. */
   organization_id: string;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
-  intent?: string;
+  intent?: string | undefined;
 }
 export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase2 {
   /** How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`. */
@@ -264,7 +264,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase2 {
   /** The agent's own access token to exchange for a new session on the same instance. The token must have been minted from this blueprint; permissions are re-derived from current authority. */
   agent_access_token: string;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
-  intent?: string;
+  intent?: string | undefined;
 }
 export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase3 {
   /** How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`. */
@@ -272,7 +272,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase3 {
   /** The refresh token issued with a previous agent access token. Refresh tokens are single-use: each refresh rotates it. */
   refresh_token: string | Redacted.Redacted<string>;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
-  intent?: string;
+  intent?: string | undefined;
 }
 /** How to mint the agent session, discriminated by `type`. `intent` is optional on every variant. */
 export type AgentBlueprintsTokenControllerMintTokenRequestBody =
@@ -309,7 +309,7 @@ export interface ApiKeysControllerExpireRequest {
   /** The unique ID of the API key. */
   id: string;
   /** When the API key should expire. If omitted or in the past, the key expires immediately. Use null to clear a scheduled future expiration. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
 }
 export interface ApiKeyOwnerCase0 {
   /** The type of the API Key owner. */
@@ -331,25 +331,25 @@ export type ApiKeyOwner = ApiKeyOwnerCase0 | ApiKeyOwnerCase1;
 export type ApiKeyPermissionsList = Array<string>;
 export interface ApiKey {
   /** Distinguishes the API Key object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the API Key. */
-  id?: string;
+  id?: string | undefined;
   /** The entity that owns the API Key. */
-  owner?: ApiKeyOwner;
+  owner?: ApiKeyOwner | undefined;
   /** A descriptive name for the API Key. */
-  name?: string;
+  name?: string | undefined;
   /** An obfuscated representation of the API Key value. */
-  obfuscated_value?: string;
+  obfuscated_value?: string | undefined;
   /** Timestamp of when the API Key was last used. */
-  last_used_at?: string | null;
+  last_used_at?: string | null | undefined;
   /** Timestamp when the API Key expires. Null means the key does not expire. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** The permission slugs assigned to the API Key. */
-  permissions?: ApiKeyPermissionsList;
+  permissions?: ApiKeyPermissionsList | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface ApplicationsControllerFindRequest {
   /** The application ID or client ID of the Connect Application. */
@@ -386,19 +386,19 @@ export interface ApplicationsControllerFindResponse {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The type of the application. */
-  application_type?: string;
+  application_type?: string | undefined;
   /** The redirect URIs configured for this application. */
-  redirect_uris?: ApplicationsControllerFindResponseRedirectUrisList;
+  redirect_uris?: ApplicationsControllerFindResponseRedirectUrisList | undefined;
   /** The CORS origins allowed to call the OAuth token endpoint for this application from a browser. */
-  cors_origins?: ApplicationsControllerFindResponseCorsOriginsList;
+  cors_origins?: ApplicationsControllerFindResponseCorsOriginsList | undefined;
   /** Whether the application uses PKCE for authorization. */
-  uses_pkce?: boolean;
+  uses_pkce?: boolean | undefined;
   /** Whether the application is a first-party application. */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether the application was dynamically registered. */
-  was_dynamically_registered?: boolean;
+  was_dynamically_registered?: boolean | undefined;
   /** The ID of the organization the application belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 export interface ApproveWaitlistEntriesControllerRequest {
   /** The unique ID of the waitlist entry. */
@@ -420,9 +420,9 @@ export interface ApproveWaitlistEntriesControllerResponse {
   /** The timestamp when the entry was approved, or null if not yet approved. */
   approved_at: string | null;
   /** Additional fields submitted when the user joined the waitlist. Values are user-provided -- treat them as untrusted input when rendering or exporting. */
-  additional_fields?: ApproveWaitlistEntriesControllerResponseAdditionalFieldsMap;
+  additional_fields?: ApproveWaitlistEntriesControllerResponseAdditionalFieldsMap | undefined;
   /** The unique ID of the waitlist the entry belongs to. */
-  waitlist_id?: string | null;
+  waitlist_id?: string | null | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -436,16 +436,16 @@ export interface AssignAuthorizationRoleAssignmentsControllerRoleRequest {
   /** The slug of the role to assign. */
   role_slug: string;
   /** The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** The external ID of the resource. Required with `resource_type_slug`. Mutually exclusive with `resource_id`. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** The resource type slug. Required with `resource_external_id`. Mutually exclusive with `resource_id`. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 /** The primary role assigned to the user. */
 export interface SlimRole {
   /** The slug of the assigned role. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The resource the role is assigned on. */
 export interface UserRoleAssignmentResource {
@@ -503,37 +503,37 @@ export type AuditLogExportsControllerExportsRequestActorIdsList = Array<string>;
 export type AuditLogExportsControllerExportsRequestTargetsList = Array<string>;
 export interface AuditLogExportsControllerExportsRequest {
   /** The unique ID of the Organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** ISO-8601 value for start of the export range. */
-  range_start?: string;
+  range_start?: string | undefined;
   /** ISO-8601 value for end of the export range. */
-  range_end?: string;
+  range_end?: string | undefined;
   /** List of actions to filter against. */
-  actions?: AuditLogExportsControllerExportsRequestActionsList;
+  actions?: AuditLogExportsControllerExportsRequestActionsList | undefined;
   /** Deprecated. Use `actor_names` instead. */
-  actors?: AuditLogExportsControllerExportsRequestActorsList;
+  actors?: AuditLogExportsControllerExportsRequestActorsList | undefined;
   /** List of actor names to filter against. */
-  actor_names?: AuditLogExportsControllerExportsRequestActorNamesList;
+  actor_names?: AuditLogExportsControllerExportsRequestActorNamesList | undefined;
   /** List of actor IDs to filter against. */
-  actor_ids?: AuditLogExportsControllerExportsRequestActorIdsList;
+  actor_ids?: AuditLogExportsControllerExportsRequestActorIdsList | undefined;
   /** List of target types to filter against. */
-  targets?: AuditLogExportsControllerExportsRequestTargetsList;
+  targets?: AuditLogExportsControllerExportsRequestTargetsList | undefined;
 }
 /** The state of the export. Possible values: pending, ready, error, expired. */
 export type AuditLogExportJsonState = "pending" | "ready" | "error" | "expired";
 export interface AuditLogExportJson {
   /** Distinguishes the Audit Log Export object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the Audit Log Export. */
-  id?: string;
+  id?: string | undefined;
   /** The state of the export. Possible values: pending, ready, error, expired. */
-  state?: AuditLogExportJsonState;
+  state?: AuditLogExportJsonState | undefined;
   /** A URL to the CSV file. Only defined when the Audit Log Export is ready. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface AuditLogsRetentionControllerAuditLogsRetentionRequest {
   /** Unique identifier of the Organization. */
@@ -541,20 +541,20 @@ export interface AuditLogsRetentionControllerAuditLogsRetentionRequest {
 }
 export interface AuditLogsRetentionJson {
   /** The number of days Audit Log events will be retained before being permanently deleted. Valid values are 30 through 330 in 30-day increments and 365 through 3650 in 365-day increments. */
-  retention_period_in_days?: number | null;
+  retention_period_in_days?: number | null | undefined;
 }
 export type PaginationOrder = "normal" | "desc" | "asc";
 export interface AuditLogValidatorVersionsControllerSchemasRequest {
   /** The name of the Audit Log action. */
   actionName: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export interface AuditLogValidatorVersionsControllerSchemasResponseListMetadata {
@@ -576,7 +576,7 @@ export interface AuditLogSchemaJsonTargetsItem {
   /** The type of the target resource. */
   type: string;
   /** Additional data associated with the event or entity. */
-  metadata?: AuditLogSchemaJsonTargetsItemMetadataMap;
+  metadata?: AuditLogSchemaJsonTargetsItemMetadataMap | undefined;
 }
 /** The list of targets for the schema. */
 export type AuditLogSchemaJsonTargetsList = Array<AuditLogSchemaJsonTargetsItem>;
@@ -584,49 +584,49 @@ export type AuditLogSchemaJsonTargetsList = Array<AuditLogSchemaJsonTargetsItem>
 export type AuditLogSchemaJsonMetadataMap = { [key: string]: unknown | undefined };
 export interface AuditLogSchemaJson {
   /** Distinguishes the Audit Log Schema object. */
-  object?: string;
+  object?: string | undefined;
   /** The version of the schema. */
-  version?: number;
+  version?: number | undefined;
   /** The metadata schema for the actor. */
-  actor?: AuditLogSchemaJsonActor;
+  actor?: AuditLogSchemaJsonActor | undefined;
   /** The list of targets for the schema. */
-  targets?: AuditLogSchemaJsonTargetsList;
+  targets?: AuditLogSchemaJsonTargetsList | undefined;
   /** Additional data associated with the event or entity. */
-  metadata?: AuditLogSchemaJsonMetadataMap;
+  metadata?: AuditLogSchemaJsonMetadataMap | undefined;
   /** The timestamp when the Audit Log Schema was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** The list of records for the current page. */
 export type AuditLogValidatorVersionsControllerSchemasResponseDataList = Array<AuditLogSchemaJson>;
 export interface AuditLogValidatorVersionsControllerSchemasResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: AuditLogValidatorVersionsControllerSchemasResponseDataList;
+  data?: AuditLogValidatorVersionsControllerSchemasResponseDataList | undefined;
 }
 export interface AuthenticationFactorsControllerChallengeRequest {
   /** The unique ID of the Authentication Factor to be challenged. */
   id: string;
   /** A custom template for the SMS message. Use the {{code}} placeholder to include the verification code. Must not contain URLs or domain names. */
-  sms_template?: string;
+  sms_template?: string | undefined;
 }
 export interface AuthenticationChallenge {
   /** Distinguishes the authentication challenge object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the authentication challenge. */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp when the challenge will expire. Does not apply to TOTP factors. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The one-time code for the challenge. */
-  code?: string;
+  code?: string | undefined;
   /** The unique ID of the authentication factor the challenge belongs to. */
-  authentication_factor_id?: string;
+  authentication_factor_id?: string | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface AuthorizationPermissionsControllerFindRequest {
   /** A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks. */
@@ -634,23 +634,23 @@ export interface AuthorizationPermissionsControllerFindRequest {
 }
 export interface AuthorizationPermission {
   /** Distinguishes the Permission object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the Permission. */
-  id?: string;
+  id?: string | undefined;
   /** A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks. */
-  slug?: string;
+  slug?: string | undefined;
   /** A descriptive name for the Permission. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the Permission. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the permission is a system permission. System permissions are managed by WorkOS and cannot be deleted. */
-  system?: boolean;
+  system?: boolean | undefined;
   /** The slug of the resource type associated with the permission. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface AuthorizationResourcesControllerFindByIdRequest {
   /** The ID of the authorization resource. */
@@ -658,25 +658,25 @@ export interface AuthorizationResourcesControllerFindByIdRequest {
 }
 export interface AuthorizationResource {
   /** Distinguishes the Resource object. */
-  object?: string;
+  object?: string | undefined;
   /** A human-readable name for the Resource. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the Resource. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The ID of the organization that owns the resource. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The ID of the parent resource, if this resource is nested. */
-  parent_resource_id?: string | null;
+  parent_resource_id?: string | null | undefined;
   /** The unique ID of the Resource. */
-  id?: string;
+  id?: string | undefined;
   /** An identifier you provide to reference the resource in your system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The slug of the resource type this resource belongs to. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type AuthorizeSsoControllerRequestProviderScopesList = Array<string>;
 export type AuthorizeSsoControllerRequestProviderQueryParamsMap = {
@@ -698,37 +698,37 @@ export type AuthorizeSsoControllerRequestProvider =
   | "XeroOAuth";
 export interface AuthorizeSsoControllerRequest {
   /** Additional scopes to request from the identity provider. Applicable when using OAuth or OpenID Connect connections. */
-  provider_scopes?: AuthorizeSsoControllerRequestProviderScopesList;
+  provider_scopes?: AuthorizeSsoControllerRequestProviderScopesList | undefined;
   /** Key/value pairs of query parameters to pass to the OAuth provider. Only applicable when using OAuth connections. */
-  provider_query_params?: AuthorizeSsoControllerRequestProviderQueryParamsMap;
+  provider_query_params?: AuthorizeSsoControllerRequestProviderQueryParamsMap | undefined;
   /** The unique identifier of the WorkOS environment client. */
   client_id: string;
   /** Deprecated. Use `connection` or `organization` instead. Used to initiate SSO for a connection by domain. The domain must be associated with a connection in your WorkOS environment. */
-  domain?: string;
+  domain?: string | undefined;
   /** Used to initiate OAuth authentication with various providers. */
-  provider?: AuthorizeSsoControllerRequestProvider | (string & {});
+  provider?: AuthorizeSsoControllerRequestProvider | (string & {}) | undefined;
   /** Where to redirect the user after they complete the authentication process. You must use one of the redirect URIs configured via the [Redirects](https://dashboard.workos.com/redirects) page on the dashboard. */
   redirect_uri: string;
   /** The only valid option for the response type parameter is `"code"`. The `"code"` parameter value initiates an [authorization code grant type](https://tools.ietf.org/html/rfc6749#section-4.1). This grant type allows you to exchange an authorization code for an access token during the redirect that takes place after a user has authenticated with an identity provider. */
   response_type: string;
   /** An optional parameter that can be used to encode arbitrary information to help restore application state between redirects. If included, the redirect URI received from WorkOS will contain the exact `state` that was passed. */
-  state?: string;
+  state?: string | undefined;
   /** Used to initiate SSO for a connection. The value should be a WorkOS connection ID. You can persist the WorkOS connection ID with application user or team identifiers. WorkOS will use the connection indicated by the connection parameter to direct the user to the corresponding IdP for authentication. */
-  connection?: string;
+  connection?: string | undefined;
   /** Used to initiate SSO for an organization. The value should be a WorkOS organization ID. You can persist the WorkOS organization ID with application user or team identifiers. WorkOS will use the organization ID to determine the appropriate connection and the IdP to direct the user to for authentication. */
-  organization?: string;
+  organization?: string | undefined;
   /** Can be used to pre-fill the domain field when initiating authentication with Microsoft OAuth or with a Google SAML connection type. */
-  domain_hint?: string;
+  domain_hint?: string | undefined;
   /** Can be used to pre-fill the username/email address field of the IdP sign-in page for the user, if you know their username ahead of time. Currently supported for OAuth, OpenID Connect, Okta, Entra ID, and custom SAML connections. */
-  login_hint?: string;
+  login_hint?: string | undefined;
   /** A random string generated by the client that is used to mitigate replay attacks. */
-  nonce?: string;
+  nonce?: string | undefined;
   /** If set to `login`, forces re-authentication at the identity provider. For supported SAML providers this sets `ForceAuthn="true"` in the SAML request; providers that don't support it are unaffected. */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 export interface SsoAuthorizeUrlResponse {
   /** An OAuth 2.0 authorization URL. */
-  url?: string;
+  url?: string | undefined;
 }
 export type AuthorizeUserlandSsoControllerRequestProviderQueryParamsMap = {
   [key: string]: string | undefined;
@@ -752,33 +752,33 @@ export type AuthorizeUserlandSsoControllerRequestProvider =
   | "XeroOAuth";
 export interface AuthorizeUserlandSsoControllerRequest {
   /** The only valid PKCE code challenge method is `"S256"`. Required when specifying a `code_challenge`. */
-  code_challenge_method?: string;
+  code_challenge_method?: string | undefined;
   /** Code challenge derived from the code verifier used for the PKCE flow. */
-  code_challenge?: string;
+  code_challenge?: string | undefined;
   /** A domain hint for SSO connection lookup. */
-  domain_hint?: string;
+  domain_hint?: string | undefined;
   /** The ID of an SSO connection to use for authentication. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** Key/value pairs of query parameters to pass to the OAuth provider. */
-  provider_query_params?: AuthorizeUserlandSsoControllerRequestProviderQueryParamsMap;
+  provider_query_params?: AuthorizeUserlandSsoControllerRequestProviderQueryParamsMap | undefined;
   /** Additional OAuth scopes to request from the identity provider. */
-  provider_scopes?: AuthorizeUserlandSsoControllerRequestProviderScopesList;
+  provider_scopes?: AuthorizeUserlandSsoControllerRequestProviderScopesList | undefined;
   /** A token representing a user invitation to redeem during authentication. */
-  invitation_token?: string;
+  invitation_token?: string | undefined;
   /** Maximum allowable elapsed time, in seconds, since the user last actively authenticated. If the last authentication is older than this value, the user is prompted to re-authenticate; a value of `0` forces re-authentication. Only supported when the provider is `authkit`. */
-  max_age?: number;
+  max_age?: number | undefined;
   /** Used to specify which screen to display when the provider is `authkit`. */
-  screen_hint?: AuthorizeUserlandSsoControllerRequestScreenHint | (string & {});
+  screen_hint?: AuthorizeUserlandSsoControllerRequestScreenHint | (string & {}) | undefined;
   /** A hint to the authorization server about the login identifier the user might use. */
-  login_hint?: string;
+  login_hint?: string | undefined;
   /** The OAuth provider to authenticate with (e.g., GoogleOAuth, MicrosoftOAuth, GitHubOAuth). */
-  provider?: AuthorizeUserlandSsoControllerRequestProvider | (string & {});
+  provider?: AuthorizeUserlandSsoControllerRequestProvider | (string & {}) | undefined;
   /** Controls the authentication flow behavior for the user. */
-  prompt?: string;
+  prompt?: string | undefined;
   /** An opaque value used to maintain state between the request and the callback. */
-  state?: string;
+  state?: string | undefined;
   /** The ID of the organization to authenticate the user against. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The response type of the application. */
   response_type: string;
   /** The callback URI where the authorization code will be sent after authentication. */
@@ -793,15 +793,15 @@ export interface CheckAuthorizationControllerRequest {
   /** The slug of the permission to check. */
   permission_slug: string;
   /** The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** The external ID of the resource. Required with `resource_type_slug`. Mutually exclusive with `resource_id`. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** The slug of the resource type. Required with `resource_external_id`. Mutually exclusive with `resource_id`. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 export interface AuthorizationCheck {
   /** Whether the organization membership has the specified permission on the resource. */
-  authorized?: boolean;
+  authorized?: boolean | undefined;
 }
 export interface ClientApiTokenControllerIssueClientApiTokenRequest {
   /** The ID of the organization to scope the Client API token to. */
@@ -817,56 +817,58 @@ export interface ClientApiTokenResponse {
 export type UserObjectMetadataMap = { [key: string]: string | undefined };
 export interface UserObject {
   /** Your application's user identifier, which will be stored as an [`external_id`](/authkit/metadata/external-identifiers). Used for upserting and deduplication. */
-  id?: string;
+  id?: string | undefined;
   /** The user's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The user's first name. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The user's last name. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The user's full name. */
-  name?: string;
+  name?: string | undefined;
   /** A set of key-value pairs to attach to the user. */
-  metadata?: UserObjectMetadataMap;
+  metadata?: UserObjectMetadataMap | undefined;
 }
 export interface UserConsentOptionChoicesItem {
   /** The value of this choice. */
-  value?: string;
+  value?: string | undefined;
   /** A human-readable label for this choice. */
-  label?: string;
+  label?: string | undefined;
 }
 /** The available choices for this consent option. */
 export type UserConsentOptionChoicesList = Array<UserConsentOptionChoicesItem>;
 export interface UserConsentOption {
   /** The claim name for this consent option. */
-  claim?: string;
+  claim?: string | undefined;
   /** The type of consent option. */
-  type?: string;
+  type?: string | undefined;
   /** A human-readable label for this consent option. */
-  label?: string;
+  label?: string | undefined;
   /** The available choices for this consent option. */
-  choices?: UserConsentOptionChoicesList;
+  choices?: UserConsentOptionChoicesList | undefined;
 }
 /** Array of [User Consent Options](/reference/workos-connect/standalone/user-consent-options) to store with the session. */
 export type CompleteExternalAuthControllerLoginRequestUserConsentOptionsList =
   Array<UserConsentOption>;
 export interface CompleteExternalAuthControllerLoginRequest {
   /** Identifier provided when AuthKit redirected to your login page. */
-  external_auth_id?: string;
+  external_auth_id?: string | undefined;
   /** The user to create or update in AuthKit. */
-  user?: UserObject;
+  user?: UserObject | undefined;
   /** Array of [User Consent Options](/reference/workos-connect/standalone/user-consent-options) to store with the session. */
-  user_consent_options?: CompleteExternalAuthControllerLoginRequestUserConsentOptionsList;
+  user_consent_options?:
+    | CompleteExternalAuthControllerLoginRequestUserConsentOptionsList
+    | undefined;
 }
 export interface ExternalAuthCompleteResponse {
   /** URI to redirect the user back to AuthKit to complete the OAuth flow. */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
 }
 export interface ConfirmUserlandUsersControllerEmailChangeRequest {
   /** The unique ID of the user. */
   id: string;
   /** The one-time code used to confirm the email change. */
-  code?: string;
+  code?: string | undefined;
 }
 /** Object containing metadata key/value pairs associated with the user. */
 export type ConfirmUserlandUsersControllerEmailChangeResponseUserMetadataMap = {
@@ -883,7 +885,7 @@ export interface ConfirmUserlandUsersControllerEmailChangeResponseUser {
   /** The last name of the user. */
   last_name: string | null;
   /** The user's full name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A URL reference to an image representing the user. */
   profile_picture_url: string | null;
   /** The email address of the user. */
@@ -893,11 +895,11 @@ export interface ConfirmUserlandUsersControllerEmailChangeResponseUser {
   /** The external ID of the user. */
   external_id: string | null;
   /** Object containing metadata key/value pairs associated with the user. */
-  metadata?: ConfirmUserlandUsersControllerEmailChangeResponseUserMetadataMap;
+  metadata?: ConfirmUserlandUsersControllerEmailChangeResponseUserMetadataMap | undefined;
   /** The timestamp when the user last signed in. */
   last_sign_in_at: string | null;
   /** The user's preferred locale. */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -987,25 +989,25 @@ export interface ConnectionDomainsItem {
 export type ConnectionDomainsList = Array<ConnectionDomainsItem>;
 export interface Connection {
   /** Distinguishes the Connection object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the Connection. */
-  id?: string;
+  id?: string | undefined;
   /** Unique identifier for the Organization in which the Connection resides. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The type of the SSO Connection used to authenticate the user. The Connection type may be used to dynamically generate authorization URLs. */
-  connection_type?: ConnectionConnectionType;
+  connection_type?: ConnectionConnectionType | undefined;
   /** A human-readable name for the Connection. This will most commonly be the organization's name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether a Connection is able to authenticate users. */
-  state?: ConnectionState;
+  state?: ConnectionState | undefined;
   /** Deprecated. Use `state` instead. */
-  status?: ConnectionStatus;
+  status?: ConnectionStatus | undefined;
   /** List of Organization Domains. */
-  domains?: ConnectionDomainsList;
+  domains?: ConnectionDomainsList | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment. */
 export type CreateAgentBlueprintsControllerRequestPermissionsList = Array<string>;
@@ -1016,9 +1018,11 @@ export type CreateAgentBlueprintsControllerRequestInvocableByOrganizationIdsList
 /** Who may mint sessions from this blueprint. */
 export interface CreateAgentBlueprintsControllerRequestInvocableBy {
   /** Role slugs whose members may mint user-delegated sessions from this blueprint. An empty list allows any member. */
-  role_slugs?: CreateAgentBlueprintsControllerRequestInvocableByRoleSlugsList;
+  role_slugs?: CreateAgentBlueprintsControllerRequestInvocableByRoleSlugsList | undefined;
   /** Organizations in which sessions may be minted from this blueprint, enforced on user-delegated, autonomous, and agent-delegated mints. An empty list allows any organization in the environment. */
-  organization_ids?: CreateAgentBlueprintsControllerRequestInvocableByOrganizationIdsList;
+  organization_ids?:
+    | CreateAgentBlueprintsControllerRequestInvocableByOrganizationIdsList
+    | undefined;
 }
 export type CreateAgentBlueprintsControllerRequestInvocableAsInstanceTypesItem =
   | "delegated"
@@ -1030,7 +1034,7 @@ export type CreateAgentBlueprintsControllerRequestInvocableAsInstanceTypesList =
 /** How sessions may be minted from this blueprint. */
 export interface CreateAgentBlueprintsControllerRequestInvocableAs {
   /** Instance types that may be minted from this blueprint: `delegated` (a user-delegated session, minted with a user access token) and/or `autonomous` (a session acting as the agent itself, minted with an agent registration credential). Agent-delegated chaining and refreshes are checked against the type of the presenting instance. Defaults to both. */
-  instance_types?: CreateAgentBlueprintsControllerRequestInvocableAsInstanceTypesList;
+  instance_types?: CreateAgentBlueprintsControllerRequestInvocableAsInstanceTypesList | undefined;
 }
 /** Token and session lifetimes for sessions minted from this blueprint. */
 export interface CreateAgentBlueprintsControllerRequestSessionSettings {
@@ -1045,15 +1049,15 @@ export interface CreateAgentBlueprintsControllerRequest {
   /** Human-readable name of the agent blueprint. */
   name: string;
   /** Human-readable description of the agent blueprint. */
-  description?: string;
+  description?: string | undefined;
   /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment. */
-  permissions?: CreateAgentBlueprintsControllerRequestPermissionsList;
+  permissions?: CreateAgentBlueprintsControllerRequestPermissionsList | undefined;
   /** Who may mint sessions from this blueprint. */
-  invocable_by?: CreateAgentBlueprintsControllerRequestInvocableBy;
+  invocable_by?: CreateAgentBlueprintsControllerRequestInvocableBy | undefined;
   /** How sessions may be minted from this blueprint. */
-  invocable_as?: CreateAgentBlueprintsControllerRequestInvocableAs;
+  invocable_as?: CreateAgentBlueprintsControllerRequestInvocableAs | undefined;
   /** Token and session lifetimes for sessions minted from this blueprint. */
-  session_settings?: CreateAgentBlueprintsControllerRequestSessionSettings;
+  session_settings?: CreateAgentBlueprintsControllerRequestSessionSettings | undefined;
 }
 /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. */
 export type AgentBlueprintPermissionsList = Array<string>;
@@ -1114,27 +1118,27 @@ export interface CreateApplicationCredentialsControllerRequest {
 }
 export interface NewConnectApplicationSecret {
   /** Distinguishes the connect application secret object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the client secret. */
-  id?: string;
+  id?: string | undefined;
   /** A hint showing the last few characters of the secret value. */
-  secret_hint?: string;
+  secret_hint?: string | undefined;
   /** The timestamp when the client secret was last used, or null if never used. */
-  last_used_at?: string | null;
+  last_used_at?: string | null | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The plaintext secret value. Only returned at creation time and cannot be retrieved later. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The OAuth scopes granted to the application. */
 export type CreateOAuthApplicationDtoScopesList = Array<string>;
 export interface RedirectUriDto {
   /** The redirect URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** Whether this is the default redirect URI. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
 }
 /** Redirect URIs for the application. */
 export type CreateOAuthApplicationDtoRedirectUrisList = Array<RedirectUriDto>;
@@ -1142,37 +1146,37 @@ export type CreateOAuthApplicationDtoRedirectUrisList = Array<RedirectUriDto>;
 export type CreateOAuthApplicationDtoCorsOriginsList = Array<string>;
 export interface CreateOAuthApplicationDto {
   /** The name of the application. */
-  name?: string;
+  name?: string | undefined;
   /** The type of application to create. */
-  application_type?: string;
+  application_type?: string | undefined;
   /** A description for the application. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The OAuth scopes granted to the application. */
-  scopes?: CreateOAuthApplicationDtoScopesList | null;
+  scopes?: CreateOAuthApplicationDtoScopesList | null | undefined;
   /** Redirect URIs for the application. */
-  redirect_uris?: CreateOAuthApplicationDtoRedirectUrisList | null;
+  redirect_uris?: CreateOAuthApplicationDtoRedirectUrisList | null | undefined;
   /** Origins allowed to call the OAuth token endpoint for this application from a browser. */
-  cors_origins?: CreateOAuthApplicationDtoCorsOriginsList | null;
+  cors_origins?: CreateOAuthApplicationDtoCorsOriginsList | null | undefined;
   /** Whether the application uses PKCE (Proof Key for Code Exchange). */
-  uses_pkce?: boolean | null;
+  uses_pkce?: boolean | null | undefined;
   /** Whether this is a first-party application. Third-party applications require an organization_id. */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** The organization ID this application belongs to. Required when is_first_party is false. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
 }
 /** The OAuth scopes granted to the application. */
 export type CreateM2MApplicationDtoScopesList = Array<string>;
 export interface CreateM2MApplicationDto {
   /** The name of the application. */
-  name?: string;
+  name?: string | undefined;
   /** The type of application to create. */
-  application_type?: string;
+  application_type?: string | undefined;
   /** A description for the application. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The OAuth scopes granted to the application. */
-  scopes?: CreateM2MApplicationDtoScopesList | null;
+  scopes?: CreateM2MApplicationDtoScopesList | null | undefined;
   /** The organization ID this application belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 export type CreateApplicationsControllerRequestBody =
   | CreateOAuthApplicationDto
@@ -1207,83 +1211,83 @@ export interface CreateApplicationsControllerResponse {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The type of the application. */
-  application_type?: string;
+  application_type?: string | undefined;
   /** The redirect URIs configured for this application. */
-  redirect_uris?: CreateApplicationsControllerResponseRedirectUrisList;
+  redirect_uris?: CreateApplicationsControllerResponseRedirectUrisList | undefined;
   /** The CORS origins allowed to call the OAuth token endpoint for this application from a browser. */
-  cors_origins?: CreateApplicationsControllerResponseCorsOriginsList;
+  cors_origins?: CreateApplicationsControllerResponseCorsOriginsList | undefined;
   /** Whether the application uses PKCE for authorization. */
-  uses_pkce?: boolean;
+  uses_pkce?: boolean | undefined;
   /** Whether the application is a first-party application. */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether the application was dynamically registered. */
-  was_dynamically_registered?: boolean;
+  was_dynamically_registered?: boolean | undefined;
   /** The ID of the organization the application belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 export interface AuditLogEventActorDto {
   /** Actor identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Actor type. */
-  type?: string;
+  type?: string | undefined;
   /** Optional actor name. */
-  name?: string;
+  name?: string | undefined;
   /** Additional data associated with the event or entity. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface AuditLogEventTargetDto {
   /** Target identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Target type. */
-  type?: string;
+  type?: string | undefined;
   /** Optional target name. */
-  name?: string;
+  name?: string | undefined;
   /** Additional data associated with the event or entity. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** The resources affected by the action. */
 export type AuditLogEventDtoTargetsList = Array<AuditLogEventTargetDto>;
 export interface AuditLogEventContextDto {
   /** IP Address or some other geolocation identifier. */
-  location?: string;
+  location?: string | undefined;
   /** User agent string. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface AuditLogEventDto {
   /** Identifier of what happened. */
-  action?: string;
+  action?: string | undefined;
   /** ISO-8601 value of when the action occurred. */
-  occurred_at?: string;
+  occurred_at?: string | undefined;
   /** The entity that performed the action. */
-  actor?: AuditLogEventActorDto;
+  actor?: AuditLogEventActorDto | undefined;
   /** The resources affected by the action. */
-  targets?: AuditLogEventDtoTargetsList;
+  targets?: AuditLogEventDtoTargetsList | undefined;
   /** Additional context about where and how the action occurred. */
-  context?: AuditLogEventContextDto;
+  context?: AuditLogEventContextDto | undefined;
   /** Additional data associated with the event or entity. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** What schema version the event is associated with. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface CreateAuditLogEventsControllerRequest {
   /** The unique ID of the Organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The audit log event to create. */
-  event?: AuditLogEventDto;
+  event?: AuditLogEventDto | undefined;
 }
 export interface AuditLogEventCreateResponse {
   /** Whether the Audit Log event was created successfully. */
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface AuditLogSchemaActorDto {
   /** JSON schema for actor metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface AuditLogSchemaTargetDto {
   /** The type of the target resource. */
-  type?: string;
+  type?: string | undefined;
   /** Optional JSON schema for target metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** The list of targets for the schema. */
 export type CreateAuditLogValidatorVersionsControllerRequestTargetsList =
@@ -1292,11 +1296,11 @@ export interface CreateAuditLogValidatorVersionsControllerRequest {
   /** The name of the Audit Log action. */
   actionName: string;
   /** The metadata schema for the actor. */
-  actor?: AuditLogSchemaActorDto;
+  actor?: AuditLogSchemaActorDto | undefined;
   /** The list of targets for the schema. */
-  targets?: CreateAuditLogValidatorVersionsControllerRequestTargetsList;
+  targets?: CreateAuditLogValidatorVersionsControllerRequestTargetsList | undefined;
   /** Optional JSON schema for event metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** The type of factor to enroll. */
 export type CreateAuthenticationFactorsControllerRequestType = "generic_otp" | "sms" | "totp";
@@ -1304,13 +1308,13 @@ export interface CreateAuthenticationFactorsControllerRequest {
   /** The type of factor to enroll. */
   type: CreateAuthenticationFactorsControllerRequestType | (string & {});
   /** Required when type is 'sms'. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Required when type is 'totp'. */
-  totp_issuer?: string;
+  totp_issuer?: string | undefined;
   /** Required when type is 'totp'. */
-  totp_user?: string;
+  totp_user?: string | undefined;
   /** The ID of the user to associate the factor with. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The type of the factor to enroll. */
 export type AuthenticationFactorEnrolledType = "generic_otp" | "sms" | "totp" | "webauthn";
@@ -1334,27 +1338,27 @@ export interface AuthenticationFactorEnrolledTotp {
 }
 export interface AuthenticationFactorEnrolled {
   /** Distinguishes the authentication factor object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the factor. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the factor to enroll. */
-  type?: AuthenticationFactorEnrolledType;
+  type?: AuthenticationFactorEnrolledType | undefined;
   /** The ID of the [user](/reference/authkit/user). */
-  user_id?: string;
+  user_id?: string | undefined;
   /** SMS-based authentication factor details. */
-  sms?: AuthenticationFactorEnrolledSms;
+  sms?: AuthenticationFactorEnrolledSms | undefined;
   /** TOTP-based authentication factor details. Includes enrollment secrets only available at creation time. */
-  totp?: AuthenticationFactorEnrolledTotp;
+  totp?: AuthenticationFactorEnrolledTotp | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateAuthkitOauthResourcesControllerRequest {
   /** The resource URI. May be a wildcard pattern with a single `*`, either in the leftmost hostname label or as the final path segment, where enabled for the environment. */
   uri: string;
   /** Whether the resource being created becomes the environment default, clearing any previous default. Applies at creation only -- this API has no update endpoint yet, so changing the default on an existing resource is done from the dashboard. A wildcard pattern cannot be the default. */
-  default?: boolean;
+  default?: boolean | undefined;
 }
 export interface AuthkitOauthResource {
   /** The object type. */
@@ -1376,11 +1380,11 @@ export interface CreateAuthorizationGroupRoleAssignmentsControllerRequest {
   /** The slug of the role to assign to the group. */
   role_slug: string;
   /** The ID of the resource. Omit along with the external-id fields to target the organization itself. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** The external ID of the resource. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** The resource type slug. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 /** The resource the role is assigned on. */
 export type GroupRoleAssignmentResource = UserRoleAssignmentResource;
@@ -1404,13 +1408,13 @@ export interface CreateAuthorizationOrganizationRolesControllerRequest {
   /** The ID of the organization. */
   organizationId: string;
   /** A unique identifier for the role within the organization. When provided, must begin with 'org-' and contain only lowercase letters, numbers, hyphens, and underscores. When omitted, a slug is auto-generated from the role name and a random suffix. */
-  slug?: string;
+  slug?: string | undefined;
   /** A descriptive name for the role. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the role's purpose. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The slug of the resource type the role is scoped to. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 /** Whether the role is scoped to the environment or an organization (custom role). */
 export type CreateAuthorizationOrganizationRolesControllerResponseType =
@@ -1442,13 +1446,13 @@ export interface CreateAuthorizationOrganizationRolesControllerResponse {
 }
 export interface CreateAuthorizationPermissionsControllerRequest {
   /** A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks. */
-  slug?: string;
+  slug?: string | undefined;
   /** A descriptive name for the Permission. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the Permission. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The slug of the resource type this permission is scoped to. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 export interface CreateAuthorizationPermissionsControllerResponse {
   /** Distinguishes the Permission object. */
@@ -1476,17 +1480,17 @@ export interface CreateAuthorizationResourcesControllerRequest {
   /** A display name for the resource. */
   name: string;
   /** An optional description of the resource. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The slug of the resource type. */
   resource_type_slug: string;
   /** The ID of the organization this resource belongs to. */
   organization_id: string;
   /** The ID of the parent resource. Mutually exclusive with `parent_resource_external_id` and `parent_resource_type_slug`. */
-  parent_resource_id?: string | null;
+  parent_resource_id?: string | null | undefined;
   /** The external ID of the parent resource. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_external_id?: string;
+  parent_resource_external_id?: string | undefined;
   /** The resource type slug of the parent resource. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_type_slug?: string;
+  parent_resource_type_slug?: string | undefined;
 }
 export interface CreateAuthorizationResourcesControllerResponse {
   /** Distinguishes the Resource object. */
@@ -1512,13 +1516,13 @@ export interface CreateAuthorizationResourcesControllerResponse {
 }
 export interface CreateAuthorizationRolesControllerRequest {
   /** A unique slug for the role. */
-  slug?: string;
+  slug?: string | undefined;
   /** A descriptive name for the role. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the role. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The slug of the resource type the role is scoped to. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 /** Whether the role is scoped to the environment or an organization (custom role). */
 export type CreateAuthorizationRolesControllerResponseType = "EnvironmentRole" | "OrganizationRole";
@@ -1548,17 +1552,17 @@ export interface CreateAuthorizationRolesControllerResponse {
 }
 export interface CreateConnectionStandardAttributesDto {
   /** The IdP attribute or claim the profile's `idp_id` is mapped from. When omitted, the default for the connection type is used. */
-  idp_id?: string;
+  idp_id?: string | undefined;
   /** The IdP attribute or claim the profile's `email` is mapped from. When omitted, the default for the connection type is used. */
-  email?: string;
+  email?: string | undefined;
   /** The IdP attribute or claim the profile's `first_name` is mapped from. When omitted, the default for the connection type is used. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The IdP attribute or claim the profile's `last_name` is mapped from. When omitted, the default for the connection type is used. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The IdP attribute or claim the profile's `groups` are mapped from. `null` leaves the mapping unset. */
-  groups?: string | null;
+  groups?: string | null | undefined;
   /** The IdP attribute or claim the profile's `name` is mapped from. `null` leaves the mapping unset. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** How IdP attributes or claims map onto custom attributes, keyed by custom attribute name. Custom attributes must already be defined in the WorkOS dashboard. */
 export type CreateConnectionAttributeMapsDtoCustomAttributesMap = {
@@ -1566,9 +1570,9 @@ export type CreateConnectionAttributeMapsDtoCustomAttributesMap = {
 };
 export interface CreateConnectionAttributeMapsDto {
   /** How IdP attributes or claims map onto the standard WorkOS profile fields. Provided fields override the defaults for the connection type. */
-  standard_attributes?: CreateConnectionStandardAttributesDto;
+  standard_attributes?: CreateConnectionStandardAttributesDto | undefined;
   /** How IdP attributes or claims map onto custom attributes, keyed by custom attribute name. Custom attributes must already be defined in the WorkOS dashboard. */
-  custom_attributes?: CreateConnectionAttributeMapsDtoCustomAttributesMap;
+  custom_attributes?: CreateConnectionAttributeMapsDtoCustomAttributesMap | undefined;
 }
 /** The X.509 certificates used to verify signed SAML responses from the Identity Provider. Required when configuring the connection with manual IdP fields. */
 export type CreateConnectionSamlOptionsDtoIdpSigningCertsList = Array<string>;
@@ -1583,21 +1587,21 @@ export type CreateConnectionSamlOptionsDtoSpEncryptionKeyPairsList =
   Array<CreateConnectionKeyPairDto>;
 export interface CreateConnectionSamlOptionsDto {
   /** The Identity Provider metadata URL. When provided, the IdP fields and signing certificates are imported from the metadata document. Mutually exclusive with the manual IdP fields. */
-  idp_metadata_url?: string;
+  idp_metadata_url?: string | undefined;
   /** A custom Assertion Consumer Service (ACS) URL override. When omitted, the standard WorkOS-generated ACS URL is used. */
-  acs_url?: string;
+  acs_url?: string | undefined;
   /** A custom Service Provider Entity ID (audience) override. When omitted, the connection external key is used. */
-  sp_entity_id?: string;
+  sp_entity_id?: string | undefined;
   /** The Identity Provider Entity ID. */
-  idp_entity_id?: string;
+  idp_entity_id?: string | undefined;
   /** The Identity Provider SSO URL. Required when configuring the connection with manual IdP fields. */
-  idp_sso_url?: string;
+  idp_sso_url?: string | undefined;
   /** The X.509 certificates used to verify signed SAML responses from the Identity Provider. Required when configuring the connection with manual IdP fields. */
-  idp_signing_certs?: CreateConnectionSamlOptionsDtoIdpSigningCertsList;
+  idp_signing_certs?: CreateConnectionSamlOptionsDtoIdpSigningCertsList | undefined;
   /** The customer-owned key pair used to sign SAML requests sent to the Identity Provider. When omitted, WorkOS generates and manages the signing key pair. */
-  sp_signing_key_pair?: CreateConnectionKeyPairDto;
+  sp_signing_key_pair?: CreateConnectionKeyPairDto | undefined;
   /** The customer-owned key pairs used to decrypt encrypted SAML responses from the Identity Provider. When omitted, WorkOS generates and manages the encryption key pair. */
-  sp_encryption_key_pairs?: CreateConnectionSamlOptionsDtoSpEncryptionKeyPairsList;
+  sp_encryption_key_pairs?: CreateConnectionSamlOptionsDtoSpEncryptionKeyPairsList | undefined;
 }
 /** The token-endpoint client authentication method. */
 export type CreateConnectionOidcOptionsDtoTokenAuthenticationMethod =
@@ -1625,55 +1629,57 @@ export interface CreateConnectionOidcOptionsDto {
   /** The OIDC client ID. */
   client_id: string;
   /** The OIDC client secret. Required for `client_secret_basic` and `client_secret_post`, and rejected for `private_key_jwt`, which authenticates with a key pair instead. This value is write-only and is never returned. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** A custom OAuth callback URL override. When omitted, the standard WorkOS-generated redirect URI is used. */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** Whether PKCE is enabled for the connection. */
-  pkce?: boolean;
+  pkce?: boolean | undefined;
   /** The token-endpoint client authentication method. */
   token_authentication_method?:
     | CreateConnectionOidcOptionsDtoTokenAuthenticationMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** A key pair for WorkOS to sign `private_key_jwt` client assertions with. Only accepted when `token_authentication_method` is `private_key_jwt`; when omitted, WorkOS generates one and returns its certificate in `oidc_options.jwt_signing_certs`. */
-  jwt_signing_key_pair?: CreateConnectionKeyPairDto;
+  jwt_signing_key_pair?: CreateConnectionKeyPairDto | undefined;
   /** The ID-token signing algorithm. */
   id_token_signature_algorithm?:
     | CreateConnectionOidcOptionsDtoIdTokenSignatureAlgorithm
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether to fetch additional profile attributes from the userinfo endpoint. */
-  fetch_user_info?: boolean;
+  fetch_user_info?: boolean | undefined;
 }
 export interface CreateConnectionsControllerRequest {
   /** Unique identifier for the Organization in which the Connection resides. */
   organization_id: string;
   /** A human-readable name for the Connection. This will most commonly be the organization's name. */
-  name?: string;
+  name?: string | undefined;
   /** The customer-owned identifier for the Connection. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The type of the Connection. Only SAML and OIDC connection types may be created. When omitted, the type is inferred from the provided options. */
-  connection_type?: string;
+  connection_type?: string | undefined;
   /** How IdP attributes or claims map onto WorkOS profile fields. Provided fields override the defaults for the connection type. */
-  attribute_maps?: CreateConnectionAttributeMapsDto;
+  attribute_maps?: CreateConnectionAttributeMapsDto | undefined;
   /** Protocol configuration for SAML connections. Mutually exclusive with `oidc_options`. */
-  saml_options?: CreateConnectionSamlOptionsDto;
+  saml_options?: CreateConnectionSamlOptionsDto | undefined;
   /** Protocol configuration for OIDC connections. Mutually exclusive with `saml_options`. */
-  oidc_options?: CreateConnectionOidcOptionsDto;
+  oidc_options?: CreateConnectionOidcOptionsDto | undefined;
 }
 export interface CreateCorsOriginsControllerCorsOriginRequest {
   /** The origin URL to allow for CORS requests. */
-  origin?: string;
+  origin?: string | undefined;
 }
 export interface CorsOriginResponse {
   /** Distinguishes the CORS origin object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the CORS origin. */
-  id?: string;
+  id?: string | undefined;
   /** The origin URL. */
-  origin?: string;
+  origin?: string | undefined;
   /** Timestamp when the CORS origin was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp when the CORS origin was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
 export type CreateDataIntegrationsControllerApiKeyConnectionRequestConnectionOwner =
@@ -1683,17 +1689,18 @@ export interface CreateDataIntegrationsControllerApiKeyConnectionRequest {
   /** The identifier of the integration. */
   slug: string;
   /** A mutable, non-unique label. Omit to preserve an existing label; null clears it. Labels are never account identifiers. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested provider account identifier, never inferred from a label or credential. Omit to preserve an existing identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** A [User](/reference/authkit/user) identifier. */
   user_id: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
   connection_owner?:
     | CreateDataIntegrationsControllerApiKeyConnectionRequestConnectionOwner
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The API key secret to store for this integration. */
   secret: string | Redacted.Redacted<string>;
   /** Must be `add`: this endpoint only creates another connection. The first connection for an owner shape fills the compatibility slot; later connections are standard. */
@@ -1718,43 +1725,43 @@ export interface ConnectedAccountWarningsItem {
 export type ConnectedAccountWarningsList = Array<ConnectedAccountWarningsItem>;
 export interface ConnectedAccount {
   /** Distinguishes the connected account object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique identifier of the connected account. */
-  id?: string;
+  id?: string | undefined;
   /** Whether this row is the compatibility connection visible to undeclared clients or a standard peer for plural-aware clients. The role does not indicate preference or creation order. */
-  connection_role?: ConnectedAccountConnectionRole;
+  connection_role?: ConnectedAccountConnectionRole | undefined;
   /** A best-effort identifier for the provider account this connection points at. It is correlation metadata, not the connection identifier or a selector. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** A mutable, non-unique display name for the provider account connection. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** The [User](/reference/authkit/user) identifier associated with this connection. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
   /** The [Organization](/reference/organization) identifier associated with this connection, or `null` if not scoped to an organization. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The OAuth scopes granted for this connection. */
-  scopes?: ConnectedAccountScopesList;
+  scopes?: ConnectedAccountScopesList | undefined;
   /** The authentication method used for this connection (`oauth`, `api_key`, or `client_credentials`). Defaults to `oauth` if absent. */
-  auth_method?: ConnectedAccountAuthMethod;
+  auth_method?: ConnectedAccountAuthMethod | undefined;
   /** The last four characters of the API key, or `null` for OAuth connections. */
-  api_key_last_4?: string | null;
+  api_key_last_4?: string | null | undefined;
   /** The client ID supplied for this connection. Only present when `auth_method` is `client_credentials`. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** The last four characters of the client secret supplied for this connection, or `null` when it can't be read. Only present when `auth_method` is `client_credentials`. */
-  client_secret_last_4?: string | null;
+  client_secret_last_4?: string | null | undefined;
   /** The connection-level configuration values stored for this connection -- the fields the provider declares at `installation` scope, excluding secret and undeclared fields. Returned for every authentication method; empty when no stored values can be disclosed. */
-  config?: ConnectedAccountConfigMap;
+  config?: ConnectedAccountConfigMap | undefined;
   /** The state of the connected account: - `connected`: The connection is active and tokens are valid. - `needs_reauthorization`: The user needs to reauthorize the connection, typically because required scopes have changed. `state_reason` explains why when WorkOS invalidated the connection itself. - `disconnected`: The connection has been disconnected. */
-  state?: ConnectedAccountState;
+  state?: ConnectedAccountState | undefined;
   /** The [User](/reference/authkit/user) whose authorization established this connection. `null` when the connection is developer-managed or its establisher is unknown, and when the establishing member lost access to the organization -- in which case `state_reason` is `establishing_member_membership_ended`. */
-  established_by_user_id?: string | null;
+  established_by_user_id?: string | null | undefined;
   /** Why WorkOS put the connection in its current `state`, or `null` when there is no WorkOS-recorded reason: - `establishing_member_membership_ended`: The member who established this organization-owned connection is no longer an active member of the organization, so its credentials were cleared. An organization admin must provide new credentials. Additional values may be added; treat an unrecognized value as an unknown reason. */
-  state_reason?: string | null;
+  state_reason?: string | null | undefined;
   /** The timestamp when the connection was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp when the connection was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Non-blocking warnings about an explicitly supplied label. Only writes return it, and only when another connection already uses the label; reads omit it. */
-  warnings?: ConnectedAccountWarningsList;
+  warnings?: ConnectedAccountWarningsList | undefined;
 }
 /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
 export type CreateDataIntegrationsControllerClientCredentialsConnectionRequestConnectionOwner =
@@ -1768,23 +1775,24 @@ export interface CreateDataIntegrationsControllerClientCredentialsConnectionRequ
   /** The identifier of the integration. */
   slug: string;
   /** A mutable, non-unique label. Omit to preserve an existing label; null clears it. Labels are never account identifiers. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested provider account identifier, never inferred from a label or credential. Omit to preserve an existing identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** A [User](/reference/authkit/user) identifier. */
   user_id: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
   connection_owner?:
     | CreateDataIntegrationsControllerClientCredentialsConnectionRequestConnectionOwner
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The OAuth client ID to store for this integration. */
   client_id: string;
   /** The OAuth client secret to store for this integration. */
   client_secret: string | Redacted.Redacted<string>;
   /** Provider-specific configuration values collected for this installation, keyed by the provider's config field descriptors. */
-  config?: CreateDataIntegrationsControllerClientCredentialsConnectionRequestConfigMap;
+  config?: CreateDataIntegrationsControllerClientCredentialsConnectionRequestConfigMap | undefined;
   /** Must be `add`: this endpoint only creates another connection. The first connection for an owner shape fills the compatibility slot; later connections are standard. */
   connection_intent: string;
 }
@@ -1813,9 +1821,9 @@ export interface DataIntegrationCredentialsDto {
   /** The credentials type. `custom` uses your own OAuth app credentials; `organization` has each organization supply its own credentials (configured per-organization). */
   type: DataIntegrationCredentialsDtoType | (string & {});
   /** OAuth client ID for the provider app. Required when `type` is `custom`; omit for `organization`. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** OAuth client secret for the provider app. Required when `type` is `custom`; omit for `organization`. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ApiKeyInstallationDto {
   /** The API key secret to store for the tenant. */
@@ -1823,7 +1831,7 @@ export interface ApiKeyInstallationDto {
   /** The User identifier the API key is installed for. */
   user_id: string;
   /** An Organization identifier to scope the installation to a specific organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** Additional static query parameters appended to the authorization request. */
 export type CustomProviderDefinitionDtoAdditionalAuthorizationParametersMap = {
@@ -1835,25 +1843,27 @@ export interface CustomProviderDefinitionDto {
   /** A descriptive name for the custom provider. */
   name: string;
   /** The provider's OAuth authorization endpoint. Required for OAuth providers; omit for `api_key` providers. Must be a static URL: `${config....}` placeholders are resolved against a provider's declared config fields, which custom providers cannot declare. */
-  authorization_url?: string;
+  authorization_url?: string | undefined;
   /** The provider's OAuth token endpoint. Required for OAuth and `client_credentials` providers; omit for `api_key` providers. Must be a static URL: `${config....}` placeholders are resolved against a provider's declared config fields, which custom providers cannot declare. */
-  token_url?: string;
+  token_url?: string | undefined;
   /** The endpoint used to refresh tokens, if different from the token endpoint. Must be a static URL, like the other endpoints. */
-  refresh_token_url?: string | null;
+  refresh_token_url?: string | null | undefined;
   /** Whether PKCE is used during the authorization code flow. Defaults to `true`. */
-  pkce_enabled?: boolean;
+  pkce_enabled?: boolean | undefined;
   /** The separator used to join requested scopes. Defaults to a space. */
-  request_scope_separator?: string;
+  request_scope_separator?: string | undefined;
   /** Whether at least one scope must be selected when connecting an account. Defaults to `false`. */
-  scopes_required?: boolean;
+  scopes_required?: boolean | undefined;
   /** Whether a client secret is required for this provider. Defaults to `true`. */
-  client_secret_required?: boolean;
+  client_secret_required?: boolean | undefined;
   /** Additional static query parameters appended to the authorization request. */
-  additional_authorization_parameters?: CustomProviderDefinitionDtoAdditionalAuthorizationParametersMap;
+  additional_authorization_parameters?:
+    | CustomProviderDefinitionDtoAdditionalAuthorizationParametersMap
+    | undefined;
   /** The Content-Type used when exchanging the token request. */
-  token_body_content_type?: string;
+  token_body_content_type?: string | undefined;
   /** How client credentials are sent when exchanging authorization codes and refreshing tokens. */
-  authenticate_via?: CustomProviderDefinitionDtoAuthenticateVia | (string & {});
+  authenticate_via?: CustomProviderDefinitionDtoAuthenticateVia | (string & {}) | undefined;
 }
 export interface CreateDataIntegrationsManagementControllerDataIntegrationRequest {
   /** The provider to create a Data Integration for. For a built-in provider use its slug (e.g. `github`, `slack`). For a custom provider, this is the new provider slug and `custom_provider` must be supplied. A custom provider slug cannot shadow an existing global provider slug. */
@@ -1861,23 +1871,29 @@ export interface CreateDataIntegrationsManagementControllerDataIntegrationReques
   /** Who owns the Data Integration. `user` (the default) creates the integration users connect their own accounts to; `organization` creates the root organizations connect to. Ownership is fixed at creation, and one integration of each ownership may exist per provider. Independent of `credentials.type`. */
   ownership?:
     | CreateDataIntegrationsManagementControllerDataIntegrationRequestOwnership
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** An optional description of the Data Integration. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the Data Integration is enabled. Defaults to `false`. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The OAuth scopes to request for the Data Integration. Defaults to the provider's configured scopes when omitted. */
-  scopes?: CreateDataIntegrationsManagementControllerDataIntegrationRequestScopesList | null;
+  scopes?:
+    | CreateDataIntegrationsManagementControllerDataIntegrationRequestScopesList
+    | null
+    | undefined;
   /** How accounts authenticate with the provider. Defaults to `["oauth"]`. Use `["api_key"]` to declare an API key integration; `credentials` is then not required and keys are supplied per-tenant (optionally via `api_key` on this request). Use `["client_credentials"]` to declare a client-credentials integration; `credentials` is likewise not required and client credentials are supplied per-tenant. */
-  auth_methods?: CreateDataIntegrationsManagementControllerDataIntegrationRequestAuthMethodsList;
+  auth_methods?:
+    | CreateDataIntegrationsManagementControllerDataIntegrationRequestAuthMethodsList
+    | undefined;
   /** Provider-specific config values (e.g. a Snowflake `account`), keyed by the config field. Only fields the built-in provider declares are accepted. */
-  config?: CreateDataIntegrationsManagementControllerDataIntegrationRequestConfigMap;
+  config?: CreateDataIntegrationsManagementControllerDataIntegrationRequestConfigMap | undefined;
   /** The OAuth credentials to configure for the Data Integration. Required for OAuth integrations; omit when `auth_methods` is `["api_key"]`. */
-  credentials?: DataIntegrationCredentialsDto;
+  credentials?: DataIntegrationCredentialsDto | undefined;
   /** An optional API key to install for the first tenant on an `api_key` integration. Omit to declare a keyless integration; tenants can be added later via the per-installation API key path. */
-  api_key?: ApiKeyInstallationDto;
+  api_key?: ApiKeyInstallationDto | undefined;
   /** The OAuth definition for a custom provider. Supply this to define a custom provider; omit it to create an integration for a built-in provider. */
-  custom_provider?: CustomProviderDefinitionDto;
+  custom_provider?: CustomProviderDefinitionDto | undefined;
 }
 /** Who owns the Data Integration: `user` when users connect their own accounts, `organization` when organizations connect. Fixed at creation. */
 export type DataIntegrationOwnership = "user" | "organization";
@@ -2002,29 +2018,36 @@ export interface CreateDataIntegrationsOrganizationControllerOrganizationDataIns
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** A mutable, non-unique connection label; null clears it. Not an account identifier. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested account identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections. */
-  config?: CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestConfigMap;
+  config?:
+    | CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestConfigMap
+    | undefined;
   /** The OAuth access token for the connected account. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The OAuth refresh token for the connected account. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The OAuth scopes granted for this connection. */
-  scopes?: CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestScopesList;
+  scopes?:
+    | CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestScopesList
+    | undefined;
   /** Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided. */
   state?:
     | CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestState
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The [User](/reference/authkit/user) identifier of the organization member on whose behalf the connected account is being imported or updated. The user must be an active member of the organization. */
   user_id: string;
   /** Provider token-response metadata to preserve during import, such as Salesforce instance_url. Only allowlisted, non-sensitive scalar fields from this provider are accepted, including nested fields. Provider refresh responses can update these values. Not accepted on update. */
-  metadata?: CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestMetadataMap;
+  metadata?:
+    | CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestMetadataMap
+    | undefined;
   /** Set to `add` to create another connected account. Omit this field for permanent compatibility behavior. */
-  connection_intent?: string;
+  connection_intent?: string | undefined;
 }
 /** Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections. */
 export type CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestConfigMap = {
@@ -2047,29 +2070,36 @@ export interface CreateDataIntegrationsUserManagementControllerUserDataInstallat
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter if the connection is scoped to an organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** A mutable, non-unique connection label; null clears it. Not an account identifier. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested account identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections. */
-  config?: CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestConfigMap;
+  config?:
+    | CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestConfigMap
+    | undefined;
   /** The OAuth access token for the connected account. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The OAuth refresh token for the connected account. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The OAuth scopes granted for this connection. */
-  scopes?: CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestScopesList;
+  scopes?:
+    | CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestScopesList
+    | undefined;
   /** Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided. */
   state?:
     | CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestState
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Provider token-response metadata to preserve during import, such as Salesforce instance_url. Only allowlisted, non-sensitive scalar fields from this provider are accepted, including nested fields. Provider refresh responses can update these values. Not accepted on update. */
-  metadata?: CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestMetadataMap;
+  metadata?:
+    | CreateDataIntegrationsUserManagementControllerUserDataInstallationRequestMetadataMap
+    | undefined;
   /** Set to `add` to create another connected account. Omit this field for permanent compatibility behavior. */
-  connection_intent?: string;
+  connection_intent?: string | undefined;
 }
 export interface CreateFlagTargetsControllerTargetRequest {
   /** The unique slug identifier of the feature flag. */
@@ -2082,9 +2112,9 @@ export interface CreateGroupsControllerRequest {
   /** The ID of the organization. */
   organizationId: string;
   /** The name of the Group. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the Group. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface CreateItContactsControllerRequest {
   /** The ID of the organization. */
@@ -2139,7 +2169,7 @@ export interface ObjectMetadata {
   updated_at: string;
   updated_by: Actor;
   /** Current version identifier of the object. */
-  version_id?: string | null;
+  version_id?: string | null | undefined;
 }
 /** The permission slugs to assign to the API key. */
 export type CreateOrganizationApiKeysControllerRequestPermissionsList = Array<string>;
@@ -2147,11 +2177,11 @@ export interface CreateOrganizationApiKeysControllerRequest {
   /** Unique identifier of the Organization. */
   organizationId: string;
   /** The name for the API key. */
-  name?: string;
+  name?: string | undefined;
   /** The permission slugs to assign to the API key. */
-  permissions?: CreateOrganizationApiKeysControllerRequestPermissionsList;
+  permissions?: CreateOrganizationApiKeysControllerRequestPermissionsList | undefined;
   /** The timestamp when the API key should expire. Must be a future timestamp. If omitted, the key does not expire. */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 /** The entity that owns the API Key. */
 export type OrganizationApiKeyWithValueOwner = ApiKeyOwnerCase0;
@@ -2183,9 +2213,9 @@ export interface OrganizationApiKeyWithValue {
 }
 export interface CreateOrganizationDomainsControllerRequest {
   /** The domain to add to the organization. */
-  domain?: string;
+  domain?: string | undefined;
   /** The ID of the organization to add the domain to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** Verification state of the domain. */
 export type CreateOrganizationDomainsControllerResponseState =
@@ -2206,13 +2236,15 @@ export interface CreateOrganizationDomainsControllerResponse {
   /** Domain for the organization domain. */
   domain: string;
   /** Verification state of the domain. */
-  state?: CreateOrganizationDomainsControllerResponseState;
+  state?: CreateOrganizationDomainsControllerResponseState | undefined;
   /** The prefix used in DNS verification. */
-  verification_prefix?: string;
+  verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string;
+  verification_token?: string | undefined;
   /** Strategy used to verify the domain. */
-  verification_strategy?: CreateOrganizationDomainsControllerResponseVerificationStrategy;
+  verification_strategy?:
+    | CreateOrganizationDomainsControllerResponseVerificationStrategy
+    | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -2224,9 +2256,9 @@ export type CreateOrganizationsControllerRequestDomainsList = Array<string>;
 export type OrganizationDomainDataDtoState = "pending" | "verified";
 export interface OrganizationDomainDataDto {
   /** The domain value. */
-  domain?: string;
+  domain?: string | undefined;
   /** The verification state of the domain. */
-  state?: OrganizationDomainDataDtoState | (string & {});
+  state?: OrganizationDomainDataDtoState | (string & {}) | undefined;
 }
 /** The domains associated with the organization, including verification state. */
 export type CreateOrganizationsControllerRequestDomainDataList = Array<OrganizationDomainDataDto>;
@@ -2234,17 +2266,17 @@ export type CreateOrganizationsControllerRequestDomainDataList = Array<Organizat
 export type CreateOrganizationsControllerRequestMetadataMap = { [key: string]: string | undefined };
 export interface CreateOrganizationsControllerRequest {
   /** The name of the organization. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the organization allows profiles from outside the organization to sign in. */
-  allow_profiles_outside_organization?: boolean;
+  allow_profiles_outside_organization?: boolean | undefined;
   /** The domains associated with the organization. Deprecated in favor of `domain_data`. */
-  domains?: CreateOrganizationsControllerRequestDomainsList;
+  domains?: CreateOrganizationsControllerRequestDomainsList | undefined;
   /** The domains associated with the organization, including verification state. */
-  domain_data?: CreateOrganizationsControllerRequestDomainDataList;
+  domain_data?: CreateOrganizationsControllerRequestDomainDataList | undefined;
   /** Object containing [metadata](/authkit/metadata) key/value pairs associated with the Organization. */
-  metadata?: CreateOrganizationsControllerRequestMetadataMap | null;
+  metadata?: CreateOrganizationsControllerRequestMetadataMap | null | undefined;
   /** An external identifier for the Organization. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 /** Verification state of the domain. */
 export type OrganizationDomainsItemState =
@@ -2265,13 +2297,13 @@ export interface OrganizationDomainsItem {
   /** Domain for the organization domain. */
   domain: string;
   /** Verification state of the domain. */
-  state?: OrganizationDomainsItemState;
+  state?: OrganizationDomainsItemState | undefined;
   /** The prefix used in DNS verification. */
-  verification_prefix?: string;
+  verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string;
+  verification_token?: string | undefined;
   /** Strategy used to verify the domain. */
-  verification_strategy?: OrganizationDomainsItemVerificationStrategy;
+  verification_strategy?: OrganizationDomainsItemVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -2283,25 +2315,25 @@ export type OrganizationDomainsList = Array<OrganizationDomainsItem>;
 export type OrganizationMetadataMap = { [key: string]: string | undefined };
 export interface Organization {
   /** Distinguishes the Organization object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the Organization. */
-  id?: string;
+  id?: string | undefined;
   /** A descriptive name for the Organization. This field does not need to be unique. */
-  name?: string;
+  name?: string | undefined;
   /** List of Organization Domains. */
-  domains?: OrganizationDomainsList;
+  domains?: OrganizationDomainsList | undefined;
   /** Object containing [metadata](/authkit/metadata) key/value pairs associated with the Organization. */
-  metadata?: OrganizationMetadataMap;
+  metadata?: OrganizationMetadataMap | undefined;
   /** The external ID of the Organization. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The Stripe customer ID of the Organization. */
-  stripe_customer_id?: string;
+  stripe_customer_id?: string | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Whether the Organization allows profiles outside of its managed domains. */
-  allow_profiles_outside_organization?: boolean;
+  allow_profiles_outside_organization?: boolean | undefined;
 }
 /** The intent of the Admin Portal. - `sso` - Launch Admin Portal for creating SSO connections - `dsync` - Launch Admin Portal for creating Directory Sync connections - `audit_logs` - Launch Admin Portal for viewing Audit Logs - `log_streams` - Launch Admin Portal for creating Log Streams - `domain_verification` - Launch Admin Portal for Domain Verification - `certificate_renewal` - Launch Admin Portal for renewing SAML Certificates - `bring_your_own_key` - Launch Admin Portal for configuring Bring Your Own Key */
 export type CreatePortalSessionsControllerRequestIntent =
@@ -2316,39 +2348,39 @@ export type CreatePortalSessionsControllerRequestIntent =
 export type CreatePortalSessionsControllerRequestItContactEmailsList = Array<string>;
 export interface CreatePortalSessionsControllerRequest {
   /** The URL to go to when an admin clicks on your logo in the Admin Portal. If not specified, the return URL configured on the [Admin Portal](https://dashboard.workos.com/admin-portal) page will be used. */
-  return_url?: string;
+  return_url?: string | undefined;
   /** The URL to redirect the admin to when they finish setup. If not specified, the success URL configured on the [Admin Portal](https://dashboard.workos.com/admin-portal) page will be used. */
-  success_url?: string;
+  success_url?: string | undefined;
   /** An [Organization](/reference/organization) identifier. */
-  organization?: string;
+  organization?: string | undefined;
   /** The ID of the user in your application the link is generated for. The link and any Admin Portal sessions started from it can later be revoked by this ID, for example when that user is deprovisioned from your application. */
-  external_user_id?: string;
+  external_user_id?: string | undefined;
   /** The intent of the Admin Portal. - `sso` - Launch Admin Portal for creating SSO connections - `dsync` - Launch Admin Portal for creating Directory Sync connections - `audit_logs` - Launch Admin Portal for viewing Audit Logs - `log_streams` - Launch Admin Portal for creating Log Streams - `domain_verification` - Launch Admin Portal for Domain Verification - `certificate_renewal` - Launch Admin Portal for renewing SAML Certificates - `bring_your_own_key` - Launch Admin Portal for configuring Bring Your Own Key */
-  intent?: CreatePortalSessionsControllerRequestIntent | (string & {});
+  intent?: CreatePortalSessionsControllerRequestIntent | (string & {}) | undefined;
   /** The email addresses of the IT contacts to grant access to the Admin Portal for the given organization. Accepts up to 20 emails. */
-  it_contact_emails?: CreatePortalSessionsControllerRequestItContactEmailsList;
+  it_contact_emails?: CreatePortalSessionsControllerRequestItContactEmailsList | undefined;
 }
 export interface PortalLinkResponse {
   /** An ephemeral link to initiate the Admin Portal. */
-  link?: string;
+  link?: string | undefined;
 }
 export interface CreateRedirectUrisControllerRequest {
   /** The redirect URI to create. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface RedirectUri {
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the redirect URI. */
-  id?: string;
+  id?: string | undefined;
   /** The redirect URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** Whether this is the default redirect URI. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The timestamp when the redirect URI was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp when the redirect URI was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateSamlIdpSigningCertificatesControllerRequest {
   /** Unique identifier for the Connection. */
@@ -2440,9 +2472,9 @@ export interface CreateUserApiKeysControllerRequest {
   /** The ID of the organization the user API key is associated with. The user must have an active membership in this organization. */
   organization_id: string;
   /** The permission slugs to assign to the API key. Each permission must be enabled for user API keys. */
-  permissions?: CreateUserApiKeysControllerRequestPermissionsList;
+  permissions?: CreateUserApiKeysControllerRequestPermissionsList | undefined;
   /** The timestamp when the API key should expire. Must be a future timestamp. If omitted, the key does not expire. */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 /** The entity that owns the API Key. */
 export type UserApiKeyWithValueOwner = ApiKeyOwnerCase1;
@@ -2566,51 +2598,51 @@ export type CreateUserlandUserInvitesControllerRequestLocale =
   | "zu";
 export interface CreateUserlandUserInvitesControllerRequest {
   /** The email address of the recipient. */
-  email?: string;
+  email?: string | undefined;
   /** The ID of the [organization](/reference/organization) that the recipient will join. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The [role](/authkit/roles) that the recipient will receive when they join the organization in the invitation. */
-  role_slug?: string;
+  role_slug?: string | undefined;
   /** How many days the invitations will be valid for. Must be between 1 and 30 days. Defaults to 7 days if not specified. */
-  expires_in_days?: number;
+  expires_in_days?: number | undefined;
   /** The ID of the [user](/reference/authkit/user) who invites the recipient. The invitation email will mention the name of this user. */
-  inviter_user_id?: string;
+  inviter_user_id?: string | undefined;
   /** The locale to use when rendering the invitation email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
-  locale?: CreateUserlandUserInvitesControllerRequestLocale | (string & {});
+  locale?: CreateUserlandUserInvitesControllerRequestLocale | (string & {}) | undefined;
 }
 /** The state of the invitation. */
 export type UserlandUserInviteState = "pending" | "accepted" | "expired" | "revoked";
 export interface UserlandUserInvite {
   /** Distinguishes the invitation object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the invitation. */
-  id?: string;
+  id?: string | undefined;
   /** The email address of the recipient. */
-  email?: string;
+  email?: string | undefined;
   /** The state of the invitation. */
-  state?: UserlandUserInviteState;
+  state?: UserlandUserInviteState | undefined;
   /** The timestamp when the invitation was accepted, or null if not yet accepted. */
-  accepted_at?: string | null;
+  accepted_at?: string | null | undefined;
   /** The timestamp when the invitation was revoked, or null if not revoked. */
-  revoked_at?: string | null;
+  revoked_at?: string | null | undefined;
   /** The timestamp when the invitation expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The ID of the [organization](/reference/organization) that the recipient will join. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The ID of the user who invited the recipient, if provided. */
-  inviter_user_id?: string | null;
+  inviter_user_id?: string | null | undefined;
   /** The ID of the user who accepted the invitation, once accepted. */
-  accepted_user_id?: string | null;
+  accepted_user_id?: string | null | undefined;
   /** Slug of the role the invitee will be assigned on acceptance. Reflects the current role on the invitee's organization membership. null when the invitation has no associated organization. */
-  role_slug?: string | null;
+  role_slug?: string | null | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The token used to accept the invitation. */
-  token?: string;
+  token?: string | undefined;
   /** The URL where the recipient can accept the invitation. */
-  accept_invitation_url?: string;
+  accept_invitation_url?: string | undefined;
 }
 /** An array of role identifiers. Limited to one role when Multiple Roles is disabled. Mutually exclusive with `role_slug`. */
 export type CreateUserlandUserOrganizationMembershipsControllerRequestRoleSlugsList = Array<string>;
@@ -2620,9 +2652,9 @@ export interface CreateUserlandUserOrganizationMembershipsControllerRequest {
   /** The ID of the [organization](/reference/organization) which the user belongs to. */
   organization_id: string;
   /** A single role identifier. Defaults to `member` or the explicit default role. Mutually exclusive with `role_slugs`. */
-  role_slug?: string;
+  role_slug?: string | undefined;
   /** An array of role identifiers. Limited to one role when Multiple Roles is disabled. Mutually exclusive with `role_slug`. */
-  role_slugs?: CreateUserlandUserOrganizationMembershipsControllerRequestRoleSlugsList;
+  role_slugs?: CreateUserlandUserOrganizationMembershipsControllerRequestRoleSlugsList | undefined;
 }
 /** The status of the organization membership. One of `active`, `inactive`, or `pending`. */
 export type CreateUserlandUserOrganizationMembershipsControllerResponseStatus =
@@ -2640,33 +2672,33 @@ export type UserlandUserMetadataMap = { [key: string]: string | undefined };
 /** The user object. */
 export interface UserlandUser {
   /** Distinguishes the user object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the user. */
-  id?: string;
+  id?: string | undefined;
   /** The first name of the user. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name of the user. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The user's full name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A URL reference to an image representing the user. */
-  profile_picture_url?: string | null;
+  profile_picture_url?: string | null | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the user's email has been verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** The external ID of the user. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Object containing metadata key/value pairs associated with the user. */
-  metadata?: UserlandUserMetadataMap;
+  metadata?: UserlandUserMetadataMap | undefined;
   /** The timestamp when the user last signed in. */
-  last_sign_in_at?: string | null;
+  last_sign_in_at?: string | null | undefined;
   /** The user's preferred locale. */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateUserlandUserOrganizationMembershipsControllerResponse {
   /** Distinguishes the organization membership object. */
@@ -2682,9 +2714,11 @@ export interface CreateUserlandUserOrganizationMembershipsControllerResponse {
   /** Whether this organization membership is managed by a directory sync connection. */
   directory_managed: boolean;
   /** The name of the organization which the user belongs to. */
-  organization_name?: string;
+  organization_name?: string | undefined;
   /** An object containing IdP-sourced attributes from the linked [Directory User](/reference/directory-sync/directory-user) or [SSO Profile](/reference/sso/profile). Directory User attributes take precedence when both are linked. */
-  custom_attributes?: CreateUserlandUserOrganizationMembershipsControllerResponseCustomAttributesMap;
+  custom_attributes?:
+    | CreateUserlandUserOrganizationMembershipsControllerResponseCustomAttributesMap
+    | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -2706,9 +2740,9 @@ export interface CreateWaitlistsControllerEntryRequest {
   /** The email address of the user joining the waitlist. */
   email: string;
   /** Object containing additional key/value pairs collected with the waitlist entry. Supports up to 50 string pairs, with keys up to 40 characters and values up to 600 characters. Values are user-provided -- treat them as untrusted input when rendering or exporting. */
-  additional_fields?: CreateWaitlistsControllerEntryRequestAdditionalFieldsMap;
+  additional_fields?: CreateWaitlistsControllerEntryRequestAdditionalFieldsMap | undefined;
   /** Whether to send the waitlist confirmation email to the user. Defaults to `false`. No email is sent when the waitlist confirmation email is disabled in the environment, even if `send_confirmation_email` is `true`. */
-  send_confirmation_email?: boolean;
+  send_confirmation_email?: boolean | undefined;
 }
 /** The state of the waitlist entry. */
 export type WaitlistEntryState = "pending" | "approved" | "denied";
@@ -2724,9 +2758,9 @@ export interface WaitlistEntry {
   /** The timestamp when the entry was approved, or null if not yet approved. */
   approved_at: string | null;
   /** Additional fields submitted when the user joined the waitlist. Values are user-provided -- treat them as untrusted input when rendering or exporting. */
-  additional_fields?: WaitlistEntryAdditionalFieldsMap;
+  additional_fields?: WaitlistEntryAdditionalFieldsMap | undefined;
   /** The unique ID of the waitlist the entry belongs to. */
-  waitlist_id?: string | null;
+  waitlist_id?: string | null | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -2854,9 +2888,9 @@ export type CreateWebhookEndpointsControllerRequestEventsList = Array<
 >;
 export interface CreateWebhookEndpointsControllerRequest {
   /** The HTTPS URL where webhooks will be sent. */
-  endpoint_url?: string;
+  endpoint_url?: string | undefined;
   /** The events that the Webhook Endpoint is subscribed to. */
-  events?: CreateWebhookEndpointsControllerRequestEventsList;
+  events?: CreateWebhookEndpointsControllerRequestEventsList | undefined;
 }
 /** Whether the Webhook Endpoint is enabled or disabled. */
 export type WebhookEndpointJsonStatus = "enabled" | "disabled";
@@ -2864,21 +2898,21 @@ export type WebhookEndpointJsonStatus = "enabled" | "disabled";
 export type WebhookEndpointJsonEventsList = Array<string>;
 export interface WebhookEndpointJson {
   /** Distinguishes the Webhook Endpoint object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the Webhook Endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** The URL to which webhooks are sent. */
-  endpoint_url?: string;
+  endpoint_url?: string | undefined;
   /** The secret used to sign webhook payloads. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether the Webhook Endpoint is enabled or disabled. */
-  status?: WebhookEndpointJsonStatus;
+  status?: WebhookEndpointJsonStatus | undefined;
   /** The events that the Webhook Endpoint is subscribed to. */
-  events?: WebhookEndpointJsonEventsList;
+  events?: WebhookEndpointJsonEventsList | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface DataIntegrationsControllerFinishConnectionRequest {
   /** The `connect_code` WorkOS added to `return_to` when the user finished authorizing. It can be used once and expires 90 seconds after the redirect. */
@@ -2886,7 +2920,7 @@ export interface DataIntegrationsControllerFinishConnectionRequest {
   /** The code verifier `code_challenge` was derived from: 43 to 128 characters from `A-Z`, `a-z`, `0-9`, `-`, `.`, `_` and `~`. A wrong verifier uses up the `connect_code`, and the user has to connect again. */
   code_verifier: string;
   /** The `state` WorkOS added to `return_to` alongside `connect_code`. Optional; it is only used to correlate the request in logs. */
-  state?: string;
+  state?: string | undefined;
 }
 export interface DataIntegrationFinishConnectionResponse {
   /** The connected account that was saved. */
@@ -2908,37 +2942,39 @@ export interface DataIntegrationsControllerGetDataIntegrationAuthorizeUrlRequest
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** A mutable, non-unique label. Omit to preserve an existing label; null clears it. Labels are never account identifiers. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** The ID of the user to authorize. When `connection_owner` is `organization`, this is the user authorizing on behalf of the organization; they must be an active member of the organization and do not become the owner of the resulting connected account. */
   user_id: string;
   /** An organization ID to scope the authorization to a specific organization. Required when `connection_owner` is `organization`. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Who will own the connected account. `user` (the default) connects the user's own account. `organization` connects the organization's shared account and requires `organization_id`. */
   connection_owner?:
     | DataIntegrationsControllerGetDataIntegrationAuthorizeUrlRequestConnectionOwner
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The URL to redirect the user to after authorization. Required with `code_challenge`, and must then exactly match a redirect URI registered on one of the environment's applications. Loopback URLs match on any port; wildcard redirect URIs are not honored, and a `return_to` with a query string or fragment never matches. */
-  return_to?: string;
+  return_to?: string | undefined;
   /** A PKCE-style code challenge: the base64url-encoded SHA-256 of a `code_verifier` your app keeps. When set, the connection isn't saved when the user finishes authorizing. Instead, the user is redirected to `return_to` with a `connect_code` and `state`, and your app must call [Finish connection](/reference/pipes/connected-account/finish-connection) with the `connect_code` and `code_verifier` within 90 seconds to save it. */
-  code_challenge?: string;
+  code_challenge?: string | undefined;
   /** The method used to derive `code_challenge`. Only `S256` is supported, and it is the default. Requires `code_challenge`. */
-  code_challenge_method?: string;
+  code_challenge_method?: string | undefined;
   /** Connect-time config values for the provider-declared `installation`-scope fields (e.g. a Zendesk `subdomain`), keyed by the config field. Only fields the provider declares may be supplied, and required fields must be provided unless already pinned on the integration. */
-  config?: DataIntegrationsControllerGetDataIntegrationAuthorizeUrlRequestConfigMap;
+  config?: DataIntegrationsControllerGetDataIntegrationAuthorizeUrlRequestConfigMap | undefined;
   /** Which connection the request targets. Omit it to use the compatibility connection. Send `add` to create another connection: the first connection for an owner shape fills the compatibility slot, and later connections are standard. Send `reauthorize` with `connected_account_id` to reauthorize one exact connection. */
   connection_intent?:
     | DataIntegrationsControllerGetDataIntegrationAuthorizeUrlRequestConnectionIntent
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The exact connected account to reauthorize. Required with `connection_intent: reauthorize` and not accepted otherwise. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
 }
 export interface DataIntegrationAuthorizeUrlResponse {
   /** The OAuth authorization URL to redirect the user to. */
-  url?: string;
+  url?: string | undefined;
   /** Identifies this authorization. WorkOS adds it to `return_to` alongside `connect_code` or `error`. Store it in the user's session with the `code_verifier` and compare it when the user returns. */
   state: string;
   /** `finish_required` when the request included `code_challenge`: the connection will be held until your app finishes it. Omitted otherwise. If you sent `code_challenge` and this is missing, don't redirect the user. */
-  completion?: string;
+  completion?: string | undefined;
 }
 /** Which connection to vend from. `user` (the default) vends the user's own connection and requires `user_id`. `organization` vends the organization's shared connection and requires `organization_id`. */
 export type DataIntegrationsControllerVendCredentialsRequestConnectionOwner =
@@ -2950,15 +2986,16 @@ export interface DataIntegrationsControllerVendCredentialsRequest {
   /** A [User](/reference/authkit/user) identifier. When `connection_owner` is `organization`, this is the user the credentials are vended on behalf of; they must be an active member of the organization. */
   user_id: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
   /** Which connection to vend from. `user` (the default) vends the user's own connection and requires `user_id`. `organization` vends the organization's shared connection and requires `organization_id`. */
   connection_owner?:
     | DataIntegrationsControllerVendCredentialsRequestConnectionOwner
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Set to `true` to use the plural connection contract. If no `connected_account_id` is supplied and several connections match, the request returns `account_selection_required`. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
 }
 /** The scopes granted to the access token. Present for `oauth` and `client_credentials` credentials; absent for `api_key`. */
 export type DataIntegrationVendedCredentialCase0ScopesList = Array<string>;
@@ -3082,9 +3119,11 @@ export interface DeactivateUserlandUserOrganizationMembershipsControllerResponse
   /** Whether this organization membership is managed by a directory sync connection. */
   directory_managed: boolean;
   /** The name of the organization which the user belongs to. */
-  organization_name?: string;
+  organization_name?: string | undefined;
   /** An object containing IdP-sourced attributes from the linked [Directory User](/reference/directory-sync/directory-user) or [SSO Profile](/reference/sso/profile). Directory User attributes take precedence when both are linked. */
-  custom_attributes?: DeactivateUserlandUserOrganizationMembershipsControllerResponseCustomAttributesMap;
+  custom_attributes?:
+    | DeactivateUserlandUserOrganizationMembershipsControllerResponseCustomAttributesMap
+    | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -3161,14 +3200,14 @@ export interface DeleteAuthorizationResourcesByExternalIdControllerByExternalIdR
   /** An identifier you provide to reference the resource in your system. */
   external_id: string;
   /** If true, deletes all descendant resources and role assignments. If not set and the resource has children or assignments, the request will fail. */
-  cascade_delete?: boolean;
+  cascade_delete?: boolean | undefined;
 }
 export interface DeleteAuthorizationResourcesByExternalIdControllerByExternalIdResponse {}
 export interface DeleteAuthorizationResourcesControllerRequest {
   /** The ID of the authorization resource. */
   resource_id: string;
   /** If true, deletes all descendant resources and role assignments. If not set and the resource has children or assignments, the request will fail. */
-  cascade_delete?: boolean;
+  cascade_delete?: boolean | undefined;
 }
 export interface DeleteAuthorizationResourcesControllerResponse {}
 export interface DeleteAuthorizedApplicationsControllerRequest {
@@ -3199,9 +3238,9 @@ export interface DeleteDataIntegrationsOrganizationControllerOrganizationDataIns
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select the connection to delete. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
 }
 export interface DeleteDataIntegrationsOrganizationControllerOrganizationDataInstallationResponse {}
 export interface DeleteDataIntegrationsUserManagementControllerUserDataInstallationRequest {
@@ -3210,11 +3249,11 @@ export interface DeleteDataIntegrationsUserManagementControllerUserDataInstallat
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter if the connection is scoped to an organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select the connection to delete. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
 }
 export interface DeleteDataIntegrationsUserManagementControllerUserDataInstallationResponse {}
 export interface DeleteDirectoriesControllerDirectoryRequest {
@@ -3247,7 +3286,7 @@ export interface DeleteJumpWireWebDataVaultControllerRequest {
   /** Unique identifier of the object. */
   id: string;
   /** Expected current version for optimistic locking. */
-  version_check?: string;
+  version_check?: string | undefined;
 }
 export interface DeleteObjectResponse {
   /** Name of the deleted object. */
@@ -3368,27 +3407,27 @@ export interface DirectoryMetadata {
 }
 export interface Directory {
   /** Distinguishes the Directory object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the Directory. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the Organization in which the directory resides. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** External Key for the Directory. */
-  external_key?: string;
+  external_key?: string | undefined;
   /** The type of external Directory Provider integrated with. */
-  type?: DirectoryType;
+  type?: DirectoryType | undefined;
   /** Describes whether the Directory has been successfully connected to an external provider. */
-  state?: DirectoryState;
+  state?: DirectoryState | undefined;
   /** The name of the directory. */
-  name?: string;
+  name?: string | undefined;
   /** The URL associated with an Enterprise Client. */
-  domain?: string;
+  domain?: string | undefined;
   /** Aggregate counts of directory users and groups synced from the provider. */
-  metadata?: DirectoryMetadata;
+  metadata?: DirectoryMetadata | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface DirectoryGroupsControllerFindRequest {
   /** Unique identifier for the Directory Group. */
@@ -3398,23 +3437,23 @@ export interface DirectoryGroupsControllerFindRequest {
 export type DirectoryGroupRawAttributesMap = { [key: string]: unknown | undefined };
 export interface DirectoryGroup {
   /** Distinguishes the Directory Group object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the Directory Group. */
-  id?: string;
+  id?: string | undefined;
   /** Unique identifier for the group, assigned by the Directory Provider. Different Directory Providers use different ID formats. */
-  idp_id?: string;
+  idp_id?: string | undefined;
   /** The identifier of the Directory the Directory Group belongs to. */
-  directory_id?: string;
+  directory_id?: string | undefined;
   /** The identifier for the Organization in which the Directory resides. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The name of the Directory Group. */
-  name?: string;
+  name?: string | undefined;
   /** The raw attributes received from the directory provider. */
-  raw_attributes?: DirectoryGroupRawAttributesMap;
+  raw_attributes?: DirectoryGroupRawAttributesMap | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface DirectoryUsersControllerFindRequest {
   /** Unique identifier for the Directory User. */
@@ -3422,11 +3461,11 @@ export interface DirectoryUsersControllerFindRequest {
 }
 export interface DirectoryUserWithGroupsEmailsItem {
   /** Whether this is the primary email address. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The type of email address. */
-  type?: string;
+  type?: string | undefined;
   /** The email address value. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** A list of email addresses for the user. */
 export type DirectoryUserWithGroupsEmailsList = Array<DirectoryUserWithGroupsEmailsItem>;
@@ -3442,44 +3481,44 @@ export type DirectoryUserWithGroupsRolesList = Array<SlimRole>;
 export type DirectoryUserWithGroupsGroupsList = Array<DirectoryGroup>;
 export interface DirectoryUserWithGroups {
   /** Distinguishes the Directory User object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the Directory User. */
-  id?: string;
+  id?: string | undefined;
   /** The identifier of the Directory the Directory User belongs to. */
-  directory_id?: string;
+  directory_id?: string | undefined;
   /** The identifier for the Organization in which the Directory resides. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Unique identifier for the user, assigned by the Directory Provider. Different Directory Providers use different ID formats. */
-  idp_id?: string;
+  idp_id?: string | undefined;
   /** The email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The first name of the user. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name of the user. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The full name of the user. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of email addresses for the user. */
-  emails?: DirectoryUserWithGroupsEmailsList;
+  emails?: DirectoryUserWithGroupsEmailsList | undefined;
   /** The job title of the user. */
-  job_title?: string | null;
+  job_title?: string | null | undefined;
   /** The username of the user. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** The state of the user. */
-  state?: DirectoryUserWithGroupsState;
+  state?: DirectoryUserWithGroupsState | undefined;
   /** The raw attributes received from the directory provider. */
-  raw_attributes?: DirectoryUserWithGroupsRawAttributesMap;
+  raw_attributes?: DirectoryUserWithGroupsRawAttributesMap | undefined;
   /** An object containing the custom attribute mapping for the Directory Provider. */
-  custom_attributes?: DirectoryUserWithGroupsCustomAttributesMap;
-  role?: SlimRole;
+  custom_attributes?: DirectoryUserWithGroupsCustomAttributesMap | undefined;
+  role?: SlimRole | undefined;
   /** All roles assigned to the user. */
-  roles?: DirectoryUserWithGroupsRolesList;
+  roles?: DirectoryUserWithGroupsRolesList | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The directory groups the user belongs to. Deprecated: starting May 1, 2026, this field returns an empty array by default for newly created teams. Existing teams currently depending on this field should migrate to the new access pattern for better throughput performance -- the field is unbounded by user, so users with many group memberships produce large, slow response payloads. Use the List Directory Groups endpoint with a `user` filter to fetch a user's group memberships. */
-  groups?: DirectoryUserWithGroupsGroupsList;
+  groups?: DirectoryUserWithGroupsGroupsList | undefined;
 }
 export interface DisableFeatureFlagsControllerFlagRequest {
   /** A unique key to reference the Feature Flag. */
@@ -3564,27 +3603,27 @@ export type FlagOwner = DisableFeatureFlagsControllerFlagResponseOwner;
 export type FlagTagsList = Array<string>;
 export interface Flag {
   /** Distinguishes the Feature Flag object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the Feature Flag. */
-  id?: string;
+  id?: string | undefined;
   /** A unique key to reference the Feature Flag. */
-  slug?: string;
+  slug?: string | undefined;
   /** A descriptive name for the Feature Flag. This field does not need to be unique. */
-  name?: string;
+  name?: string | undefined;
   /** A description for the Feature Flag. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The owner of the Feature Flag. */
-  owner?: DisableFeatureFlagsControllerFlagResponseOwner | null;
+  owner?: DisableFeatureFlagsControllerFlagResponseOwner | null | undefined;
   /** Labels assigned to the Feature Flag for categorizing and filtering. */
-  tags?: FlagTagsList;
+  tags?: FlagTagsList | undefined;
   /** Specifies whether the Feature Flag is active for the current environment. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The value returned for users and organizations who don't match any configured targeting rules. */
-  default_value?: boolean;
+  default_value?: boolean | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetAgentAdminControllerRegistrationRequest {
   /** The unique ID of the agent registration. */
@@ -3718,21 +3757,21 @@ export interface AuthenticationFactorTotp {
 }
 export interface AuthenticationFactor {
   /** Distinguishes the authentication factor object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the factor. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the factor to enroll. */
-  type?: AuthenticationFactorType;
+  type?: AuthenticationFactorType | undefined;
   /** The ID of the [user](/reference/authkit/user). */
-  user_id?: string;
+  user_id?: string | undefined;
   /** SMS-based authentication factor details. */
-  sms?: AuthenticationFactorEnrolledSms;
+  sms?: AuthenticationFactorEnrolledSms | undefined;
   /** TOTP-based authentication factor details. */
-  totp?: AuthenticationFactorTotp;
+  totp?: AuthenticationFactorTotp | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetAuthorizationGroupRoleAssignmentsControllerRequest {
   /** The ID of the group. */
@@ -3792,25 +3831,25 @@ export type RoleType = "EnvironmentRole" | "OrganizationRole";
 export type RolePermissionsList = Array<string>;
 export interface Role {
   /** A unique slug for the role. */
-  slug?: string;
+  slug?: string | undefined;
   /** Distinguishes the role object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the role. */
-  id?: string;
+  id?: string | undefined;
   /** A descriptive name for the role. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the role. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the role is scoped to the environment or an organization (custom role). */
-  type?: RoleType;
+  type?: RoleType | undefined;
   /** The slug of the resource type the role is scoped to. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
   /** The permission slugs assigned to the role. */
-  permissions?: RolePermissionsList;
+  permissions?: RolePermissionsList | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Which connection to vend from. `user` (the default) vends the user's own connection and requires `user_id`. `organization` vends the organization's shared connection and requires `organization_id`. */
 export type GetDataIntegrationsControllerUserlandUserTokenRequestConnectionOwner =
@@ -3822,15 +3861,16 @@ export interface GetDataIntegrationsControllerUserlandUserTokenRequest {
   /** A [User](/reference/authkit/user) identifier. When `connection_owner` is `organization`, this is the user the credentials are vended on behalf of; they must be an active member of the organization. */
   user_id: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
   /** Which connection to vend from. `user` (the default) vends the user's own connection and requires `user_id`. `organization` vends the organization's shared connection and requires `organization_id`. */
   connection_owner?:
     | GetDataIntegrationsControllerUserlandUserTokenRequestConnectionOwner
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Set to `true` to use the plural connection contract. If no `connected_account_id` is supplied and several connections match, the request returns `account_selection_required`. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
 }
 /** The scopes granted to the access token. */
 export type DataIntegrationAccessTokenResponseCase0AccessTokenScopesList = Array<string>;
@@ -3884,15 +3924,15 @@ export interface GetDataIntegrationsOrganizationControllerOrganizationDataInstal
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select a specific connection when the organization has several for this provider. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
 }
 export interface GetDataIntegrationsOrganizationControllerOrganizationDataIntegrationsRequest {
   /** An [Organization](/reference/organization) identifier to list providers and connected accounts for. */
   organization_id: string;
   /** Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
 }
 export type DataIntegrationsListResponseDataItemScopesList = Array<string>;
 export type DataIntegrationsListResponseDataItemAuthMethodsItem =
@@ -3949,27 +3989,27 @@ export interface DataIntegrationsListResponseDataItemConnectedAccount {
   /** The OAuth scopes granted for this connection. */
   scopes: DataIntegrationsListResponseDataItemConnectedAccountScopesList;
   /** The authentication method used for this connection (`oauth`, `api_key`, or `client_credentials`). Defaults to `oauth` if absent. */
-  auth_method?: DataIntegrationsListResponseDataItemConnectedAccountAuthMethod;
+  auth_method?: DataIntegrationsListResponseDataItemConnectedAccountAuthMethod | undefined;
   /** The last four characters of the API key, or `null` for OAuth connections. */
-  api_key_last_4?: string | null;
+  api_key_last_4?: string | null | undefined;
   /** The client ID supplied for this connection. Only present when `auth_method` is `client_credentials`. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** The last four characters of the client secret supplied for this connection, or `null` when it can't be read. Only present when `auth_method` is `client_credentials`. */
-  client_secret_last_4?: string | null;
+  client_secret_last_4?: string | null | undefined;
   /** The connection-level configuration values stored for this connection -- the fields the provider declares at `installation` scope, excluding secret and undeclared fields. Returned for every authentication method; empty when no stored values can be disclosed. */
-  config?: DataIntegrationsListResponseDataItemConnectedAccountConfigMap;
+  config?: DataIntegrationsListResponseDataItemConnectedAccountConfigMap | undefined;
   /** The state of the connected account: - `connected`: The connection is active and tokens are valid. - `needs_reauthorization`: The user needs to reauthorize the connection, typically because required scopes have changed. `state_reason` explains why when WorkOS invalidated the connection itself. - `disconnected`: The connection has been disconnected. */
   state: DataIntegrationsListResponseDataItemConnectedAccountState;
   /** The [User](/reference/authkit/user) whose authorization established this connection. `null` when the connection is developer-managed or its establisher is unknown, and when the establishing member lost access to the organization -- in which case `state_reason` is `establishing_member_membership_ended`. */
-  established_by_user_id?: string | null;
+  established_by_user_id?: string | null | undefined;
   /** Why WorkOS put the connection in its current `state`, or `null` when there is no WorkOS-recorded reason: - `establishing_member_membership_ended`: The member who established this organization-owned connection is no longer an active member of the organization, so its credentials were cleared. An organization admin must provide new credentials. Additional values may be added; treat an unrecognized value as an unknown reason. */
-  state_reason?: string | null;
+  state_reason?: string | null | undefined;
   /** The timestamp when the connection was created. */
   created_at: string;
   /** The timestamp when the connection was last updated. */
   updated_at: string;
   /** Non-blocking warnings about an explicitly supplied label. Only writes return it, and only when another connection already uses the label; reads omit it. */
-  warnings?: DataIntegrationsListResponseDataItemConnectedAccountWarningsList;
+  warnings?: DataIntegrationsListResponseDataItemConnectedAccountWarningsList | undefined;
   /** Use `user_id` instead. */
   userlandUserId: string | null;
   /** Use `organization_id` instead. */
@@ -4022,27 +4062,27 @@ export interface DataIntegrationsListResponseDataItemConnectedAccountsItem {
   /** The OAuth scopes granted for this connection. */
   scopes: DataIntegrationsListResponseDataItemConnectedAccountsItemScopesList;
   /** The authentication method used for this connection (`oauth`, `api_key`, or `client_credentials`). Defaults to `oauth` if absent. */
-  auth_method?: DataIntegrationsListResponseDataItemConnectedAccountsItemAuthMethod;
+  auth_method?: DataIntegrationsListResponseDataItemConnectedAccountsItemAuthMethod | undefined;
   /** The last four characters of the API key, or `null` for OAuth connections. */
-  api_key_last_4?: string | null;
+  api_key_last_4?: string | null | undefined;
   /** The client ID supplied for this connection. Only present when `auth_method` is `client_credentials`. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** The last four characters of the client secret supplied for this connection, or `null` when it can't be read. Only present when `auth_method` is `client_credentials`. */
-  client_secret_last_4?: string | null;
+  client_secret_last_4?: string | null | undefined;
   /** The connection-level configuration values stored for this connection -- the fields the provider declares at `installation` scope, excluding secret and undeclared fields. Returned for every authentication method; empty when no stored values can be disclosed. */
-  config?: DataIntegrationsListResponseDataItemConnectedAccountsItemConfigMap;
+  config?: DataIntegrationsListResponseDataItemConnectedAccountsItemConfigMap | undefined;
   /** The state of the connected account: - `connected`: The connection is active and tokens are valid. - `needs_reauthorization`: The user needs to reauthorize the connection, typically because required scopes have changed. `state_reason` explains why when WorkOS invalidated the connection itself. - `disconnected`: The connection has been disconnected. */
   state: DataIntegrationsListResponseDataItemConnectedAccountsItemState;
   /** The [User](/reference/authkit/user) whose authorization established this connection. `null` when the connection is developer-managed or its establisher is unknown, and when the establishing member lost access to the organization -- in which case `state_reason` is `establishing_member_membership_ended`. */
-  established_by_user_id?: string | null;
+  established_by_user_id?: string | null | undefined;
   /** Why WorkOS put the connection in its current `state`, or `null` when there is no WorkOS-recorded reason: - `establishing_member_membership_ended`: The member who established this organization-owned connection is no longer an active member of the organization, so its credentials were cleared. An organization admin must provide new credentials. Additional values may be added; treat an unrecognized value as an unknown reason. */
-  state_reason?: string | null;
+  state_reason?: string | null | undefined;
   /** The timestamp when the connection was created. */
   created_at: string;
   /** The timestamp when the connection was last updated. */
   updated_at: string;
   /** Non-blocking warnings about an explicitly supplied label. Only writes return it, and only when another connection already uses the label; reads omit it. */
-  warnings?: DataIntegrationsListResponseDataItemConnectedAccountsItemWarningsList;
+  warnings?: DataIntegrationsListResponseDataItemConnectedAccountsItemWarningsList | undefined;
   /** Use `user_id` instead. */
   userlandUserId: string | null;
   /** Use `organization_id` instead. */
@@ -4073,7 +4113,7 @@ export interface DataIntegrationsListResponseDataItem {
   /** The OAuth scopes configured for this provider, or `null` if none are configured. */
   scopes: DataIntegrationsListResponseDataItemScopesList | null;
   /** The authentication methods supported by this provider (`oauth`, `api_key`, `client_credentials`, or a combination). Defaults to `["oauth"]` if absent. */
-  auth_methods?: DataIntegrationsListResponseDataItemAuthMethodsList;
+  auth_methods?: DataIntegrationsListResponseDataItemAuthMethodsList | undefined;
   /** Who owns connections made through this provider: `user` for connections owned by individual users, or `organization` for a connection shared by every member of the organization. A provider row can exist before any connected account does. */
   connection_owner: DataIntegrationsListResponseDataItemConnectionOwner;
   /** Use `connection_owner` instead. Legacy spelling of the same value: `userland_user` corresponds to `connection_owner: "user"` and `organization` to `connection_owner: "organization"`. */
@@ -4099,9 +4139,9 @@ export interface DataIntegrationsListResponseDataItem {
 export type DataIntegrationsListResponseDataList = Array<DataIntegrationsListResponseDataItem>;
 export interface DataIntegrationsListResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** A list of [providers](/reference/pipes/provider), each including the legacy `connected_account` field and the additive `connected_accounts` collection. */
-  data?: DataIntegrationsListResponseDataList;
+  data?: DataIntegrationsListResponseDataList | undefined;
 }
 export interface GetDataIntegrationsUserManagementControllerUserDataInstallationRequest {
   /** A [User](/reference/authkit/user) identifier. */
@@ -4109,19 +4149,19 @@ export interface GetDataIntegrationsUserManagementControllerUserDataInstallation
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter if the connection is scoped to an organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select a specific connection when the user has several for this provider. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
 }
 export interface GetDataIntegrationsUserManagementControllerUserDataIntegrationsRequest {
   /** A [User](/reference/authkit/user) identifier to list providers and connected accounts for. */
   user_id: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter to filter connections for a specific organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Set to `true` to use the plural connection contract. When omitted or `false`, only the compatibility connection is considered. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
 }
 export interface GetGroupsControllerRequest {
   /** The ID of the organization. */
@@ -4155,25 +4195,25 @@ export type OrganizationDomainStandAloneState =
 export type OrganizationDomainStandAloneVerificationStrategy = "dns" | "manual";
 export interface OrganizationDomainStandAlone {
   /** Distinguishes the organization domain object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the organization domain. */
-  id?: string;
+  id?: string | undefined;
   /** ID of the parent Organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Domain for the organization domain. */
-  domain?: string;
+  domain?: string | undefined;
   /** Verification state of the domain. */
-  state?: OrganizationDomainStandAloneState;
+  state?: OrganizationDomainStandAloneState | undefined;
   /** The prefix used in DNS verification. */
-  verification_prefix?: string;
+  verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string;
+  verification_token?: string | undefined;
   /** Strategy used to verify the domain. */
-  verification_strategy?: OrganizationDomainStandAloneVerificationStrategy;
+  verification_strategy?: OrganizationDomainStandAloneVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface GetOrganizationsControllerAuditLogConfigurationRequest {
   /** Unique identifier of the Organization. */
@@ -4207,13 +4247,13 @@ export interface AuditLogConfigurationLogStream {
 }
 export interface AuditLogConfiguration {
   /** Unique identifier of the Organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The number of days Audit Log events will be retained before being permanently deleted. */
-  retention_period_in_days?: number;
+  retention_period_in_days?: number | undefined;
   /** The current state of the audit log configuration for the organization. */
-  state?: AuditLogConfigurationState;
+  state?: AuditLogConfigurationState | undefined;
   /** The Audit Log Stream currently configured for the organization, if any. */
-  log_stream?: AuditLogConfigurationLogStream;
+  log_stream?: AuditLogConfigurationLogStream | undefined;
 }
 export interface GetOrganizationsControllerByExternalIdRequest {
   /** The external ID of the Organization. */
@@ -4309,35 +4349,35 @@ export type ProfileCustomAttributesMap = { [key: string]: unknown | undefined };
 export type ProfileRawAttributesMap = { [key: string]: unknown | undefined };
 export interface Profile {
   /** Distinguishes the profile object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the profile. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the organization the user belongs to. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The ID of the SSO connection used for authentication. */
-  connection_id?: string;
+  connection_id?: string | undefined;
   /** The type of SSO connection. */
-  connection_type?: ProfileConnectionType;
+  connection_type?: ProfileConnectionType | undefined;
   /** The user's unique identifier from the identity provider. */
-  idp_id?: string;
+  idp_id?: string | undefined;
   /** The user's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The user's first name. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The user's last name. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The user's full name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The role assigned to the user within the organization, if applicable. */
-  role?: SlimRole | null;
+  role?: SlimRole | null | undefined;
   /** The roles assigned to the user within the organization, if applicable. */
-  roles?: ProfileRolesList | null;
+  roles?: ProfileRolesList | null | undefined;
   /** The groups the user belongs to, as returned by the identity provider. */
-  groups?: ProfileGroupsList;
+  groups?: ProfileGroupsList | undefined;
   /** Custom attribute mappings defined for the connection, returned as key-value pairs. */
-  custom_attributes?: ProfileCustomAttributesMap;
+  custom_attributes?: ProfileCustomAttributesMap | undefined;
   /** The complete set of raw attributes returned by the identity provider. */
-  raw_attributes?: ProfileRawAttributesMap;
+  raw_attributes?: ProfileRawAttributesMap | undefined;
 }
 export interface GetTeamsControllerTeamRequest {
   /** The ID of the team. */
@@ -4349,21 +4389,21 @@ export interface GetUserlandMagicAuthControllerRequest {
 }
 export interface MagicAuth {
   /** Distinguishes the Magic Auth object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the Magic Auth code. */
-  id?: string;
+  id?: string | undefined;
   /** The unique ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The timestamp when the Magic Auth code expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The code used to verify the Magic Auth code. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface GetUserlandUserIdentitiesControllerRequest {
   /** The unique ID of the user. */
@@ -4418,31 +4458,31 @@ export type UserlandUserOrganizationMembershipCustomAttributesMap = {
 export type UserlandUserOrganizationMembershipRolesList = Array<SlimRole>;
 export interface UserlandUserOrganizationMembership {
   /** Distinguishes the organization membership object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the organization membership. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The ID of the organization which the user belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The status of the organization membership. One of `active`, `inactive`, or `pending`. */
-  status?: UserlandUserOrganizationMembershipStatus;
+  status?: UserlandUserOrganizationMembershipStatus | undefined;
   /** Whether this organization membership is managed by a directory sync connection. */
-  directory_managed?: boolean;
+  directory_managed?: boolean | undefined;
   /** The name of the organization which the user belongs to. */
-  organization_name?: string;
+  organization_name?: string | undefined;
   /** An object containing IdP-sourced attributes from the linked [Directory User](/reference/directory-sync/directory-user) or [SSO Profile](/reference/sso/profile). Directory User attributes take precedence when both are linked. */
-  custom_attributes?: UserlandUserOrganizationMembershipCustomAttributesMap;
+  custom_attributes?: UserlandUserOrganizationMembershipCustomAttributesMap | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The primary role assigned to the user within the organization. */
-  role?: SlimRole;
+  role?: SlimRole | undefined;
   /** The list of roles assigned to the user within the organization. */
-  roles?: UserlandUserOrganizationMembershipRolesList;
+  roles?: UserlandUserOrganizationMembershipRolesList | undefined;
   /** The user that belongs to the organization through this membership. */
-  user?: UserlandUser;
+  user?: UserlandUser | undefined;
 }
 export interface GetUserlandUsersControllerByExternalIdRequest {
   /** The external ID of the user. */
@@ -4454,21 +4494,21 @@ export interface GetUserlandUsersControllerEmailVerificationRequest {
 }
 export interface EmailVerification {
   /** Distinguishes the email verification object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the email verification code. */
-  id?: string;
+  id?: string | undefined;
   /** The unique ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The timestamp when the email verification code expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The code used to verify the email. */
-  code?: string;
+  code?: string | undefined;
 }
 export type InviteItContactsControllerRequestIntentsItem =
   | "sso"
@@ -4492,17 +4532,17 @@ export interface InviteItContactsControllerResponse {}
 export type JumpWireWebDataVaultControllerIndexRequestOrder = "asc" | "desc";
 export interface JumpWireWebDataVaultControllerIndexRequest {
   /** Upper limit on the number of objects to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor for the previous page of results. */
-  before?: string;
+  before?: string | undefined;
   /** Cursor for the next page of results. */
-  after?: string;
+  after?: string | undefined;
   /** Sort direction for results. */
-  order?: JumpWireWebDataVaultControllerIndexRequestOrder | (string & {});
+  order?: JumpWireWebDataVaultControllerIndexRequestOrder | (string & {}) | undefined;
   /** Filter results by name or structured search JSON. */
-  search?: string;
+  search?: string | undefined;
   /** ISO 8601 timestamp to filter by last modified time. */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
 }
 /** Summary of an encrypted object returned in list responses. */
 export interface ObjectSummary {
@@ -4511,16 +4551,16 @@ export interface ObjectSummary {
   /** Unique name of the object. */
   name: string;
   /** Timestamp of the last update. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 /** List of object summaries. */
 export type ObjectListResponseDataList = Array<ObjectSummary>;
 /** Cursor-based pagination metadata. */
 export interface ListMetadata {
   /** Cursor for the next page of results. */
-  after?: string | null;
+  after?: string | null | undefined;
   /** Cursor for the previous page of results. */
-  before?: string | null;
+  before?: string | null | undefined;
 }
 export interface ObjectListResponse {
   /** List of object summaries. */
@@ -4599,13 +4639,13 @@ export interface JumpWireWebKeyControllerRekeyRequest {
 }
 export interface ListAgentBlueprintsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListAgentBlueprintsControllerResponseListMetadata =
@@ -4614,25 +4654,25 @@ export type ListAgentBlueprintsControllerResponseListMetadata =
 export type ListAgentBlueprintsControllerResponseDataList = Array<AgentBlueprint>;
 export interface ListAgentBlueprintsControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListAgentBlueprintsControllerResponseDataList;
+  data?: ListAgentBlueprintsControllerResponseDataList | undefined;
 }
 export interface ListAgentInstancesControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Only return instances acting within this organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Only return instances minted from this blueprint. */
-  agent_blueprint_id?: string;
+  agent_blueprint_id?: string | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListAgentInstancesControllerResponseListMetadata =
@@ -4641,27 +4681,27 @@ export type ListAgentInstancesControllerResponseListMetadata =
 export type ListAgentInstancesControllerResponseDataList = Array<AgentInstance>;
 export interface ListAgentInstancesControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListAgentInstancesControllerResponseDataList;
+  data?: ListAgentInstancesControllerResponseDataList | undefined;
 }
 export interface ListAgentInstanceSessionsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Only return sessions of instances acting within this organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Only return sessions of instances minted from this blueprint. */
-  agent_blueprint_id?: string;
+  agent_blueprint_id?: string | undefined;
   /** Only return sessions belonging to this agent instance. */
-  agent_instance_id?: string;
+  agent_instance_id?: string | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListAgentInstanceSessionsControllerResponseListMetadata =
@@ -4670,11 +4710,11 @@ export type ListAgentInstanceSessionsControllerResponseListMetadata =
 export type ListAgentInstanceSessionsControllerResponseDataList = Array<AgentInstanceSession>;
 export interface ListAgentInstanceSessionsControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListAgentInstanceSessionsControllerResponseDataList;
+  data?: ListAgentInstanceSessionsControllerResponseDataList | undefined;
 }
 export interface ListApplicationCredentialsControllerRequest {
   /** The application ID or client ID of the Connect Application. */
@@ -4704,17 +4744,17 @@ export type ListApplicationsControllerRequestRegistrationTypesList = Array<
 >;
 export interface ListApplicationsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter Connect Applications by registration type. Specify multiple as a comma-separated list (e.g. `registration_types=dynamic,authenticated`). Defaults to `authenticated` only when not specified. */
-  registration_types?: ListApplicationsControllerRequestRegistrationTypesList;
+  registration_types?: ListApplicationsControllerRequestRegistrationTypesList | undefined;
   /** Filter Connect Applications by organization ID. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** The scopes available for this application. */
 export type ConnectApplicationScopesList = Array<string>;
@@ -4742,19 +4782,19 @@ export interface ConnectApplication {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The type of the application. */
-  application_type?: string;
+  application_type?: string | undefined;
   /** The redirect URIs configured for this application. */
-  redirect_uris?: ConnectApplicationRedirectUrisList;
+  redirect_uris?: ConnectApplicationRedirectUrisList | undefined;
   /** The CORS origins allowed to call the OAuth token endpoint for this application from a browser. */
-  cors_origins?: ConnectApplicationCorsOriginsList;
+  cors_origins?: ConnectApplicationCorsOriginsList | undefined;
   /** Whether the application uses PKCE for authorization. */
-  uses_pkce?: boolean;
+  uses_pkce?: boolean | undefined;
   /** Whether the application is a first-party application. */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether the application was dynamically registered. */
-  was_dynamically_registered?: boolean;
+  was_dynamically_registered?: boolean | undefined;
   /** The ID of the organization the application belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** The list of records for the current page. */
 export type ConnectApplicationListDataList = Array<ConnectApplication>;
@@ -4763,56 +4803,56 @@ export type ConnectApplicationListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface ConnectApplicationList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: ConnectApplicationListDataList;
+  data?: ConnectApplicationListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListAuditLogValidatorsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListAuditLogValidatorsControllerResponseListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface AuditLogActionJson {
   /** Distinguishes the Audit Log Action object. */
-  object?: string;
+  object?: string | undefined;
   /** Identifier of what action was taken. */
-  name?: string;
+  name?: string | undefined;
   /** The schema associated with the action. */
-  schema?: AuditLogSchemaJson;
+  schema?: AuditLogSchemaJson | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** The list of records for the current page. */
 export type ListAuditLogValidatorsControllerResponseDataList = Array<AuditLogActionJson>;
 export interface ListAuditLogValidatorsControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListAuditLogValidatorsControllerResponseDataList;
+  data?: ListAuditLogValidatorsControllerResponseDataList | undefined;
 }
 export interface ListAuthkitOauthResourcesControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListAuthkitOauthResourcesControllerResponseListMetadata =
@@ -4821,11 +4861,11 @@ export type ListAuthkitOauthResourcesControllerResponseListMetadata =
 export type ListAuthkitOauthResourcesControllerResponseDataList = Array<AuthkitOauthResource>;
 export interface ListAuthkitOauthResourcesControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListAuthkitOauthResourcesControllerResponseDataList;
+  data?: ListAuthkitOauthResourcesControllerResponseDataList | undefined;
 }
 export interface ListAuthorizationControllerEffectivePermissionsRequest {
   /** The ID of the organization membership. */
@@ -4833,13 +4873,13 @@ export interface ListAuthorizationControllerEffectivePermissionsRequest {
   /** The ID of the authorization resource. */
   resource_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The list of records for the current page. */
 export type AuthorizationPermissionListDataList = Array<AuthorizationPermission>;
@@ -4848,11 +4888,11 @@ export type AuthorizationPermissionListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface AuthorizationPermissionList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: AuthorizationPermissionListDataList;
+  data?: AuthorizationPermissionListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListAuthorizationControllerEffectivePermissionsByExternalIdRequest {
   /** The ID of the organization membership. */
@@ -4862,33 +4902,33 @@ export interface ListAuthorizationControllerEffectivePermissionsByExternalIdRequ
   /** An identifier you provide to reference the resource in your system. */
   external_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 export interface ListAuthorizationControllerResourcesForMembershipRequest {
   /** The ID of the organization membership. */
   organization_membership_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** The permission slug to filter by. Only child resources where the organization membership has this permission are returned. */
   permission_slug: string;
   /** The WorkOS ID of the parent resource. Provide this or both `parent_resource_external_id` and `parent_resource_type_slug`, but not both. Mutually exclusive with `parent_resource_type_slug` and `parent_resource_external_id`. */
-  parent_resource_id?: string;
+  parent_resource_id?: string | undefined;
   /** The slug of the parent resource type. Must be provided together with `parent_resource_external_id`. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_type_slug?: string;
+  parent_resource_type_slug?: string | undefined;
   /** The application-specific external identifier of the parent resource. Must be provided together with `parent_resource_type_slug`. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_external_id?: string;
+  parent_resource_external_id?: string | undefined;
 }
 /** The list of records for the current page. */
 export type AuthorizationResourceListDataList = Array<AuthorizationResource>;
@@ -4897,23 +4937,23 @@ export type AuthorizationResourceListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface AuthorizationResourceList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: AuthorizationResourceListDataList;
+  data?: AuthorizationResourceListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListAuthorizationGroupRoleAssignmentsControllerRequest {
   /** The ID of the group. */
   group_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The list of records for the current page. */
 export type GroupRoleAssignmentListDataList = Array<GroupRoleAssignment>;
@@ -4935,19 +4975,19 @@ export interface ListAuthorizationOrganizationRolesControllerRequest {
 /** The list of records for the current page. */
 export type RoleListDataList = Array<Role>;
 export interface RoleList {
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: RoleListDataList;
+  data?: RoleListDataList | undefined;
 }
 export interface ListAuthorizationPermissionsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 export type ListAuthorizationResourcesByExternalIdControllerOrganizationMembershipsForResourceByExternalIdRequestAssignment =
   | "direct"
@@ -4960,19 +5000,20 @@ export interface ListAuthorizationResourcesByExternalIdControllerOrganizationMem
   /** An identifier you provide to reference the resource in your system. */
   external_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** The permission slug to filter by. Only users with this permission on the resource are returned. */
   permission_slug: string;
   /** Filter by assignment type. Use "direct" for direct assignments only, or "indirect" to include inherited assignments. */
   assignment?:
     | ListAuthorizationResourcesByExternalIdControllerOrganizationMembershipsForResourceByExternalIdRequestAssignment
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The status of the organization membership. One of `active`, `inactive`, or `pending`. */
 export type UserlandUserOrganizationMembershipBaseWithUserStatus =
@@ -4997,9 +5038,9 @@ export interface UserlandUserOrganizationMembershipBaseWithUser {
   /** Whether this organization membership is managed by a directory sync connection. */
   directory_managed: boolean;
   /** The name of the organization which the user belongs to. */
-  organization_name?: string;
+  organization_name?: string | undefined;
   /** An object containing IdP-sourced attributes from the linked [Directory User](/reference/directory-sync/directory-user) or [SSO Profile](/reference/sso/profile). Directory User attributes take precedence when both are linked. */
-  custom_attributes?: UserlandUserOrganizationMembershipBaseWithUserCustomAttributesMap;
+  custom_attributes?: UserlandUserOrganizationMembershipBaseWithUserCustomAttributesMap | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -5023,25 +5064,25 @@ export interface UserlandUserOrganizationMembershipBaseWithUserList {
 }
 export interface ListAuthorizationResourcesControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter resources by organization ID. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Filter resources by resource type slug. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
   /** Filter resources by external ID. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** Filter resources by parent resource ID. Mutually exclusive with `parent_resource_type_slug` and `parent_external_id`. */
-  parent_resource_id?: string;
+  parent_resource_id?: string | undefined;
   /** Filter resources by parent resource type slug. Required with `parent_external_id`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_type_slug?: string;
+  parent_resource_type_slug?: string | undefined;
   /** Filter resources by parent external ID. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`. */
-  parent_external_id?: string;
+  parent_external_id?: string | undefined;
 }
 export type ListAuthorizationResourcesControllerOrganizationMembershipsForResourceRequestAssignment =
   | "direct"
@@ -5050,37 +5091,38 @@ export interface ListAuthorizationResourcesControllerOrganizationMembershipsForR
   /** The ID of the authorization resource. */
   resource_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** The permission slug to filter by. Only users with this permission on the resource are returned. */
   permission_slug: string;
   /** Filter by assignment type. Use `direct` for direct assignments only, or `indirect` to include inherited assignments. */
   assignment?:
     | ListAuthorizationResourcesControllerOrganizationMembershipsForResourceRequestAssignment
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ListAuthorizationRoleAssignmentsControllerRoleAssignmentsRequest {
   /** The ID of the organization membership. */
   organization_membership_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter assignments by the ID of the resource. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** Filter assignments by the external ID of the resource. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** Filter assignments by the slug of the resource type. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 /** The list of records for the current page. */
 export type UserRoleAssignmentListDataList = Array<UserRoleAssignment>;
@@ -5099,15 +5141,15 @@ export interface ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForRes
   /** The ID of the authorization resource. */
   resource_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter assignments by the slug of the role. */
-  role_slug?: string;
+  role_slug?: string | undefined;
 }
 export interface ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceByExternalIdRequest {
   /** The ID of the organization that owns the resource. */
@@ -5117,28 +5159,28 @@ export interface ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForRes
   /** An identifier you provide to reference the resource in your system. */
   external_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter assignments by the slug of the role. */
-  role_slug?: string;
+  role_slug?: string | undefined;
 }
 export interface ListAuthorizationRolesControllerRequest {}
 export interface ListAuthorizedApplicationsControllerRequest {
   /** The ID of the user. */
   user_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The scopes granted by the user to the application. */
 export type AuthorizedConnectApplicationListDataItemGrantedScopesList = Array<string>;
@@ -5150,7 +5192,7 @@ export interface AuthorizedConnectApplicationListDataItem {
   /** The scopes granted by the user to the application. */
   granted_scopes: AuthorizedConnectApplicationListDataItemGrantedScopesList;
   /** The OAuth resource associated with the authorized connect application, if one was requested. */
-  oauth_resource?: string;
+  oauth_resource?: string | undefined;
   application: ConnectApplication;
 }
 /** The list of records for the current page. */
@@ -5161,11 +5203,11 @@ export type AuthorizedConnectApplicationListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface AuthorizedConnectApplicationList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: AuthorizedConnectApplicationListDataList;
+  data?: AuthorizedConnectApplicationListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export type ListConnectionsControllerRequestConnectionType =
   | "ADFSSAML"
@@ -5217,21 +5259,21 @@ export type ListConnectionsControllerRequestConnectionType =
   | "XeroOAuth";
 export interface ListConnectionsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter Connections by their type. */
-  connection_type?: ListConnectionsControllerRequestConnectionType | (string & {});
+  connection_type?: ListConnectionsControllerRequestConnectionType | (string & {}) | undefined;
   /** Filter Connections by their associated domain. */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter Connections by their associated organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Searchable text to match against Connection names. */
-  search?: string;
+  search?: string | undefined;
 }
 /** The list of records for the current page. */
 export type ConnectionListDataList = Array<Connection>;
@@ -5240,21 +5282,21 @@ export type ConnectionListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface ConnectionList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: ConnectionListDataList;
+  data?: ConnectionListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListCorsOriginsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListCorsOriginsControllerResponseListMetadata =
@@ -5263,28 +5305,29 @@ export type ListCorsOriginsControllerResponseListMetadata =
 export type ListCorsOriginsControllerResponseDataList = Array<CorsOriginResponse>;
 export interface ListCorsOriginsControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListCorsOriginsControllerResponseDataList;
+  data?: ListCorsOriginsControllerResponseDataList | undefined;
 }
 export type ListDataIntegrationsManagementControllerDataIntegrationsRequestOwnership =
   | "user"
   | "organization";
 export interface ListDataIntegrationsManagementControllerDataIntegrationsRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Only return Data Integrations with this ownership: `user` for the integrations users connect their own accounts to, or `organization` for the roots organizations connect to. Omit to return both. */
   ownership?:
     | ListDataIntegrationsManagementControllerDataIntegrationsRequestOwnership
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The list of records for the current page. */
 export type DataIntegrationListDataList = Array<DataIntegration>;
@@ -5301,19 +5344,19 @@ export interface DataIntegrationList {
 }
 export interface ListDirectoriesControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter Directories by their associated organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Searchable text to match against Directory names. */
-  search?: string;
+  search?: string | undefined;
   /** Filter Directories by their associated domain. */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** The list of records for the current page. */
 export type DirectoryListDataList = Array<Directory>;
@@ -5322,25 +5365,25 @@ export type DirectoryListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface DirectoryList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: DirectoryListDataList;
+  data?: DirectoryListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListDirectoryGroupsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API. */
-  directory?: string;
+  directory?: string | undefined;
   /** Unique identifier of the WorkOS Directory User. This value can be obtained from the WorkOS API. */
-  user?: string;
+  user?: string | undefined;
 }
 /** The list of records for the current page. */
 export type DirectoryGroupListDataList = Array<DirectoryGroup>;
@@ -5349,29 +5392,29 @@ export type DirectoryGroupListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface DirectoryGroupList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: DirectoryGroupListDataList;
+  data?: DirectoryGroupListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListDirectoryUsersControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Unique identifier of the WorkOS Directory. This value can be obtained from the WorkOS dashboard or from the WorkOS API. */
-  directory?: string;
+  directory?: string | undefined;
   /** Unique identifier of the WorkOS Directory Group. This value can be obtained from the WorkOS API. */
-  group?: string;
+  group?: string | undefined;
   /** Filter Directory Users by the identity provider's unique identifier (`idp_id`). Requires the `directory` parameter to also be provided. */
-  idp_id?: string;
+  idp_id?: string | undefined;
   /** Filter Directory Users by their primary email address. Requires the `directory` parameter to also be provided. */
-  email?: string;
+  email?: string | undefined;
 }
 /** The list of records for the current page. */
 export type DirectoryUserListDataList = Array<DirectoryUserWithGroups>;
@@ -5380,26 +5423,26 @@ export type DirectoryUserListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface DirectoryUserList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: DirectoryUserListDataList;
+  data?: DirectoryUserListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export type ListEventsControllerRequestEventsList = Array<string>;
 export interface ListEventsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter events by one or more event types (e.g. `dsync.user.created`). */
   events: ListEventsControllerRequestEventsList;
   /** ISO 8601 UTC timestamp with a `Z` suffix to filter events created after this date. Timezone offsets such as `+00:00` are not accepted. */
-  range_start?: string;
+  range_start?: string | undefined;
   /** ISO 8601 UTC timestamp with a `Z` suffix to filter events created before this date. Timezone offsets such as `+00:00` are not accepted. */
-  range_end?: string;
+  range_end?: string | undefined;
   /** Filter events by the [Organization](/reference/organization) that the event is associated with. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. */
 export type EventSchemaDataPermissionsList = Array<string>;
@@ -5494,7 +5537,7 @@ export interface EventSchemaDataError {
   /** A human-readable error message. */
   message: string;
   /** The ID of the Radar detection that blocked the authentication. Only set on `policy_denied` errors. */
-  radar_detection_id?: string;
+  radar_detection_id?: string | undefined;
 }
 export type EventSchemaDataAction = "signup" | "login";
 /** SSO connection details. */
@@ -5578,13 +5621,13 @@ export interface EventSchemaDataDomainsItem {
   /** ID of the parent Organization. */
   organization_id: string;
   /** Verification state of the domain. */
-  state?: EventSchemaDataDomainsItemState;
+  state?: EventSchemaDataDomainsItemState | undefined;
   /** The prefix used in DNS verification. */
-  verification_prefix?: string;
+  verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string;
+  verification_token?: string | undefined;
   /** Strategy used to verify the domain. */
-  verification_strategy?: EventSchemaDataDomainsItemVerificationStrategy;
+  verification_strategy?: EventSchemaDataDomainsItemVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -5597,7 +5640,7 @@ export interface EventSchemaDataConnection {
   /** Unique identifier of the connection. */
   id: string;
   /** The ID of the organization the connection belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** The type of the SAML certificate. */
 export type EventSchemaDataCertificateCertificateType =
@@ -5640,26 +5683,26 @@ export interface DirectoryUser {
   /** The email address of the user. */
   email: string | null;
   /** The first name of the user. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name of the user. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The full name of the user. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A list of email addresses for the user. */
-  emails?: DirectoryUserEmailsList;
+  emails?: DirectoryUserEmailsList | undefined;
   /** The job title of the user. */
-  job_title?: string | null;
+  job_title?: string | null | undefined;
   /** The username of the user. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** The state of the user. */
   state: DirectoryUserState;
   /** The raw attributes received from the directory provider. */
   raw_attributes: DirectoryUserRawAttributesMap;
   /** An object containing the custom attribute mapping for the Directory Provider. */
   custom_attributes: DirectoryUserCustomAttributesMap;
-  role?: SlimRole;
+  role?: SlimRole | undefined;
   /** All roles assigned to the user. */
-  roles?: DirectoryUserRolesList;
+  roles?: DirectoryUserRolesList | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -5702,13 +5745,13 @@ export interface EventSchemaDataOrganizationDomain {
   /** Domain for the organization domain. */
   domain: string;
   /** Verification state of the domain. */
-  state?: EventSchemaDataOrganizationDomainState;
+  state?: EventSchemaDataOrganizationDomainState | undefined;
   /** The prefix used in DNS verification. */
-  verification_prefix?: string;
+  verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string;
+  verification_token?: string | undefined;
   /** Strategy used to verify the domain. */
-  verification_strategy?: EventSchemaDataOrganizationDomainVerificationStrategy;
+  verification_strategy?: EventSchemaDataOrganizationDomainVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -5748,276 +5791,276 @@ export type EventSchemaDataAdditionalFieldsMap = { [key: string]: string | undef
 /** The event payload. */
 export interface EventSchemaData {
   /** The ID of the action endpoint. */
-  action_endpoint_id?: string;
+  action_endpoint_id?: string | undefined;
   /** The ID of the action execution. */
-  action_execution_id?: string;
+  action_execution_id?: string | undefined;
   /** The type of action that was denied. */
-  type?: string;
+  type?: string | undefined;
   /** The verdict of the action. */
-  verdict?: string;
+  verdict?: string | undefined;
   /** The ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The ID of the organization. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The IP address of the request. */
-  ip_address?: string | null;
+  ip_address?: string | null | undefined;
   /** The user agent of the request. */
-  user_agent?: string | null;
+  user_agent?: string | null | undefined;
   /** Distinguishes the agent blueprint object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier of the agent blueprint. */
-  id?: string;
+  id?: string | undefined;
   /** Human-readable name of the agent blueprint. */
-  name?: string;
+  name?: string | undefined;
   /** Human-readable description of the agent blueprint. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. */
-  permissions?: EventSchemaDataPermissionsList;
+  permissions?: EventSchemaDataPermissionsList | undefined;
   /** Who may mint sessions from this blueprint. */
-  invocable_by?: EventSchemaDataInvocableBy;
+  invocable_by?: EventSchemaDataInvocableBy | undefined;
   /** How sessions may be minted from this blueprint. */
-  invocable_as?: EventSchemaDataInvocableAs;
+  invocable_as?: EventSchemaDataInvocableAs | undefined;
   /** Token and session lifetimes for sessions minted from this blueprint. */
-  session_settings?: AgentBlueprintSessionSettings;
+  session_settings?: AgentBlueprintSessionSettings | undefined;
   /** The timestamp when the agent blueprint was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp when the agent blueprint was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The agent blueprint this instance was minted from. */
-  agent_blueprint_id?: string;
+  agent_blueprint_id?: string | undefined;
   /** The organization membership the instance acts on behalf of; `null` for an autonomous instance. */
-  organization_membership_id?: string | null;
+  organization_membership_id?: string | null | undefined;
   /** The agent instance the session belongs to. */
-  agent_instance_id?: string;
+  agent_instance_id?: string | undefined;
   /** Timestamp when the session expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Timestamp when the session was revoked; `null` if it has not been revoked. */
-  revoked_at?: string | null;
+  revoked_at?: string | null | undefined;
   /** The permissions granted to the session at mint time. */
-  permission_slugs?: EventSchemaDataPermissionSlugsList;
+  permission_slugs?: EventSchemaDataPermissionSlugsList | undefined;
   /** The ID of the agent registration. */
-  agent_registration_id?: string;
+  agent_registration_id?: string | undefined;
   /** The ID of the agent registration claim. */
-  agent_registration_claim_id?: string;
+  agent_registration_claim_id?: string | undefined;
   /** The login hint for the claim attempt. */
-  login_hint?: string;
+  login_hint?: string | undefined;
   /** The ID of the claim attempt that completed the claim. */
-  completed_by_attempt_id?: string;
+  completed_by_attempt_id?: string | undefined;
   /** The user who completed the claim. */
-  claimed_by?: EventSchemaDataClaimedBy;
+  claimed_by?: EventSchemaDataClaimedBy | undefined;
   /** The timestamp when the claim was completed. */
-  completed_at?: string;
+  completed_at?: string | undefined;
   /** The agent identity for this registration. */
-  agent_identity?: EventSchemaDataAgentIdentity;
+  agent_identity?: EventSchemaDataAgentIdentity | undefined;
   /** The current status of the registration. */
-  status?: EventSchemaDataStatus;
+  status?: EventSchemaDataStatus | undefined;
   /** The kind of the registration. */
-  kind?: EventSchemaDataKind;
+  kind?: EventSchemaDataKind | undefined;
   /** The authentication method of the registration. */
-  method?: EventSchemaDataMethod;
+  method?: EventSchemaDataMethod | undefined;
   /** Details of the issued credential. */
-  detail?: EventSchemaDataDetail;
+  detail?: EventSchemaDataDetail | undefined;
   /** The agent-created organization the registration is moving off of. Migrate its resources to `to_organization_id`, then delete it. */
-  from_organization_id?: string;
+  from_organization_id?: string | undefined;
   /** The organization the registration now belongs to. */
-  to_organization_id?: string;
+  to_organization_id?: string | undefined;
   /** The owner of the API key. */
-  owner?: EventSchemaDataOwner;
+  owner?: EventSchemaDataOwner | undefined;
   /** The obfuscated value of the API key. */
-  obfuscated_value?: string;
+  obfuscated_value?: string | undefined;
   /** The timestamp when the API key was last used. */
-  last_used_at?: string | null;
+  last_used_at?: string | null | undefined;
   /** Previous API key attributes before the update. */
-  previous_attributes?: EventSchemaDataPreviousAttributes;
+  previous_attributes?: EventSchemaDataPreviousAttributes | undefined;
   /** Details about the authentication error. */
-  error?: EventSchemaDataError;
+  error?: EventSchemaDataError | undefined;
   /** The OAuth provider used for authentication. */
-  provider?: string;
+  provider?: string | undefined;
   /** The authentication method used. */
-  auth_method?: string;
-  action?: EventSchemaDataAction;
+  auth_method?: string | undefined;
+  action?: EventSchemaDataAction | undefined;
   /** The control action taken for the detected risk. */
-  control?: string | null;
+  control?: string | null | undefined;
   /** The type of blocklist that triggered the risk detection. */
-  blocklist_type?: string | null;
+  blocklist_type?: string | null | undefined;
   /** The ID of the Radar detection that challenged the authentication. */
-  radar_detection_id?: string;
+  radar_detection_id?: string | undefined;
   /** SSO connection details. */
-  sso?: EventSchemaDataSso;
+  sso?: EventSchemaDataSso | undefined;
   /** The current state of the connection. */
-  state?: EventSchemaDataState;
+  state?: EventSchemaDataState | undefined;
   /** The type of the connection. */
-  connection_type?: EventSchemaDataConnectionType;
+  connection_type?: EventSchemaDataConnectionType | undefined;
   /** The external key of the connection. */
-  external_key?: string;
+  external_key?: string | undefined;
   /** The domains associated with the connection. */
-  domains?: EventSchemaDataDomainsList;
+  domains?: EventSchemaDataDomainsList | undefined;
   /** The connection with the expiring certificate. */
-  connection?: EventSchemaDataConnection;
+  connection?: EventSchemaDataConnection | undefined;
   /** The SAML certificate details. */
-  certificate?: EventSchemaDataCertificate;
+  certificate?: EventSchemaDataCertificate | undefined;
   /** The number of days until the certificate expires. */
-  days_until_expiry?: number;
+  days_until_expiry?: number | undefined;
   /** An ISO 8601 timestamp. */
-  renewed_at?: string;
+  renewed_at?: string | undefined;
   /** Unique identifier for the group, assigned by the Directory Provider. Different Directory Providers use different ID formats. */
-  idp_id?: string;
+  idp_id?: string | undefined;
   /** The identifier of the Directory the Directory Group belongs to. */
-  directory_id?: string;
+  directory_id?: string | undefined;
   /** The raw attributes received from the directory provider. */
-  raw_attributes?: EventSchemaDataRawAttributesMap;
+  raw_attributes?: EventSchemaDataRawAttributesMap | undefined;
   /** The trailing characters of the bearer token, for identification only. The full token value is never included in events. */
-  token_suffix?: string;
+  token_suffix?: string | undefined;
   /** The directory user added to the group. */
-  user?: DirectoryUser;
+  user?: DirectoryUser | undefined;
   /** The directory group the user was added to. */
-  group?: DirectoryGroup;
+  group?: DirectoryGroup | undefined;
   /** The first name of the user. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name of the user. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** A list of email addresses for the user. */
-  emails?: EventSchemaDataEmailsList;
+  emails?: EventSchemaDataEmailsList | undefined;
   /** The job title of the user. */
-  job_title?: string | null;
+  job_title?: string | null | undefined;
   /** The username of the user. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** An object containing the custom attribute mapping for the Directory Provider. */
-  custom_attributes?: EventSchemaDataCustomAttributesMap;
-  role?: SlimRole;
+  custom_attributes?: EventSchemaDataCustomAttributesMap | undefined;
+  role?: SlimRole | undefined;
   /** All roles assigned to the user. */
-  roles?: EventSchemaDataRolesList;
+  roles?: EventSchemaDataRolesList | undefined;
   /** The ID of the environment the Feature Flag belongs to. */
-  environment_id?: string;
+  environment_id?: string | undefined;
   /** A unique key to reference the Feature Flag. */
-  slug?: string;
+  slug?: string | undefined;
   /** Labels assigned to the Feature Flag for categorizing and filtering. */
-  tags?: EventSchemaDataTagsList;
+  tags?: EventSchemaDataTagsList | undefined;
   /** Specifies whether the Feature Flag is active for the current environment. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The value returned for users and organizations who don't match any configured targeting rules. */
-  default_value?: boolean;
+  default_value?: boolean | undefined;
   /** The ID of the Feature Flag the rule belongs to. */
-  flag_id?: string;
+  flag_id?: string | undefined;
   /** The slug of the Feature Flag the rule belongs to. */
-  flag_slug?: string;
+  flag_slug?: string | undefined;
   /** The target type slug, if the rule targets a specific type. */
-  target_type?: string | null;
+  target_type?: string | null | undefined;
   /** The zero-based position of the rule in evaluation order. */
-  position?: number;
-  value_type?: string;
+  position?: number | undefined;
+  value_type?: string | undefined;
   /** The value the Feature Flag evaluates to when the rule matches. */
-  value?: boolean;
+  value?: boolean | undefined;
   /** The ID of the Group. */
-  group_id?: string;
+  group_id?: string | undefined;
   /** The timestamp when the invitation was accepted, or null if not yet accepted. */
-  accepted_at?: string | null;
+  accepted_at?: string | null | undefined;
   /** The ID of the user who invited the recipient, if provided. */
-  inviter_user_id?: string | null;
+  inviter_user_id?: string | null | undefined;
   /** The ID of the user who accepted the invitation, once accepted. */
-  accepted_user_id?: string | null;
+  accepted_user_id?: string | null | undefined;
   /** Slug of the role the invitee will be assigned on acceptance. Reflects the current role on the invitee's organization membership. null when the invitation has no associated organization. */
-  role_slug?: string | null;
+  role_slug?: string | null | undefined;
   /** Object containing [metadata](/authkit/metadata) key/value pairs associated with the Organization. */
-  metadata?: EventSchemaDataMetadataMap;
+  metadata?: EventSchemaDataMetadataMap | undefined;
   /** The external ID of the Organization. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The Stripe customer ID of the Organization. */
-  stripe_customer_id?: string;
+  stripe_customer_id?: string | undefined;
   /** Domain for the organization domain. */
-  domain?: string;
+  domain?: string | undefined;
   /** The prefix used in DNS verification. */
-  verification_prefix?: string;
+  verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string;
+  verification_token?: string | undefined;
   /** Strategy used to verify the domain. */
-  verification_strategy?: EventSchemaDataVerificationStrategy;
+  verification_strategy?: EventSchemaDataVerificationStrategy | undefined;
   /** The reason the domain verification failed. */
-  reason?: EventSchemaDataReason;
+  reason?: EventSchemaDataReason | undefined;
   /** The organization domain that failed verification. */
-  organization_domain?: EventSchemaDataOrganizationDomain;
+  organization_domain?: EventSchemaDataOrganizationDomain | undefined;
   /** Whether the membership is managed by a directory sync provider. */
-  directory_managed?: boolean;
+  directory_managed?: boolean | undefined;
   /** The slug of the resource type the role applies to. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
   /** Whether the permission is a system permission. */
-  system?: boolean;
+  system?: boolean | undefined;
   /** The unique ID of the data integration. */
-  data_integration_id?: string;
+  data_integration_id?: string | undefined;
   /** The provider slug for this connection attempt. */
-  provider_slug?: string;
+  provider_slug?: string | undefined;
   /** A best-effort identifier for the provider account involved in the attempt. It is not a connection identifier or selector. Historical events may omit this field. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** A machine-readable error code for the failure. */
-  error_code?: string;
+  error_code?: string | undefined;
   /** A human-readable explanation of the failure. */
-  error_reason?: string | null;
+  error_reason?: string | null | undefined;
   /** The raw error code returned by the OAuth provider. */
-  provider_error?: string | null;
+  provider_error?: string | null | undefined;
   /** The raw error description returned by the OAuth provider. */
-  provider_error_description?: string | null;
+  provider_error_description?: string | null | undefined;
   /** Whether this is the compatibility connection visible to undeclared clients or a standard connection for plural-aware clients. Historical events may omit this field. */
-  connection_role?: EventSchemaDataConnectionRole;
+  connection_role?: EventSchemaDataConnectionRole | undefined;
   /** A mutable, non-unique display name for the provider account connection. Historical events may omit this field. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** The OAuth scopes granted for this connected account. */
-  scopes?: EventSchemaDataScopesList;
+  scopes?: EventSchemaDataScopesList | undefined;
   /** The last four characters of the API key, or null for other authentication methods. Historical events may omit this field. */
-  api_key_last_4?: string | null;
+  api_key_last_4?: string | null | undefined;
   /** The ID of the User whose authorization established the connected account, or null when it is developer-managed, its establisher is unknown, or the establishing member left the organization. Historical events may omit this field. */
-  established_by_user_id?: string | null;
+  established_by_user_id?: string | null | undefined;
   /** Why WorkOS put the connected account in its current state, or null when there is no WorkOS-recorded reason. `establishing_member_membership_ended` means the member who established an organization-owned connection is no longer an active member. Additional values may be added. Historical events may omit this field. */
-  state_reason?: string | null;
+  state_reason?: string | null | undefined;
   /** The ID of the Radar challenge. */
-  radar_challenge_id?: string;
+  radar_challenge_id?: string | undefined;
   /** The type of resource being exported. */
-  resource_type?: EventSchemaDataResourceType;
+  resource_type?: EventSchemaDataResourceType | undefined;
   /** Information about the impersonator if this session was created via impersonation. */
-  impersonator?: EventSchemaDataImpersonator;
+  impersonator?: EventSchemaDataImpersonator | undefined;
   /** The timestamp when the session ended. */
-  ended_at?: string | null;
+  ended_at?: string | null | undefined;
   /** A URL reference to an image representing the user. */
-  profile_picture_url?: string | null;
+  profile_picture_url?: string | null | undefined;
   /** Whether the user's email has been verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** The timestamp when the user last signed in. */
-  last_sign_in_at?: string | null;
+  last_sign_in_at?: string | null | undefined;
   /** The user's preferred locale. */
-  locale?: string | null;
-  key_provider?: VaultByokKeyProvider;
+  locale?: string | null | undefined;
+  key_provider?: VaultByokKeyProvider | undefined;
   /** Whether the BYOK key verification completed successfully. */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** The unique identifier of the actor. */
-  actor_id?: string;
-  actor_source?: EventSchemaDataActorSource;
+  actor_id?: string | undefined;
+  actor_source?: EventSchemaDataActorSource | undefined;
   /** The name of the actor. */
-  actor_name?: string;
+  actor_name?: string | undefined;
   /** The name of the key-value store. */
-  kv_name?: string;
+  kv_name?: string | undefined;
   /** The unique identifier of the encryption key. */
-  key_id?: string;
-  key_context?: EventSchemaDataKeyContextMap;
+  key_id?: string | undefined;
+  key_context?: EventSchemaDataKeyContextMap | undefined;
   /** The unique identifiers of the data encryption keys. */
-  key_ids?: EventSchemaDataKeyIdsList;
+  key_ids?: EventSchemaDataKeyIdsList | undefined;
   /** The name of the key encryption key. */
-  key_name?: string;
+  key_name?: string | undefined;
   /** The timestamp when the entry was approved, or null if not yet approved. */
-  approved_at?: string | null;
+  approved_at?: string | null | undefined;
   /** Additional fields submitted when the user joined the waitlist. Values are user-provided -- treat them as untrusted input when rendering or exporting. */
-  additional_fields?: EventSchemaDataAdditionalFieldsMap;
+  additional_fields?: EventSchemaDataAdditionalFieldsMap | undefined;
   /** The unique ID of the waitlist the entry belongs to. */
-  waitlist_id?: string | null;
+  waitlist_id?: string | null | undefined;
   [key: string]: unknown;
 }
 export interface EventSchemaContextGoogleAnalyticsSessionsItem {
   /** The Google Analytics container ID. */
   containerId: string;
   /** The Google Analytics session ID. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** The Google Analytics session number. */
-  sessionNumber?: string;
+  sessionNumber?: string | undefined;
 }
 /** The Google Analytics sessions associated with the event. */
 export type EventSchemaContextGoogleAnalyticsSessionsList =
@@ -6040,19 +6083,19 @@ export type EventSchemaContextPreviousAttributesDataOwner =
 /** The previous data attributes of the flag rule. */
 export interface EventSchemaContextPreviousAttributesData {
   /** The value the rule served before the update. */
-  value?: boolean;
+  value?: boolean | undefined;
   /** The previous name of the flag. */
-  name?: string;
+  name?: string | undefined;
   /** The previous description of the flag. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The previous tags of the flag. */
-  tags?: EventSchemaContextPreviousAttributesDataTagsList;
+  tags?: EventSchemaContextPreviousAttributesDataTagsList | undefined;
   /** The previous owner of the flag, or `null` if it had none. */
-  owner?: DisableFeatureFlagsControllerFlagResponseOwner | null;
+  owner?: DisableFeatureFlagsControllerFlagResponseOwner | null | undefined;
   /** Whether the flag was previously enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The previous default value of the flag. */
-  default_value?: boolean;
+  default_value?: boolean | undefined;
 }
 /** The previous access type of the flag rule. */
 export type EventSchemaContextPreviousAttributesContextAccessType = "none" | "some" | "all";
@@ -6084,16 +6127,16 @@ export interface EventSchemaContextPreviousAttributesContextConfiguredTargets {
 /** The previous context attributes of the flag rule. */
 export interface EventSchemaContextPreviousAttributesContext {
   /** The previous access type of the flag rule. */
-  access_type?: EventSchemaContextPreviousAttributesContextAccessType;
+  access_type?: EventSchemaContextPreviousAttributesContextAccessType | undefined;
   /** The previous configured targets for the flag rule. */
-  configured_targets?: EventSchemaContextPreviousAttributesContextConfiguredTargets;
+  configured_targets?: EventSchemaContextPreviousAttributesContextConfiguredTargets | undefined;
 }
 /** Attributes that changed from their previous values. */
 export interface EventSchemaContextPreviousAttributes {
   /** The previous data attributes of the flag rule. */
-  data?: EventSchemaContextPreviousAttributesData;
+  data?: EventSchemaContextPreviousAttributesData | undefined;
   /** The previous context attributes of the flag rule. */
-  context?: EventSchemaContextPreviousAttributesContext;
+  context?: EventSchemaContextPreviousAttributesContext | undefined;
   [key: string]: unknown;
 }
 /** The access type of the flag rule. */
@@ -6118,20 +6161,20 @@ export interface EventSchemaContextConfiguredTargets {
 /** Additional context about the event. */
 export interface EventSchemaContext {
   /** The Google Analytics client ID. */
-  google_analytics_client_id?: string;
+  google_analytics_client_id?: string | undefined;
   /** The Google Analytics sessions associated with the event. */
-  google_analytics_sessions?: EventSchemaContextGoogleAnalyticsSessionsList;
+  google_analytics_sessions?: EventSchemaContextGoogleAnalyticsSessionsList | undefined;
   /** The anonymous ID from analytics. */
-  ajs_anonymous_id?: string;
+  ajs_anonymous_id?: string | undefined;
   /** The client ID associated with the event. */
-  client_id?: string;
-  actor?: EventContextActorDto;
+  client_id?: string | undefined;
+  actor?: EventContextActorDto | undefined;
   /** Attributes that changed from their previous values. */
-  previous_attributes?: EventSchemaContextPreviousAttributes;
+  previous_attributes?: EventSchemaContextPreviousAttributes | undefined;
   /** The access type of the flag rule. */
-  access_type?: EventSchemaContextAccessType;
+  access_type?: EventSchemaContextAccessType | undefined;
   /** The configured targets for the flag rule. */
-  configured_targets?: EventSchemaContextConfiguredTargets;
+  configured_targets?: EventSchemaContextConfiguredTargets | undefined;
   [key: string]: unknown;
 }
 /** An event emitted by WorkOS. */
@@ -6147,7 +6190,7 @@ export interface EventSchema {
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** Additional context about the event. */
-  context?: EventSchemaContext;
+  context?: EventSchemaContext | undefined;
 }
 /** The list of records for the current page. */
 export type EventListDataList = Array<EventSchema>;
@@ -6158,21 +6201,21 @@ export interface EventListListMetadata {
 }
 export interface EventList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: EventListDataList;
+  data?: EventListDataList | undefined;
   /** Pagination cursor for navigating to the next page of results. */
-  list_metadata?: EventListListMetadata;
+  list_metadata?: EventListListMetadata | undefined;
 }
 export interface ListFeatureFlagsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The list of records for the current page. */
 export type FlagListDataList = Array<Flag>;
@@ -6180,11 +6223,11 @@ export type FlagListDataList = Array<Flag>;
 export type FlagListListMetadata = AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface FlagList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: FlagListDataList;
+  data?: FlagListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListGroupMembershipsControllerMembersRequest {
   /** Unique identifier of the Organization. */
@@ -6192,13 +6235,13 @@ export interface ListGroupMembershipsControllerMembersRequest {
   /** Unique identifier of the Group. */
   groupId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The status of the organization membership. One of `active`, `inactive`, or `pending`. */
 export type UserlandUserOrganizationMembershipBaseListDataItemStatus =
@@ -6223,9 +6266,11 @@ export interface UserlandUserOrganizationMembershipBaseListDataItem {
   /** Whether this organization membership is managed by a directory sync connection. */
   directory_managed: boolean;
   /** The name of the organization which the user belongs to. */
-  organization_name?: string;
+  organization_name?: string | undefined;
   /** An object containing IdP-sourced attributes from the linked [Directory User](/reference/directory-sync/directory-user) or [SSO Profile](/reference/sso/profile). Directory User attributes take precedence when both are linked. */
-  custom_attributes?: UserlandUserOrganizationMembershipBaseListDataItemCustomAttributesMap;
+  custom_attributes?:
+    | UserlandUserOrganizationMembershipBaseListDataItemCustomAttributesMap
+    | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -6239,25 +6284,25 @@ export type UserlandUserOrganizationMembershipBaseListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface UserlandUserOrganizationMembershipBaseList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: UserlandUserOrganizationMembershipBaseListDataList;
+  data?: UserlandUserOrganizationMembershipBaseListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListGroupsControllerRequest {
   /** The ID of the organization. */
   organizationId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Search groups by name or by group ID. */
-  search?: string;
+  search?: string | undefined;
 }
 /** The list of records for the current page. */
 export type GroupListDataList = Array<Group>;
@@ -6265,11 +6310,11 @@ export type GroupListDataList = Array<Group>;
 export type GroupListListMetadata = AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface GroupList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: GroupListDataList;
+  data?: GroupListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListItContactsControllerRequest {
   /** The ID of the organization. */
@@ -6292,13 +6337,13 @@ export interface ListOrganizationApiKeysControllerRequest {
   /** Unique identifier of the Organization. */
   organizationId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The entity that owns the API Key. */
 export type OrganizationApiKeyOwner = ApiKeyOwnerCase0;
@@ -6343,13 +6388,13 @@ export interface ListOrganizationAuthorizedApplicationsControllerRequest {
   /** The ID of the organization. */
   organization_id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The scopes granted by the user to the application. */
 export type OrganizationAuthorizedConnectApplicationListDataItemGrantedScopesList = Array<string>;
@@ -6361,7 +6406,7 @@ export interface OrganizationAuthorizedConnectApplicationListDataItem {
   /** The scopes granted by the user to the application. */
   granted_scopes: OrganizationAuthorizedConnectApplicationListDataItemGrantedScopesList;
   /** The OAuth resource associated with the authorized connect application, if one was requested. */
-  oauth_resource?: string;
+  oauth_resource?: string | undefined;
   application: ConnectApplication;
   /** The ID of the user who authorized the application. */
   user_id: string;
@@ -6384,40 +6429,40 @@ export interface ListOrganizationFeatureFlagsControllerRequest {
   /** Unique identifier of the Organization. */
   organizationId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `desc`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 export interface ListOrganizationMembershipGroupsControllerGroupsRequest {
   /** Unique identifier of the Organization Membership. */
   omId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 export type ListOrganizationsControllerRequestDomainsList = Array<string>;
 export interface ListOrganizationsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** The domains of an Organization. Any Organization with a matching domain will be returned. */
-  domains?: ListOrganizationsControllerRequestDomainsList;
+  domains?: ListOrganizationsControllerRequestDomainsList | undefined;
   /** Searchable text for an Organization. Matches against the organization name. */
-  search?: string;
+  search?: string | undefined;
 }
 /** The list of records for the current page. */
 export type OrganizationListDataList = Array<Organization>;
@@ -6426,11 +6471,11 @@ export type OrganizationListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface OrganizationList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: OrganizationListDataList;
+  data?: OrganizationListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface ListProviderControllerForOrganizationRequest {
   /** An [Organization](/reference/organization) identifier to list provider configurations for. */
@@ -6475,7 +6520,7 @@ export interface DataIntegrationConfigurationResponse {
   created_at: string;
   /** The timestamp when the configuration was last updated. */
   updated_at: string;
-  credentials?: DataIntegrationCredentials2;
+  credentials?: DataIntegrationCredentials2 | undefined;
 }
 /** A list of data integration configurations for the organization. */
 export type DataIntegrationConfigurationListResponseDataList =
@@ -6488,13 +6533,13 @@ export interface DataIntegrationConfigurationListResponse {
 }
 export interface ListRedirectUrisControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListRedirectUrisControllerResponseListMetadata =
@@ -6503,11 +6548,11 @@ export type ListRedirectUrisControllerResponseListMetadata =
 export type ListRedirectUrisControllerResponseDataList = Array<RedirectUri>;
 export interface ListRedirectUrisControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListRedirectUrisControllerResponseDataList;
+  data?: ListRedirectUrisControllerResponseDataList | undefined;
 }
 export interface ListSamlIdpSigningCertificatesControllerRequest {
   /** Unique identifier for the Connection. */
@@ -6535,15 +6580,15 @@ export interface ListUserApiKeysControllerRequest {
   /** Unique identifier of the user. */
   userId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** The ID of the organization to filter user API keys by. When provided, only API keys created against that organization membership are returned. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** The entity that owns the API Key. */
 export type UserApiKeyOwner = ApiKeyOwnerCase1;
@@ -6588,27 +6633,27 @@ export interface ListUserlandUserFeatureFlagsControllerRequest {
   /** The ID of the user. */
   userId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `desc`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 export interface ListUserlandUserInvitesControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `desc`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** The ID of the [organization](/reference/organization) that the recipient will join. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The email address of the recipient. */
-  email?: string;
+  email?: string | undefined;
 }
 /** The list of records for the current page. */
 export type UserlandUserInviteListDataList = Array<UserlandUserInvite>;
@@ -6632,19 +6677,19 @@ export type ListUserlandUserOrganizationMembershipsControllerRequestStatusesList
 >;
 export interface ListUserlandUserOrganizationMembershipsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `desc`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** The ID of the [organization](/reference/organization) which the user belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Filter by the status of the organization membership. Array including any of `active`, `inactive`, or `pending`. */
-  statuses?: ListUserlandUserOrganizationMembershipsControllerRequestStatusesList;
+  statuses?: ListUserlandUserOrganizationMembershipsControllerRequestStatusesList | undefined;
   /** The ID of the [user](/reference/authkit/user). */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** The list of records for the current page. */
 export type UserlandUserOrganizationMembershipListDataList =
@@ -6664,13 +6709,13 @@ export interface ListUserlandUserSessionsControllerRequest {
   /** The ID of the user. */
   id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `desc`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListUserlandUserSessionsControllerResponseListMetadata =
@@ -6701,11 +6746,11 @@ export interface ListUserlandUserSessionsControllerResponseDataItem {
   /** The unique ID of the session. */
   id: string;
   /** Information about the impersonator if this session was created via impersonation. */
-  impersonator?: EventSchemaDataImpersonator;
+  impersonator?: EventSchemaDataImpersonator | undefined;
   /** The IP address from which the session was created. */
   ip_address: string | null;
   /** The ID of the organization this session is associated with. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The user agent string from the device that created the session. */
   user_agent: string | null;
   /** The ID of the user this session belongs to. */
@@ -6728,11 +6773,11 @@ export type ListUserlandUserSessionsControllerResponseDataList =
   Array<ListUserlandUserSessionsControllerResponseDataItem>;
 export interface ListUserlandUserSessionsControllerResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListUserlandUserSessionsControllerResponseDataList;
+  data?: ListUserlandUserSessionsControllerResponseDataList | undefined;
 }
 export interface ListWaitlistsControllerRequest {}
 export interface Waitlist {
@@ -6763,17 +6808,17 @@ export interface ListWaitlistsControllerEntriesRequest {
   /** The unique ID of the waitlist, or the literal `default` for the environment's default waitlist. The default waitlist is created when its first entry is added, so read requests for `default` return a `404` until then. */
   id: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter waitlist entries by their state. */
-  state?: ListWaitlistsControllerEntriesRequestState | (string & {});
+  state?: ListWaitlistsControllerEntriesRequestState | (string & {}) | undefined;
   /** Filter waitlist entries by their exact email address. */
-  email?: string;
+  email?: string | undefined;
 }
 /** Pagination cursors for navigating between pages of results. */
 export type ListWaitlistsControllerEntriesResponseListMetadata =
@@ -6782,21 +6827,21 @@ export type ListWaitlistsControllerEntriesResponseListMetadata =
 export type ListWaitlistsControllerEntriesResponseDataList = Array<WaitlistEntry>;
 export interface ListWaitlistsControllerEntriesResponse {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
   /** The list of records for the current page. */
-  data?: ListWaitlistsControllerEntriesResponseDataList;
+  data?: ListWaitlistsControllerEntriesResponseDataList | undefined;
 }
 export interface ListWebhookEndpointsControllerRequest {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The list of records for the current page. */
 export type WebhookEndpointListDataList = Array<WebhookEndpointJson>;
@@ -6805,11 +6850,11 @@ export type WebhookEndpointListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface WebhookEndpointList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: WebhookEndpointListDataList;
+  data?: WebhookEndpointListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface LogoutSsoControllerRequest {
   /** The logout token returned from the [Logout Authorize](/reference/sso/logout/authorize) endpoint. */
@@ -6820,7 +6865,7 @@ export interface LogoutUserlandSessionsControllerRequest {
   /** The ID of the session. This can be extracted from the `sid` claim of the access token. */
   session_id: string;
   /** The URL to redirect the user to after logout. */
-  return_to?: string;
+  return_to?: string | undefined;
 }
 export interface LogoutUserlandSessionsControllerResponse {}
 export interface OrganizationsControllerFindRequest {
@@ -6831,11 +6876,11 @@ export interface ReplaceGroupRoleAssignmentEntryDto {
   /** The slug of the role to assign to the group. */
   role_slug: string;
   /** The ID of the resource. Omit along with the external-id fields to target the organization itself. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** The external ID of the resource. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** The resource type slug. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 /** Role assignments to add to the group. Assignments that already exist are skipped. */
 export type PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequestAddList =
@@ -6847,24 +6892,28 @@ export interface PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssign
   /** The ID of the group. */
   group_id: string;
   /** Role assignments to add to the group. Assignments that already exist are skipped. */
-  add?: PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequestAddList;
+  add?:
+    | PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequestAddList
+    | undefined;
   /** Role assignments to remove from the group. Entries that match no assignment are skipped. */
-  remove?: PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequestRemoveList;
+  remove?:
+    | PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequestRemoveList
+    | undefined;
 }
 export interface PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsResponse {}
 export interface PatchConnectionStandardAttributesDto {
   /** The IdP attribute or claim the profile's `idp_id` is mapped from. */
-  idp_id?: string;
+  idp_id?: string | undefined;
   /** The IdP attribute or claim the profile's `email` is mapped from. */
-  email?: string;
+  email?: string | undefined;
   /** The IdP attribute or claim the profile's `first_name` is mapped from. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The IdP attribute or claim the profile's `last_name` is mapped from. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The IdP attribute or claim the profile's `groups` are mapped from. Set to `null` to unset the mapping. */
-  groups?: string | null;
+  groups?: string | null | undefined;
   /** The IdP attribute or claim the profile's `name` is mapped from. Set to `null` to unset the mapping. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** How IdP attributes or claims map onto custom attributes, keyed by custom attribute name. Custom attributes must already be defined in the WorkOS dashboard. Only the provided keys are updated; a `null` value unsets that mapping. */
 export type PatchConnectionAttributeMapsDtoCustomAttributesMap = {
@@ -6872,21 +6921,21 @@ export type PatchConnectionAttributeMapsDtoCustomAttributesMap = {
 };
 export interface PatchConnectionAttributeMapsDto {
   /** How IdP attributes or claims map onto the standard WorkOS profile fields. Only the provided fields are updated. */
-  standard_attributes?: PatchConnectionStandardAttributesDto;
+  standard_attributes?: PatchConnectionStandardAttributesDto | undefined;
   /** How IdP attributes or claims map onto custom attributes, keyed by custom attribute name. Custom attributes must already be defined in the WorkOS dashboard. Only the provided keys are updated; a `null` value unsets that mapping. */
-  custom_attributes?: PatchConnectionAttributeMapsDtoCustomAttributesMap;
+  custom_attributes?: PatchConnectionAttributeMapsDtoCustomAttributesMap | undefined;
 }
 export interface PatchConnectionSamlOptionsDto {
   /** The Identity Provider metadata URL. When provided, the IdP fields and signing certificates are re-imported from the metadata document, replacing the current set. Mutually exclusive with the manual IdP fields. Set to `null` to stop tracking a metadata URL. */
-  idp_metadata_url?: string | null;
+  idp_metadata_url?: string | null | undefined;
   /** A custom Assertion Consumer Service (ACS) URL override. Set to `null` to revert to the standard WorkOS-generated ACS URL. */
-  acs_url?: string | null;
+  acs_url?: string | null | undefined;
   /** A custom Service Provider Entity ID (audience) override. Set to `null` to revert to the connection external key. */
-  sp_entity_id?: string | null;
+  sp_entity_id?: string | null | undefined;
   /** The Identity Provider Entity ID. */
-  idp_entity_id?: string;
+  idp_entity_id?: string | undefined;
   /** The Identity Provider SSO URL. */
-  idp_sso_url?: string;
+  idp_sso_url?: string | undefined;
 }
 /** The token-endpoint client authentication method. Moving to `private_key_jwt` generates a signing key pair if the connection has none; its certificate is returned in `oidc_options.jwt_signing_certs` and must be registered at the Identity Provider. */
 export type PatchConnectionOidcOptionsDtoTokenAuthenticationMethod =
@@ -6910,41 +6959,43 @@ export type PatchConnectionOidcOptionsDtoIdTokenSignatureAlgorithm =
   | "RS512";
 export interface PatchConnectionOidcOptionsDto {
   /** The OIDC discovery endpoint. */
-  discovery_endpoint?: string;
+  discovery_endpoint?: string | undefined;
   /** The OIDC client ID. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The OIDC client secret. Required when moving the connection to `client_secret_basic` or `client_secret_post`, and rejected for `private_key_jwt`, which authenticates with a key pair instead. This value is write-only and is never returned. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** A custom OAuth callback URL override. Set to `null` to revert to the standard WorkOS-generated redirect URI. */
-  redirect_uri?: string | null;
+  redirect_uri?: string | null | undefined;
   /** Whether PKCE is enabled for the connection. */
-  pkce?: boolean;
+  pkce?: boolean | undefined;
   /** The token-endpoint client authentication method. Moving to `private_key_jwt` generates a signing key pair if the connection has none; its certificate is returned in `oidc_options.jwt_signing_certs` and must be registered at the Identity Provider. */
   token_authentication_method?:
     | PatchConnectionOidcOptionsDtoTokenAuthenticationMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The ID-token signing algorithm. */
   id_token_signature_algorithm?:
     | PatchConnectionOidcOptionsDtoIdTokenSignatureAlgorithm
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether to fetch additional profile attributes from the userinfo endpoint. */
-  fetch_user_info?: boolean;
+  fetch_user_info?: boolean | undefined;
 }
 export interface PatchConnectionsControllerRequest {
   /** Unique identifier for the Connection. */
   id: string;
   /** A human-readable name for the Connection. */
-  name?: string;
+  name?: string | undefined;
   /** The customer-owned identifier for the Connection. Set to `null` to stop tracking one. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The type of the Connection. Immutable after creation -- it may be sent, but only with the Connection current type. */
-  connection_type?: string;
+  connection_type?: string | undefined;
   /** How IdP attributes or claims map onto WorkOS profile fields. Only the provided fields are updated. */
-  attribute_maps?: PatchConnectionAttributeMapsDto;
+  attribute_maps?: PatchConnectionAttributeMapsDto | undefined;
   /** Protocol configuration for SAML connections. Only the provided fields are updated. Mutually exclusive with `oidc_options`. */
-  saml_options?: PatchConnectionSamlOptionsDto;
+  saml_options?: PatchConnectionSamlOptionsDto | undefined;
   /** Protocol configuration for OIDC connections. Only the provided fields are updated. Mutually exclusive with `saml_options`. */
-  oidc_options?: PatchConnectionOidcOptionsDto;
+  oidc_options?: PatchConnectionOidcOptionsDto | undefined;
 }
 export type ProviderControllerConfigureRequestScopesList = Array<string>;
 /** Provider-specific config values to set for the organization, keyed by config field. Only fields the provider declares are accepted, and each value must match that field's pattern. Accepted only for providers whose credentials are organization-managed; for shared or custom credential providers, config belongs on the integration itself (via the data-integrations API) and supplying it here is rejected. */
@@ -6955,15 +7006,15 @@ export interface ProviderControllerConfigureRequest {
   /** The slug identifier of the provider to configure (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** Whether the provider is enabled for the organization. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The OAuth scopes to request for the organization. Pass `null` to inherit the provider scopes. */
-  scopes?: ProviderControllerConfigureRequestScopesList | null;
+  scopes?: ProviderControllerConfigureRequestScopesList | null | undefined;
   /** The OAuth client ID of the organization's own application. Must be provided together with `client_secret`, and only for providers whose credentials are supplied by the organization. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The OAuth client secret of the organization's own application. Must be provided together with `client_id`. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Provider-specific config values to set for the organization, keyed by config field. Only fields the provider declares are accepted, and each value must match that field's pattern. Accepted only for providers whose credentials are organization-managed; for shared or custom credential providers, config belongs on the integration itself (via the data-integrations API) and supplying it here is rejected. */
-  config?: ProviderControllerConfigureRequestConfigMap;
+  config?: ProviderControllerConfigureRequestConfigMap | undefined;
 }
 /** The authentication method being used. */
 export type RadarStandaloneControllerAssessRequestAuthMethod =
@@ -6989,7 +7040,7 @@ export interface RadarStandaloneControllerAssessRequest {
   /** The action being performed. */
   action: RadarStandaloneControllerAssessRequestAction | (string & {});
   /** An optional Radar signals ID for the request. */
-  signals_id?: string;
+  signals_id?: string | undefined;
 }
 /** The verdict of the risk assessment. */
 export type RadarStandaloneResponseVerdict = "allow" | "block" | "challenge";
@@ -7013,15 +7064,15 @@ export type RadarStandaloneResponseBlocklistType =
   | "country";
 export interface RadarStandaloneResponse {
   /** The verdict of the risk assessment. */
-  verdict?: RadarStandaloneResponseVerdict;
+  verdict?: RadarStandaloneResponseVerdict | undefined;
   /** A human-readable reason for the verdict. */
-  reason?: string;
+  reason?: string | undefined;
   /** Unique identifier of the authentication attempt. */
-  attempt_id?: string;
+  attempt_id?: string | undefined;
   /** The Radar control that triggered the verdict. Only present if the verdict is `block` or `challenge`. */
-  control?: RadarStandaloneResponseControl;
+  control?: RadarStandaloneResponseControl | undefined;
   /** The type of blocklist entry that triggered the verdict. Only present if the control is `restriction`. */
-  blocklist_type?: RadarStandaloneResponseBlocklistType;
+  blocklist_type?: RadarStandaloneResponseBlocklistType | undefined;
 }
 export type RadarStandaloneControllerDeleteRadarListEntryRequestType =
   | "ip_address"
@@ -7060,7 +7111,7 @@ export interface RadarStandaloneControllerUpdateRadarListRequest {
 }
 export interface RadarListEntryAlreadyPresentResponse {
   /** A message indicating the entry already exists. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentRequest {
   /** The ID of the group. */
@@ -7075,11 +7126,11 @@ export interface RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssig
   /** The slug of the role to remove assignments for. */
   role_slug: string;
   /** The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** The external ID of the resource. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** The resource type slug. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 export interface RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsResponse {}
 export interface RemoveAuthorizationOrganizationRolePermissionsControllerPermissionRequest {
@@ -7096,11 +7147,11 @@ export interface RemoveAuthorizationRoleAssignmentsControllerRoleByCriteriaReque
   /** The slug of the role to remove. */
   role_slug: string;
   /** The ID of the resource. Mutually exclusive with `resource_external_id` and `resource_type_slug`. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** The external ID of the resource. Required with `resource_type_slug`. Mutually exclusive with `resource_id`. */
-  resource_external_id?: string;
+  resource_external_id?: string | undefined;
   /** The resource type slug. Required with `resource_external_id`. Mutually exclusive with `resource_id`. */
-  resource_type_slug?: string;
+  resource_type_slug?: string | undefined;
 }
 export interface RemoveAuthorizationRoleAssignmentsControllerRoleByCriteriaResponse {}
 export interface RemoveAuthorizationRoleAssignmentsControllerRoleByIdRequest {
@@ -7224,17 +7275,17 @@ export interface ResendUserlandUserInvitesControllerRequest {
   /** The unique ID of the invitation. */
   id: string;
   /** The locale to use when rendering the invitation email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
-  locale?: ResendUserlandUserInvitesControllerRequestLocale | (string & {});
+  locale?: ResendUserlandUserInvitesControllerRequestLocale | (string & {}) | undefined;
 }
 export interface ResetUserlandUsersControllerPassword0Request {
   /** The password reset token. */
-  token?: string;
+  token?: string | undefined;
   /** The new password to set for the user. */
-  new_password?: string | Redacted.Redacted<string>;
+  new_password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ResetPasswordResponse {
   /** The user whose password was reset. */
-  user?: UserlandUser;
+  user?: UserlandUser | undefined;
 }
 export interface RevokeAgentAdminControllerRegistrationRequest {
   /** The unique ID of the agent registration. */
@@ -7260,7 +7311,7 @@ export interface RevokePortalSessionsControllerLinkRequest {
 export interface RevokePortalSessionsControllerLinkResponse {}
 export interface RevokeUserlandSessionsControllerSessionRequest {
   /** The ID of the session to revoke. This can be extracted from the `sid` claim of the access token. */
-  session_id?: string;
+  session_id?: string | undefined;
 }
 export interface RevokeUserlandSessionsControllerSessionResponse {}
 export interface RevokeUserlandUserInvitesControllerRequest {
@@ -7313,9 +7364,9 @@ export interface SendPublicRadarChallengesControllerRadarSmsChallengeRequest {
   /** The phone number to send the SMS verification code to. */
   phone_number: string;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** The user agent string from the user's request. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface SendRadarSmsChallengeResponse {
   /** The ID of the SMS verification. Pass this to the authenticate endpoint to verify the code. */
@@ -7419,20 +7470,20 @@ export interface SendUserlandUsersControllerEmailChangeRequest {
   /** The unique ID of the user. */
   id: string;
   /** The new email address to change to. */
-  new_email?: string;
+  new_email?: string | undefined;
   /** The locale to use when rendering the email change email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
-  locale?: SendUserlandUsersControllerEmailChangeRequestLocale | (string & {});
+  locale?: SendUserlandUsersControllerEmailChangeRequestLocale | (string & {}) | undefined;
 }
 export interface EmailChange {
   /** Distinguishes the email change object. */
-  object?: string;
-  user?: UserlandUser;
+  object?: string | undefined;
+  user?: UserlandUser | undefined;
   /** The new email address the user is changing to. */
-  new_email?: string;
+  new_email?: string | undefined;
   /** The timestamp when the email change code expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The timestamp when the email change challenge was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** The locale to use when rendering the verification email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
 export type SendUserlandUsersControllerVerificationEmail0RequestLocale =
@@ -7530,11 +7581,11 @@ export interface SendUserlandUsersControllerVerificationEmail0Request {
   /** The ID of the user. */
   id: string;
   /** The locale to use when rendering the verification email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
-  locale?: SendUserlandUsersControllerVerificationEmail0RequestLocale | (string & {});
+  locale?: SendUserlandUsersControllerVerificationEmail0RequestLocale | (string & {}) | undefined;
 }
 export interface SendVerificationEmailResponse {
   /** The user to whom the verification email was sent. */
-  user?: UserlandUser;
+  user?: UserlandUser | undefined;
 }
 /** The permission slugs to assign to the role. */
 export type SetAuthorizationOrganizationRolePermissionsControllerPermissionsRequestPermissionsList =
@@ -7545,7 +7596,9 @@ export interface SetAuthorizationOrganizationRolePermissionsControllerPermission
   /** The slug of the role. */
   slug: string;
   /** The permission slugs to assign to the role. */
-  permissions?: SetAuthorizationOrganizationRolePermissionsControllerPermissionsRequestPermissionsList;
+  permissions?:
+    | SetAuthorizationOrganizationRolePermissionsControllerPermissionsRequestPermissionsList
+    | undefined;
 }
 /** Whether the role is scoped to the environment or an organization (custom role). */
 export type SetAuthorizationOrganizationRolePermissionsControllerPermissionsResponseType =
@@ -7583,7 +7636,9 @@ export interface SetAuthorizationRolePermissionsControllerPermissionsRequest {
   /** The slug of the environment role. */
   slug: string;
   /** The permission slugs to assign to the role. */
-  permissions?: SetAuthorizationRolePermissionsControllerPermissionsRequestPermissionsList;
+  permissions?:
+    | SetAuthorizationRolePermissionsControllerPermissionsRequestPermissionsList
+    | undefined;
 }
 /** Whether the role is scoped to the environment or an organization (custom role). */
 export type SetAuthorizationRolePermissionsControllerPermissionsResponseType =
@@ -7642,7 +7697,7 @@ export interface JwksResponseKeysItem {
 export type JwksResponseKeysList = Array<JwksResponseKeysItem>;
 export interface JwksResponse {
   /** The public keys used for verifying access tokens. */
-  keys?: JwksResponseKeysList;
+  keys?: JwksResponseKeysList | undefined;
 }
 export interface SsoControllerLogoutAuthorizeRequest {
   /** The unique ID of the profile to log out. */
@@ -7650,9 +7705,9 @@ export interface SsoControllerLogoutAuthorizeRequest {
 }
 export interface SsoLogoutAuthorizeResponse {
   /** The URL to redirect the user to in order to log out ([Logout Redirect](/reference/sso/logout) endpoint ready to use). */
-  logout_url?: string;
+  logout_url?: string | undefined;
   /** The logout token to be used in the [Logout Redirect](/reference/sso/logout) endpoint. */
-  logout_token?: string;
+  logout_token?: string | undefined;
 }
 export type SsoControllerTokenRequestGrantType =
   | "authorization_code"
@@ -7663,17 +7718,17 @@ export interface SsoControllerTokenRequest {
   /** The client secret of the WorkOS environment. */
   client_secret: string;
   /** The authorization code received from the authorization callback. Required when `grant_type` is `authorization_code`. */
-  code?: string;
+  code?: string | undefined;
   /** The grant type for the token request. */
   grant_type: SsoControllerTokenRequestGrantType | (string & {});
   /** The PKCE code verifier matching the `code_challenge` sent with the authorization request. Required when the authorization request included a `code_challenge`. Must be sent in the request body. */
-  code_verifier?: string;
+  code_verifier?: string | undefined;
   /** The OIDC ID token to exchange. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
-  subject_token?: string;
+  subject_token?: string | undefined;
   /** The type of the subject token. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
-  subject_token_type?: string;
+  subject_token_type?: string | undefined;
   /** The ID of the organization whose connection the subject token is validated against. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** A list of OAuth scopes for which the access token is authorized. */
 export type SsoTokenResponseOauthTokensScopesList = Array<string>;
@@ -7692,15 +7747,15 @@ export interface SsoTokenResponseOauthTokens {
 }
 export interface SsoTokenResponse {
   /** The type of token issued. */
-  token_type?: string;
+  token_type?: string | undefined;
   /** An access token that can be exchanged for a user profile. Access tokens are short-lived -- see the `expires_in` field for the exact lifetime. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The lifetime of the access token in seconds. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** The user profile returned by the identity provider. */
-  profile?: Profile;
+  profile?: Profile | undefined;
   /** OAuth tokens issued by the identity provider, if available. */
-  oauth_tokens?: SsoTokenResponseOauthTokens;
+  oauth_tokens?: SsoTokenResponseOauthTokens | undefined;
 }
 export interface SyncDirectoriesControllerDirectoryRequest {
   /** Unique identifier for the Directory. */
@@ -7716,9 +7771,11 @@ export type UpdateAgentBlueprintsControllerRequestInvocableByOrganizationIdsList
 /** Who may mint sessions from this blueprint. Omitted lists are left unchanged. */
 export interface UpdateAgentBlueprintsControllerRequestInvocableBy {
   /** Role slugs whose members may mint user-delegated sessions from this blueprint. An empty list allows any member. */
-  role_slugs?: UpdateAgentBlueprintsControllerRequestInvocableByRoleSlugsList;
+  role_slugs?: UpdateAgentBlueprintsControllerRequestInvocableByRoleSlugsList | undefined;
   /** Organizations in which sessions may be minted from this blueprint, enforced on user-delegated, autonomous, and agent-delegated mints. An empty list allows any organization in the environment. */
-  organization_ids?: UpdateAgentBlueprintsControllerRequestInvocableByOrganizationIdsList;
+  organization_ids?:
+    | UpdateAgentBlueprintsControllerRequestInvocableByOrganizationIdsList
+    | undefined;
 }
 export type UpdateAgentBlueprintsControllerRequestInvocableAsInstanceTypesItem =
   | "delegated"
@@ -7730,32 +7787,32 @@ export type UpdateAgentBlueprintsControllerRequestInvocableAsInstanceTypesList =
 /** How sessions may be minted from this blueprint. Omitted lists are left unchanged. */
 export interface UpdateAgentBlueprintsControllerRequestInvocableAs {
   /** Instance types that may be minted from this blueprint: `delegated` and/or `autonomous`. At least one is required; existing sessions of a removed type are refused at their next refresh. */
-  instance_types?: UpdateAgentBlueprintsControllerRequestInvocableAsInstanceTypesList;
+  instance_types?: UpdateAgentBlueprintsControllerRequestInvocableAsInstanceTypesList | undefined;
 }
 /** Token and session lifetimes for sessions minted from this blueprint. Omitted fields are left unchanged. */
 export interface UpdateAgentBlueprintsControllerRequestSessionSettings {
   /** Maximum lifetime of a session in seconds; refreshes never extend a session past this. At most 31,536,000 (365 days). */
-  max_age_seconds?: number;
+  max_age_seconds?: number | undefined;
   /** Lifetime of each minted access token in seconds. At most 3,600 (1 hour). */
-  access_token_ttl_seconds?: number;
+  access_token_ttl_seconds?: number | undefined;
   /** Lifetime of each rotated refresh token in seconds. At most 5,184,000 (60 days). */
-  refresh_token_ttl_seconds?: number;
+  refresh_token_ttl_seconds?: number | undefined;
 }
 export interface UpdateAgentBlueprintsControllerRequest {
   /** The unique ID of the agent blueprint. */
   agent_blueprint_id: string;
   /** Human-readable name of the agent blueprint. */
-  name?: string;
+  name?: string | undefined;
   /** Human-readable description of the agent blueprint. Pass `null` to clear it. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Permission slugs forming the ceiling on what sessions minted from this blueprint may do. Each slug must exist in the environment. */
-  permissions?: UpdateAgentBlueprintsControllerRequestPermissionsList;
+  permissions?: UpdateAgentBlueprintsControllerRequestPermissionsList | undefined;
   /** Who may mint sessions from this blueprint. Omitted lists are left unchanged. */
-  invocable_by?: UpdateAgentBlueprintsControllerRequestInvocableBy;
+  invocable_by?: UpdateAgentBlueprintsControllerRequestInvocableBy | undefined;
   /** How sessions may be minted from this blueprint. Omitted lists are left unchanged. */
-  invocable_as?: UpdateAgentBlueprintsControllerRequestInvocableAs;
+  invocable_as?: UpdateAgentBlueprintsControllerRequestInvocableAs | undefined;
   /** Token and session lifetimes for sessions minted from this blueprint. Omitted fields are left unchanged. */
-  session_settings?: UpdateAgentBlueprintsControllerRequestSessionSettings;
+  session_settings?: UpdateAgentBlueprintsControllerRequestSessionSettings | undefined;
 }
 /** The OAuth scopes granted to the application. */
 export type UpdateApplicationsControllerRequestScopesList = Array<string>;
@@ -7767,15 +7824,15 @@ export interface UpdateApplicationsControllerRequest {
   /** The application ID or client ID of the Connect Application. */
   id: string;
   /** The name of the application. */
-  name?: string;
+  name?: string | undefined;
   /** A description for the application. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The OAuth scopes granted to the application. */
-  scopes?: UpdateApplicationsControllerRequestScopesList | null;
+  scopes?: UpdateApplicationsControllerRequestScopesList | null | undefined;
   /** Updated redirect URIs for the application. OAuth applications only. */
-  redirect_uris?: UpdateApplicationsControllerRequestRedirectUrisList | null;
+  redirect_uris?: UpdateApplicationsControllerRequestRedirectUrisList | null | undefined;
   /** Updated origins allowed to call the OAuth token endpoint for this application from a browser. Replaces the existing list. OAuth applications only. */
-  cors_origins?: UpdateApplicationsControllerRequestCorsOriginsList | null;
+  cors_origins?: UpdateApplicationsControllerRequestCorsOriginsList | null | undefined;
 }
 /** The scopes available for this application. */
 export type UpdateApplicationsControllerResponseScopesList = Array<string>;
@@ -7804,19 +7861,19 @@ export interface UpdateApplicationsControllerResponse {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The type of the application. */
-  application_type?: string;
+  application_type?: string | undefined;
   /** The redirect URIs configured for this application. */
-  redirect_uris?: UpdateApplicationsControllerResponseRedirectUrisList;
+  redirect_uris?: UpdateApplicationsControllerResponseRedirectUrisList | undefined;
   /** The CORS origins allowed to call the OAuth token endpoint for this application from a browser. */
-  cors_origins?: UpdateApplicationsControllerResponseCorsOriginsList;
+  cors_origins?: UpdateApplicationsControllerResponseCorsOriginsList | undefined;
   /** Whether the application uses PKCE for authorization. */
-  uses_pkce?: boolean;
+  uses_pkce?: boolean | undefined;
   /** Whether the application is a first-party application. */
-  is_first_party?: boolean;
+  is_first_party?: boolean | undefined;
   /** Whether the application was dynamically registered. */
-  was_dynamically_registered?: boolean;
+  was_dynamically_registered?: boolean | undefined;
   /** The ID of the organization the application belongs to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
 }
 /** The period Audit Log events will be retained. Valid values are `1_MONTH` through `11_MONTHS` in one-month increments and `1_YEAR` through `10_YEARS` in one-year increments. Mutually exclusive with `retention_period_in_days`. */
 export type UpdateAuditLogsRetentionDtoCase0RetentionPeriod =
@@ -7863,9 +7920,9 @@ export interface UpdateAuthorizationOrganizationRolesControllerRequest {
   /** The slug of the role. */
   slug: string;
   /** A descriptive name for the role. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the role's purpose. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** Whether the role is scoped to the environment or an organization (custom role). */
 export type UpdateAuthorizationOrganizationRolesControllerResponseType =
@@ -7899,9 +7956,9 @@ export interface UpdateAuthorizationPermissionsControllerRequest {
   /** A unique key to reference the permission. Must be lowercase and contain only letters, numbers, hyphens, underscores, colons, periods, and asterisks. */
   slug: string;
   /** A descriptive name for the Permission. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the Permission. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface UpdateAuthorizationResourcesByExternalIdControllerByExternalIdRequest {
   /** The ID of the organization that owns the resource. */
@@ -7911,15 +7968,15 @@ export interface UpdateAuthorizationResourcesByExternalIdControllerByExternalIdR
   /** An identifier you provide to reference the resource in your system. */
   external_id: string;
   /** A display name for the resource. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the resource. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The ID of the parent resource. Mutually exclusive with `parent_resource_external_id` and `parent_resource_type_slug`. */
-  parent_resource_id?: string;
+  parent_resource_id?: string | undefined;
   /** The external ID of the parent resource. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_external_id?: string;
+  parent_resource_external_id?: string | undefined;
   /** The resource type slug of the parent resource. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_type_slug?: string;
+  parent_resource_type_slug?: string | undefined;
 }
 export interface UpdateAuthorizationResourcesByExternalIdControllerByExternalIdResponse {
   /** Distinguishes the Resource object. */
@@ -7947,15 +8004,15 @@ export interface UpdateAuthorizationResourcesControllerRequest {
   /** The ID of the authorization resource. */
   resource_id: string;
   /** A display name for the resource. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the resource. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The ID of the parent resource. Mutually exclusive with `parent_resource_external_id` and `parent_resource_type_slug`. */
-  parent_resource_id?: string;
+  parent_resource_id?: string | undefined;
   /** The external ID of the parent resource. Required with `parent_resource_type_slug`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_external_id?: string;
+  parent_resource_external_id?: string | undefined;
   /** The resource type slug of the parent resource. Required with `parent_resource_external_id`. Mutually exclusive with `parent_resource_id`. */
-  parent_resource_type_slug?: string;
+  parent_resource_type_slug?: string | undefined;
 }
 export interface UpdateAuthorizationResourcesControllerResponse {
   /** Distinguishes the Resource object. */
@@ -7983,9 +8040,9 @@ export interface UpdateAuthorizationRolesControllerRequest {
   /** The slug of the environment role. */
   slug: string;
   /** A descriptive name for the role. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the role. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** Whether the role is scoped to the environment or an organization (custom role). */
 export type UpdateAuthorizationRolesControllerResponseType = "EnvironmentRole" | "OrganizationRole";
@@ -8024,43 +8081,48 @@ export type UpdateCustomProviderDefinitionDtoAdditionalAuthorizationParametersMa
 export type UpdateCustomProviderDefinitionDtoAuthenticateVia = "request_body" | "basic_auth_header";
 export interface UpdateCustomProviderDefinitionDto {
   /** A descriptive name for the custom provider. */
-  name?: string;
+  name?: string | undefined;
   /** The provider's OAuth authorization endpoint. Must be a static URL: `${config....}` placeholders are resolved against a provider's declared config fields, which custom providers cannot declare. */
-  authorization_url?: string;
+  authorization_url?: string | undefined;
   /** The provider's OAuth token endpoint. Must be a static URL: `${config....}` placeholders are resolved against a provider's declared config fields, which custom providers cannot declare. */
-  token_url?: string;
+  token_url?: string | undefined;
   /** The endpoint used to refresh tokens, if different from the token endpoint. Must be a static URL, like the other endpoints. */
-  refresh_token_url?: string | null;
+  refresh_token_url?: string | null | undefined;
   /** Whether PKCE is used during the authorization code flow. */
-  pkce_enabled?: boolean;
+  pkce_enabled?: boolean | undefined;
   /** The separator used to join requested scopes. */
-  request_scope_separator?: string;
+  request_scope_separator?: string | undefined;
   /** Whether at least one scope must be selected when connecting an account. */
-  scopes_required?: boolean;
+  scopes_required?: boolean | undefined;
   /** Whether a client secret is required for this provider. */
-  client_secret_required?: boolean;
+  client_secret_required?: boolean | undefined;
   /** Additional static query parameters appended to the authorization request. */
-  additional_authorization_parameters?: UpdateCustomProviderDefinitionDtoAdditionalAuthorizationParametersMap;
+  additional_authorization_parameters?:
+    | UpdateCustomProviderDefinitionDtoAdditionalAuthorizationParametersMap
+    | undefined;
   /** The Content-Type used when exchanging the token request. */
-  token_body_content_type?: string;
+  token_body_content_type?: string | undefined;
   /** How client credentials are sent when exchanging authorization codes and refreshing tokens. */
-  authenticate_via?: UpdateCustomProviderDefinitionDtoAuthenticateVia | (string & {});
+  authenticate_via?: UpdateCustomProviderDefinitionDtoAuthenticateVia | (string & {}) | undefined;
 }
 export interface UpdateDataIntegrationsManagementControllerDataIntegrationRequest {
   /** The slug identifier of the data integration. */
   slug: string;
   /** An optional description of the Data Integration. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the Data Integration is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The OAuth scopes to request for the Data Integration. Pass `null` to reset to the provider's configured scopes. */
-  scopes?: UpdateDataIntegrationsManagementControllerDataIntegrationRequestScopesList | null;
+  scopes?:
+    | UpdateDataIntegrationsManagementControllerDataIntegrationRequestScopesList
+    | null
+    | undefined;
   /** New OAuth credentials for the Data Integration. When provided, rotates the stored client secret. Mutually exclusive with `api_key`. */
-  credentials?: DataIntegrationCredentialsDto;
+  credentials?: DataIntegrationCredentialsDto | undefined;
   /** An API key to install or rotate for a tenant on an `api_key` integration. Upserts the tenant installation identified by `user_id` (and optional `organization_id`). */
-  api_key?: ApiKeyInstallationDto;
+  api_key?: ApiKeyInstallationDto | undefined;
   /** Updates to a custom provider's OAuth definition. Only valid for custom-provider integrations. */
-  custom_provider?: UpdateCustomProviderDefinitionDto;
+  custom_provider?: UpdateCustomProviderDefinitionDto | undefined;
 }
 /** The OAuth scopes to request for the Data Integration. Pass `null` to reset to the provider's configured scopes. */
 export type UpdateDataIntegrationsManagementControllerOrganizationDataIntegrationRequestScopesList =
@@ -8069,17 +8131,20 @@ export interface UpdateDataIntegrationsManagementControllerOrganizationDataInteg
   /** The slug identifier of the data integration. */
   slug: string;
   /** An optional description of the Data Integration. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the Data Integration is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The OAuth scopes to request for the Data Integration. Pass `null` to reset to the provider's configured scopes. */
-  scopes?: UpdateDataIntegrationsManagementControllerOrganizationDataIntegrationRequestScopesList | null;
+  scopes?:
+    | UpdateDataIntegrationsManagementControllerOrganizationDataIntegrationRequestScopesList
+    | null
+    | undefined;
   /** New OAuth credentials for the Data Integration. When provided, rotates the stored client secret. Mutually exclusive with `api_key`. */
-  credentials?: DataIntegrationCredentialsDto;
+  credentials?: DataIntegrationCredentialsDto | undefined;
   /** An API key to install or rotate for a tenant on an `api_key` integration. Upserts the tenant installation identified by `user_id` (and optional `organization_id`). */
-  api_key?: ApiKeyInstallationDto;
+  api_key?: ApiKeyInstallationDto | undefined;
   /** Updates to a custom provider's OAuth definition. Only valid for custom-provider integrations. */
-  custom_provider?: UpdateCustomProviderDefinitionDto;
+  custom_provider?: UpdateCustomProviderDefinitionDto | undefined;
 }
 /** Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections. */
 export type UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestConfigMap =
@@ -8097,29 +8162,34 @@ export interface UpdateDataIntegrationsOrganizationControllerOrganizationDataIns
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** Accepted for compatibility; does not change update targeting. Omit intent and selector to update the compatibility connection, or supply `connected_account_id` to update an exact connection. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select the connection to update. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
   /** Set to `reauthorize` with `connected_account_id` to update one exact connection. The intent may be omitted when supplying an ID. Omit both for permanent compatibility behavior. */
-  connection_intent?: string;
+  connection_intent?: string | undefined;
   /** A mutable, non-unique connection label; null clears it. Not an account identifier. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested account identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections. */
-  config?: UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestConfigMap;
+  config?:
+    | UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestConfigMap
+    | undefined;
   /** The OAuth access token for the connected account. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The OAuth refresh token for the connected account. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The OAuth scopes granted for this connection. */
-  scopes?: UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestScopesList;
+  scopes?:
+    | UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestScopesList
+    | undefined;
   /** Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided. */
   state?:
     | UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequestState
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The [User](/reference/authkit/user) identifier of the organization member on whose behalf the connected account is being imported or updated. The user must be an active member of the organization. */
   user_id: string;
 }
@@ -8140,31 +8210,36 @@ export interface UpdateDataIntegrationsUserManagementControllerUserDataInstallat
   /** The slug identifier of the provider (e.g., `github`, `slack`, `notion`). */
   slug: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter if the connection is scoped to an organization. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Accepted for compatibility; does not change update targeting. Omit intent and selector to update the compatibility connection, or supply `connected_account_id` to update an exact connection. */
-  supports_multiple_connections?: boolean;
+  supports_multiple_connections?: boolean | undefined;
   /** A [connected account](/reference/pipes/connected-account) identifier. Use this to select the connection to update. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
   /** Set to `reauthorize` with `connected_account_id` to update one exact connection. The intent may be omitted when supplying an ID. Omit both for permanent compatibility behavior. */
-  connection_intent?: string;
+  connection_intent?: string | undefined;
   /** A mutable, non-unique connection label; null clears it. Not an account identifier. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested account identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** Installation-scoped provider configuration for this connection, such as Salesforce salesforce_host. Imports apply supplied values over installation-scoped integration pins and inherit other config from the credential source. Credential-bearing imports must satisfy required configuration even when config is omitted or {}. On update, a supplied object replaces installation-scoped values; omitted config preserves the stored snapshot. Stored integration-scoped values remain bound to the OAuth client and cannot be overridden or replaced with current integration pins. Replacements must satisfy required configuration; {} and empty-string values clear installation-scoped values only when the result is valid. Provider defaults count toward completeness but are resolved at read time, not stored. Only tokenless needs_reauthorization placeholders may remain incomplete; attaching their first tokens validates configuration even when config is omitted. Unrelated updates do not revalidate unchanged configuration. Clearing salesforce_host falls back to login.salesforce.com, which may not work for sandbox or My Domain-only connections. */
-  config?: UpdateDataIntegrationsUserManagementControllerUserDataInstallationRequestConfigMap;
+  config?:
+    | UpdateDataIntegrationsUserManagementControllerUserDataInstallationRequestConfigMap
+    | undefined;
   /** The OAuth access token for the connected account. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The OAuth refresh token for the connected account. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The ISO-8601 timestamp when the access token expires. Required when `access_token` is provided for tokens that expire. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The OAuth scopes granted for this connection. */
-  scopes?: UpdateDataIntegrationsUserManagementControllerUserDataInstallationRequestScopesList;
+  scopes?:
+    | UpdateDataIntegrationsUserManagementControllerUserDataInstallationRequestScopesList
+    | undefined;
   /** Explicitly set the state of the connected account. When omitted, the state is derived from the token combination provided. */
   state?:
     | UpdateDataIntegrationsUserManagementControllerUserDataInstallationRequestState
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The IDs of the organization memberships to add to the group. Adding a membership that's already in the group has no effect. */
 export type UpdateGroupMembershipsControllerMembersRequestAddList = Array<string>;
@@ -8176,9 +8251,9 @@ export interface UpdateGroupMembershipsControllerMembersRequest {
   /** Unique identifier of the Group. */
   groupId: string;
   /** The IDs of the organization memberships to add to the group. Adding a membership that's already in the group has no effect. */
-  add?: UpdateGroupMembershipsControllerMembersRequestAddList;
+  add?: UpdateGroupMembershipsControllerMembersRequestAddList | undefined;
   /** The IDs of the organization memberships to remove from the group. Removing a membership that isn't in the group has no effect. */
-  remove?: UpdateGroupMembershipsControllerMembersRequestRemoveList;
+  remove?: UpdateGroupMembershipsControllerMembersRequestRemoveList | undefined;
 }
 export interface UpdateGroupMembershipsControllerMembersResponse {}
 export interface UpdateGroupsControllerRequest {
@@ -8187,9 +8262,9 @@ export interface UpdateGroupsControllerRequest {
   /** The ID of the group. */
   groupId: string;
   /** The name of the Group. */
-  name?: string;
+  name?: string | undefined;
   /** An optional description of the Group. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface UpdateJumpWireWebDataVaultControllerRequest {
   /** Unique identifier of the object. */
@@ -8197,11 +8272,11 @@ export interface UpdateJumpWireWebDataVaultControllerRequest {
   /** New plaintext value. */
   value: string;
   /** ID of the expected current version for optimistic locking. */
-  version_check?: string | null;
+  version_check?: string | null | undefined;
 }
 export interface UpdateJwtTemplatesControllerJwtTemplateRequest {
   /** The JWT template content as a Liquid template string. */
-  content?: string;
+  content?: string | undefined;
 }
 /** The domains associated with the organization. Deprecated in favor of `domain_data`. */
 export type UpdateOrganizationsControllerOrganizationRequestDomainsList = Array<string>;
@@ -8216,27 +8291,27 @@ export interface UpdateOrganizationsControllerOrganizationRequest {
   /** Unique identifier of the Organization. */
   id: string;
   /** The name of the organization. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the organization allows profiles from outside the organization to sign in. */
-  allow_profiles_outside_organization?: boolean;
+  allow_profiles_outside_organization?: boolean | undefined;
   /** The domains associated with the organization. Deprecated in favor of `domain_data`. */
-  domains?: UpdateOrganizationsControllerOrganizationRequestDomainsList;
+  domains?: UpdateOrganizationsControllerOrganizationRequestDomainsList | undefined;
   /** The domains associated with the organization, including verification state. */
-  domain_data?: UpdateOrganizationsControllerOrganizationRequestDomainDataList;
+  domain_data?: UpdateOrganizationsControllerOrganizationRequestDomainDataList | undefined;
   /** The Stripe customer ID associated with the organization. */
-  stripe_customer_id?: string;
+  stripe_customer_id?: string | undefined;
   /** Object containing [metadata](/authkit/metadata) key/value pairs associated with the Organization. */
-  metadata?: UpdateOrganizationsControllerOrganizationRequestMetadataMap | null;
+  metadata?: UpdateOrganizationsControllerOrganizationRequestMetadataMap | null | undefined;
   /** An external identifier for the Organization. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface UpdateRadarStandaloneControllerRadarAttemptRequest {
   /** The unique identifier of the Radar attempt to update. */
   id: string;
   /** Set to `"success"` to mark the challenge as completed. */
-  challenge_status?: string;
+  challenge_status?: string | undefined;
   /** Set to `"success"` to mark the authentication attempt as successful. */
-  attempt_status?: string;
+  attempt_status?: string | undefined;
 }
 export interface UpdateRadarStandaloneControllerRadarAttemptResponse {}
 export interface UpdateUserlandUserOrganizationMembershipDtoCase1 {
@@ -8382,11 +8457,11 @@ export interface UpdateWebhookEndpointsControllerRequest {
   /** Unique identifier of the Webhook Endpoint. */
   id: string;
   /** The HTTPS URL where webhooks will be sent. */
-  endpoint_url?: string;
+  endpoint_url?: string | undefined;
   /** Whether the Webhook Endpoint is enabled or disabled. */
-  status?: UpdateWebhookEndpointsControllerRequestStatus | (string & {});
+  status?: UpdateWebhookEndpointsControllerRequestStatus | (string & {}) | undefined;
   /** The events that the Webhook Endpoint is subscribed to. */
-  events?: UpdateWebhookEndpointsControllerRequestEventsList;
+  events?: UpdateWebhookEndpointsControllerRequestEventsList | undefined;
 }
 /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
 export type UpsertDataIntegrationsControllerApiKeyRequestConnectionOwner = "user" | "organization";
@@ -8394,21 +8469,24 @@ export interface UpsertDataIntegrationsControllerApiKeyRequest {
   /** The identifier of the integration. */
   slug: string;
   /** A mutable, non-unique label. Omit to preserve an existing label; null clears it. Labels are never account identifiers. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested provider account identifier, never inferred from a label or credential. Omit to preserve an existing identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** A [User](/reference/authkit/user) identifier. */
   user_id: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
-  connection_owner?: UpsertDataIntegrationsControllerApiKeyRequestConnectionOwner | (string & {});
+  connection_owner?:
+    | UpsertDataIntegrationsControllerApiKeyRequestConnectionOwner
+    | (string & {})
+    | undefined;
   /** The API key secret to store for this integration. */
   secret: string | Redacted.Redacted<string>;
   /** Send `reauthorize` with `connected_account_id` to reauthorize one exact connection. Omit it to use the compatibility connection; creating another connection lives on the POST route. */
-  connection_intent?: string;
+  connection_intent?: string | undefined;
   /** The exact connected account to reauthorize. Required with `connection_intent: reauthorize`; it may also be sent on its own to reauthorize that connection. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
 }
 /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
 export type UpsertDataIntegrationsControllerClientCredentialsRequestConnectionOwner =
@@ -8422,27 +8500,28 @@ export interface UpsertDataIntegrationsControllerClientCredentialsRequest {
   /** The identifier of the integration. */
   slug: string;
   /** A mutable, non-unique label. Omit to preserve an existing label; null clears it. Labels are never account identifiers. */
-  account_display_name?: string | null;
+  account_display_name?: string | null | undefined;
   /** A developer-attested provider account identifier, never inferred from a label or credential. Omit to preserve an existing identifier; null clears it. */
-  account_identifier?: string | null;
+  account_identifier?: string | null | undefined;
   /** A [User](/reference/authkit/user) identifier. */
   user_id: string;
   /** An [Organization](/reference/organization) identifier. Optional parameter to scope the connection to a specific organization. Required when `connection_owner` is `organization`. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Whose connection to create or rotate. `user` (the default) addresses the connection owned by `user_id`. `organization` addresses the connection shared by every member of `organization_id`; `user_id` then identifies the member performing the request and must be an active member of the organization. */
   connection_owner?:
     | UpsertDataIntegrationsControllerClientCredentialsRequestConnectionOwner
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The OAuth client ID to store for this integration. */
   client_id: string;
   /** The OAuth client secret to store for this integration. */
   client_secret: string | Redacted.Redacted<string>;
   /** Provider-specific configuration values collected for this installation, keyed by the provider's config field descriptors. */
-  config?: UpsertDataIntegrationsControllerClientCredentialsRequestConfigMap;
+  config?: UpsertDataIntegrationsControllerClientCredentialsRequestConfigMap | undefined;
   /** Send `reauthorize` with `connected_account_id` to reauthorize one exact connection. Omit it to use the compatibility connection; creating another connection lives on the POST route. */
-  connection_intent?: string;
+  connection_intent?: string | undefined;
   /** The exact connected account to reauthorize. Required with `connection_intent: reauthorize`; it may also be sent on its own to reauthorize that connection. */
-  connected_account_id?: string;
+  connected_account_id?: string | undefined;
 }
 /** The locale to use when rendering the Magic Auth email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
 export type UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequestLocale =
@@ -8538,60 +8617,63 @@ export type UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequestLocale =
   | "zu";
 export interface UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequest {
   /** The email address to send the magic code to. */
-  email?: string;
+  email?: string | undefined;
   /** The invitation token to associate with this magic code. */
-  invitation_token?: string;
+  invitation_token?: string | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** The user agent string from the user's request. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** The ID of an existing Radar authentication attempt to associate with this request. */
-  radar_auth_attempt_id?: string;
+  radar_auth_attempt_id?: string | undefined;
   /** An optional Radar signals ID to correlate client-side signals with this request. */
-  signals_id?: string;
+  signals_id?: string | undefined;
   /** The locale to use when rendering the Magic Auth email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
-  locale?: UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequestLocale | (string & {});
+  locale?:
+    | UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequestLocale
+    | (string & {})
+    | undefined;
 }
 export interface UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse {
   /** Distinguishes the Magic Auth object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the Magic Auth code. */
-  id?: string;
+  id?: string | undefined;
   /** The unique ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The timestamp when the Magic Auth code expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The code used to verify the Magic Auth code. */
-  code?: string;
+  code?: string | undefined;
   /** The ID of the Radar authentication attempt created for this request when Radar is enabled. Pass this value to the authenticate endpoint to associate the subsequent authentication with this Radar attempt. */
-  radar_auth_attempt_id?: string;
+  radar_auth_attempt_id?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase0 {
   /** The client ID of the application. */
   client_id: string;
   /** The client secret of the application. May be omitted by public clients that authenticate through other means, such as a PKCE `code_verifier`. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   grant_type: string;
   /** The authorization code received from the redirect. */
   code: string;
   /** The PKCE code verifier used to derive the code challenge passed to the authorization URL. */
-  code_verifier?: string;
+  code_verifier?: string | undefined;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string;
+  invitation_token?: string | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** An optional Radar signals ID to correlate client-side signals with this authentication attempt. */
-  signals_id?: string;
+  signals_id?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase1 {
   /** The client ID of the application. */
@@ -8604,34 +8686,34 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase1 {
   /** The user's password. */
   password: string | Redacted.Redacted<string>;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string;
+  invitation_token?: string | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** An optional Radar signals ID to correlate client-side signals with this authentication attempt. */
-  signals_id?: string;
+  signals_id?: string | undefined;
   /** The ID of an existing Radar authentication attempt to associate with this authentication. */
-  radar_auth_attempt_id?: string;
+  radar_auth_attempt_id?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase2 {
   /** The client ID of the application. */
   client_id: string;
   /** The client secret of the application. May be omitted by public clients that authenticate through other means, such as a PKCE `code_verifier`. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   grant_type: string;
   /** The refresh token to exchange for new tokens. */
   refresh_token: string | Redacted.Redacted<string>;
   /** The ID of the organization to scope the session to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase3 {
   /** The client ID of the application. */
@@ -8644,15 +8726,15 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase3 {
   /** The user's email address. */
   email: string;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string;
+  invitation_token?: string | undefined;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** The ID of an existing Radar authentication attempt to associate with this authentication. */
-  radar_auth_attempt_id?: string;
+  radar_auth_attempt_id?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase4 {
   /** The client ID of the application. */
@@ -8665,11 +8747,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase4 {
   /** The pending authentication token from a previous authentication attempt. */
   pending_authentication_token: string;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase5 {
   /** The client ID of the application. */
@@ -8684,11 +8766,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase5 {
   /** The ID of the MFA authentication challenge. */
   authentication_challenge_id: string;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase6 {
   /** The client ID of the application. */
@@ -8701,13 +8783,13 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase6 {
   /** The email address the user supplied for a profile the identity provider left without one. */
   email: string;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
   /** An optional Radar signals ID to correlate client-side signals with this authentication attempt. */
-  signals_id?: string;
+  signals_id?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase7 {
   /** The client ID of the application. */
@@ -8720,11 +8802,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase7 {
   /** The ID of the organization the user selected. */
   organization_id: string;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase8 {
   /** The client ID of the application. */
@@ -8739,11 +8821,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase8 {
   /** The pending authentication token from a previous authentication attempt. */
   pending_authentication_token: string;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase9 {
   /** The client ID of the application. */
@@ -8754,17 +8836,17 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase9 {
   /** The one-time code from the Radar SMS challenge. */
   code: string;
   /** The ID of the Radar SMS verification being confirmed. Required for sign-up challenges; omitted for sign-in challenges, where the verification is resolved server-side. */
-  verification_id?: string;
+  verification_id?: string | undefined;
   /** The phone number the Radar SMS challenge was sent to. Required for sign-up challenges; omitted for sign-in challenges, where the phone number on file is resolved server-side. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The pending authentication token from a previous authentication attempt. */
   pending_authentication_token: string;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export interface UserlandSessionsControllerAuthenticate0RequestBodyCase10 {
   /** The client ID of the application. */
@@ -8773,11 +8855,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase10 {
   /** The device verification code. */
   device_code: string;
   /** The IP address of the user's request. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** A unique identifier for the device. */
-  device_id?: string;
+  device_id?: string | undefined;
   /** The user agent string from the user's browser. */
-  user_agent?: string;
+  user_agent?: string | undefined;
 }
 export type UserlandSessionsControllerAuthenticate0RequestBody =
   | UserlandSessionsControllerAuthenticate0RequestBodyCase0
@@ -8836,21 +8918,21 @@ export interface UserlandAuthenticateResponseOauthTokens {
 }
 export interface UserlandAuthenticateResponse {
   /** The corresponding [user](/reference/authkit/user) object. */
-  user?: UserlandUser;
+  user?: UserlandUser | undefined;
   /** The ID of the organization the user selected to sign in to. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** An authorization code that can be exchanged for tokens by a different application. */
-  authkit_authorization_code?: string;
+  authkit_authorization_code?: string | undefined;
   /** A JWT containing information about the current session. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** [Exchange this token](/reference/authkit/authentication/refresh-token) for a new access token. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The authentication method used to initiate the session. */
-  authentication_method?: UserlandAuthenticateResponseAuthenticationMethod;
+  authentication_method?: UserlandAuthenticateResponseAuthenticationMethod | undefined;
   /** Information about the impersonator if this session was created via impersonation. */
-  impersonator?: EventSchemaDataImpersonator;
+  impersonator?: EventSchemaDataImpersonator | undefined;
   /** The OAuth tokens from the identity provider, if applicable. */
-  oauth_tokens?: UserlandAuthenticateResponseOauthTokens;
+  oauth_tokens?: UserlandAuthenticateResponseOauthTokens | undefined;
 }
 export interface UserlandSsoControllerDeviceAuthorizationRequest {
   /** The WorkOS client ID for your application. */
@@ -8858,47 +8940,47 @@ export interface UserlandSsoControllerDeviceAuthorizationRequest {
 }
 export interface DeviceAuthorizationResponse {
   /** The device verification code. */
-  device_code?: string;
+  device_code?: string | undefined;
   /** The end-user verification code. */
-  user_code?: string;
+  user_code?: string | undefined;
   /** The end-user verification URI. */
-  verification_uri?: string;
+  verification_uri?: string | undefined;
   /** Verification URI that includes the user code. */
-  verification_uri_complete?: string;
+  verification_uri_complete?: string | undefined;
   /** Lifetime in seconds of the codes. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Minimum polling interval in seconds. */
-  interval?: number;
+  interval?: number | undefined;
 }
 export interface UserlandUserAuthenticationFactorsControllerCreate0Request {
   /** The ID of the [user](/reference/authkit/user). */
   userlandUserId: string;
   /** The type of the factor to enroll. */
-  type?: string;
+  type?: string | undefined;
   /** Your application or company name displayed in the user's authenticator app. */
-  totp_issuer?: string;
+  totp_issuer?: string | undefined;
   /** The user's account name displayed in their authenticator app. */
-  totp_user?: string;
+  totp_user?: string | undefined;
   /** The Base32-encoded shared secret for TOTP factors. This can be provided when creating the auth factor, otherwise it will be generated. The algorithm used to derive TOTP codes is SHA-1, the code length is 6 digits, and the timestep is 30 seconds - the secret must be compatible with these parameters. */
-  totp_secret?: string | Redacted.Redacted<string>;
+  totp_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UserlandUserAuthenticationFactorEnrollResponse {
   /** The [authentication factor](/reference/authkit/mfa/authentication-factor) object that represents the additional authentication method used on top of the existing authentication strategy. */
-  authentication_factor?: AuthenticationFactorEnrolled;
+  authentication_factor?: AuthenticationFactorEnrolled | undefined;
   /** The [authentication challenge](/reference/authkit/mfa/authentication-challenge) object that is used to complete the authentication process. */
-  authentication_challenge?: AuthenticationChallenge;
+  authentication_challenge?: AuthenticationChallenge | undefined;
 }
 export interface UserlandUserAuthenticationFactorsControllerList0Request {
   /** The ID of the [user](/reference/authkit/user). */
   userlandUserId: string;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Defaults to `normal`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
 }
 /** The list of records for the current page. */
 export type UserlandUserAuthenticationFactorListDataList = Array<AuthenticationFactor>;
@@ -8907,11 +8989,11 @@ export type UserlandUserAuthenticationFactorListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface UserlandUserAuthenticationFactorList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: UserlandUserAuthenticationFactorListDataList;
+  data?: UserlandUserAuthenticationFactorListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 export interface UserlandUserOrganizationMembershipsControllerReactivateRequest {
   /** The unique ID of the organization membership. */
@@ -8936,33 +9018,37 @@ export interface UserlandUsersControllerCreate0Request {
   /** The email address of the user. WorkOS trims whitespace and converts the address to lowercase before storing it. */
   email: string;
   /** The first name of the user. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name of the user. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The user's full name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the user's email has been verified. */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
   /** Object containing metadata key/value pairs associated with the user. */
-  metadata?: UserlandUsersControllerCreate0RequestMetadataMap | null;
+  metadata?: UserlandUsersControllerCreate0RequestMetadataMap | null | undefined;
   /** The external ID of the user. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
-  ip_address?: string | null;
+  ip_address?: string | null | undefined;
   /** The user agent string from the user's request. */
-  user_agent?: string | null;
+  user_agent?: string | null | undefined;
   /** An optional Radar signals ID to correlate client-side signals with this request. */
-  signals_id?: string;
+  signals_id?: string | undefined;
   /** The password to set for the user. Mutually exclusive with `password_hash`, `password_hash_type`, and `password_salt_position`. */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** The hashed password to set for the user. Required with `password_hash_type`. Mutually exclusive with `password`. */
-  password_hash?: string | Redacted.Redacted<string>;
+  password_hash?: string | Redacted.Redacted<string> | undefined;
   /** The algorithm originally used to hash the password, used when providing a `password_hash`. Required with `password_hash`. Mutually exclusive with `password`. */
-  password_hash_type?: UserlandUsersControllerCreate0RequestPasswordHashType | (string & {});
+  password_hash_type?:
+    | UserlandUsersControllerCreate0RequestPasswordHashType
+    | (string & {})
+    | undefined;
   /** The position of the salt relative to the password when the `password_hash` digest was computed: `prefix` for `hash(salt + password)` or `suffix` for `hash(password + salt)`. Only supported with the `ssha256` hash type and only valid when a `password_hash` is provided. Defaults to `suffix`. Mutually exclusive with `password`. */
   password_salt_position?:
     | UserlandUsersControllerCreate0RequestPasswordSaltPosition
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Object containing metadata key/value pairs associated with the user. */
 export type UserlandUsersControllerCreate0ResponseMetadataMap = {
@@ -8970,35 +9056,35 @@ export type UserlandUsersControllerCreate0ResponseMetadataMap = {
 };
 export interface UserlandUsersControllerCreate0Response {
   /** Distinguishes the user object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the user. */
-  id?: string;
+  id?: string | undefined;
   /** The first name of the user. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name of the user. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The user's full name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A URL reference to an image representing the user. */
-  profile_picture_url?: string | null;
+  profile_picture_url?: string | null | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the user's email has been verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** The external ID of the user. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Object containing metadata key/value pairs associated with the user. */
-  metadata?: UserlandUsersControllerCreate0ResponseMetadataMap;
+  metadata?: UserlandUsersControllerCreate0ResponseMetadataMap | undefined;
   /** The timestamp when the user last signed in. */
-  last_sign_in_at?: string | null;
+  last_sign_in_at?: string | null | undefined;
   /** The user's preferred locale. */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** An ISO 8601 timestamp. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An ISO 8601 timestamp. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The ID of the Radar authentication attempt created for this request when Radar is enabled. Pass this value to the authenticate endpoint to associate the subsequent authentication with this Radar attempt. */
-  radar_auth_attempt_id?: string;
+  radar_auth_attempt_id?: string | undefined;
 }
 /** The locale to use when rendering the password reset email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
 export type UserlandUsersControllerCreatePasswordResetTokenRequestLocale =
@@ -9094,27 +9180,27 @@ export type UserlandUsersControllerCreatePasswordResetTokenRequestLocale =
   | "zu";
 export interface UserlandUsersControllerCreatePasswordResetTokenRequest {
   /** The email address of the user requesting a password reset. */
-  email?: string;
+  email?: string | undefined;
   /** The locale to use when rendering the password reset email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
-  locale?: UserlandUsersControllerCreatePasswordResetTokenRequestLocale | (string & {});
+  locale?: UserlandUsersControllerCreatePasswordResetTokenRequestLocale | (string & {}) | undefined;
 }
 export interface PasswordReset {
   /** Distinguishes the password reset object. */
-  object?: string;
+  object?: string | undefined;
   /** The unique ID of the password reset object. */
-  id?: string;
+  id?: string | undefined;
   /** The unique ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The timestamp when the password reset token expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The timestamp when the password reset token was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The token used to reset the password. */
-  password_reset_token?: string | Redacted.Redacted<string>;
+  password_reset_token?: string | Redacted.Redacted<string> | undefined;
   /** The URL where the user can reset their password. */
-  password_reset_url?: string | Redacted.Redacted<string>;
+  password_reset_url?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UserlandUsersControllerDelete0Request {
   /** The unique ID of the user. */
@@ -9125,11 +9211,11 @@ export interface UserlandUsersControllerEmailVerification0Request {
   /** The ID of the user. */
   id: string;
   /** The one-time email verification code. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface VerifyEmailResponse {
   /** The user whose email was verified. */
-  user?: UserlandUser;
+  user?: UserlandUser | undefined;
 }
 export interface UserlandUsersControllerGet0Request {
   /** The unique ID of the user. */
@@ -9141,19 +9227,19 @@ export interface UserlandUsersControllerGetPasswordResetRequest {
 }
 export interface UserlandUsersControllerList0Request {
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `before="obj_123"` to fetch a new batch of objects before `"obj_123"`. */
-  before?: string;
+  before?: string | undefined;
   /** An object ID that defines your place in the list. When the ID is not present, you are at the end of the list. For example, if you make a list request and receive 100 objects, ending with `"obj_123"`, your subsequent call can include `after="obj_123"` to fetch a new batch of objects after `"obj_123"`. */
-  after?: string;
+  after?: string | undefined;
   /** Upper limit on the number of objects to return, between `1` and `100`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Order the results by the creation time. Supported values are `"asc"` (ascending), `"desc"` (descending), and `"normal"` (descending with reversed cursor semantics where `before` fetches older records and `after` fetches newer records). Defaults to `desc`. */
-  order?: PaginationOrder | (string & {});
+  order?: PaginationOrder | (string & {}) | undefined;
   /** Filter users by the organization they are a member of. Deprecated in favor of `organization_id`. */
-  organization?: string;
+  organization?: string | undefined;
   /** Filter users by the organization they are a member of. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Filter users by their email address. */
-  email?: string;
+  email?: string | undefined;
 }
 /** The list of records for the current page. */
 export type UserlandUserListDataList = Array<UserlandUser>;
@@ -9162,11 +9248,11 @@ export type UserlandUserListListMetadata =
   AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
 export interface UserlandUserList {
   /** Indicates this is a list response. */
-  object?: string;
+  object?: string | undefined;
   /** The list of records for the current page. */
-  data?: UserlandUserListDataList;
+  data?: UserlandUserListDataList | undefined;
   /** Pagination cursors for navigating between pages of results. */
-  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata;
+  list_metadata?: AuditLogValidatorVersionsControllerSchemasResponseListMetadata | undefined;
 }
 /** Object containing metadata key/value pairs associated with the user. */
 export type UserlandUsersControllerUpdate0RequestMetadataMap = {
@@ -9187,31 +9273,35 @@ export interface UserlandUsersControllerUpdate0Request {
   /** The unique ID of the user. */
   id: string;
   /** The email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The first name of the user. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The last name of the user. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The user's full name. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the user's email has been verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** Object containing metadata key/value pairs associated with the user. */
-  metadata?: UserlandUsersControllerUpdate0RequestMetadataMap | null;
+  metadata?: UserlandUsersControllerUpdate0RequestMetadataMap | null | undefined;
   /** The external ID of the user. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The user's preferred locale. */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The password to set for the user. Mutually exclusive with `password_hash`, `password_hash_type`, and `password_salt_position`. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The hashed password to set for the user. Required with `password_hash_type`. Mutually exclusive with `password`. */
-  password_hash?: string | Redacted.Redacted<string>;
+  password_hash?: string | Redacted.Redacted<string> | undefined;
   /** The algorithm originally used to hash the password, used when providing a `password_hash`. Required with `password_hash`. Mutually exclusive with `password`. */
-  password_hash_type?: UserlandUsersControllerUpdate0RequestPasswordHashType | (string & {});
+  password_hash_type?:
+    | UserlandUsersControllerUpdate0RequestPasswordHashType
+    | (string & {})
+    | undefined;
   /** The position of the salt relative to the password when the `password_hash` digest was computed: `prefix` for `hash(salt + password)` or `suffix` for `hash(password + salt)`. Only supported with the `ssha256` hash type and only valid when a `password_hash` is provided. Defaults to `suffix`. Mutually exclusive with `password`. */
   password_salt_position?:
     | UserlandUsersControllerUpdate0RequestPasswordSaltPosition
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ValidateAgentAdminControllerCredentialRequestBodyCase0 {
   /** The kind of credential being validated -- an agent API key or an agent access token. */
@@ -9225,7 +9315,7 @@ export interface ValidateAgentAdminControllerCredentialRequestBodyCase1 {
   /** The credential value to validate: the API key value for `api_key`, or the access token (JWT) for `access_token`. */
   credential: string;
   /** When provided, the access token's `aud` claim is verified against this value. Tokens issued for a different resource are rejected. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** The agent credential to validate. Either an `api_key` or an `access_token`, discriminated by `type`. */
 export type ValidateAgentAdminControllerCredentialRequestBody =
@@ -9270,12 +9360,12 @@ export interface AgentTokenValidation {
 }
 export interface ValidateApiKeysControllerApiKeyRequest {
   /** The value for an API key. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ApiKeyValidationResponse {
-  api_key?: ApiKey | null;
+  api_key?: ApiKey | null | undefined;
   /** The ID of the agent registration this API Key was issued for. Present only when the API Key is assigned to an agent registration. */
-  agent_registration_id?: string;
+  agent_registration_id?: string | undefined;
 }
 export interface VerifyAuthenticationChallengesControllerRequest {
   /** The unique ID of the Authentication Challenge. */
@@ -9285,9 +9375,9 @@ export interface VerifyAuthenticationChallengesControllerRequest {
 }
 export interface AuthenticationChallengeVerifyResponse {
   /** The authentication challenge object. */
-  challenge?: AuthenticationChallenge;
+  challenge?: AuthenticationChallenge | undefined;
   /** Whether the code was valid. */
-  valid?: boolean;
+  valid?: boolean | undefined;
 }
 export interface VerifyOrganizationDomainsControllerRequest {
   /** Unique identifier of the organization domain. */
@@ -9313,9 +9403,9 @@ export interface WaitlistEntriesControllerDenyResponse {
   /** The timestamp when the entry was approved, or null if not yet approved. */
   approved_at: string | null;
   /** Additional fields submitted when the user joined the waitlist. Values are user-provided -- treat them as untrusted input when rendering or exporting. */
-  additional_fields?: WaitlistEntriesControllerDenyResponseAdditionalFieldsMap;
+  additional_fields?: WaitlistEntriesControllerDenyResponseAdditionalFieldsMap | undefined;
   /** The unique ID of the waitlist the entry belongs to. */
-  waitlist_id?: string | null;
+  waitlist_id?: string | null | undefined;
   /** An ISO 8601 timestamp. */
   created_at: string;
   /** An ISO 8601 timestamp. */
@@ -9343,15 +9433,15 @@ export type WidgetsPublicControllerIssueWidgetSessionTokenRequestScopesList = Ar
 >;
 export interface WidgetsPublicControllerIssueWidgetSessionTokenRequest {
   /** The ID of the organization to scope the widget session to. Required when scopes are provided. Optional when issuing a token for user-only widgets (e.g. `UserProfile`, `UserSecurity`) that do not require organization context. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** The ID of the user to issue the widget session token for. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The scopes to grant the widget session. */
-  scopes?: WidgetsPublicControllerIssueWidgetSessionTokenRequestScopesList;
+  scopes?: WidgetsPublicControllerIssueWidgetSessionTokenRequestScopesList | undefined;
 }
 export interface WidgetSessionTokenResponse {
   /** The widget session token. */
-  token?: string;
+  token?: string | undefined;
 }
 export type AcceptUserlandUserInvitesControllerError = BadRequest | NotFound | WorkosOpError;
 /** Accept an invitation Accepts an invitation and, if linked to an organization, activates the user's membership in that organization. */

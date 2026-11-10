@@ -72,16 +72,16 @@ export interface CreateCredentialsRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  parameters?: unknown;
+  parameters?: unknown | undefined;
 }
 export type CredentialsHostsList = Array<string>;
 export interface Credentials {
   host: string;
-  hosts?: CredentialsHostsList;
-  load_balanced_host?: string;
+  hosts?: CredentialsHostsList | undefined;
+  load_balanced_host?: string | undefined;
   password: string | Redacted.Redacted<string>;
-  port?: number;
-  uri?: string;
+  port?: number | undefined;
+  uri?: string | undefined;
   username: string;
 }
 export interface RawCredentials {
@@ -89,7 +89,7 @@ export interface RawCredentials {
 }
 export interface CredentialsResponse {
   id: string;
-  raw?: RawCredentials;
+  raw?: RawCredentials | undefined;
   uri: string;
 }
 export type InstanceParametersLazyfreeLazyEviction = "yes" | "no";
@@ -104,38 +104,38 @@ export type InstanceParametersMaxmemoryPolicy =
 export type InstanceParametersSyslogList = Array<string>;
 export interface InstanceParameters {
   /** The unit is milliseconds. */
-  down_after_milliseconds?: number;
-  enable_monitoring?: boolean;
+  down_after_milliseconds?: number | undefined;
+  enable_monitoring?: boolean | undefined;
   /** The unit is milliseconds. */
-  failover_timeout?: number;
+  failover_timeout?: number | undefined;
   /** If you want to monitor your service with Graphite, you can set the custom parameter graphite. It expects the host and port where the Graphite metrics should be sent to. */
-  graphite?: string;
-  lazyfree_lazy_eviction?: InstanceParametersLazyfreeLazyEviction | (string & {});
-  lazyfree_lazy_expire?: InstanceParametersLazyfreeLazyExpire | (string & {});
-  lua_time_limit?: number;
+  graphite?: string | undefined;
+  lazyfree_lazy_eviction?: InstanceParametersLazyfreeLazyEviction | (string & {}) | undefined;
+  lazyfree_lazy_expire?: InstanceParametersLazyfreeLazyExpire | (string & {}) | undefined;
+  lua_time_limit?: number | undefined;
   /** This component monitors ephemeral and persistent disk usage. If one of these disk usages reaches the default configured threshold of 80%, the a9s Parachute stops all processes on that node. */
-  max_disk_threshold?: number;
-  maxclients?: number;
-  maxmemory_policy?: InstanceParametersMaxmemoryPolicy | (string & {});
-  maxmemory_samples?: number;
+  max_disk_threshold?: number | undefined;
+  maxclients?: number | undefined;
+  maxmemory_policy?: InstanceParametersMaxmemoryPolicy | (string & {}) | undefined;
+  maxmemory_samples?: number | undefined;
   /** Frequency of metrics being emitted in seconds */
-  metrics_frequency?: number;
+  metrics_frequency?: number | undefined;
   /** Depending on your graphite provider, you might need to prefix the metrics with a certain value, like an API key for example. */
-  metrics_prefix?: string;
+  metrics_prefix?: string | undefined;
   /** The amount of connected replicas that are required for the primary to accept write operations. It can be set to 0 to disable it. Should not be greater than the number of nodes (e.g. 1 or 3). */
-  min_replicas_to_write?: number;
+  min_replicas_to_write?: number | undefined;
   /** The unit is seconds. */
-  min_replicas_max_lag?: number;
-  monitoring_instance_id?: string;
+  min_replicas_max_lag?: number | undefined;
+  monitoring_instance_id?: string | undefined;
   /** The allowed value must include the following characters only: [K,E,g,$,l,s,h,z,x,e,A,t] */
-  notify_keyspace_events?: string;
+  notify_keyspace_events?: string | undefined;
   /** Set the replication backlog size for the cluster. */
-  repl_backlog_size?: string;
+  repl_backlog_size?: string | undefined;
   /** Comma separated list of IP networks in CIDR notation which are allowed to access this instance. */
-  sgw_acl?: string;
+  sgw_acl?: string | undefined;
   /** This setting must follow the original Redis configuration for RDB. */
-  snapshot?: string;
-  syslog?: InstanceParametersSyslogList;
+  snapshot?: string | undefined;
+  syslog?: InstanceParametersSyslogList | undefined;
 }
 export interface CreateInstanceRequest {
   /** Project id on which user has permissions */
@@ -143,7 +143,7 @@ export interface CreateInstanceRequest {
   /** region in which the project resides */
   regionId: string;
   instanceName: string;
-  parameters?: InstanceParameters;
+  parameters?: InstanceParameters | undefined;
   planId: string;
 }
 export interface CreateInstanceResponse {
@@ -222,9 +222,9 @@ export interface Instance {
   cfSpaceGuid: string;
   dashboardUrl: string;
   imageUrl: string;
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Current state of a service instance */
-  instanceStatus?: InstanceInstanceStatus;
+  instanceStatus?: InstanceInstanceStatus | undefined;
   lastOperation: InstanceLastOperation;
   name: string;
   offeringName: string;
@@ -233,7 +233,7 @@ export interface Instance {
   planId: string;
   planName: string;
   /** State of the last operation and this instance */
-  status?: InstanceStatus;
+  status?: InstanceStatus | undefined;
 }
 export interface GetMetricsRequest {
   /** Project id on which user has permissions */
@@ -244,10 +244,10 @@ export interface GetMetricsRequest {
   instanceId: string;
 }
 export interface GetMetricsResponse {
-  cpuIdleTime?: number;
+  cpuIdleTime?: number | undefined;
   cpuLoadPercent: number;
-  cpuSystemTime?: number;
-  cpuUserTime?: number;
+  cpuSystemTime?: number | undefined;
+  cpuUserTime?: number | undefined;
   diskEphemeralTotal: number;
   diskEphemeralUsed: number;
   diskPersistentTotal: number;
@@ -291,12 +291,12 @@ export interface ListBackupsRequest {
   instanceId: string;
 }
 export interface Backup {
-  downloadable?: boolean;
+  downloadable?: boolean | undefined;
   finished_at: string;
   id: number;
-  size?: number;
+  size?: number | undefined;
   status: string;
-  triggered_at?: string;
+  triggered_at?: string | undefined;
 }
 export type ListBackupsResponse = Array<Backup>;
 export type ListBackupsResponse2 = ListBackupsResponse;
@@ -351,11 +351,11 @@ export interface Offering {
   documentationUrl: string;
   imageUrl: string;
   latest: boolean;
-  lifecycle?: string;
+  lifecycle?: string | undefined;
   name: string;
   plans: OfferingPlansList;
   quotaCount: number;
-  schema?: InstanceSchema;
+  schema?: InstanceSchema | undefined;
   version: string;
 }
 export type ListOfferingsResponseOfferingsList = Array<Offering>;
@@ -375,7 +375,7 @@ export interface Restore {
   finished_at: string;
   id: number;
   status: string;
-  triggered_at?: string;
+  triggered_at?: string | undefined;
 }
 export type ListRestoresResponseInstanceRestoresList = Array<Restore>;
 export interface ListRestoresResponse {
@@ -388,9 +388,9 @@ export interface PartialUpdateInstanceRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  instanceName?: string;
-  parameters?: InstanceParameters;
-  planId?: string;
+  instanceName?: string | undefined;
+  parameters?: InstanceParameters | undefined;
+  planId?: string | undefined;
 }
 export interface PartialUpdateInstanceResponse {}
 export interface TriggerRecreateRequest {
@@ -437,7 +437,7 @@ export interface UpdateBackupsConfigRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  encryption_key?: string;
+  encryption_key?: string | undefined;
 }
 export interface UpdateBackupsConfigResponse {
   message: string;

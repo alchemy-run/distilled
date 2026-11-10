@@ -36,11 +36,11 @@ const TELEMETRY = {
 /** The description of an X509 CA Certificate. */
 export interface CertificatePropertiesInput {
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The certificate content */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
-  certificateAuthorityResourceId?: string;
+  certificateAuthorityResourceId?: string | undefined;
 }
 export interface CertificatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -52,9 +52,9 @@ export interface CertificatesCreateOrUpdateRequest {
   /** The name of the certificate */
   certificateName: string;
   /** The description of an X509 CA Certificate. */
-  properties?: CertificatePropertiesInput;
+  properties?: CertificatePropertiesInput | undefined;
   /** ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -63,50 +63,50 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The description of an X509 CA Certificate. */
 export interface CertificateProperties {
   /** The certificate's subject name. */
-  subject?: string;
+  subject?: string | undefined;
   /** The certificate's expiration date and time. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The certificate's thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The certificate's create date and time. */
-  created?: string;
+  created?: string | undefined;
   /** The certificate's last update date and time. */
-  updated?: string;
+  updated?: string | undefined;
   /** The certificate content */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
-  certificateAuthorityResourceId?: string;
+  certificateAuthorityResourceId?: string | undefined;
 }
 export interface CertificatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The description of an X509 CA Certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface CheckIotHubResourceNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -119,11 +119,11 @@ export type IotHubNameUnavailabilityReason = "Invalid" | "AlreadyExists";
 /** The properties indicating whether a given IoT hub name is available. */
 export interface IotHubNameAvailabilityInfo {
   /** The value which indicates whether the provided name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability. */
-  reason?: IotHubNameUnavailabilityReason;
+  reason?: IotHubNameUnavailabilityReason | undefined;
   /** The detailed reason message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The EventHub consumer group name. */
 export interface EventHubConsumerGroupName {
@@ -150,17 +150,17 @@ export type CreateIotHubResourceEventHubConsumerGroupResponsePropertiesMap = {
 };
 export interface CreateIotHubResourceEventHubConsumerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The tags. */
-  properties?: CreateIotHubResourceEventHubConsumerGroupResponsePropertiesMap;
+  properties?: CreateIotHubResourceEventHubConsumerGroupResponsePropertiesMap | undefined;
   /** The etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -207,9 +207,9 @@ export interface SharedAccessSignatureAuthorizationRule {
   /** The name of the shared access policy. */
   keyName: string;
   /** The primary key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** The permissions assigned to the shared access policy. */
   rights: AccessRights | (string & {});
 }
@@ -242,7 +242,7 @@ export interface NetworkRuleSetIpRule {
   /** Name of the IP filter rule. */
   filterName: string;
   /** IP Filter Action */
-  action?: NetworkRuleSetIpRuleAction | (string & {});
+  action?: NetworkRuleSetIpRuleAction | (string & {}) | undefined;
   /** A string that contains the IP address range in CIDR notation for the rule. */
   ipMask: string;
 }
@@ -251,7 +251,7 @@ export type NetworkRuleSetPropertiesIpRulesList = Array<NetworkRuleSetIpRule>;
 /** Network Rule Set Properties of IotHub */
 export interface NetworkRuleSetProperties {
   /** Default Action for Network Rule Set */
-  defaultAction?: NetworkRuleSetPropertiesDefaultAction | (string & {});
+  defaultAction?: NetworkRuleSetPropertiesDefaultAction | (string & {}) | undefined;
   /** If True, then Network Rule Set is also applied to BuiltIn EventHub EndPoint of IotHub */
   applyToBuiltInEventHubEndpoint: boolean;
   /** List of IP Rules */
@@ -260,7 +260,7 @@ export interface NetworkRuleSetProperties {
 /** The private endpoint property of a private endpoint connection */
 export interface PrivateEndpoint {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The status of a private endpoint connection */
 export type PrivateLinkServiceConnectionStatus =
@@ -275,25 +275,25 @@ export interface PrivateLinkServiceConnectionState {
   /** The description for the current state of a private endpoint connection */
   description: string;
   /** Actions required for a private endpoint connection */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint property of a private endpoint connection */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** The current state of a private endpoint connection */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 /** The private endpoint connection of an IotHub */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -304,15 +304,15 @@ export type EventHubPropertiesPartitionIdsList = Array<string>;
 /** The properties of the provisioned Event Hub-compatible endpoint used by the IoT hub. */
 export interface EventHubProperties {
   /** The retention time for device-to-cloud messages in days. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages */
-  retentionTimeInDays?: number;
+  retentionTimeInDays?: number | undefined;
   /** The number of partitions for receiving device-to-cloud messages in the Event Hub-compatible endpoint. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
   /** The partition ids in the Event Hub-compatible endpoint. */
-  partitionIds?: EventHubPropertiesPartitionIdsList;
+  partitionIds?: EventHubPropertiesPartitionIdsList | undefined;
   /** The Event Hub-compatible name. */
-  path?: string;
+  path?: string | undefined;
   /** The Event Hub-compatible endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
 export type IotHubPropertiesEventHubEndpointsMap = {
@@ -323,74 +323,74 @@ export type AuthenticationType = "keyBased" | "identityBased";
 /** The properties of the Managed identity. */
 export interface ManagedIdentity {
   /** The user assigned identity. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** The properties related to service bus queue endpoint types. */
 export interface RoutingServiceBusQueueEndpointProperties {
   /** Id of the service bus queue endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the service bus queue endpoint. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the service bus queue endpoint. It must include the protocol sb:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Queue name on the service bus namespace */
-  entityPath?: string;
+  entityPath?: string | undefined;
   /** Method used to authenticate against the service bus queue endpoint */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing service bus queue endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. The name need not be the same as the actual queue name. */
   name: string;
   /** The subscription identifier of the service bus queue endpoint. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the service bus queue endpoint. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** The list of Service Bus queue endpoints that IoT hub routes the messages to, based on the routing rules. */
 export type RoutingEndpointsServiceBusQueuesList = Array<RoutingServiceBusQueueEndpointProperties>;
 /** The properties related to service bus topic endpoint types. */
 export interface RoutingServiceBusTopicEndpointProperties {
   /** Id of the service bus topic endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the service bus topic endpoint. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the service bus topic endpoint. It must include the protocol sb:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Queue name on the service bus topic */
-  entityPath?: string;
+  entityPath?: string | undefined;
   /** Method used to authenticate against the service bus topic endpoint */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing service bus topic endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. The name need not be the same as the actual topic name. */
   name: string;
   /** The subscription identifier of the service bus topic endpoint. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the service bus topic endpoint. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** The list of Service Bus topic endpoints that the IoT hub routes the messages to, based on the routing rules. */
 export type RoutingEndpointsServiceBusTopicsList = Array<RoutingServiceBusTopicEndpointProperties>;
 /** The properties related to an event hub endpoint. */
 export interface RoutingEventHubProperties {
   /** Id of the event hub endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the event hub endpoint. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the event hub endpoint. It must include the protocol sb:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Event hub name on the event hub namespace */
-  entityPath?: string;
+  entityPath?: string | undefined;
   /** Method used to authenticate against the event hub endpoint */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing event hub endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** The subscription identifier of the event hub endpoint. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the event hub endpoint. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** The list of Event Hubs endpoints that IoT hub routes messages to, based on the routing rules. This list does not include the built-in Event Hubs endpoint. */
 export type RoutingEndpointsEventHubsList = Array<RoutingEventHubProperties>;
@@ -399,31 +399,31 @@ export type RoutingStorageContainerPropertiesEncoding = "Avro" | "AvroDeflate" |
 /** The properties related to a storage container endpoint. */
 export interface RoutingStorageContainerProperties {
   /** Id of the storage container endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the storage account. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the storage endpoint. It must include the protocol https:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Method used to authenticate against the storage endpoint */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing storage endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** The subscription identifier of the storage account. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the storage account. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** The name of storage container in the storage account. */
   containerName: string;
   /** File name format for the blob. Default format is {iothub}/{partition}/{YYYY}/{MM}/{DD}/{HH}/{mm}. All parameters are mandatory but can be reordered. */
-  fileNameFormat?: string;
+  fileNameFormat?: string | undefined;
   /** Time interval at which blobs are written to storage. Value should be between 60 and 720 seconds. Default value is 300 seconds. */
-  batchFrequencyInSeconds?: number;
+  batchFrequencyInSeconds?: number | undefined;
   /** Maximum number of bytes for each blob written to storage. Value should be between 10485760(10MB) and 524288000(500MB). Default value is 314572800(300MB). */
-  maxChunkSizeInBytes?: number;
+  maxChunkSizeInBytes?: number | undefined;
   /** Encoding that is used to serialize messages to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'. Default value is 'avro'. */
-  encoding?: RoutingStorageContainerPropertiesEncoding | (string & {});
+  encoding?: RoutingStorageContainerPropertiesEncoding | (string & {}) | undefined;
 }
 /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsStorageContainersList = Array<RoutingStorageContainerProperties>;
@@ -432,29 +432,29 @@ export interface RoutingCosmosDBSqlApiProperties {
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** Id of the cosmos DB sql container endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The subscription identifier of the cosmos DB account. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the cosmos DB account. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** The url of the cosmos DB account. It must include the protocol https:// */
   endpointUri: string;
   /** Method used to authenticate against the cosmos DB sql container endpoint */
-  authenticationType?: AuthenticationType;
+  authenticationType?: AuthenticationType | undefined;
   /** Managed identity properties of routing cosmos DB container endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
   containerName: string;
   /** The name of the partition key associated with this cosmos DB sql container if one exists. This is an optional parameter. */
-  partitionKeyName?: string;
+  partitionKeyName?: string | undefined;
   /** The template for generating a synthetic partition key value for use with this cosmos DB sql container. The template must include at least one of the following placeholders: {iothub}, {deviceid}, {DD}, {MM}, and {YYYY}. Any one placeholder may be specified at most once, but order and non-placeholder components are arbitrary. This parameter is only required if PartitionKeyName is specified. */
-  partitionKeyTemplate?: string;
+  partitionKeyTemplate?: string | undefined;
 }
 /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsCosmosDBSqlContainersList = Array<RoutingCosmosDBSqlApiProperties>;
@@ -465,38 +465,38 @@ export interface RoutingEventStreamProperties {
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** Id of the event stream endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The url of the underlying event hub namespace of the event stream endpoint. It must include the protocol sb:// */
   endpointUri: string;
   /** Event hub name on the event hub namespace */
   entityPath: string;
   /** Method used to authenticate against the event stream endpoint */
-  authenticationType?: EventStreamAuthenticationType;
+  authenticationType?: EventStreamAuthenticationType | undefined;
   /** Managed identity properties of routing event stream endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The unique GUID of the target Microsoft Fabric workspace for the event stream endpoint. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The unique GUID of the target event stream under the workspace. */
-  eventStreamId?: string;
+  eventStreamId?: string | undefined;
   /** The unique GUID of the custom source for the event stream. */
-  sourceId?: string;
+  sourceId?: string | undefined;
 }
 /** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsEventStreamsList = Array<RoutingEventStreamProperties>;
 /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
 export interface RoutingEndpoints {
   /** The list of Service Bus queue endpoints that IoT hub routes the messages to, based on the routing rules. */
-  serviceBusQueues?: RoutingEndpointsServiceBusQueuesList;
+  serviceBusQueues?: RoutingEndpointsServiceBusQueuesList | undefined;
   /** The list of Service Bus topic endpoints that the IoT hub routes the messages to, based on the routing rules. */
-  serviceBusTopics?: RoutingEndpointsServiceBusTopicsList;
+  serviceBusTopics?: RoutingEndpointsServiceBusTopicsList | undefined;
   /** The list of Event Hubs endpoints that IoT hub routes messages to, based on the routing rules. This list does not include the built-in Event Hubs endpoint. */
-  eventHubs?: RoutingEndpointsEventHubsList;
+  eventHubs?: RoutingEndpointsEventHubsList | undefined;
   /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
-  storageContainers?: RoutingEndpointsStorageContainersList;
+  storageContainers?: RoutingEndpointsStorageContainersList | undefined;
   /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
-  cosmosDBSqlContainers?: RoutingEndpointsCosmosDBSqlContainersList;
+  cosmosDBSqlContainers?: RoutingEndpointsCosmosDBSqlContainersList | undefined;
   /** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
-  eventStreams?: RoutingEndpointsEventStreamsList;
+  eventStreams?: RoutingEndpointsEventStreamsList | undefined;
 }
 /** The source that the routing rule is to be applied to, such as DeviceMessages. */
 export type RoutingSource =
@@ -515,7 +515,7 @@ export interface RouteProperties {
   /** The source that the routing rule is to be applied to, such as DeviceMessages. */
   source: RoutingSource | (string & {});
   /** The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true by default. For grammar, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
-  condition?: string;
+  condition?: string | undefined;
   /** The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed. */
   endpointNames: RoutePropertiesEndpointNamesList;
   /** Used to specify whether a route is enabled. */
@@ -530,11 +530,11 @@ export type FallbackRoutePropertiesEndpointNamesList = Array<string>;
 /** The properties of the fallback route. IoT Hub uses these properties when it routes messages to the fallback endpoint. */
 export interface FallbackRouteProperties {
   /** The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique. */
-  name?: string;
+  name?: string | undefined;
   /** The source to which the routing rule is to be applied to. For example, DeviceMessages */
   source: FallbackRouteSource | (string & {});
   /** The condition which is evaluated in order to apply the fallback route. If the condition is not provided it will evaluate to true by default. For grammar, See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
-  condition?: string;
+  condition?: string | undefined;
   /** The list of endpoints to which the messages that satisfy the condition are routed to. Currently only 1 endpoint is allowed. */
   endpointNames: FallbackRoutePropertiesEndpointNamesList;
   /** Used to specify whether the fallback route is enabled. */
@@ -556,26 +556,26 @@ export type RoutingPropertiesEnrichmentsList = Array<EnrichmentProperties>;
 /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
 export interface RoutingProperties {
   /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
-  endpoints?: RoutingEndpoints;
+  endpoints?: RoutingEndpoints | undefined;
   /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
-  routes?: RoutingPropertiesRoutesList;
+  routes?: RoutingPropertiesRoutesList | undefined;
   /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not set, the messages which do not meet any of the conditions specified in the 'routes' section get routed to the built-in eventhub endpoint. */
-  fallbackRoute?: FallbackRouteProperties;
+  fallbackRoute?: FallbackRouteProperties | undefined;
   /** The list of user-provided enrichments that the IoT hub applies to messages to be delivered to built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid */
-  enrichments?: RoutingPropertiesEnrichmentsList;
+  enrichments?: RoutingPropertiesEnrichmentsList | undefined;
 }
 /** The properties of the Azure Storage endpoint for file upload. */
 export interface StorageEndpointProperties {
   /** The period of time for which the SAS URI generated by IoT Hub for file upload is valid. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload#file-upload-notification-configuration-options. */
-  sasTtlAsIso8601?: string;
+  sasTtlAsIso8601?: string | undefined;
   /** The connection string for the Azure Storage account to which files are uploaded. */
   connectionString: string | Redacted.Redacted<string>;
   /** The name of the root container where you upload files. The container need not exist but should be creatable using the connectionString specified. */
   containerName: string;
   /** Specifies authentication type being used for connecting to the storage account. */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of storage endpoint for file upload. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
 }
 /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
 export type IotHubPropertiesStorageEndpointsMap = {
@@ -584,11 +584,11 @@ export type IotHubPropertiesStorageEndpointsMap = {
 /** The properties of the messaging endpoints used by this IoT hub. */
 export interface MessagingEndpointProperties {
   /** The lock duration. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload. */
-  lockDurationAsIso8601?: string;
+  lockDurationAsIso8601?: string | undefined;
   /** The period of time for which a message is available to consume before it is expired by the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload. */
-  ttlAsIso8601?: string;
+  ttlAsIso8601?: string | undefined;
   /** The number of times the IoT hub attempts to deliver a message. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
 }
 /** The messaging endpoint properties for the file upload notification queue. */
 export type IotHubPropertiesMessagingEndpointsMap = {
@@ -597,20 +597,20 @@ export type IotHubPropertiesMessagingEndpointsMap = {
 /** The properties of the feedback queue for cloud-to-device messages. */
 export interface FeedbackProperties {
   /** The lock duration for the feedback queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  lockDurationAsIso8601?: string;
+  lockDurationAsIso8601?: string | undefined;
   /** The period of time for which a message is available to consume before it is expired by the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  ttlAsIso8601?: string;
+  ttlAsIso8601?: string | undefined;
   /** The number of times the IoT hub attempts to deliver a message on the feedback queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
 }
 /** The IoT hub cloud-to-device messaging properties. */
 export interface CloudToDeviceProperties {
   /** The max delivery count for cloud-to-device messages in the device queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** The default time to live for cloud-to-device messages in the device queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  defaultTtlAsIso8601?: string;
+  defaultTtlAsIso8601?: string | undefined;
   /** The properties of the feedback queue for cloud-to-device messages. */
-  feedback?: FeedbackProperties;
+  feedback?: FeedbackProperties | undefined;
 }
 /** The capabilities and features enabled for the IoT hub. */
 export type Capabilities = "None" | "DeviceManagement";
@@ -619,9 +619,9 @@ export type IotHubReplicaRoleType = "primary" | "secondary";
 /** Public representation of one of the locations where a resource is provisioned. */
 export interface IotHubLocationDescription {
   /** The name of the Azure region */
-  location?: string;
+  location?: string | undefined;
   /** The role of the region, can be either primary or secondary. The primary region is where the IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR) paired region and also the region where the IoT hub can failover to. */
-  role?: IotHubReplicaRoleType;
+  role?: IotHubReplicaRoleType | undefined;
 }
 /** Primary and secondary location for iot hub */
 export type IotHubPropertiesLocationsList = Array<IotHubLocationDescription>;
@@ -630,108 +630,108 @@ export type DeviceRegistryIdentityType = "SystemAssigned" | "UserAssigned";
 /** The identity used to manage the ADR namespace from the data plane. */
 export interface DeviceRegistryIdentity {
   /** The type of the identity. */
-  type?: DeviceRegistryIdentityType;
+  type?: DeviceRegistryIdentityType | undefined;
   /** The user assigned identity if the identity type is 'UserAssigned'. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
 export type DeviceRegistryLinkingState = "InProgress" | "Success" | "Orphaned" | "Failed";
 /** Error details. */
 export interface ErrorDetails {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The HTTP status code. */
-  httpStatusCode?: string;
+  httpStatusCode?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error details. */
-  details?: string;
+  details?: string | undefined;
 }
 /** The properties related to linking the IoT Hub with the Azure Device Registry. */
 export interface DeviceRegistryLinkingProperties {
   /** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
-  state?: DeviceRegistryLinkingState;
+  state?: DeviceRegistryLinkingState | undefined;
   /** The last error encountered when linking the IoT Hub with an Azure Device Registry. */
-  error?: ErrorDetails;
+  error?: ErrorDetails | undefined;
 }
 /** Represents properties related to the Azure Device Registry (ADR). */
 export interface DeviceRegistry {
   /** The identifier of the Azure Device Registry namespace */
-  namespaceResourceId?: string;
+  namespaceResourceId?: string | undefined;
   /** The UUID of the associated Azure Device Registry namespace. */
-  namespaceUuid?: string;
+  namespaceUuid?: string | undefined;
   /** The host name for the data plane endpoint of the associated Azure Device Registry. */
-  dataPlaneHostName?: string;
+  dataPlaneHostName?: string | undefined;
   /** The identity used to manage the ADR namespace from the data plane. */
-  identity?: DeviceRegistryIdentity;
+  identity?: DeviceRegistryIdentity | undefined;
   /** The properties related to linking the IoT Hub with the Azure Device Registry. */
-  linkingProperties?: DeviceRegistryLinkingProperties;
+  linkingProperties?: DeviceRegistryLinkingProperties | undefined;
 }
 /** The IoT hub Gateway version. */
 export type GatewayVersion = "V1" | "V2";
 /** Set of additional read-only properties for the IoT hub. */
 export interface IotHubDetails {
   /** The IoT hub Gateway version. */
-  gatewayVersion?: GatewayVersion;
+  gatewayVersion?: GatewayVersion | undefined;
 }
 /** The properties of an IoT hub. */
 export interface IotHubProperties {
   /** The shared access policies you can use to secure a connection to the IoT hub. */
-  authorizationPolicies?: IotHubPropertiesAuthorizationPoliciesList;
+  authorizationPolicies?: IotHubPropertiesAuthorizationPoliciesList | undefined;
   /** If true, SAS tokens with Iot hub scoped SAS keys cannot be used for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** If true, all device(including Edge devices but excluding modules) scoped SAS keys cannot be used for authentication. */
-  disableDeviceSAS?: boolean;
+  disableDeviceSAS?: boolean | undefined;
   /** If true, all module scoped SAS keys cannot be used for authentication. */
-  disableModuleSAS?: boolean;
+  disableModuleSAS?: boolean | undefined;
   /** If true, egress from IotHub will be restricted to only the allowed FQDNs that are configured via allowedFqdnList. */
-  restrictOutboundNetworkAccess?: boolean;
+  restrictOutboundNetworkAccess?: boolean | undefined;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Iot Hub. */
-  allowedFqdnList?: IotHubPropertiesAllowedFqdnListList;
+  allowedFqdnList?: IotHubPropertiesAllowedFqdnListList | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The IP filter rules. */
-  ipFilterRules?: IotHubPropertiesIpFilterRulesList;
+  ipFilterRules?: IotHubPropertiesIpFilterRulesList | undefined;
   /** Network Rule Set Properties of IotHub */
-  networkRuleSets?: NetworkRuleSetProperties;
+  networkRuleSets?: NetworkRuleSetProperties | undefined;
   /** Specifies the minimum TLS version to support for this hub. Can be set to "1.2" to have clients that use a TLS version below 1.2 to be rejected. */
-  minTlsVersion?: string;
+  minTlsVersion?: string | undefined;
   /** Private endpoint connections created on this IotHub */
-  privateEndpointConnections?: IotHubPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: IotHubPropertiesPrivateEndpointConnectionsList | undefined;
   /** The provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The hub state. */
-  state?: string;
+  state?: string | undefined;
   /** The name of the host. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The name of the device host. Supports secure connections over TLS 1.3. */
-  deviceHostName?: string;
+  deviceHostName?: string | undefined;
   /** The name of the service host. Supports secure connections over TLS 1.3. */
-  serviceHostName?: string;
+  serviceHostName?: string | undefined;
   /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
-  eventHubEndpoints?: IotHubPropertiesEventHubEndpointsMap;
+  eventHubEndpoints?: IotHubPropertiesEventHubEndpointsMap | undefined;
   /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
-  routing?: RoutingProperties;
+  routing?: RoutingProperties | undefined;
   /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
-  storageEndpoints?: IotHubPropertiesStorageEndpointsMap;
+  storageEndpoints?: IotHubPropertiesStorageEndpointsMap | undefined;
   /** The messaging endpoint properties for the file upload notification queue. */
-  messagingEndpoints?: IotHubPropertiesMessagingEndpointsMap;
+  messagingEndpoints?: IotHubPropertiesMessagingEndpointsMap | undefined;
   /** If True, file upload notifications are enabled. */
-  enableFileUploadNotifications?: boolean;
+  enableFileUploadNotifications?: boolean | undefined;
   /** The IoT hub cloud-to-device messaging properties. */
-  cloudToDevice?: CloudToDeviceProperties;
+  cloudToDevice?: CloudToDeviceProperties | undefined;
   /** IoT hub comments. */
-  comments?: string;
+  comments?: string | undefined;
   /** The capabilities and features enabled for the IoT hub. */
-  features?: Capabilities;
+  features?: Capabilities | undefined;
   /** Primary and secondary location for iot hub */
-  locations?: IotHubPropertiesLocationsList;
+  locations?: IotHubPropertiesLocationsList | undefined;
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
-  enableDataResidency?: boolean;
+  enableDataResidency?: boolean | undefined;
   /** Represents properties related to the Azure Device Registry (ADR). */
-  deviceRegistry?: DeviceRegistry;
+  deviceRegistry?: DeviceRegistry | undefined;
   /** Set of additional read-only properties for the IoT hub. */
-  iotHubDetails?: IotHubDetails;
+  iotHubDetails?: IotHubDetails | undefined;
 }
 /** The name of the SKU. */
 export type IotHubSku = "F1" | "S1" | "S2" | "S3" | "B1" | "B2" | "B3";
@@ -742,9 +742,9 @@ export interface IotHubSkuInfo {
   /** The name of the SKU. */
   name: IotHubSku | (string & {});
   /** The billing tier for the IoT hub. */
-  tier?: IotHubSkuTier | (string & {});
+  tier?: IotHubSkuTier | (string & {}) | undefined;
   /** The number of provisioned IoT Hub units. See: https://docs.microsoft.com/azure/azure-subscription-service-limits#iot-hub-limits. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
 export type ResourceIdentityType =
@@ -753,48 +753,48 @@ export type ResourceIdentityType =
   | "SystemAssigned, UserAssigned"
   | "None";
 export interface ArmUserIdentity {
-  principalId?: string;
-  clientId?: string;
+  principalId?: string | undefined;
+  clientId?: string | undefined;
 }
 /** Dictionary of <ArmUserIdentity> */
 export type ArmIdentityUserAssignedIdentitiesMap = { [key: string]: ArmUserIdentity | undefined };
 export interface ArmIdentity {
   /** Principal Id */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** Dictionary of <ArmUserIdentity> */
-  userAssignedIdentities?: ArmIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ArmIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface DeleteIotHubResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DeleteIotHubResourceResponseTagsMap;
+  tags?: DeleteIotHubResourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
+  identity?: ArmIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIotHubResourceEventHubConsumerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -821,21 +821,21 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExportIotHubResourceDevicesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -849,15 +849,15 @@ export interface ExportIotHubResourceDevicesRequest {
   /** The value indicating whether keys should be excluded during export. */
   excludeKeys: boolean;
   /** The name of the blob that will be created in the provided output blob container. This blob will contain the exported device registry information for the IoT Hub. */
-  exportBlobName?: string;
+  exportBlobName?: string | undefined;
   /** Specifies authentication type being used for connecting to the storage account. */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of storage endpoint for export devices. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The value indicating whether configurations should be exported. */
-  includeConfigurations?: boolean;
+  includeConfigurations?: boolean | undefined;
   /** The name of the blob that will be created in the provided output blob container. This blob will contain the exported configurations for the Iot Hub. */
-  configurationsBlobName?: string;
+  configurationsBlobName?: string | undefined;
 }
 /** The type of the job. */
 export type JobType =
@@ -876,21 +876,21 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 /** The properties of the Job Response object. */
 export interface JobResponse {
   /** The job identifier. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** The start time of the job. */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** The time the job stopped processing. */
-  endTimeUtc?: string;
+  endTimeUtc?: string | undefined;
   /** The type of the job. */
-  type?: JobType;
+  type?: JobType | undefined;
   /** The status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** If status == failed, this string containing the reason for the failure. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** The status message for the job. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The job identifier of the parent job, if any. */
-  parentJobId?: string;
+  parentJobId?: string | undefined;
 }
 export interface GenerateCertificateVerificationCodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -905,36 +905,36 @@ export interface GenerateCertificateVerificationCodeRequest {
 /** The description of an X509 CA Certificate including the challenge nonce issued for the Proof-Of-Possession flow. */
 export interface CertificatePropertiesWithNonce {
   /** The certificate's subject name. */
-  subject?: string;
+  subject?: string | undefined;
   /** The certificate's expiration date and time. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The certificate's thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The certificate's create date and time. */
-  created?: string;
+  created?: string | undefined;
   /** The certificate's last update date and time. */
-  updated?: string;
+  updated?: string | undefined;
   /** The certificate's verification code that will be used for proof of possession. */
-  verificationCode?: string;
+  verificationCode?: string | undefined;
   /** The certificate content */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
-  certificateAuthorityResourceId?: string;
+  certificateAuthorityResourceId?: string | undefined;
 }
 /** The X509 Certificate. */
 export interface CertificateWithNonceDescription {
   /** The description of an X509 CA Certificate including the challenge nonce issued for the Proof-Of-Possession flow. */
-  properties?: CertificatePropertiesWithNonce;
+  properties?: CertificatePropertiesWithNonce | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the certificate. */
-  name?: string;
+  name?: string | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -948,17 +948,17 @@ export interface GetCertificateRequest {
 }
 export interface GetCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The description of an X509 CA Certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIotHubResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -972,25 +972,25 @@ export interface GetIotHubResourceRequest {
 export type GetIotHubResourceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIotHubResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIotHubResourceResponseTagsMap;
+  tags?: GetIotHubResourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
+  identity?: ArmIdentity | undefined;
 }
 export interface GetIotHubResourceEndpointHealthRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1004,17 +1004,17 @@ export type EndpointHealthStatus = "unknown" | "healthy" | "degraded" | "unhealt
 /** The health data for an endpoint */
 export interface EndpointHealthData {
   /** Id of the endpoint */
-  endpointId?: string;
+  endpointId?: string | undefined;
   /** Health statuses have following meanings. The 'healthy' status shows that the endpoint is accepting messages as expected. The 'unhealthy' status shows that the endpoint is not accepting messages as expected and IoT Hub is retrying to send data to this endpoint. The status of an unhealthy endpoint will be updated to healthy when IoT Hub has established an eventually consistent state of health. The 'dead' status shows that the endpoint is not accepting messages, after IoT Hub retried sending messages for the retrial period. See IoT Hub metrics to identify errors and monitor issues with endpoints. The 'unknown' status shows that the IoT Hub has not established a connection with the endpoint. No messages have been delivered to or rejected from this endpoint */
-  healthStatus?: EndpointHealthStatus;
+  healthStatus?: EndpointHealthStatus | undefined;
   /** Last error obtained when a message failed to be delivered to iot hub */
-  lastKnownError?: string;
+  lastKnownError?: string | undefined;
   /** Time at which the last known error occurred */
-  lastKnownErrorTime?: string;
+  lastKnownErrorTime?: string | undefined;
   /** Last time iot hub successfully sent a message to the endpoint */
-  lastSuccessfulSendAttemptTime?: string;
+  lastSuccessfulSendAttemptTime?: string | undefined;
   /** Last time iot hub tried to send a message to the endpoint */
-  lastSendAttemptTime?: string;
+  lastSendAttemptTime?: string | undefined;
 }
 /** The EndpointHealthData items on this page */
 export type EndpointHealthDataListResultValueList = Array<EndpointHealthData>;
@@ -1023,7 +1023,7 @@ export interface EndpointHealthDataListResult {
   /** The EndpointHealthData items on this page */
   value: EndpointHealthDataListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetIotHubResourceEventHubConsumerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1043,17 +1043,17 @@ export type GetIotHubResourceEventHubConsumerGroupResponsePropertiesMap = {
 };
 export interface GetIotHubResourceEventHubConsumerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The tags. */
-  properties?: GetIotHubResourceEventHubConsumerGroupResponsePropertiesMap;
+  properties?: GetIotHubResourceEventHubConsumerGroupResponsePropertiesMap | undefined;
   /** The etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIotHubResourceJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1086,11 +1086,11 @@ export interface GetIotHubResourceQuotaMetricsRequest {
 /** Quota metrics properties. */
 export interface IotHubQuotaMetricInfo {
   /** The name of the quota metric. */
-  name?: string;
+  name?: string | undefined;
   /** The current value for the quota metric. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The maximum value of the quota metric. */
-  maxValue?: number;
+  maxValue?: number | undefined;
 }
 /** The IotHubQuotaMetricInfo items on this page */
 export type IotHubQuotaMetricInfoListResultValueList = Array<IotHubQuotaMetricInfo>;
@@ -1099,7 +1099,7 @@ export interface IotHubQuotaMetricInfoListResult {
   /** The IotHubQuotaMetricInfo items on this page */
   value: IotHubQuotaMetricInfoListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetIotHubResourceStatsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1111,11 +1111,11 @@ export interface GetIotHubResourceStatsRequest {
 /** Identity registry statistics. */
 export interface RegistryStatistics {
   /** The total count of devices in the identity registry. */
-  totalDeviceCount?: number;
+  totalDeviceCount?: number | undefined;
   /** The count of enabled devices in the identity registry. */
-  enabledDeviceCount?: number;
+  enabledDeviceCount?: number | undefined;
   /** The count of disabled devices in the identity registry. */
-  disabledDeviceCount?: number;
+  disabledDeviceCount?: number | undefined;
 }
 export interface GetIotHubResourceValidSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1130,18 +1130,18 @@ export type IotHubScaleType = "Automatic" | "Manual" | "None";
 /** IoT Hub capacity information. */
 export interface IotHubCapacity {
   /** The minimum number of units. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum number of units. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default number of units. */
-  default?: number;
+  default?: number | undefined;
   /** The type of the scaling enabled. */
-  scaleType?: IotHubScaleType;
+  scaleType?: IotHubScaleType | undefined;
 }
 /** SKU properties. */
 export interface IotHubSkuDescription {
   /** The type of the resource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The type of the resource. */
   sku: IotHubSkuInfo;
   /** IotHub capacity */
@@ -1154,7 +1154,7 @@ export interface IotHubSkuDescriptionListResult {
   /** The IotHubSkuDescription items on this page */
   value: IotHubSkuDescriptionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1168,13 +1168,13 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -1195,20 +1195,20 @@ export type GroupIdInformationPropertiesRequiredZoneNamesList = Array<string>;
 /** The properties for a group information object */
 export interface GroupIdInformationProperties {
   /** The group id */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The required members for a specific group id */
-  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList;
+  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList | undefined;
   /** The required DNS zones for a specific group id */
-  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList | undefined;
 }
 /** The group information for creating a private endpoint on an IotHub */
 export interface GroupIdInformation {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The properties for a group information object */
   properties: GroupIdInformationProperties;
 }
@@ -1219,33 +1219,33 @@ export interface GetResourceProviderCommonSubscriptionQuotaRequest {
 /** Name of Iot Hub type */
 export interface Name {
   /** IotHub type */
-  value?: string;
+  value?: string | undefined;
   /** Localized value of name */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** User subscription quota response */
 export interface UserSubscriptionQuota {
   /** IotHub type id */
-  id?: string;
+  id?: string | undefined;
   /** Response type */
-  type?: string;
+  type?: string | undefined;
   /** Unit of IotHub type */
-  unit?: string;
+  unit?: string | undefined;
   /** Current number of IotHub type */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Numerical limit on IotHub type */
-  limit?: number;
+  limit?: number | undefined;
   /** IotHub type */
-  name?: Name;
+  name?: Name | undefined;
 }
 /** The UserSubscriptionQuota items on this page */
 export type UserSubscriptionQuotaListResultValueList = Array<UserSubscriptionQuota>;
 /** Json-serialized array of User subscription quota response */
 export interface UserSubscriptionQuotaListResult {
   /** The UserSubscriptionQuota items on this page */
-  value?: UserSubscriptionQuotaListResultValueList;
+  value?: UserSubscriptionQuotaListResultValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ImportIotHubResourceDevicesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1259,17 +1259,17 @@ export interface ImportIotHubResourceDevicesRequest {
   /** The output blob container URI. */
   outputBlobContainerUri: string;
   /** The blob name to be used when importing from the provided input blob container. */
-  inputBlobName?: string;
+  inputBlobName?: string | undefined;
   /** The blob name to use for storing the status of the import job. */
-  outputBlobName?: string;
+  outputBlobName?: string | undefined;
   /** Specifies authentication type being used for connecting to the storage account. */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of storage endpoint for import devices. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The value indicating whether configurations should be imported. */
-  includeConfigurations?: boolean;
+  includeConfigurations?: boolean | undefined;
   /** The blob name to be used when importing configurations from the provided input blob container. */
-  configurationsBlobName?: string;
+  configurationsBlobName?: string | undefined;
 }
 export interface IotHubManualFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1282,11 +1282,11 @@ export interface IotHubManualFailoverRequest {
 }
 export interface IotHubManualFailoverResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type IotHubResourceCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1302,7 +1302,7 @@ export interface PrivateEndpointInput {}
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint property of a private endpoint connection */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** The current state of a private endpoint connection */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -1317,9 +1317,9 @@ export type IotHubPropertiesInputPrivateEndpointConnectionsList =
 /** The properties of the provisioned Event Hub-compatible endpoint used by the IoT hub. */
 export interface EventHubPropertiesInput {
   /** The retention time for device-to-cloud messages in days. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages */
-  retentionTimeInDays?: number;
+  retentionTimeInDays?: number | undefined;
   /** The number of partitions for receiving device-to-cloud messages in the Event Hub-compatible endpoint. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
 }
 /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
 export type IotHubPropertiesInputEventHubEndpointsMap = {
@@ -1340,27 +1340,27 @@ export interface RoutingCosmosDBSqlApiPropertiesInput {
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** The subscription identifier of the cosmos DB account. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the cosmos DB account. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** The url of the cosmos DB account. It must include the protocol https:// */
   endpointUri: string;
   /** Method used to authenticate against the cosmos DB sql container endpoint */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing cosmos DB container endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
   containerName: string;
   /** The name of the partition key associated with this cosmos DB sql container if one exists. This is an optional parameter. */
-  partitionKeyName?: string;
+  partitionKeyName?: string | undefined;
   /** The template for generating a synthetic partition key value for use with this cosmos DB sql container. The template must include at least one of the following placeholders: {iothub}, {deviceid}, {DD}, {MM}, and {YYYY}. Any one placeholder may be specified at most once, but order and non-placeholder components are arbitrary. This parameter is only required if PartitionKeyName is specified. */
-  partitionKeyTemplate?: string;
+  partitionKeyTemplate?: string | undefined;
 }
 /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsInputCosmosDBSqlContainersList =
@@ -1374,32 +1374,32 @@ export interface RoutingEventStreamPropertiesInput {
   /** Event hub name on the event hub namespace */
   entityPath: string;
   /** Method used to authenticate against the event stream endpoint */
-  authenticationType?: EventStreamAuthenticationType | (string & {});
+  authenticationType?: EventStreamAuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing event stream endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The unique GUID of the target Microsoft Fabric workspace for the event stream endpoint. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The unique GUID of the target event stream under the workspace. */
-  eventStreamId?: string;
+  eventStreamId?: string | undefined;
   /** The unique GUID of the custom source for the event stream. */
-  sourceId?: string;
+  sourceId?: string | undefined;
 }
 /** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsInputEventStreamsList = Array<RoutingEventStreamPropertiesInput>;
 /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
 export interface RoutingEndpointsInput {
   /** The list of Service Bus queue endpoints that IoT hub routes the messages to, based on the routing rules. */
-  serviceBusQueues?: RoutingEndpointsInputServiceBusQueuesList;
+  serviceBusQueues?: RoutingEndpointsInputServiceBusQueuesList | undefined;
   /** The list of Service Bus topic endpoints that the IoT hub routes the messages to, based on the routing rules. */
-  serviceBusTopics?: RoutingEndpointsInputServiceBusTopicsList;
+  serviceBusTopics?: RoutingEndpointsInputServiceBusTopicsList | undefined;
   /** The list of Event Hubs endpoints that IoT hub routes messages to, based on the routing rules. This list does not include the built-in Event Hubs endpoint. */
-  eventHubs?: RoutingEndpointsInputEventHubsList;
+  eventHubs?: RoutingEndpointsInputEventHubsList | undefined;
   /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
-  storageContainers?: RoutingEndpointsInputStorageContainersList;
+  storageContainers?: RoutingEndpointsInputStorageContainersList | undefined;
   /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
-  cosmosDBSqlContainers?: RoutingEndpointsInputCosmosDBSqlContainersList;
+  cosmosDBSqlContainers?: RoutingEndpointsInputCosmosDBSqlContainersList | undefined;
   /** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
-  eventStreams?: RoutingEndpointsInputEventStreamsList;
+  eventStreams?: RoutingEndpointsInputEventStreamsList | undefined;
 }
 /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
 export type RoutingPropertiesInputRoutesList = Array<RouteProperties>;
@@ -1408,13 +1408,13 @@ export type RoutingPropertiesInputEnrichmentsList = Array<EnrichmentProperties>;
 /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
 export interface RoutingPropertiesInput {
   /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
-  endpoints?: RoutingEndpointsInput;
+  endpoints?: RoutingEndpointsInput | undefined;
   /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
-  routes?: RoutingPropertiesInputRoutesList;
+  routes?: RoutingPropertiesInputRoutesList | undefined;
   /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not set, the messages which do not meet any of the conditions specified in the 'routes' section get routed to the built-in eventhub endpoint. */
-  fallbackRoute?: FallbackRouteProperties;
+  fallbackRoute?: FallbackRouteProperties | undefined;
   /** The list of user-provided enrichments that the IoT hub applies to messages to be delivered to built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid */
-  enrichments?: RoutingPropertiesInputEnrichmentsList;
+  enrichments?: RoutingPropertiesInputEnrichmentsList | undefined;
 }
 /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
 export type IotHubPropertiesInputStorageEndpointsMap = {
@@ -1427,45 +1427,45 @@ export type IotHubPropertiesInputMessagingEndpointsMap = {
 /** The properties of an IoT hub. */
 export interface IotHubPropertiesInput {
   /** The shared access policies you can use to secure a connection to the IoT hub. */
-  authorizationPolicies?: IotHubPropertiesInputAuthorizationPoliciesList;
+  authorizationPolicies?: IotHubPropertiesInputAuthorizationPoliciesList | undefined;
   /** If true, SAS tokens with Iot hub scoped SAS keys cannot be used for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** If true, all device(including Edge devices but excluding modules) scoped SAS keys cannot be used for authentication. */
-  disableDeviceSAS?: boolean;
+  disableDeviceSAS?: boolean | undefined;
   /** If true, all module scoped SAS keys cannot be used for authentication. */
-  disableModuleSAS?: boolean;
+  disableModuleSAS?: boolean | undefined;
   /** If true, egress from IotHub will be restricted to only the allowed FQDNs that are configured via allowedFqdnList. */
-  restrictOutboundNetworkAccess?: boolean;
+  restrictOutboundNetworkAccess?: boolean | undefined;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Iot Hub. */
-  allowedFqdnList?: IotHubPropertiesInputAllowedFqdnListList;
+  allowedFqdnList?: IotHubPropertiesInputAllowedFqdnListList | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** The IP filter rules. */
-  ipFilterRules?: IotHubPropertiesInputIpFilterRulesList;
+  ipFilterRules?: IotHubPropertiesInputIpFilterRulesList | undefined;
   /** Network Rule Set Properties of IotHub */
-  networkRuleSets?: NetworkRuleSetProperties;
+  networkRuleSets?: NetworkRuleSetProperties | undefined;
   /** Specifies the minimum TLS version to support for this hub. Can be set to "1.2" to have clients that use a TLS version below 1.2 to be rejected. */
-  minTlsVersion?: string;
+  minTlsVersion?: string | undefined;
   /** Private endpoint connections created on this IotHub */
-  privateEndpointConnections?: IotHubPropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: IotHubPropertiesInputPrivateEndpointConnectionsList | undefined;
   /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
-  eventHubEndpoints?: IotHubPropertiesInputEventHubEndpointsMap;
+  eventHubEndpoints?: IotHubPropertiesInputEventHubEndpointsMap | undefined;
   /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
-  routing?: RoutingPropertiesInput;
+  routing?: RoutingPropertiesInput | undefined;
   /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
-  storageEndpoints?: IotHubPropertiesInputStorageEndpointsMap;
+  storageEndpoints?: IotHubPropertiesInputStorageEndpointsMap | undefined;
   /** The messaging endpoint properties for the file upload notification queue. */
-  messagingEndpoints?: IotHubPropertiesInputMessagingEndpointsMap;
+  messagingEndpoints?: IotHubPropertiesInputMessagingEndpointsMap | undefined;
   /** If True, file upload notifications are enabled. */
-  enableFileUploadNotifications?: boolean;
+  enableFileUploadNotifications?: boolean | undefined;
   /** The IoT hub cloud-to-device messaging properties. */
-  cloudToDevice?: CloudToDeviceProperties;
+  cloudToDevice?: CloudToDeviceProperties | undefined;
   /** IoT hub comments. */
-  comments?: string;
+  comments?: string | undefined;
   /** The capabilities and features enabled for the IoT hub. */
-  features?: Capabilities | (string & {});
+  features?: Capabilities | (string & {}) | undefined;
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
-  enableDataResidency?: boolean;
+  enableDataResidency?: boolean | undefined;
 }
 export type ArmUserIdentityInput = PrivateEndpointInput;
 /** Dictionary of <ArmUserIdentity> */
@@ -1474,9 +1474,9 @@ export type ArmIdentityInputUserAssignedIdentitiesMap = {
 };
 export interface ArmIdentityInput {
   /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** Dictionary of <ArmUserIdentity> */
-  userAssignedIdentities?: ArmIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ArmIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface IotHubResourceCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1486,47 +1486,47 @@ export interface IotHubResourceCreateOrUpdateRequest {
   /** The name of the IoT hub. */
   resourceName: string;
   /** Resource tags. */
-  tags?: IotHubResourceCreateOrUpdateRequestTagsMap;
+  tags?: IotHubResourceCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** IotHub properties */
-  properties?: IotHubPropertiesInput;
+  properties?: IotHubPropertiesInput | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentityInput;
+  identity?: ArmIdentityInput | undefined;
   /** ETag of the IoT hub. Do not specify for creating a brand new IoT hub. Required to update an existing IoT hub. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
 }
 /** Resource tags. */
 export type IotHubResourceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface IotHubResourceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IotHubResourceCreateOrUpdateResponseTagsMap;
+  tags?: IotHubResourceCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
+  identity?: ArmIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListCertificateByIotHubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1539,24 +1539,24 @@ export interface ListCertificateByIotHubRequest {
 /** The X509 Certificate. */
 export interface CertificateDescription {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The description of an X509 CA Certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The array of Certificate objects. */
 export type CertificateListDescriptionValueList = Array<CertificateDescription>;
 /** The JSON-serialized array of Certificate objects. */
 export interface CertificateListDescription {
   /** The array of Certificate objects. */
-  value?: CertificateListDescriptionValueList;
+  value?: CertificateListDescriptionValueList | undefined;
 }
 export interface ListIotHubResourceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1569,25 +1569,25 @@ export type IotHubDescriptionTagsMap = { [key: string]: string | undefined };
 /** The description of the IoT hub. */
 export interface IotHubDescription {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IotHubDescriptionTagsMap;
+  tags?: IotHubDescriptionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
+  identity?: ArmIdentity | undefined;
 }
 /** The IotHubDescription items on this page */
 export type IotHubDescriptionListResultValueList = Array<IotHubDescription>;
@@ -1596,7 +1596,7 @@ export interface IotHubDescriptionListResult {
   /** The IotHubDescription items on this page */
   value: IotHubDescriptionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIotHubResourceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1617,17 +1617,17 @@ export type EventHubConsumerGroupInfoPropertiesMap = { [key: string]: unknown | 
 /** The properties of the EventHubConsumerGroupInfo object. */
 export interface EventHubConsumerGroupInfo {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The tags. */
-  properties?: EventHubConsumerGroupInfoPropertiesMap;
+  properties?: EventHubConsumerGroupInfoPropertiesMap | undefined;
   /** The etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The EventHubConsumerGroupInfo items on this page */
 export type EventHubConsumerGroupsListResultValueList = Array<EventHubConsumerGroupInfo>;
@@ -1636,7 +1636,7 @@ export interface EventHubConsumerGroupsListResult {
   /** The EventHubConsumerGroupInfo items on this page */
   value: EventHubConsumerGroupsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIotHubResourceJobsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1653,7 +1653,7 @@ export interface JobResponseListResult {
   /** The JobResponse items on this page */
   value: JobResponseListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIotHubResourceKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1671,35 +1671,35 @@ export interface SharedAccessSignatureAuthorizationRuleListResult {
   /** The SharedAccessSignatureAuthorizationRule items on this page */
   value: SharedAccessSignatureAuthorizationRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Devices */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource Type: IotHubs */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** IoT Hub REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{read | write | action | delete} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of IoT Hub operations supported by the Microsoft.Devices resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list IoT Hub operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of IoT Hub operations supported by the Microsoft.Devices resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1724,7 +1724,7 @@ export type PrivateLinkResourcesValueList = Array<GroupIdInformation>;
 /** The available private link resources for an IotHub */
 export interface PrivateLinkResources {
   /** The list of available private link resources for an IotHub */
-  value?: PrivateLinkResourcesValueList;
+  value?: PrivateLinkResourcesValueList | undefined;
 }
 /** App properties */
 export type RoutingMessageAppPropertiesMap = { [key: string]: string | undefined };
@@ -1733,11 +1733,11 @@ export type RoutingMessageSystemPropertiesMap = { [key: string]: string | undefi
 /** Routing message */
 export interface RoutingMessage {
   /** Body of routing message */
-  body?: string;
+  body?: string | undefined;
   /** App properties */
-  appProperties?: RoutingMessageAppPropertiesMap;
+  appProperties?: RoutingMessageAppPropertiesMap | undefined;
   /** System properties */
-  systemProperties?: RoutingMessageSystemPropertiesMap;
+  systemProperties?: RoutingMessageSystemPropertiesMap | undefined;
 }
 /** Twin Tags */
 export type RoutingTwinTagsMap = { [key: string]: unknown | undefined };
@@ -1747,15 +1747,15 @@ export type RoutingTwinPropertiesDesiredMap = { [key: string]: unknown | undefin
 export type RoutingTwinPropertiesReportedMap = { [key: string]: unknown | undefined };
 export interface RoutingTwinProperties {
   /** Twin desired properties */
-  desired?: RoutingTwinPropertiesDesiredMap;
+  desired?: RoutingTwinPropertiesDesiredMap | undefined;
   /** Twin reported properties */
-  reported?: RoutingTwinPropertiesReportedMap;
+  reported?: RoutingTwinPropertiesReportedMap | undefined;
 }
 /** Twin reference input parameter. This is an optional parameter */
 export interface RoutingTwin {
   /** Twin Tags */
-  tags?: RoutingTwinTagsMap;
-  properties?: RoutingTwinProperties;
+  tags?: RoutingTwinTagsMap | undefined;
+  properties?: RoutingTwinProperties | undefined;
 }
 export interface TestIotHubResourceAllRoutesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1764,23 +1764,23 @@ export interface TestIotHubResourceAllRoutesRequest {
   resourceGroupName: string;
   iotHubName: string;
   /** Routing source */
-  routingSource?: RoutingSource | (string & {});
+  routingSource?: RoutingSource | (string & {}) | undefined;
   /** Routing message */
-  message?: RoutingMessage;
+  message?: RoutingMessage | undefined;
   /** Routing Twin Reference */
-  twin?: RoutingTwin;
+  twin?: RoutingTwin | undefined;
 }
 /** Routes that matched */
 export interface MatchedRoute {
   /** Properties of routes that matched */
-  properties?: RouteProperties;
+  properties?: RouteProperties | undefined;
 }
 /** JSON-serialized array of matched routes */
 export type TestAllRoutesResultRoutesList = Array<MatchedRoute>;
 /** Result of testing all routes */
 export interface TestAllRoutesResult {
   /** JSON-serialized array of matched routes */
-  routes?: TestAllRoutesResultRoutesList;
+  routes?: TestAllRoutesResultRoutesList | undefined;
 }
 export interface TestIotHubResourceRouteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1789,11 +1789,11 @@ export interface TestIotHubResourceRouteRequest {
   resourceGroupName: string;
   iotHubName: string;
   /** Routing message */
-  message?: RoutingMessage;
+  message?: RoutingMessage | undefined;
   /** Route properties */
   route: RouteProperties;
   /** Routing Twin Reference */
-  twin?: RoutingTwin;
+  twin?: RoutingTwin | undefined;
 }
 /** Result of testing route */
 export type TestResultStatus = "undefined" | "false" | "true";
@@ -1802,39 +1802,39 @@ export type RouteErrorSeverity = "error" | "warning";
 /** Position where the route error happened */
 export interface RouteErrorPosition {
   /** Line where the route error happened */
-  line?: number;
+  line?: number | undefined;
   /** Column where the route error happened */
-  column?: number;
+  column?: number | undefined;
 }
 /** Range of route errors */
 export interface RouteErrorRange {
   /** Start where the route error happened */
-  start?: RouteErrorPosition;
+  start?: RouteErrorPosition | undefined;
   /** End where the route error happened */
-  end?: RouteErrorPosition;
+  end?: RouteErrorPosition | undefined;
 }
 /** Compilation error when evaluating route */
 export interface RouteCompilationError {
   /** Route error message */
-  message?: string;
+  message?: string | undefined;
   /** Severity of the route error */
-  severity?: RouteErrorSeverity;
+  severity?: RouteErrorSeverity | undefined;
   /** Location where the route error happened */
-  location?: RouteErrorRange;
+  location?: RouteErrorRange | undefined;
 }
 /** JSON-serialized list of route compilation errors */
 export type TestRouteResultDetailsCompilationErrorsList = Array<RouteCompilationError>;
 /** Detailed result of testing a route */
 export interface TestRouteResultDetails {
   /** JSON-serialized list of route compilation errors */
-  compilationErrors?: TestRouteResultDetailsCompilationErrorsList;
+  compilationErrors?: TestRouteResultDetailsCompilationErrorsList | undefined;
 }
 /** Result of testing one route */
 export interface TestRouteResult {
   /** Result of testing route */
-  result?: TestResultStatus;
+  result?: TestResultStatus | undefined;
   /** Detailed result of testing route */
-  details?: TestRouteResultDetails;
+  details?: TestRouteResultDetails | undefined;
 }
 /** Resource tags */
 export type UpdateIotHubResourceRequestTagsMap = { [key: string]: string | undefined };
@@ -1846,37 +1846,37 @@ export interface UpdateIotHubResourceRequest {
   /** The name of the IoT hub. */
   resourceName: string;
   /** Resource tags */
-  tags?: UpdateIotHubResourceRequestTagsMap;
+  tags?: UpdateIotHubResourceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateIotHubResourceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIotHubResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIotHubResourceResponseTagsMap;
+  tags?: UpdateIotHubResourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
+  identity?: ArmIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdatePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1892,19 +1892,19 @@ export interface UpdatePrivateEndpointConnectionRequest {
 }
 export interface UpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VerifyCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1916,21 +1916,21 @@ export interface VerifyCertificateRequest {
   /** The name of the certificate */
   certificateName: string;
   /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: string;
+  certificate?: string | undefined;
 }
 export interface VerifyCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The description of an X509 CA Certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type CertificatesCreateOrUpdateError = AzureOpError;
 /** Upload the certificate to the IoT hub. Adds new or replaces existing certificate. */

@@ -28,21 +28,21 @@ const TELEMETRY = {
 export type AddBookmarkRequestAccessLevel = "read" | "write";
 export interface AddBookmarkRequest {
   /** Channel to add bookmark in. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Title for the bookmark. */
   title: string;
   /** Link to bookmark. */
-  link?: string;
+  link?: string | undefined;
   /** Type of the bookmark i.e link. */
   type: string;
   /** Emoji tag to apply to the link. */
-  emoji?: string;
+  emoji?: string | undefined;
   /** ID of the entity being bookmarked. Only applies to message and file types. */
-  entity_id?: string;
+  entity_id?: string | undefined;
   /** The level that we are setting the file's permission to (read or write) */
-  access_level?: AddBookmarkRequestAccessLevel | (string & {});
+  access_level?: AddBookmarkRequestAccessLevel | (string & {}) | undefined;
   /** Id of this bookmark's parent */
-  parent_id?: string;
+  parent_id?: string | undefined;
 }
 export interface AddBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -51,15 +51,15 @@ export interface AddBookmarkResponse {
 }
 export interface EditBookmarkRequest {
   /** Channel to update bookmark in. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Bookmark to update. Required for public channels. */
-  bookmark_id?: string;
+  bookmark_id?: string | undefined;
   /** Title for the bookmark. */
-  title?: string;
+  title?: string | undefined;
   /** Link to bookmark. */
-  link?: string;
+  link?: string | undefined;
   /** Emoji tag to apply to the link. */
-  emoji?: string;
+  emoji?: string | undefined;
 }
 export interface EditBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -68,7 +68,7 @@ export interface EditBookmarkResponse {
 }
 export interface ListBookmarksRequest {
   /** Channel to list bookmarks in. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
 }
 export type ListBookmarksResponseBookmarksList = Array<unknown>;
 export interface ListBookmarksResponse {
@@ -78,11 +78,11 @@ export interface ListBookmarksResponse {
 }
 export interface RemoveBookmarkRequest {
   /** Channel to remove bookmark. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Bookmark to remove. Required for public channels. */
-  bookmark_id?: string;
+  bookmark_id?: string | undefined;
   /** Quip section ID to unbookmark */
-  quip_section_id?: string;
+  quip_section_id?: string | undefined;
 }
 export interface RemoveBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */

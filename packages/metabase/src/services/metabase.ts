@@ -38,7 +38,7 @@ export type MetabaseLibSchemaParameterTarget =
   | MetabaseLegacyMbqlSchemaField;
 /** parameter_mapping must be a map with :parameter_id and :target keys */
 export interface MetabaseParametersSchemaParameterMapping {
-  card_id?: number | null;
+  card_id?: number | null | undefined;
   parameter_id: string;
   target: MetabaseLibSchemaParameterTarget;
 }
@@ -74,10 +74,10 @@ export type MetabaseParametersSchemaValuesSourceConfigValuesList =
   Array<MetabaseLibSchemaParameterValuesSourceConfigValue>;
 /** Schema for valid source_options within a Parameter */
 export interface MetabaseParametersSchemaValuesSourceConfig {
-  card_id?: number;
-  label_field?: MetabaseParametersSchemaLegacyRef;
-  value_field?: MetabaseParametersSchemaLegacyRef;
-  values?: MetabaseParametersSchemaValuesSourceConfigValuesList;
+  card_id?: number | undefined;
+  label_field?: MetabaseParametersSchemaLegacyRef | undefined;
+  value_field?: MetabaseParametersSchemaLegacyRef | undefined;
+  values?: MetabaseParametersSchemaValuesSourceConfigValuesList | undefined;
 }
 export type MetabaseLibSchemaParameterParameterValueCase1List =
   Array<MetabaseLibSchemaParameterParameterValueScalar | null>;
@@ -143,54 +143,57 @@ export type MetabaseActionsSchemaActionParameterTemporalUnitsList = Array<
 export type MetabaseParametersSchemaValuesSourceType = "static-list" | "card";
 /** Options the frontend attaches to a parameter value. */
 export interface MetabaseLibSchemaParameterParameterOptions {
-  case_sensitive?: boolean;
-  include_current?: boolean;
+  case_sensitive?: boolean | undefined;
+  include_current?: boolean | undefined;
 }
 /** One entry of an Action's `:parameters`. An implicit action's are computed from the model's Fields rather than authored, and carry annotations `metabase.actions.models/implicit-action-parameters` adds and `select-actions-implicit-params` reads when it filters and orders them. */
 export interface MetabaseActionsSchemaActionParameter {
-  metabase_actions_models_field_id?: number | null;
-  filteringParameters?: MetabaseActionsSchemaActionParameterFilteringParametersList | null;
-  mappings?: MetabaseActionsSchemaActionParameterMappings | null;
-  sectionId?: string;
-  values_source_config?: MetabaseParametersSchemaValuesSourceConfig | null;
-  hasVariableTemplateTagTarget?: boolean | null;
-  display_name?: string | null;
+  metabase_actions_models_field_id?: number | null | undefined;
+  filteringParameters?:
+    | MetabaseActionsSchemaActionParameterFilteringParametersList
+    | null
+    | undefined;
+  mappings?: MetabaseActionsSchemaActionParameterMappings | null | undefined;
+  sectionId?: string | undefined;
+  values_source_config?: MetabaseParametersSchemaValuesSourceConfig | null | undefined;
+  hasVariableTemplateTagTarget?: boolean | null | undefined;
+  display_name?: string | null | undefined;
   id: string;
-  position?: number | null;
-  name?: string;
-  slug?: string;
-  value?: MetabaseLibSchemaParameterParameterValue;
-  metabase_actions_models_pk_?: boolean | null;
-  required?: boolean | null;
-  values_query_type?: MetabaseParametersSchemaValuesQueryType | (string & {}) | null;
+  position?: number | null | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  value?: MetabaseLibSchemaParameterParameterValue | undefined;
+  metabase_actions_models_pk_?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  values_query_type?: MetabaseParametersSchemaValuesQueryType | (string & {}) | null | undefined;
   type: MetabaseLibSchemaParameterType | (string & {});
-  temporal_units?: MetabaseActionsSchemaActionParameterTemporalUnitsList | null;
-  is_auto_increment?: boolean | null;
-  target?: MetabaseLibSchemaParameterTarget;
-  values_source_type?: MetabaseParametersSchemaValuesSourceType | (string & {}) | null;
-  options?: MetabaseLibSchemaParameterParameterOptions | null;
-  default?: MetabaseLibSchemaParameterParameterValue;
-  isMultiSelect?: boolean | null;
+  temporal_units?: MetabaseActionsSchemaActionParameterTemporalUnitsList | null | undefined;
+  is_auto_increment?: boolean | null | undefined;
+  target?: MetabaseLibSchemaParameterTarget | undefined;
+  values_source_type?: MetabaseParametersSchemaValuesSourceType | (string & {}) | null | undefined;
+  options?: MetabaseLibSchemaParameterParameterOptions | null | undefined;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
+  isMultiSelect?: boolean | null | undefined;
 }
 export type MetabaseActionsSchemaActionCreateRequestCase0ParametersList =
   Array<MetabaseActionsSchemaActionParameter>;
 export interface MetabaseActionsSchemaActionCreateRequestCase0 {
-  visualization_settings?: unknown | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
+  visualization_settings?: unknown | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
   name: string;
-  archived?: boolean;
-  table_id?: number | null;
-  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null;
-  collection_id?: number | null;
+  archived?: boolean | undefined;
+  table_id?: number | null | undefined;
+  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null | undefined;
+  collection_id?: number | null | undefined;
   type: MetabaseActionsSchemaType | (string & {});
-  model_id?: number | null;
-  parameters?: MetabaseActionsSchemaActionCreateRequestCase0ParametersList | null;
-  archived_directly?: boolean;
-  description?: string | null;
+  model_id?: number | null | undefined;
+  parameters?: MetabaseActionsSchemaActionCreateRequestCase0ParametersList | null | undefined;
+  archived_directly?: boolean | undefined;
+  description?: string | null | undefined;
 }
 export interface MetabaseLibSchemaSandboxingDetailsEntryAttributesValue {
   field_id: number | null;
-  value?: MetabaseLibSchemaParameterParameterValue | null;
+  value?: MetabaseLibSchemaParameterParameterValue | null | undefined;
 }
 export type MetabaseLibSchemaSandboxingDetailsEntryAttributesMap = {
   [key: string]: MetabaseLibSchemaSandboxingDetailsEntryAttributesValue | undefined;
@@ -220,10 +223,10 @@ export type MetabaseLibSchemaParameterValuesSourceConfigValuesList =
   Array<MetabaseLibSchemaParameterValuesSourceConfigValue>;
 /** The configuration of a filter widget's value source. Its keys are the frontend's snake_case names. */
 export interface MetabaseLibSchemaParameterValuesSourceConfig {
-  card_id?: number | null;
-  label_field?: MetabaseLibSchemaParameterValuesSourceConfigLabelField | null;
-  value_field?: MetabaseLibSchemaParameterValuesSourceConfigValueField | null;
-  values?: MetabaseLibSchemaParameterValuesSourceConfigValuesList | null;
+  card_id?: number | null | undefined;
+  label_field?: MetabaseLibSchemaParameterValuesSourceConfigLabelField | null | undefined;
+  value_field?: MetabaseLibSchemaParameterValuesSourceConfigValueField | null | undefined;
+  values?: MetabaseLibSchemaParameterValuesSourceConfigValuesList | null | undefined;
 }
 /** Where a filter widget's values come from, when not from the field it is connected to. */
 export type MetabaseLibSchemaParameterValuesSourceType = "static-list" | "card";
@@ -232,25 +235,32 @@ export type MetabaseLibSchemaParameterParameterTemporalUnitsList = Array<
 >;
 /** parameter must be a map with a :type key */
 export interface MetabaseLibSchemaParameterParameter {
-  values_query_type?: MetabaseLibSchemaParameterValuesQueryType | (string & {}) | null;
-  filteringparameters?: MetabaseLibSchemaParameterParameterFilteringparametersList | null;
-  values_source_config?: MetabaseLibSchemaParameterValuesSourceConfig | null;
-  display_name?: string | null;
-  id?: string;
-  ismultiselect?: boolean | null;
-  position?: number | null;
-  name?: string;
-  slug?: string;
-  value?: MetabaseLibSchemaParameterParameterValue;
-  values_source_type?: MetabaseLibSchemaParameterValuesSourceType | (string & {}) | null;
-  sectionid?: string | null;
-  hasvariabletemplatetagtarget?: boolean | null;
-  required?: boolean | null;
+  values_query_type?: MetabaseLibSchemaParameterValuesQueryType | (string & {}) | null | undefined;
+  filteringparameters?:
+    | MetabaseLibSchemaParameterParameterFilteringparametersList
+    | null
+    | undefined;
+  values_source_config?: MetabaseLibSchemaParameterValuesSourceConfig | null | undefined;
+  display_name?: string | null | undefined;
+  id?: string | undefined;
+  ismultiselect?: boolean | null | undefined;
+  position?: number | null | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  value?: MetabaseLibSchemaParameterParameterValue | undefined;
+  values_source_type?:
+    | MetabaseLibSchemaParameterValuesSourceType
+    | (string & {})
+    | null
+    | undefined;
+  sectionid?: string | null | undefined;
+  hasvariabletemplatetagtarget?: boolean | null | undefined;
+  required?: boolean | null | undefined;
   type: MetabaseLibSchemaParameterType | (string & {});
-  target?: MetabaseLibSchemaParameterTarget;
-  temporal_units?: MetabaseLibSchemaParameterParameterTemporalUnitsList | null;
-  options?: MetabaseLibSchemaParameterParameterOptions | null;
-  default?: MetabaseLibSchemaParameterParameterValue;
+  target?: MetabaseLibSchemaParameterTarget | undefined;
+  temporal_units?: MetabaseLibSchemaParameterParameterTemporalUnitsList | null | undefined;
+  options?: MetabaseLibSchemaParameterParameterOptions | null | undefined;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
 }
 /** Schema for a list of `:parameters` as passed in to a query. */
 export type MetabaseLibSchemaParameterParameters = Array<MetabaseLibSchemaParameterParameter>;
@@ -264,28 +274,28 @@ export type MetabaseLibSchemaQueryPivotRowsList2 = Array<number>;
 /** Options that tweak the behavior of the query processor. */
 export interface MetabaseLibSchemaSettingsSettings {
   /** Whether to include fields with visibility_type :sensitive when fetching query metadata. */
-  include_sensitive_fields?: boolean;
+  include_sensitive_fields?: boolean | undefined;
   /** The timezone the query should be ran in, overriding the default report timezone for the instance. */
-  report_timezone?: unknown;
+  report_timezone?: unknown | undefined;
 }
 /** Additional constraints added to a query limiting the maximum number of rows that can be returned. Mostly useful because native queries don't support the MBQL `:limit` clause. For MBQL queries, if `:limit` is set, it will override these values. */
 export interface MetabaseLibSchemaConstraintsConstraints {
   /** Maximum number of results to allow for a query with aggregations. If `max-results-bare-rows` is unset, this applies to all queries */
-  max_results?: number;
+  max_results?: number | undefined;
   /** Maximum number of results to allow for a query with no aggregations. If set, this should be LOWER than `:max-results`. */
-  max_results_bare_rows?: number;
+  max_results_bare_rows?: number | undefined;
 }
 /** What is added to a strategy once it is attached to a query. */
 export interface MetabaseLibSchemaCacheStrategyCase0 {
-  avg_execution_ms?: number;
-  invalidated_at?: string | null;
-  name?: string | null;
+  avg_execution_ms?: number | undefined;
+  invalidated_at?: string | null | undefined;
+  name?: string | null | undefined;
   type: unknown;
 }
 /** What is added to a strategy once it is attached to a query. */
 export interface MetabaseLibSchemaCacheStrategyCase1 {
-  avg_execution_ms?: number;
-  invalidated_at?: string | null;
+  avg_execution_ms?: number | undefined;
+  invalidated_at?: string | null | undefined;
   min_duration_ms: number;
   multiplier: number;
   type: unknown;
@@ -293,18 +303,18 @@ export interface MetabaseLibSchemaCacheStrategyCase1 {
 export type MetabaseLibSchemaCacheStrategyCase2Unit = "hours" | "minutes" | "seconds" | "days";
 /** What is added to a strategy once it is attached to a query. */
 export interface MetabaseLibSchemaCacheStrategyCase2 {
-  avg_execution_ms?: number;
+  avg_execution_ms?: number | undefined;
   duration: number;
-  invalidated_at?: string | null;
-  refresh_automatically?: boolean | null;
+  invalidated_at?: string | null | undefined;
+  refresh_automatically?: boolean | null | undefined;
   type: unknown;
   unit: MetabaseLibSchemaCacheStrategyCase2Unit | (string & {});
 }
 /** What is added to a strategy once it is attached to a query. */
 export interface MetabaseLibSchemaCacheStrategyCase3 {
-  avg_execution_ms?: number;
-  invalidated_at?: string | null;
-  refresh_automatically?: boolean | null;
+  avg_execution_ms?: number | undefined;
+  invalidated_at?: string | null | undefined;
+  refresh_automatically?: boolean | null | undefined;
   schedule: string;
   type: unknown;
 }
@@ -342,22 +352,22 @@ export interface MetabaseLibSchemaMetadataColumnRemappingExternal {
 export type MetabaseLibSchemaBinningStrategy = "bin-width" | "default" | "num-bins";
 /** The legacy description of how a column was binned, as [[metabase.lib.metadata.result-metadata]] spells it out for the frontend. */
 export interface MetabaseLibSchemaMetadataColumnBinningInfo {
-  max_value?: number | null;
-  strategy?: MetabaseLibSchemaBinningStrategy | (string & {}) | null;
-  max_value_2?: number | null;
-  bin_width?: number | null;
-  num_bins?: number | null;
-  bin_width_2?: number | null;
-  num_bins_2?: number | null;
-  min_value?: number | null;
-  binning_strategy?: MetabaseLibSchemaBinningStrategy | (string & {}) | null;
-  binning_strategy_2?: MetabaseLibSchemaBinningStrategy | (string & {}) | null;
-  min_value_2?: number | null;
+  max_value?: number | null | undefined;
+  strategy?: MetabaseLibSchemaBinningStrategy | (string & {}) | null | undefined;
+  max_value_2?: number | null | undefined;
+  bin_width?: number | null | undefined;
+  num_bins?: number | null | undefined;
+  bin_width_2?: number | null | undefined;
+  num_bins_2?: number | null | undefined;
+  min_value?: number | null | undefined;
+  binning_strategy?: MetabaseLibSchemaBinningStrategy | (string & {}) | null | undefined;
+  binning_strategy_2?: MetabaseLibSchemaBinningStrategy | (string & {}) | null | undefined;
+  min_value_2?: number | null | undefined;
 }
 /** Fingerprint values that Fields of all types should have. */
 export interface MetabaseLibSchemaMetadataFingerprintFingerprintGlobal {
-  distinct_count?: number;
-  nil_?: number | null;
+  distinct_count?: number | undefined;
+  nil_?: number | null | undefined;
 }
 export type MetabaseLibSchemaMetadataFingerprintFingerprintTemporalHourDistributionList =
   Array<number>;
@@ -365,54 +375,60 @@ export type MetabaseLibSchemaMetadataFingerprintFingerprintTemporalWeekdayDistri
   Array<number>;
 /** Schema for fingerprint information for Fields deriving from `:type/Temporal`. */
 export interface MetabaseLibSchemaMetadataFingerprintFingerprintTemporal {
-  earliest?: string | null;
-  hour_distribution?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporalHourDistributionList | null;
-  latest?: string | null;
-  mode_fraction?: number | null;
-  skewness?: number | null;
-  top_3_fraction?: number | null;
-  weekday_distribution?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporalWeekdayDistributionList | null;
+  earliest?: string | null | undefined;
+  hour_distribution?:
+    | MetabaseLibSchemaMetadataFingerprintFingerprintTemporalHourDistributionList
+    | null
+    | undefined;
+  latest?: string | null | undefined;
+  mode_fraction?: number | null | undefined;
+  skewness?: number | null | undefined;
+  top_3_fraction?: number | null | undefined;
+  weekday_distribution?:
+    | MetabaseLibSchemaMetadataFingerprintFingerprintTemporalWeekdayDistributionList
+    | null
+    | undefined;
 }
 /** Schema for fingerprint information for Fields deriving from `:type/Number`. */
 export interface MetabaseLibSchemaMetadataFingerprintFingerprintNumber {
-  mode_fraction?: number | null;
-  min?: number | null;
-  q1?: number | null;
-  max?: number | null;
-  avg?: number | null;
-  sd?: number | null;
-  skewness?: number | null;
-  q3?: number | null;
-  top_3_fraction?: number | null;
-  excess_kurtosis?: number | null;
-  zero_fraction?: number | null;
+  mode_fraction?: number | null | undefined;
+  min?: number | null | undefined;
+  q1?: number | null | undefined;
+  max?: number | null | undefined;
+  avg?: number | null | undefined;
+  sd?: number | null | undefined;
+  skewness?: number | null | undefined;
+  q3?: number | null | undefined;
+  top_3_fraction?: number | null | undefined;
+  excess_kurtosis?: number | null | undefined;
+  zero_fraction?: number | null | undefined;
 }
 /** Schema for fingerprint information for Fields deriving from `:type/Text`. */
 export interface MetabaseLibSchemaMetadataFingerprintFingerprintText {
-  mode_fraction?: number | null;
-  percent_json?: number | null;
-  percent_blank?: number | null;
-  percent_url?: number | null;
-  percent_state?: number | null;
-  percent_email?: number | null;
-  max_length?: number | null;
-  average_length?: number | null;
-  min_length?: number | null;
-  top_3_fraction?: number | null;
+  mode_fraction?: number | null | undefined;
+  percent_json?: number | null | undefined;
+  percent_blank?: number | null | undefined;
+  percent_url?: number | null | undefined;
+  percent_state?: number | null | undefined;
+  percent_email?: number | null | undefined;
+  max_length?: number | null | undefined;
+  average_length?: number | null | undefined;
+  min_length?: number | null | undefined;
+  top_3_fraction?: number | null | undefined;
 }
 /** Schema for type-specific fingerprint information. */
 export interface MetabaseLibSchemaMetadataFingerprintFingerprintTypeSpecific {
-  type_Date?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporal;
-  type_DateTime?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporal;
-  type_Number?: MetabaseLibSchemaMetadataFingerprintFingerprintNumber;
-  type_Text?: MetabaseLibSchemaMetadataFingerprintFingerprintText;
-  type_Time?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporal;
+  type_Date?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporal | undefined;
+  type_DateTime?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporal | undefined;
+  type_Number?: MetabaseLibSchemaMetadataFingerprintFingerprintNumber | undefined;
+  type_Text?: MetabaseLibSchemaMetadataFingerprintFingerprintText | undefined;
+  type_Time?: MetabaseLibSchemaMetadataFingerprintFingerprintTemporal | undefined;
 }
 /** Schema for a Field 'fingerprint' generated as part of the analysis stage. Used to power the 'classification' sub-stage of analysis. Stored as the `fingerprint` column of Field. */
 export interface MetabaseLibSchemaMetadataFingerprintFingerprint {
-  experimental?: unknown;
-  global?: MetabaseLibSchemaMetadataFingerprintFingerprintGlobal;
-  type?: MetabaseLibSchemaMetadataFingerprintFingerprintTypeSpecific;
+  experimental?: unknown | undefined;
+  global?: MetabaseLibSchemaMetadataFingerprintFingerprintGlobal | undefined;
+  type?: MetabaseLibSchemaMetadataFingerprintFingerprintTypeSpecific | undefined;
 }
 export type MetabaseLibSchemaMetadataColumnMapTableId = number | string;
 export type MetabaseLibSchemaMetadataColumnDataSensitivity =
@@ -427,23 +443,23 @@ export type MetabaseLibSchemaMetadataColumnDataSensitivity =
   | "BIZ_CONF"
   | "PUBLIC";
 export interface MetabaseLibSchemaBinningBinningCase0 {
-  bin_width?: number;
-  max_value?: number;
-  min_value?: number;
-  num_bins?: number;
+  bin_width?: number | undefined;
+  max_value?: number | undefined;
+  min_value?: number | undefined;
+  num_bins?: number | undefined;
   strategy: unknown;
 }
 export interface MetabaseLibSchemaBinningBinningCase1 {
   bin_width: number;
-  max_value?: number;
-  min_value?: number;
-  num_bins?: number;
+  max_value?: number | undefined;
+  min_value?: number | undefined;
+  num_bins?: number | undefined;
   strategy: unknown;
 }
 export interface MetabaseLibSchemaBinningBinningCase2 {
-  bin_width?: number;
-  max_value?: number;
-  min_value?: number;
+  bin_width?: number | undefined;
+  max_value?: number | undefined;
+  min_value?: number | undefined;
   num_bins: number;
   strategy: unknown;
 }
@@ -480,8 +496,8 @@ export interface MetabaseLibSchemaMetadataColumnRemappingInternal {
 }
 /** What [[metabase.lib.options/with-options]] puts under `:lib/options` when it is handed a column rather than a clause: the expression name [[metabase.lib.fe-util/expression-parts]] pins on an expression column, and a `:lib/uuid` if something asked for one. */
 export interface MetabaseLibSchemaMetadataColumnLibOptions {
-  lib_expression_name?: string;
-  lib_uuid?: string;
+  lib_expression_name?: string | undefined;
+  lib_uuid?: string | undefined;
 }
 export type MetabaseLibSchemaMetadataColumnMapTarget = number | MetabaseLibSchemaMetadataColumn;
 /** Possible values for `column.source` -- this is added by [[metabase.lib.metadata.result-metadata]] for historical reasons (it is used in a few places in the FE). DO NOT use this in the backend for any purpose, use `:lib/source` instead. */
@@ -507,15 +523,23 @@ export type MetabaseLibSchemaMetadataColumnOptionsMetabaseQueryProcessorUtilAddA
   | string;
 /** What the query processor stashes under a column's `:options` while it runs: never sent by a client, and never handed back to one. */
 export interface MetabaseLibSchemaMetadataColumnOptions {
-  metabase_query_processor_util_add_alias_info_source_table?: MetabaseLibSchemaMetadataColumnOptionsMetabaseQueryProcessorUtilAddAliasInfoSourceTable | null;
-  metabase_query_processor_middleware_add_remaps_original_field_dimension_id?: number | null;
-  metabase_query_processor_middleware_add_remaps_new_field_dimension_id?: number | null;
-  metabase_query_processor_util_add_alias_info_source_alias?: string | null;
-  qp_native_sandbox_column_propagate_coercion_?: boolean | null;
-  metabase_query_processor_util_add_alias_info_desired_alias?: string | null;
-  qp_ignore_coercion?: boolean;
-  qp_native_sandbox_column_force_coercion_strategy?: string | null;
-  metabase_query_processor_util_transformations_nest_breakouts_externally_remapped_field?: boolean;
+  metabase_query_processor_util_add_alias_info_source_table?:
+    | MetabaseLibSchemaMetadataColumnOptionsMetabaseQueryProcessorUtilAddAliasInfoSourceTable
+    | null
+    | undefined;
+  metabase_query_processor_middleware_add_remaps_original_field_dimension_id?:
+    | number
+    | null
+    | undefined;
+  metabase_query_processor_middleware_add_remaps_new_field_dimension_id?: number | null | undefined;
+  metabase_query_processor_util_add_alias_info_source_alias?: string | null | undefined;
+  qp_native_sandbox_column_propagate_coercion_?: boolean | null | undefined;
+  metabase_query_processor_util_add_alias_info_desired_alias?: string | null | undefined;
+  qp_ignore_coercion?: boolean | undefined;
+  qp_native_sandbox_column_force_coercion_strategy?: string | null | undefined;
+  metabase_query_processor_util_transformations_nest_breakouts_externally_remapped_field?:
+    | boolean
+    | undefined;
 }
 export type MetabaseLibSchemaMetadataColumnMapDimensionType = "internal" | "external";
 export type MetabaseLibSchemaMetadataColumnMapNameField = number | MetabaseLibSchemaMetadataColumn;
@@ -524,126 +548,155 @@ export type MetabaseLibSchemaMetadataColumnMapLibOriginalRefStyleForResultMetada
   | "original-ref-style/name";
 /** The map portion of [[::column]], without its constraints. */
 export interface MetabaseLibSchemaMetadataColumnMap {
-  visibility_type?: MetabaseLibSchemaMetadataColumnVisibilityType | (string & {}) | null;
-  metabase_query_processor_pivot_idx?: number;
-  field_values?: MetabaseLibSchemaMetadataColumnMapFieldValuesList | null;
-  remapped_from_index?: number | null;
-  remapped_to?: string | null;
-  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap;
-  lib_original_join_name?: string | null;
-  fk_join_alias?: string | null;
-  database_default?: string | null;
-  metabase_lib_metadata_result_metadata_field_ref?: MetabaseLegacyMbqlSchemaReference | null;
-  database_partitioned?: boolean | null;
-  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean;
-  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null;
-  inherited_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  metabase_driver_mongo_query_processor_source_alias?: string | null;
-  lib_source_column_alias?: string | null;
-  database_type?: string | null;
-  lib_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  lib_type?: unknown;
-  database_required?: boolean | null;
-  binning_info?: MetabaseLibSchemaMetadataColumnBinningInfo | null;
-  coercion_strategy?: string | null;
-  settings?: unknown | null;
-  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null;
-  table_id?: MetabaseLibSchemaMetadataColumnMapTableId | null;
-  converted_timezone?: string | null;
-  display_name?: string | null;
-  lib_source_uuid?: string | null;
-  metabase_driver_mongo_query_processor_join_field?: string | null;
-  order_by_position?: number | null;
-  data_sensitivity?: MetabaseLibSchemaMetadataColumnDataSensitivity | (string & {}) | null;
-  qp_implicit_field_?: boolean | null;
-  lib_ref_name?: string | null;
-  dimension_id?: number | null;
-  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null;
-  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap;
-  id?: number | null;
-  effective_type?: string | null;
-  lib_deduplicated_name?: string | null;
-  base_type?: string;
-  lib_transformation_added_base_type?: boolean | null;
-  breakout_positions?: MetabaseLibSchemaMetadataColumnMapBreakoutPositionsList | null;
-  fingerprint_version?: number | null;
-  values_values?: MetabaseLibSchemaMetadataColumnMapValuesValuesList | null;
-  lib_original_expression_name?: string | null;
-  fk_field_name?: string | null;
-  lib_from_model_?: boolean | null;
-  updated_at?: string | null;
-  lib_original_fk_join_alias?: string | null;
-  position?: number | null;
+  visibility_type?:
+    | MetabaseLibSchemaMetadataColumnVisibilityType
+    | (string & {})
+    | null
+    | undefined;
+  metabase_query_processor_pivot_idx?: number | undefined;
+  field_values?: MetabaseLibSchemaMetadataColumnMapFieldValuesList | null | undefined;
+  remapped_from_index?: number | null | undefined;
+  remapped_to?: string | null | undefined;
+  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  lib_original_join_name?: string | null | undefined;
+  fk_join_alias?: string | null | undefined;
+  database_default?: string | null | undefined;
+  metabase_lib_metadata_result_metadata_field_ref?:
+    | MetabaseLegacyMbqlSchemaReference
+    | null
+    | undefined;
+  database_partitioned?: boolean | null | undefined;
+  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean | undefined;
+  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null | undefined;
+  inherited_temporal_unit?:
+    | MetabaseLibSchemaTemporalBucketingUnit
+    | (string & {})
+    | null
+    | undefined;
+  metabase_driver_mongo_query_processor_source_alias?: string | null | undefined;
+  lib_source_column_alias?: string | null | undefined;
+  database_type?: string | null | undefined;
+  lib_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  lib_type?: unknown | undefined;
+  database_required?: boolean | null | undefined;
+  binning_info?: MetabaseLibSchemaMetadataColumnBinningInfo | null | undefined;
+  coercion_strategy?: string | null | undefined;
+  settings?: unknown | null | undefined;
+  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null | undefined;
+  table_id?: MetabaseLibSchemaMetadataColumnMapTableId | null | undefined;
+  converted_timezone?: string | null | undefined;
+  display_name?: string | null | undefined;
+  lib_source_uuid?: string | null | undefined;
+  metabase_driver_mongo_query_processor_join_field?: string | null | undefined;
+  order_by_position?: number | null | undefined;
+  data_sensitivity?:
+    | MetabaseLibSchemaMetadataColumnDataSensitivity
+    | (string & {})
+    | null
+    | undefined;
+  qp_implicit_field_?: boolean | null | undefined;
+  lib_ref_name?: string | null | undefined;
+  dimension_id?: number | null | undefined;
+  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
+  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  id?: number | null | undefined;
+  effective_type?: string | null | undefined;
+  lib_deduplicated_name?: string | null | undefined;
+  base_type?: string | undefined;
+  lib_transformation_added_base_type?: boolean | null | undefined;
+  breakout_positions?: MetabaseLibSchemaMetadataColumnMapBreakoutPositionsList | null | undefined;
+  fingerprint_version?: number | null | undefined;
+  values_values?: MetabaseLibSchemaMetadataColumnMapValuesValuesList | null | undefined;
+  lib_original_expression_name?: string | null | undefined;
+  fk_field_name?: string | null | undefined;
+  lib_from_model_?: boolean | null | undefined;
+  updated_at?: string | null | undefined;
+  lib_original_fk_join_alias?: string | null | undefined;
+  position?: number | null | undefined;
   name: string;
-  lib_original_fk_field_name?: string | null;
-  lib_card_id?: number | null;
+  lib_original_fk_field_name?: string | null | undefined;
+  lib_card_id?: number | null | undefined;
   metabase_lib_underlying_temporal_unit?:
     | MetabaseLibSchemaTemporalBucketingUnit
     | (string & {})
-    | null;
-  lib_expression_name?: string | null;
-  lib_breakout_?: boolean | null;
-  values_human_readable_values?: MetabaseLibSchemaMetadataColumnMapValuesHumanReadableValuesList | null;
-  last_analyzed?: string | null;
-  database_is_pk?: boolean | null;
-  json_unfolding?: boolean | null;
-  lib_original_effective_type?: string | null;
-  lib_join_alias?: string | null;
-  created_at?: string | null;
-  lib_source_display_name?: string | null;
-  nfc_path?: MetabaseLibSchemaMetadataColumnMapNfcPathList | null;
-  remapping?: MetabaseLibSchemaMetadataColumnMapRemappingMap | null;
-  preview_display?: boolean | null;
-  dimension_human_readable_field_id?: number | null;
-  lib_original_fk_field_id?: number | null;
-  qp_native_sandbox_column_propagate_coercion_?: boolean;
-  has_field_values?: MetabaseLibSchemaMetadataColumnHasFieldValues | (string & {}) | null;
-  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null;
-  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null;
-  selected_?: boolean;
-  database_is_generated?: boolean | null;
-  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null;
-  fk_field_id?: number | null;
-  target?: MetabaseLibSchemaMetadataColumnMapTarget | null;
-  lib_original_binning?: MetabaseLibSchemaBinningBinning | null;
-  lib_original_join_alias?: string | null;
-  lib_original_display_name?: string | null;
-  metabase_lib_field_resolution_fallback_metadata_?: boolean;
-  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  remapped_from?: string | null;
-  qp_native_sandbox_column_force_coercion_strategy?: string;
-  lib_binning?: MetabaseLibSchemaBinningBinning | null;
+    | null
+    | undefined;
+  lib_expression_name?: string | null | undefined;
+  lib_breakout_?: boolean | null | undefined;
+  values_human_readable_values?:
+    | MetabaseLibSchemaMetadataColumnMapValuesHumanReadableValuesList
+    | null
+    | undefined;
+  last_analyzed?: string | null | undefined;
+  database_is_pk?: boolean | null | undefined;
+  json_unfolding?: boolean | null | undefined;
+  lib_original_effective_type?: string | null | undefined;
+  lib_join_alias?: string | null | undefined;
+  created_at?: string | null | undefined;
+  lib_source_display_name?: string | null | undefined;
+  nfc_path?: MetabaseLibSchemaMetadataColumnMapNfcPathList | null | undefined;
+  remapping?: MetabaseLibSchemaMetadataColumnMapRemappingMap | null | undefined;
+  preview_display?: boolean | null | undefined;
+  dimension_human_readable_field_id?: number | null | undefined;
+  lib_original_fk_field_id?: number | null | undefined;
+  qp_native_sandbox_column_propagate_coercion_?: boolean | undefined;
+  has_field_values?:
+    | MetabaseLibSchemaMetadataColumnHasFieldValues
+    | (string & {})
+    | null
+    | undefined;
+  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null | undefined;
+  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null | undefined;
+  selected_?: boolean | undefined;
+  database_is_generated?: boolean | null | undefined;
+  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null | undefined;
+  fk_field_id?: number | null | undefined;
+  target?: MetabaseLibSchemaMetadataColumnMapTarget | null | undefined;
+  lib_original_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
+  lib_original_join_alias?: string | null | undefined;
+  lib_original_display_name?: string | null | undefined;
+  metabase_lib_field_resolution_fallback_metadata_?: boolean | undefined;
+  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  remapped_from?: string | null | undefined;
+  qp_native_sandbox_column_force_coercion_strategy?: string | undefined;
+  lib_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
   metabase_lib_metadata_result_metadata_source?:
     | MetabaseLibSchemaMetadataColumnLegacySource
     | (string & {})
-    | null;
-  database_indexed?: boolean | null;
-  caveats?: string | null;
-  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null;
-  database_is_auto_increment?: boolean | null;
-  active?: boolean;
-  points_of_interest?: string | null;
-  filter_positions?: MetabaseLibSchemaMetadataColumnMapFilterPositionsList | null;
-  options?: MetabaseLibSchemaMetadataColumnOptions | null;
-  lib_ref_display_name?: string | null;
-  dimension_interestingness?: number | null;
-  dimension_type?: MetabaseLibSchemaMetadataColumnMapDimensionType | (string & {}) | null;
-  lib_original_name?: string | null;
-  name_field?: MetabaseLibSchemaMetadataColumnMapNameField | null;
-  database_position?: number | null;
+    | null
+    | undefined;
+  database_indexed?: boolean | null | undefined;
+  caveats?: string | null | undefined;
+  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null | undefined;
+  database_is_auto_increment?: boolean | null | undefined;
+  active?: boolean | undefined;
+  points_of_interest?: string | null | undefined;
+  filter_positions?: MetabaseLibSchemaMetadataColumnMapFilterPositionsList | null | undefined;
+  options?: MetabaseLibSchemaMetadataColumnOptions | null | undefined;
+  lib_ref_display_name?: string | null | undefined;
+  dimension_interestingness?: number | null | undefined;
+  dimension_type?:
+    | MetabaseLibSchemaMetadataColumnMapDimensionType
+    | (string & {})
+    | null
+    | undefined;
+  lib_original_name?: string | null | undefined;
+  name_field?: MetabaseLibSchemaMetadataColumnMapNameField | null | undefined;
+  database_position?: number | null | undefined;
   lib_original_ref_style_for_result_metadata_purposes?:
     | MetabaseLibSchemaMetadataColumnMapLibOriginalRefStyleForResultMetadataPurposes
-    | (string & {});
-  semantic_type?: string | null;
-  metabase_driver_mongo_query_processor_inherited_?: boolean | null;
-  description?: string | null;
-  fk_target_field_id?: number | null;
-  custom_position?: number | null;
-  dimension_name?: string | null;
-  parent_id?: number | null;
-  lib_simple_display_name?: string | null;
-  database_is_nullable?: boolean | null;
-  lib_desired_column_alias?: string | null;
+    | (string & {})
+    | undefined;
+  semantic_type?: string | null | undefined;
+  metabase_driver_mongo_query_processor_inherited_?: boolean | null | undefined;
+  description?: string | null | undefined;
+  fk_target_field_id?: number | null | undefined;
+  custom_position?: number | null | undefined;
+  dimension_name?: string | null | undefined;
+  parent_id?: number | null | undefined;
+  lib_simple_display_name?: string | null | undefined;
+  database_is_nullable?: boolean | null | undefined;
+  lib_desired_column_alias?: string | null | undefined;
 }
 export type MetabaseLibSchemaMetadataColumnTableId = number | string;
 export type MetabaseLibSchemaMetadataColumnBreakoutPositionsList = Array<number>;
@@ -664,126 +717,151 @@ export type MetabaseLibSchemaMetadataColumnLibOriginalRefStyleForResultMetadataP
   | "original-ref-style/name";
 /** Malli schema for a valid map of column metadata, which can mean one of two things: 1. Metadata about a particular Field in the application database. This will always have an `:id` 2. Results metadata from a column in `data.cols` and/or `data.results_metadata.columns` in a Query Processor response, or saved in something like `Card.result_metadata`. These *may* have an `:id`, or may not -- columns coming back from native queries or things like `SELECT count(*)` aren't associated with any particular `Field` and thus will not have an `:id`. Now maybe these should be two different schemas, but `:id` being there or not is the only real difference; besides that they are largely compatible. So they're the same for now. We can revisit this in the future if we actually want to differentiate between the two versions. */
 export interface MetabaseLibSchemaMetadataColumn {
-  visibility_type?: MetabaseLibSchemaMetadataColumnVisibilityType | (string & {}) | null;
-  metabase_query_processor_pivot_idx?: number;
-  field_values?: MetabaseLibSchemaMetadataColumnFieldValuesList | null;
-  remapped_from_index?: number | null;
-  remapped_to?: string | null;
-  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap;
-  lib_original_join_name?: string | null;
-  fk_join_alias?: string | null;
-  database_default?: string | null;
-  metabase_lib_metadata_result_metadata_field_ref?: MetabaseLegacyMbqlSchemaReference | null;
-  database_partitioned?: boolean | null;
-  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean;
-  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null;
-  inherited_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  metabase_driver_mongo_query_processor_source_alias?: string | null;
-  lib_source_column_alias?: string | null;
-  database_type?: string | null;
-  lib_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  lib_type?: unknown;
-  database_required?: boolean | null;
-  binning_info?: MetabaseLibSchemaMetadataColumnBinningInfo | null;
-  coercion_strategy?: string | null;
-  settings?: unknown | null;
-  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null;
-  table_id?: MetabaseLibSchemaMetadataColumnTableId | null;
-  converted_timezone?: string | null;
-  display_name?: string | null;
-  lib_source_uuid?: string | null;
-  metabase_driver_mongo_query_processor_join_field?: string | null;
-  order_by_position?: number | null;
-  data_sensitivity?: MetabaseLibSchemaMetadataColumnDataSensitivity | (string & {}) | null;
-  qp_implicit_field_?: boolean | null;
-  lib_ref_name?: string | null;
-  dimension_id?: number | null;
-  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null;
-  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap;
-  id?: number | null;
-  effective_type?: string | null;
-  lib_deduplicated_name?: string | null;
-  base_type?: string;
-  lib_transformation_added_base_type?: boolean | null;
-  breakout_positions?: MetabaseLibSchemaMetadataColumnBreakoutPositionsList | null;
-  fingerprint_version?: number | null;
-  values_values?: MetabaseLibSchemaMetadataColumnValuesValuesList | null;
-  lib_original_expression_name?: string | null;
-  fk_field_name?: string | null;
-  lib_from_model_?: boolean | null;
-  updated_at?: string | null;
-  lib_original_fk_join_alias?: string | null;
-  position?: number | null;
+  visibility_type?:
+    | MetabaseLibSchemaMetadataColumnVisibilityType
+    | (string & {})
+    | null
+    | undefined;
+  metabase_query_processor_pivot_idx?: number | undefined;
+  field_values?: MetabaseLibSchemaMetadataColumnFieldValuesList | null | undefined;
+  remapped_from_index?: number | null | undefined;
+  remapped_to?: string | null | undefined;
+  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  lib_original_join_name?: string | null | undefined;
+  fk_join_alias?: string | null | undefined;
+  database_default?: string | null | undefined;
+  metabase_lib_metadata_result_metadata_field_ref?:
+    | MetabaseLegacyMbqlSchemaReference
+    | null
+    | undefined;
+  database_partitioned?: boolean | null | undefined;
+  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean | undefined;
+  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null | undefined;
+  inherited_temporal_unit?:
+    | MetabaseLibSchemaTemporalBucketingUnit
+    | (string & {})
+    | null
+    | undefined;
+  metabase_driver_mongo_query_processor_source_alias?: string | null | undefined;
+  lib_source_column_alias?: string | null | undefined;
+  database_type?: string | null | undefined;
+  lib_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  lib_type?: unknown | undefined;
+  database_required?: boolean | null | undefined;
+  binning_info?: MetabaseLibSchemaMetadataColumnBinningInfo | null | undefined;
+  coercion_strategy?: string | null | undefined;
+  settings?: unknown | null | undefined;
+  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null | undefined;
+  table_id?: MetabaseLibSchemaMetadataColumnTableId | null | undefined;
+  converted_timezone?: string | null | undefined;
+  display_name?: string | null | undefined;
+  lib_source_uuid?: string | null | undefined;
+  metabase_driver_mongo_query_processor_join_field?: string | null | undefined;
+  order_by_position?: number | null | undefined;
+  data_sensitivity?:
+    | MetabaseLibSchemaMetadataColumnDataSensitivity
+    | (string & {})
+    | null
+    | undefined;
+  qp_implicit_field_?: boolean | null | undefined;
+  lib_ref_name?: string | null | undefined;
+  dimension_id?: number | null | undefined;
+  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
+  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  id?: number | null | undefined;
+  effective_type?: string | null | undefined;
+  lib_deduplicated_name?: string | null | undefined;
+  base_type?: string | undefined;
+  lib_transformation_added_base_type?: boolean | null | undefined;
+  breakout_positions?: MetabaseLibSchemaMetadataColumnBreakoutPositionsList | null | undefined;
+  fingerprint_version?: number | null | undefined;
+  values_values?: MetabaseLibSchemaMetadataColumnValuesValuesList | null | undefined;
+  lib_original_expression_name?: string | null | undefined;
+  fk_field_name?: string | null | undefined;
+  lib_from_model_?: boolean | null | undefined;
+  updated_at?: string | null | undefined;
+  lib_original_fk_join_alias?: string | null | undefined;
+  position?: number | null | undefined;
   name: string;
-  lib_original_fk_field_name?: string | null;
-  lib_card_id?: number | null;
+  lib_original_fk_field_name?: string | null | undefined;
+  lib_card_id?: number | null | undefined;
   metabase_lib_underlying_temporal_unit?:
     | MetabaseLibSchemaTemporalBucketingUnit
     | (string & {})
-    | null;
-  lib_expression_name?: string | null;
-  lib_breakout_?: boolean | null;
-  values_human_readable_values?: MetabaseLibSchemaMetadataColumnValuesHumanReadableValuesList | null;
-  last_analyzed?: string | null;
-  database_is_pk?: boolean | null;
-  json_unfolding?: boolean | null;
-  lib_original_effective_type?: string | null;
-  lib_join_alias?: string | null;
-  created_at?: string | null;
-  lib_source_display_name?: string | null;
-  nfc_path?: MetabaseLibSchemaMetadataColumnNfcPathList | null;
-  remapping?: MetabaseLibSchemaMetadataColumnRemappingMap | null;
-  preview_display?: boolean | null;
-  dimension_human_readable_field_id?: number | null;
-  lib_original_fk_field_id?: number | null;
-  qp_native_sandbox_column_propagate_coercion_?: boolean;
-  has_field_values?: MetabaseLibSchemaMetadataColumnHasFieldValues | (string & {}) | null;
-  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null;
-  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null;
-  selected_?: boolean;
-  database_is_generated?: boolean | null;
-  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null;
-  fk_field_id?: number | null;
-  target?: MetabaseLibSchemaMetadataColumnTarget | null;
-  lib_original_binning?: MetabaseLibSchemaBinningBinning | null;
-  lib_original_join_alias?: string | null;
-  lib_original_display_name?: string | null;
-  metabase_lib_field_resolution_fallback_metadata_?: boolean;
-  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  remapped_from?: string | null;
-  qp_native_sandbox_column_force_coercion_strategy?: string;
-  lib_binning?: MetabaseLibSchemaBinningBinning | null;
+    | null
+    | undefined;
+  lib_expression_name?: string | null | undefined;
+  lib_breakout_?: boolean | null | undefined;
+  values_human_readable_values?:
+    | MetabaseLibSchemaMetadataColumnValuesHumanReadableValuesList
+    | null
+    | undefined;
+  last_analyzed?: string | null | undefined;
+  database_is_pk?: boolean | null | undefined;
+  json_unfolding?: boolean | null | undefined;
+  lib_original_effective_type?: string | null | undefined;
+  lib_join_alias?: string | null | undefined;
+  created_at?: string | null | undefined;
+  lib_source_display_name?: string | null | undefined;
+  nfc_path?: MetabaseLibSchemaMetadataColumnNfcPathList | null | undefined;
+  remapping?: MetabaseLibSchemaMetadataColumnRemappingMap | null | undefined;
+  preview_display?: boolean | null | undefined;
+  dimension_human_readable_field_id?: number | null | undefined;
+  lib_original_fk_field_id?: number | null | undefined;
+  qp_native_sandbox_column_propagate_coercion_?: boolean | undefined;
+  has_field_values?:
+    | MetabaseLibSchemaMetadataColumnHasFieldValues
+    | (string & {})
+    | null
+    | undefined;
+  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null | undefined;
+  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null | undefined;
+  selected_?: boolean | undefined;
+  database_is_generated?: boolean | null | undefined;
+  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null | undefined;
+  fk_field_id?: number | null | undefined;
+  target?: MetabaseLibSchemaMetadataColumnTarget | null | undefined;
+  lib_original_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
+  lib_original_join_alias?: string | null | undefined;
+  lib_original_display_name?: string | null | undefined;
+  metabase_lib_field_resolution_fallback_metadata_?: boolean | undefined;
+  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  remapped_from?: string | null | undefined;
+  qp_native_sandbox_column_force_coercion_strategy?: string | undefined;
+  lib_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
   metabase_lib_metadata_result_metadata_source?:
     | MetabaseLibSchemaMetadataColumnLegacySource
     | (string & {})
-    | null;
-  database_indexed?: boolean | null;
-  caveats?: string | null;
-  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null;
-  database_is_auto_increment?: boolean | null;
-  active?: boolean;
-  points_of_interest?: string | null;
-  filter_positions?: MetabaseLibSchemaMetadataColumnFilterPositionsList | null;
-  options?: MetabaseLibSchemaMetadataColumnOptions | null;
-  lib_ref_display_name?: string | null;
-  dimension_interestingness?: number | null;
-  dimension_type?: MetabaseLibSchemaMetadataColumnDimensionType | (string & {}) | null;
-  lib_original_name?: string | null;
-  name_field?: MetabaseLibSchemaMetadataColumnNameField | null;
-  database_position?: number | null;
+    | null
+    | undefined;
+  database_indexed?: boolean | null | undefined;
+  caveats?: string | null | undefined;
+  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null | undefined;
+  database_is_auto_increment?: boolean | null | undefined;
+  active?: boolean | undefined;
+  points_of_interest?: string | null | undefined;
+  filter_positions?: MetabaseLibSchemaMetadataColumnFilterPositionsList | null | undefined;
+  options?: MetabaseLibSchemaMetadataColumnOptions | null | undefined;
+  lib_ref_display_name?: string | null | undefined;
+  dimension_interestingness?: number | null | undefined;
+  dimension_type?: MetabaseLibSchemaMetadataColumnDimensionType | (string & {}) | null | undefined;
+  lib_original_name?: string | null | undefined;
+  name_field?: MetabaseLibSchemaMetadataColumnNameField | null | undefined;
+  database_position?: number | null | undefined;
   lib_original_ref_style_for_result_metadata_purposes?:
     | MetabaseLibSchemaMetadataColumnLibOriginalRefStyleForResultMetadataPurposes
-    | (string & {});
-  semantic_type?: string | null;
-  metabase_driver_mongo_query_processor_inherited_?: boolean | null;
-  description?: string | null;
-  fk_target_field_id?: number | null;
-  custom_position?: number | null;
-  dimension_name?: string | null;
-  parent_id?: number | null;
-  lib_simple_display_name?: string | null;
-  database_is_nullable?: boolean | null;
-  lib_desired_column_alias?: string | null;
+    | (string & {})
+    | undefined;
+  semantic_type?: string | null | undefined;
+  metabase_driver_mongo_query_processor_inherited_?: boolean | null | undefined;
+  description?: string | null | undefined;
+  fk_target_field_id?: number | null | undefined;
+  custom_position?: number | null | undefined;
+  dimension_name?: string | null | undefined;
+  parent_id?: number | null | undefined;
+  lib_simple_display_name?: string | null | undefined;
+  database_is_nullable?: boolean | null | undefined;
+  lib_desired_column_alias?: string | null | undefined;
 }
 export type MetabaseLibSchemaInfoInfoPivotResultMetadataCase1List =
   Array<MetabaseLibSchemaMetadataColumn>;
@@ -825,7 +903,7 @@ export type MetabaseLibSchemaInfoContext =
   | "slackbot"
   | "exploration";
 export interface MetabaseLibSchemaInfoInfoLensParams {
-  join_step?: number | null;
+  join_step?: number | null | undefined;
 }
 export type MetabaseLibSchemaMetadataLibOrLegacyColumnCase0FieldValuesList =
   Array<MetabaseLibSchemaCommonFieldValue | null>;
@@ -852,129 +930,164 @@ export type MetabaseLibSchemaMetadataLibOrLegacyColumnCase0LibOriginalRefStyleFo
   | "original-ref-style/name";
 /** Malli schema for a valid map of column metadata, which can mean one of two things: 1. Metadata about a particular Field in the application database. This will always have an `:id` 2. Results metadata from a column in `data.cols` and/or `data.results_metadata.columns` in a Query Processor response, or saved in something like `Card.result_metadata`. These *may* have an `:id`, or may not -- columns coming back from native queries or things like `SELECT count(*)` aren't associated with any particular `Field` and thus will not have an `:id`. Now maybe these should be two different schemas, but `:id` being there or not is the only real difference; besides that they are largely compatible. So they're the same for now. We can revisit this in the future if we actually want to differentiate between the two versions. */
 export interface MetabaseLibSchemaMetadataLibOrLegacyColumnCase0 {
-  visibility_type?: MetabaseLibSchemaMetadataColumnVisibilityType | (string & {}) | null;
-  metabase_query_processor_pivot_idx?: number;
-  field_values?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0FieldValuesList | null;
-  remapped_from_index?: number | null;
-  remapped_to?: string | null;
-  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap;
-  lib_original_join_name?: string | null;
-  fk_join_alias?: string | null;
-  database_default?: string | null;
-  metabase_lib_metadata_result_metadata_field_ref?: MetabaseLegacyMbqlSchemaReference | null;
-  database_partitioned?: boolean | null;
-  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean;
-  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null;
-  inherited_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  metabase_driver_mongo_query_processor_source_alias?: string | null;
-  lib_source_column_alias?: string | null;
-  database_type?: string | null;
-  lib_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  lib_type?: unknown;
-  database_required?: boolean | null;
-  binning_info?: MetabaseLibSchemaMetadataColumnBinningInfo | null;
-  coercion_strategy?: string | null;
-  settings?: unknown | null;
-  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null;
-  table_id?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0TableId | null;
-  converted_timezone?: string | null;
-  display_name?: string | null;
-  lib_source_uuid?: string | null;
-  metabase_driver_mongo_query_processor_join_field?: string | null;
-  order_by_position?: number | null;
-  data_sensitivity?: MetabaseLibSchemaMetadataColumnDataSensitivity | (string & {}) | null;
-  qp_implicit_field_?: boolean | null;
-  lib_ref_name?: string | null;
-  dimension_id?: number | null;
-  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null;
-  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap;
-  id?: number | null;
-  effective_type?: string | null;
-  lib_deduplicated_name?: string | null;
-  base_type?: string;
-  lib_transformation_added_base_type?: boolean | null;
-  breakout_positions?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0BreakoutPositionsList | null;
-  fingerprint_version?: number | null;
-  values_values?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0ValuesValuesList | null;
-  lib_original_expression_name?: string | null;
-  fk_field_name?: string | null;
-  lib_from_model_?: boolean | null;
-  updated_at?: string | null;
-  lib_original_fk_join_alias?: string | null;
-  position?: number | null;
+  visibility_type?:
+    | MetabaseLibSchemaMetadataColumnVisibilityType
+    | (string & {})
+    | null
+    | undefined;
+  metabase_query_processor_pivot_idx?: number | undefined;
+  field_values?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0FieldValuesList | null | undefined;
+  remapped_from_index?: number | null | undefined;
+  remapped_to?: string | null | undefined;
+  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  lib_original_join_name?: string | null | undefined;
+  fk_join_alias?: string | null | undefined;
+  database_default?: string | null | undefined;
+  metabase_lib_metadata_result_metadata_field_ref?:
+    | MetabaseLegacyMbqlSchemaReference
+    | null
+    | undefined;
+  database_partitioned?: boolean | null | undefined;
+  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean | undefined;
+  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null | undefined;
+  inherited_temporal_unit?:
+    | MetabaseLibSchemaTemporalBucketingUnit
+    | (string & {})
+    | null
+    | undefined;
+  metabase_driver_mongo_query_processor_source_alias?: string | null | undefined;
+  lib_source_column_alias?: string | null | undefined;
+  database_type?: string | null | undefined;
+  lib_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  lib_type?: unknown | undefined;
+  database_required?: boolean | null | undefined;
+  binning_info?: MetabaseLibSchemaMetadataColumnBinningInfo | null | undefined;
+  coercion_strategy?: string | null | undefined;
+  settings?: unknown | null | undefined;
+  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null | undefined;
+  table_id?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0TableId | null | undefined;
+  converted_timezone?: string | null | undefined;
+  display_name?: string | null | undefined;
+  lib_source_uuid?: string | null | undefined;
+  metabase_driver_mongo_query_processor_join_field?: string | null | undefined;
+  order_by_position?: number | null | undefined;
+  data_sensitivity?:
+    | MetabaseLibSchemaMetadataColumnDataSensitivity
+    | (string & {})
+    | null
+    | undefined;
+  qp_implicit_field_?: boolean | null | undefined;
+  lib_ref_name?: string | null | undefined;
+  dimension_id?: number | null | undefined;
+  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
+  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  id?: number | null | undefined;
+  effective_type?: string | null | undefined;
+  lib_deduplicated_name?: string | null | undefined;
+  base_type?: string | undefined;
+  lib_transformation_added_base_type?: boolean | null | undefined;
+  breakout_positions?:
+    | MetabaseLibSchemaMetadataLibOrLegacyColumnCase0BreakoutPositionsList
+    | null
+    | undefined;
+  fingerprint_version?: number | null | undefined;
+  values_values?:
+    | MetabaseLibSchemaMetadataLibOrLegacyColumnCase0ValuesValuesList
+    | null
+    | undefined;
+  lib_original_expression_name?: string | null | undefined;
+  fk_field_name?: string | null | undefined;
+  lib_from_model_?: boolean | null | undefined;
+  updated_at?: string | null | undefined;
+  lib_original_fk_join_alias?: string | null | undefined;
+  position?: number | null | undefined;
   name: string;
-  lib_original_fk_field_name?: string | null;
-  lib_card_id?: number | null;
+  lib_original_fk_field_name?: string | null | undefined;
+  lib_card_id?: number | null | undefined;
   metabase_lib_underlying_temporal_unit?:
     | MetabaseLibSchemaTemporalBucketingUnit
     | (string & {})
-    | null;
-  lib_expression_name?: string | null;
-  lib_breakout_?: boolean | null;
-  values_human_readable_values?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0ValuesHumanReadableValuesList | null;
-  last_analyzed?: string | null;
-  database_is_pk?: boolean | null;
-  json_unfolding?: boolean | null;
-  lib_original_effective_type?: string | null;
-  lib_join_alias?: string | null;
-  created_at?: string | null;
-  lib_source_display_name?: string | null;
-  nfc_path?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0NfcPathList | null;
-  remapping?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0RemappingMap | null;
-  preview_display?: boolean | null;
-  dimension_human_readable_field_id?: number | null;
-  lib_original_fk_field_id?: number | null;
-  qp_native_sandbox_column_propagate_coercion_?: boolean;
-  has_field_values?: MetabaseLibSchemaMetadataColumnHasFieldValues | (string & {}) | null;
-  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null;
-  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null;
-  selected_?: boolean;
-  database_is_generated?: boolean | null;
-  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null;
-  fk_field_id?: number | null;
-  target?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0Target | null;
-  lib_original_binning?: MetabaseLibSchemaBinningBinning | null;
-  lib_original_join_alias?: string | null;
-  lib_original_display_name?: string | null;
-  metabase_lib_field_resolution_fallback_metadata_?: boolean;
-  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  remapped_from?: string | null;
-  qp_native_sandbox_column_force_coercion_strategy?: string;
-  lib_binning?: MetabaseLibSchemaBinningBinning | null;
+    | null
+    | undefined;
+  lib_expression_name?: string | null | undefined;
+  lib_breakout_?: boolean | null | undefined;
+  values_human_readable_values?:
+    | MetabaseLibSchemaMetadataLibOrLegacyColumnCase0ValuesHumanReadableValuesList
+    | null
+    | undefined;
+  last_analyzed?: string | null | undefined;
+  database_is_pk?: boolean | null | undefined;
+  json_unfolding?: boolean | null | undefined;
+  lib_original_effective_type?: string | null | undefined;
+  lib_join_alias?: string | null | undefined;
+  created_at?: string | null | undefined;
+  lib_source_display_name?: string | null | undefined;
+  nfc_path?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0NfcPathList | null | undefined;
+  remapping?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0RemappingMap | null | undefined;
+  preview_display?: boolean | null | undefined;
+  dimension_human_readable_field_id?: number | null | undefined;
+  lib_original_fk_field_id?: number | null | undefined;
+  qp_native_sandbox_column_propagate_coercion_?: boolean | undefined;
+  has_field_values?:
+    | MetabaseLibSchemaMetadataColumnHasFieldValues
+    | (string & {})
+    | null
+    | undefined;
+  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null | undefined;
+  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null | undefined;
+  selected_?: boolean | undefined;
+  database_is_generated?: boolean | null | undefined;
+  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null | undefined;
+  fk_field_id?: number | null | undefined;
+  target?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0Target | null | undefined;
+  lib_original_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
+  lib_original_join_alias?: string | null | undefined;
+  lib_original_display_name?: string | null | undefined;
+  metabase_lib_field_resolution_fallback_metadata_?: boolean | undefined;
+  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  remapped_from?: string | null | undefined;
+  qp_native_sandbox_column_force_coercion_strategy?: string | undefined;
+  lib_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
   metabase_lib_metadata_result_metadata_source?:
     | MetabaseLibSchemaMetadataColumnLegacySource
     | (string & {})
-    | null;
-  database_indexed?: boolean | null;
-  caveats?: string | null;
-  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null;
-  database_is_auto_increment?: boolean | null;
-  active?: boolean;
-  points_of_interest?: string | null;
-  filter_positions?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0FilterPositionsList | null;
-  options?: MetabaseLibSchemaMetadataColumnOptions | null;
-  lib_ref_display_name?: string | null;
-  dimension_interestingness?: number | null;
+    | null
+    | undefined;
+  database_indexed?: boolean | null | undefined;
+  caveats?: string | null | undefined;
+  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null | undefined;
+  database_is_auto_increment?: boolean | null | undefined;
+  active?: boolean | undefined;
+  points_of_interest?: string | null | undefined;
+  filter_positions?:
+    | MetabaseLibSchemaMetadataLibOrLegacyColumnCase0FilterPositionsList
+    | null
+    | undefined;
+  options?: MetabaseLibSchemaMetadataColumnOptions | null | undefined;
+  lib_ref_display_name?: string | null | undefined;
+  dimension_interestingness?: number | null | undefined;
   dimension_type?:
     | MetabaseLibSchemaMetadataLibOrLegacyColumnCase0DimensionType
     | (string & {})
-    | null;
-  lib_original_name?: string | null;
-  name_field?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0NameField | null;
-  database_position?: number | null;
+    | null
+    | undefined;
+  lib_original_name?: string | null | undefined;
+  name_field?: MetabaseLibSchemaMetadataLibOrLegacyColumnCase0NameField | null | undefined;
+  database_position?: number | null | undefined;
   lib_original_ref_style_for_result_metadata_purposes?:
     | MetabaseLibSchemaMetadataLibOrLegacyColumnCase0LibOriginalRefStyleForResultMetadataPurposes
-    | (string & {});
-  semantic_type?: string | null;
-  metabase_driver_mongo_query_processor_inherited_?: boolean | null;
-  description?: string | null;
-  fk_target_field_id?: number | null;
-  custom_position?: number | null;
-  dimension_name?: string | null;
-  parent_id?: number | null;
-  lib_simple_display_name?: string | null;
-  database_is_nullable?: boolean | null;
-  lib_desired_column_alias?: string | null;
+    | (string & {})
+    | undefined;
+  semantic_type?: string | null | undefined;
+  metabase_driver_mongo_query_processor_inherited_?: boolean | null | undefined;
+  description?: string | null | undefined;
+  fk_target_field_id?: number | null | undefined;
+  custom_position?: number | null | undefined;
+  dimension_name?: string | null | undefined;
+  parent_id?: number | null | undefined;
+  lib_simple_display_name?: string | null | undefined;
+  database_is_nullable?: boolean | null | undefined;
+  lib_desired_column_alias?: string | null | undefined;
 }
 export type MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibTemporalUnit =
   | "day"
@@ -1007,11 +1120,11 @@ export type MetabaseLegacyMbqlSchemaLegacyColumnMetadataRemappingMap = {
   [key: string]: MetabaseLibSchemaLiteralLiteral | null | undefined;
 };
 export interface MetabaseLegacyMbqlSchemaLegacyColumnMetadataBinningInfo {
-  bin_width?: number;
-  binning_strategy?: MetabaseLibSchemaBinningStrategy | (string & {});
-  max_value?: number;
-  min_value?: number;
-  num_bins?: number;
+  bin_width?: number | undefined;
+  binning_strategy?: MetabaseLibSchemaBinningStrategy | (string & {}) | undefined;
+  max_value?: number | undefined;
+  min_value?: number | undefined;
+  num_bins?: number | undefined;
   strategy: MetabaseLibSchemaBinningStrategy | (string & {});
 }
 export type MetabaseLegacyMbqlSchemaLegacyColumnMetadataNfcPathList = Array<string>;
@@ -1046,122 +1159,151 @@ export type MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibOriginalRefStyleForRe
   | "original-ref-style/name";
 /** Schema for a single legacy metadata column. This is the pre-Lib equivalent of `:metabase.lib.schema.metadata/column`. */
 export interface MetabaseLegacyMbqlSchemaLegacyColumnMetadata {
-  points_of_interest?: string | null;
-  metabase_query_processor_pivot_idx?: number;
-  preview_display?: boolean | null;
-  database_partitioned?: boolean | null;
-  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap;
-  lib_original_join_name?: string | null;
-  aggregation_index?: number | null;
-  metabase_lib_metadata_result_metadata_field_ref?: MetabaseLegacyMbqlSchemaReference | null;
-  field_ref?: MetabaseLegacyMbqlSchemaReference | null;
-  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean;
-  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null;
-  metabase_driver_mongo_query_processor_source_alias?: string | null;
-  lib_source_column_alias?: string | null;
-  remapped_from?: string | null;
+  points_of_interest?: string | null | undefined;
+  metabase_query_processor_pivot_idx?: number | undefined;
+  preview_display?: boolean | null | undefined;
+  database_partitioned?: boolean | null | undefined;
+  metabase_lib_underlying_original?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  lib_original_join_name?: string | null | undefined;
+  aggregation_index?: number | null | undefined;
+  metabase_lib_metadata_result_metadata_field_ref?:
+    | MetabaseLegacyMbqlSchemaReference
+    | null
+    | undefined;
+  field_ref?: MetabaseLegacyMbqlSchemaReference | null | undefined;
+  metabase_lib_metadata_result_metadata_remove_join_alias_?: boolean | undefined;
+  lib_external_remap?: MetabaseLibSchemaMetadataColumnRemappingExternal | null | undefined;
+  metabase_driver_mongo_query_processor_source_alias?: string | null | undefined;
+  lib_source_column_alias?: string | null | undefined;
+  remapped_from?: string | null | undefined;
   lib_temporal_unit?:
     | MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibTemporalUnit
     | (string & {})
-    | null;
-  lib_type?: unknown;
-  database_required?: boolean | null;
-  remapped_from_index?: number | null;
-  settings?: unknown | null;
-  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null;
-  visibility_type?: MetabaseLibSchemaMetadataColumnVisibilityType | (string & {}) | null;
-  base_type?: string;
-  source_alias?: string | null;
-  lib_source_uuid?: string | null;
-  custom_position?: number | null;
-  metabase_driver_mongo_query_processor_join_field?: string | null;
-  special_type?: string | null;
-  qp_implicit_field_?: boolean | null;
-  lib_ref_name?: string | null;
-  dimension_id?: number | null;
-  expression_name?: string | null;
-  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null;
-  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap;
-  id?: number | null;
+    | null
+    | undefined;
+  lib_type?: unknown | undefined;
+  database_required?: boolean | null | undefined;
+  remapped_from_index?: number | null | undefined;
+  settings?: unknown | null | undefined;
+  fingerprint?: MetabaseLibSchemaMetadataFingerprintFingerprint | null | undefined;
+  visibility_type?:
+    | MetabaseLibSchemaMetadataColumnVisibilityType
+    | (string & {})
+    | null
+    | undefined;
+  base_type?: string | undefined;
+  source_alias?: string | null | undefined;
+  lib_source_uuid?: string | null | undefined;
+  custom_position?: number | null | undefined;
+  metabase_driver_mongo_query_processor_join_field?: string | null | undefined;
+  special_type?: string | null | undefined;
+  qp_implicit_field_?: boolean | null | undefined;
+  lib_ref_name?: string | null | undefined;
+  dimension_id?: number | null | undefined;
+  expression_name?: string | null | undefined;
+  metabase_lib_underlying_binning?: MetabaseLibSchemaBinningBinning | null | undefined;
+  metabase_lib_join_target?: MetabaseLibSchemaMetadataColumnMap | undefined;
+  id?: number | null | undefined;
   /** The simply-deduplicated name that was historically used in QP results metadata (originally calculated by the [[metabase.query-processor.middleware.annotate]] middleware, now calculated by [[metabase.lib.middleware.result-metadata]]). This just adds suffixes to column names e.g. `ID` and `ID` become `ID` and `ID_2`, respectively. Kept around because many old field refs use this column name. */
-  lib_deduplicated_name?: string | null;
-  coercion_strategy?: string | null;
-  lib_transformation_added_base_type?: boolean | null;
-  values_values?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataValuesValuesList | null;
-  lib_original_expression_name?: string | null;
-  lib_from_model_?: boolean | null;
-  lib_original_fk_join_alias?: string | null;
-  position?: number | null;
-  fingerprint_version?: number | null;
+  lib_deduplicated_name?: string | null | undefined;
+  coercion_strategy?: string | null | undefined;
+  lib_transformation_added_base_type?: boolean | null | undefined;
+  values_values?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataValuesValuesList | null | undefined;
+  lib_original_expression_name?: string | null | undefined;
+  lib_from_model_?: boolean | null | undefined;
+  lib_original_fk_join_alias?: string | null | undefined;
+  position?: number | null | undefined;
+  fingerprint_version?: number | null | undefined;
   name: string;
-  lib_original_fk_field_name?: string | null;
-  lib_card_id?: number | null;
+  lib_original_fk_field_name?: string | null | undefined;
+  lib_card_id?: number | null | undefined;
   metabase_lib_underlying_temporal_unit?:
     | MetabaseLibSchemaTemporalBucketingUnit
     | (string & {})
-    | null;
-  lib_expression_name?: string | null;
-  lib_breakout_?: boolean | null;
-  data_sensitivity?: string | null;
-  database_position?: number | null;
-  values_human_readable_values?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataValuesHumanReadableValuesList | null;
-  semantic_type?: string | null;
-  fk_field_name?: string | null;
-  lib_original_effective_type?: string | null;
-  lib_join_alias?: string | null;
-  database_is_auto_increment?: boolean | null;
-  table_id?: MetabaseLegacyMbqlSchemaSourceTable | null;
-  has_field_values?: MetabaseLibSchemaMetadataColumnHasFieldValues | (string & {}) | null;
-  lib_source_display_name?: string | null;
+    | null
+    | undefined;
+  lib_expression_name?: string | null | undefined;
+  lib_breakout_?: boolean | null | undefined;
+  data_sensitivity?: string | null | undefined;
+  database_position?: number | null | undefined;
+  values_human_readable_values?:
+    | MetabaseLegacyMbqlSchemaLegacyColumnMetadataValuesHumanReadableValuesList
+    | null
+    | undefined;
+  semantic_type?: string | null | undefined;
+  fk_field_name?: string | null | undefined;
+  lib_original_effective_type?: string | null | undefined;
+  lib_join_alias?: string | null | undefined;
+  database_is_auto_increment?: boolean | null | undefined;
+  table_id?: MetabaseLegacyMbqlSchemaSourceTable | null | undefined;
+  has_field_values?:
+    | MetabaseLibSchemaMetadataColumnHasFieldValues
+    | (string & {})
+    | null
+    | undefined;
+  lib_source_display_name?: string | null | undefined;
   display_name: string;
-  remapping?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataRemappingMap | null;
-  dimension_human_readable_field_id?: number | null;
-  lib_original_fk_field_id?: number | null;
-  qp_native_sandbox_column_propagate_coercion_?: boolean;
-  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null;
-  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null;
-  converted_timezone?: unknown | null;
-  selected_?: boolean;
-  fk_join_alias?: string | null;
-  source?: MetabaseLibSchemaMetadataColumnLegacySource | (string & {}) | null;
-  fk_field_id?: number | null;
-  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null;
-  remapped_to?: string | null;
-  binning_info?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataBinningInfo | null;
-  nfc_path?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataNfcPathList | null;
-  target?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataTarget | null;
-  lib_original_binning?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibOriginalBinning | null;
-  effective_type?: string;
-  lib_original_join_alias?: string | null;
-  parent_id?: number | null;
-  lib_original_display_name?: string | null;
-  metabase_lib_field_resolution_fallback_metadata_?: boolean;
-  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  qp_native_sandbox_column_force_coercion_strategy?: string;
-  lib_binning?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibBinning | null;
+  remapping?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataRemappingMap | null | undefined;
+  dimension_human_readable_field_id?: number | null | undefined;
+  lib_original_fk_field_id?: number | null | undefined;
+  qp_native_sandbox_column_propagate_coercion_?: boolean | undefined;
+  metabase_lib_join_HACK_from_incomplete_join_?: boolean | null | undefined;
+  lib_internal_remap?: MetabaseLibSchemaMetadataColumnRemappingInternal | null | undefined;
+  converted_timezone?: unknown | null | undefined;
+  selected_?: boolean | undefined;
+  fk_join_alias?: string | null | undefined;
+  source?: MetabaseLibSchemaMetadataColumnLegacySource | (string & {}) | null | undefined;
+  fk_field_id?: number | null | undefined;
+  lib_options?: MetabaseLibSchemaMetadataColumnLibOptions | null | undefined;
+  remapped_to?: string | null | undefined;
+  binning_info?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataBinningInfo | null | undefined;
+  nfc_path?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataNfcPathList | null | undefined;
+  target?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataTarget | null | undefined;
+  lib_original_binning?:
+    | MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibOriginalBinning
+    | null
+    | undefined;
+  effective_type?: string | undefined;
+  lib_original_join_alias?: string | null | undefined;
+  parent_id?: number | null | undefined;
+  lib_original_display_name?: string | null | undefined;
+  metabase_lib_field_resolution_fallback_metadata_?: boolean | undefined;
+  unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  qp_native_sandbox_column_force_coercion_strategy?: string | undefined;
+  lib_binning?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibBinning | null | undefined;
   metabase_lib_metadata_result_metadata_source?:
     | MetabaseLibSchemaMetadataColumnLegacySource
     | (string & {})
-    | null;
-  inherited_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  caveats?: string | null;
-  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null;
-  active?: boolean;
-  options?: MetabaseLibSchemaMetadataColumnOptions | null;
-  lib_ref_display_name?: string | null;
-  dimension_type?: MetabaseLegacyMbqlSchemaLegacyColumnMetadataDimensionType | (string & {}) | null;
+    | null
+    | undefined;
+  inherited_temporal_unit?:
+    | MetabaseLibSchemaTemporalBucketingUnit
+    | (string & {})
+    | null
+    | undefined;
+  caveats?: string | null | undefined;
+  lib_source?: MetabaseLibSchemaMetadataColumnSource | (string & {}) | null | undefined;
+  active?: boolean | undefined;
+  options?: MetabaseLibSchemaMetadataColumnOptions | null | undefined;
+  lib_ref_display_name?: string | null | undefined;
+  dimension_type?:
+    | MetabaseLegacyMbqlSchemaLegacyColumnMetadataDimensionType
+    | (string & {})
+    | null
+    | undefined;
   /** The original name of the column as it appeared in the very first place it came from (i.e., the physical name of the column in the table it appears in). This should be the same as the `:lib/source-column-alias` for the very first usage of the column. Allowed to be blank because some databases like SQL Server allow blank column names. */
-  lib_original_name?: string | null;
-  database_type?: string | null;
+  lib_original_name?: string | null | undefined;
+  database_type?: string | null | undefined;
   lib_original_ref_style_for_result_metadata_purposes?:
     | MetabaseLegacyMbqlSchemaLegacyColumnMetadataLibOriginalRefStyleForResultMetadataPurposes
-    | (string & {});
-  metabase_driver_mongo_query_processor_inherited_?: boolean | null;
-  description?: string | null;
-  dimension_name?: string | null;
-  lib_simple_display_name?: string | null;
-  fk_target_field_id?: number | null;
-  lib_desired_column_alias?: string | null;
+    | (string & {})
+    | undefined;
+  metabase_driver_mongo_query_processor_inherited_?: boolean | null | undefined;
+  description?: string | null | undefined;
+  dimension_name?: string | null | undefined;
+  lib_simple_display_name?: string | null | undefined;
+  fk_target_field_id?: number | null | undefined;
+  lib_desired_column_alias?: string | null | undefined;
 }
 /** Schema for the maps in card `:result-metadata` and similar. These can be either `:metabase.lib.schema.metadata/result-metadata` (i.e., kebab-cased) maps, or map snake_cased as returned by QP metadata, but they should NOT be a mixture of both -- if we mixed them somehow there is a bug in our code. */
 export type MetabaseLibSchemaMetadataLibOrLegacyColumn =
@@ -1171,22 +1313,22 @@ export type MetabaseLibSchemaInfoInfoMetadataModelMetadataList =
   Array<MetabaseLibSchemaMetadataLibOrLegacyColumn>;
 /** Schema for query `:info` dictionary, which is used for informational purposes to record information about how a query was executed in QueryExecution and other places. It is considered bad form for middleware to change its behavior based on this information, don't do it! TODO - this schema is somewhat misleading because if you use a function like [[metabase.query-processor/userland-query]] some of these keys (e.g. `:context`) are in fact required */
 export interface MetabaseLibSchemaInfoInfo {
-  query_hash?: string | null;
-  action_id?: number | null;
-  visualization_settings?: unknown | null;
-  lens_id?: string | null;
-  pivot_original_query?: MetabaseLibSchemaQuery | null;
-  executed_by?: number | null;
-  card_id?: number | null;
-  pivot_result_metadata?: MetabaseLibSchemaInfoInfoPivotResultMetadata | null;
-  transform_id?: number | null;
-  context?: MetabaseLibSchemaInfoContext | (string & {}) | null;
-  dashboard_id?: number | null;
-  lens_params?: MetabaseLibSchemaInfoInfoLensParams | null;
-  metadata_model_metadata?: MetabaseLibSchemaInfoInfoMetadataModelMetadataList | null;
-  metadata_own_model_query_?: boolean;
-  pulse_id?: number | null;
-  card_name?: string | null;
+  query_hash?: string | null | undefined;
+  action_id?: number | null | undefined;
+  visualization_settings?: unknown | null | undefined;
+  lens_id?: string | null | undefined;
+  pivot_original_query?: MetabaseLibSchemaQuery | null | undefined;
+  executed_by?: number | null | undefined;
+  card_id?: number | null | undefined;
+  pivot_result_metadata?: MetabaseLibSchemaInfoInfoPivotResultMetadata | null | undefined;
+  transform_id?: number | null | undefined;
+  context?: MetabaseLibSchemaInfoContext | (string & {}) | null | undefined;
+  dashboard_id?: number | null | undefined;
+  lens_params?: MetabaseLibSchemaInfoInfoLensParams | null | undefined;
+  metadata_model_metadata?: MetabaseLibSchemaInfoInfoMetadataModelMetadataList | null | undefined;
+  metadata_own_model_query_?: boolean | undefined;
+  pulse_id?: number | null | undefined;
+  card_name?: string | null | undefined;
 }
 /** One external (Dimension) column remapping, as recorded on a query or stage by [[metabase.query-processor.middleware.add-remaps]]. Mirrors `:metabase.query-processor.middleware.add-remaps/external-remapping`; it is duplicated here because Lib may not depend on the query processor. */
 export interface MetabaseLibSchemaExternalRemapping {
@@ -1214,7 +1356,7 @@ export type MetabaseLibSchemaValue =
 export type MetabaseLibSchemaDriverNativeQuery = MetabaseLibSchemaValue | unknown;
 /** drivers add their own keys to a compiled query, and an already-native query compiles to its whole native stage */
 export interface MetabaseLibSchemaCompiledNativeQuery {
-  params?: MetabaseLibSchemaCompiledNativeQueryParamsList | null;
+  params?: MetabaseLibSchemaCompiledNativeQueryParamsList | null | undefined;
   query: MetabaseLibSchemaDriverNativeQuery;
 }
 export type MetabaseLibSchemaQueryQpPivotRemappedIndexesMap = { [key: string]: number | undefined };
@@ -1228,43 +1370,58 @@ export type MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivot
 export type MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivotRowsList =
   Array<number>;
 export interface MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptions {
-  column_sort_order?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsColumnSortOrderMap | null;
-  pivot_cols?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivotColsList | null;
-  pivot_measures?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivotMeasuresList | null;
-  pivot_rows?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivotRowsList | null;
-  show_column_totals?: boolean | null;
-  show_row_totals?: boolean | null;
+  column_sort_order?:
+    | MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsColumnSortOrderMap
+    | null
+    | undefined;
+  pivot_cols?:
+    | MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivotColsList
+    | null
+    | undefined;
+  pivot_measures?:
+    | MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivotMeasuresList
+    | null
+    | undefined;
+  pivot_rows?:
+    | MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptionsPivotRowsList
+    | null
+    | undefined;
+  show_column_totals?: boolean | null | undefined;
+  show_row_totals?: boolean | null | undefined;
 }
 /** Additional options that can be used to toggle middleware on or off. */
 export interface MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions {
   /** Whether to process a question's visualization settings and include them in the result metadata so that they can incorporated into an export. Used by `metabase.query-processor.middleware.visualization-settings`; default `false`. */
-  process_viz_settings_?: boolean | null;
+  process_viz_settings_?: boolean | null | undefined;
   /** Should we skip adding `results_metadata` to query results after running the query? Used by `metabase.query-processor.middleware.results-metadata`; default `false`. (Note: we may change the name of this column in the near future, to `result_metadata`, to fix inconsistencies in how we name things.) */
-  skip_results_metadata_?: boolean;
+  skip_results_metadata_?: boolean | undefined;
   /** Whether to add some default `max-results` and `max-results-bare-rows` constraints. By default, none are added, although the functions that ultimately power most API endpoints tend to set this to `true`. See `add-constraints` middleware for more details. */
-  add_default_userland_constraints_?: boolean | null;
+  add_default_userland_constraints_?: boolean | null | undefined;
   /** Disable applying a default limit on the query results. Handled in the `add-default-limit` middleware. If true, this will override the `:max-results` and `:max-results-bare-rows` values in `Constraints`. */
-  disable_max_results_?: boolean;
+  disable_max_results_?: boolean | undefined;
   /** Whether to ignore any cached results and re-run the query. Used by the query results cache middleware; default `false`. */
-  ignore_cached_results_?: boolean | null;
+  ignore_cached_results_?: boolean | null | undefined;
   /** Whether a CSV download should start with a UTF-8 byte-order mark, which Excel needs to read the file as UTF-8. Set by `metabase.query-processor.api` from the download's options and read by `metabase.query-processor.middleware.format-rows` and the CSV writer; default `true`. */
-  csv_include_bom_?: boolean | null;
+  csv_include_bom_?: boolean | null | undefined;
   /** Should we skip converting datetime types to ISO-8601 strings with appropriate timezone when post-processing results? Used by `metabase.query-processor.middleware.format-rows`default `false`. */
-  format_rows_?: boolean;
+  format_rows_?: boolean | undefined;
   /** Which of the query's breakouts and aggregations are the pivot table's rows, columns and measures, and whether it shows totals. Attached by `metabase.query-processor.pivot` from the question's visualization settings (or from the matching top-level query keys) so the export middleware and streaming writers can lay the results out; not something a client sets itself. */
-  pivot_options?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptions | null;
+  pivot_options?:
+    | MetabaseLibSchemaMiddlewareOptionsMiddlewareOptionsPivotOptions
+    | null
+    | undefined;
   /** Whether to skip the remapped (human-readable) columns that `metabase.query-processor.middleware.add-remaps` normally splices in. Set by callers that want the query's own columns and nothing else -- calculating a Card's result metadata, or fetching field values for a filter widget; default `false`. */
-  disable_remaps_?: boolean | null;
+  disable_remaps_?: boolean | null | undefined;
   /** Whether to convert bigint values in results to strings so that they can be parsed losslessly by JavaScript clients. Used by `metabase.query-processor.middleware.large-int`; default `false`. */
-  js_int_to_string_?: boolean | null;
+  js_int_to_string_?: boolean | null | undefined;
   /** Should we skip persisting `result_metadata` to a saved Card while still returning it in query results? Used by `metabase.query-processor.middleware.results-metadata`; default `false`. Has no effect when `skip-results-metadata?` is true. */
-  skip_result_metadata_persistence_?: boolean;
+  skip_result_metadata_persistence_?: boolean | undefined;
   /** Whether the results should be laid out as a pivot table. Set by `metabase.query-processor.api` from the `format_rows`/pivot download options and read by `metabase.query-processor.middleware.pivot-export` and the streaming writers; default `false`. */
-  pivot_?: boolean | null;
+  pivot_?: boolean | null | undefined;
   /** Disable the MBQL->native middleware. If you do this, the query will not work at all, so there are no cases where you should set this yourself. This is only used by the `metabase.query-processor.preprocess/preprocess` function to get the fully pre-processed query without attempting to convert it to native. */
-  disable_mbql__native_?: boolean;
+  disable_mbql__native_?: boolean | undefined;
   /** Userland queries are ones ran as a result of an API call, Pulse, or the like. Special handling is done in certain userland-only middleware for such queries -- results are returned in a slightly different format, and QueryExecution entries are normally saved, unless you pass `:no-save` as the option. */
-  userland_query_?: boolean | null;
+  userland_query_?: boolean | null | undefined;
 }
 export type MetabaseLibSchemaQueryDatabase = unknown | number;
 export type MetabaseLibSchemaQueryQpPivotUnremappedBreakoutCombinationList = Array<number>;
@@ -1288,142 +1445,170 @@ export type MetabaseLibSchemaSandboxingOriginalMetadata =
   Array<MetabaseLegacyMbqlSchemaLegacyColumnMetadata>;
 /** Valid MBQL 5 query. */
 export interface MetabaseLibSchemaQueryMap {
-  lib_metadata?: unknown;
-  show_column_totals?: boolean | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?: MetabaseLibSchemaSandboxingDetails;
-  user_parameters?: MetabaseLibSchemaParameterParameters;
-  pivot_rows?: MetabaseLibSchemaQueryMapPivotRowsList | null;
-  update_row?: MetabaseLibSchemaActionsRow;
-  qp_pivot_remapped_breakout_combination?: MetabaseLibSchemaQueryMapQpPivotRemappedBreakoutCombinationList | null;
-  qp_non_default_parameterized_?: boolean;
-  lib_type?: unknown;
-  pivot_rows_2?: MetabaseLibSchemaQueryMapPivotRowsList2 | null;
-  settings?: MetabaseLibSchemaSettingsSettings;
-  constraints?: MetabaseLibSchemaConstraintsConstraints;
-  cache_strategy?: MetabaseLibSchemaCacheStrategy | null;
-  lib_convert_converted_?: boolean;
-  info?: MetabaseLibSchemaInfoInfo;
-  impersonation_admin_?: boolean;
-  async_?: boolean;
-  qp_skip_result_metadata_persistence?: boolean;
-  metabase_query_processor_middleware_add_remaps_external_remaps?: MetabaseLibSchemaExternalRemappings;
-  show_row_totals?: boolean | null;
-  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery;
-  qp_pivot_remapped_indexes?: MetabaseLibSchemaQueryMapQpPivotRemappedIndexesMap;
-  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions;
-  database?: MetabaseLibSchemaQueryMapDatabase;
-  destination_database_id?: number;
-  qp_pivot_unremapped_breakout_combination?: MetabaseLibSchemaQueryMapQpPivotUnremappedBreakoutCombinationList;
-  pivot_measures?: MetabaseLibSchemaQueryMapPivotMeasuresList | null;
-  impersonation_allow_write_?: boolean;
-  pivot_cols?: MetabaseLibSchemaQueryMapPivotColsList | null;
-  impersonation_role?: string;
-  qp_pivot_num_remapped_breakouts?: number;
-  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery;
+  lib_metadata?: unknown | undefined;
+  show_column_totals?: boolean | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?:
+    | MetabaseLibSchemaSandboxingDetails
+    | undefined;
+  user_parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  pivot_rows?: MetabaseLibSchemaQueryMapPivotRowsList | null | undefined;
+  update_row?: MetabaseLibSchemaActionsRow | undefined;
+  qp_pivot_remapped_breakout_combination?:
+    | MetabaseLibSchemaQueryMapQpPivotRemappedBreakoutCombinationList
+    | null
+    | undefined;
+  qp_non_default_parameterized_?: boolean | undefined;
+  lib_type?: unknown | undefined;
+  pivot_rows_2?: MetabaseLibSchemaQueryMapPivotRowsList2 | null | undefined;
+  settings?: MetabaseLibSchemaSettingsSettings | undefined;
+  constraints?: MetabaseLibSchemaConstraintsConstraints | undefined;
+  cache_strategy?: MetabaseLibSchemaCacheStrategy | null | undefined;
+  lib_convert_converted_?: boolean | undefined;
+  info?: MetabaseLibSchemaInfoInfo | undefined;
+  impersonation_admin_?: boolean | undefined;
+  async_?: boolean | undefined;
+  qp_skip_result_metadata_persistence?: boolean | undefined;
+  metabase_query_processor_middleware_add_remaps_external_remaps?:
+    | MetabaseLibSchemaExternalRemappings
+    | undefined;
+  show_row_totals?: boolean | null | undefined;
+  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery | undefined;
+  qp_pivot_remapped_indexes?: MetabaseLibSchemaQueryMapQpPivotRemappedIndexesMap | undefined;
+  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions | undefined;
+  database?: MetabaseLibSchemaQueryMapDatabase | undefined;
+  destination_database_id?: number | undefined;
+  qp_pivot_unremapped_breakout_combination?:
+    | MetabaseLibSchemaQueryMapQpPivotUnremappedBreakoutCombinationList
+    | undefined;
+  pivot_measures?: MetabaseLibSchemaQueryMapPivotMeasuresList | null | undefined;
+  impersonation_allow_write_?: boolean | undefined;
+  pivot_cols?: MetabaseLibSchemaQueryMapPivotColsList | null | undefined;
+  impersonation_role?: string | undefined;
+  qp_pivot_num_remapped_breakouts?: number | undefined;
+  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery | undefined;
   stages: unknown;
-  qp_pivot_num_unremapped_breakouts?: number;
-  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap;
-  viz_settings?: unknown | null;
-  pivot_cols_2?: MetabaseLibSchemaQueryMapPivotColsList2 | null;
-  show_column_totals_2?: boolean | null;
-  qp_pivot_num_remapped_cols?: number;
-  qp_source_card_id?: number;
-  parameters?: MetabaseLibSchemaParameterParameters;
-  query_permissions_referenced_card_ids?: MetabaseLibSchemaQueryMapQueryPermissionsReferencedCardIdsList | null;
-  show_row_totals_2?: boolean | null;
-  create_row?: MetabaseLibSchemaActionsRow;
-  pivot_measures_2?: MetabaseLibSchemaQueryMapPivotMeasuresList2 | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?: MetabaseLibSchemaSandboxingOriginalMetadata;
+  qp_pivot_num_unremapped_breakouts?: number | undefined;
+  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap | undefined;
+  viz_settings?: unknown | null | undefined;
+  pivot_cols_2?: MetabaseLibSchemaQueryMapPivotColsList2 | null | undefined;
+  show_column_totals_2?: boolean | null | undefined;
+  qp_pivot_num_remapped_cols?: number | undefined;
+  qp_source_card_id?: number | undefined;
+  parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  query_permissions_referenced_card_ids?:
+    | MetabaseLibSchemaQueryMapQueryPermissionsReferencedCardIdsList
+    | null
+    | undefined;
+  show_row_totals_2?: boolean | null | undefined;
+  create_row?: MetabaseLibSchemaActionsRow | undefined;
+  pivot_measures_2?: MetabaseLibSchemaQueryMapPivotMeasuresList2 | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?:
+    | MetabaseLibSchemaSandboxingOriginalMetadata
+    | undefined;
   /** Whether this query was originally run as a pivot query. Stamped into the saved `json_query` by `metabase.query-processor.middleware.process-userland-query` and sent back by clients re-downloading pivot query results. */
-  was_pivot?: boolean | null;
+  was_pivot?: boolean | null | undefined;
 }
 export type MetabaseLibSchemaQueryPivotColsList2 = Array<number>;
 export type MetabaseLibSchemaQueryQueryPermissionsReferencedCardIdsList = Array<number>;
 export type MetabaseLibSchemaQueryPivotMeasuresList2 = Array<number>;
 /** Valid MBQL 5 query. */
 export interface MetabaseLibSchemaQuery {
-  lib_metadata?: unknown;
-  show_column_totals?: boolean | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?: MetabaseLibSchemaSandboxingDetails;
-  user_parameters?: MetabaseLibSchemaParameterParameters;
-  pivot_rows?: MetabaseLibSchemaQueryPivotRowsList | null;
-  update_row?: MetabaseLibSchemaActionsRow;
-  qp_pivot_remapped_breakout_combination?: MetabaseLibSchemaQueryQpPivotRemappedBreakoutCombinationList | null;
-  qp_non_default_parameterized_?: boolean;
-  lib_type?: unknown;
-  pivot_rows_2?: MetabaseLibSchemaQueryPivotRowsList2 | null;
-  settings?: MetabaseLibSchemaSettingsSettings;
-  constraints?: MetabaseLibSchemaConstraintsConstraints;
-  cache_strategy?: MetabaseLibSchemaCacheStrategy | null;
-  lib_convert_converted_?: boolean;
-  info?: MetabaseLibSchemaInfoInfo;
-  impersonation_admin_?: boolean;
-  async_?: boolean;
-  qp_skip_result_metadata_persistence?: boolean;
-  metabase_query_processor_middleware_add_remaps_external_remaps?: MetabaseLibSchemaExternalRemappings;
-  show_row_totals?: boolean | null;
-  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery;
-  qp_pivot_remapped_indexes?: MetabaseLibSchemaQueryQpPivotRemappedIndexesMap;
-  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions;
-  database?: MetabaseLibSchemaQueryDatabase;
-  destination_database_id?: number;
-  qp_pivot_unremapped_breakout_combination?: MetabaseLibSchemaQueryQpPivotUnremappedBreakoutCombinationList;
-  pivot_measures?: MetabaseLibSchemaQueryPivotMeasuresList | null;
-  impersonation_allow_write_?: boolean;
-  pivot_cols?: MetabaseLibSchemaQueryPivotColsList | null;
-  impersonation_role?: string;
-  qp_pivot_num_remapped_breakouts?: number;
-  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery;
+  lib_metadata?: unknown | undefined;
+  show_column_totals?: boolean | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?:
+    | MetabaseLibSchemaSandboxingDetails
+    | undefined;
+  user_parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  pivot_rows?: MetabaseLibSchemaQueryPivotRowsList | null | undefined;
+  update_row?: MetabaseLibSchemaActionsRow | undefined;
+  qp_pivot_remapped_breakout_combination?:
+    | MetabaseLibSchemaQueryQpPivotRemappedBreakoutCombinationList
+    | null
+    | undefined;
+  qp_non_default_parameterized_?: boolean | undefined;
+  lib_type?: unknown | undefined;
+  pivot_rows_2?: MetabaseLibSchemaQueryPivotRowsList2 | null | undefined;
+  settings?: MetabaseLibSchemaSettingsSettings | undefined;
+  constraints?: MetabaseLibSchemaConstraintsConstraints | undefined;
+  cache_strategy?: MetabaseLibSchemaCacheStrategy | null | undefined;
+  lib_convert_converted_?: boolean | undefined;
+  info?: MetabaseLibSchemaInfoInfo | undefined;
+  impersonation_admin_?: boolean | undefined;
+  async_?: boolean | undefined;
+  qp_skip_result_metadata_persistence?: boolean | undefined;
+  metabase_query_processor_middleware_add_remaps_external_remaps?:
+    | MetabaseLibSchemaExternalRemappings
+    | undefined;
+  show_row_totals?: boolean | null | undefined;
+  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery | undefined;
+  qp_pivot_remapped_indexes?: MetabaseLibSchemaQueryQpPivotRemappedIndexesMap | undefined;
+  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions | undefined;
+  database?: MetabaseLibSchemaQueryDatabase | undefined;
+  destination_database_id?: number | undefined;
+  qp_pivot_unremapped_breakout_combination?:
+    | MetabaseLibSchemaQueryQpPivotUnremappedBreakoutCombinationList
+    | undefined;
+  pivot_measures?: MetabaseLibSchemaQueryPivotMeasuresList | null | undefined;
+  impersonation_allow_write_?: boolean | undefined;
+  pivot_cols?: MetabaseLibSchemaQueryPivotColsList | null | undefined;
+  impersonation_role?: string | undefined;
+  qp_pivot_num_remapped_breakouts?: number | undefined;
+  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery | undefined;
   stages: unknown;
-  qp_pivot_num_unremapped_breakouts?: number;
-  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap;
-  viz_settings?: unknown | null;
-  pivot_cols_2?: MetabaseLibSchemaQueryPivotColsList2 | null;
-  show_column_totals_2?: boolean | null;
-  qp_pivot_num_remapped_cols?: number;
-  qp_source_card_id?: number;
-  parameters?: MetabaseLibSchemaParameterParameters;
-  query_permissions_referenced_card_ids?: MetabaseLibSchemaQueryQueryPermissionsReferencedCardIdsList | null;
-  show_row_totals_2?: boolean | null;
-  create_row?: MetabaseLibSchemaActionsRow;
-  pivot_measures_2?: MetabaseLibSchemaQueryPivotMeasuresList2 | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?: MetabaseLibSchemaSandboxingOriginalMetadata;
+  qp_pivot_num_unremapped_breakouts?: number | undefined;
+  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap | undefined;
+  viz_settings?: unknown | null | undefined;
+  pivot_cols_2?: MetabaseLibSchemaQueryPivotColsList2 | null | undefined;
+  show_column_totals_2?: boolean | null | undefined;
+  qp_pivot_num_remapped_cols?: number | undefined;
+  qp_source_card_id?: number | undefined;
+  parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  query_permissions_referenced_card_ids?:
+    | MetabaseLibSchemaQueryQueryPermissionsReferencedCardIdsList
+    | null
+    | undefined;
+  show_row_totals_2?: boolean | null | undefined;
+  create_row?: MetabaseLibSchemaActionsRow | undefined;
+  pivot_measures_2?: MetabaseLibSchemaQueryPivotMeasuresList2 | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?:
+    | MetabaseLibSchemaSandboxingOriginalMetadata
+    | undefined;
   /** Whether this query was originally run as a pivot query. Stamped into the saved `json_query` by `metabase.query-processor.middleware.process-userland-query` and sent back by clients re-downloading pivot query results. */
-  was_pivot?: boolean | null;
+  was_pivot?: boolean | null | undefined;
 }
 /** value must be a valid MBQL query, or an empty query. */
 export type MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery = unknown | MetabaseLibSchemaQuery;
 export type MetabaseActionsSchemaActionCreateRequestCase1ParametersList =
   Array<MetabaseActionsSchemaActionParameter>;
 export interface MetabaseActionsSchemaActionCreateRequestCase1 {
-  visualization_settings?: unknown | null;
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
+  visualization_settings?: unknown | null | undefined;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
   name: string;
-  archived?: boolean;
-  collection_id?: number | null;
+  archived?: boolean | undefined;
+  collection_id?: number | null | undefined;
   type: MetabaseActionsSchemaType | (string & {});
-  model_id?: number | null;
-  parameters?: MetabaseActionsSchemaActionCreateRequestCase1ParametersList | null;
-  archived_directly?: boolean;
-  description?: string | null;
+  model_id?: number | null | undefined;
+  parameters?: MetabaseActionsSchemaActionCreateRequestCase1ParametersList | null | undefined;
+  archived_directly?: boolean | undefined;
+  description?: string | null | undefined;
 }
 export type MetabaseActionsSchemaActionCreateRequestCase2ParametersList =
   Array<MetabaseActionsSchemaActionParameter>;
 export interface MetabaseActionsSchemaActionCreateRequestCase2 {
-  visualization_settings?: unknown | null;
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
+  visualization_settings?: unknown | null | undefined;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
   name: string;
-  archived?: boolean;
-  table_id?: number | null;
-  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null;
-  collection_id?: number | null;
+  archived?: boolean | undefined;
+  table_id?: number | null | undefined;
+  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null | undefined;
+  collection_id?: number | null | undefined;
   type: MetabaseActionsSchemaType | (string & {});
-  model_id?: number | null;
-  parameters?: MetabaseActionsSchemaActionCreateRequestCase2ParametersList | null;
-  archived_directly?: boolean;
-  description?: string | null;
+  model_id?: number | null | undefined;
+  parameters?: MetabaseActionsSchemaActionCreateRequestCase2ParametersList | null | undefined;
+  archived_directly?: boolean | undefined;
+  description?: string | null | undefined;
 }
 /** Schema for the REST API body that creates an Action, without the columns the server populates. */
 export type MetabaseActionsSchemaActionCreateRequest =
@@ -1431,7 +1616,7 @@ export type MetabaseActionsSchemaActionCreateRequest =
   | MetabaseActionsSchemaActionCreateRequestCase1
   | MetabaseActionsSchemaActionCreateRequestCase2;
 export interface CreateActionRequest {
-  body?: MetabaseActionsSchemaActionCreateRequest;
+  body?: MetabaseActionsSchemaActionCreateRequest | undefined;
 }
 export interface CreateActionResponse {}
 export type MetabaseActionsSchemaExecuteParameterValuesValueCase1List =
@@ -1445,21 +1630,21 @@ export type MetabaseActionsSchemaExecuteParameterValues = {
 };
 export interface CreateActionExecuteRequest {
   action: MetabaseActionsSchemaActionCreateRequest;
-  parameters?: MetabaseActionsSchemaExecuteParameterValues | null;
+  parameters?: MetabaseActionsSchemaExecuteParameterValues | null | undefined;
 }
 export interface CreateActionExecuteResponse {}
 export interface CreateActionExecuteRequestBody {
-  parameters?: MetabaseActionsSchemaExecuteParameterValues | null;
+  parameters?: MetabaseActionsSchemaExecuteParameterValues | null | undefined;
 }
 export interface CreateActionExecuteRequest2 {
   id: string;
-  body?: CreateActionExecuteRequestBody | null;
+  body?: CreateActionExecuteRequestBody | null | undefined;
 }
 export interface CreateActionExecute2Response {}
 export interface CreateActionExecuteRequest3 {
   /** value must be a valid UUID. */
   uuid: string;
-  parameters?: MetabaseActionsSchemaExecuteParameterValues | null;
+  parameters?: MetabaseActionsSchemaExecuteParameterValues | null | undefined;
 }
 export interface CreateActionExecute3Response {}
 /** value must be a JSON object mapping parameter ids to scalar values. */
@@ -1493,10 +1678,10 @@ export interface CreateActivityRecentRequest {
 }
 export interface CreateActivityRecentResponse {}
 export interface CreateAgentCollectionRequest {
-  description?: string | null;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  parent_collection_id?: number | null;
+  parent_collection_id?: number | null | undefined;
 }
 export interface CreateAgentCollectionResponse {}
 export interface CreateAgentConstructNativeQueryRequest {
@@ -1509,18 +1694,18 @@ export interface CreateAgentConstructNativeQueryResponse {}
 /** Value must be a map. */
 export type CreateAgentConstructQueryRequestQueryMap = { [key: string]: unknown | undefined };
 export interface CreateAgentConstructQueryRequest {
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Value must be a map. */
   query: CreateAgentConstructQueryRequestQueryMap;
 }
 export interface CreateAgentConstructQueryResponse {}
 export type CreateAgentDashboardRequestQuestionIdsList = Array<number>;
 export interface CreateAgentDashboardRequest {
-  collection_id?: number | null;
-  description?: string | null;
+  collection_id?: number | null | undefined;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  question_ids?: CreateAgentDashboardRequestQuestionIdsList | null;
+  question_ids?: CreateAgentDashboardRequestQuestionIdsList | null | undefined;
 }
 export interface CreateAgentDashboardResponse {}
 export interface CreateAgentExecuteRequest {
@@ -1555,14 +1740,14 @@ export type MetabaseAgentApiApiCardDisplay =
   | "waterfall"
   | "sankey";
 export interface CreateAgentMetricRequest {
-  collection_id?: number | null;
-  description?: string | null;
-  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null;
+  collection_id?: number | null | undefined;
+  description?: string | null | undefined;
+  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null | undefined;
   /** value must be a non-blank string. */
   name: string;
   /** value must be a non-blank string. */
   query: string;
-  visualization_settings?: unknown | null;
+  visualization_settings?: unknown | null | undefined;
 }
 export interface CreateAgentMetricResponse {}
 export interface MetabaseAgentApiApiQueryRequestCase0 {
@@ -1579,7 +1764,7 @@ export type MetabaseAgentApiApiConstructQueryRequestQueryMap = {
 };
 /** Request body for /v2/construct-query and the fresh-query branch of /v2/query. A single `:query` key whose value is a JSON object matching [[metabase.lib.schema/external-query]] -- the canonical portable MBQL 5 wire format. The query is fully self-describing: the database is derived from the first stage's `source-table:` or `source-card:`, all field references are portable FKs (`[<db-name>, <schema>, <table-name>, <column-name>]`), and there is no auxiliary `source_entity` / `referenced_entities` envelope. See `resources/metabot/prompts/tools/construct_notebook_query.md` for the full format reference (including operators, joins, expressions, multi-stage queries, and FK conventions). Closed map: any extra top-level keys (notably the legacy `source_entity` / `referenced_entities` envelope from before the repr migration) are dropped during request decoding, so a caller still sending the old shape is served. The inner `:query` value is an opaque, string-keyed JSON object ([[ms/OpaqueJSONObject]]) at this boundary rather than `::lib.schema/external-query`. Being open matters: a closed map with no declared entries would have every key stripped before the handler saw it. Reasons for not naming the real schema: 1. Deep MBQL-shape validation runs inside the representations pipeline (`metabot.tools.construct/execute-representations-query` calls `repr/validate-query` after the repair pass), so the boundary check would be redundant. 2. The strict-tool manifest lint (`assert-optional-fields-nullable!`) walks every map reachable from the tool input schema. `::external-query` references `::query`, which carries several `:optional` keys (`:lib/metadata`, `:database`, `:settings`, ...) that are not `[:maybe ...]` -- for sound reasons unrelated to this endpoint. Recursing into them would force a wide schema change just to satisfy the lint at the agent boundary. */
 export interface MetabaseAgentApiApiConstructQueryRequest {
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Value must be a map. */
   query: MetabaseAgentApiApiConstructQueryRequestQueryMap;
 }
@@ -1589,18 +1774,18 @@ export type MetabaseAgentApiApiQueryRequest =
   | MetabaseAgentApiApiQueryRequestCase1
   | MetabaseAgentApiApiConstructQueryRequest;
 export interface CreateAgentQueryRequest {
-  body?: MetabaseAgentApiApiQueryRequest;
+  body?: MetabaseAgentApiApiQueryRequest | undefined;
 }
 export interface CreateAgentQueryResponse {}
 export interface CreateAgentQuestionRequest {
-  collection_id?: number | null;
-  description?: string | null;
-  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null;
+  collection_id?: number | null | undefined;
+  description?: string | null | undefined;
+  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null | undefined;
   /** value must be a non-blank string. */
   name: string;
   /** value must be a non-blank string. */
   query: string;
-  visualization_settings?: unknown | null;
+  visualization_settings?: unknown | null | undefined;
 }
 export interface CreateAgentQuestionResponse {}
 export interface CreateAgentQuestionQueryRequest {
@@ -1622,8 +1807,8 @@ export type CreateAgentSearchRequestTermQueries =
   | CreateAgentSearchRequestTermQueriesCase0List
   | string;
 export interface CreateAgentSearchRequest {
-  semantic_queries?: CreateAgentSearchRequestSemanticQueries | null;
-  term_queries?: CreateAgentSearchRequestTermQueries | null;
+  semantic_queries?: CreateAgentSearchRequestSemanticQueries | null | undefined;
+  term_queries?: CreateAgentSearchRequestTermQueries | null | undefined;
 }
 export interface CreateAgentSearchResponse {}
 /** Value must be a map. */
@@ -1631,8 +1816,8 @@ export type CreateAnalyticsInternalRequestEventsItemLabelsMap = {
   [key: string]: string | undefined;
 };
 export interface CreateAnalyticsInternalRequestEventsItem {
-  amount?: number | null;
-  labels?: CreateAnalyticsInternalRequestEventsItemLabelsMap | null;
+  amount?: number | null | undefined;
+  labels?: CreateAnalyticsInternalRequestEventsItemLabelsMap | null | undefined;
   metric: string;
   op: unknown;
 }
@@ -1656,13 +1841,13 @@ export type CreateCacheInvalidateRequestDashboardList = Array<number>;
 export type CreateCacheInvalidateRequestQuestionList = Array<number>;
 export interface CreateCacheInvalidateRequest {
   /** All cache configuration overrides should invalidate cache too */
-  include?: unknown;
+  include?: unknown | undefined;
   /** A list of database ids */
-  database?: CreateCacheInvalidateRequestDatabaseList;
+  database?: CreateCacheInvalidateRequestDatabaseList | undefined;
   /** A list of dashboard ids */
-  dashboard?: CreateCacheInvalidateRequestDashboardList;
+  dashboard?: CreateCacheInvalidateRequestDashboardList | undefined;
   /** A list of question ids */
-  question?: CreateCacheInvalidateRequestQuestionList;
+  question?: CreateCacheInvalidateRequestQuestionList | undefined;
 }
 export interface CreateCacheInvalidateResponse {}
 /** Schema for the `:result-metadata` for a Card (Saved Question, Model, or v2 Metric). */
@@ -1690,55 +1875,55 @@ export type MetabaseParametersSchemaParameterTemporalUnitsList = Array<
 >;
 /** parameter must be a map with :id and :type keys */
 export interface MetabaseParametersSchemaParameter {
-  filteringParameters?: MetabaseParametersSchemaParameterFilteringParametersList | null;
-  mappings?: MetabaseParametersSchemaParameterMappings2 | null;
-  sectionId?: string;
-  values_source_config?: MetabaseParametersSchemaValuesSourceConfig | null;
-  hasVariableTemplateTagTarget?: boolean | null;
-  display_name?: string | null;
+  filteringParameters?: MetabaseParametersSchemaParameterFilteringParametersList | null | undefined;
+  mappings?: MetabaseParametersSchemaParameterMappings2 | null | undefined;
+  sectionId?: string | undefined;
+  values_source_config?: MetabaseParametersSchemaValuesSourceConfig | null | undefined;
+  hasVariableTemplateTagTarget?: boolean | null | undefined;
+  display_name?: string | null | undefined;
   id: string;
-  position?: number | null;
-  name?: string;
-  slug?: string;
-  value?: MetabaseLibSchemaParameterParameterValue;
-  required?: boolean | null;
-  values_query_type?: MetabaseParametersSchemaValuesQueryType | (string & {}) | null;
+  position?: number | null | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  value?: MetabaseLibSchemaParameterParameterValue | undefined;
+  required?: boolean | null | undefined;
+  values_query_type?: MetabaseParametersSchemaValuesQueryType | (string & {}) | null | undefined;
   type: MetabaseLibSchemaParameterType | (string & {});
-  temporal_units?: MetabaseParametersSchemaParameterTemporalUnitsList | null;
-  target?: MetabaseLibSchemaParameterTarget;
-  values_source_type?: MetabaseParametersSchemaValuesSourceType | (string & {}) | null;
-  options?: MetabaseLibSchemaParameterParameterOptions | null;
-  default?: MetabaseLibSchemaParameterParameterValue;
-  isMultiSelect?: boolean | null;
+  temporal_units?: MetabaseParametersSchemaParameterTemporalUnitsList | null | undefined;
+  target?: MetabaseLibSchemaParameterTarget | undefined;
+  values_source_type?: MetabaseParametersSchemaValuesSourceType | (string & {}) | null | undefined;
+  options?: MetabaseLibSchemaParameterParameterOptions | null | undefined;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
+  isMultiSelect?: boolean | null | undefined;
 }
 export type MetabaseParametersSchemaParameters = Array<MetabaseParametersSchemaParameter>;
 export interface CreateCardRequest {
   /** Value must be a map. */
   visualization_settings: unknown;
-  dashboard_tab_id?: number | null;
-  entity_id?: string | null;
+  dashboard_tab_id?: number | null | undefined;
+  entity_id?: string | null | undefined;
   dataset_query: MetabaseLibSchemaQuery;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  collection_position?: number | null;
-  result_metadata?: MetabaseLibSchemaMetadataCardResultMetadata | null;
-  source_card_id?: number | null;
-  collection_id?: CreateCardRequestCollectionId | null;
-  cache_ttl?: number | null;
-  type?: MetabaseLibSchemaMetadataCardType | (string & {}) | null;
+  collection_position?: number | null | undefined;
+  result_metadata?: MetabaseLibSchemaMetadataCardResultMetadata | null | undefined;
+  source_card_id?: number | null | undefined;
+  collection_id?: CreateCardRequestCollectionId | null | undefined;
+  cache_ttl?: number | null | undefined;
+  type?: MetabaseLibSchemaMetadataCardType | (string & {}) | null | undefined;
   /** value must be a non-blank string. */
   display: string;
-  size?: CreateCardRequestSize | null;
-  parameters?: MetabaseParametersSchemaParameters | null;
-  description?: string | null;
-  dashboard_id?: number | null;
+  size?: CreateCardRequestSize | null | undefined;
+  parameters?: MetabaseParametersSchemaParameters | null | undefined;
+  description?: string | null | undefined;
+  dashboard_id?: number | null | undefined;
 }
 export interface CreateCardResponse {}
 export type CreateCardCollectionRequestCardIdsList = Array<number>;
 export interface CreateCardCollectionRequest {
   card_ids: CreateCardCollectionRequestCardIdsList;
-  collection_id?: number | null;
+  collection_id?: number | null | undefined;
 }
 export interface CreateCardCollectionResponse {}
 export interface CreateCardCopyRequest {
@@ -1748,24 +1933,24 @@ export interface CreateCardCopyRequest {
 export interface CreateCardCopyResponse {}
 /** parameter must be a map with an :id key */
 export interface MetabaseParametersSchemaParameterWithValue {
-  sectionId?: string | null;
+  sectionId?: string | null | undefined;
   id: string;
-  name?: string | null;
-  slug?: string | null;
-  value?: MetabaseLibSchemaParameterParameterValue;
-  type?: MetabaseLibSchemaParameterType | (string & {}) | null;
-  target?: MetabaseLibSchemaParameterTarget | null;
-  options?: MetabaseLibSchemaParameterParameterOptions | null;
-  default?: MetabaseLibSchemaParameterParameterValue;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
+  value?: MetabaseLibSchemaParameterParameterValue | undefined;
+  type?: MetabaseLibSchemaParameterType | (string & {}) | null | undefined;
+  target?: MetabaseLibSchemaParameterTarget | null | undefined;
+  options?: MetabaseLibSchemaParameterParameterOptions | null | undefined;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
 }
 export type CreateCardPivotCardQueryRequestParametersList =
   Array<MetabaseParametersSchemaParameterWithValue>;
 export interface CreateCardPivotCardQueryRequest {
   /** value must be an integer greater than zero. */
   card_id: number;
-  dashboard_id?: number | null;
-  ignore_cache?: boolean | null;
-  parameters?: CreateCardPivotCardQueryRequestParametersList | null;
+  dashboard_id?: number | null | undefined;
+  ignore_cache?: boolean | null | undefined;
+  parameters?: CreateCardPivotCardQueryRequestParametersList | null | undefined;
 }
 export interface CreateCardPivotCardQueryResponse {}
 export interface CreateCardPublicLinkRequest {
@@ -1778,12 +1963,12 @@ export type CreateCardQueryRequestParametersList =
 export type CreateCardQueryRequestSort = "value_asc" | "value_desc" | "label_asc" | "label_desc";
 export interface CreateCardQueryRequest {
   card_id: string;
-  collection_preview?: boolean | null;
-  dashboard_id?: number | null;
-  ignore_cache?: boolean;
-  parameters?: CreateCardQueryRequestParametersList | null;
-  sort?: CreateCardQueryRequestSort | (string & {}) | null;
-  stored_result_id?: number | null;
+  collection_preview?: boolean | null | undefined;
+  dashboard_id?: number | null | undefined;
+  ignore_cache?: boolean | undefined;
+  parameters?: CreateCardQueryRequestParametersList | null | undefined;
+  sort?: CreateCardQueryRequestSort | (string & {}) | null | undefined;
+  stored_result_id?: number | null | undefined;
 }
 export interface CreateCardQueryResponse {}
 export type CreateCardsDashboardRequestCardIdsList = Array<number>;
@@ -1794,8 +1979,8 @@ export interface CreateCardsDashboardResponse {}
 export type CreateCardsMoveRequestCardIdsList = Array<number>;
 export interface CreateCardsMoveRequest {
   card_ids: CreateCardsMoveRequestCardIdsList;
-  collection_id?: number | null;
-  dashboard_id?: number | null;
+  collection_id?: number | null | undefined;
+  dashboard_id?: number | null | undefined;
 }
 export interface CreateCardsMoveResponse {}
 /** Value must be a map. */
@@ -1810,16 +1995,16 @@ export type MetabaseChannelSchemaHttpDetailsMethod = "get" | "post" | "put";
 /** The connection `:details` of a `:channel/http` channel. */
 export interface MetabaseChannelSchemaHttpDetails {
   /** Value must be a map. */
-  auth_info?: MetabaseChannelSchemaHttpDetailsAuthInfoMap;
+  auth_info?: MetabaseChannelSchemaHttpDetailsAuthInfoMap | undefined;
   auth_method: MetabaseChannelSchemaHttpDetailsAuthMethod | (string & {});
-  fe_form_type?: MetabaseChannelSchemaHttpDetailsFeFormType | (string & {});
-  method?: MetabaseChannelSchemaHttpDetailsMethod | (string & {});
+  fe_form_type?: MetabaseChannelSchemaHttpDetailsFeFormType | (string & {}) | undefined;
+  method?: MetabaseChannelSchemaHttpDetailsMethod | (string & {}) | undefined;
   /** value must be a valid URL. */
   url: string;
 }
 export interface CreateChannelRequestBodyCase0 {
-  active?: boolean | null;
-  description?: string | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
   details: MetabaseChannelSchemaHttpDetails;
   /** value must be a non-blank string. */
   name: string;
@@ -1831,8 +2016,8 @@ export interface MetabaseChannelSchemaSlackDetails {
   channel: string;
 }
 export interface CreateChannelRequestBodyCase1 {
-  active?: boolean | null;
-  description?: string | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
   details: MetabaseChannelSchemaSlackDetails;
   /** value must be a non-blank string. */
   name: string;
@@ -1841,13 +2026,13 @@ export interface CreateChannelRequestBodyCase1 {
 }
 /** The connection `:details` of a `:channel/email` channel: an optional SMTP host and port, as email is otherwise configured by settings. */
 export interface MetabaseChannelSchemaEmailDetails {
-  host?: string | null;
-  port?: number | null;
+  host?: string | null | undefined;
+  port?: number | null | undefined;
 }
 export interface CreateChannelRequestBodyCase2 {
-  active?: boolean | null;
-  description?: string | null;
-  details?: MetabaseChannelSchemaEmailDetails | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
+  details?: MetabaseChannelSchemaEmailDetails | null | undefined;
   /** value must be a non-blank string. */
   name: string;
   /** Must be a namespaced channel. E.g: channel/http */
@@ -1859,9 +2044,9 @@ export type MetabaseChannelSchemaChannelDetails =
   | MetabaseChannelSchemaHttpDetails
   | MetabaseChannelSchemaEmailDetails;
 export interface CreateChannelRequestBodyCase3 {
-  active?: boolean | null;
-  description?: string | null;
-  details?: MetabaseChannelSchemaChannelDetails | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
+  details?: MetabaseChannelSchemaChannelDetails | null | undefined;
   /** value must be a non-blank string. */
   name: string;
   /** Must be a namespaced channel. E.g: channel/http */
@@ -1873,7 +2058,7 @@ export type CreateChannelRequestBody =
   | CreateChannelRequestBodyCase2
   | CreateChannelRequestBodyCase3;
 export interface CreateChannelRequest {
-  body?: CreateChannelRequestBody;
+  body?: CreateChannelRequestBody | undefined;
 }
 export interface CreateChannelResponse {}
 export interface CreateChannelTestRequestBodyCase0 {
@@ -1887,12 +2072,12 @@ export interface CreateChannelTestRequestBodyCase1 {
   type: string;
 }
 export interface CreateChannelTestRequestBodyCase2 {
-  details?: MetabaseChannelSchemaEmailDetails | null;
+  details?: MetabaseChannelSchemaEmailDetails | null | undefined;
   /** Must be a namespaced channel. E.g: channel/http */
   type: string;
 }
 export interface CreateChannelTestRequestBodyCase3 {
-  details?: MetabaseChannelSchemaChannelDetails | null;
+  details?: MetabaseChannelSchemaChannelDetails | null | undefined;
   /** Must be a namespaced channel. E.g: channel/http */
   type: string;
 }
@@ -1902,47 +2087,47 @@ export type CreateChannelTestRequestBody =
   | CreateChannelTestRequestBodyCase2
   | CreateChannelTestRequestBodyCase3;
 export interface CreateChannelTestRequest {
-  body?: CreateChannelTestRequestBody;
+  body?: CreateChannelTestRequestBody | undefined;
 }
 export interface CreateChannelTestResponse {}
 export interface CreateCloudMigrationRequest {}
 export interface CreateCloudMigrationResponse {}
 export type CreateCollectionRequestAuthorityLevel = "official";
 export interface CreateCollectionRequest {
-  authority_level?: CreateCollectionRequestAuthorityLevel | (string & {}) | null;
-  description?: string | null;
+  authority_level?: CreateCollectionRequestAuthorityLevel | (string & {}) | null | undefined;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  namespace?: string | null;
-  parent_id?: number | null;
+  namespace?: string | null | undefined;
+  parent_id?: number | null | undefined;
 }
 export interface CreateCollectionResponse {}
 export type CreateCollectionMoveDashboardQuestionCandidateRequestBodyCardIdsList = Array<number>;
 export interface CreateCollectionMoveDashboardQuestionCandidateRequestBody {
-  card_ids?: CreateCollectionMoveDashboardQuestionCandidateRequestBodyCardIdsList;
+  card_ids?: CreateCollectionMoveDashboardQuestionCandidateRequestBodyCardIdsList | undefined;
 }
 export interface CreateCollectionMoveDashboardQuestionCandidateRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  body?: CreateCollectionMoveDashboardQuestionCandidateRequestBody | null;
+  body?: CreateCollectionMoveDashboardQuestionCandidateRequestBody | null | undefined;
 }
 export interface CreateCollectionMoveDashboardQuestionCandidateResponse {}
 export type CreateCollectionRootMoveDashboardQuestionCandidateRequestBodyCardIdsList =
   Array<number>;
 export interface CreateCollectionRootMoveDashboardQuestionCandidateRequestBody {
-  card_ids?: CreateCollectionRootMoveDashboardQuestionCandidateRequestBodyCardIdsList;
+  card_ids?: CreateCollectionRootMoveDashboardQuestionCandidateRequestBodyCardIdsList | undefined;
 }
 export interface CreateCollectionRootMoveDashboardQuestionCandidateRequest {
-  body?: CreateCollectionRootMoveDashboardQuestionCandidateRequestBody | null;
+  body?: CreateCollectionRootMoveDashboardQuestionCandidateRequestBody | null | undefined;
 }
 export interface CreateCollectionRootMoveDashboardQuestionCandidateResponse {}
 export type CreateCommentRequestTargetType = "document" | "exploration";
 export interface CreateCommentRequest {
-  child_target_id?: string | null;
+  child_target_id?: string | null | undefined;
   /** Comment content must be valid JSON. */
   content: unknown;
-  context?: unknown | null;
-  parent_comment_id?: number | null;
+  context?: unknown | null | undefined;
+  parent_comment_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
   target_id: number;
   target_type: CreateCommentRequestTargetType | (string & {});
@@ -1955,23 +2140,23 @@ export interface CreateCommentReactionRequest {
 }
 export interface CreateCommentReactionResponse {}
 export interface CreateDashboardRequest {
-  cache_ttl?: number | null;
-  collection_id?: number | null;
-  collection_position?: number | null;
-  description?: string | null;
+  cache_ttl?: number | null | undefined;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  parameters?: MetabaseParametersSchemaParameters | null;
+  parameters?: MetabaseParametersSchemaParameters | null | undefined;
 }
 export interface CreateDashboardResponse {}
 export interface CreateDashboardCopyRequest {
   /** value must be an integer greater than zero. */
   from_dashboard_id: number;
-  collection_id?: number | null;
-  collection_position?: number | null;
-  description?: string | null;
-  is_deep_copy?: boolean | null;
-  name?: string | null;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
+  description?: string | null | undefined;
+  is_deep_copy?: boolean | null | undefined;
+  name?: string | null | undefined;
 }
 export interface CreateDashboardCopyResponse {}
 export type CreateDashboardDashcardCardQueryRequestParametersList =
@@ -1983,8 +2168,8 @@ export interface CreateDashboardDashcardCardQueryRequest {
   dashcard_id: number;
   /** value must be an integer greater than zero. */
   card_id: number;
-  dashboard_load_id?: string | null;
-  parameters?: CreateDashboardDashcardCardQueryRequestParametersList | null;
+  dashboard_load_id?: string | null | undefined;
+  parameters?: CreateDashboardDashcardCardQueryRequestParametersList | null | undefined;
 }
 export interface CreateDashboardDashcardCardQueryResponse {}
 export type MetabaseActionsSchemaExecuteParameterValuesStringKeysValueCase1List =
@@ -2001,7 +2186,7 @@ export interface CreateDashboardDashcardExecuteRequest {
   dashboard_id: number;
   /** value must be an integer greater than zero. */
   dashcard_id: number;
-  parameters?: MetabaseActionsSchemaExecuteParameterValuesStringKeys | null;
+  parameters?: MetabaseActionsSchemaExecuteParameterValuesStringKeys | null | undefined;
 }
 export interface CreateDashboardDashcardExecuteResponse {}
 export interface CreateDashboardDashcardExecuteRequest2 {
@@ -2009,8 +2194,8 @@ export interface CreateDashboardDashcardExecuteRequest2 {
   uuid: string;
   /** value must be an integer greater than zero. */
   dashcard_id: number;
-  modelId?: number | null;
-  parameters?: MetabaseActionsSchemaExecuteParameterValues | null;
+  modelId?: number | null | undefined;
+  parameters?: MetabaseActionsSchemaExecuteParameterValues | null | undefined;
 }
 export interface CreateDashboardDashcardExecute2Response {}
 export interface CreateDashboardDashcardExecuteValueRequest {
@@ -2018,7 +2203,7 @@ export interface CreateDashboardDashcardExecuteValueRequest {
   dashboard_id: number;
   /** value must be an integer greater than zero. */
   dashcard_id: number;
-  parameters?: MetabaseActionsSchemaPrefetchParameterValues;
+  parameters?: MetabaseActionsSchemaPrefetchParameterValues | undefined;
 }
 export interface CreateDashboardDashcardExecuteValueResponse {}
 export interface CreateDashboardDashcardExecuteValueRequest2 {
@@ -2035,8 +2220,8 @@ export type MetabaseParametersSchemaParameterValues =
 export interface CreateDashboardPdfRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  paper_size?: CreateDashboardPdfRequestPaperSize | (string & {}) | null;
-  parameters?: MetabaseParametersSchemaParameterValues | null;
+  paper_size?: CreateDashboardPdfRequestPaperSize | (string & {}) | null | undefined;
+  parameters?: MetabaseParametersSchemaParameterValues | null | undefined;
 }
 export interface CreateDashboardPdfResponse {}
 export type CreateDashboardPivotDashboardDashcardCardQueryRequestParametersList =
@@ -2048,7 +2233,10 @@ export interface CreateDashboardPivotDashboardDashcardCardQueryRequest {
   dashcard_id: number;
   /** value must be an integer greater than zero. */
   card_id: number;
-  parameters?: CreateDashboardPivotDashboardDashcardCardQueryRequestParametersList | null;
+  parameters?:
+    | CreateDashboardPivotDashboardDashcardCardQueryRequestParametersList
+    | null
+    | undefined;
 }
 export interface CreateDashboardPivotDashboardDashcardCardQueryResponse {}
 export interface CreateDashboardPublicLinkRequest {
@@ -2058,34 +2246,34 @@ export interface CreateDashboardPublicLinkRequest {
 export interface CreateDashboardPublicLinkResponse {}
 export type CreateDashboardSaveRequestDashcardsItemSeriesItemId = number | string;
 export interface CreateDashboardSaveRequestDashcardsItemSeriesItem {
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  description?: string | null;
-  display?: string | null;
-  id?: CreateDashboardSaveRequestDashcardsItemSeriesItemId | null;
-  name?: string | null;
-  visualization_settings?: unknown | null;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  description?: string | null | undefined;
+  display?: string | null | undefined;
+  id?: CreateDashboardSaveRequestDashcardsItemSeriesItemId | null | undefined;
+  name?: string | null | undefined;
+  visualization_settings?: unknown | null | undefined;
 }
 export type CreateDashboardSaveRequestDashcardsItemSeriesList =
   Array<CreateDashboardSaveRequestDashcardsItemSeriesItem>;
 export type CreateDashboardSaveRequestDashcardsItemCardId = number | string;
 export interface CreateDashboardSaveRequestDashcardsItemCard {
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  description?: string | null;
-  display?: string | null;
-  id?: CreateDashboardSaveRequestDashcardsItemCardId | null;
-  name?: string | null;
-  visualization_settings?: unknown | null;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  description?: string | null | undefined;
+  display?: string | null | undefined;
+  id?: CreateDashboardSaveRequestDashcardsItemCardId | null | undefined;
+  name?: string | null | undefined;
+  visualization_settings?: unknown | null | undefined;
 }
 export interface CreateDashboardSaveRequestDashcardsItem {
-  visualization_settings?: unknown | null;
-  dashboard_tab_id?: number | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
-  size_x?: number | null;
-  size_y?: number | null;
-  col?: number | null;
-  row?: number | null;
-  series?: CreateDashboardSaveRequestDashcardsItemSeriesList | null;
-  card?: CreateDashboardSaveRequestDashcardsItemCard | null;
+  visualization_settings?: unknown | null | undefined;
+  dashboard_tab_id?: number | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
+  size_x?: number | null | undefined;
+  size_y?: number | null | undefined;
+  col?: number | null | undefined;
+  row?: number | null | undefined;
+  series?: CreateDashboardSaveRequestDashcardsItemSeriesList | null | undefined;
+  card?: CreateDashboardSaveRequestDashcardsItemCard | null | undefined;
 }
 export type CreateDashboardSaveRequestDashcardsList =
   Array<CreateDashboardSaveRequestDashcardsItem>;
@@ -2095,18 +2283,18 @@ export interface CreateDashboardSaveRequestTabsItem {
   /** value must be a non-blank string. */
   name: string;
   /** value must be an integer greater or equal to than zero. */
-  position?: number;
+  position?: number | undefined;
 }
 export type CreateDashboardSaveRequestTabsList = Array<CreateDashboardSaveRequestTabsItem>;
 export type CreateDashboardSaveRequestWidth = "fixed" | "full";
 export interface CreateDashboardSaveRequest {
-  auto_apply_filters?: boolean | null;
-  dashcards?: CreateDashboardSaveRequestDashcardsList | null;
-  description?: string | null;
-  name?: string | null;
-  parameters?: MetabaseParametersSchemaParameters | null;
-  tabs?: CreateDashboardSaveRequestTabsList | null;
-  width?: CreateDashboardSaveRequestWidth | (string & {}) | null;
+  auto_apply_filters?: boolean | null | undefined;
+  dashcards?: CreateDashboardSaveRequestDashcardsList | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
+  parameters?: MetabaseParametersSchemaParameters | null | undefined;
+  tabs?: CreateDashboardSaveRequestTabsList | null | undefined;
+  width?: CreateDashboardSaveRequestWidth | (string & {}) | null | undefined;
 }
 export interface CreateDashboardSaveResponse {}
 export type CreateDatabaseRequestConnectionSource = "admin" | "setup";
@@ -2122,32 +2310,32 @@ export type MetabaseUtilCronScheduleMapScheduleFrame = "first" | "mid" | "last";
 export type MetabaseUtilCronScheduleMapScheduleType = "hourly" | "daily" | "weekly" | "monthly";
 /** value must be a valid schedule map. See schema in metabase.util.cron for details. */
 export interface MetabaseUtilCronScheduleMap {
-  schedule_day?: MetabaseUtilCronScheduleMapScheduleDay | (string & {}) | null;
-  schedule_frame?: MetabaseUtilCronScheduleMapScheduleFrame | (string & {}) | null;
-  schedule_hour?: number | null;
-  schedule_minute?: number | null;
+  schedule_day?: MetabaseUtilCronScheduleMapScheduleDay | (string & {}) | null | undefined;
+  schedule_frame?: MetabaseUtilCronScheduleMapScheduleFrame | (string & {}) | null | undefined;
+  schedule_hour?: number | null | undefined;
+  schedule_minute?: number | null | undefined;
   schedule_type: MetabaseUtilCronScheduleMapScheduleType | (string & {});
 }
 /** value must be a valid map of schedule maps for a DB. */
 export interface MetabaseSyncSchedulesExpandedSchedulesMap {
-  cache_field_values?: MetabaseUtilCronScheduleMap | null;
-  metadata_sync?: MetabaseUtilCronScheduleMap;
+  cache_field_values?: MetabaseUtilCronScheduleMap | null | undefined;
+  metadata_sync?: MetabaseUtilCronScheduleMap | undefined;
 }
 export interface CreateDatabaseRequest {
-  provider_name?: string | null;
+  provider_name?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  is_on_demand?: boolean | null;
-  cache_ttl?: number | null;
+  is_on_demand?: boolean | null | undefined;
+  cache_ttl?: number | null | undefined;
   /** value must be a non-blank string. */
   engine: string;
   /** Value must be a map. */
   details: unknown;
-  is_full_sync?: boolean | null;
-  connection_source?: CreateDatabaseRequestConnectionSource | (string & {}) | null;
-  auto_run_queries?: boolean | null;
-  is_stub?: boolean | null;
-  schedules?: MetabaseSyncSchedulesExpandedSchedulesMap | null;
+  is_full_sync?: boolean | null | undefined;
+  connection_source?: CreateDatabaseRequestConnectionSource | (string & {}) | null | undefined;
+  auto_run_queries?: boolean | null | undefined;
+  is_stub?: boolean | null | undefined;
+  schedules?: MetabaseSyncSchedulesExpandedSchedulesMap | null | undefined;
 }
 export interface CreateDatabaseResponse {}
 export interface CreateDatabaseDiscardValueRequest {
@@ -2177,7 +2365,7 @@ export interface CreateDatabaseValidateRequestDetails {
   details: unknown;
   /** value must be a non-blank string. */
   engine: string;
-  id?: number | null;
+  id?: number | null | undefined;
 }
 export interface CreateDatabaseValidateRequest {
   details: CreateDatabaseValidateRequestDetails;
@@ -2232,25 +2420,25 @@ export type MetabaseLibBeSchemaInternalQueryScope =
   | MetabaseLibBeSchemaInternalQueryScopeCase6;
 /** An internal (audit) query: either the QP's own `:fn`/`:args` invocation shape, or the action-descriptor shape stashed on a [[metabase.actions.audit/Base]] row's `:template` for a `:model.row/*` or similar action. */
 export interface MetabaseLibBeSchemaInternalQuery {
-  action_id?: number | null;
-  offset?: number | null;
-  args?: MetabaseLibBeSchemaInternalQueryArgsList | null;
-  info?: MetabaseLibSchemaInfoInfo | null;
-  fn?: string;
-  limit?: number | null;
-  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions;
-  database?: number | null;
-  scope?: MetabaseLibBeSchemaInternalQueryScope;
-  action?: string;
+  action_id?: number | null | undefined;
+  offset?: number | null | undefined;
+  args?: MetabaseLibBeSchemaInternalQueryArgsList | null | undefined;
+  info?: MetabaseLibSchemaInfoInfo | null | undefined;
+  fn?: string | undefined;
+  limit?: number | null | undefined;
+  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions | undefined;
+  database?: number | null | undefined;
+  scope?: MetabaseLibBeSchemaInternalQueryScope | undefined;
+  action?: string | undefined;
   type: unknown;
-  viz_settings?: unknown | null;
+  viz_settings?: unknown | null | undefined;
 }
 /** value must be a valid MBQL query, or an internal audit query. */
 export type MetabaseLibBeSchemaMaybeLegacyOrInternalQuery =
   | MetabaseLibBeSchemaInternalQuery
   | MetabaseLibSchemaQuery;
 export interface CreateDatasetRequest {
-  body?: MetabaseLibBeSchemaMaybeLegacyOrInternalQuery;
+  body?: MetabaseLibBeSchemaMaybeLegacyOrInternalQuery | undefined;
 }
 export interface CreateDatasetResponse {}
 export type CreateDatasetNativeRequestPivotRowsList = Array<number>;
@@ -2267,66 +2455,80 @@ export type CreateDatasetNativeRequestPivotColsList2 = Array<number>;
 export type CreateDatasetNativeRequestQueryPermissionsReferencedCardIdsList = Array<number>;
 export type CreateDatasetNativeRequestPivotMeasuresList2 = Array<number>;
 export interface CreateDatasetNativeRequest {
-  lib_metadata?: unknown;
-  show_column_totals?: boolean | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?: MetabaseLibSchemaSandboxingDetails;
-  user_parameters?: MetabaseLibSchemaParameterParameters;
-  pivot_rows?: CreateDatasetNativeRequestPivotRowsList | null;
-  update_row?: MetabaseLibSchemaActionsRow;
-  qp_pivot_remapped_breakout_combination?: CreateDatasetNativeRequestQpPivotRemappedBreakoutCombinationList | null;
-  qp_non_default_parameterized_?: boolean;
-  lib_type?: unknown;
-  pivot_rows_2?: CreateDatasetNativeRequestPivotRowsList2 | null;
-  settings?: MetabaseLibSchemaSettingsSettings;
-  constraints?: MetabaseLibSchemaConstraintsConstraints;
-  cache_strategy?: MetabaseLibSchemaCacheStrategy | null;
-  lib_convert_converted_?: boolean;
-  info?: MetabaseLibSchemaInfoInfo;
-  impersonation_admin_?: boolean;
-  async_?: boolean;
-  qp_skip_result_metadata_persistence?: boolean;
-  metabase_query_processor_middleware_add_remaps_external_remaps?: MetabaseLibSchemaExternalRemappings;
-  show_row_totals?: boolean | null;
-  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery;
-  qp_pivot_remapped_indexes?: CreateDatasetNativeRequestQpPivotRemappedIndexesMap;
-  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions;
-  database?: CreateDatasetNativeRequestDatabase;
-  destination_database_id?: number;
-  qp_pivot_unremapped_breakout_combination?: CreateDatasetNativeRequestQpPivotUnremappedBreakoutCombinationList;
-  pivot_measures?: CreateDatasetNativeRequestPivotMeasuresList | null;
-  impersonation_allow_write_?: boolean;
-  pivot_cols?: CreateDatasetNativeRequestPivotColsList | null;
-  impersonation_role?: string;
-  qp_pivot_num_remapped_breakouts?: number;
-  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery;
+  lib_metadata?: unknown | undefined;
+  show_column_totals?: boolean | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?:
+    | MetabaseLibSchemaSandboxingDetails
+    | undefined;
+  user_parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  pivot_rows?: CreateDatasetNativeRequestPivotRowsList | null | undefined;
+  update_row?: MetabaseLibSchemaActionsRow | undefined;
+  qp_pivot_remapped_breakout_combination?:
+    | CreateDatasetNativeRequestQpPivotRemappedBreakoutCombinationList
+    | null
+    | undefined;
+  qp_non_default_parameterized_?: boolean | undefined;
+  lib_type?: unknown | undefined;
+  pivot_rows_2?: CreateDatasetNativeRequestPivotRowsList2 | null | undefined;
+  settings?: MetabaseLibSchemaSettingsSettings | undefined;
+  constraints?: MetabaseLibSchemaConstraintsConstraints | undefined;
+  cache_strategy?: MetabaseLibSchemaCacheStrategy | null | undefined;
+  lib_convert_converted_?: boolean | undefined;
+  info?: MetabaseLibSchemaInfoInfo | undefined;
+  impersonation_admin_?: boolean | undefined;
+  async_?: boolean | undefined;
+  qp_skip_result_metadata_persistence?: boolean | undefined;
+  metabase_query_processor_middleware_add_remaps_external_remaps?:
+    | MetabaseLibSchemaExternalRemappings
+    | undefined;
+  show_row_totals?: boolean | null | undefined;
+  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery | undefined;
+  qp_pivot_remapped_indexes?: CreateDatasetNativeRequestQpPivotRemappedIndexesMap | undefined;
+  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions | undefined;
+  database?: CreateDatasetNativeRequestDatabase | undefined;
+  destination_database_id?: number | undefined;
+  qp_pivot_unremapped_breakout_combination?:
+    | CreateDatasetNativeRequestQpPivotUnremappedBreakoutCombinationList
+    | undefined;
+  pivot_measures?: CreateDatasetNativeRequestPivotMeasuresList | null | undefined;
+  impersonation_allow_write_?: boolean | undefined;
+  pivot_cols?: CreateDatasetNativeRequestPivotColsList | null | undefined;
+  impersonation_role?: string | undefined;
+  qp_pivot_num_remapped_breakouts?: number | undefined;
+  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery | undefined;
   stages: unknown;
-  qp_pivot_num_unremapped_breakouts?: number;
-  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap;
-  viz_settings?: unknown | null;
-  pivot_cols_2?: CreateDatasetNativeRequestPivotColsList2 | null;
-  show_column_totals_2?: boolean | null;
-  qp_pivot_num_remapped_cols?: number;
-  qp_source_card_id?: number;
-  parameters?: MetabaseLibSchemaParameterParameters;
-  query_permissions_referenced_card_ids?: CreateDatasetNativeRequestQueryPermissionsReferencedCardIdsList | null;
-  show_row_totals_2?: boolean | null;
-  create_row?: MetabaseLibSchemaActionsRow;
-  pivot_measures_2?: CreateDatasetNativeRequestPivotMeasuresList2 | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?: MetabaseLibSchemaSandboxingOriginalMetadata;
+  qp_pivot_num_unremapped_breakouts?: number | undefined;
+  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap | undefined;
+  viz_settings?: unknown | null | undefined;
+  pivot_cols_2?: CreateDatasetNativeRequestPivotColsList2 | null | undefined;
+  show_column_totals_2?: boolean | null | undefined;
+  qp_pivot_num_remapped_cols?: number | undefined;
+  qp_source_card_id?: number | undefined;
+  parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  query_permissions_referenced_card_ids?:
+    | CreateDatasetNativeRequestQueryPermissionsReferencedCardIdsList
+    | null
+    | undefined;
+  show_row_totals_2?: boolean | null | undefined;
+  create_row?: MetabaseLibSchemaActionsRow | undefined;
+  pivot_measures_2?: CreateDatasetNativeRequestPivotMeasuresList2 | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?:
+    | MetabaseLibSchemaSandboxingOriginalMetadata
+    | undefined;
   /** Whether this query was originally run as a pivot query. Stamped into the saved `json_query` by `metabase.query-processor.middleware.process-userland-query` and sent back by clients re-downloading pivot query results. */
-  was_pivot?: boolean | null;
+  was_pivot?: boolean | null | undefined;
 }
 export interface CreateDatasetNativeResponse {}
 export type CreateDatasetParameterRemappingRequestFieldIdsList = Array<number>;
 export interface CreateDatasetParameterRemappingRequest {
-  field_ids?: CreateDatasetParameterRemappingRequestFieldIdsList | null;
+  field_ids?: CreateDatasetParameterRemappingRequestFieldIdsList | null | undefined;
   parameter: MetabaseParametersSchemaParameter;
   value: MetabaseLibSchemaParameterParameterValue;
 }
 export interface CreateDatasetParameterRemappingResponse {}
 export type CreateDatasetParameterValueRequestFieldIdsList = Array<number>;
 export interface CreateDatasetParameterValueRequest {
-  field_ids?: CreateDatasetParameterValueRequestFieldIdsList | null;
+  field_ids?: CreateDatasetParameterValueRequestFieldIdsList | null | undefined;
   parameter: MetabaseParametersSchemaParameter;
 }
 export interface CreateDatasetParameterValueResponse {}
@@ -2344,54 +2546,68 @@ export type CreateDatasetPivotRequestPivotColsList2 = Array<number>;
 export type CreateDatasetPivotRequestQueryPermissionsReferencedCardIdsList = Array<number>;
 export type CreateDatasetPivotRequestPivotMeasuresList2 = Array<number>;
 export interface CreateDatasetPivotRequest {
-  lib_metadata?: unknown;
-  show_column_totals?: boolean | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?: MetabaseLibSchemaSandboxingDetails;
-  user_parameters?: MetabaseLibSchemaParameterParameters;
-  pivot_rows?: CreateDatasetPivotRequestPivotRowsList | null;
-  update_row?: MetabaseLibSchemaActionsRow;
-  qp_pivot_remapped_breakout_combination?: CreateDatasetPivotRequestQpPivotRemappedBreakoutCombinationList | null;
-  qp_non_default_parameterized_?: boolean;
-  lib_type?: unknown;
-  pivot_rows_2?: CreateDatasetPivotRequestPivotRowsList2 | null;
-  settings?: MetabaseLibSchemaSettingsSettings;
-  constraints?: MetabaseLibSchemaConstraintsConstraints;
-  cache_strategy?: MetabaseLibSchemaCacheStrategy | null;
-  lib_convert_converted_?: boolean;
-  info?: MetabaseLibSchemaInfoInfo;
-  impersonation_admin_?: boolean;
-  async_?: boolean;
-  qp_skip_result_metadata_persistence?: boolean;
-  metabase_query_processor_middleware_add_remaps_external_remaps?: MetabaseLibSchemaExternalRemappings;
-  show_row_totals?: boolean | null;
-  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery;
-  qp_pivot_remapped_indexes?: CreateDatasetPivotRequestQpPivotRemappedIndexesMap;
-  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions;
-  database?: CreateDatasetPivotRequestDatabase;
-  destination_database_id?: number;
-  qp_pivot_unremapped_breakout_combination?: CreateDatasetPivotRequestQpPivotUnremappedBreakoutCombinationList;
-  pivot_measures?: CreateDatasetPivotRequestPivotMeasuresList | null;
-  impersonation_allow_write_?: boolean;
-  pivot_cols?: CreateDatasetPivotRequestPivotColsList | null;
-  impersonation_role?: string;
-  qp_pivot_num_remapped_breakouts?: number;
-  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery;
+  lib_metadata?: unknown | undefined;
+  show_column_totals?: boolean | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?:
+    | MetabaseLibSchemaSandboxingDetails
+    | undefined;
+  user_parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  pivot_rows?: CreateDatasetPivotRequestPivotRowsList | null | undefined;
+  update_row?: MetabaseLibSchemaActionsRow | undefined;
+  qp_pivot_remapped_breakout_combination?:
+    | CreateDatasetPivotRequestQpPivotRemappedBreakoutCombinationList
+    | null
+    | undefined;
+  qp_non_default_parameterized_?: boolean | undefined;
+  lib_type?: unknown | undefined;
+  pivot_rows_2?: CreateDatasetPivotRequestPivotRowsList2 | null | undefined;
+  settings?: MetabaseLibSchemaSettingsSettings | undefined;
+  constraints?: MetabaseLibSchemaConstraintsConstraints | undefined;
+  cache_strategy?: MetabaseLibSchemaCacheStrategy | null | undefined;
+  lib_convert_converted_?: boolean | undefined;
+  info?: MetabaseLibSchemaInfoInfo | undefined;
+  impersonation_admin_?: boolean | undefined;
+  async_?: boolean | undefined;
+  qp_skip_result_metadata_persistence?: boolean | undefined;
+  metabase_query_processor_middleware_add_remaps_external_remaps?:
+    | MetabaseLibSchemaExternalRemappings
+    | undefined;
+  show_row_totals?: boolean | null | undefined;
+  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery | undefined;
+  qp_pivot_remapped_indexes?: CreateDatasetPivotRequestQpPivotRemappedIndexesMap | undefined;
+  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions | undefined;
+  database?: CreateDatasetPivotRequestDatabase | undefined;
+  destination_database_id?: number | undefined;
+  qp_pivot_unremapped_breakout_combination?:
+    | CreateDatasetPivotRequestQpPivotUnremappedBreakoutCombinationList
+    | undefined;
+  pivot_measures?: CreateDatasetPivotRequestPivotMeasuresList | null | undefined;
+  impersonation_allow_write_?: boolean | undefined;
+  pivot_cols?: CreateDatasetPivotRequestPivotColsList | null | undefined;
+  impersonation_role?: string | undefined;
+  qp_pivot_num_remapped_breakouts?: number | undefined;
+  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery | undefined;
   stages: unknown;
-  qp_pivot_num_unremapped_breakouts?: number;
-  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap;
-  viz_settings?: unknown | null;
-  pivot_cols_2?: CreateDatasetPivotRequestPivotColsList2 | null;
-  show_column_totals_2?: boolean | null;
-  qp_pivot_num_remapped_cols?: number;
-  qp_source_card_id?: number;
-  parameters?: MetabaseLibSchemaParameterParameters;
-  query_permissions_referenced_card_ids?: CreateDatasetPivotRequestQueryPermissionsReferencedCardIdsList | null;
-  show_row_totals_2?: boolean | null;
-  create_row?: MetabaseLibSchemaActionsRow;
-  pivot_measures_2?: CreateDatasetPivotRequestPivotMeasuresList2 | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?: MetabaseLibSchemaSandboxingOriginalMetadata;
+  qp_pivot_num_unremapped_breakouts?: number | undefined;
+  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap | undefined;
+  viz_settings?: unknown | null | undefined;
+  pivot_cols_2?: CreateDatasetPivotRequestPivotColsList2 | null | undefined;
+  show_column_totals_2?: boolean | null | undefined;
+  qp_pivot_num_remapped_cols?: number | undefined;
+  qp_source_card_id?: number | undefined;
+  parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  query_permissions_referenced_card_ids?:
+    | CreateDatasetPivotRequestQueryPermissionsReferencedCardIdsList
+    | null
+    | undefined;
+  show_row_totals_2?: boolean | null | undefined;
+  create_row?: MetabaseLibSchemaActionsRow | undefined;
+  pivot_measures_2?: CreateDatasetPivotRequestPivotMeasuresList2 | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?:
+    | MetabaseLibSchemaSandboxingOriginalMetadata
+    | undefined;
   /** Whether this query was originally run as a pivot query. Stamped into the saved `json_query` by `metabase.query-processor.middleware.process-userland-query` and sent back by clients re-downloading pivot query results. */
-  was_pivot?: boolean | null;
+  was_pivot?: boolean | null | undefined;
 }
 export interface CreateDatasetPivotResponse {}
 export type CreateDatasetQueryMetadataRequestPivotRowsList = Array<number>;
@@ -2409,63 +2625,79 @@ export type CreateDatasetQueryMetadataRequestPivotColsList2 = Array<number>;
 export type CreateDatasetQueryMetadataRequestQueryPermissionsReferencedCardIdsList = Array<number>;
 export type CreateDatasetQueryMetadataRequestPivotMeasuresList2 = Array<number>;
 export interface CreateDatasetQueryMetadataRequest {
-  lib_metadata?: unknown;
-  show_column_totals?: boolean | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?: MetabaseLibSchemaSandboxingDetails;
-  user_parameters?: MetabaseLibSchemaParameterParameters;
-  pivot_rows?: CreateDatasetQueryMetadataRequestPivotRowsList | null;
-  update_row?: MetabaseLibSchemaActionsRow;
-  qp_pivot_remapped_breakout_combination?: CreateDatasetQueryMetadataRequestQpPivotRemappedBreakoutCombinationList | null;
-  qp_non_default_parameterized_?: boolean;
-  lib_type?: unknown;
-  pivot_rows_2?: CreateDatasetQueryMetadataRequestPivotRowsList2 | null;
-  settings?: MetabaseLibSchemaSettingsSettings;
-  constraints?: MetabaseLibSchemaConstraintsConstraints;
-  cache_strategy?: MetabaseLibSchemaCacheStrategy | null;
-  lib_convert_converted_?: boolean;
-  info?: MetabaseLibSchemaInfoInfo;
-  impersonation_admin_?: boolean;
-  async_?: boolean;
-  qp_skip_result_metadata_persistence?: boolean;
-  metabase_query_processor_middleware_add_remaps_external_remaps?: MetabaseLibSchemaExternalRemappings;
-  show_row_totals?: boolean | null;
-  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery;
-  qp_pivot_remapped_indexes?: CreateDatasetQueryMetadataRequestQpPivotRemappedIndexesMap;
-  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions;
-  database?: CreateDatasetQueryMetadataRequestDatabase;
-  destination_database_id?: number;
-  qp_pivot_unremapped_breakout_combination?: CreateDatasetQueryMetadataRequestQpPivotUnremappedBreakoutCombinationList;
-  pivot_measures?: CreateDatasetQueryMetadataRequestPivotMeasuresList | null;
-  impersonation_allow_write_?: boolean;
-  pivot_cols?: CreateDatasetQueryMetadataRequestPivotColsList | null;
-  impersonation_role?: string;
-  qp_pivot_num_remapped_breakouts?: number;
-  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery;
+  lib_metadata?: unknown | undefined;
+  show_column_totals?: boolean | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_details?:
+    | MetabaseLibSchemaSandboxingDetails
+    | undefined;
+  user_parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  pivot_rows?: CreateDatasetQueryMetadataRequestPivotRowsList | null | undefined;
+  update_row?: MetabaseLibSchemaActionsRow | undefined;
+  qp_pivot_remapped_breakout_combination?:
+    | CreateDatasetQueryMetadataRequestQpPivotRemappedBreakoutCombinationList
+    | null
+    | undefined;
+  qp_non_default_parameterized_?: boolean | undefined;
+  lib_type?: unknown | undefined;
+  pivot_rows_2?: CreateDatasetQueryMetadataRequestPivotRowsList2 | null | undefined;
+  settings?: MetabaseLibSchemaSettingsSettings | undefined;
+  constraints?: MetabaseLibSchemaConstraintsConstraints | undefined;
+  cache_strategy?: MetabaseLibSchemaCacheStrategy | null | undefined;
+  lib_convert_converted_?: boolean | undefined;
+  info?: MetabaseLibSchemaInfoInfo | undefined;
+  impersonation_admin_?: boolean | undefined;
+  async_?: boolean | undefined;
+  qp_skip_result_metadata_persistence?: boolean | undefined;
+  metabase_query_processor_middleware_add_remaps_external_remaps?:
+    | MetabaseLibSchemaExternalRemappings
+    | undefined;
+  show_row_totals?: boolean | null | undefined;
+  qp_compiled_inline?: MetabaseLibSchemaCompiledNativeQuery | undefined;
+  qp_pivot_remapped_indexes?:
+    | CreateDatasetQueryMetadataRequestQpPivotRemappedIndexesMap
+    | undefined;
+  middleware?: MetabaseLibSchemaMiddlewareOptionsMiddlewareOptions | undefined;
+  database?: CreateDatasetQueryMetadataRequestDatabase | undefined;
+  destination_database_id?: number | undefined;
+  qp_pivot_unremapped_breakout_combination?:
+    | CreateDatasetQueryMetadataRequestQpPivotUnremappedBreakoutCombinationList
+    | undefined;
+  pivot_measures?: CreateDatasetQueryMetadataRequestPivotMeasuresList | null | undefined;
+  impersonation_allow_write_?: boolean | undefined;
+  pivot_cols?: CreateDatasetQueryMetadataRequestPivotColsList | null | undefined;
+  impersonation_role?: string | undefined;
+  qp_pivot_num_remapped_breakouts?: number | undefined;
+  qp_compiled?: MetabaseLibSchemaCompiledNativeQuery | undefined;
   stages: unknown;
-  qp_pivot_num_unremapped_breakouts?: number;
-  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap;
-  viz_settings?: unknown | null;
-  pivot_cols_2?: CreateDatasetQueryMetadataRequestPivotColsList2 | null;
-  show_column_totals_2?: boolean | null;
-  qp_pivot_num_remapped_cols?: number;
-  qp_source_card_id?: number;
-  parameters?: MetabaseLibSchemaParameterParameters;
-  query_permissions_referenced_card_ids?: CreateDatasetQueryMetadataRequestQueryPermissionsReferencedCardIdsList | null;
-  show_row_totals_2?: boolean | null;
-  create_row?: MetabaseLibSchemaActionsRow;
-  pivot_measures_2?: CreateDatasetQueryMetadataRequestPivotMeasuresList2 | null;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?: MetabaseLibSchemaSandboxingOriginalMetadata;
+  qp_pivot_num_unremapped_breakouts?: number | undefined;
+  metabase_query_processor_util_add_alias_info_original?: MetabaseLibSchemaQueryMap | undefined;
+  viz_settings?: unknown | null | undefined;
+  pivot_cols_2?: CreateDatasetQueryMetadataRequestPivotColsList2 | null | undefined;
+  show_column_totals_2?: boolean | null | undefined;
+  qp_pivot_num_remapped_cols?: number | undefined;
+  qp_source_card_id?: number | undefined;
+  parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  query_permissions_referenced_card_ids?:
+    | CreateDatasetQueryMetadataRequestQueryPermissionsReferencedCardIdsList
+    | null
+    | undefined;
+  show_row_totals_2?: boolean | null | undefined;
+  create_row?: MetabaseLibSchemaActionsRow | undefined;
+  pivot_measures_2?: CreateDatasetQueryMetadataRequestPivotMeasuresList2 | null | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_original_metadata?:
+    | MetabaseLibSchemaSandboxingOriginalMetadata
+    | undefined;
   /** Whether this query was originally run as a pivot query. Stamped into the saved `json_query` by `metabase.query-processor.middleware.process-userland-query` and sent back by clients re-downloading pivot query results. */
-  was_pivot?: boolean | null;
+  was_pivot?: boolean | null | undefined;
 }
 export interface CreateDatasetQueryMetadataResponse {}
 export type CreateDataStudioTableDiscardValueRequestDatabaseIdsList = Array<number>;
 export type CreateDataStudioTableDiscardValueRequestSchemaIdsList = Array<string>;
 export type CreateDataStudioTableDiscardValueRequestTableIdsList = Array<number>;
 export interface CreateDataStudioTableDiscardValueRequest {
-  database_ids?: CreateDataStudioTableDiscardValueRequestDatabaseIdsList;
-  schema_ids?: CreateDataStudioTableDiscardValueRequestSchemaIdsList;
-  table_ids?: CreateDataStudioTableDiscardValueRequestTableIdsList;
+  database_ids?: CreateDataStudioTableDiscardValueRequestDatabaseIdsList | undefined;
+  schema_ids?: CreateDataStudioTableDiscardValueRequestSchemaIdsList | undefined;
+  table_ids?: CreateDataStudioTableDiscardValueRequestTableIdsList | undefined;
 }
 export interface CreateDataStudioTableDiscardValueResponse {}
 export type MetabaseDataStudioApiTableDataAuthorities =
@@ -2485,42 +2717,42 @@ export type MetabaseDataStudioApiTableDataSources =
 export type CreateDataStudioTableEditRequestSchemaIdsList = Array<string>;
 export type CreateDataStudioTableEditRequestDatabaseIdsList = Array<number>;
 export interface CreateDataStudioTableEditRequest {
-  data_authority?: MetabaseDataStudioApiTableDataAuthorities | (string & {});
-  data_layer?: MetabaseDataStudioApiTableDataLayers | (string & {}) | null;
-  table_ids?: CreateDataStudioTableEditRequestTableIdsList;
-  owner_email?: string | null;
-  owner_user_id?: number | null;
-  data_source?: MetabaseDataStudioApiTableDataSources | (string & {}) | null;
-  schema_ids?: CreateDataStudioTableEditRequestSchemaIdsList;
-  entity_type?: string | null;
-  database_ids?: CreateDataStudioTableEditRequestDatabaseIdsList;
+  data_authority?: MetabaseDataStudioApiTableDataAuthorities | (string & {}) | undefined;
+  data_layer?: MetabaseDataStudioApiTableDataLayers | (string & {}) | null | undefined;
+  table_ids?: CreateDataStudioTableEditRequestTableIdsList | undefined;
+  owner_email?: string | null | undefined;
+  owner_user_id?: number | null | undefined;
+  data_source?: MetabaseDataStudioApiTableDataSources | (string & {}) | null | undefined;
+  schema_ids?: CreateDataStudioTableEditRequestSchemaIdsList | undefined;
+  entity_type?: string | null | undefined;
+  database_ids?: CreateDataStudioTableEditRequestDatabaseIdsList | undefined;
 }
 export interface CreateDataStudioTableEditResponse {}
 export type CreateDataStudioTableRescanValueRequestDatabaseIdsList = Array<number>;
 export type CreateDataStudioTableRescanValueRequestSchemaIdsList = Array<string>;
 export type CreateDataStudioTableRescanValueRequestTableIdsList = Array<number>;
 export interface CreateDataStudioTableRescanValueRequest {
-  database_ids?: CreateDataStudioTableRescanValueRequestDatabaseIdsList;
-  schema_ids?: CreateDataStudioTableRescanValueRequestSchemaIdsList;
-  table_ids?: CreateDataStudioTableRescanValueRequestTableIdsList;
+  database_ids?: CreateDataStudioTableRescanValueRequestDatabaseIdsList | undefined;
+  schema_ids?: CreateDataStudioTableRescanValueRequestSchemaIdsList | undefined;
+  table_ids?: CreateDataStudioTableRescanValueRequestTableIdsList | undefined;
 }
 export interface CreateDataStudioTableRescanValueResponse {}
 export type CreateDataStudioTableSelectionRequestDatabaseIdsList = Array<number>;
 export type CreateDataStudioTableSelectionRequestSchemaIdsList = Array<string>;
 export type CreateDataStudioTableSelectionRequestTableIdsList = Array<number>;
 export interface CreateDataStudioTableSelectionRequest {
-  database_ids?: CreateDataStudioTableSelectionRequestDatabaseIdsList;
-  schema_ids?: CreateDataStudioTableSelectionRequestSchemaIdsList;
-  table_ids?: CreateDataStudioTableSelectionRequestTableIdsList;
+  database_ids?: CreateDataStudioTableSelectionRequestDatabaseIdsList | undefined;
+  schema_ids?: CreateDataStudioTableSelectionRequestSchemaIdsList | undefined;
+  table_ids?: CreateDataStudioTableSelectionRequestTableIdsList | undefined;
 }
 export interface CreateDataStudioTableSelectionResponse {}
 export type CreateDataStudioTableSyncSchemaRequestDatabaseIdsList = Array<number>;
 export type CreateDataStudioTableSyncSchemaRequestSchemaIdsList = Array<string>;
 export type CreateDataStudioTableSyncSchemaRequestTableIdsList = Array<number>;
 export interface CreateDataStudioTableSyncSchemaRequest {
-  database_ids?: CreateDataStudioTableSyncSchemaRequestDatabaseIdsList;
-  schema_ids?: CreateDataStudioTableSyncSchemaRequestSchemaIdsList;
-  table_ids?: CreateDataStudioTableSyncSchemaRequestTableIdsList;
+  database_ids?: CreateDataStudioTableSyncSchemaRequestDatabaseIdsList | undefined;
+  schema_ids?: CreateDataStudioTableSyncSchemaRequestSchemaIdsList | undefined;
+  table_ids?: CreateDataStudioTableSyncSchemaRequestTableIdsList | undefined;
 }
 export interface CreateDataStudioTableSyncSchemaResponse {}
 export type MetabaseQueriesSchemaCardResultMetadata =
@@ -2528,18 +2760,18 @@ export type MetabaseQueriesSchemaCardResultMetadata =
 export interface CreateDocumentRequestCardsValue {
   /** Value must be a map. */
   visualization_settings: unknown;
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   dataset_query: MetabaseLibSchemaQuery;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  result_metadata?: MetabaseQueriesSchemaCardResultMetadata | null;
-  source_card_id?: number | null;
-  cache_ttl?: number | null;
+  result_metadata?: MetabaseQueriesSchemaCardResultMetadata | null | undefined;
+  source_card_id?: number | null | undefined;
+  cache_ttl?: number | null | undefined;
   /** value must be a non-blank string. */
   display: string;
-  parameters?: MetabaseParametersSchemaParameters | null;
-  description?: string | null;
+  parameters?: MetabaseParametersSchemaParameters | null | undefined;
+  description?: string | null | undefined;
 }
 export type CreateDocumentRequestCardsMap = {
   [key: string]: CreateDocumentRequestCardsValue | undefined;
@@ -2555,48 +2787,51 @@ export type MetabaseDocumentsProseMirrorCardEmbedExploreFilterValue = string | n
 export type MetabaseDocumentsProseMirrorCardEmbedExploreFilterValuesList = Array<unknown>;
 /** One explore-further filter `metabase.explorations` snapshots onto a static card embed: the filter as the client sent it, plus the name of the dimension it is on. Its `:field_ref` is the legacy `field_ref` of the chart column that was clicked. */
 export interface MetabaseDocumentsProseMirrorCardEmbedExploreFilter {
-  dimension_name?: string | null;
+  dimension_name?: string | null | undefined;
   display_value: string;
   field_ref: MetabaseLibSchemaParameterDimensionTarget;
   operator: string;
-  value?: MetabaseDocumentsProseMirrorCardEmbedExploreFilterValue | null;
-  values?: MetabaseDocumentsProseMirrorCardEmbedExploreFilterValuesList;
+  value?: MetabaseDocumentsProseMirrorCardEmbedExploreFilterValue | null | undefined;
+  values?: MetabaseDocumentsProseMirrorCardEmbedExploreFilterValuesList | undefined;
 }
 export type MetabaseDocumentsProseMirrorCardEmbedHostDataExploreFiltersList =
   Array<MetabaseDocumentsProseMirrorCardEmbedExploreFilter>;
 export type MetabaseDocumentsProseMirrorCardEmbedHostDataQueryIdsList = Array<number>;
 /** What `metabase.explorations` writes under `:host_data` of a static card embed so the frontend can render the embed's filter pills and hover highlights without a live lookup. */
 export interface MetabaseDocumentsProseMirrorCardEmbedHostData {
-  explore_filters?: MetabaseDocumentsProseMirrorCardEmbedHostDataExploreFiltersList | null;
-  query_ids?: MetabaseDocumentsProseMirrorCardEmbedHostDataQueryIdsList | null;
+  explore_filters?:
+    | MetabaseDocumentsProseMirrorCardEmbedHostDataExploreFiltersList
+    | null
+    | undefined;
+  query_ids?: MetabaseDocumentsProseMirrorCardEmbedHostDataQueryIdsList | null | undefined;
 }
 /** The `attrs` of a ProseMirror node: the ones this code reads by name, the ones `metabase.explorations` writes onto a static card embed, and whatever else the editor put there -- every node type has its own attributes and the editor owns that set. Every key, declared or not, is a string, so the map never mixes keyword and string keys. */
 export interface MetabaseDocumentsProseMirrorNodeAttrs {
-  model?: string | null;
-  stored_result_id?: number | null;
-  label?: string | null;
-  id?: MetabaseDocumentsProseMirrorNodeEntityId | null;
-  chart_href?: string | null;
-  _id?: string | null;
-  entityId?: MetabaseDocumentsProseMirrorNodeEntityId | null;
-  child_target_id?: string | null;
-  host_data?: MetabaseDocumentsProseMirrorCardEmbedHostData | null;
+  model?: string | null | undefined;
+  stored_result_id?: number | null | undefined;
+  label?: string | null | undefined;
+  id?: MetabaseDocumentsProseMirrorNodeEntityId | null | undefined;
+  chart_href?: string | null | undefined;
+  _id?: string | null | undefined;
+  entityId?: MetabaseDocumentsProseMirrorNodeEntityId | null | undefined;
+  child_target_id?: string | null | undefined;
+  host_data?: MetabaseDocumentsProseMirrorCardEmbedHostData | null | undefined;
   [key: string]: unknown;
 }
 export type MetabaseDocumentsProseMirrorAstContentList = Array<MetabaseDocumentsProseMirrorAst>;
 export type MetabaseDocumentsProseMirrorAstMarksList = Array<MetabaseDocumentsProseMirrorAst>;
 /** Schema for a prose-mirror document AST as it arrives at the API or is read back from the application database: a node in the shape ProseMirror's `Node.toJSON` emits, whose children and marks are nodes too. */
 export interface MetabaseDocumentsProseMirrorAst {
-  attrs?: MetabaseDocumentsProseMirrorNodeAttrs | null;
-  content?: MetabaseDocumentsProseMirrorAstContentList | null;
-  marks?: MetabaseDocumentsProseMirrorAstMarksList | null;
-  text?: string | null;
+  attrs?: MetabaseDocumentsProseMirrorNodeAttrs | null | undefined;
+  content?: MetabaseDocumentsProseMirrorAstContentList | null | undefined;
+  marks?: MetabaseDocumentsProseMirrorAstMarksList | null | undefined;
+  text?: string | null | undefined;
   type: string;
 }
 export interface CreateDocumentRequest {
-  cards?: CreateDocumentRequestCardsMap | null;
-  collection_id?: number | null;
-  collection_position?: number | null;
+  cards?: CreateDocumentRequestCardsMap | null | undefined;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
   document: MetabaseDocumentsProseMirrorAst;
   /** value must be a non-blank string between 1 and 254 characters. */
   name: string;
@@ -2605,9 +2840,9 @@ export interface CreateDocumentResponse {}
 export interface CreateDocumentCopyRequest {
   /** value must be an integer greater than zero. */
   from_document_id: number;
-  collection_id?: number | null;
-  collection_position?: number | null;
-  name?: string | null;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
+  name?: string | null | undefined;
 }
 export interface CreateDocumentCopyResponse {}
 export interface CreateDocumentPublicLinkRequest {
@@ -2630,26 +2865,26 @@ export type MetabaseEnterpriseActionV2ApiActionValueMap = { [key: string]: unkno
 export type MetabaseActionsTypesScopeRawUnknown = "model-action";
 export interface MetabaseActionsTypesScopeRaw {
   /** value must be an integer greater than zero. */
-  webhook_id?: number;
+  webhook_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  model_id?: number;
-  database_id?: number;
+  model_id?: number | undefined;
+  database_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  dashcard_id?: number;
+  dashcard_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  table_id?: number;
+  table_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  card_id?: number;
-  collection_id?: number;
+  card_id?: number | undefined;
+  collection_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  dashboard_id?: number;
-  unknown?: MetabaseActionsTypesScopeRawUnknown | (string & {});
-  type?: string;
+  dashboard_id?: number | undefined;
+  unknown?: MetabaseActionsTypesScopeRawUnknown | (string & {}) | undefined;
+  type?: string | undefined;
 }
 export interface CreateEeActionV2ExecuteRequest {
   action: MetabaseEnterpriseActionV2ApiApiActionIdOrExpression;
-  input?: MetabaseEnterpriseActionV2ApiActionValueMap;
-  params?: MetabaseEnterpriseActionV2ApiActionValueMap;
+  input?: MetabaseEnterpriseActionV2ApiActionValueMap | undefined;
+  params?: MetabaseEnterpriseActionV2ApiActionValueMap | undefined;
   scope: MetabaseActionsTypesScopeRaw;
 }
 export interface CreateEeActionV2ExecuteResponse {}
@@ -2658,13 +2893,13 @@ export type CreateEeActionV2ExecuteBulkRequestInputsList =
 export interface CreateEeActionV2ExecuteBulkRequest {
   action: MetabaseEnterpriseActionV2ApiApiActionIdOrExpression;
   inputs: CreateEeActionV2ExecuteBulkRequestInputsList;
-  params?: MetabaseEnterpriseActionV2ApiActionValueMap;
+  params?: MetabaseEnterpriseActionV2ApiActionValueMap | undefined;
   scope: MetabaseActionsTypesScopeRaw;
 }
 export interface CreateEeActionV2ExecuteBulkResponse {}
 export interface CreateEeActionV2ExecuteFormRequest {
   action: MetabaseEnterpriseActionV2ApiApiActionIdOrExpression;
-  input?: MetabaseEnterpriseActionV2ApiActionValueMap;
+  input?: MetabaseEnterpriseActionV2ApiActionValueMap | undefined;
   scope: MetabaseActionsTypesScopeRaw;
 }
 export interface CreateEeActionV2ExecuteFormResponse {}
@@ -2750,7 +2985,7 @@ export interface CreateEeCustomVizPluginResponse {}
 export interface CreateEeCustomVizPluginDevRequest {
   /** value must be a non-blank string. */
   dev_bundle_url: string;
-  identifier?: string | null;
+  identifier?: string | null | undefined;
 }
 export interface CreateEeCustomVizPluginDevResponse {}
 export interface CreateEeCustomVizPluginRefreshRequest {
@@ -2771,7 +3006,9 @@ export interface CreateEeDatabaseReplicationConnectionDatabasePreviewRequestRepl
 export interface CreateEeDatabaseReplicationConnectionDatabasePreviewRequest {
   /** value must be an integer greater than zero. */
   database_id: number;
-  replicationSchemaFilters?: CreateEeDatabaseReplicationConnectionDatabasePreviewRequestReplicationSchemaFilters;
+  replicationSchemaFilters?:
+    | CreateEeDatabaseReplicationConnectionDatabasePreviewRequestReplicationSchemaFilters
+    | undefined;
 }
 export interface CreateEeDatabaseReplicationConnectionDatabasePreviewResponse {}
 export interface CreateEeDatabaseRoutingDestinationDatabaseRequestDestinationsItem {
@@ -2784,7 +3021,7 @@ export type CreateEeDatabaseRoutingDestinationDatabaseRequestDestinationsList =
   Array<CreateEeDatabaseRoutingDestinationDatabaseRequestDestinationsItem>;
 export interface CreateEeDatabaseRoutingDestinationDatabaseRequest {
   /** value must be a valid boolean string ('true' or 'false'). */
-  check_connection_details?: boolean;
+  check_connection_details?: boolean | undefined;
   destinations: CreateEeDatabaseRoutingDestinationDatabaseRequestDestinationsList;
   /** value must be an integer greater than zero. */
   router_database_id: number;
@@ -2796,18 +3033,18 @@ export type CreateEeDataStudioTablePublishTableRequestTableIdsList = Array<numbe
 export interface CreateEeDataStudioTablePublishTableRequest {
   /** value must be an integer greater than zero. */
   collection_id: number;
-  database_ids?: CreateEeDataStudioTablePublishTableRequestDatabaseIdsList;
-  schema_ids?: CreateEeDataStudioTablePublishTableRequestSchemaIdsList;
-  table_ids?: CreateEeDataStudioTablePublishTableRequestTableIdsList;
+  database_ids?: CreateEeDataStudioTablePublishTableRequestDatabaseIdsList | undefined;
+  schema_ids?: CreateEeDataStudioTablePublishTableRequestSchemaIdsList | undefined;
+  table_ids?: CreateEeDataStudioTablePublishTableRequestTableIdsList | undefined;
 }
 export interface CreateEeDataStudioTablePublishTableResponse {}
 export type CreateEeDataStudioTableUnpublishTableRequestDatabaseIdsList = Array<number>;
 export type CreateEeDataStudioTableUnpublishTableRequestSchemaIdsList = Array<string>;
 export type CreateEeDataStudioTableUnpublishTableRequestTableIdsList = Array<number>;
 export interface CreateEeDataStudioTableUnpublishTableRequest {
-  database_ids?: CreateEeDataStudioTableUnpublishTableRequestDatabaseIdsList;
-  schema_ids?: CreateEeDataStudioTableUnpublishTableRequestSchemaIdsList;
-  table_ids?: CreateEeDataStudioTableUnpublishTableRequestTableIdsList;
+  database_ids?: CreateEeDataStudioTableUnpublishTableRequestDatabaseIdsList | undefined;
+  schema_ids?: CreateEeDataStudioTableUnpublishTableRequestSchemaIdsList | undefined;
+  table_ids?: CreateEeDataStudioTableUnpublishTableRequestTableIdsList | undefined;
 }
 export interface CreateEeDataStudioTableUnpublishTableResponse {}
 export interface CreateEeGsheetsConnectionRequest {
@@ -2854,19 +3091,19 @@ export interface CreateEeRemoteSyncCurrentTaskCancelResponse {}
 export interface CreateEeRemoteSyncExportRequest {
   /** value must be a non-blank string. */
   branch: string;
-  force?: boolean;
-  merge?: boolean;
+  force?: boolean | undefined;
+  merge?: boolean | undefined;
   /** value must be a non-blank string. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CreateEeRemoteSyncExportResponse {}
 export interface CreateEeRemoteSyncImportRequest {
   /** value must be a non-blank string. */
-  branch?: string;
+  branch?: string | undefined;
   /** value must be a non-blank string. */
-  expected_branch?: string;
-  force?: boolean;
-  merge?: boolean;
+  expected_branch?: string | undefined;
+  force?: boolean | undefined;
+  merge?: boolean | undefined;
 }
 export interface CreateEeRemoteSyncImportResponse {}
 export interface CreateEeRemoteSyncStashRequest {
@@ -2877,8 +3114,8 @@ export interface CreateEeRemoteSyncStashRequest {
 }
 export interface CreateEeRemoteSyncStashResponse {}
 export interface CreateEeRemoteSyncTestConnectionRequest {
-  remote_sync_token?: string | null;
-  remote_sync_url?: string | null;
+  remote_sync_token?: string | null | undefined;
+  remote_sync_url?: string | null | undefined;
 }
 export interface CreateEeRemoteSyncTestConnectionResponse {}
 export type MetabaseEnterpriseReplacementSchemaSourceEntityType = "card" | "table" | "transform";
@@ -2902,25 +3139,25 @@ export interface CreateEeReplacementRunCancelRequest {
 export interface CreateEeReplacementRunCancelResponse {}
 export interface CreateEeScimGroupRequestMembersItem {
   /** value must be a non-blank string. */
-  _ref?: string;
+  _ref?: string | undefined;
   /** value must be a non-blank string. */
-  display?: string;
+  display?: string | undefined;
   /** value must be a non-blank string. */
   value: string;
 }
 export type CreateEeScimGroupRequestMembersList = Array<CreateEeScimGroupRequestMembersItem>;
 export interface CreateEeScimGroupRequestMeta {
   /** value must be a non-blank string. */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type CreateEeScimGroupRequestSchemasList = Array<string>;
 export interface CreateEeScimGroupRequest {
   /** value must be a non-blank string. */
   displayName: string;
   /** value must be a non-blank string. */
-  id?: string;
-  members?: CreateEeScimGroupRequestMembersList;
-  meta?: CreateEeScimGroupRequestMeta;
+  id?: string | undefined;
+  members?: CreateEeScimGroupRequestMembersList | undefined;
+  meta?: CreateEeScimGroupRequestMeta | undefined;
   schemas: CreateEeScimGroupRequestSchemasList;
 }
 export interface CreateEeScimGroupResponse {}
@@ -2933,16 +3170,16 @@ export interface CreateEeScimUserRequestName {
 }
 export type CreateEeScimUserRequestMeta = CreateEeScimGroupRequestMeta;
 export interface CreateEeScimUserRequestEmailsItem {
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** value must be a non-blank string. */
-  type?: string;
+  type?: string | undefined;
   /** value must be a non-blank string. */
   value: string;
 }
 export type CreateEeScimUserRequestEmailsList = Array<CreateEeScimUserRequestEmailsItem>;
 export interface CreateEeScimUserRequestGroupsItem {
   /** value must be a non-blank string. */
-  _ref?: string;
+  _ref?: string | undefined;
   /** value must be a non-blank string. */
   display: string;
   /** value must be a non-blank string. */
@@ -2952,15 +3189,15 @@ export type CreateEeScimUserRequestGroupsList = Array<CreateEeScimUserRequestGro
 export interface CreateEeScimUserRequest {
   schemas: CreateEeScimUserRequestSchemasList;
   /** value must be a non-blank string. */
-  id?: string;
+  id?: string | undefined;
   name: CreateEeScimUserRequestName;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** value must be a non-blank string. */
   userName: string;
-  meta?: CreateEeScimGroupRequestMeta;
+  meta?: CreateEeScimGroupRequestMeta | undefined;
   emails: CreateEeScimUserRequestEmailsList;
-  active?: boolean;
-  groups?: CreateEeScimUserRequestGroupsList;
+  active?: boolean | undefined;
+  groups?: CreateEeScimUserRequestGroupsList | undefined;
 }
 export interface CreateEeScimUserResponse {}
 export type CreateEeSecurityCenterAcknowledgeRequestAdvisoryIdsList = Array<string>;
@@ -2995,35 +3232,35 @@ export type MetabaseNotificationModelsEchoedUserAttributesMap = {
 };
 /** A hydrated User as a client hands it back on update: a `::users.schema/user` whose timestamps may be the ISO strings they were encoded as on the way out. */
 export interface MetabaseNotificationModelsEchoedUser {
-  login_attributes?: MetabaseNotificationModelsEchoedUserLoginAttributesMap | null;
-  sso_source?: string | null;
-  jwt_attributes?: MetabaseNotificationModelsEchoedUserJwtAttributesMap | null;
-  is_qbnewb?: boolean | null;
-  user_group_memberships?: MetabaseNotificationModelsEchoedUserUserGroupMembershipsList;
-  reset_token?: string | null;
-  settings?: unknown | null;
-  deactivated_at?: string | null;
-  entity_id?: string | null;
-  is_active?: boolean | null;
-  last_login?: string | null;
+  login_attributes?: MetabaseNotificationModelsEchoedUserLoginAttributesMap | null | undefined;
+  sso_source?: string | null | undefined;
+  jwt_attributes?: MetabaseNotificationModelsEchoedUserJwtAttributesMap | null | undefined;
+  is_qbnewb?: boolean | null | undefined;
+  user_group_memberships?: MetabaseNotificationModelsEchoedUserUserGroupMembershipsList | undefined;
+  reset_token?: string | null | undefined;
+  settings?: unknown | null | undefined;
+  deactivated_at?: string | null | undefined;
+  entity_id?: string | null | undefined;
+  is_active?: boolean | null | undefined;
+  last_login?: string | null | undefined;
   id: number;
-  email?: string | null;
-  password_salt?: string | null;
-  deactivated_with_tenant?: boolean | null;
-  is_data_analyst?: boolean | null;
-  locale?: string | null;
-  updated_at?: string | null;
-  is_datasetnewb?: boolean | null;
-  reset_triggered?: number | null;
-  is_superuser?: boolean | null;
-  tenant_id?: number | null;
-  last_name?: string | null;
-  attributes?: MetabaseNotificationModelsEchoedUserAttributesMap | null;
-  first_name?: string | null;
-  type?: string | null;
-  date_joined?: string | null;
-  password?: string | null;
-  common_name?: string | null;
+  email?: string | null | undefined;
+  password_salt?: string | null | undefined;
+  deactivated_with_tenant?: boolean | null | undefined;
+  is_data_analyst?: boolean | null | undefined;
+  locale?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  is_datasetnewb?: boolean | null | undefined;
+  reset_triggered?: number | null | undefined;
+  is_superuser?: boolean | null | undefined;
+  tenant_id?: number | null | undefined;
+  last_name?: string | null | undefined;
+  attributes?: MetabaseNotificationModelsEchoedUserAttributesMap | null | undefined;
+  first_name?: string | null | undefined;
+  type?: string | null | undefined;
+  date_joined?: string | null | undefined;
+  password?: string | null | undefined;
+  common_name?: string | null | undefined;
 }
 export type MetabaseNotificationModelsNotificationRecipientCase0Type =
   | "notification-recipient/raw-value"
@@ -3033,16 +3270,16 @@ export type MetabaseNotificationModelsNotificationRecipientCase0Type =
 export interface MetabaseNotificationModelsNotificationRecipientCase0 {
   /** value must be an integer greater than zero. */
   user_id: number;
-  user?: MetabaseNotificationModelsEchoedUser | null;
+  user?: MetabaseNotificationModelsEchoedUser | null | undefined;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
-  permissions_group_id?: unknown | null;
-  updated_at?: string | null;
+  notification_handler_id?: number | undefined;
+  permissions_group_id?: unknown | null | undefined;
+  updated_at?: string | null | undefined;
   type: MetabaseNotificationModelsNotificationRecipientCase0Type | (string & {});
-  details?: unknown | null;
-  created_at?: string | null;
+  details?: unknown | null | undefined;
+  created_at?: string | null | undefined;
 }
 export type MetabaseNotificationModelsNotificationRecipientCase1Type =
   | "notification-recipient/raw-value"
@@ -3058,12 +3295,12 @@ export interface MetabasePermissionsSchemaPermissionsGroupMember {
   /** value must be an integer greater than zero. */
   id: number;
   email: string;
-  is_group_manager?: boolean | null;
+  is_group_manager?: boolean | null | undefined;
   is_superuser: boolean;
   last_name: string | null;
   first_name: string | null;
   type: string;
-  common_name?: string | null;
+  common_name?: string | null | undefined;
   /** value must be an integer greater than zero. */
   membership_id: number;
 }
@@ -3071,30 +3308,35 @@ export type MetabaseNotificationModelsNotificationRecipientCase1PermissionsGroup
   Array<MetabasePermissionsSchemaPermissionsGroupMember>;
 /** What an update (or insert) of a PermissionsGroup accepts: every column of `:permissions_group` except `id`, all optional. */
 export interface MetabaseNotificationModelsNotificationRecipientCase1PermissionsGroup {
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   /** value must be an integer greater than zero. */
   id: number;
-  is_tenant_group?: boolean | null;
-  magic_group_type?: string | null;
-  members?: MetabaseNotificationModelsNotificationRecipientCase1PermissionsGroupMembersList;
-  name?: string | null;
+  is_tenant_group?: boolean | null | undefined;
+  magic_group_type?: string | null | undefined;
+  members?:
+    | MetabaseNotificationModelsNotificationRecipientCase1PermissionsGroupMembersList
+    | undefined;
+  name?: string | null | undefined;
 }
 export interface MetabaseNotificationModelsNotificationRecipientCase1 {
-  user_id?: unknown | null;
+  user_id?: unknown | null | undefined;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
+  notification_handler_id?: number | undefined;
   /** value must be an integer greater than zero. */
   permissions_group_id: number;
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
   type: MetabaseNotificationModelsNotificationRecipientCase1Type | (string & {});
-  details?: unknown | null;
-  created_at?: string | null;
-  permissions_group?: MetabaseNotificationModelsNotificationRecipientCase1PermissionsGroup | null;
+  details?: unknown | null | undefined;
+  created_at?: string | null | undefined;
+  permissions_group?:
+    | MetabaseNotificationModelsNotificationRecipientCase1PermissionsGroup
+    | null
+    | undefined;
 }
 export interface MetabaseNotificationModelsNotificationRecipientCase2Details {
-  channel_id?: string | null;
+  channel_id?: string | null | undefined;
   value: string;
 }
 export type MetabaseNotificationModelsNotificationRecipientCase2Type =
@@ -3103,19 +3345,19 @@ export type MetabaseNotificationModelsNotificationRecipientCase2Type =
   | "notification-recipient/template"
   | "notification-recipient/group";
 export interface MetabaseNotificationModelsNotificationRecipientCase2 {
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   details: MetabaseNotificationModelsNotificationRecipientCase2Details;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
-  permissions_group_id?: unknown | null;
+  notification_handler_id?: number | undefined;
+  permissions_group_id?: unknown | null | undefined;
   type: MetabaseNotificationModelsNotificationRecipientCase2Type | (string & {});
-  updated_at?: string | null;
-  user_id?: unknown | null;
+  updated_at?: string | null | undefined;
+  user_id?: unknown | null | undefined;
 }
 export interface MetabaseNotificationModelsNotificationRecipientCase3Details {
-  is_optional?: boolean;
+  is_optional?: boolean | undefined;
   pattern: string;
 }
 export type MetabaseNotificationModelsNotificationRecipientCase3Type =
@@ -3124,16 +3366,16 @@ export type MetabaseNotificationModelsNotificationRecipientCase3Type =
   | "notification-recipient/template"
   | "notification-recipient/group";
 export interface MetabaseNotificationModelsNotificationRecipientCase3 {
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   details: MetabaseNotificationModelsNotificationRecipientCase3Details;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
-  permissions_group_id?: unknown | null;
+  notification_handler_id?: number | undefined;
+  permissions_group_id?: unknown | null | undefined;
   type: MetabaseNotificationModelsNotificationRecipientCase3Type | (string & {});
-  updated_at?: string | null;
-  user_id?: unknown | null;
+  updated_at?: string | null | undefined;
+  user_id?: unknown | null | undefined;
 }
 /** Schema for :model/NotificationRecipient. */
 export type MetabaseNotificationModelsNotificationRecipient =
@@ -3144,8 +3386,11 @@ export type MetabaseNotificationModelsNotificationRecipient =
 export type CreateEeSecurityCenterTestNotificationRequestEmailRecipientsList =
   Array<MetabaseNotificationModelsNotificationRecipient>;
 export interface CreateEeSecurityCenterTestNotificationRequest {
-  email_recipients?: CreateEeSecurityCenterTestNotificationRequestEmailRecipientsList | null;
-  slack_channel?: string | null;
+  email_recipients?:
+    | CreateEeSecurityCenterTestNotificationRequestEmailRecipientsList
+    | null
+    | undefined;
+  slack_channel?: string | null | undefined;
 }
 export interface CreateEeSecurityCenterTestNotificationResponse {}
 export type CreateEeSerializationExportRequestCollectionItem = number | string;
@@ -3153,21 +3398,21 @@ export type CreateEeSerializationExportRequestCollectionList =
   Array<CreateEeSerializationExportRequestCollectionItem>;
 export interface CreateEeSerializationExportRequest {
   /** name of directory and archive file (default: `<instance-name>-<YYYY-MM-dd_HH-mm>`): 1-255 characters from A-Z a-z 0-9 _ - . %, not starting with . or - */
-  dirname?: string;
+  dirname?: string | undefined;
   /** collections' db ids/entity-ids to serialize */
-  collection?: CreateEeSerializationExportRequestCollectionList;
+  collection?: CreateEeSerializationExportRequestCollectionList | undefined;
   /** Serialize all collections (`true` unless you specify `collection`) */
-  all_collections?: boolean;
+  all_collections?: boolean | undefined;
   /** Serialize Metabase settings */
-  settings?: boolean;
+  settings?: boolean | undefined;
   /** Serialize Metabase data model */
-  data_model?: boolean;
+  data_model?: boolean | undefined;
   /** Serialize cached field values */
-  field_values?: boolean;
+  field_values?: boolean | undefined;
   /** Do not break execution on errors */
-  continue_on_error?: boolean;
+  continue_on_error?: boolean | undefined;
   /** Show full stacktraces in the logs */
-  full_stacktrace?: boolean;
+  full_stacktrace?: boolean | undefined;
 }
 export interface CreateEeSerializationExportResponse {}
 /** .tgz with serialization data */
@@ -3179,11 +3424,11 @@ export interface CreateEeSerializationImportRequestFile {
 }
 export interface CreateEeSerializationImportRequest {
   /** Do not break execution on errors */
-  continue_on_error?: boolean;
+  continue_on_error?: boolean | undefined;
   /** Show full stacktraces in the logs */
-  full_stacktrace?: boolean;
+  full_stacktrace?: boolean | undefined;
   /** Rebuild the search index afterwards */
-  reindex?: boolean;
+  reindex?: boolean | undefined;
   /** .tgz with serialization data */
   file: CreateEeSerializationImportRequestFile;
 }
@@ -3199,34 +3444,40 @@ export type MetabaseEnterpriseSessionManagementSchemaSessionType = "normal" | "f
 /** The criteria the list and the revoke share: every one of them can match a live session. */
 export interface MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParams {
   /** value must be a valid date string */
-  last_active_before?: string;
-  query?: unknown;
-  ended_after?: unknown;
-  provider?: unknown;
-  ids?: MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParamsIdsList;
-  tenancy?: MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParamsTenancy | (string & {});
-  status?: MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParamsStatus | (string & {});
+  last_active_before?: string | undefined;
+  query?: unknown | undefined;
+  ended_after?: unknown | undefined;
+  provider?: unknown | undefined;
+  ids?: MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParamsIdsList | undefined;
+  tenancy?:
+    | MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParamsTenancy
+    | (string & {})
+    | undefined;
+  status?:
+    | MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParamsStatus
+    | (string & {})
+    | undefined;
   /** value must be an integer greater than zero. */
-  user_id?: number;
+  user_id?: number | undefined;
   /** value must be a valid date string */
-  last_active_after?: string;
-  type?: MetabaseEnterpriseSessionManagementSchemaSessionType | (string & {});
-  reason?: unknown;
-  exclude_current?: boolean;
-  ended_before?: unknown;
+  last_active_after?: string | undefined;
+  type?: MetabaseEnterpriseSessionManagementSchemaSessionType | (string & {}) | undefined;
+  reason?: unknown | undefined;
+  exclude_current?: boolean | undefined;
+  ended_before?: unknown | undefined;
   /** value must be a valid date string */
-  created_after?: string;
+  created_after?: string | undefined;
   /** value must be a valid date string */
-  created_before?: string;
+  created_before?: string | undefined;
 }
 export interface CreateEeSessionManagementRevokeRequest {
-  body?: MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParams | null;
+  body?: MetabaseEnterpriseSessionManagementApiRevokeByCriteriaParams | null | undefined;
 }
 export interface CreateEeSessionManagementRevokeResponse {}
 export interface CreateEeSupportAccessGrantRequest {
   grant_duration_minutes: number;
-  notes?: string | null;
-  ticket_number?: string | null;
+  notes?: string | null | undefined;
+  ticket_number?: string | null | undefined;
 }
 export interface CreateEeSupportAccessGrantResponse {}
 /** Value must be a map. */
@@ -3234,7 +3485,7 @@ export type CreateEeTenantRequestAttributesMap = {
   [key: string]: MetabaseLibSchemaParameterParameterValue | undefined;
 };
 export interface CreateEeTenantRequest {
-  attributes?: CreateEeTenantRequestAttributesMap | null;
+  attributes?: CreateEeTenantRequestAttributesMap | null | undefined;
   /** value must be a non-blank string. */
   name: string;
   /** invalid slug */
@@ -3249,24 +3500,24 @@ export interface CreateEeTransformInspectQueryRequest {
   id: number;
   /** value must be a non-blank string. */
   lens_id: string;
-  lens_params?: MetabaseLibSchemaInfoInfoLensParams | null;
+  lens_params?: MetabaseLibSchemaInfoInfoLensParams | null | undefined;
   query: MetabaseLibSchemaQuery;
 }
 export interface CreateEeTransformInspectQueryResponse {}
 /** A source table entry in the array format. Combines alias with table reference. Callers may supply just `:table_id` (looked up to fill in `:database_id`/`:schema`/`:table`) or just `:database_id`/`:schema`/`:table` (looked up to fill in `:table_id`), so only `:alias` is required. */
 export interface MetabaseTransformsBaseUtilSourceTableEntry {
   alias: string;
-  database_id?: number | null;
-  schema?: string | null;
-  table?: string;
-  table_id?: number | null;
+  database_id?: number | null | undefined;
+  schema?: string | null | undefined;
+  table?: string | undefined;
+  table_id?: number | null | undefined;
 }
 export type CreateEeTransformsPythonTestRunRequestSourceTablesList =
   Array<MetabaseTransformsBaseUtilSourceTableEntry>;
 export interface CreateEeTransformsPythonTestRunRequest {
   code: string;
-  output_row_limit?: unknown;
-  per_input_row_limit?: unknown;
+  output_row_limit?: unknown | undefined;
+  per_input_row_limit?: unknown | undefined;
   source_tables: CreateEeTransformsPythonTestRunRequestSourceTablesList;
 }
 export interface CreateEeTransformsPythonTestRunResponse {}
@@ -3319,7 +3570,7 @@ export type MetabaseEnterpriseTransformTestingSchemaExpectations =
 /** A table read by the transform under test, by schema and name. */
 export interface MetabaseEnterpriseTransformTestingSchemaTable {
   name: string;
-  schema?: string | null;
+  schema?: string | null | undefined;
 }
 /** Test data returned by a SQL query run against the transform's source database. */
 export interface MetabaseEnterpriseTransformTestingSchemaInputCase0 {
@@ -3346,7 +3597,7 @@ export type MetabaseEnterpriseTransformTestingSchemaInput =
 export type MetabaseEnterpriseTransformTestingSchemaInputs =
   Array<MetabaseEnterpriseTransformTestingSchemaInput>;
 export interface CreateEeTransformTestRequest {
-  description?: string | null;
+  description?: string | null | undefined;
   expectations: MetabaseEnterpriseTransformTestingSchemaExpectations;
   inputs: MetabaseEnterpriseTransformTestingSchemaInputs;
   name: string;
@@ -3375,13 +3626,13 @@ export interface CreateEmbedMcpDrillRequest {
 }
 export interface CreateEmbedMcpDrillResponse {}
 export interface CreateEmbedMcpFeedbackRequestConversationData {
-  prompt?: string | null;
-  query?: string | null;
+  prompt?: string | null | undefined;
+  query?: string | null | undefined;
   source: unknown;
 }
 export interface CreateEmbedMcpFeedbackRequestFeedback {
-  freeform_feedback?: string | null;
-  issue_type?: string | null;
+  freeform_feedback?: string | null | undefined;
+  issue_type?: string | null | undefined;
   positive: boolean;
 }
 export interface CreateEmbedMcpFeedbackRequest {
@@ -3422,9 +3673,9 @@ export interface CreateEmbedThemeSeedDefaultResponse {}
 export interface CreateExplorationRequestBlocksItemDimensionsItem {
   /** value must be a valid UUID. */
   dimension_id: string;
-  display_name?: string | null;
-  effective_type?: string | null;
-  semantic_type?: string | null;
+  display_name?: string | null | undefined;
+  effective_type?: string | null | undefined;
+  semantic_type?: string | null | undefined;
 }
 export type CreateExplorationRequestBlocksItemDimensionsList =
   Array<CreateExplorationRequestBlocksItemDimensionsItem>;
@@ -3433,34 +3684,37 @@ export type MetabaseMetricsDimensionDimensionMappingType = "table";
 /** The internal (kebab-case) dimension-mapping shape annotated with its wire-conversion rules. `:type` is optional on the wire (FE payloads may omit it); `:dimension-id` keeps the strict uuid schema. */
 export interface MetabaseMetricsDimensionDimensionMapping {
   dimension_id: string;
-  table_id?: number | null;
+  table_id?: number | null | undefined;
   target: unknown;
   /** Type of dimension mapping. */
-  type?: MetabaseMetricsDimensionDimensionMappingType | (string & {});
+  type?: MetabaseMetricsDimensionDimensionMappingType | (string & {}) | undefined;
 }
 export type CreateExplorationRequestBlocksItemMetricsItemDimensionMappingsList =
   Array<MetabaseMetricsDimensionDimensionMapping>;
 export interface CreateExplorationRequestBlocksItemMetricsItem {
   /** value must be an integer greater than zero. */
   card_id: number;
-  dimension_mappings?: CreateExplorationRequestBlocksItemMetricsItemDimensionMappingsList | null;
+  dimension_mappings?:
+    | CreateExplorationRequestBlocksItemMetricsItemDimensionMappingsList
+    | null
+    | undefined;
 }
 export type CreateExplorationRequestBlocksItemMetricsList =
   Array<CreateExplorationRequestBlocksItemMetricsItem>;
 export interface CreateExplorationRequestBlocksItem {
-  dimensions?: CreateExplorationRequestBlocksItemDimensionsList | null;
-  metrics?: CreateExplorationRequestBlocksItemMetricsList | null;
+  dimensions?: CreateExplorationRequestBlocksItemDimensionsList | null | undefined;
+  metrics?: CreateExplorationRequestBlocksItemMetricsList | null | undefined;
 }
 export type CreateExplorationRequestBlocksList = Array<CreateExplorationRequestBlocksItem>;
 export type CreateExplorationRequestTimelineIdsList = Array<number>;
 export interface CreateExplorationRequest {
-  blocks?: CreateExplorationRequestBlocksList | null;
-  collection_id?: number | null;
-  description?: string | null;
+  blocks?: CreateExplorationRequestBlocksList | null | undefined;
+  collection_id?: number | null | undefined;
+  description?: string | null | undefined;
   /** value must be a non-blank string between 1 and 254 characters. */
   name: string;
-  prompt?: string | null;
-  timeline_ids?: CreateExplorationRequestTimelineIdsList | null;
+  prompt?: string | null | undefined;
+  timeline_ids?: CreateExplorationRequestTimelineIdsList | null | undefined;
 }
 export interface CreateExplorationResponse {}
 export type CreateExplorationExploreFurtherRequestExploreFiltersItemCase0Value =
@@ -3468,7 +3722,7 @@ export type CreateExplorationExploreFurtherRequestExploreFiltersItemCase0Value =
   | number
   | boolean;
 export interface CreateExplorationExploreFurtherRequestExploreFiltersItemCase0 {
-  dimension_name?: string | null;
+  dimension_name?: string | null | undefined;
   /** value must be a non-blank string. */
   display_value: string;
   field_ref: MetabaseLibSchemaParameterDimensionTarget;
@@ -3478,7 +3732,7 @@ export interface CreateExplorationExploreFurtherRequestExploreFiltersItemCase0 {
 export type CreateExplorationExploreFurtherRequestExploreFiltersItemCase1ValuesList =
   Array<unknown>;
 export interface CreateExplorationExploreFurtherRequestExploreFiltersItemCase1 {
-  dimension_name?: string | null;
+  dimension_name?: string | null | undefined;
   /** value must be a non-blank string. */
   display_value: string;
   field_ref: MetabaseLibSchemaParameterDimensionTarget;
@@ -3522,7 +3776,7 @@ export type CreateFieldDimensionRequestType = "internal" | "external";
 export interface CreateFieldDimensionRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  human_readable_field_id?: number | null;
+  human_readable_field_id?: number | null | undefined;
   /** value must be a non-blank string. */
   name: string;
   type: CreateFieldDimensionRequestType | (string & {});
@@ -3569,7 +3823,7 @@ export interface CreateGlossaryRequest {
 export interface CreateGlossaryResponse {}
 export type MetabaseIndexesSchemaColumnDirection = "asc" | "desc";
 export interface MetabaseIndexesSchemaColumn {
-  direction?: MetabaseIndexesSchemaColumnDirection | (string & {});
+  direction?: MetabaseIndexesSchemaColumnDirection | (string & {}) | undefined;
   name: string;
 }
 export type MetabaseIndexesSchemaClassicalIndexColumnsList = Array<MetabaseIndexesSchemaColumn>;
@@ -3589,10 +3843,10 @@ export type MetabaseIndexesSchemaClassicalIndexKind =
 /** Postgres / MySQL / SQL Server secondary index. */
 export interface MetabaseIndexesSchemaClassicalIndex {
   columns: MetabaseIndexesSchemaClassicalIndexColumnsList;
-  include?: MetabaseIndexesSchemaClassicalIndexIncludeList;
+  include?: MetabaseIndexesSchemaClassicalIndexIncludeList | undefined;
   kind: MetabaseIndexesSchemaClassicalIndexKind | (string & {});
   name: string;
-  unique?: boolean;
+  unique?: boolean | undefined;
 }
 export type MetabaseIndexesSchemaSortkeyColumnsList = Array<MetabaseIndexesSchemaColumn>;
 export type MetabaseIndexesSchemaSortkeyStyle = "compound" | "interleaved";
@@ -3606,7 +3860,7 @@ export type MetabaseIndexesSchemaDistkeyColumnsList = Array<MetabaseIndexesSchem
 export type MetabaseIndexesSchemaDistkeyStyle = "key" | "all" | "even";
 /** Redshift distribution, inline. Only `:key` uses a column (the one DISTKEY column); `:all`/`:even` take none. */
 export interface MetabaseIndexesSchemaDistkey {
-  columns?: MetabaseIndexesSchemaDistkeyColumnsList;
+  columns?: MetabaseIndexesSchemaDistkeyColumnsList | undefined;
   kind: unknown;
   style: MetabaseIndexesSchemaDistkeyStyle | (string & {});
 }
@@ -3615,7 +3869,7 @@ export type MetabaseIndexesSchemaClusteringColumnsList = Array<MetabaseIndexesSc
 export interface MetabaseIndexesSchemaClustering {
   columns: MetabaseIndexesSchemaClusteringColumnsList;
   kind: unknown;
-  name?: string;
+  name?: string | undefined;
 }
 export type MetabaseIndexesSchemaOrderByColumnsList = Array<MetabaseIndexesSchemaColumn>;
 /** ClickHouse ORDER BY, inline. */
@@ -3628,7 +3882,7 @@ export type MetabaseIndexesSchemaSkipIndexType = "minmax" | "bloom_filter";
 /** ClickHouse data-skipping index, standalone. Only arg-free types; the parameterized ones need type-args the form can't supply yet. */
 export interface MetabaseIndexesSchemaSkipIndex {
   columns: MetabaseIndexesSchemaSkipIndexColumnsList;
-  granularity?: number;
+  granularity?: number | undefined;
   kind: unknown;
   name: string;
   type: MetabaseIndexesSchemaSkipIndexType | (string & {});
@@ -3654,7 +3908,7 @@ export interface CreateKeyRequest {
 }
 export interface CreateKeyResponse {}
 export interface CreateLlmExtractSourceRequestTemplateTagsValue {
-  card_id?: number;
+  card_id?: number | undefined;
   type: string;
 }
 export type CreateLlmExtractSourceRequestTemplateTagsMap = {
@@ -3663,16 +3917,16 @@ export type CreateLlmExtractSourceRequestTemplateTagsMap = {
 export interface CreateLlmExtractSourceRequest {
   database_id: number;
   sql: string;
-  template_tags?: CreateLlmExtractSourceRequestTemplateTagsMap;
+  template_tags?: CreateLlmExtractSourceRequestTemplateTagsMap | undefined;
 }
 export interface CreateLlmExtractSourceResponse {}
 /** Value must be a map. */
 export type CreateLlmProviderRequestConfigMap = { [key: string]: string | null | undefined };
 export interface CreateLlmProviderRequest {
-  config?: CreateLlmProviderRequestConfigMap | null;
-  key?: string | null;
-  model?: string | null;
-  name?: string | null;
+  config?: CreateLlmProviderRequestConfigMap | null | undefined;
+  key?: string | null | undefined;
+  model?: string | null | undefined;
+  name?: string | null | undefined;
   type: string;
 }
 export interface CreateLlmProviderResponse {}
@@ -3695,7 +3949,7 @@ export interface CreateLoggerAdjustmentRequest {
 export interface CreateLoggerAdjustmentResponse {}
 export interface CreateMeasureRequest {
   definition: MetabaseLibSchemaQuery;
-  description?: string | null;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
 }
@@ -3710,10 +3964,10 @@ export type MetabaseMetabotContextContextReferencesMap = { [key: string]: unknow
 export type MetabaseMetabotContextRecentlyViewedItemId = number | string;
 /** One of the user's recent views, trimmed to what the model gets told about it. */
 export interface MetabaseMetabotContextRecentlyViewedItem {
-  description?: string | null;
-  id?: MetabaseMetabotContextRecentlyViewedItemId | null;
-  name?: string | null;
-  type?: string | null;
+  description?: string | null | undefined;
+  id?: MetabaseMetabotContextRecentlyViewedItemId | null | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserRecentlyViewedList =
   Array<MetabaseMetabotContextRecentlyViewedItem>;
@@ -3760,7 +4014,7 @@ export interface MetabaseMetabotContextContextCodeEditorBuffersItemSource {
 export interface MetabaseMetabotContextContextCodeEditorBuffersItem {
   cursor: MetabaseMetabotContextContextCodeEditorBuffersItemCursor;
   id: string;
-  selection?: MetabaseMetabotContextContextCodeEditorBuffersItemSelection | null;
+  selection?: MetabaseMetabotContextContextCodeEditorBuffersItemSelection | null | undefined;
   source: MetabaseMetabotContextContextCodeEditorBuffersItemSource;
 }
 export type MetabaseMetabotContextContextCodeEditorBuffersList =
@@ -3771,15 +4025,15 @@ export interface MetabaseMetabotContextContextCodeEditor {
 }
 export interface MetabaseLibSchemaTemplateTagTemporalUnit {
   display_name: string;
-  id?: string;
-  lib_walk_template_tag_name?: string;
+  id?: string | undefined;
+  lib_walk_template_tag_name?: string | undefined;
   name: string;
-  sectionid?: string;
-  required?: boolean;
+  sectionid?: string | undefined;
+  required?: boolean | undefined;
   type: unknown;
-  alias?: string;
-  dimension?: unknown;
-  default?: MetabaseLibSchemaParameterParameterValue;
+  alias?: string | undefined;
+  dimension?: unknown | undefined;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
 }
 /** Options appended to the filter clause a Field Filter template tag generates. These get merged into the parameter value the QP builds for the tag, so they are the same options as `:metabase.lib.schema.parameter/parameter.options`. */
 export type MetabaseLibSchemaTemplateTagFieldFilterOptions =
@@ -3818,39 +4072,39 @@ export type MetabaseLibSchemaParameterWidgetType =
   | "boolean/=";
 export interface MetabaseLibSchemaTemplateTagFieldFilter {
   display_name: string;
-  id?: string;
-  lib_walk_template_tag_name?: string;
+  id?: string | undefined;
+  lib_walk_template_tag_name?: string | undefined;
   name: string;
-  sectionid?: string;
-  required?: boolean;
+  sectionid?: string | undefined;
+  required?: boolean | undefined;
   type: unknown;
-  alias?: string;
-  options?: MetabaseLibSchemaParameterParameterOptions | null;
-  dimension?: unknown;
-  default?: MetabaseLibSchemaParameterParameterValue;
+  alias?: string | undefined;
+  options?: MetabaseLibSchemaParameterParameterOptions | null | undefined;
+  dimension?: unknown | undefined;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
   widget_type: MetabaseLibSchemaParameterWidgetType | (string & {});
 }
 export interface MetabaseLibSchemaTemplateTagSnippet {
   display_name: string;
   snippet_name: string;
-  id?: string;
-  lib_walk_template_tag_name?: string;
+  id?: string | undefined;
+  lib_walk_template_tag_name?: string | undefined;
   name: string;
-  database?: number;
-  sectionid?: string;
+  database?: number | undefined;
+  sectionid?: string | undefined;
   type: unknown;
-  snippet_id?: number;
+  snippet_id?: number | undefined;
 }
 export interface MetabaseLibSchemaTemplateTagSourceQuery {
   display_name: string;
-  id?: string;
-  lib_walk_template_tag_name?: string;
+  id?: string | undefined;
+  lib_walk_template_tag_name?: string | undefined;
   card_id: number;
   name: string;
-  sectionid?: string;
-  required?: boolean;
+  sectionid?: string | undefined;
+  required?: boolean | undefined;
   type: unknown;
-  default?: MetabaseLibSchemaParameterParameterValue;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
 }
 export type MetabaseLibSchemaTemplateTagSourceFilterOp = "<=" | ">" | ">=" | "!=" | "=" | "<";
 /** Schema for a single source-filter applied to a table template tag. */
@@ -3864,27 +4118,27 @@ export type MetabaseLibSchemaTemplateTagSourceTableSourceFiltersList =
 export interface MetabaseLibSchemaTemplateTagSourceTable {
   table_id: number;
   display_name: string;
-  id?: string;
-  lib_walk_template_tag_name?: string;
+  id?: string | undefined;
+  lib_walk_template_tag_name?: string | undefined;
   name: string;
-  sectionid?: string;
-  source_filters?: MetabaseLibSchemaTemplateTagSourceTableSourceFiltersList;
-  required?: boolean;
+  sectionid?: string | undefined;
+  source_filters?: MetabaseLibSchemaTemplateTagSourceTableSourceFiltersList | undefined;
+  required?: boolean | undefined;
   type: unknown;
-  emit_alias?: boolean;
-  default?: MetabaseLibSchemaParameterParameterValue;
+  emit_alias?: boolean | undefined;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
 }
 export type MetabaseLibSchemaTemplateTagRawValueType = "date" | "number" | "boolean" | "text";
 export interface MetabaseLibSchemaTemplateTagRawValue {
   display_name: string;
-  id?: string;
-  lib_walk_template_tag_name?: string;
+  id?: string | undefined;
+  lib_walk_template_tag_name?: string | undefined;
   name: string;
-  sectionid?: string;
-  required?: boolean;
+  sectionid?: string | undefined;
+  required?: boolean | undefined;
   type: MetabaseLibSchemaTemplateTagRawValueType | (string & {});
-  default?: MetabaseLibSchemaParameterParameterValue;
-  widget_type?: MetabaseLibSchemaParameterWidgetType | (string & {}) | null;
+  default?: MetabaseLibSchemaParameterParameterValue | undefined;
+  widget_type?: MetabaseLibSchemaParameterWidgetType | (string & {}) | null | undefined;
 }
 export type MetabaseLibSchemaTemplateTagTemplateTag =
   | MetabaseLibSchemaTemplateTagTemporalUnit
@@ -3898,9 +4152,9 @@ export type MetabaseLibSchemaTemplateTagTemplateTagMap = {
   [key: string]: MetabaseLibSchemaTemplateTagTemplateTag | undefined;
 };
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native {
-  collection?: string | null;
-  query?: string | null;
-  template_tags?: MetabaseLibSchemaTemplateTagTemplateTagMap | null;
+  collection?: string | null | undefined;
+  query?: string | null | undefined;
+  template_tags?: MetabaseLibSchemaTemplateTagTemplateTagMap | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1ParametersList =
   Array<MetabaseParametersSchemaParameter>;
@@ -3908,7 +4162,10 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1QuerySo
   | number
   | string;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Query {
-  source_table?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1QuerySourceTable | null;
+  source_table?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1QuerySourceTable
+    | null
+    | undefined;
 }
 export type MetabaseLibSchemaStageNativeMetabaseQueryProcessorUtilAddAliasInfoJoinAliasEscapedMap =
   { [key: string]: string | undefined };
@@ -3916,7 +4173,7 @@ export type MetabaseLibSchemaMetadataStageColumnsList = Array<MetabaseLibSchemaM
 /** Metadata about the columns returned by a particular stage of a MBQL 5 query. For example a single-stage native query like {:database 1 :lib/type :mbql/query :stages [{:lib/type :mbql.stage/mbql :native "SELECT id, name FROM VENUES;"}]} might have stage metadata like {:columns [{:name "id", :base-type :type/Integer} {:name "name", :base-type :type/Text}]} associated with the query's lone stage. At some point in the near future we will hopefully attach this metadata directly to each stage in a query, so a multi-stage query will have `:lib/stage-metadata` for each stage. The main goal is to facilitate things like returning lists of visible or filterable columns for a given stage of a query. This is TBD, see #28717 for a WIP implementation of this idea. This is the same format as the results metadata returned with QP results in `data.results_metadata`. The `:columns` portion of this (`data.results_metadata.columns`) is also saved as `Card.result_metadata` for Saved Questions. Note that queries currently actually come back with both `data.results_metadata` AND `data.cols`; it looks like the Frontend actually *merges* these together -- see `applyMetadataDiff` in `frontend/src/metabase/query_builder/selectors.js` -- but this is ridiculous. Let's try to merge anything missing in `results_metadata` into `cols` going forward so things don't need to be manually merged in the future. */
 export interface MetabaseLibSchemaMetadataStage {
   columns: MetabaseLibSchemaMetadataStageColumnsList;
-  lib_type?: unknown;
+  lib_type?: unknown | undefined;
 }
 export type MetabaseLibSchemaStageNativeParamsList = Array<MetabaseLibSchemaLiteralParamValue>;
 export type MetabaseLibSchemaStageNativeProjectionsList = Array<string>;
@@ -3933,32 +4190,48 @@ export type MetabaseLibSchemaStageNativeQueryPermissionsReferencedCardIdsList = 
 export type MetabaseLibSchemaTemplateTagTemplateTags =
   Array<MetabaseLibSchemaTemplateTagTemplateTag>;
 export interface MetabaseLibSchemaStageNative {
-  qp_stage_had_source_card?: number;
-  source_query_native_model_?: boolean | null;
-  persisted_info_native?: string;
-  metabase_query_processor_middleware_add_remaps_remaps?: MetabaseLibSchemaExternalRemappings;
-  metabase_query_processor_util_add_alias_info_join_alias__escaped?: MetabaseLibSchemaStageNativeMetabaseQueryProcessorUtilAddAliasInfoJoinAliasEscapedMap;
+  qp_stage_had_source_card?: number | undefined;
+  source_query_native_model_?: boolean | null | undefined;
+  persisted_info_native?: string | undefined;
+  metabase_query_processor_middleware_add_remaps_remaps?:
+    | MetabaseLibSchemaExternalRemappings
+    | undefined;
+  metabase_query_processor_util_add_alias_info_join_alias__escaped?:
+    | MetabaseLibSchemaStageNativeMetabaseQueryProcessorUtilAddAliasInfoJoinAliasEscapedMap
+    | undefined;
   lib_type: unknown;
-  lib_stage_metadata?: MetabaseLibSchemaMetadataStage;
-  params?: MetabaseLibSchemaStageNativeParamsList | null;
-  projections?: MetabaseLibSchemaStageNativeProjectionsList | null;
-  mbql_?: boolean | null;
-  collection?: string;
-  native?: MetabaseLibSchemaStageNativeNative;
-  metabase_query_processor_middleware_cumulative_aggregations_replaced_indexes?: MetabaseLibSchemaStageNativeMetabaseQueryProcessorMiddlewareCumulativeAggregationsReplacedIndexesList;
-  metabase_query_processor_util_add_alias_info_desired_alias__escaped?: MetabaseLibSchemaStageNativeMetabaseQueryProcessorUtilAddAliasInfoDesiredAliasEscapedMap;
-  metabase_query_processor_middleware_add_implicit_joins_reused_join_aliases?: MetabaseLibSchemaStageNativeMetabaseQueryProcessorMiddlewareAddImplicitJoinsReusedJoinAliasesList;
-  qp_skip_persisted_cache?: boolean;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_sandbox_?: boolean;
-  qp_table_name?: string | null;
-  source_query_model_?: boolean;
-  qp_pivot_forced_shape?: MetabaseLibSchemaStageNativeQpPivotForcedShape | (string & {});
-  parameters?: MetabaseLibSchemaParameterParameters;
-  query_permissions_referenced_card_ids?: MetabaseLibSchemaStageNativeQueryPermissionsReferencedCardIdsList | null;
-  template_tags?: MetabaseLibSchemaTemplateTagTemplateTags;
-  qp_added_implicit_fields_?: boolean;
-  qp_stage_is_from_source_card?: number;
-  query_permissions_sandboxed_table?: number;
+  lib_stage_metadata?: MetabaseLibSchemaMetadataStage | undefined;
+  params?: MetabaseLibSchemaStageNativeParamsList | null | undefined;
+  projections?: MetabaseLibSchemaStageNativeProjectionsList | null | undefined;
+  mbql_?: boolean | null | undefined;
+  collection?: string | undefined;
+  native?: MetabaseLibSchemaStageNativeNative | undefined;
+  metabase_query_processor_middleware_cumulative_aggregations_replaced_indexes?:
+    | MetabaseLibSchemaStageNativeMetabaseQueryProcessorMiddlewareCumulativeAggregationsReplacedIndexesList
+    | undefined;
+  metabase_query_processor_util_add_alias_info_desired_alias__escaped?:
+    | MetabaseLibSchemaStageNativeMetabaseQueryProcessorUtilAddAliasInfoDesiredAliasEscapedMap
+    | undefined;
+  metabase_query_processor_middleware_add_implicit_joins_reused_join_aliases?:
+    | MetabaseLibSchemaStageNativeMetabaseQueryProcessorMiddlewareAddImplicitJoinsReusedJoinAliasesList
+    | undefined;
+  qp_skip_persisted_cache?: boolean | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_sandbox_?: boolean | undefined;
+  qp_table_name?: string | null | undefined;
+  source_query_model_?: boolean | undefined;
+  qp_pivot_forced_shape?:
+    | MetabaseLibSchemaStageNativeQpPivotForcedShape
+    | (string & {})
+    | undefined;
+  parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  query_permissions_referenced_card_ids?:
+    | MetabaseLibSchemaStageNativeQueryPermissionsReferencedCardIdsList
+    | null
+    | undefined;
+  template_tags?: MetabaseLibSchemaTemplateTagTemplateTags | undefined;
+  qp_added_implicit_fields_?: boolean | undefined;
+  qp_stage_is_from_source_card?: number | undefined;
+  query_permissions_sandboxed_table?: number | undefined;
 }
 export type MetabaseLibSchemaStageMbqlMetabaseQueryProcessorUtilAddAliasInfoJoinAliasEscapedMap = {
   [key: string]: string | undefined;
@@ -3969,8 +4242,8 @@ export type MetabaseLibSchemaPivotRowsList = Array<string>;
 export interface MetabaseLibSchemaPivot {
   columns: MetabaseLibSchemaPivotColumnsList;
   rows: MetabaseLibSchemaPivotRowsList;
-  show_column_totals?: boolean;
-  show_row_totals?: boolean;
+  show_column_totals?: boolean | undefined;
+  show_row_totals?: boolean | undefined;
 }
 export type MetabaseLibSchemaExpressionEqualityComparable =
   | MetabaseLibSchemaMbqlClauseClause
@@ -4219,21 +4492,21 @@ export type MetabaseLibSchemaJoinFields =
   | MetabaseLibSchemaJoinFieldsCase1List;
 export type MetabaseLibSchemaJoinConditions = Array<MetabaseLibSchemaExpressionBoolean>;
 export interface MetabaseLibSchemaJoinJoin {
-  fk_join_alias?: string | null;
-  lib_type?: unknown;
-  strategy?: MetabaseLibSchemaJoinStrategy | (string & {});
-  fk_field_name?: string | null;
-  metabase_lib_join_replace_alias?: boolean;
-  metabase_query_processor_util_add_alias_info_alias?: string;
-  metabase_query_processor_middleware_add_implicit_joins_original_position?: number;
+  fk_join_alias?: string | null | undefined;
+  lib_type?: unknown | undefined;
+  strategy?: MetabaseLibSchemaJoinStrategy | (string & {}) | undefined;
+  fk_field_name?: string | null | undefined;
+  metabase_lib_join_replace_alias?: boolean | undefined;
+  metabase_query_processor_util_add_alias_info_alias?: string | undefined;
+  metabase_query_processor_middleware_add_implicit_joins_original_position?: number | undefined;
   stages: unknown;
-  fk_field_id?: number | null;
-  fields?: MetabaseLibSchemaJoinFields;
+  fk_field_id?: number | null | undefined;
+  fields?: MetabaseLibSchemaJoinFields | undefined;
   alias: string;
-  qp_is_implicit_join?: boolean;
-  qp_keep_default_join_alias?: boolean;
+  qp_is_implicit_join?: boolean | undefined;
+  qp_keep_default_join_alias?: boolean | undefined;
   conditions: MetabaseLibSchemaJoinConditions;
-  metabase_query_processor_util_add_alias_info_original_alias?: string;
+  metabase_query_processor_util_add_alias_info_original_alias?: string | undefined;
 }
 export type MetabaseLibSchemaJoinJoins = Array<MetabaseLibSchemaJoinJoin>;
 export type MetabaseLibSchemaAggregationAggregations = Array<MetabaseLibSchemaMbqlClauseClause>;
@@ -4248,48 +4521,64 @@ export interface MetabaseLibSchemaPage {
 /** The `:expressions` definition map as found as a top-level key in an MBQL stage. */
 export type MetabaseLibSchemaExpressionExpressions = Array<unknown>;
 export interface MetabaseLibSchemaStageMbql {
-  qp_stage_had_source_card?: number;
-  source_query_native_model_?: boolean | null;
-  persisted_info_native?: string;
-  source_card?: number;
-  metabase_query_processor_middleware_add_remaps_remaps?: MetabaseLibSchemaExternalRemappings;
-  metabase_query_processor_util_add_alias_info_join_alias__escaped?: MetabaseLibSchemaStageMbqlMetabaseQueryProcessorUtilAddAliasInfoJoinAliasEscapedMap;
+  qp_stage_had_source_card?: number | undefined;
+  source_query_native_model_?: boolean | null | undefined;
+  persisted_info_native?: string | undefined;
+  source_card?: number | undefined;
+  metabase_query_processor_middleware_add_remaps_remaps?:
+    | MetabaseLibSchemaExternalRemappings
+    | undefined;
+  metabase_query_processor_util_add_alias_info_join_alias__escaped?:
+    | MetabaseLibSchemaStageMbqlMetabaseQueryProcessorUtilAddAliasInfoJoinAliasEscapedMap
+    | undefined;
   lib_type: unknown;
-  lib_stage_metadata?: MetabaseLibSchemaMetadataStage;
-  pivot?: MetabaseLibSchemaPivot;
-  breakout?: MetabaseLibSchemaBreakouts;
-  filters?: MetabaseLibSchemaFilters;
-  metabase_query_processor_middleware_cumulative_aggregations_replaced_indexes?: MetabaseLibSchemaStageMbqlMetabaseQueryProcessorMiddlewareCumulativeAggregationsReplacedIndexesList;
-  limit?: number;
-  metabase_query_processor_util_add_alias_info_desired_alias__escaped?: MetabaseLibSchemaStageMbqlMetabaseQueryProcessorUtilAddAliasInfoDesiredAliasEscapedMap;
-  metabase_query_processor_middleware_add_implicit_joins_reused_join_aliases?: MetabaseLibSchemaStageMbqlMetabaseQueryProcessorMiddlewareAddImplicitJoinsReusedJoinAliasesList;
-  qp_skip_persisted_cache?: boolean;
-  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_sandbox_?: boolean;
-  joins?: MetabaseLibSchemaJoinJoins;
-  aggregation?: MetabaseLibSchemaAggregationAggregations;
-  source_query_model_?: boolean;
-  fields?: unknown;
-  source_table?: number;
-  qp_pivot_forced_shape?: MetabaseLibSchemaStageMbqlQpPivotForcedShape | (string & {});
-  order_by?: MetabaseLibSchemaOrderByOrderBys;
-  page?: MetabaseLibSchemaPage;
-  parameters?: MetabaseLibSchemaParameterParameters;
-  qp_added_implicit_fields_?: boolean;
-  qp_stage_is_from_source_card?: number;
-  query_permissions_sandboxed_table?: number;
-  expressions?: MetabaseLibSchemaExpressionExpressions;
+  lib_stage_metadata?: MetabaseLibSchemaMetadataStage | undefined;
+  pivot?: MetabaseLibSchemaPivot | undefined;
+  breakout?: MetabaseLibSchemaBreakouts | undefined;
+  filters?: MetabaseLibSchemaFilters | undefined;
+  metabase_query_processor_middleware_cumulative_aggregations_replaced_indexes?:
+    | MetabaseLibSchemaStageMbqlMetabaseQueryProcessorMiddlewareCumulativeAggregationsReplacedIndexesList
+    | undefined;
+  limit?: number | undefined;
+  metabase_query_processor_util_add_alias_info_desired_alias__escaped?:
+    | MetabaseLibSchemaStageMbqlMetabaseQueryProcessorUtilAddAliasInfoDesiredAliasEscapedMap
+    | undefined;
+  metabase_query_processor_middleware_add_implicit_joins_reused_join_aliases?:
+    | MetabaseLibSchemaStageMbqlMetabaseQueryProcessorMiddlewareAddImplicitJoinsReusedJoinAliasesList
+    | undefined;
+  qp_skip_persisted_cache?: boolean | undefined;
+  metabase_enterprise_sandbox_query_processor_middleware_sandboxing_sandbox_?: boolean | undefined;
+  joins?: MetabaseLibSchemaJoinJoins | undefined;
+  aggregation?: MetabaseLibSchemaAggregationAggregations | undefined;
+  source_query_model_?: boolean | undefined;
+  fields?: unknown | undefined;
+  source_table?: number | undefined;
+  qp_pivot_forced_shape?: MetabaseLibSchemaStageMbqlQpPivotForcedShape | (string & {}) | undefined;
+  order_by?: MetabaseLibSchemaOrderByOrderBys | undefined;
+  page?: MetabaseLibSchemaPage | undefined;
+  parameters?: MetabaseLibSchemaParameterParameters | undefined;
+  qp_added_implicit_fields_?: boolean | undefined;
+  qp_stage_is_from_source_card?: number | undefined;
+  query_permissions_sandboxed_table?: number | undefined;
+  expressions?: MetabaseLibSchemaExpressionExpressions | undefined;
 }
 export type MetabaseLibSchemaStage = MetabaseLibSchemaStageNative | MetabaseLibSchemaStageMbql;
 export type MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1StagesList =
   Array<MetabaseLibSchemaStage>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1 {
-  database?: unknown | null;
-  lib_type?: string | null;
-  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null;
-  parameters?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1ParametersList | null;
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Query | null;
-  stages?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1StagesList | null;
-  type?: string | null;
+  database?: unknown | null | undefined;
+  lib_type?: string | null | undefined;
+  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null | undefined;
+  parameters?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1ParametersList
+    | null
+    | undefined;
+  query?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Query | null | undefined;
+  stages?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1StagesList
+    | null
+    | undefined;
+  type?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0Query =
   | MetabaseLibSchemaQuery
@@ -4301,11 +4590,11 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase0Type =
   | "metric"
   | "adhoc";
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0UsedTablesItem {
-  database_schema?: string | null;
-  description?: string | null;
-  id?: number | null;
-  name?: string | null;
-  type?: string | null;
+  database_schema?: string | null | undefined;
+  description?: string | null | undefined;
+  id?: number | null | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0UsedTablesList =
   Array<MetabaseMetabotContextContextUserIsViewingItemCase0UsedTablesItem>;
@@ -4336,7 +4625,8 @@ export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigs
   type?:
     | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemDataItemColumnsItemType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemDataItemColumnsList =
   Array<MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemDataItemColumnsItem>;
@@ -4361,18 +4651,30 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQ
   | number
   | string;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1Query {
-  source_table?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1QuerySourceTable | null;
+  source_table?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1QuerySourceTable
+    | null
+    | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1StagesList =
   Array<MetabaseLibSchemaStage>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1 {
-  database?: unknown | null;
-  lib_type?: string | null;
-  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null;
-  parameters?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1ParametersList | null;
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1Query | null;
-  stages?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1StagesList | null;
-  type?: string | null;
+  database?: unknown | null | undefined;
+  lib_type?: string | null | undefined;
+  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null | undefined;
+  parameters?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1ParametersList
+    | null
+    | undefined;
+  query?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1Query
+    | null
+    | undefined;
+  stages?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQueryCase1StagesList
+    | null
+    | undefined;
+  type?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQuery =
   | MetabaseLibSchemaQuery
@@ -4390,7 +4692,8 @@ export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigs
   type?:
     | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueXType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Value must be a map. */
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueXValuesItemCase3Map =
@@ -4415,7 +4718,8 @@ export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigs
   type?:
     | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueYType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Value must be a map. */
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueYValuesItemCase3Map =
@@ -4430,11 +4734,20 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemS
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValue {
   chart_type: string;
   display_name: string;
-  stacked?: boolean | null;
+  stacked?: boolean | null | undefined;
   x: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueX;
-  x_values?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueXValuesList | null;
-  y?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueY | null;
-  y_values?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueYValuesList | null;
+  x_values?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueXValuesList
+    | null
+    | undefined;
+  y?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueY
+    | null
+    | undefined;
+  y_values?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesValueYValuesList
+    | null
+    | undefined;
 }
 /** Value must be a map. */
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesMap = {
@@ -4443,35 +4756,50 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemS
     | undefined;
 };
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemTimelineEventsItem {
-  description?: string | null;
+  description?: string | null | undefined;
   name: string;
   timestamp: string;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemTimelineEventsList =
   Array<MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemTimelineEventsItem>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItem {
-  data?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemDataList | null;
-  description?: string | null;
-  display_type?: string | null;
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQuery;
-  series?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesMap | null;
-  timeline_events?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemTimelineEventsList | null;
-  title?: string | null;
+  data?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemDataList
+    | null
+    | undefined;
+  description?: string | null | undefined;
+  display_type?: string | null | undefined;
+  query?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemQuery | undefined;
+  series?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemSeriesMap
+    | null
+    | undefined;
+  timeline_events?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemTimelineEventsList
+    | null
+    | undefined;
+  title?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsList =
   Array<MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItem>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase0 {
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase0Query;
-  error?: string | null;
-  id?: MetabaseMetabotContextContextUserIsViewingItemCase0Id | null;
-  name?: string | null;
+  query?: MetabaseMetabotContextContextUserIsViewingItemCase0Query | undefined;
+  error?: string | null | undefined;
+  id?: MetabaseMetabotContextContextUserIsViewingItemCase0Id | null | undefined;
+  name?: string | null | undefined;
   type: MetabaseMetabotContextContextUserIsViewingItemCase0Type | (string & {});
-  database_schema?: string | null;
-  sql_engine?: string | null;
-  used_tables?: MetabaseMetabotContextContextUserIsViewingItemCase0UsedTablesList | null;
-  buffers?: MetabaseMetabotContextContextUserIsViewingItemCase0BuffersList | null;
-  description?: string | null;
-  chart_configs?: MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsList | null;
+  database_schema?: string | null | undefined;
+  sql_engine?: string | null | undefined;
+  used_tables?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0UsedTablesList
+    | null
+    | undefined;
+  buffers?: MetabaseMetabotContextContextUserIsViewingItemCase0BuffersList | null | undefined;
+  description?: string | null | undefined;
+  chart_configs?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsList
+    | null
+    | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1Native =
   MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native;
@@ -4481,18 +4809,27 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1QuerySo
   | number
   | string;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1Query {
-  source_table?: MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1QuerySourceTable | null;
+  source_table?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1QuerySourceTable
+    | null
+    | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1StagesList =
   Array<MetabaseLibSchemaStage>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1 {
-  database?: unknown | null;
-  lib_type?: string | null;
-  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null;
-  parameters?: MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1ParametersList | null;
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1Query | null;
-  stages?: MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1StagesList | null;
-  type?: string | null;
+  database?: unknown | null | undefined;
+  lib_type?: string | null | undefined;
+  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null | undefined;
+  parameters?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1ParametersList
+    | null
+    | undefined;
+  query?: MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1Query | null | undefined;
+  stages?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1QueryCase1StagesList
+    | null
+    | undefined;
+  type?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase1Query =
   | MetabaseLibSchemaQuery
@@ -4537,7 +4874,8 @@ export interface MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigs
   type?:
     | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemDataItemColumnsItemType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemDataItemColumnsList =
   Array<MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemDataItemColumnsItem>;
@@ -4562,18 +4900,30 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQ
   | number
   | string;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1Query {
-  source_table?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1QuerySourceTable | null;
+  source_table?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1QuerySourceTable
+    | null
+    | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1StagesList =
   Array<MetabaseLibSchemaStage>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1 {
-  database?: unknown | null;
-  lib_type?: string | null;
-  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null;
-  parameters?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1ParametersList | null;
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1Query | null;
-  stages?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1StagesList | null;
-  type?: string | null;
+  database?: unknown | null | undefined;
+  lib_type?: string | null | undefined;
+  native?: MetabaseMetabotContextContextUserIsViewingItemCase0QueryCase1Native | null | undefined;
+  parameters?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1ParametersList
+    | null
+    | undefined;
+  query?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1Query
+    | null
+    | undefined;
+  stages?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQueryCase1StagesList
+    | null
+    | undefined;
+  type?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQuery =
   | MetabaseLibSchemaQuery
@@ -4591,7 +4941,8 @@ export interface MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigs
   type?:
     | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueXType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Value must be a map. */
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueXValuesItemCase3Map =
@@ -4616,7 +4967,8 @@ export interface MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigs
   type?:
     | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueYType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Value must be a map. */
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueYValuesItemCase3Map =
@@ -4631,11 +4983,20 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemS
 export interface MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValue {
   chart_type: string;
   display_name: string;
-  stacked?: boolean | null;
+  stacked?: boolean | null | undefined;
   x: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueX;
-  x_values?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueXValuesList | null;
-  y?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueY | null;
-  y_values?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueYValuesList | null;
+  x_values?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueXValuesList
+    | null
+    | undefined;
+  y?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueY
+    | null
+    | undefined;
+  y_values?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesValueYValuesList
+    | null
+    | undefined;
 }
 /** Value must be a map. */
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesMap = {
@@ -4648,28 +5009,43 @@ export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemT
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemTimelineEventsList =
   Array<MetabaseMetabotContextContextUserIsViewingItemCase0ChartConfigsItemTimelineEventsItem>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItem {
-  data?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemDataList | null;
-  description?: string | null;
-  display_type?: string | null;
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQuery;
-  series?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesMap | null;
-  timeline_events?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemTimelineEventsList | null;
-  title?: string | null;
+  data?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemDataList
+    | null
+    | undefined;
+  description?: string | null | undefined;
+  display_type?: string | null | undefined;
+  query?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemQuery | undefined;
+  series?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemSeriesMap
+    | null
+    | undefined;
+  timeline_events?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItemTimelineEventsList
+    | null
+    | undefined;
+  title?: string | null | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsList =
   Array<MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsItem>;
 export interface MetabaseMetabotContextContextUserIsViewingItemCase1 {
-  query?: MetabaseMetabotContextContextUserIsViewingItemCase1Query;
-  error?: string | null;
-  id?: MetabaseMetabotContextContextUserIsViewingItemCase1Id | null;
-  name?: string | null;
+  query?: MetabaseMetabotContextContextUserIsViewingItemCase1Query | undefined;
+  error?: string | null | undefined;
+  id?: MetabaseMetabotContextContextUserIsViewingItemCase1Id | null | undefined;
+  name?: string | null | undefined;
   type: MetabaseMetabotContextContextUserIsViewingItemCase1Type | (string & {});
-  database_schema?: string | null;
-  sql_engine?: string | null;
-  used_tables?: MetabaseMetabotContextContextUserIsViewingItemCase1UsedTablesList | null;
-  buffers?: MetabaseMetabotContextContextUserIsViewingItemCase1BuffersList | null;
-  description?: string | null;
-  chart_configs?: MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsList | null;
+  database_schema?: string | null | undefined;
+  sql_engine?: string | null | undefined;
+  used_tables?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1UsedTablesList
+    | null
+    | undefined;
+  buffers?: MetabaseMetabotContextContextUserIsViewingItemCase1BuffersList | null | undefined;
+  description?: string | null | undefined;
+  chart_configs?:
+    | MetabaseMetabotContextContextUserIsViewingItemCase1ChartConfigsList
+    | null
+    | undefined;
 }
 export type MetabaseMetabotContextContextUserIsViewingItem =
   | MetabaseMetabotContextContextUserIsViewingItemCase0
@@ -4678,31 +5054,31 @@ export type MetabaseMetabotContextContextUserIsViewingList =
   Array<MetabaseMetabotContextContextUserIsViewingItem>;
 /** The context a Metabot request carries. Besides what the client sends, [[create-context]] adds the user's recent views, the current time and the caller's capabilities before the agent reads it. */
 export interface MetabaseMetabotContextContext {
-  capabilities?: MetabaseMetabotContextContextCapabilities | null;
-  first_day_of_week?: string | null;
-  references?: MetabaseMetabotContextContextReferencesMap | null;
-  slack_channel_id?: string | null;
-  user_recently_viewed?: MetabaseMetabotContextContextUserRecentlyViewedList | null;
-  research_plan?: MetabaseMetabotContextResearchPlan | null;
-  code_editor?: MetabaseMetabotContextContextCodeEditor | null;
-  user_is_viewing?: MetabaseMetabotContextContextUserIsViewingList;
-  current_user_time?: string | null;
-  default_database_id?: number | null;
-  in_host_app?: boolean | null;
-  current_time_with_timezone?: string | null;
+  capabilities?: MetabaseMetabotContextContextCapabilities | null | undefined;
+  first_day_of_week?: string | null | undefined;
+  references?: MetabaseMetabotContextContextReferencesMap | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  user_recently_viewed?: MetabaseMetabotContextContextUserRecentlyViewedList | null | undefined;
+  research_plan?: MetabaseMetabotContextResearchPlan | null | undefined;
+  code_editor?: MetabaseMetabotContextContextCodeEditor | null | undefined;
+  user_is_viewing?: MetabaseMetabotContextContextUserIsViewingList | undefined;
+  current_user_time?: string | null | undefined;
+  default_database_id?: number | null | undefined;
+  in_host_app?: boolean | null | undefined;
+  current_time_with_timezone?: string | null | undefined;
 }
 export interface CreateMetabotAgentStreamingRequest {
   /** value must be a non-blank string. */
   message: string;
-  parent_message_id?: string | null;
-  retry_message_id?: string | null;
-  metabot_id?: string;
-  eval_session_id?: unknown | null;
+  parent_message_id?: string | null | undefined;
+  retry_message_id?: string | null | undefined;
+  metabot_id?: string | undefined;
+  eval_session_id?: unknown | null | undefined;
   context: MetabaseMetabotContextContext;
-  user_message_id?: string | null;
-  debug?: boolean | null;
-  profile_id?: string;
-  assistant_message_id?: string | null;
+  user_message_id?: string | null | undefined;
+  debug?: boolean | null | undefined;
+  profile_id?: string | undefined;
+  assistant_message_id?: string | null | undefined;
   /** value must be a valid UUID. */
   conversation_id: string;
 }
@@ -4715,16 +5091,16 @@ export interface CreateMetabotConversationForkRequest {
 }
 export interface CreateMetabotConversationForkResponse {}
 export interface CreateMetabotConversationSavedEntityRequestCard {
-  collection_id?: number | null;
-  dashboard_id?: number | null;
-  dashboard_tab_id?: number | null;
+  collection_id?: number | null | undefined;
+  dashboard_id?: number | null | undefined;
+  dashboard_tab_id?: number | null | undefined;
   dataset_query: MetabaseLibSchemaQuery;
-  description?: string | null;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   display: string;
   /** value must be a non-blank string. */
   name: string;
-  visualization_settings?: unknown | null;
+  visualization_settings?: unknown | null | undefined;
 }
 export interface CreateMetabotConversationSavedEntityRequest {
   /** value must be a valid UUID. */
@@ -4741,12 +5117,12 @@ export interface CreateMetabotDocumentGenerateContentRequest {
   /** value must be a non-blank string. */
   instructions: string;
   /** Value must be a map. */
-  references?: CreateMetabotDocumentGenerateContentRequestReferencesMap;
+  references?: CreateMetabotDocumentGenerateContentRequestReferencesMap | undefined;
 }
 export interface CreateMetabotDocumentGenerateContentResponse {}
 export interface CreateMetabotFeedbackRequest {
-  freeform_feedback?: string | null;
-  issue_type?: string | null;
+  freeform_feedback?: string | null | undefined;
+  issue_type?: string | null | undefined;
   /** value must be a non-blank string. */
   message_id: string;
   /** value must be an integer greater than zero. */
@@ -4763,10 +5139,10 @@ export interface CreateMetabotSlackEventRequestBodyCase0 {
   type: unknown;
 }
 export interface CreateMetabotSlackEventRequestBodyCase1EventFilesItem {
-  filetype?: string | null;
+  filetype?: string | null | undefined;
   id: string;
-  mimetype?: string | null;
-  mode?: string | null;
+  mimetype?: string | null | undefined;
+  mode?: string | null | undefined;
   name: string;
   size: number;
   url_private: string;
@@ -4774,34 +5150,34 @@ export interface CreateMetabotSlackEventRequestBodyCase1EventFilesItem {
 export type CreateMetabotSlackEventRequestBodyCase1EventFilesList =
   Array<CreateMetabotSlackEventRequestBodyCase1EventFilesItem>;
 export interface CreateMetabotSlackEventRequestBodyCase1EventItem {
-  channel?: string;
-  ts?: string;
-  type?: string;
+  channel?: string | undefined;
+  ts?: string | undefined;
+  type?: string | undefined;
 }
 export interface CreateMetabotSlackEventRequestBodyCase1EventEdited {
-  ts?: string;
-  user?: string;
+  ts?: string | undefined;
+  user?: string | undefined;
 }
 export interface CreateMetabotSlackEventRequestBodyCase1Event {
-  subtype?: string;
+  subtype?: string | undefined;
   event_ts: string;
-  ts?: string;
-  user?: string;
-  reaction?: string;
-  files?: CreateMetabotSlackEventRequestBodyCase1EventFilesList;
-  text?: string | null;
-  bot_id?: string | null;
-  item?: CreateMetabotSlackEventRequestBodyCase1EventItem;
-  thread_ts?: string | null;
+  ts?: string | undefined;
+  user?: string | undefined;
+  reaction?: string | undefined;
+  files?: CreateMetabotSlackEventRequestBodyCase1EventFilesList | undefined;
+  text?: string | null | undefined;
+  bot_id?: string | null | undefined;
+  item?: CreateMetabotSlackEventRequestBodyCase1EventItem | undefined;
+  thread_ts?: string | null | undefined;
   type: string;
-  channel_type?: string;
-  channel?: string;
-  edited?: CreateMetabotSlackEventRequestBodyCase1EventEdited;
+  channel_type?: string | undefined;
+  channel?: string | undefined;
+  edited?: CreateMetabotSlackEventRequestBodyCase1EventEdited | undefined;
 }
 export interface CreateMetabotSlackEventRequestBodyCase1 {
   event: CreateMetabotSlackEventRequestBodyCase1Event;
-  event_id?: string;
-  team_id?: string;
+  event_id?: string | undefined;
+  team_id?: string | undefined;
   type: unknown;
 }
 export interface CreateMetabotSlackEventRequestBodyCase2 {
@@ -4812,7 +5188,7 @@ export type CreateMetabotSlackEventRequestBody =
   | CreateMetabotSlackEventRequestBodyCase1
   | CreateMetabotSlackEventRequestBodyCase2;
 export interface CreateMetabotSlackEventRequest {
-  body?: CreateMetabotSlackEventRequestBody;
+  body?: CreateMetabotSlackEventRequestBody | undefined;
 }
 export interface CreateMetabotSlackEventResponse {}
 export interface CreateMetabotSlackInteractiveRequest {
@@ -4888,8 +5264,8 @@ export type MetabaseLibMetricSchemaTypedProjections = Array<MetabaseLibMetricSch
 /** Schema for the definition object within a dataset request. Uses expression-based contract for metric math support. */
 export interface MetabaseMetricsApiDefinition {
   expression: MetabaseLibMetricSchemaMetricMathExpression;
-  filters?: MetabaseLibMetricSchemaInstanceFilters | null;
-  projections?: MetabaseLibMetricSchemaTypedProjections | null;
+  filters?: MetabaseLibMetricSchemaInstanceFilters | null | undefined;
+  projections?: MetabaseLibMetricSchemaTypedProjections | null | undefined;
 }
 export interface CreateMetricBreakoutValueRequest {
   definition: MetabaseMetricsApiDefinition;
@@ -4901,9 +5277,9 @@ export interface CreateMetricDatasetRequest {
 export interface CreateMetricDatasetResponse {}
 export type CreateMetricDimensionAddRequestDimensionsItemMappingTargetList = Array<unknown>;
 export interface CreateMetricDimensionAddRequestDimensionsItem {
-  description?: string | null;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** value must be a non-blank string. */
   id: string;
   mapping_target: CreateMetricDimensionAddRequestDimensionsItemMappingTargetList;
@@ -4957,8 +5333,8 @@ export interface CreateModerationReviewRequest {
   /** value must be an integer greater than zero. */
   moderated_item_id: number;
   moderated_item_type: CreateModerationReviewRequestModeratedItemType | (string & {});
-  status?: CreateModerationReviewRequestStatus | (string & {}) | null;
-  text?: string | null;
+  status?: CreateModerationReviewRequestStatus | (string & {}) | null | undefined;
+  text?: string | null | undefined;
 }
 export interface CreateModerationReviewResponse {}
 export type MetabaseEnterpriseSandboxSchemaAttributeRemappingsValue =
@@ -4969,8 +5345,8 @@ export type MetabaseEnterpriseSandboxSchemaAttributeRemappingsMap = {
   [key: string]: MetabaseEnterpriseSandboxSchemaAttributeRemappingsValue | undefined;
 };
 export interface CreateMtGtapRequest {
-  attribute_remappings?: MetabaseEnterpriseSandboxSchemaAttributeRemappingsMap | null;
-  card_id?: number | null;
+  attribute_remappings?: MetabaseEnterpriseSandboxSchemaAttributeRemappingsMap | null | undefined;
+  card_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
   group_id: number;
   /** value must be an integer greater than zero. */
@@ -4978,15 +5354,15 @@ export interface CreateMtGtapRequest {
 }
 export interface CreateMtGtapResponse {}
 export interface CreateMtGtapValidateRequest {
-  card_id?: number | null;
+  card_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
   table_id: number;
 }
 export interface CreateMtGtapValidateResponse {}
 export interface CreateNativeQuerySnippetRequest {
-  collection_id?: number | null;
+  collection_id?: number | null | undefined;
   content: string;
-  description?: string | null;
+  description?: string | null | undefined;
   /** snippet names cannot include '}' or start with spaces */
   name: string;
 }
@@ -5002,14 +5378,14 @@ export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase0Type
   | "notification-recipient/template"
   | "notification-recipient/group";
 export interface MetabaseNotificationModelsCreateNotificationRecipientParamsCase0 {
-  created_at?: string | null;
-  details?: unknown | null;
+  created_at?: string | null | undefined;
+  details?: unknown | null | undefined;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
-  permissions_group_id?: unknown | null;
+  notification_handler_id?: number | undefined;
+  permissions_group_id?: unknown | null | undefined;
   type: MetabaseNotificationModelsCreateNotificationRecipientParamsCase0Type | (string & {});
-  updated_at?: string | null;
-  user?: MetabaseNotificationModelsEchoedUser | null;
+  updated_at?: string | null | undefined;
+  user?: MetabaseNotificationModelsEchoedUser | null | undefined;
   /** value must be an integer greater than zero. */
   user_id: number;
 }
@@ -5017,13 +5393,15 @@ export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase1Perm
   Array<MetabasePermissionsSchemaPermissionsGroupMember>;
 /** What an update (or insert) of a PermissionsGroup accepts: every column of `:permissions_group` except `id`, all optional. */
 export interface MetabaseNotificationModelsCreateNotificationRecipientParamsCase1PermissionsGroup {
-  entity_id?: string | null;
+  entity_id?: string | null | undefined;
   /** value must be an integer greater than zero. */
   id: number;
-  is_tenant_group?: boolean | null;
-  magic_group_type?: string | null;
-  members?: MetabaseNotificationModelsCreateNotificationRecipientParamsCase1PermissionsGroupMembersList;
-  name?: string | null;
+  is_tenant_group?: boolean | null | undefined;
+  magic_group_type?: string | null | undefined;
+  members?:
+    | MetabaseNotificationModelsCreateNotificationRecipientParamsCase1PermissionsGroupMembersList
+    | undefined;
+  name?: string | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase1Type =
   | "notification-recipient/raw-value"
@@ -5031,16 +5409,19 @@ export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase1Type
   | "notification-recipient/template"
   | "notification-recipient/group";
 export interface MetabaseNotificationModelsCreateNotificationRecipientParamsCase1 {
-  created_at?: string | null;
-  details?: unknown | null;
+  created_at?: string | null | undefined;
+  details?: unknown | null | undefined;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
-  permissions_group?: MetabaseNotificationModelsCreateNotificationRecipientParamsCase1PermissionsGroup | null;
+  notification_handler_id?: number | undefined;
+  permissions_group?:
+    | MetabaseNotificationModelsCreateNotificationRecipientParamsCase1PermissionsGroup
+    | null
+    | undefined;
   /** value must be an integer greater than zero. */
   permissions_group_id: number;
   type: MetabaseNotificationModelsCreateNotificationRecipientParamsCase1Type | (string & {});
-  updated_at?: string | null;
-  user_id?: unknown | null;
+  updated_at?: string | null | undefined;
+  user_id?: unknown | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase2Details =
   MetabaseNotificationModelsNotificationRecipientCase2Details;
@@ -5050,14 +5431,14 @@ export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase2Type
   | "notification-recipient/template"
   | "notification-recipient/group";
 export interface MetabaseNotificationModelsCreateNotificationRecipientParamsCase2 {
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   details: MetabaseNotificationModelsNotificationRecipientCase2Details;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
-  permissions_group_id?: unknown | null;
+  notification_handler_id?: number | undefined;
+  permissions_group_id?: unknown | null | undefined;
   type: MetabaseNotificationModelsCreateNotificationRecipientParamsCase2Type | (string & {});
-  updated_at?: string | null;
-  user_id?: unknown | null;
+  updated_at?: string | null | undefined;
+  user_id?: unknown | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase3Details =
   MetabaseNotificationModelsNotificationRecipientCase3Details;
@@ -5067,14 +5448,14 @@ export type MetabaseNotificationModelsCreateNotificationRecipientParamsCase3Type
   | "notification-recipient/template"
   | "notification-recipient/group";
 export interface MetabaseNotificationModelsCreateNotificationRecipientParamsCase3 {
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   details: MetabaseNotificationModelsNotificationRecipientCase3Details;
   /** value must be an integer greater than zero. */
-  notification_handler_id?: number;
-  permissions_group_id?: unknown | null;
+  notification_handler_id?: number | undefined;
+  permissions_group_id?: unknown | null | undefined;
   type: MetabaseNotificationModelsCreateNotificationRecipientParamsCase3Type | (string & {});
-  updated_at?: string | null;
-  user_id?: unknown | null;
+  updated_at?: string | null | undefined;
+  user_id?: unknown | null | undefined;
 }
 /** Schema for :model/NotificationRecipient on a create request. */
 export type MetabaseNotificationModelsCreateNotificationRecipientParams =
@@ -5097,7 +5478,8 @@ export interface MetabaseChannelSchemaChannelTemplateEmailDetailsUserProvided {
   body: string;
   recipient_type?:
     | MetabaseChannelSchemaChannelTemplateEmailDetailsUserProvidedRecipientType
-    | (string & {});
+    | (string & {})
+    | undefined;
   subject: string;
   type: MetabaseChannelSchemaChannelTemplateEmailDetailsUserProvidedType | (string & {});
 }
@@ -5105,53 +5487,53 @@ export interface MetabaseChannelModelsChannelChannelTemplateUserProvidedCase0 {
   channel_type: string;
   details: MetabaseChannelSchemaChannelTemplateEmailDetailsUserProvided;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   /** value must be a non-blank string. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface MetabaseChannelModelsChannelChannelTemplateUserProvidedCase1 {
   channel_type: string;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   /** value must be a non-blank string. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Channel Template schema for API-provided templates. Does not allow handlebars-resource. */
 export type MetabaseChannelModelsChannelChannelTemplateUserProvided =
   | MetabaseChannelModelsChannelChannelTemplateUserProvidedCase0
   | MetabaseChannelModelsChannelChannelTemplateUserProvidedCase1;
 export interface MetabaseChannelModelsChannelChannelCase0 {
-  active?: boolean;
-  created_at?: string | null;
-  description?: string | null;
+  active?: boolean | undefined;
+  created_at?: string | null | undefined;
+  description?: string | null | undefined;
   details: MetabaseChannelSchemaHttpDetails;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   name: string;
   type: string;
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 export interface MetabaseChannelModelsChannelChannelCase1 {
-  active?: boolean;
-  created_at?: string | null;
-  description?: string | null;
+  active?: boolean | undefined;
+  created_at?: string | null | undefined;
+  description?: string | null | undefined;
   details: MetabaseChannelSchemaSlackDetails;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   name: string;
   type: string;
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 export interface MetabaseChannelModelsChannelChannelCase2 {
-  active?: boolean;
-  created_at?: string | null;
-  description?: string | null;
-  details?: MetabaseChannelSchemaEmailDetails | null;
+  active?: boolean | undefined;
+  created_at?: string | null | undefined;
+  description?: string | null | undefined;
+  details?: MetabaseChannelSchemaEmailDetails | null | undefined;
   /** value must be an integer greater than zero. */
-  id?: number;
+  id?: number | undefined;
   name: string;
   type: string;
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 /** Channel schema. */
 export type MetabaseChannelModelsChannelChannel =
@@ -5160,17 +5542,19 @@ export type MetabaseChannelModelsChannelChannel =
   | MetabaseChannelModelsChannelChannelCase2;
 /** Schema for :model/NotificationHandler on a create request. */
 export interface MetabaseNotificationApiNotificationCreateNotificationParamsCase0HandlersItem {
-  template_id?: number | null;
-  channel_id?: number | null;
-  updated_at?: string | null;
-  recipients?: MetabaseNotificationApiNotificationCreateNotificationParamsCase0HandlersItemRecipientsList;
-  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null;
+  template_id?: number | null | undefined;
+  channel_id?: number | null | undefined;
+  updated_at?: string | null | undefined;
+  recipients?:
+    | MetabaseNotificationApiNotificationCreateNotificationParamsCase0HandlersItemRecipientsList
+    | undefined;
+  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null | undefined;
   channel_type: string;
-  created_at?: string | null;
-  channel?: MetabaseChannelModelsChannelChannel | null;
+  created_at?: string | null | undefined;
+  channel?: MetabaseChannelModelsChannelChannel | null | undefined;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
-  active?: boolean | null;
+  notification_id?: number | undefined;
+  active?: boolean | null | undefined;
 }
 export type MetabaseNotificationApiNotificationCreateNotificationParamsCase0HandlersList =
   Array<MetabaseNotificationApiNotificationCreateNotificationParamsCase0HandlersItem>;
@@ -5179,7 +5563,7 @@ export type MetabaseLibSchemaMetadataDimensionMappingType = "table";
 /** Schema for a dimension mapping. */
 export interface MetabaseLibMetricSchemaDimensionMapping {
   dimension_id: string;
-  table_id?: number | null;
+  table_id?: number | null | undefined;
   target: unknown;
   type: MetabaseLibSchemaMetadataDimensionMappingType | (string & {});
 }
@@ -5194,8 +5578,8 @@ export type MetabaseNotificationModelsCreateNotificationCardParamsCardCollection
   | MetabaseNotificationModelsCreateNotificationCardParamsCardCollectionPositionCase1List;
 export type MetabaseLibSchemaMetadataDimensionSourceType = "field";
 export interface MetabaseLibSchemaMetadataDimensionSource {
-  binning?: boolean | null;
-  field_id?: number | null;
+  binning?: boolean | null | undefined;
+  field_id?: number | null | undefined;
   type: MetabaseLibSchemaMetadataDimensionSourceType | (string & {});
 }
 export type MetabaseLibMetricSchemaDimensionSourcesList =
@@ -5212,21 +5596,25 @@ export type MetabaseLibMetricSchemaDimensionLibSource =
   | string;
 /** Schema for a dimension definition, plus what the metrics module annotates a dimension with before handing it to a client: the column it came from, its group, its field values status and how interesting it looks. */
 export interface MetabaseLibMetricSchemaDimension {
-  sources?: MetabaseLibMetricSchemaDimensionSourcesList | null;
-  group?: MetabaseLibSchemaMetadataDimensionGroup | null;
-  display_name?: string | null;
+  sources?: MetabaseLibMetricSchemaDimensionSourcesList | null | undefined;
+  group?: MetabaseLibSchemaMetadataDimensionGroup | null | undefined;
+  display_name?: string | null | undefined;
   id: string;
-  effective_type?: string | null;
-  name?: string | null;
-  status?: string | null;
-  has_field_values?: MetabaseLibSchemaMetadataColumnHasFieldValues | (string & {}) | null;
-  status_message?: string | null;
-  default_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null;
-  lib_source?: MetabaseLibMetricSchemaDimensionLibSource | null;
-  dimension_interestingness?: number | null;
-  default?: boolean | null;
-  semantic_type?: string | null;
-  description?: string | null;
+  effective_type?: string | null | undefined;
+  name?: string | null | undefined;
+  status?: string | null | undefined;
+  has_field_values?:
+    | MetabaseLibSchemaMetadataColumnHasFieldValues
+    | (string & {})
+    | null
+    | undefined;
+  status_message?: string | null | undefined;
+  default_temporal_unit?: MetabaseLibSchemaTemporalBucketingUnit | (string & {}) | null | undefined;
+  lib_source?: MetabaseLibMetricSchemaDimensionLibSource | null | undefined;
+  dimension_interestingness?: number | null | undefined;
+  default?: boolean | null | undefined;
+  semantic_type?: string | null | undefined;
+  description?: string | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationCardParamsCardDimensionsList =
   Array<MetabaseLibMetricSchemaDimension>;
@@ -5246,15 +5634,15 @@ export type MetabaseNotificationModelsCreateNotificationCardParamsCardEmbeddingP
 };
 /** A model's result metadata column as serialization exports it: only the keys a user can override, which the Card's hooks merge onto the metadata computed from its query. */
 export interface MetabaseQueriesSchemaCardResultMetadataModelOverride {
-  settings?: unknown | null;
-  visibility_type?: string | null;
-  id?: number | null;
+  settings?: unknown | null | undefined;
+  visibility_type?: string | null | undefined;
+  id?: number | null | undefined;
   name: string;
-  semantic_type?: string | null;
-  display_name?: string | null;
-  lib_source_display_name?: string | null;
-  description?: string | null;
-  fk_target_field_id?: number | null;
+  semantic_type?: string | null | undefined;
+  display_name?: string | null | undefined;
+  lib_source_display_name?: string | null | undefined;
+  description?: string | null | undefined;
+  fk_target_field_id?: number | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationCardParamsCardResultMetadataCase1List =
   Array<MetabaseQueriesSchemaCardResultMetadataModelOverride>;
@@ -5265,53 +5653,74 @@ export type MetabaseNotificationModelsCreateNotificationCardParamsCardParameters
   Array<MetabaseParametersSchemaParameter>;
 /** What an update (or insert) of a Card accepts: every column of `:report_card` except `id`, all optional, plus `:verified-result-metadata?` consumed by the model's hooks. */
 export interface MetabaseNotificationModelsCreateNotificationCardParamsCard {
-  enable_embedding?: boolean | null;
-  visualization_settings?: unknown | null;
-  dimension_mappings?: MetabaseNotificationModelsCreateNotificationCardParamsCardDimensionMappingsList | null;
-  cache_invalidated_at?: string | null;
-  collection_preview?: boolean | null;
-  initially_published_at?: string | null;
-  view_count?: number | null;
-  entity_id?: string | null;
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  parameter_mappings?: MetabaseNotificationModelsCreateNotificationCardParamsCardParameterMappingsList | null;
-  metabot_chart_id?: string | null;
+  enable_embedding?: boolean | null | undefined;
+  visualization_settings?: unknown | null | undefined;
+  dimension_mappings?:
+    | MetabaseNotificationModelsCreateNotificationCardParamsCardDimensionMappingsList
+    | null
+    | undefined;
+  cache_invalidated_at?: string | null | undefined;
+  collection_preview?: boolean | null | undefined;
+  initially_published_at?: string | null | undefined;
+  view_count?: number | null | undefined;
+  entity_id?: string | null | undefined;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  parameter_mappings?:
+    | MetabaseNotificationModelsCreateNotificationCardParamsCardParameterMappingsList
+    | null
+    | undefined;
+  metabot_chart_id?: string | null | undefined;
   /** value must be an integer greater than zero. */
   id: number;
-  embedding_type?: string | null;
-  verified_result_metadata_?: boolean;
-  made_public_by_id?: number | null;
-  name?: string | null;
-  archived?: boolean | null;
-  collection_position?: MetabaseNotificationModelsCreateNotificationCardParamsCardCollectionPosition | null;
-  dimensions?: MetabaseNotificationModelsCreateNotificationCardParamsCardDimensionsList | null;
-  query_description?: string | null;
-  database_id?: number | null;
-  embedding_params?: MetabaseNotificationModelsCreateNotificationCardParamsCardEmbeddingParamsMap | null;
-  updated_at?: string | null;
-  dataset_query_metrics_v2_migration_backup?: string | null;
-  table_id?: number | null;
-  legacy_query?: string | null;
-  document_id?: number | null;
-  result_metadata?: MetabaseNotificationModelsCreateNotificationCardParamsCardResultMetadata | null;
-  source_card_id?: number | null;
-  query_type?: string | null;
-  collection_id?: number | null;
-  cache_ttl?: number | null;
-  type?: MetabaseLibSchemaMetadataCardType | (string & {}) | null;
-  created_at?: string | null;
-  display?: string | null;
-  public_uuid?: string | null;
-  last_used_at?: string | null;
-  parameters?: MetabaseNotificationModelsCreateNotificationCardParamsCardParametersList | null;
-  creator_id?: number | null;
-  metabase_version?: string | null;
-  archived_directly?: boolean | null;
-  public_uuid_prefix?: string | null;
-  description?: string | null;
-  card_schema?: number | null;
-  metabot_conversation_id?: string | null;
-  dashboard_id?: number | null;
+  embedding_type?: string | null | undefined;
+  verified_result_metadata_?: boolean | undefined;
+  made_public_by_id?: number | null | undefined;
+  name?: string | null | undefined;
+  archived?: boolean | null | undefined;
+  collection_position?:
+    | MetabaseNotificationModelsCreateNotificationCardParamsCardCollectionPosition
+    | null
+    | undefined;
+  dimensions?:
+    | MetabaseNotificationModelsCreateNotificationCardParamsCardDimensionsList
+    | null
+    | undefined;
+  query_description?: string | null | undefined;
+  database_id?: number | null | undefined;
+  embedding_params?:
+    | MetabaseNotificationModelsCreateNotificationCardParamsCardEmbeddingParamsMap
+    | null
+    | undefined;
+  updated_at?: string | null | undefined;
+  dataset_query_metrics_v2_migration_backup?: string | null | undefined;
+  table_id?: number | null | undefined;
+  legacy_query?: string | null | undefined;
+  document_id?: number | null | undefined;
+  result_metadata?:
+    | MetabaseNotificationModelsCreateNotificationCardParamsCardResultMetadata
+    | null
+    | undefined;
+  source_card_id?: number | null | undefined;
+  query_type?: string | null | undefined;
+  collection_id?: number | null | undefined;
+  cache_ttl?: number | null | undefined;
+  type?: MetabaseLibSchemaMetadataCardType | (string & {}) | null | undefined;
+  created_at?: string | null | undefined;
+  display?: string | null | undefined;
+  public_uuid?: string | null | undefined;
+  last_used_at?: string | null | undefined;
+  parameters?:
+    | MetabaseNotificationModelsCreateNotificationCardParamsCardParametersList
+    | null
+    | undefined;
+  creator_id?: number | null | undefined;
+  metabase_version?: string | null | undefined;
+  archived_directly?: boolean | null | undefined;
+  public_uuid_prefix?: string | null | undefined;
+  description?: string | null | undefined;
+  card_schema?: number | null | undefined;
+  metabot_conversation_id?: string | null | undefined;
+  dashboard_id?: number | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationCardParamsSendCondition =
   | "goal_below"
@@ -5319,29 +5728,30 @@ export type MetabaseNotificationModelsCreateNotificationCardParamsSendCondition 
   | "goal_above";
 /** Schema for :model/NotificationCard on a create request. */
 export interface MetabaseNotificationModelsCreateNotificationCardParams {
-  card?: MetabaseNotificationModelsCreateNotificationCardParamsCard | null;
+  card?: MetabaseNotificationModelsCreateNotificationCardParamsCard | null | undefined;
   /** value must be an integer greater than zero. */
   card_id: number;
-  created_at?: string | null;
-  disable_links?: boolean | null;
-  notification_id?: number | null;
+  created_at?: string | null | undefined;
+  disable_links?: boolean | null | undefined;
+  notification_id?: number | null | undefined;
   send_condition?:
     | MetabaseNotificationModelsCreateNotificationCardParamsSendCondition
-    | (string & {});
-  send_once?: boolean;
-  updated_at?: string | null;
+    | (string & {})
+    | undefined;
+  send_once?: boolean | undefined;
+  updated_at?: string | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase0Type =
   | "notification-subscription/cron"
   | "notification-subscription/system-event";
 export interface MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase0 {
-  created_at?: string | null;
-  cron_schedule?: unknown | null;
+  created_at?: string | null | undefined;
+  cron_schedule?: unknown | null | undefined;
   event_name: string;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
+  notification_id?: number | undefined;
   type: MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase0Type | (string & {});
-  ui_display_type?: string | null;
+  ui_display_type?: string | null | undefined;
 }
 export type MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase1Type =
   | "notification-subscription/cron"
@@ -5350,16 +5760,17 @@ export type MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase1U
   | "cron/raw"
   | "cron/builder";
 export interface MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase1 {
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   cron_schedule: string;
-  event_name?: unknown | null;
+  event_name?: unknown | null | undefined;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
+  notification_id?: number | undefined;
   type: MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase1Type | (string & {});
   ui_display_type?:
     | MetabaseNotificationModelsCreateNotificationSubscriptionParamsCase1UiDisplayType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Schema for :model/NotificationSubscription on a create request. */
 export type MetabaseNotificationModelsCreateNotificationSubscriptionParams =
@@ -5371,14 +5782,18 @@ export interface MetabaseNotificationApiNotificationCreateNotificationParamsCase
   payload_type:
     | MetabaseNotificationApiNotificationCreateNotificationParamsCase0PayloadType
     | (string & {});
-  handlers?: MetabaseNotificationApiNotificationCreateNotificationParamsCase0HandlersList;
-  updated_at?: string | null;
-  created_at?: string | null;
-  internal_id?: string | null;
-  active?: boolean | null;
+  handlers?:
+    | MetabaseNotificationApiNotificationCreateNotificationParamsCase0HandlersList
+    | undefined;
+  updated_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  internal_id?: string | null | undefined;
+  active?: boolean | null | undefined;
   payload: MetabaseNotificationModelsCreateNotificationCardParams;
-  creator_id?: number | null;
-  subscriptions?: MetabaseNotificationApiNotificationCreateNotificationParamsCase0SubscriptionsList;
+  creator_id?: number | null | undefined;
+  subscriptions?:
+    | MetabaseNotificationApiNotificationCreateNotificationParamsCase0SubscriptionsList
+    | undefined;
 }
 export type MetabaseNotificationApiNotificationCreateNotificationParamsCase1PayloadType =
   | "notification/dashboard"
@@ -5389,17 +5804,19 @@ export type MetabaseNotificationApiNotificationCreateNotificationParamsCase1Hand
   Array<MetabaseNotificationModelsCreateNotificationRecipientParams>;
 /** Schema for :model/NotificationHandler on a create request. */
 export interface MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersItem {
-  template_id?: number | null;
-  channel_id?: number | null;
-  updated_at?: string | null;
-  recipients?: MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersItemRecipientsList;
-  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null;
+  template_id?: number | null | undefined;
+  channel_id?: number | null | undefined;
+  updated_at?: string | null | undefined;
+  recipients?:
+    | MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersItemRecipientsList
+    | undefined;
+  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null | undefined;
   channel_type: string;
-  created_at?: string | null;
-  channel?: MetabaseChannelModelsChannelChannel | null;
+  created_at?: string | null | undefined;
+  channel?: MetabaseChannelModelsChannelChannel | null | undefined;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
-  active?: boolean | null;
+  notification_id?: number | undefined;
+  active?: boolean | null | undefined;
 }
 export type MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersList =
   Array<MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersItem>;
@@ -5415,8 +5832,8 @@ export type MetabaseNotificationModelsEventTopic =
   | "event/security-advisory-match";
 /** The `:payload` of a system event notification as a client may send it: the event topic, plus the `:disable_links` `POST /api/notification` stamps on. The event map itself is the server's to supply, so a request carries none. */
 export interface MetabaseNotificationModelsSystemEventPayloadRequest {
-  disable_links?: boolean | null;
-  event_topic?: MetabaseNotificationModelsEventTopic | (string & {});
+  disable_links?: boolean | null | undefined;
+  event_topic?: MetabaseNotificationModelsEventTopic | (string & {}) | undefined;
 }
 export type MetabaseNotificationApiNotificationCreateNotificationParamsCase1SubscriptionsList =
   Array<MetabaseNotificationModelsCreateNotificationSubscriptionParams>;
@@ -5424,21 +5841,25 @@ export interface MetabaseNotificationApiNotificationCreateNotificationParamsCase
   payload_type:
     | MetabaseNotificationApiNotificationCreateNotificationParamsCase1PayloadType
     | (string & {});
-  handlers?: MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersList;
-  updated_at?: string | null;
-  created_at?: string | null;
-  internal_id?: string | null;
-  active?: boolean | null;
-  payload?: MetabaseNotificationModelsSystemEventPayloadRequest | null;
-  creator_id?: number | null;
-  subscriptions?: MetabaseNotificationApiNotificationCreateNotificationParamsCase1SubscriptionsList;
+  handlers?:
+    | MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersList
+    | undefined;
+  updated_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  internal_id?: string | null | undefined;
+  active?: boolean | null | undefined;
+  payload?: MetabaseNotificationModelsSystemEventPayloadRequest | null | undefined;
+  creator_id?: number | null | undefined;
+  subscriptions?:
+    | MetabaseNotificationApiNotificationCreateNotificationParamsCase1SubscriptionsList
+    | undefined;
 }
 /** Notification schema for a create request, or for sending one that was never saved. Like FullyHydratedNotification but restricts templates to user-provided types only (no handlebars-resource), and carries no ids since the body has no row of its own. */
 export type MetabaseNotificationApiNotificationCreateNotificationParams =
   | MetabaseNotificationApiNotificationCreateNotificationParamsCase0
   | MetabaseNotificationApiNotificationCreateNotificationParamsCase1;
 export interface CreateNotificationRequest {
-  body?: MetabaseNotificationApiNotificationCreateNotificationParams;
+  body?: MetabaseNotificationApiNotificationCreateNotificationParams | undefined;
 }
 export interface CreateNotificationResponse {}
 export type CreateNotificationAdminBulkRequestAction = "archive" | "change-creator";
@@ -5446,19 +5867,19 @@ export type CreateNotificationAdminBulkRequestNotificationIdsList = Array<number
 export interface CreateNotificationAdminBulkRequest {
   action: CreateNotificationAdminBulkRequestAction | (string & {});
   /** value must be an integer greater than zero. */
-  creator_id?: number;
+  creator_id?: number | undefined;
   notification_ids: CreateNotificationAdminBulkRequestNotificationIdsList;
 }
 export interface CreateNotificationAdminBulkResponse {}
 export interface CreateNotificationSendRequest {
-  body?: MetabaseNotificationApiNotificationCreateNotificationParams;
+  body?: MetabaseNotificationApiNotificationCreateNotificationParams | undefined;
 }
 export interface CreateNotificationSendResponse {}
 export type CreateNotificationSendRequestHandlerIdsList = Array<number>;
 export interface CreateNotificationSendRequest2 {
   /** value must be an integer greater than zero. */
   id: number;
-  handler_ids?: CreateNotificationSendRequestHandlerIdsList;
+  handler_ids?: CreateNotificationSendRequestHandlerIdsList | undefined;
 }
 export interface CreateNotificationSend2Response {}
 export interface CreateNotificationUnsubscribeRequest {
@@ -5481,9 +5902,9 @@ export interface CreateNotificationUnsubscribeUndoRequest {
 }
 export interface CreateNotificationUnsubscribeUndoResponse {}
 export interface CreateNotifyDbAttachedDatawarehouseRequest {
-  schema_name?: string | null;
-  synchronous_?: boolean | null;
-  table_name?: string | null;
+  schema_name?: string | null | undefined;
+  synchronous_?: boolean | null | undefined;
+  table_name?: string | null | undefined;
 }
 export interface CreateNotifyDbAttachedDatawarehouseResponse {}
 export interface CreateNotifyDbNewTableRequest {
@@ -5498,7 +5919,7 @@ export interface CreateNotifyDbNewTableResponse {}
 export interface CreateOsiAiContextReconcileRequest {}
 export interface CreateOsiAiContextReconcileResponse {}
 export interface CreatePermissionsGroupRequest {
-  is_tenant_group?: boolean | null;
+  is_tenant_group?: boolean | null | undefined;
   /** value must be a non-blank string. */
   name: string;
 }
@@ -5506,7 +5927,7 @@ export interface CreatePermissionsGroupResponse {}
 export interface CreatePermissionsMembershipRequest {
   /** value must be an integer greater than zero. */
   group_id: number;
-  is_group_manager?: boolean | null;
+  is_group_manager?: boolean | null | undefined;
   /** value must be an integer greater than zero. */
   user_id: number;
 }
@@ -5554,39 +5975,39 @@ export interface CreatePulseRequestCardsItemCase0 {
   id: number;
   /** value must be a valid boolean string ('true' or 'false'). */
   include_xls: boolean;
-  pivot_results?: boolean | null;
+  pivot_results?: boolean | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
   include_csv: boolean;
-  dashboard_card_id?: number | null;
+  dashboard_card_id?: number | null | undefined;
   name: string | null;
   collection_id: number | null;
   display: string | null;
-  format_rows?: boolean | null;
-  pulse_id?: number | null;
+  format_rows?: boolean | null | undefined;
+  pulse_id?: number | null | undefined;
   description: string | null;
   dashboard_id: number | null;
 }
 /** value must be a map with the keys `id`, `include_csv`, `include_xls`, and `dashboard_card_id`. */
 export interface CreatePulseRequestCardsItemCase1 {
-  dashboard_card_id?: number | null;
-  format_rows?: boolean | null;
+  dashboard_card_id?: number | null | undefined;
+  format_rows?: boolean | null | undefined;
   /** value must be an integer greater than zero. */
   id: number;
   /** value must be a valid boolean string ('true' or 'false'). */
   include_csv: boolean;
   /** value must be a valid boolean string ('true' or 'false'). */
   include_xls: boolean;
-  pivot_results?: boolean | null;
+  pivot_results?: boolean | null | undefined;
 }
 /** value must be a map with the keys `include_csv`, `include_xls`, and `dashboard_card_id`. */
 export interface CreatePulseRequestCardsItemCase2 {
-  dashboard_card_id?: number | null;
-  format_rows?: boolean | null;
+  dashboard_card_id?: number | null | undefined;
+  format_rows?: boolean | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
   include_csv: boolean;
   /** value must be a valid boolean string ('true' or 'false'). */
   include_xls: boolean;
-  pivot_results?: boolean | null;
+  pivot_results?: boolean | null | undefined;
 }
 export type CreatePulseRequestCardsItem =
   | CreatePulseRequestCardsItemCase0
@@ -5594,8 +6015,8 @@ export type CreatePulseRequestCardsItem =
   | CreatePulseRequestCardsItemCase2;
 export type CreatePulseRequestCardsList = Array<CreatePulseRequestCardsItem>;
 export interface CreatePulseRequestChannelsItemRecipientsItem {
-  email?: string | null;
-  id?: number | null;
+  email?: string | null | undefined;
+  id?: number | null | undefined;
 }
 export type CreatePulseRequestChannelsItemRecipientsList =
   Array<CreatePulseRequestChannelsItemRecipientsItem>;
@@ -5611,40 +6032,40 @@ export type CreatePulseRequestChannelsItemScheduleDay =
 export type CreatePulseRequestChannelsItemChannelType = "email" | "slack" | "http";
 export type CreatePulseRequestChannelsItemDetailsEmailsList = Array<string>;
 export interface CreatePulseRequestChannelsItemDetails {
-  attachment_only?: boolean | null;
-  channel?: string | null;
-  channel_id?: string | null;
-  channels?: string | null;
-  emails?: CreatePulseRequestChannelsItemDetailsEmailsList | null;
-  include_pdf?: boolean | null;
-  subject?: unknown | null;
+  attachment_only?: boolean | null | undefined;
+  channel?: string | null | undefined;
+  channel_id?: string | null | undefined;
+  channels?: string | null | undefined;
+  emails?: CreatePulseRequestChannelsItemDetailsEmailsList | null | undefined;
+  include_pdf?: boolean | null | undefined;
+  subject?: unknown | null | undefined;
 }
 export type CreatePulseRequestChannelsItemScheduleType = "hourly" | "daily" | "weekly" | "monthly";
 export interface CreatePulseRequestChannelsItem {
-  channel_id?: number | null;
-  enabled?: boolean | null;
-  id?: number | null;
-  recipients?: CreatePulseRequestChannelsItemRecipientsList;
-  schedule_frame?: CreatePulseRequestChannelsItemScheduleFrame | (string & {}) | null;
-  schedule_day?: CreatePulseRequestChannelsItemScheduleDay | (string & {}) | null;
+  channel_id?: number | null | undefined;
+  enabled?: boolean | null | undefined;
+  id?: number | null | undefined;
+  recipients?: CreatePulseRequestChannelsItemRecipientsList | undefined;
+  schedule_frame?: CreatePulseRequestChannelsItemScheduleFrame | (string & {}) | null | undefined;
+  schedule_day?: CreatePulseRequestChannelsItemScheduleDay | (string & {}) | null | undefined;
   channel_type: CreatePulseRequestChannelsItemChannelType | (string & {});
-  details?: CreatePulseRequestChannelsItemDetails | null;
-  schedule_hour?: number | null;
-  pulse_id?: number | null;
-  schedule_type?: CreatePulseRequestChannelsItemScheduleType | (string & {}) | null;
+  details?: CreatePulseRequestChannelsItemDetails | null | undefined;
+  schedule_hour?: number | null | undefined;
+  pulse_id?: number | null | undefined;
+  schedule_type?: CreatePulseRequestChannelsItemScheduleType | (string & {}) | null | undefined;
 }
 export type CreatePulseRequestChannelsList = Array<CreatePulseRequestChannelsItem>;
 export type CreatePulseRequestParametersList = Array<MetabaseParametersSchemaParameter>;
 export interface CreatePulseRequest {
   cards: CreatePulseRequestCardsList;
   channels: CreatePulseRequestChannelsList;
-  collection_id?: number | null;
-  collection_position?: number | null;
-  dashboard_id?: number | null;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
+  dashboard_id?: number | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  parameters?: CreatePulseRequestParametersList | null;
-  skip_if_empty?: boolean | null;
+  parameters?: CreatePulseRequestParametersList | null | undefined;
+  skip_if_empty?: boolean | null | undefined;
 }
 export interface CreatePulseResponse {}
 export type CreatePulseTestRequestAlertCondition = "rows" | "goal";
@@ -5677,13 +6098,13 @@ export type CreatePulseTestRequestChannelsItemScheduleDay =
 export type CreatePulseTestRequestChannelsItemChannelType = "email" | "slack" | "http";
 export type CreatePulseTestRequestChannelsItemDetailsEmailsList = Array<string>;
 export interface CreatePulseTestRequestChannelsItemDetails {
-  attachment_only?: boolean | null;
-  channel?: string | null;
-  channel_id?: string | null;
-  channels?: string | null;
-  emails?: CreatePulseTestRequestChannelsItemDetailsEmailsList | null;
-  include_pdf?: boolean | null;
-  subject?: unknown | null;
+  attachment_only?: boolean | null | undefined;
+  channel?: string | null | undefined;
+  channel_id?: string | null | undefined;
+  channels?: string | null | undefined;
+  emails?: CreatePulseTestRequestChannelsItemDetailsEmailsList | null | undefined;
+  include_pdf?: boolean | null | undefined;
+  subject?: unknown | null | undefined;
 }
 export type CreatePulseTestRequestChannelsItemScheduleType =
   | "hourly"
@@ -5691,33 +6112,37 @@ export type CreatePulseTestRequestChannelsItemScheduleType =
   | "weekly"
   | "monthly";
 export interface CreatePulseTestRequestChannelsItem {
-  channel_id?: number | null;
-  enabled?: boolean | null;
-  id?: number | null;
-  recipients?: CreatePulseTestRequestChannelsItemRecipientsList;
-  schedule_frame?: CreatePulseTestRequestChannelsItemScheduleFrame | (string & {}) | null;
-  schedule_day?: CreatePulseTestRequestChannelsItemScheduleDay | (string & {}) | null;
+  channel_id?: number | null | undefined;
+  enabled?: boolean | null | undefined;
+  id?: number | null | undefined;
+  recipients?: CreatePulseTestRequestChannelsItemRecipientsList | undefined;
+  schedule_frame?:
+    | CreatePulseTestRequestChannelsItemScheduleFrame
+    | (string & {})
+    | null
+    | undefined;
+  schedule_day?: CreatePulseTestRequestChannelsItemScheduleDay | (string & {}) | null | undefined;
   channel_type: CreatePulseTestRequestChannelsItemChannelType | (string & {});
-  details?: CreatePulseTestRequestChannelsItemDetails | null;
-  schedule_hour?: number | null;
-  pulse_id?: number | null;
-  schedule_type?: CreatePulseTestRequestChannelsItemScheduleType | (string & {}) | null;
+  details?: CreatePulseTestRequestChannelsItemDetails | null | undefined;
+  schedule_hour?: number | null | undefined;
+  pulse_id?: number | null | undefined;
+  schedule_type?: CreatePulseTestRequestChannelsItemScheduleType | (string & {}) | null | undefined;
 }
 export type CreatePulseTestRequestChannelsList = Array<CreatePulseTestRequestChannelsItem>;
 export interface CreatePulseTestRequest {
-  id?: number | null;
+  id?: number | null | undefined;
   /** value must be a non-blank string. */
   name: string;
-  collection_position?: number | null;
-  skip_if_empty?: boolean | null;
-  alert_above_goal?: boolean | null;
-  alert_condition?: CreatePulseTestRequestAlertCondition | (string & {}) | null;
-  collection_id?: number | null;
-  alert_first_only?: boolean | null;
-  disable_links?: boolean | null;
-  parameters?: CreatePulseTestRequestParametersList | null;
+  collection_position?: number | null | undefined;
+  skip_if_empty?: boolean | null | undefined;
+  alert_above_goal?: boolean | null | undefined;
+  alert_condition?: CreatePulseTestRequestAlertCondition | (string & {}) | null | undefined;
+  collection_id?: number | null | undefined;
+  alert_first_only?: boolean | null | undefined;
+  disable_links?: boolean | null | undefined;
+  parameters?: CreatePulseTestRequestParametersList | null | undefined;
   cards: CreatePulseTestRequestCardsList;
-  dashboard_id?: number | null;
+  dashboard_id?: number | null | undefined;
   channels: CreatePulseTestRequestChannelsList;
 }
 export interface CreatePulseTestResponse {}
@@ -5757,7 +6182,7 @@ export interface CreateSearchReInitRequest {}
 export interface CreateSearchReInitResponse {}
 export interface CreateSegmentRequest {
   definition: MetabaseLibSchemaQuery;
-  description?: string | null;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
 }
@@ -5784,7 +6209,7 @@ export interface CreateSessionMfaEnrollRequest {
   code: string;
   /** value must be a non-blank string. */
   enrollment_token: string;
-  remember?: boolean;
+  remember?: boolean | undefined;
 }
 export interface CreateSessionMfaEnrollResponse {}
 export interface CreateSessionMfaSendEmailOtpRequest {
@@ -5797,7 +6222,7 @@ export interface CreateSessionMfaVerifyRequest {
   challenge_token: string;
   /** value must be a non-blank string. */
   code: string;
-  remember?: boolean;
+  remember?: boolean | undefined;
 }
 export interface CreateSessionMfaVerifyResponse {}
 export interface CreateSessionPasswordCheckRequest {
@@ -5813,15 +6238,15 @@ export interface CreateSessionResetPasswordRequest {
 }
 export interface CreateSessionResetPasswordResponse {}
 export interface CreateSetupRequestPrefs {
-  site_locale?: string | null;
+  site_locale?: string | null | undefined;
   /** value must be a non-blank string. */
   site_name: string;
 }
 export interface CreateSetupRequestUser {
   /** value must be a valid email address. */
   email: string;
-  first_name?: string | null;
-  last_name?: string | null;
+  first_name?: string | null | undefined;
+  last_name?: string | null | undefined;
   /** password is too common. */
   password: string | Redacted.Redacted<string>;
 }
@@ -5875,19 +6300,22 @@ export type CreateSlackBugReportRequestDiagnosticInfoBrowserInfoMap = {
   [key: string]: unknown | undefined;
 };
 export interface CreateSlackBugReportRequestDiagnosticInfo {
-  entityName?: string | null;
-  frontendErrors?: CreateSlackBugReportRequestDiagnosticInfoFrontendErrorsList | null;
-  entityInfo?: CreateSlackBugReportRequestDiagnosticInfoEntityInfoMap | null;
-  reporter?: CreateSlackBugReportRequestDiagnosticInfoReporter | null;
-  url?: string | null;
-  backendErrors?: CreateSlackBugReportRequestDiagnosticInfoBackendErrorsList | null;
-  bugReportDetails?: CreateSlackBugReportRequestDiagnosticInfoBugReportDetailsMap | null;
-  userLogs?: CreateSlackBugReportRequestDiagnosticInfoUserLogsList | null;
-  localizedEntityName?: string | null;
-  logs?: CreateSlackBugReportRequestDiagnosticInfoLogsList | null;
-  queryResults?: CreateSlackBugReportRequestDiagnosticInfoQueryResultsMap | null;
-  browserInfo?: CreateSlackBugReportRequestDiagnosticInfoBrowserInfoMap | null;
-  description?: string | null;
+  entityName?: string | null | undefined;
+  frontendErrors?: CreateSlackBugReportRequestDiagnosticInfoFrontendErrorsList | null | undefined;
+  entityInfo?: CreateSlackBugReportRequestDiagnosticInfoEntityInfoMap | null | undefined;
+  reporter?: CreateSlackBugReportRequestDiagnosticInfoReporter | null | undefined;
+  url?: string | null | undefined;
+  backendErrors?: CreateSlackBugReportRequestDiagnosticInfoBackendErrorsList | null | undefined;
+  bugReportDetails?:
+    | CreateSlackBugReportRequestDiagnosticInfoBugReportDetailsMap
+    | null
+    | undefined;
+  userLogs?: CreateSlackBugReportRequestDiagnosticInfoUserLogsList | null | undefined;
+  localizedEntityName?: string | null | undefined;
+  logs?: CreateSlackBugReportRequestDiagnosticInfoLogsList | null | undefined;
+  queryResults?: CreateSlackBugReportRequestDiagnosticInfoQueryResultsMap | null | undefined;
+  browserInfo?: CreateSlackBugReportRequestDiagnosticInfoBrowserInfoMap | null | undefined;
+  description?: string | null | undefined;
 }
 export interface CreateSlackBugReportRequest {
   diagnosticInfo: CreateSlackBugReportRequestDiagnosticInfo;
@@ -5900,7 +6328,7 @@ export interface CreateTableAppendCsvRequestFile {
 export interface CreateTableAppendCsvRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  collection_id?: string;
+  collection_id?: string | undefined;
   file: CreateTableAppendCsvRequestFile;
 }
 export interface CreateTableAppendCsvResponse {}
@@ -5913,7 +6341,7 @@ export type CreateTableReplaceCsvRequestFile = CreateTableAppendCsvRequestFile;
 export interface CreateTableReplaceCsvRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  collection_id?: string;
+  collection_id?: string | undefined;
   file: CreateTableAppendCsvRequestFile;
 }
 export interface CreateTableReplaceCsvResponse {}
@@ -5939,11 +6367,11 @@ export type CreateTimelineRequestIcon =
   | "note"
   | "event";
 export interface CreateTimelineRequest {
-  archived?: boolean | null;
-  collection_id?: number | null;
-  default?: boolean | null;
-  description?: string | null;
-  icon?: CreateTimelineRequestIcon | (string & {}) | null;
+  archived?: boolean | null | undefined;
+  collection_id?: number | null | undefined;
+  default?: boolean | null | undefined;
+  description?: string | null | undefined;
+  icon?: CreateTimelineRequestIcon | (string & {}) | null | undefined;
   /** value must be a non-blank string. */
   name: string;
 }
@@ -5961,19 +6389,19 @@ export type CreateTimelineEventRequestIcon =
   | "note"
   | "event";
 export interface CreateTimelineEventRequest {
-  question_id?: number | null;
+  question_id?: number | null | undefined;
   timezone: string;
   /** value must be a valid date string */
   timestamp: string;
   /** value must be a non-blank string. */
   name: string;
-  archived?: boolean | null;
+  archived?: boolean | null | undefined;
   /** value must be an integer greater than zero. */
   timeline_id: number;
-  source?: CreateTimelineEventRequestSource | (string & {}) | null;
-  time_matters?: boolean | null;
-  description?: string | null;
-  icon?: CreateTimelineEventRequestIcon | (string & {}) | null;
+  source?: CreateTimelineEventRequestSource | (string & {}) | null | undefined;
+  time_matters?: boolean | null | undefined;
+  description?: string | null | undefined;
+  icon?: CreateTimelineEventRequestIcon | (string & {}) | null | undefined;
 }
 export interface CreateTimelineEventResponse {}
 export type CreateTransformRequestTagIdsList = Array<number>;
@@ -5993,14 +6421,14 @@ export interface MetabaseTransformsSchemaLookback {
   value: number;
 }
 export interface MetabaseTransformsSchemaCheckpointStrategy {
-  checkpoint_filter_field_id?: number;
-  lookback?: MetabaseTransformsSchemaLookback | null;
+  checkpoint_filter_field_id?: number | undefined;
+  lookback?: MetabaseTransformsSchemaLookback | null | undefined;
   type: unknown;
 }
 /** The `:source` of a query transform: its MBQL 5 query, normalized from legacy MBQL where a client or a serdes export still writes it. */
 export interface MetabaseTransformsSchemaQuerySource {
   query: MetabaseLibSchemaQuery;
-  source_incremental_strategy?: MetabaseTransformsSchemaCheckpointStrategy;
+  source_incremental_strategy?: MetabaseTransformsSchemaCheckpointStrategy | undefined;
   type: unknown;
 }
 export type MetabaseTransformsSchemaPythonSourceSourceTablesList =
@@ -6008,8 +6436,8 @@ export type MetabaseTransformsSchemaPythonSourceSourceTablesList =
 /** The `:source` of a Python transform: its script and the tables it reads. */
 export interface MetabaseTransformsSchemaPythonSource {
   body: string;
-  source_database?: number | null;
-  source_incremental_strategy?: MetabaseTransformsSchemaCheckpointStrategy;
+  source_database?: number | null | undefined;
+  source_incremental_strategy?: MetabaseTransformsSchemaCheckpointStrategy | undefined;
   source_tables: MetabaseTransformsSchemaPythonSourceSourceTablesList;
   type: unknown;
 }
@@ -6018,9 +6446,9 @@ export type MetabaseTransformsSchemaTransformSource =
   | MetabaseTransformsSchemaQuerySource
   | MetabaseTransformsSchemaPythonSource;
 export interface MetabaseTransformsSchemaTableTarget {
-  database?: number | null;
+  database?: number | null | undefined;
   name: string;
-  schema?: string | null;
+  schema?: string | null | undefined;
   type: unknown;
 }
 export interface MetabaseTransformsSchemaAppendConfig {
@@ -6028,9 +6456,9 @@ export interface MetabaseTransformsSchemaAppendConfig {
 }
 /** One column of a merge unique key. Carries a resolved `:field-id` when the target column is known, degrading to a `:name` ref when the target table doesn't exist yet (mirrors `::source-table-entry`). */
 export interface MetabaseTransformsSchemaMergeKeyColumn {
-  field_id?: number | null;
+  field_id?: number | null | undefined;
   /** value must be a non-blank string. */
-  name?: string;
+  name?: string | undefined;
 }
 export type MetabaseTransformsSchemaMergeConfigUniqueKeyList =
   Array<MetabaseTransformsSchemaMergeKeyColumn>;
@@ -6042,9 +6470,9 @@ export type MetabaseTransformsSchemaTargetIncrementalStrategy =
   | MetabaseTransformsSchemaAppendConfig
   | MetabaseTransformsSchemaMergeConfig;
 export interface MetabaseTransformsSchemaTableIncrementalTarget {
-  database?: number | null;
+  database?: number | null | undefined;
   name: string;
-  schema?: string | null;
+  schema?: string | null | undefined;
   target_incremental_strategy: MetabaseTransformsSchemaTargetIncrementalStrategy;
   type: unknown;
 }
@@ -6054,15 +6482,15 @@ export type MetabaseTransformsSchemaTransformTarget =
 /** What starts a Transform run: nothing, or the global schedule. */
 export type MetabaseTransformsSchemaRunTrigger = "none" | "global-schedule";
 export interface CreateTransformRequest {
-  owner_email?: string | null;
-  owner_user_id?: number | null;
+  owner_email?: string | null | undefined;
+  owner_user_id?: number | null | undefined;
   name: string;
-  tag_ids?: CreateTransformRequestTagIdsList;
-  collection_id?: number | null;
+  tag_ids?: CreateTransformRequestTagIdsList | undefined;
+  collection_id?: number | null | undefined;
   source: MetabaseTransformsSchemaTransformSource;
   target: MetabaseTransformsSchemaTransformTarget;
-  run_trigger?: MetabaseTransformsSchemaRunTrigger | (string & {});
-  description?: string | null;
+  run_trigger?: MetabaseTransformsSchemaRunTrigger | (string & {}) | undefined;
+  description?: string | null | undefined;
 }
 export interface CreateTransformResponse {}
 export interface CreateTransformCancelRequest {
@@ -6078,19 +6506,19 @@ export interface CreateTransformDagRunCancelResponse {}
 export type CreateTransformJobRequestTagIdsList = Array<number>;
 export type CreateTransformJobRequestUiDisplayType = "cron/raw" | "cron/builder";
 export interface CreateTransformJobRequest {
-  description?: string | null;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
   name: string;
   /** value must be a non-blank string. */
   schedule: string;
-  tag_ids?: CreateTransformJobRequestTagIdsList;
-  ui_display_type?: CreateTransformJobRequestUiDisplayType | (string & {});
+  tag_ids?: CreateTransformJobRequestTagIdsList | undefined;
+  ui_display_type?: CreateTransformJobRequestUiDisplayType | (string & {}) | undefined;
 }
 export interface CreateTransformJobResponse {}
 export interface CreateTransformJobRunRequest {
   /** value must be an integer greater than zero. */
   job_id: number;
-  run_all?: boolean;
+  run_all?: boolean | undefined;
 }
 export interface CreateTransformJobRunResponse {}
 export interface CreateTransformJobRunCancelRequest {
@@ -6137,7 +6565,7 @@ export interface MetabaseUsersSchemaUserGroupMembership {
   /** value must be an integer greater than zero. */
   id: number;
   /** Only relevant if `advanced-permissions` is enabled. If it is, you should always include this key. */
-  is_group_manager?: boolean;
+  is_group_manager?: boolean | undefined;
 }
 export type CreateUserRequestUserGroupMembershipsList =
   Array<MetabaseUsersSchemaUserGroupMembership>;
@@ -6150,16 +6578,16 @@ export interface CreateUserRequestInviteTarget {
   type: CreateUserRequestInviteTargetType | (string & {});
 }
 export interface CreateUserRequest {
-  login_attributes?: CreateUserRequestLoginAttributesMap | null;
-  user_group_memberships?: CreateUserRequestUserGroupMembershipsList | null;
+  login_attributes?: CreateUserRequestLoginAttributesMap | null | undefined;
+  user_group_memberships?: CreateUserRequestUserGroupMembershipsList | null | undefined;
   /** value must be a valid email address. */
   email: string;
-  tenant_id?: number | null;
-  last_name?: string | null;
-  first_name?: string | null;
-  source?: string | null;
-  password?: string | null;
-  invite_target?: CreateUserRequestInviteTarget | null;
+  tenant_id?: number | null | undefined;
+  last_name?: string | null | undefined;
+  first_name?: string | null | undefined;
+  source?: string | null | undefined;
+  password?: string | null | undefined;
+  invite_target?: CreateUserRequestInviteTarget | null | undefined;
 }
 export interface CreateUserResponse {}
 export interface CreateUserPasswordResetUrlRequest {
@@ -6309,7 +6737,7 @@ export interface DeleteEeTransformTestResponse {}
 export interface DeleteEeUploadManagementTableRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archive_cards?: boolean;
+  archive_cards?: boolean | undefined;
 }
 export interface DeleteEeUploadManagementTableResponse {}
 export interface DeleteEmailRequest {}
@@ -6442,9 +6870,9 @@ export interface DeleteUserKeyValueNamespaceKeyRequest {
 }
 export interface DeleteUserKeyValueNamespaceKeyResponse {}
 export interface GetActionRequest {
-  model_id?: number;
-  type?: MetabaseActionsSchemaType | (string & {});
-  archived?: boolean;
+  model_id?: number | undefined;
+  type?: MetabaseActionsSchemaType | (string & {}) | undefined;
+  archived?: boolean | undefined;
 }
 export interface GetActionResponse {}
 export interface GetAction2Request {}
@@ -6469,14 +6897,14 @@ export type GetActivityRecentsRequestContextList = Array<
 >;
 export interface GetActivityRecentsRequest {
   context: GetActivityRecentsRequestContextList;
-  include_metadata?: boolean;
+  include_metadata?: boolean | undefined;
 }
 export interface GetActivityRecentsResponse {}
 export interface GetAgentPingRequest {}
 export interface GetAgentPingResponse {}
 export interface GetAlertRequest {
-  archived?: boolean;
-  user_id?: number;
+  archived?: boolean | undefined;
+  user_id?: number | undefined;
 }
 export interface GetAlertResponse {}
 export interface GetAlertByIdRequest {
@@ -6498,7 +6926,7 @@ export type GetAutomagicDashboardRequestShow = unknown | number;
 export interface GetAutomagicDashboardRequest {
   entity: GetAutomagicDashboardRequestEntity | (string & {});
   entity_id_or_query: string;
-  show?: GetAutomagicDashboardRequestShow;
+  show?: GetAutomagicDashboardRequestShow | undefined;
 }
 export interface GetAutomagicDashboardResponse {}
 export type GetAutomagicDashboardCellRequestEntity =
@@ -6518,7 +6946,7 @@ export interface GetAutomagicDashboardCellRequest {
   entity_id_or_query: string;
   cell_query: string;
   /** invalid show value */
-  show?: GetAutomagicDashboardCellRequestShow;
+  show?: GetAutomagicDashboardCellRequestShow | undefined;
 }
 export interface GetAutomagicDashboardCellResponse {}
 export type GetAutomagicDashboardCellCompareRequestEntity =
@@ -6542,7 +6970,7 @@ export interface GetAutomagicDashboardCellCompareRequest {
   comparison_entity: GetAutomagicDashboardCellCompareRequestComparisonEntity | (string & {});
   comparison_entity_id_or_query: string;
   /** invalid show value */
-  show?: GetAutomagicDashboardCellCompareRequestShow;
+  show?: GetAutomagicDashboardCellCompareRequestShow | undefined;
 }
 export interface GetAutomagicDashboardCellCompareResponse {}
 export type GetAutomagicDashboardCellRuleDashboardTemplateRequestEntity =
@@ -6565,7 +6993,7 @@ export interface GetAutomagicDashboardCellRuleDashboardTemplateRequest {
   /** invalid value for dashboard template name */
   dashboard_template: string;
   /** invalid show value */
-  show?: GetAutomagicDashboardCellRuleDashboardTemplateRequestShow;
+  show?: GetAutomagicDashboardCellRuleDashboardTemplateRequestShow | undefined;
 }
 export interface GetAutomagicDashboardCellRuleDashboardTemplateResponse {}
 export type GetAutomagicDashboardCellRuleDashboardTemplateCompareRequestEntity =
@@ -6597,7 +7025,7 @@ export interface GetAutomagicDashboardCellRuleDashboardTemplateCompareRequest {
     | (string & {});
   comparison_entity_id_or_query: string;
   /** invalid show value */
-  show?: GetAutomagicDashboardCellRuleDashboardTemplateCompareRequestShow;
+  show?: GetAutomagicDashboardCellRuleDashboardTemplateCompareRequestShow | undefined;
 }
 export interface GetAutomagicDashboardCellRuleDashboardTemplateCompareResponse {}
 export type GetAutomagicDashboardCompareRequestEntity =
@@ -6620,7 +7048,7 @@ export interface GetAutomagicDashboardCompareRequest {
   comparison_entity: GetAutomagicDashboardCompareRequestComparisonEntity | (string & {});
   comparison_entity_id_or_query: string;
   /** invalid show value */
-  show?: GetAutomagicDashboardCompareRequestShow;
+  show?: GetAutomagicDashboardCompareRequestShow | undefined;
 }
 export interface GetAutomagicDashboardCompareResponse {}
 export type GetAutomagicDashboardEntityOrQueryQueryMetadataRequestEntity =
@@ -6655,7 +7083,7 @@ export interface GetAutomagicDashboardRuleDashboardTemplateRequest {
   /** invalid value for dashboard template name */
   dashboard_template: string;
   /** invalid show value */
-  show?: GetAutomagicDashboardRuleDashboardTemplateRequestShow;
+  show?: GetAutomagicDashboardRuleDashboardTemplateRequestShow | undefined;
 }
 export interface GetAutomagicDashboardRuleDashboardTemplateResponse {}
 export type GetAutomagicDashboardRuleDashboardTemplateCompareRequestEntity =
@@ -6686,7 +7114,7 @@ export interface GetAutomagicDashboardRuleDashboardTemplateCompareRequest {
     | (string & {});
   comparison_entity_id_or_query: string;
   /** invalid show value */
-  show?: GetAutomagicDashboardRuleDashboardTemplateCompareRequestShow;
+  show?: GetAutomagicDashboardRuleDashboardTemplateCompareRequestShow | undefined;
 }
 export interface GetAutomagicDashboardRuleDashboardTemplateCompareResponse {}
 export interface GetAutomagicDashboardsDatabaseCandidatesRequest {
@@ -6711,13 +7139,13 @@ export type GetCacheRequestSortColumn = "name" | "policy" | "collection";
 export type GetCacheRequestSortDirection = "asc" | "desc";
 export interface GetCacheRequest {
   /** Type of model */
-  model?: GetCacheRequestModelList;
+  model?: GetCacheRequestModelList | undefined;
   /** Collection id to filter results. Returns everything if not supplied. */
-  collection?: number;
+  collection?: number | undefined;
   /** Model id to get configuration for. */
-  id?: number;
-  sort_column?: GetCacheRequestSortColumn | (string & {});
-  sort_direction?: GetCacheRequestSortDirection | (string & {});
+  id?: number | undefined;
+  sort_column?: GetCacheRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetCacheRequestSortDirection | (string & {}) | undefined;
 }
 export interface GetCacheResponse {}
 export type GetCardRequestF =
@@ -6730,15 +7158,15 @@ export type GetCardRequestF =
   | "mine"
   | "database";
 export interface GetCardRequest {
-  f?: GetCardRequestF | (string & {});
-  model_id?: number;
+  f?: GetCardRequestF | (string & {}) | undefined;
+  model_id?: number | undefined;
 }
 export interface GetCardResponse {}
 export interface GetCard2Request {}
 export interface GetCard2Response {}
 export interface GetCardByIdRequest {
   id: string;
-  legacy_mbql?: boolean;
+  legacy_mbql?: boolean | undefined;
 }
 export interface GetCardByIdResponse {}
 export interface GetCardByUuidRequest {
@@ -6800,8 +7228,8 @@ export interface GetCardParamValues2Response {}
 export interface GetCardQueryRequest {
   /** value must be a valid UUID. */
   uuid: string;
-  parameters?: MetabaseParametersSchemaParameterValues;
-  ignore_cache?: boolean;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
+  ignore_cache?: boolean | undefined;
 }
 export interface GetCardQueryResponse {}
 /** Schema for valid export formats for downloading query results. */
@@ -6810,10 +7238,10 @@ export interface GetCardQueryByExportFormatRequest {
   /** value must be a valid UUID. */
   uuid: string;
   export_format: GetCardQueryByExportFormatRequestExportFormat | (string & {});
-  format_rows?: boolean;
-  pivot_results?: boolean;
-  parameters?: MetabaseParametersSchemaParameterValues;
-  csv_include_bom?: boolean;
+  format_rows?: boolean | undefined;
+  pivot_results?: boolean | undefined;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
+  csv_include_bom?: boolean | undefined;
 }
 export interface GetCardQueryByExportFormatResponse {}
 export interface GetCardQueryMetadataRequest {
@@ -6823,13 +7251,13 @@ export interface GetCardQueryMetadataResponse {}
 export type GetCardSeriesRequestExcludeIdsList = Array<number>;
 export interface GetCardSeriesRequest {
   id: number;
-  last_cursor?: number;
-  query?: string;
-  exclude_ids?: GetCardSeriesRequestExcludeIdsList;
+  last_cursor?: number | undefined;
+  query?: string | undefined;
+  exclude_ids?: GetCardSeriesRequestExcludeIdsList | undefined;
 }
 export interface GetCardSeriesResponse {}
 export interface GetChannelRequest {
-  include_inactive?: boolean | null;
+  include_inactive?: boolean | null | undefined;
 }
 export interface GetChannelResponse {}
 export interface GetChannelByIdRequest {
@@ -6840,10 +7268,10 @@ export interface GetChannelByIdResponse {}
 export interface GetCloudMigrationRequest {}
 export interface GetCloudMigrationResponse {}
 export interface GetCollectionRequest {
-  archived?: boolean;
-  exclude_other_user_collections?: boolean;
-  namespace?: string;
-  personal_only?: boolean;
+  archived?: boolean | undefined;
+  exclude_other_user_collections?: boolean | undefined;
+  namespace?: string | undefined;
+  personal_only?: boolean | undefined;
 }
 export interface GetCollectionResponse {}
 export interface GetCollectionByIdRequest {
@@ -6856,7 +7284,7 @@ export interface GetCollectionDashboardQuestionCandidatesRequest {
 }
 export interface GetCollectionDashboardQuestionCandidatesResponse {}
 export interface GetCollectionGraphRequest {
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface GetCollectionGraphResponse {}
 export type GetCollectionItemsRequestPinnedState = "is_not_pinned" | "is_pinned" | "all";
@@ -6888,16 +7316,16 @@ export type GetCollectionItemsRequestSortColumn =
   | "description";
 export interface GetCollectionItemsRequest {
   id: string;
-  q?: string;
-  pinned_state?: GetCollectionItemsRequestPinnedState | (string & {});
-  archived?: boolean;
-  sort_direction?: GetCollectionItemsRequestSortDirection | (string & {});
-  show_dashboard_questions?: boolean;
-  show_exploration_documents?: boolean;
-  include_available_models?: boolean;
-  models?: GetCollectionItemsRequestModelsList;
-  official_collections_first?: boolean;
-  sort_column?: GetCollectionItemsRequestSortColumn | (string & {});
+  q?: string | undefined;
+  pinned_state?: GetCollectionItemsRequestPinnedState | (string & {}) | undefined;
+  archived?: boolean | undefined;
+  sort_direction?: GetCollectionItemsRequestSortDirection | (string & {}) | undefined;
+  show_dashboard_questions?: boolean | undefined;
+  show_exploration_documents?: boolean | undefined;
+  include_available_models?: boolean | undefined;
+  models?: GetCollectionItemsRequestModelsList | undefined;
+  official_collections_first?: boolean | undefined;
+  sort_column?: GetCollectionItemsRequestSortColumn | (string & {}) | undefined;
 }
 export interface GetCollectionItemsResponse {}
 export type GetCollectionItemsMetadataRequestModelsItem =
@@ -6922,15 +7350,15 @@ export type GetCollectionItemsMetadataRequestModelsList = Array<
 export type GetCollectionItemsMetadataRequestPinnedState = "is_not_pinned" | "is_pinned" | "all";
 export interface GetCollectionItemsMetadataRequest {
   id: string;
-  models?: GetCollectionItemsMetadataRequestModelsList;
-  archived?: boolean;
-  pinned_state?: GetCollectionItemsMetadataRequestPinnedState | (string & {});
-  show_dashboard_questions?: boolean;
-  show_exploration_documents?: boolean;
+  models?: GetCollectionItemsMetadataRequestModelsList | undefined;
+  archived?: boolean | undefined;
+  pinned_state?: GetCollectionItemsMetadataRequestPinnedState | (string & {}) | undefined;
+  show_dashboard_questions?: boolean | undefined;
+  show_exploration_documents?: boolean | undefined;
 }
 export interface GetCollectionItemsMetadataResponse {}
 export interface GetCollectionRootRequest {
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface GetCollectionRootResponse {}
 export interface GetCollectionRootDashboardQuestionCandidatesRequest {}
@@ -6964,19 +7392,19 @@ export type GetCollectionRootItemsRequestSortColumn =
   | "last_edited_at"
   | "description";
 export interface GetCollectionRootItemsRequest {
-  collection_type?: GetCollectionRootItemsRequestCollectionType | (string & {});
-  include_library?: boolean;
-  q?: string;
-  pinned_state?: GetCollectionRootItemsRequestPinnedState | (string & {});
-  archived?: boolean;
-  sort_direction?: GetCollectionRootItemsRequestSortDirection | (string & {});
-  show_dashboard_questions?: boolean;
-  show_exploration_documents?: boolean;
-  include_available_models?: boolean;
-  namespace?: string;
-  models?: GetCollectionRootItemsRequestModelsList;
-  official_collections_first?: boolean;
-  sort_column?: GetCollectionRootItemsRequestSortColumn | (string & {});
+  collection_type?: GetCollectionRootItemsRequestCollectionType | (string & {}) | undefined;
+  include_library?: boolean | undefined;
+  q?: string | undefined;
+  pinned_state?: GetCollectionRootItemsRequestPinnedState | (string & {}) | undefined;
+  archived?: boolean | undefined;
+  sort_direction?: GetCollectionRootItemsRequestSortDirection | (string & {}) | undefined;
+  show_dashboard_questions?: boolean | undefined;
+  show_exploration_documents?: boolean | undefined;
+  include_available_models?: boolean | undefined;
+  namespace?: string | undefined;
+  models?: GetCollectionRootItemsRequestModelsList | undefined;
+  official_collections_first?: boolean | undefined;
+  sort_column?: GetCollectionRootItemsRequestSortColumn | (string & {}) | undefined;
 }
 export interface GetCollectionRootItemsResponse {}
 export type GetCollectionRootItemsMetadataRequestModelsItem =
@@ -7004,27 +7432,27 @@ export type GetCollectionRootItemsMetadataRequestPinnedState =
   | "all";
 export type GetCollectionRootItemsMetadataRequestCollectionType = "remote-synced";
 export interface GetCollectionRootItemsMetadataRequest {
-  models?: GetCollectionRootItemsMetadataRequestModelsList;
-  archived?: boolean;
-  namespace?: string;
-  pinned_state?: GetCollectionRootItemsMetadataRequestPinnedState | (string & {});
-  collection_type?: GetCollectionRootItemsMetadataRequestCollectionType | (string & {});
-  include_library?: boolean;
-  show_dashboard_questions?: boolean;
-  show_exploration_documents?: boolean;
+  models?: GetCollectionRootItemsMetadataRequestModelsList | undefined;
+  archived?: boolean | undefined;
+  namespace?: string | undefined;
+  pinned_state?: GetCollectionRootItemsMetadataRequestPinnedState | (string & {}) | undefined;
+  collection_type?: GetCollectionRootItemsMetadataRequestCollectionType | (string & {}) | undefined;
+  include_library?: boolean | undefined;
+  show_dashboard_questions?: boolean | undefined;
+  show_exploration_documents?: boolean | undefined;
 }
 export interface GetCollectionRootItemsMetadataResponse {}
 export interface GetCollectionTrashRequest {}
 export interface GetCollectionTrashResponse {}
 export type GetCollectionTreeRequestNamespacesList = Array<string>;
 export interface GetCollectionTreeRequest {
-  exclude_archived?: boolean;
-  exclude_other_user_collections?: boolean;
-  include_library?: boolean;
-  namespace?: string;
-  namespaces?: GetCollectionTreeRequestNamespacesList;
-  shallow?: boolean;
-  collection_id?: number;
+  exclude_archived?: boolean | undefined;
+  exclude_other_user_collections?: boolean | undefined;
+  include_library?: boolean | undefined;
+  namespace?: string | undefined;
+  namespaces?: GetCollectionTreeRequestNamespacesList | undefined;
+  shallow?: boolean | undefined;
+  collection_id?: number | undefined;
 }
 export interface GetCollectionTreeResponse {}
 export type GetCommentRequestTargetType = "document" | "exploration";
@@ -7040,13 +7468,13 @@ export interface GetDashboardRequest {}
 export interface GetDashboardResponse {}
 export interface GetDashboardByIdRequest {
   id: string;
-  dashboard_load_id?: string;
+  dashboard_load_id?: string | undefined;
 }
 export interface GetDashboardByIdResponse {}
 export interface GetDashboardByUuidRequest {
   /** value must be a valid UUID. */
   uuid: string;
-  dashboard_load_id?: string;
+  dashboard_load_id?: string | undefined;
 }
 export interface GetDashboardByUuidResponse {}
 export interface GetDashboardDashcardCardRequest {
@@ -7056,8 +7484,8 @@ export interface GetDashboardDashcardCardRequest {
   dashcard_id: number;
   /** value must be an integer greater than zero. */
   card_id: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
-  ignore_cache?: boolean;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
+  ignore_cache?: boolean | undefined;
 }
 export interface GetDashboardDashcardCardResponse {}
 export interface GetDashboardEmbeddableRequest {}
@@ -7105,7 +7533,7 @@ export type GetDashboardParamsValidFilterFieldsRequestFilteredList = Array<numbe
 export type GetDashboardParamsValidFilterFieldsRequestFilteringList = Array<number>;
 export interface GetDashboardParamsValidFilterFieldsRequest {
   filtered: GetDashboardParamsValidFilterFieldsRequestFilteredList;
-  filtering?: GetDashboardParamsValidFilterFieldsRequestFilteringList;
+  filtering?: GetDashboardParamsValidFilterFieldsRequestFilteringList | undefined;
 }
 export interface GetDashboardParamsValidFilterFieldsResponse {}
 export interface GetDashboardParamValuesRequest {
@@ -7124,7 +7552,7 @@ export interface GetDashboardParamValuesRequest2 {
 export interface GetDashboardParamValues2Response {}
 export interface GetDashboardQueryMetadataRequest {
   id: string;
-  dashboard_load_id?: string;
+  dashboard_load_id?: string | undefined;
 }
 export interface GetDashboardQueryMetadataResponse {}
 export interface GetDashboardRelatedRequest {
@@ -7134,34 +7562,34 @@ export interface GetDashboardRelatedRequest {
 export interface GetDashboardRelatedResponse {}
 export type GetDatabaseRequestInclude = "tables" | "schemas";
 export interface GetDatabaseRequest {
-  saved?: boolean;
-  include_analytics?: boolean;
-  include_only_uploadable?: boolean;
+  saved?: boolean | undefined;
+  include_analytics?: boolean | undefined;
+  include_only_uploadable?: boolean | undefined;
   /** include must be either empty, 'tables', or 'schemas' */
-  include?: GetDatabaseRequestInclude | (string & {});
-  include_stubs?: boolean;
-  router_database_id?: number;
-  can_query?: boolean;
-  exclude_uneditable_details?: boolean;
-  include_editable_data_model?: boolean;
+  include?: GetDatabaseRequestInclude | (string & {}) | undefined;
+  include_stubs?: boolean | undefined;
+  router_database_id?: number | undefined;
+  can_query?: boolean | undefined;
+  exclude_uneditable_details?: boolean | undefined;
+  include_editable_data_model?: boolean | undefined;
 }
 export interface GetDatabaseResponse {}
 export interface GetDatabaseAutocompleteSuggestionsRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  prefix?: string;
-  substring?: string;
+  prefix?: string | undefined;
+  substring?: string | undefined;
 }
 export interface GetDatabaseAutocompleteSuggestionsResponse {}
 export type GetDatabaseByIdRequestInclude = "tables" | "tables.fields";
 export interface GetDatabaseByIdRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include?: GetDatabaseByIdRequestInclude | (string & {});
+  include?: GetDatabaseByIdRequestInclude | (string & {}) | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  include_editable_data_model?: boolean;
+  include_editable_data_model?: boolean | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  exclude_uneditable_details?: boolean;
+  exclude_uneditable_details?: boolean | undefined;
 }
 export interface GetDatabaseByIdResponse {}
 export interface GetDatabaseCardAutocompleteSuggestionsRequest {
@@ -7170,7 +7598,7 @@ export interface GetDatabaseCardAutocompleteSuggestionsRequest {
   /** value must be a non-blank string. */
   query: string;
   /** value must be a valid boolean string ('true' or 'false'). */
-  include_dashboard_questions?: boolean;
+  include_dashboard_questions?: boolean | undefined;
 }
 export interface GetDatabaseCardAutocompleteSuggestionsResponse {}
 export interface GetDatabaseDatasetRequest {
@@ -7191,23 +7619,23 @@ export type MetabaseDriverConnectionConnectionType = "default" | "write-data" | 
 export interface GetDatabaseHealthcheckRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  connection_type?: MetabaseDriverConnectionConnectionType | (string & {});
+  connection_type?: MetabaseDriverConnectionConnectionType | (string & {}) | undefined;
 }
 export interface GetDatabaseHealthcheckResponse {}
 export interface GetDatabaseIdfieldsRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include_editable_data_model?: boolean;
+  include_editable_data_model?: boolean | undefined;
 }
 export interface GetDatabaseIdfieldsResponse {}
 export interface GetDatabaseMetadataRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include_hidden?: boolean;
-  include_sensitive_fields?: boolean;
-  include_editable_data_model?: boolean;
-  remove_inactive?: boolean;
-  skip_fields?: boolean;
+  include_hidden?: boolean | undefined;
+  include_sensitive_fields?: boolean | undefined;
+  include_editable_data_model?: boolean | undefined;
+  remove_inactive?: boolean | undefined;
+  skip_fields?: boolean | undefined;
 }
 export interface GetDatabaseMetadataResponse {}
 export interface GetDatabaseMetadataRequest2 {
@@ -7217,11 +7645,11 @@ export interface GetDatabaseMetadata2Response {}
 export interface GetDatabaseSchemaRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  schema?: string;
-  include_hidden?: boolean;
-  include_editable_data_model?: boolean;
-  can_query?: boolean;
-  include_measures?: boolean;
+  schema?: string | undefined;
+  include_hidden?: boolean | undefined;
+  include_editable_data_model?: boolean | undefined;
+  can_query?: boolean | undefined;
+  include_measures?: boolean | undefined;
 }
 export interface GetDatabaseSchemaResponse {}
 export interface GetDatabaseSchemaBySchemaRequest {
@@ -7229,10 +7657,10 @@ export interface GetDatabaseSchemaBySchemaRequest {
   id: number;
   /** value must be a non-blank string. */
   schema: string;
-  include_hidden?: boolean;
-  include_editable_data_model?: boolean;
-  can_query?: boolean;
-  include_measures?: boolean;
+  include_hidden?: boolean | undefined;
+  include_editable_data_model?: boolean | undefined;
+  can_query?: boolean | undefined;
+  include_measures?: boolean | undefined;
 }
 export interface GetDatabaseSchemaBySchemaResponse {}
 export interface GetDatabaseSchemaBySchemaRequest2 {
@@ -7243,9 +7671,9 @@ export interface GetDatabaseSchemaBySchema2Response {}
 export interface GetDatabaseSchemasRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include_editable_data_model?: boolean;
-  include_hidden?: boolean;
-  can_query?: boolean;
+  include_editable_data_model?: boolean | undefined;
+  include_hidden?: boolean | undefined;
+  can_query?: boolean | undefined;
 }
 export interface GetDatabaseSchemasResponse {}
 export interface GetDatabaseSchemasRequest2 {
@@ -7286,14 +7714,14 @@ export interface GetDocumentCardRequest {
   uuid: string;
   /** value must be an integer greater than zero. */
   card_id: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
 }
 export interface GetDocumentCardResponse {}
 export interface GetEeAdvancedPermissionsApplicationGraphRequest {}
 export interface GetEeAdvancedPermissionsApplicationGraphResponse {}
 export interface GetEeAdvancedPermissionsImpersonationRequest {
-  group_id?: number;
-  db_id?: number;
+  group_id?: number | undefined;
+  db_id?: number | undefined;
 }
 export interface GetEeAdvancedPermissionsImpersonationResponse {}
 export interface GetEeAiControlsMcpPermissionsRequest {}
@@ -7384,13 +7812,16 @@ export type GetEeContentDiagnosticsDuplicatedRequestEntityTypes =
   | GetEeContentDiagnosticsDuplicatedRequestEntityTypesCase0
   | GetEeContentDiagnosticsDuplicatedRequestEntityTypesCase1List;
 export interface GetEeContentDiagnosticsDuplicatedRequest {
-  include_personal_collections?: boolean;
-  sort_column?: GetEeContentDiagnosticsDuplicatedRequestSortColumn | (string & {});
-  sort_direction?: GetEeContentDiagnosticsDuplicatedRequestSortDirection | (string & {});
-  entity_types?: GetEeContentDiagnosticsDuplicatedRequestEntityTypes;
+  include_personal_collections?: boolean | undefined;
+  sort_column?: GetEeContentDiagnosticsDuplicatedRequestSortColumn | (string & {}) | undefined;
+  sort_direction?:
+    | GetEeContentDiagnosticsDuplicatedRequestSortDirection
+    | (string & {})
+    | undefined;
+  entity_types?: GetEeContentDiagnosticsDuplicatedRequestEntityTypes | undefined;
   /** value must be an integer greater than zero. */
-  min_duplicate_count?: number;
-  query?: string;
+  min_duplicate_count?: number | undefined;
+  query?: string | undefined;
 }
 export interface GetEeContentDiagnosticsDuplicatedResponse {}
 export type GetEeContentDiagnosticsImbalancedRequestSortColumn =
@@ -7442,12 +7873,15 @@ export type GetEeContentDiagnosticsImbalancedRequestFindingTypes =
   | GetEeContentDiagnosticsImbalancedRequestFindingTypesCase0
   | GetEeContentDiagnosticsImbalancedRequestFindingTypesCase1List;
 export interface GetEeContentDiagnosticsImbalancedRequest {
-  include_personal_collections?: boolean;
-  sort_column?: GetEeContentDiagnosticsImbalancedRequestSortColumn | (string & {});
-  sort_direction?: GetEeContentDiagnosticsImbalancedRequestSortDirection | (string & {});
-  entity_types?: GetEeContentDiagnosticsImbalancedRequestEntityTypes;
-  finding_types?: GetEeContentDiagnosticsImbalancedRequestFindingTypes;
-  query?: string;
+  include_personal_collections?: boolean | undefined;
+  sort_column?: GetEeContentDiagnosticsImbalancedRequestSortColumn | (string & {}) | undefined;
+  sort_direction?:
+    | GetEeContentDiagnosticsImbalancedRequestSortDirection
+    | (string & {})
+    | undefined;
+  entity_types?: GetEeContentDiagnosticsImbalancedRequestEntityTypes | undefined;
+  finding_types?: GetEeContentDiagnosticsImbalancedRequestFindingTypes | undefined;
+  query?: string | undefined;
 }
 export interface GetEeContentDiagnosticsImbalancedResponse {}
 export type GetEeContentDiagnosticsSlowRequestSortColumn =
@@ -7482,13 +7916,13 @@ export type GetEeContentDiagnosticsSlowRequestEntityTypes =
   | GetEeContentDiagnosticsSlowRequestEntityTypesCase0
   | GetEeContentDiagnosticsSlowRequestEntityTypesCase1List;
 export interface GetEeContentDiagnosticsSlowRequest {
-  include_personal_collections?: boolean;
-  sort_column?: GetEeContentDiagnosticsSlowRequestSortColumn | (string & {});
-  sort_direction?: GetEeContentDiagnosticsSlowRequestSortDirection | (string & {});
-  entity_types?: GetEeContentDiagnosticsSlowRequestEntityTypes;
+  include_personal_collections?: boolean | undefined;
+  sort_column?: GetEeContentDiagnosticsSlowRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetEeContentDiagnosticsSlowRequestSortDirection | (string & {}) | undefined;
+  entity_types?: GetEeContentDiagnosticsSlowRequestEntityTypes | undefined;
   /** value must be an integer greater than zero. */
-  min_duration_ms?: number;
-  query?: string;
+  min_duration_ms?: number | undefined;
+  query?: string | undefined;
 }
 export interface GetEeContentDiagnosticsSlowResponse {}
 export type GetEeContentDiagnosticsStaleRequestSortColumn =
@@ -7523,13 +7957,13 @@ export type GetEeContentDiagnosticsStaleRequestEntityTypes =
   | GetEeContentDiagnosticsStaleRequestEntityTypesCase0
   | GetEeContentDiagnosticsStaleRequestEntityTypesCase1List;
 export interface GetEeContentDiagnosticsStaleRequest {
-  include_personal_collections?: boolean;
-  sort_column?: GetEeContentDiagnosticsStaleRequestSortColumn | (string & {});
-  sort_direction?: GetEeContentDiagnosticsStaleRequestSortDirection | (string & {});
-  entity_types?: GetEeContentDiagnosticsStaleRequestEntityTypes;
+  include_personal_collections?: boolean | undefined;
+  sort_column?: GetEeContentDiagnosticsStaleRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetEeContentDiagnosticsStaleRequestSortDirection | (string & {}) | undefined;
+  entity_types?: GetEeContentDiagnosticsStaleRequestEntityTypes | undefined;
   /** value must be an integer greater than zero. */
-  threshold_days?: number;
-  query?: string;
+  threshold_days?: number | undefined;
+  query?: string | undefined;
 }
 export interface GetEeContentDiagnosticsStaleResponse {}
 export interface GetEeContentTranslationCsvRequest {}
@@ -7541,7 +7975,7 @@ export interface GetEeContentTranslationDictionaryResponse {}
 export interface GetEeContentTranslationDictionaryByTokenRequest {
   /** value must be a non-blank string. */
   token: string;
-  locale?: string;
+  locale?: string | undefined;
 }
 export interface GetEeContentTranslationDictionaryByTokenResponse {}
 export interface GetEeCustomVizPluginRequest {}
@@ -7569,7 +8003,7 @@ export interface GetEeCustomVizPluginSandboxHostRequest {}
 export interface GetEeCustomVizPluginSandboxHostResponse {}
 export interface GetEeDataComplexityScoreComplexityRequest {
   /** value must be a valid boolean string ('true' or 'false'). */
-  force_recalculation?: boolean;
+  force_recalculation?: boolean | undefined;
 }
 export interface GetEeDataComplexityScoreComplexityResponse {}
 export interface GetEeDataStudioTablePublishingInfoRequest {
@@ -7593,8 +8027,8 @@ export type MetabaseEnterpriseDependenciesDependencyTypesDependencyTypes =
   | "data-app";
 export interface GetEeDependenciesGraphRequest {
   /** value must be an integer greater than zero. */
-  id?: number;
-  type?: MetabaseEnterpriseDependenciesDependencyTypesDependencyTypes | (string & {});
+  id?: number | undefined;
+  type?: MetabaseEnterpriseDependenciesDependencyTypesDependencyTypes | (string & {}) | undefined;
 }
 export interface GetEeDependenciesGraphResponse {}
 export type GetEeDependenciesGraphBreakingRequestTypesCase1List = Array<
@@ -7621,12 +8055,12 @@ export type GetEeDependenciesGraphBreakingRequestSortColumn =
   | "location";
 export type GetEeDependenciesGraphBreakingRequestSortDirection = "desc" | "asc";
 export interface GetEeDependenciesGraphBreakingRequest {
-  types?: GetEeDependenciesGraphBreakingRequestTypes;
-  card_types?: GetEeDependenciesGraphBreakingRequestCardTypes;
-  query?: string;
-  include_personal_collections?: boolean;
-  sort_column?: GetEeDependenciesGraphBreakingRequestSortColumn | (string & {});
-  sort_direction?: GetEeDependenciesGraphBreakingRequestSortDirection | (string & {});
+  types?: GetEeDependenciesGraphBreakingRequestTypes | undefined;
+  card_types?: GetEeDependenciesGraphBreakingRequestCardTypes | undefined;
+  query?: string | undefined;
+  include_personal_collections?: boolean | undefined;
+  sort_column?: GetEeDependenciesGraphBreakingRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetEeDependenciesGraphBreakingRequestSortDirection | (string & {}) | undefined;
 }
 export interface GetEeDependenciesGraphBreakingResponse {}
 export type GetEeDependenciesGraphBrokenRequestDependentTypesCase1List = Array<
@@ -7655,11 +8089,11 @@ export interface GetEeDependenciesGraphBrokenRequest {
   /** value must be an integer greater than zero. */
   id: number;
   type: MetabaseEnterpriseDependenciesDependencyTypesDependencyTypes | (string & {});
-  dependent_types?: GetEeDependenciesGraphBrokenRequestDependentTypes;
-  dependent_card_types?: GetEeDependenciesGraphBrokenRequestDependentCardTypes;
-  include_personal_collections?: boolean;
-  sort_column?: GetEeDependenciesGraphBrokenRequestSortColumn | (string & {});
-  sort_direction?: GetEeDependenciesGraphBrokenRequestSortDirection | (string & {});
+  dependent_types?: GetEeDependenciesGraphBrokenRequestDependentTypes | undefined;
+  dependent_card_types?: GetEeDependenciesGraphBrokenRequestDependentCardTypes | undefined;
+  include_personal_collections?: boolean | undefined;
+  sort_column?: GetEeDependenciesGraphBrokenRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetEeDependenciesGraphBrokenRequestSortDirection | (string & {}) | undefined;
 }
 export interface GetEeDependenciesGraphBrokenResponse {}
 export type GetEeDependenciesGraphDependentsRequestSortDirection = "desc" | "asc";
@@ -7685,16 +8119,16 @@ export type GetEeDependenciesGraphDependentsRequestDependentCardTypes =
   | GetEeDependenciesGraphDependentsRequestDependentCardTypesCase1List;
 export type GetEeDependenciesGraphDependentsRequestSortColumn = "name" | "view-count" | "location";
 export interface GetEeDependenciesGraphDependentsRequest {
-  query?: string;
+  query?: string | undefined;
   /** value must be an integer greater than zero. */
   id: number;
-  sort_direction?: GetEeDependenciesGraphDependentsRequestSortDirection | (string & {});
-  broken?: boolean;
+  sort_direction?: GetEeDependenciesGraphDependentsRequestSortDirection | (string & {}) | undefined;
+  broken?: boolean | undefined;
   type: MetabaseEnterpriseDependenciesDependencyTypesDependencyTypes | (string & {});
-  include_personal_collections?: boolean;
-  dependent_types?: GetEeDependenciesGraphDependentsRequestDependentTypes;
-  dependent_card_types?: GetEeDependenciesGraphDependentsRequestDependentCardTypes;
-  sort_column?: GetEeDependenciesGraphDependentsRequestSortColumn | (string & {});
+  include_personal_collections?: boolean | undefined;
+  dependent_types?: GetEeDependenciesGraphDependentsRequestDependentTypes | undefined;
+  dependent_card_types?: GetEeDependenciesGraphDependentsRequestDependentCardTypes | undefined;
+  sort_column?: GetEeDependenciesGraphDependentsRequestSortColumn | (string & {}) | undefined;
 }
 export interface GetEeDependenciesGraphDependentsResponse {}
 export type GetEeDependenciesGraphUnreferencedRequestTypesCase1List = Array<
@@ -7724,12 +8158,15 @@ export type GetEeDependenciesGraphUnreferencedRequestSortColumn =
   | "location";
 export type GetEeDependenciesGraphUnreferencedRequestSortDirection = "desc" | "asc";
 export interface GetEeDependenciesGraphUnreferencedRequest {
-  types?: GetEeDependenciesGraphUnreferencedRequestTypes;
-  card_types?: GetEeDependenciesGraphUnreferencedRequestCardTypes;
-  query?: string;
-  include_personal_collections?: boolean;
-  sort_column?: GetEeDependenciesGraphUnreferencedRequestSortColumn | (string & {});
-  sort_direction?: GetEeDependenciesGraphUnreferencedRequestSortDirection | (string & {});
+  types?: GetEeDependenciesGraphUnreferencedRequestTypes | undefined;
+  card_types?: GetEeDependenciesGraphUnreferencedRequestCardTypes | undefined;
+  query?: string | undefined;
+  include_personal_collections?: boolean | undefined;
+  sort_column?: GetEeDependenciesGraphUnreferencedRequestSortColumn | (string & {}) | undefined;
+  sort_direction?:
+    | GetEeDependenciesGraphUnreferencedRequestSortDirection
+    | (string & {})
+    | undefined;
 }
 export interface GetEeDependenciesGraphUnreferencedResponse {}
 export interface GetEeErdRequest {}
@@ -7763,24 +8200,24 @@ export type GetEeMetabotAnalyticsConversationsRequestSortBy =
   | "ip_address";
 export type GetEeMetabotAnalyticsConversationsRequestSortDir = "asc" | "desc";
 export interface GetEeMetabotAnalyticsConversationsRequest {
-  sort_by?: GetEeMetabotAnalyticsConversationsRequestSortBy | (string & {});
-  sort_dir?: GetEeMetabotAnalyticsConversationsRequestSortDir | (string & {});
-  user_id?: number;
-  group_id?: number;
-  tenant_id?: number;
-  date?: string;
+  sort_by?: GetEeMetabotAnalyticsConversationsRequestSortBy | (string & {}) | undefined;
+  sort_dir?: GetEeMetabotAnalyticsConversationsRequestSortDir | (string & {}) | undefined;
+  user_id?: number | undefined;
+  group_id?: number | undefined;
+  tenant_id?: number | undefined;
+  date?: string | undefined;
 }
 export interface GetEeMetabotAnalyticsConversationsResponse {}
 export interface GetEeMetabotUsageRequest {}
 export interface GetEeMetabotUsageResponse {}
 export interface GetEeMfaAdminEnrolledUsersRequest {
-  query?: string;
+  query?: string | undefined;
 }
 export interface GetEeMfaAdminEnrolledUsersResponse {}
 export interface GetEeMfaAdminOverviewRequest {}
 export interface GetEeMfaAdminOverviewResponse {}
 export interface GetEeMfaAdminUnenrolledUsersRequest {
-  query?: string;
+  query?: string | undefined;
 }
 export interface GetEeMfaAdminUnenrolledUsersResponse {}
 export interface GetEeMfaStatusRequest {}
@@ -7808,7 +8245,7 @@ export interface GetEeRemoteSyncExportPreflightRequest {
 }
 export interface GetEeRemoteSyncExportPreflightResponse {}
 export interface GetEeRemoteSyncHasRemoteChangesRequest {
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
 }
 export interface GetEeRemoteSyncHasRemoteChangesResponse {}
 export interface GetEeRemoteSyncIsDirtyRequest {}
@@ -7818,7 +8255,7 @@ export interface GetEeReplacementRunRequest {
 }
 export interface GetEeReplacementRunResponse {}
 export interface GetEeReplacementRunsRequest {
-  is_active?: boolean;
+  is_active?: boolean | undefined;
 }
 export interface GetEeReplacementRunsResponse {}
 export interface GetEeScimGroupRequest {
@@ -7827,9 +8264,9 @@ export interface GetEeScimGroupRequest {
 }
 export interface GetEeScimGroupResponse {}
 export interface GetEeScimGroupsRequest {
-  startIndex?: number;
-  count?: number;
-  filter?: string;
+  startIndex?: number | undefined;
+  count?: number | undefined;
+  filter?: string | undefined;
 }
 export interface GetEeScimGroupsResponse {}
 export interface GetEeScimKeyRequest {}
@@ -7840,9 +8277,9 @@ export interface GetEeScimUserRequest {
 }
 export interface GetEeScimUserResponse {}
 export interface GetEeScimUsersRequest {
-  startIndex?: number;
-  count?: number;
-  filter?: string;
+  startIndex?: number | undefined;
+  count?: number | undefined;
+  filter?: string | undefined;
 }
 export interface GetEeScimUsersResponse {}
 export interface GetEeSecurityCenterRequest {}
@@ -7855,23 +8292,23 @@ export type GetEeStaleRequestSortColumn = "name" | "last_used_at";
 export type GetEeStaleRequestSortDirection = "asc" | "desc";
 export interface GetEeStaleRequest {
   id: string;
-  before_date?: string;
-  is_recursive?: boolean;
-  sort_column?: GetEeStaleRequestSortColumn | (string & {});
-  sort_direction?: GetEeStaleRequestSortDirection | (string & {});
+  before_date?: string | undefined;
+  is_recursive?: boolean | undefined;
+  sort_column?: GetEeStaleRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetEeStaleRequestSortDirection | (string & {}) | undefined;
 }
 export interface GetEeStaleResponse {}
 export interface GetEeSupportAccessGrantRequest {
-  ticket_number?: string;
-  user_id?: number;
-  include_revoked?: boolean;
+  ticket_number?: string | undefined;
+  user_id?: number | undefined;
+  include_revoked?: boolean | undefined;
 }
 export interface GetEeSupportAccessGrantResponse {}
 export interface GetEeSupportAccessGrantCurrentRequest {}
 export interface GetEeSupportAccessGrantCurrentResponse {}
 export type GetEeTenantRequestStatus = "all" | "deactivated" | "active";
 export interface GetEeTenantRequest {
-  status?: GetEeTenantRequestStatus | (string & {});
+  status?: GetEeTenantRequestStatus | (string & {}) | undefined;
 }
 export interface GetEeTenantResponse {}
 export interface GetEeTenantByIdRequest {
@@ -7897,7 +8334,7 @@ export interface GetEeTransformsPythonLibraryRequest {
 }
 export interface GetEeTransformsPythonLibraryResponse {}
 export interface GetEeTransformTestRequest {
-  transform_id?: number;
+  transform_id?: number | undefined;
 }
 export interface GetEeTransformTestResponse {}
 export interface GetEeTransformTestByIdRequest {
@@ -7918,9 +8355,9 @@ export type GetEeTransformTestRunRequestStatusesList = Array<
 export interface GetEeTransformTestRunRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  statuses?: GetEeTransformTestRunRequestStatusesList;
-  start_time?: string;
-  end_time?: string;
+  statuses?: GetEeTransformTestRunRequestStatusesList | undefined;
+  start_time?: string | undefined;
+  end_time?: string | undefined;
 }
 export interface GetEeTransformTestRunResponse {}
 export interface GetEeUploadManagementTablesRequest {}
@@ -7959,8 +8396,8 @@ export type GetEmbedCardQueryByExportFormatRequestExportFormat = "csv" | "api" |
 export interface GetEmbedCardQueryByExportFormatRequest {
   token: string;
   export_format: GetEmbedCardQueryByExportFormatRequestExportFormat | (string & {});
-  format_rows?: boolean;
-  pivot_results?: boolean;
+  format_rows?: boolean | undefined;
+  pivot_results?: boolean | undefined;
 }
 export interface GetEmbedCardQueryByExportFormatResponse {}
 export interface GetEmbedDashboardRequest {
@@ -7988,8 +8425,8 @@ export interface GetEmbedDashboardDashcardCardByExportFormatRequest {
   /** value must be an integer greater than zero. */
   card_id: number;
   export_format: GetEmbedDashboardDashcardCardByExportFormatRequestExportFormat | (string & {});
-  format_rows?: boolean;
-  pivot_results?: boolean;
+  format_rows?: boolean | undefined;
+  pivot_results?: boolean | undefined;
 }
 export interface GetEmbedDashboardDashcardCardByExportFormatResponse {}
 export interface GetEmbedDashboardParamRemappingRequest {
@@ -8051,7 +8488,7 @@ export interface GetEmbedTilesCardRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
@@ -8068,7 +8505,7 @@ export interface GetEmbedTilesDashboardDashcardCardRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
@@ -8090,14 +8527,14 @@ export type GetExplorationQueryRequestFormat = "api" | "csv" | "json" | "xlsx";
 export interface GetExplorationQueryRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  format?: GetExplorationQueryRequestFormat | (string & {});
+  format?: GetExplorationQueryRequestFormat | (string & {}) | undefined;
 }
 export interface GetExplorationQueryResponse {}
 export interface GetFieldRequest {
   /** value must be an integer greater than zero. */
   id: number;
   /** value must be a valid boolean string ('true' or 'false'). */
-  include_editable_data_model?: boolean;
+  include_editable_data_model?: boolean | undefined;
 }
 export interface GetFieldResponse {}
 export interface GetFieldRelatedRequest {
@@ -8120,7 +8557,7 @@ export interface GetFieldSearchRequest {
   /** value must be an integer greater than zero. */
   search_id: number;
   /** value must be a non-blank string. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetFieldSearchResponse {}
 export interface GetFieldSummaryRequest {
@@ -8147,7 +8584,7 @@ export interface GetGlossaryRequest {}
 export interface GetGlossaryResponse {}
 export interface GetHealthInspectorRequest {
   /** value must be an integer greater than zero. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface GetHealthInspectorResponse {}
 export interface GetIndexRequest {
@@ -8181,7 +8618,7 @@ export interface GetMeasureResponse {}
 export interface GetMeasureByIdRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include_orphaned?: boolean;
+  include_orphaned?: boolean | undefined;
 }
 export interface GetMeasureByIdResponse {}
 export interface GetMeasureDimensionRemappingRequest {
@@ -8229,9 +8666,9 @@ export interface GetMetabotMetabotByIdResponse {}
 export type GetMetabotMetabotPromptSuggestionsRequestModel = "metric" | "model";
 export interface GetMetabotMetabotPromptSuggestionsRequest {
   id: number;
-  sample?: boolean;
-  model?: GetMetabotMetabotPromptSuggestionsRequestModel | (string & {});
-  model_id?: number;
+  sample?: boolean | undefined;
+  model?: GetMetabotMetabotPromptSuggestionsRequestModel | (string & {}) | undefined;
+  model_id?: number | undefined;
 }
 export interface GetMetabotMetabotPromptSuggestionsResponse {}
 export interface GetMetabotPermissionsUserPermissionsRequest {}
@@ -8241,15 +8678,15 @@ export interface GetMetricResponse {}
 export interface GetMetricByIdRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include_orphaned?: boolean;
+  include_orphaned?: boolean | undefined;
 }
 export interface GetMetricByIdResponse {}
 export interface GetMetricDimensionRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  query?: string;
-  with_addable?: boolean;
-  include_orphaned?: boolean;
+  query?: string | undefined;
+  with_addable?: boolean | undefined;
+  include_orphaned?: boolean | undefined;
 }
 export interface GetMetricDimensionResponse {}
 export interface GetMetricDimensionRemappingRequest {
@@ -8287,8 +8724,8 @@ export interface GetModelIndexByIdRequest {
 }
 export interface GetModelIndexByIdResponse {}
 export interface GetMtGtapRequest {
-  group_id?: number;
-  table_id?: number;
+  group_id?: number | undefined;
+  table_id?: number | undefined;
 }
 export interface GetMtGtapResponse {}
 export interface GetMtGtapByIdRequest {
@@ -8299,7 +8736,7 @@ export interface GetMtGtapByIdResponse {}
 export interface GetMtUserAttributesRequest {}
 export interface GetMtUserAttributesResponse {}
 export interface GetNativeQuerySnippetRequest {
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 export interface GetNativeQuerySnippetResponse {}
 export interface GetNativeQuerySnippetByIdRequest {
@@ -8314,16 +8751,16 @@ export type GetNotificationRequestPayloadType =
   | "notification/card";
 export interface GetNotificationRequest {
   /** value must be an integer greater than zero. */
-  creator_id?: number;
+  creator_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  recipient_id?: number;
+  recipient_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  creator_or_recipient_id?: number;
+  creator_or_recipient_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  card_id?: number;
+  card_id?: number | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  include_inactive?: boolean;
-  payload_type?: GetNotificationRequestPayloadType | (string & {});
+  include_inactive?: boolean | undefined;
+  payload_type?: GetNotificationRequestPayloadType | (string & {}) | undefined;
 }
 export interface GetNotificationResponse {}
 export type MetabaseNotificationApiAdminRunStatus = "failing" | "successful";
@@ -8341,21 +8778,21 @@ export type MetabaseNotificationApiAdminSortColumn =
 export type MetabaseNotificationApiAdminSortDirection = "asc" | "desc";
 export interface GetNotificationAdminRequest {
   /** value must be a non-blank string. */
-  recipient_email?: string;
+  recipient_email?: string | undefined;
   /** value must be a non-blank string. */
-  query?: string;
-  creatorless?: boolean;
-  last_check_status?: MetabaseNotificationApiAdminRunStatus | (string & {});
-  creator_active?: boolean;
+  query?: string | undefined;
+  creatorless?: boolean | undefined;
+  last_check_status?: MetabaseNotificationApiAdminRunStatus | (string & {}) | undefined;
+  creator_active?: boolean | undefined;
   /** value must be an integer greater than zero. */
-  card_id?: number;
-  last_send_status?: MetabaseNotificationApiAdminRunStatus | (string & {});
-  channel?: GetNotificationAdminRequestChannel;
-  active?: boolean;
-  sort_column?: MetabaseNotificationApiAdminSortColumn | (string & {});
+  card_id?: number | undefined;
+  last_send_status?: MetabaseNotificationApiAdminRunStatus | (string & {}) | undefined;
+  channel?: GetNotificationAdminRequestChannel | undefined;
+  active?: boolean | undefined;
+  sort_column?: MetabaseNotificationApiAdminSortColumn | (string & {}) | undefined;
   /** value must be an integer greater than zero. */
-  creator_id?: number;
-  sort_direction?: MetabaseNotificationApiAdminSortDirection | (string & {});
+  creator_id?: number | undefined;
+  sort_direction?: MetabaseNotificationApiAdminSortDirection | (string & {}) | undefined;
 }
 export interface GetNotificationAdminResponse {}
 export interface GetNotificationAdminByIdRequest {
@@ -8370,8 +8807,8 @@ export interface GetNotificationByIdRequest {
 export interface GetNotificationByIdResponse {}
 export type GetOauthAuthorizationsRequestEventType = "registered" | "approved" | "denied";
 export interface GetOauthAuthorizationsRequest {
-  client_id?: string;
-  event_type?: GetOauthAuthorizationsRequestEventType | (string & {});
+  client_id?: string | undefined;
+  event_type?: GetOauthAuthorizationsRequestEventType | (string & {}) | undefined;
 }
 export interface GetOauthAuthorizationsResponse {}
 export type GetOembedRequestFormat = "json";
@@ -8379,9 +8816,9 @@ export interface GetOembedRequest {
   /** value must be a non-blank string. */
   url: string;
   /** The format param is not used by the API, but is required as part of the oEmbed spec: http://oembed.com/#section2 just return an error if `format` is specified and it's anything other than `json`. */
-  format?: GetOembedRequestFormat | (string & {});
-  maxheight?: number;
-  maxwidth?: number;
+  format?: GetOembedRequestFormat | (string & {}) | undefined;
+  maxheight?: number | undefined;
+  maxwidth?: number | undefined;
 }
 export interface GetOembedResponse {}
 export interface GetOsiAiContextRequest {}
@@ -8407,7 +8844,7 @@ export interface GetPermissionsGraphGroupRequest {
 export interface GetPermissionsGraphGroupResponse {}
 export type GetPermissionsGroupRequestTenancy = "external" | "internal";
 export interface GetPermissionsGroupRequest {
-  tenancy?: GetPermissionsGroupRequestTenancy | (string & {});
+  tenancy?: GetPermissionsGroupRequestTenancy | (string & {}) | undefined;
 }
 export interface GetPermissionsGroupResponse {}
 export interface GetPermissionsGroupByIdRequest {
@@ -8439,8 +8876,8 @@ export interface GetPersistCardResponse {}
 export interface GetPivotCardQueryRequest {
   /** value must be a valid UUID. */
   uuid: string;
-  parameters?: MetabaseParametersSchemaParameterValues;
-  ignore_cache?: boolean;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
+  ignore_cache?: boolean | undefined;
 }
 export interface GetPivotCardQueryResponse {}
 export interface GetPivotDashboardDashcardCardRequest {
@@ -8450,8 +8887,8 @@ export interface GetPivotDashboardDashcardCardRequest {
   dashcard_id: number;
   /** value must be an integer greater than zero. */
   card_id: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
-  ignore_cache?: boolean;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
+  ignore_cache?: boolean | undefined;
 }
 export interface GetPivotDashboardDashcardCardResponse {}
 export interface GetPremiumFeaturesTokenStatusRequest {}
@@ -8529,7 +8966,7 @@ export interface GetPreviewEmbedTilesCardRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
@@ -8546,15 +8983,15 @@ export interface GetPreviewEmbedTilesDashboardDashcardCardRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
 export interface GetPreviewEmbedTilesDashboardDashcardCardResponse {}
 export interface GetPulseRequest {
-  archived?: boolean;
-  dashboard_id?: number;
-  creator_or_recipient?: boolean;
+  archived?: boolean | undefined;
+  dashboard_id?: number | undefined;
+  creator_or_recipient?: boolean | undefined;
 }
 export interface GetPulseResponse {}
 export interface GetPulseByIdRequest {
@@ -8641,32 +9078,33 @@ export type GetSearchRequestFilterItemsInPersonalCollection =
   | "exclude"
   | "exclude-others";
 export interface GetSearchRequest {
-  vector_search_ef_search?: number;
-  q?: string;
-  collection?: number;
-  vector_search_explain?: boolean;
-  created_by?: GetSearchRequestCreatedByList;
-  include_metadata?: boolean;
-  ids?: GetSearchRequestIdsList;
-  archived?: boolean;
-  verified?: boolean;
-  last_edited_by?: GetSearchRequestLastEditedByList;
-  context?: GetSearchRequestContext | (string & {});
-  vector_search_strategy?: GetSearchRequestVectorSearchStrategy | (string & {});
-  model_ancestors?: boolean;
-  calculate_available_models?: boolean;
-  display_type?: GetSearchRequestDisplayTypeList;
-  created_at?: string;
-  models?: GetSearchRequestModelsList;
-  last_edited_at?: string;
-  search_native_query?: boolean;
-  table_db_id?: number;
-  include_dashboard_questions?: boolean;
-  vector_search_max_scan_tuples?: number;
+  vector_search_ef_search?: number | undefined;
+  q?: string | undefined;
+  collection?: number | undefined;
+  vector_search_explain?: boolean | undefined;
+  created_by?: GetSearchRequestCreatedByList | undefined;
+  include_metadata?: boolean | undefined;
+  ids?: GetSearchRequestIdsList | undefined;
+  archived?: boolean | undefined;
+  verified?: boolean | undefined;
+  last_edited_by?: GetSearchRequestLastEditedByList | undefined;
+  context?: GetSearchRequestContext | (string & {}) | undefined;
+  vector_search_strategy?: GetSearchRequestVectorSearchStrategy | (string & {}) | undefined;
+  model_ancestors?: boolean | undefined;
+  calculate_available_models?: boolean | undefined;
+  display_type?: GetSearchRequestDisplayTypeList | undefined;
+  created_at?: string | undefined;
+  models?: GetSearchRequestModelsList | undefined;
+  last_edited_at?: string | undefined;
+  search_native_query?: boolean | undefined;
+  table_db_id?: number | undefined;
+  include_dashboard_questions?: boolean | undefined;
+  vector_search_max_scan_tuples?: number | undefined;
   filter_items_in_personal_collection?:
     | GetSearchRequestFilterItemsInPersonalCollection
-    | (string & {});
-  search_engine?: string;
+    | (string & {})
+    | undefined;
+  search_engine?: string | undefined;
 }
 export interface GetSearchResponse {}
 export type GetSearchDebugRequestExpectedResultType =
@@ -8736,40 +9174,41 @@ export type GetSearchDebugRequestFilterItemsInPersonalCollection =
   | "exclude"
   | "exclude-others";
 export interface GetSearchDebugRequest {
-  vector_search_ef_search?: number;
+  vector_search_ef_search?: number | undefined;
   expected_result_type: GetSearchDebugRequestExpectedResultType | (string & {});
-  q?: string;
-  collection?: number;
-  vector_search_explain?: boolean;
-  created_by?: GetSearchDebugRequestCreatedByList;
-  include_metadata?: boolean;
-  ids?: GetSearchDebugRequestIdsList;
-  archived?: boolean;
-  verified?: boolean;
-  last_edited_by?: GetSearchDebugRequestLastEditedByList;
-  context?: GetSearchDebugRequestContext | (string & {});
-  vector_search_strategy?: GetSearchDebugRequestVectorSearchStrategy | (string & {});
-  model_ancestors?: boolean;
-  calculate_available_models?: boolean;
-  display_type?: GetSearchDebugRequestDisplayTypeList;
+  q?: string | undefined;
+  collection?: number | undefined;
+  vector_search_explain?: boolean | undefined;
+  created_by?: GetSearchDebugRequestCreatedByList | undefined;
+  include_metadata?: boolean | undefined;
+  ids?: GetSearchDebugRequestIdsList | undefined;
+  archived?: boolean | undefined;
+  verified?: boolean | undefined;
+  last_edited_by?: GetSearchDebugRequestLastEditedByList | undefined;
+  context?: GetSearchDebugRequestContext | (string & {}) | undefined;
+  vector_search_strategy?: GetSearchDebugRequestVectorSearchStrategy | (string & {}) | undefined;
+  model_ancestors?: boolean | undefined;
+  calculate_available_models?: boolean | undefined;
+  display_type?: GetSearchDebugRequestDisplayTypeList | undefined;
   /** value must be an integer greater than zero. */
   expected_result_id: number;
-  created_at?: string;
-  for_user_id?: number;
-  models?: GetSearchDebugRequestModelsList;
-  last_edited_at?: string;
-  search_native_query?: boolean;
-  table_db_id?: number;
-  include_dashboard_questions?: boolean;
-  vector_search_max_scan_tuples?: number;
+  created_at?: string | undefined;
+  for_user_id?: number | undefined;
+  models?: GetSearchDebugRequestModelsList | undefined;
+  last_edited_at?: string | undefined;
+  search_native_query?: boolean | undefined;
+  table_db_id?: number | undefined;
+  include_dashboard_questions?: boolean | undefined;
+  vector_search_max_scan_tuples?: number | undefined;
   filter_items_in_personal_collection?:
     | GetSearchDebugRequestFilterItemsInPersonalCollection
-    | (string & {});
-  search_engine?: string;
+    | (string & {})
+    | undefined;
+  search_engine?: string | undefined;
 }
 export interface GetSearchDebugResponse {}
 export interface GetSearchWeightsRequest {
-  context?: string;
+  context?: string | undefined;
 }
 export interface GetSearchWeightsResponse {}
 export interface GetSegmentRequest {}
@@ -8787,7 +9226,7 @@ export interface GetSegmentRelatedResponse {}
 export interface GetSessionIllustrationRequest {
   /** value must be a non-blank string. */
   key: string;
-  v?: string;
+  v?: string | undefined;
 }
 export interface GetSessionIllustrationResponse {}
 export interface GetSessionPasswordResetTokenValidRequest {
@@ -8816,24 +9255,24 @@ export type MetabaseWarehouseSchemaRestApiTableDataSources =
   | "metabase-transform"
   | "upload";
 export interface GetTableRequest {
-  visibility_type?: string;
-  term?: string;
-  data_layer?: MetabaseWarehouseSchemaRestApiTableDataLayers | (string & {});
-  published_only?: boolean;
-  owner_email?: string;
-  include_transform_targets?: boolean;
-  owner_user_id?: number;
-  data_source?: MetabaseWarehouseSchemaRestApiTableDataSources | (string & {});
-  include_editable_data_model?: boolean;
-  orphan_only?: boolean;
-  can_query?: boolean;
-  unused_only?: boolean;
+  visibility_type?: string | undefined;
+  term?: string | undefined;
+  data_layer?: MetabaseWarehouseSchemaRestApiTableDataLayers | (string & {}) | undefined;
+  published_only?: boolean | undefined;
+  owner_email?: string | undefined;
+  include_transform_targets?: boolean | undefined;
+  owner_user_id?: number | undefined;
+  data_source?: MetabaseWarehouseSchemaRestApiTableDataSources | (string & {}) | undefined;
+  include_editable_data_model?: boolean | undefined;
+  orphan_only?: boolean | undefined;
+  can_query?: boolean | undefined;
+  unused_only?: boolean | undefined;
 }
 export interface GetTableResponse {}
 export interface GetTableByIdRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include_editable_data_model?: boolean;
+  include_editable_data_model?: boolean | undefined;
 }
 export interface GetTableByIdResponse {}
 export interface GetTableCardIdFksRequest {}
@@ -8853,9 +9292,9 @@ export interface GetTableFksResponse {}
 export interface GetTableQueryMetadataRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include_sensitive_fields?: boolean;
-  include_hidden_fields?: boolean;
-  include_editable_data_model?: boolean;
+  include_sensitive_fields?: boolean | undefined;
+  include_hidden_fields?: boolean | undefined;
+  include_editable_data_model?: boolean | undefined;
 }
 export interface GetTableQueryMetadataResponse {}
 export interface GetTableRelatedRequest {
@@ -8896,7 +9335,7 @@ export interface GetTileRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
@@ -8923,7 +9362,7 @@ export interface GetTileDashcardCardRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
@@ -8937,7 +9376,7 @@ export interface GetTilesCardRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
@@ -8955,40 +9394,40 @@ export interface GetTilesDashboardDashcardCardRequest {
   x: number;
   /** value must be an integer. */
   y: number;
-  parameters?: MetabaseParametersSchemaParameterValues;
+  parameters?: MetabaseParametersSchemaParameterValues | undefined;
   latField: MetabaseLegacyMbqlSchemaField;
   lonField: MetabaseLegacyMbqlSchemaField;
 }
 export interface GetTilesDashboardDashcardCardResponse {}
 export type MetabaseTimelineApiTimelineInclude = "events";
 export interface GetTimelineRequest {
-  include?: MetabaseTimelineApiTimelineInclude | (string & {});
+  include?: MetabaseTimelineApiTimelineInclude | (string & {}) | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 export interface GetTimelineResponse {}
 export interface GetTimelineByIdRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include?: MetabaseTimelineApiTimelineInclude | (string & {});
+  include?: MetabaseTimelineApiTimelineInclude | (string & {}) | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** value must be a valid date string */
-  start?: string;
+  start?: string | undefined;
   /** value must be a valid date string */
-  end?: string;
+  end?: string | undefined;
 }
 export interface GetTimelineByIdResponse {}
 export interface GetTimelineCollectionRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  include?: unknown;
-  archived?: boolean;
+  include?: unknown | undefined;
+  archived?: boolean | undefined;
 }
 export interface GetTimelineCollectionResponse {}
 export interface GetTimelineCollectionRootRequest {
-  include?: unknown;
-  archived?: boolean;
+  include?: unknown | undefined;
+  archived?: boolean | undefined;
 }
 export interface GetTimelineCollectionRootResponse {}
 export interface GetTimelineEventRequest {
@@ -9002,10 +9441,10 @@ export type GetTransformRequestLastRunStatusesList = Array<
 >;
 export type GetTransformRequestTagIdsList = Array<number>;
 export interface GetTransformRequest {
-  last_run_start_time?: string;
-  last_run_statuses?: GetTransformRequestLastRunStatusesList;
-  tag_ids?: GetTransformRequestTagIdsList;
-  database_id?: number;
+  last_run_start_time?: string | undefined;
+  last_run_statuses?: GetTransformRequestLastRunStatusesList | undefined;
+  tag_ids?: GetTransformRequestTagIdsList | undefined;
+  database_id?: number | undefined;
 }
 export interface GetTransformResponse {}
 export interface GetTransformByIdRequest {
@@ -9040,10 +9479,10 @@ export type GetTransformJobRequestLastRunStatusesList = Array<
 >;
 export type GetTransformJobRequestTagIdsList = Array<number>;
 export interface GetTransformJobRequest {
-  last_run_start_time?: string;
-  next_run_start_time?: string;
-  last_run_statuses?: GetTransformJobRequestLastRunStatusesList;
-  tag_ids?: GetTransformJobRequestTagIdsList;
+  last_run_start_time?: string | undefined;
+  next_run_start_time?: string | undefined;
+  last_run_statuses?: GetTransformJobRequestLastRunStatusesList | undefined;
+  tag_ids?: GetTransformJobRequestTagIdsList | undefined;
 }
 export interface GetTransformJobResponse {}
 export interface GetTransformJobByJobIdRequest {
@@ -9063,11 +9502,11 @@ export type GetTransformJobRunsRequestSortDirection = "asc" | "desc";
 export interface GetTransformJobRunsRequest {
   /** value must be an integer greater than zero. */
   job_id: number;
-  status?: GetTransformJobRunsRequestStatus | (string & {});
-  run_method?: GetTransformJobRunsRequestRunMethod | (string & {});
-  start_time?: string;
-  sort_column?: GetTransformJobRunsRequestSortColumn | (string & {});
-  sort_direction?: GetTransformJobRunsRequestSortDirection | (string & {});
+  status?: GetTransformJobRunsRequestStatus | (string & {}) | undefined;
+  run_method?: GetTransformJobRunsRequestRunMethod | (string & {}) | undefined;
+  start_time?: string | undefined;
+  sort_column?: GetTransformJobRunsRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetTransformJobRunsRequestSortDirection | (string & {}) | undefined;
 }
 export interface GetTransformJobRunsResponse {}
 export interface GetTransformJobRunTransformRunsRequest {
@@ -9102,15 +9541,15 @@ export type GetTransformRunRequestSortColumn =
   | "transform-tags"
   | "duration";
 export interface GetTransformRunRequest {
-  run_methods?: GetTransformRunRequestRunMethodsList;
-  end_time?: string;
-  start_time?: string;
-  transform_tag_ids?: GetTransformRunRequestTransformTagIdsList;
-  sort_direction?: GetTransformRunRequestSortDirection | (string & {});
-  user_id?: number;
-  statuses?: GetTransformRunRequestStatusesList;
-  transform_ids?: GetTransformRunRequestTransformIdsList;
-  sort_column?: GetTransformRunRequestSortColumn | (string & {});
+  run_methods?: GetTransformRunRequestRunMethodsList | undefined;
+  end_time?: string | undefined;
+  start_time?: string | undefined;
+  transform_tag_ids?: GetTransformRunRequestTransformTagIdsList | undefined;
+  sort_direction?: GetTransformRunRequestSortDirection | (string & {}) | undefined;
+  user_id?: number | undefined;
+  statuses?: GetTransformRunRequestStatusesList | undefined;
+  transform_ids?: GetTransformRunRequestTransformIdsList | undefined;
+  sort_column?: GetTransformRunRequestSortColumn | (string & {}) | undefined;
 }
 export interface GetTransformRunResponse {}
 export interface GetTransformRunByRunIdRequest {
@@ -9140,28 +9579,28 @@ export type GetTransformRunsRequestTransformIdsList = Array<number>;
 export type GetTransformRunsRequestSortColumn = "start_time" | "end_time";
 export type GetTransformRunsRequestSortDirection = "asc" | "desc";
 export interface GetTransformRunsRequest {
-  types?: GetTransformRunsRequestTypesList;
-  statuses?: GetTransformRunsRequestStatusesList;
-  run_methods?: GetTransformRunsRequestRunMethodsList;
-  start_time?: string;
-  end_time?: string;
-  transform_ids?: GetTransformRunsRequestTransformIdsList;
-  sort_column?: GetTransformRunsRequestSortColumn | (string & {});
-  sort_direction?: GetTransformRunsRequestSortDirection | (string & {});
+  types?: GetTransformRunsRequestTypesList | undefined;
+  statuses?: GetTransformRunsRequestStatusesList | undefined;
+  run_methods?: GetTransformRunsRequestRunMethodsList | undefined;
+  start_time?: string | undefined;
+  end_time?: string | undefined;
+  transform_ids?: GetTransformRunsRequestTransformIdsList | undefined;
+  sort_column?: GetTransformRunsRequestSortColumn | (string & {}) | undefined;
+  sort_direction?: GetTransformRunsRequestSortDirection | (string & {}) | undefined;
 }
 export interface GetTransformRunsResponse {}
 export interface GetTransformTagRequest {}
 export interface GetTransformTagResponse {}
 export type GetUserRequestTenancy = "all" | "internal" | "external";
 export interface GetUserRequest {
-  status?: string;
-  query?: string;
-  group_id?: number;
-  include_deactivated?: boolean;
-  is_data_analyst?: boolean;
-  can_access_data_studio?: boolean;
-  tenancy?: GetUserRequestTenancy | (string & {});
-  tenant_id?: number;
+  status?: string | undefined;
+  query?: string | undefined;
+  group_id?: number | undefined;
+  include_deactivated?: boolean | undefined;
+  is_data_analyst?: boolean | undefined;
+  can_access_data_studio?: boolean | undefined;
+  tenancy?: GetUserRequestTenancy | (string & {}) | undefined;
+  tenant_id?: number | undefined;
 }
 export interface GetUserResponse {}
 export interface GetUserByIdRequest {
@@ -9190,62 +9629,65 @@ export interface GetUtilRandomTokenResponse {}
 export type PostApiEeReplacementReplaceModelWithTransformRequestTransformTagIdsList = Array<number>;
 export interface PostApiEeReplacementReplaceModelWithTransformRequest {
   card_id: number;
-  target_collection_id?: number | null;
+  target_collection_id?: number | null | undefined;
   transform_name: string;
-  transform_tag_ids?: PostApiEeReplacementReplaceModelWithTransformRequestTransformTagIdsList | null;
+  transform_tag_ids?:
+    | PostApiEeReplacementReplaceModelWithTransformRequestTransformTagIdsList
+    | null
+    | undefined;
   transform_target: MetabaseTransformsSchemaTransformTarget;
 }
 export interface PostApiEeReplacementReplaceModelWithTransformResponse {}
 export type MetabaseActionsSchemaActionUpdateRequestCase0ParametersList =
   Array<MetabaseActionsSchemaActionParameter>;
 export interface MetabaseActionsSchemaActionUpdateRequestCase0 {
-  visualization_settings?: unknown | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
-  id?: number;
-  name?: string;
-  archived?: boolean;
-  table_id?: number | null;
-  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null;
-  collection_id?: number | null;
-  type?: MetabaseActionsSchemaType | (string & {});
-  model_id?: number | null;
-  parameters?: MetabaseActionsSchemaActionUpdateRequestCase0ParametersList | null;
-  archived_directly?: boolean;
-  description?: string | null;
+  visualization_settings?: unknown | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  archived?: boolean | undefined;
+  table_id?: number | null | undefined;
+  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null | undefined;
+  collection_id?: number | null | undefined;
+  type?: MetabaseActionsSchemaType | (string & {}) | undefined;
+  model_id?: number | null | undefined;
+  parameters?: MetabaseActionsSchemaActionUpdateRequestCase0ParametersList | null | undefined;
+  archived_directly?: boolean | undefined;
+  description?: string | null | undefined;
 }
 export type MetabaseActionsSchemaActionUpdateRequestCase1ParametersList =
   Array<MetabaseActionsSchemaActionParameter>;
 export interface MetabaseActionsSchemaActionUpdateRequestCase1 {
-  visualization_settings?: unknown | null;
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
-  id?: number;
-  name?: string;
-  archived?: boolean;
-  collection_id?: number | null;
-  type?: MetabaseActionsSchemaType | (string & {});
-  model_id?: number | null;
-  parameters?: MetabaseActionsSchemaActionUpdateRequestCase1ParametersList | null;
-  archived_directly?: boolean;
-  description?: string | null;
+  visualization_settings?: unknown | null | undefined;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  archived?: boolean | undefined;
+  collection_id?: number | null | undefined;
+  type?: MetabaseActionsSchemaType | (string & {}) | undefined;
+  model_id?: number | null | undefined;
+  parameters?: MetabaseActionsSchemaActionUpdateRequestCase1ParametersList | null | undefined;
+  archived_directly?: boolean | undefined;
+  description?: string | null | undefined;
 }
 export type MetabaseActionsSchemaActionUpdateRequestCase2ParametersList =
   Array<MetabaseActionsSchemaActionParameter>;
 export interface MetabaseActionsSchemaActionUpdateRequestCase2 {
-  visualization_settings?: unknown | null;
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
-  id?: number;
-  name?: string;
-  archived?: boolean;
-  table_id?: number | null;
-  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null;
-  collection_id?: number | null;
-  type?: MetabaseActionsSchemaType | (string & {});
-  model_id?: number | null;
-  parameters?: MetabaseActionsSchemaActionUpdateRequestCase2ParametersList | null;
-  archived_directly?: boolean;
-  description?: string | null;
+  visualization_settings?: unknown | null | undefined;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  archived?: boolean | undefined;
+  table_id?: number | null | undefined;
+  kind?: MetabaseActionsSchemaImplicitActionKind | (string & {}) | null | undefined;
+  collection_id?: number | null | undefined;
+  type?: MetabaseActionsSchemaType | (string & {}) | undefined;
+  model_id?: number | null | undefined;
+  parameters?: MetabaseActionsSchemaActionUpdateRequestCase2ParametersList | null | undefined;
+  archived_directly?: boolean | undefined;
+  description?: string | null | undefined;
 }
 /** Schema for the REST API body that updates an Action, without the columns the server populates. */
 export type MetabaseActionsSchemaActionUpdateRequest =
@@ -9254,7 +9696,7 @@ export type MetabaseActionsSchemaActionUpdateRequest =
   | MetabaseActionsSchemaActionUpdateRequestCase2;
 export interface PutActionRequest {
   id: number;
-  body?: MetabaseActionsSchemaActionUpdateRequest;
+  body?: MetabaseActionsSchemaActionUpdateRequest | undefined;
 }
 export interface PutActionResponse {}
 export type MetabaseAgentApiApiDashcardMutationCase0DisplaySize = "wide" | "tall" | "full";
@@ -9262,21 +9704,29 @@ export interface MetabaseAgentApiApiDashcardMutationCase0 {
   action: unknown;
   /** value must be an integer greater than zero. */
   card_id: number;
-  display_size?: MetabaseAgentApiApiDashcardMutationCase0DisplaySize | (string & {}) | null;
-  tab_id?: number | null;
+  display_size?:
+    | MetabaseAgentApiApiDashcardMutationCase0DisplaySize
+    | (string & {})
+    | null
+    | undefined;
+  tab_id?: number | null | undefined;
 }
 export interface MetabaseAgentApiApiDashcardMutationCase1 {
   action: unknown;
-  display_size?: unknown | null;
-  tab_id?: number | null;
+  display_size?: unknown | null | undefined;
+  tab_id?: number | null | undefined;
   /** value must be a non-blank string. */
   text: string;
 }
 export type MetabaseAgentApiApiDashcardMutationCase2DisplaySize = "wide" | "tall" | "full";
 export interface MetabaseAgentApiApiDashcardMutationCase2 {
   action: unknown;
-  display_size?: MetabaseAgentApiApiDashcardMutationCase2DisplaySize | (string & {}) | null;
-  tab_id?: number | null;
+  display_size?:
+    | MetabaseAgentApiApiDashcardMutationCase2DisplaySize
+    | (string & {})
+    | null
+    | undefined;
+  tab_id?: number | null | undefined;
   /** value must be a non-blank string. */
   text: string;
 }
@@ -9311,35 +9761,35 @@ export type PutAgentDashboardRequestDashcardsList = Array<MetabaseAgentApiApiDas
 export interface PutAgentDashboardRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  collection_id?: number | null;
-  dashcards?: PutAgentDashboardRequestDashcardsList | null;
-  description?: string | null;
-  name?: string | null;
+  archived?: boolean | null | undefined;
+  collection_id?: number | null | undefined;
+  dashcards?: PutAgentDashboardRequestDashcardsList | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export interface PutAgentDashboardResponse {}
 export interface PutAgentMetricRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  collection_id?: number | null;
-  description?: string | null;
-  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null;
-  name?: string | null;
-  query?: string | null;
-  visualization_settings?: unknown | null;
+  archived?: boolean | null | undefined;
+  collection_id?: number | null | undefined;
+  description?: string | null | undefined;
+  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null | undefined;
+  name?: string | null | undefined;
+  query?: string | null | undefined;
+  visualization_settings?: unknown | null | undefined;
 }
 export interface PutAgentMetricResponse {}
 export interface PutAgentQuestionRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  collection_id?: number | null;
-  description?: string | null;
-  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null;
-  name?: string | null;
-  query?: string | null;
-  visualization_settings?: unknown | null;
+  archived?: boolean | null | undefined;
+  collection_id?: number | null | undefined;
+  description?: string | null | undefined;
+  display?: MetabaseAgentApiApiCardDisplay | (string & {}) | null | undefined;
+  name?: string | null | undefined;
+  query?: string | null | undefined;
+  visualization_settings?: unknown | null | undefined;
 }
 export interface PutAgentQuestionResponse {}
 export type PutBookmarkOrderingRequestOrderingsItemType =
@@ -9361,7 +9811,7 @@ export interface PutBookmarkOrderingRequest {
 export interface PutBookmarkOrderingResponse {}
 export type PutCacheRequestModel = "root" | "database" | "dashboard" | "question";
 export interface MetabaseLibSchemaCacheStrategyNocache {
-  name?: string | null;
+  name?: string | null | undefined;
   type: unknown;
 }
 /** [[::lib.schema/cache-strategy.ttl]] as it may be configured: whole numbers. */
@@ -9377,13 +9827,13 @@ export type MetabaseCacheApiCacheStrategyEeDurationUnit = "hours" | "minutes" | 
 export interface MetabaseCacheApiCacheStrategyEeDuration {
   /** value must be an integer greater than zero. */
   duration: number;
-  refresh_automatically?: boolean | null;
+  refresh_automatically?: boolean | null | undefined;
   type: unknown;
   unit: MetabaseCacheApiCacheStrategyEeDurationUnit | (string & {});
 }
 /** [[::lib.schema/cache-strategy.schedule]] as it may be configured: a valid cron schedule. */
 export interface MetabaseCacheApiCacheStrategyEeSchedule {
-  refresh_automatically?: boolean | null;
+  refresh_automatically?: boolean | null | undefined;
   /** value must be a non-blank string. */
   schedule: string;
   type: unknown;
@@ -9422,55 +9872,55 @@ export type PutCardRequestEmbeddingParamsMap = {
 export interface PutCardRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  delete_old_dashcards?: boolean;
-  enable_embedding?: boolean | null;
-  visualization_settings?: unknown | null;
-  dashboard_tab_id?: number | null;
-  collection_preview?: boolean | null;
-  dataset_query?: MetabaseLibSchemaQuery | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
-  embedding_type?: string | null;
-  name?: string | null;
-  archived?: boolean | null;
-  collection_position?: number | null;
-  embedding_params?: PutCardRequestEmbeddingParamsMap | null;
-  result_metadata?: MetabaseLibSchemaMetadataCardResultMetadata | null;
-  collection_id?: number | null;
-  cache_ttl?: number | null;
-  type?: MetabaseLibSchemaMetadataCardType | (string & {}) | null;
-  display?: string | null;
-  parameters?: MetabaseParametersSchemaParameters | null;
-  description?: string | null;
-  dashboard_id?: number | null;
+  delete_old_dashcards?: boolean | undefined;
+  enable_embedding?: boolean | null | undefined;
+  visualization_settings?: unknown | null | undefined;
+  dashboard_tab_id?: number | null | undefined;
+  collection_preview?: boolean | null | undefined;
+  dataset_query?: MetabaseLibSchemaQuery | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
+  embedding_type?: string | null | undefined;
+  name?: string | null | undefined;
+  archived?: boolean | null | undefined;
+  collection_position?: number | null | undefined;
+  embedding_params?: PutCardRequestEmbeddingParamsMap | null | undefined;
+  result_metadata?: MetabaseLibSchemaMetadataCardResultMetadata | null | undefined;
+  collection_id?: number | null | undefined;
+  cache_ttl?: number | null | undefined;
+  type?: MetabaseLibSchemaMetadataCardType | (string & {}) | null | undefined;
+  display?: string | null | undefined;
+  parameters?: MetabaseParametersSchemaParameters | null | undefined;
+  description?: string | null | undefined;
+  dashboard_id?: number | null | undefined;
 }
 export interface PutCardResponse {}
 export interface PutChannelRequestBodyCase0 {
-  active?: boolean | null;
-  description?: string | null;
-  details?: MetabaseChannelSchemaHttpDetails | null;
-  name?: string | null;
-  type?: string | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
+  details?: MetabaseChannelSchemaHttpDetails | null | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export interface PutChannelRequestBodyCase1 {
-  active?: boolean | null;
-  description?: string | null;
-  details?: MetabaseChannelSchemaSlackDetails | null;
-  name?: string | null;
-  type?: string | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
+  details?: MetabaseChannelSchemaSlackDetails | null | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export interface PutChannelRequestBodyCase2 {
-  active?: boolean | null;
-  description?: string | null;
-  details?: MetabaseChannelSchemaEmailDetails | null;
-  name?: string | null;
-  type?: string | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
+  details?: MetabaseChannelSchemaEmailDetails | null | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export interface PutChannelRequestBodyCase3 {
-  active?: boolean | null;
-  description?: string | null;
-  details?: MetabaseChannelSchemaChannelDetails | null;
-  name?: string | null;
-  type?: string | null;
+  active?: boolean | null | undefined;
+  description?: string | null | undefined;
+  details?: MetabaseChannelSchemaChannelDetails | null | undefined;
+  name?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export type PutChannelRequestBody =
   | PutChannelRequestBodyCase0
@@ -9480,7 +9930,7 @@ export type PutChannelRequestBody =
 export interface PutChannelRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  body?: PutChannelRequestBody;
+  body?: PutChannelRequestBody | undefined;
 }
 export interface PutChannelResponse {}
 export interface PutCloudMigrationCancelRequest {}
@@ -9489,11 +9939,11 @@ export type PutCollectionRequestAuthorityLevel = "official";
 export interface PutCollectionRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  authority_level?: PutCollectionRequestAuthorityLevel | (string & {}) | null;
-  description?: string | null;
-  name?: string | null;
-  parent_id?: number | null;
+  archived?: boolean | null | undefined;
+  authority_level?: PutCollectionRequestAuthorityLevel | (string & {}) | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
+  parent_id?: number | null | undefined;
 }
 export interface PutCollectionResponse {}
 export type PutCollectionGraphRequestGroupsValueValue =
@@ -9510,19 +9960,19 @@ export type PutCollectionGraphRequestGroupsMap = {
   [key: string]: PutCollectionGraphRequestGroupsValueMap | undefined;
 };
 export interface PutCollectionGraphRequest {
-  force?: boolean;
-  skip_graph?: boolean;
+  force?: boolean | undefined;
+  skip_graph?: boolean | undefined;
   groups: PutCollectionGraphRequestGroupsMap;
-  namespace?: string | null;
-  revision?: number | null;
+  namespace?: string | null | undefined;
+  revision?: number | null | undefined;
 }
 export interface PutCollectionGraphResponse {}
 export interface PutCommentRequest {
   /** value must be an integer greater than zero. */
   comment_id: number;
   /** Comment content must be valid JSON. */
-  content?: unknown;
-  is_resolved?: boolean;
+  content?: unknown | undefined;
+  is_resolved?: boolean | undefined;
 }
 export interface PutCommentResponse {}
 export type PutDashboardRequestWidth = "fixed" | "full";
@@ -9548,12 +9998,12 @@ export interface PutDashboardRequestDashcardsItemSeriesItem {
 export type PutDashboardRequestDashcardsItemSeriesList =
   Array<PutDashboardRequestDashcardsItemSeriesItem>;
 export interface PutDashboardRequestDashcardsItem {
-  inline_parameters?: PutDashboardRequestDashcardsItemInlineParametersList | null;
-  visualization_settings?: unknown | null;
-  dashboard_tab_id?: number | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
+  inline_parameters?: PutDashboardRequestDashcardsItemInlineParametersList | null | undefined;
+  visualization_settings?: unknown | null | undefined;
+  dashboard_tab_id?: number | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
   id: number;
-  card_id?: number | null;
+  card_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
   size_x: number;
   /** value must be an integer greater than zero. */
@@ -9562,32 +10012,32 @@ export interface PutDashboardRequestDashcardsItem {
   col: number;
   /** value must be an integer greater or equal to than zero. */
   row: number;
-  series?: PutDashboardRequestDashcardsItemSeriesList | null;
-  action_id?: number | null;
+  series?: PutDashboardRequestDashcardsItemSeriesList | null | undefined;
+  action_id?: number | null | undefined;
 }
 /** value must be seq of maps in which ids are unique */
 export type PutDashboardRequestDashcardsList = Array<PutDashboardRequestDashcardsItem>;
 export interface PutDashboardRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  points_of_interest?: string | null;
-  enable_embedding?: boolean | null;
-  auto_apply_filters?: boolean | null;
-  width?: PutDashboardRequestWidth | (string & {});
-  embedding_type?: string | null;
-  show_in_getting_started?: boolean | null;
-  position?: number | null;
-  name?: string | null;
-  archived?: boolean | null;
-  collection_position?: number | null;
-  embedding_params?: PutDashboardRequestEmbeddingParamsMap | null;
-  tabs?: PutDashboardRequestTabsList | null;
-  collection_id?: number | null;
-  cache_ttl?: number | null;
-  caveats?: string | null;
-  parameters?: MetabaseParametersSchemaParameters | null;
-  dashcards?: PutDashboardRequestDashcardsList | null;
-  description?: string | null;
+  points_of_interest?: string | null | undefined;
+  enable_embedding?: boolean | null | undefined;
+  auto_apply_filters?: boolean | null | undefined;
+  width?: PutDashboardRequestWidth | (string & {}) | undefined;
+  embedding_type?: string | null | undefined;
+  show_in_getting_started?: boolean | null | undefined;
+  position?: number | null | undefined;
+  name?: string | null | undefined;
+  archived?: boolean | null | undefined;
+  collection_position?: number | null | undefined;
+  embedding_params?: PutDashboardRequestEmbeddingParamsMap | null | undefined;
+  tabs?: PutDashboardRequestTabsList | null | undefined;
+  collection_id?: number | null | undefined;
+  cache_ttl?: number | null | undefined;
+  caveats?: string | null | undefined;
+  parameters?: MetabaseParametersSchemaParameters | null | undefined;
+  dashcards?: PutDashboardRequestDashcardsList | null | undefined;
+  description?: string | null | undefined;
 }
 export interface PutDashboardResponse {}
 export type PutDashboardCardsRequestCardsItemInlineParametersList = Array<string>;
@@ -9596,12 +10046,12 @@ export type PutDashboardCardsRequestCardsItemSeriesItem =
 export type PutDashboardCardsRequestCardsItemSeriesList =
   Array<PutDashboardRequestDashcardsItemSeriesItem>;
 export interface PutDashboardCardsRequestCardsItem {
-  inline_parameters?: PutDashboardCardsRequestCardsItemInlineParametersList | null;
-  visualization_settings?: unknown | null;
-  dashboard_tab_id?: number | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
+  inline_parameters?: PutDashboardCardsRequestCardsItemInlineParametersList | null | undefined;
+  visualization_settings?: unknown | null | undefined;
+  dashboard_tab_id?: number | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
   id: number;
-  card_id?: number | null;
+  card_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
   size_x: number;
   /** value must be an integer greater than zero. */
@@ -9610,8 +10060,8 @@ export interface PutDashboardCardsRequestCardsItem {
   col: number;
   /** value must be an integer greater or equal to than zero. */
   row: number;
-  series?: PutDashboardCardsRequestCardsItemSeriesList | null;
-  action_id?: number | null;
+  series?: PutDashboardCardsRequestCardsItemSeriesList | null | undefined;
+  action_id?: number | null | undefined;
 }
 /** value must be seq of maps in which ids are unique */
 export type PutDashboardCardsRequestCardsList = Array<PutDashboardCardsRequestCardsItem>;
@@ -9623,28 +10073,28 @@ export interface PutDashboardCardsRequest {
   id: number;
   /** value must be seq of maps in which ids are unique */
   cards: PutDashboardCardsRequestCardsList;
-  tabs?: PutDashboardCardsRequestTabsList | null;
+  tabs?: PutDashboardCardsRequestTabsList | null | undefined;
 }
 export interface PutDashboardCardsResponse {}
 export interface PutDatabaseRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  points_of_interest?: string | null;
-  provider_name?: string | null;
-  write_data_details?: unknown | null;
-  settings?: unknown | null;
-  name?: string | null;
-  is_on_demand?: boolean | null;
-  cache_ttl?: number | null;
-  engine?: string | null;
-  details?: unknown | null;
-  is_full_sync?: boolean | null;
-  auto_run_queries?: boolean | null;
-  caveats?: string | null;
-  is_stub?: boolean | null;
-  refingerprint?: boolean | null;
-  schedules?: MetabaseSyncSchedulesExpandedSchedulesMap | null;
-  description?: string | null;
+  points_of_interest?: string | null | undefined;
+  provider_name?: string | null | undefined;
+  write_data_details?: unknown | null | undefined;
+  settings?: unknown | null | undefined;
+  name?: string | null | undefined;
+  is_on_demand?: boolean | null | undefined;
+  cache_ttl?: number | null | undefined;
+  engine?: string | null | undefined;
+  details?: unknown | null | undefined;
+  is_full_sync?: boolean | null | undefined;
+  auto_run_queries?: boolean | null | undefined;
+  caveats?: string | null | undefined;
+  is_stub?: boolean | null | undefined;
+  refingerprint?: boolean | null | undefined;
+  schedules?: MetabaseSyncSchedulesExpandedSchedulesMap | null | undefined;
+  description?: string | null | undefined;
 }
 export interface PutDatabaseResponse {}
 export type PutDocumentRequestCardsValue = CreateDocumentRequestCardsValue;
@@ -9654,13 +10104,13 @@ export type PutDocumentRequestCardsMap = {
 export interface PutDocumentRequest {
   /** value must be an integer greater than zero. */
   document_id: number;
-  archived?: boolean | null;
-  cards?: PutDocumentRequestCardsMap | null;
-  collection_id?: number | null;
-  collection_position?: number | null;
-  document?: MetabaseDocumentsProseMirrorAst | null;
+  archived?: boolean | null | undefined;
+  cards?: PutDocumentRequestCardsMap | null | undefined;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
+  document?: MetabaseDocumentsProseMirrorAst | null | undefined;
   /** value must be a non-blank string between 1 and 254 characters. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutDocumentResponse {}
 export type PutEeAdvancedPermissionsApplicationGraphRequestGroupsValueValue =
@@ -9678,10 +10128,10 @@ export type PutEeAdvancedPermissionsApplicationGraphRequestGroupsMap = {
   [key: string]: PutEeAdvancedPermissionsApplicationGraphRequestGroupsValueMap | undefined;
 };
 export interface PutEeAdvancedPermissionsApplicationGraphRequest {
-  skip_graph?: boolean;
-  force?: boolean;
+  skip_graph?: boolean | undefined;
+  force?: boolean | undefined;
   groups: PutEeAdvancedPermissionsApplicationGraphRequestGroupsMap;
-  revision?: number | null;
+  revision?: number | null | undefined;
 }
 export interface PutEeAdvancedPermissionsApplicationGraphResponse {}
 /** Value must be a map. */
@@ -9738,7 +10188,7 @@ export interface PutEeAppResponse {}
 export interface PutEeCustomVizPluginRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface PutEeCustomVizPluginResponse {}
 export type PutEeCustomVizPluginBundleRequestFile = CreateEeCustomVizPluginRequestFile;
@@ -9757,27 +10207,31 @@ export interface PutEeCustomVizPluginDevUrlResponse {}
 export interface PutEeDatabaseRoutingRouterDatabaseRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  user_attribute?: string | null;
+  user_attribute?: string | null | undefined;
 }
 export interface PutEeDatabaseRoutingRouterDatabaseResponse {}
 export interface PutEeEmailOverrideRequest {
-  email_smtp_host_override?: string | null;
-  email_smtp_password_override?: string | null;
-  email_smtp_port_override?: number | null;
-  email_smtp_security_override?: string | null;
-  email_smtp_username_override?: string | null;
+  email_smtp_host_override?: string | null | undefined;
+  email_smtp_password_override?: string | null | undefined;
+  email_smtp_port_override?: number | null | undefined;
+  email_smtp_security_override?: string | null | undefined;
+  email_smtp_username_override?: string | null | undefined;
 }
 export interface PutEeEmailOverrideResponse {}
 export type PutEeRemoteSyncSettingsRequestCollectionsMap = { [key: string]: boolean | undefined };
 export type PutEeRemoteSyncSettingsRequestRemoteSyncType = "read-only" | "read-write";
 export interface PutEeRemoteSyncSettingsRequest {
-  collections?: PutEeRemoteSyncSettingsRequestCollectionsMap | null;
-  remote_sync_auto_import?: boolean | null;
-  remote_sync_branch?: string | null;
-  remote_sync_token?: string | null;
-  remote_sync_transforms?: boolean | null;
-  remote_sync_type?: PutEeRemoteSyncSettingsRequestRemoteSyncType | (string & {}) | null;
-  remote_sync_url?: string | null;
+  collections?: PutEeRemoteSyncSettingsRequestCollectionsMap | null | undefined;
+  remote_sync_auto_import?: boolean | null | undefined;
+  remote_sync_branch?: string | null | undefined;
+  remote_sync_token?: string | null | undefined;
+  remote_sync_transforms?: boolean | null | undefined;
+  remote_sync_type?:
+    | PutEeRemoteSyncSettingsRequestRemoteSyncType
+    | (string & {})
+    | null
+    | undefined;
+  remote_sync_url?: string | null | undefined;
 }
 export interface PutEeRemoteSyncSettingsResponse {}
 export type PutEeScimGroupRequestMembersItem = CreateEeScimGroupRequestMembersItem;
@@ -9789,8 +10243,8 @@ export interface PutEeScimGroupRequest {
   id: string;
   /** value must be a non-blank string. */
   displayName: string;
-  members?: PutEeScimGroupRequestMembersList;
-  meta?: CreateEeScimGroupRequestMeta;
+  members?: PutEeScimGroupRequestMembersList | undefined;
+  meta?: CreateEeScimGroupRequestMeta | undefined;
   schemas: PutEeScimGroupRequestSchemasList;
 }
 export interface PutEeScimGroupResponse {}
@@ -9806,13 +10260,13 @@ export interface PutEeScimUserRequest {
   id: string;
   schemas: PutEeScimUserRequestSchemasList;
   name: CreateEeScimUserRequestName;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** value must be a non-blank string. */
   userName: string;
-  meta?: CreateEeScimGroupRequestMeta;
+  meta?: CreateEeScimGroupRequestMeta | undefined;
   emails: PutEeScimUserRequestEmailsList;
-  active?: boolean;
-  groups?: PutEeScimUserRequestGroupsList;
+  active?: boolean | undefined;
+  groups?: PutEeScimUserRequestGroupsList | undefined;
 }
 export interface PutEeScimUserResponse {}
 export interface PutEeSupportAccessGrantRevokeRequest {
@@ -9827,9 +10281,9 @@ export type PutEeTenantRequestAttributesMap = {
 export interface PutEeTenantRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  attributes?: PutEeTenantRequestAttributesMap | null;
-  is_active?: boolean | null;
-  name?: string | null;
+  attributes?: PutEeTenantRequestAttributesMap | null | undefined;
+  is_active?: boolean | null | undefined;
+  name?: string | null | undefined;
 }
 export interface PutEeTenantResponse {}
 export interface PutEeTransformsPythonLibraryRequest {
@@ -9841,19 +10295,19 @@ export interface PutEeTransformsPythonLibraryResponse {}
 export interface PutEeTransformTestRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  description?: string | null;
-  expectations?: MetabaseEnterpriseTransformTestingSchemaExpectations;
-  inputs?: MetabaseEnterpriseTransformTestingSchemaInputs;
-  name?: string;
-  transform_id?: number;
+  description?: string | null | undefined;
+  expectations?: MetabaseEnterpriseTransformTestingSchemaExpectations | undefined;
+  inputs?: MetabaseEnterpriseTransformTestingSchemaInputs | undefined;
+  name?: string | undefined;
+  transform_id?: number | undefined;
 }
 export interface PutEeTransformTestResponse {}
 export interface PutEmailRequest {
-  email_smtp_host?: string | null;
-  email_smtp_password?: string | null;
-  email_smtp_port?: number | null;
-  email_smtp_security?: string | null;
-  email_smtp_username?: string | null;
+  email_smtp_host?: string | null | undefined;
+  email_smtp_password?: string | null | undefined;
+  email_smtp_port?: number | null | undefined;
+  email_smtp_security?: string | null | undefined;
+  email_smtp_username?: string | null | undefined;
 }
 export interface PutEmailResponse {}
 /** Value must be a map. */
@@ -9861,19 +10315,19 @@ export type PutEmbedThemeRequestSettingsMap = { [key: string]: unknown | undefin
 export interface PutEmbedThemeRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  name?: string | null;
-  settings?: PutEmbedThemeRequestSettingsMap | null;
+  name?: string | null | undefined;
+  settings?: PutEmbedThemeRequestSettingsMap | null | undefined;
 }
 export interface PutEmbedThemeResponse {}
 export interface PutExplorationRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean;
-  collection_id?: number | null;
-  collection_position?: number | null;
-  description?: string | null;
+  archived?: boolean | undefined;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
+  description?: string | null | undefined;
   /** value must be a non-blank string between 1 and 254 characters. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutExplorationResponse {}
 export type PutExplorationPagesHiddenRequestPageIdsList = Array<number>;
@@ -9908,19 +10362,19 @@ export type PutFieldRequestDataSensitivity =
 export interface PutFieldRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  points_of_interest?: string | null;
-  settings?: unknown | null;
-  visibility_type?: PutFieldRequestVisibilityType | (string & {});
-  coercion_strategy?: string | null;
-  json_unfolding?: boolean;
-  data_sensitivity?: PutFieldRequestDataSensitivity | (string & {}) | null;
-  semantic_type?: string | null;
-  has_field_values?: MetabaseLibSchemaMetadataColumnHasFieldValues | (string & {});
+  points_of_interest?: string | null | undefined;
+  settings?: unknown | null | undefined;
+  visibility_type?: PutFieldRequestVisibilityType | (string & {}) | undefined;
+  coercion_strategy?: string | null | undefined;
+  json_unfolding?: boolean | undefined;
+  data_sensitivity?: PutFieldRequestDataSensitivity | (string & {}) | null | undefined;
+  semantic_type?: string | null | undefined;
+  has_field_values?: MetabaseLibSchemaMetadataColumnHasFieldValues | (string & {}) | undefined;
   /** value must be a non-blank string. */
-  display_name?: string;
-  caveats?: string | null;
-  description?: string | null;
-  fk_target_field_id?: number | null;
+  display_name?: string | undefined;
+  caveats?: string | null | undefined;
+  description?: string | null | undefined;
+  fk_target_field_id?: number | null | undefined;
 }
 export interface PutFieldResponse {}
 export interface PutGlossaryRequest {
@@ -9933,9 +10387,9 @@ export interface PutGlossaryRequest {
 }
 export interface PutGlossaryResponse {}
 export interface PutGoogleSettingsRequest {
-  google_auth_auto_create_accounts_domain?: string | null;
-  google_auth_client_id?: string | null;
-  google_auth_enabled?: boolean | null;
+  google_auth_auto_create_accounts_domain?: string | null | undefined;
+  google_auth_client_id?: string | null | undefined;
+  google_auth_enabled?: boolean | null | undefined;
 }
 export interface PutGoogleSettingsResponse {}
 export interface PutIndexRequestRequest {
@@ -9947,8 +10401,8 @@ export interface PutIndexRequestResponse {}
 export interface PutKeyRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  group_id?: number | null;
-  name?: string | null;
+  group_id?: number | null | undefined;
+  name?: string | null | undefined;
 }
 export interface PutKeyResponse {}
 export interface PutKeyRegenerateRequest {
@@ -9962,47 +10416,47 @@ export type MetabaseSsoSchemaGroupMappings = {
 };
 export type PutLdapSettingsRequestLdapSecurity = "none" | "ssl" | "starttls";
 export interface PutLdapSettingsRequest {
-  ldap_host?: string | null;
-  ldap_attribute_email?: string | null;
-  ldap_password?: string | null;
-  ldap_port?: number | null;
-  ldap_bind_dn?: string | null;
-  ldap_group_membership_filter?: string | null;
-  ldap_group_sync?: boolean | null;
-  ldap_attribute_firstname?: string | null;
-  ldap_group_mappings?: MetabaseSsoSchemaGroupMappings | null;
-  ldap_user_base?: string | null;
-  ldap_security?: PutLdapSettingsRequestLdapSecurity | (string & {}) | null;
-  ldap_user_filter?: string | null;
-  ldap_attribute_lastname?: string | null;
-  ldap_group_base?: string | null;
-  ldap_enabled?: boolean | null;
+  ldap_host?: string | null | undefined;
+  ldap_attribute_email?: string | null | undefined;
+  ldap_password?: string | null | undefined;
+  ldap_port?: number | null | undefined;
+  ldap_bind_dn?: string | null | undefined;
+  ldap_group_membership_filter?: string | null | undefined;
+  ldap_group_sync?: boolean | null | undefined;
+  ldap_attribute_firstname?: string | null | undefined;
+  ldap_group_mappings?: MetabaseSsoSchemaGroupMappings | null | undefined;
+  ldap_user_base?: string | null | undefined;
+  ldap_security?: PutLdapSettingsRequestLdapSecurity | (string & {}) | null | undefined;
+  ldap_user_filter?: string | null | undefined;
+  ldap_attribute_lastname?: string | null | undefined;
+  ldap_group_base?: string | null | undefined;
+  ldap_enabled?: boolean | null | undefined;
 }
 export interface PutLdapSettingsResponse {}
 /** Value must be a map. */
 export type PutLlmProviderRequestConfigMap = { [key: string]: string | null | undefined };
 export interface PutLlmProviderRequest {
   key: string;
-  config?: PutLlmProviderRequestConfigMap | null;
-  model?: string | null;
-  name?: string | null;
+  config?: PutLlmProviderRequestConfigMap | null | undefined;
+  model?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export interface PutLlmProviderResponse {}
 export interface PutMeasureRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  definition?: MetabaseLibSchemaQuery | null;
-  description?: string | null;
-  name?: string | null;
+  archived?: boolean | null | undefined;
+  definition?: MetabaseLibSchemaQuery | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
   /** value must be a non-blank string. */
   revision_message: string;
 }
 export interface PutMeasureResponse {}
 export interface PutMetabotMetabotRequest {
   id: number;
-  collection_id?: number | null;
-  use_verified_content?: boolean;
+  collection_id?: number | null | undefined;
+  use_verified_content?: boolean | undefined;
 }
 export interface PutMetabotMetabotResponse {}
 export interface PutMetabotSlackSettingsRequest {
@@ -10014,8 +10468,8 @@ export interface PutMetabotSlackSettingsResponse {}
 export interface PutMtGtapRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  attribute_remappings?: MetabaseEnterpriseSandboxSchemaAttributeRemappingsMap | null;
-  card_id?: number | null;
+  attribute_remappings?: MetabaseEnterpriseSandboxSchemaAttributeRemappingsMap | null | undefined;
+  card_id?: number | null | undefined;
 }
 export interface PutMtGtapResponse {}
 /** Value must be a map. */
@@ -10025,35 +10479,37 @@ export type PutMtUserAttributesRequestLoginAttributesMap = {
 export interface PutMtUserAttributesRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  login_attributes?: PutMtUserAttributesRequestLoginAttributesMap | null;
+  login_attributes?: PutMtUserAttributesRequestLoginAttributesMap | null | undefined;
 }
 export interface PutMtUserAttributesResponse {}
 export interface PutNativeQuerySnippetRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  collection_id?: number | null;
-  content?: string | null;
-  description?: string | null;
-  name?: string | null;
+  archived?: boolean | null | undefined;
+  collection_id?: number | null | undefined;
+  content?: string | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export interface PutNativeQuerySnippetResponse {}
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItemRecipientsList =
   Array<MetabaseNotificationModelsNotificationRecipient>;
 export interface MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItem {
-  template_id?: number | null;
-  channel_id?: number | null;
+  template_id?: number | null | undefined;
+  channel_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
-  id?: number;
-  updated_at?: string | null;
-  recipients?: MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItemRecipientsList;
-  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null;
+  id?: number | undefined;
+  updated_at?: string | null | undefined;
+  recipients?:
+    | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItemRecipientsList
+    | undefined;
+  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null | undefined;
   channel_type: string;
-  created_at?: string | null;
-  channel?: MetabaseChannelModelsChannelChannel | null;
+  created_at?: string | null | undefined;
+  channel?: MetabaseChannelModelsChannelChannel | null | undefined;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
-  active?: boolean | null;
+  notification_id?: number | undefined;
+  active?: boolean | null | undefined;
 }
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersList =
   Array<MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItem>;
@@ -10065,8 +10521,11 @@ export type MetabaseNotificationModelsNotificationCardUpdateSendCondition =
 export interface MetabaseNotificationModelsNotificationCardUpdate {
   /** value must be an integer greater than zero. */
   card_id: number;
-  send_condition?: MetabaseNotificationModelsNotificationCardUpdateSendCondition | (string & {});
-  send_once?: boolean;
+  send_condition?:
+    | MetabaseNotificationModelsNotificationCardUpdateSendCondition
+    | (string & {})
+    | undefined;
+  send_once?: boolean | undefined;
 }
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0PayloadType =
   | "notification/dashboard"
@@ -10077,14 +10536,14 @@ export type MetabaseNotificationModelsNotificationSubscriptionCase0Type =
   | "notification-subscription/cron"
   | "notification-subscription/system-event";
 export interface MetabaseNotificationModelsNotificationSubscriptionCase0 {
-  created_at?: string | null;
-  cron_schedule?: unknown | null;
+  created_at?: string | null | undefined;
+  cron_schedule?: unknown | null | undefined;
   event_name: string;
-  id?: number;
+  id?: number | undefined;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
+  notification_id?: number | undefined;
   type: MetabaseNotificationModelsNotificationSubscriptionCase0Type | (string & {});
-  ui_display_type?: string | null;
+  ui_display_type?: string | null | undefined;
 }
 export type MetabaseNotificationModelsNotificationSubscriptionCase1Type =
   | "notification-subscription/cron"
@@ -10093,17 +10552,18 @@ export type MetabaseNotificationModelsNotificationSubscriptionCase1UiDisplayType
   | "cron/raw"
   | "cron/builder";
 export interface MetabaseNotificationModelsNotificationSubscriptionCase1 {
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   cron_schedule: string;
-  event_name?: unknown | null;
-  id?: number;
+  event_name?: unknown | null | undefined;
+  id?: number | undefined;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
+  notification_id?: number | undefined;
   type: MetabaseNotificationModelsNotificationSubscriptionCase1Type | (string & {});
   ui_display_type?:
     | MetabaseNotificationModelsNotificationSubscriptionCase1UiDisplayType
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Schema for :model/NotificationSubscription. */
 export type MetabaseNotificationModelsNotificationSubscription =
@@ -10112,33 +10572,39 @@ export type MetabaseNotificationModelsNotificationSubscription =
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0SubscriptionsList =
   Array<MetabaseNotificationModelsNotificationSubscription>;
 export interface MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0 {
-  active?: boolean | null;
-  creator_id?: number | null;
-  handlers?: MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersList;
-  internal_id?: string | null;
+  active?: boolean | null | undefined;
+  creator_id?: number | null | undefined;
+  handlers?:
+    | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersList
+    | undefined;
+  internal_id?: string | null | undefined;
   payload: MetabaseNotificationModelsNotificationCardUpdate;
-  payload_id?: number | null;
+  payload_id?: number | null | undefined;
   payload_type:
     | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0PayloadType
     | (string & {});
-  subscriptions?: MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0SubscriptionsList;
+  subscriptions?:
+    | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0SubscriptionsList
+    | undefined;
 }
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItemRecipientsList =
   Array<MetabaseNotificationModelsNotificationRecipient>;
 export interface MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItem {
-  template_id?: number | null;
-  channel_id?: number | null;
+  template_id?: number | null | undefined;
+  channel_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
-  id?: number;
-  updated_at?: string | null;
-  recipients?: MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItemRecipientsList;
-  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null;
+  id?: number | undefined;
+  updated_at?: string | null | undefined;
+  recipients?:
+    | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItemRecipientsList
+    | undefined;
+  template?: MetabaseChannelModelsChannelChannelTemplateUserProvided | null | undefined;
   channel_type: string;
-  created_at?: string | null;
-  channel?: MetabaseChannelModelsChannelChannel | null;
+  created_at?: string | null | undefined;
+  channel?: MetabaseChannelModelsChannelChannel | null | undefined;
   /** value must be an integer greater than zero. */
-  notification_id?: number;
-  active?: boolean | null;
+  notification_id?: number | undefined;
+  active?: boolean | null | undefined;
 }
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersList =
   Array<MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItem>;
@@ -10150,16 +10616,20 @@ export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1Pa
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1SubscriptionsList =
   Array<MetabaseNotificationModelsNotificationSubscription>;
 export interface MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1 {
-  active?: boolean | null;
-  creator_id?: number | null;
-  handlers?: MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersList;
-  internal_id?: string | null;
-  payload?: MetabaseNotificationModelsSystemEventPayloadRequest | null;
-  payload_id?: number | null;
+  active?: boolean | null | undefined;
+  creator_id?: number | null | undefined;
+  handlers?:
+    | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersList
+    | undefined;
+  internal_id?: string | null | undefined;
+  payload?: MetabaseNotificationModelsSystemEventPayloadRequest | null | undefined;
+  payload_id?: number | null | undefined;
   payload_type:
     | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1PayloadType
     | (string & {});
-  subscriptions?: MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1SubscriptionsList;
+  subscriptions?:
+    | MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1SubscriptionsList
+    | undefined;
 }
 /** Notification schema for an update request, restricted to what `notification-update-spec` writes. On PUT the URL, not the body, identifies the target (RFC 9110 §9.3.4), so a client-sent id is stripped. */
 export type MetabaseNotificationApiNotificationNotificationApiUpdateInput =
@@ -10168,16 +10638,16 @@ export type MetabaseNotificationApiNotificationNotificationApiUpdateInput =
 export interface PutNotificationRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  body?: MetabaseNotificationApiNotificationNotificationApiUpdateInput;
+  body?: MetabaseNotificationApiNotificationNotificationApiUpdateInput | undefined;
 }
 export interface PutNotificationResponse {}
 export type MetabaseOsiSchemaOsiAiContextAiContextExamplesList = Array<string>;
 export type MetabaseOsiSchemaOsiAiContextAiContextSynonymsList = Array<string>;
 /** The `:ai_context` column of a OsiAiContext, decoded. */
 export interface MetabaseOsiSchemaOsiAiContextAiContext {
-  examples?: MetabaseOsiSchemaOsiAiContextAiContextExamplesList;
-  instructions?: string | null;
-  synonyms?: MetabaseOsiSchemaOsiAiContextAiContextSynonymsList;
+  examples?: MetabaseOsiSchemaOsiAiContextAiContextExamplesList | undefined;
+  instructions?: string | null | undefined;
+  synonyms?: MetabaseOsiSchemaOsiAiContextAiContextSynonymsList | undefined;
 }
 export interface PutOsiAiContextRequest {
   /** value must be a non-blank string. */
@@ -10190,8 +10660,8 @@ export interface PutOsiAiContextResponse {}
 export type MetabasePermissionsRestSchemaTablePermsCase0Query = "all" | "none" | "segmented";
 export type MetabasePermissionsRestSchemaTablePermsCase0Read = "all" | "none";
 export interface MetabasePermissionsRestSchemaTablePermsCase0 {
-  query?: MetabasePermissionsRestSchemaTablePermsCase0Query | (string & {});
-  read?: MetabasePermissionsRestSchemaTablePermsCase0Read | (string & {});
+  query?: MetabasePermissionsRestSchemaTablePermsCase0Query | (string & {}) | undefined;
+  read?: MetabasePermissionsRestSchemaTablePermsCase0Read | (string & {}) | undefined;
 }
 /** Perms that get reused for TablePerms and SchemaPerms */
 export type MetabasePermissionsRestSchemaPerms =
@@ -10238,20 +10708,20 @@ export type MetabasePermissionsRestSchemaSchemas =
   | MetabasePermissionsRestSchemaSchemasCase1;
 export type MetabasePermissionsRestSchemaNative = "write" | "none" | "full" | "limited";
 export interface MetabasePermissionsRestSchemaDataPerms {
-  native?: MetabasePermissionsRestSchemaNative | (string & {}) | null;
-  schemas?: MetabasePermissionsRestSchemaSchemas;
+  native?: MetabasePermissionsRestSchemaNative | (string & {}) | null | undefined;
+  schemas?: MetabasePermissionsRestSchemaSchemas | undefined;
 }
 export type MetabasePermissionsRestSchemaDbPermsDetails = "yes" | "no";
 export type MetabasePermissionsRestSchemaDbPermsTransforms = "yes" | "no";
 /** the permissions one group has on one database */
 export interface MetabasePermissionsRestSchemaDbPerms {
-  create_queries?: MetabasePermissionsRestSchemaSchemas;
-  data?: MetabasePermissionsRestSchemaDataPerms;
-  data_model?: MetabasePermissionsRestSchemaDataPerms;
-  details?: MetabasePermissionsRestSchemaDbPermsDetails | (string & {});
-  download?: MetabasePermissionsRestSchemaDataPerms;
-  transforms?: MetabasePermissionsRestSchemaDbPermsTransforms | (string & {});
-  view_data?: MetabasePermissionsRestSchemaSchemas;
+  create_queries?: MetabasePermissionsRestSchemaSchemas | undefined;
+  data?: MetabasePermissionsRestSchemaDataPerms | undefined;
+  data_model?: MetabasePermissionsRestSchemaDataPerms | undefined;
+  details?: MetabasePermissionsRestSchemaDbPermsDetails | (string & {}) | undefined;
+  download?: MetabasePermissionsRestSchemaDataPerms | undefined;
+  transforms?: MetabasePermissionsRestSchemaDbPermsTransforms | (string & {}) | undefined;
+  view_data?: MetabasePermissionsRestSchemaSchemas | undefined;
 }
 export type PutPermissionsGraphRequestGroupsValueMap = {
   [key: string]: MetabasePermissionsRestSchemaDbPerms | undefined;
@@ -10281,25 +10751,25 @@ export type MetabasePermissionsRestSchemaAttributeRemappings = {
 };
 /** a sandbox to write alongside a permissions graph update */
 export interface MetabasePermissionsRestSchemaSandboxUpdate {
-  attribute_remappings?: MetabasePermissionsRestSchemaAttributeRemappings | null;
-  card_id?: number | null;
+  attribute_remappings?: MetabasePermissionsRestSchemaAttributeRemappings | null | undefined;
+  card_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
-  group_id?: number;
+  group_id?: number | undefined;
   /** value must be an integer greater than zero. */
-  id?: number;
-  permission_id?: number | null;
+  id?: number | undefined;
+  permission_id?: number | null | undefined;
   /** value must be an integer greater than zero. */
-  table_id?: number;
+  table_id?: number | undefined;
 }
 export type PutPermissionsGraphRequestSandboxesList =
   Array<MetabasePermissionsRestSchemaSandboxUpdate>;
 export interface PutPermissionsGraphRequest {
-  skip_graph?: boolean;
-  force?: boolean;
+  skip_graph?: boolean | undefined;
+  force?: boolean | undefined;
   groups: PutPermissionsGraphRequestGroupsMap;
-  impersonations?: PutPermissionsGraphRequestImpersonationsList | null;
-  revision?: number | null;
-  sandboxes?: PutPermissionsGraphRequestSandboxesList | null;
+  impersonations?: PutPermissionsGraphRequestImpersonationsList | null | undefined;
+  revision?: number | null | undefined;
+  sandboxes?: PutPermissionsGraphRequestSandboxesList | null | undefined;
 }
 export interface PutPermissionsGraphResponse {}
 export interface PutPermissionsGroupRequest {
@@ -10347,60 +10817,60 @@ export type PutPulseRequestChannelsItemScheduleDay =
 export type PutPulseRequestChannelsItemChannelType = "email" | "slack" | "http";
 export type PutPulseRequestChannelsItemDetailsEmailsList = Array<string>;
 export interface PutPulseRequestChannelsItemDetails {
-  attachment_only?: boolean | null;
-  channel?: string | null;
-  channel_id?: string | null;
-  channels?: string | null;
-  emails?: PutPulseRequestChannelsItemDetailsEmailsList | null;
-  include_pdf?: boolean | null;
-  subject?: unknown | null;
+  attachment_only?: boolean | null | undefined;
+  channel?: string | null | undefined;
+  channel_id?: string | null | undefined;
+  channels?: string | null | undefined;
+  emails?: PutPulseRequestChannelsItemDetailsEmailsList | null | undefined;
+  include_pdf?: boolean | null | undefined;
+  subject?: unknown | null | undefined;
 }
 export type PutPulseRequestChannelsItemScheduleType = "hourly" | "daily" | "weekly" | "monthly";
 export interface PutPulseRequestChannelsItem {
-  channel_id?: number | null;
-  enabled?: boolean | null;
-  id?: number | null;
-  recipients?: PutPulseRequestChannelsItemRecipientsList;
-  schedule_frame?: PutPulseRequestChannelsItemScheduleFrame | (string & {}) | null;
-  schedule_day?: PutPulseRequestChannelsItemScheduleDay | (string & {}) | null;
+  channel_id?: number | null | undefined;
+  enabled?: boolean | null | undefined;
+  id?: number | null | undefined;
+  recipients?: PutPulseRequestChannelsItemRecipientsList | undefined;
+  schedule_frame?: PutPulseRequestChannelsItemScheduleFrame | (string & {}) | null | undefined;
+  schedule_day?: PutPulseRequestChannelsItemScheduleDay | (string & {}) | null | undefined;
   channel_type: PutPulseRequestChannelsItemChannelType | (string & {});
-  details?: PutPulseRequestChannelsItemDetails | null;
-  schedule_hour?: number | null;
-  pulse_id?: number | null;
-  schedule_type?: PutPulseRequestChannelsItemScheduleType | (string & {}) | null;
+  details?: PutPulseRequestChannelsItemDetails | null | undefined;
+  schedule_hour?: number | null | undefined;
+  pulse_id?: number | null | undefined;
+  schedule_type?: PutPulseRequestChannelsItemScheduleType | (string & {}) | null | undefined;
 }
 export type PutPulseRequestChannelsList = Array<PutPulseRequestChannelsItem>;
 export type PutPulseRequestParametersList = Array<MetabaseParametersSchemaParameter>;
 export interface PutPulseRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  cards?: PutPulseRequestCardsList | null;
-  channels?: PutPulseRequestChannelsList | null;
-  collection_id?: number | null;
-  collection_position?: number | null;
-  name?: string | null;
-  parameters?: PutPulseRequestParametersList | null;
-  skip_if_empty?: boolean | null;
+  archived?: boolean | null | undefined;
+  cards?: PutPulseRequestCardsList | null | undefined;
+  channels?: PutPulseRequestChannelsList | null | undefined;
+  collection_id?: number | null | undefined;
+  collection_position?: number | null | undefined;
+  name?: string | null | undefined;
+  parameters?: PutPulseRequestParametersList | null | undefined;
+  skip_if_empty?: boolean | null | undefined;
 }
 export interface PutPulseResponse {}
 export interface PutSearchWeightsRequest {
-  context?: string;
-  search_engine?: string;
+  context?: string | undefined;
+  search_engine?: string | undefined;
 }
 export interface PutSearchWeightsResponse {}
 export interface PutSegmentRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  caveats?: string | null;
-  definition?: MetabaseLibSchemaQuery | null;
-  description?: string | null;
-  name?: string | null;
-  points_of_interest?: string | null;
+  archived?: boolean | null | undefined;
+  caveats?: string | null | undefined;
+  definition?: MetabaseLibSchemaQuery | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
+  points_of_interest?: string | null | undefined;
   /** value must be a non-blank string. */
   revision_message: string;
-  show_in_getting_started?: boolean | null;
+  show_in_getting_started?: boolean | null | undefined;
 }
 export interface PutSegmentResponse {}
 /** Value must be a map. */
@@ -10424,7 +10894,7 @@ export type PutSettingRequestBodyMap = {
   [key: string]: PutSettingRequestBodyValue | null | undefined;
 };
 export interface PutSettingRequest {
-  body?: PutSettingRequestBodyMap;
+  body?: PutSettingRequestBodyMap | undefined;
 }
 export interface PutSettingResponse {}
 /** Value must be a map. */
@@ -10449,8 +10919,8 @@ export interface PutSettingByKeyRequest {
 }
 export interface PutSettingByKeyResponse {}
 export interface PutSlackSettingsRequest {
-  slack_app_token?: string | null;
-  slack_bug_report_channel?: string | null;
+  slack_app_token?: string | null | undefined;
+  slack_bug_report_channel?: string | null | undefined;
 }
 export interface PutSlackSettingsResponse {}
 export type PutTableRequestVisibilityType = "technical" | "hidden" | "cruft";
@@ -10463,21 +10933,24 @@ export type MetabaseWarehouseSchemaRestApiTableDataAuthorityWrite =
 export type PutTableRequestIdsList = Array<number>;
 export type PutTableRequestFieldOrder = "alphabetical" | "custom" | "database" | "smart";
 export interface PutTableRequest {
-  points_of_interest?: string | null;
-  visibility_type?: PutTableRequestVisibilityType | (string & {}) | null;
-  data_authority?: MetabaseWarehouseSchemaRestApiTableDataAuthorityWrite | (string & {});
-  data_layer?: string | null;
-  show_in_getting_started?: boolean | null;
-  owner_email?: string | null;
-  owner_user_id?: number | null;
+  points_of_interest?: string | null | undefined;
+  visibility_type?: PutTableRequestVisibilityType | (string & {}) | null | undefined;
+  data_authority?:
+    | MetabaseWarehouseSchemaRestApiTableDataAuthorityWrite
+    | (string & {})
+    | undefined;
+  data_layer?: string | null | undefined;
+  show_in_getting_started?: boolean | null | undefined;
+  owner_email?: string | null | undefined;
+  owner_user_id?: number | null | undefined;
   ids: PutTableRequestIdsList;
-  display_name?: string | null;
-  collection_id?: number | null;
-  data_source?: string | null;
-  caveats?: string | null;
-  entity_type?: string | null;
-  field_order?: PutTableRequestFieldOrder | (string & {}) | null;
-  description?: string | null;
+  display_name?: string | null | undefined;
+  collection_id?: number | null | undefined;
+  data_source?: string | null | undefined;
+  caveats?: string | null | undefined;
+  entity_type?: string | null | undefined;
+  field_order?: PutTableRequestFieldOrder | (string & {}) | null | undefined;
+  description?: string | null | undefined;
 }
 export interface PutTableResponse {}
 export type PutTableByIdRequestVisibilityType = "technical" | "hidden" | "cruft";
@@ -10485,20 +10958,23 @@ export type PutTableByIdRequestFieldOrder = "alphabetical" | "custom" | "databas
 export interface PutTableByIdRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  points_of_interest?: string | null;
-  visibility_type?: PutTableByIdRequestVisibilityType | (string & {}) | null;
-  data_authority?: MetabaseWarehouseSchemaRestApiTableDataAuthorityWrite | (string & {});
-  data_layer?: string | null;
-  show_in_getting_started?: boolean | null;
-  owner_email?: string | null;
-  owner_user_id?: number | null;
-  display_name?: string | null;
-  collection_id?: number | null;
-  data_source?: string | null;
-  caveats?: string | null;
-  entity_type?: string | null;
-  field_order?: PutTableByIdRequestFieldOrder | (string & {}) | null;
-  description?: string | null;
+  points_of_interest?: string | null | undefined;
+  visibility_type?: PutTableByIdRequestVisibilityType | (string & {}) | null | undefined;
+  data_authority?:
+    | MetabaseWarehouseSchemaRestApiTableDataAuthorityWrite
+    | (string & {})
+    | undefined;
+  data_layer?: string | null | undefined;
+  show_in_getting_started?: boolean | null | undefined;
+  owner_email?: string | null | undefined;
+  owner_user_id?: number | null | undefined;
+  display_name?: string | null | undefined;
+  collection_id?: number | null | undefined;
+  data_source?: string | null | undefined;
+  caveats?: string | null | undefined;
+  entity_type?: string | null | undefined;
+  field_order?: PutTableByIdRequestFieldOrder | (string & {}) | null | undefined;
+  description?: string | null | undefined;
 }
 export interface PutTableByIdResponse {}
 export type PutTableFieldsOrderRequestBodyCase0List = Array<number>;
@@ -10512,7 +10988,7 @@ export type PutTableFieldsOrderRequestBody =
 export interface PutTableFieldsOrderRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  body?: PutTableFieldsOrderRequestBody;
+  body?: PutTableFieldsOrderRequestBody | undefined;
 }
 export interface PutTableFieldsOrderResponse {}
 export type PutTimelineRequestIcon =
@@ -10529,12 +11005,12 @@ export type PutTimelineRequestIcon =
 export interface PutTimelineRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  collection_id?: number | null;
-  default?: boolean | null;
-  description?: string | null;
-  icon?: PutTimelineRequestIcon | (string & {}) | null;
-  name?: string | null;
+  archived?: boolean | null | undefined;
+  collection_id?: number | null | undefined;
+  default?: boolean | null | undefined;
+  description?: string | null | undefined;
+  icon?: PutTimelineRequestIcon | (string & {}) | null | undefined;
+  name?: string | null | undefined;
 }
 export interface PutTimelineResponse {}
 export type PutTimelineEventRequestIcon =
@@ -10551,29 +11027,29 @@ export type PutTimelineEventRequestIcon =
 export interface PutTimelineEventRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  archived?: boolean | null;
-  description?: string | null;
-  icon?: PutTimelineEventRequestIcon | (string & {}) | null;
-  name?: string | null;
-  time_matters?: boolean | null;
-  timeline_id?: number | null;
-  timestamp?: string | null;
-  timezone?: string | null;
+  archived?: boolean | null | undefined;
+  description?: string | null | undefined;
+  icon?: PutTimelineEventRequestIcon | (string & {}) | null | undefined;
+  name?: string | null | undefined;
+  time_matters?: boolean | null | undefined;
+  timeline_id?: number | null | undefined;
+  timestamp?: string | null | undefined;
+  timezone?: string | null | undefined;
 }
 export interface PutTimelineEventResponse {}
 export type PutTransformRequestTagIdsList = Array<number>;
 export interface PutTransformRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  owner_email?: string | null;
-  owner_user_id?: number | null;
-  name?: string;
-  tag_ids?: PutTransformRequestTagIdsList;
-  collection_id?: number | null;
-  source?: MetabaseTransformsSchemaTransformSource;
-  target?: MetabaseTransformsSchemaTransformTarget;
-  run_trigger?: MetabaseTransformsSchemaRunTrigger | (string & {});
-  description?: string | null;
+  owner_email?: string | null | undefined;
+  owner_user_id?: number | null | undefined;
+  name?: string | undefined;
+  tag_ids?: PutTransformRequestTagIdsList | undefined;
+  collection_id?: number | null | undefined;
+  source?: MetabaseTransformsSchemaTransformSource | undefined;
+  target?: MetabaseTransformsSchemaTransformTarget | undefined;
+  run_trigger?: MetabaseTransformsSchemaRunTrigger | (string & {}) | undefined;
+  description?: string | null | undefined;
 }
 export interface PutTransformResponse {}
 export type PutTransformJobRequestTagIdsList = Array<number>;
@@ -10581,14 +11057,14 @@ export type PutTransformJobRequestUiDisplayType = "cron/raw" | "cron/builder";
 export interface PutTransformJobRequest {
   /** value must be an integer greater than zero. */
   job_id: number;
-  active?: boolean;
-  description?: string | null;
+  active?: boolean | undefined;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
-  name?: string;
+  name?: string | undefined;
   /** value must be a non-blank string. */
-  schedule?: string;
-  tag_ids?: PutTransformJobRequestTagIdsList;
-  ui_display_type?: PutTransformJobRequestUiDisplayType | (string & {});
+  schedule?: string | undefined;
+  tag_ids?: PutTransformJobRequestTagIdsList | undefined;
+  ui_display_type?: PutTransformJobRequestUiDisplayType | (string & {}) | undefined;
 }
 export interface PutTransformJobResponse {}
 export interface PutTransformJobActiveRequest {
@@ -10610,16 +11086,16 @@ export type PutUserRequestUserGroupMembershipsList = Array<MetabaseUsersSchemaUs
 export interface PutUserRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  login_attributes?: PutUserRequestLoginAttributesMap | null;
-  user_group_memberships?: PutUserRequestUserGroupMembershipsList | null;
-  email?: string | null;
-  is_data_analyst?: boolean | null;
-  locale?: string | null;
-  is_group_manager?: boolean | null;
-  is_superuser?: boolean | null;
-  tenant_id?: number | null;
-  last_name?: string | null;
-  first_name?: string | null;
+  login_attributes?: PutUserRequestLoginAttributesMap | null | undefined;
+  user_group_memberships?: PutUserRequestUserGroupMembershipsList | null | undefined;
+  email?: string | null | undefined;
+  is_data_analyst?: boolean | null | undefined;
+  locale?: string | null | undefined;
+  is_group_manager?: boolean | null | undefined;
+  is_superuser?: boolean | null | undefined;
+  tenant_id?: number | null | undefined;
+  last_name?: string | null | undefined;
+  first_name?: string | null | undefined;
 }
 export interface PutUserResponse {}
 /** Value must be a map. */
@@ -10648,8 +11124,8 @@ export interface PutUserKeyValueNamespaceKeyRequest {
   namespace: string;
   /** value must be a non-blank string. */
   key: string;
-  expires_at?: string | null;
-  value?: PutUserKeyValueNamespaceKeyRequestValue | null;
+  expires_at?: string | null | undefined;
+  value?: PutUserKeyValueNamespaceKeyRequestValue | null | undefined;
 }
 export interface PutUserKeyValueNamespaceKeyResponse {}
 export type PutUserModalRequestModal = "qbnewb" | "datasetnewb";
@@ -10662,7 +11138,7 @@ export interface PutUserModalResponse {}
 export interface PutUserPasswordRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  old_password?: string | null;
+  old_password?: string | null | undefined;
   /** password is too common. */
   password: string | Redacted.Redacted<string>;
 }
@@ -10691,12 +11167,12 @@ export interface UpdateCardQueryRequest {
   card_id: number;
   export_format: UpdateCardQueryRequestExportFormat | (string & {});
   /** value must be a valid boolean string ('true' or 'false'). */
-  csv_include_bom?: boolean;
+  csv_include_bom?: boolean | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  format_rows?: boolean;
-  parameters?: MetabaseParametersSchemaParameterValues | null;
+  format_rows?: boolean | undefined;
+  parameters?: MetabaseParametersSchemaParameterValues | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  pivot_results?: boolean;
+  pivot_results?: boolean | undefined;
 }
 export interface UpdateCardQueryResponse {}
 /** Schema for valid export formats for downloading query results. */
@@ -10709,12 +11185,12 @@ export interface UpdateDashboardDashcardCardRequest {
   /** value must be an integer greater than zero. */
   card_id: number;
   export_format: UpdateDashboardDashcardCardRequestExportFormat | (string & {});
-  csv_include_bom?: boolean | null;
+  csv_include_bom?: boolean | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  format_rows?: boolean;
-  parameters?: MetabaseParametersSchemaParameterValues | null;
+  format_rows?: boolean | undefined;
+  parameters?: MetabaseParametersSchemaParameterValues | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  pivot_results?: boolean;
+  pivot_results?: boolean | undefined;
 }
 export interface UpdateDashboardDashcardCardResponse {}
 /** Schema for valid export formats for downloading query results. */
@@ -10728,42 +11204,42 @@ export interface UpdateDashboardDashcardCardQueryRequest {
   card_id: number;
   export_format: UpdateDashboardDashcardCardQueryRequestExportFormat | (string & {});
   /** value must be a valid boolean string ('true' or 'false'). */
-  format_rows?: boolean;
-  parameters?: MetabaseParametersSchemaParameterValues | null;
+  format_rows?: boolean | undefined;
+  parameters?: MetabaseParametersSchemaParameterValues | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  pivot_results?: boolean;
+  pivot_results?: boolean | undefined;
 }
 export interface UpdateDashboardDashcardCardQueryResponse {}
 export type UpdateDashboardSaveCollectionRequestDashcardsItemSeriesItemId = number | string;
 export interface UpdateDashboardSaveCollectionRequestDashcardsItemSeriesItem {
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  description?: string | null;
-  display?: string | null;
-  id?: UpdateDashboardSaveCollectionRequestDashcardsItemSeriesItemId | null;
-  name?: string | null;
-  visualization_settings?: unknown | null;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  description?: string | null | undefined;
+  display?: string | null | undefined;
+  id?: UpdateDashboardSaveCollectionRequestDashcardsItemSeriesItemId | null | undefined;
+  name?: string | null | undefined;
+  visualization_settings?: unknown | null | undefined;
 }
 export type UpdateDashboardSaveCollectionRequestDashcardsItemSeriesList =
   Array<UpdateDashboardSaveCollectionRequestDashcardsItemSeriesItem>;
 export type UpdateDashboardSaveCollectionRequestDashcardsItemCardId = number | string;
 export interface UpdateDashboardSaveCollectionRequestDashcardsItemCard {
-  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null;
-  description?: string | null;
-  display?: string | null;
-  id?: UpdateDashboardSaveCollectionRequestDashcardsItemCardId | null;
-  name?: string | null;
-  visualization_settings?: unknown | null;
+  dataset_query?: MetabaseLibBeSchemaMaybeLegacyOrEmptyQuery | null | undefined;
+  description?: string | null | undefined;
+  display?: string | null | undefined;
+  id?: UpdateDashboardSaveCollectionRequestDashcardsItemCardId | null | undefined;
+  name?: string | null | undefined;
+  visualization_settings?: unknown | null | undefined;
 }
 export interface UpdateDashboardSaveCollectionRequestDashcardsItem {
-  visualization_settings?: unknown | null;
-  dashboard_tab_id?: number | null;
-  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null;
-  size_x?: number | null;
-  size_y?: number | null;
-  col?: number | null;
-  row?: number | null;
-  series?: UpdateDashboardSaveCollectionRequestDashcardsItemSeriesList | null;
-  card?: UpdateDashboardSaveCollectionRequestDashcardsItemCard | null;
+  visualization_settings?: unknown | null | undefined;
+  dashboard_tab_id?: number | null | undefined;
+  parameter_mappings?: MetabaseParametersSchemaParameterMappings | null | undefined;
+  size_x?: number | null | undefined;
+  size_y?: number | null | undefined;
+  col?: number | null | undefined;
+  row?: number | null | undefined;
+  series?: UpdateDashboardSaveCollectionRequestDashcardsItemSeriesList | null | undefined;
+  card?: UpdateDashboardSaveCollectionRequestDashcardsItemCard | null | undefined;
 }
 export type UpdateDashboardSaveCollectionRequestDashcardsList =
   Array<UpdateDashboardSaveCollectionRequestDashcardsItem>;
@@ -10774,13 +11250,13 @@ export type UpdateDashboardSaveCollectionRequestWidth = "fixed" | "full";
 export interface UpdateDashboardSaveCollectionRequest {
   /** value must be an integer greater than zero. */
   parent_collection_id: number;
-  auto_apply_filters?: boolean | null;
-  dashcards?: UpdateDashboardSaveCollectionRequestDashcardsList | null;
-  description?: string | null;
-  name?: string | null;
-  parameters?: MetabaseParametersSchemaParameters | null;
-  tabs?: UpdateDashboardSaveCollectionRequestTabsList | null;
-  width?: UpdateDashboardSaveCollectionRequestWidth | (string & {}) | null;
+  auto_apply_filters?: boolean | null | undefined;
+  dashcards?: UpdateDashboardSaveCollectionRequestDashcardsList | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
+  parameters?: MetabaseParametersSchemaParameters | null | undefined;
+  tabs?: UpdateDashboardSaveCollectionRequestTabsList | null | undefined;
+  width?: UpdateDashboardSaveCollectionRequestWidth | (string & {}) | null | undefined;
 }
 export interface UpdateDashboardSaveCollectionResponse {}
 /** Schema for valid export formats for downloading query results. */
@@ -10788,21 +11264,21 @@ export type UpdateDatasetRequestExportFormat = "csv" | "api" | "xlsx" | "json";
 export interface UpdateDatasetRequest {
   export_format: UpdateDatasetRequestExportFormat | (string & {});
   /** value must be a valid boolean string ('true' or 'false'). */
-  csv_include_bom?: boolean;
+  csv_include_bom?: boolean | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  format_rows?: boolean;
+  format_rows?: boolean | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  pivot_results?: boolean;
+  pivot_results?: boolean | undefined;
   query: MetabaseLibBeSchemaMaybeLegacyOrInternalQuery;
   /** Value must be a map. */
-  visualization_settings?: unknown;
+  visualization_settings?: unknown | undefined;
 }
 export interface UpdateDatasetResponse {}
 export type UpdateDatasetParameterSearchRequestFieldIdsList = Array<number>;
 export interface UpdateDatasetParameterSearchRequest {
   /** value must be a non-blank string. */
   query: string;
-  field_ids?: UpdateDatasetParameterSearchRequestFieldIdsList | null;
+  field_ids?: UpdateDatasetParameterSearchRequestFieldIdsList | null | undefined;
   parameter: MetabaseParametersSchemaParameter;
 }
 export interface UpdateDatasetParameterSearchResponse {}
@@ -10814,12 +11290,12 @@ export interface UpdateDocumentCardRequest {
   /** value must be an integer greater than zero. */
   card_id: number;
   export_format: UpdateDocumentCardRequestExportFormat | (string & {});
-  csv_include_bom?: boolean | null;
+  csv_include_bom?: boolean | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  format_rows?: boolean;
-  parameters?: MetabaseParametersSchemaParameterValues | null;
+  format_rows?: boolean | undefined;
+  parameters?: MetabaseParametersSchemaParameterValues | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  pivot_results?: boolean;
+  pivot_results?: boolean | undefined;
 }
 export interface UpdateDocumentCardResponse {}
 export interface UpdateDocumentCardQueryRequest {
@@ -10829,10 +11305,10 @@ export interface UpdateDocumentCardQueryRequest {
   card_id: number;
   export_format: string;
   /** value must be a valid boolean string ('true' or 'false'). */
-  format_rows?: boolean;
-  parameters?: MetabaseParametersSchemaParameterValues | null;
+  format_rows?: boolean | undefined;
+  parameters?: MetabaseParametersSchemaParameterValues | null | undefined;
   /** value must be a valid boolean string ('true' or 'false'). */
-  pivot_results?: boolean;
+  pivot_results?: boolean | undefined;
 }
 export interface UpdateDocumentCardQueryResponse {}
 export type UpdateEeCloudAddOnsRequestProductType =
@@ -10849,21 +11325,21 @@ export type UpdateEeCloudAddOnsRequestProductType =
   | "etl-connections";
 export interface UpdateEeCloudAddOnsRequest {
   product_type: UpdateEeCloudAddOnsRequestProductType | (string & {});
-  quantity?: number | null;
-  terms_of_service?: boolean | null;
+  quantity?: number | null | undefined;
+  terms_of_service?: boolean | null | undefined;
 }
 export interface UpdateEeCloudAddOnsResponse {}
 export interface UpdateEeCloudProxyRequestBody {
-  force_end_trial?: boolean;
+  force_end_trial?: boolean | undefined;
   /** value must be a non-blank string. */
-  new_plan_alias?: string;
+  new_plan_alias?: string | undefined;
   /** value must be a non-blank string. */
-  plan_alias?: string;
+  plan_alias?: string | undefined;
 }
 export interface UpdateEeCloudProxyRequest {
   /** value must be a non-blank string. */
   operation_id: string;
-  body?: UpdateEeCloudProxyRequestBody | null;
+  body?: UpdateEeCloudProxyRequestBody | null | undefined;
 }
 export interface UpdateEeCloudProxyResponse {}
 export type UpdateEeDatabaseReplicationConnectionDatabaseRequestReplicationSchemaFiltersSchemaFiltersType =
@@ -10879,7 +11355,9 @@ export interface UpdateEeDatabaseReplicationConnectionDatabaseRequestReplication
 export interface UpdateEeDatabaseReplicationConnectionDatabaseRequest {
   /** value must be an integer greater than zero. */
   database_id: number;
-  replicationSchemaFilters?: UpdateEeDatabaseReplicationConnectionDatabaseRequestReplicationSchemaFilters;
+  replicationSchemaFilters?:
+    | UpdateEeDatabaseReplicationConnectionDatabaseRequestReplicationSchemaFilters
+    | undefined;
 }
 export interface UpdateEeDatabaseReplicationConnectionDatabaseResponse {}
 /** A single attribute value in a PATCH operation. The strings clients send for booleans are parsed by the handler. */
@@ -10894,7 +11372,7 @@ export type UpdateEeScimUserRequestOperationsItemValue =
 export interface UpdateEeScimUserRequestOperationsItem {
   /** value must be a non-blank string. */
   op: string;
-  path?: string | null;
+  path?: string | null | undefined;
   value: UpdateEeScimUserRequestOperationsItemValue;
 }
 export type UpdateEeScimUserRequestOperationsList = Array<UpdateEeScimUserRequestOperationsItem>;
@@ -10916,21 +11394,21 @@ export interface UpdateMetricDimensionRequest {
   /** value must be a valid UUID. */
   dimension_key: string;
   /** value must be a non-blank string. */
-  default_temporal_unit?: string;
-  description?: string | null;
+  default_temporal_unit?: string | undefined;
+  description?: string | null | undefined;
   /** value must be a non-blank string. */
-  display_name?: string;
-  source?: UpdateMetricDimensionRequestSource | null;
+  display_name?: string | undefined;
+  source?: UpdateMetricDimensionRequestSource | null | undefined;
 }
 export interface UpdateMetricDimensionResponse {}
 export type UpdateNotifyDbRequestScan = "full" | "schema";
 export interface UpdateNotifyDbRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  scan?: UpdateNotifyDbRequestScan | (string & {}) | null;
-  synchronous_?: boolean | null;
-  table_id?: number | null;
-  table_name?: string | null;
+  scan?: UpdateNotifyDbRequestScan | (string & {}) | null | undefined;
+  synchronous_?: boolean | null | undefined;
+  table_id?: number | null | undefined;
+  table_name?: string | null | undefined;
 }
 export interface UpdateNotifyDbResponse {}
 export type CreateActionError = MetabaseOpError;

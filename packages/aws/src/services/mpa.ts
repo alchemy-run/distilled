@@ -168,21 +168,21 @@ export type TagKey = string | redacted.Redacted<string>;
 export type TagValue = string | redacted.Redacted<string>;
 export type Tags = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface CreateApprovalTeamRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ApprovalStrategy: ApprovalStrategy;
   Approvers: ApprovalTeamRequestApprover[];
   Description: string | redacted.Redacted<string>;
   Policies: PolicyReference[];
   Name: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type IsoTimestamp = Date;
 export type ApprovalTeamArn = string;
 export interface CreateApprovalTeamResponse {
-  CreationTime?: Date;
-  Arn?: string;
-  Name?: string;
-  VersionId?: string;
+  CreationTime?: Date | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  VersionId?: string | undefined;
 }
 export type IdcInstanceArn = string;
 export interface IamIdentityCenter {
@@ -190,18 +190,18 @@ export interface IamIdentityCenter {
   Region: string;
 }
 export interface IdentitySourceParameters {
-  IamIdentityCenter?: IamIdentityCenter;
+  IamIdentityCenter?: IamIdentityCenter | undefined;
 }
 export interface CreateIdentitySourceRequest {
   IdentitySourceParameters: IdentitySourceParameters;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type IdentitySourceType = "IAM_IDENTITY_CENTER" | (string & {});
 export interface CreateIdentitySourceResponse {
-  IdentitySourceType?: IdentitySourceType;
-  IdentitySourceArn?: string;
-  CreationTime?: Date;
+  IdentitySourceType?: IdentitySourceType | undefined;
+  IdentitySourceArn?: string | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DeleteIdentitySourceRequest {
   IdentitySourceArn: string;
@@ -231,15 +231,15 @@ export interface MfaMethod {
 }
 export type MfaMethods = MfaMethod[];
 export interface GetApprovalTeamResponseApprover {
-  ApproverId?: string;
-  ResponseTime?: Date;
-  PrimaryIdentityId?: string;
-  PrimaryIdentitySourceArn?: string;
-  PrimaryIdentityStatus?: IdentityStatus;
-  LastActivity?: ApproverLastActivity;
-  LastActivityTime?: Date;
-  PendingBaselineSessionArn?: string;
-  MfaMethods?: MfaMethod[];
+  ApproverId?: string | undefined;
+  ResponseTime?: Date | undefined;
+  PrimaryIdentityId?: string | undefined;
+  PrimaryIdentitySourceArn?: string | undefined;
+  PrimaryIdentityStatus?: IdentityStatus | undefined;
+  LastActivity?: ApproverLastActivity | undefined;
+  LastActivityTime?: Date | undefined;
+  PendingBaselineSessionArn?: string | undefined;
+  MfaMethods?: MfaMethod[] | undefined;
 }
 export type GetApprovalTeamResponseApprovers = GetApprovalTeamResponseApprover[];
 export type ApprovalTeamStatus = "ACTIVE" | "INACTIVE" | "DELETING" | "PENDING" | (string & {});
@@ -259,40 +259,40 @@ export type ApprovalTeamStatusCode =
   | (string & {});
 export type Message = string;
 export interface PendingUpdate {
-  VersionId?: string;
-  Description?: string;
-  ApprovalStrategy?: ApprovalStrategyResponse;
-  NumberOfApprovers?: number;
-  Status?: ApprovalTeamStatus;
-  StatusCode?: ApprovalTeamStatusCode;
-  StatusMessage?: string;
-  Approvers?: GetApprovalTeamResponseApprover[];
-  UpdateInitiationTime?: Date;
+  VersionId?: string | undefined;
+  Description?: string | undefined;
+  ApprovalStrategy?: ApprovalStrategyResponse | undefined;
+  NumberOfApprovers?: number | undefined;
+  Status?: ApprovalTeamStatus | undefined;
+  StatusCode?: ApprovalTeamStatusCode | undefined;
+  StatusMessage?: string | undefined;
+  Approvers?: GetApprovalTeamResponseApprover[] | undefined;
+  UpdateInitiationTime?: Date | undefined;
 }
 export interface GetApprovalTeamResponse {
-  CreationTime?: Date;
-  ApprovalStrategy?: ApprovalStrategyResponse;
-  NumberOfApprovers?: number;
-  Approvers?: GetApprovalTeamResponseApprover[];
-  Arn?: string;
-  Description?: string | redacted.Redacted<string>;
-  Name?: string;
-  Status?: ApprovalTeamStatus;
-  StatusCode?: ApprovalTeamStatusCode;
-  StatusMessage?: string;
-  UpdateSessionArn?: string;
-  VersionId?: string;
-  Policies?: PolicyReference[];
-  LastUpdateTime?: Date;
-  PendingUpdate?: PendingUpdate;
+  CreationTime?: Date | undefined;
+  ApprovalStrategy?: ApprovalStrategyResponse | undefined;
+  NumberOfApprovers?: number | undefined;
+  Approvers?: GetApprovalTeamResponseApprover[] | undefined;
+  Arn?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  Status?: ApprovalTeamStatus | undefined;
+  StatusCode?: ApprovalTeamStatusCode | undefined;
+  StatusMessage?: string | undefined;
+  UpdateSessionArn?: string | undefined;
+  VersionId?: string | undefined;
+  Policies?: PolicyReference[] | undefined;
+  LastUpdateTime?: Date | undefined;
+  PendingUpdate?: PendingUpdate | undefined;
 }
 export interface GetIdentitySourceRequest {
   IdentitySourceArn: string;
 }
 export interface IamIdentityCenterForGet {
-  InstanceArn?: string;
-  ApprovalPortalUrl?: string;
-  Region?: string;
+  InstanceArn?: string | undefined;
+  ApprovalPortalUrl?: string | undefined;
+  Region?: string | undefined;
 }
 export type IdentitySourceParametersForGet = { IamIdentityCenter: IamIdentityCenterForGet };
 export type IdentitySourceStatus = "CREATING" | "ACTIVE" | "DELETING" | "ERROR" | (string & {});
@@ -303,13 +303,13 @@ export type IdentitySourceStatusCode =
   | "IDC_INSTANCE_NOT_VALID"
   | (string & {});
 export interface GetIdentitySourceResponse {
-  IdentitySourceType?: IdentitySourceType;
-  IdentitySourceParameters?: IdentitySourceParametersForGet;
-  IdentitySourceArn?: string;
-  CreationTime?: Date;
-  Status?: IdentitySourceStatus;
-  StatusCode?: IdentitySourceStatusCode;
-  StatusMessage?: string;
+  IdentitySourceType?: IdentitySourceType | undefined;
+  IdentitySourceParameters?: IdentitySourceParametersForGet | undefined;
+  IdentitySourceArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  Status?: IdentitySourceStatus | undefined;
+  StatusCode?: IdentitySourceStatusCode | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface GetPolicyVersionRequest {
   PolicyVersionArn: string;
@@ -343,7 +343,7 @@ export interface GetResourcePolicyRequest {
 export interface GetResourcePolicyResponse {
   ResourceArn: string;
   PolicyType: PolicyType;
-  PolicyVersionArn?: string;
+  PolicyVersionArn?: string | undefined;
   PolicyName: string;
   PolicyDocument: string | redacted.Redacted<string>;
 }
@@ -375,89 +375,89 @@ export type RequesterComment = string | redacted.Redacted<string>;
 export type ActionCompletionStrategy = "AUTO_COMPLETION_UPON_APPROVAL" | (string & {});
 export type SessionResponse = "APPROVED" | "REJECTED" | "NO_RESPONSE" | (string & {});
 export interface GetSessionResponseApproverResponse {
-  ApproverId?: string;
-  IdentitySourceArn?: string;
-  IdentityId?: string;
-  Response?: SessionResponse;
-  ResponseTime?: Date;
+  ApproverId?: string | undefined;
+  IdentitySourceArn?: string | undefined;
+  IdentityId?: string | undefined;
+  Response?: SessionResponse | undefined;
+  ResponseTime?: Date | undefined;
 }
 export type GetSessionResponseApproverResponses = GetSessionResponseApproverResponse[];
 export type AdditionalSecurityRequirement = "APPROVER_VERIFICATION_REQUIRED" | (string & {});
 export type AdditionalSecurityRequirements = AdditionalSecurityRequirement[];
 export interface GetSessionResponse {
-  SessionArn?: string;
-  ApprovalTeamArn?: string;
-  ApprovalTeamName?: string;
-  ProtectedResourceArn?: string;
-  ApprovalStrategy?: ApprovalStrategyResponse;
-  NumberOfApprovers?: number;
-  InitiationTime?: Date;
-  ExpirationTime?: Date;
-  CompletionTime?: Date;
-  Description?: string | redacted.Redacted<string>;
-  Metadata?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  Status?: SessionStatus;
-  StatusCode?: SessionStatusCode;
-  StatusMessage?: string;
-  ExecutionStatus?: SessionExecutionStatus;
-  ActionName?: string;
-  RequesterServicePrincipal?: string;
-  RequesterPrincipalArn?: string;
-  RequesterAccountId?: string;
-  RequesterRegion?: string;
-  RequesterComment?: string | redacted.Redacted<string>;
-  ActionCompletionStrategy?: ActionCompletionStrategy;
-  ApproverResponses?: GetSessionResponseApproverResponse[];
-  AdditionalSecurityRequirements?: AdditionalSecurityRequirement[];
+  SessionArn?: string | undefined;
+  ApprovalTeamArn?: string | undefined;
+  ApprovalTeamName?: string | undefined;
+  ProtectedResourceArn?: string | undefined;
+  ApprovalStrategy?: ApprovalStrategyResponse | undefined;
+  NumberOfApprovers?: number | undefined;
+  InitiationTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Metadata?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  Status?: SessionStatus | undefined;
+  StatusCode?: SessionStatusCode | undefined;
+  StatusMessage?: string | undefined;
+  ExecutionStatus?: SessionExecutionStatus | undefined;
+  ActionName?: string | undefined;
+  RequesterServicePrincipal?: string | undefined;
+  RequesterPrincipalArn?: string | undefined;
+  RequesterAccountId?: string | undefined;
+  RequesterRegion?: string | undefined;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
+  ActionCompletionStrategy?: ActionCompletionStrategy | undefined;
+  ApproverResponses?: GetSessionResponseApproverResponse[] | undefined;
+  AdditionalSecurityRequirements?: AdditionalSecurityRequirement[] | undefined;
 }
 export type MaxResults = number;
 export interface ListApprovalTeamsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApprovalTeamsResponseApprovalTeam {
-  CreationTime?: Date;
-  ApprovalStrategy?: ApprovalStrategyResponse;
-  NumberOfApprovers?: number;
-  Arn?: string;
-  Name?: string;
-  Description?: string | redacted.Redacted<string>;
-  Status?: ApprovalTeamStatus;
-  StatusCode?: ApprovalTeamStatusCode;
-  StatusMessage?: string;
+  CreationTime?: Date | undefined;
+  ApprovalStrategy?: ApprovalStrategyResponse | undefined;
+  NumberOfApprovers?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Status?: ApprovalTeamStatus | undefined;
+  StatusCode?: ApprovalTeamStatusCode | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ListApprovalTeamsResponseApprovalTeams = ListApprovalTeamsResponseApprovalTeam[];
 export interface ListApprovalTeamsResponse {
-  NextToken?: string;
-  ApprovalTeams?: ListApprovalTeamsResponseApprovalTeam[];
+  NextToken?: string | undefined;
+  ApprovalTeams?: ListApprovalTeamsResponseApprovalTeam[] | undefined;
 }
 export interface ListIdentitySourcesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface IamIdentityCenterForList {
-  InstanceArn?: string;
-  ApprovalPortalUrl?: string;
-  Region?: string;
+  InstanceArn?: string | undefined;
+  ApprovalPortalUrl?: string | undefined;
+  Region?: string | undefined;
 }
 export type IdentitySourceParametersForList = { IamIdentityCenter: IamIdentityCenterForList };
 export interface IdentitySourceForList {
-  IdentitySourceType?: IdentitySourceType;
-  IdentitySourceParameters?: IdentitySourceParametersForList;
-  IdentitySourceArn?: string;
-  CreationTime?: Date;
-  Status?: IdentitySourceStatus;
-  StatusCode?: IdentitySourceStatusCode;
-  StatusMessage?: string;
+  IdentitySourceType?: IdentitySourceType | undefined;
+  IdentitySourceParameters?: IdentitySourceParametersForList | undefined;
+  IdentitySourceArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  Status?: IdentitySourceStatus | undefined;
+  StatusCode?: IdentitySourceStatusCode | undefined;
+  StatusMessage?: string | undefined;
 }
 export type IdentitySources = IdentitySourceForList[];
 export interface ListIdentitySourcesResponse {
-  NextToken?: string;
-  IdentitySources?: IdentitySourceForList[];
+  NextToken?: string | undefined;
+  IdentitySources?: IdentitySourceForList[] | undefined;
 }
 export interface ListPoliciesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Policy {
   Arn: string;
@@ -467,12 +467,12 @@ export interface Policy {
 }
 export type Policies = Policy[];
 export interface ListPoliciesResponse {
-  NextToken?: string;
-  Policies?: Policy[];
+  NextToken?: string | undefined;
+  Policies?: Policy[] | undefined;
 }
 export interface ListPolicyVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   PolicyArn: string;
 }
 export interface PolicyVersionSummary {
@@ -488,24 +488,24 @@ export interface PolicyVersionSummary {
 }
 export type PolicyVersions = PolicyVersionSummary[];
 export interface ListPolicyVersionsResponse {
-  NextToken?: string;
-  PolicyVersions?: PolicyVersionSummary[];
+  NextToken?: string | undefined;
+  PolicyVersions?: PolicyVersionSummary[] | undefined;
 }
 export interface ListResourcePoliciesRequest {
   ResourceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourcePoliciesResponseResourcePolicy {
-  PolicyArn?: string;
-  PolicyType?: PolicyType;
-  PolicyName?: string;
+  PolicyArn?: string | undefined;
+  PolicyType?: PolicyType | undefined;
+  PolicyName?: string | undefined;
 }
 export type ListResourcePoliciesResponseResourcePolicies =
   ListResourcePoliciesResponseResourcePolicy[];
 export interface ListResourcePoliciesResponse {
-  NextToken?: string;
-  ResourcePolicies?: ListResourcePoliciesResponseResourcePolicy[];
+  NextToken?: string | undefined;
+  ResourcePolicies?: ListResourcePoliciesResponseResourcePolicy[] | undefined;
 }
 export type FilterField =
   | "ActionName"
@@ -527,63 +527,63 @@ export type Operator =
   | "BETWEEN"
   | (string & {});
 export interface Filter {
-  FieldName?: FilterField;
-  Operator?: Operator;
-  Value?: string;
+  FieldName?: FilterField | undefined;
+  Operator?: Operator | undefined;
+  Value?: string | undefined;
 }
 export type Filters = Filter[];
 export interface ListSessionsRequest {
   ApprovalTeamArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ListSessionsResponseSession {
-  SessionArn?: string;
-  ApprovalTeamName?: string;
-  ApprovalTeamArn?: string;
-  InitiationTime?: Date;
-  ExpirationTime?: Date;
-  CompletionTime?: Date;
-  Description?: string | redacted.Redacted<string>;
-  ActionName?: string;
-  ProtectedResourceArn?: string;
-  RequesterServicePrincipal?: string;
-  RequesterPrincipalArn?: string;
-  RequesterRegion?: string;
-  RequesterAccountId?: string;
-  Status?: SessionStatus;
-  StatusCode?: SessionStatusCode;
-  StatusMessage?: string;
-  ActionCompletionStrategy?: ActionCompletionStrategy;
-  AdditionalSecurityRequirements?: AdditionalSecurityRequirement[];
+  SessionArn?: string | undefined;
+  ApprovalTeamName?: string | undefined;
+  ApprovalTeamArn?: string | undefined;
+  InitiationTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
+  CompletionTime?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ActionName?: string | undefined;
+  ProtectedResourceArn?: string | undefined;
+  RequesterServicePrincipal?: string | undefined;
+  RequesterPrincipalArn?: string | undefined;
+  RequesterRegion?: string | undefined;
+  RequesterAccountId?: string | undefined;
+  Status?: SessionStatus | undefined;
+  StatusCode?: SessionStatusCode | undefined;
+  StatusMessage?: string | undefined;
+  ActionCompletionStrategy?: ActionCompletionStrategy | undefined;
+  AdditionalSecurityRequirements?: AdditionalSecurityRequirement[] | undefined;
 }
 export type ListSessionsResponseSessions = ListSessionsResponseSession[];
 export interface ListSessionsResponse {
-  NextToken?: string;
-  Sessions?: ListSessionsResponseSession[];
+  NextToken?: string | undefined;
+  Sessions?: ListSessionsResponseSession[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Tags?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface StartActiveApprovalTeamDeletionRequest {
-  PendingWindowDays?: number;
+  PendingWindowDays?: number | undefined;
   Arn: string;
 }
 export interface StartActiveApprovalTeamDeletionResponse {
-  DeletionCompletionTime?: Date;
-  DeletionStartTime?: Date;
+  DeletionCompletionTime?: Date | undefined;
+  DeletionStartTime?: Date | undefined;
 }
 export type StartApprovalTeamBaselineApproverIds = string[];
 export interface StartApprovalTeamBaselineRequest {
   Arn: string;
-  ApproverIds?: string[];
+  ApproverIds?: string[] | undefined;
 }
 export interface StartApprovalTeamBaselineResponse {
-  BaselineSessionArn?: string;
+  BaselineSessionArn?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -599,14 +599,14 @@ export interface UntagResourceResponse {}
 export type UpdateAction = "SYNCHRONIZE_MFA_DEVICES" | (string & {});
 export type UpdateActions = UpdateAction[];
 export interface UpdateApprovalTeamRequest {
-  ApprovalStrategy?: ApprovalStrategy;
-  Approvers?: ApprovalTeamRequestApprover[];
-  Description?: string | redacted.Redacted<string>;
+  ApprovalStrategy?: ApprovalStrategy | undefined;
+  Approvers?: ApprovalTeamRequestApprover[] | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
   Arn: string;
-  UpdateActions?: UpdateAction[];
+  UpdateActions?: UpdateAction[] | undefined;
 }
 export interface UpdateApprovalTeamResponse {
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export type CancelSessionError =
   | AccessDeniedException

@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -99,89 +99,89 @@ export interface CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The workflow invocation resource's name. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** `CancelWorkflowInvocation` response message. */
 export interface CancelWorkflowInvocationResponse {}
 /** `CheckoutWorkspaceBranch` request message. */
 export interface CheckoutWorkspaceBranchRequest {
   /** Optional. The name of the branch in the Git repository from which the new branch should be created. If left unset, the workspace's current branch name will be used. Accepts only branch names from FetchWorkspaceBranches response, and can only be set if `create_if_not_exists` is true. Oherwise, an error will be thrown. */
-  sourceBranch?: string;
+  sourceBranch?: string | undefined;
   /** Required. The name of the branch in the Git repository to which the workspace should be checked out. */
-  branch?: string;
+  branch?: string | undefined;
   /** Optional. If set to true and the branch does not exist, it will be created. Otherwise, an error will be thrown. */
-  createIfNotExists?: boolean;
+  createIfNotExists?: boolean | undefined;
 }
 export interface CheckoutProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace resource name. Format: projects/{project}/locations/{location}/repositories/{repository}/workspaces/{workspace} */
   name: string;
   /** Request body */
-  body?: CheckoutWorkspaceBranchRequest;
+  body?: CheckoutWorkspaceBranchRequest | undefined;
 }
 /** Represents the author of a Git commit. */
 export interface CommitAuthor {
   /** Required. The commit author's email address. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Required. The commit author's name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Represents a Dataform Git commit. */
 export interface CommitMetadata {
   /** Optional. The commit's message. */
-  commitMessage?: string;
+  commitMessage?: string | undefined;
   /** Required. The commit's author. */
-  author?: CommitAuthor;
+  author?: CommitAuthor | undefined;
 }
 /** Represents the delete file operation. */
 export type DeleteFile = CancelOperationRequest;
 /** Represents the write file operation (for files added or modified). */
 export interface WriteFile {
   /** The file's contents. */
-  contents?: string;
+  contents?: string | undefined;
 }
 /** Represents a single file operation to the repository. */
 export interface FileOperation {
   /** Represents the delete operation. */
-  deleteFile?: CancelOperationRequest;
+  deleteFile?: CancelOperationRequest | undefined;
   /** Represents the write operation. */
-  writeFile?: WriteFile;
+  writeFile?: WriteFile | undefined;
 }
 export type FileOperationMap = { [key: string]: FileOperation | undefined };
 /** `CommitRepositoryChanges` request message. */
 export interface CommitRepositoryChangesRequest {
   /** Required. The changes to commit to the repository. */
-  commitMetadata?: CommitMetadata;
+  commitMetadata?: CommitMetadata | undefined;
   /** Optional. A map to the path of the file to the operation. The path is the full file path including filename, from repository root. */
-  fileOperations?: FileOperationMap;
+  fileOperations?: FileOperationMap | undefined;
   /** Optional. The commit SHA which must be the repository's current HEAD before applying this commit; otherwise this request will fail. If unset, no validation on the current HEAD commit SHA is performed. */
-  requiredHeadCommitSha?: string;
+  requiredHeadCommitSha?: string | undefined;
 }
 export interface CommitProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
   /** Request body */
-  body?: CommitRepositoryChangesRequest;
+  body?: CommitRepositoryChangesRequest | undefined;
 }
 /** `CommitRepositoryChanges` response message. */
 export interface CommitRepositoryChangesResponse {
   /** The commit SHA of the current commit. */
-  commitSha?: string;
+  commitSha?: string | undefined;
 }
 export type StringList = Array<string>;
 /** `CommitWorkspaceChanges` request message. */
 export interface CommitWorkspaceChangesRequest {
   /** Optional. The commit's message. */
-  commitMessage?: string;
+  commitMessage?: string | undefined;
   /** Required. The commit's author. */
-  author?: CommitAuthor;
+  author?: CommitAuthor | undefined;
   /** Optional. Full file paths to commit including filename, rooted at workspace root. If left empty, all files will be committed. */
-  paths?: StringList;
+  paths?: StringList | undefined;
 }
 export interface CommitProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
   /** Request body */
-  body?: CommitWorkspaceChangesRequest;
+  body?: CommitWorkspaceChangesRequest | undefined;
 }
 /** `CommitWorkspaceChanges` response message. */
 export interface CommitWorkspaceChangesResponse {}
@@ -198,31 +198,31 @@ export type ComputeRepositoryAccessTokenStatusResponseTokenStatusEnum =
 /** `ComputeRepositoryAccessTokenStatus` response message. */
 export interface ComputeRepositoryAccessTokenStatusResponse {
   /** Indicates the status of the Git access token. */
-  tokenStatus?: ComputeRepositoryAccessTokenStatusResponseTokenStatusEnum;
+  tokenStatus?: ComputeRepositoryAccessTokenStatusResponseTokenStatusEnum | undefined;
 }
 /** Metadata used to identify if a resource is user scoped. */
 export interface PrivateResourceMetadata {
   /** Output only. If true, this resource is user-scoped, meaning it is either a workspace or sourced from a workspace. */
-  userScoped?: boolean;
+  userScoped?: boolean | undefined;
 }
 /** Describes encryption state of a resource. */
 export interface DataEncryptionState {
   /** Required. The KMS key version name with which data of a resource is encrypted. */
-  kmsKeyVersionName?: string;
+  kmsKeyVersionName?: string | undefined;
 }
 /** Configures the destination for a repository snapshot. */
 export interface GcsRepositorySnapshotDestination {
   /** Optional. The Google Cloud Storage destination to upload the repository snapshot to. Format: `gs://bucket-name/path/`. */
-  repositorySnapshotUri?: string;
+  repositorySnapshotUri?: string | undefined;
 }
 /** Configures various aspects of Dataform notebook runtime. */
 export interface NotebookRuntimeOptions {
   /** Optional. The resource name of the [Colab runtime template] (https://cloud.google.com/colab/docs/runtimes), from which a runtime is created for notebook executions. If not specified, a runtime is created with Colab's default specifications. */
-  aiPlatformNotebookRuntimeTemplate?: string;
+  aiPlatformNotebookRuntimeTemplate?: string | undefined;
   /** Optional. The Google Cloud Storage destination to upload the snapshot to. For empty URI it defaults to the provided gcs_output_bucket. Format: `gs://bucket-name/path/`. */
-  gcsRepositorySnapshotDestination?: GcsRepositorySnapshotDestination;
+  gcsRepositorySnapshotDestination?: GcsRepositorySnapshotDestination | undefined;
   /** Optional. The Google Cloud Storage location to upload the result to. Format: `gs://bucket-name`. */
-  gcsOutputBucket?: string;
+  gcsOutputBucket?: string | undefined;
 }
 export type PipelineConfigPipelineTypeEnum =
   | "PIPELINE_TYPE_UNSPECIFIED"
@@ -232,192 +232,192 @@ export type PipelineConfigPipelineTypeEnum =
 /** Defines the pipeline type and path within the Git repository. */
 export interface PipelineConfig {
   /** Required. The relative path within the Git repository where the pipeline is defined. For example, for a Dataform pipeline, it is a path to the folder where `workflow_settings.yaml` or `dataform.json` is located. */
-  path?: string;
+  path?: string | undefined;
   /** Required. The type of the pipeline. */
-  pipelineType?: PipelineConfigPipelineTypeEnum | (string & {});
+  pipelineType?: PipelineConfigPipelineTypeEnum | (string & {}) | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Configures various aspects of Dataform code compilation. */
 export interface CodeCompilationConfig {
   /** Optional. The default schema (BigQuery dataset ID) for assertions. */
-  assertionSchema?: string;
+  assertionSchema?: string | undefined;
   /** Optional. The suffix that should be appended to all schema (BigQuery dataset ID) names. */
-  schemaSuffix?: string;
+  schemaSuffix?: string | undefined;
   /** Optional. The prefix to prepend to built-in assertion names. */
-  builtinAssertionNamePrefix?: string;
+  builtinAssertionNamePrefix?: string | undefined;
   /** Optional. The default database (Google Cloud project ID). */
-  defaultDatabase?: string;
+  defaultDatabase?: string | undefined;
   /** Optional. The default notebook runtime options. */
-  defaultNotebookRuntimeOptions?: NotebookRuntimeOptions;
+  defaultNotebookRuntimeOptions?: NotebookRuntimeOptions | undefined;
   /** Optional. The suffix that should be appended to all database (Google Cloud project ID) names. */
-  databaseSuffix?: string;
+  databaseSuffix?: string | undefined;
   /** Optional. The prefix that should be prepended to all table names. */
-  tablePrefix?: string;
+  tablePrefix?: string | undefined;
   /** Optional. The default schema (BigQuery dataset ID). */
-  defaultSchema?: string;
+  defaultSchema?: string | undefined;
   /** Optional. The pipeline options which defines the pipeline type and path within the Git repository. */
-  pipelineConfig?: PipelineConfig;
+  pipelineConfig?: PipelineConfig | undefined;
   /** Optional. User-defined variables that are made available to project code during compilation. */
-  vars?: StringMap;
+  vars?: StringMap | undefined;
   /** Optional. The default BigQuery location to use. Defaults to "US". See the BigQuery docs for a full list of locations: https://cloud.google.com/bigquery/docs/locations. */
-  defaultLocation?: string;
+  defaultLocation?: string | undefined;
 }
 /** Represents an action identifier. If the action writes output, the output will be written to the referenced database object. */
 export interface Target {
   /** Optional. The action's database (Google Cloud project ID) . */
-  database?: string;
+  database?: string | undefined;
   /** Optional. The action's name, within `database` and `schema`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The action's schema (BigQuery dataset ID), within `database`. */
-  schema?: string;
+  schema?: string | undefined;
 }
 /** An error encountered when attempting to compile a Dataform project. */
 export interface CompilationError {
   /** Output only. The error's top level message. */
-  message?: string;
+  message?: string | undefined;
   /** Output only. The path of the file where this error occurred, if available, relative to the project root. */
-  path?: string;
+  path?: string | undefined;
   /** Output only. The error's full stack trace. */
-  stack?: string;
+  stack?: string | undefined;
   /** Output only. The identifier of the action where this error occurred, if available. */
-  actionTarget?: Target;
+  actionTarget?: Target | undefined;
 }
 export type CompilationErrorList = Array<CompilationError>;
 /** Metadata about a repository snapshot stored in Google Cloud Storage. */
 export interface GcsRepositorySnapshotMetadata {
   /** Output only. The crc32c checksum of the repository snapshot, big-endian base64 encoded. */
-  crc32cChecksum?: string;
+  crc32cChecksum?: string | undefined;
   /** Output only. The Google Cloud Storage URI of the repository snapshot. */
-  repositorySnapshotUri?: string;
+  repositorySnapshotUri?: string | undefined;
   /** Output only. The generation number of the Cloud Storage object. See https://cloud.google.com/storage/docs/metadata#generation-number. */
-  generation?: string;
+  generation?: string | undefined;
 }
 /** Represents the result of compiling a Dataform project. */
 export interface CompilationResult {
   /** Output only. Metadata indicating whether this resource is user-scoped. `CompilationResult` resource is `user_scoped` only if it is sourced from a workspace. */
-  privateResourceMetadata?: PrivateResourceMetadata;
+  privateResourceMetadata?: PrivateResourceMetadata | undefined;
   /** Output only. Only set if the repository has a KMS Key. */
-  dataEncryptionState?: DataEncryptionState;
+  dataEncryptionState?: DataEncryptionState | undefined;
   /** Immutable. The name of the release config to compile. Must be in the format `projects/*\/locations/*\/repositories/*\/releaseConfigs/*`. */
-  releaseConfig?: string;
+  releaseConfig?: string | undefined;
   /** Immutable. The name of the workspace to compile. Must be in the format `projects/*\/locations/*\/repositories/*\/workspaces/*`. */
-  workspace?: string;
+  workspace?: string | undefined;
   /** Immutable. If set, fields of `code_compilation_config` override the default compilation settings that are specified in dataform.json. */
-  codeCompilationConfig?: CodeCompilationConfig;
+  codeCompilationConfig?: CodeCompilationConfig | undefined;
   /** Output only. The timestamp of when the compilation result was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The fully resolved Git commit SHA of the code that was compiled. Not set for compilation results whose source is a workspace. */
-  resolvedGitCommitSha?: string;
+  resolvedGitCommitSha?: string | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Output only. The compilation result's name. */
-  name?: string;
+  name?: string | undefined;
   /** Immutable. Git commit/tag/branch name at which the repository should be compiled. Must exist in the remote repository. Examples: - a commit SHA: `12ade345` - a tag: `tag1` - a branch name: `branch1` */
-  gitCommitish?: string;
+  gitCommitish?: string | undefined;
   /** Output only. Errors encountered during project compilation. */
-  compilationErrors?: CompilationErrorList;
+  compilationErrors?: CompilationErrorList | undefined;
   /** Output only. Metadata about the repository snapshot used by scheduled notebooks. */
-  gcsRepositorySnapshotMetadata?: GcsRepositorySnapshotMetadata;
+  gcsRepositorySnapshotMetadata?: GcsRepositorySnapshotMetadata | undefined;
   /** Output only. The version of `@dataform/core` that was used for compilation. */
-  dataformCoreVersion?: string;
+  dataformCoreVersion?: string | undefined;
 }
 export interface CreateLongRunningProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Required. The repository in which to create the compilation result. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Request body */
-  body?: CompilationResult;
+  body?: CompilationResult | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** Represents a Dataform Git workspace. */
 export interface Workspace {
   /** Identifier. The workspace's name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. If set to true, workspaces will not be moved if its linked Repository is moved. Instead, it will be deleted. */
-  disableMoves?: boolean;
+  disableMoves?: boolean | undefined;
   /** Immutable. Controls the enablement of branch checkout for the workspace. When set to True, the workspace will be allowed to checkout branches. */
-  enableBranchManagement?: boolean;
+  enableBranchManagement?: boolean | undefined;
   /** Output only. The timestamp of when the workspace was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. If set to true, the workspace was created as a shallow clone. Will be set to true if the depth field is set to a value greater than 0, otherwise it will be set to false. */
-  shallow?: boolean;
+  shallow?: boolean | undefined;
   /** Optional. Input only. Immutable. The name of the default upstream branch for all pull/push operations in the remote repository for this workspace. If empty, the HEAD branch from repository will be used. */
-  originalBranch?: string;
+  originalBranch?: string | undefined;
   /** Output only. A data encryption state of a Git repository if this Workspace is protected by a KMS key. */
-  dataEncryptionState?: DataEncryptionState;
+  dataEncryptionState?: DataEncryptionState | undefined;
   /** Output only. Metadata indicating whether this resource is user-scoped. For `Workspace` resources, the `user_scoped` field is always `true`. */
-  privateResourceMetadata?: PrivateResourceMetadata;
+  privateResourceMetadata?: PrivateResourceMetadata | undefined;
   /** Optional. Input only. Immutable. The maximum depth of the Git repository to checkout for this workspace. If defined and greater than 0, the Git repository will be created as a shallow clone with the given depth, otherwise a full clone will be performed. This field is available only for GitHub, GitLab and 1p repositories with enabled branch management. */
-  depth?: number;
+  depth?: number | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
 }
 export interface CreateLongRunningProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The ID to use for the workspace, which will become the final component of the workspace's resource name. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** Required. The repository in which to create the workspace. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Request body */
-  body?: Workspace;
+  body?: Workspace | undefined;
 }
 /** Represents a Dataform Folder. This is a resource that is used to organize Files and other Folders and provide hierarchical access controls. */
 export interface Folder {
   /** Output only. The timestamp of when the Folder was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. The Folder's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The resource name of the TeamFolder that this Folder is associated with. This should take the format: projects/{project}/locations/{location}/teamFolders/{teamFolder}. If this is not set, the Folder is not associated with a TeamFolder and is a UserFolder. */
-  teamFolderName?: string;
+  teamFolderName?: string | undefined;
   /** Output only. The IAM principal identifier of the creator of the Folder. */
-  creatorIamPrincipal?: string;
+  creatorIamPrincipal?: string | undefined;
   /** Required. The Folder's user-friendly name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Output only. The timestamp of when the Folder was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The containing Folder resource name. This should take the format: projects/{project}/locations/{location}/folders/{folder}, projects/{project}/locations/{location}/teamFolders/{teamFolder}, or just "" if this is a root Folder. This field can only be updated through MoveFolder. */
-  containingFolder?: string;
+  containingFolder?: string | undefined;
 }
 export interface CreateProjectsLocationsFoldersRequest {
   /** Required. The location in which to create the Folder. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Deprecated: This field is not used. The resource name is generated automatically. The ID to use for the Folder, which will become the final component of the Folder's resource name. */
-  folderId?: string;
+  folderId?: string | undefined;
   /** Request body */
-  body?: Folder;
+  body?: Folder | undefined;
 }
 /** OAuth configuration for end user authentication. */
 export interface OAuthConfig {
   /** Optional. Additional OAuth scopes to use for BigQuery executions. Scopes always in use: `https://www.googleapis.com/auth/bigquery` */
-  additionalOauthScopes?: StringList;
+  additionalOauthScopes?: StringList | undefined;
 }
 /** Includes configuration options for repository end user authentication. */
 export interface EndUserAuthConfig {
   /** Optional. OAuth configuration for repository end user authentication. */
-  oauthConfig?: OAuthConfig;
+  oauthConfig?: OAuthConfig | undefined;
 }
 export type GitRemoteSettingsTokenStatusEnum =
   | "TOKEN_STATUS_UNSPECIFIED"
@@ -427,170 +427,170 @@ export type GitRemoteSettingsTokenStatusEnum =
 /** Configures fields for performing SSH authentication. */
 export interface SshAuthenticationConfig {
   /** Required. The name of the Secret Manager secret version to use as a ssh private key for Git operations. Must be in the format `projects/*\/secrets/*\/versions/*`. */
-  userPrivateKeySecretVersion?: string;
+  userPrivateKeySecretVersion?: string | undefined;
   /** Required. Content of a public SSH key to verify an identity of a remote Git host. */
-  hostPublicKey?: string;
+  hostPublicKey?: string | undefined;
 }
 /** Controls Git remote configuration for a repository. */
 export interface GitRemoteSettings {
   /** Optional. Resource name for the `GitRepositoryLink` used for machine credentials. Must be in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*` */
-  gitRepositoryLink?: string;
+  gitRepositoryLink?: string | undefined;
   /** Optional. The name of the Secret Manager secret version to use as an authentication token for Git operations. Must be in the format `projects/*\/secrets/*\/versions/*`. */
-  authenticationTokenSecretVersion?: string;
+  authenticationTokenSecretVersion?: string | undefined;
   /** Output only. Deprecated: The field does not contain any token status information. Instead use https://cloud.google.com/dataform/reference/rest/v1beta1/projects.locations.repositories/computeAccessTokenStatus */
-  tokenStatus?: GitRemoteSettingsTokenStatusEnum | (string & {});
+  tokenStatus?: GitRemoteSettingsTokenStatusEnum | (string & {}) | undefined;
   /** Optional. Resource name for the Account Connector used for personal authentication. Must be in the format `projects/*\/locations/*\/accountConnectors/*` */
-  accountConnector?: string;
+  accountConnector?: string | undefined;
   /** Optional. The Git remote's default branch name. If not set, `main` will be used. */
-  defaultBranch?: string;
+  defaultBranch?: string | undefined;
   /** Output only. The Git remote's effective default branch name. This is the default branch name of the Git remote if it is set, otherwise it is `main`. */
-  effectiveDefaultBranch?: string;
+  effectiveDefaultBranch?: string | undefined;
   /** Optional. Authentication fields for remote uris using SSH protocol. */
-  sshAuthenticationConfig?: SshAuthenticationConfig;
+  sshAuthenticationConfig?: SshAuthenticationConfig | undefined;
   /** Required. The Git remote's URL. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Configures workspace compilation overrides for a repository. Primarily used by the UI (`console.cloud.google.com`). `schema_suffix` and `table_prefix` can have a special expression - `${workspaceName}`, which refers to the workspace name from which the compilation results will be created. API callers are expected to resolve the expression in these overrides and provide them explicitly in `code_compilation_config` (https://cloud.google.com/dataform/reference/rest/v1beta1/projects.locations.repositories.compilationResults#codecompilationconfig) when creating workspace-scoped compilation results. */
 export interface WorkspaceCompilationOverrides {
   /** Optional. The suffix that should be appended to all schema (BigQuery dataset ID) names. */
-  schemaSuffix?: string;
+  schemaSuffix?: string | undefined;
   /** Optional. The prefix that should be prepended to all table names. */
-  tablePrefix?: string;
+  tablePrefix?: string | undefined;
   /** Optional. The default database (Google Cloud project ID). */
-  defaultDatabase?: string;
+  defaultDatabase?: string | undefined;
 }
 /** Represents a Dataform Git repository. */
 export interface Repository {
   /** Optional. The name of the containing folder of the repository. The field is immutable and it can be modified via a MoveRepository operation. Format: `projects/*\/locations/*\/folders/*`. or `projects/*\/locations/*\/teamFolders/*`. */
-  containingFolder?: string;
+  containingFolder?: string | undefined;
   /** Optional. Repository user labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. A data encryption state of a Git repository if this Repository is protected by a KMS key. */
-  dataEncryptionState?: DataEncryptionState;
+  dataEncryptionState?: DataEncryptionState | undefined;
   /** Identifier. The repository's name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Includes configuration options for end user authentication. */
-  endUserAuthConfig?: EndUserAuthConfig;
+  endUserAuthConfig?: EndUserAuthConfig | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Optional. The name of the Secret Manager secret version to be used to interpolate variables into the .npmrc file for package installation operations. Must be in the format `projects/*\/secrets/*\/versions/*`. The file itself must be in a JSON format. */
-  npmrcEnvironmentVariablesSecretVersion?: string;
+  npmrcEnvironmentVariablesSecretVersion?: string | undefined;
   /** Optional. Input only. If set to true, the authenticated user will be granted the roles/dataform.admin role on the created repository. To modify access to the created repository later apply setIamPolicy from https://cloud.google.com/dataform/reference/rest#rest-resource:-v1beta1.projects.locations.repositories */
-  setAuthenticatedUserAdmin?: boolean;
+  setAuthenticatedUserAdmin?: boolean | undefined;
   /** Output only. The timestamp of when the repository was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The reference to a KMS encryption key. If provided, it will be used to encrypt user data in the repository and all child resources. It is not possible to add or update the encryption key after the repository is created. Example: `projects/{kms_project}/locations/{location}/keyRings/{key_location}/cryptoKeys/{key}` */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Optional. The service account to run workflow invocations under. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. The repository's user-friendly name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The resource name of the TeamFolder that this Repository is associated with. This should take the format: projects/{project}/locations/{location}/teamFolders/{teamFolder}. If this is not set, the Repository is not associated with a TeamFolder. */
-  teamFolderName?: string;
+  teamFolderName?: string | undefined;
   /** Optional. If set, configures this repository to be linked to a Git remote. */
-  gitRemoteSettings?: GitRemoteSettings;
+  gitRemoteSettings?: GitRemoteSettings | undefined;
   /** Optional. If set, fields of `workspace_compilation_overrides` override the default compilation settings that are specified in dataform.json when creating workspace-scoped compilation results. See documentation for `WorkspaceCompilationOverrides` for more information. */
-  workspaceCompilationOverrides?: WorkspaceCompilationOverrides;
+  workspaceCompilationOverrides?: WorkspaceCompilationOverrides | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesRequest {
   /** Required. The location in which to create the repository. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. */
-  repositoryId?: string;
+  repositoryId?: string | undefined;
   /** Request body */
-  body?: Repository;
+  body?: Repository | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Required. The repository in which to create the compilation result. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Request body */
-  body?: CompilationResult;
+  body?: CompilationResult | undefined;
 }
 /** A record of an attempt to create a compilation result for this release config. */
 export interface ScheduledReleaseRecord {
   /** The error status encountered upon this attempt to create the compilation result, if the attempt was unsuccessful. */
-  errorStatus?: Status;
+  errorStatus?: Status | undefined;
   /** Output only. The timestamp of this release attempt. */
-  releaseTime?: string;
+  releaseTime?: string | undefined;
   /** The name of the created compilation result, if one was successfully created. Must be in the format `projects/*\/locations/*\/repositories/*\/compilationResults/*`. */
-  compilationResult?: string;
+  compilationResult?: string | undefined;
 }
 export type ScheduledReleaseRecordList = Array<ScheduledReleaseRecord>;
 /** Represents a Dataform release configuration. */
 export interface ReleaseConfig {
   /** Optional. The name of the currently released compilation result for this release config. This value is updated when a compilation result is automatically created from this release config (using cron_schedule), or when this resource is updated by API call (perhaps to roll back to an earlier release). The compilation result must have been created using this release config. Must be in the format `projects/*\/locations/*\/repositories/*\/compilationResults/*`. */
-  releaseCompilationResult?: string;
+  releaseCompilationResult?: string | undefined;
   /** Optional. If set, fields of `code_compilation_config` override the default compilation settings that are specified in dataform.json. */
-  codeCompilationConfig?: CodeCompilationConfig;
+  codeCompilationConfig?: CodeCompilationConfig | undefined;
   /** Optional. Optional schedule (in cron format) for automatic creation of compilation results. */
-  cronSchedule?: string;
+  cronSchedule?: string | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Output only. Records of the 10 most recent scheduled release attempts, ordered in descending order of `release_time`. Updated whenever automatic creation of a compilation result is triggered by cron_schedule. */
-  recentScheduledReleaseRecords?: ScheduledReleaseRecordList;
+  recentScheduledReleaseRecords?: ScheduledReleaseRecordList | undefined;
   /** Required. Git commit/tag/branch name at which the repository should be compiled. Must exist in the remote repository. Examples: - a commit SHA: `12ade345` - a tag: `tag1` - a branch name: `branch1` */
-  gitCommitish?: string;
+  gitCommitish?: string | undefined;
   /** Optional. Specifies the time zone to be used when interpreting cron_schedule. Must be a time zone name from the [time zone database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). If left unspecified, the default is `UTC`. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Optional. Disables automatic creation of compilation results. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Identifier. The release config's name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Required. The repository in which to create the release config. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Required. The ID to use for the release config, which will become the final component of the release config's resource name. */
-  releaseConfigId?: string;
+  releaseConfigId?: string | undefined;
   /** Request body */
-  body?: ReleaseConfig;
+  body?: ReleaseConfig | undefined;
 }
 /** A record of an attempt to create a workflow invocation for this workflow config. */
 export interface ScheduledExecutionRecord {
   /** The error status encountered upon this attempt to create the workflow invocation, if the attempt was unsuccessful. */
-  errorStatus?: Status;
+  errorStatus?: Status | undefined;
   /** The name of the created workflow invocation, if one was successfully created. Must be in the format `projects/*\/locations/*\/repositories/*\/workflowInvocations/*`. */
-  workflowInvocation?: string;
+  workflowInvocation?: string | undefined;
   /** Output only. The timestamp of this execution attempt. */
-  executionTime?: string;
+  executionTime?: string | undefined;
 }
 export type ScheduledExecutionRecordList = Array<ScheduledExecutionRecord>;
 /** Represents a table update trigger configuration. */
 export interface TableUpdateTrigger {
   /** The target table to trigger the workflow. */
-  table?: Target;
+  table?: Target | undefined;
   /** Output only. The modification time of this table that resulted in an invocation of the workflow. This would be updated by the triggering service after a successful workflow invocation. */
-  triggerUpdateTime?: string;
+  triggerUpdateTime?: string | undefined;
 }
 /** The trigger definition to invoke a workflow. */
 export interface WorkflowTrigger {
   /** The table update trigger configuration. */
-  tableUpdateTrigger?: TableUpdateTrigger;
+  tableUpdateTrigger?: TableUpdateTrigger | undefined;
 }
 export type WorkflowTriggerList = Array<WorkflowTrigger>;
 export type WorkflowTriggerConfigConditionEnum = "CONDITION_UNSPECIFIED" | "ALL" | "ANY";
 /** A record of an attempt to evaluate trigger conditions. */
 export interface TriggerEvaluationRecord {
   /** Output only. The timestamp of this trigger evaluation attempt. */
-  evaluationTime?: string;
+  evaluationTime?: string | undefined;
   /** Output only. The status of the trigger evaluation. Success is indicated by a code of 0 (OK). Message will only be present if the status code is non-zero. */
-  status?: Status;
+  status?: Status | undefined;
 }
 export type TriggerEvaluationRecordList = Array<TriggerEvaluationRecord>;
 /** Represents a trigger configuration for a workflow. */
 export interface WorkflowTriggerConfig {
   /** Required. The trigger definitions to invoke a workflow. */
-  workflowTriggers?: WorkflowTriggerList;
+  workflowTriggers?: WorkflowTriggerList | undefined;
   /** Optional. The condition to use when triggering the workflow. */
-  condition?: WorkflowTriggerConfigConditionEnum | (string & {});
+  condition?: WorkflowTriggerConfigConditionEnum | (string & {}) | undefined;
   /** Optional. Minimum duration between two consecutive executions. If not specified, the workflow will be executed every time trigger conditions are met and there is no ongoing workflow execution. */
-  minExecutionDuration?: string;
+  minExecutionDuration?: string | undefined;
   /** Optional. The effective maximum wait time duration for the trigger condition to be met. If not specified, the workflow won't be triggered until conditions are met. */
-  maxWaitDuration?: string;
+  maxWaitDuration?: string | undefined;
   /** Output only. Records of the 10 most recent trigger evaluations, ordered in descending order of `evaluation_time`. Updated whenever the service evaluates the trigger conditions (via polling or upon receiving a push event). */
-  recentTriggerEvaluationRecords?: TriggerEvaluationRecordList;
+  recentTriggerEvaluationRecords?: TriggerEvaluationRecordList | undefined;
   /** Output only. The timestamp of the last successful trigger evaluation. */
-  lastSuccessfulEvaluationTime?: string;
+  lastSuccessfulEvaluationTime?: string | undefined;
 }
 export type InvocationConfigQueryPriorityEnum =
   | "QUERY_PRIORITY_UNSPECIFIED"
@@ -605,65 +605,65 @@ export type TargetList = Array<Target>;
 /** Includes configuration options for end user authentication. */
 export interface EndUserAuthenticationConfig {
   /** Output only. Email address of the user to run workflow invocations under. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Optional. OAuth configuration for end user authentication. */
-  oauthConfig?: OAuthConfig;
+  oauthConfig?: OAuthConfig | undefined;
 }
 /** Includes various configuration options for a workflow invocation. If both `included_targets` and `included_tags` are unset, all actions will be included. */
 export interface InvocationConfig {
   /** Optional. The set of tags to include. */
-  includedTags?: StringList;
+  includedTags?: StringList | undefined;
   /** Optional. The service account to run workflow invocations under. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Specifies the priority for query execution in BigQuery. More information can be found at https://cloud.google.com/bigquery/docs/running-queries#queries. */
-  queryPriority?: InvocationConfigQueryPriorityEnum | (string & {});
+  queryPriority?: InvocationConfigQueryPriorityEnum | (string & {}) | undefined;
   /** Optional. When set to true, transitive dependents of included actions will be executed. */
-  transitiveDependentsIncluded?: boolean;
+  transitiveDependentsIncluded?: boolean | undefined;
   /** Optional. Maximum number of actions that can be executed concurrently. */
-  concurrentActionsLimit?: number;
+  concurrentActionsLimit?: number | undefined;
   /** Optional. When set to true, transitive dependencies of included actions will be executed. */
-  transitiveDependenciesIncluded?: boolean;
+  transitiveDependenciesIncluded?: boolean | undefined;
   /** Optional. Specifies the execution mode for the workflow invocation. */
-  executionMode?: InvocationConfigExecutionModeEnum | (string & {});
+  executionMode?: InvocationConfigExecutionModeEnum | (string & {}) | undefined;
   /** Optional. When set to true, any incremental tables will be fully refreshed. */
-  fullyRefreshIncrementalTablesEnabled?: boolean;
+  fullyRefreshIncrementalTablesEnabled?: boolean | undefined;
   /** Optional. The set of action identifiers to include. */
-  includedTargets?: TargetList;
+  includedTargets?: TargetList | undefined;
   /** Optional. Configuration for end user authentication. Do not set if `service_account` is used. */
-  endUserAuthConfig?: EndUserAuthenticationConfig;
+  endUserAuthConfig?: EndUserAuthenticationConfig | undefined;
 }
 /** Represents a Dataform workflow configuration. */
 export interface WorkflowConfig {
   /** Output only. Records of the 10 most recent scheduled execution attempts, ordered in descending order of `execution_time`. Updated whenever automatic creation of a workflow invocation is triggered by cron_schedule. */
-  recentScheduledExecutionRecords?: ScheduledExecutionRecordList;
+  recentScheduledExecutionRecords?: ScheduledExecutionRecordList | undefined;
   /** Output only. The timestamp of when the WorkflowConfig was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Optional schedule (in cron format) for automatic execution of this workflow config. */
-  cronSchedule?: string;
+  cronSchedule?: string | undefined;
   /** Optional. Specifies the time zone to be used when interpreting cron_schedule. Must be a time zone name from the [time zone database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). If left unspecified, the default is `UTC`. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Required. The name of the release config whose release_compilation_result should be executed. Must be in the format `projects/*\/locations/*\/repositories/*\/releaseConfigs/*`. */
-  releaseConfig?: string;
+  releaseConfig?: string | undefined;
   /** Identifier. The workflow config's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The timestamp of when the WorkflowConfig was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Optional. Disables automatic creation of workflow invocations. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Optional. Trigger configuration for this workflow. If present, the workflow will be triggered based on the specified triggers. */
-  workflowTriggerConfig?: WorkflowTriggerConfig;
+  workflowTriggerConfig?: WorkflowTriggerConfig | undefined;
   /** Optional. If left unset, a default InvocationConfig will be used. */
-  invocationConfig?: InvocationConfig;
+  invocationConfig?: InvocationConfig | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Required. The repository in which to create the workflow config. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Required. The ID to use for the workflow config, which will become the final component of the workflow config's resource name. */
-  workflowConfigId?: string;
+  workflowConfigId?: string | undefined;
   /** Request body */
-  body?: WorkflowConfig;
+  body?: WorkflowConfig | undefined;
 }
 export type WorkflowInvocationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -675,97 +675,97 @@ export type WorkflowInvocationStateEnum =
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Represents a single invocation of a compilation result. */
 export interface WorkflowInvocation {
   /** Immutable. The name of the workflow config to invoke. Must be in the format `projects/*\/locations/*\/repositories/*\/workflowConfigs/*`. */
-  workflowConfig?: string;
+  workflowConfig?: string | undefined;
   /** Output only. Only set if the repository has a KMS Key. */
-  dataEncryptionState?: DataEncryptionState;
+  dataEncryptionState?: DataEncryptionState | undefined;
   /** Immutable. The name of the compilation result to use for this invocation. Must be in the format `projects/*\/locations/*\/repositories/*\/compilationResults/*`. */
-  compilationResult?: string;
+  compilationResult?: string | undefined;
   /** Output only. The resolved compilation result that was used to create this invocation. Will be in the format `projects/*\/locations/*\/repositories/*\/compilationResults/*`. */
-  resolvedCompilationResult?: string;
+  resolvedCompilationResult?: string | undefined;
   /** Output only. The workflow invocation's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. This workflow invocation's current state. */
-  state?: WorkflowInvocationStateEnum | (string & {});
+  state?: WorkflowInvocationStateEnum | (string & {}) | undefined;
   /** Immutable. If left unset, a default InvocationConfig will be used. */
-  invocationConfig?: InvocationConfig;
+  invocationConfig?: InvocationConfig | undefined;
   /** Output only. This workflow invocation's timing details. */
-  invocationTiming?: Interval;
+  invocationTiming?: Interval | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Output only. The pipeline options which defines the pipeline type and path within the Git repository. */
-  pipelineConfig?: PipelineConfig;
+  pipelineConfig?: PipelineConfig | undefined;
   /** Output only. Metadata indicating whether this resource is user-scoped. `WorkflowInvocation` resource is `user_scoped` only if it is sourced from a compilation result and the compilation result is user-scoped. */
-  privateResourceMetadata?: PrivateResourceMetadata;
+  privateResourceMetadata?: PrivateResourceMetadata | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The repository in which to create the workflow invocation. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Request body */
-  body?: WorkflowInvocation;
+  body?: WorkflowInvocation | undefined;
 }
 export interface CreateProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The repository in which to create the workspace. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Required. The ID to use for the workspace, which will become the final component of the workspace's resource name. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** Request body */
-  body?: Workspace;
+  body?: Workspace | undefined;
 }
 /** Represents a Dataform TeamFolder. This is a resource that sits at the project level and is used to organize Repositories and Folders with hierarchical access controls. They provide a team context and stricter access controls. */
 export interface TeamFolder {
   /** Output only. The timestamp of when the TeamFolder was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The TeamFolder's name. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The TeamFolder's user-friendly name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Output only. The timestamp of when the TeamFolder was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The IAM principal identifier of the creator of the TeamFolder. */
-  creatorIamPrincipal?: string;
+  creatorIamPrincipal?: string | undefined;
 }
 export interface CreateProjectsLocationsTeamFoldersRequest {
   /** Required. The location in which to create the TeamFolder. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Deprecated: This field is not used. The resource name is generated automatically. The ID to use for the TeamFolder, which will become the final component of the TeamFolder's resource name. */
-  teamFolderId?: string;
+  teamFolderId?: string | undefined;
   /** Request body */
-  body?: TeamFolder;
+  body?: TeamFolder | undefined;
 }
 /** `DeleteBranch` request message. */
 export interface DeleteBranchRequest {
   /** Required. The name of the branch in the Git repository to delete. */
-  branch?: string;
+  branch?: string | undefined;
   /** Optional. If set to true, any non-pushed commits on the branch will be deleted. Upstream branch name will be the same as the branch to delete. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteBranchProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace resource name. Format: projects/{project}/locations/{location}/repositories/{repository}/workspaces/{workspace} */
   name: string;
   /** Request body */
-  body?: DeleteBranchRequest;
+  body?: DeleteBranchRequest | undefined;
 }
 /** `DeleteBranch` response message. */
 export interface DeleteBranchResponse {}
 /** `DeleteRepositoryLongRunning` request message. */
 export interface DeleteRepositoryLongRunningRequest {
   /** Optional. If set to true, child resources of this repository (compilation results and workflow invocations) will also be deleted. Otherwise, the request will only succeed if the repository has no child resources. **Note:** *This flag doesn't support deletion of workspaces, release configs or workflow configs. If any of such resources exists in the repository, the request will fail.* */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteLongRunningProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
   /** Request body */
-  body?: DeleteRepositoryLongRunningRequest;
+  body?: DeleteRepositoryLongRunningRequest | undefined;
 }
 export interface DeleteProjectsLocationsFoldersRequest {
   /** Required. The Folder's name. */
@@ -779,7 +779,7 @@ export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
   /** Optional. If set to true, child resources of this repository (compilation results and workflow invocations) will also be deleted. Otherwise, the request will only succeed if the repository has no child resources. **Note:** *This flag doesn't support deletion of workspaces, release configs or workflow configs. If any of such resources exists in the repository, the request will fail.*. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Required. The release config's name. */
@@ -804,13 +804,13 @@ export interface DeleteProjectsLocationsTeamFoldersRequest {
 /** `DeleteFolderTree` request message. */
 export interface DeleteFolderTreeRequest {
   /** Optional. If `false` (default): The operation will fail if any Repository within the folder hierarchy has associated Release Configs or Workflow Configs. If `true`: The operation will attempt to delete everything, including any Release Configs and Workflow Configs linked to Repositories within the folder hierarchy. This permanently removes schedules and resources. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteTreeProjectsLocationsFoldersRequest {
   /** Required. The Folder's name. Format: projects/{project}/locations/{location}/folders/{folder} */
   name: string;
   /** Request body */
-  body?: DeleteFolderTreeRequest;
+  body?: DeleteFolderTreeRequest | undefined;
 }
 /** `DeleteTeamFolderTree` request message. */
 export type DeleteTeamFolderTreeRequest = DeleteFolderTreeRequest;
@@ -818,7 +818,7 @@ export interface DeleteTreeProjectsLocationsTeamFoldersRequest {
   /** Required. The TeamFolder's name. Format: projects/{project}/locations/{location}/teamFolders/{team_folder} */
   name: string;
   /** Request body */
-  body?: DeleteFolderTreeRequest;
+  body?: DeleteFolderTreeRequest | undefined;
 }
 export type FetchBranchesProjectsLocationsRepositoriesWorkspacesFilterEnum =
   | "BRANCH_FILTER_UNSPECIFIED"
@@ -827,39 +827,42 @@ export type FetchBranchesProjectsLocationsRepositoriesWorkspacesFilterEnum =
   | "ALL";
 export interface FetchBranchesProjectsLocationsRepositoriesWorkspacesRequest {
   /** Optional. Page token received from a previous `FetchWorkspaceBranches` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchWorkspaceBranches`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The workspace resource name. Format: projects/{project}/locations/{location}/repositories/{repository}/workspaces/{workspace} */
   name: string;
   /** Optional. Maximum number of branches to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter for the returned list. */
-  filter?: FetchBranchesProjectsLocationsRepositoriesWorkspacesFilterEnum | (string & {});
+  filter?:
+    | FetchBranchesProjectsLocationsRepositoriesWorkspacesFilterEnum
+    | (string & {})
+    | undefined;
 }
 /** Represents a single commit log. */
 export interface CommitLogEntry {
   /** The commit SHA for this commit log entry. */
-  commitSha?: string;
+  commitSha?: string | undefined;
   /** The commit message for this commit log entry. */
-  commitMessage?: string;
+  commitMessage?: string | undefined;
   /** The commit author for this commit log entry. */
-  author?: CommitAuthor;
+  author?: CommitAuthor | undefined;
   /** Commit timestamp. */
-  commitTime?: string;
+  commitTime?: string | undefined;
 }
 /** Contains metadata about a branch. */
 export interface BranchMetadata {
   /** The branch name. */
-  branchName?: string;
+  branchName?: string | undefined;
   /** The last commit on the branch. */
-  lastCommit?: CommitLogEntry;
+  lastCommit?: CommitLogEntry | undefined;
 }
 export type BranchMetadataList = Array<BranchMetadata>;
 /** Response message for `FetchWorkspaceBranches` method. */
 export interface FetchWorkspaceBranchesResponse {
   /** The branches in the workspace. */
-  branches?: BranchMetadataList;
+  branches?: BranchMetadataList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface FetchCurrentBranchProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace resource name. Format: projects/{project}/locations/{location}/repositories/{repository}/workspaces/{workspace} */
@@ -868,18 +871,18 @@ export interface FetchCurrentBranchProjectsLocationsRepositoriesWorkspacesReques
 /** Response message for `FetchCurrentWorkspaceBranch` method. */
 export interface FetchCurrentWorkspaceBranchResponse {
   /** The name of the current branch for the workspace. */
-  branchName?: string;
+  branchName?: string | undefined;
 }
 export interface FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Required. The file's full path including filename, relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
 }
 /** `FetchFileDiff` response message. */
 export interface FetchFileDiffResponse {
   /** The raw formatted Git diff for the file. */
-  formattedDiff?: string;
+  formattedDiff?: string | undefined;
 }
 export interface FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
@@ -894,34 +897,34 @@ export type UncommittedFileChangeStateEnum =
 /** Represents the Git state of a file with uncommitted changes. */
 export interface UncommittedFileChange {
   /** Output only. Indicates the status of the file. */
-  state?: UncommittedFileChangeStateEnum;
+  state?: UncommittedFileChangeStateEnum | undefined;
   /** The file's full path including filename, relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
 }
 export type UncommittedFileChangeList = Array<UncommittedFileChange>;
 /** `FetchFileGitStatuses` response message. */
 export interface FetchFileGitStatusesResponse {
   /** A list of all files which have uncommitted Git changes. There will only be a single entry for any given file. */
-  uncommittedFileChanges?: UncommittedFileChangeList;
+  uncommittedFileChanges?: UncommittedFileChangeList | undefined;
 }
 export interface FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
   /** Optional. The name of the branch in the Git remote against which this workspace should be compared. If left unset, the repository's default branch name will be used. */
-  remoteBranch?: string;
+  remoteBranch?: string | undefined;
 }
 /** `FetchGitAheadBehind` response message. */
 export interface FetchGitAheadBehindResponse {
   /** The number of commits in the remote branch that are not in the workspace. */
-  commitsAhead?: number;
+  commitsAhead?: number | undefined;
   /** The number of commits in the workspace that are not in the remote branch. */
-  commitsBehind?: number;
+  commitsBehind?: number | undefined;
 }
 export interface FetchHistoryProjectsLocationsRepositoriesRequest {
   /** Optional. Page token received from a previous `FetchRepositoryHistory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchRepositoryHistory`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of commits to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The repository's name. */
   name: string;
 }
@@ -929,26 +932,26 @@ export type CommitLogEntryList = Array<CommitLogEntry>;
 /** `FetchRepositoryHistory` response message. */
 export interface FetchRepositoryHistoryResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of commit logs, ordered by 'git log' default order. */
-  commits?: CommitLogEntryList;
+  commits?: CommitLogEntryList | undefined;
 }
 export interface FetchHistoryProjectsLocationsRepositoriesWorkspacesRequest {
   /** Optional. Page token received from a previous `FetchWorkspaceHistory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchWorkspaceHistory`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of commits to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The workspace's name. */
   name: string;
 }
 /** `FetchWorkspaceHistory` response message. */
 export interface FetchWorkspaceHistoryResponse {
   /** A list of commit logs, ordered by 'git log' default order. */
-  commits?: CommitLogEntryList;
+  commits?: CommitLogEntryList | undefined;
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Whether this response reaches the shallow boundary of the repository. */
-  reachesShallowBoundary?: boolean;
+  reachesShallowBoundary?: boolean | undefined;
 }
 export interface FetchRemoteBranchesProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
@@ -957,7 +960,7 @@ export interface FetchRemoteBranchesProjectsLocationsRepositoriesRequest {
 /** `FetchRemoteBranches` response message. */
 export interface FetchRemoteBranchesResponse {
   /** The remote repository's branch names. */
-  branches?: StringList;
+  branches?: StringList | undefined;
 }
 export interface GetConfigProjectsLocationsRequest {
   /** Required. The config name. */
@@ -966,57 +969,57 @@ export interface GetConfigProjectsLocationsRequest {
 /** Config for all repositories in a given project and location. */
 export interface Config {
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Identifier. The config name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The default KMS key that is used if no encryption key is provided when a repository is created. */
-  defaultKmsKeyName?: string;
+  defaultKmsKeyName?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsFoldersRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 export interface GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -1024,7 +1027,7 @@ export interface GetIamPolicyProjectsLocationsTeamFoldersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1033,15 +1036,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsFoldersRequest {
   /** Required. The Folder's name. */
@@ -1082,125 +1085,125 @@ export interface GetProjectsLocationsTeamFoldersRequest {
 /** `InstallNpmPackages` request message. */
 export interface InstallNpmPackagesRequest {
   /** Optional. The pipeline options which defines the pipeline type and path within the Git repository. */
-  pipelineConfig?: PipelineConfig;
+  pipelineConfig?: PipelineConfig | undefined;
 }
 export interface InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Request body */
-  body?: InstallNpmPackagesRequest;
+  body?: InstallNpmPackagesRequest | undefined;
 }
 /** `InstallNpmPackages` response message. */
 export interface InstallNpmPackagesResponse {}
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesRequest {
   /** Optional. Page token received from a previous `ListRepositories` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRepositories`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of repositories to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The location in which to list repositories. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. This field only supports ordering by `name`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter for the returned list. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type RepositoryList = Array<Repository>;
 /** `ListRepositories` response message. */
 export interface ListRepositoriesResponse {
   /** List of repositories. */
-  repositories?: RepositoryList;
+  repositories?: RepositoryList | undefined;
   /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations which could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Optional. This field only supports ordering by `name` and `create_time`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Page token received from a previous `ListCompilationResults` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCompilationResults`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The repository in which to list compilation results. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Optional. Filter for the returned list. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of compilation results to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type CompilationResultList = Array<CompilationResult>;
 /** `ListCompilationResults` response message. */
 export interface ListCompilationResultsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations which could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of compilation results. */
-  compilationResults?: CompilationResultList;
+  compilationResults?: CompilationResultList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Required. The repository in which to list release configs. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Optional. Maximum number of release configs to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `ListReleaseConfigs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReleaseConfigs`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ReleaseConfigList = Array<ReleaseConfig>;
 /** `ListReleaseConfigs` response message. */
 export interface ListReleaseConfigsResponse {
   /** List of release configs. */
-  releaseConfigs?: ReleaseConfigList;
+  releaseConfigs?: ReleaseConfigList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations which could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Optional. Maximum number of workflow configs to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `ListWorkflowConfigs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWorkflowConfigs`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The repository in which to list workflow configs. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
 }
@@ -1208,43 +1211,43 @@ export type WorkflowConfigList = Array<WorkflowConfig>;
 /** `ListWorkflowConfigs` response message. */
 export interface ListWorkflowConfigsResponse {
   /** Locations which could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of workflow configs. */
-  workflowConfigs?: WorkflowConfigList;
+  workflowConfigs?: WorkflowConfigList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Optional. This field only supports ordering by `name`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent resource of the WorkflowInvocation type. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
   /** Optional. Filter for the returned list. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of workflow invocations to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `ListWorkflowInvocations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWorkflowInvocations`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type WorkflowInvocationList = Array<WorkflowInvocation>;
 /** `ListWorkflowInvocations` response message. */
 export interface ListWorkflowInvocationsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations which could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of workflow invocations. */
-  workflowInvocations?: WorkflowInvocationList;
+  workflowInvocations?: WorkflowInvocationList | undefined;
 }
 export interface ListProjectsLocationsRepositoriesWorkspacesRequest {
   /** Optional. Maximum number of workspaces to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `ListWorkspaces` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWorkspaces`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. This field only supports ordering by `name`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter for the returned list. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The repository in which to list workspaces. Must be in the format `projects/*\/locations/*\/repositories/*`. */
   parent: string;
 }
@@ -1252,207 +1255,207 @@ export type WorkspaceList = Array<Workspace>;
 /** `ListWorkspaces` response message. */
 export interface ListWorkspacesResponse {
   /** Locations which could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of workspaces. */
-  workspaces?: WorkspaceList;
+  workspaces?: WorkspaceList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** `MakeDirectory` request message. */
 export interface MakeDirectoryRequest {
   /** Required. The directory's full path including directory name, relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Request body */
-  body?: MakeDirectoryRequest;
+  body?: MakeDirectoryRequest | undefined;
 }
 /** `MakeDirectory` response message. */
 export interface MakeDirectoryResponse {}
 /** `MoveDirectory` request message. */
 export interface MoveDirectoryRequest {
   /** Required. The new path for the directory including directory name, rooted at workspace root. */
-  newPath?: string;
+  newPath?: string | undefined;
   /** Required. The directory's full path including directory name, relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Request body */
-  body?: MoveDirectoryRequest;
+  body?: MoveDirectoryRequest | undefined;
 }
 /** `MoveDirectory` response message. */
 export interface MoveDirectoryResponse {}
 /** `MoveFile` request message. */
 export interface MoveFileRequest {
   /** Required. The file's full path including filename, relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
   /** Required. The file's new path including filename, relative to the workspace root. */
-  newPath?: string;
+  newPath?: string | undefined;
 }
 export interface MoveFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Request body */
-  body?: MoveFileRequest;
+  body?: MoveFileRequest | undefined;
 }
 /** `MoveFile` response message. */
 export interface MoveFileResponse {}
 /** `MoveFolder` request message. */
 export interface MoveFolderRequest {
   /** Optional. The name of the Folder, TeamFolder, or root location to move the Folder to. Can be in the format of: "" to move into the root User folder, `projects/*\/locations/*\/folders/*`, `projects/*\/locations/*\/teamFolders/*` */
-  destinationContainingFolder?: string;
+  destinationContainingFolder?: string | undefined;
 }
 export interface MoveProjectsLocationsFoldersRequest {
   /** Required. The full resource name of the Folder to move. */
   name: string;
   /** Request body */
-  body?: MoveFolderRequest;
+  body?: MoveFolderRequest | undefined;
 }
 /** `MoveRepository` request message. */
 export interface MoveRepositoryRequest {
   /** Optional. The name of the Folder, TeamFolder, or root location to move the repository to. Can be in the format of: "" to move into the root User folder, `projects/*\/locations/*\/folders/*`, `projects/*\/locations/*\/teamFolders/*` */
-  destinationContainingFolder?: string;
+  destinationContainingFolder?: string | undefined;
 }
 export interface MoveProjectsLocationsRepositoriesRequest {
   /** Required. The full resource name of the repository to move. */
   name: string;
   /** Request body */
-  body?: MoveRepositoryRequest;
+  body?: MoveRepositoryRequest | undefined;
 }
 export interface PatchProjectsLocationsFoldersRequest {
   /** Identifier. The Folder's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields that can be updated, will be updated. A few fields cannot be updated and will be ignored if specified in the update_mask (e.g. parent_name, team_folder_name). */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Folder;
+  body?: Folder | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesRequest {
   /** Optional. Specifies the fields to be updated in the repository. If left unset, all fields will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The repository's name. */
   name: string;
   /** Request body */
-  body?: Repository;
+  body?: Repository | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Optional. Specifies the fields to be updated in the release config. If left unset, all fields will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The release config's name. */
   name: string;
   /** Request body */
-  body?: ReleaseConfig;
+  body?: ReleaseConfig | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Identifier. The workflow config's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the workflow config. If left unset, all fields will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: WorkflowConfig;
+  body?: WorkflowConfig | undefined;
 }
 export interface PatchProjectsLocationsTeamFoldersRequest {
   /** Identifier. The TeamFolder's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: TeamFolder;
+  body?: TeamFolder | undefined;
 }
 /** `PullGitCommits` request message. */
 export interface PullGitCommitsRequest {
   /** Optional. The name of the branch in the Git remote from which to pull commits. If left unset, the repository's default branch name will be used. */
-  remoteBranch?: string;
+  remoteBranch?: string | undefined;
   /** Required. The author of any merge commit which may be created as a result of merging fetched Git commits into this workspace. */
-  author?: CommitAuthor;
+  author?: CommitAuthor | undefined;
 }
 export interface PullProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
   /** Request body */
-  body?: PullGitCommitsRequest;
+  body?: PullGitCommitsRequest | undefined;
 }
 /** `PullGitCommits` response message. */
 export interface PullGitCommitsResponse {}
 /** `PushGitCommits` request message. */
 export interface PushGitCommitsRequest {
   /** Optional. The name of the branch in the Git remote to which commits should be pushed. If left unset, the repository's default branch name will be used. */
-  remoteBranch?: string;
+  remoteBranch?: string | undefined;
 }
 export interface PushProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
   /** Request body */
-  body?: PushGitCommitsRequest;
+  body?: PushGitCommitsRequest | undefined;
 }
 /** `PushGitCommits` response message. */
 export interface PushGitCommitsResponse {}
 export interface QueryContentsProjectsLocationsTeamFoldersRequest {
   /** Optional. Field to additionally sort results by. Will order Folders before Repositories, and then by `order_by` in ascending order. Supported keywords: `display_name` (default), `create_time`, last_modified_time. Examples: * `orderBy="display_name"` * `orderBy="display_name desc"` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `QueryTeamFolderContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryTeamFolderContents`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: * `filter="display_name="MyFolder""` */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Resource name of the TeamFolder to list contents for. Format: `projects/*\/locations/*\/teamFolders/*`. */
   teamFolder: string;
 }
 /** Represents a single content entry. */
 export interface TeamFolderContentsEntry {
   /** A subfolder. */
-  folder?: Folder;
+  folder?: Folder | undefined;
   /** A repository. */
-  repository?: Repository;
+  repository?: Repository | undefined;
 }
 export type TeamFolderContentsEntryList = Array<TeamFolderContentsEntry>;
 /** `QueryTeamFolderContents` response message. */
 export interface QueryTeamFolderContentsResponse {
   /** List of entries in the TeamFolder. */
-  entries?: TeamFolderContentsEntryList;
+  entries?: TeamFolderContentsEntryList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface QueryDirectoryContentsProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
   /** Optional. Page token received from a previous `QueryRepositoryDirectoryContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryRepositoryDirectoryContents`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The directory's full path including directory name, relative to root. If left unset, the root is used. */
-  path?: string;
+  path?: string | undefined;
   /** Optional. The Commit SHA for the commit to query from. If unset, the directory will be queried from HEAD. */
-  commitSha?: string;
+  commitSha?: string | undefined;
 }
 /** Represents metadata for a single entry in a filesystem. */
 export interface FilesystemEntryMetadata {
   /** Output only. Provides the size of the entry in bytes. For directories, this will be 0. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
   /** Output only. Represents the time of the last modification of the entry. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 /** Represents a single entry in a directory. */
 export interface DirectoryEntry {
   /** Entry with metadata. */
-  metadata?: FilesystemEntryMetadata;
+  metadata?: FilesystemEntryMetadata | undefined;
   /** A child directory in the directory. The path is returned including the full folder structure from the root. */
-  directory?: string;
+  directory?: string | undefined;
   /** A file in the directory. The path is returned including the full folder structure from the root. */
-  file?: string;
+  file?: string | undefined;
 }
 export type DirectoryEntryList = Array<DirectoryEntry>;
 /** `QueryRepositoryDirectoryContents` response message. */
 export interface QueryRepositoryDirectoryContentsResponse {
   /** List of entries in the directory. */
-  directoryEntries?: DirectoryEntryList;
+  directoryEntries?: DirectoryEntryList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesViewEnum =
   | "DIRECTORY_CONTENTS_VIEW_UNSPECIFIED"
@@ -1460,34 +1463,37 @@ export type QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesViewEnu
   | "DIRECTORY_CONTENTS_VIEW_METADATA";
 export interface QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest {
   /** Optional. Specifies the metadata to return for each directory entry. If unspecified, the default is `DIRECTORY_CONTENTS_VIEW_BASIC`. Currently the `DIRECTORY_CONTENTS_VIEW_METADATA` view is not supported by CMEK-protected workspaces. */
-  view?: QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesViewEnum | (string & {});
+  view?:
+    | QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesViewEnum
+    | (string & {})
+    | undefined;
   /** Optional. The directory's full path including directory name, relative to the workspace root. If left unset, the workspace root is used. */
-  path?: string;
+  path?: string | undefined;
   /** Required. The workspace's name. */
   workspace: string;
   /** Optional. Page token received from a previous `QueryDirectoryContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryDirectoryContents`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** `QueryDirectoryContents` response message. */
 export interface QueryDirectoryContentsResponse {
   /** List of entries in the directory. */
-  directoryEntries?: DirectoryEntryList;
+  directoryEntries?: DirectoryEntryList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface QueryFolderContentsProjectsLocationsFoldersRequest {
   /** Required. Resource name of the Folder to list contents for. Format: projects/*\/locations/*\/folders/* */
   folder: string;
   /** Optional. Page token received from a previous `QueryFolderContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryFolderContents`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: * `filter="display_name="MyFolder""` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field to additionally sort results by. Will order Folders before Repositories, and then by `order_by` in ascending order. Supported keywords: display_name (default), create_time, last_modified_time. Examples: * `orderBy="display_name"` * `orderBy="display_name desc"` */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** Represents a single content entry. */
 export type FolderContentsEntry = TeamFolderContentsEntry;
@@ -1495,73 +1501,73 @@ export type FolderContentsEntryList = Array<TeamFolderContentsEntry>;
 /** `QueryFolderContents` response message. */
 export interface QueryFolderContentsResponse {
   /** List of entries in the folder. */
-  entries?: FolderContentsEntryList;
+  entries?: FolderContentsEntryList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface QueryProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Optional. Optional filter for the returned list. Filtering is only currently supported on the `file_path` field. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Page token received from a previous `QueryCompilationResultActions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryCompilationResultActions`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The compilation result's name. */
   name: string;
   /** Optional. Maximum number of compilation results to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Describes a column. */
 export interface ColumnDescriptor {
   /** A list of BigQuery policy tags that will be applied to the column. */
-  bigqueryPolicyTags?: StringList;
+  bigqueryPolicyTags?: StringList | undefined;
   /** The identifier for the column. Each entry in `path` represents one level of nesting. */
-  path?: StringList;
+  path?: StringList | undefined;
   /** A textual description of the column. */
-  description?: string;
+  description?: string | undefined;
 }
 export type ColumnDescriptorList = Array<ColumnDescriptor>;
 /** Describes a relation and its columns. */
 export interface RelationDescriptor {
   /** A list of descriptions of columns within the relation. */
-  columns?: ColumnDescriptorList;
+  columns?: ColumnDescriptorList | undefined;
   /** A set of BigQuery labels that should be applied to the relation. */
-  bigqueryLabels?: StringMap;
+  bigqueryLabels?: StringMap | undefined;
   /** A text description of the relation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Represents an assertion upon a SQL query which is required return zero rows. */
 export interface Assertion {
   /** The SELECT query which must return zero rows in order for this assertion to succeed. */
-  selectQuery?: string;
+  selectQuery?: string | undefined;
   /** The parent action of this assertion. Only set if this assertion was automatically generated. */
-  parentAction?: Target;
+  parentAction?: Target | undefined;
   /** A list of actions that this action depends on. */
-  dependencyTargets?: TargetList;
+  dependencyTargets?: TargetList | undefined;
   /** Arbitrary, user-defined tags on this action. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Whether this action is disabled (i.e. should not be run). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Descriptor for the assertion's automatically-generated view and its columns. */
-  relationDescriptor?: RelationDescriptor;
+  relationDescriptor?: RelationDescriptor | undefined;
 }
 /** Represents a BigQuery unit test. */
 export interface BigQueryUnitTest {
   /** Test query to execute. */
-  testQuery?: string;
+  testQuery?: string | undefined;
   /** Arbitrary, user-defined tags on this action. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** A list of actions that this action depends on. */
-  dependencyTargets?: TargetList;
+  dependencyTargets?: TargetList | undefined;
   /** Expected output query to compare against the test query. */
-  expectedOutputQuery?: string;
+  expectedOutputQuery?: string | undefined;
   /** Whether this action is disabled (i.e. should not be run). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The name of the unit test. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Represents a relation which is not managed by Dataform but which may be referenced by Dataform actions. */
 export interface Declaration {
   /** Descriptor for the relation and its columns. Used as documentation only, i.e. values here will result in no changes to the relation's metadata. */
-  relationDescriptor?: RelationDescriptor;
+  relationDescriptor?: RelationDescriptor | undefined;
 }
 export type RelationRelationTypeEnum =
   | "RELATION_TYPE_UNSPECIFIED"
@@ -1573,171 +1579,171 @@ export type RelationFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "PARQUET";
 /** Contains settings for relations of type `INCREMENTAL_TABLE`. */
 export interface IncrementalTableConfig {
   /** A set of columns or SQL expressions used to define row uniqueness. If any duplicates are discovered (as defined by `unique_key_parts`), only the newly selected rows (as defined by `incremental_select_query`) will be included in the relation. */
-  uniqueKeyParts?: StringList;
+  uniqueKeyParts?: StringList | undefined;
   /** Whether this table should be protected from being refreshed. */
-  refreshDisabled?: boolean;
+  refreshDisabled?: boolean | undefined;
   /** The SELECT query which returns rows which should be inserted into the relation if it already exists and is not being refreshed. */
-  incrementalSelectQuery?: string;
+  incrementalSelectQuery?: string | undefined;
   /** SQL statements to be executed after inserting new rows into the relation. */
-  incrementalPostOperations?: StringList;
+  incrementalPostOperations?: StringList | undefined;
   /** SQL statements to be executed before inserting new rows into the relation. */
-  incrementalPreOperations?: StringList;
+  incrementalPreOperations?: StringList | undefined;
   /** A SQL expression conditional used to limit the set of existing rows considered for a merge operation (see `unique_key_parts` for more information). */
-  updatePartitionFilter?: string;
+  updatePartitionFilter?: string | undefined;
 }
 export type RelationTableFormatEnum = "TABLE_FORMAT_UNSPECIFIED" | "ICEBERG";
 /** Represents a database relation. */
 export interface Relation {
   /** SQL statements to be executed after creating the relation. */
-  postOperations?: StringList;
+  postOperations?: StringList | undefined;
   /** A list of actions that this action depends on. */
-  dependencyTargets?: TargetList;
+  dependencyTargets?: TargetList | undefined;
   /** Optional. The connection specifying the credentials to be used to read and write to external storage, such as Cloud Storage. The connection can have the form `{project}.{location}.{connection_id}` or `projects/{project}/locations/{location}/connections/{connection_id}`, or be set to DEFAULT. */
-  connection?: string;
+  connection?: string | undefined;
   /** Optional. The fully qualified location prefix of the external folder where table data is stored. The URI should be in the format `gs://bucket/path_to_table/`. */
-  storageUri?: string;
+  storageUri?: string | undefined;
   /** Additional options that will be provided as key/value pairs into the options clause of a create table/view statement. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language for more information on which options are supported. */
-  additionalOptions?: StringMap;
+  additionalOptions?: StringMap | undefined;
   /** A list of columns or SQL expressions used to cluster the table. */
-  clusterExpressions?: StringList;
+  clusterExpressions?: StringList | undefined;
   /** The type of this relation. */
-  relationType?: RelationRelationTypeEnum;
+  relationType?: RelationRelationTypeEnum | undefined;
   /** Optional. The file format for the BigQuery table. */
-  fileFormat?: RelationFileFormatEnum;
+  fileFormat?: RelationFileFormatEnum | undefined;
   /** Configures `INCREMENTAL_TABLE` settings for this relation. Only set if `relation_type` is `INCREMENTAL_TABLE`. */
-  incrementalTableConfig?: IncrementalTableConfig;
+  incrementalTableConfig?: IncrementalTableConfig | undefined;
   /** Specifies whether queries on this table must include a predicate filter that filters on the partitioning column. */
-  requirePartitionFilter?: boolean;
+  requirePartitionFilter?: boolean | undefined;
   /** The SELECT query which returns rows which this relation should contain. */
-  selectQuery?: string;
+  selectQuery?: string | undefined;
   /** Arbitrary, user-defined tags on this action. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Sets the partition expiration in days. */
-  partitionExpirationDays?: number;
+  partitionExpirationDays?: number | undefined;
   /** The SQL expression used to partition the relation. */
-  partitionExpression?: string;
+  partitionExpression?: string | undefined;
   /** Descriptor for the relation and its columns. */
-  relationDescriptor?: RelationDescriptor;
+  relationDescriptor?: RelationDescriptor | undefined;
   /** SQL statements to be executed before creating the relation. */
-  preOperations?: StringList;
+  preOperations?: StringList | undefined;
   /** Whether this action is disabled (i.e. should not be run). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Optional. The table format for the BigQuery table. */
-  tableFormat?: RelationTableFormatEnum;
+  tableFormat?: RelationTableFormatEnum | undefined;
 }
 /** Load definition for incremental load modes */
 export interface IncrementalLoadMode {
   /** Column name for incremental load modes */
-  column?: string;
+  column?: string | undefined;
 }
 /** Simple load definition */
 export type SimpleLoadMode = CancelOperationRequest;
 /** Simplified load configuration for actions */
 export interface LoadConfig {
   /** Insert records where the value of a column is not already present in the destination table */
-  unique?: IncrementalLoadMode;
+  unique?: IncrementalLoadMode | undefined;
   /** Append into destination table */
-  append?: CancelOperationRequest;
+  append?: CancelOperationRequest | undefined;
   /** Insert records where the value exceeds the previous maximum value for a column in the destination table */
-  maximum?: IncrementalLoadMode;
+  maximum?: IncrementalLoadMode | undefined;
   /** Replace destination table */
-  replace?: CancelOperationRequest;
+  replace?: CancelOperationRequest | undefined;
 }
 /** Error table information, used to write error data into a BigQuery table. */
 export interface ErrorTable {
   /** Error Table target. */
-  target?: Target;
+  target?: Target | undefined;
   /** Error table partition expiration in days. Only positive values are allowed. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
 }
 /** Definition of a SQL Data Preparation */
 export interface SqlDefinition {
   /** Load configuration. */
-  load?: LoadConfig;
+  load?: LoadConfig | undefined;
   /** The SQL query representing the data preparation steps. Formatted as a Pipe SQL query statement. */
-  query?: string;
+  query?: string | undefined;
   /** Error table configuration, */
-  errorTable?: ErrorTable;
+  errorTable?: ErrorTable | undefined;
 }
 /** Defines a compiled Data Preparation entity */
 export interface DataPreparation {
   /** A list of actions that this action depends on. */
-  dependencyTargets?: TargetList;
+  dependencyTargets?: TargetList | undefined;
   /** SQL definition for a Data Preparation. Contains a SQL query and additional context information. */
-  contentsSql?: SqlDefinition;
+  contentsSql?: SqlDefinition | undefined;
   /** Arbitrary, user-defined tags on this action. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** The data preparation definition, stored as a YAML string. */
-  contentsYaml?: string;
+  contentsYaml?: string | undefined;
   /** Whether this action is disabled (i.e. should not be run). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 /** Represents a notebook. */
 export interface Notebook {
   /** Whether this action is disabled (i.e. should not be run). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The contents of the notebook. */
-  contents?: string;
+  contents?: string | undefined;
   /** A list of actions that this action depends on. */
-  dependencyTargets?: TargetList;
+  dependencyTargets?: TargetList | undefined;
   /** Arbitrary, user-defined tags on this action. */
-  tags?: StringList;
+  tags?: StringList | undefined;
 }
 /** Represents a list of arbitrary database operations. */
 export interface Operations {
   /** Whether these operations produce an output relation. */
-  hasOutput?: boolean;
+  hasOutput?: boolean | undefined;
   /** Arbitrary, user-defined tags on this action. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Descriptor for any output relation and its columns. Only set if `has_output` is true. */
-  relationDescriptor?: RelationDescriptor;
+  relationDescriptor?: RelationDescriptor | undefined;
   /** Whether this action is disabled (i.e. should not be run). */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** A list of arbitrary SQL statements that will be executed without alteration. */
-  queries?: StringList;
+  queries?: StringList | undefined;
   /** A list of actions that this action depends on. */
-  dependencyTargets?: TargetList;
+  dependencyTargets?: TargetList | undefined;
 }
 /** Represents a single Dataform action in a compilation result. */
 export interface CompilationResultAction {
   /** The full path including filename in which this action is located, relative to the workspace root. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** This action's identifier. Unique within the compilation result. */
-  target?: Target;
+  target?: Target | undefined;
   /** The assertion executed by this action. */
-  assertion?: Assertion;
+  assertion?: Assertion | undefined;
   /** The action's identifier if the project had been compiled without any overrides configured. Unique within the compilation result. */
-  canonicalTarget?: Target;
+  canonicalTarget?: Target | undefined;
   /** The unit test executed by this action. */
-  bigqueryUnitTest?: BigQueryUnitTest;
+  bigqueryUnitTest?: BigQueryUnitTest | undefined;
   /** The declaration declared by this action. */
-  declaration?: Declaration;
+  declaration?: Declaration | undefined;
   /** The database relation created/updated by this action. */
-  relation?: Relation;
+  relation?: Relation | undefined;
   /** The data preparation executed by this action. */
-  dataPreparation?: DataPreparation;
+  dataPreparation?: DataPreparation | undefined;
   /** The notebook executed by this action. */
-  notebook?: Notebook;
+  notebook?: Notebook | undefined;
   /** The database operations executed by this action. */
-  operations?: Operations;
+  operations?: Operations | undefined;
 }
 export type CompilationResultActionList = Array<CompilationResultAction>;
 /** `QueryCompilationResultActions` response message. */
 export interface QueryCompilationResultActionsResponse {
   /** List of compilation result actions. */
-  compilationResultActions?: CompilationResultActionList;
+  compilationResultActions?: CompilationResultActionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The workflow invocation's name. */
   name: string;
   /** Optional. Maximum number of workflow invocations to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token received from a previous `QueryWorkflowInvocationActions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryWorkflowInvocationActions`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type WorkflowInvocationActionStateEnum =
   | "PENDING"
@@ -1759,137 +1765,137 @@ export type ActionLoadConfig = LoadConfig;
 /** Definition of a SQL Data Preparation */
 export interface ActionSqlDefinition {
   /** Error table configuration, */
-  errorTable?: ErrorTable;
+  errorTable?: ErrorTable | undefined;
   /** Load configuration. */
-  loadConfig?: LoadConfig;
+  loadConfig?: LoadConfig | undefined;
   /** The SQL query representing the data preparation steps. Formatted as a Pipe SQL query statement. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Represents a workflow action that will run a Data Preparation. */
 export interface DataPreparationAction {
   /** Output only. YAML representing the contents of the data preparation. Can be used to show the customer what the input was to their workflow. */
-  contentsYaml?: string;
+  contentsYaml?: string | undefined;
   /** Output only. The ID of the BigQuery job that executed the SQL in sql_script. Only set once the job has started to run. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Output only. The generated BigQuery SQL script that will be executed. For reference only. */
-  generatedSql?: string;
+  generatedSql?: string | undefined;
   /** SQL definition for a Data Preparation. Contains a SQL query and additional context information. */
-  contentsSql?: ActionSqlDefinition;
+  contentsSql?: ActionSqlDefinition | undefined;
 }
 /** Represents a workflow action that will run against a Notebook runtime. */
 export interface NotebookAction {
   /** Output only. The ID of the Gemini Enterprise Agent Platform job that executed the notebook in contents and also the ID used for the outputs created in Google Cloud Storage buckets. Only set once the job has started to run. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Output only. The path to the notebook file in the repository. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Output only. The code contents of a Notebook to be run. */
-  contents?: string;
+  contents?: string | undefined;
 }
 /** Represents a workflow action that will run against BigQuery. */
 export interface BigQueryAction {
   /** Output only. The ID of the BigQuery job that executed the SQL in sql_script. Only set once the job has started to run. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Output only. The generated BigQuery SQL script that will be executed. */
-  sqlScript?: string;
+  sqlScript?: string | undefined;
 }
 /** Represents a workflow action that will run a BigQuery unit test. */
 export interface BigQueryUnitTestAction {
   /** Output only. Total bytes processed for this action. Combined total for actual and expected jobs. */
-  totalProcessedBytes?: string;
+  totalProcessedBytes?: string | undefined;
   /** Output only. SQL script for the expected results. */
-  expectedResultsSqlScript?: string;
+  expectedResultsSqlScript?: string | undefined;
   /** Output only. Job ID for the actual results. */
-  actualResultsJobId?: string;
+  actualResultsJobId?: string | undefined;
   /** Output only. SQL script for the actual results. */
-  actualResultsSqlScript?: string;
+  actualResultsSqlScript?: string | undefined;
   /** Output only. Job ID for the expected results. */
-  expectedResultsJobId?: string;
+  expectedResultsJobId?: string | undefined;
   /** Output only. Total bytes billed for this action. Combined total for actual and expected jobs. */
-  totalBilledBytes?: string;
+  totalBilledBytes?: string | undefined;
 }
 /** Represents a single action in a workflow invocation. */
 export interface WorkflowInvocationAction {
   /** Output only. If and only if action's state is FAILED a failure reason is set. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** Output only. This action's current state. */
-  state?: WorkflowInvocationActionStateEnum;
+  state?: WorkflowInvocationActionStateEnum | undefined;
   /** Output only. The workflow action's data preparation action details. */
-  dataPreparationAction?: DataPreparationAction;
+  dataPreparationAction?: DataPreparationAction | undefined;
   /** Output only. This action's timing details. `start_time` will be set if the action is in [RUNNING, SUCCEEDED, CANCELLED, FAILED] state. `end_time` will be set if the action is in [SUCCEEDED, CANCELLED, FAILED] state. */
-  invocationTiming?: Interval;
+  invocationTiming?: Interval | undefined;
   /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
-  internalMetadata?: string;
+  internalMetadata?: string | undefined;
   /** Output only. The workflow action's notebook action details. */
-  notebookAction?: NotebookAction;
+  notebookAction?: NotebookAction | undefined;
   /** Output only. This action's identifier. Unique within the workflow invocation. */
-  target?: Target;
+  target?: Target | undefined;
   /** Output only. The action's identifier if the project had been compiled without any overrides configured. Unique within the compilation result. */
-  canonicalTarget?: Target;
+  canonicalTarget?: Target | undefined;
   /** Output only. The workflow action's bigquery action details. */
-  bigqueryAction?: BigQueryAction;
+  bigqueryAction?: BigQueryAction | undefined;
   /** Output only. The workflow action's unit test details. */
-  bigqueryUnitTestAction?: BigQueryUnitTestAction;
+  bigqueryUnitTestAction?: BigQueryUnitTestAction | undefined;
 }
 export type WorkflowInvocationActionList = Array<WorkflowInvocationAction>;
 /** `QueryWorkflowInvocationActions` response message. */
 export interface QueryWorkflowInvocationActionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of workflow invocation actions. */
-  workflowInvocationActions?: WorkflowInvocationActionList;
+  workflowInvocationActions?: WorkflowInvocationActionList | undefined;
 }
 export interface QueryUserRootContentsProjectsLocationsRequest {
   /** Optional. Page token received from a previous `QueryUserRootContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryUserRootFolderContents`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Location of the user root folder to list contents for. Format: projects/*\/locations/* */
   location: string;
   /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: * `filter="display_name="MyFolder""` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field to additionally sort results by. Will order Folders before Repositories, and then by `order_by` in ascending order. Supported keywords: display_name (default), created_at, last_modified_at. Examples: * `orderBy="display_name"` * `orderBy="display_name desc"` */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** Represents a single content entry. */
 export interface RootContentsEntry {
   /** A repository. */
-  repository?: Repository;
+  repository?: Repository | undefined;
   /** A subfolder. */
-  folder?: Folder;
+  folder?: Folder | undefined;
 }
 export type RootContentsEntryList = Array<RootContentsEntry>;
 /** `QueryUserRootContents` response message. */
 export interface QueryUserRootContentsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of entries in the folder. */
-  entries?: RootContentsEntryList;
+  entries?: RootContentsEntryList | undefined;
 }
 export interface ReadFileProjectsLocationsRepositoriesRequest {
   /** Required. Full file path to read including filename, from repository root. */
-  path?: string;
+  path?: string | undefined;
   /** Required. The repository's name. */
   name: string;
   /** Optional. The commit SHA for the commit to read from. If unset, the file will be read from HEAD. */
-  commitSha?: string;
+  commitSha?: string | undefined;
 }
 /** `ReadRepositoryFile` response message. */
 export interface ReadRepositoryFileResponse {
   /** The file's contents. */
-  contents?: string;
+  contents?: string | undefined;
 }
 export interface ReadFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Optional. The Git revision of the file to return. If left empty, the current contents of `path` will be returned. */
-  revision?: string;
+  revision?: string | undefined;
   /** Required. The file's full path including filename, relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
   /** Required. The workspace's name. */
   workspace: string;
 }
 /** `ReadFile` response message. */
 export interface ReadFileResponse {
   /** The file's contents. */
-  fileContents?: string;
+  fileContents?: string | undefined;
 }
 /** `RemoveDirectory` request message. */
 export type RemoveDirectoryRequest = MakeDirectoryRequest;
@@ -1897,196 +1903,196 @@ export interface RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Request body */
-  body?: MakeDirectoryRequest;
+  body?: MakeDirectoryRequest | undefined;
 }
 /** `RemoveDirectory` response message. */
 export interface RemoveDirectoryResponse {}
 /** `RemoveFile` request message. */
 export interface RemoveFileRequest {
   /** Required. The file's full path including filename, relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface RemoveFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Request body */
-  body?: RemoveFileRequest;
+  body?: RemoveFileRequest | undefined;
 }
 /** `RemoveFile` response message. */
 export interface RemoveFileResponse {}
 /** `ResetWorkspaceChanges` request message. */
 export interface ResetWorkspaceChangesRequest {
   /** Optional. Full file paths to reset back to their committed state including filename, rooted at workspace root. If left empty, all files will be reset. */
-  paths?: StringList;
+  paths?: StringList | undefined;
   /** Optional. If set to true, untracked files will be deleted. */
-  clean?: boolean;
+  clean?: boolean | undefined;
 }
 export interface ResetProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
   /** Request body */
-  body?: ResetWorkspaceChangesRequest;
+  body?: ResetWorkspaceChangesRequest | undefined;
 }
 /** `ResetWorkspaceChanges` response message. */
 export interface ResetWorkspaceChangesResponse {}
 export interface SearchFilesProjectsLocationsRepositoriesWorkspacesRequest {
   /** Optional. Maximum number of search results to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Optional filter for the returned list in filtering format. Filtering is only currently supported on the `path` field. See https://google.aip.dev/160 for details. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Page token received from a previous `SearchFilesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchFilesRequest`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The workspace's name. */
   workspace: string;
 }
 /** Client-facing representation of a directory entry in search results. */
 export interface DirectorySearchResult {
   /** File system path relative to the workspace root. */
-  path?: string;
+  path?: string | undefined;
 }
 /** Client-facing representation of a file entry in search results. */
 export interface FileSearchResult {
   /** File system path relative to the file tree root. */
-  path?: string;
+  path?: string | undefined;
 }
 /** Client-facing representation of a search result entry. */
 export interface SearchResult {
   /** Details when search result is a directory. */
-  directory?: DirectorySearchResult;
+  directory?: DirectorySearchResult | undefined;
   /** Details when search result is a file. */
-  file?: FileSearchResult;
+  file?: FileSearchResult | undefined;
 }
 export type SearchResultList = Array<SearchResult>;
 /** Client-facing representation of a file search response. */
 export interface SearchFilesResponse {
   /** List of matched results. */
-  searchResults?: SearchResultList;
+  searchResults?: SearchResultList | undefined;
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchProjectsLocationsTeamFoldersRequest {
   /** Optional. Field to additionally sort results by. Supported keywords: `display_name` (default), `create_time`, `last_modified_time`. Examples: * `orderBy="display_name"` * `orderBy="display_name desc"` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: * `filter="display_name="MyFolder""` */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Location in which to query TeamFolders. Format: `projects/*\/locations/*`. */
   location: string;
   /** Optional. Page token received from a previous `SearchTeamFolders` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchTeamFolders`, with the exception of `page_size`, must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of `TeamFolders` to return. The server may return fewer items than requested. If unspecified, the server will pick a default of `page_size` = 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Represents a single content entry. */
 export interface TeamFolderSearchResult {
   /** A TeamFolder resource that is in the project / location. */
-  teamFolder?: TeamFolder;
+  teamFolder?: TeamFolder | undefined;
 }
 export type TeamFolderSearchResultList = Array<TeamFolderSearchResult>;
 /** `SearchTeamFolders` response message. */
 export interface SearchTeamFoldersResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of TeamFolders that match the search query. */
-  results?: TeamFolderSearchResultList;
+  results?: TeamFolderSearchResultList | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsFoldersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsTeamFoldersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** `SyncWorkspaceRefs` request message. */
 export interface SyncWorkspaceRefsRequest {
   /** Optional. The name of the branch in the Git remote to which the refs should be fetched for. If left unset, all remote branches will be fetched. */
-  remoteBranchName?: string;
+  remoteBranchName?: string | undefined;
   /** Optional. Can be used to deepen the commit history of shallow clones. Git documentation: https://git-scm.com/docs/git-fetch#Documentation/git-fetch.txt---deependepth */
-  deepen?: number;
+  deepen?: number | undefined;
 }
 export interface SyncWorkspaceRefsProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace resource name. Format: projects/{project}/locations/{location}/repositories/{repository}/workspaces/{workspace} */
   name: string;
   /** Request body */
-  body?: SyncWorkspaceRefsRequest;
+  body?: SyncWorkspaceRefsRequest | undefined;
 }
 /** `SyncWorkspaceRefs` response message. */
 export interface SyncWorkspaceRefsResponse {}
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsFoldersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsTeamFoldersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UpdateConfigProjectsLocationsRequest {
   /** Identifier. The config name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the config. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Config;
+  body?: Config | undefined;
 }
 /** `WriteFile` request message. */
 export interface WriteFileRequest {
   /** Required. The file's contents. */
-  contents?: string;
+  contents?: string | undefined;
   /** Required. The file. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface WriteFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
   /** Request body */
-  body?: WriteFileRequest;
+  body?: WriteFileRequest | undefined;
 }
 /** `WriteFile` response message. */
 export interface WriteFileResponse {}

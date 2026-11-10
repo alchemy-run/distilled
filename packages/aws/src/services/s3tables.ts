@@ -157,10 +157,10 @@ export interface CreateNamespaceResponse {
 export type TableName = string;
 export type OpenTableFormat = "ICEBERG" | (string & {});
 export interface SchemaField {
-  id?: number;
+  id?: number | undefined;
   name: string;
   type: string;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type SchemaFieldList = SchemaField[];
 export interface IcebergSchema {
@@ -172,26 +172,26 @@ export interface SchemaV2Field {
   name: string;
   type: any;
   required: boolean;
-  doc?: string;
+  doc?: string | undefined;
 }
 export type SchemaV2FieldList = SchemaV2Field[];
 export type IntegerList = number[];
 export interface IcebergSchemaV2 {
   type: SchemaV2FieldType;
   fields: SchemaV2Field[];
-  schemaId?: number;
-  identifierFieldIds?: number[];
+  schemaId?: number | undefined;
+  identifierFieldIds?: number[] | undefined;
 }
 export interface IcebergPartitionField {
   sourceId: number;
   transform: string;
   name: string;
-  fieldId?: number;
+  fieldId?: number | undefined;
 }
 export type IcebergPartitionFieldList = IcebergPartitionField[];
 export interface IcebergPartitionSpec {
   fields: IcebergPartitionField[];
-  specId?: number;
+  specId?: number | undefined;
 }
 export type IcebergSortDirection = "asc" | "desc" | (string & {});
 export type IcebergNullOrder = "nulls-first" | "nulls-last" | (string & {});
@@ -208,17 +208,17 @@ export interface IcebergSortOrder {
 }
 export type TableProperties = { [key: string]: string | undefined };
 export interface IcebergMetadata {
-  schema?: IcebergSchema;
-  schemaV2?: IcebergSchemaV2;
-  partitionSpec?: IcebergPartitionSpec;
-  writeOrder?: IcebergSortOrder;
-  properties?: { [key: string]: string | undefined };
+  schema?: IcebergSchema | undefined;
+  schemaV2?: IcebergSchemaV2 | undefined;
+  partitionSpec?: IcebergPartitionSpec | undefined;
+  writeOrder?: IcebergSortOrder | undefined;
+  properties?: { [key: string]: string | undefined } | undefined;
 }
 export type TableMetadata = { iceberg: IcebergMetadata };
 export type SSEAlgorithm = "AES256" | "aws:kms" | (string & {});
 export interface EncryptionConfiguration {
   sseAlgorithm: SSEAlgorithm;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export type StorageClass = "STANDARD" | "INTELLIGENT_TIERING" | (string & {});
 export interface StorageClassConfiguration {
@@ -232,10 +232,10 @@ export interface CreateTableRequest {
   namespace: string;
   name: string;
   format: OpenTableFormat;
-  metadata?: TableMetadata;
-  encryptionConfiguration?: EncryptionConfiguration;
-  storageClassConfiguration?: StorageClassConfiguration;
-  tags?: { [key: string]: string | undefined };
+  metadata?: TableMetadata | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  storageClassConfiguration?: StorageClassConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VersionToken = string;
 export interface CreateTableResponse {
@@ -245,9 +245,9 @@ export interface CreateTableResponse {
 export type TableBucketName = string;
 export interface CreateTableBucketRequest {
   name: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  storageClassConfiguration?: StorageClassConfiguration;
-  tags?: { [key: string]: string | undefined };
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  storageClassConfiguration?: StorageClassConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTableBucketResponse {
   arn: string;
@@ -261,7 +261,7 @@ export interface DeleteTableRequest {
   tableBucketARN: string;
   namespace: string;
   name: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
 }
 export interface DeleteTableResponse {}
 export interface DeleteTableBucketRequest {
@@ -282,7 +282,7 @@ export interface DeleteTableBucketPolicyRequest {
 export interface DeleteTableBucketPolicyResponse {}
 export interface DeleteTableBucketReplicationRequest {
   tableBucketARN: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
 }
 export interface DeleteTableBucketReplicationResponse {}
 export interface DeleteTablePolicyRequest {
@@ -308,14 +308,14 @@ export interface GetNamespaceResponse {
   createdAt: Date;
   createdBy: string;
   ownerAccountId: string;
-  namespaceId?: string;
-  tableBucketId?: string;
+  namespaceId?: string | undefined;
+  tableBucketId?: string | undefined;
 }
 export interface GetTableRequest {
-  tableBucketARN?: string;
-  namespace?: string;
-  name?: string;
-  tableArn?: string;
+  tableBucketARN?: string | undefined;
+  namespace?: string | undefined;
+  name?: string | undefined;
+  tableArn?: string | undefined;
 }
 export type TableType = "customer" | "aws" | (string & {});
 export type MetadataLocation = string;
@@ -324,26 +324,26 @@ export interface ReplicationInformation {
   sourceTableARN: string;
 }
 export interface ManagedTableInformation {
-  replicationInformation?: ReplicationInformation;
+  replicationInformation?: ReplicationInformation | undefined;
 }
 export interface GetTableResponse {
   name: string;
   type: TableType;
   tableARN: string;
   namespace: string[];
-  namespaceId?: string;
+  namespaceId?: string | undefined;
   versionToken: string;
-  metadataLocation?: string;
+  metadataLocation?: string | undefined;
   warehouseLocation: string;
   createdAt: Date;
   createdBy: string;
-  managedByService?: string;
+  managedByService?: string | undefined;
   modifiedAt: Date;
-  modifiedBy?: string;
+  modifiedBy?: string | undefined;
   ownerAccountId: string;
   format: OpenTableFormat;
-  tableBucketId?: string;
-  managedTableInformation?: ManagedTableInformation;
+  tableBucketId?: string | undefined;
+  managedTableInformation?: ManagedTableInformation | undefined;
 }
 export interface GetTableBucketRequest {
   tableBucketARN: string;
@@ -354,8 +354,8 @@ export interface GetTableBucketResponse {
   name: string;
   ownerAccountId: string;
   createdAt: Date;
-  tableBucketId?: string;
-  type?: TableBucketType;
+  tableBucketId?: string | undefined;
+  type?: TableBucketType | undefined;
 }
 export interface GetTableBucketEncryptionRequest {
   tableBucketARN: string;
@@ -370,18 +370,18 @@ export type TableBucketMaintenanceType = "icebergUnreferencedFileRemoval" | (str
 export type MaintenanceStatus = "enabled" | "disabled" | (string & {});
 export type PositiveInteger = number;
 export interface IcebergUnreferencedFileRemovalSettings {
-  unreferencedDays?: number;
-  nonCurrentDays?: number;
+  unreferencedDays?: number | undefined;
+  nonCurrentDays?: number | undefined;
 }
 export type TableBucketMaintenanceSettings = {
   icebergUnreferencedFileRemoval: IcebergUnreferencedFileRemovalSettings;
 };
 export interface TableBucketMaintenanceConfigurationValue {
-  status?: MaintenanceStatus;
-  settings?: TableBucketMaintenanceSettings;
+  status?: MaintenanceStatus | undefined;
+  settings?: TableBucketMaintenanceSettings | undefined;
 }
 export type TableBucketMaintenanceConfiguration = {
-  [key in TableBucketMaintenanceType]?: TableBucketMaintenanceConfigurationValue;
+  [key in TableBucketMaintenanceType]?: TableBucketMaintenanceConfigurationValue | undefined;
 };
 export interface GetTableBucketMaintenanceConfigurationResponse {
   tableBucketARN: string;
@@ -392,7 +392,7 @@ export interface GetTableBucketMetricsConfigurationRequest {
 }
 export interface GetTableBucketMetricsConfigurationResponse {
   tableBucketARN: string;
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetTableBucketPolicyRequest {
   tableBucketARN: string;
@@ -446,22 +446,22 @@ export type TableMaintenanceType =
   | (string & {});
 export type IcebergCompactionStrategy = "auto" | "binpack" | "sort" | "z-order" | (string & {});
 export interface IcebergCompactionSettings {
-  targetFileSizeMB?: number;
-  strategy?: IcebergCompactionStrategy;
+  targetFileSizeMB?: number | undefined;
+  strategy?: IcebergCompactionStrategy | undefined;
 }
 export interface IcebergSnapshotManagementSettings {
-  minSnapshotsToKeep?: number;
-  maxSnapshotAgeHours?: number;
+  minSnapshotsToKeep?: number | undefined;
+  maxSnapshotAgeHours?: number | undefined;
 }
 export type TableMaintenanceSettings =
-  | { icebergCompaction: IcebergCompactionSettings; icebergSnapshotManagement?: never }
-  | { icebergCompaction?: never; icebergSnapshotManagement: IcebergSnapshotManagementSettings };
+  | { icebergCompaction: IcebergCompactionSettings; icebergSnapshotManagement?: undefined }
+  | { icebergCompaction?: undefined; icebergSnapshotManagement: IcebergSnapshotManagementSettings };
 export interface TableMaintenanceConfigurationValue {
-  status?: MaintenanceStatus;
-  settings?: TableMaintenanceSettings;
+  status?: MaintenanceStatus | undefined;
+  settings?: TableMaintenanceSettings | undefined;
 }
 export type TableMaintenanceConfiguration = {
-  [key in TableMaintenanceType]?: TableMaintenanceConfigurationValue;
+  [key in TableMaintenanceType]?: TableMaintenanceConfigurationValue | undefined;
 };
 export interface GetTableMaintenanceConfigurationResponse {
   tableARN: string;
@@ -480,11 +480,11 @@ export type TableMaintenanceJobType =
 export type JobStatus = "Not_Yet_Run" | "Successful" | "Failed" | "Disabled" | (string & {});
 export interface TableMaintenanceJobStatusValue {
   status: JobStatus;
-  lastRunTimestamp?: Date;
-  failureMessage?: string;
+  lastRunTimestamp?: Date | undefined;
+  failureMessage?: string | undefined;
 }
 export type TableMaintenanceJobStatus = {
-  [key in TableMaintenanceJobType]?: TableMaintenanceJobStatusValue;
+  [key in TableMaintenanceJobType]?: TableMaintenanceJobStatusValue | undefined;
 };
 export interface GetTableMaintenanceJobStatusResponse {
   tableARN: string;
@@ -497,13 +497,13 @@ export interface GetTableMetadataLocationRequest {
 }
 export interface GetTableMetadataLocationResponse {
   versionToken: string;
-  metadataLocation?: string;
+  metadataLocation?: string | undefined;
   warehouseLocation: string;
 }
 export type MigrationId = string;
 export interface GetTableMigrationRequest {
-  migrationId?: string;
-  tableARN?: string;
+  migrationId?: string | undefined;
+  tableARN?: string | undefined;
 }
 export type MigrationType = "start" | "sync" | (string & {});
 export type MigrationState =
@@ -533,17 +533,17 @@ export type MigrationFailureCode =
 export type MigrationFailureDetail = string;
 export interface MigrationFailureReason {
   code: MigrationFailureCode;
-  detail?: string;
+  detail?: string | undefined;
 }
 export interface PlanningStats {
-  objectsScanned?: number;
-  objectsPlanned?: number;
-  partitionCount?: number;
+  objectsScanned?: number | undefined;
+  objectsPlanned?: number | undefined;
+  partitionCount?: number | undefined;
 }
 export interface MigrationStats {
-  objectsMigrated?: number;
-  objectsFailedMigration?: number;
-  objectsPendingMigration?: number;
+  objectsMigrated?: number | undefined;
+  objectsFailedMigration?: number | undefined;
+  objectsPendingMigration?: number | undefined;
 }
 export type MigrationSourceType = "glueTable" | (string & {});
 export interface GlueTableSource {
@@ -554,23 +554,23 @@ export interface GlueTableSource {
 export type SourceConfiguration = { glueTable: GlueTableSource };
 export type MigrationTargetFileSizeMB = number;
 export interface MigrationCompactionSettings {
-  targetFileSizeMB?: number;
-  strategy?: IcebergCompactionStrategy;
+  targetFileSizeMB?: number | undefined;
+  strategy?: IcebergCompactionStrategy | undefined;
 }
 export type MigrationMinSnapshotsToKeep = number;
 export interface MigrationSnapshotManagementSettings {
-  minSnapshotsToKeep?: number;
-  maxSnapshotAgeHours?: number;
+  minSnapshotsToKeep?: number | undefined;
+  maxSnapshotAgeHours?: number | undefined;
 }
 export interface MaintenanceSettings {
-  icebergCompaction?: MigrationCompactionSettings;
-  icebergSnapshotManagement?: MigrationSnapshotManagementSettings;
+  icebergCompaction?: MigrationCompactionSettings | undefined;
+  icebergSnapshotManagement?: MigrationSnapshotManagementSettings | undefined;
 }
 export type UnmatchedSourceFieldsPolicy = "fail" | "drop" | (string & {});
 export type IncompatibleValuesPolicy = "fail" | "setNull" | (string & {});
 export interface MigrationPolicies {
-  unmatchedSourceFieldsPolicy?: UnmatchedSourceFieldsPolicy;
-  incompatibleValuesPolicy?: IncompatibleValuesPolicy;
+  unmatchedSourceFieldsPolicy?: UnmatchedSourceFieldsPolicy | undefined;
+  incompatibleValuesPolicy?: IncompatibleValuesPolicy | undefined;
 }
 export interface DataMigrationOverview {
   maintenanceSettings: MaintenanceSettings;
@@ -581,12 +581,12 @@ export type MigrationReportPrefix = string;
 export type ReportObjectKey = string;
 export type ChecksumCRC64NVME = string;
 export type FindingCategory = "access" | "metadata" | "data" | "internal" | (string & {});
-export type FindingCategoryCounts = { [key in FindingCategory]?: number };
+export type FindingCategoryCounts = { [key in FindingCategory]?: number | undefined };
 export interface ReportOverview {
-  prefix?: string;
-  key?: string;
-  checksumCRC64NVME?: string;
-  invalidFindings?: { [key: string]: number | undefined };
+  prefix?: string | undefined;
+  key?: string | undefined;
+  checksumCRC64NVME?: string | undefined;
+  invalidFindings?: { [key: string]: number | undefined } | undefined;
 }
 export interface MigrationOutputOverview {
   bucket: string;
@@ -598,18 +598,18 @@ export interface GetTableMigrationResponse {
   migrationId: string;
   tableBucketARN: string;
   namespace: string;
-  tableARN?: string;
+  tableARN?: string | undefined;
   name: string;
   type: MigrationType;
   state: MigrationState;
   roleARN: string;
   reviewMigrationPlan: boolean;
-  hasValidPlan?: boolean;
+  hasValidPlan?: boolean | undefined;
   createdAt: Date;
   stateUpdatedAt: Date;
-  failureReason?: MigrationFailureReason;
-  planningStats?: PlanningStats;
-  migrationStats?: MigrationStats;
+  failureReason?: MigrationFailureReason | undefined;
+  planningStats?: PlanningStats | undefined;
+  migrationStats?: MigrationStats | undefined;
   sourceType: MigrationSourceType;
   source: SourceConfiguration;
   dataMigration: DataMigrationOverview;
@@ -628,11 +628,11 @@ export interface GetTableRecordExpirationConfigurationRequest {
 }
 export type TableRecordExpirationStatus = "enabled" | "disabled" | (string & {});
 export interface TableRecordExpirationSettings {
-  days?: number;
+  days?: number | undefined;
 }
 export interface TableRecordExpirationConfigurationValue {
-  status?: TableRecordExpirationStatus;
-  settings?: TableRecordExpirationSettings;
+  status?: TableRecordExpirationStatus | undefined;
+  settings?: TableRecordExpirationSettings | undefined;
 }
 export interface GetTableRecordExpirationConfigurationResponse {
   configuration: TableRecordExpirationConfigurationValue;
@@ -647,15 +647,15 @@ export type TableRecordExpirationJobStatus =
   | "Disabled"
   | (string & {});
 export interface TableRecordExpirationJobMetrics {
-  deletedDataFiles?: number;
-  deletedRecords?: number;
-  removedFilesSize?: number;
+  deletedDataFiles?: number | undefined;
+  deletedRecords?: number | undefined;
+  removedFilesSize?: number | undefined;
 }
 export interface GetTableRecordExpirationJobStatusResponse {
   status: TableRecordExpirationJobStatus;
-  lastRunTimestamp?: Date;
-  failureMessage?: string;
-  metrics?: TableRecordExpirationJobMetrics;
+  lastRunTimestamp?: Date | undefined;
+  failureMessage?: string | undefined;
+  metrics?: TableRecordExpirationJobMetrics | undefined;
 }
 export interface GetTableReplicationRequest {
   tableArn: string;
@@ -683,9 +683,9 @@ export interface LastSuccessfulReplicatedUpdate {
 export interface ReplicationDestinationStatusModel {
   replicationStatus: ReplicationStatus;
   destinationTableBucketArn: string;
-  destinationTableArn?: string;
-  lastSuccessfulReplicatedUpdate?: LastSuccessfulReplicatedUpdate;
-  failureMessage?: string;
+  destinationTableArn?: string | undefined;
+  lastSuccessfulReplicatedUpdate?: LastSuccessfulReplicatedUpdate | undefined;
+  failureMessage?: string | undefined;
 }
 export type ReplicationDestinationStatuses = ReplicationDestinationStatusModel[];
 export interface GetTableReplicationStatusResponse {
@@ -704,78 +704,78 @@ export type NextToken = string;
 export type ListNamespacesLimit = number;
 export interface ListNamespacesRequest {
   tableBucketARN: string;
-  prefix?: string;
-  continuationToken?: string;
-  maxNamespaces?: number;
+  prefix?: string | undefined;
+  continuationToken?: string | undefined;
+  maxNamespaces?: number | undefined;
 }
 export interface NamespaceSummary {
   namespace: string[];
   createdAt: Date;
   createdBy: string;
   ownerAccountId: string;
-  namespaceId?: string;
-  tableBucketId?: string;
+  namespaceId?: string | undefined;
+  tableBucketId?: string | undefined;
 }
 export type NamespaceSummaryList = NamespaceSummary[];
 export interface ListNamespacesResponse {
   namespaces: NamespaceSummary[];
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export type ListTableBucketsLimit = number;
 export interface ListTableBucketsRequest {
-  prefix?: string;
-  continuationToken?: string;
-  maxBuckets?: number;
-  type?: TableBucketType;
+  prefix?: string | undefined;
+  continuationToken?: string | undefined;
+  maxBuckets?: number | undefined;
+  type?: TableBucketType | undefined;
 }
 export interface TableBucketSummary {
   arn: string;
   name: string;
   ownerAccountId: string;
   createdAt: Date;
-  tableBucketId?: string;
-  type?: TableBucketType;
+  tableBucketId?: string | undefined;
+  type?: TableBucketType | undefined;
 }
 export type TableBucketSummaryList = TableBucketSummary[];
 export interface ListTableBucketsResponse {
   tableBuckets: TableBucketSummary[];
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export type ListTableMigrationsLimit = number;
 export interface ListTableMigrationsRequest {
-  tableBucketARN?: string;
-  namespace?: string;
-  name?: string;
-  tableARN?: string;
-  state?: MigrationState;
-  hasValidPlan?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  tableBucketARN?: string | undefined;
+  namespace?: string | undefined;
+  name?: string | undefined;
+  tableARN?: string | undefined;
+  state?: MigrationState | undefined;
+  hasValidPlan?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MigrationSummary {
   migrationId: string;
   tableBucketARN: string;
   namespace: string;
-  tableARN?: string;
+  tableARN?: string | undefined;
   name: string;
   type: MigrationType;
   state: MigrationState;
-  hasValidPlan?: boolean;
+  hasValidPlan?: boolean | undefined;
   createdAt: Date;
   stateUpdatedAt: Date;
 }
 export type MigrationSummaryList = MigrationSummary[];
 export interface ListTableMigrationsResponse {
   migrations: MigrationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListTablesLimit = number;
 export interface ListTablesRequest {
   tableBucketARN: string;
-  namespace?: string;
-  prefix?: string;
-  continuationToken?: string;
-  maxTables?: number;
+  namespace?: string | undefined;
+  prefix?: string | undefined;
+  continuationToken?: string | undefined;
+  maxTables?: number | undefined;
 }
 export interface TableSummary {
   namespace: string[];
@@ -784,21 +784,21 @@ export interface TableSummary {
   tableARN: string;
   createdAt: Date;
   modifiedAt: Date;
-  managedByService?: string;
-  namespaceId?: string;
-  tableBucketId?: string;
+  managedByService?: string | undefined;
+  namespaceId?: string | undefined;
+  tableBucketId?: string | undefined;
 }
 export type TableSummaryList = TableSummary[];
 export interface ListTablesResponse {
   tables: TableSummary[];
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutTableBucketEncryptionRequest {
   tableBucketARN: string;
@@ -822,7 +822,7 @@ export interface PutTableBucketPolicyRequest {
 export interface PutTableBucketPolicyResponse {}
 export interface PutTableBucketReplicationRequest {
   tableBucketARN: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
   configuration: TableBucketReplicationConfiguration;
 }
 export interface PutTableBucketReplicationResponse {
@@ -856,7 +856,7 @@ export interface PutTableRecordExpirationConfigurationRequest {
 export interface PutTableRecordExpirationConfigurationResponse {}
 export interface PutTableReplicationRequest {
   tableArn: string;
-  versionToken?: string;
+  versionToken?: string | undefined;
   configuration: TableReplicationConfiguration;
 }
 export interface PutTableReplicationResponse {
@@ -867,50 +867,50 @@ export interface RenameTableRequest {
   tableBucketARN: string;
   namespace: string;
   name: string;
-  newNamespaceName?: string;
-  newName?: string;
-  versionToken?: string;
+  newNamespaceName?: string | undefined;
+  newName?: string | undefined;
+  versionToken?: string | undefined;
 }
 export interface RenameTableResponse {}
 export type DataFileFormat = "parquet" | (string & {});
 export type CompressionCodec = "zstd" | "snappy" | "gzip" | "uncompressed" | (string & {});
 export interface MigrationTableProperties {
-  writeFormat?: DataFileFormat;
-  icebergFormatVersion?: number;
-  compressionCodec?: CompressionCodec;
-  dictionaryEncoding?: boolean;
+  writeFormat?: DataFileFormat | undefined;
+  icebergFormatVersion?: number | undefined;
+  compressionCodec?: CompressionCodec | undefined;
+  dictionaryEncoding?: boolean | undefined;
 }
 export interface DestinationTable {
   tableBucketARN: string;
   namespace: string;
   name: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  storageClassConfiguration?: StorageClassConfiguration;
-  tags?: { [key: string]: string | undefined };
-  properties?: MigrationTableProperties;
-  schema?: IcebergSchemaV2;
-  icebergSortOrder?: IcebergSortOrder;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  storageClassConfiguration?: StorageClassConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  properties?: MigrationTableProperties | undefined;
+  schema?: IcebergSchemaV2 | undefined;
+  icebergSortOrder?: IcebergSortOrder | undefined;
 }
 export interface DataMigrationSettings {
-  maintenanceSettings?: MaintenanceSettings;
-  migrationPolicies?: MigrationPolicies;
+  maintenanceSettings?: MaintenanceSettings | undefined;
+  migrationPolicies?: MigrationPolicies | undefined;
 }
 export interface MigrationReportPrefixes {
-  tableCompatibilityReport?: string;
-  objectCompatibilityReport?: string;
-  objectMigrationReport?: string;
+  tableCompatibilityReport?: string | undefined;
+  objectCompatibilityReport?: string | undefined;
+  objectMigrationReport?: string | undefined;
 }
 export interface MigrationOutputConfiguration {
   bucket: string;
-  prefixes?: MigrationReportPrefixes;
+  prefixes?: MigrationReportPrefixes | undefined;
 }
 export interface StartTableMigrationRequest {
   roleARN: string;
   destinationTable: DestinationTable;
   sourceType: MigrationSourceType;
   source: SourceConfiguration;
-  dataMigration?: DataMigrationSettings;
-  reviewMigrationPlan?: boolean;
+  dataMigration?: DataMigrationSettings | undefined;
+  reviewMigrationPlan?: boolean | undefined;
   migrationOutput: MigrationOutputConfiguration;
 }
 export interface StartTableMigrationResponse {
@@ -920,7 +920,7 @@ export interface StartTableMigrationResponse {
 export interface SyncTableMigrationRequest {
   roleARN: string;
   tableARN: string;
-  reviewMigrationPlan?: boolean;
+  reviewMigrationPlan?: boolean | undefined;
   migrationOutput: MigrationOutputConfiguration;
 }
 export interface SyncTableMigrationResponse {
@@ -954,15 +954,15 @@ export interface UpdateTableMetadataLocationResponse {
 }
 export type MigrationRequestedState = "queued" | "cancelled" | (string & {});
 export interface UpdateTableMigrationRequest {
-  tableARN?: string;
-  migrationId?: string;
+  tableARN?: string | undefined;
+  migrationId?: string | undefined;
   requestedState: MigrationRequestedState;
-  updateDescription?: string;
+  updateDescription?: string | undefined;
 }
 export interface UpdateTableMigrationResponse {
   migrationId: string;
   state: MigrationState;
-  tableARN?: string;
+  tableARN?: string | undefined;
 }
 export type ErrorMessage = string;
 export type CompleteTableMigrationError =

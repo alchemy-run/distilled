@@ -263,9 +263,9 @@ export type AddressMapsCreateRequestIpsList = Array<string>;
 export type AddressMapsCreateRequestMembershipsItemKind = "zone" | "account";
 export interface AddressMapsCreateRequestMembershipsItem {
   /** The identifier for the membership (eg. a zone or account tag). */
-  identifier?: string;
+  identifier?: string | undefined;
   /** The type of the membership. */
-  kind?: AddressMapsCreateRequestMembershipsItemKind | (string & {});
+  kind?: AddressMapsCreateRequestMembershipsItemKind | (string & {}) | undefined;
 }
 export type AddressMapsCreateRequestMembershipsList =
   Array<AddressMapsCreateRequestMembershipsItem>;
@@ -273,51 +273,51 @@ export interface CreateAddressMapRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
   /** An optional description field which may be used to describe the types of IPs or zones on the map. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
-  enabled?: boolean;
-  ips?: AddressMapsCreateRequestIpsList;
+  enabled?: boolean | undefined;
+  ips?: AddressMapsCreateRequestIpsList | undefined;
   /** Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
-  memberships?: AddressMapsCreateRequestMembershipsList;
+  memberships?: AddressMapsCreateRequestMembershipsList | undefined;
 }
 export interface AddressMapsCreateResponseIps {
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** An IPv4 or IPv6 address. */
-  ip?: string | null;
+  ip?: string | null | undefined;
 }
 export type AddressMapsCreateResponseIpsList = Array<AddressMapsCreateResponseIps>;
 export type AddressMapsCreateResponseMembershipsItemKind = "zone" | "account";
 export interface AddressMapsCreateResponseMembershipsItem {
   /** Controls whether the membership can be deleted via the API or not. */
-  canDelete?: boolean | null;
-  createdAt?: string | null;
+  canDelete?: boolean | null | undefined;
+  createdAt?: string | null | undefined;
   /** The identifier for the membership (eg. a zone or account tag). */
-  identifier?: string | null;
+  identifier?: string | null | undefined;
   /** The type of the membership. */
-  kind?: AddressMapsCreateResponseMembershipsItemKind | null;
+  kind?: AddressMapsCreateResponseMembershipsItemKind | null | undefined;
 }
 export type AddressMapsCreateResponseMembershipsList =
   Array<AddressMapsCreateResponseMembershipsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAddressMapResponse {
   /** Identifier of an Address Map. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps. */
-  canDelete?: boolean | null;
+  canDelete?: boolean | null | undefined;
   /** If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps. */
-  canModifyIps?: boolean | null;
-  createdAt?: string | null;
+  canModifyIps?: boolean | null | undefined;
+  createdAt?: string | null | undefined;
   /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account. */
-  defaultSni?: string | null;
+  defaultSni?: string | null | undefined;
   /** An optional description field which may be used to describe the types of IPs or zones on the map. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The set of IPs on the Address Map. */
-  ips?: AddressMapsCreateResponseIpsList | null;
+  ips?: AddressMapsCreateResponseIpsList | null | undefined;
   /** Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
-  memberships?: AddressMapsCreateResponseMembershipsList | null;
-  modifiedAt?: string | null;
+  memberships?: AddressMapsCreateResponseMembershipsList | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface CreateLoaDocumentRequest {
   /** Identifier of a Cloudflare account. */
@@ -328,20 +328,20 @@ export interface CreateLoaDocumentRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateLoaDocumentResponse {
   /** Identifier for the uploaded LOA document. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Identifier of a Cloudflare account. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
   /** Whether the LOA has been auto-generated for the prefix owner by Cloudflare. */
-  autoGenerated?: boolean | null;
-  created?: string | null;
+  autoGenerated?: boolean | null | undefined;
+  created?: string | null | undefined;
   /** Name of LOA document. Max file size 10MB, and supported filetype is pdf. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** File size of the uploaded LOA document. */
-  sizeBytes?: number | null;
+  sizeBytes?: number | null | undefined;
   /** Whether the LOA has been verified by Cloudflare staff. */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
   /** Timestamp of the moment the LOA was marked as validated. */
-  verifiedAt?: string | null;
+  verifiedAt?: string | null | undefined;
 }
 export interface CreatePrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -351,11 +351,11 @@ export interface CreatePrefixRequest {
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr: string;
   /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
-  delegateLoaCreation?: boolean;
+  delegateLoaCreation?: boolean | undefined;
   /** Description of the prefix. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier for the uploaded LOA document. */
-  loaDocumentId?: string;
+  loaDocumentId?: string | undefined;
 }
 export type PrefixesCreateResponseAsnOwnershipValidationState =
   | "pending"
@@ -366,43 +366,46 @@ export type PrefixesCreateResponseAspaValidationState = "pending" | "valid" | "i
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePrefixResponse {
   /** Identifier of an IP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Identifier of a Cloudflare account. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
   /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
-  approved?: string | null;
+  approved?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
-  asnOwnershipValidationState?: PrefixesCreateResponseAsnOwnershipValidationState | null;
+  asnOwnershipValidationState?:
+    | PrefixesCreateResponseAsnOwnershipValidationState
+    | null
+    | undefined;
   /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
-  aspaValidationState?: PrefixesCreateResponseAspaValidationState | null;
+  aspaValidationState?: PrefixesCreateResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
-  delegateLoaCreation?: boolean | null;
+  delegateLoaCreation?: boolean | null | undefined;
   /** Description of the prefix. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  irrValidationState?: string | null;
+  irrValidationState?: string | null | undefined;
   /** Identifier for the uploaded LOA document. */
-  loaDocumentId?: string | null;
-  modifiedAt?: string | null;
+  loaDocumentId?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandEnabled?: boolean | null;
+  onDemandEnabled?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandLocked?: boolean | null;
+  onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  ownershipValidationState?: string | null;
+  ownershipValidationState?: string | null | undefined;
   /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
-  ownershipValidationToken?: string | null;
+  ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  rpkiValidationState?: string | null;
+  rpkiValidationState?: string | null | undefined;
 }
 export interface CreatePrefixBgpPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -414,36 +417,36 @@ export interface CreatePrefixBgpPrefixRequest {
 }
 export interface PrefixesBgpPrefixesCreateResponseBgpSignalOpts {
   /** Whether control of advertisement of the prefix to the Internet is enabled to be performed via BGP signal */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Last time BGP signaling control was toggled. This field is null if BGP signaling has never been enabled. */
-  modifiedAt?: string | null;
+  modifiedAt?: string | null | undefined;
 }
 export interface PrefixesBgpPrefixesCreateResponseOnDemand {
   /** Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
   /** Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled. */
-  onDemandEnabled?: boolean | null;
+  onDemandEnabled?: boolean | null | undefined;
   /** Whether the advertisement status of the prefix is locked, meaning it cannot be changed. */
-  onDemandLocked?: boolean | null;
+  onDemandLocked?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePrefixBgpPrefixResponse {
   /** Identifier of BGP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
-  asnPrependCount?: number | null;
+  asnPrependCount?: number | null | undefined;
   /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route. */
-  autoAdvertiseWithdraw?: boolean | null;
-  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null;
+  autoAdvertiseWithdraw?: boolean | null | undefined;
+  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
-  modifiedAt?: string | null;
-  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
+  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null | undefined;
 }
 export interface CreatePrefixDelegationRequest {
   /** Identifier of a Cloudflare account. */
@@ -458,15 +461,15 @@ export interface CreatePrefixDelegationRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePrefixDelegationResponse {
   /** Identifier of a Delegation. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Account identifier for the account to which prefix is being delegated. */
-  delegatedAccountId?: string | null;
-  modifiedAt?: string | null;
+  delegatedAccountId?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Identifier of an IP Prefix. */
-  parentPrefixId?: string | null;
+  parentPrefixId?: string | null | undefined;
 }
 export interface CreatePrefixServiceBindingRequest {
   /** Identifier of a Cloudflare account. */
@@ -484,20 +487,20 @@ export type PrefixesServiceBindingsCreateResponseProvisioningState =
   | "magic_transit_route_missing";
 export interface PrefixesServiceBindingsCreateResponseProvisioning {
   /** When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service. */
-  state?: PrefixesServiceBindingsCreateResponseProvisioningState | null;
+  state?: PrefixesServiceBindingsCreateResponseProvisioningState | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePrefixServiceBindingResponse {
   /** Identifier of a Service Binding. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
+  cidr?: string | null | undefined;
   /** Status of a Service Binding's deployment to the Cloudflare network */
-  provisioning?: PrefixesServiceBindingsCreateResponseProvisioning | null;
+  provisioning?: PrefixesServiceBindingsCreateResponseProvisioning | null | undefined;
   /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
-  serviceId?: string | null;
+  serviceId?: string | null | undefined;
   /** Name of a service running on the Cloudflare network */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
 }
 export interface CreateRegionalHostnameRequest {
   /** Identifier. */
@@ -507,7 +510,7 @@ export interface CreateRegionalHostnameRequest {
   /** Identifying key for the region */
   regionKey: string;
   /** Configure which routing method to use for the regional hostname */
-  routing?: string;
+  routing?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRegionalHostnameResponse {
@@ -572,7 +575,7 @@ export interface DeletePrefixDelegationRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeletePrefixDelegationResponse {
   /** Identifier of a Delegation. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeletePrefixesBgpPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -610,34 +613,34 @@ export type AddressMapsGetResponseIpsList = Array<AddressMapsCreateResponseIps>;
 export type AddressMapsGetResponseMembershipsItemKind = "zone" | "account";
 export interface AddressMapsGetResponseMembershipsItem {
   /** Controls whether the membership can be deleted via the API or not. */
-  canDelete?: boolean | null;
-  createdAt?: string | null;
+  canDelete?: boolean | null | undefined;
+  createdAt?: string | null | undefined;
   /** The identifier for the membership (eg. a zone or account tag). */
-  identifier?: string | null;
+  identifier?: string | null | undefined;
   /** The type of the membership. */
-  kind?: AddressMapsGetResponseMembershipsItemKind | null;
+  kind?: AddressMapsGetResponseMembershipsItemKind | null | undefined;
 }
 export type AddressMapsGetResponseMembershipsList = Array<AddressMapsGetResponseMembershipsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAddressMapResponse {
   /** Identifier of an Address Map. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps. */
-  canDelete?: boolean | null;
+  canDelete?: boolean | null | undefined;
   /** If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps. */
-  canModifyIps?: boolean | null;
-  createdAt?: string | null;
+  canModifyIps?: boolean | null | undefined;
+  createdAt?: string | null | undefined;
   /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account. */
-  defaultSni?: string | null;
+  defaultSni?: string | null | undefined;
   /** An optional description field which may be used to describe the types of IPs or zones on the map. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The set of IPs on the Address Map. */
-  ips?: AddressMapsGetResponseIpsList | null;
+  ips?: AddressMapsGetResponseIpsList | null | undefined;
   /** Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
-  memberships?: AddressMapsGetResponseMembershipsList | null;
-  modifiedAt?: string | null;
+  memberships?: AddressMapsGetResponseMembershipsList | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface GetLoaDocumentRequest {
   /** Identifier of a Cloudflare account. */
@@ -661,43 +664,43 @@ export type PrefixesGetResponseAspaValidationState = "pending" | "valid" | "inva
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPrefixResponse {
   /** Identifier of an IP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Identifier of a Cloudflare account. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
   /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
-  approved?: string | null;
+  approved?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
-  asnOwnershipValidationState?: PrefixesGetResponseAsnOwnershipValidationState | null;
+  asnOwnershipValidationState?: PrefixesGetResponseAsnOwnershipValidationState | null | undefined;
   /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
-  aspaValidationState?: PrefixesGetResponseAspaValidationState | null;
+  aspaValidationState?: PrefixesGetResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
-  delegateLoaCreation?: boolean | null;
+  delegateLoaCreation?: boolean | null | undefined;
   /** Description of the prefix. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  irrValidationState?: string | null;
+  irrValidationState?: string | null | undefined;
   /** Identifier for the uploaded LOA document. */
-  loaDocumentId?: string | null;
-  modifiedAt?: string | null;
+  loaDocumentId?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandEnabled?: boolean | null;
+  onDemandEnabled?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandLocked?: boolean | null;
+  onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  ownershipValidationState?: string | null;
+  ownershipValidationState?: string | null | undefined;
   /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
-  ownershipValidationToken?: string | null;
+  ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  rpkiValidationState?: string | null;
+  rpkiValidationState?: string | null | undefined;
 }
 export interface GetPrefixAdvertisementStatusRequest {
   /** Identifier of a Cloudflare account. */
@@ -708,9 +711,9 @@ export interface GetPrefixAdvertisementStatusRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPrefixAdvertisementStatusResponse {
   /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
 }
 export interface GetPrefixBgpPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -726,19 +729,19 @@ export type PrefixesBgpPrefixesGetResponseOnDemand = PrefixesBgpPrefixesCreateRe
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPrefixBgpPrefixResponse {
   /** Identifier of BGP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
-  asnPrependCount?: number | null;
+  asnPrependCount?: number | null | undefined;
   /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route. */
-  autoAdvertiseWithdraw?: boolean | null;
-  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null;
+  autoAdvertiseWithdraw?: boolean | null | undefined;
+  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
-  modifiedAt?: string | null;
-  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
+  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null | undefined;
 }
 export interface GetPrefixServiceBindingRequest {
   /** Identifier of a Cloudflare account. */
@@ -754,20 +757,20 @@ export type PrefixesServiceBindingsGetResponseProvisioningState =
   | "magic_transit_route_missing";
 export interface PrefixesServiceBindingsGetResponseProvisioning {
   /** When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service. */
-  state?: PrefixesServiceBindingsGetResponseProvisioningState | null;
+  state?: PrefixesServiceBindingsGetResponseProvisioningState | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPrefixServiceBindingResponse {
   /** Identifier of a Service Binding. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
+  cidr?: string | null | undefined;
   /** Status of a Service Binding's deployment to the Cloudflare network */
-  provisioning?: PrefixesServiceBindingsGetResponseProvisioning | null;
+  provisioning?: PrefixesServiceBindingsGetResponseProvisioning | null | undefined;
   /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
-  serviceId?: string | null;
+  serviceId?: string | null | undefined;
   /** Name of a service running on the Cloudflare network */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
 }
 export interface GetRegionalHostnameRequest {
   /** Identifier. */
@@ -792,26 +795,26 @@ export interface ListAddressMapsRequest {
 }
 export interface AddressMapsListResultItem {
   /** Identifier of an Address Map. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps. */
-  canDelete?: boolean | null;
+  canDelete?: boolean | null | undefined;
   /** If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps. */
-  canModifyIps?: boolean | null;
-  createdAt?: string | null;
+  canModifyIps?: boolean | null | undefined;
+  createdAt?: string | null | undefined;
   /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account. */
-  defaultSni?: string | null;
+  defaultSni?: string | null | undefined;
   /** An optional description field which may be used to describe the types of IPs or zones on the map. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
-  enabled?: boolean | null;
-  modifiedAt?: string | null;
+  enabled?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export type AddressMapsListResultList = Array<AddressMapsListResultItem>;
 export interface ListAddressMapsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AddressMapsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixBgpPrefixesRequest {
   /** Identifier of a Cloudflare account. */
@@ -824,26 +827,26 @@ export type PrefixesBgpPrefixesListResultItemBgpSignalOpts =
 export type PrefixesBgpPrefixesListResultItemOnDemand = PrefixesBgpPrefixesCreateResponseOnDemand;
 export interface PrefixesBgpPrefixesListResultItem {
   /** Identifier of BGP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
-  asnPrependCount?: number | null;
+  asnPrependCount?: number | null | undefined;
   /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route. */
-  autoAdvertiseWithdraw?: boolean | null;
-  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null;
+  autoAdvertiseWithdraw?: boolean | null | undefined;
+  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
-  modifiedAt?: string | null;
-  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
+  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null | undefined;
 }
 export type PrefixesBgpPrefixesListResultList = Array<PrefixesBgpPrefixesListResultItem>;
 export interface ListPrefixBgpPrefixesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesBgpPrefixesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixDelegationsRequest {
   /** Identifier of a Cloudflare account. */
@@ -853,22 +856,22 @@ export interface ListPrefixDelegationsRequest {
 }
 export interface PrefixesDelegationsListResultItem {
   /** Identifier of a Delegation. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Account identifier for the account to which prefix is being delegated. */
-  delegatedAccountId?: string | null;
-  modifiedAt?: string | null;
+  delegatedAccountId?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Identifier of an IP Prefix. */
-  parentPrefixId?: string | null;
+  parentPrefixId?: string | null | undefined;
 }
 export type PrefixesDelegationsListResultList = Array<PrefixesDelegationsListResultItem>;
 export interface ListPrefixDelegationsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesDelegationsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixesRequest {
   /** Identifier of a Cloudflare account. */
@@ -882,50 +885,53 @@ export type PrefixesListResultItemAsnOwnershipValidationState =
 export type PrefixesListResultItemAspaValidationState = "pending" | "valid" | "invalid";
 export interface PrefixesListResultItem {
   /** Identifier of an IP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Identifier of a Cloudflare account. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
   /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
-  approved?: string | null;
+  approved?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
-  asnOwnershipValidationState?: PrefixesListResultItemAsnOwnershipValidationState | null;
+  asnOwnershipValidationState?:
+    | PrefixesListResultItemAsnOwnershipValidationState
+    | null
+    | undefined;
   /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
-  aspaValidationState?: PrefixesListResultItemAspaValidationState | null;
+  aspaValidationState?: PrefixesListResultItemAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
-  delegateLoaCreation?: boolean | null;
+  delegateLoaCreation?: boolean | null | undefined;
   /** Description of the prefix. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  irrValidationState?: string | null;
+  irrValidationState?: string | null | undefined;
   /** Identifier for the uploaded LOA document. */
-  loaDocumentId?: string | null;
-  modifiedAt?: string | null;
+  loaDocumentId?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandEnabled?: boolean | null;
+  onDemandEnabled?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandLocked?: boolean | null;
+  onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  ownershipValidationState?: string | null;
+  ownershipValidationState?: string | null | undefined;
   /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
-  ownershipValidationToken?: string | null;
+  ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  rpkiValidationState?: string | null;
+  rpkiValidationState?: string | null | undefined;
 }
 export type PrefixesListResultList = Array<PrefixesListResultItem>;
 export interface ListPrefixesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPrefixServiceBindingsRequest {
   /** Identifier of a Cloudflare account. */
@@ -939,26 +945,26 @@ export type PrefixesServiceBindingsListResultItemProvisioningState =
   | "magic_transit_route_missing";
 export interface PrefixesServiceBindingsListResultItemProvisioning {
   /** When a binding has been deployed to a majority of Cloudflare datacenters, the binding will become active and can be used with its associated service. */
-  state?: PrefixesServiceBindingsListResultItemProvisioningState | null;
+  state?: PrefixesServiceBindingsListResultItemProvisioningState | null | undefined;
 }
 export interface PrefixesServiceBindingsListResultItem {
   /** Identifier of a Service Binding. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
+  cidr?: string | null | undefined;
   /** Status of a Service Binding's deployment to the Cloudflare network */
-  provisioning?: PrefixesServiceBindingsListResultItemProvisioning | null;
+  provisioning?: PrefixesServiceBindingsListResultItemProvisioning | null | undefined;
   /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
-  serviceId?: string | null;
+  serviceId?: string | null | undefined;
   /** Name of a service running on the Cloudflare network */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
 }
 export type PrefixesServiceBindingsListResultList = Array<PrefixesServiceBindingsListResultItem>;
 export interface ListPrefixServiceBindingsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PrefixesServiceBindingsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRegionalHostnameRegionsRequest {
   /** Identifier. */
@@ -966,16 +972,16 @@ export interface ListRegionalHostnameRegionsRequest {
 }
 export interface RegionalHostnamesRegionsListResultItem {
   /** Identifying key for the region */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Human-readable text label for the region */
-  label?: string | null;
+  label?: string | null | undefined;
 }
 export type RegionalHostnamesRegionsListResultList = Array<RegionalHostnamesRegionsListResultItem>;
 export interface ListRegionalHostnameRegionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RegionalHostnamesRegionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRegionalHostnamesRequest {
   /** Identifier. */
@@ -996,7 +1002,7 @@ export interface ListRegionalHostnamesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RegionalHostnamesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListServicesRequest {
   /** Identifier of a Cloudflare account. */
@@ -1004,16 +1010,16 @@ export interface ListServicesRequest {
 }
 export interface ServicesListResultItem {
   /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Name of a service running on the Cloudflare network */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ServicesListResultList = Array<ServicesListResultItem>;
 export interface ListServicesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ServicesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchAddressMapRequest {
   /** Identifier of a Cloudflare account. */
@@ -1021,28 +1027,28 @@ export interface PatchAddressMapRequest {
   /** Identifier of an Address Map. */
   addressMapId: string;
   /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account. */
-  defaultSni?: string;
+  defaultSni?: string | undefined;
   /** An optional description field which may be used to describe the types of IPs or zones on the map. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAddressMapResponse {
   /** Identifier of an Address Map. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps. */
-  canDelete?: boolean | null;
+  canDelete?: boolean | null | undefined;
   /** If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps. */
-  canModifyIps?: boolean | null;
-  createdAt?: string | null;
+  canModifyIps?: boolean | null | undefined;
+  createdAt?: string | null | undefined;
   /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it will respond with the default SNI on those IPs. The default SNI can be any valid zone or subdomain owned by the account. */
-  defaultSni?: string | null;
+  defaultSni?: string | null | undefined;
   /** An optional description field which may be used to describe the types of IPs or zones on the map. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
-  enabled?: boolean | null;
-  modifiedAt?: string | null;
+  enabled?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface PatchPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -1061,43 +1067,43 @@ export type PrefixesEditResponseAspaValidationState = "pending" | "valid" | "inv
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchPrefixResponse {
   /** Identifier of an IP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Identifier of a Cloudflare account. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
   /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
-  approved?: string | null;
+  approved?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
-  asnOwnershipValidationState?: PrefixesEditResponseAsnOwnershipValidationState | null;
+  asnOwnershipValidationState?: PrefixesEditResponseAsnOwnershipValidationState | null | undefined;
   /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
-  aspaValidationState?: PrefixesEditResponseAspaValidationState | null;
+  aspaValidationState?: PrefixesEditResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
-  delegateLoaCreation?: boolean | null;
+  delegateLoaCreation?: boolean | null | undefined;
   /** Description of the prefix. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  irrValidationState?: string | null;
+  irrValidationState?: string | null | undefined;
   /** Identifier for the uploaded LOA document. */
-  loaDocumentId?: string | null;
-  modifiedAt?: string | null;
+  loaDocumentId?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandEnabled?: boolean | null;
+  onDemandEnabled?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandLocked?: boolean | null;
+  onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  ownershipValidationState?: string | null;
+  ownershipValidationState?: string | null | undefined;
   /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
-  ownershipValidationToken?: string | null;
+  ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  rpkiValidationState?: string | null;
+  rpkiValidationState?: string | null | undefined;
 }
 export interface PatchPrefixAdvertisementStatusRequest {
   /** Identifier of a Cloudflare account. */
@@ -1110,12 +1116,12 @@ export interface PatchPrefixAdvertisementStatusRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchPrefixAdvertisementStatusResponse {
   /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
 }
 export interface PrefixesBgpPrefixesEditRequestOnDemand {
-  advertised?: boolean;
+  advertised?: boolean | undefined;
 }
 export interface PatchPrefixBgpPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -1125,10 +1131,10 @@ export interface PatchPrefixBgpPrefixRequest {
   /** Identifier of BGP Prefix. */
   bgpPrefixId: string;
   /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
-  asnPrependCount?: number;
+  asnPrependCount?: number | undefined;
   /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route. */
-  autoAdvertiseWithdraw?: boolean;
-  onDemand?: PrefixesBgpPrefixesEditRequestOnDemand;
+  autoAdvertiseWithdraw?: boolean | undefined;
+  onDemand?: PrefixesBgpPrefixesEditRequestOnDemand | undefined;
 }
 export type PrefixesBgpPrefixesEditResponseBgpSignalOpts =
   PrefixesBgpPrefixesCreateResponseBgpSignalOpts;
@@ -1136,19 +1142,19 @@ export type PrefixesBgpPrefixesEditResponseOnDemand = PrefixesBgpPrefixesCreateR
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchPrefixBgpPrefixResponse {
   /** Identifier of BGP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
-  asnPrependCount?: number | null;
+  asnPrependCount?: number | null | undefined;
   /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there are no matching BGP routes, and will resume advertising when there is at least one matching BGP route. */
-  autoAdvertiseWithdraw?: boolean | null;
-  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null;
+  autoAdvertiseWithdraw?: boolean | null | undefined;
+  bgpSignalOpts?: PrefixesBgpPrefixesCreateResponseBgpSignalOpts | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
-  modifiedAt?: string | null;
-  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
+  onDemand?: PrefixesBgpPrefixesCreateResponseOnDemand | null | undefined;
 }
 export interface PatchRegionalHostnameRequest {
   /** Identifier. */
@@ -1211,43 +1217,46 @@ export type ValidatePrefixResponseAspaValidationState = "pending" | "valid" | "i
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ValidatePrefixResponse {
   /** Identifier of an IP Prefix. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Identifier of a Cloudflare account. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertised?: boolean | null;
+  advertised?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  advertisedModifiedAt?: string | null;
+  advertisedModifiedAt?: string | null | undefined;
   /** Approval state of the prefix (P = pending, V = approved). Approval does not advertise the prefix or activate traffic. */
-  approved?: string | null;
+  approved?: string | null | undefined;
   /** Autonomous System Number (ASN) the prefix will be advertised under. Use 13335 for Cloudflare's ASN, or your own ASN as an integer without the AS prefix. The IRR route and RPKI ROA must authorize this ASN. */
-  asn?: number | null;
+  asn?: number | null | undefined;
   /** State of ASN ownership validation for a customer-owned Autonomous System Number (ASN). Returned when an ASN ownership validation result exists. Omitted when validation does not apply, such as for Cloudflare-owned ASNs. Verification is reused for prefixes with the same account and ASN. Refer to [ASN ownership validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#asn-ownership-validation) for state meanings and resolutions. */
-  asnOwnershipValidationState?: ValidatePrefixResponseAsnOwnershipValidationState | null;
+  asnOwnershipValidationState?:
+    | ValidatePrefixResponseAsnOwnershipValidationState
+    | null
+    | undefined;
   /** State of Autonomous System Provider Authorization (ASPA) validation for a customer-owned ASN. Returned when an ASPA validation result exists. Publishing an ASPA is optional. A published ASPA must authorize AS13335 as a provider. An invalid result blocks approval. If omitted, no ASPA validation result is available. Omission does not indicate successful validation or confirm that no ASPA exists. Refer to [ASPA validation states](https://developers.cloudflare.com/byoip/troubleshooting/prefix-validation/#aspa-validation) for state meanings and resolutions, and [ASPA authorization](https://developers.cloudflare.com/byoip/concepts/route-filtering-rpki/#aspa-authorization) for publication guidance. */
-  aspaValidationState?: ValidatePrefixResponseAspaValidationState | null;
+  aspaValidationState?: ValidatePrefixResponseAspaValidationState | null | undefined;
   /** IP Prefix in Classless Inter-Domain Routing format. */
-  cidr?: string | null;
-  createdAt?: string | null;
+  cidr?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
-  delegateLoaCreation?: boolean | null;
+  delegateLoaCreation?: boolean | null | undefined;
   /** Description of the prefix. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  irrValidationState?: string | null;
+  irrValidationState?: string | null | undefined;
   /** Identifier for the uploaded LOA document. */
-  loaDocumentId?: string | null;
-  modifiedAt?: string | null;
+  loaDocumentId?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandEnabled?: boolean | null;
+  onDemandEnabled?: boolean | null | undefined;
   /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
-  onDemandLocked?: boolean | null;
+  onDemandLocked?: boolean | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  ownershipValidationState?: string | null;
+  ownershipValidationState?: string | null | undefined;
   /** Token used to verify ownership of the prefix and, when applicable, its ASN. Use the same token for both checks. Refer to the [BYOIP onboarding guide](https://developers.cloudflare.com/byoip/get-started/) for verification instructions. */
-  ownershipValidationToken?: string | null;
+  ownershipValidationToken?: string | null | undefined;
   /** State of one kind of validation for an IP prefix. */
-  rpkiValidationState?: string | null;
+  rpkiValidationState?: string | null | undefined;
 }
 export type CreateAddressMapError =
   | FeatureNotEnabled

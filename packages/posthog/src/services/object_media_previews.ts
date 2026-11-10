@@ -54,20 +54,20 @@ export class NotFound
 export interface CreateObjectMediaPreviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** ID of uploaded media in this project to use as the preview. Required when creating a preview. */
-  uploaded_media_id?: string | null;
+  uploaded_media_id?: string | null | undefined;
   /** ID of the event definition the preview belongs to. Required when creating a preview. */
-  event_definition_id?: string | null;
+  event_definition_id?: string | null | undefined;
 }
 export interface ObjectMediaPreviewOutput {
-  id?: string;
-  created_at?: string;
-  updated_at?: string | null;
-  media_url?: string;
+  id?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  media_url?: string | undefined;
   /** Where the image comes from: 'uploaded' for user-uploaded media, 'exported' for an exported asset. */
-  media_type?: string;
-  metadata?: unknown;
+  media_type?: string | undefined;
+  metadata?: unknown | undefined;
 }
 export interface GetObjectMediaPreviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -85,16 +85,16 @@ export interface ListObjectMediaPreviewsRequest {
   /** ID of the event definition whose previews to list. */
   event_definition: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedObjectMediaPreviewListOutputResultsList = Array<ObjectMediaPreviewOutput>;
 export interface PaginatedObjectMediaPreviewListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedObjectMediaPreviewListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedObjectMediaPreviewListOutputResultsList | undefined;
 }
 export interface ObjectMediaPreviewsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -108,22 +108,22 @@ export interface UpdateObjectMediaPreviewRequest {
   project_id: string;
   /** A UUID string identifying this object media preview. */
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** ID of uploaded media in this project to use as the preview. Required when creating a preview. */
-  uploaded_media_id?: string | null;
+  uploaded_media_id?: string | null | undefined;
   /** ID of the event definition the preview belongs to. Required when creating a preview. */
-  event_definition_id?: string | null;
+  event_definition_id?: string | null | undefined;
 }
 export interface UpdateObjectMediaPreviewsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this object media preview. */
   id: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** ID of uploaded media in this project to use as the preview. Required when creating a preview. */
-  uploaded_media_id?: string | null;
+  uploaded_media_id?: string | null | undefined;
   /** ID of the event definition the preview belongs to. Required when creating a preview. */
-  event_definition_id?: string | null;
+  event_definition_id?: string | null | undefined;
 }
 export type CreateObjectMediaPreviewError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createObjectMediaPreview: API.OperationMethod<

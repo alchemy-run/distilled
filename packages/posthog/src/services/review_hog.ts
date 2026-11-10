@@ -87,13 +87,13 @@ export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
   id: number;
   uuid: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
   email: string;
-  is_email_verified?: boolean | null;
+  is_email_verified?: boolean | null | undefined;
   hedgehog_config: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface ReviewInstallationClaim {
   /** Id of the claim. */
@@ -159,13 +159,13 @@ export interface ReviewInstallation {
 export type ReviewProjectSettingsInstallationsList = Array<ReviewInstallation>;
 export interface ReviewProjectSettings {
   /** Who gets automatic Standard reviews in the repositories this project reviews: 'everyone' (except the excepted people), 'listed' (only the listed people), or 'off' (only people who opt in, the default). A repository exception or a person's own choice wins over it. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
-  flash_for?: AutomaticFlashForEnum;
+  flash_for?: AutomaticFlashForEnum | undefined;
   /** Pull requests from bots, and from authors who are not project members, in every repository this project reviews: 'skip' (not reviewed, the default) or 'run' (an automatic Standard review that runs as the person who connected GitHub, with default settings and no changes to the pull request). * `skip` - Not reviewed * `run` - Automatic Flash */
-  bot_prs?: ReviewProjectSettingsBotPullRequestsEnum;
+  bot_prs?: ReviewProjectSettingsBotPullRequestsEnum | undefined;
   /** Project default for the minimum priority a Deep review publishes: 'consider' (all, the built-in default), 'should_fix', or 'must_fix'. A person's own value wins. * `consider` - Consider (all) * `should_fix` - Should fix * `must_fix` - Must fix */
-  urgency_threshold?: UrgencyThresholdEnum;
+  urgency_threshold?: UrgencyThresholdEnum | undefined;
   /** Project default for the image in a Deep review that finds nothing to raise. On by default. A person's own value wins. */
-  celebrate_clean_reviews?: boolean;
+  celebrate_clean_reviews?: boolean | undefined;
   /** The people on the project rule's two lists. Only the list that matches flash_for has an effect. */
   people: ReviewProjectSettingsPeopleList;
   /** Every GitHub installation connected to this project, and which of its repositories this project reviews. */
@@ -215,13 +215,13 @@ export interface CreateReviewHogRepositoryRequest {
   /** GitHub repository in 'owner/name' form, spelled as GitHub returns it. */
   full_name: string;
   /** GitHub's id of the repository, from the overview. Keeps renames. */
-  github_repo_id?: number;
+  github_repo_id?: number | undefined;
   /** True includes the repository into this project, also when another project takes all repositories of the installation. False removes it; with an 'only selected' claim its exception goes too. */
-  selected?: boolean;
+  selected?: boolean | undefined;
   /** The repository exception: 'everyone', 'listed', or 'off'. Null clears it, so the repository follows the project rule again. Omit it to keep the current value. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
-  flash_for?: AutomaticFlashForEnum | (string & {}) | null;
+  flash_for?: AutomaticFlashForEnum | (string & {}) | null | undefined;
   /** True lets draft pull requests in this repository get their automatic review when they open. False waits until they are ready for review. Omit it to keep the current value. */
-  review_drafts?: boolean;
+  review_drafts?: boolean | undefined;
 }
 export interface ReviewRepositoryWriteResponse {
   /** The repository entry after the write. Null when nothing is left to store, so the entry was deleted and the repository follows the project rule or left the project. */
@@ -239,7 +239,7 @@ export interface CreateReviewHogRepositoryChoiceRequest {
   /** GitHub repository in 'owner/name' form. */
   full_name: string;
   /** GitHub's repository id. */
-  github_repo_id?: number;
+  github_repo_id?: number | undefined;
   /** The requesting user's own automatic review for their pull requests in this repository: 'flash' or 'off'. A value equal to what the user inherits clears the choice instead. * `flash` - Flash * `off` - Off */
   mode: ReviewUserRepositoryChoiceModeEnum | (string & {});
 }
@@ -300,13 +300,13 @@ export interface GetReviewHogRepositoryOverviewRequest {
   /** The GitHub App installation to list. */
   installation_id: string;
   /** Entries per page (max 200). */
-  limit?: number;
+  limit?: number | undefined;
   /** Entries to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only repositories whose name contains this text. */
-  search?: string;
+  search?: string | undefined;
   /** 'all' repositories, 'in_project' (reviewed by this project), 'exceptions' (with a repository exception), 'mine' (with the requesting user's own choice), or 'differs' (every repository except the ones this project reviews with no exception and no own choice, which the response counts as 'folded'). * `all` - All repositories * `in_project` - In this project * `exceptions` - With exceptions * `mine` - My choices * `differs` - Different from the project */
-  view?: GetReviewHogRepositoryOverviewRequestView | (string & {});
+  view?: GetReviewHogRepositoryOverviewRequestView | (string & {}) | undefined;
 }
 /** * `this_project` - This project * `other_project` - Another project * `none` - No project */
 export type RepositoryOwnerKindEnum = "this_project" | "other_project" | "none";
@@ -380,7 +380,7 @@ export interface GetReviewHogReviewRequest {
   /** A UUID string identifying this review report. */
   id: string;
   /** The completed review turn to read, from 1 to `run_count`. Defaults to the latest completed turn. Use it to read an older turn's findings. */
-  run_index?: number;
+  run_index?: number | undefined;
 }
 /** * `full` - Deep * `flash` - Standard */
 export type ReviewTriggerReviewModeEnum = "full" | "flash";
@@ -645,7 +645,7 @@ export interface GetReviewHogReviewsPerspectiveStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whose reviews to aggregate: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project, `own_deep` for the last 10 Deep reviews the requesting user started. The review skills in the settings use `own_deep`, because only the person who starts a Deep review picks its skills. * `mine` - Mine * `everyone` - Everyone * `own_deep` - Own Deep reviews */
-  scope?: GetReviewHogReviewsPerspectiveStatRequestScope | (string & {});
+  scope?: GetReviewHogReviewsPerspectiveStatRequestScope | (string & {}) | undefined;
 }
 export interface ReviewPerspectiveStatItem {
   /** The review skill (perspective or blind-spot sweep) that raised the findings. */
@@ -674,13 +674,13 @@ export interface GetReviewHogReviewsPrStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The `head_sha` the trigger returned. Lets a turn that was already running on that head when the request came in answer the request. Only used with `requested_at`. */
-  head_sha?: string;
+  head_sha?: string | undefined;
   /** GitHub pull request URL to look up, e.g. 'https://github.com/PostHog/posthog/pull/123'. */
   pr_url: string;
   /** The `requested_at` the trigger returned. When set, the response carries `request_outcome` for that request. */
-  requested_at?: string;
+  requested_at?: string | undefined;
   /** The `run_mode` the trigger was called with (default 'review'). Only used with `requested_at`. * `review` - Review * `review_only` - Review only * `resolve_only` - Resolve only * `flash` - Standard */
-  run_mode?: GetReviewHogReviewsPrStatusRequestRunMode | (string & {});
+  run_mode?: GetReviewHogReviewsPrStatusRequestRunMode | (string & {}) | undefined;
 }
 /** * `not_reviewed` - Not reviewed * `queued` - Queued * `reviewing` - Reviewing * `resolving` - Resolving * `idle` - Idle * `unknown` - Unknown */
 export type ReviewPRStateEnum =
@@ -752,19 +752,19 @@ export interface GetReviewHogReviewsTableRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Rows per page. Defaults to 25, at most 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** How many rows to skip, for paging through the table. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only reviews whose latest completed turn was (true) or was not (false) published to GitHub. */
-  published?: boolean;
+  published?: boolean | undefined;
   /** Only reviews of this repository, as `owner/repo`. Matched case-insensitively. */
-  repository?: string;
+  repository?: string | undefined;
   /** Only reviews whose latest completed turn ran this mode: 'full' (Deep) or 'flash' (Standard). Turns that did not record their mode match neither value. * `full` - Deep * `flash` - Standard */
-  review_mode?: GetReviewHogReviewsTableRequestReviewMode | (string & {});
+  review_mode?: GetReviewHogReviewsTableRequestReviewMode | (string & {}) | undefined;
   /** Whose reviews to list: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - Mine * `everyone` - Everyone */
-  scope?: GetReviewHogReviewsTableRequestScope | (string & {});
+  scope?: GetReviewHogReviewsTableRequestScope | (string & {}) | undefined;
   /** Only reviews in this state: 'running' for reviews with a run in flight (activity within the last 30 minutes), 'completed' for reviews with a completed turn and nothing running now. * `running` - Running * `completed` - Completed */
-  status?: GetReviewHogReviewsTableRequestStatus | (string & {});
+  status?: GetReviewHogReviewsTableRequestStatus | (string & {}) | undefined;
 }
 export interface ReviewRecentReview {
   /** The review report's id, for fetching the review's detail. */
@@ -919,9 +919,9 @@ export interface ListReviewHogReviewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum rows to return. The list grows this instead of paging by offset -- in-progress rows reorder the list between refreshes, so offset pages would shift under the reader. */
-  limit?: number;
+  limit?: number | undefined;
   /** Whose reviews to list: `mine` (the default) for reviews the requesting user ran plus reviews of pull requests they authored (matched via their linked GitHub login), `everyone` for every review on this project. * `mine` - mine * `everyone` - everyone */
-  scope?: ListReviewHogReviewsRequestScope | (string & {});
+  scope?: ListReviewHogReviewsRequestScope | (string & {}) | undefined;
 }
 /** The scoped reviews: in-progress runs first, then completed newest first. */
 export type ReviewRecentReviewsPageResultsList = Array<ReviewRecentReview>;
@@ -990,7 +990,7 @@ export interface ReviewHogReviewsTriggerCreateRequest {
   /** GitHub pull request URL to review, e.g. 'https://github.com/PostHog/posthog.com/pull/123'. The repository must be accessible to the project's GitHub App installation. */
   pr_url: string;
   /** What to run on the pull request. 'review' (default) reviews it and, when the pull request owner's resolve_comments setting is on, chains the resolution stage; 'review_only' reviews without resolving regardless of that setting; 'resolve_only' skips the review and only runs the resolution stage on the PR's existing unresolved review threads, which needs the owner's opt-in; 'flash' runs a Standard review: a lower-cost model for the review passes and validation, never resolves comments, and is refused once the PR has a published Deep review. The owner is the PR's author, or the Inbox reviewer of a pull request the PostHog app opened. * `review` - Review * `review_only` - Review only * `resolve_only` - Resolve only * `flash` - Standard */
-  run_mode?: ReviewTriggerRequestRunModeEnum | (string & {});
+  run_mode?: ReviewTriggerRequestRunModeEnum | (string & {}) | undefined;
 }
 /** * `run_mode_excludes_resolve` - The run mode never resolves comments * `owner_not_opted_in` - The pull request owner has not opted in to resolution * `already_reviewed` - No run starts, because the head already has a review in this mode */
 export type ResolveSkipReasonEnum =
@@ -1024,7 +1024,7 @@ export interface UpdateReviewHogBlindSpotsPartialRequest {
   project_id: string;
   skill_name: string;
   /** Set true to make this the single blind-spots skill that runs on the user's PR reviews. Only true is accepted -- the blind-spot check is single-active, so you switch by selecting a different skill, not by deactivating the current one. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface UpdateReviewHogInstallationClaimsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1032,40 +1032,40 @@ export interface UpdateReviewHogInstallationClaimsPartialRequest {
   /** A UUID string identifying this review installation claim. */
   id: string;
   /** 'all' or 'selected'. Switching to 'selected' removes the exceptions of the repositories that leave the project. * `all` - All repositories * `selected` - Only selected repositories */
-  scope?: ReviewInstallationClaimScopeEnum | (string & {});
+  scope?: ReviewInstallationClaimScopeEnum | (string & {}) | undefined;
 }
 export interface UpdateReviewHogPerspectivesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Set true to run this perspective on the user's PR reviews, false to stop running it. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdateReviewHogProjectSettingsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Who gets automatic Standard reviews in the repositories this project reviews: 'everyone' (except the excepted people), 'listed' (only the listed people), or 'off' (only people who opt in, the default). A repository exception or a person's own choice wins over it. * `everyone` - Automatic Flash for everyone * `listed` - Automatic Flash for these people * `off` - Automatic Flash opt-in only */
-  flash_for?: AutomaticFlashForEnum | (string & {});
+  flash_for?: AutomaticFlashForEnum | (string & {}) | undefined;
   /** Pull requests from bots, and from authors who are not project members, in every repository this project reviews: 'skip' (not reviewed, the default) or 'run' (an automatic Standard review that runs as the person who connected GitHub, with default settings and no changes to the pull request). * `skip` - Not reviewed * `run` - Automatic Flash */
-  bot_prs?: ReviewProjectSettingsBotPullRequestsEnum | (string & {});
+  bot_prs?: ReviewProjectSettingsBotPullRequestsEnum | (string & {}) | undefined;
   /** Project default for the minimum priority a Deep review publishes: 'consider' (all, the built-in default), 'should_fix', or 'must_fix'. A person's own value wins. * `consider` - Consider (all) * `should_fix` - Should fix * `must_fix` - Must fix */
-  urgency_threshold?: UrgencyThresholdEnum | (string & {});
+  urgency_threshold?: UrgencyThresholdEnum | (string & {}) | undefined;
   /** Project default for the image in a Deep review that finds nothing to raise. On by default. A person's own value wins. */
-  celebrate_clean_reviews?: boolean;
+  celebrate_clean_reviews?: boolean | undefined;
 }
 export interface UpdateReviewHogResolutionPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Set true to make these the single resolution criteria applied on the user's PRs. Only true is accepted -- resolution criteria are single-active, so you switch by selecting a different skill, not by deactivating the current one. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface UpdateReviewHogValidatorsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   skill_name: string;
   /** Set true to make this the single validator that runs on the user's PR reviews. Only true is accepted -- validators are single-active, so you switch by selecting a different one, not by deactivating the current one. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export type CreateReviewHogInstallationClaimError = BadRequest | Conflict | PosthogOpError;
 /** Claim a GitHub installation Choose which repositories of a connected GitHub installation this project reviews. */

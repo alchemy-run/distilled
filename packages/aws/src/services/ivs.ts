@@ -476,60 +476,60 @@ export type TranscodePreset =
 export type SrtEndpoint = string;
 export type SrtPassphrase = string | redacted.Redacted<string>;
 export interface Srt {
-  endpoint?: string;
-  passphrase?: string | redacted.Redacted<string>;
+  endpoint?: string | undefined;
+  passphrase?: string | redacted.Redacted<string> | undefined;
 }
 export type ChannelPlaybackRestrictionPolicyArn = string;
 export type IsMultitrackInputEnabled = boolean;
 export type MultitrackPolicy = "ALLOW" | "REQUIRE" | (string & {});
 export type MultitrackMaximumResolution = "SD" | "HD" | "FULL_HD" | (string & {});
 export interface MultitrackInputConfiguration {
-  enabled?: boolean;
-  policy?: MultitrackPolicy;
-  maximumResolution?: MultitrackMaximumResolution;
+  enabled?: boolean | undefined;
+  policy?: MultitrackPolicy | undefined;
+  maximumResolution?: MultitrackMaximumResolution | undefined;
 }
 export type ContainerFormat = string;
 export type ChannelAdConfigurationArn = string;
 export type ChannelFailoverSlateConfigurationArn = string;
 export interface Channel {
-  arn?: string;
-  name?: string;
-  latencyMode?: string;
-  type?: ChannelType;
-  recordingConfigurationArn?: string;
-  ingestEndpoint?: string;
-  playbackUrl?: string;
-  authorized?: boolean;
-  tags?: { [key: string]: string | undefined };
-  insecureIngest?: boolean;
-  preset?: TranscodePreset;
-  srt?: Srt;
-  playbackRestrictionPolicyArn?: string;
-  multitrackInputConfiguration?: MultitrackInputConfiguration;
-  containerFormat?: string;
-  adConfigurationArn?: string;
-  failoverSlateConfigurationArn?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  type?: ChannelType | undefined;
+  recordingConfigurationArn?: string | undefined;
+  ingestEndpoint?: string | undefined;
+  playbackUrl?: string | undefined;
+  authorized?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  insecureIngest?: boolean | undefined;
+  preset?: TranscodePreset | undefined;
+  srt?: Srt | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  multitrackInputConfiguration?: MultitrackInputConfiguration | undefined;
+  containerFormat?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
 export type Channels = Channel[];
 export type ResourceArn = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface BatchError {
-  arn?: string;
-  code?: string;
-  message?: string;
+  arn?: string | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type BatchErrors = BatchError[];
 export interface BatchGetChannelResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  channels?: Channel[];
-  errors?: BatchError[];
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  channels?: Channel[] | undefined;
+  errors?: BatchError[] | undefined;
 }
 export type StreamKeyArn = string;
 export type StreamKeyArnList = string[];
@@ -538,29 +538,29 @@ export interface BatchGetStreamKeyRequest {
 }
 export type StreamKeyValue = string | redacted.Redacted<string>;
 export interface StreamKey {
-  arn?: string;
-  value?: string | redacted.Redacted<string>;
-  channelArn?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
+  channelArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StreamKeys = StreamKey[];
 export interface BatchGetStreamKeyResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  streamKeys?: StreamKey[];
-  errors?: BatchError[];
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  streamKeys?: StreamKey[] | undefined;
+  errors?: BatchError[] | undefined;
 }
 export type ViewerId = string;
 export type ViewerSessionVersion = number;
 export interface BatchStartViewerSessionRevocationViewerSession {
   channelArn: string;
   viewerId: string;
-  viewerSessionVersionsLessThanOrEqualTo?: number;
+  viewerSessionVersionsLessThanOrEqualTo?: number | undefined;
 }
 export type BatchStartViewerSessionRevocationViewerSessionList =
   BatchStartViewerSessionRevocationViewerSession[];
@@ -570,24 +570,24 @@ export interface BatchStartViewerSessionRevocationRequest {
 export interface BatchStartViewerSessionRevocationError_ {
   channelArn: string;
   viewerId: string;
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type BatchStartViewerSessionRevocationErrors = BatchStartViewerSessionRevocationError_[];
 export interface BatchStartViewerSessionRevocationResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  errors?: BatchStartViewerSessionRevocationError_[];
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  errors?: BatchStartViewerSessionRevocationError_[] | undefined;
 }
 export type AdConfigurationName = string;
 export type MediaTailorPlaybackConfigurationArn = string;
 export interface MediaTailorPlaybackConfiguration {
-  playbackConfigurationArn?: string;
+  playbackConfigurationArn?: string | undefined;
 }
 export type MediaTailorPlaybackConfigurationsList = MediaTailorPlaybackConfiguration[];
 export type AdDurationSeconds = number;
@@ -596,62 +596,62 @@ export interface PostRollConfiguration {
   enabled: boolean;
 }
 export interface CreateAdConfigurationRequest {
-  name?: string;
+  name?: string | undefined;
   mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
-  tags?: { [key: string]: string | undefined };
+  postRollConfiguration?: PostRollConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AdConfigurationArn = string;
 export interface AdConfiguration {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
-  tags?: { [key: string]: string | undefined };
+  postRollConfiguration?: PostRollConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAdConfigurationResponse {
   adConfiguration: AdConfiguration;
 }
 export interface CreateChannelRequest {
-  name?: string;
-  latencyMode?: string;
-  type?: ChannelType;
-  authorized?: boolean;
-  recordingConfigurationArn?: string;
-  tags?: { [key: string]: string | undefined };
-  insecureIngest?: boolean;
-  preset?: TranscodePreset;
-  playbackRestrictionPolicyArn?: string;
-  multitrackInputConfiguration?: MultitrackInputConfiguration;
-  containerFormat?: string;
-  adConfigurationArn?: string;
-  failoverSlateConfigurationArn?: string;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  type?: ChannelType | undefined;
+  authorized?: boolean | undefined;
+  recordingConfigurationArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  insecureIngest?: boolean | undefined;
+  preset?: TranscodePreset | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  multitrackInputConfiguration?: MultitrackInputConfiguration | undefined;
+  containerFormat?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
 export interface CreateChannelResponse {
-  channel?: Channel;
-  streamKey?: StreamKey;
+  channel?: Channel | undefined;
+  streamKey?: StreamKey | undefined;
 }
 export type FailoverSlateConfigurationName = string;
 export type FailoverSlateActivationThresholdSeconds = number;
 export type FailoverSlateMinDisplaySeconds = number;
 export type FailoverSlateMaxDisplaySeconds = number;
 export interface CreateFailoverSlateConfigurationRequest {
-  name?: string;
-  activationThresholdSeconds?: number;
-  minSlateDisplaySeconds?: number;
-  maxSlateDisplaySeconds?: number;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FailoverSlateConfigurationArn = string;
 export type FailoverSlateConfigurationState = string;
 export interface FailoverSlateConfiguration {
   arn: string;
-  name?: string;
-  activationThresholdSeconds?: number;
-  minSlateDisplaySeconds?: number;
-  maxSlateDisplaySeconds?: number;
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
   state: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFailoverSlateConfigurationResponse {
   failoverSlateConfiguration: FailoverSlateConfiguration;
@@ -663,23 +663,23 @@ export type PlaybackRestrictionPolicyAllowedOriginList = string[];
 export type PlaybackRestrictionPolicyEnableStrictOriginEnforcement = boolean;
 export type PlaybackRestrictionPolicyName = string;
 export interface CreatePlaybackRestrictionPolicyRequest {
-  allowedCountries?: string[];
-  allowedOrigins?: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  allowedCountries?: string[] | undefined;
+  allowedOrigins?: string[] | undefined;
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PlaybackRestrictionPolicyArn = string;
 export interface PlaybackRestrictionPolicy {
   arn: string;
   allowedCountries: string[];
   allowedOrigins: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePlaybackRestrictionPolicyResponse {
-  playbackRestrictionPolicy?: PlaybackRestrictionPolicy;
+  playbackRestrictionPolicy?: PlaybackRestrictionPolicy | undefined;
 }
 export type RecordingConfigurationName = string;
 export type S3DestinationBucketName = string;
@@ -687,7 +687,7 @@ export interface S3DestinationConfiguration {
   bucketName: string;
 }
 export interface DestinationConfiguration {
-  s3?: S3DestinationConfiguration;
+  s3?: S3DestinationConfiguration | undefined;
 }
 export type RecordingMode = string;
 export type TargetIntervalSeconds = number;
@@ -700,10 +700,10 @@ export type ThumbnailConfigurationResolution =
 export type ThumbnailConfigurationStorage = string;
 export type ThumbnailConfigurationStorageList = string[];
 export interface ThumbnailConfiguration {
-  recordingMode?: string;
-  targetIntervalSeconds?: number;
-  resolution?: ThumbnailConfigurationResolution;
-  storage?: string[];
+  recordingMode?: string | undefined;
+  targetIntervalSeconds?: number | undefined;
+  resolution?: ThumbnailConfigurationResolution | undefined;
+  storage?: string[] | undefined;
 }
 export type RecordingReconnectWindowSeconds = number;
 export type RenditionConfigurationRenditionSelection = string;
@@ -715,38 +715,38 @@ export type RenditionConfigurationRendition =
   | (string & {});
 export type RenditionConfigurationRenditionList = RenditionConfigurationRendition[];
 export interface RenditionConfiguration {
-  renditionSelection?: string;
-  renditions?: RenditionConfigurationRendition[];
+  renditionSelection?: string | undefined;
+  renditions?: RenditionConfigurationRendition[] | undefined;
 }
 export interface CreateRecordingConfigurationRequest {
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
-  tags?: { [key: string]: string | undefined };
-  thumbnailConfiguration?: ThumbnailConfiguration;
-  recordingReconnectWindowSeconds?: number;
-  renditionConfiguration?: RenditionConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  thumbnailConfiguration?: ThumbnailConfiguration | undefined;
+  recordingReconnectWindowSeconds?: number | undefined;
+  renditionConfiguration?: RenditionConfiguration | undefined;
 }
 export type RecordingConfigurationArn = string;
 export type RecordingConfigurationState = string;
 export interface RecordingConfiguration {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: { [key: string]: string | undefined };
-  thumbnailConfiguration?: ThumbnailConfiguration;
-  recordingReconnectWindowSeconds?: number;
-  renditionConfiguration?: RenditionConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  thumbnailConfiguration?: ThumbnailConfiguration | undefined;
+  recordingReconnectWindowSeconds?: number | undefined;
+  renditionConfiguration?: RenditionConfiguration | undefined;
 }
 export interface CreateRecordingConfigurationResponse {
-  recordingConfiguration?: RecordingConfiguration;
+  recordingConfiguration?: RecordingConfiguration | undefined;
 }
 export interface CreateStreamKeyRequest {
   channelArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateStreamKeyResponse {
-  streamKey?: StreamKey;
+  streamKey?: StreamKey | undefined;
 }
 export interface DeleteAdConfigurationRequest {
   arn: string;
@@ -781,13 +781,13 @@ export interface GetAdConfigurationRequest {
   arn: string;
 }
 export interface GetAdConfigurationResponse {
-  adConfiguration?: AdConfiguration;
+  adConfiguration?: AdConfiguration | undefined;
 }
 export interface GetChannelRequest {
   arn: string;
 }
 export interface GetChannelResponse {
-  channel?: Channel;
+  channel?: Channel | undefined;
 }
 export interface GetFailoverSlateConfigurationRequest {
   arn: string;
@@ -801,25 +801,25 @@ export interface GetPlaybackKeyPairRequest {
 export type PlaybackKeyPairName = string;
 export type PlaybackKeyPairFingerprint = string;
 export interface PlaybackKeyPair {
-  arn?: string;
-  name?: string;
-  fingerprint?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  fingerprint?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPlaybackKeyPairResponse {
-  keyPair?: PlaybackKeyPair;
+  keyPair?: PlaybackKeyPair | undefined;
 }
 export interface GetPlaybackRestrictionPolicyRequest {
   arn: string;
 }
 export interface GetPlaybackRestrictionPolicyResponse {
-  playbackRestrictionPolicy?: PlaybackRestrictionPolicy;
+  playbackRestrictionPolicy?: PlaybackRestrictionPolicy | undefined;
 }
 export interface GetRecordingConfigurationRequest {
   arn: string;
 }
 export interface GetRecordingConfigurationResponse {
-  recordingConfiguration?: RecordingConfiguration;
+  recordingConfiguration?: RecordingConfiguration | undefined;
 }
 export interface GetStreamRequest {
   channelArn: string;
@@ -830,50 +830,50 @@ export type StreamState = string;
 export type StreamHealth = string;
 export type StreamViewerCount = number;
 export interface Stream {
-  channelArn?: string;
-  streamId?: string;
-  playbackUrl?: string;
-  startTime?: Date;
-  state?: string;
-  health?: string;
-  viewerCount?: number;
+  channelArn?: string | undefined;
+  streamId?: string | undefined;
+  playbackUrl?: string | undefined;
+  startTime?: Date | undefined;
+  state?: string | undefined;
+  health?: string | undefined;
+  viewerCount?: number | undefined;
 }
 export interface GetStreamResponse {
-  stream?: Stream;
+  stream?: Stream | undefined;
 }
 export interface GetStreamKeyRequest {
   arn: string;
 }
 export interface GetStreamKeyResponse {
-  streamKey?: StreamKey;
+  streamKey?: StreamKey | undefined;
 }
 export interface GetStreamSessionRequest {
   channelArn: string;
-  streamId?: string;
+  streamId?: string | undefined;
 }
 export interface VideoConfiguration {
-  avcProfile?: string;
-  avcLevel?: string;
-  codec?: string;
-  encoder?: string;
-  targetBitrate?: number;
-  targetFramerate?: number;
-  videoHeight?: number;
-  videoWidth?: number;
-  level?: string;
-  track?: string;
-  profile?: string;
+  avcProfile?: string | undefined;
+  avcLevel?: string | undefined;
+  codec?: string | undefined;
+  encoder?: string | undefined;
+  targetBitrate?: number | undefined;
+  targetFramerate?: number | undefined;
+  videoHeight?: number | undefined;
+  videoWidth?: number | undefined;
+  level?: string | undefined;
+  track?: string | undefined;
+  profile?: string | undefined;
 }
 export interface AudioConfiguration {
-  codec?: string;
-  targetBitrate?: number;
-  sampleRate?: number;
-  channels?: number;
-  track?: string;
+  codec?: string | undefined;
+  targetBitrate?: number | undefined;
+  sampleRate?: number | undefined;
+  channels?: number | undefined;
+  track?: string | undefined;
 }
 export interface IngestConfiguration {
-  video?: VideoConfiguration;
-  audio?: AudioConfiguration;
+  video?: VideoConfiguration | undefined;
+  audio?: AudioConfiguration | undefined;
 }
 export type VideoConfigurationList = VideoConfiguration[];
 export type AudioConfigurationList = AudioConfiguration[];
@@ -882,215 +882,215 @@ export interface IngestConfigurations {
   audioConfigurations: AudioConfiguration[];
 }
 export interface StreamEvent {
-  name?: string;
-  type?: string;
-  eventTime?: Date;
-  code?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  eventTime?: Date | undefined;
+  code?: string | undefined;
 }
 export type StreamEvents = StreamEvent[];
 export interface StreamSession {
-  streamId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  channel?: Channel;
-  ingestConfiguration?: IngestConfiguration;
-  ingestConfigurations?: IngestConfigurations;
-  recordingConfiguration?: RecordingConfiguration;
-  truncatedEvents?: StreamEvent[];
-  failoverSlateConfiguration?: FailoverSlateConfiguration;
+  streamId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  channel?: Channel | undefined;
+  ingestConfiguration?: IngestConfiguration | undefined;
+  ingestConfigurations?: IngestConfigurations | undefined;
+  recordingConfiguration?: RecordingConfiguration | undefined;
+  truncatedEvents?: StreamEvent[] | undefined;
+  failoverSlateConfiguration?: FailoverSlateConfiguration | undefined;
 }
 export interface GetStreamSessionResponse {
-  streamSession?: StreamSession;
+  streamSession?: StreamSession | undefined;
 }
 export type PlaybackPublicKeyMaterial = string;
 export interface ImportPlaybackKeyPairRequest {
   publicKeyMaterial: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ImportPlaybackKeyPairResponse {
-  keyPair?: PlaybackKeyPair;
+  keyPair?: PlaybackKeyPair | undefined;
 }
 export type AdBreakId = string;
 export interface InsertAdBreakRequest {
   channelArn: string;
   durationSeconds: number;
-  adBreakId?: string;
-  targetStartAt?: Date;
+  adBreakId?: string | undefined;
+  targetStartAt?: Date | undefined;
 }
 export interface InsertAdBreakResponse {
-  adBreakId?: string;
-  targetStartAt?: Date;
+  adBreakId?: string | undefined;
+  targetStartAt?: Date | undefined;
 }
 export type PaginationToken = string;
 export type MaxAdConfigurationResults = number;
 export interface ListAdConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AdConfigurationSummary {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   mediaTailorPlaybackConfigurations: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
-  tags?: { [key: string]: string | undefined };
+  postRollConfiguration?: PostRollConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AdConfigurationList = AdConfigurationSummary[];
 export interface ListAdConfigurationsResponse {
   adConfigurations: AdConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxChannelResults = number;
 export interface ListChannelsRequest {
-  filterByName?: string;
-  filterByRecordingConfigurationArn?: string;
-  filterByPlaybackRestrictionPolicyArn?: string;
-  filterByAdConfigurationArn?: string;
-  filterByFailoverSlateConfigurationArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  filterByName?: string | undefined;
+  filterByRecordingConfigurationArn?: string | undefined;
+  filterByPlaybackRestrictionPolicyArn?: string | undefined;
+  filterByAdConfigurationArn?: string | undefined;
+  filterByFailoverSlateConfigurationArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ChannelSummary {
-  arn?: string;
-  name?: string;
-  latencyMode?: string;
-  authorized?: boolean;
-  recordingConfigurationArn?: string;
-  tags?: { [key: string]: string | undefined };
-  insecureIngest?: boolean;
-  type?: ChannelType;
-  preset?: TranscodePreset;
-  playbackRestrictionPolicyArn?: string;
-  adConfigurationArn?: string;
-  failoverSlateConfigurationArn?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  authorized?: boolean | undefined;
+  recordingConfigurationArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  insecureIngest?: boolean | undefined;
+  type?: ChannelType | undefined;
+  preset?: TranscodePreset | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
 export type ChannelList = ChannelSummary[];
 export interface ListChannelsResponse {
   channels: ChannelSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxFailoverSlateConfigurationResults = number;
 export interface ListFailoverSlateConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FailoverSlateConfigurationSummary {
   arn: string;
-  name?: string;
-  activationThresholdSeconds?: number;
-  minSlateDisplaySeconds?: number;
-  maxSlateDisplaySeconds?: number;
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
   state: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FailoverSlateConfigurationList = FailoverSlateConfigurationSummary[];
 export interface ListFailoverSlateConfigurationsResponse {
   failoverSlateConfigurations: FailoverSlateConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxPlaybackKeyPairResults = number;
 export interface ListPlaybackKeyPairsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PlaybackKeyPairSummary {
-  arn?: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PlaybackKeyPairList = PlaybackKeyPairSummary[];
 export interface ListPlaybackKeyPairsResponse {
   keyPairs: PlaybackKeyPairSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxPlaybackRestrictionPolicyResults = number;
 export interface ListPlaybackRestrictionPoliciesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PlaybackRestrictionPolicySummary {
   arn: string;
   allowedCountries: string[];
   allowedOrigins: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PlaybackRestrictionPolicyList = PlaybackRestrictionPolicySummary[];
 export interface ListPlaybackRestrictionPoliciesResponse {
   playbackRestrictionPolicies: PlaybackRestrictionPolicySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxRecordingConfigurationResults = number;
 export interface ListRecordingConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RecordingConfigurationSummary {
   arn: string;
-  name?: string;
+  name?: string | undefined;
   destinationConfiguration: DestinationConfiguration;
   state: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RecordingConfigurationList = RecordingConfigurationSummary[];
 export interface ListRecordingConfigurationsResponse {
   recordingConfigurations: RecordingConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxStreamKeyResults = number;
 export interface ListStreamKeysRequest {
   channelArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StreamKeySummary {
-  arn?: string;
-  channelArn?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  channelArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StreamKeyList = StreamKeySummary[];
 export interface ListStreamKeysResponse {
   streamKeys: StreamKeySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface StreamFilters {
-  health?: string;
+  health?: string | undefined;
 }
 export type MaxStreamResults = number;
 export interface ListStreamsRequest {
-  filterBy?: StreamFilters;
-  nextToken?: string;
-  maxResults?: number;
+  filterBy?: StreamFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StreamSummary {
-  channelArn?: string;
-  streamId?: string;
-  state?: string;
-  health?: string;
-  viewerCount?: number;
-  startTime?: Date;
+  channelArn?: string | undefined;
+  streamId?: string | undefined;
+  state?: string | undefined;
+  health?: string | undefined;
+  viewerCount?: number | undefined;
+  startTime?: Date | undefined;
 }
 export type StreamList = StreamSummary[];
 export interface ListStreamsResponse {
   streams: StreamSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStreamSessionsRequest {
   channelArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StreamSessionSummary {
-  streamId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  hasErrorEvent?: boolean;
+  streamId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  hasErrorEvent?: boolean | undefined;
 }
 export type StreamSessionList = StreamSessionSummary[];
 export interface ListStreamSessionsResponse {
   streamSessions: StreamSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -1107,7 +1107,7 @@ export interface PutMetadataResponse {}
 export interface StartViewerSessionRevocationRequest {
   channelArn: string;
   viewerId: string;
-  viewerSessionVersionsLessThanOrEqualTo?: number;
+  viewerSessionVersionsLessThanOrEqualTo?: number | undefined;
 }
 export interface StartViewerSessionRevocationResponse {}
 export interface StopStreamRequest {
@@ -1127,50 +1127,50 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAdConfigurationRequest {
   arn: string;
-  name?: string;
-  mediaTailorPlaybackConfigurations?: MediaTailorPlaybackConfiguration[];
-  postRollConfiguration?: PostRollConfiguration;
+  name?: string | undefined;
+  mediaTailorPlaybackConfigurations?: MediaTailorPlaybackConfiguration[] | undefined;
+  postRollConfiguration?: PostRollConfiguration | undefined;
 }
 export interface UpdateAdConfigurationResponse {
   adConfiguration: AdConfiguration;
 }
 export interface UpdateChannelRequest {
   arn: string;
-  name?: string;
-  latencyMode?: string;
-  type?: ChannelType;
-  authorized?: boolean;
-  recordingConfigurationArn?: string;
-  insecureIngest?: boolean;
-  preset?: TranscodePreset;
-  playbackRestrictionPolicyArn?: string;
-  multitrackInputConfiguration?: MultitrackInputConfiguration;
-  containerFormat?: string;
-  adConfigurationArn?: string;
-  failoverSlateConfigurationArn?: string;
+  name?: string | undefined;
+  latencyMode?: string | undefined;
+  type?: ChannelType | undefined;
+  authorized?: boolean | undefined;
+  recordingConfigurationArn?: string | undefined;
+  insecureIngest?: boolean | undefined;
+  preset?: TranscodePreset | undefined;
+  playbackRestrictionPolicyArn?: string | undefined;
+  multitrackInputConfiguration?: MultitrackInputConfiguration | undefined;
+  containerFormat?: string | undefined;
+  adConfigurationArn?: string | undefined;
+  failoverSlateConfigurationArn?: string | undefined;
 }
 export interface UpdateChannelResponse {
-  channel?: Channel;
+  channel?: Channel | undefined;
 }
 export interface UpdateFailoverSlateConfigurationRequest {
   arn: string;
-  name?: string;
-  activationThresholdSeconds?: number;
-  minSlateDisplaySeconds?: number;
-  maxSlateDisplaySeconds?: number;
+  name?: string | undefined;
+  activationThresholdSeconds?: number | undefined;
+  minSlateDisplaySeconds?: number | undefined;
+  maxSlateDisplaySeconds?: number | undefined;
 }
 export interface UpdateFailoverSlateConfigurationResponse {
   failoverSlateConfiguration: FailoverSlateConfiguration;
 }
 export interface UpdatePlaybackRestrictionPolicyRequest {
   arn: string;
-  allowedCountries?: string[];
-  allowedOrigins?: string[];
-  enableStrictOriginEnforcement?: boolean;
-  name?: string;
+  allowedCountries?: string[] | undefined;
+  allowedOrigins?: string[] | undefined;
+  enableStrictOriginEnforcement?: boolean | undefined;
+  name?: string | undefined;
 }
 export interface UpdatePlaybackRestrictionPolicyResponse {
-  playbackRestrictionPolicy?: PlaybackRestrictionPolicy;
+  playbackRestrictionPolicy?: PlaybackRestrictionPolicy | undefined;
 }
 export type BatchGetChannelError =
   | AccessDeniedException

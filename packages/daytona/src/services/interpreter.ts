@@ -25,8 +25,8 @@ const TELEMETRY = {
 } as const;
 
 export interface CreateInterpreterContextRequest {
-  cwd?: string;
-  language?: string;
+  cwd?: string | undefined;
+  language?: string | undefined;
 }
 export interface InterpreterContext {
   active: boolean;

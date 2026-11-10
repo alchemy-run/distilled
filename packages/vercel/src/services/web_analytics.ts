@@ -99,37 +99,37 @@ export interface AggregateEventsRequest {
   /** Timestamp in milliseconds, or a valid Date string. Selects data until (including) this date. Will be adjusted according to the desired time granularity. */
   until: AggregateEventsRequestUntil;
   /** Number of distinct results, default to 10. Other results are grouped into "Others" group. */
-  limit?: number;
+  limit?: number | undefined;
   /** OData-compliant filter. Encode the value when sending it in a URL. Allows filtering on one or multiple dimensions. By default, filters for production environment only. Supported dimensions: country, deviceType, environment, requestPath, referrerHostname, osName, browserName, route, utmSource, utmMedium, utmCampaign, utmContent, utmTerm, eventName. JSON dimensions filtered by key: flags/<name>, eventData/<property>, for example eventData/plan eq 'pro'. Wrap keys containing characters other than letters, digits, and underscores in single quotes, for example flags/'my-flag' eq 'true'. Supported operations include eq, ne, in, and logical operators and, or, not with parentheses. Functions such as startswith are supported by the OData parser. */
-  filter?: string;
+  filter?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface AggregateEventsResponseDataCase0Item {
-  browserName?: string;
-  country?: string;
-  deviceType?: string;
-  environment?: string;
-  eventData?: string;
-  eventName?: string;
-  flags?: string;
-  groupId?: string;
-  osName?: string;
-  projectId?: string;
-  projectName?: string;
-  referrerHostname?: string;
-  requestHostname?: string;
-  requestPath?: string;
-  route?: string;
-  userId?: string;
-  utmCampaign?: string;
-  utmContent?: string;
-  utmMedium?: string;
-  utmSource?: string;
-  utmTerm?: string;
-  visitorId?: string;
+  browserName?: string | undefined;
+  country?: string | undefined;
+  deviceType?: string | undefined;
+  environment?: string | undefined;
+  eventData?: string | undefined;
+  eventName?: string | undefined;
+  flags?: string | undefined;
+  groupId?: string | undefined;
+  osName?: string | undefined;
+  projectId?: string | undefined;
+  projectName?: string | undefined;
+  referrerHostname?: string | undefined;
+  requestHostname?: string | undefined;
+  requestPath?: string | undefined;
+  route?: string | undefined;
+  userId?: string | undefined;
+  utmCampaign?: string | undefined;
+  utmContent?: string | undefined;
+  utmMedium?: string | undefined;
+  utmSource?: string | undefined;
+  utmTerm?: string | undefined;
+  visitorId?: string | undefined;
   timestamp: string;
 }
 export type AggregateEventsResponseDataCase0List = Array<AggregateEventsResponseDataCase0Item>;
@@ -185,8 +185,8 @@ export type AggregateEventsResponseQueryGroupByItem =
 export type AggregateEventsResponseQueryGroupByList =
   Array<AggregateEventsResponseQueryGroupByItem>;
 export interface AggregateEventsResponseQuery {
-  filter?: string;
-  groupBy?: AggregateEventsResponseQueryGroupByList;
+  filter?: string | undefined;
+  groupBy?: AggregateEventsResponseQueryGroupByList | undefined;
   limit: number;
   since: string;
   until: string;
@@ -233,35 +233,35 @@ export interface AggregatePageviewsRequest {
   /** Timestamp in milliseconds, or a valid Date string. Selects data until (including) this date. Will be adjusted according to the desired time granularity. */
   until: AggregatePageviewsRequestUntil;
   /** Number of distinct results, default to 10. Other results are grouped into "Others" group. */
-  limit?: number;
+  limit?: number | undefined;
   /** OData-compliant filter. Encode the value when sending it in a URL. Allows filtering on one or multiple dimensions. By default, filters for production environment only. Supported dimensions: country, deviceType, environment, requestPath, referrerHostname, osName, browserName, route, utmSource, utmMedium, utmCampaign, utmContent, utmTerm. JSON dimensions filtered by key: flags/<name>, for example flags/beta_banner eq 'true'. Wrap keys containing characters other than letters, digits, and underscores in single quotes, for example flags/'my-flag' eq 'true'. Supported operations include eq, ne, in, and logical operators and, or, not with parentheses. Functions such as startswith are supported by the OData parser. */
-  filter?: string;
+  filter?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface AggregatePageviewsResponseDataCase0Item {
-  browserName?: string;
-  country?: string;
-  deviceType?: string;
-  environment?: string;
-  flags?: string;
-  groupId?: string;
-  osName?: string;
-  projectId?: string;
-  projectName?: string;
-  referrerHostname?: string;
-  requestHostname?: string;
-  requestPath?: string;
-  route?: string;
-  userId?: string;
-  utmCampaign?: string;
-  utmContent?: string;
-  utmMedium?: string;
-  utmSource?: string;
-  utmTerm?: string;
-  visitorId?: string;
+  browserName?: string | undefined;
+  country?: string | undefined;
+  deviceType?: string | undefined;
+  environment?: string | undefined;
+  flags?: string | undefined;
+  groupId?: string | undefined;
+  osName?: string | undefined;
+  projectId?: string | undefined;
+  projectName?: string | undefined;
+  referrerHostname?: string | undefined;
+  requestHostname?: string | undefined;
+  requestPath?: string | undefined;
+  route?: string | undefined;
+  userId?: string | undefined;
+  utmCampaign?: string | undefined;
+  utmContent?: string | undefined;
+  utmMedium?: string | undefined;
+  utmSource?: string | undefined;
+  utmTerm?: string | undefined;
+  visitorId?: string | undefined;
   timestamp: string;
 }
 export type AggregatePageviewsResponseDataCase0List =
@@ -315,8 +315,8 @@ export type AggregatePageviewsResponseQueryGroupByItem =
 export type AggregatePageviewsResponseQueryGroupByList =
   Array<AggregatePageviewsResponseQueryGroupByItem>;
 export interface AggregatePageviewsResponseQuery {
-  filter?: string;
-  groupBy?: AggregatePageviewsResponseQueryGroupByList;
+  filter?: string | undefined;
+  groupBy?: AggregatePageviewsResponseQueryGroupByList | undefined;
   limit: number;
   since: string;
   until: string;
@@ -334,15 +334,15 @@ export interface CountEventsRequest {
   /** The project identifier or the project name */
   projectId: string;
   /** Timestamp in milliseconds, or a valid Date string. Selects data from (including) this date and time. Will be adjusted according to the desired time granularity. */
-  since?: CountEventsRequestSince;
+  since?: CountEventsRequestSince | undefined;
   /** Timestamp in milliseconds, or a valid Date string. Selects data until (including) this date. Will be adjusted according to the desired time granularity. */
-  until?: CountEventsRequestUntil;
+  until?: CountEventsRequestUntil | undefined;
   /** OData-compliant filter. Encode the value when sending it in a URL. Allows filtering on one or multiple dimensions. Supported dimensions: country, deviceType, environment, requestPath, referrerHostname, osName, browserName, route, utmSource, utmMedium, utmCampaign, utmContent, utmTerm, eventName. JSON dimensions filtered by key: flags/<name>, eventData/<property>, for example eventData/plan eq 'pro'. Wrap keys containing characters other than letters, digits, and underscores in single quotes, for example flags/'my-flag' eq 'true'. Supported operations include eq, ne, in, and logical operators and, or, not with parentheses. Functions such as startswith are supported by the OData parser. */
-  filter?: string;
+  filter?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type CountEventsResponseDataCase0 = AggregateEventsResponseDataCase1Item;
 export interface CountEventsResponseDataCase1 {
@@ -353,7 +353,7 @@ export type CountEventsResponseData =
   | AggregateEventsResponseDataCase1Item
   | CountEventsResponseDataCase1;
 export interface CountEventsResponseQuery {
-  filter?: string;
+  filter?: string | undefined;
   since: string;
   until: string;
 }
@@ -370,15 +370,15 @@ export interface CountPageviewsRequest {
   /** The project identifier or the project name */
   projectId: string;
   /** Timestamp in milliseconds, or a valid Date string. Selects data from (including) this date and time. Will be adjusted according to the desired time granularity. */
-  since?: CountPageviewsRequestSince;
+  since?: CountPageviewsRequestSince | undefined;
   /** Timestamp in milliseconds, or a valid Date string. Selects data until (including) this date. Will be adjusted according to the desired time granularity. */
-  until?: CountPageviewsRequestUntil;
+  until?: CountPageviewsRequestUntil | undefined;
   /** OData-compliant filter. Encode the value when sending it in a URL. Allows filtering on one or multiple dimensions. Supported dimensions: country, deviceType, environment, requestPath, referrerHostname, osName, browserName, route, utmSource, utmMedium, utmCampaign, utmContent, utmTerm. JSON dimensions filtered by key: flags/<name>, for example flags/beta_banner eq 'true'. Wrap keys containing characters other than letters, digits, and underscores in single quotes, for example flags/'my-flag' eq 'true'. Supported operations include eq, ne, in, and logical operators and, or, not with parentheses. Functions such as startswith are supported by the OData parser. */
-  filter?: string;
+  filter?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type CountPageviewsResponseDataCase0 = AggregatePageviewsResponseDataCase1Item;
 export interface CountPageviewsResponseDataCase1 {

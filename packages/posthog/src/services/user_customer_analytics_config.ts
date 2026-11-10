@@ -83,22 +83,24 @@ export type UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList 
   Array<PinnedAccountProperty>;
 export interface TaskDigestPreferencesUpdate {
   /** Whether the task digest email is sent to this user. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Time of day to send the digest, as HH:MM in the project timezone. */
-  send_time?: string;
+  send_time?: string | undefined;
   /** How often the digest is sent. * `weekdays` - Weekdays * `every_day` - Every day */
-  cadence?: TaskDigestCadenceEnum | (string & {});
+  cadence?: TaskDigestCadenceEnum | (string & {}) | undefined;
 }
 export interface UpdateUserCustomerAnalyticsConfigPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Complete ordered list of account properties to pin. Omit to keep the current pins; pass an empty list to clear them. */
-  pinned_properties?: UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList;
+  pinned_properties?:
+    | UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList
+    | undefined;
   /** Task digest email preferences to change. Omit the object to keep them all; omit a field inside it to keep that one. */
-  task_digest?: TaskDigestPreferencesUpdate;
+  task_digest?: TaskDigestPreferencesUpdate | undefined;
   /** Complete personal account tab configuration. Omit to keep it unchanged. */
-  account_detail_tabs?: AccountDetailTabsConfig;
+  account_detail_tabs?: AccountDetailTabsConfig | undefined;
 }
 export type GetUserCustomerAnalyticsConfigError = PosthogOpError;
 /** Get account sidebar configuration Get the requesting user's account sidebar and task digest configuration for this project. Project defaults are returned until the user saves a personal pinned-property selection. */

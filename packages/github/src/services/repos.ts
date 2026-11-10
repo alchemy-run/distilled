@@ -49,8 +49,8 @@ export interface AddAppAccessRestrictionsRequest {
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -69,16 +69,16 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -93,11 +93,11 @@ export interface Enterprise {
 export type IntegrationOwner = SimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface IntegrationPermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -107,9 +107,9 @@ export interface Integration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: IntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -123,7 +123,7 @@ export interface Integration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: IntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 export type AddAppAccessRestrictionsResponseBodyList = Array<Integration | null>;
 export type AddAppAccessRestrictionsResponse = AddAppAccessRestrictionsResponseBodyList;
@@ -135,72 +135,72 @@ export interface AddCollaboratorRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The permission to grant the collaborator. **Only valid on organization-owned repositories.** We accept the following permissions to be set: `pull`, `triage`, `moderate`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. */
-  permission?: string;
+  permission?: string | undefined;
 }
 export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -216,28 +216,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -270,7 +276,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -282,7 +288,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -290,53 +296,53 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 /** A GitHub user. */
 export type NullableSimpleUser = SimpleUser;
@@ -359,7 +365,7 @@ export interface RepositoryInvitation {
   permissions: RepositoryInvitationPermissions;
   created_at: string;
   /** Whether or not the invitation has expired */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** URL for the repository invitation */
   url: string;
   html_url: string;
@@ -383,7 +389,7 @@ export interface AddStatusCheckContextsRequest {
   repo: string;
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
-  body?: AddStatusCheckContextsRequestBody;
+  body?: AddStatusCheckContextsRequestBody | undefined;
 }
 export type AddStatusCheckContextsResponseBodyList = Array<string>;
 export type AddStatusCheckContextsResponse = AddStatusCheckContextsResponseBodyList;
@@ -405,7 +411,7 @@ export interface AddTeamAccessRestrictionsRequest {
   repo: string;
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
-  body?: AddTeamAccessRestrictionsRequestBody;
+  body?: AddTeamAccessRestrictionsRequestBody | undefined;
 }
 export interface TeamPermissions {
   pull: boolean;
@@ -435,20 +441,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -457,10 +463,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -468,11 +474,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export type AddTeamAccessRestrictionsResponseBodyList = Array<Team>;
@@ -558,7 +564,7 @@ export interface CodeownersErrorsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** A branch, tag or commit name used to determine which version of the CODEOWNERS file to use. Default: the repository's default branch (e.g. `main`) */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface CodeownersErrorsErrorsItem {
   /** The line number where this errors occurs. */
@@ -566,11 +572,11 @@ export interface CodeownersErrorsErrorsItem {
   /** The column number where this errors occurs. */
   column: number;
   /** The contents of the line where the error occurs. */
-  source?: string;
+  source?: string | undefined;
   /** The type of error. */
   kind: string;
   /** Suggested action to fix the error. This will usually be `null`, but is provided for some common errors. */
-  suggestion?: string | null;
+  suggestion?: string | null | undefined;
   /** A human-readable description of the error, combining information from multiple fields, laid out for display in a monospaced typeface (for example, a command-line setting). */
   message: string;
   /** The path of the file where the error occured. */
@@ -593,17 +599,17 @@ export interface CompareCommitsRequest {
   /** The base branch and head branch to compare. This parameter expects the format `BASE...HEAD`. Both must be branch names in `repo`. To compare with a branch that exists in a different repository in the same network as `repo`, the `basehead` parameter expects the format `USERNAME:BASE...USERNAME:HEAD`. */
   basehead: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A media type that returns text instead of JSON: `application/vnd.github.diff`, `application/vnd.github.patch`. */
-  accept?: CompareCommitsRequestAccept | (string & {});
+  accept?: CompareCommitsRequestAccept | (string & {}) | undefined;
 }
 /** Metaproperties for Git author/committer information. */
 export interface NullableGitUser {
-  name?: string;
-  email?: string;
-  date?: string;
+  name?: string | undefined;
+  email?: string | undefined;
+  date?: string | undefined;
 }
 export interface CommitCommitTree {
   sha: string;
@@ -623,20 +629,20 @@ export interface CommitCommit {
   message: string;
   comment_count: number;
   tree: CommitCommitTree;
-  verification?: Verification;
+  verification?: Verification | undefined;
 }
 export type CommitAuthor = SimpleUser | unknown;
 export type CommitCommitter = SimpleUser | unknown;
 export interface CommitParentsItem {
   sha: string;
   url: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export type CommitParentsList = Array<CommitParentsItem>;
 export interface CommitStats {
-  additions?: number;
-  deletions?: number;
-  total?: number;
+  additions?: number | undefined;
+  deletions?: number | undefined;
+  total?: number | undefined;
 }
 export type DiffEntryStatus =
   | "added"
@@ -657,8 +663,8 @@ export interface DiffEntry {
   blob_url: string;
   raw_url: string;
   contents_url: string;
-  patch?: string;
-  previous_filename?: string;
+  patch?: string | undefined;
+  previous_filename?: string | undefined;
 }
 export type CommitFilesList = Array<DiffEntry>;
 /** Commit */
@@ -672,8 +678,8 @@ export interface Commit {
   author: CommitAuthor | null;
   committer: CommitCommitter | null;
   parents: CommitParentsList;
-  stats?: CommitStats;
-  files?: CommitFilesList;
+  stats?: CommitStats | undefined;
+  files?: CommitFilesList | undefined;
 }
 export type CommitComparisonStatus = "diverged" | "ahead" | "behind" | "identical";
 export type CommitComparisonCommitsList = Array<Commit>;
@@ -692,7 +698,7 @@ export interface CommitComparison {
   behind_by: number;
   total_commits: number;
   commits: CommitComparisonCommitsList;
-  files?: CommitComparisonFilesList;
+  files?: CommitComparisonFilesList | undefined;
 }
 export type CompareCommitsResponseBody = CommitComparison | string;
 export type CompareCommitsResponse = CompareCommitsResponseBody;
@@ -702,9 +708,9 @@ export type CreateAttestationRequestBundleVerificationMaterialMap = {
 export type CreateAttestationRequestBundleDsseEnvelopeMap = { [key: string]: unknown | undefined };
 /** The attestation's Sigstore Bundle. Refer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information. */
 export interface CreateAttestationRequestBundle {
-  mediaType?: string;
-  verificationMaterial?: CreateAttestationRequestBundleVerificationMaterialMap;
-  dsseEnvelope?: CreateAttestationRequestBundleDsseEnvelopeMap;
+  mediaType?: string | undefined;
+  verificationMaterial?: CreateAttestationRequestBundleVerificationMaterialMap | undefined;
+  dsseEnvelope?: CreateAttestationRequestBundleDsseEnvelopeMap | undefined;
 }
 export interface CreateAttestationRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -716,7 +722,7 @@ export interface CreateAttestationRequest {
 }
 export interface CreateAttestationResponse {
   /** The ID of the attestation. */
-  id?: number;
+  id?: number | undefined;
 }
 export interface CreateAutolinkRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -728,7 +734,7 @@ export interface CreateAutolinkRequest {
   /** The URL must contain `<num>` for the reference number. `<num>` matches different characters depending on the value of `is_alphanumeric`. */
   url_template: string;
   /** Whether this autolink reference matches alphanumeric characters. If true, the `<num>` parameter of the `url_template` matches alphanumeric characters `A-Z` (case insensitive), `0-9`, and `-`. If false, this autolink reference only matches numeric characters. */
-  is_alphanumeric?: boolean;
+  is_alphanumeric?: boolean | undefined;
 }
 /** An autolink reference. */
 export interface Autolink {
@@ -739,7 +745,7 @@ export interface Autolink {
   url_template: string;
   /** Whether this autolink reference matches alphanumeric characters. If false, this autolink reference only matches numeric characters. */
   is_alphanumeric: boolean;
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 export interface CreateCommitCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -751,11 +757,11 @@ export interface CreateCommitCommentRequest {
   /** The contents of the comment. */
   body: string;
   /** Relative path of the file to comment on. */
-  path?: string;
+  path?: string | undefined;
   /** Line index in the diff to comment on. */
-  position?: number;
+  position?: number | undefined;
   /** **Closing down notice**. Use **position** parameter instead. Line number in the file to comment on. */
-  line?: number;
+  line?: number | undefined;
 }
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -794,7 +800,7 @@ export interface CommitComment {
   created_at: string;
   updated_at: string;
   author_association: AuthorAssociation;
-  reactions?: ReactionRollup;
+  reactions?: ReactionRollup | undefined;
 }
 export interface CreateCommitSignatureProtectionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -820,11 +826,11 @@ export interface CreateCommitStatusRequest {
   /** The state of the status. */
   state: CreateCommitStatusRequestState | (string & {});
   /** The target URL to associate with this status. This URL will be linked from the GitHub UI to allow users to easily see the source of the status. For example, if your continuous integration system is posting build status, you would want to provide the deep link for the build output for this specific SHA: `http://ci.example.com/user/repo/build/sha` */
-  target_url?: string | null;
+  target_url?: string | null | undefined;
   /** A short description of the status. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A string label to differentiate this status from the status of other systems. This field is case-insensitive. */
-  context?: string;
+  context?: string | undefined;
 }
 /** The status of a commit. */
 export interface Status {
@@ -846,11 +852,11 @@ export interface CreateDeployKeyRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** A name for the key. */
-  title?: string;
+  title?: string | undefined;
   /** The contents of the key. */
   key: string;
   /** If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write. Deploy keys with write access can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. For more information, see "[Repository permission levels for an organization](https://docs.github.com/articles/repository-permission-levels-for-an-organization/)" and "[Permission levels for a user account repository](https://docs.github.com/articles/permission-levels-for-a-user-account-repository/)." */
-  read_only?: boolean;
+  read_only?: boolean | undefined;
 }
 /** An SSH key granting access to a single repository. */
 export interface DeployKey {
@@ -861,9 +867,9 @@ export interface DeployKey {
   verified: boolean;
   created_at: string;
   read_only: boolean;
-  added_by?: string | null;
-  last_used?: string | null;
-  enabled?: boolean;
+  added_by?: string | null | undefined;
+  last_used?: string | null | undefined;
+  enabled?: boolean | undefined;
 }
 /** The [status](https://docs.github.com/rest/commits/statuses) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts. */
 export type CreateDeploymentRequestRequiredContextsList = Array<string>;
@@ -877,20 +883,20 @@ export interface CreateDeploymentRequest {
   /** The ref to deploy. This can be a branch, tag, or SHA. */
   ref: string;
   /** Specifies a task to execute (e.g., `deploy` or `deploy:migrations`). */
-  task?: string;
+  task?: string | undefined;
   /** Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch. */
-  auto_merge?: boolean;
+  auto_merge?: boolean | undefined;
   /** The [status](https://docs.github.com/rest/commits/statuses) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts. */
-  required_contexts?: CreateDeploymentRequestRequiredContextsList;
-  payload?: CreateDeploymentRequestPayload;
+  required_contexts?: CreateDeploymentRequestRequiredContextsList | undefined;
+  payload?: CreateDeploymentRequestPayload | undefined;
   /** Name for the target deployment environment (e.g., `production`, `staging`, `qa`). */
-  environment?: string;
+  environment?: string | undefined;
   /** Short description of the deployment. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: `false` */
-  transient_environment?: boolean;
+  transient_environment?: boolean | undefined;
   /** Specifies if the given environment is one that end-users directly interact with. Default: `true` when `environment` is `production` and `false` otherwise. */
-  production_environment?: boolean;
+  production_environment?: boolean | undefined;
 }
 export type DeploymentPayloadCase0Map = { [key: string]: unknown | undefined };
 export type DeploymentPayload = DeploymentPayloadCase0Map | string;
@@ -904,9 +910,9 @@ export interface NullableIntegration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: NullableIntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -920,7 +926,7 @@ export interface NullableIntegration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: NullableIntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** A request for a specific ref(branch,sha,tag) to be deployed */
 export interface Deployment {
@@ -934,7 +940,7 @@ export interface Deployment {
   /** Parameter to specify a task to execute */
   task: string;
   payload: DeploymentPayload;
-  original_environment?: string;
+  original_environment?: string | undefined;
   /** Name for the target deployment environment. */
   environment: string;
   description: string | null;
@@ -944,10 +950,10 @@ export interface Deployment {
   statuses_url: string;
   repository_url: string;
   /** Specifies if the given environment is will no longer exist at some point in the future. Default: false. */
-  transient_environment?: boolean;
+  transient_environment?: boolean | undefined;
   /** Specifies if the given environment is one that end-users directly interact with. Default: false. */
-  production_environment?: boolean;
-  performed_via_github_app?: NullableIntegration | null;
+  production_environment?: boolean | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
 }
 /** Whether this rule targets a branch or tag */
 export type CreateDeploymentBranchPolicyRequestType = "branch" | "tag";
@@ -961,19 +967,19 @@ export interface CreateDeploymentBranchPolicyRequest {
   /** The name pattern that branches or tags must match in order to deploy to the environment. Wildcard characters will not match `/`. For example, to match branches that begin with `release/` and contain an additional single slash, use `release/*\/*`. For more information about pattern matching syntax, see the [Ruby File.fnmatch documentation](https://ruby-doc.org/core-2.5.1/File.html#method-c-fnmatch). */
   name: string;
   /** Whether this rule targets a branch or tag */
-  type?: CreateDeploymentBranchPolicyRequestType | (string & {});
+  type?: CreateDeploymentBranchPolicyRequestType | (string & {}) | undefined;
 }
 /** Whether this rule targets a branch or tag. */
 export type DeploymentBranchPolicyType = "branch" | "tag";
 /** Details of a deployment branch or tag policy. */
 export interface DeploymentBranchPolicy {
   /** The unique identifier of the branch or tag policy. */
-  id?: number;
-  node_id?: string;
+  id?: number | undefined;
+  node_id?: string | undefined;
   /** The name pattern that branches or tags must match in order to deploy to the environment. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this rule targets a branch or tag. */
-  type?: DeploymentBranchPolicyType;
+  type?: DeploymentBranchPolicyType | undefined;
 }
 export interface CreateDeploymentProtectionRuleRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -983,7 +989,7 @@ export interface CreateDeploymentProtectionRuleRequest {
   /** The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`. */
   environment_name: string;
   /** The ID of the custom app that will be enabled on the environment. */
-  integration_id?: number;
+  integration_id?: number | undefined;
 }
 /** A GitHub App that is providing a custom deployment protection rule. */
 export interface CustomDeploymentRuleApp {
@@ -1025,17 +1031,17 @@ export interface CreateDeploymentStatusRequest {
   /** The state of the status. When you set a transient deployment to `inactive`, the deployment will be shown as `destroyed` in GitHub. */
   state: CreateDeploymentStatusRequestState | (string & {});
   /** The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. > [!NOTE] > It's recommended to use the `log_url` parameter, which replaces `target_url`. */
-  target_url?: string;
+  target_url?: string | undefined;
   /** The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value. Default: `""` */
-  log_url?: string;
+  log_url?: string | undefined;
   /** A short description of the status. The maximum description length is 140 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. If not defined, the environment of the previous status on the deployment will be used, if it exists. Otherwise, the environment of the deployment will be used. */
-  environment?: string;
+  environment?: string | undefined;
   /** Sets the URL for accessing your environment. Default: `""` */
-  environment_url?: string;
+  environment_url?: string | undefined;
   /** Adds a new `inactive` status to all prior non-transient, non-production environment deployments with the same repository and `environment` name as the created status's deployment. An `inactive` status is only added to deployments that had a `success` state. Default: `true` */
-  auto_inactive?: boolean;
+  auto_inactive?: boolean | undefined;
 }
 /** The state of the status. */
 export type DeploymentStatusState =
@@ -1057,7 +1063,7 @@ export interface DeploymentStatus {
   /** A short description of the status. */
   description: string;
   /** The environment of the deployment that the status is for. */
-  environment?: string;
+  environment?: string | undefined;
   /** Closing down notice: the URL to associate with this status. */
   target_url: string;
   created_at: string;
@@ -1065,10 +1071,10 @@ export interface DeploymentStatus {
   deployment_url: string;
   repository_url: string;
   /** The URL for accessing your environment. */
-  environment_url?: string;
+  environment_url?: string | undefined;
   /** The URL to associate with this status. */
-  log_url?: string;
-  performed_via_github_app?: NullableIntegration | null;
+  log_url?: string | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
 }
 /** JSON payload with extra information about the webhook event that your action or workflow may use. The maximum number of top-level properties is 10. The total size of the JSON payload must be less than 64KB. */
 export type CreateDispatchEventRequestClientPayloadMap = { [key: string]: unknown | undefined };
@@ -1080,7 +1086,7 @@ export interface CreateDispatchEventRequest {
   /** A custom webhook event name. Must be 100 characters or fewer. */
   event_type: string;
   /** JSON payload with extra information about the webhook event that your action or workflow may use. The maximum number of top-level properties is 10. The total size of the JSON payload must be less than 64KB. */
-  client_payload?: CreateDispatchEventRequestClientPayloadMap;
+  client_payload?: CreateDispatchEventRequestClientPayloadMap | undefined;
 }
 export interface CreateDispatchEventResponse {}
 /** Required when using `squash_merge_commit_message`. The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
@@ -1100,62 +1106,70 @@ export interface CreateForAuthenticatedUserRequest {
   /** The name of the repository. */
   name: string;
   /** A short description of the repository. */
-  description?: string;
+  description?: string | undefined;
   /** A URL with more information about the repository. */
-  homepage?: string;
+  homepage?: string | undefined;
   /** Whether the repository is private. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Whether issues are enabled. */
-  has_issues?: boolean;
+  has_issues?: boolean | undefined;
   /** Whether projects are enabled. */
-  has_projects?: boolean;
+  has_projects?: boolean | undefined;
   /** Whether the wiki is enabled. */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
-  team_id?: number;
+  team_id?: number | undefined;
   /** Whether the repository is initialized with a minimal README. */
-  auto_init?: boolean;
+  auto_init?: boolean | undefined;
   /** The desired language or platform to apply to the .gitignore. */
-  gitignore_template?: string;
+  gitignore_template?: string | undefined;
   /** The license keyword of the open source license for this repository. */
-  license_template?: string;
+  license_template?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
+  allow_rebase_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Required when using `squash_merge_commit_message`. The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
   squash_merge_commit_title?:
     | CreateForAuthenticatedUserRequestSquashMergeCommitTitle
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
   squash_merge_commit_message?:
     | CreateForAuthenticatedUserRequestSquashMergeCommitMessage
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Required when using `merge_commit_message`. The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: CreateForAuthenticatedUserRequestMergeCommitTitle | (string & {});
+  merge_commit_title?:
+    | CreateForAuthenticatedUserRequestMergeCommitTitle
+    | (string & {})
+    | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: CreateForAuthenticatedUserRequestMergeCommitMessage | (string & {});
+  merge_commit_message?:
+    | CreateForAuthenticatedUserRequestMergeCommitMessage
+    | (string & {})
+    | undefined;
   /** Whether downloads are enabled. */
-  has_downloads?: boolean;
+  has_downloads?: boolean | undefined;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
 }
 export type FullRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type FullRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface FullRepositoryPermissions {
   admin: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
   push: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   pull: boolean;
 }
 /** License Simple */
@@ -1165,14 +1179,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface NullableRepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type NullableRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -1187,8 +1201,8 @@ export type NullableRepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type NullableRepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface NullableRepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface NullableRepository {
@@ -1200,7 +1214,7 @@ export interface NullableRepository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: NullableRepositoryPermissions;
+  permissions?: NullableRepositoryPermissions | undefined;
   owner: SimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -1260,8 +1274,8 @@ export interface NullableRepository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: NullableRepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: NullableRepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -1272,56 +1286,56 @@ export interface NullableRepository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: NullableRepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: NullableRepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
+  allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: NullableRepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: NullableRepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: NullableRepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: NullableRepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: NullableRepositoryMergeCommitTitle;
+  merge_commit_title?: NullableRepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: NullableRepositoryMergeCommitMessage;
+  merge_commit_message?: NullableRepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus;
+  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus | undefined;
 }
 /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
 export type FullRepositorySquashMergeCommitTitle = "PR_TITLE" | "COMMIT_OR_PR_TITLE";
@@ -1355,7 +1369,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: NullableRepositoryPermissions;
+  permissions?: NullableRepositoryPermissions | undefined;
   owner: SimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -1415,8 +1429,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -1427,56 +1441,56 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
+  allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string;
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus;
+  code_search_index_status?: NullableRepositoryCodeSearchIndexStatus | undefined;
 }
 /** Code of Conduct Simple */
 export interface CodeOfConductSimple {
@@ -1549,62 +1563,62 @@ export interface FullRepository {
   size: number;
   default_branch: string;
   open_issues_count: number;
-  is_template?: boolean;
-  topics?: FullRepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: FullRepositoryTopicsList | undefined;
   has_issues: boolean;
   has_projects: boolean;
   has_wiki: boolean;
   has_pages: boolean;
-  has_downloads?: boolean;
+  has_downloads?: boolean | undefined;
   has_discussions: boolean;
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: FullRepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: FullRepositoryPullRequestCreationPolicy | undefined;
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string;
   created_at: string;
   updated_at: string;
-  permissions?: FullRepositoryPermissions;
-  allow_rebase_merge?: boolean;
-  template_repository?: NullableRepository | null;
+  permissions?: FullRepositoryPermissions | undefined;
+  allow_rebase_merge?: boolean | undefined;
+  template_repository?: NullableRepository | null | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | null;
-  allow_squash_merge?: boolean;
-  allow_auto_merge?: boolean;
-  delete_branch_on_merge?: boolean;
-  allow_merge_commit?: boolean;
-  allow_update_branch?: boolean;
-  use_squash_pr_title_as_default?: boolean;
+  temp_clone_token?: string | null | undefined;
+  allow_squash_merge?: boolean | undefined;
+  allow_auto_merge?: boolean | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  allow_merge_commit?: boolean | undefined;
+  allow_update_branch?: boolean | undefined;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: FullRepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: FullRepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: FullRepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: FullRepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: FullRepositoryMergeCommitTitle;
+  merge_commit_title?: FullRepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: FullRepositoryMergeCommitMessage;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
+  merge_commit_message?: FullRepositoryMergeCommitMessage | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
   subscribers_count: number;
   network_count: number;
   license: NullableLicenseSimple | null;
-  organization?: SimpleUser | null;
-  parent?: Repository;
-  source?: Repository;
+  organization?: SimpleUser | null | undefined;
+  parent?: Repository | undefined;
+  source?: Repository | undefined;
   forks: number;
-  master_branch?: string;
+  master_branch?: string | undefined;
   open_issues: number;
   watchers: number;
   /** Whether anonymous git access is allowed. */
-  anonymous_access_enabled?: boolean;
-  code_of_conduct?: CodeOfConductSimple;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  anonymous_access_enabled?: boolean | undefined;
+  code_of_conduct?: CodeOfConductSimple | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: FullRepositoryCustomPropertiesMap;
+  custom_properties?: FullRepositoryCustomPropertiesMap | undefined;
 }
 export interface CreateForkRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1612,11 +1626,11 @@ export interface CreateForkRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Optional parameter to specify the organization name if forking into an organization. */
-  organization?: string;
+  organization?: string | undefined;
   /** When forking from an existing repository, a new name for the fork. */
-  name?: string;
+  name?: string | undefined;
   /** When forking from an existing repository, fork with only the default branch. */
-  default_branch_only?: boolean;
+  default_branch_only?: boolean | undefined;
 }
 export interface CreateForkResponse {}
 /** The visibility of the repository. */
@@ -1637,53 +1651,56 @@ export interface CreateInOrgRequest {
   /** The name of the repository. */
   name: string;
   /** A short description of the repository. */
-  description?: string;
+  description?: string | undefined;
   /** A URL with more information about the repository. */
-  homepage?: string;
+  homepage?: string | undefined;
   /** Whether the repository is private. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The visibility of the repository. */
-  visibility?: CreateInOrgRequestVisibility | (string & {});
+  visibility?: CreateInOrgRequestVisibility | (string & {}) | undefined;
   /** Either `true` to enable issues for this repository or `false` to disable them. */
-  has_issues?: boolean;
+  has_issues?: boolean | undefined;
   /** Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error. */
-  has_projects?: boolean;
+  has_projects?: boolean | undefined;
   /** Either `true` to enable the wiki for this repository or `false` to disable it. */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** Whether downloads are enabled. */
-  has_downloads?: boolean;
+  has_downloads?: boolean | undefined;
   /** Either `true` to make this repo available as a template repository or `false` to prevent it. */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
   /** The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization. */
-  team_id?: number;
+  team_id?: number | undefined;
   /** Pass `true` to create an initial commit with empty README. */
-  auto_init?: boolean;
+  auto_init?: boolean | undefined;
   /** Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply. Use the name of the template without the extension. For example, "Haskell". */
-  gitignore_template?: string;
+  gitignore_template?: string | undefined;
   /** Choose an [open source license template](https://choosealicense.com/) that best suits your needs, and then use the [license keyword](https://docs.github.com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template` string. For example, "mit" or "mpl-2.0". */
-  license_template?: string;
+  license_template?: string | undefined;
   /** Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging. */
-  allow_rebase_merge?: boolean;
+  allow_rebase_merge?: boolean | undefined;
   /** Either `true` to allow auto-merge on pull requests, or `false` to disallow auto-merge. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion. **The authenticated user must be an organization owner to set this property to `true`.** */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** Required when using `squash_merge_commit_message`. The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: CreateInOrgRequestSquashMergeCommitTitle | (string & {});
+  squash_merge_commit_title?: CreateInOrgRequestSquashMergeCommitTitle | (string & {}) | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: CreateInOrgRequestSquashMergeCommitMessage | (string & {});
+  squash_merge_commit_message?:
+    | CreateInOrgRequestSquashMergeCommitMessage
+    | (string & {})
+    | undefined;
   /** Required when using `merge_commit_message`. The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: CreateInOrgRequestMergeCommitTitle | (string & {});
+  merge_commit_title?: CreateInOrgRequestMergeCommitTitle | (string & {}) | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: CreateInOrgRequestMergeCommitMessage | (string & {});
+  merge_commit_message?: CreateInOrgRequestMergeCommitMessage | (string & {}) | undefined;
   /** The custom properties for the new repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: CreateInOrgRequestCustomPropertiesMap;
+  custom_properties?: CreateInOrgRequestCustomPropertiesMap | undefined;
 }
 /** The target of the ruleset */
 export type CreateOrgRulesetRequestTarget = "branch" | "tag" | "push" | "repository";
@@ -1702,11 +1719,11 @@ export type RepositoryRulesetBypassActorBypassMode = "always" | "pull_request" |
 /** An actor that can bypass rules in a ruleset */
 export interface RepositoryRulesetBypassActor {
   /** The ID of the actor that can bypass a ruleset. Required for `Integration`, `RepositoryRole`, `Team`, and `User` actor types. If `actor_type` is `OrganizationAdmin`, `actor_id` is ignored. If `actor_type` is `DeployKey`, this should be null. `OrganizationAdmin` is not applicable for personal repositories. */
-  actor_id?: number | null;
+  actor_id?: number | null | undefined;
   /** The type of actor that can bypass a ruleset. */
   actor_type: RepositoryRulesetBypassActorActorType | (string & {});
   /** When the specified actor can bypass the ruleset. `pull_request` means that an actor can only bypass rules on pull requests. `pull_request` is not applicable for the `DeployKey` actor type. Also, `pull_request` is only applicable to branch rulesets. When `bypass_mode` is `exempt`, rules will not be run for that actor and a bypass audit entry will not be created. */
-  bypass_mode?: RepositoryRulesetBypassActorBypassMode | (string & {});
+  bypass_mode?: RepositoryRulesetBypassActorBypassMode | (string & {}) | undefined;
 }
 /** The actors that can bypass the rules in this ruleset */
 export type CreateOrgRulesetRequestBypassActorsList = Array<RepositoryRulesetBypassActor>;
@@ -1716,9 +1733,9 @@ export type OrgRulesetConditionsCase0RefNameIncludeList = Array<string>;
 export type OrgRulesetConditionsCase0RefNameExcludeList = Array<string>;
 export interface OrgRulesetConditionsCase0RefName {
   /** Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
-  include?: OrgRulesetConditionsCase0RefNameIncludeList;
+  include?: OrgRulesetConditionsCase0RefNameIncludeList | undefined;
   /** Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: OrgRulesetConditionsCase0RefNameExcludeList;
+  exclude?: OrgRulesetConditionsCase0RefNameExcludeList | undefined;
 }
 /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
 export type OrgRulesetConditionsCase0RepositoryNameIncludeList = Array<string>;
@@ -1726,15 +1743,15 @@ export type OrgRulesetConditionsCase0RepositoryNameIncludeList = Array<string>;
 export type OrgRulesetConditionsCase0RepositoryNameExcludeList = Array<string>;
 export interface OrgRulesetConditionsCase0RepositoryName {
   /** Array of repository names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~ALL` to include all repositories. */
-  include?: OrgRulesetConditionsCase0RepositoryNameIncludeList;
+  include?: OrgRulesetConditionsCase0RepositoryNameIncludeList | undefined;
   /** Array of repository names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: OrgRulesetConditionsCase0RepositoryNameExcludeList;
+  exclude?: OrgRulesetConditionsCase0RepositoryNameExcludeList | undefined;
   /** Whether renaming of target repositories is prevented. */
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 /** Conditions to target repositories by name and refs by name */
 export interface OrgRulesetConditionsCase0 {
-  ref_name?: OrgRulesetConditionsCase0RefName;
+  ref_name?: OrgRulesetConditionsCase0RefName | undefined;
   repository_name: OrgRulesetConditionsCase0RepositoryName;
 }
 /** Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
@@ -1743,19 +1760,19 @@ export type OrgRulesetConditionsCase1RefNameIncludeList = Array<string>;
 export type OrgRulesetConditionsCase1RefNameExcludeList = Array<string>;
 export interface OrgRulesetConditionsCase1RefName {
   /** Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
-  include?: OrgRulesetConditionsCase1RefNameIncludeList;
+  include?: OrgRulesetConditionsCase1RefNameIncludeList | undefined;
   /** Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: OrgRulesetConditionsCase1RefNameExcludeList;
+  exclude?: OrgRulesetConditionsCase1RefNameExcludeList | undefined;
 }
 /** The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
 export type OrgRulesetConditionsCase1RepositoryIdRepositoryIdsList = Array<number>;
 export interface OrgRulesetConditionsCase1RepositoryId {
   /** The repository IDs that the ruleset applies to. One of these IDs must match for the condition to pass. */
-  repository_ids?: OrgRulesetConditionsCase1RepositoryIdRepositoryIdsList;
+  repository_ids?: OrgRulesetConditionsCase1RepositoryIdRepositoryIdsList | undefined;
 }
 /** Conditions to target repositories by id and refs by name */
 export interface OrgRulesetConditionsCase1 {
-  ref_name?: OrgRulesetConditionsCase1RefName;
+  ref_name?: OrgRulesetConditionsCase1RefName | undefined;
   repository_id: OrgRulesetConditionsCase1RepositoryId;
 }
 /** Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
@@ -1764,9 +1781,9 @@ export type OrgRulesetConditionsCase2RefNameIncludeList = Array<string>;
 export type OrgRulesetConditionsCase2RefNameExcludeList = Array<string>;
 export interface OrgRulesetConditionsCase2RefName {
   /** Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
-  include?: OrgRulesetConditionsCase2RefNameIncludeList;
+  include?: OrgRulesetConditionsCase2RefNameIncludeList | undefined;
   /** Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: OrgRulesetConditionsCase2RefNameExcludeList;
+  exclude?: OrgRulesetConditionsCase2RefNameExcludeList | undefined;
 }
 /** The values to match for the repository property */
 export type RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList = Array<string>;
@@ -1779,7 +1796,7 @@ export interface RepositoryRulesetConditionsRepositoryPropertySpec {
   /** The values to match for the repository property */
   property_values: RepositoryRulesetConditionsRepositoryPropertySpecPropertyValuesList;
   /** The source of the repository property. Defaults to 'custom' if not specified. */
-  source?: RepositoryRulesetConditionsRepositoryPropertySpecSource | (string & {});
+  source?: RepositoryRulesetConditionsRepositoryPropertySpecSource | (string & {}) | undefined;
 }
 /** The repository properties and values to include. All of these properties must match for the condition to pass. */
 export type OrgRulesetConditionsCase2RepositoryPropertyIncludeList =
@@ -1789,13 +1806,13 @@ export type OrgRulesetConditionsCase2RepositoryPropertyExcludeList =
   Array<RepositoryRulesetConditionsRepositoryPropertySpec>;
 export interface OrgRulesetConditionsCase2RepositoryProperty {
   /** The repository properties and values to include. All of these properties must match for the condition to pass. */
-  include?: OrgRulesetConditionsCase2RepositoryPropertyIncludeList;
+  include?: OrgRulesetConditionsCase2RepositoryPropertyIncludeList | undefined;
   /** The repository properties and values to exclude. The condition will not pass if any of these properties match. */
-  exclude?: OrgRulesetConditionsCase2RepositoryPropertyExcludeList;
+  exclude?: OrgRulesetConditionsCase2RepositoryPropertyExcludeList | undefined;
 }
 /** Conditions to target repositories by property and refs by name */
 export interface OrgRulesetConditionsCase2 {
-  ref_name?: OrgRulesetConditionsCase2RefName;
+  ref_name?: OrgRulesetConditionsCase2RefName | undefined;
   repository_property: OrgRulesetConditionsCase2RepositoryProperty;
 }
 /** Conditions for an organization ruleset. The branch and tag rulesets conditions object should contain both `repository_name` and `ref_name` properties, or both `repository_id` and `ref_name` properties, or both `repository_property` and `ref_name` properties. The push rulesets conditions object does not require the `ref_name` property. For repository policy rulesets, the conditions object should only contain the `repository_name`, the `repository_id`, or the `repository_property`. */
@@ -1816,7 +1833,7 @@ export interface RepositoryRuleUpdateParameters {
 /** Only allow users with bypass permission to update matching refs. */
 export interface RepositoryRuleUpdate {
   type: RepositoryRuleUpdateType;
-  parameters?: RepositoryRuleUpdateParameters;
+  parameters?: RepositoryRuleUpdateParameters | undefined;
 }
 export type RepositoryRuleDeletionType = "deletion";
 /** Only allow users with bypass permissions to delete matching refs. */
@@ -1839,7 +1856,7 @@ export interface RepositoryRuleRequiredDeploymentsParameters {
 /** Choose which environments must be successfully deployed to before refs can be pushed into a ref that matches this rule. */
 export interface RepositoryRuleRequiredDeployments {
   type: RepositoryRuleRequiredDeploymentsType;
-  parameters?: RepositoryRuleRequiredDeploymentsParameters;
+  parameters?: RepositoryRuleRequiredDeploymentsParameters | undefined;
 }
 export type RepositoryRuleRequiredSignaturesType = "required_signatures";
 /** Commits pushed to matching refs must have verified signatures. */
@@ -1874,7 +1891,7 @@ export type RepositoryRuleParamsDismissalRestrictionAllowedActorsList =
 /** Specify people, teams, or apps allowed to dismiss pull request reviews. */
 export interface RepositoryRuleParamsDismissalRestriction {
   /** Specify people, teams, or apps allowed to dismiss pull request reviews. */
-  allowed_actors?: RepositoryRuleParamsDismissalRestrictionAllowedActorsList;
+  allowed_actors?: RepositoryRuleParamsDismissalRestrictionAllowedActorsList | undefined;
   /** Whether to restrict review dismissal to specific actors. */
   enabled: boolean;
 }
@@ -1902,14 +1919,14 @@ export type RepositoryRulePullRequestParametersRequiredReviewersList =
   Array<RepositoryRuleParamsRequiredReviewerConfiguration>;
 export interface RepositoryRulePullRequestParameters {
   /** Array of allowed merge methods. Allowed values include `merge`, `squash`, and `rebase`. At least one option must be enabled. */
-  allowed_merge_methods?: RepositoryRulePullRequestParametersAllowedMergeMethodsList;
+  allowed_merge_methods?: RepositoryRulePullRequestParametersAllowedMergeMethodsList | undefined;
   /** New, reviewable commits pushed will dismiss previous pull request review approvals. */
   dismiss_stale_reviews_on_push: boolean;
-  dismissal_restriction?: RepositoryRuleParamsDismissalRestriction;
+  dismissal_restriction?: RepositoryRuleParamsDismissalRestriction | undefined;
   /** Require an approving review in pull requests that modify files that have a designated code owner. */
   require_code_owner_review: boolean;
   /** When Copilot opens a pull request without a human collaborator, require one more approving review if a non-zero approval count is required. */
-  require_extra_approval_for_unattributed_changes?: boolean;
+  require_extra_approval_for_unattributed_changes?: boolean | undefined;
   /** Whether the most recent reviewable push must be approved by someone other than the person who pushed it. */
   require_last_push_approval: boolean;
   /** The number of approving reviews that are required before a pull request can be merged. */
@@ -1917,12 +1934,12 @@ export interface RepositoryRulePullRequestParameters {
   /** All conversations on code must be resolved before a pull request can be merged. */
   required_review_thread_resolution: boolean;
   /** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
-  required_reviewers?: RepositoryRulePullRequestParametersRequiredReviewersList;
+  required_reviewers?: RepositoryRulePullRequestParametersRequiredReviewersList | undefined;
 }
 /** Require all commits be made to a non-target branch and submitted via a pull request before they can be merged. */
 export interface RepositoryRulePullRequest {
   type: RepositoryRulePullRequestType;
-  parameters?: RepositoryRulePullRequestParameters;
+  parameters?: RepositoryRulePullRequestParameters | undefined;
 }
 export type RepositoryRuleRequiredStatusChecksType = "required_status_checks";
 /** Required status check */
@@ -1930,14 +1947,14 @@ export interface RepositoryRuleParamsStatusCheckConfiguration {
   /** The status check context name that must be present on the commit. */
   context: string;
   /** The optional integration ID that this status check must originate from. */
-  integration_id?: number;
+  integration_id?: number | undefined;
 }
 /** Status checks that are required. */
 export type RepositoryRuleRequiredStatusChecksParametersRequiredStatusChecksList =
   Array<RepositoryRuleParamsStatusCheckConfiguration>;
 export interface RepositoryRuleRequiredStatusChecksParameters {
   /** Allow repositories and branches to be created if a check would otherwise prohibit it. */
-  do_not_enforce_on_create?: boolean;
+  do_not_enforce_on_create?: boolean | undefined;
   /** Status checks that are required. */
   required_status_checks: RepositoryRuleRequiredStatusChecksParametersRequiredStatusChecksList;
   /** Whether pull requests targeting a matching branch must be tested with the latest code. This setting will not take effect unless at least one status check is enabled. */
@@ -1946,7 +1963,7 @@ export interface RepositoryRuleRequiredStatusChecksParameters {
 /** Choose which status checks must pass before the ref is updated. When enabled, commits must first be pushed to another ref where the checks pass. */
 export interface RepositoryRuleRequiredStatusChecks {
   type: RepositoryRuleRequiredStatusChecksType;
-  parameters?: RepositoryRuleRequiredStatusChecksParameters;
+  parameters?: RepositoryRuleRequiredStatusChecksParameters | undefined;
 }
 export type RepositoryRuleNonFastForwardType = "non_fast_forward";
 /** Prevent users with push access from force pushing to refs. */
@@ -1962,9 +1979,9 @@ export type RepositoryRuleCommitMessagePatternParametersOperator =
   | "regex";
 export interface RepositoryRuleCommitMessagePatternParameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleCommitMessagePatternParametersOperator | (string & {});
   /** The pattern to match with. */
@@ -1973,7 +1990,7 @@ export interface RepositoryRuleCommitMessagePatternParameters {
 /** Parameters to be used for the commit_message_pattern rule */
 export interface RepositoryRuleCommitMessagePattern {
   type: RepositoryRuleCommitMessagePatternType;
-  parameters?: RepositoryRuleCommitMessagePatternParameters;
+  parameters?: RepositoryRuleCommitMessagePatternParameters | undefined;
 }
 export type RepositoryRuleCommitAuthorEmailPatternType = "commit_author_email_pattern";
 /** The operator to use for matching. */
@@ -1984,9 +2001,9 @@ export type RepositoryRuleCommitAuthorEmailPatternParametersOperator =
   | "regex";
 export interface RepositoryRuleCommitAuthorEmailPatternParameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleCommitAuthorEmailPatternParametersOperator | (string & {});
   /** The pattern to match with. */
@@ -1995,7 +2012,7 @@ export interface RepositoryRuleCommitAuthorEmailPatternParameters {
 /** Parameters to be used for the commit_author_email_pattern rule */
 export interface RepositoryRuleCommitAuthorEmailPattern {
   type: RepositoryRuleCommitAuthorEmailPatternType;
-  parameters?: RepositoryRuleCommitAuthorEmailPatternParameters;
+  parameters?: RepositoryRuleCommitAuthorEmailPatternParameters | undefined;
 }
 export type RepositoryRuleCommitterEmailPatternType = "committer_email_pattern";
 /** The operator to use for matching. */
@@ -2006,9 +2023,9 @@ export type RepositoryRuleCommitterEmailPatternParametersOperator =
   | "regex";
 export interface RepositoryRuleCommitterEmailPatternParameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleCommitterEmailPatternParametersOperator | (string & {});
   /** The pattern to match with. */
@@ -2017,7 +2034,7 @@ export interface RepositoryRuleCommitterEmailPatternParameters {
 /** Parameters to be used for the committer_email_pattern rule */
 export interface RepositoryRuleCommitterEmailPattern {
   type: RepositoryRuleCommitterEmailPatternType;
-  parameters?: RepositoryRuleCommitterEmailPatternParameters;
+  parameters?: RepositoryRuleCommitterEmailPatternParameters | undefined;
 }
 export type RepositoryRuleBranchNamePatternType = "branch_name_pattern";
 /** The operator to use for matching. */
@@ -2028,9 +2045,9 @@ export type RepositoryRuleBranchNamePatternParametersOperator =
   | "regex";
 export interface RepositoryRuleBranchNamePatternParameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleBranchNamePatternParametersOperator | (string & {});
   /** The pattern to match with. */
@@ -2039,7 +2056,7 @@ export interface RepositoryRuleBranchNamePatternParameters {
 /** Parameters to be used for the branch_name_pattern rule */
 export interface RepositoryRuleBranchNamePattern {
   type: RepositoryRuleBranchNamePatternType;
-  parameters?: RepositoryRuleBranchNamePatternParameters;
+  parameters?: RepositoryRuleBranchNamePatternParameters | undefined;
 }
 export type RepositoryRuleTagNamePatternType = "tag_name_pattern";
 /** The operator to use for matching. */
@@ -2050,9 +2067,9 @@ export type RepositoryRuleTagNamePatternParametersOperator =
   | "regex";
 export interface RepositoryRuleTagNamePatternParameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleTagNamePatternParametersOperator | (string & {});
   /** The pattern to match with. */
@@ -2061,7 +2078,7 @@ export interface RepositoryRuleTagNamePatternParameters {
 /** Parameters to be used for the tag_name_pattern rule */
 export interface RepositoryRuleTagNamePattern {
   type: RepositoryRuleTagNamePatternType;
-  parameters?: RepositoryRuleTagNamePatternParameters;
+  parameters?: RepositoryRuleTagNamePatternParameters | undefined;
 }
 export type RepositoryRuleFilePathRestrictionType = "file_path_restriction";
 /** Files matching these patterns are allowed even when they also match a restricted path. */
@@ -2070,14 +2087,14 @@ export type RepositoryRuleFilePathRestrictionParametersIgnoredFilePathsList = Ar
 export type RepositoryRuleFilePathRestrictionParametersRestrictedFilePathsList = Array<string>;
 export interface RepositoryRuleFilePathRestrictionParameters {
   /** Files matching these patterns are allowed even when they also match a restricted path. */
-  ignored_file_paths?: RepositoryRuleFilePathRestrictionParametersIgnoredFilePathsList;
+  ignored_file_paths?: RepositoryRuleFilePathRestrictionParametersIgnoredFilePathsList | undefined;
   /** The file paths that are restricted from being pushed to the commit graph. */
   restricted_file_paths: RepositoryRuleFilePathRestrictionParametersRestrictedFilePathsList;
 }
 /** Prevent commits that include changes in specified file and folder paths from being pushed to the commit graph. This includes absolute paths that contain file names. */
 export interface RepositoryRuleFilePathRestriction {
   type: RepositoryRuleFilePathRestrictionType;
-  parameters?: RepositoryRuleFilePathRestrictionParameters;
+  parameters?: RepositoryRuleFilePathRestrictionParameters | undefined;
 }
 export type RepositoryRuleMaxFilePathLengthType = "max_file_path_length";
 export interface RepositoryRuleMaxFilePathLengthParameters {
@@ -2087,7 +2104,7 @@ export interface RepositoryRuleMaxFilePathLengthParameters {
 /** Prevent commits that include file paths that exceed the specified character limit from being pushed to the commit graph. */
 export interface RepositoryRuleMaxFilePathLength {
   type: RepositoryRuleMaxFilePathLengthType;
-  parameters?: RepositoryRuleMaxFilePathLengthParameters;
+  parameters?: RepositoryRuleMaxFilePathLengthParameters | undefined;
 }
 export type RepositoryRuleFileExtensionRestrictionType = "file_extension_restriction";
 /** The file extensions that are restricted from being pushed to the commit graph. */
@@ -2100,21 +2117,21 @@ export interface RepositoryRuleFileExtensionRestrictionParameters {
 /** Prevent commits that include files with specified file extensions from being pushed to the commit graph. */
 export interface RepositoryRuleFileExtensionRestriction {
   type: RepositoryRuleFileExtensionRestrictionType;
-  parameters?: RepositoryRuleFileExtensionRestrictionParameters;
+  parameters?: RepositoryRuleFileExtensionRestrictionParameters | undefined;
 }
 export type RepositoryRuleMaxFileSizeType = "max_file_size";
 /** Files matching these patterns may exceed the maximum size. */
 export type RepositoryRuleMaxFileSizeParametersIgnoredFilePathsList = Array<string>;
 export interface RepositoryRuleMaxFileSizeParameters {
   /** Files matching these patterns may exceed the maximum size. */
-  ignored_file_paths?: RepositoryRuleMaxFileSizeParametersIgnoredFilePathsList;
+  ignored_file_paths?: RepositoryRuleMaxFileSizeParametersIgnoredFilePathsList | undefined;
   /** The maximum file size allowed in megabytes. This limit does not apply to Git Large File Storage (Git LFS). */
   max_file_size: number;
 }
 /** Prevent commits with individual files that exceed the specified limit from being pushed to the commit graph. */
 export interface RepositoryRuleMaxFileSize {
   type: RepositoryRuleMaxFileSizeType;
-  parameters?: RepositoryRuleMaxFileSizeParameters;
+  parameters?: RepositoryRuleMaxFileSizeParameters | undefined;
 }
 export type RepositoryRuleWorkflowsType = "workflows";
 /** A workflow that must run for this rule to pass */
@@ -2122,25 +2139,25 @@ export interface RepositoryRuleParamsWorkflowFileReference {
   /** The path to the workflow file */
   path: string;
   /** The ref (branch or tag) of the workflow file to use */
-  ref?: string;
+  ref?: string | undefined;
   /** The ID of the repository where the workflow is defined */
   repository_id: number;
   /** The commit SHA of the workflow file to use */
-  sha?: string;
+  sha?: string | undefined;
 }
 /** Workflows that must pass for this rule to pass. */
 export type RepositoryRuleWorkflowsParametersWorkflowsList =
   Array<RepositoryRuleParamsWorkflowFileReference>;
 export interface RepositoryRuleWorkflowsParameters {
   /** Allow repositories and branches to be created if a check would otherwise prohibit it. */
-  do_not_enforce_on_create?: boolean;
+  do_not_enforce_on_create?: boolean | undefined;
   /** Workflows that must pass for this rule to pass. */
   workflows: RepositoryRuleWorkflowsParametersWorkflowsList;
 }
 /** Require all changes made to a targeted branch to pass the specified workflows before they can be merged. */
 export interface RepositoryRuleWorkflows {
   type: RepositoryRuleWorkflowsType;
-  parameters?: RepositoryRuleWorkflowsParameters;
+  parameters?: RepositoryRuleWorkflowsParameters | undefined;
 }
 export type RepositoryRuleCodeScanningType = "code_scanning";
 /** The severity level at which code scanning results that raise alerts block a reference update. For more information on alert severity levels, see "[About code scanning alerts](https://docs.github.com/code-security/code-scanning/managing-code-scanning-alerts/about-code-scanning-alerts#about-alert-severity-and-security-severity-levels)." */
@@ -2177,19 +2194,19 @@ export interface RepositoryRuleCodeScanningParameters {
 /** Choose which tools must provide code scanning results before the reference is updated. When configured, code scanning must be enabled and have results for both the commit and the reference being updated. */
 export interface RepositoryRuleCodeScanning {
   type: RepositoryRuleCodeScanningType;
-  parameters?: RepositoryRuleCodeScanningParameters;
+  parameters?: RepositoryRuleCodeScanningParameters | undefined;
 }
 export type RepositoryRuleCopilotCodeReviewType = "copilot_code_review";
 export interface RepositoryRuleCopilotCodeReviewParameters {
   /** Copilot automatically reviews draft pull requests before they are marked as ready for review. */
-  review_draft_pull_requests?: boolean;
+  review_draft_pull_requests?: boolean | undefined;
   /** Copilot automatically reviews each new push to the pull request. */
-  review_on_push?: boolean;
+  review_on_push?: boolean | undefined;
 }
 /** Request Copilot code review for new pull requests automatically if the author has access to Copilot code review and AI credits. */
 export interface RepositoryRuleCopilotCodeReview {
   type: RepositoryRuleCopilotCodeReviewType;
-  parameters?: RepositoryRuleCopilotCodeReviewParameters;
+  parameters?: RepositoryRuleCopilotCodeReviewParameters | undefined;
 }
 /** A repository rule. */
 export type OrgRules =
@@ -2222,13 +2239,13 @@ export interface CreateOrgRulesetRequest {
   /** The name of the ruleset. */
   name: string;
   /** The target of the ruleset */
-  target?: CreateOrgRulesetRequestTarget | (string & {});
+  target?: CreateOrgRulesetRequestTarget | (string & {}) | undefined;
   enforcement: RepositoryRuleEnforcement | (string & {});
   /** The actors that can bypass the rules in this ruleset */
-  bypass_actors?: CreateOrgRulesetRequestBypassActorsList;
-  conditions?: OrgRulesetConditions;
+  bypass_actors?: CreateOrgRulesetRequestBypassActorsList | undefined;
+  conditions?: OrgRulesetConditions | undefined;
   /** An array of rules within the ruleset. */
-  rules?: CreateOrgRulesetRequestRulesList;
+  rules?: CreateOrgRulesetRequestRulesList | undefined;
 }
 /** The target of the ruleset */
 export type RepositoryRulesetTarget = "branch" | "tag" | "push" | "repository";
@@ -2244,15 +2261,15 @@ export type RepositoryRulesetCurrentUserCanBypass =
   | "exempt";
 export interface RepositoryRulesetLinksSelf {
   /** The URL of the ruleset */
-  href?: string;
+  href?: string | undefined;
 }
 export interface RepositoryRulesetLinksHtml {
   /** The html URL of the ruleset */
-  href?: string;
+  href?: string | undefined;
 }
 export interface RepositoryRulesetLinks {
-  self?: RepositoryRulesetLinksSelf;
-  html?: RepositoryRulesetLinksHtml | null;
+  self?: RepositoryRulesetLinksSelf | undefined;
+  html?: RepositoryRulesetLinksHtml | null | undefined;
 }
 /** Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
 export type RepositoryRulesetConditionsRefNameIncludeList = Array<string>;
@@ -2260,13 +2277,13 @@ export type RepositoryRulesetConditionsRefNameIncludeList = Array<string>;
 export type RepositoryRulesetConditionsRefNameExcludeList = Array<string>;
 export interface RepositoryRulesetConditionsRefName {
   /** Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches. */
-  include?: RepositoryRulesetConditionsRefNameIncludeList;
+  include?: RepositoryRulesetConditionsRefNameIncludeList | undefined;
   /** Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match. */
-  exclude?: RepositoryRulesetConditionsRefNameExcludeList;
+  exclude?: RepositoryRulesetConditionsRefNameExcludeList | undefined;
 }
 /** Parameters for a repository ruleset ref name condition */
 export interface RepositoryRulesetConditions {
-  ref_name?: RepositoryRulesetConditionsRefName;
+  ref_name?: RepositoryRulesetConditionsRefName | undefined;
 }
 export type RepositoryRulesetConditions2 = RepositoryRulesetConditions | OrgRulesetConditions;
 export type RepositoryRuleMergeQueueType = "merge_queue";
@@ -2293,7 +2310,7 @@ export interface RepositoryRuleMergeQueueParameters {
 /** Merges must be performed via a merge queue. */
 export interface RepositoryRuleMergeQueue {
   type: RepositoryRuleMergeQueueType;
-  parameters?: RepositoryRuleMergeQueueParameters;
+  parameters?: RepositoryRuleMergeQueueParameters | undefined;
 }
 export type RepositoryRuleCodeQualityType = "code_quality";
 /** The lowest severity level at which code quality reviews need to be resolved before commits can be merged. */
@@ -2305,19 +2322,19 @@ export interface RepositoryRuleCodeQualityParameters {
 /** Choose which severity levels of code quality results should block pull request merges. When configured, a code quality analysis must be done on the pull request before the changes can be merged. */
 export interface RepositoryRuleCodeQuality {
   type: RepositoryRuleCodeQualityType;
-  parameters?: RepositoryRuleCodeQualityParameters;
+  parameters?: RepositoryRuleCodeQualityParameters | undefined;
 }
 export type RepositoryRuleCodeCoverageType = "code_coverage";
 export interface RepositoryRuleCodeCoverageParameters {
   /** The maximum percentage points that line coverage may drop relative to the default branch. Pull requests that reduce line coverage by more than this amount will be blocked. */
-  max_coverage_drop?: number;
+  max_coverage_drop?: number | undefined;
   /** The absolute minimum line coverage percentage required. Pull requests with line coverage below this threshold will be blocked. */
-  minimum_coverage?: number;
+  minimum_coverage?: number | undefined;
 }
 /** Enforce minimum line coverage thresholds on pull requests. This rule evaluates uploaded coverage data but does not wait for coverage uploads. To ensure coverage is evaluated before merging, make each status check associated with a coverage upload a required status check. */
 export interface RepositoryRuleCodeCoverage {
   type: RepositoryRuleCodeCoverageType;
-  parameters?: RepositoryRuleCodeCoverageParameters;
+  parameters?: RepositoryRuleCodeCoverageParameters | undefined;
 }
 export type RepositoryRuleLicenseComplianceScanningType = "license_compliance_scanning";
 /** Enforce any added or changed dependencies to comply with the organization's license policy. */
@@ -2359,29 +2376,29 @@ export interface RepositoryRuleset {
   /** The name of the ruleset */
   name: string;
   /** The target of the ruleset */
-  target?: RepositoryRulesetTarget;
+  target?: RepositoryRulesetTarget | undefined;
   /** The type of the source of the ruleset */
-  source_type?: RepositoryRulesetSourceType;
+  source_type?: RepositoryRulesetSourceType | undefined;
   /** The name of the source */
   source: string;
   enforcement: RepositoryRuleEnforcement;
   /** The actors that can bypass the rules in this ruleset */
-  bypass_actors?: RepositoryRulesetBypassActorsList;
+  bypass_actors?: RepositoryRulesetBypassActorsList | undefined;
   /** The bypass type of the user making the API request for this ruleset. This field is only returned when querying the repository-level endpoint. */
-  current_user_can_bypass?: RepositoryRulesetCurrentUserCanBypass;
-  node_id?: string;
-  _links?: RepositoryRulesetLinks;
-  conditions?: RepositoryRulesetConditions2 | null;
-  rules?: RepositoryRulesetRulesList;
-  created_at?: string;
-  updated_at?: string;
+  current_user_can_bypass?: RepositoryRulesetCurrentUserCanBypass | undefined;
+  node_id?: string | undefined;
+  _links?: RepositoryRulesetLinks | undefined;
+  conditions?: RepositoryRulesetConditions2 | null | undefined;
+  rules?: RepositoryRulesetRulesList | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** The type of reviewer. */
 export type DeploymentReviewerType = "User" | "Team";
 export interface CreateOrUpdateEnvironmentRequestReviewersItem {
-  type?: DeploymentReviewerType | (string & {});
+  type?: DeploymentReviewerType | (string & {}) | undefined;
   /** The id of the user or team who can review the deployment */
-  id?: number;
+  id?: number | undefined;
 }
 /** The people or teams that may review jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
 export type CreateOrUpdateEnvironmentRequestReviewersList =
@@ -2400,22 +2417,22 @@ export interface CreateOrUpdateEnvironmentRequest {
   repo: string;
   /** The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`. */
   environment_name: string;
-  wait_timer?: number;
-  prevent_self_review?: boolean;
+  wait_timer?: number | undefined;
+  prevent_self_review?: boolean | undefined;
   /** The people or teams that may review jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
-  reviewers?: CreateOrUpdateEnvironmentRequestReviewersList | null;
-  deployment_branch_policy?: DeploymentBranchPolicySettings | null;
+  reviewers?: CreateOrUpdateEnvironmentRequestReviewersList | null | undefined;
+  deployment_branch_policy?: DeploymentBranchPolicySettings | null | undefined;
 }
 export interface EnvironmentProtectionRulesItemCase0 {
   id: number;
   node_id: string;
   type: string;
-  wait_timer?: number;
+  wait_timer?: number | undefined;
 }
 export type EnvironmentProtectionRulesItemCase1ReviewersItemReviewer = SimpleUser | Team;
 export interface EnvironmentProtectionRulesItemCase1ReviewersItem {
-  type?: DeploymentReviewerType;
-  reviewer?: EnvironmentProtectionRulesItemCase1ReviewersItemReviewer;
+  type?: DeploymentReviewerType | undefined;
+  reviewer?: EnvironmentProtectionRulesItemCase1ReviewersItemReviewer | undefined;
 }
 /** The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
 export type EnvironmentProtectionRulesItemCase1ReviewersList =
@@ -2424,10 +2441,10 @@ export interface EnvironmentProtectionRulesItemCase1 {
   id: number;
   node_id: string;
   /** Whether deployments to this environment can be approved by the user who created the deployment. */
-  prevent_self_review?: boolean;
+  prevent_self_review?: boolean | undefined;
   type: string;
   /** The people or teams that may approve jobs that reference the environment. You can list up to six users or teams as reviewers. The reviewers must have at least read access to the repository. Only one of the required reviewers needs to approve the job for it to proceed. */
-  reviewers?: EnvironmentProtectionRulesItemCase1ReviewersList;
+  reviewers?: EnvironmentProtectionRulesItemCase1ReviewersList | undefined;
 }
 export interface EnvironmentProtectionRulesItemCase2 {
   id: number;
@@ -2454,8 +2471,8 @@ export interface Environment {
   /** The time that the environment was last updated, in ISO 8601 format. */
   updated_at: string;
   /** Built-in deployment protection rules for the environment. */
-  protection_rules?: EnvironmentProtectionRulesList;
-  deployment_branch_policy?: DeploymentBranchPolicySettings | null;
+  protection_rules?: EnvironmentProtectionRulesList | undefined;
+  deployment_branch_policy?: DeploymentBranchPolicySettings | null | undefined;
 }
 /** The person that committed the file. Default: the authenticated user. */
 export interface CreateOrUpdateFileContentsRequestCommitter {
@@ -2463,7 +2480,7 @@ export interface CreateOrUpdateFileContentsRequestCommitter {
   name: string;
   /** The email of the author or committer of the commit. You'll receive a `422` status code if `email` is omitted. */
   email: string;
-  date?: string;
+  date?: string | undefined;
 }
 /** The author of the file. Default: The `committer` or the authenticated user if you omit `committer`. */
 export type CreateOrUpdateFileContentsRequestAuthor = CreateOrUpdateFileContentsRequestCommitter;
@@ -2479,65 +2496,65 @@ export interface CreateOrUpdateFileContentsRequest {
   /** The new file content, using Base64 encoding. */
   content: string;
   /** **Required if you are updating a file**. The blob SHA of the file being replaced. */
-  sha?: string;
+  sha?: string | undefined;
   /** The branch name. Default: the repository's default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** The person that committed the file. Default: the authenticated user. */
-  committer?: CreateOrUpdateFileContentsRequestCommitter;
+  committer?: CreateOrUpdateFileContentsRequestCommitter | undefined;
   /** The author of the file. Default: The `committer` or the authenticated user if you omit `committer`. */
-  author?: CreateOrUpdateFileContentsRequestCommitter;
+  author?: CreateOrUpdateFileContentsRequestCommitter | undefined;
 }
 export interface FileCommitContentLinks {
-  self?: string;
-  git?: string;
-  html?: string;
+  self?: string | undefined;
+  git?: string | undefined;
+  html?: string | undefined;
 }
 export interface FileCommitContent {
-  name?: string;
-  path?: string;
-  sha?: string;
-  size?: number;
-  url?: string;
-  html_url?: string;
-  git_url?: string;
-  download_url?: string;
-  type?: string;
-  _links?: FileCommitContentLinks;
+  name?: string | undefined;
+  path?: string | undefined;
+  sha?: string | undefined;
+  size?: number | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
+  git_url?: string | undefined;
+  download_url?: string | undefined;
+  type?: string | undefined;
+  _links?: FileCommitContentLinks | undefined;
 }
 export interface FileCommitCommitAuthor {
-  date?: string;
-  name?: string;
-  email?: string;
+  date?: string | undefined;
+  name?: string | undefined;
+  email?: string | undefined;
 }
 export type FileCommitCommitCommitter = FileCommitCommitAuthor;
 export interface FileCommitCommitTree {
-  url?: string;
-  sha?: string;
+  url?: string | undefined;
+  sha?: string | undefined;
 }
 export interface FileCommitCommitParentsItem {
-  url?: string;
-  html_url?: string;
-  sha?: string;
+  url?: string | undefined;
+  html_url?: string | undefined;
+  sha?: string | undefined;
 }
 export type FileCommitCommitParentsList = Array<FileCommitCommitParentsItem>;
 export interface FileCommitCommitVerification {
-  verified?: boolean;
-  reason?: string;
-  signature?: string | null;
-  payload?: string | null;
-  verified_at?: string | null;
+  verified?: boolean | undefined;
+  reason?: string | undefined;
+  signature?: string | null | undefined;
+  payload?: string | null | undefined;
+  verified_at?: string | null | undefined;
 }
 export interface FileCommitCommit {
-  sha?: string;
-  node_id?: string;
-  url?: string;
-  html_url?: string;
-  author?: FileCommitCommitAuthor;
-  committer?: FileCommitCommitAuthor;
-  message?: string;
-  tree?: FileCommitCommitTree;
-  parents?: FileCommitCommitParentsList;
-  verification?: FileCommitCommitVerification;
+  sha?: string | undefined;
+  node_id?: string | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
+  author?: FileCommitCommitAuthor | undefined;
+  committer?: FileCommitCommitAuthor | undefined;
+  message?: string | undefined;
+  tree?: FileCommitCommitTree | undefined;
+  parents?: FileCommitCommitParentsList | undefined;
+  verification?: FileCommitCommitVerification | undefined;
 }
 /** File Commit */
 export interface FileCommit {
@@ -2550,11 +2567,11 @@ export interface CreatePagesDeploymentRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The ID of an artifact that contains the .zip or .tar of static assets to deploy. The artifact belongs to the repository. Either `artifact_id` or `artifact_url` are required. */
-  artifact_id?: number;
+  artifact_id?: number | undefined;
   /** The URL of an artifact that contains the .zip or .tar of static assets to deploy. The artifact belongs to the repository. Either `artifact_id` or `artifact_url` are required. */
-  artifact_url?: string;
+  artifact_url?: string | undefined;
   /** The target environment for this GitHub Pages deployment. */
-  environment?: string;
+  environment?: string | undefined;
   /** A unique string that represents the version of the build for this deployment. */
   pages_build_version: string;
   /** The OIDC token issued by GitHub Actions certifying the origin of the deployment. */
@@ -2571,7 +2588,7 @@ export interface PageDeployment {
   /** The URI to the deployed GitHub Pages. */
   page_url: string;
   /** The URI to the deployed GitHub Pages preview. */
-  preview_url?: string;
+  preview_url?: string | undefined;
 }
 /** The process in which the Page will be built. Possible values are `"legacy"` and `"workflow"`. */
 export type CreatePagesSiteRequestBuildType = "legacy" | "workflow";
@@ -2582,7 +2599,7 @@ export interface CreatePagesSiteRequestSource {
   /** The repository branch used to publish your site's source files. */
   branch: string;
   /** The repository directory that includes the source files for the Pages site. Allowed paths are `/` or `/docs`. Default: `/` */
-  path?: CreatePagesSiteRequestSourcePath | (string & {});
+  path?: CreatePagesSiteRequestSourcePath | (string & {}) | undefined;
 }
 export interface CreatePagesSiteRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2590,9 +2607,9 @@ export interface CreatePagesSiteRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The process in which the Page will be built. Possible values are `"legacy"` and `"workflow"`. */
-  build_type?: CreatePagesSiteRequestBuildType | (string & {});
+  build_type?: CreatePagesSiteRequestBuildType | (string & {}) | undefined;
   /** The source branch and directory used to publish your Pages site. */
-  source?: CreatePagesSiteRequestSource;
+  source?: CreatePagesSiteRequestSource | undefined;
 }
 /** The status of the most recent build of the Page. */
 export type PageStatus = "built" | "building" | "errored";
@@ -2624,7 +2641,7 @@ export interface PagesHttpsCertificate {
   description: string;
   /** Array of the domain set and its alternate name (if it is configured) */
   domains: PagesHttpsCertificateDomainsList;
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 /** The configuration for GitHub Pages for a repository. */
 export interface Page {
@@ -2635,21 +2652,21 @@ export interface Page {
   /** The Pages site's custom domain */
   cname: string | null;
   /** The state if the domain is verified */
-  protected_domain_state?: PageProtectedDomainState | null;
+  protected_domain_state?: PageProtectedDomainState | null | undefined;
   /** The timestamp when a pending domain becomes unverified. */
-  pending_domain_unverified_at?: string | null;
+  pending_domain_unverified_at?: string | null | undefined;
   /** Whether the Page has a custom 404 page. */
   custom_404: boolean;
   /** The web address the Page can be accessed from. */
-  html_url?: string;
+  html_url?: string | undefined;
   /** The process in which the Page will be built. */
-  build_type?: PageBuildType | null;
-  source?: PagesSourceHash;
+  build_type?: PageBuildType | null | undefined;
+  source?: PagesSourceHash | undefined;
   /** Whether the GitHub Pages site is publicly visible. If set to `true`, the site is accessible to anyone on the internet. If set to `false`, the site will only be accessible to users who have at least `read` access to the repository that published the site. */
   public: boolean;
-  https_certificate?: PagesHttpsCertificate;
+  https_certificate?: PagesHttpsCertificate | undefined;
   /** Whether https is enabled on the domain */
-  https_enforced?: boolean;
+  https_enforced?: boolean | undefined;
 }
 /** Specifies whether this release should be set as the latest release for the repository. Drafts and prereleases cannot be set as latest. Defaults to `true` for newly published releases. `legacy` specifies that the latest release should be determined based on the release creation date and higher semantic version. */
 export type CreateReleaseRequestMakeLatest = "true" | "false" | "legacy";
@@ -2661,21 +2678,21 @@ export interface CreateReleaseRequest {
   /** The name of the tag. */
   tag_name: string;
   /** Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch. */
-  target_commitish?: string;
+  target_commitish?: string | undefined;
   /** The name of the release. */
-  name?: string;
+  name?: string | undefined;
   /** Text describing the contents of the tag. */
-  body?: string;
+  body?: string | undefined;
   /** `true` to create a draft (unpublished) release, `false` to create a published one. */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** `true` to identify the release as a prerelease. `false` to identify the release as a full release. */
-  prerelease?: boolean;
+  prerelease?: boolean | undefined;
   /** If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. For more information, see "[Managing categories for discussions in your repository](https://docs.github.com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository)." */
-  discussion_category_name?: string;
+  discussion_category_name?: string | undefined;
   /** Whether to automatically generate the name and body for this release. If `name` is specified, the specified name will be used; otherwise, a name will be automatically generated. If `body` is specified, the body will be pre-pended to the automatically generated notes. */
-  generate_release_notes?: boolean;
+  generate_release_notes?: boolean | undefined;
   /** Specifies whether this release should be set as the latest release for the repository. Drafts and prereleases cannot be set as latest. Defaults to `true` for newly published releases. `legacy` specifies that the latest release should be determined based on the release creation date and higher semantic version. */
-  make_latest?: CreateReleaseRequestMakeLatest | (string & {});
+  make_latest?: CreateReleaseRequestMakeLatest | (string & {}) | undefined;
 }
 /** State of the release asset. */
 export type ReleaseAssetState = "uploaded" | "open";
@@ -2714,24 +2731,24 @@ export interface Release {
   /** Specifies the commitish value that determines where the Git tag is created from. */
   target_commitish: string;
   name: string | null;
-  body?: string | null;
+  body?: string | null | undefined;
   /** true to create a draft (unpublished) release, false to create a published one. */
   draft: boolean;
   /** Whether to identify the release as a prerelease or a full release. */
   prerelease: boolean;
   /** Whether or not the release is immutable. */
-  immutable?: boolean;
+  immutable?: boolean | undefined;
   created_at: string;
   published_at: string | null;
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
   author: SimpleUser;
   assets: ReleaseAssetsList;
-  body_html?: string;
-  body_text?: string;
-  mentions_count?: number;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  mentions_count?: number | undefined;
   /** The URL of the release discussion. */
-  discussion_url?: string;
-  reactions?: ReactionRollup;
+  discussion_url?: string | undefined;
+  reactions?: ReactionRollup | undefined;
 }
 /** The target of the ruleset */
 export type CreateRepoRulesetRequestTarget = "branch" | "tag" | "push";
@@ -2747,13 +2764,13 @@ export interface CreateRepoRulesetRequest {
   /** The name of the ruleset. */
   name: string;
   /** The target of the ruleset */
-  target?: CreateRepoRulesetRequestTarget | (string & {});
+  target?: CreateRepoRulesetRequestTarget | (string & {}) | undefined;
   enforcement: RepositoryRuleEnforcement | (string & {});
   /** The actors that can bypass the rules in this ruleset */
-  bypass_actors?: CreateRepoRulesetRequestBypassActorsList;
-  conditions?: RepositoryRulesetConditions;
+  bypass_actors?: CreateRepoRulesetRequestBypassActorsList | undefined;
+  conditions?: RepositoryRulesetConditions | undefined;
   /** An array of rules within the ruleset. */
-  rules?: CreateRepoRulesetRequestRulesList;
+  rules?: CreateRepoRulesetRequestRulesList | undefined;
 }
 export interface CreateUsingTemplateRequest {
   /** The account owner of the template repository. The name is not case sensitive. */
@@ -2761,23 +2778,23 @@ export interface CreateUsingTemplateRequest {
   /** The name of the template repository without the `.git` extension. The name is not case sensitive. */
   template_repo: string;
   /** The organization or person who will own the new repository. To create a new repository in an organization, the authenticated user must be a member of the specified organization. */
-  owner?: string;
+  owner?: string | undefined;
   /** The name of the new repository. */
   name: string;
   /** A short description of the new repository. */
-  description?: string;
+  description?: string | undefined;
   /** Set to `true` to include the directory structure and files from all branches in the template repository, and not just the default branch. Default: `false`. */
-  include_all_branches?: boolean;
+  include_all_branches?: boolean | undefined;
   /** Either `true` to create a new private repository or `false` to create a new public one. */
-  private?: boolean;
+  private?: boolean | undefined;
 }
 export type WebhookConfigInsecureSsl = string | number;
 /** Key/value pairs to provide settings for this webhook. */
 export interface CreateWebhookRequestConfig {
-  url?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  url?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. */
 export type CreateWebhookRequestEventsList = Array<string>;
@@ -2787,22 +2804,22 @@ export interface CreateWebhookRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Use `web` to create a webhook. Default: `web`. This parameter only accepts the value `web`. */
-  name?: string;
+  name?: string | undefined;
   /** Key/value pairs to provide settings for this webhook. */
-  config?: CreateWebhookRequestConfig;
+  config?: CreateWebhookRequestConfig | undefined;
   /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. */
-  events?: CreateWebhookRequestEventsList;
+  events?: CreateWebhookRequestEventsList | undefined;
   /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 /** Determines what events the hook is triggered for. Default: ['push']. */
 export type HookEventsList = Array<string>;
 /** Configuration object of the webhook */
 export interface WebhookConfig {
-  url?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  url?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 export interface HookResponse {
   code: number | null;
@@ -2826,7 +2843,7 @@ export interface Hook {
   url: string;
   test_url: string;
   ping_url: string;
-  deliveries_url?: string;
+  deliveries_url?: string | undefined;
   last_response: HookResponse;
 }
 export type CustomPropertyValueValueCase1List = Array<string>;
@@ -2968,9 +2985,9 @@ export interface DeleteDeploymentBranchPolicyResponse {}
 /** object containing information about the committer. */
 export interface DeleteFileRequestCommitter {
   /** The name of the author (or committer) of the commit */
-  name?: string;
+  name?: string | undefined;
   /** The email of the author (or committer) of the commit */
-  email?: string;
+  email?: string | undefined;
 }
 /** object containing information about the author. */
 export type DeleteFileRequestAuthor = DeleteFileRequestCommitter;
@@ -2986,11 +3003,11 @@ export interface DeleteFileRequest {
   /** The blob SHA of the file being deleted. */
   sha: string;
   /** The branch name. Default: the repository's default branch */
-  branch?: string;
+  branch?: string | undefined;
   /** object containing information about the committer. */
-  committer?: DeleteFileRequestCommitter;
+  committer?: DeleteFileRequestCommitter | undefined;
   /** object containing information about the author. */
-  author?: DeleteFileRequestCommitter;
+  author?: DeleteFileRequestCommitter | undefined;
 }
 export interface DeleteInvitationRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3151,11 +3168,11 @@ export interface GenerateReleaseNotesRequest {
   /** The tag name for the release. This can be an existing tag or a new one. */
   tag_name: string;
   /** Specifies the commitish value that will be the target for the release's tag. Required if the supplied tag_name does not reference an existing tag. Ignored if the tag_name already exists. */
-  target_commitish?: string;
+  target_commitish?: string | undefined;
   /** The name of the previous tag to use as the starting point for the release notes. Use to manually specify the range for the set of changes considered as part this release. */
-  previous_tag_name?: string;
+  previous_tag_name?: string | undefined;
   /** Specifies a path to a file in the repository containing configuration settings used for generating the release notes. If unspecified, the configuration file located in the repository at '.github/release.yml' or '.github/release.yaml' will be used. If that is not present, the default configuration will be used. */
-  configuration_file_path?: string;
+  configuration_file_path?: string | undefined;
 }
 /** Generated name and body describing a release */
 export interface ReleaseNotesContent {
@@ -3179,75 +3196,75 @@ export interface GetAccessRestrictionsRequest {
   branch: string;
 }
 export interface BranchRestrictionPolicyUsersItem {
-  login?: string;
-  id?: number;
-  node_id?: string;
-  avatar_url?: string;
-  gravatar_id?: string;
-  url?: string;
-  html_url?: string;
-  followers_url?: string;
-  following_url?: string;
-  gists_url?: string;
-  starred_url?: string;
-  subscriptions_url?: string;
-  organizations_url?: string;
-  repos_url?: string;
-  events_url?: string;
-  received_events_url?: string;
-  type?: string;
-  site_admin?: boolean;
-  user_view_type?: string;
+  login?: string | undefined;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  avatar_url?: string | undefined;
+  gravatar_id?: string | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
+  followers_url?: string | undefined;
+  following_url?: string | undefined;
+  gists_url?: string | undefined;
+  starred_url?: string | undefined;
+  subscriptions_url?: string | undefined;
+  organizations_url?: string | undefined;
+  repos_url?: string | undefined;
+  events_url?: string | undefined;
+  received_events_url?: string | undefined;
+  type?: string | undefined;
+  site_admin?: boolean | undefined;
+  user_view_type?: string | undefined;
 }
 export type BranchRestrictionPolicyUsersList = Array<BranchRestrictionPolicyUsersItem>;
 export type BranchRestrictionPolicyTeamsList = Array<Team>;
 export interface BranchRestrictionPolicyAppsItemOwner {
-  login?: string;
-  id?: number;
-  node_id?: string;
-  url?: string;
-  repos_url?: string;
-  events_url?: string;
-  hooks_url?: string;
-  issues_url?: string;
-  members_url?: string;
-  public_members_url?: string;
-  avatar_url?: string;
-  description?: string;
-  gravatar_id?: string;
-  html_url?: string;
-  followers_url?: string;
-  following_url?: string;
-  gists_url?: string;
-  starred_url?: string;
-  subscriptions_url?: string;
-  organizations_url?: string;
-  received_events_url?: string;
-  type?: string;
-  site_admin?: boolean;
-  user_view_type?: string;
+  login?: string | undefined;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  url?: string | undefined;
+  repos_url?: string | undefined;
+  events_url?: string | undefined;
+  hooks_url?: string | undefined;
+  issues_url?: string | undefined;
+  members_url?: string | undefined;
+  public_members_url?: string | undefined;
+  avatar_url?: string | undefined;
+  description?: string | undefined;
+  gravatar_id?: string | undefined;
+  html_url?: string | undefined;
+  followers_url?: string | undefined;
+  following_url?: string | undefined;
+  gists_url?: string | undefined;
+  starred_url?: string | undefined;
+  subscriptions_url?: string | undefined;
+  organizations_url?: string | undefined;
+  received_events_url?: string | undefined;
+  type?: string | undefined;
+  site_admin?: boolean | undefined;
+  user_view_type?: string | undefined;
 }
 export interface BranchRestrictionPolicyAppsItemPermissions {
-  metadata?: string;
-  contents?: string;
-  issues?: string;
-  single_file?: string;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  issues?: string | undefined;
+  single_file?: string | undefined;
 }
 export type BranchRestrictionPolicyAppsItemEventsList = Array<string>;
 export interface BranchRestrictionPolicyAppsItem {
-  id?: number;
-  slug?: string;
-  node_id?: string;
-  owner?: BranchRestrictionPolicyAppsItemOwner;
-  name?: string;
-  client_id?: string;
-  description?: string;
-  external_url?: string;
-  html_url?: string;
-  created_at?: string;
-  updated_at?: string;
-  permissions?: BranchRestrictionPolicyAppsItemPermissions;
-  events?: BranchRestrictionPolicyAppsItemEventsList;
+  id?: number | undefined;
+  slug?: string | undefined;
+  node_id?: string | undefined;
+  owner?: BranchRestrictionPolicyAppsItemOwner | undefined;
+  name?: string | undefined;
+  client_id?: string | undefined;
+  description?: string | undefined;
+  external_url?: string | undefined;
+  html_url?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  permissions?: BranchRestrictionPolicyAppsItemPermissions | undefined;
+  events?: BranchRestrictionPolicyAppsItemEventsList | undefined;
 }
 export type BranchRestrictionPolicyAppsList = Array<BranchRestrictionPolicyAppsItem>;
 /** Branch Restriction Policy */
@@ -3280,8 +3297,10 @@ export type GetAllDeploymentProtectionRulesResponseCustomDeploymentProtectionRul
   Array<DeploymentProtectionRule>;
 export interface GetAllDeploymentProtectionRulesResponse {
   /** The number of enabled custom deployment protection rules for this environment */
-  total_count?: number;
-  custom_deployment_protection_rules?: GetAllDeploymentProtectionRulesResponseCustomDeploymentProtectionRulesList;
+  total_count?: number | undefined;
+  custom_deployment_protection_rules?:
+    | GetAllDeploymentProtectionRulesResponseCustomDeploymentProtectionRulesList
+    | undefined;
 }
 export interface GetAllEnvironmentsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3289,14 +3308,14 @@ export interface GetAllEnvironmentsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type GetAllEnvironmentsResponseEnvironmentsList = Array<Environment>;
 export interface GetAllEnvironmentsResponse {
   /** The number of environments in this repository */
-  total_count?: number;
+  total_count?: number | undefined;
   environments: GetAllEnvironmentsResponseEnvironmentsList;
 }
 export interface GetAllStatusCheckContextsRequest {
@@ -3315,9 +3334,9 @@ export interface GetAllTopicsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type TopicNamesList = Array<string>;
 /** A topic aggregates entities that are related to a subject. */
@@ -3364,12 +3383,12 @@ export type ProtectedBranchRequiredStatusCheckChecksList =
   Array<ProtectedBranchRequiredStatusCheckChecksItem>;
 /** Protected Branch Required Status Check */
 export interface ProtectedBranchRequiredStatusCheck {
-  url?: string;
-  enforcement_level?: string;
+  url?: string | undefined;
+  enforcement_level?: string | undefined;
   contexts: ProtectedBranchRequiredStatusCheckContextsList;
   checks: ProtectedBranchRequiredStatusCheckChecksList;
-  contexts_url?: string;
-  strict?: boolean;
+  contexts_url?: string | undefined;
+  strict?: boolean | undefined;
 }
 /** The list of users with review dismissal access. */
 export type ProtectedBranchPullRequestReviewDismissalRestrictionsUsersList = Array<SimpleUser>;
@@ -3380,14 +3399,14 @@ export type ProtectedBranchPullRequestReviewDismissalRestrictionsAppsList =
   Array<Integration | null>;
 export interface ProtectedBranchPullRequestReviewDismissalRestrictions {
   /** The list of users with review dismissal access. */
-  users?: ProtectedBranchPullRequestReviewDismissalRestrictionsUsersList;
+  users?: ProtectedBranchPullRequestReviewDismissalRestrictionsUsersList | undefined;
   /** The list of teams with review dismissal access. */
-  teams?: ProtectedBranchPullRequestReviewDismissalRestrictionsTeamsList;
+  teams?: ProtectedBranchPullRequestReviewDismissalRestrictionsTeamsList | undefined;
   /** The list of apps with review dismissal access. */
-  apps?: ProtectedBranchPullRequestReviewDismissalRestrictionsAppsList;
-  url?: string;
-  users_url?: string;
-  teams_url?: string;
+  apps?: ProtectedBranchPullRequestReviewDismissalRestrictionsAppsList | undefined;
+  url?: string | undefined;
+  users_url?: string | undefined;
+  teams_url?: string | undefined;
 }
 /** The list of users allowed to bypass pull request requirements. */
 export type ProtectedBranchPullRequestReviewBypassPullRequestAllowancesUsersList =
@@ -3400,26 +3419,28 @@ export type ProtectedBranchPullRequestReviewBypassPullRequestAllowancesAppsList 
 /** Allow specific users, teams, or apps to bypass pull request requirements. */
 export interface ProtectedBranchPullRequestReviewBypassPullRequestAllowances {
   /** The list of users allowed to bypass pull request requirements. */
-  users?: ProtectedBranchPullRequestReviewBypassPullRequestAllowancesUsersList;
+  users?: ProtectedBranchPullRequestReviewBypassPullRequestAllowancesUsersList | undefined;
   /** The list of teams allowed to bypass pull request requirements. */
-  teams?: ProtectedBranchPullRequestReviewBypassPullRequestAllowancesTeamsList;
+  teams?: ProtectedBranchPullRequestReviewBypassPullRequestAllowancesTeamsList | undefined;
   /** The list of apps allowed to bypass pull request requirements. */
-  apps?: ProtectedBranchPullRequestReviewBypassPullRequestAllowancesAppsList;
+  apps?: ProtectedBranchPullRequestReviewBypassPullRequestAllowancesAppsList | undefined;
 }
 /** Protected Branch Pull Request Review */
 export interface ProtectedBranchPullRequestReview {
-  url?: string;
-  dismissal_restrictions?: ProtectedBranchPullRequestReviewDismissalRestrictions;
+  url?: string | undefined;
+  dismissal_restrictions?: ProtectedBranchPullRequestReviewDismissalRestrictions | undefined;
   /** Allow specific users, teams, or apps to bypass pull request requirements. */
-  bypass_pull_request_allowances?: ProtectedBranchPullRequestReviewBypassPullRequestAllowances;
+  bypass_pull_request_allowances?:
+    | ProtectedBranchPullRequestReviewBypassPullRequestAllowances
+    | undefined;
   dismiss_stale_reviews: boolean;
   require_code_owner_reviews: boolean;
-  required_approving_review_count?: number;
+  required_approving_review_count?: number | undefined;
   /** Whether the most recent push must be approved by someone other than the person who pushed it. */
-  require_last_push_approval?: boolean;
+  require_last_push_approval?: boolean | undefined;
 }
 export interface BranchProtectionRequiredLinearHistory {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type BranchProtectionAllowForcePushes = BranchProtectionRequiredLinearHistory;
 export type BranchProtectionAllowDeletions = BranchProtectionRequiredLinearHistory;
@@ -3435,24 +3456,24 @@ export type BranchProtectionLockBranch = BranchProtectionRequiredLinearHistory;
 export type BranchProtectionAllowForkSyncing = BranchProtectionRequiredLinearHistory;
 /** Branch Protection */
 export interface BranchProtection {
-  url?: string;
-  enabled?: boolean;
-  required_status_checks?: ProtectedBranchRequiredStatusCheck;
-  enforce_admins?: ProtectedBranchAdminEnforced;
-  required_pull_request_reviews?: ProtectedBranchPullRequestReview;
-  restrictions?: BranchRestrictionPolicy;
-  required_linear_history?: BranchProtectionRequiredLinearHistory;
-  allow_force_pushes?: BranchProtectionRequiredLinearHistory;
-  allow_deletions?: BranchProtectionRequiredLinearHistory;
-  block_creations?: BranchProtectionRequiredLinearHistory;
-  required_conversation_resolution?: BranchProtectionRequiredLinearHistory;
-  name?: string;
-  protection_url?: string;
-  required_signatures?: BranchProtectionRequiredSignatures;
+  url?: string | undefined;
+  enabled?: boolean | undefined;
+  required_status_checks?: ProtectedBranchRequiredStatusCheck | undefined;
+  enforce_admins?: ProtectedBranchAdminEnforced | undefined;
+  required_pull_request_reviews?: ProtectedBranchPullRequestReview | undefined;
+  restrictions?: BranchRestrictionPolicy | undefined;
+  required_linear_history?: BranchProtectionRequiredLinearHistory | undefined;
+  allow_force_pushes?: BranchProtectionRequiredLinearHistory | undefined;
+  allow_deletions?: BranchProtectionRequiredLinearHistory | undefined;
+  block_creations?: BranchProtectionRequiredLinearHistory | undefined;
+  required_conversation_resolution?: BranchProtectionRequiredLinearHistory | undefined;
+  name?: string | undefined;
+  protection_url?: string | undefined;
+  required_signatures?: BranchProtectionRequiredSignatures | undefined;
   /** Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. */
-  lock_branch?: BranchProtectionRequiredLinearHistory;
+  lock_branch?: BranchProtectionRequiredLinearHistory | undefined;
   /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
-  allow_fork_syncing?: BranchProtectionRequiredLinearHistory;
+  allow_fork_syncing?: BranchProtectionRequiredLinearHistory | undefined;
 }
 /** Branch With Protection */
 export interface BranchWithProtection {
@@ -3462,8 +3483,8 @@ export interface BranchWithProtection {
   protected: boolean;
   protection: BranchProtection;
   protection_url: string;
-  pattern?: string;
-  required_approving_review_count?: number;
+  pattern?: string | undefined;
+  required_approving_review_count?: number | undefined;
 }
 export interface GetBranchProtectionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3481,9 +3502,9 @@ export interface GetBranchRulesRequest {
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type RepositoryRuleDetailedCase0Type = "creation";
 /** The type of source for the ruleset that includes this rule. */
@@ -3491,11 +3512,11 @@ export type RepositoryRuleDetailedCase0RulesetSourceType = "Repository" | "Organ
 export interface RepositoryRuleDetailedCase0 {
   type: RepositoryRuleDetailedCase0Type;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase0RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase0RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase1Type = "update";
 export type RepositoryRuleDetailedCase1Parameters = RepositoryRuleUpdateParameters;
@@ -3503,13 +3524,13 @@ export type RepositoryRuleDetailedCase1Parameters = RepositoryRuleUpdateParamete
 export type RepositoryRuleDetailedCase1RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase1 {
   type: RepositoryRuleDetailedCase1Type;
-  parameters?: RepositoryRuleUpdateParameters;
+  parameters?: RepositoryRuleUpdateParameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase1RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase1RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase2Type = "deletion";
 /** The type of source for the ruleset that includes this rule. */
@@ -3517,11 +3538,11 @@ export type RepositoryRuleDetailedCase2RulesetSourceType = "Repository" | "Organ
 export interface RepositoryRuleDetailedCase2 {
   type: RepositoryRuleDetailedCase2Type;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase2RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase2RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase3Type = "required_linear_history";
 /** The type of source for the ruleset that includes this rule. */
@@ -3529,11 +3550,11 @@ export type RepositoryRuleDetailedCase3RulesetSourceType = "Repository" | "Organ
 export interface RepositoryRuleDetailedCase3 {
   type: RepositoryRuleDetailedCase3Type;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase3RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase3RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase4Type = "merge_queue";
 /** When set to ALLGREEN, the merge commit created by merge queue for each PR in the group must pass all required checks to merge. When set to HEADGREEN, only the commit at the head of the merge group, i.e. the commit containing changes from all of the PRs in the group, must pass its required checks to merge. */
@@ -3560,13 +3581,13 @@ export interface RepositoryRuleDetailedCase4Parameters {
 export type RepositoryRuleDetailedCase4RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase4 {
   type: RepositoryRuleDetailedCase4Type;
-  parameters?: RepositoryRuleDetailedCase4Parameters;
+  parameters?: RepositoryRuleDetailedCase4Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase4RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase4RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase5Type = "required_deployments";
 /** The environments that must be successfully deployed to before branches can be merged. */
@@ -3579,13 +3600,13 @@ export interface RepositoryRuleDetailedCase5Parameters {
 export type RepositoryRuleDetailedCase5RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase5 {
   type: RepositoryRuleDetailedCase5Type;
-  parameters?: RepositoryRuleDetailedCase5Parameters;
+  parameters?: RepositoryRuleDetailedCase5Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase5RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase5RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase6Type = "required_signatures";
 /** The type of source for the ruleset that includes this rule. */
@@ -3593,11 +3614,11 @@ export type RepositoryRuleDetailedCase6RulesetSourceType = "Repository" | "Organ
 export interface RepositoryRuleDetailedCase6 {
   type: RepositoryRuleDetailedCase6Type;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase6RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase6RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase7Type = "pull_request";
 export type RepositoryRuleDetailedCase7ParametersAllowedMergeMethodsItem =
@@ -3612,14 +3633,14 @@ export type RepositoryRuleDetailedCase7ParametersRequiredReviewersList =
   Array<RepositoryRuleParamsRequiredReviewerConfiguration>;
 export interface RepositoryRuleDetailedCase7Parameters {
   /** Array of allowed merge methods. Allowed values include `merge`, `squash`, and `rebase`. At least one option must be enabled. */
-  allowed_merge_methods?: RepositoryRuleDetailedCase7ParametersAllowedMergeMethodsList;
+  allowed_merge_methods?: RepositoryRuleDetailedCase7ParametersAllowedMergeMethodsList | undefined;
   /** New, reviewable commits pushed will dismiss previous pull request review approvals. */
   dismiss_stale_reviews_on_push: boolean;
-  dismissal_restriction?: RepositoryRuleParamsDismissalRestriction;
+  dismissal_restriction?: RepositoryRuleParamsDismissalRestriction | undefined;
   /** Require an approving review in pull requests that modify files that have a designated code owner. */
   require_code_owner_review: boolean;
   /** When Copilot opens a pull request without a human collaborator, require one more approving review if a non-zero approval count is required. */
-  require_extra_approval_for_unattributed_changes?: boolean;
+  require_extra_approval_for_unattributed_changes?: boolean | undefined;
   /** Whether the most recent reviewable push must be approved by someone other than the person who pushed it. */
   require_last_push_approval: boolean;
   /** The number of approving reviews that are required before a pull request can be merged. */
@@ -3627,19 +3648,19 @@ export interface RepositoryRuleDetailedCase7Parameters {
   /** All conversations on code must be resolved before a pull request can be merged. */
   required_review_thread_resolution: boolean;
   /** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
-  required_reviewers?: RepositoryRuleDetailedCase7ParametersRequiredReviewersList;
+  required_reviewers?: RepositoryRuleDetailedCase7ParametersRequiredReviewersList | undefined;
 }
 /** The type of source for the ruleset that includes this rule. */
 export type RepositoryRuleDetailedCase7RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase7 {
   type: RepositoryRuleDetailedCase7Type;
-  parameters?: RepositoryRuleDetailedCase7Parameters;
+  parameters?: RepositoryRuleDetailedCase7Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase7RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase7RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase8Type = "required_status_checks";
 /** Status checks that are required. */
@@ -3647,7 +3668,7 @@ export type RepositoryRuleDetailedCase8ParametersRequiredStatusChecksList =
   Array<RepositoryRuleParamsStatusCheckConfiguration>;
 export interface RepositoryRuleDetailedCase8Parameters {
   /** Allow repositories and branches to be created if a check would otherwise prohibit it. */
-  do_not_enforce_on_create?: boolean;
+  do_not_enforce_on_create?: boolean | undefined;
   /** Status checks that are required. */
   required_status_checks: RepositoryRuleDetailedCase8ParametersRequiredStatusChecksList;
   /** Whether pull requests targeting a matching branch must be tested with the latest code. This setting will not take effect unless at least one status check is enabled. */
@@ -3657,13 +3678,13 @@ export interface RepositoryRuleDetailedCase8Parameters {
 export type RepositoryRuleDetailedCase8RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase8 {
   type: RepositoryRuleDetailedCase8Type;
-  parameters?: RepositoryRuleDetailedCase8Parameters;
+  parameters?: RepositoryRuleDetailedCase8Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase8RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase8RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase9Type = "non_fast_forward";
 /** The type of source for the ruleset that includes this rule. */
@@ -3671,11 +3692,11 @@ export type RepositoryRuleDetailedCase9RulesetSourceType = "Repository" | "Organ
 export interface RepositoryRuleDetailedCase9 {
   type: RepositoryRuleDetailedCase9Type;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase9RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase9RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase10Type = "commit_message_pattern";
 /** The operator to use for matching. */
@@ -3686,9 +3707,9 @@ export type RepositoryRuleDetailedCase10ParametersOperator =
   | "regex";
 export interface RepositoryRuleDetailedCase10Parameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleDetailedCase10ParametersOperator;
   /** The pattern to match with. */
@@ -3698,13 +3719,13 @@ export interface RepositoryRuleDetailedCase10Parameters {
 export type RepositoryRuleDetailedCase10RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase10 {
   type: RepositoryRuleDetailedCase10Type;
-  parameters?: RepositoryRuleDetailedCase10Parameters;
+  parameters?: RepositoryRuleDetailedCase10Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase10RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase10RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase11Type = "commit_author_email_pattern";
 /** The operator to use for matching. */
@@ -3715,9 +3736,9 @@ export type RepositoryRuleDetailedCase11ParametersOperator =
   | "regex";
 export interface RepositoryRuleDetailedCase11Parameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleDetailedCase11ParametersOperator;
   /** The pattern to match with. */
@@ -3727,13 +3748,13 @@ export interface RepositoryRuleDetailedCase11Parameters {
 export type RepositoryRuleDetailedCase11RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase11 {
   type: RepositoryRuleDetailedCase11Type;
-  parameters?: RepositoryRuleDetailedCase11Parameters;
+  parameters?: RepositoryRuleDetailedCase11Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase11RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase11RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase12Type = "committer_email_pattern";
 /** The operator to use for matching. */
@@ -3744,9 +3765,9 @@ export type RepositoryRuleDetailedCase12ParametersOperator =
   | "regex";
 export interface RepositoryRuleDetailedCase12Parameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleDetailedCase12ParametersOperator;
   /** The pattern to match with. */
@@ -3756,13 +3777,13 @@ export interface RepositoryRuleDetailedCase12Parameters {
 export type RepositoryRuleDetailedCase12RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase12 {
   type: RepositoryRuleDetailedCase12Type;
-  parameters?: RepositoryRuleDetailedCase12Parameters;
+  parameters?: RepositoryRuleDetailedCase12Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase12RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase12RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase13Type = "branch_name_pattern";
 /** The operator to use for matching. */
@@ -3773,9 +3794,9 @@ export type RepositoryRuleDetailedCase13ParametersOperator =
   | "regex";
 export interface RepositoryRuleDetailedCase13Parameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleDetailedCase13ParametersOperator;
   /** The pattern to match with. */
@@ -3785,13 +3806,13 @@ export interface RepositoryRuleDetailedCase13Parameters {
 export type RepositoryRuleDetailedCase13RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase13 {
   type: RepositoryRuleDetailedCase13Type;
-  parameters?: RepositoryRuleDetailedCase13Parameters;
+  parameters?: RepositoryRuleDetailedCase13Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase13RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase13RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase14Type = "tag_name_pattern";
 /** The operator to use for matching. */
@@ -3802,9 +3823,9 @@ export type RepositoryRuleDetailedCase14ParametersOperator =
   | "regex";
 export interface RepositoryRuleDetailedCase14Parameters {
   /** How this rule appears when configuring it. */
-  name?: string;
+  name?: string | undefined;
   /** If true, the rule will fail if the pattern matches. */
-  negate?: boolean;
+  negate?: boolean | undefined;
   /** The operator to use for matching. */
   operator: RepositoryRuleDetailedCase14ParametersOperator;
   /** The pattern to match with. */
@@ -3814,13 +3835,13 @@ export interface RepositoryRuleDetailedCase14Parameters {
 export type RepositoryRuleDetailedCase14RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase14 {
   type: RepositoryRuleDetailedCase14Type;
-  parameters?: RepositoryRuleDetailedCase14Parameters;
+  parameters?: RepositoryRuleDetailedCase14Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase14RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase14RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase15Type = "workflows";
 /** Workflows that must pass for this rule to pass. */
@@ -3828,7 +3849,7 @@ export type RepositoryRuleDetailedCase15ParametersWorkflowsList =
   Array<RepositoryRuleParamsWorkflowFileReference>;
 export interface RepositoryRuleDetailedCase15Parameters {
   /** Allow repositories and branches to be created if a check would otherwise prohibit it. */
-  do_not_enforce_on_create?: boolean;
+  do_not_enforce_on_create?: boolean | undefined;
   /** Workflows that must pass for this rule to pass. */
   workflows: RepositoryRuleDetailedCase15ParametersWorkflowsList;
 }
@@ -3836,13 +3857,13 @@ export interface RepositoryRuleDetailedCase15Parameters {
 export type RepositoryRuleDetailedCase15RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase15 {
   type: RepositoryRuleDetailedCase15Type;
-  parameters?: RepositoryRuleDetailedCase15Parameters;
+  parameters?: RepositoryRuleDetailedCase15Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase15RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase15RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase16Type = "code_scanning";
 /** Tools that must provide code scanning results for this rule to pass. */
@@ -3856,13 +3877,13 @@ export interface RepositoryRuleDetailedCase16Parameters {
 export type RepositoryRuleDetailedCase16RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase16 {
   type: RepositoryRuleDetailedCase16Type;
-  parameters?: RepositoryRuleDetailedCase16Parameters;
+  parameters?: RepositoryRuleDetailedCase16Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase16RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase16RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase17Type = "code_quality";
 /** The lowest severity level at which code quality reviews need to be resolved before commits can be merged. */
@@ -3879,13 +3900,13 @@ export interface RepositoryRuleDetailedCase17Parameters {
 export type RepositoryRuleDetailedCase17RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase17 {
   type: RepositoryRuleDetailedCase17Type;
-  parameters?: RepositoryRuleDetailedCase17Parameters;
+  parameters?: RepositoryRuleDetailedCase17Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase17RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase17RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase18Type = "code_coverage";
 export type RepositoryRuleDetailedCase18Parameters = RepositoryRuleCodeCoverageParameters;
@@ -3893,13 +3914,13 @@ export type RepositoryRuleDetailedCase18Parameters = RepositoryRuleCodeCoverageP
 export type RepositoryRuleDetailedCase18RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase18 {
   type: RepositoryRuleDetailedCase18Type;
-  parameters?: RepositoryRuleCodeCoverageParameters;
+  parameters?: RepositoryRuleCodeCoverageParameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase18RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase18RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase19Type = "copilot_code_review";
 export type RepositoryRuleDetailedCase19Parameters = RepositoryRuleCopilotCodeReviewParameters;
@@ -3907,13 +3928,13 @@ export type RepositoryRuleDetailedCase19Parameters = RepositoryRuleCopilotCodeRe
 export type RepositoryRuleDetailedCase19RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase19 {
   type: RepositoryRuleDetailedCase19Type;
-  parameters?: RepositoryRuleCopilotCodeReviewParameters;
+  parameters?: RepositoryRuleCopilotCodeReviewParameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase19RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase19RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase20Type = "license_compliance_scanning";
 /** The type of source for the ruleset that includes this rule. */
@@ -3921,11 +3942,11 @@ export type RepositoryRuleDetailedCase20RulesetSourceType = "Repository" | "Orga
 export interface RepositoryRuleDetailedCase20 {
   type: RepositoryRuleDetailedCase20Type;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase20RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase20RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase21Type = "file_path_restriction";
 /** Files matching these patterns are allowed even when they also match a restricted path. */
@@ -3934,7 +3955,7 @@ export type RepositoryRuleDetailedCase21ParametersIgnoredFilePathsList = Array<s
 export type RepositoryRuleDetailedCase21ParametersRestrictedFilePathsList = Array<string>;
 export interface RepositoryRuleDetailedCase21Parameters {
   /** Files matching these patterns are allowed even when they also match a restricted path. */
-  ignored_file_paths?: RepositoryRuleDetailedCase21ParametersIgnoredFilePathsList;
+  ignored_file_paths?: RepositoryRuleDetailedCase21ParametersIgnoredFilePathsList | undefined;
   /** The file paths that are restricted from being pushed to the commit graph. */
   restricted_file_paths: RepositoryRuleDetailedCase21ParametersRestrictedFilePathsList;
 }
@@ -3942,13 +3963,13 @@ export interface RepositoryRuleDetailedCase21Parameters {
 export type RepositoryRuleDetailedCase21RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase21 {
   type: RepositoryRuleDetailedCase21Type;
-  parameters?: RepositoryRuleDetailedCase21Parameters;
+  parameters?: RepositoryRuleDetailedCase21Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase21RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase21RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase22Type = "max_file_path_length";
 export type RepositoryRuleDetailedCase22Parameters = RepositoryRuleMaxFilePathLengthParameters;
@@ -3956,13 +3977,13 @@ export type RepositoryRuleDetailedCase22Parameters = RepositoryRuleMaxFilePathLe
 export type RepositoryRuleDetailedCase22RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase22 {
   type: RepositoryRuleDetailedCase22Type;
-  parameters?: RepositoryRuleMaxFilePathLengthParameters;
+  parameters?: RepositoryRuleMaxFilePathLengthParameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase22RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase22RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase23Type = "file_extension_restriction";
 /** The file extensions that are restricted from being pushed to the commit graph. */
@@ -3975,20 +3996,20 @@ export interface RepositoryRuleDetailedCase23Parameters {
 export type RepositoryRuleDetailedCase23RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase23 {
   type: RepositoryRuleDetailedCase23Type;
-  parameters?: RepositoryRuleDetailedCase23Parameters;
+  parameters?: RepositoryRuleDetailedCase23Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase23RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase23RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 export type RepositoryRuleDetailedCase24Type = "max_file_size";
 /** Files matching these patterns may exceed the maximum size. */
 export type RepositoryRuleDetailedCase24ParametersIgnoredFilePathsList = Array<string>;
 export interface RepositoryRuleDetailedCase24Parameters {
   /** Files matching these patterns may exceed the maximum size. */
-  ignored_file_paths?: RepositoryRuleDetailedCase24ParametersIgnoredFilePathsList;
+  ignored_file_paths?: RepositoryRuleDetailedCase24ParametersIgnoredFilePathsList | undefined;
   /** The maximum file size allowed in megabytes. This limit does not apply to Git Large File Storage (Git LFS). */
   max_file_size: number;
 }
@@ -3996,13 +4017,13 @@ export interface RepositoryRuleDetailedCase24Parameters {
 export type RepositoryRuleDetailedCase24RulesetSourceType = "Repository" | "Organization";
 export interface RepositoryRuleDetailedCase24 {
   type: RepositoryRuleDetailedCase24Type;
-  parameters?: RepositoryRuleDetailedCase24Parameters;
+  parameters?: RepositoryRuleDetailedCase24Parameters | undefined;
   /** The type of source for the ruleset that includes this rule. */
-  ruleset_source_type?: RepositoryRuleDetailedCase24RulesetSourceType;
+  ruleset_source_type?: RepositoryRuleDetailedCase24RulesetSourceType | undefined;
   /** The name of the source of the ruleset that includes this rule. */
-  ruleset_source?: string;
+  ruleset_source?: string | undefined;
   /** The ID of the ruleset that includes this rule. */
-  ruleset_id?: number;
+  ruleset_id?: number | undefined;
 }
 /** A repository rule with ruleset details. */
 export type RepositoryRuleDetailed =
@@ -4044,7 +4065,7 @@ export interface GetClonesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The time frame to display results for. */
-  per?: GetClonesRequestPer | (string & {});
+  per?: GetClonesRequestPer | (string & {}) | undefined;
 }
 export interface Traffic {
   timestamp: string;
@@ -4078,17 +4099,17 @@ export interface GetCollaboratorPermissionLevelRequest {
 }
 export interface NullableCollaboratorPermissions {
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
   admin: boolean;
 }
 /** Collaborator */
 export interface NullableCollaborator {
   login: string;
   id: number;
-  email?: string | null;
-  name?: string | null;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
   node_id: string;
   avatar_url: string;
   gravatar_id: string | null;
@@ -4105,9 +4126,9 @@ export interface NullableCollaborator {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  permissions?: NullableCollaboratorPermissions;
+  permissions?: NullableCollaboratorPermissions | undefined;
   role_name: string;
-  user_view_type?: string;
+  user_view_type?: string | undefined;
 }
 /** Repository Collaborator Permission */
 export interface RepositoryCollaboratorPermission {
@@ -4123,9 +4144,9 @@ export interface GetCombinedStatusForRefRequest {
   /** The commit reference. Can be a commit SHA, branch name (`heads/BRANCH_NAME`), or tag name (`tags/TAG_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
   ref: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface SimpleCommitStatus {
   description: string | null;
@@ -4134,7 +4155,7 @@ export interface SimpleCommitStatus {
   state: string;
   context: string;
   target_url: string | null;
-  required?: boolean | null;
+  required?: boolean | null | undefined;
   avatar_url: string | null;
   url: string;
   created_at: string;
@@ -4164,11 +4185,11 @@ export interface GetCommitRequest {
   /** The commit reference. Can be a commit SHA, branch name (`heads/BRANCH_NAME`), or tag name (`tags/TAG_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
   ref: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A media type that returns text instead of JSON: `application/vnd.github.diff`, `application/vnd.github.patch`, `application/vnd.github.sha`. */
-  accept?: GetCommitRequestAccept | (string & {});
+  accept?: GetCommitRequestAccept | (string & {}) | undefined;
 }
 export type GetCommitResponseBody = Commit | string;
 export type GetCommitResponse = GetCommitResponseBody;
@@ -4231,7 +4252,7 @@ export interface CommunityProfile {
   documentation: string | null;
   files: CommunityProfileFiles;
   updated_at: string | null;
-  content_reports_enabled?: boolean;
+  content_reports_enabled?: boolean | undefined;
 }
 export interface GetContentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4241,7 +4262,7 @@ export interface GetContentRequest {
   /** path parameter */
   path: string;
   /** The name of the commit/branch/tag. Default: the repository's default branch. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type ContentDirectoryItemType = "dir" | "file" | "submodule" | "symlink";
 export interface ContentDirectoryItemLinks {
@@ -4254,7 +4275,7 @@ export interface ContentDirectoryItem {
   size: number;
   name: string;
   path: string;
-  content?: string;
+  content?: string | undefined;
   sha: string;
   url: string;
   git_url: string | null;
@@ -4280,8 +4301,8 @@ export interface ContentFile {
   html_url: string | null;
   download_url: string | null;
   _links: ContentDirectoryItemLinks;
-  target?: string;
-  submodule_git_url?: string;
+  target?: string | undefined;
+  submodule_git_url?: string | undefined;
 }
 export type ContentSymlinkType = "symlink";
 export type ContentSymlinkLinks = ContentDirectoryItemLinks;
@@ -4328,10 +4349,10 @@ export interface GetContributorsStatsRequest {
   repo: string;
 }
 export interface ContributorActivityWeeksItem {
-  w?: number;
-  a?: number;
-  d?: number;
-  c?: number;
+  w?: number | undefined;
+  a?: number | undefined;
+  d?: number | undefined;
+  c?: number | undefined;
 }
 export type ContributorActivityWeeksList = Array<ContributorActivityWeeksItem>;
 /** Contributor Activity */
@@ -4444,11 +4465,11 @@ export interface GetOrgRulesetsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** A comma-separated list of rule targets to filter by. If provided, only rulesets that apply to the specified targets will be returned. For example, `branch,tag,push`. */
-  targets?: string;
+  targets?: string | undefined;
 }
 export type GetOrgRulesetsResponseBodyList = Array<RepositoryRuleset>;
 export type GetOrgRulesetsResponse = GetOrgRulesetsResponseBodyList;
@@ -4458,7 +4479,7 @@ export interface GetOrgRuleSuiteRequest {
   /** The unique identifier of the rule suite result. To get this ID, you can use [GET /repos/{owner}/{repo}/rulesets/rule-suites](https://docs.github.com/rest/repos/rule-suites#list-repository-rule-suites) for repositories and [GET /orgs/{org}/rulesets/rule-suites](https://docs.github.com/rest/orgs/rule-suites#list-organization-rule-suites) for organizations. */
   rule_suite_id: number;
   /** When set to `true`, the response will include additional metadata for pull request and required status check rule evaluation. Results are capped at 50 entries. */
-  include_metadata?: boolean;
+  include_metadata?: boolean | undefined;
 }
 /** The result of the rule evaluations for rules with the `active` enforcement status. */
 export type RuleSuiteResult = "pass" | "fail" | "bypass";
@@ -4466,11 +4487,11 @@ export type RuleSuiteResult = "pass" | "fail" | "bypass";
 export type RuleSuiteEvaluationResult = "pass" | "fail" | "bypass";
 export interface RuleSuiteRuleEvaluationsItemRuleSource {
   /** The type of rule source. */
-  type?: string;
+  type?: string | undefined;
   /** The ID of the rule source. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The name of the rule source. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** The enforcement level of this rule source. */
 export type RuleSuiteRuleEvaluationsItemEnforcement = "active" | "evaluate" | "deleted ruleset";
@@ -4479,21 +4500,21 @@ export type RuleSuiteRuleEvaluationsItemResult = "pass" | "fail";
 /** The user who created the pull request. */
 export interface RuleSuitePullRequestPullRequestUser {
   /** The unique identifier of the user. */
-  id?: number;
+  id?: number | undefined;
   /** The handle for the GitHub user account. */
-  login?: string;
+  login?: string | undefined;
   /** The type of the user. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The user who submitted the review. */
 export type RuleSuitePullRequestPullRequestReviewsItemUser = RuleSuitePullRequestPullRequestUser;
 export interface RuleSuitePullRequestPullRequestReviewsItem {
   /** The unique identifier of the review. */
-  id?: number;
+  id?: number | undefined;
   /** The user who submitted the review. */
-  user?: RuleSuitePullRequestPullRequestUser;
+  user?: RuleSuitePullRequestPullRequestUser | undefined;
   /** The state of the review. */
-  state?: string;
+  state?: string | undefined;
 }
 /** The reviews associated with the pull request. */
 export type RuleSuitePullRequestPullRequestReviewsList =
@@ -4504,60 +4525,60 @@ export type RuleSuitePullRequestPullRequestProofOfPresenceVerifier =
 /** The proof of presence evaluation for the pull request. Null if proof of presence was not evaluated. */
 export interface RuleSuitePullRequestPullRequestProofOfPresence {
   /** The state of the proof of presence evaluation. */
-  state?: string;
+  state?: string | undefined;
   /** A code describing the reason for the proof of presence state. */
-  code?: string;
+  code?: string | undefined;
   /** The base commit SHA the proof of presence evaluation applies to. Empty if unavailable. */
-  base_sha?: string;
+  base_sha?: string | undefined;
   /** The head commit SHA the proof of presence evaluation applies to. Empty if unavailable. */
-  head_sha?: string;
+  head_sha?: string | undefined;
   /** The authentication level required by the rule. Empty if unavailable. */
-  required_level?: string;
+  required_level?: string | undefined;
   /** The authentication level that was verified. Empty if proof of presence has not been completed. */
-  verified_level?: string;
+  verified_level?: string | undefined;
   /** The time proof of presence was verified, in ISO 8601 format. Empty if proof of presence has not been completed. */
-  verified_at?: string;
+  verified_at?: string | undefined;
   /** The user who provided proof of presence. Null if no proof of presence was recorded. */
-  verifier?: RuleSuitePullRequestPullRequestUser | null;
+  verifier?: RuleSuitePullRequestPullRequestUser | null | undefined;
 }
 /** The pull request associated with the rule evaluation. */
 export interface RuleSuitePullRequestPullRequest {
   /** The unique identifier of the pull request. */
-  id?: number;
+  id?: number | undefined;
   /** The number of the pull request. */
-  number?: number;
+  number?: number | undefined;
   /** The user who created the pull request. */
-  user?: RuleSuitePullRequestPullRequestUser;
+  user?: RuleSuitePullRequestPullRequestUser | undefined;
   /** The reviews associated with the pull request. */
-  reviews?: RuleSuitePullRequestPullRequestReviewsList;
+  reviews?: RuleSuitePullRequestPullRequestReviewsList | undefined;
   /** The proof of presence evaluation for the pull request. Null if proof of presence was not evaluated. */
-  proof_of_presence?: RuleSuitePullRequestPullRequestProofOfPresence | null;
+  proof_of_presence?: RuleSuitePullRequestPullRequestProofOfPresence | null | undefined;
 }
 /** Metadata for a pull request rule evaluation result. */
 export interface RuleSuitePullRequest {
   /** The pull request associated with the rule evaluation. */
-  pull_request?: RuleSuitePullRequestPullRequest;
+  pull_request?: RuleSuitePullRequestPullRequest | undefined;
 }
 /** The GitHub App associated with the status check. */
 export interface RuleSuiteRequiredStatusChecksChecksItemApp {
   /** The unique identifier of the GitHub App. */
-  id?: number;
+  id?: number | undefined;
   /** The slug of the GitHub App. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the GitHub App. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RuleSuiteRequiredStatusChecksChecksItem {
   /** The unique identifier of the status check. */
-  id?: number;
+  id?: number | undefined;
   /** The context name of the status check. */
-  context?: string;
+  context?: string | undefined;
   /** The state of the status check. */
-  state?: string;
+  state?: string | undefined;
   /** The type of the status check. */
-  type?: string;
+  type?: string | undefined;
   /** The GitHub App associated with the status check. */
-  app?: RuleSuiteRequiredStatusChecksChecksItemApp | null;
+  app?: RuleSuiteRequiredStatusChecksChecksItemApp | null | undefined;
 }
 /** The status checks associated with the rule evaluation. */
 export type RuleSuiteRequiredStatusChecksChecksList =
@@ -4565,52 +4586,52 @@ export type RuleSuiteRequiredStatusChecksChecksList =
 /** Metadata for a required status checks rule evaluation result. */
 export interface RuleSuiteRequiredStatusChecks {
   /** The status checks associated with the rule evaluation. */
-  checks?: RuleSuiteRequiredStatusChecksChecksList;
+  checks?: RuleSuiteRequiredStatusChecksChecksList | undefined;
 }
 /** Additional metadata about the rule evaluation. */
 export type RuleSuiteRuleEvaluationsItemMetadata =
   | RuleSuitePullRequest
   | RuleSuiteRequiredStatusChecks;
 export interface RuleSuiteRuleEvaluationsItem {
-  rule_source?: RuleSuiteRuleEvaluationsItemRuleSource;
+  rule_source?: RuleSuiteRuleEvaluationsItemRuleSource | undefined;
   /** The enforcement level of this rule source. */
-  enforcement?: RuleSuiteRuleEvaluationsItemEnforcement;
+  enforcement?: RuleSuiteRuleEvaluationsItemEnforcement | undefined;
   /** The result of the evaluation of the individual rule. */
-  result?: RuleSuiteRuleEvaluationsItemResult;
+  result?: RuleSuiteRuleEvaluationsItemResult | undefined;
   /** The type of rule. */
-  rule_type?: string;
+  rule_type?: string | undefined;
   /** Additional metadata about the rule evaluation. */
-  metadata?: RuleSuiteRuleEvaluationsItemMetadata | null;
+  metadata?: RuleSuiteRuleEvaluationsItemMetadata | null | undefined;
   /** The detailed failure message for the rule. Null if the rule passed. */
-  details?: string | null;
+  details?: string | null | undefined;
 }
 /** Details on the evaluated rules. */
 export type RuleSuiteRuleEvaluationsList = Array<RuleSuiteRuleEvaluationsItem>;
 /** Response */
 export interface RuleSuite {
   /** The unique identifier of the rule insight. */
-  id?: number;
+  id?: number | undefined;
   /** The number that identifies the user. */
-  actor_id?: number | null;
+  actor_id?: number | null | undefined;
   /** The handle for the GitHub user account. */
-  actor_name?: string | null;
+  actor_name?: string | null | undefined;
   /** The previous commit SHA of the ref. */
-  before_sha?: string;
+  before_sha?: string | undefined;
   /** The new commit SHA of the ref. */
-  after_sha?: string;
+  after_sha?: string | undefined;
   /** The ref name that the evaluation ran on. */
-  ref?: string;
+  ref?: string | undefined;
   /** The ID of the repository associated with the rule evaluation. */
-  repository_id?: number;
+  repository_id?: number | undefined;
   /** The name of the repository without the `.git` extension. */
-  repository_name?: string;
-  pushed_at?: string;
+  repository_name?: string | undefined;
+  pushed_at?: string | undefined;
   /** The result of the rule evaluations for rules with the `active` enforcement status. */
-  result?: RuleSuiteResult;
+  result?: RuleSuiteResult | undefined;
   /** The result of the rule evaluations for rules with the `active` and `evaluate` enforcement statuses, demonstrating whether rules would pass or fail if all rules in the rule suite were `active`. Null if no rules with `evaluate` enforcement status were run. */
-  evaluation_result?: RuleSuiteEvaluationResult | null;
+  evaluation_result?: RuleSuiteEvaluationResult | null | undefined;
   /** Details on the evaluated rules. */
-  rule_evaluations?: RuleSuiteRuleEvaluationsList;
+  rule_evaluations?: RuleSuiteRuleEvaluationsList | undefined;
 }
 export type GetOrgRuleSuitesRequestTimePeriod = "hour" | "day" | "week" | "month";
 export type GetOrgRuleSuitesRequestRuleSuiteResult = "pass" | "fail" | "bypass" | "all";
@@ -4619,21 +4640,21 @@ export interface GetOrgRuleSuitesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
-  ref?: string;
+  ref?: string | undefined;
   /** The name of the repository to filter on. */
-  repository_name?: string;
+  repository_name?: string | undefined;
   /** The time period to filter by. For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours). */
-  time_period?: GetOrgRuleSuitesRequestTimePeriod | (string & {});
+  time_period?: GetOrgRuleSuitesRequestTimePeriod | (string & {}) | undefined;
   /** The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned. */
-  actor_name?: string;
+  actor_name?: string | undefined;
   /** The rule suite results to filter on. When specified, only suites with this result will be returned. */
-  rule_suite_result?: GetOrgRuleSuitesRequestRuleSuiteResult | (string & {});
+  rule_suite_result?: GetOrgRuleSuitesRequestRuleSuiteResult | (string & {}) | undefined;
   /** The evaluate status to filter on. When specified, only rule suites resulting from rulesets with the specified evaluate status will be returned. - `all` - all rule suites will be returned. - `active` - only rule suites resulting from rulesets in active (non-evaluate) mode will be returned. - `evaluate` - only rule suites resulting from rulesets in evaluate mode will be returned. */
-  evaluate_status?: GetOrgRuleSuitesRequestEvaluateStatus | (string & {});
+  evaluate_status?: GetOrgRuleSuitesRequestEvaluateStatus | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** The result of the rule evaluations for rules with the `active` enforcement status. */
 export type RuleSuitesItemResult = "pass" | "fail" | "bypass";
@@ -4641,26 +4662,26 @@ export type RuleSuitesItemResult = "pass" | "fail" | "bypass";
 export type RuleSuitesItemEvaluationResult = "pass" | "fail" | "bypass";
 export interface RuleSuitesItem {
   /** The unique identifier of the rule insight. */
-  id?: number;
+  id?: number | undefined;
   /** The number that identifies the user. */
-  actor_id?: number;
+  actor_id?: number | undefined;
   /** The handle for the GitHub user account. */
-  actor_name?: string;
+  actor_name?: string | undefined;
   /** The first commit sha before the push evaluation. */
-  before_sha?: string;
+  before_sha?: string | undefined;
   /** The last commit sha in the push evaluation. */
-  after_sha?: string;
+  after_sha?: string | undefined;
   /** The ref name that the evaluation ran on. */
-  ref?: string;
+  ref?: string | undefined;
   /** The ID of the repository associated with the rule evaluation. */
-  repository_id?: number;
+  repository_id?: number | undefined;
   /** The name of the repository without the `.git` extension. */
-  repository_name?: string;
-  pushed_at?: string;
+  repository_name?: string | undefined;
+  pushed_at?: string | undefined;
   /** The result of the rule evaluations for rules with the `active` enforcement status. */
-  result?: RuleSuitesItemResult;
+  result?: RuleSuitesItemResult | undefined;
   /** The result of the rule evaluations for rules with the `active` and `evaluate` enforcement statuses, demonstrating whether rules would pass or fail if all rules in the rule suite were `active`. */
-  evaluation_result?: RuleSuitesItemEvaluationResult;
+  evaluation_result?: RuleSuitesItemEvaluationResult | undefined;
 }
 /** Response */
 export type RuleSuites = Array<RuleSuitesItem>;
@@ -4701,7 +4722,7 @@ export type PagesDeploymentStatusStatus =
   | "succeed";
 export interface PagesDeploymentStatus {
   /** The current status of the deployment. */
-  status?: PagesDeploymentStatusStatus;
+  status?: PagesDeploymentStatusStatus | undefined;
 }
 export interface GetPagesHealthCheckRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4710,40 +4731,40 @@ export interface GetPagesHealthCheckRequest {
   repo: string;
 }
 export interface PagesHealthCheckDomain {
-  host?: string;
-  uri?: string;
-  nameservers?: string;
-  dns_resolves?: boolean;
-  is_proxied?: boolean | null;
-  is_cloudflare_ip?: boolean | null;
-  is_fastly_ip?: boolean | null;
-  is_old_ip_address?: boolean | null;
-  is_a_record?: boolean | null;
-  has_cname_record?: boolean | null;
-  has_mx_records_present?: boolean | null;
-  is_valid_domain?: boolean;
-  is_apex_domain?: boolean;
-  should_be_a_record?: boolean | null;
-  is_cname_to_github_user_domain?: boolean | null;
-  is_cname_to_pages_dot_github_dot_com?: boolean | null;
-  is_cname_to_fastly?: boolean | null;
-  is_pointed_to_github_pages_ip?: boolean | null;
-  is_non_github_pages_ip_present?: boolean | null;
-  is_pages_domain?: boolean;
-  is_served_by_pages?: boolean | null;
-  is_valid?: boolean;
-  reason?: string | null;
-  responds_to_https?: boolean;
-  enforces_https?: boolean;
-  https_error?: string | null;
-  is_https_eligible?: boolean | null;
-  caa_error?: string | null;
+  host?: string | undefined;
+  uri?: string | undefined;
+  nameservers?: string | undefined;
+  dns_resolves?: boolean | undefined;
+  is_proxied?: boolean | null | undefined;
+  is_cloudflare_ip?: boolean | null | undefined;
+  is_fastly_ip?: boolean | null | undefined;
+  is_old_ip_address?: boolean | null | undefined;
+  is_a_record?: boolean | null | undefined;
+  has_cname_record?: boolean | null | undefined;
+  has_mx_records_present?: boolean | null | undefined;
+  is_valid_domain?: boolean | undefined;
+  is_apex_domain?: boolean | undefined;
+  should_be_a_record?: boolean | null | undefined;
+  is_cname_to_github_user_domain?: boolean | null | undefined;
+  is_cname_to_pages_dot_github_dot_com?: boolean | null | undefined;
+  is_cname_to_fastly?: boolean | null | undefined;
+  is_pointed_to_github_pages_ip?: boolean | null | undefined;
+  is_non_github_pages_ip_present?: boolean | null | undefined;
+  is_pages_domain?: boolean | undefined;
+  is_served_by_pages?: boolean | null | undefined;
+  is_valid?: boolean | undefined;
+  reason?: string | null | undefined;
+  responds_to_https?: boolean | undefined;
+  enforces_https?: boolean | undefined;
+  https_error?: string | null | undefined;
+  is_https_eligible?: boolean | null | undefined;
+  caa_error?: string | null | undefined;
 }
 export type PagesHealthCheckAltDomain = PagesHealthCheckDomain;
 /** Pages Health Check Status */
 export interface PagesHealthCheck {
-  domain?: PagesHealthCheckDomain;
-  alt_domain?: PagesHealthCheckDomain | null;
+  domain?: PagesHealthCheckDomain | undefined;
+  alt_domain?: PagesHealthCheckDomain | null | undefined;
 }
 export interface GetParticipationStatsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4779,7 +4800,7 @@ export interface GetReadmeRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The name of the commit/branch/tag. Default: the repository's default branch. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface GetReadmeInDirectoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4789,7 +4810,7 @@ export interface GetReadmeInDirectoryRequest {
   /** The alternate path to look for a README file */
   dir: string;
   /** The name of the commit/branch/tag. Default: the repository's default branch. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface GetReleaseRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4823,7 +4844,7 @@ export interface GetRepoRulesetRequest {
   /** The ID of the ruleset. */
   ruleset_id: number;
   /** Include rulesets configured at higher levels that apply to this repository */
-  includes_parents?: boolean;
+  includes_parents?: boolean | undefined;
 }
 export interface GetRepoRulesetHistoryRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4833,14 +4854,14 @@ export interface GetRepoRulesetHistoryRequest {
   /** The ID of the ruleset. */
   ruleset_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** The actor who updated the ruleset */
 export interface RulesetVersionActor {
-  id?: number;
-  type?: string;
+  id?: number | undefined;
+  type?: string | undefined;
 }
 /** The historical version of a ruleset */
 export interface RulesetVersion {
@@ -4858,13 +4879,13 @@ export interface GetRepoRulesetsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Include rulesets configured at higher levels that apply to this repository */
-  includes_parents?: boolean;
+  includes_parents?: boolean | undefined;
   /** A comma-separated list of rule targets to filter by. If provided, only rulesets that apply to the specified targets will be returned. For example, `branch,tag,push`. */
-  targets?: string;
+  targets?: string | undefined;
 }
 export type GetRepoRulesetsResponseBodyList = Array<RepositoryRuleset>;
 export type GetRepoRulesetsResponse = GetRepoRulesetsResponseBodyList;
@@ -4897,7 +4918,7 @@ export interface GetRepoRuleSuiteRequest {
   /** The unique identifier of the rule suite result. To get this ID, you can use [GET /repos/{owner}/{repo}/rulesets/rule-suites](https://docs.github.com/rest/repos/rule-suites#list-repository-rule-suites) for repositories and [GET /orgs/{org}/rulesets/rule-suites](https://docs.github.com/rest/orgs/rule-suites#list-organization-rule-suites) for organizations. */
   rule_suite_id: number;
   /** When set to `true`, the response will include additional metadata for pull request and required status check rule evaluation. Results are capped at 50 entries. */
-  include_metadata?: boolean;
+  include_metadata?: boolean | undefined;
 }
 export type GetRepoRuleSuitesRequestTimePeriod = "hour" | "day" | "week" | "month";
 export type GetRepoRuleSuitesRequestRuleSuiteResult = "pass" | "fail" | "bypass" | "all";
@@ -4908,19 +4929,19 @@ export interface GetRepoRuleSuitesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned. */
-  ref?: string;
+  ref?: string | undefined;
   /** The time period to filter by. For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours). */
-  time_period?: GetRepoRuleSuitesRequestTimePeriod | (string & {});
+  time_period?: GetRepoRuleSuitesRequestTimePeriod | (string & {}) | undefined;
   /** The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned. */
-  actor_name?: string;
+  actor_name?: string | undefined;
   /** The rule suite results to filter on. When specified, only suites with this result will be returned. */
-  rule_suite_result?: GetRepoRuleSuitesRequestRuleSuiteResult | (string & {});
+  rule_suite_result?: GetRepoRuleSuitesRequestRuleSuiteResult | (string & {}) | undefined;
   /** The evaluate status to filter on. When specified, only rule suites resulting from rulesets with the specified evaluate status will be returned. - `all` - all rule suites will be returned. - `active` - only rule suites resulting from rulesets in active (non-evaluate) mode will be returned. - `evaluate` - only rule suites resulting from rulesets in evaluate mode will be returned. */
-  evaluate_status?: GetRepoRuleSuitesRequestEvaluateStatus | (string & {});
+  evaluate_status?: GetRepoRuleSuitesRequestEvaluateStatus | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type GetRepoRuleSuitesResponse = RuleSuites;
 export interface GetStatusChecksProtectionRequest {
@@ -5000,7 +5021,7 @@ export interface GetViewsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The time frame to display results for. */
-  per?: GetViewsRequestPer | (string & {});
+  per?: GetViewsRequestPer | (string & {}) | undefined;
 }
 export type ViewTrafficViewsList = Array<Traffic>;
 /** View Traffic */
@@ -5079,9 +5100,9 @@ export interface HookDelivery {
   /** The id of the repository associated with this event. */
   repository_id: number | null;
   /** Time when the webhook delivery was throttled. */
-  throttled_at?: string | null;
+  throttled_at?: string | null | undefined;
   /** The URL target of the delivery. */
-  url?: string;
+  url?: string | undefined;
   request: HookDeliveryRequest;
   response: HookDeliveryResponse;
 }
@@ -5100,21 +5121,21 @@ export interface ListActivitiesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The direction to sort the results by. */
-  direction?: ListActivitiesRequestDirection | (string & {});
+  direction?: ListActivitiesRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The Git reference for the activities you want to list. The `ref` for a branch can be formatted either as `refs/heads/BRANCH_NAME` or `BRANCH_NAME`, where `BRANCH_NAME` is the name of your branch. */
-  ref?: string;
+  ref?: string | undefined;
   /** The GitHub username to use to filter by the actor who performed the activity. */
-  actor?: string;
+  actor?: string | undefined;
   /** The time period to filter by. For example, `day` will filter for activity that occurred in the past 24 hours, and `week` will filter for activity that occurred in the past 7 days (168 hours). */
-  time_period?: ListActivitiesRequestTimePeriod | (string & {});
+  time_period?: ListActivitiesRequestTimePeriod | (string & {}) | undefined;
   /** The activity type to filter by. For example, you can choose to filter by "force_push", to see all force pushes to the repository. */
-  activity_type?: ListActivitiesRequestActivityType | (string & {});
+  activity_type?: ListActivitiesRequestActivityType | (string & {}) | undefined;
 }
 /** The type of the activity that was performed. */
 export type ActivityActivityType =
@@ -5150,13 +5171,13 @@ export interface ListAttestationsRequest {
   /** The parameter should be set to the attestation's subject's SHA256 digest, in the form `sha256:HEX_DIGEST`. */
   subject_digest: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, `release`, or freeform text for custom predicate types. */
-  predicate_type?: string;
+  predicate_type?: string | undefined;
 }
 export type ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap = {
   [key: string]: unknown | undefined;
@@ -5166,21 +5187,23 @@ export type ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap = {
 };
 /** The attestation's Sigstore Bundle. Refer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information. */
 export interface ListAttestationsResponseAttestationsItemBundle {
-  mediaType?: string;
-  verificationMaterial?: ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap;
-  dsseEnvelope?: ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap;
+  mediaType?: string | undefined;
+  verificationMaterial?:
+    | ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap
+    | undefined;
+  dsseEnvelope?: ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap | undefined;
 }
 export interface ListAttestationsResponseAttestationsItem {
   /** The attestation's Sigstore Bundle. Refer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information. */
-  bundle?: ListAttestationsResponseAttestationsItemBundle;
-  repository_id?: number;
-  bundle_url?: string;
-  initiator?: string;
+  bundle?: ListAttestationsResponseAttestationsItemBundle | undefined;
+  repository_id?: number | undefined;
+  bundle_url?: string | undefined;
+  initiator?: string | undefined;
 }
 export type ListAttestationsResponseAttestationsList =
   Array<ListAttestationsResponseAttestationsItem>;
 export interface ListAttestationsResponse {
-  attestations?: ListAttestationsResponseAttestationsList;
+  attestations?: ListAttestationsResponseAttestationsList | undefined;
 }
 export interface ListAutolinksRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5196,11 +5219,11 @@ export interface ListBranchesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Setting to `true` returns only branches protected by branch protections or rulesets. When set to `false`, only unprotected branches are returned. Omitting this parameter returns all branches. */
-  protected?: boolean;
+  protected?: boolean | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ShortBranchCommit = CommitCommitTree;
 /** Short Branch */
@@ -5208,8 +5231,8 @@ export interface ShortBranch {
   name: string;
   commit: CommitCommitTree;
   protected: boolean;
-  protection?: BranchProtection;
-  protection_url?: string;
+  protection?: BranchProtection | undefined;
+  protection_url?: string | undefined;
 }
 export type ListBranchesResponseBodyList = Array<ShortBranch>;
 export type ListBranchesResponse = ListBranchesResponseBodyList;
@@ -5244,13 +5267,13 @@ export interface ListCollaboratorsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Filter collaborators returned by their affiliation. `outside` means all outside collaborators of an organization-owned repository. `direct` means all collaborators with permissions to an organization-owned repository, regardless of organization membership status. `all` means all collaborators the authenticated user can see. */
-  affiliation?: ListCollaboratorsRequestAffiliation | (string & {});
+  affiliation?: ListCollaboratorsRequestAffiliation | (string & {}) | undefined;
   /** Filter collaborators by the permissions they have on the repository. If not specified, all collaborators will be returned. */
-  permission?: ListCollaboratorsRequestPermission | (string & {});
+  permission?: ListCollaboratorsRequestPermission | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type CollaboratorPermissions = NullableCollaboratorPermissions;
 /** Collaborator */
@@ -5265,9 +5288,9 @@ export interface ListCommentsForCommitRequest {
   /** The SHA of the commit. */
   commit_sha: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommentsForCommitResponseBodyList = Array<CommitComment>;
 export type ListCommentsForCommitResponse = ListCommentsForCommitResponseBodyList;
@@ -5277,9 +5300,9 @@ export interface ListCommitCommentsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommitCommentsForRepoResponseBodyList = Array<CommitComment>;
 export type ListCommitCommentsForRepoResponse = ListCommitCommentsForRepoResponseBodyList;
@@ -5289,21 +5312,21 @@ export interface ListCommitsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** SHA or branch to start listing commits from. Default: the repository's default branch (usually `main`). */
-  sha?: string;
+  sha?: string | undefined;
   /** Only commits containing this file path will be returned. */
-  path?: string;
+  path?: string | undefined;
   /** GitHub username or email address to use to filter by commit author. */
-  author?: string;
+  author?: string | undefined;
   /** GitHub username or email address to use to filter by commit committer. */
-  committer?: string;
+  committer?: string | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Due to limitations of Git, timestamps must be between 1970-01-01 and 2099-12-31 (inclusive) or unexpected results may be returned. */
-  since?: string;
+  since?: string | undefined;
   /** Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Due to limitations of Git, timestamps must be between 1970-01-01 and 2099-12-31 (inclusive) or unexpected results may be returned. */
-  until?: string;
+  until?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommitsResponseBodyList = Array<Commit>;
 export type ListCommitsResponse = ListCommitsResponseBodyList;
@@ -5315,9 +5338,9 @@ export interface ListCommitStatusesForRefRequest {
   /** The commit reference. Can be a commit SHA, branch name (`heads/BRANCH_NAME`), or tag name (`tags/TAG_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
   ref: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommitStatusesForRefResponseBodyList = Array<Status>;
 export type ListCommitStatusesForRefResponse = ListCommitStatusesForRefResponseBodyList;
@@ -5327,36 +5350,36 @@ export interface ListContributorsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Set to `1` or `true` to include anonymous contributors in results. */
-  anon?: string;
+  anon?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Contributor */
 export interface Contributor {
-  login?: string;
-  id?: number;
-  node_id?: string;
-  avatar_url?: string;
-  gravatar_id?: string | null;
-  url?: string;
-  html_url?: string;
-  followers_url?: string;
-  following_url?: string;
-  gists_url?: string;
-  starred_url?: string;
-  subscriptions_url?: string;
-  organizations_url?: string;
-  repos_url?: string;
-  events_url?: string;
-  received_events_url?: string;
+  login?: string | undefined;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  avatar_url?: string | undefined;
+  gravatar_id?: string | null | undefined;
+  url?: string | undefined;
+  html_url?: string | undefined;
+  followers_url?: string | undefined;
+  following_url?: string | undefined;
+  gists_url?: string | undefined;
+  starred_url?: string | undefined;
+  subscriptions_url?: string | undefined;
+  organizations_url?: string | undefined;
+  repos_url?: string | undefined;
+  events_url?: string | undefined;
+  received_events_url?: string | undefined;
   type: string;
-  site_admin?: boolean;
+  site_admin?: boolean | undefined;
   contributions: number;
-  email?: string;
-  name?: string;
-  user_view_type?: string;
+  email?: string | undefined;
+  name?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export type ListContributorsResponseBodyList = Array<Contributor>;
 export type ListContributorsResponse = ListContributorsResponseBodyList;
@@ -5368,15 +5391,15 @@ export interface ListCustomDeploymentRuleIntegrationsRequest {
   /** The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`. */
   environment_name: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListCustomDeploymentRuleIntegrationsResponseAvailableCustomDeploymentProtectionRuleIntegrationsList =
   Array<CustomDeploymentRuleApp>;
 export interface ListCustomDeploymentRuleIntegrationsResponse {
   /** The total number of custom deployment protection rule integrations available for this environment. */
-  total_count?: number;
+  total_count?: number | undefined;
   available_custom_deployment_protection_rule_integrations: ListCustomDeploymentRuleIntegrationsResponseAvailableCustomDeploymentProtectionRuleIntegrationsList;
 }
 export interface ListDeployKeysRequest {
@@ -5385,9 +5408,9 @@ export interface ListDeployKeysRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDeployKeysResponseBodyList = Array<DeployKey>;
 export type ListDeployKeysResponse = ListDeployKeysResponseBodyList;
@@ -5399,9 +5422,9 @@ export interface ListDeploymentBranchPoliciesRequest {
   /** The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`. */
   environment_name: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDeploymentBranchPoliciesResponseBranchPoliciesList = Array<DeploymentBranchPolicy>;
 export interface ListDeploymentBranchPoliciesResponse {
@@ -5415,17 +5438,17 @@ export interface ListDeploymentsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The SHA recorded at creation time. */
-  sha?: string;
+  sha?: string | undefined;
   /** The name of the ref. This can be a branch, tag, or SHA. */
-  ref?: string;
+  ref?: string | undefined;
   /** The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`). */
-  task?: string;
+  task?: string | undefined;
   /** The name of the environment that was deployed to (e.g., `staging` or `production`). */
-  environment?: string;
+  environment?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDeploymentsResponseBodyList = Array<Deployment>;
 export type ListDeploymentsResponse = ListDeploymentsResponseBodyList;
@@ -5437,9 +5460,9 @@ export interface ListDeploymentStatusesRequest {
   /** deployment_id parameter */
   deployment_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDeploymentStatusesResponseBodyList = Array<DeploymentStatus>;
 export type ListDeploymentStatusesResponse = ListDeploymentStatusesResponseBodyList;
@@ -5449,23 +5472,23 @@ export type ListForAuthenticatedUserRequestSort = "created" | "updated" | "pushe
 export type ListForAuthenticatedUserRequestDirection = "asc" | "desc";
 export interface ListForAuthenticatedUserRequest {
   /** Limit results to repositories with the specified visibility. */
-  visibility?: ListForAuthenticatedUserRequestVisibility | (string & {});
+  visibility?: ListForAuthenticatedUserRequestVisibility | (string & {}) | undefined;
   /** Comma-separated list of values. Can include: * `owner`: Repositories that are owned by the authenticated user. * `collaborator`: Repositories that the user has been added to as a collaborator. * `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on. */
-  affiliation?: string;
+  affiliation?: string | undefined;
   /** Limit results to repositories of the specified type. Will cause a `422` error if used in the same request as **visibility** or **affiliation**. */
-  type?: ListForAuthenticatedUserRequestType | (string & {});
+  type?: ListForAuthenticatedUserRequestType | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: ListForAuthenticatedUserRequestSort | (string & {});
+  sort?: ListForAuthenticatedUserRequestSort | (string & {}) | undefined;
   /** The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`. */
-  direction?: ListForAuthenticatedUserRequestDirection | (string & {});
+  direction?: ListForAuthenticatedUserRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** Only show repositories updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** Only show repositories updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<Repository>;
 export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
@@ -5476,11 +5499,11 @@ export interface ListForksRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The sort order. `stargazers` will sort by star count. */
-  sort?: ListForksRequestSort | (string & {});
+  sort?: ListForksRequestSort | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForksResponseBodyList = Array<MinimalRepository>;
 export type ListForksResponse = ListForksResponseBodyList;
@@ -5491,15 +5514,15 @@ export interface ListForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Specifies the types of repositories you want returned. */
-  type?: ListForOrgRequestType | (string & {});
+  type?: ListForOrgRequestType | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: ListForOrgRequestSort | (string & {});
+  sort?: ListForOrgRequestSort | (string & {}) | undefined;
   /** The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`. */
-  direction?: ListForOrgRequestDirection | (string & {});
+  direction?: ListForOrgRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForOrgResponseBodyList = Array<MinimalRepository>;
 export type ListForOrgResponse = ListForOrgResponseBodyList;
@@ -5510,15 +5533,15 @@ export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** Limit results to repositories of the specified type. */
-  type?: ListForUserRequestType | (string & {});
+  type?: ListForUserRequestType | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: ListForUserRequestSort | (string & {});
+  sort?: ListForUserRequestSort | (string & {}) | undefined;
   /** The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`. */
-  direction?: ListForUserRequestDirection | (string & {});
+  direction?: ListForUserRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForUserResponseBodyList = Array<MinimalRepository>;
 export type ListForUserResponse = ListForUserResponseBodyList;
@@ -5528,17 +5551,17 @@ export interface ListInvitationsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListInvitationsResponseBodyList = Array<RepositoryInvitation>;
 export type ListInvitationsResponse = ListInvitationsResponseBodyList;
 export interface ListInvitationsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListInvitationsForAuthenticatedUserResponseBodyList = Array<RepositoryInvitation>;
 export type ListInvitationsForAuthenticatedUserResponse =
@@ -5570,13 +5593,13 @@ export interface IssueType {
   /** The description of the issue type. */
   description: string | null;
   /** The color of the issue type. */
-  color?: IssueTypeColor | null;
+  color?: IssueTypeColor | null | undefined;
   /** The time the issue type created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the issue type last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The enabled state of the issue type. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 export type ListIssueTypesResponseBodyList = Array<IssueType | null>;
 export type ListIssueTypesResponse = ListIssueTypesResponseBodyList;
@@ -5595,15 +5618,15 @@ export interface ListPagesBuildsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPagesBuildsResponseBodyList = Array<PageBuild>;
 export type ListPagesBuildsResponse = ListPagesBuildsResponseBodyList;
 export interface ListPublicRequest {
   /** A repository ID. Only return repositories with an ID greater than this ID. */
-  since?: number;
+  since?: number | undefined;
 }
 export type ListPublicResponseBodyList = Array<MinimalRepository>;
 export type ListPublicResponse = ListPublicResponseBodyList;
@@ -5615,9 +5638,9 @@ export interface ListPullRequestsAssociatedWithCommitRequest {
   /** The SHA of the commit. */
   commit_sha: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface PullRequestSimpleLabelsItem {
   id: number;
@@ -5702,13 +5725,13 @@ export interface PullRequestStackBase {
 export interface PullRequestStack {
   base: PullRequestStackBase;
   /** The total number of pull requests in the stack. */
-  size?: number;
+  size?: number | undefined;
   /** The one-based position of this pull request within the stack, where 1 is the bottom of the stack. */
-  position?: number;
+  position?: number | undefined;
   /** The ID of the stack that this pull request belongs to. */
-  id?: number;
+  id?: number | undefined;
   /** The number of the stack that this pull request belongs to. */
-  number?: number;
+  number?: number | undefined;
 }
 /** Pull Request Simple */
 export interface PullRequestSimple {
@@ -5732,24 +5755,24 @@ export interface PullRequestSimple {
   body: string | null;
   labels: PullRequestSimpleLabelsList;
   milestone: NullableMilestone | null;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   created_at: string;
   updated_at: string;
   closed_at: string | null;
   merged_at: string | null;
   merge_commit_sha: string | null;
   assignee: SimpleUser | null;
-  assignees?: PullRequestSimpleAssigneesList;
-  requested_reviewers?: PullRequestSimpleRequestedReviewersList;
-  requested_teams?: PullRequestSimpleRequestedTeamsList;
+  assignees?: PullRequestSimpleAssigneesList | undefined;
+  requested_reviewers?: PullRequestSimpleRequestedReviewersList | undefined;
+  requested_teams?: PullRequestSimpleRequestedTeamsList | undefined;
   head: PullRequestSimpleHead;
   base: PullRequestSimpleHead;
   _links: PullRequestSimpleLinks;
   author_association: AuthorAssociation;
   auto_merge: AutoMerge | null;
-  stack?: PullRequestStack | null;
+  stack?: PullRequestStack | null | undefined;
   /** Indicates whether or not the pull request is a draft. */
-  draft?: boolean;
+  draft?: boolean | undefined;
 }
 export type ListPullRequestsAssociatedWithCommitResponseBodyList = Array<PullRequestSimple>;
 export type ListPullRequestsAssociatedWithCommitResponse =
@@ -5762,9 +5785,9 @@ export interface ListReleaseAssetsRequest {
   /** The unique identifier of the release. */
   release_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReleaseAssetsResponseBodyList = Array<ReleaseAsset>;
 export type ListReleaseAssetsResponse = ListReleaseAssetsResponseBodyList;
@@ -5774,9 +5797,9 @@ export interface ListReleasesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListReleasesResponseBodyList = Array<Release>;
 export type ListReleasesResponse = ListReleasesResponseBodyList;
@@ -5786,9 +5809,9 @@ export interface ListTagsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type TagCommit = CommitCommitTree;
 /** Tag */
@@ -5807,9 +5830,9 @@ export interface ListTeamsRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListTeamsResponseBodyList = Array<Team>;
 export type ListTeamsResponse = ListTeamsResponseBodyList;
@@ -5822,11 +5845,11 @@ export interface ListWebhookDeliveriesRequest {
   /** The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
   hook_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Returns webhook deliveries filtered by delivery outcome classification based on `status_code` range. A `status` of `success` returns deliveries with a `status_code` in the 200-399 range (inclusive). A `status` of `failure` returns deliveries with a `status_code` in the 400-599 range (inclusive). */
-  status?: ListWebhookDeliveriesRequestStatus | (string & {});
+  status?: ListWebhookDeliveriesRequestStatus | (string & {}) | undefined;
 }
 /** Delivery made by a webhook, without request and response information. */
 export interface HookDeliveryItem {
@@ -5853,7 +5876,7 @@ export interface HookDeliveryItem {
   /** The id of the repository associated with this event. */
   repository_id: number | null;
   /** Time when the webhook delivery was throttled. */
-  throttled_at?: string | null;
+  throttled_at?: string | null | undefined;
 }
 export type ListWebhookDeliveriesResponseBodyList = Array<HookDeliveryItem>;
 export type ListWebhookDeliveriesResponse = ListWebhookDeliveriesResponseBodyList;
@@ -5863,9 +5886,9 @@ export interface ListWebhooksRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListWebhooksResponseBodyList = Array<Hook>;
 export type ListWebhooksResponse = ListWebhooksResponseBodyList;
@@ -5879,7 +5902,7 @@ export interface MergeRequest {
   /** The head to merge. This can be a branch name or a commit SHA1. */
   head: string;
   /** Commit message to use for the merge commit. If omitted, a default message will be used. */
-  commit_message?: string;
+  commit_message?: string | undefined;
 }
 export interface MergeUpstreamRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5892,9 +5915,9 @@ export interface MergeUpstreamRequest {
 export type MergedUpstreamMergeType = "merge" | "fast-forward" | "none";
 /** Results of a successful merge upstream request */
 export interface MergedUpstream {
-  message?: string;
-  merge_type?: MergedUpstreamMergeType;
-  base_branch?: string;
+  message?: string | undefined;
+  merge_type?: MergedUpstreamMergeType | undefined;
+  base_branch?: string | undefined;
 }
 export interface PingWebhookRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5956,7 +5979,7 @@ export interface RemoveStatusCheckContextsRequest {
   repo: string;
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
-  body?: RemoveStatusCheckContextsRequestBody;
+  body?: RemoveStatusCheckContextsRequestBody | undefined;
 }
 export type RemoveStatusCheckContextsResponseBodyList = Array<string>;
 export type RemoveStatusCheckContextsResponse = RemoveStatusCheckContextsResponseBodyList;
@@ -5987,7 +6010,7 @@ export interface RemoveTeamAccessRestrictionsRequest {
   repo: string;
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
-  body?: RemoveTeamAccessRestrictionsRequestBody;
+  body?: RemoveTeamAccessRestrictionsRequestBody | undefined;
 }
 export type RemoveTeamAccessRestrictionsResponseBodyList = Array<Team>;
 export type RemoveTeamAccessRestrictionsResponse = RemoveTeamAccessRestrictionsResponseBodyList;
@@ -6076,7 +6099,7 @@ export interface SetStatusCheckContextsRequest {
   repo: string;
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
-  body?: SetStatusCheckContextsRequestBody;
+  body?: SetStatusCheckContextsRequestBody | undefined;
 }
 export type SetStatusCheckContextsResponseBodyList = Array<string>;
 export type SetStatusCheckContextsResponse = SetStatusCheckContextsResponseBodyList;
@@ -6098,7 +6121,7 @@ export interface SetTeamAccessRestrictionsRequest {
   repo: string;
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
-  body?: SetTeamAccessRestrictionsRequestBody;
+  body?: SetTeamAccessRestrictionsRequestBody | undefined;
 }
 export type SetTeamAccessRestrictionsResponseBodyList = Array<Team>;
 export type SetTeamAccessRestrictionsResponse = SetTeamAccessRestrictionsResponseBodyList;
@@ -6135,9 +6158,9 @@ export interface TransferRequest {
   /** The username or organization name the repository will be transferred to. */
   new_owner: string;
   /** The new name to be given to the repository. */
-  new_name?: string;
+  new_name?: string | undefined;
   /** ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories. */
-  team_ids?: TransferRequestTeamIdsList;
+  team_ids?: TransferRequestTeamIdsList | undefined;
 }
 export interface TransferResponse {}
 /** The visibility of the repository. */
@@ -6145,7 +6168,7 @@ export type UpdateRequestVisibility = "public" | "private";
 /** Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see "[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security)." For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface UpdateRequestSecurityAndAnalysisAdvancedSecurity {
   /** Can be `enabled` or `disabled`. */
-  status?: string;
+  status?: string | undefined;
 }
 /** Use the `status` property to enable or disable GitHub Code Security for this repository. */
 export type UpdateRequestSecurityAndAnalysisCodeSecurity =
@@ -6186,7 +6209,8 @@ export interface UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOp
   /** The bypass mode for the reviewer */
   mode?:
     | UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass. If you omit this field, the existing set of reviewers is unchanged. */
 export type UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
@@ -6194,28 +6218,36 @@ export type UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptions
 /** Feature options for secret scanning delegated bypass. This object is only honored when `security_and_analysis.secret_scanning_delegated_bypass.status` is set to `enabled`. You can send this object in the same request as `secret_scanning_delegated_bypass`, or update just the options in a separate request. */
 export interface UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass. If you omit this field, the existing set of reviewers is unchanged. */
-  reviewers?: UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?:
+    | UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList
+    | undefined;
 }
 /** Specify which security and analysis features to enable or disable for the repository. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." For example, to enable GitHub Advanced Security, use this data in the body of the `PATCH` request: `{ "security_and_analysis": {"advanced_security": { "status": "enabled" } } }`. You can check which security and analysis features are currently enabled by using a `GET /repos/{owner}/{repo}` request. */
 export interface UpdateRequestSecurityAndAnalysis {
   /** Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see "[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security)." For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  advanced_security?: UpdateRequestSecurityAndAnalysisAdvancedSecurity | undefined;
   /** Use the `status` property to enable or disable GitHub Code Security for this repository. */
-  code_security?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  code_security?: UpdateRequestSecurityAndAnalysisAdvancedSecurity | undefined;
   /** Use the `status` property to enable or disable secret scanning for this repository. For more information, see "[About secret scanning](/code-security/secret-security/about-secret-scanning)." */
-  secret_scanning?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  secret_scanning?: UpdateRequestSecurityAndAnalysisAdvancedSecurity | undefined;
   /** Use the `status` property to enable or disable secret scanning push protection for this repository. For more information, see "[Protecting pushes with secret scanning](/code-security/secret-scanning/protecting-pushes-with-secret-scanning)." */
-  secret_scanning_push_protection?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  secret_scanning_push_protection?: UpdateRequestSecurityAndAnalysisAdvancedSecurity | undefined;
   /** Use the `status` property to enable or disable secret scanning AI detection for this repository. For more information, see "[Responsible detection of generic secrets with AI](https://docs.github.com/code-security/secret-scanning/using-advanced-secret-scanning-and-push-protection-features/generic-secret-detection/responsible-ai-generic-secrets)." */
-  secret_scanning_ai_detection?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  secret_scanning_ai_detection?: UpdateRequestSecurityAndAnalysisAdvancedSecurity | undefined;
   /** Use the `status` property to enable or disable secret scanning non-provider patterns for this repository. For more information, see "[Supported secret scanning patterns](/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)." */
-  secret_scanning_non_provider_patterns?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  secret_scanning_non_provider_patterns?:
+    | UpdateRequestSecurityAndAnalysisAdvancedSecurity
+    | undefined;
   /** Use the `status` property to enable or disable secret scanning delegated alert dismissal for this repository. */
-  secret_scanning_delegated_alert_dismissal?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  secret_scanning_delegated_alert_dismissal?:
+    | UpdateRequestSecurityAndAnalysisAdvancedSecurity
+    | undefined;
   /** Use the `status` property to enable or disable secret scanning delegated bypass for this repository. */
-  secret_scanning_delegated_bypass?: UpdateRequestSecurityAndAnalysisAdvancedSecurity;
+  secret_scanning_delegated_bypass?: UpdateRequestSecurityAndAnalysisAdvancedSecurity | undefined;
   /** Feature options for secret scanning delegated bypass. This object is only honored when `security_and_analysis.secret_scanning_delegated_bypass.status` is set to `enabled`. You can send this object in the same request as `secret_scanning_delegated_bypass`, or update just the options in a separate request. */
-  secret_scanning_delegated_bypass_options?: UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  secret_scanning_delegated_bypass_options?:
+    | UpdateRequestSecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The policy that controls who can create pull requests for this repository: `all` or `collaborators_only`. */
 export type UpdateRequestPullRequestCreationPolicy = "all" | "collaborators_only";
@@ -6233,61 +6265,61 @@ export interface UpdateRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The name of the repository. */
-  name?: string;
+  name?: string | undefined;
   /** A short description of the repository. */
-  description?: string;
+  description?: string | undefined;
   /** A URL with more information about the repository. */
-  homepage?: string;
+  homepage?: string | undefined;
   /** Either `true` to make the repository private or `false` to make it public. Default: `false`. **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://docs.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The visibility of the repository. */
-  visibility?: UpdateRequestVisibility | (string & {});
+  visibility?: UpdateRequestVisibility | (string & {}) | undefined;
   /** Specify which security and analysis features to enable or disable for the repository. To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." For example, to enable GitHub Advanced Security, use this data in the body of the `PATCH` request: `{ "security_and_analysis": {"advanced_security": { "status": "enabled" } } }`. You can check which security and analysis features are currently enabled by using a `GET /repos/{owner}/{repo}` request. */
-  security_and_analysis?: UpdateRequestSecurityAndAnalysis | null;
+  security_and_analysis?: UpdateRequestSecurityAndAnalysis | null | undefined;
   /** Either `true` to enable issues for this repository or `false` to disable them. */
-  has_issues?: boolean;
+  has_issues?: boolean | undefined;
   /** Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error. */
-  has_projects?: boolean;
+  has_projects?: boolean | undefined;
   /** Either `true` to enable the wiki for this repository or `false` to disable it. */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** Either `true` to allow pull requests for this repository or `false` to prevent pull requests. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy that controls who can create pull requests for this repository: `all` or `collaborators_only`. */
-  pull_request_creation_policy?: UpdateRequestPullRequestCreationPolicy | (string & {});
+  pull_request_creation_policy?: UpdateRequestPullRequestCreationPolicy | (string & {}) | undefined;
   /** Either `true` to make this repo available as a template repository or `false` to prevent it. */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
   /** Updates the default branch for this repository. */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging. */
-  allow_rebase_merge?: boolean;
+  allow_rebase_merge?: boolean | undefined;
   /** Either `true` to allow auto-merge on pull requests, or `false` to disallow auto-merge. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Either `true` to allow automatically deleting head branches when pull requests are merged, or `false` to prevent automatic deletion. */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Either `true` to always allow a pull request head branch that is behind its base branch to be updated even if it is not required to be up to date before merging, or false otherwise. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Either `true` to allow squash-merge commits to use pull request title, or `false` to use commit message. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** Required when using `squash_merge_commit_message`. The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: UpdateRequestSquashMergeCommitTitle | (string & {});
+  squash_merge_commit_title?: UpdateRequestSquashMergeCommitTitle | (string & {}) | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: UpdateRequestSquashMergeCommitMessage | (string & {});
+  squash_merge_commit_message?: UpdateRequestSquashMergeCommitMessage | (string & {}) | undefined;
   /** Required when using `merge_commit_message`. The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: UpdateRequestMergeCommitTitle | (string & {});
+  merge_commit_title?: UpdateRequestMergeCommitTitle | (string & {}) | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: UpdateRequestMergeCommitMessage | (string & {});
+  merge_commit_message?: UpdateRequestMergeCommitMessage | (string & {}) | undefined;
   /** Whether to archive this repository. `false` will unarchive a previously archived repository. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Either `true` to allow private forks, or `false` to prevent private forks. */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Either `true` to require contributors to sign off on web-based commits, or `false` to not require contributors to sign off on web-based commits. */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   /** Whether GitHub Discussions are enabled for the repository. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
 }
 /** **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control. */
 export type UpdateBranchProtectionRequestRequiredStatusChecksContextsList = Array<string>;
@@ -6295,7 +6327,7 @@ export interface UpdateBranchProtectionRequestRequiredStatusChecksChecksItem {
   /** The name of the required check */
   context: string;
   /** The ID of the GitHub App that must provide this check. Omit this field to automatically select the GitHub App that has recently provided this check, or any app if it was not set by a GitHub App. Pass -1 to explicitly allow any app to set the status. */
-  app_id?: number;
+  app_id?: number | undefined;
 }
 /** The list of status checks to require in order to merge into this branch. */
 export type UpdateBranchProtectionRequestRequiredStatusChecksChecksList =
@@ -6305,9 +6337,9 @@ export interface UpdateBranchProtectionRequestRequiredStatusChecks {
   /** Require branches to be up to date before merging. */
   strict: boolean;
   /** **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control. */
-  contexts?: UpdateBranchProtectionRequestRequiredStatusChecksContextsList;
+  contexts?: UpdateBranchProtectionRequestRequiredStatusChecksContextsList | undefined;
   /** The list of status checks to require in order to merge into this branch. */
-  checks?: UpdateBranchProtectionRequestRequiredStatusChecksChecksList;
+  checks?: UpdateBranchProtectionRequestRequiredStatusChecksChecksList | undefined;
 }
 /** The list of user `login`s with dismissal access */
 export type UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictionsUsersList =
@@ -6321,11 +6353,17 @@ export type UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRest
 /** Specify which users, teams, and apps can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
 export interface UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictions {
   /** The list of user `login`s with dismissal access */
-  users?: UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictionsUsersList;
+  users?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictionsUsersList
+    | undefined;
   /** The list of team `slug`s with dismissal access */
-  teams?: UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictionsTeamsList;
+  teams?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictionsTeamsList
+    | undefined;
   /** The list of app `slug`s with dismissal access */
-  apps?: UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictionsAppsList;
+  apps?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictionsAppsList
+    | undefined;
 }
 /** The list of user `login`s allowed to bypass pull request requirements. */
 export type UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowancesUsersList =
@@ -6339,26 +6377,36 @@ export type UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullReq
 /** Allow specific users, teams, or apps to bypass pull request requirements. */
 export interface UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowances {
   /** The list of user `login`s allowed to bypass pull request requirements. */
-  users?: UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowancesUsersList;
+  users?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowancesUsersList
+    | undefined;
   /** The list of team `slug`s allowed to bypass pull request requirements. */
-  teams?: UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowancesTeamsList;
+  teams?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowancesTeamsList
+    | undefined;
   /** The list of app `slug`s allowed to bypass pull request requirements. */
-  apps?: UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList;
+  apps?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList
+    | undefined;
 }
 /** Require at least one approving review on a pull request, before merging. Set to `null` to disable. */
 export interface UpdateBranchProtectionRequestRequiredPullRequestReviews {
   /** Specify which users, teams, and apps can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
-  dismissal_restrictions?: UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictions;
+  dismissal_restrictions?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsDismissalRestrictions
+    | undefined;
   /** Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit. */
-  dismiss_stale_reviews?: boolean;
+  dismiss_stale_reviews?: boolean | undefined;
   /** Blocks merging pull requests until [code owners](https://docs.github.com/articles/about-code-owners/) review them. */
-  require_code_owner_reviews?: boolean;
+  require_code_owner_reviews?: boolean | undefined;
   /** Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6 or 0 to not require reviewers. */
-  required_approving_review_count?: number;
+  required_approving_review_count?: number | undefined;
   /** Whether the most recent push must be approved by someone other than the person who pushed it. Default: `false`. */
-  require_last_push_approval?: boolean;
+  require_last_push_approval?: boolean | undefined;
   /** Allow specific users, teams, or apps to bypass pull request requirements. */
-  bypass_pull_request_allowances?: UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowances;
+  bypass_pull_request_allowances?:
+    | UpdateBranchProtectionRequestRequiredPullRequestReviewsBypassPullRequestAllowances
+    | undefined;
 }
 /** The list of user `login`s with push access */
 export type UpdateBranchProtectionRequestRestrictionsUsersList = Array<string>;
@@ -6373,7 +6421,7 @@ export interface UpdateBranchProtectionRequestRestrictions {
   /** The list of team `slug`s with push access */
   teams: UpdateBranchProtectionRequestRestrictionsTeamsList;
   /** The list of app `slug`s with push access */
-  apps?: UpdateBranchProtectionRequestRestrictionsAppsList;
+  apps?: UpdateBranchProtectionRequestRestrictionsAppsList | undefined;
 }
 export interface UpdateBranchProtectionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6391,19 +6439,19 @@ export interface UpdateBranchProtectionRequest {
   /** Restrict who can push to the protected branch. User, app, and team `restrictions` are only available for organization-owned repositories. Set to `null` to disable. */
   restrictions: UpdateBranchProtectionRequestRestrictions | null;
   /** Enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch. Set to `true` to enforce a linear commit history. Set to `false` to disable a linear commit Git history. Your repository must allow squash merging or rebase merging before you can enable a linear commit history. Default: `false`. For more information, see "[Requiring a linear commit history](https://docs.github.com/github/administering-a-repository/requiring-a-linear-commit-history)" in the GitHub Help documentation. */
-  required_linear_history?: boolean;
+  required_linear_history?: boolean | undefined;
   /** Permits force pushes to the protected branch by anyone with write access to the repository. Set to `true` to allow force pushes. Set to `false` or `null` to block force pushes. Default: `false`. For more information, see "[Enabling force pushes to a protected branch](https://docs.github.com/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch)" in the GitHub Help documentation." */
-  allow_force_pushes?: boolean | null;
+  allow_force_pushes?: boolean | null | undefined;
   /** Allows deletion of the protected branch by anyone with write access to the repository. Set to `false` to prevent deletion of the protected branch. Default: `false`. For more information, see "[Enabling force pushes to a protected branch](https://docs.github.com/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch)" in the GitHub Help documentation. */
-  allow_deletions?: boolean;
+  allow_deletions?: boolean | undefined;
   /** If set to `true`, the `restrictions` branch protection settings which limits who can push will also block pushes which create new branches, unless the push is initiated by a user, team, or app which has the ability to push. Set to `true` to restrict new branch creation. Default: `false`. */
-  block_creations?: boolean;
+  block_creations?: boolean | undefined;
   /** Requires all conversations on code to be resolved before a pull request can be merged into a branch that matches this rule. Set to `false` to disable. Default: `false`. */
-  required_conversation_resolution?: boolean;
+  required_conversation_resolution?: boolean | undefined;
   /** Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. Default: `false`. */
-  lock_branch?: boolean;
+  lock_branch?: boolean | undefined;
   /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. Default: `false`. */
-  allow_fork_syncing?: boolean;
+  allow_fork_syncing?: boolean | undefined;
 }
 export type ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsUsersList =
   Array<SimpleUser>;
@@ -6416,7 +6464,7 @@ export interface ProtectedBranchRequiredPullRequestReviewsDismissalRestrictions 
   teams_url: string;
   users: ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsUsersList;
   teams: ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsTeamsList;
-  apps?: ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsAppsList;
+  apps?: ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsAppsList | undefined;
 }
 export type ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesUsersList =
   Array<SimpleUser>;
@@ -6427,17 +6475,21 @@ export type ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowances
 export interface ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowances {
   users: ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesUsersList;
   teams: ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesTeamsList;
-  apps?: ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList;
+  apps?: ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList | undefined;
 }
 export interface ProtectedBranchRequiredPullRequestReviews {
   url: string;
-  dismiss_stale_reviews?: boolean;
-  require_code_owner_reviews?: boolean;
-  required_approving_review_count?: number;
+  dismiss_stale_reviews?: boolean | undefined;
+  require_code_owner_reviews?: boolean | undefined;
+  required_approving_review_count?: number | undefined;
   /** Whether the most recent push must be approved by someone other than the person who pushed it. */
-  require_last_push_approval?: boolean;
-  dismissal_restrictions?: ProtectedBranchRequiredPullRequestReviewsDismissalRestrictions;
-  bypass_pull_request_allowances?: ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowances;
+  require_last_push_approval?: boolean | undefined;
+  dismissal_restrictions?:
+    | ProtectedBranchRequiredPullRequestReviewsDismissalRestrictions
+    | undefined;
+  bypass_pull_request_allowances?:
+    | ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowances
+    | undefined;
 }
 export type ProtectedBranchRequiredSignatures = BranchProtectionRequiredSignatures;
 export type ProtectedBranchEnforceAdmins = BranchProtectionRequiredSignatures;
@@ -6455,20 +6507,20 @@ export type ProtectedBranchAllowForkSyncing = BranchProtectionRequiredLinearHist
 /** Branch protections protect branches */
 export interface ProtectedBranch {
   url: string;
-  required_status_checks?: StatusCheckPolicy;
-  required_pull_request_reviews?: ProtectedBranchRequiredPullRequestReviews;
-  required_signatures?: BranchProtectionRequiredSignatures;
-  enforce_admins?: BranchProtectionRequiredSignatures;
-  required_linear_history?: ProtectedBranchRequiredLinearHistory;
-  allow_force_pushes?: ProtectedBranchRequiredLinearHistory;
-  allow_deletions?: ProtectedBranchRequiredLinearHistory;
-  restrictions?: BranchRestrictionPolicy;
-  required_conversation_resolution?: BranchProtectionRequiredLinearHistory;
-  block_creations?: ProtectedBranchRequiredLinearHistory;
+  required_status_checks?: StatusCheckPolicy | undefined;
+  required_pull_request_reviews?: ProtectedBranchRequiredPullRequestReviews | undefined;
+  required_signatures?: BranchProtectionRequiredSignatures | undefined;
+  enforce_admins?: BranchProtectionRequiredSignatures | undefined;
+  required_linear_history?: ProtectedBranchRequiredLinearHistory | undefined;
+  allow_force_pushes?: ProtectedBranchRequiredLinearHistory | undefined;
+  allow_deletions?: ProtectedBranchRequiredLinearHistory | undefined;
+  restrictions?: BranchRestrictionPolicy | undefined;
+  required_conversation_resolution?: BranchProtectionRequiredLinearHistory | undefined;
+  block_creations?: ProtectedBranchRequiredLinearHistory | undefined;
   /** Whether to set the branch as read-only. If this is true, users will not be able to push to the branch. */
-  lock_branch?: BranchProtectionRequiredLinearHistory;
+  lock_branch?: BranchProtectionRequiredLinearHistory | undefined;
   /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
-  allow_fork_syncing?: BranchProtectionRequiredLinearHistory;
+  allow_fork_syncing?: BranchProtectionRequiredLinearHistory | undefined;
 }
 export interface UpdateCommitCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6517,12 +6569,12 @@ export interface UpdateInformationAboutPagesSiteRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Specify a custom domain for the repository. Sending a `null` value will remove the custom domain. For more about custom domains, see "[Using a custom domain with GitHub Pages](https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site)." */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** Specify whether HTTPS should be enforced for the repository. */
-  https_enforced?: boolean;
+  https_enforced?: boolean | undefined;
   /** The process by which the GitHub Pages site will be built. `workflow` means that the site is built by a custom GitHub Actions workflow. `legacy` means that the site is built by GitHub when changes are pushed to a specific branch. */
-  build_type?: UpdateInformationAboutPagesSiteRequestBuildType | (string & {});
-  source?: UpdateInformationAboutPagesSiteRequestSource;
+  build_type?: UpdateInformationAboutPagesSiteRequestBuildType | (string & {}) | undefined;
+  source?: UpdateInformationAboutPagesSiteRequestSource | undefined;
 }
 export interface UpdateInformationAboutPagesSiteResponse {}
 /** The permissions that the associated user will have on the repository. Valid values are `read`, `write`, `maintain`, `triage`, `moderate`, and `admin`. */
@@ -6541,7 +6593,7 @@ export interface UpdateInvitationRequest {
   /** The unique identifier of the invitation. */
   invitation_id: number;
   /** The permissions that the associated user will have on the repository. Valid values are `read`, `write`, `maintain`, `triage`, `moderate`, and `admin`. */
-  permissions?: UpdateInvitationRequestPermissions | (string & {});
+  permissions?: UpdateInvitationRequestPermissions | (string & {}) | undefined;
 }
 /** The target of the ruleset */
 export type UpdateOrgRulesetRequestTarget = "branch" | "tag" | "push" | "repository";
@@ -6555,15 +6607,15 @@ export interface UpdateOrgRulesetRequest {
   /** The ID of the ruleset. */
   ruleset_id: number;
   /** The name of the ruleset. */
-  name?: string;
+  name?: string | undefined;
   /** The target of the ruleset */
-  target?: UpdateOrgRulesetRequestTarget | (string & {});
-  enforcement?: RepositoryRuleEnforcement | (string & {});
+  target?: UpdateOrgRulesetRequestTarget | (string & {}) | undefined;
+  enforcement?: RepositoryRuleEnforcement | (string & {}) | undefined;
   /** The actors that can bypass the rules in this ruleset */
-  bypass_actors?: UpdateOrgRulesetRequestBypassActorsList;
-  conditions?: OrgRulesetConditions;
+  bypass_actors?: UpdateOrgRulesetRequestBypassActorsList | undefined;
+  conditions?: OrgRulesetConditions | undefined;
   /** An array of rules within the ruleset. */
-  rules?: UpdateOrgRulesetRequestRulesList;
+  rules?: UpdateOrgRulesetRequestRulesList | undefined;
 }
 /** The list of user `login`s with dismissal access */
 export type UpdatePullRequestReviewProtectionRequestDismissalRestrictionsUsersList = Array<string>;
@@ -6574,11 +6626,11 @@ export type UpdatePullRequestReviewProtectionRequestDismissalRestrictionsAppsLis
 /** Specify which users, teams, and apps can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
 export interface UpdatePullRequestReviewProtectionRequestDismissalRestrictions {
   /** The list of user `login`s with dismissal access */
-  users?: UpdatePullRequestReviewProtectionRequestDismissalRestrictionsUsersList;
+  users?: UpdatePullRequestReviewProtectionRequestDismissalRestrictionsUsersList | undefined;
   /** The list of team `slug`s with dismissal access */
-  teams?: UpdatePullRequestReviewProtectionRequestDismissalRestrictionsTeamsList;
+  teams?: UpdatePullRequestReviewProtectionRequestDismissalRestrictionsTeamsList | undefined;
   /** The list of app `slug`s with dismissal access */
-  apps?: UpdatePullRequestReviewProtectionRequestDismissalRestrictionsAppsList;
+  apps?: UpdatePullRequestReviewProtectionRequestDismissalRestrictionsAppsList | undefined;
 }
 /** The list of user `login`s allowed to bypass pull request requirements. */
 export type UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesUsersList =
@@ -6592,11 +6644,11 @@ export type UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesA
 /** Allow specific users, teams, or apps to bypass pull request requirements. */
 export interface UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowances {
   /** The list of user `login`s allowed to bypass pull request requirements. */
-  users?: UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesUsersList;
+  users?: UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesUsersList | undefined;
   /** The list of team `slug`s allowed to bypass pull request requirements. */
-  teams?: UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesTeamsList;
+  teams?: UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesTeamsList | undefined;
   /** The list of app `slug`s allowed to bypass pull request requirements. */
-  apps?: UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesAppsList;
+  apps?: UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowancesAppsList | undefined;
 }
 export interface UpdatePullRequestReviewProtectionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6606,17 +6658,21 @@ export interface UpdatePullRequestReviewProtectionRequest {
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
   /** Specify which users, teams, and apps can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories. */
-  dismissal_restrictions?: UpdatePullRequestReviewProtectionRequestDismissalRestrictions;
+  dismissal_restrictions?:
+    | UpdatePullRequestReviewProtectionRequestDismissalRestrictions
+    | undefined;
   /** Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit. */
-  dismiss_stale_reviews?: boolean;
+  dismiss_stale_reviews?: boolean | undefined;
   /** Blocks merging pull requests until [code owners](https://docs.github.com/articles/about-code-owners/) have reviewed. */
-  require_code_owner_reviews?: boolean;
+  require_code_owner_reviews?: boolean | undefined;
   /** Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6 or 0 to not require reviewers. */
-  required_approving_review_count?: number;
+  required_approving_review_count?: number | undefined;
   /** Whether the most recent push must be approved by someone other than the person who pushed it. Default: `false` */
-  require_last_push_approval?: boolean;
+  require_last_push_approval?: boolean | undefined;
   /** Allow specific users, teams, or apps to bypass pull request requirements. */
-  bypass_pull_request_allowances?: UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowances;
+  bypass_pull_request_allowances?:
+    | UpdatePullRequestReviewProtectionRequestBypassPullRequestAllowances
+    | undefined;
 }
 /** Specifies whether this release should be set as the latest release for the repository. Drafts and prereleases cannot be set as latest. Defaults to `true` for newly published releases. `legacy` specifies that the latest release should be determined based on the release creation date and higher semantic version. */
 export type UpdateReleaseRequestMakeLatest = "true" | "false" | "legacy";
@@ -6628,21 +6684,21 @@ export interface UpdateReleaseRequest {
   /** The unique identifier of the release. */
   release_id: number;
   /** The name of the tag. */
-  tag_name?: string;
+  tag_name?: string | undefined;
   /** Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists. Default: the repository's default branch. */
-  target_commitish?: string;
+  target_commitish?: string | undefined;
   /** The name of the release. */
-  name?: string;
+  name?: string | undefined;
   /** Text describing the contents of the tag. */
-  body?: string;
+  body?: string | undefined;
   /** `true` makes the release a draft, and `false` publishes the release. */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** `true` to identify the release as a prerelease, `false` to identify the release as a full release. */
-  prerelease?: boolean;
+  prerelease?: boolean | undefined;
   /** Specifies whether this release should be set as the latest release for the repository. Drafts and prereleases cannot be set as latest. Defaults to `true` for newly published releases. `legacy` specifies that the latest release should be determined based on the release creation date and higher semantic version. */
-  make_latest?: UpdateReleaseRequestMakeLatest | (string & {});
+  make_latest?: UpdateReleaseRequestMakeLatest | (string & {}) | undefined;
   /** If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored. For more information, see "[Managing categories for discussions in your repository](https://docs.github.com/discussions/managing-discussions-for-your-community/managing-categories-for-discussions-in-your-repository)." */
-  discussion_category_name?: string;
+  discussion_category_name?: string | undefined;
 }
 export interface UpdateReleaseAssetRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6652,10 +6708,10 @@ export interface UpdateReleaseAssetRequest {
   /** The unique identifier of the asset. */
   asset_id: number;
   /** The file name of the asset. */
-  name?: string;
+  name?: string | undefined;
   /** An alternate short description of the asset. Used in place of the filename. */
-  label?: string;
-  state?: string;
+  label?: string | undefined;
+  state?: string | undefined;
 }
 /** The target of the ruleset */
 export type UpdateRepoRulesetRequestTarget = "branch" | "tag" | "push";
@@ -6671,15 +6727,15 @@ export interface UpdateRepoRulesetRequest {
   /** The ID of the ruleset. */
   ruleset_id: number;
   /** The name of the ruleset. */
-  name?: string;
+  name?: string | undefined;
   /** The target of the ruleset */
-  target?: UpdateRepoRulesetRequestTarget | (string & {});
-  enforcement?: RepositoryRuleEnforcement | (string & {});
+  target?: UpdateRepoRulesetRequestTarget | (string & {}) | undefined;
+  enforcement?: RepositoryRuleEnforcement | (string & {}) | undefined;
   /** The actors that can bypass the rules in this ruleset */
-  bypass_actors?: UpdateRepoRulesetRequestBypassActorsList;
-  conditions?: RepositoryRulesetConditions;
+  bypass_actors?: UpdateRepoRulesetRequestBypassActorsList | undefined;
+  conditions?: RepositoryRulesetConditions | undefined;
   /** An array of rules within the ruleset. */
-  rules?: UpdateRepoRulesetRequestRulesList;
+  rules?: UpdateRepoRulesetRequestRulesList | undefined;
 }
 /** **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control. */
 export type UpdateStatusCheckProtectionRequestContextsList = Array<string>;
@@ -6696,11 +6752,11 @@ export interface UpdateStatusCheckProtectionRequest {
   /** The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use [the GraphQL API](https://docs.github.com/graphql). */
   branch: string;
   /** Require branches to be up to date before merging. */
-  strict?: boolean;
+  strict?: boolean | undefined;
   /** **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control. */
-  contexts?: UpdateStatusCheckProtectionRequestContextsList;
+  contexts?: UpdateStatusCheckProtectionRequestContextsList | undefined;
   /** The list of status checks to require in order to merge into this branch. */
-  checks?: UpdateStatusCheckProtectionRequestChecksList;
+  checks?: UpdateStatusCheckProtectionRequestChecksList | undefined;
 }
 /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. This replaces the entire array of events. */
 export type UpdateWebhookRequestEventsList = Array<string>;
@@ -6715,15 +6771,15 @@ export interface UpdateWebhookRequest {
   repo: string;
   /** The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
   hook_id: number;
-  config?: WebhookConfig;
+  config?: WebhookConfig | undefined;
   /** Determines what [events](https://docs.github.com/webhooks/event-payloads) the hook is triggered for. This replaces the entire array of events. */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** Determines a list of events to be added to the list of events that the Hook triggers for. */
-  add_events?: UpdateWebhookRequestAddEventsList;
+  add_events?: UpdateWebhookRequestAddEventsList | undefined;
   /** Determines a list of events to be removed from the list of events that the Hook triggers for. */
-  remove_events?: UpdateWebhookRequestRemoveEventsList;
+  remove_events?: UpdateWebhookRequestRemoveEventsList | undefined;
   /** Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface UpdateWebhookConfigForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6732,10 +6788,10 @@ export interface UpdateWebhookConfigForRepoRequest {
   repo: string;
   /** The unique identifier of the hook. You can find this value in the `X-GitHub-Hook-ID` header of a webhook delivery. */
   hook_id: number;
-  url?: string;
-  content_type?: string;
-  secret?: string | Redacted.Redacted<string>;
-  insecure_ssl?: WebhookConfigInsecureSsl;
+  url?: string | undefined;
+  content_type?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  insecure_ssl?: WebhookConfigInsecureSsl | undefined;
 }
 export interface UploadReleaseAssetRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6745,7 +6801,7 @@ export interface UploadReleaseAssetRequest {
   /** The unique identifier of the release. */
   release_id: number;
   name: string;
-  label?: string;
+  label?: string | undefined;
 }
 export type AcceptInvitationForAuthenticatedUserError = GithubOpError;
 /** Accept a repository invitation */
@@ -6971,7 +7027,7 @@ export const codeownersErrors2: API.OperationMethod<
 export type CompareCommitsError = GithubOpError;
 /** Compare two commits Compares two commits against one another. You can compare refs (branches or tags) and commit SHAs in the same repository, or you can compare refs and commit SHAs that exist in different repositories within the same repository network, including fork branches. For more information about how to view a repository's network, see "[Understanding connections between repositories](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/understanding-connections-between-repositories)." This endpoint is equivalent to running the `git log BASE..HEAD` command, but it returns commits in a different order. The `git log BASE..HEAD` command returns commits in reverse chronological order, whereas the API returns commits in chronological order. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.diff`**: Returns the diff of the commit. - **`application/vnd.github.patch`**: Returns the patch of the commit. Diffs with binary data will have no `patch` property. The API response includes details about the files that were changed between the two commits. This includes the status of the change (if a file was added, removed, modified, or renamed), and details of the change itself. For example, files with a `renamed` status have a `previous_filename` field showing the previous filename of the file, and files with a `modified` status have a `patch` field showing the changes made to the file. When calling this endpoint without any paging parameter (`per_page` or `page`), the returned list is limited to 250 commits, and the last commit in the list is the most recent of the entire comparison. **Working with large comparisons** To process a response with a large number of commits, use a query parameter (`per_page` or `page`) to paginate the results. When using pagination: - The list of changed files is only shown on the first page of results, and it includes up to 300 changed files for the entire comparison. - The results are returned in chronological order, but the last commit in the returned list may not be the most recent one in the entire set if there are more pages of results. For more information on working with pagination, see "[Using pagination in the REST API](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api)." **Signature verification object** The response will include a `verification` object that describes the result of verifying the commit's signature. The `verification` object includes the following fields: These are the possible values for `reason` in the `verification` object: */
 export const compareCommits: API.OperationMethod<
-  CompareCommitsRequest & { readonly accept?: "application/vnd.github+json" },
+  CompareCommitsRequest & { readonly accept?: "application/vnd.github+json" | undefined },
   CommitComparison,
   CompareCommitsError,
   GithubOpContext
@@ -8313,7 +8369,7 @@ export const getCombinedStatusForRef: API.PaginatedOperationMethod<
 export type GetCommitError = GithubOpError;
 /** Get a commit Returns the contents of a single commit reference. You must have `read` access for the repository to use this endpoint. > [!NOTE] > If there are more than 300 files in the commit diff and the default JSON media type is requested, the response will include pagination link headers for the remaining files, up to a limit of 3000 files. Each page contains the static commit information, and the only changes are to the file listing. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." Pagination query parameters are not supported for these media types. - **`application/vnd.github.diff`**: Returns the diff of the commit. Larger diffs may time out and return a 5xx status code. - **`application/vnd.github.patch`**: Returns the patch of the commit. Diffs with binary data will have no `patch` property. Larger diffs may time out and return a 5xx status code. - **`application/vnd.github.sha`**: Returns the commit's SHA-1 hash. You can use this endpoint to check if a remote reference's SHA-1 hash is the same as your local reference's SHA-1 hash by providing the local SHA-1 reference as the ETag. **Signature verification object** The response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object: These are the possible values for `reason` in the `verification` object: */
 export const getCommit: API.OperationMethod<
-  GetCommitRequest & { readonly accept?: "application/vnd.github+json" },
+  GetCommitRequest & { readonly accept?: "application/vnd.github+json" | undefined },
   Commit,
   GetCommitError,
   GithubOpContext

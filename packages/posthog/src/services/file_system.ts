@@ -54,12 +54,12 @@ export class NotFound
 export interface CreateFileSystemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  path?: string;
-  type?: string;
-  ref?: string | null;
-  href?: string | null;
-  meta?: unknown;
-  shortcut?: boolean | null;
+  path?: string | undefined;
+  type?: string | undefined;
+  ref?: string | null | undefined;
+  href?: string | null | undefined;
+  meta?: unknown | undefined;
+  shortcut?: boolean | null | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -76,30 +76,30 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface FileSystem2 {
-  id?: string;
-  path?: string;
-  depth?: number | null;
-  type?: string;
-  ref?: string | null;
-  href?: string | null;
-  meta?: unknown;
-  shortcut?: boolean | null;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  last_viewed_at?: string | null;
+  id?: string | undefined;
+  path?: string | undefined;
+  depth?: number | null | undefined;
+  type?: string | undefined;
+  ref?: string | null | undefined;
+  href?: string | null | undefined;
+  meta?: unknown | undefined;
+  shortcut?: boolean | null | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  last_viewed_at?: string | null | undefined;
   /** Resolved access level the user has for the object this entry references ('none' means the user can't open it). Null when access controls don't apply to the entry type. */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface CreateFileSystemHomeFolderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -117,16 +117,16 @@ export interface FileSystemDestroyRequest {
   /** A UUID string identifying this file system. */
   id: string;
   /** Delete folder contents too (default: true). Set false to delete only empty folders. Nonempty folders return HTTP 409 with code directory_not_empty. */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export interface FileSystemDestroyResponse {}
 export interface FileSystemSearchRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of results to return, best first. */
-  limit?: number;
+  limit?: number | undefined;
   /** Also include the best matches of every type, up to this many per type, so each type can show a preview. */
-  per_type?: number;
+  per_type?: number | undefined;
   /** Search text. Supports the same field filters as the list search (type:, user:, path:, name:, negation with - or !). Free words are ranked by relevance. */
   search: string;
 }
@@ -167,12 +167,12 @@ export interface FileSystemRankedSearchResponse {
 export interface FileSystemUndoDeleteCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  path?: string;
-  type?: string;
-  ref?: string | null;
-  href?: string | null;
-  meta?: unknown;
-  shortcut?: boolean | null;
+  path?: string | undefined;
+  type?: string | undefined;
+  ref?: string | null | undefined;
+  href?: string | null | undefined;
+  meta?: unknown | undefined;
+  shortcut?: boolean | null | undefined;
 }
 export interface FileSystemUndoDeleteCreateResponse {}
 export interface GetFileSystemRequest {
@@ -185,30 +185,30 @@ export interface ListFileSystemRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Include meta.content_type for notebooks and insights on this page, without their contents. */
-  include_content_type?: boolean;
+  include_content_type?: boolean | undefined;
   /** Include meta.tags, the tag names, for dashboards and insights on this page. */
-  include_tags?: boolean;
+  include_tags?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedFileSystemListResultsList = Array<FileSystem2>;
 export interface PaginatedFileSystemList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedFileSystemListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedFileSystemListResultsList | undefined;
 }
 export interface ListFileSystemFrequentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of frequently viewed items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListFileSystemFrequentResponseBodyList = Array<FileSystem2>;
 export type ListFileSystemFrequentResponse = ListFileSystemFrequentResponseBodyList;
@@ -217,24 +217,24 @@ export interface UpdateFileSystemRequest {
   project_id: string;
   /** A UUID string identifying this file system. */
   id: string;
-  path?: string;
-  type?: string;
-  ref?: string | null;
-  href?: string | null;
-  meta?: unknown;
-  shortcut?: boolean | null;
+  path?: string | undefined;
+  type?: string | undefined;
+  ref?: string | null | undefined;
+  href?: string | null | undefined;
+  meta?: unknown | undefined;
+  shortcut?: boolean | null | undefined;
 }
 export interface UpdateFileSystemPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this file system. */
   id: string;
-  path?: string;
-  type?: string;
-  ref?: string | null;
-  href?: string | null;
-  meta?: unknown;
-  shortcut?: boolean | null;
+  path?: string | undefined;
+  type?: string | undefined;
+  ref?: string | null | undefined;
+  href?: string | null | undefined;
+  meta?: unknown | undefined;
+  shortcut?: boolean | null | undefined;
 }
 export type CreateFileSystemError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createFileSystem: API.OperationMethod<

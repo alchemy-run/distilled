@@ -56,27 +56,27 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType | (string & {});
+  type?: GPUType | (string & {}) | undefined;
   /** Deprecated, at some point */
-  count?: number;
-  gpuType?: string;
+  count?: number | undefined;
+  gpuType?: string | undefined;
 }
 /** milli CPU cores */
 export interface Resources {
-  memoryMb?: number;
+  memoryMb?: number | undefined;
   /** MiB */
-  milliCpu?: number;
+  milliCpu?: number | undefined;
   /** milli CPU cores */
-  gpuConfig?: GPUConfig;
-  memoryMbMax?: number;
+  gpuConfig?: GPUConfig | undefined;
+  memoryMbMax?: number | undefined;
   /** MiB */
-  ephemeralDiskMb?: number;
+  ephemeralDiskMb?: number | undefined;
   /** MiB */
-  milliCpuMax?: number;
+  milliCpuMax?: number | undefined;
   /** milli CPU cores */
-  rdma?: boolean;
+  rdma?: boolean | undefined;
   /** Whether to use RDMA interfaces */
-  skipNumThreadsEnvVars?: boolean;
+  skipNumThreadsEnvVars?: boolean | undefined;
 }
 /** libmodal/modal-go: Go SDK, since version modal-go/v0.0.15 */
 export type CloudProvider =
@@ -86,16 +86,16 @@ export type CloudProvider =
   | "CLOUD_PROVIDER_AUTO"
   | "CLOUD_PROVIDER_OCI";
 export interface SharedVolumeMount {
-  mountPath?: string;
-  sharedVolumeId?: string;
-  cloudProvider?: CloudProvider | (string & {});
+  mountPath?: string | undefined;
+  sharedVolumeId?: string | undefined;
+  cloudProvider?: CloudProvider | (string & {}) | undefined;
 }
 export type SharedVolumeMountList = Array<SharedVolumeMount>;
 export interface S3Mount {
-  bucketName?: string;
-  mountPath?: string;
-  credentialsSecretId?: string;
-  readOnly?: boolean;
+  bucketName?: string | undefined;
+  mountPath?: string | undefined;
+  credentialsSecretId?: string | undefined;
+  readOnly?: boolean | undefined;
 }
 export type S3MountList = Array<S3Mount>;
 export type CloudBucketMountBucketType = "UNSPECIFIED" | "S3" | "R2" | "GCP";
@@ -104,97 +104,97 @@ export type CloudBucketMountMetadataTTLType =
   | "METADATA_TTL_TYPE_MINIMAL"
   | "METADATA_TTL_TYPE_INDEFINITE";
 export interface CloudBucketMount {
-  bucketName?: string;
-  mountPath?: string;
-  credentialsSecretId?: string;
-  readOnly?: boolean;
-  bucketType?: CloudBucketMountBucketType | (string & {});
-  requesterPays?: boolean;
-  bucketEndpointUrl?: string;
-  keyPrefix?: string;
-  oidcAuthRoleArn?: string;
-  forcePathStyle?: boolean;
-  metadataTtlType?: CloudBucketMountMetadataTTLType | (string & {});
-  metadataTtlSeconds?: string;
+  bucketName?: string | undefined;
+  mountPath?: string | undefined;
+  credentialsSecretId?: string | undefined;
+  readOnly?: boolean | undefined;
+  bucketType?: CloudBucketMountBucketType | (string & {}) | undefined;
+  requesterPays?: boolean | undefined;
+  bucketEndpointUrl?: string | undefined;
+  keyPrefix?: string | undefined;
+  oidcAuthRoleArn?: string | undefined;
+  forcePathStyle?: boolean | undefined;
+  metadataTtlType?: CloudBucketMountMetadataTTLType | (string & {}) | undefined;
+  metadataTtlSeconds?: string | undefined;
 }
 export type CloudBucketMountList = Array<CloudBucketMount>;
 export interface VolumeMount {
-  volumeId?: string;
-  mountPath?: string;
-  allowBackgroundCommits?: boolean;
-  readOnly?: boolean;
-  subPath?: string;
+  volumeId?: string | undefined;
+  mountPath?: string | undefined;
+  allowBackgroundCommits?: boolean | undefined;
+  readOnly?: boolean | undefined;
+  subPath?: string | undefined;
 }
 export type VolumeMountList = Array<VolumeMount>;
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Soon deprecated */
-  winszRows?: number;
-  winszCols?: number;
-  envTerm?: string;
-  envColorterm?: string;
-  envTermProgram?: string;
+  winszRows?: number | undefined;
+  winszCols?: number | undefined;
+  envTerm?: string | undefined;
+  envColorterm?: string | undefined;
+  envTermProgram?: string | undefined;
   /** Replace function with shell */
-  ptyType?: PTYInfoPTYType | (string & {});
-  noTerminateOnIdleStdin?: boolean;
+  ptyType?: PTYInfoPTYType | (string & {}) | undefined;
+  noTerminateOnIdleStdin?: boolean | undefined;
 }
 /** Scheduling constraints for Functions and Sandboxes. */
 export interface SchedulerPlacement {
-  regions?: StringList;
-  Zone?: string;
-  Lifecycle?: string;
-  InstanceTypes?: StringList;
-  nonpreemptible?: boolean;
+  regions?: StringList | undefined;
+  Zone?: string | undefined;
+  Lifecycle?: string | undefined;
+  InstanceTypes?: StringList | undefined;
+  nonpreemptible?: boolean | undefined;
 }
 export type TunnelType = "TUNNEL_TYPE_UNSPECIFIED" | "TUNNEL_TYPE_H2";
 export interface PortSpec {
-  port?: number;
-  unencrypted?: boolean;
-  tunnelType?: TunnelType | (string & {});
+  port?: number | undefined;
+  unencrypted?: boolean | undefined;
+  tunnelType?: TunnelType | (string & {}) | undefined;
 }
 export type PortSpecList = Array<PortSpec>;
 export interface PortSpecs {
-  ports?: PortSpecList;
+  ports?: PortSpecList | undefined;
 }
 export type NetworkAccessNetworkAccessType = "UNSPECIFIED" | "OPEN" | "BLOCKED" | "ALLOWLIST";
 export interface NetworkAccess {
-  networkAccessType?: NetworkAccessNetworkAccessType | (string & {});
-  allowedCidrs?: StringList;
-  allowedDomains?: StringList;
+  networkAccessType?: NetworkAccessNetworkAccessType | (string & {}) | undefined;
+  allowedCidrs?: StringList | undefined;
+  allowedDomains?: StringList | undefined;
 }
 export type BooleanMap = { [key: string]: boolean | undefined };
 export type StringMap = { [key: string]: string | undefined };
 export interface ProbeExecCommand {
   /** Command and args to execute directly (argv form, not shell-parsed). */
-  argv?: StringList;
+  argv?: StringList | undefined;
 }
 export interface Probe {
-  tcpPort?: number;
-  execCommand?: ProbeExecCommand;
-  intervalMs?: number;
+  tcpPort?: number | undefined;
+  execCommand?: ProbeExecCommand | undefined;
+  intervalMs?: number | undefined;
 }
 export interface StringMap2 {
-  contents?: StringMap;
+  contents?: StringMap | undefined;
 }
 export interface ExperimentalOutboundPolicyHeaderReplacement {
   /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
-  domain?: string;
+  domain?: string | undefined;
   /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
-  headers?: StringMap;
+  headers?: StringMap | undefined;
 }
 export type ExperimentalOutboundPolicyHeaderReplacementList =
   Array<ExperimentalOutboundPolicyHeaderReplacement>;
 /** Experimental policy for outbound traffic from a sandbox: header replacements. */
 export interface ExperimentalOutboundPolicy {
   /** Replace headers in outbound HTTPS requests, potentially with secret values. */
-  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList;
+  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList | undefined;
 }
 export interface OutboundPolicyTLSDecryption {
   /** Generate a certificate authority for the sandbox and attempt to make the sandbox trust it, so that routes that need to can decrypt its TLS traffic. Decrypts nothing on its own. Required by HTTPS routes. Fixed at creation. */
-  allowed?: boolean;
+  allowed?: boolean | undefined;
 }
 export type OutboundPolicyTransport =
   | "TRANSPORT_UNSPECIFIED"
@@ -203,155 +203,155 @@ export type OutboundPolicyTransport =
   | "TRANSPORT_UDP";
 /** An inclusive range of ports. A single port has start == end. */
 export interface OutboundPolicyPortRange {
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export type OutboundPolicyPortRangeList = Array<OutboundPolicyPortRange>;
 export interface OutboundPolicyRedirectBlock {}
 export interface OutboundPolicyRedirectViaProxy {
-  proxyId?: string;
+  proxyId?: string | undefined;
 }
 export interface OutboundPolicyRedirectViaSidecar {
-  sidecarName?: string;
+  sidecarName?: string | undefined;
 }
 export interface OutboundPolicyRedirect {
-  block?: OutboundPolicyRedirectBlock;
-  viaProxy?: OutboundPolicyRedirectViaProxy;
-  viaSidecar?: OutboundPolicyRedirectViaSidecar;
+  block?: OutboundPolicyRedirectBlock | undefined;
+  viaProxy?: OutboundPolicyRedirectViaProxy | undefined;
+  viaSidecar?: OutboundPolicyRedirectViaSidecar | undefined;
 }
 /** Traffic to these CIDRs. */
 export interface OutboundPolicyIPRoute {
   /** Unspecified means any transport. */
-  transport?: OutboundPolicyTransport | (string & {});
+  transport?: OutboundPolicyTransport | (string & {}) | undefined;
   /** Empty means every port. */
-  ports?: OutboundPolicyPortRangeList;
-  cidrs?: StringList;
-  redirect?: OutboundPolicyRedirect;
+  ports?: OutboundPolicyPortRangeList | undefined;
+  cidrs?: StringList | undefined;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 /** Connections that carry TLS from the first byte to these domains. Never decrypted. */
 export interface OutboundPolicyTLSRoute {
   /** Unspecified means TCP. */
-  transport?: OutboundPolicyTransport | (string & {});
+  transport?: OutboundPolicyTransport | (string & {}) | undefined;
   /** Empty means port 443. */
-  ports?: OutboundPolicyPortRangeList;
+  ports?: OutboundPolicyPortRangeList | undefined;
   /** Supports `*.` wildcard prefixes and a bare `*`. */
-  domains?: StringList;
-  redirect?: OutboundPolicyRedirect;
+  domains?: StringList | undefined;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 export interface OutboundPolicyHeaderReplacement {
   /** Secret whose keys the header value templates may reference. Empty for static values. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Header name -> value template. A $-prefixed key name in the secret is replaced with the secret value; `$$` is a literal `$`. */
-  headers?: StringMap;
+  headers?: StringMap | undefined;
 }
 export type OutboundPolicyHeaderReplacementList = Array<OutboundPolicyHeaderReplacement>;
 /** HTTPS connections to these domains. Always decrypted, which requires TLS decryption to be allowed. */
 export interface OutboundPolicyHTTPSRoute {
   /** Unspecified means TCP. */
-  transport?: OutboundPolicyTransport | (string & {});
+  transport?: OutboundPolicyTransport | (string & {}) | undefined;
   /** Empty means port 443. */
-  ports?: OutboundPolicyPortRangeList;
+  ports?: OutboundPolicyPortRangeList | undefined;
   /** Supports `*.` wildcard prefixes and a bare `*`. */
-  domains?: StringList;
-  headerReplacements?: OutboundPolicyHeaderReplacementList;
-  redirect?: OutboundPolicyRedirect;
+  domains?: StringList | undefined;
+  headerReplacements?: OutboundPolicyHeaderReplacementList | undefined;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 /** Everything earlier routes didn't match. */
 export interface OutboundPolicyAnyRoute {
-  redirect?: OutboundPolicyRedirect;
+  redirect?: OutboundPolicyRedirect | undefined;
 }
 export interface OutboundPolicyRoute {
-  ip?: OutboundPolicyIPRoute;
-  tls?: OutboundPolicyTLSRoute;
-  https?: OutboundPolicyHTTPSRoute;
-  any?: OutboundPolicyAnyRoute;
+  ip?: OutboundPolicyIPRoute | undefined;
+  tls?: OutboundPolicyTLSRoute | undefined;
+  https?: OutboundPolicyHTTPSRoute | undefined;
+  any?: OutboundPolicyAnyRoute | undefined;
 }
 export type OutboundPolicyRouteList = Array<OutboundPolicyRoute>;
 /** Route-based policy for outbound network traffic. A sandbox applies it to its main container. Routes are evaluated in order and the first match decides what happens to a connection or packet. The last route must be the policy's only `any` route, which decides what happens to traffic no other route matches. Traffic a route matches without a redirect goes to its original destination. */
 export interface OutboundPolicy {
-  tlsDecryption?: OutboundPolicyTLSDecryption;
-  routes?: OutboundPolicyRouteList;
+  tlsDecryption?: OutboundPolicyTLSDecryption | undefined;
+  routes?: OutboundPolicyRouteList | undefined;
 }
 export interface Sandbox {
-  entrypointArgs?: StringList;
-  mountIds?: StringList;
-  imageId?: string;
-  secretIds?: StringList;
-  resources?: Resources;
-  cloudProvider?: CloudProvider | (string & {});
+  entrypointArgs?: StringList | undefined;
+  mountIds?: StringList | undefined;
+  imageId?: string | undefined;
+  secretIds?: StringList | undefined;
+  resources?: Resources | undefined;
+  cloudProvider?: CloudProvider | (string & {}) | undefined;
   /** Deprecated at some point */
-  timeoutSecs?: number;
+  timeoutSecs?: number | undefined;
   /** The max lifetime of a sandbox in seconds. */
-  workdir?: string;
-  nfsMounts?: SharedVolumeMountList;
-  runtimeDebug?: boolean;
+  workdir?: string | undefined;
+  nfsMounts?: SharedVolumeMountList | undefined;
+  runtimeDebug?: boolean | undefined;
   /** For internal debugging use only. */
-  blockNetwork?: boolean;
+  blockNetwork?: boolean | undefined;
   /** deprecated, use network_access instead */
-  s3Mounts?: S3MountList;
-  cloudBucketMounts?: CloudBucketMountList;
-  volumeMounts?: VolumeMountList;
-  ptyInfo?: PTYInfo;
+  s3Mounts?: S3MountList | undefined;
+  cloudBucketMounts?: CloudBucketMountList | undefined;
+  volumeMounts?: VolumeMountList | undefined;
+  ptyInfo?: PTYInfo | undefined;
   /** _experimental_scheduler */
-  schedulerPlacement?: SchedulerPlacement;
+  schedulerPlacement?: SchedulerPlacement | undefined;
   /** _experimental_resources */
-  workerId?: string;
+  workerId?: string | undefined;
   /** for internal debugging use only */
-  openPorts?: PortSpecs;
-  i6pnEnabled?: boolean;
+  openPorts?: PortSpecs | undefined;
+  i6pnEnabled?: boolean | undefined;
   /** Network access configuration beyond simple allow/block. */
-  networkAccess?: NetworkAccess;
-  proxyId?: string;
+  networkAccess?: NetworkAccess | undefined;
+  proxyId?: string | undefined;
   /** Enable snapshotting the sandbox (both memory and filesystem). This doesn't need to be enabled to save the filesystem as an image (i.e. a filesystem-only snapshot). */
-  enableSnapshot?: boolean;
+  enableSnapshot?: boolean | undefined;
   /** Used to pin gVisor version for memory-snapshottable sandboxes. This field is set by the server, not the client. */
-  snapshotVersion?: number;
-  cloudProviderStr?: string;
+  snapshotVersion?: number | undefined;
+  cloudProviderStr?: string | undefined;
   /** Supersedes cloud_provider Specifies container runtime behavior for sandboxes which are restored from a snapshot. Set by the backend at snapshot creation time. */
-  runscRuntimeVersion?: string;
+  runscRuntimeVersion?: string | undefined;
   /** Runtime the sandbox runs in: "vm" for a virtual machine, or a container runtime such as "gvisor". Leave it unset to let Modal pick. */
-  runtime?: string;
+  runtime?: string | undefined;
   /** If set, the sandbox will be created with verbose logging enabled. */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
   /** If set, the sandbox will be created with a name. */
-  name?: string;
+  name?: string | undefined;
   /** Deprecated: use experimental_options_v2 instead. */
-  experimentalOptions?: BooleanMap;
+  experimentalOptions?: BooleanMap | undefined;
   /** Experimental options */
-  experimentalOptionsV2?: StringMap;
-  preloadPathPrefixes?: StringList;
+  experimentalOptionsV2?: StringMap | undefined;
+  preloadPathPrefixes?: StringList | undefined;
   /** Internal use only. Optional idle timeout in seconds. If set, the sandbox will be terminated after being idle for this duration. */
-  idleTimeoutSecs?: number;
+  idleTimeoutSecs?: number | undefined;
   /** Deprecated: direct sandbox commands are always enabled. */
-  directSandboxCommandsEnabled?: boolean;
+  directSandboxCommandsEnabled?: boolean | undefined;
   /** Internal: restricts sandbox to run on this specific instance type. Set by server during SandboxRestore to ensure the restored sandbox runs on the same instance type as the original snapshot. */
-  RestoreInstanceType?: string;
+  RestoreInstanceType?: string | undefined;
   /** If set, connections to this sandbox will be subdomains of this domain rather than the default. */
-  customDomain?: string;
+  customDomain?: string | undefined;
   /** If set, the sandbox will receive a MODAL_IDENTITY_TOKEN env var, similar to how modal Function containers do. This can be used for OIDC-based authentication (e.g. to AWS, GCP). */
-  includeOidcIdentityToken?: boolean;
+  includeOidcIdentityToken?: boolean | undefined;
   /** Probe used to determine when the sandbox has become ready. */
-  readinessProbe?: Probe;
+  readinessProbe?: Probe | undefined;
   /** If set, only connections from these CIDRs will be allowed to connect to the sandbox (tunnels and auth proxy). */
-  inboundCidrAllowlist?: StringList;
-  environmentVariables?: StringMap2;
-  experimentalOutboundPolicy?: ExperimentalOutboundPolicy;
+  inboundCidrAllowlist?: StringList | undefined;
+  environmentVariables?: StringMap2 | undefined;
+  experimentalOutboundPolicy?: ExperimentalOutboundPolicy | undefined;
   /** If set, the sandbox's main container is served an X.509-SVID over a SPIFFE Workload API socket, addressed by SPIFFE_ENDPOINT_SOCKET. The certificate federates into a cloud account (AWS IAM Roles Anywhere). Sidecars are not served one. */
-  includeX509Svid?: boolean;
+  includeX509Svid?: boolean | undefined;
   /** Route-based outbound policy. Mutually exclusive with experimental_outbound_policy (superseded, experimental API) and with any network_access other than OPEN. */
-  outboundPolicy?: OutboundPolicy;
+  outboundPolicy?: OutboundPolicy | undefined;
 }
 export interface SandboxTag {
-  tagName?: string;
-  tagValue?: string;
+  tagName?: string | undefined;
+  tagValue?: string | undefined;
 }
 export type SandboxTagList = Array<SandboxTag>;
 export interface CreateSandboxRequest {
-  appId?: string;
-  definition?: Sandbox;
-  environmentName?: string;
+  appId?: string | undefined;
+  definition?: Sandbox | undefined;
+  environmentName?: string | undefined;
   /** *DEPRECATED* 7/16/2025 */
-  tags?: SandboxTagList;
+  tags?: SandboxTagList | undefined;
 }
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -380,64 +380,64 @@ export interface GenericResult {
   /** Pickled traceback object. */
   tbLineCache: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  data?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  dataBlobId?: string | undefined;
   /** Blob ID for large data. */
   propagationReason: string;
 }
 export interface SandboxHandleMetadata {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   appId: string;
 }
 export interface CreateSandboxResponse {
   sandboxId: string;
-  metadata?: SandboxHandleMetadata;
+  metadata?: SandboxHandleMetadata | undefined;
 }
 export interface GetSandboxSnapshotRequest {
-  snapshotId?: string;
+  snapshotId?: string | undefined;
 }
 export interface SandboxSnapshotHandleMetadata {
   isV2: boolean;
 }
 export interface GetSandboxSnapshotResponse {
   snapshotId: string;
-  handleMetadata?: SandboxSnapshotHandleMetadata;
+  handleMetadata?: SandboxSnapshotHandleMetadata | undefined;
 }
 export interface GetSandboxSnapshotFsAsyncRequest {
-  imageId?: string;
-  timeout?: number;
+  imageId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface ImageMetadata {
   /** The output of `python -VV. Not set if missing */
-  pythonVersionInfo?: string;
+  pythonVersionInfo?: string | undefined;
   /** Installed python packages, as listed by by `pip list`. package name -> version. Empty if missing */
   pythonPackages: StringMap;
   /** The working directory of the image, as an absolute file path. For most images, this is not set, which means to use the default workdir: - On function runners, the default is `/root` (home directory). - For image builds and sandbox environments, it is `/`. */
-  workdir?: string;
+  workdir?: string | undefined;
   /** The version of glibc in this image, if any. */
-  libcVersionInfo?: string;
+  libcVersionInfo?: string | undefined;
   /** The builder version for/with which the image was created. */
-  imageBuilderVersion?: string;
+  imageBuilderVersion?: string | undefined;
 }
 export interface GetSandboxSnapshotFsAsyncResponse {
   imageId: string;
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   /** Metadata may be empty since we may skip it for performance reasons. */
-  imageMetadata?: ImageMetadata;
+  imageMetadata?: ImageMetadata | undefined;
 }
 export interface GetSandboxTagRequest {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface GetSandboxTagResponse {
   tags: SandboxTagList;
 }
 export interface ListSandboxRequest {
-  appId?: string;
-  beforeTimestamp?: number;
-  environmentName?: string;
-  includeFinished?: boolean;
-  tags?: SandboxTagList;
+  appId?: string | undefined;
+  beforeTimestamp?: number | undefined;
+  environmentName?: string | undefined;
+  includeFinished?: boolean | undefined;
+  tags?: SandboxTagList | undefined;
 }
 export type TaskSnapshotBehavior =
   | "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED"
@@ -449,21 +449,21 @@ export interface TaskInfo {
   startedAt: number;
   /** For Function containers, this corresponds to the "ready" time, after startup phase */
   finishedAt: number;
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   enqueuedAt: number;
   gpuType: string;
   sandboxId: string;
   snapshotBehavior: TaskSnapshotBehavior;
-  gpuConfig?: GPUConfig;
+  gpuConfig?: GPUConfig | undefined;
 }
 export interface ResourceInfoResourceValue {
   value: number;
   isDefault: boolean;
 }
 export interface ResourceInfo {
-  memoryMb?: ResourceInfoResourceValue;
+  memoryMb?: ResourceInfoResourceValue | undefined;
   /** MiB */
-  milliCpu?: ResourceInfoResourceValue;
+  milliCpu?: ResourceInfoResourceValue | undefined;
   /** milli CPU cores */
   gpuType: string;
   memoryMbMax: number;
@@ -475,8 +475,8 @@ export interface ResourceInfo {
 export interface TunnelData {
   host: string;
   port: number;
-  unencryptedHost?: string;
-  unencryptedPort?: number;
+  unencryptedHost?: string | undefined;
+  unencryptedPort?: number | undefined;
   containerPort: number;
 }
 export type TunnelDataList = Array<TunnelData>;
@@ -484,20 +484,20 @@ export interface SandboxInfo {
   id: string;
   /** modal.client.Sandbox definition */
   createdAt: number;
-  taskInfo?: TaskInfo;
+  taskInfo?: TaskInfo | undefined;
   appId: string;
   tags: SandboxTagList;
   /** TODO: Not yet exposed in client library. */
   name: string;
   imageId: string;
-  resourceInfo?: ResourceInfo;
+  resourceInfo?: ResourceInfo | undefined;
   regions: StringList;
   timeoutSecs: number;
-  idleTimeoutSecs?: number;
-  readyAt?: number;
-  readinessProbe?: Probe;
+  idleTimeoutSecs?: number | undefined;
+  readyAt?: number | undefined;
+  readinessProbe?: Probe | undefined;
   tunnels: TunnelDataList;
-  metadata?: SandboxHandleMetadata;
+  metadata?: SandboxHandleMetadata | undefined;
 }
 export type SandboxInfoList = Array<SandboxInfo>;
 export interface ListSandboxResponse {
@@ -508,13 +508,16 @@ export type RestoreSandboxRequestSandboxNameOverrideType =
   | "SANDBOX_NAME_OVERRIDE_TYPE_NONE"
   | "SANDBOX_NAME_OVERRIDE_TYPE_STRING";
 export interface RestoreSandboxRequest {
-  snapshotId?: string;
-  sandboxNameOverride?: string;
-  sandboxNameOverrideType?: RestoreSandboxRequestSandboxNameOverrideType | (string & {});
-  workerId?: string;
+  snapshotId?: string | undefined;
+  sandboxNameOverride?: string | undefined;
+  sandboxNameOverrideType?:
+    | RestoreSandboxRequestSandboxNameOverrideType
+    | (string & {})
+    | undefined;
+  workerId?: string | undefined;
   /** For internal debugging use only. */
-  replaceVolumeMounts?: boolean;
-  volumeMounts?: VolumeMountList;
+  replaceVolumeMounts?: boolean | undefined;
+  volumeMounts?: VolumeMountList | undefined;
 }
 export interface RestoreSandboxResponse {
   sandboxId: string;
@@ -523,55 +526,55 @@ export type StringMap2Map = { [key: string]: StringMap2 | undefined };
 /** One source of environment variables for a Sandbox container or exec. */
 export interface SecretSource {
   /** Server-side Secret, resolved on the worker. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Plaintext values sent directly to the worker. Must not be persisted. */
-  env?: StringMap2;
+  env?: StringMap2 | undefined;
 }
 export type SecretSourceList = Array<SecretSource>;
 export interface SandboxContainerCreateV2Request {
   /** Sandbox the container joins; it runs inside that sandbox's task. */
-  sandboxId?: string;
+  sandboxId?: string | undefined;
   /** Logical container name, unique within the sandbox. */
-  containerName?: string;
+  containerName?: string | undefined;
   /** Same definition type as SandboxCreateV2. Fields a container cannot honor (resources, timeouts, scheduling constraints, ...) are rejected. */
-  definition?: Sandbox;
-  ephemeralSecrets?: StringMap2;
-  cloudBucketMountCredentials?: StringMap2Map;
+  definition?: Sandbox | undefined;
+  ephemeralSecrets?: StringMap2 | undefined;
+  cloudBucketMountCredentials?: StringMap2Map | undefined;
   /** Applied in order. Cannot be combined with ephemeral_secrets. If definition.secret_ids is set, it must match the secret_id entries here. */
-  secretSources?: SecretSourceList;
+  secretSources?: SecretSourceList | undefined;
 }
 export interface SandboxContainerCreateV2Response {
   containerId: string;
   containerName: string;
 }
 export interface SandboxCreateConnectTokenRequest {
-  sandboxId?: string;
-  userMetadata?: string;
+  sandboxId?: string | undefined;
+  userMetadata?: string | undefined;
   /** Uses port 8080 if unspecified. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface SandboxCreateConnectTokenResponse {
   url: string;
   token: string;
 }
 export interface SandboxCreateConnectTokenV2Request {
-  sandboxId?: string;
-  userMetadata?: string;
+  sandboxId?: string | undefined;
+  userMetadata?: string | undefined;
   /** Uses port 8080 if unspecified. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface SandboxCreateConnectTokenV2Response {
   url: string;
   token: string;
 }
 export interface SandboxCreateV2Request {
-  appId?: string;
-  definition?: Sandbox;
-  ephemeralSecrets?: StringMap2;
-  tags?: SandboxTagList;
-  cloudBucketMountCredentials?: StringMap2Map;
+  appId?: string | undefined;
+  definition?: Sandbox | undefined;
+  ephemeralSecrets?: StringMap2 | undefined;
+  tags?: SandboxTagList | undefined;
+  cloudBucketMountCredentials?: StringMap2Map | undefined;
   /** Applied in order. Cannot be combined with ephemeral_secrets. If definition.secret_ids is set, it must match the secret_id entries here. */
-  secretSources?: SecretSourceList;
+  secretSources?: SecretSourceList | undefined;
 }
 /** Defined as start time of the first task in the cluster */
 export interface CommandRouterAccess {
@@ -582,14 +585,14 @@ export interface SandboxCreateV2Response {
   sandboxId: string;
   tunnels: TunnelDataList;
   taskId: string;
-  metadata?: SandboxHandleMetadata;
-  commandRouterAccess?: CommandRouterAccess;
+  metadata?: SandboxHandleMetadata | undefined;
+  commandRouterAccess?: CommandRouterAccess | undefined;
   /** Signed app and workspace id of the sandbox. Sent as the x-modal-sandbox-token metadata header. */
   sandboxToken: string;
 }
 export interface SandboxGetCommandRouterAccessRequest {
-  sandboxId?: string;
-  taskId?: string;
+  sandboxId?: string | undefined;
+  taskId?: string | undefined;
 }
 export interface SandboxGetCommandRouterAccessResponse {
   jwt: string;
@@ -598,8 +601,8 @@ export interface SandboxGetCommandRouterAccessResponse {
   workerIpv4Address: string;
 }
 export interface SandboxGetExitSnapshotRequest {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxGetExitSnapshotResponseSuccess {
   imageId: string;
@@ -615,40 +618,40 @@ export interface SandboxGetExitSnapshotResponseError {
   message: string;
 }
 export interface SandboxGetExitSnapshotResponse {
-  success?: SandboxGetExitSnapshotResponseSuccess;
-  pending?: OutboundPolicyRedirectBlock;
-  error?: SandboxGetExitSnapshotResponseError;
+  success?: SandboxGetExitSnapshotResponseSuccess | undefined;
+  pending?: OutboundPolicyRedirectBlock | undefined;
+  error?: SandboxGetExitSnapshotResponseError | undefined;
 }
 export interface SandboxGetExitSnapshotV2Request {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxGetExitSnapshotV2Response {
-  success?: SandboxGetExitSnapshotResponseSuccess;
-  pending?: OutboundPolicyRedirectBlock;
-  error?: SandboxGetExitSnapshotResponseError;
+  success?: SandboxGetExitSnapshotResponseSuccess | undefined;
+  pending?: OutboundPolicyRedirectBlock | undefined;
+  error?: SandboxGetExitSnapshotResponseError | undefined;
 }
 export interface SandboxGetFromNameRequest {
-  sandboxName?: string;
-  environmentName?: string;
-  appName?: string;
+  sandboxName?: string | undefined;
+  environmentName?: string | undefined;
+  appName?: string | undefined;
   /** When set, the lookup also considers sandboxes that have already stopped and returns the most recently created sandbox with the given name. */
-  includeTerminated?: boolean;
+  includeTerminated?: boolean | undefined;
 }
 export interface SandboxGetFromNameResponse {
   sandboxId: string;
-  metadata?: SandboxHandleMetadata;
+  metadata?: SandboxHandleMetadata | undefined;
 }
 export interface SandboxGetFromNameV2Request {
-  sandboxName?: string;
-  environmentName?: string;
-  appName?: string;
+  sandboxName?: string | undefined;
+  environmentName?: string | undefined;
+  appName?: string | undefined;
   /** When set, the lookup also considers sandboxes that have already stopped and returns the most recently created sandbox with the given name. */
-  includeTerminated?: boolean;
+  includeTerminated?: boolean | undefined;
 }
 export interface SandboxGetFromNameV2Response {
   sandboxId: string;
-  metadata?: SandboxHandleMetadata;
+  metadata?: SandboxHandleMetadata | undefined;
 }
 export type FileDescriptor =
   | "FILE_DESCRIPTOR_UNSPECIFIED"
@@ -656,10 +659,10 @@ export type FileDescriptor =
   | "FILE_DESCRIPTOR_STDERR"
   | "FILE_DESCRIPTOR_INFO";
 export interface SandboxGetLogsRequest {
-  sandboxId?: string;
-  fileDescriptor?: FileDescriptor | (string & {});
-  timeout?: number;
-  lastEntryId?: string;
+  sandboxId?: string | undefined;
+  fileDescriptor?: FileDescriptor | (string & {}) | undefined;
+  timeout?: number | undefined;
+  lastEntryId?: string | undefined;
 }
 export type TaskState =
   | "TASK_STATE_UNSPECIFIED"
@@ -686,7 +689,7 @@ export interface TaskLogs {
   taskState: TaskState;
   timestamp: number;
   fileDescriptor: FileDescriptor;
-  taskProgress?: TaskProgress;
+  taskProgress?: TaskProgress | undefined;
   functionCallId: string;
   inputId: string;
   timestampNs: string;
@@ -716,16 +719,16 @@ export interface SandboxGetLogsStream {
   items: TaskLogsBatchList;
 }
 export interface SandboxGetResourceUsageRequest {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface SandboxGetResourceUsageResponse {
   cpuCoreNanosecs: string;
   memGibNanosecs: string;
   gpuNanosecs: string;
-  gpuType?: string;
+  gpuType?: string | undefined;
 }
 export interface SandboxGetStatsRequest {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface StatsPercentile {
   /** The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9. */
@@ -741,63 +744,63 @@ export interface SandboxGetStatsResponseResourceStats {
 }
 export interface SandboxGetStatsResponse {
   /** Estimated compute cost in USD at the workspace's current plan rates, without reservation discounts or network egress. Unset when no usage is available. */
-  cost?: string;
+  cost?: string | undefined;
   costByResource: StringMap;
   numDatapoints: string;
-  cpuCores?: SandboxGetStatsResponseResourceStats;
-  memoryGib?: SandboxGetStatsResponseResourceStats;
+  cpuCores?: SandboxGetStatsResponseResourceStats | undefined;
+  memoryGib?: SandboxGetStatsResponseResourceStats | undefined;
   durationHours: number;
   /** Billing-adjusted usage: the greater of measured and reserved resources per sample, less any resources bundled with a GPU. */
   billedCpuCoreSeconds: number;
   billedMemoryGibSeconds: number;
 }
 export interface SandboxGetStatsV2Request {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface SandboxGetStatsV2Response {
   /** Estimated compute cost in USD at the workspace's current plan rates, without reservation discounts or network egress. Unset when no usage is available. */
-  cost?: string;
+  cost?: string | undefined;
   costByResource: StringMap;
   numDatapoints: string;
-  cpuCores?: SandboxGetStatsResponseResourceStats;
-  memoryGib?: SandboxGetStatsResponseResourceStats;
+  cpuCores?: SandboxGetStatsResponseResourceStats | undefined;
+  memoryGib?: SandboxGetStatsResponseResourceStats | undefined;
   durationHours: number;
   /** Billing-adjusted usage: the greater of measured and reserved resources per sample, less any resources bundled with a GPU. */
   billedCpuCoreSeconds: number;
   billedMemoryGibSeconds: number;
 }
 export interface SandboxGetTaskIdRequest {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
   /** Legacy clients do not provide a timeout. New clients must always provide a timeout. */
-  waitUntilReady?: boolean;
+  waitUntilReady?: boolean | undefined;
 }
 export interface SandboxGetTaskIdResponse {
-  taskId?: string;
+  taskId?: string | undefined;
   /** This is None if the sandbox was terminated before a task could be scheduled. */
-  taskResult?: GenericResult;
+  taskResult?: GenericResult | undefined;
 }
 export interface SandboxGetTaskIdV2Request {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
   /** Legacy clients do not provide a timeout. New clients must always provide a timeout. */
-  waitUntilReady?: boolean;
+  waitUntilReady?: boolean | undefined;
 }
 export interface SandboxGetTaskIdV2Response {
-  taskId?: string;
+  taskId?: string | undefined;
   /** This is None if the sandbox was terminated before a task could be scheduled. */
-  taskResult?: GenericResult;
+  taskResult?: GenericResult | undefined;
 }
 export interface SandboxGetTimeRangeStatsRequest {
-  since?: string;
-  until?: string;
-  groupByTags?: StringList;
-  tags?: StringMap;
-  appId?: string;
-  pageToken?: string;
+  since?: string | undefined;
+  until?: string | undefined;
+  groupByTags?: StringList | undefined;
+  tags?: StringMap | undefined;
+  appId?: string | undefined;
+  pageToken?: string | undefined;
 }
 export interface SandboxStatsGroupTagValue {
-  value?: string;
+  value?: string | undefined;
 }
 export type SandboxStatsGroupTagValueMap = { [key: string]: SandboxStatsGroupTagValue | undefined };
 export type DoubleMap = { [key: string]: number | undefined };
@@ -812,149 +815,152 @@ export interface SandboxGetTimeRangeStatsResponse {
   nextPageToken: string;
 }
 export interface SandboxGetTunnelsRequest {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxGetTunnelsResponse {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   tunnels: TunnelDataList;
 }
 export interface SandboxGetTunnelsV2Request {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxGetTunnelsV2Response {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   tunnels: TunnelDataList;
 }
 export interface SandboxListV2Request {
-  appId?: string;
-  beforeTimestamp?: number;
-  environmentName?: string;
-  includeFinished?: boolean;
-  tags?: SandboxTagList;
+  appId?: string | undefined;
+  beforeTimestamp?: number | undefined;
+  environmentName?: string | undefined;
+  includeFinished?: boolean | undefined;
+  tags?: SandboxTagList | undefined;
 }
 export interface SandboxListV2Response {
   sandboxes: SandboxInfoList;
 }
 export interface SandboxRestoreV2Request {
-  snapshotId?: string;
-  sandboxNameOverride?: string;
-  sandboxNameOverrideType?: RestoreSandboxRequestSandboxNameOverrideType | (string & {});
-  workerId?: string;
+  snapshotId?: string | undefined;
+  sandboxNameOverride?: string | undefined;
+  sandboxNameOverrideType?:
+    | RestoreSandboxRequestSandboxNameOverrideType
+    | (string & {})
+    | undefined;
+  workerId?: string | undefined;
 }
 export interface SandboxRestoreV2Response {
   sandboxId: string;
   tunnels: TunnelDataList;
   taskId: string;
-  metadata?: SandboxHandleMetadata;
-  commandRouterAccess?: CommandRouterAccess;
+  metadata?: SandboxHandleMetadata | undefined;
+  commandRouterAccess?: CommandRouterAccess | undefined;
 }
 export interface SandboxSetNameRequest {
-  sandboxId?: string;
-  name?: string;
+  sandboxId?: string | undefined;
+  name?: string | undefined;
 }
 export interface SandboxSetNameResponse {}
 export interface SandboxSetOutboundPolicyRequest {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
   /** Replaces the Sandbox's route-based outbound policy. */
-  outboundPolicy?: OutboundPolicy;
+  outboundPolicy?: OutboundPolicy | undefined;
 }
 export interface SandboxSetOutboundPolicyResponse {}
 export interface SandboxSetOutboundPolicyV2Request {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
   /** Replaces the Sandbox's route-based outbound policy. */
-  outboundPolicy?: OutboundPolicy;
+  outboundPolicy?: OutboundPolicy | undefined;
 }
 export interface SandboxSetOutboundPolicyV2Response {}
 export interface SandboxSnapshotRequest {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface SandboxSnapshotResponse {
   snapshotId: string;
 }
 export interface SandboxSnapshotFsRequest {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxSnapshotFsResponse {
   imageId: string;
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   /** Metadata may be empty since we may skip it for performance reasons. */
-  imageMetadata?: ImageMetadata;
+  imageMetadata?: ImageMetadata | undefined;
 }
 export interface SandboxSnapshotFsAsyncRequest {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface SandboxSnapshotFsAsyncResponse {
   imageId: string;
 }
 export interface SandboxStdinWriteRequest {
-  sandboxId?: string;
-  input?: string;
-  index?: number;
-  eof?: boolean;
+  sandboxId?: string | undefined;
+  input?: string | undefined;
+  index?: number | undefined;
+  eof?: boolean | undefined;
 }
 export interface SandboxStdinWriteResponse {}
 export interface SandboxTagsGetV2Request {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface SandboxTagsGetV2Response {
   tags: SandboxTagList;
 }
 export interface SandboxTagsSetV2Request {
-  environmentName?: string;
-  sandboxId?: string;
-  tags?: SandboxTagList;
+  environmentName?: string | undefined;
+  sandboxId?: string | undefined;
+  tags?: SandboxTagList | undefined;
 }
 export interface SandboxTagsSetV2Response {}
 export interface SandboxTerminateV2Request {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface SandboxTerminateV2Response {
-  existingResult?: GenericResult;
+  existingResult?: GenericResult | undefined;
 }
 export interface SandboxWaitUntilReadyRequest {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxWaitUntilReadyResponse {
   readyAt: number;
 }
 export interface SandboxWaitV2Request {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxWaitV2Response {
-  result?: GenericResult;
-  metadata?: SandboxHandleMetadata;
+  result?: GenericResult | undefined;
+  metadata?: SandboxHandleMetadata | undefined;
 }
 export interface SetSandboxTagRequest {
-  environmentName?: string;
-  sandboxId?: string;
-  tags?: SandboxTagList;
+  environmentName?: string | undefined;
+  sandboxId?: string | undefined;
+  tags?: SandboxTagList | undefined;
 }
 export interface SetSandboxTagResponse {}
 export interface TerminateSandboxRequest {
-  sandboxId?: string;
+  sandboxId?: string | undefined;
 }
 export interface TerminateSandboxResponse {
-  existingResult?: GenericResult;
+  existingResult?: GenericResult | undefined;
 }
 export interface WaitSandboxRequest {
-  sandboxId?: string;
-  timeout?: number;
+  sandboxId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface WaitSandboxResponse {
-  result?: GenericResult;
-  metadata?: SandboxHandleMetadata;
+  result?: GenericResult | undefined;
+  metadata?: SandboxHandleMetadata | undefined;
 }
 export interface WaitSandboxSnapshotRequest {
-  snapshotId?: string;
-  timeout?: number;
+  snapshotId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface WaitSandboxSnapshotResponse {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
 }
 export type CreateSandboxError = ModalOpError;
 export const createSandbox: API.OperationMethod<

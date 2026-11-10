@@ -90,54 +90,54 @@ export interface ApproveCommentsRequest {
 }
 export interface CommentInReplyTo {
   /** The identified of the parent of this comment. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CommentAuthorImage {
   /** The creator's avatar URL. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CommentAuthor {
   /** The creator's avatar. */
-  image?: CommentAuthorImage;
+  image?: CommentAuthorImage | undefined;
   /** The URL of the creator's Profile page. */
-  url?: string;
+  url?: string | undefined;
   /** The identifier of the creator. */
-  id?: string;
+  id?: string | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CommentBlog {
   /** The identifier of the blog containing this comment. */
-  id?: string;
+  id?: string | undefined;
 }
 export type CommentStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export interface CommentPost {
   /** The identifier of the post containing this comment. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface Comment {
   /** Data about the comment this is in reply to. */
-  inReplyTo?: CommentInReplyTo;
+  inReplyTo?: CommentInReplyTo | undefined;
   /** The API REST URL to fetch this resource from. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The author of this Comment. */
-  author?: CommentAuthor;
+  author?: CommentAuthor | undefined;
   /** The identifier for this resource. */
-  id?: string;
+  id?: string | undefined;
   /** RFC 3339 date-time when this comment was last updated. */
-  updated?: string;
+  updated?: string | undefined;
   /** The kind of this entry. Always blogger#comment. */
-  kind?: string;
+  kind?: string | undefined;
   /** Data about the blog containing this comment. */
-  blog?: CommentBlog;
+  blog?: CommentBlog | undefined;
   /** The actual content of the comment. May include HTML markup. */
-  content?: string;
+  content?: string | undefined;
   /** The status of the comment (only populated for admin users). */
-  status?: CommentStatusEnum | (string & {});
+  status?: CommentStatusEnum | (string & {}) | undefined;
   /** Data about the post containing this comment. */
-  post?: CommentPost;
+  post?: CommentPost | undefined;
   /** RFC 3339 date-time when this comment was published. */
-  published?: string;
+  published?: string | undefined;
 }
 export interface DeleteCommentsRequest {
   blogId: string;
@@ -147,7 +147,7 @@ export interface DeleteCommentsRequest {
 export interface DeleteCommentsResponse {}
 export interface DeletePagesRequest {
   /** Move to Trash if possible */
-  useTrash?: boolean;
+  useTrash?: boolean | undefined;
   blogId: string;
   pageId: string;
 }
@@ -156,55 +156,55 @@ export interface DeletePostsRequest {
   blogId: string;
   postId: string;
   /** Move to Trash if possible */
-  useTrash?: boolean;
+  useTrash?: boolean | undefined;
 }
 export interface DeletePostsResponse {}
 export type GetBlogsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetBlogsRequest {
-  maxPosts?: number;
+  maxPosts?: number | undefined;
   /** Unspecified is interpreted as READER. */
-  view?: GetBlogsViewEnum | (string & {});
+  view?: GetBlogsViewEnum | (string & {}) | undefined;
   blogId: string;
 }
 export interface PostLocation {
   /** Location's latitude. */
-  lat?: number;
+  lat?: number | undefined;
   /** Location's viewport span. Can be used when rendering a map preview. */
-  span?: string;
+  span?: string | undefined;
   /** Location name. */
-  name?: string;
+  name?: string | undefined;
   /** Location's longitude. */
-  lng?: number;
+  lng?: number | undefined;
 }
 export type CommentList_ = Array<Comment>;
 export interface PostReplies {
   /** The URL of the comments on this post. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The List of Comments for this Post. */
-  items?: CommentList_;
+  items?: CommentList_ | undefined;
   /** The count of comments on this post. */
-  totalItems?: string;
+  totalItems?: string | undefined;
 }
 export interface PostBlog {
   /** The identifier of the Blog that contains this Post. */
-  id?: string;
+  id?: string | undefined;
 }
 export type PostStatusEnum = "LIVE" | "DRAFT" | "SCHEDULED" | "SOFT_TRASHED";
 export type StringList = Array<string>;
 export interface PostImagesItem {
-  url?: string;
+  url?: string | undefined;
 }
 export type PostImagesItemList = Array<PostImagesItem>;
 export type PostAuthorImage = CommentAuthorImage;
 export interface PostAuthor {
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The creator's avatar. */
-  image?: CommentAuthorImage;
+  image?: CommentAuthorImage | undefined;
   /** The URL of the creator's Profile page. */
-  url?: string;
+  url?: string | undefined;
   /** The identifier of the creator. */
-  id?: string;
+  id?: string | undefined;
 }
 export type PostReaderCommentsEnum =
   | "ALLOW"
@@ -212,324 +212,324 @@ export type PostReaderCommentsEnum =
   | "DONT_ALLOW_HIDE_EXISTING";
 export interface Post {
   /** The title link URL, similar to atom's related link. */
-  titleLink?: string;
+  titleLink?: string | undefined;
   /** The location for geotagged posts. */
-  location?: PostLocation;
+  location?: PostLocation | undefined;
   /** The title of the Post. */
-  title?: string;
+  title?: string | undefined;
   /** The JSON meta-data for the Post. */
-  customMetaData?: string;
+  customMetaData?: string | undefined;
   /** The kind of this entity. Always blogger#post. */
-  kind?: string;
+  kind?: string | undefined;
   /** The container of comments on this Post. */
-  replies?: PostReplies;
+  replies?: PostReplies | undefined;
   /** RFC 3339 date-time when this Post was last updated. */
-  updated?: string;
+  updated?: string | undefined;
   /** The content of the Post. May contain HTML markup. */
-  content?: string;
+  content?: string | undefined;
   /** Data about the blog containing this Post. */
-  blog?: PostBlog;
+  blog?: PostBlog | undefined;
   /** Status of the post. Only set for admin-level requests. */
-  status?: PostStatusEnum | (string & {});
+  status?: PostStatusEnum | (string & {}) | undefined;
   /** The list of labels this Post was tagged with. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** The URL where this Post is displayed. */
-  url?: string;
+  url?: string | undefined;
   /** The API REST URL to fetch this resource from. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** RFC 3339 date-time when this Post was last trashed. */
-  trashed?: string;
+  trashed?: string | undefined;
   /** RFC 3339 date-time when this Post was published. */
-  published?: string;
+  published?: string | undefined;
   /** Display image for the Post. */
-  images?: PostImagesItemList;
+  images?: PostImagesItemList | undefined;
   /** The author of this Post. */
-  author?: PostAuthor;
+  author?: PostAuthor | undefined;
   /** Comment control and display setting for readers of this post. */
-  readerComments?: PostReaderCommentsEnum | (string & {});
+  readerComments?: PostReaderCommentsEnum | (string & {}) | undefined;
   /** Etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** The identifier of this Post. */
-  id?: string;
+  id?: string | undefined;
 }
 export type PostList_ = Array<Post>;
 export interface BlogPosts {
   /** The count of posts in this blog. */
-  totalItems?: number;
+  totalItems?: number | undefined;
   /** The URL of the container for posts in this blog. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The List of Posts for this Blog. */
-  items?: PostList_;
+  items?: PostList_ | undefined;
 }
 export interface BlogPages {
   /** The count of pages in this blog. */
-  totalItems?: number;
+  totalItems?: number | undefined;
   /** The URL of the container for pages in this blog. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 export type BlogStatusEnum = "LIVE" | "DELETED";
 export interface BlogLocale {
   /** The language this blog is authored in. */
-  language?: string;
+  language?: string | undefined;
   /** The country this blog's locale is set to. */
-  country?: string;
+  country?: string | undefined;
   /** The language variant this blog is authored in. */
-  variant?: string;
+  variant?: string | undefined;
 }
 export interface Blog {
   /** The container of posts in this blog. */
-  posts?: BlogPosts;
+  posts?: BlogPosts | undefined;
   /** The description of this blog. This is displayed underneath the title. */
-  description?: string;
+  description?: string | undefined;
   /** The API REST URL to fetch this resource from. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The URL where this blog is published. */
-  url?: string;
+  url?: string | undefined;
   /** The kind of this entry. Always blogger#blog. */
-  kind?: string;
+  kind?: string | undefined;
   /** The JSON custom meta-data for the Blog. */
-  customMetaData?: string;
+  customMetaData?: string | undefined;
   /** RFC 3339 date-time when this blog was published. */
-  published?: string;
+  published?: string | undefined;
   /** The name of this blog. This is displayed as the title. */
-  name?: string;
+  name?: string | undefined;
   /** The identifier for this resource. */
-  id?: string;
+  id?: string | undefined;
   /** RFC 3339 date-time when this blog was last updated. */
-  updated?: string;
+  updated?: string | undefined;
   /** The container of pages in this blog. */
-  pages?: BlogPages;
+  pages?: BlogPages | undefined;
   /** The status of the blog. */
-  status?: BlogStatusEnum;
+  status?: BlogStatusEnum | undefined;
   /** The locale this Blog is set to. */
-  locale?: BlogLocale;
+  locale?: BlogLocale | undefined;
 }
 export interface GetBlogUserInfosRequest {
   blogId: string;
-  maxPosts?: number;
+  maxPosts?: number | undefined;
   userId: string;
 }
 export type BlogPerUserInfoRoleEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface BlogPerUserInfo {
   /** ID of the Blog resource. */
-  blogId?: string;
+  blogId?: string | undefined;
   /** The kind of this entity. Always blogger#blogPerUserInfo. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the User. */
-  userId?: string;
+  userId?: string | undefined;
   /** The Photo Album Key for the user when adding photos to the blog. */
-  photosAlbumKey?: string;
+  photosAlbumKey?: string | undefined;
   /** True if the user has Admin level access to the blog. */
-  hasAdminAccess?: boolean;
+  hasAdminAccess?: boolean | undefined;
   /** Access permissions that the user has for the blog (ADMIN, AUTHOR, or READER). */
-  role?: BlogPerUserInfoRoleEnum;
+  role?: BlogPerUserInfoRoleEnum | undefined;
 }
 export interface BlogUserInfo {
   /** The Blog resource. */
-  blog?: Blog;
+  blog?: Blog | undefined;
   /** The kind of this entity. Always blogger#blogUserInfo. */
-  kind?: string;
+  kind?: string | undefined;
   /** Information about a User for the Blog. */
-  blog_user_info?: BlogPerUserInfo;
+  blog_user_info?: BlogPerUserInfo | undefined;
 }
 export type GetByPathPostsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetByPathPostsRequest {
-  view?: GetByPathPostsViewEnum | (string & {});
-  maxComments?: number;
+  view?: GetByPathPostsViewEnum | (string & {}) | undefined;
+  maxComments?: number | undefined;
   blogId: string;
   path: string;
 }
 export type GetByUrlBlogsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetByUrlBlogsRequest {
   /** Unspecified is interpreted as READER. */
-  view?: GetByUrlBlogsViewEnum | (string & {});
+  view?: GetByUrlBlogsViewEnum | (string & {}) | undefined;
   url: string;
 }
 export type GetCommentsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetCommentsRequest {
-  view?: GetCommentsViewEnum | (string & {});
+  view?: GetCommentsViewEnum | (string & {}) | undefined;
   commentId: string;
   blogId: string;
   postId: string;
 }
 export type GetPagesViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetPagesRequest {
-  view?: GetPagesViewEnum | (string & {});
+  view?: GetPagesViewEnum | (string & {}) | undefined;
   pageId: string;
   blogId: string;
 }
 export interface PageBlog {
   /** The identifier of the blog containing this page. */
-  id?: string;
+  id?: string | undefined;
 }
 export type PageAuthorImage = CommentAuthorImage;
 export interface PageAuthor {
   /** The creator's avatar. */
-  image?: CommentAuthorImage;
+  image?: CommentAuthorImage | undefined;
   /** The identifier of the creator. */
-  id?: string;
+  id?: string | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The URL of the creator's Profile page. */
-  url?: string;
+  url?: string | undefined;
 }
 export type PageStatusEnum = "LIVE" | "DRAFT" | "SOFT_TRASHED";
 export interface Page {
   /** Data about the blog containing this Page. */
-  blog?: PageBlog;
+  blog?: PageBlog | undefined;
   /** The author of this Page. */
-  author?: PageAuthor;
+  author?: PageAuthor | undefined;
   /** The API REST URL to fetch this resource from. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** RFC 3339 date-time when this Page was trashed. */
-  trashed?: string;
+  trashed?: string | undefined;
   /** The kind of this entity. Always blogger#page. */
-  kind?: string;
+  kind?: string | undefined;
   /** The title of this entity. This is the name displayed in the Admin user interface. */
-  title?: string;
+  title?: string | undefined;
   /** Etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** The identifier for this resource. */
-  id?: string;
+  id?: string | undefined;
   /** RFC 3339 date-time when this Page was last updated. */
-  updated?: string;
+  updated?: string | undefined;
   /** The body content of this Page, in HTML. */
-  content?: string;
+  content?: string | undefined;
   /** The status of the page for admin resources (either LIVE or DRAFT). */
-  status?: PageStatusEnum | (string & {});
+  status?: PageStatusEnum | (string & {}) | undefined;
   /** The URL that this Page is displayed at. */
-  url?: string;
+  url?: string | undefined;
   /** RFC 3339 date-time when this Page was published. */
-  published?: string;
+  published?: string | undefined;
 }
 export type GetPageViewsRangeEnum = "all" | "30DAYS" | "7DAYS";
 export type GetPageViewsRangeEnumList = Array<GetPageViewsRangeEnum | (string & {})>;
 export interface GetPageViewsRequest {
   blogId: string;
-  range?: GetPageViewsRangeEnumList;
+  range?: GetPageViewsRangeEnumList | undefined;
 }
 export type PageviewsCountsItemTimeRangeEnum = "ALL_TIME" | "THIRTY_DAYS" | "SEVEN_DAYS";
 export interface PageviewsCountsItem {
   /** Count of page views for the given time range. */
-  count?: string;
+  count?: string | undefined;
   /** Time range the given count applies to. */
-  timeRange?: PageviewsCountsItemTimeRangeEnum;
+  timeRange?: PageviewsCountsItemTimeRangeEnum | undefined;
 }
 export type PageviewsCountsItemList = Array<PageviewsCountsItem>;
 export interface Pageviews {
   /** Blog Id. */
-  blogId?: string;
+  blogId?: string | undefined;
   /** The container of posts in this blog. */
-  counts?: PageviewsCountsItemList;
+  counts?: PageviewsCountsItemList | undefined;
   /** The kind of this entry. Always blogger#page_views. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type GetPostsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface GetPostsRequest {
   blogId: string;
-  fetchImages?: boolean;
+  fetchImages?: boolean | undefined;
   postId: string;
-  fetchBody?: boolean;
-  view?: GetPostsViewEnum | (string & {});
-  maxComments?: number;
+  fetchBody?: boolean | undefined;
+  view?: GetPostsViewEnum | (string & {}) | undefined;
+  maxComments?: number | undefined;
 }
 export interface GetPostUserInfosRequest {
   blogId: string;
   postId: string;
-  maxComments?: number;
+  maxComments?: number | undefined;
   userId: string;
 }
 export interface PostPerUserInfo {
   /** ID of the Post resource. */
-  postId?: string;
+  postId?: string | undefined;
   /** The kind of this entity. Always blogger#postPerUserInfo. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the Blog that the post resource belongs to. */
-  blogId?: string;
+  blogId?: string | undefined;
   /** True if the user has Author level access to the post. */
-  hasEditAccess?: boolean;
+  hasEditAccess?: boolean | undefined;
   /** ID of the User. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface PostUserInfo {
   /** The Post resource. */
-  post?: Post;
+  post?: Post | undefined;
   /** The kind of this entity. Always blogger#postUserInfo. */
-  kind?: string;
+  kind?: string | undefined;
   /** Information about a User for the Post. */
-  post_user_info?: PostPerUserInfo;
+  post_user_info?: PostPerUserInfo | undefined;
 }
 export interface GetUsersRequest {
   userId: string;
 }
 export interface UserLocale {
   /** The language this blog is authored in. */
-  language?: string;
+  language?: string | undefined;
   /** The language variant this blog is authored in. */
-  variant?: string;
+  variant?: string | undefined;
   /** The country this blog's locale is set to. */
-  country?: string;
+  country?: string | undefined;
 }
 export interface UserBlogs {
   /** The URL of the Blogs for this user. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 export interface User {
   /** The API REST URL to fetch this resource from. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The kind of this entity. Always blogger#user. */
-  kind?: string;
+  kind?: string | undefined;
   /** Profile summary information. */
-  about?: string;
+  about?: string | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** This user's locale */
-  locale?: UserLocale;
+  locale?: UserLocale | undefined;
   /** The user's profile page. */
-  url?: string;
+  url?: string | undefined;
   /** The identifier for this User. */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp of when this profile was created, in seconds since epoch. */
-  created?: string;
+  created?: string | undefined;
   /** The container of blogs for this user. */
-  blogs?: UserBlogs;
+  blogs?: UserBlogs | undefined;
 }
 export interface InsertPagesRequest {
-  isDraft?: boolean;
+  isDraft?: boolean | undefined;
   blogId: string;
   /** Request body */
-  body?: Page;
+  body?: Page | undefined;
 }
 export interface InsertPostsRequest {
-  fetchBody?: boolean;
-  fetchImages?: boolean;
-  isDraft?: boolean;
+  fetchBody?: boolean | undefined;
+  fetchImages?: boolean | undefined;
+  isDraft?: boolean | undefined;
   blogId: string;
   /** Request body */
-  body?: Post;
+  body?: Post | undefined;
 }
 export type ListByBlogCommentsStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export type ListByBlogCommentsStatusEnumList = Array<ListByBlogCommentsStatusEnum | (string & {})>;
 export interface ListByBlogCommentsRequest {
-  endDate?: string;
-  maxResults?: number;
-  startDate?: string;
-  pageToken?: string;
+  endDate?: string | undefined;
+  maxResults?: number | undefined;
+  startDate?: string | undefined;
+  pageToken?: string | undefined;
   blogId: string;
-  fetchBodies?: boolean;
-  status?: ListByBlogCommentsStatusEnumList;
+  fetchBodies?: boolean | undefined;
+  status?: ListByBlogCommentsStatusEnumList | undefined;
 }
 export interface CommentList {
   /** The List of Comments for a Post. */
   items: CommentList_;
   /** Pagination token to fetch the previous page, if one exists. */
-  prevPageToken?: string;
+  prevPageToken?: string | undefined;
   /** The kind of this entry. Always blogger#commentList. */
-  kind?: string;
+  kind?: string | undefined;
   /** Etag of the response. */
-  etag?: string;
+  etag?: string | undefined;
   /** Pagination token to fetch the next page, if one exists. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListByUserBlogsRoleEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListByUserBlogsRoleEnumList = Array<ListByUserBlogsRoleEnum | (string & {})>;
@@ -537,58 +537,58 @@ export type ListByUserBlogsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTH
 export type ListByUserBlogsStatusEnum = "LIVE" | "DELETED";
 export type ListByUserBlogsStatusEnumList = Array<ListByUserBlogsStatusEnum | (string & {})>;
 export interface ListByUserBlogsRequest {
-  fetchUserInfo?: boolean;
-  role?: ListByUserBlogsRoleEnumList;
+  fetchUserInfo?: boolean | undefined;
+  role?: ListByUserBlogsRoleEnumList | undefined;
   /** Unspecified is interpreted as the user's role on the blog. */
-  view?: ListByUserBlogsViewEnum | (string & {});
+  view?: ListByUserBlogsViewEnum | (string & {}) | undefined;
   /** Default value of status is LIVE. */
-  status?: ListByUserBlogsStatusEnumList;
+  status?: ListByUserBlogsStatusEnumList | undefined;
   userId: string;
 }
 export type BlogList_ = Array<Blog>;
 export type BlogUserInfoList = Array<BlogUserInfo>;
 export interface BlogList {
   /** The list of Blogs this user has Authorship or Admin rights over. */
-  items?: BlogList_;
+  items?: BlogList_ | undefined;
   /** The kind of this entity. Always blogger#blogList. */
-  kind?: string;
+  kind?: string | undefined;
   /** Admin level list of blog per-user information. */
-  blogUserInfos?: BlogUserInfoList;
+  blogUserInfos?: BlogUserInfoList | undefined;
 }
 export type ListCommentsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListCommentsStatusEnum = "LIVE" | "EMPTIED" | "PENDING" | "SPAM";
 export interface ListCommentsRequest {
   postId: string;
-  view?: ListCommentsViewEnum | (string & {});
-  endDate?: string;
-  maxResults?: number;
-  pageToken?: string;
+  view?: ListCommentsViewEnum | (string & {}) | undefined;
+  endDate?: string | undefined;
+  maxResults?: number | undefined;
+  pageToken?: string | undefined;
   blogId: string;
-  status?: ListCommentsStatusEnum | (string & {});
-  fetchBodies?: boolean;
-  startDate?: string;
+  status?: ListCommentsStatusEnum | (string & {}) | undefined;
+  fetchBodies?: boolean | undefined;
+  startDate?: string | undefined;
 }
 export type ListPagesStatusEnum = "LIVE" | "DRAFT" | "SOFT_TRASHED";
 export type ListPagesStatusEnumList = Array<ListPagesStatusEnum | (string & {})>;
 export type ListPagesViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface ListPagesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   blogId: string;
-  status?: ListPagesStatusEnumList;
-  fetchBodies?: boolean;
-  view?: ListPagesViewEnum | (string & {});
-  maxResults?: number;
+  status?: ListPagesStatusEnumList | undefined;
+  fetchBodies?: boolean | undefined;
+  view?: ListPagesViewEnum | (string & {}) | undefined;
+  maxResults?: number | undefined;
 }
 export type PageList_ = Array<Page>;
 export interface PageList {
   /** Etag of the response. */
-  etag?: string;
+  etag?: string | undefined;
   /** The list of Pages for a Blog. */
   items: PageList_;
   /** The kind of this entity. Always blogger#pageList. */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to fetch the next page, if one exists. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListPostsStatusEnum = "LIVE" | "DRAFT" | "SCHEDULED" | "SOFT_TRASHED";
 export type ListPostsStatusEnumList = Array<ListPostsStatusEnum | (string & {})>;
@@ -596,57 +596,57 @@ export type ListPostsOrderByEnum = "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPDAT
 export type ListPostsSortOptionEnum = "SORT_OPTION_UNSPECIFIED" | "DESCENDING" | "ASCENDING";
 export type ListPostsViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export interface ListPostsRequest {
-  fetchImages?: boolean;
-  status?: ListPostsStatusEnumList;
+  fetchImages?: boolean | undefined;
+  status?: ListPostsStatusEnumList | undefined;
   blogId: string;
-  startDate?: string;
-  maxResults?: number;
-  orderBy?: ListPostsOrderByEnum | (string & {});
-  fetchBodies?: boolean;
-  pageToken?: string;
+  startDate?: string | undefined;
+  maxResults?: number | undefined;
+  orderBy?: ListPostsOrderByEnum | (string & {}) | undefined;
+  fetchBodies?: boolean | undefined;
+  pageToken?: string | undefined;
   /** Sort direction applied to post list. */
-  sortOption?: ListPostsSortOptionEnum | (string & {});
-  view?: ListPostsViewEnum | (string & {});
-  endDate?: string;
-  labels?: string;
+  sortOption?: ListPostsSortOptionEnum | (string & {}) | undefined;
+  view?: ListPostsViewEnum | (string & {}) | undefined;
+  endDate?: string | undefined;
+  labels?: string | undefined;
 }
 export interface PostList {
   /** Pagination token to fetch the previous page, if one exists. */
-  prevPageToken?: string;
+  prevPageToken?: string | undefined;
   /** Etag of the response. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind of this entity. Always blogger#postList. */
-  kind?: string;
+  kind?: string | undefined;
   /** The list of Posts for this Blog. */
   items: PostList_;
   /** Pagination token to fetch the next page, if one exists. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListPostUserInfosViewEnum = "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN";
 export type ListPostUserInfosStatusEnum = "LIVE" | "DRAFT" | "SCHEDULED" | "SOFT_TRASHED";
 export type ListPostUserInfosStatusEnumList = Array<ListPostUserInfosStatusEnum | (string & {})>;
 export type ListPostUserInfosOrderByEnum = "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPDATED";
 export interface ListPostUserInfosRequest {
-  fetchBodies?: boolean;
-  endDate?: string;
-  view?: ListPostUserInfosViewEnum | (string & {});
-  labels?: string;
+  fetchBodies?: boolean | undefined;
+  endDate?: string | undefined;
+  view?: ListPostUserInfosViewEnum | (string & {}) | undefined;
+  labels?: string | undefined;
   userId: string;
-  status?: ListPostUserInfosStatusEnumList;
-  pageToken?: string;
+  status?: ListPostUserInfosStatusEnumList | undefined;
+  pageToken?: string | undefined;
   blogId: string;
-  startDate?: string;
-  orderBy?: ListPostUserInfosOrderByEnum | (string & {});
-  maxResults?: number;
+  startDate?: string | undefined;
+  orderBy?: ListPostUserInfosOrderByEnum | (string & {}) | undefined;
+  maxResults?: number | undefined;
 }
 export type PostUserInfoList = Array<PostUserInfo>;
 export interface PostUserInfosList {
   /** The list of Posts with User information for the post, for this Blog. */
   items: PostUserInfoList;
   /** The kind of this entity. Always blogger#postList. */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to fetch the next page, if one exists. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface MarkAsSpamCommentsRequest {
   commentId: string;
@@ -656,28 +656,28 @@ export interface MarkAsSpamCommentsRequest {
 export interface PatchPagesRequest {
   blogId: string;
   pageId: string;
-  revert?: boolean;
-  publish?: boolean;
+  revert?: boolean | undefined;
+  publish?: boolean | undefined;
   /** Request body */
-  body?: Page;
+  body?: Page | undefined;
 }
 export interface PatchPostsRequest {
   blogId: string;
-  revert?: boolean;
-  publish?: boolean;
-  fetchImages?: boolean;
+  revert?: boolean | undefined;
+  publish?: boolean | undefined;
+  fetchImages?: boolean | undefined;
   postId: string;
-  maxComments?: number;
-  fetchBody?: boolean;
+  maxComments?: number | undefined;
+  fetchBody?: boolean | undefined;
   /** Request body */
-  body?: Post;
+  body?: Post | undefined;
 }
 export interface PublishPagesRequest {
   blogId: string;
   pageId: string;
 }
 export interface PublishPostsRequest {
-  publishDate?: string;
+  publishDate?: string | undefined;
   blogId: string;
   postId: string;
 }
@@ -698,27 +698,27 @@ export type SearchPostsOrderByEnum = "ORDER_BY_UNSPECIFIED" | "PUBLISHED" | "UPD
 export interface SearchPostsRequest {
   q: string;
   blogId: string;
-  orderBy?: SearchPostsOrderByEnum | (string & {});
-  fetchBodies?: boolean;
+  orderBy?: SearchPostsOrderByEnum | (string & {}) | undefined;
+  fetchBodies?: boolean | undefined;
 }
 export interface UpdatePagesRequest {
   pageId: string;
-  revert?: boolean;
-  publish?: boolean;
+  revert?: boolean | undefined;
+  publish?: boolean | undefined;
   blogId: string;
   /** Request body */
-  body?: Page;
+  body?: Page | undefined;
 }
 export interface UpdatePostsRequest {
-  fetchImages?: boolean;
-  fetchBody?: boolean;
+  fetchImages?: boolean | undefined;
+  fetchBody?: boolean | undefined;
   postId: string;
   blogId: string;
-  publish?: boolean;
-  revert?: boolean;
-  maxComments?: number;
+  publish?: boolean | undefined;
+  revert?: boolean | undefined;
+  maxComments?: number | undefined;
   /** Request body */
-  body?: Post;
+  body?: Post | undefined;
 }
 export type ApproveCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Marks a comment as not spam by blog id, post id and comment id. */

@@ -38,8 +38,8 @@ export class NotFound
 export interface AddGroupDmUserRequest {
   channel_id: string;
   user_id: string;
-  access_token?: string | Redacted.Redacted<string> | null;
-  nick?: string | null;
+  access_token?: string | Redacted.Redacted<string> | null | undefined;
+  nick?: string | null | undefined;
 }
 export type ChannelTypes = 1 | 3 | 0 | 2 | 4 | 5 | 10 | 11 | 12 | 13 | 14 | 15;
 export interface UserAvatarDecorationResponse {
@@ -99,19 +99,19 @@ export interface UserResponse {
   /** the flags on a user's account */
   flags: number;
   /** whether the user belongs to an OAuth2 application */
-  bot?: boolean;
+  bot?: boolean | undefined;
   /** whether the user is an Official Discord System user (part of the urgent message system) */
-  system?: boolean;
+  system?: boolean | undefined;
   /** the user's banner hash */
-  banner?: string | null;
+  banner?: string | null | undefined;
   /** the user's banner color encoded as an integer representation of hexadecimal color code */
-  accent_color?: number | null;
+  accent_color?: number | null | undefined;
   /** the user's display name, if it is set */
   global_name: string | null;
   /** data for the user's avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** data for the user's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
   /** the user's primary guild */
   primary_guild: UserPrimaryGuildResponse | null;
 }
@@ -119,24 +119,24 @@ export type PrivateChannelResponseRecipientsList = Array<UserResponse>;
 export interface PrivateChannelResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   recipients: PrivateChannelResponseRecipientsList;
 }
 export type PrivateGroupChannelResponseRecipientsList = Array<UserResponse>;
 export interface PrivateGroupChannelResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   recipients: PrivateGroupChannelResponseRecipientsList;
   name: string | null;
   icon: string | null;
   owner_id: string;
-  managed?: boolean;
-  application_id?: string;
+  managed?: boolean | undefined;
+  application_id?: string | undefined;
 }
 export type AddGroupDmUserResponseBody = PrivateChannelResponse | PrivateGroupChannelResponse;
 export type AddGroupDmUserResponse = AddGroupDmUserResponseBody;
@@ -144,12 +144,12 @@ export type AddGuildMemberRequestRolesList = Array<string>;
 export interface AddGuildMemberRequest {
   guild_id: string;
   user_id: string;
-  nick?: string | null;
-  roles?: AddGuildMemberRequestRolesList | null;
-  mute?: boolean | null;
-  deaf?: boolean | null;
+  nick?: string | null | undefined;
+  roles?: AddGuildMemberRequestRolesList | null | undefined;
+  mute?: boolean | null | undefined;
+  deaf?: boolean | null | undefined;
   access_token: string | Redacted.Redacted<string>;
-  flags?: number | null;
+  flags?: number | null | undefined;
 }
 /** array of role object ids */
 export type GuildMemberResponseRolesList = Array<string>;
@@ -157,7 +157,7 @@ export interface GuildMemberResponse {
   /** the member's guild avatar hash */
   avatar: string | null;
   /** data for the member's guild avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** the member's guild banner hash */
   banner: string | null;
   /** when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out */
@@ -175,7 +175,7 @@ export interface GuildMemberResponse {
   /** array of role object ids */
   roles: GuildMemberResponseRolesList;
   /** data for the member's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
   /** the user this guild member represents */
   user: UserResponse;
   /** whether the user is muted in voice channels */
@@ -200,16 +200,16 @@ export type AddLobbyMemberRequestFlags = 1;
 export interface AddLobbyMemberRequest {
   lobby_id: string;
   user_id: string;
-  metadata?: AddLobbyMemberRequestMetadataMap | null;
-  flags?: AddLobbyMemberRequestFlags | (number & {}) | null;
-  additional_name?: string | null;
+  metadata?: AddLobbyMemberRequestMetadataMap | null | undefined;
+  flags?: AddLobbyMemberRequestFlags | (number & {}) | null | undefined;
+  additional_name?: string | null | undefined;
 }
 export type LobbyMemberResponseMetadataMap = { [key: string]: string | undefined };
 export interface LobbyMemberResponse {
   id: string;
   metadata: LobbyMemberResponseMetadataMap | null;
   flags: number;
-  additional_name?: string;
+  additional_name?: string | undefined;
 }
 export interface AddMyMessageReactionRequest {
   channel_id: string;
@@ -225,14 +225,14 @@ export interface AddThreadMemberResponse {}
 export interface BanUserFromGuildRequest {
   guild_id: string;
   user_id: string;
-  delete_message_seconds?: number | null;
-  delete_message_days?: number | null;
+  delete_message_seconds?: number | null | undefined;
+  delete_message_days?: number | null | undefined;
 }
 export interface BanUserFromGuildResponse {}
 export interface BotPartnerSdkTokenRequest {
-  provisional_user_id?: string | null;
+  provisional_user_id?: string | null | undefined;
   external_user_id: string;
-  preferred_global_name?: string | null;
+  preferred_global_name?: string | null | undefined;
 }
 export type ProvisionalTokenResponseScopesList = Array<string>;
 export interface ProvisionalTokenResponse {
@@ -241,9 +241,9 @@ export interface ProvisionalTokenResponse {
   expires_in: number;
   scope: string;
   id_token: string;
-  refresh_token?: string | Redacted.Redacted<string> | null;
-  scopes?: ProvisionalTokenResponseScopesList | null;
-  expires_at_s?: number | null;
+  refresh_token?: string | Redacted.Redacted<string> | null | undefined;
+  scopes?: ProvisionalTokenResponseScopesList | null | undefined;
+  expires_at_s?: number | null | undefined;
 }
 export interface BotPartnerSdkUnmergeProvisionalAccountRequest {
   external_user_id: string;
@@ -261,7 +261,7 @@ export type BulkBanUsersFromGuildRequestUserIdsList = Array<string>;
 export interface BulkBanUsersFromGuildRequest {
   guild_id: string;
   user_ids: BulkBanUsersFromGuildRequestUserIdsList;
-  delete_message_seconds?: number | null;
+  delete_message_seconds?: number | null | undefined;
 }
 export type BulkBanUsersResponseBannedUsersList = Array<string>;
 export type BulkBanUsersResponseFailedUsersList = Array<string>;
@@ -300,11 +300,14 @@ export type ApplicationCommandAttachmentOptionFileTypesList = Array<string>;
 export interface ApplicationCommandAttachmentOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandAttachmentOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandAttachmentOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandAttachmentOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  file_types?: ApplicationCommandAttachmentOptionFileTypesList | null;
+  description_localizations?:
+    | ApplicationCommandAttachmentOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  file_types?: ApplicationCommandAttachmentOptionFileTypesList | null | undefined;
 }
 export type ApplicationCommandBooleanOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -315,10 +318,13 @@ export type ApplicationCommandBooleanOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandBooleanOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandBooleanOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandBooleanOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandBooleanOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandBooleanOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandChannelOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -330,11 +336,14 @@ export type ApplicationCommandChannelOptionChannelTypesList = Array<ChannelTypes
 export interface ApplicationCommandChannelOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandChannelOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandChannelOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandChannelOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  channel_types?: ApplicationCommandChannelOptionChannelTypesList | null;
+  description_localizations?:
+    | ApplicationCommandChannelOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  channel_types?: ApplicationCommandChannelOptionChannelTypesList | null | undefined;
 }
 export type ApplicationCommandIntegerOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -347,7 +356,7 @@ export type ApplicationCommandOptionIntegerChoiceNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionIntegerChoice {
   name: string;
-  name_localizations?: ApplicationCommandOptionIntegerChoiceNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandOptionIntegerChoiceNameLocalizationsMap | null | undefined;
   value: number;
 }
 export type ApplicationCommandIntegerOptionChoicesList =
@@ -355,14 +364,17 @@ export type ApplicationCommandIntegerOptionChoicesList =
 export interface ApplicationCommandIntegerOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandIntegerOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandIntegerOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandIntegerOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  autocomplete?: boolean | null;
-  choices?: ApplicationCommandIntegerOptionChoicesList | null;
-  min_value?: number | null;
-  max_value?: number | null;
+  description_localizations?:
+    | ApplicationCommandIntegerOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  autocomplete?: boolean | null | undefined;
+  choices?: ApplicationCommandIntegerOptionChoicesList | null | undefined;
+  min_value?: number | null | undefined;
+  max_value?: number | null | undefined;
 }
 export type ApplicationCommandMentionableOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -373,10 +385,13 @@ export type ApplicationCommandMentionableOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandMentionableOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandMentionableOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandMentionableOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandMentionableOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandMentionableOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandNumberOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -389,21 +404,24 @@ export type ApplicationCommandOptionNumberChoiceNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionNumberChoice {
   name: string;
-  name_localizations?: ApplicationCommandOptionNumberChoiceNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandOptionNumberChoiceNameLocalizationsMap | null | undefined;
   value: number;
 }
 export type ApplicationCommandNumberOptionChoicesList = Array<ApplicationCommandOptionNumberChoice>;
 export interface ApplicationCommandNumberOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandNumberOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandNumberOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandNumberOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  autocomplete?: boolean | null;
-  choices?: ApplicationCommandNumberOptionChoicesList | null;
-  min_value?: number | null;
-  max_value?: number | null;
+  description_localizations?:
+    | ApplicationCommandNumberOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  autocomplete?: boolean | null | undefined;
+  choices?: ApplicationCommandNumberOptionChoicesList | null | undefined;
+  min_value?: number | null | undefined;
+  max_value?: number | null | undefined;
 }
 export type ApplicationCommandRoleOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -414,10 +432,13 @@ export type ApplicationCommandRoleOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandRoleOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandRoleOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandRoleOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandRoleOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandRoleOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandStringOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -430,21 +451,24 @@ export type ApplicationCommandOptionStringChoiceNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionStringChoice {
   name: string;
-  name_localizations?: ApplicationCommandOptionStringChoiceNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandOptionStringChoiceNameLocalizationsMap | null | undefined;
   value: string;
 }
 export type ApplicationCommandStringOptionChoicesList = Array<ApplicationCommandOptionStringChoice>;
 export interface ApplicationCommandStringOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandStringOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandStringOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandStringOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  autocomplete?: boolean | null;
-  min_length?: number | null;
-  max_length?: number | null;
-  choices?: ApplicationCommandStringOptionChoicesList | null;
+  description_localizations?:
+    | ApplicationCommandStringOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  autocomplete?: boolean | null | undefined;
+  min_length?: number | null | undefined;
+  max_length?: number | null | undefined;
+  choices?: ApplicationCommandStringOptionChoicesList | null | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -467,10 +491,13 @@ export type ApplicationCommandUserOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandUserOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandUserOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandUserOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandUserOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandUserOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandSubcommandOptionOptionsItem =
   | ApplicationCommandAttachmentOption
@@ -487,22 +514,31 @@ export type ApplicationCommandSubcommandOptionOptionsList =
 export interface ApplicationCommandSubcommandOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandSubcommandOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandSubcommandOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandSubcommandOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  options?: ApplicationCommandSubcommandOptionOptionsList | null;
+  description_localizations?:
+    | ApplicationCommandSubcommandOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  options?: ApplicationCommandSubcommandOptionOptionsList | null | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionOptionsList =
   Array<ApplicationCommandSubcommandOption>;
 export interface ApplicationCommandSubcommandGroupOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandSubcommandGroupOptionNameLocalizationsMap | null;
+  name_localizations?:
+    | ApplicationCommandSubcommandGroupOptionNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localizations?: ApplicationCommandSubcommandGroupOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  options?: ApplicationCommandSubcommandGroupOptionOptionsList | null;
+  description_localizations?:
+    | ApplicationCommandSubcommandGroupOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  options?: ApplicationCommandSubcommandGroupOptionOptionsList | null | undefined;
 }
 export type ApplicationCommandUpdateRequestOptionsItem =
   | ApplicationCommandAttachmentOption
@@ -530,18 +566,21 @@ export type ApplicationCommandHandler = 1 | 2;
 export type ApplicationCommandType = 1 | 2 | 3 | 4;
 export interface ApplicationCommandUpdateRequest {
   name: string;
-  name_localizations?: ApplicationCommandUpdateRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: ApplicationCommandUpdateRequestDescriptionLocalizationsMap | null;
-  options?: ApplicationCommandUpdateRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: ApplicationCommandUpdateRequestContextsList | null;
-  integration_types?: ApplicationCommandUpdateRequestIntegrationTypesList | null;
+  name_localizations?: ApplicationCommandUpdateRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | ApplicationCommandUpdateRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: ApplicationCommandUpdateRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: ApplicationCommandUpdateRequestContextsList | null | undefined;
+  integration_types?: ApplicationCommandUpdateRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
-  type?: ApplicationCommandType | (number & {}) | null;
-  id?: string | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
+  type?: ApplicationCommandType | (number & {}) | null | undefined;
+  id?: string | null | undefined;
 }
 export type BulkSetApplicationCommandsRequestBodyList = Array<ApplicationCommandUpdateRequest>;
 export interface BulkSetApplicationCommandsRequest {
@@ -564,13 +603,19 @@ export type ApplicationCommandAttachmentOptionResponseFileTypesList = Array<stri
 export interface ApplicationCommandAttachmentOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandAttachmentOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandAttachmentOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandAttachmentOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  file_types?: ApplicationCommandAttachmentOptionResponseFileTypesList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandAttachmentOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  file_types?: ApplicationCommandAttachmentOptionResponseFileTypesList | undefined;
 }
 export type ApplicationCommandBooleanOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -581,12 +626,18 @@ export type ApplicationCommandBooleanOptionResponseDescriptionLocalizationsMap =
 export interface ApplicationCommandBooleanOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandBooleanOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandBooleanOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandBooleanOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandBooleanOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandChannelOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -598,13 +649,19 @@ export type ApplicationCommandChannelOptionResponseChannelTypesList = Array<Chan
 export interface ApplicationCommandChannelOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandChannelOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandChannelOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandChannelOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  channel_types?: ApplicationCommandChannelOptionResponseChannelTypesList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandChannelOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  channel_types?: ApplicationCommandChannelOptionResponseChannelTypesList | undefined;
 }
 export type ApplicationCommandIntegerOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -617,8 +674,11 @@ export type ApplicationCommandOptionIntegerChoiceResponseNameLocalizationsMap = 
 };
 export interface ApplicationCommandOptionIntegerChoiceResponse {
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandOptionIntegerChoiceResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandOptionIntegerChoiceResponseNameLocalizationsMap
+    | null
+    | undefined;
   value: number;
 }
 export type ApplicationCommandIntegerOptionResponseChoicesList =
@@ -626,16 +686,22 @@ export type ApplicationCommandIntegerOptionResponseChoicesList =
 export interface ApplicationCommandIntegerOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandIntegerOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandIntegerOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandIntegerOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  autocomplete?: boolean;
-  choices?: ApplicationCommandIntegerOptionResponseChoicesList;
-  min_value?: number;
-  max_value?: number;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandIntegerOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  autocomplete?: boolean | undefined;
+  choices?: ApplicationCommandIntegerOptionResponseChoicesList | undefined;
+  min_value?: number | undefined;
+  max_value?: number | undefined;
 }
 export type ApplicationCommandMentionableOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -646,12 +712,18 @@ export type ApplicationCommandMentionableOptionResponseDescriptionLocalizationsM
 export interface ApplicationCommandMentionableOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandMentionableOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandMentionableOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandMentionableOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandMentionableOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandNumberOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -664,8 +736,11 @@ export type ApplicationCommandOptionNumberChoiceResponseNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionNumberChoiceResponse {
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandOptionNumberChoiceResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandOptionNumberChoiceResponseNameLocalizationsMap
+    | null
+    | undefined;
   value: number;
 }
 export type ApplicationCommandNumberOptionResponseChoicesList =
@@ -673,16 +748,22 @@ export type ApplicationCommandNumberOptionResponseChoicesList =
 export interface ApplicationCommandNumberOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandNumberOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandNumberOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandNumberOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  autocomplete?: boolean;
-  choices?: ApplicationCommandNumberOptionResponseChoicesList;
-  min_value?: number;
-  max_value?: number;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandNumberOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  autocomplete?: boolean | undefined;
+  choices?: ApplicationCommandNumberOptionResponseChoicesList | undefined;
+  min_value?: number | undefined;
+  max_value?: number | undefined;
 }
 export type ApplicationCommandRoleOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -693,12 +774,15 @@ export type ApplicationCommandRoleOptionResponseDescriptionLocalizationsMap = {
 export interface ApplicationCommandRoleOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandRoleOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?: ApplicationCommandRoleOptionResponseNameLocalizationsMap | null | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandRoleOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandRoleOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandStringOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -711,8 +795,11 @@ export type ApplicationCommandOptionStringChoiceResponseNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionStringChoiceResponse {
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandOptionStringChoiceResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandOptionStringChoiceResponseNameLocalizationsMap
+    | null
+    | undefined;
   value: string;
 }
 export type ApplicationCommandStringOptionResponseChoicesList =
@@ -720,16 +807,22 @@ export type ApplicationCommandStringOptionResponseChoicesList =
 export interface ApplicationCommandStringOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandStringOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandStringOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandStringOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  autocomplete?: boolean;
-  choices?: ApplicationCommandStringOptionResponseChoicesList;
-  min_length?: number;
-  max_length?: number;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandStringOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  autocomplete?: boolean | undefined;
+  choices?: ApplicationCommandStringOptionResponseChoicesList | undefined;
+  min_length?: number | undefined;
+  max_length?: number | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -752,12 +845,15 @@ export type ApplicationCommandUserOptionResponseDescriptionLocalizationsMap = {
 export interface ApplicationCommandUserOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandUserOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?: ApplicationCommandUserOptionResponseNameLocalizationsMap | null | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandUserOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandUserOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandSubcommandOptionResponseOptionsItem =
   | ApplicationCommandAttachmentOptionResponse
@@ -774,26 +870,38 @@ export type ApplicationCommandSubcommandOptionResponseOptionsList =
 export interface ApplicationCommandSubcommandOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandSubcommandOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandSubcommandOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandSubcommandOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  options?: ApplicationCommandSubcommandOptionResponseOptionsList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandSubcommandOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  options?: ApplicationCommandSubcommandOptionResponseOptionsList | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionResponseOptionsList =
   Array<ApplicationCommandSubcommandOptionResponse>;
 export interface ApplicationCommandSubcommandGroupOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandSubcommandGroupOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandSubcommandGroupOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandSubcommandGroupOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  options?: ApplicationCommandSubcommandGroupOptionResponseOptionsList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandSubcommandGroupOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  options?: ApplicationCommandSubcommandGroupOptionResponseOptionsList | undefined;
 }
 export type ApplicationCommandResponseOptionsItem =
   | ApplicationCommandAttachmentOptionResponse
@@ -815,19 +923,22 @@ export interface ApplicationCommandResponse {
   default_member_permissions: string | null;
   type: ApplicationCommandType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?: ApplicationCommandResponseNameLocalizationsMap | null | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandResponseDescriptionLocalizationsMap | null;
-  guild_id?: string;
-  dm_permission?: boolean;
-  contexts?: ApplicationCommandResponseContextsList | null;
-  integration_types?: ApplicationCommandResponseIntegrationTypesList;
-  options?: ApplicationCommandResponseOptionsList;
-  nsfw?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  guild_id?: string | undefined;
+  dm_permission?: boolean | undefined;
+  contexts?: ApplicationCommandResponseContextsList | null | undefined;
+  integration_types?: ApplicationCommandResponseIntegrationTypesList | undefined;
+  options?: ApplicationCommandResponseOptionsList | undefined;
+  nsfw?: boolean | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler;
+  handler?: ApplicationCommandHandler | undefined;
 }
 export type BulkSetApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
 export type BulkSetApplicationCommandsResponse = BulkSetApplicationCommandsResponseBodyList;
@@ -841,10 +952,10 @@ export type BulkSetGuildApplicationCommandsResponseBodyList = Array<ApplicationC
 export type BulkSetGuildApplicationCommandsResponse =
   BulkSetGuildApplicationCommandsResponseBodyList;
 export interface BulkUpdateGuildChannelsRequestBodyItem {
-  id?: string | null;
-  position?: number | null;
-  parent_id?: string | null;
-  lock_permissions?: boolean | null;
+  id?: string | null | undefined;
+  position?: number | null | undefined;
+  parent_id?: string | null | undefined;
+  lock_permissions?: boolean | null | undefined;
 }
 export type BulkUpdateGuildChannelsRequestBodyList = Array<BulkUpdateGuildChannelsRequestBodyItem>;
 export interface BulkUpdateGuildChannelsRequest {
@@ -853,8 +964,8 @@ export interface BulkUpdateGuildChannelsRequest {
 }
 export interface BulkUpdateGuildChannelsResponse {}
 export interface UpdateRolePositionsRequest {
-  id?: string | null;
-  position?: number | null;
+  id?: string | null | undefined;
+  position?: number | null | undefined;
 }
 export type BulkUpdateGuildRolesRequestBodyList = Array<UpdateRolePositionsRequest>;
 export interface BulkUpdateGuildRolesRequest {
@@ -867,12 +978,12 @@ export interface GuildRoleColorsResponse {
   tertiary_color: number | null;
 }
 export interface GuildRoleTagsResponse {
-  premium_subscriber?: unknown | null;
-  bot_id?: string;
-  integration_id?: string;
-  subscription_listing_id?: string;
-  available_for_purchase?: unknown | null;
-  guild_connections?: unknown | null;
+  premium_subscriber?: unknown | null | undefined;
+  bot_id?: string | undefined;
+  integration_id?: string | undefined;
+  subscription_listing_id?: string | undefined;
+  available_for_purchase?: unknown | null | undefined;
+  guild_connections?: unknown | null | undefined;
 }
 export interface GuildRoleResponse {
   id: string;
@@ -886,7 +997,7 @@ export interface GuildRoleResponse {
   mentionable: boolean;
   icon: string | null;
   unicode_emoji: string | null;
-  tags?: GuildRoleTagsResponse;
+  tags?: GuildRoleTagsResponse | undefined;
   flags: number;
 }
 export type BulkUpdateGuildRolesResponseBodyList = Array<GuildRoleResponse>;
@@ -895,10 +1006,10 @@ export type BulkLobbyMemberRequestMetadataMap = { [key: string]: string | undefi
 export type BulkLobbyMemberRequestFlags = 1;
 export interface BulkLobbyMemberRequest {
   id: string;
-  metadata?: BulkLobbyMemberRequestMetadataMap | null;
-  flags?: BulkLobbyMemberRequestFlags | (number & {}) | null;
-  additional_name?: string | null;
-  remove_member?: boolean | null;
+  metadata?: BulkLobbyMemberRequestMetadataMap | null | undefined;
+  flags?: BulkLobbyMemberRequestFlags | (number & {}) | null | undefined;
+  additional_name?: string | null | undefined;
+  remove_member?: boolean | null | undefined;
 }
 export type BulkUpdateLobbyMembersRequestBodyList = Array<BulkLobbyMemberRequest>;
 export interface BulkUpdateLobbyMembersRequest {
@@ -919,7 +1030,9 @@ export interface CountGuildScheduledEventUsersRequest {
   /** The ID of the scheduled event */
   guild_scheduled_event_id: string;
   /** List of scheduled event exception ids to get user counts for */
-  guild_scheduled_event_exception_ids?: CountGuildScheduledEventUsersRequestGuildScheduledEventExceptionIdsList;
+  guild_scheduled_event_exception_ids?:
+    | CountGuildScheduledEventUsersRequestGuildScheduledEventExceptionIdsList
+    | undefined;
 }
 /** Map of exception IDs to user counts for each exception */
 export type ScheduledEventUserCountResponseGuildScheduledEventExceptionCountsMap = {
@@ -960,17 +1073,20 @@ export type CreateApplicationCommandRequestIntegrationTypesList = Array<
 export interface CreateApplicationCommandRequest {
   application_id: string;
   name: string;
-  name_localizations?: CreateApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: CreateApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: CreateApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: CreateApplicationCommandRequestContextsList | null;
-  integration_types?: CreateApplicationCommandRequestIntegrationTypesList | null;
+  name_localizations?: CreateApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | CreateApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: CreateApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: CreateApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: CreateApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
-  type?: ApplicationCommandType | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
+  type?: ApplicationCommandType | (number & {}) | null | undefined;
 }
 export interface CreateApplicationEmojiRequest {
   application_id: string;
@@ -981,7 +1097,7 @@ export type EmojiResponseRolesList = Array<string>;
 export interface EmojiResponse {
   id: string;
   name: string;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   roles: EmojiResponseRolesList;
   require_colons: boolean;
   managed: boolean;
@@ -991,11 +1107,11 @@ export interface EmojiResponse {
 export type AutomodEventType = 1 | 2;
 export type AutomodActionType = 1 | 2 | 3 | 4;
 export interface BlockMessageActionMetadata {
-  custom_message?: string | null;
+  custom_message?: string | null | undefined;
 }
 export interface BlockMessageAction {
   type: AutomodActionType | (number & {});
-  metadata?: BlockMessageActionMetadata | null;
+  metadata?: BlockMessageActionMetadata | null | undefined;
 }
 export interface FlagToChannelActionMetadata {
   channel_id: string;
@@ -1006,10 +1122,10 @@ export interface FlagToChannelAction {
 }
 export interface QuarantineUserAction {
   type: AutomodActionType | (number & {});
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
 }
 export interface UserCommunicationDisabledActionMetadata {
-  duration_seconds?: number | null;
+  duration_seconds?: number | null | undefined;
 }
 export interface UserCommunicationDisabledAction {
   type: AutomodActionType | (number & {});
@@ -1031,16 +1147,16 @@ export type DefaultKeywordListTriggerMetadataPresetsList = Array<
   AutomodKeywordPresetType | (number & {})
 >;
 export interface DefaultKeywordListTriggerMetadata {
-  allow_list?: DefaultKeywordListTriggerMetadataAllowListList | null;
-  presets?: DefaultKeywordListTriggerMetadataPresetsList | null;
+  allow_list?: DefaultKeywordListTriggerMetadataAllowListList | null | undefined;
+  presets?: DefaultKeywordListTriggerMetadataPresetsList | null | undefined;
 }
 export interface DefaultKeywordListUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: DefaultKeywordListUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: DefaultKeywordListUpsertRequestExemptRolesList | null;
-  exempt_channels?: DefaultKeywordListUpsertRequestExemptChannelsList | null;
+  actions?: DefaultKeywordListUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: DefaultKeywordListUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: DefaultKeywordListUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
   trigger_metadata: DefaultKeywordListTriggerMetadata;
 }
@@ -1056,19 +1172,19 @@ export type KeywordTriggerMetadataKeywordFilterList = Array<string>;
 export type KeywordTriggerMetadataRegexPatternsList = Array<string>;
 export type KeywordTriggerMetadataAllowListList = Array<string>;
 export interface KeywordTriggerMetadata {
-  keyword_filter?: KeywordTriggerMetadataKeywordFilterList | null;
-  regex_patterns?: KeywordTriggerMetadataRegexPatternsList | null;
-  allow_list?: KeywordTriggerMetadataAllowListList | null;
+  keyword_filter?: KeywordTriggerMetadataKeywordFilterList | null | undefined;
+  regex_patterns?: KeywordTriggerMetadataRegexPatternsList | null | undefined;
+  allow_list?: KeywordTriggerMetadataAllowListList | null | undefined;
 }
 export interface KeywordUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: KeywordUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: KeywordUpsertRequestExemptRolesList | null;
-  exempt_channels?: KeywordUpsertRequestExemptChannelsList | null;
+  actions?: KeywordUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: KeywordUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: KeywordUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
-  trigger_metadata?: KeywordTriggerMetadata | null;
+  trigger_metadata?: KeywordTriggerMetadata | null | undefined;
 }
 export type MLSpamUpsertRequestActionsItem =
   | BlockMessageAction
@@ -1081,12 +1197,12 @@ export type MLSpamUpsertRequestExemptChannelsList = Array<string>;
 export interface MLSpamUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: MLSpamUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MLSpamUpsertRequestExemptRolesList | null;
-  exempt_channels?: MLSpamUpsertRequestExemptChannelsList | null;
+  actions?: MLSpamUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MLSpamUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: MLSpamUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
-  trigger_metadata?: unknown | null;
+  trigger_metadata?: unknown | null | undefined;
 }
 export type MentionSpamUpsertRequestActionsItem =
   | BlockMessageAction
@@ -1097,18 +1213,18 @@ export type MentionSpamUpsertRequestActionsList = Array<MentionSpamUpsertRequest
 export type MentionSpamUpsertRequestExemptRolesList = Array<string>;
 export type MentionSpamUpsertRequestExemptChannelsList = Array<string>;
 export interface MentionSpamTriggerMetadata {
-  mention_total_limit?: number | null;
-  mention_raid_protection_enabled?: boolean | null;
+  mention_total_limit?: number | null | undefined;
+  mention_raid_protection_enabled?: boolean | null | undefined;
 }
 export interface MentionSpamUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: MentionSpamUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MentionSpamUpsertRequestExemptRolesList | null;
-  exempt_channels?: MentionSpamUpsertRequestExemptChannelsList | null;
+  actions?: MentionSpamUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MentionSpamUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: MentionSpamUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
-  trigger_metadata?: MentionSpamTriggerMetadata | null;
+  trigger_metadata?: MentionSpamTriggerMetadata | null | undefined;
 }
 export type UserProfileUpsertRequestActionsItem =
   | BlockMessageAction
@@ -1122,17 +1238,17 @@ export type UserProfileMetadataKeywordFilterList = Array<string>;
 export type UserProfileMetadataRegexPatternsList = Array<string>;
 export type UserProfileMetadataAllowListList = Array<string>;
 export interface UserProfileMetadata {
-  keyword_filter?: UserProfileMetadataKeywordFilterList | null;
-  regex_patterns?: UserProfileMetadataRegexPatternsList | null;
-  allow_list?: UserProfileMetadataAllowListList | null;
+  keyword_filter?: UserProfileMetadataKeywordFilterList | null | undefined;
+  regex_patterns?: UserProfileMetadataRegexPatternsList | null | undefined;
+  allow_list?: UserProfileMetadataAllowListList | null | undefined;
 }
 export interface UserProfileUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: UserProfileUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: UserProfileUpsertRequestExemptRolesList | null;
-  exempt_channels?: UserProfileUpsertRequestExemptChannelsList | null;
+  actions?: UserProfileUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: UserProfileUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: UserProfileUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
   trigger_metadata: UserProfileMetadata;
 }
@@ -1147,7 +1263,7 @@ export interface CreateAutoModerationRuleRequest {
   body: CreateAutoModerationRuleRequestBody;
 }
 export interface BlockMessageActionMetadataResponse {
-  custom_message?: string;
+  custom_message?: string | undefined;
 }
 export interface BlockMessageActionResponse {
   type: AutomodActionType;
@@ -1308,7 +1424,7 @@ export type CreateAutoModerationRuleResponseBody =
   | UserProfileRuleResponse;
 export type CreateAutoModerationRuleResponse = CreateAutoModerationRuleResponseBody;
 export interface CreateGroupDMInviteRequest {
-  max_age?: number | null;
+  max_age?: number | null | undefined;
 }
 export type InviteTargetTypes = 1 | 2 | 3;
 export type CreateGuildInviteRequestRoleIdsCase1List = Array<string>;
@@ -1319,16 +1435,16 @@ export type CreateGuildInviteRequestTargetUserIds =
   | string
   | CreateGuildInviteRequestTargetUserIdsCase1List;
 export interface CreateGuildInviteRequest {
-  max_age?: number | null;
-  temporary?: boolean | null;
-  max_uses?: number | null;
-  unique?: boolean | null;
-  target_user_id?: string | null;
-  target_application_id?: string | null;
-  target_type?: InviteTargetTypes | (number & {}) | null;
-  role_ids?: CreateGuildInviteRequestRoleIds | null;
+  max_age?: number | null | undefined;
+  temporary?: boolean | null | undefined;
+  max_uses?: number | null | undefined;
+  unique?: boolean | null | undefined;
+  target_user_id?: string | null | undefined;
+  target_application_id?: string | null | undefined;
+  target_type?: InviteTargetTypes | (number & {}) | null | undefined;
+  role_ids?: CreateGuildInviteRequestRoleIds | null | undefined;
   /** The IDs of the users to target with this invite. */
-  target_user_ids?: CreateGuildInviteRequestTargetUserIds | null;
+  target_user_ids?: CreateGuildInviteRequestTargetUserIds | null | undefined;
 }
 export type CreateChannelInviteRequestBody = CreateGroupDMInviteRequest | CreateGuildInviteRequest;
 export interface CreateChannelInviteRequest {
@@ -1346,33 +1462,33 @@ export interface InviteChannelResponse {
   id: string;
   type: ChannelTypes;
   name: string | null;
-  icon?: string;
-  nsfw?: boolean;
-  recipients?: InviteChannelResponseRecipientsList;
+  icon?: string | undefined;
+  nsfw?: boolean | undefined;
+  recipients?: InviteChannelResponseRecipientsList | undefined;
 }
 export interface FriendInviteResponse {
   type: InviteTypes;
   code: string;
-  inviter?: UserResponse;
-  max_age?: number;
-  created_at?: string;
+  inviter?: UserResponse | undefined;
+  max_age?: number | undefined;
+  created_at?: string | undefined;
   expires_at: string | null;
-  friends_count?: number;
+  friends_count?: number | undefined;
   channel: InviteChannelResponse | null;
-  is_contact?: boolean;
-  uses?: number;
-  max_uses?: number;
-  flags?: number;
+  is_contact?: boolean | undefined;
+  uses?: number | undefined;
+  max_uses?: number | undefined;
+  flags?: number | undefined;
 }
 export interface GroupDMInviteResponse {
   type: InviteTypes;
   code: string;
-  inviter?: UserResponse;
-  max_age?: number;
-  created_at?: string;
+  inviter?: UserResponse | undefined;
+  max_age?: number | undefined;
+  created_at?: string | undefined;
   expires_at: string | null;
   channel: InviteChannelResponse;
-  approximate_member_count?: number | null;
+  approximate_member_count?: number | null | undefined;
 }
 export type GuildFeatures =
   | "ANIMATED_BANNER"
@@ -1464,7 +1580,7 @@ export interface ApplicationOAuth2InstallParamsResponse {
   permissions: string;
 }
 export interface ApplicationIntegrationTypeConfigurationResponse {
-  oauth2_install_params?: ApplicationOAuth2InstallParamsResponse;
+  oauth2_install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
 }
 export type InviteApplicationResponseIntegrationTypesConfigMap = {
   [key: string]: ApplicationIntegrationTypeConfigurationResponse | undefined;
@@ -1476,26 +1592,26 @@ export interface InviteApplicationResponse {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
-  slug?: string;
-  conjure_project_id?: string;
-  vibegrations_project_id?: string;
-  guild_id?: string;
-  rpc_origins?: InviteApplicationResponseRpcOriginsList;
-  bot_public?: boolean;
-  bot_require_code_grant?: boolean;
-  terms_of_service_url?: string;
-  privacy_policy_url?: string;
-  custom_install_url?: string;
-  install_params?: ApplicationOAuth2InstallParamsResponse;
-  integration_types_config?: InviteApplicationResponseIntegrationTypesConfigMap;
+  bot?: UserResponse | undefined;
+  slug?: string | undefined;
+  conjure_project_id?: string | undefined;
+  vibegrations_project_id?: string | undefined;
+  guild_id?: string | undefined;
+  rpc_origins?: InviteApplicationResponseRpcOriginsList | undefined;
+  bot_public?: boolean | undefined;
+  bot_require_code_grant?: boolean | undefined;
+  terms_of_service_url?: string | undefined;
+  privacy_policy_url?: string | undefined;
+  custom_install_url?: string | undefined;
+  install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
+  integration_types_config?: InviteApplicationResponseIntegrationTypesConfigMap | undefined;
   verify_key: string;
-  max_participants?: number | null;
-  tags?: InviteApplicationResponseTagsList;
+  max_participants?: number | null | undefined;
+  tags?: InviteApplicationResponseTagsList | undefined;
 }
 export type GuildScheduledEventStatuses = 1 | 2 | 3 | 4;
 export type GuildScheduledEventEntityTypes = 0 | 1 | 2 | 3;
@@ -1522,7 +1638,7 @@ export interface RecurrenceRuleResponse {
   /** Starting time of the recurrence interval */
   start: string;
   /** Ending time of the recurrence interval */
-  end?: string | null;
+  end?: string | null | undefined;
   /** How often the event occurs */
   frequency: RecurrenceRuleFrequencies;
   /** The spacing between events, defined by frequency */
@@ -1536,9 +1652,9 @@ export interface RecurrenceRuleResponse {
   /** Set of specific dates within a month to recur on */
   by_month_day: RecurrenceRuleResponseByMonthDayList | null;
   /** Set of days within a year to recur on (1-364) */
-  by_year_day?: RecurrenceRuleResponseByYearDayList | null;
+  by_year_day?: RecurrenceRuleResponseByYearDayList | null | undefined;
   /** Total number of times the event is allowed to recur */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export type GuildScheduledEventPrivacyLevels = 2;
 export type GuildScheduledEventUserResponses = 0 | 1;
@@ -1546,13 +1662,13 @@ export interface ScheduledEventUserResponse {
   /** ID of the scheduled event */
   guild_scheduled_event_id: string;
   /** ID of the scheduled event exception */
-  guild_scheduled_event_exception_id?: string | null;
+  guild_scheduled_event_exception_id?: string | null | undefined;
   /** ID of the user */
   user_id: string;
   /** User object for the RSVP user */
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   /** Guild member object for the RSVP user */
-  member?: GuildMemberResponse;
+  member?: GuildMemberResponse | undefined;
   /** User's RSVP status for the event */
   response: GuildScheduledEventUserResponses;
 }
@@ -1584,7 +1700,7 @@ export interface ScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -1600,10 +1716,10 @@ export interface ScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: ScheduledEventResponseGuildScheduledEventExceptionsList;
 }
 export interface InviteGuildRoleResponse {
@@ -1614,34 +1730,34 @@ export interface InviteGuildRoleResponse {
   colors: GuildRoleColorsResponse;
   icon: string | null;
   unicode_emoji: string | null;
-  permissions?: string;
+  permissions?: string | undefined;
 }
 export type GuildInviteResponseRolesList = Array<InviteGuildRoleResponse>;
 export interface GuildInviteResponse {
   type: InviteTypes;
   code: string;
-  inviter?: UserResponse;
-  max_age?: number;
-  created_at?: string;
+  inviter?: UserResponse | undefined;
+  max_age?: number | undefined;
+  created_at?: string | undefined;
   expires_at: string | null;
-  is_contact?: boolean;
-  flags?: number;
+  is_contact?: boolean | undefined;
+  flags?: number | undefined;
   guild: InviteGuildResponse;
   guild_id: string;
   channel: InviteChannelResponse;
-  target_type?: InviteTargetTypes;
-  target_user?: UserResponse;
-  target_application?: InviteApplicationResponse;
-  guild_scheduled_event?: ScheduledEventResponse;
-  target_channel_id?: string;
-  target_message_id?: string;
-  uses?: number;
-  max_uses?: number;
-  temporary?: boolean;
-  approximate_member_count?: number | null;
-  approximate_presence_count?: number | null;
-  is_nickname_changeable?: boolean;
-  roles?: GuildInviteResponseRolesList | null;
+  target_type?: InviteTargetTypes | undefined;
+  target_user?: UserResponse | undefined;
+  target_application?: InviteApplicationResponse | undefined;
+  guild_scheduled_event?: ScheduledEventResponse | undefined;
+  target_channel_id?: string | undefined;
+  target_message_id?: string | undefined;
+  uses?: number | undefined;
+  max_uses?: number | undefined;
+  temporary?: boolean | undefined;
+  approximate_member_count?: number | null | undefined;
+  approximate_presence_count?: number | null | undefined;
+  is_nickname_changeable?: boolean | undefined;
+  roles?: GuildInviteResponseRolesList | null | undefined;
 }
 export type CreateChannelInviteResponseBody =
   | FriendInviteResponse
@@ -1656,9 +1772,9 @@ export interface CreateDeprecatedPinResponse {}
 export type CreateDmRequestAccessTokensList = Array<string>;
 export type CreateDmRequestNicksMap = { [key: string]: string | null | undefined };
 export interface CreateDmRequest {
-  recipient_id?: string | null;
-  access_tokens?: CreateDmRequestAccessTokensList | null;
-  nicks?: CreateDmRequestNicksMap | null;
+  recipient_id?: string | null | undefined;
+  access_tokens?: CreateDmRequestAccessTokensList | null | undefined;
+  nicks?: CreateDmRequestNicksMap | null | undefined;
 }
 export type CreateDmResponseBody = PrivateChannelResponse | PrivateGroupChannelResponse;
 export type CreateDmResponse = CreateDmResponseBody;
@@ -1679,16 +1795,16 @@ export interface EntitlementResponse {
   sku_id: string;
   application_id: string;
   user_id: string;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   deleted: boolean;
   starts_at: string | null;
   ends_at: string | null;
   type: EntitlementTypes;
-  fulfilled_at?: string | null;
-  fulfillment_status?: EntitlementTenantFulfillmentStatusResponse | null;
-  consumed?: boolean;
-  gifter_user_id?: string | null;
-  parent_id?: string | null;
+  fulfilled_at?: string | null | undefined;
+  fulfillment_status?: EntitlementTenantFulfillmentStatusResponse | null | undefined;
+  consumed?: boolean | undefined;
+  gifter_user_id?: string | null | undefined;
+  parent_id?: string | null | undefined;
 }
 export type CreateGuildApplicationCommandRequestNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -1720,65 +1836,68 @@ export interface CreateGuildApplicationCommandRequest {
   application_id: string;
   guild_id: string;
   name: string;
-  name_localizations?: CreateGuildApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: CreateGuildApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: CreateGuildApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: CreateGuildApplicationCommandRequestContextsList | null;
-  integration_types?: CreateGuildApplicationCommandRequestIntegrationTypesList | null;
+  name_localizations?: CreateGuildApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | CreateGuildApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: CreateGuildApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: CreateGuildApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: CreateGuildApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
-  type?: ApplicationCommandType | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
+  type?: ApplicationCommandType | (number & {}) | null | undefined;
 }
 export type ChannelPermissionOverwrites = 0 | 1;
 export interface ChannelPermissionOverwriteRequest {
   id: string;
-  type?: ChannelPermissionOverwrites | (number & {}) | null;
-  allow?: number | null;
-  deny?: number | null;
+  type?: ChannelPermissionOverwrites | (number & {}) | null | undefined;
+  allow?: number | null | undefined;
+  deny?: number | null | undefined;
 }
 export type CreateGuildChannelRequestPermissionOverwritesList =
   Array<ChannelPermissionOverwriteRequest>;
 export type VideoQualityModes = 1 | 2;
 export type ThreadAutoArchiveDuration = 60 | 1440 | 4320 | 10080;
 export interface UpdateDefaultReactionEmojiRequest {
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
 }
 export type ThreadSortOrder = 0 | 1;
 export type ForumLayout = 0 | 1 | 2;
 export type ThreadSearchTagSetting = "match_all" | "match_some";
 export interface CreateOrUpdateThreadTagRequest {
   name: string;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
-  moderated?: boolean | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
+  moderated?: boolean | null | undefined;
 }
 export type CreateGuildChannelRequestAvailableTagsList =
   Array<CreateOrUpdateThreadTagRequest | null>;
 export interface CreateGuildChannelRequest {
   guild_id: string;
-  type?: ChannelTypes | (number & {}) | null;
+  type?: ChannelTypes | (number & {}) | null | undefined;
   name: string;
-  position?: number | null;
-  topic?: string | null;
-  bitrate?: number | null;
-  user_limit?: number | null;
-  nsfw?: boolean | null;
-  rate_limit_per_user?: number | null;
-  parent_id?: string | null;
-  permission_overwrites?: CreateGuildChannelRequestPermissionOverwritesList | null;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes | (number & {}) | null;
-  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null;
-  default_thread_rate_limit_per_user?: number | null;
-  default_sort_order?: ThreadSortOrder | (number & {}) | null;
-  default_forum_layout?: ForumLayout | (number & {}) | null;
-  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null;
-  available_tags?: CreateGuildChannelRequestAvailableTagsList | null;
+  position?: number | null | undefined;
+  topic?: string | null | undefined;
+  bitrate?: number | null | undefined;
+  user_limit?: number | null | undefined;
+  nsfw?: boolean | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  parent_id?: string | null | undefined;
+  permission_overwrites?: CreateGuildChannelRequestPermissionOverwritesList | null | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | (number & {}) | null | undefined;
+  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null | undefined;
+  default_thread_rate_limit_per_user?: number | null | undefined;
+  default_sort_order?: ThreadSortOrder | (number & {}) | null | undefined;
+  default_forum_layout?: ForumLayout | (number & {}) | null | undefined;
+  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null | undefined;
+  available_tags?: CreateGuildChannelRequestAvailableTagsList | null | undefined;
 }
 export interface ChannelPermissionOverwriteResponse {
   id: string;
@@ -1803,52 +1922,52 @@ export interface DefaultReactionEmojiResponse {
 export interface GuildChannelResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   guild_id: string;
   name: string;
-  parent_id?: string | null;
-  rate_limit_per_user?: number;
-  bitrate?: number;
-  user_limit?: number;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes;
-  permissions?: string;
-  topic?: string | null;
-  default_auto_archive_duration?: ThreadAutoArchiveDuration;
-  default_thread_rate_limit_per_user?: number;
+  parent_id?: string | null | undefined;
+  rate_limit_per_user?: number | undefined;
+  bitrate?: number | undefined;
+  user_limit?: number | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | undefined;
+  permissions?: string | undefined;
+  topic?: string | null | undefined;
+  default_auto_archive_duration?: ThreadAutoArchiveDuration | undefined;
+  default_thread_rate_limit_per_user?: number | undefined;
   position: number;
-  permission_overwrites?: GuildChannelResponsePermissionOverwritesList;
-  nsfw?: boolean;
-  available_tags?: GuildChannelResponseAvailableTagsList;
-  default_reaction_emoji?: DefaultReactionEmojiResponse | null;
-  default_sort_order?: ThreadSortOrder | null;
-  default_forum_layout?: ForumLayout;
-  default_tag_setting?: ThreadSearchTagSetting | null;
+  permission_overwrites?: GuildChannelResponsePermissionOverwritesList | undefined;
+  nsfw?: boolean | undefined;
+  available_tags?: GuildChannelResponseAvailableTagsList | undefined;
+  default_reaction_emoji?: DefaultReactionEmojiResponse | null | undefined;
+  default_sort_order?: ThreadSortOrder | null | undefined;
+  default_forum_layout?: ForumLayout | undefined;
+  default_tag_setting?: ThreadSearchTagSetting | null | undefined;
 }
 export type CreateGuildEmojiRequestRolesList = Array<string | null>;
 export interface CreateGuildEmojiRequest {
   guild_id: string;
   name: string;
   image: string;
-  roles?: CreateGuildEmojiRequestRolesList | null;
+  roles?: CreateGuildEmojiRequestRolesList | null | undefined;
 }
 export interface RoleColors {
-  primary_color?: number | null;
-  secondary_color?: number | null;
-  tertiary_color?: number | null;
+  primary_color?: number | null | undefined;
+  secondary_color?: number | null | undefined;
+  tertiary_color?: number | null | undefined;
 }
 export interface CreateGuildRoleRequest {
   guild_id: string;
-  name?: string | null;
-  permissions?: number | null;
-  color?: number | null;
-  colors?: RoleColors | null;
-  hoist?: boolean | null;
-  mentionable?: boolean | null;
-  icon?: string | null;
-  unicode_emoji?: string | null;
+  name?: string | null | undefined;
+  permissions?: number | null | undefined;
+  color?: number | null | undefined;
+  colors?: RoleColors | null | undefined;
+  hoist?: boolean | null | undefined;
+  mentionable?: boolean | null | undefined;
+  icon?: string | null | undefined;
+  unicode_emoji?: string | null | undefined;
 }
 /** Set of specific days within a week for the event to recur on */
 export type RecurrenceRuleByWeekdayList = Array<RecurrenceRuleWeekdays | (number & {})>;
@@ -1870,52 +1989,52 @@ export interface RecurrenceRule {
   /** Starting time of the recurrence interval */
   start: string;
   /** Ending time of the recurrence interval */
-  end?: string | null;
+  end?: string | null | undefined;
   /** How often the event occurs */
   frequency: RecurrenceRuleFrequencies | (number & {});
   /** The spacing between events, defined by frequency */
-  interval?: number | null;
+  interval?: number | null | undefined;
   /** Set of specific days within a week for the event to recur on */
-  by_weekday?: RecurrenceRuleByWeekdayList | null;
+  by_weekday?: RecurrenceRuleByWeekdayList | null | undefined;
   /** List of specific days within a specific week to recur on */
-  by_n_weekday?: RecurrenceRuleByNWeekdayList | null;
+  by_n_weekday?: RecurrenceRuleByNWeekdayList | null | undefined;
   /** Set of specific months to recur on */
-  by_month?: RecurrenceRuleByMonthList | null;
+  by_month?: RecurrenceRuleByMonthList | null | undefined;
   /** Set of specific dates within a month to recur on */
-  by_month_day?: RecurrenceRuleByMonthDayList | null;
+  by_month_day?: RecurrenceRuleByMonthDayList | null | undefined;
   /** Set of days within a year to recur on (1-364) */
-  by_year_day?: RecurrenceRuleByYearDayList | null;
+  by_year_day?: RecurrenceRuleByYearDayList | null | undefined;
   /** Total number of times the event is allowed to recur */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export interface EntityMetadataExternal {
   location: string;
 }
 export interface ExternalScheduledEventCreateRequest {
   name: string;
-  description?: string | null;
-  image?: string | null;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
   scheduled_start_time: string;
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   privacy_level: GuildScheduledEventPrivacyLevels;
   entity_type: GuildScheduledEventEntityTypes | (number & {});
-  channel_id?: string | null;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
+  recurrence_rule?: RecurrenceRule | null | undefined;
   entity_metadata: EntityMetadataExternal;
 }
 export interface StageScheduledEventCreateRequest {
   name: string;
-  description?: string | null;
-  image?: string | null;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
   scheduled_start_time: string;
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   privacy_level: GuildScheduledEventPrivacyLevels;
   entity_type: GuildScheduledEventEntityTypes | (number & {});
-  channel_id?: string | null;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
-  entity_metadata?: unknown | null;
+  recurrence_rule?: RecurrenceRule | null | undefined;
+  entity_metadata?: unknown | null | undefined;
 }
 export type VoiceScheduledEventCreateRequest = StageScheduledEventCreateRequest;
 export type CreateGuildScheduledEventRequestBody =
@@ -1946,7 +2065,7 @@ export interface ExternalScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -1962,10 +2081,10 @@ export interface ExternalScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: ExternalScheduledEventResponseGuildScheduledEventExceptionsList;
   entity_metadata: EntityMetadataExternalResponse;
 }
@@ -1985,7 +2104,7 @@ export interface StageScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -2001,10 +2120,10 @@ export interface StageScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: StageScheduledEventResponseGuildScheduledEventExceptionsList;
   entity_metadata: unknown | null;
 }
@@ -2024,7 +2143,7 @@ export interface VoiceScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -2040,10 +2159,10 @@ export interface VoiceScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: VoiceScheduledEventResponseGuildScheduledEventExceptionsList;
   entity_metadata: unknown | null;
 }
@@ -2058,20 +2177,20 @@ export interface CreateGuildScheduledEventExceptionRequest {
   /** The ID of the scheduled event */
   guild_scheduled_event_id: string;
   /** Overridden start time of this occurrence */
-  scheduled_start_time?: string | null;
+  scheduled_start_time?: string | null | undefined;
   /** Overridden end time of this occurrence */
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   /** The original start time of the occurrence to create an exception for */
   original_scheduled_start_time: string;
   /** Whether this occurrence is canceled */
-  is_canceled?: boolean | null;
+  is_canceled?: boolean | null | undefined;
 }
 export interface CreateGuildSoundboardSoundRequest {
   guild_id: string;
   name: string;
-  volume?: number | null;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  volume?: number | null | undefined;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
   sound: string;
 }
 export interface SoundboardSoundResponse {
@@ -2080,15 +2199,15 @@ export interface SoundboardSoundResponse {
   volume: number;
   emoji_id: string | null;
   emoji_name: string | null;
-  guild_id?: string;
+  guild_id?: string | undefined;
   available: boolean;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface CreateGuildStickerRequest {
   guild_id: string;
   name: string;
   tags: string;
-  description?: string | null;
+  description?: string | null | undefined;
   file: File | Blob;
 }
 export type StickerTypes = 1 | 2;
@@ -2102,12 +2221,12 @@ export interface GuildStickerResponse {
   description: string | null;
   available: boolean;
   guild_id: string;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface CreateGuildTemplateRequest {
   guild_id: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type UserNotificationSettings = 0 | 1;
 export type GuildExplicitContentFilterTypes = 0 | 1 | 2;
@@ -2225,17 +2344,26 @@ export type InteractionCallbackTypes = 1 | 4 | 5 | 6 | 7 | 8 | 9 | 12 | 13;
 export type InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList =
   Array<ApplicationCommandOptionIntegerChoice | null>;
 export interface InteractionApplicationCommandAutocompleteCallbackIntegerData {
-  choices?: InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList | null;
+  choices?:
+    | InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList
+    | null
+    | undefined;
 }
 export type InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList =
   Array<ApplicationCommandOptionNumberChoice | null>;
 export interface InteractionApplicationCommandAutocompleteCallbackNumberData {
-  choices?: InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList | null;
+  choices?:
+    | InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList
+    | null
+    | undefined;
 }
 export type InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList =
   Array<ApplicationCommandOptionStringChoice | null>;
 export interface InteractionApplicationCommandAutocompleteCallbackStringData {
-  choices?: InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList | null;
+  choices?:
+    | InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList
+    | null
+    | undefined;
 }
 export type ApplicationCommandAutocompleteCallbackRequestData =
   | InteractionApplicationCommandAutocompleteCallbackIntegerData
@@ -2246,54 +2374,54 @@ export interface ApplicationCommandAutocompleteCallbackRequest {
   data: ApplicationCommandAutocompleteCallbackRequestData;
 }
 export interface RichEmbedAuthor {
-  name?: string | null;
-  url?: string | null;
-  icon_url?: string | null;
+  name?: string | null | undefined;
+  url?: string | null | undefined;
+  icon_url?: string | null | undefined;
 }
 export interface RichEmbedImage {
-  url?: string | null;
-  width?: number | null;
-  height?: number | null;
-  placeholder?: string | null;
-  placeholder_version?: number | null;
-  is_animated?: boolean | null;
-  description?: string | null;
+  url?: string | null | undefined;
+  width?: number | null | undefined;
+  height?: number | null | undefined;
+  placeholder?: string | null | undefined;
+  placeholder_version?: number | null | undefined;
+  is_animated?: boolean | null | undefined;
+  description?: string | null | undefined;
 }
 export type RichEmbedThumbnail = RichEmbedImage;
 export interface RichEmbedFooter {
-  text?: string | null;
-  icon_url?: string | null;
+  text?: string | null | undefined;
+  icon_url?: string | null | undefined;
 }
 export interface RichEmbedField {
   name: string;
   value: string;
-  inline?: boolean | null;
+  inline?: boolean | null | undefined;
 }
 export type RichEmbedFieldsList = Array<RichEmbedField>;
 export interface RichEmbedProvider {
-  name?: string | null;
-  url?: string | null;
+  name?: string | null | undefined;
+  url?: string | null | undefined;
 }
 export type RichEmbedVideo = RichEmbedImage;
 export interface RichEmbedAudio {
-  url?: string | null;
-  description?: string | null;
+  url?: string | null | undefined;
+  description?: string | null | undefined;
 }
 export interface RichEmbed {
-  type?: string | null;
-  url?: string | null;
-  title?: string | null;
-  color?: number | null;
-  timestamp?: string | null;
-  description?: string | null;
-  author?: RichEmbedAuthor | null;
-  image?: RichEmbedImage | null;
-  thumbnail?: RichEmbedImage | null;
-  footer?: RichEmbedFooter | null;
-  fields?: RichEmbedFieldsList | null;
-  provider?: RichEmbedProvider | null;
-  video?: RichEmbedImage | null;
-  audio?: RichEmbedAudio | null;
+  type?: string | null | undefined;
+  url?: string | null | undefined;
+  title?: string | null | undefined;
+  color?: number | null | undefined;
+  timestamp?: string | null | undefined;
+  description?: string | null | undefined;
+  author?: RichEmbedAuthor | null | undefined;
+  image?: RichEmbedImage | null | undefined;
+  thumbnail?: RichEmbedImage | null | undefined;
+  footer?: RichEmbedFooter | null | undefined;
+  fields?: RichEmbedFieldsList | null | undefined;
+  provider?: RichEmbedProvider | null | undefined;
+  video?: RichEmbedImage | null | undefined;
+  audio?: RichEmbedAudio | null | undefined;
 }
 export type IncomingWebhookInteractionRequestEmbedsList = Array<RichEmbed>;
 export type AllowedMentionTypes = "users" | "roles" | "everyone";
@@ -2303,10 +2431,10 @@ export type MessageAllowedMentionsRequestParseList = Array<
 export type MessageAllowedMentionsRequestUsersList = Array<string | null>;
 export type MessageAllowedMentionsRequestRolesList = Array<string | null>;
 export interface MessageAllowedMentionsRequest {
-  parse?: MessageAllowedMentionsRequestParseList | null;
-  users?: MessageAllowedMentionsRequestUsersList | null;
-  roles?: MessageAllowedMentionsRequestRolesList | null;
-  replied_user?: boolean | null;
+  parse?: MessageAllowedMentionsRequestParseList | null | undefined;
+  users?: MessageAllowedMentionsRequestUsersList | null | undefined;
+  roles?: MessageAllowedMentionsRequestRolesList | null | undefined;
+  replied_user?: boolean | null | undefined;
 }
 export type MessageComponentTypes =
   | 1
@@ -2331,19 +2459,19 @@ export type MessageComponentTypes =
   | 23;
 export type ButtonStyleTypes = 1 | 2 | 3 | 4 | 5 | 6;
 export interface ComponentEmojiForRequest {
-  id?: string | null;
+  id?: string | null | undefined;
   name: string;
 }
 export interface ButtonComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  custom_id?: string | null;
+  id?: number | null | undefined;
+  custom_id?: string | null | undefined;
   style: ButtonStyleTypes | (number & {});
-  label?: string | null;
-  disabled?: boolean | null;
-  url?: string | null;
-  sku_id?: string | null;
-  emoji?: ComponentEmojiForRequest | null;
+  label?: string | null | undefined;
+  disabled?: boolean | null | undefined;
+  url?: string | null | undefined;
+  sku_id?: string | null | undefined;
+  emoji?: ComponentEmojiForRequest | null | undefined;
 }
 export type SnowflakeSelectDefaultValueTypes = "user" | "role" | "channel";
 export interface ChannelSelectDefaultValue {
@@ -2357,15 +2485,15 @@ export type ChannelSelectComponentForMessageRequestChannelTypesList = Array<
 >;
 export interface ChannelSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: ChannelSelectComponentForMessageRequestDefaultValuesList | null;
-  channel_types?: ChannelSelectComponentForMessageRequestChannelTypesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: ChannelSelectComponentForMessageRequestDefaultValuesList | null | undefined;
+  channel_types?: ChannelSelectComponentForMessageRequestChannelTypesList | null | undefined;
 }
 export type RoleSelectDefaultValue = ChannelSelectDefaultValue;
 export type UserSelectDefaultValue = ChannelSelectDefaultValue;
@@ -2376,59 +2504,59 @@ export type MentionableSelectComponentForMessageRequestDefaultValuesList =
   Array<MentionableSelectComponentForMessageRequestDefaultValuesItem>;
 export interface MentionableSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: MentionableSelectComponentForMessageRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: MentionableSelectComponentForMessageRequestDefaultValuesList | null | undefined;
 }
 export type RoleSelectComponentForMessageRequestDefaultValuesList =
   Array<ChannelSelectDefaultValue>;
 export interface RoleSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: RoleSelectComponentForMessageRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: RoleSelectComponentForMessageRequestDefaultValuesList | null | undefined;
 }
 export interface StringSelectOptionForRequest {
   label: string;
   value: string;
-  description?: string | null;
-  default?: boolean | null;
-  emoji?: ComponentEmojiForRequest | null;
+  description?: string | null | undefined;
+  default?: boolean | null | undefined;
+  emoji?: ComponentEmojiForRequest | null | undefined;
 }
 export type StringSelectComponentForMessageRequestOptionsList = Array<StringSelectOptionForRequest>;
 export interface StringSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
   options: StringSelectComponentForMessageRequestOptionsList;
 }
 export type UserSelectComponentForMessageRequestDefaultValuesList =
   Array<ChannelSelectDefaultValue>;
 export interface UserSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: UserSelectComponentForMessageRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: UserSelectComponentForMessageRequestDefaultValuesList | null | undefined;
 }
 export type ActionRowComponentForMessageRequestComponentsItem =
   | ButtonComponentForMessageRequest
@@ -2441,7 +2569,7 @@ export type ActionRowComponentForMessageRequestComponentsList =
   Array<ActionRowComponentForMessageRequestComponentsItem>;
 export interface ActionRowComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   components: ActionRowComponentForMessageRequestComponentsList;
 }
 export interface UnfurledMediaRequestWithAttachmentReferenceRequired {
@@ -2449,35 +2577,35 @@ export interface UnfurledMediaRequestWithAttachmentReferenceRequired {
 }
 export interface FileComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  spoiler?: boolean | null;
+  id?: number | null | undefined;
+  spoiler?: boolean | null | undefined;
   file: UnfurledMediaRequestWithAttachmentReferenceRequired;
 }
 export type UnfurledMediaRequest = UnfurledMediaRequestWithAttachmentReferenceRequired;
 export interface MediaGalleryItemForMessageRequest {
-  description?: string | null;
-  spoiler?: boolean | null;
+  description?: string | null | undefined;
+  spoiler?: boolean | null | undefined;
   media: UnfurledMediaRequestWithAttachmentReferenceRequired;
 }
 export type MediaGalleryComponentForMessageRequestItemsList =
   Array<MediaGalleryItemForMessageRequest>;
 export interface MediaGalleryComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   items: MediaGalleryComponentForMessageRequestItemsList;
 }
 export interface TextDisplayComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   content: string;
 }
 export type SectionComponentForMessageRequestComponentsList =
   Array<TextDisplayComponentForMessageRequest>;
 export interface ThumbnailComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  description?: string | null;
-  spoiler?: boolean | null;
+  id?: number | null | undefined;
+  description?: string | null | undefined;
+  spoiler?: boolean | null | undefined;
   media: UnfurledMediaRequestWithAttachmentReferenceRequired;
 }
 export type SectionComponentForMessageRequestAccessory =
@@ -2485,16 +2613,16 @@ export type SectionComponentForMessageRequestAccessory =
   | ThumbnailComponentForMessageRequest;
 export interface SectionComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   components: SectionComponentForMessageRequestComponentsList;
   accessory: SectionComponentForMessageRequestAccessory;
 }
 export type MessageComponentSeparatorSpacingSize = 1 | 2;
 export interface SeparatorComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  spacing?: MessageComponentSeparatorSpacingSize | (number & {}) | null;
-  divider?: boolean | null;
+  id?: number | null | undefined;
+  spacing?: MessageComponentSeparatorSpacingSize | (number & {}) | null | undefined;
+  divider?: boolean | null | undefined;
 }
 export type ContainerComponentForMessageRequestComponentsItem =
   | ActionRowComponentForMessageRequest
@@ -2507,10 +2635,10 @@ export type ContainerComponentForMessageRequestComponentsList =
   Array<ContainerComponentForMessageRequestComponentsItem>;
 export interface ContainerComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  accent_color?: number | null;
+  id?: number | null | undefined;
+  accent_color?: number | null | undefined;
   components: ContainerComponentForMessageRequestComponentsList;
-  spoiler?: boolean | null;
+  spoiler?: boolean | null | undefined;
 }
 export type IncomingWebhookInteractionRequestComponentsItem =
   | ActionRowComponentForMessageRequest
@@ -2524,27 +2652,27 @@ export type IncomingWebhookInteractionRequestComponentsList =
   Array<IncomingWebhookInteractionRequestComponentsItem>;
 export interface MessageAttachmentRequest {
   id: string;
-  filename?: string | null;
-  description?: string | null;
-  duration_secs?: number | null;
-  waveform?: string | null;
-  title?: string | null;
-  is_spoiler?: boolean | null;
+  filename?: string | null | undefined;
+  description?: string | null | undefined;
+  duration_secs?: number | null | undefined;
+  waveform?: string | null | undefined;
+  title?: string | null | undefined;
+  is_spoiler?: boolean | null | undefined;
 }
 export type IncomingWebhookInteractionRequestAttachmentsList = Array<MessageAttachmentRequest>;
 export interface PollEmoji {
   /** The ID of the custom emoji */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the emoji, or the unicode emoji character */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the emoji is animated */
-  animated?: boolean | null;
+  animated?: boolean | null | undefined;
 }
 export interface PollMedia {
   /** The text of the field */
-  text?: string | null;
+  text?: string | null | undefined;
   /** The emoji of the field */
-  emoji?: PollEmoji | null;
+  emoji?: PollEmoji | null | undefined;
 }
 export type PollEmojiCreateRequest = PollEmoji;
 export type PollMediaCreateRequest = PollMedia;
@@ -2561,25 +2689,25 @@ export interface PollCreateRequest {
   /** Each of the answers available in the poll, up to 10 */
   answers: PollCreateRequestAnswersList;
   /** Whether a user can select multiple answers */
-  allow_multiselect?: boolean | null;
+  allow_multiselect?: boolean | null | undefined;
   /** The layout type of the poll. Defaults to... DEFAULT! */
-  layout_type?: PollLayoutTypes | (number & {}) | null;
+  layout_type?: PollLayoutTypes | (number & {}) | null | undefined;
   /** Number of hours the poll should be open for, up to 32 days. Defaults to 24 */
-  duration?: number | null;
+  duration?: number | null | undefined;
 }
 export interface IncomingWebhookInteractionRequest {
-  content?: string | null;
-  embeds?: IncomingWebhookInteractionRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookInteractionRequestComponentsList | null;
-  attachments?: IncomingWebhookInteractionRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  tts?: boolean | null;
-  flags?: number | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookInteractionRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: IncomingWebhookInteractionRequestComponentsList | null | undefined;
+  attachments?: IncomingWebhookInteractionRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  tts?: boolean | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface CreateMessageInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
-  data?: IncomingWebhookInteractionRequest | null;
+  data?: IncomingWebhookInteractionRequest | null | undefined;
 }
 export interface LaunchActivityInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
@@ -2587,21 +2715,21 @@ export interface LaunchActivityInteractionCallbackRequest {
 export type TextInputStyleTypes = 1 | 2;
 export interface TextInputComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
   style: TextInputStyleTypes | (number & {});
-  label?: string | null;
-  value?: string | null;
-  placeholder?: string | null;
-  required?: boolean | null;
-  min_length?: number | null;
-  max_length?: number | null;
+  label?: string | null | undefined;
+  value?: string | null | undefined;
+  placeholder?: string | null | undefined;
+  required?: boolean | null | undefined;
+  min_length?: number | null | undefined;
+  max_length?: number | null | undefined;
 }
 export type ActionRowComponentForModalRequestComponentsList =
   Array<TextInputComponentForModalRequest>;
 export interface ActionRowComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   components: ActionRowComponentForModalRequestComponentsList;
 }
 export type ChannelSelectComponentForModalRequestDefaultValuesList =
@@ -2611,47 +2739,47 @@ export type ChannelSelectComponentForModalRequestChannelTypesList = Array<
 >;
 export interface ChannelSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: ChannelSelectComponentForModalRequestDefaultValuesList | null;
-  channel_types?: ChannelSelectComponentForModalRequestChannelTypesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: ChannelSelectComponentForModalRequestDefaultValuesList | null | undefined;
+  channel_types?: ChannelSelectComponentForModalRequestChannelTypesList | null | undefined;
 }
 export interface CheckboxComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  default?: boolean | null;
+  default?: boolean | null | undefined;
 }
 export interface CheckboxGroupOptionForRequest {
   label: string;
   value: string;
-  description?: string | null;
-  default?: boolean | null;
+  description?: string | null | undefined;
+  default?: boolean | null | undefined;
 }
 export type CheckboxGroupComponentForModalRequestOptionsList = Array<CheckboxGroupOptionForRequest>;
 export interface CheckboxGroupComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  min_values?: number | null;
-  max_values?: number | null;
-  required?: boolean | null;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  required?: boolean | null | undefined;
   options: CheckboxGroupComponentForModalRequestOptionsList;
 }
 export type FileUploadComponentForModalRequestFileTypesList = Array<string>;
 export interface FileUploadComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  min_values?: number | null;
-  max_values?: number | null;
-  required?: boolean | null;
-  file_types?: FileUploadComponentForModalRequestFileTypesList | null;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  required?: boolean | null | undefined;
+  file_types?: FileUploadComponentForModalRequestFileTypesList | null | undefined;
 }
 export type MentionableSelectComponentForModalRequestDefaultValuesItem =
   | ChannelSelectDefaultValue
@@ -2660,59 +2788,59 @@ export type MentionableSelectComponentForModalRequestDefaultValuesList =
   Array<MentionableSelectComponentForModalRequestDefaultValuesItem>;
 export interface MentionableSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: MentionableSelectComponentForModalRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: MentionableSelectComponentForModalRequestDefaultValuesList | null | undefined;
 }
 export type RadioGroupOptionForRequest = CheckboxGroupOptionForRequest;
 export type RadioGroupComponentForModalRequestOptionsList = Array<CheckboxGroupOptionForRequest>;
 export interface RadioGroupComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  required?: boolean | null;
+  required?: boolean | null | undefined;
   options: RadioGroupComponentForModalRequestOptionsList;
 }
 export type RoleSelectComponentForModalRequestDefaultValuesList = Array<ChannelSelectDefaultValue>;
 export interface RoleSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: RoleSelectComponentForModalRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: RoleSelectComponentForModalRequestDefaultValuesList | null | undefined;
 }
 export type StringSelectComponentForModalRequestOptionsList = Array<StringSelectOptionForRequest>;
 export interface StringSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
   options: StringSelectComponentForModalRequestOptionsList;
 }
 export type UserSelectComponentForModalRequestDefaultValuesList = Array<ChannelSelectDefaultValue>;
 export interface UserSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: UserSelectComponentForModalRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: UserSelectComponentForModalRequestDefaultValuesList | null | undefined;
 }
 export type LabelComponentForModalRequestComponent =
   | ChannelSelectComponentForModalRequest
@@ -2727,9 +2855,9 @@ export type LabelComponentForModalRequestComponent =
   | UserSelectComponentForModalRequest;
 export interface LabelComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   label: string;
-  description?: string | null;
+  description?: string | null | undefined;
   component: LabelComponentForModalRequestComponent;
 }
 export type TextDisplayComponentForModalRequest = TextDisplayComponentForMessageRequest;
@@ -2752,8 +2880,8 @@ export type PongInteractionCallbackRequest = LaunchActivityInteractionCallbackRe
 export type SKUIneligibilityReason = 0 | 1 | 2;
 export interface SocialLayerSKUPurchaseEligibilityCallbackData {
   eligible: boolean;
-  ineligible_reason?: SKUIneligibilityReason | (number & {}) | null;
-  ineligible_reason_description?: string | null;
+  ineligible_reason?: SKUIneligibilityReason | (number & {}) | null | undefined;
+  ineligible_reason_description?: string | null | undefined;
 }
 export interface SocialLayerSKUPurchaseEligibilityInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
@@ -2773,16 +2901,22 @@ export type IncomingWebhookUpdateForInteractionCallbackRequestPartialComponentsL
 export type IncomingWebhookUpdateForInteractionCallbackRequestPartialAttachmentsList =
   Array<MessageAttachmentRequest>;
 export interface IncomingWebhookUpdateForInteractionCallbackRequestPartial {
-  content?: string | null;
-  embeds?: IncomingWebhookUpdateForInteractionCallbackRequestPartialEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookUpdateForInteractionCallbackRequestPartialComponentsList | null;
-  attachments?: IncomingWebhookUpdateForInteractionCallbackRequestPartialAttachmentsList | null;
-  flags?: number | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookUpdateForInteractionCallbackRequestPartialEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?:
+    | IncomingWebhookUpdateForInteractionCallbackRequestPartialComponentsList
+    | null
+    | undefined;
+  attachments?:
+    | IncomingWebhookUpdateForInteractionCallbackRequestPartialAttachmentsList
+    | null
+    | undefined;
+  flags?: number | null | undefined;
 }
 export interface UpdateMessageInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
-  data?: IncomingWebhookUpdateForInteractionCallbackRequestPartial | null;
+  data?: IncomingWebhookUpdateForInteractionCallbackRequestPartial | null | undefined;
 }
 export type CreateInteractionResponseRequestBody =
   | ApplicationCommandAutocompleteCallbackRequest
@@ -2795,19 +2929,19 @@ export type CreateInteractionResponseRequestBody =
 export interface CreateInteractionResponseRequest {
   interaction_id: string;
   interaction_token: string;
-  with_response?: boolean;
+  with_response?: boolean | undefined;
   body: CreateInteractionResponseRequestBody;
 }
 export type InteractionTypes = 1 | 2 | 3 | 4 | 5 | 6;
 export interface InteractionResponse {
   id: string;
   type: InteractionTypes;
-  activity_instance_id?: string | null;
-  response_message_id?: string;
-  response_message_loading?: boolean;
-  response_message_ephemeral?: boolean;
-  channel_id?: string;
-  guild_id?: string;
+  activity_instance_id?: string | null | undefined;
+  response_message_id?: string | undefined;
+  response_message_loading?: boolean | undefined;
+  response_message_ephemeral?: boolean | undefined;
+  channel_id?: string | undefined;
+  guild_id?: string | undefined;
 }
 export type MessageType =
   | 0
@@ -2860,26 +2994,26 @@ export interface ApplicationResponse {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
-  slug?: string;
-  conjure_project_id?: string;
-  vibegrations_project_id?: string;
-  guild_id?: string;
-  rpc_origins?: ApplicationResponseRpcOriginsList;
-  bot_public?: boolean;
-  bot_require_code_grant?: boolean;
-  terms_of_service_url?: string;
-  privacy_policy_url?: string;
-  custom_install_url?: string;
-  install_params?: ApplicationOAuth2InstallParamsResponse;
-  integration_types_config?: ApplicationResponseIntegrationTypesConfigMap;
+  bot?: UserResponse | undefined;
+  slug?: string | undefined;
+  conjure_project_id?: string | undefined;
+  vibegrations_project_id?: string | undefined;
+  guild_id?: string | undefined;
+  rpc_origins?: ApplicationResponseRpcOriginsList | undefined;
+  bot_public?: boolean | undefined;
+  bot_require_code_grant?: boolean | undefined;
+  terms_of_service_url?: string | undefined;
+  privacy_policy_url?: string | undefined;
+  custom_install_url?: string | undefined;
+  install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
+  integration_types_config?: ApplicationResponseIntegrationTypesConfigMap | undefined;
   verify_key: string;
-  max_participants?: number | null;
-  tags?: ApplicationResponseTagsList;
+  max_participants?: number | null | undefined;
+  tags?: ApplicationResponseTagsList | undefined;
 }
 export type MessageAttachmentResponseClipParticipantsList = Array<UserResponse>;
 export interface MessageAttachmentResponse {
@@ -2888,20 +3022,20 @@ export interface MessageAttachmentResponse {
   size: number;
   url: string;
   proxy_url: string;
-  width?: number;
-  height?: number;
-  duration_secs?: number;
-  waveform?: string;
-  description?: string;
-  content_type?: string;
-  ephemeral?: boolean;
-  flags?: number;
-  placeholder?: string;
-  placeholder_version?: number;
-  title?: string | null;
-  application?: ApplicationResponse;
-  clip_created_at?: string;
-  clip_participants?: MessageAttachmentResponseClipParticipantsList;
+  width?: number | undefined;
+  height?: number | undefined;
+  duration_secs?: number | undefined;
+  waveform?: string | undefined;
+  description?: string | undefined;
+  content_type?: string | undefined;
+  ephemeral?: boolean | undefined;
+  flags?: number | undefined;
+  placeholder?: string | undefined;
+  placeholder_version?: number | undefined;
+  title?: string | null | undefined;
+  application?: ApplicationResponse | undefined;
+  clip_created_at?: string | undefined;
+  clip_participants?: MessageAttachmentResponseClipParticipantsList | undefined;
 }
 export type MessageResponseAttachmentsList = Array<MessageAttachmentResponse>;
 export interface MessageEmbedFieldResponse {
@@ -2912,52 +3046,52 @@ export interface MessageEmbedFieldResponse {
 export type MessageEmbedResponseFieldsList = Array<MessageEmbedFieldResponse>;
 export interface MessageEmbedAuthorResponse {
   name: string;
-  url?: string;
-  icon_url?: string;
-  proxy_icon_url?: string;
+  url?: string | undefined;
+  icon_url?: string | undefined;
+  proxy_icon_url?: string | undefined;
 }
 export interface MessageEmbedProviderResponse {
   name: string;
-  url?: string;
+  url?: string | undefined;
 }
 export interface MessageEmbedImageResponse {
-  url?: string;
-  proxy_url?: string;
-  width?: number;
-  height?: number;
-  content_type?: string;
-  placeholder?: string;
-  placeholder_version?: number;
-  description?: string;
-  flags?: number;
+  url?: string | undefined;
+  proxy_url?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  content_type?: string | undefined;
+  placeholder?: string | undefined;
+  placeholder_version?: number | undefined;
+  description?: string | undefined;
+  flags?: number | undefined;
 }
 export type MessageEmbedVideoResponse = MessageEmbedImageResponse;
 export interface MessageEmbedAudioResponse {
-  url?: string;
-  proxy_url?: string;
-  content_type?: string;
-  description?: string;
+  url?: string | undefined;
+  proxy_url?: string | undefined;
+  content_type?: string | undefined;
+  description?: string | undefined;
 }
 export interface MessageEmbedFooterResponse {
   text: string;
-  icon_url?: string;
-  proxy_icon_url?: string;
+  icon_url?: string | undefined;
+  proxy_icon_url?: string | undefined;
 }
 export interface ComponentEmojiResponse {
-  id?: string;
+  id?: string | undefined;
   name: string;
-  animated?: boolean;
+  animated?: boolean | undefined;
 }
 export interface ButtonComponentResponse {
   type: MessageComponentTypes;
   id: number;
-  custom_id?: string;
+  custom_id?: string | undefined;
   style: ButtonStyleTypes;
-  label?: string;
-  disabled?: boolean;
-  emoji?: ComponentEmojiResponse;
-  url?: string | null;
-  sku_id?: string;
+  label?: string | undefined;
+  disabled?: boolean | undefined;
+  emoji?: ComponentEmojiResponse | undefined;
+  url?: string | null | undefined;
+  sku_id?: string | undefined;
 }
 export type ChannelSelectComponentResponseChannelTypesList = Array<ChannelTypes>;
 export interface ChannelSelectDefaultValueResponse {
@@ -2970,12 +3104,12 @@ export interface ChannelSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  channel_types?: ChannelSelectComponentResponseChannelTypesList;
-  default_values?: ChannelSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  channel_types?: ChannelSelectComponentResponseChannelTypesList | undefined;
+  default_values?: ChannelSelectComponentResponseDefaultValuesList | undefined;
 }
 export type RoleSelectDefaultValueResponse = ChannelSelectDefaultValueResponse;
 export type UserSelectDefaultValueResponse = ChannelSelectDefaultValueResponse;
@@ -2988,39 +3122,39 @@ export interface MentionableSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  default_values?: MentionableSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  default_values?: MentionableSelectComponentResponseDefaultValuesList | undefined;
 }
 export type RoleSelectComponentResponseDefaultValuesList = Array<ChannelSelectDefaultValueResponse>;
 export interface RoleSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  default_values?: RoleSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  default_values?: RoleSelectComponentResponseDefaultValuesList | undefined;
 }
 export interface StringSelectOptionResponse {
   label: string;
   value: string;
-  description?: string;
-  emoji?: ComponentEmojiResponse;
-  default?: boolean;
+  description?: string | undefined;
+  emoji?: ComponentEmojiResponse | undefined;
+  default?: boolean | undefined;
 }
 export type StringSelectComponentResponseOptionsList = Array<StringSelectOptionResponse>;
 export interface StringSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   options: StringSelectComponentResponseOptionsList;
 }
 export interface TextInputComponentResponse {
@@ -3029,9 +3163,9 @@ export interface TextInputComponentResponse {
   custom_id: string;
   style: TextInputStyleTypes;
   label: string | null;
-  value?: string;
-  placeholder?: string;
-  required?: boolean;
+  value?: string | undefined;
+  placeholder?: string | undefined;
+  required?: boolean | undefined;
   min_length: number | null;
   max_length: number | null;
 }
@@ -3040,11 +3174,11 @@ export interface UserSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  default_values?: UserSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  default_values?: UserSelectComponentResponseDefaultValuesList | undefined;
 }
 export type ActionRowComponentResponseComponentsItem =
   | ButtonComponentResponse
@@ -3067,15 +3201,15 @@ export interface ContentScanMetadataResponse {
 export interface UnfurledMediaResponse {
   id: string;
   url: string;
-  proxy_url?: string;
-  width?: number | null;
-  height?: number | null;
-  placeholder?: string | null;
-  placeholder_version?: number | null;
-  content_scan_metadata?: ContentScanMetadataResponse;
-  content_type?: string | null;
-  flags?: number;
-  attachment_id?: string;
+  proxy_url?: string | undefined;
+  width?: number | null | undefined;
+  height?: number | null | undefined;
+  placeholder?: string | null | undefined;
+  placeholder_version?: number | null | undefined;
+  content_scan_metadata?: ContentScanMetadataResponse | undefined;
+  content_type?: string | null | undefined;
+  flags?: number | undefined;
+  attachment_id?: string | undefined;
 }
 export interface FileComponentResponse {
   type: MessageComponentTypes;
@@ -3143,21 +3277,21 @@ export interface ContainerComponentResponse {
 export type MessageEmbedResponseComponentsList = Array<ContainerComponentResponse>;
 export interface MessageEmbedResponse {
   type: string;
-  url?: string;
-  title?: string;
-  description?: string;
-  color?: number;
-  timestamp?: string;
-  fields?: MessageEmbedResponseFieldsList;
-  author?: MessageEmbedAuthorResponse;
-  provider?: MessageEmbedProviderResponse;
-  image?: MessageEmbedImageResponse;
-  thumbnail?: MessageEmbedImageResponse;
-  video?: MessageEmbedImageResponse;
-  audio?: MessageEmbedAudioResponse;
-  footer?: MessageEmbedFooterResponse;
-  flags?: number | null;
-  components?: MessageEmbedResponseComponentsList;
+  url?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  color?: number | undefined;
+  timestamp?: string | undefined;
+  fields?: MessageEmbedResponseFieldsList | undefined;
+  author?: MessageEmbedAuthorResponse | undefined;
+  provider?: MessageEmbedProviderResponse | undefined;
+  image?: MessageEmbedImageResponse | undefined;
+  thumbnail?: MessageEmbedImageResponse | undefined;
+  video?: MessageEmbedImageResponse | undefined;
+  audio?: MessageEmbedAudioResponse | undefined;
+  footer?: MessageEmbedFooterResponse | undefined;
+  flags?: number | null | undefined;
+  components?: MessageEmbedResponseComponentsList | undefined;
 }
 export type MessageResponseEmbedsList = Array<MessageEmbedResponse>;
 export type MessageResponseComponentsItem =
@@ -3189,13 +3323,13 @@ export interface MessageStickerItemResponse {
 export type MessageResponseStickerItemsList = Array<MessageStickerItemResponse>;
 export type MessageCallResponseParticipantsList = Array<string>;
 export interface MessageCallResponse {
-  ended_timestamp?: string | null;
+  ended_timestamp?: string | null | undefined;
   participants: MessageCallResponseParticipantsList;
 }
 export type ActivityActionTypes = 1 | 2 | 3 | 5 | 6;
 export interface MessageActivityResponse {
   type: ActivityActionTypes;
-  party_id?: string;
+  party_id?: string | undefined;
 }
 export interface BasicApplicationResponseWithBot {
   id: string;
@@ -3203,34 +3337,34 @@ export interface BasicApplicationResponseWithBot {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
+  bot?: UserResponse | undefined;
 }
 export interface MessageInteractionResponse {
   id: string;
   type: InteractionTypes;
   name: string;
-  user?: UserResponse;
-  name_localized?: string;
+  user?: UserResponse | undefined;
+  name_localized?: string | undefined;
 }
 export type MessageResponseNonce = number | string;
 export type MessageReferenceType = 0;
 export interface MessageReferenceResponse {
   type: MessageReferenceType;
   channel_id: string;
-  message_id?: string;
-  guild_id?: string;
+  message_id?: string | undefined;
+  guild_id?: string | undefined;
 }
 export interface ThreadMetadataResponse {
   archived: boolean;
   archive_timestamp: string | null;
   auto_archive_duration: ThreadAutoArchiveDuration;
   locked: boolean;
-  create_timestamp?: string;
-  invitable?: boolean;
+  create_timestamp?: string | undefined;
+  invitable?: boolean | undefined;
 }
 export type ThreadResponseAppliedTagsList = Array<string>;
 export interface ThreadMemberResponse {
@@ -3238,30 +3372,30 @@ export interface ThreadMemberResponse {
   user_id: string;
   join_timestamp: string;
   flags: number;
-  member?: GuildMemberResponse;
+  member?: GuildMemberResponse | undefined;
 }
 export interface ThreadResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   guild_id: string;
   name: string;
-  parent_id?: string | null;
-  rate_limit_per_user?: number;
-  bitrate?: number;
-  user_limit?: number;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes;
-  permissions?: string;
+  parent_id?: string | null | undefined;
+  rate_limit_per_user?: number | undefined;
+  bitrate?: number | undefined;
+  user_limit?: number | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | undefined;
+  permissions?: string | undefined;
   owner_id: string;
   thread_metadata: ThreadMetadataResponse;
   message_count: number;
   member_count: number;
   total_message_sent: number;
-  applied_tags?: ThreadResponseAppliedTagsList;
-  member?: ThreadMemberResponse;
+  applied_tags?: ThreadResponseAppliedTagsList | undefined;
+  member?: ThreadMemberResponse | undefined;
 }
 export interface MessageMentionChannelResponse {
   id: string;
@@ -3283,7 +3417,7 @@ export interface GuildProductPurchaseResponse {
 }
 export interface PurchaseNotificationResponse {
   type: PurchaseType;
-  guild_product_purchase?: GuildProductPurchaseResponse;
+  guild_product_purchase?: GuildProductPurchaseResponse | undefined;
 }
 export type ResolvedObjectsResponseUsersMap = { [key: string]: UserResponse | undefined };
 /** array of role object ids */
@@ -3292,7 +3426,7 @@ export interface BasicGuildMemberResponse {
   /** the member's guild avatar hash */
   avatar: string | null;
   /** data for the member's guild avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** the member's guild banner hash */
   banner: string | null;
   /** when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out */
@@ -3310,7 +3444,7 @@ export interface BasicGuildMemberResponse {
   /** array of role object ids */
   roles: BasicGuildMemberResponseRolesList;
   /** data for the member's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
 }
 export type ResolvedObjectsResponseMembersMap = {
   [key: string]: BasicGuildMemberResponse | undefined;
@@ -3325,21 +3459,21 @@ export type ResolvedObjectsResponseChannelsMap = {
 };
 export type ResolvedObjectsResponseRolesMap = { [key: string]: GuildRoleResponse | undefined };
 export interface ResolvedObjectsResponse {
-  users?: ResolvedObjectsResponseUsersMap | null;
-  members?: ResolvedObjectsResponseMembersMap | null;
-  channels?: ResolvedObjectsResponseChannelsMap | null;
-  roles?: ResolvedObjectsResponseRolesMap | null;
+  users?: ResolvedObjectsResponseUsersMap | null | undefined;
+  members?: ResolvedObjectsResponseMembersMap | null | undefined;
+  channels?: ResolvedObjectsResponseChannelsMap | null | undefined;
+  roles?: ResolvedObjectsResponseRolesMap | null | undefined;
 }
 export interface MessageReactionEmojiResponse {
   id: string | null;
   name: string | null;
-  animated?: boolean;
+  animated?: boolean | undefined;
 }
 export interface PollMediaResponse {
   /** The text of the field */
-  text?: string;
+  text?: string | undefined;
   /** The emoji of the field */
-  emoji?: MessageReactionEmojiResponse;
+  emoji?: MessageReactionEmojiResponse | undefined;
 }
 export interface PollAnswerResponse {
   /** The ID of the answer */
@@ -3393,11 +3527,11 @@ export type ApplicationCommandInteractionMetadataResponseAuthorizingIntegrationO
 export interface ApplicationCommandInteractionMetadataResponse {
   id: string;
   type: InteractionTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   authorizing_integration_owners: ApplicationCommandInteractionMetadataResponseAuthorizingIntegrationOwnersMap;
-  original_response_message_id?: string;
-  target_user?: UserResponse;
-  target_message_id?: string;
+  original_response_message_id?: string | undefined;
+  target_user?: UserResponse | undefined;
+  target_message_id?: string | undefined;
 }
 export type MessageComponentInteractionMetadataResponseAuthorizingIntegrationOwnersMap = {
   [key: string]: string | undefined;
@@ -3405,9 +3539,9 @@ export type MessageComponentInteractionMetadataResponseAuthorizingIntegrationOwn
 export interface MessageComponentInteractionMetadataResponse {
   id: string;
   type: InteractionTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   authorizing_integration_owners: MessageComponentInteractionMetadataResponseAuthorizingIntegrationOwnersMap;
-  original_response_message_id?: string;
+  original_response_message_id?: string | undefined;
   interacted_message_id: string;
 }
 export type ModalSubmitInteractionMetadataResponseAuthorizingIntegrationOwnersMap = {
@@ -3419,9 +3553,9 @@ export type ModalSubmitInteractionMetadataResponseTriggeringInteractionMetadata 
 export interface ModalSubmitInteractionMetadataResponse {
   id: string;
   type: InteractionTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   authorizing_integration_owners: ModalSubmitInteractionMetadataResponseAuthorizingIntegrationOwnersMap;
-  original_response_message_id?: string;
+  original_response_message_id?: string | undefined;
   triggering_interaction_metadata: ModalSubmitInteractionMetadataResponseTriggeringInteractionMetadata;
 }
 export type MessageResponseInteractionMetadata =
@@ -3459,8 +3593,8 @@ export interface MinimalContentMessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: MinimalContentMessageResponseComponentsList;
-  stickers?: MinimalContentMessageResponseStickersList;
-  sticker_items?: MinimalContentMessageResponseStickerItemsList;
+  stickers?: MinimalContentMessageResponseStickersList | undefined;
+  sticker_items?: MinimalContentMessageResponseStickerItemsList | undefined;
 }
 export interface MessageSnapshotResponse {
   message: MinimalContentMessageResponse;
@@ -3517,34 +3651,34 @@ export interface BasicMessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: BasicMessageResponseComponentsList;
-  stickers?: BasicMessageResponseStickersList;
-  sticker_items?: BasicMessageResponseStickerItemsList;
+  stickers?: BasicMessageResponseStickersList | undefined;
+  sticker_items?: BasicMessageResponseStickerItemsList | undefined;
   id: string;
   channel_id: string;
   author: UserResponse;
   pinned: boolean;
   mention_everyone: boolean;
   tts: boolean;
-  call?: MessageCallResponse;
-  activity?: MessageActivityResponse;
-  application?: BasicApplicationResponseWithBot;
-  application_id?: string;
-  interaction?: MessageInteractionResponse;
-  nonce?: BasicMessageResponseNonce;
-  webhook_id?: string;
-  message_reference?: MessageReferenceResponse;
-  thread?: ThreadResponse;
-  mention_channels?: BasicMessageResponseMentionChannelsList;
-  role_subscription_data?: MessageRoleSubscriptionDataResponse;
-  purchase_notification?: PurchaseNotificationResponse;
-  position?: number;
-  resolved?: ResolvedObjectsResponse;
-  poll?: PollResponse;
-  shared_client_theme?: CustomClientThemeResponse;
-  interaction_metadata?: BasicMessageResponseInteractionMetadata;
-  message_snapshots?: BasicMessageResponseMessageSnapshotsList;
-  lobby_member?: MessageLobbyMemberResponse;
-  actor?: UserResponse;
+  call?: MessageCallResponse | undefined;
+  activity?: MessageActivityResponse | undefined;
+  application?: BasicApplicationResponseWithBot | undefined;
+  application_id?: string | undefined;
+  interaction?: MessageInteractionResponse | undefined;
+  nonce?: BasicMessageResponseNonce | undefined;
+  webhook_id?: string | undefined;
+  message_reference?: MessageReferenceResponse | undefined;
+  thread?: ThreadResponse | undefined;
+  mention_channels?: BasicMessageResponseMentionChannelsList | undefined;
+  role_subscription_data?: MessageRoleSubscriptionDataResponse | undefined;
+  purchase_notification?: PurchaseNotificationResponse | undefined;
+  position?: number | undefined;
+  resolved?: ResolvedObjectsResponse | undefined;
+  poll?: PollResponse | undefined;
+  shared_client_theme?: CustomClientThemeResponse | undefined;
+  interaction_metadata?: BasicMessageResponseInteractionMetadata | undefined;
+  message_snapshots?: BasicMessageResponseMessageSnapshotsList | undefined;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  actor?: UserResponse | undefined;
 }
 export interface MessageResponse {
   type: MessageType;
@@ -3557,36 +3691,36 @@ export interface MessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: MessageResponseComponentsList;
-  stickers?: MessageResponseStickersList;
-  sticker_items?: MessageResponseStickerItemsList;
+  stickers?: MessageResponseStickersList | undefined;
+  sticker_items?: MessageResponseStickerItemsList | undefined;
   id: string;
   channel_id: string;
   author: UserResponse;
   pinned: boolean;
   mention_everyone: boolean;
   tts: boolean;
-  call?: MessageCallResponse;
-  activity?: MessageActivityResponse;
-  application?: BasicApplicationResponseWithBot;
-  application_id?: string;
-  interaction?: MessageInteractionResponse;
-  nonce?: MessageResponseNonce;
-  webhook_id?: string;
-  message_reference?: MessageReferenceResponse;
-  thread?: ThreadResponse;
-  mention_channels?: MessageResponseMentionChannelsList;
-  role_subscription_data?: MessageRoleSubscriptionDataResponse;
-  purchase_notification?: PurchaseNotificationResponse;
-  position?: number;
-  resolved?: ResolvedObjectsResponse;
-  poll?: PollResponse;
-  shared_client_theme?: CustomClientThemeResponse;
-  interaction_metadata?: MessageResponseInteractionMetadata;
-  message_snapshots?: MessageResponseMessageSnapshotsList;
-  lobby_member?: MessageLobbyMemberResponse;
-  actor?: UserResponse;
-  reactions?: MessageResponseReactionsList;
-  referenced_message?: BasicMessageResponse | null;
+  call?: MessageCallResponse | undefined;
+  activity?: MessageActivityResponse | undefined;
+  application?: BasicApplicationResponseWithBot | undefined;
+  application_id?: string | undefined;
+  interaction?: MessageInteractionResponse | undefined;
+  nonce?: MessageResponseNonce | undefined;
+  webhook_id?: string | undefined;
+  message_reference?: MessageReferenceResponse | undefined;
+  thread?: ThreadResponse | undefined;
+  mention_channels?: MessageResponseMentionChannelsList | undefined;
+  role_subscription_data?: MessageRoleSubscriptionDataResponse | undefined;
+  purchase_notification?: PurchaseNotificationResponse | undefined;
+  position?: number | undefined;
+  resolved?: ResolvedObjectsResponse | undefined;
+  poll?: PollResponse | undefined;
+  shared_client_theme?: CustomClientThemeResponse | undefined;
+  interaction_metadata?: MessageResponseInteractionMetadata | undefined;
+  message_snapshots?: MessageResponseMessageSnapshotsList | undefined;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  actor?: UserResponse | undefined;
+  reactions?: MessageResponseReactionsList | undefined;
+  referenced_message?: BasicMessageResponse | null | undefined;
 }
 export interface CreateMessageInteractionCallbackResponse {
   type: InteractionCallbackTypes;
@@ -3606,7 +3740,7 @@ export type InteractionCallbackResponseResource =
   | CreateMessageInteractionCallbackResponse;
 export interface InteractionCallbackResponse {
   interaction: InteractionResponse;
-  resource?: InteractionCallbackResponseResource;
+  resource?: InteractionCallbackResponseResource | undefined;
 }
 export interface CreateLinkedLobbyGuildInviteForSelfRequest {
   lobby_id: string;
@@ -3622,20 +3756,20 @@ export type LobbyMemberRequestMetadataMap = { [key: string]: string | undefined 
 export type LobbyMemberRequestFlags = 1;
 export interface LobbyMemberRequest {
   id: string;
-  metadata?: LobbyMemberRequestMetadataMap | null;
-  flags?: LobbyMemberRequestFlags | (number & {}) | null;
-  additional_name?: string | null;
+  metadata?: LobbyMemberRequestMetadataMap | null | undefined;
+  flags?: LobbyMemberRequestFlags | (number & {}) | null | undefined;
+  additional_name?: string | null | undefined;
 }
 export type CreateLobbyRequestMembersList = Array<LobbyMemberRequest>;
 export type CreateLobbyRequestMetadataMap = { [key: string]: string | undefined };
 export type CreateLobbyRequestFlags = 1;
 export interface CreateLobbyRequest {
-  idle_timeout_seconds?: number | null;
-  members?: CreateLobbyRequestMembersList | null;
-  metadata?: CreateLobbyRequestMetadataMap | null;
-  flags?: CreateLobbyRequestFlags | (number & {}) | null;
-  override_event_webhooks_url?: string | null;
-  name?: string | null;
+  idle_timeout_seconds?: number | null | undefined;
+  members?: CreateLobbyRequestMembersList | null | undefined;
+  metadata?: CreateLobbyRequestMetadataMap | null | undefined;
+  flags?: CreateLobbyRequestFlags | (number & {}) | null | undefined;
+  override_event_webhooks_url?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export type LobbyResponseMetadataMap = { [key: string]: string | undefined };
 export type LobbyResponseMembersList = Array<LobbyMemberResponse>;
@@ -3644,9 +3778,9 @@ export interface LobbyResponse {
   application_id: string;
   metadata: LobbyResponseMetadataMap | null;
   members: LobbyResponseMembersList;
-  linked_channel?: GuildChannelResponse;
+  linked_channel?: GuildChannelResponse | undefined;
   flags: number;
-  override_event_webhooks_url?: string | null;
+  override_event_webhooks_url?: string | null | undefined;
 }
 export type CreateLobbyMessageRequestEmbedsList = Array<RichEmbed>;
 export type CreateLobbyMessageRequestStickerIdsList = Array<string>;
@@ -3666,31 +3800,31 @@ export interface CustomClientThemeShareRequest {
   colors: CustomClientThemeShareRequestColorsList;
   gradient_angle: number;
   base_mix: number;
-  base_theme?: MessageShareCustomUserThemeBaseTheme | (number & {}) | null;
+  base_theme?: MessageShareCustomUserThemeBaseTheme | (number & {}) | null | undefined;
 }
 export interface MessageReferenceRequest {
-  guild_id?: string | null;
-  channel_id?: string | null;
+  guild_id?: string | null | undefined;
+  channel_id?: string | null | undefined;
   message_id: string;
-  fail_if_not_exists?: boolean | null;
-  type?: MessageReferenceType | (number & {}) | null;
+  fail_if_not_exists?: boolean | null | undefined;
+  type?: MessageReferenceType | (number & {}) | null | undefined;
 }
 export type CreateLobbyMessageRequestNonce = number | string;
 export interface CreateLobbyMessageRequest {
   lobby_id: string;
-  content?: string | null;
-  embeds?: CreateLobbyMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: CreateLobbyMessageRequestStickerIdsList | null;
-  components?: CreateLobbyMessageRequestComponentsList | null;
-  flags?: number | null;
-  attachments?: CreateLobbyMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  shared_client_theme?: CustomClientThemeShareRequest | null;
-  message_reference?: MessageReferenceRequest | null;
-  nonce?: CreateLobbyMessageRequestNonce | null;
-  enforce_nonce?: boolean | null;
-  tts?: boolean | null;
+  content?: string | null | undefined;
+  embeds?: CreateLobbyMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: CreateLobbyMessageRequestStickerIdsList | null | undefined;
+  components?: CreateLobbyMessageRequestComponentsList | null | undefined;
+  flags?: number | null | undefined;
+  attachments?: CreateLobbyMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  shared_client_theme?: CustomClientThemeShareRequest | null | undefined;
+  message_reference?: MessageReferenceRequest | null | undefined;
+  nonce?: CreateLobbyMessageRequestNonce | null | undefined;
+  enforce_nonce?: boolean | null | undefined;
+  tts?: boolean | null | undefined;
 }
 export type LobbyMessageResponseMetadataMap = { [key: string]: string | undefined };
 export type LobbyMessageResponseModerationMetadataMap = { [key: string]: string | undefined };
@@ -3701,11 +3835,11 @@ export interface LobbyMessageResponse {
   lobby_id: string;
   channel_id: string;
   author: UserResponse;
-  lobby_member?: MessageLobbyMemberResponse;
-  metadata?: LobbyMessageResponseMetadataMap;
-  moderation_metadata?: LobbyMessageResponseModerationMetadataMap;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  metadata?: LobbyMessageResponseMetadataMap | undefined;
+  moderation_metadata?: LobbyMessageResponseModerationMetadataMap | undefined;
   flags: number;
-  application_id?: string;
+  application_id?: string | undefined;
 }
 export type CreateMessageRequestEmbedsList = Array<RichEmbed>;
 export type CreateMessageRequestStickerIdsList = Array<string>;
@@ -3722,30 +3856,30 @@ export type CreateMessageRequestAttachmentsList = Array<MessageAttachmentRequest
 export type CreateMessageRequestNonce = number | string;
 export interface CreateMessageRequest {
   channel_id: string;
-  content?: string | null;
-  embeds?: CreateMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: CreateMessageRequestStickerIdsList | null;
-  components?: CreateMessageRequestComponentsList | null;
-  flags?: number | null;
-  attachments?: CreateMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  shared_client_theme?: CustomClientThemeShareRequest | null;
-  message_reference?: MessageReferenceRequest | null;
-  nonce?: CreateMessageRequestNonce | null;
-  enforce_nonce?: boolean | null;
-  tts?: boolean | null;
+  content?: string | null | undefined;
+  embeds?: CreateMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: CreateMessageRequestStickerIdsList | null | undefined;
+  components?: CreateMessageRequestComponentsList | null | undefined;
+  flags?: number | null | undefined;
+  attachments?: CreateMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  shared_client_theme?: CustomClientThemeShareRequest | null | undefined;
+  message_reference?: MessageReferenceRequest | null | undefined;
+  nonce?: CreateMessageRequestNonce | null | undefined;
+  enforce_nonce?: boolean | null | undefined;
+  tts?: boolean | null | undefined;
 }
 export type CreateOrJoinLobbyRequestLobbyMetadataMap = { [key: string]: string | undefined };
 export type CreateOrJoinLobbyRequestMemberMetadataMap = { [key: string]: string | undefined };
 export type CreateOrJoinLobbyRequestFlags = 1;
 export interface CreateOrJoinLobbyRequest {
-  idle_timeout_seconds?: number | null;
-  lobby_metadata?: CreateOrJoinLobbyRequestLobbyMetadataMap | null;
-  member_metadata?: CreateOrJoinLobbyRequestMemberMetadataMap | null;
+  idle_timeout_seconds?: number | null | undefined;
+  lobby_metadata?: CreateOrJoinLobbyRequestLobbyMetadataMap | null | undefined;
+  member_metadata?: CreateOrJoinLobbyRequestMemberMetadataMap | null | undefined;
   secret: string | Redacted.Redacted<string>;
-  flags?: CreateOrJoinLobbyRequestFlags | (number & {}) | null;
-  name?: string | null;
+  flags?: CreateOrJoinLobbyRequestFlags | (number & {}) | null | undefined;
+  name?: string | null | undefined;
 }
 export interface CreatePinRequest {
   channel_id: string;
@@ -3756,9 +3890,9 @@ export type StageInstancesPrivacyLevels = 1 | 2;
 export interface CreateStageInstanceRequest {
   topic: string;
   channel_id: string;
-  privacy_level?: StageInstancesPrivacyLevels | (number & {}) | null;
-  guild_scheduled_event_id?: string | null;
-  send_start_notification?: boolean | null;
+  privacy_level?: StageInstancesPrivacyLevels | (number & {}) | null | undefined;
+  guild_scheduled_event_id?: string | null | undefined;
+  send_start_notification?: boolean | null | undefined;
 }
 export interface StageInstanceResponse {
   guild_id: string;
@@ -3784,29 +3918,29 @@ export type BaseCreateMessageCreateRequestComponentsList =
   Array<BaseCreateMessageCreateRequestComponentsItem>;
 export type BaseCreateMessageCreateRequestAttachmentsList = Array<MessageAttachmentRequest>;
 export interface BaseCreateMessageCreateRequest {
-  content?: string | null;
-  embeds?: BaseCreateMessageCreateRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: BaseCreateMessageCreateRequestStickerIdsList | null;
-  components?: BaseCreateMessageCreateRequestComponentsList | null;
-  flags?: number | null;
-  attachments?: BaseCreateMessageCreateRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  shared_client_theme?: CustomClientThemeShareRequest | null;
+  content?: string | null | undefined;
+  embeds?: BaseCreateMessageCreateRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: BaseCreateMessageCreateRequestStickerIdsList | null | undefined;
+  components?: BaseCreateMessageCreateRequestComponentsList | null | undefined;
+  flags?: number | null | undefined;
+  attachments?: BaseCreateMessageCreateRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  shared_client_theme?: CustomClientThemeShareRequest | null | undefined;
 }
 export interface CreateForumThreadRequest {
   name: string;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
-  applied_tags?: CreateForumThreadRequestAppliedTagsList | null;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  applied_tags?: CreateForumThreadRequestAppliedTagsList | null | undefined;
   message: BaseCreateMessageCreateRequest;
 }
 export interface CreateTextThreadWithoutMessageRequest {
   name: string;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
-  type?: ChannelTypes | (number & {}) | null;
-  invitable?: boolean | null;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  type?: ChannelTypes | (number & {}) | null | undefined;
+  invitable?: boolean | null | undefined;
 }
 export type CreateThreadRequestBody =
   | CreateForumThreadRequest
@@ -3819,50 +3953,50 @@ export type CreatedThreadResponseAppliedTagsList = Array<string>;
 export interface CreatedThreadResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   guild_id: string;
   name: string;
-  parent_id?: string | null;
-  rate_limit_per_user?: number;
-  bitrate?: number;
-  user_limit?: number;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes;
-  permissions?: string;
+  parent_id?: string | null | undefined;
+  rate_limit_per_user?: number | undefined;
+  bitrate?: number | undefined;
+  user_limit?: number | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | undefined;
+  permissions?: string | undefined;
   owner_id: string;
   thread_metadata: ThreadMetadataResponse;
   message_count: number;
   member_count: number;
   total_message_sent: number;
-  applied_tags?: CreatedThreadResponseAppliedTagsList;
-  member?: ThreadMemberResponse;
+  applied_tags?: CreatedThreadResponseAppliedTagsList | undefined;
+  member?: ThreadMemberResponse | undefined;
 }
 export interface CreateThreadFromMessageRequest {
   channel_id: string;
   message_id: string;
   name: string;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
 }
 export interface CreateWebhookRequest {
   channel_id: string;
   name: string;
-  avatar?: string | null;
+  avatar?: string | null | undefined;
 }
 export type WebhookTypes = 1 | 2 | 3;
 export interface GuildIncomingWebhookResponse {
   application_id: string | null;
   avatar: string | null;
   channel_id: string | null;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   id: string;
   name: string;
   type: WebhookTypes;
-  user?: UserResponse;
-  token?: string;
-  url?: string;
+  user?: UserResponse | undefined;
+  token?: string | undefined;
+  url?: string | undefined;
 }
 export interface CrosspostMessageRequest {
   channel_id: string;
@@ -4010,7 +4144,7 @@ export interface DeleteMyMessageReactionResponse {}
 export interface DeleteOriginalWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface DeleteOriginalWebhookMessageResponse {}
 export interface DeletePinRequest {
@@ -4047,7 +4181,7 @@ export interface DeleteWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
   message_id: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface DeleteWebhookMessageResponse {}
 export type EditLobbyRequestMetadataMap = { [key: string]: string | undefined };
@@ -4055,16 +4189,16 @@ export type EditLobbyRequestMembersList = Array<LobbyMemberRequest>;
 export type EditLobbyRequestFlags = 1;
 export interface EditLobbyRequest {
   lobby_id: string;
-  idle_timeout_seconds?: number | null;
-  metadata?: EditLobbyRequestMetadataMap | null;
-  members?: EditLobbyRequestMembersList | null;
-  flags?: EditLobbyRequestFlags | (number & {}) | null;
-  override_event_webhooks_url?: string | null;
-  name?: string | null;
+  idle_timeout_seconds?: number | null | undefined;
+  metadata?: EditLobbyRequestMetadataMap | null | undefined;
+  members?: EditLobbyRequestMembersList | null | undefined;
+  flags?: EditLobbyRequestFlags | (number & {}) | null | undefined;
+  override_event_webhooks_url?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export interface EditLobbyChannelLinkRequest {
   lobby_id: string;
-  channel_id?: string | null;
+  channel_id?: string | null | undefined;
 }
 export interface GithubUser {
   id: number;
@@ -4076,7 +4210,7 @@ export interface GithubComment {
   id: number;
   html_url: string;
   user: GithubUser;
-  commit_id?: string | null;
+  commit_id?: string | null | undefined;
   body: string;
 }
 export interface GithubIssue {
@@ -4085,8 +4219,8 @@ export interface GithubIssue {
   html_url: string;
   user: GithubUser;
   title: string;
-  body?: string | null;
-  pull_request?: unknown;
+  body?: string | null | undefined;
+  pull_request?: unknown | undefined;
 }
 export interface GithubRepository {
   id: number;
@@ -4101,7 +4235,7 @@ export interface GithubRelease {
   author: GithubUser;
 }
 export interface GithubAuthor {
-  username?: string | null;
+  username?: string | null | undefined;
   name: string;
 }
 export interface GithubCommit {
@@ -4113,7 +4247,7 @@ export interface GithubCommit {
 export type ExecuteGithubCompatibleWebhookRequestCommitsList = Array<GithubCommit>;
 export interface GithubReview {
   user: GithubUser;
-  body?: string | null;
+  body?: string | null | undefined;
   html_url: string;
   state: string;
 }
@@ -4125,93 +4259,93 @@ export interface GithubCheckApp {
   name: string;
 }
 export interface GithubCheckSuite {
-  conclusion?: string | null;
-  head_branch?: string | null;
+  conclusion?: string | null | undefined;
+  head_branch?: string | null | undefined;
   head_sha: string;
-  pull_requests?: GithubCheckSuitePullRequestsList | null;
+  pull_requests?: GithubCheckSuitePullRequestsList | null | undefined;
   app: GithubCheckApp;
 }
 export interface GithubCheckRunOutput {
-  title?: string | null;
-  summary?: string | null;
+  title?: string | null | undefined;
+  summary?: string | null | undefined;
 }
 export type GithubCheckRunPullRequestsList = Array<GithubCheckPullRequest>;
 export interface GithubCheckRun {
-  conclusion?: string | null;
+  conclusion?: string | null | undefined;
   name: string;
   html_url: string;
   check_suite: GithubCheckSuite;
-  details_url?: string | null;
-  output?: GithubCheckRunOutput | null;
-  pull_requests?: GithubCheckRunPullRequestsList | null;
+  details_url?: string | null | undefined;
+  output?: GithubCheckRunOutput | null | undefined;
+  pull_requests?: GithubCheckRunPullRequestsList | null | undefined;
 }
 export interface GithubDiscussion {
   title: string;
   number: number;
   html_url: string;
-  answer_html_url?: string | null;
-  body?: string | null;
+  answer_html_url?: string | null | undefined;
+  body?: string | null | undefined;
   user: GithubUser;
 }
 export interface ExecuteGithubCompatibleWebhookRequest {
   webhook_id: string;
   webhook_token: string;
-  wait?: boolean;
-  thread_id?: string;
-  action?: string | null;
-  ref?: string | null;
-  ref_type?: string | null;
-  comment?: GithubComment | null;
-  issue?: GithubIssue | null;
-  pull_request?: GithubIssue | null;
-  repository?: GithubRepository | null;
-  forkee?: GithubRepository | null;
+  wait?: boolean | undefined;
+  thread_id?: string | undefined;
+  action?: string | null | undefined;
+  ref?: string | null | undefined;
+  ref_type?: string | null | undefined;
+  comment?: GithubComment | null | undefined;
+  issue?: GithubIssue | null | undefined;
+  pull_request?: GithubIssue | null | undefined;
+  repository?: GithubRepository | null | undefined;
+  forkee?: GithubRepository | null | undefined;
   sender: GithubUser;
-  member?: GithubUser | null;
-  release?: GithubRelease | null;
-  head_commit?: GithubCommit | null;
-  commits?: ExecuteGithubCompatibleWebhookRequestCommitsList | null;
-  forced?: boolean | null;
-  compare?: string | null;
-  review?: GithubReview | null;
-  check_run?: GithubCheckRun | null;
-  check_suite?: GithubCheckSuite | null;
-  discussion?: GithubDiscussion | null;
-  answer?: GithubComment | null;
+  member?: GithubUser | null | undefined;
+  release?: GithubRelease | null | undefined;
+  head_commit?: GithubCommit | null | undefined;
+  commits?: ExecuteGithubCompatibleWebhookRequestCommitsList | null | undefined;
+  forced?: boolean | null | undefined;
+  compare?: string | null | undefined;
+  review?: GithubReview | null | undefined;
+  check_run?: GithubCheckRun | null | undefined;
+  check_suite?: GithubCheckSuite | null | undefined;
+  discussion?: GithubDiscussion | null | undefined;
+  answer?: GithubComment | null | undefined;
 }
 export interface ExecuteGithubCompatibleWebhookResponse {}
 export interface WebhookSlackEmbedField {
-  name?: string | null;
-  value?: string | null;
-  inline?: boolean | null;
+  name?: string | null | undefined;
+  value?: string | null | undefined;
+  inline?: boolean | null | undefined;
 }
 export type WebhookSlackEmbedFieldsList = Array<WebhookSlackEmbedField>;
 export interface WebhookSlackEmbed {
-  title?: string | null;
-  title_link?: string | null;
-  text?: string | null;
-  color?: string | null;
-  ts?: number | null;
-  pretext?: string | null;
-  footer?: string | null;
-  footer_icon?: string | null;
-  author_name?: string | null;
-  author_link?: string | null;
-  author_icon?: string | null;
-  image_url?: string | null;
-  thumb_url?: string | null;
-  fields?: WebhookSlackEmbedFieldsList | null;
+  title?: string | null | undefined;
+  title_link?: string | null | undefined;
+  text?: string | null | undefined;
+  color?: string | null | undefined;
+  ts?: number | null | undefined;
+  pretext?: string | null | undefined;
+  footer?: string | null | undefined;
+  footer_icon?: string | null | undefined;
+  author_name?: string | null | undefined;
+  author_link?: string | null | undefined;
+  author_icon?: string | null | undefined;
+  image_url?: string | null | undefined;
+  thumb_url?: string | null | undefined;
+  fields?: WebhookSlackEmbedFieldsList | null | undefined;
 }
 export type ExecuteSlackCompatibleWebhookRequestAttachmentsList = Array<WebhookSlackEmbed>;
 export interface ExecuteSlackCompatibleWebhookRequest {
   webhook_id: string;
   webhook_token: string;
-  wait?: boolean;
-  thread_id?: string;
-  text?: string | null;
-  username?: string | null;
-  icon_url?: string | null;
-  attachments?: ExecuteSlackCompatibleWebhookRequestAttachmentsList | null;
+  wait?: boolean | undefined;
+  thread_id?: string | undefined;
+  text?: string | null | undefined;
+  username?: string | null | undefined;
+  icon_url?: string | null | undefined;
+  attachments?: ExecuteSlackCompatibleWebhookRequestAttachmentsList | null | undefined;
 }
 export type ExecuteSlackCompatibleWebhookResponse = string;
 export type IncomingWebhookRequestPartialEmbedsList = Array<RichEmbed>;
@@ -4228,18 +4362,18 @@ export type IncomingWebhookRequestPartialComponentsList =
 export type IncomingWebhookRequestPartialAttachmentsList = Array<MessageAttachmentRequest>;
 export type IncomingWebhookRequestPartialAppliedTagsList = Array<string>;
 export interface IncomingWebhookRequestPartial {
-  content?: string | null;
-  embeds?: IncomingWebhookRequestPartialEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookRequestPartialComponentsList | null;
-  attachments?: IncomingWebhookRequestPartialAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  tts?: boolean | null;
-  flags?: number | null;
-  username?: string | null;
-  avatar_url?: string | null;
-  thread_name?: string | null;
-  applied_tags?: IncomingWebhookRequestPartialAppliedTagsList | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookRequestPartialEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: IncomingWebhookRequestPartialComponentsList | null | undefined;
+  attachments?: IncomingWebhookRequestPartialAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  tts?: boolean | null | undefined;
+  flags?: number | null | undefined;
+  username?: string | null | undefined;
+  avatar_url?: string | null | undefined;
+  thread_name?: string | null | undefined;
+  applied_tags?: IncomingWebhookRequestPartialAppliedTagsList | null | undefined;
 }
 export type IncomingWebhookUpdateRequestPartialEmbedsList = Array<RichEmbed>;
 export type IncomingWebhookUpdateRequestPartialComponentsItem =
@@ -4254,13 +4388,13 @@ export type IncomingWebhookUpdateRequestPartialComponentsList =
   Array<IncomingWebhookUpdateRequestPartialComponentsItem>;
 export type IncomingWebhookUpdateRequestPartialAttachmentsList = Array<MessageAttachmentRequest>;
 export interface IncomingWebhookUpdateRequestPartial {
-  content?: string | null;
-  embeds?: IncomingWebhookUpdateRequestPartialEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookUpdateRequestPartialComponentsList | null;
-  attachments?: IncomingWebhookUpdateRequestPartialAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  flags?: number | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookUpdateRequestPartialEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: IncomingWebhookUpdateRequestPartialComponentsList | null | undefined;
+  attachments?: IncomingWebhookUpdateRequestPartialAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  flags?: number | null | undefined;
 }
 export type ExecuteWebhookRequestBody =
   | IncomingWebhookRequestPartial
@@ -4268,9 +4402,9 @@ export type ExecuteWebhookRequestBody =
 export interface ExecuteWebhookRequest {
   webhook_id: string;
   webhook_token: string;
-  wait?: boolean;
-  thread_id?: string;
-  with_components?: boolean;
+  wait?: boolean | undefined;
+  thread_id?: string | undefined;
+  with_components?: boolean | undefined;
   body: ExecuteWebhookRequestBody;
 }
 export interface FollowChannelRequest {
@@ -4291,15 +4425,15 @@ export interface ThreadsResponse {
   threads: ThreadsResponseThreadsList;
   members: ThreadsResponseMembersList;
   has_more: boolean;
-  first_messages?: ThreadsResponseFirstMessagesList;
+  first_messages?: ThreadsResponseFirstMessagesList | undefined;
 }
 export interface GetAnswerVotersRequest {
   channel_id: string;
   message_id: string;
   /** The ID of the answer */
   answer_id: number;
-  after?: string;
-  limit?: number;
+  after?: string | undefined;
+  limit?: number | undefined;
 }
 export type PollAnswerDetailsResponseUsersList = Array<UserResponse>;
 export interface PollAnswerDetailsResponse {
@@ -4422,26 +4556,26 @@ export interface PrivateApplicationResponse {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
-  slug?: string;
-  conjure_project_id?: string;
-  vibegrations_project_id?: string;
-  guild_id?: string;
-  rpc_origins?: PrivateApplicationResponseRpcOriginsList;
-  bot_public?: boolean;
-  bot_require_code_grant?: boolean;
-  terms_of_service_url?: string;
-  privacy_policy_url?: string;
-  custom_install_url?: string;
-  install_params?: ApplicationOAuth2InstallParamsResponse;
-  integration_types_config?: PrivateApplicationResponseIntegrationTypesConfigMap;
+  bot?: UserResponse | undefined;
+  slug?: string | undefined;
+  conjure_project_id?: string | undefined;
+  vibegrations_project_id?: string | undefined;
+  guild_id?: string | undefined;
+  rpc_origins?: PrivateApplicationResponseRpcOriginsList | undefined;
+  bot_public?: boolean | undefined;
+  bot_require_code_grant?: boolean | undefined;
+  terms_of_service_url?: string | undefined;
+  privacy_policy_url?: string | undefined;
+  custom_install_url?: string | undefined;
+  install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
+  integration_types_config?: PrivateApplicationResponseIntegrationTypesConfigMap | undefined;
   verify_key: string;
-  max_participants?: number | null;
-  tags?: PrivateApplicationResponseTagsList;
+  max_participants?: number | null | undefined;
+  tags?: PrivateApplicationResponseTagsList | undefined;
   redirect_uris: PrivateApplicationResponseRedirectUrisList;
   interactions_endpoint_url: string | null;
   role_connections_verification_url: string | null;
@@ -4449,9 +4583,9 @@ export interface PrivateApplicationResponse {
   approximate_guild_count: number;
   approximate_user_install_count: number;
   approximate_user_authorization_count: number;
-  event_webhooks_url?: string | null;
-  event_webhooks_status?: ApplicationEventWebhooksStatus;
-  event_webhooks_types?: PrivateApplicationResponseEventWebhooksTypesList;
+  event_webhooks_url?: string | null | undefined;
+  event_webhooks_status?: ApplicationEventWebhooksStatus | undefined;
+  event_webhooks_types?: PrivateApplicationResponseEventWebhooksTypesList | undefined;
   explicit_content_filter: ApplicationExplicitContentFilterTypes;
   team: TeamResponse | null;
   eligible_oauth2_scopes: PrivateApplicationResponseEligibleOauth2ScopesList;
@@ -4503,9 +4637,15 @@ export interface ApplicationRoleConnectionsMetadataItemResponse {
   type: MetadataItemTypes;
   key: string;
   name: string;
-  name_localizations?: ApplicationRoleConnectionsMetadataItemResponseNameLocalizationsMap | null;
+  name_localizations?:
+    | ApplicationRoleConnectionsMetadataItemResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localizations?: ApplicationRoleConnectionsMetadataItemResponseDescriptionLocalizationsMap | null;
+  description_localizations?:
+    | ApplicationRoleConnectionsMetadataItemResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
 }
 export type GetApplicationRoleConnectionsMetadataResponseBodyList =
   Array<ApplicationRoleConnectionsMetadataItemResponse>;
@@ -4518,9 +4658,9 @@ export type ApplicationUserRoleConnectionResponseMetadataMap = {
   [key: string]: string | undefined;
 };
 export interface ApplicationUserRoleConnectionResponse {
-  platform_name?: string;
-  platform_username?: string | null;
-  metadata?: ApplicationUserRoleConnectionResponseMetadataMap;
+  platform_name?: string | undefined;
+  platform_username?: string | null | undefined;
+  metadata?: ApplicationUserRoleConnectionResponseMetadataMap | undefined;
 }
 export interface GetAutoModerationRuleRequest {
   guild_id: string;
@@ -4560,7 +4700,7 @@ export interface GetChannelMemberPermissionsRequest {
   /** The ID of the member */
   user_id: string;
   /** Whether to apply implicit-permission computations. Defaults to true; pass false for the raw explicit permissions. */
-  implicit?: boolean;
+  implicit?: boolean | undefined;
 }
 export interface PermissionsResponse {
   /** The computed permissions, as a stringified bitfield */
@@ -4572,7 +4712,7 @@ export interface GetChannelRolePermissionsRequest {
   /** The ID of the role */
   role_id: string;
   /** Whether to apply implicit-permission computations. Defaults to true. Pass false for the raw explicit permissions. */
-  implicit?: boolean;
+  implicit?: boolean | undefined;
 }
 export type GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List = Array<string | null>;
 export type GetCurrentUserApplicationEntitlementsRequestSkuIds =
@@ -4580,8 +4720,8 @@ export type GetCurrentUserApplicationEntitlementsRequestSkuIds =
   | GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List;
 export interface GetCurrentUserApplicationEntitlementsRequest {
   application_id: string;
-  sku_ids?: GetCurrentUserApplicationEntitlementsRequestSkuIds;
-  exclude_consumed?: boolean;
+  sku_ids?: GetCurrentUserApplicationEntitlementsRequestSkuIds | undefined;
+  exclude_consumed?: boolean | undefined;
 }
 export type GetCurrentUserApplicationEntitlementsResponseBodyList = Array<EntitlementResponse>;
 export type GetCurrentUserApplicationEntitlementsResponse =
@@ -4594,15 +4734,15 @@ export type GetEntitlementsRequestSkuIdsCase1List = Array<string | null>;
 export type GetEntitlementsRequestSkuIds = string | GetEntitlementsRequestSkuIdsCase1List;
 export interface GetEntitlementsRequest {
   application_id: string;
-  user_id?: string;
-  sku_ids?: GetEntitlementsRequestSkuIds;
-  guild_id?: string;
-  before?: string;
-  after?: string;
-  limit?: number;
-  exclude_ended?: boolean;
-  exclude_deleted?: boolean;
-  only_active?: boolean;
+  user_id?: string | undefined;
+  sku_ids?: GetEntitlementsRequestSkuIds | undefined;
+  guild_id?: string | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
+  exclude_ended?: boolean | undefined;
+  exclude_deleted?: boolean | undefined;
+  only_active?: boolean | undefined;
 }
 export type GetEntitlementsResponseBodyList = Array<EntitlementResponse>;
 export type GetEntitlementsResponse = GetEntitlementsResponseBodyList;
@@ -4612,7 +4752,7 @@ export interface GatewayResponse {
 }
 export interface GetGuildRequest {
   guild_id: string;
-  with_counts?: boolean;
+  with_counts?: boolean | undefined;
 }
 export type GuildWithCountsResponseFeaturesList = Array<GuildFeatures>;
 export type GuildWithCountsResponseRolesList = Array<GuildRoleResponse>;
@@ -4662,14 +4802,14 @@ export interface GuildWithCountsResponse {
   safety_alerts_channel_id: string | null;
   public_updates_channel_id: string | null;
   premium_progress_bar_enabled: boolean;
-  premium_progress_bar_enabled_user_updated_at?: string | null;
+  premium_progress_bar_enabled_user_updated_at?: string | null | undefined;
   nsfw: boolean;
   nsfw_level: GuildNSFWContentLevel;
   emojis: GuildWithCountsResponseEmojisList;
   stickers: GuildWithCountsResponseStickersList;
   incidents_data: GuildIncidentsDataResponse | null;
-  approximate_member_count?: number | null;
-  approximate_presence_count?: number | null;
+  approximate_member_count?: number | null | undefined;
+  approximate_presence_count?: number | null | undefined;
 }
 export interface GetGuildApplicationCommandRequest {
   application_id: string;
@@ -4710,11 +4850,11 @@ export type GuildJoinRequestApplicationStatus = "STARTED" | "SUBMITTED" | "REJEC
 export interface GetGuildJoinRequestsRequest {
   guild_id: string;
   /** Filter by application status. Defaults to SUBMITTED if omitted */
-  status?: GuildJoinRequestApplicationStatus | (string & {});
+  status?: GuildJoinRequestApplicationStatus | (string & {}) | undefined;
   /** Maximum number of join requests to return */
-  limit?: number;
-  before?: string;
-  after?: string;
+  limit?: number | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
 }
 export type GuildMemberVerificationFormFieldType =
   | "TERMS"
@@ -4727,29 +4867,29 @@ export interface MultipleChoiceFormFieldResponse {
   /** Type of form field */
   field_type: GuildMemberVerificationFormFieldType;
   /** Label shown above field */
-  label?: string;
+  label?: string | undefined;
   /** Optional helper text shown below label */
-  description?: string;
+  description?: string | undefined;
   /** Whether applicant must fill in field */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Choices applicant can select from */
   choices: MultipleChoiceFormFieldResponseChoicesList;
   /** Index of choice selected by applicant */
-  response?: number;
+  response?: number | undefined;
 }
 export interface ParagraphFormFieldResponse {
   /** Type of form field */
   field_type: GuildMemberVerificationFormFieldType;
   /** Label shown above field */
-  label?: string;
+  label?: string | undefined;
   /** Optional helper text shown below label */
-  description?: string;
+  description?: string | undefined;
   /** Whether applicant must fill in field */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Placeholder text shown in empty input */
-  placeholder?: string;
+  placeholder?: string | undefined;
   /** Applicant's text response */
-  response?: string;
+  response?: string | undefined;
 }
 /** Terms applicant must acknowledge */
 export type TermsFormFieldResponseValuesList = Array<string>;
@@ -4757,15 +4897,15 @@ export interface TermsFormFieldResponse {
   /** Type of form field */
   field_type: GuildMemberVerificationFormFieldType;
   /** Label shown above field */
-  label?: string;
+  label?: string | undefined;
   /** Optional helper text shown below label */
-  description?: string;
+  description?: string | undefined;
   /** Whether applicant must fill in field */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Terms applicant must acknowledge */
   values: TermsFormFieldResponseValuesList;
   /** Whether applicant accepted terms */
-  response?: boolean;
+  response?: boolean | undefined;
 }
 export type TextInputFormFieldResponse = ParagraphFormFieldResponse;
 export type GuildJoinRequestResponseFormResponsesItem =
@@ -4785,15 +4925,15 @@ export interface GuildJoinRequestResponse {
   rejection_reason: string | null;
   guild_id: string;
   user_id: string;
-  user?: UserResponse | null;
+  user?: UserResponse | null | undefined;
   /** Applicant's responses on join request form */
-  form_responses?: GuildJoinRequestResponseFormResponsesList | null;
-  actioned_by_user?: UserResponse | null;
+  form_responses?: GuildJoinRequestResponseFormResponsesList | null | undefined;
+  actioned_by_user?: UserResponse | null | undefined;
 }
 export type GuildJoinRequestsListResponseGuildJoinRequestsList = Array<GuildJoinRequestResponse>;
 export interface GuildJoinRequestsListResponse {
-  total?: number;
-  guild_join_requests?: GuildJoinRequestsListResponseGuildJoinRequestsList;
+  total?: number | undefined;
+  guild_join_requests?: GuildJoinRequestsListResponseGuildJoinRequestsList | undefined;
 }
 export interface GetGuildMemberRequest {
   guild_id: string;
@@ -4824,22 +4964,22 @@ export interface NewMemberActionResponse {
   action_type: NewMemberActionType;
   title: string;
   description: string;
-  emoji?: SettingsEmojiResponse;
-  icon?: string;
+  emoji?: SettingsEmojiResponse | undefined;
+  icon?: string | undefined;
 }
 export type GuildHomeSettingsResponseNewMemberActionsList = Array<NewMemberActionResponse>;
 export interface ResourceChannelResponse {
   channel_id: string;
   title: string;
-  emoji?: SettingsEmojiResponse;
-  icon?: string;
+  emoji?: SettingsEmojiResponse | undefined;
+  icon?: string | undefined;
   description: string;
 }
 export type GuildHomeSettingsResponseResourceChannelsList = Array<ResourceChannelResponse>;
 export interface GuildHomeSettingsResponse {
   guild_id: string;
   enabled: boolean;
-  welcome_message?: WelcomeMessageResponse;
+  welcome_message?: WelcomeMessageResponse | undefined;
   new_member_actions: GuildHomeSettingsResponseNewMemberActionsList;
   resource_channels: GuildHomeSettingsResponseResourceChannelsList;
 }
@@ -4876,7 +5016,7 @@ export interface GetGuildRolePermissionsRequest {
 export interface GetGuildScheduledEventRequest {
   guild_id: string;
   guild_scheduled_event_id: string;
-  with_user_count?: boolean;
+  with_user_count?: boolean | undefined;
 }
 export type GetGuildScheduledEventResponseBody =
   | ExternalScheduledEventResponse
@@ -4938,7 +5078,7 @@ export interface VanityURLErrorResponse {
 export interface VanityURLResponse {
   code: string | null;
   uses: number;
-  error?: VanityURLErrorResponse | null;
+  error?: VanityURLErrorResponse | null | undefined;
 }
 export interface GetGuildWebhooksRequest {
   guild_id: string;
@@ -4947,11 +5087,11 @@ export interface ApplicationIncomingWebhookResponse {
   application_id: string | null;
   avatar: string | null;
   channel_id: string | null;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   id: string;
   name: string;
   type: WebhookTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface WebhookSourceGuildResponse {
   id: string;
@@ -4966,13 +5106,13 @@ export interface ChannelFollowerWebhookResponse {
   application_id: string | null;
   avatar: string | null;
   channel_id: string | null;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   id: string;
   name: string;
   type: WebhookTypes;
-  user?: UserResponse;
-  source_guild?: WebhookSourceGuildResponse;
-  source_channel?: WebhookSourceChannelResponse;
+  user?: UserResponse | undefined;
+  source_guild?: WebhookSourceGuildResponse | undefined;
+  source_channel?: WebhookSourceChannelResponse | undefined;
 }
 export type GetGuildWebhooksResponseBodyItem =
   | ApplicationIncomingWebhookResponse
@@ -5013,13 +5153,13 @@ export interface WidgetMember {
   avatar: unknown | null;
   status: string;
   avatar_url: string;
-  activity?: GithubCheckApp;
-  deaf?: boolean;
-  mute?: boolean;
-  self_deaf?: boolean;
-  self_mute?: boolean;
-  suppress?: boolean;
-  channel_id?: string;
+  activity?: GithubCheckApp | undefined;
+  deaf?: boolean | undefined;
+  mute?: boolean | undefined;
+  self_deaf?: boolean | undefined;
+  self_mute?: boolean | undefined;
+  suppress?: boolean | undefined;
+  channel_id?: string | undefined;
 }
 export type WidgetResponseMembersList = Array<WidgetMember>;
 export interface WidgetResponse {
@@ -5033,7 +5173,7 @@ export interface WidgetResponse {
 export type WidgetImageStyles = "shield" | "banner1" | "banner2" | "banner3" | "banner4";
 export interface GetGuildWidgetPngRequest {
   guild_id: string;
-  style?: WidgetImageStyles | (string & {});
+  style?: WidgetImageStyles | (string & {}) | undefined;
 }
 export interface GetGuildWidgetPngResponse {}
 export interface GetGuildWidgetSettingsRequest {
@@ -5070,7 +5210,7 @@ export interface GetLobbyRequest {
 }
 export interface GetLobbyMessagesRequest {
   lobby_id: string;
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetLobbyMessagesResponseBodyList = Array<LobbyMessageResponse>;
 export type GetLobbyMessagesResponse = GetLobbyMessagesResponseBodyList;
@@ -5088,7 +5228,7 @@ export interface PrivateGuildMemberResponse {
   /** the member's guild avatar hash */
   avatar: string | null;
   /** data for the member's guild avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** the member's guild banner hash */
   banner: string | null;
   /** when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out */
@@ -5106,14 +5246,14 @@ export interface PrivateGuildMemberResponse {
   /** array of role object ids */
   roles: PrivateGuildMemberResponseRolesList;
   /** data for the member's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
   /** the user this guild member represents */
   user: UserResponse;
   /** whether the user is muted in voice channels */
   mute: boolean;
   /** whether the user is deafened in voice channels */
   deaf: boolean;
-  permissions?: string;
+  permissions?: string | undefined;
 }
 export interface GetMyOauth2ApplicationRequest {}
 export interface GetMyOauth2AuthorizationRequest {}
@@ -5122,7 +5262,7 @@ export interface OAuth2GetAuthorizationResponse {
   application: ApplicationResponse;
   expires: string;
   scopes: OAuth2GetAuthorizationResponseScopesList;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface GetMyUserRequest {}
 export type PremiumTypes = 0 | 1 | 2 | 3;
@@ -5140,40 +5280,40 @@ export interface UserPIIResponse {
   /** the flags on a user's account */
   flags: number;
   /** whether the user belongs to an OAuth2 application */
-  bot?: boolean;
+  bot?: boolean | undefined;
   /** whether the user is an Official Discord System user (part of the urgent message system) */
-  system?: boolean;
+  system?: boolean | undefined;
   /** the user's banner hash */
-  banner?: string | null;
+  banner?: string | null | undefined;
   /** the user's banner color encoded as an integer representation of hexadecimal color code */
-  accent_color?: number | null;
+  accent_color?: number | null | undefined;
   /** the user's display name, if it is set */
   global_name: string | null;
   /** data for the user's avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** data for the user's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
-  primary_guild?: UserPrimaryGuildResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
+  primary_guild?: UserPrimaryGuildResponse | null | undefined;
   mfa_enabled: boolean;
   locale: AvailableLocalesEnum;
-  premium_type?: PremiumTypes;
-  email?: string | null;
-  verified?: boolean;
+  premium_type?: PremiumTypes | undefined;
+  email?: string | null | undefined;
+  verified?: boolean | undefined;
 }
 export interface GetOpenidConnectUserinfoRequest {}
 export interface OAuth2GetOpenIDConnectUserInfoResponse {
   sub: string;
-  email?: string | null;
-  email_verified?: boolean;
-  preferred_username?: string;
-  nickname?: string | null;
-  picture?: string;
-  locale?: string;
+  email?: string | null | undefined;
+  email_verified?: boolean | undefined;
+  preferred_username?: string | undefined;
+  nickname?: string | null | undefined;
+  picture?: string | undefined;
+  locale?: string | undefined;
 }
 export interface GetOriginalWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface GetPublicKeysRequest {}
 export interface OAuth2Key {
@@ -5195,7 +5335,7 @@ export interface VoiceStateResponse {
   channel_id: string | null;
   deaf: boolean;
   guild_id: string | null;
-  member?: GuildMemberResponse;
+  member?: GuildMemberResponse | undefined;
   mute: boolean;
   request_to_speak_timestamp: string | null;
   suppress: boolean;
@@ -5212,7 +5352,7 @@ export interface GetSkuSubscriptionRequest {
   /** ID of the subscription */
   subscription_id: string;
   /** User ID for which to return the subscription. Required except for OAuth queries. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** List of SKUs subscribed to */
 export type SubscriptionResponseSkuIdsList = Array<string>;
@@ -5241,19 +5381,19 @@ export interface SubscriptionResponse {
   /** When the subscription was canceled */
   canceled_at: string | null;
   /** ISO3166-1 alpha-2 country code of the payment source used to purchase the subscription */
-  country?: string | null;
+  country?: string | null | undefined;
 }
 export interface GetSkuSubscriptionsRequest {
   /** ID of SKU */
   sku_id: string;
   /** List subscriptions before this ID */
-  before?: string;
+  before?: string | undefined;
   /** List subscriptions after this ID */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return (1-100) */
-  limit?: number;
+  limit?: number | undefined;
   /** User ID for which to return subscriptions. Required except for OAuth queries. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export type GetSkuSubscriptionsResponseBodyList = Array<SubscriptionResponse>;
 export type GetSkuSubscriptionsResponse = GetSkuSubscriptionsResponseBodyList;
@@ -5278,13 +5418,13 @@ export interface StickerPackResponse {
   name: string;
   description: string | null;
   stickers: StickerPackResponseStickersList;
-  cover_sticker_id?: string;
-  banner_asset_id?: string;
+  cover_sticker_id?: string | undefined;
+  banner_asset_id?: string | undefined;
 }
 export interface GetThreadMemberRequest {
   channel_id: string;
   user_id: string;
-  with_member?: boolean;
+  with_member?: boolean | undefined;
 }
 export interface GetUserRequest {
   user_id: string;
@@ -5314,7 +5454,7 @@ export interface GetWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
   message_id: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface GuildRoleMemberCountsRequest {
   guild_id: string;
@@ -5323,10 +5463,10 @@ export type GuildRoleMemberCountsResponseBodyMap = { [key: string]: number | und
 export type GuildRoleMemberCountsResponse = GuildRoleMemberCountsResponseBodyMap;
 export interface InviteResolveRequest {
   code: string;
-  with_counts?: boolean;
-  guild_scheduled_event_id?: string;
-  target_channel_id?: string;
-  target_message_id?: string;
+  with_counts?: boolean | undefined;
+  guild_scheduled_event_id?: string | undefined;
+  target_channel_id?: string | undefined;
+  target_message_id?: string | undefined;
 }
 export type InviteResolveResponseBody =
   | FriendInviteResponse
@@ -5337,9 +5477,9 @@ export interface JoinActionGuildRequestRequest {
   guild_id: string;
   request_id: string;
   /** Whether to approve or reject the join request */
-  action?: GuildJoinRequestApplicationStatus | (string & {});
+  action?: GuildJoinRequestApplicationStatus | (string & {}) | undefined;
   /** Reason for rejection. Only used when action is REJECTED */
-  rejection_reason?: string | null;
+  rejection_reason?: string | null | undefined;
 }
 export interface JoinThreadRequest {
   channel_id: string;
@@ -5359,7 +5499,7 @@ export interface LeaveThreadRequest {
 export interface LeaveThreadResponse {}
 export interface ListApplicationCommandsRequest {
   application_id: string;
-  with_localizations?: boolean;
+  with_localizations?: boolean | undefined;
 }
 export type ListApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
 export type ListApplicationCommandsResponse = ListApplicationCommandsResponseBodyList;
@@ -5416,7 +5556,7 @@ export type ListGuildApplicationCommandPermissionsResponse =
 export interface ListGuildApplicationCommandsRequest {
   application_id: string;
   guild_id: string;
-  with_localizations?: boolean;
+  with_localizations?: boolean | undefined;
 }
 export type ListGuildApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
 export type ListGuildApplicationCommandsResponse = ListGuildApplicationCommandsResponseBodyList;
@@ -5501,17 +5641,17 @@ export type AuditLogActionTypes =
   | 211;
 export interface ListGuildAuditLogEntriesRequest {
   guild_id: string;
-  user_id?: string;
-  target_id?: string;
-  action_type?: AuditLogActionTypes | (number & {});
-  before?: string;
-  after?: string;
-  limit?: number;
+  user_id?: string | undefined;
+  target_id?: string | undefined;
+  action_type?: AuditLogActionTypes | (number & {}) | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
 }
 export interface AuditLogObjectChangeResponse {
   key: string | null;
-  new_value?: unknown;
-  old_value?: unknown;
+  new_value?: unknown | undefined;
+  old_value?: unknown | undefined;
 }
 export type AuditLogEntryResponseChangesList = Array<AuditLogObjectChangeResponse>;
 export type AuditLogEntryResponseOptionsMap = { [key: string]: string | undefined };
@@ -5520,9 +5660,9 @@ export interface AuditLogEntryResponse {
   action_type: AuditLogActionTypes;
   user_id: string | null;
   target_id: string | null;
-  changes?: AuditLogEntryResponseChangesList;
-  options?: AuditLogEntryResponseOptionsMap;
-  reason?: string;
+  changes?: AuditLogEntryResponseChangesList | undefined;
+  options?: AuditLogEntryResponseOptionsMap | undefined;
+  reason?: string | undefined;
 }
 export type GuildAuditLogResponseAuditLogEntriesList = Array<AuditLogEntryResponse>;
 export type GuildAuditLogResponseUsersList = Array<UserResponse>;
@@ -5584,9 +5724,9 @@ export interface GuildAuditLogResponse {
 }
 export interface ListGuildBansRequest {
   guild_id: string;
-  limit?: number;
-  before?: string;
-  after?: string;
+  limit?: number | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
 }
 export type ListGuildBansResponseBodyList = Array<GuildBanResponse>;
 export type ListGuildBansResponse = ListGuildBansResponseBodyList;
@@ -5618,7 +5758,7 @@ export interface DiscordIntegrationResponse {
   id: string;
   application: BasicApplicationResponseWithBot;
   scopes: DiscordIntegrationResponseScopesList;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export type IntegrationExpireBehaviorTypes = 0 | 1;
 export type IntegrationExpireGracePeriodTypes = 1 | 3 | 7 | 14 | 30;
@@ -5629,14 +5769,14 @@ export interface ExternalConnectionIntegrationResponse {
   enabled: boolean;
   id: string;
   user: UserResponse;
-  revoked?: boolean;
-  expire_behavior?: IntegrationExpireBehaviorTypes;
-  expire_grace_period?: IntegrationExpireGracePeriodTypes;
-  subscriber_count?: number;
-  synced_at?: string;
-  role_id?: string | null;
-  syncing?: boolean;
-  enable_emoticons?: boolean;
+  revoked?: boolean | undefined;
+  expire_behavior?: IntegrationExpireBehaviorTypes | undefined;
+  expire_grace_period?: IntegrationExpireGracePeriodTypes | undefined;
+  subscriber_count?: number | undefined;
+  synced_at?: string | undefined;
+  role_id?: string | null | undefined;
+  syncing?: boolean | undefined;
+  enable_emoticons?: boolean | undefined;
 }
 export interface GuildSubscriptionIntegrationResponse {
   type: IntegrationTypes;
@@ -5662,8 +5802,8 @@ export type ListGuildInvitesResponseBodyList = Array<ListGuildInvitesResponseBod
 export type ListGuildInvitesResponse = ListGuildInvitesResponseBodyList;
 export interface ListGuildMembersRequest {
   guild_id: string;
-  limit?: number;
-  after?: string;
+  limit?: number | undefined;
+  after?: string | undefined;
 }
 export type ListGuildMembersResponseBodyList = Array<GuildMemberResponse>;
 export type ListGuildMembersResponse = ListGuildMembersResponseBodyList;
@@ -5680,13 +5820,13 @@ export interface ListGuildScheduledEventExceptionUsersRequest {
   /** The ID of the event exception */
   guild_scheduled_event_exception_id: string;
   /** Include guild member data if it exists */
-  with_member?: boolean;
+  with_member?: boolean | undefined;
   /** Number of users to return (up to maximum 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Consider only users before given user id */
-  before?: string;
+  before?: string | undefined;
   /** Consider only users after given user id */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListGuildScheduledEventExceptionUsersResponseBodyList =
   Array<ScheduledEventUserResponse>;
@@ -5694,7 +5834,7 @@ export type ListGuildScheduledEventExceptionUsersResponse =
   ListGuildScheduledEventExceptionUsersResponseBodyList;
 export interface ListGuildScheduledEventsRequest {
   guild_id: string;
-  with_user_count?: boolean;
+  with_user_count?: boolean | undefined;
 }
 export type ListGuildScheduledEventsResponseBodyItem =
   | ExternalScheduledEventResponse
@@ -5707,13 +5847,13 @@ export interface ListGuildScheduledEventUsersRequest {
   guild_id: string;
   guild_scheduled_event_id: string;
   /** Include guild member data if it exists */
-  with_member?: boolean;
+  with_member?: boolean | undefined;
   /** Number of users to return (up to maximum 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Consider only users before given user id */
-  before?: string;
+  before?: string | undefined;
   /** Consider only users after given user id */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListGuildScheduledEventUsersResponseBodyList = Array<ScheduledEventUserResponse>;
 export type ListGuildScheduledEventUsersResponse = ListGuildScheduledEventUsersResponseBodyList;
@@ -5751,18 +5891,18 @@ export interface ListMessageReactionsByEmojiRequest {
   channel_id: string;
   message_id: string;
   emoji_name: string;
-  after?: string;
-  limit?: number;
-  type?: ReactionTypes | (number & {});
+  after?: string | undefined;
+  limit?: number | undefined;
+  type?: ReactionTypes | (number & {}) | undefined;
 }
 export type ListMessageReactionsByEmojiResponseBodyList = Array<UserResponse>;
 export type ListMessageReactionsByEmojiResponse = ListMessageReactionsByEmojiResponseBodyList;
 export interface ListMessagesRequest {
   channel_id: string;
-  around?: string;
-  before?: string;
-  after?: string;
-  limit?: number;
+  around?: string | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListMessagesResponseBodyList = Array<MessageResponse>;
 export type ListMessagesResponse = ListMessagesResponseBodyList;
@@ -5811,22 +5951,22 @@ export interface ConnectedAccountResponse {
   name: string | null;
   type: ConnectedAccountProviders;
   friend_sync: boolean;
-  integrations?: ConnectedAccountResponseIntegrationsList;
+  integrations?: ConnectedAccountResponseIntegrationsList | undefined;
   show_activity: boolean;
   two_way_link: boolean;
   verified: boolean;
   visibility: ConnectedAccountVisibility;
-  revoked?: boolean;
+  revoked?: boolean | undefined;
 }
 export type ListMyConnectionsResponseBodyList = Array<ConnectedAccountResponse>;
 export type ListMyConnectionsResponse = ListMyConnectionsResponseBodyList;
 export interface ListMyGuildsRequest {
-  before?: string;
-  after?: string;
-  limit?: number;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
   /** Return the guilds contained within the specified shard. Required for applications that are sharded. Valid values are 0 to session_start_limit.max_concurrency - 1. Not the same as Gateway shard ids. */
-  shard?: number;
-  with_counts?: boolean;
+  shard?: number | undefined;
+  with_counts?: boolean | undefined;
 }
 export type MyGuildResponseFeaturesList = Array<GuildFeatures>;
 export interface MyGuildResponse {
@@ -5837,20 +5977,20 @@ export interface MyGuildResponse {
   owner: boolean;
   permissions: string;
   features: MyGuildResponseFeaturesList;
-  approximate_member_count?: number | null;
-  approximate_presence_count?: number | null;
+  approximate_member_count?: number | null | undefined;
+  approximate_presence_count?: number | null | undefined;
 }
 export type ListMyGuildsResponseBodyList = Array<MyGuildResponse>;
 export type ListMyGuildsResponse = ListMyGuildsResponseBodyList;
 export interface ListMyPrivateArchivedThreadsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListPinsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface PinnedMessageResponse {
   pinned_at: string;
@@ -5863,13 +6003,13 @@ export interface PinnedMessagesResponse {
 }
 export interface ListPrivateArchivedThreadsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListPublicArchivedThreadsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListStickerPacksRequest {}
 export type StickerPackCollectionResponseStickerPacksList = Array<StickerPackResponse>;
@@ -5878,9 +6018,9 @@ export interface StickerPackCollectionResponse {
 }
 export interface ListThreadMembersRequest {
   channel_id: string;
-  with_member?: boolean;
-  limit?: number;
-  after?: string;
+  with_member?: boolean | undefined;
+  limit?: number | undefined;
+  after?: string | undefined;
 }
 export type ListThreadMembersResponseBodyList = Array<ThreadMemberResponse>;
 export type ListThreadMembersResponse = ListThreadMembersResponseBodyList;
@@ -5898,13 +6038,13 @@ export type ApplicationIdentityProviderAuthType =
   | "PLAYSTATION_NETWORK_ID_TOKEN";
 export interface PartnerSdkTokenRequest {
   client_id: string;
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   external_auth_token: string;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountRequest {
   client_id: string;
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   external_auth_token: string;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
@@ -5919,8 +6059,8 @@ export type PreviewPruneGuildRequestIncludeRoles =
   | PreviewPruneGuildRequestIncludeRolesCase1List;
 export interface PreviewPruneGuildRequest {
   guild_id: string;
-  days?: number;
-  include_roles?: PreviewPruneGuildRequestIncludeRoles;
+  days?: number | undefined;
+  include_roles?: PreviewPruneGuildRequestIncludeRoles | undefined;
 }
 export interface GuildPruneResponse {
   pruned: number | null;
@@ -5929,40 +6069,40 @@ export type PruneGuildRequestIncludeRolesCase1List = Array<string>;
 export type PruneGuildRequestIncludeRoles = string | PruneGuildRequestIncludeRolesCase1List;
 export interface PruneGuildRequest {
   guild_id: string;
-  days?: number | null;
-  compute_prune_count?: boolean | null;
-  include_roles?: PruneGuildRequestIncludeRoles | null;
+  days?: number | null | undefined;
+  compute_prune_count?: boolean | null | undefined;
+  include_roles?: PruneGuildRequestIncludeRoles | null | undefined;
 }
 export type OnboardingPromptOptionRequestRoleIdsList = Array<string>;
 export type OnboardingPromptOptionRequestChannelIdsList = Array<string>;
 export interface OnboardingPromptOptionRequest {
-  id?: string | null;
+  id?: string | null | undefined;
   title: string;
-  description?: string | null;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
-  emoji_animated?: boolean | null;
-  role_ids?: OnboardingPromptOptionRequestRoleIdsList | null;
-  channel_ids?: OnboardingPromptOptionRequestChannelIdsList | null;
+  description?: string | null | undefined;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
+  emoji_animated?: boolean | null | undefined;
+  role_ids?: OnboardingPromptOptionRequestRoleIdsList | null | undefined;
+  channel_ids?: OnboardingPromptOptionRequestChannelIdsList | null | undefined;
 }
 export type UpdateOnboardingPromptRequestOptionsList = Array<OnboardingPromptOptionRequest>;
 export interface UpdateOnboardingPromptRequest {
   title: string;
   options: UpdateOnboardingPromptRequestOptionsList;
-  single_select?: boolean | null;
-  required?: boolean | null;
-  in_onboarding?: boolean | null;
-  type?: OnboardingPromptType | (number & {}) | null;
+  single_select?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  in_onboarding?: boolean | null | undefined;
+  type?: OnboardingPromptType | (number & {}) | null | undefined;
   id: string;
 }
 export type PutGuildsOnboardingRequestPromptsList = Array<UpdateOnboardingPromptRequest>;
 export type PutGuildsOnboardingRequestDefaultChannelIdsList = Array<string>;
 export interface PutGuildsOnboardingRequest {
   guild_id: string;
-  prompts?: PutGuildsOnboardingRequestPromptsList | null;
-  enabled?: boolean | null;
-  default_channel_ids?: PutGuildsOnboardingRequestDefaultChannelIdsList | null;
-  mode?: GuildOnboardingMode | (number & {}) | null;
+  prompts?: PutGuildsOnboardingRequestPromptsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  default_channel_ids?: PutGuildsOnboardingRequestDefaultChannelIdsList | null | undefined;
+  mode?: GuildOnboardingMode | (number & {}) | null | undefined;
 }
 export type GuildOnboardingResponsePromptsList = Array<OnboardingPromptResponse>;
 export type GuildOnboardingResponseDefaultChannelIdsList = Array<string>;
@@ -6025,32 +6165,32 @@ export type SearchGuildRequestAttachmentFilenameList = Array<string>;
 export type SearchGuildRequestChannelIdList = Array<string>;
 export interface SearchGuildRequest {
   guild_id: string;
-  sort_by?: SortingMode | (string & {});
-  sort_order?: SortingOrder | (string & {});
+  sort_by?: SortingMode | (string & {}) | undefined;
+  sort_order?: SortingOrder | (string & {}) | undefined;
   /** Text to search for. Matches messages containing these words within slop positions of each other. */
-  content?: string;
+  content?: string | undefined;
   /** How many positions apart or out of order the words in content can be and still match. 0 matches the exact phrase; higher values, up to 100, match words further apart. */
-  slop?: number;
-  author_id?: SearchGuildRequestAuthorIdList;
-  author_type?: SearchGuildRequestAuthorTypeList;
-  mentions?: SearchGuildRequestMentionsList;
-  mentions_role_id?: SearchGuildRequestMentionsRoleIdList;
-  replied_to_user_id?: SearchGuildRequestRepliedToUserIdList;
-  replied_to_message_id?: SearchGuildRequestRepliedToMessageIdList;
-  mention_everyone?: boolean;
-  min_id?: string;
-  max_id?: string;
-  limit?: number;
-  offset?: number;
-  has?: SearchGuildRequestHasList;
-  link_hostname?: SearchGuildRequestLinkHostnameList;
-  embed_provider?: SearchGuildRequestEmbedProviderList;
-  embed_type?: SearchGuildRequestEmbedTypeList;
-  attachment_extension?: SearchGuildRequestAttachmentExtensionList;
-  attachment_filename?: SearchGuildRequestAttachmentFilenameList;
-  pinned?: boolean;
-  include_nsfw?: boolean;
-  channel_id?: SearchGuildRequestChannelIdList;
+  slop?: number | undefined;
+  author_id?: SearchGuildRequestAuthorIdList | undefined;
+  author_type?: SearchGuildRequestAuthorTypeList | undefined;
+  mentions?: SearchGuildRequestMentionsList | undefined;
+  mentions_role_id?: SearchGuildRequestMentionsRoleIdList | undefined;
+  replied_to_user_id?: SearchGuildRequestRepliedToUserIdList | undefined;
+  replied_to_message_id?: SearchGuildRequestRepliedToMessageIdList | undefined;
+  mention_everyone?: boolean | undefined;
+  min_id?: string | undefined;
+  max_id?: string | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  has?: SearchGuildRequestHasList | undefined;
+  link_hostname?: SearchGuildRequestLinkHostnameList | undefined;
+  embed_provider?: SearchGuildRequestEmbedProviderList | undefined;
+  embed_type?: SearchGuildRequestEmbedTypeList | undefined;
+  attachment_extension?: SearchGuildRequestAttachmentExtensionList | undefined;
+  attachment_filename?: SearchGuildRequestAttachmentFilenameList | undefined;
+  pinned?: boolean | undefined;
+  include_nsfw?: boolean | undefined;
+  channel_id?: SearchGuildRequestChannelIdList | undefined;
 }
 export type SearchMessageResponseMentionsList = Array<UserResponse>;
 export type SearchMessageResponseMentionRolesList = Array<string>;
@@ -6087,41 +6227,41 @@ export interface SearchMessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: SearchMessageResponseComponentsList;
-  stickers?: SearchMessageResponseStickersList;
-  sticker_items?: SearchMessageResponseStickerItemsList;
+  stickers?: SearchMessageResponseStickersList | undefined;
+  sticker_items?: SearchMessageResponseStickerItemsList | undefined;
   id: string;
   channel_id: string;
   author: UserResponse;
   pinned: boolean;
   mention_everyone: boolean;
   tts: boolean;
-  call?: MessageCallResponse;
-  activity?: MessageActivityResponse;
-  application?: BasicApplicationResponseWithBot;
-  application_id?: string;
-  interaction?: MessageInteractionResponse;
-  nonce?: SearchMessageResponseNonce;
-  webhook_id?: string;
-  message_reference?: MessageReferenceResponse;
-  thread?: ThreadResponse;
-  mention_channels?: SearchMessageResponseMentionChannelsList;
-  role_subscription_data?: MessageRoleSubscriptionDataResponse;
-  purchase_notification?: PurchaseNotificationResponse;
-  position?: number;
-  resolved?: ResolvedObjectsResponse;
-  poll?: PollResponse;
-  shared_client_theme?: CustomClientThemeResponse;
-  interaction_metadata?: SearchMessageResponseInteractionMetadata;
-  message_snapshots?: SearchMessageResponseMessageSnapshotsList;
-  lobby_member?: MessageLobbyMemberResponse;
-  actor?: UserResponse;
-  reactions?: SearchMessageResponseReactionsList;
-  referenced_message?: BasicMessageResponse | null;
+  call?: MessageCallResponse | undefined;
+  activity?: MessageActivityResponse | undefined;
+  application?: BasicApplicationResponseWithBot | undefined;
+  application_id?: string | undefined;
+  interaction?: MessageInteractionResponse | undefined;
+  nonce?: SearchMessageResponseNonce | undefined;
+  webhook_id?: string | undefined;
+  message_reference?: MessageReferenceResponse | undefined;
+  thread?: ThreadResponse | undefined;
+  mention_channels?: SearchMessageResponseMentionChannelsList | undefined;
+  role_subscription_data?: MessageRoleSubscriptionDataResponse | undefined;
+  purchase_notification?: PurchaseNotificationResponse | undefined;
+  position?: number | undefined;
+  resolved?: ResolvedObjectsResponse | undefined;
+  poll?: PollResponse | undefined;
+  shared_client_theme?: CustomClientThemeResponse | undefined;
+  interaction_metadata?: SearchMessageResponseInteractionMetadata | undefined;
+  message_snapshots?: SearchMessageResponseMessageSnapshotsList | undefined;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  actor?: UserResponse | undefined;
+  reactions?: SearchMessageResponseReactionsList | undefined;
+  referenced_message?: BasicMessageResponse | null | undefined;
   hit: boolean;
-  restriction_count?: number;
-  author_restriction_count?: number;
-  source_author_restriction_count?: number;
-  forward_source_author_id?: string;
+  restriction_count?: number | undefined;
+  author_restriction_count?: number | undefined;
+  source_author_restriction_count?: number | undefined;
+  forward_source_author_id?: string | undefined;
 }
 export type GuildSearchResponseMessagesItemList = Array<SearchMessageResponse>;
 export type GuildSearchResponseMessagesList = Array<GuildSearchResponseMessagesItemList>;
@@ -6131,13 +6271,13 @@ export interface GuildSearchResponse {
   messages: GuildSearchResponseMessagesList;
   doing_deep_historical_index: boolean;
   total_results: number;
-  threads?: GuildSearchResponseThreadsList | null;
-  members?: GuildSearchResponseMembersList | null;
-  documents_indexed?: number | null;
+  threads?: GuildSearchResponseThreadsList | null | undefined;
+  members?: GuildSearchResponseMembersList | null | undefined;
+  documents_indexed?: number | null | undefined;
 }
 export interface SearchGuildMembersRequest {
   guild_id: string;
-  limit?: number;
+  limit?: number | undefined;
   query: string;
 }
 export type SearchGuildMembersResponseBodyList = Array<GuildMemberResponse>;
@@ -6151,17 +6291,17 @@ export type ThreadSortingMode =
   | "archive_time";
 export interface SearchThreadRequest {
   channel_id: string;
-  name?: string;
-  slop?: number;
-  min_id?: string;
-  max_id?: string;
-  tag?: SearchThreadRequestTag;
-  tag_setting?: ThreadSearchTagSetting | (string & {});
-  archived?: boolean;
-  sort_by?: ThreadSortingMode | (string & {});
-  sort_order?: SortingOrder | (string & {});
-  limit?: number;
-  offset?: number;
+  name?: string | undefined;
+  slop?: number | undefined;
+  min_id?: string | undefined;
+  max_id?: string | undefined;
+  tag?: SearchThreadRequestTag | undefined;
+  tag_setting?: ThreadSearchTagSetting | (string & {}) | undefined;
+  archived?: boolean | undefined;
+  sort_by?: ThreadSortingMode | (string & {}) | undefined;
+  sort_order?: SortingOrder | (string & {}) | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 export type ThreadSearchResponseThreadsList = Array<ThreadResponse>;
 export type ThreadSearchResponseMembersList = Array<ThreadMemberResponse>;
@@ -6170,21 +6310,21 @@ export interface ThreadSearchResponse {
   threads: ThreadSearchResponseThreadsList;
   members: ThreadSearchResponseMembersList;
   has_more: boolean;
-  first_messages?: ThreadSearchResponseFirstMessagesList;
+  first_messages?: ThreadSearchResponseFirstMessagesList | undefined;
   total_results: number;
 }
 export interface SendSoundboardSoundRequest {
   channel_id: string;
   sound_id: string;
-  source_guild_id?: string | null;
+  source_guild_id?: string | null | undefined;
 }
 export interface SendSoundboardSoundResponse {}
 export interface SetChannelPermissionOverwriteRequest {
   channel_id: string;
   overwrite_id: string;
-  type?: ChannelPermissionOverwrites | (number & {}) | null;
-  allow?: number | null;
-  deny?: number | null;
+  type?: ChannelPermissionOverwrites | (number & {}) | null | undefined;
+  allow?: number | null | undefined;
+  deny?: number | null | undefined;
 }
 export interface SetChannelPermissionOverwriteResponse {}
 export interface ApplicationCommandPermission {
@@ -6198,7 +6338,7 @@ export interface SetGuildApplicationCommandPermissionsRequest {
   application_id: string;
   guild_id: string;
   command_id: string;
-  permissions?: SetGuildApplicationCommandPermissionsRequestPermissionsList | null;
+  permissions?: SetGuildApplicationCommandPermissionsRequestPermissionsList | null | undefined;
 }
 export interface SyncGuildTemplateRequest {
   guild_id: string;
@@ -6218,16 +6358,16 @@ export type UpdateApplicationRequestDescriptionLocalizationsMap = {
 };
 export interface UpdateApplicationRequestDescription {
   default: string;
-  localizations?: UpdateApplicationRequestDescriptionLocalizationsMap | null;
+  localizations?: UpdateApplicationRequestDescriptionLocalizationsMap | null | undefined;
 }
 export type UpdateApplicationRequestTagsList = Array<string>;
 export type ApplicationOAuth2InstallParamsScopesList = Array<OAuth2Scopes | (string & {})>;
 export interface ApplicationOAuth2InstallParams {
-  scopes?: ApplicationOAuth2InstallParamsScopesList | null;
-  permissions?: number | null;
+  scopes?: ApplicationOAuth2InstallParamsScopesList | null | undefined;
+  permissions?: number | null | undefined;
 }
 export interface ApplicationIntegrationTypeConfiguration {
-  oauth2_install_params?: ApplicationOAuth2InstallParams | null;
+  oauth2_install_params?: ApplicationOAuth2InstallParams | null | undefined;
 }
 export type UpdateApplicationRequestIntegrationTypesConfigMap = {
   [key: string]: ApplicationIntegrationTypeConfiguration | null | undefined;
@@ -6235,24 +6375,28 @@ export type UpdateApplicationRequestIntegrationTypesConfigMap = {
 export type UpdateApplicationRequestEventWebhooksTypesList = Array<ActionTypes | (string & {})>;
 export interface UpdateApplicationRequest {
   application_id: string;
-  description?: UpdateApplicationRequestDescription | null;
-  icon?: string | null;
-  cover_image?: string | null;
-  team_id?: string | null;
-  flags?: number | null;
-  interactions_endpoint_url?: string | null;
-  explicit_content_filter?: ApplicationExplicitContentFilterTypes | (number & {}) | null;
-  max_participants?: number | null;
-  type?: ApplicationTypes | (number & {}) | null;
-  tags?: UpdateApplicationRequestTagsList | null;
-  custom_install_url?: string | null;
-  install_params?: ApplicationOAuth2InstallParams | null;
-  role_connections_verification_url?: string | null;
-  integration_types_config?: UpdateApplicationRequestIntegrationTypesConfigMap | null;
-  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null;
+  description?: UpdateApplicationRequestDescription | null | undefined;
+  icon?: string | null | undefined;
+  cover_image?: string | null | undefined;
+  team_id?: string | null | undefined;
+  flags?: number | null | undefined;
+  interactions_endpoint_url?: string | null | undefined;
+  explicit_content_filter?:
+    | ApplicationExplicitContentFilterTypes
+    | (number & {})
+    | null
+    | undefined;
+  max_participants?: number | null | undefined;
+  type?: ApplicationTypes | (number & {}) | null | undefined;
+  tags?: UpdateApplicationRequestTagsList | null | undefined;
+  custom_install_url?: string | null | undefined;
+  install_params?: ApplicationOAuth2InstallParams | null | undefined;
+  role_connections_verification_url?: string | null | undefined;
+  integration_types_config?: UpdateApplicationRequestIntegrationTypesConfigMap | null | undefined;
+  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null | undefined;
   /** Event webhooks URL for the app to receive webhook events */
-  event_webhooks_url?: string | null;
-  event_webhooks_types?: UpdateApplicationRequestEventWebhooksTypesList | null;
+  event_webhooks_url?: string | null | undefined;
+  event_webhooks_types?: UpdateApplicationRequestEventWebhooksTypesList | null | undefined;
 }
 export type UpdateApplicationCommandRequestNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -6283,22 +6427,25 @@ export type UpdateApplicationCommandRequestIntegrationTypesList = Array<
 export interface UpdateApplicationCommandRequest {
   application_id: string;
   command_id: string;
-  name?: string;
-  name_localizations?: UpdateApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: UpdateApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: UpdateApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: UpdateApplicationCommandRequestContextsList | null;
-  integration_types?: UpdateApplicationCommandRequestIntegrationTypesList | null;
+  name?: string | undefined;
+  name_localizations?: UpdateApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | UpdateApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: UpdateApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: UpdateApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: UpdateApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
 }
 export interface UpdateApplicationEmojiRequest {
   application_id: string;
   emoji_id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap = {
   [key: string]: string | null | undefined;
@@ -6310,9 +6457,15 @@ export interface ApplicationRoleConnectionsMetadataItemRequest {
   type: MetadataItemTypes | (number & {});
   key: string;
   name: string;
-  name_localizations?: ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap | null;
+  name_localizations?:
+    | ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localizations?: ApplicationRoleConnectionsMetadataItemRequestDescriptionLocalizationsMap | null;
+  description_localizations?:
+    | ApplicationRoleConnectionsMetadataItemRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
 }
 export type UpdateApplicationRoleConnectionsMetadataRequestBodyList =
   Array<ApplicationRoleConnectionsMetadataItemRequest>;
@@ -6329,9 +6482,9 @@ export type UpdateApplicationUserRoleConnectionRequestMetadataMap = {
 };
 export interface UpdateApplicationUserRoleConnectionRequest {
   application_id: string;
-  platform_name?: string | null;
-  platform_username?: string | null;
-  metadata?: UpdateApplicationUserRoleConnectionRequestMetadataMap | null;
+  platform_name?: string | null | undefined;
+  platform_username?: string | null | undefined;
+  metadata?: UpdateApplicationUserRoleConnectionRequestMetadataMap | null | undefined;
 }
 export type DefaultKeywordListUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6343,14 +6496,14 @@ export type DefaultKeywordListUpsertRequestPartialActionsList =
 export type DefaultKeywordListUpsertRequestPartialExemptRolesList = Array<string>;
 export type DefaultKeywordListUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface DefaultKeywordListUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: DefaultKeywordListUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: DefaultKeywordListUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: DefaultKeywordListUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: DefaultKeywordListTriggerMetadata;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: DefaultKeywordListUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: DefaultKeywordListUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: DefaultKeywordListUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: DefaultKeywordListTriggerMetadata | undefined;
 }
 export type KeywordUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6361,14 +6514,14 @@ export type KeywordUpsertRequestPartialActionsList = Array<KeywordUpsertRequestP
 export type KeywordUpsertRequestPartialExemptRolesList = Array<string>;
 export type KeywordUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface KeywordUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: KeywordUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: KeywordUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: KeywordUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: KeywordTriggerMetadata | null;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: KeywordUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: KeywordUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: KeywordUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: KeywordTriggerMetadata | null | undefined;
 }
 export type MLSpamUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6379,14 +6532,14 @@ export type MLSpamUpsertRequestPartialActionsList = Array<MLSpamUpsertRequestPar
 export type MLSpamUpsertRequestPartialExemptRolesList = Array<string>;
 export type MLSpamUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface MLSpamUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: MLSpamUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MLSpamUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: MLSpamUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: unknown | null;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: MLSpamUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MLSpamUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: MLSpamUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: unknown | null | undefined;
 }
 export type MentionSpamUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6398,14 +6551,14 @@ export type MentionSpamUpsertRequestPartialActionsList =
 export type MentionSpamUpsertRequestPartialExemptRolesList = Array<string>;
 export type MentionSpamUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface MentionSpamUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: MentionSpamUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MentionSpamUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: MentionSpamUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: MentionSpamTriggerMetadata | null;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: MentionSpamUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MentionSpamUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: MentionSpamUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: MentionSpamTriggerMetadata | null | undefined;
 }
 export type UserProfileUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6417,14 +6570,14 @@ export type UserProfileUpsertRequestPartialActionsList =
 export type UserProfileUpsertRequestPartialExemptRolesList = Array<string>;
 export type UserProfileUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface UserProfileUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: UserProfileUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: UserProfileUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: UserProfileUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: UserProfileMetadata;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: UserProfileUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: UserProfileUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: UserProfileUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: UserProfileMetadata | undefined;
 }
 export type UpdateAutoModerationRuleRequestBody =
   | DefaultKeywordListUpsertRequestPartial
@@ -6445,58 +6598,61 @@ export type UpdateAutoModerationRuleResponseBody =
   | UserProfileRuleResponse;
 export type UpdateAutoModerationRuleResponse = UpdateAutoModerationRuleResponseBody;
 export interface UpdateDMRequestPartial {
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface UpdateGroupDMRequestPartial {
-  name?: string | null;
-  icon?: string | null;
+  name?: string | null | undefined;
+  icon?: string | null | undefined;
 }
 export type UpdateGuildChannelRequestPartialPermissionOverwritesList =
   Array<ChannelPermissionOverwriteRequest>;
 export interface UpdateThreadTagRequest {
   name: string;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
-  moderated?: boolean | null;
-  id?: string | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
+  moderated?: boolean | null | undefined;
+  id?: string | null | undefined;
 }
 export type UpdateGuildChannelRequestPartialAvailableTagsList = Array<UpdateThreadTagRequest>;
 export interface UpdateGuildChannelRequestPartial {
-  type?: ChannelTypes | (number & {}) | null;
-  name?: string;
-  position?: number | null;
-  topic?: string | null;
-  bitrate?: number | null;
-  user_limit?: number | null;
-  nsfw?: boolean | null;
-  rate_limit_per_user?: number | null;
-  parent_id?: string | null;
-  permission_overwrites?: UpdateGuildChannelRequestPartialPermissionOverwritesList | null;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes | (number & {}) | null;
-  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null;
-  default_thread_rate_limit_per_user?: number | null;
-  default_sort_order?: ThreadSortOrder | (number & {}) | null;
-  default_forum_layout?: ForumLayout | (number & {}) | null;
-  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null;
-  flags?: number | null;
-  available_tags?: UpdateGuildChannelRequestPartialAvailableTagsList | null;
+  type?: ChannelTypes | (number & {}) | null | undefined;
+  name?: string | undefined;
+  position?: number | null | undefined;
+  topic?: string | null | undefined;
+  bitrate?: number | null | undefined;
+  user_limit?: number | null | undefined;
+  nsfw?: boolean | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  parent_id?: string | null | undefined;
+  permission_overwrites?:
+    | UpdateGuildChannelRequestPartialPermissionOverwritesList
+    | null
+    | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | (number & {}) | null | undefined;
+  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null | undefined;
+  default_thread_rate_limit_per_user?: number | null | undefined;
+  default_sort_order?: ThreadSortOrder | (number & {}) | null | undefined;
+  default_forum_layout?: ForumLayout | (number & {}) | null | undefined;
+  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null | undefined;
+  flags?: number | null | undefined;
+  available_tags?: UpdateGuildChannelRequestPartialAvailableTagsList | null | undefined;
 }
 export type UpdateThreadRequestPartialAppliedTagsList = Array<string>;
 export interface UpdateThreadRequestPartial {
-  name?: string | null;
-  archived?: boolean | null;
-  locked?: boolean | null;
-  invitable?: boolean | null;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
-  flags?: number | null;
-  applied_tags?: UpdateThreadRequestPartialAppliedTagsList | null;
-  bitrate?: number | null;
-  user_limit?: number | null;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes | (number & {}) | null;
+  name?: string | null | undefined;
+  archived?: boolean | null | undefined;
+  locked?: boolean | null | undefined;
+  invitable?: boolean | null | undefined;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  flags?: number | null | undefined;
+  applied_tags?: UpdateThreadRequestPartialAppliedTagsList | null | undefined;
+  bitrate?: number | null | undefined;
+  user_limit?: number | null | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | (number & {}) | null | undefined;
 }
 export type UpdateChannelRequestBody =
   | UpdateDMRequestPartial
@@ -6516,27 +6672,27 @@ export type UpdateChannelResponse = UpdateChannelResponseBody;
 export type UpdateGuildRequestFeaturesList = Array<string | null>;
 export interface UpdateGuildRequest {
   guild_id: string;
-  name?: string;
-  description?: string | null;
-  region?: string | null;
-  icon?: string | null;
-  verification_level?: VerificationLevels | (number & {}) | null;
-  default_message_notifications?: UserNotificationSettings | (number & {}) | null;
-  explicit_content_filter?: GuildExplicitContentFilterTypes | (number & {}) | null;
-  preferred_locale?: AvailableLocalesEnum | (string & {}) | null;
-  afk_timeout?: AfkTimeouts | (number & {}) | null;
-  afk_channel_id?: string | null;
-  system_channel_id?: string | null;
-  splash?: string | null;
-  banner?: string | null;
-  system_channel_flags?: number | null;
-  features?: UpdateGuildRequestFeaturesList | null;
-  discovery_splash?: string | null;
-  home_header?: string | null;
-  rules_channel_id?: string | null;
-  safety_alerts_channel_id?: string | null;
-  public_updates_channel_id?: string | null;
-  premium_progress_bar_enabled?: boolean | null;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  region?: string | null | undefined;
+  icon?: string | null | undefined;
+  verification_level?: VerificationLevels | (number & {}) | null | undefined;
+  default_message_notifications?: UserNotificationSettings | (number & {}) | null | undefined;
+  explicit_content_filter?: GuildExplicitContentFilterTypes | (number & {}) | null | undefined;
+  preferred_locale?: AvailableLocalesEnum | (string & {}) | null | undefined;
+  afk_timeout?: AfkTimeouts | (number & {}) | null | undefined;
+  afk_channel_id?: string | null | undefined;
+  system_channel_id?: string | null | undefined;
+  splash?: string | null | undefined;
+  banner?: string | null | undefined;
+  system_channel_flags?: number | null | undefined;
+  features?: UpdateGuildRequestFeaturesList | null | undefined;
+  discovery_splash?: string | null | undefined;
+  home_header?: string | null | undefined;
+  rules_channel_id?: string | null | undefined;
+  safety_alerts_channel_id?: string | null | undefined;
+  public_updates_channel_id?: string | null | undefined;
+  premium_progress_bar_enabled?: boolean | null | undefined;
 }
 export type GuildResponseFeaturesList = Array<GuildFeatures>;
 export type GuildResponseRolesList = Array<GuildRoleResponse>;
@@ -6578,7 +6734,7 @@ export interface GuildResponse {
   safety_alerts_channel_id: string | null;
   public_updates_channel_id: string | null;
   premium_progress_bar_enabled: boolean;
-  premium_progress_bar_enabled_user_updated_at?: string | null;
+  premium_progress_bar_enabled_user_updated_at?: string | null | undefined;
   nsfw: boolean;
   nsfw_level: GuildNSFWContentLevel;
   emojis: GuildResponseEmojisList;
@@ -6615,84 +6771,87 @@ export interface UpdateGuildApplicationCommandRequest {
   application_id: string;
   guild_id: string;
   command_id: string;
-  name?: string;
-  name_localizations?: UpdateGuildApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: UpdateGuildApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: UpdateGuildApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: UpdateGuildApplicationCommandRequestContextsList | null;
-  integration_types?: UpdateGuildApplicationCommandRequestIntegrationTypesList | null;
+  name?: string | undefined;
+  name_localizations?: UpdateGuildApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | UpdateGuildApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: UpdateGuildApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: UpdateGuildApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: UpdateGuildApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
 }
 export type UpdateGuildEmojiRequestRolesList = Array<string | null>;
 export interface UpdateGuildEmojiRequest {
   guild_id: string;
   emoji_id: string;
-  name?: string;
-  roles?: UpdateGuildEmojiRequestRolesList | null;
+  name?: string | undefined;
+  roles?: UpdateGuildEmojiRequestRolesList | null | undefined;
 }
 export interface UpdateGuildIncidentActionsRequest {
   /** The ID of the guild */
   guild_id: string;
   /** When invites will be enabled again */
-  invites_disabled_until?: string | null;
+  invites_disabled_until?: string | null | undefined;
   /** When direct messages will be enabled again */
-  dms_disabled_until?: string | null;
+  dms_disabled_until?: string | null | undefined;
 }
 export type UpdateGuildMemberRequestRolesList = Array<string | null>;
 export interface UpdateGuildMemberRequest {
   guild_id: string;
   user_id: string;
-  nick?: string | null;
-  roles?: UpdateGuildMemberRequestRolesList | null;
-  mute?: boolean | null;
-  deaf?: boolean | null;
-  channel_id?: string | null;
-  communication_disabled_until?: string | null;
-  flags?: number | null;
+  nick?: string | null | undefined;
+  roles?: UpdateGuildMemberRequestRolesList | null | undefined;
+  mute?: boolean | null | undefined;
+  deaf?: boolean | null | undefined;
+  channel_id?: string | null | undefined;
+  communication_disabled_until?: string | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface UpdateGuildRoleRequest {
   guild_id: string;
   role_id: string;
-  name?: string | null;
-  permissions?: number | null;
-  color?: number | null;
-  colors?: RoleColors | null;
-  hoist?: boolean | null;
-  mentionable?: boolean | null;
-  icon?: string | null;
-  unicode_emoji?: string | null;
+  name?: string | null | undefined;
+  permissions?: number | null | undefined;
+  color?: number | null | undefined;
+  colors?: RoleColors | null | undefined;
+  hoist?: boolean | null | undefined;
+  mentionable?: boolean | null | undefined;
+  icon?: string | null | undefined;
+  unicode_emoji?: string | null | undefined;
 }
 export interface ExternalScheduledEventPatchRequestPartial {
-  status?: GuildScheduledEventStatuses | (number & {}) | null;
-  name?: string;
-  description?: string | null;
-  image?: string | null;
-  scheduled_start_time?: string;
-  scheduled_end_time?: string | null;
-  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null;
-  privacy_level?: GuildScheduledEventPrivacyLevels;
-  channel_id?: string | null;
+  status?: GuildScheduledEventStatuses | (number & {}) | null | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
+  scheduled_start_time?: string | undefined;
+  scheduled_end_time?: string | null | undefined;
+  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null | undefined;
+  privacy_level?: GuildScheduledEventPrivacyLevels | undefined;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
-  entity_metadata?: EntityMetadataExternal;
+  recurrence_rule?: RecurrenceRule | null | undefined;
+  entity_metadata?: EntityMetadataExternal | undefined;
 }
 export interface StageScheduledEventPatchRequestPartial {
-  status?: GuildScheduledEventStatuses | (number & {}) | null;
-  name?: string;
-  description?: string | null;
-  image?: string | null;
-  scheduled_start_time?: string;
-  scheduled_end_time?: string | null;
-  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null;
-  privacy_level?: GuildScheduledEventPrivacyLevels;
-  channel_id?: string | null;
+  status?: GuildScheduledEventStatuses | (number & {}) | null | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
+  scheduled_start_time?: string | undefined;
+  scheduled_end_time?: string | null | undefined;
+  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null | undefined;
+  privacy_level?: GuildScheduledEventPrivacyLevels | undefined;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
-  entity_metadata?: unknown | null;
+  recurrence_rule?: RecurrenceRule | null | undefined;
+  entity_metadata?: unknown | null | undefined;
 }
 export type VoiceScheduledEventPatchRequestPartial = StageScheduledEventPatchRequestPartial;
 export type UpdateGuildScheduledEventRequestBody =
@@ -6717,50 +6876,50 @@ export interface UpdateGuildScheduledEventExceptionRequest {
   /** The ID of the event exception */
   exception_id: string;
   /** Overridden start time of this occurrence */
-  scheduled_start_time?: string | null;
+  scheduled_start_time?: string | null | undefined;
   /** Overridden end time of this occurrence */
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   /** Whether this occurrence is canceled */
-  is_canceled?: boolean | null;
+  is_canceled?: boolean | null | undefined;
 }
 export interface UpdateGuildSoundboardSoundRequest {
   guild_id: string;
   sound_id: string;
-  name?: string;
-  volume?: number | null;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  name?: string | undefined;
+  volume?: number | null | undefined;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
 }
 export interface UpdateGuildStickerRequest {
   guild_id: string;
   sticker_id: string;
-  name?: string;
-  tags?: string;
-  description?: string | null;
+  name?: string | undefined;
+  tags?: string | undefined;
+  description?: string | null | undefined;
 }
 export interface UpdateGuildTemplateRequest {
   guild_id: string;
   code: string;
-  name?: string;
-  description?: string | null;
+  name?: string | undefined;
+  description?: string | null | undefined;
 }
 export interface GuildWelcomeChannel {
   channel_id: string;
   description: string;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
 }
 export type UpdateGuildWelcomeScreenRequestWelcomeChannelsList = Array<GuildWelcomeChannel>;
 export interface UpdateGuildWelcomeScreenRequest {
   guild_id: string;
-  description?: string | null;
-  welcome_channels?: UpdateGuildWelcomeScreenRequestWelcomeChannelsList | null;
-  enabled?: boolean | null;
+  description?: string | null | undefined;
+  welcome_channels?: UpdateGuildWelcomeScreenRequestWelcomeChannelsList | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export interface UpdateGuildWidgetSettingsRequest {
   guild_id: string;
-  channel_id?: string | null;
-  enabled?: boolean | null;
+  channel_id?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export interface UpdateInviteTargetUsersRequest {
   code: string;
@@ -6794,20 +6953,20 @@ export type UpdateMessageRequestAttachmentsList = Array<MessageAttachmentRequest
 export interface UpdateMessageRequest {
   channel_id: string;
   message_id: string;
-  content?: string | null;
-  embeds?: UpdateMessageRequestEmbedsList | null;
-  flags?: number | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: UpdateMessageRequestStickerIdsList | null;
-  components?: UpdateMessageRequestComponentsList | null;
-  attachments?: UpdateMessageRequestAttachmentsList | null;
+  content?: string | null | undefined;
+  embeds?: UpdateMessageRequestEmbedsList | null | undefined;
+  flags?: number | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: UpdateMessageRequestStickerIdsList | null | undefined;
+  components?: UpdateMessageRequestComponentsList | null | undefined;
+  attachments?: UpdateMessageRequestAttachmentsList | null | undefined;
 }
 export type UpdateMyApplicationRequestDescriptionLocalizationsMap = {
   [key: string]: string | undefined;
 };
 export interface UpdateMyApplicationRequestDescription {
   default: string;
-  localizations?: UpdateMyApplicationRequestDescriptionLocalizationsMap | null;
+  localizations?: UpdateMyApplicationRequestDescriptionLocalizationsMap | null | undefined;
 }
 export type UpdateMyApplicationRequestTagsList = Array<string>;
 export type UpdateMyApplicationRequestIntegrationTypesConfigMap = {
@@ -6815,36 +6974,40 @@ export type UpdateMyApplicationRequestIntegrationTypesConfigMap = {
 };
 export type UpdateMyApplicationRequestEventWebhooksTypesList = Array<ActionTypes | (string & {})>;
 export interface UpdateMyApplicationRequest {
-  description?: UpdateMyApplicationRequestDescription | null;
-  icon?: string | null;
-  cover_image?: string | null;
-  team_id?: string | null;
-  flags?: number | null;
-  interactions_endpoint_url?: string | null;
-  explicit_content_filter?: ApplicationExplicitContentFilterTypes | (number & {}) | null;
-  max_participants?: number | null;
-  type?: ApplicationTypes | (number & {}) | null;
-  tags?: UpdateMyApplicationRequestTagsList | null;
-  custom_install_url?: string | null;
-  install_params?: ApplicationOAuth2InstallParams | null;
-  role_connections_verification_url?: string | null;
-  integration_types_config?: UpdateMyApplicationRequestIntegrationTypesConfigMap | null;
-  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null;
+  description?: UpdateMyApplicationRequestDescription | null | undefined;
+  icon?: string | null | undefined;
+  cover_image?: string | null | undefined;
+  team_id?: string | null | undefined;
+  flags?: number | null | undefined;
+  interactions_endpoint_url?: string | null | undefined;
+  explicit_content_filter?:
+    | ApplicationExplicitContentFilterTypes
+    | (number & {})
+    | null
+    | undefined;
+  max_participants?: number | null | undefined;
+  type?: ApplicationTypes | (number & {}) | null | undefined;
+  tags?: UpdateMyApplicationRequestTagsList | null | undefined;
+  custom_install_url?: string | null | undefined;
+  install_params?: ApplicationOAuth2InstallParams | null | undefined;
+  role_connections_verification_url?: string | null | undefined;
+  integration_types_config?: UpdateMyApplicationRequestIntegrationTypesConfigMap | null | undefined;
+  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null | undefined;
   /** Event webhooks URL for the app to receive webhook events */
-  event_webhooks_url?: string | null;
-  event_webhooks_types?: UpdateMyApplicationRequestEventWebhooksTypesList | null;
+  event_webhooks_url?: string | null | undefined;
+  event_webhooks_types?: UpdateMyApplicationRequestEventWebhooksTypesList | null | undefined;
 }
 export interface UpdateMyGuildMemberRequest {
   guild_id: string;
-  nick?: string | null;
-  avatar?: string | null;
-  bio?: string | null;
-  banner?: string | null;
+  nick?: string | null | undefined;
+  avatar?: string | null | undefined;
+  bio?: string | null | undefined;
+  banner?: string | null | undefined;
 }
 export interface UpdateMyUserRequest {
   username: string;
-  avatar?: string | null;
-  banner?: string | null;
+  avatar?: string | null | undefined;
+  banner?: string | null | undefined;
 }
 export type UpdateOriginalWebhookMessageRequestEmbedsList = Array<RichEmbed>;
 export type UpdateOriginalWebhookMessageRequestComponentsItem =
@@ -6861,27 +7024,27 @@ export type UpdateOriginalWebhookMessageRequestAttachmentsList = Array<MessageAt
 export interface UpdateOriginalWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
-  thread_id?: string;
-  with_components?: boolean;
-  content?: string | null;
-  embeds?: UpdateOriginalWebhookMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: UpdateOriginalWebhookMessageRequestComponentsList | null;
-  attachments?: UpdateOriginalWebhookMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  flags?: number | null;
+  thread_id?: string | undefined;
+  with_components?: boolean | undefined;
+  content?: string | null | undefined;
+  embeds?: UpdateOriginalWebhookMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: UpdateOriginalWebhookMessageRequestComponentsList | null | undefined;
+  attachments?: UpdateOriginalWebhookMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface UpdateSelfVoiceStateRequest {
   guild_id: string;
-  request_to_speak_timestamp?: string | null;
-  suppress?: boolean | null;
-  channel_id?: string | null;
+  request_to_speak_timestamp?: string | null | undefined;
+  suppress?: boolean | null | undefined;
+  channel_id?: string | null | undefined;
 }
 export interface UpdateSelfVoiceStateResponse {}
 export interface UpdateStageInstanceRequest {
   channel_id: string;
-  topic?: string;
-  privacy_level?: StageInstancesPrivacyLevels | (number & {});
+  topic?: string | undefined;
+  privacy_level?: StageInstancesPrivacyLevels | (number & {}) | undefined;
 }
 /** The moderation metadata attached to the message */
 export type UpdateUserMessageExternalModerationMetadataRequestBodyMap = {
@@ -6900,21 +7063,21 @@ export interface UpdateUserMessageExternalModerationMetadataResponse {}
 export interface UpdateVoiceChannelStatusRequest {
   channel_id: string;
   /** The new voice channel status */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export interface UpdateVoiceChannelStatusResponse {}
 export interface UpdateVoiceStateRequest {
   guild_id: string;
   user_id: string;
-  suppress?: boolean | null;
-  channel_id?: string | null;
+  suppress?: boolean | null | undefined;
+  channel_id?: string | null | undefined;
 }
 export interface UpdateVoiceStateResponse {}
 export interface UpdateWebhookRequest {
   webhook_id: string;
-  name?: string;
-  avatar?: string | null;
-  channel_id?: string | null;
+  name?: string | undefined;
+  avatar?: string | null | undefined;
+  channel_id?: string | null | undefined;
 }
 export type UpdateWebhookResponseBody =
   | ApplicationIncomingWebhookResponse
@@ -6924,8 +7087,8 @@ export type UpdateWebhookResponse = UpdateWebhookResponseBody;
 export interface UpdateWebhookByTokenRequest {
   webhook_id: string;
   webhook_token: string;
-  name?: string;
-  avatar?: string | null;
+  name?: string | undefined;
+  avatar?: string | null | undefined;
 }
 export type UpdateWebhookByTokenResponseBody =
   | ApplicationIncomingWebhookResponse
@@ -6948,15 +7111,15 @@ export interface UpdateWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
   message_id: string;
-  thread_id?: string;
-  with_components?: boolean;
-  content?: string | null;
-  embeds?: UpdateWebhookMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: UpdateWebhookMessageRequestComponentsList | null;
-  attachments?: UpdateWebhookMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  flags?: number | null;
+  thread_id?: string | undefined;
+  with_components?: boolean | undefined;
+  content?: string | null | undefined;
+  embeds?: UpdateWebhookMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: UpdateWebhookMessageRequestComponentsList | null | undefined;
+  attachments?: UpdateWebhookMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface UploadApplicationAttachmentRequest {
   application_id: string;
@@ -6969,20 +7132,20 @@ export interface AttachmentResponse {
   size: number;
   url: string;
   proxy_url: string;
-  width?: number;
-  height?: number;
-  duration_secs?: number;
-  waveform?: string;
-  description?: string;
-  content_type?: string;
-  ephemeral?: boolean;
-  flags?: number;
-  placeholder?: string;
-  placeholder_version?: number;
-  title?: string | null;
-  application?: ApplicationResponse;
-  clip_created_at?: string;
-  clip_participants?: AttachmentResponseClipParticipantsList;
+  width?: number | undefined;
+  height?: number | undefined;
+  duration_secs?: number | undefined;
+  waveform?: string | undefined;
+  description?: string | undefined;
+  content_type?: string | undefined;
+  ephemeral?: boolean | undefined;
+  flags?: number | undefined;
+  placeholder?: string | undefined;
+  placeholder_version?: number | undefined;
+  title?: string | null | undefined;
+  application?: ApplicationResponse | undefined;
+  clip_created_at?: string | undefined;
+  clip_participants?: AttachmentResponseClipParticipantsList | undefined;
 }
 export interface ActivitiesAttachmentResponse {
   attachment: AttachmentResponse;

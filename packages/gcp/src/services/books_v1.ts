@@ -85,38 +85,38 @@ export class NotFound
 
 export interface AcceptPromoofferRequest {
   /** device device */
-  device?: string;
-  offerId?: string;
+  device?: string | undefined;
+  offerId?: string | undefined;
   /** device android_id */
-  androidId?: string;
+  androidId?: string | undefined;
   /** device product */
-  product?: string;
+  product?: string | undefined;
   /** device manufacturer */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** device serial */
-  serial?: string;
+  serial?: string | undefined;
   /** Volume id to exercise the offer */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** device model */
-  model?: string;
+  model?: string | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface AddBookCloudloadingRequest {
   /** The document name. It can be set only if the drive_document_id is set. */
-  name?: string;
+  name?: string | undefined;
   /** The document MIME type. It can be set only if the drive_document_id is set. */
-  mime_type?: string;
+  mime_type?: string | undefined;
   /** A drive document id. The upload_client_token must not be set. */
-  drive_document_id?: string;
+  drive_document_id?: string | undefined;
   /** Scotty upload token. */
-  upload_client_token?: string;
+  upload_client_token?: string | undefined;
 }
 export interface BooksCloudloadingResource {
-  author?: string;
-  volumeId?: string;
-  processingState?: string;
-  title?: string;
+  author?: string | undefined;
+  volumeId?: string | undefined;
+  processingState?: string | undefined;
+  title?: string | undefined;
 }
 export type AddVolumeMylibraryBookshelvesReasonEnum =
   | "REASON_UNDEFINED"
@@ -127,15 +127,15 @@ export interface AddVolumeMylibraryBookshelvesRequest {
   /** ID of volume to add. */
   volumeId: string;
   /** The reason for which the book is added to the library. */
-  reason?: AddVolumeMylibraryBookshelvesReasonEnum | (string & {});
+  reason?: AddVolumeMylibraryBookshelvesReasonEnum | (string & {}) | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ID of bookshelf to which to add a volume. */
   shelf: string;
 }
 export interface ClearVolumesMylibraryBookshelvesRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ID of bookshelf from which to remove a volume. */
   shelf: string;
 }
@@ -147,27 +147,27 @@ export interface DeleteMylibraryAnnotationsRequest {
   /** The ID for the annotation to delete. */
   annotationId: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface DismissPromoofferRequest {
   /** device manufacturer */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** device serial */
-  serial?: string;
+  serial?: string | undefined;
   /** device model */
-  model?: string;
+  model?: string | undefined;
   /** Offer to dimiss */
-  offerId?: string;
+  offerId?: string | undefined;
   /** device product */
-  product?: string;
+  product?: string | undefined;
   /** device device */
-  device?: string;
+  device?: string | undefined;
   /** device android_id */
-  androidId?: string;
+  androidId?: string | undefined;
 }
 export interface GetBookshelvesRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ID of bookshelf to retrieve. */
   shelf: string;
   /** ID of user for whom to retrieve bookshelves. */
@@ -175,85 +175,85 @@ export interface GetBookshelvesRequest {
 }
 export interface Bookshelf {
   /** Number of volumes in this bookshelf. */
-  volumeCount?: number;
+  volumeCount?: number | undefined;
   /** Created time for this bookshelf (formatted UTC timestamp with millisecond resolution). */
-  created?: string;
+  created?: string | undefined;
   /** Last time a volume was added or removed from this bookshelf (formatted UTC timestamp with millisecond resolution). */
-  volumesLastUpdated?: string;
+  volumesLastUpdated?: string | undefined;
   /** Id of this bookshelf, only unique by user. */
-  id?: number;
+  id?: number | undefined;
   /** Whether this bookshelf is PUBLIC or PRIVATE. */
-  access?: string;
+  access?: string | undefined;
   /** Last modified time of this bookshelf (formatted UTC timestamp with millisecond resolution). */
-  updated?: string;
+  updated?: string | undefined;
   /** Resource type for bookshelf metadata. */
-  kind?: string;
+  kind?: string | undefined;
   /** Description of this bookshelf. */
-  description?: string;
+  description?: string | undefined;
   /** Title of this bookshelf. */
-  title?: string;
+  title?: string | undefined;
   /** URL to this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 export interface GetFamilyInfoFamilysharingRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface FamilyInfoMembership {
   /** Restrictions on user buying and acquiring content. */
-  acquirePermission?: string;
+  acquirePermission?: string | undefined;
   /** The role of the user in the family. */
-  role?: string;
+  role?: string | undefined;
   /** The age group of the user. */
-  ageGroup?: string;
+  ageGroup?: string | undefined;
   /** The maximum allowed maturity rating for the user. */
-  allowedMaturityRating?: string;
-  isInFamily?: boolean;
+  allowedMaturityRating?: string | undefined;
+  isInFamily?: boolean | undefined;
 }
 export interface FamilyInfo {
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
   /** Family membership info of the user that made the request. */
-  membership?: FamilyInfoMembership;
+  membership?: FamilyInfoMembership | undefined;
 }
 export interface GetLayersRequest {
   /** The volume to retrieve layers for. */
   volumeId: string;
   /** The content version for the requested volume. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The ID for the layer to get the summary for. */
   summaryId: string;
 }
 export type StringList = Array<string>;
 export interface Layersummary {
   /** URL to this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The number of annotations for this layer. */
-  annotationCount?: number;
+  annotationCount?: number | undefined;
   /** The current version of this layer's volume annotations. Note that this version applies only to the data in the books.layers.volumeAnnotations.* responses. The actual annotation data is versioned separately. */
-  volumeAnnotationsVersion?: string;
+  volumeAnnotationsVersion?: string | undefined;
   /** The number of data items for this layer. */
-  dataCount?: number;
+  dataCount?: number | undefined;
   /** Resource Type */
-  kind?: string;
+  kind?: string | undefined;
   /** The layer id for this summary. */
-  layerId?: string;
+  layerId?: string | undefined;
   /** The content version this resource is for. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** Link to get data for this annotation. */
-  annotationsDataLink?: string;
+  annotationsDataLink?: string | undefined;
   /** Unique id of this layer summary. */
-  id?: string;
+  id?: string | undefined;
   /** The volume id this resource is for. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Timestamp for the last time an item in this layer was updated. (RFC 3339 UTC date-time format). */
-  updated?: string;
+  updated?: string | undefined;
   /** The list of annotation types contained for this layer. */
-  annotationTypes?: StringList;
+  annotationTypes?: StringList | undefined;
   /** The link to get the annotations for this layer. */
-  annotationsLink?: string;
+  annotationsLink?: string | undefined;
 }
 export interface GetLayersAnnotationDataRequest {
   /** The ID for the layer to get the annotations. */
@@ -261,65 +261,65 @@ export interface GetLayersAnnotationDataRequest {
   /** The ID of the annotation data to retrieve. */
   annotationDataId: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The requested pixel width for any images. If width is provided height must also be provided. */
-  w?: number;
+  w?: number | undefined;
   /** The requested pixel height for any images. If height is provided width must also be provided. */
-  h?: number;
+  h?: number | undefined;
   /** The content version for the volume you are trying to retrieve. */
   contentVersion: string;
   /** The locale information for the data. ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. */
-  locale?: string;
+  locale?: string | undefined;
   /** The requested scale for the image. */
-  scale?: number;
+  scale?: number | undefined;
   /** The volume to retrieve annotations for. */
   volumeId: string;
   /** For the dictionary layer. Whether or not to allow web definitions. */
-  allowWebDefinitions?: boolean;
+  allowWebDefinitions?: boolean | undefined;
 }
 export interface DictlayerdataDictSource {
-  url?: string;
-  attribution?: string;
+  url?: string | undefined;
+  attribution?: string | undefined;
 }
 export type DictlayerdataDictWordsItemSensesItemSynonymsItemSource = DictlayerdataDictSource;
 export interface DictlayerdataDictWordsItemSensesItemSynonymsItem {
-  text?: string;
-  source?: DictlayerdataDictSource;
+  text?: string | undefined;
+  source?: DictlayerdataDictSource | undefined;
 }
 export type DictlayerdataDictWordsItemSensesItemSynonymsItemList =
   Array<DictlayerdataDictWordsItemSensesItemSynonymsItem>;
 export interface DictlayerdataDictWordsItemSensesItemConjugationsItem {
-  value?: string;
-  type?: string;
+  value?: string | undefined;
+  type?: string | undefined;
 }
 export type DictlayerdataDictWordsItemSensesItemConjugationsItemList =
   Array<DictlayerdataDictWordsItemSensesItemConjugationsItem>;
 export interface DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemSource {
-  attribution?: string;
-  url?: string;
+  attribution?: string | undefined;
+  url?: string | undefined;
 }
 export interface DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItem {
-  text?: string;
-  source?: DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemSource;
+  text?: string | undefined;
+  source?: DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemSource | undefined;
 }
 export type DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemList =
   Array<DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItem>;
 export interface DictlayerdataDictWordsItemSensesItemDefinitionsItem {
-  definition?: string;
-  examples?: DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemList;
+  definition?: string | undefined;
+  examples?: DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemList | undefined;
 }
 export type DictlayerdataDictWordsItemSensesItemDefinitionsItemList =
   Array<DictlayerdataDictWordsItemSensesItemDefinitionsItem>;
 export type DictlayerdataDictWordsItemSensesItemSource = DictlayerdataDictSource;
 export interface DictlayerdataDictWordsItemSensesItem {
-  synonyms?: DictlayerdataDictWordsItemSensesItemSynonymsItemList;
-  conjugations?: DictlayerdataDictWordsItemSensesItemConjugationsItemList;
-  pronunciation?: string;
-  pronunciationUrl?: string;
-  syllabification?: string;
-  partOfSpeech?: string;
-  definitions?: DictlayerdataDictWordsItemSensesItemDefinitionsItemList;
-  source?: DictlayerdataDictSource;
+  synonyms?: DictlayerdataDictWordsItemSensesItemSynonymsItemList | undefined;
+  conjugations?: DictlayerdataDictWordsItemSensesItemConjugationsItemList | undefined;
+  pronunciation?: string | undefined;
+  pronunciationUrl?: string | undefined;
+  syllabification?: string | undefined;
+  partOfSpeech?: string | undefined;
+  definitions?: DictlayerdataDictWordsItemSensesItemDefinitionsItemList | undefined;
+  source?: DictlayerdataDictSource | undefined;
 }
 export type DictlayerdataDictWordsItemSensesItemList = Array<DictlayerdataDictWordsItemSensesItem>;
 export type DictlayerdataDictWordsItemSource =
@@ -331,60 +331,60 @@ export type DictlayerdataDictWordsItemExamplesItemList =
   Array<DictlayerdataDictWordsItemSensesItemSynonymsItem>;
 export type DictlayerdataDictWordsItemDerivativesItemSource = DictlayerdataDictSource;
 export interface DictlayerdataDictWordsItemDerivativesItem {
-  source?: DictlayerdataDictSource;
-  text?: string;
+  source?: DictlayerdataDictSource | undefined;
+  text?: string | undefined;
 }
 export type DictlayerdataDictWordsItemDerivativesItemList =
   Array<DictlayerdataDictWordsItemDerivativesItem>;
 export interface DictlayerdataDictWordsItem {
-  senses?: DictlayerdataDictWordsItemSensesItemList;
+  senses?: DictlayerdataDictWordsItemSensesItemList | undefined;
   /** The words with different meanings but not related words, e.g. "go" (game) and "go" (verb). */
-  source?: DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemSource;
-  examples?: DictlayerdataDictWordsItemExamplesItemList;
-  derivatives?: DictlayerdataDictWordsItemDerivativesItemList;
+  source?: DictlayerdataDictWordsItemSensesItemDefinitionsItemExamplesItemSource | undefined;
+  examples?: DictlayerdataDictWordsItemExamplesItemList | undefined;
+  derivatives?: DictlayerdataDictWordsItemDerivativesItemList | undefined;
 }
 export type DictlayerdataDictWordsItemList = Array<DictlayerdataDictWordsItem>;
 export interface DictlayerdataDict {
   /** The source, url and attribution for this dictionary data. */
-  source?: DictlayerdataDictSource;
-  words?: DictlayerdataDictWordsItemList;
+  source?: DictlayerdataDictSource | undefined;
+  words?: DictlayerdataDictWordsItemList | undefined;
 }
 export interface DictlayerdataCommon {
   /** The display title and localized canonical name to use when searching for this entity on Google search. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface Dictlayerdata {
-  kind?: string;
-  dict?: DictlayerdataDict;
-  common?: DictlayerdataCommon;
+  kind?: string | undefined;
+  dict?: DictlayerdataDict | undefined;
+  common?: DictlayerdataCommon | undefined;
 }
 export interface DictionaryAnnotationdata {
   /** The volume id for this data. * */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Timestamp for the last time this data was updated. (RFC 3339 UTC date-time format). */
-  updated?: string;
+  updated?: string | undefined;
   /** The type of annotation this data is for. */
-  annotationType?: string;
+  annotationType?: string | undefined;
   /** The Layer id for this data. * */
-  layerId?: string;
+  layerId?: string | undefined;
   /** URL for this resource. * */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Base64 encoded data for this annotation data. */
-  encodedData?: string;
+  encodedData?: string | undefined;
   /** Resource Type */
-  kind?: string;
+  kind?: string | undefined;
   /** Unique id for this annotation data. */
-  id?: string;
+  id?: string | undefined;
   /** JSON encoded data for this dictionary annotation data. Emitted with name 'data' in JSON output. Either this or geo_data will be populated. */
-  data?: Dictlayerdata;
+  data?: Dictlayerdata | undefined;
 }
 export interface GetLayersVolumeAnnotationsRequest {
   /** The ID of the volume annotation to retrieve. */
   annotationId: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The locale information for the data. ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. */
-  locale?: string;
+  locale?: string | undefined;
   /** The volume to retrieve annotations for. */
   volumeId: string;
   /** The ID for the layer to get the annotations. */
@@ -392,111 +392,111 @@ export interface GetLayersVolumeAnnotationsRequest {
 }
 export interface BooksAnnotationsRange {
   /** The offset from the ending position. */
-  endOffset?: string;
+  endOffset?: string | undefined;
   /** The offset from the starting position. */
-  startOffset?: string;
+  startOffset?: string | undefined;
   /** The starting position for the range. */
-  startPosition?: string;
+  startPosition?: string | undefined;
   /** The ending position for the range. */
-  endPosition?: string;
+  endPosition?: string | undefined;
 }
 export interface VolumeannotationContentRanges {
   /** Content version applicable to ranges below. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** Range in GB image format for this annotation for version above. */
-  gbImageRange?: BooksAnnotationsRange;
+  gbImageRange?: BooksAnnotationsRange | undefined;
   /** Range in GB text format for this annotation for version above. */
-  gbTextRange?: BooksAnnotationsRange;
+  gbTextRange?: BooksAnnotationsRange | undefined;
   /** Range in CFI format for this annotation for version above. */
-  cfiRange?: BooksAnnotationsRange;
+  cfiRange?: BooksAnnotationsRange | undefined;
 }
 export interface Volumeannotation {
   /** The Layer this annotation is for. */
-  layerId?: string;
+  layerId?: string | undefined;
   /** Resource Type */
-  kind?: string;
+  kind?: string | undefined;
   /** Data for this annotation. */
-  data?: string;
+  data?: string | undefined;
   /** The annotation data id for this volume annotation. */
-  annotationDataId?: string;
+  annotationDataId?: string | undefined;
   /** Timestamp for the last time this anntoation was updated. (RFC 3339 UTC date-time format). */
-  updated?: string;
+  updated?: string | undefined;
   /** The Volume this annotation is for. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Unique id of this volume annotation. */
-  id?: string;
+  id?: string | undefined;
   /** Pages the annotation spans. */
-  pageIds?: StringList;
+  pageIds?: StringList | undefined;
   /** URL to this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Indicates that this annotation is deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The type of annotation this is. */
-  annotationType?: string;
+  annotationType?: string | undefined;
   /** The content ranges to identify the selected text. */
-  contentRanges?: VolumeannotationContentRanges;
+  contentRanges?: VolumeannotationContentRanges | undefined;
   /** Link to get data for this annotation. */
-  annotationDataLink?: string;
+  annotationDataLink?: string | undefined;
   /** Excerpt from the volume. */
-  selectedText?: string;
+  selectedText?: string | undefined;
 }
 export interface GetMylibraryBookshelvesRequest {
   /** ID of bookshelf to retrieve. */
   shelf: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface GetMylibraryReadingpositionsRequest {
   /** Volume content version for which this reading position is requested. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ID of volume for which to retrieve a reading position. */
   volumeId: string;
 }
 export interface ReadingPosition {
   /** Timestamp when this reading position was last updated (formatted UTC timestamp with millisecond resolution). */
-  updated?: string;
+  updated?: string | undefined;
   /** Resource type for a reading position. */
-  kind?: string;
+  kind?: string | undefined;
   /** Position in a PDF file. */
-  pdfPosition?: string;
+  pdfPosition?: string | undefined;
   /** Position in an EPUB as a CFI. */
-  epubCfiPosition?: string;
+  epubCfiPosition?: string | undefined;
   /** Position in a volume for text-based content. */
-  gbTextPosition?: string;
+  gbTextPosition?: string | undefined;
   /** Position in a volume for image-based content. */
-  gbImagePosition?: string;
+  gbImagePosition?: string | undefined;
   /** Volume id associated with this reading position. */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 export interface GetNotificationRequest {
   /** String to identify the notification. */
   notification_id: string;
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating notification title and body. */
-  locale?: string;
+  locale?: string | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface Notification {
-  timeToExpireMs?: string;
-  iconUrl?: string;
-  is_document_mature?: boolean;
-  show_notification_settings_action?: boolean;
-  dont_show_notification?: boolean;
-  doc_type?: string;
-  notification_type?: string;
+  timeToExpireMs?: string | undefined;
+  iconUrl?: string | undefined;
+  is_document_mature?: boolean | undefined;
+  show_notification_settings_action?: boolean | undefined;
+  dont_show_notification?: boolean | undefined;
+  doc_type?: string | undefined;
+  notification_type?: string | undefined;
   /** Resource type. */
-  kind?: string;
-  body?: string;
-  notificationGroup?: string;
-  title?: string;
-  reason?: string;
-  targetUrl?: string;
+  kind?: string | undefined;
+  body?: string | undefined;
+  notificationGroup?: string | undefined;
+  title?: string | undefined;
+  reason?: string | undefined;
+  targetUrl?: string | undefined;
   /** The list of crm experiment ids. */
-  crmExperimentIds?: StringList;
-  pcampaign_id?: string;
-  doc_id?: string;
+  crmExperimentIds?: StringList | undefined;
+  pcampaign_id?: string | undefined;
+  doc_id?: string | undefined;
 }
 export type GetPersonalizedstreamMaxAllowedMaturityRatingEnum =
   | "MAX_ALLOWED_MATURITY_RATING_UNDEFINED"
@@ -504,678 +504,683 @@ export type GetPersonalizedstreamMaxAllowedMaturityRatingEnum =
   | "not-mature";
 export interface GetPersonalizedstreamRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
-  locale?: string;
+  locale?: string | undefined;
   /** The maximum allowed maturity rating of returned recommendations. Books with a higher maturity rating are filtered out. */
-  maxAllowedMaturityRating?: GetPersonalizedstreamMaxAllowedMaturityRatingEnum | (string & {});
+  maxAllowedMaturityRating?:
+    | GetPersonalizedstreamMaxAllowedMaturityRatingEnum
+    | (string & {})
+    | undefined;
 }
 export interface DiscoveryclustersClustersItemBanner_with_content_container {
-  moreButtonText?: string;
-  imageUrl?: string;
-  textColorArgb?: string;
-  maskColorArgb?: string;
-  fillColorArgb?: string;
-  moreButtonUrl?: string;
+  moreButtonText?: string | undefined;
+  imageUrl?: string | undefined;
+  textColorArgb?: string | undefined;
+  maskColorArgb?: string | undefined;
+  fillColorArgb?: string | undefined;
+  moreButtonUrl?: string | undefined;
 }
 export interface VolumeSaleInfoRetailPrice {
   /** Amount in the currency listed below. (In LITE projection.) */
-  amount?: number;
+  amount?: number | undefined;
   /** An ISO 4217, three-letter currency code. (In LITE projection.) */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
 }
 export type VolumeSaleInfoListPrice = VolumeSaleInfoRetailPrice;
 export interface VolumeSaleInfoOffersItemRetailPrice {
-  amountInMicros?: number;
-  currencyCode?: string;
+  amountInMicros?: number | undefined;
+  currencyCode?: string | undefined;
 }
 export interface VolumeSaleInfoOffersItemRentalDuration {
-  count?: number;
-  unit?: string;
+  count?: number | undefined;
+  unit?: string | undefined;
 }
 export type VolumeSaleInfoOffersItemListPrice = VolumeSaleInfoOffersItemRetailPrice;
 export interface VolumeSaleInfoOffersItem {
   /** Indicates whether the offer is giftable. */
-  giftable?: boolean;
+  giftable?: boolean | undefined;
   /** Offer retail (=discounted) price in Micros */
-  retailPrice?: VolumeSaleInfoOffersItemRetailPrice;
+  retailPrice?: VolumeSaleInfoOffersItemRetailPrice | undefined;
   /** The rental duration (for rental offers only). */
-  rentalDuration?: VolumeSaleInfoOffersItemRentalDuration;
+  rentalDuration?: VolumeSaleInfoOffersItemRentalDuration | undefined;
   /** Offer list (=undiscounted) price in Micros. */
-  listPrice?: VolumeSaleInfoOffersItemRetailPrice;
+  listPrice?: VolumeSaleInfoOffersItemRetailPrice | undefined;
   /** The finsky offer type (e.g., PURCHASE=0 RENTAL=3) */
-  finskyOfferType?: number;
+  finskyOfferType?: number | undefined;
 }
 export type VolumeSaleInfoOffersItemList = Array<VolumeSaleInfoOffersItem>;
 export interface VolumeSaleInfo {
   /** The date on which this book is available for sale. */
-  onSaleDate?: string;
+  onSaleDate?: string | undefined;
   /** Whether or not this book is available for sale or offered for free in the Google eBookstore for the country listed above. Possible values are FOR_SALE, FOR_RENTAL_ONLY, FOR_SALE_AND_RENTAL, FREE, NOT_FOR_SALE, or FOR_PREORDER. */
-  saleability?: string;
+  saleability?: string | undefined;
   /** The actual selling price of the book. This is the same as the suggested retail or list price unless there are offers or discounts on this volume. (In LITE projection.) */
-  retailPrice?: VolumeSaleInfoRetailPrice;
+  retailPrice?: VolumeSaleInfoRetailPrice | undefined;
   /** Suggested retail price. (In LITE projection.) */
-  listPrice?: VolumeSaleInfoRetailPrice;
+  listPrice?: VolumeSaleInfoRetailPrice | undefined;
   /** Whether or not this volume is an eBook (can be added to the My eBooks shelf). */
-  isEbook?: boolean;
+  isEbook?: boolean | undefined;
   /** Offers available for this volume (sales and rentals). */
-  offers?: VolumeSaleInfoOffersItemList;
+  offers?: VolumeSaleInfoOffersItemList | undefined;
   /** URL to purchase this volume on the Google Books site. (In LITE projection) */
-  buyLink?: string;
+  buyLink?: string | undefined;
   /** The two-letter ISO_3166-1 country code for which this sale information is valid. (In LITE projection.) */
-  country?: string;
+  country?: string | undefined;
 }
 export interface ReviewAuthor {
   /** Name of this person. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface ReviewSource {
   /** Extra text about the source of the review. */
-  extraDescription?: string;
+  extraDescription?: string | undefined;
   /** Name of the source. */
-  description?: string;
+  description?: string | undefined;
   /** URL of the source of the review. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface Review {
   /** URL for the full review text, for reviews gathered from the web. */
-  fullTextUrl?: string;
+  fullTextUrl?: string | undefined;
   /** Review text. */
-  content?: string;
+  content?: string | undefined;
   /** Source type for this review. Possible values are EDITORIAL, WEB_USER or GOOGLE_USER. */
-  type?: string;
+  type?: string | undefined;
   /** Date of this review. */
-  date?: string;
+  date?: string | undefined;
   /** Title for this review. */
-  title?: string;
+  title?: string | undefined;
   /** Resource type for a review. */
-  kind?: string;
+  kind?: string | undefined;
   /** Author of this review. */
-  author?: ReviewAuthor;
+  author?: ReviewAuthor | undefined;
   /** Star rating for this review. Possible values are ONE, TWO, THREE, FOUR, FIVE or NOT_RATED. */
-  rating?: string;
+  rating?: string | undefined;
   /** Volume that this review is for. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Information regarding the source of this review, when the review is not from a Google Books user. */
-  source?: ReviewSource;
+  source?: ReviewSource | undefined;
 }
 export interface VolumeUserInfoUserUploadedVolumeInfo {
-  processingState?: string;
+  processingState?: string | undefined;
 }
 export interface VolumeUserInfoCopy {
-  remainingCharacterCount?: number;
-  allowedCharacterCount?: number;
-  updated?: string;
-  limitType?: string;
+  remainingCharacterCount?: number | undefined;
+  allowedCharacterCount?: number | undefined;
+  updated?: string | undefined;
+  limitType?: string | undefined;
 }
 export interface VolumeUserInfoRentalPeriod {
-  startUtcSec?: string;
-  endUtcSec?: string;
+  startUtcSec?: string | undefined;
+  endUtcSec?: string | undefined;
 }
 export interface VolumeUserInfoFamilySharing {
   /** Whether or not this volume can be shared with the family by the user. This includes sharing eligibility of both the volume and the user. If the value is true, the user can initiate a family sharing action. */
-  isSharingAllowed?: boolean;
+  isSharingAllowed?: boolean | undefined;
   /** Whether or not sharing this volume is temporarily disabled due to issues with the Family Wallet. */
-  isSharingDisabledByFop?: boolean;
+  isSharingDisabledByFop?: boolean | undefined;
   /** The role of the user in the family. */
-  familyRole?: string;
+  familyRole?: string | undefined;
 }
 export interface VolumeUserInfo {
   /** This user's review of this volume, if one exists. */
-  review?: Review;
+  review?: Review | undefined;
   /** Timestamp when this volume was acquired by the user. (RFC 3339 UTC date-time format) Acquiring includes purchase, user upload, receiving family sharing, etc. */
-  acquiredTime?: string;
+  acquiredTime?: string | undefined;
   /** Whether this volume is purchased, sample, pd download etc. */
-  entitlementType?: number;
+  entitlementType?: number | undefined;
   /** Whether or not the user received this volume through family sharing. */
-  isFamilySharedToUser?: boolean;
+  isFamilySharedToUser?: boolean | undefined;
   /** The user's current reading position in the volume, if one is available. (In LITE projection.) */
-  readingPosition?: ReadingPosition;
-  userUploadedVolumeInfo?: VolumeUserInfoUserUploadedVolumeInfo;
+  readingPosition?: ReadingPosition | undefined;
+  userUploadedVolumeInfo?: VolumeUserInfoUserUploadedVolumeInfo | undefined;
   /** Copy/Paste accounting information. */
-  copy?: VolumeUserInfoCopy;
+  copy?: VolumeUserInfoCopy | undefined;
   /** Whether this book is an active or an expired rental. */
-  rentalState?: string;
+  rentalState?: string | undefined;
   /** Whether or not this volume was user uploaded. */
-  isUploaded?: boolean;
+  isUploaded?: boolean | undefined;
   /** Whether or not this volume was purchased by the authenticated user making the request. (In LITE projection.) */
-  isPurchased?: boolean;
+  isPurchased?: boolean | undefined;
   /** Period during this book is/was a valid rental. */
-  rentalPeriod?: VolumeUserInfoRentalPeriod;
+  rentalPeriod?: VolumeUserInfoRentalPeriod | undefined;
   /** Whether or not this volume is currently in "my books." */
-  isInMyBooks?: boolean;
+  isInMyBooks?: boolean | undefined;
   /** Information on the ability to share with the family. */
-  familySharing?: VolumeUserInfoFamilySharing;
+  familySharing?: VolumeUserInfoFamilySharing | undefined;
   /** Timestamp when this volume was last modified by a user action, such as a reading position update, volume purchase or writing a review. (RFC 3339 UTC date-time format). */
-  updated?: string;
+  updated?: string | undefined;
   /** Whether or not the user shared this volume with the family. */
-  isFamilySharedFromUser?: boolean;
+  isFamilySharedFromUser?: boolean | undefined;
   /** Deprecated: Replaced by familySharing. */
-  isFamilySharingDisabledByFop?: boolean;
+  isFamilySharingDisabledByFop?: boolean | undefined;
   /** How this volume was acquired. */
-  acquisitionType?: number;
+  acquisitionType?: number | undefined;
   /** Deprecated: Replaced by familySharing. */
-  isFamilySharingAllowed?: boolean;
+  isFamilySharingAllowed?: boolean | undefined;
   /** Whether or not this volume was pre-ordered by the authenticated user making the request. (In LITE projection.) */
-  isPreordered?: boolean;
+  isPreordered?: boolean | undefined;
 }
 export interface VolumeAccessInfoEpub {
   /** URL to retrieve ACS token for epub download. (In LITE projection.) */
-  acsTokenLink?: string;
+  acsTokenLink?: string | undefined;
   /** URL to download epub. (In LITE projection.) */
-  downloadLink?: string;
+  downloadLink?: string | undefined;
   /** Is a flowing text epub available either as public domain or for purchase. (In LITE projection.) */
-  isAvailable?: boolean;
+  isAvailable?: boolean | undefined;
 }
 export interface DownloadAccessRestriction {
   /** Response signature. */
-  signature?: string;
+  signature?: string | undefined;
   /** Client nonce for verification. Download access and client-validation only. */
-  nonce?: string;
+  nonce?: string | undefined;
   /** If restricted, whether access is granted for this (user, device, volume). */
-  deviceAllowed?: boolean;
+  deviceAllowed?: boolean | undefined;
   /** Identifies the volume for which this entry applies. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Error/warning message. */
-  message?: string;
+  message?: string | undefined;
   /** Client app identifier for verification. Download access and client-validation only. */
-  source?: string;
+  source?: string | undefined;
   /** Whether this volume has any download access restrictions. */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** Error/warning reason code. Additional codes may be added in the future. 0 OK 100 ACCESS_DENIED_PUBLISHER_LIMIT 101 ACCESS_DENIED_LIMIT 200 WARNING_USED_LAST_ACCESS */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
   /** If restricted, the number of content download licenses already acquired (including the requesting client, if licensed). */
-  downloadsAcquired?: number;
+  downloadsAcquired?: number | undefined;
   /** If restricted, the maximum number of content download licenses for this volume. */
-  maxDownloadDevices?: number;
+  maxDownloadDevices?: number | undefined;
   /** If deviceAllowed, whether access was just acquired with this request. */
-  justAcquired?: boolean;
+  justAcquired?: boolean | undefined;
 }
 export interface VolumeAccessInfoPdf {
   /** URL to retrieve ACS token for pdf download. (In LITE projection.) */
-  acsTokenLink?: string;
+  acsTokenLink?: string | undefined;
   /** Is a scanned image pdf available either as public domain or for purchase. (In LITE projection.) */
-  isAvailable?: boolean;
+  isAvailable?: boolean | undefined;
   /** URL to download pdf. (In LITE projection.) */
-  downloadLink?: string;
+  downloadLink?: string | undefined;
 }
 export interface VolumeAccessInfo {
   /** Information about epub content. (In LITE projection.) */
-  epub?: VolumeAccessInfoEpub;
+  epub?: VolumeAccessInfoEpub | undefined;
   /** For ordered but not yet processed orders, we give a URL that can be used to go to the appropriate Google Wallet page. */
-  viewOrderUrl?: string;
+  viewOrderUrl?: string | undefined;
   /** Whether this volume can be embedded in a viewport using the Embedded Viewer API. */
-  embeddable?: boolean;
+  embeddable?: boolean | undefined;
   /** Information about a volume's download license access restrictions. */
-  downloadAccess?: DownloadAccessRestriction;
+  downloadAccess?: DownloadAccessRestriction | undefined;
   /** Whether this volume requires that the client explicitly request offline download license rather than have it done automatically when loading the content, if the client supports it. */
-  explicitOfflineLicenseManagement?: boolean;
+  explicitOfflineLicenseManagement?: boolean | undefined;
   /** The read access of a volume. Possible values are PARTIAL, ALL_PAGES, NO_PAGES or UNKNOWN. This value depends on the country listed above. A value of PARTIAL means that the publisher has allowed some portion of the volume to be viewed publicly, without purchase. This can apply to eBooks as well as non-eBooks. Public domain books will always have a value of ALL_PAGES. */
-  viewability?: string;
+  viewability?: string | undefined;
   /** URL to the Google Drive viewer if this volume is uploaded by the user by selecting the file from Google Drive. */
-  driveImportedContentLink?: string;
+  driveImportedContentLink?: string | undefined;
   /** The two-letter ISO_3166-1 country code for which this access information is valid. (In LITE projection.) */
-  country?: string;
+  country?: string | undefined;
   /** Combines the access and viewability of this volume into a single status field for this user. Values can be FULL_PURCHASED, FULL_PUBLIC_DOMAIN, SAMPLE or NONE. (In LITE projection.) */
-  accessViewStatus?: string;
+  accessViewStatus?: string | undefined;
   /** Whether or not this book is public domain in the country listed above. */
-  publicDomain?: boolean;
+  publicDomain?: boolean | undefined;
   /** Whether quote sharing is allowed for this volume. */
-  quoteSharingAllowed?: boolean;
+  quoteSharingAllowed?: boolean | undefined;
   /** Information about pdf content. (In LITE projection.) */
-  pdf?: VolumeAccessInfoPdf;
+  pdf?: VolumeAccessInfoPdf | undefined;
   /** URL to read this volume on the Google Books site. Link will not allow users to read non-viewable volumes. */
-  webReaderLink?: string;
+  webReaderLink?: string | undefined;
   /** Whether text-to-speech is permitted for this volume. Values can be ALLOWED, ALLOWED_FOR_ACCESSIBILITY, or NOT_ALLOWED. */
-  textToSpeechPermission?: string;
+  textToSpeechPermission?: string | undefined;
 }
 export interface VolumeSearchInfo {
   /** A text snippet containing the search query. */
-  textSnippet?: string;
+  textSnippet?: string | undefined;
 }
 export interface VolumeRecommendedInfo {
   /** A text explaining why this volume is recommended. */
-  explanation?: string;
+  explanation?: string | undefined;
 }
 export interface VolumeLayerInfoLayersItem {
   /** The current version of this layer's volume annotations. Note that this version applies only to the data in the books.layers.volumeAnnotations.* responses. The actual annotation data is versioned separately. */
-  volumeAnnotationsVersion?: string;
+  volumeAnnotationsVersion?: string | undefined;
   /** The layer id of this layer (e.g. "geo"). */
-  layerId?: string;
+  layerId?: string | undefined;
 }
 export type VolumeLayerInfoLayersItemList = Array<VolumeLayerInfoLayersItem>;
 export interface VolumeLayerInfo {
   /** A layer should appear here if and only if the layer exists for this book. */
-  layers?: VolumeLayerInfoLayersItemList;
+  layers?: VolumeLayerInfoLayersItemList | undefined;
 }
 export interface VolumeVolumeInfoImageLinks {
   /** Image link for small size (width of ~300 pixels). (In LITE projection) */
-  small?: string;
+  small?: string | undefined;
   /** Image link for small thumbnail size (width of ~80 pixels). (In LITE projection) */
-  smallThumbnail?: string;
+  smallThumbnail?: string | undefined;
   /** Image link for medium size (width of ~575 pixels). (In LITE projection) */
-  medium?: string;
+  medium?: string | undefined;
   /** Image link for thumbnail size (width of ~128 pixels). (In LITE projection) */
-  thumbnail?: string;
+  thumbnail?: string | undefined;
   /** Image link for large size (width of ~800 pixels). (In LITE projection) */
-  large?: string;
+  large?: string | undefined;
   /** Image link for extra large size (width of ~1280 pixels). (In LITE projection) */
-  extraLarge?: string;
+  extraLarge?: string | undefined;
 }
 export interface VolumeVolumeInfoPanelizationSummary {
-  imageBubbleVersion?: string;
-  containsEpubBubbles?: boolean;
-  containsImageBubbles?: boolean;
-  epubBubbleVersion?: string;
+  imageBubbleVersion?: string | undefined;
+  containsEpubBubbles?: boolean | undefined;
+  containsImageBubbles?: boolean | undefined;
+  epubBubbleVersion?: string | undefined;
 }
 export interface VolumeVolumeInfoDimensions {
   /** Width of this volume (in cm). */
-  width?: string;
+  width?: string | undefined;
   /** Thickness of this volume (in cm). */
-  thickness?: string;
+  thickness?: string | undefined;
   /** Height or length of this volume (in cm). */
-  height?: string;
+  height?: string | undefined;
 }
 export interface VolumeseriesinfoVolumeSeriesItemIssueItem {
-  issueOrderNumber?: number;
-  issueDisplayNumber?: string;
+  issueOrderNumber?: number | undefined;
+  issueDisplayNumber?: string | undefined;
 }
 export type VolumeseriesinfoVolumeSeriesItemIssueItemList =
   Array<VolumeseriesinfoVolumeSeriesItemIssueItem>;
 export interface VolumeseriesinfoVolumeSeriesItem {
   /** The book order number in the series. */
-  orderNumber?: number;
+  orderNumber?: number | undefined;
   /** List of issues. Applicable only for Collection Edition and Omnibus. */
-  issue?: VolumeseriesinfoVolumeSeriesItemIssueItemList;
+  issue?: VolumeseriesinfoVolumeSeriesItemIssueItemList | undefined;
   /** The book type in the context of series. Examples - Single Issue, Collection Edition, etc. */
-  seriesBookType?: string;
+  seriesBookType?: string | undefined;
   /** The series id. */
-  seriesId?: string;
+  seriesId?: string | undefined;
 }
 export type VolumeseriesinfoVolumeSeriesItemList = Array<VolumeseriesinfoVolumeSeriesItem>;
 export interface Volumeseriesinfo {
   /** Short book title in the context of the series. */
-  shortSeriesBookTitle?: string;
+  shortSeriesBookTitle?: string | undefined;
   /** The display number string. This should be used only for display purposes and the actual sequence should be inferred from the below orderNumber. */
-  bookDisplayNumber?: string;
+  bookDisplayNumber?: string | undefined;
   /** Resource type. */
-  kind?: string;
-  volumeSeries?: VolumeseriesinfoVolumeSeriesItemList;
+  kind?: string | undefined;
+  volumeSeries?: VolumeseriesinfoVolumeSeriesItemList | undefined;
 }
 export interface VolumeVolumeInfoReadingModes {
-  text?: boolean;
-  image?: boolean;
+  text?: boolean | undefined;
+  image?: boolean | undefined;
 }
 export interface VolumeVolumeInfoIndustryIdentifiersItem {
   /** Identifier type. Possible values are ISBN_10, ISBN_13, ISSN and OTHER. */
-  type?: string;
+  type?: string | undefined;
   /** Industry specific volume identifier. */
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type VolumeVolumeInfoIndustryIdentifiersItemList =
   Array<VolumeVolumeInfoIndustryIdentifiersItem>;
 export interface VolumeVolumeInfo {
   /** URL to preview this volume on the Google Books site. */
-  previewLink?: string;
+  previewLink?: string | undefined;
   /** A list of image links for all the sizes that are available. (In LITE projection.) */
-  imageLinks?: VolumeVolumeInfoImageLinks;
+  imageLinks?: VolumeVolumeInfoImageLinks | undefined;
   /** A top-level summary of the panelization info in this volume. */
-  panelizationSummary?: VolumeVolumeInfoPanelizationSummary;
+  panelizationSummary?: VolumeVolumeInfoPanelizationSummary | undefined;
   /** Total number of pages as per publisher metadata. */
-  pageCount?: number;
+  pageCount?: number | undefined;
   /** URL to view information about this volume on the Google Books site. (In LITE projection) */
-  infoLink?: string;
+  infoLink?: string | undefined;
   /** An identifier for the version of the volume content (text & images). (In LITE projection) */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** The number of review ratings for this volume. */
-  ratingsCount?: number;
+  ratingsCount?: number | undefined;
   /** A synopsis of the volume. The text of the description is formatted in HTML and includes simple formatting elements, such as b, i, and br tags. (In LITE projection.) */
-  description?: string;
+  description?: string | undefined;
   /** Physical dimensions of this volume. */
-  dimensions?: VolumeVolumeInfoDimensions;
+  dimensions?: VolumeVolumeInfoDimensions | undefined;
   /** Volume title. (In LITE projection.) */
-  title?: string;
-  seriesInfo?: Volumeseriesinfo;
+  title?: string | undefined;
+  seriesInfo?: Volumeseriesinfo | undefined;
   /** Date of publication. (In LITE projection.) */
-  publishedDate?: string;
+  publishedDate?: string | undefined;
   /** The main category to which this volume belongs. It will be the category from the categories list returned below that has the highest weight. */
-  mainCategory?: string;
+  mainCategory?: string | undefined;
   /** A list of subject categories, such as "Fiction", "Suspense", etc. */
-  categories?: StringList;
+  categories?: StringList | undefined;
   /** The reading modes available for this volume. */
-  readingModes?: VolumeVolumeInfoReadingModes;
+  readingModes?: VolumeVolumeInfoReadingModes | undefined;
   /** Canonical URL for a volume. (In LITE projection.) */
-  canonicalVolumeLink?: string;
+  canonicalVolumeLink?: string | undefined;
   /** Total number of sample pages as per publisher metadata. */
-  samplePageCount?: number;
-  maturityRating?: string;
+  samplePageCount?: number | undefined;
+  maturityRating?: string | undefined;
   /** The mean review rating for this volume. (min = 1.0, max = 5.0) */
-  averageRating?: number;
+  averageRating?: number | undefined;
   /** Publisher of this volume. (In LITE projection.) */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The names of the authors and/or editors for this volume. (In LITE projection) */
-  authors?: StringList;
+  authors?: StringList | undefined;
   /** Best language for this volume (based on content). It is the two-letter ISO 639-1 code such as 'fr', 'en', etc. */
-  language?: string;
+  language?: string | undefined;
   /** Type of publication of this volume. Possible values are BOOK or MAGAZINE. */
-  printType?: string;
+  printType?: string | undefined;
   /** Total number of printed pages in generated pdf representation. */
-  printedPageCount?: number;
+  printedPageCount?: number | undefined;
   /** Volume subtitle. (In LITE projection.) */
-  subtitle?: string;
+  subtitle?: string | undefined;
   /** Whether the volume has comics content. */
-  comicsContent?: boolean;
+  comicsContent?: boolean | undefined;
   /** Industry standard identifiers for this volume. */
-  industryIdentifiers?: VolumeVolumeInfoIndustryIdentifiersItemList;
+  industryIdentifiers?: VolumeVolumeInfoIndustryIdentifiersItemList | undefined;
   /** Whether anonymous logging should be allowed. */
-  allowAnonLogging?: boolean;
+  allowAnonLogging?: boolean | undefined;
 }
 export interface Volume {
   /** Any information about a volume related to the eBookstore and/or purchaseability. This information can depend on the country where the request originates from (i.e. books may not be for sale in certain countries). */
-  saleInfo?: VolumeSaleInfo;
+  saleInfo?: VolumeSaleInfo | undefined;
   /** User specific information related to this volume. (e.g. page this user last read or whether they purchased this book) */
-  userInfo?: VolumeUserInfo;
+  userInfo?: VolumeUserInfo | undefined;
   /** Any information about a volume related to reading or obtaining that volume text. This information can depend on country (books may be public domain in one country but not in another, e.g.). */
-  accessInfo?: VolumeAccessInfo;
+  accessInfo?: VolumeAccessInfo | undefined;
   /** URL to this resource. (In LITE projection.) */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Search result information related to this volume. */
-  searchInfo?: VolumeSearchInfo;
+  searchInfo?: VolumeSearchInfo | undefined;
   /** Recommendation related information for this volume. */
-  recommendedInfo?: VolumeRecommendedInfo;
+  recommendedInfo?: VolumeRecommendedInfo | undefined;
   /** Resource type for a volume. (In LITE projection.) */
-  kind?: string;
+  kind?: string | undefined;
   /** Opaque identifier for a specific version of a volume resource. (In LITE projection) */
-  etag?: string;
+  etag?: string | undefined;
   /** What layers exist in this volume and high level information about them. */
-  layerInfo?: VolumeLayerInfo;
+  layerInfo?: VolumeLayerInfo | undefined;
   /** Unique identifier for a volume. (In LITE projection.) */
-  id?: string;
+  id?: string | undefined;
   /** General volume information. */
-  volumeInfo?: VolumeVolumeInfo;
+  volumeInfo?: VolumeVolumeInfo | undefined;
 }
 export type VolumeList = Array<Volume>;
 export interface DiscoveryclustersClustersItem {
-  uid?: string;
-  banner_with_content_container?: DiscoveryclustersClustersItemBanner_with_content_container;
-  subTitle?: string;
-  volumes?: VolumeList;
-  totalVolumes?: number;
-  title?: string;
+  uid?: string | undefined;
+  banner_with_content_container?:
+    | DiscoveryclustersClustersItemBanner_with_content_container
+    | undefined;
+  subTitle?: string | undefined;
+  volumes?: VolumeList | undefined;
+  totalVolumes?: number | undefined;
+  title?: string | undefined;
 }
 export type DiscoveryclustersClustersItemList = Array<DiscoveryclustersClustersItem>;
 export interface Discoveryclusters {
-  clusters?: DiscoveryclustersClustersItemList;
-  totalClusters?: number;
+  clusters?: DiscoveryclustersClustersItemList | undefined;
+  totalClusters?: number | undefined;
   /** Resorce type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetPromoofferRequest {
   /** device model */
-  model?: string;
+  model?: string | undefined;
   /** device serial */
-  serial?: string;
+  serial?: string | undefined;
   /** device android_id */
-  androidId?: string;
+  androidId?: string | undefined;
   /** device manufacturer */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** device device */
-  device?: string;
+  device?: string | undefined;
   /** device product */
-  product?: string;
+  product?: string | undefined;
 }
 export interface OffersItemsItemItemsItem {
-  canonicalVolumeLink?: string;
-  coverUrl?: string;
-  title?: string;
-  author?: string;
-  volumeId?: string;
-  description?: string;
+  canonicalVolumeLink?: string | undefined;
+  coverUrl?: string | undefined;
+  title?: string | undefined;
+  author?: string | undefined;
+  volumeId?: string | undefined;
+  description?: string | undefined;
 }
 export type OffersItemsItemItemsItemList = Array<OffersItemsItemItemsItem>;
 export interface OffersItemsItem {
-  artUrl?: string;
-  items?: OffersItemsItemItemsItemList;
-  id?: string;
-  gservicesKey?: string;
+  artUrl?: string | undefined;
+  items?: OffersItemsItemItemsItemList | undefined;
+  id?: string | undefined;
+  gservicesKey?: string | undefined;
 }
 export type OffersItemsItemList = Array<OffersItemsItem>;
 export interface Offers {
   /** A list of offers. */
-  items?: OffersItemsItemList;
+  items?: OffersItemsItemList | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetSeriesRequest {
   /** String that identifies the series */
   series_id: StringList;
 }
 export interface SeriesSeriesItemSeriesSubscriptionReleaseInfoCurrentReleaseInfo {
-  releaseNumber?: string;
-  currencyCode?: string;
-  releaseTime?: string;
-  amountInMicros?: number;
+  releaseNumber?: string | undefined;
+  currencyCode?: string | undefined;
+  releaseTime?: string | undefined;
+  amountInMicros?: number | undefined;
 }
 export interface SeriesSeriesItemSeriesSubscriptionReleaseInfoNextReleaseInfo {
-  amountInMicros?: number;
-  currencyCode?: string;
-  releaseNumber?: string;
-  releaseTime?: string;
+  amountInMicros?: number | undefined;
+  currencyCode?: string | undefined;
+  releaseNumber?: string | undefined;
+  releaseTime?: string | undefined;
 }
 export interface SeriesSeriesItemSeriesSubscriptionReleaseInfo {
-  currentReleaseInfo?: SeriesSeriesItemSeriesSubscriptionReleaseInfoCurrentReleaseInfo;
-  nextReleaseInfo?: SeriesSeriesItemSeriesSubscriptionReleaseInfoNextReleaseInfo;
-  cancelTime?: string;
-  seriesSubscriptionType?: string;
+  currentReleaseInfo?: SeriesSeriesItemSeriesSubscriptionReleaseInfoCurrentReleaseInfo | undefined;
+  nextReleaseInfo?: SeriesSeriesItemSeriesSubscriptionReleaseInfoNextReleaseInfo | undefined;
+  cancelTime?: string | undefined;
+  seriesSubscriptionType?: string | undefined;
 }
 export interface SeriesSeriesItem {
-  bannerImageUrl?: string;
-  eligibleForSubscription?: boolean;
-  title?: string;
-  seriesType?: string;
-  seriesSubscriptionReleaseInfo?: SeriesSeriesItemSeriesSubscriptionReleaseInfo;
-  imageUrl?: string;
-  seriesId?: string;
-  seriesFormatType?: string;
-  isComplete?: boolean;
-  subscriptionId?: string;
+  bannerImageUrl?: string | undefined;
+  eligibleForSubscription?: boolean | undefined;
+  title?: string | undefined;
+  seriesType?: string | undefined;
+  seriesSubscriptionReleaseInfo?: SeriesSeriesItemSeriesSubscriptionReleaseInfo | undefined;
+  imageUrl?: string | undefined;
+  seriesId?: string | undefined;
+  seriesFormatType?: string | undefined;
+  isComplete?: boolean | undefined;
+  subscriptionId?: string | undefined;
 }
 export type SeriesSeriesItemList = Array<SeriesSeriesItem>;
 export interface Series {
-  series?: SeriesSeriesItemList;
+  series?: SeriesSeriesItemList | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetSeriesMembershipRequest {
   /** Number of maximum results per page to be included in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The value of the nextToken from the previous page. */
-  page_token?: string;
+  page_token?: string | undefined;
   /** String that identifies the series */
   series_id: string;
 }
 export interface Seriesmembership {
   /** Resorce type. */
-  kind?: string;
-  member?: VolumeList;
-  nextPageToken?: string;
+  kind?: string | undefined;
+  member?: VolumeList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetUserSettingsMyconfigRequest {
   /** Unused. Added only to workaround TEX mandatory request template requirement */
-  country?: string;
+  country?: string | undefined;
 }
 export interface UsersettingsNotificationRewardExpirations {
-  opted_state?: string;
+  opted_state?: string | undefined;
 }
 export type UsersettingsNotificationMoreFromSeries = UsersettingsNotificationRewardExpirations;
 export type UsersettingsNotificationMatchMyInterests = UsersettingsNotificationRewardExpirations;
 export type UsersettingsNotificationPriceDrop = UsersettingsNotificationRewardExpirations;
 export type UsersettingsNotificationMoreFromAuthors = UsersettingsNotificationRewardExpirations;
 export interface UsersettingsNotification {
-  rewardExpirations?: UsersettingsNotificationRewardExpirations;
-  moreFromSeries?: UsersettingsNotificationRewardExpirations;
-  matchMyInterests?: UsersettingsNotificationRewardExpirations;
-  priceDrop?: UsersettingsNotificationRewardExpirations;
-  moreFromAuthors?: UsersettingsNotificationRewardExpirations;
+  rewardExpirations?: UsersettingsNotificationRewardExpirations | undefined;
+  moreFromSeries?: UsersettingsNotificationRewardExpirations | undefined;
+  matchMyInterests?: UsersettingsNotificationRewardExpirations | undefined;
+  priceDrop?: UsersettingsNotificationRewardExpirations | undefined;
+  moreFromAuthors?: UsersettingsNotificationRewardExpirations | undefined;
 }
 export interface UsersettingsNotesExport {
-  isEnabled?: boolean;
-  folderName?: string;
+  isEnabled?: boolean | undefined;
+  folderName?: string | undefined;
 }
 export interface Usersettings {
-  notification?: UsersettingsNotification;
+  notification?: UsersettingsNotification | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
   /** User settings in sub-objects, each for different purposes. */
-  notesExport?: UsersettingsNotesExport;
+  notesExport?: UsersettingsNotesExport | undefined;
 }
 export type GetVolumesProjectionEnum = "PROJECTION_UNDEFINED" | "FULL" | "LITE";
 export interface GetVolumesRequest {
   /** string to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Restrict information returned to a set of selected fields. */
-  projection?: GetVolumesProjectionEnum | (string & {});
+  projection?: GetVolumesProjectionEnum | (string & {}) | undefined;
   /** Brand results for partner ID. */
-  partner?: string;
-  user_library_consistent_read?: boolean;
+  partner?: string | undefined;
+  user_library_consistent_read?: boolean | undefined;
   /** Set to true to include non-comics series. Defaults to false. */
-  includeNonComicsSeries?: boolean;
+  includeNonComicsSeries?: boolean | undefined;
   /** ISO-3166-1 code to override the IP-based location. */
-  country?: string;
+  country?: string | undefined;
   /** ID of volume to retrieve. */
   volumeId: string;
 }
 export interface AnnotationClientVersionRanges {
   /** Range in CFI format for this annotation sent by client. */
-  cfiRange?: BooksAnnotationsRange;
+  cfiRange?: BooksAnnotationsRange | undefined;
   /** Content version the client sent in. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** Range in GB image format for this annotation sent by client. */
-  gbImageRange?: BooksAnnotationsRange;
+  gbImageRange?: BooksAnnotationsRange | undefined;
   /** Range in image CFI format for this annotation sent by client. */
-  imageCfiRange?: BooksAnnotationsRange;
+  imageCfiRange?: BooksAnnotationsRange | undefined;
   /** Range in GB text format for this annotation sent by client. */
-  gbTextRange?: BooksAnnotationsRange;
+  gbTextRange?: BooksAnnotationsRange | undefined;
 }
 export interface AnnotationCurrentVersionRanges {
   /** Range in GB text format for this annotation for version above. */
-  gbTextRange?: BooksAnnotationsRange;
+  gbTextRange?: BooksAnnotationsRange | undefined;
   /** Range in GB image format for this annotation for version above. */
-  gbImageRange?: BooksAnnotationsRange;
+  gbImageRange?: BooksAnnotationsRange | undefined;
   /** Range in image CFI format for this annotation for version above. */
-  imageCfiRange?: BooksAnnotationsRange;
+  imageCfiRange?: BooksAnnotationsRange | undefined;
   /** Content version applicable to ranges below. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** Range in CFI format for this annotation for version above. */
-  cfiRange?: BooksAnnotationsRange;
+  cfiRange?: BooksAnnotationsRange | undefined;
 }
 export interface AnnotationLayerSummary {
   /** Remaining allowed characters on this layer, especially for the "copy" layer. */
-  remainingCharacterCount?: number;
+  remainingCharacterCount?: number | undefined;
   /** Type of limitation on this layer. "limited" or "unlimited" for the "copy" layer. */
-  limitType?: string;
+  limitType?: string | undefined;
   /** Maximum allowed characters on this layer, especially for the "copy" layer. */
-  allowedCharacterCount?: number;
+  allowedCharacterCount?: number | undefined;
 }
 export interface Annotation {
   /** Anchor text after excerpt. For requests, if the user bookmarked a screen that has no flowing text on it, then this field should be empty. */
-  afterSelectedText?: string;
+  afterSelectedText?: string | undefined;
   /** URL to this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Pages that this annotation spans. */
-  pageIds?: StringList;
+  pageIds?: StringList | undefined;
   /** Anchor text before excerpt. For requests, if the user bookmarked a screen that has no flowing text on it, then this field should be empty. */
-  beforeSelectedText?: string;
+  beforeSelectedText?: string | undefined;
   /** Selection ranges sent from the client. */
-  clientVersionRanges?: AnnotationClientVersionRanges;
+  clientVersionRanges?: AnnotationClientVersionRanges | undefined;
   /** Indicates that this annotation is deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The highlight style for this annotation. */
-  highlightStyle?: string;
+  highlightStyle?: string | undefined;
   /** Excerpt from the volume. */
-  selectedText?: string;
+  selectedText?: string | undefined;
   /** Selection ranges for the most recent content version. */
-  currentVersionRanges?: AnnotationCurrentVersionRanges;
+  currentVersionRanges?: AnnotationCurrentVersionRanges | undefined;
   /** The layer this annotation is for. */
-  layerId?: string;
-  layerSummary?: AnnotationLayerSummary;
+  layerId?: string | undefined;
+  layerSummary?: AnnotationLayerSummary | undefined;
   /** Timestamp for the created time of this annotation. */
-  created?: string;
+  created?: string | undefined;
   /** Id of this annotation, in the form of a GUID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The volume that this annotation belongs to. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** User-created data for this annotation. */
-  data?: string;
+  data?: string | undefined;
   /** Timestamp for the last time this annotation was modified. */
-  updated?: string;
+  updated?: string | undefined;
 }
 export interface InsertMylibraryAnnotationsRequest {
   /** Requests that only the summary of the specified layer be provided in the response. */
-  showOnlySummaryInResponse?: boolean;
+  showOnlySummaryInResponse?: boolean | undefined;
   /** The ID for the annotation to insert. */
-  annotationId?: string;
+  annotationId?: string | undefined;
   /** ISO-3166-1 code to override the IP-based location. */
-  country?: string;
+  country?: string | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Request body */
-  body?: Annotation;
+  body?: Annotation | undefined;
 }
 export interface ListBookshelvesRequest {
   /** ID of user for whom to retrieve bookshelves. */
   userId: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export type BookshelfList = Array<Bookshelf>;
 export interface Bookshelves {
   /** A list of bookshelves. */
-  items?: BookshelfList;
+  items?: BookshelfList | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListBookshelvesVolumesRequest {
   /** Set to true to show pre-ordered books. Defaults to false. */
-  showPreorders?: boolean;
+  showPreorders?: boolean | undefined;
   /** ID of bookshelf to retrieve volumes. */
   shelf: string;
   /** Maximum number of results to return */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** ID of user for whom to retrieve bookshelf volumes. */
   userId: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Index of the first element to return (starts at 0) */
-  startIndex?: number;
+  startIndex?: number | undefined;
 }
 export interface Volumes {
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
   /** Total number of volumes found. This might be greater than the number of volumes returned in this response if results have been paginated. */
-  totalItems?: number;
+  totalItems?: number | undefined;
   /** A list of volumes. */
-  items?: VolumeList;
+  items?: VolumeList | undefined;
 }
 export interface ListCategoriesOnboardingRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Default is en-US if unset. */
-  locale?: string;
+  locale?: string | undefined;
 }
 export interface CategoryItemsItem {
-  categoryId?: string;
-  name?: string;
-  badgeUrl?: string;
+  categoryId?: string | undefined;
+  name?: string | undefined;
+  badgeUrl?: string | undefined;
 }
 export type CategoryItemsItemList = Array<CategoryItemsItem>;
 export interface Category {
   /** A list of onboarding categories. */
-  items?: CategoryItemsItemList;
+  items?: CategoryItemsItemList | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCategoryVolumesOnboardingMaxAllowedMaturityRatingEnum =
   | "MAX_ALLOWED_MATURITY_RATING_UNDEFINED"
@@ -1183,233 +1188,234 @@ export type ListCategoryVolumesOnboardingMaxAllowedMaturityRatingEnum =
   | "not-mature";
 export interface ListCategoryVolumesOnboardingRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Default is en-US if unset. */
-  locale?: string;
+  locale?: string | undefined;
   /** Number of maximum results per page to be included in the response. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** List of category ids requested. */
-  categoryId?: StringList;
+  categoryId?: StringList | undefined;
   /** The maximum allowed maturity rating of returned volumes. Books with a higher maturity rating are filtered out. */
   maxAllowedMaturityRating?:
     | ListCategoryVolumesOnboardingMaxAllowedMaturityRatingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The value of the nextToken from the previous page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface Volume2 {
   /** A list of volumes. */
   items: VolumeList;
   /** Resource type. */
-  kind?: string;
-  nextPageToken?: string;
+  kind?: string | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListLayersRequest {
   /** The value of the nextToken from the previous page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The content version for the requested volume. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** Maximum number of results to return */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The volume to retrieve layers for. */
   volumeId: string;
 }
 export type LayersummaryList = Array<Layersummary>;
 export interface Layersummaries {
   /** A list of layer summary items. */
-  items?: LayersummaryList;
+  items?: LayersummaryList | undefined;
   /** The total number of layer summaries found. */
-  totalItems?: number;
+  totalItems?: number | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListLayersAnnotationDataRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** RFC 3339 timestamp to restrict to items updated since this timestamp (inclusive). */
-  updatedMin?: string;
+  updatedMin?: string | undefined;
   /** The requested pixel width for any images. If width is provided height must also be provided. */
-  w?: number;
+  w?: number | undefined;
   /** The requested pixel height for any images. If height is provided width must also be provided. */
-  h?: number;
+  h?: number | undefined;
   /** The content version for the requested volume. */
   contentVersion: string;
   /** The volume to retrieve annotation data for. */
   volumeId: string;
   /** The list of Annotation Data Ids to retrieve. Pagination is ignored if this is set. */
-  annotationDataId?: StringList;
+  annotationDataId?: StringList | undefined;
   /** The ID for the layer to get the annotation data. */
   layerId: string;
   /** The locale information for the data. ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. */
-  locale?: string;
+  locale?: string | undefined;
   /** Maximum number of results to return */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The requested scale for the image. */
-  scale?: number;
+  scale?: number | undefined;
   /** The value of the nextToken from the previous page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** RFC 3339 timestamp to restrict to items updated prior to this timestamp (exclusive). */
-  updatedMax?: string;
+  updatedMax?: string | undefined;
 }
 export interface GeolayerdataCommon {
   /** The display title and localized canonical name to use when searching for this entity on Google search. */
-  title?: string;
+  title?: string | undefined;
   /** The URL for information for this location. Ex: wikipedia link. */
-  snippetUrl?: string;
+  snippetUrl?: string | undefined;
   /** The URL for the preview image information. */
-  previewImageUrl?: string;
+  previewImageUrl?: string | undefined;
   /** The language of the information url and description. */
-  lang?: string;
+  lang?: string | undefined;
   /** The description for this location. */
-  snippet?: string;
+  snippet?: string | undefined;
 }
 export interface GeolayerdataGeoViewportLo {
-  latitude?: number;
-  longitude?: number;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
 }
 export interface GeolayerdataGeoViewportHi {
-  longitude?: number;
-  latitude?: number;
+  longitude?: number | undefined;
+  latitude?: number | undefined;
 }
 export interface GeolayerdataGeoViewport {
-  lo?: GeolayerdataGeoViewportLo;
-  hi?: GeolayerdataGeoViewportHi;
+  lo?: GeolayerdataGeoViewportLo | undefined;
+  hi?: GeolayerdataGeoViewportHi | undefined;
 }
 export interface GeolayerdataGeo {
   /** The cache policy active for this data. EX: UNRESTRICTED, RESTRICTED, NEVER */
-  cachePolicy?: string;
+  cachePolicy?: string | undefined;
   /** The Zoom level to use for the map. Zoom levels between 0 (the lowest zoom level, in which the entire world can be seen on one map) to 21+ (down to individual buildings). See: https: //developers.google.com/maps/documentation/staticmaps/#Zoomlevels */
-  zoom?: number;
+  zoom?: number | undefined;
   /** The country code of the location. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The type of map that should be used for this location. EX: HYBRID, ROADMAP, SATELLITE, TERRAIN */
-  mapType?: string;
+  mapType?: string | undefined;
   /** The viewport for showing this location. This is a latitude, longitude rectangle. */
-  viewport?: GeolayerdataGeoViewport;
+  viewport?: GeolayerdataGeoViewport | undefined;
   /** The longitude of the location. */
-  longitude?: number;
+  longitude?: number | undefined;
   /** The latitude of the location. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** The boundary of the location as a set of loops containing pairs of latitude, longitude coordinates. */
-  boundary?: StringList;
+  boundary?: StringList | undefined;
 }
 export interface Geolayerdata {
-  kind?: string;
-  common?: GeolayerdataCommon;
-  geo?: GeolayerdataGeo;
+  kind?: string | undefined;
+  common?: GeolayerdataCommon | undefined;
+  geo?: GeolayerdataGeo | undefined;
 }
 export interface GeoAnnotationdata {
   /** Resource Type */
-  kind?: string;
+  kind?: string | undefined;
   /** Timestamp for the last time this data was updated. (RFC 3339 UTC date-time format). */
-  updated?: string;
+  updated?: string | undefined;
   /** JSON encoded data for this geo annotation data. Emitted with name 'data' in JSON output. Either this or dict_data will be populated. */
-  data?: Geolayerdata;
+  data?: Geolayerdata | undefined;
   /** Base64 encoded data for this annotation data. */
-  encodedData?: string;
+  encodedData?: string | undefined;
   /** The volume id for this data. * */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** The Layer id for this data. * */
-  layerId?: string;
+  layerId?: string | undefined;
   /** The type of annotation this data is for. */
-  annotationType?: string;
+  annotationType?: string | undefined;
   /** Unique id for this annotation data. */
-  id?: string;
+  id?: string | undefined;
   /** URL for this resource. * */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 export type GeoAnnotationdataList = Array<GeoAnnotationdata>;
 export interface Annotationsdata {
   /** A list of Annotation Data. */
   items: GeoAnnotationdataList;
   /** Token to pass in for pagination for the next page. This will not be present if this request does not have more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The total number of volume annotations found. */
-  totalItems?: number;
+  totalItems?: number | undefined;
   /** Resource type */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListLayersVolumeAnnotationsRequest {
   /** The volume to retrieve annotations for. */
   volumeId: string;
   /** RFC 3339 timestamp to restrict to items updated since this timestamp (inclusive). */
-  updatedMin?: string;
+  updatedMin?: string | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The content version for the requested volume. */
   contentVersion: string;
   /** The end offset to end retrieving data from. */
-  endOffset?: string;
+  endOffset?: string | undefined;
   /** The version of the volume annotations that you are requesting. */
-  volumeAnnotationsVersion?: string;
+  volumeAnnotationsVersion?: string | undefined;
   /** Set to true to return deleted annotations. updatedMin must be in the request to use this. Defaults to false. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** The end position to end retrieving data from. */
-  endPosition?: string;
+  endPosition?: string | undefined;
   /** Maximum number of results to return */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The start offset to start retrieving data from. */
-  startOffset?: string;
+  startOffset?: string | undefined;
   /** RFC 3339 timestamp to restrict to items updated prior to this timestamp (exclusive). */
-  updatedMax?: string;
+  updatedMax?: string | undefined;
   /** The locale information for the data. ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. */
-  locale?: string;
+  locale?: string | undefined;
   /** The start position to start retrieving data from. */
-  startPosition?: string;
+  startPosition?: string | undefined;
   /** The ID for the layer to get the annotations. */
   layerId: string;
   /** The value of the nextToken from the previous page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type VolumeannotationList = Array<Volumeannotation>;
 export interface Volumeannotations {
   /** Resource type */
-  kind?: string;
+  kind?: string | undefined;
   /** A list of volume annotations. */
   items: VolumeannotationList;
   /** The version string for all of the volume annotations in this layer (not just the ones in this response). Note: the version string doesn't apply to the annotation data, just the information in this response (e.g. the location of annotations in the book). */
-  version?: string;
+  version?: string | undefined;
   /** The total number of volume annotations found. */
-  totalItems?: number;
+  totalItems?: number | undefined;
   /** Token to pass in for pagination for the next page. This will not be present if this request does not have more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListMylibraryAnnotationsRequest {
   /** The layer ID(s) to limit annotation by. */
-  layerIds?: StringList;
+  layerIds?: StringList | undefined;
   /** The volume to restrict annotations to. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Set to true to return deleted annotations. updatedMin must be in the request to use this. Defaults to false. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** The layer ID to limit annotation by. */
-  layerId?: string;
+  layerId?: string | undefined;
   /** Maximum number of results to return */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** RFC 3339 timestamp to restrict to items updated since this timestamp (inclusive). */
-  updatedMin?: string;
+  updatedMin?: string | undefined;
   /** The content version for the requested volume. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The value of the nextToken from the previous page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** RFC 3339 timestamp to restrict to items updated prior to this timestamp (exclusive). */
-  updatedMax?: string;
+  updatedMax?: string | undefined;
 }
 export type AnnotationList = Array<Annotation>;
 export interface Annotations {
   /** Total number of annotations found. This may be greater than the number of notes returned in this response if results have been paginated. */
-  totalItems?: number;
+  totalItems?: number | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
   /** Token to pass in for pagination for the next page. This will not be present if this request does not have more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of annotations. */
   items: AnnotationList;
 }
 export interface ListMylibraryBookshelvesRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export type ListMylibraryBookshelvesVolumesProjectionEnum =
   | "PROJECTION_UNDEFINED"
@@ -1417,39 +1423,39 @@ export type ListMylibraryBookshelvesVolumesProjectionEnum =
   | "LITE";
 export interface ListMylibraryBookshelvesVolumesRequest {
   /** ISO-3166-1 code to override the IP-based location. */
-  country?: string;
+  country?: string | undefined;
   /** The bookshelf ID or name retrieve volumes for. */
   shelf: string;
   /** Index of the first element to return (starts at 0) */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Full-text search query string in this bookshelf. */
-  q?: string;
+  q?: string | undefined;
   /** Maximum number of results to return */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Restrict information returned to a set of selected fields. */
-  projection?: ListMylibraryBookshelvesVolumesProjectionEnum | (string & {});
+  projection?: ListMylibraryBookshelvesVolumesProjectionEnum | (string & {}) | undefined;
   /** Set to true to show pre-ordered books. Defaults to false. */
-  showPreorders?: boolean;
+  showPreorders?: boolean | undefined;
 }
 export interface ListOfflineMetadataDictionaryRequest {
   /** The device/version ID from which to request the data. */
   cpksver: string;
 }
 export interface MetadataItemsItem {
-  version?: string;
-  language?: string;
-  encrypted_key?: string;
-  size?: string;
-  download_url?: string;
+  version?: string | undefined;
+  language?: string | undefined;
+  encrypted_key?: string | undefined;
+  size?: string | undefined;
+  download_url?: string | undefined;
 }
 export type MetadataItemsItemList = Array<MetadataItemsItem>;
 export interface Metadata {
   /** A list of offline dictionary metadata. */
-  items?: MetadataItemsItemList;
+  items?: MetadataItemsItemList | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListVolumesDownloadEnum = "DOWNLOAD_UNDEFINED" | "EPUB";
 export type ListVolumesProjectionEnum = "PROJECTION_UNDEFINED" | "FULL" | "LITE";
@@ -1472,33 +1478,33 @@ export type ListVolumesOrderByEnum = "ORDER_BY_UNDEFINED" | "newest" | "relevanc
 export type ListVolumesPrintTypeEnum = "PRINT_TYPE_UNDEFINED" | "ALL" | "BOOKS" | "MAGAZINES";
 export interface ListVolumesRequest {
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Restrict and brand results for partner ID. */
-  partner?: string;
+  partner?: string | undefined;
   /** Index of the first result to return (starts at 0) */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Restrict to volumes by download availability. */
-  download?: ListVolumesDownloadEnum | (string & {});
+  download?: ListVolumesDownloadEnum | (string & {}) | undefined;
   /** Set to true to show books available for preorder. Defaults to false. */
-  showPreorders?: boolean;
+  showPreorders?: boolean | undefined;
   /** Full-text search query string. */
   q: string;
   /** Restrict information returned to a set of selected fields. */
-  projection?: ListVolumesProjectionEnum | (string & {});
+  projection?: ListVolumesProjectionEnum | (string & {}) | undefined;
   /** Restrict results to books with this language code. */
-  langRestrict?: string;
+  langRestrict?: string | undefined;
   /** Filter search results. */
-  filter?: ListVolumesFilterEnum | (string & {});
+  filter?: ListVolumesFilterEnum | (string & {}) | undefined;
   /** The maximum allowed maturity rating of returned recommendations. Books with a higher maturity rating are filtered out. */
-  maxAllowedMaturityRating?: ListVolumesMaxAllowedMaturityRatingEnum | (string & {});
+  maxAllowedMaturityRating?: ListVolumesMaxAllowedMaturityRatingEnum | (string & {}) | undefined;
   /** Restrict search to this user's library. */
-  libraryRestrict?: ListVolumesLibraryRestrictEnum | (string & {});
+  libraryRestrict?: ListVolumesLibraryRestrictEnum | (string & {}) | undefined;
   /** Sort search results. */
-  orderBy?: ListVolumesOrderByEnum | (string & {});
+  orderBy?: ListVolumesOrderByEnum | (string & {}) | undefined;
   /** Restrict to books or magazines. */
-  printType?: ListVolumesPrintTypeEnum | (string & {});
+  printType?: ListVolumesPrintTypeEnum | (string & {}) | undefined;
 }
 export type ListVolumesAssociatedAssociationEnum =
   | "ASSOCIATION_UNDEFINED"
@@ -1511,15 +1517,18 @@ export type ListVolumesAssociatedMaxAllowedMaturityRatingEnum =
   | "not-mature";
 export interface ListVolumesAssociatedRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
-  locale?: string;
+  locale?: string | undefined;
   /** ID of the source volume. */
   volumeId: string;
   /** Association type. */
-  association?: ListVolumesAssociatedAssociationEnum | (string & {});
+  association?: ListVolumesAssociatedAssociationEnum | (string & {}) | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The maximum allowed maturity rating of returned recommendations. Books with a higher maturity rating are filtered out. */
-  maxAllowedMaturityRating?: ListVolumesAssociatedMaxAllowedMaturityRatingEnum | (string & {});
+  maxAllowedMaturityRating?:
+    | ListVolumesAssociatedMaxAllowedMaturityRatingEnum
+    | (string & {})
+    | undefined;
 }
 export type ListVolumesMybooksProcessingStateEnum =
   | "PROCESSING_STATE_UNDEFINED"
@@ -1544,19 +1553,19 @@ export type ListVolumesMybooksAcquireMethodEnumList = Array<
 >;
 export interface ListVolumesMybooksRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex:'en_US'. Used for generating recommendations. */
-  locale?: string;
+  locale?: string | undefined;
   /** ISO-3166-1 code to override the IP-based location. */
-  country?: string;
+  country?: string | undefined;
   /** The processing state of the user uploaded volumes to be returned. Applicable only if the UPLOADED is specified in the acquireMethod. */
-  processingState?: ListVolumesMybooksProcessingStateEnumList;
+  processingState?: ListVolumesMybooksProcessingStateEnumList | undefined;
   /** How the book was acquired */
-  acquireMethod?: ListVolumesMybooksAcquireMethodEnumList;
+  acquireMethod?: ListVolumesMybooksAcquireMethodEnumList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Index of the first result to return (starts at 0) */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export type ListVolumesRecommendedMaxAllowedMaturityRatingEnum =
   | "MAX_ALLOWED_MATURITY_RATING_UNDEFINED"
@@ -1564,11 +1573,14 @@ export type ListVolumesRecommendedMaxAllowedMaturityRatingEnum =
   | "not-mature";
 export interface ListVolumesRecommendedRequest {
   /** The maximum allowed maturity rating of returned recommendations. Books with a higher maturity rating are filtered out. */
-  maxAllowedMaturityRating?: ListVolumesRecommendedMaxAllowedMaturityRatingEnum | (string & {});
+  maxAllowedMaturityRating?:
+    | ListVolumesRecommendedMaxAllowedMaturityRatingEnum
+    | (string & {})
+    | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
-  locale?: string;
+  locale?: string | undefined;
 }
 export type ListVolumesUseruploadedProcessingStateEnum =
   | "PROCESSING_STATE_UNDEFINED"
@@ -1580,17 +1592,17 @@ export type ListVolumesUseruploadedProcessingStateEnumList = Array<
 >;
 export interface ListVolumesUseruploadedRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
-  locale?: string;
+  locale?: string | undefined;
   /** The processing state of the user uploaded volumes to be returned. */
-  processingState?: ListVolumesUseruploadedProcessingStateEnumList;
+  processingState?: ListVolumesUseruploadedProcessingStateEnumList | undefined;
   /** The ids of the volumes to be returned. If not specified all that match the processingState are returned. */
-  volumeId?: StringList;
+  volumeId?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Index of the first result to return (starts at 0) */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface MoveVolumeMylibraryBookshelvesRequest {
   /** ID of volume to move. */
@@ -1598,51 +1610,51 @@ export interface MoveVolumeMylibraryBookshelvesRequest {
   /** Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on.) */
   volumePosition: number;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ID of bookshelf with the volume. */
   shelf: string;
 }
 export type RateVolumesRecommendedRatingEnum = "RATING_UNDEFINED" | "HAVE_IT" | "NOT_INTERESTED";
 export interface RateVolumesRecommendedRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Rating to be given to the volume. */
   rating: RateVolumesRecommendedRatingEnum | (string & {});
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
-  locale?: string;
+  locale?: string | undefined;
   /** ID of the source volume. */
   volumeId: string;
 }
 export interface BooksVolumesRecommendedRateResponse {
-  consistency_token?: string;
+  consistency_token?: string | undefined;
 }
 export interface ReleaseDownloadAccessMyconfigRequest {
   /** The volume(s) to release restrictions for. */
   volumeIds: StringList;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US. */
-  locale?: string;
+  locale?: string | undefined;
   /** The device/version ID from which to release the restriction. */
   cpksver: string;
 }
 export type DownloadAccessRestrictionList = Array<DownloadAccessRestriction>;
 export interface DownloadAccesses {
   /** A list of download access responses. */
-  downloadAccessList?: DownloadAccessRestrictionList;
+  downloadAccessList?: DownloadAccessRestrictionList | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type RemoveVolumeMylibraryBookshelvesReasonEnum = "REASON_UNDEFINED" | "ONBOARDING";
 export interface RemoveVolumeMylibraryBookshelvesRequest {
   /** The reason for which the book is removed from the library. */
-  reason?: RemoveVolumeMylibraryBookshelvesReasonEnum | (string & {});
+  reason?: RemoveVolumeMylibraryBookshelvesReasonEnum | (string & {}) | undefined;
   /** ID of volume to remove. */
   volumeId: string;
   /** ID of bookshelf from which to remove a volume. */
   shelf: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export type RequestAccessMyconfigLicenseTypesEnum =
   | "LICENSE_TYPES_UNDEFINED"
@@ -1655,45 +1667,45 @@ export interface RequestAccessMyconfigRequest {
   /** The client nonce value. */
   nonce: string;
   /** The type of access license to request. If not specified, the default is BOTH. */
-  licenseTypes?: RequestAccessMyconfigLicenseTypesEnum | (string & {});
+  licenseTypes?: RequestAccessMyconfigLicenseTypesEnum | (string & {}) | undefined;
   /** The device/version ID from which to request the restrictions. */
   cpksver: string;
   /** ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US. */
-  locale?: string;
+  locale?: string | undefined;
   /** The volume to request concurrent/download restrictions for. */
   volumeId: string;
 }
 export interface ConcurrentAccessRestriction {
   /** Whether access is granted for this (user, device, volume). */
-  deviceAllowed?: boolean;
+  deviceAllowed?: boolean | undefined;
   /** The maximum number of concurrent access licenses for this volume. */
-  maxConcurrentDevices?: number;
+  maxConcurrentDevices?: number | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
   /** Whether this volume has any concurrent access restrictions. */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** Client app identifier for verification. Download access and client-validation only. */
-  source?: string;
+  source?: string | undefined;
   /** Error/warning reason code. */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
   /** Client nonce for verification. Download access and client-validation only. */
-  nonce?: string;
+  nonce?: string | undefined;
   /** Time in seconds for license auto-expiration. */
-  timeWindowSeconds?: number;
+  timeWindowSeconds?: number | undefined;
   /** Response signature. */
-  signature?: string;
+  signature?: string | undefined;
   /** Identifies the volume for which this entry applies. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Error/warning message. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface RequestAccessData {
   /** A concurrent access response. */
-  concurrentAccess?: ConcurrentAccessRestriction;
+  concurrentAccess?: ConcurrentAccessRestriction | undefined;
   /** A download access response. */
-  downloadAccess?: DownloadAccessRestriction;
+  downloadAccess?: DownloadAccessRestriction | undefined;
   /** Resource type. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type SetPositionMylibraryReadingpositionsActionEnum =
   | "ACTION_UNDEFINED"
@@ -1705,11 +1717,11 @@ export type SetPositionMylibraryReadingpositionsActionEnum =
   | "search";
 export interface SetPositionMylibraryReadingpositionsRequest {
   /** Random persistent device cookie optional on set position. */
-  deviceCookie?: string;
+  deviceCookie?: string | undefined;
   /** Action that caused this reading position to be set. */
-  action?: SetPositionMylibraryReadingpositionsActionEnum | (string & {});
+  action?: SetPositionMylibraryReadingpositionsActionEnum | (string & {}) | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Position string for the new volume reading position. */
   position: string;
   /** ID of volume for which to update the reading position. */
@@ -1717,35 +1729,35 @@ export interface SetPositionMylibraryReadingpositionsRequest {
   /** RFC 3339 UTC format timestamp associated with this reading position. */
   timestamp: string;
   /** Volume content version for which this reading position applies. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
 }
 export interface ShareFamilysharingRequest {
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** The docid to share. */
-  docId?: string;
+  docId?: string | undefined;
   /** The volume to share. */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 export interface SummaryMylibraryAnnotationsRequest {
   /** Array of layer IDs to get the summary for. */
   layerIds: StringList;
   /** Optional. String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Volume id to get the summary for. */
   volumeId: string;
 }
 export interface AnnotationsSummaryLayersItem {
-  allowedCharacterCount?: number;
-  layerId?: string;
-  remainingCharacterCount?: number;
-  updated?: string;
-  limitType?: string;
+  allowedCharacterCount?: number | undefined;
+  layerId?: string | undefined;
+  remainingCharacterCount?: number | undefined;
+  updated?: string | undefined;
+  limitType?: string | undefined;
 }
 export type AnnotationsSummaryLayersItemList = Array<AnnotationsSummaryLayersItem>;
 export interface AnnotationsSummary {
-  layers?: AnnotationsSummaryLayersItemList;
-  kind?: string;
+  layers?: AnnotationsSummaryLayersItemList | undefined;
+  kind?: string | undefined;
 }
 export type SyncVolumeLicensesMyconfigFeaturesEnum = "FEATURES_UNDEFINED" | "RENTALS";
 export type SyncVolumeLicensesMyconfigFeaturesEnumList = Array<
@@ -1753,15 +1765,15 @@ export type SyncVolumeLicensesMyconfigFeaturesEnumList = Array<
 >;
 export interface SyncVolumeLicensesMyconfigRequest {
   /** Set to true to show pre-ordered books. Defaults to false. */
-  showPreorders?: boolean;
+  showPreorders?: boolean | undefined;
   /** ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US. */
-  locale?: string;
+  locale?: string | undefined;
   /** The volume(s) to request download restrictions for. */
-  volumeIds?: StringList;
+  volumeIds?: StringList | undefined;
   /** List of features supported by the client, i.e., 'RENTALS' */
-  features?: SyncVolumeLicensesMyconfigFeaturesEnumList;
+  features?: SyncVolumeLicensesMyconfigFeaturesEnumList | undefined;
   /** Set to true to include non-comics series. Defaults to false. */
-  includeNonComicsSeries?: boolean;
+  includeNonComicsSeries?: boolean | undefined;
   /** String to identify the originator of this request. */
   source: string;
   /** The client nonce value. */
@@ -1771,27 +1783,27 @@ export interface SyncVolumeLicensesMyconfigRequest {
 }
 export interface UnshareFamilysharingRequest {
   /** The volume to unshare. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** The docid to unshare. */
-  docId?: string;
+  docId?: string | undefined;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface UpdateBookCloudloadingRequest {
   /** Request body */
-  body?: BooksCloudloadingResource;
+  body?: BooksCloudloadingResource | undefined;
 }
 export interface UpdateMylibraryAnnotationsRequest {
   /** The ID for the annotation to update. */
   annotationId: string;
   /** String to identify the originator of this request. */
-  source?: string;
+  source?: string | undefined;
   /** Request body */
-  body?: Annotation;
+  body?: Annotation | undefined;
 }
 export interface UpdateUserSettingsMyconfigRequest {
   /** Request body */
-  body?: Usersettings;
+  body?: Usersettings | undefined;
 }
 export type AcceptPromoofferError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Accepts the promo offer. */

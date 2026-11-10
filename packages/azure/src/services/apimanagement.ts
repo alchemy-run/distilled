@@ -38,9 +38,9 @@ export interface AiGatewayAliasTarget {
   /** Azure resource identifier of the target model in the default workspace. */
   resourceId: string;
   /** Routing priority. Lower values are preferred; the effective default is zero. */
-  priority?: number;
+  priority?: number | undefined;
   /** Relative selection weight within a priority group. The effective default is one. */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** Ordered target models used for routing. */
 export type AiGatewayAliasPropertiesInputBackendModelsList = Array<AiGatewayAliasTarget>;
@@ -73,9 +73,9 @@ export type AiGatewayCostLimitOverrideClaimsMap = { [key: string]: string | unde
 /** An ordered cost-budget override; exactly one selector must be specified. */
 export interface AiGatewayCostLimitOverride {
   /** Authenticated token claims that must all match; dictionary keys are case-sensitive claim names. */
-  claims?: AiGatewayCostLimitOverrideClaimsMap;
+  claims?: AiGatewayCostLimitOverrideClaimsMap | undefined;
   /** Azure resource identifier of the API key selecting this override. */
-  apiKeyResourceId?: string;
+  apiKeyResourceId?: string | undefined;
   /** Override budget in US dollars. */
   amount: number;
 }
@@ -90,16 +90,16 @@ export interface AiGatewayAgentHookIdentity {
   /** Managed identity kind. */
   type: AiGatewayAgentHookIdentityType | (string & {});
   /** User-assigned identity client ID; omit for a system-assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Authorization settings for an external agent hook. */
 export interface AiGatewayAgentHookAuthorization {
   /** Authorization kind. */
   type: AiGatewayAgentHookAuthorizationType | (string & {});
   /** Managed identity selection, required for managedIdentity authorization. */
-  identity?: AiGatewayAgentHookIdentity;
+  identity?: AiGatewayAgentHookIdentity | undefined;
   /** Absolute token audience URI, required for managedIdentity authorization. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** Literal non-secret default HTTP headers for agent hooks. */
 export type AiGatewayPolicyHeadersMap = { [key: string]: string | undefined };
@@ -108,18 +108,18 @@ export type AiGatewayAgentHookHeadersMap = { [key: string]: string | undefined }
 /** External hook settings; omitted fields inherit policy-level settings. */
 export interface AiGatewayAgentHook {
   /** Hook destination HTTPS URL. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Hook authorization settings. */
-  authorization?: AiGatewayAgentHookAuthorization;
+  authorization?: AiGatewayAgentHookAuthorization | undefined;
   /** Literal, non-secret HTTP headers, returned by read operations. */
-  headers?: AiGatewayAgentHookHeadersMap;
+  headers?: AiGatewayAgentHookHeadersMap | undefined;
 }
 /** Lifecycle hooks supported on tool servers. */
 export interface AiGatewayAgentHooks {
   /** Hook invoked before calling a tool. */
-  preToolCall?: AiGatewayAgentHook;
+  preToolCall?: AiGatewayAgentHook | undefined;
   /** Hook invoked after calling a tool. */
-  postToolCall?: AiGatewayAgentHook;
+  postToolCall?: AiGatewayAgentHook | undefined;
 }
 /** Severity threshold used by a content safety policy. */
 export type AiGatewayContentSafetySeverity = "Low" | "Medium" | "High" | "None";
@@ -147,82 +147,82 @@ export interface AiGatewayPolicy {
   /** Policy type. */
   type: AiGatewayPolicyType | (string & {});
   /** Policy scope. Workspace counter policies use workspace; other policies use resource. Agent hooks require an explicit resource scope. */
-  scope?: AiGatewayPolicyScope | (string & {});
+  scope?: AiGatewayPolicyScope | (string & {}) | undefined;
   /** Stable identifier, required for costLimit and agentHooks policies. */
-  id?: string;
+  id?: string | undefined;
   /** Token count allowed during a token limit period. */
-  count?: number;
+  count?: number | undefined;
   /** Counter period. Token limits support minute/hour/day; cost limits support hour/day/week/month/year. */
-  period?: AiGatewayPolicyPeriod | (string & {});
+  period?: AiGatewayPolicyPeriod | (string & {}) | undefined;
   /** Unique public dimensions used to partition a token, cost, or request counter. */
-  counterKey?: AiGatewayPolicyCounterKeyList;
+  counterKey?: AiGatewayPolicyCounterKeyList | undefined;
   /** Cost budget in US dollars. */
-  amount?: number;
+  amount?: number | undefined;
   /** Ordered cost-budget overrides; supported only for counterKey [identity]. The first match wins. */
-  overrides?: AiGatewayPolicyOverridesList;
+  overrides?: AiGatewayPolicyOverridesList | undefined;
   /** Whether to check tool requests for threats. */
-  preInvocation?: boolean;
+  preInvocation?: boolean | undefined;
   /** Whether to check tool responses for threats. */
-  postInvocation?: boolean;
+  postInvocation?: boolean | undefined;
   /** Default HTTPS destination for agent hooks. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Default authorization for agent hooks. */
-  authorization?: AiGatewayAgentHookAuthorization;
+  authorization?: AiGatewayAgentHookAuthorization | undefined;
   /** Literal non-secret default HTTP headers for agent hooks. */
-  headers?: AiGatewayPolicyHeadersMap;
+  headers?: AiGatewayPolicyHeadersMap | undefined;
   /** Lifecycle hooks; requires agent-hook authoring to be enabled on the gateway. */
-  hooks?: AiGatewayAgentHooks;
+  hooks?: AiGatewayAgentHooks | undefined;
   /** Hate-content severity threshold. */
-  hateSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  hateSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Violence-content severity threshold. */
-  violenceSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  violenceSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Sexual-content severity threshold. */
-  sexualSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  sexualSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Self-harm-content severity threshold. */
-  selfHarmSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  selfHarmSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Consecutive failure count that opens a fallback circuit. */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Duration for which the fallback circuit remains open. */
-  tripDurationSeconds?: number;
+  tripDurationSeconds?: number | undefined;
   /** Ordered fallback model targets. */
-  fallbackTargets?: AiGatewayPolicyFallbackTargetsList;
+  fallbackTargets?: AiGatewayPolicyFallbackTargetsList | undefined;
   /** IP filtering action. */
-  action?: AiGatewayIpFilterAction | (string & {});
+  action?: AiGatewayIpFilterAction | (string & {}) | undefined;
   /** CIDR ranges to allow or deny. */
-  cidrRanges?: AiGatewayPolicyCidrRangesList;
+  cidrRanges?: AiGatewayPolicyCidrRangesList | undefined;
   /** Request count allowed during the configured period. */
-  callsPerPeriod?: number;
+  callsPerPeriod?: number | undefined;
   /** Request rate limit period in seconds. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
   /** Origins allowed by a CORS policy. */
-  allowedOrigins?: AiGatewayPolicyAllowedOriginsList;
+  allowedOrigins?: AiGatewayPolicyAllowedOriginsList | undefined;
   /** HTTP methods allowed by a CORS policy. */
-  allowedMethods?: AiGatewayPolicyAllowedMethodsList;
+  allowedMethods?: AiGatewayPolicyAllowedMethodsList | undefined;
   /** HTTP headers allowed by a CORS policy. */
-  allowedHeaders?: AiGatewayPolicyAllowedHeadersList;
+  allowedHeaders?: AiGatewayPolicyAllowedHeadersList | undefined;
   /** Response headers exposed to the browser. */
-  exposeHeaders?: AiGatewayPolicyExposeHeadersList;
+  exposeHeaders?: AiGatewayPolicyExposeHeadersList | undefined;
   /** Whether browsers may send credentials. */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
   /** Whether unmatched CORS requests are terminated. */
-  terminateUnmatchedRequest?: boolean;
+  terminateUnmatchedRequest?: boolean | undefined;
   /** Browser preflight cache duration in seconds. */
-  preflightResultMaxAge?: number;
+  preflightResultMaxAge?: number | undefined;
 }
 /** Inline policies applied to requests routed through the alias. */
 export type AiGatewayAliasPropertiesInputPoliciesList = Array<AiGatewayPolicy>;
 /** Properties of a stable client-facing model alias. */
 export interface AiGatewayAliasPropertiesInput {
   /** Client-facing routing name sent in the request model field. */
-  aliasName?: string;
+  aliasName?: string | undefined;
   /** Description of the alias. */
-  description?: string;
+  description?: string | undefined;
   /** Ordered target models used for routing. */
   backendModels: AiGatewayAliasPropertiesInputBackendModelsList;
   /** Ordered routing stages. Only the routing stage is currently supported. */
-  selectionOrder?: AiGatewayAliasPropertiesInputSelectionOrderList;
+  selectionOrder?: AiGatewayAliasPropertiesInputSelectionOrderList | undefined;
   /** Inline policies applied to requests routed through the alias. */
-  policies?: AiGatewayAliasPropertiesInputPoliciesList;
+  policies?: AiGatewayAliasPropertiesInputPoliciesList | undefined;
 }
 export interface AiGatewayAliasResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -236,7 +236,7 @@ export interface AiGatewayAliasResourcesCreateOrUpdateRequest {
   /** The name of the AiGatewayAliasResource */
   aliasId: string;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayAliasPropertiesInput;
+  properties?: AiGatewayAliasPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -245,17 +245,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Ordered target models used for routing. */
 export type AiGatewayAliasPropertiesBackendModelsList = Array<AiGatewayAliasTarget>;
@@ -270,9 +270,9 @@ export interface AiGatewayEndpoint {
   /** Complete HTTPS invocation URL. */
   url: string;
   /** HTTPS base URL for SDKs that construct operation paths, when metadata is enabled. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** API identifier relative to the provider prefix, when metadata is enabled. */
-  api?: string;
+  api?: string | undefined;
 }
 /** Invocation endpoints, when endpoint metadata is enabled for this gateway. */
 export type AiGatewayAliasPropertiesGatewayEndpointsList = Array<AiGatewayEndpoint>;
@@ -283,48 +283,48 @@ export type AiGatewayProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** Properties of a stable client-facing model alias. */
 export interface AiGatewayAliasProperties {
   /** Client-facing routing name sent in the request model field. */
-  aliasName?: string;
+  aliasName?: string | undefined;
   /** Description of the alias. */
-  description?: string;
+  description?: string | undefined;
   /** Ordered target models used for routing. */
   backendModels: AiGatewayAliasPropertiesBackendModelsList;
   /** Ordered routing stages. Only the routing stage is currently supported. */
-  selectionOrder?: AiGatewayAliasPropertiesSelectionOrderList;
+  selectionOrder?: AiGatewayAliasPropertiesSelectionOrderList | undefined;
   /** Native endpoints common to every target model; translated endpoints are excluded. */
-  supportedEndpoints?: AiGatewayAliasPropertiesSupportedEndpointsList;
+  supportedEndpoints?: AiGatewayAliasPropertiesSupportedEndpointsList | undefined;
   /** Invocation endpoints, when endpoint metadata is enabled for this gateway. */
-  gatewayEndpoints?: AiGatewayAliasPropertiesGatewayEndpointsList;
+  gatewayEndpoints?: AiGatewayAliasPropertiesGatewayEndpointsList | undefined;
   /** Inline policies applied to requests routed through the alias. */
-  policies?: AiGatewayAliasPropertiesPoliciesList;
+  policies?: AiGatewayAliasPropertiesPoliciesList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
 }
 export interface AiGatewayAliasResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayAliasProperties;
+  properties?: AiGatewayAliasProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Properties of an AI Gateway API key. */
 export interface AiGatewayApiKeyPropertiesInput {
   /** Display name of the key. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription state. */
-  state?: string;
+  state?: string | undefined;
   /** Optional expiration time. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Primary key value. Omitted from ordinary read responses. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary key value. Omitted from ordinary read responses. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface AiGatewayApiKeyResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -336,38 +336,38 @@ export interface AiGatewayApiKeyResourcesCreateOrUpdateRequest {
   /** The name of the AiGatewayApiKeyResource */
   apiKeyName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayApiKeyPropertiesInput;
+  properties?: AiGatewayApiKeyPropertiesInput | undefined;
 }
 /** Properties of an AI Gateway API key. */
 export interface AiGatewayApiKeyProperties {
   /** Display name of the key. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription state. */
-  state?: string;
+  state?: string | undefined;
   /** Creation time. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Optional expiration time. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Primary key value. Omitted from ordinary read responses. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary key value. Omitted from ordinary read responses. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
 }
 export interface AiGatewayApiKeyResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayApiKeyProperties;
+  properties?: AiGatewayApiKeyProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The type of an AI model provider. */
 export type AiGatewayModelProviderKind = "Foundry" | "Custom";
@@ -378,30 +378,30 @@ export type AiGatewayModelProviderAuthenticationKind = "ManagedIdentity" | "ApiK
 /** Managed identity settings for a model provider. */
 export interface AiGatewayManagedIdentityAuthentication {
   /** Token audience requested for managed identity authentication. */
-  resource?: string;
+  resource?: string | undefined;
   /** Client ID of a user-assigned managed identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** API key credentials for an upstream service. */
 export interface AiGatewayApiKeyCredential {
   /** Name of the HTTP header that carries the API key. */
   headerName: string;
   /** Secret API key value. This value is not returned by read operations. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Authentication configuration for a Foundry model provider. */
 export interface AiGatewayFoundryAuthentication {
   /** Authentication type. */
   kind: AiGatewayModelProviderAuthenticationKind | (string & {});
   /** Managed identity settings. Applicable when kind is ManagedIdentity. */
-  managedIdentity?: AiGatewayManagedIdentityAuthentication;
+  managedIdentity?: AiGatewayManagedIdentityAuthentication | undefined;
   /** API key configuration. Required when kind is ApiKey. */
-  apiKey?: AiGatewayApiKeyCredential;
+  apiKey?: AiGatewayApiKeyCredential | undefined;
 }
 /** Foundry model provider configuration. */
 export interface AiGatewayFoundryProviderConfiguration {
   /** Foundry endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Cognitive Services account resource identifiers available to this provider. */
   resourceIds: AiGatewayFoundryProviderConfigurationResourceIdsList;
   /** Authentication configuration. */
@@ -430,11 +430,11 @@ export interface AiGatewayModelProviderPropertiesInput {
   /** Display name of the model provider. */
   name: string;
   /** Description of the model provider. */
-  description?: string;
+  description?: string | undefined;
   /** Foundry configuration. Required when kind is Foundry. */
-  foundry?: AiGatewayFoundryProviderConfiguration;
+  foundry?: AiGatewayFoundryProviderConfiguration | undefined;
   /** Custom provider configuration. Required when kind is Custom. */
-  custom?: AiGatewayCustomProviderConfiguration;
+  custom?: AiGatewayCustomProviderConfiguration | undefined;
 }
 export interface AiGatewayModelProviderResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -448,7 +448,7 @@ export interface AiGatewayModelProviderResourcesCreateOrUpdateRequest {
   /** The name of the AiGatewayModelProviderResource */
   modelProviderName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProviderPropertiesInput;
+  properties?: AiGatewayModelProviderPropertiesInput | undefined;
 }
 /** Properties of an AI Gateway model provider. */
 export interface AiGatewayModelProviderProperties {
@@ -457,36 +457,36 @@ export interface AiGatewayModelProviderProperties {
   /** Display name of the model provider. */
   name: string;
   /** Description of the model provider. */
-  description?: string;
+  description?: string | undefined;
   /** Foundry configuration. Required when kind is Foundry. */
-  foundry?: AiGatewayFoundryProviderConfiguration;
+  foundry?: AiGatewayFoundryProviderConfiguration | undefined;
   /** Custom provider configuration. Required when kind is Custom. */
-  custom?: AiGatewayCustomProviderConfiguration;
+  custom?: AiGatewayCustomProviderConfiguration | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
 }
 export interface AiGatewayModelProviderResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProviderProperties;
+  properties?: AiGatewayModelProviderProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Deployment details for an AI Gateway model. */
 export interface AiGatewayModelDeployment {
   /** ARM resource identifier of the provider deployment. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Provider-side model name. */
   modelName: string;
   /** Provider-side model version. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
 }
 /** Runtime endpoints supported by this model. */
 export type AiGatewayModelPropertiesInputSupportedEndpointsList = Array<string>;
@@ -497,13 +497,13 @@ export interface AiGatewayModelPropertiesInput {
   /** Display name of the model. */
   name: string;
   /** Description of the model. */
-  description?: string;
+  description?: string | undefined;
   /** Provider deployment details. */
   deployment: AiGatewayModelDeployment;
   /** Runtime endpoints supported by this model. */
   supportedEndpoints: AiGatewayModelPropertiesInputSupportedEndpointsList;
   /** Inline policies applied to this model. */
-  policies?: AiGatewayModelPropertiesInputPoliciesList;
+  policies?: AiGatewayModelPropertiesInputPoliciesList | undefined;
 }
 export interface AiGatewayModelResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -519,7 +519,7 @@ export interface AiGatewayModelResourcesCreateOrUpdateRequest {
   /** The name of the AiGatewayModelResource */
   modelName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelPropertiesInput;
+  properties?: AiGatewayModelPropertiesInput | undefined;
 }
 /** Runtime endpoints supported by this model. */
 export type AiGatewayModelPropertiesSupportedEndpointsList = Array<string>;
@@ -530,31 +530,31 @@ export interface AiGatewayModelProperties {
   /** Display name of the model. */
   name: string;
   /** Description of the model. */
-  description?: string;
+  description?: string | undefined;
   /** Parent model provider type. */
-  providerKind?: AiGatewayModelProviderKind;
+  providerKind?: AiGatewayModelProviderKind | undefined;
   /** Provider deployment details. */
   deployment: AiGatewayModelDeployment;
   /** Runtime endpoints supported by this model. */
   supportedEndpoints: AiGatewayModelPropertiesSupportedEndpointsList;
   /** Inline policies applied to this model. */
-  policies?: AiGatewayModelPropertiesPoliciesList;
+  policies?: AiGatewayModelPropertiesPoliciesList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
 }
 export interface AiGatewayModelResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProperties;
+  properties?: AiGatewayModelProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type AiGatewayResourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -566,12 +566,12 @@ export interface AiGatewaySubnet {
 /** Backend networking configuration of an AI Gateway. */
 export interface AiGatewayBackend {
   /** Subnet through which the AI Gateway reaches backends. */
-  subnet?: AiGatewaySubnet;
+  subnet?: AiGatewaySubnet | undefined;
 }
 /** Properties of an AI Gateway. */
 export interface AiGatewayPropertiesInput {
   /** Backend networking configuration. Can only be set when the AI Gateway is created. */
-  backend?: AiGatewayBackend;
+  backend?: AiGatewayBackend | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -589,7 +589,9 @@ export type AiGatewayResourcesCreateOrUpdateRequestIdentityUserAssignedIdentitie
 export interface AiGatewayResourcesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AiGatewayResourcesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AiGatewayResourcesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -597,13 +599,13 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface AiGatewayResourcesCreateOrUpdateRequestSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface AiGatewayResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -613,38 +615,38 @@ export interface AiGatewayResourcesCreateOrUpdateRequest {
   /** The name of the AiGatewayResource */
   aiGatewayName: string;
   /** Resource tags. */
-  tags?: AiGatewayResourcesCreateOrUpdateRequestTagsMap;
+  tags?: AiGatewayResourcesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
   properties: AiGatewayPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AiGatewayResourcesCreateOrUpdateRequestIdentity;
+  identity?: AiGatewayResourcesCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: AiGatewayResourcesCreateOrUpdateRequestSku;
+  sku?: AiGatewayResourcesCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type AiGatewayResourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Frontend configuration of an AI Gateway. */
 export interface AiGatewayFrontend {
   /** Default hostname used to invoke the AI Gateway. */
-  defaultHostname?: string;
+  defaultHostname?: string | undefined;
 }
 /** Properties of an AI Gateway. */
 export interface AiGatewayProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
   /** Frontend configuration of the AI Gateway. */
-  frontend?: AiGatewayFrontend;
+  frontend?: AiGatewayFrontend | undefined;
   /** Backend networking configuration. Can only be set when the AI Gateway is created. */
-  backend?: AiGatewayBackend;
+  backend?: AiGatewayBackend | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AiGatewayResourcesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -653,92 +655,94 @@ export type AiGatewayResourcesCreateOrUpdateResponseIdentityUserAssignedIdentiti
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AiGatewayResourcesCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AiGatewayResourcesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AiGatewayResourcesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** The resource model definition representing SKU */
 export interface AiGatewayResourcesCreateOrUpdateResponseSku {
   /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface AiGatewayResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AiGatewayResourcesCreateOrUpdateResponseTagsMap;
+  tags?: AiGatewayResourcesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
   properties: AiGatewayProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AiGatewayResourcesCreateOrUpdateResponseIdentity;
+  identity?: AiGatewayResourcesCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: AiGatewayResourcesCreateOrUpdateResponseSku;
+  sku?: AiGatewayResourcesCreateOrUpdateResponseSku | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Destination kind for gateway telemetry. */
 export type AiGatewayTelemetryExporterKind = "ApplicationInsights" | "OpenTelemetry";
 /** Application Insights export destination. */
 export interface AiGatewayApplicationInsightsConfiguration {
   /** Application Insights connection string. Required when creating this exporter kind. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** Azure resource identifier of the Application Insights component. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Legacy secret HTTP headers, mutually exclusive with credentials. */
 export type AiGatewayOpenTelemetryConfigurationHeadersMap = { [key: string]: string | undefined };
 /** Managed identity used to authenticate telemetry export requests. */
 export interface AiGatewayTelemetryManagedIdentity {
   /** Token audience requested for the managed identity. */
-  resource?: string;
+  resource?: string | undefined;
   /** User-assigned managed identity client ID; omit for the system-assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Secret HTTP headers sent with export requests. */
 export type AiGatewayTelemetryCredentialsHeadersMap = { [key: string]: string | undefined };
 /** Authentication settings for an OpenTelemetry exporter. */
 export interface AiGatewayTelemetryCredentials {
   /** Secret HTTP headers sent with export requests. */
-  headers?: AiGatewayTelemetryCredentialsHeadersMap;
+  headers?: AiGatewayTelemetryCredentialsHeadersMap | undefined;
   /** Managed identity authentication for export requests. */
-  managedIdentity?: AiGatewayTelemetryManagedIdentity;
+  managedIdentity?: AiGatewayTelemetryManagedIdentity | undefined;
 }
 /** OpenTelemetry export destinations and authentication. */
 export interface AiGatewayOpenTelemetryConfiguration {
   /** Full OTLP metrics endpoint URL, used without appending a signal path. */
-  metricsEndpoint?: string;
+  metricsEndpoint?: string | undefined;
   /** Full OTLP logs endpoint URL, used without appending a signal path. */
-  logsEndpoint?: string;
+  logsEndpoint?: string | undefined;
   /** Full OTLP traces endpoint URL, used without appending a signal path. */
-  tracesEndpoint?: string;
+  tracesEndpoint?: string | undefined;
   /** Legacy secret HTTP headers, mutually exclusive with credentials. */
-  headers?: AiGatewayOpenTelemetryConfigurationHeadersMap;
+  headers?: AiGatewayOpenTelemetryConfigurationHeadersMap | undefined;
   /** Legacy managed identity settings, mutually exclusive with credentials. */
-  managedIdentity?: AiGatewayTelemetryManagedIdentity;
+  managedIdentity?: AiGatewayTelemetryManagedIdentity | undefined;
   /** Authentication settings, mutually exclusive with top-level headers and managedIdentity. */
-  credentials?: AiGatewayTelemetryCredentials;
+  credentials?: AiGatewayTelemetryCredentials | undefined;
 }
 /** Source kind. Only claims is currently supported. */
 export type AiGatewayTelemetryAttributeSourceKind = "claims";
@@ -760,7 +764,7 @@ export interface AiGatewayTelemetryAttributeMapping {
   /** Claim source. Source claim names must be unique across mappings. */
   source: AiGatewayTelemetryAttributeSource;
   /** Distinct signals to enrich. Omit to select all configured signals. */
-  signals?: AiGatewayTelemetryAttributeMappingSignalsList;
+  signals?: AiGatewayTelemetryAttributeMappingSignalsList | undefined;
 }
 /** Observed-claim mappings; an empty array removes existing mappings. */
 export type AiGatewayTelemetryConfigurationAttributesList =
@@ -768,20 +772,20 @@ export type AiGatewayTelemetryConfigurationAttributesList =
 /** Optional telemetry enrichment on a native AI Gateway OpenTelemetry exporter. */
 export interface AiGatewayTelemetryConfiguration {
   /** Observed-claim mappings; an empty array removes existing mappings. */
-  attributes?: AiGatewayTelemetryConfigurationAttributesList;
+  attributes?: AiGatewayTelemetryConfigurationAttributesList | undefined;
 }
 /** Properties of an AI Gateway telemetry exporter. */
 export interface AiGatewayTelemetryExporterPropertiesInput {
   /** Exporter kind, which cannot change after creation. */
   kind: AiGatewayTelemetryExporterKind | (string & {});
   /** Capture prompts, completions, and tool input/output; no built-in PII redaction is applied. */
-  payloadCapture?: boolean;
+  payloadCapture?: boolean | undefined;
   /** Configuration required for the ApplicationInsights exporter kind. */
-  applicationInsights?: AiGatewayApplicationInsightsConfiguration;
+  applicationInsights?: AiGatewayApplicationInsightsConfiguration | undefined;
   /** Configuration required for the OpenTelemetry exporter kind. At least one signal endpoint is required. */
-  openTelemetry?: AiGatewayOpenTelemetryConfiguration;
+  openTelemetry?: AiGatewayOpenTelemetryConfiguration | undefined;
   /** Optional observed-claim mappings, supported on native AI Gateway OpenTelemetry exporters. */
-  telemetry?: AiGatewayTelemetryConfiguration;
+  telemetry?: AiGatewayTelemetryConfiguration | undefined;
 }
 export interface AiGatewayTelemetryExporterResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -795,36 +799,36 @@ export interface AiGatewayTelemetryExporterResourcesCreateOrUpdateRequest {
   /** The name of the AiGatewayTelemetryExporterResource */
   telemetryExporterName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayTelemetryExporterPropertiesInput;
+  properties?: AiGatewayTelemetryExporterPropertiesInput | undefined;
 }
 /** Properties of an AI Gateway telemetry exporter. */
 export interface AiGatewayTelemetryExporterProperties {
   /** Exporter kind, which cannot change after creation. */
   kind: AiGatewayTelemetryExporterKind;
   /** Capture prompts, completions, and tool input/output; no built-in PII redaction is applied. */
-  payloadCapture?: boolean;
+  payloadCapture?: boolean | undefined;
   /** Configuration required for the ApplicationInsights exporter kind. */
-  applicationInsights?: AiGatewayApplicationInsightsConfiguration;
+  applicationInsights?: AiGatewayApplicationInsightsConfiguration | undefined;
   /** Configuration required for the OpenTelemetry exporter kind. At least one signal endpoint is required. */
-  openTelemetry?: AiGatewayOpenTelemetryConfiguration;
+  openTelemetry?: AiGatewayOpenTelemetryConfiguration | undefined;
   /** Optional observed-claim mappings, supported on native AI Gateway OpenTelemetry exporters. */
-  telemetry?: AiGatewayTelemetryConfiguration;
+  telemetry?: AiGatewayTelemetryConfiguration | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
 }
 export interface AiGatewayTelemetryExporterResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayTelemetryExporterProperties;
+  properties?: AiGatewayTelemetryExporterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Tool server access state. */
 export type AiGatewayToolServerAccessState = "active" | "blocked";
@@ -845,7 +849,7 @@ export interface AiGatewayMcpUrlConfiguration {
   /** Backend MCP server endpoint. */
   url: string;
   /** MCP transport. */
-  transport?: AiGatewayToolServerMcpTransport | (string & {});
+  transport?: AiGatewayToolServerMcpTransport | (string & {}) | undefined;
 }
 /** OpenAPI document source type. */
 export type AiGatewayToolServerOpenApiSourceType = "inline" | "url";
@@ -854,9 +858,9 @@ export interface AiGatewayOpenApiSpecSource {
   /** Source type. */
   type: AiGatewayToolServerOpenApiSourceType | (string & {});
   /** Base64-encoded OpenAPI document. Required when kind is Inline. */
-  contentBase64?: string;
+  contentBase64?: string | undefined;
   /** URL of the OpenAPI document. Required when kind is Url. */
-  url?: string;
+  url?: string | undefined;
 }
 /** OpenAPI-backed MCP endpoint configuration. */
 export interface AiGatewayOpenApiConfiguration {
@@ -900,62 +904,64 @@ export type AiGatewayToolServerOauth2AuthenticationInputTokenParametersList =
 /** OAuth 2.0 authentication for a tool server endpoint. */
 export interface AiGatewayToolServerOauth2AuthenticationInput {
   /** Expected OAuth authorization-server issuer for remote MCP discovery. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth authorization endpoint. */
-  authorizationUrl?: string;
+  authorizationUrl?: string | undefined;
   /** OAuth token endpoint. */
-  tokenUrl?: string;
+  tokenUrl?: string | undefined;
   /** OAuth client identifier. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes to request. */
-  scopes?: AiGatewayToolServerOauth2AuthenticationInputScopesList;
+  scopes?: AiGatewayToolServerOauth2AuthenticationInputScopesList | undefined;
   /** OAuth grant type. */
-  grantType?: AiGatewayToolServerOauth2GrantType | (string & {});
+  grantType?: AiGatewayToolServerOauth2GrantType | (string & {}) | undefined;
   /** Additional authorization endpoint parameters. */
-  authorizationParameters?: AiGatewayToolServerOauth2AuthenticationInputAuthorizationParametersList;
+  authorizationParameters?:
+    | AiGatewayToolServerOauth2AuthenticationInputAuthorizationParametersList
+    | undefined;
   /** Additional token endpoint parameters. */
-  tokenParameters?: AiGatewayToolServerOauth2AuthenticationInputTokenParametersList;
+  tokenParameters?: AiGatewayToolServerOauth2AuthenticationInputTokenParametersList | undefined;
 }
 /** Managed identity authentication for a tool server endpoint. */
 export interface AiGatewayToolServerManagedIdentityAuthentication {
   /** Token audience for managed identity authentication. */
   resource: string;
   /** Client ID of a user-assigned managed identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Credentials for a tool server endpoint. */
 export interface AiGatewayToolServerCredentialsInput {
   /** Authentication type. */
   type: AiGatewayToolServerAuthenticationType | (string & {});
   /** Static headers injected when calling the endpoint. */
-  headers?: AiGatewayToolServerCredentialsInputHeadersList;
+  headers?: AiGatewayToolServerCredentialsInputHeadersList | undefined;
   /** OAuth 2.0 configuration. */
-  oauth2?: AiGatewayToolServerOauth2AuthenticationInput;
+  oauth2?: AiGatewayToolServerOauth2AuthenticationInput | undefined;
   /** Managed identity configuration. */
-  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication;
+  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication | undefined;
 }
 /** Upstream tool names or glob patterns to expose. */
 export type AiGatewayToolServerEndpointInputToolsList = Array<string>;
 /** A tool server endpoint. */
 export interface AiGatewayToolServerEndpointInput {
   /** Stable endpoint identifier. Generated when omitted. */
-  id?: string;
+  id?: string | undefined;
   /** Optional namespace used to prefix tool names. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Endpoint type. */
   kind: AiGatewayToolServerEndpointSourceKind | (string & {});
   /** Backend MCP configuration. Required when kind is mcp. */
-  mcp?: AiGatewayMcpUrlConfiguration;
+  mcp?: AiGatewayMcpUrlConfiguration | undefined;
   /** OpenAPI configuration. Required when kind is McpFromOpenApi. */
-  openApi?: AiGatewayOpenApiConfiguration;
+  openApi?: AiGatewayOpenApiConfiguration | undefined;
   /** Backend credentials. */
-  credentials?: AiGatewayToolServerCredentialsInput;
+  credentials?: AiGatewayToolServerCredentialsInput | undefined;
   /** Upstream tool names or glob patterns to expose. */
-  tools?: AiGatewayToolServerEndpointInputToolsList;
+  tools?: AiGatewayToolServerEndpointInputToolsList | undefined;
   /** Whether endpoint failure fails the whole federation. Defaults to false. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** Endpoint configurations exposed by this tool server. */
 export type AiGatewayToolServerPropertiesInputEndpointsList =
@@ -965,27 +971,27 @@ export type AiGatewayToolServerPropertiesInputPoliciesList = Array<AiGatewayPoli
 /** Properties of an AI Gateway tool server. */
 export interface AiGatewayToolServerPropertiesInput {
   /** Display name of the tool server. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the tool server. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the tool server is available to callers. */
-  accessState?: AiGatewayToolServerAccessState | (string & {});
+  accessState?: AiGatewayToolServerAccessState | (string & {}) | undefined;
   /** Tool server type. */
   type: AiGatewayToolServerType | (string & {});
   /** Runtime API versions exposed by this tool server. */
-  versions?: AiGatewayToolServerPropertiesInputVersionsList;
+  versions?: AiGatewayToolServerPropertiesInputVersionsList | undefined;
   /** Tool names or patterns explicitly allowed. */
-  allowList?: AiGatewayToolServerPropertiesInputAllowListList;
+  allowList?: AiGatewayToolServerPropertiesInputAllowListList | undefined;
   /** Tool names or patterns explicitly blocked. */
-  blocked?: AiGatewayToolServerPropertiesInputBlockedList;
+  blocked?: AiGatewayToolServerPropertiesInputBlockedList | undefined;
   /** Endpoint configurations exposed by this tool server. */
-  endpoints?: AiGatewayToolServerPropertiesInputEndpointsList;
+  endpoints?: AiGatewayToolServerPropertiesInputEndpointsList | undefined;
   /** Inline policies applied to this tool server. */
-  policies?: AiGatewayToolServerPropertiesInputPoliciesList;
+  policies?: AiGatewayToolServerPropertiesInputPoliciesList | undefined;
   /** Runtime path for the tool server. */
-  path?: string;
+  path?: string | undefined;
   /** Whether a subscription is required to invoke the tool server. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
 }
 export interface AiGatewayToolServerResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -999,7 +1005,7 @@ export interface AiGatewayToolServerResourcesCreateOrUpdateRequest {
   /** The name of the AiGatewayToolServerResource */
   toolServerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayToolServerPropertiesInput;
+  properties?: AiGatewayToolServerPropertiesInput | undefined;
 }
 /** Runtime API versions exposed by this tool server. */
 export type AiGatewayToolServerPropertiesVersionsList = Array<string>;
@@ -1020,61 +1026,63 @@ export type AiGatewayToolServerOauth2AuthenticationTokenParametersList =
 /** OAuth 2.0 authentication for a tool server endpoint. */
 export interface AiGatewayToolServerOauth2Authentication {
   /** Expected OAuth authorization-server issuer for remote MCP discovery. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth authorization endpoint. */
-  authorizationUrl?: string;
+  authorizationUrl?: string | undefined;
   /** OAuth token endpoint. */
-  tokenUrl?: string;
+  tokenUrl?: string | undefined;
   /** OAuth client identifier. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes to request. */
-  scopes?: AiGatewayToolServerOauth2AuthenticationScopesList;
+  scopes?: AiGatewayToolServerOauth2AuthenticationScopesList | undefined;
   /** OAuth grant type. */
-  grantType?: AiGatewayToolServerOauth2GrantType;
+  grantType?: AiGatewayToolServerOauth2GrantType | undefined;
   /** Additional authorization endpoint parameters. */
-  authorizationParameters?: AiGatewayToolServerOauth2AuthenticationAuthorizationParametersList;
+  authorizationParameters?:
+    | AiGatewayToolServerOauth2AuthenticationAuthorizationParametersList
+    | undefined;
   /** Additional token endpoint parameters. */
-  tokenParameters?: AiGatewayToolServerOauth2AuthenticationTokenParametersList;
+  tokenParameters?: AiGatewayToolServerOauth2AuthenticationTokenParametersList | undefined;
   /** Current OAuth connection status. */
-  status?: string;
+  status?: string | undefined;
   /** Login link used to complete interactive authorization. */
-  loginLink?: string;
+  loginLink?: string | undefined;
   /** UTC timestamp of the last OAuth connection-status transition. */
-  statusUpdatedUtc?: string;
+  statusUpdatedUtc?: string | undefined;
 }
 /** Credentials for a tool server endpoint. */
 export interface AiGatewayToolServerCredentials {
   /** Authentication type. */
   type: AiGatewayToolServerAuthenticationType;
   /** Static headers injected when calling the endpoint. */
-  headers?: AiGatewayToolServerCredentialsHeadersList;
+  headers?: AiGatewayToolServerCredentialsHeadersList | undefined;
   /** OAuth 2.0 configuration. */
-  oauth2?: AiGatewayToolServerOauth2Authentication;
+  oauth2?: AiGatewayToolServerOauth2Authentication | undefined;
   /** Managed identity configuration. */
-  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication;
+  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication | undefined;
 }
 /** Upstream tool names or glob patterns to expose. */
 export type AiGatewayToolServerEndpointToolsList = Array<string>;
 /** A tool server endpoint. */
 export interface AiGatewayToolServerEndpoint {
   /** Stable endpoint identifier. Generated when omitted. */
-  id?: string;
+  id?: string | undefined;
   /** Optional namespace used to prefix tool names. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Endpoint type. */
   kind: AiGatewayToolServerEndpointSourceKind;
   /** Backend MCP configuration. Required when kind is mcp. */
-  mcp?: AiGatewayMcpUrlConfiguration;
+  mcp?: AiGatewayMcpUrlConfiguration | undefined;
   /** OpenAPI configuration. Required when kind is McpFromOpenApi. */
-  openApi?: AiGatewayOpenApiConfiguration;
+  openApi?: AiGatewayOpenApiConfiguration | undefined;
   /** Backend credentials. */
-  credentials?: AiGatewayToolServerCredentials;
+  credentials?: AiGatewayToolServerCredentials | undefined;
   /** Upstream tool names or glob patterns to expose. */
-  tools?: AiGatewayToolServerEndpointToolsList;
+  tools?: AiGatewayToolServerEndpointToolsList | undefined;
   /** Whether endpoint failure fails the whole federation. Defaults to false. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** Endpoint configurations exposed by this tool server. */
 export type AiGatewayToolServerPropertiesEndpointsList = Array<AiGatewayToolServerEndpoint>;
@@ -1085,52 +1093,52 @@ export type AiGatewayToolServerPropertiesGatewayEndpointsList = Array<AiGatewayE
 /** Properties of an AI Gateway tool server. */
 export interface AiGatewayToolServerProperties {
   /** Display name of the tool server. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the tool server. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the tool server is available to callers. */
-  accessState?: AiGatewayToolServerAccessState;
+  accessState?: AiGatewayToolServerAccessState | undefined;
   /** Tool server type. */
   type: AiGatewayToolServerType;
   /** Runtime API versions exposed by this tool server. */
-  versions?: AiGatewayToolServerPropertiesVersionsList;
+  versions?: AiGatewayToolServerPropertiesVersionsList | undefined;
   /** Tool names or patterns explicitly allowed. */
-  allowList?: AiGatewayToolServerPropertiesAllowListList;
+  allowList?: AiGatewayToolServerPropertiesAllowListList | undefined;
   /** Tool names or patterns explicitly blocked. */
-  blocked?: AiGatewayToolServerPropertiesBlockedList;
+  blocked?: AiGatewayToolServerPropertiesBlockedList | undefined;
   /** Endpoint configurations exposed by this tool server. */
-  endpoints?: AiGatewayToolServerPropertiesEndpointsList;
+  endpoints?: AiGatewayToolServerPropertiesEndpointsList | undefined;
   /** Inline policies applied to this tool server. */
-  policies?: AiGatewayToolServerPropertiesPoliciesList;
+  policies?: AiGatewayToolServerPropertiesPoliciesList | undefined;
   /** Runtime path for the tool server. */
-  path?: string;
+  path?: string | undefined;
   /** Whether a subscription is required to invoke the tool server. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** Read-only invocation URLs, with optional SDK metadata when endpoint enrichment is enabled. */
-  gatewayEndpoints?: AiGatewayToolServerPropertiesGatewayEndpointsList;
+  gatewayEndpoints?: AiGatewayToolServerPropertiesGatewayEndpointsList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
 }
 export interface AiGatewayToolServerResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayToolServerProperties;
+  properties?: AiGatewayToolServerProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** API OAuth2 Authentication settings details. */
 export interface OAuth2AuthenticationSettingsContract {
   /** OAuth authorization server identifier. */
-  authorizationServerId?: string;
+  authorizationServerId?: string | undefined;
   /** operations scope. */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Form of an authorization grant, which the client uses to request the access token. */
 export type BearerTokenSendingMethodsContract = "authorizationHeader" | "query";
@@ -1141,9 +1149,11 @@ export type OpenIdAuthenticationSettingsContractBearerTokenSendingMethodsList = 
 /** API OAuth2 Authentication settings details. */
 export interface OpenIdAuthenticationSettingsContract {
   /** OAuth authorization server identifier. */
-  openidProviderId?: string;
+  openidProviderId?: string | undefined;
   /** How to send token to the server. */
-  bearerTokenSendingMethods?: OpenIdAuthenticationSettingsContractBearerTokenSendingMethodsList;
+  bearerTokenSendingMethods?:
+    | OpenIdAuthenticationSettingsContractBearerTokenSendingMethodsList
+    | undefined;
 }
 /** Collection of OAuth2 authentication settings included into this API. */
 export type AuthenticationSettingsContractOAuth2AuthenticationSettingsList =
@@ -1154,20 +1164,24 @@ export type AuthenticationSettingsContractOpenidAuthenticationSettingsList =
 /** API Authentication Settings. */
 export interface AuthenticationSettingsContract {
   /** OAuth2 Authentication settings */
-  oAuth2?: OAuth2AuthenticationSettingsContract;
+  oAuth2?: OAuth2AuthenticationSettingsContract | undefined;
   /** OpenID Connect Authentication Settings */
-  openid?: OpenIdAuthenticationSettingsContract;
+  openid?: OpenIdAuthenticationSettingsContract | undefined;
   /** Collection of OAuth2 authentication settings included into this API. */
-  oAuth2AuthenticationSettings?: AuthenticationSettingsContractOAuth2AuthenticationSettingsList;
+  oAuth2AuthenticationSettings?:
+    | AuthenticationSettingsContractOAuth2AuthenticationSettingsList
+    | undefined;
   /** Collection of Open ID Connect authentication settings included into this API. */
-  openidAuthenticationSettings?: AuthenticationSettingsContractOpenidAuthenticationSettingsList;
+  openidAuthenticationSettings?:
+    | AuthenticationSettingsContractOpenidAuthenticationSettingsList
+    | undefined;
 }
 /** Subscription key parameter names details. */
 export interface SubscriptionKeyParameterNamesContract {
   /** Subscription key header name. */
-  header?: string;
+  header?: string | undefined;
   /** Subscription key query string parameter name. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Type of API. */
 export type ApiCreateOrUpdatePropertiesInputType =
@@ -1180,18 +1194,18 @@ export type ApiCreateOrUpdatePropertiesInputType =
 /** API contact information */
 export interface ApiContactInformation {
   /** The identifying name of the contact person/organization */
-  name?: string;
+  name?: string | undefined;
   /** The URL pointing to the contact information. MUST be in the format of a URL */
-  url?: string;
+  url?: string | undefined;
   /** The email address of the contact person/organization. MUST be in the format of an email address */
-  email?: string;
+  email?: string | undefined;
 }
 /** API license information */
 export interface ApiLicenseInformation {
   /** The license name used for the API */
-  name?: string;
+  name?: string | undefined;
   /** A URL to the license used for the API. MUST be in the format of a URL */
-  url?: string;
+  url?: string | undefined;
 }
 export type ApiCreateOrUpdatePropertiesInputProtocolsItem = "http" | "https" | "ws" | "wss";
 /** Describes on which protocols the operations in this API can be invoked. */
@@ -1203,17 +1217,17 @@ export type ApiVersionSetContractDetailsVersioningScheme = "Segment" | "Query" |
 /** An API Version Set contains the common configuration for a set of API Versions relating */
 export interface ApiVersionSetContractDetails {
   /** Identifier for existing API Version Set. Omit this value to create a new Version Set. */
-  id?: string;
+  id?: string | undefined;
   /** The display Name of the API Version Set. */
-  name?: string;
+  name?: string | undefined;
   /** Description of API Version Set. */
-  description?: string;
+  description?: string | undefined;
   /** An value that determines where the API Version identifier will be located in a HTTP request. */
-  versioningScheme?: ApiVersionSetContractDetailsVersioningScheme | (string & {});
+  versioningScheme?: ApiVersionSetContractDetailsVersioningScheme | (string & {}) | undefined;
   /** Name of query parameter that indicates the API Version if versioningScheme is set to `query`. */
-  versionQueryName?: string;
+  versionQueryName?: string | undefined;
   /** Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`. */
-  versionHeaderName?: string;
+  versionHeaderName?: string | undefined;
 }
 /** Format of the Content in which the API is getting imported. New formats can be added in the future */
 export type ApiCreateOrUpdatePropertiesInputFormat =
@@ -1235,9 +1249,9 @@ export type ApiCreateOrUpdatePropertiesInputFormat =
 /** Criteria to limit import of WSDL to a subset of the document. */
 export interface ApiCreateOrUpdatePropertiesInputWsdlSelector {
   /** Name of service to import from WSDL */
-  wsdlServiceName?: string;
+  wsdlServiceName?: string | undefined;
   /** Name of endpoint(port) to import from WSDL */
-  wsdlEndpointName?: string;
+  wsdlEndpointName?: string | undefined;
 }
 /** Type of API to create. * `http` creates a REST API * `soap` creates a SOAP pass-through API * `websocket` creates websocket API * `graphql` creates GraphQL API. New types can be added in the future. */
 export type ApiCreateOrUpdatePropertiesInputApiType =
@@ -1252,57 +1266,58 @@ export type ApiCreateOrUpdatePropertiesInputTranslateRequiredQueryParameters = "
 /** API Create or Update Properties. */
 export interface ApiCreateOrUpdatePropertiesInput {
   /** Description of the API. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** Collection of authentication settings included into this API. */
-  authenticationSettings?: AuthenticationSettingsContract;
+  authenticationSettings?: AuthenticationSettingsContract | undefined;
   /** Protocols over which API is made available. */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract | undefined;
   /** Type of API. */
-  type?: ApiCreateOrUpdatePropertiesInputType | (string & {});
+  type?: ApiCreateOrUpdatePropertiesInputType | (string & {}) | undefined;
   /** Describes the revision of the API. If no value is provided, default revision 1 is created */
-  apiRevision?: string;
+  apiRevision?: string | undefined;
   /** Indicates the version identifier of the API if the API is versioned */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Indicates if API revision is current api revision. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
   /** Description of the API Revision. */
-  apiRevisionDescription?: string;
+  apiRevisionDescription?: string | undefined;
   /** Description of the API Version. */
-  apiVersionDescription?: string;
+  apiVersionDescription?: string | undefined;
   /** A resource identifier for the related ApiVersionSet. */
-  apiVersionSetId?: string;
+  apiVersionSetId?: string | undefined;
   /** Specifies whether an API or Product subscription is required for accessing the API. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** A URL to the Terms of Service for the API. MUST be in the format of a URL. */
-  termsOfServiceUrl?: string;
+  termsOfServiceUrl?: string | undefined;
   /** Contact information for the API. */
-  contact?: ApiContactInformation;
+  contact?: ApiContactInformation | undefined;
   /** License information for the API. */
-  license?: ApiLicenseInformation;
+  license?: ApiLicenseInformation | undefined;
   /** API identifier of the source API. */
-  sourceApiId?: string;
+  sourceApiId?: string | undefined;
   /** API name. Must be 1 to 300 characters long. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. */
-  serviceUrl?: string;
+  serviceUrl?: string | undefined;
   /** Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. */
   path: string;
   /** Describes on which protocols the operations in this API can be invoked. */
-  protocols?: ApiCreateOrUpdatePropertiesInputProtocolsList;
+  protocols?: ApiCreateOrUpdatePropertiesInputProtocolsList | undefined;
   /** Version set details */
-  apiVersionSet?: ApiVersionSetContractDetails;
+  apiVersionSet?: ApiVersionSetContractDetails | undefined;
   /** Content value when Importing an API. */
-  value?: string;
+  value?: string | undefined;
   /** Format of the Content in which the API is getting imported. New formats can be added in the future */
-  format?: ApiCreateOrUpdatePropertiesInputFormat | (string & {});
+  format?: ApiCreateOrUpdatePropertiesInputFormat | (string & {}) | undefined;
   /** Criteria to limit import of WSDL to a subset of the document. */
-  wsdlSelector?: ApiCreateOrUpdatePropertiesInputWsdlSelector;
+  wsdlSelector?: ApiCreateOrUpdatePropertiesInputWsdlSelector | undefined;
   /** Type of API to create. * `http` creates a REST API * `soap` creates a SOAP pass-through API * `websocket` creates websocket API * `graphql` creates GraphQL API. New types can be added in the future. */
-  apiType?: ApiCreateOrUpdatePropertiesInputApiType | (string & {});
+  apiType?: ApiCreateOrUpdatePropertiesInputApiType | (string & {}) | undefined;
   /** Strategy of translating required query parameters to template ones. By default has value 'template'. Possible values: 'template', 'query' */
   translateRequiredQueryParameters?:
     | ApiCreateOrUpdatePropertiesInputTranslateRequiredQueryParameters
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface ApiCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1314,7 +1329,7 @@ export interface ApiCreateOrUpdateRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** API entity create of update properties. */
-  properties?: ApiCreateOrUpdatePropertiesInput;
+  properties?: ApiCreateOrUpdatePropertiesInput | undefined;
 }
 /** Type of API. */
 export type ApiContractPropertiesType =
@@ -1330,63 +1345,63 @@ export type ApiContractPropertiesProtocolsList = Array<ApiContractPropertiesProt
 /** API Entity Properties */
 export interface ApiContractProperties {
   /** Description of the API. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** Collection of authentication settings included into this API. */
-  authenticationSettings?: AuthenticationSettingsContract;
+  authenticationSettings?: AuthenticationSettingsContract | undefined;
   /** Protocols over which API is made available. */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract | undefined;
   /** Type of API. */
-  type?: ApiContractPropertiesType;
+  type?: ApiContractPropertiesType | undefined;
   /** Describes the revision of the API. If no value is provided, default revision 1 is created */
-  apiRevision?: string;
+  apiRevision?: string | undefined;
   /** Indicates the version identifier of the API if the API is versioned */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Indicates if API revision is current api revision. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
   /** Indicates if API revision is accessible via the gateway. */
-  isOnline?: boolean;
+  isOnline?: boolean | undefined;
   /** Description of the API Revision. */
-  apiRevisionDescription?: string;
+  apiRevisionDescription?: string | undefined;
   /** Description of the API Version. */
-  apiVersionDescription?: string;
+  apiVersionDescription?: string | undefined;
   /** A resource identifier for the related ApiVersionSet. */
-  apiVersionSetId?: string;
+  apiVersionSetId?: string | undefined;
   /** Specifies whether an API or Product subscription is required for accessing the API. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** A URL to the Terms of Service for the API. MUST be in the format of a URL. */
-  termsOfServiceUrl?: string;
+  termsOfServiceUrl?: string | undefined;
   /** Contact information for the API. */
-  contact?: ApiContactInformation;
+  contact?: ApiContactInformation | undefined;
   /** License information for the API. */
-  license?: ApiLicenseInformation;
+  license?: ApiLicenseInformation | undefined;
   /** API identifier of the source API. */
-  sourceApiId?: string;
+  sourceApiId?: string | undefined;
   /** API name. Must be 1 to 300 characters long. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. */
-  serviceUrl?: string;
+  serviceUrl?: string | undefined;
   /** Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. */
   path: string;
   /** Describes on which protocols the operations in this API can be invoked. */
-  protocols?: ApiContractPropertiesProtocolsList;
+  protocols?: ApiContractPropertiesProtocolsList | undefined;
   /** Version set details */
-  apiVersionSet?: ApiVersionSetContractDetails;
+  apiVersionSet?: ApiVersionSetContractDetails | undefined;
   /** The provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface ApiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Specifies for what type of messages sampling settings should not apply. */
 export type DiagnosticContractPropertiesAlwaysLog = "allErrors";
@@ -1395,24 +1410,24 @@ export type SamplingSettingsSamplingType = "fixed";
 /** Sampling settings for Diagnostic. */
 export interface SamplingSettings {
   /** Sampling type. */
-  samplingType?: SamplingSettingsSamplingType | (string & {});
+  samplingType?: SamplingSettingsSamplingType | (string & {}) | undefined;
   /** Rate of sampling for fixed-rate sampling. */
-  percentage?: number;
+  percentage?: number | undefined;
 }
 /** Array of HTTP Headers to log. */
 export type HttpMessageDiagnosticHeadersList = Array<string>;
 /** Body logging settings. */
 export interface BodyDiagnosticSettings {
   /** Number of request body bytes to log. */
-  bytes?: number;
+  bytes?: number | undefined;
 }
 /** Data masking mode. */
 export type DataMaskingEntityMode = "Mask" | "Hide";
 export interface DataMaskingEntity {
   /** The name of an entity to mask (e.g. a name of a header or a query parameter). */
-  value?: string;
+  value?: string | undefined;
   /** Data masking mode. */
-  mode?: DataMaskingEntityMode | (string & {});
+  mode?: DataMaskingEntityMode | (string & {}) | undefined;
 }
 /** Masking settings for Url query parameters */
 export type DataMaskingQueryParamsList = Array<DataMaskingEntity>;
@@ -1420,25 +1435,25 @@ export type DataMaskingQueryParamsList = Array<DataMaskingEntity>;
 export type DataMaskingHeadersList = Array<DataMaskingEntity>;
 export interface DataMasking {
   /** Masking settings for Url query parameters */
-  queryParams?: DataMaskingQueryParamsList;
+  queryParams?: DataMaskingQueryParamsList | undefined;
   /** Masking settings for headers */
-  headers?: DataMaskingHeadersList;
+  headers?: DataMaskingHeadersList | undefined;
 }
 /** Http message diagnostic settings. */
 export interface HttpMessageDiagnostic {
   /** Array of HTTP Headers to log. */
-  headers?: HttpMessageDiagnosticHeadersList;
+  headers?: HttpMessageDiagnosticHeadersList | undefined;
   /** Body logging settings. */
-  body?: BodyDiagnosticSettings;
+  body?: BodyDiagnosticSettings | undefined;
   /** Data masking settings. */
-  dataMasking?: DataMasking;
+  dataMasking?: DataMasking | undefined;
 }
 /** Diagnostic settings for incoming/outgoing HTTP messages to the Gateway. */
 export interface PipelineDiagnosticSettings {
   /** Diagnostic settings for request. */
-  request?: HttpMessageDiagnostic;
+  request?: HttpMessageDiagnostic | undefined;
   /** Diagnostic settings for response. */
-  response?: HttpMessageDiagnostic;
+  response?: HttpMessageDiagnostic | undefined;
 }
 /** Sets correlation protocol to use for Application Insights diagnostics. */
 export type DiagnosticContractPropertiesHttpCorrelationProtocol = "None" | "Legacy" | "W3C";
@@ -1449,25 +1464,28 @@ export type DiagnosticContractPropertiesOperationNameFormat = "Name" | "Url";
 /** Diagnostic Entity Properties */
 export interface DiagnosticContractProperties {
   /** Specifies for what type of messages sampling settings should not apply. */
-  alwaysLog?: DiagnosticContractPropertiesAlwaysLog | (string & {});
+  alwaysLog?: DiagnosticContractPropertiesAlwaysLog | (string & {}) | undefined;
   /** Resource Id of a target logger. */
   loggerId: string;
   /** Sampling settings for Diagnostic. */
-  sampling?: SamplingSettings;
+  sampling?: SamplingSettings | undefined;
   /** Diagnostic settings for incoming/outgoing HTTP messages to the Gateway. */
-  frontend?: PipelineDiagnosticSettings;
+  frontend?: PipelineDiagnosticSettings | undefined;
   /** Diagnostic settings for incoming/outgoing HTTP messages to the Backend */
-  backend?: PipelineDiagnosticSettings;
+  backend?: PipelineDiagnosticSettings | undefined;
   /** Log the ClientIP. Default is false. */
-  logClientIp?: boolean;
+  logClientIp?: boolean | undefined;
   /** Sets correlation protocol to use for Application Insights diagnostics. */
-  httpCorrelationProtocol?: DiagnosticContractPropertiesHttpCorrelationProtocol | (string & {});
+  httpCorrelationProtocol?:
+    | DiagnosticContractPropertiesHttpCorrelationProtocol
+    | (string & {})
+    | undefined;
   /** The verbosity level applied to traces emitted by trace policies. */
-  verbosity?: DiagnosticContractPropertiesVerbosity | (string & {});
+  verbosity?: DiagnosticContractPropertiesVerbosity | (string & {}) | undefined;
   /** The format of the Operation Name for Application Insights telemetries. Default is Name. */
-  operationNameFormat?: DiagnosticContractPropertiesOperationNameFormat | (string & {});
+  operationNameFormat?: DiagnosticContractPropertiesOperationNameFormat | (string & {}) | undefined;
   /** Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings. */
-  metrics?: boolean;
+  metrics?: boolean | undefined;
 }
 export interface ApiDiagnosticCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1481,25 +1499,25 @@ export interface ApiDiagnosticCreateOrUpdateRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface ApiDiagnosticCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 /** The hostnames of the data-plane gateway to which requests can be sent. */
 export type GatewayConfigConnectionBasePropertiesInputHostnamesList = Array<string>;
 export interface GatewayConfigConnectionBasePropertiesInput {
   /** The link to the API Management service workspace. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The hostnames of the data-plane gateway to which requests can be sent. */
-  hostnames?: GatewayConfigConnectionBasePropertiesInputHostnamesList;
+  hostnames?: GatewayConfigConnectionBasePropertiesInputHostnamesList | undefined;
 }
 export interface ApiGatewayConfigConnectionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1517,25 +1535,25 @@ export interface ApiGatewayConfigConnectionCreateOrUpdateRequest {
 export type GatewayConfigConnectionBasePropertiesHostnamesList = Array<string>;
 export interface GatewayConfigConnectionBaseProperties {
   /** The current provisioning state of the API Management gateway config connection */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The link to the API Management service workspace. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The default hostname of the data-plane gateway. */
-  defaultHostname?: string;
+  defaultHostname?: string | undefined;
   /** The hostnames of the data-plane gateway to which requests can be sent. */
-  hostnames?: GatewayConfigConnectionBasePropertiesHostnamesList;
+  hostnames?: GatewayConfigConnectionBasePropertiesHostnamesList | undefined;
 }
 export interface ApiGatewayConfigConnectionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Management gateway config connection. */
   properties: GatewayConfigConnectionBaseProperties;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type ApiGatewayCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1544,12 +1562,12 @@ export type FrontendConfigurationInput = UserAssignedIdentityInput;
 /** Information regarding how the subnet to which the gateway should be injected. */
 export interface BackendSubnetConfiguration {
   /** The ARM ID of the subnet in which the backend systems are hosted. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Information regarding how the gateway should integrate with backend systems. */
 export interface BackendConfiguration {
   /** The default hostname of the data-plane gateway to which requests can be sent. */
-  subnet?: BackendSubnetConfiguration;
+  subnet?: BackendSubnetConfiguration | undefined;
 }
 /** Information regarding the Configuration API of the API Management gateway. This is only applicable for API gateway with Standard SKU. */
 export type GatewayConfigurationApiInput = UserAssignedIdentityInput;
@@ -1561,13 +1579,16 @@ export type ApiManagementGatewayPropertiesInputVirtualNetworkType =
 /** Properties of an API Management gateway resource description. */
 export interface ApiManagementGatewayPropertiesInput {
   /** Information regarding how the gateway should be exposed. */
-  frontend?: UserAssignedIdentityInput;
+  frontend?: UserAssignedIdentityInput | undefined;
   /** Information regarding how the gateway should integrate with backend systems. */
-  backend?: BackendConfiguration;
+  backend?: BackendConfiguration | undefined;
   /** Information regarding the Configuration API of the API Management gateway. This is only applicable for API gateway with Standard SKU. */
-  configurationApi?: UserAssignedIdentityInput;
+  configurationApi?: UserAssignedIdentityInput | undefined;
   /** The type of VPN in which API Management gateway needs to be configured in. */
-  virtualNetworkType?: ApiManagementGatewayPropertiesInputVirtualNetworkType | (string & {});
+  virtualNetworkType?:
+    | ApiManagementGatewayPropertiesInputVirtualNetworkType
+    | (string & {})
+    | undefined;
 }
 /** Name of the Sku. */
 export type ApiManagementGatewaySkuPropertiesName =
@@ -1579,7 +1600,7 @@ export interface ApiManagementGatewaySkuProperties {
   /** Name of the Sku. */
   name: ApiManagementGatewaySkuPropertiesName | (string & {});
   /** Capacity of the SKU (number of deployed units of the SKU) */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface ApiGatewayCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1589,7 +1610,7 @@ export interface ApiGatewayCreateOrUpdateRequest {
   /** The name of the API Management gateway. */
   gatewayName: string;
   /** Resource tags. */
-  tags?: ApiGatewayCreateOrUpdateRequestTagsMap;
+  tags?: ApiGatewayCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the API Management gateway. */
   properties: ApiManagementGatewayPropertiesInput;
   /** SKU properties of the API Management gateway. */
@@ -1602,31 +1623,31 @@ export type ApiGatewayCreateOrUpdateResponseTagsMap = { [key: string]: string | 
 /** Information regarding how the gateway should be exposed. */
 export interface FrontendConfiguration {
   /** The default hostname of the data-plane gateway to which requests can be sent. This is only applicable for API gateway with Standard SKU. */
-  defaultHostname?: string;
+  defaultHostname?: string | undefined;
 }
 /** Information regarding the Configuration API of the API Management gateway. This is only applicable for API gateway with Standard SKU. */
 export interface GatewayConfigurationApi {
   /** Hostname to which the agent connects to propagate configuration to the cloud. */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 /** The type of VPN in which API Management gateway needs to be configured in. */
 export type ApiManagementGatewayPropertiesVirtualNetworkType = "None" | "External" | "Internal";
 /** Properties of an API Management gateway resource description. */
 export interface ApiManagementGatewayProperties {
   /** The current provisioning state of the API Management gateway which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The provisioning state of the API Management gateway, which is targeted by the long running operation started on the gateway. */
-  targetProvisioningState?: string;
+  targetProvisioningState?: string | undefined;
   /** Creation UTC date of the API Management gateway.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  createdAtUtc?: string;
+  createdAtUtc?: string | undefined;
   /** Information regarding how the gateway should be exposed. */
-  frontend?: FrontendConfiguration;
+  frontend?: FrontendConfiguration | undefined;
   /** Information regarding how the gateway should integrate with backend systems. */
-  backend?: BackendConfiguration;
+  backend?: BackendConfiguration | undefined;
   /** Information regarding the Configuration API of the API Management gateway. This is only applicable for API gateway with Standard SKU. */
-  configurationApi?: GatewayConfigurationApi;
+  configurationApi?: GatewayConfigurationApi | undefined;
   /** The type of VPN in which API Management gateway needs to be configured in. */
-  virtualNetworkType?: ApiManagementGatewayPropertiesVirtualNetworkType;
+  virtualNetworkType?: ApiManagementGatewayPropertiesVirtualNetworkType | undefined;
 }
 /** The type of identity that created the resource. */
 export type ApiGatewayCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1643,37 +1664,37 @@ export type ApiGatewayCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApiGatewayCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApiGatewayCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ApiGatewayCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApiGatewayCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ApiGatewayCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ApiGatewayCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ApiGatewayCreateOrUpdateResponseTagsMap;
+  tags?: ApiGatewayCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the API Management gateway. */
   properties: ApiManagementGatewayProperties;
   /** SKU properties of the API Management gateway. */
   sku: ApiManagementGatewaySkuProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApiGatewayCreateOrUpdateResponseSystemData;
+  systemData?: ApiGatewayCreateOrUpdateResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Issue Attachment contract Properties. */
 export interface IssueAttachmentContractProperties {
@@ -1698,24 +1719,24 @@ export interface ApiIssueAttachmentCreateOrUpdateRequest {
   /** Attachment identifier within an Issue. Must be unique in the current Issue. */
   attachmentId: string;
   /** Properties of the Issue Attachment. */
-  properties?: IssueAttachmentContractProperties;
+  properties?: IssueAttachmentContractProperties | undefined;
 }
 export interface ApiIssueAttachmentCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue Attachment. */
-  properties?: IssueAttachmentContractProperties;
+  properties?: IssueAttachmentContractProperties | undefined;
 }
 /** Issue Comment contract Properties. */
 export interface IssueCommentContractProperties {
   /** Comment text. */
   text: string;
   /** Date and time when the comment was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** A resource identifier for the user who left the comment. */
   userId: string;
 }
@@ -1733,28 +1754,28 @@ export interface ApiIssueCommentCreateOrUpdateRequest {
   /** Comment identifier within an Issue. Must be unique in the current Issue. */
   commentId: string;
   /** Properties of the Issue Comment. */
-  properties?: IssueCommentContractProperties;
+  properties?: IssueCommentContractProperties | undefined;
 }
 export interface ApiIssueCommentCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue Comment. */
-  properties?: IssueCommentContractProperties;
+  properties?: IssueCommentContractProperties | undefined;
 }
 /** Status of the issue. */
 export type IssueContractPropertiesState = "proposed" | "open" | "removed" | "resolved" | "closed";
 /** Issue contract Properties. */
 export interface IssueContractProperties {
   /** Date and time when the issue was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Status of the issue. */
-  state?: IssueContractPropertiesState | (string & {});
+  state?: IssueContractPropertiesState | (string & {}) | undefined;
   /** A resource identifier for the API the issue was created for. */
-  apiId?: string;
+  apiId?: string | undefined;
   /** The issue title. */
   title: string;
   /** Text describing the issue. */
@@ -1774,17 +1795,17 @@ export interface ApiIssueCreateOrUpdateRequest {
   /** Issue identifier. Must be unique in the current API Management service instance. */
   issueId: string;
   /** Properties of the Issue. */
-  properties?: IssueContractProperties;
+  properties?: IssueContractProperties | undefined;
 }
 export interface ApiIssueCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue. */
-  properties?: IssueContractProperties;
+  properties?: IssueContractProperties | undefined;
 }
 /** The type of access to be used for the storage account. */
 export type ApiManagementServiceBackupRequestAccessType =
@@ -1805,11 +1826,11 @@ export interface ApiManagementServiceBackupRequest {
   /** The name of the backup file to create/retrieve. */
   backupName: string;
   /** The type of access to be used for the storage account. */
-  accessType?: ApiManagementServiceBackupRequestAccessType | (string & {});
+  accessType?: ApiManagementServiceBackupRequestAccessType | (string & {}) | undefined;
   /** Storage account access key. Required only if `accessType` is set to `AccessKey`. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** The Client ID of user assigned managed identity. Required only if `accessType` is set to `UserAssignedManagedIdentity`. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Resource tags. */
 export type ApiManagementServiceBackupResponseTagsMap = { [key: string]: string | undefined };
@@ -1841,23 +1862,23 @@ export interface HostnameConfiguration {
   /** Hostname to configure on the Api Management service. */
   hostName: string;
   /** Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is provided, auto-update of ssl certificate will not work. This requires Api Management service to be configured with aka.ms/apimmsi. The secret should be of type *application/x-pkcs12* */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** System or User Assigned Managed identity clientId as generated by Azure AD, which has GET access to the keyVault containing the SSL certificate. */
-  identityClientId?: string;
+  identityClientId?: string | undefined;
   /** Base64 Encoded certificate. */
-  encodedCertificate?: string;
+  encodedCertificate?: string | undefined;
   /** Certificate Password. */
-  certificatePassword?: string | Redacted.Redacted<string>;
+  certificatePassword?: string | Redacted.Redacted<string> | undefined;
   /** Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate. If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is useful if a service has multiple custom hostname enabled and it needs to decide on the default ssl certificate. The setting only applied to gateway Hostname Type. */
-  defaultSslBinding?: boolean;
+  defaultSslBinding?: boolean | undefined;
   /** Specify true to always negotiate client certificate on the hostname. Default Value is false. */
-  negotiateClientCertificate?: boolean;
+  negotiateClientCertificate?: boolean | undefined;
   /** Certificate information. */
-  certificate?: CertificateInformation;
+  certificate?: CertificateInformation | undefined;
   /** Certificate Source. */
-  certificateSource?: HostnameConfigurationCertificateSource | (string & {});
+  certificateSource?: HostnameConfigurationCertificateSource | (string & {}) | undefined;
   /** Certificate Status. */
-  certificateStatus?: HostnameConfigurationCertificateStatus | (string & {});
+  certificateStatus?: HostnameConfigurationCertificateStatus | (string & {}) | undefined;
 }
 /** Custom hostname configuration of the API Management service. */
 export type ApiManagementServicePropertiesHostnameConfigurationsList = Array<HostnameConfiguration>;
@@ -1872,16 +1893,16 @@ export type ConfigurationApiLegacyApi = "Enabled" | "Disabled";
 /** Information regarding the Configuration API of the API Management service. */
 export interface ConfigurationApi {
   /** Indication whether or not the legacy Configuration API (v1) should be exposed on the API Management service. Value is optional but must be 'Enabled' or 'Disabled'. If 'Disabled', legacy Configuration API (v1) will not be available for self-hosted gateways. Default value is 'Enabled' */
-  legacyApi?: ConfigurationApiLegacyApi | (string & {});
+  legacyApi?: ConfigurationApiLegacyApi | (string & {}) | undefined;
 }
 /** Configuration of a virtual network to which API Management service is deployed. */
 export interface VirtualNetworkConfiguration {
   /** The virtual network ID. This is typically a GUID. Expect a null GUID by default. */
-  vnetid?: string;
+  vnetid?: string | undefined;
   /** The name of the subnet. */
-  subnetname?: string;
+  subnetname?: string | undefined;
   /** The full resource ID of a subnet in a virtual network to deploy the API Management service in. */
-  subnetResourceId?: string;
+  subnetResourceId?: string | undefined;
 }
 /** Name of the Sku. */
 export type ApiManagementServiceSkuPropertiesName =
@@ -1924,25 +1945,25 @@ export interface AdditionalLocation {
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: AdditionalLocationZonesList;
+  zones?: AdditionalLocationZonesList | undefined;
   /** Public Static Load Balanced IP addresses of the API Management service in the additional location. Available only for Basic, Standard, Premium and Isolated SKU. */
-  publicIPAddresses?: AdditionalLocationPublicIPAddressesList;
+  publicIPAddresses?: AdditionalLocationPublicIPAddressesList | undefined;
   /** Private Static Load Balanced IP addresses of the API Management service which is deployed in an Internal Virtual Network in a particular additional location. Available only for Basic, Standard, Premium and Isolated SKU. */
-  privateIPAddresses?: AdditionalLocationPrivateIPAddressesList;
+  privateIPAddresses?: AdditionalLocationPrivateIPAddressesList | undefined;
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the location. Supported only for Premium SKU being deployed in Virtual Network. */
-  publicIpAddressId?: string;
+  publicIpAddressId?: string | undefined;
   /** Virtual network configuration for the location. */
-  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration | undefined;
   /** Gateway URL of the API Management service in the Region. */
-  gatewayRegionalUrl?: string;
+  gatewayRegionalUrl?: string | undefined;
   /** Property can be used to enable NAT Gateway for this API Management service. */
-  natGatewayState?: AdditionalLocationNatGatewayState;
+  natGatewayState?: AdditionalLocationNatGatewayState | undefined;
   /** Outbound public IPV4 address prefixes associated with NAT Gateway deployed service. Available only for Premium SKU on stv2 platform. */
-  outboundPublicIPAddresses?: AdditionalLocationOutboundPublicIPAddressesList;
+  outboundPublicIPAddresses?: AdditionalLocationOutboundPublicIPAddressesList | undefined;
   /** Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in this additional location. */
-  disableGateway?: boolean;
+  disableGateway?: boolean | undefined;
   /** Compute Platform Version running the service. */
-  platformVersion?: AdditionalLocationPlatformVersion;
+  platformVersion?: AdditionalLocationPlatformVersion | undefined;
 }
 /** Additional datacenter locations of the API Management service. */
 export type ApiManagementServicePropertiesAdditionalLocationsList = Array<AdditionalLocation>;
@@ -1955,13 +1976,13 @@ export type CertificateConfigurationStoreName = "CertificateAuthority" | "Root";
 /** Certificate configuration which consist of non-trusted intermediates and root certificates. */
 export interface CertificateConfiguration {
   /** Base64 Encoded certificate. */
-  encodedCertificate?: string;
+  encodedCertificate?: string | undefined;
   /** Certificate Password. */
-  certificatePassword?: string | Redacted.Redacted<string>;
+  certificatePassword?: string | Redacted.Redacted<string> | undefined;
   /** The System.Security.Cryptography.x509certificates.StoreName certificate store location. Only Root and CertificateAuthority are valid locations. */
   storeName: CertificateConfigurationStoreName | (string & {});
   /** Certificate information. */
-  certificate?: CertificateInformation;
+  certificate?: CertificateInformation | undefined;
 }
 /** List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10. */
 export type ApiManagementServicePropertiesCertificatesList = Array<CertificateConfiguration>;
@@ -1974,46 +1995,46 @@ export type ApiManagementServicePropertiesVirtualNetworkType = "None" | "Externa
 /** Control Plane Apis version constraint for the API Management service. */
 export interface ApiVersionConstraint {
   /** Limit control plane API calls to API Management service with version equal to or newer than this value. */
-  minApiVersion?: string;
+  minApiVersion?: string | undefined;
 }
 /** A wrapper for an ARM resource id */
 export interface ArmIdWrapper {
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateEndpointConnectionWrapperPropertiesPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** All the Group ids. */
 export type PrivateEndpointConnectionWrapperPropertiesGroupIdsList = Array<string>;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionWrapperProperties {
   /** The resource of private end point. */
-  privateEndpoint?: ArmIdWrapper;
+  privateEndpoint?: ArmIdWrapper | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateEndpointConnectionWrapperPropertiesPrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** All the Group ids. */
-  groupIds?: PrivateEndpointConnectionWrapperPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionWrapperPropertiesGroupIdsList | undefined;
 }
 /** Remote Private Endpoint Connection resource. */
 export interface ApiManagementServicePropertiesPrivateEndpointConnectionsItem {
   /** Private Endpoint connection resource id */
-  id?: string;
+  id?: string | undefined;
   /** Private Endpoint Connection Name */
-  name?: string;
+  name?: string | undefined;
   /** Private Endpoint Connection Resource Type */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionWrapperProperties;
+  properties?: PrivateEndpointConnectionWrapperProperties | undefined;
 }
 /** List of Private Endpoint Connections of this service. */
 export type ApiManagementServicePropertiesPrivateEndpointConnectionsList =
@@ -2032,67 +2053,71 @@ export type ApiManagementServicePropertiesDeveloperPortalStatus = "Enabled" | "D
 /** Properties of an API Management service resource description. */
 export interface ApiManagementServiceProperties {
   /** Email address from which the notification will be sent. */
-  notificationSenderEmail?: string;
+  notificationSenderEmail?: string | undefined;
   /** The current provisioning state of the API Management service which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The provisioning state of the API Management service, which is targeted by the long running operation started on the service. */
-  targetProvisioningState?: string;
+  targetProvisioningState?: string | undefined;
   /** Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  createdAtUtc?: string;
+  createdAtUtc?: string | undefined;
   /** Gateway URL of the API Management service. */
-  gatewayUrl?: string;
+  gatewayUrl?: string | undefined;
   /** Gateway URL of the API Management service in the Default Region. */
-  gatewayRegionalUrl?: string;
+  gatewayRegionalUrl?: string | undefined;
   /** Publisher portal endpoint Url of the API Management service. */
-  portalUrl?: string;
+  portalUrl?: string | undefined;
   /** Management API endpoint URL of the API Management service. */
-  managementApiUrl?: string;
+  managementApiUrl?: string | undefined;
   /** SCM endpoint URL of the API Management service. */
-  scmUrl?: string;
+  scmUrl?: string | undefined;
   /** DEveloper Portal endpoint URL of the API Management service. */
-  developerPortalUrl?: string;
+  developerPortalUrl?: string | undefined;
   /** Custom hostname configuration of the API Management service. */
-  hostnameConfigurations?: ApiManagementServicePropertiesHostnameConfigurationsList;
+  hostnameConfigurations?: ApiManagementServicePropertiesHostnameConfigurationsList | undefined;
   /** Public Static Load Balanced IP addresses of the API Management service in Primary region. Available only for Basic, Standard, Premium and Isolated SKU. */
-  publicIPAddresses?: ApiManagementServicePropertiesPublicIPAddressesList;
+  publicIPAddresses?: ApiManagementServicePropertiesPublicIPAddressesList | undefined;
   /** Private Static Load Balanced IP addresses of the API Management service in Primary region which is deployed in an Internal Virtual Network. Available only for Basic, Standard, Premium and Isolated SKU. */
-  privateIPAddresses?: ApiManagementServicePropertiesPrivateIPAddressesList;
+  privateIPAddresses?: ApiManagementServicePropertiesPrivateIPAddressesList | undefined;
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network. */
-  publicIpAddressId?: string;
+  publicIpAddressId?: string | undefined;
   /** Whether or not public endpoint access is allowed for this API Management service. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
-  publicNetworkAccess?: ApiManagementServicePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: ApiManagementServicePropertiesPublicNetworkAccess | undefined;
   /** Configuration API configuration of the API Management service. */
-  configurationApi?: ConfigurationApi;
+  configurationApi?: ConfigurationApi | undefined;
   /** Virtual network configuration of the API Management service. */
-  virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+  virtualNetworkConfiguration?: VirtualNetworkConfiguration | undefined;
   /** Additional datacenter locations of the API Management service. */
-  additionalLocations?: ApiManagementServicePropertiesAdditionalLocationsList;
+  additionalLocations?: ApiManagementServicePropertiesAdditionalLocationsList | undefined;
   /** Custom properties of the API Management service.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2).</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to disable just TLS 1.1 for communications with backends.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to disable TLS 1.0 for communications with backends.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on PATCH operation will reset omitted properties' values to their defaults. For all the settings except Http2 the default value is `True` if the service was created on or before April 1, 2018 and `False` otherwise. Http2 setting's default value is `False`.</br></br>You can disable any of the following ciphers by using settings `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.[cipher_name]`: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA. For example, `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`. The default value is `true` for them.</br> Note: The following ciphers can't be disabled since they are required by internal platform components: TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 */
-  customProperties?: ApiManagementServicePropertiesCustomPropertiesMap;
+  customProperties?: ApiManagementServicePropertiesCustomPropertiesMap | undefined;
   /** List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10. */
-  certificates?: ApiManagementServicePropertiesCertificatesList;
+  certificates?: ApiManagementServicePropertiesCertificatesList | undefined;
   /** Property only meant to be used for Consumption SKU Service. This enforces a client certificate to be presented on each request to the gateway. This also enables the ability to authenticate the certificate in the policy on the gateway. */
-  enableClientCertificate?: boolean;
+  enableClientCertificate?: boolean | undefined;
   /** Property can be used to enable NAT Gateway for this API Management service. */
-  natGatewayState?: ApiManagementServicePropertiesNatGatewayState;
+  natGatewayState?: ApiManagementServicePropertiesNatGatewayState | undefined;
   /** Outbound public IPV4 address prefixes associated with NAT Gateway deployed service. Available only for Premium SKU on stv2 platform. */
-  outboundPublicIPAddresses?: ApiManagementServicePropertiesOutboundPublicIPAddressesList;
+  outboundPublicIPAddresses?:
+    | ApiManagementServicePropertiesOutboundPublicIPAddressesList
+    | undefined;
   /** Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in master region. */
-  disableGateway?: boolean;
+  disableGateway?: boolean | undefined;
   /** The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only. */
-  virtualNetworkType?: ApiManagementServicePropertiesVirtualNetworkType;
+  virtualNetworkType?: ApiManagementServicePropertiesVirtualNetworkType | undefined;
   /** Control Plane Apis version constraint for the API Management service. */
-  apiVersionConstraint?: ApiVersionConstraint;
+  apiVersionConstraint?: ApiVersionConstraint | undefined;
   /** Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored. */
-  restore?: boolean;
+  restore?: boolean | undefined;
   /** List of Private Endpoint Connections of this service. */
-  privateEndpointConnections?: ApiManagementServicePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | ApiManagementServicePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Compute Platform Version running the service in this location. */
-  platformVersion?: ApiManagementServicePropertiesPlatformVersion;
+  platformVersion?: ApiManagementServicePropertiesPlatformVersion | undefined;
   /** Status of legacy portal in the API Management service. */
-  legacyPortalStatus?: ApiManagementServicePropertiesLegacyPortalStatus;
+  legacyPortalStatus?: ApiManagementServicePropertiesLegacyPortalStatus | undefined;
   /** Status of developer portal in this API Management service. */
-  developerPortalStatus?: ApiManagementServicePropertiesDeveloperPortalStatus;
+  developerPortalStatus?: ApiManagementServicePropertiesDeveloperPortalStatus | undefined;
   /** Publisher email. */
   publisherEmail: string;
   /** Publisher name. */
@@ -2106,9 +2131,9 @@ export type ApiManagementServiceIdentityType =
   | "None";
 export interface UserIdentityProperties {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ApiManagementServiceIdentityUserAssignedIdentitiesMap = {
@@ -2119,11 +2144,11 @@ export interface ApiManagementServiceIdentity {
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
   type: ApiManagementServiceIdentityType;
   /** The principal id of the identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client tenant id of the identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ApiManagementServiceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ApiManagementServiceIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type ApiManagementServiceBackupResponseSystemDataCreatedByType =
@@ -2140,44 +2165,44 @@ export type ApiManagementServiceBackupResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApiManagementServiceBackupResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApiManagementServiceBackupResponseSystemDataCreatedByType;
+  createdByType?: ApiManagementServiceBackupResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApiManagementServiceBackupResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ApiManagementServiceBackupResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type ApiManagementServiceBackupResponseZonesList = Array<string>;
 export interface ApiManagementServiceBackupResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ApiManagementServiceBackupResponseTagsMap;
+  tags?: ApiManagementServiceBackupResponseTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApiManagementServiceBackupResponseSystemData;
+  systemData?: ApiManagementServiceBackupResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: ApiManagementServiceBackupResponseZonesList;
-  locationHeader?: string;
+  zones?: ApiManagementServiceBackupResponseZonesList | undefined;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type ApiManagementServiceCreateOrUpdateRequestTagsMap = {
@@ -2191,7 +2216,7 @@ export type ApiManagementServicePropertiesInputPublicNetworkAccess = "Enabled" |
 /** Configuration of a virtual network to which API Management service is deployed. */
 export interface VirtualNetworkConfigurationInput {
   /** The full resource ID of a subnet in a virtual network to deploy the API Management service in. */
-  subnetResourceId?: string;
+  subnetResourceId?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type AdditionalLocationInputZonesList = Array<string>;
@@ -2204,15 +2229,15 @@ export interface AdditionalLocationInput {
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: AdditionalLocationInputZonesList;
+  zones?: AdditionalLocationInputZonesList | undefined;
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the location. Supported only for Premium SKU being deployed in Virtual Network. */
-  publicIpAddressId?: string;
+  publicIpAddressId?: string | undefined;
   /** Virtual network configuration for the location. */
-  virtualNetworkConfiguration?: VirtualNetworkConfigurationInput;
+  virtualNetworkConfiguration?: VirtualNetworkConfigurationInput | undefined;
   /** Property can be used to enable NAT Gateway for this API Management service. */
-  natGatewayState?: AdditionalLocationInputNatGatewayState | (string & {});
+  natGatewayState?: AdditionalLocationInputNatGatewayState | (string & {}) | undefined;
   /** Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in this additional location. */
-  disableGateway?: boolean;
+  disableGateway?: boolean | undefined;
 }
 /** Additional datacenter locations of the API Management service. */
 export type ApiManagementServicePropertiesInputAdditionalLocationsList =
@@ -2235,29 +2260,29 @@ export type ArmIdWrapperInput = UserAssignedIdentityInput;
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateEndpointConnectionWrapperPropertiesInputPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionWrapperPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateEndpointConnectionWrapperPropertiesInputPrivateLinkServiceConnectionState;
 }
 /** Remote Private Endpoint Connection resource. */
 export interface ApiManagementServicePropertiesInputPrivateEndpointConnectionsItem {
   /** Private Endpoint connection resource id */
-  id?: string;
+  id?: string | undefined;
   /** Private Endpoint Connection Name */
-  name?: string;
+  name?: string | undefined;
   /** Private Endpoint Connection Resource Type */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionWrapperPropertiesInput;
+  properties?: PrivateEndpointConnectionWrapperPropertiesInput | undefined;
 }
 /** List of Private Endpoint Connections of this service. */
 export type ApiManagementServicePropertiesInputPrivateEndpointConnectionsList =
@@ -2269,41 +2294,57 @@ export type ApiManagementServicePropertiesInputDeveloperPortalStatus = "Enabled"
 /** Properties of an API Management service resource description. */
 export interface ApiManagementServicePropertiesInput {
   /** Email address from which the notification will be sent. */
-  notificationSenderEmail?: string;
+  notificationSenderEmail?: string | undefined;
   /** Custom hostname configuration of the API Management service. */
-  hostnameConfigurations?: ApiManagementServicePropertiesInputHostnameConfigurationsList;
+  hostnameConfigurations?:
+    | ApiManagementServicePropertiesInputHostnameConfigurationsList
+    | undefined;
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network. */
-  publicIpAddressId?: string;
+  publicIpAddressId?: string | undefined;
   /** Whether or not public endpoint access is allowed for this API Management service. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
-  publicNetworkAccess?: ApiManagementServicePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | ApiManagementServicePropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** Configuration API configuration of the API Management service. */
-  configurationApi?: ConfigurationApi;
+  configurationApi?: ConfigurationApi | undefined;
   /** Virtual network configuration of the API Management service. */
-  virtualNetworkConfiguration?: VirtualNetworkConfigurationInput;
+  virtualNetworkConfiguration?: VirtualNetworkConfigurationInput | undefined;
   /** Additional datacenter locations of the API Management service. */
-  additionalLocations?: ApiManagementServicePropertiesInputAdditionalLocationsList;
+  additionalLocations?: ApiManagementServicePropertiesInputAdditionalLocationsList | undefined;
   /** Custom properties of the API Management service.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2).</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to disable just TLS 1.1 for communications with backends.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to disable TLS 1.0 for communications with backends.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on PATCH operation will reset omitted properties' values to their defaults. For all the settings except Http2 the default value is `True` if the service was created on or before April 1, 2018 and `False` otherwise. Http2 setting's default value is `False`.</br></br>You can disable any of the following ciphers by using settings `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.[cipher_name]`: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA. For example, `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`. The default value is `true` for them.</br> Note: The following ciphers can't be disabled since they are required by internal platform components: TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 */
-  customProperties?: ApiManagementServicePropertiesInputCustomPropertiesMap;
+  customProperties?: ApiManagementServicePropertiesInputCustomPropertiesMap | undefined;
   /** List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10. */
-  certificates?: ApiManagementServicePropertiesInputCertificatesList;
+  certificates?: ApiManagementServicePropertiesInputCertificatesList | undefined;
   /** Property only meant to be used for Consumption SKU Service. This enforces a client certificate to be presented on each request to the gateway. This also enables the ability to authenticate the certificate in the policy on the gateway. */
-  enableClientCertificate?: boolean;
+  enableClientCertificate?: boolean | undefined;
   /** Property can be used to enable NAT Gateway for this API Management service. */
-  natGatewayState?: ApiManagementServicePropertiesInputNatGatewayState | (string & {});
+  natGatewayState?: ApiManagementServicePropertiesInputNatGatewayState | (string & {}) | undefined;
   /** Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in master region. */
-  disableGateway?: boolean;
+  disableGateway?: boolean | undefined;
   /** The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only. */
-  virtualNetworkType?: ApiManagementServicePropertiesInputVirtualNetworkType | (string & {});
+  virtualNetworkType?:
+    | ApiManagementServicePropertiesInputVirtualNetworkType
+    | (string & {})
+    | undefined;
   /** Control Plane Apis version constraint for the API Management service. */
-  apiVersionConstraint?: ApiVersionConstraint;
+  apiVersionConstraint?: ApiVersionConstraint | undefined;
   /** Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored. */
-  restore?: boolean;
+  restore?: boolean | undefined;
   /** List of Private Endpoint Connections of this service. */
-  privateEndpointConnections?: ApiManagementServicePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | ApiManagementServicePropertiesInputPrivateEndpointConnectionsList
+    | undefined;
   /** Status of legacy portal in the API Management service. */
-  legacyPortalStatus?: ApiManagementServicePropertiesInputLegacyPortalStatus | (string & {});
+  legacyPortalStatus?:
+    | ApiManagementServicePropertiesInputLegacyPortalStatus
+    | (string & {})
+    | undefined;
   /** Status of developer portal in this API Management service. */
-  developerPortalStatus?: ApiManagementServicePropertiesInputDeveloperPortalStatus | (string & {});
+  developerPortalStatus?:
+    | ApiManagementServicePropertiesInputDeveloperPortalStatus
+    | (string & {})
+    | undefined;
   /** Publisher email. */
   publisherEmail: string;
   /** Publisher name. */
@@ -2324,7 +2365,7 @@ export interface ApiManagementServiceIdentityInput {
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
   type: ApiManagementServiceIdentityInputType | (string & {});
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ApiManagementServiceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ApiManagementServiceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type ApiManagementServiceCreateOrUpdateRequestZonesList = Array<string>;
@@ -2336,17 +2377,17 @@ export interface ApiManagementServiceCreateOrUpdateRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** Resource tags. */
-  tags?: ApiManagementServiceCreateOrUpdateRequestTagsMap;
+  tags?: ApiManagementServiceCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServicePropertiesInput;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentityInput;
+  identity?: ApiManagementServiceIdentityInput | undefined;
   /** Resource location. */
   location: string;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: ApiManagementServiceCreateOrUpdateRequestZonesList;
+  zones?: ApiManagementServiceCreateOrUpdateRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type ApiManagementServiceCreateOrUpdateResponseTagsMap = {
@@ -2367,56 +2408,58 @@ export type ApiManagementServiceCreateOrUpdateResponseSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApiManagementServiceCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApiManagementServiceCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ApiManagementServiceCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApiManagementServiceCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ApiManagementServiceCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type ApiManagementServiceCreateOrUpdateResponseZonesList = Array<string>;
 export interface ApiManagementServiceCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ApiManagementServiceCreateOrUpdateResponseTagsMap;
+  tags?: ApiManagementServiceCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApiManagementServiceCreateOrUpdateResponseSystemData;
+  systemData?: ApiManagementServiceCreateOrUpdateResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: ApiManagementServiceCreateOrUpdateResponseZonesList;
+  zones?: ApiManagementServiceCreateOrUpdateResponseZonesList | undefined;
 }
 /** Parameter values. */
 export type ParameterContractValuesList = Array<string>;
 /** Parameter example. */
 export interface ParameterExampleContract {
   /** Short description for the example */
-  summary?: string;
+  summary?: string | undefined;
   /** Long description for the example */
-  description?: string;
+  description?: string | undefined;
   /** Example value. May be a primitive value, or an object. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** A URL that points to the literal example */
-  externalValue?: string;
+  externalValue?: string | undefined;
 }
 /** Parameter examples. */
 export type ParameterExamplesContract = { [key: string]: ParameterExampleContract | undefined };
@@ -2425,21 +2468,21 @@ export interface ParameterContract {
   /** Parameter name. */
   name: string;
   /** Parameter description. */
-  description?: string;
+  description?: string | undefined;
   /** Parameter type. */
   type: string;
   /** Default parameter value. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Specifies whether parameter is required or not. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Parameter values. */
-  values?: ParameterContractValuesList;
+  values?: ParameterContractValuesList | undefined;
   /** Schema identifier. */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Type name defined by the schema. */
-  typeName?: string;
+  typeName?: string | undefined;
   /** Exampled defined for the parameter. */
-  examples?: ParameterExamplesContract;
+  examples?: ParameterExamplesContract | undefined;
 }
 /** Collection of URL template parameters. */
 export type OperationContractPropertiesTemplateParametersList = Array<ParameterContract>;
@@ -2454,26 +2497,26 @@ export interface RepresentationContract {
   /** Specifies a registered or custom content type for this representation, e.g. application/xml. */
   contentType: string;
   /** Schema identifier. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'. */
-  schemaId?: string;
+  schemaId?: string | undefined;
   /** Type name defined by the schema. Applicable only if 'contentType' value is neither 'application/x-www-form-urlencoded' nor 'multipart/form-data'. */
-  typeName?: string;
+  typeName?: string | undefined;
   /** Collection of form parameters. Required if 'contentType' value is either 'application/x-www-form-urlencoded' or 'multipart/form-data'.. */
-  formParameters?: RepresentationContractFormParametersList;
+  formParameters?: RepresentationContractFormParametersList | undefined;
   /** Exampled defined for the representation. */
-  examples?: ParameterExamplesContract;
+  examples?: ParameterExamplesContract | undefined;
 }
 /** Collection of operation request representations. */
 export type RequestContractRepresentationsList = Array<RepresentationContract>;
 /** Operation request details. */
 export interface RequestContract {
   /** Operation request description. */
-  description?: string;
+  description?: string | undefined;
   /** Collection of operation request query parameters. */
-  queryParameters?: RequestContractQueryParametersList;
+  queryParameters?: RequestContractQueryParametersList | undefined;
   /** Collection of operation request headers. */
-  headers?: RequestContractHeadersList;
+  headers?: RequestContractHeadersList | undefined;
   /** Collection of operation request representations. */
-  representations?: RequestContractRepresentationsList;
+  representations?: RequestContractRepresentationsList | undefined;
 }
 /** Collection of operation response representations. */
 export type ResponseContractRepresentationsList = Array<RepresentationContract>;
@@ -2484,26 +2527,26 @@ export interface ResponseContract {
   /** Operation response HTTP status code. */
   statusCode: number;
   /** Operation response description. */
-  description?: string;
+  description?: string | undefined;
   /** Collection of operation response representations. */
-  representations?: ResponseContractRepresentationsList;
+  representations?: ResponseContractRepresentationsList | undefined;
   /** Collection of operation response headers. */
-  headers?: ResponseContractHeadersList;
+  headers?: ResponseContractHeadersList | undefined;
 }
 /** Array of Operation responses. */
 export type OperationContractPropertiesResponsesList = Array<ResponseContract>;
 /** Operation Contract Properties */
 export interface OperationContractProperties {
   /** Collection of URL template parameters. */
-  templateParameters?: OperationContractPropertiesTemplateParametersList;
+  templateParameters?: OperationContractPropertiesTemplateParametersList | undefined;
   /** Description of the operation. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** An entity containing request details. */
-  request?: RequestContract;
+  request?: RequestContract | undefined;
   /** Array of Operation responses. */
-  responses?: OperationContractPropertiesResponsesList;
+  responses?: OperationContractPropertiesResponsesList | undefined;
   /** Operation Policies */
-  policies?: string;
+  policies?: string | undefined;
   /** Operation Name. */
   displayName: string;
   /** A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them. */
@@ -2523,17 +2566,17 @@ export interface ApiOperationCreateOrUpdateRequest {
   /** Operation identifier within an API. Must be unique in the current API Management service instance. */
   operationId: string;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export interface ApiOperationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export type ApiOperationPolicyCreateOrUpdateRequestPolicyId = "policy";
 /** Format of the policyContent. */
@@ -2543,7 +2586,7 @@ export interface PolicyContractProperties {
   /** Contents of the Policy as defined by the format. */
   value: string;
   /** Format of the policyContent. */
-  format?: PolicyContractPropertiesFormat | (string & {});
+  format?: PolicyContractPropertiesFormat | (string & {}) | undefined;
 }
 export interface ApiOperationPolicyCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2559,17 +2602,17 @@ export interface ApiOperationPolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: ApiOperationPolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface ApiOperationPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export type ApiPolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface ApiPolicyCreateOrUpdateRequest {
@@ -2584,24 +2627,24 @@ export interface ApiPolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: ApiPolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface ApiPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 /** API Release details */
 export interface ApiReleaseContractPropertiesInput {
   /** Identifier of the API the release belongs to. */
-  apiId?: string;
+  apiId?: string | undefined;
   /** Release Notes */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface ApiReleaseCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2615,37 +2658,37 @@ export interface ApiReleaseCreateOrUpdateRequest {
   /** Release identifier within an API. Must be unique in the current API Management service instance. */
   releaseId: string;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractPropertiesInput;
+  properties?: ApiReleaseContractPropertiesInput | undefined;
 }
 /** API Release details */
 export interface ApiReleaseContractProperties {
   /** Identifier of the API the release belongs to. */
-  apiId?: string;
+  apiId?: string | undefined;
   /** The time the API was released. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
   /** The time the API release was updated. */
-  updatedDateTime?: string;
+  updatedDateTime?: string | undefined;
   /** Release Notes */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface ApiReleaseCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractProperties;
+  properties?: ApiReleaseContractProperties | undefined;
 }
 /** Api Schema Document Properties. */
 export interface SchemaDocumentProperties {
   /** Json escaped string defining the document representing the Schema. Used for schemas other than Swagger/OpenAPI. */
-  value?: string;
+  value?: string | undefined;
   /** Types definitions. Used for Swagger/OpenAPI v1 schemas only, null otherwise. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** Types definitions. Used for Swagger/OpenAPI v2/v3 schemas only, null otherwise. */
-  components?: unknown;
+  components?: unknown | undefined;
 }
 /** API Schema create or update contract Properties. */
 export interface SchemaContractPropertiesInput {
@@ -2666,7 +2709,7 @@ export interface ApiSchemaCreateOrUpdateRequest {
   /** Schema id identifier. Must be unique in the current API Management service instance. */
   schemaId: string;
   /** Properties of the API Schema. */
-  properties?: SchemaContractPropertiesInput;
+  properties?: SchemaContractPropertiesInput | undefined;
 }
 /** API Schema create or update contract Properties. */
 export interface SchemaContractProperties {
@@ -2675,30 +2718,30 @@ export interface SchemaContractProperties {
   /** Create or update Properties of the API Schema Document. */
   document: SchemaDocumentProperties;
   /** The provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface ApiSchemaCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Schema. */
-  properties?: SchemaContractProperties;
+  properties?: SchemaContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Parameters supplied to the Create TagDescription operation. */
 export interface TagDescriptionBaseProperties {
   /** Description of the Tag. */
-  description?: string;
+  description?: string | undefined;
   /** Absolute URL of external resources describing the tag. */
-  externalDocsUrl?: string;
+  externalDocsUrl?: string | undefined;
   /** Description of the external resources describing the tag. */
-  externalDocsDescription?: string;
+  externalDocsDescription?: string | undefined;
 }
 export interface ApiTagDescriptionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2712,41 +2755,41 @@ export interface ApiTagDescriptionCreateOrUpdateRequest {
   /** Tag description identifier. Used when creating tagDescription for API/Tag association. Based on API and Tag names. */
   tagDescriptionId: string;
   /** Properties supplied to Create TagDescription operation. */
-  properties?: TagDescriptionBaseProperties;
+  properties?: TagDescriptionBaseProperties | undefined;
 }
 /** TagDescription contract Properties. */
 export interface TagDescriptionContractProperties {
   /** Description of the Tag. */
-  description?: string;
+  description?: string | undefined;
   /** Absolute URL of external resources describing the tag. */
-  externalDocsUrl?: string;
+  externalDocsUrl?: string | undefined;
   /** Description of the external resources describing the tag. */
-  externalDocsDescription?: string;
+  externalDocsDescription?: string | undefined;
   /** Identifier of the tag in the form of /tags/{tagId} */
-  tagId?: string;
+  tagId?: string | undefined;
   /** Tag name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface ApiTagDescriptionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** TagDescription entity contract properties. */
-  properties?: TagDescriptionContractProperties;
+  properties?: TagDescriptionContractProperties | undefined;
 }
 /** An value that determines where the API Version identifier will be located in a HTTP request. */
 export type ApiVersionSetContractPropertiesVersioningScheme = "Segment" | "Query" | "Header";
 /** Properties of an API Version Set. */
 export interface ApiVersionSetContractProperties {
   /** Description of API Version Set. */
-  description?: string;
+  description?: string | undefined;
   /** Name of query parameter that indicates the API Version if versioningScheme is set to `query`. */
-  versionQueryName?: string;
+  versionQueryName?: string | undefined;
   /** Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`. */
-  versionHeaderName?: string;
+  versionHeaderName?: string | undefined;
   /** Name of API Version Set */
   displayName: string;
   /** An value that determines where the API Version identifier will be located in a HTTP request. */
@@ -2762,29 +2805,29 @@ export interface ApiVersionSetCreateOrUpdateRequest {
   /** Api Version Set identifier. Must be unique in the current API Management service instance. */
   versionSetId: string;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 export interface ApiVersionSetCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 /** Wiki documentation details. */
 export interface WikiDocumentationContract {
   /** Documentation Identifier */
-  documentationId?: string;
+  documentationId?: string | undefined;
 }
 /** Collection wiki documents included into this wiki. */
 export type WikiContractPropertiesDocumentsList = Array<WikiDocumentationContract>;
 /** Wiki contract details */
 export interface WikiContractProperties {
   /** Collection wiki documents included into this wiki. */
-  documents?: WikiContractPropertiesDocumentsList;
+  documents?: WikiContractPropertiesDocumentsList | undefined;
 }
 export interface ApiWikiCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2796,17 +2839,17 @@ export interface ApiWikiCreateOrUpdateRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface ApiWikiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface ApplyApiManagementServiceNetworkConfigurationUpdatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2816,7 +2859,7 @@ export interface ApplyApiManagementServiceNetworkConfigurationUpdatesRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** Location of the Api Management service to update for a multi-region service. For a service deployed in a single region, this parameter is not required. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type ApplyApiManagementServiceNetworkConfigurationUpdatesResponseTagsMap = {
@@ -2837,44 +2880,48 @@ export type ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemDa
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemDataCreatedByType;
+  createdByType?:
+    | ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type ApplyApiManagementServiceNetworkConfigurationUpdatesResponseZonesList = Array<string>;
 export interface ApplyApiManagementServiceNetworkConfigurationUpdatesResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseTagsMap;
+  tags?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemData;
+  systemData?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseZonesList;
-  locationHeader?: string;
+  zones?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseZonesList | undefined;
+  locationHeader?: string | undefined;
 }
 export interface AssignTagToApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2895,13 +2942,13 @@ export interface TagContractProperties {
 }
 export interface AssignTagToApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface AssignTagToOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2919,13 +2966,13 @@ export interface AssignTagToOperationRequest {
 }
 export interface AssignTagToOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface AssignTagToProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2941,24 +2988,24 @@ export interface AssignTagToProductRequest {
 }
 export interface AssignTagToProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 /** The allowed Azure Active Directory Application IDs */
 export type AuthorizationAccessPolicyContractPropertiesAppIdsList = Array<string>;
 /** Authorization Access Policy details. */
 export interface AuthorizationAccessPolicyContractProperties {
   /** The allowed Azure Active Directory Application IDs */
-  appIds?: AuthorizationAccessPolicyContractPropertiesAppIdsList;
+  appIds?: AuthorizationAccessPolicyContractPropertiesAppIdsList | undefined;
   /** The Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The Object Id */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 export interface AuthorizationAccessPolicyCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2974,17 +3021,17 @@ export interface AuthorizationAccessPolicyCreateOrUpdateRequest {
   /** Identifier of the authorization access policy. */
   authorizationAccessPolicyId: string;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationAccessPolicyContractProperties;
+  properties?: AuthorizationAccessPolicyContractProperties | undefined;
 }
 export interface AuthorizationAccessPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationAccessPolicyContractProperties;
+  properties?: AuthorizationAccessPolicyContractProperties | undefined;
 }
 /** Authorization type options */
 export type AuthorizationContractPropertiesAuthorizationType = "OAuth2";
@@ -2997,21 +3044,21 @@ export type AuthorizationContractPropertiesParametersMap = { [key: string]: stri
 /** Authorization error details. */
 export interface AuthorizationError {
   /** Error code */
-  code?: string;
+  code?: string | undefined;
   /** Error message */
-  message?: string;
+  message?: string | undefined;
 }
 /** Authorization details. */
 export interface AuthorizationContractProperties {
   /** Authorization type options */
-  authorizationType?: AuthorizationContractPropertiesAuthorizationType | (string & {});
+  authorizationType?: AuthorizationContractPropertiesAuthorizationType | (string & {}) | undefined;
   /** OAuth2 grant type options */
-  oauth2grantType?: AuthorizationContractPropertiesOauth2grantType | (string & {});
+  oauth2grantType?: AuthorizationContractPropertiesOauth2grantType | (string & {}) | undefined;
   /** Authorization parameters */
-  parameters?: AuthorizationContractPropertiesParametersMap;
-  error?: AuthorizationError;
+  parameters?: AuthorizationContractPropertiesParametersMap | undefined;
+  error?: AuthorizationError | undefined;
   /** Status of the Authorization */
-  status?: string;
+  status?: string | undefined;
 }
 export interface AuthorizationCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3025,17 +3072,17 @@ export interface AuthorizationCreateOrUpdateRequest {
   /** Identifier of the authorization. */
   authorizationId: string;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationContractProperties;
+  properties?: AuthorizationContractProperties | undefined;
 }
 export interface AuthorizationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationContractProperties;
+  properties?: AuthorizationContractProperties | undefined;
 }
 /** OAuth2 authorization code grant parameters */
 export type AuthorizationProviderOAuth2GrantTypesAuthorizationCodeMap = {
@@ -3048,25 +3095,25 @@ export type AuthorizationProviderOAuth2GrantTypesClientCredentialsMap = {
 /** Authorization Provider oauth2 grant types settings */
 export interface AuthorizationProviderOAuth2GrantTypes {
   /** OAuth2 authorization code grant parameters */
-  authorizationCode?: AuthorizationProviderOAuth2GrantTypesAuthorizationCodeMap;
+  authorizationCode?: AuthorizationProviderOAuth2GrantTypesAuthorizationCodeMap | undefined;
   /** OAuth2 client credential grant parameters */
-  clientCredentials?: AuthorizationProviderOAuth2GrantTypesClientCredentialsMap;
+  clientCredentials?: AuthorizationProviderOAuth2GrantTypesClientCredentialsMap | undefined;
 }
 /** OAuth2 settings details */
 export interface AuthorizationProviderOAuth2Settings {
   /** Redirect URL to be set in the OAuth application. */
-  redirectUrl?: string;
+  redirectUrl?: string | undefined;
   /** OAuth2 settings */
-  grantTypes?: AuthorizationProviderOAuth2GrantTypes;
+  grantTypes?: AuthorizationProviderOAuth2GrantTypes | undefined;
 }
 /** Authorization Provider details. */
 export interface AuthorizationProviderContractProperties {
   /** Authorization Provider name. Must be 1 to 300 characters long. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identity provider name. Must be 1 to 300 characters long. */
-  identityProvider?: string;
+  identityProvider?: string | undefined;
   /** OAuth2 settings */
-  oauth2?: AuthorizationProviderOAuth2Settings;
+  oauth2?: AuthorizationProviderOAuth2Settings | undefined;
 }
 export interface AuthorizationProviderCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3078,17 +3125,17 @@ export interface AuthorizationProviderCreateOrUpdateRequest {
   /** Identifier of the authorization provider. */
   authorizationProviderId: string;
   /** Properties of the Authorization Provider Contract. */
-  properties?: AuthorizationProviderContractProperties;
+  properties?: AuthorizationProviderContractProperties | undefined;
 }
 export interface AuthorizationProviderCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Provider Contract. */
-  properties?: AuthorizationProviderContractProperties;
+  properties?: AuthorizationProviderContractProperties | undefined;
 }
 export type AuthorizationServerContractPropertiesAuthorizationMethodsItem =
   | "HEAD"
@@ -3137,31 +3184,35 @@ export type AuthorizationServerContractPropertiesGrantTypesList = Array<
 /** External OAuth authorization server settings Properties. */
 export interface AuthorizationServerContractProperties {
   /** Description of the authorization server. Can contain HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional. */
-  authorizationMethods?: AuthorizationServerContractPropertiesAuthorizationMethodsList;
+  authorizationMethods?: AuthorizationServerContractPropertiesAuthorizationMethodsList | undefined;
   /** Method of authentication supported by the token endpoint of this authorization server. Possible values are Basic and/or Body. When Body is specified, client credentials and other parameters are passed within the request body in the application/x-www-form-urlencoded format. */
-  clientAuthenticationMethod?: AuthorizationServerContractPropertiesClientAuthenticationMethodList;
+  clientAuthenticationMethod?:
+    | AuthorizationServerContractPropertiesClientAuthenticationMethodList
+    | undefined;
   /** Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}. */
-  tokenBodyParameters?: AuthorizationServerContractPropertiesTokenBodyParametersList;
+  tokenBodyParameters?: AuthorizationServerContractPropertiesTokenBodyParametersList | undefined;
   /** OAuth token endpoint. Contains absolute URI to entity being referenced. */
-  tokenEndpoint?: string;
+  tokenEndpoint?: string | undefined;
   /** If true, authorization server will include state parameter from the authorization request to its response. Client may use state parameter to raise protocol security. */
-  supportState?: boolean;
+  supportState?: boolean | undefined;
   /** Access token scope that is going to be requested by default. Can be overridden at the API level. Should be provided in the form of a string containing space-delimited values. */
-  defaultScope?: string;
+  defaultScope?: string | undefined;
   /** Specifies the mechanism by which access token is passed to the API. */
-  bearerTokenSendingMethods?: AuthorizationServerContractPropertiesBearerTokenSendingMethodsList;
+  bearerTokenSendingMethods?:
+    | AuthorizationServerContractPropertiesBearerTokenSendingMethodsList
+    | undefined;
   /** Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username. */
-  resourceOwnerUsername?: string;
+  resourceOwnerUsername?: string | undefined;
   /** Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password. */
-  resourceOwnerPassword?: string | Redacted.Redacted<string>;
+  resourceOwnerPassword?: string | Redacted.Redacted<string> | undefined;
   /** User-friendly authorization server name. */
   displayName: string;
   /** If true, the authorization server may be used in the developer portal test console. True by default if no value is provided. */
-  useInTestConsole?: boolean;
+  useInTestConsole?: boolean | undefined;
   /** If true, the authorization server will be used in the API documentation in the developer portal. False by default if no value is provided. */
-  useInApiDocumentation?: boolean;
+  useInApiDocumentation?: boolean | undefined;
   /** Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced. */
   clientRegistrationEndpoint: string;
   /** OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2. */
@@ -3171,7 +3222,7 @@ export interface AuthorizationServerContractProperties {
   /** Client or app id registered with this authorization server. */
   clientId: string;
   /** Client or app secret registered with this authorization server. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AuthorizationServerCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3183,17 +3234,17 @@ export interface AuthorizationServerCreateOrUpdateRequest {
   /** Identifier of the authorization server. */
   authsid: string;
   /** Properties of the External OAuth authorization server Contract. */
-  properties?: AuthorizationServerContractProperties;
+  properties?: AuthorizationServerContractProperties | undefined;
 }
 export interface AuthorizationServerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the External OAuth authorization server Contract. */
-  properties?: AuthorizationServerContractProperties;
+  properties?: AuthorizationServerContractProperties | undefined;
 }
 /** The cluster management endpoint. */
 export type BackendServiceFabricClusterPropertiesManagementEndpointsList = Array<string>;
@@ -3202,31 +3253,33 @@ export type BackendServiceFabricClusterPropertiesServerCertificateThumbprintsLis
 /** Properties of server X509Names. */
 export interface X509CertificateName {
   /** Common Name of the Certificate. */
-  name?: string;
+  name?: string | undefined;
   /** Thumbprint for the Issuer of the Certificate. */
-  issuerCertificateThumbprint?: string;
+  issuerCertificateThumbprint?: string | undefined;
 }
 /** Server X509 Certificate Names Collection */
 export type BackendServiceFabricClusterPropertiesServerX509NamesList = Array<X509CertificateName>;
 /** Properties of the Service Fabric Type Backend. */
 export interface BackendServiceFabricClusterProperties {
   /** The client certificate id for the management endpoint. */
-  clientCertificateId?: string;
+  clientCertificateId?: string | undefined;
   /** The client certificate thumbprint for the management endpoint. Will be ignored if certificatesIds are provided */
-  clientCertificatethumbprint?: string;
+  clientCertificatethumbprint?: string | undefined;
   /** Maximum number of retries while attempting resolve the partition. */
-  maxPartitionResolutionRetries?: number;
+  maxPartitionResolutionRetries?: number | undefined;
   /** The cluster management endpoint. */
   managementEndpoints: BackendServiceFabricClusterPropertiesManagementEndpointsList;
   /** Thumbprints of certificates cluster management service uses for tls communication */
-  serverCertificateThumbprints?: BackendServiceFabricClusterPropertiesServerCertificateThumbprintsList;
+  serverCertificateThumbprints?:
+    | BackendServiceFabricClusterPropertiesServerCertificateThumbprintsList
+    | undefined;
   /** Server X509 Certificate Names Collection */
-  serverX509Names?: BackendServiceFabricClusterPropertiesServerX509NamesList;
+  serverX509Names?: BackendServiceFabricClusterPropertiesServerX509NamesList | undefined;
 }
 /** Properties specific to the Backend Type. */
 export interface BackendProperties {
   /** Backend Service Fabric Cluster Properties */
-  serviceFabricCluster?: BackendServiceFabricClusterProperties;
+  serviceFabricCluster?: BackendServiceFabricClusterProperties | undefined;
 }
 /** List of Client Certificate Ids. */
 export type BackendCredentialsContractCertificateIdsList = Array<string>;
@@ -3252,38 +3305,38 @@ export interface BackendAuthorizationHeaderCredentials {
 /** Details of the Credentials used to connect to Backend. */
 export interface BackendCredentialsContract {
   /** List of Client Certificate Ids. */
-  certificateIds?: BackendCredentialsContractCertificateIdsList;
+  certificateIds?: BackendCredentialsContractCertificateIdsList | undefined;
   /** List of Client Certificate Thumbprints. Will be ignored if certificatesIds are provided. */
-  certificate?: BackendCredentialsContractCertificateList;
+  certificate?: BackendCredentialsContractCertificateList | undefined;
   /** Query Parameter description. */
-  query?: BackendCredentialsContractQueryMap;
+  query?: BackendCredentialsContractQueryMap | undefined;
   /** Header Parameter description. */
-  header?: BackendCredentialsContractHeaderMap;
+  header?: BackendCredentialsContractHeaderMap | undefined;
   /** Authorization header authentication */
-  authorization?: BackendAuthorizationHeaderCredentials;
+  authorization?: BackendAuthorizationHeaderCredentials | undefined;
 }
 /** Details of the Backend WebProxy Server to use in the Request to Backend. */
 export interface BackendProxyContract {
   /** WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings. */
   url: string;
   /** Username to connect to the WebProxy server */
-  username?: string;
+  username?: string | undefined;
   /** Password to connect to the WebProxy Server */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Properties controlling TLS Certificate Validation. */
 export interface BackendTlsProperties {
   /** Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host. */
-  validateCertificateChain?: boolean;
+  validateCertificateChain?: boolean | undefined;
   /** Flag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host. */
-  validateCertificateName?: boolean;
+  validateCertificateName?: boolean | undefined;
 }
 /** The failure http status code range */
 export interface FailureStatusCodeRange {
   /** The minimum http status code. */
-  min?: number;
+  min?: number | undefined;
   /** The maximum http status code. */
-  max?: number;
+  max?: number | undefined;
 }
 /** The status code ranges which are considered as failure. */
 export type CircuitBreakerFailureConditionStatusCodeRangesList = Array<FailureStatusCodeRange>;
@@ -3292,48 +3345,48 @@ export type CircuitBreakerFailureConditionErrorReasonsList = Array<string>;
 /** The trip conditions of the circuit breaker */
 export interface CircuitBreakerFailureCondition {
   /** The threshold for opening the circuit. */
-  count?: number;
+  count?: number | undefined;
   /** The threshold for opening the circuit. */
-  percentage?: number;
+  percentage?: number | undefined;
   /** The interval during which the failures are counted. */
-  interval?: string;
+  interval?: string | undefined;
   /** The status code ranges which are considered as failure. */
-  statusCodeRanges?: CircuitBreakerFailureConditionStatusCodeRangesList;
+  statusCodeRanges?: CircuitBreakerFailureConditionStatusCodeRangesList | undefined;
   /** The error reasons which are considered as failure. */
-  errorReasons?: CircuitBreakerFailureConditionErrorReasonsList;
+  errorReasons?: CircuitBreakerFailureConditionErrorReasonsList | undefined;
 }
 /** Rule configuration to trip the backend. */
 export interface CircuitBreakerRule {
   /** The rule name. */
-  name?: string;
+  name?: string | undefined;
   /** The conditions for tripping the circuit breaker. */
-  failureCondition?: CircuitBreakerFailureCondition;
+  failureCondition?: CircuitBreakerFailureCondition | undefined;
   /** The duration for which the circuit will be tripped. */
-  tripDuration?: string;
+  tripDuration?: string | undefined;
   /** flag to accept Retry-After header from the backend. */
-  acceptRetryAfter?: boolean;
+  acceptRetryAfter?: boolean | undefined;
 }
 /** The rules for tripping the backend. */
 export type BackendCircuitBreakerRulesList = Array<CircuitBreakerRule>;
 /** The configuration of the backend circuit breaker */
 export interface BackendCircuitBreaker {
   /** The rules for tripping the backend. */
-  rules?: BackendCircuitBreakerRulesList;
+  rules?: BackendCircuitBreakerRulesList | undefined;
 }
 /** Backend pool service information */
 export interface BackendPoolItem {
   /** The unique ARM id of the backend entity. The ARM id should refer to an already existing backend entity. */
   id: string;
   /** The weight of the backend entity in the backend pool. Must be between 0 and 100. It can be also null if the value not specified. */
-  weight?: number;
+  weight?: number | undefined;
   /** The priority of the backend entity in the backend pool. Must be between 0 and 100. It can be also null if the value not specified. */
-  priority?: number;
+  priority?: number | undefined;
 }
 /** The list of backend entities belonging to a pool. */
 export type BackendContractPropertiesPoolServicesList = Array<BackendPoolItem>;
 export interface BackendContractPropertiesPool {
   /** The list of backend entities belonging to a pool. */
-  services?: BackendContractPropertiesPoolServicesList;
+  services?: BackendContractPropertiesPoolServicesList | undefined;
 }
 /** Type of the backend. A backend can be either Single or Pool. */
 export type BackendContractPropertiesType = "Single" | "Pool";
@@ -3342,28 +3395,28 @@ export type BackendContractPropertiesProtocol = "http" | "soap";
 /** Parameters supplied to the Create Backend operation. */
 export interface BackendContractProperties {
   /** Backend Title. */
-  title?: string;
+  title?: string | undefined;
   /** Backend Description. */
-  description?: string;
+  description?: string | undefined;
   /** Management Uri of the Resource in External System. This URL can be the Arm Resource Id of Logic Apps, Function Apps or API Apps. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Backend Properties contract */
-  properties?: BackendProperties;
+  properties?: BackendProperties | undefined;
   /** Backend Credentials Contract Properties */
-  credentials?: BackendCredentialsContract;
+  credentials?: BackendCredentialsContract | undefined;
   /** Backend gateway Contract Properties */
-  proxy?: BackendProxyContract;
+  proxy?: BackendProxyContract | undefined;
   /** Backend TLS Properties */
-  tls?: BackendTlsProperties;
+  tls?: BackendTlsProperties | undefined;
   /** Backend Circuit Breaker Configuration */
-  circuitBreaker?: BackendCircuitBreaker;
-  pool?: BackendContractPropertiesPool;
+  circuitBreaker?: BackendCircuitBreaker | undefined;
+  pool?: BackendContractPropertiesPool | undefined;
   /** Type of the backend. A backend can be either Single or Pool. */
-  type?: BackendContractPropertiesType | (string & {});
+  type?: BackendContractPropertiesType | (string & {}) | undefined;
   /** Runtime Url of the Backend. Required when backend type is 'Single'. */
-  url?: string;
+  url?: string | undefined;
   /** Backend communication protocol. Required when backend type is 'Single'. */
-  protocol?: BackendContractPropertiesProtocol | (string & {});
+  protocol?: BackendContractPropertiesProtocol | (string & {}) | undefined;
 }
 export interface BackendCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3375,22 +3428,22 @@ export interface BackendCreateOrUpdateRequest {
   /** Identifier of the Backend entity. Must be unique in the current API Management service instance. */
   backendId: string;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 export interface BackendCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 /** Properties to control reconnect requests. */
 export interface BackendReconnectProperties {
   /** Duration in ISO8601 format after which reconnect will be initiated. Minimum duration of the Reconnect is PT2M. */
-  after?: string;
+  after?: string | undefined;
 }
 export interface BackendReconnectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3402,19 +3455,19 @@ export interface BackendReconnectRequest {
   /** Identifier of the Backend entity. Must be unique in the current API Management service instance. */
   backendId: string;
   /** Reconnect request properties. */
-  properties?: BackendReconnectProperties;
+  properties?: BackendReconnectProperties | undefined;
 }
 export interface BackendReconnectResponse {}
 /** Properties of the Cache contract. */
 export interface CacheContractProperties {
   /** Cache description */
-  description?: string;
+  description?: string | undefined;
   /** Runtime connection string to cache */
   connectionString: string | Redacted.Redacted<string>;
   /** Location identifier to use cache from (should be either 'default' or valid Azure region identifier) */
   useFromLocation: string;
   /** Original uri of entity in external system cache points to */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface CacheCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3426,33 +3479,33 @@ export interface CacheCreateOrUpdateRequest {
   /** Identifier of the Cache entity. Cache identifier (should be either 'default' or valid Azure region identifier). */
   cacheId: string;
   /** Cache properties details. */
-  properties?: CacheContractProperties;
+  properties?: CacheContractProperties | undefined;
 }
 export interface CacheCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Cache properties details. */
-  properties?: CacheContractProperties;
+  properties?: CacheContractProperties | undefined;
 }
 /** Create keyVault contract details. */
 export interface KeyVaultContractCreateProperties {
   /** Key vault secret identifier for fetching secret. Providing a versioned secret will prevent auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi */
-  secretIdentifier?: string;
+  secretIdentifier?: string | undefined;
   /** Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret. */
-  identityClientId?: string;
+  identityClientId?: string | undefined;
 }
 /** Parameters supplied to the CreateOrUpdate certificate operation. */
 export interface CertificateCreateOrUpdateProperties {
   /** Base 64 encoded certificate using the application/x-pkcs12 representation. */
-  data?: string;
+  data?: string | undefined;
   /** Password for the Certificate */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** KeyVault location details of the certificate. */
-  keyVault?: KeyVaultContractCreateProperties;
+  keyVault?: KeyVaultContractCreateProperties | undefined;
 }
 export interface CertificateCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3464,25 +3517,25 @@ export interface CertificateCreateOrUpdateRequest {
   /** Identifier of the certificate entity. Must be unique in the current API Management service instance. */
   certificateId: string;
   /** Certificate create or update properties details. */
-  properties?: CertificateCreateOrUpdateProperties;
+  properties?: CertificateCreateOrUpdateProperties | undefined;
 }
 /** Issue contract Update Properties. */
 export interface KeyVaultLastAccessStatusContractProperties {
   /** Last status code for sync and refresh of secret from key vault. */
-  code?: string;
+  code?: string | undefined;
   /** Details of the error else empty. */
-  message?: string;
+  message?: string | undefined;
   /** Last time secret was accessed. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  timeStampUtc?: string;
+  timeStampUtc?: string | undefined;
 }
 /** KeyVault contract details. */
 export interface KeyVaultContractProperties {
   /** Key vault secret identifier for fetching secret. Providing a versioned secret will prevent auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi */
-  secretIdentifier?: string;
+  secretIdentifier?: string | undefined;
   /** Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret. */
-  identityClientId?: string;
+  identityClientId?: string | undefined;
   /** Last time sync and refresh status of secret from key vault. */
-  lastStatus?: KeyVaultLastAccessStatusContractProperties;
+  lastStatus?: KeyVaultLastAccessStatusContractProperties | undefined;
 }
 /** Properties of the Certificate contract. */
 export interface CertificateContractProperties {
@@ -3493,17 +3546,17 @@ export interface CertificateContractProperties {
   /** Expiration date of the certificate. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
   expirationDate: string;
   /** KeyVault location details of the certificate. */
-  keyVault?: KeyVaultContractProperties;
+  keyVault?: KeyVaultContractProperties | undefined;
 }
 export interface CertificateCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Certificate properties details. */
-  properties?: CertificateContractProperties;
+  properties?: CertificateContractProperties | undefined;
 }
 /** Resource type to check. */
 export type CheckAiGatewayNameAvailabilityOperationNameAvailabilityRequestType =
@@ -3525,9 +3578,9 @@ export interface AiGatewayCheckNameAvailabilityResponse {
   /** Whether the name is valid and available. */
   nameAvailable: boolean;
   /** Reason for the availability result. */
-  reason?: AiGatewayNameAvailabilityReason;
+  reason?: AiGatewayNameAvailabilityReason | undefined;
   /** Additional information about the availability result. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckApiManagementServiceNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3543,11 +3596,11 @@ export type ApiManagementServiceNameAvailabilityResultReason =
 /** Response of the CheckNameAvailability operation. */
 export interface ApiManagementServiceNameAvailabilityResult {
   /** True if the name is available and can be used to create a new API Management service; otherwise false. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that <resourceName> is already in use, and direct them to select a different name. */
-  message?: string;
+  message?: string | undefined;
   /** Invalid indicates the name provided does not match the resource provider's naming requirements (incorrect length, unsupported characters, etc.) AlreadyExists indicates that the name is already in use and is therefore unavailable. */
-  reason?: ApiManagementServiceNameAvailabilityResultReason;
+  reason?: ApiManagementServiceNameAvailabilityResultReason | undefined;
 }
 export interface ConfirmAuthorizationConsentCodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3561,7 +3614,7 @@ export interface ConfirmAuthorizationConsentCodeRequest {
   /** Identifier of the authorization. */
   authorizationId: string;
   /** The consent code from the authorization server after authorizing and consenting. */
-  consentCode?: string;
+  consentCode?: string | undefined;
 }
 export interface ConfirmAuthorizationConsentCodeResponse {}
 export type ContentItemContractProperties = { [key: string]: unknown | undefined };
@@ -3577,29 +3630,29 @@ export interface ContentItemCreateOrUpdateRequest {
   /** Content item identifier. */
   contentItemId: string;
   /** Properties of the content item. */
-  properties?: ContentItemContractProperties;
+  properties?: ContentItemContractProperties | undefined;
 }
 export interface ContentItemCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the content item. */
-  properties?: ContentItemContractProperties;
+  properties?: ContentItemContractProperties | undefined;
 }
 export interface ContentTypeContractProperties {
   /** Content type identifier */
-  id?: string;
+  id?: string | undefined;
   /** Content type name. Must be 1 to 250 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Content type description. */
-  description?: string;
+  description?: string | undefined;
   /** Content type schema. */
-  schema?: unknown;
+  schema?: unknown | undefined;
   /** Content type version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface ContentTypeCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3611,17 +3664,17 @@ export interface ContentTypeCreateOrUpdateRequest {
   /** Content type identifier. */
   contentTypeId: string;
   /** Properties of the content type. */
-  properties?: ContentTypeContractProperties;
+  properties?: ContentTypeContractProperties | undefined;
 }
 export interface ContentTypeCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the content type. */
-  properties?: ContentTypeContractProperties;
+  properties?: ContentTypeContractProperties | undefined;
 }
 export interface CreateGroupUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3640,9 +3693,9 @@ export type UserContractPropertiesState = "active" | "blocked" | "pending" | "de
 /** User identity details. */
 export interface UserIdentityContract {
   /** Identity provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** Identifier value within provider. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Collection of user identities. */
 export type UserContractPropertiesIdentitiesList = Array<UserIdentityContract>;
@@ -3653,56 +3706,56 @@ export interface UserContractPropertiesGroupsItem {
   /** Group name. */
   displayName: string;
   /** Group description. Can contain HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false. */
-  builtIn?: boolean;
+  builtIn?: boolean | undefined;
   /** Group type. */
-  type?: UserContractPropertiesGroupsItemType;
+  type?: UserContractPropertiesGroupsItemType | undefined;
   /** For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null. */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 /** Collection of groups user is part of. */
 export type UserContractPropertiesGroupsList = Array<UserContractPropertiesGroupsItem>;
 /** User profile. */
 export interface UserContractProperties {
   /** Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active. */
-  state?: UserContractPropertiesState;
+  state?: UserContractPropertiesState | undefined;
   /** Optional note about a user set by the administrator. */
-  note?: string;
+  note?: string | undefined;
   /** Collection of user identities. */
-  identities?: UserContractPropertiesIdentitiesList;
+  identities?: UserContractPropertiesIdentitiesList | undefined;
   /** First name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Email address. */
-  email?: string;
+  email?: string | undefined;
   /** Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  registrationDate?: string;
+  registrationDate?: string | undefined;
   /** Collection of groups user is part of. */
-  groups?: UserContractPropertiesGroupsList;
+  groups?: UserContractPropertiesGroupsList | undefined;
 }
 export interface CreateGroupUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** User entity contract properties. */
-  properties?: UserContractProperties;
+  properties?: UserContractProperties | undefined;
 }
 export type CreateTenantAccessRequestAccessName = "access" | "gitAccess";
 /** Tenant access information update parameters of the API Management service */
 export interface AccessInformationCreateParameterProperties {
   /** Principal (User) Identifier. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Primary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Determines whether direct access is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateTenantAccessRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3714,26 +3767,26 @@ export interface CreateTenantAccessRequest {
   /** The identifier of the Access configuration. */
   accessName: CreateTenantAccessRequestAccessName | (string & {});
   /** Tenant access information update parameter properties. */
-  properties?: AccessInformationCreateParameterProperties;
+  properties?: AccessInformationCreateParameterProperties | undefined;
 }
 /** Tenant access information contract of the API Management service. */
 export interface AccessInformationContractProperties {
   /** Access Information type ('access' or 'gitAccess') */
-  id?: string;
+  id?: string | undefined;
   /** Principal (User) Identifier. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Determines whether direct access is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface CreateTenantAccessResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** AccessInformation entity contract properties. */
-  properties?: AccessInformationContractProperties;
+  properties?: AccessInformationContractProperties | undefined;
 }
 export interface CreateWorkspaceGroupUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3751,13 +3804,13 @@ export interface CreateWorkspaceGroupUserRequest {
 }
 export interface CreateWorkspaceGroupUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** User entity contract properties. */
-  properties?: UserContractProperties;
+  properties?: UserContractProperties | undefined;
 }
 export interface DeleteAiGatewayAliasResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3821,9 +3874,9 @@ export interface DeleteAiGatewayResourceRequest {
 }
 export interface DeleteAiGatewayResourceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAiGatewayTelemetryExporterResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3861,13 +3914,13 @@ export interface DeleteApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** Delete all revisions of the Api. */
-  deleteRevisions?: boolean;
+  deleteRevisions?: boolean | undefined;
 }
 export interface DeleteApiResponse {
   /** Location header */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeleteApiDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3892,7 +3945,7 @@ export interface DeleteApiGatewayRequest {
 }
 export interface DeleteApiGatewayResponse {
   /** Location header */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteApiGatewayConfigConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3906,7 +3959,7 @@ export interface DeleteApiGatewayConfigConnectionRequest {
 }
 export interface DeleteApiGatewayConfigConnectionResponse {
   /** Location header */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteApiIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3961,7 +4014,7 @@ export interface DeleteApiManagementServiceRequest {
 }
 export interface DeleteApiManagementServiceResponse {
   /** Location header */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteApiOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4031,7 +4084,7 @@ export interface DeleteApiSchemaRequest {
   /** Schema id identifier. Must be unique in the current API Management service instance. */
   schemaId: string;
   /** If true removes all references to the schema before deleting it. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteApiSchemaResponse {}
 export interface DeleteApiTagDescriptionRequest {
@@ -4477,7 +4530,7 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** Location header */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4489,7 +4542,7 @@ export interface DeleteProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Delete existing subscriptions associated with the product or not. */
-  deleteSubscriptions?: boolean;
+  deleteSubscriptions?: boolean | undefined;
 }
 export interface DeleteProductResponse {}
 export interface DeleteProductApiRequest {
@@ -4641,17 +4694,17 @@ export interface DeleteUserRequest {
   /** User identifier. Must be unique in the current API Management service instance. */
   userId: string;
   /** Whether to delete user's subscription or not. */
-  deleteSubscriptions?: boolean;
+  deleteSubscriptions?: boolean | undefined;
   /** Send an Account Closed Email notification to the User. */
-  notify?: boolean;
+  notify?: boolean | undefined;
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
-  appType?: DeleteUserRequestAppType | (string & {});
+  appType?: DeleteUserRequestAppType | (string & {}) | undefined;
 }
 export interface DeleteUserResponse {
   /** Location header */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeleteWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4676,7 +4729,7 @@ export interface DeleteWorkspaceApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** Delete all revisions of the Api. */
-  deleteRevisions?: boolean;
+  deleteRevisions?: boolean | undefined;
 }
 export interface DeleteWorkspaceApiResponse {}
 export interface DeleteWorkspaceApiDiagnosticRequest {
@@ -4772,7 +4825,7 @@ export interface DeleteWorkspaceApiSchemaRequest {
   /** Schema id identifier. Must be unique in the current API Management service instance. */
   schemaId: string;
   /** If true removes all references to the schema before deleting it. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteWorkspaceApiSchemaResponse {}
 export interface DeleteWorkspaceApiVersionSetRequest {
@@ -4981,7 +5034,7 @@ export interface DeleteWorkspaceProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Delete existing subscriptions associated with the product or not. */
-  deleteSubscriptions?: boolean;
+  deleteSubscriptions?: boolean | undefined;
 }
 export interface DeleteWorkspaceProductResponse {}
 export interface DeleteWorkspaceProductApiLinkRequest {
@@ -5107,7 +5160,7 @@ export interface DeployConfigurationParameterProperties {
   /** The name of the Git branch from which the configuration is to be deployed to the configuration database. */
   branch: string;
   /** The value enforcing deleting subscriptions to products that are deleted in this update. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeployTenantConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5119,7 +5172,7 @@ export interface DeployTenantConfigurationRequest {
   /** The identifier of the Git Configuration Operation. */
   configurationName: DeployTenantConfigurationRequestConfigurationName | (string & {});
   /** Deploy Configuration Parameter contract properties. */
-  properties?: DeployConfigurationParameterProperties;
+  properties?: DeployConfigurationParameterProperties | undefined;
 }
 /** Status of an async operation. */
 export type OperationResultContractPropertiesStatus =
@@ -5130,61 +5183,61 @@ export type OperationResultContractPropertiesStatus =
 /** Error Field contract. */
 export interface ErrorFieldContract {
   /** Property level error code. */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable representation of property-level error. */
-  message?: string;
+  message?: string | undefined;
   /** Property name. */
-  target?: string;
+  target?: string | undefined;
 }
 /** The list of invalid fields send in request, in case of validation error. */
 export type OperationResultContractPropertiesErrorDetailsList = Array<ErrorFieldContract>;
 /** Error Body contract. */
 export interface OperationResultContractPropertiesError {
   /** Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response. */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable representation of the error. */
-  message?: string;
+  message?: string | undefined;
   /** The list of invalid fields send in request, in case of validation error. */
-  details?: OperationResultContractPropertiesErrorDetailsList;
+  details?: OperationResultContractPropertiesErrorDetailsList | undefined;
 }
 /** Log of the entity being created, updated or deleted. */
 export interface OperationResultLogItemContract {
   /** The type of entity contract. */
-  objectType?: string;
+  objectType?: string | undefined;
   /** Action like create/update/delete. */
-  action?: string;
+  action?: string | undefined;
   /** Identifier of the entity being created/updated/deleted. */
-  objectKey?: string;
+  objectKey?: string | undefined;
 }
 /** This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation. */
 export type OperationResultContractPropertiesActionLogList = Array<OperationResultLogItemContract>;
 /** Operation Result. */
 export interface OperationResultContractProperties {
   /** Operation result identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Status of an async operation. */
-  status?: OperationResultContractPropertiesStatus;
+  status?: OperationResultContractPropertiesStatus | undefined;
   /** Start time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  started?: string;
+  started?: string | undefined;
   /** Last update time of an async operation. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  updated?: string;
+  updated?: string | undefined;
   /** Optional result info. */
-  resultInfo?: string;
+  resultInfo?: string | undefined;
   /** Error Body contract. */
-  error?: OperationResultContractPropertiesError;
+  error?: OperationResultContractPropertiesError | undefined;
   /** This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation. */
-  actionLog?: OperationResultContractPropertiesActionLogList;
+  actionLog?: OperationResultContractPropertiesActionLogList | undefined;
 }
 export interface DeployTenantConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationResultContractProperties;
-  location?: string;
+  properties?: OperationResultContractProperties | undefined;
+  location?: string | undefined;
 }
 export interface DetachTagFromApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5237,24 +5290,24 @@ export interface DiagnosticCreateOrUpdateRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface DiagnosticCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 /** Markdown documentation details. */
 export interface DocumentationContractProperties {
   /** documentation title. */
-  title?: string;
+  title?: string | undefined;
   /** Markdown documentation content. */
-  content?: string;
+  content?: string | undefined;
 }
 export interface DocumentationCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5266,17 +5319,17 @@ export interface DocumentationCreateOrUpdateRequest {
   /** Documentation identifier. Must be unique in the current API Management service instance. */
   documentationId: string;
   /** Markdown Documentation details. */
-  properties?: DocumentationContractProperties;
+  properties?: DocumentationContractProperties | undefined;
 }
 export interface DocumentationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Markdown Documentation details. */
-  properties?: DocumentationContractProperties;
+  properties?: DocumentationContractProperties | undefined;
 }
 export type EmailTemplateCreateOrUpdateRequestTemplateName =
   | "applicationApprovedNotificationMessage"
@@ -5296,11 +5349,11 @@ export type EmailTemplateCreateOrUpdateRequestTemplateName =
 /** Email Template Parameter contract. */
 export interface EmailTemplateParametersContractProperties {
   /** Template parameter name. */
-  name?: string;
+  name?: string | undefined;
   /** Template parameter title. */
-  title?: string;
+  title?: string | undefined;
   /** Template parameter description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Email Template Parameter values. */
 export type EmailTemplateUpdateParameterPropertiesParametersList =
@@ -5308,15 +5361,15 @@ export type EmailTemplateUpdateParameterPropertiesParametersList =
 /** Email Template Update Contract properties. */
 export interface EmailTemplateUpdateParameterProperties {
   /** Subject of the Template. */
-  subject?: string;
+  subject?: string | undefined;
   /** Title of the Template. */
-  title?: string;
+  title?: string | undefined;
   /** Description of the Email Template. */
-  description?: string;
+  description?: string | undefined;
   /** Email Template Body. This should be a valid XDocument */
-  body?: string;
+  body?: string | undefined;
   /** Email Template Parameter values. */
-  parameters?: EmailTemplateUpdateParameterPropertiesParametersList;
+  parameters?: EmailTemplateUpdateParameterPropertiesParametersList | undefined;
 }
 export interface EmailTemplateCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5328,7 +5381,7 @@ export interface EmailTemplateCreateOrUpdateRequest {
   /** Email Template Name Identifier. */
   templateName: EmailTemplateCreateOrUpdateRequestTemplateName | (string & {});
   /** Email Template Update contract properties. */
-  properties?: EmailTemplateUpdateParameterProperties;
+  properties?: EmailTemplateUpdateParameterProperties | undefined;
 }
 /** Email Template Parameter values. */
 export type EmailTemplateContractPropertiesParametersList =
@@ -5340,30 +5393,33 @@ export interface EmailTemplateContractProperties {
   /** Email Template Body. This should be a valid XDocument */
   body: string;
   /** Title of the Template. */
-  title?: string;
+  title?: string | undefined;
   /** Description of the Email Template. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the template is the default template provided by API Management or has been edited. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Email Template Parameter values. */
-  parameters?: EmailTemplateContractPropertiesParametersList;
+  parameters?: EmailTemplateContractPropertiesParametersList | undefined;
 }
 export interface EmailTemplateCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Email Template entity contract properties. */
-  properties?: EmailTemplateContractProperties;
+  properties?: EmailTemplateContractProperties | undefined;
 }
 /** Provisioning state. */
 export type GatewayApiCreateOrUpdateRequestPropertiesProvisioningState = "created";
 /** Association entity contract properties. */
 export interface GatewayApiCreateOrUpdateRequestProperties {
   /** Provisioning state. */
-  provisioningState?: GatewayApiCreateOrUpdateRequestPropertiesProvisioningState | (string & {});
+  provisioningState?:
+    | GatewayApiCreateOrUpdateRequestPropertiesProvisioningState
+    | (string & {})
+    | undefined;
 }
 export interface GatewayApiCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5377,22 +5433,22 @@ export interface GatewayApiCreateOrUpdateRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** Association entity contract properties. */
-  properties?: GatewayApiCreateOrUpdateRequestProperties;
+  properties?: GatewayApiCreateOrUpdateRequestProperties | undefined;
 }
 export interface GatewayApiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
 }
 /** Gateway certificate authority details. */
 export interface GatewayCertificateAuthorityContractProperties {
   /** Determines whether certificate authority is trusted. */
-  isTrusted?: boolean;
+  isTrusted?: boolean | undefined;
 }
 export interface GatewayCertificateAuthorityCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5406,35 +5462,35 @@ export interface GatewayCertificateAuthorityCreateOrUpdateRequest {
   /** Identifier of the certificate entity. Must be unique in the current API Management service instance. */
   certificateId: string;
   /** Gateway certificate authority details. */
-  properties?: GatewayCertificateAuthorityContractProperties;
+  properties?: GatewayCertificateAuthorityContractProperties | undefined;
 }
 export interface GatewayCertificateAuthorityCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway certificate authority details. */
-  properties?: GatewayCertificateAuthorityContractProperties;
+  properties?: GatewayCertificateAuthorityContractProperties | undefined;
 }
 /** Resource location data properties. */
 export interface ResourceLocationDataContract {
   /** A canonical name for the geographic or physical location. */
   name: string;
   /** The city or locality where the resource is located. */
-  city?: string;
+  city?: string | undefined;
   /** The district, state, or province where the resource is located. */
-  district?: string;
+  district?: string | undefined;
   /** The country or region where the resource is located. */
-  countryOrRegion?: string;
+  countryOrRegion?: string | undefined;
 }
 /** Properties of the Gateway contract. */
 export interface GatewayContractProperties {
   /** Gateway location. */
-  locationData?: ResourceLocationDataContract;
+  locationData?: ResourceLocationDataContract | undefined;
   /** Gateway description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GatewayCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5446,32 +5502,32 @@ export interface GatewayCreateOrUpdateRequest {
   /** Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed' */
   gatewayId: string;
   /** Gateway details. */
-  properties?: GatewayContractProperties;
+  properties?: GatewayContractProperties | undefined;
 }
 export interface GatewayCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway details. */
-  properties?: GatewayContractProperties;
+  properties?: GatewayContractProperties | undefined;
 }
 /** Gateway hostname configuration details. */
 export interface GatewayHostnameConfigurationContractProperties {
   /** Hostname value. Supports valid domain name, partial or full wildcard */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Identifier of Certificate entity that will be used for TLS connection establishment */
-  certificateId?: string;
+  certificateId?: string | undefined;
   /** Determines whether gateway requests client certificate */
-  negotiateClientCertificate?: boolean;
+  negotiateClientCertificate?: boolean | undefined;
   /** Specifies if TLS 1.0 is supported */
-  tls10Enabled?: boolean;
+  tls10Enabled?: boolean | undefined;
   /** Specifies if TLS 1.1 is supported */
-  tls11Enabled?: boolean;
+  tls11Enabled?: boolean | undefined;
   /** Specifies if HTTP/2.0 is supported */
-  http2Enabled?: boolean;
+  http2Enabled?: boolean | undefined;
 }
 export interface GatewayHostnameConfigurationCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5485,17 +5541,17 @@ export interface GatewayHostnameConfigurationCreateOrUpdateRequest {
   /** Gateway hostname configuration identifier. Must be unique in the scope of parent Gateway entity. */
   hcId: string;
   /** Gateway hostname configuration details. */
-  properties?: GatewayHostnameConfigurationContractProperties;
+  properties?: GatewayHostnameConfigurationContractProperties | undefined;
 }
 export interface GatewayHostnameConfigurationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway hostname configuration details. */
-  properties?: GatewayHostnameConfigurationContractProperties;
+  properties?: GatewayHostnameConfigurationContractProperties | undefined;
 }
 /** The Key to be used to generate gateway token. */
 export type GenerateGatewayTokenRequestKeyType = "primary" | "secondary";
@@ -5515,7 +5571,7 @@ export interface GenerateGatewayTokenRequest {
 }
 export interface GenerateGatewayTokenResponse {
   /** Shared Access Authentication token value for the Gateway. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GenerateUserSsoUrlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5529,7 +5585,7 @@ export interface GenerateUserSsoUrlRequest {
 }
 export interface GenerateUserSsoUrlResponse {
   /** Redirect Url containing the SSO URL value. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetAiGatewayAliasResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5545,17 +5601,17 @@ export interface GetAiGatewayAliasResourceRequest {
 }
 export interface GetAiGatewayAliasResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayAliasProperties;
+  properties?: AiGatewayAliasProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetAiGatewayApiKeyResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5569,17 +5625,17 @@ export interface GetAiGatewayApiKeyResourceRequest {
 }
 export interface GetAiGatewayApiKeyResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayApiKeyProperties;
+  properties?: AiGatewayApiKeyProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetAiGatewayModelProviderResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5595,17 +5651,17 @@ export interface GetAiGatewayModelProviderResourceRequest {
 }
 export interface GetAiGatewayModelProviderResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProviderProperties;
+  properties?: AiGatewayModelProviderProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetAiGatewayModelResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5623,17 +5679,17 @@ export interface GetAiGatewayModelResourceRequest {
 }
 export interface GetAiGatewayModelResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProperties;
+  properties?: AiGatewayModelProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetAiGatewayResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5652,36 +5708,38 @@ export type GetAiGatewayResourceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetAiGatewayResourceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetAiGatewayResourceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | GetAiGatewayResourceResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** The resource model definition representing SKU */
 export type GetAiGatewayResourceResponseSku = AiGatewayResourcesCreateOrUpdateResponseSku;
 export interface GetAiGatewayResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAiGatewayResourceResponseTagsMap;
+  tags?: GetAiGatewayResourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
   properties: AiGatewayProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetAiGatewayResourceResponseIdentity;
+  identity?: GetAiGatewayResourceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: AiGatewayResourcesCreateOrUpdateResponseSku;
+  sku?: AiGatewayResourcesCreateOrUpdateResponseSku | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetAiGatewayTelemetryExporterResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5697,17 +5755,17 @@ export interface GetAiGatewayTelemetryExporterResourceRequest {
 }
 export interface GetAiGatewayTelemetryExporterResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayTelemetryExporterProperties;
+  properties?: AiGatewayTelemetryExporterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetAiGatewayToolServerEndpointOperationLoginLinksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5726,9 +5784,9 @@ export interface GetAiGatewayToolServerEndpointOperationLoginLinksRequest {
 /** Links for completing OAuth consent for a tool-server endpoint. */
 export interface AiGatewayToolServerOauth2LoginLinks {
   /** Gateway URL to open to begin consent; includes an expiring signed capability. */
-  loginLink?: string;
+  loginLink?: string | undefined;
   /** Gateway callback URI to register with the identity provider. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** UTC expiry of the signed start capability. */
   expiresUtc: string;
 }
@@ -5746,17 +5804,17 @@ export interface GetAiGatewayToolServerResourceRequest {
 }
 export interface GetAiGatewayToolServerResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayToolServerProperties;
+  properties?: AiGatewayToolServerProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetAiGatewayWorkspaceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5777,23 +5835,23 @@ export interface AiGatewayWorkspaceProperties {
   /** Description of the workspace. */
   description: string;
   /** Inline governance policies for the default workspace. */
-  policies?: AiGatewayWorkspacePropertiesPoliciesList;
+  policies?: AiGatewayWorkspacePropertiesPoliciesList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: AiGatewayProvisioningState;
+  provisioningState?: AiGatewayProvisioningState | undefined;
 }
 export interface GetAiGatewayWorkspaceResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayWorkspaceProperties;
+  properties?: AiGatewayWorkspaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5807,13 +5865,13 @@ export interface GetApiRequest {
 }
 export interface GetApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
 }
 export interface GetApiDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5829,13 +5887,13 @@ export interface GetApiDiagnosticRequest {
 }
 export interface GetApiDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface GetApiGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5862,37 +5920,37 @@ export type GetApiGatewayResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApiGatewayResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApiGatewayResponseSystemDataCreatedByType;
+  createdByType?: GetApiGatewayResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApiGatewayResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApiGatewayResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetApiGatewayResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetApiGatewayResponseTagsMap;
+  tags?: GetApiGatewayResponseTagsMap | undefined;
   /** Properties of the API Management gateway. */
   properties: ApiManagementGatewayProperties;
   /** SKU properties of the API Management gateway. */
   sku: ApiManagementGatewaySkuProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApiGatewayResponseSystemData;
+  systemData?: GetApiGatewayResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetApiGatewayConfigConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5906,15 +5964,15 @@ export interface GetApiGatewayConfigConnectionRequest {
 }
 export interface GetApiGatewayConfigConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Management gateway config connection. */
   properties: GatewayConfigConnectionBaseProperties;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetApiIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5928,17 +5986,17 @@ export interface GetApiIssueRequest {
   /** Issue identifier. Must be unique in the current API Management service instance. */
   issueId: string;
   /** Expand the comment attachments. */
-  expandCommentsAttachments?: boolean;
+  expandCommentsAttachments?: boolean | undefined;
 }
 export interface GetApiIssueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue. */
-  properties?: IssueContractProperties;
+  properties?: IssueContractProperties | undefined;
 }
 export interface GetApiIssueAttachmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5956,13 +6014,13 @@ export interface GetApiIssueAttachmentRequest {
 }
 export interface GetApiIssueAttachmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue Attachment. */
-  properties?: IssueAttachmentContractProperties;
+  properties?: IssueAttachmentContractProperties | undefined;
 }
 export interface GetApiIssueCommentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5980,13 +6038,13 @@ export interface GetApiIssueCommentRequest {
 }
 export interface GetApiIssueCommentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue Comment. */
-  properties?: IssueCommentContractProperties;
+  properties?: IssueCommentContractProperties | undefined;
 }
 export interface GetApiManagementServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6013,43 +6071,43 @@ export type GetApiManagementServiceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApiManagementServiceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApiManagementServiceResponseSystemDataCreatedByType;
+  createdByType?: GetApiManagementServiceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApiManagementServiceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApiManagementServiceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type GetApiManagementServiceResponseZonesList = Array<string>;
 export interface GetApiManagementServiceResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetApiManagementServiceResponseTagsMap;
+  tags?: GetApiManagementServiceResponseTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApiManagementServiceResponseSystemData;
+  systemData?: GetApiManagementServiceResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: GetApiManagementServiceResponseZonesList;
+  zones?: GetApiManagementServiceResponseZonesList | undefined;
 }
 export interface GetApiManagementServiceDomainOwnershipIdentifierRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6058,7 +6116,7 @@ export interface GetApiManagementServiceDomainOwnershipIdentifierRequest {
 /** Response of the GetDomainOwnershipIdentifier operation. */
 export interface ApiManagementServiceGetDomainOwnershipIdentifierResult {
   /** The domain ownership identifier value. */
-  domainOwnershipIdentifier?: string;
+  domainOwnershipIdentifier?: string | undefined;
 }
 export interface GetApiManagementServiceSsoTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6071,7 +6129,7 @@ export interface GetApiManagementServiceSsoTokenRequest {
 /** The response of the GetSsoToken operation. */
 export interface ApiManagementServiceGetSsoTokenResult {
   /** Redirect URL to the Publisher Portal containing the SSO token. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
 }
 export interface GetApiManagementWorkspaceLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6085,28 +6143,28 @@ export interface GetApiManagementWorkspaceLinkRequest {
 }
 export interface WorkspaceLinksGateway {
   /** The link to the API Management gateway. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The array of linked gateways. */
 export type ApiManagementWorkspaceLinksPropertiesGatewaysList = Array<WorkspaceLinksGateway>;
 /** Properties of an API Management workspaceLinks resource. */
 export interface ApiManagementWorkspaceLinksProperties {
   /** The link to the API Management service workspace. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The array of linked gateways. */
-  gateways?: ApiManagementWorkspaceLinksPropertiesGatewaysList;
+  gateways?: ApiManagementWorkspaceLinksPropertiesGatewaysList | undefined;
 }
 export interface GetApiManagementWorkspaceLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Management WorkspaceLinks. */
   properties: ApiManagementWorkspaceLinksProperties;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetApiOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6122,13 +6180,13 @@ export interface GetApiOperationRequest {
 }
 export interface GetApiOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export type GetApiOperationPolicyRequestPolicyId = "policy";
 export type GetApiOperationPolicyRequestFormat = "xml" | "rawxml";
@@ -6146,17 +6204,17 @@ export interface GetApiOperationPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetApiOperationPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetApiOperationPolicyRequestFormat | (string & {});
+  format?: GetApiOperationPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetApiOperationPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export type GetApiPolicyRequestPolicyId = "policy";
 export type GetApiPolicyRequestFormat = "xml" | "rawxml";
@@ -6172,17 +6230,17 @@ export interface GetApiPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetApiPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetApiPolicyRequestFormat | (string & {});
+  format?: GetApiPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetApiPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface GetApiReleaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6198,13 +6256,13 @@ export interface GetApiReleaseRequest {
 }
 export interface GetApiReleaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractProperties;
+  properties?: ApiReleaseContractProperties | undefined;
 }
 export interface GetApiSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6220,13 +6278,13 @@ export interface GetApiSchemaRequest {
 }
 export interface GetApiSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Schema. */
-  properties?: SchemaContractProperties;
+  properties?: SchemaContractProperties | undefined;
 }
 export interface GetApiTagDescriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6242,13 +6300,13 @@ export interface GetApiTagDescriptionRequest {
 }
 export interface GetApiTagDescriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** TagDescription entity contract properties. */
-  properties?: TagDescriptionContractProperties;
+  properties?: TagDescriptionContractProperties | undefined;
 }
 export interface GetApiVersionSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6262,13 +6320,13 @@ export interface GetApiVersionSetRequest {
 }
 export interface GetApiVersionSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 export interface GetApiWikiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6282,13 +6340,13 @@ export interface GetApiWikiRequest {
 }
 export interface GetApiWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface GetAuthorizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6304,13 +6362,13 @@ export interface GetAuthorizationRequest {
 }
 export interface GetAuthorizationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationContractProperties;
+  properties?: AuthorizationContractProperties | undefined;
 }
 export interface GetAuthorizationAccessPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6328,13 +6386,13 @@ export interface GetAuthorizationAccessPolicyRequest {
 }
 export interface GetAuthorizationAccessPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationAccessPolicyContractProperties;
+  properties?: AuthorizationAccessPolicyContractProperties | undefined;
 }
 export interface GetAuthorizationProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6348,13 +6406,13 @@ export interface GetAuthorizationProviderRequest {
 }
 export interface GetAuthorizationProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Provider Contract. */
-  properties?: AuthorizationProviderContractProperties;
+  properties?: AuthorizationProviderContractProperties | undefined;
 }
 export interface GetAuthorizationServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6368,13 +6426,13 @@ export interface GetAuthorizationServerRequest {
 }
 export interface GetAuthorizationServerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the External OAuth authorization server Contract. */
-  properties?: AuthorizationServerContractProperties;
+  properties?: AuthorizationServerContractProperties | undefined;
 }
 export interface GetBackendRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6388,13 +6446,13 @@ export interface GetBackendRequest {
 }
 export interface GetBackendResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 export interface GetCacheRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6408,13 +6466,13 @@ export interface GetCacheRequest {
 }
 export interface GetCacheResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Cache properties details. */
-  properties?: CacheContractProperties;
+  properties?: CacheContractProperties | undefined;
 }
 export interface GetCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6428,13 +6486,13 @@ export interface GetCertificateRequest {
 }
 export interface GetCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Certificate properties details. */
-  properties?: CertificateContractProperties;
+  properties?: CertificateContractProperties | undefined;
 }
 export interface GetContentItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6450,13 +6508,13 @@ export interface GetContentItemRequest {
 }
 export interface GetContentItemResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the content item. */
-  properties?: ContentItemContractProperties;
+  properties?: ContentItemContractProperties | undefined;
 }
 export interface GetContentTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6470,13 +6528,13 @@ export interface GetContentTypeRequest {
 }
 export interface GetContentTypeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the content type. */
-  properties?: ContentTypeContractProperties;
+  properties?: ContentTypeContractProperties | undefined;
 }
 export interface GetDeletedServiceByNameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6488,23 +6546,23 @@ export interface GetDeletedServiceByNameRequest {
 }
 export interface DeletedServiceContractProperties {
   /** Fully-qualified API Management Service Resource ID */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** UTC Date and Time when the service will be automatically purged. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
-  scheduledPurgeDate?: string;
+  scheduledPurgeDate?: string | undefined;
   /** UTC Timestamp when the service was soft-deleted. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
 }
 export interface GetDeletedServiceByNameResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Deleted API Management Service details. */
-  properties?: DeletedServiceContractProperties;
+  properties?: DeletedServiceContractProperties | undefined;
   /** API Management Service Master Location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6518,13 +6576,13 @@ export interface GetDiagnosticRequest {
 }
 export interface GetDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface GetDocumentationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6538,13 +6596,13 @@ export interface GetDocumentationRequest {
 }
 export interface GetDocumentationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Markdown Documentation details. */
-  properties?: DocumentationContractProperties;
+  properties?: DocumentationContractProperties | undefined;
 }
 export type GetEmailTemplateRequestTemplateName =
   | "applicationApprovedNotificationMessage"
@@ -6573,13 +6631,13 @@ export interface GetEmailTemplateRequest {
 }
 export interface GetEmailTemplateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Email Template entity contract properties. */
-  properties?: EmailTemplateContractProperties;
+  properties?: EmailTemplateContractProperties | undefined;
 }
 export interface GetGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6593,13 +6651,13 @@ export interface GetGatewayRequest {
 }
 export interface GetGatewayResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway details. */
-  properties?: GatewayContractProperties;
+  properties?: GatewayContractProperties | undefined;
 }
 export interface GetGatewayCertificateAuthorityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6615,13 +6673,13 @@ export interface GetGatewayCertificateAuthorityRequest {
 }
 export interface GetGatewayCertificateAuthorityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway certificate authority details. */
-  properties?: GatewayCertificateAuthorityContractProperties;
+  properties?: GatewayCertificateAuthorityContractProperties | undefined;
 }
 export interface GetGatewayHostnameConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6637,13 +6695,13 @@ export interface GetGatewayHostnameConfigurationRequest {
 }
 export interface GetGatewayHostnameConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway hostname configuration details. */
-  properties?: GatewayHostnameConfigurationContractProperties;
+  properties?: GatewayHostnameConfigurationContractProperties | undefined;
 }
 export interface GetGlobalSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6662,23 +6720,23 @@ export interface GlobalSchemaContractProperties {
   /** Schema Type. Immutable. */
   schemaType: GlobalSchemaContractPropertiesSchemaType;
   /** Free-form schema entity description. */
-  description?: string;
+  description?: string | undefined;
   /** Json-encoded string for non json-based schema. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Global Schema document object for json-based schema formats(e.g. json schema). */
-  document?: unknown;
+  document?: unknown | undefined;
   /** The provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetGlobalSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Global Schema. */
-  properties?: GlobalSchemaContractProperties;
+  properties?: GlobalSchemaContractProperties | undefined;
 }
 export interface GetGraphQLApiResolverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6695,21 +6753,21 @@ export interface GetGraphQLApiResolverRequest {
 /** GraphQL API Resolver Entity Base Contract details. */
 export interface ResolverEntityBaseContract {
   /** Resolver Name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Path is type/field being resolved. */
-  path?: string;
+  path?: string | undefined;
   /** Description of the resolver. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetGraphQLApiResolverResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Resolver Contract. */
-  properties?: ResolverEntityBaseContract;
+  properties?: ResolverEntityBaseContract | undefined;
 }
 export type GetGraphQLApiResolverPolicyRequestPolicyId = "policy";
 export type GetGraphQLApiResolverPolicyRequestFormat = "xml" | "rawxml";
@@ -6727,17 +6785,17 @@ export interface GetGraphQLApiResolverPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetGraphQLApiResolverPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetGraphQLApiResolverPolicyRequestFormat | (string & {});
+  format?: GetGraphQLApiResolverPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetGraphQLApiResolverPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface GetGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6756,23 +6814,23 @@ export interface GroupContractProperties {
   /** Group name. */
   displayName: string;
   /** Group description. Can contain HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false. */
-  builtIn?: boolean;
+  builtIn?: boolean | undefined;
   /** Group type. */
-  type?: GroupContractPropertiesType;
+  type?: GroupContractPropertiesType | undefined;
   /** For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null. */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface GetGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 export type GetIdentityProviderRequestIdentityProviderName =
   | "facebook"
@@ -6804,37 +6862,37 @@ export type IdentityProviderContractPropertiesAllowedTenantsList = Array<string>
 /** The external Identity Providers like Facebook, Google, Microsoft, Twitter or Azure Active Directory which can be used to enable access to the API Management service developer portal for all users. */
 export interface IdentityProviderContractProperties {
   /** Identity Provider Type identifier. */
-  type?: IdentityProviderContractPropertiesType;
+  type?: IdentityProviderContractPropertiesType | undefined;
   /** The TenantId to use instead of Common when logging into Active Directory */
-  signinTenant?: string;
+  signinTenant?: string | undefined;
   /** List of Allowed Tenants when configuring Azure Active Directory login. */
-  allowedTenants?: IdentityProviderContractPropertiesAllowedTenantsList;
+  allowedTenants?: IdentityProviderContractPropertiesAllowedTenantsList | undefined;
   /** OpenID Connect discovery endpoint hostname for AAD or AAD B2C. */
-  authority?: string;
+  authority?: string | undefined;
   /** Signup Policy Name. Only applies to AAD B2C Identity Provider. */
-  signupPolicyName?: string;
+  signupPolicyName?: string | undefined;
   /** Signin Policy Name. Only applies to AAD B2C Identity Provider. */
-  signinPolicyName?: string;
+  signinPolicyName?: string | undefined;
   /** Profile Editing Policy Name. Only applies to AAD B2C Identity Provider. */
-  profileEditingPolicyName?: string;
+  profileEditingPolicyName?: string | undefined;
   /** Password Reset Policy Name. Only applies to AAD B2C Identity Provider. */
-  passwordResetPolicyName?: string | Redacted.Redacted<string>;
+  passwordResetPolicyName?: string | Redacted.Redacted<string> | undefined;
   /** The client library to be used in the developer portal. Only applies to AAD and AAD B2C Identity Provider. */
-  clientLibrary?: string;
+  clientLibrary?: string | undefined;
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetIdentityProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Identity Provider contract properties. */
-  properties?: IdentityProviderContractProperties;
+  properties?: IdentityProviderContractProperties | undefined;
 }
 export interface GetIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6848,13 +6906,13 @@ export interface GetIssueRequest {
 }
 export interface GetIssueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue. */
-  properties?: IssueContractProperties;
+  properties?: IssueContractProperties | undefined;
 }
 export interface GetLoggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6878,23 +6936,23 @@ export interface LoggerContractProperties {
   /** Logger type. */
   loggerType: LoggerContractPropertiesLoggerType | (string & {});
   /** Logger description. */
-  description?: string;
+  description?: string | undefined;
   /** The name and SendRule connection string of the event hub for azureEventHub logger. Instrumentation key for applicationInsights logger. */
-  credentials?: LoggerContractPropertiesCredentialsMap;
+  credentials?: LoggerContractPropertiesCredentialsMap | undefined;
   /** Whether records are buffered in the logger before publishing. Default is assumed to be true. */
-  isBuffered?: boolean;
+  isBuffered?: boolean | undefined;
   /** Azure Resource Id of a log target (either Azure Event Hub resource or Azure Application Insights resource). */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface GetLoggerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 export interface GetNamedValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6911,27 +6969,27 @@ export type NamedValueContractPropertiesTagsList = Array<string>;
 /** NamedValue Contract properties. */
 export interface NamedValueContractProperties {
   /** Optional tags that when provided can be used to filter the NamedValue list. */
-  tags?: NamedValueContractPropertiesTagsList;
+  tags?: NamedValueContractPropertiesTagsList | undefined;
   /** Determines whether the value is a secret and should be encrypted or not. Default value is false. */
-  secret?: boolean;
+  secret?: boolean | undefined;
   /** Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore characters. */
   displayName: string;
   /** Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  value?: string;
+  value?: string | undefined;
   /** KeyVault location details of the namedValue. */
-  keyVault?: KeyVaultContractProperties;
+  keyVault?: KeyVaultContractProperties | undefined;
   /** The provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetNamedValueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
 }
 export type GetNotificationRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -6958,28 +7016,28 @@ export type RecipientsContractPropertiesUsersList = Array<string>;
 /** Notification Parameter contract. */
 export interface RecipientsContractProperties {
   /** List of Emails subscribed for the notification. */
-  emails?: RecipientsContractPropertiesEmailsList;
+  emails?: RecipientsContractPropertiesEmailsList | undefined;
   /** List of Users subscribed for the notification. */
-  users?: RecipientsContractPropertiesUsersList;
+  users?: RecipientsContractPropertiesUsersList | undefined;
 }
 /** Notification Contract properties. */
 export interface NotificationContractProperties {
   /** Title of the Notification. */
   title: string;
   /** Description of the Notification. */
-  description?: string;
+  description?: string | undefined;
   /** Recipient Parameter values. */
-  recipients?: RecipientsContractProperties;
+  recipients?: RecipientsContractProperties | undefined;
 }
 export interface GetNotificationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Notification entity contract properties. */
-  properties?: NotificationContractProperties;
+  properties?: NotificationContractProperties | undefined;
 }
 export interface GetOpenIdConnectProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6996,27 +7054,27 @@ export interface OpenidConnectProviderContractProperties {
   /** User-friendly OpenID Connect Provider name. */
   displayName: string;
   /** User-friendly description of OpenID Connect Provider. */
-  description?: string;
+  description?: string | undefined;
   /** Metadata endpoint URI. */
   metadataEndpoint: string;
   /** Client ID of developer console which is the client application. */
   clientId: string;
   /** Client Secret of developer console which is the client application. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** If true, the Open ID Connect provider may be used in the developer portal test console. True by default if no value is provided. */
-  useInTestConsole?: boolean;
+  useInTestConsole?: boolean | undefined;
   /** If true, the Open ID Connect provider will be used in the API documentation in the developer portal. False by default if no value is provided. */
-  useInApiDocumentation?: boolean;
+  useInApiDocumentation?: boolean | undefined;
 }
 export interface GetOpenIdConnectProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** OpenId Connect Provider contract properties. */
-  properties?: OpenidConnectProviderContractProperties;
+  properties?: OpenidConnectProviderContractProperties | undefined;
 }
 export interface GetOperationsResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7028,7 +7086,7 @@ export interface GetOperationsResultRequest {
 }
 export interface GetOperationsResultResponse {
   /** URL for determining when an operation has completed. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7045,67 +7103,67 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationStatusResponseOperationsList;
+  operations?: GetOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export type GetPolicyRequestPolicyId = "policy";
 export type GetPolicyRequestFormat = "xml" | "rawxml";
@@ -7119,17 +7177,17 @@ export interface GetPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetPolicyRequestFormat | (string & {});
+  format?: GetPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export type GetPolicyFragmentRequestFormat = "xml" | "rawxml";
 export interface GetPolicyFragmentRequest {
@@ -7142,7 +7200,7 @@ export interface GetPolicyFragmentRequest {
   /** A resource identifier. */
   id: string;
   /** Policy fragment content format. */
-  format?: GetPolicyFragmentRequestFormat | (string & {});
+  format?: GetPolicyFragmentRequestFormat | (string & {}) | undefined;
 }
 /** Format of the policy fragment content. */
 export type PolicyFragmentContractPropertiesFormat = "xml" | "rawxml";
@@ -7151,21 +7209,21 @@ export interface PolicyFragmentContractProperties {
   /** Contents of the policy fragment. */
   value: string;
   /** Policy fragment description. */
-  description?: string;
+  description?: string | undefined;
   /** Format of the policy fragment content. */
-  format?: PolicyFragmentContractPropertiesFormat;
+  format?: PolicyFragmentContractPropertiesFormat | undefined;
   /** The provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetPolicyFragmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Fragment. */
-  properties?: PolicyFragmentContractProperties;
+  properties?: PolicyFragmentContractProperties | undefined;
 }
 export interface GetPolicyRestrictionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7182,19 +7240,19 @@ export type PolicyRestrictionContractPropertiesRequireBase = "true" | "false";
 /** Policy restrictions contract properties. */
 export interface PolicyRestrictionContractProperties {
   /** Path to the policy document. */
-  scope?: string;
+  scope?: string | undefined;
   /** Indicates if base policy should be enforced for the policy document. */
-  requireBase?: PolicyRestrictionContractPropertiesRequireBase | (string & {});
+  requireBase?: PolicyRestrictionContractPropertiesRequireBase | (string & {}) | undefined;
 }
 export interface GetPolicyRestrictionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Restriction. */
-  properties?: PolicyRestrictionContractProperties;
+  properties?: PolicyRestrictionContractProperties | undefined;
 }
 export interface GetPortalConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7208,35 +7266,35 @@ export interface GetPortalConfigRequest {
 }
 export interface PortalConfigPropertiesSignin {
   /** Redirect anonymous users to the sign-in page. */
-  require?: boolean;
+  require?: boolean | undefined;
 }
 /** Terms of service contract properties. */
 export interface PortalConfigTermsOfServiceProperties {
   /** A terms of service text. */
-  text?: string;
+  text?: string | undefined;
   /** Ask user for consent to the terms of service. */
-  requireConsent?: boolean;
+  requireConsent?: boolean | undefined;
 }
 export interface PortalConfigPropertiesSignup {
   /** Terms of service settings. */
-  termsOfService?: PortalConfigTermsOfServiceProperties;
+  termsOfService?: PortalConfigTermsOfServiceProperties | undefined;
 }
 export interface PortalConfigDelegationProperties {
   /** Enable or disable delegation for user registration. */
-  delegateRegistration?: boolean;
+  delegateRegistration?: boolean | undefined;
   /** Enable or disable delegation for product subscriptions. */
-  delegateSubscription?: boolean;
+  delegateSubscription?: boolean | undefined;
   /** A delegation endpoint URL. */
-  delegationUrl?: string;
+  delegationUrl?: string | undefined;
   /** A base64-encoded validation key to ensure requests originate from Azure API Management service. */
-  validationKey?: string;
+  validationKey?: string | undefined;
 }
 /** Allowed origins, e.g. `https://trusted.com`. */
 export type PortalConfigCorsPropertiesAllowedOriginsList = Array<string>;
 /** The developer portal Cross-Origin Resource Sharing (CORS) settings. */
 export interface PortalConfigCorsProperties {
   /** Allowed origins, e.g. `https://trusted.com`. */
-  allowedOrigins?: PortalConfigCorsPropertiesAllowedOriginsList;
+  allowedOrigins?: PortalConfigCorsPropertiesAllowedOriginsList | undefined;
 }
 /** The mode of the developer portal Content Security Policy (CSP). */
 export type PortalConfigCspPropertiesMode = "enabled" | "disabled" | "reportOnly";
@@ -7247,34 +7305,34 @@ export type PortalConfigCspPropertiesAllowedSourcesList = Array<string>;
 /** The developer portal Content Security Policy (CSP) settings. */
 export interface PortalConfigCspProperties {
   /** The mode of the developer portal Content Security Policy (CSP). */
-  mode?: PortalConfigCspPropertiesMode | (string & {});
+  mode?: PortalConfigCspPropertiesMode | (string & {}) | undefined;
   /** The URLs used by the browser to report CSP violations. */
-  reportUri?: PortalConfigCspPropertiesReportUriList;
+  reportUri?: PortalConfigCspPropertiesReportUriList | undefined;
   /** Allowed sources, e.g. `*.trusted.com`, `trusted.com`, `https://`. */
-  allowedSources?: PortalConfigCspPropertiesAllowedSourcesList;
+  allowedSources?: PortalConfigCspPropertiesAllowedSourcesList | undefined;
 }
 /** The developer portal configuration contract properties. */
 export interface PortalConfigProperties {
   /** Enable or disable Basic authentication method. */
-  enableBasicAuth?: boolean;
-  signin?: PortalConfigPropertiesSignin;
-  signup?: PortalConfigPropertiesSignup;
+  enableBasicAuth?: boolean | undefined;
+  signin?: PortalConfigPropertiesSignin | undefined;
+  signup?: PortalConfigPropertiesSignup | undefined;
   /** The developer portal delegation settings. */
-  delegation?: PortalConfigDelegationProperties;
+  delegation?: PortalConfigDelegationProperties | undefined;
   /** The developer portal Cross-Origin Resource Sharing (CORS) settings. */
-  cors?: PortalConfigCorsProperties;
+  cors?: PortalConfigCorsProperties | undefined;
   /** The developer portal Content Security Policy (CSP) settings. */
-  csp?: PortalConfigCspProperties;
+  csp?: PortalConfigCspProperties | undefined;
 }
 export interface GetPortalConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The developer portal configuration contract properties. */
-  properties?: PortalConfigProperties;
+  properties?: PortalConfigProperties | undefined;
 }
 export interface GetPortalRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7294,29 +7352,29 @@ export type PortalRevisionContractPropertiesStatus =
   | "failed";
 export interface PortalRevisionContractProperties {
   /** Portal revision description. */
-  description?: string;
+  description?: string | undefined;
   /** Portal revision publishing status details. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** Status of the portal's revision. */
-  status?: PortalRevisionContractPropertiesStatus;
+  status?: PortalRevisionContractPropertiesStatus | undefined;
   /** Indicates if the portal's revision is public. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
   /** Portal's revision creation date and time. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
   /** Last updated date and time. */
-  updatedDateTime?: string;
+  updatedDateTime?: string | undefined;
   /** The provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetPortalRevisionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the portal revisions. */
-  properties?: PortalRevisionContractProperties;
+  properties?: PortalRevisionContractProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionByNameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7331,7 +7389,7 @@ export interface GetPrivateEndpointConnectionByNameRequest {
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** A collection of information about the state of the connection between service consumer and provider. */
 export type PrivateLinkServiceConnectionState =
@@ -7345,21 +7403,21 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateEndpointConnectionWrapperPropertiesPrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionByNameResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7378,21 +7436,21 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateEndpointConnectionPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7409,29 +7467,29 @@ export type ProductContractPropertiesState = "notPublished" | "published";
 /** Product profile. */
 export interface ProductContractProperties {
   /** Product description. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process. */
-  terms?: string;
+  terms?: string | undefined;
   /** Whether a product subscription is required for accessing APIs included in this product. If true, the product is referred to as "protected" and a valid subscription key is required for a request to an API included in the product to succeed. If false, the product is referred to as "open" and requests to an API included in the product can be made without a subscription key. If property is omitted when creating a new product it's value is assumed to be true. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product's APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product's APIs. Can be present only if subscriptionRequired property is present and has a value of false. */
-  approvalRequired?: boolean;
+  approvalRequired?: boolean | undefined;
   /** Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false. */
-  subscriptionsLimit?: number;
+  subscriptionsLimit?: number | undefined;
   /** whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished. */
-  state?: ProductContractPropertiesState | (string & {});
+  state?: ProductContractPropertiesState | (string & {}) | undefined;
   /** Product name. */
   displayName: string;
 }
 export interface GetProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export interface GetProductApiLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7452,13 +7510,13 @@ export interface ProductApiLinkContractProperties {
 }
 export interface GetProductApiLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface GetProductGroupLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7479,13 +7537,13 @@ export interface ProductGroupLinkContractProperties {
 }
 export interface GetProductGroupLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-group link entity contract properties. */
-  properties?: ProductGroupLinkContractProperties;
+  properties?: ProductGroupLinkContractProperties | undefined;
 }
 export type GetProductPolicyRequestPolicyId = "policy";
 export type GetProductPolicyRequestFormat = "xml" | "rawxml";
@@ -7501,17 +7559,17 @@ export interface GetProductPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetProductPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetProductPolicyRequestFormat | (string & {});
+  format?: GetProductPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetProductPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface GetProductWikiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7525,13 +7583,13 @@ export interface GetProductWikiRequest {
 }
 export interface GetProductWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface GetQuotaByPeriodKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7548,9 +7606,9 @@ export interface GetQuotaByPeriodKeyRequest {
 /** Quota counter value details. */
 export interface QuotaCounterValueContractProperties {
   /** Number of times Counter was called. */
-  callsCount?: number;
+  callsCount?: number | undefined;
   /** Data Transferred in KiloBytes. */
-  kbTransferred?: number;
+  kbTransferred?: number | undefined;
 }
 export interface GetQuotaByPeriodKeyResponse {
   /** The Key value of the Counter. Must not be empty. */
@@ -7562,7 +7620,7 @@ export interface GetQuotaByPeriodKeyResponse {
   /** The date of the end of Counter Period. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
   periodEndTime: string;
   /** Quota Value Properties */
-  value?: QuotaCounterValueContractProperties;
+  value?: QuotaCounterValueContractProperties | undefined;
 }
 export interface GetSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7585,41 +7643,41 @@ export type SubscriptionContractPropertiesState =
 /** Subscription details. */
 export interface SubscriptionContractProperties {
   /** The user resource identifier of the subscription owner. The value is a valid relative URL in the format of /users/{userId} where {userId} is a user identifier. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** Scope like /products/{productId} or /apis or /apis/{apiId}. */
   scope: string;
   /** The name of the subscription, or null if the subscription has no name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription state. Possible states are * active - the subscription is active, * suspended - the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted - the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected - the subscription request has been denied by an administrator, * cancelled - the subscription has been cancelled by the developer or administrator, * expired - the subscription reached its expiration date and was deactivated. */
   state: SubscriptionContractPropertiesState;
   /** Subscription creation date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Subscription activation date. The setting is for audit purposes only and the subscription is not automatically activated. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Date when subscription was cancelled or expired. The setting is for audit purposes only and the subscription is not automatically cancelled. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  notificationDate?: string;
+  notificationDate?: string | undefined;
   /** Subscription primary key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Subscription secondary key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Optional subscription comment added by an administrator when the state is changed to the 'rejected'. */
-  stateComment?: string;
+  stateComment?: string | undefined;
   /** Determines whether tracing is enabled */
-  allowTracing?: boolean;
+  allowTracing?: boolean | undefined;
 }
 export interface GetSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 export interface GetTagRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7633,13 +7691,13 @@ export interface GetTagRequest {
 }
 export interface GetTagResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface GetTagApiLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7657,13 +7715,13 @@ export interface GetTagApiLinkRequest {
 export type TagApiLinkContractProperties = ProductApiLinkContractProperties;
 export interface GetTagApiLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface GetTagByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7679,13 +7737,13 @@ export interface GetTagByApiRequest {
 }
 export interface GetTagByApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface GetTagByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7703,13 +7761,13 @@ export interface GetTagByOperationRequest {
 }
 export interface GetTagByOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface GetTagByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7725,13 +7783,13 @@ export interface GetTagByProductRequest {
 }
 export interface GetTagByProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface GetTagOperationLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7752,13 +7810,13 @@ export interface TagOperationLinkContractProperties {
 }
 export interface GetTagOperationLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagOperationLinkContractProperties;
+  properties?: TagOperationLinkContractProperties | undefined;
 }
 export interface GetTagProductLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7779,13 +7837,13 @@ export interface TagProductLinkContractProperties {
 }
 export interface GetTagProductLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagProductLinkContractProperties;
+  properties?: TagProductLinkContractProperties | undefined;
 }
 export type GetTenantAccessRequestAccessName = "access" | "gitAccess";
 export interface GetTenantAccessRequest {
@@ -7800,13 +7858,13 @@ export interface GetTenantAccessRequest {
 }
 export interface GetTenantAccessResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** AccessInformation entity contract properties. */
-  properties?: AccessInformationContractProperties;
+  properties?: AccessInformationContractProperties | undefined;
 }
 export type GetTenantConfigurationSyncStateRequestConfigurationName = "configuration";
 export interface GetTenantConfigurationSyncStateRequest {
@@ -7822,31 +7880,31 @@ export interface GetTenantConfigurationSyncStateRequest {
 /** Tenant Configuration Synchronization State. */
 export interface TenantConfigurationSyncStateContractProperties {
   /** The name of Git branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** The latest commit Id. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** value indicating if last sync was save (true) or deploy (false) operation. */
-  isExport?: boolean;
+  isExport?: boolean | undefined;
   /** value indicating if last synchronization was later than the configuration change. */
-  isSynced?: boolean;
+  isSynced?: boolean | undefined;
   /** value indicating whether Git configuration access is enabled. */
-  isGitEnabled?: boolean;
+  isGitEnabled?: boolean | undefined;
   /** The date of the latest synchronization. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  syncDate?: string;
+  syncDate?: string | undefined;
   /** The date of the latest configuration change. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  configurationChangeDate?: string;
+  configurationChangeDate?: string | undefined;
   /** Most recent tenant configuration operation identifier */
-  lastOperationId?: string;
+  lastOperationId?: string | undefined;
 }
 export interface GetTenantConfigurationSyncStateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties returned Tenant Configuration Sync State check. */
-  properties?: TenantConfigurationSyncStateContractProperties;
+  properties?: TenantConfigurationSyncStateContractProperties | undefined;
 }
 export interface GetUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7860,13 +7918,13 @@ export interface GetUserRequest {
 }
 export interface GetUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** User entity contract properties. */
-  properties?: UserContractProperties;
+  properties?: UserContractProperties | undefined;
 }
 /** The Key to be used to generate token for user. */
 export type UserTokenParameterPropertiesKeyType = "primary" | "secondary";
@@ -7887,11 +7945,11 @@ export interface GetUserSharedAccessTokenRequest {
   /** User identifier. Must be unique in the current API Management service instance. */
   userId: string;
   /** User Token Parameter contract properties. */
-  properties?: UserTokenParameterProperties;
+  properties?: UserTokenParameterProperties | undefined;
 }
 export interface GetUserSharedAccessTokenResponse {
   /** Shared Access Authorization token for the User. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetUserSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7907,13 +7965,13 @@ export interface GetUserSubscriptionRequest {
 }
 export interface GetUserSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7930,17 +7988,17 @@ export interface WorkspaceContractProperties {
   /** Name of the workspace. */
   displayName: string;
   /** Description of the workspace. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace entity contract properties. */
-  properties?: WorkspaceContractProperties;
+  properties?: WorkspaceContractProperties | undefined;
 }
 export interface GetWorkspaceApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7956,13 +8014,13 @@ export interface GetWorkspaceApiRequest {
 }
 export interface GetWorkspaceApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
 }
 export interface GetWorkspaceApiDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7980,13 +8038,13 @@ export interface GetWorkspaceApiDiagnosticRequest {
 }
 export interface GetWorkspaceApiDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface GetWorkspaceApiOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8004,13 +8062,13 @@ export interface GetWorkspaceApiOperationRequest {
 }
 export interface GetWorkspaceApiOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export type GetWorkspaceApiOperationPolicyRequestPolicyId = "policy";
 export type GetWorkspaceApiOperationPolicyRequestFormat = "xml" | "rawxml";
@@ -8030,17 +8088,17 @@ export interface GetWorkspaceApiOperationPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetWorkspaceApiOperationPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetWorkspaceApiOperationPolicyRequestFormat | (string & {});
+  format?: GetWorkspaceApiOperationPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetWorkspaceApiOperationPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export type GetWorkspaceApiPolicyRequestPolicyId = "policy";
 export type GetWorkspaceApiPolicyRequestFormat = "xml" | "rawxml";
@@ -8058,17 +8116,17 @@ export interface GetWorkspaceApiPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetWorkspaceApiPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetWorkspaceApiPolicyRequestFormat | (string & {});
+  format?: GetWorkspaceApiPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetWorkspaceApiPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface GetWorkspaceApiReleaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8086,13 +8144,13 @@ export interface GetWorkspaceApiReleaseRequest {
 }
 export interface GetWorkspaceApiReleaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractProperties;
+  properties?: ApiReleaseContractProperties | undefined;
 }
 export interface GetWorkspaceApiSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8110,13 +8168,13 @@ export interface GetWorkspaceApiSchemaRequest {
 }
 export interface GetWorkspaceApiSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Schema. */
-  properties?: SchemaContractProperties;
+  properties?: SchemaContractProperties | undefined;
 }
 export interface GetWorkspaceApiVersionSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8132,13 +8190,13 @@ export interface GetWorkspaceApiVersionSetRequest {
 }
 export interface GetWorkspaceApiVersionSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 export interface GetWorkspaceBackendRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8154,13 +8212,13 @@ export interface GetWorkspaceBackendRequest {
 }
 export interface GetWorkspaceBackendResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 export interface GetWorkspaceCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8176,13 +8234,13 @@ export interface GetWorkspaceCertificateRequest {
 }
 export interface GetWorkspaceCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Certificate properties details. */
-  properties?: CertificateContractProperties;
+  properties?: CertificateContractProperties | undefined;
 }
 export interface GetWorkspaceDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8198,13 +8256,13 @@ export interface GetWorkspaceDiagnosticRequest {
 }
 export interface GetWorkspaceDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface GetWorkspaceGlobalSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8220,13 +8278,13 @@ export interface GetWorkspaceGlobalSchemaRequest {
 }
 export interface GetWorkspaceGlobalSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Global Schema. */
-  properties?: GlobalSchemaContractProperties;
+  properties?: GlobalSchemaContractProperties | undefined;
 }
 export interface GetWorkspaceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8242,13 +8300,13 @@ export interface GetWorkspaceGroupRequest {
 }
 export interface GetWorkspaceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 export interface GetWorkspaceLoggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8264,13 +8322,13 @@ export interface GetWorkspaceLoggerRequest {
 }
 export interface GetWorkspaceLoggerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 export interface GetWorkspaceNamedValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8286,13 +8344,13 @@ export interface GetWorkspaceNamedValueRequest {
 }
 export interface GetWorkspaceNamedValueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
 }
 export type GetWorkspaceNotificationRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -8316,13 +8374,13 @@ export interface GetWorkspaceNotificationRequest {
 }
 export interface GetWorkspaceNotificationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Notification entity contract properties. */
-  properties?: NotificationContractProperties;
+  properties?: NotificationContractProperties | undefined;
 }
 export type GetWorkspacePolicyRequestPolicyId = "policy";
 export type GetWorkspacePolicyRequestFormat = "xml" | "rawxml";
@@ -8338,17 +8396,17 @@ export interface GetWorkspacePolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetWorkspacePolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetWorkspacePolicyRequestFormat | (string & {});
+  format?: GetWorkspacePolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetWorkspacePolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export type GetWorkspacePolicyFragmentRequestFormat = "xml" | "rawxml";
 export interface GetWorkspacePolicyFragmentRequest {
@@ -8363,17 +8421,17 @@ export interface GetWorkspacePolicyFragmentRequest {
   /** A resource identifier. */
   id: string;
   /** Policy fragment content format. */
-  format?: GetWorkspacePolicyFragmentRequestFormat | (string & {});
+  format?: GetWorkspacePolicyFragmentRequestFormat | (string & {}) | undefined;
 }
 export interface GetWorkspacePolicyFragmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Fragment. */
-  properties?: PolicyFragmentContractProperties;
+  properties?: PolicyFragmentContractProperties | undefined;
 }
 export interface GetWorkspaceProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8389,13 +8447,13 @@ export interface GetWorkspaceProductRequest {
 }
 export interface GetWorkspaceProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export interface GetWorkspaceProductApiLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8413,13 +8471,13 @@ export interface GetWorkspaceProductApiLinkRequest {
 }
 export interface GetWorkspaceProductApiLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface GetWorkspaceProductGroupLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8437,13 +8495,13 @@ export interface GetWorkspaceProductGroupLinkRequest {
 }
 export interface GetWorkspaceProductGroupLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-group link entity contract properties. */
-  properties?: ProductGroupLinkContractProperties;
+  properties?: ProductGroupLinkContractProperties | undefined;
 }
 export type GetWorkspaceProductPolicyRequestPolicyId = "policy";
 export type GetWorkspaceProductPolicyRequestFormat = "xml" | "rawxml";
@@ -8461,17 +8519,17 @@ export interface GetWorkspaceProductPolicyRequest {
   /** The identifier of the Policy. */
   policyId: GetWorkspaceProductPolicyRequestPolicyId | (string & {});
   /** Policy Export Format. */
-  format?: GetWorkspaceProductPolicyRequestFormat | (string & {});
+  format?: GetWorkspaceProductPolicyRequestFormat | (string & {}) | undefined;
 }
 export interface GetWorkspaceProductPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface GetWorkspaceSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8487,13 +8545,13 @@ export interface GetWorkspaceSubscriptionRequest {
 }
 export interface GetWorkspaceSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 export interface GetWorkspaceTagRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8509,13 +8567,13 @@ export interface GetWorkspaceTagRequest {
 }
 export interface GetWorkspaceTagResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface GetWorkspaceTagApiLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8533,13 +8591,13 @@ export interface GetWorkspaceTagApiLinkRequest {
 }
 export interface GetWorkspaceTagApiLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface GetWorkspaceTagOperationLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8557,13 +8615,13 @@ export interface GetWorkspaceTagOperationLinkRequest {
 }
 export interface GetWorkspaceTagOperationLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagOperationLinkContractProperties;
+  properties?: TagOperationLinkContractProperties | undefined;
 }
 export interface GetWorkspaceTagProductLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8581,13 +8639,13 @@ export interface GetWorkspaceTagProductLinkRequest {
 }
 export interface GetWorkspaceTagProductLinkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagProductLinkContractProperties;
+  properties?: TagProductLinkContractProperties | undefined;
 }
 /** Schema Type. Immutable. */
 export type GlobalSchemaContractPropertiesInputSchemaType = "xml" | "json";
@@ -8596,11 +8654,11 @@ export interface GlobalSchemaContractPropertiesInput {
   /** Schema Type. Immutable. */
   schemaType: GlobalSchemaContractPropertiesInputSchemaType | (string & {});
   /** Free-form schema entity description. */
-  description?: string;
+  description?: string | undefined;
   /** Json-encoded string for non json-based schema. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Global Schema document object for json-based schema formats(e.g. json schema). */
-  document?: unknown;
+  document?: unknown | undefined;
 }
 export interface GlobalSchemaCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8612,21 +8670,21 @@ export interface GlobalSchemaCreateOrUpdateRequest {
   /** Schema id identifier. Must be unique in the current API Management service instance. */
   schemaId: string;
   /** Properties of the Global Schema. */
-  properties?: GlobalSchemaContractPropertiesInput;
+  properties?: GlobalSchemaContractPropertiesInput | undefined;
 }
 export interface GlobalSchemaCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Global Schema. */
-  properties?: GlobalSchemaContractProperties;
+  properties?: GlobalSchemaContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface GraphQLApiResolverCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8640,17 +8698,17 @@ export interface GraphQLApiResolverCreateOrUpdateRequest {
   /** Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance. */
   resolverId: string;
   /** Properties of the Resolver Contract. */
-  properties?: ResolverEntityBaseContract;
+  properties?: ResolverEntityBaseContract | undefined;
 }
 export interface GraphQLApiResolverCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Resolver Contract. */
-  properties?: ResolverEntityBaseContract;
+  properties?: ResolverEntityBaseContract | undefined;
 }
 export type GraphQLApiResolverPolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface GraphQLApiResolverPolicyCreateOrUpdateRequest {
@@ -8667,17 +8725,17 @@ export interface GraphQLApiResolverPolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: GraphQLApiResolverPolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface GraphQLApiResolverPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 /** Group type. */
 export type GroupCreateParametersPropertiesType = "custom" | "system" | "external";
@@ -8686,11 +8744,11 @@ export interface GroupCreateParametersProperties {
   /** Group name. */
   displayName: string;
   /** Group description. */
-  description?: string;
+  description?: string | undefined;
   /** Group type. */
-  type?: GroupCreateParametersPropertiesType | (string & {});
+  type?: GroupCreateParametersPropertiesType | (string & {}) | undefined;
   /** Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null. */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface GroupCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8702,17 +8760,17 @@ export interface GroupCreateOrUpdateRequest {
   /** Group identifier. Must be unique in the current API Management service instance. */
   groupId: string;
   /** Properties supplied to Create Group operation. */
-  properties?: GroupCreateParametersProperties;
+  properties?: GroupCreateParametersProperties | undefined;
 }
 export interface GroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 export type IdentityProviderCreateOrUpdateRequestIdentityProviderName =
   | "facebook"
@@ -8734,23 +8792,23 @@ export type IdentityProviderCreateContractPropertiesAllowedTenantsList = Array<s
 /** The external Identity Providers like Facebook, Google, Microsoft, Twitter or Azure Active Directory which can be used to enable access to the API Management service developer portal for all users. */
 export interface IdentityProviderCreateContractProperties {
   /** Identity Provider Type identifier. */
-  type?: IdentityProviderCreateContractPropertiesType | (string & {});
+  type?: IdentityProviderCreateContractPropertiesType | (string & {}) | undefined;
   /** The TenantId to use instead of Common when logging into Active Directory */
-  signinTenant?: string;
+  signinTenant?: string | undefined;
   /** List of Allowed Tenants when configuring Azure Active Directory login. */
-  allowedTenants?: IdentityProviderCreateContractPropertiesAllowedTenantsList;
+  allowedTenants?: IdentityProviderCreateContractPropertiesAllowedTenantsList | undefined;
   /** OpenID Connect discovery endpoint hostname for AAD or AAD B2C. */
-  authority?: string;
+  authority?: string | undefined;
   /** Signup Policy Name. Only applies to AAD B2C Identity Provider. */
-  signupPolicyName?: string;
+  signupPolicyName?: string | undefined;
   /** Signin Policy Name. Only applies to AAD B2C Identity Provider. */
-  signinPolicyName?: string;
+  signinPolicyName?: string | undefined;
   /** Profile Editing Policy Name. Only applies to AAD B2C Identity Provider. */
-  profileEditingPolicyName?: string;
+  profileEditingPolicyName?: string | undefined;
   /** Password Reset Policy Name. Only applies to AAD B2C Identity Provider. */
-  passwordResetPolicyName?: string | Redacted.Redacted<string>;
+  passwordResetPolicyName?: string | Redacted.Redacted<string> | undefined;
   /** The client library to be used in the developer portal. Only applies to AAD and AAD B2C Identity Provider. */
-  clientLibrary?: string;
+  clientLibrary?: string | undefined;
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
@@ -8766,17 +8824,17 @@ export interface IdentityProviderCreateOrUpdateRequest {
   /** Identity Provider Type identifier. */
   identityProviderName: IdentityProviderCreateOrUpdateRequestIdentityProviderName | (string & {});
   /** Identity Provider contract properties. */
-  properties?: IdentityProviderCreateContractProperties;
+  properties?: IdentityProviderCreateContractProperties | undefined;
 }
 export interface IdentityProviderCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Identity Provider contract properties. */
-  properties?: IdentityProviderContractProperties;
+  properties?: IdentityProviderContractProperties | undefined;
 }
 export interface InvalidateGatewayDebugCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8802,17 +8860,17 @@ export interface ListAiGatewayAliasResourceByWorkspaceRequest {
 /** A stable client-facing model identity backed by an ordered pool of models. */
 export interface AiGatewayAliasResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayAliasProperties;
+  properties?: AiGatewayAliasProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AiGatewayAliasResource items on this page */
 export type AiGatewayAliasResourceListResultValueList = Array<AiGatewayAliasResource>;
@@ -8821,7 +8879,7 @@ export interface AiGatewayAliasResourceListResult {
   /** The AiGatewayAliasResource items on this page */
   value: AiGatewayAliasResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAiGatewayApiKeyResourceByAiGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8834,17 +8892,17 @@ export interface ListAiGatewayApiKeyResourceByAiGatewayRequest {
 /** An AI Gateway API key resource. */
 export interface AiGatewayApiKeyResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayApiKeyProperties;
+  properties?: AiGatewayApiKeyProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AiGatewayApiKeyResource items on this page */
 export type AiGatewayApiKeyResourceListResultValueList = Array<AiGatewayApiKeyResource>;
@@ -8853,7 +8911,7 @@ export interface AiGatewayApiKeyResourceListResult {
   /** The AiGatewayApiKeyResource items on this page */
   value: AiGatewayApiKeyResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAiGatewayApiKeyResourceSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8885,17 +8943,17 @@ export interface ListAiGatewayModelProviderResourceByWorkspaceRequest {
 /** An AI Gateway model provider resource. */
 export interface AiGatewayModelProviderResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProviderProperties;
+  properties?: AiGatewayModelProviderProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AiGatewayModelProviderResource items on this page */
 export type AiGatewayModelProviderResourceListResultValueList =
@@ -8905,7 +8963,7 @@ export interface AiGatewayModelProviderResourceListResult {
   /** The AiGatewayModelProviderResource items on this page */
   value: AiGatewayModelProviderResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAiGatewayModelProviderResourceCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8922,7 +8980,7 @@ export interface ListAiGatewayModelProviderResourceCredentialsRequest {
 /** Credential returned for a model provider. */
 export interface AiGatewayCredentialValue {
   /** Stored credential value. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListAiGatewayModelResourceByModelProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8939,17 +8997,17 @@ export interface ListAiGatewayModelResourceByModelProviderRequest {
 /** An AI Gateway model resource. */
 export interface AiGatewayModelResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProperties;
+  properties?: AiGatewayModelProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AiGatewayModelResource items on this page */
 export type AiGatewayModelResourceListResultValueList = Array<AiGatewayModelResource>;
@@ -8958,7 +9016,7 @@ export interface AiGatewayModelResourceListResult {
   /** The AiGatewayModelResource items on this page */
   value: AiGatewayModelResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAiGatewayResourceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8975,37 +9033,37 @@ export type AiGatewayResourceIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AiGatewayResourceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AiGatewayResourceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AiGatewayResourceIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The resource model definition representing SKU */
 export type AiGatewayResourceSku = AiGatewayResourcesCreateOrUpdateResponseSku;
 /** An AI Gateway resource. */
 export interface AiGatewayResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AiGatewayResourceTagsMap;
+  tags?: AiGatewayResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
   properties: AiGatewayProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AiGatewayResourceIdentity;
+  identity?: AiGatewayResourceIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: AiGatewayResourcesCreateOrUpdateResponseSku;
+  sku?: AiGatewayResourcesCreateOrUpdateResponseSku | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AiGatewayResource items on this page */
 export type AiGatewayResourceListResultValueList = Array<AiGatewayResource>;
@@ -9014,7 +9072,7 @@ export interface AiGatewayResourceListResult {
   /** The AiGatewayResource items on this page */
   value: AiGatewayResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAiGatewayResourceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9033,17 +9091,17 @@ export interface ListAiGatewayTelemetryExporterResourceByWorkspaceRequest {
 /** A telemetry export destination in the default AI Gateway workspace. */
 export interface AiGatewayTelemetryExporterResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayTelemetryExporterProperties;
+  properties?: AiGatewayTelemetryExporterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AiGatewayTelemetryExporterResource items on this page */
 export type AiGatewayTelemetryExporterResourceListResultValueList =
@@ -9053,7 +9111,7 @@ export interface AiGatewayTelemetryExporterResourceListResult {
   /** The AiGatewayTelemetryExporterResource items on this page */
   value: AiGatewayTelemetryExporterResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAiGatewayToolServerResourceByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9068,17 +9126,17 @@ export interface ListAiGatewayToolServerResourceByWorkspaceRequest {
 /** An AI Gateway tool server resource. */
 export interface AiGatewayToolServerResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayToolServerProperties;
+  properties?: AiGatewayToolServerProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AiGatewayToolServerResource items on this page */
 export type AiGatewayToolServerResourceListResultValueList = Array<AiGatewayToolServerResource>;
@@ -9087,7 +9145,7 @@ export interface AiGatewayToolServerResourceListResult {
   /** The AiGatewayToolServerResource items on this page */
   value: AiGatewayToolServerResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAiGatewayToolServerResourceSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9124,49 +9182,51 @@ export type AiGatewayToolServerSecretOauth2AuthenticationTokenParametersList =
 /** OAuth settings returned by the secret retrieval action. */
 export interface AiGatewayToolServerSecretOauth2Authentication {
   /** Expected OAuth authorization-server issuer for remote MCP discovery. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth authorization endpoint. */
-  authorizationUrl?: string;
+  authorizationUrl?: string | undefined;
   /** OAuth token endpoint. */
-  tokenUrl?: string;
+  tokenUrl?: string | undefined;
   /** OAuth client identifier. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** OAuth scopes to request. */
-  scopes?: AiGatewayToolServerSecretOauth2AuthenticationScopesList;
+  scopes?: AiGatewayToolServerSecretOauth2AuthenticationScopesList | undefined;
   /** OAuth grant type. */
-  grantType?: AiGatewayToolServerOauth2GrantType;
+  grantType?: AiGatewayToolServerOauth2GrantType | undefined;
   /** Additional authorization endpoint parameters. */
-  authorizationParameters?: AiGatewayToolServerSecretOauth2AuthenticationAuthorizationParametersList;
+  authorizationParameters?:
+    | AiGatewayToolServerSecretOauth2AuthenticationAuthorizationParametersList
+    | undefined;
   /** Additional token endpoint parameters. */
-  tokenParameters?: AiGatewayToolServerSecretOauth2AuthenticationTokenParametersList;
+  tokenParameters?: AiGatewayToolServerSecretOauth2AuthenticationTokenParametersList | undefined;
   /** Current OAuth connection status. */
-  status?: string;
+  status?: string | undefined;
   /** Login link used to complete interactive authorization. */
-  loginLink?: string;
+  loginLink?: string | undefined;
   /** UTC timestamp of the last OAuth connection-status transition. */
-  statusUpdatedUtc?: string;
+  statusUpdatedUtc?: string | undefined;
   /** OAuth client secret. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Endpoint credentials returned by the secret retrieval action. */
 export interface AiGatewayToolServerSecretCredentials {
   /** Authentication type. */
   type: AiGatewayToolServerAuthenticationType;
   /** Managed identity configuration. */
-  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication;
+  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication | undefined;
   /** Static headers injected when calling the endpoint. */
-  headers?: AiGatewayToolServerSecretCredentialsHeadersList;
+  headers?: AiGatewayToolServerSecretCredentialsHeadersList | undefined;
   /** OAuth 2.0 configuration. */
-  oauth2?: AiGatewayToolServerSecretOauth2Authentication;
+  oauth2?: AiGatewayToolServerSecretOauth2Authentication | undefined;
 }
 /** OpenAPI document source returned by the secret retrieval action. */
 export interface AiGatewayToolServerSecretOpenApiSpecSource {
   /** Source type. */
   type: AiGatewayToolServerOpenApiSourceType;
   /** URL of the OpenAPI document. Required when kind is Url. */
-  url?: string;
+  url?: string | undefined;
   /** Base64-encoded OpenAPI document. Required when kind is Inline. */
-  contentBase64?: string;
+  contentBase64?: string | undefined;
 }
 /** OpenAPI settings returned by the secret retrieval action. */
 export interface AiGatewayToolServerSecretOpenApiConfiguration {
@@ -9178,9 +9238,9 @@ export interface AiGatewayToolServerSecret {
   /** Stable endpoint identifier. */
   id: string;
   /** Endpoint authentication including secret values. */
-  credentials?: AiGatewayToolServerSecretCredentials;
+  credentials?: AiGatewayToolServerSecretCredentials | undefined;
   /** OpenAPI configuration including inline content. */
-  openApi?: AiGatewayToolServerSecretOpenApiConfiguration;
+  openApi?: AiGatewayToolServerSecretOpenApiConfiguration | undefined;
 }
 /** Endpoint secret values. */
 export type AiGatewayToolServerSecretsEndpointsList = Array<AiGatewayToolServerSecret>;
@@ -9212,28 +9272,28 @@ export type AllPoliciesContractPropertiesComplianceState = "Pending" | "NonCompl
 /** AllPolicies Properties. */
 export interface AllPoliciesContractProperties {
   /** Policy Identifier */
-  referencePolicyId?: string;
+  referencePolicyId?: string | undefined;
   /** Policy Restriction Compliance State */
-  complianceState?: AllPoliciesContractPropertiesComplianceState;
+  complianceState?: AllPoliciesContractPropertiesComplianceState | undefined;
 }
 /** AllPolicies Contract details. */
 export interface AllPoliciesContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the All Policies. */
-  properties?: AllPoliciesContractProperties;
+  properties?: AllPoliciesContractProperties | undefined;
 }
 /** AllPolicies Contract value. */
 export type ListAllPolicyByServiceResponseValueList = Array<AllPoliciesContract>;
 export interface ListAllPolicyByServiceResponse {
   /** AllPolicies Contract value. */
-  value?: ListAllPolicyByServiceResponseValueList;
+  value?: ListAllPolicyByServiceResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9243,36 +9303,36 @@ export interface ListApiByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq, ne | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Include tags in the response. */
-  tags?: string;
+  tags?: string | undefined;
   /** Include full ApiVersionSet resource in response */
-  expandApiVersionSet?: boolean;
+  expandApiVersionSet?: boolean | undefined;
 }
 /** API details. */
 export interface ApiContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiByServiceResponseValueList = Array<ApiContract>;
 export interface ListApiByServiceResponse {
   /** Page values. */
-  value?: ListApiByServiceResponseValueList;
+  value?: ListApiByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiByTagsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9282,20 +9342,20 @@ export interface ListApiByTagsRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Include not tagged APIs. */
-  includeNotTaggedApis?: boolean;
+  includeNotTaggedApis?: boolean | undefined;
 }
 /** Contract defining the Tag property in the Tag Resource Contract */
 export interface TagTagResourceContractProperties {
   /** Tag identifier */
-  id?: string;
+  id?: string | undefined;
   /** Tag Name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Type of API. */
 export type ApiTagResourceContractPropertiesType =
@@ -9312,83 +9372,83 @@ export type ApiTagResourceContractPropertiesProtocolsList =
 /** API contract properties for the Tag Resources. */
 export interface ApiTagResourceContractProperties {
   /** Description of the API. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** Collection of authentication settings included into this API. */
-  authenticationSettings?: AuthenticationSettingsContract;
+  authenticationSettings?: AuthenticationSettingsContract | undefined;
   /** Protocols over which API is made available. */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract | undefined;
   /** Type of API. */
-  type?: ApiTagResourceContractPropertiesType;
+  type?: ApiTagResourceContractPropertiesType | undefined;
   /** Describes the revision of the API. If no value is provided, default revision 1 is created */
-  apiRevision?: string;
+  apiRevision?: string | undefined;
   /** Indicates the version identifier of the API if the API is versioned */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Indicates if API revision is current api revision. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
   /** Indicates if API revision is accessible via the gateway. */
-  isOnline?: boolean;
+  isOnline?: boolean | undefined;
   /** Description of the API Revision. */
-  apiRevisionDescription?: string;
+  apiRevisionDescription?: string | undefined;
   /** Description of the API Version. */
-  apiVersionDescription?: string;
+  apiVersionDescription?: string | undefined;
   /** A resource identifier for the related ApiVersionSet. */
-  apiVersionSetId?: string;
+  apiVersionSetId?: string | undefined;
   /** Specifies whether an API or Product subscription is required for accessing the API. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** A URL to the Terms of Service for the API. MUST be in the format of a URL. */
-  termsOfServiceUrl?: string;
+  termsOfServiceUrl?: string | undefined;
   /** Contact information for the API. */
-  contact?: ApiContactInformation;
+  contact?: ApiContactInformation | undefined;
   /** License information for the API. */
-  license?: ApiLicenseInformation;
+  license?: ApiLicenseInformation | undefined;
   /** API identifier in the form /apis/{apiId}. */
-  id?: string;
+  id?: string | undefined;
   /** API name. */
-  name?: string;
+  name?: string | undefined;
   /** Absolute URL of the backend service implementing this API. */
-  serviceUrl?: string;
+  serviceUrl?: string | undefined;
   /** Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. */
-  path?: string;
+  path?: string | undefined;
   /** Describes on which protocols the operations in this API can be invoked. */
-  protocols?: ApiTagResourceContractPropertiesProtocolsList;
+  protocols?: ApiTagResourceContractPropertiesProtocolsList | undefined;
 }
 /** Operation Entity contract Properties. */
 export interface OperationTagResourceContractProperties {
   /** Identifier of the operation in form /operations/{operationId}. */
-  id?: string;
+  id?: string | undefined;
   /** Operation name. */
-  name?: string;
+  name?: string | undefined;
   /** API Name. */
-  apiName?: string;
+  apiName?: string | undefined;
   /** API Revision. */
-  apiRevision?: string;
+  apiRevision?: string | undefined;
   /** API Version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Operation Description. */
-  description?: string;
+  description?: string | undefined;
   /** A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them. */
-  method?: string;
+  method?: string | undefined;
   /** Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date} */
-  urlTemplate?: string;
+  urlTemplate?: string | undefined;
 }
 /** whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished. */
 export type ProductTagResourceContractPropertiesState = "notPublished" | "published";
 /** Product profile. */
 export interface ProductTagResourceContractProperties {
   /** Product description. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process. */
-  terms?: string;
+  terms?: string | undefined;
   /** Whether a product subscription is required for accessing APIs included in this product. If true, the product is referred to as "protected" and a valid subscription key is required for a request to an API included in the product to succeed. If false, the product is referred to as "open" and requests to an API included in the product can be made without a subscription key. If property is omitted when creating a new product it's value is assumed to be true. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product's APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product's APIs. Can be present only if subscriptionRequired property is present and has a value of false. */
-  approvalRequired?: boolean;
+  approvalRequired?: boolean | undefined;
   /** Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false. */
-  subscriptionsLimit?: number;
+  subscriptionsLimit?: number | undefined;
   /** whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished. */
-  state?: ProductTagResourceContractPropertiesState;
+  state?: ProductTagResourceContractPropertiesState | undefined;
   /** Identifier of the product in the form of /products/{productId} */
-  id?: string;
+  id?: string | undefined;
   /** Product name. */
   name: string;
 }
@@ -9397,21 +9457,21 @@ export interface TagResourceContract {
   /** Tag associated with the resource. */
   tag: TagTagResourceContractProperties;
   /** API associated with the tag. */
-  api?: ApiTagResourceContractProperties;
+  api?: ApiTagResourceContractProperties | undefined;
   /** Operation associated with the tag. */
-  operation?: OperationTagResourceContractProperties;
+  operation?: OperationTagResourceContractProperties | undefined;
   /** Product associated with the tag. */
-  product?: ProductTagResourceContractProperties;
+  product?: ProductTagResourceContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiByTagsResponseValueList = Array<TagResourceContract>;
 export interface ListApiByTagsResponse {
   /** Page values. */
-  value?: ListApiByTagsResponseValueList;
+  value?: ListApiByTagsResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiDiagnosticByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9423,32 +9483,32 @@ export interface ListApiDiagnosticByServiceRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Diagnostic details. */
 export interface DiagnosticContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiDiagnosticByServiceResponseValueList = Array<DiagnosticContract>;
 export interface ListApiDiagnosticByServiceResponse {
   /** Page values. */
-  value?: ListApiDiagnosticByServiceResponseValueList;
+  value?: ListApiDiagnosticByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9471,38 +9531,38 @@ export type ApiManagementGatewayResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApiManagementGatewayResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApiManagementGatewayResourceSystemDataCreatedByType;
+  createdByType?: ApiManagementGatewayResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApiManagementGatewayResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: ApiManagementGatewayResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A single API Management gateway resource in List or Get response. */
 export interface ApiManagementGatewayResource {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ApiManagementGatewayResourceTagsMap;
+  tags?: ApiManagementGatewayResourceTagsMap | undefined;
   /** Properties of the API Management gateway. */
   properties: ApiManagementGatewayProperties;
   /** SKU properties of the API Management gateway. */
   sku: ApiManagementGatewaySkuProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApiManagementGatewayResourceSystemData;
+  systemData?: ApiManagementGatewayResourceSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Result of the List API Management gateway operation. */
 export type ApiManagementGatewayListResultValueList = Array<ApiManagementGatewayResource>;
@@ -9511,7 +9571,7 @@ export interface ApiManagementGatewayListResult {
   /** Result of the List API Management gateway operation. */
   value: ApiManagementGatewayListResultValueList;
   /** Link to the next set of results. Not empty if Value contains incomplete list of API Management services. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiGatewayByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9530,15 +9590,15 @@ export interface ListApiGatewayConfigConnectionByGatewayRequest {
 /** A single API Management gateway resource in List or Get response. */
 export interface ApiManagementGatewayConfigConnectionResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Management gateway config connection. */
   properties: GatewayConfigConnectionBaseProperties;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Result of the List API Management gateway config connection operation. */
 export type ApiManagementGatewayConfigConnectionListResultValueList =
@@ -9548,7 +9608,7 @@ export interface ApiManagementGatewayConfigConnectionListResult {
   /** Result of the List API Management gateway config connection operation. */
   value: ApiManagementGatewayConfigConnectionListResultValueList;
   /** Link to the next set of results. Not empty if Value contains incomplete list of API Management services. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiIssueAttachmentByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9562,32 +9622,32 @@ export interface ListApiIssueAttachmentByServiceRequest {
   /** Issue identifier. Must be unique in the current API Management service instance. */
   issueId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Issue Attachment Contract details. */
 export interface IssueAttachmentContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue Attachment. */
-  properties?: IssueAttachmentContractProperties;
+  properties?: IssueAttachmentContractProperties | undefined;
 }
 /** Issue Attachment values. */
 export type ListApiIssueAttachmentByServiceResponseValueList = Array<IssueAttachmentContract>;
 export interface ListApiIssueAttachmentByServiceResponse {
   /** Issue Attachment values. */
-  value?: ListApiIssueAttachmentByServiceResponseValueList;
+  value?: ListApiIssueAttachmentByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiIssueByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9599,34 +9659,34 @@ export interface ListApiIssueByServiceRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Expand the comment attachments. */
-  expandCommentsAttachments?: boolean;
+  expandCommentsAttachments?: boolean | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Issue Contract details. */
 export interface IssueContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue. */
-  properties?: IssueContractProperties;
+  properties?: IssueContractProperties | undefined;
 }
 /** Issue values. */
 export type ListApiIssueByServiceResponseValueList = Array<IssueContract>;
 export interface ListApiIssueByServiceResponse {
   /** Issue values. */
-  value?: ListApiIssueByServiceResponseValueList;
+  value?: ListApiIssueByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiIssueCommentByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9640,32 +9700,32 @@ export interface ListApiIssueCommentByServiceRequest {
   /** Issue identifier. Must be unique in the current API Management service instance. */
   issueId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Issue Comment Contract details. */
 export interface IssueCommentContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue Comment. */
-  properties?: IssueCommentContractProperties;
+  properties?: IssueCommentContractProperties | undefined;
 }
 /** Issue Comment values. */
 export type ListApiIssueCommentByServiceResponseValueList = Array<IssueCommentContract>;
 export interface ListApiIssueCommentByServiceResponse {
   /** Issue Comment values. */
-  value?: ListApiIssueCommentByServiceResponseValueList;
+  value?: ListApiIssueCommentByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiManagementGatewaySkusAvailableSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9680,29 +9740,29 @@ export type GatewaySkuName = "Standard" | "WorkspaceGatewayStandard" | "Workspac
 /** Describes an available API Management SKU for gateways. */
 export interface GatewaySku {
   /** Name of the Sku. */
-  name?: GatewaySkuName;
+  name?: GatewaySkuName | undefined;
 }
 /** The scale type applicable to the sku. */
 export type GatewaySkuCapacityScaleType = "Automatic" | "Manual" | "None";
 /** Describes scaling information of a SKU. */
 export interface GatewaySkuCapacity {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity that can be set. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** The scale type applicable to the sku. */
-  scaleType?: GatewaySkuCapacityScaleType;
+  scaleType?: GatewaySkuCapacityScaleType | undefined;
 }
 /** Describes an available API Management gateway SKU. */
 export interface GatewayResourceSkuResult {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Specifies API Management gateway SKU. */
-  sku?: GatewaySku;
+  sku?: GatewaySku | undefined;
   /** Specifies the number of API Management gateway units. */
-  capacity?: GatewaySkuCapacity;
+  capacity?: GatewaySkuCapacity | undefined;
 }
 /** The list of skus available for the gateway. */
 export type GatewayResourceSkuResultsValueList = Array<GatewayResourceSkuResult>;
@@ -9711,39 +9771,39 @@ export interface GatewayResourceSkuResults {
   /** The list of skus available for the gateway. */
   value: GatewayResourceSkuResultsValueList;
   /** The uri to fetch the next page of API Management gateway Skus. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiManagementOperationsRequest {}
 /** The object that describes the operation. */
 export interface OperationDisplay_2 {
   /** Friendly name of the resource provider */
-  provider?: string;
+  provider?: string | undefined;
   /** Operation type: read, write, delete, listKeys/action, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Friendly name of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** REST API operation */
 export interface Operation_2 {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that describes the operation. */
-  display?: OperationDisplay_2;
+  display?: OperationDisplay_2 | undefined;
   /** The operation origin. */
-  origin?: string;
+  origin?: string | undefined;
   /** The operation properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** List of operations supported by the resource provider. */
 export type OperationListResultValueList = Array<Operation_2>;
 /** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
 export interface OperationListResult {
   /** List of operations supported by the resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiManagementServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9766,44 +9826,44 @@ export type ApiManagementServiceResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApiManagementServiceResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApiManagementServiceResourceSystemDataCreatedByType;
+  createdByType?: ApiManagementServiceResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApiManagementServiceResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: ApiManagementServiceResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type ApiManagementServiceResourceZonesList = Array<string>;
 /** A single API Management service resource in List or Get response. */
 export interface ApiManagementServiceResource {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ApiManagementServiceResourceTagsMap;
+  tags?: ApiManagementServiceResourceTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApiManagementServiceResourceSystemData;
+  systemData?: ApiManagementServiceResourceSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: ApiManagementServiceResourceZonesList;
+  zones?: ApiManagementServiceResourceZonesList | undefined;
 }
 /** Result of the List API Management services operation. */
 export type ApiManagementServiceListResultValueList = Array<ApiManagementServiceResource>;
@@ -9812,7 +9872,7 @@ export interface ApiManagementServiceListResult {
   /** Result of the List API Management services operation. */
   value: ApiManagementServiceListResultValueList;
   /** Link to the next set of results. Not empty if Value contains incomplete list of API Management services. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiManagementServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9841,29 +9901,29 @@ export type ResourceSkuName =
 /** Describes an available API Management SKU. */
 export interface ResourceSku {
   /** Name of the Sku. */
-  name?: ResourceSkuName;
+  name?: ResourceSkuName | undefined;
 }
 /** The scale type applicable to the sku. */
 export type ResourceSkuCapacityScaleType = "automatic" | "manual" | "none";
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuCapacity {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity that can be set. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** The scale type applicable to the sku. */
-  scaleType?: ResourceSkuCapacityScaleType;
+  scaleType?: ResourceSkuCapacityScaleType | undefined;
 }
 /** Describes an available API Management service SKU. */
 export interface ResourceSkuResult {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Specifies API Management SKU. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Specifies the number of API Management units. */
-  capacity?: ResourceSkuCapacity;
+  capacity?: ResourceSkuCapacity | undefined;
 }
 /** The list of skus available for the service. */
 export type ResourceSkuResultsValueList = Array<ResourceSkuResult>;
@@ -9872,7 +9932,7 @@ export interface ResourceSkuResults {
   /** The list of skus available for the service. */
   value: ResourceSkuResultsValueList;
   /** The uri to fetch the next page of API Management service Skus. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiManagementSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9883,13 +9943,13 @@ export type ApiManagementSkuCapacityScaleType = "Automatic" | "Manual" | "None";
 /** Describes scaling information of a SKU. */
 export interface ApiManagementSkuCapacity {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity that can be set. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** The scale type applicable to the sku. */
-  scaleType?: ApiManagementSkuCapacityScaleType;
+  scaleType?: ApiManagementSkuCapacityScaleType | undefined;
 }
 /** The set of locations that the SKU is available. */
 export type ApiManagementSkuLocationsList = Array<string>;
@@ -9900,28 +9960,28 @@ export type ApiManagementSkuZoneDetailsNameList = Array<string>;
 /** Describes The SKU capabilities object. */
 export interface ApiManagementSkuCapabilities {
   /** An invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A list of capabilities that are available for the SKU in the specified list of zones. */
 export type ApiManagementSkuZoneDetailsCapabilitiesList = Array<ApiManagementSkuCapabilities>;
 /** Describes The zonal capabilities of a SKU. */
 export interface ApiManagementSkuZoneDetails {
   /** The set of zones that the SKU is available in with the specified capabilities. */
-  name?: ApiManagementSkuZoneDetailsNameList;
+  name?: ApiManagementSkuZoneDetailsNameList | undefined;
   /** A list of capabilities that are available for the SKU in the specified list of zones. */
-  capabilities?: ApiManagementSkuZoneDetailsCapabilitiesList;
+  capabilities?: ApiManagementSkuZoneDetailsCapabilitiesList | undefined;
 }
 /** Details of capabilities available to a SKU in specific zones. */
 export type ApiManagementSkuLocationInfoZoneDetailsList = Array<ApiManagementSkuZoneDetails>;
 export interface ApiManagementSkuLocationInfo {
   /** Location of the SKU */
-  location?: string;
+  location?: string | undefined;
   /** List of availability zones where the SKU is supported. */
-  zones?: ApiManagementSkuLocationInfoZonesList;
+  zones?: ApiManagementSkuLocationInfoZonesList | undefined;
   /** Details of capabilities available to a SKU in specific zones. */
-  zoneDetails?: ApiManagementSkuLocationInfoZoneDetailsList;
+  zoneDetails?: ApiManagementSkuLocationInfoZoneDetailsList | undefined;
 }
 /** A list of locations and availability zones in those locations where the SKU is available. */
 export type ApiManagementSkuLocationInfoList = Array<ApiManagementSkuLocationInfo>;
@@ -9930,11 +9990,11 @@ export type ApiManagementSkuApiVersionsList = Array<string>;
 /** Describes metadata for retrieving price info. */
 export interface ApiManagementSkuCosts {
   /** Used for querying price from commerce. */
-  meterID?: string;
+  meterID?: string | undefined;
   /** The multiplier is needed to extend the base metered cost. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** An invariant to show the extended unit. */
-  extendedUnit?: string;
+  extendedUnit?: string | undefined;
 }
 /** Metadata for retrieving price info. */
 export type ApiManagementSkuCostsList = Array<ApiManagementSkuCosts>;
@@ -9950,53 +10010,53 @@ export type ApiManagementSkuRestrictionInfoLocationsList = Array<string>;
 export type ApiManagementSkuRestrictionInfoZonesList = Array<string>;
 export interface ApiManagementSkuRestrictionInfo {
   /** Locations where the SKU is restricted */
-  locations?: ApiManagementSkuRestrictionInfoLocationsList;
+  locations?: ApiManagementSkuRestrictionInfoLocationsList | undefined;
   /** List of availability zones where the SKU is restricted. */
-  zones?: ApiManagementSkuRestrictionInfoZonesList;
+  zones?: ApiManagementSkuRestrictionInfoZonesList | undefined;
 }
 /** The reason for restriction. */
 export type ApiManagementSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** Describes scaling information of a SKU. */
 export interface ApiManagementSkuRestrictions {
   /** The type of restrictions. */
-  type?: ApiManagementSkuRestrictionsType;
+  type?: ApiManagementSkuRestrictionsType | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values?: ApiManagementSkuRestrictionsValuesList;
+  values?: ApiManagementSkuRestrictionsValuesList | undefined;
   /** The information about the restriction where the SKU cannot be used. */
-  restrictionInfo?: ApiManagementSkuRestrictionInfo;
+  restrictionInfo?: ApiManagementSkuRestrictionInfo | undefined;
   /** The reason for restriction. */
-  reasonCode?: ApiManagementSkuRestrictionsReasonCode;
+  reasonCode?: ApiManagementSkuRestrictionsReasonCode | undefined;
 }
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ApiManagementSkuRestrictionsList = Array<ApiManagementSkuRestrictions>;
 /** Describes an available ApiManagement SKU. */
 export interface ApiManagementSku {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The name of SKU. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic** */
-  tier?: string;
+  tier?: string | undefined;
   /** The Size of the SKU. */
-  size?: string;
+  size?: string | undefined;
   /** The Family of this particular SKU. */
-  family?: string;
+  family?: string | undefined;
   /** The Kind of resources that are supported in this SKU. */
-  kind?: string;
+  kind?: string | undefined;
   /** Specifies the number of virtual machines in the scale set. */
-  capacity?: ApiManagementSkuCapacity;
+  capacity?: ApiManagementSkuCapacity | undefined;
   /** The set of locations that the SKU is available. */
-  locations?: ApiManagementSkuLocationsList;
+  locations?: ApiManagementSkuLocationsList | undefined;
   /** A list of locations and availability zones in those locations where the SKU is available. */
-  locationInfo?: ApiManagementSkuLocationInfoList;
+  locationInfo?: ApiManagementSkuLocationInfoList | undefined;
   /** The api versions that support this SKU. */
-  apiVersions?: ApiManagementSkuApiVersionsList;
+  apiVersions?: ApiManagementSkuApiVersionsList | undefined;
   /** Metadata for retrieving price info. */
-  costs?: ApiManagementSkuCostsList;
+  costs?: ApiManagementSkuCostsList | undefined;
   /** A name value pair to describe the capability. */
-  capabilities?: ApiManagementSkuCapabilitiesList;
+  capabilities?: ApiManagementSkuCapabilitiesList | undefined;
   /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
-  restrictions?: ApiManagementSkuRestrictionsList;
+  restrictions?: ApiManagementSkuRestrictionsList | undefined;
 }
 /** The list of skus available for the subscription. */
 export type ApiManagementSkusResultValueList = Array<ApiManagementSku>;
@@ -10005,7 +10065,7 @@ export interface ApiManagementSkusResult {
   /** The list of skus available for the subscription. */
   value: ApiManagementSkusResultValueList;
   /** The URI to fetch the next page of Resource Skus. Call ListNext() with this URI to fetch the next page of Resource Skus */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiManagementWorkspaceLinkByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10018,15 +10078,15 @@ export interface ListApiManagementWorkspaceLinkByServiceRequest {
 /** A single API Management WorkspaceLinks in List or Get response. */
 export interface ApiManagementWorkspaceLinksResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Management WorkspaceLinks. */
   properties: ApiManagementWorkspaceLinksProperties;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Result of the List API Management WorkspaceLinks operation. */
 export type ListApiManagementWorkspaceLinkByServiceResponseValueList =
@@ -10035,7 +10095,7 @@ export interface ListApiManagementWorkspaceLinkByServiceResponse {
   /** Result of the List API Management WorkspaceLinks operation. */
   value: ListApiManagementWorkspaceLinkByServiceResponseValueList;
   /** Link to the next set of results. Not empty if Value contains incomplete list of API Management services. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiOperationByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10047,34 +10107,34 @@ export interface ListApiOperationByApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Include tags in the response. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** API Operation details. */
 export interface OperationContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiOperationByApiResponseValueList = Array<OperationContract>;
 export interface ListApiOperationByApiResponse {
   /** Page values. */
-  value?: ListApiOperationByApiResponseValueList;
+  value?: ListApiOperationByApiResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiOperationPolicyByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10091,23 +10151,23 @@ export interface ListApiOperationPolicyByOperationRequest {
 /** Policy Contract details. */
 export interface PolicyContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 /** Policy Contract value. */
 export type ListApiOperationPolicyByOperationResponseValueList = Array<PolicyContract>;
 export interface ListApiOperationPolicyByOperationResponse {
   /** Policy Contract value. */
-  value?: ListApiOperationPolicyByOperationResponseValueList;
+  value?: ListApiOperationPolicyByOperationResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiPolicyByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10123,11 +10183,11 @@ export interface ListApiPolicyByApiRequest {
 export type ListApiPolicyByApiResponseValueList = Array<PolicyContract>;
 export interface ListApiPolicyByApiResponse {
   /** Policy Contract value. */
-  value?: ListApiPolicyByApiResponseValueList;
+  value?: ListApiPolicyByApiResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiProductByApisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10139,32 +10199,32 @@ export interface ListApiProductByApisRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Product details. */
 export interface ProductContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiProductByApisResponseValueList = Array<ProductContract>;
 export interface ListApiProductByApisResponse {
   /** Page values. */
-  value?: ListApiProductByApisResponseValueList;
+  value?: ListApiProductByApisResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiReleaseByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10176,32 +10236,32 @@ export interface ListApiReleaseByServiceRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| notes | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** ApiRelease details. */
 export interface ApiReleaseContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractProperties;
+  properties?: ApiReleaseContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiReleaseByServiceResponseValueList = Array<ApiReleaseContract>;
 export interface ListApiReleaseByServiceResponse {
   /** Page values. */
-  value?: ListApiReleaseByServiceResponseValueList;
+  value?: ListApiReleaseByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiRevisionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10213,40 +10273,40 @@ export interface ListApiRevisionByServiceRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Summary of revision metadata. */
 export interface ApiRevisionContract {
   /** Identifier of the API Revision. */
-  apiId?: string;
+  apiId?: string | undefined;
   /** Revision number of API. */
-  apiRevision?: string;
+  apiRevision?: string | undefined;
   /** The time the API Revision was created. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
   /** The time the API Revision were updated. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
-  updatedDateTime?: string;
+  updatedDateTime?: string | undefined;
   /** Description of the API Revision. */
-  description?: string;
+  description?: string | undefined;
   /** Gateway URL for accessing the non-current API Revision. */
-  privateUrl?: string;
+  privateUrl?: string | undefined;
   /** Indicates if API revision is the current api revision. */
-  isOnline?: boolean;
+  isOnline?: boolean | undefined;
   /** Indicates if API revision is accessible via the gateway. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
 }
 /** Page values. */
 export type ListApiRevisionByServiceResponseValueList = Array<ApiRevisionContract>;
 export interface ListApiRevisionByServiceResponse {
   /** Page values. */
-  value?: ListApiRevisionByServiceResponseValueList;
+  value?: ListApiRevisionByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiSchemaByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10258,32 +10318,32 @@ export interface ListApiSchemaByApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| contentType | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** API Schema Contract details. */
 export interface SchemaContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Schema. */
-  properties?: SchemaContractProperties;
+  properties?: SchemaContractProperties | undefined;
 }
 /** API Schema Contract value. */
 export type ListApiSchemaByApiResponseValueList = Array<SchemaContract>;
 export interface ListApiSchemaByApiResponse {
   /** API Schema Contract value. */
-  value?: ListApiSchemaByApiResponseValueList;
+  value?: ListApiSchemaByApiResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiTagDescriptionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10295,32 +10355,32 @@ export interface ListApiTagDescriptionByServiceRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Contract details. */
 export interface TagDescriptionContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** TagDescription entity contract properties. */
-  properties?: TagDescriptionContractProperties;
+  properties?: TagDescriptionContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiTagDescriptionByServiceResponseValueList = Array<TagDescriptionContract>;
 export interface ListApiTagDescriptionByServiceResponse {
   /** Page values. */
-  value?: ListApiTagDescriptionByServiceResponseValueList;
+  value?: ListApiTagDescriptionByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiVersionSetByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10330,32 +10390,32 @@ export interface ListApiVersionSetByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** API Version Set Contract details. */
 export interface ApiVersionSetContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiVersionSetByServiceResponseValueList = Array<ApiVersionSetContract>;
 export interface ListApiVersionSetByServiceResponse {
   /** Page values. */
-  value?: ListApiVersionSetByServiceResponseValueList;
+  value?: ListApiVersionSetByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiWikisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10367,30 +10427,30 @@ export interface ListApiWikisRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq | contains |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Wiki properties */
 export interface WikiContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 /** Page values. */
 export type ListApiWikisResponseValueList = Array<WikiContract>;
 export interface ListApiWikisResponse {
   /** Page values. */
-  value?: ListApiWikisResponseValueList;
+  value?: ListApiWikisResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAuthorizationAccessPolicyByAuthorizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10404,33 +10464,33 @@ export interface ListAuthorizationAccessPolicyByAuthorizationRequest {
   /** Identifier of the authorization. */
   authorizationId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Authorization access policy contract. */
 export interface AuthorizationAccessPolicyContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationAccessPolicyContractProperties;
+  properties?: AuthorizationAccessPolicyContractProperties | undefined;
 }
 /** Page values. */
 export type ListAuthorizationAccessPolicyByAuthorizationResponseValueList =
   Array<AuthorizationAccessPolicyContract>;
 export interface ListAuthorizationAccessPolicyByAuthorizationResponse {
   /** Page values. */
-  value?: ListAuthorizationAccessPolicyByAuthorizationResponseValueList;
+  value?: ListAuthorizationAccessPolicyByAuthorizationResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAuthorizationByAuthorizationProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10442,33 +10502,33 @@ export interface ListAuthorizationByAuthorizationProviderRequest {
   /** Identifier of the authorization provider. */
   authorizationProviderId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Authorization contract. */
 export interface AuthorizationContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Contract. */
-  properties?: AuthorizationContractProperties;
+  properties?: AuthorizationContractProperties | undefined;
 }
 /** Page values. */
 export type ListAuthorizationByAuthorizationProviderResponseValueList =
   Array<AuthorizationContract>;
 export interface ListAuthorizationByAuthorizationProviderResponse {
   /** Page values. */
-  value?: ListAuthorizationByAuthorizationProviderResponseValueList;
+  value?: ListAuthorizationByAuthorizationProviderResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAuthorizationProviderByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10478,31 +10538,31 @@ export interface ListAuthorizationProviderByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Authorization Provider contract. */
 export interface AuthorizationProviderContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Authorization Provider Contract. */
-  properties?: AuthorizationProviderContractProperties;
+  properties?: AuthorizationProviderContractProperties | undefined;
 }
 /** Page values. */
 export type ListAuthorizationProviderByServiceResponseValueList =
   Array<AuthorizationProviderContract>;
 export interface ListAuthorizationProviderByServiceResponse {
   /** Page values. */
-  value?: ListAuthorizationProviderByServiceResponseValueList;
+  value?: ListAuthorizationProviderByServiceResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAuthorizationServerByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10512,32 +10572,32 @@ export interface ListAuthorizationServerByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** External OAuth authorization server settings. */
 export interface AuthorizationServerContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the External OAuth authorization server Contract. */
-  properties?: AuthorizationServerContractProperties;
+  properties?: AuthorizationServerContractProperties | undefined;
 }
 /** Page values. */
 export type ListAuthorizationServerByServiceResponseValueList = Array<AuthorizationServerContract>;
 export interface ListAuthorizationServerByServiceResponse {
   /** Page values. */
-  value?: ListAuthorizationServerByServiceResponseValueList;
+  value?: ListAuthorizationServerByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAuthorizationServerSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10551,11 +10611,11 @@ export interface ListAuthorizationServerSecretsRequest {
 }
 export interface ListAuthorizationServerSecretsResponse {
   /** oAuth Authorization Server Secrets. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username. */
-  resourceOwnerUsername?: string;
+  resourceOwnerUsername?: string | undefined;
   /** Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password. */
-  resourceOwnerPassword?: string | Redacted.Redacted<string>;
+  resourceOwnerPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListBackendByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10565,32 +10625,32 @@ export interface ListBackendByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| url | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Backend details. */
 export interface BackendContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 /** Backend values. */
 export type ListBackendByServiceResponseValueList = Array<BackendContract>;
 export interface ListBackendByServiceResponse {
   /** Backend values. */
-  value?: ListBackendByServiceResponseValueList;
+  value?: ListBackendByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCacheByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10600,30 +10660,30 @@ export interface ListCacheByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Cache details. */
 export interface CacheContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Cache properties details. */
-  properties?: CacheContractProperties;
+  properties?: CacheContractProperties | undefined;
 }
 /** Page values. */
 export type ListCacheByServiceResponseValueList = Array<CacheContract>;
 export interface ListCacheByServiceResponse {
   /** Page values. */
-  value?: ListCacheByServiceResponseValueList;
+  value?: ListCacheByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificateByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10633,34 +10693,34 @@ export interface ListCertificateByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| subject | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| thumbprint | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| expirationDate | filter | ge, le, eq, ne, gt, lt | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** When set to true, the response contains only certificates entities which failed refresh. */
-  isKeyVaultRefreshFailed?: boolean;
+  isKeyVaultRefreshFailed?: boolean | undefined;
 }
 /** Certificate details. */
 export interface CertificateContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Certificate properties details. */
-  properties?: CertificateContractProperties;
+  properties?: CertificateContractProperties | undefined;
 }
 /** Page values. */
 export type ListCertificateByServiceResponseValueList = Array<CertificateContract>;
 export interface ListCertificateByServiceResponse {
   /** Page values. */
-  value?: ListCertificateByServiceResponseValueList;
+  value?: ListCertificateByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContentItemByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10675,21 +10735,21 @@ export interface ListContentItemByServiceRequest {
 /** Content type contract details. */
 export interface ContentItemContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the content item. */
-  properties?: ContentItemContractProperties;
+  properties?: ContentItemContractProperties | undefined;
 }
 /** Collection of content items. */
 export type ListContentItemByServiceResponseValueList = Array<ContentItemContract>;
 export interface ListContentItemByServiceResponse {
   /** Collection of content items. */
-  value?: ListContentItemByServiceResponseValueList;
+  value?: ListContentItemByServiceResponseValueList | undefined;
   /** Next page link, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContentTypeByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10702,21 +10762,21 @@ export interface ListContentTypeByServiceRequest {
 /** Content type contract details. */
 export interface ContentTypeContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the content type. */
-  properties?: ContentTypeContractProperties;
+  properties?: ContentTypeContractProperties | undefined;
 }
 /** Collection of content types. */
 export type ListContentTypeByServiceResponseValueList = Array<ContentTypeContract>;
 export interface ListContentTypeByServiceResponse {
   /** Collection of content types. */
-  value?: ListContentTypeByServiceResponseValueList;
+  value?: ListContentTypeByServiceResponseValueList | undefined;
   /** Next page link, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeletedServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10725,23 +10785,23 @@ export interface ListDeletedServiceBySubscriptionRequest {
 /** Deleted API Management Service information. */
 export interface DeletedServiceContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Deleted API Management Service details. */
-  properties?: DeletedServiceContractProperties;
+  properties?: DeletedServiceContractProperties | undefined;
   /** API Management Service Master Location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Page values. */
 export type ListDeletedServiceBySubscriptionResponseValueList = Array<DeletedServiceContract>;
 export interface ListDeletedServiceBySubscriptionResponse {
   /** Page values. */
-  value?: ListDeletedServiceBySubscriptionResponseValueList;
+  value?: ListDeletedServiceBySubscriptionResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDiagnosticByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10751,21 +10811,21 @@ export interface ListDiagnosticByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListDiagnosticByServiceResponseValueList = Array<DiagnosticContract>;
 export interface ListDiagnosticByServiceResponse {
   /** Page values. */
-  value?: ListDiagnosticByServiceResponseValueList;
+  value?: ListDiagnosticByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDocumentationByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10775,30 +10835,30 @@ export interface ListDocumentationByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq | contains |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Markdown documentation details. */
 export interface DocumentationContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Markdown Documentation details. */
-  properties?: DocumentationContractProperties;
+  properties?: DocumentationContractProperties | undefined;
 }
 /** Page values. */
 export type ListDocumentationByServiceResponseValueList = Array<DocumentationContract>;
 export interface ListDocumentationByServiceResponse {
   /** Page values. */
-  value?: ListDocumentationByServiceResponseValueList;
+  value?: ListDocumentationByServiceResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEmailTemplateByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10808,32 +10868,32 @@ export interface ListEmailTemplateByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Email Template details. */
 export interface EmailTemplateContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Email Template entity contract properties. */
-  properties?: EmailTemplateContractProperties;
+  properties?: EmailTemplateContractProperties | undefined;
 }
 /** Page values. */
 export type ListEmailTemplateByServiceResponseValueList = Array<EmailTemplateContract>;
 export interface ListEmailTemplateByServiceResponse {
   /** Page values. */
-  value?: ListEmailTemplateByServiceResponseValueList;
+  value?: ListEmailTemplateByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayApiByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10845,21 +10905,21 @@ export interface ListGatewayApiByServiceRequest {
   /** Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed' */
   gatewayId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListGatewayApiByServiceResponseValueList = Array<ApiContract>;
 export interface ListGatewayApiByServiceResponse {
   /** Page values. */
-  value?: ListGatewayApiByServiceResponseValueList;
+  value?: ListGatewayApiByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10869,32 +10929,32 @@ export interface ListGatewayByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| region | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Gateway details. */
 export interface GatewayContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway details. */
-  properties?: GatewayContractProperties;
+  properties?: GatewayContractProperties | undefined;
 }
 /** Page values. */
 export type ListGatewayByServiceResponseValueList = Array<GatewayContract>;
 export interface ListGatewayByServiceResponse {
   /** Page values. */
-  value?: ListGatewayByServiceResponseValueList;
+  value?: ListGatewayByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayCertificateAuthorityByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10906,31 +10966,31 @@ export interface ListGatewayCertificateAuthorityByServiceRequest {
   /** Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed' */
   gatewayId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq, ne | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Gateway certificate authority details. */
 export interface GatewayCertificateAuthorityContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway certificate authority details. */
-  properties?: GatewayCertificateAuthorityContractProperties;
+  properties?: GatewayCertificateAuthorityContractProperties | undefined;
 }
 /** Page values. */
 export type ListGatewayCertificateAuthorityByServiceResponseValueList =
   Array<GatewayCertificateAuthorityContract>;
 export interface ListGatewayCertificateAuthorityByServiceResponse {
   /** Page values. */
-  value?: ListGatewayCertificateAuthorityByServiceResponseValueList;
+  value?: ListGatewayCertificateAuthorityByServiceResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Purpose of debug credential. */
 export type ListGatewayDebugCredentialsRequestPurposesItem = "tracing";
@@ -10948,7 +11008,7 @@ export interface ListGatewayDebugCredentialsRequest {
   /** Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed' */
   gatewayId: string;
   /** Credentials expiration in ISO8601 format. Maximum duration of the credentials is PT1H. When property is not specified, them value PT1H is used. */
-  credentialsExpireAfter?: string;
+  credentialsExpireAfter?: string | undefined;
   /** Purposes of debug credential. */
   purposes: ListGatewayDebugCredentialsRequestPurposesList;
   /** Full resource Id of an API. */
@@ -10956,7 +11016,7 @@ export interface ListGatewayDebugCredentialsRequest {
 }
 export interface ListGatewayDebugCredentialsResponse {
   /** Gateway debug token. */
-  token?: string;
+  token?: string | undefined;
 }
 export interface ListGatewayHostnameConfigurationByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10968,31 +11028,31 @@ export interface ListGatewayHostnameConfigurationByServiceRequest {
   /** Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed' */
   gatewayId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| hostname | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Gateway hostname configuration details. */
 export interface GatewayHostnameConfigurationContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway hostname configuration details. */
-  properties?: GatewayHostnameConfigurationContractProperties;
+  properties?: GatewayHostnameConfigurationContractProperties | undefined;
 }
 /** Page values. */
 export type ListGatewayHostnameConfigurationByServiceResponseValueList =
   Array<GatewayHostnameConfigurationContract>;
 export interface ListGatewayHostnameConfigurationByServiceResponse {
   /** Page values. */
-  value?: ListGatewayHostnameConfigurationByServiceResponseValueList;
+  value?: ListGatewayHostnameConfigurationByServiceResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGatewayKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11006,9 +11066,9 @@ export interface ListGatewayKeysRequest {
 }
 export interface ListGatewayKeysResponse {
   /** Primary gateway key. */
-  primary?: string;
+  primary?: string | undefined;
   /** Secondary gateway key. */
-  secondary?: string;
+  secondary?: string | undefined;
 }
 export interface ListGatewayTraceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11020,7 +11080,7 @@ export interface ListGatewayTraceRequest {
   /** Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed' */
   gatewayId: string;
   /** Trace id. */
-  traceId?: string;
+  traceId?: string | undefined;
 }
 /** Trace collected in gateway. */
 export type ListGatewayTraceResponseBodyMap = { [key: string]: unknown | undefined };
@@ -11033,32 +11093,32 @@ export interface ListGlobalSchemaByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Global Schema Contract details. */
 export interface GlobalSchemaContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Global Schema. */
-  properties?: GlobalSchemaContractProperties;
+  properties?: GlobalSchemaContractProperties | undefined;
 }
 /** Global Schema Contract value. */
 export type ListGlobalSchemaByServiceResponseValueList = Array<GlobalSchemaContract>;
 export interface ListGlobalSchemaByServiceResponse {
   /** Global Schema Contract value. */
-  value?: ListGlobalSchemaByServiceResponseValueList;
+  value?: ListGlobalSchemaByServiceResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGraphQLApiResolverByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11070,32 +11130,32 @@ export interface ListGraphQLApiResolverByApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** GraphQL API Resolver details. */
 export interface ResolverContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Resolver Contract. */
-  properties?: ResolverEntityBaseContract;
+  properties?: ResolverEntityBaseContract | undefined;
 }
 /** Page values. */
 export type ListGraphQLApiResolverByApiResponseValueList = Array<ResolverContract>;
 export interface ListGraphQLApiResolverByApiResponse {
   /** Page values. */
-  value?: ListGraphQLApiResolverByApiResponseValueList;
+  value?: ListGraphQLApiResolverByApiResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGraphQLApiResolverPolicyByResolverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11113,11 +11173,11 @@ export interface ListGraphQLApiResolverPolicyByResolverRequest {
 export type ListGraphQLApiResolverPolicyByResolverResponseValueList = Array<PolicyContract>;
 export interface ListGraphQLApiResolverPolicyByResolverResponse {
   /** Policy Contract value. */
-  value?: ListGraphQLApiResolverPolicyByResolverResponseValueList;
+  value?: ListGraphQLApiResolverPolicyByResolverResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11127,32 +11187,32 @@ export interface ListGroupByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| externalId | filter | eq | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Contract details. */
 export interface GroupContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 /** Page values. */
 export type ListGroupByServiceResponseValueList = Array<GroupContract>;
 export interface ListGroupByServiceResponse {
   /** Page values. */
-  value?: ListGroupByServiceResponseValueList;
+  value?: ListGroupByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroupUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11164,32 +11224,32 @@ export interface ListGroupUserRequest {
   /** Group identifier. Must be unique in the current API Management service instance. */
   groupId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt | |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** User details. */
 export interface UserContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** User entity contract properties. */
-  properties?: UserContractProperties;
+  properties?: UserContractProperties | undefined;
 }
 /** Page values. */
 export type ListGroupUserResponseValueList = Array<UserContract>;
 export interface ListGroupUserResponse {
   /** Page values. */
-  value?: ListGroupUserResponseValueList;
+  value?: ListGroupUserResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIdentityProviderByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11202,23 +11262,23 @@ export interface ListIdentityProviderByServiceRequest {
 /** Identity Provider details. */
 export interface IdentityProviderContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Identity Provider contract properties. */
-  properties?: IdentityProviderContractProperties;
+  properties?: IdentityProviderContractProperties | undefined;
 }
 /** Identity Provider configuration values. */
 export type ListIdentityProviderByServiceResponseValueList = Array<IdentityProviderContract>;
 export interface ListIdentityProviderByServiceResponse {
   /** Identity Provider configuration values. */
-  value?: ListIdentityProviderByServiceResponseValueList;
+  value?: ListIdentityProviderByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListIdentityProviderSecretsRequestIdentityProviderName =
   | "facebook"
@@ -11239,7 +11299,7 @@ export interface ListIdentityProviderSecretsRequest {
 }
 export interface ListIdentityProviderSecretsResponse {
   /** Client or app secret used in IdentityProviders, Aad, OpenID or OAuth. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListIssueByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11249,21 +11309,21 @@ export interface ListIssueByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| authorName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Issue values. */
 export type ListIssueByServiceResponseValueList = Array<IssueContract>;
 export interface ListIssueByServiceResponse {
   /** Issue values. */
-  value?: ListIssueByServiceResponseValueList;
+  value?: ListIssueByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLoggerByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11273,32 +11333,32 @@ export interface ListLoggerByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| loggerType | filter | eq | |</br>| resourceId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Logger details. */
 export interface LoggerContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 /** Logger values. */
 export type ListLoggerByServiceResponseValueList = Array<LoggerContract>;
 export interface ListLoggerByServiceResponse {
   /** Logger values. */
-  value?: ListLoggerByServiceResponseValueList;
+  value?: ListLoggerByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamedValueByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11308,34 +11368,34 @@ export interface ListNamedValueByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** When set to true, the response contains only named value entities which failed refresh. */
-  isKeyVaultRefreshFailed?: boolean;
+  isKeyVaultRefreshFailed?: boolean | undefined;
 }
 /** NamedValue details. */
 export interface NamedValueContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
 }
 /** Page values. */
 export type ListNamedValueByServiceResponseValueList = Array<NamedValueContract>;
 export interface ListNamedValueByServiceResponse {
   /** Page values. */
-  value?: ListNamedValueByServiceResponseValueList;
+  value?: ListNamedValueByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamedValueValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11349,7 +11409,7 @@ export interface ListNamedValueValueRequest {
 }
 export interface ListNamedValueValueResponse {
   /** This is secret value of the NamedValue entity. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListNetworkStatusByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11372,7 +11432,7 @@ export interface ConnectivityStatusContract {
   /** Resource Connectivity Status Type identifier. */
   status: ConnectivityStatusContractStatus;
   /** Error details of the connectivity to the resource. */
-  error?: string;
+  error?: string | undefined;
   /** The date when the resource connectivity status was last updated. This status should be updated every 15 minutes. If this status has not been updated, then it means that the service has lost network connectivity to the resource, from inside the Virtual Network.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
   lastUpdated: string;
   /** The date when the resource connectivity status last Changed from success to failure or vice-versa. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
@@ -11402,9 +11462,9 @@ export interface ListNetworkStatusByServiceRequest {
 /** Network Status in the Location */
 export interface NetworkStatusContractByLocation {
   /** Location of service */
-  location?: string;
+  location?: string | undefined;
   /** Network status in Location */
-  networkStatus?: NetworkStatusContract;
+  networkStatus?: NetworkStatusContract | undefined;
 }
 /** List of Network Status values. */
 export type ListNetworkStatusByServiceResponseBodyList = Array<NetworkStatusContractByLocation>;
@@ -11417,30 +11477,30 @@ export interface ListNotificationByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Notification details. */
 export interface NotificationContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Notification entity contract properties. */
-  properties?: NotificationContractProperties;
+  properties?: NotificationContractProperties | undefined;
 }
 /** Page values. */
 export type ListNotificationByServiceResponseValueList = Array<NotificationContract>;
 export interface ListNotificationByServiceResponse {
   /** Page values. */
-  value?: ListNotificationByServiceResponseValueList;
+  value?: ListNotificationByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListNotificationRecipientEmailByNotificationRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -11465,29 +11525,29 @@ export interface ListNotificationRecipientEmailByNotificationRequest {
 /** Recipient Email Contract Properties. */
 export interface RecipientEmailContractProperties {
   /** User Email subscribed to notification. */
-  email?: string;
+  email?: string | undefined;
 }
 /** Recipient Email details. */
 export interface RecipientEmailContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Recipient Email contract properties. */
-  properties?: RecipientEmailContractProperties;
+  properties?: RecipientEmailContractProperties | undefined;
 }
 /** Page values. */
 export type ListNotificationRecipientEmailByNotificationResponseValueList =
   Array<RecipientEmailContract>;
 export interface ListNotificationRecipientEmailByNotificationResponse {
   /** Page values. */
-  value?: ListNotificationRecipientEmailByNotificationResponseValueList;
+  value?: ListNotificationRecipientEmailByNotificationResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListNotificationRecipientUserByNotificationRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -11512,29 +11572,29 @@ export interface ListNotificationRecipientUserByNotificationRequest {
 /** Recipient User Contract Properties. */
 export interface RecipientUsersContractProperties {
   /** API Management UserId subscribed to notification. */
-  userId?: string;
+  userId?: string | undefined;
 }
 /** Recipient User details. */
 export interface RecipientUserContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Recipient User entity contract properties. */
-  properties?: RecipientUsersContractProperties;
+  properties?: RecipientUsersContractProperties | undefined;
 }
 /** Page values. */
 export type ListNotificationRecipientUserByNotificationResponseValueList =
   Array<RecipientUserContract>;
 export interface ListNotificationRecipientUserByNotificationResponse {
   /** Page values. */
-  value?: ListNotificationRecipientUserByNotificationResponseValueList;
+  value?: ListNotificationRecipientUserByNotificationResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOpenIdConnectProviderByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11544,33 +11604,33 @@ export interface ListOpenIdConnectProviderByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** OpenId Connect Provider details. */
 export interface OpenidConnectProviderContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** OpenId Connect Provider contract properties. */
-  properties?: OpenidConnectProviderContractProperties;
+  properties?: OpenidConnectProviderContractProperties | undefined;
 }
 /** Page values. */
 export type ListOpenIdConnectProviderByServiceResponseValueList =
   Array<OpenidConnectProviderContract>;
 export interface ListOpenIdConnectProviderByServiceResponse {
   /** Page values. */
-  value?: ListOpenIdConnectProviderByServiceResponseValueList;
+  value?: ListOpenIdConnectProviderByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOpenIdConnectProviderSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11584,7 +11644,7 @@ export interface ListOpenIdConnectProviderSecretsRequest {
 }
 export interface ListOpenIdConnectProviderSecretsResponse {
   /** Client or app secret used in IdentityProviders, Aad, OpenID or OAuth. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListOperationByTagsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11596,35 +11656,35 @@ export interface ListOperationByTagsRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Include not tagged Operations. */
-  includeNotTaggedOperations?: boolean;
+  includeNotTaggedOperations?: boolean | undefined;
 }
 /** Page values. */
 export type ListOperationByTagsResponseValueList = Array<TagResourceContract>;
 export interface ListOperationByTagsResponse {
   /** Page values. */
-  value?: ListOperationByTagsResponseValueList;
+  value?: ListOperationByTagsResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -11633,23 +11693,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOutboundNetworkDependenciesEndpointByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11662,27 +11722,27 @@ export interface ListOutboundNetworkDependenciesEndpointByServiceRequest {
 /** Current TCP connectivity information from the Api Management Service to a single endpoint. */
 export interface EndpointDetail {
   /** The port an endpoint is connected to. */
-  port?: number;
+  port?: number | undefined;
   /** The region of the dependency. */
-  region?: string;
+  region?: string | undefined;
 }
 /** The Ports used when connecting to DomainName. */
 export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
 /** A domain name that a service is reached at. */
 export interface EndpointDependency {
   /** The domain name of the dependency. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The Ports used when connecting to DomainName. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
+  endpointDetails?: EndpointDependencyEndpointDetailsList | undefined;
 }
 /** The endpoints that the Api Management Service reaches the service at. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
 /** Endpoints accessed for a common purpose that the Api Management Service requires outbound network access to. */
 export interface OutboundEnvironmentEndpoint {
   /** The type of service accessed by the Api Management Service, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints that the Api Management Service reaches the service at. */
-  endpoints?: OutboundEnvironmentEndpointEndpointsList;
+  endpoints?: OutboundEnvironmentEndpointEndpointsList | undefined;
 }
 /** Collection of resources. */
 export type OutboundEnvironmentEndpointListValueList = Array<OutboundEnvironmentEndpoint>;
@@ -11691,7 +11751,7 @@ export interface OutboundEnvironmentEndpointList {
   /** Collection of resources. */
   value: OutboundEnvironmentEndpointListValueList;
   /** Link to next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11705,11 +11765,11 @@ export interface ListPolicyByServiceRequest {
 export type ListPolicyByServiceResponseValueList = Array<PolicyContract>;
 export interface ListPolicyByServiceResponse {
   /** Policy Contract value. */
-  value?: ListPolicyByServiceResponseValueList;
+  value?: ListPolicyByServiceResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListPolicyDescriptionByServiceRequestScope =
   | "Tenant"
@@ -11725,33 +11785,33 @@ export interface ListPolicyDescriptionByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** Policy scope. */
-  scope?: ListPolicyDescriptionByServiceRequestScope | (string & {});
+  scope?: ListPolicyDescriptionByServiceRequestScope | (string & {}) | undefined;
 }
 /** Policy description properties. */
 export interface PolicyDescriptionContractProperties {
   /** Policy description. */
-  description?: string;
+  description?: string | undefined;
   /** Binary OR value of the Snippet scope. */
-  scope?: number;
+  scope?: number | undefined;
 }
 /** Policy description details. */
 export interface PolicyDescriptionContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Policy description contract properties. */
-  properties?: PolicyDescriptionContractProperties;
+  properties?: PolicyDescriptionContractProperties | undefined;
 }
 /** Descriptions of API Management policies. */
 export type ListPolicyDescriptionByServiceResponseValueList = Array<PolicyDescriptionContract>;
 export interface ListPolicyDescriptionByServiceResponse {
   /** Descriptions of API Management policies. */
-  value?: ListPolicyDescriptionByServiceResponseValueList;
+  value?: ListPolicyDescriptionByServiceResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface ListPolicyFragmentByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11761,34 +11821,34 @@ export interface ListPolicyFragmentByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter, orderBy | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| value | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Policy fragment contract details. */
 export interface PolicyFragmentContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Fragment. */
-  properties?: PolicyFragmentContractProperties;
+  properties?: PolicyFragmentContractProperties | undefined;
 }
 /** Policy fragment contract value. */
 export type ListPolicyFragmentByServiceResponseValueList = Array<PolicyFragmentContract>;
 export interface ListPolicyFragmentByServiceResponse {
   /** Policy fragment contract value. */
-  value?: ListPolicyFragmentByServiceResponseValueList;
+  value?: ListPolicyFragmentByServiceResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyFragmentReferencesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11800,28 +11860,28 @@ export interface ListPolicyFragmentReferencesRequest {
   /** A resource identifier. */
   id: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
 }
 /** A collection of resources. */
 export type ListPolicyFragmentReferencesResponseValueList = Array<Resource>;
 export interface ListPolicyFragmentReferencesResponse {
   /** A collection of resources. */
-  value?: ListPolicyFragmentReferencesResponseValueList;
+  value?: ListPolicyFragmentReferencesResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyRestrictionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11834,19 +11894,19 @@ export interface ListPolicyRestrictionByServiceRequest {
 /** Policy restriction contract details. */
 export interface PolicyRestrictionContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Restriction. */
-  properties?: PolicyRestrictionContractProperties;
+  properties?: PolicyRestrictionContractProperties | undefined;
 }
 export type ListPolicyRestrictionByServiceResponseValueList = Array<PolicyRestrictionContract>;
 export interface ListPolicyRestrictionByServiceResponse {
-  value?: ListPolicyRestrictionByServiceResponseValueList;
+  value?: ListPolicyRestrictionByServiceResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPortalConfigByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11859,21 +11919,21 @@ export interface ListPortalConfigByServiceRequest {
 /** The developer portal configuration contract. */
 export interface PortalConfigContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The developer portal configuration contract properties. */
-  properties?: PortalConfigProperties;
+  properties?: PortalConfigProperties | undefined;
 }
 /** The developer portal configurations. */
 export type ListPortalConfigByServiceResponseValueList = Array<PortalConfigContract>;
 export interface ListPortalConfigByServiceResponse {
   /** The developer portal configurations. */
-  value?: ListPortalConfigByServiceResponseValueList;
+  value?: ListPortalConfigByServiceResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPortalRevisionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11883,30 +11943,30 @@ export interface ListPortalRevisionByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Supported operators | Supported functions | |-------------|------------------------|-----------------------------------| |name | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |description | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith| |isCurrent | eq, ne | | */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Portal Revision's contract details. */
 export interface PortalRevisionContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the portal revisions. */
-  properties?: PortalRevisionContractProperties;
+  properties?: PortalRevisionContractProperties | undefined;
 }
 /** Collection of portal revisions. */
 export type ListPortalRevisionByServiceResponseValueList = Array<PortalRevisionContract>;
 export interface ListPortalRevisionByServiceResponse {
   /** Collection of portal revisions. */
-  value?: ListPortalRevisionByServiceResponseValueList;
+  value?: ListPortalRevisionByServiceResponseValueList | undefined;
   /** Next page link, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11919,20 +11979,20 @@ export interface ListPrivateEndpointConnectionByServiceRequest {
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Array of private endpoint connections */
 export type ListPrivateEndpointConnectionByServiceResponseValueList =
   Array<PrivateEndpointConnection>;
 export interface ListPrivateEndpointConnectionByServiceResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionByServiceResponseValueList;
+  value?: ListPrivateEndpointConnectionByServiceResponseValueList | undefined;
 }
 export interface ListPrivateEndpointConnectionPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11945,20 +12005,20 @@ export interface ListPrivateEndpointConnectionPrivateLinkResourcesRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type ListPrivateEndpointConnectionPrivateLinkResourcesResponseValueList =
   Array<PrivateLinkResource>;
 export interface ListPrivateEndpointConnectionPrivateLinkResourcesResponse {
   /** Array of private link resources */
-  value?: ListPrivateEndpointConnectionPrivateLinkResourcesResponseValueList;
+  value?: ListPrivateEndpointConnectionPrivateLinkResourcesResponseValueList | undefined;
 }
 export interface ListProductApiByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11970,21 +12030,21 @@ export interface ListProductApiByProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListProductApiByProductResponseValueList = Array<ApiContract>;
 export interface ListProductApiByProductResponse {
   /** Page values. */
-  value?: ListProductApiByProductResponseValueList;
+  value?: ListProductApiByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductApiLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11996,32 +12056,32 @@ export interface ListProductApiLinkByProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Product-API link details. */
 export interface ProductApiLinkContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 /** Page values. */
 export type ListProductApiLinkByProductResponseValueList = Array<ProductApiLinkContract>;
 export interface ListProductApiLinkByProductResponse {
   /** Page values. */
-  value?: ListProductApiLinkByProductResponseValueList;
+  value?: ListProductApiLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12031,25 +12091,25 @@ export interface ListProductByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br>| groups | expand | | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** When set to true, the response contains an array of groups that have visibility to the product. The default is false. */
-  expandGroups?: boolean;
+  expandGroups?: boolean | undefined;
   /** Products which are part of a specific tag. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Page values. */
 export type ListProductByServiceResponseValueList = Array<ProductContract>;
 export interface ListProductByServiceResponse {
   /** Page values. */
-  value?: ListProductByServiceResponseValueList;
+  value?: ListProductByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductByTagsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12059,23 +12119,23 @@ export interface ListProductByTagsRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Include not tagged Products. */
-  includeNotTaggedProducts?: boolean;
+  includeNotTaggedProducts?: boolean | undefined;
 }
 /** Page values. */
 export type ListProductByTagsResponseValueList = Array<TagResourceContract>;
 export interface ListProductByTagsResponse {
   /** Page values. */
-  value?: ListProductByTagsResponseValueList;
+  value?: ListProductByTagsResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductGroupByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12087,21 +12147,21 @@ export interface ListProductGroupByProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | |</br>| displayName | filter | eq, ne | |</br>| description | filter | eq, ne | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListProductGroupByProductResponseValueList = Array<GroupContract>;
 export interface ListProductGroupByProductResponse {
   /** Page values. */
-  value?: ListProductGroupByProductResponseValueList;
+  value?: ListProductGroupByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductGroupLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12113,32 +12173,32 @@ export interface ListProductGroupLinkByProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| groupId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Product-group link details. */
 export interface ProductGroupLinkContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-group link entity contract properties. */
-  properties?: ProductGroupLinkContractProperties;
+  properties?: ProductGroupLinkContractProperties | undefined;
 }
 /** Page values. */
 export type ListProductGroupLinkByProductResponseValueList = Array<ProductGroupLinkContract>;
 export interface ListProductGroupLinkByProductResponse {
   /** Page values. */
-  value?: ListProductGroupLinkByProductResponseValueList;
+  value?: ListProductGroupLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductPolicyByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12154,11 +12214,11 @@ export interface ListProductPolicyByProductRequest {
 export type ListProductPolicyByProductResponseValueList = Array<PolicyContract>;
 export interface ListProductPolicyByProductResponse {
   /** Policy Contract value. */
-  value?: ListProductPolicyByProductResponseValueList;
+  value?: ListProductPolicyByProductResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductSubscriptionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12170,32 +12230,32 @@ export interface ListProductSubscriptionsRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br>| user | expand | | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Subscription details. */
 export interface SubscriptionContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 /** Page values. */
 export type ListProductSubscriptionsResponseValueList = Array<SubscriptionContract>;
 export interface ListProductSubscriptionsResponse {
   /** Page values. */
-  value?: ListProductSubscriptionsResponseValueList;
+  value?: ListProductSubscriptionsResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductWikisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12207,19 +12267,19 @@ export interface ListProductWikisRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq | contains |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListProductWikisResponseValueList = Array<WikiContract>;
 export interface ListProductWikisResponse {
   /** Page values. */
-  value?: ListProductWikisResponseValueList;
+  value?: ListProductWikisResponseValueList | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQuotaByCounterKeyByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12242,17 +12302,17 @@ export interface QuotaCounterContract {
   /** The date of the end of Counter Period. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
   periodEndTime: string;
   /** Quota Value Properties */
-  value?: QuotaCounterValueContractProperties;
+  value?: QuotaCounterValueContractProperties | undefined;
 }
 /** Quota counter values. */
 export type ListQuotaByCounterKeyByServiceResponseValueList = Array<QuotaCounterContract>;
 export interface ListQuotaByCounterKeyByServiceResponse {
   /** Quota counter values. */
-  value?: ListQuotaByCounterKeyByServiceResponseValueList;
+  value?: ListQuotaByCounterKeyByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12265,21 +12325,21 @@ export interface ListRegionByServiceRequest {
 /** Region profile. */
 export interface RegionContract {
   /** Region name. */
-  name?: string;
+  name?: string | undefined;
   /** whether Region is the master region. */
-  isMasterRegion?: boolean;
+  isMasterRegion?: boolean | undefined;
   /** whether Region is deleted. */
-  isDeleted?: boolean;
+  isDeleted?: boolean | undefined;
 }
 /** Lists of Regions. */
 export type ListRegionByServiceResponseValueList = Array<RegionContract>;
 export interface ListRegionByServiceResponse {
   /** Lists of Regions. */
-  value?: ListRegionByServiceResponseValueList;
+  value?: ListRegionByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12291,76 +12351,76 @@ export interface ListReportByApiRequest {
   /** The filter to apply on the operation. */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Report data. */
 export interface ReportRecordContract {
   /** Name depending on report endpoint specifies product, API, operation or developer name. */
-  name?: string;
+  name?: string | undefined;
   /** Start of aggregation period. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Length of aggregation period. Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations). */
-  interval?: string;
+  interval?: string | undefined;
   /** Country to which this record data is related. */
-  country?: string;
+  country?: string | undefined;
   /** Country region to which this record data is related. */
-  region?: string;
+  region?: string | undefined;
   /** Zip code to which this record data is related. */
-  zip?: string;
+  zip?: string | undefined;
   /** User identifier path. /users/{userId} */
-  userId?: string;
+  userId?: string | undefined;
   /** Product identifier path. /products/{productId} */
-  productId?: string;
+  productId?: string | undefined;
   /** API identifier path. /apis/{apiId} */
-  apiId?: string;
+  apiId?: string | undefined;
   /** Operation identifier path. /apis/{apiId}/operations/{operationId} */
-  operationId?: string;
+  operationId?: string | undefined;
   /** API region identifier. */
-  apiRegion?: string;
+  apiRegion?: string | undefined;
   /** Subscription identifier path. /subscriptions/{subscriptionId} */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Number of successful calls. This includes calls returning HttpStatusCode <= 301 and HttpStatusCode.NotModified and HttpStatusCode.TemporaryRedirect */
-  callCountSuccess?: number;
+  callCountSuccess?: number | undefined;
   /** Number of calls blocked due to invalid credentials. This includes calls returning HttpStatusCode.Unauthorized and HttpStatusCode.Forbidden and HttpStatusCode.TooManyRequests */
-  callCountBlocked?: number;
+  callCountBlocked?: number | undefined;
   /** Number of calls failed due to gateway or backend errors. This includes calls returning HttpStatusCode.BadRequest(400) and any Code between HttpStatusCode.InternalServerError (500) and 600 */
-  callCountFailed?: number;
+  callCountFailed?: number | undefined;
   /** Number of other calls. */
-  callCountOther?: number;
+  callCountOther?: number | undefined;
   /** Total number of calls. */
-  callCountTotal?: number;
+  callCountTotal?: number | undefined;
   /** Bandwidth consumed. */
-  bandwidth?: number;
+  bandwidth?: number | undefined;
   /** Number of times when content was served from cache policy. */
-  cacheHitCount?: number;
+  cacheHitCount?: number | undefined;
   /** Number of times content was fetched from backend. */
-  cacheMissCount?: number;
+  cacheMissCount?: number | undefined;
   /** Average time it took to process request. */
-  apiTimeAvg?: number;
+  apiTimeAvg?: number | undefined;
   /** Minimum time it took to process request. */
-  apiTimeMin?: number;
+  apiTimeMin?: number | undefined;
   /** Maximum time it took to process request. */
-  apiTimeMax?: number;
+  apiTimeMax?: number | undefined;
   /** Average time it took to process request on backend. */
-  serviceTimeAvg?: number;
+  serviceTimeAvg?: number | undefined;
   /** Minimum time it took to process request on backend. */
-  serviceTimeMin?: number;
+  serviceTimeMin?: number | undefined;
   /** Maximum time it took to process request on backend. */
-  serviceTimeMax?: number;
+  serviceTimeMax?: number | undefined;
 }
 /** Page values. */
 export type ListReportByApiResponseValueList = Array<ReportRecordContract>;
 export interface ListReportByApiResponse {
   /** Page values. */
-  value?: ListReportByApiResponseValueList;
+  value?: ListReportByApiResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByGeoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12372,19 +12432,19 @@ export interface ListReportByGeoRequest {
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le | | </br>| country | select | | | </br>| region | select | | | </br>| zip | select | | | </br>| apiRegion | filter | eq | | </br>| userId | filter | eq | | </br>| productId | filter | eq | | </br>| subscriptionId | filter | eq | | </br>| apiId | filter | eq | | </br>| operationId | filter | eq | | </br>| callCountSuccess | select | | | </br>| callCountBlocked | select | | | </br>| callCountFailed | select | | | </br>| callCountOther | select | | | </br>| bandwidth | select, orderBy | | | </br>| cacheHitsCount | select | | | </br>| cacheMissCount | select | | | </br>| apiTimeAvg | select | | | </br>| apiTimeMin | select | | | </br>| apiTimeMax | select | | | </br>| serviceTimeAvg | select | | | </br>| serviceTimeMin | select | | | </br>| serviceTimeMax | select | | | </br> */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListReportByGeoResponseValueList = Array<ReportRecordContract>;
 export interface ListReportByGeoResponse {
   /** Page values. */
-  value?: ListReportByGeoResponseValueList;
+  value?: ListReportByGeoResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12396,21 +12456,21 @@ export interface ListReportByOperationRequest {
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le | | </br>| displayName | select, orderBy | | | </br>| apiRegion | filter | eq | | </br>| userId | filter | eq | | </br>| productId | filter | eq | | </br>| subscriptionId | filter | eq | | </br>| apiId | filter | eq | | </br>| operationId | select, filter | eq | | </br>| callCountSuccess | select, orderBy | | | </br>| callCountBlocked | select, orderBy | | | </br>| callCountFailed | select, orderBy | | | </br>| callCountOther | select, orderBy | | | </br>| callCountTotal | select, orderBy | | | </br>| bandwidth | select, orderBy | | | </br>| cacheHitsCount | select | | | </br>| cacheMissCount | select | | | </br>| apiTimeAvg | select, orderBy | | | </br>| apiTimeMin | select | | | </br>| apiTimeMax | select | | | </br>| serviceTimeAvg | select | | | </br>| serviceTimeMin | select | | | </br>| serviceTimeMax | select | | | </br> */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Page values. */
 export type ListReportByOperationResponseValueList = Array<ReportRecordContract>;
 export interface ListReportByOperationResponse {
   /** Page values. */
-  value?: ListReportByOperationResponseValueList;
+  value?: ListReportByOperationResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12422,21 +12482,21 @@ export interface ListReportByProductRequest {
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le | | </br>| displayName | select, orderBy | | | </br>| apiRegion | filter | eq | | </br>| userId | filter | eq | | </br>| productId | select, filter | eq | | </br>| subscriptionId | filter | eq | | </br>| callCountSuccess | select, orderBy | | | </br>| callCountBlocked | select, orderBy | | | </br>| callCountFailed | select, orderBy | | | </br>| callCountOther | select, orderBy | | | </br>| callCountTotal | select, orderBy | | | </br>| bandwidth | select, orderBy | | | </br>| cacheHitsCount | select | | | </br>| cacheMissCount | select | | | </br>| apiTimeAvg | select, orderBy | | | </br>| apiTimeMin | select | | | </br>| apiTimeMax | select | | | </br>| serviceTimeAvg | select | | | </br>| serviceTimeMin | select | | | </br>| serviceTimeMax | select | | | </br> */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Page values. */
 export type ListReportByProductResponseValueList = Array<ReportRecordContract>;
 export interface ListReportByProductResponse {
   /** Page values. */
-  value?: ListReportByProductResponseValueList;
+  value?: ListReportByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByRequestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12448,56 +12508,56 @@ export interface ListReportByRequestRequest {
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le | | </br>| apiId | filter | eq | | </br>| operationId | filter | eq | | </br>| productId | filter | eq | | </br>| userId | filter | eq | | </br>| apiRegion | filter | eq | | </br>| subscriptionId | filter | eq | | </br> */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Request Report data. */
 export interface RequestReportRecordContract {
   /** API identifier path. /apis/{apiId} */
-  apiId?: string;
+  apiId?: string | undefined;
   /** Operation identifier path. /apis/{apiId}/operations/{operationId} */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Product identifier path. /products/{productId} */
-  productId?: string;
+  productId?: string | undefined;
   /** User identifier path. /users/{userId} */
-  userId?: string;
+  userId?: string | undefined;
   /** The HTTP method associated with this request.. */
-  method?: string;
+  method?: string | undefined;
   /** The full URL associated with this request. */
-  url?: string;
+  url?: string | undefined;
   /** The client IP address associated with this request. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The HTTP status code received by the gateway as a result of forwarding this request to the backend. */
-  backendResponseCode?: string;
+  backendResponseCode?: string | undefined;
   /** The HTTP status code returned by the gateway. */
-  responseCode?: number;
+  responseCode?: number | undefined;
   /** The size of the response returned by the gateway. */
-  responseSize?: number;
+  responseSize?: number | undefined;
   /** The date and time when this request was received by the gateway in ISO 8601 format. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Specifies if response cache was involved in generating the response. If the value is none, the cache was not used. If the value is hit, cached response was returned. If the value is miss, the cache was used but lookup resulted in a miss and request was fulfilled by the backend. */
-  cache?: string;
+  cache?: string | undefined;
   /** The total time it took to process this request. */
-  apiTime?: number;
+  apiTime?: number | undefined;
   /** he time it took to forward this request to the backend and get the response back. */
-  serviceTime?: number;
+  serviceTime?: number | undefined;
   /** Azure region where the gateway that processed this request is located. */
-  apiRegion?: string;
+  apiRegion?: string | undefined;
   /** Subscription identifier path. /subscriptions/{subscriptionId} */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Request Identifier. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** The size of this request.. */
-  requestSize?: number;
+  requestSize?: number | undefined;
 }
 /** Page values. */
 export type ListReportByRequestResponseValueList = Array<RequestReportRecordContract>;
 export interface ListReportByRequestResponse {
   /** Page values. */
-  value?: ListReportByRequestResponseValueList;
+  value?: ListReportByRequestResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface ListReportBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12509,21 +12569,21 @@ export interface ListReportBySubscriptionRequest {
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le | | </br>| displayName | select, orderBy | | | </br>| apiRegion | filter | eq | | </br>| userId | select, filter | eq | | </br>| productId | select, filter | eq | | </br>| subscriptionId | select, filter | eq | | </br>| callCountSuccess | select, orderBy | | | </br>| callCountBlocked | select, orderBy | | | </br>| callCountFailed | select, orderBy | | | </br>| callCountOther | select, orderBy | | | </br>| callCountTotal | select, orderBy | | | </br>| bandwidth | select, orderBy | | | </br>| cacheHitsCount | select | | | </br>| cacheMissCount | select | | | </br>| apiTimeAvg | select, orderBy | | | </br>| apiTimeMin | select | | | </br>| apiTimeMax | select | | | </br>| serviceTimeAvg | select | | | </br>| serviceTimeMin | select | | | </br>| serviceTimeMax | select | | | </br> */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Page values. */
 export type ListReportBySubscriptionResponseValueList = Array<ReportRecordContract>;
 export interface ListReportBySubscriptionResponse {
   /** Page values. */
-  value?: ListReportBySubscriptionResponseValueList;
+  value?: ListReportBySubscriptionResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByTimeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12535,11 +12595,11 @@ export interface ListReportByTimeRequest {
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select | ge, le | | </br>| interval | select | | | </br>| apiRegion | filter | eq | | </br>| userId | filter | eq | | </br>| productId | filter | eq | | </br>| subscriptionId | filter | eq | | </br>| apiId | filter | eq | | </br>| operationId | filter | eq | | </br>| callCountSuccess | select | | | </br>| callCountBlocked | select | | | </br>| callCountFailed | select | | | </br>| callCountOther | select | | | </br>| bandwidth | select, orderBy | | | </br>| cacheHitsCount | select | | | </br>| cacheMissCount | select | | | </br>| apiTimeAvg | select | | | </br>| apiTimeMin | select | | | </br>| apiTimeMax | select | | | </br>| serviceTimeAvg | select | | | </br>| serviceTimeMin | select | | | </br>| serviceTimeMax | select | | | </br> */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** By time interval. Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO 8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)). */
   interval: string;
 }
@@ -12547,11 +12607,11 @@ export interface ListReportByTimeRequest {
 export type ListReportByTimeResponseValueList = Array<ReportRecordContract>;
 export interface ListReportByTimeResponse {
   /** Page values. */
-  value?: ListReportByTimeResponseValueList;
+  value?: ListReportByTimeResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12563,21 +12623,21 @@ export interface ListReportByUserRequest {
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le | | </br>| displayName | select, orderBy | | | </br>| userId | select, filter | eq | | </br>| apiRegion | filter | eq | | </br>| productId | filter | eq | | </br>| subscriptionId | filter | eq | | </br>| apiId | filter | eq | | </br>| operationId | filter | eq | | </br>| callCountSuccess | select, orderBy | | | </br>| callCountBlocked | select, orderBy | | | </br>| callCountFailed | select, orderBy | | | </br>| callCountOther | select, orderBy | | | </br>| callCountTotal | select, orderBy | | | </br>| bandwidth | select, orderBy | | | </br>| cacheHitsCount | select | | | </br>| cacheMissCount | select | | | </br>| apiTimeAvg | select, orderBy | | | </br>| apiTimeMin | select | | | </br>| apiTimeMax | select | | | </br>| serviceTimeAvg | select | | | </br>| serviceTimeMin | select | | | </br>| serviceTimeMax | select | | | </br> */
   _filter: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Page values. */
 export type ListReportByUserResponseValueList = Array<ReportRecordContract>;
 export interface ListReportByUserResponse {
   /** Page values. */
-  value?: ListReportByUserResponseValueList;
+  value?: ListReportByUserResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12587,21 +12647,21 @@ export interface ListSubscriptionRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br>| user | expand | | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListSubscriptionResponseValueList = Array<SubscriptionContract>;
 export interface ListSubscriptionResponse {
   /** Page values. */
-  value?: ListSubscriptionResponseValueList;
+  value?: ListSubscriptionResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12615,9 +12675,9 @@ export interface ListSubscriptionSecretsRequest {
 }
 export interface ListSubscriptionSecretsResponse {
   /** Subscription primary key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Subscription secondary key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface ListTagApiLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12629,32 +12689,32 @@ export interface ListTagApiLinkByProductRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Tag-API link details. */
 export interface TagApiLinkContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 /** Page values. */
 export type ListTagApiLinkByProductResponseValueList = Array<TagApiLinkContract>;
 export interface ListTagApiLinkByProductResponse {
   /** Page values. */
-  value?: ListTagApiLinkByProductResponseValueList;
+  value?: ListTagApiLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12666,32 +12726,32 @@ export interface ListTagByApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Tag Contract details. */
 export interface TagContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 /** Page values. */
 export type ListTagByApiResponseValueList = Array<TagContract>;
 export interface ListTagByApiResponse {
   /** Page values. */
-  value?: ListTagByApiResponseValueList;
+  value?: ListTagByApiResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12705,21 +12765,21 @@ export interface ListTagByOperationRequest {
   /** Operation identifier within an API. Must be unique in the current API Management service instance. */
   operationId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListTagByOperationResponseValueList = Array<TagContract>;
 export interface ListTagByOperationResponse {
   /** Page values. */
-  value?: ListTagByOperationResponseValueList;
+  value?: ListTagByOperationResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12731,21 +12791,21 @@ export interface ListTagByProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListTagByProductResponseValueList = Array<TagContract>;
 export interface ListTagByProductResponse {
   /** Page values. */
-  value?: ListTagByProductResponseValueList;
+  value?: ListTagByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12755,23 +12815,23 @@ export interface ListTagByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Scope like 'apis', 'products' or 'apis/{apiId} */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Page values. */
 export type ListTagByServiceResponseValueList = Array<TagContract>;
 export interface ListTagByServiceResponse {
   /** Page values. */
-  value?: ListTagByServiceResponseValueList;
+  value?: ListTagByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagOperationLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12783,32 +12843,32 @@ export interface ListTagOperationLinkByProductRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| operationId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Tag-operation link details. */
 export interface TagOperationLinkContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagOperationLinkContractProperties;
+  properties?: TagOperationLinkContractProperties | undefined;
 }
 /** Page values. */
 export type ListTagOperationLinkByProductResponseValueList = Array<TagOperationLinkContract>;
 export interface ListTagOperationLinkByProductResponse {
   /** Page values. */
-  value?: ListTagOperationLinkByProductResponseValueList;
+  value?: ListTagOperationLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagProductLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12820,32 +12880,32 @@ export interface ListTagProductLinkByProductRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Tag-product link details. */
 export interface TagProductLinkContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagProductLinkContractProperties;
+  properties?: TagProductLinkContractProperties | undefined;
 }
 /** Page values. */
 export type ListTagProductLinkByProductResponseValueList = Array<TagProductLinkContract>;
 export interface ListTagProductLinkByProductResponse {
   /** Page values. */
-  value?: ListTagProductLinkByProductResponseValueList;
+  value?: ListTagProductLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagResourceByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12855,21 +12915,21 @@ export interface ListTagResourceByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| aid | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br>| isCurrent | filter | eq | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListTagResourceByServiceResponseValueList = Array<TagResourceContract>;
 export interface ListTagResourceByServiceResponse {
   /** Page values. */
-  value?: ListTagResourceByServiceResponseValueList;
+  value?: ListTagResourceByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTenantAccessByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12879,28 +12939,28 @@ export interface ListTenantAccessByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** Not used */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Tenant Settings. */
 export interface AccessInformationContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** AccessInformation entity contract properties. */
-  properties?: AccessInformationContractProperties;
+  properties?: AccessInformationContractProperties | undefined;
 }
 /** Page values. */
 export type ListTenantAccessByServiceResponseValueList = Array<AccessInformationContract>;
 export interface ListTenantAccessByServiceResponse {
   /** Page values. */
-  value?: ListTenantAccessByServiceResponseValueList;
+  value?: ListTenantAccessByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListTenantAccessSecretsRequestAccessName = "access" | "gitAccess";
 export interface ListTenantAccessSecretsRequest {
@@ -12915,15 +12975,15 @@ export interface ListTenantAccessSecretsRequest {
 }
 export interface ListTenantAccessSecretsResponse {
   /** Access Information type ('access' or 'gitAccess') */
-  id?: string;
+  id?: string | undefined;
   /** Principal (User) Identifier. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Primary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Determines whether direct access is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface ListUserByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12933,23 +12993,23 @@ export interface ListUserByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt | |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| groups | expand | | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Detailed Group in response. */
-  expandGroups?: boolean;
+  expandGroups?: boolean | undefined;
 }
 /** Page values. */
 export type ListUserByServiceResponseValueList = Array<UserContract>;
 export interface ListUserByServiceResponse {
   /** Page values. */
-  value?: ListUserByServiceResponseValueList;
+  value?: ListUserByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12961,21 +13021,21 @@ export interface ListUserGroupRequest {
   /** User identifier. Must be unique in the current API Management service instance. */
   userId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|------------------------|-----------------------------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListUserGroupResponseValueList = Array<GroupContract>;
 export interface ListUserGroupResponse {
   /** Page values. */
-  value?: ListUserGroupResponseValueList;
+  value?: ListUserGroupResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserIdentitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12991,11 +13051,11 @@ export interface ListUserIdentitiesRequest {
 export type ListUserIdentitiesResponseValueList = Array<UserIdentityContract>;
 export interface ListUserIdentitiesResponse {
   /** User Identity values. */
-  value?: ListUserIdentitiesResponseValueList;
+  value?: ListUserIdentitiesResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13007,21 +13067,21 @@ export interface ListUserSubscriptionRequest {
   /** User identifier. Must be unique in the current API Management service instance. */
   userId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|------------------------|-----------------------------------|</br>|name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListUserSubscriptionResponseValueList = Array<SubscriptionContract>;
 export interface ListUserSubscriptionResponse {
   /** Page values. */
-  value?: ListUserSubscriptionResponseValueList;
+  value?: ListUserSubscriptionResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13033,25 +13093,25 @@ export interface ListWorkspaceApiByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq, ne | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Include tags in the response. */
-  tags?: string;
+  tags?: string | undefined;
   /** Include full ApiVersionSet resource in response */
-  expandApiVersionSet?: boolean;
+  expandApiVersionSet?: boolean | undefined;
 }
 /** Page values. */
 export type ListWorkspaceApiByServiceResponseValueList = Array<ApiContract>;
 export interface ListWorkspaceApiByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceApiByServiceResponseValueList;
+  value?: ListWorkspaceApiByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiDiagnosticByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13065,21 +13125,21 @@ export interface ListWorkspaceApiDiagnosticByWorkspaceRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceApiDiagnosticByWorkspaceResponseValueList = Array<DiagnosticContract>;
 export interface ListWorkspaceApiDiagnosticByWorkspaceResponse {
   /** Page values. */
-  value?: ListWorkspaceApiDiagnosticByWorkspaceResponseValueList;
+  value?: ListWorkspaceApiDiagnosticByWorkspaceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiOperationByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13093,23 +13153,23 @@ export interface ListWorkspaceApiOperationByApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Include tags in the response. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Page values. */
 export type ListWorkspaceApiOperationByApiResponseValueList = Array<OperationContract>;
 export interface ListWorkspaceApiOperationByApiResponse {
   /** Page values. */
-  value?: ListWorkspaceApiOperationByApiResponseValueList;
+  value?: ListWorkspaceApiOperationByApiResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiOperationPolicyByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13129,11 +13189,11 @@ export interface ListWorkspaceApiOperationPolicyByOperationRequest {
 export type ListWorkspaceApiOperationPolicyByOperationResponseValueList = Array<PolicyContract>;
 export interface ListWorkspaceApiOperationPolicyByOperationResponse {
   /** Policy Contract value. */
-  value?: ListWorkspaceApiOperationPolicyByOperationResponseValueList;
+  value?: ListWorkspaceApiOperationPolicyByOperationResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiPolicyByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13151,11 +13211,11 @@ export interface ListWorkspaceApiPolicyByApiRequest {
 export type ListWorkspaceApiPolicyByApiResponseValueList = Array<PolicyContract>;
 export interface ListWorkspaceApiPolicyByApiResponse {
   /** Policy Contract value. */
-  value?: ListWorkspaceApiPolicyByApiResponseValueList;
+  value?: ListWorkspaceApiPolicyByApiResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiReleaseByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13169,21 +13229,21 @@ export interface ListWorkspaceApiReleaseByServiceRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| notes | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceApiReleaseByServiceResponseValueList = Array<ApiReleaseContract>;
 export interface ListWorkspaceApiReleaseByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceApiReleaseByServiceResponseValueList;
+  value?: ListWorkspaceApiReleaseByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiRevisionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13197,21 +13257,21 @@ export interface ListWorkspaceApiRevisionByServiceRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceApiRevisionByServiceResponseValueList = Array<ApiRevisionContract>;
 export interface ListWorkspaceApiRevisionByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceApiRevisionByServiceResponseValueList;
+  value?: ListWorkspaceApiRevisionByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiSchemaByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13225,21 +13285,21 @@ export interface ListWorkspaceApiSchemaByApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| contentType | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** API Schema Contract value. */
 export type ListWorkspaceApiSchemaByApiResponseValueList = Array<SchemaContract>;
 export interface ListWorkspaceApiSchemaByApiResponse {
   /** API Schema Contract value. */
-  value?: ListWorkspaceApiSchemaByApiResponseValueList;
+  value?: ListWorkspaceApiSchemaByApiResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceApiVersionSetByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13251,21 +13311,21 @@ export interface ListWorkspaceApiVersionSetByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceApiVersionSetByServiceResponseValueList = Array<ApiVersionSetContract>;
 export interface ListWorkspaceApiVersionSetByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceApiVersionSetByServiceResponseValueList;
+  value?: ListWorkspaceApiVersionSetByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceBackendByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13277,21 +13337,21 @@ export interface ListWorkspaceBackendByWorkspaceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| url | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Backend values. */
 export type ListWorkspaceBackendByWorkspaceResponseValueList = Array<BackendContract>;
 export interface ListWorkspaceBackendByWorkspaceResponse {
   /** Backend values. */
-  value?: ListWorkspaceBackendByWorkspaceResponseValueList;
+  value?: ListWorkspaceBackendByWorkspaceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13301,32 +13361,32 @@ export interface ListWorkspaceByServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br></br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Workspace details. */
 export interface WorkspaceContract {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace entity contract properties. */
-  properties?: WorkspaceContractProperties;
+  properties?: WorkspaceContractProperties | undefined;
 }
 /** Page values. */
 export type ListWorkspaceByServiceResponseValueList = Array<WorkspaceContract>;
 export interface ListWorkspaceByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceByServiceResponseValueList;
+  value?: ListWorkspaceByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceCertificateByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13338,23 +13398,23 @@ export interface ListWorkspaceCertificateByWorkspaceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| subject | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| thumbprint | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| expirationDate | filter | ge, le, eq, ne, gt, lt | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** When set to true, the response contains only certificates entities which failed refresh. */
-  isKeyVaultRefreshFailed?: boolean;
+  isKeyVaultRefreshFailed?: boolean | undefined;
 }
 /** Page values. */
 export type ListWorkspaceCertificateByWorkspaceResponseValueList = Array<CertificateContract>;
 export interface ListWorkspaceCertificateByWorkspaceResponse {
   /** Page values. */
-  value?: ListWorkspaceCertificateByWorkspaceResponseValueList;
+  value?: ListWorkspaceCertificateByWorkspaceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceDiagnosticByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13366,21 +13426,21 @@ export interface ListWorkspaceDiagnosticByWorkspaceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceDiagnosticByWorkspaceResponseValueList = Array<DiagnosticContract>;
 export interface ListWorkspaceDiagnosticByWorkspaceResponse {
   /** Page values. */
-  value?: ListWorkspaceDiagnosticByWorkspaceResponseValueList;
+  value?: ListWorkspaceDiagnosticByWorkspaceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceGlobalSchemaByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13392,21 +13452,21 @@ export interface ListWorkspaceGlobalSchemaByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Global Schema Contract value. */
 export type ListWorkspaceGlobalSchemaByServiceResponseValueList = Array<GlobalSchemaContract>;
 export interface ListWorkspaceGlobalSchemaByServiceResponse {
   /** Global Schema Contract value. */
-  value?: ListWorkspaceGlobalSchemaByServiceResponseValueList;
+  value?: ListWorkspaceGlobalSchemaByServiceResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceGroupByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13418,21 +13478,21 @@ export interface ListWorkspaceGroupByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| externalId | filter | eq | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceGroupByServiceResponseValueList = Array<GroupContract>;
 export interface ListWorkspaceGroupByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceGroupByServiceResponseValueList;
+  value?: ListWorkspaceGroupByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceGroupUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13446,21 +13506,21 @@ export interface ListWorkspaceGroupUserRequest {
   /** Group identifier. Must be unique in the current API Management service instance. */
   groupId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt | |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceGroupUserResponseValueList = Array<UserContract>;
 export interface ListWorkspaceGroupUserResponse {
   /** Page values. */
-  value?: ListWorkspaceGroupUserResponseValueList;
+  value?: ListWorkspaceGroupUserResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceLoggerByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13472,21 +13532,21 @@ export interface ListWorkspaceLoggerByWorkspaceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| loggerType | filter | eq | |</br>| resourceId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Logger values. */
 export type ListWorkspaceLoggerByWorkspaceResponseValueList = Array<LoggerContract>;
 export interface ListWorkspaceLoggerByWorkspaceResponse {
   /** Logger values. */
-  value?: ListWorkspaceLoggerByWorkspaceResponseValueList;
+  value?: ListWorkspaceLoggerByWorkspaceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceNamedValueByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13498,23 +13558,23 @@ export interface ListWorkspaceNamedValueByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Query parameter to fetch named value entities based on refresh status. */
-  isKeyVaultRefreshFailed?: boolean;
+  isKeyVaultRefreshFailed?: boolean | undefined;
 }
 /** Page values. */
 export type ListWorkspaceNamedValueByServiceResponseValueList = Array<NamedValueContract>;
 export interface ListWorkspaceNamedValueByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceNamedValueByServiceResponseValueList;
+  value?: ListWorkspaceNamedValueByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceNamedValueValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13530,7 +13590,7 @@ export interface ListWorkspaceNamedValueValueRequest {
 }
 export interface ListWorkspaceNamedValueValueResponse {
   /** This is secret value of the NamedValue entity. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListWorkspaceNotificationByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13542,19 +13602,19 @@ export interface ListWorkspaceNotificationByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceNotificationByServiceResponseValueList = Array<NotificationContract>;
 export interface ListWorkspaceNotificationByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceNotificationByServiceResponseValueList;
+  value?: ListWorkspaceNotificationByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListWorkspaceNotificationRecipientEmailByNotificationRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -13583,11 +13643,11 @@ export type ListWorkspaceNotificationRecipientEmailByNotificationResponseValueLi
   Array<RecipientEmailContract>;
 export interface ListWorkspaceNotificationRecipientEmailByNotificationResponse {
   /** Page values. */
-  value?: ListWorkspaceNotificationRecipientEmailByNotificationResponseValueList;
+  value?: ListWorkspaceNotificationRecipientEmailByNotificationResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListWorkspaceNotificationRecipientUserByNotificationRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -13616,11 +13676,11 @@ export type ListWorkspaceNotificationRecipientUserByNotificationResponseValueLis
   Array<RecipientUserContract>;
 export interface ListWorkspaceNotificationRecipientUserByNotificationResponse {
   /** Page values. */
-  value?: ListWorkspaceNotificationRecipientUserByNotificationResponseValueList;
+  value?: ListWorkspaceNotificationRecipientUserByNotificationResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacePolicyByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13636,11 +13696,11 @@ export interface ListWorkspacePolicyByApiRequest {
 export type ListWorkspacePolicyByApiResponseValueList = Array<PolicyContract>;
 export interface ListWorkspacePolicyByApiResponse {
   /** Policy Contract value. */
-  value?: ListWorkspacePolicyByApiResponseValueList;
+  value?: ListWorkspacePolicyByApiResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacePolicyFragmentByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13652,23 +13712,23 @@ export interface ListWorkspacePolicyFragmentByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter, orderBy | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| value | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData order by query option. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Policy fragment contract value. */
 export type ListWorkspacePolicyFragmentByServiceResponseValueList = Array<PolicyFragmentContract>;
 export interface ListWorkspacePolicyFragmentByServiceResponse {
   /** Policy fragment contract value. */
-  value?: ListWorkspacePolicyFragmentByServiceResponseValueList;
+  value?: ListWorkspacePolicyFragmentByServiceResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacePolicyFragmentReferencesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13682,19 +13742,19 @@ export interface ListWorkspacePolicyFragmentReferencesRequest {
   /** A resource identifier. */
   id: string;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** A collection of resources. */
 export type ListWorkspacePolicyFragmentReferencesResponseValueList = Array<Resource>;
 export interface ListWorkspacePolicyFragmentReferencesResponse {
   /** A collection of resources. */
-  value?: ListWorkspacePolicyFragmentReferencesResponseValueList;
+  value?: ListWorkspacePolicyFragmentReferencesResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceProductApiLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13708,21 +13768,21 @@ export interface ListWorkspaceProductApiLinkByProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceProductApiLinkByProductResponseValueList = Array<ProductApiLinkContract>;
 export interface ListWorkspaceProductApiLinkByProductResponse {
   /** Page values. */
-  value?: ListWorkspaceProductApiLinkByProductResponseValueList;
+  value?: ListWorkspaceProductApiLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceProductByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13734,25 +13794,25 @@ export interface ListWorkspaceProductByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br>| groups | expand | | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** When set to true, the response contains an array of groups that have visibility to the product. The default is false. */
-  expandGroups?: boolean;
+  expandGroups?: boolean | undefined;
   /** Products which are part of a specific tag. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Page values. */
 export type ListWorkspaceProductByServiceResponseValueList = Array<ProductContract>;
 export interface ListWorkspaceProductByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceProductByServiceResponseValueList;
+  value?: ListWorkspaceProductByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceProductGroupLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13766,22 +13826,22 @@ export interface ListWorkspaceProductGroupLinkByProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| groupId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceProductGroupLinkByProductResponseValueList =
   Array<ProductGroupLinkContract>;
 export interface ListWorkspaceProductGroupLinkByProductResponse {
   /** Page values. */
-  value?: ListWorkspaceProductGroupLinkByProductResponseValueList;
+  value?: ListWorkspaceProductGroupLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceProductPolicyByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13799,11 +13859,11 @@ export interface ListWorkspaceProductPolicyByProductRequest {
 export type ListWorkspaceProductPolicyByProductResponseValueList = Array<PolicyContract>;
 export interface ListWorkspaceProductPolicyByProductResponse {
   /** Policy Contract value. */
-  value?: ListWorkspaceProductPolicyByProductResponseValueList;
+  value?: ListWorkspaceProductPolicyByProductResponseValueList | undefined;
   /** Total record count number. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13815,21 +13875,21 @@ export interface ListWorkspaceSubscriptionRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | |</br>| user | expand | | |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceSubscriptionResponseValueList = Array<SubscriptionContract>;
 export interface ListWorkspaceSubscriptionResponse {
   /** Page values. */
-  value?: ListWorkspaceSubscriptionResponseValueList;
+  value?: ListWorkspaceSubscriptionResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceSubscriptionSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13845,9 +13905,9 @@ export interface ListWorkspaceSubscriptionSecretsRequest {
 }
 export interface ListWorkspaceSubscriptionSecretsResponse {
   /** Subscription primary key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Subscription secondary key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface ListWorkspaceTagApiLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13861,21 +13921,21 @@ export interface ListWorkspaceTagApiLinkByProductRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceTagApiLinkByProductResponseValueList = Array<TagApiLinkContract>;
 export interface ListWorkspaceTagApiLinkByProductResponse {
   /** Page values. */
-  value?: ListWorkspaceTagApiLinkByProductResponseValueList;
+  value?: ListWorkspaceTagApiLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceTagByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13887,23 +13947,23 @@ export interface ListWorkspaceTagByServiceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Scope like 'apis', 'products' or 'apis/{apiId} */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Page values. */
 export type ListWorkspaceTagByServiceResponseValueList = Array<TagContract>;
 export interface ListWorkspaceTagByServiceResponse {
   /** Page values. */
-  value?: ListWorkspaceTagByServiceResponseValueList;
+  value?: ListWorkspaceTagByServiceResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceTagOperationLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13917,22 +13977,22 @@ export interface ListWorkspaceTagOperationLinkByProductRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| operationId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceTagOperationLinkByProductResponseValueList =
   Array<TagOperationLinkContract>;
 export interface ListWorkspaceTagOperationLinkByProductResponse {
   /** Page values. */
-  value?: ListWorkspaceTagOperationLinkByProductResponseValueList;
+  value?: ListWorkspaceTagOperationLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceTagProductLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13946,21 +14006,21 @@ export interface ListWorkspaceTagProductLinkByProductRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** | Field | Usage | Supported operators | Supported functions |</br>|-------------|-------------|-------------|-------------|</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Number of records to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Page values. */
 export type ListWorkspaceTagProductLinkByProductResponseValueList = Array<TagProductLinkContract>;
 export interface ListWorkspaceTagProductLinkByProductResponse {
   /** Page values. */
-  value?: ListWorkspaceTagProductLinkByProductResponseValueList;
+  value?: ListWorkspaceTagProductLinkByProductResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface LoggerCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13972,17 +14032,17 @@ export interface LoggerCreateOrUpdateRequest {
   /** Logger identifier. Must be unique in the API Management service instance. */
   loggerId: string;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 export interface LoggerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 /** Mode of Migration to stv2. Default is PreserveIp. */
 export type MigrateApiManagementServiceToStv2RequestMode = "PreserveIp" | "NewIP";
@@ -13994,7 +14054,7 @@ export interface MigrateApiManagementServiceToStv2Request {
   /** The name of the API Management service. */
   serviceName: string;
   /** Mode of Migration to stv2. Default is PreserveIp. */
-  mode?: MigrateApiManagementServiceToStv2RequestMode | (string & {});
+  mode?: MigrateApiManagementServiceToStv2RequestMode | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type MigrateApiManagementServiceToStv2ResponseTagsMap = {
@@ -14015,59 +14075,61 @@ export type MigrateApiManagementServiceToStv2ResponseSystemDataLastModifiedByTyp
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MigrateApiManagementServiceToStv2ResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MigrateApiManagementServiceToStv2ResponseSystemDataCreatedByType;
+  createdByType?: MigrateApiManagementServiceToStv2ResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MigrateApiManagementServiceToStv2ResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | MigrateApiManagementServiceToStv2ResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type MigrateApiManagementServiceToStv2ResponseZonesList = Array<string>;
 export interface MigrateApiManagementServiceToStv2Response {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: MigrateApiManagementServiceToStv2ResponseTagsMap;
+  tags?: MigrateApiManagementServiceToStv2ResponseTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MigrateApiManagementServiceToStv2ResponseSystemData;
+  systemData?: MigrateApiManagementServiceToStv2ResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: MigrateApiManagementServiceToStv2ResponseZonesList;
-  locationHeader?: string;
+  zones?: MigrateApiManagementServiceToStv2ResponseZonesList | undefined;
+  locationHeader?: string | undefined;
 }
 /** Optional tags that when provided can be used to filter the NamedValue list. */
 export type NamedValueCreateContractPropertiesTagsList = Array<string>;
 /** NamedValue Contract properties. */
 export interface NamedValueCreateContractProperties {
   /** Optional tags that when provided can be used to filter the NamedValue list. */
-  tags?: NamedValueCreateContractPropertiesTagsList;
+  tags?: NamedValueCreateContractPropertiesTagsList | undefined;
   /** Determines whether the value is a secret and should be encrypted or not. Default value is false. */
-  secret?: boolean;
+  secret?: boolean | undefined;
   /** Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore characters. */
   displayName: string;
   /** Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  value?: string;
+  value?: string | undefined;
   /** KeyVault location details of the namedValue. */
-  keyVault?: KeyVaultContractCreateProperties;
+  keyVault?: KeyVaultContractCreateProperties | undefined;
 }
 export interface NamedValueCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14079,21 +14141,21 @@ export interface NamedValueCreateOrUpdateRequest {
   /** Identifier of the NamedValue. */
   namedValueId: string;
   /** NamedValue entity contract properties for PUT operation. */
-  properties?: NamedValueCreateContractProperties;
+  properties?: NamedValueCreateContractProperties | undefined;
 }
 export interface NamedValueCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type NotificationCreateOrUpdateRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -14115,13 +14177,13 @@ export interface NotificationCreateOrUpdateRequest {
 }
 export interface NotificationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Notification entity contract properties. */
-  properties?: NotificationContractProperties;
+  properties?: NotificationContractProperties | undefined;
 }
 export type NotificationRecipientEmailCreateOrUpdateRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -14145,13 +14207,13 @@ export interface NotificationRecipientEmailCreateOrUpdateRequest {
 }
 export interface NotificationRecipientEmailCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Recipient Email contract properties. */
-  properties?: RecipientEmailContractProperties;
+  properties?: RecipientEmailContractProperties | undefined;
 }
 export type NotificationRecipientUserCreateOrUpdateRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -14175,13 +14237,13 @@ export interface NotificationRecipientUserCreateOrUpdateRequest {
 }
 export interface NotificationRecipientUserCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Recipient User entity contract properties. */
-  properties?: RecipientUsersContractProperties;
+  properties?: RecipientUsersContractProperties | undefined;
 }
 export interface OpenIdConnectProviderCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14193,24 +14255,24 @@ export interface OpenIdConnectProviderCreateOrUpdateRequest {
   /** Identifier of the OpenID Connect Provider. */
   opid: string;
   /** OpenId Connect Provider contract properties. */
-  properties?: OpenidConnectProviderContractProperties;
+  properties?: OpenidConnectProviderContractProperties | undefined;
 }
 export interface OpenIdConnectProviderCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** OpenId Connect Provider contract properties. */
-  properties?: OpenidConnectProviderContractProperties;
+  properties?: OpenidConnectProviderContractProperties | undefined;
 }
 /** Definitions about the connectivity check origin. */
 export interface PerformConnectivityCheckAsyncRequestSource {
   /** The API Management service region from where to start the connectivity check operation. */
   region: string;
   /** The particular VMSS instance from which to fire the request. */
-  instance?: number;
+  instance?: number | undefined;
 }
 /** The connectivity check operation destination. */
 export interface PerformConnectivityCheckAsyncRequestDestination {
@@ -14245,16 +14307,23 @@ export interface PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPCo
   /** The HTTP method to be used. */
   method?:
     | PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPConfigurationMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** List of HTTP status codes considered valid for the request response. */
-  validStatusCodes?: PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPConfigurationValidStatusCodesList;
+  validStatusCodes?:
+    | PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPConfigurationValidStatusCodesList
+    | undefined;
   /** List of headers to be included in the request. */
-  headers?: PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPConfigurationHeadersList;
+  headers?:
+    | PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPConfigurationHeadersList
+    | undefined;
 }
 /** Protocol-specific configuration. */
 export interface PerformConnectivityCheckAsyncRequestProtocolConfiguration {
   /** Configuration for HTTP or HTTPS requests. */
-  HTTPConfiguration?: PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPConfiguration;
+  HTTPConfiguration?:
+    | PerformConnectivityCheckAsyncRequestProtocolConfigurationHTTPConfiguration
+    | undefined;
 }
 export interface PerformConnectivityCheckAsyncRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14268,11 +14337,14 @@ export interface PerformConnectivityCheckAsyncRequest {
   /** The connectivity check operation destination. */
   destination: PerformConnectivityCheckAsyncRequestDestination;
   /** The IP version to be used. Only IPv4 is supported for now. */
-  preferredIPVersion?: PerformConnectivityCheckAsyncRequestPreferredIPVersion | (string & {});
+  preferredIPVersion?:
+    | PerformConnectivityCheckAsyncRequestPreferredIPVersion
+    | (string & {})
+    | undefined;
   /** The request's protocol. Specific protocol configuration can be available based on this selection. The specified destination address must be coherent with this value. */
-  protocol?: PerformConnectivityCheckAsyncRequestProtocol | (string & {});
+  protocol?: PerformConnectivityCheckAsyncRequestProtocol | (string & {}) | undefined;
   /** Protocol-specific configuration. */
-  protocolConfiguration?: PerformConnectivityCheckAsyncRequestProtocolConfiguration;
+  protocolConfiguration?: PerformConnectivityCheckAsyncRequestProtocolConfiguration | undefined;
 }
 /** List of next hop identifiers. */
 export type ConnectivityHopNextHopIdsList = Array<string>;
@@ -14298,30 +14370,30 @@ export type ConnectivityIssueContextList = Array<IssueContext>;
 /** Information about an issue encountered in the process of checking for connectivity. */
 export interface ConnectivityIssue {
   /** The origin of the issue. */
-  origin?: ConnectivityIssueOrigin;
+  origin?: ConnectivityIssueOrigin | undefined;
   /** The severity of the issue. */
-  severity?: ConnectivityIssueSeverity;
+  severity?: ConnectivityIssueSeverity | undefined;
   /** The type of issue. */
-  type?: ConnectivityIssueType;
+  type?: ConnectivityIssueType | undefined;
   /** Provides additional context on the issue. */
-  context?: ConnectivityIssueContextList;
+  context?: ConnectivityIssueContextList | undefined;
 }
 /** List of issues. */
 export type ConnectivityHopIssuesList = Array<ConnectivityIssue>;
 /** Information about a hop between the source and the destination. */
 export interface ConnectivityHop {
   /** The type of the hop. */
-  type?: string;
+  type?: string | undefined;
   /** The ID of the hop. */
-  id?: string;
+  id?: string | undefined;
   /** The IP address of the hop. */
-  address?: string;
+  address?: string | undefined;
   /** The ID of the resource corresponding to this hop. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** List of next hop identifiers. */
-  nextHopIds?: ConnectivityHopNextHopIdsList;
+  nextHopIds?: ConnectivityHopNextHopIdsList | undefined;
   /** List of issues. */
-  issues?: ConnectivityHopIssuesList;
+  issues?: ConnectivityHopIssuesList | undefined;
 }
 /** List of hops between the source and the destination. */
 export type PerformConnectivityCheckAsyncResponseHopsList = Array<ConnectivityHop>;
@@ -14333,20 +14405,20 @@ export type PerformConnectivityCheckAsyncResponseConnectionStatus =
   | "Degraded";
 export interface PerformConnectivityCheckAsyncResponse {
   /** List of hops between the source and the destination. */
-  hops?: PerformConnectivityCheckAsyncResponseHopsList;
+  hops?: PerformConnectivityCheckAsyncResponseHopsList | undefined;
   /** The connection status. */
-  connectionStatus?: PerformConnectivityCheckAsyncResponseConnectionStatus;
+  connectionStatus?: PerformConnectivityCheckAsyncResponseConnectionStatus | undefined;
   /** Average latency in milliseconds. */
-  avgLatencyInMs?: number;
+  avgLatencyInMs?: number | undefined;
   /** Minimum latency in milliseconds. */
-  minLatencyInMs?: number;
+  minLatencyInMs?: number | undefined;
   /** Maximum latency in milliseconds. */
-  maxLatencyInMs?: number;
+  maxLatencyInMs?: number | undefined;
   /** Total number of probes sent. */
-  probesSent?: number;
+  probesSent?: number | undefined;
   /** Number of failed probes. */
-  probesFailed?: number;
-  location?: string;
+  probesFailed?: number | undefined;
+  location?: string | undefined;
 }
 export type PolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface PolicyCreateOrUpdateRequest {
@@ -14359,17 +14431,17 @@ export interface PolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: PolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface PolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 /** Format of the policy fragment content. */
 export type PolicyFragmentContractPropertiesInputFormat = "xml" | "rawxml";
@@ -14378,9 +14450,9 @@ export interface PolicyFragmentContractPropertiesInput {
   /** Contents of the policy fragment. */
   value: string;
   /** Policy fragment description. */
-  description?: string;
+  description?: string | undefined;
   /** Format of the policy fragment content. */
-  format?: PolicyFragmentContractPropertiesInputFormat | (string & {});
+  format?: PolicyFragmentContractPropertiesInputFormat | (string & {}) | undefined;
 }
 export interface PolicyFragmentCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14392,21 +14464,21 @@ export interface PolicyFragmentCreateOrUpdateRequest {
   /** A resource identifier. */
   id: string;
   /** Properties of the Policy Fragment. */
-  properties?: PolicyFragmentContractPropertiesInput;
+  properties?: PolicyFragmentContractPropertiesInput | undefined;
 }
 export interface PolicyFragmentCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Fragment. */
-  properties?: PolicyFragmentContractProperties;
+  properties?: PolicyFragmentContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface PolicyRestrictionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14418,17 +14490,17 @@ export interface PolicyRestrictionCreateOrUpdateRequest {
   /** Policy restrictions after an entity level */
   policyRestrictionId: string;
   /** Properties of the Policy Restriction. */
-  properties?: PolicyRestrictionContractProperties;
+  properties?: PolicyRestrictionContractProperties | undefined;
 }
 export interface PolicyRestrictionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Restriction. */
-  properties?: PolicyRestrictionContractProperties;
+  properties?: PolicyRestrictionContractProperties | undefined;
 }
 export interface PolicyRestrictionValidationsByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14440,15 +14512,15 @@ export interface PolicyRestrictionValidationsByServiceRequest {
 }
 export interface PolicyRestrictionValidationsByServiceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationResultContractProperties;
+  properties?: OperationResultContractProperties | undefined;
   /** location of the header. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PortalConfigCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14460,23 +14532,23 @@ export interface PortalConfigCreateOrUpdateRequest {
   /** Portal configuration identifier. */
   portalConfigId: string;
   /** The developer portal configuration contract properties. */
-  properties?: PortalConfigProperties;
+  properties?: PortalConfigProperties | undefined;
 }
 export interface PortalConfigCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The developer portal configuration contract properties. */
-  properties?: PortalConfigProperties;
+  properties?: PortalConfigProperties | undefined;
 }
 export interface PortalRevisionContractPropertiesInput {
   /** Portal revision description. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if the portal's revision is public. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
 }
 export interface PortalRevisionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14488,21 +14560,21 @@ export interface PortalRevisionCreateOrUpdateRequest {
   /** Portal revision identifier. Must be unique in the current API Management service instance. */
   portalRevisionId: string;
   /** Properties of the portal revisions. */
-  properties?: PortalRevisionContractPropertiesInput;
+  properties?: PortalRevisionContractPropertiesInput | undefined;
 }
 export interface PortalRevisionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the portal revisions. */
-  properties?: PortalRevisionContractProperties;
+  properties?: PortalRevisionContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface PostAuthorizationLoginLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14516,11 +14588,11 @@ export interface PostAuthorizationLoginLinkRequest {
   /** Identifier of the authorization. */
   authorizationId: string;
   /** The redirect URL after login has completed. */
-  postLoginRedirectUrl?: string;
+  postLoginRedirectUrl?: string | undefined;
 }
 export interface PostAuthorizationLoginLinkResponse {
   /** The login link */
-  loginLink?: string;
+  loginLink?: string | undefined;
 }
 /** A collection of information about the state of the connection between service consumer and provider. */
 export type PrivateEndpointConnectionCreateOrUpdateRequestPropertiesPrivateLinkServiceConnectionState =
@@ -14528,7 +14600,9 @@ export type PrivateEndpointConnectionCreateOrUpdateRequestPropertiesPrivateLinkS
 /** The connection state of the private endpoint connection. */
 export interface PrivateEndpointConnectionCreateOrUpdateRequestProperties {
   /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateEndpointConnectionWrapperPropertiesInputPrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?:
+    | PrivateEndpointConnectionWrapperPropertiesInputPrivateLinkServiceConnectionState
+    | undefined;
 }
 export interface PrivateEndpointConnectionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14540,21 +14614,21 @@ export interface PrivateEndpointConnectionCreateOrUpdateRequest {
   /** Name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** Private Endpoint Connection Resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** The connection state of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionCreateOrUpdateRequestProperties;
+  properties?: PrivateEndpointConnectionCreateOrUpdateRequestProperties | undefined;
 }
 export interface PrivateEndpointConnectionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Location header */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ProductApiCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14570,13 +14644,13 @@ export interface ProductApiCreateOrUpdateRequest {
 }
 export interface ProductApiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
 }
 export interface ProductApiLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14590,17 +14664,17 @@ export interface ProductApiLinkCreateOrUpdateRequest {
   /** Product-API link identifier. Must be unique in the current API Management service instance. */
   apiLinkId: string;
   /** Product-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface ProductApiLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface ProductCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14612,17 +14686,17 @@ export interface ProductCreateOrUpdateRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export interface ProductCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export interface ProductGroupCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14638,13 +14712,13 @@ export interface ProductGroupCreateOrUpdateRequest {
 }
 export interface ProductGroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 export interface ProductGroupLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14658,17 +14732,17 @@ export interface ProductGroupLinkCreateOrUpdateRequest {
   /** Product-Group link identifier. Must be unique in the current API Management service instance. */
   groupLinkId: string;
   /** Product-group link entity contract properties. */
-  properties?: ProductGroupLinkContractProperties;
+  properties?: ProductGroupLinkContractProperties | undefined;
 }
 export interface ProductGroupLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-group link entity contract properties. */
-  properties?: ProductGroupLinkContractProperties;
+  properties?: ProductGroupLinkContractProperties | undefined;
 }
 export type ProductPolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface ProductPolicyCreateOrUpdateRequest {
@@ -14683,17 +14757,17 @@ export interface ProductPolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: ProductPolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface ProductPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface ProductWikiCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14705,17 +14779,17 @@ export interface ProductWikiCreateOrUpdateRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface ProductWikiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface PurgeDeletedServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14726,7 +14800,7 @@ export interface PurgeDeletedServiceRequest {
   serviceName: string;
 }
 export interface PurgeDeletedServiceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface RefreshCertificateSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14740,13 +14814,13 @@ export interface RefreshCertificateSecretRequest {
 }
 export interface RefreshCertificateSecretResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Certificate properties details. */
-  properties?: CertificateContractProperties;
+  properties?: CertificateContractProperties | undefined;
 }
 export interface RefreshNamedValueSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14760,17 +14834,17 @@ export interface RefreshNamedValueSecretRequest {
 }
 export interface RefreshNamedValueSecretResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface RefreshWorkspaceCertificateSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14786,13 +14860,13 @@ export interface RefreshWorkspaceCertificateSecretRequest {
 }
 export interface RefreshWorkspaceCertificateSecretResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Certificate properties details. */
-  properties?: CertificateContractProperties;
+  properties?: CertificateContractProperties | undefined;
 }
 export interface RefreshWorkspaceNamedValueSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14808,17 +14882,17 @@ export interface RefreshWorkspaceNamedValueSecretRequest {
 }
 export interface RefreshWorkspaceNamedValueSecretResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface RegenerateAiGatewayApiKeyResourcePrimaryKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14972,11 +15046,11 @@ export interface RestoreApiManagementServiceRequest {
   /** The name of the backup file to create/retrieve. */
   backupName: string;
   /** The type of access to be used for the storage account. */
-  accessType?: RestoreApiManagementServiceRequestAccessType | (string & {});
+  accessType?: RestoreApiManagementServiceRequestAccessType | (string & {}) | undefined;
   /** Storage account access key. Required only if `accessType` is set to `AccessKey`. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** The Client ID of user assigned managed identity. Required only if `accessType` is set to `UserAssignedManagedIdentity`. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Resource tags. */
 export type RestoreApiManagementServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -14995,44 +15069,44 @@ export type RestoreApiManagementServiceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface RestoreApiManagementServiceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: RestoreApiManagementServiceResponseSystemDataCreatedByType;
+  createdByType?: RestoreApiManagementServiceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: RestoreApiManagementServiceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: RestoreApiManagementServiceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type RestoreApiManagementServiceResponseZonesList = Array<string>;
 export interface RestoreApiManagementServiceResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: RestoreApiManagementServiceResponseTagsMap;
+  tags?: RestoreApiManagementServiceResponseTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: RestoreApiManagementServiceResponseSystemData;
+  systemData?: RestoreApiManagementServiceResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: RestoreApiManagementServiceResponseZonesList;
-  locationHeader?: string;
+  zones?: RestoreApiManagementServiceResponseZonesList | undefined;
+  locationHeader?: string | undefined;
 }
 export type SendUserConfirmationPasswordRequestAppType = "portal" | "developerPortal";
 export interface SendUserConfirmationPasswordRequest {
@@ -15045,7 +15119,7 @@ export interface SendUserConfirmationPasswordRequest {
   /** User identifier. Must be unique in the current API Management service instance. */
   userId: string;
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
-  appType?: SendUserConfirmationPasswordRequestAppType | (string & {});
+  appType?: SendUserConfirmationPasswordRequestAppType | (string & {}) | undefined;
 }
 export interface SendUserConfirmationPasswordResponse {}
 export type SubscriptionCreateOrUpdateRequestAppType = "portal" | "developerPortal";
@@ -15060,19 +15134,19 @@ export type SubscriptionCreateParameterPropertiesState =
 /** Parameters supplied to the Create subscription operation. */
 export interface SubscriptionCreateParameterProperties {
   /** User (user id path) for whom subscription is being created in form /users/{userId} */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** Scope like /products/{productId} or /apis or /apis/{apiId}. */
   scope: string;
   /** Subscription name. */
   displayName: string;
   /** Primary subscription key. If not specified during request key will be generated automatically. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary subscription key. If not specified during request key will be generated automatically. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active - the subscription is active, * suspended - the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted - the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected - the subscription request has been denied by an administrator, * cancelled - the subscription has been cancelled by the developer or administrator, * expired - the subscription reached its expiration date and was deactivated. */
-  state?: SubscriptionCreateParameterPropertiesState | (string & {});
+  state?: SubscriptionCreateParameterPropertiesState | (string & {}) | undefined;
   /** Determines whether tracing can be enabled */
-  allowTracing?: boolean;
+  allowTracing?: boolean | undefined;
 }
 export interface SubscriptionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15084,21 +15158,21 @@ export interface SubscriptionCreateOrUpdateRequest {
   /** Subscription entity Identifier. The entity represents the association between a user and a product in API Management. */
   sid: string;
   /** Notify change in Subscription State. - If false, do not send any email notification for change of state of subscription - If true, send email notification of change of state of subscription */
-  notify?: boolean;
+  notify?: boolean | undefined;
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
-  appType?: SubscriptionCreateOrUpdateRequestAppType | (string & {});
+  appType?: SubscriptionCreateOrUpdateRequestAppType | (string & {}) | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionCreateParameterProperties;
+  properties?: SubscriptionCreateParameterProperties | undefined;
 }
 export interface SubscriptionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 export interface TagApiLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15112,17 +15186,17 @@ export interface TagApiLinkCreateOrUpdateRequest {
   /** Tag-API link identifier. Must be unique in the current API Management service instance. */
   apiLinkId: string;
   /** Tag-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface TagApiLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface TagCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15134,17 +15208,17 @@ export interface TagCreateOrUpdateRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** Properties supplied to Create Tag operation. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface TagCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface TagOperationLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15158,17 +15232,17 @@ export interface TagOperationLinkCreateOrUpdateRequest {
   /** Tag-operation link identifier. Must be unique in the current API Management service instance. */
   operationLinkId: string;
   /** Tag-API link entity contract properties. */
-  properties?: TagOperationLinkContractProperties;
+  properties?: TagOperationLinkContractProperties | undefined;
 }
 export interface TagOperationLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagOperationLinkContractProperties;
+  properties?: TagOperationLinkContractProperties | undefined;
 }
 export interface TagProductLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15182,17 +15256,17 @@ export interface TagProductLinkCreateOrUpdateRequest {
   /** Tag-product link identifier. Must be unique in the current API Management service instance. */
   productLinkId: string;
   /** Tag-API link entity contract properties. */
-  properties?: TagProductLinkContractProperties;
+  properties?: TagProductLinkContractProperties | undefined;
 }
 export interface TagProductLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagProductLinkContractProperties;
+  properties?: TagProductLinkContractProperties | undefined;
 }
 export type TenantConfigurationSaveRequestConfigurationName = "configuration";
 /** Parameters supplied to the Save Tenant Configuration operation. */
@@ -15200,7 +15274,7 @@ export interface SaveConfigurationParameterProperties {
   /** The name of the Git branch in which to commit the current configuration snapshot. */
   branch: string;
   /** The value if true, the current configuration database is committed to the Git repository, even if the Git repository has newer changes that would be overwritten. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface TenantConfigurationSaveRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15212,27 +15286,27 @@ export interface TenantConfigurationSaveRequest {
   /** The identifier of the Git Configuration Operation. */
   configurationName: TenantConfigurationSaveRequestConfigurationName | (string & {});
   /** Properties of the Save Configuration Parameters. */
-  properties?: SaveConfigurationParameterProperties;
+  properties?: SaveConfigurationParameterProperties | undefined;
 }
 export interface TenantConfigurationSaveResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationResultContractProperties;
-  location?: string;
+  properties?: OperationResultContractProperties | undefined;
+  location?: string | undefined;
 }
 /** A model target to update on an AI Gateway alias. */
 export interface AiGatewayAliasTargetUpdate {
   /** Azure resource identifier of the target model in the default workspace. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Routing priority. Lower values are preferred; the effective default is zero. */
-  priority?: number;
+  priority?: number | undefined;
   /** Relative selection weight within a priority group. The effective default is one. */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** Ordered target models used for routing. */
 export type AiGatewayAliasUpdatePropertiesBackendModelsList = Array<AiGatewayAliasTargetUpdate>;
@@ -15248,29 +15322,29 @@ export type AiGatewayCostLimitOverrideUpdateClaimsMap = { [key: string]: string 
 /** An ordered cost-budget override to update. */
 export interface AiGatewayCostLimitOverrideUpdate {
   /** Authenticated token claims that must all match; dictionary keys are case-sensitive claim names. */
-  claims?: AiGatewayCostLimitOverrideUpdateClaimsMap;
+  claims?: AiGatewayCostLimitOverrideUpdateClaimsMap | undefined;
   /** Azure resource identifier of the API key selecting this override. */
-  apiKeyResourceId?: string;
+  apiKeyResourceId?: string | undefined;
   /** Override budget in US dollars. */
-  amount?: number;
+  amount?: number | undefined;
 }
 /** Ordered cost-budget overrides. */
 export type AiGatewayPolicyUpdateOverridesList = Array<AiGatewayCostLimitOverrideUpdate>;
 /** Agent-hook managed identity settings to update. */
 export interface AiGatewayAgentHookIdentityUpdate {
   /** Managed identity kind. */
-  type?: AiGatewayAgentHookIdentityType | (string & {});
+  type?: AiGatewayAgentHookIdentityType | (string & {}) | undefined;
   /** User-assigned identity client ID; omit for a system-assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Agent-hook authorization settings to update. */
 export interface AiGatewayAgentHookAuthorizationUpdate {
   /** Authorization kind. */
-  type?: AiGatewayAgentHookAuthorizationType | (string & {});
+  type?: AiGatewayAgentHookAuthorizationType | (string & {}) | undefined;
   /** Managed identity selection. */
-  identity?: AiGatewayAgentHookIdentityUpdate;
+  identity?: AiGatewayAgentHookIdentityUpdate | undefined;
   /** Token audience URI. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** Literal non-secret default HTTP headers for agent hooks. */
 export type AiGatewayPolicyUpdateHeadersMap = { [key: string]: string | undefined };
@@ -15279,23 +15353,23 @@ export type AiGatewayAgentHookUpdateHeadersMap = { [key: string]: string | undef
 /** External hook settings to update. */
 export interface AiGatewayAgentHookUpdate {
   /** Hook destination HTTPS URL. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Hook authorization settings. */
-  authorization?: AiGatewayAgentHookAuthorizationUpdate;
+  authorization?: AiGatewayAgentHookAuthorizationUpdate | undefined;
   /** Literal, non-secret HTTP headers. */
-  headers?: AiGatewayAgentHookUpdateHeadersMap;
+  headers?: AiGatewayAgentHookUpdateHeadersMap | undefined;
 }
 /** Lifecycle hook settings to update. */
 export interface AiGatewayAgentHooksUpdate {
   /** Hook invoked before calling a tool. */
-  preToolCall?: AiGatewayAgentHookUpdate;
+  preToolCall?: AiGatewayAgentHookUpdate | undefined;
   /** Hook invoked after calling a tool. */
-  postToolCall?: AiGatewayAgentHookUpdate;
+  postToolCall?: AiGatewayAgentHookUpdate | undefined;
 }
 /** A fallback target to update on a model policy. */
 export interface AiGatewayFallbackTargetUpdate {
   /** Resource identifier of a model in the same workspace. */
-  modelId?: string;
+  modelId?: string | undefined;
 }
 /** Ordered fallback model targets. */
 export type AiGatewayPolicyUpdateFallbackTargetsList = Array<AiGatewayFallbackTargetUpdate>;
@@ -15312,84 +15386,84 @@ export type AiGatewayPolicyUpdateExposeHeadersList = Array<string>;
 /** An inline policy to update on an AI Gateway model or tool server. */
 export interface AiGatewayPolicyUpdate {
   /** Policy type. */
-  type?: AiGatewayPolicyType | (string & {});
+  type?: AiGatewayPolicyType | (string & {}) | undefined;
   /** Aggregation scope supported by the policy and its parent resource. */
-  scope?: AiGatewayPolicyScope | (string & {});
+  scope?: AiGatewayPolicyScope | (string & {}) | undefined;
   /** Stable identifier for costLimit or agentHooks. */
-  id?: string;
+  id?: string | undefined;
   /** Token count allowed during a token limit period. */
-  count?: number;
+  count?: number | undefined;
   /** Counter period. Token limits support minute/hour/day; cost limits support hour/day/week/month/year. */
-  period?: AiGatewayPolicyPeriod | (string & {});
+  period?: AiGatewayPolicyPeriod | (string & {}) | undefined;
   /** Public dimensions used to partition a token, cost, or request counter. */
-  counterKey?: AiGatewayPolicyUpdateCounterKeyList;
+  counterKey?: AiGatewayPolicyUpdateCounterKeyList | undefined;
   /** Cost budget in US dollars. */
-  amount?: number;
+  amount?: number | undefined;
   /** Ordered cost-budget overrides. */
-  overrides?: AiGatewayPolicyUpdateOverridesList;
+  overrides?: AiGatewayPolicyUpdateOverridesList | undefined;
   /** Whether to check tool requests for threats. */
-  preInvocation?: boolean;
+  preInvocation?: boolean | undefined;
   /** Whether to check tool responses for threats. */
-  postInvocation?: boolean;
+  postInvocation?: boolean | undefined;
   /** Default HTTPS destination for agent hooks. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Default authorization for agent hooks. */
-  authorization?: AiGatewayAgentHookAuthorizationUpdate;
+  authorization?: AiGatewayAgentHookAuthorizationUpdate | undefined;
   /** Literal non-secret default HTTP headers for agent hooks. */
-  headers?: AiGatewayPolicyUpdateHeadersMap;
+  headers?: AiGatewayPolicyUpdateHeadersMap | undefined;
   /** Lifecycle hooks to update. */
-  hooks?: AiGatewayAgentHooksUpdate;
+  hooks?: AiGatewayAgentHooksUpdate | undefined;
   /** Hate-content severity threshold. */
-  hateSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  hateSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Violence-content severity threshold. */
-  violenceSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  violenceSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Sexual-content severity threshold. */
-  sexualSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  sexualSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Self-harm-content severity threshold. */
-  selfHarmSeverity?: AiGatewayContentSafetySeverity | (string & {});
+  selfHarmSeverity?: AiGatewayContentSafetySeverity | (string & {}) | undefined;
   /** Consecutive failure count that opens a fallback circuit. */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Duration for which the fallback circuit remains open. */
-  tripDurationSeconds?: number;
+  tripDurationSeconds?: number | undefined;
   /** Ordered fallback model targets. */
-  fallbackTargets?: AiGatewayPolicyUpdateFallbackTargetsList;
+  fallbackTargets?: AiGatewayPolicyUpdateFallbackTargetsList | undefined;
   /** IP filtering action. */
-  action?: AiGatewayIpFilterAction | (string & {});
+  action?: AiGatewayIpFilterAction | (string & {}) | undefined;
   /** CIDR ranges to allow or deny. */
-  cidrRanges?: AiGatewayPolicyUpdateCidrRangesList;
+  cidrRanges?: AiGatewayPolicyUpdateCidrRangesList | undefined;
   /** Request count allowed during the configured period. */
-  callsPerPeriod?: number;
+  callsPerPeriod?: number | undefined;
   /** Request rate limit period in seconds. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
   /** Origins allowed by a CORS policy. */
-  allowedOrigins?: AiGatewayPolicyUpdateAllowedOriginsList;
+  allowedOrigins?: AiGatewayPolicyUpdateAllowedOriginsList | undefined;
   /** HTTP methods allowed by a CORS policy. */
-  allowedMethods?: AiGatewayPolicyUpdateAllowedMethodsList;
+  allowedMethods?: AiGatewayPolicyUpdateAllowedMethodsList | undefined;
   /** HTTP headers allowed by a CORS policy. */
-  allowedHeaders?: AiGatewayPolicyUpdateAllowedHeadersList;
+  allowedHeaders?: AiGatewayPolicyUpdateAllowedHeadersList | undefined;
   /** Response headers exposed to the browser. */
-  exposeHeaders?: AiGatewayPolicyUpdateExposeHeadersList;
+  exposeHeaders?: AiGatewayPolicyUpdateExposeHeadersList | undefined;
   /** Whether browsers may send credentials. */
-  allowCredentials?: boolean;
+  allowCredentials?: boolean | undefined;
   /** Whether unmatched CORS requests are terminated. */
-  terminateUnmatchedRequest?: boolean;
+  terminateUnmatchedRequest?: boolean | undefined;
   /** Browser preflight cache duration in seconds. */
-  preflightResultMaxAge?: number;
+  preflightResultMaxAge?: number | undefined;
 }
 /** Inline policies applied to requests routed through the alias. */
 export type AiGatewayAliasUpdatePropertiesPoliciesList = Array<AiGatewayPolicyUpdate>;
 /** Properties to update on an AI Gateway alias. */
 export interface AiGatewayAliasUpdateProperties {
   /** Client-facing routing name sent in the request model field. */
-  aliasName?: string;
+  aliasName?: string | undefined;
   /** Description of the alias. */
-  description?: string;
+  description?: string | undefined;
   /** Ordered target models used for routing. */
-  backendModels?: AiGatewayAliasUpdatePropertiesBackendModelsList;
+  backendModels?: AiGatewayAliasUpdatePropertiesBackendModelsList | undefined;
   /** Ordered routing stages. Only the routing stage is currently supported. */
-  selectionOrder?: AiGatewayAliasUpdatePropertiesSelectionOrderList;
+  selectionOrder?: AiGatewayAliasUpdatePropertiesSelectionOrderList | undefined;
   /** Inline policies applied to requests routed through the alias. */
-  policies?: AiGatewayAliasUpdatePropertiesPoliciesList;
+  policies?: AiGatewayAliasUpdatePropertiesPoliciesList | undefined;
 }
 export interface UpdateAiGatewayAliasResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15403,34 +15477,34 @@ export interface UpdateAiGatewayAliasResourceRequest {
   /** The name of the AiGatewayAliasResource */
   aliasId: string;
   /** Alias properties to update. */
-  properties?: AiGatewayAliasUpdateProperties;
+  properties?: AiGatewayAliasUpdateProperties | undefined;
 }
 export interface UpdateAiGatewayAliasResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayAliasProperties;
+  properties?: AiGatewayAliasProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Properties for updating an AI Gateway API key. */
 export interface AiGatewayApiKeyUpdateProperties {
   /** Display name of the key. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription state. */
-  state?: string;
+  state?: string | undefined;
   /** Optional expiration time. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Replacement primary key value. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Replacement secondary key value. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface UpdateAiGatewayApiKeyResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15442,75 +15516,75 @@ export interface UpdateAiGatewayApiKeyResourceRequest {
   /** The name of the AiGatewayApiKeyResource */
   apiKeyName: string;
   /** API key properties to update. */
-  properties?: AiGatewayApiKeyUpdateProperties;
+  properties?: AiGatewayApiKeyUpdateProperties | undefined;
 }
 export interface UpdateAiGatewayApiKeyResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayApiKeyProperties;
+  properties?: AiGatewayApiKeyProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Cognitive Services account resource identifiers available to this provider. */
 export type AiGatewayFoundryProviderConfigurationUpdateResourceIdsList = Array<string>;
 /** API key credentials for updating an upstream service. */
 export interface AiGatewayApiKeyCredentialUpdate {
   /** Name of the HTTP header that carries the API key. */
-  headerName?: string;
+  headerName?: string | undefined;
   /** Secret API key value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Foundry authentication settings to update. */
 export interface AiGatewayFoundryAuthenticationUpdate {
   /** Authentication type. */
-  kind?: AiGatewayModelProviderAuthenticationKind | (string & {});
+  kind?: AiGatewayModelProviderAuthenticationKind | (string & {}) | undefined;
   /** Managed identity settings. */
-  managedIdentity?: AiGatewayManagedIdentityAuthentication;
+  managedIdentity?: AiGatewayManagedIdentityAuthentication | undefined;
   /** API key configuration. */
-  apiKey?: AiGatewayApiKeyCredentialUpdate;
+  apiKey?: AiGatewayApiKeyCredentialUpdate | undefined;
 }
 /** Foundry model provider settings to update. */
 export interface AiGatewayFoundryProviderConfigurationUpdate {
   /** Foundry endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Cognitive Services account resource identifiers available to this provider. */
-  resourceIds?: AiGatewayFoundryProviderConfigurationUpdateResourceIdsList;
+  resourceIds?: AiGatewayFoundryProviderConfigurationUpdateResourceIdsList | undefined;
   /** Authentication configuration. */
-  authentication?: AiGatewayFoundryAuthenticationUpdate;
+  authentication?: AiGatewayFoundryAuthenticationUpdate | undefined;
 }
 /** Authentication type. */
 export type AiGatewayCustomAuthenticationUpdateKind = "ApiKey";
 /** Custom model provider authentication settings to update. */
 export interface AiGatewayCustomAuthenticationUpdate {
   /** Authentication type. */
-  kind?: AiGatewayCustomAuthenticationUpdateKind | (string & {});
+  kind?: AiGatewayCustomAuthenticationUpdateKind | (string & {}) | undefined;
   /** API key configuration. */
-  apiKey?: AiGatewayApiKeyCredentialUpdate;
+  apiKey?: AiGatewayApiKeyCredentialUpdate | undefined;
 }
 /** Custom model provider settings to update. */
 export interface AiGatewayCustomProviderConfigurationUpdate {
   /** Provider base endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Authentication configuration. */
-  authentication?: AiGatewayCustomAuthenticationUpdate;
+  authentication?: AiGatewayCustomAuthenticationUpdate | undefined;
 }
 /** Properties for updating an AI Gateway model provider. */
 export interface AiGatewayModelProviderUpdateProperties {
   /** Display name of the model provider. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the model provider. */
-  description?: string;
+  description?: string | undefined;
   /** Foundry configuration. */
-  foundry?: AiGatewayFoundryProviderConfigurationUpdate;
+  foundry?: AiGatewayFoundryProviderConfigurationUpdate | undefined;
   /** Custom provider configuration. */
-  custom?: AiGatewayCustomProviderConfigurationUpdate;
+  custom?: AiGatewayCustomProviderConfigurationUpdate | undefined;
 }
 export interface UpdateAiGatewayModelProviderResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15524,30 +15598,30 @@ export interface UpdateAiGatewayModelProviderResourceRequest {
   /** The name of the AiGatewayModelProviderResource */
   modelProviderName: string;
   /** Model provider properties to update. */
-  properties?: AiGatewayModelProviderUpdateProperties;
+  properties?: AiGatewayModelProviderUpdateProperties | undefined;
 }
 export interface UpdateAiGatewayModelProviderResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProviderProperties;
+  properties?: AiGatewayModelProviderProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Deployment details to update on an AI Gateway model. */
 export interface AiGatewayModelDeploymentUpdate {
   /** ARM resource identifier of the provider deployment. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Provider-side model name. */
-  modelName?: string;
+  modelName?: string | undefined;
   /** Provider-side model version. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
 }
 /** Inline policies applied to this model. */
 export type AiGatewayModelUpdatePropertiesPoliciesList = Array<AiGatewayPolicyUpdate>;
@@ -15556,15 +15630,15 @@ export type AiGatewayModelUpdatePropertiesSupportedEndpointsList = Array<string>
 /** Properties for updating an AI Gateway model. */
 export interface AiGatewayModelUpdateProperties {
   /** Display name of the model. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the model. */
-  description?: string;
+  description?: string | undefined;
   /** Provider deployment details. */
-  deployment?: AiGatewayModelDeploymentUpdate;
+  deployment?: AiGatewayModelDeploymentUpdate | undefined;
   /** Inline policies applied to this model. */
-  policies?: AiGatewayModelUpdatePropertiesPoliciesList;
+  policies?: AiGatewayModelUpdatePropertiesPoliciesList | undefined;
   /** Runtime endpoints supported by this model. */
-  supportedEndpoints?: AiGatewayModelUpdatePropertiesSupportedEndpointsList;
+  supportedEndpoints?: AiGatewayModelUpdatePropertiesSupportedEndpointsList | undefined;
 }
 export interface UpdateAiGatewayModelResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15580,21 +15654,21 @@ export interface UpdateAiGatewayModelResourceRequest {
   /** The name of the AiGatewayModelResource */
   modelName: string;
   /** Model properties to update. */
-  properties?: AiGatewayModelUpdateProperties;
+  properties?: AiGatewayModelUpdateProperties | undefined;
 }
 export interface UpdateAiGatewayModelResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayModelProperties;
+  properties?: AiGatewayModelProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateAiGatewayResourceRequestTagsMap = { [key: string]: string | undefined };
@@ -15606,22 +15680,24 @@ export type UpdateAiGatewayResourceRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateAiGatewayResourceRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAiGatewayResourceRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateAiGatewayResourceRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type AiGatewaySkuUpdateTier = "Free" | "Basic" | "Standard" | "Premium";
 /** SKU fields to update on an AI Gateway. */
 export interface AiGatewaySkuUpdate {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
-  name?: string;
+  name?: string | undefined;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: AiGatewaySkuUpdateTier | (string & {});
+  tier?: AiGatewaySkuUpdateTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface UpdateAiGatewayResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15631,11 +15707,11 @@ export interface UpdateAiGatewayResourceRequest {
   /** The name of the AiGatewayResource */
   aiGatewayName: string;
   /** Resource tags. */
-  tags?: UpdateAiGatewayResourceRequestTagsMap;
+  tags?: UpdateAiGatewayResourceRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAiGatewayResourceRequestIdentity;
+  identity?: UpdateAiGatewayResourceRequestIdentity | undefined;
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
-  sku?: AiGatewaySkuUpdate;
+  sku?: AiGatewaySkuUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateAiGatewayResourceResponseTagsMap = { [key: string]: string | undefined };
@@ -15646,49 +15722,51 @@ export type UpdateAiGatewayResourceResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateAiGatewayResourceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateAiGatewayResourceResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateAiGatewayResourceResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** The resource model definition representing SKU */
 export type UpdateAiGatewayResourceResponseSku = AiGatewayResourcesCreateOrUpdateResponseSku;
 export interface UpdateAiGatewayResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAiGatewayResourceResponseTagsMap;
+  tags?: UpdateAiGatewayResourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
   properties: AiGatewayProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateAiGatewayResourceResponseIdentity;
+  identity?: UpdateAiGatewayResourceResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: AiGatewayResourcesCreateOrUpdateResponseSku;
+  sku?: AiGatewayResourcesCreateOrUpdateResponseSku | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Source kind. Only claims is currently supported. */
 export type AiGatewayTelemetryAttributeSourceUpdateKind = "claims";
 /** A claim source to update. */
 export interface AiGatewayTelemetryAttributeSourceUpdate {
   /** Source kind. Only claims is currently supported. */
-  kind?: AiGatewayTelemetryAttributeSourceUpdateKind | (string & {});
+  kind?: AiGatewayTelemetryAttributeSourceUpdateKind | (string & {}) | undefined;
   /** Nonempty, case-sensitive claim name. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Distinct signals to enrich. */
 export type AiGatewayTelemetryAttributeMappingUpdateSignalsList = Array<
@@ -15697,9 +15775,9 @@ export type AiGatewayTelemetryAttributeMappingUpdateSignalsList = Array<
 /** A claim mapping to update. */
 export interface AiGatewayTelemetryAttributeMappingUpdate {
   /** Claim source. */
-  source?: AiGatewayTelemetryAttributeSourceUpdate;
+  source?: AiGatewayTelemetryAttributeSourceUpdate | undefined;
   /** Distinct signals to enrich. */
-  signals?: AiGatewayTelemetryAttributeMappingUpdateSignalsList;
+  signals?: AiGatewayTelemetryAttributeMappingUpdateSignalsList | undefined;
 }
 /** Observed-claim mappings; an empty array removes existing mappings. */
 export type AiGatewayTelemetryConfigurationUpdateAttributesList =
@@ -15707,18 +15785,18 @@ export type AiGatewayTelemetryConfigurationUpdateAttributesList =
 /** Telemetry enrichment settings to update. */
 export interface AiGatewayTelemetryConfigurationUpdate {
   /** Observed-claim mappings; an empty array removes existing mappings. */
-  attributes?: AiGatewayTelemetryConfigurationUpdateAttributesList;
+  attributes?: AiGatewayTelemetryConfigurationUpdateAttributesList | undefined;
 }
 /** Properties to update on an AI Gateway telemetry exporter. */
 export interface AiGatewayTelemetryExporterUpdateProperties {
   /** Capture prompts, completions, and tool input/output. */
-  payloadCapture?: boolean;
+  payloadCapture?: boolean | undefined;
   /** Application Insights configuration. */
-  applicationInsights?: AiGatewayApplicationInsightsConfiguration;
+  applicationInsights?: AiGatewayApplicationInsightsConfiguration | undefined;
   /** OpenTelemetry configuration. */
-  openTelemetry?: AiGatewayOpenTelemetryConfiguration;
+  openTelemetry?: AiGatewayOpenTelemetryConfiguration | undefined;
   /** Observed-claim mappings to update. */
-  telemetry?: AiGatewayTelemetryConfigurationUpdate;
+  telemetry?: AiGatewayTelemetryConfigurationUpdate | undefined;
 }
 export interface UpdateAiGatewayTelemetryExporterResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15732,21 +15810,21 @@ export interface UpdateAiGatewayTelemetryExporterResourceRequest {
   /** The name of the AiGatewayTelemetryExporterResource */
   telemetryExporterName: string;
   /** Exporter properties to update. */
-  properties?: AiGatewayTelemetryExporterUpdateProperties;
+  properties?: AiGatewayTelemetryExporterUpdateProperties | undefined;
 }
 export interface UpdateAiGatewayTelemetryExporterResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayTelemetryExporterProperties;
+  properties?: AiGatewayTelemetryExporterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Runtime API versions exposed by this tool server. */
 export type AiGatewayToolServerUpdatePropertiesInputVersionsList = Array<string>;
@@ -15757,57 +15835,57 @@ export type AiGatewayToolServerUpdatePropertiesInputBlockedList = Array<string>;
 /** MCP URL endpoint settings to update. */
 export interface AiGatewayMcpUrlConfigurationUpdate {
   /** Backend MCP server endpoint. */
-  url?: string;
+  url?: string | undefined;
   /** MCP transport. */
-  transport?: AiGatewayToolServerMcpTransport | (string & {});
+  transport?: AiGatewayToolServerMcpTransport | (string & {}) | undefined;
 }
 /** OpenAPI document source settings to update. */
 export interface AiGatewayOpenApiSpecSourceUpdate {
   /** Source type. */
-  type?: AiGatewayToolServerOpenApiSourceType | (string & {});
+  type?: AiGatewayToolServerOpenApiSourceType | (string & {}) | undefined;
   /** Base64-encoded OpenAPI document. */
-  contentBase64?: string;
+  contentBase64?: string | undefined;
   /** URL of the OpenAPI document. */
-  url?: string;
+  url?: string | undefined;
 }
 /** OpenAPI-backed MCP endpoint settings to update. */
 export interface AiGatewayOpenApiConfigurationUpdate {
   /** OpenAPI document source. */
-  specSource?: AiGatewayOpenApiSpecSourceUpdate;
+  specSource?: AiGatewayOpenApiSpecSourceUpdate | undefined;
 }
 /** Static headers injected when calling the endpoint. */
 export type AiGatewayToolServerCredentialsUpdateInputHeadersList = Array<AiGatewayToolServerHeader>;
 /** Tool server credentials to update. */
 export interface AiGatewayToolServerCredentialsUpdateInput {
   /** Authentication type. */
-  type?: AiGatewayToolServerAuthenticationType | (string & {});
+  type?: AiGatewayToolServerAuthenticationType | (string & {}) | undefined;
   /** Static headers injected when calling the endpoint. */
-  headers?: AiGatewayToolServerCredentialsUpdateInputHeadersList;
+  headers?: AiGatewayToolServerCredentialsUpdateInputHeadersList | undefined;
   /** OAuth 2.0 configuration. */
-  oauth2?: AiGatewayToolServerOauth2AuthenticationInput;
+  oauth2?: AiGatewayToolServerOauth2AuthenticationInput | undefined;
   /** Managed identity configuration. */
-  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication;
+  managedIdentity?: AiGatewayToolServerManagedIdentityAuthentication | undefined;
 }
 /** Upstream tool names or glob patterns to expose. */
 export type AiGatewayToolServerEndpointUpdateInputToolsList = Array<string>;
 /** A tool server endpoint to update. */
 export interface AiGatewayToolServerEndpointUpdateInput {
   /** Stable endpoint identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Optional namespace used to prefix tool names. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Endpoint type. */
-  kind?: AiGatewayToolServerEndpointSourceKind | (string & {});
+  kind?: AiGatewayToolServerEndpointSourceKind | (string & {}) | undefined;
   /** Backend MCP configuration. */
-  mcp?: AiGatewayMcpUrlConfigurationUpdate;
+  mcp?: AiGatewayMcpUrlConfigurationUpdate | undefined;
   /** OpenAPI configuration. */
-  openApi?: AiGatewayOpenApiConfigurationUpdate;
+  openApi?: AiGatewayOpenApiConfigurationUpdate | undefined;
   /** Backend credentials. */
-  credentials?: AiGatewayToolServerCredentialsUpdateInput;
+  credentials?: AiGatewayToolServerCredentialsUpdateInput | undefined;
   /** Upstream tool names or glob patterns to expose. */
-  tools?: AiGatewayToolServerEndpointUpdateInputToolsList;
+  tools?: AiGatewayToolServerEndpointUpdateInputToolsList | undefined;
   /** Whether endpoint failure fails the whole federation. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** Endpoint configurations exposed by this tool server. */
 export type AiGatewayToolServerUpdatePropertiesInputEndpointsList =
@@ -15817,27 +15895,27 @@ export type AiGatewayToolServerUpdatePropertiesInputPoliciesList = Array<AiGatew
 /** Properties for updating an AI Gateway tool server. */
 export interface AiGatewayToolServerUpdatePropertiesInput {
   /** Display name of the tool server. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the tool server. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the tool server is available to callers. */
-  accessState?: AiGatewayToolServerAccessState | (string & {});
+  accessState?: AiGatewayToolServerAccessState | (string & {}) | undefined;
   /** Tool server type. */
-  type?: AiGatewayToolServerType | (string & {});
+  type?: AiGatewayToolServerType | (string & {}) | undefined;
   /** Runtime API versions exposed by this tool server. */
-  versions?: AiGatewayToolServerUpdatePropertiesInputVersionsList;
+  versions?: AiGatewayToolServerUpdatePropertiesInputVersionsList | undefined;
   /** Tool names or patterns explicitly allowed. */
-  allowList?: AiGatewayToolServerUpdatePropertiesInputAllowListList;
+  allowList?: AiGatewayToolServerUpdatePropertiesInputAllowListList | undefined;
   /** Tool names or patterns explicitly blocked. */
-  blocked?: AiGatewayToolServerUpdatePropertiesInputBlockedList;
+  blocked?: AiGatewayToolServerUpdatePropertiesInputBlockedList | undefined;
   /** Endpoint configurations exposed by this tool server. */
-  endpoints?: AiGatewayToolServerUpdatePropertiesInputEndpointsList;
+  endpoints?: AiGatewayToolServerUpdatePropertiesInputEndpointsList | undefined;
   /** Inline policies applied to this tool server. */
-  policies?: AiGatewayToolServerUpdatePropertiesInputPoliciesList;
+  policies?: AiGatewayToolServerUpdatePropertiesInputPoliciesList | undefined;
   /** Runtime path for the tool server. */
-  path?: string;
+  path?: string | undefined;
   /** Whether a subscription is required to invoke the tool server. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
 }
 export interface UpdateAiGatewayToolServerResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15851,28 +15929,28 @@ export interface UpdateAiGatewayToolServerResourceRequest {
   /** The name of the AiGatewayToolServerResource */
   toolServerName: string;
   /** Tool server properties to update. */
-  properties?: AiGatewayToolServerUpdatePropertiesInput;
+  properties?: AiGatewayToolServerUpdatePropertiesInput | undefined;
 }
 export interface UpdateAiGatewayToolServerResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayToolServerProperties;
+  properties?: AiGatewayToolServerProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Inline governance policies to replace on the default workspace. */
 export type AiGatewayWorkspaceUpdatePropertiesPoliciesList = Array<AiGatewayPolicyUpdate>;
 /** Properties for updating an AI Gateway workspace. */
 export interface AiGatewayWorkspaceUpdateProperties {
   /** Inline governance policies to replace on the default workspace. */
-  policies?: AiGatewayWorkspaceUpdatePropertiesPoliciesList;
+  policies?: AiGatewayWorkspaceUpdatePropertiesPoliciesList | undefined;
 }
 export interface UpdateAiGatewayWorkspaceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15884,21 +15962,21 @@ export interface UpdateAiGatewayWorkspaceResourceRequest {
   /** The name of the AiGatewayWorkspaceResource */
   workspaceName: string;
   /** Workspace properties to update. */
-  properties?: AiGatewayWorkspaceUpdateProperties;
+  properties?: AiGatewayWorkspaceUpdateProperties | undefined;
 }
 export interface UpdateAiGatewayWorkspaceResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AiGatewayWorkspaceProperties;
+  properties?: AiGatewayWorkspaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Type of API. */
 export type ApiContractUpdatePropertiesInputType =
@@ -15916,41 +15994,41 @@ export type ApiContractUpdatePropertiesInputProtocolsList = Array<
 /** API update contract properties. */
 export interface ApiContractUpdatePropertiesInput {
   /** Description of the API. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** Collection of authentication settings included into this API. */
-  authenticationSettings?: AuthenticationSettingsContract;
+  authenticationSettings?: AuthenticationSettingsContract | undefined;
   /** Protocols over which API is made available. */
-  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
+  subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract | undefined;
   /** Type of API. */
-  type?: ApiContractUpdatePropertiesInputType | (string & {});
+  type?: ApiContractUpdatePropertiesInputType | (string & {}) | undefined;
   /** Describes the revision of the API. If no value is provided, default revision 1 is created */
-  apiRevision?: string;
+  apiRevision?: string | undefined;
   /** Indicates the version identifier of the API if the API is versioned */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Indicates if API revision is current api revision. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
   /** Description of the API Revision. */
-  apiRevisionDescription?: string;
+  apiRevisionDescription?: string | undefined;
   /** Description of the API Version. */
-  apiVersionDescription?: string;
+  apiVersionDescription?: string | undefined;
   /** A resource identifier for the related ApiVersionSet. */
-  apiVersionSetId?: string;
+  apiVersionSetId?: string | undefined;
   /** Specifies whether an API or Product subscription is required for accessing the API. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** A URL to the Terms of Service for the API. MUST be in the format of a URL. */
-  termsOfServiceUrl?: string;
+  termsOfServiceUrl?: string | undefined;
   /** Contact information for the API. */
-  contact?: ApiContactInformation;
+  contact?: ApiContactInformation | undefined;
   /** License information for the API. */
-  license?: ApiLicenseInformation;
+  license?: ApiLicenseInformation | undefined;
   /** API name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Absolute URL of the backend service implementing this API. */
-  serviceUrl?: string;
+  serviceUrl?: string | undefined;
   /** Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. */
-  path?: string;
+  path?: string | undefined;
   /** Describes on which protocols the operations in this API can be invoked. */
-  protocols?: ApiContractUpdatePropertiesInputProtocolsList;
+  protocols?: ApiContractUpdatePropertiesInputProtocolsList | undefined;
 }
 export interface UpdateApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15962,17 +16040,17 @@ export interface UpdateApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** Properties of the API entity that can be updated. */
-  properties?: ApiContractUpdatePropertiesInput;
+  properties?: ApiContractUpdatePropertiesInput | undefined;
 }
 export interface UpdateApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
 }
 export interface UpdateApiDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15986,17 +16064,17 @@ export interface UpdateApiDiagnosticRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface UpdateApiDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateApiGatewayRequestTagsMap = { [key: string]: string | undefined };
@@ -16008,13 +16086,16 @@ export type ApiManagementGatewayUpdatePropertiesInputVirtualNetworkType =
 /** Properties of an API Management gateway resource description. */
 export interface ApiManagementGatewayUpdatePropertiesInput {
   /** Information regarding how the gateway should be exposed. */
-  frontend?: UserAssignedIdentityInput;
+  frontend?: UserAssignedIdentityInput | undefined;
   /** Information regarding how the gateway should integrate with backend systems. */
-  backend?: BackendConfiguration;
+  backend?: BackendConfiguration | undefined;
   /** Information regarding the Configuration API of the API Management gateway. This is only applicable for API gateway with Standard SKU. */
-  configurationApi?: UserAssignedIdentityInput;
+  configurationApi?: UserAssignedIdentityInput | undefined;
   /** The type of VPN in which API Management gateway needs to be configured in. */
-  virtualNetworkType?: ApiManagementGatewayUpdatePropertiesInputVirtualNetworkType | (string & {});
+  virtualNetworkType?:
+    | ApiManagementGatewayUpdatePropertiesInputVirtualNetworkType
+    | (string & {})
+    | undefined;
 }
 /** Name of the Sku. */
 export type ApiManagementGatewaySkuPropertiesForPatchName =
@@ -16024,9 +16105,9 @@ export type ApiManagementGatewaySkuPropertiesForPatchName =
 /** API Management gateway resource SKU properties for PATCH operations given nothing should be required. */
 export interface ApiManagementGatewaySkuPropertiesForPatch {
   /** Name of the Sku. */
-  name?: ApiManagementGatewaySkuPropertiesForPatchName | (string & {});
+  name?: ApiManagementGatewaySkuPropertiesForPatchName | (string & {}) | undefined;
   /** Capacity of the SKU (number of deployed units of the SKU) */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface UpdateApiGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16036,11 +16117,11 @@ export interface UpdateApiGatewayRequest {
   /** The name of the API Management gateway. */
   gatewayName: string;
   /** Resource tags. */
-  tags?: UpdateApiGatewayRequestTagsMap;
+  tags?: UpdateApiGatewayRequestTagsMap | undefined;
   /** Properties of the API Management gateway. */
-  properties?: ApiManagementGatewayUpdatePropertiesInput;
+  properties?: ApiManagementGatewayUpdatePropertiesInput | undefined;
   /** SKU properties of the API Management gateway. */
-  sku?: ApiManagementGatewaySkuPropertiesForPatch;
+  sku?: ApiManagementGatewaySkuPropertiesForPatch | undefined;
 }
 /** Resource tags. */
 export type UpdateApiGatewayResponseTagsMap = { [key: string]: string | undefined };
@@ -16059,39 +16140,39 @@ export type UpdateApiGatewayResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateApiGatewayResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateApiGatewayResponseSystemDataCreatedByType;
+  createdByType?: UpdateApiGatewayResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateApiGatewayResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateApiGatewayResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateApiGatewayResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateApiGatewayResponseTagsMap;
+  tags?: UpdateApiGatewayResponseTagsMap | undefined;
   /** Properties of the API Management gateway. */
   properties: ApiManagementGatewayProperties;
   /** SKU properties of the API Management gateway. */
   sku: ApiManagementGatewaySkuProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateApiGatewayResponseSystemData;
+  systemData?: UpdateApiGatewayResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Location header */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Status of the issue. */
 export type IssueUpdateContractPropertiesState =
@@ -16103,17 +16184,17 @@ export type IssueUpdateContractPropertiesState =
 /** Issue contract Update Properties. */
 export interface IssueUpdateContractProperties {
   /** Date and time when the issue was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Status of the issue. */
-  state?: IssueUpdateContractPropertiesState | (string & {});
+  state?: IssueUpdateContractPropertiesState | (string & {}) | undefined;
   /** A resource identifier for the API the issue was created for. */
-  apiId?: string;
+  apiId?: string | undefined;
   /** The issue title. */
-  title?: string;
+  title?: string | undefined;
   /** Text describing the issue. */
-  description?: string;
+  description?: string | undefined;
   /** A resource identifier for the user created the issue. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface UpdateApiIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16127,17 +16208,17 @@ export interface UpdateApiIssueRequest {
   /** Issue identifier. Must be unique in the current API Management service instance. */
   issueId: string;
   /** Issue entity Update contract properties. */
-  properties?: IssueUpdateContractProperties;
+  properties?: IssueUpdateContractProperties | undefined;
 }
 export interface UpdateApiIssueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Issue. */
-  properties?: IssueContractProperties;
+  properties?: IssueContractProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateApiManagementServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -16176,49 +16257,66 @@ export type ApiManagementServiceUpdatePropertiesInputDeveloperPortalStatus = "En
 /** Properties of an API Management service resource description. */
 export interface ApiManagementServiceUpdatePropertiesInput {
   /** Email address from which the notification will be sent. */
-  notificationSenderEmail?: string;
+  notificationSenderEmail?: string | undefined;
   /** Custom hostname configuration of the API Management service. */
-  hostnameConfigurations?: ApiManagementServiceUpdatePropertiesInputHostnameConfigurationsList;
+  hostnameConfigurations?:
+    | ApiManagementServiceUpdatePropertiesInputHostnameConfigurationsList
+    | undefined;
   /** Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed service in the region. Supported only for Developer and Premium SKU being deployed in Virtual Network. */
-  publicIpAddressId?: string;
+  publicIpAddressId?: string | undefined;
   /** Whether or not public endpoint access is allowed for this API Management service. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?:
     | ApiManagementServiceUpdatePropertiesInputPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Configuration API configuration of the API Management service. */
-  configurationApi?: ConfigurationApi;
+  configurationApi?: ConfigurationApi | undefined;
   /** Virtual network configuration of the API Management service. */
-  virtualNetworkConfiguration?: VirtualNetworkConfigurationInput;
+  virtualNetworkConfiguration?: VirtualNetworkConfigurationInput | undefined;
   /** Additional datacenter locations of the API Management service. */
-  additionalLocations?: ApiManagementServiceUpdatePropertiesInputAdditionalLocationsList;
+  additionalLocations?:
+    | ApiManagementServiceUpdatePropertiesInputAdditionalLocationsList
+    | undefined;
   /** Custom properties of the API Management service.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2).</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11` can be used to disable just TLS 1.1 for communications with backends.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10` can be used to disable TLS 1.0 for communications with backends.</br>Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2` can be used to enable HTTP2 protocol on an API Management service.</br>Not specifying any of these properties on PATCH operation will reset omitted properties' values to their defaults. For all the settings except Http2 the default value is `True` if the service was created on or before April 1, 2018 and `False` otherwise. Http2 setting's default value is `False`.</br></br>You can disable any of the following ciphers by using settings `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.[cipher_name]`: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA. For example, `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256`:`false`. The default value is `true` for them.</br> Note: The following ciphers can't be disabled since they are required by internal platform components: TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 */
-  customProperties?: ApiManagementServiceUpdatePropertiesInputCustomPropertiesMap;
+  customProperties?: ApiManagementServiceUpdatePropertiesInputCustomPropertiesMap | undefined;
   /** List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10. */
-  certificates?: ApiManagementServiceUpdatePropertiesInputCertificatesList;
+  certificates?: ApiManagementServiceUpdatePropertiesInputCertificatesList | undefined;
   /** Property only meant to be used for Consumption SKU Service. This enforces a client certificate to be presented on each request to the gateway. This also enables the ability to authenticate the certificate in the policy on the gateway. */
-  enableClientCertificate?: boolean;
+  enableClientCertificate?: boolean | undefined;
   /** Property can be used to enable NAT Gateway for this API Management service. */
-  natGatewayState?: ApiManagementServiceUpdatePropertiesInputNatGatewayState | (string & {});
+  natGatewayState?:
+    | ApiManagementServiceUpdatePropertiesInputNatGatewayState
+    | (string & {})
+    | undefined;
   /** Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in master region. */
-  disableGateway?: boolean;
+  disableGateway?: boolean | undefined;
   /** The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only. */
-  virtualNetworkType?: ApiManagementServiceUpdatePropertiesInputVirtualNetworkType | (string & {});
+  virtualNetworkType?:
+    | ApiManagementServiceUpdatePropertiesInputVirtualNetworkType
+    | (string & {})
+    | undefined;
   /** Control Plane Apis version constraint for the API Management service. */
-  apiVersionConstraint?: ApiVersionConstraint;
+  apiVersionConstraint?: ApiVersionConstraint | undefined;
   /** Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored. */
-  restore?: boolean;
+  restore?: boolean | undefined;
   /** List of Private Endpoint Connections of this service. */
-  privateEndpointConnections?: ApiManagementServiceUpdatePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | ApiManagementServiceUpdatePropertiesInputPrivateEndpointConnectionsList
+    | undefined;
   /** Status of legacy portal in the API Management service. */
-  legacyPortalStatus?: ApiManagementServiceUpdatePropertiesInputLegacyPortalStatus | (string & {});
+  legacyPortalStatus?:
+    | ApiManagementServiceUpdatePropertiesInputLegacyPortalStatus
+    | (string & {})
+    | undefined;
   /** Status of developer portal in this API Management service. */
   developerPortalStatus?:
     | ApiManagementServiceUpdatePropertiesInputDeveloperPortalStatus
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Publisher email. */
-  publisherEmail?: string;
+  publisherEmail?: string | undefined;
   /** Publisher name. */
-  publisherName?: string;
+  publisherName?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type UpdateApiManagementServiceRequestZonesList = Array<string>;
@@ -16230,15 +16328,15 @@ export interface UpdateApiManagementServiceRequest {
   /** The name of the API Management service. */
   serviceName: string;
   /** Resource tags. */
-  tags?: UpdateApiManagementServiceRequestTagsMap;
+  tags?: UpdateApiManagementServiceRequestTagsMap | undefined;
   /** Properties of the API Management service. */
-  properties?: ApiManagementServiceUpdatePropertiesInput;
+  properties?: ApiManagementServiceUpdatePropertiesInput | undefined;
   /** SKU properties of the API Management service. */
-  sku?: ApiManagementServiceSkuProperties;
+  sku?: ApiManagementServiceSkuProperties | undefined;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentityInput;
+  identity?: ApiManagementServiceIdentityInput | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: UpdateApiManagementServiceRequestZonesList;
+  zones?: UpdateApiManagementServiceRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type UpdateApiManagementServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -16257,45 +16355,45 @@ export type UpdateApiManagementServiceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateApiManagementServiceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateApiManagementServiceResponseSystemDataCreatedByType;
+  createdByType?: UpdateApiManagementServiceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateApiManagementServiceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateApiManagementServiceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type UpdateApiManagementServiceResponseZonesList = Array<string>;
 export interface UpdateApiManagementServiceResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type for API Management resource is set to Microsoft.ApiManagement. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateApiManagementServiceResponseTagsMap;
+  tags?: UpdateApiManagementServiceResponseTagsMap | undefined;
   /** Properties of the API Management service. */
   properties: ApiManagementServiceProperties;
   /** SKU properties of the API Management service. */
   sku: ApiManagementServiceSkuProperties;
   /** Managed service identity of the Api Management service. */
-  identity?: ApiManagementServiceIdentity;
+  identity?: ApiManagementServiceIdentity | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateApiManagementServiceResponseSystemData;
+  systemData?: UpdateApiManagementServiceResponseSystemData | undefined;
   /** Resource location. */
   location: string;
   /** ETag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: UpdateApiManagementServiceResponseZonesList;
+  zones?: UpdateApiManagementServiceResponseZonesList | undefined;
   /** Location header */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Collection of URL template parameters. */
 export type OperationUpdateContractPropertiesTemplateParametersList = Array<ParameterContract>;
@@ -16304,21 +16402,21 @@ export type OperationUpdateContractPropertiesResponsesList = Array<ResponseContr
 /** Operation Update Contract Properties. */
 export interface OperationUpdateContractProperties {
   /** Collection of URL template parameters. */
-  templateParameters?: OperationUpdateContractPropertiesTemplateParametersList;
+  templateParameters?: OperationUpdateContractPropertiesTemplateParametersList | undefined;
   /** Description of the operation. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** An entity containing request details. */
-  request?: RequestContract;
+  request?: RequestContract | undefined;
   /** Array of Operation responses. */
-  responses?: OperationUpdateContractPropertiesResponsesList;
+  responses?: OperationUpdateContractPropertiesResponsesList | undefined;
   /** Operation Policies */
-  policies?: string;
+  policies?: string | undefined;
   /** Operation Name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them. */
-  method?: string;
+  method?: string | undefined;
   /** Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date} */
-  urlTemplate?: string;
+  urlTemplate?: string | undefined;
 }
 export interface UpdateApiOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16332,17 +16430,17 @@ export interface UpdateApiOperationRequest {
   /** Operation identifier within an API. Must be unique in the current API Management service instance. */
   operationId: string;
   /** Properties of the API Operation entity that can be updated. */
-  properties?: OperationUpdateContractProperties;
+  properties?: OperationUpdateContractProperties | undefined;
 }
 export interface UpdateApiOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export interface UpdateApiReleaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16356,17 +16454,17 @@ export interface UpdateApiReleaseRequest {
   /** Release identifier within an API. Must be unique in the current API Management service instance. */
   releaseId: string;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractPropertiesInput;
+  properties?: ApiReleaseContractPropertiesInput | undefined;
 }
 export interface UpdateApiReleaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractProperties;
+  properties?: ApiReleaseContractProperties | undefined;
 }
 /** An value that determines where the API Version identifier will be located in a HTTP request. */
 export type ApiVersionSetUpdateParametersPropertiesVersioningScheme =
@@ -16376,15 +16474,18 @@ export type ApiVersionSetUpdateParametersPropertiesVersioningScheme =
 /** Properties used to create or update an API Version Set. */
 export interface ApiVersionSetUpdateParametersProperties {
   /** Description of API Version Set. */
-  description?: string;
+  description?: string | undefined;
   /** Name of query parameter that indicates the API Version if versioningScheme is set to `query`. */
-  versionQueryName?: string;
+  versionQueryName?: string | undefined;
   /** Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`. */
-  versionHeaderName?: string;
+  versionHeaderName?: string | undefined;
   /** Name of API Version Set */
-  displayName?: string;
+  displayName?: string | undefined;
   /** An value that determines where the API Version identifier will be located in a HTTP request. */
-  versioningScheme?: ApiVersionSetUpdateParametersPropertiesVersioningScheme | (string & {});
+  versioningScheme?:
+    | ApiVersionSetUpdateParametersPropertiesVersioningScheme
+    | (string & {})
+    | undefined;
 }
 export interface UpdateApiVersionSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16396,17 +16497,17 @@ export interface UpdateApiVersionSetRequest {
   /** Api Version Set identifier. Must be unique in the current API Management service instance. */
   versionSetId: string;
   /** Parameters to update or create an API Version Set Contract. */
-  properties?: ApiVersionSetUpdateParametersProperties;
+  properties?: ApiVersionSetUpdateParametersProperties | undefined;
 }
 export interface UpdateApiVersionSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 export interface UpdateApiWikiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16418,17 +16519,17 @@ export interface UpdateApiWikiRequest {
   /** API identifier. Must be unique in the current API Management service instance. */
   apiId: string;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface UpdateApiWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export type AuthorizationServerUpdateContractPropertiesAuthorizationMethodsItem =
   | "HEAD"
@@ -16472,41 +16573,49 @@ export type AuthorizationServerUpdateContractPropertiesGrantTypesList = Array<
 /** External OAuth authorization server Update settings contract. */
 export interface AuthorizationServerUpdateContractProperties {
   /** Description of the authorization server. Can contain HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional. */
-  authorizationMethods?: AuthorizationServerUpdateContractPropertiesAuthorizationMethodsList;
+  authorizationMethods?:
+    | AuthorizationServerUpdateContractPropertiesAuthorizationMethodsList
+    | undefined;
   /** Method of authentication supported by the token endpoint of this authorization server. Possible values are Basic and/or Body. When Body is specified, client credentials and other parameters are passed within the request body in the application/x-www-form-urlencoded format. */
-  clientAuthenticationMethod?: AuthorizationServerUpdateContractPropertiesClientAuthenticationMethodList;
+  clientAuthenticationMethod?:
+    | AuthorizationServerUpdateContractPropertiesClientAuthenticationMethodList
+    | undefined;
   /** Additional parameters required by the token endpoint of this authorization server represented as an array of JSON objects with name and value string properties, i.e. {"name" : "name value", "value": "a value"}. */
-  tokenBodyParameters?: AuthorizationServerUpdateContractPropertiesTokenBodyParametersList;
+  tokenBodyParameters?:
+    | AuthorizationServerUpdateContractPropertiesTokenBodyParametersList
+    | undefined;
   /** OAuth token endpoint. Contains absolute URI to entity being referenced. */
-  tokenEndpoint?: string;
+  tokenEndpoint?: string | undefined;
   /** If true, authorization server will include state parameter from the authorization request to its response. Client may use state parameter to raise protocol security. */
-  supportState?: boolean;
+  supportState?: boolean | undefined;
   /** Access token scope that is going to be requested by default. Can be overridden at the API level. Should be provided in the form of a string containing space-delimited values. */
-  defaultScope?: string;
+  defaultScope?: string | undefined;
   /** Specifies the mechanism by which access token is passed to the API. */
-  bearerTokenSendingMethods?: AuthorizationServerUpdateContractPropertiesBearerTokenSendingMethodsList;
+  bearerTokenSendingMethods?:
+    | AuthorizationServerUpdateContractPropertiesBearerTokenSendingMethodsList
+    | undefined;
   /** Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner username. */
-  resourceOwnerUsername?: string;
+  resourceOwnerUsername?: string | undefined;
   /** Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password. */
-  resourceOwnerPassword?: string | Redacted.Redacted<string>;
+  resourceOwnerPassword?: string | Redacted.Redacted<string> | undefined;
   /** User-friendly authorization server name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** If true, the authorization server may be used in the developer portal test console. True by default if no value is provided. */
-  useInTestConsole?: boolean;
+  useInTestConsole?: boolean | undefined;
   /** If true, the authorization server will be used in the API documentation in the developer portal. False by default if no value is provided. */
-  useInApiDocumentation?: boolean;
+  useInApiDocumentation?: boolean | undefined;
   /** Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced. */
-  clientRegistrationEndpoint?: string;
+  clientRegistrationEndpoint?: string | undefined;
   /** OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2. */
-  authorizationEndpoint?: string;
+  authorizationEndpoint?: string | undefined;
   /** Form of an authorization grant, which the client uses to request the access token. */
-  grantTypes?: AuthorizationServerUpdateContractPropertiesGrantTypesList;
+  grantTypes?: AuthorizationServerUpdateContractPropertiesGrantTypesList | undefined;
   /** Client or app id registered with this authorization server. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Client or app secret registered with this authorization server. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateAuthorizationServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16518,23 +16627,23 @@ export interface UpdateAuthorizationServerRequest {
   /** Identifier of the authorization server. */
   authsid: string;
   /** Properties of the External OAuth authorization server update Contract. */
-  properties?: AuthorizationServerUpdateContractProperties;
+  properties?: AuthorizationServerUpdateContractProperties | undefined;
 }
 export interface UpdateAuthorizationServerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the External OAuth authorization server Contract. */
-  properties?: AuthorizationServerContractProperties;
+  properties?: AuthorizationServerContractProperties | undefined;
 }
 /** The list of backend entities belonging to a pool. */
 export type BackendUpdateParameterPropertiesPoolServicesList = Array<BackendPoolItem>;
 export interface BackendUpdateParameterPropertiesPool {
   /** The list of backend entities belonging to a pool. */
-  services?: BackendUpdateParameterPropertiesPoolServicesList;
+  services?: BackendUpdateParameterPropertiesPoolServicesList | undefined;
 }
 /** Type of the backend. A backend can be either Single or Pool. */
 export type BackendUpdateParameterPropertiesType = "Single" | "Pool";
@@ -16543,28 +16652,28 @@ export type BackendUpdateParameterPropertiesProtocol = "http" | "soap";
 /** Parameters supplied to the Update Backend operation. */
 export interface BackendUpdateParameterProperties {
   /** Backend Title. */
-  title?: string;
+  title?: string | undefined;
   /** Backend Description. */
-  description?: string;
+  description?: string | undefined;
   /** Management Uri of the Resource in External System. This URL can be the Arm Resource Id of Logic Apps, Function Apps or API Apps. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Backend Properties contract */
-  properties?: BackendProperties;
+  properties?: BackendProperties | undefined;
   /** Backend Credentials Contract Properties */
-  credentials?: BackendCredentialsContract;
+  credentials?: BackendCredentialsContract | undefined;
   /** Backend gateway Contract Properties */
-  proxy?: BackendProxyContract;
+  proxy?: BackendProxyContract | undefined;
   /** Backend TLS Properties */
-  tls?: BackendTlsProperties;
+  tls?: BackendTlsProperties | undefined;
   /** Backend Circuit Breaker Configuration */
-  circuitBreaker?: BackendCircuitBreaker;
-  pool?: BackendUpdateParameterPropertiesPool;
+  circuitBreaker?: BackendCircuitBreaker | undefined;
+  pool?: BackendUpdateParameterPropertiesPool | undefined;
   /** Type of the backend. A backend can be either Single or Pool. */
-  type?: BackendUpdateParameterPropertiesType | (string & {});
+  type?: BackendUpdateParameterPropertiesType | (string & {}) | undefined;
   /** Runtime Url of the Backend. Required when backend type is 'Single'. */
-  url?: string;
+  url?: string | undefined;
   /** Backend communication protocol. Required when backend type is 'Single'. */
-  protocol?: BackendUpdateParameterPropertiesProtocol | (string & {});
+  protocol?: BackendUpdateParameterPropertiesProtocol | (string & {}) | undefined;
 }
 export interface UpdateBackendRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16576,28 +16685,28 @@ export interface UpdateBackendRequest {
   /** Identifier of the Backend entity. Must be unique in the current API Management service instance. */
   backendId: string;
   /** Backend entity update contract properties. */
-  properties?: BackendUpdateParameterProperties;
+  properties?: BackendUpdateParameterProperties | undefined;
 }
 export interface UpdateBackendResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 /** Parameters supplied to the Update Cache operation. */
 export interface CacheUpdateProperties {
   /** Cache description */
-  description?: string;
+  description?: string | undefined;
   /** Runtime connection string to cache */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** Location identifier to use cache from (should be either 'default' or valid Azure region identifier) */
-  useFromLocation?: string;
+  useFromLocation?: string | undefined;
   /** Original uri of entity in external system cache points to */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface UpdateCacheRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16609,17 +16718,17 @@ export interface UpdateCacheRequest {
   /** Identifier of the Cache entity. Cache identifier (should be either 'default' or valid Azure region identifier). */
   cacheId: string;
   /** Cache update properties details. */
-  properties?: CacheUpdateProperties;
+  properties?: CacheUpdateProperties | undefined;
 }
 export interface UpdateCacheResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Cache properties details. */
-  properties?: CacheContractProperties;
+  properties?: CacheContractProperties | undefined;
 }
 export interface UpdateDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16631,17 +16740,17 @@ export interface UpdateDiagnosticRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface UpdateDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface UpdateDocumentationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16653,17 +16762,17 @@ export interface UpdateDocumentationRequest {
   /** Documentation identifier. Must be unique in the current API Management service instance. */
   documentationId: string;
   /** Markdown Documentation details. */
-  properties?: DocumentationContractProperties;
+  properties?: DocumentationContractProperties | undefined;
 }
 export interface UpdateDocumentationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Markdown Documentation details. */
-  properties?: DocumentationContractProperties;
+  properties?: DocumentationContractProperties | undefined;
 }
 export type UpdateEmailTemplateRequestTemplateName =
   | "applicationApprovedNotificationMessage"
@@ -16690,17 +16799,17 @@ export interface UpdateEmailTemplateRequest {
   /** Email Template Name Identifier. */
   templateName: UpdateEmailTemplateRequestTemplateName | (string & {});
   /** Email Template Update contract properties. */
-  properties?: EmailTemplateUpdateParameterProperties;
+  properties?: EmailTemplateUpdateParameterProperties | undefined;
 }
 export interface UpdateEmailTemplateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Email Template entity contract properties. */
-  properties?: EmailTemplateContractProperties;
+  properties?: EmailTemplateContractProperties | undefined;
 }
 export interface UpdateGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16712,17 +16821,17 @@ export interface UpdateGatewayRequest {
   /** Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed' */
   gatewayId: string;
   /** Gateway details. */
-  properties?: GatewayContractProperties;
+  properties?: GatewayContractProperties | undefined;
 }
 export interface UpdateGatewayResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Gateway details. */
-  properties?: GatewayContractProperties;
+  properties?: GatewayContractProperties | undefined;
 }
 /** Resolver Update Contract Properties. */
 export type ResolverUpdateContractProperties = ResolverEntityBaseContract;
@@ -16738,30 +16847,30 @@ export interface UpdateGraphQLApiResolverRequest {
   /** Resolver identifier within a GraphQL API. Must be unique in the current API Management service instance. */
   resolverId: string;
   /** Properties of the GraphQL API Resolver entity that can be updated. */
-  properties?: ResolverEntityBaseContract;
+  properties?: ResolverEntityBaseContract | undefined;
 }
 export interface UpdateGraphQLApiResolverResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Resolver Contract. */
-  properties?: ResolverEntityBaseContract;
+  properties?: ResolverEntityBaseContract | undefined;
 }
 /** Group type. */
 export type GroupUpdateParametersPropertiesType = "custom" | "system" | "external";
 /** Parameters supplied to the Update Group operation. */
 export interface GroupUpdateParametersProperties {
   /** Group name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Group description. */
-  description?: string;
+  description?: string | undefined;
   /** Group type. */
-  type?: GroupUpdateParametersPropertiesType | (string & {});
+  type?: GroupUpdateParametersPropertiesType | (string & {}) | undefined;
   /** Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null. */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface UpdateGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16773,17 +16882,17 @@ export interface UpdateGroupRequest {
   /** Group identifier. Must be unique in the current API Management service instance. */
   groupId: string;
   /** Group entity update contract properties. */
-  properties?: GroupUpdateParametersProperties;
+  properties?: GroupUpdateParametersProperties | undefined;
 }
 export interface UpdateGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 export type UpdateIdentityProviderRequestIdentityProviderName =
   | "facebook"
@@ -16805,27 +16914,27 @@ export type IdentityProviderUpdatePropertiesAllowedTenantsList = Array<string>;
 /** Parameters supplied to the Update Identity Provider operation. */
 export interface IdentityProviderUpdateProperties {
   /** Identity Provider Type identifier. */
-  type?: IdentityProviderUpdatePropertiesType | (string & {});
+  type?: IdentityProviderUpdatePropertiesType | (string & {}) | undefined;
   /** The TenantId to use instead of Common when logging into Active Directory */
-  signinTenant?: string;
+  signinTenant?: string | undefined;
   /** List of Allowed Tenants when configuring Azure Active Directory login. */
-  allowedTenants?: IdentityProviderUpdatePropertiesAllowedTenantsList;
+  allowedTenants?: IdentityProviderUpdatePropertiesAllowedTenantsList | undefined;
   /** OpenID Connect discovery endpoint hostname for AAD or AAD B2C. */
-  authority?: string;
+  authority?: string | undefined;
   /** Signup Policy Name. Only applies to AAD B2C Identity Provider. */
-  signupPolicyName?: string;
+  signupPolicyName?: string | undefined;
   /** Signin Policy Name. Only applies to AAD B2C Identity Provider. */
-  signinPolicyName?: string;
+  signinPolicyName?: string | undefined;
   /** Profile Editing Policy Name. Only applies to AAD B2C Identity Provider. */
-  profileEditingPolicyName?: string;
+  profileEditingPolicyName?: string | undefined;
   /** Password Reset Policy Name. Only applies to AAD B2C Identity Provider. */
-  passwordResetPolicyName?: string | Redacted.Redacted<string>;
+  passwordResetPolicyName?: string | Redacted.Redacted<string> | undefined;
   /** The client library to be used in the developer portal. Only applies to AAD and AAD B2C Identity Provider. */
-  clientLibrary?: string;
+  clientLibrary?: string | undefined;
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateIdentityProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16837,17 +16946,17 @@ export interface UpdateIdentityProviderRequest {
   /** Identity Provider Type identifier. */
   identityProviderName: UpdateIdentityProviderRequestIdentityProviderName | (string & {});
   /** Identity Provider update properties. */
-  properties?: IdentityProviderUpdateProperties;
+  properties?: IdentityProviderUpdateProperties | undefined;
 }
 export interface UpdateIdentityProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Identity Provider contract properties. */
-  properties?: IdentityProviderContractProperties;
+  properties?: IdentityProviderContractProperties | undefined;
 }
 /** Logger type. */
 export type LoggerUpdateParametersLoggerType =
@@ -16859,13 +16968,13 @@ export type LoggerUpdateParametersCredentialsMap = { [key: string]: string | und
 /** Parameters supplied to the Update Logger operation. */
 export interface LoggerUpdateParameters {
   /** Logger type. */
-  loggerType?: LoggerUpdateParametersLoggerType | (string & {});
+  loggerType?: LoggerUpdateParametersLoggerType | (string & {}) | undefined;
   /** Logger description. */
-  description?: string;
+  description?: string | undefined;
   /** Logger credentials. */
-  credentials?: LoggerUpdateParametersCredentialsMap;
+  credentials?: LoggerUpdateParametersCredentialsMap | undefined;
   /** Whether records are buffered in the logger before publishing. Default is assumed to be true. */
-  isBuffered?: boolean;
+  isBuffered?: boolean | undefined;
 }
 export interface UpdateLoggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16877,32 +16986,32 @@ export interface UpdateLoggerRequest {
   /** Logger identifier. Must be unique in the API Management service instance. */
   loggerId: string;
   /** Logger entity update contract properties. */
-  properties?: LoggerUpdateParameters;
+  properties?: LoggerUpdateParameters | undefined;
 }
 export interface UpdateLoggerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 /** Optional tags that when provided can be used to filter the NamedValue list. */
 export type NamedValueUpdateParameterPropertiesTagsList = Array<string>;
 /** NamedValue Contract properties. */
 export interface NamedValueUpdateParameterProperties {
   /** Optional tags that when provided can be used to filter the NamedValue list. */
-  tags?: NamedValueUpdateParameterPropertiesTagsList;
+  tags?: NamedValueUpdateParameterPropertiesTagsList | undefined;
   /** Determines whether the value is a secret and should be encrypted or not. Default value is false. */
-  secret?: boolean;
+  secret?: boolean | undefined;
   /** Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore characters. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. */
-  value?: string;
+  value?: string | undefined;
   /** KeyVault location details of the namedValue. */
-  keyVault?: KeyVaultContractCreateProperties;
+  keyVault?: KeyVaultContractCreateProperties | undefined;
 }
 export interface UpdateNamedValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16914,38 +17023,38 @@ export interface UpdateNamedValueRequest {
   /** Identifier of the NamedValue. */
   namedValueId: string;
   /** NamedValue entity Update contract properties. */
-  properties?: NamedValueUpdateParameterProperties;
+  properties?: NamedValueUpdateParameterProperties | undefined;
 }
 export interface UpdateNamedValueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Parameters supplied to the Update OpenID Connect Provider operation. */
 export interface OpenidConnectProviderUpdateContractProperties {
   /** User-friendly OpenID Connect Provider name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** User-friendly description of OpenID Connect Provider. */
-  description?: string;
+  description?: string | undefined;
   /** Metadata endpoint URI. */
-  metadataEndpoint?: string;
+  metadataEndpoint?: string | undefined;
   /** Client ID of developer console which is the client application. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Client Secret of developer console which is the client application. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** If true, the Open ID Connect provider may be used in the developer portal test console. True by default if no value is provided. */
-  useInTestConsole?: boolean;
+  useInTestConsole?: boolean | undefined;
   /** If true, the Open ID Connect provider will be used in the API documentation in the developer portal. False by default if no value is provided. */
-  useInApiDocumentation?: boolean;
+  useInApiDocumentation?: boolean | undefined;
 }
 export interface UpdateOpenIdConnectProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16957,17 +17066,17 @@ export interface UpdateOpenIdConnectProviderRequest {
   /** Identifier of the OpenID Connect Provider. */
   opid: string;
   /** OpenId Connect Provider Update contract properties. */
-  properties?: OpenidConnectProviderUpdateContractProperties;
+  properties?: OpenidConnectProviderUpdateContractProperties | undefined;
 }
 export interface UpdateOpenIdConnectProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** OpenId Connect Provider contract properties. */
-  properties?: OpenidConnectProviderContractProperties;
+  properties?: OpenidConnectProviderContractProperties | undefined;
 }
 export interface UpdatePolicyRestrictionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16979,17 +17088,17 @@ export interface UpdatePolicyRestrictionRequest {
   /** Policy restrictions after an entity level */
   policyRestrictionId: string;
   /** Properties of the Policy Restriction. */
-  properties?: PolicyRestrictionContractProperties;
+  properties?: PolicyRestrictionContractProperties | undefined;
 }
 export interface UpdatePolicyRestrictionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Restriction. */
-  properties?: PolicyRestrictionContractProperties;
+  properties?: PolicyRestrictionContractProperties | undefined;
 }
 export interface UpdatePortalConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17001,17 +17110,17 @@ export interface UpdatePortalConfigRequest {
   /** Portal configuration identifier. */
   portalConfigId: string;
   /** The developer portal configuration contract properties. */
-  properties?: PortalConfigProperties;
+  properties?: PortalConfigProperties | undefined;
 }
 export interface UpdatePortalConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The developer portal configuration contract properties. */
-  properties?: PortalConfigProperties;
+  properties?: PortalConfigProperties | undefined;
 }
 export interface UpdatePortalRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17023,40 +17132,40 @@ export interface UpdatePortalRevisionRequest {
   /** Portal revision identifier. Must be unique in the current API Management service instance. */
   portalRevisionId: string;
   /** Properties of the portal revisions. */
-  properties?: PortalRevisionContractPropertiesInput;
+  properties?: PortalRevisionContractPropertiesInput | undefined;
 }
 export interface UpdatePortalRevisionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the portal revisions. */
-  properties?: PortalRevisionContractProperties;
+  properties?: PortalRevisionContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished. */
 export type ProductUpdatePropertiesState = "notPublished" | "published";
 /** Parameters supplied to the Update Product operation. */
 export interface ProductUpdateProperties {
   /** Product description. May include HTML formatting tags. */
-  description?: string;
+  description?: string | undefined;
   /** Product terms of use. Developers trying to subscribe to the product will be presented and required to accept these terms before they can complete the subscription process. */
-  terms?: string;
+  terms?: string | undefined;
   /** Whether a product subscription is required for accessing APIs included in this product. If true, the product is referred to as "protected" and a valid subscription key is required for a request to an API included in the product to succeed. If false, the product is referred to as "open" and requests to an API included in the product can be made without a subscription key. If property is omitted when creating a new product it's value is assumed to be true. */
-  subscriptionRequired?: boolean;
+  subscriptionRequired?: boolean | undefined;
   /** whether subscription approval is required. If false, new subscriptions will be approved automatically enabling developers to call the product's APIs immediately after subscribing. If true, administrators must manually approve the subscription before the developer can any of the product's APIs. Can be present only if subscriptionRequired property is present and has a value of false. */
-  approvalRequired?: boolean;
+  approvalRequired?: boolean | undefined;
   /** Whether the number of subscriptions a user can have to this product at the same time. Set to null or omit to allow unlimited per user subscriptions. Can be present only if subscriptionRequired property is present and has a value of false. */
-  subscriptionsLimit?: number;
+  subscriptionsLimit?: number | undefined;
   /** whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished. */
-  state?: ProductUpdatePropertiesState | (string & {});
+  state?: ProductUpdatePropertiesState | (string & {}) | undefined;
   /** Product name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface UpdateProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17068,17 +17177,17 @@ export interface UpdateProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Product entity Update contract properties. */
-  properties?: ProductUpdateProperties;
+  properties?: ProductUpdateProperties | undefined;
 }
 export interface UpdateProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export interface UpdateProductWikiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17090,17 +17199,17 @@ export interface UpdateProductWikiRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface UpdateProductWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Wiki details. */
-  properties?: WikiContractProperties;
+  properties?: WikiContractProperties | undefined;
 }
 export interface UpdateQuotaByCounterKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17112,17 +17221,17 @@ export interface UpdateQuotaByCounterKeyRequest {
   /** Quota counter key identifier.This is the result of expression defined in counter-key attribute of the quota-by-key policy.For Example, if you specify counter-key="boo" in the policy, then it's accessible by "boo" counter key. But if it's defined as counter-key="@("b"+"a")" then it will be accessible by "ba" key */
   quotaCounterKey: string;
   /** Quota counter value details. */
-  properties?: QuotaCounterValueContractProperties;
+  properties?: QuotaCounterValueContractProperties | undefined;
 }
 /** Quota counter values. */
 export type UpdateQuotaByCounterKeyResponseValueList = Array<QuotaCounterContract>;
 export interface UpdateQuotaByCounterKeyResponse {
   /** Quota counter values. */
-  value?: UpdateQuotaByCounterKeyResponseValueList;
+  value?: UpdateQuotaByCounterKeyResponseValueList | undefined;
   /** Total record count number across all pages. */
-  count?: number;
+  count?: number | undefined;
   /** Next page link if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface UpdateQuotaByPeriodKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17136,7 +17245,7 @@ export interface UpdateQuotaByPeriodKeyRequest {
   /** Quota period key identifier. */
   quotaPeriodKey: string;
   /** Quota counter value details. */
-  properties?: QuotaCounterValueContractProperties;
+  properties?: QuotaCounterValueContractProperties | undefined;
 }
 export interface UpdateQuotaByPeriodKeyResponse {
   /** The Key value of the Counter. Must not be empty. */
@@ -17148,7 +17257,7 @@ export interface UpdateQuotaByPeriodKeyResponse {
   /** The date of the end of Counter Period. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
   periodEndTime: string;
   /** Quota Value Properties */
-  value?: QuotaCounterValueContractProperties;
+  value?: QuotaCounterValueContractProperties | undefined;
 }
 export type UpdateSubscriptionRequestAppType = "portal" | "developerPortal";
 /** Subscription state. Possible states are * active - the subscription is active, * suspended - the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted - the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected - the subscription request has been denied by an administrator, * cancelled - the subscription has been cancelled by the developer or administrator, * expired - the subscription reached its expiration date and was deactivated. */
@@ -17162,23 +17271,23 @@ export type SubscriptionUpdateParameterPropertiesState =
 /** Parameters supplied to the Update subscription operation. */
 export interface SubscriptionUpdateParameterProperties {
   /** User identifier path: /users/{userId} */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** Scope like /products/{productId} or /apis or /apis/{apiId} */
-  scope?: string;
+  scope?: string | undefined;
   /** Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Subscription name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Primary subscription key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary subscription key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Subscription state. Possible states are * active - the subscription is active, * suspended - the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted - the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected - the subscription request has been denied by an administrator, * cancelled - the subscription has been cancelled by the developer or administrator, * expired - the subscription reached its expiration date and was deactivated. */
-  state?: SubscriptionUpdateParameterPropertiesState | (string & {});
+  state?: SubscriptionUpdateParameterPropertiesState | (string & {}) | undefined;
   /** Comments describing subscription state change by the administrator when the state is changed to the 'rejected'. */
-  stateComment?: string;
+  stateComment?: string | undefined;
   /** Determines whether tracing can be enabled */
-  allowTracing?: boolean;
+  allowTracing?: boolean | undefined;
 }
 export interface UpdateSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17190,21 +17299,21 @@ export interface UpdateSubscriptionRequest {
   /** Subscription entity Identifier. The entity represents the association between a user and a product in API Management. */
   sid: string;
   /** Notify change in Subscription State. - If false, do not send any email notification for change of state of subscription - If true, send email notification of change of state of subscription */
-  notify?: boolean;
+  notify?: boolean | undefined;
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
-  appType?: UpdateSubscriptionRequestAppType | (string & {});
+  appType?: UpdateSubscriptionRequestAppType | (string & {}) | undefined;
   /** Subscription Update contract properties. */
-  properties?: SubscriptionUpdateParameterProperties;
+  properties?: SubscriptionUpdateParameterProperties | undefined;
 }
 export interface UpdateSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 export interface UpdateTagRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17216,23 +17325,23 @@ export interface UpdateTagRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** Properties supplied to Create Tag operation. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface UpdateTagResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export type UpdateTenantAccessRequestAccessName = "access" | "gitAccess";
 /** Tenant access information update parameters of the API Management service */
 export interface AccessInformationUpdateParameterProperties {
   /** Determines whether direct access is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdateTenantAccessRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17244,17 +17353,17 @@ export interface UpdateTenantAccessRequest {
   /** The identifier of the Access configuration. */
   accessName: UpdateTenantAccessRequestAccessName | (string & {});
   /** Tenant access information update parameter properties. */
-  properties?: AccessInformationUpdateParameterProperties;
+  properties?: AccessInformationUpdateParameterProperties | undefined;
 }
 export interface UpdateTenantAccessResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** AccessInformation entity contract properties. */
-  properties?: AccessInformationContractProperties;
+  properties?: AccessInformationContractProperties | undefined;
 }
 /** Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active. */
 export type UserUpdateParametersPropertiesState = "active" | "blocked" | "pending" | "deleted";
@@ -17263,19 +17372,19 @@ export type UserUpdateParametersPropertiesIdentitiesList = Array<UserIdentityCon
 /** Parameters supplied to the Update User operation. */
 export interface UserUpdateParametersProperties {
   /** Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active. */
-  state?: UserUpdateParametersPropertiesState | (string & {});
+  state?: UserUpdateParametersPropertiesState | (string & {}) | undefined;
   /** Optional note about a user set by the administrator. */
-  note?: string;
+  note?: string | undefined;
   /** Collection of user identities. */
-  identities?: UserUpdateParametersPropertiesIdentitiesList;
+  identities?: UserUpdateParametersPropertiesIdentitiesList | undefined;
   /** Email address. Must not be empty and must be unique within the service instance. */
-  email?: string;
+  email?: string | undefined;
   /** User Password. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** First name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name. */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export interface UpdateUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17287,17 +17396,17 @@ export interface UpdateUserRequest {
   /** User identifier. Must be unique in the current API Management service instance. */
   userId: string;
   /** User entity update contract properties. */
-  properties?: UserUpdateParametersProperties;
+  properties?: UserUpdateParametersProperties | undefined;
 }
 export interface UpdateUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** User entity contract properties. */
-  properties?: UserContractProperties;
+  properties?: UserContractProperties | undefined;
 }
 export interface UpdateWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17309,17 +17418,17 @@ export interface UpdateWorkspaceRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** Workspace entity contract properties. */
-  properties?: WorkspaceContractProperties;
+  properties?: WorkspaceContractProperties | undefined;
 }
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace entity contract properties. */
-  properties?: WorkspaceContractProperties;
+  properties?: WorkspaceContractProperties | undefined;
 }
 export interface UpdateWorkspaceApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17333,17 +17442,17 @@ export interface UpdateWorkspaceApiRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** Properties of the API entity that can be updated. */
-  properties?: ApiContractUpdatePropertiesInput;
+  properties?: ApiContractUpdatePropertiesInput | undefined;
 }
 export interface UpdateWorkspaceApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
 }
 /** Specifies for what type of messages sampling settings should not apply. */
 export type DiagnosticContractUpdatePropertiesAlwaysLog = "allErrors";
@@ -17356,27 +17465,31 @@ export type DiagnosticContractUpdatePropertiesOperationNameFormat = "Name" | "Ur
 /** Diagnostic Entity Properties */
 export interface DiagnosticContractUpdateProperties {
   /** Specifies for what type of messages sampling settings should not apply. */
-  alwaysLog?: DiagnosticContractUpdatePropertiesAlwaysLog | (string & {});
+  alwaysLog?: DiagnosticContractUpdatePropertiesAlwaysLog | (string & {}) | undefined;
   /** Resource Id of a target logger. */
-  loggerId?: string;
+  loggerId?: string | undefined;
   /** Sampling settings for Diagnostic. */
-  sampling?: SamplingSettings;
+  sampling?: SamplingSettings | undefined;
   /** Diagnostic settings for incoming/outgoing HTTP messages to the Gateway. */
-  frontend?: PipelineDiagnosticSettings;
+  frontend?: PipelineDiagnosticSettings | undefined;
   /** Diagnostic settings for incoming/outgoing HTTP messages to the Backend */
-  backend?: PipelineDiagnosticSettings;
+  backend?: PipelineDiagnosticSettings | undefined;
   /** Log the ClientIP. Default is false. */
-  logClientIp?: boolean;
+  logClientIp?: boolean | undefined;
   /** Sets correlation protocol to use for Application Insights diagnostics. */
   httpCorrelationProtocol?:
     | DiagnosticContractUpdatePropertiesHttpCorrelationProtocol
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The verbosity level applied to traces emitted by trace policies. */
-  verbosity?: DiagnosticContractUpdatePropertiesVerbosity | (string & {});
+  verbosity?: DiagnosticContractUpdatePropertiesVerbosity | (string & {}) | undefined;
   /** The format of the Operation Name for Application Insights telemetries. Default is Name. */
-  operationNameFormat?: DiagnosticContractUpdatePropertiesOperationNameFormat | (string & {});
+  operationNameFormat?:
+    | DiagnosticContractUpdatePropertiesOperationNameFormat
+    | (string & {})
+    | undefined;
   /** Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings. */
-  metrics?: boolean;
+  metrics?: boolean | undefined;
 }
 export interface UpdateWorkspaceApiDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17392,17 +17505,17 @@ export interface UpdateWorkspaceApiDiagnosticRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractUpdateProperties;
+  properties?: DiagnosticContractUpdateProperties | undefined;
 }
 export interface UpdateWorkspaceApiDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface UpdateWorkspaceApiOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17418,17 +17531,17 @@ export interface UpdateWorkspaceApiOperationRequest {
   /** Operation identifier within an API. Must be unique in the current API Management service instance. */
   operationId: string;
   /** Properties of the API Operation entity that can be updated. */
-  properties?: OperationUpdateContractProperties;
+  properties?: OperationUpdateContractProperties | undefined;
 }
 export interface UpdateWorkspaceApiOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export interface UpdateWorkspaceApiReleaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17444,17 +17557,17 @@ export interface UpdateWorkspaceApiReleaseRequest {
   /** Release identifier within an API. Must be unique in the current API Management service instance. */
   releaseId: string;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractPropertiesInput;
+  properties?: ApiReleaseContractPropertiesInput | undefined;
 }
 export interface UpdateWorkspaceApiReleaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractProperties;
+  properties?: ApiReleaseContractProperties | undefined;
 }
 export interface UpdateWorkspaceApiVersionSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17468,17 +17581,17 @@ export interface UpdateWorkspaceApiVersionSetRequest {
   /** Api Version Set identifier. Must be unique in the current API Management service instance. */
   versionSetId: string;
   /** Parameters to update or create an API Version Set Contract. */
-  properties?: ApiVersionSetUpdateParametersProperties;
+  properties?: ApiVersionSetUpdateParametersProperties | undefined;
 }
 export interface UpdateWorkspaceApiVersionSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 export interface UpdateWorkspaceBackendRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17492,17 +17605,17 @@ export interface UpdateWorkspaceBackendRequest {
   /** Identifier of the Backend entity. Must be unique in the current API Management service instance. */
   backendId: string;
   /** Backend entity update contract properties. */
-  properties?: BackendUpdateParameterProperties;
+  properties?: BackendUpdateParameterProperties | undefined;
 }
 export interface UpdateWorkspaceBackendResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 export interface UpdateWorkspaceDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17516,17 +17629,17 @@ export interface UpdateWorkspaceDiagnosticRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractUpdateProperties;
+  properties?: DiagnosticContractUpdateProperties | undefined;
 }
 export interface UpdateWorkspaceDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface UpdateWorkspaceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17540,17 +17653,17 @@ export interface UpdateWorkspaceGroupRequest {
   /** Group identifier. Must be unique in the current API Management service instance. */
   groupId: string;
   /** Group entity update contract properties. */
-  properties?: GroupUpdateParametersProperties;
+  properties?: GroupUpdateParametersProperties | undefined;
 }
 export interface UpdateWorkspaceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 export interface UpdateWorkspaceLoggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17564,17 +17677,17 @@ export interface UpdateWorkspaceLoggerRequest {
   /** Logger identifier. Must be unique in the API Management service instance. */
   loggerId: string;
   /** Logger entity update contract properties. */
-  properties?: LoggerUpdateParameters;
+  properties?: LoggerUpdateParameters | undefined;
 }
 export interface UpdateWorkspaceLoggerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 export interface UpdateWorkspaceNamedValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17588,21 +17701,21 @@ export interface UpdateWorkspaceNamedValueRequest {
   /** Identifier of the NamedValue. */
   namedValueId: string;
   /** NamedValue entity Update contract properties. */
-  properties?: NamedValueUpdateParameterProperties;
+  properties?: NamedValueUpdateParameterProperties | undefined;
 }
 export interface UpdateWorkspaceNamedValueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface UpdateWorkspaceProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17616,17 +17729,17 @@ export interface UpdateWorkspaceProductRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Product entity Update contract properties. */
-  properties?: ProductUpdateProperties;
+  properties?: ProductUpdateProperties | undefined;
 }
 export interface UpdateWorkspaceProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export type UpdateWorkspaceSubscriptionRequestAppType = "portal" | "developerPortal";
 export interface UpdateWorkspaceSubscriptionRequest {
@@ -17641,21 +17754,21 @@ export interface UpdateWorkspaceSubscriptionRequest {
   /** Subscription entity Identifier. The entity represents the association between a user and a product in API Management. */
   sid: string;
   /** Notify change in Subscription State. - If false, do not send any email notification for change of state of subscription - If true, send email notification of change of state of subscription */
-  notify?: boolean;
+  notify?: boolean | undefined;
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
-  appType?: UpdateWorkspaceSubscriptionRequestAppType | (string & {});
+  appType?: UpdateWorkspaceSubscriptionRequestAppType | (string & {}) | undefined;
   /** Subscription Update contract properties. */
-  properties?: SubscriptionUpdateParameterProperties;
+  properties?: SubscriptionUpdateParameterProperties | undefined;
 }
 export interface UpdateWorkspaceSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 export interface UpdateWorkspaceTagRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17669,17 +17782,17 @@ export interface UpdateWorkspaceTagRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** Properties supplied to Create Tag operation. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface UpdateWorkspaceTagResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 /** Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active. */
 export type UserCreateParameterPropertiesState = "active" | "blocked" | "pending" | "deleted";
@@ -17692,11 +17805,11 @@ export type UserCreateParameterPropertiesConfirmation = "signup" | "invite";
 /** Parameters supplied to the Create User operation. */
 export interface UserCreateParameterProperties {
   /** Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active. */
-  state?: UserCreateParameterPropertiesState | (string & {});
+  state?: UserCreateParameterPropertiesState | (string & {}) | undefined;
   /** Optional note about a user set by the administrator. */
-  note?: string;
+  note?: string | undefined;
   /** Collection of user identities. */
-  identities?: UserCreateParameterPropertiesIdentitiesList;
+  identities?: UserCreateParameterPropertiesIdentitiesList | undefined;
   /** Email address. Must not be empty and must be unique within the service instance. */
   email: string;
   /** First name. */
@@ -17704,11 +17817,11 @@ export interface UserCreateParameterProperties {
   /** Last name. */
   lastName: string;
   /** User Password. If no value is provided, a default password is generated. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Determines the type of application which send the create user request. Default is legacy portal. */
-  appType?: UserCreateParameterPropertiesAppType | (string & {});
+  appType?: UserCreateParameterPropertiesAppType | (string & {}) | undefined;
   /** Determines the type of confirmation e-mail that will be sent to the newly created user. */
-  confirmation?: UserCreateParameterPropertiesConfirmation | (string & {});
+  confirmation?: UserCreateParameterPropertiesConfirmation | (string & {}) | undefined;
 }
 export interface UserCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17720,19 +17833,19 @@ export interface UserCreateOrUpdateRequest {
   /** User identifier. Must be unique in the current API Management service instance. */
   userId: string;
   /** Send an Email notification to the User. */
-  notify?: boolean;
+  notify?: boolean | undefined;
   /** User entity create contract properties. */
-  properties?: UserCreateParameterProperties;
+  properties?: UserCreateParameterProperties | undefined;
 }
 export interface UserCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** User entity contract properties. */
-  properties?: UserContractProperties;
+  properties?: UserContractProperties | undefined;
 }
 export type ValidateTenantConfigurationRequestConfigurationName = "configuration";
 export interface ValidateTenantConfigurationRequest {
@@ -17745,18 +17858,18 @@ export interface ValidateTenantConfigurationRequest {
   /** The identifier of the Git Configuration Operation. */
   configurationName: ValidateTenantConfigurationRequestConfigurationName | (string & {});
   /** Deploy Configuration Parameter contract properties. */
-  properties?: DeployConfigurationParameterProperties;
+  properties?: DeployConfigurationParameterProperties | undefined;
 }
 export interface ValidateTenantConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationResultContractProperties;
-  location?: string;
+  properties?: OperationResultContractProperties | undefined;
+  location?: string | undefined;
 }
 export interface WorkspaceApiCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17770,21 +17883,21 @@ export interface WorkspaceApiCreateOrUpdateRequest {
   /** API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. */
   apiId: string;
   /** API entity create of update properties. */
-  properties?: ApiCreateOrUpdatePropertiesInput;
+  properties?: ApiCreateOrUpdatePropertiesInput | undefined;
 }
 export interface WorkspaceApiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API entity contract properties. */
-  properties?: ApiContractProperties;
+  properties?: ApiContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface WorkspaceApiDiagnosticCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17800,17 +17913,17 @@ export interface WorkspaceApiDiagnosticCreateOrUpdateRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface WorkspaceApiDiagnosticCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface WorkspaceApiOperationCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17826,17 +17939,17 @@ export interface WorkspaceApiOperationCreateOrUpdateRequest {
   /** Operation identifier within an API. Must be unique in the current API Management service instance. */
   operationId: string;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export interface WorkspaceApiOperationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Operation Contract. */
-  properties?: OperationContractProperties;
+  properties?: OperationContractProperties | undefined;
 }
 export type WorkspaceApiOperationPolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface WorkspaceApiOperationPolicyCreateOrUpdateRequest {
@@ -17855,17 +17968,17 @@ export interface WorkspaceApiOperationPolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: WorkspaceApiOperationPolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface WorkspaceApiOperationPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export type WorkspaceApiPolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface WorkspaceApiPolicyCreateOrUpdateRequest {
@@ -17882,17 +17995,17 @@ export interface WorkspaceApiPolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: WorkspaceApiPolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface WorkspaceApiPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface WorkspaceApiReleaseCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17908,17 +18021,17 @@ export interface WorkspaceApiReleaseCreateOrUpdateRequest {
   /** Release identifier within an API. Must be unique in the current API Management service instance. */
   releaseId: string;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractPropertiesInput;
+  properties?: ApiReleaseContractPropertiesInput | undefined;
 }
 export interface WorkspaceApiReleaseCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** ApiRelease entity contract properties. */
-  properties?: ApiReleaseContractProperties;
+  properties?: ApiReleaseContractProperties | undefined;
 }
 export interface WorkspaceApiSchemaCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17934,21 +18047,21 @@ export interface WorkspaceApiSchemaCreateOrUpdateRequest {
   /** Schema id identifier. Must be unique in the current API Management service instance. */
   schemaId: string;
   /** Properties of the API Schema. */
-  properties?: SchemaContractPropertiesInput;
+  properties?: SchemaContractPropertiesInput | undefined;
 }
 export interface WorkspaceApiSchemaCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the API Schema. */
-  properties?: SchemaContractProperties;
+  properties?: SchemaContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface WorkspaceApiVersionSetCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17962,17 +18075,17 @@ export interface WorkspaceApiVersionSetCreateOrUpdateRequest {
   /** Api Version Set identifier. Must be unique in the current API Management service instance. */
   versionSetId: string;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 export interface WorkspaceApiVersionSetCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** API VersionSet contract properties. */
-  properties?: ApiVersionSetContractProperties;
+  properties?: ApiVersionSetContractProperties | undefined;
 }
 export interface WorkspaceBackendCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17986,17 +18099,17 @@ export interface WorkspaceBackendCreateOrUpdateRequest {
   /** Identifier of the Backend entity. Must be unique in the current API Management service instance. */
   backendId: string;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 export interface WorkspaceBackendCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Backend entity contract properties. */
-  properties?: BackendContractProperties;
+  properties?: BackendContractProperties | undefined;
 }
 export interface WorkspaceCertificateCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18010,17 +18123,17 @@ export interface WorkspaceCertificateCreateOrUpdateRequest {
   /** Identifier of the certificate entity. Must be unique in the current API Management service instance. */
   certificateId: string;
   /** Certificate create or update properties details. */
-  properties?: CertificateCreateOrUpdateProperties;
+  properties?: CertificateCreateOrUpdateProperties | undefined;
 }
 export interface WorkspaceCertificateCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Certificate properties details. */
-  properties?: CertificateContractProperties;
+  properties?: CertificateContractProperties | undefined;
 }
 export interface WorkspaceCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18032,17 +18145,17 @@ export interface WorkspaceCreateOrUpdateRequest {
   /** Workspace identifier. Must be unique in the current API Management service instance. */
   workspaceId: string;
   /** Workspace entity contract properties. */
-  properties?: WorkspaceContractProperties;
+  properties?: WorkspaceContractProperties | undefined;
 }
 export interface WorkspaceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace entity contract properties. */
-  properties?: WorkspaceContractProperties;
+  properties?: WorkspaceContractProperties | undefined;
 }
 export interface WorkspaceDiagnosticCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18056,17 +18169,17 @@ export interface WorkspaceDiagnosticCreateOrUpdateRequest {
   /** Diagnostic identifier. Must be unique in the current API Management service instance. */
   diagnosticId: string;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface WorkspaceDiagnosticCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Diagnostic entity contract properties. */
-  properties?: DiagnosticContractProperties;
+  properties?: DiagnosticContractProperties | undefined;
 }
 export interface WorkspaceGlobalSchemaCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18080,21 +18193,21 @@ export interface WorkspaceGlobalSchemaCreateOrUpdateRequest {
   /** Schema id identifier. Must be unique in the current API Management service instance. */
   schemaId: string;
   /** Properties of the Global Schema. */
-  properties?: GlobalSchemaContractPropertiesInput;
+  properties?: GlobalSchemaContractPropertiesInput | undefined;
 }
 export interface WorkspaceGlobalSchemaCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Global Schema. */
-  properties?: GlobalSchemaContractProperties;
+  properties?: GlobalSchemaContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface WorkspaceGroupCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18108,17 +18221,17 @@ export interface WorkspaceGroupCreateOrUpdateRequest {
   /** Group identifier. Must be unique in the current API Management service instance. */
   groupId: string;
   /** Properties supplied to Create Group operation. */
-  properties?: GroupCreateParametersProperties;
+  properties?: GroupCreateParametersProperties | undefined;
 }
 export interface WorkspaceGroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Group entity contract properties. */
-  properties?: GroupContractProperties;
+  properties?: GroupContractProperties | undefined;
 }
 export interface WorkspaceLoggerCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18132,17 +18245,17 @@ export interface WorkspaceLoggerCreateOrUpdateRequest {
   /** Logger identifier. Must be unique in the API Management service instance. */
   loggerId: string;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 export interface WorkspaceLoggerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Logger entity contract properties. */
-  properties?: LoggerContractProperties;
+  properties?: LoggerContractProperties | undefined;
 }
 export interface WorkspaceNamedValueCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18156,21 +18269,21 @@ export interface WorkspaceNamedValueCreateOrUpdateRequest {
   /** Identifier of the NamedValue. */
   namedValueId: string;
   /** NamedValue entity contract properties for PUT operation. */
-  properties?: NamedValueCreateContractProperties;
+  properties?: NamedValueCreateContractProperties | undefined;
 }
 export interface WorkspaceNamedValueCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** NamedValue entity contract properties. */
-  properties?: NamedValueContractProperties;
+  properties?: NamedValueContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type WorkspaceNotificationCreateOrUpdateRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -18194,13 +18307,13 @@ export interface WorkspaceNotificationCreateOrUpdateRequest {
 }
 export interface WorkspaceNotificationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Notification entity contract properties. */
-  properties?: NotificationContractProperties;
+  properties?: NotificationContractProperties | undefined;
 }
 export type WorkspaceNotificationRecipientEmailCreateOrUpdateRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -18228,13 +18341,13 @@ export interface WorkspaceNotificationRecipientEmailCreateOrUpdateRequest {
 }
 export interface WorkspaceNotificationRecipientEmailCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Recipient Email contract properties. */
-  properties?: RecipientEmailContractProperties;
+  properties?: RecipientEmailContractProperties | undefined;
 }
 export type WorkspaceNotificationRecipientUserCreateOrUpdateRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -18262,13 +18375,13 @@ export interface WorkspaceNotificationRecipientUserCreateOrUpdateRequest {
 }
 export interface WorkspaceNotificationRecipientUserCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Recipient User entity contract properties. */
-  properties?: RecipientUsersContractProperties;
+  properties?: RecipientUsersContractProperties | undefined;
 }
 export type WorkspacePolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface WorkspacePolicyCreateOrUpdateRequest {
@@ -18283,17 +18396,17 @@ export interface WorkspacePolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: WorkspacePolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface WorkspacePolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface WorkspacePolicyFragmentCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18307,21 +18420,21 @@ export interface WorkspacePolicyFragmentCreateOrUpdateRequest {
   /** A resource identifier. */
   id: string;
   /** Properties of the Policy Fragment. */
-  properties?: PolicyFragmentContractPropertiesInput;
+  properties?: PolicyFragmentContractPropertiesInput | undefined;
 }
 export interface WorkspacePolicyFragmentCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy Fragment. */
-  properties?: PolicyFragmentContractProperties;
+  properties?: PolicyFragmentContractProperties | undefined;
   /** Location header contains the URL where the status of the long running operation can be checked */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface WorkspaceProductApiLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18337,17 +18450,17 @@ export interface WorkspaceProductApiLinkCreateOrUpdateRequest {
   /** Product-API link identifier. Must be unique in the current API Management service instance. */
   apiLinkId: string;
   /** Product-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface WorkspaceProductApiLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface WorkspaceProductCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18361,17 +18474,17 @@ export interface WorkspaceProductCreateOrUpdateRequest {
   /** Product identifier. Must be unique in the current API Management service instance. */
   productId: string;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export interface WorkspaceProductCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product entity contract properties. */
-  properties?: ProductContractProperties;
+  properties?: ProductContractProperties | undefined;
 }
 export interface WorkspaceProductGroupLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18387,17 +18500,17 @@ export interface WorkspaceProductGroupLinkCreateOrUpdateRequest {
   /** Product-Group link identifier. Must be unique in the current API Management service instance. */
   groupLinkId: string;
   /** Product-group link entity contract properties. */
-  properties?: ProductGroupLinkContractProperties;
+  properties?: ProductGroupLinkContractProperties | undefined;
 }
 export interface WorkspaceProductGroupLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Product-group link entity contract properties. */
-  properties?: ProductGroupLinkContractProperties;
+  properties?: ProductGroupLinkContractProperties | undefined;
 }
 export type WorkspaceProductPolicyCreateOrUpdateRequestPolicyId = "policy";
 export interface WorkspaceProductPolicyCreateOrUpdateRequest {
@@ -18414,17 +18527,17 @@ export interface WorkspaceProductPolicyCreateOrUpdateRequest {
   /** The identifier of the Policy. */
   policyId: WorkspaceProductPolicyCreateOrUpdateRequestPolicyId | (string & {});
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export interface WorkspaceProductPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Policy. */
-  properties?: PolicyContractProperties;
+  properties?: PolicyContractProperties | undefined;
 }
 export type WorkspaceSubscriptionCreateOrUpdateRequestAppType = "portal" | "developerPortal";
 export interface WorkspaceSubscriptionCreateOrUpdateRequest {
@@ -18439,21 +18552,21 @@ export interface WorkspaceSubscriptionCreateOrUpdateRequest {
   /** Subscription entity Identifier. The entity represents the association between a user and a product in API Management. */
   sid: string;
   /** Notify change in Subscription State. - If false, do not send any email notification for change of state of subscription - If true, send email notification of change of state of subscription */
-  notify?: boolean;
+  notify?: boolean | undefined;
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
-  appType?: WorkspaceSubscriptionCreateOrUpdateRequestAppType | (string & {});
+  appType?: WorkspaceSubscriptionCreateOrUpdateRequestAppType | (string & {}) | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionCreateParameterProperties;
+  properties?: SubscriptionCreateParameterProperties | undefined;
 }
 export interface WorkspaceSubscriptionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Subscription contract properties. */
-  properties?: SubscriptionContractProperties;
+  properties?: SubscriptionContractProperties | undefined;
 }
 export interface WorkspaceTagApiLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18469,17 +18582,17 @@ export interface WorkspaceTagApiLinkCreateOrUpdateRequest {
   /** Tag-API link identifier. Must be unique in the current API Management service instance. */
   apiLinkId: string;
   /** Tag-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface WorkspaceTagApiLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: ProductApiLinkContractProperties;
+  properties?: ProductApiLinkContractProperties | undefined;
 }
 export interface WorkspaceTagCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18493,17 +18606,17 @@ export interface WorkspaceTagCreateOrUpdateRequest {
   /** Tag identifier. Must be unique in the current API Management service instance. */
   tagId: string;
   /** Properties supplied to Create Tag operation. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface WorkspaceTagCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag entity contract properties. */
-  properties?: TagContractProperties;
+  properties?: TagContractProperties | undefined;
 }
 export interface WorkspaceTagOperationLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18519,17 +18632,17 @@ export interface WorkspaceTagOperationLinkCreateOrUpdateRequest {
   /** Tag-operation link identifier. Must be unique in the current API Management service instance. */
   operationLinkId: string;
   /** Tag-API link entity contract properties. */
-  properties?: TagOperationLinkContractProperties;
+  properties?: TagOperationLinkContractProperties | undefined;
 }
 export interface WorkspaceTagOperationLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagOperationLinkContractProperties;
+  properties?: TagOperationLinkContractProperties | undefined;
 }
 export interface WorkspaceTagProductLinkCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18545,17 +18658,17 @@ export interface WorkspaceTagProductLinkCreateOrUpdateRequest {
   /** Tag-product link identifier. Must be unique in the current API Management service instance. */
   productLinkId: string;
   /** Tag-API link entity contract properties. */
-  properties?: TagProductLinkContractProperties;
+  properties?: TagProductLinkContractProperties | undefined;
 }
 export interface WorkspaceTagProductLinkCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Tag-API link entity contract properties. */
-  properties?: TagProductLinkContractProperties;
+  properties?: TagProductLinkContractProperties | undefined;
 }
 export type AiGatewayAliasResourcesCreateOrUpdateError = AzureOpError;
 /** Create a AiGatewayAliasResource */

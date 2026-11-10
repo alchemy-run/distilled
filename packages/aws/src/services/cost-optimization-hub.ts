@@ -143,13 +143,13 @@ export type MemberAccountDiscountVisibility = "All" | "None" | (string & {});
 export type Term = "OneYear" | "ThreeYears" | (string & {});
 export type PaymentOption = "AllUpfront" | "PartialUpfront" | "NoUpfront" | (string & {});
 export interface PreferredCommitment {
-  term?: Term;
-  paymentOption?: PaymentOption;
+  term?: Term | undefined;
+  paymentOption?: PaymentOption | undefined;
 }
 export interface GetPreferencesResponse {
-  savingsEstimationMode?: SavingsEstimationMode;
-  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;
-  preferredCommitment?: PreferredCommitment;
+  savingsEstimationMode?: SavingsEstimationMode | undefined;
+  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility | undefined;
+  preferredCommitment?: PreferredCommitment | undefined;
 }
 export interface GetRecommendationRequest {
   recommendationId: string;
@@ -201,1035 +201,1035 @@ export type ActionType =
   | "ScaleIn"
   | (string & {});
 export interface ComputeConfiguration {
-  vCpu?: number;
-  memorySizeInMB?: number;
-  architecture?: string;
-  platform?: string;
+  vCpu?: number | undefined;
+  memorySizeInMB?: number | undefined;
+  architecture?: string | undefined;
+  platform?: string | undefined;
 }
 export interface LambdaFunctionConfiguration {
-  compute?: ComputeConfiguration;
+  compute?: ComputeConfiguration | undefined;
 }
 export interface Usage {
-  usageType?: string;
-  usageAmount?: number;
-  operation?: string;
-  productCode?: string;
-  unit?: string;
+  usageType?: string | undefined;
+  usageAmount?: number | undefined;
+  operation?: string | undefined;
+  productCode?: string | undefined;
+  unit?: string | undefined;
 }
 export type UsageList = Usage[];
 export interface EstimatedDiscounts {
-  savingsPlansDiscount?: number;
-  reservedInstancesDiscount?: number;
-  otherDiscount?: number;
+  savingsPlansDiscount?: number | undefined;
+  reservedInstancesDiscount?: number | undefined;
+  otherDiscount?: number | undefined;
 }
 export interface ResourcePricing {
-  estimatedCostBeforeDiscounts?: number;
-  estimatedNetUnusedAmortizedCommitments?: number;
-  estimatedDiscounts?: EstimatedDiscounts;
-  estimatedCostAfterDiscounts?: number;
+  estimatedCostBeforeDiscounts?: number | undefined;
+  estimatedNetUnusedAmortizedCommitments?: number | undefined;
+  estimatedDiscounts?: EstimatedDiscounts | undefined;
+  estimatedCostAfterDiscounts?: number | undefined;
 }
 export interface ResourceCostCalculation {
-  usages?: Usage[];
-  pricing?: ResourcePricing;
+  usages?: Usage[] | undefined;
+  pricing?: ResourcePricing | undefined;
 }
 export interface LambdaFunction {
-  configuration?: LambdaFunctionConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: LambdaFunctionConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface EcsServiceConfiguration {
-  compute?: ComputeConfiguration;
+  compute?: ComputeConfiguration | undefined;
 }
 export interface EcsService {
-  configuration?: EcsServiceConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: EcsServiceConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface InstanceConfiguration {
-  type?: string;
+  type?: string | undefined;
 }
 export interface Ec2InstanceConfiguration {
-  instance?: InstanceConfiguration;
+  instance?: InstanceConfiguration | undefined;
 }
 export interface Ec2Instance {
-  configuration?: Ec2InstanceConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: Ec2InstanceConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface StorageConfiguration {
-  type?: string;
-  sizeInGb?: number;
+  type?: string | undefined;
+  sizeInGb?: number | undefined;
 }
 export interface BlockStoragePerformanceConfiguration {
-  iops?: number;
-  throughput?: number;
+  iops?: number | undefined;
+  throughput?: number | undefined;
 }
 export interface EbsVolumeConfiguration {
-  storage?: StorageConfiguration;
-  performance?: BlockStoragePerformanceConfiguration;
-  attachmentState?: string;
+  storage?: StorageConfiguration | undefined;
+  performance?: BlockStoragePerformanceConfiguration | undefined;
+  attachmentState?: string | undefined;
 }
 export interface EbsVolume {
-  configuration?: EbsVolumeConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: EbsVolumeConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface MixedInstanceConfiguration {
-  type?: string;
+  type?: string | undefined;
 }
 export type MixedInstanceConfigurationList = MixedInstanceConfiguration[];
 export type Ec2AutoScalingGroupType = "SingleInstanceType" | "MixedInstanceTypes" | (string & {});
 export type AllocationStrategy = "Prioritized" | "LowestPrice" | (string & {});
 export interface Ec2AutoScalingGroupConfiguration {
-  instance?: InstanceConfiguration;
-  mixedInstances?: MixedInstanceConfiguration[];
-  type?: Ec2AutoScalingGroupType;
-  allocationStrategy?: AllocationStrategy;
+  instance?: InstanceConfiguration | undefined;
+  mixedInstances?: MixedInstanceConfiguration[] | undefined;
+  type?: Ec2AutoScalingGroupType | undefined;
+  allocationStrategy?: AllocationStrategy | undefined;
 }
 export interface Ec2AutoScalingGroup {
-  configuration?: Ec2AutoScalingGroupConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: Ec2AutoScalingGroupConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface Ec2ReservedInstancesConfiguration {
-  accountScope?: string;
-  service?: string;
-  term?: string;
-  paymentOption?: string;
-  reservedInstancesRegion?: string;
-  upfrontCost?: string;
-  monthlyRecurringCost?: string;
-  normalizedUnitsToPurchase?: string;
-  numberOfInstancesToPurchase?: string;
-  offeringClass?: string;
-  instanceFamily?: string;
-  instanceType?: string;
-  currentGeneration?: string;
-  platform?: string;
-  tenancy?: string;
-  sizeFlexEligible?: boolean;
+  accountScope?: string | undefined;
+  service?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  reservedInstancesRegion?: string | undefined;
+  upfrontCost?: string | undefined;
+  monthlyRecurringCost?: string | undefined;
+  normalizedUnitsToPurchase?: string | undefined;
+  numberOfInstancesToPurchase?: string | undefined;
+  offeringClass?: string | undefined;
+  instanceFamily?: string | undefined;
+  instanceType?: string | undefined;
+  currentGeneration?: string | undefined;
+  platform?: string | undefined;
+  tenancy?: string | undefined;
+  sizeFlexEligible?: boolean | undefined;
 }
 export interface ReservedInstancesPricing {
-  estimatedOnDemandCost?: number;
-  monthlyReservationEligibleCost?: number;
-  savingsPercentage?: number;
-  estimatedMonthlyAmortizedReservationCost?: number;
+  estimatedOnDemandCost?: number | undefined;
+  monthlyReservationEligibleCost?: number | undefined;
+  savingsPercentage?: number | undefined;
+  estimatedMonthlyAmortizedReservationCost?: number | undefined;
 }
 export interface ReservedInstancesCostCalculation {
-  pricing?: ReservedInstancesPricing;
+  pricing?: ReservedInstancesPricing | undefined;
 }
 export interface Ec2ReservedInstances {
-  configuration?: Ec2ReservedInstancesConfiguration;
-  costCalculation?: ReservedInstancesCostCalculation;
+  configuration?: Ec2ReservedInstancesConfiguration | undefined;
+  costCalculation?: ReservedInstancesCostCalculation | undefined;
 }
 export interface RdsReservedInstancesConfiguration {
-  accountScope?: string;
-  service?: string;
-  term?: string;
-  paymentOption?: string;
-  reservedInstancesRegion?: string;
-  upfrontCost?: string;
-  monthlyRecurringCost?: string;
-  normalizedUnitsToPurchase?: string;
-  numberOfInstancesToPurchase?: string;
-  instanceFamily?: string;
-  instanceType?: string;
-  sizeFlexEligible?: boolean;
-  currentGeneration?: string;
-  licenseModel?: string;
-  databaseEdition?: string;
-  databaseEngine?: string;
-  deploymentOption?: string;
+  accountScope?: string | undefined;
+  service?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  reservedInstancesRegion?: string | undefined;
+  upfrontCost?: string | undefined;
+  monthlyRecurringCost?: string | undefined;
+  normalizedUnitsToPurchase?: string | undefined;
+  numberOfInstancesToPurchase?: string | undefined;
+  instanceFamily?: string | undefined;
+  instanceType?: string | undefined;
+  sizeFlexEligible?: boolean | undefined;
+  currentGeneration?: string | undefined;
+  licenseModel?: string | undefined;
+  databaseEdition?: string | undefined;
+  databaseEngine?: string | undefined;
+  deploymentOption?: string | undefined;
 }
 export interface RdsReservedInstances {
-  configuration?: RdsReservedInstancesConfiguration;
-  costCalculation?: ReservedInstancesCostCalculation;
+  configuration?: RdsReservedInstancesConfiguration | undefined;
+  costCalculation?: ReservedInstancesCostCalculation | undefined;
 }
 export interface ElastiCacheReservedInstancesConfiguration {
-  accountScope?: string;
-  service?: string;
-  term?: string;
-  paymentOption?: string;
-  reservedInstancesRegion?: string;
-  upfrontCost?: string;
-  monthlyRecurringCost?: string;
-  normalizedUnitsToPurchase?: string;
-  numberOfInstancesToPurchase?: string;
-  instanceFamily?: string;
-  instanceType?: string;
-  currentGeneration?: string;
-  sizeFlexEligible?: boolean;
+  accountScope?: string | undefined;
+  service?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  reservedInstancesRegion?: string | undefined;
+  upfrontCost?: string | undefined;
+  monthlyRecurringCost?: string | undefined;
+  normalizedUnitsToPurchase?: string | undefined;
+  numberOfInstancesToPurchase?: string | undefined;
+  instanceFamily?: string | undefined;
+  instanceType?: string | undefined;
+  currentGeneration?: string | undefined;
+  sizeFlexEligible?: boolean | undefined;
 }
 export interface ElastiCacheReservedInstances {
-  configuration?: ElastiCacheReservedInstancesConfiguration;
-  costCalculation?: ReservedInstancesCostCalculation;
+  configuration?: ElastiCacheReservedInstancesConfiguration | undefined;
+  costCalculation?: ReservedInstancesCostCalculation | undefined;
 }
 export interface OpenSearchReservedInstancesConfiguration {
-  accountScope?: string;
-  service?: string;
-  term?: string;
-  paymentOption?: string;
-  reservedInstancesRegion?: string;
-  upfrontCost?: string;
-  monthlyRecurringCost?: string;
-  normalizedUnitsToPurchase?: string;
-  numberOfInstancesToPurchase?: string;
-  instanceType?: string;
-  currentGeneration?: string;
-  sizeFlexEligible?: boolean;
+  accountScope?: string | undefined;
+  service?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  reservedInstancesRegion?: string | undefined;
+  upfrontCost?: string | undefined;
+  monthlyRecurringCost?: string | undefined;
+  normalizedUnitsToPurchase?: string | undefined;
+  numberOfInstancesToPurchase?: string | undefined;
+  instanceType?: string | undefined;
+  currentGeneration?: string | undefined;
+  sizeFlexEligible?: boolean | undefined;
 }
 export interface OpenSearchReservedInstances {
-  configuration?: OpenSearchReservedInstancesConfiguration;
-  costCalculation?: ReservedInstancesCostCalculation;
+  configuration?: OpenSearchReservedInstancesConfiguration | undefined;
+  costCalculation?: ReservedInstancesCostCalculation | undefined;
 }
 export interface RedshiftReservedInstancesConfiguration {
-  accountScope?: string;
-  service?: string;
-  term?: string;
-  paymentOption?: string;
-  reservedInstancesRegion?: string;
-  upfrontCost?: string;
-  monthlyRecurringCost?: string;
-  normalizedUnitsToPurchase?: string;
-  numberOfInstancesToPurchase?: string;
-  instanceFamily?: string;
-  instanceType?: string;
-  sizeFlexEligible?: boolean;
-  currentGeneration?: string;
+  accountScope?: string | undefined;
+  service?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  reservedInstancesRegion?: string | undefined;
+  upfrontCost?: string | undefined;
+  monthlyRecurringCost?: string | undefined;
+  normalizedUnitsToPurchase?: string | undefined;
+  numberOfInstancesToPurchase?: string | undefined;
+  instanceFamily?: string | undefined;
+  instanceType?: string | undefined;
+  sizeFlexEligible?: boolean | undefined;
+  currentGeneration?: string | undefined;
 }
 export interface RedshiftReservedInstances {
-  configuration?: RedshiftReservedInstancesConfiguration;
-  costCalculation?: ReservedInstancesCostCalculation;
+  configuration?: RedshiftReservedInstancesConfiguration | undefined;
+  costCalculation?: ReservedInstancesCostCalculation | undefined;
 }
 export interface Ec2InstanceSavingsPlansConfiguration {
-  accountScope?: string;
-  term?: string;
-  paymentOption?: string;
-  hourlyCommitment?: string;
-  instanceFamily?: string;
-  savingsPlansRegion?: string;
+  accountScope?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  hourlyCommitment?: string | undefined;
+  instanceFamily?: string | undefined;
+  savingsPlansRegion?: string | undefined;
 }
 export interface SavingsPlansPricing {
-  monthlySavingsPlansEligibleCost?: number;
-  estimatedMonthlyCommitment?: number;
-  savingsPercentage?: number;
-  estimatedOnDemandCost?: number;
+  monthlySavingsPlansEligibleCost?: number | undefined;
+  estimatedMonthlyCommitment?: number | undefined;
+  savingsPercentage?: number | undefined;
+  estimatedOnDemandCost?: number | undefined;
 }
 export interface SavingsPlansCostCalculation {
-  pricing?: SavingsPlansPricing;
+  pricing?: SavingsPlansPricing | undefined;
 }
 export interface Ec2InstanceSavingsPlans {
-  configuration?: Ec2InstanceSavingsPlansConfiguration;
-  costCalculation?: SavingsPlansCostCalculation;
+  configuration?: Ec2InstanceSavingsPlansConfiguration | undefined;
+  costCalculation?: SavingsPlansCostCalculation | undefined;
 }
 export interface ComputeSavingsPlansConfiguration {
-  accountScope?: string;
-  term?: string;
-  paymentOption?: string;
-  hourlyCommitment?: string;
+  accountScope?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  hourlyCommitment?: string | undefined;
 }
 export interface ComputeSavingsPlans {
-  configuration?: ComputeSavingsPlansConfiguration;
-  costCalculation?: SavingsPlansCostCalculation;
+  configuration?: ComputeSavingsPlansConfiguration | undefined;
+  costCalculation?: SavingsPlansCostCalculation | undefined;
 }
 export interface SageMakerSavingsPlansConfiguration {
-  accountScope?: string;
-  term?: string;
-  paymentOption?: string;
-  hourlyCommitment?: string;
+  accountScope?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  hourlyCommitment?: string | undefined;
 }
 export interface SageMakerSavingsPlans {
-  configuration?: SageMakerSavingsPlansConfiguration;
-  costCalculation?: SavingsPlansCostCalculation;
+  configuration?: SageMakerSavingsPlansConfiguration | undefined;
+  costCalculation?: SavingsPlansCostCalculation | undefined;
 }
 export interface DbInstanceConfiguration {
-  dbInstanceClass?: string;
+  dbInstanceClass?: string | undefined;
 }
 export interface RdsDbInstanceConfiguration {
-  instance?: DbInstanceConfiguration;
+  instance?: DbInstanceConfiguration | undefined;
 }
 export interface RdsDbInstance {
-  configuration?: RdsDbInstanceConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: RdsDbInstanceConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface RdsDbInstanceStorageConfiguration {
-  storageType?: string;
-  allocatedStorageInGb?: number;
-  iops?: number;
-  storageThroughput?: number;
+  storageType?: string | undefined;
+  allocatedStorageInGb?: number | undefined;
+  iops?: number | undefined;
+  storageThroughput?: number | undefined;
 }
 export interface RdsDbInstanceStorage {
-  configuration?: RdsDbInstanceStorageConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: RdsDbInstanceStorageConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface AuroraDbClusterStorageConfiguration {
-  storageType?: string;
+  storageType?: string | undefined;
 }
 export interface AuroraDbClusterStorage {
-  configuration?: AuroraDbClusterStorageConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: AuroraDbClusterStorageConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface DynamoDbReservedCapacityConfiguration {
-  accountScope?: string;
-  service?: string;
-  term?: string;
-  paymentOption?: string;
-  reservedInstancesRegion?: string;
-  upfrontCost?: string;
-  monthlyRecurringCost?: string;
-  numberOfCapacityUnitsToPurchase?: string;
-  capacityUnits?: string;
+  accountScope?: string | undefined;
+  service?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  reservedInstancesRegion?: string | undefined;
+  upfrontCost?: string | undefined;
+  monthlyRecurringCost?: string | undefined;
+  numberOfCapacityUnitsToPurchase?: string | undefined;
+  capacityUnits?: string | undefined;
 }
 export interface DynamoDbReservedCapacity {
-  configuration?: DynamoDbReservedCapacityConfiguration;
-  costCalculation?: ReservedInstancesCostCalculation;
+  configuration?: DynamoDbReservedCapacityConfiguration | undefined;
+  costCalculation?: ReservedInstancesCostCalculation | undefined;
 }
 export interface MemoryDbReservedInstancesConfiguration {
-  accountScope?: string;
-  service?: string;
-  term?: string;
-  paymentOption?: string;
-  reservedInstancesRegion?: string;
-  upfrontCost?: string;
-  monthlyRecurringCost?: string;
-  normalizedUnitsToPurchase?: string;
-  numberOfInstancesToPurchase?: string;
-  instanceType?: string;
-  instanceFamily?: string;
-  sizeFlexEligible?: boolean;
-  currentGeneration?: string;
+  accountScope?: string | undefined;
+  service?: string | undefined;
+  term?: string | undefined;
+  paymentOption?: string | undefined;
+  reservedInstancesRegion?: string | undefined;
+  upfrontCost?: string | undefined;
+  monthlyRecurringCost?: string | undefined;
+  normalizedUnitsToPurchase?: string | undefined;
+  numberOfInstancesToPurchase?: string | undefined;
+  instanceType?: string | undefined;
+  instanceFamily?: string | undefined;
+  sizeFlexEligible?: boolean | undefined;
+  currentGeneration?: string | undefined;
 }
 export interface MemoryDbReservedInstances {
-  configuration?: MemoryDbReservedInstancesConfiguration;
-  costCalculation?: ReservedInstancesCostCalculation;
+  configuration?: MemoryDbReservedInstancesConfiguration | undefined;
+  costCalculation?: ReservedInstancesCostCalculation | undefined;
 }
 export interface NatGatewayConfiguration {
-  activeConnectionCount?: number;
-  packetsInFromSource?: number;
-  packetsInFromDestination?: number;
+  activeConnectionCount?: number | undefined;
+  packetsInFromSource?: number | undefined;
+  packetsInFromDestination?: number | undefined;
 }
 export interface NatGateway {
-  configuration?: NatGatewayConfiguration;
-  costCalculation?: ResourceCostCalculation;
+  configuration?: NatGatewayConfiguration | undefined;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface DynamoDbTable {
-  costCalculation?: ResourceCostCalculation;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface ElastiCacheCluster {
-  costCalculation?: ResourceCostCalculation;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface MemoryDbCluster {
-  costCalculation?: ResourceCostCalculation;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface DocumentDbCluster {
-  costCalculation?: ResourceCostCalculation;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface WorkSpaces {
-  costCalculation?: ResourceCostCalculation;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export interface SageMakerEndpoint {
-  costCalculation?: ResourceCostCalculation;
+  costCalculation?: ResourceCostCalculation | undefined;
 }
 export type ResourceDetails =
   | {
       lambdaFunction: LambdaFunction;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
+      lambdaFunction?: undefined;
       ecsService: EcsService;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
       ec2Instance: Ec2Instance;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
       ebsVolume: EbsVolume;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
       ec2AutoScalingGroup: Ec2AutoScalingGroup;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
       ec2ReservedInstances: Ec2ReservedInstances;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
       rdsReservedInstances: RdsReservedInstances;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
       elastiCacheReservedInstances: ElastiCacheReservedInstances;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
       openSearchReservedInstances: OpenSearchReservedInstances;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
       redshiftReservedInstances: RedshiftReservedInstances;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
       ec2InstanceSavingsPlans: Ec2InstanceSavingsPlans;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
       computeSavingsPlans: ComputeSavingsPlans;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
       sageMakerSavingsPlans: SageMakerSavingsPlans;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
       rdsDbInstance: RdsDbInstance;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
       rdsDbInstanceStorage: RdsDbInstanceStorage;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
       auroraDbClusterStorage: AuroraDbClusterStorage;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
       dynamoDbReservedCapacity: DynamoDbReservedCapacity;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
       memoryDbReservedInstances: MemoryDbReservedInstances;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
       natGateway: NatGateway;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
       dynamoDbTable: DynamoDbTable;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
       elastiCacheCluster: ElastiCacheCluster;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
       memoryDbCluster: MemoryDbCluster;
-      documentDbCluster?: never;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
       documentDbCluster: DocumentDbCluster;
-      workSpaces?: never;
-      sageMakerEndpoint?: never;
+      workSpaces?: undefined;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
       workSpaces: WorkSpaces;
-      sageMakerEndpoint?: never;
+      sageMakerEndpoint?: undefined;
     }
   | {
-      lambdaFunction?: never;
-      ecsService?: never;
-      ec2Instance?: never;
-      ebsVolume?: never;
-      ec2AutoScalingGroup?: never;
-      ec2ReservedInstances?: never;
-      rdsReservedInstances?: never;
-      elastiCacheReservedInstances?: never;
-      openSearchReservedInstances?: never;
-      redshiftReservedInstances?: never;
-      ec2InstanceSavingsPlans?: never;
-      computeSavingsPlans?: never;
-      sageMakerSavingsPlans?: never;
-      rdsDbInstance?: never;
-      rdsDbInstanceStorage?: never;
-      auroraDbClusterStorage?: never;
-      dynamoDbReservedCapacity?: never;
-      memoryDbReservedInstances?: never;
-      natGateway?: never;
-      dynamoDbTable?: never;
-      elastiCacheCluster?: never;
-      memoryDbCluster?: never;
-      documentDbCluster?: never;
-      workSpaces?: never;
+      lambdaFunction?: undefined;
+      ecsService?: undefined;
+      ec2Instance?: undefined;
+      ebsVolume?: undefined;
+      ec2AutoScalingGroup?: undefined;
+      ec2ReservedInstances?: undefined;
+      rdsReservedInstances?: undefined;
+      elastiCacheReservedInstances?: undefined;
+      openSearchReservedInstances?: undefined;
+      redshiftReservedInstances?: undefined;
+      ec2InstanceSavingsPlans?: undefined;
+      computeSavingsPlans?: undefined;
+      sageMakerSavingsPlans?: undefined;
+      rdsDbInstance?: undefined;
+      rdsDbInstanceStorage?: undefined;
+      auroraDbClusterStorage?: undefined;
+      dynamoDbReservedCapacity?: undefined;
+      memoryDbReservedInstances?: undefined;
+      natGateway?: undefined;
+      dynamoDbTable?: undefined;
+      elastiCacheCluster?: undefined;
+      memoryDbCluster?: undefined;
+      documentDbCluster?: undefined;
+      workSpaces?: undefined;
       sageMakerEndpoint: SageMakerEndpoint;
     };
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface GetRecommendationResponse {
-  recommendationId?: string;
-  resourceId?: string;
-  resourceArn?: string;
-  accountId?: string;
-  currencyCode?: string;
-  recommendationLookbackPeriodInDays?: number;
-  costCalculationLookbackPeriodInDays?: number;
-  estimatedSavingsPercentage?: number;
-  estimatedSavingsOverCostCalculationLookbackPeriod?: number;
-  currentResourceType?: ResourceType;
-  recommendedResourceType?: ResourceType;
-  region?: string;
-  source?: Source;
-  lastRefreshTimestamp?: Date;
-  estimatedMonthlySavings?: number;
-  estimatedMonthlyCost?: number;
-  implementationEffort?: ImplementationEffort;
-  restartNeeded?: boolean;
-  actionType?: ActionType;
-  rollbackPossible?: boolean;
-  currentResourceDetails?: ResourceDetails;
-  recommendedResourceDetails?: ResourceDetails;
-  tags?: Tag[];
+  recommendationId?: string | undefined;
+  resourceId?: string | undefined;
+  resourceArn?: string | undefined;
+  accountId?: string | undefined;
+  currencyCode?: string | undefined;
+  recommendationLookbackPeriodInDays?: number | undefined;
+  costCalculationLookbackPeriodInDays?: number | undefined;
+  estimatedSavingsPercentage?: number | undefined;
+  estimatedSavingsOverCostCalculationLookbackPeriod?: number | undefined;
+  currentResourceType?: ResourceType | undefined;
+  recommendedResourceType?: ResourceType | undefined;
+  region?: string | undefined;
+  source?: Source | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  estimatedMonthlySavings?: number | undefined;
+  estimatedMonthlyCost?: number | undefined;
+  implementationEffort?: ImplementationEffort | undefined;
+  restartNeeded?: boolean | undefined;
+  actionType?: ActionType | undefined;
+  rollbackPossible?: boolean | undefined;
+  currentResourceDetails?: ResourceDetails | undefined;
+  recommendedResourceDetails?: ResourceDetails | undefined;
+  tags?: Tag[] | undefined;
 }
 export type GranularityType = "Daily" | "Monthly" | (string & {});
 export interface TimePeriod {
@@ -1239,53 +1239,53 @@ export interface TimePeriod {
 export type MaxResults = number;
 export type Order = "Asc" | "Desc" | (string & {});
 export interface OrderBy {
-  dimension?: string;
-  order?: Order;
+  dimension?: string | undefined;
+  order?: Order | undefined;
 }
 export interface ListEfficiencyMetricsRequest {
-  groupBy?: string;
+  groupBy?: string | undefined;
   granularity: GranularityType;
   timePeriod: TimePeriod;
-  maxResults?: number;
-  orderBy?: OrderBy;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  orderBy?: OrderBy | undefined;
+  nextToken?: string | undefined;
 }
 export interface MetricsByTime {
-  score?: number;
-  savings?: number;
-  spend?: number;
-  timestamp?: string;
+  score?: number | undefined;
+  savings?: number | undefined;
+  spend?: number | undefined;
+  timestamp?: string | undefined;
 }
 export type MetricsByTimeList = MetricsByTime[];
 export interface EfficiencyMetricsByGroup {
-  metricsByTime?: MetricsByTime[];
-  group?: string;
-  message?: string;
+  metricsByTime?: MetricsByTime[] | undefined;
+  group?: string | undefined;
+  message?: string | undefined;
 }
 export type EfficiencyMetricsByGroupList = EfficiencyMetricsByGroup[];
 export interface ListEfficiencyMetricsResponse {
-  efficiencyMetricsByGroup?: EfficiencyMetricsByGroup[];
-  nextToken?: string;
+  efficiencyMetricsByGroup?: EfficiencyMetricsByGroup[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountId = string;
 export interface ListEnrollmentStatusesRequest {
-  includeOrganizationInfo?: boolean;
-  accountId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  includeOrganizationInfo?: boolean | undefined;
+  accountId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EnrollmentStatus = "Active" | "Inactive" | (string & {});
 export interface AccountEnrollmentStatus {
-  accountId?: string;
-  status?: EnrollmentStatus;
-  lastUpdatedTimestamp?: Date;
-  createdTimestamp?: Date;
+  accountId?: string | undefined;
+  status?: EnrollmentStatus | undefined;
+  lastUpdatedTimestamp?: Date | undefined;
+  createdTimestamp?: Date | undefined;
 }
 export type AccountEnrollmentStatuses = AccountEnrollmentStatus[];
 export interface ListEnrollmentStatusesResponse {
-  items?: AccountEnrollmentStatus[];
-  includeMemberAccounts?: boolean;
-  nextToken?: string;
+  items?: AccountEnrollmentStatus[] | undefined;
+  includeMemberAccounts?: boolean | undefined;
+  nextToken?: string | undefined;
 }
 export type ImplementationEffortList = ImplementationEffort[];
 export type AccountIdList = string[];
@@ -1296,95 +1296,95 @@ export type ResourceIdList = string[];
 export type ResourceArnList = string[];
 export type RecommendationIdList = string[];
 export interface Filter {
-  restartNeeded?: boolean;
-  rollbackPossible?: boolean;
-  implementationEfforts?: ImplementationEffort[];
-  accountIds?: string[];
-  regions?: string[];
-  resourceTypes?: ResourceType[];
-  actionTypes?: ActionType[];
-  tags?: Tag[];
-  resourceIds?: string[];
-  resourceArns?: string[];
-  recommendationIds?: string[];
+  restartNeeded?: boolean | undefined;
+  rollbackPossible?: boolean | undefined;
+  implementationEfforts?: ImplementationEffort[] | undefined;
+  accountIds?: string[] | undefined;
+  regions?: string[] | undefined;
+  resourceTypes?: ResourceType[] | undefined;
+  actionTypes?: ActionType[] | undefined;
+  tags?: Tag[] | undefined;
+  resourceIds?: string[] | undefined;
+  resourceArns?: string[] | undefined;
+  recommendationIds?: string[] | undefined;
 }
 export interface ListRecommendationsRequest {
-  filter?: Filter;
-  orderBy?: OrderBy;
-  includeAllRecommendations?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: Filter | undefined;
+  orderBy?: OrderBy | undefined;
+  includeAllRecommendations?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Recommendation {
-  recommendationId?: string;
-  accountId?: string;
-  region?: string;
-  resourceId?: string;
-  resourceArn?: string;
-  currentResourceType?: string;
-  recommendedResourceType?: string;
-  estimatedMonthlySavings?: number;
-  estimatedSavingsPercentage?: number;
-  estimatedMonthlyCost?: number;
-  currencyCode?: string;
-  implementationEffort?: string;
-  restartNeeded?: boolean;
-  actionType?: string;
-  rollbackPossible?: boolean;
-  currentResourceSummary?: string;
-  recommendedResourceSummary?: string;
-  lastRefreshTimestamp?: Date;
-  recommendationLookbackPeriodInDays?: number;
-  source?: Source;
-  tags?: Tag[];
+  recommendationId?: string | undefined;
+  accountId?: string | undefined;
+  region?: string | undefined;
+  resourceId?: string | undefined;
+  resourceArn?: string | undefined;
+  currentResourceType?: string | undefined;
+  recommendedResourceType?: string | undefined;
+  estimatedMonthlySavings?: number | undefined;
+  estimatedSavingsPercentage?: number | undefined;
+  estimatedMonthlyCost?: number | undefined;
+  currencyCode?: string | undefined;
+  implementationEffort?: string | undefined;
+  restartNeeded?: boolean | undefined;
+  actionType?: string | undefined;
+  rollbackPossible?: boolean | undefined;
+  currentResourceSummary?: string | undefined;
+  recommendedResourceSummary?: string | undefined;
+  lastRefreshTimestamp?: Date | undefined;
+  recommendationLookbackPeriodInDays?: number | undefined;
+  source?: Source | undefined;
+  tags?: Tag[] | undefined;
 }
 export type RecommendationList = Recommendation[];
 export interface ListRecommendationsResponse {
-  items?: Recommendation[];
-  nextToken?: string;
+  items?: Recommendation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SummaryMetrics = "SavingsPercentage" | (string & {});
 export type SummaryMetricsList = SummaryMetrics[];
 export interface ListRecommendationSummariesRequest {
-  filter?: Filter;
+  filter?: Filter | undefined;
   groupBy: string;
-  maxResults?: number;
-  metrics?: SummaryMetrics[];
-  nextToken?: string;
+  maxResults?: number | undefined;
+  metrics?: SummaryMetrics[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface RecommendationSummary {
-  group?: string;
-  estimatedMonthlySavings?: number;
-  recommendationCount?: number;
+  group?: string | undefined;
+  estimatedMonthlySavings?: number | undefined;
+  recommendationCount?: number | undefined;
 }
 export type RecommendationSummariesList = RecommendationSummary[];
 export interface SummaryMetricsResult {
-  savingsPercentage?: string;
+  savingsPercentage?: string | undefined;
 }
 export interface ListRecommendationSummariesResponse {
-  estimatedTotalDedupedSavings?: number;
-  items?: RecommendationSummary[];
-  groupBy?: string;
-  currencyCode?: string;
-  metrics?: SummaryMetricsResult;
-  nextToken?: string;
+  estimatedTotalDedupedSavings?: number | undefined;
+  items?: RecommendationSummary[] | undefined;
+  groupBy?: string | undefined;
+  currencyCode?: string | undefined;
+  metrics?: SummaryMetricsResult | undefined;
+  nextToken?: string | undefined;
 }
 export interface UpdateEnrollmentStatusRequest {
   status: EnrollmentStatus;
-  includeMemberAccounts?: boolean;
+  includeMemberAccounts?: boolean | undefined;
 }
 export interface UpdateEnrollmentStatusResponse {
-  status?: string;
+  status?: string | undefined;
 }
 export interface UpdatePreferencesRequest {
-  savingsEstimationMode?: SavingsEstimationMode;
-  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;
-  preferredCommitment?: PreferredCommitment;
+  savingsEstimationMode?: SavingsEstimationMode | undefined;
+  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility | undefined;
+  preferredCommitment?: PreferredCommitment | undefined;
 }
 export interface UpdatePreferencesResponse {
-  savingsEstimationMode?: SavingsEstimationMode;
-  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility;
-  preferredCommitment?: PreferredCommitment;
+  savingsEstimationMode?: SavingsEstimationMode | undefined;
+  memberAccountDiscountVisibility?: MemberAccountDiscountVisibility | undefined;
+  preferredCommitment?: PreferredCommitment | undefined;
 }
 export type ValidationExceptionReason = "FieldValidationFailed" | "Other" | (string & {});
 export interface ValidationExceptionDetail {

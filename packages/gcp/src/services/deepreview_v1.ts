@@ -88,11 +88,11 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 export type AnchoredReviewCommentSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -103,41 +103,41 @@ export type AnchoredReviewCommentSeverityEnum =
 /** Author name components. */
 export interface Author {
   /** Output only. Author family name / surname (or organization name). */
-  familyName?: string;
+  familyName?: string | undefined;
   /** Output only. Author given name / initials. */
-  givenName?: string;
+  givenName?: string | undefined;
 }
 export type AuthorList = Array<Author>;
 export type StringList = Array<string>;
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Deepreview_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 /** Structured bibliographic metadata for an extracted or retrieved work. */
 export interface CitationMetadata {
   /** Output only. Source database for retrieved metadata (e.g., "openalex", "crossref"). Empty on `extracted_metadata`. */
-  source?: string;
+  source?: string | undefined;
   /** Output only. Ordered list of authors. */
-  authors?: AuthorList;
+  authors?: AuthorList | undefined;
   /** Output only. Volume identifier. */
-  volume?: string;
+  volume?: string | undefined;
   /** Output only. Digital Object Identifier (DOI). */
-  doi?: string;
+  doi?: string | undefined;
   /** Output only. Journal, conference, or venue name. */
-  journal?: string;
+  journal?: string | undefined;
   /** Output only. Page range or article number. */
-  pages?: string;
+  pages?: string | undefined;
   /** Output only. URLs associated with the reference. */
-  urls?: StringList;
+  urls?: StringList | undefined;
   /** Output only. Publication date (month and day left as 0 if just year). */
-  publicationDate?: Deepreview_Date;
+  publicationDate?: Deepreview_Date | undefined;
   /** Output only. Work title. */
-  title?: string;
+  title?: string | undefined;
 }
 export type CitationReportSearchVerdictEnum =
   | "SEARCH_VERDICT_UNSPECIFIED"
@@ -147,19 +147,19 @@ export type CitationReportSearchVerdictEnum =
 /** Web source URL surfaced during Google Search grounding verification. */
 export interface GroundingUrl {
   /** Output only. Source URL. */
-  url?: string;
+  url?: string | undefined;
   /** Output only. Source page title or domain. */
-  title?: string;
+  title?: string | undefined;
 }
 export type GroundingUrlList = Array<GroundingUrl>;
 /** Per-field comparison result between extracted and retrieved metadata. */
 export interface FieldComparison {
   /** Output only. Human-readable comparison detail (e.g., "extracted=2023, found=2024 (diff=1)"). */
-  detail?: string;
+  detail?: string | undefined;
   /** Output only. Whether the extracted and retrieved values matched. */
-  match?: boolean;
+  match?: boolean | undefined;
   /** Output only. Field key ("title", "authors", "year", "journal", "volume", "pages", "doi"). */
-  fieldKey?: string;
+  fieldKey?: string | undefined;
 }
 export type FieldComparisonList = Array<FieldComparison>;
 export type CitationReportFinalVerdictEnum =
@@ -183,112 +183,112 @@ export type CitationReportLookupVerdictEnum =
 /** Structured citation verification report for a single bibliography reference. */
 export interface CitationReport {
   /** Output only. Metadata retrieved from OpenAlex / Crossref. Populated only when the retrieved work's title matches the extracted title. Omitted when no candidate matches the title so unrelated papers are never displayed as candidates. */
-  retrievedMetadata?: CitationMetadata;
+  retrievedMetadata?: CitationMetadata | undefined;
   /** Output only. Verbatim reference string extracted from the paper's bibliography. */
-  rawReference?: string;
+  rawReference?: string | undefined;
   /** Output only. Verdict from Google Search grounding verification (when run). */
-  searchVerdict?: CitationReportSearchVerdictEnum | (string & {});
+  searchVerdict?: CitationReportSearchVerdictEnum | (string & {}) | undefined;
   /** Output only. Web sources surfaced during Google Search grounding. */
-  groundingUrls?: GroundingUrlList;
+  groundingUrls?: GroundingUrlList | undefined;
   /** Output only. 1-indexed bibliography reference number in the paper. */
-  refNum?: number;
+  refNum?: number | undefined;
   /** Output only. Whether the first author's family name matched between extracted and retrieved metadata. */
-  firstAuthorFamilyNameMatch?: boolean;
+  firstAuthorFamilyNameMatch?: boolean | undefined;
   /** Output only. Strategy that produced the scholarly database match (e.g., "doi", "title", "title_author", "autocomplete"). Empty when no title-matching candidate was found. */
-  searchMethod?: string;
+  searchMethod?: string | undefined;
   /** Output only. Per-field comparisons (populated only when `retrieved_metadata` is present). */
-  fieldComparisons?: FieldComparisonList;
+  fieldComparisons?: FieldComparisonList | undefined;
   /** Output only. Final combined verdict after database lookup and search grounding. */
-  finalVerdict?: CitationReportFinalVerdictEnum | (string & {});
+  finalVerdict?: CitationReportFinalVerdictEnum | (string & {}) | undefined;
   /** Output only. Formatted BibTeX entry for the verified `retrieved_metadata` when present. Empty when `retrieved_metadata` is absent. */
-  retrievedBibtex?: string;
+  retrievedBibtex?: string | undefined;
   /** Output only. Metadata parsed from the paper's bibliography entry. */
-  extractedMetadata?: CitationMetadata;
+  extractedMetadata?: CitationMetadata | undefined;
   /** Output only. Verdict from scholarly database lookup (OpenAlex / Crossref) before search grounding. */
-  lookupVerdict?: CitationReportLookupVerdictEnum | (string & {});
+  lookupVerdict?: CitationReportLookupVerdictEnum | (string & {}) | undefined;
   /** Output only. Explanation from the Google Search grounding verification step (when run). */
-  searchRationale?: string;
+  searchRationale?: string | undefined;
   /** Output only. Generated BibTeX citation key (e.g., "smith2023deep"). */
-  citationKey?: string;
+  citationKey?: string | undefined;
   /** Output only. BibTeX entry type (e.g., "article", "inproceedings", "misc"). */
-  entryType?: string;
+  entryType?: string | undefined;
 }
 /** Location anchor within a plain-text, Markdown, or LaTeX source document. */
 export interface TextLocation {
   /** Output only. 1-indexed inclusive last line number. */
-  lastLine?: number;
+  lastLine?: number | undefined;
   /** Output only. Optional 1-indexed inclusive first column offset within `first_line`. */
-  firstColumn?: number;
+  firstColumn?: number | undefined;
   /** Output only. Optional 1-indexed inclusive last column offset within `last_line`. */
-  lastColumn?: number;
+  lastColumn?: number | undefined;
   /** Output only. 1-indexed inclusive first line number. */
-  firstLine?: number;
+  firstLine?: number | undefined;
   /** Output only. Verbatim snippet of the anchored source line(s). */
-  quotedLinePreview?: string;
+  quotedLinePreview?: string | undefined;
 }
 /** Bounding box in normalized [0.0, 1.0] page coordinates (origin top-left). */
 export interface NormalizedBoundingBox {
   /** Output only. Top coordinate in [0.0, 1.0]. */
-  top?: number;
+  top?: number | undefined;
   /** Output only. Right coordinate in [0.0, 1.0]. */
-  right?: number;
+  right?: number | undefined;
   /** Output only. Bottom coordinate in [0.0, 1.0]. */
-  bottom?: number;
+  bottom?: number | undefined;
   /** Output only. Left coordinate in [0.0, 1.0]. */
-  left?: number;
+  left?: number | undefined;
 }
 export type NormalizedBoundingBoxList = Array<NormalizedBoundingBox>;
 /** W3C Web Annotation TextQuoteSelector for resilient text anchoring (see https://www.w3.org/TR/annotation-model/#text-quote-selector for details). */
 export interface TextQuoteSelector {
   /** Output only. Characters immediately preceding `exact` for disambiguation. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Output only. Characters immediately following `exact` for disambiguation. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** Output only. Verbatim substring extracted from the document character stream. */
-  exact?: string;
+  exact?: string | undefined;
 }
 /** Location anchor within a PDF document. */
 export interface PdfLocation {
   /** Output only. Normalized bounding boxes [0.0, 1.0] relative to page width and height. At most 50 bounding boxes are returned per anchored span. */
-  boundingBoxes?: NormalizedBoundingBoxList;
+  boundingBoxes?: NormalizedBoundingBoxList | undefined;
   /** Output only. W3C Web Annotation TextQuoteSelector (https://www.w3.org/TR/annotation-model/#text-quote-selector) for exact text span highlighting. */
-  quoteSelector?: TextQuoteSelector;
+  quoteSelector?: TextQuoteSelector | undefined;
   /** Output only. 1-indexed page number within the PDF document. */
-  pageNumber?: number;
+  pageNumber?: number | undefined;
 }
 /** A location targeting either a PDF page region/quote or text lines in the document. */
 export interface DocumentLocation {
   /** Output only. Location within a plain-text, Markdown, or LaTeX source document. */
-  text?: TextLocation;
+  text?: TextLocation | undefined;
   /** Output only. Location within a rendered PDF document. */
-  pdf?: PdfLocation;
+  pdf?: PdfLocation | undefined;
 }
 /** A structured review comment anchored to a specific location in the document. */
 export interface AnchoredReviewComment {
   /** Output only. Severity classification of the comment. */
-  severity?: AnchoredReviewCommentSeverityEnum | (string & {});
+  severity?: AnchoredReviewCommentSeverityEnum | (string & {}) | undefined;
   /** Output only. Short one-line summary of the review comment. */
-  summary?: string;
+  summary?: string | undefined;
   /** Output only. Unique identifier for the comment within the review. */
-  commentId?: string;
+  commentId?: string | undefined;
   /** Output only. Optional suggested replacement text or edit for the anchored span. */
-  suggestedEdit?: string;
+  suggestedEdit?: string | undefined;
   /** Output only. Optional structured citation verification report when this comment corresponds to a bibliography reference. */
-  citationReport?: CitationReport;
+  citationReport?: CitationReport | undefined;
   /** Output only. Detailed markdown explanation of the review comment. */
-  bodyMarkdown?: string;
+  bodyMarkdown?: string | undefined;
   /** Output only. Polymorphic location in the document where this comment is anchored. */
-  location?: DocumentLocation;
+  location?: DocumentLocation | undefined;
 }
 export type AnchoredReviewCommentList = Array<AnchoredReviewComment>;
 /** Encapsulates the synthesized output or failure details of a single review execution. */
 export interface Result {
   /** Output only. Failure status details if review execution failed. */
-  error?: Status;
+  error?: Status | undefined;
   /** Output only. Synthesized review report markdown. */
-  reviewMarkdown?: string;
+  reviewMarkdown?: string | undefined;
   /** Output only. Structured review comments anchored to specific locations in the document. At most 300 anchored comments are returned per review. */
-  anchoredComments?: AnchoredReviewCommentList;
+  anchoredComments?: AnchoredReviewCommentList | undefined;
 }
 export type ReviewStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED";
 export type DeepReviewRunConfigTopologyEnum =
@@ -305,65 +305,65 @@ export type DeepReviewRunConfigThinkingLevelEnum =
 /** Configuration options for the multi-agent document review execution pipeline. */
 export interface DeepReviewRunConfig {
   /** Optional. Review execution topology profile to use. */
-  topology?: DeepReviewRunConfigTopologyEnum | (string & {});
+  topology?: DeepReviewRunConfigTopologyEnum | (string & {}) | undefined;
   /** Output only. Indicates whether a developer Bring-Your-Own-Key Gemini API key was provided for this review run. */
-  geminiApiKeySet?: boolean;
+  geminiApiKeySet?: boolean | undefined;
   /** Optional. Reasoning effort level for model calls in the review pipeline. Defaults to `THINKING_LEVEL_MEDIUM` when omitted or `THINKING_LEVEL_UNSPECIFIED`. Non-`THINKING_LEVEL_MEDIUM` thinking levels require `gemini_api_key` when calling `CreateReview`; otherwise `CreateReview` returns `INVALID_ARGUMENT`. */
-  thinkingLevel?: DeepReviewRunConfigThinkingLevelEnum | (string & {});
+  thinkingLevel?: DeepReviewRunConfigThinkingLevelEnum | (string & {}) | undefined;
   /** Optional. Input only. Developer Bring-Your-Own-Key Gemini API key. When provided, requests are billed to the caller's Gemini API project. Input only; forwarded to the asynchronous review runner in the task payload and never persisted in database records or returned in review resources (see companion field `gemini_api_key_set`, AIP-147). */
-  geminiApiKey?: string;
+  geminiApiKey?: string | undefined;
   /** Optional. User-provided guidance, focus areas, or custom evaluation instructions passed to the review agents. */
-  userPrompt?: string;
+  userPrompt?: string | undefined;
   /** Optional. The Gemini model identifier to use for the review. If omitted, the server uses its default model. Unsupported values return INVALID_ARGUMENT. */
-  model?: string;
+  model?: string | undefined;
 }
 /** An evaluation run of a document. */
 export interface Review {
   /** Output only. Timestamp when this review attempt was initiated. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Review output (markdown, errors, and future modalities). */
-  result?: Result;
+  result?: Result | undefined;
   /** Output only. Timestamp when the worker started evaluation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Current review lifecycle state. */
-  state?: ReviewStateEnum | (string & {});
+  state?: ReviewStateEnum | (string & {}) | undefined;
   /** Output only. Timestamp when the review reached a terminal state. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Estimated completion progress percentage of the review in [0, 100]. */
-  progressPercent?: number;
+  progressPercent?: number | undefined;
   /** Identifier. Resource name in format `documents/{document}/reviews/{review}`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Run configuration parameters used for this review. */
-  runConfig?: DeepReviewRunConfig;
+  runConfig?: DeepReviewRunConfig | undefined;
 }
 export interface CreateDocumentsReviewsRequest {
   /** Required. The parent Document resource name where this review will be created. */
   parent: string;
   /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The ID to use for the review, which will become the final component of the review's resource name. If not provided, a unique server-generated UUID will be assigned. */
-  reviewId?: string;
+  reviewId?: string | undefined;
   /** Request body */
-  body?: Review;
+  body?: Review | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface DeleteDocumentsRequest {
   /** Optional. If set to `true`, and the document is not found, the request succeeds. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set to `true`, any child resources (e.g. review resources) are also deleted. If `false` and the document has existing reviews, the request fails with `FAILED_PRECONDITION`. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. The resource name of the document to delete. */
   name: string;
 }
@@ -378,33 +378,33 @@ export interface DownloadDocumentResponse {}
 /** Request message for estimating what a review would cost. */
 export interface EstimateReviewCostRequest {
   /** Required. The review to estimate, as it would be passed to `CreateReview`. Only its `run_config` is read, and `gemini_api_key` is ignored. */
-  review?: Review;
+  review?: Review | undefined;
 }
 export interface EstimateReviewCostDocumentsRequest {
   /** Required. The document to review. */
   document: string;
   /** Request body */
-  body?: EstimateReviewCostRequest;
+  body?: EstimateReviewCostRequest | undefined;
 }
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+  units?: string | undefined;
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
 }
 /** Response message for estimating what a review would cost. When the cost can't be estimated, for example because too few past reviews used the same model, depth, and thinking level, the costs are unset and `past_review_count` is 0. */
 export interface EstimateReviewCostResponse {
   /** The 20th percentile of what comparable past reviews would cost for this document. */
-  lowCost?: Money;
+  lowCost?: Money | undefined;
   /** Number of past reviews the estimate is based on. */
-  pastReviewCount?: number;
+  pastReviewCount?: number | undefined;
   /** The 95th percentile of what comparable past reviews would cost for this document. */
-  highCost?: Money;
+  highCost?: Money | undefined;
   /** The median of what comparable past reviews would cost for this document. */
-  medianCost?: Money;
+  medianCost?: Money | undefined;
 }
 export interface GetDocumentsRequest {
   /** Required. The resource name of the document to retrieve. */
@@ -419,35 +419,35 @@ export type ReviewSummaryStateEnum =
 /** Lightweight summary of a Review execution run for display in Document views. */
 export interface ReviewSummary {
   /** Output only. Current review lifecycle state. */
-  state?: ReviewSummaryStateEnum | (string & {});
+  state?: ReviewSummaryStateEnum | (string & {}) | undefined;
   /** Output only. Timestamp when this review attempt was initiated. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Resource name of the Review. */
-  review?: string;
+  review?: string | undefined;
 }
 /** Configuration for importing a document directly from Google Drive. */
 export interface DriveSource {
   /** Optional. Input only. Immutable. Resource key (`^[a-zA-Z0-9_-]{1,128}$`) required to access certain older link-shared Google Drive files returned by the Google Drive Picker (for shortcuts, pass the resolved target file's resource key). Never persisted in database records or returned in Document resources (see companion field `resource_key_set`, AIP-147). */
-  resourceKey?: string;
+  resourceKey?: string | undefined;
   /** Optional. Input only. Immutable. Importing a specific revision is not currently supported; non-empty values return INVALID_ARGUMENT. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Required. Immutable. The Google Drive file ID (e.g. "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"). For Google Drive shortcuts, callers must pass the resolved target file's `file_id` and `resource_key`. */
-  fileId?: string;
+  fileId?: string | undefined;
   /** Output only. Indicates whether a resource key was provided for this Drive source. */
-  resourceKeySet?: boolean;
+  resourceKeySet?: boolean | undefined;
 }
 /** A document uploaded for automated review. Documents are immutable post-creation; to review a new version, create a new Document. */
 export interface Document {
   /** Optional. User-provided display title or filename for the document. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Summary of the most recent review run for this document, if any. Populated by `GetDocument` and `ListDocuments`; unset on the document returned by `CreateDocument`, which has no reviews yet. */
-  latestReviewSummary?: ReviewSummary;
+  latestReviewSummary?: ReviewSummary | undefined;
   /** Output only. Timestamp when the document was initially created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. Resource name in format `documents/{document}`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Reference to a Google Drive file to import. */
-  driveSource?: DriveSource;
+  driveSource?: DriveSource | undefined;
 }
 export interface GetDocumentsReviewsRequest {
   /** Required. The resource name of the review to retrieve. */
@@ -464,63 +464,63 @@ export interface GetUserQuotaV1Request {
 /** Singleton resource representing the authenticated caller's review quota limits and sliding-window usage. */
 export interface UserQuota {
   /** Output only. Remaining free-tier reviews available in the current rolling 7-day window (`max(0, max_review_count_per_week - used_review_count)`). */
-  remainingReviewCount?: number;
+  remainingReviewCount?: number | undefined;
   /** Output only. Maximum free-tier reviews allowed per rolling 7-day window. */
-  maxReviewCountPerWeek?: number;
+  maxReviewCountPerWeek?: number | undefined;
   /** Output only. Number of free-tier reviews used in the past 7 days. */
-  usedReviewCount?: number;
+  usedReviewCount?: number | undefined;
   /** Output only. Whether a custom per-user quota override is active for this user. */
-  customLimitEnabled?: boolean;
+  customLimitEnabled?: boolean | undefined;
   /** Output only. Timestamp when the next review quota slot becomes available if `remaining_review_count` is 0; unset when quota is currently available. */
-  nextAvailableTime?: string;
+  nextAvailableTime?: string | undefined;
   /** Identifier. Resource name of the singleton user quota (`userQuota`). */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ListDocumentsRequest {
   /** Optional. Custom order_by expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Custom filter expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token received from a previous `ListDocuments` call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of documents to return in a single page. The server may return fewer than this value. If unspecified, at most 50 documents will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DocumentList = Array<Document>;
 /** Response message for listing Document resources. */
 export interface ListDocumentsResponse {
   /** A token to retrieve the next page of results, or empty if no further pages exist. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Document resources. */
-  documents?: DocumentList;
+  documents?: DocumentList | undefined;
 }
 export interface ListDocumentsReviewsRequest {
   /** Optional. Custom filter expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Custom order_by expressions are not currently supported; non-empty values return INVALID_ARGUMENT. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The maximum number of reviews to return in a single page. The server may return fewer than this value. If unspecified, at most 50 reviews will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent Document resource name. */
   parent: string;
   /** Optional. A page token received from a previous `ListReviews` call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ReviewList = Array<Review>;
 /** Response message for listing Review resources. */
 export interface ListReviewsResponse {
   /** A token to retrieve the next page of results, or empty if no further pages exist. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Review resources. */
-  reviews?: ReviewList;
+  reviews?: ReviewList | undefined;
 }
 export interface UploadMediaRequest {
   /** Optional. The ID to use for the document, which will become the final component of the document's resource name. If not provided, a unique server-generated UUID will be assigned. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Optional. Idempotency identifier for network retry safety (AIP-155). Must be a valid UUID4 string. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Document;
+  body?: Document | undefined;
 }
 export type CreateDocumentsReviewsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates and initiates an asynchronous multi-agent review for a document. Returns a google.longrunning.Operation. When the operation completes, the `response` field contains a `Review` and the `metadata` field contains `CreateReviewMetadata`. */

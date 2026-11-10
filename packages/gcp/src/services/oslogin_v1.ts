@@ -100,19 +100,19 @@ export class UserCredentialMismatch
 /** The SSH public key information associated with a Google account. */
 export interface SshPublicKey {
   /** Required. Public key text in SSH format, defined by [RFC4253](https://www.ietf.org/rfc/rfc4253.txt) section 6.6. */
-  key?: string;
+  key?: string | undefined;
   /** Output only. The SHA-256 fingerprint of the SSH public key. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Output only. The canonical resource name. */
-  name?: string;
+  name?: string | undefined;
   /** An expiration time in microseconds since epoch. */
-  expirationTimeUsec?: string;
+  expirationTimeUsec?: string | undefined;
 }
 export interface CreateUsersSshPublicKeysRequest {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
   /** Request body */
-  body?: SshPublicKey;
+  body?: SshPublicKey | undefined;
 }
 export interface DeleteUsersProjectsRequest {
   /** Required. A reference to the POSIX account to update. POSIX accounts are identified by the project ID they are associated with. A reference to the POSIX account is in format `users/{user}/projects/{project}`. */
@@ -126,11 +126,11 @@ export interface DeleteUsersSshPublicKeysRequest {
 }
 export interface GetLoginProfileUsersRequest {
   /** Optional. A system ID for filtering the results of the request. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Required. The unique ID for the user in format `users/{user}`. */
   name: string;
   /** Required. The project ID of the Google Cloud Platform project. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type PosixAccountOperatingSystemTypeEnum =
   | "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
@@ -139,38 +139,38 @@ export type PosixAccountOperatingSystemTypeEnum =
 /** The POSIX account information associated with a Google account. */
 export interface PosixAccount {
   /** The path to the logic shell for this account. */
-  shell?: string;
+  shell?: string | undefined;
   /** The GECOS (user information) entry for this account. */
-  gecos?: string;
+  gecos?: string | undefined;
   /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** The path to the home directory for this account. */
-  homeDirectory?: string;
+  homeDirectory?: string | undefined;
   /** The operating system type where this account applies. */
-  operatingSystemType?: PosixAccountOperatingSystemTypeEnum;
+  operatingSystemType?: PosixAccountOperatingSystemTypeEnum | undefined;
   /** The username of the POSIX account. */
-  username?: string;
+  username?: string | undefined;
   /** The default group ID. */
-  gid?: string;
+  gid?: string | undefined;
   /** The user ID. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. A POSIX account identifier. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Only one POSIX account can be marked as primary. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Output only. The canonical resource name. */
-  name?: string;
+  name?: string | undefined;
 }
 export type PosixAccountList = Array<PosixAccount>;
 export type SshPublicKeyMap = { [key: string]: SshPublicKey | undefined };
 /** The user profile information used for logging in to a virtual machine on Google Compute Engine. */
 export interface LoginProfile {
   /** The list of POSIX accounts associated with the user. */
-  posixAccounts?: PosixAccountList;
+  posixAccounts?: PosixAccountList | undefined;
   /** Required. A unique user ID. */
-  name?: string;
+  name?: string | undefined;
   /** A map from SSH public key fingerprint to the associated key object. */
-  sshPublicKeys?: SshPublicKeyMap;
+  sshPublicKeys?: SshPublicKeyMap | undefined;
 }
 export interface GetUsersSshPublicKeysRequest {
   /** Required. The fingerprint of the public key to retrieve. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
@@ -181,61 +181,61 @@ export interface ImportSshPublicKeyUsersRequest {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
   /** The project ID of the Google Cloud Platform project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Optional. The regions to which to assert that the key was written. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
-  regions?: StringList;
+  regions?: StringList | undefined;
   /** Request body */
-  body?: SshPublicKey;
+  body?: SshPublicKey | undefined;
 }
 /** A response message for importing an SSH public key. */
 export interface ImportSshPublicKeyResponse {
   /** Detailed information about import results. */
-  details?: string;
+  details?: string | undefined;
   /** The login profile information for the user. */
-  loginProfile?: LoginProfile;
+  loginProfile?: LoginProfile | undefined;
 }
 export interface PatchUsersSshPublicKeysRequest {
   /** Required. The fingerprint of the public key to update. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
   name: string;
   /** Optional. Mask to control which fields get updated. Updates all if not present. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: SshPublicKey;
+  body?: SshPublicKey | undefined;
 }
 /** A request message for creating a POSIX account entry. */
 export interface ProvisionPosixAccountRequest {
   /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
-  regions?: StringList;
+  regions?: StringList | undefined;
 }
 export interface ProvisionPosixAccountUsersProjectsRequest {
   /** Required. The unique ID for the user in format `users/{user}/projects/{project}`. */
   name: string;
   /** Request body */
-  body?: ProvisionPosixAccountRequest;
+  body?: ProvisionPosixAccountRequest | undefined;
 }
 /** A request message for signing an SSH public key. */
 export interface SignSshPublicKeyRequest {
   /** The Compute instance to sign the SSH public key for. Expected format: projects/{project}/zones/{zone}/instances/{numeric_instance_id} */
-  computeInstance?: string;
+  computeInstance?: string | undefined;
   /** The App Engine instance to sign the SSH public key for. Expected format: apps/{app}/services/{service}/versions/{version}/instances/{instance} */
-  appEngineInstance?: string;
+  appEngineInstance?: string | undefined;
   /** Optional. The service account for the instance. If the instance in question does not have a service account, this field should be left empty. If the wrong service account is provided, this operation will return a signed certificate that will not be accepted by the VM. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Required. The SSH public key to sign. */
-  sshPublicKey?: string;
+  sshPublicKey?: string | undefined;
   /** Optional. The Cloud Run resource to sign the SSH public key for. Expected formats: - `projects/{project}/locations/{location}/services/{service}` - `projects/{project}/locations/{location}/workerPools/{worker_pool}` - `projects/{project}/locations/{location}/jobs/{job}` - `projects/{project}/locations/{location}/instances/{instance}` */
-  cloudRunResource?: string;
+  cloudRunResource?: string | undefined;
 }
 export interface SignSshPublicKeyProjectsLocationsRequest {
   /** Required. The parent for the signing request. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Request body */
-  body?: SignSshPublicKeyRequest;
+  body?: SignSshPublicKeyRequest | undefined;
 }
 /** The response message for signing an SSH public key. */
 export interface SignSshPublicKeyResponse {
   /** The signed SSH public key to use in the SSH handshake. */
-  signedSshPublicKey?: string;
+  signedSshPublicKey?: string | undefined;
 }
 export type CreateUsersSshPublicKeysError =
   | NotFound

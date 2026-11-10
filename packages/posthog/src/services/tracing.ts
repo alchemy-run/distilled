@@ -29,9 +29,9 @@ export interface CreateTracingRetentionRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
 }
@@ -41,9 +41,9 @@ export interface TracesRetentionRule {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
   /** Incremented on each update for worker cache coherency. */
@@ -58,17 +58,17 @@ export interface CreateTracingRetentionRulesReorderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Rule IDs in the desired evaluation order (first element is highest priority / lowest order index). */
   ordered_ids: CreateTracingRetentionRulesReorderRequestOrderedIdsList;
 }
 export type PaginatedTracesRetentionRuleListResultsList = Array<TracesRetentionRule>;
 export interface PaginatedTracesRetentionRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTracesRetentionRuleListResultsList;
 }
 export interface CreateTracingRetentionRulesSuggestNameRequest {
@@ -85,15 +85,15 @@ export interface LogsRetentionRuleNameSuggestion {
 }
 export interface TracingDateRange {
   /** Start of the date range. Accepts ISO 8601 timestamps or relative formats: -1h, -6h, -1d, -7d, etc. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of the date range. Same format as date_from. Omit or null for "now". */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 export interface CompareFilter {
   /** When true, also fetch results for a comparison window and return them under `compare`. */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** Relative date offset for the comparison window (e.g. '-1h', '-1d', '-7d'). Defaults to the immediately previous period of equal length. */
-  compare_to?: string | null;
+  compare_to?: string | null | undefined;
 }
 /** Filter by service names. */
 export type TracingAggregationQueryBodyServiceNamesList = Array<string>;
@@ -123,29 +123,29 @@ export interface SpanPropertyFilter {
   /** Comparison operator. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex * `gt` - gt * `lt` - lt * `is_set` - is_set * `is_not_set` - is_not_set */
   operator: SpanPropertyFilterOperatorEnum | (string & {});
   /** Value to compare against. String, number, or array of strings. Omit for is_set/is_not_set operators. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** Property filters applied to spans in both windows. */
 export type TracingAggregationQueryBodyFilterGroupList = Array<SpanPropertyFilter>;
 export interface TracingAggregationQueryBody {
   /** Date range for the primary window. Defaults to last hour. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Optional comparison-window configuration. When omitted, only the primary window is returned. */
-  compareFilter?: CompareFilter;
+  compareFilter?: CompareFilter | undefined;
   /** Filter by service names. */
-  serviceNames?: TracingAggregationQueryBodyServiceNamesList;
+  serviceNames?: TracingAggregationQueryBodyServiceNamesList | undefined;
   /** Property filters applied to spans in both windows. */
-  filterGroup?: TracingAggregationQueryBodyFilterGroupList;
+  filterGroup?: TracingAggregationQueryBodyFilterGroupList | undefined;
   /** Max rows to return, ordered by total_duration_nano DESC. Defaults to 100; hard max 5000. Keep this small to bound the response size -- a high value on high-cardinality span names (e.g. untemplated URL paths) returns a very large payload. Prefer narrowing with `serviceNames`/`filterGroup` over raising the limit. */
-  limit?: number;
+  limit?: number | undefined;
   /** Row offset for pagination. Combine with `limit` and the `next_offset` returned in the response to page through results beyond the first page. */
-  offset?: number;
+  offset?: number | undefined;
   /** Also return the sessions and people behind each operation. Off by default because it reads the span and resource attribute maps, which the rest of the aggregation never touches. */
-  includeImpact?: boolean;
+  includeImpact?: boolean | undefined;
   /** Group HTTP server spans by `METHOD route` (from `http.route`) in place of the span name, so raw paths like `/users/1` and `/users/2` fold into one row. Spans without a route keep their span name. Spans that are not HTTP server spans are left out. */
-  groupByEndpoint?: boolean;
+  groupByEndpoint?: boolean | undefined;
   /** Also return `health_status` and `health_reason` per row, comparing each row with the same row in the comparison window, or in the previous period when `compareFilter` is off. Uses the same statuses and thresholds as the service health check. Costs a second window query. */
-  includeHealth?: boolean;
+  includeHealth?: boolean | undefined;
 }
 export interface CreateTracingSpansAggregateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -222,19 +222,19 @@ export interface TracingAttributeBreakdownQueryBody {
   /** Where the key lives: "span" for allowlisted top-level span columns, "span_attribute" for span-level attributes, "span_resource_attribute" for resource-level attributes. * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute */
   breakdownType: SpanPropertyTypeEnum | (string & {});
   /** Drop filters targeting the breakdown key itself (including serviceNames for a service_name breakdown), so a facet's value list stays complete while one of its values is selected. */
-  excludeBreakdownFilter?: boolean;
+  excludeBreakdownFilter?: boolean | undefined;
   /** Type-ahead filter over the breakdown field's own values (case-insensitive substring match). An empty string means no filter. Lets a facet's value search reach past the row limit. */
-  facetSearch?: string;
+  facetSearch?: string | undefined;
   /** Order rows by span count or error count, descending. Defaults to count. * `count` - count * `error_count` - error_count */
-  orderBy?: TracingAttributeBreakdownQueryBodyOrderByEnum | (string & {});
+  orderBy?: TracingAttributeBreakdownQueryBodyOrderByEnum | (string & {}) | undefined;
   /** Date range for the primary window. Defaults to last hour. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Optional comparison-window configuration. When omitted, only the primary window is returned. */
-  compareFilter?: CompareFilter;
+  compareFilter?: CompareFilter | undefined;
   /** Filter by service names. */
-  serviceNames?: TracingAttributeBreakdownQueryBodyServiceNamesList;
+  serviceNames?: TracingAttributeBreakdownQueryBodyServiceNamesList | undefined;
   /** Property filters scoping the spans the breakdown runs over (e.g. only error spans). */
-  filterGroup?: TracingAttributeBreakdownQueryBodyFilterGroupList;
+  filterGroup?: TracingAttributeBreakdownQueryBodyFilterGroupList | undefined;
 }
 export interface CreateTracingSpansAttributeBreakdownRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -298,13 +298,13 @@ export type TracingCountBodyFilterGroup =
   | TracingCountBodyFilterGroupCase1;
 export interface TracingCountBody {
   /** Date range for the count. Defaults to last hour. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Filter by service names. */
-  serviceNames?: TracingCountBodyServiceNamesList;
+  serviceNames?: TracingCountBodyServiceNamesList | undefined;
   /** Filter by OTel span status codes (0 Unset, 1 OK, 2 Error) -- not HTTP status codes. Use [2] to select error spans. */
-  statusCodes?: TracingCountBodyStatusCodesList;
+  statusCodes?: TracingCountBodyStatusCodesList | undefined;
   /** Property filters for the count. Either a flat list of filters or a nested filter group. */
-  filterGroup?: TracingCountBodyFilterGroup;
+  filterGroup?: TracingCountBodyFilterGroup | undefined;
 }
 export interface CreateTracingSpansCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -326,15 +326,15 @@ export type TracingDurationHistogramQueryBodyStatusCodesList = Array<number>;
 export type TracingDurationHistogramQueryBodyFilterGroupList = Array<SpanPropertyFilter>;
 export interface TracingDurationHistogramQueryBody {
   /** Date range for the query. Defaults to last hour. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Filter by service names. */
-  serviceNames?: TracingDurationHistogramQueryBodyServiceNamesList;
+  serviceNames?: TracingDurationHistogramQueryBodyServiceNamesList | undefined;
   /** Filter by OTel span status codes (0 Unset, 1 OK, 2 Error) -- not HTTP status codes. Use [2] to select error spans. */
-  statusCodes?: TracingDurationHistogramQueryBodyStatusCodesList;
+  statusCodes?: TracingDurationHistogramQueryBodyStatusCodesList | undefined;
   /** Property filters for the query. */
-  filterGroup?: TracingDurationHistogramQueryBodyFilterGroupList;
+  filterGroup?: TracingDurationHistogramQueryBodyFilterGroupList | undefined;
   /** When true (default), bucket root-span durations only -- a distribution of traces. When false, bucket every matching span -- used with a span name filter for operation-scoped distributions. */
-  rootSpans?: boolean;
+  rootSpans?: boolean | undefined;
 }
 export interface CreateTracingSpansDurationHistogramRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -366,11 +366,11 @@ export interface CreateTracingSpansErrorCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Hex trace IDs to count exceptions for, matched against the exception's `$trace_id` property. Case insensitive. At most 200 per request. */
-  traceIds?: CreateTracingSpansErrorCountRequestTraceIdsList;
+  traceIds?: CreateTracingSpansErrorCountRequestTraceIdsList | undefined;
   /** Hex span IDs to count exceptions for, matched against the exception's `$span_id` property. Only counted within the requested traces, so `traceIds` is required alongside. At most 200 per request. */
-  spanIds?: CreateTracingSpansErrorCountRequestSpanIdsList;
+  spanIds?: CreateTracingSpansErrorCountRequestSpanIdsList | undefined;
   /** Session IDs to count exceptions for. The fallback for exceptions that carry no trace ID. At most 200 per request. */
-  sessionIds?: CreateTracingSpansErrorCountRequestSessionIdsList;
+  sessionIds?: CreateTracingSpansErrorCountRequestSessionIdsList | undefined;
   /** Start of the window the exceptions must fall in. ISO 8601. */
   dateFrom: string;
   /** End of the window the exceptions must fall in. ISO 8601. */
@@ -472,33 +472,33 @@ export type OrderDirectionEnum = "ASC" | "DESC";
 export type TracingQueryBodyFilterGroupList = Array<SpanPropertyFilter>;
 export interface TracingQueryBody {
   /** Date range for the query. Defaults to last hour. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Filter by service names. */
-  serviceNames?: TracingQueryBodyServiceNamesList;
+  serviceNames?: TracingQueryBodyServiceNamesList | undefined;
   /** Filter by OTel span status codes (0 Unset, 1 OK, 2 Error) -- not HTTP status codes. Use [2] to select error spans. */
-  statusCodes?: TracingQueryBodyStatusCodesList;
+  statusCodes?: TracingQueryBodyStatusCodesList | undefined;
   /** Column to order by. Defaults to timestamp. Ordering by timestamp paginates via the keyset cursor ('after'); ordering by duration paginates via 'offset'. * `timestamp` - timestamp * `duration` - duration */
-  orderBy?: TracingQueryBodyOrderByEnum | (string & {});
+  orderBy?: TracingQueryBodyOrderByEnum | (string & {}) | undefined;
   /** Order direction. Defaults to DESC (e.g. timestamp+DESC = newest first, duration+DESC = slowest first). * `ASC` - ASC * `DESC` - DESC */
-  orderDirection?: OrderDirectionEnum | (string & {});
+  orderDirection?: OrderDirectionEnum | (string & {}) | undefined;
   /** Property filters for the query. */
-  filterGroup?: TracingQueryBodyFilterGroupList;
+  filterGroup?: TracingQueryBodyFilterGroupList | undefined;
   /** Filter to a specific trace ID (hex string). */
-  traceId?: string;
+  traceId?: string | undefined;
   /** Max results (1-1000). Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Keyset pagination cursor from a previous timestamp-ordered response. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination offset, used when ordering by a column (e.g. duration). Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter to root spans only. Defaults to true. */
-  rootSpans?: boolean;
+  rootSpans?: boolean | undefined;
   /** Return the matching spans themselves, one row per span (root and child), instead of collapsing to traces. Use this to search by a child-span attribute (e.g. code.filepath) without the whole-trace grouping. Distinct from rootSpans. Defaults to false. */
-  flatSpans?: boolean;
+  flatSpans?: boolean | undefined;
   /** Number of child spans to prefetch per trace (1-100). */
-  prefetchSpans?: number;
+  prefetchSpans?: number | undefined;
   /** Omit the per-span attributes and resource attributes maps from results to keep payloads compact. Defaults to false. */
-  excludeAttributes?: boolean;
+  excludeAttributes?: boolean | undefined;
 }
 export interface CreateTracingSpansQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -559,9 +559,9 @@ export interface TracingQueryResponse {
 }
 export interface ServiceHealthDateRange {
   /** Relative (-30m, -6h, -7d) or ISO 8601. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** Same format. Omit or null for "now". */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 /** * `none` - None * `previous_period` - Previous Period * `previous_day` - Previous Day * `previous_week` - Previous Week */
 export type ServiceHealthBaselineEnum =
@@ -582,19 +582,19 @@ export type ServiceHealthOrderByEnum =
   | "error_count";
 export interface ServiceHealthQuery {
   /** The window to score. Defaults to the last hour. */
-  dateRange?: ServiceHealthDateRange;
+  dateRange?: ServiceHealthDateRange | undefined;
   /** The baseline. previous_period (default) is the same length just before the window. previous_day and previous_week shift the window back 1 or 7 days. none skips it. baselineDateRange overrides it. * `none` - None * `previous_period` - Previous Period * `previous_day` - Previous Day * `previous_week` - Previous Week */
-  compare?: ServiceHealthBaselineEnum | (string & {});
+  compare?: ServiceHealthBaselineEnum | (string & {}) | undefined;
   /** Only this environment, matched without case on deployment.environment.name, then deployment.environment, then env. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Only these services. */
-  serviceNames?: ServiceHealthQueryServiceNamesList;
+  serviceNames?: ServiceHealthQueryServiceNamesList | undefined;
   /** entry (default) counts root, server and consumer spans, one per request. all counts every span. * `entry` - Entry * `all` - All */
-  spanScope?: ServiceHealthSpanScopeEnum | (string & {});
+  spanScope?: ServiceHealthSpanScopeEnum | (string & {}) | undefined;
   /** status (default) puts silent, regressed and degraded first. The others sort high to low. * `status` - Status * `error_rate` - Error Rate * `p95` - P95 * `throughput` - Throughput * `error_count` - Error Count */
-  orderBy?: ServiceHealthOrderByEnum | (string & {});
+  orderBy?: ServiceHealthOrderByEnum | (string & {}) | undefined;
   /** Max service rows, 1-200. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface CreateTracingSpansServiceHealthRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -602,7 +602,7 @@ export interface CreateTracingSpansServiceHealthRequest {
   /** The service health query. Every field is optional. */
   query: ServiceHealthQuery;
   /** An explicit baseline window. Overrides query.compare. */
-  baselineDateRange?: ServiceHealthDateRange;
+  baselineDateRange?: ServiceHealthDateRange | undefined;
 }
 export interface ServiceHealthTimeRange {
   /** Start, ISO 8601 UTC, inclusive. */
@@ -706,15 +706,15 @@ export type TracingSparklineQueryBodyStatusCodesList = Array<number>;
 export type TracingSparklineQueryBodyFilterGroupList = Array<SpanPropertyFilter>;
 export interface TracingSparklineQueryBody {
   /** Date range for the query. Defaults to last hour. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Filter by service names. */
-  serviceNames?: TracingSparklineQueryBodyServiceNamesList;
+  serviceNames?: TracingSparklineQueryBodyServiceNamesList | undefined;
   /** Filter by OTel span status codes (0 Unset, 1 OK, 2 Error) -- not HTTP status codes. Use [2] to select error spans. */
-  statusCodes?: TracingSparklineQueryBodyStatusCodesList;
+  statusCodes?: TracingSparklineQueryBodyStatusCodesList | undefined;
   /** Property filters for the query. */
-  filterGroup?: TracingSparklineQueryBodyFilterGroupList;
+  filterGroup?: TracingSparklineQueryBodyFilterGroupList | undefined;
   /** When true, count only root spans (one per trace) so the bars reflect the Traces view. When false (default), count every matching span -- the Spans view's volume. */
-  rootSpans?: boolean;
+  rootSpans?: boolean | undefined;
 }
 export interface CreateTracingSpansSparklineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -738,7 +738,7 @@ export interface TracingSparklineResponse {
 }
 export interface SymbolStatsSymbol {
   /** Opaque identifier (e.g. the function name) echoed back on the matching result row. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** First line of the symbol's range, inclusive. */
   startLine: number;
   /** Last line of the symbol's range, inclusive. */
@@ -750,9 +750,9 @@ export interface SymbolStatsQueryBody {
   /** Repo-relative path of the source file to aggregate (e.g. 'src/flags/flag_matching.rs'). Matched as a path suffix against the recorded OTel code.file.path / code.filepath, so a recorded path carrying an extra crate/workspace prefix still matches. Separators are normalized. */
   filePath: string;
   /** Current period to aggregate over; the prior equal-length window is the comparison. Defaults to last 24h. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Optional symbol (function) line ranges, supplied by the client from its own AST/LSP. When given, each span is attributed to the smallest enclosing range (one row per symbol). When omitted (or an empty list), spans are aggregated per source line (one row per line); pass a single whole-file range for a file-level total. */
-  symbols?: SymbolStatsQueryBodySymbolsList;
+  symbols?: SymbolStatsQueryBodySymbolsList | undefined;
 }
 export interface CreateTracingSpansSymbolStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -806,9 +806,9 @@ export interface SymbolStatsRow {
   /** Bucket anchor: the source line (line mode) or the symbol's startLine (symbol mode). */
   line: number;
   /** Echoed name from the requested symbol (symbol mode only). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** endLine of the matched symbol's range (symbol mode only). */
-  end_line?: number | null;
+  end_line?: number | null | undefined;
   /** The same metrics over the immediately-preceding equal-length period. */
   previous: SymbolStatsPeriod;
   /** Percentage change in count vs the previous period (180 = +180%). Null when there is no baseline (previous count 0). Use `previous.count` -- not a null here -- to detect a new symbol. */
@@ -831,11 +831,11 @@ export interface CreateTracingSpansTraceRequest {
   project_id: string;
   trace_id: string;
   /** Date range for the query. Omit it to search all retained spans for this trace. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Omit the per-span attributes, resource attributes and events from results to keep payloads compact. Defaults to false. */
-  excludeAttributes?: boolean;
+  excludeAttributes?: boolean | undefined;
   /** Pagination offset into the trace's spans (ordered by start time ascending). Each page returns up to 2000 spans; pass the response's `nextOffset` to load the next page. Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Span attributes. Keys are whatever the instrumentation set. */
 export type TraceSpanAttributesMap = { [key: string]: string | undefined };
@@ -892,7 +892,7 @@ export interface TraceSpan {
   /** Span duration minus the time spent in its children, in nanoseconds. */
   self_time_nano: number;
   /** OpenTelemetry span events, earliest first. Omitted when `excludeAttributes` is true. */
-  events?: TraceSpanEventsList;
+  events?: TraceSpanEventsList | undefined;
 }
 /** Spans in the trace, earliest first. */
 export type TracingTraceResponseResultsList = Array<TraceSpan>;
@@ -914,13 +914,13 @@ export interface TracingTreeQueryBody {
   /** Service name that scopes the returned tree. Applied to the spans CTE so the call-tree only contains spans from this service, even when matched traces span multiple services. */
   serviceName: string;
   /** Date range for the primary window. Defaults to last hour. */
-  dateRange?: TracingDateRange;
+  dateRange?: TracingDateRange | undefined;
   /** Optional comparison-window configuration. When omitted, only the primary window is returned. */
-  compareFilter?: CompareFilter;
+  compareFilter?: CompareFilter | undefined;
   /** Filter by service names. */
-  serviceNames?: TracingTreeQueryBodyServiceNamesList;
+  serviceNames?: TracingTreeQueryBodyServiceNamesList | undefined;
   /** Additional property filters applied to spans in both windows. */
-  filterGroup?: TracingTreeQueryBodyFilterGroupList;
+  filterGroup?: TracingTreeQueryBodyFilterGroupList | undefined;
 }
 export interface CreateTracingSpansTreeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -977,9 +977,9 @@ export interface CreateTracingViewRequest {
   /** Human-readable name shown in the saved views list. */
   name: string;
   /** Saved tracing filters -- a subset of the frontend TracingFilters shape. May contain dateRange, serviceNames, filterGroup, orderBy, orderDirection, and viewMode. */
-  filters?: CreateTracingViewRequestFiltersMap;
+  filters?: CreateTracingViewRequestFiltersMap | undefined;
   /** Whether the view is pinned for quick access. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
 }
 /** Saved tracing filters -- a subset of the frontend TracingFilters shape. May contain dateRange, serviceNames, filterGroup, orderBy, orderDirection, and viewMode. */
 export type TracingViewFiltersMap = { [key: string]: unknown | undefined };
@@ -998,15 +998,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface TracingView {
   id: string;
@@ -1014,9 +1014,9 @@ export interface TracingView {
   /** Human-readable name shown in the saved views list. */
   name: string;
   /** Saved tracing filters -- a subset of the frontend TracingFilters shape. May contain dateRange, serviceNames, filterGroup, orderBy, orderDirection, and viewMode. */
-  filters?: TracingViewFiltersMap;
+  filters?: TracingViewFiltersMap | undefined;
   /** Whether the view is pinned for quick access. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   created_at: string;
   /** User who created the view. */
   created_by: UserBasic | null;
@@ -1035,21 +1035,21 @@ export interface GetTracingSpansAttributeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of attributes: "span_attribute" for span-level attributes, "span_resource_attribute" for resource-level attributes. * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute */
-  attribute_type?: GetTracingSpansAttributeRequestAttributeType | (string & {});
+  attribute_type?: GetTracingSpansAttributeRequestAttributeType | (string & {}) | undefined;
   /** JSON-encoded date range object, e.g. {"date_from": "-1h"}. Malformed JSON returns 400. Or pass date_from and date_to. */
-  dateRange?: string;
+  dateRange?: string | undefined;
   /** Range start: -1h, -7d or ISO 8601. Defaults to -1h. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Range end, same format. Omit for "now". */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Max results (default: 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination offset (default: 0). */
-  offset?: number;
+  offset?: number | undefined;
   /** Search filter for attribute names. */
-  search?: string;
+  search?: string | undefined;
   /** When true, the search query also matches attribute values (not just keys), so a value such as a trace_id finds the key holding it. */
-  search_values?: boolean;
+  search_values?: boolean | undefined;
 }
 /** * `key` - key * `value` - value */
 export type MatchedOnEnum = "key" | "value";
@@ -1061,7 +1061,7 @@ export interface TracingAttributeEntry {
   /** How the search query matched this row: "key" if the attribute key matched, "value" if a value matched. * `key` - key * `value` - value */
   matchedOn: MatchedOnEnum;
   /** Sample matching value -- only set when matchedOn is "value". */
-  matchedValue?: string | null;
+  matchedValue?: string | null | undefined;
 }
 /** Available attribute keys matching the filters. */
 export type TracingAttributesResponseResultsList = Array<TracingAttributeEntry>;
@@ -1083,13 +1083,13 @@ export interface GetTracingSpansServiceNameRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** JSON-encoded date range object, e.g. {"date_from": "-1h"}. Malformed JSON returns 400. Or pass date_from and date_to. */
-  dateRange?: string;
+  dateRange?: string | undefined;
   /** Range start: -1h, -7d or ISO 8601. Defaults to -1h. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Range end, same format. Omit for "now". */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Search filter for service names. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface TracingServiceName {
   /** Service name. */
@@ -1154,21 +1154,21 @@ export interface GetTracingSpansValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of attribute: "span" for built-in span fields (e.g. name), "span_attribute" for span-level attributes, "span_resource_attribute" for resource-level attributes. * `span` - span * `span_attribute` - span_attribute * `span_resource_attribute` - span_resource_attribute */
-  attribute_type?: GetTracingSpansValueRequestAttributeType | (string & {});
+  attribute_type?: GetTracingSpansValueRequestAttributeType | (string & {}) | undefined;
   /** JSON-encoded date range object, e.g. {"date_from": "-1h"}. Malformed JSON returns 400. Or pass date_from and date_to. */
-  dateRange?: string;
+  dateRange?: string | undefined;
   /** Range start: -1h, -7d or ISO 8601. Defaults to -1h. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Range end, same format. Omit for "now". */
-  date_to?: string;
+  date_to?: string | undefined;
   /** The attribute key to get values for. */
   key: string;
   /** Max results (default: 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination offset (default: 0). */
-  offset?: number;
+  offset?: number | undefined;
   /** Search filter for attribute values. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetTracingSpansValueResponse {}
 export interface GetTracingViewRequest {
@@ -1180,23 +1180,23 @@ export interface ListTracingRetentionRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListTracingViewsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedTracingViewListResultsList = Array<TracingView>;
 export interface PaginatedTracingViewList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTracingViewListResultsList;
 }
 export interface TracingRetentionRulesDestroyRequest {
@@ -1220,9 +1220,9 @@ export interface UpdateTracingRetentionRuleRequest {
   /** User-visible label for this rule. */
   name: string;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
   config: unknown;
 }
@@ -1232,13 +1232,13 @@ export interface UpdateTracingRetentionRulesPartialRequest {
   /** A UUID string identifying this traces retention rule. */
   id: string;
   /** User-visible label for this rule. */
-  name?: string;
+  name?: string | undefined;
   /** When false, the rule is ignored by ingestion and listing UIs that show active rules only. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Lower numbers are evaluated first; the first matching rule wins. Omit to append after existing rules. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Retention rule JSON. Required keys: `retention_days` (integer -- how long matching logs are kept; must be a tier the organization is entitled to, same as the team-wide Logs retention setting) and `filter_group` (PropertyGroupFilter shape -- an AND/OR tree of property predicates evaluated per record to decide which logs this rule matches). Example: `{"retention_days":30,"filter_group":{"type":"AND","values":[{"type":"AND","values":[{"key":"service.name","operator":"exact","value":"api"}]}]}}`. Logs matching no enabled rule keep the environment's default retention. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 /** Saved tracing filters -- a subset of the frontend TracingFilters shape. May contain dateRange, serviceNames, filterGroup, orderBy, orderDirection, and viewMode. */
 export type UpdateTracingViewRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -1249,9 +1249,9 @@ export interface UpdateTracingViewRequest {
   /** Human-readable name shown in the saved views list. */
   name: string;
   /** Saved tracing filters -- a subset of the frontend TracingFilters shape. May contain dateRange, serviceNames, filterGroup, orderBy, orderDirection, and viewMode. */
-  filters?: UpdateTracingViewRequestFiltersMap;
+  filters?: UpdateTracingViewRequestFiltersMap | undefined;
   /** Whether the view is pinned for quick access. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
 }
 /** Saved tracing filters -- a subset of the frontend TracingFilters shape. May contain dateRange, serviceNames, filterGroup, orderBy, orderDirection, and viewMode. */
 export type UpdateTracingViewsPartialRequestFiltersMap = { [key: string]: unknown | undefined };
@@ -1260,11 +1260,11 @@ export interface UpdateTracingViewsPartialRequest {
   project_id: string;
   short_id: string;
   /** Human-readable name shown in the saved views list. */
-  name?: string;
+  name?: string | undefined;
   /** Saved tracing filters -- a subset of the frontend TracingFilters shape. May contain dateRange, serviceNames, filterGroup, orderBy, orderDirection, and viewMode. */
-  filters?: UpdateTracingViewsPartialRequestFiltersMap;
+  filters?: UpdateTracingViewsPartialRequestFiltersMap | undefined;
   /** Whether the view is pinned for quick access. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
 }
 export type CreateTracingRetentionRuleError = PosthogOpError;
 /** Span retention rules. Shares the logs implementation over its own model. Only the model, the access-control scope and the feature flag differ. */

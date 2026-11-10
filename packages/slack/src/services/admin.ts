@@ -45,11 +45,11 @@ export interface AddAppsPermissionsRequest {
   /** Encoded ID of the app */
   app_id: string;
   /** List of user IDs to allow for named_entities visibility */
-  user_ids?: AddAppsPermissionsRequestUserIdsList;
+  user_ids?: AddAppsPermissionsRequestUserIdsList | undefined;
   /** List of encoded usergroup IDs */
-  usergroup_ids?: AddAppsPermissionsRequestUsergroupIdsList;
+  usergroup_ids?: AddAppsPermissionsRequestUsergroupIdsList | undefined;
   /** List of encoded channel IDs to add to the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method. */
-  channel_ids?: AddAppsPermissionsRequestChannelIdsList;
+  channel_ids?: AddAppsPermissionsRequestChannelIdsList | undefined;
 }
 export interface AddAppsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -71,7 +71,7 @@ export interface AddAssignmentsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A string representation of the error type */
-  error?: string;
+  error?: string | undefined;
 }
 /** Comma separated string of channel IDs. */
 export type AddChannelsRequestChannelIdsList = Array<string>;
@@ -79,7 +79,7 @@ export interface AddChannelsRequest {
   /** ID of the IDP group to add default channels for. */
   usergroup_id: string;
   /** The workspace to add default channels in. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Comma separated string of channel IDs. */
   channel_ids: AddChannelsRequestChannelIdsList;
 }
@@ -89,15 +89,15 @@ export interface AddChannelsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A string representation of the error type */
-  error?: string;
+  error?: string | undefined;
   /** List of channel IDs that are not valid for this action */
-  invalid_channels?: AddChannelsResponseInvalidChannelsList;
+  invalid_channels?: AddChannelsResponseInvalidChannelsList | undefined;
 }
 export interface AddEmojiRequest {
   /** The name of the emoji to be added (using lower-case letters only). Colons (`:myemoji:`) around the value are not required, although they may be included. */
   name: string;
   /** The URL of a file to use as an image for the emoji. Square images under 128KB and with transparent backgrounds work best. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface AddEmojiResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -105,7 +105,7 @@ export interface AddEmojiResponse {
 }
 export interface AddGroupRequest {
   /** The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The [IDP Group](https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-organization) ID to be an allowlist for the private channel. */
   group_id: string;
   /** The channel to link this group to. */
@@ -122,7 +122,7 @@ export interface AddTeamsRequest {
   /** A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token. */
   team_ids: AddTeamsRequestTeamIdsList;
   /** When `true`, this method automatically creates new workspace accounts for the IDP group members. */
-  auto_provision?: boolean;
+  auto_provision?: boolean | undefined;
 }
 export interface AddTeamsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -153,8 +153,8 @@ export interface AddUsersResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A string representation of the error type */
-  error?: string;
-  invalid_users?: AddUsersResponseInvalidUsersList;
+  error?: string | undefined;
+  invalid_users?: AddUsersResponseInvalidUsersList | undefined;
 }
 /** Array of workflow IDs to edit; max 50 */
 export type AddWorkflowsCollaboratorRequestWorkflowIdsList = Array<string>;
@@ -174,35 +174,35 @@ export interface AnalyticsMessagesActivityRequest {
   /** Channel ID for channel of the message activity to query. */
   channel: string;
   /** Oldest timestamp to include in the results. Defaults to 7 days before current time. If not passed while still passing the `latest_ts` parameter, defaults to 7 days before `latest_ts`. */
-  oldest_ts?: string;
+  oldest_ts?: string | undefined;
   /** Most recent timestamp to include in results. Defaults to current time. If not passed while still passing the `oldest_ts` parameter, defaults to 7 days after `oldest_ts`. */
-  latest_ts?: string;
+  latest_ts?: string | undefined;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of entries to return. Defaults to 50 if not passed. Max allowed is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface AnalyticsMessagesActivityResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface AnalyticsMessagesActivityResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   message_activities: unknown;
 }
 export interface AnalyticsMessagesMetadataRequest {
   /** Channel ID for channel containing the messages to query. */
   channel: string;
   /** Oldest timestamp to include in the results */
-  oldest_ts?: string;
+  oldest_ts?: string | undefined;
   /** Most recent timestamp to include in the results. If not passed, defaults to current time. */
-  latest_ts?: string;
+  latest_ts?: string | undefined;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](https://docs.slack.dev/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type AnalyticsMessagesMetadataResponseResponseMetadata =
@@ -224,48 +224,48 @@ export interface AnalyticsMessagesMetadataResponseMessagesItemFilesItem {
   /** Unix timestamp of the file */
   timestamp: number;
   /** MIME type of the file */
-  mimetype?: string;
+  mimetype?: string | undefined;
   /** File type */
-  filetype?: string;
+  filetype?: string | undefined;
   /** File subtype */
-  subtype?: string;
+  subtype?: string | undefined;
   /** Human-readable file type */
-  pretty_type?: string;
+  pretty_type?: string | undefined;
   /** Whether the file is external */
-  is_external?: boolean;
+  is_external?: boolean | undefined;
   /** Type of external file */
-  external_type?: string;
+  external_type?: string | undefined;
   /** Whether the file is public */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Whether the public URL is shared */
-  public_url_shared?: boolean;
+  public_url_shared?: boolean | undefined;
   /** Whether to display as bot */
-  display_as_bot?: boolean;
+  display_as_bot?: boolean | undefined;
   /** Duration in milliseconds for media files */
-  duration_ms?: number;
+  duration_ms?: number | undefined;
   /** Display type for media files */
-  media_display_type?: string;
+  media_display_type?: string | undefined;
 }
 /** An array of files attached to the message */
 export type AnalyticsMessagesMetadataResponseMessagesItemFilesList =
   Array<AnalyticsMessagesMetadataResponseMessagesItemFilesItem>;
 export interface AnalyticsMessagesMetadataResponseMessagesItem {
   /** Encoded ID of user who authored message */
-  user_id?: string;
+  user_id?: string | undefined;
   type: string;
-  subtype?: string;
+  subtype?: string | undefined;
   /** Timestamp of the message */
   ts: string;
   /** Timestamp of message at the root of the thread */
-  thread_ts?: string;
-  display_as_bot?: boolean;
-  client_msg_id?: string;
+  thread_ts?: string | undefined;
+  display_as_bot?: boolean | undefined;
+  client_msg_id?: string | undefined;
   /** Number of characters in the message text */
-  text_character_count?: number;
+  text_character_count?: number | undefined;
   /** An array of reaction counts */
-  reactions?: AnalyticsMessagesMetadataResponseMessagesItemReactionsList;
+  reactions?: AnalyticsMessagesMetadataResponseMessagesItemReactionsList | undefined;
   /** An array of files attached to the message */
-  files?: AnalyticsMessagesMetadataResponseMessagesItemFilesList;
+  files?: AnalyticsMessagesMetadataResponseMessagesItemFilesList | undefined;
 }
 /** An array of message metadata */
 export type AnalyticsMessagesMetadataResponseMessagesList =
@@ -274,25 +274,25 @@ export interface AnalyticsMessagesMetadataResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   /** An array of message metadata */
   messages: AnalyticsMessagesMetadataResponseMessagesList;
 }
 export interface ApproveAppRequest {
   /** Auto-create an Admin-Approved App automation rule that pre-approves future child app installs from this manager app. */
-  allow_child_auto_install?: boolean;
+  allow_child_auto_install?: boolean | undefined;
   /** The id of the app to approve. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** The id of the request to approve. */
-  request_id?: string;
+  request_id?: string | undefined;
   /** The ID of the workspace to approve the app on */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The ID of the enterprise to approve the app on */
-  enterprise_id?: string;
+  enterprise_id?: string | undefined;
   /** User scopes to approve for the app */
-  user_scopes?: string;
+  user_scopes?: string | undefined;
   /** Bot scopes to approve for the app */
-  bot_scopes?: string;
+  bot_scopes?: string | undefined;
 }
 export interface ApproveAppResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -300,7 +300,7 @@ export interface ApproveAppResponse {
 }
 export interface ApproveInviteRequestRequest {
   /** ID for the workspace where the invite request was made. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** ID of the request to invite. */
   invite_request_id: string;
 }
@@ -310,13 +310,13 @@ export interface ApproveInviteRequestResponse {
 }
 export interface AppsRestrictRequest {
   /** The id of the app to restrict. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** The id of the request to restrict. */
-  request_id?: string;
+  request_id?: string | undefined;
   /** The ID of the workspace to approve the app on */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The ID of the enterprise to approve the app on */
-  enterprise_id?: string;
+  enterprise_id?: string | undefined;
 }
 export interface AppsRestrictResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -351,11 +351,11 @@ export interface AssignUserRequest {
   /** The ID of the user to add to the workspace. */
   user_id: string;
   /** True if user should be added to the workspace as a guest. */
-  is_restricted?: boolean;
+  is_restricted?: boolean | undefined;
   /** True if user should be added to the workspace as a single-channel guest. */
-  is_ultra_restricted?: boolean;
+  is_ultra_restricted?: boolean | undefined;
   /** Comma separated values of channel IDs to add user in the new workspace. */
-  channel_ids?: string;
+  channel_ids?: string | undefined;
 }
 export interface AssignUserResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -482,9 +482,9 @@ export interface CancelAppsRequestRequest {
   /** The id of the request to cancel. */
   request_id: string;
   /** The ID of the workspace where this request belongs */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The ID of the enterprise where this request belongs */
-  enterprise_id?: string;
+  enterprise_id?: string | undefined;
 }
 export interface CancelAppsRequestResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -494,9 +494,9 @@ export interface ClearResolutionRequest {
   /** The id of the app whose resolution you want to clear/undo. */
   app_id: string;
   /** The workspace to clear the app resolution from */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The enterprise to clear the app resolution from */
-  enterprise_id?: string;
+  enterprise_id?: string | undefined;
 }
 export interface ClearResolutionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -541,7 +541,7 @@ export interface ConvertToPrivateRequest {
   /** The channel to convert to private. */
   channel_id: string;
   /** Name of private channel to create. Only respected when converting an MPIM. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ConvertToPrivateResponse {
   ok: boolean;
@@ -576,17 +576,17 @@ export interface CreateConversationRequest {
   /** Name of the public or private channel to create. */
   name: string;
   /** Description of the public or private channel to create. */
-  description?: string;
+  description?: string | undefined;
   /** When `true`, creates a private channel instead of a public channel */
   is_private: boolean;
   /** When `true`, the channel will be available org-wide. Note: if the channel is not `org_wide=true`, you must specify a `team_id` for this channel */
-  org_wide?: boolean;
+  org_wide?: boolean | undefined;
   /** The workspace to create the channel in. Note: this argument is required unless you set `org_wide=true`. */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface CreateConversationResponse {
   ok: boolean;
-  channel_id?: string;
+  channel_id?: string | undefined;
 }
 export interface CreateForObjectsRequest {
   /** Object / Record ID (15 or 18 digit accepted). See [here](https://help.salesforce.com/s/articleView?id=000385008&type=1) for how to look up an ID. */
@@ -594,7 +594,7 @@ export interface CreateForObjectsRequest {
   /** Salesforce org ID (15 or 18 digit accepted). See [here](https://help.salesforce.com/s/articleView?id=000385215&type=1) for how to look up Salesforce org ID. */
   salesforce_org_id: string;
   /** Optional flag to add all team members related to the object to the newly created Salesforce channel. When true, adds a maximum of 100 team members to the channel. */
-  invite_object_team?: boolean;
+  invite_object_team?: boolean | undefined;
 }
 export interface CreateForObjectsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -608,9 +608,9 @@ export interface CreateTeamRequest {
   /** Team name (for example, Slack Softball Team). */
   team_name: string;
   /** Description for the team. */
-  team_description?: string;
+  team_description?: string | undefined;
   /** Who can join the team. A team's discoverability can be `open`, `closed`, `invite_only`, or `unlisted`. */
-  team_discoverability?: string;
+  team_discoverability?: string | undefined;
 }
 export interface CreateTeamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -621,18 +621,18 @@ export interface CreateUsergroupRequest {
   /** Unique name for the usergroup */
   name: string;
   /** Optional handle used to mention the usergroup in channel, must be unique */
-  handle?: string;
+  handle?: string | undefined;
   /** Optional purpose that describes what the usergroup is about */
-  purpose?: string;
+  purpose?: string | undefined;
   /** Configure whether or not this usergroup should be visible in the client */
-  is_visible?: boolean;
+  is_visible?: boolean | undefined;
 }
 export interface CreateUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A string representation of the error type */
-  error?: string;
-  subteam?: unknown;
+  error?: string | undefined;
+  subteam?: unknown | undefined;
 }
 export interface DeactivateUserRequest {
   /** The ID of the user to deactivate. */
@@ -662,16 +662,16 @@ export interface DisconnectSharedRequest {
   /** The channel to be disconnected from some workspaces. */
   channel_id: string;
   /** Used for disconnecting a team from a shared channel. Only one team ID may be passed at a time. */
-  leaving_team_ids?: DisconnectSharedRequestLeavingTeamIdsList;
+  leaving_team_ids?: DisconnectSharedRequestLeavingTeamIdsList | undefined;
 }
 export interface DisconnectSharedResponse {
   ok: boolean;
 }
 export interface ExportUsersUnsupportedVersionRequest {
   /** Unix timestamp of a date to start looking for user sessions. If not provided will start six months ago. */
-  date_sessions_started?: number;
+  date_sessions_started?: number | undefined;
   /** Unix timestamp of the date of past or upcoming end of support cycles. If not provided will include all announced end of support cycles. */
-  date_end_of_support?: number;
+  date_end_of_support?: number | undefined;
 }
 export interface ExportUsersUnsupportedVersionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -696,9 +696,9 @@ export type GetConversationPrefsResponsePrefsWhoCanPostTypeList = Array<string>;
 export type GetConversationPrefsResponsePrefsWhoCanPostUserList = Array<string>;
 export interface GetConversationPrefsResponsePrefsWhoCanPost {
   /** Comma separated string of user types */
-  type?: GetConversationPrefsResponsePrefsWhoCanPostTypeList;
+  type?: GetConversationPrefsResponsePrefsWhoCanPostTypeList | undefined;
   /** Comma separated string of user IDs */
-  user?: GetConversationPrefsResponsePrefsWhoCanPostUserList;
+  user?: GetConversationPrefsResponsePrefsWhoCanPostUserList | undefined;
 }
 /** Comma separated string of user types */
 export type GetConversationPrefsResponsePrefsCanThreadTypeList = Array<string>;
@@ -706,37 +706,37 @@ export type GetConversationPrefsResponsePrefsCanThreadTypeList = Array<string>;
 export type GetConversationPrefsResponsePrefsCanThreadUserList = Array<string>;
 export interface GetConversationPrefsResponsePrefsCanThread {
   /** Comma separated string of user types */
-  type?: GetConversationPrefsResponsePrefsCanThreadTypeList;
+  type?: GetConversationPrefsResponsePrefsCanThreadTypeList | undefined;
   /** Comma separated string of user IDs */
-  user?: GetConversationPrefsResponsePrefsCanThreadUserList;
+  user?: GetConversationPrefsResponsePrefsCanThreadUserList | undefined;
 }
 export interface GetConversationPrefsResponsePrefsMembershipLimit {
   /** Membership limit value */
-  value?: number;
+  value?: number | undefined;
 }
 export interface GetConversationPrefsResponsePrefsCanHuddle {
   /** Can start a huddle */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetConversationPrefsResponsePrefsEnableAtChannel {
   /** Enable channel mentions in channel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetConversationPrefsResponsePrefsEnableAtHere {
   /** Enable here mentions in channel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetConversationPrefsResponsePrefs {
-  who_can_post?: GetConversationPrefsResponsePrefsWhoCanPost;
-  can_thread?: GetConversationPrefsResponsePrefsCanThread;
-  membership_limit?: GetConversationPrefsResponsePrefsMembershipLimit;
-  can_huddle?: GetConversationPrefsResponsePrefsCanHuddle;
-  enable_at_channel?: GetConversationPrefsResponsePrefsEnableAtChannel;
-  enable_at_here?: GetConversationPrefsResponsePrefsEnableAtHere;
+  who_can_post?: GetConversationPrefsResponsePrefsWhoCanPost | undefined;
+  can_thread?: GetConversationPrefsResponsePrefsCanThread | undefined;
+  membership_limit?: GetConversationPrefsResponsePrefsMembershipLimit | undefined;
+  can_huddle?: GetConversationPrefsResponsePrefsCanHuddle | undefined;
+  enable_at_channel?: GetConversationPrefsResponsePrefsEnableAtChannel | undefined;
+  enable_at_here?: GetConversationPrefsResponsePrefsEnableAtHere | undefined;
 }
 export interface GetConversationPrefsResponse {
   ok: boolean;
-  prefs?: GetConversationPrefsResponsePrefs;
+  prefs?: GetConversationPrefsResponsePrefs | undefined;
 }
 export interface GetCustomRetentionRequest {
   /** The conversation to get the retention policy for. */
@@ -754,11 +754,11 @@ export interface GetEntitiesRequest {
   /** The name of the policy to fetch entities for. Currently, `email_password` is the only policy that may be used with this method. */
   policy_name: string;
   /** The type of entity to assign to the policy. Currently, `USER` is supported. */
-  entity_type?: unknown;
+  entity_type?: unknown | undefined;
   /** The maximum number of items to return. Must be between 1 and 1000, both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type GetEntitiesResponseResponseMetadata = AnalyticsMessagesActivityResponseResponseMetadata;
@@ -776,7 +776,7 @@ export interface GetEntitiesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   /** Entities assigned to the policy */
   entities: GetEntitiesResponseEntitiesList;
   /** Count of entities under the policy and provided filter conditions */
@@ -786,13 +786,13 @@ export interface GetExpirationRequest {
   /** The ID of the guest user to get the expiration for. */
   user_id: string;
   /** If an org token is passed in and this team is on the org, it will operate on the workspace level on the specified team. Otherwise it will operate on the org or team in context. */
-  target_team?: string;
+  target_team?: string | undefined;
 }
 export interface GetExpirationResponseUser {
   /** Encoded user ID */
   id: string;
   /** Username of user */
-  username?: string;
+  username?: string | undefined;
   /** Email address of user */
   email: string;
   /** Whether the user is a multi-channel guest. */
@@ -800,20 +800,20 @@ export interface GetExpirationResponseUser {
   /** Whether the user is a single-channel guest. */
   is_ultra_restricted: boolean;
   /** Expiration timestamp for the guest user. */
-  expiration_ts?: number;
+  expiration_ts?: number | undefined;
 }
 export interface GetExpirationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  user?: GetExpirationResponseUser;
+  user?: GetExpirationResponseUser | undefined;
 }
 export interface GetFileRequest {
   /** Date to retrieve the analytics data for, expressed as `YYYY-MM-DD` in UTC. Required unless `metadata_only` is set to true. */
-  date?: string;
+  date?: string | undefined;
   /** The type of analytics to retrieve. The options are currently limited to `member` (for Enterprise org member analytics) and `public_channel` (for public channel analytics). */
   type: string;
   /** Retrieve metadata for the `type` of analytics indicated. Can be used only with `type` set to `public_channel` analytics. See [detail below](#metadata_only). Omit the `date` parameter when using this argument. */
-  metadata_only?: boolean;
+  metadata_only?: boolean | undefined;
 }
 export type GetFileResponse = unknown;
 export interface GetItemRequest {}
@@ -825,9 +825,9 @@ export interface GetItemResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** allow list of IPv4 addresses using cidr notation in the Enterprise organization configuration */
-  trusted_cidr?: GetItemResponseTrustedCidrList;
+  trusted_cidr?: GetItemResponseTrustedCidrList | undefined;
   /** allow list of Autonomous System Numbers (ASN) in the Enterprise organization configuration */
-  trusted_asns?: GetItemResponseTrustedAsnsList;
+  trusted_asns?: GetItemResponseTrustedAsnsList | undefined;
 }
 /** The IDs of users you'd like to fetch session settings for. Note: if a user does not have any active sessions, they will not be returned in the response. */
 export type GetSettingsRequestUserIdsList = Array<string>;
@@ -849,24 +849,24 @@ export interface GetSettingsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** User specific session settings */
-  session_settings?: GetSettingsResponseSessionSettingsList;
+  session_settings?: GetSettingsResponseSessionSettingsList | undefined;
   /** The IDs of users requested that do not have any user session settings applied. */
-  no_settings_applied?: GetSettingsResponseNoSettingsAppliedList;
+  no_settings_applied?: GetSettingsResponseNoSettingsAppliedList | undefined;
 }
 export interface GetTeamsRequest {
   /** The channel to determine connected workspaces within the organization for. */
   channel_id: string;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type GetTeamsResponseResponseMetadata = AnalyticsMessagesActivityResponseResponseMetadata;
 export interface GetTeamsResponse {
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface InvalidateUsersSessionRequest {
   /** ID of the user that the session belongs to. */
@@ -891,7 +891,7 @@ export interface InviteConversationResponse {
 }
 export interface InviteRequestsDenyRequest {
   /** ID for the workspace where the invite request was made. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** ID of the request to invite. */
   invite_request_id: string;
 }
@@ -907,19 +907,19 @@ export interface InviteUserRequest {
   /** A comma-separated list of `channel_id`s for this user to join. At least one channel is required. */
   channel_ids: string;
   /** An optional message to send to the user in the invite email. */
-  custom_message?: string;
+  custom_message?: string | undefined;
   /** Full name of the user. */
-  real_name?: string;
+  real_name?: string | undefined;
   /** Allow this invite to be resent in the future if a user has not signed up yet. Resending can only be done via the UI and has no expiration. (default: false) */
-  resend?: boolean;
+  resend?: boolean | undefined;
   /** Is this user a multi-channel guest user? (default: false) */
-  is_restricted?: boolean;
+  is_restricted?: boolean | undefined;
   /** Is this user a single channel guest user? (default: false) */
-  is_ultra_restricted?: boolean;
+  is_ultra_restricted?: boolean | undefined;
   /** Timestamp when guest account should be disabled. Only include this timestamp if you are inviting a guest user and you want their account to expire on a certain date. */
-  guest_expiration_ts?: string;
+  guest_expiration_ts?: string | undefined;
   /** Allow invited user to sign in via email and password. Only available for Enterprise org teams via admin invite. */
-  email_password_policy_enabled?: boolean;
+  email_password_policy_enabled?: boolean | undefined;
 }
 export interface InviteUserResponse {
   ok: boolean;
@@ -940,31 +940,31 @@ export interface LinkObjectsResponse {
 export type ListAppsActivitiesRequestSortDirection = "asc" | "desc";
 export interface ListAppsActivitiesRequest {
   /** The ID of the app to get activities from. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** The team who owns this log. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** The minimum log level of the log events to be returned. Defaults to `info`. Acceptable values (in order of relative importance from smallest to largest) are `trace`, `debug`, `info`, `warn`, `error` and `fatal`. */
-  min_log_level?: string;
+  min_log_level?: string | undefined;
   /** The event type of log events to be returned. */
-  log_event_type?: string;
+  log_event_type?: string | undefined;
   /** The source of log events to be returned. Acceptable values are `slack` and `developer`. */
-  source?: string;
+  source?: string | undefined;
   /** The component type of log events to be returned. Acceptable values are `events_api`, `workflows`, `functions` and `tables`. */
-  component_type?: string;
+  component_type?: string | undefined;
   /** The component ID of log events to be returned. Will be `FnXXXXXX` for functions, and `WfXXXXXX` for workflows */
-  component_id?: string;
+  component_id?: string | undefined;
   /** The trace ID of log events to be returned. */
-  trace_id?: string;
+  trace_id?: string | undefined;
   /** The earliest timestamp of the log to retrieve (epoch microseconds). */
-  min_date_created?: number;
+  min_date_created?: number | undefined;
   /** The latest timestamp of the log to retrieve (epoch microseconds). */
-  max_date_created?: number;
+  max_date_created?: number | undefined;
   /** The direction you want the data sorted by (always by timestamp) */
-  sort_direction?: ListAppsActivitiesRequestSortDirection | (string & {});
+  sort_direction?: ListAppsActivitiesRequestSortDirection | (string & {}) | undefined;
 }
 export type ListAppsActivitiesResponseActivitiesList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -975,17 +975,17 @@ export interface ListAppsActivitiesResponse {
   ok: boolean;
   activities: ListAppsActivitiesResponseActivitiesList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListAppsApprovedRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
-  team_id?: string;
-  enterprise_id?: string;
+  cursor?: string | undefined;
+  team_id?: string | undefined;
+  enterprise_id?: string | undefined;
   /** Limit the results to only include certified apps. When false, no certified apps will appear in the result */
-  certified?: boolean;
+  certified?: boolean | undefined;
 }
 export type ListAppsApprovedResponseApprovedAppsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -996,13 +996,13 @@ export interface ListAppsApprovedResponse {
   ok: boolean;
   approved_apps: ListAppsApprovedResponseApprovedAppsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListAppsMcpServersRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListAppsMcpServersResponseServersItem {
   /** Encoded ID of the MCP server */
@@ -1027,7 +1027,7 @@ export interface ListAppsMcpServersResponse {
   ok: boolean;
   servers: ListAppsMcpServersResponseServersList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListAppsMcpServersPermissionsRequest {
   /** Encoded ID of the app */
@@ -1049,13 +1049,13 @@ export interface ListAppsPermissionsResponse {
 }
 export interface ListAppsRequestsRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
-  team_id?: string;
-  enterprise_id?: string;
+  cursor?: string | undefined;
+  team_id?: string | undefined;
+  enterprise_id?: string | undefined;
   /** Include requests for certified apps */
-  certified?: boolean;
+  certified?: boolean | undefined;
 }
 export type ListAppsRequestsResponseAppRequestsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1066,17 +1066,17 @@ export interface ListAppsRequestsResponse {
   ok: boolean;
   app_requests: ListAppsRequestsResponseAppRequestsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListAppsRestrictedRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
-  team_id?: string;
-  enterprise_id?: string;
+  cursor?: string | undefined;
+  team_id?: string | undefined;
+  enterprise_id?: string | undefined;
   /** Limit the results to only include certified apps. When false, no certified apps will appear in the result */
-  certified?: boolean;
+  certified?: boolean | undefined;
 }
 export type ListAppsRestrictedResponseRestrictedAppsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1087,21 +1087,21 @@ export interface ListAppsRestrictedResponse {
   ok: boolean;
   restricted_apps: ListAppsRestrictedResponseRestrictedAppsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export type ListAssignmentsRequestRoleIdsList = Array<string>;
 export type ListAssignmentsRequestEntityIdsList = Array<string>;
 export interface ListAssignmentsRequest {
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. Must be between 1 - 200 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** collection of role ids to scope results by */
-  role_ids?: ListAssignmentsRequestRoleIdsList;
+  role_ids?: ListAssignmentsRequestRoleIdsList | undefined;
   /** The entities for which the roles apply */
-  entity_ids?: ListAssignmentsRequestEntityIdsList;
+  entity_ids?: ListAssignmentsRequestEntityIdsList | undefined;
   /** Sort direction. Default is descending on date_create, can be either ASC or DESC */
-  sort_dir?: string;
+  sort_dir?: string | undefined;
 }
 export interface ListAssignmentsResponseRoleAssignmentsItem {
   /** ID of the role that is assigned */
@@ -1122,16 +1122,16 @@ export interface ListAssignmentsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A string representation of the error type */
-  error?: string;
+  error?: string | undefined;
   role_assignments: ListAssignmentsResponseRoleAssignmentsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListBarriersRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListBarriersResponseBarriersList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1141,15 +1141,15 @@ export interface ListBarriersResponse {
   ok: boolean;
   barriers: ListBarriersResponseBarriersList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListChannelsRequest {
   /** ID of the IDP group to list default channels for. */
   usergroup_id: string;
   /** ID of the the workspace. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Flag to include or exclude the count of members per channel. */
-  include_num_members?: boolean;
+  include_num_members?: boolean | undefined;
 }
 export type ListChannelsResponseChannelsList = Array<string>;
 export interface ListChannelsResponse {
@@ -1157,13 +1157,13 @@ export interface ListChannelsResponse {
   ok: boolean;
   channels: ListChannelsResponseChannelsList;
   /** A string representation of the error type */
-  error?: string;
+  error?: string | undefined;
 }
 export interface ListEmojiRequest {
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListEmojiResponseEmojiMap = { [key: string]: unknown | undefined };
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1173,21 +1173,21 @@ export interface ListEmojiResponse {
   ok: boolean;
   emoji: ListEmojiResponseEmojiMap;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 /** Comma-separated array of app IDs to get functions for; max 50. */
 export type ListFunctionsRequestAppIdsList = Array<string>;
 export interface ListFunctionsRequest {
   /** The team context to retrieve functions from. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Comma-separated array of app IDs to get functions for; max 50. */
   app_ids: ListFunctionsRequestAppIdsList;
   /** Whether to also include functions that are not yet distributed to any users in the function list. This is needed for admins that are approving an app request and will only work if the team owns the app. */
-  include_non_distributed_functions?: boolean;
+  include_non_distributed_functions?: boolean | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of results that will be returned by the API on each invocation. Must be between 1 and 1000, both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListFunctionsResponseFunctionsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1198,12 +1198,12 @@ export interface ListFunctionsResponse {
   ok: boolean;
   functions: ListFunctionsResponseFunctionsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListGroupsRequest {
   channel_id: string;
   /** The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization. */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type ListGroupsResponseGroupIdsList = Array<string>;
 export interface ListGroupsResponse {
@@ -1212,11 +1212,11 @@ export interface ListGroupsResponse {
 }
 export interface ListInviteRequestsRequest {
   /** ID for the workspace where the invite requests were made. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Value of the `next_cursor` field sent as part of the previous API response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type ListInviteRequestsResponseResponseMetadata =
@@ -1226,16 +1226,16 @@ export interface ListInviteRequestsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   invite_requests: ListInviteRequestsResponseInviteRequestsList;
 }
 export interface ListInviteRequestsApprovedRequest {
   /** ID for the workspace where the invite requests were made. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Value of the `next_cursor` field sent as part of the previous API response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type ListInviteRequestsApprovedResponseResponseMetadata =
@@ -1245,16 +1245,16 @@ export interface ListInviteRequestsApprovedResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   approved_requests: ListInviteRequestsApprovedResponseApprovedRequestsList;
 }
 export interface ListInviteRequestsDeniedRequest {
   /** ID for the workspace where the invite requests were made */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Value of the `next_cursor` field sent as part of the previous api response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of results that will be returned by the API on each invocation. Must be between 1 - 1000 both inclusive */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type ListInviteRequestsDeniedResponseResponseMetadata =
@@ -1264,18 +1264,18 @@ export interface ListInviteRequestsDeniedResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   denied_requests: ListInviteRequestsDeniedResponseDeniedRequestsList;
 }
 export interface ListOriginalConnectedChannelInfoRequest {
   /** A comma-separated list of channels to filter to. */
-  channel_ids?: string;
+  channel_ids?: string | undefined;
   /** A comma-separated list of the workspaces to which the channels you would like returned belong. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type ListOriginalConnectedChannelInfoResponseResponseMetadata =
@@ -1293,7 +1293,7 @@ export interface ListOriginalConnectedChannelInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   channels: ListOriginalConnectedChannelInfoResponseChannelsList;
 }
 /** Only return skills in this category. */
@@ -1322,21 +1322,21 @@ export type ListSlackbotSkillsRequestSort = "name" | "usage_count" | "date_updat
 export type ListSlackbotSkillsRequestSortDir = "asc" | "desc";
 export interface ListSlackbotSkillsRequest {
   /** Only return skills in this category. */
-  category?: ListSlackbotSkillsRequestCategory | (string & {});
+  category?: ListSlackbotSkillsRequestCategory | (string & {}) | undefined;
   /** Continuation from the previous page. Keep all filters and sorting unchanged. Pages can be empty while a continuation remains; continue until next_cursor is empty. Changes during traversal may move results; pagination is not a snapshot. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of skills to return. Fewer may be returned even when more remain. */
-  limit?: number;
+  limit?: number | undefined;
   /** Only return skills created by these users. Accepts U or W user IDs. */
-  creator_ids?: ListSlackbotSkillsRequestCreatorIdsList;
+  creator_ids?: ListSlackbotSkillsRequestCreatorIdsList | undefined;
   /** Filter by publication to the org catalog. */
-  publish_status?: ListSlackbotSkillsRequestPublishStatus | (string & {});
+  publish_status?: ListSlackbotSkillsRequestPublishStatus | (string & {}) | undefined;
   /** Filter by org deployment, independently of publication. */
-  auto_enabled_status?: ListSlackbotSkillsRequestAutoEnabledStatus | (string & {});
+  auto_enabled_status?: ListSlackbotSkillsRequestAutoEnabledStatus | (string & {}) | undefined;
   /** Sort across the inventory. Name uses case-insensitive ordering. Unedited skills use their creation date for date_updated sorting. */
-  sort?: ListSlackbotSkillsRequestSort | (string & {});
+  sort?: ListSlackbotSkillsRequestSort | (string & {}) | undefined;
   /** Sort direction; file ID breaks ties. */
-  sort_dir?: ListSlackbotSkillsRequestSortDir | (string & {});
+  sort_dir?: ListSlackbotSkillsRequestSortDir | (string & {}) | undefined;
 }
 /** Enumerates the categories available for organizing AI skills. */
 export type ListSlackbotSkillsResponseSkillsItemCategory =
@@ -1405,13 +1405,13 @@ export interface ListSlackbotSkillsResponse {
   ok: boolean;
   skills: ListSlackbotSkillsResponseSkillsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListTeamsRequest {
   /** The maximum number of items to return. Must be a positive integer no larger than 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListTeamsResponseTeamsItemPrimaryOwner {
   /** Encoded user ID of the primary owner of the workspace */
@@ -1421,7 +1421,7 @@ export interface ListTeamsResponseTeamsItemPrimaryOwner {
 }
 export interface ListTeamsResponseTeamsItem {
   /** Encoded ID of the workspace */
-  id?: string;
+  id?: string | undefined;
   /** Name of the workspace */
   name: string;
   /** Who is able to join this workspace */
@@ -1438,13 +1438,13 @@ export interface ListTeamsResponse {
   ok: boolean;
   teams: ListTeamsResponseTeamsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListTeamsAdminsRequest {
   /** The maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   team_id: string;
 }
 export type ListTeamsAdminsResponseAdminIdsList = Array<string>;
@@ -1456,14 +1456,14 @@ export interface ListTeamsAdminsResponse {
   ok: boolean;
   admin_ids: ListTeamsAdminsResponseAdminIdsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListTeamsOwnersRequest {
   team_id: string;
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListTeamsOwnersResponseOwnerIdsList = Array<string>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1474,25 +1474,25 @@ export interface ListTeamsOwnersResponse {
   ok: boolean;
   owner_ids: ListTeamsOwnersResponseOwnerIdsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListUsersRequest {
   /** The ID (T1234) of a workspace. Filters results to just the specified workspace. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** If true, only active users will be returned. If false, only deactivated users will be returned. Default is true. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Only applies with org token and no team_id. If true, return `workspaces` for a user even if they may be deactivated on them. If false, return `workspaces` for a user only when user is active on them. Default is false. */
-  include_deactivated_user_workspaces?: boolean;
+  include_deactivated_user_workspaces?: boolean | undefined;
   /** If true, returns only guests and their expiration dates that belong to the team_id. */
-  only_guests?: boolean;
+  only_guests?: boolean | undefined;
   /** If true, only admin users will be returned (excludes owners). Returns all admins and owners when combined with `include_owners`. Cannot be used together with `only_guests`. */
-  include_admins?: boolean;
+  include_admins?: boolean | undefined;
   /** If true, only owner users will be returned. Cannot be used together with `only_guests`. */
-  include_owners?: boolean;
+  include_owners?: boolean | undefined;
   /** Limit for how many users to be retrieved per page */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Roles that a user has */
 export type ListUsersResponseUsersItemRolesList = Array<string>;
@@ -1502,13 +1502,13 @@ export interface ListUsersResponseUsersItem {
   /** Encoded user ID */
   id: string;
   /** Username of user */
-  username?: string;
+  username?: string | undefined;
   /** Full name of user */
-  full_name?: string;
+  full_name?: string | undefined;
   /** If 2FA is enabled. Only returned with org token and no team_id. */
-  has_2fa?: boolean;
+  has_2fa?: boolean | undefined;
   /** If SSO is enabled. Only returned with org token and no team_id. */
-  has_sso?: boolean;
+  has_sso?: boolean | undefined;
   /** Email address of user */
   email: string;
   /** Is this user an admin? */
@@ -1524,19 +1524,19 @@ export interface ListUsersResponseUsersItem {
   /** Is this user a bot user? */
   is_bot: boolean;
   /** For a guest user, what is their expiration timestamp? (On workspaces only.) */
-  expiration_ts?: number;
+  expiration_ts?: number | undefined;
   /** Roles that a user has */
-  roles?: ListUsersResponseUsersItemRolesList;
+  roles?: ListUsersResponseUsersItemRolesList | undefined;
   /** Last active timestamp for a user. Only applies with org token and no team_id */
-  last_active_ts?: number;
+  last_active_ts?: number | undefined;
   /** IDs of the workspaces that a user belongs to */
-  workspaces?: ListUsersResponseUsersItemWorkspacesList;
+  workspaces?: ListUsersResponseUsersItemWorkspacesList | undefined;
   /** Is this user active? */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** date of when the user was created, returned as epoch seconds */
-  date_created?: number;
+  date_created?: number | undefined;
   /** date of when the user was deactivated, returned as epoch seconds */
-  deactivated_ts?: number;
+  deactivated_ts?: number | undefined;
 }
 export type ListUsersResponseUsersList = Array<ListUsersResponseUsersItem>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1546,44 +1546,44 @@ export interface ListUsersResponse {
   ok: boolean;
   users: ListUsersResponseUsersList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 export interface ListUsersSessionRequest {
   /** The ID of the workspace you'd like active sessions for. If you pass a `team_id`, you'll need to pass a `user_id` as well. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The ID of user you'd like active sessions for. If you pass a `user_id`, you'll need to pass a `team_id` as well. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type ListUsersSessionResponseResponseMetadata =
   AnalyticsMessagesActivityResponseResponseMetadata;
 export interface ListUsersSessionResponseActiveSessionsItemRecent {
   /** Type of device */
-  device_hardware?: string;
+  device_hardware?: string | undefined;
   /** Type of OS */
-  os?: string;
+  os?: string | undefined;
   /** Version of the OS */
-  os_version?: string;
+  os_version?: string | undefined;
   /** Version of the Slack client (if available) */
-  slack_client_version?: string;
+  slack_client_version?: string | undefined;
   /** IP address */
-  ip?: string;
+  ip?: string | undefined;
 }
 export interface ListUsersSessionResponseActiveSessionsItemCreated {
   /** Type of device used when session was created */
-  device_hardware?: string;
+  device_hardware?: string | undefined;
   /** Type of OS used when session was created */
-  os?: string;
+  os?: string | undefined;
   /** Version of the OS used when session was created */
-  os_version?: string;
+  os_version?: string | undefined;
   /** Version of the Slack client (if available) used when session was created */
-  slack_client_version?: string;
+  slack_client_version?: string | undefined;
   /** IP address used when session was created */
-  ip?: string;
+  ip?: string | undefined;
 }
 export interface ListUsersSessionResponseActiveSessionsItem {
   /** Encoded ID of the user */
@@ -1592,7 +1592,7 @@ export interface ListUsersSessionResponseActiveSessionsItem {
   team_id: string;
   /** ID of the session */
   session_id: number;
-  recent?: ListUsersSessionResponseActiveSessionsItemRecent;
+  recent?: ListUsersSessionResponseActiveSessionsItemRecent | undefined;
   created: ListUsersSessionResponseActiveSessionsItemCreated;
 }
 /** Active user session data */
@@ -1602,7 +1602,7 @@ export interface ListUsersSessionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   /** Active user session data */
   active_sessions: ListUsersSessionResponseActiveSessionsList;
 }
@@ -1619,9 +1619,9 @@ export type LookupAppsConfigRequestRichLinkPreviewTypesList = Array<
 >;
 export interface LookupAppsConfigRequest {
   /** An array of app IDs to get app configs for */
-  app_ids?: LookupAppsConfigRequestAppIdsList;
+  app_ids?: LookupAppsConfigRequestAppIdsList | undefined;
   /** return apps with the corresponding rich link preview layouts */
-  rich_link_preview_types?: LookupAppsConfigRequestRichLinkPreviewTypesList;
+  rich_link_preview_types?: LookupAppsConfigRequestRichLinkPreviewTypesList | undefined;
 }
 export type LookupAppsConfigResponseConfigsItemWorkflowAuthStrategy =
   | "builder_choice"
@@ -1635,7 +1635,7 @@ export interface LookupAppsConfigResponseConfigsItem {
   app_id: string;
   workflow_auth_strategy: LookupAppsConfigResponseConfigsItemWorkflowAuthStrategy;
   domain_restrictions: unknown;
-  rich_link_preview_type?: LookupAppsConfigResponseConfigsItemRichLinkPreviewType;
+  rich_link_preview_type?: LookupAppsConfigResponseConfigsItemRichLinkPreviewType | undefined;
 }
 export type LookupAppsConfigResponseConfigsList = Array<LookupAppsConfigResponseConfigsItem>;
 export interface LookupAppsConfigResponse {
@@ -1649,13 +1649,13 @@ export interface LookupConversationRequest {
   /** Array of team IDs to filter by */
   team_ids: LookupConversationRequestTeamIdsList;
   /** Filter by *public* channels with member count *equal to or less than* the specified number */
-  max_member_count?: number;
+  max_member_count?: number | undefined;
   /** Filter by *public* channels where the most recent message was sent *before* last_message_activity */
   last_message_activity_before: number;
   /** Set `cursor` to `next_cursor` returned in the previous call, to fetch the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type LookupConversationResponseChannelIdsList = Array<string>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -1666,7 +1666,7 @@ export interface LookupConversationResponse {
   ok: boolean;
   channel_ids: LookupConversationResponseChannelIdsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 /** An array of function IDs to get permissions for */
 export type LookupFunctionsPermissionsRequestFunctionIdsList = Array<string>;
@@ -1692,7 +1692,7 @@ export interface LookupWorkflowsPermissionsRequest {
   /** An array of workflow IDs to look up permissions for */
   workflow_ids: LookupWorkflowsPermissionsRequestWorkflowIdsList;
   /** Maximum number of triggers to fetch for each workflow when determining overall run permissions; max 1000 */
-  max_workflow_triggers?: number;
+  max_workflow_triggers?: number | undefined;
 }
 export type LookupWorkflowsPermissionsResponsePermissionsMap = {
   [key: string]: unknown | undefined;
@@ -1726,7 +1726,7 @@ export interface PauseUsersAccessRequest {
   /** IDs of frontline members in the authenticated organization. Valid users are queued; rejected IDs are returned in invalid_users. */
   user_ids: PauseUsersAccessRequestUserIdsList;
   /** Optional explanation for the access change. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type PauseUsersAccessResponseInvalidUsersItemReason =
   | "user_not_found"
@@ -1764,11 +1764,11 @@ export interface RemoveAppsPermissionsRequest {
   /** Encoded ID of the app */
   app_id: string;
   /** List of user IDs whose named_entities access will be revoked */
-  user_ids?: RemoveAppsPermissionsRequestUserIdsList;
+  user_ids?: RemoveAppsPermissionsRequestUserIdsList | undefined;
   /** List of encoded usergroup IDs */
-  usergroup_ids?: RemoveAppsPermissionsRequestUsergroupIdsList;
+  usergroup_ids?: RemoveAppsPermissionsRequestUsergroupIdsList | undefined;
   /** List of encoded channel IDs to remove from the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method. */
-  channel_ids?: RemoveAppsPermissionsRequestChannelIdsList;
+  channel_ids?: RemoveAppsPermissionsRequestChannelIdsList | undefined;
 }
 export interface RemoveAppsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1790,7 +1790,7 @@ export interface RemoveAssignmentsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A string representation of the error type */
-  error?: string;
+  error?: string | undefined;
 }
 /** Comma-separated string of channel IDs */
 export type RemoveChannelsRequestChannelIdsList = Array<string>;
@@ -1806,9 +1806,9 @@ export interface RemoveChannelsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A string representation of the error type */
-  error?: string;
+  error?: string | undefined;
   /** List of channel IDs that are not valid for this action */
-  invalid_channels?: RemoveChannelsResponseInvalidChannelsList;
+  invalid_channels?: RemoveChannelsResponseInvalidChannelsList | undefined;
 }
 export interface RemoveCustomRetentionRequest {
   /** The conversation to set the retention policy for. */
@@ -1925,9 +1925,9 @@ export interface ResetBulkRequest {
   /** The list of up to 1,000 user IDs to wipe sessions for */
   user_ids: ResetBulkRequestUserIdsList;
   /** Only expire mobile sessions (default: false) */
-  mobile_only?: boolean;
+  mobile_only?: boolean | undefined;
   /** Only expire web sessions (default: false) */
-  web_only?: boolean;
+  web_only?: boolean | undefined;
 }
 export interface ResetBulkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1937,9 +1937,9 @@ export interface ResetUsersSessionRequest {
   /** The ID of the user to wipe sessions for */
   user_id: string;
   /** Only expire mobile sessions (default: false) */
-  mobile_only?: boolean;
+  mobile_only?: boolean | undefined;
   /** Only expire web sessions (default: false) */
-  web_only?: boolean;
+  web_only?: boolean | undefined;
 }
 export interface ResetUsersSessionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1951,7 +1951,7 @@ export interface ResumeUsersAccessRequest {
   /** IDs of frontline members in the authenticated organization. Valid users are queued; rejected IDs are returned in invalid_users. */
   user_ids: ResumeUsersAccessRequestUserIdsList;
   /** Optional explanation for the access change. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type ResumeUsersAccessResponseInvalidUsersItemReason =
   | "user_not_found"
@@ -1977,23 +1977,23 @@ export type SearchConversationRequestConnectedTeamIdsList = Array<string>;
 export type SearchConversationRequestSearchChannelTypesList = Array<string>;
 export interface SearchConversationRequest {
   /** Comma separated string of team IDs, signifying the internal workspaces to search through. */
-  team_ids?: SearchConversationRequestTeamIdsList;
+  team_ids?: SearchConversationRequestTeamIdsList | undefined;
   /** Array of encoded team IDs, signifying the external orgs to search through. */
-  connected_team_ids?: SearchConversationRequestConnectedTeamIdsList;
+  connected_team_ids?: SearchConversationRequestConnectedTeamIdsList | undefined;
   /** Name of the channel to query by. */
-  query?: string;
+  query?: string | undefined;
   /** Maximum number of items to be returned. Must be between 1 - 20 both inclusive. Default is 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The type of channel to include or exclude in the search. For example `private` will search private channels, while `private_exclude` will exclude them. For a full list of types, check the [Types section](#types). */
-  search_channel_types?: SearchConversationRequestSearchChannelTypesList;
+  search_channel_types?: SearchConversationRequestSearchChannelTypesList | undefined;
   /** Possible values are `relevant` (search ranking based on what we think is closest), `name` (alphabetical), `member_count` (number of users in the channel), and `created` (date channel was created). You can optionally pair this with the `sort_dir` arg to change how it is sorted */
-  sort?: string;
+  sort?: string | undefined;
   /** Sort direction. Possible values are `asc` for ascending order like (1, 2, 3) or (a, b, c), and `desc` for descending order like (3, 2, 1) or (c, b, a) */
-  sort_dir?: string;
+  sort_dir?: string | undefined;
   /** Only return the total_count of channels. Omits channel data and allows access for admins without channel manager permissions. */
-  total_count_only?: boolean;
+  total_count_only?: boolean | undefined;
 }
 export type SearchConversationResponseConversationsList = Array<string>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -2008,9 +2008,9 @@ export interface SearchConversationResponse {
   /** Total number of channels that exist in the search index and match the query string */
   total_count: number;
   /** A string representation of the error type */
-  error?: string;
+  error?: string | undefined;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
 }
 /** Only include workflows where all of the provided user IDs are a manager/collaborator of that workflow */
 export type SearchWorkflowRequestCollaboratorIdsList = Array<string>;
@@ -2026,33 +2026,33 @@ export type SearchWorkflowRequestPublishStatus = "all" | "published" | "unpublis
 export type SearchWorkflowRequestStepFunctionIdsList = Array<string>;
 export interface SearchWorkflowRequest {
   /** A search query to filter for workflow name or description */
-  query?: string;
+  query?: string | undefined;
   /** The parent app ID for which to return workflows */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of results that will be returned by the API on each invocation */
-  limit?: number;
+  limit?: number | undefined;
   /** Only include workflows with no collaborators in the result; default is false */
-  no_collaborators?: boolean;
+  no_collaborators?: boolean | undefined;
   /** Only include workflows where all of the provided user IDs are a manager/collaborator of that workflow */
-  collaborator_ids?: SearchWorkflowRequestCollaboratorIdsList;
+  collaborator_ids?: SearchWorkflowRequestCollaboratorIdsList | undefined;
   /** Number of trigger IDs to fetch for each workflow; default is 10 */
-  num_trigger_ids?: number;
+  num_trigger_ids?: number | undefined;
   /** Filter workflows by their Sales Elevate status */
-  is_sales_elevate?: boolean;
+  is_sales_elevate?: boolean | undefined;
   /** Source of workflow creation, either from code or workflow builder */
-  source?: SearchWorkflowRequestSource | (string & {});
+  source?: SearchWorkflowRequestSource | (string & {}) | undefined;
   /** The field used to sort the returned workflows */
-  sort?: SearchWorkflowRequestSort | (string & {});
+  sort?: SearchWorkflowRequestSort | (string & {}) | undefined;
   /** Sort direction. Possible values are `asc` for ascending order like (1, 2, 3) or (a, b, c), and `desc` for descending order like (3, 2, 1) or (c, b, a) */
-  sort_dir?: SearchWorkflowRequestSortDir | (string & {});
+  sort_dir?: SearchWorkflowRequestSortDir | (string & {}) | undefined;
   /** Only include workflows with this trigger type */
-  trigger_type_id?: string;
+  trigger_type_id?: string | undefined;
   /** Filter workflows by their published status */
-  publish_status?: SearchWorkflowRequestPublishStatus | (string & {});
+  publish_status?: SearchWorkflowRequestPublishStatus | (string & {}) | undefined;
   /** Only include workflows that use all of the provided step function ids */
-  step_function_ids?: SearchWorkflowRequestStepFunctionIdsList;
+  step_function_ids?: SearchWorkflowRequestStepFunctionIdsList | undefined;
 }
 export type SearchWorkflowResponseWorkflowsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -2063,7 +2063,7 @@ export interface SearchWorkflowResponse {
   ok: boolean;
   workflows: SearchWorkflowResponseWorkflowsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata;
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   /** The total number of workflows that match this search criteria */
   total_found: number;
 }
@@ -2092,19 +2092,19 @@ export type SetAppsConfigRequestDomainRestrictionsEmailsList = Array<string>;
 /** Domain restrictions for the app. Should be an object with two properties: `urls` and `emails`. Each is an array of strings, and each sets the allowed URLs and emails for connector authorization, respectively. */
 export interface SetAppsConfigRequestDomainRestrictions {
   /** List of URLs for allowed connector authorization */
-  urls?: SetAppsConfigRequestDomainRestrictionsUrlsList;
+  urls?: SetAppsConfigRequestDomainRestrictionsUrlsList | undefined;
   /** List of emails for allowed connector authorization */
-  emails?: SetAppsConfigRequestDomainRestrictionsEmailsList;
+  emails?: SetAppsConfigRequestDomainRestrictionsEmailsList | undefined;
 }
 export interface SetAppsConfigRequest {
   /** The encoded app ID to set the app config for */
   app_id: string;
   /** The workflow auth permission. Can be one of `builder_choice` or `end_user_only`. */
-  workflow_auth_strategy?: SetAppsConfigRequestWorkflowAuthStrategy | (string & {});
+  workflow_auth_strategy?: SetAppsConfigRequestWorkflowAuthStrategy | (string & {}) | undefined;
   /** Indicates the app-level override for rich link preview. Unsupported for free teams. */
-  rich_link_preview_type?: SetAppsConfigRequestRichLinkPreviewType | (string & {});
+  rich_link_preview_type?: SetAppsConfigRequestRichLinkPreviewType | (string & {}) | undefined;
   /** Domain restrictions for the app. Should be an object with two properties: `urls` and `emails`. Each is an array of strings, and each sets the allowed URLs and emails for connector authorization, respectively. */
-  domain_restrictions?: SetAppsConfigRequestDomainRestrictions;
+  domain_restrictions?: SetAppsConfigRequestDomainRestrictions | undefined;
 }
 export interface SetAppsConfigResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2128,9 +2128,9 @@ export interface SetAppsMcpServersPermissionsRequest {
   /** The type of permission that defines who can use this MCP server */
   permission_type: SetAppsMcpServersPermissionsRequestPermissionType | (string & {});
   /** List of user IDs to set for named_entities or named_entities_exclude */
-  user_ids?: SetAppsMcpServersPermissionsRequestUserIdsList;
+  user_ids?: SetAppsMcpServersPermissionsRequestUserIdsList | undefined;
   /** List of encoded usergroup IDs */
-  usergroup_ids?: SetAppsMcpServersPermissionsRequestUsergroupIdsList;
+  usergroup_ids?: SetAppsMcpServersPermissionsRequestUsergroupIdsList | undefined;
 }
 export interface SetAppsMcpServersPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2159,13 +2159,16 @@ export interface SetAppsPermissionsRequest {
   /** The type of permission that defines who can access the app */
   permission_type: SetAppsPermissionsRequestPermissionType | (string & {});
   /** List of user IDs to allow for named_entities visibility */
-  user_ids?: SetAppsPermissionsRequestUserIdsList;
+  user_ids?: SetAppsPermissionsRequestUserIdsList | undefined;
   /** List of encoded usergroup IDs the permission applies to. With named_entities the listed groups may access the app; with named_entities_exclude they may not */
-  usergroup_ids?: SetAppsPermissionsRequestUsergroupIdsList;
+  usergroup_ids?: SetAppsPermissionsRequestUsergroupIdsList | undefined;
   /** The mode that defines where the app can be used in channels */
-  channel_restriction_mode?: SetAppsPermissionsRequestChannelRestrictionMode | (string & {});
+  channel_restriction_mode?:
+    | SetAppsPermissionsRequestChannelRestrictionMode
+    | (string & {})
+    | undefined;
   /** List of encoded channel IDs for channel restrictions. Semantics depend on channel_restriction_mode: allowlist for specific_channels, exclusion list for all_channels_except */
-  channel_ids?: SetAppsPermissionsRequestChannelIdsList;
+  channel_ids?: SetAppsPermissionsRequestChannelIdsList | undefined;
 }
 export interface SetAppsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2181,7 +2184,7 @@ export interface SetAutoEnabledRequest {
   /** Deployment audience. */
   permission_type: SetAutoEnabledRequestPermissionType | (string & {});
   /** One to 100 user groups for named_entities. Duplicates count toward the input limit and are stored once. Omit for other permission types. */
-  usergroup_ids?: SetAutoEnabledRequestUsergroupIdsList;
+  usergroup_ids?: SetAutoEnabledRequestUsergroupIdsList | undefined;
 }
 /** Who receives a skill automatically. This setting does not grant access to its instructions. */
 export type SetAutoEnabledResponsePermissionType = "everyone" | "named_entities" | "no_one";
@@ -2244,7 +2247,7 @@ export interface SetDiscoverabilityResponse {
 }
 export interface SetExpirationRequest {
   /** The ID (`T1234`) of the workspace. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The ID of the user to set an expiration for. */
   user_id: string;
   /** Epoch timestamp in seconds when guest account should be disabled. */
@@ -2275,7 +2278,7 @@ export interface SetFunctionsPermissionsRequestPermissionsItem {
   visibility: SetFunctionsPermissionsRequestPermissionsItemVisibility | (string & {});
   permission_type: SetFunctionsPermissionsRequestPermissionsItemPermissionType | (string & {});
   /** List of user IDs to allow for `named_entities` visibility. */
-  user_ids?: SetFunctionsPermissionsRequestPermissionsItemUserIdsList;
+  user_ids?: SetFunctionsPermissionsRequestPermissionsItemUserIdsList | undefined;
 }
 /** Array of permissions for the function. */
 export type SetFunctionsPermissionsRequestPermissionsList =
@@ -2284,11 +2287,11 @@ export interface SetFunctionsPermissionsRequest {
   /** The function ID to set permissions for. */
   function_id: string;
   /** The function visibility. */
-  visibility?: SetFunctionsPermissionsRequestVisibility | (string & {});
+  visibility?: SetFunctionsPermissionsRequestVisibility | (string & {}) | undefined;
   /** List of user IDs to allow for `named_entities` visibility. */
-  user_ids?: SetFunctionsPermissionsRequestUserIdsList;
+  user_ids?: SetFunctionsPermissionsRequestUserIdsList | undefined;
   /** Array of permissions for the function. */
-  permissions?: SetFunctionsPermissionsRequestPermissionsList;
+  permissions?: SetFunctionsPermissionsRequestPermissionsList | undefined;
 }
 export interface SetFunctionsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2339,9 +2342,9 @@ export interface SetSettingsRequest {
   /** The list of up to 1,000 user IDs to apply the session settings for */
   user_ids: SetSettingsRequestUserIdsList;
   /** The session duration, in seconds. The minimum value is 28800, which represents 8 hours; the max value is 315569520 or 10 years (that's a long Slack session). */
-  duration?: number;
+  duration?: number | undefined;
   /** Terminate the session when the client--either the desktop app or a browser window--is closed. */
-  desktop_app_browser_quit?: boolean;
+  desktop_app_browser_quit?: boolean | undefined;
 }
 export interface SetSettingsResponse {
   ok: boolean;
@@ -2352,11 +2355,11 @@ export interface SetTeamsRequest {
   /** The encoded `channel_id` to add or remove to workspaces. */
   channel_id: string;
   /** The workspace to which the channel belongs if the channel is a local workspace channel. Omit this argument if the channel is a cross-workspace or org-wide shared channel. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** A comma-separated list of workspaces to which the channel should be shared. Not required if the channel is being shared org-wide. */
-  target_team_ids?: SetTeamsRequestTargetTeamIdsList;
+  target_team_ids?: SetTeamsRequestTargetTeamIdsList | undefined;
   /** True if channel has to be converted to an org channel */
-  org_channel?: boolean;
+  org_channel?: boolean | undefined;
 }
 export interface SetTeamsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2376,16 +2379,16 @@ export type SetWorkflowsTriggersTypesPermissionsRequestPermissionsPermissionsMap
 };
 export interface SetWorkflowsTriggersTypesPermissionsRequestPermissions {
   /** Dict of permissions keyed by permission type ID. */
-  permissions?: SetWorkflowsTriggersTypesPermissionsRequestPermissionsPermissionsMap;
+  permissions?: SetWorkflowsTriggersTypesPermissionsRequestPermissionsPermissionsMap | undefined;
 }
 export interface SetWorkflowsTriggersTypesPermissionsRequest {
   /** The trigger type ID for which to set the permissions */
   id: string;
   /** The function visibility */
-  visibility?: SetWorkflowsTriggersTypesPermissionsRequestVisibility | (string & {});
+  visibility?: SetWorkflowsTriggersTypesPermissionsRequestVisibility | (string & {}) | undefined;
   /** List of user IDs to allow for named_entities visibility */
-  user_ids?: SetWorkflowsTriggersTypesPermissionsRequestUserIdsList;
-  permissions?: SetWorkflowsTriggersTypesPermissionsRequestPermissions;
+  user_ids?: SetWorkflowsTriggersTypesPermissionsRequestUserIdsList | undefined;
+  permissions?: SetWorkflowsTriggersTypesPermissionsRequestPermissions | undefined;
 }
 export interface SetWorkflowsTriggersTypesPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2396,14 +2399,14 @@ export interface TeamsSettingsInfoRequest {
 }
 export type TeamsSettingsInfoResponseTeamDefaultChannelsList = Array<unknown>;
 export interface TeamsSettingsInfoResponseTeam {
-  id?: string;
-  name?: string;
-  domain?: string;
-  email_domain?: string;
-  icon?: unknown;
-  enterprise_id?: string;
-  enterprise_name?: string;
-  default_channels?: TeamsSettingsInfoResponseTeamDefaultChannelsList;
+  id?: string | undefined;
+  name?: string | undefined;
+  domain?: string | undefined;
+  email_domain?: string | undefined;
+  icon?: unknown | undefined;
+  enterprise_id?: string | undefined;
+  enterprise_name?: string | undefined;
+  default_channels?: TeamsSettingsInfoResponseTeamDefaultChannelsList | undefined;
 }
 export interface TeamsSettingsInfoResponse {
   ok: boolean;
@@ -2420,9 +2423,9 @@ export interface UninstallAppRequest {
   /** The ID of the app to uninstall. */
   app_id: string;
   /** IDs of the teams to uninstall from (max 100). With an org-level token, this or `enterprise_id` is required. */
-  team_ids?: string;
+  team_ids?: string | undefined;
   /** The enterprise to completely uninstall the application from (across all workspaces). With an org-level token, this or `team_ids` is required. */
-  enterprise_id?: string;
+  enterprise_id?: string | undefined;
 }
 export interface UninstallAppResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2485,9 +2488,9 @@ export type UpdateItemRequestTrustedCidrList = Array<string>;
 export type UpdateItemRequestTrustedAsnsList = Array<number>;
 export interface UpdateItemRequest {
   /** allow list of IPv4 addresses using cidr notation in the Enterprise organization configuration */
-  trusted_cidr?: UpdateItemRequestTrustedCidrList;
+  trusted_cidr?: UpdateItemRequestTrustedCidrList | undefined;
   /** allow list of Autonomous System Numbers (ASN) in the Enterprise organization configuration */
-  trusted_asns?: UpdateItemRequestTrustedAsnsList;
+  trusted_asns?: UpdateItemRequestTrustedAsnsList | undefined;
 }
 export interface UpdateItemResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2497,28 +2500,28 @@ export interface UpdateUsergroupRequest {
   /** ID of the usergroup to update */
   id: string;
   /** The name of the group. */
-  name?: string;
+  name?: string | undefined;
   /** The handle used for mentioning the group in a channel, must be unique. */
-  handle?: string;
+  handle?: string | undefined;
   /** The usergroup's purpose or description. */
-  description?: string;
+  description?: string | undefined;
   /** Configure whether or not this usergroup should be visible in the client. */
-  is_visible?: boolean;
+  is_visible?: boolean | undefined;
 }
 /** List of user IDs who would exceed their channel limit */
 export type UpdateUsergroupResponseChannelLimitUserIdsList = Array<string>;
 export interface UpdateUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  subteam?: unknown;
+  subteam?: unknown | undefined;
   /** List of user IDs who would exceed their channel limit */
-  channel_limit_user_ids?: UpdateUsergroupResponseChannelLimitUserIdsList;
+  channel_limit_user_ids?: UpdateUsergroupResponseChannelLimitUserIdsList | undefined;
 }
 export interface UploadUsersRequest {
   /** ID of the usergroup to upload users to */
   id: string;
   /** Csv of users to upload in format member id, email */
-  file?: unknown;
+  file?: unknown | undefined;
 }
 export type UploadUsersResponseInvalidUsersItemReason =
   | "guest_user"
@@ -2539,7 +2542,7 @@ export interface UploadUsersResponse {
   ok: boolean;
   /** How many users were successfully added */
   successful_user_count: number;
-  invalid_users?: UploadUsersResponseInvalidUsersList;
+  invalid_users?: UploadUsersResponseInvalidUsersList | undefined;
 }
 export type AddAliasError = SlackOpError;
 /** Add an emoji alias. Required scopes -- user: `admin.teams:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `emoji_limit_reached` -- Unable to add emoji due to limit reached. - `error_bad_name_i18n` -- Value passed for `name` was invalid. - `error_invalid_alias` -- Value passed for `alias_for` does not exist. - `error_missing_name` -- Value passed for `name` is missing or empty. - `error_name_taken` -- Value passed for `name` already exists. - `error_name_taken_i18n` -- The name has already been taken by another emoji, in the international set. Emoji must have unique names. - `failed_to_alias_emoji` -- Failed to alias the specified emoji. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `no_alias_selected` -- Value passed for `alias_for` was invalid. - `not_an_admin` -- This method is only accessible by org owners and Admins. See https://docs.slack.dev/reference/methods/admin.emoji.addAlias */

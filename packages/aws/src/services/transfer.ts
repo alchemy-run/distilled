@@ -174,7 +174,7 @@ export type MapType = "FILE" | "DIRECTORY" | (string & {});
 export interface HomeDirectoryMapEntry {
   Entry: string;
   Target: string;
-  Type?: MapType;
+  Type?: MapType | undefined;
 }
 export type HomeDirectoryMappings = HomeDirectoryMapEntry[];
 export type Policy = string;
@@ -183,17 +183,17 @@ export type SecondaryGids = number[];
 export interface PosixProfile {
   Uid: number;
   Gid: number;
-  SecondaryGids?: number[];
+  SecondaryGids?: number[] | undefined;
 }
 export type Role = string;
 export type ServerId = string;
 export type ExternalId = string;
 export interface CreateAccessRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
   Role: string;
   ServerId: string;
   ExternalId: string;
@@ -222,17 +222,17 @@ export interface CustomDirectoriesType {
   TemporaryFilesDirectory: string;
 }
 export interface CreateAgreementRequest {
-  Description?: string;
+  Description?: string | undefined;
   ServerId: string;
   LocalProfileId: string;
   PartnerProfileId: string;
-  BaseDirectory?: string;
+  BaseDirectory?: string | undefined;
   AccessRole: string;
-  Status?: AgreementStatusType;
-  Tags?: Tag[];
-  PreserveFilename?: PreserveFilenameType;
-  EnforceMessageSigning?: EnforceMessageSigningType;
-  CustomDirectories?: CustomDirectoriesType;
+  Status?: AgreementStatusType | undefined;
+  Tags?: Tag[] | undefined;
+  PreserveFilename?: PreserveFilenameType | undefined;
+  EnforceMessageSigning?: EnforceMessageSigningType | undefined;
+  CustomDirectories?: CustomDirectoriesType | undefined;
 }
 export type AgreementId = string;
 export interface CreateAgreementResponse {
@@ -262,21 +262,21 @@ export type As2ConnectorSecretId = string;
 export type PreserveContentType = "ENABLED" | "DISABLED" | (string & {});
 export type As2AsyncMdnServerIds = string[];
 export interface As2AsyncMdnConnectorConfig {
-  Url?: string;
-  ServerIds?: string[];
+  Url?: string | undefined;
+  ServerIds?: string[] | undefined;
 }
 export interface As2ConnectorConfig {
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
-  MessageSubject?: string | redacted.Redacted<string>;
-  Compression?: CompressionEnum;
-  EncryptionAlgorithm?: EncryptionAlg;
-  SigningAlgorithm?: SigningAlg;
-  MdnSigningAlgorithm?: MdnSigningAlg;
-  MdnResponse?: MdnResponse;
-  BasicAuthSecretId?: string;
-  PreserveContentType?: PreserveContentType;
-  AsyncMdnConfig?: As2AsyncMdnConnectorConfig;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
+  MessageSubject?: string | redacted.Redacted<string> | undefined;
+  Compression?: CompressionEnum | undefined;
+  EncryptionAlgorithm?: EncryptionAlg | undefined;
+  SigningAlgorithm?: SigningAlg | undefined;
+  MdnSigningAlgorithm?: MdnSigningAlg | undefined;
+  MdnResponse?: MdnResponse | undefined;
+  BasicAuthSecretId?: string | undefined;
+  PreserveContentType?: PreserveContentType | undefined;
+  AsyncMdnConfig?: As2AsyncMdnConnectorConfig | undefined;
 }
 export type SecretId = string;
 export type SftpConnectorTrustedHostKey = string;
@@ -285,30 +285,30 @@ export type MaxConcurrentConnections = number;
 export type SecretVersionStage = string;
 export type SecretVersionStageList = string[];
 export interface SftpConnectorConfig {
-  UserSecretId?: string;
-  TrustedHostKeys?: string[];
-  MaxConcurrentConnections?: number;
-  OrderedUserSecretVersionStages?: string[];
+  UserSecretId?: string | undefined;
+  TrustedHostKeys?: string[] | undefined;
+  MaxConcurrentConnections?: number | undefined;
+  OrderedUserSecretVersionStages?: string[] | undefined;
 }
 export type ConnectorSecurityPolicyName = string;
 export type VpcLatticeResourceConfigurationArn = string;
 export type SftpPort = number;
 export interface ConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn: string;
-  PortNumber?: number;
+  PortNumber?: number | undefined;
 }
 export type ConnectorEgressConfig = { VpcLattice: ConnectorVpcLatticeEgressConfig };
 export type ConnectorsIpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export interface CreateConnectorRequest {
-  Url?: string;
-  As2Config?: As2ConnectorConfig;
+  Url?: string | undefined;
+  As2Config?: As2ConnectorConfig | undefined;
   AccessRole: string;
-  LoggingRole?: string;
-  Tags?: Tag[];
-  SftpConfig?: SftpConnectorConfig;
-  SecurityPolicyName?: string;
-  EgressConfig?: ConnectorEgressConfig;
-  IpAddressType?: ConnectorsIpAddressType;
+  LoggingRole?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SftpConfig?: SftpConnectorConfig | undefined;
+  SecurityPolicyName?: string | undefined;
+  EgressConfig?: ConnectorEgressConfig | undefined;
+  IpAddressType?: ConnectorsIpAddressType | undefined;
 }
 export type ConnectorId = string;
 export interface CreateConnectorResponse {
@@ -321,8 +321,8 @@ export type CertificateIds = string[];
 export interface CreateProfileRequest {
   As2Id: string;
   ProfileType: ProfileType;
-  CertificateIds?: string[];
-  Tags?: Tag[];
+  CertificateIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProfileResponse {
   ProfileId: string;
@@ -338,11 +338,11 @@ export type VpcId = string;
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export interface EndpointDetails {
-  AddressAllocationIds?: string[];
-  SubnetIds?: string[];
-  VpcEndpointId?: string;
-  VpcId?: string;
-  SecurityGroupIds?: string[];
+  AddressAllocationIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  VpcEndpointId?: string | undefined;
+  VpcId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type EndpointType = "PUBLIC" | "VPC" | "VPC_ENDPOINT" | (string & {});
 export type HostKey = string | redacted.Redacted<string>;
@@ -354,11 +354,11 @@ export type SftpAuthenticationMethods =
   | "PUBLIC_KEY_AND_PASSWORD"
   | (string & {});
 export interface IdentityProviderDetails {
-  Url?: string;
-  InvocationRole?: string;
-  DirectoryId?: string;
-  Function?: string;
-  SftpAuthenticationMethods?: SftpAuthenticationMethods;
+  Url?: string | undefined;
+  InvocationRole?: string | undefined;
+  DirectoryId?: string | undefined;
+  Function?: string | undefined;
+  SftpAuthenticationMethods?: SftpAuthenticationMethods | undefined;
 }
 export type IdentityProviderType =
   | "SERVICE_MANAGED"
@@ -377,22 +377,22 @@ export type SetStatOption = "DEFAULT" | "ENABLE_NO_OP" | (string & {});
 export type CommunicationMode = "CLIENT_TALK_FIRST" | "SERVER_TALK_FIRST" | (string & {});
 export interface SftpPortWithOptions {
   SftpPort: number;
-  CommunicationMode?: CommunicationMode;
+  CommunicationMode?: CommunicationMode | undefined;
 }
 export type SftpPorts = SftpPortWithOptions[];
 export type As2Transport = "HTTP" | (string & {});
 export type As2Transports = As2Transport[];
 export type ProxyMode = "NONE" | "PROXY_PROTOCOL_V2_ENFORCED" | (string & {});
 export interface ProxyConfig {
-  SftpMode?: ProxyMode;
+  SftpMode?: ProxyMode | undefined;
 }
 export interface ProtocolDetails {
-  PassiveIp?: string;
-  TlsSessionResumptionMode?: TlsSessionResumptionMode;
-  SetStatOption?: SetStatOption;
-  SftpPorts?: SftpPortWithOptions[];
-  As2Transports?: As2Transport[];
-  ProxyConfig?: ProxyConfig;
+  PassiveIp?: string | undefined;
+  TlsSessionResumptionMode?: TlsSessionResumptionMode | undefined;
+  SetStatOption?: SetStatOption | undefined;
+  SftpPorts?: SftpPortWithOptions[] | undefined;
+  As2Transports?: As2Transport[] | undefined;
+  ProxyConfig?: ProxyConfig | undefined;
 }
 export type SecurityPolicyName = string;
 export type WorkflowId = string;
@@ -403,37 +403,37 @@ export interface WorkflowDetail {
 export type OnUploadWorkflowDetails = WorkflowDetail[];
 export type OnPartialUploadWorkflowDetails = WorkflowDetail[];
 export interface WorkflowDetails {
-  OnUpload?: WorkflowDetail[];
-  OnPartialUpload?: WorkflowDetail[];
+  OnUpload?: WorkflowDetail[] | undefined;
+  OnPartialUpload?: WorkflowDetail[] | undefined;
 }
 export type Arn = string;
 export type StructuredLogDestinations = string[];
 export type DirectoryListingOptimization = "ENABLED" | "DISABLED" | (string & {});
 export interface S3StorageOptions {
-  DirectoryListingOptimization?: DirectoryListingOptimization;
+  DirectoryListingOptimization?: DirectoryListingOptimization | undefined;
 }
 export type IpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export type HostKeyStorageType = "SERVICE_MANAGED" | "SECRETS_MANAGER" | (string & {});
 export interface CreateServerRequest {
-  Certificate?: string;
-  Domain?: Domain;
-  EndpointDetails?: EndpointDetails;
-  EndpointType?: EndpointType;
-  HostKey?: string | redacted.Redacted<string>;
-  IdentityProviderDetails?: IdentityProviderDetails;
-  IdentityProviderType?: IdentityProviderType;
-  LoggingRole?: string;
-  PostAuthenticationLoginBanner?: string;
-  PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocol[];
-  ProtocolDetails?: ProtocolDetails;
-  SecurityPolicyName?: string;
-  Tags?: Tag[];
-  WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: string[];
-  S3StorageOptions?: S3StorageOptions;
-  IpAddressType?: IpAddressType;
-  HostKeyStorageType?: HostKeyStorageType;
+  Certificate?: string | undefined;
+  Domain?: Domain | undefined;
+  EndpointDetails?: EndpointDetails | undefined;
+  EndpointType?: EndpointType | undefined;
+  HostKey?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderDetails?: IdentityProviderDetails | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
+  LoggingRole?: string | undefined;
+  PostAuthenticationLoginBanner?: string | undefined;
+  PreAuthenticationLoginBanner?: string | undefined;
+  Protocols?: Protocol[] | undefined;
+  ProtocolDetails?: ProtocolDetails | undefined;
+  SecurityPolicyName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  WorkflowDetails?: WorkflowDetails | undefined;
+  StructuredLogDestinations?: string[] | undefined;
+  S3StorageOptions?: S3StorageOptions | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  HostKeyStorageType?: HostKeyStorageType | undefined;
 }
 export interface CreateServerResponse {
   ServerId: string;
@@ -441,15 +441,15 @@ export interface CreateServerResponse {
 export type SshPublicKeyBody = string;
 export type UserName = string;
 export interface CreateUserRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
   Role: string;
   ServerId: string;
-  SshPublicKeyBody?: string;
-  Tags?: Tag[];
+  SshPublicKeyBody?: string | undefined;
+  Tags?: Tag[] | undefined;
   UserName: string;
 }
 export interface CreateUserResponse {
@@ -458,8 +458,8 @@ export interface CreateUserResponse {
 }
 export type IdentityCenterInstanceArn = string;
 export interface IdentityCenterConfig {
-  InstanceArn?: string;
-  Role?: string;
+  InstanceArn?: string | undefined;
+  Role?: string | undefined;
 }
 export type WebAppIdentityProviderDetails = { IdentityCenterConfig: IdentityCenterConfig };
 export type WebAppAccessEndpoint = string;
@@ -468,19 +468,19 @@ export type WebAppUnits = { Provisioned: number };
 export type WebAppEndpointPolicy = "FIPS" | "STANDARD" | (string & {});
 export type WebAppVpcEndpointIpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export interface WebAppVpcConfig {
-  SubnetIds?: string[];
-  VpcId?: string;
-  SecurityGroupIds?: string[];
-  IpAddressType?: WebAppVpcEndpointIpAddressType;
+  SubnetIds?: string[] | undefined;
+  VpcId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  IpAddressType?: WebAppVpcEndpointIpAddressType | undefined;
 }
 export type WebAppEndpointDetails = { Vpc: WebAppVpcConfig };
 export interface CreateWebAppRequest {
   IdentityProviderDetails: WebAppIdentityProviderDetails;
-  AccessEndpoint?: string;
-  WebAppUnits?: WebAppUnits;
-  Tags?: Tag[];
-  WebAppEndpointPolicy?: WebAppEndpointPolicy;
-  EndpointDetails?: WebAppEndpointDetails;
+  AccessEndpoint?: string | undefined;
+  WebAppUnits?: WebAppUnits | undefined;
+  Tags?: Tag[] | undefined;
+  WebAppEndpointPolicy?: WebAppEndpointPolicy | undefined;
+  EndpointDetails?: WebAppEndpointDetails | undefined;
 }
 export type WebAppId = string;
 export interface CreateWebAppResponse {
@@ -492,38 +492,38 @@ export type WorkflowStepName = string;
 export type S3Bucket = string;
 export type S3Key = string;
 export interface S3InputFileLocation {
-  Bucket?: string;
-  Key?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
 }
 export type EfsFileSystemId = string;
 export type EfsPath = string;
 export interface EfsFileLocation {
-  FileSystemId?: string;
-  Path?: string;
+  FileSystemId?: string | undefined;
+  Path?: string | undefined;
 }
 export interface InputFileLocation {
-  S3FileLocation?: S3InputFileLocation;
-  EfsFileLocation?: EfsFileLocation;
+  S3FileLocation?: S3InputFileLocation | undefined;
+  EfsFileLocation?: EfsFileLocation | undefined;
 }
 export type OverwriteExisting = "TRUE" | "FALSE" | (string & {});
 export type SourceFileLocation = string;
 export interface CopyStepDetails {
-  Name?: string;
-  DestinationFileLocation?: InputFileLocation;
-  OverwriteExisting?: OverwriteExisting;
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  DestinationFileLocation?: InputFileLocation | undefined;
+  OverwriteExisting?: OverwriteExisting | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export type CustomStepTarget = string;
 export type CustomStepTimeoutSeconds = number;
 export interface CustomStepDetails {
-  Name?: string;
-  Target?: string;
-  TimeoutSeconds?: number;
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  Target?: string | undefined;
+  TimeoutSeconds?: number | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export interface DeleteStepDetails {
-  Name?: string;
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export type S3TagKey = string;
 export type S3TagValue = string;
@@ -533,33 +533,33 @@ export interface S3Tag {
 }
 export type S3Tags = S3Tag[];
 export interface TagStepDetails {
-  Name?: string;
-  Tags?: S3Tag[];
-  SourceFileLocation?: string;
+  Name?: string | undefined;
+  Tags?: S3Tag[] | undefined;
+  SourceFileLocation?: string | undefined;
 }
 export type EncryptionType = "PGP" | (string & {});
 export interface DecryptStepDetails {
-  Name?: string;
+  Name?: string | undefined;
   Type: EncryptionType;
-  SourceFileLocation?: string;
-  OverwriteExisting?: OverwriteExisting;
+  SourceFileLocation?: string | undefined;
+  OverwriteExisting?: OverwriteExisting | undefined;
   DestinationFileLocation: InputFileLocation;
 }
 export interface WorkflowStep {
-  Type?: WorkflowStepType;
-  CopyStepDetails?: CopyStepDetails;
-  CustomStepDetails?: CustomStepDetails;
-  DeleteStepDetails?: DeleteStepDetails;
-  TagStepDetails?: TagStepDetails;
-  DecryptStepDetails?: DecryptStepDetails;
+  Type?: WorkflowStepType | undefined;
+  CopyStepDetails?: CopyStepDetails | undefined;
+  CustomStepDetails?: CustomStepDetails | undefined;
+  DeleteStepDetails?: DeleteStepDetails | undefined;
+  TagStepDetails?: TagStepDetails | undefined;
+  DecryptStepDetails?: DecryptStepDetails | undefined;
 }
 export type WorkflowSteps = WorkflowStep[];
 export interface CreateWorkflowRequest {
-  Description?: string;
+  Description?: string | undefined;
   Steps: WorkflowStep[];
-  OnExceptionSteps?: WorkflowStep[];
-  Tags?: Tag[];
-  StructuredLogDestinations?: string[];
+  OnExceptionSteps?: WorkflowStep[] | undefined;
+  Tags?: Tag[] | undefined;
+  StructuredLogDestinations?: string[] | undefined;
 }
 export interface CreateWorkflowResponse {
   WorkflowId: string;
@@ -625,13 +625,13 @@ export interface DescribeAccessRequest {
   ExternalId: string;
 }
 export interface DescribedAccess {
-  HomeDirectory?: string;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  HomeDirectoryType?: HomeDirectoryType;
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
-  ExternalId?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
+  ExternalId?: string | undefined;
 }
 export interface DescribeAccessResponse {
   ServerId: string;
@@ -643,18 +643,18 @@ export interface DescribeAgreementRequest {
 }
 export interface DescribedAgreement {
   Arn: string;
-  AgreementId?: string;
-  Description?: string;
-  Status?: AgreementStatusType;
-  ServerId?: string;
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
-  BaseDirectory?: string;
-  AccessRole?: string;
-  Tags?: Tag[];
-  PreserveFilename?: PreserveFilenameType;
-  EnforceMessageSigning?: EnforceMessageSigningType;
-  CustomDirectories?: CustomDirectoriesType;
+  AgreementId?: string | undefined;
+  Description?: string | undefined;
+  Status?: AgreementStatusType | undefined;
+  ServerId?: string | undefined;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
+  BaseDirectory?: string | undefined;
+  AccessRole?: string | undefined;
+  Tags?: Tag[] | undefined;
+  PreserveFilename?: PreserveFilenameType | undefined;
+  EnforceMessageSigning?: EnforceMessageSigningType | undefined;
+  CustomDirectories?: CustomDirectoriesType | undefined;
 }
 export interface DescribeAgreementResponse {
   Agreement: DescribedAgreement;
@@ -671,19 +671,19 @@ export type CertSerial = string;
 export type CertificateType = "CERTIFICATE" | "CERTIFICATE_WITH_PRIVATE_KEY" | (string & {});
 export interface DescribedCertificate {
   Arn: string;
-  CertificateId?: string;
-  Usage?: CertificateUsageType;
-  Status?: CertificateStatusType;
-  Certificate?: string | redacted.Redacted<string>;
-  CertificateChain?: string | redacted.Redacted<string>;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Serial?: string;
-  NotBeforeDate?: Date;
-  NotAfterDate?: Date;
-  Type?: CertificateType;
-  Description?: string;
-  Tags?: Tag[];
+  CertificateId?: string | undefined;
+  Usage?: CertificateUsageType | undefined;
+  Status?: CertificateStatusType | undefined;
+  Certificate?: string | redacted.Redacted<string> | undefined;
+  CertificateChain?: string | redacted.Redacted<string> | undefined;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Serial?: string | undefined;
+  NotBeforeDate?: Date | undefined;
+  NotAfterDate?: Date | undefined;
+  Type?: CertificateType | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribeCertificateResponse {
   Certificate: DescribedCertificate;
@@ -695,7 +695,7 @@ export type ServiceManagedEgressIpAddress = string;
 export type ServiceManagedEgressIpAddresses = string[];
 export interface DescribedConnectorVpcLatticeEgressConfig {
   ResourceConfigurationArn: string;
-  PortNumber?: number;
+  PortNumber?: number | undefined;
 }
 export type DescribedConnectorEgressConfig = {
   VpcLattice: DescribedConnectorVpcLatticeEgressConfig;
@@ -705,20 +705,20 @@ export type ConnectorErrorMessage = string;
 export type ConnectorStatus = "ACTIVE" | "ERRORED" | "PENDING" | (string & {});
 export interface DescribedConnector {
   Arn: string;
-  ConnectorId?: string;
-  Url?: string;
-  As2Config?: As2ConnectorConfig;
-  AccessRole?: string;
-  LoggingRole?: string;
-  Tags?: Tag[];
-  SftpConfig?: SftpConnectorConfig;
-  ServiceManagedEgressIpAddresses?: string[];
-  SecurityPolicyName?: string;
-  EgressConfig?: DescribedConnectorEgressConfig;
+  ConnectorId?: string | undefined;
+  Url?: string | undefined;
+  As2Config?: As2ConnectorConfig | undefined;
+  AccessRole?: string | undefined;
+  LoggingRole?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SftpConfig?: SftpConnectorConfig | undefined;
+  ServiceManagedEgressIpAddresses?: string[] | undefined;
+  SecurityPolicyName?: string | undefined;
+  EgressConfig?: DescribedConnectorEgressConfig | undefined;
   EgressType: ConnectorEgressType;
-  ErrorMessage?: string;
+  ErrorMessage?: string | undefined;
   Status: ConnectorStatus;
-  IpAddressType?: ConnectorsIpAddressType;
+  IpAddressType?: ConnectorsIpAddressType | undefined;
 }
 export interface DescribeConnectorResponse {
   Connector: DescribedConnector;
@@ -731,28 +731,28 @@ export interface DescribeExecutionRequest {
 export type S3VersionId = string;
 export type S3Etag = string;
 export interface S3FileLocation {
-  Bucket?: string;
-  Key?: string;
-  VersionId?: string;
-  Etag?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
+  Etag?: string | undefined;
 }
 export interface FileLocation {
-  S3FileLocation?: S3FileLocation;
-  EfsFileLocation?: EfsFileLocation;
+  S3FileLocation?: S3FileLocation | undefined;
+  EfsFileLocation?: EfsFileLocation | undefined;
 }
 export type SessionId = string;
 export interface UserDetails {
   UserName: string;
   ServerId: string;
-  SessionId?: string;
+  SessionId?: string | undefined;
 }
 export interface ServiceMetadata {
   UserDetails: UserDetails;
 }
 export type LogGroupName = string;
 export interface LoggingConfiguration {
-  LoggingRole?: string;
-  LogGroupName?: string;
+  LoggingRole?: string | undefined;
+  LogGroupName?: string | undefined;
 }
 export type ExecutionStatus =
   | "IN_PROGRESS"
@@ -777,24 +777,24 @@ export interface ExecutionError {
   Message: string;
 }
 export interface ExecutionStepResult {
-  StepType?: WorkflowStepType;
-  Outputs?: string;
-  Error?: ExecutionError;
+  StepType?: WorkflowStepType | undefined;
+  Outputs?: string | undefined;
+  Error?: ExecutionError | undefined;
 }
 export type ExecutionStepResults = ExecutionStepResult[];
 export interface ExecutionResults {
-  Steps?: ExecutionStepResult[];
-  OnExceptionSteps?: ExecutionStepResult[];
+  Steps?: ExecutionStepResult[] | undefined;
+  OnExceptionSteps?: ExecutionStepResult[] | undefined;
 }
 export interface DescribedExecution {
-  ExecutionId?: string;
-  InitialFileLocation?: FileLocation;
-  ServiceMetadata?: ServiceMetadata;
-  ExecutionRole?: string;
-  LoggingConfiguration?: LoggingConfiguration;
-  PosixProfile?: PosixProfile;
-  Status?: ExecutionStatus;
-  Results?: ExecutionResults;
+  ExecutionId?: string | undefined;
+  InitialFileLocation?: FileLocation | undefined;
+  ServiceMetadata?: ServiceMetadata | undefined;
+  ExecutionRole?: string | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Status?: ExecutionStatus | undefined;
+  Results?: ExecutionResults | undefined;
 }
 export interface DescribeExecutionResponse {
   WorkflowId: string;
@@ -810,14 +810,14 @@ export type HostKeyType = string;
 export type DateImported = Date;
 export interface DescribedHostKey {
   Arn: string;
-  HostKeyId?: string;
-  HostKeyFingerprint?: string;
-  Description?: string;
-  Type?: string;
-  DateImported?: Date;
-  Tags?: Tag[];
-  StorageType?: HostKeyStorageType;
-  SecretId?: string;
+  HostKeyId?: string | undefined;
+  HostKeyFingerprint?: string | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  DateImported?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  SecretId?: string | undefined;
 }
 export interface DescribeHostKeyResponse {
   HostKey: DescribedHostKey;
@@ -827,11 +827,11 @@ export interface DescribeProfileRequest {
 }
 export interface DescribedProfile {
   Arn: string;
-  ProfileId?: string;
-  ProfileType?: ProfileType;
-  As2Id?: string;
-  CertificateIds?: string[];
-  Tags?: Tag[];
+  ProfileId?: string | undefined;
+  ProfileType?: ProfileType | undefined;
+  As2Id?: string | undefined;
+  CertificateIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface DescribeProfileResponse {
   Profile: DescribedProfile;
@@ -846,15 +846,15 @@ export type SecurityPolicyResourceType = "SERVER" | "CONNECTOR" | (string & {});
 export type SecurityPolicyProtocol = "SFTP" | "FTPS" | (string & {});
 export type SecurityPolicyProtocols = SecurityPolicyProtocol[];
 export interface DescribedSecurityPolicy {
-  Fips?: boolean;
+  Fips?: boolean | undefined;
   SecurityPolicyName: string;
-  SshCiphers?: string[];
-  SshKexs?: string[];
-  SshMacs?: string[];
-  TlsCiphers?: string[];
-  SshHostKeyAlgorithms?: string[];
-  Type?: SecurityPolicyResourceType;
-  Protocols?: SecurityPolicyProtocol[];
+  SshCiphers?: string[] | undefined;
+  SshKexs?: string[] | undefined;
+  SshMacs?: string[] | undefined;
+  TlsCiphers?: string[] | undefined;
+  SshHostKeyAlgorithms?: string[] | undefined;
+  Type?: SecurityPolicyResourceType | undefined;
+  Protocols?: SecurityPolicyProtocol[] | undefined;
 }
 export interface DescribeSecurityPolicyResponse {
   SecurityPolicy: DescribedSecurityPolicy;
@@ -873,28 +873,28 @@ export type State =
 export type UserCount = number;
 export interface DescribedServer {
   Arn: string;
-  Certificate?: string;
-  ProtocolDetails?: ProtocolDetails;
-  Domain?: Domain;
-  EndpointDetails?: EndpointDetails;
-  EndpointType?: EndpointType;
-  HostKeyFingerprint?: string;
-  IdentityProviderDetails?: IdentityProviderDetails;
-  IdentityProviderType?: IdentityProviderType;
-  LoggingRole?: string;
-  PostAuthenticationLoginBanner?: string;
-  PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocol[];
-  SecurityPolicyName?: string;
-  ServerId?: string;
-  State?: State;
-  Tags?: Tag[];
-  UserCount?: number;
-  WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: string[];
-  S3StorageOptions?: S3StorageOptions;
-  As2ServiceManagedEgressIpAddresses?: string[];
-  IpAddressType?: IpAddressType;
+  Certificate?: string | undefined;
+  ProtocolDetails?: ProtocolDetails | undefined;
+  Domain?: Domain | undefined;
+  EndpointDetails?: EndpointDetails | undefined;
+  EndpointType?: EndpointType | undefined;
+  HostKeyFingerprint?: string | undefined;
+  IdentityProviderDetails?: IdentityProviderDetails | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
+  LoggingRole?: string | undefined;
+  PostAuthenticationLoginBanner?: string | undefined;
+  PreAuthenticationLoginBanner?: string | undefined;
+  Protocols?: Protocol[] | undefined;
+  SecurityPolicyName?: string | undefined;
+  ServerId?: string | undefined;
+  State?: State | undefined;
+  Tags?: Tag[] | undefined;
+  UserCount?: number | undefined;
+  WorkflowDetails?: WorkflowDetails | undefined;
+  StructuredLogDestinations?: string[] | undefined;
+  S3StorageOptions?: S3StorageOptions | undefined;
+  As2ServiceManagedEgressIpAddresses?: string[] | undefined;
+  IpAddressType?: IpAddressType | undefined;
 }
 export interface DescribeServerResponse {
   Server: DescribedServer;
@@ -911,15 +911,15 @@ export interface SshPublicKey {
 export type SshPublicKeys = SshPublicKey[];
 export interface DescribedUser {
   Arn: string;
-  HomeDirectory?: string;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  HomeDirectoryType?: HomeDirectoryType;
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
-  SshPublicKeys?: SshPublicKey[];
-  Tags?: Tag[];
-  UserName?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
+  SshPublicKeys?: SshPublicKey[] | undefined;
+  Tags?: Tag[] | undefined;
+  UserName?: string | undefined;
 }
 export interface DescribeUserResponse {
   ServerId: string;
@@ -930,9 +930,9 @@ export interface DescribeWebAppRequest {
 }
 export type IdentityCenterApplicationArn = string;
 export interface DescribedIdentityCenterConfig {
-  ApplicationArn?: string;
-  InstanceArn?: string;
-  Role?: string;
+  ApplicationArn?: string | undefined;
+  InstanceArn?: string | undefined;
+  Role?: string | undefined;
 }
 export type DescribedWebAppIdentityProviderDetails = {
   IdentityCenterConfig: DescribedIdentityCenterConfig;
@@ -940,22 +940,22 @@ export type DescribedWebAppIdentityProviderDetails = {
 export type WebAppEndpoint = string;
 export type WebAppEndpointType = "PUBLIC" | "VPC" | (string & {});
 export interface DescribedWebAppVpcConfig {
-  SubnetIds?: string[];
-  VpcId?: string;
-  VpcEndpointId?: string;
+  SubnetIds?: string[] | undefined;
+  VpcId?: string | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export type DescribedWebAppEndpointDetails = { Vpc: DescribedWebAppVpcConfig };
 export interface DescribedWebApp {
   Arn: string;
   WebAppId: string;
-  DescribedIdentityProviderDetails?: DescribedWebAppIdentityProviderDetails;
-  AccessEndpoint?: string;
-  WebAppEndpoint?: string;
-  WebAppUnits?: WebAppUnits;
-  Tags?: Tag[];
-  WebAppEndpointPolicy?: WebAppEndpointPolicy;
-  EndpointType?: WebAppEndpointType;
-  DescribedEndpointDetails?: DescribedWebAppEndpointDetails;
+  DescribedIdentityProviderDetails?: DescribedWebAppIdentityProviderDetails | undefined;
+  AccessEndpoint?: string | undefined;
+  WebAppEndpoint?: string | undefined;
+  WebAppUnits?: WebAppUnits | undefined;
+  Tags?: Tag[] | undefined;
+  WebAppEndpointPolicy?: WebAppEndpointPolicy | undefined;
+  EndpointType?: WebAppEndpointType | undefined;
+  DescribedEndpointDetails?: DescribedWebAppEndpointDetails | undefined;
 }
 export interface DescribeWebAppResponse {
   WebApp: DescribedWebApp;
@@ -969,9 +969,9 @@ export type WebAppFaviconFile = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface DescribedWebAppCustomization {
   Arn: string;
   WebAppId: string;
-  Title?: string;
-  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array>;
-  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array>;
+  Title?: string | undefined;
+  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export interface DescribeWebAppCustomizationResponse {
   WebAppCustomization: DescribedWebAppCustomization;
@@ -981,12 +981,12 @@ export interface DescribeWorkflowRequest {
 }
 export interface DescribedWorkflow {
   Arn: string;
-  Description?: string;
-  Steps?: WorkflowStep[];
-  OnExceptionSteps?: WorkflowStep[];
-  WorkflowId?: string;
-  Tags?: Tag[];
-  StructuredLogDestinations?: string[];
+  Description?: string | undefined;
+  Steps?: WorkflowStep[] | undefined;
+  OnExceptionSteps?: WorkflowStep[] | undefined;
+  WorkflowId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  StructuredLogDestinations?: string[] | undefined;
 }
 export interface DescribeWorkflowResponse {
   Workflow: DescribedWorkflow;
@@ -995,12 +995,12 @@ export type PrivateKeyType = string | redacted.Redacted<string>;
 export interface ImportCertificateRequest {
   Usage: CertificateUsageType;
   Certificate: string | redacted.Redacted<string>;
-  CertificateChain?: string | redacted.Redacted<string>;
-  PrivateKey?: string | redacted.Redacted<string>;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Description?: string;
-  Tags?: Tag[];
+  CertificateChain?: string | redacted.Redacted<string> | undefined;
+  PrivateKey?: string | redacted.Redacted<string> | undefined;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportCertificateResponse {
   CertificateId: string;
@@ -1009,10 +1009,10 @@ export type KmsKey = string;
 export interface ImportHostKeyRequest {
   ServerId: string;
   HostKeyBody: string | redacted.Redacted<string>;
-  Description?: string;
-  Tags?: Tag[];
-  StorageType?: HostKeyStorageType;
-  KmsKey?: string;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  KmsKey?: string | undefined;
 }
 export interface ImportHostKeyResponse {
   ServerId: string;
@@ -1031,88 +1031,88 @@ export interface ImportSshPublicKeyResponse {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAccessesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export interface ListedAccess {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  Role?: string;
-  ExternalId?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Role?: string | undefined;
+  ExternalId?: string | undefined;
 }
 export type ListedAccesses = ListedAccess[];
 export interface ListAccessesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ServerId: string;
   Accesses: ListedAccess[];
 }
 export interface ListAgreementsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export interface ListedAgreement {
-  Arn?: string;
-  AgreementId?: string;
-  Description?: string;
-  Status?: AgreementStatusType;
-  ServerId?: string;
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
+  Arn?: string | undefined;
+  AgreementId?: string | undefined;
+  Description?: string | undefined;
+  Status?: AgreementStatusType | undefined;
+  ServerId?: string | undefined;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
 }
 export type ListedAgreements = ListedAgreement[];
 export interface ListAgreementsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Agreements: ListedAgreement[];
 }
 export interface ListCertificatesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedCertificate {
-  Arn?: string;
-  CertificateId?: string;
-  Usage?: CertificateUsageType;
-  Status?: CertificateStatusType;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Type?: CertificateType;
-  Description?: string;
+  Arn?: string | undefined;
+  CertificateId?: string | undefined;
+  Usage?: CertificateUsageType | undefined;
+  Status?: CertificateStatusType | undefined;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Type?: CertificateType | undefined;
+  Description?: string | undefined;
 }
 export type ListedCertificates = ListedCertificate[];
 export interface ListCertificatesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Certificates: ListedCertificate[];
 }
 export interface ListConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedConnector {
-  Arn?: string;
-  ConnectorId?: string;
-  Url?: string;
+  Arn?: string | undefined;
+  ConnectorId?: string | undefined;
+  Url?: string | undefined;
 }
 export type ListedConnectors = ListedConnector[];
 export interface ListConnectorsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Connectors: ListedConnector[];
 }
 export interface ListExecutionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   WorkflowId: string;
 }
 export interface ListedExecution {
-  ExecutionId?: string;
-  InitialFileLocation?: FileLocation;
-  ServiceMetadata?: ServiceMetadata;
-  Status?: ExecutionStatus;
+  ExecutionId?: string | undefined;
+  InitialFileLocation?: FileLocation | undefined;
+  ServiceMetadata?: ServiceMetadata | undefined;
+  Status?: ExecutionStatus | undefined;
 }
 export type ListedExecutions = ListedExecution[];
 export interface ListExecutionsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   WorkflowId: string;
   Executions: ListedExecution[];
 }
@@ -1120,8 +1120,8 @@ export type TransferId = string;
 export interface ListFileTransferResultsRequest {
   ConnectorId: string;
   TransferId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FilePath = string;
 export type TransferTableStatus = "QUEUED" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
@@ -1130,137 +1130,137 @@ export type Message = string;
 export interface ConnectorFileTransferResult {
   FilePath: string;
   StatusCode: TransferTableStatus;
-  FailureCode?: string;
-  FailureMessage?: string;
+  FailureCode?: string | undefined;
+  FailureMessage?: string | undefined;
 }
 export type ConnectorFileTransferResults = ConnectorFileTransferResult[];
 export interface ListFileTransferResultsResponse {
   FileTransferResults: ConnectorFileTransferResult[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHostKeysRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export interface ListedHostKey {
   Arn: string;
-  HostKeyId?: string;
-  Fingerprint?: string;
-  Description?: string;
-  Type?: string;
-  DateImported?: Date;
-  StorageType?: HostKeyStorageType;
-  SecretId?: string;
+  HostKeyId?: string | undefined;
+  Fingerprint?: string | undefined;
+  Description?: string | undefined;
+  Type?: string | undefined;
+  DateImported?: Date | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  SecretId?: string | undefined;
 }
 export type ListedHostKeys = ListedHostKey[];
 export interface ListHostKeysResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ServerId: string;
   HostKeys: ListedHostKey[];
 }
 export interface ListProfilesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ProfileType?: ProfileType;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ProfileType?: ProfileType | undefined;
 }
 export interface ListedProfile {
-  Arn?: string;
-  ProfileId?: string;
-  As2Id?: string;
-  ProfileType?: ProfileType;
+  Arn?: string | undefined;
+  ProfileId?: string | undefined;
+  As2Id?: string | undefined;
+  ProfileType?: ProfileType | undefined;
 }
 export type ListedProfiles = ListedProfile[];
 export interface ListProfilesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Profiles: ListedProfile[];
 }
 export interface ListSecurityPoliciesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SecurityPolicyNames = string[];
 export interface ListSecurityPoliciesResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   SecurityPolicyNames: string[];
 }
 export interface ListServersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedServer {
   Arn: string;
-  Domain?: Domain;
-  IdentityProviderType?: IdentityProviderType;
-  EndpointType?: EndpointType;
-  LoggingRole?: string;
-  ServerId?: string;
-  State?: State;
-  UserCount?: number;
+  Domain?: Domain | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
+  EndpointType?: EndpointType | undefined;
+  LoggingRole?: string | undefined;
+  ServerId?: string | undefined;
+  State?: State | undefined;
+  UserCount?: number | undefined;
 }
 export type ListedServers = ListedServer[];
 export interface ListServersResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Servers: ListedServer[];
 }
 export interface ListTagsForResourceRequest {
   Arn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Arn?: string;
-  NextToken?: string;
-  Tags?: Tag[];
+  Arn?: string | undefined;
+  NextToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ListUsersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ServerId: string;
 }
 export type SshPublicKeyCount = number;
 export interface ListedUser {
   Arn: string;
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  Role?: string;
-  SshPublicKeyCount?: number;
-  UserName?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  Role?: string | undefined;
+  SshPublicKeyCount?: number | undefined;
+  UserName?: string | undefined;
 }
 export type ListedUsers = ListedUser[];
 export interface ListUsersResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   ServerId: string;
   Users: ListedUser[];
 }
 export interface ListWebAppsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedWebApp {
   Arn: string;
   WebAppId: string;
-  AccessEndpoint?: string;
-  WebAppEndpoint?: string;
-  EndpointType?: WebAppEndpointType;
+  AccessEndpoint?: string | undefined;
+  WebAppEndpoint?: string | undefined;
+  EndpointType?: WebAppEndpointType | undefined;
 }
 export type ListedWebApps = ListedWebApp[];
 export interface ListWebAppsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   WebApps: ListedWebApp[];
 }
 export interface ListWorkflowsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListedWorkflow {
-  WorkflowId?: string;
-  Description?: string;
-  Arn?: string;
+  WorkflowId?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
 }
 export type ListedWorkflows = ListedWorkflow[];
 export interface ListWorkflowsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Workflows: ListedWorkflow[];
 }
 export type CallbackToken = string;
@@ -1276,7 +1276,7 @@ export type MaxItems = number;
 export interface StartDirectoryListingRequest {
   ConnectorId: string;
   RemoteDirectoryPath: string;
-  MaxItems?: number;
+  MaxItems?: number | undefined;
   OutputDirectoryPath: string;
 }
 export type ListingId = string;
@@ -1289,17 +1289,17 @@ export type FilePaths = string[];
 export type CustomHttpHeaderKeyType = string | redacted.Redacted<string>;
 export type CustomHttpHeaderValueType = string | redacted.Redacted<string>;
 export interface CustomHttpHeader {
-  Key?: string | redacted.Redacted<string>;
-  Value?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
 }
 export type CustomHttpHeaders = CustomHttpHeader[];
 export interface StartFileTransferRequest {
   ConnectorId: string;
-  SendFilePaths?: string[];
-  RetrieveFilePaths?: string[];
-  LocalDirectoryPath?: string;
-  RemoteDirectoryPath?: string;
-  CustomHttpHeaders?: CustomHttpHeader[];
+  SendFilePaths?: string[] | undefined;
+  RetrieveFilePaths?: string[] | undefined;
+  LocalDirectoryPath?: string | undefined;
+  RemoteDirectoryPath?: string | undefined;
+  CustomHttpHeaders?: CustomHttpHeader[] | undefined;
 }
 export interface StartFileTransferResponse {
   TransferId: string;
@@ -1340,29 +1340,29 @@ export interface TestConnectionRequest {
 export type Status = string;
 export type SftpConnectorHostKey = string;
 export interface SftpConnectorConnectionDetails {
-  HostKey?: string;
+  HostKey?: string | undefined;
 }
 export interface TestConnectionResponse {
-  ConnectorId?: string;
-  Status?: string;
-  StatusMessage?: string;
-  SftpConnectionDetails?: SftpConnectorConnectionDetails;
+  ConnectorId?: string | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
+  SftpConnectionDetails?: SftpConnectorConnectionDetails | undefined;
 }
 export type SourceIp = string;
 export type UserPassword = string | redacted.Redacted<string>;
 export interface TestIdentityProviderRequest {
   ServerId: string;
-  ServerProtocol?: Protocol;
-  SourceIp?: string;
+  ServerProtocol?: Protocol | undefined;
+  SourceIp?: string | undefined;
   UserName: string;
-  UserPassword?: string | redacted.Redacted<string>;
+  UserPassword?: string | redacted.Redacted<string> | undefined;
 }
 export type Response = string;
 export type StatusCode = number;
 export interface TestIdentityProviderResponse {
-  Response?: string;
+  Response?: string | undefined;
   StatusCode: number;
-  Message?: string;
+  Message?: string | undefined;
   Url: string;
 }
 export type TagKeys = string[];
@@ -1372,12 +1372,12 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAccessRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
   ServerId: string;
   ExternalId: string;
 }
@@ -1388,43 +1388,43 @@ export interface UpdateAccessResponse {
 export interface UpdateAgreementRequest {
   AgreementId: string;
   ServerId: string;
-  Description?: string;
-  Status?: AgreementStatusType;
-  LocalProfileId?: string;
-  PartnerProfileId?: string;
-  BaseDirectory?: string;
-  AccessRole?: string;
-  PreserveFilename?: PreserveFilenameType;
-  EnforceMessageSigning?: EnforceMessageSigningType;
-  CustomDirectories?: CustomDirectoriesType;
+  Description?: string | undefined;
+  Status?: AgreementStatusType | undefined;
+  LocalProfileId?: string | undefined;
+  PartnerProfileId?: string | undefined;
+  BaseDirectory?: string | undefined;
+  AccessRole?: string | undefined;
+  PreserveFilename?: PreserveFilenameType | undefined;
+  EnforceMessageSigning?: EnforceMessageSigningType | undefined;
+  CustomDirectories?: CustomDirectoriesType | undefined;
 }
 export interface UpdateAgreementResponse {
   AgreementId: string;
 }
 export interface UpdateCertificateRequest {
   CertificateId: string;
-  ActiveDate?: Date;
-  InactiveDate?: Date;
-  Description?: string;
+  ActiveDate?: Date | undefined;
+  InactiveDate?: Date | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateCertificateResponse {
   CertificateId: string;
 }
 export interface UpdateConnectorVpcLatticeEgressConfig {
-  ResourceConfigurationArn?: string;
-  PortNumber?: number;
+  ResourceConfigurationArn?: string | undefined;
+  PortNumber?: number | undefined;
 }
 export type UpdateConnectorEgressConfig = { VpcLattice: UpdateConnectorVpcLatticeEgressConfig };
 export interface UpdateConnectorRequest {
   ConnectorId: string;
-  Url?: string;
-  As2Config?: As2ConnectorConfig;
-  AccessRole?: string;
-  LoggingRole?: string;
-  SftpConfig?: SftpConnectorConfig;
-  SecurityPolicyName?: string;
-  EgressConfig?: UpdateConnectorEgressConfig;
-  IpAddressType?: ConnectorsIpAddressType;
+  Url?: string | undefined;
+  As2Config?: As2ConnectorConfig | undefined;
+  AccessRole?: string | undefined;
+  LoggingRole?: string | undefined;
+  SftpConfig?: SftpConnectorConfig | undefined;
+  SecurityPolicyName?: string | undefined;
+  EgressConfig?: UpdateConnectorEgressConfig | undefined;
+  IpAddressType?: ConnectorsIpAddressType | undefined;
 }
 export interface UpdateConnectorResponse {
   ConnectorId: string;
@@ -1432,9 +1432,9 @@ export interface UpdateConnectorResponse {
 export interface UpdateHostKeyRequest {
   ServerId: string;
   HostKeyId: string;
-  Description?: string;
-  StorageType?: HostKeyStorageType;
-  KmsKey?: string;
+  Description?: string | undefined;
+  StorageType?: HostKeyStorageType | undefined;
+  KmsKey?: string | undefined;
 }
 export interface UpdateHostKeyResponse {
   ServerId: string;
@@ -1442,40 +1442,40 @@ export interface UpdateHostKeyResponse {
 }
 export interface UpdateProfileRequest {
   ProfileId: string;
-  CertificateIds?: string[];
+  CertificateIds?: string[] | undefined;
 }
 export interface UpdateProfileResponse {
   ProfileId: string;
 }
 export interface UpdateServerRequest {
-  Certificate?: string;
-  ProtocolDetails?: ProtocolDetails;
-  EndpointDetails?: EndpointDetails;
-  EndpointType?: EndpointType;
-  HostKey?: string | redacted.Redacted<string>;
-  IdentityProviderDetails?: IdentityProviderDetails;
-  LoggingRole?: string;
-  PostAuthenticationLoginBanner?: string;
-  PreAuthenticationLoginBanner?: string;
-  Protocols?: Protocol[];
-  SecurityPolicyName?: string;
+  Certificate?: string | undefined;
+  ProtocolDetails?: ProtocolDetails | undefined;
+  EndpointDetails?: EndpointDetails | undefined;
+  EndpointType?: EndpointType | undefined;
+  HostKey?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderDetails?: IdentityProviderDetails | undefined;
+  LoggingRole?: string | undefined;
+  PostAuthenticationLoginBanner?: string | undefined;
+  PreAuthenticationLoginBanner?: string | undefined;
+  Protocols?: Protocol[] | undefined;
+  SecurityPolicyName?: string | undefined;
   ServerId: string;
-  WorkflowDetails?: WorkflowDetails;
-  StructuredLogDestinations?: string[];
-  S3StorageOptions?: S3StorageOptions;
-  IpAddressType?: IpAddressType;
-  IdentityProviderType?: IdentityProviderType;
+  WorkflowDetails?: WorkflowDetails | undefined;
+  StructuredLogDestinations?: string[] | undefined;
+  S3StorageOptions?: S3StorageOptions | undefined;
+  IpAddressType?: IpAddressType | undefined;
+  IdentityProviderType?: IdentityProviderType | undefined;
 }
 export interface UpdateServerResponse {
   ServerId: string;
 }
 export interface UpdateUserRequest {
-  HomeDirectory?: string;
-  HomeDirectoryType?: HomeDirectoryType;
-  HomeDirectoryMappings?: HomeDirectoryMapEntry[];
-  Policy?: string;
-  PosixProfile?: PosixProfile;
-  Role?: string;
+  HomeDirectory?: string | undefined;
+  HomeDirectoryType?: HomeDirectoryType | undefined;
+  HomeDirectoryMappings?: HomeDirectoryMapEntry[] | undefined;
+  Policy?: string | undefined;
+  PosixProfile?: PosixProfile | undefined;
+  Role?: string | undefined;
   ServerId: string;
   UserName: string;
 }
@@ -1484,31 +1484,31 @@ export interface UpdateUserResponse {
   UserName: string;
 }
 export interface UpdateWebAppIdentityCenterConfig {
-  Role?: string;
+  Role?: string | undefined;
 }
 export type UpdateWebAppIdentityProviderDetails = {
   IdentityCenterConfig: UpdateWebAppIdentityCenterConfig;
 };
 export interface UpdateWebAppVpcConfig {
-  SubnetIds?: string[];
-  IpAddressType?: WebAppVpcEndpointIpAddressType;
+  SubnetIds?: string[] | undefined;
+  IpAddressType?: WebAppVpcEndpointIpAddressType | undefined;
 }
 export type UpdateWebAppEndpointDetails = { Vpc: UpdateWebAppVpcConfig };
 export interface UpdateWebAppRequest {
   WebAppId: string;
-  IdentityProviderDetails?: UpdateWebAppIdentityProviderDetails;
-  AccessEndpoint?: string;
-  WebAppUnits?: WebAppUnits;
-  EndpointDetails?: UpdateWebAppEndpointDetails;
+  IdentityProviderDetails?: UpdateWebAppIdentityProviderDetails | undefined;
+  AccessEndpoint?: string | undefined;
+  WebAppUnits?: WebAppUnits | undefined;
+  EndpointDetails?: UpdateWebAppEndpointDetails | undefined;
 }
 export interface UpdateWebAppResponse {
   WebAppId: string;
 }
 export interface UpdateWebAppCustomizationRequest {
   WebAppId: string;
-  Title?: string;
-  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array>;
-  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array>;
+  Title?: string | undefined;
+  LogoFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  FaviconFile?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export interface UpdateWebAppCustomizationResponse {
   WebAppId: string;

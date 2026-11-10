@@ -86,19 +86,19 @@ export class NotFound
 /** The SSH public key information associated with a Google account. */
 export interface SshPublicKey {
   /** Required. Public key text in SSH format, defined by [RFC4253](https://www.ietf.org/rfc/rfc4253.txt) section 6.6. */
-  key?: string;
+  key?: string | undefined;
   /** Output only. The canonical resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The SHA-256 fingerprint of the SSH public key. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** An expiration time in microseconds since epoch. */
-  expirationTimeUsec?: string;
+  expirationTimeUsec?: string | undefined;
 }
 export interface CreateUsersSshPublicKeysRequest {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
   /** Request body */
-  body?: SshPublicKey;
+  body?: SshPublicKey | undefined;
 }
 export interface DeleteUsersProjectsRequest {
   /** Required. A reference to the POSIX account to update. POSIX accounts are identified by the project ID they are associated with. A reference to the POSIX account is in format `users/{user}/projects/{project}`. */
@@ -118,11 +118,11 @@ export interface GetLoginProfileUsersRequest {
   /** Required. The unique ID for the user in format `users/{user}`. */
   name: string;
   /** Required. The project ID of the Google Cloud Platform project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Optional. A system ID for filtering the results of the request. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** The view configures whether to retrieve security keys information. */
-  view?: GetLoginProfileUsersViewEnum | (string & {});
+  view?: GetLoginProfileUsersViewEnum | (string & {}) | undefined;
 }
 export type SshPublicKeyMap = { [key: string]: SshPublicKey | undefined };
 export type PosixAccountOperatingSystemTypeEnum =
@@ -132,63 +132,63 @@ export type PosixAccountOperatingSystemTypeEnum =
 /** The POSIX account information associated with a Google account. */
 export interface PosixAccount {
   /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Only one POSIX account can be marked as primary. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The GECOS (user information) entry for this account. */
-  gecos?: string;
+  gecos?: string | undefined;
   /** The path to the logic shell for this account. */
-  shell?: string;
+  shell?: string | undefined;
   /** The operating system type where this account applies. */
-  operatingSystemType?: PosixAccountOperatingSystemTypeEnum;
+  operatingSystemType?: PosixAccountOperatingSystemTypeEnum | undefined;
   /** The default group ID. */
-  gid?: string;
+  gid?: string | undefined;
   /** The username of the POSIX account. */
-  username?: string;
+  username?: string | undefined;
   /** The user ID. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. A POSIX account identifier. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The path to the home directory for this account. */
-  homeDirectory?: string;
+  homeDirectory?: string | undefined;
   /** Output only. The canonical resource name. */
-  name?: string;
+  name?: string | undefined;
 }
 export type PosixAccountList = Array<PosixAccount>;
 /** Security key information specific to the Web Authentication protocol. */
 export interface WebAuthn {
   /** Relying party ID for Web Authentication. */
-  rpId?: string;
+  rpId?: string | undefined;
 }
 /** Security key information specific to the U2F protocol. */
 export interface UniversalTwoFactor {
   /** Application ID for the U2F protocol. */
-  appId?: string;
+  appId?: string | undefined;
 }
 /** The credential information for a Google registered security key. */
 export interface SecurityKey {
   /** Hardware-backed private key text in SSH format. */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** The security key nickname explicitly set by the user. */
-  deviceNickname?: string;
+  deviceNickname?: string | undefined;
   /** The Web Authentication protocol type. */
-  webAuthn?: WebAuthn;
+  webAuthn?: WebAuthn | undefined;
   /** The U2F protocol type. */
-  universalTwoFactor?: UniversalTwoFactor;
+  universalTwoFactor?: UniversalTwoFactor | undefined;
   /** Public key text in SSH format, defined by [RFC4253]("https://www.ietf.org/rfc/rfc4253.txt") section 6.6. */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export type SecurityKeyList = Array<SecurityKey>;
 /** The user profile information used for logging in to a virtual machine on Google Compute Engine. */
 export interface LoginProfile {
   /** Required. A unique user ID. */
-  name?: string;
+  name?: string | undefined;
   /** A map from SSH public key fingerprint to the associated key object. */
-  sshPublicKeys?: SshPublicKeyMap;
+  sshPublicKeys?: SshPublicKeyMap | undefined;
   /** The list of POSIX accounts associated with the user. */
-  posixAccounts?: PosixAccountList;
+  posixAccounts?: PosixAccountList | undefined;
   /** The registered security key credentials for a user. */
-  securityKeys?: SecurityKeyList;
+  securityKeys?: SecurityKeyList | undefined;
 }
 export interface GetUsersSshPublicKeysRequest {
   /** Required. The fingerprint of the public key to retrieve. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
@@ -201,85 +201,85 @@ export type ImportSshPublicKeyUsersViewEnum =
   | "SECURITY_KEY";
 export interface ImportSshPublicKeyUsersRequest {
   /** Optional. The regions to which to assert that the key was written. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
-  regions?: StringList;
+  regions?: StringList | undefined;
   /** The project ID of the Google Cloud Platform project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** The view configures whether to retrieve security keys information. */
-  view?: ImportSshPublicKeyUsersViewEnum | (string & {});
+  view?: ImportSshPublicKeyUsersViewEnum | (string & {}) | undefined;
   /** The unique ID for the user in format `users/{user}`. */
   parent: string;
   /** Request body */
-  body?: SshPublicKey;
+  body?: SshPublicKey | undefined;
 }
 /** A response message for importing an SSH public key. */
 export interface ImportSshPublicKeyResponse {
   /** The login profile information for the user. */
-  loginProfile?: LoginProfile;
+  loginProfile?: LoginProfile | undefined;
   /** Detailed information about import results. */
-  details?: string;
+  details?: string | undefined;
 }
 export interface PatchUsersSshPublicKeysRequest {
   /** Mask to control which fields get updated. Updates all if not present. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The fingerprint of the public key to update. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
   name: string;
   /** Request body */
-  body?: SshPublicKey;
+  body?: SshPublicKey | undefined;
 }
 /** A request message for creating a POSIX account entry. */
 export interface ProvisionPosixAccountRequest {
   /** Optional. The regions to wait for a POSIX account to be written to before returning a response. If unspecified, defaults to all regions. Regions are listed at https://cloud.google.com/about/locations#region. */
-  regions?: StringList;
+  regions?: StringList | undefined;
 }
 export interface ProvisionPosixAccountUsersProjectsRequest {
   /** Required. The unique ID for the user in format `users/{user}/projects/{project}`. */
   name: string;
   /** Request body */
-  body?: ProvisionPosixAccountRequest;
+  body?: ProvisionPosixAccountRequest | undefined;
 }
 /** A request message for signing an SSH public key. */
 export interface GoogleCloudOsloginControlplaneRegionalV1betaSignSshPublicKeyRequest {
   /** The App Engine instance to sign the SSH public key for. Expected format: apps/{app}/services/{service}/versions/{version}/instances/{instance} */
-  appEngineInstance?: string;
+  appEngineInstance?: string | undefined;
   /** Optional. The service account for the instance. If the instance in question does not have a service account, this field should be left empty. If the wrong service account is provided, this operation will return a signed certificate that will not be accepted by the VM. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. The Cloud Run resource to sign the SSH public key for. Expected formats: - `projects/{project}/locations/{location}/services/{service}` - `projects/{project}/locations/{location}/workerPools/{worker_pool}` - `projects/{project}/locations/{location}/jobs/{job}` - `projects/{project}/locations/{location}/instances/{instance}` */
-  cloudRunResource?: string;
+  cloudRunResource?: string | undefined;
   /** Required. The SSH public key to sign. */
-  sshPublicKey?: string;
+  sshPublicKey?: string | undefined;
   /** The Compute instance to sign the SSH public key for. Expected format: projects/{project}/zones/{zone}/instances/{numeric_instance_id} */
-  computeInstance?: string;
+  computeInstance?: string | undefined;
 }
 export interface SignSshPublicKeyProjectsLocationsRequest {
   /** Required. The parent for the signing request. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Request body */
-  body?: GoogleCloudOsloginControlplaneRegionalV1betaSignSshPublicKeyRequest;
+  body?: GoogleCloudOsloginControlplaneRegionalV1betaSignSshPublicKeyRequest | undefined;
 }
 /** The response message for signing an SSH public key. */
 export interface GoogleCloudOsloginControlplaneRegionalV1betaSignSshPublicKeyResponse {
   /** The signed SSH public key to use in the SSH handshake. */
-  signedSshPublicKey?: string;
+  signedSshPublicKey?: string | undefined;
 }
 export interface SignSshPublicKeyRequest {
   /** Required. The SSH public key to sign. */
-  sshPublicKey?: string;
+  sshPublicKey?: string | undefined;
 }
 export interface SignSshPublicKeyUsersProjectsLocationsRequest {
   /** Required. The parent project and region for the signing request. */
   parent: string;
   /** Request body */
-  body?: SignSshPublicKeyRequest;
+  body?: SignSshPublicKeyRequest | undefined;
 }
 export interface SignSshPublicKeyResponse {
   /** The signed SSH public key to use in the SSH handshake. */
-  signedSshPublicKey?: string;
+  signedSshPublicKey?: string | undefined;
 }
 export interface SignSshPublicKeyUsersProjectsZonesRequest {
   /** Required. The parent project and region for the signing request. */
   parent: string;
   /** Request body */
-  body?: SignSshPublicKeyRequest;
+  body?: SignSshPublicKeyRequest | undefined;
 }
 export type CreateUsersSshPublicKeysError =
   | NotFound

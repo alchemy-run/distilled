@@ -284,26 +284,26 @@ export class ValidationException
 export type DatasetIdentifier = string;
 export type KmsKeyArn = string;
 export interface AssociateDatasetKmsKeyInput {
-  DatasetIdentifier?: string;
-  KmsKeyArn?: string;
+  DatasetIdentifier?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface AssociateDatasetKmsKeyOutput {}
 export type ResourceArn = string;
 export type MetricName = string;
 export type MetricNameList = string[];
 export interface ResourceMetricSelection {
-  IncludeMetrics?: string[];
+  IncludeMetrics?: string[] | undefined;
 }
 export type ResourceMetricSelectionList = ResourceMetricSelection[];
 export interface CreateResourceMetricsConfigurationInput {
-  ResourceArn?: string;
-  MetricSelections?: ResourceMetricSelection[];
+  ResourceArn?: string | undefined;
+  MetricSelections?: ResourceMetricSelection[] | undefined;
 }
 export interface ResourceMetricsConfiguration {
-  ResourceArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  MetricSelections?: ResourceMetricSelection[];
+  ResourceArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  MetricSelections?: ResourceMetricSelection[] | undefined;
 }
 export interface CreateResourceMetricsConfigurationOutput {
   ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
@@ -315,13 +315,13 @@ export interface CreateResourceMetricsConfigurationOutput {
 }
 export type Name = string;
 export interface DeleteAlarmMuteRuleInput {
-  AlarmMuteRuleName?: string;
+  AlarmMuteRuleName?: string | undefined;
 }
 export interface DeleteAlarmMuteRuleResponse {}
 export type AlarmName = string;
 export type AlarmNames = string[];
 export interface DeleteAlarmsInput {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export interface DeleteAlarmsResponse {}
 export type AnomalyDetectorId = string;
@@ -329,24 +329,24 @@ export type Namespace = string;
 export type DimensionName = string;
 export type DimensionValue = string;
 export interface Dimension {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type Dimensions = Dimension[];
 export type AnomalyDetectorMetricStat = string;
 export type AccountId = string;
 export interface SingleMetricAnomalyDetector {
-  AccountId?: string;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
+  AccountId?: string | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
 }
 export type MetricId = string;
 export interface Metric {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
 }
 export type Period = number;
 export type Stat = string;
@@ -380,75 +380,75 @@ export type StandardUnit =
   | "None"
   | (string & {});
 export interface MetricStat {
-  Metric?: Metric;
-  Period?: number;
-  Stat?: string;
-  Unit?: StandardUnit;
+  Metric?: Metric | undefined;
+  Period?: number | undefined;
+  Stat?: string | undefined;
+  Unit?: StandardUnit | undefined;
 }
 export type MetricExpression = string;
 export type MetricLabel = string;
 export type ReturnData = boolean;
 export interface MetricDataQuery {
-  Id?: string;
-  MetricStat?: MetricStat;
-  Expression?: string;
-  Label?: string;
-  ReturnData?: boolean;
-  Period?: number;
-  AccountId?: string;
+  Id?: string | undefined;
+  MetricStat?: MetricStat | undefined;
+  Expression?: string | undefined;
+  Label?: string | undefined;
+  ReturnData?: boolean | undefined;
+  Period?: number | undefined;
+  AccountId?: string | undefined;
 }
 export type MetricDataQueries = MetricDataQuery[];
 export interface MetricMathAnomalyDetector {
-  MetricDataQueries?: MetricDataQuery[];
+  MetricDataQueries?: MetricDataQuery[] | undefined;
 }
 export interface DeleteAnomalyDetectorInput {
-  AnomalyDetectorId?: string;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
-  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector;
-  MetricMathAnomalyDetector?: MetricMathAnomalyDetector;
+  AnomalyDetectorId?: string | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
+  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector | undefined;
+  MetricMathAnomalyDetector?: MetricMathAnomalyDetector | undefined;
 }
 export interface DeleteAnomalyDetectorOutput {}
 export type DashboardName = string;
 export type DashboardNames = string[];
 export interface DeleteDashboardsInput {
-  DashboardNames?: string[];
+  DashboardNames?: string[] | undefined;
 }
 export interface DeleteDashboardsOutput {}
 export type InsightRuleName = string;
 export type InsightRuleNames = string[];
 export interface DeleteInsightRulesInput {
-  RuleNames?: string[];
+  RuleNames?: string[] | undefined;
 }
 export type FailureResource = string;
 export type ExceptionType = string;
 export type FailureCode = string;
 export type FailureDescription = string;
 export interface PartialFailure {
-  FailureResource?: string;
-  ExceptionType?: string;
-  FailureCode?: string;
-  FailureDescription?: string;
+  FailureResource?: string | undefined;
+  ExceptionType?: string | undefined;
+  FailureCode?: string | undefined;
+  FailureDescription?: string | undefined;
 }
 export type BatchFailures = PartialFailure[];
 export interface DeleteInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export type MetricStreamName = string;
 export interface DeleteMetricStreamInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteMetricStreamOutput {}
 export interface DeleteResourceMetricsConfigurationInput {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface DeleteResourceMetricsConfigurationOutput {}
 export type NextToken = string;
 export interface DescribeAlarmContributorsInput {
-  AlarmName?: string;
-  NextToken?: string;
+  AlarmName?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type ContributorId = string;
 export type AttributeName = string;
@@ -456,10 +456,10 @@ export type AttributeValue = string;
 export type ContributorAttributes = { [key: string]: string | undefined };
 export type StateReason = string;
 export interface AlarmContributor {
-  ContributorId?: string;
-  ContributorAttributes?: { [key: string]: string | undefined };
-  StateReason?: string;
-  StateTransitionedTimestamp?: Date;
+  ContributorId?: string | undefined;
+  ContributorAttributes?: { [key: string]: string | undefined } | undefined;
+  StateReason?: string | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
 }
 export type AlarmContributors = AlarmContributor[];
 export interface DescribeAlarmContributorsOutput {
@@ -468,7 +468,7 @@ export interface DescribeAlarmContributorsOutput {
     ContributorAttributes: ContributorAttributes;
     StateReason: StateReason;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AlarmType = "CompositeAlarm" | "MetricAlarm" | "LogAlarm" | (string & {});
 export type AlarmTypes = AlarmType[];
@@ -482,46 +482,46 @@ export type HistoryItemType =
 export type MaxRecords = number;
 export type ScanBy = "TimestampDescending" | "TimestampAscending" | (string & {});
 export interface DescribeAlarmHistoryInput {
-  AlarmName?: string;
-  AlarmContributorId?: string;
-  AlarmTypes?: AlarmType[];
-  HistoryItemType?: HistoryItemType;
-  StartDate?: Date;
-  EndDate?: Date;
-  MaxRecords?: number;
-  NextToken?: string;
-  ScanBy?: ScanBy;
+  AlarmName?: string | undefined;
+  AlarmContributorId?: string | undefined;
+  AlarmTypes?: AlarmType[] | undefined;
+  HistoryItemType?: HistoryItemType | undefined;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
+  ScanBy?: ScanBy | undefined;
 }
 export type HistorySummary = string;
 export type HistoryData = string;
 export interface AlarmHistoryItem {
-  AlarmName?: string;
-  AlarmContributorId?: string;
-  AlarmType?: AlarmType;
-  Timestamp?: Date;
-  HistoryItemType?: HistoryItemType;
-  HistorySummary?: string;
-  HistoryData?: string;
-  AlarmContributorAttributes?: { [key: string]: string | undefined };
+  AlarmName?: string | undefined;
+  AlarmContributorId?: string | undefined;
+  AlarmType?: AlarmType | undefined;
+  Timestamp?: Date | undefined;
+  HistoryItemType?: HistoryItemType | undefined;
+  HistorySummary?: string | undefined;
+  HistoryData?: string | undefined;
+  AlarmContributorAttributes?: { [key: string]: string | undefined } | undefined;
 }
 export type AlarmHistoryItems = AlarmHistoryItem[];
 export interface DescribeAlarmHistoryOutput {
-  AlarmHistoryItems?: AlarmHistoryItem[];
-  NextToken?: string;
+  AlarmHistoryItems?: AlarmHistoryItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AlarmNamePrefix = string;
 export type StateValue = "OK" | "ALARM" | "INSUFFICIENT_DATA" | (string & {});
 export type ActionPrefix = string;
 export interface DescribeAlarmsInput {
-  AlarmNames?: string[];
-  AlarmNamePrefix?: string;
-  AlarmTypes?: AlarmType[];
-  ChildrenOfAlarmName?: string;
-  ParentsOfAlarmName?: string;
-  StateValue?: StateValue;
-  ActionPrefix?: string;
-  MaxRecords?: number;
-  NextToken?: string;
+  AlarmNames?: string[] | undefined;
+  AlarmNamePrefix?: string | undefined;
+  AlarmTypes?: AlarmType[] | undefined;
+  ChildrenOfAlarmName?: string | undefined;
+  ParentsOfAlarmName?: string | undefined;
+  StateValue?: StateValue | undefined;
+  ActionPrefix?: string | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ActionsEnabled = boolean;
 export type ResourceName = string;
@@ -537,34 +537,34 @@ export type AlarmTagsPropagationEnabled = boolean;
 export type AlarmTagsPropagationTagKey = string;
 export type AlarmTagsPropagationTagKeys = string[];
 export interface AlarmTagsPropagation {
-  Enabled?: boolean;
-  IncludedTagKeys?: string[];
-  ExcludedTagKeys?: string[];
+  Enabled?: boolean | undefined;
+  IncludedTagKeys?: string[] | undefined;
+  ExcludedTagKeys?: string[] | undefined;
 }
 export interface ActionConfiguration {
-  AlarmTagsPropagation?: AlarmTagsPropagation;
+  AlarmTagsPropagation?: AlarmTagsPropagation | undefined;
 }
 export interface CompositeAlarm {
-  ActionsEnabled?: boolean;
-  AlarmActions?: string[];
-  AlarmArn?: string;
-  AlarmConfigurationUpdatedTimestamp?: Date;
-  AlarmDescription?: string;
-  AlarmName?: string;
-  AlarmRule?: string;
-  InsufficientDataActions?: string[];
-  OKActions?: string[];
-  StateReason?: string;
-  StateReasonData?: string;
-  StateUpdatedTimestamp?: Date;
-  StateValue?: StateValue;
-  StateTransitionedTimestamp?: Date;
-  ActionsSuppressedBy?: ActionsSuppressedBy;
-  ActionsSuppressedReason?: string;
-  ActionsSuppressor?: string;
-  ActionsSuppressorWaitPeriod?: number;
-  ActionsSuppressorExtensionPeriod?: number;
-  ActionConfiguration?: ActionConfiguration;
+  ActionsEnabled?: boolean | undefined;
+  AlarmActions?: string[] | undefined;
+  AlarmArn?: string | undefined;
+  AlarmConfigurationUpdatedTimestamp?: Date | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmName?: string | undefined;
+  AlarmRule?: string | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  OKActions?: string[] | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
+  StateUpdatedTimestamp?: Date | undefined;
+  StateValue?: StateValue | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
+  ActionsSuppressedBy?: ActionsSuppressedBy | undefined;
+  ActionsSuppressedReason?: string | undefined;
+  ActionsSuppressor?: string | undefined;
+  ActionsSuppressorWaitPeriod?: number | undefined;
+  ActionsSuppressorExtensionPeriod?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export type CompositeAlarms = CompositeAlarm[];
 export type Statistic = "SampleCount" | "Average" | "Sum" | "Minimum" | "Maximum" | (string & {});
@@ -590,63 +590,63 @@ export type EvaluationState =
   | (string & {});
 export type Timezone = string;
 export interface WallClockWindow {
-  Timezone?: string;
+  Timezone?: string | undefined;
 }
 export interface SlidingWindow {}
 export type EvaluationWindow =
-  | { WallClockWindow: WallClockWindow; SlidingWindow?: never }
-  | { WallClockWindow?: never; SlidingWindow: SlidingWindow };
+  | { WallClockWindow: WallClockWindow; SlidingWindow?: undefined }
+  | { WallClockWindow?: undefined; SlidingWindow: SlidingWindow };
 export type WarmUpPeriodDurationInMinutes = number;
 export type OnlyStartEvaluatingAfterWarmUpPeriodEnds = boolean;
 export interface WarmUpConfiguration {
-  WarmUpPeriodDurationInMinutes?: number;
-  OnlyStartEvaluatingAfterWarmUpPeriodEnds?: boolean;
+  WarmUpPeriodDurationInMinutes?: number | undefined;
+  OnlyStartEvaluatingAfterWarmUpPeriodEnds?: boolean | undefined;
 }
 export type Query = string;
 export type PendingPeriod = number;
 export type RecoveryPeriod = number;
 export interface AlarmPromQLCriteria {
-  Query?: string;
-  PendingPeriod?: number;
-  RecoveryPeriod?: number;
+  Query?: string | undefined;
+  PendingPeriod?: number | undefined;
+  RecoveryPeriod?: number | undefined;
 }
 export type EvaluationCriteria = { PromQLCriteria: AlarmPromQLCriteria };
 export type EvaluationInterval = number;
 export interface MetricAlarm {
-  AlarmName?: string;
-  AlarmArn?: string;
-  AlarmDescription?: string;
-  AlarmConfigurationUpdatedTimestamp?: Date;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  StateValue?: StateValue;
-  StateReason?: string;
-  StateReasonData?: string;
-  StateUpdatedTimestamp?: Date;
-  MetricName?: string;
-  Namespace?: string;
-  Statistic?: Statistic;
-  ExtendedStatistic?: string;
-  Dimensions?: Dimension[];
-  Period?: number;
-  Unit?: StandardUnit;
-  EvaluationPeriods?: number;
-  DatapointsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  EvaluateLowSampleCountPercentile?: string;
-  Metrics?: MetricDataQuery[];
-  ThresholdMetricId?: string;
-  EvaluationState?: EvaluationState;
-  StateTransitionedTimestamp?: Date;
-  EvaluationWindow?: EvaluationWindow;
-  WarmUpConfiguration?: WarmUpConfiguration;
-  EvaluationCriteria?: EvaluationCriteria;
-  EvaluationInterval?: number;
-  ActionConfiguration?: ActionConfiguration;
+  AlarmName?: string | undefined;
+  AlarmArn?: string | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmConfigurationUpdatedTimestamp?: Date | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  StateValue?: StateValue | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
+  StateUpdatedTimestamp?: Date | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Statistic?: Statistic | undefined;
+  ExtendedStatistic?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Period?: number | undefined;
+  Unit?: StandardUnit | undefined;
+  EvaluationPeriods?: number | undefined;
+  DatapointsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  EvaluateLowSampleCountPercentile?: string | undefined;
+  Metrics?: MetricDataQuery[] | undefined;
+  ThresholdMetricId?: string | undefined;
+  EvaluationState?: EvaluationState | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
+  EvaluationWindow?: EvaluationWindow | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  EvaluationCriteria?: EvaluationCriteria | undefined;
+  EvaluationInterval?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export type MetricAlarms = MetricAlarm[];
 export type QueryString = string;
@@ -656,149 +656,157 @@ export type ScheduleExpression = string;
 export type StartTimeOffset = number;
 export type EndTimeOffset = number;
 export interface ScheduleConfiguration {
-  ScheduleExpression?: string;
-  StartTimeOffset?: number;
-  EndTimeOffset?: number;
+  ScheduleExpression?: string | undefined;
+  StartTimeOffset?: number | undefined;
+  EndTimeOffset?: number | undefined;
 }
 export type AggregationExpression = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ScheduledQueryConfiguration {
-  QueryString?: string;
-  LogGroupIdentifiers?: string[];
-  QueryARN?: string;
-  ScheduledQueryRoleARN?: string;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  AggregationExpression?: string;
-  Tags?: Tag[];
+  QueryString?: string | undefined;
+  LogGroupIdentifiers?: string[] | undefined;
+  QueryARN?: string | undefined;
+  ScheduledQueryRoleARN?: string | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  AggregationExpression?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type QueryResultsToEvaluate = number;
 export type QueryResultsToAlarm = number;
 export type ActionLogLineCount = number;
 export type ActionLogLineRoleArn = string;
 export interface LogAlarm {
-  AlarmName?: string;
-  AlarmArn?: string;
-  AlarmDescription?: string;
-  AlarmConfigurationUpdatedTimestamp?: Date;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  StateValue?: StateValue;
-  StateReason?: string;
-  StateReasonData?: string;
-  StateUpdatedTimestamp?: Date;
-  ScheduledQueryConfiguration?: ScheduledQueryConfiguration;
-  QueryResultsToEvaluate?: number;
-  QueryResultsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  StateTransitionedTimestamp?: Date;
-  EvaluationState?: EvaluationState;
-  ActionLogLineCount?: number;
-  ActionLogLineRoleArn?: string;
-  WarmUpConfiguration?: WarmUpConfiguration;
-  ActionConfiguration?: ActionConfiguration;
+  AlarmName?: string | undefined;
+  AlarmArn?: string | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmConfigurationUpdatedTimestamp?: Date | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  StateValue?: StateValue | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
+  StateUpdatedTimestamp?: Date | undefined;
+  ScheduledQueryConfiguration?: ScheduledQueryConfiguration | undefined;
+  QueryResultsToEvaluate?: number | undefined;
+  QueryResultsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  StateTransitionedTimestamp?: Date | undefined;
+  EvaluationState?: EvaluationState | undefined;
+  ActionLogLineCount?: number | undefined;
+  ActionLogLineRoleArn?: string | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export type LogAlarms = LogAlarm[];
 export interface DescribeAlarmsOutput {
-  CompositeAlarms?: (CompositeAlarm & {
-    ActionConfiguration: ActionConfiguration & {
-      AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
-    };
-  })[];
-  MetricAlarms?: (MetricAlarm & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    Metrics: (MetricDataQuery & {
-      Id: MetricId;
-      MetricStat: MetricStat & {
-        Metric: Metric & {
-          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+  CompositeAlarms?:
+    | (CompositeAlarm & {
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
         };
-        Period: Period;
-        Stat: Stat;
-      };
-    })[];
-    WarmUpConfiguration: WarmUpConfiguration & {
-      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
-    };
-    ActionConfiguration: ActionConfiguration & {
-      AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
-    };
-  })[];
-  LogAlarms?: (LogAlarm & {
-    ScheduledQueryConfiguration: ScheduledQueryConfiguration & {
-      QueryString: QueryString;
-      ScheduledQueryRoleARN: AmazonResourceName;
-      ScheduleConfiguration: ScheduleConfiguration & {
-        ScheduleExpression: ScheduleExpression;
-        StartTimeOffset: StartTimeOffset;
-      };
-      AggregationExpression: AggregationExpression;
-      Tags: (Tag & { Key: TagKey; Value: TagValue })[];
-    };
-    WarmUpConfiguration: WarmUpConfiguration & {
-      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
-    };
-    ActionConfiguration: ActionConfiguration & {
-      AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
-    };
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  MetricAlarms?:
+    | (MetricAlarm & {
+        Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        Metrics: (MetricDataQuery & {
+          Id: MetricId;
+          MetricStat: MetricStat & {
+            Metric: Metric & {
+              Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+            };
+            Period: Period;
+            Stat: Stat;
+          };
+        })[];
+        WarmUpConfiguration: WarmUpConfiguration & {
+          WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
+        };
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
+        };
+      })[]
+    | undefined;
+  LogAlarms?:
+    | (LogAlarm & {
+        ScheduledQueryConfiguration: ScheduledQueryConfiguration & {
+          QueryString: QueryString;
+          ScheduledQueryRoleARN: AmazonResourceName;
+          ScheduleConfiguration: ScheduleConfiguration & {
+            ScheduleExpression: ScheduleExpression;
+            StartTimeOffset: StartTimeOffset;
+          };
+          AggregationExpression: AggregationExpression;
+          Tags: (Tag & { Key: TagKey; Value: TagValue })[];
+        };
+        WarmUpConfiguration: WarmUpConfiguration & {
+          WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
+        };
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAlarmsForMetricInput {
-  MetricName?: string;
-  Namespace?: string;
-  Statistic?: Statistic;
-  ExtendedStatistic?: string;
-  Dimensions?: Dimension[];
-  Period?: number;
-  Unit?: StandardUnit;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Statistic?: Statistic | undefined;
+  ExtendedStatistic?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Period?: number | undefined;
+  Unit?: StandardUnit | undefined;
 }
 export interface DescribeAlarmsForMetricOutput {
-  MetricAlarms?: (MetricAlarm & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    Metrics: (MetricDataQuery & {
-      Id: MetricId;
-      MetricStat: MetricStat & {
-        Metric: Metric & {
-          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+  MetricAlarms?:
+    | (MetricAlarm & {
+        Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        Metrics: (MetricDataQuery & {
+          Id: MetricId;
+          MetricStat: MetricStat & {
+            Metric: Metric & {
+              Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+            };
+            Period: Period;
+            Stat: Stat;
+          };
+        })[];
+        WarmUpConfiguration: WarmUpConfiguration & {
+          WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
         };
-        Period: Period;
-        Stat: Stat;
-      };
-    })[];
-    WarmUpConfiguration: WarmUpConfiguration & {
-      WarmUpPeriodDurationInMinutes: WarmUpPeriodDurationInMinutes;
-    };
-    ActionConfiguration: ActionConfiguration & {
-      AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
-    };
-  })[];
+        ActionConfiguration: ActionConfiguration & {
+          AlarmTagsPropagation: AlarmTagsPropagation & { Enabled: AlarmTagsPropagationEnabled };
+        };
+      })[]
+    | undefined;
 }
 export type AnomalyDetectorIds = string[];
 export type MaxReturnedResultsCount = number;
 export type AnomalyDetectorType = "SINGLE_METRIC" | "METRIC_MATH" | (string & {});
 export type AnomalyDetectorTypes = AnomalyDetectorType[];
 export interface DescribeAnomalyDetectorsInput {
-  AnomalyDetectorIds?: string[];
-  NextToken?: string;
-  MaxResults?: number;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  AnomalyDetectorTypes?: AnomalyDetectorType[];
+  AnomalyDetectorIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  AnomalyDetectorTypes?: AnomalyDetectorType[] | undefined;
 }
 export interface Range {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type AnomalyDetectorExcludedTimeRanges = Range[];
 export type AnomalyDetectorMetricTimezone = string;
@@ -809,10 +817,10 @@ export type AnomalyDetectorOutlierFilteringStrength =
   | "STRICT"
   | (string & {});
 export interface AnomalyDetectorConfiguration {
-  ExcludedTimeRanges?: Range[];
-  MetricTimezone?: string;
-  AdaptationSpeed?: AnomalyDetectorAdaptationSpeed;
-  OutlierFilteringStrength?: AnomalyDetectorOutlierFilteringStrength;
+  ExcludedTimeRanges?: Range[] | undefined;
+  MetricTimezone?: string | undefined;
+  AdaptationSpeed?: AnomalyDetectorAdaptationSpeed | undefined;
+  OutlierFilteringStrength?: AnomalyDetectorOutlierFilteringStrength | undefined;
 }
 export type AnomalyDetectorStateValue =
   | "PENDING_TRAINING"
@@ -821,49 +829,51 @@ export type AnomalyDetectorStateValue =
   | (string & {});
 export type PeriodicSpikes = boolean;
 export interface MetricCharacteristics {
-  PeriodicSpikes?: boolean;
+  PeriodicSpikes?: boolean | undefined;
 }
 export interface AnomalyDetector {
-  AnomalyDetectorId?: string;
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
-  Configuration?: AnomalyDetectorConfiguration;
-  StateValue?: AnomalyDetectorStateValue;
-  MetricCharacteristics?: MetricCharacteristics;
-  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector;
-  MetricMathAnomalyDetector?: MetricMathAnomalyDetector;
+  AnomalyDetectorId?: string | undefined;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
+  Configuration?: AnomalyDetectorConfiguration | undefined;
+  StateValue?: AnomalyDetectorStateValue | undefined;
+  MetricCharacteristics?: MetricCharacteristics | undefined;
+  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector | undefined;
+  MetricMathAnomalyDetector?: MetricMathAnomalyDetector | undefined;
 }
 export type AnomalyDetectors = AnomalyDetector[];
 export interface DescribeAnomalyDetectorsOutput {
-  AnomalyDetectors?: (AnomalyDetector & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    Configuration: AnomalyDetectorConfiguration & {
-      ExcludedTimeRanges: (Range & { StartTime: Date; EndTime: Date })[];
-    };
-    SingleMetricAnomalyDetector: SingleMetricAnomalyDetector & {
-      Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-    };
-    MetricMathAnomalyDetector: MetricMathAnomalyDetector & {
-      MetricDataQueries: (MetricDataQuery & {
-        Id: MetricId;
-        MetricStat: MetricStat & {
-          Metric: Metric & {
-            Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-          };
-          Period: Period;
-          Stat: Stat;
+  AnomalyDetectors?:
+    | (AnomalyDetector & {
+        Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        Configuration: AnomalyDetectorConfiguration & {
+          ExcludedTimeRanges: (Range & { StartTime: Date; EndTime: Date })[];
         };
-      })[];
-    };
-  })[];
-  NextToken?: string;
+        SingleMetricAnomalyDetector: SingleMetricAnomalyDetector & {
+          Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+        };
+        MetricMathAnomalyDetector: MetricMathAnomalyDetector & {
+          MetricDataQueries: (MetricDataQuery & {
+            Id: MetricId;
+            MetricStat: MetricStat & {
+              Metric: Metric & {
+                Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
+              };
+              Period: Period;
+              Stat: Stat;
+            };
+          })[];
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type InsightRuleMaxResults = number;
 export interface DescribeInsightRulesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type InsightRuleState = string;
 export type InsightRuleSchema = string;
@@ -871,111 +881,115 @@ export type InsightRuleDefinition = string;
 export type InsightRuleIsManaged = boolean;
 export type InsightRuleOnTransformedLogs = boolean;
 export interface InsightRule {
-  Name?: string;
-  State?: string;
-  Schema?: string;
-  Definition?: string;
-  ManagedRule?: boolean;
-  ApplyOnTransformedLogs?: boolean;
+  Name?: string | undefined;
+  State?: string | undefined;
+  Schema?: string | undefined;
+  Definition?: string | undefined;
+  ManagedRule?: boolean | undefined;
+  ApplyOnTransformedLogs?: boolean | undefined;
 }
 export type InsightRules = InsightRule[];
 export interface DescribeInsightRulesOutput {
-  NextToken?: string;
-  InsightRules?: (InsightRule & {
-    Name: InsightRuleName;
-    State: InsightRuleState;
-    Schema: InsightRuleSchema;
-    Definition: InsightRuleDefinition;
-  })[];
+  NextToken?: string | undefined;
+  InsightRules?:
+    | (InsightRule & {
+        Name: InsightRuleName;
+        State: InsightRuleState;
+        Schema: InsightRuleSchema;
+        Definition: InsightRuleDefinition;
+      })[]
+    | undefined;
 }
 export interface DisableAlarmActionsInput {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export interface DisableAlarmActionsResponse {}
 export interface DisableInsightRulesInput {
-  RuleNames?: string[];
+  RuleNames?: string[] | undefined;
 }
 export interface DisableInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export interface DisassociateDatasetKmsKeyInput {
-  DatasetIdentifier?: string;
+  DatasetIdentifier?: string | undefined;
 }
 export interface DisassociateDatasetKmsKeyOutput {}
 export interface EnableAlarmActionsInput {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export interface EnableAlarmActionsResponse {}
 export interface EnableInsightRulesInput {
-  RuleNames?: string[];
+  RuleNames?: string[] | undefined;
 }
 export interface EnableInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export interface GetAlarmMuteRuleInput {
-  AlarmMuteRuleName?: string;
+  AlarmMuteRuleName?: string | undefined;
 }
 export type Arn = string;
 export type Expression = string;
 export type Duration = string;
 export interface Schedule {
-  Expression?: string;
-  Duration?: string;
-  Timezone?: string;
+  Expression?: string | undefined;
+  Duration?: string | undefined;
+  Timezone?: string | undefined;
 }
 export interface Rule {
-  Schedule?: Schedule;
+  Schedule?: Schedule | undefined;
 }
 export type MuteTargetAlarmNameList = string[];
 export interface MuteTargets {
-  AlarmNames?: string[];
+  AlarmNames?: string[] | undefined;
 }
 export type AlarmMuteRuleStatus = "SCHEDULED" | "ACTIVE" | "EXPIRED" | (string & {});
 export type MuteType = string;
 export interface GetAlarmMuteRuleOutput {
-  Name?: string;
-  AlarmMuteRuleArn?: string;
-  Description?: string;
-  Rule?: Rule & { Schedule: Schedule & { Expression: Expression; Duration: Duration } };
-  MuteTargets?: MuteTargets & { AlarmNames: MuteTargetAlarmNameList };
-  StartDate?: Date;
-  ExpireDate?: Date;
-  Status?: AlarmMuteRuleStatus;
-  LastUpdatedTimestamp?: Date;
-  MuteType?: string;
+  Name?: string | undefined;
+  AlarmMuteRuleArn?: string | undefined;
+  Description?: string | undefined;
+  Rule?:
+    | (Rule & { Schedule: Schedule & { Expression: Expression; Duration: Duration } })
+    | undefined;
+  MuteTargets?: (MuteTargets & { AlarmNames: MuteTargetAlarmNameList }) | undefined;
+  StartDate?: Date | undefined;
+  ExpireDate?: Date | undefined;
+  Status?: AlarmMuteRuleStatus | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  MuteType?: string | undefined;
 }
 export interface GetDashboardInput {
-  DashboardName?: string;
+  DashboardName?: string | undefined;
 }
 export type DashboardArn = string;
 export type DashboardBody = string;
 export interface GetDashboardOutput {
-  DashboardArn?: string;
-  DashboardBody?: string;
-  DashboardName?: string;
+  DashboardArn?: string | undefined;
+  DashboardBody?: string | undefined;
+  DashboardName?: string | undefined;
 }
 export interface GetDatasetInput {
-  DatasetIdentifier?: string;
+  DatasetIdentifier?: string | undefined;
 }
 export type DatasetId = string;
 export type DatasetArn = string;
 export interface GetDatasetOutput {
   DatasetId: string;
   Arn: string;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export type InsightRuleUnboundInteger = number;
 export type InsightRuleMetricName = string;
 export type InsightRuleMetricList = string[];
 export type InsightRuleOrderBy = string;
 export interface GetInsightRuleReportInput {
-  RuleName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Period?: number;
-  MaxContributorCount?: number;
-  Metrics?: string[];
-  OrderBy?: string;
+  RuleName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Period?: number | undefined;
+  MaxContributorCount?: number | undefined;
+  Metrics?: string[] | undefined;
+  OrderBy?: string | undefined;
 }
 export type InsightRuleContributorKeyLabel = string;
 export type InsightRuleContributorKeyLabels = string[];
@@ -985,55 +999,57 @@ export type InsightRuleUnboundLong = number;
 export type InsightRuleContributorKey = string;
 export type InsightRuleContributorKeys = string[];
 export interface InsightRuleContributorDatapoint {
-  Timestamp?: Date;
-  ApproximateValue?: number;
+  Timestamp?: Date | undefined;
+  ApproximateValue?: number | undefined;
 }
 export type InsightRuleContributorDatapoints = InsightRuleContributorDatapoint[];
 export interface InsightRuleContributor {
-  Keys?: string[];
-  ApproximateAggregateValue?: number;
-  Datapoints?: InsightRuleContributorDatapoint[];
+  Keys?: string[] | undefined;
+  ApproximateAggregateValue?: number | undefined;
+  Datapoints?: InsightRuleContributorDatapoint[] | undefined;
 }
 export type InsightRuleContributors = InsightRuleContributor[];
 export interface InsightRuleMetricDatapoint {
-  Timestamp?: Date;
-  UniqueContributors?: number;
-  MaxContributorValue?: number;
-  SampleCount?: number;
-  Average?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
+  Timestamp?: Date | undefined;
+  UniqueContributors?: number | undefined;
+  MaxContributorValue?: number | undefined;
+  SampleCount?: number | undefined;
+  Average?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export type InsightRuleMetricDatapoints = InsightRuleMetricDatapoint[];
 export interface GetInsightRuleReportOutput {
-  KeyLabels?: string[];
-  AggregationStatistic?: string;
-  AggregateValue?: number;
-  ApproximateUniqueCount?: number;
-  Contributors?: (InsightRuleContributor & {
-    Keys: InsightRuleContributorKeys;
-    ApproximateAggregateValue: InsightRuleUnboundDouble;
-    Datapoints: (InsightRuleContributorDatapoint & {
-      Timestamp: Date;
-      ApproximateValue: InsightRuleUnboundDouble;
-    })[];
-  })[];
-  MetricDatapoints?: (InsightRuleMetricDatapoint & { Timestamp: Date })[];
+  KeyLabels?: string[] | undefined;
+  AggregationStatistic?: string | undefined;
+  AggregateValue?: number | undefined;
+  ApproximateUniqueCount?: number | undefined;
+  Contributors?:
+    | (InsightRuleContributor & {
+        Keys: InsightRuleContributorKeys;
+        ApproximateAggregateValue: InsightRuleUnboundDouble;
+        Datapoints: (InsightRuleContributorDatapoint & {
+          Timestamp: Date;
+          ApproximateValue: InsightRuleUnboundDouble;
+        })[];
+      })[]
+    | undefined;
+  MetricDatapoints?: (InsightRuleMetricDatapoint & { Timestamp: Date })[] | undefined;
 }
 export type GetMetricDataMaxDatapoints = number;
 export type GetMetricDataLabelTimezone = string;
 export interface LabelOptions {
-  Timezone?: string;
+  Timezone?: string | undefined;
 }
 export interface GetMetricDataInput {
-  MetricDataQueries?: MetricDataQuery[];
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  ScanBy?: ScanBy;
-  MaxDatapoints?: number;
-  LabelOptions?: LabelOptions;
+  MetricDataQueries?: MetricDataQuery[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  ScanBy?: ScanBy | undefined;
+  MaxDatapoints?: number | undefined;
+  LabelOptions?: LabelOptions | undefined;
 }
 export type Timestamps = Date[];
 export type DatapointValue = number;
@@ -1042,60 +1058,60 @@ export type StatusCode = "Complete" | "InternalError" | "PartialData" | "Forbidd
 export type MessageDataCode = string;
 export type MessageDataValue = string;
 export interface MessageData {
-  Code?: string;
-  Value?: string;
+  Code?: string | undefined;
+  Value?: string | undefined;
 }
 export type MetricDataResultMessages = MessageData[];
 export interface MetricDataResult {
-  Id?: string;
-  Label?: string;
-  Timestamps?: Date[];
-  Values?: number[];
-  StatusCode?: StatusCode;
-  Messages?: MessageData[];
+  Id?: string | undefined;
+  Label?: string | undefined;
+  Timestamps?: Date[] | undefined;
+  Values?: number[] | undefined;
+  StatusCode?: StatusCode | undefined;
+  Messages?: MessageData[] | undefined;
 }
 export type MetricDataResults = MetricDataResult[];
 export interface GetMetricDataOutput {
-  MetricDataResults?: MetricDataResult[];
-  NextToken?: string;
-  Messages?: MessageData[];
+  MetricDataResults?: MetricDataResult[] | undefined;
+  NextToken?: string | undefined;
+  Messages?: MessageData[] | undefined;
 }
 export type Statistics = Statistic[];
 export type ExtendedStatistics = string[];
 export interface GetMetricStatisticsInput {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  StartTime?: Date;
-  EndTime?: Date;
-  Period?: number;
-  Statistics?: Statistic[];
-  ExtendedStatistics?: string[];
-  Unit?: StandardUnit;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Period?: number | undefined;
+  Statistics?: Statistic[] | undefined;
+  ExtendedStatistics?: string[] | undefined;
+  Unit?: StandardUnit | undefined;
 }
 export type DatapointValueMap = { [key: string]: number | undefined };
 export interface Datapoint {
-  Timestamp?: Date;
-  SampleCount?: number;
-  Average?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
-  Unit?: StandardUnit;
-  ExtendedStatistics?: { [key: string]: number | undefined };
+  Timestamp?: Date | undefined;
+  SampleCount?: number | undefined;
+  Average?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
+  Unit?: StandardUnit | undefined;
+  ExtendedStatistics?: { [key: string]: number | undefined } | undefined;
 }
 export type Datapoints = Datapoint[];
 export interface GetMetricStatisticsOutput {
-  Label?: string;
-  Datapoints?: Datapoint[];
+  Label?: string | undefined;
+  Datapoints?: Datapoint[] | undefined;
 }
 export interface GetMetricStreamInput {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type MetricStreamFilterMetricNames = string[];
 export interface MetricStreamFilter {
-  Namespace?: string;
-  MetricNames?: string[];
+  Namespace?: string | undefined;
+  MetricNames?: string[] | undefined;
 }
 export type MetricStreamFilters = MetricStreamFilter[];
 export type MetricStreamState = string;
@@ -1105,65 +1121,67 @@ export type MetricStreamOutputFormat =
   | "opentelemetry1.0"
   | (string & {});
 export interface MetricStreamStatisticsMetric {
-  Namespace?: string;
-  MetricName?: string;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
 }
 export type MetricStreamStatisticsIncludeMetrics = MetricStreamStatisticsMetric[];
 export type MetricStreamStatistic = string;
 export type MetricStreamStatisticsAdditionalStatistics = string[];
 export interface MetricStreamStatisticsConfiguration {
-  IncludeMetrics?: MetricStreamStatisticsMetric[];
-  AdditionalStatistics?: string[];
+  IncludeMetrics?: MetricStreamStatisticsMetric[] | undefined;
+  AdditionalStatistics?: string[] | undefined;
 }
 export type MetricStreamStatisticsConfigurations = MetricStreamStatisticsConfiguration[];
 export type IncludeLinkedAccountsMetrics = boolean;
 export interface GetMetricStreamOutput {
-  Arn?: string;
-  Name?: string;
-  IncludeFilters?: MetricStreamFilter[];
-  ExcludeFilters?: MetricStreamFilter[];
-  FirehoseArn?: string;
-  RoleArn?: string;
-  State?: string;
-  CreationDate?: Date;
-  LastUpdateDate?: Date;
-  OutputFormat?: MetricStreamOutputFormat;
-  StatisticsConfigurations?: (MetricStreamStatisticsConfiguration & {
-    IncludeMetrics: (MetricStreamStatisticsMetric & {
-      Namespace: Namespace;
-      MetricName: MetricName;
-    })[];
-    AdditionalStatistics: MetricStreamStatisticsAdditionalStatistics;
-  })[];
-  IncludeLinkedAccountsMetrics?: boolean;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  IncludeFilters?: MetricStreamFilter[] | undefined;
+  ExcludeFilters?: MetricStreamFilter[] | undefined;
+  FirehoseArn?: string | undefined;
+  RoleArn?: string | undefined;
+  State?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastUpdateDate?: Date | undefined;
+  OutputFormat?: MetricStreamOutputFormat | undefined;
+  StatisticsConfigurations?:
+    | (MetricStreamStatisticsConfiguration & {
+        IncludeMetrics: (MetricStreamStatisticsMetric & {
+          Namespace: Namespace;
+          MetricName: MetricName;
+        })[];
+        AdditionalStatistics: MetricStreamStatisticsAdditionalStatistics;
+      })[]
+    | undefined;
+  IncludeLinkedAccountsMetrics?: boolean | undefined;
 }
 export type MetricWidget = string;
 export type OutputFormat = string;
 export interface GetMetricWidgetImageInput {
-  MetricWidget?: string;
-  OutputFormat?: string;
+  MetricWidget?: string | undefined;
+  OutputFormat?: string | undefined;
 }
 export type MetricWidgetImage = Uint8Array;
 export interface GetMetricWidgetImageOutput {
-  MetricWidgetImage?: Uint8Array;
+  MetricWidgetImage?: Uint8Array | undefined;
 }
 export interface GetOTelEnrichmentInput {}
 export type OTelEnrichmentStatus = "Running" | "Stopped" | (string & {});
 export type OTelEnrichmentMetricNameList = string[];
 export interface OTelEnrichmentMetricSelector {
-  Namespace?: string;
-  MetricNames?: string[];
+  Namespace?: string | undefined;
+  MetricNames?: string[] | undefined;
 }
 export type OTelEnrichmentMetricSelectorList = OTelEnrichmentMetricSelector[];
 export interface GetOTelEnrichmentOutput {
   Status: OTelEnrichmentStatus;
-  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetResourceMetricsConfigurationInput {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface GetResourceMetricsConfigurationOutput {
   ResourceMetricsConfiguration: ResourceMetricsConfiguration & {
@@ -1175,255 +1193,257 @@ export interface GetResourceMetricsConfigurationOutput {
 }
 export type AlarmMuteRuleStatuses = AlarmMuteRuleStatus[];
 export interface ListAlarmMuteRulesInput {
-  AlarmName?: string;
-  Statuses?: AlarmMuteRuleStatus[];
-  MaxRecords?: number;
-  NextToken?: string;
+  AlarmName?: string | undefined;
+  Statuses?: AlarmMuteRuleStatus[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AlarmMuteRuleSummary {
-  AlarmMuteRuleArn?: string;
-  ExpireDate?: Date;
-  Status?: AlarmMuteRuleStatus;
-  MuteType?: string;
-  LastUpdatedTimestamp?: Date;
+  AlarmMuteRuleArn?: string | undefined;
+  ExpireDate?: Date | undefined;
+  Status?: AlarmMuteRuleStatus | undefined;
+  MuteType?: string | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type AlarmMuteRuleSummaries = AlarmMuteRuleSummary[];
 export interface ListAlarmMuteRulesOutput {
-  AlarmMuteRuleSummaries?: AlarmMuteRuleSummary[];
-  NextToken?: string;
+  AlarmMuteRuleSummaries?: AlarmMuteRuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DashboardNamePrefix = string;
 export interface ListDashboardsInput {
-  DashboardNamePrefix?: string;
-  NextToken?: string;
+  DashboardNamePrefix?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type LastModified = Date;
 export type Size = number;
 export interface DashboardEntry {
-  DashboardName?: string;
-  DashboardArn?: string;
-  LastModified?: Date;
-  Size?: number;
+  DashboardName?: string | undefined;
+  DashboardArn?: string | undefined;
+  LastModified?: Date | undefined;
+  Size?: number | undefined;
 }
 export type DashboardEntries = DashboardEntry[];
 export interface ListDashboardsOutput {
-  DashboardEntries?: DashboardEntry[];
-  NextToken?: string;
+  DashboardEntries?: DashboardEntry[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedInsightRulesInput {
-  ResourceARN?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ResourceARN?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TemplateName = string;
 export interface ManagedRuleState {
-  RuleName?: string;
-  State?: string;
+  RuleName?: string | undefined;
+  State?: string | undefined;
 }
 export interface ManagedRuleDescription {
-  TemplateName?: string;
-  ResourceARN?: string;
-  RuleState?: ManagedRuleState;
+  TemplateName?: string | undefined;
+  ResourceARN?: string | undefined;
+  RuleState?: ManagedRuleState | undefined;
 }
 export type ManagedRuleDescriptions = ManagedRuleDescription[];
 export interface ListManagedInsightRulesOutput {
-  ManagedRules?: (ManagedRuleDescription & {
-    RuleState: ManagedRuleState & { RuleName: InsightRuleName; State: InsightRuleState };
-  })[];
-  NextToken?: string;
+  ManagedRules?:
+    | (ManagedRuleDescription & {
+        RuleState: ManagedRuleState & { RuleName: InsightRuleName; State: InsightRuleState };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DimensionFilter {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type DimensionFilters = DimensionFilter[];
 export type RecentlyActive = "PT3H" | (string & {});
 export type IncludeLinkedAccounts = boolean;
 export interface ListMetricsInput {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: DimensionFilter[];
-  NextToken?: string;
-  RecentlyActive?: RecentlyActive;
-  IncludeLinkedAccounts?: boolean;
-  OwningAccount?: string;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: DimensionFilter[] | undefined;
+  NextToken?: string | undefined;
+  RecentlyActive?: RecentlyActive | undefined;
+  IncludeLinkedAccounts?: boolean | undefined;
+  OwningAccount?: string | undefined;
 }
 export type Metrics = Metric[];
 export type OwningAccounts = string[];
 export interface ListMetricsOutput {
-  Metrics?: (Metric & {
-    Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[];
-  })[];
-  NextToken?: string;
-  OwningAccounts?: string[];
+  Metrics?:
+    | (Metric & { Dimensions: (Dimension & { Name: DimensionName; Value: DimensionValue })[] })[]
+    | undefined;
+  NextToken?: string | undefined;
+  OwningAccounts?: string[] | undefined;
 }
 export type ListMetricStreamsMaxResults = number;
 export interface ListMetricStreamsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MetricStreamEntry {
-  Arn?: string;
-  CreationDate?: Date;
-  LastUpdateDate?: Date;
-  Name?: string;
-  FirehoseArn?: string;
-  State?: string;
-  OutputFormat?: MetricStreamOutputFormat;
+  Arn?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastUpdateDate?: Date | undefined;
+  Name?: string | undefined;
+  FirehoseArn?: string | undefined;
+  State?: string | undefined;
+  OutputFormat?: MetricStreamOutputFormat | undefined;
 }
 export type MetricStreamEntries = MetricStreamEntry[];
 export interface ListMetricStreamsOutput {
-  NextToken?: string;
-  Entries?: MetricStreamEntry[];
+  NextToken?: string | undefined;
+  Entries?: MetricStreamEntry[] | undefined;
 }
 export interface ListTagsForResourceInput {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: (Tag & { Key: TagKey; Value: TagValue })[];
+  Tags?: (Tag & { Key: TagKey; Value: TagValue })[] | undefined;
 }
 export interface PutAlarmMuteRuleInput {
-  Name?: string;
-  Description?: string;
-  Rule?: Rule;
-  MuteTargets?: MuteTargets;
-  Tags?: Tag[];
-  StartDate?: Date;
-  ExpireDate?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Rule?: Rule | undefined;
+  MuteTargets?: MuteTargets | undefined;
+  Tags?: Tag[] | undefined;
+  StartDate?: Date | undefined;
+  ExpireDate?: Date | undefined;
 }
 export interface PutAlarmMuteRuleResponse {}
 export interface PutAnomalyDetectorInput {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Stat?: string;
-  Configuration?: AnomalyDetectorConfiguration;
-  MetricCharacteristics?: MetricCharacteristics;
-  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector;
-  MetricMathAnomalyDetector?: MetricMathAnomalyDetector;
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Stat?: string | undefined;
+  Configuration?: AnomalyDetectorConfiguration | undefined;
+  MetricCharacteristics?: MetricCharacteristics | undefined;
+  SingleMetricAnomalyDetector?: SingleMetricAnomalyDetector | undefined;
+  MetricMathAnomalyDetector?: MetricMathAnomalyDetector | undefined;
 }
 export interface PutAnomalyDetectorOutput {
-  AnomalyDetectorId?: string;
+  AnomalyDetectorId?: string | undefined;
 }
 export interface PutCompositeAlarmInput {
-  ActionsEnabled?: boolean;
-  AlarmActions?: string[];
-  AlarmDescription?: string;
-  AlarmName?: string;
-  AlarmRule?: string;
-  InsufficientDataActions?: string[];
-  OKActions?: string[];
-  Tags?: Tag[];
-  ActionsSuppressor?: string;
-  ActionsSuppressorWaitPeriod?: number;
-  ActionsSuppressorExtensionPeriod?: number;
-  ActionConfiguration?: ActionConfiguration;
+  ActionsEnabled?: boolean | undefined;
+  AlarmActions?: string[] | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmName?: string | undefined;
+  AlarmRule?: string | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  OKActions?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  ActionsSuppressor?: string | undefined;
+  ActionsSuppressorWaitPeriod?: number | undefined;
+  ActionsSuppressorExtensionPeriod?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export interface PutCompositeAlarmResponse {}
 export interface PutDashboardInput {
-  DashboardName?: string;
-  DashboardBody?: string;
-  Tags?: Tag[];
+  DashboardName?: string | undefined;
+  DashboardBody?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DataPath = string;
 export type Message = string;
 export interface DashboardValidationMessage {
-  DataPath?: string;
-  Message?: string;
+  DataPath?: string | undefined;
+  Message?: string | undefined;
 }
 export type DashboardValidationMessages = DashboardValidationMessage[];
 export interface PutDashboardOutput {
-  DashboardValidationMessages?: DashboardValidationMessage[];
+  DashboardValidationMessages?: DashboardValidationMessage[] | undefined;
 }
 export interface PutInsightRuleInput {
-  RuleName?: string;
-  RuleState?: string;
-  RuleDefinition?: string;
-  Tags?: Tag[];
-  ApplyOnTransformedLogs?: boolean;
+  RuleName?: string | undefined;
+  RuleState?: string | undefined;
+  RuleDefinition?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ApplyOnTransformedLogs?: boolean | undefined;
 }
 export interface PutInsightRuleOutput {}
 export interface PutLogAlarmInput {
-  AlarmName?: string;
-  AlarmDescription?: string;
-  ScheduledQueryConfiguration?: ScheduledQueryConfiguration;
-  ActionLogLineCount?: number;
-  ActionLogLineRoleArn?: string;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  QueryResultsToEvaluate?: number;
-  QueryResultsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  Tags?: Tag[];
-  WarmUpConfiguration?: WarmUpConfiguration;
-  ActionConfiguration?: ActionConfiguration;
+  AlarmName?: string | undefined;
+  AlarmDescription?: string | undefined;
+  ScheduledQueryConfiguration?: ScheduledQueryConfiguration | undefined;
+  ActionLogLineCount?: number | undefined;
+  ActionLogLineRoleArn?: string | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  QueryResultsToEvaluate?: number | undefined;
+  QueryResultsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  Tags?: Tag[] | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export interface PutLogAlarmResponse {}
 export interface ManagedRule {
-  TemplateName?: string;
-  ResourceARN?: string;
-  Tags?: Tag[];
+  TemplateName?: string | undefined;
+  ResourceARN?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ManagedRules = ManagedRule[];
 export interface PutManagedInsightRulesInput {
-  ManagedRules?: ManagedRule[];
+  ManagedRules?: ManagedRule[] | undefined;
 }
 export interface PutManagedInsightRulesOutput {
-  Failures?: PartialFailure[];
+  Failures?: PartialFailure[] | undefined;
 }
 export interface PutMetricAlarmInput {
-  AlarmName?: string;
-  AlarmDescription?: string;
-  ActionsEnabled?: boolean;
-  OKActions?: string[];
-  AlarmActions?: string[];
-  InsufficientDataActions?: string[];
-  MetricName?: string;
-  Namespace?: string;
-  Statistic?: Statistic;
-  ExtendedStatistic?: string;
-  Dimensions?: Dimension[];
-  Period?: number;
-  Unit?: StandardUnit;
-  EvaluationPeriods?: number;
-  DatapointsToAlarm?: number;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperator;
-  TreatMissingData?: string;
-  EvaluateLowSampleCountPercentile?: string;
-  Metrics?: MetricDataQuery[];
-  Tags?: Tag[];
-  ThresholdMetricId?: string;
-  EvaluationWindow?: EvaluationWindow;
-  WarmUpConfiguration?: WarmUpConfiguration;
-  EvaluationCriteria?: EvaluationCriteria;
-  EvaluationInterval?: number;
-  ActionConfiguration?: ActionConfiguration;
+  AlarmName?: string | undefined;
+  AlarmDescription?: string | undefined;
+  ActionsEnabled?: boolean | undefined;
+  OKActions?: string[] | undefined;
+  AlarmActions?: string[] | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Statistic?: Statistic | undefined;
+  ExtendedStatistic?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Period?: number | undefined;
+  Unit?: StandardUnit | undefined;
+  EvaluationPeriods?: number | undefined;
+  DatapointsToAlarm?: number | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperator | undefined;
+  TreatMissingData?: string | undefined;
+  EvaluateLowSampleCountPercentile?: string | undefined;
+  Metrics?: MetricDataQuery[] | undefined;
+  Tags?: Tag[] | undefined;
+  ThresholdMetricId?: string | undefined;
+  EvaluationWindow?: EvaluationWindow | undefined;
+  WarmUpConfiguration?: WarmUpConfiguration | undefined;
+  EvaluationCriteria?: EvaluationCriteria | undefined;
+  EvaluationInterval?: number | undefined;
+  ActionConfiguration?: ActionConfiguration | undefined;
 }
 export interface PutMetricAlarmResponse {}
 export interface StatisticSet {
-  SampleCount?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
+  SampleCount?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export type Values = number[];
 export type Counts = number[];
 export type StorageResolution = number;
 export interface MetricDatum {
-  MetricName?: string;
-  Dimensions?: Dimension[];
-  Timestamp?: Date;
-  Value?: number;
-  StatisticValues?: StatisticSet;
-  Values?: number[];
-  Counts?: number[];
-  Unit?: StandardUnit;
-  StorageResolution?: number;
+  MetricName?: string | undefined;
+  Dimensions?: Dimension[] | undefined;
+  Timestamp?: Date | undefined;
+  Value?: number | undefined;
+  StatisticValues?: StatisticSet | undefined;
+  Values?: number[] | undefined;
+  Counts?: number[] | undefined;
+  Unit?: StandardUnit | undefined;
+  StorageResolution?: number | undefined;
 }
 export type MetricData = MetricDatum[];
 export type EntityKeyAttributesMapKeyString = string;
@@ -1433,88 +1453,88 @@ export type EntityAttributesMapKeyString = string;
 export type EntityAttributesMapValueString = string;
 export type EntityAttributesMap = { [key: string]: string | undefined };
 export interface Entity {
-  KeyAttributes?: { [key: string]: string | undefined };
-  Attributes?: { [key: string]: string | undefined };
+  KeyAttributes?: { [key: string]: string | undefined } | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface EntityMetricData {
-  Entity?: Entity;
-  MetricData?: MetricDatum[];
+  Entity?: Entity | undefined;
+  MetricData?: MetricDatum[] | undefined;
 }
 export type EntityMetricDataList = EntityMetricData[];
 export type StrictEntityValidation = boolean;
 export interface PutMetricDataInput {
-  Namespace?: string;
-  MetricData?: MetricDatum[];
-  EntityMetricData?: EntityMetricData[];
-  StrictEntityValidation?: boolean;
+  Namespace?: string | undefined;
+  MetricData?: MetricDatum[] | undefined;
+  EntityMetricData?: EntityMetricData[] | undefined;
+  StrictEntityValidation?: boolean | undefined;
 }
 export interface PutMetricDataResponse {}
 export interface PutMetricStreamInput {
-  Name?: string;
-  IncludeFilters?: MetricStreamFilter[];
-  ExcludeFilters?: MetricStreamFilter[];
-  FirehoseArn?: string;
-  RoleArn?: string;
-  OutputFormat?: MetricStreamOutputFormat;
-  Tags?: Tag[];
-  StatisticsConfigurations?: MetricStreamStatisticsConfiguration[];
-  IncludeLinkedAccountsMetrics?: boolean;
+  Name?: string | undefined;
+  IncludeFilters?: MetricStreamFilter[] | undefined;
+  ExcludeFilters?: MetricStreamFilter[] | undefined;
+  FirehoseArn?: string | undefined;
+  RoleArn?: string | undefined;
+  OutputFormat?: MetricStreamOutputFormat | undefined;
+  Tags?: Tag[] | undefined;
+  StatisticsConfigurations?: MetricStreamStatisticsConfiguration[] | undefined;
+  IncludeLinkedAccountsMetrics?: boolean | undefined;
 }
 export interface PutMetricStreamOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface SetAlarmStateInput {
-  AlarmName?: string;
-  StateValue?: StateValue;
-  StateReason?: string;
-  StateReasonData?: string;
+  AlarmName?: string | undefined;
+  StateValue?: StateValue | undefined;
+  StateReason?: string | undefined;
+  StateReasonData?: string | undefined;
 }
 export interface SetAlarmStateResponse {}
 export type MetricStreamNames = string[];
 export interface StartMetricStreamsInput {
-  Names?: string[];
+  Names?: string[] | undefined;
 }
 export interface StartMetricStreamsOutput {}
 export interface StartOTelEnrichmentInput {
-  IncludeFilters?: OTelEnrichmentMetricSelector[];
-  ExcludeFilters?: OTelEnrichmentMetricSelector[];
+  IncludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
+  ExcludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
 }
 export interface StartOTelEnrichmentOutput {
-  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface StopMetricStreamsInput {
-  Names?: string[];
+  Names?: string[] | undefined;
 }
 export interface StopMetricStreamsOutput {}
 export interface StopOTelEnrichmentInput {}
 export interface StopOTelEnrichmentOutput {}
 export interface TagResourceInput {
-  ResourceARN?: string;
-  Tags?: Tag[];
+  ResourceARN?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceOutput {}
 export type TagKeyList = string[];
 export interface UntagResourceInput {
-  ResourceARN?: string;
-  TagKeys?: string[];
+  ResourceARN?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceOutput {}
 export interface UpdateOTelEnrichmentInput {
-  IncludeFilters?: OTelEnrichmentMetricSelector[];
-  ExcludeFilters?: OTelEnrichmentMetricSelector[];
+  IncludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
+  ExcludeFilters?: OTelEnrichmentMetricSelector[] | undefined;
 }
 export interface UpdateOTelEnrichmentOutput {
-  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  IncludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  ExcludeFilters?: (OTelEnrichmentMetricSelector & { Namespace: Namespace })[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface UpdateResourceMetricsConfigurationInput {
-  ResourceArn?: string;
-  MetricSelections?: ResourceMetricSelection[];
+  ResourceArn?: string | undefined;
+  MetricSelections?: ResourceMetricSelection[] | undefined;
 }
 export interface UpdateResourceMetricsConfigurationOutput {
   ResourceMetricsConfiguration: ResourceMetricsConfiguration & {

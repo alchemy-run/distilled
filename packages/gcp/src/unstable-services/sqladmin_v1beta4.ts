@@ -86,39 +86,39 @@ export class NotFound
 /** Acquire SSRS lease context. */
 export interface AcquireSsrsLeaseContext {
   /** The username to be used as the setup login to connect to the database server for SSRS setup. */
-  setupLogin?: string;
+  setupLogin?: string | undefined;
   /** Lease duration needed for the SSRS setup. */
-  duration?: string;
+  duration?: string | undefined;
   /** The report database to be used for the SSRS setup. */
-  reportDatabase?: string;
+  reportDatabase?: string | undefined;
   /** The username to be used as the service login to connect to the report database for SSRS setup. */
-  serviceLogin?: string;
+  serviceLogin?: string | undefined;
 }
 /** Request to acquire an SSRS lease for an instance. */
 export interface InstancesAcquireSsrsLeaseRequest {
   /** Contains details about the acquire SSRS lease operation. */
-  acquireSsrsLeaseContext?: AcquireSsrsLeaseContext;
+  acquireSsrsLeaseContext?: AcquireSsrsLeaseContext | undefined;
 }
 export interface AcquireSsrsLeaseInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. ID of the project that contains the instance (Example: project-id). */
   project: string;
   /** Required. Cloud SQL instance ID. This doesn't include the project ID. It's composed of lowercase letters, numbers, and hyphens, and it must start with a letter. The total length must be 98 characters or less (Example: instance-id). */
   instance: string;
   /** Request body */
-  body?: InstancesAcquireSsrsLeaseRequest;
+  body?: InstancesAcquireSsrsLeaseRequest | undefined;
 }
 /** Acquire SSRS lease response. */
 export interface SqlInstancesAcquireSsrsLeaseResponse {
   /** The unique identifier for this operation. */
-  operationId?: string;
+  operationId?: string | undefined;
 }
 export interface AddEntraIdCertificateInstancesRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
 }
@@ -186,27 +186,27 @@ export type OperationOperationTypeEnum =
 export type StringList = Array<string>;
 export interface ExportContextSqlExportOptionsPostgresExportOptions {
   /** Optional. Option to include an IF EXISTS SQL statement with each DROP statement produced by clean. */
-  ifExists?: boolean;
+  ifExists?: boolean | undefined;
   /** Optional. Use this option to include DROP <object> SQL statements. Use these statements to delete database objects before running the import operation. */
-  clean?: boolean;
+  clean?: boolean | undefined;
 }
 export interface ExportContextSqlExportOptionsMysqlExportOptions {
   /** Option to include SQL statement required to set up replication. If set to `1`, the dump file includes a CHANGE MASTER TO statement with the binary log coordinates, and --set-gtid-purged is set to ON. If set to `2`, the CHANGE MASTER TO statement is written as a SQL comment and has no effect. If set to any value other than `1`, --set-gtid-purged is set to OFF. */
-  masterData?: number;
+  masterData?: number | undefined;
 }
 export interface ExportContextSqlExportOptions {
   /** Tables to export, or that were exported, from the specified database. If you specify tables, specify one and only one database. For PostgreSQL instances, you can specify only one table. */
-  tables?: StringList;
+  tables?: StringList | undefined;
   /** Options for exporting from a Cloud SQL for PostgreSQL instance. */
-  postgresExportOptions?: ExportContextSqlExportOptionsPostgresExportOptions;
+  postgresExportOptions?: ExportContextSqlExportOptionsPostgresExportOptions | undefined;
   /** Options for exporting from MySQL. */
-  mysqlExportOptions?: ExportContextSqlExportOptionsMysqlExportOptions;
+  mysqlExportOptions?: ExportContextSqlExportOptionsMysqlExportOptions | undefined;
   /** Optional. The number of threads to use for parallel export. */
-  threads?: number;
+  threads?: number | undefined;
   /** Export only schemas. */
-  schemaOnly?: boolean;
+  schemaOnly?: boolean | undefined;
   /** Optional. Whether or not the export should be parallel. */
-  parallel?: boolean;
+  parallel?: boolean | undefined;
 }
 export type ExportContextBakExportOptionsBakTypeEnum =
   | "BAK_TYPE_UNSPECIFIED"
@@ -215,75 +215,75 @@ export type ExportContextBakExportOptionsBakTypeEnum =
   | "TLOG";
 export interface ExportContextBakExportOptions {
   /** Type of this bak file will be export, FULL or DIFF, SQL Server only */
-  bakType?: ExportContextBakExportOptionsBakTypeEnum | (string & {});
+  bakType?: ExportContextBakExportOptionsBakTypeEnum | (string & {}) | undefined;
   /** Optional. The end timestamp when transaction log will be included in the export operation. [RFC 3339](https://tools.ietf.org/html/rfc3339) format (for example, `2023-10-01T16:19:00.094`) in UTC. When omitted, all available logs until current time will be included. Only applied to Cloud SQL for SQL Server. */
-  exportLogEndTime?: string;
+  exportLogEndTime?: string | undefined;
   /** Optional. The begin timestamp when transaction log will be included in the export operation. [RFC 3339](https://tools.ietf.org/html/rfc3339) format (for example, `2023-10-01T16:19:00.094`) in UTC. When omitted, all available logs from the beginning of retention period will be included. Only applied to Cloud SQL for SQL Server. */
-  exportLogStartTime?: string;
+  exportLogStartTime?: string | undefined;
   /** Deprecated: copy_only is deprecated. Use differential_base instead */
-  copyOnly?: boolean;
+  copyOnly?: boolean | undefined;
   /** Option for specifying how many stripes to use for the export. If blank, and the value of the striped field is true, the number of stripes is automatically chosen. */
-  stripeCount?: number;
+  stripeCount?: number | undefined;
   /** Whether or not the export should be striped. */
-  striped?: boolean;
+  striped?: boolean | undefined;
   /** Whether or not the backup can be used as a differential base copy_only backup can not be served as differential base */
-  differentialBase?: boolean;
+  differentialBase?: boolean | undefined;
 }
 export type ExportContextFileTypeEnum = "SQL_FILE_TYPE_UNSPECIFIED" | "SQL" | "CSV" | "BAK" | "TDE";
 export interface ExportContextCsvExportOptions {
   /** Specifies the quoting character to be used when a data value is quoted. */
-  quoteCharacter?: string;
+  quoteCharacter?: string | undefined;
   /** Specifies the character that separates columns within each row (line) of the file. */
-  fieldsTerminatedBy?: string;
+  fieldsTerminatedBy?: string | undefined;
   /** This is used to separate lines. If a line does not contain all fields, the rest of the columns are set to their default values. */
-  linesTerminatedBy?: string;
+  linesTerminatedBy?: string | undefined;
   /** Specifies the character that should appear before a data character that needs to be escaped. */
-  escapeCharacter?: string;
+  escapeCharacter?: string | undefined;
   /** The select query used to extract the data. */
-  selectQuery?: string;
+  selectQuery?: string | undefined;
 }
 export interface ExportContextTdeExportOptions {
   /** Required. Certificate name. Applicable only for SQL Server instances. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Password that encrypts the private key. */
-  privateKeyPassword?: string;
+  privateKeyPassword?: string | undefined;
   /** Required. Path to the TDE certificate public key in the form gs://bucketName/fileName. The instance must have write access to the location. Applicable only for SQL Server instances. */
-  certificatePath?: string;
+  certificatePath?: string | undefined;
   /** Required. Path to the TDE certificate private key in the form gs://bucketName/fileName. The instance must have write access to the location. Applicable only for SQL Server instances. */
-  privateKeyPath?: string;
+  privateKeyPath?: string | undefined;
 }
 /** Database instance export context. */
 export interface ExportContext {
   /** Options for exporting data as SQL statements. */
-  sqlExportOptions?: ExportContextSqlExportOptions;
+  sqlExportOptions?: ExportContextSqlExportOptions | undefined;
   /** Options for exporting BAK files (SQL Server-only) */
-  bakExportOptions?: ExportContextBakExportOptions;
+  bakExportOptions?: ExportContextBakExportOptions | undefined;
   /** Whether to perform a serverless export. */
-  offload?: boolean;
+  offload?: boolean | undefined;
   /** This is always `sql#exportContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Databases to be exported. `MySQL instances:` If `fileType` is `SQL` and no database is specified, all databases are exported, except for the `mysql` system database. If `fileType` is `CSV`, you can specify one database, either by using this property or by using the `csvExportOptions.selectQuery` property, which takes precedence over this property. `PostgreSQL instances:` If you don't specify a database by name, all user databases in the instance are exported. This excludes system databases and Cloud SQL databases used to manage internal operations. Exporting all user databases is only available for directory-formatted parallel export. If `fileType` is `CSV`, this database must match the one specified in the `csvExportOptions.selectQuery` property. `SQL Server instances:` You must specify one database to be exported, and the `fileType` must be `BAK`. */
-  databases?: StringList;
+  databases?: StringList | undefined;
   /** The file type for the specified uri. */
-  fileType?: ExportContextFileTypeEnum | (string & {});
+  fileType?: ExportContextFileTypeEnum | (string & {}) | undefined;
   /** Options for exporting data as CSV. `MySQL` and `PostgreSQL` instances only. */
-  csvExportOptions?: ExportContextCsvExportOptions;
+  csvExportOptions?: ExportContextCsvExportOptions | undefined;
   /** The path to the file in Google Cloud Storage where the export will be stored. The URI is in the form `gs://bucketName/fileName`. If the file already exists, the request succeeds, but the operation fails. If `fileType` is `SQL` and the filename ends with .gz, the contents are compressed. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. Export parameters specific to SQL Server TDE certificates */
-  tdeExportOptions?: ExportContextTdeExportOptions;
+  tdeExportOptions?: ExportContextTdeExportOptions | undefined;
 }
 /** The context for the `StopWorkloadCapture` operation, which contains details to stop recording the workload (SQL queries) on a Cloud SQL instance. */
 export interface StopWorkloadCaptureContext {
   /** Optional. If true, immediately aborts the concurrent live replay and discards any un-replayed traffic alongside stopping the capture. If false (the default), the capture stops recording new traffic, but the live replay will continue executing until the entire backlog of captured traffic has been replayed. */
-  abortLiveReplay?: boolean;
+  abortLiveReplay?: boolean | undefined;
 }
 /** The context for the `StartWorkloadCapture` operation, which contains details to start recording the workload (SQL queries) on a Cloud SQL instance. */
 export interface StartWorkloadCaptureContext {
   /** Optional. If true, the captured workload is simultaneously executed on a separate, ephemeral Cloud SQL instance. This "live replay" instance is automatically provisioned and is cloned from the source instance. If false (the default), the workload is only stored and no live replay occurs. It can be replayed later using a separate `StartWorkloadReplayRequest`. Note: The workload capture runs continuously until an explicit `StopWorkloadCaptureRequest` is issued. */
-  enableLiveReplay?: boolean;
+  enableLiveReplay?: boolean | undefined;
   /** Optional. Required if `enable_live_replay` is true. The name of the Cloud SQL instance where the captured workload (SQL queries) is being executed, excluding the project ID (for example, `my-replay-instance`). The instance name must start with a lowercase letter and contain only lowercase letters, numbers, and hyphens. The combined length of `project-ID:instance-name` must be 98 characters or less. */
-  replayInstance?: string;
+  replayInstance?: string | undefined;
 }
 export type PreCheckMajorVersionUpgradeContextTargetDatabaseVersionEnum =
   | "SQL_DATABASE_VERSION_UNSPECIFIED"
@@ -350,11 +350,11 @@ export type PreCheckResponseMessageTypeEnum =
 /** Structured PreCheckResponse containing message, type, and required actions. */
 export interface PreCheckResponse {
   /** The type of message whether it is an info, warning, or error. */
-  messageType?: PreCheckResponseMessageTypeEnum | (string & {});
+  messageType?: PreCheckResponseMessageTypeEnum | (string & {}) | undefined;
   /** The message to be displayed to the user. */
-  message?: string;
+  message?: string | undefined;
   /** The actions that the user needs to take. Use repeated for multiple actions. */
-  actionsRequired?: StringList;
+  actionsRequired?: StringList | undefined;
 }
 export type PreCheckResponseList = Array<PreCheckResponse>;
 /** Pre-check major version upgrade context. */
@@ -362,13 +362,14 @@ export interface PreCheckMajorVersionUpgradeContext {
   /** Required. The target database version to upgrade to. */
   targetDatabaseVersion?:
     | PreCheckMajorVersionUpgradeContextTargetDatabaseVersionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. The responses from the precheck operation. */
-  preCheckResponse?: PreCheckResponseList;
+  preCheckResponse?: PreCheckResponseList | undefined;
   /** Optional. The maximum allowed runtime for the precheck operation. */
-  maxRuntime?: string;
+  maxRuntime?: string | undefined;
   /** Optional. This is always `sql#preCheckMajorVersionUpgradeContext`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type OperationStatusEnum =
   | "SQL_OPERATION_STATUS_UNSPECIFIED"
@@ -384,31 +385,31 @@ export type SqlSubOperationTypeMaintenanceTypeEnum =
 /** The sub operation type based on the operation type. */
 export interface SqlSubOperationType {
   /** The type of maintenance to be performed on the instance. */
-  maintenanceType?: SqlSubOperationTypeMaintenanceTypeEnum;
+  maintenanceType?: SqlSubOperationTypeMaintenanceTypeEnum | undefined;
 }
 /** Database instance operation error. */
 export interface OperationError {
   /** This is always `sql#operationError`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Additional information about the error encountered. */
-  message?: string;
+  message?: string | undefined;
   /** Identifies the specific error that occurred. */
-  code?: string;
+  code?: string | undefined;
 }
 export type OperationErrorList = Array<OperationError>;
 /** Database instance operation errors list wrapper. */
 export interface OperationErrors {
   /** The list of errors encountered while processing this operation. */
-  errors?: OperationErrorList;
+  errors?: OperationErrorList | undefined;
   /** This is always `sql#operationErrors`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The context for the `StartWorkloadReplay` operation, which contains details about starting the execution of a captured workload (recorded read and write SQL queries) on a replay instance (the Cloud SQL instance where the recorded SQL queries are executed). */
 export interface StartWorkloadReplayContext {
   /** Output only. The ID of the workload to start executing on the replay instance. Each workload capture generates a unique ID in the format `workload-` (for example, `workload-1786046400`). Use this ID to start executing the recorded SQL queries. */
-  workloadId?: string;
+  workloadId?: string | undefined;
   /** Required. The name of the Cloud SQL instance where the captured workload (SQL queries) is being executed, excluding the project ID (for example, `my-replay-instance`). The instance name must start with a lowercase letter and contain only lowercase letters, numbers, and hyphens. The combined length of `project-ID:instance-name` must be 98 characters or less. */
-  replayInstance?: string;
+  replayInstance?: string | undefined;
 }
 export type ApiWarningCodeEnum =
   | "SQL_API_WARNING_CODE_UNSPECIFIED"
@@ -419,50 +420,50 @@ export type ApiWarningCodeEnum =
 /** An Admin API warning message. */
 export interface ApiWarning {
   /** The region name for REGION_UNREACHABLE warning. */
-  region?: string;
+  region?: string | undefined;
   /** Code to uniquely identify the warning type. */
-  code?: ApiWarningCodeEnum;
+  code?: ApiWarningCodeEnum | undefined;
   /** The warning message. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImportContextSqlImportOptionsPostgresImportOptions {
   /** Optional. The --clean flag for the pg_restore utility. This flag applies only if you enabled Cloud SQL to import files in parallel. */
-  clean?: boolean;
+  clean?: boolean | undefined;
   /** Optional. The --if-exists flag for the pg_restore utility. This flag applies only if you enabled Cloud SQL to import files in parallel. */
-  ifExists?: boolean;
+  ifExists?: boolean | undefined;
 }
 export interface ImportContextSqlImportOptions {
   /** Optional. The number of threads to use for parallel import. */
-  threads?: number;
+  threads?: number | undefined;
   /** Optional. Whether or not the import should be parallel. */
-  parallel?: boolean;
+  parallel?: boolean | undefined;
   /** Optional. Options for importing from a Cloud SQL for PostgreSQL instance. */
-  postgresImportOptions?: ImportContextSqlImportOptionsPostgresImportOptions;
+  postgresImportOptions?: ImportContextSqlImportOptionsPostgresImportOptions | undefined;
 }
 export type ImportContextFileTypeEnum = "SQL_FILE_TYPE_UNSPECIFIED" | "SQL" | "CSV" | "BAK" | "TDE";
 export interface ImportContextCsvImportOptions {
   /** The table to which CSV data is imported. */
-  table?: string;
+  table?: string | undefined;
   /** Specifies the quoting character to be used when a data value is quoted. */
-  quoteCharacter?: string;
+  quoteCharacter?: string | undefined;
   /** Specifies the character that should appear before a data character that needs to be escaped. */
-  escapeCharacter?: string;
+  escapeCharacter?: string | undefined;
   /** Specifies the character that separates columns within each row (line) of the file. */
-  fieldsTerminatedBy?: string;
+  fieldsTerminatedBy?: string | undefined;
   /** The columns to which CSV data is imported. If not specified, all columns of the database table are loaded with CSV data. */
-  columns?: StringList;
+  columns?: StringList | undefined;
   /** This is used to separate lines. If a line does not contain all fields, the rest of the columns are set to their default values. */
-  linesTerminatedBy?: string;
+  linesTerminatedBy?: string | undefined;
 }
 export interface ImportContextBakImportOptionsEncryptionOptions {
   /** Password that encrypts the private key */
-  pvkPassword?: string;
+  pvkPassword?: string | undefined;
   /** Path to the Certificate (.cer) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
-  certPath?: string;
+  certPath?: string | undefined;
   /** Path to the Certificate Private Key (.pvk) in Cloud Storage, in the form `gs://bucketName/fileName`. The instance must have write permissions to the bucket and read access to the file. */
-  pvkPath?: string;
+  pvkPath?: string | undefined;
   /** Optional. Whether the imported file remains encrypted. */
-  keepEncrypted?: boolean;
+  keepEncrypted?: boolean | undefined;
 }
 export type ImportContextBakImportOptionsBakTypeEnum =
   | "BAK_TYPE_UNSPECIFIED"
@@ -470,109 +471,109 @@ export type ImportContextBakImportOptionsBakTypeEnum =
   | "DIFF"
   | "TLOG";
 export interface ImportContextBakImportOptions {
-  encryptionOptions?: ImportContextBakImportOptionsEncryptionOptions;
+  encryptionOptions?: ImportContextBakImportOptionsEncryptionOptions | undefined;
   /** Type of the bak content, FULL or DIFF. */
-  bakType?: ImportContextBakImportOptionsBakTypeEnum | (string & {});
+  bakType?: ImportContextBakImportOptionsBakTypeEnum | (string & {}) | undefined;
   /** Whether or not the backup importing request will just bring database online without downloading Bak content only one of "no_recovery" and "recovery_only" can be true otherwise error will return. Applies only to Cloud SQL for SQL Server. */
-  recoveryOnly?: boolean;
+  recoveryOnly?: boolean | undefined;
   /** Optional. The timestamp when the import should stop. This timestamp is in the [RFC 3339](https://tools.ietf.org/html/rfc3339) format (for example, `2023-10-01T16:19:00.094`). This field is equivalent to the STOPAT keyword and applies to Cloud SQL for SQL Server only. */
-  stopAt?: string;
+  stopAt?: string | undefined;
   /** Optional. The marked transaction where the import should stop. This field is equivalent to the STOPATMARK keyword and applies to Cloud SQL for SQL Server only. */
-  stopAtMark?: string;
+  stopAtMark?: string | undefined;
   /** Whether or not the backup set being restored is striped. Applies only to Cloud SQL for SQL Server. */
-  striped?: boolean;
+  striped?: boolean | undefined;
   /** Whether or not the backup importing will restore database with NORECOVERY option. Applies only to Cloud SQL for SQL Server. */
-  noRecovery?: boolean;
+  noRecovery?: boolean | undefined;
 }
 export interface ImportContextTdeImportOptions {
   /** Required. Path to the TDE certificate private key in the form gs://bucketName/fileName. The instance must have read access to the file. Applicable only for SQL Server instances. */
-  privateKeyPath?: string;
+  privateKeyPath?: string | undefined;
   /** Required. Path to the TDE certificate public key in the form gs://bucketName/fileName. The instance must have read access to the file. Applicable only for SQL Server instances. */
-  certificatePath?: string;
+  certificatePath?: string | undefined;
   /** Required. Certificate name. Applicable only for SQL Server instances. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Password that encrypts the private key. */
-  privateKeyPassword?: string;
+  privateKeyPassword?: string | undefined;
 }
 /** Database instance import context. */
 export interface ImportContext {
   /** The PostgreSQL user for this import operation. PostgreSQL instances only. */
-  importUser?: string;
+  importUser?: string | undefined;
   /** Optional. Options for importing data from SQL statements. */
-  sqlImportOptions?: ImportContextSqlImportOptions;
+  sqlImportOptions?: ImportContextSqlImportOptions | undefined;
   /** Path to the import file in Cloud Storage, in the form `gs://bucketName/fileName`. Compressed gzip files (.gz) are supported when `fileType` is `SQL`. The instance must have write permissions to the bucket and read access to the file. */
-  uri?: string;
+  uri?: string | undefined;
   /** The file type for the specified uri. * `SQL`: The file contains SQL statements. * `CSV`: The file contains CSV data. * `BAK`: The file contains backup data for a SQL Server instance. */
-  fileType?: ImportContextFileTypeEnum | (string & {});
+  fileType?: ImportContextFileTypeEnum | (string & {}) | undefined;
   /** This is always `sql#importContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The target database for the import. If `fileType` is `SQL`, this field is required only if the import file does not specify a database, and is overridden by any database specification in the import file. For entire instance parallel import operations, the database is overridden by the database name stored in subdirectory name. If `fileType` is `CSV`, one database must be specified. */
-  database?: string;
+  database?: string | undefined;
   /** Options for importing data as CSV. */
-  csvImportOptions?: ImportContextCsvImportOptions;
+  csvImportOptions?: ImportContextCsvImportOptions | undefined;
   /** Import parameters specific to SQL Server .BAK files */
-  bakImportOptions?: ImportContextBakImportOptions;
+  bakImportOptions?: ImportContextBakImportOptions | undefined;
   /** Optional. Import parameters specific to SQL Server .TDE files Import parameters specific to SQL Server TDE certificates */
-  tdeImportOptions?: ImportContextTdeImportOptions;
+  tdeImportOptions?: ImportContextTdeImportOptions | undefined;
 }
 /** Backup context. */
 export interface BackupContext {
   /** This is always `sql#backupContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name of the backup. Format: projects/{project}/backups/{backup} */
-  name?: string;
+  name?: string | undefined;
   /** The identifier of the backup. */
-  backupId?: string;
+  backupId?: string | undefined;
 }
 /** An Operation resource. For successful operations that return an Operation resource, only the fields relevant to the operation are populated in the resource. */
 export interface Operation {
   /** The project ID of the target instance related to this operation. */
-  targetProject?: string;
+  targetProject?: string | undefined;
   /** The context for acquire SSRS lease operation, if applicable. */
-  acquireSsrsLeaseContext?: AcquireSsrsLeaseContext;
+  acquireSsrsLeaseContext?: AcquireSsrsLeaseContext | undefined;
   /** The context for the `StopWorkloadReplay` operation, which contains details about stopping the execution of a captured workload (recorded read and write SQL queries) on a replay instance. */
-  stopWorkloadReplayContext?: StopWorkloadReplayContext;
+  stopWorkloadReplayContext?: StopWorkloadReplayContext | undefined;
   /** The type of the operation. Valid values are: * `CREATE` * `DELETE` * `UPDATE` * `RESTART` * `IMPORT` * `EXPORT` * `BACKUP_VOLUME` * `RESTORE_VOLUME` * `CREATE_USER` * `DELETE_USER` * `CREATE_DATABASE` * `DELETE_DATABASE` */
-  operationType?: OperationOperationTypeEnum;
+  operationType?: OperationOperationTypeEnum | undefined;
   /** The context for export operation, if applicable. */
-  exportContext?: ExportContext;
+  exportContext?: ExportContext | undefined;
   /** The context for the `StopWorkloadCapture` operation, which contains details to stop recording the workload (SQL queries) on a Cloud SQL instance. */
-  stopWorkloadCaptureContext?: StopWorkloadCaptureContext;
+  stopWorkloadCaptureContext?: StopWorkloadCaptureContext | undefined;
   /** The context for the `StartWorkloadCapture` operation, which contains details to start recording the workload (SQL queries) on a Cloud SQL instance. */
-  startWorkloadCaptureContext?: StartWorkloadCaptureContext;
+  startWorkloadCaptureContext?: StartWorkloadCaptureContext | undefined;
   /** The time this operation actually started in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The context for pre-check major version upgrade operation, if applicable. This field is only populated when the operation_type is PRE_CHECK_MAJOR_VERSION_UPGRADE. The PreCheckMajorVersionUpgradeContext message itself contains the details for that pre-check, such as the target database version for the upgrade and the results of the check (including any warnings or errors found). */
-  preCheckMajorVersionUpgradeContext?: PreCheckMajorVersionUpgradeContext;
+  preCheckMajorVersionUpgradeContext?: PreCheckMajorVersionUpgradeContext | undefined;
   /** The status of an operation. */
-  status?: OperationStatusEnum;
+  status?: OperationStatusEnum | undefined;
   /** An identifier that uniquely identifies the operation. You can use this identifier to retrieve the Operations resource that has information about the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The sub operation based on the operation type. */
-  subOperationType?: SqlSubOperationType;
+  subOperationType?: SqlSubOperationType | undefined;
   /** The time this operation was enqueued in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  insertTime?: string;
+  insertTime?: string | undefined;
   /** If errors occurred during processing of this operation, this field will be populated. */
-  error?: OperationErrors;
+  error?: OperationErrors | undefined;
   /** Name of the resource on which this operation runs. */
-  targetId?: string;
+  targetId?: string | undefined;
   /** The context for the `StartWorkloadReplay` operation, which contains details about starting the execution of a captured workload (recorded read and write SQL queries) on a replay instance (the Cloud SQL instance where the recorded SQL queries are executed). */
-  startWorkloadReplayContext?: StartWorkloadReplayContext;
+  startWorkloadReplayContext?: StartWorkloadReplayContext | undefined;
   /** An Admin API warning message. */
-  apiWarning?: ApiWarning;
-  targetLink?: string;
+  apiWarning?: ApiWarning | undefined;
+  targetLink?: string | undefined;
   /** The context for import operation, if applicable. */
-  importContext?: ImportContext;
+  importContext?: ImportContext | undefined;
   /** The context for backup operation, if applicable. */
-  backupContext?: BackupContext;
+  backupContext?: BackupContext | undefined;
   /** The URI of this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The time this operation finished in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** This is always `sql#operation`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The email address of the user who initiated this operation. */
-  user?: string;
+  user?: string | undefined;
 }
 export interface AddServerCaInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -580,7 +581,7 @@ export interface AddServerCaInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface AddServerCertificateInstancesRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
@@ -588,7 +589,7 @@ export interface AddServerCertificateInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface CancelOperationsRequest {
   /** Instance operation ID. */
@@ -596,50 +597,50 @@ export interface CancelOperationsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** Binary log coordinates. */
 export interface BinLogCoordinates {
   /** This is always `sql#binLogCoordinates`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of the binary log file for a Cloud SQL instance. */
-  binLogFileName?: string;
+  binLogFileName?: string | undefined;
   /** Position (offset) within the binary log file. */
-  binLogPosition?: string;
+  binLogPosition?: string | undefined;
 }
 /** Database instance clone context. */
 export interface CloneContext {
   /** Optional. Copy clone and point-in-time recovery clone of a regional instance in the specified zones. If not specified, clone to the same secondary zone as the source instance. This value cannot be the same as the preferred_zone field. */
-  preferredSecondaryZone?: string;
+  preferredSecondaryZone?: string | undefined;
   /** The name of the allocated ip range for the private ip Cloud SQL instance. For example: "google-managed-services-default". If set, the cloned instance ip will be created in the allocated range. The range name must comply with [RFC 1035](https://tools.ietf.org/html/rfc1035). Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?. Reserved for future use. */
-  allocatedIpRange?: string;
+  allocatedIpRange?: string | undefined;
   /** Binary log coordinates, if specified, identify the position up to which the source instance is cloned. If not specified, the source instance is cloned up to the most recent binary log coordinates. */
-  binLogCoordinates?: BinLogCoordinates;
+  binLogCoordinates?: BinLogCoordinates | undefined;
   /** Optional. The project ID of the destination project where the cloned instance will be created. To perform a cross-project clone, this field is required. If not specified, the clone is created in the same project as the source instance. */
-  destinationProject?: string;
+  destinationProject?: string | undefined;
   /** Reserved for future use. */
-  pitrTimestampMs?: string;
+  pitrTimestampMs?: string | undefined;
   /** (SQL Server only) Clone only the specified databases from the source instance. Clone all databases if empty. */
-  databaseNames?: StringList;
+  databaseNames?: StringList | undefined;
   /** The timestamp used to identify the time when the source instance is deleted. If this instance is deleted, then you must set the timestamp. */
-  sourceInstanceDeletionTime?: string;
+  sourceInstanceDeletionTime?: string | undefined;
   /** Timestamp, if specified, identifies the time to which the source instance is cloned. */
-  pointInTime?: string;
+  pointInTime?: string | undefined;
   /** Optional. The fully qualified URI of the VPC network to which the cloned instance will be connected via private services access for private IP. For example:`projects/my-network-project/global/networks/my-network`. This field is only required for cross-project cloning. */
-  destinationNetwork?: string;
+  destinationNetwork?: string | undefined;
   /** Name of the Cloud SQL instance to be created as a clone. */
-  destinationInstanceName?: string;
+  destinationInstanceName?: string | undefined;
   /** This is always `sql#cloneContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. Copy clone and point-in-time recovery clone of an instance to the specified zone. If no zone is specified, clone to the same primary zone as the source instance. */
-  preferredZone?: string;
+  preferredZone?: string | undefined;
 }
 /** Database instance clone request. */
 export interface InstancesCloneRequest {
   /** Contains details about the clone operation. */
-  cloneContext?: CloneContext;
+  cloneContext?: CloneContext | undefined;
 }
 export interface CloneInstancesRequest {
   /** Project ID of the source Cloud SQL instance. */
@@ -647,9 +648,9 @@ export interface CloneInstancesRequest {
   /** The ID of the Cloud SQL instance to be cloned (source). This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: InstancesCloneRequest;
+  body?: InstancesCloneRequest | undefined;
 }
 export interface ConnectResolveRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
@@ -728,33 +729,33 @@ export type IpMappingTypeEnum =
 /** Database instance IP mapping */
 export interface IpMapping {
   /** The IP address assigned. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The type of this IP address. A `PRIMARY` address is a public address that can accept incoming connections. A `PRIVATE` address is a private address that can accept incoming connections. An `OUTGOING` address is the source address of connections originating from the instance, if supported. */
-  type?: IpMappingTypeEnum | (string & {});
+  type?: IpMappingTypeEnum | (string & {}) | undefined;
   /** The due time for this IP to be retired in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. This field is only available when the IP is scheduled to be retired. */
-  timeToRetire?: string;
+  timeToRetire?: string | undefined;
 }
 export type IpMappingList = Array<IpMapping>;
 /** SslCerts Resource */
 export interface SslCert {
   /** The time when the certificate expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** The time when the certificate was created in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Name of the database instance. */
-  instance?: string;
+  instance?: string | undefined;
   /** User supplied name. Constrained to [a-zA-Z.-_ ]+. */
-  commonName?: string;
+  commonName?: string | undefined;
   /** This is always `sql#sslCert`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Serial number, as extracted from the certificate. */
-  certSerialNumber?: string;
+  certSerialNumber?: string | undefined;
   /** Sha1 Fingerprint. */
-  sha1Fingerprint?: string;
+  sha1Fingerprint?: string | undefined;
   /** The URI of this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** PEM representation. */
-  cert?: string;
+  cert?: string | undefined;
 }
 export type DnsNameMappingDnsScopeEnum = "DNS_SCOPE_UNSPECIFIED" | "INSTANCE" | "CLUSTER";
 export type DnsNameMappingRecordManagerEnum =
@@ -769,25 +770,25 @@ export type DnsNameMappingConnectionTypeEnum =
 /** DNS metadata. */
 export interface DnsNameMapping {
   /** Output only. The DNS name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The scope that the DNS name applies to. */
-  dnsScope?: DnsNameMappingDnsScopeEnum | (string & {});
+  dnsScope?: DnsNameMappingDnsScopeEnum | (string & {}) | undefined;
   /** Output only. The manager for this DNS record. */
-  recordManager?: DnsNameMappingRecordManagerEnum | (string & {});
+  recordManager?: DnsNameMappingRecordManagerEnum | (string & {}) | undefined;
   /** Output only. The connection type of the DNS name. */
-  connectionType?: DnsNameMappingConnectionTypeEnum | (string & {});
+  connectionType?: DnsNameMappingConnectionTypeEnum | (string & {}) | undefined;
 }
 export type DnsNameMappingList = Array<DnsNameMapping>;
 /** Details of a single read pool node of a read pool. */
 export interface ConnectPoolNodeConfig {
   /** Output only. Mappings containing IP addresses that can be used to connect to the read pool node. */
-  ipAddresses?: IpMappingList;
+  ipAddresses?: IpMappingList | undefined;
   /** Output only. The list of DNS names used by this read pool node. */
-  dnsNames?: DnsNameMappingList;
+  dnsNames?: DnsNameMappingList | undefined;
   /** Output only. The name of the read pool node. Doesn't include the project ID. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The DNS name of the read pool node. */
-  dnsName?: string;
+  dnsName?: string | undefined;
 }
 export type ConnectPoolNodeConfigList = Array<ConnectPoolNodeConfig>;
 export type ConnectSettingsMdxProtocolSupportItemEnum =
@@ -803,114 +804,114 @@ export type ConnectSettingsServerCaModeEnum =
 /** Connect settings retrieval response. */
 export interface ConnectSettings {
   /** Optional. Output only. Connection name of the Cloud SQL instance used in connection strings, in the format project:region:instance. */
-  connectionName?: string;
+  connectionName?: string | undefined;
   /** The number of read pool nodes in a read pool. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** `SECOND_GEN`: Cloud SQL database instance. `EXTERNAL`: A database server that is not managed by Google. This property is read-only; use the `tier` property in the `settings` object to determine the database type. */
-  backendType?: ConnectSettingsBackendTypeEnum;
+  backendType?: ConnectSettingsBackendTypeEnum | undefined;
   /** The database engine type and version. The `databaseVersion` field cannot be changed after instance creation. MySQL instances: `MYSQL_8_0`, `MYSQL_5_7` (default), or `MYSQL_5_6`. PostgreSQL instances: `POSTGRES_9_6`, `POSTGRES_10`, `POSTGRES_11` or `POSTGRES_12` (default), `POSTGRES_13`, or `POSTGRES_14`. SQL Server instances: `SQLSERVER_2017_STANDARD` (default), `SQLSERVER_2017_ENTERPRISE`, `SQLSERVER_2017_EXPRESS`, `SQLSERVER_2017_WEB`, `SQLSERVER_2019_STANDARD`, `SQLSERVER_2019_ENTERPRISE`, `SQLSERVER_2019_EXPRESS`, or `SQLSERVER_2019_WEB`. */
-  databaseVersion?: ConnectSettingsDatabaseVersionEnum;
+  databaseVersion?: ConnectSettingsDatabaseVersionEnum | undefined;
   /** The assigned IP addresses for the instance. */
-  ipAddresses?: IpMappingList;
+  ipAddresses?: IpMappingList | undefined;
   /** SSL configuration. */
-  serverCaCert?: SslCert;
+  serverCaCert?: SslCert | undefined;
   /** Whether PSC connectivity is enabled for this instance. */
-  pscEnabled?: boolean;
+  pscEnabled?: boolean | undefined;
   /** The cloud region for the instance. e.g. `us-central1`, `europe-west1`. The region cannot be changed after instance creation. */
-  region?: string;
+  region?: string | undefined;
   /** Output only. Entries containing information about each read pool node of the read pool. */
-  nodes?: ConnectPoolNodeConfigList;
+  nodes?: ConnectPoolNodeConfigList | undefined;
   /** This is always `sql#connectSettings`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. Output only. mdx_protocol_support controls how the client uses metadata exchange when connecting to the instance. The values in the list representing parts of the MDX protocol that are supported by this instance. When the list is empty, the instance does not support MDX, so the client must not send an MDX request. The default is empty. */
-  mdxProtocolSupport?: ConnectSettingsMdxProtocolSupportItemEnumList;
+  mdxProtocolSupport?: ConnectSettingsMdxProtocolSupportItemEnumList | undefined;
   /** The dns name of the instance. */
-  dnsName?: string;
+  dnsName?: string | undefined;
   /** Custom subject alternative names for the server certificate. */
-  customSubjectAlternativeNames?: StringList;
+  customSubjectAlternativeNames?: StringList | undefined;
   /** Output only. The list of DNS names used by this instance. */
-  dnsNames?: DnsNameMappingList;
+  dnsNames?: DnsNameMappingList | undefined;
   /** Specify what type of CA is used for the server certificate. */
-  serverCaMode?: ConnectSettingsServerCaModeEnum;
+  serverCaMode?: ConnectSettingsServerCaModeEnum | undefined;
 }
 export type BackupTypeEnum = "SQL_BACKUP_TYPE_UNSPECIFIED" | "AUTOMATED" | "ON_DEMAND" | "FINAL";
 /** Disk encryption configuration for an instance. */
 export interface DiskEncryptionConfiguration {
   /** Optional. If true, enables Confidential Mode for the instance's Hyperdisk Balanced volumes. Only supported for zonal C4A instances currently. */
-  confidentialMode?: boolean;
+  confidentialMode?: boolean | undefined;
   /** Optional. Whether to enforce CMEK log encryption at source. When enforced, transaction logs are encrypted prior to being uploaded to Cloud Storage. If not enforced, then CMEK logs are encrypted by the Cloud Storage service. */
-  cmekSourceLogEncryptionEnforced?: boolean;
+  cmekSourceLogEncryptionEnforced?: boolean | undefined;
   /** Resource name of KMS key for disk encryption */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** This is always `sql#diskEncryptionConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Read-replica configuration specific to MySQL databases. */
 export interface MySqlReplicaConfiguration {
   /** Interval in milliseconds between replication heartbeats. */
-  masterHeartbeatPeriod?: string;
+  masterHeartbeatPeriod?: string | undefined;
   /** The username for the replication connection. */
-  username?: string;
+  username?: string | undefined;
   /** The password for the replication connection. */
-  password?: string;
+  password?: string | undefined;
   /** This is always `sql#mysqlReplicaConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
   /** PEM representation of the trusted CA's x509 certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** Path to a SQL dump file in Google Cloud Storage from which the replica instance is to be created. The URI is in the form gs://bucketName/fileName. Compressed gzip files (.gz) are also supported. Dumps have the binlog co-ordinates from which replication begins. This can be accomplished by setting --master-data to 1 when using mysqldump. */
-  dumpFilePath?: string;
+  dumpFilePath?: string | undefined;
   /** Seconds to wait between connect retries. MySQL's default is 60 seconds. */
-  connectRetryInterval?: number;
+  connectRetryInterval?: number | undefined;
   /** PEM representation of the replica's x509 certificate. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** Whether or not to check the primary instance's Common Name value in the certificate that it sends during the SSL handshake. */
-  verifyServerCertificate?: boolean;
+  verifyServerCertificate?: boolean | undefined;
   /** A list of permissible ciphers to use for SSL encryption. */
-  sslCipher?: string;
+  sslCipher?: string | undefined;
   /** PEM representation of the replica's private key. The corresponding public key is encoded in the client's certificate. */
-  clientKey?: string;
+  clientKey?: string | undefined;
 }
 /** Read-replica configuration for connecting to the primary instance. */
 export interface ReplicaConfiguration {
   /** Specifies if the replica is the failover target. If the field is set to `true` the replica will be designated as a failover replica. In case the primary instance fails, the replica instance will be promoted as the new primary instance. Only one replica can be specified as failover target, and the replica has to be in different zone with the primary instance. */
-  failoverTarget?: boolean;
+  failoverTarget?: boolean | undefined;
   /** Optional. Specifies if a SQL Server replica is a cascadable replica. A cascadable replica is a SQL Server cross region replica that supports replica(s) under it. */
-  cascadableReplica?: boolean;
+  cascadableReplica?: boolean | undefined;
   /** This is always `sql#replicaConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
   /** MySQL specific configuration when replicating from a MySQL on-premises primary instance. Replication configuration information such as the username, password, certificates, and keys are not stored in the instance metadata. The configuration information is used only to set up the replication connection and is stored by MySQL in a file named `master.info` in the data directory. */
-  mysqlReplicaConfiguration?: MySqlReplicaConfiguration;
+  mysqlReplicaConfiguration?: MySqlReplicaConfiguration | undefined;
 }
 export interface DatabaseInstanceFailoverReplica {
   /** The name of the failover replica. If specified at instance creation, a failover replica is created for the instance. The name doesn't include the project ID. */
-  name?: string;
+  name?: string | undefined;
   /** The availability status of the failover replica. A false status indicates that the failover replica is out of sync. The primary instance can only failover to the failover replica when the status is true. */
-  available?: boolean;
+  available?: boolean | undefined;
 }
 /** A primary instance and disaster recovery (DR) replica pair. A DR replica is a cross-region replica that you designate for failover in the event that the primary instance has regional failure. Applicable to MySQL and PostgreSQL. */
 export interface ReplicationCluster {
   /** Optional. If the instance is a primary instance, then this field identifies the disaster recovery (DR) replica. A DR replica is an optional configuration for Enterprise Plus edition instances. If the instance is a read replica, then the field is not set. Set this field to a replica name to designate a DR replica for a primary instance. Remove the replica name to remove the DR replica designation. */
-  failoverDrReplicaName?: string;
+  failoverDrReplicaName?: string | undefined;
   /** Output only. If set, this field indicates this instance has a private service access (PSA) DNS endpoint that is pointing to the primary instance of the cluster. If this instance is the primary, then the DNS endpoint points to this instance. After a switchover or replica failover operation, this DNS endpoint points to the promoted instance. This is a read-only field, returned to the user as information. This field can exist even if a standalone instance doesn't have a DR replica yet or the DR replica is deleted. */
-  psaWriteEndpoint?: string;
+  psaWriteEndpoint?: string | undefined;
   /** Output only. Read-only field that indicates whether the replica is a DR replica. This field is not set if the instance is a primary instance. */
-  drReplica?: boolean;
+  drReplica?: boolean | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Gemini instance configuration. */
 export interface GeminiInstanceConfig {
   /** Output only. Whether Gemini is enabled. */
-  entitled?: boolean;
+  entitled?: boolean | undefined;
   /** Output only. Whether the active query is enabled. */
-  activeQueryEnabled?: boolean;
+  activeQueryEnabled?: boolean | undefined;
   /** Output only. Whether the flag recommender is enabled. */
-  flagRecommenderEnabled?: boolean;
+  flagRecommenderEnabled?: boolean | undefined;
   /** Output only. Whether canceling the out-of-memory (OOM) session is enabled. */
-  oomSessionCancelEnabled?: boolean;
+  oomSessionCancelEnabled?: boolean | undefined;
   /** Output only. Whether the index advisor is enabled. */
-  indexAdvisorEnabled?: boolean;
+  indexAdvisorEnabled?: boolean | undefined;
   /** Output only. Whether the vacuum management is enabled. */
-  googleVacuumMgmtEnabled?: boolean;
+  googleVacuumMgmtEnabled?: boolean | undefined;
 }
 export type OnPremisesConfigurationSslOptionEnum =
   | "SSL_OPTION_UNSPECIFIED"
@@ -920,44 +921,44 @@ export type OnPremisesConfigurationSslOptionEnum =
 /** A list of objects that the user selects for replication from an external source instance. */
 export interface SelectedObjects {
   /** Required. The name of the database to migrate. */
-  database?: string;
+  database?: string | undefined;
 }
 export type SelectedObjectsList = Array<SelectedObjects>;
 /** Reference to another Cloud SQL instance. */
 export interface InstanceReference {
   /** The name of the Cloud SQL instance being referenced. This does not include the project ID. */
-  name?: string;
+  name?: string | undefined;
   /** The project ID of the Cloud SQL instance being referenced. The default is the same project ID as the instance references it. */
-  project?: string;
+  project?: string | undefined;
   /** The region of the Cloud SQL instance being referenced. */
-  region?: string;
+  region?: string | undefined;
 }
 /** On-premises instance configuration. */
 export interface OnPremisesConfiguration {
   /** Output only. Indicates whether the resource is managed by Database Migration Service. */
-  dmsManaged?: boolean;
+  dmsManaged?: boolean | undefined;
   /** Optional. SslOption for replica connection to the on-premises source. */
-  sslOption?: OnPremisesConfigurationSslOptionEnum | (string & {});
+  sslOption?: OnPremisesConfigurationSslOptionEnum | (string & {}) | undefined;
   /** The dump file to create the Cloud SQL replica. */
-  dumpFilePath?: string;
+  dumpFilePath?: string | undefined;
   /** Optional. A list of objects that the user selects for replication from an external source instance. */
-  selectedObjects?: SelectedObjectsList;
+  selectedObjects?: SelectedObjectsList | undefined;
   /** This is always `sql#onPremisesConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
   /** PEM representation of the trusted CA's x509 certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** The host and port of the on-premises instance in host:port format */
-  hostPort?: string;
+  hostPort?: string | undefined;
   /** The reference to Cloud SQL instance if the source is Cloud SQL. */
-  sourceInstance?: InstanceReference;
+  sourceInstance?: InstanceReference | undefined;
   /** PEM representation of the replica's x509 certificate. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** The username for connecting to on-premises instance. */
-  username?: string;
+  username?: string | undefined;
   /** The password for connecting to on-premises instance. */
-  password?: string;
+  password?: string | undefined;
   /** PEM representation of the replica's private key. The corresponding public key is encoded in the client's certificate. */
-  clientKey?: string;
+  clientKey?: string | undefined;
 }
 export type DatabaseInstanceDatabaseVersionEnum =
   | "SQL_DATABASE_VERSION_UNSPECIFIED"
@@ -1048,11 +1049,11 @@ export type DatabaseInstanceStateEnum =
 /** An available database version. It can be a major or a minor version. */
 export interface AvailableDatabaseVersion {
   /** The database version name. For MySQL 8.0, this string provides the database major and minor version. */
-  name?: string;
+  name?: string | undefined;
   /** The database version's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The version's major version name. */
-  majorVersion?: string;
+  majorVersion?: string | undefined;
 }
 export type AvailableDatabaseVersionList = Array<AvailableDatabaseVersion>;
 export type SqlOutOfDiskReportSqlOutOfDiskStateEnum =
@@ -1062,9 +1063,9 @@ export type SqlOutOfDiskReportSqlOutOfDiskStateEnum =
 /** This message wraps up the information written by out-of-disk detection job. */
 export interface SqlOutOfDiskReport {
   /** This field represents the state generated by the proactive database wellness job for OutOfDisk issues. * Writers: * the proactive database wellness job for OOD. * Readers: * the proactive database wellness job */
-  sqlOutOfDiskState?: SqlOutOfDiskReportSqlOutOfDiskStateEnum | (string & {});
+  sqlOutOfDiskState?: SqlOutOfDiskReportSqlOutOfDiskStateEnum | (string & {}) | undefined;
   /** The minimum recommended increase size in GigaBytes This field is consumed by the frontend * Writers: * the proactive database wellness job for OOD. * Readers: */
-  sqlMinRecommendedIncreaseSizeGb?: number;
+  sqlMinRecommendedIncreaseSizeGb?: number | undefined;
 }
 export type DatabaseInstanceInstanceTypeEnum =
   | "SQL_INSTANCE_TYPE_UNSPECIFIED"
@@ -1085,18 +1086,18 @@ export type SettingsEditionEnum =
 /** Config used to determine the final backup settings for the instance. */
 export interface FinalBackupConfig {
   /** Whether the final backup is enabled for the instance. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The number of days to retain the final backup after the instance deletion. The final backup will be purged at (time_of_instance_deletion + retention_days). */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
 }
 /** Deny Maintenance Periods. This specifies a date range during when all CSA rollout will be denied. */
 export interface DenyMaintenancePeriod {
   /** "deny maintenance period" start date. If the year of the start date is empty, the year of the end date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01 */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Time in UTC when the "deny maintenance period" starts on start_date and ends on end_date. The time is in format: HH:mm:SS, i.e., 00:00:00 */
-  time?: string;
+  time?: string | undefined;
   /** "deny maintenance period" end date. If the year of the end date is empty, the year of the start date also must be empty. In this case, it means the deny maintenance period recurs every year. The date is in format yyyy-mm-dd i.e., 2020-11-01, or mm-dd, i.e., 11-01 */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 export type DenyMaintenancePeriodList = Array<DenyMaintenancePeriod>;
 export type SettingsDataDiskTypeEnum =
@@ -1108,36 +1109,36 @@ export type SettingsDataDiskTypeEnum =
 /** SQL Server Entra ID configuration. */
 export interface SqlServerEntraIdConfig {
   /** Optional. The application ID for the Entra ID configuration. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Output only. This is always sql#sqlServerEntraIdConfig */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. The tenant ID for the Entra ID configuration. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Target metric for read pool auto scaling. */
 export interface TargetMetric {
   /** The target value for the metric. */
-  targetValue?: number;
+  targetValue?: number | undefined;
   /** The metric name to be used for auto scaling. */
-  metric?: string;
+  metric?: string | undefined;
 }
 export type TargetMetricList = Array<TargetMetric>;
 /** The read pool auto-scale configuration. */
 export interface ReadPoolAutoScaleConfig {
   /** The cooldown period for scale in operations. */
-  scaleInCooldownSeconds?: number;
+  scaleInCooldownSeconds?: number | undefined;
   /** Maximum number of read pool nodes to be maintained. */
-  maxNodeCount?: number;
+  maxNodeCount?: number | undefined;
   /** Indicates whether read pool auto scaling supports scale in operations (removing nodes). */
-  disableScaleIn?: boolean;
+  disableScaleIn?: boolean | undefined;
   /** Optional. Target metrics for read pool auto scaling. */
-  targetMetrics?: TargetMetricList;
+  targetMetrics?: TargetMetricList | undefined;
   /** Minimum number of read pool nodes to be maintained. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
   /** The cooldown period for scale out operations. */
-  scaleOutCooldownSeconds?: number;
+  scaleOutCooldownSeconds?: number | undefined;
   /** Indicates whether read pool auto scaling is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type SettingsActivationPolicyEnum =
   | "SQL_ACTIVATION_POLICY_UNSPECIFIED"
@@ -1152,17 +1153,17 @@ export type SqlActiveDirectoryConfigModeEnum =
 /** Active Directory configuration, relevant only for Cloud SQL for SQL Server. */
 export interface SqlActiveDirectoryConfig {
   /** Optional. The mode of the Active Directory configuration. */
-  mode?: SqlActiveDirectoryConfigModeEnum | (string & {});
+  mode?: SqlActiveDirectoryConfigModeEnum | (string & {}) | undefined;
   /** This is always sql#activeDirectoryConfig. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. The secret manager key storing the administrator credential. (e.g., projects/{project}/secrets/{secret}). */
-  adminCredentialSecretName?: string;
+  adminCredentialSecretName?: string | undefined;
   /** The name of the domain (e.g., mydomain.com). */
-  domain?: string;
+  domain?: string | undefined;
   /** Optional. Domain controller IPv4 addresses used to bootstrap Active Directory. */
-  dnsServers?: StringList;
+  dnsServers?: StringList | undefined;
   /** Optional. The organizational unit distinguished name. This is the full hierarchical path to the organizational unit. */
-  organizationalUnit?: string;
+  organizationalUnit?: string | undefined;
 }
 export type PasswordValidationPolicyComplexityEnum =
   | "COMPLEXITY_UNSPECIFIED"
@@ -1170,19 +1171,19 @@ export type PasswordValidationPolicyComplexityEnum =
 /** Database instance local user password validation policy. This message defines the password policy for local database users. When enabled, it enforces constraints on password complexity, length, and reuse. Keep this policy enabled to help prevent unauthorized access. */
 export interface PasswordValidationPolicy {
   /** Minimum interval after which the password can be changed. This flag is only supported for PostgreSQL. */
-  passwordChangeInterval?: string;
+  passwordChangeInterval?: string | undefined;
   /** Number of previous passwords that cannot be reused. */
-  reuseInterval?: number;
+  reuseInterval?: number | undefined;
   /** Disallow username as a part of the password. */
-  disallowUsernameSubstring?: boolean;
+  disallowUsernameSubstring?: boolean | undefined;
   /** This field is deprecated and will be removed in a future version of the API. */
-  disallowCompromisedCredentials?: boolean;
+  disallowCompromisedCredentials?: boolean | undefined;
   /** Whether to enable the password policy or not. When enabled, passwords must meet complexity requirements. Keep this policy enabled to help prevent unauthorized access. Disabling this policy allows weak passwords. */
-  enablePasswordPolicy?: boolean;
+  enablePasswordPolicy?: boolean | undefined;
   /** Minimum number of characters allowed. */
-  minLength?: number;
+  minLength?: number | undefined;
   /** The complexity of the password. */
-  complexity?: PasswordValidationPolicyComplexityEnum | (string & {});
+  complexity?: PasswordValidationPolicyComplexityEnum | (string & {}) | undefined;
 }
 export type PerformanceCaptureConfigTransactionKillTypeEnum =
   | "TRANSACTION_KILL_TYPE_UNSPECIFIED"
@@ -1191,33 +1192,33 @@ export type PerformanceCaptureConfigTransactionKillTypeEnum =
 /** Performance capture configuration. */
 export interface PerformanceCaptureConfig {
   /** Optional. Specifies the minimum number of seconds replica must be lagging behind primary instance to trigger the performance capture on replica. */
-  secondsBehindSourceThreshold?: number;
+  secondsBehindSourceThreshold?: number | undefined;
   /** Optional. Specifies the minimum allowed number of semaphore waits to trigger the performance capture. Valid integers range from `10` to `10000`. Enter `0` to disable the check. */
-  semaphoreWaitThresholdCount?: number;
+  semaphoreWaitThresholdCount?: number | undefined;
   /** Optional. Specifies the amount of time in seconds that a transaction needs to have been open before the watcher starts recording it. */
-  transactionDurationThreshold?: number;
+  transactionDurationThreshold?: number | undefined;
   /** Optional. Enables or disables the performance capture feature. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Optional. Specifies the minimum number of consecutive probe threshold that triggers performance capture. */
-  probeThreshold?: number;
+  probeThreshold?: number | undefined;
   /** Optional. Specifies the minimum percentage of CPU utilization to trigger the performance capture. Valid integers range from `10` to `99`. Enter `0` to disable the check. */
-  cpuUtilizationThresholdPercent?: number;
+  cpuUtilizationThresholdPercent?: number | undefined;
   /** Optional. Specifies the minimum allowed number of transactions in lock wait state to trigger the performance capture. Valid integers range from `10` to `10000`. Enter `0` to disable the check. */
-  transactionLockWaitThresholdCount?: number;
+  transactionLockWaitThresholdCount?: number | undefined;
   /** Optional. Determines which transactions are allowed to be terminated when they exceed `transaction_kill_threshold_seconds`. This allows protecting write-heavy transactions from auto-termination if desired. Defaults to `READ_ONLY_TRANSACTIONS` if unspecified. */
-  transactionKillType?: PerformanceCaptureConfigTransactionKillTypeEnum | (string & {});
+  transactionKillType?: PerformanceCaptureConfigTransactionKillTypeEnum | (string & {}) | undefined;
   /** Optional. Specifies the minimum percentage of memory usage to trigger the performance capture. Valid integers range from `10` to `99`. Enter `0` to disable the check. */
-  memoryUsageThresholdPercent?: number;
+  memoryUsageThresholdPercent?: number | undefined;
   /** Optional. Specifies a customer-defined list of users to exclude from transaction termination. Entries can be in the format 'user@host' or just 'user'. A standalone 'user' implies 'user@%', excluding the user from any host. Wildcard '%' is allowed in the host part of the 'user@host' format. Example: `["app_user", "db_admin@10.1.2.3", "report_user@%"]` */
-  transactionKillExcludedUserHosts?: StringList;
+  transactionKillExcludedUserHosts?: StringList | undefined;
   /** Optional. Specifies the amount of time in seconds that a transaction needs to have been open before the watcher starts terminating it. Valid integers range from `60` to `604800` (7 days). Enter `0` to disable. If enabled (i.e., > 0), this value must be greater than or equal to `transaction_duration_threshold`. Configurations where `0 < transaction_kill_threshold_seconds < transaction_duration_threshold` will be rejected. */
-  transactionKillThresholdSeconds?: number;
+  transactionKillThresholdSeconds?: number | undefined;
   /** Optional. Specifies the interval in seconds between consecutive probes that check if any trigger condition thresholds have been reached. */
-  probingIntervalSeconds?: number;
+  probingIntervalSeconds?: number | undefined;
   /** Optional. Specifies the minimum number of undo log entries in the history list length to trigger the performance capture. Valid integers range from `10000` to `10000000`. Enter `0` to disable the check. */
-  historyListLengthThresholdCount?: number;
+  historyListLengthThresholdCount?: number | undefined;
   /** Optional. Specifies the minimum number of MySQL `Threads_running` to trigger the performance capture on the primary instance. */
-  runningThreadsThreshold?: number;
+  runningThreadsThreshold?: number | undefined;
 }
 export type SettingsDataApiAccessEnum =
   | "DATA_API_ACCESS_UNSPECIFIED"
@@ -1226,30 +1227,30 @@ export type SettingsDataApiAccessEnum =
 /** Connection pool flags for Cloud SQL instances managed connection pool configuration. */
 export interface ConnectionPoolFlags {
   /** Required. The value of the flag. Boolean flags are set to `on` for true and `off` for false. This field must be omitted if the flag doesn't take a value. */
-  value?: string;
+  value?: string | undefined;
   /** Required. The name of the flag. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ConnectionPoolFlagsList = Array<ConnectionPoolFlags>;
 /** The managed connection pooling configuration. */
 export interface ConnectionPoolConfig {
   /** Optional. List of connection pool configuration flags. */
-  flags?: ConnectionPoolFlagsList;
+  flags?: ConnectionPoolFlagsList | undefined;
   /** Output only. Number of connection poolers. */
-  poolerCount?: number;
+  poolerCount?: number | undefined;
   /** Whether managed connection pooling is enabled. */
-  connectionPoolingEnabled?: boolean;
+  connectionPoolingEnabled?: boolean | undefined;
 }
 /** SQL Server specific audit configuration. */
 export interface SqlServerAuditConfig {
   /** The name of the destination bucket (e.g., gs://mybucket). */
-  bucket?: string;
+  bucket?: string | undefined;
   /** This is always sql#sqlServerAuditConfig */
-  kind?: string;
+  kind?: string | undefined;
   /** How long to keep generated audit files. */
-  retentionInterval?: string;
+  retentionInterval?: string | undefined;
   /** How often to upload generated audit files. */
-  uploadInterval?: string;
+  uploadInterval?: string | undefined;
 }
 export type SettingsReplicationTypeEnum =
   | "SQL_REPLICATION_TYPE_UNSPECIFIED"
@@ -1264,9 +1265,9 @@ export type BackupRetentionSettingsRetentionUnitEnum = "RETENTION_UNIT_UNSPECIFI
 /** We currently only support backup retention by specifying the number of backups we will retain. */
 export interface BackupRetentionSettings {
   /** Depending on the value of retention_unit, this is used to determine if a backup needs to be deleted. If retention_unit is 'COUNT', we will retain this many backups. */
-  retainedBackups?: number;
+  retainedBackups?: number | undefined;
   /** The unit that 'retained_backups' represents. */
-  retentionUnit?: BackupRetentionSettingsRetentionUnitEnum | (string & {});
+  retentionUnit?: BackupRetentionSettingsRetentionUnitEnum | (string & {}) | undefined;
 }
 export type BackupConfigurationTransactionalLogStorageStateEnum =
   | "TRANSACTIONAL_LOG_STORAGE_STATE_UNSPECIFIED"
@@ -1277,29 +1278,30 @@ export type BackupConfigurationTransactionalLogStorageStateEnum =
 /** Database instance backup configuration. */
 export interface BackupConfiguration {
   /** Whether this configuration is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Output only. Backup tier that manages the backups for the instance. */
-  backupTier?: BackupConfigurationBackupTierEnum | (string & {});
+  backupTier?: BackupConfigurationBackupTierEnum | (string & {}) | undefined;
   /** This is always `sql#backupConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
   /** (MySQL only) Whether binary log is enabled. If backup configuration is disabled, binarylog must be disabled as well. */
-  binaryLogEnabled?: boolean;
+  binaryLogEnabled?: boolean | undefined;
   /** Start time for the daily backup configuration in UTC timezone in the 24 hour format - `HH:MM`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Location of the backup */
-  location?: string;
+  location?: string | undefined;
   /** The number of days of transaction logs we retain for point in time restore, from 1-7. */
-  transactionLogRetentionDays?: number;
+  transactionLogRetentionDays?: number | undefined;
   /** Backup retention settings. */
-  backupRetentionSettings?: BackupRetentionSettings;
+  backupRetentionSettings?: BackupRetentionSettings | undefined;
   /** Optional. Deprecated: replication_log_archiving_enabled is deprecated and will be removed from a future version of the API. Use point_in_time_recovery_enabled instead. */
-  replicationLogArchivingEnabled?: boolean;
+  replicationLogArchivingEnabled?: boolean | undefined;
   /** Whether point in time recovery is enabled. */
-  pointInTimeRecoveryEnabled?: boolean;
+  pointInTimeRecoveryEnabled?: boolean | undefined;
   /** Output only. This value contains the storage location of transactional logs for the database for point-in-time recovery. */
   transactionalLogStorageState?:
     | BackupConfigurationTransactionalLogStorageStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type MaintenanceWindowUpdateTrackEnum =
   | "SQL_UPDATE_TRACK_UNSPECIFIED"
@@ -1309,57 +1311,57 @@ export type MaintenanceWindowUpdateTrackEnum =
 /** Maintenance window. This specifies when a Cloud SQL instance is restarted for system maintenance purposes. */
 export interface MaintenanceWindow {
   /** This is always `sql#maintenanceWindow`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Maintenance timing settings: `canary`, `stable`, or `week5`. For more information, see [About maintenance on Cloud SQL instances](https://cloud.google.com/sql/docs/mysql/maintenance). */
-  updateTrack?: MaintenanceWindowUpdateTrackEnum | (string & {});
+  updateTrack?: MaintenanceWindowUpdateTrackEnum | (string & {}) | undefined;
   /** Day of week - `MONDAY`, `TUESDAY`, `WEDNESDAY`, `THURSDAY`, `FRIDAY`, `SATURDAY`, or `SUNDAY`. Specify in the UTC time zone. Returned in output as an integer, 1 to 7, where `1` equals Monday. */
-  day?: number;
+  day?: number | undefined;
   /** Hour of day - 0 to 23. Specify in the UTC time zone. */
-  hour?: number;
+  hour?: number | undefined;
 }
 /** Data cache configurations. */
 export interface DataCacheConfig {
   /** Whether data cache is enabled for the instance. */
-  dataCacheEnabled?: boolean;
+  dataCacheEnabled?: boolean | undefined;
 }
 /** Insights configuration. This specifies when Cloud SQL Insights feature is enabled and optional configuration. */
 export interface InsightsConfig {
   /** Maximum query length stored in bytes. Default value: 1024 bytes. Range: 256-4500 bytes. Query lengths greater than this field value will be truncated to this value. When unset, query length will be the default value. Changing query length will restart the database. */
-  queryStringLength?: number;
+  queryStringLength?: number | undefined;
   /** Whether Query Insights will record application tags from query when enabled. */
-  recordApplicationTags?: boolean;
+  recordApplicationTags?: boolean | undefined;
   /** Whether Query Insights feature is enabled. */
-  queryInsightsEnabled?: boolean;
+  queryInsightsEnabled?: boolean | undefined;
   /** Number of query execution plans captured by Insights per minute for all queries combined. Default is 5. */
-  queryPlansPerMinute?: number;
+  queryPlansPerMinute?: number | undefined;
   /** Whether Query Insights will record client address when enabled. */
-  recordClientAddress?: boolean;
+  recordClientAddress?: boolean | undefined;
   /** Optional. Whether enhanced query insights feature is enabled. */
-  enhancedQueryInsightsEnabled?: boolean;
+  enhancedQueryInsightsEnabled?: boolean | undefined;
 }
 /** Preferred location. This specifies where a Cloud SQL instance is located. Note that if the preferred location is not available, the instance will be located as close as possible within the region. Only one location may be specified. */
 export interface LocationPreference {
   /** The preferred Compute Engine zone (for example: us-central1-a, us-central1-b, etc.). WARNING: Changing this might restart the instance. */
-  zone?: string;
+  zone?: string | undefined;
   /** This is always `sql#locationPreference`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The App Engine application to follow, it must be in the same region as the Cloud SQL instance. WARNING: Changing this might restart the instance. */
-  followGaeApplication?: string;
+  followGaeApplication?: string | undefined;
   /** The preferred Compute Engine zone for the secondary/failover (for example: us-central1-a, us-central1-b, etc.). To disable this field, set it to 'no_secondary_zone'. */
-  secondaryZone?: string;
+  secondaryZone?: string | undefined;
 }
 /** Database flags for Cloud SQL instances. */
 export interface DatabaseFlags {
   /** The value of the flag. Boolean flags are set to `on` for true and `off` for false. This field must be omitted if the flag doesn't take a value. */
-  value?: string;
+  value?: string | undefined;
   /** The name of the flag. These flags are passed at instance startup, so include both server options and system variables. Flags are specified with underscores, not hyphens. For more information, see [Configuring Database Flags](https://cloud.google.com/sql/docs/mysql/flags) in the Cloud SQL documentation. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DatabaseFlagsList = Array<DatabaseFlags>;
 /** Specifies options for controlling advanced machine features. */
 export interface AdvancedMachineFeatures {
   /** The number of threads per physical core. */
-  threadsPerCore?: number;
+  threadsPerCore?: number | undefined;
 }
 export type SettingsAvailabilityTypeEnum =
   | "SQL_AVAILABILITY_TYPE_UNSPECIFIED"
@@ -1388,54 +1390,58 @@ export type PscAutoConnectionConfigWriteEndpointAutoDnsStatusEnum =
 /** Settings for an automatically-setup Private Service Connect consumer endpoint that is used to connect to a Cloud SQL instance. */
 export interface PscAutoConnectionConfig {
   /** The connection policy status of the consumer network. */
-  consumerNetworkStatus?: string;
+  consumerNetworkStatus?: string | undefined;
   /** Optional. This is the project ID of consumer service project of this consumer endpoint. Optional. This is only applicable if consumer_network is a shared vpc network. */
-  consumerProject?: string;
+  consumerProject?: string | undefined;
   /** Output only. The status of automated DNS provisioning. */
-  instanceAutoDnsStatus?: PscAutoConnectionConfigInstanceAutoDnsStatusEnum | (string & {});
+  instanceAutoDnsStatus?:
+    | PscAutoConnectionConfigInstanceAutoDnsStatusEnum
+    | (string & {})
+    | undefined;
   /** The IP address of the consumer endpoint. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Output only. The service connection policy created automatically for the consumer network when `psc_auto_connection_policy_enabled` is true. It is in the format of: `projects/{project}/regions/{region}/serviceConnectionPolicies/{policy_id}` The `policy_id` is in format of `$NETWORK-$RANDOM`. */
-  serviceConnectionPolicy?: string;
+  serviceConnectionPolicy?: string | undefined;
   /** Output only. The status of service connection policy creation. */
-  serviceConnectionPolicyCreationResult?: string;
+  serviceConnectionPolicyCreationResult?: string | undefined;
   /** Output only. The status of automated DNS provisioning for the write endpoint. */
   writeEndpointAutoDnsStatus?:
     | PscAutoConnectionConfigWriteEndpointAutoDnsStatusEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The connection status of the consumer endpoint. */
-  status?: string;
+  status?: string | undefined;
   /** Optional. The consumer network of this consumer endpoint. This must be a resource path that includes both the host project and the network name. For example, `projects/project1/global/networks/network1`. The consumer host project of this network might be different from the consumer service project. */
-  consumerNetwork?: string;
+  consumerNetwork?: string | undefined;
 }
 export type PscAutoConnectionConfigList = Array<PscAutoConnectionConfig>;
 /** PSC settings for a Cloud SQL instance. */
 export interface PscConfig {
   /** Optional. Indicates whether Private Service Connect write endpoint DNS automation is enabled for this instance. When enabled, Cloud SQL provisions a universal global DNS record across all networks configured with Private Service Connect auto-connections that points to the cluster primary instance. This feature is only supported for Enterprise Plus edition. This will default to true for new enterprise plus instances when `psc_auto_dns_enabled` is enabled. */
-  pscWriteEndpointDnsEnabled?: boolean;
+  pscWriteEndpointDnsEnabled?: boolean | undefined;
   /** Optional. The list of consumer projects that are allow-listed for PSC connections to this instance. This instance can be connected to with PSC from any network in these projects. Each consumer project in this list may be represented by a project number (numeric) or by a project id (alphanumeric). */
-  allowedConsumerProjects?: StringList;
+  allowedConsumerProjects?: StringList | undefined;
   /** Whether PSC connectivity is enabled for this instance. */
-  pscEnabled?: boolean;
+  pscEnabled?: boolean | undefined;
   /** Optional. The network attachment of the consumer network that the Private Service Connect enabled Cloud SQL instance is authorized to connect using the PSC interface. format: projects/PROJECT/regions/REGION/networkAttachments/ID */
-  networkAttachmentUri?: string;
+  networkAttachmentUri?: string | undefined;
   /** Optional. Indicates whether Private Service Connect DNS automation is enabled for this instance. When enabled, Cloud SQL provisions a universal DNS record across all networks configured with Private Service Connect auto-connections. This will default to true for new instances when Private Service Connect is enabled. */
-  pscAutoDnsEnabled?: boolean;
+  pscAutoDnsEnabled?: boolean | undefined;
   /** Optional. The list of settings for requested Private Service Connect consumer endpoints that can be used to connect to this Cloud SQL instance. */
-  pscAutoConnections?: PscAutoConnectionConfigList;
+  pscAutoConnections?: PscAutoConnectionConfigList | undefined;
   /** Optional. Whether to set up the PSC service connection policy automatically. */
-  pscAutoConnectionPolicyEnabled?: boolean;
+  pscAutoConnectionPolicyEnabled?: boolean | undefined;
 }
 /** An entry for an Access Control list. */
 export interface AclEntry {
   /** The time when this access control entry expires in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** The allowlisted value for the access control list. */
-  value?: string;
+  value?: string | undefined;
   /** This is always `sql#aclEntry`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. A label to identify this entry. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AclEntryList = Array<AclEntry>;
 export type IpConfigurationServerCertificateRotationModeEnum =
@@ -1445,130 +1451,133 @@ export type IpConfigurationServerCertificateRotationModeEnum =
 /** IP Management configuration. */
 export interface IpConfiguration {
   /** Optional. The resource name of the server CA pool for an instance with `CUSTOMER_MANAGED_CAS_CA` as the `server_ca_mode`. Format: projects/{PROJECT}/locations/{REGION}/caPools/{CA_POOL_ID} */
-  serverCaPool?: string;
+  serverCaPool?: string | undefined;
   /** Specify what type of CA is used for the server certificate. */
-  serverCaMode?: IpConfigurationServerCaModeEnum | (string & {});
+  serverCaMode?: IpConfigurationServerCaModeEnum | (string & {}) | undefined;
   /** The name of the allocated ip range for the private ip Cloud SQL instance. For example: "google-managed-services-default". If set, the instance ip will be created in the allocated range. The range name must comply with [RFC 1035](https://tools.ietf.org/html/rfc1035). Specifically, the name must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?.` */
-  allocatedIpRange?: string;
+  allocatedIpRange?: string | undefined;
   /** Specify how SSL/TLS is enforced in database connections. If you must use the `require_ssl` flag for backward compatibility, then only the following value pairs are valid: For PostgreSQL and MySQL: * `ssl_mode=ALLOW_UNENCRYPTED_AND_ENCRYPTED` and `require_ssl=false` * `ssl_mode=ENCRYPTED_ONLY` and `require_ssl=false` * `ssl_mode=TRUSTED_CLIENT_CERTIFICATE_REQUIRED` and `require_ssl=true` For SQL Server: * `ssl_mode=ALLOW_UNENCRYPTED_AND_ENCRYPTED` and `require_ssl=false` * `ssl_mode=ENCRYPTED_ONLY` and `require_ssl=true` The value of `ssl_mode` has priority over the value of `require_ssl`. For example, for the pair `ssl_mode=ENCRYPTED_ONLY` and `require_ssl=false`, `ssl_mode=ENCRYPTED_ONLY` means accept only SSL connections, while `require_ssl=false` means accept both non-SSL and SSL connections. In this case, MySQL and PostgreSQL databases respect `ssl_mode` and accepts only SSL connections. */
-  sslMode?: IpConfigurationSslModeEnum | (string & {});
+  sslMode?: IpConfigurationSslModeEnum | (string & {}) | undefined;
   /** The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `/projects/myProject/global/networks/default`. This setting can be updated, but it cannot be removed after it is set. */
-  privateNetwork?: string;
+  privateNetwork?: string | undefined;
   /** Whether the instance is assigned a public IP address or not. */
-  ipv4Enabled?: boolean;
+  ipv4Enabled?: boolean | undefined;
   /** Optional. Custom Subject Alternative Name(SAN)s for a Cloud SQL instance. */
-  customSubjectAlternativeNames?: StringList;
+  customSubjectAlternativeNames?: StringList | undefined;
   /** PSC settings for this instance. */
-  pscConfig?: PscConfig;
+  pscConfig?: PscConfig | undefined;
   /** Use `ssl_mode` instead. Whether SSL/TLS connections over IP are enforced. If set to false, then allow both non-SSL/non-TLS and SSL/TLS connections. For SSL/TLS connections, the client certificate won't be verified. If set to true, then only allow connections encrypted with SSL/TLS and with valid client certificates. If you want to enforce SSL/TLS without enforcing the requirement for valid client certificates, then use the `ssl_mode` flag instead of the legacy `require_ssl` flag. */
-  requireSsl?: boolean;
+  requireSsl?: boolean | undefined;
   /** Controls connectivity to private IP instances from Google services, such as BigQuery. */
-  enablePrivatePathForGoogleCloudServices?: boolean;
+  enablePrivatePathForGoogleCloudServices?: boolean | undefined;
   /** The list of external networks that are allowed to connect to the instance using the IP. In 'CIDR' notation, also known as 'slash' notation (for example: `157.197.200.0/24`). */
-  authorizedNetworks?: AclEntryList;
+  authorizedNetworks?: AclEntryList | undefined;
   /** Optional. Controls the automatic server certificate rotation feature. This feature is disabled by default. When enabled, the server certificate will be automatically rotated during Cloud SQL scheduled maintenance or self-service maintenance updates up to six months before it expires. This setting can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. */
-  serverCertificateRotationMode?: IpConfigurationServerCertificateRotationModeEnum | (string & {});
+  serverCertificateRotationMode?:
+    | IpConfigurationServerCertificateRotationModeEnum
+    | (string & {})
+    | undefined;
 }
 export type SettingsPricingPlanEnum = "SQL_PRICING_PLAN_UNSPECIFIED" | "PACKAGE" | "PER_USE";
 /** Database instance settings. */
 export interface Settings {
   /** Specifies if connections must use Cloud SQL connectors. Option values include the following: `NOT_REQUIRED` (Cloud SQL instances can be connected without Cloud SQL Connectors) and `REQUIRED` (Only allow connections that use Cloud SQL Connectors) Note that using REQUIRED disables all existing authorized networks. If this field is not specified when creating a new instance, NOT_REQUIRED is used. If this field is not specified when patching or updating an existing instance, it is left unchanged in the instance. */
-  connectorEnforcement?: SettingsConnectorEnforcementEnum | (string & {});
+  connectorEnforcement?: SettingsConnectorEnforcementEnum | (string & {}) | undefined;
   /** The version of instance settings. This is a required field for update method to make sure concurrent updates are handled properly. During update, use the most recent settingsVersion value for this instance and do not try to update this value. */
-  settingsVersion?: string;
+  settingsVersion?: string | undefined;
   /** Optional. The edition type of the Cloud SQL instance. */
-  edition?: SettingsEditionEnum | (string & {});
+  edition?: SettingsEditionEnum | (string & {}) | undefined;
   /** Optional. The final backup configuration for the instance. */
-  finalBackupConfig?: FinalBackupConfig;
+  finalBackupConfig?: FinalBackupConfig | undefined;
   /** Optional. By default, Cloud SQL instances have schema extraction disabled for Dataplex. When this parameter is set to true, schema extraction for Dataplex on Cloud SQL instances is activated. */
-  enableDataplexIntegration?: boolean;
+  enableDataplexIntegration?: boolean | undefined;
   /** Deny maintenance periods */
-  denyMaintenancePeriods?: DenyMaintenancePeriodList;
+  denyMaintenancePeriods?: DenyMaintenancePeriodList | undefined;
   /** Optional. When this parameter is set to true, Cloud SQL instances can connect to Vertex AI to pass requests for real-time predictions and insights to the AI. The default value is false. This applies only to Cloud SQL for MySQL and Cloud SQL for PostgreSQL instances. */
-  enableGoogleMlIntegration?: boolean;
+  enableGoogleMlIntegration?: boolean | undefined;
   /** The size of data disk, in GB. The data disk size minimum is 10GB. */
-  dataDiskSizeGb?: string;
+  dataDiskSizeGb?: string | undefined;
   /** Optional. When this parameter is set to true, Cloud SQL retains backups of the instance even after the instance is deleted. The ON_DEMAND backup will be retained until customer deletes the backup or the project. The AUTOMATED backup will be retained based on the backups retention setting. */
-  retainBackupsOnDelete?: boolean;
+  retainBackupsOnDelete?: boolean | undefined;
   /** The type of data disk: `PD_SSD` (default) or `PD_HDD`. Not used for First Generation instances. */
-  dataDiskType?: SettingsDataDiskTypeEnum | (string & {});
+  dataDiskType?: SettingsDataDiskTypeEnum | (string & {}) | undefined;
   /** Optional. The Microsoft Entra ID configuration for the SQL Server instance. */
-  entraidConfig?: SqlServerEntraIdConfig;
+  entraidConfig?: SqlServerEntraIdConfig | undefined;
   /** Optional. Provisioned throughput measured in MiB per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
-  dataDiskProvisionedThroughput?: string;
+  dataDiskProvisionedThroughput?: string | undefined;
   /** Optional. The read pool auto-scale configuration for the instance. */
-  readPoolAutoScaleConfig?: ReadPoolAutoScaleConfig;
+  readPoolAutoScaleConfig?: ReadPoolAutoScaleConfig | undefined;
   /** Optional. Cloud SQL for MySQL auto-upgrade configuration. When this parameter is set to true, auto-upgrade is enabled for MySQL 8.0 minor versions. The MySQL version must be 8.0.35 or higher. */
-  autoUpgradeEnabled?: boolean;
+  autoUpgradeEnabled?: boolean | undefined;
   /** Configuration to protect against accidental instance deletion. */
-  deletionProtectionEnabled?: boolean;
+  deletionProtectionEnabled?: boolean | undefined;
   /** The activation policy specifies when the instance is activated; it is applicable only when the instance state is RUNNABLE. Valid values: * `ALWAYS`: The instance is on, and remains so even in the absence of connection requests. * `NEVER`: The instance is off; it is not activated, even if a connection request arrives. */
-  activationPolicy?: SettingsActivationPolicyEnum | (string & {});
+  activationPolicy?: SettingsActivationPolicyEnum | (string & {}) | undefined;
   /** This is always `sql#settings`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. Configures whether the replica is in accelerated mode. This feature is in private preview and requires allowlisting to take effect. */
-  acceleratedReplicaMode?: boolean;
+  acceleratedReplicaMode?: boolean | undefined;
   /** Active Directory configuration, relevant only for Cloud SQL for SQL Server. */
-  activeDirectoryConfig?: SqlActiveDirectoryConfig;
+  activeDirectoryConfig?: SqlActiveDirectoryConfig | undefined;
   /** The local user password validation policy of the instance for PostgreSQL and MySQL. */
-  passwordValidationPolicy?: PasswordValidationPolicy;
+  passwordValidationPolicy?: PasswordValidationPolicy | undefined;
   /** Optional. Configuration for Performance Capture, provides diagnostic metrics during high load situations. */
-  performanceCaptureConfig?: PerformanceCaptureConfig;
+  performanceCaptureConfig?: PerformanceCaptureConfig | undefined;
   /** Configuration specific to read replica instances. Indicates whether replication is enabled or not. WARNING: Changing this restarts the instance. */
-  databaseReplicationEnabled?: boolean;
+  databaseReplicationEnabled?: boolean | undefined;
   /** Optional. Configuration value for recreation of replica after certain replication lag. */
-  replicationLagMaxSeconds?: number;
+  replicationLagMaxSeconds?: number | undefined;
   /** This parameter controls whether to allow using ExecuteSql API to connect to the instance. Not allowed by default. */
-  dataApiAccess?: SettingsDataApiAccessEnum | (string & {});
+  dataApiAccess?: SettingsDataApiAccessEnum | (string & {}) | undefined;
   /** Optional. The managed connection pooling configuration for the instance. */
-  connectionPoolConfig?: ConnectionPoolConfig;
+  connectionPoolConfig?: ConnectionPoolConfig | undefined;
   /** SQL Server specific audit configuration. */
-  sqlServerAuditConfig?: SqlServerAuditConfig;
+  sqlServerAuditConfig?: SqlServerAuditConfig | undefined;
   /** The type of replication this instance uses. This can be either `ASYNCHRONOUS` or `SYNCHRONOUS`. (Deprecated) This property was only applicable to First Generation instances. */
-  replicationType?: SettingsReplicationTypeEnum | (string & {});
+  replicationType?: SettingsReplicationTypeEnum | (string & {}) | undefined;
   /** The tier (or machine type) for this instance, for example `db-custom-1-3840`. WARNING: Changing this restarts the instance. */
-  tier?: string;
+  tier?: string | undefined;
   /** Configuration to increase storage size automatically. The default value is true. */
-  storageAutoResize?: boolean;
+  storageAutoResize?: boolean | undefined;
   /** The daily backup configuration for the instance. */
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** The App Engine app IDs that can access this instance. (Deprecated) Applied to First Generation instances only. */
-  authorizedGaeApplications?: StringList;
+  authorizedGaeApplications?: StringList | undefined;
   /** The maintenance window for this instance. This specifies when the instance can be restarted for maintenance purposes. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Configuration specific to read replica instances. Indicates whether database flags for crash-safe replication are enabled. This property was only applicable to First Generation instances. */
-  crashSafeReplicationEnabled?: boolean;
+  crashSafeReplicationEnabled?: boolean | undefined;
   /** Configuration for data cache. */
-  dataCacheConfig?: DataCacheConfig;
+  dataCacheConfig?: DataCacheConfig | undefined;
   /** Insights configuration, for now relevant only for Postgres. */
-  insightsConfig?: InsightsConfig;
+  insightsConfig?: InsightsConfig | undefined;
   /** The location preference settings. This allows the instance to be located as near as possible to either an App Engine app or Compute Engine zone for better performance. App Engine co-location was only applicable to First Generation instances. */
-  locationPreference?: LocationPreference;
+  locationPreference?: LocationPreference | undefined;
   /** The database flags passed to the instance at startup. */
-  databaseFlags?: DatabaseFlagsList;
+  databaseFlags?: DatabaseFlagsList | undefined;
   /** User-provided labels, represented as a dictionary where each label is a single key value pair. */
-  userLabels?: StringMap;
+  userLabels?: StringMap | undefined;
   /** The name of server Instance collation. */
-  collation?: string;
+  collation?: string | undefined;
   /** Specifies advanced machine configuration for the instances relevant only for SQL Server. */
-  advancedMachineFeatures?: AdvancedMachineFeatures;
+  advancedMachineFeatures?: AdvancedMachineFeatures | undefined;
   /** Availability type. Potential values: * `ZONAL`: The instance serves data from only one zone. Outages in that zone affect data accessibility. * `REGIONAL`: The instance can serve data from more than one zone in a region (it is highly available)./ For more information, see [Overview of the High Availability Configuration](https://cloud.google.com/sql/docs/mysql/high-availability). */
-  availabilityType?: SettingsAvailabilityTypeEnum | (string & {});
+  availabilityType?: SettingsAvailabilityTypeEnum | (string & {}) | undefined;
   /** The maximum size to which storage capacity can be automatically increased. The default value is 0, which specifies that there is no limit. */
-  storageAutoResizeLimit?: string;
+  storageAutoResizeLimit?: string | undefined;
   /** Optional. Provisioned number of I/O operations per second for the data disk. This field is only used for hyperdisk-balanced disk types. */
-  dataDiskProvisionedIops?: string;
+  dataDiskProvisionedIops?: string | undefined;
   /** The settings for IP Management. This allows to enable or disable the instance IP and manage which external networks can connect to the instance. The IPv4 address cannot be disabled for Second Generation instances. */
-  ipConfiguration?: IpConfiguration;
+  ipConfiguration?: IpConfiguration | undefined;
   /** The pricing plan for this instance. This can be either `PER_USE` or `PACKAGE`. Only `PER_USE` is supported for Second Generation instances. */
-  pricingPlan?: SettingsPricingPlanEnum | (string & {});
+  pricingPlan?: SettingsPricingPlanEnum | (string & {}) | undefined;
   /** Server timezone, relevant only for Cloud SQL for SQL Server. */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 /** The source instance for the Blue-Green deployment. */
 export interface SourceRole {
   /** Output only. The target instance paired with this source instance in a blue-green deployment. */
-  targetId?: InstanceReference;
+  targetId?: InstanceReference | undefined;
 }
 export type BlueGreenDeploymentInfoStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1577,18 +1586,18 @@ export type BlueGreenDeploymentInfoStateEnum =
 /** The target instance for the Blue-Green deployment. */
 export interface TargetRole {
   /** Output only. The source instance paired with this target instance in a blue-green deployment. */
-  sourceId?: InstanceReference;
+  sourceId?: InstanceReference | undefined;
 }
 /** Blue-green deployment metadata for a database instance. In a blue-green deployment, we maintain two environments, one of which is live. This message contains details about the blue-green deployment. */
 export interface BlueGreenDeploymentInfo {
   /** Output only. The source instance for the Blue-Green deployment. */
-  source?: SourceRole;
+  source?: SourceRole | undefined;
   /** Output only. The resource ID of the blue-green deployment. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Output only. The current state of blue-green-deployment for UI tags */
-  state?: BlueGreenDeploymentInfoStateEnum | (string & {});
+  state?: BlueGreenDeploymentInfoStateEnum | (string & {}) | undefined;
   /** Output only. The target instance for the Blue-Green deployment. */
-  target?: TargetRole;
+  target?: TargetRole | undefined;
 }
 export type PoolNodeConfigStateEnum =
   | "SQL_INSTANCE_STATE_UNSPECIFIED"
@@ -1603,39 +1612,39 @@ export type PoolNodeConfigStateEnum =
 /** Details of a single read pool node of a read pool. */
 export interface PoolNodeConfig {
   /** Output only. The zone of the read pool node. */
-  gceZone?: string;
+  gceZone?: string | undefined;
   /** Output only. The list of DNS names used by this read pool node. */
-  dnsNames?: DnsNameMappingList;
+  dnsNames?: DnsNameMappingList | undefined;
   /** Output only. The Private Service Connect (PSC) service attachment of the read pool node. */
-  pscServiceAttachmentLink?: string;
+  pscServiceAttachmentLink?: string | undefined;
   /** Output only. Mappings containing IP addresses that can be used to connect to the read pool node. */
-  ipAddresses?: IpMappingList;
+  ipAddresses?: IpMappingList | undefined;
   /** Output only. The DNS name of the read pool node. */
-  dnsName?: string;
+  dnsName?: string | undefined;
   /** Output only. The list of settings for requested automatically-setup Private Service Connect (PSC) consumer endpoints that can be used to connect to this read pool node. */
-  pscAutoConnections?: PscAutoConnectionConfigList;
+  pscAutoConnections?: PscAutoConnectionConfigList | undefined;
   /** Output only. The name of the read pool node, to be used for retrieving metrics and logs. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The current state of the read pool node. */
-  state?: PoolNodeConfigStateEnum | (string & {});
+  state?: PoolNodeConfigStateEnum | (string & {}) | undefined;
 }
 export type PoolNodeConfigList = Array<PoolNodeConfig>;
 /** Disk encryption status for an instance. */
 export interface DiskEncryptionStatus {
   /** This is always `sql#diskEncryptionStatus`. */
-  kind?: string;
+  kind?: string | undefined;
   /** KMS key version used to encrypt the Cloud SQL instance resource */
-  kmsKeyVersionName?: string;
+  kmsKeyVersionName?: string | undefined;
 }
 /** Any scheduled maintenance for this instance. */
 export interface SqlScheduledMaintenance {
-  canDefer?: boolean;
+  canDefer?: boolean | undefined;
   /** The start time of any upcoming scheduled maintenance for this instance. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Maintenance cannot be rescheduled to start beyond this deadline. */
-  scheduleDeadlineTime?: string;
+  scheduleDeadlineTime?: string | undefined;
   /** If the scheduled maintenance can be rescheduled. */
-  canReschedule?: boolean;
+  canReschedule?: boolean | undefined;
 }
 export type DatabaseInstanceDatabaseCenterIntegrationEnum =
   | "DATABASE_CENTER_INTEGRATION_UNSPECIFIED"
@@ -1644,115 +1653,118 @@ export type DatabaseInstanceDatabaseCenterIntegrationEnum =
 /** A Cloud SQL instance resource. */
 export interface DatabaseInstance {
   /** Output only. List all maintenance versions applicable on the instance */
-  availableMaintenanceVersions?: StringList;
+  availableMaintenanceVersions?: StringList | undefined;
   /** The project ID of the project containing the Cloud SQL instance. The Google apps domain is prefixed if applicable. */
-  project?: string;
+  project?: string | undefined;
   /** Disk encryption configuration specific to an instance. */
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
   /** The current software version on the instance. */
-  maintenanceVersion?: string;
+  maintenanceVersion?: string | undefined;
   /** Configuration specific to failover replicas and read replicas. */
-  replicaConfiguration?: ReplicaConfiguration;
+  replicaConfiguration?: ReplicaConfiguration | undefined;
   /** The name and status of the failover replica. */
-  failoverReplica?: DatabaseInstanceFailoverReplica;
+  failoverReplica?: DatabaseInstanceFailoverReplica | undefined;
   /** Output only. The list of DNS names used by this instance. */
-  dnsNames?: DnsNameMappingList;
+  dnsNames?: DnsNameMappingList | undefined;
   /** Output only. The time when the instance was created in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The service account email address assigned to the instance. \This property is read-only. */
-  serviceAccountEmailAddress?: string;
+  serviceAccountEmailAddress?: string | undefined;
   /** The Compute Engine zone that the failover instance is currently serving from for a regional instance. This value could be different from the zone that was specified when the instance was created if the instance has failed over to its secondary/failover zone. */
-  secondaryGceZone?: string;
+  secondaryGceZone?: string | undefined;
   /** The number of read pool nodes in a read pool. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** A primary instance and disaster recovery (DR) replica pair. A DR replica is a cross-region replica that you designate for failover in the event that the primary instance experiences regional failure. Applicable to MySQL and PostgreSQL. */
-  replicationCluster?: ReplicationCluster;
+  replicationCluster?: ReplicationCluster | undefined;
   /** Optional. Input only. Immutable. Tag keys and tag values that are bound to this instance. You must represent each item in the map as: `"" : ""`. For example, a single resource can have the following tags: ``` "123/environment": "production", "123/costCenter": "marketing", ``` For more information on tag creation and management, see https://cloud.google.com/resource-manager/docs/tags/tags-overview. */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** The URI of this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Input only. Whether Cloud SQL is enabled to switch storing point-in-time recovery log files from a data disk to Cloud Storage. */
-  switchTransactionLogsToCloudStorageEnabled?: boolean;
+  switchTransactionLogsToCloudStorageEnabled?: boolean | undefined;
   /** Output only. The link to service attachment of PSC instance. */
-  pscServiceAttachmentLink?: string;
+  pscServiceAttachmentLink?: string | undefined;
   /** SSL configuration. */
-  serverCaCert?: SslCert;
+  serverCaCert?: SslCert | undefined;
   /** The geographical region of the Cloud SQL instance. It can be one of the [regions](https://cloud.google.com/sql/docs/mysql/locations#location-r) where Cloud SQL operates: For example, `asia-east1`, `europe-west1`, and `us-central1`. The default value is `us-central1`. */
-  region?: string;
+  region?: string | undefined;
   /** Gemini instance configuration. */
-  geminiConfig?: GeminiInstanceConfig;
+  geminiConfig?: GeminiInstanceConfig | undefined;
   /** The name of the instance which will act as primary in the replication setup. */
-  masterInstanceName?: string;
+  masterInstanceName?: string | undefined;
   /** Configuration specific to on-premises instances. */
-  onPremisesConfiguration?: OnPremisesConfiguration;
+  onPremisesConfiguration?: OnPremisesConfiguration | undefined;
   /** Input only. Determines whether an in-place major version upgrade of replicas happens when an in-place major version upgrade of a primary instance is initiated. */
-  includeReplicasForMajorVersionUpgrade?: boolean;
+  includeReplicasForMajorVersionUpgrade?: boolean | undefined;
   /** The database engine type and version. The `databaseVersion` field cannot be changed after instance creation. */
-  databaseVersion?: DatabaseInstanceDatabaseVersionEnum | (string & {});
+  databaseVersion?: DatabaseInstanceDatabaseVersionEnum | (string & {}) | undefined;
   /** This field is deprecated and will be removed from a future version of the API. Use the `settings.settingsVersion` field instead. */
-  etag?: string;
+  etag?: string | undefined;
   /** The SQL network architecture for the instance. */
-  sqlNetworkArchitecture?: DatabaseInstanceSqlNetworkArchitectureEnum | (string & {});
+  sqlNetworkArchitecture?: DatabaseInstanceSqlNetworkArchitectureEnum | (string & {}) | undefined;
   /** The assigned IP addresses for the instance. */
-  ipAddresses?: IpMappingList;
+  ipAddresses?: IpMappingList | undefined;
   /** If the instance state is SUSPENDED, the reason for the suspension. */
-  suspensionReason?: DatabaseInstanceSuspensionReasonItemEnumList;
+  suspensionReason?: DatabaseInstanceSuspensionReasonItemEnumList | undefined;
   /** The backend type. `SECOND_GEN`: Cloud SQL database instance. `EXTERNAL`: A database server that is not managed by Google. This property is read-only; use the `tier` property in the `settings` object to determine the database type. */
-  backendType?: DatabaseInstanceBackendTypeEnum | (string & {});
+  backendType?: DatabaseInstanceBackendTypeEnum | (string & {}) | undefined;
   /** The current disk usage of the instance in bytes. This property has been deprecated. Use the "cloudsql.googleapis.com/database/disk/bytes_used" metric in Cloud Monitoring API instead. Please see [this announcement](https://groups.google.com/d/msg/google-cloud-sql-announce/I_7-F9EBhT0/BtvFtdFeAgAJ) for details. */
-  currentDiskSize?: string;
+  currentDiskSize?: string | undefined;
   /** This is always `sql#instance`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Output only. Stores the current database version running on the instance including minor version such as `MYSQL_8_0_18`. */
-  databaseInstalledVersion?: string;
+  databaseInstalledVersion?: string | undefined;
   /** The current serving state of the Cloud SQL instance. */
-  state?: DatabaseInstanceStateEnum | (string & {});
+  state?: DatabaseInstanceStateEnum | (string & {}) | undefined;
   /** Output only. All database versions that are available for upgrade. */
-  upgradableDatabaseVersions?: AvailableDatabaseVersionList;
+  upgradableDatabaseVersions?: AvailableDatabaseVersionList | undefined;
   /** The maximum disk size of the instance in bytes. */
-  maxDiskSize?: string;
+  maxDiskSize?: string | undefined;
   /** This field represents the report generated by the proactive database wellness job for OutOfDisk issues. * Writers: * the proactive database wellness job for OOD. * Readers: * the proactive database wellness job */
-  outOfDiskReport?: SqlOutOfDiskReport;
+  outOfDiskReport?: SqlOutOfDiskReport | undefined;
   /** Output only. DEPRECATED: please use write_endpoint instead. */
-  primaryDnsName?: string;
+  primaryDnsName?: string | undefined;
   /** The instance type. */
-  instanceType?: DatabaseInstanceInstanceTypeEnum | (string & {});
+  instanceType?: DatabaseInstanceInstanceTypeEnum | (string & {}) | undefined;
   /** Output only. The dns name of the instance. */
-  dnsName?: string;
+  dnsName?: string | undefined;
   /** Optional. Input only. Determines whether the precheck step is skipped during a major version upgrade. */
-  skipPrecheck?: boolean;
+  skipPrecheck?: boolean | undefined;
   /** The user settings. */
-  settings?: Settings;
+  settings?: Settings | undefined;
   /** Output only. Deployment info for the instance. This is set if the instance is currently part of any blue-green setup. */
-  deploymentInfo?: BlueGreenDeploymentInfo;
+  deploymentInfo?: BlueGreenDeploymentInfo | undefined;
   /** Optional. If true, instance metadata is sent to the Database Center. If false, instance metadata is not sent to the Database Center. */
-  databaseCenterIntegrationEnabled?: boolean;
+  databaseCenterIntegrationEnabled?: boolean | undefined;
   /** The Compute Engine zone that the instance is currently serving from. This value could be different from the zone that was specified when the instance was created if the instance has failed over to its secondary zone. WARNING: Changing this might restart the instance. */
-  gceZone?: string;
+  gceZone?: string | undefined;
   /** This status indicates whether the instance satisfies PZS. The status is reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Initial root password. Use only on creation. You must set root passwords before you can connect to PostgreSQL instances. */
-  rootPassword?: string;
+  rootPassword?: string | undefined;
   /** Output only. Entries containing information about each read pool node of the read pool. */
-  nodes?: PoolNodeConfigList;
+  nodes?: PoolNodeConfigList | undefined;
   /** The IPv6 address assigned to the instance. (Deprecated) This property was applicable only to First Generation instances. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** Output only. This status indicates whether the instance satisfies PZI. The status is reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Disk encryption status specific to an instance. */
-  diskEncryptionStatus?: DiskEncryptionStatus;
+  diskEncryptionStatus?: DiskEncryptionStatus | undefined;
   /** Name of the Cloud SQL instance. This does not include the project ID. */
-  name?: string;
+  name?: string | undefined;
   /** The start time of any upcoming scheduled maintenance for this instance. */
-  scheduledMaintenance?: SqlScheduledMaintenance;
+  scheduledMaintenance?: SqlScheduledMaintenance | undefined;
   /** The replicas of the instance. */
-  replicaNames?: StringList;
+  replicaNames?: StringList | undefined;
   /** Connection name of the Cloud SQL instance used in connection strings. */
-  connectionName?: string;
+  connectionName?: string | undefined;
   /** Output only. The dns name of the primary instance in a replication group. */
-  writeEndpoint?: string;
+  writeEndpoint?: string | undefined;
   /** Optional. State of the Database Center integration for this instance. When unspecified, Database Center integration is enabled by default. */
-  databaseCenterIntegration?: DatabaseInstanceDatabaseCenterIntegrationEnum | (string & {});
+  databaseCenterIntegration?:
+    | DatabaseInstanceDatabaseCenterIntegrationEnum
+    | (string & {})
+    | undefined;
 }
 export type BackupBackupKindEnum = "SQL_BACKUP_KIND_UNSPECIFIED" | "SNAPSHOT" | "PHYSICAL";
 export type BackupDatabaseVersionEnum =
@@ -1815,9 +1827,9 @@ export type BackupDatabaseVersionEnum =
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type BackupStateEnum =
   | "SQL_BACKUP_STATE_UNSPECIFIED"
@@ -1830,68 +1842,68 @@ export type BackupStateEnum =
 /** A backup resource. */
 export interface Backup {
   /** Output only. This output contains a backup time zone. If a Cloud SQL for SQL Server instance has a different time zone from the backup's time zone, then the restore to the instance doesn't happen. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Backup expiration time. A UTC timestamp of when this resource expired. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** Output only. The mapping to backup run resource used for IAM validations. */
-  backupRun?: string;
+  backupRun?: string | undefined;
   /** Output only. Information about why the backup operation fails (for example, when the backup state fails). */
-  error?: OperationError;
+  error?: OperationError | undefined;
   /** Output only. The type of this backup. The type can be "AUTOMATED", "ON_DEMAND", or "FINAL". */
-  type?: BackupTypeEnum | (string & {});
+  type?: BackupTypeEnum | (string & {}) | undefined;
   /** Optional. Output only. Instance setting of the source instance that's associated with this backup. */
-  instanceSettings?: DatabaseInstance;
+  instanceSettings?: DatabaseInstance | undefined;
   /** Output only. The resource name of the backup. Format: projects/{project}/backups/{backup}. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The maximum chargeable bytes for the backup. */
-  maxChargeableBytes?: string;
+  maxChargeableBytes?: string | undefined;
   /** Output only. Specifies the kind of backup, PHYSICAL or DEFAULT_SNAPSHOT. */
-  backupKind?: BackupBackupKindEnum | (string & {});
+  backupKind?: BackupBackupKindEnum | (string & {}) | undefined;
   /** The storage location of the backups. The location can be multi-regional. */
-  location?: string;
+  location?: string | undefined;
   /** The name of the database instance. */
-  instance?: string;
+  instance?: string | undefined;
   /** Input only. The time-to-live (TTL) interval for this resource (in days). For example: ttlDays:7, means 7 days from the current time. The expiration time can't exceed 365 days from the time that the backup is created. */
-  ttlDays?: string;
+  ttlDays?: string | undefined;
   /** Output only. This output contains the encryption status for a backup and the version of the KMS key that's used to encrypt the Cloud SQL instance. */
-  kmsKeyVersion?: string;
+  kmsKeyVersion?: string | undefined;
   /** Output only. This is always `sql#backup`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Output only. This status indicates whether the backup satisfies PZS. The status is reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. The database version of the instance of at the time this backup was made. */
-  databaseVersion?: BackupDatabaseVersionEnum | (string & {});
+  databaseVersion?: BackupDatabaseVersionEnum | (string & {}) | undefined;
   /** The description of this backup. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. This output contains the encryption configuration for a backup and the resource name of the KMS key for disk encryption. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Output only. This output contains the following values: start_time: All database writes up to this time are available. end_time: Any database writes after this time aren't available. */
-  backupInterval?: Interval;
+  backupInterval?: Interval | undefined;
   /** Output only. This status indicates whether the backup satisfies PZI. The status is reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Optional. Output only. Timestamp in UTC of when the instance associated with this backup is deleted. */
-  instanceDeletionTime?: string;
+  instanceDeletionTime?: string | undefined;
   /** Output only. The URI of this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Output only. The state of this backup. */
-  state?: BackupStateEnum | (string & {});
+  state?: BackupStateEnum | (string & {}) | undefined;
 }
 export interface CreateBackupBackupsRequest {
   /** Required. The parent resource where this backup is created. Format: projects/{project} */
   parent: string;
   /** Request body */
-  body?: Backup;
+  body?: Backup | undefined;
 }
 /** Details about an instance within the deployment. */
 export interface NodeInfo {
   /** Output only. The instance connection name. */
-  connection?: string;
+  connection?: string | undefined;
   /** Output only. The full resource name of the instance. Format: projects/{project}/instances/{instance} */
-  instance?: string;
+  instance?: string | undefined;
   /** Output only. The unique DNS name for this instance. */
-  dns?: string;
+  dns?: string | undefined;
   /** Output only. The list of IP addresses for this instance. */
-  ipMappings?: IpMappingList;
+  ipMappings?: IpMappingList | undefined;
 }
 export type SourceTargetPairedNodeStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1907,11 +1919,11 @@ export type SourceTargetPairedNodeStateEnum =
 /** Represents a specific configuration difference between Blue and Green instances. */
 export interface ConfigDiff {
   /** Output only. The name of the field that differs, fully-qualified. Example: settings.tier */
-  field?: string;
+  field?: string | undefined;
   /** Output only. The value on the source instance. */
-  sourceValue?: string;
+  sourceValue?: string | undefined;
   /** Output only. The value on the target instance. */
-  targetValue?: string;
+  targetValue?: string | undefined;
 }
 export type ConfigDiffList = Array<ConfigDiff>;
 export type SourceTargetPairedNodeCurrentlyServingTrafficEnum =
@@ -1934,42 +1946,45 @@ export type DeploymentTaskTypeEnum =
 /** Represents a task executed as part of the deployment on a target instance. */
 export interface DeploymentTask {
   /** Output only. The current state of the task. */
-  state?: DeploymentTaskStateEnum | (string & {});
+  state?: DeploymentTaskStateEnum | (string & {}) | undefined;
   /** Output only. Task end time (if completed). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The type of the task. */
-  type?: DeploymentTaskTypeEnum | (string & {});
+  type?: DeploymentTaskTypeEnum | (string & {}) | undefined;
   /** Output only. Task start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Optional Error details if the task state is FAILED. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type DeploymentTaskList = Array<DeploymentTask>;
 /** Represents a pairing of a source instance node and a target instance node. */
 export interface SourceTargetPairedNode {
   /** Output only. Resource name of the source instance in this pair. */
-  source?: NodeInfo;
+  source?: NodeInfo | undefined;
   /** Output only. The current state of this specific source-target pair. */
-  state?: SourceTargetPairedNodeStateEnum | (string & {});
+  state?: SourceTargetPairedNodeStateEnum | (string & {}) | undefined;
   /** Output only. Details of the corresponding target instance in this pair. */
-  target?: NodeInfo;
+  target?: NodeInfo | undefined;
   /** Output only. Describes the list of differences for this pair. */
-  diffs?: ConfigDiffList;
+  diffs?: ConfigDiffList | undefined;
   /** Output only. Deprecated: Indicates which instance (SOURCE or TARGET) in the pair is currently live. Used for internal implementation and deprecated for external use. */
-  currentlyServingTraffic?: SourceTargetPairedNodeCurrentlyServingTrafficEnum | (string & {});
+  currentlyServingTraffic?:
+    | SourceTargetPairedNodeCurrentlyServingTrafficEnum
+    | (string & {})
+    | undefined;
   /** Output only. Tasks performed or being performed on the target instance of this pair. */
-  tasks?: DeploymentTaskList;
+  tasks?: DeploymentTaskList | undefined;
 }
 export type SourceTargetPairedNodeList = Array<SourceTargetPairedNode>;
 /** Deprecated: Use RequestedConfig instead. Configuration specified by the user at creation time for the target (Green) instance. */
 export interface TargetConfig {
   /** Optional. The target database major version for the upgrade. */
-  databaseVersion?: string;
+  databaseVersion?: string | undefined;
 }
 /** Combined list of tasks for all paired nodes in the deployment. */
 export interface DeploymentTasks {
   /** Output only. Tasks performed or being performed on the paired nodes of the deployment at a consolidated level. */
-  task?: DeploymentTaskList;
+  task?: DeploymentTaskList | undefined;
 }
 export type BlueGreenDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1984,54 +1999,54 @@ export type RequestedConfig = TargetConfig;
 /** A `BlueGreenDeployment` resource represents a Cloud SQL blue-green deployment setup. It orchestrates the lifecycle of creating a synchronized "green" environment from a "blue" production environment, performing updates, and managing the switchover process to minimize downtime. */
 export interface BlueGreenDeployment {
   /** Output only. Identifier. The full resource name of the deployment. Format: projects/{project}/locations/{location}/blueGreenDeployments/{deployment_id} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time when the deployment was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Immutable. The instance ID of the source instance (the "blue" instance). The value for this field does not include the project ID, for example, `my-instance-id`. This field is immutable. */
-  sourceInstance?: string;
+  sourceInstance?: string | undefined;
   /** Output only. Deprecated: Use deployment_mappings instead. Output only. A list representing the pairs of source and target instances in the deployment. */
-  pairedNodes?: SourceTargetPairedNodeList;
+  pairedNodes?: SourceTargetPairedNodeList | undefined;
   /** Optional. User-provided description for the deployment. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Immutable. Deprecated: Use requested_config instead. The configuration intended for the target instance(s) when the deployment was created. This field is immutable. */
-  targetConfig?: TargetConfig;
+  targetConfig?: TargetConfig | undefined;
   /** Output only. Combined list of tasks for all paired nodes. */
-  deploymentTasks?: DeploymentTasks;
+  deploymentTasks?: DeploymentTasks | undefined;
   /** Output only. Details about the primary target instance (the "Green" instance) that will be promoted during switchover. */
-  switchoverTargetInstance?: string;
+  switchoverTargetInstance?: string | undefined;
   /** Output only. The current state of the blue-green deployment. */
-  state?: BlueGreenDeploymentStateEnum | (string & {});
+  state?: BlueGreenDeploymentStateEnum | (string & {}) | undefined;
   /** Output only. A list representing the pairs of source and target instances in the deployment. */
-  deploymentMappings?: SourceTargetPairedNodeList;
+  deploymentMappings?: SourceTargetPairedNodeList | undefined;
   /** Optional. Immutable. Optional on create, and immutable. The configuration intended for the target instance(s) when the deployment was created. */
-  requestedConfig?: TargetConfig;
+  requestedConfig?: TargetConfig | undefined;
   /** Output only. Provides an error message with details on why switchover is not possible. */
-  errorDetail?: string;
+  errorDetail?: string | undefined;
 }
 export interface CreateBlueGreenDeploymentsRequest {
   /** Required. The parent resource where this blue-green deployment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID to use for the blue-green deployment, which will become the final component of the deployment's resource name. */
-  blueGreenDeploymentId?: string;
+  blueGreenDeploymentId?: string | undefined;
   /** Request body */
-  body?: BlueGreenDeployment;
+  body?: BlueGreenDeployment | undefined;
 }
 /** SslCerts create ephemeral certificate request. */
 export interface SslCertsCreateEphemeralRequest {
   /** Access token to include in the signed certificate. */
-  access_token?: string;
+  access_token?: string | undefined;
   /** PEM encoded public key to include in the signed certificate. */
-  public_key?: string;
+  public_key?: string | undefined;
 }
 export interface CreateEphemeralSslCertsRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Project ID of the Cloud SQL project. */
   project: string;
   /** Request body */
-  body?: SslCertsCreateEphemeralRequest;
+  body?: SslCertsCreateEphemeralRequest | undefined;
 }
 export interface DeleteBackupBackupsRequest {
   /** Required. The name of the backup to delete. Format: projects/{project}/backups/{backup} */
@@ -2049,7 +2064,7 @@ export interface DeleteBlueGreenDeploymentsRequest {
   /** Required. The name of the blue-green deployment to delete. Format: projects/{project}/locations/{location}/blueGreenDeployments/{blue_green_deployment} */
   name: string;
   /** Optional. If set to true, and the switchover is complete, this deletes the old source instance along with the deployment. */
-  deleteOldSource?: boolean;
+  deleteOldSource?: boolean | undefined;
 }
 export interface DeleteDatabasesRequest {
   /** Database instance ID. This does not include the project ID. */
@@ -2057,23 +2072,23 @@ export interface DeleteDatabasesRequest {
   /** Name of the database to be deleted in the instance. */
   database: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
 }
 export interface DeleteInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Final Backup expiration time. Timestamp in UTC of when this resource is considered expired. */
-  finalBackupExpiryTime?: string;
+  finalBackupExpiryTime?: string | undefined;
   /** Flag to opt-in for final backup. By default, it is turned off. */
-  enableFinalBackup?: boolean;
+  enableFinalBackup?: boolean | undefined;
   /** Project ID of the project that contains the instance to be deleted. */
   project: string;
   /** Optional. Retention period of the final backup. */
-  finalBackupTtlDays?: string;
+  finalBackupTtlDays?: string | undefined;
   /** Optional. The description of the final backup. */
-  finalBackupDescription?: string;
+  finalBackupDescription?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
 }
@@ -2087,87 +2102,87 @@ export interface DeleteSslCertsRequest {
 }
 export interface DeleteUsersRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Name of the user in the instance. */
-  name?: string;
+  name?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Host of the user in the instance. */
-  host?: string;
+  host?: string | undefined;
 }
 /** This context is used to demote an existing standalone instance to be a Cloud SQL read replica for an external database server. */
 export interface DemoteContext {
   /** This is always `sql#demoteContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Required. The name of the instance which acts as an on-premises primary instance in the replication setup. */
-  sourceRepresentativeInstanceName?: string;
+  sourceRepresentativeInstanceName?: string | undefined;
 }
 /** This request is used to demote an existing standalone instance to be a Cloud SQL read replica for an external database server. */
 export interface InstancesDemoteRequest {
   /** Required. This context is used to demote an existing standalone instance to be a Cloud SQL read replica for an external database server. */
-  demoteContext?: DemoteContext;
+  demoteContext?: DemoteContext | undefined;
 }
 export interface DemoteInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. The project ID of the project that contains the instance. */
   project: string;
   /** Required. The name of the Cloud SQL instance. */
   instance: string;
   /** Request body */
-  body?: InstancesDemoteRequest;
+  body?: InstancesDemoteRequest | undefined;
 }
 /** Read-replica configuration specific to MySQL databases. */
 export interface DemoteMasterMySqlReplicaConfiguration {
   /** PEM representation of the trusted CA's x509 certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** This is always `sql#demoteMasterMysqlReplicaConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
   /** PEM representation of the replica's x509 certificate. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** The username for the replication connection. */
-  username?: string;
+  username?: string | undefined;
   /** The password for the replication connection. */
-  password?: string;
+  password?: string | undefined;
   /** PEM representation of the replica's private key. The corresponding public key is encoded in the client's certificate. The format of the replica's private key can be either PKCS #1 or PKCS #8. */
-  clientKey?: string;
+  clientKey?: string | undefined;
 }
 /** Read-replica configuration for connecting to the on-premises primary instance. */
 export interface DemoteMasterConfiguration {
   /** This is always `sql#demoteMasterConfiguration`. */
-  kind?: string;
+  kind?: string | undefined;
   /** MySQL specific configuration when replicating from a MySQL on-premises primary instance. Replication configuration information such as the username, password, certificates, and keys are not stored in the instance metadata. The configuration information is used only to set up the replication connection and is stored by MySQL in a file named `master.info` in the data directory. */
-  mysqlReplicaConfiguration?: DemoteMasterMySqlReplicaConfiguration;
+  mysqlReplicaConfiguration?: DemoteMasterMySqlReplicaConfiguration | undefined;
 }
 /** Database instance demote primary instance context. */
 export interface DemoteMasterContext {
   /** This is always `sql#demoteMasterContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name of the instance which will act as on-premises primary instance in the replication setup. */
-  masterInstanceName?: string;
+  masterInstanceName?: string | undefined;
   /** Flag to skip replication setup on the instance. */
-  skipReplicationSetup?: boolean;
+  skipReplicationSetup?: boolean | undefined;
   /** Verify the GTID consistency for demote operation. Default value: `True`. Setting this flag to `false` enables you to bypass the GTID consistency check between on-premises primary instance and Cloud SQL instance during the demotion operation but also exposes you to the risk of future replication failures. Change the value only if you know the reason for the GTID divergence and are confident that doing so will not cause any replication issues. */
-  verifyGtidConsistency?: boolean;
+  verifyGtidConsistency?: boolean | undefined;
   /** Configuration specific to read-replicas replicating from the on-premises primary instance. */
-  replicaConfiguration?: DemoteMasterConfiguration;
+  replicaConfiguration?: DemoteMasterConfiguration | undefined;
 }
 /** Database demote primary instance request. */
 export interface InstancesDemoteMasterRequest {
   /** Contains details about the demoteMaster operation. */
-  demoteMasterContext?: DemoteMasterContext;
+  demoteMasterContext?: DemoteMasterContext | undefined;
 }
 export interface DemoteMasterInstancesRequest {
   /** ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL instance name. */
   instance: string;
   /** Request body */
-  body?: InstancesDemoteMasterRequest;
+  body?: InstancesDemoteMasterRequest | undefined;
 }
 export type ExecuteSqlPayloadPartialResultModeEnum =
   | "PARTIAL_RESULT_MODE_UNSPECIFIED"
@@ -2176,106 +2191,106 @@ export type ExecuteSqlPayloadPartialResultModeEnum =
 /** The request payload used to execute SQL statements. */
 export interface ExecuteSqlPayload {
   /** Optional. Name of the database on which the statement will be executed. For Postgres and SQL Server it's required, for MySQL it's optional. */
-  database?: string;
+  database?: string | undefined;
   /** Optional. The name of an existing database user to connect to the database. When `auto_iam_authn` is set to true, this field is ignored and the API caller's IAM user is used. */
-  user?: string;
+  user?: string | undefined;
   /** Optional. The maximum number of rows returned per SQL statement. */
-  rowLimit?: string;
+  rowLimit?: string | undefined;
   /** Optional. Specifies the name of the application that is making the request. This field is used for telemetry. Only alphanumeric characters, dashes, and underscores are allowed. The maximum length is 32 characters. */
-  application?: string;
+  application?: string | undefined;
   /** Optional. The resource name of the Secret Manager secret holding the password for the user to log into the database. The secret should be created using the regional endpoint (for API) or from the Regional Secrets page (for UI), and stored in the same region as the Cloud SQL instance. The expected resource name format is `projects/{project}/locations/{location}/secrets/{secret}/versions/{secret_version}`. This field is used together with the `user` field. The secret resource name will not be stored. */
-  passwordSecretVersion?: string;
+  passwordSecretVersion?: string | undefined;
   /** Optional. When set to true, the API caller identity associated with the request is used for database authentication. The API caller must be an IAM user in the database. */
-  autoIamAuthn?: boolean;
+  autoIamAuthn?: boolean | undefined;
   /** Required. SQL statements to run on the database. It can be a single statement or a sequence of statements separated by semicolons. */
-  sqlStatement?: string;
+  sqlStatement?: string | undefined;
   /** Optional. Controls how the API should respond when the SQL execution result is incomplete due to the size limit or another error. The default mode is to throw an error. */
-  partialResultMode?: ExecuteSqlPayloadPartialResultModeEnum | (string & {});
+  partialResultMode?: ExecuteSqlPayloadPartialResultModeEnum | (string & {}) | undefined;
 }
 export interface ExecuteSqlInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Required. Database instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: ExecuteSqlPayload;
+  body?: ExecuteSqlPayload | undefined;
 }
 /** Represents a notice or warning message from the database. */
 export interface Message {
   /** The full message string. For PostgreSQL, this is a formatted string that may include severity, code, and the notice/warning message. For MySQL, this contains the warning message. */
-  message?: string;
+  message?: string | undefined;
   /** The severity of the message (e.g., "NOTICE" for PostgreSQL, "WARNING" for MySQL). */
-  severity?: string;
+  severity?: string | undefined;
 }
 export type MessageList = Array<Message>;
 /** The additional metadata information regarding the execution of the SQL statements. */
 export interface Metadata {
   /** The time taken to execute the SQL statements. */
-  sqlStatementExecutionTime?: string;
+  sqlStatementExecutionTime?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** Contains the name and datatype of a column. */
 export interface Column {
   /** Name of the column. */
-  name?: string;
+  name?: string | undefined;
   /** Datatype of the column. */
-  type?: string;
+  type?: string | undefined;
 }
 export type ColumnList = Array<Column>;
 /** The cell value of the table. */
 export interface Value {
   /** If cell value is null, then this flag will be set to true. */
-  nullValue?: boolean;
+  nullValue?: boolean | undefined;
   /** The cell value represented in string format. */
-  value?: string;
+  value?: string | undefined;
 }
 export type ValueList = Array<Value>;
 /** Contains the values for a row. */
 export interface Row {
   /** The values for the row. */
-  values?: ValueList;
+  values?: ValueList | undefined;
 }
 export type RowList = Array<Row>;
 /** QueryResult contains the result of executing a single SQL statement. */
 export interface QueryResult {
   /** Set to true if the SQL execution's result is truncated due to size limits or an error retrieving results. */
-  partialResult?: boolean;
+  partialResult?: boolean | undefined;
   /** Message related to the SQL execution result. */
-  message?: string;
+  message?: string | undefined;
   /** If results were truncated due to an error, details of that error. */
-  status?: Status;
+  status?: Status | undefined;
   /** List of columns included in the result. This also includes the data type of the column. */
-  columns?: ColumnList;
+  columns?: ColumnList | undefined;
   /** Rows returned by the SQL statement. */
-  rows?: RowList;
+  rows?: RowList | undefined;
 }
 export type QueryResultList = Array<QueryResult>;
 export interface SqlInstancesExecuteSqlResponse {
   /** A list of notices and warnings generated during query execution. For PostgreSQL, this includes all notices and warnings. For MySQL, this includes warnings generated by the last executed statement. To retrieve all warnings for a multi-statement query, `SHOW WARNINGS` must be executed after each statement. */
-  messages?: MessageList;
+  messages?: MessageList | undefined;
   /** The additional metadata information regarding the execution of the SQL statements. */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** The list of results after executing all the SQL statements. */
-  results?: QueryResultList;
+  results?: QueryResultList | undefined;
   /** Contains the error from the database if the SQL execution failed. */
-  status?: Status;
+  status?: Status | undefined;
 }
 /** Database instance export request. */
 export interface InstancesExportRequest {
   /** Contains details about the export operation. */
-  exportContext?: ExportContext;
+  exportContext?: ExportContext | undefined;
 }
 export interface ExportInstancesRequest {
   /** The Cloud SQL instance ID. This doesn't include the project ID. */
@@ -2283,42 +2298,42 @@ export interface ExportInstancesRequest {
   /** Project ID of the project that contains the instance to be exported. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: InstancesExportRequest;
+  body?: InstancesExportRequest | undefined;
 }
 /** Database instance failover context. */
 export interface FailoverContext {
   /** The current settings version of this instance. Request will be rejected if this version doesn't match the current settings version. */
-  settingsVersion?: string;
+  settingsVersion?: string | undefined;
   /** This is always `sql#failoverContext`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Instance failover request. */
 export interface InstancesFailoverRequest {
   /** Failover Context. */
-  failoverContext?: FailoverContext;
+  failoverContext?: FailoverContext | undefined;
 }
 export interface FailoverInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** ID of the project that contains the read replica. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: InstancesFailoverRequest;
+  body?: InstancesFailoverRequest | undefined;
 }
 /** Ephemeral certificate creation request. */
 export interface GenerateEphemeralCertRequest {
   /** Optional. Access token to include in the signed certificate. */
-  access_token?: string;
+  access_token?: string | undefined;
   /** Optional. Optional snapshot read timestamp to trade freshness for performance. */
-  readTime?: string;
+  readTime?: string | undefined;
   /** Optional. If set, it will contain the cert valid duration. */
-  validDuration?: string;
+  validDuration?: string | undefined;
   /** PEM encoded public key to include in the signed certificate. */
-  public_key?: string;
+  public_key?: string | undefined;
 }
 export interface GenerateEphemeralCertConnectRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -2326,12 +2341,12 @@ export interface GenerateEphemeralCertConnectRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Request body */
-  body?: GenerateEphemeralCertRequest;
+  body?: GenerateEphemeralCertRequest | undefined;
 }
 /** Ephemeral certificate creation request. */
 export interface GenerateEphemeralCertResponse {
   /** Generated cert */
-  ephemeralCert?: SslCert;
+  ephemeralCert?: SslCert | undefined;
 }
 export interface GetBackupBackupsRequest {
   /** Required. The name of the backup to retrieve. Format: projects/{project}/backups/{backup} */
@@ -2418,43 +2433,43 @@ export type BackupRunTypeEnum = "SQL_BACKUP_RUN_TYPE_UNSPECIFIED" | "AUTOMATED" 
 /** A BackupRun resource. */
 export interface BackupRun {
   /** Output only. The instance database version at the time this backup was made. */
-  databaseVersion?: BackupRunDatabaseVersionEnum | (string & {});
+  databaseVersion?: BackupRunDatabaseVersionEnum | (string & {}) | undefined;
   /** Name of the database instance. */
-  instance?: string;
+  instance?: string | undefined;
   /** The time the backup operation completed in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The start time of the backup window during which this the backup was attempted in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  windowStartTime?: string;
+  windowStartTime?: string | undefined;
   /** Information about why the backup operation failed. This is only present if the run has the FAILED status. */
-  error?: OperationError;
+  error?: OperationError | undefined;
   /** The identifier for this backup run. Unique only for a specific Cloud SQL instance. */
-  id?: string;
+  id?: string | undefined;
   /** Encryption configuration specific to a backup. */
-  diskEncryptionConfiguration?: DiskEncryptionConfiguration;
+  diskEncryptionConfiguration?: DiskEncryptionConfiguration | undefined;
   /** The description of this run, only applicable to on-demand backups. */
-  description?: string;
+  description?: string | undefined;
   /** This is always `sql#backupRun`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The URI of this resource. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Specifies the kind of backup, PHYSICAL or DEFAULT_SNAPSHOT. */
-  backupKind?: BackupRunBackupKindEnum | (string & {});
+  backupKind?: BackupRunBackupKindEnum | (string & {}) | undefined;
   /** Backup time zone to prevent restores to an instance with a different time zone. Now relevant only for SQL Server. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** The time the backup operation actually started in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Encryption status specific to a backup. */
-  diskEncryptionStatus?: DiskEncryptionStatus;
+  diskEncryptionStatus?: DiskEncryptionStatus | undefined;
   /** The status of this run. */
-  status?: BackupRunStatusEnum | (string & {});
+  status?: BackupRunStatusEnum | (string & {}) | undefined;
   /** Location of the backups. */
-  location?: string;
+  location?: string | undefined;
   /** The time the run was enqueued in UTC timezone in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  enqueuedTime?: string;
+  enqueuedTime?: string | undefined;
   /** Output only. The maximum chargeable bytes for the backup. */
-  maxChargeableBytes?: string;
+  maxChargeableBytes?: string | undefined;
   /** The type of this run; can be either "AUTOMATED" or "ON_DEMAND" or "FINAL". This field defaults to "ON_DEMAND" and is ignored, when specified for insert requests. */
-  type?: BackupRunTypeEnum | (string & {});
+  type?: BackupRunTypeEnum | (string & {}) | undefined;
 }
 export type GetBlueGreenDeploymentsViewEnum =
   | "BLUE_GREEN_DEPLOYMENT_VIEW_UNSPECIFIED"
@@ -2464,13 +2479,13 @@ export interface GetBlueGreenDeploymentsRequest {
   /** Required. The name of the blue-green deployment to retrieve. Format: projects/{project}/locations/{location}/blueGreenDeployments/{blue_green_deployment} */
   name: string;
   /** Optional. Specifies whether to return the basic or detailed view of the resource in the response. */
-  view?: GetBlueGreenDeploymentsViewEnum | (string & {});
+  view?: GetBlueGreenDeploymentsViewEnum | (string & {}) | undefined;
 }
 export interface GetConnectRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Optional snapshot read timestamp to trade freshness for performance. */
-  readTime?: string;
+  readTime?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
 }
@@ -2478,7 +2493,7 @@ export interface GetDatabasesRequest {
   /** Name of the database in the instance. */
   database: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
@@ -2487,33 +2502,33 @@ export interface GetDatabasesRequest {
 /** Represents a Sql Server database on the Cloud SQL instance. */
 export interface SqlServerDatabaseDetails {
   /** The recovery model of a SQL Server database */
-  recoveryModel?: string;
+  recoveryModel?: string | undefined;
   /** The version of SQL Server with which the database is to be made compatible */
-  compatibilityLevel?: number;
+  compatibilityLevel?: number | undefined;
 }
 /** Represents a SQL database on the Cloud SQL instance. */
 export interface Database {
   /** This field is deprecated and will be removed from a future version of the API. */
-  etag?: string;
+  etag?: string | undefined;
   /** The name of the Cloud SQL instance. This does not include the project ID. */
-  instance?: string;
+  instance?: string | undefined;
   /** The Cloud SQL charset value. */
-  charset?: string;
+  charset?: string | undefined;
   /** The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. */
-  project?: string;
+  project?: string | undefined;
   /** This is always `sql#database`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The Cloud SQL collation value. */
-  collation?: string;
+  collation?: string | undefined;
   /** The URI of this resource. */
-  selfLink?: string;
-  sqlserverDatabaseDetails?: SqlServerDatabaseDetails;
+  selfLink?: string | undefined;
+  sqlserverDatabaseDetails?: SqlServerDatabaseDetails | undefined;
   /** The name of the database in the Cloud SQL instance. This does not include the project ID or instance name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetDiskShrinkConfigProjectsInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
@@ -2522,15 +2537,15 @@ export interface GetDiskShrinkConfigProjectsInstancesRequest {
 /** Instance get disk shrink config response. */
 export interface SqlInstancesGetDiskShrinkConfigResponse {
   /** The minimum size to which a disk can be shrunk in GigaBytes. */
-  minimalTargetSizeGb?: string;
+  minimalTargetSizeGb?: string | undefined;
   /** Additional message to customers. */
-  message?: string;
+  message?: string | undefined;
   /** This is always `sql#getDiskShrinkConfig`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Database instance ID. This does not include the project ID. */
@@ -2538,22 +2553,22 @@ export interface GetInstancesRequest {
 }
 export interface GetLatestRecoveryTimeProjectsInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** The timestamp used to identify the time when the source instance is deleted. If this instance is deleted, then you must set the timestamp. */
-  sourceInstanceDeletionTime?: string;
+  sourceInstanceDeletionTime?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
 }
 /** Instance get latest recovery time response. */
 export interface SqlInstancesGetLatestRecoveryTimeResponse {
   /** Timestamp, identifies the latest recovery time of the source instance. */
-  latestRecoveryTime?: string;
+  latestRecoveryTime?: string | undefined;
   /** Timestamp, identifies the earliest recovery time of the source instance. */
-  earliestRecoveryTime?: string;
+  earliestRecoveryTime?: string | undefined;
   /** This is always `sql#getLatestRecoveryTime`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetOperationsRequest {
   /** Project ID of the project that contains the instance. */
@@ -2561,7 +2576,7 @@ export interface GetOperationsRequest {
   /** Instance operation ID. */
   operation: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSslCertsRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -2575,11 +2590,11 @@ export interface GetUsersRequest {
   /** User of the instance. */
   name: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Host of a user of the instance. */
-  host?: string;
+  host?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
 }
@@ -2596,9 +2611,9 @@ export type UserTypeEnum =
 /** Represents a Sql Server user on the Cloud SQL instance. */
 export interface SqlServerUserDetails {
   /** Indicates if the user has been disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Indicates the server roles for this user. */
-  serverRoles?: StringList;
+  serverRoles?: StringList | undefined;
 }
 export type UserDualPasswordTypeEnum =
   | "DUAL_PASSWORD_TYPE_UNSPECIFIED"
@@ -2608,59 +2623,59 @@ export type UserDualPasswordTypeEnum =
 /** Read-only password status. */
 export interface PasswordStatus {
   /** If true, user does not have login privileges. */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** The expiration time of the current password. */
-  passwordExpirationTime?: string;
+  passwordExpirationTime?: string | undefined;
 }
 /** User level password validation policy. */
 export interface UserPasswordValidationPolicy {
   /** If true, failed login attempts check will be enabled. */
-  enableFailedAttemptsCheck?: boolean;
+  enableFailedAttemptsCheck?: boolean | undefined;
   /** Expiration duration after password is updated. */
-  passwordExpirationDuration?: string;
+  passwordExpirationDuration?: string | undefined;
   /** Output only. Read-only password status. */
-  status?: PasswordStatus;
+  status?: PasswordStatus | undefined;
   /** If true, the user must specify the current password before changing the password. This flag is supported only for MySQL. */
-  enablePasswordVerification?: boolean;
+  enablePasswordVerification?: boolean | undefined;
   /** Number of failed login attempts allowed before user get locked. */
-  allowedFailedAttempts?: number;
+  allowedFailedAttempts?: number | undefined;
 }
 /** A Cloud SQL user resource. */
 export interface User {
   /** The name of the Cloud SQL instance. This does not include the project ID. Can be omitted for *update* because it is already specified on the URL. */
-  instance?: string;
+  instance?: string | undefined;
   /** Optional. Role memberships of the user */
-  databaseRoles?: StringList;
+  databaseRoles?: StringList | undefined;
   /** Indicates if a group is active or inactive for IAM database authentication. */
-  iamStatus?: UserIamStatusEnum | (string & {});
+  iamStatus?: UserIamStatusEnum | (string & {}) | undefined;
   /** This is always `sql#user`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. The server roles for the SQL Server login. */
-  serverRoles?: StringList;
+  serverRoles?: StringList | undefined;
   /** This field is deprecated and will be removed from a future version of the API. */
-  etag?: string;
+  etag?: string | undefined;
   /** The password for the user. */
-  password?: string;
+  password?: string | undefined;
   /** The name of the user in the Cloud SQL instance. Can be omitted for `update` because it is already specified in the URL. */
-  name?: string;
+  name?: string | undefined;
   /** The user type. It determines the method to authenticate the user during login. The default is the database's built-in user type. */
-  type?: UserTypeEnum | (string & {});
+  type?: UserTypeEnum | (string & {}) | undefined;
   /** The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. Can be omitted for *update* because it is already specified on the URL. */
-  project?: string;
-  sqlserverUserDetails?: SqlServerUserDetails;
+  project?: string | undefined;
+  sqlserverUserDetails?: SqlServerUserDetails | undefined;
   /** Dual password status for the user. */
-  dualPasswordType?: UserDualPasswordTypeEnum | (string & {});
+  dualPasswordType?: UserDualPasswordTypeEnum | (string & {}) | undefined;
   /** Optional. The full email for an IAM user. For normal database users, this will not be filled. Only applicable to MySQL database users. */
-  iamEmail?: string;
+  iamEmail?: string | undefined;
   /** User level password validation policy. */
-  passwordPolicy?: UserPasswordValidationPolicy;
+  passwordPolicy?: UserPasswordValidationPolicy | undefined;
   /** Optional. The host from which the user can connect. For `insert` operations, host defaults to an empty string. For `update` operations, host is specified as part of the request URL. The host name cannot be updated after insertion. For a MySQL instance, it's required; for a PostgreSQL or SQL Server instance, it's optional. */
-  host?: string;
+  host?: string | undefined;
 }
 /** Database instance import request. */
 export interface InstancesImportRequest {
   /** Contains details about the import operation. */
-  importContext?: ImportContext;
+  importContext?: ImportContext | undefined;
 }
 export interface ImportInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -2668,9 +2683,9 @@ export interface ImportInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: InstancesImportRequest;
+  body?: InstancesImportRequest | undefined;
 }
 export interface InsertBackupRunsRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -2678,30 +2693,30 @@ export interface InsertBackupRunsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Request body */
-  body?: BackupRun;
+  body?: BackupRun | undefined;
 }
 export interface InsertDatabasesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: Database;
+  body?: Database | undefined;
 }
 export interface InsertInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Project ID of the project to which the newly created Cloud SQL instances should belong. */
   project: string;
   /** Request body */
-  body?: DatabaseInstance;
+  body?: DatabaseInstance | undefined;
 }
 /** SslCerts insert request. */
 export interface SslCertsInsertRequest {
   /** User supplied name. Must be a distinct name from the other certificates for this instance. */
-  commonName?: string;
+  commonName?: string | undefined;
 }
 export interface InsertSslCertsRequest {
   /** Project ID of the project that contains the instance. */
@@ -2709,25 +2724,25 @@ export interface InsertSslCertsRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: SslCertsInsertRequest;
+  body?: SslCertsInsertRequest | undefined;
 }
 /** SslCertDetail. */
 export interface SslCertDetail {
   /** The public information about the cert. */
-  certInfo?: SslCert;
+  certInfo?: SslCert | undefined;
   /** The private key for the client cert, in pem format. Keep private in order to protect your security. */
-  certPrivateKey?: string;
+  certPrivateKey?: string | undefined;
 }
 /** SslCert insert response. */
 export interface SslCertsInsertResponse {
   /** The server Certificate Authority's certificate. If this is missing you can force a new one to be generated by calling resetSslConfig method on instances resource. */
-  serverCaCert?: SslCert;
+  serverCaCert?: SslCert | undefined;
   /** The operation to track the ssl certs insert request. */
-  operation?: Operation;
+  operation?: Operation | undefined;
   /** This is always `sql#sslCertsInsert`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The new client certificate and private key. */
-  clientCert?: SslCertDetail;
+  clientCert?: SslCertDetail | undefined;
 }
 export interface InsertUsersRequest {
   /** Database instance ID. This does not include the project ID. */
@@ -2735,17 +2750,17 @@ export interface InsertUsersRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: User;
+  body?: User | undefined;
 }
 export interface ListBackupRunsRequest {
   /** A previously-returned page token representing part of the larger set of results to view. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Maximum number of backup runs per response. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Cloud SQL instance ID, or "-" for all instances. This does not include the project ID. */
   instance: string;
 }
@@ -2755,54 +2770,54 @@ export interface BackupRunsListResponse {
   /** A list of backup runs in reverse chronological order of the enqueued time. */
   items: BackupRunList;
   /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** This is always `sql#backupRunsList`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListBackupsBackupsRequest {
   /** Required. The parent that owns this collection of backups. Format: projects/{project} */
   parent: string;
   /** Multiple filter queries are separated by spaces. For example, 'instance:abc AND type:FINAL, 'location:us', 'backupInterval.startTime>=1950-01-01T01:01:25.771Z'. You can filter by type, instance, backupInterval.startTime (creation time), or location. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of backups to return per response. The service might return fewer backups than this value. If a value for this parameter isn't specified, then, at most, 500 backups are returned. The maximum value is 2,000. Any values that you set, which are greater than 2,000, are changed to 2,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListBackups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBackups` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type BackupList = Array<Backup>;
 export type ApiWarningList = Array<ApiWarning>;
 /** The response payload containing a list of the backups. */
 export interface ListBackupsResponse {
   /** A list of backups. */
-  backups?: BackupList;
+  backups?: BackupList | undefined;
   /** If a region isn't unavailable or if an unknown error occurs, then a warning message is returned. */
-  warnings?: ApiWarningList;
+  warnings?: ApiWarningList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, then there aren't subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListBlueGreenDeploymentsRequest {
   /** Optional. The maximum number of deployments to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource whose blue-green deployments are to be listed. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A comma-separated list of fields to order the results by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. A filter expression that filters the results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListBlueGreenDeployments` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type BlueGreenDeploymentList = Array<BlueGreenDeployment>;
 /** The response message for listing blue-green deployment resources. */
 export interface ListBlueGreenDeploymentsResponse {
   /** A token to retrieve the next page of results, or empty if there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of blue-green deployment resources. */
-  blueGreenDeployments?: BlueGreenDeploymentList;
+  blueGreenDeployments?: BlueGreenDeploymentList | undefined;
 }
 export interface ListDatabasesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
@@ -2812,15 +2827,15 @@ export type DatabaseList = Array<Database>;
 /** Database list response. */
 export interface DatabasesListResponse {
   /** This is always `sql#databasesList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** List of database resources in the instance. */
-  items?: DatabaseList;
+  items?: DatabaseList | undefined;
 }
 export interface ListEntraIdCertificatesInstancesRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
 }
@@ -2828,11 +2843,11 @@ export type SslCertList = Array<SslCert>;
 /** Instances ListEntraIdCertificates response. */
 export interface InstancesListEntraIdCertificatesResponse {
   /** List of Entra ID certificates for the instance. */
-  certs?: SslCertList;
+  certs?: SslCertList | undefined;
   /** The `sha1_fingerprint` of the active certificate from `certs`. */
-  activeVersion?: string;
+  activeVersion?: string | undefined;
   /** This is always `sql#instancesListEntraIdCertificates`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListFlagsFlagScopeEnum =
   | "SQL_FLAG_SCOPE_UNSPECIFIED"
@@ -2840,9 +2855,9 @@ export type ListFlagsFlagScopeEnum =
   | "SQL_FLAG_SCOPE_CONNECTION_POOL";
 export interface ListFlagsRequest {
   /** Optional. Specify the scope of flags to be returned by SqlFlagsListService. Return list of database flags if unspecified. */
-  flagScope?: ListFlagsFlagScopeEnum | (string & {});
+  flagScope?: ListFlagsFlagScopeEnum | (string & {}) | undefined;
   /** Database type and version you want to retrieve flags for. By default, this method returns flags for all database types and versions. */
-  databaseVersion?: string;
+  databaseVersion?: string | undefined;
 }
 export type FlagTypeEnum =
   | "SQL_FLAG_TYPE_UNSPECIFIED"
@@ -2918,51 +2933,51 @@ export type FlagFlagScopeEnum =
 /** A flag resource. */
 export interface Flag {
   /** For `STRING` flags, a list of strings that the value can be set to. */
-  allowedStringValues?: StringList;
+  allowedStringValues?: StringList | undefined;
   /** Recommended flag value in string format for UI display. */
-  recommendedStringValue?: string;
+  recommendedStringValue?: string | undefined;
   /** The type of the flag. Flags are typed to being `BOOLEAN`, `STRING`, `INTEGER` or `NONE`. `NONE` is used for flags which do not take a value, such as `skip_grant_tables`. */
-  type?: FlagTypeEnum;
+  type?: FlagTypeEnum | undefined;
   /** This is the name of the flag. Flag names always use underscores, not hyphens, for example: `max_allowed_packet` */
-  name?: string;
+  name?: string | undefined;
   /** For `INTEGER` flags, the maximum allowed value. */
-  maxValue?: string;
+  maxValue?: string | undefined;
   /** The database version this flag applies to. Can be MySQL instances: `MYSQL_8_0`, `MYSQL_8_0_18`, `MYSQL_8_0_26`, `MYSQL_5_7`, or `MYSQL_5_6`. PostgreSQL instances: `POSTGRES_9_6`, `POSTGRES_10`, `POSTGRES_11` or `POSTGRES_12`. SQL Server instances: `SQLSERVER_2017_STANDARD`, `SQLSERVER_2017_ENTERPRISE`, `SQLSERVER_2017_EXPRESS`, `SQLSERVER_2017_WEB`, `SQLSERVER_2019_STANDARD`, `SQLSERVER_2019_ENTERPRISE`, `SQLSERVER_2019_EXPRESS`, or `SQLSERVER_2019_WEB`. See [the complete list](/sql/docs/mysql/admin-api/rest/v1/SqlDatabaseVersion). */
-  appliesTo?: FlagAppliesToItemEnumList;
+  appliesTo?: FlagAppliesToItemEnumList | undefined;
   /** Whether or not the flag is considered in beta. */
-  inBeta?: boolean;
+  inBeta?: boolean | undefined;
   /** Indicates whether changing this flag will trigger a database restart. Only applicable to Second Generation instances. */
-  requiresRestart?: boolean;
+  requiresRestart?: boolean | undefined;
   /** Scope of flag. */
-  flagScope?: FlagFlagScopeEnum;
+  flagScope?: FlagFlagScopeEnum | undefined;
   /** Use this field if only certain integers are accepted. Can be combined with min_value and max_value to add additional values. */
-  allowedIntValues?: StringList;
+  allowedIntValues?: StringList | undefined;
   /** Recommended flag value in integer format for UI display. */
-  recommendedIntValue?: string;
+  recommendedIntValue?: string | undefined;
   /** This is always `sql#flag`. */
-  kind?: string;
+  kind?: string | undefined;
   /** For `INTEGER` flags, the minimum allowed value. */
-  minValue?: string;
+  minValue?: string | undefined;
 }
 export type FlagList = Array<Flag>;
 /** Flags list response. */
 export interface FlagsListResponse {
   /** This is always `sql#flagsList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** List of flags. */
-  items?: FlagList;
+  items?: FlagList | undefined;
 }
 export interface ListInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** A filter expression that filters resources listed in the response. The expression is in the form of field:value. For example, 'instanceType:CLOUD_SQL_INSTANCE'. Fields can be nested as needed as per their JSON representation, such as 'settings.userLabels.auto_start:true'. Multiple filter queries are space-separated. For example. 'state:RUNNABLE instanceType:CLOUD_SQL_INSTANCE'. By default, each expression is an AND expression. However, you can include AND and OR expressions explicitly. */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of instances to return. The service may return fewer than this value. If unspecified, at most 500 instances are returned. The maximum value is 1000; values above 1000 are coerced to 1000. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Project ID of the project for which to list Cloud SQL instances. */
   project: string;
   /** A previously-returned page token representing part of the larger set of results to view. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DatabaseInstanceList = Array<DatabaseInstance>;
 /** Database instances list response. */
@@ -2970,23 +2985,23 @@ export interface InstancesListResponse {
   /** List of database instance resources. */
   items: DatabaseInstanceList;
   /** List of warnings that occurred while handling the request. */
-  warnings?: ApiWarningList;
+  warnings?: ApiWarningList | undefined;
   /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** This is always `sql#instancesList`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListOperationsRequest {
   /** A previously-returned page token representing part of the larger set of results to view. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
-  instance?: string;
+  instance?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Maximum number of operations per response. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** Operations list response. */
@@ -2994,44 +3009,44 @@ export interface OperationsListResponse {
   /** List of operation resources. */
   items: OperationList;
   /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** This is always `sql#operationsList`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListServerCasInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
 }
 /** Instances ListServerCas response. */
 export interface InstancesListServerCasResponse {
   /** This is always `sql#instancesListServerCas`. */
-  kind?: string;
-  activeVersion?: string;
+  kind?: string | undefined;
+  activeVersion?: string | undefined;
   /** List of server CA certificates for the instance. */
-  certs?: SslCertList;
+  certs?: SslCertList | undefined;
 }
 export interface ListServerCertificatesInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
 }
 /** Instances ListServerCertificatess response. */
 export interface InstancesListServerCertificatesResponse {
   /** List of server CA certificates for the instance. */
-  caCerts?: SslCertList;
+  caCerts?: SslCertList | undefined;
   /** The `sha1_fingerprint` of the active certificate from `server_certs`. */
-  activeVersion?: string;
+  activeVersion?: string | undefined;
   /** This is always `sql#instancesListServerCertificates`. */
-  kind?: string;
+  kind?: string | undefined;
   /** List of server certificates for the instance, signed by the corresponding CA from the `ca_certs` list. */
-  serverCerts?: SslCertList;
+  serverCerts?: SslCertList | undefined;
 }
 export interface ListSslCertsRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -3042,9 +3057,9 @@ export interface ListSslCertsRequest {
 /** SslCerts list response. */
 export interface SslCertsListResponse {
   /** List of client certificates for the instance. */
-  items?: SslCertList;
+  items?: SslCertList | undefined;
   /** This is always `sql#sslCertsList`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListTiersRequest {
   /** Project ID of the project for which to list tiers. */
@@ -3053,23 +3068,23 @@ export interface ListTiersRequest {
 /** A Google Cloud SQL service tier resource. */
 export interface Tier {
   /** The maximum disk size of this tier in bytes. */
-  DiskQuota?: string;
+  DiskQuota?: string | undefined;
   /** This is always `sql#tier`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The applicable regions for this tier. */
-  region?: StringList;
+  region?: StringList | undefined;
   /** The maximum RAM usage of this tier in bytes. */
-  RAM?: string;
+  RAM?: string | undefined;
   /** An identifier for the machine type, for example, `db-custom-1-3840`. For related information, see [Pricing](/sql/pricing). */
-  tier?: string;
+  tier?: string | undefined;
 }
 export type TierList = Array<Tier>;
 /** Tiers list response. */
 export interface TiersListResponse {
   /** This is always `sql#tiersList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** List of tiers. */
-  items?: TierList;
+  items?: TierList | undefined;
 }
 export interface ListUsersRequest {
   /** Project ID of the project that contains the instance. */
@@ -3077,17 +3092,17 @@ export interface ListUsersRequest {
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 export type UserList = Array<User>;
 /** User list response. */
 export interface UsersListResponse {
   /** List of user resources in the instance. */
-  items?: UserList;
+  items?: UserList | undefined;
   /** This is always *sql#usersList*. */
-  kind?: string;
+  kind?: string | undefined;
   /** Unused. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListWorkloadCapturesRequest {
   /** Required. Project ID of the project that contains the instance. */
@@ -3104,29 +3119,29 @@ export type WorkloadCaptureWorkloadCaptureStateEnum =
 /** Captured workload for an instance. */
 export interface WorkloadCapture {
   /** Output only. The end time of the workload capture. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The ID of the captured workload. */
-  workloadId?: string;
+  workloadId?: string | undefined;
   /** Output only. The retention period in days for the captured workload. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Output only. The state of the workload capture. */
-  workloadCaptureState?: WorkloadCaptureWorkloadCaptureStateEnum;
+  workloadCaptureState?: WorkloadCaptureWorkloadCaptureStateEnum | undefined;
   /** Output only. The name of the source instance. */
-  sourceInstance?: string;
+  sourceInstance?: string | undefined;
   /** Output only. The start time of the workload capture. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The base backup ID associated with the workload capture. */
-  backupId?: string;
+  backupId?: string | undefined;
   /** Output only. The name of the replay instance, if live replay was enabled. */
-  replayInstance?: string;
+  replayInstance?: string | undefined;
 }
 export type WorkloadCaptureList = Array<WorkloadCapture>;
 /** Instance list captured workloads response. */
 export interface WorkloadCapturesListResponse {
   /** This is always `sql#workloadCapturesList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** List of captured workloads for the instance. */
-  workloadCaptures?: WorkloadCaptureList;
+  workloadCaptures?: WorkloadCaptureList | undefined;
 }
 export interface PatchDatabasesRequest {
   /** Database instance ID. This does not include the project ID. */
@@ -3136,88 +3151,88 @@ export interface PatchDatabasesRequest {
   /** Name of the database to be updated in the instance. */
   database: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: Database;
+  body?: Database | undefined;
 }
 export interface PatchInstancesRequest {
   /** Optional. Set PSC config to the same value as the existing config to reconcile the PSC networking. */
-  reconcilePscNetworking?: boolean;
+  reconcilePscNetworking?: boolean | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Set PSC config to the same value as the existing config and force reconcile the PSC networking. */
-  reconcilePscNetworkingForce?: boolean;
+  reconcilePscNetworkingForce?: boolean | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: DatabaseInstance;
+  body?: DatabaseInstance | undefined;
 }
 /** Perform disk shrink context. */
 export interface PerformDiskShrinkContext {
   /** The target disk shrink size in GigaBytes. */
-  targetSizeGb?: string;
+  targetSizeGb?: string | undefined;
 }
 export interface PerformDiskShrinkProjectsInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Request body */
-  body?: PerformDiskShrinkContext;
+  body?: PerformDiskShrinkContext | undefined;
 }
 /** Context to perform a point-in-time restore of an instance managed by Backup and Disaster Recovery (DR) Service. */
 export interface PointInTimeRestoreContext {
   /** Optional. The region of the target instance where the datasource will be restored. For example: "us-central1". */
-  region?: string;
+  region?: string | undefined;
   /** Optional. Point-in-time recovery of a regional instance in the specified zones. If not specified, clone to the same secondary zone as the source instance. This value cannot be the same as the preferred_zone field. */
-  preferredSecondaryZone?: string;
+  preferredSecondaryZone?: string | undefined;
   /** Optional. Specifies the instance settings that will be overridden from the source instance. This field is only applicable for cross project PITRs. */
-  targetInstanceSettings?: DatabaseInstance;
+  targetInstanceSettings?: DatabaseInstance | undefined;
   /** Optional. Point-in-time recovery of an instance to the specified zone. If no zone is specified, then clone to the same primary zone as the source instance. */
-  preferredZone?: string;
+  preferredZone?: string | undefined;
   /** Optional. The resource link for the VPC network from which the Cloud SQL instance is accessible for private IP. For example, `/projects/myProject/global/networks/default`. */
-  privateNetwork?: string;
+  privateNetwork?: string | undefined;
   /** Required. The date and time to which you want to restore the instance. */
-  pointInTime?: string;
+  pointInTime?: string | undefined;
   /** The Backup and Disaster Recovery (DR) Service Datasource URI. Format: projects/{project}/locations/{region}/backupVaults/{backupvault}/dataSources/{datasource}. */
-  datasource?: string;
+  datasource?: string | undefined;
   /** Optional. Specifies the instance settings that will be cleared from the source instance. This field is only applicable for cross project PITRs. */
-  targetInstanceClearSettingsFieldNames?: StringList;
+  targetInstanceClearSettingsFieldNames?: StringList | undefined;
   /** Target instance name. */
-  targetInstance?: string;
+  targetInstance?: string | undefined;
   /** Optional. The name of the allocated IP range for the internal IP Cloud SQL instance. For example: "google-managed-services-default". If you set this, then Cloud SQL creates the IP address for the cloned instance in the allocated range. This range must comply with [RFC 1035](https://tools.ietf.org/html/rfc1035) standards. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?. Reserved for future use. */
-  allocatedIpRange?: string;
+  allocatedIpRange?: string | undefined;
 }
 export interface PointInTimeRestoreInstancesRequest {
   /** Required. The parent resource where you created this instance. Format: projects/{project} */
   parent: string;
   /** Request body */
-  body?: PointInTimeRestoreContext;
+  body?: PointInTimeRestoreContext | undefined;
 }
 /** Request for Pre-checks for MVU */
 export interface InstancesPreCheckMajorVersionUpgradeRequest {
   /** Required. Contains details about the pre-check major version upgrade operation. */
-  preCheckMajorVersionUpgradeContext?: PreCheckMajorVersionUpgradeContext;
+  preCheckMajorVersionUpgradeContext?: PreCheckMajorVersionUpgradeContext | undefined;
 }
 export interface PreCheckMajorVersionUpgradeInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: InstancesPreCheckMajorVersionUpgradeRequest;
+  body?: InstancesPreCheckMajorVersionUpgradeRequest | undefined;
 }
 export interface PromoteReplicaInstancesRequest {
   /** Set to true to invoke a replica failover to the DR replica. As part of replica failover, the promote operation attempts to add the original primary instance as a replica of the promoted DR replica when the original primary instance comes back online. If set to false or not specified, then the original primary instance becomes an independent Cloud SQL primary instance. */
-  failover?: boolean;
+  failover?: boolean | undefined;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** ID of the project that contains the read replica. */
   project: string;
   /** Cloud SQL read replica instance name. */
@@ -3230,14 +3245,14 @@ export type BackupReencryptionConfigBackupTypeEnum =
 /** Backup Reencryption Config */
 export interface BackupReencryptionConfig {
   /** Backup re-encryption limit */
-  backupLimit?: number;
+  backupLimit?: number | undefined;
   /** Type of backups users want to re-encrypt. */
-  backupType?: BackupReencryptionConfigBackupTypeEnum | (string & {});
+  backupType?: BackupReencryptionConfigBackupTypeEnum | (string & {}) | undefined;
 }
 /** Database Instance reencrypt request. */
 export interface InstancesReencryptRequest {
   /** Configuration specific to backup re-encryption */
-  backupReencryptionConfig?: BackupReencryptionConfig;
+  backupReencryptionConfig?: BackupReencryptionConfig | undefined;
 }
 export interface ReencryptInstancesRequest {
   /** ID of the project that contains the instance. */
@@ -3245,22 +3260,22 @@ export interface ReencryptInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: InstancesReencryptRequest;
+  body?: InstancesReencryptRequest | undefined;
 }
 export interface ReleaseSsrsLeaseInstancesRequest {
   /** Required. The Cloud SQL instance ID. This doesn't include the project ID. It's composed of lowercase letters, numbers, and hyphens, and it must start with a letter. The total length must be 98 characters or less (Example: instance-id). */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. The ID of the project that contains the instance (Example: project-id). */
   project: string;
 }
 /** The response for the release of the SSRS lease. */
 export interface SqlInstancesReleaseSsrsLeaseResponse {
   /** The operation ID. */
-  operationId?: string;
+  operationId?: string | undefined;
 }
 export type RescheduleRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -3269,29 +3284,29 @@ export type RescheduleRescheduleTypeEnum =
   | "SPECIFIC_TIME";
 export interface Reschedule {
   /** Optional. Timestamp when the maintenance shall be rescheduled to if reschedule_type=SPECIFIC_TIME, in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, for example `2012-11-15T16:19:00.094Z`. */
-  scheduleTime?: string;
+  scheduleTime?: string | undefined;
   /** Required. The type of the reschedule. */
-  rescheduleType?: RescheduleRescheduleTypeEnum | (string & {});
+  rescheduleType?: RescheduleRescheduleTypeEnum | (string & {}) | undefined;
 }
 /** Reschedule options for maintenance windows. */
 export interface SqlInstancesRescheduleMaintenanceRequestBody {
   /** Required. The type of the reschedule the user wants. */
-  reschedule?: Reschedule;
+  reschedule?: Reschedule | undefined;
 }
 export interface RescheduleMaintenanceProjectsInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** ID of the project that contains the instance. */
   project: string;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: SqlInstancesRescheduleMaintenanceRequestBody;
+  body?: SqlInstancesRescheduleMaintenanceRequestBody | undefined;
 }
 /** Instance reset replica size request. */
 export interface SqlInstancesResetReplicaSizeRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ResetReplicaSizeProjectsInstancesRequest {
   /** ID of the project that contains the read replica. */
@@ -3299,7 +3314,7 @@ export interface ResetReplicaSizeProjectsInstancesRequest {
   /** Cloud SQL read replica instance name. */
   instance: string;
   /** Request body */
-  body?: SqlInstancesResetReplicaSizeRequest;
+  body?: SqlInstancesResetReplicaSizeRequest | undefined;
 }
 export type ResetSslConfigInstancesModeEnum =
   | "RESET_SSL_MODE_UNSPECIFIED"
@@ -3311,87 +3326,87 @@ export interface ResetSslConfigInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Reset SSL mode to use. */
-  mode?: ResetSslConfigInstancesModeEnum | (string & {});
+  mode?: ResetSslConfigInstancesModeEnum | (string & {}) | undefined;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface RestartInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Project ID of the project that contains the instance to be restarted. */
   project: string;
 }
 /** Database instance restore from backup context. Backup context contains source instance id and project id. */
 export interface RestoreBackupContext {
   /** The full project ID of the source instance. */
-  project?: string;
+  project?: string | undefined;
   /** This is always `sql#restoreBackupContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The ID of the instance that the backup was taken from. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The ID of the backup run to restore from. */
-  backupRunId?: string;
+  backupRunId?: string | undefined;
 }
 /** Database instance restore backup request. */
 export interface InstancesRestoreBackupRequest {
   /** Optional. This field has the same purpose as restore_instance_settings, changes any instance settings stored in the backup you are restoring from. With the difference that these fields are cleared in the settings. */
-  restoreInstanceClearOverridesFieldNames?: StringList;
+  restoreInstanceClearOverridesFieldNames?: StringList | undefined;
   /** The name of the backup that's used to restore a Cloud SQL instance: Format: "projects/{project-id}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}/backups/{backup-uid}". Only one of restore_backup_context, backup, backupdr_backup can be passed to the input. */
-  backupdrBackup?: string;
+  backupdrBackup?: string | undefined;
   /** Optional. By using this parameter, Cloud SQL overrides any instance settings stored in the backup you are restoring from. You can't change the instance's major database version and you can only increase the disk size. You can use this field to restore new instances only. This field is not applicable for restore to existing instances. */
-  restoreInstanceSettings?: DatabaseInstance;
+  restoreInstanceSettings?: DatabaseInstance | undefined;
   /** Parameters required to perform the restore backup operation. */
-  restoreBackupContext?: RestoreBackupContext;
+  restoreBackupContext?: RestoreBackupContext | undefined;
   /** Optional. If true, the restore operation proceeds even if the target instance's maintenance version is older than the source instance's maintenance version. */
-  ignoreMaintenanceVersion?: boolean;
+  ignoreMaintenanceVersion?: boolean | undefined;
   /** The name of the backup that's used to restore a Cloud SQL instance: Format: projects/{project-id}/backups/{backup-uid}. Only one of restore_backup_context, backup, backupdr_backup can be passed to the input. */
-  backup?: string;
+  backup?: string | undefined;
 }
 export interface RestoreBackupInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: InstancesRestoreBackupRequest;
+  body?: InstancesRestoreBackupRequest | undefined;
 }
 /** Instance rotate Entra ID certificate context. */
 export interface RotateEntraIdCertificateContext {
   /** Optional. The fingerprint of the next version to be rotated to. If left unspecified, will be rotated to the most recently added Entra ID certificate version. */
-  nextVersion?: string;
+  nextVersion?: string | undefined;
   /** Optional. This is always `sql#rotateEntraIdCertificateContext`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Rotate Entra ID Certificate request. */
 export interface InstancesRotateEntraIdCertificateRequest {
   /** Optional. Contains details about the rotate Entra ID certificate operation. */
-  rotateEntraIdCertificateContext?: RotateEntraIdCertificateContext;
+  rotateEntraIdCertificateContext?: RotateEntraIdCertificateContext | undefined;
 }
 export interface RotateEntraIdCertificateInstancesRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Request body */
-  body?: InstancesRotateEntraIdCertificateRequest;
+  body?: InstancesRotateEntraIdCertificateRequest | undefined;
 }
 /** Instance rotate server CA context. */
 export interface RotateServerCaContext {
   /** This is always `sql#rotateServerCaContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The fingerprint of the next version to be rotated to. If left unspecified, will be rotated to the most recently added server CA version. */
-  nextVersion?: string;
+  nextVersion?: string | undefined;
 }
 /** Rotate Server CA request. */
 export interface InstancesRotateServerCaRequest {
   /** Contains details about the rotate server CA operation. */
-  rotateServerCaContext?: RotateServerCaContext;
+  rotateServerCaContext?: RotateServerCaContext | undefined;
 }
 export interface RotateServerCaInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -3399,44 +3414,44 @@ export interface RotateServerCaInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: InstancesRotateServerCaRequest;
+  body?: InstancesRotateServerCaRequest | undefined;
 }
 /** Instance rotate server certificate context. */
 export interface RotateServerCertificateContext {
   /** Optional. This is always `sql#rotateServerCertificateContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. The fingerprint of the next version to be rotated to. If left unspecified, will be rotated to the most recently added server certificate version. */
-  nextVersion?: string;
+  nextVersion?: string | undefined;
 }
 /** Rotate Server Certificate request. */
 export interface InstancesRotateServerCertificateRequest {
   /** Optional. Contains details about the rotate server CA operation. */
-  rotateServerCertificateContext?: RotateServerCertificateContext;
+  rotateServerCertificateContext?: RotateServerCertificateContext | undefined;
 }
 export interface RotateServerCertificateInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: InstancesRotateServerCertificateRequest;
+  body?: InstancesRotateServerCertificateRequest | undefined;
 }
 /** Initial sync flags for certain Cloud SQL APIs. Currently used for the MySQL external server initial dump. */
 export interface SyncFlags {
   /** The value of the flag. This field must be omitted if the flag doesn't take a value. */
-  value?: string;
+  value?: string | undefined;
   /** The name of the flag. */
-  name?: string;
+  name?: string | undefined;
 }
 export type SyncFlagsList = Array<SyncFlags>;
 /** MySQL-specific external server sync settings. */
 export interface MySqlSyncConfig {
   /** Flags to use for the initial dump. */
-  initialSyncFlags?: SyncFlagsList;
+  initialSyncFlags?: SyncFlagsList | undefined;
 }
 export type SqlInstancesStartExternalSyncRequestMigrationTypeEnum =
   | "MIGRATION_TYPE_UNSPECIFIED"
@@ -3453,19 +3468,22 @@ export type SqlInstancesStartExternalSyncRequestSyncModeEnum =
   | "OFFLINE";
 export interface SqlInstancesStartExternalSyncRequest {
   /** MySQL-specific settings for start external sync. */
-  mysqlSyncConfig?: MySqlSyncConfig;
+  mysqlSyncConfig?: MySqlSyncConfig | undefined;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. MigrationType configures the migration to use physical files or logical dump files. If not set, then the logical dump file configuration is used. Valid values are `LOGICAL` or `PHYSICAL`. Only applicable to MySQL. */
-  migrationType?: SqlInstancesStartExternalSyncRequestMigrationTypeEnum | (string & {});
+  migrationType?: SqlInstancesStartExternalSyncRequestMigrationTypeEnum | (string & {}) | undefined;
   /** Optional. MySQL only. True if end-user has confirmed that this SES call will wipe replica databases overlapping with the proposed selected_objects. If this field is not set and there are both overlapping and additional databases proposed, an error will be returned. */
-  replicaOverwriteEnabled?: boolean;
+  replicaOverwriteEnabled?: boolean | undefined;
   /** Optional. Parallel level for initial data sync. Currently only applicable for MySQL. */
-  syncParallelLevel?: SqlInstancesStartExternalSyncRequestSyncParallelLevelEnum | (string & {});
+  syncParallelLevel?:
+    | SqlInstancesStartExternalSyncRequestSyncParallelLevelEnum
+    | (string & {})
+    | undefined;
   /** External sync mode. */
-  syncMode?: SqlInstancesStartExternalSyncRequestSyncModeEnum | (string & {});
+  syncMode?: SqlInstancesStartExternalSyncRequestSyncModeEnum | (string & {}) | undefined;
   /** Whether to skip the verification step (VESS). */
-  skipVerification?: boolean;
+  skipVerification?: boolean | undefined;
 }
 export interface StartExternalSyncProjectsInstancesRequest {
   /** ID of the project that contains the instance. */
@@ -3473,12 +3491,12 @@ export interface StartExternalSyncProjectsInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: SqlInstancesStartExternalSyncRequest;
+  body?: SqlInstancesStartExternalSyncRequest | undefined;
 }
 /** Request to start executing a captured workload on a replay instance (the Cloud SQL instance where the recorded SQL queries are executed). */
 export interface WorkloadCapturesStartReplayRequest {
   /** Required. Contains details about the start workload replay operation. */
-  startWorkloadReplayContext?: StartWorkloadReplayContext;
+  startWorkloadReplayContext?: StartWorkloadReplayContext | undefined;
 }
 export interface StartReplayWorkloadCapturesRequest {
   /** Required. The ID of the workload to replay. */
@@ -3488,20 +3506,20 @@ export interface StartReplayWorkloadCapturesRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: WorkloadCapturesStartReplayRequest;
+  body?: WorkloadCapturesStartReplayRequest | undefined;
 }
 export interface StartReplicaInstancesRequest {
   /** Cloud SQL read replica instance name. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** ID of the project that contains the read replica. */
   project: string;
 }
 /** Request to start recording traffic from the primary instance (captured workload). */
 export interface WorkloadCapturesStartRequest {
   /** Optional. Contains details about the start workload capture operation. */
-  startWorkloadCaptureContext?: StartWorkloadCaptureContext;
+  startWorkloadCaptureContext?: StartWorkloadCaptureContext | undefined;
 }
 export interface StartWorkloadCapturesRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
@@ -3509,12 +3527,12 @@ export interface StartWorkloadCapturesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
   /** Request body */
-  body?: WorkloadCapturesStartRequest;
+  body?: WorkloadCapturesStartRequest | undefined;
 }
 /** Request to stop an active workload replay on a target Cloud SQL replay instance. */
 export interface WorkloadCapturesStopReplayRequest {
   /** Optional. Contains details about the stop workload replay operation. */
-  stopWorkloadReplayContext?: StopWorkloadReplayContext;
+  stopWorkloadReplayContext?: StopWorkloadReplayContext | undefined;
 }
 export interface StopReplayWorkloadCapturesRequest {
   /** Required. Cloud SQL instance ID of the target replay instance. This does not include the project ID. */
@@ -3522,7 +3540,7 @@ export interface StopReplayWorkloadCapturesRequest {
   /** Required. Project ID of the project that contains the target replay instance. */
   project: string;
   /** Request body */
-  body?: WorkloadCapturesStopReplayRequest;
+  body?: WorkloadCapturesStopReplayRequest | undefined;
 }
 export interface StopReplicaInstancesRequest {
   /** ID of the project that contains the read replica. */
@@ -3530,12 +3548,12 @@ export interface StopReplicaInstancesRequest {
   /** Cloud SQL read replica instance name. */
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Request to stop recording traffic from the primary instance. */
 export interface WorkloadCapturesStopRequest {
   /** Optional. Contains details about the stop workload capture operation. */
-  stopWorkloadCaptureContext?: StopWorkloadCaptureContext;
+  stopWorkloadCaptureContext?: StopWorkloadCaptureContext | undefined;
 }
 export interface StopWorkloadCapturesRequest {
   /** Required. Project ID of the project that contains the instance. */
@@ -3543,7 +3561,7 @@ export interface StopWorkloadCapturesRequest {
   /** Required. Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: WorkloadCapturesStopRequest;
+  body?: WorkloadCapturesStopRequest | undefined;
 }
 /** Request message for switching over a `BlueGreenDeployment` resource. */
 export type SwitchoverBlueGreenDeploymentRequest = StopWorkloadReplayContext;
@@ -3551,29 +3569,29 @@ export interface SwitchoverBlueGreenDeploymentsRequest {
   /** Required. The name of the blue-green deployment to switch over. Format: projects/{project}/locations/{location}/blueGreenDeployments/{blue_green_deployment} */
   name: string;
   /** Request body */
-  body?: StopWorkloadReplayContext;
+  body?: StopWorkloadReplayContext | undefined;
 }
 export interface SwitchoverInstancesRequest {
   /** ID of the project that contains the replica. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL read replica instance name. */
   instance: string;
   /** Optional. (MySQL and PostgreSQL only) Cloud SQL instance operations timeout, which is a sum of all database operations. Default value is 10 minutes and can be modified to a maximum value of 24 hours. */
-  dbTimeout?: string;
+  dbTimeout?: string | undefined;
 }
 /** Database Instance truncate log context. */
 export interface TruncateLogContext {
   /** This is always `sql#truncateLogContext`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The type of log to truncate. Valid values are `MYSQL_GENERAL_TABLE` and `MYSQL_SLOW_TABLE`. */
-  logType?: string;
+  logType?: string | undefined;
 }
 /** Instance truncate log request. */
 export interface InstancesTruncateLogRequest {
   /** Contains details about the truncate log operation. */
-  truncateLogContext?: TruncateLogContext;
+  truncateLogContext?: TruncateLogContext | undefined;
 }
 export interface TruncateLogInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
@@ -3581,17 +3599,17 @@ export interface TruncateLogInstancesRequest {
   /** Project ID of the Cloud SQL project. */
   project: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Request body */
-  body?: InstancesTruncateLogRequest;
+  body?: InstancesTruncateLogRequest | undefined;
 }
 export interface UpdateBackupBackupsRequest {
   /** The list of fields that you can update. You can update only the description and retention period of the final backup. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. The resource name of the backup. Format: projects/{project}/backups/{backup}. */
   name: string;
   /** Request body */
-  body?: Backup;
+  body?: Backup | undefined;
 }
 export interface UpdateDatabasesRequest {
   /** Project ID of the project that contains the instance. */
@@ -3599,43 +3617,43 @@ export interface UpdateDatabasesRequest {
   /** Name of the database to be updated in the instance. */
   database: string;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: Database;
+  body?: Database | undefined;
 }
 export interface UpdateInstancesRequest {
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Request body */
-  body?: DatabaseInstance;
+  body?: DatabaseInstance | undefined;
 }
 export interface UpdateUsersRequest {
   /** Optional. Specifies whether to revoke existing roles that are not present in the `server_roles` field. If `false` or unset, the server roles specified in `server_roles` are added to the user's existing server roles. */
-  revokeExistingServerRoles?: boolean;
+  revokeExistingServerRoles?: boolean | undefined;
   /** Name of the user in the instance. */
-  name?: string;
+  name?: string | undefined;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
   /** Optional. Host of the user in the instance. */
-  host?: string;
+  host?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
   /** Optional. List of database roles to grant to the user. body.database_roles will be ignored for update request. */
-  databaseRoles?: StringList;
+  databaseRoles?: StringList | undefined;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. The server roles to grant to the SQL Server login. Existing server roles will not be revoked if revoke_existing_roles is false. body.server_roles will be ignored for update request. */
-  serverRoles?: StringList;
+  serverRoles?: StringList | undefined;
   /** Optional. Specifies whether to revoke existing roles that are not present in the `database_roles` field. If `false` or unset, the database roles specified in `database_roles` are added to the user's existing roles. */
-  revokeExistingRoles?: boolean;
+  revokeExistingRoles?: boolean | undefined;
   /** Request body */
-  body?: User;
+  body?: User | undefined;
 }
 export type SqlInstancesVerifyExternalSyncSettingsRequestMigrationTypeEnum =
   | "MIGRATION_TYPE_UNSPECIFIED"
@@ -3644,7 +3662,7 @@ export type SqlInstancesVerifyExternalSyncSettingsRequestMigrationTypeEnum =
 /** The selected object that Cloud SQL migrates. */
 export interface ExternalSyncSelectedObject {
   /** The name of the database that Cloud SQL migrates. */
-  database?: string;
+  database?: string | undefined;
 }
 export type ExternalSyncSelectedObjectList = Array<ExternalSyncSelectedObject>;
 export type SqlInstancesVerifyExternalSyncSettingsRequestSyncModeEnum =
@@ -3658,23 +3676,27 @@ export type SqlInstancesVerifyExternalSyncSettingsRequestSyncParallelLevelEnum =
   | "MAX";
 export interface SqlInstancesVerifyExternalSyncSettingsRequest {
   /** Optional. MigrationType configures the migration to use physical files or logical dump files. If not set, then the logical dump file configuration is used. Valid values are `LOGICAL` or `PHYSICAL`. Only applicable to MySQL. */
-  migrationType?: SqlInstancesVerifyExternalSyncSettingsRequestMigrationTypeEnum | (string & {});
+  migrationType?:
+    | SqlInstancesVerifyExternalSyncSettingsRequestMigrationTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Flag to verify settings required by replication setup only */
-  verifyReplicationOnly?: boolean;
+  verifyReplicationOnly?: boolean | undefined;
   /** Optional. Region of the Cloud SQL instance. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. MySQL-specific settings for start external sync. */
-  mysqlSyncConfig?: MySqlSyncConfig;
+  mysqlSyncConfig?: MySqlSyncConfig | undefined;
   /** Flag to enable verifying connection only */
-  verifyConnectionOnly?: boolean;
+  verifyConnectionOnly?: boolean | undefined;
   /** Optional. Migrate only the specified objects from the source instance. If this field is empty, then migrate all objects. */
-  selectedObjects?: ExternalSyncSelectedObjectList;
+  selectedObjects?: ExternalSyncSelectedObjectList | undefined;
   /** External sync mode */
-  syncMode?: SqlInstancesVerifyExternalSyncSettingsRequestSyncModeEnum | (string & {});
+  syncMode?: SqlInstancesVerifyExternalSyncSettingsRequestSyncModeEnum | (string & {}) | undefined;
   /** Optional. Parallel level for initial data sync. Only applicable for PostgreSQL. */
   syncParallelLevel?:
     | SqlInstancesVerifyExternalSyncSettingsRequestSyncParallelLevelEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface VerifyExternalSyncSettingsProjectsInstancesRequest {
   /** Project ID of the project that contains the instance. */
@@ -3682,7 +3704,7 @@ export interface VerifyExternalSyncSettingsProjectsInstancesRequest {
   /** Cloud SQL instance ID. This does not include the project ID. */
   instance: string;
   /** Request body */
-  body?: SqlInstancesVerifyExternalSyncSettingsRequest;
+  body?: SqlInstancesVerifyExternalSyncSettingsRequest | undefined;
 }
 export type SqlExternalSyncSettingErrorTypeEnum =
   | "SQL_EXTERNAL_SYNC_SETTING_ERROR_TYPE_UNSPECIFIED"
@@ -3749,21 +3771,21 @@ export type SqlExternalSyncSettingErrorTypeEnum =
 /** External primary instance migration setting error/warning. */
 export interface SqlExternalSyncSettingError {
   /** Can be `sql#externalSyncSettingError` or `sql#externalSyncSettingWarning`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Identifies the specific error that occurred. */
-  type?: SqlExternalSyncSettingErrorTypeEnum;
+  type?: SqlExternalSyncSettingErrorTypeEnum | undefined;
   /** Additional information about the error encountered. */
-  detail?: string;
+  detail?: string | undefined;
 }
 export type SqlExternalSyncSettingErrorList = Array<SqlExternalSyncSettingError>;
 /** Instance verify external sync settings response. */
 export interface SqlInstancesVerifyExternalSyncSettingsResponse {
   /** This is always `sql#migrationSettingErrorList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** List of migration warnings. */
-  warnings?: SqlExternalSyncSettingErrorList;
+  warnings?: SqlExternalSyncSettingErrorList | undefined;
   /** List of migration violations. */
-  errors?: SqlExternalSyncSettingErrorList;
+  errors?: SqlExternalSyncSettingErrorList | undefined;
 }
 export type AcquireSsrsLeaseInstancesError =
   | NotFound

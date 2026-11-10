@@ -110,7 +110,9 @@ export type DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetworkRe
   Array<string>;
 export interface DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetworkResolverIpsList;
+  resolverIps?:
+    | DirectoryServicesCreateRequestHostInfraHostnameHostResolverNetworkResolverIpsList
+    | undefined;
 }
 export interface DirectoryServicesCreateRequestHostInfraHostnameHost {
   hostname: string;
@@ -126,9 +128,9 @@ export interface DirectoryServicesCreateRequestTlsSettings {
   /** TLS certificate verification mode for the connection to the origin. */
   certVerificationMode: string;
   /** UUID of the custom CA certificate or chain. */
-  certificateAuthority?: string;
+  certificateAuthority?: string | undefined;
   /** UUID of the mTLS client certificate and private key. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
 }
 export type DirectoryServicesCreateRequestAppProtocol = "postgresql" | "mysql";
 export interface CreateDirectoryServiceRequest {
@@ -137,15 +139,15 @@ export interface CreateDirectoryServiceRequest {
   host: DirectoryServicesCreateRequestHost;
   name: string;
   type: DirectoryServicesCreateRequestType | (string & {});
-  createdAt?: string;
-  httpPort?: number;
-  httpsPort?: number;
-  serviceId?: string;
+  createdAt?: string | undefined;
+  httpPort?: number | undefined;
+  httpsPort?: number | undefined;
+  serviceId?: string | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings;
-  updatedAt?: string;
-  appProtocol?: DirectoryServicesCreateRequestAppProtocol | (string & {});
-  tcpPort?: number;
+  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | undefined;
+  updatedAt?: string | undefined;
+  appProtocol?: DirectoryServicesCreateRequestAppProtocol | (string & {}) | undefined;
+  tcpPort?: number | undefined;
 }
 export type DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -163,7 +165,10 @@ export type DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostname
   Array<string>;
 export interface DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesCreateResultInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -179,24 +184,24 @@ export interface DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings 
   /** TLS certificate verification mode for the connection to the origin. */
   certVerificationMode: string;
   /** UUID of the custom CA certificate or chain. */
-  certificateAuthority?: string | null;
+  certificateAuthority?: string | null | undefined;
   /** UUID of the mTLS client certificate and private key. */
-  clientCertificate?: string | null;
+  clientCertificate?: string | null | undefined;
 }
 export type DirectoryServicesCreateResultInfraTCPServiceConfigAppProtocol = "postgresql" | "mysql";
 export interface DirectoryServicesCreateResult {
   host: DirectoryServicesCreateResultInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesCreateResultType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesCreateResultInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesCreateResultInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type CreateDirectoryServiceResponse = DirectoryServicesCreateResult;
 export interface DeleteDirectoryServiceRequest {
@@ -224,7 +229,10 @@ export type DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHos
   Array<string>;
 export interface DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesGetResultInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -243,15 +251,15 @@ export interface DirectoryServicesGetResult {
   host: DirectoryServicesGetResultInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesGetResultType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesGetResultInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesGetResultInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type GetDirectoryServiceResponse = DirectoryServicesGetResult;
 export type DirectoryServicesListRequestType = "tcp" | "http";
@@ -259,10 +267,10 @@ export interface ListDirectoryServicesRequest {
   /** Account identifier */
   accountId: string;
   /** Current page in the response */
-  page?: number;
+  page?: number | undefined;
   /** Max amount of entries returned per page */
-  perPage?: number;
-  type?: DirectoryServicesListRequestType | (string & {});
+  perPage?: number | undefined;
+  type?: DirectoryServicesListRequestType | (string & {}) | undefined;
 }
 export type DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -280,7 +288,10 @@ export type DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostna
   Array<string>;
 export interface DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesListResultItemInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -301,22 +312,22 @@ export interface DirectoryServicesListResultItem {
   host: DirectoryServicesListResultItemInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesListResultItemType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesListResultItemInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesListResultItemInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type DirectoryServicesListResultList = Array<DirectoryServicesListResultItem>;
 export interface ListDirectoryServicesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DirectoryServicesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DirectoryServicesUpdateRequestHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -334,7 +345,9 @@ export type DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetworkRe
   Array<string>;
 export interface DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetworkResolverIpsList;
+  resolverIps?:
+    | DirectoryServicesUpdateRequestHostInfraHostnameHostResolverNetworkResolverIpsList
+    | undefined;
 }
 export interface DirectoryServicesUpdateRequestHostInfraHostnameHost {
   hostname: string;
@@ -354,14 +367,14 @@ export interface UpdateDirectoryServiceRequest {
   host: DirectoryServicesUpdateRequestHost;
   name: string;
   type: DirectoryServicesUpdateRequestType | (string & {});
-  createdAt?: string;
-  httpPort?: number;
-  httpsPort?: number;
+  createdAt?: string | undefined;
+  httpPort?: number | undefined;
+  httpsPort?: number | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateRequestTlsSettings;
-  updatedAt?: string;
-  appProtocol?: DirectoryServicesUpdateRequestAppProtocol | (string & {});
-  tcpPort?: number;
+  tlsSettings?: DirectoryServicesCreateRequestTlsSettings | undefined;
+  updatedAt?: string | undefined;
+  appProtocol?: DirectoryServicesUpdateRequestAppProtocol | (string & {}) | undefined;
+  tcpPort?: number | undefined;
 }
 export type DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraIPv4HostNetwork =
   DirectoryServicesCreateRequestHostInfraIPv4HostNetwork;
@@ -379,7 +392,10 @@ export type DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostname
   Array<string>;
 export interface DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetwork {
   tunnelId: string;
-  resolverIps?: DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList | null;
+  resolverIps?:
+    | DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHostResolverNetworkResolverIpsList
+    | null
+    | undefined;
 }
 export interface DirectoryServicesUpdateResultInfraHTTPServiceConfigHostInfraHostnameHost {
   hostname: string;
@@ -398,15 +414,15 @@ export interface DirectoryServicesUpdateResult {
   host: DirectoryServicesUpdateResultInfraHTTPServiceConfigHost;
   name: string;
   type: DirectoryServicesUpdateResultType;
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
+  createdAt?: string | null | undefined;
+  httpPort?: number | null | undefined;
+  httpsPort?: number | null | undefined;
+  serviceId?: string | null | undefined;
   /** TLS settings for a connectivity service. */
-  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null;
-  updatedAt?: string | null;
-  appProtocol?: DirectoryServicesUpdateResultInfraTCPServiceConfigAppProtocol | null;
-  tcpPort?: number | null;
+  tlsSettings?: DirectoryServicesCreateResultInfraHTTPServiceConfigTlsSettings | null | undefined;
+  updatedAt?: string | null | undefined;
+  appProtocol?: DirectoryServicesUpdateResultInfraTCPServiceConfigAppProtocol | null | undefined;
+  tcpPort?: number | null | undefined;
 }
 export type UpdateDirectoryServiceResponse = DirectoryServicesUpdateResult;
 export type CreateDirectoryServiceError =

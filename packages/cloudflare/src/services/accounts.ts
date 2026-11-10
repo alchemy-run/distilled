@@ -237,47 +237,47 @@ export class ValidationError
 export type CreateRequestType = "standard" | "enterprise";
 export interface CreateRequestUnit {
   /** Tenant unit ID */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateAccountRequest {
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Account name, limited to 65 UTF-8 bytes. */
   name: string;
   /** Set to `true` and omit `unit` to create a standalone Free Account. If provided, this field must be `true`. */
-  standalone?: boolean;
+  standalone?: boolean | undefined;
   /** The 'type' field should no longer be set through the API. */
-  type?: CreateRequestType | (string & {});
+  type?: CreateRequestType | (string & {}) | undefined;
   /** Information related to the tenant unit. Provide its ID and omit `standalone` to create the Account within an Organization. See https://developers.cloudflare.com/tenant/how-to/manage-accounts/. */
-  unit?: CreateRequestUnit;
+  unit?: CreateRequestUnit | undefined;
 }
 export type CreateResponseType = "standard" | "enterprise";
 export interface CreateResponseLegacyFlagsEnterpriseZoneQuota {
   /** Number of additional Enterprise zones available. Returns 0 if the quota is not allocated or is exhausted. */
-  available?: number | null;
+  available?: number | null | undefined;
   /** Current number of Enterprise zones. */
-  current?: number | null;
+  current?: number | null | undefined;
   /** Maximum number of Enterprise zones allowed. */
-  maximum?: number | null;
+  maximum?: number | null | undefined;
 }
 export interface CreateResponseLegacyFlags {
   /** Enterprise zone quota for standard and enterprise accounts. Accounts without a quota have a maximum of 0. */
-  enterpriseZoneQuota?: CreateResponseLegacyFlagsEnterpriseZoneQuota | null;
+  enterpriseZoneQuota?: CreateResponseLegacyFlagsEnterpriseZoneQuota | null | undefined;
 }
 export interface CreateResponseManagedBy {
   /** ID of the parent Organization, if one exists */
-  parentOrgId?: string | null;
+  parentOrgId?: string | null | undefined;
   /** Name of the parent Organization, if one exists */
-  parentOrgName?: string | null;
+  parentOrgName?: string | null | undefined;
   /** ID of the root Organization, if one exists */
-  rootOrgId?: string | null;
+  rootOrgId?: string | null | undefined;
   /** Indicates whether the parent Organization hierarchy should be displayed */
-  shouldDisplayParentOrgs?: boolean | null;
+  shouldDisplayParentOrgs?: boolean | null | undefined;
 }
 export interface CreateResponseSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
-  abuseContactEmail?: string | null;
+  abuseContactEmail?: string | null | undefined;
   /** Indicates whether membership in this account requires that Two-Factor Authentication is enabled */
-  enforceTwofactor?: boolean | null;
+  enforceTwofactor?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAccountResponse {
@@ -287,13 +287,13 @@ export interface CreateAccountResponse {
   name: string;
   type: CreateResponseType;
   /** Timestamp for the creation of the account */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Legacy account flags. */
-  legacyFlags?: CreateResponseLegacyFlags | null;
+  legacyFlags?: CreateResponseLegacyFlags | null | undefined;
   /** Parent container details */
-  managedBy?: CreateResponseManagedBy | null;
+  managedBy?: CreateResponseManagedBy | null | undefined;
   /** Account settings */
-  settings?: CreateResponseSettings | null;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export interface CreateAccountOrganizationRequest {
   accountId: string;
@@ -314,7 +314,7 @@ export interface CreateClientSecretRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateClientSecretResponse {
   /** The Stripe client secret for frontend payment confirmation. */
-  clientSecret?: string | null;
+  clientSecret?: string | null | undefined;
 }
 export type MembersCreateRequestRolesList = Array<string>;
 export type MembersCreateRequestStatus = "accepted" | "pending";
@@ -344,38 +344,38 @@ export interface CreateMemberRequest {
   /** The contact email address of the user. */
   email: string;
   /** Array of roles associated with this member. */
-  roles?: MembersCreateRequestRolesList;
+  roles?: MembersCreateRequestRolesList | undefined;
   /** Status of the member invitation. If not provided during creation, defaults to 'pending'. Changing from 'accepted' back to 'pending' will trigger a replacement of the member resource in Terraform. */
-  status?: MembersCreateRequestStatus | (string & {});
+  status?: MembersCreateRequestStatus | (string & {}) | undefined;
   /** Array of policies associated with this member. */
-  policies?: MembersCreateRequestPoliciesList;
+  policies?: MembersCreateRequestPoliciesList | undefined;
 }
 export type MembersCreateResponsePoliciesItemAccess = "allow" | "deny";
 export interface MembersCreateResponsePoliciesItemPermissionGroupsItemMeta {
   /** A category used to group permission groups. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** Indicates whether the permission group is deprecated. */
-  deprecated?: string | null;
+  deprecated?: string | null | undefined;
   /** Additional information about the permission group. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Indicates whether the permission group can be edited. */
-  editable?: string | null;
+  editable?: string | null | undefined;
   /** The planned end-of-life date and time, when provided. */
-  eolAt?: string | null;
+  eolAt?: string | null | undefined;
   /** A label identifying the permission group. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The scope associated with the permission group. */
-  scopes?: string | null;
+  scopes?: string | null | undefined;
   /** Indicates the permission group's availability or visibility. */
-  visibility?: string | null;
+  visibility?: string | null | undefined;
 }
 export interface MembersCreateResponsePoliciesItemPermissionGroupsItem {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemPermissionGroupsItemMeta | null | undefined;
   /** Name of the permission group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type MembersCreateResponsePoliciesItemPermissionGroupsList =
   Array<MembersCreateResponsePoliciesItemPermissionGroupsItem>;
@@ -392,8 +392,8 @@ export interface MembersCreateResponsePoliciesItemResourceGroupsItemScope {
   objects: MembersCreateResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
 export interface MembersCreateResponsePoliciesItemResourceGroupsItemMeta {
-  key?: string | null;
-  value?: string | null;
+  key?: string | null | undefined;
+  value?: string | null | undefined;
 }
 export interface MembersCreateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -401,26 +401,26 @@ export interface MembersCreateResponsePoliciesItemResourceGroupsItem {
   /** The scope associated to the resource group */
   scope: MembersCreateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type MembersCreateResponsePoliciesItemResourceGroupsList =
   Array<MembersCreateResponsePoliciesItemResourceGroupsItem>;
 export interface MembersCreateResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: MembersCreateResponsePoliciesItemAccess | null;
+  access?: MembersCreateResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: MembersCreateResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: MembersCreateResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: MembersCreateResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: MembersCreateResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type MembersCreateResponsePoliciesList = Array<MembersCreateResponsePoliciesItem>;
 export interface MembersCreateResponseRolesItemPermissionsAnalytics {
-  read?: boolean | null;
-  write?: boolean | null;
+  read?: boolean | null | undefined;
+  write?: boolean | null | undefined;
 }
 export type MembersCreateResponseRolesItemPermissionsBilling =
   MembersCreateResponseRolesItemPermissionsAnalytics;
@@ -445,18 +445,18 @@ export type MembersCreateResponseRolesItemPermissionsZoneSettings =
 export type MembersCreateResponseRolesItemPermissionsZones =
   MembersCreateResponseRolesItemPermissionsAnalytics;
 export interface MembersCreateResponseRolesItemPermissions {
-  analytics?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  billing?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  cachePurge?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  dns?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  dnsRecords?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  lb?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  logs?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  organization?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  ssl?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  waf?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  zoneSettings?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
-  zones?: MembersCreateResponseRolesItemPermissionsAnalytics | null;
+  analytics?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  billing?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  cachePurge?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  dns?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  dnsRecords?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  lb?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  logs?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  organization?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  ssl?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  waf?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  zoneSettings?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
+  zones?: MembersCreateResponseRolesItemPermissionsAnalytics | null | undefined;
 }
 export interface MembersCreateResponseRolesItem {
   /** Role identifier tag. */
@@ -473,54 +473,54 @@ export interface MembersCreateResponseUser {
   /** The contact email address of the user. */
   email: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** User's first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** User's last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication. */
-  twoFactorAuthenticationEnabled?: boolean | null;
+  twoFactorAuthenticationEnabled?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateMemberResponse {
   /** Membership identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Access policy for the membership */
-  policies?: MembersCreateResponsePoliciesList | null;
+  policies?: MembersCreateResponsePoliciesList | null | undefined;
   /** Roles assigned to this Member. */
-  roles?: MembersCreateResponseRolesList | null;
+  roles?: MembersCreateResponseRolesList | null | undefined;
   /** A member's status in the account. */
-  status?: MembersCreateResponseStatus | null;
+  status?: MembersCreateResponseStatus | null | undefined;
   /** Details of the user associated to the membership. */
-  user?: MembersCreateResponseUser | null;
+  user?: MembersCreateResponseUser | null | undefined;
 }
 export interface CreatePayBadDebtRequest {
   /** Identifier */
   accountId: string;
   /** The payment method to use. If omitted, the default payment method is used. */
-  paymentMethodId?: string;
+  paymentMethodId?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePayBadDebtResponse {
   /** The Stripe client secret for frontend payment confirmation. */
-  clientSecret?: string | null;
+  clientSecret?: string | null | undefined;
 }
 export interface CreatePayInvoiceRequest {
   /** Identifier */
   accountId: string;
   /** The identifier of the invoice to pay. */
-  invoiceId?: string;
+  invoiceId?: string | undefined;
   /** The payment method to use. If omitted, the default payment method is used. */
-  paymentMethodId?: string;
+  paymentMethodId?: string | undefined;
   /** Whether to validate the payment method before processing. */
-  validatePaymentMethod?: boolean;
+  validatePaymentMethod?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePayInvoiceResponse {
   /** The Stripe client secret for frontend payment confirmation. */
-  clientSecret?: string | null;
+  clientSecret?: string | null | undefined;
 }
 export type CreatePaymentMethodRequestType =
   | "CREDIT_CARD"
@@ -533,49 +533,49 @@ export interface CreatePaymentMethodRequest {
   /** Identifier */
   accountId: string;
   /** Billing address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Billing address line 2. */
-  address2?: string;
+  address2?: string | undefined;
   /** Bank account type. */
-  bankAccountType?: string;
+  bankAccountType?: string | undefined;
   /** Bank code. */
-  bankCode?: string;
+  bankCode?: string | undefined;
   /** Bank country. */
-  bankCountry?: string;
+  bankCountry?: string | undefined;
   /** Bank name for bank-based payment methods. */
-  bankName?: string;
+  bankName?: string | undefined;
   /** Bank routing number. */
-  bankRoutingNumber?: string;
+  bankRoutingNumber?: string | undefined;
   /** Cash App cash tag. */
-  cashappCashTag?: string;
+  cashappCashTag?: string | undefined;
   /** Billing city. */
-  city?: string;
+  city?: string | undefined;
   /** Billing country. */
-  country?: string;
+  country?: string | undefined;
   /** Whether this is the default payment method. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Device data for fraud prevention. */
-  deviceData?: string;
+  deviceData?: string | undefined;
   /** Billing first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Billing last name. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** A nickname for the payment method. */
-  nickName?: string;
+  nickName?: string | undefined;
   /** Email associated with the payment account. */
-  paymentAccountEmail?: string;
+  paymentAccountEmail?: string | undefined;
   /** Payment email address. */
-  paymentEmail?: string;
+  paymentEmail?: string | undefined;
   /** The payment gateway used. */
-  paymentGateway?: string;
+  paymentGateway?: string | undefined;
   /** Payment nonce for tokenized payments. */
-  paymentNonce?: string;
+  paymentNonce?: string | undefined;
   /** Billing state. */
-  state?: string;
+  state?: string | undefined;
   /** The payment method type. */
-  type?: CreatePaymentMethodRequestType | (string & {});
+  type?: CreatePaymentMethodRequestType | (string & {}) | undefined;
   /** Billing zip code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 export type CreatePaymentMethodResponseType =
   | "CREDIT_CARD"
@@ -587,55 +587,55 @@ export type CreatePaymentMethodResponseType =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePaymentMethodResponse {
   /** Payment method identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Billing address line 1. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Billing address line 2. */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** Bank account type. */
-  bankAccountType?: string | null;
+  bankAccountType?: string | null | undefined;
   /** Bank code. */
-  bankCode?: string | null;
+  bankCode?: string | null | undefined;
   /** Bank country. */
-  bankCountry?: string | null;
+  bankCountry?: string | null | undefined;
   /** Bank name for bank-based payment methods. */
-  bankName?: string | null;
+  bankName?: string | null | undefined;
   /** Bank routing number. */
-  bankRoutingNumber?: string | null;
+  bankRoutingNumber?: string | null | undefined;
   /** Cash App cash tag. */
-  cashappCashTag?: string | null;
+  cashappCashTag?: string | null | undefined;
   /** Billing city. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Billing country. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Whether this is the default payment method. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
   /** Device data for fraud prevention. */
-  deviceData?: string | null;
+  deviceData?: string | null | undefined;
   /** Card expiration date. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Billing first name. */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Last four digits of the card number. */
-  lastFour?: string | null;
+  lastFour?: string | null | undefined;
   /** Billing last name. */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** A nickname for the payment method. */
-  nickName?: string | null;
+  nickName?: string | null | undefined;
   /** Email associated with the payment account. */
-  paymentAccountEmail?: string | null;
+  paymentAccountEmail?: string | null | undefined;
   /** Payment email address. */
-  paymentEmail?: string | null;
+  paymentEmail?: string | null | undefined;
   /** The payment gateway used. */
-  paymentGateway?: string | null;
+  paymentGateway?: string | null | undefined;
   /** Payment nonce for tokenized payments. */
-  paymentNonce?: string | null;
+  paymentNonce?: string | null | undefined;
   /** Billing state. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The payment method type. */
-  type?: CreatePaymentMethodResponseType | null;
+  type?: CreatePaymentMethodResponseType | null | undefined;
   /** Billing zip code. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export type SubscriptionsCreateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export type SubscriptionsCreateRequestRatePlanId =
@@ -652,27 +652,27 @@ export type SubscriptionsCreateRequestRatePlanId =
 export type SubscriptionsCreateRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsCreateRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsCreateRequestRatePlanId | (string & {});
+  id?: SubscriptionsCreateRequestRatePlanId | (string & {}) | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string;
+  currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean;
+  isContract?: boolean | undefined;
   /** The full name of the rate plan. */
-  publicName?: string;
+  publicName?: string | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsCreateRequestRatePlanSetsList;
+  sets?: SubscriptionsCreateRequestRatePlanSetsList | undefined;
 }
 export interface CreateSubscriptionRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsCreateRequestFrequency | (string & {});
+  frequency?: SubscriptionsCreateRequestFrequency | (string & {}) | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsCreateRequestRatePlan;
+  ratePlan?: SubscriptionsCreateRequestRatePlan | undefined;
 }
 export type SubscriptionsCreateResponseFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export type SubscriptionsCreateResponseRatePlanId =
@@ -689,19 +689,19 @@ export type SubscriptionsCreateResponseRatePlanId =
 export type SubscriptionsCreateResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsCreateResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsCreateResponseRatePlanId | null;
+  id?: SubscriptionsCreateResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsCreateResponseRatePlanSetsList | null;
+  sets?: SubscriptionsCreateResponseRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsCreateResponseState =
   | "Trial"
@@ -714,48 +714,48 @@ export type SubscriptionsCreateResponseState =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsCreateResponseFrequency | null;
+  frequency?: SubscriptionsCreateResponseFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsCreateResponseRatePlan | null;
+  ratePlan?: SubscriptionsCreateResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsCreateResponseState | null;
+  state?: SubscriptionsCreateResponseState | null | undefined;
 }
 export type TokensCreateRequestPoliciesItemEffect = "allow" | "deny";
 export interface TokensCreateRequestPoliciesItemPermissionGroupsItemMeta {
   /** A category used to group permission groups. */
-  category?: string;
+  category?: string | undefined;
   /** Indicates whether the permission group is deprecated. */
-  deprecated?: string;
+  deprecated?: string | undefined;
   /** Additional information about the permission group. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates whether the permission group can be edited. */
-  editable?: string;
+  editable?: string | undefined;
   /** The planned end-of-life date and time, when provided. */
-  eolAt?: string;
+  eolAt?: string | undefined;
   /** A label identifying the permission group. */
-  label?: string;
+  label?: string | undefined;
   /** The scope associated with the permission group. */
-  scopes?: string;
+  scopes?: string | undefined;
   /** Indicates the permission group's availability or visibility. */
-  visibility?: string;
+  visibility?: string | undefined;
 }
 export interface TokensCreateRequestPoliciesItemPermissionGroupsItem {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: TokensCreateRequestPoliciesItemPermissionGroupsItemMeta;
+  meta?: TokensCreateRequestPoliciesItemPermissionGroupsItemMeta | undefined;
   /** Name of the permission group. */
-  name?: string;
+  name?: string | undefined;
 }
 export type TokensCreateRequestPoliciesItemPermissionGroupsList =
   Array<TokensCreateRequestPoliciesItemPermissionGroupsItem>;
@@ -781,13 +781,13 @@ export type TokensCreateRequestConditionRequestIpInList = Array<string>;
 export type TokensCreateRequestConditionRequestIpNotInList = Array<string>;
 export interface TokensCreateRequestConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensCreateRequestConditionRequestIpInList;
+  in?: TokensCreateRequestConditionRequestIpInList | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensCreateRequestConditionRequestIpNotInList;
+  notIn?: TokensCreateRequestConditionRequestIpNotInList | undefined;
 }
 export interface TokensCreateRequestCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensCreateRequestConditionRequestIp;
+  requestIp?: TokensCreateRequestConditionRequestIp | undefined;
 }
 export interface CreateTokenRequest {
   /** Account identifier tag. */
@@ -796,23 +796,23 @@ export interface CreateTokenRequest {
   name: string;
   /** List of access policies assigned to the token. */
   policies: TokensCreateRequestPoliciesList;
-  condition?: TokensCreateRequestCondition;
+  condition?: TokensCreateRequestCondition | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | undefined;
 }
 export type TokensCreateResponseConditionRequestIpInList = Array<string>;
 export type TokensCreateResponseConditionRequestIpNotInList = Array<string>;
 export interface TokensCreateResponseConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensCreateResponseConditionRequestIpInList | null;
+  in?: TokensCreateResponseConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensCreateResponseConditionRequestIpNotInList | null;
+  notIn?: TokensCreateResponseConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensCreateResponseCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensCreateResponseConditionRequestIp | null;
+  requestIp?: TokensCreateResponseConditionRequestIp | null | undefined;
 }
 export type TokensCreateResponsePoliciesItemEffect = "allow" | "deny";
 export type TokensCreateResponsePoliciesItemPermissionGroupsItemMeta =
@@ -845,36 +845,36 @@ export type TokensCreateResponseStatus = "active" | "disabled" | "expired";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensCreateResponseCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensCreateResponseCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensCreateResponsePoliciesList | null;
+  policies?: TokensCreateResponsePoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensCreateResponseStatus | null;
+  status?: TokensCreateResponseStatus | null | undefined;
   /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
-  tokenPrefix?: string | null;
+  tokenPrefix?: string | null | undefined;
   /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
-  tokenSuffix?: string | null;
+  tokenSuffix?: string | null | undefined;
   /** The token value. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface DeleteAccountRequest {
   /** The account ID of the account to be deleted */
@@ -912,7 +912,7 @@ export interface DeleteSubscriptionRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSubscriptionResponse {
   /** Subscription identifier tag. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
 }
 export interface DeleteTokenRequest {
   /** Account identifier tag. */
@@ -929,7 +929,7 @@ export interface EditInvoiceRequest {
   /** Identifier */
   accountId: string;
   /** Whether to enable or disable PDF invoice generation. */
-  toggle?: boolean;
+  toggle?: boolean | undefined;
 }
 export type EditInvoiceResponse = unknown;
 export interface GetAccountRequest {
@@ -950,13 +950,13 @@ export interface GetAccountResponse {
   name: string;
   type: GetResponseType;
   /** Timestamp for the creation of the account */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Legacy account flags. */
-  legacyFlags?: CreateResponseLegacyFlags | null;
+  legacyFlags?: CreateResponseLegacyFlags | null | undefined;
   /** Parent container details */
-  managedBy?: CreateResponseManagedBy | null;
+  managedBy?: CreateResponseManagedBy | null | undefined;
   /** Account settings */
-  settings?: CreateResponseSettings | null;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export interface GetAccountProfileRequest {
   accountId: string;
@@ -1000,21 +1000,21 @@ export interface MembersGetResponsePoliciesItemResourceGroupsItem {
   /** The scope associated to the resource group */
   scope: MembersGetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type MembersGetResponsePoliciesItemResourceGroupsList =
   Array<MembersGetResponsePoliciesItemResourceGroupsItem>;
 export interface MembersGetResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: MembersGetResponsePoliciesItemAccess | null;
+  access?: MembersGetResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: MembersGetResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: MembersGetResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: MembersGetResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: MembersGetResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type MembersGetResponsePoliciesList = Array<MembersGetResponsePoliciesItem>;
 export type MembersGetResponseRolesItemPermissionsAnalytics =
@@ -1049,17 +1049,17 @@ export type MembersGetResponseUser = MembersCreateResponseUser;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetMemberResponse {
   /** Membership identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Access policy for the membership */
-  policies?: MembersGetResponsePoliciesList | null;
+  policies?: MembersGetResponsePoliciesList | null | undefined;
   /** Roles assigned to this Member. */
-  roles?: MembersGetResponseRolesList | null;
+  roles?: MembersGetResponseRolesList | null | undefined;
   /** A member's status in the account. */
-  status?: MembersGetResponseStatus | null;
+  status?: MembersGetResponseStatus | null | undefined;
   /** Details of the user associated to the membership. */
-  user?: MembersCreateResponseUser | null;
+  user?: MembersCreateResponseUser | null | undefined;
 }
 export interface GetPaymentMethodRequest {
   /** Identifier */
@@ -1077,55 +1077,55 @@ export type GetPaymentMethodResponseType =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPaymentMethodResponse {
   /** Payment method identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Billing address line 1. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Billing address line 2. */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** Bank account type. */
-  bankAccountType?: string | null;
+  bankAccountType?: string | null | undefined;
   /** Bank code. */
-  bankCode?: string | null;
+  bankCode?: string | null | undefined;
   /** Bank country. */
-  bankCountry?: string | null;
+  bankCountry?: string | null | undefined;
   /** Bank name for bank-based payment methods. */
-  bankName?: string | null;
+  bankName?: string | null | undefined;
   /** Bank routing number. */
-  bankRoutingNumber?: string | null;
+  bankRoutingNumber?: string | null | undefined;
   /** Cash App cash tag. */
-  cashappCashTag?: string | null;
+  cashappCashTag?: string | null | undefined;
   /** Billing city. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Billing country. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Whether this is the default payment method. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
   /** Device data for fraud prevention. */
-  deviceData?: string | null;
+  deviceData?: string | null | undefined;
   /** Card expiration date. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Billing first name. */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Last four digits of the card number. */
-  lastFour?: string | null;
+  lastFour?: string | null | undefined;
   /** Billing last name. */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** A nickname for the payment method. */
-  nickName?: string | null;
+  nickName?: string | null | undefined;
   /** Email associated with the payment account. */
-  paymentAccountEmail?: string | null;
+  paymentAccountEmail?: string | null | undefined;
   /** Payment email address. */
-  paymentEmail?: string | null;
+  paymentEmail?: string | null | undefined;
   /** The payment gateway used. */
-  paymentGateway?: string | null;
+  paymentGateway?: string | null | undefined;
   /** Payment nonce for tokenized payments. */
-  paymentNonce?: string | null;
+  paymentNonce?: string | null | undefined;
   /** Billing state. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The payment method type. */
-  type?: GetPaymentMethodResponseType | null;
+  type?: GetPaymentMethodResponseType | null | undefined;
   /** Billing zip code. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export interface GetRoleRequest {
   /** Account identifier tag. */
@@ -1167,15 +1167,15 @@ export interface GetSpeedSettingsTransformationRequest {
 }
 export interface GetSpeedSettingsTransformationResultItem {
   /** Feature identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Zone tag identifier. */
-  cfZoneTag?: string | null;
+  cfZoneTag?: string | null | undefined;
   /** Whether this setting can be modified. */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** When this setting was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Current value of the feature setting. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type GetSpeedSettingsTransformationResultList =
   Array<GetSpeedSettingsTransformationResultItem>;
@@ -1199,19 +1199,19 @@ export type SubscriptionsGetResultItemRatePlanId =
 export type SubscriptionsGetResultItemRatePlanSetsList = Array<string>;
 export interface SubscriptionsGetResultItemRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsGetResultItemRatePlanId | null;
+  id?: SubscriptionsGetResultItemRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsGetResultItemRatePlanSetsList | null;
+  sets?: SubscriptionsGetResultItemRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsGetResultItemState =
   | "Trial"
@@ -1223,28 +1223,28 @@ export type SubscriptionsGetResultItemState =
   | "Expired";
 export interface SubscriptionsGetResultItem {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsGetResultItemFrequency | null;
+  frequency?: SubscriptionsGetResultItemFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsGetResultItemRatePlan | null;
+  ratePlan?: SubscriptionsGetResultItemRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsGetResultItemState | null;
+  state?: SubscriptionsGetResultItemState | null | undefined;
 }
 export type SubscriptionsGetResultList = Array<SubscriptionsGetResultItem>;
 export interface GetSubscriptionResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SubscriptionsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetTokenRequest {
   /** Account identifier tag. */
@@ -1256,13 +1256,13 @@ export type TokensGetResponseConditionRequestIpInList = Array<string>;
 export type TokensGetResponseConditionRequestIpNotInList = Array<string>;
 export interface TokensGetResponseConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensGetResponseConditionRequestIpInList | null;
+  in?: TokensGetResponseConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensGetResponseConditionRequestIpNotInList | null;
+  notIn?: TokensGetResponseConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensGetResponseCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensGetResponseConditionRequestIp | null;
+  requestIp?: TokensGetResponseConditionRequestIp | null | undefined;
 }
 export type TokensGetResponsePoliciesItemEffect = "allow" | "deny";
 export type TokensGetResponsePoliciesItemPermissionGroupsItemMeta =
@@ -1295,42 +1295,42 @@ export type TokensGetResponseStatus = "active" | "disabled" | "expired";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTokenResponse {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensGetResponseCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensGetResponseCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensGetResponsePoliciesList | null;
+  policies?: TokensGetResponsePoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensGetResponseStatus | null;
+  status?: TokensGetResponseStatus | null | undefined;
   /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
-  tokenPrefix?: string | null;
+  tokenPrefix?: string | null | undefined;
   /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
-  tokenSuffix?: string | null;
+  tokenSuffix?: string | null | undefined;
 }
 export interface GetTokenPermissionGroupRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Filter by the name of the permission group. The value must be URL-encoded. */
-  name?: string;
+  name?: string | undefined;
   /** Filter by the scope of the permission group. The value must be URL-encoded. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export type TokensPermissionGroupsGetResultItemCategory =
   | "developer_platform"
@@ -1355,28 +1355,28 @@ export type TokensPermissionGroupsGetResultItemScopesList =
   Array<TokensPermissionGroupsGetResultItemScopesItem>;
 export interface TokensPermissionGroupsGetResultItem {
   /** Public ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Product category that this permission group belongs to. */
-  category?: TokensPermissionGroupsGetResultItemCategory | null;
+  category?: TokensPermissionGroupsGetResultItemCategory | null | undefined;
   /** Whether the caller can select this permission group when creating a token. */
-  isSelectable?: boolean | null;
+  isSelectable?: boolean | null | undefined;
   /** Permission Group Name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Resources to which the Permission Group is scoped */
-  scopes?: TokensPermissionGroupsGetResultItemScopesList | null;
+  scopes?: TokensPermissionGroupsGetResultItemScopesList | null | undefined;
 }
 export type TokensPermissionGroupsGetResultList = Array<TokensPermissionGroupsGetResultItem>;
 export type GetTokenPermissionGroupResponse = TokensPermissionGroupsGetResultList;
 export type ListRequestDirection = "asc" | "desc";
 export interface ListAccountsRequest {
   /** Direction to order results. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Name of the account. */
-  name?: string;
+  name?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListResultItemType = "standard" | "enterprise";
 export type ListResultItemLegacyFlagsEnterpriseZoneQuota =
@@ -1391,20 +1391,20 @@ export interface ListResultItem {
   name: string;
   type: ListResultItemType;
   /** Timestamp for the creation of the account */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Legacy account flags. */
-  legacyFlags?: CreateResponseLegacyFlags | null;
+  legacyFlags?: CreateResponseLegacyFlags | null | undefined;
   /** Parent container details */
-  managedBy?: CreateResponseManagedBy | null;
+  managedBy?: CreateResponseManagedBy | null | undefined;
   /** Account settings */
-  settings?: CreateResponseSettings | null;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListAccountsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListEntitlementsRequest {
   /** Identifier tag. */
@@ -1462,12 +1462,12 @@ export type ListEntitlementsResponse = ListEntitlementsResultList;
 export type LogsAuditListRequestIdNotList = Array<string>;
 export interface LogsAuditListRequestId {
   /** Filters out audit logs by their IDs. */
-  not?: LogsAuditListRequestIdNotList;
+  not?: LogsAuditListRequestIdNotList | undefined;
 }
 export type LogsAuditListRequestAccountNameNotList = Array<string>;
 export interface LogsAuditListRequestAccountName {
   /** Filters out audit logs by the account name. */
-  not?: LogsAuditListRequestAccountNameNotList;
+  not?: LogsAuditListRequestAccountNameNotList | undefined;
 }
 export type LogsAuditListRequestActionResultNotItem = "success" | "failure";
 export type LogsAuditListRequestActionResultNotList = Array<
@@ -1475,7 +1475,7 @@ export type LogsAuditListRequestActionResultNotList = Array<
 >;
 export interface LogsAuditListRequestActionResult {
   /** Filters out audit logs by whether the action was successful or not. */
-  not?: LogsAuditListRequestActionResultNotList;
+  not?: LogsAuditListRequestActionResultNotList | undefined;
 }
 export type LogsAuditListRequestActionTypeNotItem = "create" | "delete" | "view" | "update";
 export type LogsAuditListRequestActionTypeNotList = Array<
@@ -1483,7 +1483,7 @@ export type LogsAuditListRequestActionTypeNotList = Array<
 >;
 export interface LogsAuditListRequestActionType {
   /** Filters out audit logs by the action type. */
-  not?: LogsAuditListRequestActionTypeNotList;
+  not?: LogsAuditListRequestActionTypeNotList | undefined;
 }
 export type LogsAuditListRequestActorContextNotItem =
   | "api"
@@ -1497,32 +1497,32 @@ export type LogsAuditListRequestActorContextNotList = Array<
 >;
 export interface LogsAuditListRequestActorContext {
   /** Filters out audit logs by the actor context. */
-  not?: LogsAuditListRequestActorContextNotList;
+  not?: LogsAuditListRequestActorContextNotList | undefined;
 }
 export type LogsAuditListRequestActorEmailNotList = Array<string>;
 export interface LogsAuditListRequestActorEmail {
   /** Filters out audit logs by the actor's email address. */
-  not?: LogsAuditListRequestActorEmailNotList;
+  not?: LogsAuditListRequestActorEmailNotList | undefined;
 }
 export type LogsAuditListRequestActorIdNotList = Array<string>;
 export interface LogsAuditListRequestActorId {
   /** Filters out audit logs by the actor ID. This can be either the Account ID or User ID. */
-  not?: LogsAuditListRequestActorIdNotList;
+  not?: LogsAuditListRequestActorIdNotList | undefined;
 }
 export type LogsAuditListRequestActorIpAddressNotList = Array<string>;
 export interface LogsAuditListRequestActorIpAddress {
   /** Filters out audit logs IP address where the action was initiated. */
-  not?: LogsAuditListRequestActorIpAddressNotList;
+  not?: LogsAuditListRequestActorIpAddressNotList | undefined;
 }
 export type LogsAuditListRequestActorTokenIdNotList = Array<string>;
 export interface LogsAuditListRequestActorTokenId {
   /** Filters out audit logs by the API token ID when the actor context is an api_token or oauth. */
-  not?: LogsAuditListRequestActorTokenIdNotList;
+  not?: LogsAuditListRequestActorTokenIdNotList | undefined;
 }
 export type LogsAuditListRequestActorTokenNameNotList = Array<string>;
 export interface LogsAuditListRequestActorTokenName {
   /** Filters out audit logs by the API token name when the actor context is an api_token or oauth. */
-  not?: LogsAuditListRequestActorTokenNameNotList;
+  not?: LogsAuditListRequestActorTokenNameNotList | undefined;
 }
 export type LogsAuditListRequestActorTypeNotItem =
   | "account"
@@ -1535,44 +1535,44 @@ export type LogsAuditListRequestActorTypeNotList = Array<
 >;
 export interface LogsAuditListRequestActorType {
   /** Filters out audit logs by the actor type. */
-  not?: LogsAuditListRequestActorTypeNotList;
+  not?: LogsAuditListRequestActorTypeNotList | undefined;
 }
 export type LogsAuditListRequestAuditLogIdNotList = Array<string>;
 export interface LogsAuditListRequestAuditLogId {
   /** Filters out audit logs by their IDs. */
-  not?: LogsAuditListRequestAuditLogIdNotList;
+  not?: LogsAuditListRequestAuditLogIdNotList | undefined;
 }
 export type LogsAuditListRequestDirection = "desc" | "asc";
 export type LogsAuditListRequestProductCategoryList = Array<string>;
 export type LogsAuditListRequestRawCfRayIdNotList = Array<string>;
 export interface LogsAuditListRequestRawCfRayId {
   /** Filters out audit logs by the response CF Ray ID. */
-  not?: LogsAuditListRequestRawCfRayIdNotList;
+  not?: LogsAuditListRequestRawCfRayIdNotList | undefined;
 }
 export type LogsAuditListRequestRawMethodNotList = Array<string>;
 export interface LogsAuditListRequestRawMethod {
   /** Filters out audit logs by the HTTP method for the API call. */
-  not?: LogsAuditListRequestRawMethodNotList;
+  not?: LogsAuditListRequestRawMethodNotList | undefined;
 }
 export type LogsAuditListRequestRawStatusCodeNotList = Array<number>;
 export interface LogsAuditListRequestRawStatusCode {
   /** Filters out audit logs by the response status code that was returned. */
-  not?: LogsAuditListRequestRawStatusCodeNotList;
+  not?: LogsAuditListRequestRawStatusCodeNotList | undefined;
 }
 export type LogsAuditListRequestRawUriNotList = Array<string>;
 export interface LogsAuditListRequestRawUri {
   /** Filters out audit logs by the request URI. */
-  not?: LogsAuditListRequestRawUriNotList;
+  not?: LogsAuditListRequestRawUriNotList | undefined;
 }
 export type LogsAuditListRequestResourceIdNotList = Array<string>;
 export interface LogsAuditListRequestResourceId {
   /** Filters out audit logs by the resource ID. */
-  not?: LogsAuditListRequestResourceIdNotList;
+  not?: LogsAuditListRequestResourceIdNotList | undefined;
 }
 export type LogsAuditListRequestResourceProductNotList = Array<string>;
 export interface LogsAuditListRequestResourceProduct {
   /** Filters out audit logs by the Cloudflare product associated with the changed resource. */
-  not?: LogsAuditListRequestResourceProductNotList;
+  not?: LogsAuditListRequestResourceProductNotList | undefined;
 }
 export type LogsAuditListRequestResourceScopeNotItem =
   | "accounts"
@@ -1584,22 +1584,22 @@ export type LogsAuditListRequestResourceScopeNotList = Array<
 >;
 export interface LogsAuditListRequestResourceScope {
   /** Filters out audit logs by the resource scope, specifying whether the resource is associated with an user, an account, a zone, or a membership. */
-  not?: LogsAuditListRequestResourceScopeNotList;
+  not?: LogsAuditListRequestResourceScopeNotList | undefined;
 }
 export type LogsAuditListRequestResourceTypeNotList = Array<string>;
 export interface LogsAuditListRequestResourceType {
   /** Filters out audit logs based on the unique type of resource changed by the action. */
-  not?: LogsAuditListRequestResourceTypeNotList;
+  not?: LogsAuditListRequestResourceTypeNotList | undefined;
 }
 export type LogsAuditListRequestZoneIdNotList = Array<string>;
 export interface LogsAuditListRequestZoneId {
   /** Filters out audit logs by the zone ID. */
-  not?: LogsAuditListRequestZoneIdNotList;
+  not?: LogsAuditListRequestZoneIdNotList | undefined;
 }
 export type LogsAuditListRequestZoneNameNotList = Array<string>;
 export interface LogsAuditListRequestZoneName {
   /** Filters out audit logs by the zone name associated with the change. */
-  not?: LogsAuditListRequestZoneNameNotList;
+  not?: LogsAuditListRequestZoneNameNotList | undefined;
 }
 export interface ListLogAuditsRequest {
   /** The unique id that identifies the account. */
@@ -1608,52 +1608,52 @@ export interface ListLogAuditsRequest {
   before: string;
   /** Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339. */
   since: string;
-  id?: LogsAuditListRequestId;
-  accountName?: LogsAuditListRequestAccountName;
-  actionResult?: LogsAuditListRequestActionResult;
-  actionType?: LogsAuditListRequestActionType;
-  actorContext?: LogsAuditListRequestActorContext;
-  actorEmail?: LogsAuditListRequestActorEmail;
-  actorId?: LogsAuditListRequestActorId;
-  actorIpAddress?: LogsAuditListRequestActorIpAddress;
-  actorTokenId?: LogsAuditListRequestActorTokenId;
-  actorTokenName?: LogsAuditListRequestActorTokenName;
-  actorType?: LogsAuditListRequestActorType;
-  auditLogId?: LogsAuditListRequestAuditLogId;
+  id?: LogsAuditListRequestId | undefined;
+  accountName?: LogsAuditListRequestAccountName | undefined;
+  actionResult?: LogsAuditListRequestActionResult | undefined;
+  actionType?: LogsAuditListRequestActionType | undefined;
+  actorContext?: LogsAuditListRequestActorContext | undefined;
+  actorEmail?: LogsAuditListRequestActorEmail | undefined;
+  actorId?: LogsAuditListRequestActorId | undefined;
+  actorIpAddress?: LogsAuditListRequestActorIpAddress | undefined;
+  actorTokenId?: LogsAuditListRequestActorTokenId | undefined;
+  actorTokenName?: LogsAuditListRequestActorTokenName | undefined;
+  actorType?: LogsAuditListRequestActorType | undefined;
+  auditLogId?: LogsAuditListRequestAuditLogId | undefined;
   /** The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sets sorting order. */
-  direction?: LogsAuditListRequestDirection | (string & {});
+  direction?: LogsAuditListRequestDirection | (string & {}) | undefined;
   /** The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filters audit logs by one or more predefined product categories. Each product category expands into a curated set of resource_product values and is unioned with any explicit resource_product filter. Matched case-insensitively; unknown product categories return 400. Repeatable. Use the audit log product categories endpoint to discover the available values. */
-  productCategory?: LogsAuditListRequestProductCategoryList;
-  rawCfRayId?: LogsAuditListRequestRawCfRayId;
-  rawMethod?: LogsAuditListRequestRawMethod;
-  rawStatusCode?: LogsAuditListRequestRawStatusCode;
-  rawUri?: LogsAuditListRequestRawUri;
-  resourceId?: LogsAuditListRequestResourceId;
-  resourceProduct?: LogsAuditListRequestResourceProduct;
-  resourceScope?: LogsAuditListRequestResourceScope;
-  resourceType?: LogsAuditListRequestResourceType;
-  zoneId?: LogsAuditListRequestZoneId;
-  zoneName?: LogsAuditListRequestZoneName;
+  productCategory?: LogsAuditListRequestProductCategoryList | undefined;
+  rawCfRayId?: LogsAuditListRequestRawCfRayId | undefined;
+  rawMethod?: LogsAuditListRequestRawMethod | undefined;
+  rawStatusCode?: LogsAuditListRequestRawStatusCode | undefined;
+  rawUri?: LogsAuditListRequestRawUri | undefined;
+  resourceId?: LogsAuditListRequestResourceId | undefined;
+  resourceProduct?: LogsAuditListRequestResourceProduct | undefined;
+  resourceScope?: LogsAuditListRequestResourceScope | undefined;
+  resourceType?: LogsAuditListRequestResourceType | undefined;
+  zoneId?: LogsAuditListRequestZoneId | undefined;
+  zoneName?: LogsAuditListRequestZoneName | undefined;
 }
 export interface LogsAuditListResultItemAccount {
   /** A unique identifier for the account. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A string that identifies the account name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface LogsAuditListResultItemAction {
   /** A short description of the action performed. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The result of the action, indicating success or failure. */
-  result?: string | null;
+  result?: string | null | undefined;
   /** A timestamp indicating when the action was logged. */
-  time?: string | null;
+  time?: string | null | undefined;
   /** A short string that describes the action that was performed. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type LogsAuditListResultItemActorContext =
   | "api"
@@ -1670,72 +1670,72 @@ export type LogsAuditListResultItemActorType =
   | "user";
 export interface LogsAuditListResultItemActor {
   /** The ID of the actor who performed the action. If a user performed the action, this will be their User ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The context in which the action was initiated. */
-  context?: LogsAuditListResultItemActorContext | null;
+  context?: LogsAuditListResultItemActorContext | null | undefined;
   /** The email of the actor who performed the action. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The IP address of the request that performed the action. */
-  ipAddress?: string | null;
+  ipAddress?: string | null | undefined;
   /** The API token ID when the actor context is an api_token or oauth. */
-  tokenId?: string | null;
+  tokenId?: string | null | undefined;
   /** The API token name when the actor context is an api_token or oauth. */
-  tokenName?: string | null;
+  tokenName?: string | null | undefined;
   /** The type of actor. */
-  type?: LogsAuditListResultItemActorType | null;
+  type?: LogsAuditListResultItemActorType | null | undefined;
 }
 export interface LogsAuditListResultItemRaw {
   /** The Cloudflare Ray ID for the request. */
-  cfRayId?: string | null;
+  cfRayId?: string | null | undefined;
   /** The HTTP method of the request. */
-  method?: string | null;
+  method?: string | null | undefined;
   /** The HTTP response status code returned by the API. */
-  statusCode?: number | null;
+  statusCode?: number | null | undefined;
   /** The URI of the request. */
-  uri?: string | null;
+  uri?: string | null | undefined;
   /** The client's user agent string sent with the request. */
-  userAgent?: string | null;
+  userAgent?: string | null | undefined;
 }
 export interface LogsAuditListResultItemResource {
   /** The unique identifier for the affected resource. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Cloudflare product associated with the resource. */
-  product?: string | null;
-  request?: unknown | null;
-  response?: unknown | null;
+  product?: string | null | undefined;
+  request?: unknown | null | undefined;
+  response?: unknown | null | undefined;
   /** The scope of the resource. */
-  scope?: unknown | null;
+  scope?: unknown | null | undefined;
   /** The type of the resource. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface LogsAuditListResultItemZone {
   /** A string that identifies the zone id. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A string that identifies the zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface LogsAuditListResultItem {
   /** A unique identifier for the audit log entry. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Contains account related information. */
-  account?: LogsAuditListResultItemAccount | null;
+  account?: LogsAuditListResultItemAccount | null | undefined;
   /** Provides information about the action performed. */
-  action?: LogsAuditListResultItemAction | null;
+  action?: LogsAuditListResultItemAction | null | undefined;
   /** Provides details about the actor who performed the action. */
-  actor?: LogsAuditListResultItemActor | null;
+  actor?: LogsAuditListResultItemActor | null | undefined;
   /** Provides raw information about the request and response. */
-  raw?: LogsAuditListResultItemRaw | null;
+  raw?: LogsAuditListResultItemRaw | null | undefined;
   /** Provides details about the affected resource. */
-  resource?: LogsAuditListResultItemResource | null;
+  resource?: LogsAuditListResultItemResource | null | undefined;
   /** Provides details about the zone affected by the action. */
-  zone?: LogsAuditListResultItemZone | null;
+  zone?: LogsAuditListResultItemZone | null | undefined;
 }
 export type LogsAuditListResultList = Array<LogsAuditListResultItem>;
 export interface ListLogAuditsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: LogsAuditListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type MembersListRequestDirection = "asc" | "desc";
 export type MembersListRequestOrder =
@@ -1748,15 +1748,15 @@ export interface ListMembersRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Direction to order results. */
-  direction?: MembersListRequestDirection | (string & {});
+  direction?: MembersListRequestDirection | (string & {}) | undefined;
   /** Field to order results by. */
-  order?: MembersListRequestOrder | (string & {});
+  order?: MembersListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** A member's status in the account. */
-  status?: MembersListRequestStatus | (string & {});
+  status?: MembersListRequestStatus | (string & {}) | undefined;
 }
 export type MembersListResultItemPoliciesItemAccess = "allow" | "deny";
 export type MembersListResultItemPoliciesItemPermissionGroupsItemMeta =
@@ -1783,21 +1783,21 @@ export interface MembersListResultItemPoliciesItemResourceGroupsItem {
   /** The scope associated to the resource group */
   scope: MembersListResultItemPoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type MembersListResultItemPoliciesItemResourceGroupsList =
   Array<MembersListResultItemPoliciesItemResourceGroupsItem>;
 export interface MembersListResultItemPoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: MembersListResultItemPoliciesItemAccess | null;
+  access?: MembersListResultItemPoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: MembersListResultItemPoliciesItemPermissionGroupsList | null;
+  permissionGroups?: MembersListResultItemPoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: MembersListResultItemPoliciesItemResourceGroupsList | null;
+  resourceGroups?: MembersListResultItemPoliciesItemResourceGroupsList | null | undefined;
 }
 export type MembersListResultItemPoliciesList = Array<MembersListResultItemPoliciesItem>;
 export type MembersListResultItemRolesItemPermissionsAnalytics =
@@ -1831,32 +1831,32 @@ export type MembersListResultItemStatus = "accepted" | "pending";
 export type MembersListResultItemUser = MembersCreateResponseUser;
 export interface MembersListResultItem {
   /** Membership identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Access policy for the membership */
-  policies?: MembersListResultItemPoliciesList | null;
+  policies?: MembersListResultItemPoliciesList | null | undefined;
   /** Roles assigned to this Member. */
-  roles?: MembersListResultItemRolesList | null;
+  roles?: MembersListResultItemRolesList | null | undefined;
   /** A member's status in the account. */
-  status?: MembersListResultItemStatus | null;
+  status?: MembersListResultItemStatus | null | undefined;
   /** Details of the user associated to the membership. */
-  user?: MembersCreateResponseUser | null;
+  user?: MembersCreateResponseUser | null | undefined;
 }
 export type MembersListResultList = Array<MembersListResultItem>;
 export interface ListMembersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MembersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPaymentMethodsRequest {
   /** Identifier */
   accountId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListPaymentMethodsResultItemType =
   | "CREDIT_CARD"
@@ -1867,55 +1867,55 @@ export type ListPaymentMethodsResultItemType =
   | "ACH_DIRECT_DEBIT";
 export interface ListPaymentMethodsResultItem {
   /** Payment method identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Billing address line 1. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Billing address line 2. */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** Bank account type. */
-  bankAccountType?: string | null;
+  bankAccountType?: string | null | undefined;
   /** Bank code. */
-  bankCode?: string | null;
+  bankCode?: string | null | undefined;
   /** Bank country. */
-  bankCountry?: string | null;
+  bankCountry?: string | null | undefined;
   /** Bank name for bank-based payment methods. */
-  bankName?: string | null;
+  bankName?: string | null | undefined;
   /** Bank routing number. */
-  bankRoutingNumber?: string | null;
+  bankRoutingNumber?: string | null | undefined;
   /** Cash App cash tag. */
-  cashappCashTag?: string | null;
+  cashappCashTag?: string | null | undefined;
   /** Billing city. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Billing country. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Whether this is the default payment method. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
   /** Device data for fraud prevention. */
-  deviceData?: string | null;
+  deviceData?: string | null | undefined;
   /** Card expiration date. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Billing first name. */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Last four digits of the card number. */
-  lastFour?: string | null;
+  lastFour?: string | null | undefined;
   /** Billing last name. */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** A nickname for the payment method. */
-  nickName?: string | null;
+  nickName?: string | null | undefined;
   /** Email associated with the payment account. */
-  paymentAccountEmail?: string | null;
+  paymentAccountEmail?: string | null | undefined;
   /** Payment email address. */
-  paymentEmail?: string | null;
+  paymentEmail?: string | null | undefined;
   /** The payment gateway used. */
-  paymentGateway?: string | null;
+  paymentGateway?: string | null | undefined;
   /** Payment nonce for tokenized payments. */
-  paymentNonce?: string | null;
+  paymentNonce?: string | null | undefined;
   /** Billing state. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The payment method type. */
-  type?: ListPaymentMethodsResultItemType | null;
+  type?: ListPaymentMethodsResultItemType | null | undefined;
   /** Billing zip code. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export type ListPaymentMethodsResultList = Array<ListPaymentMethodsResultItem>;
 export type ListPaymentMethodsResponse = ListPaymentMethodsResultList;
@@ -1923,9 +1923,9 @@ export interface ListRolesRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of roles per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type RolesListResultItemPermissionsAnalytics =
   MembersCreateResponseRolesItemPermissionsAnalytics;
@@ -1953,32 +1953,32 @@ export interface ListRolesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RolesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type TokensListRequestDirection = "asc" | "desc";
 export interface ListTokensRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Direction to order results. */
-  direction?: TokensListRequestDirection | (string & {});
+  direction?: TokensListRequestDirection | (string & {}) | undefined;
   /** When true, includes recently-expired tokens in the response. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type TokensListResultItemConditionRequestIpInList = Array<string>;
 export type TokensListResultItemConditionRequestIpNotInList = Array<string>;
 export interface TokensListResultItemConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensListResultItemConditionRequestIpInList | null;
+  in?: TokensListResultItemConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensListResultItemConditionRequestIpNotInList | null;
+  notIn?: TokensListResultItemConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensListResultItemCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensListResultItemConditionRequestIp | null;
+  requestIp?: TokensListResultItemConditionRequestIp | null | undefined;
 }
 export type TokensListResultItemPoliciesItemEffect = "allow" | "deny";
 export type TokensListResultItemPoliciesItemPermissionGroupsItemMeta =
@@ -2010,49 +2010,49 @@ export type TokensListResultItemPoliciesList = Array<TokensListResultItemPolicie
 export type TokensListResultItemStatus = "active" | "disabled" | "expired";
 export interface TokensListResultItem {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensListResultItemCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensListResultItemCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensListResultItemPoliciesList | null;
+  policies?: TokensListResultItemPoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensListResultItemStatus | null;
+  status?: TokensListResultItemStatus | null | undefined;
   /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
-  tokenPrefix?: string | null;
+  tokenPrefix?: string | null | undefined;
   /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
-  tokenSuffix?: string | null;
+  tokenSuffix?: string | null | undefined;
 }
 export type TokensListResultList = Array<TokensListResultItem>;
 export interface ListTokensResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TokensListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListTokensPermissionGroupsRequest {
   /** Account identifier tag. */
   accountId: string;
   /** Filter by the name of the permission group. The value must be URL-encoded. */
-  name?: string;
+  name?: string | undefined;
   /** Filter by the scope of the permission group. The value must be URL-encoded. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export type ListTokensPermissionGroupsResultItemCategory =
   | "developer_platform"
@@ -2077,15 +2077,15 @@ export type ListTokensPermissionGroupsResultItemScopesList =
   Array<ListTokensPermissionGroupsResultItemScopesItem>;
 export interface ListTokensPermissionGroupsResultItem {
   /** Public ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Product category that this permission group belongs to. */
-  category?: ListTokensPermissionGroupsResultItemCategory | null;
+  category?: ListTokensPermissionGroupsResultItemCategory | null | undefined;
   /** Whether the caller can select this permission group when creating a token. */
-  isSelectable?: boolean | null;
+  isSelectable?: boolean | null | undefined;
   /** Permission Group Name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Resources to which the Permission Group is scoped */
-  scopes?: ListTokensPermissionGroupsResultItemScopesList | null;
+  scopes?: ListTokensPermissionGroupsResultItemScopesList | null | undefined;
 }
 export type ListTokensPermissionGroupsResultList = Array<ListTokensPermissionGroupsResultItem>;
 export type ListTokensPermissionGroupsResponse = ListTokensPermissionGroupsResultList;
@@ -2102,11 +2102,11 @@ export interface LogsAuditHistoryRequest {
   /** Limits the returned results to logs newer than the specified date. This can be a date string 2019-04-30 (interpreted in UTC) or an absolute timestamp that conforms to RFC3339. */
   since: string;
   /** The cursor is an opaque token used to paginate through large sets of records. It indicates the position from which to continue when requesting the next set of records. A valid cursor value can be obtained from the cursor object in the result_info structure of a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sets sorting order. */
-  direction?: LogsAuditHistoryRequestDirection | (string & {});
+  direction?: LogsAuditHistoryRequestDirection | (string & {}) | undefined;
   /** The number limits the objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type LogsAuditHistoryResultItemAccount = LogsAuditListResultItemAccount;
 export type LogsAuditHistoryResultItemAction = LogsAuditListResultItemAction;
@@ -2125,38 +2125,38 @@ export type LogsAuditHistoryResultItemActorType =
   | "user";
 export interface LogsAuditHistoryResultItemActor {
   /** The ID of the actor who performed the action. If a user performed the action, this will be their User ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The context in which the action was initiated. */
-  context?: LogsAuditHistoryResultItemActorContext | null;
+  context?: LogsAuditHistoryResultItemActorContext | null | undefined;
   /** The email of the actor who performed the action. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The IP address of the request that performed the action. */
-  ipAddress?: string | null;
+  ipAddress?: string | null | undefined;
   /** The API token ID when the actor context is an api_token or oauth. */
-  tokenId?: string | null;
+  tokenId?: string | null | undefined;
   /** The API token name when the actor context is an api_token or oauth. */
-  tokenName?: string | null;
+  tokenName?: string | null | undefined;
   /** The type of actor. */
-  type?: LogsAuditHistoryResultItemActorType | null;
+  type?: LogsAuditHistoryResultItemActorType | null | undefined;
 }
 export type LogsAuditHistoryResultItemRaw = LogsAuditListResultItemRaw;
 export type LogsAuditHistoryResultItemResource = LogsAuditListResultItemResource;
 export type LogsAuditHistoryResultItemZone = LogsAuditListResultItemZone;
 export interface LogsAuditHistoryResultItem {
   /** A unique identifier for the audit log entry. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Contains account related information. */
-  account?: LogsAuditListResultItemAccount | null;
+  account?: LogsAuditListResultItemAccount | null | undefined;
   /** Provides information about the action performed. */
-  action?: LogsAuditListResultItemAction | null;
+  action?: LogsAuditListResultItemAction | null | undefined;
   /** Provides details about the actor who performed the action. */
-  actor?: LogsAuditHistoryResultItemActor | null;
+  actor?: LogsAuditHistoryResultItemActor | null | undefined;
   /** Provides raw information about the request and response. */
-  raw?: LogsAuditListResultItemRaw | null;
+  raw?: LogsAuditListResultItemRaw | null | undefined;
   /** Provides details about the affected resource. */
-  resource?: LogsAuditListResultItemResource | null;
+  resource?: LogsAuditListResultItemResource | null | undefined;
   /** Provides details about the zone affected by the action. */
-  zone?: LogsAuditListResultItemZone | null;
+  zone?: LogsAuditListResultItemZone | null | undefined;
 }
 export type LogsAuditHistoryResultList = Array<LogsAuditHistoryResultItem>;
 export type LogsAuditHistoryResponse = LogsAuditHistoryResultList;
@@ -2166,19 +2166,19 @@ export interface LogsAuditProductCategoriesRequest {
 }
 export interface LogsAuditProductCategoriesResultItemProductsItem {
   /** A human-readable label for the product. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The resource_product value that the product category expands to. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type LogsAuditProductCategoriesResultItemProductsList =
   Array<LogsAuditProductCategoriesResultItemProductsItem>;
 export interface LogsAuditProductCategoriesResultItem {
   /** A human-readable label for the product category. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The resource products that the product category expands to. */
-  products?: LogsAuditProductCategoriesResultItemProductsList | null;
+  products?: LogsAuditProductCategoriesResultItemProductsList | null | undefined;
   /** The product category identifier used with the product_category filter. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type LogsAuditProductCategoriesResultList = Array<LogsAuditProductCategoriesResultItem>;
 export type LogsAuditProductCategoriesResponse = LogsAuditProductCategoriesResultList;
@@ -2202,7 +2202,7 @@ export interface ReceiptsPdfRequest {
   /** Identifier */
   receiptId: string;
   /** The document type to generate. */
-  doctype?: string;
+  doctype?: string | undefined;
 }
 export interface ReceiptsPdfResponse {}
 export type SubscriptionsActionsAppendRequestFrequency =
@@ -2224,19 +2224,19 @@ export type SubscriptionsActionsAppendRequestRatePlanId =
 export type SubscriptionsActionsAppendRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsActionsAppendRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsActionsAppendRequestRatePlanId | (string & {});
+  id?: SubscriptionsActionsAppendRequestRatePlanId | (string & {}) | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string;
+  currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean;
+  isContract?: boolean | undefined;
   /** The full name of the rate plan. */
-  publicName?: string;
+  publicName?: string | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsActionsAppendRequestRatePlanSetsList;
+  sets?: SubscriptionsActionsAppendRequestRatePlanSetsList | undefined;
 }
 export interface SubscriptionsActionsAppendRequest {
   /** Identifier */
@@ -2244,9 +2244,9 @@ export interface SubscriptionsActionsAppendRequest {
   /** Subscription identifier tag. */
   subscriptionIdentifier: string;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsActionsAppendRequestFrequency | (string & {});
+  frequency?: SubscriptionsActionsAppendRequestFrequency | (string & {}) | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsActionsAppendRequestRatePlan;
+  ratePlan?: SubscriptionsActionsAppendRequestRatePlan | undefined;
 }
 export type SubscriptionsActionsAppendResponseFrequency =
   | "weekly"
@@ -2267,19 +2267,19 @@ export type SubscriptionsActionsAppendResponseRatePlanId =
 export type SubscriptionsActionsAppendResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsActionsAppendResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsActionsAppendResponseRatePlanId | null;
+  id?: SubscriptionsActionsAppendResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsActionsAppendResponseRatePlanSetsList | null;
+  sets?: SubscriptionsActionsAppendResponseRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsActionsAppendResponseState =
   | "Trial"
@@ -2292,21 +2292,21 @@ export type SubscriptionsActionsAppendResponseState =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SubscriptionsActionsAppendResponse {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsActionsAppendResponseFrequency | null;
+  frequency?: SubscriptionsActionsAppendResponseFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsActionsAppendResponseRatePlan | null;
+  ratePlan?: SubscriptionsActionsAppendResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsActionsAppendResponseState | null;
+  state?: SubscriptionsActionsAppendResponseState | null | undefined;
 }
 export type SubscriptionsBulkCreateRequestSubscriptionsItemFrequency =
   | "weekly"
@@ -2327,19 +2327,19 @@ export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId =
 export type SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList = Array<string>;
 export interface SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId | (string & {});
+  id?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanId | (string & {}) | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string;
+  currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean;
+  isContract?: boolean | undefined;
   /** The full name of the rate plan. */
-  publicName?: string;
+  publicName?: string | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList;
+  sets?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlanSetsList | undefined;
 }
 export type SubscriptionsBulkCreateRequestSubscriptionsItemState =
   | "Trial"
@@ -2351,32 +2351,32 @@ export type SubscriptionsBulkCreateRequestSubscriptionsItemState =
   | "Expired";
 export interface SubscriptionsBulkCreateRequestSubscriptionsItem {
   /** Subscription identifier tag. */
-  id?: string;
+  id?: string | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string;
+  currency?: string | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string;
+  currentPeriodEnd?: string | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string;
+  currentPeriodStart?: string | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsBulkCreateRequestSubscriptionsItemFrequency | (string & {});
+  frequency?: SubscriptionsBulkCreateRequestSubscriptionsItemFrequency | (string & {}) | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number;
+  price?: number | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan;
+  ratePlan?: SubscriptionsBulkCreateRequestSubscriptionsItemRatePlan | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsBulkCreateRequestSubscriptionsItemState | (string & {});
+  state?: SubscriptionsBulkCreateRequestSubscriptionsItemState | (string & {}) | undefined;
 }
 export type SubscriptionsBulkCreateRequestSubscriptionsList =
   Array<SubscriptionsBulkCreateRequestSubscriptionsItem>;
 export interface SubscriptionsBulkCreateRequest {
   /** Identifier */
   accountId: string;
-  idempKey?: string;
-  couponCode?: string;
-  paymentHoldId?: number;
-  subscriptions?: SubscriptionsBulkCreateRequestSubscriptionsList;
-  userIsOnSession?: boolean;
+  idempKey?: string | undefined;
+  couponCode?: string | undefined;
+  paymentHoldId?: number | undefined;
+  subscriptions?: SubscriptionsBulkCreateRequestSubscriptionsList | undefined;
+  userIsOnSession?: boolean | undefined;
 }
 export type SubscriptionsBulkCreateResponseClientSecretsList = Array<string>;
 export type SubscriptionsBulkCreateResponseSubscriptionsItemFrequency =
@@ -2398,19 +2398,19 @@ export type SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanId =
 export type SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanSetsList = Array<string>;
 export interface SubscriptionsBulkCreateResponseSubscriptionsItemRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanId | null;
+  id?: SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanSetsList | null;
+  sets?: SubscriptionsBulkCreateResponseSubscriptionsItemRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsBulkCreateResponseSubscriptionsItemState =
   | "Trial"
@@ -2422,35 +2422,35 @@ export type SubscriptionsBulkCreateResponseSubscriptionsItemState =
   | "Expired";
 export interface SubscriptionsBulkCreateResponseSubscriptionsItem {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsBulkCreateResponseSubscriptionsItemFrequency | null;
+  frequency?: SubscriptionsBulkCreateResponseSubscriptionsItemFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsBulkCreateResponseSubscriptionsItemRatePlan | null;
+  ratePlan?: SubscriptionsBulkCreateResponseSubscriptionsItemRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsBulkCreateResponseSubscriptionsItemState | null;
+  state?: SubscriptionsBulkCreateResponseSubscriptionsItemState | null | undefined;
 }
 export type SubscriptionsBulkCreateResponseSubscriptionsList =
   Array<SubscriptionsBulkCreateResponseSubscriptionsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SubscriptionsBulkCreateResponse {
-  clientSecrets?: SubscriptionsBulkCreateResponseClientSecretsList | null;
-  subscriptions?: SubscriptionsBulkCreateResponseSubscriptionsList | null;
+  clientSecrets?: SubscriptionsBulkCreateResponseClientSecretsList | null | undefined;
+  subscriptions?: SubscriptionsBulkCreateResponseSubscriptionsList | null | undefined;
 }
 export type SubscriptionsCancelDowngradeRequestSubscriptionIdsList = Array<string>;
 export interface SubscriptionsCancelDowngradeRequest {
   /** Identifier */
   accountId: string;
   /** List of subscription identifiers to cancel downgrades for. */
-  subscriptionIds?: SubscriptionsCancelDowngradeRequestSubscriptionIdsList;
+  subscriptionIds?: SubscriptionsCancelDowngradeRequestSubscriptionIdsList | undefined;
 }
 export type SubscriptionsCancelDowngradeResponse = unknown;
 export type SubscriptionsCancelReasonCreateRequestReasonCodeList = Array<string>;
@@ -2460,23 +2460,23 @@ export interface SubscriptionsCancelReasonCreateRequest {
   /** Subscription identifier tag. */
   subscriptionIdentifier: string;
   /** Additional cancellation details. */
-  other?: string;
+  other?: string | undefined;
   /** The cancellation reason codes. */
-  reasonCode?: SubscriptionsCancelReasonCreateRequestReasonCodeList;
+  reasonCode?: SubscriptionsCancelReasonCreateRequestReasonCodeList | undefined;
 }
 export type SubscriptionsCancelReasonCreateResponseReasonCodeList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SubscriptionsCancelReasonCreateResponse {
   /** The cancel reason identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Additional cancellation details. */
-  other?: string | null;
+  other?: string | null | undefined;
   /** The cancellation reason codes. */
-  reasonCode?: SubscriptionsCancelReasonCreateResponseReasonCodeList | null;
+  reasonCode?: SubscriptionsCancelReasonCreateResponseReasonCodeList | null | undefined;
   /** When the cancel reason was submitted. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The subscription identifier. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
 }
 export interface SubscriptionsCancelReasonGetRequest {
   /** Identifier */
@@ -2488,15 +2488,15 @@ export type SubscriptionsCancelReasonGetResponseReasonCodeList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SubscriptionsCancelReasonGetResponse {
   /** The cancel reason identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Additional cancellation details. */
-  other?: string | null;
+  other?: string | null | undefined;
   /** The cancellation reason codes. */
-  reasonCode?: SubscriptionsCancelReasonGetResponseReasonCodeList | null;
+  reasonCode?: SubscriptionsCancelReasonGetResponseReasonCodeList | null | undefined;
   /** When the cancel reason was submitted. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The subscription identifier. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
 }
 export interface SubscriptionsGetByIdentifierRequest {
   /** Identifier */
@@ -2523,19 +2523,19 @@ export type SubscriptionsGetByIdentifierResponseRatePlanId =
 export type SubscriptionsGetByIdentifierResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsGetByIdentifierResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsGetByIdentifierResponseRatePlanId | null;
+  id?: SubscriptionsGetByIdentifierResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsGetByIdentifierResponseRatePlanSetsList | null;
+  sets?: SubscriptionsGetByIdentifierResponseRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsGetByIdentifierResponseState =
   | "Trial"
@@ -2548,37 +2548,37 @@ export type SubscriptionsGetByIdentifierResponseState =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SubscriptionsGetByIdentifierResponse {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsGetByIdentifierResponseFrequency | null;
+  frequency?: SubscriptionsGetByIdentifierResponseFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsGetByIdentifierResponseRatePlan | null;
+  ratePlan?: SubscriptionsGetByIdentifierResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsGetByIdentifierResponseState | null;
+  state?: SubscriptionsGetByIdentifierResponseState | null | undefined;
 }
 export interface UpdateRequestManagedBy {
   /** ID of the parent Organization, if one exists */
-  parentOrgId?: string;
+  parentOrgId?: string | undefined;
   /** Name of the parent Organization, if one exists */
-  parentOrgName?: string;
+  parentOrgName?: string | undefined;
   /** ID of the root Organization, if one exists */
-  rootOrgId?: string;
+  rootOrgId?: string | undefined;
   /** Indicates whether the parent Organization hierarchy should be displayed */
-  shouldDisplayParentOrgs?: boolean;
+  shouldDisplayParentOrgs?: boolean | undefined;
 }
 export interface UpdateRequestSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
-  abuseContactEmail?: string;
+  abuseContactEmail?: string | undefined;
   /** Indicates whether membership in this account requires that Two-Factor Authentication is enabled */
-  enforceTwofactor?: boolean;
+  enforceTwofactor?: boolean | undefined;
 }
 export interface UpdateAccountRequest {
   /** Account identifier tag. */
@@ -2588,9 +2588,9 @@ export interface UpdateAccountRequest {
   /** Account name, limited to 65 UTF-8 bytes. */
   name: string;
   /** Parent container details */
-  managedBy?: UpdateRequestManagedBy;
+  managedBy?: UpdateRequestManagedBy | undefined;
   /** Account settings */
-  settings?: UpdateRequestSettings;
+  settings?: UpdateRequestSettings | undefined;
 }
 export type UpdateResponseType = "standard" | "enterprise";
 export type UpdateResponseLegacyFlagsEnterpriseZoneQuota =
@@ -2606,26 +2606,26 @@ export interface UpdateAccountResponse {
   name: string;
   type: UpdateResponseType;
   /** Timestamp for the creation of the account */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Legacy account flags. */
-  legacyFlags?: CreateResponseLegacyFlags | null;
+  legacyFlags?: CreateResponseLegacyFlags | null | undefined;
   /** Parent container details */
-  managedBy?: CreateResponseManagedBy | null;
+  managedBy?: CreateResponseManagedBy | null | undefined;
   /** Account settings */
-  settings?: CreateResponseSettings | null;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export interface UpdateAccountProfileRequest {
   accountId: string;
-  businessAddress?: string;
-  businessEmail?: string;
-  businessName?: string;
-  businessPhone?: string;
-  externalMetadata?: string;
+  businessAddress?: string | undefined;
+  businessEmail?: string | undefined;
+  businessName?: string | undefined;
+  businessPhone?: string | undefined;
+  externalMetadata?: string | undefined;
 }
 export interface UpdateAccountProfileResponse {}
 export interface MembersUpdateRequestRolesItemPermissionsAnalytics {
-  read?: boolean;
-  write?: boolean;
+  read?: boolean | undefined;
+  write?: boolean | undefined;
 }
 export type MembersUpdateRequestRolesItemPermissionsBilling =
   MembersUpdateRequestRolesItemPermissionsAnalytics;
@@ -2650,27 +2650,27 @@ export type MembersUpdateRequestRolesItemPermissionsZoneSettings =
 export type MembersUpdateRequestRolesItemPermissionsZones =
   MembersUpdateRequestRolesItemPermissionsAnalytics;
 export interface MembersUpdateRequestRolesItemPermissions {
-  analytics?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  billing?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  cachePurge?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  dns?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  dnsRecords?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  lb?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  logs?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  organization?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  ssl?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  waf?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  zoneSettings?: MembersUpdateRequestRolesItemPermissionsAnalytics;
-  zones?: MembersUpdateRequestRolesItemPermissionsAnalytics;
+  analytics?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  billing?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  cachePurge?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  dns?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  dnsRecords?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  lb?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  logs?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  organization?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  ssl?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  waf?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  zoneSettings?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
+  zones?: MembersUpdateRequestRolesItemPermissionsAnalytics | undefined;
 }
 export interface MembersUpdateRequestRolesItem {
   /** Role identifier tag. */
   id: string;
   /** Description of role's permissions. */
-  description?: string;
+  description?: string | undefined;
   /** Role name. */
-  name?: string;
-  permissions?: MembersUpdateRequestRolesItemPermissions;
+  name?: string | undefined;
+  permissions?: MembersUpdateRequestRolesItemPermissions | undefined;
 }
 export type MembersUpdateRequestRolesList = Array<MembersUpdateRequestRolesItem>;
 export type MembersUpdateRequestStatus = "accepted" | "pending";
@@ -2678,13 +2678,13 @@ export interface MembersUpdateRequestUser {
   /** The contact email address of the user. */
   email: string;
   /** Identifier */
-  id?: string;
+  id?: string | undefined;
   /** User's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** User's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication. */
-  twoFactorAuthenticationEnabled?: boolean;
+  twoFactorAuthenticationEnabled?: boolean | undefined;
 }
 export type MembersUpdateRequestPoliciesItemAccess = "allow" | "deny";
 export type MembersUpdateRequestPoliciesItemPermissionGroupsItem =
@@ -2697,7 +2697,7 @@ export type MembersUpdateRequestPoliciesItemResourceGroupsList =
   Array<MembersCreateRequestPoliciesItemPermissionGroupsItem>;
 export interface MembersUpdateRequestPoliciesItem {
   /** Policy identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Allow or deny operations against the resources. */
   access: MembersUpdateRequestPoliciesItemAccess | (string & {});
   /** A set of permission groups that are specified to the policy. */
@@ -2712,15 +2712,15 @@ export interface UpdateMemberRequest {
   /** Membership identifier tag. */
   memberId: string;
   /** Membership identifier tag. */
-  id?: string;
+  id?: string | undefined;
   /** Roles assigned to this member. */
-  roles?: MembersUpdateRequestRolesList;
+  roles?: MembersUpdateRequestRolesList | undefined;
   /** A member's status in the account. */
-  status?: MembersUpdateRequestStatus | (string & {});
+  status?: MembersUpdateRequestStatus | (string & {}) | undefined;
   /** Details of the user associated to the membership. */
-  user?: MembersUpdateRequestUser;
+  user?: MembersUpdateRequestUser | undefined;
   /** Array of policies associated with this member. */
-  policies?: MembersUpdateRequestPoliciesList;
+  policies?: MembersUpdateRequestPoliciesList | undefined;
 }
 export type MembersUpdateResponsePoliciesItemAccess = "allow" | "deny";
 export type MembersUpdateResponsePoliciesItemPermissionGroupsItemMeta =
@@ -2747,21 +2747,21 @@ export interface MembersUpdateResponsePoliciesItemResourceGroupsItem {
   /** The scope associated to the resource group */
   scope: MembersUpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null;
+  meta?: MembersCreateResponsePoliciesItemResourceGroupsItemMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type MembersUpdateResponsePoliciesItemResourceGroupsList =
   Array<MembersUpdateResponsePoliciesItemResourceGroupsItem>;
 export interface MembersUpdateResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: MembersUpdateResponsePoliciesItemAccess | null;
+  access?: MembersUpdateResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: MembersUpdateResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: MembersUpdateResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: MembersUpdateResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: MembersUpdateResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type MembersUpdateResponsePoliciesList = Array<MembersUpdateResponsePoliciesItem>;
 export type MembersUpdateResponseRolesItemPermissionsAnalytics =
@@ -2796,17 +2796,17 @@ export type MembersUpdateResponseUser = MembersCreateResponseUser;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateMemberResponse {
   /** Membership identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Access policy for the membership */
-  policies?: MembersUpdateResponsePoliciesList | null;
+  policies?: MembersUpdateResponsePoliciesList | null | undefined;
   /** Roles assigned to this Member. */
-  roles?: MembersUpdateResponseRolesList | null;
+  roles?: MembersUpdateResponseRolesList | null | undefined;
   /** A member's status in the account. */
-  status?: MembersUpdateResponseStatus | null;
+  status?: MembersUpdateResponseStatus | null | undefined;
   /** Details of the user associated to the membership. */
-  user?: MembersCreateResponseUser | null;
+  user?: MembersCreateResponseUser | null | undefined;
 }
 export type UpdatePaymentMethodRequestType =
   | "CREDIT_CARD"
@@ -2821,49 +2821,49 @@ export interface UpdatePaymentMethodRequest {
   /** Identifier */
   paymentMethodId: string;
   /** Billing address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Billing address line 2. */
-  address2?: string;
+  address2?: string | undefined;
   /** Bank account type. */
-  bankAccountType?: string;
+  bankAccountType?: string | undefined;
   /** Bank code. */
-  bankCode?: string;
+  bankCode?: string | undefined;
   /** Bank country. */
-  bankCountry?: string;
+  bankCountry?: string | undefined;
   /** Bank name for bank-based payment methods. */
-  bankName?: string;
+  bankName?: string | undefined;
   /** Bank routing number. */
-  bankRoutingNumber?: string;
+  bankRoutingNumber?: string | undefined;
   /** Cash App cash tag. */
-  cashappCashTag?: string;
+  cashappCashTag?: string | undefined;
   /** Billing city. */
-  city?: string;
+  city?: string | undefined;
   /** Billing country. */
-  country?: string;
+  country?: string | undefined;
   /** Whether this is the default payment method. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Device data for fraud prevention. */
-  deviceData?: string;
+  deviceData?: string | undefined;
   /** Billing first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Billing last name. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** A nickname for the payment method. */
-  nickName?: string;
+  nickName?: string | undefined;
   /** Email associated with the payment account. */
-  paymentAccountEmail?: string;
+  paymentAccountEmail?: string | undefined;
   /** Payment email address. */
-  paymentEmail?: string;
+  paymentEmail?: string | undefined;
   /** The payment gateway used. */
-  paymentGateway?: string;
+  paymentGateway?: string | undefined;
   /** Payment nonce for tokenized payments. */
-  paymentNonce?: string;
+  paymentNonce?: string | undefined;
   /** Billing state. */
-  state?: string;
+  state?: string | undefined;
   /** The payment method type. */
-  type?: UpdatePaymentMethodRequestType | (string & {});
+  type?: UpdatePaymentMethodRequestType | (string & {}) | undefined;
   /** Billing zip code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 export type UpdatePaymentMethodResponseType =
   | "CREDIT_CARD"
@@ -2875,55 +2875,55 @@ export type UpdatePaymentMethodResponseType =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdatePaymentMethodResponse {
   /** Payment method identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Billing address line 1. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Billing address line 2. */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** Bank account type. */
-  bankAccountType?: string | null;
+  bankAccountType?: string | null | undefined;
   /** Bank code. */
-  bankCode?: string | null;
+  bankCode?: string | null | undefined;
   /** Bank country. */
-  bankCountry?: string | null;
+  bankCountry?: string | null | undefined;
   /** Bank name for bank-based payment methods. */
-  bankName?: string | null;
+  bankName?: string | null | undefined;
   /** Bank routing number. */
-  bankRoutingNumber?: string | null;
+  bankRoutingNumber?: string | null | undefined;
   /** Cash App cash tag. */
-  cashappCashTag?: string | null;
+  cashappCashTag?: string | null | undefined;
   /** Billing city. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Billing country. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Whether this is the default payment method. */
-  default?: boolean | null;
+  default?: boolean | null | undefined;
   /** Device data for fraud prevention. */
-  deviceData?: string | null;
+  deviceData?: string | null | undefined;
   /** Card expiration date. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Billing first name. */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Last four digits of the card number. */
-  lastFour?: string | null;
+  lastFour?: string | null | undefined;
   /** Billing last name. */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** A nickname for the payment method. */
-  nickName?: string | null;
+  nickName?: string | null | undefined;
   /** Email associated with the payment account. */
-  paymentAccountEmail?: string | null;
+  paymentAccountEmail?: string | null | undefined;
   /** Payment email address. */
-  paymentEmail?: string | null;
+  paymentEmail?: string | null | undefined;
   /** The payment gateway used. */
-  paymentGateway?: string | null;
+  paymentGateway?: string | null | undefined;
   /** Payment nonce for tokenized payments. */
-  paymentNonce?: string | null;
+  paymentNonce?: string | null | undefined;
   /** Billing state. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The payment method type. */
-  type?: UpdatePaymentMethodResponseType | null;
+  type?: UpdatePaymentMethodResponseType | null | undefined;
   /** Billing zip code. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export type SubscriptionsUpdateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export type SubscriptionsUpdateRequestRatePlanId =
@@ -2940,19 +2940,19 @@ export type SubscriptionsUpdateRequestRatePlanId =
 export type SubscriptionsUpdateRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsUpdateRequestRatePlanId | (string & {});
+  id?: SubscriptionsUpdateRequestRatePlanId | (string & {}) | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string;
+  currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean;
+  isContract?: boolean | undefined;
   /** The full name of the rate plan. */
-  publicName?: string;
+  publicName?: string | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsUpdateRequestRatePlanSetsList;
+  sets?: SubscriptionsUpdateRequestRatePlanSetsList | undefined;
 }
 export interface UpdateSubscriptionRequest {
   /** Identifier */
@@ -2960,9 +2960,9 @@ export interface UpdateSubscriptionRequest {
   /** Subscription identifier tag. */
   subscriptionIdentifier: string;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsUpdateRequestFrequency | (string & {});
+  frequency?: SubscriptionsUpdateRequestFrequency | (string & {}) | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsUpdateRequestRatePlan;
+  ratePlan?: SubscriptionsUpdateRequestRatePlan | undefined;
 }
 export type SubscriptionsUpdateResponseFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export type SubscriptionsUpdateResponseRatePlanId =
@@ -2979,19 +2979,19 @@ export type SubscriptionsUpdateResponseRatePlanId =
 export type SubscriptionsUpdateResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsUpdateResponseRatePlanId | null;
+  id?: SubscriptionsUpdateResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsUpdateResponseRatePlanSetsList | null;
+  sets?: SubscriptionsUpdateResponseRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsUpdateResponseState =
   | "Trial"
@@ -3004,21 +3004,21 @@ export type SubscriptionsUpdateResponseState =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsUpdateResponseFrequency | null;
+  frequency?: SubscriptionsUpdateResponseFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsUpdateResponseRatePlan | null;
+  ratePlan?: SubscriptionsUpdateResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsUpdateResponseState | null;
+  state?: SubscriptionsUpdateResponseState | null | undefined;
 }
 export type TokensUpdateRequestPoliciesItemEffect = "allow" | "deny";
 export type TokensUpdateRequestPoliciesItemPermissionGroupsItemMeta =
@@ -3049,13 +3049,13 @@ export type TokensUpdateRequestConditionRequestIpInList = Array<string>;
 export type TokensUpdateRequestConditionRequestIpNotInList = Array<string>;
 export interface TokensUpdateRequestConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensUpdateRequestConditionRequestIpInList;
+  in?: TokensUpdateRequestConditionRequestIpInList | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensUpdateRequestConditionRequestIpNotInList;
+  notIn?: TokensUpdateRequestConditionRequestIpNotInList | undefined;
 }
 export interface TokensUpdateRequestCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensUpdateRequestConditionRequestIp;
+  requestIp?: TokensUpdateRequestConditionRequestIp | undefined;
 }
 export type TokensUpdateRequestStatus = "active" | "disabled" | "expired";
 export interface UpdateTokenRequest {
@@ -3067,25 +3067,25 @@ export interface UpdateTokenRequest {
   name: string;
   /** List of access policies assigned to the token. */
   policies: TokensUpdateRequestPoliciesList;
-  condition?: TokensUpdateRequestCondition;
+  condition?: TokensUpdateRequestCondition | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** Status of the token. */
-  status?: TokensUpdateRequestStatus | (string & {});
+  status?: TokensUpdateRequestStatus | (string & {}) | undefined;
 }
 export type TokensUpdateResponseConditionRequestIpInList = Array<string>;
 export type TokensUpdateResponseConditionRequestIpNotInList = Array<string>;
 export interface TokensUpdateResponseConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensUpdateResponseConditionRequestIpInList | null;
+  in?: TokensUpdateResponseConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensUpdateResponseConditionRequestIpNotInList | null;
+  notIn?: TokensUpdateResponseConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensUpdateResponseCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensUpdateResponseConditionRequestIp | null;
+  requestIp?: TokensUpdateResponseConditionRequestIp | null | undefined;
 }
 export type TokensUpdateResponsePoliciesItemEffect = "allow" | "deny";
 export type TokensUpdateResponsePoliciesItemPermissionGroupsItemMeta =
@@ -3118,34 +3118,34 @@ export type TokensUpdateResponseStatus = "active" | "disabled" | "expired";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTokenResponse {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensUpdateResponseCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensUpdateResponseCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensUpdateResponsePoliciesList | null;
+  policies?: TokensUpdateResponsePoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensUpdateResponseStatus | null;
+  status?: TokensUpdateResponseStatus | null | undefined;
   /** The prefix of the token value, before the first underscore. Use it with `token_suffix` to identify a token. Only present for tokens created or rolled after this field was added. */
-  tokenPrefix?: string | null;
+  tokenPrefix?: string | null | undefined;
   /** The last 4 characters of the token value. Use it with `token_prefix` to identify a token. It is not unique. Only present for tokens created or rolled after this field was added. */
-  tokenSuffix?: string | null;
+  tokenSuffix?: string | null | undefined;
 }
 export interface VerifyTokenRequest {
   /** Account identifier tag. */
@@ -3159,9 +3159,9 @@ export interface VerifyTokenResponse {
   /** Status of the token. */
   status: TokensVerifyResponseStatus;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
 }
 export type CreateAccountError = AccountCreationForbidden | MissingName | CloudflareOpError;
 /** Create an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error. Account names are limited to 65 UTF-8 bytes. */

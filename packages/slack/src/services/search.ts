@@ -26,85 +26,85 @@ const TELEMETRY = {
 
 export type SearchAllRequestSortDir = "asc" | "desc";
 export interface SearchAllRequest {
-  count?: number;
+  count?: number | undefined;
   /** Pass a value of `true` to enable query highlight markers (see below). */
-  highlight?: boolean;
-  page?: number;
+  highlight?: boolean | undefined;
+  page?: number | undefined;
   /** Search query. May contains booleans, etc. */
   query: string;
   /** Return matches sorted by either `score` or `timestamp`. */
-  sort?: string;
+  sort?: string | undefined;
   /** Change sort direction to ascending (`asc`) or descending (`desc`). */
-  sort_dir?: SearchAllRequestSortDir | (string & {});
+  sort_dir?: SearchAllRequestSortDir | (string & {}) | undefined;
   /** encoded team id to search in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface SearchAllResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  files?: unknown;
-  callstack?: string;
-  messages?: unknown;
-  posts?: unknown;
+  files?: unknown | undefined;
+  callstack?: string | undefined;
+  messages?: unknown | undefined;
+  posts?: unknown | undefined;
   /** Search query. */
-  query?: string;
+  query?: string | undefined;
 }
 export type SearchFilesRequestSortDir = "asc" | "desc";
 export interface SearchFilesRequest {
-  count?: number;
+  count?: number | undefined;
   /** Pass a value of `true` to enable query highlight markers (see below). */
-  highlight?: boolean;
-  page?: number;
+  highlight?: boolean | undefined;
+  page?: number | undefined;
   /** Search query. */
   query: string;
   /** Return matches sorted by either `score` or `timestamp`. */
-  sort?: string;
+  sort?: string | undefined;
   /** Change sort direction to ascending (`asc`) or descending (`desc`). */
-  sort_dir?: SearchFilesRequestSortDir | (string & {});
+  sort_dir?: SearchFilesRequestSortDir | (string & {}) | undefined;
   /** encoded team id to search in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type SearchFilesResponseFilesPaginationWarningsList = Array<string>;
 export interface SearchFilesResponseFilesPagination {
   /** Last result id */
-  last?: number;
-  warnings?: SearchFilesResponseFilesPaginationWarningsList;
+  last?: number | undefined;
+  warnings?: SearchFilesResponseFilesPaginationWarningsList | undefined;
   /** Total count of results */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Number of pages */
-  page_count?: number;
+  page_count?: number | undefined;
   /** Number of results per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Current page */
-  page?: number;
+  page?: number | undefined;
   /** First result id */
-  first?: number;
+  first?: number | undefined;
   /** Cursor for the next page of results, when cursor pagination is used */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export type SearchFilesResponseFilesMatchesList = Array<unknown>;
 export type SearchFilesResponseFilesPagingWarningsList = Array<string>;
 export interface SearchFilesResponseFilesPaging {
   /** Number of results per page */
-  count?: number;
+  count?: number | undefined;
   /** Number of pages */
-  pages?: number;
+  pages?: number | undefined;
   /** Number of results */
-  total?: number;
+  total?: number | undefined;
   /** Current page */
-  page?: number;
-  warnings?: SearchFilesResponseFilesPagingWarningsList;
+  page?: number | undefined;
+  warnings?: SearchFilesResponseFilesPagingWarningsList | undefined;
   /** Cursor for the next page of results, when cursor pagination is used */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface SearchFilesResponseFiles {
-  pagination?: SearchFilesResponseFilesPagination;
-  matches?: SearchFilesResponseFilesMatchesList;
-  paging?: SearchFilesResponseFilesPaging;
-  all_stop_words?: boolean;
+  pagination?: SearchFilesResponseFilesPagination | undefined;
+  matches?: SearchFilesResponseFilesMatchesList | undefined;
+  paging?: SearchFilesResponseFilesPaging | undefined;
+  all_stop_words?: boolean | undefined;
   /** Total number of file search results. */
-  total?: number;
-  query_too_long?: boolean;
+  total?: number | undefined;
+  query_too_long?: boolean | undefined;
 }
 export type SearchFilesResponseUsersMap = { [key: string]: unknown | undefined };
 export type SearchFilesResponseTeamsMap = { [key: string]: unknown | undefined };
@@ -114,98 +114,98 @@ export type SearchFilesResponseGroupsMap = { [key: string]: unknown | undefined 
 export interface SearchFilesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  files?: SearchFilesResponseFiles;
-  callstack?: string;
-  users?: SearchFilesResponseUsersMap;
-  teams?: SearchFilesResponseTeamsMap;
-  channels?: SearchFilesResponseChannelsMap;
-  ims?: SearchFilesResponseImsMap;
-  groups?: SearchFilesResponseGroupsMap;
+  files?: SearchFilesResponseFiles | undefined;
+  callstack?: string | undefined;
+  users?: SearchFilesResponseUsersMap | undefined;
+  teams?: SearchFilesResponseTeamsMap | undefined;
+  channels?: SearchFilesResponseChannelsMap | undefined;
+  ims?: SearchFilesResponseImsMap | undefined;
+  groups?: SearchFilesResponseGroupsMap | undefined;
   /** Search query. */
-  query?: string;
-  ignored_exclude_bots_pref?: boolean;
+  query?: string | undefined;
+  ignored_exclude_bots_pref?: boolean | undefined;
 }
 export type SearchMessagesRequestSortDir = "asc" | "desc" | "";
 export interface SearchMessagesRequest {
   /** Pass the number of results you want per "page". Maximum of `100`. */
-  count?: number;
+  count?: number | undefined;
   /** Pass a value of `true` to enable query highlight markers (see below). */
-  highlight?: boolean;
-  page?: number;
+  highlight?: boolean | undefined;
+  page?: number | undefined;
   /** Use this when getting results with cursormark pagination. For first call send `*` for subsequent calls, send the value of `next_cursor` returned in the previous call's results */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Search query. */
   query: string;
   /** Return matches sorted by either `score` or `timestamp`. */
-  sort?: string;
+  sort?: string | undefined;
   /** Change sort direction to ascending (`asc`) or descending (`desc`). */
-  sort_dir?: SearchMessagesRequestSortDir | (string & {});
+  sort_dir?: SearchMessagesRequestSortDir | (string & {}) | undefined;
   /** encoded team id to search in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type SearchMessagesResponseUsersMap = { [key: string]: unknown | undefined };
 export type SearchMessagesResponseMessagesMatchesList = Array<unknown>;
 export type SearchMessagesResponseMessagesPaginationWarningsList = Array<string>;
 export interface SearchMessagesResponseMessagesPagination {
   /** Last result id */
-  last?: number;
-  warnings?: SearchMessagesResponseMessagesPaginationWarningsList;
+  last?: number | undefined;
+  warnings?: SearchMessagesResponseMessagesPaginationWarningsList | undefined;
   /** Total count of results */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Number of pages */
-  page_count?: number;
+  page_count?: number | undefined;
   /** Number of results per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Current page */
-  page?: number;
+  page?: number | undefined;
   /** First result id */
-  first?: number;
+  first?: number | undefined;
   /** value of next cursor to be passed when using cursormark pagination */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export type SearchMessagesResponseMessagesPagingWarningsList = Array<string>;
 export interface SearchMessagesResponseMessagesPaging {
   /** Number of results per page */
-  count?: number;
+  count?: number | undefined;
   /** Number of results */
-  total?: number;
+  total?: number | undefined;
   /** Number of pages */
-  pages?: number;
+  pages?: number | undefined;
   /** Current page */
-  page?: number;
-  warnings?: SearchMessagesResponseMessagesPagingWarningsList;
+  page?: number | undefined;
+  warnings?: SearchMessagesResponseMessagesPagingWarningsList | undefined;
   /** next cursor to be passed to the method for next set of results using cursor pagination */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface SearchMessagesResponseMessages {
-  matches?: SearchMessagesResponseMessagesMatchesList;
-  pagination?: SearchMessagesResponseMessagesPagination;
+  matches?: SearchMessagesResponseMessagesMatchesList | undefined;
+  pagination?: SearchMessagesResponseMessagesPagination | undefined;
   /** Total number of message search results. */
-  total?: number;
-  all_stop_words?: boolean;
-  paging?: SearchMessagesResponseMessagesPaging;
+  total?: number | undefined;
+  all_stop_words?: boolean | undefined;
+  paging?: SearchMessagesResponseMessagesPaging | undefined;
 }
 export type SearchMessagesResponseTeamsMap = { [key: string]: unknown | undefined };
 export type SearchMessagesResponseBotsMap = { [key: string]: unknown | undefined };
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface SearchMessagesResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface SearchMessagesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  callstack?: string;
-  users?: SearchMessagesResponseUsersMap;
-  messages?: SearchMessagesResponseMessages;
-  show_feedback?: boolean;
-  teams?: SearchMessagesResponseTeamsMap;
+  callstack?: string | undefined;
+  users?: SearchMessagesResponseUsersMap | undefined;
+  messages?: SearchMessagesResponseMessages | undefined;
+  show_feedback?: boolean | undefined;
+  teams?: SearchMessagesResponseTeamsMap | undefined;
   /** Search query. */
-  query?: string;
-  bots?: SearchMessagesResponseBotsMap;
-  ignored_exclude_bots_pref?: boolean;
+  query?: string | undefined;
+  bots?: SearchMessagesResponseBotsMap | undefined;
+  ignored_exclude_bots_pref?: boolean | undefined;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: SearchMessagesResponseResponseMetadata;
+  response_metadata?: SearchMessagesResponseResponseMetadata | undefined;
 }
 export type SearchAllError = SlackOpError;
 /** Searches for messages and files matching a query. Required scopes -- user: `search:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `no_query` -- No query was provided. See https://docs.slack.dev/reference/methods/search.all */

@@ -86,67 +86,67 @@ export class NotFound
 /** Message representing a SCM Pull Request Comment. */
 export interface PullRequestComment {
   /** Output only. When the comment was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The ID of the comment. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. When the comment was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The username of the author. */
-  author?: string;
+  author?: string | undefined;
   /** Required. The body of the comment. */
-  body?: string;
+  body?: string | undefined;
 }
 /** Request message for AddGitRepositoryLinkPullRequestComment. */
 export interface AddGitRepositoryLinkPullRequestCommentRequest {
   /** Required. The comment to add. */
-  comment?: PullRequestComment;
+  comment?: PullRequestComment | undefined;
   /** Required. The ID of the Pull Request. */
-  pullRequestId?: string;
+  pullRequestId?: string | undefined;
 }
 export interface AddPullRequestCommentProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: AddGitRepositoryLinkPullRequestCommentRequest;
+  body?: AddGitRepositoryLinkPullRequestCommentRequest | undefined;
 }
 export type PullRequestReviewCommentSideEnum = "DIFF_SIDE_UNSPECIFIED" | "BASE" | "HEAD";
 /** Message representing a SCM Pull Request Review Comment (inline on diff). */
 export interface PullRequestReviewComment {
   /** Output only. When the comment was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. When the comment was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The first line of the comment range (inclusive). If not specified, the comment applies only to the `last_line`. */
-  firstLine?: number;
+  firstLine?: number | undefined;
   /** Required. The last line of the comment range (inclusive). If `first_line` is not specified, the comment applies only to this line. */
-  lastLine?: number;
+  lastLine?: number | undefined;
   /** Output only. The username of the author. */
-  author?: string;
+  author?: string | undefined;
   /** Output only. The commit SHA the comment was actually applied to. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** Required. The body of the comment. */
-  body?: string;
+  body?: string | undefined;
   /** Output only. The ID of the comment. */
-  id?: string;
+  id?: string | undefined;
   /** Required. The file path to comment on. */
-  path?: string;
+  path?: string | undefined;
   /** Optional. The side of the diff to comment on. Defaults to HEAD. */
-  side?: PullRequestReviewCommentSideEnum | (string & {});
+  side?: PullRequestReviewCommentSideEnum | (string & {}) | undefined;
 }
 /** Request message for AddGitRepositoryLinkPullRequestReviewComment. */
 export interface AddGitRepositoryLinkPullRequestReviewCommentRequest {
   /** Optional. The commit SHA to comment on. If not specified, defaults to the HEAD commit of the Pull Request. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** Required. The ID of the Pull Request. */
-  pullRequestId?: string;
+  pullRequestId?: string | undefined;
   /** Required. The review comment to add. */
-  comment?: PullRequestReviewComment;
+  comment?: PullRequestReviewComment | undefined;
 }
 export interface AddPullRequestReviewCommentProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: AddGitRepositoryLinkPullRequestReviewCommentRequest;
+  body?: AddGitRepositoryLinkPullRequestReviewCommentRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -154,7 +154,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -173,15 +173,15 @@ export type ProviderOAuthConfigSystemProviderIdEnum =
 /** ProviderOAuthConfig is the OAuth config for a provider. */
 export interface ProviderOAuthConfig {
   /** Required. User selected scopes to apply to the Oauth config In the event of changing scopes, user records under AccountConnector will be deleted and users will re-auth again. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Optional. Immutable. Developer Connect provided OAuth. */
-  systemProviderId?: ProviderOAuthConfigSystemProviderIdEnum | (string & {});
+  systemProviderId?: ProviderOAuthConfigSystemProviderIdEnum | (string & {}) | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** ServiceDirectoryConfig represents Service Directory configuration for a connection. */
 export interface ServiceDirectoryConfig {
   /** Required. The Service Directory service name. Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}. */
-  service?: string;
+  service?: string | undefined;
 }
 export type CustomOAuthConfigScmProviderEnum =
   | "SCM_PROVIDER_UNKNOWN"
@@ -191,168 +191,168 @@ export type CustomOAuthConfigScmProviderEnum =
 /** Message for a customized OAuth config. */
 export interface CustomOAuthConfig {
   /** Optional. Configuration for using Service Directory to connect to a private service. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  serviceDirectoryConfig?: ServiceDirectoryConfig | undefined;
   /** Output only. SCM server version installed at the host URI. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** Required. Immutable. The OAuth2 authorization server URL. */
-  authUri?: string;
+  authUri?: string | undefined;
   /** Optional. Disable PKCE for this OAuth config. PKCE is enabled by default. */
-  pkceDisabled?: boolean;
+  pkceDisabled?: boolean | undefined;
   /** Required. The type of the SCM provider. */
-  scmProvider?: CustomOAuthConfigScmProviderEnum | (string & {});
+  scmProvider?: CustomOAuthConfigScmProviderEnum | (string & {}) | undefined;
   /** Required. The host URI of the OAuth application. */
-  hostUri?: string;
+  hostUri?: string | undefined;
   /** Required. The scopes to be requested during OAuth. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Required. Immutable. The OAuth2 token request URL. */
-  tokenUri?: string;
+  tokenUri?: string | undefined;
   /** Required. Input only. The client secret of the OAuth application. It will be provided as plain text, but encrypted and stored in developer connect. As INPUT_ONLY field, it will not be included in the output. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
   /** Required. The client ID of the OAuth application. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Optional. SSL certificate to use for requests to a private service. */
-  sslCaCertificate?: string;
+  sslCaCertificate?: string | undefined;
 }
 /** The proxy configuration. */
 export interface ProxyConfig {
   /** Optional. Setting this to true allows the git and http proxies to perform actions on behalf of the user configured under the account connector. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Output only. The base URI for the HTTP proxy endpoint. Has the format `https://{generatedID}-a-h-{shortRegion}.developerconnect.dev` Populated only when `enabled` is set to `true`. This endpoint is used by other Google services that integrate with Developer Connect. */
-  httpProxyBaseUri?: string;
+  httpProxyBaseUri?: string | undefined;
 }
 /** AccountConnector encapsulates what a platform administrator needs to configure for users to connect to the service providers, which includes, among other fields, the OAuth client ID, client secret, and authorization and token endpoints. */
 export interface AccountConnector {
   /** Optional. Provider OAuth config. */
-  providerOauthConfig?: ProviderOAuthConfig;
+  providerOauthConfig?: ProviderOAuthConfig | undefined;
   /** Output only. Start OAuth flow by clicking on this URL. */
-  oauthStartUri?: string;
+  oauthStartUri?: string | undefined;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The timestamp when the accountConnector was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The timestamp when the accountConnector was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Allows users to store small amounts of arbitrary data. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Custom OAuth config. */
-  customOauthConfig?: CustomOAuthConfig;
+  customOauthConfig?: CustomOAuthConfig | undefined;
   /** Optional. Configuration for the http and git proxy features. */
-  proxyConfig?: ProxyConfig;
+  proxyConfig?: ProxyConfig | undefined;
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. A system-assigned unique identifier for the Account Connector. */
-  uid?: string;
+  uid?: string | undefined;
   /** Identifier. The resource name of the accountConnector, in the format `projects/{project}/locations/{location}/accountConnectors/{account_connector_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsAccountConnectorsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Location resource name as the account_connector's parent. */
   parent: string;
   /** Required. The ID to use for the AccountConnector, which will become the final component of the AccountConnector's resource name. Its format should adhere to https://google.aip.dev/122#resource-id-segments Names must be unique per-project per-location. */
-  accountConnectorId?: string;
+  accountConnectorId?: string | undefined;
   /** Request body */
-  body?: AccountConnector;
+  body?: AccountConnector | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** Represents a personal access token that authorized the Connection, and associated metadata. */
 export interface UserCredential {
   /** Required. A SecretManager resource containing the user token that authorizes the Developer Connect connection. Format: `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). */
-  userTokenSecretVersion?: string;
+  userTokenSecretVersion?: string | undefined;
   /** Output only. The username associated with this token. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Configuration for connections to an instance of GitLab Enterprise. */
 export interface GitLabEnterpriseConfig {
   /** Optional. Configuration for using Service Directory to privately connect to a GitLab Enterprise instance. This should only be set if the GitLab Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitLab Enterprise server will be made over the public internet. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  serviceDirectoryConfig?: ServiceDirectoryConfig | undefined;
   /** Required. The URI of the GitLab Enterprise host this connection is for. */
-  hostUri?: string;
+  hostUri?: string | undefined;
   /** Required. Immutable. SecretManager resource containing the webhook secret of a GitLab project, formatted as `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). This is used to validate webhooks. */
-  webhookSecretSecretVersion?: string;
+  webhookSecretSecretVersion?: string | undefined;
   /** Output only. Version of the GitLab Enterprise server running on the `host_uri`. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** Optional. SSL Certificate Authority certificate to use for requests to GitLab Enterprise instance. */
-  sslCaCertificate?: string;
+  sslCaCertificate?: string | undefined;
   /** Required. A GitLab personal access token with the minimum `api` scope access and a minimum role of `maintainer`. The GitLab Projects visible to this Personal Access Token will control which Projects Developer Connect has access to. */
-  authorizerCredential?: UserCredential;
+  authorizerCredential?: UserCredential | undefined;
   /** Required. A GitLab personal access token with the minimum `read_api` scope access and a minimum role of `reporter`. The GitLab Projects visible to this Personal Access Token will control which Projects Developer Connect has access to. */
-  readAuthorizerCredential?: UserCredential;
+  readAuthorizerCredential?: UserCredential | undefined;
 }
 /** Configuration for connections to an instance of Bitbucket Data Center. */
 export interface BitbucketDataCenterConfig {
   /** Required. An http access token with the minimum `Repository admin` scope access. This is needed to create webhooks. It's recommended to use a system account to generate these credentials. */
-  authorizerCredential?: UserCredential;
+  authorizerCredential?: UserCredential | undefined;
   /** Output only. Version of the Bitbucket Data Center server running on the `host_uri`. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** Optional. SSL certificate authority to trust when making requests to Bitbucket Data Center. */
-  sslCaCertificate?: string;
+  sslCaCertificate?: string | undefined;
   /** Optional. Configuration for using Service Directory to privately connect to a Bitbucket Data Center instance. This should only be set if the Bitbucket Data Center is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the Bitbucket Data Center will be made over the public internet. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  serviceDirectoryConfig?: ServiceDirectoryConfig | undefined;
   /** Required. An http access token with the minimum `Repository read` access. It's recommended to use a system account to generate the credentials. */
-  readAuthorizerCredential?: UserCredential;
+  readAuthorizerCredential?: UserCredential | undefined;
   /** Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). This is used to validate webhooks. */
-  webhookSecretSecretVersion?: string;
+  webhookSecretSecretVersion?: string | undefined;
   /** Required. The URI of the Bitbucket Data Center host this connection is for. */
-  hostUri?: string;
+  hostUri?: string | undefined;
 }
 /** Configuration for connections to an instance of GitHub Enterprise. */
 export interface GitHubEnterpriseConfig {
   /** Optional. ID of the GitHub App created from the manifest. */
-  appId?: string;
+  appId?: string | undefined;
   /** Optional. Configuration for using Service Directory to privately connect to a GitHub Enterprise server. This should only be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the GitHub Enterprise server will be made over the public internet. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  serviceDirectoryConfig?: ServiceDirectoryConfig | undefined;
   /** Required. The URI of the GitHub Enterprise host this connection is for. */
-  hostUri?: string;
+  hostUri?: string | undefined;
   /** Optional. SecretManager resource containing the private key of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). */
-  privateKeySecretVersion?: string;
+  privateKeySecretVersion?: string | undefined;
   /** Optional. ID of the installation of the GitHub App. */
-  appInstallationId?: string;
+  appInstallationId?: string | undefined;
   /** Optional. Immutable. GitHub Enterprise organization in which the GitHub App is created. */
-  organization?: string;
+  organization?: string | undefined;
   /** Output only. The URL-friendly name of the GitHub App. */
-  appSlug?: string;
+  appSlug?: string | undefined;
   /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
-  sslCaCertificate?: string;
+  sslCaCertificate?: string | undefined;
   /** Output only. GitHub Enterprise version installed at the host_uri. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** Output only. The URI to navigate to in order to manage the installation associated with this GitHubEnterpriseConfig. */
-  installationUri?: string;
+  installationUri?: string | undefined;
   /** Optional. SecretManager resource containing the webhook secret of the GitHub App, formatted as `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). */
-  webhookSecretSecretVersion?: string;
+  webhookSecretSecretVersion?: string | undefined;
 }
 /** Represents an OAuth token of the account that authorized the Connection, and associated metadata. */
 export interface OAuthCredential {
   /** Required. A SecretManager resource containing the OAuth token that authorizes the connection. Format: `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). */
-  oauthTokenSecretVersion?: string;
+  oauthTokenSecretVersion?: string | undefined;
   /** Output only. The username associated with this token. */
-  username?: string;
+  username?: string | undefined;
 }
 export type GitHubConfigGithubAppEnum =
   | "GIT_HUB_APP_UNSPECIFIED"
@@ -363,13 +363,13 @@ export type GitHubConfigGithubAppEnum =
 /** Configuration for connections to github.com. */
 export interface GitHubConfig {
   /** Optional. OAuth credential of the account that authorized the GitHub App. It is recommended to use a robot account instead of a human user account. The OAuth token must be tied to the GitHub App of this config. */
-  authorizerCredential?: OAuthCredential;
+  authorizerCredential?: OAuthCredential | undefined;
   /** Optional. GitHub App installation id. */
-  appInstallationId?: string;
+  appInstallationId?: string | undefined;
   /** Required. Immutable. The GitHub Application that was installed to the GitHub user or organization. */
-  githubApp?: GitHubConfigGithubAppEnum | (string & {});
+  githubApp?: GitHubConfigGithubAppEnum | (string & {}) | undefined;
   /** Output only. The URI to navigate to in order to manage the installation associated with this GitHubConfig. */
-  installationUri?: string;
+  installationUri?: string | undefined;
 }
 export type InstallationStateStageEnum =
   | "STAGE_UNSPECIFIED"
@@ -380,332 +380,332 @@ export type InstallationStateStageEnum =
 /** Describes stage and necessary actions to be taken by the user to complete the installation. Used for GitHub and GitHub Enterprise based connections. */
 export interface InstallationState {
   /** Output only. Link to follow for next action. Empty string if the installation is already complete. */
-  actionUri?: string;
+  actionUri?: string | undefined;
   /** Output only. Message of what the user should do next to continue the installation. Empty string if the installation is already complete. */
-  message?: string;
+  message?: string | undefined;
   /** Output only. Current step of the installation process. */
-  stage?: InstallationStateStageEnum | (string & {});
+  stage?: InstallationStateStageEnum | (string & {}) | undefined;
 }
 /** Configuration for connections to gitlab.com. */
 export interface GitLabConfig {
   /** Required. Immutable. SecretManager resource containing the webhook secret of a GitLab project, formatted as `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). This is used to validate webhooks. */
-  webhookSecretSecretVersion?: string;
+  webhookSecretSecretVersion?: string | undefined;
   /** Required. A GitLab personal access token with the minimum `read_api` scope access and a minimum role of `reporter`. The GitLab Projects visible to this Personal Access Token will control which Projects Developer Connect has access to. */
-  readAuthorizerCredential?: UserCredential;
+  readAuthorizerCredential?: UserCredential | undefined;
   /** Required. A GitLab personal access token with the minimum `api` scope access and a minimum role of `maintainer`. The GitLab Projects visible to this Personal Access Token will control which Projects Developer Connect has access to. */
-  authorizerCredential?: UserCredential;
+  authorizerCredential?: UserCredential | undefined;
 }
 /** The crypto key configuration. This field is used by the Customer-managed encryption keys (CMEK) feature. */
 export interface CryptoKeyConfig {
   /** Required. The name of the key which is used to encrypt/decrypt customer data. For key in Cloud KMS, the key should be in the format of `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
-  keyReference?: string;
+  keyReference?: string | undefined;
 }
 /** Configuration for connections to Secure Source Manager instance */
 export interface SecureSourceManagerInstanceConfig {
   /** Required. Immutable. Secure Source Manager instance resource, formatted as `projects/*\/locations/*\/instances/*` */
-  instance?: string;
+  instance?: string | undefined;
 }
 /** Configuration for proxies. For legacy reasons, this message is named `GitProxyConfig`, but it includes settings for both Git and HTTP proxy. */
 export interface GitProxyConfig {
   /** Output only. The base URI for the HTTP proxy endpoint. Has the format `https://{generatedID}-c-h-{shortRegion}.developerconnect.dev` Populated only when enabled is set to true. This endpoint is used by other Google services that integrate with Developer Connect. */
-  httpProxyBaseUri?: string;
+  httpProxyBaseUri?: string | undefined;
   /** Optional. Setting this to true allows the Git proxy to be used for performing Git operations on the repositories linked in the connection. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Basic authentication with username and password. */
 export interface BasicAuthentication {
   /** Required. The username to authenticate as. */
-  username?: string;
+  username?: string | undefined;
   /** The password SecretManager secret version to authenticate as. */
-  passwordSecretVersion?: string;
+  passwordSecretVersion?: string | undefined;
 }
 /** Bearer token authentication with a token. */
 export interface BearerTokenAuthentication {
   /** Optional. The token SecretManager secret version to authenticate as. */
-  tokenSecretVersion?: string;
+  tokenSecretVersion?: string | undefined;
 }
 /** Defines the configuration for connections to an HTTP service provider. */
 export interface GenericHTTPEndpointConfig {
   /** Optional. The SSL certificate to use for requests to the HTTP service provider. */
-  sslCaCertificate?: string;
+  sslCaCertificate?: string | undefined;
   /** Optional. Configuration for using Service Directory to privately connect to a HTTP service provider. This should only be set if the Http service provider is hosted on-premises and not reachable by public internet. If this field is left empty, calls to the HTTP service provider will be made over the public internet. */
-  serviceDirectoryConfig?: ServiceDirectoryConfig;
+  serviceDirectoryConfig?: ServiceDirectoryConfig | undefined;
   /** Required. Immutable. The service provider's https endpoint. */
-  hostUri?: string;
+  hostUri?: string | undefined;
   /** Optional. Basic authentication with username and password. */
-  basicAuthentication?: BasicAuthentication;
+  basicAuthentication?: BasicAuthentication | undefined;
   /** Optional. Bearer token authentication with a token. */
-  bearerTokenAuthentication?: BearerTokenAuthentication;
+  bearerTokenAuthentication?: BearerTokenAuthentication | undefined;
 }
 /** Configuration for connections to an instance of Bitbucket Cloud. */
 export interface BitbucketCloudConfig {
   /** Required. Immutable. SecretManager resource containing the webhook secret used to verify webhook events, formatted as `projects/*\/secrets/*\/versions/*` or `projects/*\/locations/*\/secrets/*\/versions/*` (if regional secrets are supported in that location). This is used to validate and create webhooks. */
-  webhookSecretSecretVersion?: string;
+  webhookSecretSecretVersion?: string | undefined;
   /** Required. An access token with the minimum `repository` access. It can either be a workspace, project or repository access token. It's recommended to use a system account to generate the credentials. */
-  readAuthorizerCredential?: UserCredential;
+  readAuthorizerCredential?: UserCredential | undefined;
   /** Required. An access token with the minimum `repository`, `pullrequest` and `webhook` scope access. It can either be a workspace, project or repository access token. This is needed to create webhooks. It's recommended to use a system account to generate these credentials. */
-  authorizerCredential?: UserCredential;
+  authorizerCredential?: UserCredential | undefined;
   /** Required. The Bitbucket Cloud Workspace ID to be connected to Google Cloud Platform. */
-  workspace?: string;
+  workspace?: string | undefined;
 }
 /** Message describing Connection object */
 export interface Connection {
   /** Output only. Delete timestamp. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Configuration for connections to an instance of GitLab Enterprise. */
-  gitlabEnterpriseConfig?: GitLabEnterpriseConfig;
+  gitlabEnterpriseConfig?: GitLabEnterpriseConfig | undefined;
   /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Configuration for connections to an instance of Bitbucket Data Center. */
-  bitbucketDataCenterConfig?: BitbucketDataCenterConfig;
+  bitbucketDataCenterConfig?: BitbucketDataCenterConfig | undefined;
   /** Output only. Create timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. If disabled is set to true, functionality is disabled for this connection. Repository based API methods and webhooks processing for repositories in this connection will be disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Configuration for connections to an instance of GitHub Enterprise. */
-  githubEnterpriseConfig?: GitHubEnterpriseConfig;
+  githubEnterpriseConfig?: GitHubEnterpriseConfig | undefined;
   /** Configuration for connections to github.com. */
-  githubConfig?: GitHubConfig;
+  githubConfig?: GitHubConfig | undefined;
   /** Output only. Installation state of the Connection. */
-  installationState?: InstallationState;
+  installationState?: InstallationState | undefined;
   /** Output only. A system-assigned unique identifier for the Connection. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Set to true when the connection is being set up or updated in the background. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. Update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Configuration for connections to gitlab.com. */
-  gitlabConfig?: GitLabConfig;
+  gitlabConfig?: GitLabConfig | undefined;
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature. */
-  cryptoKeyConfig?: CryptoKeyConfig;
+  cryptoKeyConfig?: CryptoKeyConfig | undefined;
   /** Configuration for connections to an instance of Secure Source Manager. */
-  secureSourceManagerInstanceConfig?: SecureSourceManagerInstanceConfig;
+  secureSourceManagerInstanceConfig?: SecureSourceManagerInstanceConfig | undefined;
   /** Optional. Configuration for the Git proxy feature. Enabling the Git proxy allows clients to perform Git operations on the repositories linked in the connection. [Learn more](https://docs.cloud.google.com/developer-connect/docs/configure-git-proxy). */
-  gitProxyConfig?: GitProxyConfig;
+  gitProxyConfig?: GitProxyConfig | undefined;
   /** Optional. Configuration for connections to an HTTP service provider. */
-  httpConfig?: GenericHTTPEndpointConfig;
+  httpConfig?: GenericHTTPEndpointConfig | undefined;
   /** Configuration for connections to an instance of Bitbucket Clouds. */
-  bitbucketCloudConfig?: BitbucketCloudConfig;
+  bitbucketCloudConfig?: BitbucketCloudConfig | undefined;
 }
 export interface CreateProjectsLocationsConnectionsRequest {
   /** Required. The ID to use for the connection, which becomes the final component of the connection's resource name. */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
-  body?: Connection;
+  body?: Connection | undefined;
 }
 /** Message describing the GitRepositoryLink object */
 export interface GitRepositoryLink {
   /** Required. Git Clone URI. */
-  cloneUri?: string;
+  cloneUri?: string | undefined;
   /** Output only. A system-assigned unique identifier for the GitRepositoryLink. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Create timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Labels as key value pairs */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Allows clients to store small amounts of arbitrary data. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. Set to true when the connection is being set up or updated in the background. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. URI to access the linked repository through the Git proxy. This field is only populated if the Git proxy is enabled for the connection. */
-  gitProxyUri?: string;
+  gitProxyUri?: string | undefined;
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. Delete timestamp. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Identifier. Resource name of the repository, in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. External ID of the webhook created for the repository. */
-  webhookId?: string;
+  webhookId?: string | undefined;
 }
 export interface CreateProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. This ID should be unique in the connection. Allows alphanumeric characters and any of -._~%!$&'()*+,;=@. */
-  gitRepositoryLinkId?: string;
+  gitRepositoryLinkId?: string | undefined;
   /** Request body */
-  body?: GitRepositoryLink;
+  body?: GitRepositoryLink | undefined;
 }
 export type InsightsConfigStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "COMPLETE" | "ERROR";
 export type StatusList = Array<Status>;
 /** GoogleCloudRun represents the Cloud Run runtime. */
 export interface GoogleCloudRun {
   /** Required. Immutable. The name of the Cloud Run service. Format: `projects/{project}/locations/{location}/services/{service}`. */
-  serviceUri?: string;
+  serviceUri?: string | undefined;
 }
 /** AppHubWorkload represents the App Hub Workload. */
 export interface AppHubWorkload {
   /** Output only. The environment of the App Hub Workload. */
-  environment?: string;
+  environment?: string | undefined;
   /** Required. Output only. Immutable. The name of the App Hub Workload. Format: `projects/{project}/locations/{location}/applications/{application}/workloads/{workload}`. */
-  workload?: string;
+  workload?: string | undefined;
   /** Output only. The criticality of the App Hub Workload. */
-  criticality?: string;
+  criticality?: string | undefined;
 }
 /** GKEWorkload represents the Google Kubernetes Engine runtime. */
 export interface GKEWorkload {
   /** Output only. The name of the GKE deployment. Format: `projects/{project}/locations/{location}/clusters/{cluster}/namespaces/{namespace}/deployments/{deployment}`. */
-  deployment?: string;
+  deployment?: string | undefined;
   /** Required. Immutable. The name of the GKE cluster. Format: `projects/{project}/locations/{location}/clusters/{cluster}`. */
-  cluster?: string;
+  cluster?: string | undefined;
 }
 /** AppHubService represents the App Hub Service. */
 export interface AppHubService {
   /** Output only. The environment of the App Hub Service. */
-  environment?: string;
+  environment?: string | undefined;
   /** Required. Output only. Immutable. The name of the App Hub Service. Format: `projects/{project}/locations/{location}/applications/{application}/services/{service}`. */
-  apphubService?: string;
+  apphubService?: string | undefined;
   /** Output only. The criticality of the App Hub Service. */
-  criticality?: string;
+  criticality?: string | undefined;
 }
 export type RuntimeConfigStateEnum = "STATE_UNSPECIFIED" | "LINKED" | "UNLINKED";
 /** RuntimeConfig represents the runtimes where the application is deployed. */
 export interface RuntimeConfig {
   /** Output only. Cloud Run runtime. */
-  googleCloudRun?: GoogleCloudRun;
+  googleCloudRun?: GoogleCloudRun | undefined;
   /** Output only. App Hub Workload. */
-  appHubWorkload?: AppHubWorkload;
+  appHubWorkload?: AppHubWorkload | undefined;
   /** Required. Immutable. The URI of the runtime configuration. For GKE, this is the cluster name. For Cloud Run, this is the service name. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. Google Kubernetes Engine runtime. */
-  gkeWorkload?: GKEWorkload;
+  gkeWorkload?: GKEWorkload | undefined;
   /** Output only. App Hub Service. */
-  appHubService?: AppHubService;
+  appHubService?: AppHubService | undefined;
   /** Output only. The state of the Runtime. */
-  state?: RuntimeConfigStateEnum | (string & {});
+  state?: RuntimeConfigStateEnum | (string & {}) | undefined;
 }
 export type RuntimeConfigList = Array<RuntimeConfig>;
 /** Projects represents the projects to track with the InsightsConfig. */
 export interface Projects {
   /** Optional. The project IDs. Format: {project} */
-  projectIds?: StringList;
+  projectIds?: StringList | undefined;
 }
 /** Google Artifact Registry configurations. */
 export interface GoogleArtifactRegistry {
   /** Required. Immutable. The name of the artifact registry package. */
-  artifactRegistryPackage?: string;
+  artifactRegistryPackage?: string | undefined;
   /** Required. The host project of Artifact Registry. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** Google Artifact Analysis configurations. */
 export interface GoogleArtifactAnalysis {
   /** Required. The project id of the project where the provenance is stored. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** The artifact config of the artifact that is deployed. */
 export interface ArtifactConfig {
   /** Optional. Set if the artifact is stored in Artifact registry. */
-  googleArtifactRegistry?: GoogleArtifactRegistry;
+  googleArtifactRegistry?: GoogleArtifactRegistry | undefined;
   /** Required. Immutable. The URI of the artifact that is deployed. e.g. `us-docker.pkg.dev/my-project/my-repo/image`. The URI does not include the tag / digest because it captures a lineage of artifacts. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. Set if the artifact metadata is stored in Artifact analysis. */
-  googleArtifactAnalysis?: GoogleArtifactAnalysis;
+  googleArtifactAnalysis?: GoogleArtifactAnalysis | undefined;
 }
 export type ArtifactConfigList = Array<ArtifactConfig>;
 /** The InsightsConfig resource is the core configuration object to capture events from your Software Development Lifecycle. It acts as the central hub for managing how Developer Connect understands your application, its runtime environments, and the artifacts deployed within them. */
 export interface InsightsConfig {
   /** Optional. Output only. The state of the InsightsConfig. */
-  state?: InsightsConfigStateEnum | (string & {});
+  state?: InsightsConfigStateEnum | (string & {}) | undefined;
   /** Output only. Any errors that occurred while setting up the InsightsConfig. Each error will be in the format: `field_name: error_message`, e.g. GetAppHubApplication: Permission denied while getting App Hub application. Please grant permissions to the P4SA. */
-  errors?: StatusList;
+  errors?: StatusList | undefined;
   /** Identifier. The name of the InsightsConfig. Format: projects/{project}/locations/{location}/insightsConfigs/{insightsConfig} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Set of labels associated with an InsightsConfig. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Reconciling (https://google.aip.dev/128#reconciliation). Set to true if the current state of InsightsConfig does not match the user's intended state, and the service is actively updating the resource to reconcile them. This can happen due to user-triggered updates or system actions like failover or maintenance. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Optional. User specified annotations. See https://google.aip.dev/148#annotations for more details such as format and size limitations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. The runtime configurations where the application is deployed. */
-  runtimeConfigs?: RuntimeConfigList;
+  runtimeConfigs?: RuntimeConfigList | undefined;
   /** Optional. The name of the App Hub Application. Format: projects/{project}/locations/{location}/applications/{application} */
-  appHubApplication?: string;
+  appHubApplication?: string | undefined;
   /** Output only. Update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The projects to track with the InsightsConfig. */
-  projects?: Projects;
+  projects?: Projects | undefined;
   /** Output only. Create timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The artifact configurations of the artifacts that are deployed. */
-  artifactConfigs?: ArtifactConfigList;
+  artifactConfigs?: ArtifactConfigList | undefined;
 }
 export interface CreateProjectsLocationsInsightsConfigsRequest {
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. ID of the requesting InsightsConfig. */
-  insightsConfigId?: string;
+  insightsConfigId?: string | undefined;
   /** Required. Value for parent. */
   parent: string;
   /** Request body */
-  body?: InsightsConfig;
+  body?: InsightsConfig | undefined;
 }
 export interface DeleteProjectsLocationsAccountConnectorsRequest {
   /** Required. Name of the resource */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set to true, any Users from this AccountConnector will also be deleted. (Otherwise, the request will only work if the AccountConnector has no Users.) */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. The current etag of the AccountConnectorn. If an etag is provided and does not match the current etag of the AccountConnector, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsAccountConnectorsUsersRequest {
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the resource */
   name: string;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. The current etag of the Connection. If an etag is provided and does not match the current etag of the Connection, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Name of the resource */
   name: string;
 }
 export interface DeleteProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Name of the resource */
   name: string;
 }
 export interface DeleteProjectsLocationsInsightsConfigsRequest {
   /** Optional. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Value for parent. */
   name: string;
 }
@@ -719,28 +719,28 @@ export interface DeleteSelfProjectsLocationsAccountConnectorsUsersRequest {
 }
 export interface DiffCommitProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. Path patterns or exact paths to filter returned files. When `path_filters` is specified, `FileDiff.patch` is populated for all matching files (use `["**"]` to include patches for all changed files). When `path_filters` is omitted or empty, the full list of `FileDiff` is returned without patch diffs (`FileDiff.patch` is empty). */
-  pathFilters?: StringList;
+  pathFilters?: StringList | undefined;
   /** Required. The resource name of the GitRepositoryLink. */
   name: string;
   /** Required. The base commit SHA or ref. */
-  baseSha?: string;
+  baseSha?: string | undefined;
   /** Required. The head commit SHA or ref. */
-  headSha?: string;
+  headSha?: string | undefined;
 }
 /** Message for a file diff. */
 export interface FileDiff {
   /** Standard unified diff patch hunk for the file. Only populated when `path_filters` is specified in the request; otherwise empty. */
-  patch?: string;
+  patch?: string | undefined;
   /** Relative path to the file in the repository. */
-  path?: string;
+  path?: string | undefined;
   /** Status of change: "ADDED", "MODIFIED", "REMOVED", "RENAMED". */
-  status?: string;
+  status?: string | undefined;
 }
 export type FileDiffList = Array<FileDiff>;
 /** Response message for DiffGitRepositoryLinkCommit. */
 export interface DiffGitRepositoryLinkCommitResponse {
   /** The file diff extracted from the unified diff. */
-  files?: FileDiffList;
+  files?: FileDiffList | undefined;
 }
 /** Message for fetching an OAuth access token. */
 export type FetchAccessTokenRequest = CancelOperationRequest;
@@ -748,25 +748,25 @@ export interface FetchAccessTokenProjectsLocationsAccountConnectorsUsersRequest 
   /** Required. The resource name of the AccountConnector in the format `projects/*\/locations/*\/accountConnectors/*`. */
   accountConnector: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Message for representing an error from exchanging OAuth tokens. */
 export interface ExchangeError {
   /** https://datatracker.ietf.org/doc/html/rfc6749#section-5.2 - error_description */
-  description?: string;
+  description?: string | undefined;
   /** https://datatracker.ietf.org/doc/html/rfc6749#section-5.2 - error */
-  code?: string;
+  code?: string | undefined;
 }
 /** Message for responding to getting an OAuth access token. */
 export interface FetchAccessTokenResponse {
   /** The scopes of the access token. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** The error resulted from exchanging OAuth tokens from the service provider. */
-  exchangeError?: ExchangeError;
+  exchangeError?: ExchangeError | undefined;
   /** Expiration timestamp. Can be empty if unknown or non-expiring. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** The token content. */
-  token?: string;
+  token?: string | undefined;
 }
 export type FetchCommitListProjectsLocationsConnectionsGitRepositoryLinksViewEnum =
   | "COMMIT_VIEW_UNSPECIFIED"
@@ -774,38 +774,41 @@ export type FetchCommitListProjectsLocationsConnectionsGitRepositoryLinksViewEnu
   | "FULL";
 export interface FetchCommitListProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. The commit SHA, or symbolic revision (for example, branch name, tag, or Git reference) from which to start listing commits. */
-  ref?: string;
+  ref?: string | undefined;
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Optional. The level of commit details to return in the response. Only `BASIC` is supported; `FULL` returns `INVALID_ARGUMENT`. Defaults to `BASIC` if unspecified. Use `FetchGitRepositoryLinkCommit` to get file diffs for a single commit. */
-  view?: FetchCommitListProjectsLocationsConnectionsGitRepositoryLinksViewEnum | (string & {});
+  view?:
+    | FetchCommitListProjectsLocationsConnectionsGitRepositoryLinksViewEnum
+    | (string & {})
+    | undefined;
   /** Optional. Number of results to return in the list. Default is 50. Max is 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `FetchGitRepositoryLinkCommitList` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchGitRepositoryLinkCommitList` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** SCMCommit represents commit metadata. */
 export interface SCMCommit {
   /** The author's email address. */
-  authorEmail?: string;
+  authorEmail?: string | undefined;
   /** Timestamp when the commit was authored. */
-  commitTime?: string;
+  commitTime?: string | undefined;
   /** Commit message text. */
-  message?: string;
+  message?: string | undefined;
   /** The author's display name. */
-  author?: string;
+  author?: string | undefined;
   /** Full 40-character SCM commit SHA. */
-  sha?: string;
+  sha?: string | undefined;
   /** The SCM provider's HTML URL link for this commit. */
-  url?: string;
+  url?: string | undefined;
 }
 export type SCMCommitList = Array<SCMCommit>;
 /** Response message for FetchGitRepositoryLinkCommitList. */
 export interface FetchGitRepositoryLinkCommitListResponse {
   /** The list of commit metadata. */
-  commits?: SCMCommitList;
+  commits?: SCMCommitList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type FetchCommitProjectsLocationsConnectionsGitRepositoryLinksViewEnum =
   | "COMMIT_VIEW_UNSPECIFIED"
@@ -813,47 +816,50 @@ export type FetchCommitProjectsLocationsConnectionsGitRepositoryLinksViewEnum =
   | "FULL";
 export interface FetchCommitProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. Path patterns or exact paths to filter returned files (only applicable in `FULL` view). When `path_filters` is specified, `FileDiff.patch` is populated for all matching files (use `["**"]` to include patches for all changed files). When `path_filters` is omitted or empty, the full list of `FileDiff` is returned without patch diffs (`FileDiff.patch` is empty). */
-  pathFilters?: StringList;
+  pathFilters?: StringList | undefined;
   /** Optional. The level of commit details to return in the response. Defaults to `FULL` if unspecified. In `FULL` view, `files` metadata (paths and statuses) are returned; `path_filters` must also be specified to populate line patch hunks. */
-  view?: FetchCommitProjectsLocationsConnectionsGitRepositoryLinksViewEnum | (string & {});
+  view?:
+    | FetchCommitProjectsLocationsConnectionsGitRepositoryLinksViewEnum
+    | (string & {})
+    | undefined;
   /** Required. The commit SHA, or symbolic revision (for example, branch name, tag, or Git reference). */
-  commitSha?: string;
+  commitSha?: string | undefined;
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
 }
 /** Response message for FetchGitRepositoryLinkCommit. */
 export interface FetchGitRepositoryLinkCommitResponse {
   /** The commit metadata. */
-  commit?: SCMCommit;
+  commit?: SCMCommit | undefined;
   /** List of file changes and patch diffs. Omitted when view is `BASIC`. Patch diffs (`FileDiff.patch`) are only populated when `path_filters` is specified in the request. */
-  files?: FileDiffList;
+  files?: FileDiffList | undefined;
 }
 export interface FetchFileBlameProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. The 1-indexed ending line number of the range to blame (inclusive). If not specified, blame extends to the end of the file. */
-  lastLine?: number;
+  lastLine?: number | undefined;
   /** Optional. The 1-indexed starting line number of the range to blame (inclusive). If not specified, blame begins at line 1. */
-  firstLine?: number;
+  firstLine?: number | undefined;
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Required. The SCM commit SHA, or symbolic revision (for example, branch name, tag) from which to fetch the blame. */
-  ref?: string;
+  ref?: string | undefined;
   /** Required. The file path within the repository. */
-  path?: string;
+  path?: string | undefined;
 }
 /** BlameRange represents blame information for a range of lines. */
 export interface BlameRange {
   /** The 1-indexed ending line number of the range (inclusive). */
-  lastLine?: number;
+  lastLine?: number | undefined;
   /** The 1-indexed starting line number of the range (inclusive). */
-  firstLine?: number;
+  firstLine?: number | undefined;
   /** The commit metadata for this line range. */
-  commit?: SCMCommit;
+  commit?: SCMCommit | undefined;
 }
 export type BlameRangeList = Array<BlameRange>;
 /** Response message for FetchGitRepositoryLinkFileBlame. */
 export interface FetchGitRepositoryLinkFileBlameResponse {
   /** The list of blame ranges for the file. */
-  ranges?: BlameRangeList;
+  ranges?: BlameRangeList | undefined;
 }
 export interface FetchGitHubInstallationsProjectsLocationsConnectionsRequest {
   /** Required. The resource name of the connection in the format `projects/*\/locations/*\/connections/*`. */
@@ -862,17 +868,17 @@ export interface FetchGitHubInstallationsProjectsLocationsConnectionsRequest {
 /** Represents an installation of the GitHub App. */
 export interface Installation {
   /** ID of the installation in GitHub. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the GitHub user or organization that owns this installation. */
-  name?: string;
+  name?: string | undefined;
   /** Either "user" or "organization". */
-  type?: string;
+  type?: string | undefined;
 }
 export type InstallationList = Array<Installation>;
 /** Response of fetching github installations. */
 export interface FetchGitHubInstallationsResponse {
   /** List of installations available to the OAuth user (for github.com) or all the installations (for GitHub enterprise). */
-  installations?: InstallationList;
+  installations?: InstallationList | undefined;
 }
 export type FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRefTypeEnum =
   | "REF_TYPE_UNSPECIFIED"
@@ -880,51 +886,54 @@ export type FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRefTypeEnu
   | "BRANCH";
 export interface FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. Page start. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The resource name of GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   gitRepositoryLink: string;
   /** Required. Type of refs to fetch. */
-  refType?: FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRefTypeEnum | (string & {});
+  refType?:
+    | FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRefTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Number of results to return in the list. Default to 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response for fetching git refs. */
 export interface FetchGitRefsResponse {
   /** Name of the refs fetched. */
-  refNames?: StringList;
+  refNames?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface FetchLinkableGitRepositoriesProjectsLocationsConnectionsRequest {
   /** Required. The name of the Connection. Format: `projects/*\/locations/*\/connections/*`. */
   connection: string;
   /** Optional. Page start. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Number of results to return in the list. Defaults to 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** LinkableGitRepository represents a git repository that can be linked to a connection. */
 export interface LinkableGitRepository {
   /** The clone uri of the repository. */
-  cloneUri?: string;
+  cloneUri?: string | undefined;
 }
 export type LinkableGitRepositoryList = Array<LinkableGitRepository>;
 /** Response message for FetchLinkableGitRepositories. */
 export interface FetchLinkableGitRepositoriesResponse {
   /** The git repositories that can be linked to the connection. */
-  linkableGitRepositories?: LinkableGitRepositoryList;
+  linkableGitRepositories?: LinkableGitRepositoryList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface FetchPullRequestListProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. Number of results to return in the list. Default is 20. Max is 100. A page may contain fewer than `page_size` results even when more results are available; use `next_page_token` to check for more pages. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A filter expression that filters the pull requests returned in the response. Only a single equality comparison on `state` is supported, for example `state = "OPEN"`. Supported values are `OPEN`, `CLOSED`, and `MERGED`. `DECLINED` is only supported for SCM providers that support declining pull requests, and returns `INVALID_ARGUMENT` for GitHub, GitHub Enterprise, GitLab, and GitLab Enterprise. Other values or expressions return `INVALID_ARGUMENT`. Defaults to `state = "OPEN"` if unspecified. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The GitRepositoryLink resource name in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Optional. A page token, received from a previous `FetchGitRepositoryLinkPullRequestList` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type PullRequestMergeabilityEnum =
   | "MERGEABILITY_UNSPECIFIED"
@@ -935,45 +944,45 @@ export type PullRequestStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED" | "ME
 /** Message representing a SCM Pull Request. */
 export interface PullRequest {
   /** Output only. When the PR was merged. */
-  mergeTime?: string;
+  mergeTime?: string | undefined;
   /** Required. The target commit SHA of the base branch. */
-  baseRef?: string;
+  baseRef?: string | undefined;
   /** Output only. The mergeability state of the pull request. */
-  mergeability?: PullRequestMergeabilityEnum | (string & {});
+  mergeability?: PullRequestMergeabilityEnum | (string & {}) | undefined;
   /** Output only. When the PR was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. The source commit SHA of the head branch. */
-  headRef?: string;
+  headRef?: string | undefined;
   /** Output only. The current state of the PR. */
-  state?: PullRequestStateEnum | (string & {});
+  state?: PullRequestStateEnum | (string & {}) | undefined;
   /** Output only. The HTML URL of the pull request on the SCM provider. */
-  htmlUrl?: string;
+  htmlUrl?: string | undefined;
   /** Output only. The username of the author. */
-  author?: string;
+  author?: string | undefined;
   /** Required. The ID of the PR. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. The body description of the PR. */
-  body?: string;
+  body?: string | undefined;
   /** Output only. When the PR was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. When the PR was closed. */
-  closeTime?: string;
+  closeTime?: string | undefined;
   /** Required. The title of the PR. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. When the PR was declined. Only set for SCM providers that support declining pull requests. Never set for GitHub, GitHub Enterprise, GitLab, or GitLab Enterprise, where a pull request closed without being merged is `CLOSED`. */
-  declineTime?: string;
+  declineTime?: string | undefined;
 }
 export type PullRequestList = Array<PullRequest>;
 /** Response message for FetchGitRepositoryLinkPullRequestList. */
 export interface FetchGitRepositoryLinkPullRequestListResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of pull requests. */
-  pullRequests?: PullRequestList;
+  pullRequests?: PullRequestList | undefined;
 }
 export interface FetchPullRequestProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The ID of the Pull Request. */
-  pullRequestId?: string;
+  pullRequestId?: string | undefined;
   /** Required. The resource name of the GitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
 }
@@ -983,16 +992,16 @@ export interface FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksReq
   /** Required. The resource name of the gitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   gitRepositoryLink: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Message for responding to get read token. */
 export interface FetchReadTokenResponse {
   /** Expiration timestamp. Can be empty if unknown or non-expiring. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** The token content. */
-  token?: string;
+  token?: string | undefined;
   /** The git_username to specify when making a git clone with the token. For example, for GitHub GitRepositoryLinks, this would be "x-access-token" */
-  gitUsername?: string;
+  gitUsername?: string | undefined;
 }
 /** Message for fetching SCM read/write token. */
 export type FetchReadWriteTokenRequest = CancelOperationRequest;
@@ -1000,16 +1009,16 @@ export interface FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLin
   /** Required. The resource name of the gitRepositoryLink in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   gitRepositoryLink: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Message for responding to get read/write token. */
 export interface FetchReadWriteTokenResponse {
   /** Expiration timestamp. Can be empty if unknown or non-expiring. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** The token content. */
-  token?: string;
+  token?: string | undefined;
   /** The git_username to specify when making a git clone with the token. For example, for GitHub GitRepositoryLinks, this would be "x-access-token" */
-  gitUsername?: string;
+  gitUsername?: string | undefined;
 }
 export interface FetchSelfProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. Name of the AccountConnector resource */
@@ -1018,59 +1027,59 @@ export interface FetchSelfProjectsLocationsAccountConnectorsUsersRequest {
 /** User represents a user connected to the service providers through a AccountConnector. */
 export interface User {
   /** Identifier. Resource name of the user, in the format `projects/*\/locations/*\/accountConnectors/*\/users/*`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Developer Connect automatically converts user identity to some human readable description, e.g., email address. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The timestamp when the token was last requested. */
-  lastTokenRequestTime?: string;
+  lastTokenRequestTime?: string | undefined;
   /** Output only. The timestamp when the user was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface FetchUserRepositoriesProjectsLocationsAccountConnectorsRequest {
   /** Optional. Number of results to return in the list. Defaults to 20. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the Account Connector resource in the format: `projects/*\/locations/*\/accountConnectors/*`. */
   accountConnector: string;
   /** Optional. The name of the repository. When specified, only the UserRepository with this name will be returned if the repository is accessible under this Account Connector for the calling user. */
-  repository?: string;
+  repository?: string | undefined;
   /** Optional. Page start. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** A user repository that can be linked to the account connector. Consists of the repo name and the git proxy URL to forward requests to this repo. */
 export interface UserRepository {
   /** Output only. The git clone URL of the repo. For example: https://github.com/myuser/myrepo.git */
-  cloneUri?: string;
+  cloneUri?: string | undefined;
   /** Output only. The user friendly repo name (e.g., myuser/myrepo) */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The Git proxy URL for this repo. For example: https://us-west1-git.developerconnect.dev/a/my-proj/my-ac/myuser/myrepo.git. Populated only when `proxy_config.enabled` is set to `true` in the Account Connector. This URL is used by other Google services that integrate with Developer Connect. */
-  gitProxyUri?: string;
+  gitProxyUri?: string | undefined;
 }
 export type UserRepositoryList = Array<UserRepository>;
 /** Response message for FetchUserRepositories. */
 export interface FetchUserRepositoriesResponse {
   /** The repositories that the user can access with this account connector. */
-  userRepos?: UserRepositoryList;
+  userRepos?: UserRepositoryList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface FinishOAuthFlowProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. The code to be used for getting the token from SCM provider. */
-  "oauthParams.code"?: string;
+  "oauthParams.code"?: string | undefined;
   /** Optional. The version info returned by Google OAuth flow. */
-  "googleOauthParams.versionInfo"?: string;
+  "googleOauthParams.versionInfo"?: string | undefined;
   /** Required. The scopes returned by Google OAuth flow. */
-  "googleOauthParams.scopes"?: StringList;
+  "googleOauthParams.scopes"?: StringList | undefined;
   /** Required. The ticket to be used for post processing the callback from Google OAuth flow. */
-  "googleOauthParams.ticket"?: string;
+  "googleOauthParams.ticket"?: string | undefined;
   /** Required. The ticket to be used for post processing the callback from SCM provider. */
-  "oauthParams.ticket"?: string;
+  "oauthParams.ticket"?: string | undefined;
   /** Required. The resource name of the AccountConnector in the format `projects/*\/locations/*\/accountConnectors/*`. */
   accountConnector: string;
 }
 /** Message for responding to finishing an OAuth flow. */
 export interface FinishOAuthResponse {
   /** The error resulted from exchanging OAuth tokens from the service provider. */
-  exchangeError?: ExchangeError;
+  exchangeError?: ExchangeError | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1079,15 +1088,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsAccountConnectorsRequest {
   /** Required. Name of the resource */
@@ -1113,43 +1122,43 @@ export type DeploymentEventStateEnum = "STATE_UNSPECIFIED" | "STATE_ACTIVE" | "S
 /** The ArtifactDeployment resource represents the deployment of the artifact within the InsightsConfig resource. */
 export interface ArtifactDeployment {
   /** Output only. The summary of container status of the artifact deployment. Format as `ContainerStatusState-Reason : restartCount` e.g. "Waiting-ImagePullBackOff : 3" */
-  containerStatusSummary?: string;
+  containerStatusSummary?: string | undefined;
   /** Output only. The URIs of the source code, if available. For Cloud Run source deploy for example: `gs://my-bucket/my-folder/1234567890.abcde-fdbe.zip#1234567890` */
-  sourceCodeUris?: StringList;
+  sourceCodeUris?: StringList | undefined;
   /** Output only. The time at which the deployment was undeployed, all artifacts are considered undeployed once this time is set. */
-  undeployTime?: string;
+  undeployTime?: string | undefined;
   /** Output only. The source commits at which this artifact was built. Extracted from provenance. */
-  sourceCommitUris?: StringList;
+  sourceCommitUris?: StringList | undefined;
   /** Output only. The artifact alias in the deployment spec, with Tag/SHA. e.g. us-docker.pkg.dev/my-project/my-repo/image:1.0.0 */
-  artifactAlias?: string;
+  artifactAlias?: string | undefined;
   /** Output only. The artifact that is deployed. */
-  artifactReference?: string;
+  artifactReference?: string | undefined;
   /** Output only. Unique identifier of `ArtifactDeployment`. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The time at which the deployment was deployed. */
-  deployTime?: string;
+  deployTime?: string | undefined;
 }
 export type ArtifactDeploymentList = Array<ArtifactDeployment>;
 /** The DeploymentEvent resource represents the deployment of the artifact within the InsightsConfig resource. */
 export interface DeploymentEvent {
   /** Output only. The runtime assigned URI of the DeploymentEvent. For GKE, this is the fully qualified replica set uri. e.g. container.googleapis.com/projects/{project}/locations/{location}/clusters/{cluster}/k8s/namespaces/{namespace}/apps/replicasets/{replica-set-id} For Cloud Run, this is the revision name. */
-  runtimeDeploymentUri?: string;
+  runtimeDeploymentUri?: string | undefined;
   /** Output only. The update time of the DeploymentEvent. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The time at which the DeploymentEvent was deployed. This would be the min of all ArtifactDeployment deploy_times. */
-  deployTime?: string;
+  deployTime?: string | undefined;
   /** Output only. The create time of the DeploymentEvent. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The name of the DeploymentEvent. This name is provided by Developer Connect insights. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config}/deploymentEvents/{uuid} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The state of the DeploymentEvent. */
-  state?: DeploymentEventStateEnum;
+  state?: DeploymentEventStateEnum | undefined;
   /** Output only. The artifact deployments of the DeploymentEvent. Each artifact deployment contains the artifact uri and the runtime configuration uri. For GKE, this would be all the containers images that are deployed in the pod. */
-  artifactDeployments?: ArtifactDeploymentList;
+  artifactDeployments?: ArtifactDeploymentList | undefined;
   /** Output only. The time at which the DeploymentEvent was undeployed, all artifacts are considered undeployed once this time is set. This would be the max of all ArtifactDeployment undeploy_times. If any ArtifactDeployment is still active (i.e. does not have an undeploy_time), this field will be empty. */
-  undeployTime?: string;
+  undeployTime?: string | undefined;
   /** Output only. The runtime configurations where the DeploymentEvent happened. */
-  runtimeConfig?: RuntimeConfig;
+  runtimeConfig?: RuntimeConfig | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1157,33 +1166,33 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAccountConnectorsRequest {
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value for ListAccountConnectorsRequest */
   parent: string;
 }
@@ -1191,65 +1200,65 @@ export type AccountConnectorList = Array<AccountConnector>;
 /** Message for response to listing AccountConnectors */
 export interface ListAccountConnectorsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of AccountConnectors */
-  accountConnectors?: AccountConnectorList;
+  accountConnectors?: AccountConnectorList | undefined;
 }
 export interface ListProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. Parent value for ListUsersRequest */
   parent: string;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type UserList = Array<User>;
 /** Message for response to listing Users */
 export interface ListUsersResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Users */
-  users?: UserList;
+  users?: UserList | undefined;
 }
 export interface ListProjectsLocationsConnectionsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent value for ListConnectionsRequest */
   parent: string;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ConnectionList = Array<Connection>;
 /** Message for response to listing Connections */
 export interface ListConnectionsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Connections. */
-  connections?: ConnectionList;
+  connections?: ConnectionList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent value for ListGitRepositoryLinksRequest. */
   parent: string;
 }
@@ -1257,21 +1266,21 @@ export type GitRepositoryLinkList = Array<GitRepositoryLink>;
 /** Message for response to listing GitRepositoryLinks */
 export interface ListGitRepositoryLinksResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of GitRepositoryLinks. */
-  gitRepositoryLinks?: GitRepositoryLinkList;
+  gitRepositoryLinks?: GitRepositoryLinkList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInsightsConfigsRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filtering results. See https://google.aip.dev/160 for more details. Filter string, adhering to the rules in https://google.aip.dev/160. List only InsightsConfigs matching the filter. If filter is empty, all InsightsConfigs are listed. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value for ListInsightsConfigsRequest. */
   parent: string;
 }
@@ -1279,53 +1288,53 @@ export type InsightsConfigList = Array<InsightsConfig>;
 /** Request for response to listing InsightsConfigs. */
 export interface ListInsightsConfigsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of InsightsConfigs. */
-  insightsConfigs?: InsightsConfigList;
+  insightsConfigs?: InsightsConfigList | undefined;
 }
 export interface ListProjectsLocationsInsightsConfigsDeploymentEventsRequest {
   /** Optional. A page token, received from a previous `ListDeploymentEvents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDeploymentEvents` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent insights config that owns this collection of deployment events. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config} */
   parent: string;
   /** Optional. Field to use to order the list of DeploymentEvents. Expects AIP-132 format "field_name asc" or "field_name desc", e.g. "deploy_time desc" Supported fields for ordering are: deploy_time, update_time. Currently, only sorting by a single field is supported. If this field is not provided, the list will be sorted by "deploy_time desc". For more details on the ordering syntax, see https://google.aip.dev/132#ordering. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter expression that matches a subset of the DeploymentEvents. https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of deployment events to return. The service may return fewer than this value. If unspecified, at most 50 deployment events will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DeploymentEventList = Array<DeploymentEvent>;
 /** Response to listing DeploymentEvents. */
 export interface ListDeploymentEventsResponse {
   /** The list of DeploymentEvents. */
-  deploymentEvents?: DeploymentEventList;
+  deploymentEvents?: DeploymentEventList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ModifyGitRepositoryLinkPullRequestRequestStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1334,92 +1343,92 @@ export type ModifyGitRepositoryLinkPullRequestRequestStateEnum =
 /** Message for modifying SCM Pull Request. */
 export interface ModifyGitRepositoryLinkPullRequestRequest {
   /** Optional. The target branch to merge into. */
-  baseRef?: string;
+  baseRef?: string | undefined;
   /** Optional. The title of the Pull Request. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. The body description of the Pull Request. */
-  body?: string;
+  body?: string | undefined;
   /** Required. The SCM-specific pull request identifier (for example, "45"). */
-  pullRequestId?: string;
+  pullRequestId?: string | undefined;
   /** Optional. The state of the Pull Request. */
-  state?: ModifyGitRepositoryLinkPullRequestRequestStateEnum | (string & {});
+  state?: ModifyGitRepositoryLinkPullRequestRequestStateEnum | (string & {}) | undefined;
 }
 export interface ModifyPullRequestProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The GitRepositoryLink resource name in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: ModifyGitRepositoryLinkPullRequestRequest;
+  body?: ModifyGitRepositoryLinkPullRequestRequest | undefined;
 }
 /** Message for opening SCM Pull Request. */
 export interface OpenGitRepositoryLinkPullRequestRequest {
   /** Required. The Pull Request details to open. Input fields used: title, body, head_ref, base_ref. */
-  pullRequest?: PullRequest;
+  pullRequest?: PullRequest | undefined;
 }
 export interface OpenPullRequestProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The GitRepositoryLink resource name in the format `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: OpenGitRepositoryLinkPullRequestRequest;
+  body?: OpenGitRepositoryLinkPullRequestRequest | undefined;
 }
 export interface PatchProjectsLocationsAccountConnectorsRequest {
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set to true, and the accountConnector is not found a new accountConnector will be created. In this situation `update_mask` is ignored. The creation will succeed only if the input accountConnector has all the necessary */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. The resource name of the accountConnector, in the format `projects/{project}/locations/{location}/accountConnectors/{account_connector_id}`. */
   name: string;
   /** Request body */
-  body?: AccountConnector;
+  body?: AccountConnector | undefined;
 }
 export interface PatchProjectsLocationsConnectionsRequest {
   /** Identifier. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to true, and the connection is not found a new connection will be created. In this situation `update_mask` is ignored. The creation will succeed only if the input connection has all the necessary information (e.g a github_config with both user_oauth_token and installation_id properties). */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the Connection resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: Connection;
+  body?: Connection | undefined;
 }
 export interface PatchProjectsLocationsInsightsConfigsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. The name of the InsightsConfig. Format: projects/{project}/locations/{location}/insightsConfigs/{insightsConfig} */
   name: string;
   /** Optional. If set to true, and the insightsConfig is not found a new insightsConfig will be created. In this situation `update_mask` is ignored. The creation will succeed only if the input insightsConfig has all the necessary information (e.g a github_config with both user_oauth_token and installation_id properties). */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. If set, validate the request, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: InsightsConfig;
+  body?: InsightsConfig | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
 }
 /** RPC request object accepted by the ProcessBitbucketCloudWebhook RPC method. */
 export interface ProcessBitbucketCloudWebhookRequest {
   /** Required. HTTP request body. */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The GitRepositoryLink where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest;
+  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessBitbucketDataCenterWebhook RPC method. */
 export type ProcessBitbucketDataCenterWebhookRequest = ProcessBitbucketCloudWebhookRequest;
@@ -1427,7 +1436,7 @@ export interface ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGi
   /** Required. The GitRepositoryLink where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest;
+  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessGitHubEnterpriseWebhook RPC method. */
 export type ProcessGitHubEnterpriseWebhookRequest = ProcessBitbucketCloudWebhookRequest;
@@ -1435,7 +1444,7 @@ export interface ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsReque
   /** Required. Project and location where the webhook will be received. Format: `projects/*\/locations/*`. */
   parent: string;
   /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest;
+  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessGitLabEnterpriseWebhook RPC method. */
 export type ProcessGitLabEnterpriseWebhookRequest = ProcessBitbucketCloudWebhookRequest;
@@ -1443,7 +1452,7 @@ export interface ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRe
   /** Required. The GitRepositoryLink resource where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest;
+  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 /** RPC request object accepted by the ProcessGitLabWebhook RPC method. */
 export type ProcessGitLabWebhookRequest = ProcessBitbucketCloudWebhookRequest;
@@ -1451,7 +1460,7 @@ export interface ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLi
   /** Required. The GitRepositoryLink resource where the webhook will be received. Format: `projects/*\/locations/*\/connections/*\/gitRepositoryLinks/*`. */
   name: string;
   /** Request body */
-  body?: ProcessBitbucketCloudWebhookRequest;
+  body?: ProcessBitbucketCloudWebhookRequest | undefined;
 }
 export interface StartOAuthFlowProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. The resource name of the AccountConnector in the format `projects/*\/locations/*\/accountConnectors/*`. */
@@ -1471,19 +1480,19 @@ export type StartOAuthResponseSystemProviderIdEnum =
 /** Message for responding to starting an OAuth flow. */
 export interface StartOAuthResponse {
   /** The ticket to be used for post processing the callback from the service provider. */
-  ticket?: string;
+  ticket?: string | undefined;
   /** The ID of the system provider. */
-  systemProviderId?: StartOAuthResponseSystemProviderIdEnum;
+  systemProviderId?: StartOAuthResponseSystemProviderIdEnum | undefined;
   /** The list of scopes requested by the application. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Please refer to https://datatracker.ietf.org/doc/html/rfc7636#section-4.2 */
-  codeChallengeMethod?: string;
+  codeChallengeMethod?: string | undefined;
   /** The authorization server URL to the OAuth flow of the service provider. */
-  authUri?: string;
+  authUri?: string | undefined;
   /** Please refer to https://datatracker.ietf.org/doc/html/rfc7636#section-4.1 */
-  codeChallenge?: string;
+  codeChallenge?: string | undefined;
   /** The client ID to the OAuth App of the service provider. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 export type AddPullRequestCommentProjectsLocationsConnectionsGitRepositoryLinksError =
   | NotFound

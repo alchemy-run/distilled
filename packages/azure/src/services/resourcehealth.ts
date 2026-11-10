@@ -45,17 +45,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Type of event. */
 export type EventTypeValues =
@@ -83,7 +83,7 @@ export interface ApiOperationLink {
   /** Opaque absolute ARM URL for the associated API operation. */
   url: string;
   /** Human-readable description of the operation. Clients must not parse this value. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Source of event. */
 export type EventSourceValues = "ResourceHealth" | "ServiceHealth";
@@ -96,33 +96,33 @@ export type EventLevelValues = "Critical" | "Error" | "Warning" | "Informational
 /** Article of event. */
 export interface EventPropertiesArticle {
   /** Article content of event. */
-  articleContent?: string;
+  articleContent?: string | undefined;
   /** Article Id */
-  articleId?: string;
+  articleId?: string | undefined;
   /** It provides a map of parameter name and value */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
 }
 /** Type of link. */
 export type LinkTypeValues = "Button" | "Hyperlink";
 /** Display text of link. */
 export interface LinkDisplayText {
   /** Display text of link. */
-  value?: string;
+  value?: string | undefined;
   /** Localized display text of link. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Useful links for service health event. */
 export interface Link {
   /** Type of link. */
-  type?: LinkTypeValues;
+  type?: LinkTypeValues | undefined;
   /** Display text of link. */
-  displayText?: LinkDisplayText;
+  displayText?: LinkDisplayText | undefined;
   /** It provides the name of portal extension to produce link for given service health event. */
-  extensionName?: string;
+  extensionName?: string | undefined;
   /** It provides the name of portal extension blade to produce link for given service health event. */
-  bladeName?: string;
+  bladeName?: string | undefined;
   /** It provides a map of parameter name and value for portal extension blade to produce lik for given service health event. */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
 }
 /** Useful links of event. */
 export type EventPropertiesLinksList = Array<Link>;
@@ -135,48 +135,48 @@ export type UpdateEventTagsList = Array<string>;
 /** Update for service health event. */
 export interface Update {
   /** Summary text for the given update for the service health event. */
-  summary?: string;
+  summary?: string | undefined;
   /** It provides the Timestamp for the given update for the service health event. */
-  updateDateTime?: string;
+  updateDateTime?: string | undefined;
   /** A list of metadata tags associated with the event. Possible values include: -Action Recommended: Action may be required by you to avoid possible disruptions or mitigate risks for your services. It is recommended to evaluate these actions and the potential impact on your services. - False Positive: After investigation, we've determined your service is healthy and service issues did not impact your services as originally communicated. - Preliminary PIR: For our largest, most impactful service issues a Preliminary Post Incident Review (PIR) is published generally within 72 hours of mitigation, to summarize what we have learned so far from the still-in-progress investigation. - Final PIR: For service issues, a Final Post Incident Review (PIR) may be published to provide additional details or learnings. Sometimes this requires us to complete an internal retrospective, generally within 14 days of mitigation. */
-  eventTags?: UpdateEventTagsList;
+  eventTags?: UpdateEventTagsList | undefined;
 }
 /** List of updates for given service health event. Use fetchEventDetails endpoint to get updates of sensitive events. */
 export type ImpactedServiceRegionUpdatesList = Array<Update>;
 /** Azure region impacted by the service health event. */
 export interface ImpactedServiceRegion {
   /** Impacted region name. */
-  impactedRegion?: string;
+  impactedRegion?: string | undefined;
   /** Current status of event in the region. */
-  status?: EventStatusValues;
+  status?: EventStatusValues | undefined;
   /** List subscription impacted by the service health event. */
-  impactedSubscriptions?: ImpactedServiceRegionImpactedSubscriptionsList;
+  impactedSubscriptions?: ImpactedServiceRegionImpactedSubscriptionsList | undefined;
   /** List tenant impacted by the service health event. */
-  impactedTenants?: ImpactedServiceRegionImpactedTenantsList;
+  impactedTenants?: ImpactedServiceRegionImpactedTenantsList | undefined;
   /** It provides the Timestamp for when the last update for the service health event. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** List of updates for given service health event. Use fetchEventDetails endpoint to get updates of sensitive events. */
-  updates?: ImpactedServiceRegionUpdatesList;
+  updates?: ImpactedServiceRegionUpdatesList | undefined;
 }
 /** List regions impacted by the service health event. */
 export type ImpactImpactedRegionsList = Array<ImpactedServiceRegion>;
 /** Azure service impacted by the service health event. */
 export interface Impact {
   /** Impacted service name. */
-  impactedService?: string;
+  impactedService?: string | undefined;
   /** Impacted service guid. This is the permanent identifier for the impacted service. */
-  impactedServiceGuid?: string;
+  impactedServiceGuid?: string | undefined;
   /** List regions impacted by the service health event. */
-  impactedRegions?: ImpactImpactedRegionsList;
+  impactedRegions?: ImpactImpactedRegionsList | undefined;
 }
 /** List services impacted by the service health event. */
 export type EventPropertiesImpactList = Array<Impact>;
 /** Recommended action for the service health event. */
 export interface EventPropertiesRecommendedActionsActionsItem {
   /** Recommended action group Id for the service health event. */
-  groupId?: number;
+  groupId?: number | undefined;
   /** Recommended action text */
-  actionText?: string;
+  actionText?: string | undefined;
 }
 /** Recommended actions for the service health event. */
 export type EventPropertiesRecommendedActionsActionsList =
@@ -184,116 +184,116 @@ export type EventPropertiesRecommendedActionsActionsList =
 /** Recommended actions of event. */
 export interface EventPropertiesRecommendedActions {
   /** Recommended action title for the service health event. */
-  message?: string;
+  message?: string | undefined;
   /** Recommended actions for the service health event. */
-  actions?: EventPropertiesRecommendedActionsActionsList;
+  actions?: EventPropertiesRecommendedActionsActionsList | undefined;
   /** Recommended action locale for the service health event. */
-  localeCode?: string;
+  localeCode?: string | undefined;
 }
 /** Frequently asked question for the service health event */
 export interface Faq {
   /** FAQ question for the service health event. */
-  question?: string;
+  question?: string | undefined;
   /** FAQ answer for the service health event. */
-  answer?: string;
+  answer?: string | undefined;
   /** FAQ locale for the service health event. */
-  localeCode?: string;
+  localeCode?: string | undefined;
 }
 /** Frequently asked questions for the service health event. */
 export type EventPropertiesFaqsList = Array<Faq>;
 /** Additional information */
 export interface EventPropertiesAdditionalInformation {
   /** Additional information Message */
-  message?: string;
+  message?: string | undefined;
 }
 /** A list of metadata tags associated with the event. Possible values include: -Action Recommended: Action may be required by you to avoid possible disruptions or mitigate risks for your services. It is recommended to evaluate these actions and the potential impact on your services. - False Positive: After investigation, we've determined your service is healthy and service issues did not impact your services as originally communicated. - Preliminary PIR: For our largest, most impactful service issues a Preliminary Post Incident Review (PIR) is published generally within 72 hours of mitigation, to summarize what we have learned so far from the still-in-progress investigation. - Final PIR: For service issues, a Final Post Incident Review (PIR) may be published to provide additional details or learnings. Sometimes this requires us to complete an internal retrospective, generally within 14 days of mitigation. */
 export type EventPropertiesEventTagsList = Array<string>;
 /** Properties of event. */
 export interface EventProperties {
   /** Type of event. */
-  eventType?: EventTypeValues;
+  eventType?: EventTypeValues | undefined;
   /** Sub-type of event. */
-  eventSubType?: EventSubTypeValues;
+  eventSubType?: EventSubTypeValues | undefined;
   /** Operation for listing Advisor recommendations associated with this event's tracking ID in the response subscription. */
-  advisorRecommendations?: ApiOperationLink;
+  advisorRecommendations?: ApiOperationLink | undefined;
   /** Source of event. */
-  eventSource?: EventSourceValues;
+  eventSource?: EventSourceValues | undefined;
   /** Current status of event. */
-  status?: EventStatusValues;
+  status?: EventStatusValues | undefined;
   /** Title text of event. */
-  title?: string;
+  title?: string | undefined;
   /** Summary text of event. Use fetchEventDetails endpoint to get summary of sensitive events. */
-  summary?: string;
+  summary?: string | undefined;
   /** Header text of event. */
-  header?: string;
+  header?: string | undefined;
   /** Level of insight. */
-  level?: LevelValues;
+  level?: LevelValues | undefined;
   /** Level of event. */
-  eventLevel?: EventLevelValues;
+  eventLevel?: EventLevelValues | undefined;
   /** If true the event may contains sensitive data. Use the post events/{trackingId}/fetchEventDetails endpoint to fetch sensitive data see https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access */
-  isEventSensitive?: boolean;
+  isEventSensitive?: boolean | undefined;
   /** The id of the Incident */
-  externalIncidentId?: string;
+  externalIncidentId?: string | undefined;
   /** The reason for the Incident */
-  reason?: string;
+  reason?: string | undefined;
   /** Article of event. */
-  article?: EventPropertiesArticle;
+  article?: EventPropertiesArticle | undefined;
   /** Useful links of event. */
-  links?: EventPropertiesLinksList;
+  links?: EventPropertiesLinksList | undefined;
   /** It provides the Timestamp for when the health impacting event started. */
-  impactStartTime?: string;
+  impactStartTime?: string | undefined;
   /** It provides the Timestamp for when the health impacting event resolved. */
-  impactMitigationTime?: string;
+  impactMitigationTime?: string | undefined;
   /** List services impacted by the service health event. */
-  impact?: EventPropertiesImpactList;
+  impact?: EventPropertiesImpactList | undefined;
   /** Recommended actions of event. */
-  recommendedActions?: EventPropertiesRecommendedActions;
+  recommendedActions?: EventPropertiesRecommendedActions | undefined;
   /** Frequently asked questions for the service health event. */
-  faqs?: EventPropertiesFaqsList;
+  faqs?: EventPropertiesFaqsList | undefined;
   /** It provides information if the event is High incident rate event or not. */
-  isHIR?: boolean;
+  isHIR?: boolean | undefined;
   /** Tells if we want to enable or disable Microsoft Support for this event. */
-  enableMicrosoftSupport?: boolean;
+  enableMicrosoftSupport?: boolean | undefined;
   /** Contains the communication message for the event, that could include summary, root cause and other details. Use fetchEventDetails endpoint to get description of sensitive events. */
-  description?: string;
+  description?: string | undefined;
   /** Is true if the event is platform initiated. */
-  platformInitiated?: boolean;
+  platformInitiated?: boolean | undefined;
   /** Tells if we want to enable or disable Microsoft Support for this event. */
-  enableChatWithUs?: boolean;
+  enableChatWithUs?: boolean | undefined;
   /** Priority level of the event. Has value from 0 to 23. 0 is the highest priority. Service issue events have higher priority followed by planned maintenance and health advisory. Critical events have higher priority followed by error, warning and informational. Furthermore, active events have higher priority than resolved. */
-  priority?: number;
+  priority?: number | undefined;
   /** It provides the Timestamp for when the health impacting event was last updated. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** Stage for HIR Document */
-  hirStage?: string;
+  hirStage?: string | undefined;
   /** Additional information */
-  additionalInformation?: EventPropertiesAdditionalInformation;
+  additionalInformation?: EventPropertiesAdditionalInformation | undefined;
   /** duration in seconds */
-  duration?: number;
+  duration?: number | undefined;
   /** The type of the impact */
-  impactType?: string;
+  impactType?: string | undefined;
   /** A list of metadata tags associated with the event. Possible values include: -Action Recommended: Action may be required by you to avoid possible disruptions or mitigate risks for your services. It is recommended to evaluate these actions and the potential impact on your services. - False Positive: After investigation, we've determined your service is healthy and service issues did not impact your services as originally communicated. - Preliminary PIR: For our largest, most impactful service issues a Preliminary Post Incident Review (PIR) is published generally within 72 hours of mitigation, to summarize what we have learned so far from the still-in-progress investigation. - Final PIR: For service issues, a Final Post Incident Review (PIR) may be published to provide additional details or learnings. Sometimes this requires us to complete an internal retrospective, generally within 14 days of mitigation. */
-  eventTags?: EventPropertiesEventTagsList;
+  eventTags?: EventPropertiesEventTagsList | undefined;
   /** Billing rate change information - new rate */
-  newRate?: number;
+  newRate?: number | undefined;
   /** Billing rate change information - old rate */
-  oldRate?: number;
+  oldRate?: number | undefined;
   /** Billing currency type information. Example: USD, CAD */
-  currencyType?: string;
+  currencyType?: string | undefined;
   /** Billing identifier information. */
-  billingId?: string;
+  billingId?: string | undefined;
 }
 export interface EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of event. */
-  properties?: EventProperties;
+  properties?: EventProperties | undefined;
 }
 export interface EventFetchDetailsBySubscriptionIdAndTrackingIdRequest {
   /** The ID of the target subscription. */
@@ -303,15 +303,15 @@ export interface EventFetchDetailsBySubscriptionIdAndTrackingIdRequest {
 }
 export interface EventFetchDetailsBySubscriptionIdAndTrackingIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of event. */
-  properties?: EventProperties;
+  properties?: EventProperties | undefined;
 }
 export interface EventFetchDetailsByTenantIdAndTrackingIdRequest {
   /** Event Id which uniquely identifies ServiceHealth event. */
@@ -319,15 +319,15 @@ export interface EventFetchDetailsByTenantIdAndTrackingIdRequest {
 }
 export interface EventFetchDetailsByTenantIdAndTrackingIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of event. */
-  properties?: EventProperties;
+  properties?: EventProperties | undefined;
 }
 export interface EventGetBySubscriptionIdAndTrackingIdRequest {
   /** The ID of the target subscription. */
@@ -335,49 +335,49 @@ export interface EventGetBySubscriptionIdAndTrackingIdRequest {
   /** Event Id which uniquely identifies ServiceHealth event. */
   eventTrackingId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Specifies from when to return events (default is 3 days), based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
-  queryStartTime?: string;
+  queryStartTime?: string | undefined;
 }
 export interface EventGetBySubscriptionIdAndTrackingIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of event. */
-  properties?: EventProperties;
+  properties?: EventProperties | undefined;
 }
 export interface EventGetByTenantIdAndTrackingIdRequest {
   /** Event Id which uniquely identifies ServiceHealth event. */
   eventTrackingId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Specifies from when to return events (default is 3 days), based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
-  queryStartTime?: string;
+  queryStartTime?: string | undefined;
 }
 export interface EventGetByTenantIdAndTrackingIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of event. */
-  properties?: EventProperties;
+  properties?: EventProperties | undefined;
 }
 export interface GetAvailabilityStatusByResourceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Impacted resource status of the resource. */
 export type AvailabilityStateValues = "Available" | "Unavailable" | "Degraded" | "Unknown";
@@ -386,128 +386,128 @@ export type ReasonChronicityTypes = "Transient" | "Persistent";
 /** An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned */
 export interface AvailabilityStatusPropertiesRecentlyResolved {
   /** Timestamp for when the availabilityState changed to Unavailable */
-  unavailableOccuredTime?: string;
+  unavailableOccuredTime?: string | undefined;
   /** Timestamp when the availabilityState changes to Available. */
-  resolvedTime?: string;
+  resolvedTime?: string | undefined;
   /** Brief description of cause of the resource becoming unavailable. */
-  unavailableSummary?: string;
+  unavailableSummary?: string | undefined;
 }
 /** Lists actions the user can take based on the current availabilityState of the resource. */
 export interface RecommendedAction {
   /** Recommended action. */
-  action?: string;
+  action?: string | undefined;
   /** Link to the action */
-  actionUrl?: string;
+  actionUrl?: string | undefined;
   /** the comment for the Action */
-  _ActionUrl_Comment?: string;
+  _ActionUrl_Comment?: string | undefined;
   /** Substring of action, it describes which text should host the action URL. */
-  actionUrlText?: string;
+  actionUrlText?: string | undefined;
 }
 /** Lists actions the user can take based on the current availabilityState of the resource. */
 export type AvailabilityStatusPropertiesRecommendedActionsList = Array<RecommendedAction>;
 /** Status of the service impacting event. */
 export interface ServiceImpactingEventStatus {
   /** Current status of the event */
-  value?: string;
+  value?: string | undefined;
 }
 /** Properties of the service impacting event. */
 export interface ServiceImpactingEventIncidentProperties {
   /** Title of the incident. */
-  title?: string;
+  title?: string | undefined;
   /** Service impacted by the event. */
-  service?: string;
+  service?: string | undefined;
   /** Region impacted by the event. */
-  region?: string;
+  region?: string | undefined;
   /** Type of Event. */
-  incidentType?: string;
+  incidentType?: string | undefined;
 }
 /** Lists the service impacting events that may be affecting the health of the resource. */
 export interface ServiceImpactingEvent {
   /** Timestamp for when the event started. */
-  eventStartTime?: string;
+  eventStartTime?: string | undefined;
   /** Timestamp for when event was submitted/detected. */
-  eventStatusLastModifiedTime?: string;
+  eventStatusLastModifiedTime?: string | undefined;
   /** Correlation id for the event */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Status of the service impacting event. */
-  status?: ServiceImpactingEventStatus;
+  status?: ServiceImpactingEventStatus | undefined;
   /** Properties of the service impacting event. */
-  incidentProperties?: ServiceImpactingEventIncidentProperties;
+  incidentProperties?: ServiceImpactingEventIncidentProperties | undefined;
 }
 /** Lists the service impacting events that may be affecting the health of the resource. */
 export type AvailabilityStatusPropertiesServiceImpactingEventsList = Array<ServiceImpactingEvent>;
 /** Properties of availability state. */
 export interface AvailabilityStatusProperties {
   /** Availability status of the resource. When it is null, this availabilityStatus object represents an availability impacting event */
-  availabilityState?: AvailabilityStateValues;
+  availabilityState?: AvailabilityStateValues | undefined;
   /** Title description of the availability status. */
-  title?: string;
+  title?: string | undefined;
   /** Summary description of the availability status. */
-  summary?: string;
+  summary?: string | undefined;
   /** Details of the availability status. */
-  detailedStatus?: string;
+  detailedStatus?: string | undefined;
   /** When the resource's availabilityState is Unavailable, it describes where the health impacting event was originated. Examples are planned, unplanned, user initiated or an outage etc. */
-  reasonType?: string;
+  reasonType?: string | undefined;
   /** When an event is created, it can either be triggered by a customer or the platform of the resource and this field will illustrate that. This field is connected to the category field in this object. */
-  context?: string;
+  context?: string | undefined;
   /** When a context field is set to Platform, this field will reflect if the event was planned or unplanned. If the context field does not have a value of Platform, then this field will be ignored. */
-  category?: string;
+  category?: string | undefined;
   /** The Article Id */
-  articleId?: string;
+  articleId?: string | undefined;
   /** When the resource's availabilityState is Unavailable, it provides the Timestamp for when the health impacting event was received. */
-  rootCauseAttributionTime?: string;
+  rootCauseAttributionTime?: string | undefined;
   /** In case of an availability impacting event, it describes when the health impacting event was originated. Examples are Lifecycle, Downtime, Fault Analysis etc. */
-  healthEventType?: string;
+  healthEventType?: string | undefined;
   /** In case of an availability impacting event, it describes where the health impacting event was originated. Examples are PlatformInitiated, UserInitiated etc. */
-  healthEventCause?: string;
+  healthEventCause?: string | undefined;
   /** In case of an availability impacting event, it describes the category of a PlatformInitiated health impacting event. Examples are Planned, Unplanned etc. */
-  healthEventCategory?: string;
+  healthEventCategory?: string | undefined;
   /** It is a unique Id that identifies the event */
-  healthEventId?: string;
+  healthEventId?: string | undefined;
   /** When the resource's availabilityState is Unavailable and the reasonType is not User Initiated, it provides the date and time for when the issue is expected to be resolved. */
-  resolutionETA?: string;
+  resolutionETA?: string | undefined;
   /** Timestamp for when last change in health status occurred. */
-  occuredTime?: string;
+  occuredTime?: string | undefined;
   /** Chronicity of the availability transition. */
-  reasonChronicity?: ReasonChronicityTypes;
+  reasonChronicity?: ReasonChronicityTypes | undefined;
   /** Timestamp for when the health was last checked. */
-  reportedTime?: string;
+  reportedTime?: string | undefined;
   /** An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned */
-  recentlyResolved?: AvailabilityStatusPropertiesRecentlyResolved;
+  recentlyResolved?: AvailabilityStatusPropertiesRecentlyResolved | undefined;
   /** Lists actions the user can take based on the current availabilityState of the resource. */
-  recommendedActions?: AvailabilityStatusPropertiesRecommendedActionsList;
+  recommendedActions?: AvailabilityStatusPropertiesRecommendedActionsList | undefined;
   /** Lists the service impacting events that may be affecting the health of the resource. */
-  serviceImpactingEvents?: AvailabilityStatusPropertiesServiceImpactingEventsList;
+  serviceImpactingEvents?: AvailabilityStatusPropertiesServiceImpactingEventsList | undefined;
 }
 export interface GetAvailabilityStatusByResourceResponse {
   /** Azure Resource Manager Identity for the availabilityStatuses resource. */
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   /** Microsoft.ResourceHealth/AvailabilityStatuses. */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager geo location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of availability state. */
-  properties?: AvailabilityStatusProperties;
+  properties?: AvailabilityStatusProperties | undefined;
 }
 export interface GetChildAvailabilityStatusByResourceRequest {
   /** undefined */
   resourceUri: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetChildAvailabilityStatusByResourceResponse {
   /** Azure Resource Manager Identity for the availabilityStatuses resource. */
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   /** Microsoft.ResourceHealth/AvailabilityStatuses. */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager geo location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of availability state. */
-  properties?: AvailabilityStatusProperties;
+  properties?: AvailabilityStatusProperties | undefined;
 }
 export type GetEmergingIssueRequestIssueName = "default";
 export interface GetEmergingIssueRequest {
@@ -517,13 +517,13 @@ export interface GetEmergingIssueRequest {
 /** Banner type of emerging issue. */
 export interface StatusBanner {
   /** The banner title. */
-  title?: string;
+  title?: string | undefined;
   /** The details of banner. */
-  message?: string;
+  message?: string | undefined;
   /** The cloud type of this banner. */
-  cloud?: string;
+  cloud?: string | undefined;
   /** The last time modified on this banner. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
 }
 /** The list of emerging issues of banner type. */
 export type EmergingIssueStatusBannersList = Array<StatusBanner>;
@@ -534,68 +534,68 @@ export type StageValues = "Active" | "Resolve" | "Archived";
 /** Object of impacted region. */
 export interface ImpactedRegion {
   /** The impacted region id. */
-  id?: string;
+  id?: string | undefined;
   /** The impacted region name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The list of impacted regions for corresponding emerging issues. */
 export type EmergingIssueImpactRegionsList = Array<ImpactedRegion>;
 /** Object of the emerging issue impact on services and regions. */
 export interface EmergingIssueImpact {
   /** The impacted service id. */
-  id?: string;
+  id?: string | undefined;
   /** The impacted service name. */
-  name?: string;
+  name?: string | undefined;
   /** The list of impacted regions for corresponding emerging issues. */
-  regions?: EmergingIssueImpactRegionsList;
+  regions?: EmergingIssueImpactRegionsList | undefined;
 }
 /** The list of emerging issues impacts. */
 export type StatusActiveEventImpactsList = Array<EmergingIssueImpact>;
 /** Active event type of emerging issue. */
 export interface StatusActiveEvent {
   /** The active event title. */
-  title?: string;
+  title?: string | undefined;
   /** The details of active event. */
-  description?: string;
+  description?: string | undefined;
   /** The tracking id of this active event. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** The impact start time on this active event. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The cloud type of this active event. */
-  cloud?: string;
+  cloud?: string | undefined;
   /** The severity level of this active event. */
-  severity?: SeverityValues;
+  severity?: SeverityValues | undefined;
   /** The stage of this active event. */
-  stage?: StageValues;
+  stage?: StageValues | undefined;
   /** The boolean value of this active event if published or not. */
-  published?: boolean;
+  published?: boolean | undefined;
   /** The last time modified on this banner. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The list of emerging issues impacts. */
-  impacts?: StatusActiveEventImpactsList;
+  impacts?: StatusActiveEventImpactsList | undefined;
 }
 /** The list of emerging issues of active event type. */
 export type EmergingIssueStatusActiveEventsList = Array<StatusActiveEvent>;
 /** On-going emerging issue from azure status. */
 export interface EmergingIssue {
   /** Timestamp for when last time refreshed for ongoing emerging issue. */
-  refreshTimestamp?: string;
+  refreshTimestamp?: string | undefined;
   /** The list of emerging issues of banner type. */
-  statusBanners?: EmergingIssueStatusBannersList;
+  statusBanners?: EmergingIssueStatusBannersList | undefined;
   /** The list of emerging issues of active event type. */
-  statusActiveEvents?: EmergingIssueStatusActiveEventsList;
+  statusActiveEvents?: EmergingIssueStatusActiveEventsList | undefined;
 }
 export interface GetEmergingIssueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The emerging issue entity properties. */
-  properties?: EmergingIssue;
+  properties?: EmergingIssue | undefined;
 }
 export interface GetImpactedResourceRequest {
   /** The ID of the target subscription. */
@@ -608,34 +608,34 @@ export interface GetImpactedResourceRequest {
 /** Key value tuple. */
 export interface KeyValueItem {
   /** Key of tuple. */
-  key?: string;
+  key?: string | undefined;
   /** Value of tuple. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Additional information. */
 export type EventImpactedResourcePropertiesInfoList = Array<KeyValueItem>;
 /** Properties of impacted resource. */
 export interface EventImpactedResourceProperties {
   /** Resource type within Microsoft cloud. */
-  targetResourceType?: string;
+  targetResourceType?: string | undefined;
   /** Identity for resource within Microsoft cloud. */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
   /** Impacted resource region name. */
-  targetRegion?: string;
+  targetRegion?: string | undefined;
   /** Additional information. */
-  info?: EventImpactedResourcePropertiesInfoList;
+  info?: EventImpactedResourcePropertiesInfoList | undefined;
 }
 export interface GetImpactedResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of impacted resource. */
-  properties?: EventImpactedResourceProperties;
+  properties?: EventImpactedResourceProperties | undefined;
 }
 export interface GetImpactedResourceByTenantIdRequest {
   /** Event Id which uniquely identifies ServiceHealth event. */
@@ -645,15 +645,15 @@ export interface GetImpactedResourceByTenantIdRequest {
 }
 export interface GetImpactedResourceByTenantIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of impacted resource. */
-  properties?: EventImpactedResourceProperties;
+  properties?: EventImpactedResourceProperties | undefined;
 }
 export interface GetMetadataEntityRequest {
   /** Name of metadata entity. */
@@ -669,42 +669,42 @@ export type MetadataSupportedValueDetailResourceTypesList = Array<string>;
 /** The metadata supported value detail. */
 export interface MetadataSupportedValueDetail {
   /** The id of the metadata value */
-  id?: string;
+  id?: string | undefined;
   /** The previous value of the id field in case the data has changed. */
-  previousId?: string;
+  previousId?: string | undefined;
   /** The permanent guid for the service. Used when the id is a service name. */
-  serviceGuid?: string;
+  serviceGuid?: string | undefined;
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The list of associated resource types. */
-  resourceTypes?: MetadataSupportedValueDetailResourceTypesList;
+  resourceTypes?: MetadataSupportedValueDetailResourceTypesList | undefined;
   /** Priority of this metadata supported value. Lower number is given higher preference. */
-  priority?: number;
+  priority?: number | undefined;
 }
 /** The list of supported values. */
 export type MetadataEntityPropertiesSupportedValuesList = Array<MetadataSupportedValueDetail>;
 /** The metadata entity properties */
 export interface MetadataEntityProperties {
   /** The display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The list of keys on which this entity depends on. */
-  dependsOn?: MetadataEntityPropertiesDependsOnList;
+  dependsOn?: MetadataEntityPropertiesDependsOnList | undefined;
   /** The list of scenarios applicable to this metadata entity. */
-  applicableScenarios?: MetadataEntityPropertiesApplicableScenariosList;
+  applicableScenarios?: MetadataEntityPropertiesApplicableScenariosList | undefined;
   /** The list of supported values. */
-  supportedValues?: MetadataEntityPropertiesSupportedValuesList;
+  supportedValues?: MetadataEntityPropertiesSupportedValuesList | undefined;
 }
 export interface GetMetadataEntityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metadata entity properties. */
-  properties?: MetadataEntityProperties;
+  properties?: MetadataEntityProperties | undefined;
 }
 export interface ImpactedResourcesListBySubscriptionIdAndEventIdRequest {
   /** The ID of the target subscription. */
@@ -712,20 +712,20 @@ export interface ImpactedResourcesListBySubscriptionIdAndEventIdRequest {
   /** Event Id which uniquely identifies ServiceHealth event. */
   eventTrackingId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Impacted resource for an event. */
 export interface EventImpactedResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of impacted resource. */
-  properties?: EventImpactedResourceProperties;
+  properties?: EventImpactedResourceProperties | undefined;
 }
 /** The list of eventImpactedResources. */
 export type EventImpactedResourceListResultValueList = Array<EventImpactedResource>;
@@ -734,13 +734,13 @@ export interface EventImpactedResourceListResult {
   /** The list of eventImpactedResources. */
   value: EventImpactedResourceListResultValueList;
   /** The URI to fetch the next page of events. Call ListNext() with this URI to fetch the next page of impacted resource. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ImpactedResourcesListByTenantIdAndEventIdRequest {
   /** Event Id which uniquely identifies ServiceHealth event. */
   eventTrackingId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListAvailabilityStatusByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -748,21 +748,21 @@ export interface ListAvailabilityStatusByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** availabilityStatus of a resource. */
 export interface AvailabilityStatus {
   /** Azure Resource Manager Identity for the availabilityStatuses resource. */
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   /** Microsoft.ResourceHealth/AvailabilityStatuses. */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager geo location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of availability state. */
-  properties?: AvailabilityStatusProperties;
+  properties?: AvailabilityStatusProperties | undefined;
 }
 /** The list of availabilityStatuses. */
 export type AvailabilityStatusListResultValueList = Array<AvailabilityStatus>;
@@ -771,81 +771,81 @@ export interface AvailabilityStatusListResult {
   /** The list of availabilityStatuses. */
   value: AvailabilityStatusListResultValueList;
   /** The URI to fetch the next page of availabilityStatuses. Call ListNext() with this URI to fetch the next page of availabilityStatuses. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAvailabilityStatusBySubscriptionIdRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListAvailabilityStatusesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListChildAvailabilityStatusesRequest {
   /** undefined */
   resourceUri: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListChildResourcesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListEmergingIssuesRequest {}
 /** The Get EmergingIssues operation response. */
 export interface EmergingIssuesGetResult {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The emerging issue entity properties. */
-  properties?: EmergingIssue;
+  properties?: EmergingIssue | undefined;
 }
 /** The list of emerging issues. */
 export type EmergingIssueListResultValueList = Array<EmergingIssuesGetResult>;
 /** The list of emerging issues. */
 export interface EmergingIssueListResult {
   /** The list of emerging issues. */
-  value?: EmergingIssueListResultValueList;
+  value?: EmergingIssueListResultValueList | undefined;
   /** The link used to get the next page of emerging issues. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEventBySingleResourceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Service health event */
 export interface Event {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of event. */
-  properties?: EventProperties;
+  properties?: EventProperties | undefined;
 }
 /** The Event items on this page */
 export type EventsValueList = Array<Event>;
@@ -854,63 +854,63 @@ export interface Events {
   /** The Event items on this page */
   value: EventsValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEventBySubscriptionIdRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Specifies from when to return events (default is 3 days), based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
-  queryStartTime?: string;
+  queryStartTime?: string | undefined;
 }
 export interface ListEventByTenantIdRequest {
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Specifies from when to return events (default is 3 days), based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
-  queryStartTime?: string;
+  queryStartTime?: string | undefined;
 }
 export interface ListMetadataRequest {}
 /** The metadata entity contract. */
 export interface MetadataEntity {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metadata entity properties. */
-  properties?: MetadataEntityProperties;
+  properties?: MetadataEntityProperties | undefined;
 }
 /** The list of metadata entities. */
 export type MetadataEntityListResultValueList = Array<MetadataEntity>;
 /** The list of metadata entities */
 export interface MetadataEntityListResult {
   /** The list of metadata entities. */
-  value?: MetadataEntityListResultValueList;
+  value?: MetadataEntityListResultValueList | undefined;
   /** The link used to get the next page of metadata. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Properties of the operation. */
 export interface OperationDisplay {
   /** Provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource name. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation available in the Microsoft.ResourceHealth resource provider. */
 export interface Operation {
   /** Name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Properties of the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of operations available in the Microsoft.ResourceHealth resource provider. */
 export type OperationListResultValueList = Array<Operation>;
@@ -925,13 +925,13 @@ export interface SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventId
   /** Event Id which uniquely identifies ServiceHealth event. */
   eventTrackingId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdRequest {
   /** Event Id which uniquely identifies ServiceHealth event. */
   eventTrackingId: string;
   /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdError = AzureOpError;
 /** Service health event details specific in the subscription by event tracking id. This can be used to fetch sensitive properties for Billing event type. */

@@ -75,9 +75,9 @@ export type DependenciesHardList = Array<string>;
 export type DependenciesSoftList = Array<string>;
 export interface Dependencies {
   /** a list of service IDs which this service depend on. If the service is enabled, those service are enabled as well automatically. */
-  hard?: DependenciesHardList;
+  hard?: DependenciesHardList | undefined;
   /** a list of service IDs which this service depend on. When they are disabled a notification is sent. */
-  soft?: DependenciesSoftList;
+  soft?: DependenciesSoftList | undefined;
 }
 export type ServiceStatusEnablement = "REQUEST" | "AUTO";
 /** the last action which was triggered on this service */
@@ -85,49 +85,49 @@ export type ActionErrorAction = "DISABLE" | "ENABLE";
 /** the last error for this service. */
 export interface ActionError {
   /** the last action which was triggered on this service */
-  action?: ActionErrorAction;
+  action?: ActionErrorAction | undefined;
   /** the error code if provided by the service */
-  code?: string;
+  code?: string | undefined;
   /** the error reason provided by the service */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type ServiceStatusLabelsMap = { [key: string]: string | undefined };
 export type ServiceStatusLifecycle = "FLEX" | "PROJECT";
 export type ParametersGeneralProjectScope = "SCHWARZ" | "PUBLIC";
 export interface ParametersGeneral {
-  organizationId?: string;
-  projectName?: string;
-  projectScope?: ParametersGeneralProjectScope;
+  organizationId?: string | undefined;
+  projectName?: string | undefined;
+  projectScope?: ParametersGeneralProjectScope | undefined;
 }
 /** service parameters */
 export interface Parameters {
-  general?: ParametersGeneral;
+  general?: ParametersGeneral | undefined;
   [key: string]: unknown;
 }
 export type ServiceStatusScope = "PRIVATE" | "PUBLIC";
 /** the state of a service within a project */
 export type ServiceStatusState = "ENABLED" | "ENABLING" | "DISABLED" | "DISABLING";
 export interface ServiceStatus {
-  dependencies?: Dependencies;
-  enablement?: ServiceStatusEnablement;
-  error?: ActionError;
-  labels?: ServiceStatusLabelsMap;
-  lifecycle?: ServiceStatusLifecycle;
-  parameters?: Parameters;
-  scope?: ServiceStatusScope;
-  serviceId?: string;
+  dependencies?: Dependencies | undefined;
+  enablement?: ServiceStatusEnablement | undefined;
+  error?: ActionError | undefined;
+  labels?: ServiceStatusLabelsMap | undefined;
+  lifecycle?: ServiceStatusLifecycle | undefined;
+  parameters?: Parameters | undefined;
+  scope?: ServiceStatusScope | undefined;
+  serviceId?: string | undefined;
   /** the state of a service within a project */
-  state?: ServiceStatusState;
+  state?: ServiceStatusState | undefined;
 }
 export interface ListServiceStatusRegionalRequest {
   projectId: string;
   region: string;
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListServiceStatusRegionalResponseItemsList = Array<ServiceStatus>;
 export interface ListServiceStatusRegionalResponse {
-  items?: ListServiceStatusRegionalResponseItemsList;
-  nextCursor?: string;
+  items?: ListServiceStatusRegionalResponseItemsList | undefined;
+  nextCursor?: string | undefined;
 }
 export type DisableServiceRegionalError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** disables the service in a project. */

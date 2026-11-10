@@ -272,26 +272,26 @@ export type DimensionValue = string;
 export type DimensionValues = string[];
 export type CostFilters = { [key: string]: string[] | undefined };
 export interface CostTypes {
-  IncludeTax?: boolean;
-  IncludeSubscription?: boolean;
-  UseBlended?: boolean;
-  IncludeRefund?: boolean;
-  IncludeCredit?: boolean;
-  IncludeUpfront?: boolean;
-  IncludeRecurring?: boolean;
-  IncludeOtherSubscription?: boolean;
-  IncludeSupport?: boolean;
-  IncludeDiscount?: boolean;
-  UseAmortized?: boolean;
+  IncludeTax?: boolean | undefined;
+  IncludeSubscription?: boolean | undefined;
+  UseBlended?: boolean | undefined;
+  IncludeRefund?: boolean | undefined;
+  IncludeCredit?: boolean | undefined;
+  IncludeUpfront?: boolean | undefined;
+  IncludeRecurring?: boolean | undefined;
+  IncludeOtherSubscription?: boolean | undefined;
+  IncludeSupport?: boolean | undefined;
+  IncludeDiscount?: boolean | undefined;
+  UseAmortized?: boolean | undefined;
 }
 export type TimeUnit = "DAILY" | "MONTHLY" | "QUARTERLY" | "ANNUALLY" | "CUSTOM" | (string & {});
 export interface TimePeriod {
-  Start?: Date;
-  End?: Date;
+  Start?: Date | undefined;
+  End?: Date | undefined;
 }
 export interface CalculatedSpend {
   ActualSpend: Spend;
-  ForecastedSpend?: Spend;
+  ForecastedSpend?: Spend | undefined;
 }
 export type BudgetType =
   | "USAGE"
@@ -305,12 +305,12 @@ export type AutoAdjustType = "HISTORICAL" | "FORECAST" | (string & {});
 export type AdjustmentPeriod = number;
 export interface HistoricalOptions {
   BudgetAdjustmentPeriod: number;
-  LookBackAvailablePeriods?: number;
+  LookBackAvailablePeriods?: number | undefined;
 }
 export interface AutoAdjustData {
   AutoAdjustType: AutoAdjustType;
-  HistoricalOptions?: HistoricalOptions;
-  LastAutoAdjustTime?: Date;
+  HistoricalOptions?: HistoricalOptions | undefined;
+  LastAutoAdjustTime?: Date | undefined;
 }
 export type Expressions = Expression[];
 export type Dimension =
@@ -364,34 +364,34 @@ export type MatchOptions = MatchOption[];
 export interface ExpressionDimensionValues {
   Key: Dimension;
   Values: string[];
-  MatchOptions?: MatchOption[];
+  MatchOptions?: MatchOption[] | undefined;
 }
 export type TagKey = string;
 export interface TagValues {
-  Key?: string;
-  Values?: string[];
-  MatchOptions?: MatchOption[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
+  MatchOptions?: MatchOption[] | undefined;
 }
 export type CostCategoryName = string;
 export interface CostCategoryValues {
-  Key?: string;
-  Values?: string[];
-  MatchOptions?: MatchOption[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
+  MatchOptions?: MatchOption[] | undefined;
 }
 export type ProductAttributeName = string;
 export interface ProductAttributeValues {
   Key: string;
-  Values?: string[];
-  MatchOptions?: MatchOption[];
+  Values?: string[] | undefined;
+  MatchOptions?: MatchOption[] | undefined;
 }
 export interface Expression {
-  Or?: Expression[];
-  And?: Expression[];
-  Not?: Expression;
-  Dimensions?: ExpressionDimensionValues;
-  Tags?: TagValues;
-  CostCategories?: CostCategoryValues;
-  ProductAttributes?: ProductAttributeValues;
+  Or?: Expression[] | undefined;
+  And?: Expression[] | undefined;
+  Not?: Expression | undefined;
+  Dimensions?: ExpressionDimensionValues | undefined;
+  Tags?: TagValues | undefined;
+  CostCategories?: CostCategoryValues | undefined;
+  ProductAttributes?: ProductAttributeValues | undefined;
 }
 export type Metric =
   | "BlendedCost"
@@ -413,26 +413,26 @@ export type HealthStatusReason =
   | "MULTI_YEAR_HISTORICAL_DATA_DISABLED"
   | (string & {});
 export interface HealthStatus {
-  Status?: HealthStatusValue;
-  StatusReason?: HealthStatusReason;
-  LastUpdatedTime?: Date;
+  Status?: HealthStatusValue | undefined;
+  StatusReason?: HealthStatusReason | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface Budget {
   BudgetName: string;
-  BudgetLimit?: Spend;
-  PlannedBudgetLimits?: { [key: string]: Spend | undefined };
-  CostFilters?: { [key: string]: string[] | undefined };
-  CostTypes?: CostTypes;
+  BudgetLimit?: Spend | undefined;
+  PlannedBudgetLimits?: { [key: string]: Spend | undefined } | undefined;
+  CostFilters?: { [key: string]: string[] | undefined } | undefined;
+  CostTypes?: CostTypes | undefined;
   TimeUnit: TimeUnit;
-  TimePeriod?: TimePeriod;
-  CalculatedSpend?: CalculatedSpend;
+  TimePeriod?: TimePeriod | undefined;
+  CalculatedSpend?: CalculatedSpend | undefined;
   BudgetType: BudgetType;
-  LastUpdatedTime?: Date;
-  AutoAdjustData?: AutoAdjustData;
-  FilterExpression?: Expression;
-  Metrics?: Metric[];
-  BillingViewArn?: string;
-  HealthStatus?: HealthStatus;
+  LastUpdatedTime?: Date | undefined;
+  AutoAdjustData?: AutoAdjustData | undefined;
+  FilterExpression?: Expression | undefined;
+  Metrics?: Metric[] | undefined;
+  BillingViewArn?: string | undefined;
+  HealthStatus?: HealthStatus | undefined;
 }
 export type NotificationType = "ACTUAL" | "FORECASTED" | (string & {});
 export type ComparisonOperator = "GREATER_THAN" | "LESS_THAN" | "EQUAL_TO" | (string & {});
@@ -443,8 +443,8 @@ export interface Notification {
   NotificationType: NotificationType;
   ComparisonOperator: ComparisonOperator;
   Threshold: number;
-  ThresholdType?: ThresholdType;
-  NotificationState?: NotificationState;
+  ThresholdType?: ThresholdType | undefined;
+  NotificationState?: NotificationState | undefined;
 }
 export type SubscriptionType = "SNS" | "EMAIL" | (string & {});
 export type SubscriberAddress = string | redacted.Redacted<string>;
@@ -468,8 +468,8 @@ export type ResourceTagList = ResourceTag[];
 export interface CreateBudgetRequest {
   AccountId: string;
   Budget: Budget;
-  NotificationsWithSubscribers?: NotificationWithSubscribers[];
-  ResourceTags?: ResourceTag[];
+  NotificationsWithSubscribers?: NotificationWithSubscribers[] | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface CreateBudgetResponse {}
 export type ActionType =
@@ -490,9 +490,9 @@ export type User = string;
 export type Users = string[];
 export interface IamActionDefinition {
   PolicyArn: string;
-  Roles?: string[];
-  Groups?: string[];
-  Users?: string[];
+  Roles?: string[] | undefined;
+  Groups?: string[] | undefined;
+  Users?: string[] | undefined;
 }
 export type PolicyId = string;
 export type TargetId = string;
@@ -511,9 +511,9 @@ export interface SsmActionDefinition {
   InstanceIds: string[];
 }
 export interface Definition {
-  IamActionDefinition?: IamActionDefinition;
-  ScpActionDefinition?: ScpActionDefinition;
-  SsmActionDefinition?: SsmActionDefinition;
+  IamActionDefinition?: IamActionDefinition | undefined;
+  ScpActionDefinition?: ScpActionDefinition | undefined;
+  SsmActionDefinition?: SsmActionDefinition | undefined;
 }
 export type RoleArn = string;
 export type ApprovalModel = "AUTOMATIC" | "MANUAL" | (string & {});
@@ -527,7 +527,7 @@ export interface CreateBudgetActionRequest {
   ExecutionRoleArn: string;
   ApprovalModel: ApprovalModel;
   Subscribers: Subscriber[];
-  ResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export type ActionId = string;
 export interface CreateBudgetActionResponse {
@@ -604,10 +604,10 @@ export interface DeleteSubscriberResponse {}
 export interface DescribeBudgetRequest {
   AccountId: string;
   BudgetName: string;
-  ShowFilterExpression?: boolean;
+  ShowFilterExpression?: boolean | undefined;
 }
 export interface DescribeBudgetResponse {
-  Budget?: Budget;
+  Budget?: Budget | undefined;
 }
 export interface DescribeBudgetActionRequest {
   AccountId: string;
@@ -624,9 +624,9 @@ export interface DescribeBudgetActionHistoriesRequest {
   AccountId: string;
   BudgetName: string;
   ActionId: string;
-  TimePeriod?: TimePeriod;
-  MaxResults?: number;
-  NextToken?: string;
+  TimePeriod?: TimePeriod | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EventType =
   | "SYSTEM"
@@ -648,104 +648,104 @@ export interface ActionHistory {
 export type ActionHistories = ActionHistory[];
 export interface DescribeBudgetActionHistoriesResponse {
   ActionHistories: ActionHistory[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeBudgetActionsForAccountRequest {
   AccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Actions = Action[];
 export interface DescribeBudgetActionsForAccountResponse {
   Actions: Action[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeBudgetActionsForBudgetRequest {
   AccountId: string;
   BudgetName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeBudgetActionsForBudgetResponse {
   Actions: Action[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxResultsBudgetNotifications = number;
 export interface DescribeBudgetNotificationsForAccountRequest {
   AccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Notifications = Notification[];
 export interface BudgetNotificationsForAccount {
-  Notifications?: Notification[];
-  BudgetName?: string;
+  Notifications?: Notification[] | undefined;
+  BudgetName?: string | undefined;
 }
 export type BudgetNotificationsForAccountList = BudgetNotificationsForAccount[];
 export interface DescribeBudgetNotificationsForAccountResponse {
-  BudgetNotificationsForAccount?: BudgetNotificationsForAccount[];
-  NextToken?: string;
+  BudgetNotificationsForAccount?: BudgetNotificationsForAccount[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeBudgetPerformanceHistoryRequest {
   AccountId: string;
   BudgetName: string;
-  TimePeriod?: TimePeriod;
-  MaxResults?: number;
-  NextToken?: string;
+  TimePeriod?: TimePeriod | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface BudgetedAndActualAmounts {
-  BudgetedAmount?: Spend;
-  ActualAmount?: Spend;
-  TimePeriod?: TimePeriod;
+  BudgetedAmount?: Spend | undefined;
+  ActualAmount?: Spend | undefined;
+  TimePeriod?: TimePeriod | undefined;
 }
 export type BudgetedAndActualAmountsList = BudgetedAndActualAmounts[];
 export interface BudgetPerformanceHistory {
-  BudgetName?: string;
-  BudgetType?: BudgetType;
-  CostFilters?: { [key: string]: string[] | undefined };
-  CostTypes?: CostTypes;
-  TimeUnit?: TimeUnit;
-  BillingViewArn?: string;
-  BudgetedAndActualAmountsList?: BudgetedAndActualAmounts[];
-  FilterExpression?: Expression;
-  Metrics?: Metric[];
+  BudgetName?: string | undefined;
+  BudgetType?: BudgetType | undefined;
+  CostFilters?: { [key: string]: string[] | undefined } | undefined;
+  CostTypes?: CostTypes | undefined;
+  TimeUnit?: TimeUnit | undefined;
+  BillingViewArn?: string | undefined;
+  BudgetedAndActualAmountsList?: BudgetedAndActualAmounts[] | undefined;
+  FilterExpression?: Expression | undefined;
+  Metrics?: Metric[] | undefined;
 }
 export interface DescribeBudgetPerformanceHistoryResponse {
-  BudgetPerformanceHistory?: BudgetPerformanceHistory;
-  NextToken?: string;
+  BudgetPerformanceHistory?: BudgetPerformanceHistory | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsDescribeBudgets = number;
 export interface DescribeBudgetsRequest {
   AccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  ShowFilterExpression?: boolean;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ShowFilterExpression?: boolean | undefined;
 }
 export type Budgets = Budget[];
 export interface DescribeBudgetsResponse {
-  Budgets?: Budget[];
-  NextToken?: string;
+  Budgets?: Budget[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeNotificationsForBudgetRequest {
   AccountId: string;
   BudgetName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeNotificationsForBudgetResponse {
-  Notifications?: Notification[];
-  NextToken?: string;
+  Notifications?: Notification[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeSubscribersForNotificationRequest {
   AccountId: string;
   BudgetName: string;
   Notification: Notification;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeSubscribersForNotificationResponse {
-  Subscribers?: Subscriber[];
-  NextToken?: string;
+  Subscribers?: Subscriber[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ExecutionType =
   | "APPROVE_BUDGET_ACTION"
@@ -770,7 +770,7 @@ export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -792,12 +792,12 @@ export interface UpdateBudgetActionRequest {
   AccountId: string;
   BudgetName: string;
   ActionId: string;
-  NotificationType?: NotificationType;
-  ActionThreshold?: ActionThreshold;
-  Definition?: Definition;
-  ExecutionRoleArn?: string;
-  ApprovalModel?: ApprovalModel;
-  Subscribers?: Subscriber[];
+  NotificationType?: NotificationType | undefined;
+  ActionThreshold?: ActionThreshold | undefined;
+  Definition?: Definition | undefined;
+  ExecutionRoleArn?: string | undefined;
+  ApprovalModel?: ApprovalModel | undefined;
+  Subscribers?: Subscriber[] | undefined;
 }
 export interface UpdateBudgetActionResponse {
   AccountId: string;

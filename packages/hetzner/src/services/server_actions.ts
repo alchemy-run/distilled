@@ -115,11 +115,11 @@ export interface AttachServerToNetworkRequest {
   /** ID of an existing network to attach the Server to. */
   network: number;
   /** IP to request to be assigned to this Server; if you do not provide this then you will be auto assigned an IP address. */
-  ip?: string;
+  ip?: string | undefined;
   /** Additional IPs to be assigned to this Server. */
-  alias_ips?: AttachServerToNetworkRequestAliasIpsList;
+  alias_ips?: AttachServerToNetworkRequestAliasIpsList | undefined;
   /** IP range in CIDR block notation of the subnet to attach to. This allows for auto assigning an IP address for a specific subnet. Providing `ip` that is not part of `ip_range` will result in an error. */
-  ip_range?: string;
+  ip_range?: string | undefined;
 }
 /** Status of the Action. */
 export type AttachServerToNetworkResponseActionStatus = "running" | "success" | "error";
@@ -233,9 +233,9 @@ export interface ChangeServerProtectionRequest {
   /** ID of the Server. */
   id: number;
   /** If true, prevents the Server from being deleted (currently delete and rebuild attribute needs to have the same value). */
-  delete?: boolean;
+  delete?: boolean | undefined;
   /** If true, prevents the Server from being rebuilt (currently delete and rebuild attribute needs to have the same value). */
-  rebuild?: boolean;
+  rebuild?: boolean | undefined;
 }
 /** Status of the Action. */
 export type ChangeServerProtectionResponseActionStatus = "running" | "success" | "error";
@@ -314,11 +314,11 @@ export interface CreateServerImageRequest {
   /** ID of the Server. */
   id: number;
   /** Description of the Image, will be auto-generated if not set. */
-  description?: string;
+  description?: string | undefined;
   /** Type of Image to create. */
-  type?: CreateServerImageRequestType | (string & {});
+  type?: CreateServerImageRequestType | (string & {}) | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateServerImageRequestLabelsMap;
+  labels?: CreateServerImageRequestLabelsMap | undefined;
 }
 /** Type of the Image. */
 export type CreateServerImageResponseImageType = "system" | "app" | "snapshot" | "backup";
@@ -383,7 +383,7 @@ export interface CreateServerImageResponseImage {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateServerImageResponseImageProtection;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
@@ -423,8 +423,8 @@ export interface CreateServerImageResponseAction {
   error: AddServerToPlacementGroupResponseActionError | null;
 }
 export interface CreateServerImageResponse {
-  image?: CreateServerImageResponseImage;
-  action?: CreateServerImageResponseAction;
+  image?: CreateServerImageResponseImage | undefined;
+  action?: CreateServerImageResponseAction | undefined;
 }
 export interface DetachServerFromNetworkRequest {
   /** ID of the Server. */
@@ -607,9 +607,9 @@ export interface EnableServerRescueRequest {
   /** ID of the Server. */
   id: number;
   /** Type of rescue system to boot. */
-  type?: EnableServerRescueRequestType | (string & {});
+  type?: EnableServerRescueRequestType | (string & {}) | undefined;
   /** Array of SSH key IDs which should be injected into the rescue system. */
-  ssh_keys?: EnableServerRescueRequestSshKeysList;
+  ssh_keys?: EnableServerRescueRequestSshKeysList | undefined;
 }
 /** Status of the Action. */
 export type EnableServerRescueResponseActionStatus = "running" | "success" | "error";
@@ -640,8 +640,8 @@ export interface EnableServerRescueResponseAction {
 }
 export interface EnableServerRescueResponse {
   /** Password that will be set for this Server once the Action succeeds. */
-  root_password?: string | Redacted.Redacted<string>;
-  action?: EnableServerRescueResponseAction;
+  root_password?: string | Redacted.Redacted<string> | undefined;
+  action?: EnableServerRescueResponseAction | undefined;
 }
 export interface GetServersActionRequest {
   /** ID of the Action. */
@@ -705,13 +705,13 @@ export interface ListServerActionsRequest {
   /** ID of the Server. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListServerActionsRequestSortList;
+  sort?: ListServerActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListServerActionsRequestStatusList;
+  status?: ListServerActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListServerActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -792,15 +792,15 @@ export type ListServersActionsRequestStatusList = Array<
 >;
 export interface ListServersActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListServersActionsRequestIdList;
+  id?: ListServersActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListServersActionsRequestSortList;
+  sort?: ListServersActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListServersActionsRequestStatusList;
+  status?: ListServersActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListServersActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -946,7 +946,7 @@ export interface RebuildServerRequest {
   /** ID or name of Image to rebuilt from. */
   image: string;
   /** Cloud-Init user data to use during Server rebuild. This field is limited to 32KiB. If not specified, the Server's previous user_data value will be re-used (if any was set). */
-  user_data?: string;
+  user_data?: string | undefined;
 }
 /** Status of the Action. */
 export type RebuildServerResponseActionStatus = "running" | "success" | "error";
@@ -977,8 +977,8 @@ export interface RebuildServerResponseAction {
 }
 export interface RebuildServerResponse {
   /** New root password when not using SSH keys. */
-  root_password?: string | Redacted.Redacted<string> | null;
-  action?: RebuildServerResponseAction;
+  root_password?: string | Redacted.Redacted<string> | null | undefined;
+  action?: RebuildServerResponseAction | undefined;
 }
 export interface RemoveServerFromPlacementGroupRequest {
   /** ID of the Server. */
@@ -1120,8 +1120,8 @@ export interface ResetServerPasswordResponseAction {
 }
 export interface ResetServerPasswordResponse {
   /** Password that will be set for this Server once the Action succeeds. */
-  root_password?: string | Redacted.Redacted<string>;
-  action?: ResetServerPasswordResponseAction;
+  root_password?: string | Redacted.Redacted<string> | undefined;
+  action?: ResetServerPasswordResponseAction | undefined;
 }
 export interface ShutdownServerRequest {
   /** ID of the Server. */

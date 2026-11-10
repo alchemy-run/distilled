@@ -234,7 +234,7 @@ export interface AssociateMemberToFarmRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToFarmResponse {}
 export type FleetId = string;
@@ -245,7 +245,7 @@ export interface AssociateMemberToFleetRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToFleetResponse {}
 export type QueueId = string;
@@ -258,7 +258,7 @@ export interface AssociateMemberToJobRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToJobResponse {}
 export interface AssociateMemberToQueueRequest {
@@ -268,7 +268,7 @@ export interface AssociateMemberToQueueRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToQueueResponse {}
 export interface AssumeFleetRoleForReadRequest {
@@ -317,7 +317,7 @@ export interface AssumeQueueRoleForWorkerRequest {
   queueId: string;
 }
 export interface AssumeQueueRoleForWorkerResponse {
-  credentials?: AwsCredentials;
+  credentials?: AwsCredentials | undefined;
 }
 export interface BatchGetJobIdentifier {
   farmId: string;
@@ -369,7 +369,7 @@ export type JobTargetTaskRunStatus =
   | "SUSPENDED"
   | "PENDING"
   | (string & {});
-export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number };
+export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number | undefined };
 export type TaskFailureRetryCount = number;
 export type StorageProfileId = string;
 export type MaxFailedTasksCount = number;
@@ -390,170 +390,170 @@ export type IntStringListList = string[][];
 export type JobParameter =
   | {
       int: string;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
+      int?: undefined;
       float: string;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
+      int?: undefined;
+      float?: undefined;
       string: string;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
       path: string;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
       bool: string;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
       rangeExpr: string;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
       stringList: string[];
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
       pathList: string[];
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
       intList: string[];
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
       floatList: string[];
-      boolList?: never;
-      intListList?: never;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
       boolList: string[];
-      intListList?: never;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
       intListList: string[][];
     };
 export type JobParameters = { [key: string]: JobParameter | undefined };
@@ -561,18 +561,18 @@ export type FileSystemLocationName = string;
 export type PathFormat = "windows" | "posix" | (string & {});
 export type OutputRelativeDirectoriesList = string[];
 export interface ManifestProperties {
-  fileSystemLocationName?: string;
+  fileSystemLocationName?: string | undefined;
   rootPath: string;
   rootPathFormat: PathFormat;
-  outputRelativeDirectories?: string[];
-  inputManifestPath?: string;
-  inputManifestHash?: string;
+  outputRelativeDirectories?: string[] | undefined;
+  inputManifestPath?: string | undefined;
+  inputManifestHash?: string | undefined;
 }
 export type ManifestPropertiesList = ManifestProperties[];
 export type JobAttachmentsFileSystem = "COPIED" | "VIRTUAL" | (string & {});
 export interface Attachments {
   manifests: ManifestProperties[];
-  fileSystem?: JobAttachmentsFileSystem;
+  fileSystem?: JobAttachmentsFileSystem | undefined;
 }
 export type JobDescription = string | redacted.Redacted<string>;
 export type MaxWorkerCount = number;
@@ -586,22 +586,22 @@ export interface BatchGetJobItem {
   priority: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  storageProfileId?: string;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  parameters?: { [key: string]: JobParameter | undefined };
-  attachments?: Attachments;
-  description?: string | redacted.Redacted<string>;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  storageProfileId?: string | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
+  attachments?: Attachments | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export type BatchGetJobItems = BatchGetJobItem[];
 export type BatchGetJobErrorCode =
@@ -642,26 +642,26 @@ export interface EnvironmentDetailsIdentifiers {
 export type JobEntityIdentifiersUnion =
   | {
       jobDetails: JobDetailsIdentifiers;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsIdentifiers;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsIdentifiers;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsIdentifiers;
     };
 export type JobEntityIdentifiers = JobEntityIdentifiersUnion[];
@@ -687,8 +687,8 @@ export interface WindowsUser {
 }
 export type RunAs = "QUEUE_CONFIGURED_USER" | "WORKER_AGENT_USER" | (string & {});
 export interface JobRunAsUser {
-  posix?: PosixUser;
-  windows?: WindowsUser;
+  posix?: PosixUser | undefined;
+  windows?: WindowsUser | undefined;
   runAs: RunAs;
 }
 export type IamRoleArn = string;
@@ -702,14 +702,14 @@ export interface PathMappingRule {
 export type PathMappingRules = PathMappingRule[];
 export interface JobDetailsEntity {
   jobId: string;
-  jobAttachmentSettings?: JobDetailsJobAttachmentSettings;
-  jobRunAsUser?: JobRunAsUser;
+  jobAttachmentSettings?: JobDetailsJobAttachmentSettings | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
   logGroupName: string;
-  queueRoleArn?: string;
-  parameters?: { [key: string]: JobParameter | undefined };
+  queueRoleArn?: string | undefined;
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
   schemaVersion: string;
-  extensions?: string[];
-  pathMappingRules?: PathMappingRule[];
+  extensions?: string[] | undefined;
+  pathMappingRules?: PathMappingRule[] | undefined;
 }
 export interface JobAttachmentDetailsEntity {
   jobId: string;
@@ -724,40 +724,40 @@ export interface StepDetailsEntity {
   schemaVersion: string;
   template: any;
   dependencies: string[];
-  extensions?: string[];
-  resolvedSymbolTable?: string;
+  extensions?: string[] | undefined;
+  resolvedSymbolTable?: string | undefined;
 }
 export interface EnvironmentDetailsEntity {
   jobId: string;
   environmentId: string;
   schemaVersion: string;
   template: any;
-  extensions?: string[];
-  resolvedSymbolTable?: string;
+  extensions?: string[] | undefined;
+  resolvedSymbolTable?: string | undefined;
 }
 export type JobEntity =
   | {
       jobDetails: JobDetailsEntity;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsEntity;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsEntity;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsEntity;
     };
 export type BatchGetJobEntityList = JobEntity[];
@@ -794,26 +794,26 @@ export interface EnvironmentDetailsError {
 export type GetJobEntityError =
   | {
       jobDetails: JobDetailsError;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsError;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsError;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsError;
     };
 export type BatchGetJobEntityErrors = GetJobEntityError[];
@@ -846,25 +846,25 @@ export type LogParameters = { [key: string]: string | undefined };
 export type LogError = string;
 export interface LogConfiguration {
   logDriver: string;
-  options?: { [key: string]: string | undefined };
-  parameters?: { [key: string]: string | undefined };
-  error?: string;
+  options?: { [key: string]: string | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  error?: string | undefined;
 }
 export type IpV4Address = string;
 export type IpV4Addresses = string[];
 export type IpV6Address = string;
 export type IpV6Addresses = string[];
 export interface IpAddresses {
-  ipV4Addresses?: string[];
-  ipV6Addresses?: string[];
+  ipV4Addresses?: string[] | undefined;
+  ipV6Addresses?: string[] | undefined;
 }
 export type HostName = string;
 export type InstanceType = string;
 export interface HostPropertiesResponse {
-  ipAddresses?: IpAddresses;
-  hostName?: string;
-  ec2InstanceArn?: string;
-  ec2InstanceType?: string;
+  ipAddresses?: IpAddresses | undefined;
+  hostName?: string | undefined;
+  ec2InstanceArn?: string | undefined;
+  ec2InstanceType?: string | undefined;
 }
 export interface BatchGetSessionItem {
   farmId: string;
@@ -875,13 +875,13 @@ export interface BatchGetSessionItem {
   workerId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
-  updatedAt?: Date;
-  updatedBy?: string;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   log: LogConfiguration;
-  hostProperties?: HostPropertiesResponse;
-  workerLog?: LogConfiguration;
+  hostProperties?: HostPropertiesResponse | undefined;
+  workerLog?: LogConfiguration | undefined;
 }
 export type BatchGetSessionItems = BatchGetSessionItem[];
 export type BatchGetSessionErrorCode =
@@ -928,8 +928,8 @@ export type SessionActionStatus =
   | (string & {});
 export type SessionActionProgressPercent = number;
 export interface TaskRunManifestPropertiesResponse {
-  outputManifestPath?: string;
-  outputManifestHash?: string;
+  outputManifestPath?: string | undefined;
+  outputManifestHash?: string | undefined;
 }
 export type TaskRunManifestPropertiesListResponse = TaskRunManifestPropertiesResponse[];
 export type ProcessExitCode = number;
@@ -949,43 +949,43 @@ export interface EnvironmentExitSessionActionDefinition {
 }
 export type TaskId = string;
 export type TaskParameterValue =
-  | { int: string; float?: never; string?: never; path?: never; chunkInt?: never }
-  | { int?: never; float: string; string?: never; path?: never; chunkInt?: never }
-  | { int?: never; float?: never; string: string; path?: never; chunkInt?: never }
-  | { int?: never; float?: never; string?: never; path: string; chunkInt?: never }
-  | { int?: never; float?: never; string?: never; path?: never; chunkInt: string };
+  | { int: string; float?: undefined; string?: undefined; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float: string; string?: undefined; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string: string; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string?: undefined; path: string; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string?: undefined; path?: undefined; chunkInt: string };
 export type TaskParameters = { [key: string]: TaskParameterValue | undefined };
 export interface TaskRunSessionActionDefinition {
-  taskId?: string;
+  taskId?: string | undefined;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
 export interface SyncInputJobAttachmentsSessionActionDefinition {
-  stepId?: string;
+  stepId?: string | undefined;
 }
 export type SessionActionDefinition =
   | {
       envEnter: EnvironmentEnterSessionActionDefinition;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: EnvironmentExitSessionActionDefinition;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: TaskRunSessionActionDefinition;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition;
     };
 export interface BatchGetSessionActionItem {
@@ -994,15 +994,15 @@ export interface BatchGetSessionActionItem {
   jobId: string;
   sessionActionId: string;
   status: SessionActionStatus;
-  startedAt?: Date;
-  endedAt?: Date;
-  workerUpdatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesResponse[];
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  workerUpdatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesResponse[] | undefined;
   sessionId: string;
-  processExitCode?: number;
-  progressMessage?: string | redacted.Redacted<string>;
-  acquiredLimits?: AcquiredLimit[];
+  processExitCode?: number | undefined;
+  progressMessage?: string | redacted.Redacted<string> | undefined;
+  acquiredLimits?: AcquiredLimit[] | undefined;
   definition: SessionActionDefinition;
 }
 export type BatchGetSessionActionItems = BatchGetSessionActionItem[];
@@ -1060,16 +1060,16 @@ export type AttributeCapabilityValue = string;
 export type ListAttributeCapabilityValue = string[];
 export interface StepAttributeCapability {
   name: string;
-  anyOf?: string[];
-  allOf?: string[];
+  anyOf?: string[] | undefined;
+  allOf?: string[] | undefined;
 }
 export type StepAttributeCapabilities = StepAttributeCapability[];
 export type AmountCapabilityName = string;
 export interface StepAmountCapability {
   name: string;
-  min?: number;
-  max?: number;
-  value?: number;
+  min?: number | undefined;
+  max?: number | undefined;
+  value?: number | undefined;
 }
 export type StepAmountCapabilities = StepAmountCapability[];
 export interface StepRequiredCapabilities {
@@ -1083,19 +1083,19 @@ export type TargetRuntimeSeconds = number;
 export type RangeConstraint = "CONTIGUOUS" | "NONCONTIGUOUS" | (string & {});
 export interface StepParameterChunks {
   defaultTaskCount: number;
-  targetRuntimeSeconds?: number;
+  targetRuntimeSeconds?: number | undefined;
   rangeConstraint: RangeConstraint;
 }
 export interface StepParameter {
   name: string;
   type: StepParameterType;
-  chunks?: StepParameterChunks;
+  chunks?: StepParameterChunks | undefined;
 }
 export type StepParameterList = StepParameter[];
 export type CombinationExpression = string;
 export interface ParameterSpace {
   parameters: StepParameter[];
-  combination?: string;
+  combination?: string | undefined;
 }
 export type StepDescription = string | redacted.Redacted<string>;
 export interface BatchGetStepItem {
@@ -1105,21 +1105,21 @@ export interface BatchGetStepItem {
   stepId: string;
   name: string;
   lifecycleStatus: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
+  lifecycleStatusMessage?: string | undefined;
   taskRunStatus: TaskRunStatus;
   taskRunStatusCounts: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
+  taskFailureRetryCount?: number | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  dependencyCounts?: DependencyCounts;
-  requiredCapabilities?: StepRequiredCapabilities;
-  parameterSpace?: ParameterSpace;
-  description?: string | redacted.Redacted<string>;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  dependencyCounts?: DependencyCounts | undefined;
+  requiredCapabilities?: StepRequiredCapabilities | undefined;
+  parameterSpace?: ParameterSpace | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BatchGetStepItems = BatchGetStepItem[];
 export type BatchGetStepErrorCode =
@@ -1171,14 +1171,14 @@ export interface BatchGetTaskItem {
   createdAt: Date;
   createdBy: string;
   runStatus: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export type BatchGetTaskItems = BatchGetTaskItem[];
 export type BatchGetTaskErrorCode =
@@ -1225,13 +1225,13 @@ export interface BatchGetWorkerItem {
   farmId: string;
   fleetId: string;
   workerId: string;
-  hostProperties?: HostPropertiesResponse;
+  hostProperties?: HostPropertiesResponse | undefined;
   status: WorkerStatus;
-  log?: LogConfiguration;
+  log?: LogConfiguration | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type BatchGetWorkerItems = BatchGetWorkerItem[];
 export type BatchGetWorkerErrorCode =
@@ -1258,18 +1258,18 @@ export interface BatchUpdateJobItem {
   farmId: string;
   queueId: string;
   jobId: string;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  priority?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  lifecycleStatus?: UpdateJobLifecycleStatus;
-  maxWorkerCount?: number;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  priority?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  lifecycleStatus?: UpdateJobLifecycleStatus | undefined;
+  maxWorkerCount?: number | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BatchUpdateJobItems = BatchUpdateJobItem[];
 export interface BatchUpdateJobRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   jobs: BatchUpdateJobItem[];
 }
 export type BatchUpdateJobErrorCode =
@@ -1301,7 +1301,7 @@ export interface BatchUpdateTaskItem {
 }
 export type BatchUpdateTaskItems = BatchUpdateTaskItem[];
 export interface BatchUpdateTaskRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   tasks: BatchUpdateTaskItem[];
 }
 export type BatchUpdateTaskErrorCode =
@@ -1352,7 +1352,7 @@ export type ThresholdPercentage = number;
 export interface BudgetActionToAdd {
   type: BudgetActionType;
   thresholdPercentage: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BudgetActionsToAdd = BudgetActionToAdd[];
 export type StartsAt = Date;
@@ -1366,13 +1366,13 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateBudgetRequest {
   farmId: string;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
   usageTrackingResource: UsageTrackingResource;
   approximateDollarLimit: number;
   actions: BudgetActionToAdd[];
   schedule: BudgetSchedule;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BudgetId = string;
 export interface CreateBudgetResponse {
@@ -1381,12 +1381,12 @@ export interface CreateBudgetResponse {
 export type KmsKeyArn = string;
 export type CostScaleFactor = number;
 export interface CreateFarmRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
-  kmsKeyArn?: string;
-  costScaleFactor?: number;
-  tags?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  kmsKeyArn?: string | undefined;
+  costScaleFactor?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFarmResponse {
   farmId: string;
@@ -1394,29 +1394,29 @@ export interface CreateFarmResponse {
 export type MinZeroMaxInteger = number;
 export type AutoScalingMode = "NO_SCALING" | "EVENT_BASED_AUTO_SCALING" | (string & {});
 export interface CustomerManagedAutoScalingConfiguration {
-  standbyWorkerCount?: number;
-  workerIdleDurationSeconds?: number;
-  scaleOutWorkersPerMinute?: number;
+  standbyWorkerCount?: number | undefined;
+  workerIdleDurationSeconds?: number | undefined;
+  scaleOutWorkersPerMinute?: number | undefined;
 }
 export type MinOneMaxTenThousand = number;
 export interface VCpuCountRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type MemoryAmountMiB = number;
 export interface MemoryMiBRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type AcceleratorType = "gpu" | (string & {});
 export type AcceleratorTypes = AcceleratorType[];
 export interface AcceleratorCountRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export interface AcceleratorTotalMemoryMiBRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type CustomerManagedFleetOperatingSystemFamily =
   | "WINDOWS"
@@ -1427,7 +1427,7 @@ export type CpuArchitectureType = "x86_64" | "arm64" | (string & {});
 export interface FleetAmountCapability {
   name: string;
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type CustomFleetAmountCapabilities = FleetAmountCapability[];
 export type AttributeCapabilityValuesList = string[];
@@ -1439,13 +1439,13 @@ export type CustomFleetAttributeCapabilities = FleetAttributeCapability[];
 export interface CustomerManagedWorkerCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
-  acceleratorTypes?: AcceleratorType[];
-  acceleratorCount?: AcceleratorCountRange;
-  acceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRange;
+  acceleratorTypes?: AcceleratorType[] | undefined;
+  acceleratorCount?: AcceleratorCountRange | undefined;
+  acceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRange | undefined;
   osFamily: CustomerManagedFleetOperatingSystemFamily;
   cpuArchitectureType: CpuArchitectureType;
-  customAmounts?: FleetAmountCapability[];
-  customAttributes?: FleetAttributeCapability[];
+  customAmounts?: FleetAmountCapability[] | undefined;
+  customAttributes?: FleetAttributeCapability[] | undefined;
 }
 export type TagPropagationMode =
   | "NO_PROPAGATION"
@@ -1453,29 +1453,29 @@ export type TagPropagationMode =
   | (string & {});
 export interface CustomerManagedFleetConfiguration {
   mode: AutoScalingMode;
-  autoScalingConfiguration?: CustomerManagedAutoScalingConfiguration;
+  autoScalingConfiguration?: CustomerManagedAutoScalingConfiguration | undefined;
   workerCapabilities: CustomerManagedWorkerCapabilities;
-  storageProfileId?: string;
-  tagPropagationMode?: TagPropagationMode;
+  storageProfileId?: string | undefined;
+  tagPropagationMode?: TagPropagationMode | undefined;
 }
 export type ServiceManagedFleetOperatingSystemFamily = "WINDOWS" | "LINUX" | (string & {});
 export type EbsIops = number;
 export type EbsThroughputMiB = number;
 export interface Ec2EbsVolume {
-  sizeGiB?: number;
-  iops?: number;
-  throughputMiB?: number;
+  sizeGiB?: number | undefined;
+  iops?: number | undefined;
+  throughputMiB?: number | undefined;
 }
 export type AcceleratorName = "t4" | "a10g" | "l4" | "l40s" | "rtx-pro-server-6000" | (string & {});
 export type AcceleratorRuntime = string;
 export interface AcceleratorSelection {
   name: AcceleratorName;
-  runtime?: string;
+  runtime?: string | undefined;
 }
 export type AcceleratorSelections = AcceleratorSelection[];
 export interface AcceleratorCapabilities {
   selections: AcceleratorSelection[];
-  count?: AcceleratorCountRange;
+  count?: AcceleratorCountRange | undefined;
 }
 export type InstanceTypes = string[];
 export type FleetSoftwareAddOnName = "docker" | (string & {});
@@ -1488,13 +1488,13 @@ export interface ServiceManagedEc2InstanceCapabilities {
   memoryMiB: MemoryMiBRange;
   osFamily: ServiceManagedFleetOperatingSystemFamily;
   cpuArchitectureType: CpuArchitectureType;
-  rootEbsVolume?: Ec2EbsVolume;
-  acceleratorCapabilities?: AcceleratorCapabilities;
-  allowedInstanceTypes?: string[];
-  excludedInstanceTypes?: string[];
-  customAmounts?: FleetAmountCapability[];
-  customAttributes?: FleetAttributeCapability[];
-  softwareAddOns?: FleetSoftwareAddOn[];
+  rootEbsVolume?: Ec2EbsVolume | undefined;
+  acceleratorCapabilities?: AcceleratorCapabilities | undefined;
+  allowedInstanceTypes?: string[] | undefined;
+  excludedInstanceTypes?: string[] | undefined;
+  customAmounts?: FleetAmountCapability[] | undefined;
+  customAttributes?: FleetAttributeCapability[] | undefined;
+  softwareAddOns?: FleetSoftwareAddOn[] | undefined;
 }
 export type Ec2MarketType = "on-demand" | "spot" | "wait-and-save" | (string & {});
 export interface ServiceManagedEc2InstanceMarketOptions {
@@ -1503,7 +1503,7 @@ export interface ServiceManagedEc2InstanceMarketOptions {
 export type VpcResourceConfigurationArn = string;
 export type VpcResourceConfigurationArns = string[];
 export interface VpcConfiguration {
-  resourceConfigurationArns?: string[];
+  resourceConfigurationArns?: string[] | undefined;
 }
 export type PersistentVolumeSizeGiB = number;
 export type PersistentVolumeIops = number;
@@ -1511,46 +1511,46 @@ export type PersistentVolumeThroughputMiB = number;
 export type MountPath = string;
 export type PersistentVolumeTtlHours = number;
 export interface PersistentVolumeConfiguration {
-  sizeGiB?: number;
-  iops?: number;
-  throughputMiB?: number;
+  sizeGiB?: number | undefined;
+  iops?: number | undefined;
+  throughputMiB?: number | undefined;
   mountPath: string;
-  lastUsedTtlHours?: number;
+  lastUsedTtlHours?: number | undefined;
 }
 export type ServiceManagedEc2WorkerIdleDurationSeconds = number;
 export interface ServiceManagedEc2AutoScalingConfiguration {
-  standbyWorkerCount?: number;
-  workerIdleDurationSeconds?: number;
-  scaleOutWorkersPerMinute?: number;
+  standbyWorkerCount?: number | undefined;
+  workerIdleDurationSeconds?: number | undefined;
+  scaleOutWorkersPerMinute?: number | undefined;
 }
 export interface ServiceManagedEc2FleetConfiguration {
   instanceCapabilities: ServiceManagedEc2InstanceCapabilities;
   instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions;
-  vpcConfiguration?: VpcConfiguration;
-  storageProfileId?: string;
-  persistentVolumeConfiguration?: PersistentVolumeConfiguration;
-  autoScalingConfiguration?: ServiceManagedEc2AutoScalingConfiguration;
+  vpcConfiguration?: VpcConfiguration | undefined;
+  storageProfileId?: string | undefined;
+  persistentVolumeConfiguration?: PersistentVolumeConfiguration | undefined;
+  autoScalingConfiguration?: ServiceManagedEc2AutoScalingConfiguration | undefined;
 }
 export type FleetConfiguration =
-  | { customerManaged: CustomerManagedFleetConfiguration; serviceManagedEc2?: never }
-  | { customerManaged?: never; serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
+  | { customerManaged: CustomerManagedFleetConfiguration; serviceManagedEc2?: undefined }
+  | { customerManaged?: undefined; serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
 export type HostConfigurationScript = string | redacted.Redacted<string>;
 export type HostConfigurationScriptTimeoutSeconds = number;
 export interface HostConfiguration {
   scriptBody: string | redacted.Redacted<string>;
-  scriptTimeoutSeconds?: number;
+  scriptTimeoutSeconds?: number | undefined;
 }
 export interface CreateFleetRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   roleArn: string;
-  minWorkerCount?: number;
+  minWorkerCount?: number | undefined;
   maxWorkerCount: number;
   configuration: FleetConfiguration;
-  tags?: { [key: string]: string | undefined };
-  hostConfiguration?: HostConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
 }
 export interface CreateFleetResponse {
   fleetId: string;
@@ -1560,21 +1560,21 @@ export type CreateJobTargetTaskRunStatus = "READY" | "SUSPENDED" | (string & {})
 export interface CreateJobRequest {
   farmId: string;
   queueId: string;
-  clientToken?: string;
-  template?: string | redacted.Redacted<string>;
-  templateType?: JobTemplateType;
+  clientToken?: string | undefined;
+  template?: string | redacted.Redacted<string> | undefined;
+  templateType?: JobTemplateType | undefined;
   priority: number;
-  parameters?: { [key: string]: JobParameter | undefined };
-  attachments?: Attachments;
-  storageProfileId?: string;
-  targetTaskRunStatus?: CreateJobTargetTaskRunStatus;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
-  nameOverride?: string;
-  descriptionOverride?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
+  attachments?: Attachments | undefined;
+  storageProfileId?: string | undefined;
+  targetTaskRunStatus?: CreateJobTargetTaskRunStatus | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
+  nameOverride?: string | undefined;
+  descriptionOverride?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateJobResponse {
   jobId: string;
@@ -1585,11 +1585,11 @@ export type SubnetIdList = string[];
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
 export interface CreateLicenseEndpointRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LicenseEndpointId = string;
 export interface CreateLicenseEndpointResponse {
@@ -1599,11 +1599,11 @@ export type AmountRequirementName = string;
 export type MaxCount = number;
 export interface CreateLimitRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
   amountRequirementName: string;
   maxCount: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateLimitResponse {
   limitId: string;
@@ -1611,13 +1611,13 @@ export interface CreateLimitResponse {
 export type IdentityCenterInstanceArn = string;
 export type Subdomain = string;
 export interface CreateMonitorRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
   identityCenterInstanceArn: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
   subdomain: string;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MonitorId = string;
 export type IdentityCenterApplicationArn = string;
@@ -1639,7 +1639,7 @@ export type AllowedStorageProfileIds = string[];
 export interface PriorityFifoSchedulingConfiguration {}
 export type SchedulingRenderingTaskBuffer = number;
 export interface PriorityBalancedSchedulingConfiguration {
-  renderingTaskBuffer?: number;
+  renderingTaskBuffer?: number | undefined;
 }
 export type SchedulingPriorityWeight = number;
 export type SchedulingErrorWeight = number;
@@ -1654,43 +1654,43 @@ export type SchedulingMinPriorityOverride = {
   alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast;
 };
 export interface WeightedBalancedSchedulingConfiguration {
-  priorityWeight?: number;
-  errorWeight?: number;
-  submissionTimeWeight?: number;
-  renderingTaskWeight?: number;
-  renderingTaskBuffer?: number;
-  maxPriorityOverride?: SchedulingMaxPriorityOverride;
-  minPriorityOverride?: SchedulingMinPriorityOverride;
+  priorityWeight?: number | undefined;
+  errorWeight?: number | undefined;
+  submissionTimeWeight?: number | undefined;
+  renderingTaskWeight?: number | undefined;
+  renderingTaskBuffer?: number | undefined;
+  maxPriorityOverride?: SchedulingMaxPriorityOverride | undefined;
+  minPriorityOverride?: SchedulingMinPriorityOverride | undefined;
 }
 export type SchedulingConfiguration =
   | {
       priorityFifo: PriorityFifoSchedulingConfiguration;
-      priorityBalanced?: never;
-      weightedBalanced?: never;
+      priorityBalanced?: undefined;
+      weightedBalanced?: undefined;
     }
   | {
-      priorityFifo?: never;
+      priorityFifo?: undefined;
       priorityBalanced: PriorityBalancedSchedulingConfiguration;
-      weightedBalanced?: never;
+      weightedBalanced?: undefined;
     }
   | {
-      priorityFifo?: never;
-      priorityBalanced?: never;
+      priorityFifo?: undefined;
+      priorityBalanced?: undefined;
       weightedBalanced: WeightedBalancedSchedulingConfiguration;
     };
 export interface CreateQueueRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
-  defaultBudgetAction?: DefaultQueueBudgetAction;
-  jobAttachmentSettings?: JobAttachmentSettings;
-  roleArn?: string;
-  jobRunAsUser?: JobRunAsUser;
-  requiredFileSystemLocationNames?: string[];
-  allowedStorageProfileIds?: string[];
-  tags?: { [key: string]: string | undefined };
-  schedulingConfiguration?: SchedulingConfiguration;
+  description?: string | redacted.Redacted<string> | undefined;
+  defaultBudgetAction?: DefaultQueueBudgetAction | undefined;
+  jobAttachmentSettings?: JobAttachmentSettings | undefined;
+  roleArn?: string | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
+  requiredFileSystemLocationNames?: string[] | undefined;
+  allowedStorageProfileIds?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  schedulingConfiguration?: SchedulingConfiguration | undefined;
 }
 export interface CreateQueueResponse {
   queueId: string;
@@ -1701,7 +1701,7 @@ export type EnvironmentTemplate = string | redacted.Redacted<string>;
 export interface CreateQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   priority: number;
   templateType: EnvironmentTemplateType;
   template: string | redacted.Redacted<string>;
@@ -1732,24 +1732,24 @@ export interface FileSystemLocation {
 export type FileSystemLocationsList = FileSystemLocation[];
 export interface CreateStorageProfileRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
   osFamily: StorageProfileOperatingSystemFamily;
-  fileSystemLocations?: FileSystemLocation[];
+  fileSystemLocations?: FileSystemLocation[] | undefined;
 }
 export interface CreateStorageProfileResponse {
   storageProfileId: string;
 }
 export interface HostPropertiesRequest {
-  ipAddresses?: IpAddresses;
-  hostName?: string;
+  ipAddresses?: IpAddresses | undefined;
+  hostName?: string | undefined;
 }
 export interface CreateWorkerRequest {
   farmId: string;
   fleetId: string;
-  hostProperties?: HostPropertiesRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  hostProperties?: HostPropertiesRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateWorkerResponse {
   workerId: string;
@@ -1766,7 +1766,7 @@ export interface DeleteFarmResponse {}
 export interface DeleteFleetRequest {
   farmId: string;
   fleetId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteFleetResponse {}
 export interface DeleteLicenseEndpointRequest {
@@ -1864,7 +1864,7 @@ export interface ConsumedUsages {
 export interface ResponseBudgetAction {
   type: BudgetActionType;
   thresholdPercentage: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type ResponseBudgetActionList = ResponseBudgetAction[];
 export interface GetBudgetResponse {
@@ -1876,12 +1876,12 @@ export interface GetBudgetResponse {
   usages: ConsumedUsages;
   createdBy: string;
   createdAt: Date;
-  updatedBy?: string;
-  updatedAt?: Date;
-  description?: string | redacted.Redacted<string>;
+  updatedBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   actions: ResponseBudgetAction[];
   schedule: BudgetSchedule;
-  queueStoppedAt?: Date;
+  queueStoppedAt?: Date | undefined;
 }
 export interface GetFarmRequest {
   farmId: string;
@@ -1889,12 +1889,12 @@ export interface GetFarmRequest {
 export interface GetFarmResponse {
   farmId: string;
   displayName: string;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  description?: string | redacted.Redacted<string>;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   costScaleFactor: number;
 }
 export interface GetFleetRequest {
@@ -1913,28 +1913,28 @@ export type AutoScalingStatus = "GROWING" | "STEADY" | "SHRINKING" | (string & {
 export type FleetAmountCapabilities = FleetAmountCapability[];
 export type FleetAttributeCapabilities = FleetAttributeCapability[];
 export interface FleetCapabilities {
-  amounts?: FleetAmountCapability[];
-  attributes?: FleetAttributeCapability[];
+  amounts?: FleetAmountCapability[] | undefined;
+  attributes?: FleetAttributeCapability[] | undefined;
 }
 export interface GetFleetResponse {
   fleetId: string;
   farmId: string;
   displayName: string;
   status: FleetStatus;
-  statusMessage?: string;
-  autoScalingStatus?: AutoScalingStatus;
-  targetWorkerCount?: number;
+  statusMessage?: string | undefined;
+  autoScalingStatus?: AutoScalingStatus | undefined;
+  targetWorkerCount?: number | undefined;
   workerCount: number;
   minWorkerCount: number;
   maxWorkerCount: number;
   configuration: FleetConfiguration;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  description?: string | redacted.Redacted<string>;
-  hostConfiguration?: HostConfiguration;
-  capabilities?: FleetCapabilities;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
+  capabilities?: FleetCapabilities | undefined;
   roleArn: string;
 }
 export interface GetJobRequest {
@@ -1950,22 +1950,22 @@ export interface GetJobResponse {
   priority: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  storageProfileId?: string;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  parameters?: { [key: string]: JobParameter | undefined };
-  attachments?: Attachments;
-  description?: string | redacted.Redacted<string>;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  storageProfileId?: string | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
+  attachments?: Attachments | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export interface GetLicenseEndpointRequest {
   licenseEndpointId: string;
@@ -1982,10 +1982,10 @@ export interface GetLicenseEndpointResponse {
   licenseEndpointId: string;
   status: LicenseEndpointStatus;
   statusMessage: string;
-  vpcId?: string;
-  dnsName?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
+  vpcId?: string | undefined;
+  dnsName?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export interface GetLimitRequest {
   farmId: string;
@@ -1997,12 +1997,12 @@ export interface GetLimitResponse {
   currentCount: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   displayName: string;
   amountRequirementName: string;
   maxCount: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMonitorRequest {
   monitorId: string;
@@ -2015,12 +2015,12 @@ export interface GetMonitorResponse {
   url: string;
   roleArn: string;
   identityCenterInstanceArn: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
   identityCenterApplicationArn: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetMonitorSettingsRequest {
   monitorId: string;
@@ -2046,18 +2046,18 @@ export interface GetQueueResponse {
   displayName: string;
   status: QueueStatus;
   defaultBudgetAction: DefaultQueueBudgetAction;
-  blockedReason?: QueueBlockedReason;
+  blockedReason?: QueueBlockedReason | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  description?: string | redacted.Redacted<string>;
-  jobAttachmentSettings?: JobAttachmentSettings;
-  roleArn?: string;
-  requiredFileSystemLocationNames?: string[];
-  allowedStorageProfileIds?: string[];
-  jobRunAsUser?: JobRunAsUser;
-  schedulingConfiguration?: SchedulingConfiguration;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  jobAttachmentSettings?: JobAttachmentSettings | undefined;
+  roleArn?: string | undefined;
+  requiredFileSystemLocationNames?: string[] | undefined;
+  allowedStorageProfileIds?: string[] | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
+  schedulingConfiguration?: SchedulingConfiguration | undefined;
 }
 export interface GetQueueEnvironmentRequest {
   farmId: string;
@@ -2073,8 +2073,8 @@ export interface GetQueueEnvironmentResponse {
   template: string | redacted.Redacted<string>;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetQueueFleetAssociationRequest {
   farmId: string;
@@ -2093,8 +2093,8 @@ export interface GetQueueFleetAssociationResponse {
   status: QueueFleetAssociationStatus;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetQueueLimitAssociationRequest {
   farmId: string;
@@ -2113,8 +2113,8 @@ export interface GetQueueLimitAssociationResponse {
   status: QueueLimitAssociationStatus;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetSessionRequest {
   farmId: string;
@@ -2128,13 +2128,13 @@ export interface GetSessionResponse {
   workerId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
-  updatedAt?: Date;
-  updatedBy?: string;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   log: LogConfiguration;
-  hostProperties?: HostPropertiesResponse;
-  workerLog?: LogConfiguration;
+  hostProperties?: HostPropertiesResponse | undefined;
+  workerLog?: LogConfiguration | undefined;
 }
 export interface GetSessionActionRequest {
   farmId: string;
@@ -2145,15 +2145,15 @@ export interface GetSessionActionRequest {
 export interface GetSessionActionResponse {
   sessionActionId: string;
   status: SessionActionStatus;
-  startedAt?: Date;
-  endedAt?: Date;
-  workerUpdatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesResponse[];
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  workerUpdatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesResponse[] | undefined;
   sessionId: string;
-  processExitCode?: number;
-  progressMessage?: string | redacted.Redacted<string>;
-  acquiredLimits?: AcquiredLimit[];
+  processExitCode?: number | undefined;
+  progressMessage?: string | redacted.Redacted<string> | undefined;
+  acquiredLimits?: AcquiredLimit[] | undefined;
   definition: SessionActionDefinition;
 }
 export type NextToken = string;
@@ -2161,33 +2161,33 @@ export type MaxResults = number;
 export type AggregationId = string;
 export interface GetSessionsStatisticsAggregationRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   aggregationId: string;
 }
 export type UserId = string;
 export type UsageType = "COMPUTE" | "LICENSE" | "PERSISTENT_VOLUME" | (string & {});
 export type LicenseProduct = string;
 export interface Stats {
-  min?: number;
-  max?: number;
-  avg?: number;
-  sum?: number;
+  min?: number | undefined;
+  max?: number | undefined;
+  avg?: number | undefined;
+  sum?: number | undefined;
 }
 export interface Statistics {
-  queueId?: string;
-  fleetId?: string;
-  jobId?: string;
-  jobName?: string;
-  userId?: string;
-  usageType?: UsageType;
-  licenseProduct?: string;
-  instanceType?: string;
+  queueId?: string | undefined;
+  fleetId?: string | undefined;
+  jobId?: string | undefined;
+  jobName?: string | undefined;
+  userId?: string | undefined;
+  usageType?: UsageType | undefined;
+  licenseProduct?: string | undefined;
+  instanceType?: string | undefined;
   count: number;
   costInUsd: Stats;
   runtimeInSeconds: Stats;
-  aggregationStartTime?: Date;
-  aggregationEndTime?: Date;
+  aggregationStartTime?: Date | undefined;
+  aggregationEndTime?: Date | undefined;
 }
 export type StatisticsList = Statistics[];
 export type SessionsStatisticsAggregationStatus =
@@ -2197,10 +2197,10 @@ export type SessionsStatisticsAggregationStatus =
   | "COMPLETED"
   | (string & {});
 export interface GetSessionsStatisticsAggregationResponse {
-  statistics?: Statistics[];
+  statistics?: Statistics[] | undefined;
   status: SessionsStatisticsAggregationStatus;
-  statusMessage?: string;
-  nextToken?: string;
+  statusMessage?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetStepRequest {
   farmId: string;
@@ -2212,21 +2212,21 @@ export interface GetStepResponse {
   stepId: string;
   name: string;
   lifecycleStatus: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
+  lifecycleStatusMessage?: string | undefined;
   taskRunStatus: TaskRunStatus;
   taskRunStatusCounts: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
+  taskFailureRetryCount?: number | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  dependencyCounts?: DependencyCounts;
-  requiredCapabilities?: StepRequiredCapabilities;
-  parameterSpace?: ParameterSpace;
-  description?: string | redacted.Redacted<string>;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  dependencyCounts?: DependencyCounts | undefined;
+  requiredCapabilities?: StepRequiredCapabilities | undefined;
+  parameterSpace?: ParameterSpace | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetStorageProfileRequest {
   farmId: string;
@@ -2238,9 +2238,9 @@ export interface GetStorageProfileResponse {
   osFamily: StorageProfileOperatingSystemFamily;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  fileSystemLocations?: FileSystemLocation[];
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  fileSystemLocations?: FileSystemLocation[] | undefined;
 }
 export interface GetStorageProfileForQueueRequest {
   farmId: string;
@@ -2251,7 +2251,7 @@ export interface GetStorageProfileForQueueResponse {
   storageProfileId: string;
   displayName: string;
   osFamily: StorageProfileOperatingSystemFamily;
-  fileSystemLocations?: FileSystemLocation[];
+  fileSystemLocations?: FileSystemLocation[] | undefined;
 }
 export interface GetTaskRequest {
   farmId: string;
@@ -2265,14 +2265,14 @@ export interface GetTaskResponse {
   createdAt: Date;
   createdBy: string;
   runStatus: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export interface GetVolumeRequest {
   farmId: string;
@@ -2294,14 +2294,14 @@ export interface GetVolumeResponse {
   state: VolumeState;
   sizeGiB: number;
   availabilityZoneId: string;
-  attachedWorkerId?: string;
+  attachedWorkerId?: string | undefined;
   volumeType: EbsVolumeType;
-  iops?: number;
-  throughputMiB?: number;
+  iops?: number | undefined;
+  throughputMiB?: number | undefined;
   createdAt: Date;
-  lastAssignedAt?: Date;
-  lastReleasedAt?: Date;
-  expiresAt?: Date;
+  lastAssignedAt?: Date | undefined;
+  lastReleasedAt?: Date | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface GetWorkerRequest {
   farmId: string;
@@ -2312,17 +2312,17 @@ export interface GetWorkerResponse {
   farmId: string;
   fleetId: string;
   workerId: string;
-  hostProperties?: HostPropertiesResponse;
+  hostProperties?: HostPropertiesResponse | undefined;
   status: WorkerStatus;
-  log?: LogConfiguration;
+  log?: LogConfiguration | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface ListAvailableMeteredProductsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type BoundedString = string;
 export type PortNumber = number;
@@ -2335,13 +2335,13 @@ export interface MeteredProductSummary {
 export type MeteredProductSummaryList = MeteredProductSummary[];
 export interface ListAvailableMeteredProductsResponse {
   meteredProducts: MeteredProductSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBudgetsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  status?: BudgetStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: BudgetStatus | undefined;
 }
 export interface BudgetSummary {
   budgetId: string;
@@ -2352,19 +2352,19 @@ export interface BudgetSummary {
   usages: ConsumedUsages;
   createdBy: string;
   createdAt: Date;
-  updatedBy?: string;
-  updatedAt?: Date;
-  description?: string | redacted.Redacted<string>;
+  updatedBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BudgetSummaries = BudgetSummary[];
 export interface ListBudgetsResponse {
   budgets: BudgetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFarmMembersRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FarmMember {
   farmId: string;
@@ -2376,32 +2376,32 @@ export interface FarmMember {
 export type FarmMembers = FarmMember[];
 export interface ListFarmMembersResponse {
   members: FarmMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFarmsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
 }
 export interface FarmSummary {
   farmId: string;
   displayName: string;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type FarmSummaries = FarmSummary[];
 export interface ListFarmsResponse {
   farms: FarmSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFleetMembersRequest {
   farmId: string;
   fleetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FleetMember {
   farmId: string;
@@ -2414,44 +2414,44 @@ export interface FleetMember {
 export type FleetMembers = FleetMember[];
 export interface ListFleetMembersResponse {
   members: FleetMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFleetsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
-  displayName?: string;
-  status?: FleetStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
+  displayName?: string | undefined;
+  status?: FleetStatus | undefined;
 }
 export interface FleetSummary {
   fleetId: string;
   farmId: string;
   displayName: string;
   status: FleetStatus;
-  statusMessage?: string;
-  autoScalingStatus?: AutoScalingStatus;
-  targetWorkerCount?: number;
+  statusMessage?: string | undefined;
+  autoScalingStatus?: AutoScalingStatus | undefined;
+  targetWorkerCount?: number | undefined;
   workerCount: number;
   minWorkerCount: number;
   maxWorkerCount: number;
   configuration: FleetConfiguration;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type FleetSummaries = FleetSummary[];
 export interface ListFleetsResponse {
   fleets: FleetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobMembersRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface JobMember {
   farmId: string;
@@ -2465,27 +2465,27 @@ export interface JobMember {
 export type JobMembers = JobMember[];
 export interface ListJobMembersResponse {
   members: JobMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobParameterDefinitionsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type JobParameterDefinition = unknown;
 export type JobParameterDefinitions = any[];
 export interface ListJobParameterDefinitionsResponse {
   jobParameterDefinitions: any[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobsRequest {
   farmId: string;
   queueId: string;
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
 }
 export interface JobSummary {
   jobId: string;
@@ -2495,43 +2495,43 @@ export interface JobSummary {
   priority: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export type JobSummaries = JobSummary[];
 export interface ListJobsResponse {
   jobs: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListLicenseEndpointsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LicenseEndpointSummary {
-  licenseEndpointId?: string;
-  status?: LicenseEndpointStatus;
-  statusMessage?: string;
-  vpcId?: string;
+  licenseEndpointId?: string | undefined;
+  status?: LicenseEndpointStatus | undefined;
+  statusMessage?: string | undefined;
+  vpcId?: string | undefined;
 }
 export type LicenseEndpointSummaries = LicenseEndpointSummary[];
 export interface ListLicenseEndpointsResponse {
   licenseEndpoints: LicenseEndpointSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListLimitsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LimitSummary {
   farmId: string;
@@ -2539,8 +2539,8 @@ export interface LimitSummary {
   currentCount: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   displayName: string;
   amountRequirementName: string;
   maxCount: number;
@@ -2548,17 +2548,17 @@ export interface LimitSummary {
 export type LimitSummaries = LimitSummary[];
 export interface ListLimitsResponse {
   limits: LimitSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MembershipResourceType = "FARM" | "QUEUE" | "FLEET" | "JOB" | (string & {});
 export type MembershipResourceTypes = MembershipResourceType[];
 export interface ListMembershipsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   principalId: string;
-  identityStoreId?: string;
-  identityCenterRegion?: string;
-  resourceTypes?: MembershipResourceType[];
+  identityStoreId?: string | undefined;
+  identityCenterRegion?: string | undefined;
+  resourceTypes?: MembershipResourceType[] | undefined;
 }
 export interface QueueMember {
   farmId: string;
@@ -2569,27 +2569,27 @@ export interface QueueMember {
   membershipLevel: MembershipLevel;
 }
 export type MembershipSummary =
-  | { farm: FarmMember; queue?: never; fleet?: never; job?: never }
-  | { farm?: never; queue: QueueMember; fleet?: never; job?: never }
-  | { farm?: never; queue?: never; fleet: FleetMember; job?: never }
-  | { farm?: never; queue?: never; fleet?: never; job: JobMember };
+  | { farm: FarmMember; queue?: undefined; fleet?: undefined; job?: undefined }
+  | { farm?: undefined; queue: QueueMember; fleet?: undefined; job?: undefined }
+  | { farm?: undefined; queue?: undefined; fleet: FleetMember; job?: undefined }
+  | { farm?: undefined; queue?: undefined; fleet?: undefined; job: JobMember };
 export type MembershipSummaries = MembershipSummary[];
 export interface ListMembershipsResponse {
   memberships: MembershipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListMeteredProductsRequest {
   licenseEndpointId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListMeteredProductsResponse {
   meteredProducts: MeteredProductSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListMonitorsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MonitorSummary {
   monitorId: string;
@@ -2598,23 +2598,23 @@ export interface MonitorSummary {
   url: string;
   roleArn: string;
   identityCenterInstanceArn: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
   identityCenterApplicationArn: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type MonitorSummaries = MonitorSummary[];
 export interface ListMonitorsResponse {
   monitors: MonitorSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQueueEnvironmentsRequest {
   farmId: string;
   queueId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface QueueEnvironmentSummary {
   queueEnvironmentId: string;
@@ -2624,14 +2624,14 @@ export interface QueueEnvironmentSummary {
 export type QueueEnvironmentSummaries = QueueEnvironmentSummary[];
 export interface ListQueueEnvironmentsResponse {
   environments: QueueEnvironmentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQueueFleetAssociationsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  queueId?: string;
-  fleetId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  queueId?: string | undefined;
+  fleetId?: string | undefined;
 }
 export interface QueueFleetAssociationSummary {
   queueId: string;
@@ -2639,20 +2639,20 @@ export interface QueueFleetAssociationSummary {
   status: QueueFleetAssociationStatus;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type QueueFleetAssociationSummaries = QueueFleetAssociationSummary[];
 export interface ListQueueFleetAssociationsResponse {
   queueFleetAssociations: QueueFleetAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQueueLimitAssociationsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  queueId?: string;
-  limitId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  queueId?: string | undefined;
+  limitId?: string | undefined;
 }
 export interface QueueLimitAssociationSummary {
   queueId: string;
@@ -2660,31 +2660,31 @@ export interface QueueLimitAssociationSummary {
   status: QueueLimitAssociationStatus;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type QueueLimitAssociationSummaries = QueueLimitAssociationSummary[];
 export interface ListQueueLimitAssociationsResponse {
   queueLimitAssociations: QueueLimitAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQueueMembersRequest {
   farmId: string;
   queueId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type QueueMemberList = QueueMember[];
 export interface ListQueueMembersResponse {
   members: QueueMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQueuesRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
-  status?: QueueStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
+  status?: QueueStatus | undefined;
 }
 export interface QueueSummary {
   farmId: string;
@@ -2692,25 +2692,25 @@ export interface QueueSummary {
   displayName: string;
   status: QueueStatus;
   defaultBudgetAction: DefaultQueueBudgetAction;
-  blockedReason?: QueueBlockedReason;
+  blockedReason?: QueueBlockedReason | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type QueueSummaries = QueueSummary[];
 export interface ListQueuesResponse {
   queues: QueueSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionActionsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
-  sessionId?: string;
-  taskId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sessionId?: string | undefined;
+  taskId?: string | undefined;
 }
 export interface EnvironmentEnterSessionActionDefinitionSummary {
   environmentId: string;
@@ -2719,59 +2719,59 @@ export interface EnvironmentExitSessionActionDefinitionSummary {
   environmentId: string;
 }
 export interface TaskRunSessionActionDefinitionSummary {
-  taskId?: string;
+  taskId?: string | undefined;
   stepId: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export interface SyncInputJobAttachmentsSessionActionDefinitionSummary {
-  stepId?: string;
+  stepId?: string | undefined;
 }
 export type SessionActionDefinitionSummary =
   | {
       envEnter: EnvironmentEnterSessionActionDefinitionSummary;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: EnvironmentExitSessionActionDefinitionSummary;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: TaskRunSessionActionDefinitionSummary;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinitionSummary;
     };
 export interface SessionActionSummary {
   sessionActionId: string;
   status: SessionActionStatus;
-  startedAt?: Date;
-  endedAt?: Date;
-  workerUpdatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesResponse[];
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  workerUpdatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesResponse[] | undefined;
   definition: SessionActionDefinitionSummary;
 }
 export type SessionActionSummaries = SessionActionSummary[];
 export interface ListSessionActionsResponse {
   sessionActions: SessionActionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SessionSummary {
   sessionId: string;
@@ -2779,22 +2779,22 @@ export interface SessionSummary {
   workerId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
-  updatedAt?: Date;
-  updatedBy?: string;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type SessionSummaries = SessionSummary[];
 export interface ListSessionsResponse {
   sessions: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionsForWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkerSessionSummary {
   sessionId: string;
@@ -2802,21 +2802,21 @@ export interface WorkerSessionSummary {
   jobId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
 }
 export type ListSessionsForWorkerSummaries = WorkerSessionSummary[];
 export interface ListSessionsForWorkerResponse {
   sessions: WorkerSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStepConsumersRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DependencyConsumerResolutionStatus = "RESOLVED" | "UNRESOLVED" | (string & {});
 export interface StepConsumer {
@@ -2826,15 +2826,15 @@ export interface StepConsumer {
 export type StepConsumers = StepConsumer[];
 export interface ListStepConsumersResponse {
   consumers: StepConsumer[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStepDependenciesRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StepDependency {
   stepId: string;
@@ -2843,41 +2843,41 @@ export interface StepDependency {
 export type StepDependencies = StepDependency[];
 export interface ListStepDependenciesResponse {
   dependencies: StepDependency[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStepsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StepSummary {
   stepId: string;
   name: string;
   lifecycleStatus: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
+  lifecycleStatusMessage?: string | undefined;
   taskRunStatus: TaskRunStatus;
   taskRunStatusCounts: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
+  taskFailureRetryCount?: number | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  dependencyCounts?: DependencyCounts;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  dependencyCounts?: DependencyCounts | undefined;
 }
 export type StepSummaries = StepSummary[];
 export interface ListStepsResponse {
   steps: StepSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStorageProfilesRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StorageProfileSummary {
   storageProfileId: string;
@@ -2887,56 +2887,56 @@ export interface StorageProfileSummary {
 export type StorageProfileSummaries = StorageProfileSummary[];
 export interface ListStorageProfilesResponse {
   storageProfiles: StorageProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStorageProfilesForQueueRequest {
   farmId: string;
   queueId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListStorageProfilesForQueueResponse {
   storageProfiles: StorageProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTasksRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TaskSummary {
   taskId: string;
   createdAt: Date;
   createdBy: string;
   runStatus: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export type TaskSummaries = TaskSummary[];
 export interface ListTasksResponse {
   tasks: TaskSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListVolumesRequest {
   farmId: string;
   fleetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface VolumeSummary {
   volumeId: string;
@@ -2945,35 +2945,35 @@ export interface VolumeSummary {
   state: VolumeState;
   sizeGiB: number;
   availabilityZoneId: string;
-  attachedWorkerId?: string;
+  attachedWorkerId?: string | undefined;
 }
 export type VolumeSummaries = VolumeSummary[];
 export interface ListVolumesResponse {
   volumes: VolumeSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWorkersRequest {
   farmId: string;
   fleetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkerSummary {
   farmId: string;
   fleetId: string;
   workerId: string;
-  hostProperties?: HostPropertiesResponse;
+  hostProperties?: HostPropertiesResponse | undefined;
   status: WorkerStatus;
-  log?: LogConfiguration;
+  log?: LogConfiguration | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type WorkerSummaries = WorkerSummary[];
 export interface ListWorkersResponse {
   workers: WorkerSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutMeteredProductRequest {
   licenseEndpointId: string;
@@ -3005,7 +3005,7 @@ export type SearchTerm = string;
 export type SearchTermMatchingType = "FUZZY_MATCH" | "CONTAINS" | (string & {});
 export interface SearchTermFilterExpression {
   searchTerm: string;
-  matchType?: SearchTermMatchingType;
+  matchType?: SearchTermMatchingType | undefined;
 }
 export type StringFilter = string;
 export interface StringFilterExpression {
@@ -3022,50 +3022,50 @@ export interface StringListFilterExpression {
 export type SearchFilterExpression =
   | {
       dateTimeFilter: DateTimeFilterExpression;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
+      dateTimeFilter?: undefined;
       parameterFilter: ParameterFilterExpression;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
       searchTermFilter: SearchTermFilterExpression;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
       stringFilter: StringFilterExpression;
-      stringListFilter?: never;
-      groupFilter?: never;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
       stringListFilter: StringListFilterExpression;
-      groupFilter?: never;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
       groupFilter: SearchGroupedFilterExpressions;
     };
 export type SearchFilterExpressions = SearchFilterExpression[];
@@ -3087,142 +3087,142 @@ export interface ParameterSortExpression {
   name: string;
 }
 export type SearchSortExpression =
-  | { userJobsFirst: UserJobsFirst; fieldSort?: never; parameterSort?: never }
-  | { userJobsFirst?: never; fieldSort: FieldSortExpression; parameterSort?: never }
-  | { userJobsFirst?: never; fieldSort?: never; parameterSort: ParameterSortExpression };
+  | { userJobsFirst: UserJobsFirst; fieldSort?: undefined; parameterSort?: undefined }
+  | { userJobsFirst?: undefined; fieldSort: FieldSortExpression; parameterSort?: undefined }
+  | { userJobsFirst?: undefined; fieldSort?: undefined; parameterSort: ParameterSortExpression };
 export type SearchSortExpressions = SearchSortExpression[];
 export type QueueIds = string[];
 export interface SearchJobsRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   queueIds: string[];
 }
 export interface JobSearchSummary {
-  jobId?: string;
-  queueId?: string;
-  name?: string;
-  lifecycleStatus?: JobLifecycleStatus;
-  lifecycleStatusMessage?: string;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  priority?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  createdBy?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  startedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  jobParameters?: { [key: string]: JobParameter | undefined };
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  jobId?: string | undefined;
+  queueId?: string | undefined;
+  name?: string | undefined;
+  lifecycleStatus?: JobLifecycleStatus | undefined;
+  lifecycleStatusMessage?: string | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  priority?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  jobParameters?: { [key: string]: JobParameter | undefined } | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export type JobSearchSummaries = JobSearchSummary[];
 export type NextItemOffset = number;
 export type TotalResults = number;
 export interface SearchJobsResponse {
   jobs: JobSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export interface SearchStepsRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   queueIds: string[];
-  jobId?: string;
+  jobId?: string | undefined;
 }
 export interface StepSearchSummary {
-  stepId?: string;
-  jobId?: string;
-  queueId?: string;
-  name?: string;
-  lifecycleStatus?: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  createdAt?: Date;
-  createdBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  parameterSpace?: ParameterSpace;
+  stepId?: string | undefined;
+  jobId?: string | undefined;
+  queueId?: string | undefined;
+  name?: string | undefined;
+  lifecycleStatus?: StepLifecycleStatus | undefined;
+  lifecycleStatusMessage?: string | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  parameterSpace?: ParameterSpace | undefined;
 }
 export type StepSearchSummaries = StepSearchSummary[];
 export interface SearchStepsResponse {
   steps: StepSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export interface SearchTasksRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   queueIds: string[];
-  jobId?: string;
+  jobId?: string | undefined;
 }
 export interface TaskSearchSummary {
-  taskId?: string;
-  stepId?: string;
-  jobId?: string;
-  queueId?: string;
-  runStatus?: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
+  taskId?: string | undefined;
+  stepId?: string | undefined;
+  jobId?: string | undefined;
+  queueId?: string | undefined;
+  runStatus?: TaskRunStatus | undefined;
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
 }
 export type TaskSearchSummaries = TaskSearchSummary[];
 export interface SearchTasksResponse {
   tasks: TaskSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export type FleetIds = string[];
 export interface SearchWorkersRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   fleetIds: string[];
 }
 export interface WorkerSearchSummary {
-  fleetId?: string;
-  workerId?: string;
-  status?: WorkerStatus;
-  hostProperties?: HostPropertiesResponse;
-  createdBy?: string;
-  createdAt?: Date;
-  updatedBy?: string;
-  updatedAt?: Date;
+  fleetId?: string | undefined;
+  workerId?: string | undefined;
+  status?: WorkerStatus | undefined;
+  hostProperties?: HostPropertiesResponse | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type WorkerSearchSummaries = WorkerSearchSummary[];
 export interface SearchWorkersResponse {
   workers: WorkerSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export type SessionsStatisticsResources =
-  | { queueIds: string[]; fleetIds?: never }
-  | { queueIds?: never; fleetIds: string[] };
+  | { queueIds: string[]; fleetIds?: undefined }
+  | { queueIds?: undefined; fleetIds: string[] };
 export type Timezone = string;
 export type Period = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
 export type UsageGroupByField =
@@ -3242,8 +3242,8 @@ export interface StartSessionsStatisticsAggregationRequest {
   resourceIds: SessionsStatisticsResources;
   startTime: Date;
   endTime: Date;
-  timezone?: string;
-  period?: Period;
+  timezone?: string | undefined;
+  period?: Period | undefined;
   groupBy: UsageGroupByField[];
   statistics: UsageStatistic[];
 }
@@ -3252,7 +3252,7 @@ export interface StartSessionsStatisticsAggregationResponse {
 }
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type StringList = string[];
@@ -3269,64 +3269,64 @@ export type BudgetActionsToRemove = BudgetActionToRemove[];
 export interface UpdateBudgetRequest {
   farmId: string;
   budgetId: string;
-  clientToken?: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  status?: BudgetStatus;
-  approximateDollarLimit?: number;
-  actionsToAdd?: BudgetActionToAdd[];
-  actionsToRemove?: BudgetActionToRemove[];
-  schedule?: BudgetSchedule;
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: BudgetStatus | undefined;
+  approximateDollarLimit?: number | undefined;
+  actionsToAdd?: BudgetActionToAdd[] | undefined;
+  actionsToRemove?: BudgetActionToRemove[] | undefined;
+  schedule?: BudgetSchedule | undefined;
 }
 export interface UpdateBudgetResponse {}
 export interface UpdateFarmRequest {
   farmId: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  costScaleFactor?: number;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  costScaleFactor?: number | undefined;
 }
 export interface UpdateFarmResponse {}
 export interface UpdateFleetRequest {
   farmId: string;
   fleetId: string;
-  clientToken?: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  roleArn?: string;
-  minWorkerCount?: number;
-  maxWorkerCount?: number;
-  configuration?: FleetConfiguration;
-  hostConfiguration?: HostConfiguration;
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  roleArn?: string | undefined;
+  minWorkerCount?: number | undefined;
+  maxWorkerCount?: number | undefined;
+  configuration?: FleetConfiguration | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
 }
 export interface UpdateFleetResponse {}
 export interface UpdateJobRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  clientToken?: string;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  priority?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  lifecycleStatus?: UpdateJobLifecycleStatus;
-  maxWorkerCount?: number;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
+  clientToken?: string | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  priority?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  lifecycleStatus?: UpdateJobLifecycleStatus | undefined;
+  maxWorkerCount?: number | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateJobResponse {}
 export interface UpdateLimitRequest {
   farmId: string;
   limitId: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  maxCount?: number;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  maxCount?: number | undefined;
 }
 export interface UpdateLimitResponse {}
 export interface UpdateMonitorRequest {
   monitorId: string;
-  subdomain?: string;
-  displayName?: string;
-  roleArn?: string;
+  subdomain?: string | undefined;
+  displayName?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateMonitorResponse {}
 export interface UpdateMonitorSettingsRequest {
@@ -3337,28 +3337,28 @@ export interface UpdateMonitorSettingsResponse {}
 export interface UpdateQueueRequest {
   farmId: string;
   queueId: string;
-  clientToken?: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  defaultBudgetAction?: DefaultQueueBudgetAction;
-  jobAttachmentSettings?: JobAttachmentSettings;
-  roleArn?: string;
-  jobRunAsUser?: JobRunAsUser;
-  requiredFileSystemLocationNamesToAdd?: string[];
-  requiredFileSystemLocationNamesToRemove?: string[];
-  allowedStorageProfileIdsToAdd?: string[];
-  allowedStorageProfileIdsToRemove?: string[];
-  schedulingConfiguration?: SchedulingConfiguration;
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  defaultBudgetAction?: DefaultQueueBudgetAction | undefined;
+  jobAttachmentSettings?: JobAttachmentSettings | undefined;
+  roleArn?: string | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
+  requiredFileSystemLocationNamesToAdd?: string[] | undefined;
+  requiredFileSystemLocationNamesToRemove?: string[] | undefined;
+  allowedStorageProfileIdsToAdd?: string[] | undefined;
+  allowedStorageProfileIdsToRemove?: string[] | undefined;
+  schedulingConfiguration?: SchedulingConfiguration | undefined;
 }
 export interface UpdateQueueResponse {}
 export interface UpdateQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
   queueEnvironmentId: string;
-  clientToken?: string;
-  priority?: number;
-  templateType?: EnvironmentTemplateType;
-  template?: string | redacted.Redacted<string>;
+  clientToken?: string | undefined;
+  priority?: number | undefined;
+  templateType?: EnvironmentTemplateType | undefined;
+  template?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateQueueEnvironmentResponse {}
 export type UpdateQueueFleetAssociationStatus =
@@ -3390,7 +3390,7 @@ export interface UpdateSessionRequest {
   queueId: string;
   jobId: string;
   sessionId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   targetLifecycleStatus: SessionLifecycleTargetStatus;
 }
 export interface UpdateSessionResponse {}
@@ -3399,18 +3399,18 @@ export interface UpdateStepRequest {
   queueId: string;
   jobId: string;
   stepId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   targetTaskRunStatus: StepTargetTaskRunStatus;
 }
 export interface UpdateStepResponse {}
 export interface UpdateStorageProfileRequest {
   farmId: string;
   storageProfileId: string;
-  clientToken?: string;
-  displayName?: string;
-  osFamily?: StorageProfileOperatingSystemFamily;
-  fileSystemLocationsToAdd?: FileSystemLocation[];
-  fileSystemLocationsToRemove?: FileSystemLocation[];
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  osFamily?: StorageProfileOperatingSystemFamily | undefined;
+  fileSystemLocationsToAdd?: FileSystemLocation[] | undefined;
+  fileSystemLocationsToRemove?: FileSystemLocation[] | undefined;
 }
 export interface UpdateStorageProfileResponse {}
 export interface UpdateTaskRequest {
@@ -3419,7 +3419,7 @@ export interface UpdateTaskRequest {
   jobId: string;
   stepId: string;
   taskId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   targetRunStatus: TaskTargetRunStatus;
 }
 export interface UpdateTaskResponse {}
@@ -3442,13 +3442,13 @@ export interface UpdateWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  status?: UpdatedWorkerStatus;
-  capabilities?: WorkerCapabilities;
-  hostProperties?: HostPropertiesRequest;
+  status?: UpdatedWorkerStatus | undefined;
+  capabilities?: WorkerCapabilities | undefined;
+  hostProperties?: HostPropertiesRequest | undefined;
 }
 export interface UpdateWorkerResponse {
-  log?: LogConfiguration;
-  hostConfiguration?: HostConfiguration;
+  log?: LogConfiguration | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
 }
 export type CompletedStatus =
   | "SUCCEEDED"
@@ -3458,26 +3458,26 @@ export type CompletedStatus =
   | "NEVER_ATTEMPTED"
   | (string & {});
 export interface TaskRunManifestPropertiesRequest {
-  outputManifestPath?: string;
-  outputManifestHash?: string;
+  outputManifestPath?: string | undefined;
+  outputManifestHash?: string | undefined;
 }
 export type TaskRunManifestPropertiesListRequest = TaskRunManifestPropertiesRequest[];
 export interface UpdatedSessionActionInfo {
-  completedStatus?: CompletedStatus;
-  processExitCode?: number;
-  progressMessage?: string | redacted.Redacted<string>;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesRequest[];
+  completedStatus?: CompletedStatus | undefined;
+  processExitCode?: number | undefined;
+  progressMessage?: string | redacted.Redacted<string> | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesRequest[] | undefined;
 }
 export type UpdatedSessionActions = { [key: string]: UpdatedSessionActionInfo | undefined };
 export interface UpdateWorkerScheduleRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  updatedSessionActions?: { [key: string]: UpdatedSessionActionInfo | undefined };
+  updatedSessionActions?: { [key: string]: UpdatedSessionActionInfo | undefined } | undefined;
 }
 export interface AssignedEnvironmentEnterSessionActionDefinition {
   environmentId: string;
@@ -3486,36 +3486,36 @@ export interface AssignedEnvironmentExitSessionActionDefinition {
   environmentId: string;
 }
 export interface AssignedTaskRunSessionActionDefinition {
-  taskId?: string;
+  taskId?: string | undefined;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
 export interface AssignedSyncInputJobAttachmentsSessionActionDefinition {
-  stepId?: string;
+  stepId?: string | undefined;
 }
 export type AssignedSessionActionDefinition =
   | {
       envEnter: AssignedEnvironmentEnterSessionActionDefinition;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: AssignedEnvironmentExitSessionActionDefinition;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: AssignedTaskRunSessionActionDefinition;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: AssignedSyncInputJobAttachmentsSessionActionDefinition;
     };
 export interface AssignedSessionAction {
@@ -3531,7 +3531,7 @@ export interface AssignedSession {
   jobId: string;
   sessionActions: AssignedSessionAction[];
   logConfiguration: LogConfiguration;
-  metadata?: { [key: string]: string | undefined };
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type AssignedSessions = { [key: string]: AssignedSession | undefined };
 export type SessionActionIdList = string[];
@@ -3541,7 +3541,7 @@ export type UpdateWorkerScheduleInterval = number;
 export interface UpdateWorkerScheduleResponse {
   assignedSessions: { [key: string]: AssignedSession | undefined };
   cancelSessionActions: { [key: string]: string[] | undefined };
-  desiredWorkerStatus?: DesiredWorkerStatus;
+  desiredWorkerStatus?: DesiredWorkerStatus | undefined;
   updateIntervalSeconds: number;
 }
 export type ExceptionContext = { [key: string]: string | undefined };

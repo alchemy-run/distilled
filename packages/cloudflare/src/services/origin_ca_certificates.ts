@@ -98,9 +98,9 @@ export interface CreateOriginCaCertificateRequest {
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
   requestType: CreateRequestRequestType | (string & {});
   /** The number of days for which the certificate should be valid. */
-  requestedValidity?: CreateRequestRequestedValidity | (number & {});
+  requestedValidity?: CreateRequestRequestedValidity | (number & {}) | undefined;
   /** Identifier of the zone whose keyless servers the certificate is for. Required when `request_type` is `keyless-certificate`; ignored otherwise. */
-  zoneId?: string;
+  zoneId?: string | undefined;
 }
 export type CreateResponseHostnamesList = Array<string>;
 export type CreateResponseRequestType = "origin-rsa" | "origin-ecc" | "keyless-certificate";
@@ -108,21 +108,21 @@ export type CreateResponseRequestedValidity = 7 | 30 | 90 | 365 | 730 | 1095 | 5
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOriginCaCertificateResponse {
   /** The x509 serial number of the Origin CA certificate. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Origin CA certificate. Will be newline-encoded. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** When the certificate will expire. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode. */
-  hostnames?: CreateResponseHostnamesList | null;
+  hostnames?: CreateResponseHostnamesList | null | undefined;
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
-  requestType?: CreateResponseRequestType | null;
+  requestType?: CreateResponseRequestType | null | undefined;
   /** The number of days for which the certificate was requested to be valid. Only returned in the Create Certificate response, where it echoes the requested value. Not returned when getting or listing certificates. */
-  requestedValidity?: CreateResponseRequestedValidity | null;
+  requestedValidity?: CreateResponseRequestedValidity | null | undefined;
   /** When the certificate was revoked; absent while the certificate is live. */
-  revokedAt?: string | null;
+  revokedAt?: string | null | undefined;
 }
 export interface DeleteOriginCaCertificateRequest {
   /** The x509 serial number of the Origin CA certificate. */
@@ -131,9 +131,9 @@ export interface DeleteOriginCaCertificateRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteOriginCaCertificateResponse {
   /** The x509 serial number of the Origin CA certificate. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** When the certificate was revoked. */
-  revokedAt?: string | null;
+  revokedAt?: string | null | undefined;
 }
 export interface GetOriginCaCertificateRequest {
   /** The x509 serial number of the Origin CA certificate. */
@@ -145,57 +145,57 @@ export type GetResponseRequestedValidity = 7 | 30 | 90 | 365 | 730 | 1095 | 5475
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOriginCaCertificateResponse {
   /** The x509 serial number of the Origin CA certificate. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Origin CA certificate. Will be newline-encoded. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** When the certificate will expire. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode. */
-  hostnames?: GetResponseHostnamesList | null;
+  hostnames?: GetResponseHostnamesList | null | undefined;
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
-  requestType?: GetResponseRequestType | null;
+  requestType?: GetResponseRequestType | null | undefined;
   /** The number of days for which the certificate was requested to be valid. Only returned in the Create Certificate response, where it echoes the requested value. Not returned when getting or listing certificates. */
-  requestedValidity?: GetResponseRequestedValidity | null;
+  requestedValidity?: GetResponseRequestedValidity | null | undefined;
   /** When the certificate was revoked; absent while the certificate is live. */
-  revokedAt?: string | null;
+  revokedAt?: string | null | undefined;
 }
 export interface ListOriginCaCertificatesRequest {
   /** Identifier. */
   zoneId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of records per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListResultItemHostnamesList = Array<string>;
 export type ListResultItemRequestType = "origin-rsa" | "origin-ecc" | "keyless-certificate";
 export type ListResultItemRequestedValidity = 7 | 30 | 90 | 365 | 730 | 1095 | 5475;
 export interface ListResultItem {
   /** The x509 serial number of the Origin CA certificate. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The Origin CA certificate. Will be newline-encoded. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The Certificate Signing Request (CSR). Must be newline-encoded. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** When the certificate will expire. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Array of hostnames or wildcard names bound to the certificate. Hostnames must be fully qualified domain names (FQDNs) belonging to zones on your account (e.g., `example.com` or `sub.example.com`). Wildcards are supported only as a `*.` prefix for a single level (e.g., `*.example.com`). Double wildcards (`*.*.example.com`) and interior wildcards (`foo.*.example.com`) are not allowed. The wildcard suffix must be a multi-label domain (`*.example.com` is valid, but `*.com` is not). Unicode/IDN hostnames are accepted and automatically converted to punycode. */
-  hostnames?: ListResultItemHostnamesList | null;
+  hostnames?: ListResultItemHostnamesList | null | undefined;
   /** Signature type desired on certificate ("origin-rsa" (rsa), "origin-ecc" (ecdsa), or "keyless-certificate" (for Keyless SSL servers). */
-  requestType?: ListResultItemRequestType | null;
+  requestType?: ListResultItemRequestType | null | undefined;
   /** The number of days for which the certificate was requested to be valid. Only returned in the Create Certificate response, where it echoes the requested value. Not returned when getting or listing certificates. */
-  requestedValidity?: ListResultItemRequestedValidity | null;
+  requestedValidity?: ListResultItemRequestedValidity | null | undefined;
   /** When the certificate was revoked; absent while the certificate is live. */
-  revokedAt?: string | null;
+  revokedAt?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListOriginCaCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateOriginCaCertificateError = HostnameNotAuthorized | Forbidden | CloudflareOpError;
 /** Create an Origin CA certificate. For `keyless-certificate` requests, `zone_id` is required and the response contains only `id`, `certificate`, and `expires_on`. You can use an Origin CA Key as your User Service Key or an API token when calling this endpoint ([see above](#requests)). */

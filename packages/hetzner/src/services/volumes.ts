@@ -40,17 +40,17 @@ export interface CreateVolumeRequest {
   /** Name of the volume. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateVolumeRequestLabelsMap;
+  labels?: CreateVolumeRequestLabelsMap | undefined;
   /** Auto-mount Volume after attach. `server` must be provided. */
-  automount?: boolean;
+  automount?: boolean | undefined;
   /** Format Volume after creation. One of: `xfs`, `ext4`. */
-  format?: string;
+  format?: string | undefined;
   /** Location to create the Volume in (can be omitted if Server is specified). */
-  location?: string;
+  location?: string | undefined;
   /** This field is deprecated, use the `assignee` field with `server` as the `type` instead. Server to which to attach the Volume once it's created (Volume will be created in the same Location as the server). */
-  server?: number;
+  server?: number | undefined;
   /** Resource to which to attach the Volume once it's created (Volume will be created in the same Location as the resource). */
-  assignee?: CreateVolumeRequestAssignee;
+  assignee?: CreateVolumeRequestAssignee | undefined;
 }
 /** Resource the Volume is attached to, null if it is not attached at all. */
 export type CreateVolumeResponseVolumeAssignee = CreateVolumeRequestAssignee;
@@ -233,17 +233,17 @@ export type ListVolumesRequestSortItem =
 export type ListVolumesRequestSortList = Array<ListVolumesRequestSortItem | (string & {})>;
 export interface ListVolumesRequest {
   /** Filter resources by status. May be used multiple times. The response will only contain the resources with the specified status. */
-  status?: ListVolumesRequestStatusList;
+  status?: ListVolumesRequestStatusList | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListVolumesRequestSortList;
+  sort?: ListVolumesRequestSortList | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Resource the Volume is attached to, null if it is not attached at all. */
 export type ListVolumesResponseVolumesItemAssignee = CreateVolumeRequestAssignee;
@@ -311,9 +311,9 @@ export interface UpdateVolumeRequest {
   /** ID of the Volume. */
   id: number;
   /** New Volume name. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateVolumeRequestLabelsMap;
+  labels?: UpdateVolumeRequestLabelsMap | undefined;
 }
 /** Resource the Volume is attached to, null if it is not attached at all. */
 export type UpdateVolumeResponseVolumeAssignee = CreateVolumeRequestAssignee;

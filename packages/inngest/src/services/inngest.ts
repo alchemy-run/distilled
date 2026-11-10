@@ -76,40 +76,40 @@ export interface CancelV2BuildRequest {
   buildId: string;
 }
 export interface V2Build {
-  architecture?: string;
-  artifactDigest?: string;
-  createdAt?: string;
-  error?: string;
-  finishedAt?: string;
-  id?: string;
-  name?: string;
+  architecture?: string | undefined;
+  artifactDigest?: string | undefined;
+  createdAt?: string | undefined;
+  error?: string | undefined;
+  finishedAt?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
   /** pending (uploading), uploaded (queued/processing), ready, or failed. */
-  status?: string;
-  tag?: string;
-  updatedAt?: string;
+  status?: string | undefined;
+  tag?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface V2BuildResponse {
-  data?: V2Build;
+  data?: V2Build | undefined;
 }
 export interface CancelV2RunRequest {
   runId: string;
 }
 export interface V2CancelRunData {
   /** Cancelled run ID */
-  runId?: string;
+  runId?: string | undefined;
 }
 export interface V2TimeRange {
-  from?: string;
-  until?: string;
+  from?: string | undefined;
+  until?: string | undefined;
 }
 export interface V2ResponseMetadata {
-  cachedUntil?: string;
-  fetchedAt?: string;
-  timeRange?: V2TimeRange;
+  cachedUntil?: string | undefined;
+  fetchedAt?: string | undefined;
+  timeRange?: V2TimeRange | undefined;
 }
 export interface V2CancelRunResponse {
-  data?: V2CancelRunData;
-  metadata?: V2ResponseMetadata;
+  data?: V2CancelRunData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface CommitV2BuildRequest {
   /** Must match the name used when creating the build. */
@@ -119,21 +119,21 @@ export interface CommitV2BuildRequest {
 export interface CreateV2BuildRequest {
   /** A workspace-local name, without an account or inngest/ prefix. */
   name: string;
-  architecture?: string;
-  tag?: string;
+  architecture?: string | undefined;
+  tag?: string | undefined;
   /** Lowercase SHA256 of the uploaded archive bytes. commit fails when the uploaded bytes have a different hash. */
-  uploadSha256?: string;
-  uploadSizeBytes?: string;
+  uploadSha256?: string | undefined;
+  uploadSizeBytes?: string | undefined;
 }
 /** send each header with its exact value. the server can add a header, such as a checksum of the archive, without a client change. */
 export type V2CreateBuildResponseUploadHeadersMap = { [key: string]: string | undefined };
 export interface V2CreateBuildResponse {
-  data?: V2Build;
-  expiresAt?: string;
+  data?: V2Build | undefined;
+  expiresAt?: string | undefined;
   /** send each header with its exact value. the server can add a header, such as a checksum of the archive, without a client change. */
-  uploadHeaders?: V2CreateBuildResponseUploadHeadersMap;
+  uploadHeaders?: V2CreateBuildResponseUploadHeadersMap | undefined;
   /** send the archive in a PUT request body with every header in upload_headers. set Content-Length to upload_size_bytes. storage rejects a request that changes a header or the length. */
-  uploadUrl?: string;
+  uploadUrl?: string | undefined;
 }
 export interface CreateV2CancellationRequest {
   /** SDK app ID containing the function */
@@ -143,57 +143,57 @@ export interface CreateV2CancellationRequest {
   /** Inclusive lower bound on run queued time, with millisecond precision. No limit on range width. */
   from: string;
   /** CEL expression over event, the triggering event. Maximum 1024 characters; macros and non-logical functions are restricted. */
-  if?: string;
+  if?: string | undefined;
   /** Optional name, trimmed of surrounding whitespace. Must contain 1 to 255 characters when provided. */
-  name?: string;
+  name?: string | undefined;
   /** Inclusive upper bound on run queued time, with millisecond precision. May be up to now plus five seconds. */
   until: string;
 }
 export interface V2Cancellation {
-  appId?: string;
-  createdAt?: string;
-  from?: string;
-  functionId?: string;
-  id?: string;
-  if?: string;
-  name?: string;
-  until?: string;
+  appId?: string | undefined;
+  createdAt?: string | undefined;
+  from?: string | undefined;
+  functionId?: string | undefined;
+  id?: string | undefined;
+  if?: string | undefined;
+  name?: string | undefined;
+  until?: string | undefined;
 }
 export interface V2CreateCancellationResponse {
-  data?: V2Cancellation;
-  metadata?: V2ResponseMetadata;
+  data?: V2Cancellation | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface CreateV2EnvRequest {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type V2EnvType = "PRODUCTION" | "TEST" | "BRANCH";
 export interface V2Env {
-  createdAt?: string;
-  id?: string;
-  isArchived?: boolean;
-  name?: string;
-  type?: V2EnvType;
+  createdAt?: string | undefined;
+  id?: string | undefined;
+  isArchived?: boolean | undefined;
+  name?: string | undefined;
+  type?: V2EnvType | undefined;
 }
 export interface V2CreateEnvResponse {
-  data?: V2Env;
-  metadata?: V2ResponseMetadata;
+  data?: V2Env | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface CreateV2PartnerAccountRequest {
-  email?: string;
-  name?: string;
+  email?: string | undefined;
+  name?: string | undefined;
 }
 export interface V2CreateAccountData {
-  apiKey?: string | Redacted.Redacted<string>;
-  createdAt?: string;
-  email?: string;
-  id?: string;
-  name?: string;
-  updatedAt?: string;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  createdAt?: string | undefined;
+  email?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface V2CreateAccountResponse {
-  data?: V2CreateAccountData;
-  metadata?: V2ResponseMetadata;
+  data?: V2CreateAccountData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export type CreateV2ReplayRequestStatusesItem =
   | "ALL"
@@ -224,41 +224,41 @@ export type V2ReplayStatusesItem = "ALL" | "COMPLETED" | "FAILED" | "CANCELLED" 
 export type V2ReplayStatusesList = Array<V2ReplayStatusesItem>;
 export interface V2Replay {
   /** Time the replay was created */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Inclusive start of the queued-at time range. Echoes the request timestamp normalized to UTC. */
-  from?: string;
+  from?: string | undefined;
   /** SDK function ID within the app. Legacy app-prefixed function IDs are also accepted (at most 256 bytes). */
-  functionId?: string;
+  functionId?: string | undefined;
   /** Replay ID */
-  id?: string;
+  id?: string | undefined;
   /** Replay name, between 3 and 64 characters. Echoes the request after trimming surrounding whitespace. */
-  name?: string;
+  name?: string | undefined;
   /** Run statuses to replay. Accepts ALL, COMPLETED, FAILED, CANCELLED, or SKIPPED_PAUSED. ALL cannot be combined with another status. Between 1 and 5 values are required, including duplicates; exceeding this limit returns HTTP 400. Echoes the normalized request with surrounding whitespace trimmed, values uppercased, and duplicates removed. */
-  statuses?: V2ReplayStatusesList;
+  statuses?: V2ReplayStatusesList | undefined;
   /** Inclusive end of the queued-at time range. May equal from. Values up to 5 seconds in the future are accepted for clock skew and clamped to the current server time; later values return HTTP 400. Echoes the request timestamp normalized to UTC and clamped when necessary. */
-  until?: string;
+  until?: string | undefined;
 }
 export interface V2CreateReplayResponse {
-  data?: V2Replay;
-  metadata?: V2ResponseMetadata;
+  data?: V2Replay | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export type CreateV2SandboxRequestEnvironmentMap = { [key: string]: string | undefined };
 /** Exact workspace secret names, each injected under that same environment variable name. Names must be unique, valid environment keys, and must not overlap with environment. Names resolve to UUID bindings when creating the workload; create recovery retains those bindings even if a secret is archived and its name reused. Values are fetched at launch and may remain in the guest and its snapshots. Cannot be supplied with snapshot_id. */
 export type CreateV2SandboxRequestSecretsList = Array<string>;
 export interface CreateV2SandboxRequest {
-  environment?: CreateV2SandboxRequestEnvironmentMap;
+  environment?: CreateV2SandboxRequestEnvironmentMap | undefined;
   /** An already-published image accessible to this workspace: name[:tag], name@sha256:<hex>, or sha256:<hex>. Omitted tags mean latest. Omit image to use the default base image. Cannot be supplied with snapshot_id. Resolves once for a new sandbox; name-idempotent retries keep the original artifact even when a tag moves. Does not build or upload an image. */
-  image?: string;
-  memoryMb?: number;
-  name?: string;
+  image?: string | undefined;
+  memoryMb?: number | undefined;
+  name?: string | undefined;
   /** Exact workspace secret names, each injected under that same environment variable name. Names must be unique, valid environment keys, and must not overlap with environment. Names resolve to UUID bindings when creating the workload; create recovery retains those bindings even if a secret is archived and its name reused. Values are fetched at launch and may remain in the guest and its snapshots. Cannot be supplied with snapshot_id. */
-  secrets?: CreateV2SandboxRequestSecretsList;
-  snapshotId?: string;
-  vcpu?: number;
+  secrets?: CreateV2SandboxRequestSecretsList | undefined;
+  snapshotId?: string | undefined;
+  vcpu?: number | undefined;
 }
 export interface V2SandboxResourceSpec {
-  memoryMb?: number;
-  vcpu?: number;
+  memoryMb?: number | undefined;
+  vcpu?: number | undefined;
 }
 export type V2SandboxStatus =
   | "UNSPECIFIED"
@@ -270,30 +270,30 @@ export type V2SandboxStatus =
   | "TERMINATED"
   | "FAILED";
 export interface V2Sandbox {
-  createdAt?: string;
-  endedAt?: string;
-  error?: string;
-  id?: string;
+  createdAt?: string | undefined;
+  endedAt?: string | undefined;
+  error?: string | undefined;
+  id?: string | undefined;
   /** The pinned launch artifact, formatted as sha256:<hex>. Absent for legacy sandboxes without a catalog image. This is not the rootfs file checksum. */
-  imageDigest?: string;
-  imageRef?: string;
-  name?: string;
-  resources?: V2SandboxResourceSpec;
-  startedAt?: string;
-  status?: V2SandboxStatus;
-  vpcId?: string;
+  imageDigest?: string | undefined;
+  imageRef?: string | undefined;
+  name?: string | undefined;
+  resources?: V2SandboxResourceSpec | undefined;
+  startedAt?: string | undefined;
+  status?: V2SandboxStatus | undefined;
+  vpcId?: string | undefined;
 }
 export interface V2SandboxResponseMetadata {
-  fetchedAt?: string;
+  fetchedAt?: string | undefined;
 }
 export interface V2CreateSandboxResponse {
-  data?: V2Sandbox;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2Sandbox | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface CreateV2SandboxSnapshotRequest {
   sandboxId: string;
   /** Unique in the environment among snapshots that are creating, or ready and not expired. A name held by such a snapshot is rejected with sandbox_snapshot_name_taken; any other snapshot's name can be reused. */
-  name?: string;
+  name?: string | undefined;
 }
 export type V2SandboxSnapshotStatus =
   | "UNSPECIFIED"
@@ -304,38 +304,38 @@ export type V2SandboxSnapshotStatus =
   | "FAILED"
   | "LOST";
 export interface V2SandboxSnapshot {
-  compatibilityId?: string;
-  createdAt?: string;
-  diskPackCount?: number;
-  error?: string;
-  expiresAt?: string;
-  id?: string;
-  memoryPackCount?: number;
-  name?: string;
-  resources?: V2SandboxResourceSpec;
-  sourceImageId?: string;
-  status?: V2SandboxSnapshotStatus;
-  storedBytes?: string;
-  updatedAt?: string;
+  compatibilityId?: string | undefined;
+  createdAt?: string | undefined;
+  diskPackCount?: number | undefined;
+  error?: string | undefined;
+  expiresAt?: string | undefined;
+  id?: string | undefined;
+  memoryPackCount?: number | undefined;
+  name?: string | undefined;
+  resources?: V2SandboxResourceSpec | undefined;
+  sourceImageId?: string | undefined;
+  status?: V2SandboxSnapshotStatus | undefined;
+  storedBytes?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface V2CreateSandboxSnapshotResponse {
-  data?: V2SandboxSnapshot;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2SandboxSnapshot | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface V2ScoreExperiment {
   /** Experiment ID */
-  id?: string;
+  id?: string | undefined;
   /** Experiment variant */
-  variant?: string;
+  variant?: string | undefined;
 }
 export interface V2CreateScoreInput {
-  experiment?: V2ScoreExperiment;
+  experiment?: V2ScoreExperiment | undefined;
   /** Score name; must be at most 128 UTF-8 bytes */
-  name?: string;
+  name?: string | undefined;
   /** Optional SDK step ID; attaches the score to a specific step instead of the run. Step targets are recorded best-effort and are not validated before writing. */
-  stepId?: string;
+  stepId?: string | undefined;
   /** Score value; must be a finite number or a boolean */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type CreateV2ScoreRequestBodyList = Array<V2CreateScoreInput>;
 export interface CreateV2ScoreRequest {
@@ -344,52 +344,52 @@ export interface CreateV2ScoreRequest {
   body: CreateV2ScoreRequestBodyList;
 }
 export interface V2Score {
-  experiment?: V2ScoreExperiment;
+  experiment?: V2ScoreExperiment | undefined;
   /** Score name */
-  name?: string;
+  name?: string | undefined;
   /** Run ID the score was recorded against */
-  runId?: string;
+  runId?: string | undefined;
   /** Step ID the score was recorded against, if step-scoped */
-  stepId?: string;
+  stepId?: string | undefined;
   /** Score value */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type V2CreateScoreResponseDataList = Array<V2Score>;
 export interface V2CreateScoreResponse {
-  data?: V2CreateScoreResponseDataList;
-  metadata?: V2ResponseMetadata;
+  data?: V2CreateScoreResponseDataList | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 /** Allow or deny specific events, e.g. 'orders/payment.created', or 'orders/*' for all orders. Only events in this list will be either allowed or denied. */
 export type V2EventFilterEventsList = Array<string>;
 export type V2FilterType = "ALLOW" | "DENY";
 export interface V2EventFilter {
   /** Allow or deny specific events, e.g. 'orders/payment.created', or 'orders/*' for all orders. Only events in this list will be either allowed or denied. */
-  events?: V2EventFilterEventsList;
-  filter?: V2FilterType | (string & {});
+  events?: V2EventFilterEventsList | undefined;
+  filter?: V2FilterType | (string & {}) | undefined;
 }
 export interface CreateV2WebhookRequest {
-  eventFilter?: V2EventFilter;
+  eventFilter?: V2EventFilter | undefined;
   /** Descriptive name for the webhook */
-  name?: string;
+  name?: string | undefined;
   /** Optional inline JS function which is called to respond to GET requests */
-  response?: string;
+  response?: string | undefined;
   /** The inline JS transform function for incoming events */
-  transform?: string;
+  transform?: string | undefined;
 }
 export interface V2Webhook {
-  createdAt?: string;
-  environment?: string;
-  eventFilter?: V2EventFilter;
-  id?: string;
-  name?: string;
-  response?: string;
-  transform?: string;
-  updatedAt?: string;
-  url?: string;
+  createdAt?: string | undefined;
+  environment?: string | undefined;
+  eventFilter?: V2EventFilter | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  response?: string | undefined;
+  transform?: string | undefined;
+  updatedAt?: string | undefined;
+  url?: string | undefined;
 }
 export interface V2CreateWebhookResponse {
-  data?: V2Webhook;
-  metadata?: V2ResponseMetadata;
+  data?: V2Webhook | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface DeleteV2SandboxSnapshotRequest {
   snapshotId: string;
@@ -399,93 +399,93 @@ export type ExecV2SandboxRequestCommandList = Array<string>;
 export type ExecV2SandboxRequestEnvironmentMap = { [key: string]: string | undefined };
 export interface ExecV2SandboxRequest {
   sandboxId: string;
-  command?: ExecV2SandboxRequestCommandList;
-  cwd?: string;
-  environment?: ExecV2SandboxRequestEnvironmentMap;
-  timeout?: string;
+  command?: ExecV2SandboxRequestCommandList | undefined;
+  cwd?: string | undefined;
+  environment?: ExecV2SandboxRequestEnvironmentMap | undefined;
+  timeout?: string | undefined;
 }
 export interface V2ExecSandboxData {
-  encoding?: string;
-  exitCode?: number;
-  stderr?: string;
-  stdout?: string;
+  encoding?: string | undefined;
+  exitCode?: number | undefined;
+  stderr?: string | undefined;
+  stdout?: string | undefined;
 }
 export interface V2ExecSandboxResponse {
-  data?: V2ExecSandboxData;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2ExecSandboxData | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface FetchV2AccountRequest {}
 export interface V2Account {
-  createdAt?: string;
-  email?: string;
-  id?: string;
-  name?: string;
-  updatedAt?: string;
+  createdAt?: string | undefined;
+  email?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface V2FetchAccountResponse {
-  data?: V2Account;
-  metadata?: V2ResponseMetadata;
+  data?: V2Account | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface FetchV2AccountEnvsRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of environments to return per page (min: 1, max: 250) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type V2FetchAccountEnvsResponseDataList = Array<V2Env>;
 export interface V2Page {
-  cursor?: string;
-  hasMore?: boolean;
-  limit?: number;
+  cursor?: string | undefined;
+  hasMore?: boolean | undefined;
+  limit?: number | undefined;
 }
 export interface V2FetchAccountEnvsResponse {
   data: V2FetchAccountEnvsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface FetchV2AccountEventKeysRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of event keys to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface V2EventKey {
-  createdAt?: string;
-  environment?: string;
-  id?: string;
-  key?: string;
-  name?: string;
+  createdAt?: string | undefined;
+  environment?: string | undefined;
+  id?: string | undefined;
+  key?: string | undefined;
+  name?: string | undefined;
 }
 export type V2FetchAccountEventKeysResponseDataList = Array<V2EventKey>;
 export interface V2FetchAccountEventKeysResponse {
   data: V2FetchAccountEventKeysResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface FetchV2AccountSigningKeysRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of signing keys to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type V2SigningKey = V2EventKey;
 export type V2FetchAccountSigningKeysResponseDataList = Array<V2EventKey>;
 export interface V2FetchAccountSigningKeysResponse {
   data: V2FetchAccountSigningKeysResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface FetchV2PartnerAccountsRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of accounts to return per page (min: 1, max: 1000) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type V2FetchAccountsResponseDataList = Array<V2Account>;
 export interface V2FetchAccountsResponse {
   data: V2FetchAccountsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface GetV2AppRequest {
   /** The user-defined app ID */
@@ -495,58 +495,58 @@ export interface GetV2AppRequest {
 export type V2AppSyncStatus = "pending" | "success" | "error" | "duplicate";
 export interface V2AppSync {
   /** App version reported by the latest sync, if set */
-  appVersion?: string;
+  appVersion?: string | undefined;
   /** Most recent sync or connectivity error for the app, if any */
-  error?: string;
+  error?: string | undefined;
   /** Framework used by the app, if reported by the SDK */
-  framework?: string;
+  framework?: string | undefined;
   /** Language of the SDK that synced the app */
-  sdkLanguage?: string;
+  sdkLanguage?: string | undefined;
   /** Version of the SDK that synced the app */
-  sdkVersion?: string;
+  sdkVersion?: string | undefined;
   /** Status of the latest sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
-  status?: V2AppSyncStatus;
+  status?: V2AppSyncStatus | undefined;
   /** Timestamp for the latest sync, if available */
-  syncedAt?: string;
+  syncedAt?: string | undefined;
   /** URL of the Inngest endpoint in the app, if synced via URL */
-  url?: string;
+  url?: string | undefined;
 }
 export type V2AppMethod = "UNSPECIFIED" | "SERVE" | "CONNECT" | "API" | "INNGEST_SERVE";
 export interface V2App {
   /** User-defined app version, if set */
-  appVersion?: string;
+  appVersion?: string | undefined;
   /** Timestamp when the app was archived (if archived) */
-  archivedAt?: string;
+  archivedAt?: string | undefined;
   /** Timestamp when the app was first synced */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Number of functions in the app */
-  functionCount?: number;
+  functionCount?: number | undefined;
   /** The user-defined app ID */
-  id?: string;
+  id?: string | undefined;
   /** Whether the app is archived */
-  isArchived?: boolean;
-  latestSync?: V2AppSync;
-  method?: V2AppMethod;
+  isArchived?: boolean | undefined;
+  latestSync?: V2AppSync | undefined;
+  method?: V2AppMethod | undefined;
   /** App name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface V2GetAppResponse {
-  data?: V2App;
-  metadata?: V2ResponseMetadata;
+  data?: V2App | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface GetV2AppsRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of apps to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Whether to return archived apps instead of active apps */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 export type V2GetAppsResponseDataList = Array<V2App>;
 export interface V2GetAppsResponse {
   data: V2GetAppsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface GetV2BuildRequest {
   buildId: string;
@@ -557,29 +557,29 @@ export interface GetV2EventRequest {
   /** Internal event ULID, also used by GetEventRuns. */
   eventId: string;
   /** Optional event expansions. Use payload to return the stored event JSON. Payloads can contain personal data and be large, so request them only when needed. Default CLI and MCP OAuth scopes include events:read:*, so agents can read payloads. Events can be up to 5 MiB in Cloud (less on lower plans). */
-  include?: GetV2EventRequestIncludeList;
+  include?: GetV2EventRequestIncludeList | undefined;
 }
 export interface V2EventSource {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export interface V2Event {
   /** Internal event ULID, also used by GetEventRuns. */
-  id?: string;
+  id?: string | undefined;
   /** Sender-supplied event ID used for idempotency. */
-  idempotencyKey?: string;
-  name?: string;
+  idempotencyKey?: string | undefined;
+  name?: string | undefined;
   /** Event timestamp supplied by the sender. Omitted when the stored timestamp is zero. */
-  occurredAt?: string;
+  occurredAt?: string | undefined;
   /** Stored event JSON (name, data, user, ts, id, v). Present only with include=payload. Payloads can contain personal data and be large, so request them only when needed. Numbers in payloads are JSON float64, so integers above 2^53 may lose precision. */
-  payload?: unknown;
-  receivedAt?: string;
-  source?: V2EventSource;
-  version?: string;
+  payload?: unknown | undefined;
+  receivedAt?: string | undefined;
+  source?: V2EventSource | undefined;
+  version?: string | undefined;
 }
 export interface V2GetEventResponse {
-  data?: V2Event;
-  metadata?: V2ResponseMetadata;
+  data?: V2Event | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export type GetV2EventRunsRequestIncludeItem = "output";
 export type GetV2EventRunsRequestIncludeList = Array<
@@ -588,24 +588,24 @@ export type GetV2EventRunsRequestIncludeList = Array<
 export interface GetV2EventRunsRequest {
   eventId: string;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of runs to return per page (min: 1, max: 40) */
-  limit?: number;
+  limit?: number | undefined;
   /** Optional run expansions selected by their lowerCamelCase API names. */
-  include?: GetV2EventRunsRequestIncludeList;
+  include?: GetV2EventRunsRequestIncludeList | undefined;
 }
 export interface V2AppRef {
-  id?: string;
+  id?: string | undefined;
 }
 export interface V2RunDeferredFrom {
-  functionName?: string;
-  functionSlug?: string;
+  functionName?: string | undefined;
+  functionSlug?: string | undefined;
 }
 export interface V2FunctionRef {
-  app?: V2AppRef;
-  id?: string;
-  name?: string;
-  slug?: string;
+  app?: V2AppRef | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 /** - FUNCTION_RUN_STATUS_PAUSED: PAUSED is synthetic: the run is RUNNING, but its function is paused. - FUNCTION_RUN_STATUS_UNKNOWN: UNKNOWN is returned when the persisted run status cannot be recognized. */
 export type V2FunctionRunStatus =
@@ -620,70 +620,70 @@ export type V2FunctionRunStatus =
   | "UNKNOWN";
 export type V2RunTriggerEventIdsList = Array<string>;
 export interface V2RunTrigger {
-  batchId?: string;
-  cronSchedule?: string;
-  eventIds?: V2RunTriggerEventIdsList;
-  eventName?: string;
-  isBatch?: boolean;
+  batchId?: string | undefined;
+  cronSchedule?: string | undefined;
+  eventIds?: V2RunTriggerEventIdsList | undefined;
+  eventName?: string | undefined;
+  isBatch?: boolean | undefined;
 }
 export interface V2FunctionRun {
-  app?: V2AppRef;
-  deferredFrom?: V2RunDeferredFrom;
-  durationMs?: string;
-  endedAt?: string;
-  function?: V2FunctionRef;
-  id?: string;
-  isDeferred?: boolean;
-  output?: unknown;
-  queuedAt?: string;
-  startedAt?: string;
-  status?: V2FunctionRunStatus;
-  trigger?: V2RunTrigger;
+  app?: V2AppRef | undefined;
+  deferredFrom?: V2RunDeferredFrom | undefined;
+  durationMs?: string | undefined;
+  endedAt?: string | undefined;
+  function?: V2FunctionRef | undefined;
+  id?: string | undefined;
+  isDeferred?: boolean | undefined;
+  output?: unknown | undefined;
+  queuedAt?: string | undefined;
+  startedAt?: string | undefined;
+  status?: V2FunctionRunStatus | undefined;
+  trigger?: V2RunTrigger | undefined;
 }
 export type V2GetEventRunsResponseDataList = Array<V2FunctionRun>;
 export interface V2GetEventRunsResponse {
   data: V2GetEventRunsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface GetV2ExperimentRequest {
   appId: string;
   functionId: string;
   experimentId: string;
   /** Optional variant name to restrict the aggregate response. */
-  variant?: string;
-  from?: string;
-  until?: string;
+  variant?: string | undefined;
+  from?: string | undefined;
+  until?: string | undefined;
 }
 export interface V2ExperimentVariantWeight {
-  variantName?: string;
-  weight?: number;
+  variantName?: string | undefined;
+  weight?: number | undefined;
 }
 export type V2ExperimentDetailVariantWeightsList = Array<V2ExperimentVariantWeight>;
 export interface V2ExperimentVariantMetric {
-  avg?: number;
-  key?: string;
-  max?: number;
-  min?: number;
+  avg?: number | undefined;
+  key?: string | undefined;
+  max?: number | undefined;
+  min?: number | undefined;
 }
 export type V2ExperimentVariantMetricsMetricsList = Array<V2ExperimentVariantMetric>;
 export interface V2ExperimentVariantMetrics {
-  metrics?: V2ExperimentVariantMetricsMetricsList;
-  runCount?: number;
-  variantName?: string;
+  metrics?: V2ExperimentVariantMetricsMetricsList | undefined;
+  runCount?: number | undefined;
+  variantName?: string | undefined;
 }
 export type V2ExperimentDetailVariantsList = Array<V2ExperimentVariantMetrics>;
 export interface V2ExperimentDetail {
-  firstSeen?: string;
-  id?: string;
-  lastSeen?: string;
-  selectionStrategy?: string;
-  variantWeights?: V2ExperimentDetailVariantWeightsList;
-  variants?: V2ExperimentDetailVariantsList;
+  firstSeen?: string | undefined;
+  id?: string | undefined;
+  lastSeen?: string | undefined;
+  selectionStrategy?: string | undefined;
+  variantWeights?: V2ExperimentDetailVariantWeightsList | undefined;
+  variants?: V2ExperimentDetailVariantsList | undefined;
 }
 export interface V2GetExperimentResponse {
-  data?: V2ExperimentDetail;
-  metadata?: V2ResponseMetadata;
+  data?: V2ExperimentDetail | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface GetV2FunctionRequest {
   appId: string;
@@ -691,87 +691,87 @@ export interface GetV2FunctionRequest {
 }
 export type V2FunctionApp = V2AppRef;
 export interface V2FunctionCancellationConfiguration {
-  condition?: string;
-  event?: string;
-  timeout?: string;
+  condition?: string | undefined;
+  event?: string | undefined;
+  timeout?: string | undefined;
 }
 export type V2FunctionConfigurationCancellationsList = Array<V2FunctionCancellationConfiguration>;
 export interface V2FunctionConcurrencyLimitConfiguration {
-  isPlanLimit?: boolean;
-  value?: number;
+  isPlanLimit?: boolean | undefined;
+  value?: number | undefined;
 }
 export type V2FunctionConcurrencyScope = "UNSPECIFIED" | "ACCOUNT" | "ENVIRONMENT" | "FUNCTION";
 export interface V2FunctionConcurrencyConfiguration {
-  key?: string;
-  limit?: V2FunctionConcurrencyLimitConfiguration;
-  scope?: V2FunctionConcurrencyScope;
+  key?: string | undefined;
+  limit?: V2FunctionConcurrencyLimitConfiguration | undefined;
+  scope?: V2FunctionConcurrencyScope | undefined;
 }
 export type V2FunctionConfigurationConcurrencyList = Array<V2FunctionConcurrencyConfiguration>;
 export interface V2FunctionDebounceConfiguration {
-  key?: string;
-  period?: string;
+  key?: string | undefined;
+  period?: string | undefined;
 }
 export interface V2FunctionEventsBatchConfiguration {
-  key?: string;
-  maxSize?: number;
-  timeout?: string;
+  key?: string | undefined;
+  maxSize?: number | undefined;
+  timeout?: string | undefined;
 }
 export interface V2FunctionRateLimitConfiguration {
-  key?: string;
-  limit?: number;
-  period?: string;
+  key?: string | undefined;
+  limit?: number | undefined;
+  period?: string | undefined;
 }
 export interface V2FunctionRetryConfiguration {
-  isDefault?: boolean;
-  value?: number;
+  isDefault?: boolean | undefined;
+  value?: number | undefined;
 }
 export type V2FunctionSingletonMode = "UNSPECIFIED" | "SKIP" | "CANCEL";
 export interface V2FunctionSingletonConfiguration {
-  key?: string;
-  mode?: V2FunctionSingletonMode;
+  key?: string | undefined;
+  mode?: V2FunctionSingletonMode | undefined;
 }
 export interface V2FunctionThrottleConfiguration {
-  burst?: number;
-  key?: string;
-  limit?: number;
-  period?: string;
+  burst?: number | undefined;
+  key?: string | undefined;
+  limit?: number | undefined;
+  period?: string | undefined;
 }
 export interface V2FunctionConfiguration {
-  cancellations?: V2FunctionConfigurationCancellationsList;
-  concurrency?: V2FunctionConfigurationConcurrencyList;
-  debounce?: V2FunctionDebounceConfiguration;
-  eventsBatch?: V2FunctionEventsBatchConfiguration;
-  priority?: string;
-  rateLimit?: V2FunctionRateLimitConfiguration;
-  retries?: V2FunctionRetryConfiguration;
-  singleton?: V2FunctionSingletonConfiguration;
-  throttle?: V2FunctionThrottleConfiguration;
+  cancellations?: V2FunctionConfigurationCancellationsList | undefined;
+  concurrency?: V2FunctionConfigurationConcurrencyList | undefined;
+  debounce?: V2FunctionDebounceConfiguration | undefined;
+  eventsBatch?: V2FunctionEventsBatchConfiguration | undefined;
+  priority?: string | undefined;
+  rateLimit?: V2FunctionRateLimitConfiguration | undefined;
+  retries?: V2FunctionRetryConfiguration | undefined;
+  singleton?: V2FunctionSingletonConfiguration | undefined;
+  throttle?: V2FunctionThrottleConfiguration | undefined;
 }
 export interface V2FunctionFailureHandler {
-  name?: string;
-  slug?: string;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 export type V2FunctionTriggerType = "UNSPECIFIED" | "EVENT" | "CRON";
 export interface V2FunctionTrigger {
-  if?: string;
-  type?: V2FunctionTriggerType;
-  value?: string;
+  if?: string | undefined;
+  type?: V2FunctionTriggerType | undefined;
+  value?: string | undefined;
 }
 export type V2FunctionTriggersList = Array<V2FunctionTrigger>;
 export interface V2Function {
-  app?: V2AppRef;
-  configuration?: V2FunctionConfiguration;
-  failureHandler?: V2FunctionFailureHandler;
-  id?: string;
-  isArchived?: boolean;
-  isPaused?: boolean;
-  name?: string;
-  slug?: string;
-  triggers?: V2FunctionTriggersList;
+  app?: V2AppRef | undefined;
+  configuration?: V2FunctionConfiguration | undefined;
+  failureHandler?: V2FunctionFailureHandler | undefined;
+  id?: string | undefined;
+  isArchived?: boolean | undefined;
+  isPaused?: boolean | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
+  triggers?: V2FunctionTriggersList | undefined;
 }
 export interface V2GetFunctionResponse {
-  data?: V2Function;
-  metadata?: V2ResponseMetadata;
+  data?: V2Function | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export type GetV2FunctionRunRequestIncludeItem = "output";
 export type GetV2FunctionRunRequestIncludeList = Array<
@@ -780,24 +780,24 @@ export type GetV2FunctionRunRequestIncludeList = Array<
 export interface GetV2FunctionRunRequest {
   runId: string;
   /** Optional run expansions selected by their lowerCamelCase API names. */
-  include?: GetV2FunctionRunRequestIncludeList;
+  include?: GetV2FunctionRunRequestIncludeList | undefined;
 }
 export interface V2GetFunctionRunResponse {
-  data?: V2FunctionRun;
-  metadata?: V2ResponseMetadata;
+  data?: V2FunctionRun | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface GetV2FunctionsRequest {
   appId: string;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of functions to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type V2GetFunctionsResponseDataList = Array<V2Function>;
 export interface V2GetFunctionsResponse {
   data: V2GetFunctionsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export type GetV2FunctionTraceRequestIncludeItem = "output";
 export type GetV2FunctionTraceRequestIncludeList = Array<
@@ -806,17 +806,17 @@ export type GetV2FunctionTraceRequestIncludeList = Array<
 export interface GetV2FunctionTraceRequest {
   runId: string;
   /** Optional trace expansions selected by their lowerCamelCase API names. */
-  include?: GetV2FunctionTraceRequestIncludeList;
+  include?: GetV2FunctionTraceRequestIncludeList | undefined;
 }
 export type V2TraceSpanChildrenList = Array<V2TraceSpan>;
 export type V2TraceSpanMetadataValuesMap = { [key: string]: string | undefined };
 export interface V2TraceSpanMetadata {
   /** Whether kind is user-defined. kind may be returned without its userland/inngest prefix, so this tells a user kind from an internal one. */
-  isUser?: boolean;
-  kind?: string;
-  scope?: string;
-  updatedAt?: string;
-  values?: V2TraceSpanMetadataValuesMap;
+  isUser?: boolean | undefined;
+  kind?: string | undefined;
+  scope?: string | undefined;
+  updatedAt?: string | undefined;
+  values?: V2TraceSpanMetadataValuesMap | undefined;
 }
 export type V2TraceSpanMetadataList = Array<V2TraceSpanMetadata>;
 export type V2TraceSpanStatus =
@@ -837,40 +837,40 @@ export type V2TraceStepOp =
   | "AI_GATEWAY"
   | "WAIT_FOR_SIGNAL";
 export interface V2TraceSpan {
-  children?: V2TraceSpanChildrenList;
-  durationMs?: string;
-  endedAt?: string;
+  children?: V2TraceSpanChildrenList | undefined;
+  durationMs?: string | undefined;
+  endedAt?: string | undefined;
   /** The kind its caller gave a span group, such as "job" or "agent". Absent for steps and for groups without one. */
-  groupKind?: string;
-  id?: string;
-  input?: unknown;
-  metadata?: V2TraceSpanMetadataList;
-  name?: string;
+  groupKind?: string | undefined;
+  id?: string | undefined;
+  input?: unknown | undefined;
+  metadata?: V2TraceSpanMetadataList | undefined;
+  name?: string | undefined;
   /** The library that created this step or span group on the user's behalf, as "<package>@<version>", such as "@inngest/ci@0.1.0". Absent otherwise. */
-  origin?: string;
-  output?: unknown;
-  queuedAt?: string;
-  startedAt?: string;
-  status?: V2TraceSpanStatus;
-  stepId?: string;
-  stepOp?: V2TraceStepOp;
+  origin?: string | undefined;
+  output?: unknown | undefined;
+  queuedAt?: string | undefined;
+  startedAt?: string | undefined;
+  status?: V2TraceSpanStatus | undefined;
+  stepId?: string | undefined;
+  stepOp?: V2TraceStepOp | undefined;
   /** The kind of step this span is, such as "RUN" or "SLEEP". "SPAN_GROUP" marks a virtual span grouping the steps called inside an SDK span group. */
-  stepType?: string;
+  stepType?: string | undefined;
 }
 export interface V2FunctionTrace {
-  rootSpan?: V2TraceSpan;
-  runId?: string;
+  rootSpan?: V2TraceSpan | undefined;
+  runId?: string | undefined;
 }
 export interface V2GetFunctionTraceResponse {
-  data?: V2FunctionTrace;
-  metadata?: V2ResponseMetadata;
+  data?: V2FunctionTrace | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface GetV2SandboxRequest {
   sandboxId: string;
 }
 export interface V2GetSandboxResponse {
-  data?: V2Sandbox;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2Sandbox | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface GetV2SandboxProcessRequest {
   sandboxId: string;
@@ -886,45 +886,45 @@ export type V2SandboxProcessState =
   | "FAILED"
   | "LOST";
 export interface V2SandboxProcess {
-  command?: V2SandboxProcessCommandList;
-  endedAt?: string;
-  exitCode?: number;
-  id?: string;
-  pid?: number;
-  startedAt?: string;
-  state?: V2SandboxProcessState;
-  terminationSignal?: number;
+  command?: V2SandboxProcessCommandList | undefined;
+  endedAt?: string | undefined;
+  exitCode?: number | undefined;
+  id?: string | undefined;
+  pid?: number | undefined;
+  startedAt?: string | undefined;
+  state?: V2SandboxProcessState | undefined;
+  terminationSignal?: number | undefined;
 }
 export interface V2GetSandboxProcessResponse {
-  data?: V2SandboxProcess;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2SandboxProcess | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface GetV2SandboxProcessOutputRequest {
   sandboxId: string;
   processId: string;
-  tailBytes?: number;
+  tailBytes?: number | undefined;
 }
 export type V2SandboxLogStream = "UNSPECIFIED" | "STDOUT" | "STDERR";
 export interface V2SandboxLogChunk {
-  at?: string;
-  data?: string;
-  encoding?: string;
-  stream?: V2SandboxLogStream;
+  at?: string | undefined;
+  data?: string | undefined;
+  encoding?: string | undefined;
+  stream?: V2SandboxLogStream | undefined;
 }
 export type V2GetSandboxProcessOutputDataChunksList = Array<V2SandboxLogChunk>;
 export interface V2GetSandboxProcessOutputData {
-  chunks?: V2GetSandboxProcessOutputDataChunksList;
+  chunks?: V2GetSandboxProcessOutputDataChunksList | undefined;
 }
 export interface V2GetSandboxProcessOutputResponse {
-  data?: V2GetSandboxProcessOutputData;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2GetSandboxProcessOutputData | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface GetV2SandboxSnapshotRequest {
   snapshotId: string;
 }
 export interface V2GetSandboxSnapshotResponse {
-  data?: V2SandboxSnapshot;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2SandboxSnapshot | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface InvokeV2FunctionRequest {
   /** The ID of the app containing the function */
@@ -932,114 +932,114 @@ export interface InvokeV2FunctionRequest {
   /** The ID of the function to invoke */
   functionId: string;
   /** JSON object containing the input data for the function */
-  data?: unknown;
+  data?: unknown | undefined;
   /** Optional idempotency key to handle duplicate requests within a given idempotency period. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface V2InvokeFunctionData {
   /** Timestamp when the function execution completed (if finished) */
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** Error message if the function execution failed */
-  error?: string;
+  error?: string | undefined;
   /** Timestamp when the function execution was enqueued */
-  queuedAt?: string;
+  queuedAt?: string | undefined;
   /** JSON string containing the function result (only available for completed synchronous invocations) */
-  result?: string;
+  result?: string | undefined;
   /** Unique identifier for this function execution */
-  runId?: string;
+  runId?: string | undefined;
   /** Timestamp when the function execution started (if started) */
-  startedAt?: string;
+  startedAt?: string | undefined;
 }
 export interface V2InvokeFunctionResponse {
-  data?: V2InvokeFunctionData;
-  metadata?: V2ResponseMetadata;
+  data?: V2InvokeFunctionData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface ListV2BuildsRequest {}
 /** The most recent 100 builds in the selected workspace. */
 export type V2ListBuildsResponseDataList = Array<V2Build>;
 export interface V2ListBuildsResponse {
   /** The most recent 100 builds in the selected workspace. */
-  data?: V2ListBuildsResponseDataList;
+  data?: V2ListBuildsResponseDataList | undefined;
 }
 export interface ListV2DeploysRequest {}
 export interface V2Deploy {
-  architecture?: string;
-  artifactDigest?: string;
-  createdAt?: string;
-  error?: string;
-  finishedAt?: string;
-  id?: string;
-  name?: string;
+  architecture?: string | undefined;
+  artifactDigest?: string | undefined;
+  createdAt?: string | undefined;
+  error?: string | undefined;
+  finishedAt?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
   /** ready confirms artifact publication. the post-deploy step runs after publication. */
-  status?: string;
-  tag?: string;
-  updatedAt?: string;
+  status?: string | undefined;
+  tag?: string | undefined;
+  updatedAt?: string | undefined;
 }
 /** the response has at most 100 deploys to bound its size. */
 export type V2ListDeploysResponseDataList = Array<V2Deploy>;
 export interface V2ListDeploysResponse {
   /** the response has at most 100 deploys to bound its size. */
-  data?: V2ListDeploysResponseDataList;
+  data?: V2ListDeploysResponseDataList | undefined;
 }
 export type ListV2EventsRequestNameList = Array<string>;
 export type ListV2EventsRequestIncludeItem = "payload";
 export type ListV2EventsRequestIncludeList = Array<ListV2EventsRequestIncludeItem | (string & {})>;
 export interface ListV2EventsRequest {
   /** ID of the last returned event from the previous response. Reuse the same filters and metadata.timeRange on subsequent pages. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of events per page (min: 1, max: 50). With include=payload the maximum and default are 5; otherwise the default is 40. Zero uses the default. Events can be up to 5 MiB in Cloud (less on lower plans). */
-  limit?: number;
+  limit?: number | undefined;
   /** Inclusive received-time lower bound. Defaults to one hour before until, or one hour before the current time if until is omitted. Must not be after until. The effective window is returned in metadata.timeRange. */
-  from?: string;
+  from?: string | undefined;
   /** Inclusive received-time upper bound. Defaults to the current time. When from is omitted, it defaults to one hour before this bound. The effective window is returned in metadata.timeRange. */
-  until?: string;
+  until?: string | undefined;
   /** Exact event names to include. Repeat to match any of up to 20 names, with up to 256 characters each and no backslashes or control characters. */
-  name?: ListV2EventsRequestNameList;
+  name?: ListV2EventsRequestNameList | undefined;
   /** Optional event expansions. Use payload to return the stored event JSON. Payloads can contain personal data and be large, so request them only when needed. Default CLI and MCP OAuth scopes include events:read:*, so agents can read payloads. */
-  include?: ListV2EventsRequestIncludeList;
+  include?: ListV2EventsRequestIncludeList | undefined;
 }
 export type V2ListEventsResponseDataList = Array<V2Event>;
 export interface V2ListEventsResponse {
   data: V2ListEventsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2ExperimentsRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of experiments to return per page (min: 1, max: 100) */
-  limit?: number;
-  appId?: string;
-  functionId?: string;
-  from?: string;
-  until?: string;
+  limit?: number | undefined;
+  appId?: string | undefined;
+  functionId?: string | undefined;
+  from?: string | undefined;
+  until?: string | undefined;
 }
 export type V2ExperimentVariantsList = Array<string>;
 export interface V2Experiment {
-  firstSeen?: string;
-  function?: V2FunctionRef;
-  id?: string;
-  lastSeen?: string;
-  selectionStrategy?: string;
-  totalRuns?: number;
-  variantCount?: number;
-  variants?: V2ExperimentVariantsList;
+  firstSeen?: string | undefined;
+  function?: V2FunctionRef | undefined;
+  id?: string | undefined;
+  lastSeen?: string | undefined;
+  selectionStrategy?: string | undefined;
+  totalRuns?: number | undefined;
+  variantCount?: number | undefined;
+  variants?: V2ExperimentVariantsList | undefined;
 }
 export type V2ListExperimentsResponseDataList = Array<V2Experiment>;
 export interface V2ListExperimentsResponse {
   data: V2ListExperimentsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2Experiments2Request {
   appId: string;
   functionId: string;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of experiments to return per page (min: 1, max: 100) */
-  limit?: number;
-  from?: string;
-  until?: string;
+  limit?: number | undefined;
+  from?: string | undefined;
+  until?: string | undefined;
 }
 export type ListV2FunctionRunsRequestStatusList = Array<string>;
 export type ListV2FunctionRunsRequestIncludeItem = "output" | "deferredFrom";
@@ -1050,77 +1050,77 @@ export interface ListV2FunctionRunsRequest {
   appId: string;
   functionId: string;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of runs to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Inclusive start of the run time range */
-  from?: string;
+  from?: string | undefined;
   /** Inclusive end of the run time range */
-  until?: string;
+  until?: string | undefined;
   /** Run timestamp field used for filtering and ordering. Accepts queuedAt, startedAt, or endedAt. Snake case aliases such as QUEUED_AT, STARTED_AT, and ENDED_AT are also accepted. */
-  timeField?: string;
+  timeField?: string | undefined;
   /** Statuses to include, using response status values such as COMPLETED, FAILED, RUNNING, QUEUED, CANCELLED, SKIPPED, or PAUSED */
-  status?: ListV2FunctionRunsRequestStatusList;
+  status?: ListV2FunctionRunsRequestStatusList | undefined;
   /** Whether to include only deferred or non-deferred runs */
-  isDeferred?: boolean;
+  isDeferred?: boolean | undefined;
   /** Sort direction. Accepts ASC or DESC. */
-  order?: string;
+  order?: string | undefined;
   /** CEL expression used to filter runs by event, output, or error data */
-  query?: string;
+  query?: string | undefined;
   /** Optional run expansions selected by their lowerCamelCase API names. */
-  include?: ListV2FunctionRunsRequestIncludeList;
+  include?: ListV2FunctionRunsRequestIncludeList | undefined;
 }
 export type V2ListFunctionRunsResponseDataList = Array<V2FunctionRun>;
 export interface V2ListFunctionRunsResponse {
   data: V2ListFunctionRunsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2InsightsEventSchemasRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of event schemas to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface V2InsightsEventSchema {
   /** Event type name */
-  name?: string;
+  name?: string | undefined;
   /** JSON Schema describing the shape of this event's data, represented as a nested JSON object */
-  schema?: unknown;
+  schema?: unknown | undefined;
 }
 /** Paginated list of event type schemas */
 export type V2ListInsightsEventSchemasResponseDataList = Array<V2InsightsEventSchema>;
 export interface V2ListInsightsEventSchemasResponse {
   /** Paginated list of event type schemas */
   data: V2ListInsightsEventSchemasResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2InsightsTablesRequest {}
 export interface V2InsightsTableColumn {
   /** Human-readable description of the column and the data it contains */
-  description?: string;
+  description?: string | undefined;
   /** Name of the column in the insights table */
-  name?: string;
+  name?: string | undefined;
   /** Data type of the column (e.g., 'String', 'Int64', 'Array(String)', etc.) */
-  type?: string;
+  type?: string | undefined;
 }
 /** Columns available in this table */
 export type V2InsightsTableColumnsList = Array<V2InsightsTableColumn>;
 export interface V2InsightsTable {
   /** Columns available in this table */
-  columns?: V2InsightsTableColumnsList;
+  columns?: V2InsightsTableColumnsList | undefined;
   /** Human-readable description of the table and its contents */
-  description?: string;
+  description?: string | undefined;
   /** Name of the table, used when writing queries */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of available tables that can be queried via the Insights query endpoint */
 export type V2ListInsightsTablesResponseDataList = Array<V2InsightsTable>;
 export interface V2ListInsightsTablesResponse {
   /** List of available tables that can be queried via the Insights query endpoint */
-  data?: V2ListInsightsTablesResponseDataList;
-  metadata?: V2ResponseMetadata;
+  data?: V2ListInsightsTablesResponseDataList | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export type ListV2RunsRequestStatusList = Array<string>;
 export type ListV2RunsRequestAppIdList = Array<string>;
@@ -1129,158 +1129,158 @@ export type ListV2RunsRequestIncludeItem = "output" | "deferredFrom";
 export type ListV2RunsRequestIncludeList = Array<ListV2RunsRequestIncludeItem | (string & {})>;
 export interface ListV2RunsRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of runs to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Inclusive start of the run time range */
-  from?: string;
+  from?: string | undefined;
   /** Inclusive end of the run time range */
-  until?: string;
+  until?: string | undefined;
   /** Run timestamp field used for filtering and ordering. Accepts queuedAt, startedAt, or endedAt. Snake case aliases such as QUEUED_AT, STARTED_AT, and ENDED_AT are also accepted. */
-  timeField?: string;
+  timeField?: string | undefined;
   /** Statuses to include, using response status values such as COMPLETED, FAILED, RUNNING, QUEUED, CANCELLED, SKIPPED, or PAUSED */
-  status?: ListV2RunsRequestStatusList;
+  status?: ListV2RunsRequestStatusList | undefined;
   /** App IDs to include */
-  appId?: ListV2RunsRequestAppIdList;
+  appId?: ListV2RunsRequestAppIdList | undefined;
   /** Function IDs to include */
-  functionId?: ListV2RunsRequestFunctionIdList;
+  functionId?: ListV2RunsRequestFunctionIdList | undefined;
   /** Whether to include only deferred or non-deferred runs */
-  isDeferred?: boolean;
+  isDeferred?: boolean | undefined;
   /** Sort direction. Accepts ASC or DESC. */
-  order?: string;
+  order?: string | undefined;
   /** CEL expression used to filter runs by event, output, or error data */
-  query?: string;
+  query?: string | undefined;
   /** Optional run expansions selected by their lowerCamelCase API names. */
-  include?: ListV2RunsRequestIncludeList;
+  include?: ListV2RunsRequestIncludeList | undefined;
 }
 export type V2ListRunsResponseDataList = Array<V2FunctionRun>;
 export interface V2ListRunsResponse {
   data: V2ListRunsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2SandboxesRequest {
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
 }
 export type V2ListSandboxesResponseDataList = Array<V2Sandbox>;
 export type V2SandboxPage = V2Page;
 export interface V2ListSandboxesResponse {
   data: V2ListSandboxesResponseDataList;
-  metadata?: V2SandboxResponseMetadata;
-  page?: V2Page;
+  metadata?: V2SandboxResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2SandboxProcessesRequest {
   sandboxId: string;
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
 }
 export type V2ListSandboxProcessesResponseDataList = Array<V2SandboxProcess>;
 export interface V2ListSandboxProcessesResponse {
   data: V2ListSandboxProcessesResponseDataList;
-  metadata?: V2SandboxResponseMetadata;
-  page?: V2Page;
+  metadata?: V2SandboxResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2SandboxSnapshotsRequest {
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
   /** Only snapshots with exactly this name, newest first. */
-  name?: string;
+  name?: string | undefined;
 }
 export type V2ListSandboxSnapshotsResponseDataList = Array<V2SandboxSnapshot>;
 export interface V2ListSandboxSnapshotsResponse {
   data: V2ListSandboxSnapshotsResponseDataList;
-  metadata?: V2SandboxResponseMetadata;
-  page?: V2Page;
+  metadata?: V2SandboxResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2SessionKeysRequest {
-  search?: string;
+  search?: string | undefined;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of sessions to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface V2SessionKey {
-  createdAt?: string;
-  id?: string;
+  createdAt?: string | undefined;
+  id?: string | undefined;
 }
 export type V2ListSessionKeysResponseDataList = Array<V2SessionKey>;
 export interface V2ListSessionKeysResponse {
   data: V2ListSessionKeysResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2SessionRunsRequest {
   sessionKey: string;
   sessionId: string;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of session runs to return per page (min: 1, max: 100) */
-  limit?: number;
-  from?: string;
-  until?: string;
+  limit?: number | undefined;
+  from?: string | undefined;
+  until?: string | undefined;
 }
 export interface V2SessionRun {
-  endedAt?: string;
-  eventName?: string;
-  function?: V2FunctionRef;
-  id?: string;
-  queuedAt?: string;
-  startedAt?: string;
-  status?: V2FunctionRunStatus;
+  endedAt?: string | undefined;
+  eventName?: string | undefined;
+  function?: V2FunctionRef | undefined;
+  id?: string | undefined;
+  queuedAt?: string | undefined;
+  startedAt?: string | undefined;
+  status?: V2FunctionRunStatus | undefined;
 }
 export type V2ListSessionRunsResponseDataList = Array<V2SessionRun>;
 export interface V2ListSessionRunsResponse {
   data: V2ListSessionRunsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2SessionsRequest {
   sessionKey: string;
-  search?: string;
+  search?: string | undefined;
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of sessions to return per page (min: 1, max: 100) */
-  limit?: number;
-  from?: string;
-  until?: string;
+  limit?: number | undefined;
+  from?: string | undefined;
+  until?: string | undefined;
 }
 export type V2SessionGroupFunctionsList = Array<V2FunctionRef>;
 export interface V2SessionGroup {
-  failedRunCount?: number;
-  failureRate?: number;
-  functions?: V2SessionGroupFunctionsList;
-  id?: string;
-  lastActiveAt?: string;
-  runCount?: number;
+  failedRunCount?: number | undefined;
+  failureRate?: number | undefined;
+  functions?: V2SessionGroupFunctionsList | undefined;
+  id?: string | undefined;
+  lastActiveAt?: string | undefined;
+  runCount?: number | undefined;
 }
 export type V2ListSessionsResponseDataList = Array<V2SessionGroup>;
 export interface V2ListSessionsResponse {
   data: V2ListSessionsResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface ListV2WebhooksRequest {
   /** Pagination cursor from previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of webhooks to return per page (min: 1, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type V2ListWebhooksResponseDataList = Array<V2Webhook>;
 export interface V2ListWebhooksResponse {
   data: V2ListWebhooksResponseDataList;
-  metadata?: V2ResponseMetadata;
-  page?: V2Page;
+  metadata?: V2ResponseMetadata | undefined;
+  page?: V2Page | undefined;
 }
 export interface PatchV2EnvRequest {
   /** The ID of the environment to update */
   id: string;
   /** Updates the archived status of the environment. Set to true to archive the environment or false to unarchive it. */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
 }
 export interface V2PatchEnvsResponse {
-  data?: V2Env;
-  metadata?: V2ResponseMetadata;
+  data?: V2Env | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface PauseV2FunctionRequest {
   /** App ID. */
@@ -1289,8 +1289,8 @@ export interface PauseV2FunctionRequest {
   functionId: string;
 }
 export interface V2PauseFunctionResponse {
-  data?: V2Function;
-  metadata?: V2ResponseMetadata;
+  data?: V2Function | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 /** Function IDs in the app. 1 to 500 unique strings, at most 256 bytes each. Send IDs as plain strings, not URL-encoded. */
 export type PauseV2FunctionsRequestFunctionIdsList = Array<string>;
@@ -1300,29 +1300,29 @@ export interface PauseV2FunctionsRequest {
   functionIds: PauseV2FunctionsRequestFunctionIdsList;
 }
 export interface V2Error {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface V2FunctionPauseResult {
-  error?: V2Error;
-  function?: V2Function;
-  functionId?: string;
+  error?: V2Error | undefined;
+  function?: V2Function | undefined;
+  functionId?: string | undefined;
 }
 export type V2PauseFunctionsResponseDataList = Array<V2FunctionPauseResult>;
 export interface V2PauseFunctionsResponse {
-  data?: V2PauseFunctionsResponseDataList;
-  metadata?: V2ResponseMetadata;
+  data?: V2PauseFunctionsResponseDataList | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface PauseV2SandboxRequest {
   sandboxId: string;
 }
 export interface V2PauseSandboxResponse {
-  data?: V2Sandbox;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2Sandbox | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface ReadV2SandboxFileRequest {
   sandboxId: string;
-  path?: string;
+  path?: string | undefined;
 }
 export type ReadV2SandboxFileResponse = string;
 export interface ResumeV2FunctionRequest {
@@ -1332,8 +1332,8 @@ export interface ResumeV2FunctionRequest {
   functionId: string;
 }
 export interface V2ResumeFunctionResponse {
-  data?: V2Function;
-  metadata?: V2ResponseMetadata;
+  data?: V2Function | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 /** Function IDs in the app. 1 to 500 unique strings, at most 256 bytes each. Send IDs as plain strings, not URL-encoded. */
 export type ResumeV2FunctionsRequestFunctionIdsList = Array<string>;
@@ -1344,100 +1344,100 @@ export interface ResumeV2FunctionsRequest {
 }
 export type V2ResumeFunctionsResponseDataList = Array<V2FunctionPauseResult>;
 export interface V2ResumeFunctionsResponse {
-  data?: V2ResumeFunctionsResponseDataList;
-  metadata?: V2ResponseMetadata;
+  data?: V2ResumeFunctionsResponseDataList | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface ResumeV2SandboxRequest {
   sandboxId: string;
 }
 export interface V2ResumeSandboxResponse {
-  data?: V2Sandbox;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2Sandbox | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface SendV2EventRequest {
   /** JSON object containing event data */
-  data?: unknown;
+  data?: unknown | undefined;
   /** Optional event ID used for idempotency when scheduling function runs */
-  id?: string;
+  id?: string | undefined;
   /** Event name */
   name: string;
   /** Optional event timestamp as Unix time in milliseconds. Defaults to the current time. */
-  ts?: string;
+  ts?: string | undefined;
   /** Deprecated user data. Put user data in the data field instead. */
-  user?: unknown;
+  user?: unknown | undefined;
 }
 export interface V2SendEventData {
   /** Internal event ID assigned by Inngest */
-  eventId?: string;
+  eventId?: string | undefined;
 }
 export interface V2SendEventResponse {
-  data?: V2SendEventData;
-  metadata?: V2ResponseMetadata;
+  data?: V2SendEventData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface SignalV2SandboxProcessRequest {
   sandboxId: string;
   processId: string;
-  includeChildren?: boolean;
-  signal?: number;
+  includeChildren?: boolean | undefined;
+  signal?: number | undefined;
 }
 export type SignalV2SandboxProcessResponse = unknown;
 export type StartV2SandboxProcessRequestCommandList = Array<string>;
 export type StartV2SandboxProcessRequestEnvironmentMap = { [key: string]: string | undefined };
 export interface StartV2SandboxProcessRequest {
   sandboxId: string;
-  command?: StartV2SandboxProcessRequestCommandList;
-  cwd?: string;
-  environment?: StartV2SandboxProcessRequestEnvironmentMap;
+  command?: StartV2SandboxProcessRequestCommandList | undefined;
+  cwd?: string | undefined;
+  environment?: StartV2SandboxProcessRequestEnvironmentMap | undefined;
 }
 export interface V2StartSandboxProcessResponse {
-  data?: V2SandboxProcess;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2SandboxProcess | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface SubmitV2FeedbackRequest {
   /** Optional reply-to email, up to 254 characters. Treated as unverified contact information, not as the submitter identity. */
-  email?: string;
+  email?: string | undefined;
   /** Feedback to share with Inngest support, up to 10000 characters. Do not include secrets or sensitive run data. */
   feedback: string;
   /** Optional contact name, up to 200 characters. Treated as caller-supplied contact information. */
-  name?: string;
+  name?: string | undefined;
   /** Optional API operation, CLI command, or MCP tool this feedback concerns, up to 200 characters. */
-  operation?: string;
+  operation?: string | undefined;
 }
 export interface V2FeedbackData {
   /** True only after the support ticket was created. */
-  accepted?: boolean;
+  accepted?: boolean | undefined;
 }
 export interface V2SubmitFeedbackResponse {
-  data?: V2FeedbackData;
-  metadata?: V2ResponseMetadata;
+  data?: V2FeedbackData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface SyncV2AppRequest {
   /** App ID */
   appId: string;
   /** URL for the Inngest endpoint in the app */
-  url?: string;
+  url?: string | undefined;
 }
 export type V2SyncAppError = V2Error;
 /** Status of the sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
 export type V2SyncAppDataStatus = "pending" | "success" | "error" | "duplicate";
 export interface V2SyncAppData {
   /** App ID */
-  appId?: string;
-  error?: V2Error;
+  appId?: string | undefined;
+  error?: V2Error | undefined;
   /** ID */
-  id?: string;
+  id?: string | undefined;
   /** Status of the sync. `success` and `duplicate` are successful terminal states. `duplicate` means the sync payload matched the previous successful sync, so no function configuration changes were applied. `error` is a failed terminal state, and `pending` means the sync is still in progress. */
-  status?: V2SyncAppDataStatus;
+  status?: V2SyncAppDataStatus | undefined;
 }
 export interface V2SyncAppResponse {
-  data?: V2SyncAppData;
-  metadata?: V2ResponseMetadata;
+  data?: V2SyncAppData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface V2CancelDeployRequest {
   deployId: string;
 }
 export interface V2DeployResponse {
-  data?: V2Deploy;
+  data?: V2Deploy | undefined;
 }
 export interface V2CommitDeployRequest {
   /** the name must match CreateDeployRequest so a commit cannot select another deploy. */
@@ -1446,67 +1446,67 @@ export interface V2CommitDeployRequest {
 }
 export interface V2DeployConnectConfig {
   /** omission uses one replica. an explicit zero is invalid. */
-  replicas?: number;
+  replicas?: number | undefined;
 }
 export interface V2DeployServeConfig {
   /** omission uses /api/inngest inside the workload. */
-  path?: string;
+  path?: string | undefined;
   /** omission selects a port from the image's exposed ports at launch. */
-  port?: number;
+  port?: number | undefined;
 }
 export interface V2DeployServeRuntimeConfig {
   /** durations use Go syntax such as 15s and 15m. */
-  idle?: string;
-  lifetime?: string;
-  maxRequests?: number;
-  multiplex?: number;
+  idle?: string | undefined;
+  lifetime?: string | undefined;
+  maxRequests?: number | undefined;
+  multiplex?: number | undefined;
 }
 export interface V2DeploySpec {
   /** cpu is in vCPUs. omission uses 1 vCPU. */
-  cpu?: number;
+  cpu?: number | undefined;
   /** memory is in MiB. omission uses 2048 MiB. */
-  memory?: number;
+  memory?: number | undefined;
 }
 export interface V2DeployConfig {
-  connect?: V2DeployConnectConfig;
-  description?: string;
-  serve?: V2DeployServeConfig;
-  serveConfig?: V2DeployServeRuntimeConfig;
-  spec?: V2DeploySpec;
+  connect?: V2DeployConnectConfig | undefined;
+  description?: string | undefined;
+  serve?: V2DeployServeConfig | undefined;
+  serveConfig?: V2DeployServeRuntimeConfig | undefined;
+  spec?: V2DeploySpec | undefined;
 }
 export interface V2CreateDeployRequest {
   /** use a workspace-local name so the deploy stays in the selected workspace. */
   name: string;
-  architecture?: string;
-  config?: V2DeployConfig;
-  tag?: string;
+  architecture?: string | undefined;
+  config?: V2DeployConfig | undefined;
+  tag?: string | undefined;
   /** use lowercase SHA256 of the uploaded archive bytes. commit fails when the uploaded bytes have a different hash. */
-  uploadSha256?: string;
-  uploadSizeBytes?: string;
+  uploadSha256?: string | undefined;
+  uploadSizeBytes?: string | undefined;
 }
 /** send each header with its exact value. the server can add a header, such as a checksum of the archive, without a client change. */
 export type V2CreateDeployResponseUploadHeadersMap = { [key: string]: string | undefined };
 export interface V2CreateDeployResponse {
-  data?: V2Deploy;
-  expiresAt?: string;
+  data?: V2Deploy | undefined;
+  expiresAt?: string | undefined;
   /** send each header with its exact value. the server can add a header, such as a checksum of the archive, without a client change. */
-  uploadHeaders?: V2CreateDeployResponseUploadHeadersMap;
+  uploadHeaders?: V2CreateDeployResponseUploadHeadersMap | undefined;
   /** send the archive in a PUT request body with every header in upload_headers. set Content-Length to upload_size_bytes. storage rejects a request that changes a header or the length. */
-  uploadUrl?: string;
+  uploadUrl?: string | undefined;
 }
 export interface V2DestroySandboxRequest {
   sandboxId: string;
 }
 export interface V2DestroySandboxResponse {
-  data?: V2Sandbox;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2Sandbox | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface V2GetDeployRequest {
   deployId: string;
 }
 export interface V2QueryInsightsRequest {
   /** The insights query to execute, written in modified ClickHouse SQL */
-  query?: string;
+  query?: string | undefined;
 }
 /** - INSIGHTS_COLUMN_HINT_SESSION: A session reference: a {key, id} object, not a bare ID string. */
 export type V2InsightsColumnHint =
@@ -1518,16 +1518,16 @@ export type V2InsightsColumnHint =
   | "SESSION";
 export interface V2InsightsPathSegment {
   /** Object key, unset when wildcard is true */
-  key?: string;
+  key?: string | undefined;
   /** Every element of an array */
-  wildcard?: boolean;
+  wildcard?: boolean | undefined;
 }
 /** Path into the column's value; empty for the column's own value */
 export type V2InsightsPathHintPathList = Array<V2InsightsPathSegment>;
 export interface V2InsightsPathHint {
-  hint?: V2InsightsColumnHint;
+  hint?: V2InsightsColumnHint | undefined;
   /** Path into the column's value; empty for the column's own value */
-  path?: V2InsightsPathHintPathList;
+  path?: V2InsightsPathHintPathList | undefined;
 }
 /** What kind of ID each JSON path into this column's values holds (an empty path is the column's own value), e.g. runs.inputs' [*].id path holds event IDs. Empty when the column isn't traceable to a known table column. */
 export type V2InsightsOutputColumnPathHintsList = Array<V2InsightsPathHint>;
@@ -1540,29 +1540,29 @@ export type V2InsightsOutputColumnType =
   | "COMPLEX";
 export interface V2InsightsOutputColumn {
   /** Name of the column in the insights query result */
-  name?: string;
+  name?: string | undefined;
   /** What kind of ID each JSON path into this column's values holds (an empty path is the column's own value), e.g. runs.inputs' [*].id path holds event IDs. Empty when the column isn't traceable to a known table column. */
-  pathHints?: V2InsightsOutputColumnPathHintsList;
-  type?: V2InsightsOutputColumnType;
+  pathHints?: V2InsightsOutputColumnPathHintsList | undefined;
+  type?: V2InsightsOutputColumnType | undefined;
 }
 /** Column metadata for the insights query result */
 export type V2QueryInsightsDataColumnsList = Array<V2InsightsOutputColumn>;
 export interface V2InsightsDiagnosticPosition {
   /** Snippet of the query string around the position to provide context for the diagnostic */
-  context?: string;
+  context?: string | undefined;
   /** Ending character index in the query string where the diagnostic applies */
-  end?: number;
+  end?: number | undefined;
   /** Starting character index in the query string where the diagnostic applies */
-  start?: number;
+  start?: number | undefined;
 }
 export type V2InsightsDiagnosticSeverity = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
 export interface V2InsightsDiagnostic {
   /** Machine-readable code representing the type of diagnostic */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable message describing the diagnostic */
-  message?: string;
-  position?: V2InsightsDiagnosticPosition;
-  severity?: V2InsightsDiagnosticSeverity;
+  message?: string | undefined;
+  position?: V2InsightsDiagnosticPosition | undefined;
+  severity?: V2InsightsDiagnosticSeverity | undefined;
 }
 /** Any non-fatal diagnostics related to the insights query execution */
 export type V2QueryInsightsDataDiagnosticsList = Array<V2InsightsDiagnostic>;
@@ -1570,129 +1570,129 @@ export type V2QueryInsightsDataDiagnosticsList = Array<V2InsightsDiagnostic>;
 export type V2InsightsQueryInfoTablesList = Array<string>;
 export interface V2InsightsQueryInfo {
   /** Whether the server applied the default row limit or reduced an explicit LIMIT to the maximum */
-  limited?: boolean;
+  limited?: boolean | undefined;
   /** The table the query's outermost FROM reads, if there is exactly one */
-  primaryTable?: string;
+  primaryTable?: string | undefined;
   /** Every table the query reads */
-  tables?: V2InsightsQueryInfoTablesList;
+  tables?: V2InsightsQueryInfoTablesList | undefined;
 }
 /** Values for a single row of the insights query result, where each value corresponds to a column. The value is represented as a JSON object to allow for flexible typing (e.g., string, number, boolean, etc.). */
 export type V2InsightsRowValuesList = Array<unknown>;
 export interface V2InsightsRow {
   /** Values for a single row of the insights query result, where each value corresponds to a column. The value is represented as a JSON object to allow for flexible typing (e.g., string, number, boolean, etc.). */
-  values?: V2InsightsRowValuesList;
+  values?: V2InsightsRowValuesList | undefined;
 }
 /** Rows of the insights query result, where each row contains a list of values corresponding to the columns */
 export type V2QueryInsightsDataRowsList = Array<V2InsightsRow>;
 export interface V2QueryInsightsData {
   /** Column metadata for the insights query result */
-  columns?: V2QueryInsightsDataColumnsList;
+  columns?: V2QueryInsightsDataColumnsList | undefined;
   /** Any non-fatal diagnostics related to the insights query execution */
-  diagnostics?: V2QueryInsightsDataDiagnosticsList;
-  info?: V2InsightsQueryInfo;
+  diagnostics?: V2QueryInsightsDataDiagnosticsList | undefined;
+  info?: V2InsightsQueryInfo | undefined;
   /** Rows of the insights query result, where each row contains a list of values corresponding to the columns */
-  rows?: V2QueryInsightsDataRowsList;
+  rows?: V2QueryInsightsDataRowsList | undefined;
 }
 export interface V2QueryInsightsResponse {
-  data?: V2QueryInsightsData;
-  metadata?: V2ResponseMetadata;
+  data?: V2QueryInsightsData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface V2QueryInsightsPromptRequest {
   /** Natural language description of the query to generate */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 export interface V2QueryInsightsPromptData {
   /** The generated Insights SQL query */
-  sql?: string;
+  sql?: string | undefined;
   /** A natural language summary of the generated query, useful for explaining the query's intent to agents */
-  summary?: string;
+  summary?: string | undefined;
 }
 export interface V2QueryInsightsPromptResponse {
-  data?: V2QueryInsightsPromptData;
-  metadata?: V2ResponseMetadata;
+  data?: V2QueryInsightsPromptData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 /** Optional replacement step input as a JSON array */
 export type V2RerunFromStepInputList = Array<unknown>;
 export interface V2RerunFromStep {
   /** Optional replacement step input as a JSON array */
-  input?: V2RerunFromStepInputList;
+  input?: V2RerunFromStepInputList | undefined;
   /** User-defined step name to rerun from */
-  stepId?: string;
+  stepId?: string | undefined;
 }
 export interface V2RerunRequest {
   runId: string;
-  fromStep?: V2RerunFromStep;
+  fromStep?: V2RerunFromStep | undefined;
 }
 export interface V2RerunData {
   /** New run ID created by the rerun */
-  runId?: string;
+  runId?: string | undefined;
 }
 export interface V2RerunResponse {
-  data?: V2RerunData;
-  metadata?: V2ResponseMetadata;
+  data?: V2RerunData | undefined;
+  metadata?: V2ResponseMetadata | undefined;
 }
 export interface V2StreamSandboxLogsRequest {
   sandboxId: string;
-  follow?: boolean;
+  follow?: boolean | undefined;
 }
 /** `Any` contains an arbitrary serialized protocol buffer message along with a URL that describes the type of the serialized message. Protobuf library provides support to pack/unpack Any values in the form of utility functions or additional generated methods of the Any type. Example 1: Pack and unpack a message in C++. Foo foo = ...; Any any; any.PackFrom(foo); ... if (any.UnpackTo(&foo)) { ... } Example 2: Pack and unpack a message in Java. Foo foo = ...; Any any = Any.pack(foo); ... if (any.is(Foo.class)) { foo = any.unpack(Foo.class); } // or ... if (any.isSameTypeAs(Foo.getDefaultInstance())) { foo = any.unpack(Foo.getDefaultInstance()); } Example 3: Pack and unpack a message in Python. foo = Foo(...) any = Any() any.Pack(foo) ... if any.Is(Foo.DESCRIPTOR): any.Unpack(foo) ... Example 4: Pack and unpack a message in Go foo := &pb.Foo{...} any, err := anypb.New(foo) if err != nil { ... } ... foo := &pb.Foo{} if err := any.UnmarshalTo(foo); err != nil { ... } The pack methods provided by protobuf library will by default use 'type.googleapis.com/full.type.name' as the type URL and the unpack methods only use the fully qualified type name after the last '/' in the type URL, for example "foo.bar.com/x/y.z" will yield type name "y.z". JSON ==== The JSON representation of an `Any` value uses the regular representation of the deserialized, embedded message, with an additional field `@type` which contains the type URL. Example: package google.profile; message Person { string first_name = 1; string last_name = 2; } { "@type": "type.googleapis.com/google.profile.Person", "firstName": <string>, "lastName": <string> } If the embedded message type is well-known and has a custom JSON representation, that representation will be embedded adding a field `value` which holds the custom JSON in addition to the `@type` field. Example (for message [google.protobuf.Duration][]): { "@type": "type.googleapis.com/google.protobuf.Duration", "value": "1.212s" } */
 export interface ProtobufAny {
   /** A URL/resource name that uniquely identifies the type of the serialized protocol buffer message. This string must contain at least one "/" character. The last segment of the URL's path must represent the fully qualified name of the type (as in `path/google.protobuf.Duration`). The name should be in a canonical form (e.g., leading "." is not accepted). In practice, teams usually precompile into the binary all types that they expect it to use in the context of Any. However, for URLs which use the scheme `http`, `https`, or no scheme, one can optionally set up a type server that maps type URLs to message definitions as follows: * If no scheme is provided, `https` is assumed. * An HTTP GET on the URL must yield a [google.protobuf.Type][] value in binary format, or produce an error. * Applications are allowed to cache lookup results based on the URL, or have them precompiled into a binary to avoid any lookup. Therefore, binary compatibility needs to be preserved on changes to types. (Use versioned type names to manage breaking changes.) Note: this functionality is not currently available in the official protobuf release, and it is not used for type URLs beginning with type.googleapis.com. As of May 2023, there are no widely used type server implementations and no plans to implement one. Schemes other than `http`, `https` (or the empty scheme) might be used with implementation specific semantics. */
-  _type?: string;
+  _type?: string | undefined;
   [key: string]: unknown;
 }
 export type RpcStatusDetailsList = Array<ProtobufAny>;
 export interface RpcStatus {
-  code?: number;
-  details?: RpcStatusDetailsList;
-  message?: string;
+  code?: number | undefined;
+  details?: RpcStatusDetailsList | undefined;
+  message?: string | undefined;
 }
 export interface V2StreamSandboxLogsResponse {
-  data?: V2SandboxLogChunk;
+  data?: V2SandboxLogChunk | undefined;
 }
 export interface V2StreamSandboxLogsResponse2 {
-  error?: RpcStatus;
-  result?: V2StreamSandboxLogsResponse;
+  error?: RpcStatus | undefined;
+  result?: V2StreamSandboxLogsResponse | undefined;
 }
 export interface V2StreamSandboxProcessOutputRequest {
   sandboxId: string;
   processId: string;
-  tailBytes?: number;
+  tailBytes?: number | undefined;
 }
 export type V2StreamSandboxProcessOutputResponse = V2StreamSandboxLogsResponse;
 export interface V2StreamSandboxProcessOutputResponse2 {
-  error?: RpcStatus;
-  result?: V2StreamSandboxLogsResponse;
+  error?: RpcStatus | undefined;
+  result?: V2StreamSandboxLogsResponse | undefined;
 }
 /** Application specific response metadata. Must be set in the first response for streaming APIs. */
 export type V2WriteSandboxFileRequestExtensionsList = Array<ProtobufAny>;
 export interface V2WriteSandboxFileRequest {
   sandboxId: string;
-  path?: string;
-  mode?: string;
+  path?: string | undefined;
+  mode?: string | undefined;
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: V2WriteSandboxFileRequestExtensionsList;
+  extensions?: V2WriteSandboxFileRequestExtensionsList | undefined;
 }
 export interface V2WriteSandboxFileData {
-  bytesWritten?: number;
-  path?: string;
+  bytesWritten?: number | undefined;
+  path?: string | undefined;
 }
 export interface V2WriteSandboxFileResponse {
-  data?: V2WriteSandboxFileData;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2WriteSandboxFileData | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export interface WaitV2SandboxProcessRequest {
   sandboxId: string;
   processId: string;
-  timeout?: string;
+  timeout?: string | undefined;
 }
 export interface V2WaitSandboxProcessResponse {
-  data?: V2SandboxProcess;
-  metadata?: V2SandboxResponseMetadata;
+  data?: V2SandboxProcess | undefined;
+  metadata?: V2SandboxResponseMetadata | undefined;
 }
 export type CancelV2BuildError = InngestOpError;
 /** Cancel an unfinished build */

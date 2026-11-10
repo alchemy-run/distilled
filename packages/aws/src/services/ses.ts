@@ -580,11 +580,11 @@ export interface SNSDestination {
 }
 export interface EventDestination {
   Name: string;
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
   MatchingEventTypes: EventType[];
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  CloudWatchDestination?: CloudWatchDestination;
-  SNSDestination?: SNSDestination;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  CloudWatchDestination?: CloudWatchDestination | undefined;
+  SNSDestination?: SNSDestination | undefined;
 }
 export interface CreateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
@@ -593,7 +593,7 @@ export interface CreateConfigurationSetEventDestinationRequest {
 export interface CreateConfigurationSetEventDestinationResponse {}
 export type CustomRedirectDomain = string;
 export interface TrackingOptions {
-  CustomRedirectDomain?: string;
+  CustomRedirectDomain?: string | undefined;
 }
 export interface CreateConfigurationSetTrackingOptionsRequest {
   ConfigurationSetName: string;
@@ -638,37 +638,37 @@ export type S3BucketName = string;
 export type S3KeyPrefix = string;
 export type IAMRoleARN = string;
 export interface S3Action {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
   BucketName: string;
-  ObjectKeyPrefix?: string;
-  KmsKeyArn?: string;
-  IamRoleArn?: string;
+  ObjectKeyPrefix?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type BounceSmtpReplyCode = string;
 export type BounceStatusCode = string;
 export type BounceMessage = string;
 export type Address = string;
 export interface BounceAction {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
   SmtpReplyCode: string;
-  StatusCode?: string;
+  StatusCode?: string | undefined;
   Message: string;
   Sender: string;
 }
 export interface WorkmailAction {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
   OrganizationArn: string;
 }
 export type InvocationType = "Event" | "RequestResponse" | (string & {});
 export interface LambdaAction {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
   FunctionArn: string;
-  InvocationType?: InvocationType;
+  InvocationType?: InvocationType | undefined;
 }
 export type StopScope = "RuleSet" | (string & {});
 export interface StopAction {
   Scope: StopScope;
-  TopicArn?: string;
+  TopicArn?: string | undefined;
 }
 export type HeaderName = string;
 export type HeaderValue = string;
@@ -679,7 +679,7 @@ export interface AddHeaderAction {
 export type SNSActionEncoding = "UTF-8" | "Base64" | (string & {});
 export interface SNSAction {
   TopicArn: string;
-  Encoding?: SNSActionEncoding;
+  Encoding?: SNSActionEncoding | undefined;
 }
 export type ConnectInstanceArn = string;
 export interface ConnectAction {
@@ -687,27 +687,27 @@ export interface ConnectAction {
   IAMRoleARN: string;
 }
 export interface ReceiptAction {
-  S3Action?: S3Action;
-  BounceAction?: BounceAction;
-  WorkmailAction?: WorkmailAction;
-  LambdaAction?: LambdaAction;
-  StopAction?: StopAction;
-  AddHeaderAction?: AddHeaderAction;
-  SNSAction?: SNSAction;
-  ConnectAction?: ConnectAction;
+  S3Action?: S3Action | undefined;
+  BounceAction?: BounceAction | undefined;
+  WorkmailAction?: WorkmailAction | undefined;
+  LambdaAction?: LambdaAction | undefined;
+  StopAction?: StopAction | undefined;
+  AddHeaderAction?: AddHeaderAction | undefined;
+  SNSAction?: SNSAction | undefined;
+  ConnectAction?: ConnectAction | undefined;
 }
 export type ReceiptActionsList = ReceiptAction[];
 export interface ReceiptRule {
   Name: string;
-  Enabled?: boolean;
-  TlsPolicy?: TlsPolicy;
-  Recipients?: string[];
-  Actions?: ReceiptAction[];
-  ScanEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  TlsPolicy?: TlsPolicy | undefined;
+  Recipients?: string[] | undefined;
+  Actions?: ReceiptAction[] | undefined;
+  ScanEnabled?: boolean | undefined;
 }
 export interface CreateReceiptRuleRequest {
   RuleSetName: string;
-  After?: string;
+  After?: string | undefined;
   Rule: ReceiptRule;
 }
 export interface CreateReceiptRuleResponse {}
@@ -720,9 +720,9 @@ export type TextPart = string;
 export type HtmlPart = string;
 export interface Template {
   TemplateName: string;
-  SubjectPart?: string;
-  TextPart?: string;
-  HtmlPart?: string;
+  SubjectPart?: string | undefined;
+  TextPart?: string | undefined;
+  HtmlPart?: string | undefined;
 }
 export interface CreateTemplateRequest {
   Template: Template;
@@ -779,13 +779,13 @@ export interface DeleteVerifiedEmailAddressRequest {
 export interface DeleteVerifiedEmailAddressResponse {}
 export interface DescribeActiveReceiptRuleSetRequest {}
 export interface ReceiptRuleSetMetadata {
-  Name?: string;
-  CreatedTimestamp?: Date;
+  Name?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type ReceiptRulesList = ReceiptRule[];
 export interface DescribeActiveReceiptRuleSetResponse {
-  Metadata?: ReceiptRuleSetMetadata;
-  Rules?: ReceiptRule[];
+  Metadata?: ReceiptRuleSetMetadata | undefined;
+  Rules?: ReceiptRule[] | undefined;
 }
 export type ConfigurationSetAttribute =
   | "eventDestinations"
@@ -796,53 +796,53 @@ export type ConfigurationSetAttribute =
 export type ConfigurationSetAttributeList = ConfigurationSetAttribute[];
 export interface DescribeConfigurationSetRequest {
   ConfigurationSetName: string;
-  ConfigurationSetAttributeNames?: ConfigurationSetAttribute[];
+  ConfigurationSetAttributeNames?: ConfigurationSetAttribute[] | undefined;
 }
 export type EventDestinations = EventDestination[];
 export interface DeliveryOptions {
-  TlsPolicy?: TlsPolicy;
+  TlsPolicy?: TlsPolicy | undefined;
 }
 export type LastFreshStart = Date;
 export interface ReputationOptions {
-  SendingEnabled?: boolean;
-  ReputationMetricsEnabled?: boolean;
-  LastFreshStart?: Date;
+  SendingEnabled?: boolean | undefined;
+  ReputationMetricsEnabled?: boolean | undefined;
+  LastFreshStart?: Date | undefined;
 }
 export interface DescribeConfigurationSetResponse {
-  ConfigurationSet?: ConfigurationSet;
-  EventDestinations?: EventDestination[];
-  TrackingOptions?: TrackingOptions;
-  DeliveryOptions?: DeliveryOptions;
-  ReputationOptions?: ReputationOptions;
+  ConfigurationSet?: ConfigurationSet | undefined;
+  EventDestinations?: EventDestination[] | undefined;
+  TrackingOptions?: TrackingOptions | undefined;
+  DeliveryOptions?: DeliveryOptions | undefined;
+  ReputationOptions?: ReputationOptions | undefined;
 }
 export interface DescribeReceiptRuleRequest {
   RuleSetName: string;
   RuleName: string;
 }
 export interface DescribeReceiptRuleResponse {
-  Rule?: ReceiptRule;
+  Rule?: ReceiptRule | undefined;
 }
 export interface DescribeReceiptRuleSetRequest {
   RuleSetName: string;
 }
 export interface DescribeReceiptRuleSetResponse {
-  Metadata?: ReceiptRuleSetMetadata;
-  Rules?: ReceiptRule[];
+  Metadata?: ReceiptRuleSetMetadata | undefined;
+  Rules?: ReceiptRule[] | undefined;
 }
 export interface GetAccountSendingEnabledRequest {}
 export interface GetAccountSendingEnabledResponse {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface GetCustomVerificationEmailTemplateRequest {
   TemplateName: string;
 }
 export interface GetCustomVerificationEmailTemplateResponse {
-  TemplateName?: string;
-  FromEmailAddress?: string;
-  TemplateSubject?: string;
-  TemplateContent?: string;
-  SuccessRedirectionURL?: string;
-  FailureRedirectionURL?: string;
+  TemplateName?: string | undefined;
+  FromEmailAddress?: string | undefined;
+  TemplateSubject?: string | undefined;
+  TemplateContent?: string | undefined;
+  SuccessRedirectionURL?: string | undefined;
+  FailureRedirectionURL?: string | undefined;
 }
 export type IdentityList = string[];
 export interface GetIdentityDkimAttributesRequest {
@@ -860,7 +860,7 @@ export type VerificationTokenList = string[];
 export interface IdentityDkimAttributes {
   DkimEnabled: boolean;
   DkimVerificationStatus: VerificationStatus;
-  DkimTokens?: string[];
+  DkimTokens?: string[] | undefined;
 }
 export type DkimAttributes = { [key: string]: IdentityDkimAttributes | undefined };
 export interface GetIdentityDkimAttributesResponse {
@@ -897,9 +897,9 @@ export interface IdentityNotificationAttributes {
   ComplaintTopic: string;
   DeliveryTopic: string;
   ForwardingEnabled: boolean;
-  HeadersInBounceNotificationsEnabled?: boolean;
-  HeadersInComplaintNotificationsEnabled?: boolean;
-  HeadersInDeliveryNotificationsEnabled?: boolean;
+  HeadersInBounceNotificationsEnabled?: boolean | undefined;
+  HeadersInComplaintNotificationsEnabled?: boolean | undefined;
+  HeadersInDeliveryNotificationsEnabled?: boolean | undefined;
 }
 export type NotificationAttributes = { [key: string]: IdentityNotificationAttributes | undefined };
 export interface GetIdentityNotificationAttributesResponse {
@@ -920,7 +920,7 @@ export interface GetIdentityVerificationAttributesRequest {
 }
 export interface IdentityVerificationAttributes {
   VerificationStatus: VerificationStatus;
-  VerificationToken?: string;
+  VerificationToken?: string | undefined;
 }
 export type VerificationAttributes = { [key: string]: IdentityVerificationAttributes | undefined };
 export interface GetIdentityVerificationAttributesResponse {
@@ -931,66 +931,66 @@ export type Max24HourSend = number;
 export type MaxSendRate = number;
 export type SentLast24Hours = number;
 export interface GetSendQuotaResponse {
-  Max24HourSend?: number;
-  MaxSendRate?: number;
-  SentLast24Hours?: number;
+  Max24HourSend?: number | undefined;
+  MaxSendRate?: number | undefined;
+  SentLast24Hours?: number | undefined;
 }
 export interface GetSendStatisticsRequest {}
 export type Counter = number;
 export interface SendDataPoint {
-  Timestamp?: Date;
-  DeliveryAttempts?: number;
-  Bounces?: number;
-  Complaints?: number;
-  Rejects?: number;
+  Timestamp?: Date | undefined;
+  DeliveryAttempts?: number | undefined;
+  Bounces?: number | undefined;
+  Complaints?: number | undefined;
+  Rejects?: number | undefined;
 }
 export type SendDataPointList = SendDataPoint[];
 export interface GetSendStatisticsResponse {
-  SendDataPoints?: SendDataPoint[];
+  SendDataPoints?: SendDataPoint[] | undefined;
 }
 export interface GetTemplateRequest {
   TemplateName: string;
 }
 export interface GetTemplateResponse {
-  Template?: Template;
+  Template?: Template | undefined;
 }
 export type NextToken = string;
 export type MaxItems = number;
 export interface ListConfigurationSetsRequest {
-  NextToken?: string;
-  MaxItems?: number;
+  NextToken?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type ConfigurationSets = ConfigurationSet[];
 export interface ListConfigurationSetsResponse {
-  ConfigurationSets?: ConfigurationSet[];
-  NextToken?: string;
+  ConfigurationSets?: ConfigurationSet[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListCustomVerificationEmailTemplatesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface CustomVerificationEmailTemplate {
-  TemplateName?: string;
-  FromEmailAddress?: string;
-  TemplateSubject?: string;
-  SuccessRedirectionURL?: string;
-  FailureRedirectionURL?: string;
+  TemplateName?: string | undefined;
+  FromEmailAddress?: string | undefined;
+  TemplateSubject?: string | undefined;
+  SuccessRedirectionURL?: string | undefined;
+  FailureRedirectionURL?: string | undefined;
 }
 export type CustomVerificationEmailTemplates = CustomVerificationEmailTemplate[];
 export interface ListCustomVerificationEmailTemplatesResponse {
-  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplate[];
-  NextToken?: string;
+  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplate[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IdentityType = "EmailAddress" | "Domain" | (string & {});
 export interface ListIdentitiesRequest {
-  IdentityType?: IdentityType;
-  NextToken?: string;
-  MaxItems?: number;
+  IdentityType?: IdentityType | undefined;
+  NextToken?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListIdentitiesResponse {
   Identities: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListIdentityPoliciesRequest {
   Identity: string;
@@ -1001,37 +1001,37 @@ export interface ListIdentityPoliciesResponse {
 export interface ListReceiptFiltersRequest {}
 export type ReceiptFilterList = ReceiptFilter[];
 export interface ListReceiptFiltersResponse {
-  Filters?: ReceiptFilter[];
+  Filters?: ReceiptFilter[] | undefined;
 }
 export interface ListReceiptRuleSetsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ReceiptRuleSetsLists = ReceiptRuleSetMetadata[];
 export interface ListReceiptRuleSetsResponse {
-  RuleSets?: ReceiptRuleSetMetadata[];
-  NextToken?: string;
+  RuleSets?: ReceiptRuleSetMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTemplatesRequest {
-  NextToken?: string;
-  MaxItems?: number;
+  NextToken?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface TemplateMetadata {
-  Name?: string;
-  CreatedTimestamp?: Date;
+  Name?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type TemplateMetadataList = TemplateMetadata[];
 export interface ListTemplatesResponse {
-  TemplatesMetadata?: TemplateMetadata[];
-  NextToken?: string;
+  TemplatesMetadata?: TemplateMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListVerifiedEmailAddressesRequest {}
 export type AddressList = string[];
 export interface ListVerifiedEmailAddressesResponse {
-  VerifiedEmailAddresses?: string[];
+  VerifiedEmailAddresses?: string[] | undefined;
 }
 export interface PutConfigurationSetDeliveryOptionsRequest {
   ConfigurationSetName: string;
-  DeliveryOptions?: DeliveryOptions;
+  DeliveryOptions?: DeliveryOptions | undefined;
 }
 export interface PutConfigurationSetDeliveryOptionsResponse {}
 export interface PutIdentityPolicyRequest {
@@ -1059,8 +1059,8 @@ export interface ExtensionField {
 export type ExtensionFieldList = ExtensionField[];
 export interface MessageDsn {
   ReportingMta: string;
-  ArrivalDate?: Date;
-  ExtensionFields?: ExtensionField[];
+  ArrivalDate?: Date | undefined;
+  ExtensionFields?: ExtensionField[] | undefined;
 }
 export type BounceType =
   | "DoesNotExist"
@@ -1076,31 +1076,31 @@ export type DsnStatus = string;
 export type DiagnosticCode = string;
 export type LastAttemptDate = Date;
 export interface RecipientDsnFields {
-  FinalRecipient?: string;
+  FinalRecipient?: string | undefined;
   Action: DsnAction;
-  RemoteMta?: string;
+  RemoteMta?: string | undefined;
   Status: string;
-  DiagnosticCode?: string;
-  LastAttemptDate?: Date;
-  ExtensionFields?: ExtensionField[];
+  DiagnosticCode?: string | undefined;
+  LastAttemptDate?: Date | undefined;
+  ExtensionFields?: ExtensionField[] | undefined;
 }
 export interface BouncedRecipientInfo {
   Recipient: string;
-  RecipientArn?: string;
-  BounceType?: BounceType;
-  RecipientDsnFields?: RecipientDsnFields;
+  RecipientArn?: string | undefined;
+  BounceType?: BounceType | undefined;
+  RecipientDsnFields?: RecipientDsnFields | undefined;
 }
 export type BouncedRecipientInfoList = BouncedRecipientInfo[];
 export interface SendBounceRequest {
   OriginalMessageId: string;
   BounceSender: string;
-  Explanation?: string;
-  MessageDsn?: MessageDsn;
+  Explanation?: string | undefined;
+  MessageDsn?: MessageDsn | undefined;
   BouncedRecipientInfoList: BouncedRecipientInfo[];
-  BounceSenderArn?: string;
+  BounceSenderArn?: string | undefined;
 }
 export interface SendBounceResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export type MessageTagName = string;
 export type MessageTagValue = string;
@@ -1111,26 +1111,26 @@ export interface MessageTag {
 export type MessageTagList = MessageTag[];
 export type TemplateData = string;
 export interface Destination {
-  ToAddresses?: string[];
-  CcAddresses?: string[];
-  BccAddresses?: string[];
+  ToAddresses?: string[] | undefined;
+  CcAddresses?: string[] | undefined;
+  BccAddresses?: string[] | undefined;
 }
 export interface BulkEmailDestination {
   Destination: Destination;
-  ReplacementTags?: MessageTag[];
-  ReplacementTemplateData?: string;
+  ReplacementTags?: MessageTag[] | undefined;
+  ReplacementTemplateData?: string | undefined;
 }
 export type BulkEmailDestinationList = BulkEmailDestination[];
 export interface SendBulkTemplatedEmailRequest {
   Source: string;
-  SourceArn?: string;
-  ReplyToAddresses?: string[];
-  ReturnPath?: string;
-  ReturnPathArn?: string;
-  ConfigurationSetName?: string;
-  DefaultTags?: MessageTag[];
+  SourceArn?: string | undefined;
+  ReplyToAddresses?: string[] | undefined;
+  ReturnPath?: string | undefined;
+  ReturnPathArn?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  DefaultTags?: MessageTag[] | undefined;
   Template: string;
-  TemplateArn?: string;
+  TemplateArn?: string | undefined;
   DefaultTemplateData: string;
   Destinations: BulkEmailDestination[];
 }
@@ -1151,9 +1151,9 @@ export type BulkEmailStatus =
   | "Failed"
   | (string & {});
 export interface BulkEmailDestinationStatus {
-  Status?: BulkEmailStatus;
-  Error?: string;
-  MessageId?: string;
+  Status?: BulkEmailStatus | undefined;
+  Error?: string | undefined;
+  MessageId?: string | undefined;
 }
 export type BulkEmailDestinationStatusList = BulkEmailDestinationStatus[];
 export interface SendBulkTemplatedEmailResponse {
@@ -1162,20 +1162,20 @@ export interface SendBulkTemplatedEmailResponse {
 export interface SendCustomVerificationEmailRequest {
   EmailAddress: string;
   TemplateName: string;
-  ConfigurationSetName?: string;
+  ConfigurationSetName?: string | undefined;
 }
 export interface SendCustomVerificationEmailResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export type MessageData = string;
 export type Charset = string;
 export interface Content {
   Data: string;
-  Charset?: string;
+  Charset?: string | undefined;
 }
 export interface Body {
-  Text?: Content;
-  Html?: Content;
+  Text?: Content | undefined;
+  Html?: Content | undefined;
 }
 export interface Message {
   Subject: Content;
@@ -1185,12 +1185,12 @@ export interface SendEmailRequest {
   Source: string;
   Destination: Destination;
   Message: Message;
-  ReplyToAddresses?: string[];
-  ReturnPath?: string;
-  SourceArn?: string;
-  ReturnPathArn?: string;
-  Tags?: MessageTag[];
-  ConfigurationSetName?: string;
+  ReplyToAddresses?: string[] | undefined;
+  ReturnPath?: string | undefined;
+  SourceArn?: string | undefined;
+  ReturnPathArn?: string | undefined;
+  Tags?: MessageTag[] | undefined;
+  ConfigurationSetName?: string | undefined;
 }
 export interface SendEmailResponse {
   MessageId: string;
@@ -1200,14 +1200,14 @@ export interface RawMessage {
   Data: Uint8Array;
 }
 export interface SendRawEmailRequest {
-  Source?: string;
-  Destinations?: string[];
+  Source?: string | undefined;
+  Destinations?: string[] | undefined;
   RawMessage: RawMessage;
-  FromArn?: string;
-  SourceArn?: string;
-  ReturnPathArn?: string;
-  Tags?: MessageTag[];
-  ConfigurationSetName?: string;
+  FromArn?: string | undefined;
+  SourceArn?: string | undefined;
+  ReturnPathArn?: string | undefined;
+  Tags?: MessageTag[] | undefined;
+  ConfigurationSetName?: string | undefined;
 }
 export interface SendRawEmailResponse {
   MessageId: string;
@@ -1215,21 +1215,21 @@ export interface SendRawEmailResponse {
 export interface SendTemplatedEmailRequest {
   Source: string;
   Destination: Destination;
-  ReplyToAddresses?: string[];
-  ReturnPath?: string;
-  SourceArn?: string;
-  ReturnPathArn?: string;
-  Tags?: MessageTag[];
-  ConfigurationSetName?: string;
+  ReplyToAddresses?: string[] | undefined;
+  ReturnPath?: string | undefined;
+  SourceArn?: string | undefined;
+  ReturnPathArn?: string | undefined;
+  Tags?: MessageTag[] | undefined;
+  ConfigurationSetName?: string | undefined;
   Template: string;
-  TemplateArn?: string;
+  TemplateArn?: string | undefined;
   TemplateData: string;
 }
 export interface SendTemplatedEmailResponse {
   MessageId: string;
 }
 export interface SetActiveReceiptRuleSetRequest {
-  RuleSetName?: string;
+  RuleSetName?: string | undefined;
 }
 export interface SetActiveReceiptRuleSetResponse {}
 export interface SetIdentityDkimEnabledRequest {
@@ -1251,20 +1251,20 @@ export interface SetIdentityHeadersInNotificationsEnabledRequest {
 export interface SetIdentityHeadersInNotificationsEnabledResponse {}
 export interface SetIdentityMailFromDomainRequest {
   Identity: string;
-  MailFromDomain?: string;
-  BehaviorOnMXFailure?: BehaviorOnMXFailure;
+  MailFromDomain?: string | undefined;
+  BehaviorOnMXFailure?: BehaviorOnMXFailure | undefined;
 }
 export interface SetIdentityMailFromDomainResponse {}
 export interface SetIdentityNotificationTopicRequest {
   Identity: string;
   NotificationType: NotificationType;
-  SnsTopic?: string;
+  SnsTopic?: string | undefined;
 }
 export interface SetIdentityNotificationTopicResponse {}
 export interface SetReceiptRulePositionRequest {
   RuleSetName: string;
   RuleName: string;
-  After?: string;
+  After?: string | undefined;
 }
 export interface SetReceiptRulePositionResponse {}
 export interface TestRenderTemplateRequest {
@@ -1273,10 +1273,10 @@ export interface TestRenderTemplateRequest {
 }
 export type RenderedTemplate = string;
 export interface TestRenderTemplateResponse {
-  RenderedTemplate?: string;
+  RenderedTemplate?: string | undefined;
 }
 export interface UpdateAccountSendingEnabledRequest {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface UpdateAccountSendingEnabledResponse {}
 export interface UpdateConfigurationSetEventDestinationRequest {
@@ -1301,11 +1301,11 @@ export interface UpdateConfigurationSetTrackingOptionsRequest {
 export interface UpdateConfigurationSetTrackingOptionsResponse {}
 export interface UpdateCustomVerificationEmailTemplateRequest {
   TemplateName: string;
-  FromEmailAddress?: string;
-  TemplateSubject?: string;
-  TemplateContent?: string;
-  SuccessRedirectionURL?: string;
-  FailureRedirectionURL?: string;
+  FromEmailAddress?: string | undefined;
+  TemplateSubject?: string | undefined;
+  TemplateContent?: string | undefined;
+  SuccessRedirectionURL?: string | undefined;
+  FailureRedirectionURL?: string | undefined;
 }
 export interface UpdateCustomVerificationEmailTemplateResponse {}
 export interface UpdateReceiptRuleRequest {

@@ -229,32 +229,32 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type NonEmptyString = string;
 export interface AcceptAdministratorInvitationRequest {
-  AdministratorId?: string;
-  InvitationId?: string;
+  AdministratorId?: string | undefined;
+  InvitationId?: string | undefined;
 }
 export interface AcceptAdministratorInvitationResponse {}
 export interface AcceptInvitationRequest {
-  MasterId?: string;
-  InvitationId?: string;
+  MasterId?: string | undefined;
+  InvitationId?: string | undefined;
 }
 export interface AcceptInvitationResponse {}
 export type AutomationRulesArnsList = string[];
 export interface BatchDeleteAutomationRulesRequest {
-  AutomationRulesArns?: string[];
+  AutomationRulesArns?: string[] | undefined;
 }
 export interface UnprocessedAutomationRule {
-  RuleArn?: string;
-  ErrorCode?: number;
-  ErrorMessage?: string;
+  RuleArn?: string | undefined;
+  ErrorCode?: number | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UnprocessedAutomationRulesList = UnprocessedAutomationRule[];
 export interface BatchDeleteAutomationRulesResponse {
-  ProcessedAutomationRules?: string[];
-  UnprocessedAutomationRules?: UnprocessedAutomationRule[];
+  ProcessedAutomationRules?: string[] | undefined;
+  UnprocessedAutomationRules?: UnprocessedAutomationRule[] | undefined;
 }
 export type StandardsSubscriptionArns = string[];
 export interface BatchDisableStandardsRequest {
-  StandardsSubscriptionArns?: string[];
+  StandardsSubscriptionArns?: string[] | undefined;
 }
 export type StandardsInputParameterMap = { [key: string]: string | undefined };
 export type StandardsStatus =
@@ -275,47 +275,51 @@ export type StatusReasonCode =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface StandardsStatusReason {
-  StatusReasonCode?: StatusReasonCode;
+  StatusReasonCode?: StatusReasonCode | undefined;
 }
 export type StandardsProvider = "AWS" | "Azure" | (string & {});
 export interface StandardsSubscription {
-  StandardsSubscriptionArn?: string;
-  StandardsArn?: string;
-  StandardsInput?: { [key: string]: string | undefined };
-  StandardsStatus?: StandardsStatus;
-  StandardsControlsUpdatable?: StandardsControlsUpdatable;
-  StandardsStatusReason?: StandardsStatusReason;
-  Provider?: StandardsProvider;
+  StandardsSubscriptionArn?: string | undefined;
+  StandardsArn?: string | undefined;
+  StandardsInput?: { [key: string]: string | undefined } | undefined;
+  StandardsStatus?: StandardsStatus | undefined;
+  StandardsControlsUpdatable?: StandardsControlsUpdatable | undefined;
+  StandardsStatusReason?: StandardsStatusReason | undefined;
+  Provider?: StandardsProvider | undefined;
 }
 export type StandardsSubscriptions = StandardsSubscription[];
 export interface BatchDisableStandardsResponse {
-  StandardsSubscriptions?: (StandardsSubscription & {
-    StandardsSubscriptionArn: NonEmptyString;
-    StandardsArn: NonEmptyString;
-    StandardsInput: StandardsInputParameterMap;
-    StandardsStatus: StandardsStatus;
-    StandardsStatusReason: StandardsStatusReason & { StatusReasonCode: StatusReasonCode };
-  })[];
+  StandardsSubscriptions?:
+    | (StandardsSubscription & {
+        StandardsSubscriptionArn: NonEmptyString;
+        StandardsArn: NonEmptyString;
+        StandardsInput: StandardsInputParameterMap;
+        StandardsStatus: StandardsStatus;
+        StandardsStatusReason: StandardsStatusReason & { StatusReasonCode: StatusReasonCode };
+      })[]
+    | undefined;
 }
 export interface StandardsSubscriptionRequest {
-  StandardsArn?: string;
-  StandardsInput?: { [key: string]: string | undefined };
+  StandardsArn?: string | undefined;
+  StandardsInput?: { [key: string]: string | undefined } | undefined;
 }
 export type StandardsSubscriptionRequests = StandardsSubscriptionRequest[];
 export interface BatchEnableStandardsRequest {
-  StandardsSubscriptionRequests?: StandardsSubscriptionRequest[];
+  StandardsSubscriptionRequests?: StandardsSubscriptionRequest[] | undefined;
 }
 export interface BatchEnableStandardsResponse {
-  StandardsSubscriptions?: (StandardsSubscription & {
-    StandardsSubscriptionArn: NonEmptyString;
-    StandardsArn: NonEmptyString;
-    StandardsInput: StandardsInputParameterMap;
-    StandardsStatus: StandardsStatus;
-    StandardsStatusReason: StandardsStatusReason & { StatusReasonCode: StatusReasonCode };
-  })[];
+  StandardsSubscriptions?:
+    | (StandardsSubscription & {
+        StandardsSubscriptionArn: NonEmptyString;
+        StandardsArn: NonEmptyString;
+        StandardsInput: StandardsInputParameterMap;
+        StandardsStatus: StandardsStatus;
+        StandardsStatusReason: StandardsStatusReason & { StatusReasonCode: StatusReasonCode };
+      })[]
+    | undefined;
 }
 export interface BatchGetAutomationRulesRequest {
-  AutomationRulesArns?: string[];
+  AutomationRulesArns?: string[] | undefined;
 }
 export type RuleStatus = "ENABLED" | "DISABLED" | (string & {});
 export type RuleOrderValue = number;
@@ -329,29 +333,29 @@ export type StringFilterComparison =
   | "CONTAINS_WORD"
   | (string & {});
 export interface StringFilter {
-  Value?: string;
-  Comparison?: StringFilterComparison;
+  Value?: string | undefined;
+  Comparison?: StringFilterComparison | undefined;
 }
 export type StringFilterList = StringFilter[];
 export type DateRangeUnit = "DAYS" | (string & {});
 export type DateRangeComparison = "WITHIN" | "OLDER_THAN" | (string & {});
 export interface DateRange {
-  Value?: number;
-  Unit?: DateRangeUnit;
-  Comparison?: DateRangeComparison;
+  Value?: number | undefined;
+  Unit?: DateRangeUnit | undefined;
+  Comparison?: DateRangeComparison | undefined;
 }
 export interface DateFilter {
-  Start?: string;
-  End?: string;
-  DateRange?: DateRange;
+  Start?: string | undefined;
+  End?: string | undefined;
+  DateRange?: DateRange | undefined;
 }
 export type DateFilterList = DateFilter[];
 export interface NumberFilter {
-  Gte?: number;
-  Lte?: number;
-  Eq?: number;
-  Gt?: number;
-  Lt?: number;
+  Gte?: number | undefined;
+  Lte?: number | undefined;
+  Eq?: number | undefined;
+  Gt?: number | undefined;
+  Lt?: number | undefined;
 }
 export type NumberFilterList = NumberFilter[];
 export type MapFilterComparison =
@@ -361,58 +365,58 @@ export type MapFilterComparison =
   | "NOT_CONTAINS"
   | (string & {});
 export interface MapFilter {
-  Key?: string;
-  Value?: string;
-  Comparison?: MapFilterComparison;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Comparison?: MapFilterComparison | undefined;
 }
 export type MapFilterList = MapFilter[];
 export interface AutomationRulesFindingFilters {
-  ProductArn?: StringFilter[];
-  AwsAccountId?: StringFilter[];
-  Id?: StringFilter[];
-  GeneratorId?: StringFilter[];
-  Type?: StringFilter[];
-  FirstObservedAt?: DateFilter[];
-  LastObservedAt?: DateFilter[];
-  CreatedAt?: DateFilter[];
-  UpdatedAt?: DateFilter[];
-  Confidence?: NumberFilter[];
-  Criticality?: NumberFilter[];
-  Title?: StringFilter[];
-  Description?: StringFilter[];
-  SourceUrl?: StringFilter[];
-  ProductName?: StringFilter[];
-  CompanyName?: StringFilter[];
-  SeverityLabel?: StringFilter[];
-  ResourceType?: StringFilter[];
-  ResourceId?: StringFilter[];
-  ResourcePartition?: StringFilter[];
-  ResourceRegion?: StringFilter[];
-  ResourceTags?: MapFilter[];
-  ResourceDetailsOther?: MapFilter[];
-  ComplianceStatus?: StringFilter[];
-  ComplianceSecurityControlId?: StringFilter[];
-  ComplianceAssociatedStandardsId?: StringFilter[];
-  VerificationState?: StringFilter[];
-  WorkflowStatus?: StringFilter[];
-  RecordState?: StringFilter[];
-  RelatedFindingsProductArn?: StringFilter[];
-  RelatedFindingsId?: StringFilter[];
-  NoteText?: StringFilter[];
-  NoteUpdatedAt?: DateFilter[];
-  NoteUpdatedBy?: StringFilter[];
-  UserDefinedFields?: MapFilter[];
-  ResourceApplicationArn?: StringFilter[];
-  ResourceApplicationName?: StringFilter[];
-  AwsAccountName?: StringFilter[];
-  ResourceProvider?: StringFilter[];
-  ResourceOwnerAccountId?: StringFilter[];
-  ResourceOwnerOrgId?: StringFilter[];
+  ProductArn?: StringFilter[] | undefined;
+  AwsAccountId?: StringFilter[] | undefined;
+  Id?: StringFilter[] | undefined;
+  GeneratorId?: StringFilter[] | undefined;
+  Type?: StringFilter[] | undefined;
+  FirstObservedAt?: DateFilter[] | undefined;
+  LastObservedAt?: DateFilter[] | undefined;
+  CreatedAt?: DateFilter[] | undefined;
+  UpdatedAt?: DateFilter[] | undefined;
+  Confidence?: NumberFilter[] | undefined;
+  Criticality?: NumberFilter[] | undefined;
+  Title?: StringFilter[] | undefined;
+  Description?: StringFilter[] | undefined;
+  SourceUrl?: StringFilter[] | undefined;
+  ProductName?: StringFilter[] | undefined;
+  CompanyName?: StringFilter[] | undefined;
+  SeverityLabel?: StringFilter[] | undefined;
+  ResourceType?: StringFilter[] | undefined;
+  ResourceId?: StringFilter[] | undefined;
+  ResourcePartition?: StringFilter[] | undefined;
+  ResourceRegion?: StringFilter[] | undefined;
+  ResourceTags?: MapFilter[] | undefined;
+  ResourceDetailsOther?: MapFilter[] | undefined;
+  ComplianceStatus?: StringFilter[] | undefined;
+  ComplianceSecurityControlId?: StringFilter[] | undefined;
+  ComplianceAssociatedStandardsId?: StringFilter[] | undefined;
+  VerificationState?: StringFilter[] | undefined;
+  WorkflowStatus?: StringFilter[] | undefined;
+  RecordState?: StringFilter[] | undefined;
+  RelatedFindingsProductArn?: StringFilter[] | undefined;
+  RelatedFindingsId?: StringFilter[] | undefined;
+  NoteText?: StringFilter[] | undefined;
+  NoteUpdatedAt?: DateFilter[] | undefined;
+  NoteUpdatedBy?: StringFilter[] | undefined;
+  UserDefinedFields?: MapFilter[] | undefined;
+  ResourceApplicationArn?: StringFilter[] | undefined;
+  ResourceApplicationName?: StringFilter[] | undefined;
+  AwsAccountName?: StringFilter[] | undefined;
+  ResourceProvider?: StringFilter[] | undefined;
+  ResourceOwnerAccountId?: StringFilter[] | undefined;
+  ResourceOwnerOrgId?: StringFilter[] | undefined;
 }
 export type AutomationRulesActionType = "FINDING_FIELDS_UPDATE" | (string & {});
 export interface NoteUpdate {
-  Text?: string;
-  UpdatedBy?: string;
+  Text?: string | undefined;
+  UpdatedBy?: string | undefined;
 }
 export type RatioScale = number;
 export type SeverityLabel =
@@ -423,9 +427,9 @@ export type SeverityLabel =
   | "CRITICAL"
   | (string & {});
 export interface SeverityUpdate {
-  Normalized?: number;
-  Product?: number;
-  Label?: SeverityLabel;
+  Normalized?: number | undefined;
+  Product?: number | undefined;
+  Label?: SeverityLabel | undefined;
 }
 export type VerificationState =
   | "UNKNOWN"
@@ -437,92 +441,99 @@ export type TypeList = string[];
 export type FieldMap = { [key: string]: string | undefined };
 export type WorkflowStatus = "NEW" | "NOTIFIED" | "RESOLVED" | "SUPPRESSED" | (string & {});
 export interface WorkflowUpdate {
-  Status?: WorkflowStatus;
+  Status?: WorkflowStatus | undefined;
 }
 export interface RelatedFinding {
-  ProductArn?: string;
-  Id?: string;
+  ProductArn?: string | undefined;
+  Id?: string | undefined;
 }
 export type RelatedFindingList = RelatedFinding[];
 export interface AutomationRulesFindingFieldsUpdate {
-  Note?: NoteUpdate;
-  Severity?: SeverityUpdate;
-  VerificationState?: VerificationState;
-  Confidence?: number;
-  Criticality?: number;
-  Types?: string[];
-  UserDefinedFields?: { [key: string]: string | undefined };
-  Workflow?: WorkflowUpdate;
-  RelatedFindings?: RelatedFinding[];
+  Note?: NoteUpdate | undefined;
+  Severity?: SeverityUpdate | undefined;
+  VerificationState?: VerificationState | undefined;
+  Confidence?: number | undefined;
+  Criticality?: number | undefined;
+  Types?: string[] | undefined;
+  UserDefinedFields?: { [key: string]: string | undefined } | undefined;
+  Workflow?: WorkflowUpdate | undefined;
+  RelatedFindings?: RelatedFinding[] | undefined;
 }
 export interface AutomationRulesAction {
-  Type?: AutomationRulesActionType;
-  FindingFieldsUpdate?: AutomationRulesFindingFieldsUpdate;
+  Type?: AutomationRulesActionType | undefined;
+  FindingFieldsUpdate?: AutomationRulesFindingFieldsUpdate | undefined;
 }
 export type ActionList = AutomationRulesAction[];
 export interface AutomationRulesConfig {
-  RuleArn?: string;
-  RuleStatus?: RuleStatus;
-  RuleOrder?: number;
-  RuleName?: string;
-  Description?: string;
-  IsTerminal?: boolean;
-  Criteria?: AutomationRulesFindingFilters;
-  Actions?: AutomationRulesAction[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  CreatedBy?: string;
+  RuleArn?: string | undefined;
+  RuleStatus?: RuleStatus | undefined;
+  RuleOrder?: number | undefined;
+  RuleName?: string | undefined;
+  Description?: string | undefined;
+  IsTerminal?: boolean | undefined;
+  Criteria?: AutomationRulesFindingFilters | undefined;
+  Actions?: AutomationRulesAction[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
 }
 export type AutomationRulesConfigList = AutomationRulesConfig[];
 export interface BatchGetAutomationRulesResponse {
-  Rules?: (AutomationRulesConfig & {
-    Actions: (AutomationRulesAction & {
-      FindingFieldsUpdate: AutomationRulesFindingFieldsUpdate & {
-        Note: NoteUpdate & { Text: NonEmptyString; UpdatedBy: NonEmptyString };
-        RelatedFindings: (RelatedFinding & { ProductArn: NonEmptyString; Id: NonEmptyString })[];
-      };
-    })[];
-  })[];
-  UnprocessedAutomationRules?: UnprocessedAutomationRule[];
+  Rules?:
+    | (AutomationRulesConfig & {
+        Actions: (AutomationRulesAction & {
+          FindingFieldsUpdate: AutomationRulesFindingFieldsUpdate & {
+            Note: NoteUpdate & { Text: NonEmptyString; UpdatedBy: NonEmptyString };
+            RelatedFindings: (RelatedFinding & {
+              ProductArn: NonEmptyString;
+              Id: NonEmptyString;
+            })[];
+          };
+        })[];
+      })[]
+    | undefined;
+  UnprocessedAutomationRules?: UnprocessedAutomationRule[] | undefined;
 }
 export type Target =
-  | { AccountId: string; OrganizationalUnitId?: never; RootId?: never }
-  | { AccountId?: never; OrganizationalUnitId: string; RootId?: never }
-  | { AccountId?: never; OrganizationalUnitId?: never; RootId: string };
+  | { AccountId: string; OrganizationalUnitId?: undefined; RootId?: undefined }
+  | { AccountId?: undefined; OrganizationalUnitId: string; RootId?: undefined }
+  | { AccountId?: undefined; OrganizationalUnitId?: undefined; RootId: string };
 export interface ConfigurationPolicyAssociation {
-  Target?: Target;
+  Target?: Target | undefined;
 }
 export type ConfigurationPolicyAssociationsList = ConfigurationPolicyAssociation[];
 export interface BatchGetConfigurationPolicyAssociationsRequest {
-  ConfigurationPolicyAssociationIdentifiers?: ConfigurationPolicyAssociation[];
+  ConfigurationPolicyAssociationIdentifiers?: ConfigurationPolicyAssociation[] | undefined;
 }
 export type TargetType = "ACCOUNT" | "ORGANIZATIONAL_UNIT" | "ROOT" | (string & {});
 export type AssociationType = "INHERITED" | "APPLIED" | (string & {});
 export type ConfigurationPolicyAssociationStatus = "PENDING" | "SUCCESS" | "FAILED" | (string & {});
 export interface ConfigurationPolicyAssociationSummary {
-  ConfigurationPolicyId?: string;
-  TargetId?: string;
-  TargetType?: TargetType;
-  AssociationType?: AssociationType;
-  UpdatedAt?: Date;
-  AssociationStatus?: ConfigurationPolicyAssociationStatus;
-  AssociationStatusMessage?: string;
+  ConfigurationPolicyId?: string | undefined;
+  TargetId?: string | undefined;
+  TargetType?: TargetType | undefined;
+  AssociationType?: AssociationType | undefined;
+  UpdatedAt?: Date | undefined;
+  AssociationStatus?: ConfigurationPolicyAssociationStatus | undefined;
+  AssociationStatusMessage?: string | undefined;
 }
 export type ConfigurationPolicyAssociationList = ConfigurationPolicyAssociationSummary[];
 export interface UnprocessedConfigurationPolicyAssociation {
-  ConfigurationPolicyAssociationIdentifiers?: ConfigurationPolicyAssociation;
-  ErrorCode?: string;
-  ErrorReason?: string;
+  ConfigurationPolicyAssociationIdentifiers?: ConfigurationPolicyAssociation | undefined;
+  ErrorCode?: string | undefined;
+  ErrorReason?: string | undefined;
 }
 export type UnprocessedConfigurationPolicyAssociationList =
   UnprocessedConfigurationPolicyAssociation[];
 export interface BatchGetConfigurationPolicyAssociationsResponse {
-  ConfigurationPolicyAssociations?: ConfigurationPolicyAssociationSummary[];
-  UnprocessedConfigurationPolicyAssociations?: UnprocessedConfigurationPolicyAssociation[];
+  ConfigurationPolicyAssociations?: ConfigurationPolicyAssociationSummary[] | undefined;
+  UnprocessedConfigurationPolicyAssociations?:
+    | UnprocessedConfigurationPolicyAssociation[]
+    | undefined;
 }
 export type StringList = string[];
 export interface BatchGetSecurityControlsRequest {
-  SecurityControlIds?: string[];
+  SecurityControlIds?: string[] | undefined;
 }
 export type SeverityRating = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
 export type ControlStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -532,103 +543,103 @@ export type IntegerList = number[];
 export type ParameterValue =
   | {
       Integer: number;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
+      Integer?: undefined;
       IntegerList: number[];
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
       Double: number;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
       String: string;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
       StringList: string[];
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
       Boolean: boolean;
-      Enum?: never;
-      EnumList?: never;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
       Enum: string;
-      EnumList?: never;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
       EnumList: string[];
     };
 export interface ParameterConfiguration {
-  ValueType?: ParameterValueType;
-  Value?: ParameterValue;
+  ValueType?: ParameterValueType | undefined;
+  Value?: ParameterValue | undefined;
 }
 export type Parameters = { [key: string]: ParameterConfiguration | undefined };
 export type AlphaNumericNonEmptyString = string;
 export type SecurityControlsProvider = "AWS" | "Azure" | (string & {});
 export interface SecurityControl {
-  SecurityControlId?: string;
-  SecurityControlArn?: string;
-  Title?: string;
-  Description?: string;
-  RemediationUrl?: string;
-  SeverityRating?: SeverityRating;
-  SecurityControlStatus?: ControlStatus;
-  UpdateStatus?: UpdateStatus;
-  Parameters?: { [key: string]: ParameterConfiguration | undefined };
-  LastUpdateReason?: string;
-  Provider?: SecurityControlsProvider;
+  SecurityControlId?: string | undefined;
+  SecurityControlArn?: string | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  RemediationUrl?: string | undefined;
+  SeverityRating?: SeverityRating | undefined;
+  SecurityControlStatus?: ControlStatus | undefined;
+  UpdateStatus?: UpdateStatus | undefined;
+  Parameters?: { [key: string]: ParameterConfiguration | undefined } | undefined;
+  LastUpdateReason?: string | undefined;
+  Provider?: SecurityControlsProvider | undefined;
 }
 export type SecurityControls = SecurityControl[];
 export type UnprocessedErrorCode =
@@ -639,9 +650,9 @@ export type UnprocessedErrorCode =
   | "LIMIT_EXCEEDED"
   | (string & {});
 export interface UnprocessedSecurityControl {
-  SecurityControlId?: string;
-  ErrorCode?: UnprocessedErrorCode;
-  ErrorReason?: string;
+  SecurityControlId?: string | undefined;
+  ErrorCode?: UnprocessedErrorCode | undefined;
+  ErrorReason?: string | undefined;
 }
 export type UnprocessedSecurityControls = UnprocessedSecurityControl[];
 export interface BatchGetSecurityControlsResponse {
@@ -657,39 +668,41 @@ export interface BatchGetSecurityControlsResponse {
       [key: string]: (ParameterConfiguration & { ValueType: ParameterValueType }) | undefined;
     };
   })[];
-  UnprocessedIds?: (UnprocessedSecurityControl & {
-    SecurityControlId: NonEmptyString;
-    ErrorCode: UnprocessedErrorCode;
-  })[];
+  UnprocessedIds?:
+    | (UnprocessedSecurityControl & {
+        SecurityControlId: NonEmptyString;
+        ErrorCode: UnprocessedErrorCode;
+      })[]
+    | undefined;
 }
 export interface StandardsControlAssociationId {
-  SecurityControlId?: string;
-  StandardsArn?: string;
+  SecurityControlId?: string | undefined;
+  StandardsArn?: string | undefined;
 }
 export type StandardsControlAssociationIds = StandardsControlAssociationId[];
 export interface BatchGetStandardsControlAssociationsRequest {
-  StandardsControlAssociationIds?: StandardsControlAssociationId[];
+  StandardsControlAssociationIds?: StandardsControlAssociationId[] | undefined;
 }
 export type AssociationStatus = "ENABLED" | "DISABLED" | (string & {});
 export type RelatedRequirementsList = string[];
 export type StandardsControlArnList = string[];
 export interface StandardsControlAssociationDetail {
-  StandardsArn?: string;
-  SecurityControlId?: string;
-  SecurityControlArn?: string;
-  AssociationStatus?: AssociationStatus;
-  RelatedRequirements?: string[];
-  UpdatedAt?: Date;
-  UpdatedReason?: string;
-  StandardsControlTitle?: string;
-  StandardsControlDescription?: string;
-  StandardsControlArns?: string[];
+  StandardsArn?: string | undefined;
+  SecurityControlId?: string | undefined;
+  SecurityControlArn?: string | undefined;
+  AssociationStatus?: AssociationStatus | undefined;
+  RelatedRequirements?: string[] | undefined;
+  UpdatedAt?: Date | undefined;
+  UpdatedReason?: string | undefined;
+  StandardsControlTitle?: string | undefined;
+  StandardsControlDescription?: string | undefined;
+  StandardsControlArns?: string[] | undefined;
 }
 export type StandardsControlAssociationDetails = StandardsControlAssociationDetail[];
 export interface UnprocessedStandardsControlAssociation {
-  StandardsControlAssociationId?: StandardsControlAssociationId;
-  ErrorCode?: UnprocessedErrorCode;
-  ErrorReason?: string;
+  StandardsControlAssociationId?: StandardsControlAssociationId | undefined;
+  ErrorCode?: UnprocessedErrorCode | undefined;
+  ErrorReason?: string | undefined;
 }
 export type UnprocessedStandardsControlAssociations = UnprocessedStandardsControlAssociation[];
 export interface BatchGetStandardsControlAssociationsResponse {
@@ -699,26 +712,28 @@ export interface BatchGetStandardsControlAssociationsResponse {
     SecurityControlArn: NonEmptyString;
     AssociationStatus: AssociationStatus;
   })[];
-  UnprocessedAssociations?: (UnprocessedStandardsControlAssociation & {
-    StandardsControlAssociationId: StandardsControlAssociationId & {
-      SecurityControlId: NonEmptyString;
-      StandardsArn: NonEmptyString;
-    };
-    ErrorCode: UnprocessedErrorCode;
-  })[];
+  UnprocessedAssociations?:
+    | (UnprocessedStandardsControlAssociation & {
+        StandardsControlAssociationId: StandardsControlAssociationId & {
+          SecurityControlId: NonEmptyString;
+          StandardsArn: NonEmptyString;
+        };
+        ErrorCode: UnprocessedErrorCode;
+      })[]
+    | undefined;
 }
 export interface Severity {
-  Product?: number;
-  Label?: SeverityLabel;
-  Normalized?: number;
-  Original?: string;
+  Product?: number | undefined;
+  Label?: SeverityLabel | undefined;
+  Normalized?: number | undefined;
+  Original?: string | undefined;
 }
 export interface Recommendation {
-  Text?: string;
-  Url?: string;
+  Text?: string | undefined;
+  Url?: string | undefined;
 }
 export interface Remediation {
-  Recommendation?: Recommendation;
+  Recommendation?: Recommendation | undefined;
 }
 export type MalwareType =
   | "ADWARE"
@@ -739,68 +754,68 @@ export type MalwareType =
   | (string & {});
 export type MalwareState = "OBSERVED" | "REMOVAL_FAILED" | "REMOVED" | (string & {});
 export interface Malware {
-  Name?: string;
-  Type?: MalwareType;
-  Path?: string;
-  State?: MalwareState;
+  Name?: string | undefined;
+  Type?: MalwareType | undefined;
+  Path?: string | undefined;
+  State?: MalwareState | undefined;
 }
 export type MalwareList = Malware[];
 export type NetworkDirection = "IN" | "OUT" | (string & {});
 export interface PortRange {
-  Begin?: number;
-  End?: number;
+  Begin?: number | undefined;
+  End?: number | undefined;
 }
 export interface Network {
-  Direction?: NetworkDirection;
-  Protocol?: string;
-  OpenPortRange?: PortRange;
-  SourceIpV4?: string;
-  SourceIpV6?: string;
-  SourcePort?: number;
-  SourceDomain?: string;
-  SourceMac?: string;
-  DestinationIpV4?: string;
-  DestinationIpV6?: string;
-  DestinationPort?: number;
-  DestinationDomain?: string;
+  Direction?: NetworkDirection | undefined;
+  Protocol?: string | undefined;
+  OpenPortRange?: PortRange | undefined;
+  SourceIpV4?: string | undefined;
+  SourceIpV6?: string | undefined;
+  SourcePort?: number | undefined;
+  SourceDomain?: string | undefined;
+  SourceMac?: string | undefined;
+  DestinationIpV4?: string | undefined;
+  DestinationIpV6?: string | undefined;
+  DestinationPort?: number | undefined;
+  DestinationDomain?: string | undefined;
 }
 export type PortRangeList = PortRange[];
 export interface NetworkPathComponentDetails {
-  Address?: string[];
-  PortRanges?: PortRange[];
+  Address?: string[] | undefined;
+  PortRanges?: PortRange[] | undefined;
 }
 export interface NetworkHeader {
-  Protocol?: string;
-  Destination?: NetworkPathComponentDetails;
-  Source?: NetworkPathComponentDetails;
+  Protocol?: string | undefined;
+  Destination?: NetworkPathComponentDetails | undefined;
+  Source?: NetworkPathComponentDetails | undefined;
 }
 export interface NetworkPathComponent {
-  ComponentId?: string;
-  ComponentType?: string;
-  Egress?: NetworkHeader;
-  Ingress?: NetworkHeader;
+  ComponentId?: string | undefined;
+  ComponentType?: string | undefined;
+  Egress?: NetworkHeader | undefined;
+  Ingress?: NetworkHeader | undefined;
 }
 export type NetworkPathList = NetworkPathComponent[];
 export interface ProcessDetails {
-  Name?: string;
-  Path?: string;
-  Pid?: number;
-  ParentPid?: number;
-  LaunchedAt?: string;
-  TerminatedAt?: string;
+  Name?: string | undefined;
+  Path?: string | undefined;
+  Pid?: number | undefined;
+  ParentPid?: number | undefined;
+  LaunchedAt?: string | undefined;
+  TerminatedAt?: string | undefined;
 }
 export interface FilePaths {
-  FilePath?: string;
-  FileName?: string;
-  ResourceId?: string;
-  Hash?: string;
+  FilePath?: string | undefined;
+  FileName?: string | undefined;
+  ResourceId?: string | undefined;
+  Hash?: string | undefined;
 }
 export type FilePathList = FilePaths[];
 export interface Threat {
-  Name?: string;
-  Severity?: string;
-  ItemCount?: number;
-  FilePaths?: FilePaths[];
+  Name?: string | undefined;
+  Severity?: string | undefined;
+  ItemCount?: number | undefined;
+  FilePaths?: FilePaths[] | undefined;
 }
 export type ThreatList = Threat[];
 export type ThreatIntelIndicatorType =
@@ -825,12 +840,12 @@ export type ThreatIntelIndicatorCategory =
   | "KEYLOGGER"
   | (string & {});
 export interface ThreatIntelIndicator {
-  Type?: ThreatIntelIndicatorType;
-  Value?: string;
-  Category?: ThreatIntelIndicatorCategory;
-  LastObservedAt?: string;
-  Source?: string;
-  SourceUrl?: string;
+  Type?: ThreatIntelIndicatorType | undefined;
+  Value?: string | undefined;
+  Category?: ThreatIntelIndicatorCategory | undefined;
+  LastObservedAt?: string | undefined;
+  Source?: string | undefined;
+  SourceUrl?: string | undefined;
 }
 export type ThreatIntelIndicatorList = ThreatIntelIndicator[];
 export type Partition =
@@ -843,714 +858,732 @@ export type Partition =
   | (string & {});
 export type CloudProviderName = "Azure" | "AWS" | (string & {});
 export interface ResourceOwnerAccount {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface ResourceOwnerOrg {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface ResourceOwner {
-  Account?: ResourceOwnerAccount;
-  Org?: ResourceOwnerOrg;
+  Account?: ResourceOwnerAccount | undefined;
+  Org?: ResourceOwnerOrg | undefined;
 }
 export interface ClassificationStatus {
-  Code?: string;
-  Reason?: string;
+  Code?: string | undefined;
+  Reason?: string | undefined;
 }
 export interface Range {
-  Start?: number;
-  End?: number;
-  StartColumn?: number;
+  Start?: number | undefined;
+  End?: number | undefined;
+  StartColumn?: number | undefined;
 }
 export type Ranges = Range[];
 export interface Page {
-  PageNumber?: number;
-  LineRange?: Range;
-  OffsetRange?: Range;
+  PageNumber?: number | undefined;
+  LineRange?: Range | undefined;
+  OffsetRange?: Range | undefined;
 }
 export type Pages = Page[];
 export interface Record {
-  JsonPath?: string;
-  RecordIndex?: number;
+  JsonPath?: string | undefined;
+  RecordIndex?: number | undefined;
 }
 export type Records = Record[];
 export interface Cell {
-  Column?: number;
-  Row?: number;
-  ColumnName?: string;
-  CellReference?: string;
+  Column?: number | undefined;
+  Row?: number | undefined;
+  ColumnName?: string | undefined;
+  CellReference?: string | undefined;
 }
 export type Cells = Cell[];
 export interface Occurrences {
-  LineRanges?: Range[];
-  OffsetRanges?: Range[];
-  Pages?: Page[];
-  Records?: Record[];
-  Cells?: Cell[];
+  LineRanges?: Range[] | undefined;
+  OffsetRanges?: Range[] | undefined;
+  Pages?: Page[] | undefined;
+  Records?: Record[] | undefined;
+  Cells?: Cell[] | undefined;
 }
 export interface SensitiveDataDetections {
-  Count?: number;
-  Type?: string;
-  Occurrences?: Occurrences;
+  Count?: number | undefined;
+  Type?: string | undefined;
+  Occurrences?: Occurrences | undefined;
 }
 export type SensitiveDataDetectionsList = SensitiveDataDetections[];
 export interface SensitiveDataResult {
-  Category?: string;
-  Detections?: SensitiveDataDetections[];
-  TotalCount?: number;
+  Category?: string | undefined;
+  Detections?: SensitiveDataDetections[] | undefined;
+  TotalCount?: number | undefined;
 }
 export type SensitiveDataResultList = SensitiveDataResult[];
 export interface CustomDataIdentifiersDetections {
-  Count?: number;
-  Arn?: string;
-  Name?: string;
-  Occurrences?: Occurrences;
+  Count?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Occurrences?: Occurrences | undefined;
 }
 export type CustomDataIdentifiersDetectionsList = CustomDataIdentifiersDetections[];
 export interface CustomDataIdentifiersResult {
-  Detections?: CustomDataIdentifiersDetections[];
-  TotalCount?: number;
+  Detections?: CustomDataIdentifiersDetections[] | undefined;
+  TotalCount?: number | undefined;
 }
 export interface ClassificationResult {
-  MimeType?: string;
-  SizeClassified?: number;
-  AdditionalOccurrences?: boolean;
-  Status?: ClassificationStatus;
-  SensitiveData?: SensitiveDataResult[];
-  CustomDataIdentifiers?: CustomDataIdentifiersResult;
+  MimeType?: string | undefined;
+  SizeClassified?: number | undefined;
+  AdditionalOccurrences?: boolean | undefined;
+  Status?: ClassificationStatus | undefined;
+  SensitiveData?: SensitiveDataResult[] | undefined;
+  CustomDataIdentifiers?: CustomDataIdentifiersResult | undefined;
 }
 export interface DataClassificationDetails {
-  DetailedResultsLocation?: string;
-  Result?: ClassificationResult;
+  DetailedResultsLocation?: string | undefined;
+  Result?: ClassificationResult | undefined;
 }
 export interface AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails {
-  OnDemandAllocationStrategy?: string;
-  OnDemandBaseCapacity?: number;
-  OnDemandPercentageAboveBaseCapacity?: number;
-  SpotAllocationStrategy?: string;
-  SpotInstancePools?: number;
-  SpotMaxPrice?: string;
+  OnDemandAllocationStrategy?: string | undefined;
+  OnDemandBaseCapacity?: number | undefined;
+  OnDemandPercentageAboveBaseCapacity?: number | undefined;
+  SpotAllocationStrategy?: string | undefined;
+  SpotInstancePools?: number | undefined;
+  SpotMaxPrice?: string | undefined;
 }
 export interface AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification {
-  LaunchTemplateId?: string;
-  LaunchTemplateName?: string;
-  Version?: string;
+  LaunchTemplateId?: string | undefined;
+  LaunchTemplateName?: string | undefined;
+  Version?: string | undefined;
 }
 export interface AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails {
-  InstanceType?: string;
-  WeightedCapacity?: string;
+  InstanceType?: string | undefined;
+  WeightedCapacity?: string | undefined;
 }
 export type AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesList =
   AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails[];
 export interface AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
-  LaunchTemplateSpecification?: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification;
-  Overrides?: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails[];
+  LaunchTemplateSpecification?:
+    | AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification
+    | undefined;
+  Overrides?:
+    | AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails[]
+    | undefined;
 }
 export interface AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails {
-  InstancesDistribution?: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails;
-  LaunchTemplate?: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails;
+  InstancesDistribution?:
+    | AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails
+    | undefined;
+  LaunchTemplate?:
+    | AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails
+    | undefined;
 }
 export interface AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails {
-  Value?: string;
+  Value?: string | undefined;
 }
 export type AwsAutoScalingAutoScalingGroupAvailabilityZonesList =
   AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails[];
 export interface AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification {
-  LaunchTemplateId?: string;
-  LaunchTemplateName?: string;
-  Version?: string;
+  LaunchTemplateId?: string | undefined;
+  LaunchTemplateName?: string | undefined;
+  Version?: string | undefined;
 }
 export interface AwsAutoScalingAutoScalingGroupDetails {
-  LaunchConfigurationName?: string;
-  LoadBalancerNames?: string[];
-  HealthCheckType?: string;
-  HealthCheckGracePeriod?: number;
-  CreatedTime?: string;
-  MixedInstancesPolicy?: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails;
-  AvailabilityZones?: AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails[];
-  LaunchTemplate?: AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification;
-  CapacityRebalance?: boolean;
+  LaunchConfigurationName?: string | undefined;
+  LoadBalancerNames?: string[] | undefined;
+  HealthCheckType?: string | undefined;
+  HealthCheckGracePeriod?: number | undefined;
+  CreatedTime?: string | undefined;
+  MixedInstancesPolicy?: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails | undefined;
+  AvailabilityZones?: AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails[] | undefined;
+  LaunchTemplate?:
+    | AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification
+    | undefined;
+  CapacityRebalance?: boolean | undefined;
 }
 export interface AwsCodeBuildProjectArtifactsDetails {
-  ArtifactIdentifier?: string;
-  EncryptionDisabled?: boolean;
-  Location?: string;
-  Name?: string;
-  NamespaceType?: string;
-  OverrideArtifactName?: boolean;
-  Packaging?: string;
-  Path?: string;
-  Type?: string;
+  ArtifactIdentifier?: string | undefined;
+  EncryptionDisabled?: boolean | undefined;
+  Location?: string | undefined;
+  Name?: string | undefined;
+  NamespaceType?: string | undefined;
+  OverrideArtifactName?: boolean | undefined;
+  Packaging?: string | undefined;
+  Path?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsCodeBuildProjectArtifactsList = AwsCodeBuildProjectArtifactsDetails[];
 export interface AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails {
-  Name?: string;
-  Type?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsCodeBuildProjectEnvironmentEnvironmentVariablesList =
   AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails[];
 export interface AwsCodeBuildProjectEnvironmentRegistryCredential {
-  Credential?: string;
-  CredentialProvider?: string;
+  Credential?: string | undefined;
+  CredentialProvider?: string | undefined;
 }
 export interface AwsCodeBuildProjectEnvironment {
-  Certificate?: string;
-  EnvironmentVariables?: AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails[];
-  PrivilegedMode?: boolean;
-  ImagePullCredentialsType?: string;
-  RegistryCredential?: AwsCodeBuildProjectEnvironmentRegistryCredential;
-  Type?: string;
+  Certificate?: string | undefined;
+  EnvironmentVariables?: AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails[] | undefined;
+  PrivilegedMode?: boolean | undefined;
+  ImagePullCredentialsType?: string | undefined;
+  RegistryCredential?: AwsCodeBuildProjectEnvironmentRegistryCredential | undefined;
+  Type?: string | undefined;
 }
 export interface AwsCodeBuildProjectSource {
-  Type?: string;
-  Location?: string;
-  GitCloneDepth?: number;
-  InsecureSsl?: boolean;
+  Type?: string | undefined;
+  Location?: string | undefined;
+  GitCloneDepth?: number | undefined;
+  InsecureSsl?: boolean | undefined;
 }
 export interface AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails {
-  GroupName?: string;
-  Status?: string;
-  StreamName?: string;
+  GroupName?: string | undefined;
+  Status?: string | undefined;
+  StreamName?: string | undefined;
 }
 export interface AwsCodeBuildProjectLogsConfigS3LogsDetails {
-  EncryptionDisabled?: boolean;
-  Location?: string;
-  Status?: string;
+  EncryptionDisabled?: boolean | undefined;
+  Location?: string | undefined;
+  Status?: string | undefined;
 }
 export interface AwsCodeBuildProjectLogsConfigDetails {
-  CloudWatchLogs?: AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails;
-  S3Logs?: AwsCodeBuildProjectLogsConfigS3LogsDetails;
+  CloudWatchLogs?: AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails | undefined;
+  S3Logs?: AwsCodeBuildProjectLogsConfigS3LogsDetails | undefined;
 }
 export type NonEmptyStringList = string[];
 export interface AwsCodeBuildProjectVpcConfig {
-  VpcId?: string;
-  Subnets?: string[];
-  SecurityGroupIds?: string[];
+  VpcId?: string | undefined;
+  Subnets?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export interface AwsCodeBuildProjectDetails {
-  EncryptionKey?: string;
-  Artifacts?: AwsCodeBuildProjectArtifactsDetails[];
-  Environment?: AwsCodeBuildProjectEnvironment;
-  Name?: string;
-  Source?: AwsCodeBuildProjectSource;
-  ServiceRole?: string;
-  LogsConfig?: AwsCodeBuildProjectLogsConfigDetails;
-  VpcConfig?: AwsCodeBuildProjectVpcConfig;
-  SecondaryArtifacts?: AwsCodeBuildProjectArtifactsDetails[];
+  EncryptionKey?: string | undefined;
+  Artifacts?: AwsCodeBuildProjectArtifactsDetails[] | undefined;
+  Environment?: AwsCodeBuildProjectEnvironment | undefined;
+  Name?: string | undefined;
+  Source?: AwsCodeBuildProjectSource | undefined;
+  ServiceRole?: string | undefined;
+  LogsConfig?: AwsCodeBuildProjectLogsConfigDetails | undefined;
+  VpcConfig?: AwsCodeBuildProjectVpcConfig | undefined;
+  SecondaryArtifacts?: AwsCodeBuildProjectArtifactsDetails[] | undefined;
 }
 export interface AwsCloudFrontDistributionCacheBehavior {
-  ViewerProtocolPolicy?: string;
+  ViewerProtocolPolicy?: string | undefined;
 }
 export type AwsCloudFrontDistributionCacheBehaviorsItemList =
   AwsCloudFrontDistributionCacheBehavior[];
 export interface AwsCloudFrontDistributionCacheBehaviors {
-  Items?: AwsCloudFrontDistributionCacheBehavior[];
+  Items?: AwsCloudFrontDistributionCacheBehavior[] | undefined;
 }
 export interface AwsCloudFrontDistributionDefaultCacheBehavior {
-  ViewerProtocolPolicy?: string;
+  ViewerProtocolPolicy?: string | undefined;
 }
 export interface AwsCloudFrontDistributionLogging {
-  Bucket?: string;
-  Enabled?: boolean;
-  IncludeCookies?: boolean;
-  Prefix?: string;
+  Bucket?: string | undefined;
+  Enabled?: boolean | undefined;
+  IncludeCookies?: boolean | undefined;
+  Prefix?: string | undefined;
 }
 export interface AwsCloudFrontDistributionOriginS3OriginConfig {
-  OriginAccessIdentity?: string;
+  OriginAccessIdentity?: string | undefined;
 }
 export interface AwsCloudFrontDistributionOriginSslProtocols {
-  Items?: string[];
-  Quantity?: number;
+  Items?: string[] | undefined;
+  Quantity?: number | undefined;
 }
 export interface AwsCloudFrontDistributionOriginCustomOriginConfig {
-  HttpPort?: number;
-  HttpsPort?: number;
-  OriginKeepaliveTimeout?: number;
-  OriginProtocolPolicy?: string;
-  OriginReadTimeout?: number;
-  OriginSslProtocols?: AwsCloudFrontDistributionOriginSslProtocols;
+  HttpPort?: number | undefined;
+  HttpsPort?: number | undefined;
+  OriginKeepaliveTimeout?: number | undefined;
+  OriginProtocolPolicy?: string | undefined;
+  OriginReadTimeout?: number | undefined;
+  OriginSslProtocols?: AwsCloudFrontDistributionOriginSslProtocols | undefined;
 }
 export interface AwsCloudFrontDistributionOriginItem {
-  DomainName?: string;
-  Id?: string;
-  OriginPath?: string;
-  S3OriginConfig?: AwsCloudFrontDistributionOriginS3OriginConfig;
-  CustomOriginConfig?: AwsCloudFrontDistributionOriginCustomOriginConfig;
+  DomainName?: string | undefined;
+  Id?: string | undefined;
+  OriginPath?: string | undefined;
+  S3OriginConfig?: AwsCloudFrontDistributionOriginS3OriginConfig | undefined;
+  CustomOriginConfig?: AwsCloudFrontDistributionOriginCustomOriginConfig | undefined;
 }
 export type AwsCloudFrontDistributionOriginItemList = AwsCloudFrontDistributionOriginItem[];
 export interface AwsCloudFrontDistributionOrigins {
-  Items?: AwsCloudFrontDistributionOriginItem[];
+  Items?: AwsCloudFrontDistributionOriginItem[] | undefined;
 }
 export type AwsCloudFrontDistributionOriginGroupFailoverStatusCodesItemList = number[];
 export interface AwsCloudFrontDistributionOriginGroupFailoverStatusCodes {
-  Items?: number[];
-  Quantity?: number;
+  Items?: number[] | undefined;
+  Quantity?: number | undefined;
 }
 export interface AwsCloudFrontDistributionOriginGroupFailover {
-  StatusCodes?: AwsCloudFrontDistributionOriginGroupFailoverStatusCodes;
+  StatusCodes?: AwsCloudFrontDistributionOriginGroupFailoverStatusCodes | undefined;
 }
 export interface AwsCloudFrontDistributionOriginGroup {
-  FailoverCriteria?: AwsCloudFrontDistributionOriginGroupFailover;
+  FailoverCriteria?: AwsCloudFrontDistributionOriginGroupFailover | undefined;
 }
 export type AwsCloudFrontDistributionOriginGroupsItemList = AwsCloudFrontDistributionOriginGroup[];
 export interface AwsCloudFrontDistributionOriginGroups {
-  Items?: AwsCloudFrontDistributionOriginGroup[];
+  Items?: AwsCloudFrontDistributionOriginGroup[] | undefined;
 }
 export interface AwsCloudFrontDistributionViewerCertificate {
-  AcmCertificateArn?: string;
-  Certificate?: string;
-  CertificateSource?: string;
-  CloudFrontDefaultCertificate?: boolean;
-  IamCertificateId?: string;
-  MinimumProtocolVersion?: string;
-  SslSupportMethod?: string;
+  AcmCertificateArn?: string | undefined;
+  Certificate?: string | undefined;
+  CertificateSource?: string | undefined;
+  CloudFrontDefaultCertificate?: boolean | undefined;
+  IamCertificateId?: string | undefined;
+  MinimumProtocolVersion?: string | undefined;
+  SslSupportMethod?: string | undefined;
 }
 export interface AwsCloudFrontDistributionDetails {
-  CacheBehaviors?: AwsCloudFrontDistributionCacheBehaviors;
-  DefaultCacheBehavior?: AwsCloudFrontDistributionDefaultCacheBehavior;
-  DefaultRootObject?: string;
-  DomainName?: string;
-  ETag?: string;
-  LastModifiedTime?: string;
-  Logging?: AwsCloudFrontDistributionLogging;
-  Origins?: AwsCloudFrontDistributionOrigins;
-  OriginGroups?: AwsCloudFrontDistributionOriginGroups;
-  ViewerCertificate?: AwsCloudFrontDistributionViewerCertificate;
-  Status?: string;
-  WebAclId?: string;
+  CacheBehaviors?: AwsCloudFrontDistributionCacheBehaviors | undefined;
+  DefaultCacheBehavior?: AwsCloudFrontDistributionDefaultCacheBehavior | undefined;
+  DefaultRootObject?: string | undefined;
+  DomainName?: string | undefined;
+  ETag?: string | undefined;
+  LastModifiedTime?: string | undefined;
+  Logging?: AwsCloudFrontDistributionLogging | undefined;
+  Origins?: AwsCloudFrontDistributionOrigins | undefined;
+  OriginGroups?: AwsCloudFrontDistributionOriginGroups | undefined;
+  ViewerCertificate?: AwsCloudFrontDistributionViewerCertificate | undefined;
+  Status?: string | undefined;
+  WebAclId?: string | undefined;
 }
 export interface AwsEc2InstanceNetworkInterfacesDetails {
-  NetworkInterfaceId?: string;
+  NetworkInterfaceId?: string | undefined;
 }
 export type AwsEc2InstanceNetworkInterfacesList = AwsEc2InstanceNetworkInterfacesDetails[];
 export interface AwsEc2InstanceMetadataOptions {
-  HttpEndpoint?: string;
-  HttpProtocolIpv6?: string;
-  HttpPutResponseHopLimit?: number;
-  HttpTokens?: string;
-  InstanceMetadataTags?: string;
+  HttpEndpoint?: string | undefined;
+  HttpProtocolIpv6?: string | undefined;
+  HttpPutResponseHopLimit?: number | undefined;
+  HttpTokens?: string | undefined;
+  InstanceMetadataTags?: string | undefined;
 }
 export interface AwsEc2InstanceMonitoringDetails {
-  State?: string;
+  State?: string | undefined;
 }
 export interface AwsEc2InstanceDetails {
-  Type?: string;
-  ImageId?: string;
-  IpV4Addresses?: string[];
-  IpV6Addresses?: string[];
-  KeyName?: string;
-  IamInstanceProfileArn?: string;
-  VpcId?: string;
-  SubnetId?: string;
-  LaunchedAt?: string;
-  NetworkInterfaces?: AwsEc2InstanceNetworkInterfacesDetails[];
-  VirtualizationType?: string;
-  MetadataOptions?: AwsEc2InstanceMetadataOptions;
-  Monitoring?: AwsEc2InstanceMonitoringDetails;
+  Type?: string | undefined;
+  ImageId?: string | undefined;
+  IpV4Addresses?: string[] | undefined;
+  IpV6Addresses?: string[] | undefined;
+  KeyName?: string | undefined;
+  IamInstanceProfileArn?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetId?: string | undefined;
+  LaunchedAt?: string | undefined;
+  NetworkInterfaces?: AwsEc2InstanceNetworkInterfacesDetails[] | undefined;
+  VirtualizationType?: string | undefined;
+  MetadataOptions?: AwsEc2InstanceMetadataOptions | undefined;
+  Monitoring?: AwsEc2InstanceMonitoringDetails | undefined;
 }
 export interface AwsEc2NetworkInterfaceAttachment {
-  AttachTime?: string;
-  AttachmentId?: string;
-  DeleteOnTermination?: boolean;
-  DeviceIndex?: number;
-  InstanceId?: string;
-  InstanceOwnerId?: string;
-  Status?: string;
+  AttachTime?: string | undefined;
+  AttachmentId?: string | undefined;
+  DeleteOnTermination?: boolean | undefined;
+  DeviceIndex?: number | undefined;
+  InstanceId?: string | undefined;
+  InstanceOwnerId?: string | undefined;
+  Status?: string | undefined;
 }
 export interface AwsEc2NetworkInterfaceSecurityGroup {
-  GroupName?: string;
-  GroupId?: string;
+  GroupName?: string | undefined;
+  GroupId?: string | undefined;
 }
 export type AwsEc2NetworkInterfaceSecurityGroupList = AwsEc2NetworkInterfaceSecurityGroup[];
 export interface AwsEc2NetworkInterfaceIpV6AddressDetail {
-  IpV6Address?: string;
+  IpV6Address?: string | undefined;
 }
 export type AwsEc2NetworkInterfaceIpV6AddressList = AwsEc2NetworkInterfaceIpV6AddressDetail[];
 export interface AwsEc2NetworkInterfacePrivateIpAddressDetail {
-  PrivateIpAddress?: string;
-  PrivateDnsName?: string;
+  PrivateIpAddress?: string | undefined;
+  PrivateDnsName?: string | undefined;
 }
 export type AwsEc2NetworkInterfacePrivateIpAddressList =
   AwsEc2NetworkInterfacePrivateIpAddressDetail[];
 export interface AwsEc2NetworkInterfaceDetails {
-  Attachment?: AwsEc2NetworkInterfaceAttachment;
-  NetworkInterfaceId?: string;
-  SecurityGroups?: AwsEc2NetworkInterfaceSecurityGroup[];
-  SourceDestCheck?: boolean;
-  IpV6Addresses?: AwsEc2NetworkInterfaceIpV6AddressDetail[];
-  PrivateIpAddresses?: AwsEc2NetworkInterfacePrivateIpAddressDetail[];
-  PublicDnsName?: string;
-  PublicIp?: string;
+  Attachment?: AwsEc2NetworkInterfaceAttachment | undefined;
+  NetworkInterfaceId?: string | undefined;
+  SecurityGroups?: AwsEc2NetworkInterfaceSecurityGroup[] | undefined;
+  SourceDestCheck?: boolean | undefined;
+  IpV6Addresses?: AwsEc2NetworkInterfaceIpV6AddressDetail[] | undefined;
+  PrivateIpAddresses?: AwsEc2NetworkInterfacePrivateIpAddressDetail[] | undefined;
+  PublicDnsName?: string | undefined;
+  PublicIp?: string | undefined;
 }
 export interface AwsEc2SecurityGroupUserIdGroupPair {
-  GroupId?: string;
-  GroupName?: string;
-  PeeringStatus?: string;
-  UserId?: string;
-  VpcId?: string;
-  VpcPeeringConnectionId?: string;
+  GroupId?: string | undefined;
+  GroupName?: string | undefined;
+  PeeringStatus?: string | undefined;
+  UserId?: string | undefined;
+  VpcId?: string | undefined;
+  VpcPeeringConnectionId?: string | undefined;
 }
 export type AwsEc2SecurityGroupUserIdGroupPairList = AwsEc2SecurityGroupUserIdGroupPair[];
 export interface AwsEc2SecurityGroupIpRange {
-  CidrIp?: string;
+  CidrIp?: string | undefined;
 }
 export type AwsEc2SecurityGroupIpRangeList = AwsEc2SecurityGroupIpRange[];
 export interface AwsEc2SecurityGroupIpv6Range {
-  CidrIpv6?: string;
+  CidrIpv6?: string | undefined;
 }
 export type AwsEc2SecurityGroupIpv6RangeList = AwsEc2SecurityGroupIpv6Range[];
 export interface AwsEc2SecurityGroupPrefixListId {
-  PrefixListId?: string;
+  PrefixListId?: string | undefined;
 }
 export type AwsEc2SecurityGroupPrefixListIdList = AwsEc2SecurityGroupPrefixListId[];
 export interface AwsEc2SecurityGroupIpPermission {
-  IpProtocol?: string;
-  FromPort?: number;
-  ToPort?: number;
-  UserIdGroupPairs?: AwsEc2SecurityGroupUserIdGroupPair[];
-  IpRanges?: AwsEc2SecurityGroupIpRange[];
-  Ipv6Ranges?: AwsEc2SecurityGroupIpv6Range[];
-  PrefixListIds?: AwsEc2SecurityGroupPrefixListId[];
+  IpProtocol?: string | undefined;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
+  UserIdGroupPairs?: AwsEc2SecurityGroupUserIdGroupPair[] | undefined;
+  IpRanges?: AwsEc2SecurityGroupIpRange[] | undefined;
+  Ipv6Ranges?: AwsEc2SecurityGroupIpv6Range[] | undefined;
+  PrefixListIds?: AwsEc2SecurityGroupPrefixListId[] | undefined;
 }
 export type AwsEc2SecurityGroupIpPermissionList = AwsEc2SecurityGroupIpPermission[];
 export interface AwsEc2SecurityGroupDetails {
-  GroupName?: string;
-  GroupId?: string;
-  OwnerId?: string;
-  VpcId?: string;
-  IpPermissions?: AwsEc2SecurityGroupIpPermission[];
-  IpPermissionsEgress?: AwsEc2SecurityGroupIpPermission[];
+  GroupName?: string | undefined;
+  GroupId?: string | undefined;
+  OwnerId?: string | undefined;
+  VpcId?: string | undefined;
+  IpPermissions?: AwsEc2SecurityGroupIpPermission[] | undefined;
+  IpPermissionsEgress?: AwsEc2SecurityGroupIpPermission[] | undefined;
 }
 export interface AwsEc2VolumeAttachment {
-  AttachTime?: string;
-  DeleteOnTermination?: boolean;
-  InstanceId?: string;
-  Status?: string;
+  AttachTime?: string | undefined;
+  DeleteOnTermination?: boolean | undefined;
+  InstanceId?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsEc2VolumeAttachmentList = AwsEc2VolumeAttachment[];
 export interface AwsEc2VolumeDetails {
-  CreateTime?: string;
-  DeviceName?: string;
-  Encrypted?: boolean;
-  Size?: number;
-  SnapshotId?: string;
-  Status?: string;
-  KmsKeyId?: string;
-  Attachments?: AwsEc2VolumeAttachment[];
-  VolumeId?: string;
-  VolumeType?: string;
-  VolumeScanStatus?: string;
+  CreateTime?: string | undefined;
+  DeviceName?: string | undefined;
+  Encrypted?: boolean | undefined;
+  Size?: number | undefined;
+  SnapshotId?: string | undefined;
+  Status?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Attachments?: AwsEc2VolumeAttachment[] | undefined;
+  VolumeId?: string | undefined;
+  VolumeType?: string | undefined;
+  VolumeScanStatus?: string | undefined;
 }
 export interface CidrBlockAssociation {
-  AssociationId?: string;
-  CidrBlock?: string;
-  CidrBlockState?: string;
+  AssociationId?: string | undefined;
+  CidrBlock?: string | undefined;
+  CidrBlockState?: string | undefined;
 }
 export type CidrBlockAssociationList = CidrBlockAssociation[];
 export interface Ipv6CidrBlockAssociation {
-  AssociationId?: string;
-  Ipv6CidrBlock?: string;
-  CidrBlockState?: string;
+  AssociationId?: string | undefined;
+  Ipv6CidrBlock?: string | undefined;
+  CidrBlockState?: string | undefined;
 }
 export type Ipv6CidrBlockAssociationList = Ipv6CidrBlockAssociation[];
 export interface AwsEc2VpcDetails {
-  CidrBlockAssociationSet?: CidrBlockAssociation[];
-  Ipv6CidrBlockAssociationSet?: Ipv6CidrBlockAssociation[];
-  DhcpOptionsId?: string;
-  State?: string;
+  CidrBlockAssociationSet?: CidrBlockAssociation[] | undefined;
+  Ipv6CidrBlockAssociationSet?: Ipv6CidrBlockAssociation[] | undefined;
+  DhcpOptionsId?: string | undefined;
+  State?: string | undefined;
 }
 export interface AwsEc2EipDetails {
-  InstanceId?: string;
-  PublicIp?: string;
-  AllocationId?: string;
-  AssociationId?: string;
-  Domain?: string;
-  PublicIpv4Pool?: string;
-  NetworkBorderGroup?: string;
-  NetworkInterfaceId?: string;
-  NetworkInterfaceOwnerId?: string;
-  PrivateIpAddress?: string;
+  InstanceId?: string | undefined;
+  PublicIp?: string | undefined;
+  AllocationId?: string | undefined;
+  AssociationId?: string | undefined;
+  Domain?: string | undefined;
+  PublicIpv4Pool?: string | undefined;
+  NetworkBorderGroup?: string | undefined;
+  NetworkInterfaceId?: string | undefined;
+  NetworkInterfaceOwnerId?: string | undefined;
+  PrivateIpAddress?: string | undefined;
 }
 export interface AwsEc2SubnetDetails {
-  AssignIpv6AddressOnCreation?: boolean;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  AvailableIpAddressCount?: number;
-  CidrBlock?: string;
-  DefaultForAz?: boolean;
-  MapPublicIpOnLaunch?: boolean;
-  OwnerId?: string;
-  State?: string;
-  SubnetArn?: string;
-  SubnetId?: string;
-  VpcId?: string;
-  Ipv6CidrBlockAssociationSet?: Ipv6CidrBlockAssociation[];
+  AssignIpv6AddressOnCreation?: boolean | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  AvailableIpAddressCount?: number | undefined;
+  CidrBlock?: string | undefined;
+  DefaultForAz?: boolean | undefined;
+  MapPublicIpOnLaunch?: boolean | undefined;
+  OwnerId?: string | undefined;
+  State?: string | undefined;
+  SubnetArn?: string | undefined;
+  SubnetId?: string | undefined;
+  VpcId?: string | undefined;
+  Ipv6CidrBlockAssociationSet?: Ipv6CidrBlockAssociation[] | undefined;
 }
 export interface AwsEc2NetworkAclAssociation {
-  NetworkAclAssociationId?: string;
-  NetworkAclId?: string;
-  SubnetId?: string;
+  NetworkAclAssociationId?: string | undefined;
+  NetworkAclId?: string | undefined;
+  SubnetId?: string | undefined;
 }
 export type AwsEc2NetworkAclAssociationList = AwsEc2NetworkAclAssociation[];
 export interface IcmpTypeCode {
-  Code?: number;
-  Type?: number;
+  Code?: number | undefined;
+  Type?: number | undefined;
 }
 export interface PortRangeFromTo {
-  From?: number;
-  To?: number;
+  From?: number | undefined;
+  To?: number | undefined;
 }
 export interface AwsEc2NetworkAclEntry {
-  CidrBlock?: string;
-  Egress?: boolean;
-  IcmpTypeCode?: IcmpTypeCode;
-  Ipv6CidrBlock?: string;
-  PortRange?: PortRangeFromTo;
-  Protocol?: string;
-  RuleAction?: string;
-  RuleNumber?: number;
+  CidrBlock?: string | undefined;
+  Egress?: boolean | undefined;
+  IcmpTypeCode?: IcmpTypeCode | undefined;
+  Ipv6CidrBlock?: string | undefined;
+  PortRange?: PortRangeFromTo | undefined;
+  Protocol?: string | undefined;
+  RuleAction?: string | undefined;
+  RuleNumber?: number | undefined;
 }
 export type AwsEc2NetworkAclEntryList = AwsEc2NetworkAclEntry[];
 export interface AwsEc2NetworkAclDetails {
-  IsDefault?: boolean;
-  NetworkAclId?: string;
-  OwnerId?: string;
-  VpcId?: string;
-  Associations?: AwsEc2NetworkAclAssociation[];
-  Entries?: AwsEc2NetworkAclEntry[];
+  IsDefault?: boolean | undefined;
+  NetworkAclId?: string | undefined;
+  OwnerId?: string | undefined;
+  VpcId?: string | undefined;
+  Associations?: AwsEc2NetworkAclAssociation[] | undefined;
+  Entries?: AwsEc2NetworkAclEntry[] | undefined;
 }
 export interface AvailabilityZone {
-  ZoneName?: string;
-  SubnetId?: string;
+  ZoneName?: string | undefined;
+  SubnetId?: string | undefined;
 }
 export type AvailabilityZones = AvailabilityZone[];
 export type SecurityGroups = string[];
 export interface LoadBalancerState {
-  Code?: string;
-  Reason?: string;
+  Code?: string | undefined;
+  Reason?: string | undefined;
 }
 export interface AwsElbv2LoadBalancerAttribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsElbv2LoadBalancerAttributes = AwsElbv2LoadBalancerAttribute[];
 export interface AwsElbv2LoadBalancerDetails {
-  AvailabilityZones?: AvailabilityZone[];
-  CanonicalHostedZoneId?: string;
-  CreatedTime?: string;
-  DNSName?: string;
-  IpAddressType?: string;
-  Scheme?: string;
-  SecurityGroups?: string[];
-  State?: LoadBalancerState;
-  Type?: string;
-  VpcId?: string;
-  LoadBalancerAttributes?: AwsElbv2LoadBalancerAttribute[];
+  AvailabilityZones?: AvailabilityZone[] | undefined;
+  CanonicalHostedZoneId?: string | undefined;
+  CreatedTime?: string | undefined;
+  DNSName?: string | undefined;
+  IpAddressType?: string | undefined;
+  Scheme?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  State?: LoadBalancerState | undefined;
+  Type?: string | undefined;
+  VpcId?: string | undefined;
+  LoadBalancerAttributes?: AwsElbv2LoadBalancerAttribute[] | undefined;
 }
 export interface AwsElasticBeanstalkEnvironmentEnvironmentLink {
-  EnvironmentName?: string;
-  LinkName?: string;
+  EnvironmentName?: string | undefined;
+  LinkName?: string | undefined;
 }
 export type AwsElasticBeanstalkEnvironmentEnvironmentLinks =
   AwsElasticBeanstalkEnvironmentEnvironmentLink[];
 export interface AwsElasticBeanstalkEnvironmentOptionSetting {
-  Namespace?: string;
-  OptionName?: string;
-  ResourceName?: string;
-  Value?: string;
+  Namespace?: string | undefined;
+  OptionName?: string | undefined;
+  ResourceName?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsElasticBeanstalkEnvironmentOptionSettings =
   AwsElasticBeanstalkEnvironmentOptionSetting[];
 export interface AwsElasticBeanstalkEnvironmentTier {
-  Name?: string;
-  Type?: string;
-  Version?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Version?: string | undefined;
 }
 export interface AwsElasticBeanstalkEnvironmentDetails {
-  ApplicationName?: string;
-  Cname?: string;
-  DateCreated?: string;
-  DateUpdated?: string;
-  Description?: string;
-  EndpointUrl?: string;
-  EnvironmentArn?: string;
-  EnvironmentId?: string;
-  EnvironmentLinks?: AwsElasticBeanstalkEnvironmentEnvironmentLink[];
-  EnvironmentName?: string;
-  OptionSettings?: AwsElasticBeanstalkEnvironmentOptionSetting[];
-  PlatformArn?: string;
-  SolutionStackName?: string;
-  Status?: string;
-  Tier?: AwsElasticBeanstalkEnvironmentTier;
-  VersionLabel?: string;
+  ApplicationName?: string | undefined;
+  Cname?: string | undefined;
+  DateCreated?: string | undefined;
+  DateUpdated?: string | undefined;
+  Description?: string | undefined;
+  EndpointUrl?: string | undefined;
+  EnvironmentArn?: string | undefined;
+  EnvironmentId?: string | undefined;
+  EnvironmentLinks?: AwsElasticBeanstalkEnvironmentEnvironmentLink[] | undefined;
+  EnvironmentName?: string | undefined;
+  OptionSettings?: AwsElasticBeanstalkEnvironmentOptionSetting[] | undefined;
+  PlatformArn?: string | undefined;
+  SolutionStackName?: string | undefined;
+  Status?: string | undefined;
+  Tier?: AwsElasticBeanstalkEnvironmentTier | undefined;
+  VersionLabel?: string | undefined;
 }
 export interface AwsElasticsearchDomainDomainEndpointOptions {
-  EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: string;
+  EnforceHTTPS?: boolean | undefined;
+  TLSSecurityPolicy?: string | undefined;
 }
 export interface AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails {
-  AvailabilityZoneCount?: number;
+  AvailabilityZoneCount?: number | undefined;
 }
 export interface AwsElasticsearchDomainElasticsearchClusterConfigDetails {
-  DedicatedMasterCount?: number;
-  DedicatedMasterEnabled?: boolean;
-  DedicatedMasterType?: string;
-  InstanceCount?: number;
-  InstanceType?: string;
-  ZoneAwarenessConfig?: AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails;
-  ZoneAwarenessEnabled?: boolean;
+  DedicatedMasterCount?: number | undefined;
+  DedicatedMasterEnabled?: boolean | undefined;
+  DedicatedMasterType?: string | undefined;
+  InstanceCount?: number | undefined;
+  InstanceType?: string | undefined;
+  ZoneAwarenessConfig?:
+    | AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails
+    | undefined;
+  ZoneAwarenessEnabled?: boolean | undefined;
 }
 export interface AwsElasticsearchDomainEncryptionAtRestOptions {
-  Enabled?: boolean;
-  KmsKeyId?: string;
+  Enabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface AwsElasticsearchDomainLogPublishingOptionsLogConfig {
-  CloudWatchLogsLogGroupArn?: string;
-  Enabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface AwsElasticsearchDomainLogPublishingOptions {
-  IndexSlowLogs?: AwsElasticsearchDomainLogPublishingOptionsLogConfig;
-  SearchSlowLogs?: AwsElasticsearchDomainLogPublishingOptionsLogConfig;
-  AuditLogs?: AwsElasticsearchDomainLogPublishingOptionsLogConfig;
+  IndexSlowLogs?: AwsElasticsearchDomainLogPublishingOptionsLogConfig | undefined;
+  SearchSlowLogs?: AwsElasticsearchDomainLogPublishingOptionsLogConfig | undefined;
+  AuditLogs?: AwsElasticsearchDomainLogPublishingOptionsLogConfig | undefined;
 }
 export interface AwsElasticsearchDomainNodeToNodeEncryptionOptions {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsElasticsearchDomainServiceSoftwareOptions {
-  AutomatedUpdateDate?: string;
-  Cancellable?: boolean;
-  CurrentVersion?: string;
-  Description?: string;
-  NewVersion?: string;
-  UpdateAvailable?: boolean;
-  UpdateStatus?: string;
+  AutomatedUpdateDate?: string | undefined;
+  Cancellable?: boolean | undefined;
+  CurrentVersion?: string | undefined;
+  Description?: string | undefined;
+  NewVersion?: string | undefined;
+  UpdateAvailable?: boolean | undefined;
+  UpdateStatus?: string | undefined;
 }
 export interface AwsElasticsearchDomainVPCOptions {
-  AvailabilityZones?: string[];
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  VPCId?: string;
+  AvailabilityZones?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  VPCId?: string | undefined;
 }
 export interface AwsElasticsearchDomainDetails {
-  AccessPolicies?: string;
-  DomainEndpointOptions?: AwsElasticsearchDomainDomainEndpointOptions;
-  DomainId?: string;
-  DomainName?: string;
-  Endpoint?: string;
-  Endpoints?: { [key: string]: string | undefined };
-  ElasticsearchVersion?: string;
-  ElasticsearchClusterConfig?: AwsElasticsearchDomainElasticsearchClusterConfigDetails;
-  EncryptionAtRestOptions?: AwsElasticsearchDomainEncryptionAtRestOptions;
-  LogPublishingOptions?: AwsElasticsearchDomainLogPublishingOptions;
-  NodeToNodeEncryptionOptions?: AwsElasticsearchDomainNodeToNodeEncryptionOptions;
-  ServiceSoftwareOptions?: AwsElasticsearchDomainServiceSoftwareOptions;
-  VPCOptions?: AwsElasticsearchDomainVPCOptions;
+  AccessPolicies?: string | undefined;
+  DomainEndpointOptions?: AwsElasticsearchDomainDomainEndpointOptions | undefined;
+  DomainId?: string | undefined;
+  DomainName?: string | undefined;
+  Endpoint?: string | undefined;
+  Endpoints?: { [key: string]: string | undefined } | undefined;
+  ElasticsearchVersion?: string | undefined;
+  ElasticsearchClusterConfig?: AwsElasticsearchDomainElasticsearchClusterConfigDetails | undefined;
+  EncryptionAtRestOptions?: AwsElasticsearchDomainEncryptionAtRestOptions | undefined;
+  LogPublishingOptions?: AwsElasticsearchDomainLogPublishingOptions | undefined;
+  NodeToNodeEncryptionOptions?: AwsElasticsearchDomainNodeToNodeEncryptionOptions | undefined;
+  ServiceSoftwareOptions?: AwsElasticsearchDomainServiceSoftwareOptions | undefined;
+  VPCOptions?: AwsElasticsearchDomainVPCOptions | undefined;
 }
 export interface AwsS3BucketServerSideEncryptionByDefault {
-  SSEAlgorithm?: string;
-  KMSMasterKeyID?: string;
+  SSEAlgorithm?: string | undefined;
+  KMSMasterKeyID?: string | undefined;
 }
 export interface AwsS3BucketServerSideEncryptionRule {
-  ApplyServerSideEncryptionByDefault?: AwsS3BucketServerSideEncryptionByDefault;
+  ApplyServerSideEncryptionByDefault?: AwsS3BucketServerSideEncryptionByDefault | undefined;
 }
 export type AwsS3BucketServerSideEncryptionRules = AwsS3BucketServerSideEncryptionRule[];
 export interface AwsS3BucketServerSideEncryptionConfiguration {
-  Rules?: AwsS3BucketServerSideEncryptionRule[];
+  Rules?: AwsS3BucketServerSideEncryptionRule[] | undefined;
 }
 export interface AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails {
-  DaysAfterInitiation?: number;
+  DaysAfterInitiation?: number | undefined;
 }
 export interface AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export interface AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails {
-  Prefix?: string;
-  Tag?: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails;
-  Type?: string;
+  Prefix?: string | undefined;
+  Tag?: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails | undefined;
+  Type?: string | undefined;
 }
 export type AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsList =
   AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails[];
 export interface AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export interface AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails {
-  Operands?: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails[];
-  Prefix?: string;
-  Tag?: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails;
-  Type?: string;
+  Operands?:
+    | AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails[]
+    | undefined;
+  Prefix?: string | undefined;
+  Tag?: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails | undefined;
+  Type?: string | undefined;
 }
 export interface AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails {
-  Predicate?: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails;
+  Predicate?: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails | undefined;
 }
 export interface AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails {
-  Days?: number;
-  StorageClass?: string;
+  Days?: number | undefined;
+  StorageClass?: string | undefined;
 }
 export type AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsList =
   AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails[];
 export interface AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails {
-  Date?: string;
-  Days?: number;
-  StorageClass?: string;
+  Date?: string | undefined;
+  Days?: number | undefined;
+  StorageClass?: string | undefined;
 }
 export type AwsS3BucketBucketLifecycleConfigurationRulesTransitionsList =
   AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails[];
 export interface AwsS3BucketBucketLifecycleConfigurationRulesDetails {
-  AbortIncompleteMultipartUpload?: AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails;
-  ExpirationDate?: string;
-  ExpirationInDays?: number;
-  ExpiredObjectDeleteMarker?: boolean;
-  Filter?: AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails;
-  ID?: string;
-  NoncurrentVersionExpirationInDays?: number;
-  NoncurrentVersionTransitions?: AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails[];
-  Prefix?: string;
-  Status?: string;
-  Transitions?: AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails[];
+  AbortIncompleteMultipartUpload?:
+    | AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails
+    | undefined;
+  ExpirationDate?: string | undefined;
+  ExpirationInDays?: number | undefined;
+  ExpiredObjectDeleteMarker?: boolean | undefined;
+  Filter?: AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails | undefined;
+  ID?: string | undefined;
+  NoncurrentVersionExpirationInDays?: number | undefined;
+  NoncurrentVersionTransitions?:
+    | AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails[]
+    | undefined;
+  Prefix?: string | undefined;
+  Status?: string | undefined;
+  Transitions?: AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails[] | undefined;
 }
 export type AwsS3BucketBucketLifecycleConfigurationRulesList =
   AwsS3BucketBucketLifecycleConfigurationRulesDetails[];
 export interface AwsS3BucketBucketLifecycleConfigurationDetails {
-  Rules?: AwsS3BucketBucketLifecycleConfigurationRulesDetails[];
+  Rules?: AwsS3BucketBucketLifecycleConfigurationRulesDetails[] | undefined;
 }
 export interface AwsS3AccountPublicAccessBlockDetails {
-  BlockPublicAcls?: boolean;
-  BlockPublicPolicy?: boolean;
-  IgnorePublicAcls?: boolean;
-  RestrictPublicBuckets?: boolean;
+  BlockPublicAcls?: boolean | undefined;
+  BlockPublicPolicy?: boolean | undefined;
+  IgnorePublicAcls?: boolean | undefined;
+  RestrictPublicBuckets?: boolean | undefined;
 }
 export interface AwsS3BucketLoggingConfiguration {
-  DestinationBucketName?: string;
-  LogFilePrefix?: string;
+  DestinationBucketName?: string | undefined;
+  LogFilePrefix?: string | undefined;
 }
 export interface AwsS3BucketWebsiteConfigurationRedirectTo {
-  Hostname?: string;
-  Protocol?: string;
+  Hostname?: string | undefined;
+  Protocol?: string | undefined;
 }
 export interface AwsS3BucketWebsiteConfigurationRoutingRuleCondition {
-  HttpErrorCodeReturnedEquals?: string;
-  KeyPrefixEquals?: string;
+  HttpErrorCodeReturnedEquals?: string | undefined;
+  KeyPrefixEquals?: string | undefined;
 }
 export interface AwsS3BucketWebsiteConfigurationRoutingRuleRedirect {
-  Hostname?: string;
-  HttpRedirectCode?: string;
-  Protocol?: string;
-  ReplaceKeyPrefixWith?: string;
-  ReplaceKeyWith?: string;
+  Hostname?: string | undefined;
+  HttpRedirectCode?: string | undefined;
+  Protocol?: string | undefined;
+  ReplaceKeyPrefixWith?: string | undefined;
+  ReplaceKeyWith?: string | undefined;
 }
 export interface AwsS3BucketWebsiteConfigurationRoutingRule {
-  Condition?: AwsS3BucketWebsiteConfigurationRoutingRuleCondition;
-  Redirect?: AwsS3BucketWebsiteConfigurationRoutingRuleRedirect;
+  Condition?: AwsS3BucketWebsiteConfigurationRoutingRuleCondition | undefined;
+  Redirect?: AwsS3BucketWebsiteConfigurationRoutingRuleRedirect | undefined;
 }
 export type AwsS3BucketWebsiteConfigurationRoutingRules =
   AwsS3BucketWebsiteConfigurationRoutingRule[];
 export interface AwsS3BucketWebsiteConfiguration {
-  ErrorDocument?: string;
-  IndexDocumentSuffix?: string;
-  RedirectAllRequestsTo?: AwsS3BucketWebsiteConfigurationRedirectTo;
-  RoutingRules?: AwsS3BucketWebsiteConfigurationRoutingRule[];
+  ErrorDocument?: string | undefined;
+  IndexDocumentSuffix?: string | undefined;
+  RedirectAllRequestsTo?: AwsS3BucketWebsiteConfigurationRedirectTo | undefined;
+  RoutingRules?: AwsS3BucketWebsiteConfigurationRoutingRule[] | undefined;
 }
 export type AwsS3BucketNotificationConfigurationEvents = string[];
 export type AwsS3BucketNotificationConfigurationS3KeyFilterRuleName =
@@ -1558,3218 +1591,3286 @@ export type AwsS3BucketNotificationConfigurationS3KeyFilterRuleName =
   | "Suffix"
   | (string & {});
 export interface AwsS3BucketNotificationConfigurationS3KeyFilterRule {
-  Name?: AwsS3BucketNotificationConfigurationS3KeyFilterRuleName;
-  Value?: string;
+  Name?: AwsS3BucketNotificationConfigurationS3KeyFilterRuleName | undefined;
+  Value?: string | undefined;
 }
 export type AwsS3BucketNotificationConfigurationS3KeyFilterRules =
   AwsS3BucketNotificationConfigurationS3KeyFilterRule[];
 export interface AwsS3BucketNotificationConfigurationS3KeyFilter {
-  FilterRules?: AwsS3BucketNotificationConfigurationS3KeyFilterRule[];
+  FilterRules?: AwsS3BucketNotificationConfigurationS3KeyFilterRule[] | undefined;
 }
 export interface AwsS3BucketNotificationConfigurationFilter {
-  S3KeyFilter?: AwsS3BucketNotificationConfigurationS3KeyFilter;
+  S3KeyFilter?: AwsS3BucketNotificationConfigurationS3KeyFilter | undefined;
 }
 export interface AwsS3BucketNotificationConfigurationDetail {
-  Events?: string[];
-  Filter?: AwsS3BucketNotificationConfigurationFilter;
-  Destination?: string;
-  Type?: string;
+  Events?: string[] | undefined;
+  Filter?: AwsS3BucketNotificationConfigurationFilter | undefined;
+  Destination?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsS3BucketNotificationConfigurationDetails =
   AwsS3BucketNotificationConfigurationDetail[];
 export interface AwsS3BucketNotificationConfiguration {
-  Configurations?: AwsS3BucketNotificationConfigurationDetail[];
+  Configurations?: AwsS3BucketNotificationConfigurationDetail[] | undefined;
 }
 export interface AwsS3BucketBucketVersioningConfiguration {
-  IsMfaDeleteEnabled?: boolean;
-  Status?: string;
+  IsMfaDeleteEnabled?: boolean | undefined;
+  Status?: string | undefined;
 }
 export interface AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails {
-  Days?: number;
-  Mode?: string;
-  Years?: number;
+  Days?: number | undefined;
+  Mode?: string | undefined;
+  Years?: number | undefined;
 }
 export interface AwsS3BucketObjectLockConfigurationRuleDetails {
-  DefaultRetention?: AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails;
+  DefaultRetention?: AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails | undefined;
 }
 export interface AwsS3BucketObjectLockConfiguration {
-  ObjectLockEnabled?: string;
-  Rule?: AwsS3BucketObjectLockConfigurationRuleDetails;
+  ObjectLockEnabled?: string | undefined;
+  Rule?: AwsS3BucketObjectLockConfigurationRuleDetails | undefined;
 }
 export interface AwsS3BucketDetails {
-  OwnerId?: string;
-  OwnerName?: string;
-  OwnerAccountId?: string;
-  CreatedAt?: string;
-  ServerSideEncryptionConfiguration?: AwsS3BucketServerSideEncryptionConfiguration;
-  BucketLifecycleConfiguration?: AwsS3BucketBucketLifecycleConfigurationDetails;
-  PublicAccessBlockConfiguration?: AwsS3AccountPublicAccessBlockDetails;
-  AccessControlList?: string;
-  BucketLoggingConfiguration?: AwsS3BucketLoggingConfiguration;
-  BucketWebsiteConfiguration?: AwsS3BucketWebsiteConfiguration;
-  BucketNotificationConfiguration?: AwsS3BucketNotificationConfiguration;
-  BucketVersioningConfiguration?: AwsS3BucketBucketVersioningConfiguration;
-  ObjectLockConfiguration?: AwsS3BucketObjectLockConfiguration;
-  Name?: string;
+  OwnerId?: string | undefined;
+  OwnerName?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedAt?: string | undefined;
+  ServerSideEncryptionConfiguration?: AwsS3BucketServerSideEncryptionConfiguration | undefined;
+  BucketLifecycleConfiguration?: AwsS3BucketBucketLifecycleConfigurationDetails | undefined;
+  PublicAccessBlockConfiguration?: AwsS3AccountPublicAccessBlockDetails | undefined;
+  AccessControlList?: string | undefined;
+  BucketLoggingConfiguration?: AwsS3BucketLoggingConfiguration | undefined;
+  BucketWebsiteConfiguration?: AwsS3BucketWebsiteConfiguration | undefined;
+  BucketNotificationConfiguration?: AwsS3BucketNotificationConfiguration | undefined;
+  BucketVersioningConfiguration?: AwsS3BucketBucketVersioningConfiguration | undefined;
+  ObjectLockConfiguration?: AwsS3BucketObjectLockConfiguration | undefined;
+  Name?: string | undefined;
 }
 export interface AwsS3ObjectDetails {
-  LastModified?: string;
-  ETag?: string;
-  VersionId?: string;
-  ContentType?: string;
-  ServerSideEncryption?: string;
-  SSEKMSKeyId?: string;
+  LastModified?: string | undefined;
+  ETag?: string | undefined;
+  VersionId?: string | undefined;
+  ContentType?: string | undefined;
+  ServerSideEncryption?: string | undefined;
+  SSEKMSKeyId?: string | undefined;
 }
 export interface AwsSecretsManagerSecretRotationRules {
-  AutomaticallyAfterDays?: number;
+  AutomaticallyAfterDays?: number | undefined;
 }
 export interface AwsSecretsManagerSecretDetails {
-  RotationRules?: AwsSecretsManagerSecretRotationRules;
-  RotationOccurredWithinFrequency?: boolean;
-  KmsKeyId?: string;
-  RotationEnabled?: boolean;
-  RotationLambdaArn?: string;
-  Deleted?: boolean;
-  Name?: string;
-  Description?: string;
+  RotationRules?: AwsSecretsManagerSecretRotationRules | undefined;
+  RotationOccurredWithinFrequency?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  RotationEnabled?: boolean | undefined;
+  RotationLambdaArn?: string | undefined;
+  Deleted?: boolean | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type AwsIamAccessKeyStatus = "Active" | "Inactive" | (string & {});
 export interface AwsIamAccessKeySessionContextAttributes {
-  MfaAuthenticated?: boolean;
-  CreationDate?: string;
+  MfaAuthenticated?: boolean | undefined;
+  CreationDate?: string | undefined;
 }
 export interface AwsIamAccessKeySessionContextSessionIssuer {
-  Type?: string;
-  PrincipalId?: string;
-  Arn?: string;
-  AccountId?: string;
-  UserName?: string;
+  Type?: string | undefined;
+  PrincipalId?: string | undefined;
+  Arn?: string | undefined;
+  AccountId?: string | undefined;
+  UserName?: string | undefined;
 }
 export interface AwsIamAccessKeySessionContext {
-  Attributes?: AwsIamAccessKeySessionContextAttributes;
-  SessionIssuer?: AwsIamAccessKeySessionContextSessionIssuer;
+  Attributes?: AwsIamAccessKeySessionContextAttributes | undefined;
+  SessionIssuer?: AwsIamAccessKeySessionContextSessionIssuer | undefined;
 }
 export interface AwsIamAccessKeyDetails {
-  UserName?: string;
-  Status?: AwsIamAccessKeyStatus;
-  CreatedAt?: string;
-  PrincipalId?: string;
-  PrincipalType?: string;
-  PrincipalName?: string;
-  AccountId?: string;
-  AccessKeyId?: string;
-  SessionContext?: AwsIamAccessKeySessionContext;
+  UserName?: string | undefined;
+  Status?: AwsIamAccessKeyStatus | undefined;
+  CreatedAt?: string | undefined;
+  PrincipalId?: string | undefined;
+  PrincipalType?: string | undefined;
+  PrincipalName?: string | undefined;
+  AccountId?: string | undefined;
+  AccessKeyId?: string | undefined;
+  SessionContext?: AwsIamAccessKeySessionContext | undefined;
 }
 export interface AwsIamAttachedManagedPolicy {
-  PolicyName?: string;
-  PolicyArn?: string;
+  PolicyName?: string | undefined;
+  PolicyArn?: string | undefined;
 }
 export type AwsIamAttachedManagedPolicyList = AwsIamAttachedManagedPolicy[];
 export interface AwsIamPermissionsBoundary {
-  PermissionsBoundaryArn?: string;
-  PermissionsBoundaryType?: string;
+  PermissionsBoundaryArn?: string | undefined;
+  PermissionsBoundaryType?: string | undefined;
 }
 export interface AwsIamUserPolicy {
-  PolicyName?: string;
+  PolicyName?: string | undefined;
 }
 export type AwsIamUserPolicyList = AwsIamUserPolicy[];
 export interface AwsIamUserDetails {
-  AttachedManagedPolicies?: AwsIamAttachedManagedPolicy[];
-  CreateDate?: string;
-  GroupList?: string[];
-  Path?: string;
-  PermissionsBoundary?: AwsIamPermissionsBoundary;
-  UserId?: string;
-  UserName?: string;
-  UserPolicyList?: AwsIamUserPolicy[];
+  AttachedManagedPolicies?: AwsIamAttachedManagedPolicy[] | undefined;
+  CreateDate?: string | undefined;
+  GroupList?: string[] | undefined;
+  Path?: string | undefined;
+  PermissionsBoundary?: AwsIamPermissionsBoundary | undefined;
+  UserId?: string | undefined;
+  UserName?: string | undefined;
+  UserPolicyList?: AwsIamUserPolicy[] | undefined;
 }
 export interface AwsIamPolicyVersion {
-  VersionId?: string;
-  IsDefaultVersion?: boolean;
-  CreateDate?: string;
+  VersionId?: string | undefined;
+  IsDefaultVersion?: boolean | undefined;
+  CreateDate?: string | undefined;
 }
 export type AwsIamPolicyVersionList = AwsIamPolicyVersion[];
 export interface AwsIamPolicyDetails {
-  AttachmentCount?: number;
-  CreateDate?: string;
-  DefaultVersionId?: string;
-  Description?: string;
-  IsAttachable?: boolean;
-  Path?: string;
-  PermissionsBoundaryUsageCount?: number;
-  PolicyId?: string;
-  PolicyName?: string;
-  PolicyVersionList?: AwsIamPolicyVersion[];
-  UpdateDate?: string;
+  AttachmentCount?: number | undefined;
+  CreateDate?: string | undefined;
+  DefaultVersionId?: string | undefined;
+  Description?: string | undefined;
+  IsAttachable?: boolean | undefined;
+  Path?: string | undefined;
+  PermissionsBoundaryUsageCount?: number | undefined;
+  PolicyId?: string | undefined;
+  PolicyName?: string | undefined;
+  PolicyVersionList?: AwsIamPolicyVersion[] | undefined;
+  UpdateDate?: string | undefined;
 }
 export interface AwsApiGatewayV2RouteSettings {
-  DetailedMetricsEnabled?: boolean;
-  LoggingLevel?: string;
-  DataTraceEnabled?: boolean;
-  ThrottlingBurstLimit?: number;
-  ThrottlingRateLimit?: number;
+  DetailedMetricsEnabled?: boolean | undefined;
+  LoggingLevel?: string | undefined;
+  DataTraceEnabled?: boolean | undefined;
+  ThrottlingBurstLimit?: number | undefined;
+  ThrottlingRateLimit?: number | undefined;
 }
 export interface AwsApiGatewayAccessLogSettings {
-  Format?: string;
-  DestinationArn?: string;
+  Format?: string | undefined;
+  DestinationArn?: string | undefined;
 }
 export interface AwsApiGatewayV2StageDetails {
-  ClientCertificateId?: string;
-  CreatedDate?: string;
-  Description?: string;
-  DefaultRouteSettings?: AwsApiGatewayV2RouteSettings;
-  DeploymentId?: string;
-  LastUpdatedDate?: string;
-  RouteSettings?: AwsApiGatewayV2RouteSettings;
-  StageName?: string;
-  StageVariables?: { [key: string]: string | undefined };
-  AccessLogSettings?: AwsApiGatewayAccessLogSettings;
-  AutoDeploy?: boolean;
-  LastDeploymentStatusMessage?: string;
-  ApiGatewayManaged?: boolean;
+  ClientCertificateId?: string | undefined;
+  CreatedDate?: string | undefined;
+  Description?: string | undefined;
+  DefaultRouteSettings?: AwsApiGatewayV2RouteSettings | undefined;
+  DeploymentId?: string | undefined;
+  LastUpdatedDate?: string | undefined;
+  RouteSettings?: AwsApiGatewayV2RouteSettings | undefined;
+  StageName?: string | undefined;
+  StageVariables?: { [key: string]: string | undefined } | undefined;
+  AccessLogSettings?: AwsApiGatewayAccessLogSettings | undefined;
+  AutoDeploy?: boolean | undefined;
+  LastDeploymentStatusMessage?: string | undefined;
+  ApiGatewayManaged?: boolean | undefined;
 }
 export interface AwsCorsConfiguration {
-  AllowOrigins?: string[];
-  AllowCredentials?: boolean;
-  ExposeHeaders?: string[];
-  MaxAge?: number;
-  AllowMethods?: string[];
-  AllowHeaders?: string[];
+  AllowOrigins?: string[] | undefined;
+  AllowCredentials?: boolean | undefined;
+  ExposeHeaders?: string[] | undefined;
+  MaxAge?: number | undefined;
+  AllowMethods?: string[] | undefined;
+  AllowHeaders?: string[] | undefined;
 }
 export interface AwsApiGatewayV2ApiDetails {
-  ApiEndpoint?: string;
-  ApiId?: string;
-  ApiKeySelectionExpression?: string;
-  CreatedDate?: string;
-  Description?: string;
-  Version?: string;
-  Name?: string;
-  ProtocolType?: string;
-  RouteSelectionExpression?: string;
-  CorsConfiguration?: AwsCorsConfiguration;
+  ApiEndpoint?: string | undefined;
+  ApiId?: string | undefined;
+  ApiKeySelectionExpression?: string | undefined;
+  CreatedDate?: string | undefined;
+  Description?: string | undefined;
+  Version?: string | undefined;
+  Name?: string | undefined;
+  ProtocolType?: string | undefined;
+  RouteSelectionExpression?: string | undefined;
+  CorsConfiguration?: AwsCorsConfiguration | undefined;
 }
 export interface AwsDynamoDbTableAttributeDefinition {
-  AttributeName?: string;
-  AttributeType?: string;
+  AttributeName?: string | undefined;
+  AttributeType?: string | undefined;
 }
 export type AwsDynamoDbTableAttributeDefinitionList = AwsDynamoDbTableAttributeDefinition[];
 export interface AwsDynamoDbTableBillingModeSummary {
-  BillingMode?: string;
-  LastUpdateToPayPerRequestDateTime?: string;
+  BillingMode?: string | undefined;
+  LastUpdateToPayPerRequestDateTime?: string | undefined;
 }
 export type SizeBytes = number;
 export interface AwsDynamoDbTableKeySchema {
-  AttributeName?: string;
-  KeyType?: string;
+  AttributeName?: string | undefined;
+  KeyType?: string | undefined;
 }
 export type AwsDynamoDbTableKeySchemaList = AwsDynamoDbTableKeySchema[];
 export interface AwsDynamoDbTableProjection {
-  NonKeyAttributes?: string[];
-  ProjectionType?: string;
+  NonKeyAttributes?: string[] | undefined;
+  ProjectionType?: string | undefined;
 }
 export interface AwsDynamoDbTableProvisionedThroughput {
-  LastDecreaseDateTime?: string;
-  LastIncreaseDateTime?: string;
-  NumberOfDecreasesToday?: number;
-  ReadCapacityUnits?: number;
-  WriteCapacityUnits?: number;
+  LastDecreaseDateTime?: string | undefined;
+  LastIncreaseDateTime?: string | undefined;
+  NumberOfDecreasesToday?: number | undefined;
+  ReadCapacityUnits?: number | undefined;
+  WriteCapacityUnits?: number | undefined;
 }
 export interface AwsDynamoDbTableGlobalSecondaryIndex {
-  Backfilling?: boolean;
-  IndexArn?: string;
-  IndexName?: string;
-  IndexSizeBytes?: number;
-  IndexStatus?: string;
-  ItemCount?: number;
-  KeySchema?: AwsDynamoDbTableKeySchema[];
-  Projection?: AwsDynamoDbTableProjection;
-  ProvisionedThroughput?: AwsDynamoDbTableProvisionedThroughput;
+  Backfilling?: boolean | undefined;
+  IndexArn?: string | undefined;
+  IndexName?: string | undefined;
+  IndexSizeBytes?: number | undefined;
+  IndexStatus?: string | undefined;
+  ItemCount?: number | undefined;
+  KeySchema?: AwsDynamoDbTableKeySchema[] | undefined;
+  Projection?: AwsDynamoDbTableProjection | undefined;
+  ProvisionedThroughput?: AwsDynamoDbTableProvisionedThroughput | undefined;
 }
 export type AwsDynamoDbTableGlobalSecondaryIndexList = AwsDynamoDbTableGlobalSecondaryIndex[];
 export interface AwsDynamoDbTableLocalSecondaryIndex {
-  IndexArn?: string;
-  IndexName?: string;
-  KeySchema?: AwsDynamoDbTableKeySchema[];
-  Projection?: AwsDynamoDbTableProjection;
+  IndexArn?: string | undefined;
+  IndexName?: string | undefined;
+  KeySchema?: AwsDynamoDbTableKeySchema[] | undefined;
+  Projection?: AwsDynamoDbTableProjection | undefined;
 }
 export type AwsDynamoDbTableLocalSecondaryIndexList = AwsDynamoDbTableLocalSecondaryIndex[];
 export interface AwsDynamoDbTableProvisionedThroughputOverride {
-  ReadCapacityUnits?: number;
+  ReadCapacityUnits?: number | undefined;
 }
 export interface AwsDynamoDbTableReplicaGlobalSecondaryIndex {
-  IndexName?: string;
-  ProvisionedThroughputOverride?: AwsDynamoDbTableProvisionedThroughputOverride;
+  IndexName?: string | undefined;
+  ProvisionedThroughputOverride?: AwsDynamoDbTableProvisionedThroughputOverride | undefined;
 }
 export type AwsDynamoDbTableReplicaGlobalSecondaryIndexList =
   AwsDynamoDbTableReplicaGlobalSecondaryIndex[];
 export interface AwsDynamoDbTableReplica {
-  GlobalSecondaryIndexes?: AwsDynamoDbTableReplicaGlobalSecondaryIndex[];
-  KmsMasterKeyId?: string;
-  ProvisionedThroughputOverride?: AwsDynamoDbTableProvisionedThroughputOverride;
-  RegionName?: string;
-  ReplicaStatus?: string;
-  ReplicaStatusDescription?: string;
+  GlobalSecondaryIndexes?: AwsDynamoDbTableReplicaGlobalSecondaryIndex[] | undefined;
+  KmsMasterKeyId?: string | undefined;
+  ProvisionedThroughputOverride?: AwsDynamoDbTableProvisionedThroughputOverride | undefined;
+  RegionName?: string | undefined;
+  ReplicaStatus?: string | undefined;
+  ReplicaStatusDescription?: string | undefined;
 }
 export type AwsDynamoDbTableReplicaList = AwsDynamoDbTableReplica[];
 export interface AwsDynamoDbTableRestoreSummary {
-  SourceBackupArn?: string;
-  SourceTableArn?: string;
-  RestoreDateTime?: string;
-  RestoreInProgress?: boolean;
+  SourceBackupArn?: string | undefined;
+  SourceTableArn?: string | undefined;
+  RestoreDateTime?: string | undefined;
+  RestoreInProgress?: boolean | undefined;
 }
 export interface AwsDynamoDbTableSseDescription {
-  InaccessibleEncryptionDateTime?: string;
-  Status?: string;
-  SseType?: string;
-  KmsMasterKeyArn?: string;
+  InaccessibleEncryptionDateTime?: string | undefined;
+  Status?: string | undefined;
+  SseType?: string | undefined;
+  KmsMasterKeyArn?: string | undefined;
 }
 export interface AwsDynamoDbTableStreamSpecification {
-  StreamEnabled?: boolean;
-  StreamViewType?: string;
+  StreamEnabled?: boolean | undefined;
+  StreamViewType?: string | undefined;
 }
 export interface AwsDynamoDbTableDetails {
-  AttributeDefinitions?: AwsDynamoDbTableAttributeDefinition[];
-  BillingModeSummary?: AwsDynamoDbTableBillingModeSummary;
-  CreationDateTime?: string;
-  GlobalSecondaryIndexes?: AwsDynamoDbTableGlobalSecondaryIndex[];
-  GlobalTableVersion?: string;
-  ItemCount?: number;
-  KeySchema?: AwsDynamoDbTableKeySchema[];
-  LatestStreamArn?: string;
-  LatestStreamLabel?: string;
-  LocalSecondaryIndexes?: AwsDynamoDbTableLocalSecondaryIndex[];
-  ProvisionedThroughput?: AwsDynamoDbTableProvisionedThroughput;
-  Replicas?: AwsDynamoDbTableReplica[];
-  RestoreSummary?: AwsDynamoDbTableRestoreSummary;
-  SseDescription?: AwsDynamoDbTableSseDescription;
-  StreamSpecification?: AwsDynamoDbTableStreamSpecification;
-  TableId?: string;
-  TableName?: string;
-  TableSizeBytes?: number;
-  TableStatus?: string;
-  DeletionProtectionEnabled?: boolean;
+  AttributeDefinitions?: AwsDynamoDbTableAttributeDefinition[] | undefined;
+  BillingModeSummary?: AwsDynamoDbTableBillingModeSummary | undefined;
+  CreationDateTime?: string | undefined;
+  GlobalSecondaryIndexes?: AwsDynamoDbTableGlobalSecondaryIndex[] | undefined;
+  GlobalTableVersion?: string | undefined;
+  ItemCount?: number | undefined;
+  KeySchema?: AwsDynamoDbTableKeySchema[] | undefined;
+  LatestStreamArn?: string | undefined;
+  LatestStreamLabel?: string | undefined;
+  LocalSecondaryIndexes?: AwsDynamoDbTableLocalSecondaryIndex[] | undefined;
+  ProvisionedThroughput?: AwsDynamoDbTableProvisionedThroughput | undefined;
+  Replicas?: AwsDynamoDbTableReplica[] | undefined;
+  RestoreSummary?: AwsDynamoDbTableRestoreSummary | undefined;
+  SseDescription?: AwsDynamoDbTableSseDescription | undefined;
+  StreamSpecification?: AwsDynamoDbTableStreamSpecification | undefined;
+  TableId?: string | undefined;
+  TableName?: string | undefined;
+  TableSizeBytes?: number | undefined;
+  TableStatus?: string | undefined;
+  DeletionProtectionEnabled?: boolean | undefined;
 }
 export interface AwsApiGatewayMethodSettings {
-  MetricsEnabled?: boolean;
-  LoggingLevel?: string;
-  DataTraceEnabled?: boolean;
-  ThrottlingBurstLimit?: number;
-  ThrottlingRateLimit?: number;
-  CachingEnabled?: boolean;
-  CacheTtlInSeconds?: number;
-  CacheDataEncrypted?: boolean;
-  RequireAuthorizationForCacheControl?: boolean;
-  UnauthorizedCacheControlHeaderStrategy?: string;
-  HttpMethod?: string;
-  ResourcePath?: string;
+  MetricsEnabled?: boolean | undefined;
+  LoggingLevel?: string | undefined;
+  DataTraceEnabled?: boolean | undefined;
+  ThrottlingBurstLimit?: number | undefined;
+  ThrottlingRateLimit?: number | undefined;
+  CachingEnabled?: boolean | undefined;
+  CacheTtlInSeconds?: number | undefined;
+  CacheDataEncrypted?: boolean | undefined;
+  RequireAuthorizationForCacheControl?: boolean | undefined;
+  UnauthorizedCacheControlHeaderStrategy?: string | undefined;
+  HttpMethod?: string | undefined;
+  ResourcePath?: string | undefined;
 }
 export type AwsApiGatewayMethodSettingsList = AwsApiGatewayMethodSettings[];
 export interface AwsApiGatewayCanarySettings {
-  PercentTraffic?: number;
-  DeploymentId?: string;
-  StageVariableOverrides?: { [key: string]: string | undefined };
-  UseStageCache?: boolean;
+  PercentTraffic?: number | undefined;
+  DeploymentId?: string | undefined;
+  StageVariableOverrides?: { [key: string]: string | undefined } | undefined;
+  UseStageCache?: boolean | undefined;
 }
 export interface AwsApiGatewayStageDetails {
-  DeploymentId?: string;
-  ClientCertificateId?: string;
-  StageName?: string;
-  Description?: string;
-  CacheClusterEnabled?: boolean;
-  CacheClusterSize?: string;
-  CacheClusterStatus?: string;
-  MethodSettings?: AwsApiGatewayMethodSettings[];
-  Variables?: { [key: string]: string | undefined };
-  DocumentationVersion?: string;
-  AccessLogSettings?: AwsApiGatewayAccessLogSettings;
-  CanarySettings?: AwsApiGatewayCanarySettings;
-  TracingEnabled?: boolean;
-  CreatedDate?: string;
-  LastUpdatedDate?: string;
-  WebAclArn?: string;
+  DeploymentId?: string | undefined;
+  ClientCertificateId?: string | undefined;
+  StageName?: string | undefined;
+  Description?: string | undefined;
+  CacheClusterEnabled?: boolean | undefined;
+  CacheClusterSize?: string | undefined;
+  CacheClusterStatus?: string | undefined;
+  MethodSettings?: AwsApiGatewayMethodSettings[] | undefined;
+  Variables?: { [key: string]: string | undefined } | undefined;
+  DocumentationVersion?: string | undefined;
+  AccessLogSettings?: AwsApiGatewayAccessLogSettings | undefined;
+  CanarySettings?: AwsApiGatewayCanarySettings | undefined;
+  TracingEnabled?: boolean | undefined;
+  CreatedDate?: string | undefined;
+  LastUpdatedDate?: string | undefined;
+  WebAclArn?: string | undefined;
 }
 export interface AwsApiGatewayEndpointConfiguration {
-  Types?: string[];
+  Types?: string[] | undefined;
 }
 export interface AwsApiGatewayRestApiDetails {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  CreatedDate?: string;
-  Version?: string;
-  BinaryMediaTypes?: string[];
-  MinimumCompressionSize?: number;
-  ApiKeySource?: string;
-  EndpointConfiguration?: AwsApiGatewayEndpointConfiguration;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedDate?: string | undefined;
+  Version?: string | undefined;
+  BinaryMediaTypes?: string[] | undefined;
+  MinimumCompressionSize?: number | undefined;
+  ApiKeySource?: string | undefined;
+  EndpointConfiguration?: AwsApiGatewayEndpointConfiguration | undefined;
 }
 export interface AwsCloudTrailTrailDetails {
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  HasCustomEventSelectors?: boolean;
-  HomeRegion?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  IsOrganizationTrail?: boolean;
-  KmsKeyId?: string;
-  LogFileValidationEnabled?: boolean;
-  Name?: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicArn?: string;
-  SnsTopicName?: string;
-  TrailArn?: string;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  HasCustomEventSelectors?: boolean | undefined;
+  HomeRegion?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  LogFileValidationEnabled?: boolean | undefined;
+  Name?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SnsTopicName?: string | undefined;
+  TrailArn?: string | undefined;
 }
 export interface AwsSsmComplianceSummary {
-  Status?: string;
-  CompliantCriticalCount?: number;
-  CompliantHighCount?: number;
-  CompliantMediumCount?: number;
-  ExecutionType?: string;
-  NonCompliantCriticalCount?: number;
-  CompliantInformationalCount?: number;
-  NonCompliantInformationalCount?: number;
-  CompliantUnspecifiedCount?: number;
-  NonCompliantLowCount?: number;
-  NonCompliantHighCount?: number;
-  CompliantLowCount?: number;
-  ComplianceType?: string;
-  PatchBaselineId?: string;
-  OverallSeverity?: string;
-  NonCompliantMediumCount?: number;
-  NonCompliantUnspecifiedCount?: number;
-  PatchGroup?: string;
+  Status?: string | undefined;
+  CompliantCriticalCount?: number | undefined;
+  CompliantHighCount?: number | undefined;
+  CompliantMediumCount?: number | undefined;
+  ExecutionType?: string | undefined;
+  NonCompliantCriticalCount?: number | undefined;
+  CompliantInformationalCount?: number | undefined;
+  NonCompliantInformationalCount?: number | undefined;
+  CompliantUnspecifiedCount?: number | undefined;
+  NonCompliantLowCount?: number | undefined;
+  NonCompliantHighCount?: number | undefined;
+  CompliantLowCount?: number | undefined;
+  ComplianceType?: string | undefined;
+  PatchBaselineId?: string | undefined;
+  OverallSeverity?: string | undefined;
+  NonCompliantMediumCount?: number | undefined;
+  NonCompliantUnspecifiedCount?: number | undefined;
+  PatchGroup?: string | undefined;
 }
 export interface AwsSsmPatch {
-  ComplianceSummary?: AwsSsmComplianceSummary;
+  ComplianceSummary?: AwsSsmComplianceSummary | undefined;
 }
 export interface AwsSsmPatchComplianceDetails {
-  Patch?: AwsSsmPatch;
+  Patch?: AwsSsmPatch | undefined;
 }
 export interface AwsCertificateManagerCertificateResourceRecord {
-  Name?: string;
-  Type?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export interface AwsCertificateManagerCertificateDomainValidationOption {
-  DomainName?: string;
-  ResourceRecord?: AwsCertificateManagerCertificateResourceRecord;
-  ValidationDomain?: string;
-  ValidationEmails?: string[];
-  ValidationMethod?: string;
-  ValidationStatus?: string;
+  DomainName?: string | undefined;
+  ResourceRecord?: AwsCertificateManagerCertificateResourceRecord | undefined;
+  ValidationDomain?: string | undefined;
+  ValidationEmails?: string[] | undefined;
+  ValidationMethod?: string | undefined;
+  ValidationStatus?: string | undefined;
 }
 export type AwsCertificateManagerCertificateDomainValidationOptions =
   AwsCertificateManagerCertificateDomainValidationOption[];
 export interface AwsCertificateManagerCertificateExtendedKeyUsage {
-  Name?: string;
-  OId?: string;
+  Name?: string | undefined;
+  OId?: string | undefined;
 }
 export type AwsCertificateManagerCertificateExtendedKeyUsages =
   AwsCertificateManagerCertificateExtendedKeyUsage[];
 export interface AwsCertificateManagerCertificateKeyUsage {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type AwsCertificateManagerCertificateKeyUsages = AwsCertificateManagerCertificateKeyUsage[];
 export interface AwsCertificateManagerCertificateOptions {
-  CertificateTransparencyLoggingPreference?: string;
+  CertificateTransparencyLoggingPreference?: string | undefined;
 }
 export interface AwsCertificateManagerCertificateRenewalSummary {
-  DomainValidationOptions?: AwsCertificateManagerCertificateDomainValidationOption[];
-  RenewalStatus?: string;
-  RenewalStatusReason?: string;
-  UpdatedAt?: string;
+  DomainValidationOptions?: AwsCertificateManagerCertificateDomainValidationOption[] | undefined;
+  RenewalStatus?: string | undefined;
+  RenewalStatusReason?: string | undefined;
+  UpdatedAt?: string | undefined;
 }
 export interface AwsCertificateManagerCertificateDetails {
-  CertificateAuthorityArn?: string;
-  CreatedAt?: string;
-  DomainName?: string;
-  DomainValidationOptions?: AwsCertificateManagerCertificateDomainValidationOption[];
-  ExtendedKeyUsages?: AwsCertificateManagerCertificateExtendedKeyUsage[];
-  FailureReason?: string;
-  ImportedAt?: string;
-  InUseBy?: string[];
-  IssuedAt?: string;
-  Issuer?: string;
-  KeyAlgorithm?: string;
-  KeyUsages?: AwsCertificateManagerCertificateKeyUsage[];
-  NotAfter?: string;
-  NotBefore?: string;
-  Options?: AwsCertificateManagerCertificateOptions;
-  RenewalEligibility?: string;
-  RenewalSummary?: AwsCertificateManagerCertificateRenewalSummary;
-  Serial?: string;
-  SignatureAlgorithm?: string;
-  Status?: string;
-  Subject?: string;
-  SubjectAlternativeNames?: string[];
-  Type?: string;
+  CertificateAuthorityArn?: string | undefined;
+  CreatedAt?: string | undefined;
+  DomainName?: string | undefined;
+  DomainValidationOptions?: AwsCertificateManagerCertificateDomainValidationOption[] | undefined;
+  ExtendedKeyUsages?: AwsCertificateManagerCertificateExtendedKeyUsage[] | undefined;
+  FailureReason?: string | undefined;
+  ImportedAt?: string | undefined;
+  InUseBy?: string[] | undefined;
+  IssuedAt?: string | undefined;
+  Issuer?: string | undefined;
+  KeyAlgorithm?: string | undefined;
+  KeyUsages?: AwsCertificateManagerCertificateKeyUsage[] | undefined;
+  NotAfter?: string | undefined;
+  NotBefore?: string | undefined;
+  Options?: AwsCertificateManagerCertificateOptions | undefined;
+  RenewalEligibility?: string | undefined;
+  RenewalSummary?: AwsCertificateManagerCertificateRenewalSummary | undefined;
+  Serial?: string | undefined;
+  SignatureAlgorithm?: string | undefined;
+  Status?: string | undefined;
+  Subject?: string | undefined;
+  SubjectAlternativeNames?: string[] | undefined;
+  Type?: string | undefined;
 }
 export interface AwsRedshiftClusterClusterNode {
-  NodeRole?: string;
-  PrivateIpAddress?: string;
-  PublicIpAddress?: string;
+  NodeRole?: string | undefined;
+  PrivateIpAddress?: string | undefined;
+  PublicIpAddress?: string | undefined;
 }
 export type AwsRedshiftClusterClusterNodes = AwsRedshiftClusterClusterNode[];
 export interface AwsRedshiftClusterClusterParameterStatus {
-  ParameterName?: string;
-  ParameterApplyStatus?: string;
-  ParameterApplyErrorDescription?: string;
+  ParameterName?: string | undefined;
+  ParameterApplyStatus?: string | undefined;
+  ParameterApplyErrorDescription?: string | undefined;
 }
 export type AwsRedshiftClusterClusterParameterStatusList =
   AwsRedshiftClusterClusterParameterStatus[];
 export interface AwsRedshiftClusterClusterParameterGroup {
-  ClusterParameterStatusList?: AwsRedshiftClusterClusterParameterStatus[];
-  ParameterApplyStatus?: string;
-  ParameterGroupName?: string;
+  ClusterParameterStatusList?: AwsRedshiftClusterClusterParameterStatus[] | undefined;
+  ParameterApplyStatus?: string | undefined;
+  ParameterGroupName?: string | undefined;
 }
 export type AwsRedshiftClusterClusterParameterGroups = AwsRedshiftClusterClusterParameterGroup[];
 export interface AwsRedshiftClusterClusterSecurityGroup {
-  ClusterSecurityGroupName?: string;
-  Status?: string;
+  ClusterSecurityGroupName?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRedshiftClusterClusterSecurityGroups = AwsRedshiftClusterClusterSecurityGroup[];
 export interface AwsRedshiftClusterClusterSnapshotCopyStatus {
-  DestinationRegion?: string;
-  ManualSnapshotRetentionPeriod?: number;
-  RetentionPeriod?: number;
-  SnapshotCopyGrantName?: string;
+  DestinationRegion?: string | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  RetentionPeriod?: number | undefined;
+  SnapshotCopyGrantName?: string | undefined;
 }
 export interface AwsRedshiftClusterDeferredMaintenanceWindow {
-  DeferMaintenanceEndTime?: string;
-  DeferMaintenanceIdentifier?: string;
-  DeferMaintenanceStartTime?: string;
+  DeferMaintenanceEndTime?: string | undefined;
+  DeferMaintenanceIdentifier?: string | undefined;
+  DeferMaintenanceStartTime?: string | undefined;
 }
 export type AwsRedshiftClusterDeferredMaintenanceWindows =
   AwsRedshiftClusterDeferredMaintenanceWindow[];
 export interface AwsRedshiftClusterElasticIpStatus {
-  ElasticIp?: string;
-  Status?: string;
+  ElasticIp?: string | undefined;
+  Status?: string | undefined;
 }
 export interface AwsRedshiftClusterEndpoint {
-  Address?: string;
-  Port?: number;
+  Address?: string | undefined;
+  Port?: number | undefined;
 }
 export interface AwsRedshiftClusterHsmStatus {
-  HsmClientCertificateIdentifier?: string;
-  HsmConfigurationIdentifier?: string;
-  Status?: string;
+  HsmClientCertificateIdentifier?: string | undefined;
+  HsmConfigurationIdentifier?: string | undefined;
+  Status?: string | undefined;
 }
 export interface AwsRedshiftClusterIamRole {
-  ApplyStatus?: string;
-  IamRoleArn?: string;
+  ApplyStatus?: string | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type AwsRedshiftClusterIamRoles = AwsRedshiftClusterIamRole[];
 export interface AwsRedshiftClusterPendingModifiedValues {
-  AutomatedSnapshotRetentionPeriod?: number;
-  ClusterIdentifier?: string;
-  ClusterType?: string;
-  ClusterVersion?: string;
-  EncryptionType?: string;
-  EnhancedVpcRouting?: boolean;
-  MaintenanceTrackName?: string;
-  MasterUserPassword?: string;
-  NodeType?: string;
-  NumberOfNodes?: number;
-  PubliclyAccessible?: boolean;
+  AutomatedSnapshotRetentionPeriod?: number | undefined;
+  ClusterIdentifier?: string | undefined;
+  ClusterType?: string | undefined;
+  ClusterVersion?: string | undefined;
+  EncryptionType?: string | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  MaintenanceTrackName?: string | undefined;
+  MasterUserPassword?: string | undefined;
+  NodeType?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  PubliclyAccessible?: boolean | undefined;
 }
 export interface AwsRedshiftClusterResizeInfo {
-  AllowCancelResize?: boolean;
-  ResizeType?: string;
+  AllowCancelResize?: boolean | undefined;
+  ResizeType?: string | undefined;
 }
 export interface AwsRedshiftClusterRestoreStatus {
-  CurrentRestoreRateInMegaBytesPerSecond?: number;
-  ElapsedTimeInSeconds?: number;
-  EstimatedTimeToCompletionInSeconds?: number;
-  ProgressInMegaBytes?: number;
-  SnapshotSizeInMegaBytes?: number;
-  Status?: string;
+  CurrentRestoreRateInMegaBytesPerSecond?: number | undefined;
+  ElapsedTimeInSeconds?: number | undefined;
+  EstimatedTimeToCompletionInSeconds?: number | undefined;
+  ProgressInMegaBytes?: number | undefined;
+  SnapshotSizeInMegaBytes?: number | undefined;
+  Status?: string | undefined;
 }
 export interface AwsRedshiftClusterVpcSecurityGroup {
-  Status?: string;
-  VpcSecurityGroupId?: string;
+  Status?: string | undefined;
+  VpcSecurityGroupId?: string | undefined;
 }
 export type AwsRedshiftClusterVpcSecurityGroups = AwsRedshiftClusterVpcSecurityGroup[];
 export interface AwsRedshiftClusterLoggingStatus {
-  BucketName?: string;
-  LastFailureMessage?: string;
-  LastFailureTime?: string;
-  LastSuccessfulDeliveryTime?: string;
-  LoggingEnabled?: boolean;
-  S3KeyPrefix?: string;
+  BucketName?: string | undefined;
+  LastFailureMessage?: string | undefined;
+  LastFailureTime?: string | undefined;
+  LastSuccessfulDeliveryTime?: string | undefined;
+  LoggingEnabled?: boolean | undefined;
+  S3KeyPrefix?: string | undefined;
 }
 export interface AwsRedshiftClusterDetails {
-  AllowVersionUpgrade?: boolean;
-  AutomatedSnapshotRetentionPeriod?: number;
-  AvailabilityZone?: string;
-  ClusterAvailabilityStatus?: string;
-  ClusterCreateTime?: string;
-  ClusterIdentifier?: string;
-  ClusterNodes?: AwsRedshiftClusterClusterNode[];
-  ClusterParameterGroups?: AwsRedshiftClusterClusterParameterGroup[];
-  ClusterPublicKey?: string;
-  ClusterRevisionNumber?: string;
-  ClusterSecurityGroups?: AwsRedshiftClusterClusterSecurityGroup[];
-  ClusterSnapshotCopyStatus?: AwsRedshiftClusterClusterSnapshotCopyStatus;
-  ClusterStatus?: string;
-  ClusterSubnetGroupName?: string;
-  ClusterVersion?: string;
-  DBName?: string;
-  DeferredMaintenanceWindows?: AwsRedshiftClusterDeferredMaintenanceWindow[];
-  ElasticIpStatus?: AwsRedshiftClusterElasticIpStatus;
-  ElasticResizeNumberOfNodeOptions?: string;
-  Encrypted?: boolean;
-  Endpoint?: AwsRedshiftClusterEndpoint;
-  EnhancedVpcRouting?: boolean;
-  ExpectedNextSnapshotScheduleTime?: string;
-  ExpectedNextSnapshotScheduleTimeStatus?: string;
-  HsmStatus?: AwsRedshiftClusterHsmStatus;
-  IamRoles?: AwsRedshiftClusterIamRole[];
-  KmsKeyId?: string;
-  MaintenanceTrackName?: string;
-  ManualSnapshotRetentionPeriod?: number;
-  MasterUsername?: string;
-  NextMaintenanceWindowStartTime?: string;
-  NodeType?: string;
-  NumberOfNodes?: number;
-  PendingActions?: string[];
-  PendingModifiedValues?: AwsRedshiftClusterPendingModifiedValues;
-  PreferredMaintenanceWindow?: string;
-  PubliclyAccessible?: boolean;
-  ResizeInfo?: AwsRedshiftClusterResizeInfo;
-  RestoreStatus?: AwsRedshiftClusterRestoreStatus;
-  SnapshotScheduleIdentifier?: string;
-  SnapshotScheduleState?: string;
-  VpcId?: string;
-  VpcSecurityGroups?: AwsRedshiftClusterVpcSecurityGroup[];
-  LoggingStatus?: AwsRedshiftClusterLoggingStatus;
+  AllowVersionUpgrade?: boolean | undefined;
+  AutomatedSnapshotRetentionPeriod?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  ClusterAvailabilityStatus?: string | undefined;
+  ClusterCreateTime?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  ClusterNodes?: AwsRedshiftClusterClusterNode[] | undefined;
+  ClusterParameterGroups?: AwsRedshiftClusterClusterParameterGroup[] | undefined;
+  ClusterPublicKey?: string | undefined;
+  ClusterRevisionNumber?: string | undefined;
+  ClusterSecurityGroups?: AwsRedshiftClusterClusterSecurityGroup[] | undefined;
+  ClusterSnapshotCopyStatus?: AwsRedshiftClusterClusterSnapshotCopyStatus | undefined;
+  ClusterStatus?: string | undefined;
+  ClusterSubnetGroupName?: string | undefined;
+  ClusterVersion?: string | undefined;
+  DBName?: string | undefined;
+  DeferredMaintenanceWindows?: AwsRedshiftClusterDeferredMaintenanceWindow[] | undefined;
+  ElasticIpStatus?: AwsRedshiftClusterElasticIpStatus | undefined;
+  ElasticResizeNumberOfNodeOptions?: string | undefined;
+  Encrypted?: boolean | undefined;
+  Endpoint?: AwsRedshiftClusterEndpoint | undefined;
+  EnhancedVpcRouting?: boolean | undefined;
+  ExpectedNextSnapshotScheduleTime?: string | undefined;
+  ExpectedNextSnapshotScheduleTimeStatus?: string | undefined;
+  HsmStatus?: AwsRedshiftClusterHsmStatus | undefined;
+  IamRoles?: AwsRedshiftClusterIamRole[] | undefined;
+  KmsKeyId?: string | undefined;
+  MaintenanceTrackName?: string | undefined;
+  ManualSnapshotRetentionPeriod?: number | undefined;
+  MasterUsername?: string | undefined;
+  NextMaintenanceWindowStartTime?: string | undefined;
+  NodeType?: string | undefined;
+  NumberOfNodes?: number | undefined;
+  PendingActions?: string[] | undefined;
+  PendingModifiedValues?: AwsRedshiftClusterPendingModifiedValues | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  ResizeInfo?: AwsRedshiftClusterResizeInfo | undefined;
+  RestoreStatus?: AwsRedshiftClusterRestoreStatus | undefined;
+  SnapshotScheduleIdentifier?: string | undefined;
+  SnapshotScheduleState?: string | undefined;
+  VpcId?: string | undefined;
+  VpcSecurityGroups?: AwsRedshiftClusterVpcSecurityGroup[] | undefined;
+  LoggingStatus?: AwsRedshiftClusterLoggingStatus | undefined;
 }
 export interface AwsElbLoadBalancerBackendServerDescription {
-  InstancePort?: number;
-  PolicyNames?: string[];
+  InstancePort?: number | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export type AwsElbLoadBalancerBackendServerDescriptions =
   AwsElbLoadBalancerBackendServerDescription[];
 export interface AwsElbLoadBalancerHealthCheck {
-  HealthyThreshold?: number;
-  Interval?: number;
-  Target?: string;
-  Timeout?: number;
-  UnhealthyThreshold?: number;
+  HealthyThreshold?: number | undefined;
+  Interval?: number | undefined;
+  Target?: string | undefined;
+  Timeout?: number | undefined;
+  UnhealthyThreshold?: number | undefined;
 }
 export interface AwsElbLoadBalancerInstance {
-  InstanceId?: string;
+  InstanceId?: string | undefined;
 }
 export type AwsElbLoadBalancerInstances = AwsElbLoadBalancerInstance[];
 export interface AwsElbLoadBalancerListener {
-  InstancePort?: number;
-  InstanceProtocol?: string;
-  LoadBalancerPort?: number;
-  Protocol?: string;
-  SslCertificateId?: string;
+  InstancePort?: number | undefined;
+  InstanceProtocol?: string | undefined;
+  LoadBalancerPort?: number | undefined;
+  Protocol?: string | undefined;
+  SslCertificateId?: string | undefined;
 }
 export interface AwsElbLoadBalancerListenerDescription {
-  Listener?: AwsElbLoadBalancerListener;
-  PolicyNames?: string[];
+  Listener?: AwsElbLoadBalancerListener | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export type AwsElbLoadBalancerListenerDescriptions = AwsElbLoadBalancerListenerDescription[];
 export interface AwsElbLoadBalancerAccessLog {
-  EmitInterval?: number;
-  Enabled?: boolean;
-  S3BucketName?: string;
-  S3BucketPrefix?: string;
+  EmitInterval?: number | undefined;
+  Enabled?: boolean | undefined;
+  S3BucketName?: string | undefined;
+  S3BucketPrefix?: string | undefined;
 }
 export interface AwsElbLoadBalancerConnectionDraining {
-  Enabled?: boolean;
-  Timeout?: number;
+  Enabled?: boolean | undefined;
+  Timeout?: number | undefined;
 }
 export interface AwsElbLoadBalancerConnectionSettings {
-  IdleTimeout?: number;
+  IdleTimeout?: number | undefined;
 }
 export interface AwsElbLoadBalancerCrossZoneLoadBalancing {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsElbLoadBalancerAdditionalAttribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsElbLoadBalancerAdditionalAttributeList = AwsElbLoadBalancerAdditionalAttribute[];
 export interface AwsElbLoadBalancerAttributes {
-  AccessLog?: AwsElbLoadBalancerAccessLog;
-  ConnectionDraining?: AwsElbLoadBalancerConnectionDraining;
-  ConnectionSettings?: AwsElbLoadBalancerConnectionSettings;
-  CrossZoneLoadBalancing?: AwsElbLoadBalancerCrossZoneLoadBalancing;
-  AdditionalAttributes?: AwsElbLoadBalancerAdditionalAttribute[];
+  AccessLog?: AwsElbLoadBalancerAccessLog | undefined;
+  ConnectionDraining?: AwsElbLoadBalancerConnectionDraining | undefined;
+  ConnectionSettings?: AwsElbLoadBalancerConnectionSettings | undefined;
+  CrossZoneLoadBalancing?: AwsElbLoadBalancerCrossZoneLoadBalancing | undefined;
+  AdditionalAttributes?: AwsElbLoadBalancerAdditionalAttribute[] | undefined;
 }
 export interface AwsElbAppCookieStickinessPolicy {
-  CookieName?: string;
-  PolicyName?: string;
+  CookieName?: string | undefined;
+  PolicyName?: string | undefined;
 }
 export type AwsElbAppCookieStickinessPolicies = AwsElbAppCookieStickinessPolicy[];
 export interface AwsElbLbCookieStickinessPolicy {
-  CookieExpirationPeriod?: number;
-  PolicyName?: string;
+  CookieExpirationPeriod?: number | undefined;
+  PolicyName?: string | undefined;
 }
 export type AwsElbLbCookieStickinessPolicies = AwsElbLbCookieStickinessPolicy[];
 export interface AwsElbLoadBalancerPolicies {
-  AppCookieStickinessPolicies?: AwsElbAppCookieStickinessPolicy[];
-  LbCookieStickinessPolicies?: AwsElbLbCookieStickinessPolicy[];
-  OtherPolicies?: string[];
+  AppCookieStickinessPolicies?: AwsElbAppCookieStickinessPolicy[] | undefined;
+  LbCookieStickinessPolicies?: AwsElbLbCookieStickinessPolicy[] | undefined;
+  OtherPolicies?: string[] | undefined;
 }
 export interface AwsElbLoadBalancerSourceSecurityGroup {
-  GroupName?: string;
-  OwnerAlias?: string;
+  GroupName?: string | undefined;
+  OwnerAlias?: string | undefined;
 }
 export interface AwsElbLoadBalancerDetails {
-  AvailabilityZones?: string[];
-  BackendServerDescriptions?: AwsElbLoadBalancerBackendServerDescription[];
-  CanonicalHostedZoneName?: string;
-  CanonicalHostedZoneNameID?: string;
-  CreatedTime?: string;
-  DnsName?: string;
-  HealthCheck?: AwsElbLoadBalancerHealthCheck;
-  Instances?: AwsElbLoadBalancerInstance[];
-  ListenerDescriptions?: AwsElbLoadBalancerListenerDescription[];
-  LoadBalancerAttributes?: AwsElbLoadBalancerAttributes;
-  LoadBalancerName?: string;
-  Policies?: AwsElbLoadBalancerPolicies;
-  Scheme?: string;
-  SecurityGroups?: string[];
-  SourceSecurityGroup?: AwsElbLoadBalancerSourceSecurityGroup;
-  Subnets?: string[];
-  VpcId?: string;
+  AvailabilityZones?: string[] | undefined;
+  BackendServerDescriptions?: AwsElbLoadBalancerBackendServerDescription[] | undefined;
+  CanonicalHostedZoneName?: string | undefined;
+  CanonicalHostedZoneNameID?: string | undefined;
+  CreatedTime?: string | undefined;
+  DnsName?: string | undefined;
+  HealthCheck?: AwsElbLoadBalancerHealthCheck | undefined;
+  Instances?: AwsElbLoadBalancerInstance[] | undefined;
+  ListenerDescriptions?: AwsElbLoadBalancerListenerDescription[] | undefined;
+  LoadBalancerAttributes?: AwsElbLoadBalancerAttributes | undefined;
+  LoadBalancerName?: string | undefined;
+  Policies?: AwsElbLoadBalancerPolicies | undefined;
+  Scheme?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  SourceSecurityGroup?: AwsElbLoadBalancerSourceSecurityGroup | undefined;
+  Subnets?: string[] | undefined;
+  VpcId?: string | undefined;
 }
 export interface AwsIamGroupPolicy {
-  PolicyName?: string;
+  PolicyName?: string | undefined;
 }
 export type AwsIamGroupPolicyList = AwsIamGroupPolicy[];
 export interface AwsIamGroupDetails {
-  AttachedManagedPolicies?: AwsIamAttachedManagedPolicy[];
-  CreateDate?: string;
-  GroupId?: string;
-  GroupName?: string;
-  GroupPolicyList?: AwsIamGroupPolicy[];
-  Path?: string;
+  AttachedManagedPolicies?: AwsIamAttachedManagedPolicy[] | undefined;
+  CreateDate?: string | undefined;
+  GroupId?: string | undefined;
+  GroupName?: string | undefined;
+  GroupPolicyList?: AwsIamGroupPolicy[] | undefined;
+  Path?: string | undefined;
 }
 export type AwsIamRoleAssumeRolePolicyDocument = string;
 export interface AwsIamInstanceProfileRole {
-  Arn?: string;
-  AssumeRolePolicyDocument?: string;
-  CreateDate?: string;
-  Path?: string;
-  RoleId?: string;
-  RoleName?: string;
+  Arn?: string | undefined;
+  AssumeRolePolicyDocument?: string | undefined;
+  CreateDate?: string | undefined;
+  Path?: string | undefined;
+  RoleId?: string | undefined;
+  RoleName?: string | undefined;
 }
 export type AwsIamInstanceProfileRoles = AwsIamInstanceProfileRole[];
 export interface AwsIamInstanceProfile {
-  Arn?: string;
-  CreateDate?: string;
-  InstanceProfileId?: string;
-  InstanceProfileName?: string;
-  Path?: string;
-  Roles?: AwsIamInstanceProfileRole[];
+  Arn?: string | undefined;
+  CreateDate?: string | undefined;
+  InstanceProfileId?: string | undefined;
+  InstanceProfileName?: string | undefined;
+  Path?: string | undefined;
+  Roles?: AwsIamInstanceProfileRole[] | undefined;
 }
 export type AwsIamInstanceProfileList = AwsIamInstanceProfile[];
 export interface AwsIamRolePolicy {
-  PolicyName?: string;
+  PolicyName?: string | undefined;
 }
 export type AwsIamRolePolicyList = AwsIamRolePolicy[];
 export interface AwsIamRoleDetails {
-  AssumeRolePolicyDocument?: string;
-  AttachedManagedPolicies?: AwsIamAttachedManagedPolicy[];
-  CreateDate?: string;
-  InstanceProfileList?: AwsIamInstanceProfile[];
-  PermissionsBoundary?: AwsIamPermissionsBoundary;
-  RoleId?: string;
-  RoleName?: string;
-  RolePolicyList?: AwsIamRolePolicy[];
-  MaxSessionDuration?: number;
-  Path?: string;
+  AssumeRolePolicyDocument?: string | undefined;
+  AttachedManagedPolicies?: AwsIamAttachedManagedPolicy[] | undefined;
+  CreateDate?: string | undefined;
+  InstanceProfileList?: AwsIamInstanceProfile[] | undefined;
+  PermissionsBoundary?: AwsIamPermissionsBoundary | undefined;
+  RoleId?: string | undefined;
+  RoleName?: string | undefined;
+  RolePolicyList?: AwsIamRolePolicy[] | undefined;
+  MaxSessionDuration?: number | undefined;
+  Path?: string | undefined;
 }
 export interface AwsKmsKeyDetails {
-  AWSAccountId?: string;
-  CreationDate?: number;
-  KeyId?: string;
-  KeyManager?: string;
-  KeyState?: string;
-  Origin?: string;
-  Description?: string;
-  KeyRotationStatus?: boolean;
+  AWSAccountId?: string | undefined;
+  CreationDate?: number | undefined;
+  KeyId?: string | undefined;
+  KeyManager?: string | undefined;
+  KeyState?: string | undefined;
+  Origin?: string | undefined;
+  Description?: string | undefined;
+  KeyRotationStatus?: boolean | undefined;
 }
 export interface AwsLambdaFunctionCode {
-  S3Bucket?: string;
-  S3Key?: string;
-  S3ObjectVersion?: string;
-  ZipFile?: string;
+  S3Bucket?: string | undefined;
+  S3Key?: string | undefined;
+  S3ObjectVersion?: string | undefined;
+  ZipFile?: string | undefined;
 }
 export interface AwsLambdaFunctionDeadLetterConfig {
-  TargetArn?: string;
+  TargetArn?: string | undefined;
 }
 export interface AwsLambdaFunctionEnvironmentError {
-  ErrorCode?: string;
-  Message?: string;
+  ErrorCode?: string | undefined;
+  Message?: string | undefined;
 }
 export interface AwsLambdaFunctionEnvironment {
-  Variables?: { [key: string]: string | undefined };
-  Error?: AwsLambdaFunctionEnvironmentError;
+  Variables?: { [key: string]: string | undefined } | undefined;
+  Error?: AwsLambdaFunctionEnvironmentError | undefined;
 }
 export interface AwsLambdaFunctionLayer {
-  Arn?: string;
-  CodeSize?: number;
+  Arn?: string | undefined;
+  CodeSize?: number | undefined;
 }
 export type AwsLambdaFunctionLayerList = AwsLambdaFunctionLayer[];
 export interface AwsLambdaFunctionTracingConfig {
-  Mode?: string;
+  Mode?: string | undefined;
 }
 export interface AwsLambdaFunctionVpcConfig {
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  VpcId?: string;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  VpcId?: string | undefined;
 }
 export interface AwsLambdaFunctionDetails {
-  Code?: AwsLambdaFunctionCode;
-  CodeSha256?: string;
-  DeadLetterConfig?: AwsLambdaFunctionDeadLetterConfig;
-  Environment?: AwsLambdaFunctionEnvironment;
-  FunctionName?: string;
-  Handler?: string;
-  KmsKeyArn?: string;
-  LastModified?: string;
-  Layers?: AwsLambdaFunctionLayer[];
-  MasterArn?: string;
-  MemorySize?: number;
-  RevisionId?: string;
-  Role?: string;
-  Runtime?: string;
-  Timeout?: number;
-  TracingConfig?: AwsLambdaFunctionTracingConfig;
-  VpcConfig?: AwsLambdaFunctionVpcConfig;
-  Version?: string;
-  Architectures?: string[];
-  PackageType?: string;
+  Code?: AwsLambdaFunctionCode | undefined;
+  CodeSha256?: string | undefined;
+  DeadLetterConfig?: AwsLambdaFunctionDeadLetterConfig | undefined;
+  Environment?: AwsLambdaFunctionEnvironment | undefined;
+  FunctionName?: string | undefined;
+  Handler?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  LastModified?: string | undefined;
+  Layers?: AwsLambdaFunctionLayer[] | undefined;
+  MasterArn?: string | undefined;
+  MemorySize?: number | undefined;
+  RevisionId?: string | undefined;
+  Role?: string | undefined;
+  Runtime?: string | undefined;
+  Timeout?: number | undefined;
+  TracingConfig?: AwsLambdaFunctionTracingConfig | undefined;
+  VpcConfig?: AwsLambdaFunctionVpcConfig | undefined;
+  Version?: string | undefined;
+  Architectures?: string[] | undefined;
+  PackageType?: string | undefined;
 }
 export type AwsLambdaLayerVersionNumber = number;
 export interface AwsLambdaLayerVersionDetails {
-  Version?: number;
-  CompatibleRuntimes?: string[];
-  CreatedDate?: string;
+  Version?: number | undefined;
+  CompatibleRuntimes?: string[] | undefined;
+  CreatedDate?: string | undefined;
 }
 export interface AwsRdsDbInstanceAssociatedRole {
-  RoleArn?: string;
-  FeatureName?: string;
-  Status?: string;
+  RoleArn?: string | undefined;
+  FeatureName?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRdsDbInstanceAssociatedRoles = AwsRdsDbInstanceAssociatedRole[];
 export interface AwsRdsDbInstanceEndpoint {
-  Address?: string;
-  Port?: number;
-  HostedZoneId?: string;
+  Address?: string | undefined;
+  Port?: number | undefined;
+  HostedZoneId?: string | undefined;
 }
 export interface AwsRdsDbInstanceVpcSecurityGroup {
-  VpcSecurityGroupId?: string;
-  Status?: string;
+  VpcSecurityGroupId?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRdsDbInstanceVpcSecurityGroups = AwsRdsDbInstanceVpcSecurityGroup[];
 export interface AwsRdsDbParameterGroup {
-  DbParameterGroupName?: string;
-  ParameterApplyStatus?: string;
+  DbParameterGroupName?: string | undefined;
+  ParameterApplyStatus?: string | undefined;
 }
 export type AwsRdsDbParameterGroups = AwsRdsDbParameterGroup[];
 export interface AwsRdsDbSubnetGroupSubnetAvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface AwsRdsDbSubnetGroupSubnet {
-  SubnetIdentifier?: string;
-  SubnetAvailabilityZone?: AwsRdsDbSubnetGroupSubnetAvailabilityZone;
-  SubnetStatus?: string;
+  SubnetIdentifier?: string | undefined;
+  SubnetAvailabilityZone?: AwsRdsDbSubnetGroupSubnetAvailabilityZone | undefined;
+  SubnetStatus?: string | undefined;
 }
 export type AwsRdsDbSubnetGroupSubnets = AwsRdsDbSubnetGroupSubnet[];
 export interface AwsRdsDbSubnetGroup {
-  DbSubnetGroupName?: string;
-  DbSubnetGroupDescription?: string;
-  VpcId?: string;
-  SubnetGroupStatus?: string;
-  Subnets?: AwsRdsDbSubnetGroupSubnet[];
-  DbSubnetGroupArn?: string;
+  DbSubnetGroupName?: string | undefined;
+  DbSubnetGroupDescription?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetGroupStatus?: string | undefined;
+  Subnets?: AwsRdsDbSubnetGroupSubnet[] | undefined;
+  DbSubnetGroupArn?: string | undefined;
 }
 export interface AwsRdsPendingCloudWatchLogsExports {
-  LogTypesToEnable?: string[];
-  LogTypesToDisable?: string[];
+  LogTypesToEnable?: string[] | undefined;
+  LogTypesToDisable?: string[] | undefined;
 }
 export interface AwsRdsDbProcessorFeature {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsRdsDbProcessorFeatures = AwsRdsDbProcessorFeature[];
 export interface AwsRdsDbPendingModifiedValues {
-  DbInstanceClass?: string;
-  AllocatedStorage?: number;
-  MasterUserPassword?: string;
-  Port?: number;
-  BackupRetentionPeriod?: number;
-  MultiAZ?: boolean;
-  EngineVersion?: string;
-  LicenseModel?: string;
-  Iops?: number;
-  DbInstanceIdentifier?: string;
-  StorageType?: string;
-  CaCertificateIdentifier?: string;
-  DbSubnetGroupName?: string;
-  PendingCloudWatchLogsExports?: AwsRdsPendingCloudWatchLogsExports;
-  ProcessorFeatures?: AwsRdsDbProcessorFeature[];
+  DbInstanceClass?: string | undefined;
+  AllocatedStorage?: number | undefined;
+  MasterUserPassword?: string | undefined;
+  Port?: number | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  MultiAZ?: boolean | undefined;
+  EngineVersion?: string | undefined;
+  LicenseModel?: string | undefined;
+  Iops?: number | undefined;
+  DbInstanceIdentifier?: string | undefined;
+  StorageType?: string | undefined;
+  CaCertificateIdentifier?: string | undefined;
+  DbSubnetGroupName?: string | undefined;
+  PendingCloudWatchLogsExports?: AwsRdsPendingCloudWatchLogsExports | undefined;
+  ProcessorFeatures?: AwsRdsDbProcessorFeature[] | undefined;
 }
 export interface AwsRdsDbOptionGroupMembership {
-  OptionGroupName?: string;
-  Status?: string;
+  OptionGroupName?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRdsDbOptionGroupMemberships = AwsRdsDbOptionGroupMembership[];
 export interface AwsRdsDbStatusInfo {
-  StatusType?: string;
-  Normal?: boolean;
-  Status?: string;
-  Message?: string;
+  StatusType?: string | undefined;
+  Normal?: boolean | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
 }
 export type AwsRdsDbStatusInfos = AwsRdsDbStatusInfo[];
 export interface AwsRdsDbDomainMembership {
-  Domain?: string;
-  Status?: string;
-  Fqdn?: string;
-  IamRoleName?: string;
+  Domain?: string | undefined;
+  Status?: string | undefined;
+  Fqdn?: string | undefined;
+  IamRoleName?: string | undefined;
 }
 export type AwsRdsDbDomainMemberships = AwsRdsDbDomainMembership[];
 export interface AwsRdsDbInstanceDetails {
-  AssociatedRoles?: AwsRdsDbInstanceAssociatedRole[];
-  CACertificateIdentifier?: string;
-  DBClusterIdentifier?: string;
-  DBInstanceIdentifier?: string;
-  DBInstanceClass?: string;
-  DbInstancePort?: number;
-  DbiResourceId?: string;
-  DBName?: string;
-  DeletionProtection?: boolean;
-  Endpoint?: AwsRdsDbInstanceEndpoint;
-  Engine?: string;
-  EngineVersion?: string;
-  IAMDatabaseAuthenticationEnabled?: boolean;
-  InstanceCreateTime?: string;
-  KmsKeyId?: string;
-  PubliclyAccessible?: boolean;
-  StorageEncrypted?: boolean;
-  TdeCredentialArn?: string;
-  VpcSecurityGroups?: AwsRdsDbInstanceVpcSecurityGroup[];
-  MultiAz?: boolean;
-  EnhancedMonitoringResourceArn?: string;
-  DbInstanceStatus?: string;
-  MasterUsername?: string;
-  AllocatedStorage?: number;
-  PreferredBackupWindow?: string;
-  BackupRetentionPeriod?: number;
-  DbSecurityGroups?: string[];
-  DbParameterGroups?: AwsRdsDbParameterGroup[];
-  AvailabilityZone?: string;
-  DbSubnetGroup?: AwsRdsDbSubnetGroup;
-  PreferredMaintenanceWindow?: string;
-  PendingModifiedValues?: AwsRdsDbPendingModifiedValues;
-  LatestRestorableTime?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  ReadReplicaSourceDBInstanceIdentifier?: string;
-  ReadReplicaDBInstanceIdentifiers?: string[];
-  ReadReplicaDBClusterIdentifiers?: string[];
-  LicenseModel?: string;
-  Iops?: number;
-  OptionGroupMemberships?: AwsRdsDbOptionGroupMembership[];
-  CharacterSetName?: string;
-  SecondaryAvailabilityZone?: string;
-  StatusInfos?: AwsRdsDbStatusInfo[];
-  StorageType?: string;
-  DomainMemberships?: AwsRdsDbDomainMembership[];
-  CopyTagsToSnapshot?: boolean;
-  MonitoringInterval?: number;
-  MonitoringRoleArn?: string;
-  PromotionTier?: number;
-  Timezone?: string;
-  PerformanceInsightsEnabled?: boolean;
-  PerformanceInsightsKmsKeyId?: string;
-  PerformanceInsightsRetentionPeriod?: number;
-  EnabledCloudWatchLogsExports?: string[];
-  ProcessorFeatures?: AwsRdsDbProcessorFeature[];
-  ListenerEndpoint?: AwsRdsDbInstanceEndpoint;
-  MaxAllocatedStorage?: number;
+  AssociatedRoles?: AwsRdsDbInstanceAssociatedRole[] | undefined;
+  CACertificateIdentifier?: string | undefined;
+  DBClusterIdentifier?: string | undefined;
+  DBInstanceIdentifier?: string | undefined;
+  DBInstanceClass?: string | undefined;
+  DbInstancePort?: number | undefined;
+  DbiResourceId?: string | undefined;
+  DBName?: string | undefined;
+  DeletionProtection?: boolean | undefined;
+  Endpoint?: AwsRdsDbInstanceEndpoint | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  IAMDatabaseAuthenticationEnabled?: boolean | undefined;
+  InstanceCreateTime?: string | undefined;
+  KmsKeyId?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  StorageEncrypted?: boolean | undefined;
+  TdeCredentialArn?: string | undefined;
+  VpcSecurityGroups?: AwsRdsDbInstanceVpcSecurityGroup[] | undefined;
+  MultiAz?: boolean | undefined;
+  EnhancedMonitoringResourceArn?: string | undefined;
+  DbInstanceStatus?: string | undefined;
+  MasterUsername?: string | undefined;
+  AllocatedStorage?: number | undefined;
+  PreferredBackupWindow?: string | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  DbSecurityGroups?: string[] | undefined;
+  DbParameterGroups?: AwsRdsDbParameterGroup[] | undefined;
+  AvailabilityZone?: string | undefined;
+  DbSubnetGroup?: AwsRdsDbSubnetGroup | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  PendingModifiedValues?: AwsRdsDbPendingModifiedValues | undefined;
+  LatestRestorableTime?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  ReadReplicaSourceDBInstanceIdentifier?: string | undefined;
+  ReadReplicaDBInstanceIdentifiers?: string[] | undefined;
+  ReadReplicaDBClusterIdentifiers?: string[] | undefined;
+  LicenseModel?: string | undefined;
+  Iops?: number | undefined;
+  OptionGroupMemberships?: AwsRdsDbOptionGroupMembership[] | undefined;
+  CharacterSetName?: string | undefined;
+  SecondaryAvailabilityZone?: string | undefined;
+  StatusInfos?: AwsRdsDbStatusInfo[] | undefined;
+  StorageType?: string | undefined;
+  DomainMemberships?: AwsRdsDbDomainMembership[] | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
+  MonitoringInterval?: number | undefined;
+  MonitoringRoleArn?: string | undefined;
+  PromotionTier?: number | undefined;
+  Timezone?: string | undefined;
+  PerformanceInsightsEnabled?: boolean | undefined;
+  PerformanceInsightsKmsKeyId?: string | undefined;
+  PerformanceInsightsRetentionPeriod?: number | undefined;
+  EnabledCloudWatchLogsExports?: string[] | undefined;
+  ProcessorFeatures?: AwsRdsDbProcessorFeature[] | undefined;
+  ListenerEndpoint?: AwsRdsDbInstanceEndpoint | undefined;
+  MaxAllocatedStorage?: number | undefined;
 }
 export interface AwsSnsTopicSubscription {
-  Endpoint?: string;
-  Protocol?: string;
+  Endpoint?: string | undefined;
+  Protocol?: string | undefined;
 }
 export type AwsSnsTopicSubscriptionList = AwsSnsTopicSubscription[];
 export interface AwsSnsTopicDetails {
-  KmsMasterKeyId?: string;
-  Subscription?: AwsSnsTopicSubscription[];
-  TopicName?: string;
-  Owner?: string;
-  SqsSuccessFeedbackRoleArn?: string;
-  SqsFailureFeedbackRoleArn?: string;
-  ApplicationSuccessFeedbackRoleArn?: string;
-  FirehoseSuccessFeedbackRoleArn?: string;
-  FirehoseFailureFeedbackRoleArn?: string;
-  HttpSuccessFeedbackRoleArn?: string;
-  HttpFailureFeedbackRoleArn?: string;
+  KmsMasterKeyId?: string | undefined;
+  Subscription?: AwsSnsTopicSubscription[] | undefined;
+  TopicName?: string | undefined;
+  Owner?: string | undefined;
+  SqsSuccessFeedbackRoleArn?: string | undefined;
+  SqsFailureFeedbackRoleArn?: string | undefined;
+  ApplicationSuccessFeedbackRoleArn?: string | undefined;
+  FirehoseSuccessFeedbackRoleArn?: string | undefined;
+  FirehoseFailureFeedbackRoleArn?: string | undefined;
+  HttpSuccessFeedbackRoleArn?: string | undefined;
+  HttpFailureFeedbackRoleArn?: string | undefined;
 }
 export interface AwsSqsQueueDetails {
-  KmsDataKeyReusePeriodSeconds?: number;
-  KmsMasterKeyId?: string;
-  QueueName?: string;
-  DeadLetterTargetArn?: string;
+  KmsDataKeyReusePeriodSeconds?: number | undefined;
+  KmsMasterKeyId?: string | undefined;
+  QueueName?: string | undefined;
+  DeadLetterTargetArn?: string | undefined;
 }
 export interface WafAction {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface WafExcludedRule {
-  RuleId?: string;
+  RuleId?: string | undefined;
 }
 export type WafExcludedRuleList = WafExcludedRule[];
 export interface WafOverrideAction {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface AwsWafWebAclRule {
-  Action?: WafAction;
-  ExcludedRules?: WafExcludedRule[];
-  OverrideAction?: WafOverrideAction;
-  Priority?: number;
-  RuleId?: string;
-  Type?: string;
+  Action?: WafAction | undefined;
+  ExcludedRules?: WafExcludedRule[] | undefined;
+  OverrideAction?: WafOverrideAction | undefined;
+  Priority?: number | undefined;
+  RuleId?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafWebAclRuleList = AwsWafWebAclRule[];
 export interface AwsWafWebAclDetails {
-  Name?: string;
-  DefaultAction?: string;
-  Rules?: AwsWafWebAclRule[];
-  WebAclId?: string;
+  Name?: string | undefined;
+  DefaultAction?: string | undefined;
+  Rules?: AwsWafWebAclRule[] | undefined;
+  WebAclId?: string | undefined;
 }
 export interface AwsRdsDbSnapshotDetails {
-  DbSnapshotIdentifier?: string;
-  DbInstanceIdentifier?: string;
-  SnapshotCreateTime?: string;
-  Engine?: string;
-  AllocatedStorage?: number;
-  Status?: string;
-  Port?: number;
-  AvailabilityZone?: string;
-  VpcId?: string;
-  InstanceCreateTime?: string;
-  MasterUsername?: string;
-  EngineVersion?: string;
-  LicenseModel?: string;
-  SnapshotType?: string;
-  Iops?: number;
-  OptionGroupName?: string;
-  PercentProgress?: number;
-  SourceRegion?: string;
-  SourceDbSnapshotIdentifier?: string;
-  StorageType?: string;
-  TdeCredentialArn?: string;
-  Encrypted?: boolean;
-  KmsKeyId?: string;
-  Timezone?: string;
-  IamDatabaseAuthenticationEnabled?: boolean;
-  ProcessorFeatures?: AwsRdsDbProcessorFeature[];
-  DbiResourceId?: string;
+  DbSnapshotIdentifier?: string | undefined;
+  DbInstanceIdentifier?: string | undefined;
+  SnapshotCreateTime?: string | undefined;
+  Engine?: string | undefined;
+  AllocatedStorage?: number | undefined;
+  Status?: string | undefined;
+  Port?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcId?: string | undefined;
+  InstanceCreateTime?: string | undefined;
+  MasterUsername?: string | undefined;
+  EngineVersion?: string | undefined;
+  LicenseModel?: string | undefined;
+  SnapshotType?: string | undefined;
+  Iops?: number | undefined;
+  OptionGroupName?: string | undefined;
+  PercentProgress?: number | undefined;
+  SourceRegion?: string | undefined;
+  SourceDbSnapshotIdentifier?: string | undefined;
+  StorageType?: string | undefined;
+  TdeCredentialArn?: string | undefined;
+  Encrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  Timezone?: string | undefined;
+  IamDatabaseAuthenticationEnabled?: boolean | undefined;
+  ProcessorFeatures?: AwsRdsDbProcessorFeature[] | undefined;
+  DbiResourceId?: string | undefined;
 }
 export interface AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute {
-  AttributeName?: string;
-  AttributeValues?: string[];
+  AttributeName?: string | undefined;
+  AttributeValues?: string[] | undefined;
 }
 export type AwsRdsDbClusterSnapshotDbClusterSnapshotAttributes =
   AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute[];
 export interface AwsRdsDbClusterSnapshotDetails {
-  AvailabilityZones?: string[];
-  SnapshotCreateTime?: string;
-  Engine?: string;
-  AllocatedStorage?: number;
-  Status?: string;
-  Port?: number;
-  VpcId?: string;
-  ClusterCreateTime?: string;
-  MasterUsername?: string;
-  EngineVersion?: string;
-  LicenseModel?: string;
-  SnapshotType?: string;
-  PercentProgress?: number;
-  StorageEncrypted?: boolean;
-  KmsKeyId?: string;
-  DbClusterIdentifier?: string;
-  DbClusterSnapshotIdentifier?: string;
-  IamDatabaseAuthenticationEnabled?: boolean;
-  DbClusterSnapshotAttributes?: AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute[];
+  AvailabilityZones?: string[] | undefined;
+  SnapshotCreateTime?: string | undefined;
+  Engine?: string | undefined;
+  AllocatedStorage?: number | undefined;
+  Status?: string | undefined;
+  Port?: number | undefined;
+  VpcId?: string | undefined;
+  ClusterCreateTime?: string | undefined;
+  MasterUsername?: string | undefined;
+  EngineVersion?: string | undefined;
+  LicenseModel?: string | undefined;
+  SnapshotType?: string | undefined;
+  PercentProgress?: number | undefined;
+  StorageEncrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  DbClusterIdentifier?: string | undefined;
+  DbClusterSnapshotIdentifier?: string | undefined;
+  IamDatabaseAuthenticationEnabled?: boolean | undefined;
+  DbClusterSnapshotAttributes?: AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute[] | undefined;
 }
 export interface AwsRdsDbClusterAssociatedRole {
-  RoleArn?: string;
-  Status?: string;
+  RoleArn?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRdsDbClusterAssociatedRoles = AwsRdsDbClusterAssociatedRole[];
 export interface AwsRdsDbClusterOptionGroupMembership {
-  DbClusterOptionGroupName?: string;
-  Status?: string;
+  DbClusterOptionGroupName?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRdsDbClusterOptionGroupMemberships = AwsRdsDbClusterOptionGroupMembership[];
 export interface AwsRdsDbClusterMember {
-  IsClusterWriter?: boolean;
-  PromotionTier?: number;
-  DbInstanceIdentifier?: string;
-  DbClusterParameterGroupStatus?: string;
+  IsClusterWriter?: boolean | undefined;
+  PromotionTier?: number | undefined;
+  DbInstanceIdentifier?: string | undefined;
+  DbClusterParameterGroupStatus?: string | undefined;
 }
 export type AwsRdsDbClusterMembers = AwsRdsDbClusterMember[];
 export interface AwsRdsDbClusterDetails {
-  AllocatedStorage?: number;
-  AvailabilityZones?: string[];
-  BackupRetentionPeriod?: number;
-  DatabaseName?: string;
-  Status?: string;
-  Endpoint?: string;
-  ReaderEndpoint?: string;
-  CustomEndpoints?: string[];
-  MultiAz?: boolean;
-  Engine?: string;
-  EngineVersion?: string;
-  Port?: number;
-  MasterUsername?: string;
-  PreferredBackupWindow?: string;
-  PreferredMaintenanceWindow?: string;
-  ReadReplicaIdentifiers?: string[];
-  VpcSecurityGroups?: AwsRdsDbInstanceVpcSecurityGroup[];
-  HostedZoneId?: string;
-  StorageEncrypted?: boolean;
-  KmsKeyId?: string;
-  DbClusterResourceId?: string;
-  AssociatedRoles?: AwsRdsDbClusterAssociatedRole[];
-  ClusterCreateTime?: string;
-  EnabledCloudWatchLogsExports?: string[];
-  EngineMode?: string;
-  DeletionProtection?: boolean;
-  HttpEndpointEnabled?: boolean;
-  ActivityStreamStatus?: string;
-  CopyTagsToSnapshot?: boolean;
-  CrossAccountClone?: boolean;
-  DomainMemberships?: AwsRdsDbDomainMembership[];
-  DbClusterParameterGroup?: string;
-  DbSubnetGroup?: string;
-  DbClusterOptionGroupMemberships?: AwsRdsDbClusterOptionGroupMembership[];
-  DbClusterIdentifier?: string;
-  DbClusterMembers?: AwsRdsDbClusterMember[];
-  IamDatabaseAuthenticationEnabled?: boolean;
-  AutoMinorVersionUpgrade?: boolean;
+  AllocatedStorage?: number | undefined;
+  AvailabilityZones?: string[] | undefined;
+  BackupRetentionPeriod?: number | undefined;
+  DatabaseName?: string | undefined;
+  Status?: string | undefined;
+  Endpoint?: string | undefined;
+  ReaderEndpoint?: string | undefined;
+  CustomEndpoints?: string[] | undefined;
+  MultiAz?: boolean | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  Port?: number | undefined;
+  MasterUsername?: string | undefined;
+  PreferredBackupWindow?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  ReadReplicaIdentifiers?: string[] | undefined;
+  VpcSecurityGroups?: AwsRdsDbInstanceVpcSecurityGroup[] | undefined;
+  HostedZoneId?: string | undefined;
+  StorageEncrypted?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  DbClusterResourceId?: string | undefined;
+  AssociatedRoles?: AwsRdsDbClusterAssociatedRole[] | undefined;
+  ClusterCreateTime?: string | undefined;
+  EnabledCloudWatchLogsExports?: string[] | undefined;
+  EngineMode?: string | undefined;
+  DeletionProtection?: boolean | undefined;
+  HttpEndpointEnabled?: boolean | undefined;
+  ActivityStreamStatus?: string | undefined;
+  CopyTagsToSnapshot?: boolean | undefined;
+  CrossAccountClone?: boolean | undefined;
+  DomainMemberships?: AwsRdsDbDomainMembership[] | undefined;
+  DbClusterParameterGroup?: string | undefined;
+  DbSubnetGroup?: string | undefined;
+  DbClusterOptionGroupMemberships?: AwsRdsDbClusterOptionGroupMembership[] | undefined;
+  DbClusterIdentifier?: string | undefined;
+  DbClusterMembers?: AwsRdsDbClusterMember[] | undefined;
+  IamDatabaseAuthenticationEnabled?: boolean | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
 }
 export interface AwsEcsClusterClusterSettingsDetails {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsEcsClusterClusterSettingsList = AwsEcsClusterClusterSettingsDetails[];
 export interface AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails {
-  CloudWatchEncryptionEnabled?: boolean;
-  CloudWatchLogGroupName?: string;
-  S3BucketName?: string;
-  S3EncryptionEnabled?: boolean;
-  S3KeyPrefix?: string;
+  CloudWatchEncryptionEnabled?: boolean | undefined;
+  CloudWatchLogGroupName?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3EncryptionEnabled?: boolean | undefined;
+  S3KeyPrefix?: string | undefined;
 }
 export interface AwsEcsClusterConfigurationExecuteCommandConfigurationDetails {
-  KmsKeyId?: string;
-  LogConfiguration?: AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails;
-  Logging?: string;
+  KmsKeyId?: string | undefined;
+  LogConfiguration?:
+    | AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails
+    | undefined;
+  Logging?: string | undefined;
 }
 export interface AwsEcsClusterConfigurationDetails {
-  ExecuteCommandConfiguration?: AwsEcsClusterConfigurationExecuteCommandConfigurationDetails;
+  ExecuteCommandConfiguration?:
+    | AwsEcsClusterConfigurationExecuteCommandConfigurationDetails
+    | undefined;
 }
 export interface AwsEcsClusterDefaultCapacityProviderStrategyDetails {
-  Base?: number;
-  CapacityProvider?: string;
-  Weight?: number;
+  Base?: number | undefined;
+  CapacityProvider?: string | undefined;
+  Weight?: number | undefined;
 }
 export type AwsEcsClusterDefaultCapacityProviderStrategyList =
   AwsEcsClusterDefaultCapacityProviderStrategyDetails[];
 export interface AwsEcsClusterDetails {
-  ClusterArn?: string;
-  ActiveServicesCount?: number;
-  CapacityProviders?: string[];
-  ClusterSettings?: AwsEcsClusterClusterSettingsDetails[];
-  Configuration?: AwsEcsClusterConfigurationDetails;
-  DefaultCapacityProviderStrategy?: AwsEcsClusterDefaultCapacityProviderStrategyDetails[];
-  ClusterName?: string;
-  RegisteredContainerInstancesCount?: number;
-  RunningTasksCount?: number;
-  Status?: string;
+  ClusterArn?: string | undefined;
+  ActiveServicesCount?: number | undefined;
+  CapacityProviders?: string[] | undefined;
+  ClusterSettings?: AwsEcsClusterClusterSettingsDetails[] | undefined;
+  Configuration?: AwsEcsClusterConfigurationDetails | undefined;
+  DefaultCapacityProviderStrategy?:
+    | AwsEcsClusterDefaultCapacityProviderStrategyDetails[]
+    | undefined;
+  ClusterName?: string | undefined;
+  RegisteredContainerInstancesCount?: number | undefined;
+  RunningTasksCount?: number | undefined;
+  Status?: string | undefined;
 }
 export interface AwsMountPoint {
-  SourceVolume?: string;
-  ContainerPath?: string;
+  SourceVolume?: string | undefined;
+  ContainerPath?: string | undefined;
 }
 export type AwsMountPointList = AwsMountPoint[];
 export interface AwsEcsContainerDetails {
-  Name?: string;
-  Image?: string;
-  MountPoints?: AwsMountPoint[];
-  Privileged?: boolean;
+  Name?: string | undefined;
+  Image?: string | undefined;
+  MountPoints?: AwsMountPoint[] | undefined;
+  Privileged?: boolean | undefined;
 }
 export interface AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails {
-  Condition?: string;
-  ContainerName?: string;
+  Condition?: string | undefined;
+  ContainerName?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsDependsOnList =
   AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsEnvironmentList =
   AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails {
-  Type?: string;
-  Value?: string;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesList =
   AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails {
-  Hostname?: string;
-  IpAddress?: string;
+  Hostname?: string | undefined;
+  IpAddress?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsExtraHostsList =
   AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails {
-  Options?: { [key: string]: string | undefined };
-  Type?: string;
+  Options?: { [key: string]: string | undefined } | undefined;
+  Type?: string | undefined;
 }
 export interface AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails {
-  Command?: string[];
-  Interval?: number;
-  Retries?: number;
-  StartPeriod?: number;
-  Timeout?: number;
+  Command?: string[] | undefined;
+  Interval?: number | undefined;
+  Retries?: number | undefined;
+  StartPeriod?: number | undefined;
+  Timeout?: number | undefined;
 }
 export interface AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails {
-  Add?: string[];
-  Drop?: string[];
+  Add?: string[] | undefined;
+  Drop?: string[] | undefined;
 }
 export interface AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails {
-  ContainerPath?: string;
-  HostPath?: string;
-  Permissions?: string[];
+  ContainerPath?: string | undefined;
+  HostPath?: string | undefined;
+  Permissions?: string[] | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesList =
   AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails {
-  ContainerPath?: string;
-  MountOptions?: string[];
-  Size?: number;
+  ContainerPath?: string | undefined;
+  MountOptions?: string[] | undefined;
+  Size?: number | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsList =
   AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails {
-  Capabilities?: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails;
-  Devices?: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails[];
-  InitProcessEnabled?: boolean;
-  MaxSwap?: number;
-  SharedMemorySize?: number;
-  Swappiness?: number;
-  Tmpfs?: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails[];
+  Capabilities?:
+    | AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails
+    | undefined;
+  Devices?: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails[] | undefined;
+  InitProcessEnabled?: boolean | undefined;
+  MaxSwap?: number | undefined;
+  SharedMemorySize?: number | undefined;
+  Swappiness?: number | undefined;
+  Tmpfs?: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails[] | undefined;
 }
 export interface AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails {
-  Name?: string;
-  ValueFrom?: string;
+  Name?: string | undefined;
+  ValueFrom?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsList =
   AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails {
-  LogDriver?: string;
-  Options?: { [key: string]: string | undefined };
-  SecretOptions?: AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails[];
+  LogDriver?: string | undefined;
+  Options?: { [key: string]: string | undefined } | undefined;
+  SecretOptions?:
+    | AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails[]
+    | undefined;
 }
 export interface AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails {
-  ContainerPath?: string;
-  ReadOnly?: boolean;
-  SourceVolume?: string;
+  ContainerPath?: string | undefined;
+  ReadOnly?: boolean | undefined;
+  SourceVolume?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsMountPointsList =
   AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails {
-  ContainerPort?: number;
-  HostPort?: number;
-  Protocol?: string;
+  ContainerPort?: number | undefined;
+  HostPort?: number | undefined;
+  Protocol?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsPortMappingsList =
   AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails {
-  CredentialsParameter?: string;
+  CredentialsParameter?: string | undefined;
 }
 export interface AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails {
-  Type?: string;
-  Value?: string;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsList =
   AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails {
-  Name?: string;
-  ValueFrom?: string;
+  Name?: string | undefined;
+  ValueFrom?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsSecretsList =
   AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails {
-  Namespace?: string;
-  Value?: string;
+  Namespace?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsSystemControlsList =
   AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails {
-  HardLimit?: number;
-  Name?: string;
-  SoftLimit?: number;
+  HardLimit?: number | undefined;
+  Name?: string | undefined;
+  SoftLimit?: number | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsUlimitsList =
   AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails {
-  ReadOnly?: boolean;
-  SourceContainer?: string;
+  ReadOnly?: boolean | undefined;
+  SourceContainer?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsVolumesFromList =
   AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails[];
 export interface AwsEcsTaskDefinitionContainerDefinitionsDetails {
-  Command?: string[];
-  Cpu?: number;
-  DependsOn?: AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails[];
-  DisableNetworking?: boolean;
-  DnsSearchDomains?: string[];
-  DnsServers?: string[];
-  DockerLabels?: { [key: string]: string | undefined };
-  DockerSecurityOptions?: string[];
-  EntryPoint?: string[];
-  Environment?: AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails[];
-  EnvironmentFiles?: AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails[];
-  Essential?: boolean;
-  ExtraHosts?: AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails[];
-  FirelensConfiguration?: AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails;
-  HealthCheck?: AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails;
-  Hostname?: string;
-  Image?: string;
-  Interactive?: boolean;
-  Links?: string[];
-  LinuxParameters?: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails;
-  LogConfiguration?: AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails;
-  Memory?: number;
-  MemoryReservation?: number;
-  MountPoints?: AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails[];
-  Name?: string;
-  PortMappings?: AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails[];
-  Privileged?: boolean;
-  PseudoTerminal?: boolean;
-  ReadonlyRootFilesystem?: boolean;
-  RepositoryCredentials?: AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails;
-  ResourceRequirements?: AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails[];
-  Secrets?: AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails[];
-  StartTimeout?: number;
-  StopTimeout?: number;
-  SystemControls?: AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails[];
-  Ulimits?: AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails[];
-  User?: string;
-  VolumesFrom?: AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails[];
-  WorkingDirectory?: string;
+  Command?: string[] | undefined;
+  Cpu?: number | undefined;
+  DependsOn?: AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails[] | undefined;
+  DisableNetworking?: boolean | undefined;
+  DnsSearchDomains?: string[] | undefined;
+  DnsServers?: string[] | undefined;
+  DockerLabels?: { [key: string]: string | undefined } | undefined;
+  DockerSecurityOptions?: string[] | undefined;
+  EntryPoint?: string[] | undefined;
+  Environment?: AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails[] | undefined;
+  EnvironmentFiles?: AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails[] | undefined;
+  Essential?: boolean | undefined;
+  ExtraHosts?: AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails[] | undefined;
+  FirelensConfiguration?:
+    | AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails
+    | undefined;
+  HealthCheck?: AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails | undefined;
+  Hostname?: string | undefined;
+  Image?: string | undefined;
+  Interactive?: boolean | undefined;
+  Links?: string[] | undefined;
+  LinuxParameters?: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails | undefined;
+  LogConfiguration?: AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails | undefined;
+  Memory?: number | undefined;
+  MemoryReservation?: number | undefined;
+  MountPoints?: AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails[] | undefined;
+  Name?: string | undefined;
+  PortMappings?: AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails[] | undefined;
+  Privileged?: boolean | undefined;
+  PseudoTerminal?: boolean | undefined;
+  ReadonlyRootFilesystem?: boolean | undefined;
+  RepositoryCredentials?:
+    | AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails
+    | undefined;
+  ResourceRequirements?:
+    | AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails[]
+    | undefined;
+  Secrets?: AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails[] | undefined;
+  StartTimeout?: number | undefined;
+  StopTimeout?: number | undefined;
+  SystemControls?: AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails[] | undefined;
+  Ulimits?: AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails[] | undefined;
+  User?: string | undefined;
+  VolumesFrom?: AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails[] | undefined;
+  WorkingDirectory?: string | undefined;
 }
 export type AwsEcsTaskDefinitionContainerDefinitionsList =
   AwsEcsTaskDefinitionContainerDefinitionsDetails[];
 export interface AwsEcsTaskDefinitionInferenceAcceleratorsDetails {
-  DeviceName?: string;
-  DeviceType?: string;
+  DeviceName?: string | undefined;
+  DeviceType?: string | undefined;
 }
 export type AwsEcsTaskDefinitionInferenceAcceleratorsList =
   AwsEcsTaskDefinitionInferenceAcceleratorsDetails[];
 export interface AwsEcsTaskDefinitionPlacementConstraintsDetails {
-  Expression?: string;
-  Type?: string;
+  Expression?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsEcsTaskDefinitionPlacementConstraintsList =
   AwsEcsTaskDefinitionPlacementConstraintsDetails[];
 export interface AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesList =
   AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails[];
 export interface AwsEcsTaskDefinitionProxyConfigurationDetails {
-  ContainerName?: string;
-  ProxyConfigurationProperties?: AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails[];
-  Type?: string;
+  ContainerName?: string | undefined;
+  ProxyConfigurationProperties?:
+    | AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails[]
+    | undefined;
+  Type?: string | undefined;
 }
 export interface AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails {
-  Autoprovision?: boolean;
-  Driver?: string;
-  DriverOpts?: { [key: string]: string | undefined };
-  Labels?: { [key: string]: string | undefined };
-  Scope?: string;
+  Autoprovision?: boolean | undefined;
+  Driver?: string | undefined;
+  DriverOpts?: { [key: string]: string | undefined } | undefined;
+  Labels?: { [key: string]: string | undefined } | undefined;
+  Scope?: string | undefined;
 }
 export interface AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails {
-  AccessPointId?: string;
-  Iam?: string;
+  AccessPointId?: string | undefined;
+  Iam?: string | undefined;
 }
 export interface AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails {
-  AuthorizationConfig?: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails;
-  FilesystemId?: string;
-  RootDirectory?: string;
-  TransitEncryption?: string;
-  TransitEncryptionPort?: number;
+  AuthorizationConfig?:
+    | AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails
+    | undefined;
+  FilesystemId?: string | undefined;
+  RootDirectory?: string | undefined;
+  TransitEncryption?: string | undefined;
+  TransitEncryptionPort?: number | undefined;
 }
 export interface AwsEcsTaskDefinitionVolumesHostDetails {
-  SourcePath?: string;
+  SourcePath?: string | undefined;
 }
 export interface AwsEcsTaskDefinitionVolumesDetails {
-  DockerVolumeConfiguration?: AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails;
-  EfsVolumeConfiguration?: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails;
-  Host?: AwsEcsTaskDefinitionVolumesHostDetails;
-  Name?: string;
+  DockerVolumeConfiguration?:
+    | AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails
+    | undefined;
+  EfsVolumeConfiguration?: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails | undefined;
+  Host?: AwsEcsTaskDefinitionVolumesHostDetails | undefined;
+  Name?: string | undefined;
 }
 export type AwsEcsTaskDefinitionVolumesList = AwsEcsTaskDefinitionVolumesDetails[];
 export interface AwsEcsTaskDefinitionDetails {
-  ContainerDefinitions?: AwsEcsTaskDefinitionContainerDefinitionsDetails[];
-  Cpu?: string;
-  ExecutionRoleArn?: string;
-  Family?: string;
-  InferenceAccelerators?: AwsEcsTaskDefinitionInferenceAcceleratorsDetails[];
-  IpcMode?: string;
-  Memory?: string;
-  NetworkMode?: string;
-  PidMode?: string;
-  PlacementConstraints?: AwsEcsTaskDefinitionPlacementConstraintsDetails[];
-  ProxyConfiguration?: AwsEcsTaskDefinitionProxyConfigurationDetails;
-  RequiresCompatibilities?: string[];
-  TaskRoleArn?: string;
-  Volumes?: AwsEcsTaskDefinitionVolumesDetails[];
-  Status?: string;
+  ContainerDefinitions?: AwsEcsTaskDefinitionContainerDefinitionsDetails[] | undefined;
+  Cpu?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  Family?: string | undefined;
+  InferenceAccelerators?: AwsEcsTaskDefinitionInferenceAcceleratorsDetails[] | undefined;
+  IpcMode?: string | undefined;
+  Memory?: string | undefined;
+  NetworkMode?: string | undefined;
+  PidMode?: string | undefined;
+  PlacementConstraints?: AwsEcsTaskDefinitionPlacementConstraintsDetails[] | undefined;
+  ProxyConfiguration?: AwsEcsTaskDefinitionProxyConfigurationDetails | undefined;
+  RequiresCompatibilities?: string[] | undefined;
+  TaskRoleArn?: string | undefined;
+  Volumes?: AwsEcsTaskDefinitionVolumesDetails[] | undefined;
+  Status?: string | undefined;
 }
 export interface VolumeMount {
-  Name?: string;
-  MountPath?: string;
+  Name?: string | undefined;
+  MountPath?: string | undefined;
 }
 export type VolumeMountList = VolumeMount[];
 export interface ContainerDetails {
-  ContainerRuntime?: string;
-  Name?: string;
-  ImageId?: string;
-  ImageName?: string;
-  LaunchedAt?: string;
-  VolumeMounts?: VolumeMount[];
-  Privileged?: boolean;
+  ContainerRuntime?: string | undefined;
+  Name?: string | undefined;
+  ImageId?: string | undefined;
+  ImageName?: string | undefined;
+  LaunchedAt?: string | undefined;
+  VolumeMounts?: VolumeMount[] | undefined;
+  Privileged?: boolean | undefined;
 }
 export interface AwsRdsEventSubscriptionDetails {
-  CustSubscriptionId?: string;
-  CustomerAwsId?: string;
-  Enabled?: boolean;
-  EventCategoriesList?: string[];
-  EventSubscriptionArn?: string;
-  SnsTopicArn?: string;
-  SourceIdsList?: string[];
-  SourceType?: string;
-  Status?: string;
-  SubscriptionCreationTime?: string;
+  CustSubscriptionId?: string | undefined;
+  CustomerAwsId?: string | undefined;
+  Enabled?: boolean | undefined;
+  EventCategoriesList?: string[] | undefined;
+  EventSubscriptionArn?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SourceIdsList?: string[] | undefined;
+  SourceType?: string | undefined;
+  Status?: string | undefined;
+  SubscriptionCreationTime?: string | undefined;
 }
 export interface AwsEcsServiceCapacityProviderStrategyDetails {
-  Base?: number;
-  CapacityProvider?: string;
-  Weight?: number;
+  Base?: number | undefined;
+  CapacityProvider?: string | undefined;
+  Weight?: number | undefined;
 }
 export type AwsEcsServiceCapacityProviderStrategyList =
   AwsEcsServiceCapacityProviderStrategyDetails[];
 export interface AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails {
-  Enable?: boolean;
-  Rollback?: boolean;
+  Enable?: boolean | undefined;
+  Rollback?: boolean | undefined;
 }
 export interface AwsEcsServiceDeploymentConfigurationDetails {
-  DeploymentCircuitBreaker?: AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails;
-  MaximumPercent?: number;
-  MinimumHealthyPercent?: number;
+  DeploymentCircuitBreaker?:
+    | AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails
+    | undefined;
+  MaximumPercent?: number | undefined;
+  MinimumHealthyPercent?: number | undefined;
 }
 export interface AwsEcsServiceDeploymentControllerDetails {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface AwsEcsServiceLoadBalancersDetails {
-  ContainerName?: string;
-  ContainerPort?: number;
-  LoadBalancerName?: string;
-  TargetGroupArn?: string;
+  ContainerName?: string | undefined;
+  ContainerPort?: number | undefined;
+  LoadBalancerName?: string | undefined;
+  TargetGroupArn?: string | undefined;
 }
 export type AwsEcsServiceLoadBalancersList = AwsEcsServiceLoadBalancersDetails[];
 export interface AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails {
-  AssignPublicIp?: string;
-  SecurityGroups?: string[];
-  Subnets?: string[];
+  AssignPublicIp?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  Subnets?: string[] | undefined;
 }
 export interface AwsEcsServiceNetworkConfigurationDetails {
-  AwsVpcConfiguration?: AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails;
+  AwsVpcConfiguration?: AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails | undefined;
 }
 export interface AwsEcsServicePlacementConstraintsDetails {
-  Expression?: string;
-  Type?: string;
+  Expression?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsEcsServicePlacementConstraintsList = AwsEcsServicePlacementConstraintsDetails[];
 export interface AwsEcsServicePlacementStrategiesDetails {
-  Field?: string;
-  Type?: string;
+  Field?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsEcsServicePlacementStrategiesList = AwsEcsServicePlacementStrategiesDetails[];
 export interface AwsEcsServiceServiceRegistriesDetails {
-  ContainerName?: string;
-  ContainerPort?: number;
-  Port?: number;
-  RegistryArn?: string;
+  ContainerName?: string | undefined;
+  ContainerPort?: number | undefined;
+  Port?: number | undefined;
+  RegistryArn?: string | undefined;
 }
 export type AwsEcsServiceServiceRegistriesList = AwsEcsServiceServiceRegistriesDetails[];
 export interface AwsEcsServiceDetails {
-  CapacityProviderStrategy?: AwsEcsServiceCapacityProviderStrategyDetails[];
-  Cluster?: string;
-  DeploymentConfiguration?: AwsEcsServiceDeploymentConfigurationDetails;
-  DeploymentController?: AwsEcsServiceDeploymentControllerDetails;
-  DesiredCount?: number;
-  EnableEcsManagedTags?: boolean;
-  EnableExecuteCommand?: boolean;
-  HealthCheckGracePeriodSeconds?: number;
-  LaunchType?: string;
-  LoadBalancers?: AwsEcsServiceLoadBalancersDetails[];
-  Name?: string;
-  NetworkConfiguration?: AwsEcsServiceNetworkConfigurationDetails;
-  PlacementConstraints?: AwsEcsServicePlacementConstraintsDetails[];
-  PlacementStrategies?: AwsEcsServicePlacementStrategiesDetails[];
-  PlatformVersion?: string;
-  PropagateTags?: string;
-  Role?: string;
-  SchedulingStrategy?: string;
-  ServiceArn?: string;
-  ServiceName?: string;
-  ServiceRegistries?: AwsEcsServiceServiceRegistriesDetails[];
-  TaskDefinition?: string;
+  CapacityProviderStrategy?: AwsEcsServiceCapacityProviderStrategyDetails[] | undefined;
+  Cluster?: string | undefined;
+  DeploymentConfiguration?: AwsEcsServiceDeploymentConfigurationDetails | undefined;
+  DeploymentController?: AwsEcsServiceDeploymentControllerDetails | undefined;
+  DesiredCount?: number | undefined;
+  EnableEcsManagedTags?: boolean | undefined;
+  EnableExecuteCommand?: boolean | undefined;
+  HealthCheckGracePeriodSeconds?: number | undefined;
+  LaunchType?: string | undefined;
+  LoadBalancers?: AwsEcsServiceLoadBalancersDetails[] | undefined;
+  Name?: string | undefined;
+  NetworkConfiguration?: AwsEcsServiceNetworkConfigurationDetails | undefined;
+  PlacementConstraints?: AwsEcsServicePlacementConstraintsDetails[] | undefined;
+  PlacementStrategies?: AwsEcsServicePlacementStrategiesDetails[] | undefined;
+  PlatformVersion?: string | undefined;
+  PropagateTags?: string | undefined;
+  Role?: string | undefined;
+  SchedulingStrategy?: string | undefined;
+  ServiceArn?: string | undefined;
+  ServiceName?: string | undefined;
+  ServiceRegistries?: AwsEcsServiceServiceRegistriesDetails[] | undefined;
+  TaskDefinition?: string | undefined;
 }
 export interface AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails {
-  DeleteOnTermination?: boolean;
-  Encrypted?: boolean;
-  Iops?: number;
-  SnapshotId?: string;
-  VolumeSize?: number;
-  VolumeType?: string;
+  DeleteOnTermination?: boolean | undefined;
+  Encrypted?: boolean | undefined;
+  Iops?: number | undefined;
+  SnapshotId?: string | undefined;
+  VolumeSize?: number | undefined;
+  VolumeType?: string | undefined;
 }
 export interface AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails {
-  DeviceName?: string;
-  Ebs?: AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails;
-  NoDevice?: boolean;
-  VirtualName?: string;
+  DeviceName?: string | undefined;
+  Ebs?: AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails | undefined;
+  NoDevice?: boolean | undefined;
+  VirtualName?: string | undefined;
 }
 export type AwsAutoScalingLaunchConfigurationBlockDeviceMappingsList =
   AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails[];
 export interface AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsAutoScalingLaunchConfigurationMetadataOptions {
-  HttpEndpoint?: string;
-  HttpPutResponseHopLimit?: number;
-  HttpTokens?: string;
+  HttpEndpoint?: string | undefined;
+  HttpPutResponseHopLimit?: number | undefined;
+  HttpTokens?: string | undefined;
 }
 export interface AwsAutoScalingLaunchConfigurationDetails {
-  AssociatePublicIpAddress?: boolean;
-  BlockDeviceMappings?: AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails[];
-  ClassicLinkVpcId?: string;
-  ClassicLinkVpcSecurityGroups?: string[];
-  CreatedTime?: string;
-  EbsOptimized?: boolean;
-  IamInstanceProfile?: string;
-  ImageId?: string;
-  InstanceMonitoring?: AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails;
-  InstanceType?: string;
-  KernelId?: string;
-  KeyName?: string;
-  LaunchConfigurationName?: string;
-  PlacementTenancy?: string;
-  RamdiskId?: string;
-  SecurityGroups?: string[];
-  SpotPrice?: string;
-  UserData?: string;
-  MetadataOptions?: AwsAutoScalingLaunchConfigurationMetadataOptions;
+  AssociatePublicIpAddress?: boolean | undefined;
+  BlockDeviceMappings?: AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails[] | undefined;
+  ClassicLinkVpcId?: string | undefined;
+  ClassicLinkVpcSecurityGroups?: string[] | undefined;
+  CreatedTime?: string | undefined;
+  EbsOptimized?: boolean | undefined;
+  IamInstanceProfile?: string | undefined;
+  ImageId?: string | undefined;
+  InstanceMonitoring?: AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails | undefined;
+  InstanceType?: string | undefined;
+  KernelId?: string | undefined;
+  KeyName?: string | undefined;
+  LaunchConfigurationName?: string | undefined;
+  PlacementTenancy?: string | undefined;
+  RamdiskId?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  SpotPrice?: string | undefined;
+  UserData?: string | undefined;
+  MetadataOptions?: AwsAutoScalingLaunchConfigurationMetadataOptions | undefined;
 }
 export interface AwsEc2VpnConnectionVgwTelemetryDetails {
-  AcceptedRouteCount?: number;
-  CertificateArn?: string;
-  LastStatusChange?: string;
-  OutsideIpAddress?: string;
-  Status?: string;
-  StatusMessage?: string;
+  AcceptedRouteCount?: number | undefined;
+  CertificateArn?: string | undefined;
+  LastStatusChange?: string | undefined;
+  OutsideIpAddress?: string | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export type AwsEc2VpnConnectionVgwTelemetryList = AwsEc2VpnConnectionVgwTelemetryDetails[];
 export interface AwsEc2VpnConnectionOptionsTunnelOptionsDetails {
-  DpdTimeoutSeconds?: number;
-  IkeVersions?: string[];
-  OutsideIpAddress?: string;
-  Phase1DhGroupNumbers?: number[];
-  Phase1EncryptionAlgorithms?: string[];
-  Phase1IntegrityAlgorithms?: string[];
-  Phase1LifetimeSeconds?: number;
-  Phase2DhGroupNumbers?: number[];
-  Phase2EncryptionAlgorithms?: string[];
-  Phase2IntegrityAlgorithms?: string[];
-  Phase2LifetimeSeconds?: number;
-  PreSharedKey?: string;
-  RekeyFuzzPercentage?: number;
-  RekeyMarginTimeSeconds?: number;
-  ReplayWindowSize?: number;
-  TunnelInsideCidr?: string;
+  DpdTimeoutSeconds?: number | undefined;
+  IkeVersions?: string[] | undefined;
+  OutsideIpAddress?: string | undefined;
+  Phase1DhGroupNumbers?: number[] | undefined;
+  Phase1EncryptionAlgorithms?: string[] | undefined;
+  Phase1IntegrityAlgorithms?: string[] | undefined;
+  Phase1LifetimeSeconds?: number | undefined;
+  Phase2DhGroupNumbers?: number[] | undefined;
+  Phase2EncryptionAlgorithms?: string[] | undefined;
+  Phase2IntegrityAlgorithms?: string[] | undefined;
+  Phase2LifetimeSeconds?: number | undefined;
+  PreSharedKey?: string | undefined;
+  RekeyFuzzPercentage?: number | undefined;
+  RekeyMarginTimeSeconds?: number | undefined;
+  ReplayWindowSize?: number | undefined;
+  TunnelInsideCidr?: string | undefined;
 }
 export type AwsEc2VpnConnectionOptionsTunnelOptionsList =
   AwsEc2VpnConnectionOptionsTunnelOptionsDetails[];
 export interface AwsEc2VpnConnectionOptionsDetails {
-  StaticRoutesOnly?: boolean;
-  TunnelOptions?: AwsEc2VpnConnectionOptionsTunnelOptionsDetails[];
+  StaticRoutesOnly?: boolean | undefined;
+  TunnelOptions?: AwsEc2VpnConnectionOptionsTunnelOptionsDetails[] | undefined;
 }
 export interface AwsEc2VpnConnectionRoutesDetails {
-  DestinationCidrBlock?: string;
-  State?: string;
+  DestinationCidrBlock?: string | undefined;
+  State?: string | undefined;
 }
 export type AwsEc2VpnConnectionRoutesList = AwsEc2VpnConnectionRoutesDetails[];
 export interface AwsEc2VpnConnectionDetails {
-  VpnConnectionId?: string;
-  State?: string;
-  CustomerGatewayId?: string;
-  CustomerGatewayConfiguration?: string;
-  Type?: string;
-  VpnGatewayId?: string;
-  Category?: string;
-  VgwTelemetry?: AwsEc2VpnConnectionVgwTelemetryDetails[];
-  Options?: AwsEc2VpnConnectionOptionsDetails;
-  Routes?: AwsEc2VpnConnectionRoutesDetails[];
-  TransitGatewayId?: string;
+  VpnConnectionId?: string | undefined;
+  State?: string | undefined;
+  CustomerGatewayId?: string | undefined;
+  CustomerGatewayConfiguration?: string | undefined;
+  Type?: string | undefined;
+  VpnGatewayId?: string | undefined;
+  Category?: string | undefined;
+  VgwTelemetry?: AwsEc2VpnConnectionVgwTelemetryDetails[] | undefined;
+  Options?: AwsEc2VpnConnectionOptionsDetails | undefined;
+  Routes?: AwsEc2VpnConnectionRoutesDetails[] | undefined;
+  TransitGatewayId?: string | undefined;
 }
 export interface AwsEcrContainerImageDetails {
-  RegistryId?: string;
-  RepositoryName?: string;
-  Architecture?: string;
-  ImageDigest?: string;
-  ImageTags?: string[];
-  ImagePublishedAt?: string;
+  RegistryId?: string | undefined;
+  RepositoryName?: string | undefined;
+  Architecture?: string | undefined;
+  ImageDigest?: string | undefined;
+  ImageTags?: string[] | undefined;
+  ImagePublishedAt?: string | undefined;
 }
 export interface AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails {
-  Enabled?: boolean;
-  KmsKeyId?: string;
+  Enabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails {
-  AutomatedUpdateDate?: string;
-  Cancellable?: boolean;
-  CurrentVersion?: string;
-  Description?: string;
-  NewVersion?: string;
-  UpdateAvailable?: boolean;
-  UpdateStatus?: string;
-  OptionalDeployment?: boolean;
+  AutomatedUpdateDate?: string | undefined;
+  Cancellable?: boolean | undefined;
+  CurrentVersion?: string | undefined;
+  Description?: string | undefined;
+  NewVersion?: string | undefined;
+  UpdateAvailable?: boolean | undefined;
+  UpdateStatus?: string | undefined;
+  OptionalDeployment?: boolean | undefined;
 }
 export interface AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails {
-  AvailabilityZoneCount?: number;
+  AvailabilityZoneCount?: number | undefined;
 }
 export interface AwsOpenSearchServiceDomainClusterConfigDetails {
-  InstanceCount?: number;
-  WarmEnabled?: boolean;
-  WarmCount?: number;
-  DedicatedMasterEnabled?: boolean;
-  ZoneAwarenessConfig?: AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails;
-  DedicatedMasterCount?: number;
-  InstanceType?: string;
-  WarmType?: string;
-  ZoneAwarenessEnabled?: boolean;
-  DedicatedMasterType?: string;
+  InstanceCount?: number | undefined;
+  WarmEnabled?: boolean | undefined;
+  WarmCount?: number | undefined;
+  DedicatedMasterEnabled?: boolean | undefined;
+  ZoneAwarenessConfig?:
+    | AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails
+    | undefined;
+  DedicatedMasterCount?: number | undefined;
+  InstanceType?: string | undefined;
+  WarmType?: string | undefined;
+  ZoneAwarenessEnabled?: boolean | undefined;
+  DedicatedMasterType?: string | undefined;
 }
 export interface AwsOpenSearchServiceDomainDomainEndpointOptionsDetails {
-  CustomEndpointCertificateArn?: string;
-  CustomEndpointEnabled?: boolean;
-  EnforceHTTPS?: boolean;
-  CustomEndpoint?: string;
-  TLSSecurityPolicy?: string;
+  CustomEndpointCertificateArn?: string | undefined;
+  CustomEndpointEnabled?: boolean | undefined;
+  EnforceHTTPS?: boolean | undefined;
+  CustomEndpoint?: string | undefined;
+  TLSSecurityPolicy?: string | undefined;
 }
 export interface AwsOpenSearchServiceDomainVpcOptionsDetails {
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export interface AwsOpenSearchServiceDomainLogPublishingOption {
-  CloudWatchLogsLogGroupArn?: string;
-  Enabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface AwsOpenSearchServiceDomainLogPublishingOptionsDetails {
-  IndexSlowLogs?: AwsOpenSearchServiceDomainLogPublishingOption;
-  SearchSlowLogs?: AwsOpenSearchServiceDomainLogPublishingOption;
-  AuditLogs?: AwsOpenSearchServiceDomainLogPublishingOption;
+  IndexSlowLogs?: AwsOpenSearchServiceDomainLogPublishingOption | undefined;
+  SearchSlowLogs?: AwsOpenSearchServiceDomainLogPublishingOption | undefined;
+  AuditLogs?: AwsOpenSearchServiceDomainLogPublishingOption | undefined;
 }
 export interface AwsOpenSearchServiceDomainMasterUserOptionsDetails {
-  MasterUserArn?: string;
-  MasterUserName?: string;
-  MasterUserPassword?: string;
+  MasterUserArn?: string | undefined;
+  MasterUserName?: string | undefined;
+  MasterUserPassword?: string | undefined;
 }
 export interface AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  MasterUserOptions?: AwsOpenSearchServiceDomainMasterUserOptionsDetails;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  MasterUserOptions?: AwsOpenSearchServiceDomainMasterUserOptionsDetails | undefined;
 }
 export interface AwsOpenSearchServiceDomainDetails {
-  Arn?: string;
-  AccessPolicies?: string;
-  DomainName?: string;
-  Id?: string;
-  DomainEndpoint?: string;
-  EngineVersion?: string;
-  EncryptionAtRestOptions?: AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails;
-  NodeToNodeEncryptionOptions?: AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails;
-  ServiceSoftwareOptions?: AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails;
-  ClusterConfig?: AwsOpenSearchServiceDomainClusterConfigDetails;
-  DomainEndpointOptions?: AwsOpenSearchServiceDomainDomainEndpointOptionsDetails;
-  VpcOptions?: AwsOpenSearchServiceDomainVpcOptionsDetails;
-  LogPublishingOptions?: AwsOpenSearchServiceDomainLogPublishingOptionsDetails;
-  DomainEndpoints?: { [key: string]: string | undefined };
-  AdvancedSecurityOptions?: AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails;
+  Arn?: string | undefined;
+  AccessPolicies?: string | undefined;
+  DomainName?: string | undefined;
+  Id?: string | undefined;
+  DomainEndpoint?: string | undefined;
+  EngineVersion?: string | undefined;
+  EncryptionAtRestOptions?: AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails | undefined;
+  NodeToNodeEncryptionOptions?:
+    | AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails
+    | undefined;
+  ServiceSoftwareOptions?: AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails | undefined;
+  ClusterConfig?: AwsOpenSearchServiceDomainClusterConfigDetails | undefined;
+  DomainEndpointOptions?: AwsOpenSearchServiceDomainDomainEndpointOptionsDetails | undefined;
+  VpcOptions?: AwsOpenSearchServiceDomainVpcOptionsDetails | undefined;
+  LogPublishingOptions?: AwsOpenSearchServiceDomainLogPublishingOptionsDetails | undefined;
+  DomainEndpoints?: { [key: string]: string | undefined } | undefined;
+  AdvancedSecurityOptions?: AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails | undefined;
 }
 export interface AwsEc2VpcEndpointServiceServiceTypeDetails {
-  ServiceType?: string;
+  ServiceType?: string | undefined;
 }
 export type AwsEc2VpcEndpointServiceServiceTypeList = AwsEc2VpcEndpointServiceServiceTypeDetails[];
 export interface AwsEc2VpcEndpointServiceDetails {
-  AcceptanceRequired?: boolean;
-  AvailabilityZones?: string[];
-  BaseEndpointDnsNames?: string[];
-  ManagesVpcEndpoints?: boolean;
-  GatewayLoadBalancerArns?: string[];
-  NetworkLoadBalancerArns?: string[];
-  PrivateDnsName?: string;
-  ServiceId?: string;
-  ServiceName?: string;
-  ServiceState?: string;
-  ServiceType?: AwsEc2VpcEndpointServiceServiceTypeDetails[];
+  AcceptanceRequired?: boolean | undefined;
+  AvailabilityZones?: string[] | undefined;
+  BaseEndpointDnsNames?: string[] | undefined;
+  ManagesVpcEndpoints?: boolean | undefined;
+  GatewayLoadBalancerArns?: string[] | undefined;
+  NetworkLoadBalancerArns?: string[] | undefined;
+  PrivateDnsName?: string | undefined;
+  ServiceId?: string | undefined;
+  ServiceName?: string | undefined;
+  ServiceState?: string | undefined;
+  ServiceType?: AwsEc2VpcEndpointServiceServiceTypeDetails[] | undefined;
 }
 export interface AwsXrayEncryptionConfigDetails {
-  KeyId?: string;
-  Status?: string;
-  Type?: string;
+  KeyId?: string | undefined;
+  Status?: string | undefined;
+  Type?: string | undefined;
 }
 export interface AwsWafRateBasedRuleMatchPredicate {
-  DataId?: string;
-  Negated?: boolean;
-  Type?: string;
+  DataId?: string | undefined;
+  Negated?: boolean | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafRateBasedRuleMatchPredicateList = AwsWafRateBasedRuleMatchPredicate[];
 export interface AwsWafRateBasedRuleDetails {
-  MetricName?: string;
-  Name?: string;
-  RateKey?: string;
-  RateLimit?: number;
-  RuleId?: string;
-  MatchPredicates?: AwsWafRateBasedRuleMatchPredicate[];
+  MetricName?: string | undefined;
+  Name?: string | undefined;
+  RateKey?: string | undefined;
+  RateLimit?: number | undefined;
+  RuleId?: string | undefined;
+  MatchPredicates?: AwsWafRateBasedRuleMatchPredicate[] | undefined;
 }
 export interface AwsWafRegionalRateBasedRuleMatchPredicate {
-  DataId?: string;
-  Negated?: boolean;
-  Type?: string;
+  DataId?: string | undefined;
+  Negated?: boolean | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafRegionalRateBasedRuleMatchPredicateList =
   AwsWafRegionalRateBasedRuleMatchPredicate[];
 export interface AwsWafRegionalRateBasedRuleDetails {
-  MetricName?: string;
-  Name?: string;
-  RateKey?: string;
-  RateLimit?: number;
-  RuleId?: string;
-  MatchPredicates?: AwsWafRegionalRateBasedRuleMatchPredicate[];
+  MetricName?: string | undefined;
+  Name?: string | undefined;
+  RateKey?: string | undefined;
+  RateLimit?: number | undefined;
+  RuleId?: string | undefined;
+  MatchPredicates?: AwsWafRegionalRateBasedRuleMatchPredicate[] | undefined;
 }
 export interface AwsEcrRepositoryImageScanningConfigurationDetails {
-  ScanOnPush?: boolean;
+  ScanOnPush?: boolean | undefined;
 }
 export interface AwsEcrRepositoryLifecyclePolicyDetails {
-  LifecyclePolicyText?: string;
-  RegistryId?: string;
+  LifecyclePolicyText?: string | undefined;
+  RegistryId?: string | undefined;
 }
 export interface AwsEcrRepositoryDetails {
-  Arn?: string;
-  ImageScanningConfiguration?: AwsEcrRepositoryImageScanningConfigurationDetails;
-  ImageTagMutability?: string;
-  LifecyclePolicy?: AwsEcrRepositoryLifecyclePolicyDetails;
-  RepositoryName?: string;
-  RepositoryPolicyText?: string;
+  Arn?: string | undefined;
+  ImageScanningConfiguration?: AwsEcrRepositoryImageScanningConfigurationDetails | undefined;
+  ImageTagMutability?: string | undefined;
+  LifecyclePolicy?: AwsEcrRepositoryLifecyclePolicyDetails | undefined;
+  RepositoryName?: string | undefined;
+  RepositoryPolicyText?: string | undefined;
 }
 export interface AwsEksClusterResourcesVpcConfigDetails {
-  SecurityGroupIds?: string[];
-  SubnetIds?: string[];
-  EndpointPublicAccess?: boolean;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  EndpointPublicAccess?: boolean | undefined;
 }
 export interface AwsEksClusterLoggingClusterLoggingDetails {
-  Enabled?: boolean;
-  Types?: string[];
+  Enabled?: boolean | undefined;
+  Types?: string[] | undefined;
 }
 export type AwsEksClusterLoggingClusterLoggingList = AwsEksClusterLoggingClusterLoggingDetails[];
 export interface AwsEksClusterLoggingDetails {
-  ClusterLogging?: AwsEksClusterLoggingClusterLoggingDetails[];
+  ClusterLogging?: AwsEksClusterLoggingClusterLoggingDetails[] | undefined;
 }
 export interface AwsEksClusterDetails {
-  Arn?: string;
-  CertificateAuthorityData?: string;
-  ClusterStatus?: string;
-  Endpoint?: string;
-  Name?: string;
-  ResourcesVpcConfig?: AwsEksClusterResourcesVpcConfigDetails;
-  RoleArn?: string;
-  Version?: string;
-  Logging?: AwsEksClusterLoggingDetails;
+  Arn?: string | undefined;
+  CertificateAuthorityData?: string | undefined;
+  ClusterStatus?: string | undefined;
+  Endpoint?: string | undefined;
+  Name?: string | undefined;
+  ResourcesVpcConfig?: AwsEksClusterResourcesVpcConfigDetails | undefined;
+  RoleArn?: string | undefined;
+  Version?: string | undefined;
+  Logging?: AwsEksClusterLoggingDetails | undefined;
 }
 export interface FirewallPolicyStatefulRuleGroupReferencesDetails {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type FirewallPolicyStatefulRuleGroupReferencesList =
   FirewallPolicyStatefulRuleGroupReferencesDetails[];
 export interface StatelessCustomPublishMetricActionDimension {
-  Value?: string;
+  Value?: string | undefined;
 }
 export type StatelessCustomPublishMetricActionDimensionsList =
   StatelessCustomPublishMetricActionDimension[];
 export interface StatelessCustomPublishMetricAction {
-  Dimensions?: StatelessCustomPublishMetricActionDimension[];
+  Dimensions?: StatelessCustomPublishMetricActionDimension[] | undefined;
 }
 export interface StatelessCustomActionDefinition {
-  PublishMetricAction?: StatelessCustomPublishMetricAction;
+  PublishMetricAction?: StatelessCustomPublishMetricAction | undefined;
 }
 export interface FirewallPolicyStatelessCustomActionsDetails {
-  ActionDefinition?: StatelessCustomActionDefinition;
-  ActionName?: string;
+  ActionDefinition?: StatelessCustomActionDefinition | undefined;
+  ActionName?: string | undefined;
 }
 export type FirewallPolicyStatelessCustomActionsList =
   FirewallPolicyStatelessCustomActionsDetails[];
 export interface FirewallPolicyStatelessRuleGroupReferencesDetails {
-  Priority?: number;
-  ResourceArn?: string;
+  Priority?: number | undefined;
+  ResourceArn?: string | undefined;
 }
 export type FirewallPolicyStatelessRuleGroupReferencesList =
   FirewallPolicyStatelessRuleGroupReferencesDetails[];
 export interface FirewallPolicyDetails {
-  StatefulRuleGroupReferences?: FirewallPolicyStatefulRuleGroupReferencesDetails[];
-  StatelessCustomActions?: FirewallPolicyStatelessCustomActionsDetails[];
-  StatelessDefaultActions?: string[];
-  StatelessFragmentDefaultActions?: string[];
-  StatelessRuleGroupReferences?: FirewallPolicyStatelessRuleGroupReferencesDetails[];
+  StatefulRuleGroupReferences?: FirewallPolicyStatefulRuleGroupReferencesDetails[] | undefined;
+  StatelessCustomActions?: FirewallPolicyStatelessCustomActionsDetails[] | undefined;
+  StatelessDefaultActions?: string[] | undefined;
+  StatelessFragmentDefaultActions?: string[] | undefined;
+  StatelessRuleGroupReferences?: FirewallPolicyStatelessRuleGroupReferencesDetails[] | undefined;
 }
 export interface AwsNetworkFirewallFirewallPolicyDetails {
-  FirewallPolicy?: FirewallPolicyDetails;
-  FirewallPolicyArn?: string;
-  FirewallPolicyId?: string;
-  FirewallPolicyName?: string;
-  Description?: string;
+  FirewallPolicy?: FirewallPolicyDetails | undefined;
+  FirewallPolicyArn?: string | undefined;
+  FirewallPolicyId?: string | undefined;
+  FirewallPolicyName?: string | undefined;
+  Description?: string | undefined;
 }
 export interface AwsNetworkFirewallFirewallSubnetMappingsDetails {
-  SubnetId?: string;
+  SubnetId?: string | undefined;
 }
 export type AwsNetworkFirewallFirewallSubnetMappingsList =
   AwsNetworkFirewallFirewallSubnetMappingsDetails[];
 export interface AwsNetworkFirewallFirewallDetails {
-  DeleteProtection?: boolean;
-  Description?: string;
-  FirewallArn?: string;
-  FirewallId?: string;
-  FirewallName?: string;
-  FirewallPolicyArn?: string;
-  FirewallPolicyChangeProtection?: boolean;
-  SubnetChangeProtection?: boolean;
-  SubnetMappings?: AwsNetworkFirewallFirewallSubnetMappingsDetails[];
-  VpcId?: string;
+  DeleteProtection?: boolean | undefined;
+  Description?: string | undefined;
+  FirewallArn?: string | undefined;
+  FirewallId?: string | undefined;
+  FirewallName?: string | undefined;
+  FirewallPolicyArn?: string | undefined;
+  FirewallPolicyChangeProtection?: boolean | undefined;
+  SubnetChangeProtection?: boolean | undefined;
+  SubnetMappings?: AwsNetworkFirewallFirewallSubnetMappingsDetails[] | undefined;
+  VpcId?: string | undefined;
 }
 export interface RuleGroupVariablesIpSetsDetails {
-  Definition?: string[];
+  Definition?: string[] | undefined;
 }
 export interface RuleGroupVariablesPortSetsDetails {
-  Definition?: string[];
+  Definition?: string[] | undefined;
 }
 export interface RuleGroupVariables {
-  IpSets?: RuleGroupVariablesIpSetsDetails;
-  PortSets?: RuleGroupVariablesPortSetsDetails;
+  IpSets?: RuleGroupVariablesIpSetsDetails | undefined;
+  PortSets?: RuleGroupVariablesPortSetsDetails | undefined;
 }
 export interface RuleGroupSourceListDetails {
-  GeneratedRulesType?: string;
-  TargetTypes?: string[];
-  Targets?: string[];
+  GeneratedRulesType?: string | undefined;
+  TargetTypes?: string[] | undefined;
+  Targets?: string[] | undefined;
 }
 export interface RuleGroupSourceStatefulRulesHeaderDetails {
-  Destination?: string;
-  DestinationPort?: string;
-  Direction?: string;
-  Protocol?: string;
-  Source?: string;
-  SourcePort?: string;
+  Destination?: string | undefined;
+  DestinationPort?: string | undefined;
+  Direction?: string | undefined;
+  Protocol?: string | undefined;
+  Source?: string | undefined;
+  SourcePort?: string | undefined;
 }
 export type RuleGroupSourceStatefulRulesRuleOptionsSettingsList = string[];
 export interface RuleGroupSourceStatefulRulesOptionsDetails {
-  Keyword?: string;
-  Settings?: string[];
+  Keyword?: string | undefined;
+  Settings?: string[] | undefined;
 }
 export type RuleGroupSourceStatefulRulesOptionsList = RuleGroupSourceStatefulRulesOptionsDetails[];
 export interface RuleGroupSourceStatefulRulesDetails {
-  Action?: string;
-  Header?: RuleGroupSourceStatefulRulesHeaderDetails;
-  RuleOptions?: RuleGroupSourceStatefulRulesOptionsDetails[];
+  Action?: string | undefined;
+  Header?: RuleGroupSourceStatefulRulesHeaderDetails | undefined;
+  RuleOptions?: RuleGroupSourceStatefulRulesOptionsDetails[] | undefined;
 }
 export type RuleGroupSourceStatefulRulesList = RuleGroupSourceStatefulRulesDetails[];
 export interface RuleGroupSourceCustomActionsDetails {
-  ActionDefinition?: StatelessCustomActionDefinition;
-  ActionName?: string;
+  ActionDefinition?: StatelessCustomActionDefinition | undefined;
+  ActionName?: string | undefined;
 }
 export type RuleGroupSourceCustomActionsList = RuleGroupSourceCustomActionsDetails[];
 export interface RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts {
-  FromPort?: number;
-  ToPort?: number;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
 }
 export type RuleGroupSourceStatelessRuleMatchAttributesDestinationPortsList =
   RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts[];
 export interface RuleGroupSourceStatelessRuleMatchAttributesDestinations {
-  AddressDefinition?: string;
+  AddressDefinition?: string | undefined;
 }
 export type RuleGroupSourceStatelessRuleMatchAttributesDestinationsList =
   RuleGroupSourceStatelessRuleMatchAttributesDestinations[];
 export type RuleGroupSourceStatelessRuleMatchAttributesProtocolsList = number[];
 export interface RuleGroupSourceStatelessRuleMatchAttributesSourcePorts {
-  FromPort?: number;
-  ToPort?: number;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
 }
 export type RuleGroupSourceStatelessRuleMatchAttributesSourcePortsList =
   RuleGroupSourceStatelessRuleMatchAttributesSourcePorts[];
 export interface RuleGroupSourceStatelessRuleMatchAttributesSources {
-  AddressDefinition?: string;
+  AddressDefinition?: string | undefined;
 }
 export type RuleGroupSourceStatelessRuleMatchAttributesSourcesList =
   RuleGroupSourceStatelessRuleMatchAttributesSources[];
 export interface RuleGroupSourceStatelessRuleMatchAttributesTcpFlags {
-  Flags?: string[];
-  Masks?: string[];
+  Flags?: string[] | undefined;
+  Masks?: string[] | undefined;
 }
 export type RuleGroupSourceStatelessRuleMatchAttributesTcpFlagsList =
   RuleGroupSourceStatelessRuleMatchAttributesTcpFlags[];
 export interface RuleGroupSourceStatelessRuleMatchAttributes {
-  DestinationPorts?: RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts[];
-  Destinations?: RuleGroupSourceStatelessRuleMatchAttributesDestinations[];
-  Protocols?: number[];
-  SourcePorts?: RuleGroupSourceStatelessRuleMatchAttributesSourcePorts[];
-  Sources?: RuleGroupSourceStatelessRuleMatchAttributesSources[];
-  TcpFlags?: RuleGroupSourceStatelessRuleMatchAttributesTcpFlags[];
+  DestinationPorts?: RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts[] | undefined;
+  Destinations?: RuleGroupSourceStatelessRuleMatchAttributesDestinations[] | undefined;
+  Protocols?: number[] | undefined;
+  SourcePorts?: RuleGroupSourceStatelessRuleMatchAttributesSourcePorts[] | undefined;
+  Sources?: RuleGroupSourceStatelessRuleMatchAttributesSources[] | undefined;
+  TcpFlags?: RuleGroupSourceStatelessRuleMatchAttributesTcpFlags[] | undefined;
 }
 export interface RuleGroupSourceStatelessRuleDefinition {
-  Actions?: string[];
-  MatchAttributes?: RuleGroupSourceStatelessRuleMatchAttributes;
+  Actions?: string[] | undefined;
+  MatchAttributes?: RuleGroupSourceStatelessRuleMatchAttributes | undefined;
 }
 export interface RuleGroupSourceStatelessRulesDetails {
-  Priority?: number;
-  RuleDefinition?: RuleGroupSourceStatelessRuleDefinition;
+  Priority?: number | undefined;
+  RuleDefinition?: RuleGroupSourceStatelessRuleDefinition | undefined;
 }
 export type RuleGroupSourceStatelessRulesList = RuleGroupSourceStatelessRulesDetails[];
 export interface RuleGroupSourceStatelessRulesAndCustomActionsDetails {
-  CustomActions?: RuleGroupSourceCustomActionsDetails[];
-  StatelessRules?: RuleGroupSourceStatelessRulesDetails[];
+  CustomActions?: RuleGroupSourceCustomActionsDetails[] | undefined;
+  StatelessRules?: RuleGroupSourceStatelessRulesDetails[] | undefined;
 }
 export interface RuleGroupSource {
-  RulesSourceList?: RuleGroupSourceListDetails;
-  RulesString?: string;
-  StatefulRules?: RuleGroupSourceStatefulRulesDetails[];
-  StatelessRulesAndCustomActions?: RuleGroupSourceStatelessRulesAndCustomActionsDetails;
+  RulesSourceList?: RuleGroupSourceListDetails | undefined;
+  RulesString?: string | undefined;
+  StatefulRules?: RuleGroupSourceStatefulRulesDetails[] | undefined;
+  StatelessRulesAndCustomActions?: RuleGroupSourceStatelessRulesAndCustomActionsDetails | undefined;
 }
 export interface RuleGroupDetails {
-  RuleVariables?: RuleGroupVariables;
-  RulesSource?: RuleGroupSource;
+  RuleVariables?: RuleGroupVariables | undefined;
+  RulesSource?: RuleGroupSource | undefined;
 }
 export interface AwsNetworkFirewallRuleGroupDetails {
-  Capacity?: number;
-  Description?: string;
-  RuleGroup?: RuleGroupDetails;
-  RuleGroupArn?: string;
-  RuleGroupId?: string;
-  RuleGroupName?: string;
-  Type?: string;
+  Capacity?: number | undefined;
+  Description?: string | undefined;
+  RuleGroup?: RuleGroupDetails | undefined;
+  RuleGroupArn?: string | undefined;
+  RuleGroupId?: string | undefined;
+  RuleGroupName?: string | undefined;
+  Type?: string | undefined;
 }
 export interface AwsRdsDbSecurityGroupEc2SecurityGroup {
-  Ec2SecurityGroupId?: string;
-  Ec2SecurityGroupName?: string;
-  Ec2SecurityGroupOwnerId?: string;
-  Status?: string;
+  Ec2SecurityGroupId?: string | undefined;
+  Ec2SecurityGroupName?: string | undefined;
+  Ec2SecurityGroupOwnerId?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRdsDbSecurityGroupEc2SecurityGroups = AwsRdsDbSecurityGroupEc2SecurityGroup[];
 export interface AwsRdsDbSecurityGroupIpRange {
-  CidrIp?: string;
-  Status?: string;
+  CidrIp?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsRdsDbSecurityGroupIpRanges = AwsRdsDbSecurityGroupIpRange[];
 export interface AwsRdsDbSecurityGroupDetails {
-  DbSecurityGroupArn?: string;
-  DbSecurityGroupDescription?: string;
-  DbSecurityGroupName?: string;
-  Ec2SecurityGroups?: AwsRdsDbSecurityGroupEc2SecurityGroup[];
-  IpRanges?: AwsRdsDbSecurityGroupIpRange[];
-  OwnerId?: string;
-  VpcId?: string;
+  DbSecurityGroupArn?: string | undefined;
+  DbSecurityGroupDescription?: string | undefined;
+  DbSecurityGroupName?: string | undefined;
+  Ec2SecurityGroups?: AwsRdsDbSecurityGroupEc2SecurityGroup[] | undefined;
+  IpRanges?: AwsRdsDbSecurityGroupIpRange[] | undefined;
+  OwnerId?: string | undefined;
+  VpcId?: string | undefined;
 }
 export interface AwsKinesisStreamStreamEncryptionDetails {
-  EncryptionType?: string;
-  KeyId?: string;
+  EncryptionType?: string | undefined;
+  KeyId?: string | undefined;
 }
 export interface AwsKinesisStreamDetails {
-  Name?: string;
-  Arn?: string;
-  StreamEncryption?: AwsKinesisStreamStreamEncryptionDetails;
-  ShardCount?: number;
-  RetentionPeriodHours?: number;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  StreamEncryption?: AwsKinesisStreamStreamEncryptionDetails | undefined;
+  ShardCount?: number | undefined;
+  RetentionPeriodHours?: number | undefined;
 }
 export interface AwsEc2TransitGatewayDetails {
-  Id?: string;
-  Description?: string;
-  DefaultRouteTablePropagation?: string;
-  AutoAcceptSharedAttachments?: string;
-  DefaultRouteTableAssociation?: string;
-  TransitGatewayCidrBlocks?: string[];
-  AssociationDefaultRouteTableId?: string;
-  PropagationDefaultRouteTableId?: string;
-  VpnEcmpSupport?: string;
-  DnsSupport?: string;
-  MulticastSupport?: string;
-  AmazonSideAsn?: number;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  DefaultRouteTablePropagation?: string | undefined;
+  AutoAcceptSharedAttachments?: string | undefined;
+  DefaultRouteTableAssociation?: string | undefined;
+  TransitGatewayCidrBlocks?: string[] | undefined;
+  AssociationDefaultRouteTableId?: string | undefined;
+  PropagationDefaultRouteTableId?: string | undefined;
+  VpnEcmpSupport?: string | undefined;
+  DnsSupport?: string | undefined;
+  MulticastSupport?: string | undefined;
+  AmazonSideAsn?: number | undefined;
 }
 export interface AwsEfsAccessPointPosixUserDetails {
-  Gid?: string;
-  SecondaryGids?: string[];
-  Uid?: string;
+  Gid?: string | undefined;
+  SecondaryGids?: string[] | undefined;
+  Uid?: string | undefined;
 }
 export interface AwsEfsAccessPointRootDirectoryCreationInfoDetails {
-  OwnerGid?: string;
-  OwnerUid?: string;
-  Permissions?: string;
+  OwnerGid?: string | undefined;
+  OwnerUid?: string | undefined;
+  Permissions?: string | undefined;
 }
 export interface AwsEfsAccessPointRootDirectoryDetails {
-  CreationInfo?: AwsEfsAccessPointRootDirectoryCreationInfoDetails;
-  Path?: string;
+  CreationInfo?: AwsEfsAccessPointRootDirectoryCreationInfoDetails | undefined;
+  Path?: string | undefined;
 }
 export interface AwsEfsAccessPointDetails {
-  AccessPointId?: string;
-  Arn?: string;
-  ClientToken?: string;
-  FileSystemId?: string;
-  PosixUser?: AwsEfsAccessPointPosixUserDetails;
-  RootDirectory?: AwsEfsAccessPointRootDirectoryDetails;
+  AccessPointId?: string | undefined;
+  Arn?: string | undefined;
+  ClientToken?: string | undefined;
+  FileSystemId?: string | undefined;
+  PosixUser?: AwsEfsAccessPointPosixUserDetails | undefined;
+  RootDirectory?: AwsEfsAccessPointRootDirectoryDetails | undefined;
 }
 export interface AwsCloudFormationStackDriftInformationDetails {
-  StackDriftStatus?: string;
+  StackDriftStatus?: string | undefined;
 }
 export interface AwsCloudFormationStackOutputsDetails {
-  Description?: string;
-  OutputKey?: string;
-  OutputValue?: string;
+  Description?: string | undefined;
+  OutputKey?: string | undefined;
+  OutputValue?: string | undefined;
 }
 export type AwsCloudFormationStackOutputsList = AwsCloudFormationStackOutputsDetails[];
 export interface AwsCloudFormationStackDetails {
-  Capabilities?: string[];
-  CreationTime?: string;
-  Description?: string;
-  DisableRollback?: boolean;
-  DriftInformation?: AwsCloudFormationStackDriftInformationDetails;
-  EnableTerminationProtection?: boolean;
-  LastUpdatedTime?: string;
-  NotificationArns?: string[];
-  Outputs?: AwsCloudFormationStackOutputsDetails[];
-  RoleArn?: string;
-  StackId?: string;
-  StackName?: string;
-  StackStatus?: string;
-  StackStatusReason?: string;
-  TimeoutInMinutes?: number;
+  Capabilities?: string[] | undefined;
+  CreationTime?: string | undefined;
+  Description?: string | undefined;
+  DisableRollback?: boolean | undefined;
+  DriftInformation?: AwsCloudFormationStackDriftInformationDetails | undefined;
+  EnableTerminationProtection?: boolean | undefined;
+  LastUpdatedTime?: string | undefined;
+  NotificationArns?: string[] | undefined;
+  Outputs?: AwsCloudFormationStackOutputsDetails[] | undefined;
+  RoleArn?: string | undefined;
+  StackId?: string | undefined;
+  StackName?: string | undefined;
+  StackStatus?: string | undefined;
+  StackStatusReason?: string | undefined;
+  TimeoutInMinutes?: number | undefined;
 }
 export interface AwsCloudWatchAlarmDimensionsDetails {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsCloudWatchAlarmDimensionsList = AwsCloudWatchAlarmDimensionsDetails[];
 export interface AwsCloudWatchAlarmDetails {
-  ActionsEnabled?: boolean;
-  AlarmActions?: string[];
-  AlarmArn?: string;
-  AlarmConfigurationUpdatedTimestamp?: string;
-  AlarmDescription?: string;
-  AlarmName?: string;
-  ComparisonOperator?: string;
-  DatapointsToAlarm?: number;
-  Dimensions?: AwsCloudWatchAlarmDimensionsDetails[];
-  EvaluateLowSampleCountPercentile?: string;
-  EvaluationPeriods?: number;
-  ExtendedStatistic?: string;
-  InsufficientDataActions?: string[];
-  MetricName?: string;
-  Namespace?: string;
-  OkActions?: string[];
-  Period?: number;
-  Statistic?: string;
-  Threshold?: number;
-  ThresholdMetricId?: string;
-  TreatMissingData?: string;
-  Unit?: string;
+  ActionsEnabled?: boolean | undefined;
+  AlarmActions?: string[] | undefined;
+  AlarmArn?: string | undefined;
+  AlarmConfigurationUpdatedTimestamp?: string | undefined;
+  AlarmDescription?: string | undefined;
+  AlarmName?: string | undefined;
+  ComparisonOperator?: string | undefined;
+  DatapointsToAlarm?: number | undefined;
+  Dimensions?: AwsCloudWatchAlarmDimensionsDetails[] | undefined;
+  EvaluateLowSampleCountPercentile?: string | undefined;
+  EvaluationPeriods?: number | undefined;
+  ExtendedStatistic?: string | undefined;
+  InsufficientDataActions?: string[] | undefined;
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  OkActions?: string[] | undefined;
+  Period?: number | undefined;
+  Statistic?: string | undefined;
+  Threshold?: number | undefined;
+  ThresholdMetricId?: string | undefined;
+  TreatMissingData?: string | undefined;
+  Unit?: string | undefined;
 }
 export interface VpcInfoCidrBlockSetDetails {
-  CidrBlock?: string;
+  CidrBlock?: string | undefined;
 }
 export type VpcInfoCidrBlockSetList = VpcInfoCidrBlockSetDetails[];
 export interface VpcInfoIpv6CidrBlockSetDetails {
-  Ipv6CidrBlock?: string;
+  Ipv6CidrBlock?: string | undefined;
 }
 export type VpcInfoIpv6CidrBlockSetList = VpcInfoIpv6CidrBlockSetDetails[];
 export interface VpcInfoPeeringOptionsDetails {
-  AllowDnsResolutionFromRemoteVpc?: boolean;
-  AllowEgressFromLocalClassicLinkToRemoteVpc?: boolean;
-  AllowEgressFromLocalVpcToRemoteClassicLink?: boolean;
+  AllowDnsResolutionFromRemoteVpc?: boolean | undefined;
+  AllowEgressFromLocalClassicLinkToRemoteVpc?: boolean | undefined;
+  AllowEgressFromLocalVpcToRemoteClassicLink?: boolean | undefined;
 }
 export interface AwsEc2VpcPeeringConnectionVpcInfoDetails {
-  CidrBlock?: string;
-  CidrBlockSet?: VpcInfoCidrBlockSetDetails[];
-  Ipv6CidrBlockSet?: VpcInfoIpv6CidrBlockSetDetails[];
-  OwnerId?: string;
-  PeeringOptions?: VpcInfoPeeringOptionsDetails;
-  Region?: string;
-  VpcId?: string;
+  CidrBlock?: string | undefined;
+  CidrBlockSet?: VpcInfoCidrBlockSetDetails[] | undefined;
+  Ipv6CidrBlockSet?: VpcInfoIpv6CidrBlockSetDetails[] | undefined;
+  OwnerId?: string | undefined;
+  PeeringOptions?: VpcInfoPeeringOptionsDetails | undefined;
+  Region?: string | undefined;
+  VpcId?: string | undefined;
 }
 export interface AwsEc2VpcPeeringConnectionStatusDetails {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface AwsEc2VpcPeeringConnectionDetails {
-  AccepterVpcInfo?: AwsEc2VpcPeeringConnectionVpcInfoDetails;
-  ExpirationTime?: string;
-  RequesterVpcInfo?: AwsEc2VpcPeeringConnectionVpcInfoDetails;
-  Status?: AwsEc2VpcPeeringConnectionStatusDetails;
-  VpcPeeringConnectionId?: string;
+  AccepterVpcInfo?: AwsEc2VpcPeeringConnectionVpcInfoDetails | undefined;
+  ExpirationTime?: string | undefined;
+  RequesterVpcInfo?: AwsEc2VpcPeeringConnectionVpcInfoDetails | undefined;
+  Status?: AwsEc2VpcPeeringConnectionStatusDetails | undefined;
+  VpcPeeringConnectionId?: string | undefined;
 }
 export interface AwsWafRegionalRuleGroupRulesActionDetails {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface AwsWafRegionalRuleGroupRulesDetails {
-  Action?: AwsWafRegionalRuleGroupRulesActionDetails;
-  Priority?: number;
-  RuleId?: string;
-  Type?: string;
+  Action?: AwsWafRegionalRuleGroupRulesActionDetails | undefined;
+  Priority?: number | undefined;
+  RuleId?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafRegionalRuleGroupRulesList = AwsWafRegionalRuleGroupRulesDetails[];
 export interface AwsWafRegionalRuleGroupDetails {
-  MetricName?: string;
-  Name?: string;
-  RuleGroupId?: string;
-  Rules?: AwsWafRegionalRuleGroupRulesDetails[];
+  MetricName?: string | undefined;
+  Name?: string | undefined;
+  RuleGroupId?: string | undefined;
+  Rules?: AwsWafRegionalRuleGroupRulesDetails[] | undefined;
 }
 export interface AwsWafRegionalRulePredicateListDetails {
-  DataId?: string;
-  Negated?: boolean;
-  Type?: string;
+  DataId?: string | undefined;
+  Negated?: boolean | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafRegionalRulePredicateList = AwsWafRegionalRulePredicateListDetails[];
 export interface AwsWafRegionalRuleDetails {
-  MetricName?: string;
-  Name?: string;
-  PredicateList?: AwsWafRegionalRulePredicateListDetails[];
-  RuleId?: string;
+  MetricName?: string | undefined;
+  Name?: string | undefined;
+  PredicateList?: AwsWafRegionalRulePredicateListDetails[] | undefined;
+  RuleId?: string | undefined;
 }
 export interface AwsWafRegionalWebAclRulesListActionDetails {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface AwsWafRegionalWebAclRulesListOverrideActionDetails {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface AwsWafRegionalWebAclRulesListDetails {
-  Action?: AwsWafRegionalWebAclRulesListActionDetails;
-  OverrideAction?: AwsWafRegionalWebAclRulesListOverrideActionDetails;
-  Priority?: number;
-  RuleId?: string;
-  Type?: string;
+  Action?: AwsWafRegionalWebAclRulesListActionDetails | undefined;
+  OverrideAction?: AwsWafRegionalWebAclRulesListOverrideActionDetails | undefined;
+  Priority?: number | undefined;
+  RuleId?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafRegionalWebAclRulesList = AwsWafRegionalWebAclRulesListDetails[];
 export interface AwsWafRegionalWebAclDetails {
-  DefaultAction?: string;
-  MetricName?: string;
-  Name?: string;
-  RulesList?: AwsWafRegionalWebAclRulesListDetails[];
-  WebAclId?: string;
+  DefaultAction?: string | undefined;
+  MetricName?: string | undefined;
+  Name?: string | undefined;
+  RulesList?: AwsWafRegionalWebAclRulesListDetails[] | undefined;
+  WebAclId?: string | undefined;
 }
 export interface AwsWafRulePredicateListDetails {
-  DataId?: string;
-  Negated?: boolean;
-  Type?: string;
+  DataId?: string | undefined;
+  Negated?: boolean | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafRulePredicateList = AwsWafRulePredicateListDetails[];
 export interface AwsWafRuleDetails {
-  MetricName?: string;
-  Name?: string;
-  PredicateList?: AwsWafRulePredicateListDetails[];
-  RuleId?: string;
+  MetricName?: string | undefined;
+  Name?: string | undefined;
+  PredicateList?: AwsWafRulePredicateListDetails[] | undefined;
+  RuleId?: string | undefined;
 }
 export interface AwsWafRuleGroupRulesActionDetails {
-  Type?: string;
+  Type?: string | undefined;
 }
 export interface AwsWafRuleGroupRulesDetails {
-  Action?: AwsWafRuleGroupRulesActionDetails;
-  Priority?: number;
-  RuleId?: string;
-  Type?: string;
+  Action?: AwsWafRuleGroupRulesActionDetails | undefined;
+  Priority?: number | undefined;
+  RuleId?: string | undefined;
+  Type?: string | undefined;
 }
 export type AwsWafRuleGroupRulesList = AwsWafRuleGroupRulesDetails[];
 export interface AwsWafRuleGroupDetails {
-  MetricName?: string;
-  Name?: string;
-  RuleGroupId?: string;
-  Rules?: AwsWafRuleGroupRulesDetails[];
+  MetricName?: string | undefined;
+  Name?: string | undefined;
+  RuleGroupId?: string | undefined;
+  Rules?: AwsWafRuleGroupRulesDetails[] | undefined;
 }
 export interface AwsEcsTaskVolumeHostDetails {
-  SourcePath?: string;
+  SourcePath?: string | undefined;
 }
 export interface AwsEcsTaskVolumeDetails {
-  Name?: string;
-  Host?: AwsEcsTaskVolumeHostDetails;
+  Name?: string | undefined;
+  Host?: AwsEcsTaskVolumeHostDetails | undefined;
 }
 export type AwsEcsTaskVolumeDetailsList = AwsEcsTaskVolumeDetails[];
 export type AwsEcsContainerDetailsList = AwsEcsContainerDetails[];
 export interface AwsEcsTaskDetails {
-  ClusterArn?: string;
-  TaskDefinitionArn?: string;
-  Version?: string;
-  CreatedAt?: string;
-  StartedAt?: string;
-  StartedBy?: string;
-  Group?: string;
-  Volumes?: AwsEcsTaskVolumeDetails[];
-  Containers?: AwsEcsContainerDetails[];
+  ClusterArn?: string | undefined;
+  TaskDefinitionArn?: string | undefined;
+  Version?: string | undefined;
+  CreatedAt?: string | undefined;
+  StartedAt?: string | undefined;
+  StartedBy?: string | undefined;
+  Group?: string | undefined;
+  Volumes?: AwsEcsTaskVolumeDetails[] | undefined;
+  Containers?: AwsEcsContainerDetails[] | undefined;
 }
 export interface AwsBackupBackupVaultNotificationsDetails {
-  BackupVaultEvents?: string[];
-  SnsTopicArn?: string;
+  BackupVaultEvents?: string[] | undefined;
+  SnsTopicArn?: string | undefined;
 }
 export interface AwsBackupBackupVaultDetails {
-  BackupVaultArn?: string;
-  BackupVaultName?: string;
-  EncryptionKeyArn?: string;
-  Notifications?: AwsBackupBackupVaultNotificationsDetails;
-  AccessPolicy?: string;
+  BackupVaultArn?: string | undefined;
+  BackupVaultName?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  Notifications?: AwsBackupBackupVaultNotificationsDetails | undefined;
+  AccessPolicy?: string | undefined;
 }
 export interface AwsBackupBackupPlanAdvancedBackupSettingsDetails {
-  BackupOptions?: { [key: string]: string | undefined };
-  ResourceType?: string;
+  BackupOptions?: { [key: string]: string | undefined } | undefined;
+  ResourceType?: string | undefined;
 }
 export type AwsBackupBackupPlanAdvancedBackupSettingsList =
   AwsBackupBackupPlanAdvancedBackupSettingsDetails[];
 export interface AwsBackupBackupPlanLifecycleDetails {
-  DeleteAfterDays?: number;
-  MoveToColdStorageAfterDays?: number;
+  DeleteAfterDays?: number | undefined;
+  MoveToColdStorageAfterDays?: number | undefined;
 }
 export interface AwsBackupBackupPlanRuleCopyActionsDetails {
-  DestinationBackupVaultArn?: string;
-  Lifecycle?: AwsBackupBackupPlanLifecycleDetails;
+  DestinationBackupVaultArn?: string | undefined;
+  Lifecycle?: AwsBackupBackupPlanLifecycleDetails | undefined;
 }
 export type AwsBackupBackupPlanRuleCopyActionsList = AwsBackupBackupPlanRuleCopyActionsDetails[];
 export interface AwsBackupBackupPlanRuleDetails {
-  TargetBackupVault?: string;
-  StartWindowMinutes?: number;
-  ScheduleExpression?: string;
-  RuleName?: string;
-  RuleId?: string;
-  EnableContinuousBackup?: boolean;
-  CompletionWindowMinutes?: number;
-  CopyActions?: AwsBackupBackupPlanRuleCopyActionsDetails[];
-  Lifecycle?: AwsBackupBackupPlanLifecycleDetails;
+  TargetBackupVault?: string | undefined;
+  StartWindowMinutes?: number | undefined;
+  ScheduleExpression?: string | undefined;
+  RuleName?: string | undefined;
+  RuleId?: string | undefined;
+  EnableContinuousBackup?: boolean | undefined;
+  CompletionWindowMinutes?: number | undefined;
+  CopyActions?: AwsBackupBackupPlanRuleCopyActionsDetails[] | undefined;
+  Lifecycle?: AwsBackupBackupPlanLifecycleDetails | undefined;
 }
 export type AwsBackupBackupPlanRuleList = AwsBackupBackupPlanRuleDetails[];
 export interface AwsBackupBackupPlanBackupPlanDetails {
-  BackupPlanName?: string;
-  AdvancedBackupSettings?: AwsBackupBackupPlanAdvancedBackupSettingsDetails[];
-  BackupPlanRule?: AwsBackupBackupPlanRuleDetails[];
+  BackupPlanName?: string | undefined;
+  AdvancedBackupSettings?: AwsBackupBackupPlanAdvancedBackupSettingsDetails[] | undefined;
+  BackupPlanRule?: AwsBackupBackupPlanRuleDetails[] | undefined;
 }
 export interface AwsBackupBackupPlanDetails {
-  BackupPlan?: AwsBackupBackupPlanBackupPlanDetails;
-  BackupPlanArn?: string;
-  BackupPlanId?: string;
-  VersionId?: string;
+  BackupPlan?: AwsBackupBackupPlanBackupPlanDetails | undefined;
+  BackupPlanArn?: string | undefined;
+  BackupPlanId?: string | undefined;
+  VersionId?: string | undefined;
 }
 export interface AwsBackupRecoveryPointCalculatedLifecycleDetails {
-  DeleteAt?: string;
-  MoveToColdStorageAt?: string;
+  DeleteAt?: string | undefined;
+  MoveToColdStorageAt?: string | undefined;
 }
 export interface AwsBackupRecoveryPointCreatedByDetails {
-  BackupPlanArn?: string;
-  BackupPlanId?: string;
-  BackupPlanVersion?: string;
-  BackupRuleId?: string;
+  BackupPlanArn?: string | undefined;
+  BackupPlanId?: string | undefined;
+  BackupPlanVersion?: string | undefined;
+  BackupRuleId?: string | undefined;
 }
 export interface AwsBackupRecoveryPointLifecycleDetails {
-  DeleteAfterDays?: number;
-  MoveToColdStorageAfterDays?: number;
+  DeleteAfterDays?: number | undefined;
+  MoveToColdStorageAfterDays?: number | undefined;
 }
 export interface AwsBackupRecoveryPointDetails {
-  BackupSizeInBytes?: number;
-  BackupVaultArn?: string;
-  BackupVaultName?: string;
-  CalculatedLifecycle?: AwsBackupRecoveryPointCalculatedLifecycleDetails;
-  CompletionDate?: string;
-  CreatedBy?: AwsBackupRecoveryPointCreatedByDetails;
-  CreationDate?: string;
-  EncryptionKeyArn?: string;
-  IamRoleArn?: string;
-  IsEncrypted?: boolean;
-  LastRestoreTime?: string;
-  Lifecycle?: AwsBackupRecoveryPointLifecycleDetails;
-  RecoveryPointArn?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  SourceBackupVaultArn?: string;
-  Status?: string;
-  StatusMessage?: string;
-  StorageClass?: string;
+  BackupSizeInBytes?: number | undefined;
+  BackupVaultArn?: string | undefined;
+  BackupVaultName?: string | undefined;
+  CalculatedLifecycle?: AwsBackupRecoveryPointCalculatedLifecycleDetails | undefined;
+  CompletionDate?: string | undefined;
+  CreatedBy?: AwsBackupRecoveryPointCreatedByDetails | undefined;
+  CreationDate?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  IamRoleArn?: string | undefined;
+  IsEncrypted?: boolean | undefined;
+  LastRestoreTime?: string | undefined;
+  Lifecycle?: AwsBackupRecoveryPointLifecycleDetails | undefined;
+  RecoveryPointArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  SourceBackupVaultArn?: string | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
+  StorageClass?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails {
-  DeleteOnTermination?: boolean;
-  Encrypted?: boolean;
-  Iops?: number;
-  KmsKeyId?: string;
-  SnapshotId?: string;
-  Throughput?: number;
-  VolumeSize?: number;
-  VolumeType?: string;
+  DeleteOnTermination?: boolean | undefined;
+  Encrypted?: boolean | undefined;
+  Iops?: number | undefined;
+  KmsKeyId?: string | undefined;
+  SnapshotId?: string | undefined;
+  Throughput?: number | undefined;
+  VolumeSize?: number | undefined;
+  VolumeType?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails {
-  DeviceName?: string;
-  Ebs?: AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails;
-  NoDevice?: string;
-  VirtualName?: string;
+  DeviceName?: string | undefined;
+  Ebs?: AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails | undefined;
+  NoDevice?: string | undefined;
+  VirtualName?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataBlockDeviceMappingSetList =
   AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails[];
 export interface AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails {
-  CapacityReservationId?: string;
-  CapacityReservationResourceGroupArn?: string;
+  CapacityReservationId?: string | undefined;
+  CapacityReservationResourceGroupArn?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails {
-  CapacityReservationPreference?: string;
-  CapacityReservationTarget?: AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails;
+  CapacityReservationPreference?: string | undefined;
+  CapacityReservationTarget?:
+    | AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails
+    | undefined;
 }
 export interface AwsEc2LaunchTemplateDataCpuOptionsDetails {
-  CoreCount?: number;
-  ThreadsPerCore?: number;
+  CoreCount?: number | undefined;
+  ThreadsPerCore?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataCreditSpecificationDetails {
-  CpuCredits?: string;
+  CpuCredits?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails {
-  Type?: string;
+  Type?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataElasticGpuSpecificationSetList =
   AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails[];
 export interface AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails {
-  Count?: number;
-  Type?: string;
+  Count?: number | undefined;
+  Type?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetList =
   AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails[];
 export interface AwsEc2LaunchTemplateDataEnclaveOptionsDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsEc2LaunchTemplateDataHibernationOptionsDetails {
-  Configured?: boolean;
+  Configured?: boolean | undefined;
 }
 export interface AwsEc2LaunchTemplateDataIamInstanceProfileDetails {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails {
-  BlockDurationMinutes?: number;
-  InstanceInterruptionBehavior?: string;
-  MaxPrice?: string;
-  SpotInstanceType?: string;
-  ValidUntil?: string;
+  BlockDurationMinutes?: number | undefined;
+  InstanceInterruptionBehavior?: string | undefined;
+  MaxPrice?: string | undefined;
+  SpotInstanceType?: string | undefined;
+  ValidUntil?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails {
-  MarketType?: string;
-  SpotOptions?: AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails;
+  MarketType?: string | undefined;
+  SpotOptions?: AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails {
-  Max?: number;
-  Min?: number;
+  Max?: number | undefined;
+  Min?: number | undefined;
 }
 export interface AwsEc2LaunchTemplateDataInstanceRequirementsDetails {
-  AcceleratorCount?: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails;
-  AcceleratorManufacturers?: string[];
-  AcceleratorNames?: string[];
-  AcceleratorTotalMemoryMiB?: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails;
-  AcceleratorTypes?: string[];
-  BareMetal?: string;
-  BaselineEbsBandwidthMbps?: AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails;
-  BurstablePerformance?: string;
-  CpuManufacturers?: string[];
-  ExcludedInstanceTypes?: string[];
-  InstanceGenerations?: string[];
-  LocalStorage?: string;
-  LocalStorageTypes?: string[];
-  MemoryGiBPerVCpu?: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails;
-  MemoryMiB?: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails;
-  NetworkInterfaceCount?: AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails;
-  OnDemandMaxPricePercentageOverLowestPrice?: number;
-  RequireHibernateSupport?: boolean;
-  SpotMaxPricePercentageOverLowestPrice?: number;
-  TotalLocalStorageGB?: AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails;
-  VCpuCount?: AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails;
+  AcceleratorCount?:
+    | AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails
+    | undefined;
+  AcceleratorManufacturers?: string[] | undefined;
+  AcceleratorNames?: string[] | undefined;
+  AcceleratorTotalMemoryMiB?:
+    | AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails
+    | undefined;
+  AcceleratorTypes?: string[] | undefined;
+  BareMetal?: string | undefined;
+  BaselineEbsBandwidthMbps?:
+    | AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails
+    | undefined;
+  BurstablePerformance?: string | undefined;
+  CpuManufacturers?: string[] | undefined;
+  ExcludedInstanceTypes?: string[] | undefined;
+  InstanceGenerations?: string[] | undefined;
+  LocalStorage?: string | undefined;
+  LocalStorageTypes?: string[] | undefined;
+  MemoryGiBPerVCpu?:
+    | AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails
+    | undefined;
+  MemoryMiB?: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails | undefined;
+  NetworkInterfaceCount?:
+    | AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails
+    | undefined;
+  OnDemandMaxPricePercentageOverLowestPrice?: number | undefined;
+  RequireHibernateSupport?: boolean | undefined;
+  SpotMaxPricePercentageOverLowestPrice?: number | undefined;
+  TotalLocalStorageGB?:
+    | AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails
+    | undefined;
+  VCpuCount?: AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails | undefined;
 }
 export interface AwsEc2LaunchTemplateDataLicenseSetDetails {
-  LicenseConfigurationArn?: string;
+  LicenseConfigurationArn?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataLicenseSetList = AwsEc2LaunchTemplateDataLicenseSetDetails[];
 export interface AwsEc2LaunchTemplateDataMaintenanceOptionsDetails {
-  AutoRecovery?: string;
+  AutoRecovery?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataMetadataOptionsDetails {
-  HttpEndpoint?: string;
-  HttpProtocolIpv6?: string;
-  HttpTokens?: string;
-  HttpPutResponseHopLimit?: number;
-  InstanceMetadataTags?: string;
+  HttpEndpoint?: string | undefined;
+  HttpProtocolIpv6?: string | undefined;
+  HttpTokens?: string | undefined;
+  HttpPutResponseHopLimit?: number | undefined;
+  InstanceMetadataTags?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataMonitoringDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails {
-  Ipv4Prefix?: string;
+  Ipv4Prefix?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesList =
   AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails[];
 export interface AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails {
-  Ipv6Address?: string;
+  Ipv6Address?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesList =
   AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails[];
 export interface AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails {
-  Ipv6Prefix?: string;
+  Ipv6Prefix?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesList =
   AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails[];
 export interface AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails {
-  Primary?: boolean;
-  PrivateIpAddress?: string;
+  Primary?: boolean | undefined;
+  PrivateIpAddress?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesList =
   AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails[];
 export interface AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails {
-  AssociateCarrierIpAddress?: boolean;
-  AssociatePublicIpAddress?: boolean;
-  DeleteOnTermination?: boolean;
-  Description?: string;
-  DeviceIndex?: number;
-  Groups?: string[];
-  InterfaceType?: string;
-  Ipv4PrefixCount?: number;
-  Ipv4Prefixes?: AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails[];
-  Ipv6AddressCount?: number;
-  Ipv6Addresses?: AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails[];
-  Ipv6PrefixCount?: number;
-  Ipv6Prefixes?: AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails[];
-  NetworkCardIndex?: number;
-  NetworkInterfaceId?: string;
-  PrivateIpAddress?: string;
-  PrivateIpAddresses?: AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails[];
-  SecondaryPrivateIpAddressCount?: number;
-  SubnetId?: string;
+  AssociateCarrierIpAddress?: boolean | undefined;
+  AssociatePublicIpAddress?: boolean | undefined;
+  DeleteOnTermination?: boolean | undefined;
+  Description?: string | undefined;
+  DeviceIndex?: number | undefined;
+  Groups?: string[] | undefined;
+  InterfaceType?: string | undefined;
+  Ipv4PrefixCount?: number | undefined;
+  Ipv4Prefixes?: AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails[] | undefined;
+  Ipv6AddressCount?: number | undefined;
+  Ipv6Addresses?: AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails[] | undefined;
+  Ipv6PrefixCount?: number | undefined;
+  Ipv6Prefixes?: AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails[] | undefined;
+  NetworkCardIndex?: number | undefined;
+  NetworkInterfaceId?: string | undefined;
+  PrivateIpAddress?: string | undefined;
+  PrivateIpAddresses?:
+    | AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails[]
+    | undefined;
+  SecondaryPrivateIpAddressCount?: number | undefined;
+  SubnetId?: string | undefined;
 }
 export type AwsEc2LaunchTemplateDataNetworkInterfaceSetList =
   AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails[];
 export interface AwsEc2LaunchTemplateDataPlacementDetails {
-  Affinity?: string;
-  AvailabilityZone?: string;
-  GroupName?: string;
-  HostId?: string;
-  HostResourceGroupArn?: string;
-  PartitionNumber?: number;
-  SpreadDomain?: string;
-  Tenancy?: string;
+  Affinity?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  GroupName?: string | undefined;
+  HostId?: string | undefined;
+  HostResourceGroupArn?: string | undefined;
+  PartitionNumber?: number | undefined;
+  SpreadDomain?: string | undefined;
+  Tenancy?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails {
-  EnableResourceNameDnsAAAARecord?: boolean;
-  EnableResourceNameDnsARecord?: boolean;
-  HostnameType?: string;
+  EnableResourceNameDnsAAAARecord?: boolean | undefined;
+  EnableResourceNameDnsARecord?: boolean | undefined;
+  HostnameType?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDataDetails {
-  BlockDeviceMappingSet?: AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails[];
-  CapacityReservationSpecification?: AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails;
-  CpuOptions?: AwsEc2LaunchTemplateDataCpuOptionsDetails;
-  CreditSpecification?: AwsEc2LaunchTemplateDataCreditSpecificationDetails;
-  DisableApiStop?: boolean;
-  DisableApiTermination?: boolean;
-  EbsOptimized?: boolean;
-  ElasticGpuSpecificationSet?: AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails[];
-  ElasticInferenceAcceleratorSet?: AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails[];
-  EnclaveOptions?: AwsEc2LaunchTemplateDataEnclaveOptionsDetails;
-  HibernationOptions?: AwsEc2LaunchTemplateDataHibernationOptionsDetails;
-  IamInstanceProfile?: AwsEc2LaunchTemplateDataIamInstanceProfileDetails;
-  ImageId?: string;
-  InstanceInitiatedShutdownBehavior?: string;
-  InstanceMarketOptions?: AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails;
-  InstanceRequirements?: AwsEc2LaunchTemplateDataInstanceRequirementsDetails;
-  InstanceType?: string;
-  KernelId?: string;
-  KeyName?: string;
-  LicenseSet?: AwsEc2LaunchTemplateDataLicenseSetDetails[];
-  MaintenanceOptions?: AwsEc2LaunchTemplateDataMaintenanceOptionsDetails;
-  MetadataOptions?: AwsEc2LaunchTemplateDataMetadataOptionsDetails;
-  Monitoring?: AwsEc2LaunchTemplateDataMonitoringDetails;
-  NetworkInterfaceSet?: AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails[];
-  Placement?: AwsEc2LaunchTemplateDataPlacementDetails;
-  PrivateDnsNameOptions?: AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails;
-  RamDiskId?: string;
-  SecurityGroupIdSet?: string[];
-  SecurityGroupSet?: string[];
-  UserData?: string;
+  BlockDeviceMappingSet?: AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails[] | undefined;
+  CapacityReservationSpecification?:
+    | AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails
+    | undefined;
+  CpuOptions?: AwsEc2LaunchTemplateDataCpuOptionsDetails | undefined;
+  CreditSpecification?: AwsEc2LaunchTemplateDataCreditSpecificationDetails | undefined;
+  DisableApiStop?: boolean | undefined;
+  DisableApiTermination?: boolean | undefined;
+  EbsOptimized?: boolean | undefined;
+  ElasticGpuSpecificationSet?:
+    | AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails[]
+    | undefined;
+  ElasticInferenceAcceleratorSet?:
+    | AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails[]
+    | undefined;
+  EnclaveOptions?: AwsEc2LaunchTemplateDataEnclaveOptionsDetails | undefined;
+  HibernationOptions?: AwsEc2LaunchTemplateDataHibernationOptionsDetails | undefined;
+  IamInstanceProfile?: AwsEc2LaunchTemplateDataIamInstanceProfileDetails | undefined;
+  ImageId?: string | undefined;
+  InstanceInitiatedShutdownBehavior?: string | undefined;
+  InstanceMarketOptions?: AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails | undefined;
+  InstanceRequirements?: AwsEc2LaunchTemplateDataInstanceRequirementsDetails | undefined;
+  InstanceType?: string | undefined;
+  KernelId?: string | undefined;
+  KeyName?: string | undefined;
+  LicenseSet?: AwsEc2LaunchTemplateDataLicenseSetDetails[] | undefined;
+  MaintenanceOptions?: AwsEc2LaunchTemplateDataMaintenanceOptionsDetails | undefined;
+  MetadataOptions?: AwsEc2LaunchTemplateDataMetadataOptionsDetails | undefined;
+  Monitoring?: AwsEc2LaunchTemplateDataMonitoringDetails | undefined;
+  NetworkInterfaceSet?: AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails[] | undefined;
+  Placement?: AwsEc2LaunchTemplateDataPlacementDetails | undefined;
+  PrivateDnsNameOptions?: AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails | undefined;
+  RamDiskId?: string | undefined;
+  SecurityGroupIdSet?: string[] | undefined;
+  SecurityGroupSet?: string[] | undefined;
+  UserData?: string | undefined;
 }
 export interface AwsEc2LaunchTemplateDetails {
-  LaunchTemplateName?: string;
-  Id?: string;
-  LaunchTemplateData?: AwsEc2LaunchTemplateDataDetails;
-  DefaultVersionNumber?: number;
-  LatestVersionNumber?: number;
+  LaunchTemplateName?: string | undefined;
+  Id?: string | undefined;
+  LaunchTemplateData?: AwsEc2LaunchTemplateDataDetails | undefined;
+  DefaultVersionNumber?: number | undefined;
+  LatestVersionNumber?: number | undefined;
 }
 export interface AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails {
-  MinimumInstanceMetadataServiceVersion?: string;
+  MinimumInstanceMetadataServiceVersion?: string | undefined;
 }
 export interface AwsSageMakerNotebookInstanceDetails {
-  AcceleratorTypes?: string[];
-  AdditionalCodeRepositories?: string[];
-  DefaultCodeRepository?: string;
-  DirectInternetAccess?: string;
-  FailureReason?: string;
-  InstanceMetadataServiceConfiguration?: AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails;
-  InstanceType?: string;
-  KmsKeyId?: string;
-  NetworkInterfaceId?: string;
-  NotebookInstanceArn?: string;
-  NotebookInstanceLifecycleConfigName?: string;
-  NotebookInstanceName?: string;
-  NotebookInstanceStatus?: string;
-  PlatformIdentifier?: string;
-  RoleArn?: string;
-  RootAccess?: string;
-  SecurityGroups?: string[];
-  SubnetId?: string;
-  Url?: string;
-  VolumeSizeInGB?: number;
+  AcceleratorTypes?: string[] | undefined;
+  AdditionalCodeRepositories?: string[] | undefined;
+  DefaultCodeRepository?: string | undefined;
+  DirectInternetAccess?: string | undefined;
+  FailureReason?: string | undefined;
+  InstanceMetadataServiceConfiguration?:
+    | AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails
+    | undefined;
+  InstanceType?: string | undefined;
+  KmsKeyId?: string | undefined;
+  NetworkInterfaceId?: string | undefined;
+  NotebookInstanceArn?: string | undefined;
+  NotebookInstanceLifecycleConfigName?: string | undefined;
+  NotebookInstanceName?: string | undefined;
+  NotebookInstanceStatus?: string | undefined;
+  PlatformIdentifier?: string | undefined;
+  RoleArn?: string | undefined;
+  RootAccess?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  SubnetId?: string | undefined;
+  Url?: string | undefined;
+  VolumeSizeInGB?: number | undefined;
 }
 export interface AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails {
-  ImmunityTime?: number;
+  ImmunityTime?: number | undefined;
 }
 export interface AwsWafv2WebAclCaptchaConfigDetails {
-  ImmunityTimeProperty?: AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails;
+  ImmunityTimeProperty?: AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails | undefined;
 }
 export interface AwsWafv2CustomHttpHeader {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type AwsWafv2InsertHeadersList = AwsWafv2CustomHttpHeader[];
 export interface AwsWafv2CustomRequestHandlingDetails {
-  InsertHeaders?: AwsWafv2CustomHttpHeader[];
+  InsertHeaders?: AwsWafv2CustomHttpHeader[] | undefined;
 }
 export interface AwsWafv2ActionAllowDetails {
-  CustomRequestHandling?: AwsWafv2CustomRequestHandlingDetails;
+  CustomRequestHandling?: AwsWafv2CustomRequestHandlingDetails | undefined;
 }
 export interface AwsWafv2CustomResponseDetails {
-  CustomResponseBodyKey?: string;
-  ResponseCode?: number;
-  ResponseHeaders?: AwsWafv2CustomHttpHeader[];
+  CustomResponseBodyKey?: string | undefined;
+  ResponseCode?: number | undefined;
+  ResponseHeaders?: AwsWafv2CustomHttpHeader[] | undefined;
 }
 export interface AwsWafv2ActionBlockDetails {
-  CustomResponse?: AwsWafv2CustomResponseDetails;
+  CustomResponse?: AwsWafv2CustomResponseDetails | undefined;
 }
 export interface AwsWafv2WebAclActionDetails {
-  Allow?: AwsWafv2ActionAllowDetails;
-  Block?: AwsWafv2ActionBlockDetails;
+  Allow?: AwsWafv2ActionAllowDetails | undefined;
+  Block?: AwsWafv2ActionBlockDetails | undefined;
 }
 export interface AwsWafv2RulesActionCaptchaDetails {
-  CustomRequestHandling?: AwsWafv2CustomRequestHandlingDetails;
+  CustomRequestHandling?: AwsWafv2CustomRequestHandlingDetails | undefined;
 }
 export interface AwsWafv2RulesActionCountDetails {
-  CustomRequestHandling?: AwsWafv2CustomRequestHandlingDetails;
+  CustomRequestHandling?: AwsWafv2CustomRequestHandlingDetails | undefined;
 }
 export interface AwsWafv2RulesActionDetails {
-  Allow?: AwsWafv2ActionAllowDetails;
-  Block?: AwsWafv2ActionBlockDetails;
-  Captcha?: AwsWafv2RulesActionCaptchaDetails;
-  Count?: AwsWafv2RulesActionCountDetails;
+  Allow?: AwsWafv2ActionAllowDetails | undefined;
+  Block?: AwsWafv2ActionBlockDetails | undefined;
+  Captcha?: AwsWafv2RulesActionCaptchaDetails | undefined;
+  Count?: AwsWafv2RulesActionCountDetails | undefined;
 }
 export interface AwsWafv2VisibilityConfigDetails {
-  CloudWatchMetricsEnabled?: boolean;
-  MetricName?: string;
-  SampledRequestsEnabled?: boolean;
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  MetricName?: string | undefined;
+  SampledRequestsEnabled?: boolean | undefined;
 }
 export interface AwsWafv2RulesDetails {
-  Action?: AwsWafv2RulesActionDetails;
-  Name?: string;
-  OverrideAction?: string;
-  Priority?: number;
-  VisibilityConfig?: AwsWafv2VisibilityConfigDetails;
+  Action?: AwsWafv2RulesActionDetails | undefined;
+  Name?: string | undefined;
+  OverrideAction?: string | undefined;
+  Priority?: number | undefined;
+  VisibilityConfig?: AwsWafv2VisibilityConfigDetails | undefined;
 }
 export type AwsWafv2RulesList = AwsWafv2RulesDetails[];
 export interface AwsWafv2WebAclDetails {
-  Name?: string;
-  Arn?: string;
-  ManagedbyFirewallManager?: boolean;
-  Id?: string;
-  Capacity?: number;
-  CaptchaConfig?: AwsWafv2WebAclCaptchaConfigDetails;
-  DefaultAction?: AwsWafv2WebAclActionDetails;
-  Description?: string;
-  Rules?: AwsWafv2RulesDetails[];
-  VisibilityConfig?: AwsWafv2VisibilityConfigDetails;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  ManagedbyFirewallManager?: boolean | undefined;
+  Id?: string | undefined;
+  Capacity?: number | undefined;
+  CaptchaConfig?: AwsWafv2WebAclCaptchaConfigDetails | undefined;
+  DefaultAction?: AwsWafv2WebAclActionDetails | undefined;
+  Description?: string | undefined;
+  Rules?: AwsWafv2RulesDetails[] | undefined;
+  VisibilityConfig?: AwsWafv2VisibilityConfigDetails | undefined;
 }
 export interface AwsWafv2RuleGroupDetails {
-  Capacity?: number;
-  Description?: string;
-  Id?: string;
-  Name?: string;
-  Arn?: string;
-  Rules?: AwsWafv2RulesDetails[];
-  Scope?: string;
-  VisibilityConfig?: AwsWafv2VisibilityConfigDetails;
+  Capacity?: number | undefined;
+  Description?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Rules?: AwsWafv2RulesDetails[] | undefined;
+  Scope?: string | undefined;
+  VisibilityConfig?: AwsWafv2VisibilityConfigDetails | undefined;
 }
 export interface AssociationStateDetails {
-  State?: string;
-  StatusMessage?: string;
+  State?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface AssociationSetDetails {
-  AssociationState?: AssociationStateDetails;
-  GatewayId?: string;
-  Main?: boolean;
-  RouteTableAssociationId?: string;
-  RouteTableId?: string;
-  SubnetId?: string;
+  AssociationState?: AssociationStateDetails | undefined;
+  GatewayId?: string | undefined;
+  Main?: boolean | undefined;
+  RouteTableAssociationId?: string | undefined;
+  RouteTableId?: string | undefined;
+  SubnetId?: string | undefined;
 }
 export type AssociationSetList = AssociationSetDetails[];
 export interface PropagatingVgwSetDetails {
-  GatewayId?: string;
+  GatewayId?: string | undefined;
 }
 export type PropagatingVgwSetList = PropagatingVgwSetDetails[];
 export interface RouteSetDetails {
-  CarrierGatewayId?: string;
-  CoreNetworkArn?: string;
-  DestinationCidrBlock?: string;
-  DestinationIpv6CidrBlock?: string;
-  DestinationPrefixListId?: string;
-  EgressOnlyInternetGatewayId?: string;
-  GatewayId?: string;
-  InstanceId?: string;
-  InstanceOwnerId?: string;
-  LocalGatewayId?: string;
-  NatGatewayId?: string;
-  NetworkInterfaceId?: string;
-  Origin?: string;
-  State?: string;
-  TransitGatewayId?: string;
-  VpcPeeringConnectionId?: string;
+  CarrierGatewayId?: string | undefined;
+  CoreNetworkArn?: string | undefined;
+  DestinationCidrBlock?: string | undefined;
+  DestinationIpv6CidrBlock?: string | undefined;
+  DestinationPrefixListId?: string | undefined;
+  EgressOnlyInternetGatewayId?: string | undefined;
+  GatewayId?: string | undefined;
+  InstanceId?: string | undefined;
+  InstanceOwnerId?: string | undefined;
+  LocalGatewayId?: string | undefined;
+  NatGatewayId?: string | undefined;
+  NetworkInterfaceId?: string | undefined;
+  Origin?: string | undefined;
+  State?: string | undefined;
+  TransitGatewayId?: string | undefined;
+  VpcPeeringConnectionId?: string | undefined;
 }
 export type RouteSetList = RouteSetDetails[];
 export interface AwsEc2RouteTableDetails {
-  AssociationSet?: AssociationSetDetails[];
-  OwnerId?: string;
-  PropagatingVgwSet?: PropagatingVgwSetDetails[];
-  RouteTableId?: string;
-  RouteSet?: RouteSetDetails[];
-  VpcId?: string;
+  AssociationSet?: AssociationSetDetails[] | undefined;
+  OwnerId?: string | undefined;
+  PropagatingVgwSet?: PropagatingVgwSetDetails[] | undefined;
+  RouteTableId?: string | undefined;
+  RouteSet?: RouteSetDetails[] | undefined;
+  VpcId?: string | undefined;
 }
 export interface AwsAmazonMqBrokerEncryptionOptionsDetails {
-  KmsKeyId?: string;
-  UseAwsOwnedKey?: boolean;
+  KmsKeyId?: string | undefined;
+  UseAwsOwnedKey?: boolean | undefined;
 }
 export interface AwsAmazonMqBrokerLdapServerMetadataDetails {
-  Hosts?: string[];
-  RoleBase?: string;
-  RoleName?: string;
-  RoleSearchMatching?: string;
-  RoleSearchSubtree?: boolean;
-  ServiceAccountUsername?: string;
-  UserBase?: string;
-  UserRoleName?: string;
-  UserSearchMatching?: string;
-  UserSearchSubtree?: boolean;
+  Hosts?: string[] | undefined;
+  RoleBase?: string | undefined;
+  RoleName?: string | undefined;
+  RoleSearchMatching?: string | undefined;
+  RoleSearchSubtree?: boolean | undefined;
+  ServiceAccountUsername?: string | undefined;
+  UserBase?: string | undefined;
+  UserRoleName?: string | undefined;
+  UserSearchMatching?: string | undefined;
+  UserSearchSubtree?: boolean | undefined;
 }
 export interface AwsAmazonMqBrokerLogsPendingDetails {
-  Audit?: boolean;
-  General?: boolean;
+  Audit?: boolean | undefined;
+  General?: boolean | undefined;
 }
 export interface AwsAmazonMqBrokerLogsDetails {
-  Audit?: boolean;
-  General?: boolean;
-  AuditLogGroup?: string;
-  GeneralLogGroup?: string;
-  Pending?: AwsAmazonMqBrokerLogsPendingDetails;
+  Audit?: boolean | undefined;
+  General?: boolean | undefined;
+  AuditLogGroup?: string | undefined;
+  GeneralLogGroup?: string | undefined;
+  Pending?: AwsAmazonMqBrokerLogsPendingDetails | undefined;
 }
 export interface AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails {
-  DayOfWeek?: string;
-  TimeOfDay?: string;
-  TimeZone?: string;
+  DayOfWeek?: string | undefined;
+  TimeOfDay?: string | undefined;
+  TimeZone?: string | undefined;
 }
 export interface AwsAmazonMqBrokerUsersDetails {
-  PendingChange?: string;
-  Username?: string;
+  PendingChange?: string | undefined;
+  Username?: string | undefined;
 }
 export type AwsAmazonMqBrokerUsersList = AwsAmazonMqBrokerUsersDetails[];
 export interface AwsAmazonMqBrokerDetails {
-  AuthenticationStrategy?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  BrokerArn?: string;
-  BrokerName?: string;
-  DeploymentMode?: string;
-  EncryptionOptions?: AwsAmazonMqBrokerEncryptionOptionsDetails;
-  EngineType?: string;
-  EngineVersion?: string;
-  HostInstanceType?: string;
-  BrokerId?: string;
-  LdapServerMetadata?: AwsAmazonMqBrokerLdapServerMetadataDetails;
-  Logs?: AwsAmazonMqBrokerLogsDetails;
-  MaintenanceWindowStartTime?: AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails;
-  PubliclyAccessible?: boolean;
-  SecurityGroups?: string[];
-  StorageType?: string;
-  SubnetIds?: string[];
-  Users?: AwsAmazonMqBrokerUsersDetails[];
+  AuthenticationStrategy?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  BrokerArn?: string | undefined;
+  BrokerName?: string | undefined;
+  DeploymentMode?: string | undefined;
+  EncryptionOptions?: AwsAmazonMqBrokerEncryptionOptionsDetails | undefined;
+  EngineType?: string | undefined;
+  EngineVersion?: string | undefined;
+  HostInstanceType?: string | undefined;
+  BrokerId?: string | undefined;
+  LdapServerMetadata?: AwsAmazonMqBrokerLdapServerMetadataDetails | undefined;
+  Logs?: AwsAmazonMqBrokerLogsDetails | undefined;
+  MaintenanceWindowStartTime?: AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  SecurityGroups?: string[] | undefined;
+  StorageType?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  Users?: AwsAmazonMqBrokerUsersDetails[] | undefined;
 }
 export interface AwsAppSyncGraphQlApiOpenIdConnectConfigDetails {
-  AuthTtL?: number;
-  ClientId?: string;
-  IatTtL?: number;
-  Issuer?: string;
+  AuthTtL?: number | undefined;
+  ClientId?: string | undefined;
+  IatTtL?: number | undefined;
+  Issuer?: string | undefined;
 }
 export interface AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails {
-  AuthorizerResultTtlInSeconds?: number;
-  AuthorizerUri?: string;
-  IdentityValidationExpression?: string;
+  AuthorizerResultTtlInSeconds?: number | undefined;
+  AuthorizerUri?: string | undefined;
+  IdentityValidationExpression?: string | undefined;
 }
 export interface AwsAppSyncGraphQlApiUserPoolConfigDetails {
-  AppIdClientRegex?: string;
-  AwsRegion?: string;
-  DefaultAction?: string;
-  UserPoolId?: string;
+  AppIdClientRegex?: string | undefined;
+  AwsRegion?: string | undefined;
+  DefaultAction?: string | undefined;
+  UserPoolId?: string | undefined;
 }
 export interface AwsAppSyncGraphQlApiLogConfigDetails {
-  CloudWatchLogsRoleArn?: string;
-  ExcludeVerboseContent?: boolean;
-  FieldLogLevel?: string;
+  CloudWatchLogsRoleArn?: string | undefined;
+  ExcludeVerboseContent?: boolean | undefined;
+  FieldLogLevel?: string | undefined;
 }
 export interface AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails {
-  AuthenticationType?: string;
-  LambdaAuthorizerConfig?: AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails;
-  OpenIdConnectConfig?: AwsAppSyncGraphQlApiOpenIdConnectConfigDetails;
-  UserPoolConfig?: AwsAppSyncGraphQlApiUserPoolConfigDetails;
+  AuthenticationType?: string | undefined;
+  LambdaAuthorizerConfig?: AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails | undefined;
+  OpenIdConnectConfig?: AwsAppSyncGraphQlApiOpenIdConnectConfigDetails | undefined;
+  UserPoolConfig?: AwsAppSyncGraphQlApiUserPoolConfigDetails | undefined;
 }
 export type AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersList =
   AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails[];
 export interface AwsAppSyncGraphQlApiDetails {
-  ApiId?: string;
-  Id?: string;
-  OpenIdConnectConfig?: AwsAppSyncGraphQlApiOpenIdConnectConfigDetails;
-  Name?: string;
-  LambdaAuthorizerConfig?: AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails;
-  XrayEnabled?: boolean;
-  Arn?: string;
-  UserPoolConfig?: AwsAppSyncGraphQlApiUserPoolConfigDetails;
-  AuthenticationType?: string;
-  LogConfig?: AwsAppSyncGraphQlApiLogConfigDetails;
-  AdditionalAuthenticationProviders?: AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails[];
-  WafWebAclArn?: string;
+  ApiId?: string | undefined;
+  Id?: string | undefined;
+  OpenIdConnectConfig?: AwsAppSyncGraphQlApiOpenIdConnectConfigDetails | undefined;
+  Name?: string | undefined;
+  LambdaAuthorizerConfig?: AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails | undefined;
+  XrayEnabled?: boolean | undefined;
+  Arn?: string | undefined;
+  UserPoolConfig?: AwsAppSyncGraphQlApiUserPoolConfigDetails | undefined;
+  AuthenticationType?: string | undefined;
+  LogConfig?: AwsAppSyncGraphQlApiLogConfigDetails | undefined;
+  AdditionalAuthenticationProviders?:
+    | AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails[]
+    | undefined;
+  WafWebAclArn?: string | undefined;
 }
 export interface AwsEventSchemasRegistryDetails {
-  Description?: string;
-  RegistryArn?: string;
-  RegistryName?: string;
+  Description?: string | undefined;
+  RegistryArn?: string | undefined;
+  RegistryName?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesCloudTrailDetails {
-  Status?: string;
+  Status?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesDnsLogsDetails {
-  Status?: string;
+  Status?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesFlowLogsDetails {
-  Status?: string;
+  Status?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails {
-  Status?: string;
+  Status?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesKubernetesDetails {
-  AuditLogs?: AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails;
+  AuditLogs?: AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails {
-  Reason?: string;
-  Status?: string;
+  Reason?: string | undefined;
+  Status?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails {
-  EbsVolumes?: AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails;
+  EbsVolumes?:
+    | AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails
+    | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails {
-  ScanEc2InstanceWithFindings?: AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails;
-  ServiceRole?: string;
+  ScanEc2InstanceWithFindings?:
+    | AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails
+    | undefined;
+  ServiceRole?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesS3LogsDetails {
-  Status?: string;
+  Status?: string | undefined;
 }
 export interface AwsGuardDutyDetectorDataSourcesDetails {
-  CloudTrail?: AwsGuardDutyDetectorDataSourcesCloudTrailDetails;
-  DnsLogs?: AwsGuardDutyDetectorDataSourcesDnsLogsDetails;
-  FlowLogs?: AwsGuardDutyDetectorDataSourcesFlowLogsDetails;
-  Kubernetes?: AwsGuardDutyDetectorDataSourcesKubernetesDetails;
-  MalwareProtection?: AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails;
-  S3Logs?: AwsGuardDutyDetectorDataSourcesS3LogsDetails;
+  CloudTrail?: AwsGuardDutyDetectorDataSourcesCloudTrailDetails | undefined;
+  DnsLogs?: AwsGuardDutyDetectorDataSourcesDnsLogsDetails | undefined;
+  FlowLogs?: AwsGuardDutyDetectorDataSourcesFlowLogsDetails | undefined;
+  Kubernetes?: AwsGuardDutyDetectorDataSourcesKubernetesDetails | undefined;
+  MalwareProtection?: AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails | undefined;
+  S3Logs?: AwsGuardDutyDetectorDataSourcesS3LogsDetails | undefined;
 }
 export interface AwsGuardDutyDetectorFeaturesDetails {
-  Name?: string;
-  Status?: string;
+  Name?: string | undefined;
+  Status?: string | undefined;
 }
 export type AwsGuardDutyDetectorFeaturesList = AwsGuardDutyDetectorFeaturesDetails[];
 export interface AwsGuardDutyDetectorDetails {
-  DataSources?: AwsGuardDutyDetectorDataSourcesDetails;
-  Features?: AwsGuardDutyDetectorFeaturesDetails[];
-  FindingPublishingFrequency?: string;
-  ServiceRole?: string;
-  Status?: string;
+  DataSources?: AwsGuardDutyDetectorDataSourcesDetails | undefined;
+  Features?: AwsGuardDutyDetectorFeaturesDetails[] | undefined;
+  FindingPublishingFrequency?: string | undefined;
+  ServiceRole?: string | undefined;
+  Status?: string | undefined;
 }
 export interface AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails {
-  LogGroupArn?: string;
+  LogGroupArn?: string | undefined;
 }
 export interface AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails {
-  CloudWatchLogsLogGroup?: AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails;
+  CloudWatchLogsLogGroup?:
+    | AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails
+    | undefined;
 }
 export type AwsStepFunctionStateMachineLoggingConfigurationDestinationsList =
   AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails[];
 export interface AwsStepFunctionStateMachineLoggingConfigurationDetails {
-  Destinations?: AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails[];
-  IncludeExecutionData?: boolean;
-  Level?: string;
+  Destinations?: AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails[] | undefined;
+  IncludeExecutionData?: boolean | undefined;
+  Level?: string | undefined;
 }
 export interface AwsStepFunctionStateMachineTracingConfigurationDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsStepFunctionStateMachineDetails {
-  Label?: string;
-  LoggingConfiguration?: AwsStepFunctionStateMachineLoggingConfigurationDetails;
-  Name?: string;
-  RoleArn?: string;
-  StateMachineArn?: string;
-  Status?: string;
-  TracingConfiguration?: AwsStepFunctionStateMachineTracingConfigurationDetails;
-  Type?: string;
+  Label?: string | undefined;
+  LoggingConfiguration?: AwsStepFunctionStateMachineLoggingConfigurationDetails | undefined;
+  Name?: string | undefined;
+  RoleArn?: string | undefined;
+  StateMachineArn?: string | undefined;
+  Status?: string | undefined;
+  TracingConfiguration?: AwsStepFunctionStateMachineTracingConfigurationDetails | undefined;
+  Type?: string | undefined;
 }
 export interface AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails {
-  EncryptionOption?: string;
-  KmsKey?: string;
+  EncryptionOption?: string | undefined;
+  KmsKey?: string | undefined;
 }
 export interface AwsAthenaWorkGroupConfigurationResultConfigurationDetails {
-  EncryptionConfiguration?: AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails;
+  EncryptionConfiguration?:
+    | AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails
+    | undefined;
 }
 export interface AwsAthenaWorkGroupConfigurationDetails {
-  ResultConfiguration?: AwsAthenaWorkGroupConfigurationResultConfigurationDetails;
+  ResultConfiguration?: AwsAthenaWorkGroupConfigurationResultConfigurationDetails | undefined;
 }
 export interface AwsAthenaWorkGroupDetails {
-  Name?: string;
-  Description?: string;
-  State?: string;
-  Configuration?: AwsAthenaWorkGroupConfigurationDetails;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  State?: string | undefined;
+  Configuration?: AwsAthenaWorkGroupConfigurationDetails | undefined;
 }
 export interface AwsEventsEventbusDetails {
-  Arn?: string;
-  Name?: string;
-  Policy?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface AwsDmsEndpointDetails {
-  CertificateArn?: string;
-  DatabaseName?: string;
-  EndpointArn?: string;
-  EndpointIdentifier?: string;
-  EndpointType?: string;
-  EngineName?: string;
-  ExternalId?: string;
-  ExtraConnectionAttributes?: string;
-  KmsKeyId?: string;
-  Port?: number;
-  ServerName?: string;
-  SslMode?: string;
-  Username?: string;
+  CertificateArn?: string | undefined;
+  DatabaseName?: string | undefined;
+  EndpointArn?: string | undefined;
+  EndpointIdentifier?: string | undefined;
+  EndpointType?: string | undefined;
+  EngineName?: string | undefined;
+  ExternalId?: string | undefined;
+  ExtraConnectionAttributes?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Port?: number | undefined;
+  ServerName?: string | undefined;
+  SslMode?: string | undefined;
+  Username?: string | undefined;
 }
 export interface AwsEventsEndpointEventBusesDetails {
-  EventBusArn?: string;
+  EventBusArn?: string | undefined;
 }
 export type AwsEventsEndpointEventBusesList = AwsEventsEndpointEventBusesDetails[];
 export interface AwsEventsEndpointReplicationConfigDetails {
-  State?: string;
+  State?: string | undefined;
 }
 export interface AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails {
-  HealthCheck?: string;
+  HealthCheck?: string | undefined;
 }
 export interface AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails {
-  Route?: string;
+  Route?: string | undefined;
 }
 export interface AwsEventsEndpointRoutingConfigFailoverConfigDetails {
-  Primary?: AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails;
-  Secondary?: AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails;
+  Primary?: AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails | undefined;
+  Secondary?: AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails | undefined;
 }
 export interface AwsEventsEndpointRoutingConfigDetails {
-  FailoverConfig?: AwsEventsEndpointRoutingConfigFailoverConfigDetails;
+  FailoverConfig?: AwsEventsEndpointRoutingConfigFailoverConfigDetails | undefined;
 }
 export interface AwsEventsEndpointDetails {
-  Arn?: string;
-  Description?: string;
-  EndpointId?: string;
-  EndpointUrl?: string;
-  EventBuses?: AwsEventsEndpointEventBusesDetails[];
-  Name?: string;
-  ReplicationConfig?: AwsEventsEndpointReplicationConfigDetails;
-  RoleArn?: string;
-  RoutingConfig?: AwsEventsEndpointRoutingConfigDetails;
-  State?: string;
-  StateReason?: string;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  EndpointId?: string | undefined;
+  EndpointUrl?: string | undefined;
+  EventBuses?: AwsEventsEndpointEventBusesDetails[] | undefined;
+  Name?: string | undefined;
+  ReplicationConfig?: AwsEventsEndpointReplicationConfigDetails | undefined;
+  RoleArn?: string | undefined;
+  RoutingConfig?: AwsEventsEndpointRoutingConfigDetails | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
 export interface AwsDmsReplicationTaskDetails {
-  CdcStartPosition?: string;
-  CdcStartTime?: string;
-  CdcStopPosition?: string;
-  MigrationType?: string;
-  Id?: string;
-  ResourceIdentifier?: string;
-  ReplicationInstanceArn?: string;
-  ReplicationTaskIdentifier?: string;
-  ReplicationTaskSettings?: string;
-  SourceEndpointArn?: string;
-  TableMappings?: string;
-  TargetEndpointArn?: string;
-  TaskData?: string;
+  CdcStartPosition?: string | undefined;
+  CdcStartTime?: string | undefined;
+  CdcStopPosition?: string | undefined;
+  MigrationType?: string | undefined;
+  Id?: string | undefined;
+  ResourceIdentifier?: string | undefined;
+  ReplicationInstanceArn?: string | undefined;
+  ReplicationTaskIdentifier?: string | undefined;
+  ReplicationTaskSettings?: string | undefined;
+  SourceEndpointArn?: string | undefined;
+  TableMappings?: string | undefined;
+  TargetEndpointArn?: string | undefined;
+  TaskData?: string | undefined;
 }
 export interface AwsDmsReplicationInstanceReplicationSubnetGroupDetails {
-  ReplicationSubnetGroupIdentifier?: string;
+  ReplicationSubnetGroupIdentifier?: string | undefined;
 }
 export interface AwsDmsReplicationInstanceVpcSecurityGroupsDetails {
-  VpcSecurityGroupId?: string;
+  VpcSecurityGroupId?: string | undefined;
 }
 export type AwsDmsReplicationInstanceVpcSecurityGroupsList =
   AwsDmsReplicationInstanceVpcSecurityGroupsDetails[];
 export interface AwsDmsReplicationInstanceDetails {
-  AllocatedStorage?: number;
-  AutoMinorVersionUpgrade?: boolean;
-  AvailabilityZone?: string;
-  EngineVersion?: string;
-  KmsKeyId?: string;
-  MultiAZ?: boolean;
-  PreferredMaintenanceWindow?: string;
-  PubliclyAccessible?: boolean;
-  ReplicationInstanceClass?: string;
-  ReplicationInstanceIdentifier?: string;
-  ReplicationSubnetGroup?: AwsDmsReplicationInstanceReplicationSubnetGroupDetails;
-  VpcSecurityGroups?: AwsDmsReplicationInstanceVpcSecurityGroupsDetails[];
+  AllocatedStorage?: number | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  AvailabilityZone?: string | undefined;
+  EngineVersion?: string | undefined;
+  KmsKeyId?: string | undefined;
+  MultiAZ?: boolean | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  ReplicationInstanceClass?: string | undefined;
+  ReplicationInstanceIdentifier?: string | undefined;
+  ReplicationSubnetGroup?: AwsDmsReplicationInstanceReplicationSubnetGroupDetails | undefined;
+  VpcSecurityGroups?: AwsDmsReplicationInstanceVpcSecurityGroupsDetails[] | undefined;
 }
 export interface AwsRoute53HostedZoneConfigDetails {
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface AwsRoute53HostedZoneObjectDetails {
-  Id?: string;
-  Name?: string;
-  Config?: AwsRoute53HostedZoneConfigDetails;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Config?: AwsRoute53HostedZoneConfigDetails | undefined;
 }
 export interface AwsRoute53HostedZoneVpcDetails {
-  Id?: string;
-  Region?: string;
+  Id?: string | undefined;
+  Region?: string | undefined;
 }
 export type AwsRoute53HostedZoneVpcsList = AwsRoute53HostedZoneVpcDetails[];
 export type AwsRoute53HostedZoneNameServersList = string[];
 export interface CloudWatchLogsLogGroupArnConfigDetails {
-  CloudWatchLogsLogGroupArn?: string;
-  HostedZoneId?: string;
-  Id?: string;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  HostedZoneId?: string | undefined;
+  Id?: string | undefined;
 }
 export interface AwsRoute53QueryLoggingConfigDetails {
-  CloudWatchLogsLogGroupArn?: CloudWatchLogsLogGroupArnConfigDetails;
+  CloudWatchLogsLogGroupArn?: CloudWatchLogsLogGroupArnConfigDetails | undefined;
 }
 export interface AwsRoute53HostedZoneDetails {
-  HostedZone?: AwsRoute53HostedZoneObjectDetails;
-  Vpcs?: AwsRoute53HostedZoneVpcDetails[];
-  NameServers?: string[];
-  QueryLoggingConfig?: AwsRoute53QueryLoggingConfigDetails;
+  HostedZone?: AwsRoute53HostedZoneObjectDetails | undefined;
+  Vpcs?: AwsRoute53HostedZoneVpcDetails[] | undefined;
+  NameServers?: string[] | undefined;
+  QueryLoggingConfig?: AwsRoute53QueryLoggingConfigDetails | undefined;
 }
 export interface AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails {
-  InCluster?: boolean;
-  ClientBroker?: string;
+  InCluster?: boolean | undefined;
+  ClientBroker?: string | undefined;
 }
 export interface AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails {
-  DataVolumeKMSKeyId?: string;
+  DataVolumeKMSKeyId?: string | undefined;
 }
 export interface AwsMskClusterClusterInfoEncryptionInfoDetails {
-  EncryptionInTransit?: AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails;
-  EncryptionAtRest?: AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails;
+  EncryptionInTransit?:
+    | AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails
+    | undefined;
+  EncryptionAtRest?: AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails | undefined;
 }
 export interface AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsMskClusterClusterInfoClientAuthenticationSaslDetails {
-  Iam?: AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails;
-  Scram?: AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails;
+  Iam?: AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails | undefined;
+  Scram?: AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails | undefined;
 }
 export interface AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AwsMskClusterClusterInfoClientAuthenticationTlsDetails {
-  CertificateAuthorityArnList?: string[];
-  Enabled?: boolean;
+  CertificateAuthorityArnList?: string[] | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface AwsMskClusterClusterInfoClientAuthenticationDetails {
-  Sasl?: AwsMskClusterClusterInfoClientAuthenticationSaslDetails;
-  Unauthenticated?: AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails;
-  Tls?: AwsMskClusterClusterInfoClientAuthenticationTlsDetails;
+  Sasl?: AwsMskClusterClusterInfoClientAuthenticationSaslDetails | undefined;
+  Unauthenticated?: AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails | undefined;
+  Tls?: AwsMskClusterClusterInfoClientAuthenticationTlsDetails | undefined;
 }
 export interface AwsMskClusterClusterInfoDetails {
-  EncryptionInfo?: AwsMskClusterClusterInfoEncryptionInfoDetails;
-  CurrentVersion?: string;
-  NumberOfBrokerNodes?: number;
-  ClusterName?: string;
-  ClientAuthentication?: AwsMskClusterClusterInfoClientAuthenticationDetails;
-  EnhancedMonitoring?: string;
+  EncryptionInfo?: AwsMskClusterClusterInfoEncryptionInfoDetails | undefined;
+  CurrentVersion?: string | undefined;
+  NumberOfBrokerNodes?: number | undefined;
+  ClusterName?: string | undefined;
+  ClientAuthentication?: AwsMskClusterClusterInfoClientAuthenticationDetails | undefined;
+  EnhancedMonitoring?: string | undefined;
 }
 export interface AwsMskClusterDetails {
-  ClusterInfo?: AwsMskClusterClusterInfoDetails;
+  ClusterInfo?: AwsMskClusterClusterInfoDetails | undefined;
 }
 export interface AwsS3AccessPointVpcConfigurationDetails {
-  VpcId?: string;
+  VpcId?: string | undefined;
 }
 export interface AwsS3AccessPointDetails {
-  AccessPointArn?: string;
-  Alias?: string;
-  Bucket?: string;
-  BucketAccountId?: string;
-  Name?: string;
-  NetworkOrigin?: string;
-  PublicAccessBlockConfiguration?: AwsS3AccountPublicAccessBlockDetails;
-  VpcConfiguration?: AwsS3AccessPointVpcConfigurationDetails;
+  AccessPointArn?: string | undefined;
+  Alias?: string | undefined;
+  Bucket?: string | undefined;
+  BucketAccountId?: string | undefined;
+  Name?: string | undefined;
+  NetworkOrigin?: string | undefined;
+  PublicAccessBlockConfiguration?: AwsS3AccountPublicAccessBlockDetails | undefined;
+  VpcConfiguration?: AwsS3AccessPointVpcConfigurationDetails | undefined;
 }
 export interface AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails {
-  DirectoryId?: string;
+  DirectoryId?: string | undefined;
 }
 export interface AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails {
-  ClientRootCertificateChain?: string;
+  ClientRootCertificateChain?: string | undefined;
 }
 export interface AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails {
-  SamlProviderArn?: string;
-  SelfServiceSamlProviderArn?: string;
+  SamlProviderArn?: string | undefined;
+  SelfServiceSamlProviderArn?: string | undefined;
 }
 export interface AwsEc2ClientVpnEndpointAuthenticationOptionsDetails {
-  Type?: string;
-  ActiveDirectory?: AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails;
-  MutualAuthentication?: AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails;
-  FederatedAuthentication?: AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails;
+  Type?: string | undefined;
+  ActiveDirectory?: AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails | undefined;
+  MutualAuthentication?:
+    | AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails
+    | undefined;
+  FederatedAuthentication?:
+    | AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails
+    | undefined;
 }
 export type AwsEc2ClientVpnEndpointAuthenticationOptionsList =
   AwsEc2ClientVpnEndpointAuthenticationOptionsDetails[];
 export interface AwsEc2ClientVpnEndpointConnectionLogOptionsDetails {
-  Enabled?: boolean;
-  CloudwatchLogGroup?: string;
-  CloudwatchLogStream?: string;
+  Enabled?: boolean | undefined;
+  CloudwatchLogGroup?: string | undefined;
+  CloudwatchLogStream?: string | undefined;
 }
 export interface AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface AwsEc2ClientVpnEndpointClientConnectOptionsDetails {
-  Enabled?: boolean;
-  LambdaFunctionArn?: string;
-  Status?: AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails;
+  Enabled?: boolean | undefined;
+  LambdaFunctionArn?: string | undefined;
+  Status?: AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails | undefined;
 }
 export interface AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails {
-  Enabled?: boolean;
-  BannerText?: string;
+  Enabled?: boolean | undefined;
+  BannerText?: string | undefined;
 }
 export interface AwsEc2ClientVpnEndpointDetails {
-  ClientVpnEndpointId?: string;
-  Description?: string;
-  ClientCidrBlock?: string;
-  DnsServer?: string[];
-  SplitTunnel?: boolean;
-  TransportProtocol?: string;
-  VpnPort?: number;
-  ServerCertificateArn?: string;
-  AuthenticationOptions?: AwsEc2ClientVpnEndpointAuthenticationOptionsDetails[];
-  ConnectionLogOptions?: AwsEc2ClientVpnEndpointConnectionLogOptionsDetails;
-  SecurityGroupIdSet?: string[];
-  VpcId?: string;
-  SelfServicePortalUrl?: string;
-  ClientConnectOptions?: AwsEc2ClientVpnEndpointClientConnectOptionsDetails;
-  SessionTimeoutHours?: number;
-  ClientLoginBannerOptions?: AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails;
+  ClientVpnEndpointId?: string | undefined;
+  Description?: string | undefined;
+  ClientCidrBlock?: string | undefined;
+  DnsServer?: string[] | undefined;
+  SplitTunnel?: boolean | undefined;
+  TransportProtocol?: string | undefined;
+  VpnPort?: number | undefined;
+  ServerCertificateArn?: string | undefined;
+  AuthenticationOptions?: AwsEc2ClientVpnEndpointAuthenticationOptionsDetails[] | undefined;
+  ConnectionLogOptions?: AwsEc2ClientVpnEndpointConnectionLogOptionsDetails | undefined;
+  SecurityGroupIdSet?: string[] | undefined;
+  VpcId?: string | undefined;
+  SelfServicePortalUrl?: string | undefined;
+  ClientConnectOptions?: AwsEc2ClientVpnEndpointClientConnectOptionsDetails | undefined;
+  SessionTimeoutHours?: number | undefined;
+  ClientLoginBannerOptions?: AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails | undefined;
 }
 export interface CodeRepositoryDetails {
-  ProviderType?: string;
-  ProjectName?: string;
-  CodeSecurityIntegrationArn?: string;
+  ProviderType?: string | undefined;
+  ProjectName?: string | undefined;
+  CodeSecurityIntegrationArn?: string | undefined;
 }
 export type AzureResourceDetails = unknown;
 export interface ResourceDetails {
-  AwsAutoScalingAutoScalingGroup?: AwsAutoScalingAutoScalingGroupDetails;
-  AwsCodeBuildProject?: AwsCodeBuildProjectDetails;
-  AwsCloudFrontDistribution?: AwsCloudFrontDistributionDetails;
-  AwsEc2Instance?: AwsEc2InstanceDetails;
-  AwsEc2NetworkInterface?: AwsEc2NetworkInterfaceDetails;
-  AwsEc2SecurityGroup?: AwsEc2SecurityGroupDetails;
-  AwsEc2Volume?: AwsEc2VolumeDetails;
-  AwsEc2Vpc?: AwsEc2VpcDetails;
-  AwsEc2Eip?: AwsEc2EipDetails;
-  AwsEc2Subnet?: AwsEc2SubnetDetails;
-  AwsEc2NetworkAcl?: AwsEc2NetworkAclDetails;
-  AwsElbv2LoadBalancer?: AwsElbv2LoadBalancerDetails;
-  AwsElasticBeanstalkEnvironment?: AwsElasticBeanstalkEnvironmentDetails;
-  AwsElasticsearchDomain?: AwsElasticsearchDomainDetails;
-  AwsS3Bucket?: AwsS3BucketDetails;
-  AwsS3AccountPublicAccessBlock?: AwsS3AccountPublicAccessBlockDetails;
-  AwsS3Object?: AwsS3ObjectDetails;
-  AwsSecretsManagerSecret?: AwsSecretsManagerSecretDetails;
-  AwsIamAccessKey?: AwsIamAccessKeyDetails;
-  AwsIamUser?: AwsIamUserDetails;
-  AwsIamPolicy?: AwsIamPolicyDetails;
-  AwsApiGatewayV2Stage?: AwsApiGatewayV2StageDetails;
-  AwsApiGatewayV2Api?: AwsApiGatewayV2ApiDetails;
-  AwsDynamoDbTable?: AwsDynamoDbTableDetails;
-  AwsApiGatewayStage?: AwsApiGatewayStageDetails;
-  AwsApiGatewayRestApi?: AwsApiGatewayRestApiDetails;
-  AwsCloudTrailTrail?: AwsCloudTrailTrailDetails;
-  AwsSsmPatchCompliance?: AwsSsmPatchComplianceDetails;
-  AwsCertificateManagerCertificate?: AwsCertificateManagerCertificateDetails;
-  AwsRedshiftCluster?: AwsRedshiftClusterDetails;
-  AwsElbLoadBalancer?: AwsElbLoadBalancerDetails;
-  AwsIamGroup?: AwsIamGroupDetails;
-  AwsIamRole?: AwsIamRoleDetails;
-  AwsKmsKey?: AwsKmsKeyDetails;
-  AwsLambdaFunction?: AwsLambdaFunctionDetails;
-  AwsLambdaLayerVersion?: AwsLambdaLayerVersionDetails;
-  AwsRdsDbInstance?: AwsRdsDbInstanceDetails;
-  AwsSnsTopic?: AwsSnsTopicDetails;
-  AwsSqsQueue?: AwsSqsQueueDetails;
-  AwsWafWebAcl?: AwsWafWebAclDetails;
-  AwsRdsDbSnapshot?: AwsRdsDbSnapshotDetails;
-  AwsRdsDbClusterSnapshot?: AwsRdsDbClusterSnapshotDetails;
-  AwsRdsDbCluster?: AwsRdsDbClusterDetails;
-  AwsEcsCluster?: AwsEcsClusterDetails;
-  AwsEcsContainer?: AwsEcsContainerDetails;
-  AwsEcsTaskDefinition?: AwsEcsTaskDefinitionDetails;
-  Container?: ContainerDetails;
-  Other?: { [key: string]: string | undefined };
-  AwsRdsEventSubscription?: AwsRdsEventSubscriptionDetails;
-  AwsEcsService?: AwsEcsServiceDetails;
-  AwsAutoScalingLaunchConfiguration?: AwsAutoScalingLaunchConfigurationDetails;
-  AwsEc2VpnConnection?: AwsEc2VpnConnectionDetails;
-  AwsEcrContainerImage?: AwsEcrContainerImageDetails;
-  AwsOpenSearchServiceDomain?: AwsOpenSearchServiceDomainDetails;
-  AwsEc2VpcEndpointService?: AwsEc2VpcEndpointServiceDetails;
-  AwsXrayEncryptionConfig?: AwsXrayEncryptionConfigDetails;
-  AwsWafRateBasedRule?: AwsWafRateBasedRuleDetails;
-  AwsWafRegionalRateBasedRule?: AwsWafRegionalRateBasedRuleDetails;
-  AwsEcrRepository?: AwsEcrRepositoryDetails;
-  AwsEksCluster?: AwsEksClusterDetails;
-  AwsNetworkFirewallFirewallPolicy?: AwsNetworkFirewallFirewallPolicyDetails;
-  AwsNetworkFirewallFirewall?: AwsNetworkFirewallFirewallDetails;
-  AwsNetworkFirewallRuleGroup?: AwsNetworkFirewallRuleGroupDetails;
-  AwsRdsDbSecurityGroup?: AwsRdsDbSecurityGroupDetails;
-  AwsKinesisStream?: AwsKinesisStreamDetails;
-  AwsEc2TransitGateway?: AwsEc2TransitGatewayDetails;
-  AwsEfsAccessPoint?: AwsEfsAccessPointDetails;
-  AwsCloudFormationStack?: AwsCloudFormationStackDetails;
-  AwsCloudWatchAlarm?: AwsCloudWatchAlarmDetails;
-  AwsEc2VpcPeeringConnection?: AwsEc2VpcPeeringConnectionDetails;
-  AwsWafRegionalRuleGroup?: AwsWafRegionalRuleGroupDetails;
-  AwsWafRegionalRule?: AwsWafRegionalRuleDetails;
-  AwsWafRegionalWebAcl?: AwsWafRegionalWebAclDetails;
-  AwsWafRule?: AwsWafRuleDetails;
-  AwsWafRuleGroup?: AwsWafRuleGroupDetails;
-  AwsEcsTask?: AwsEcsTaskDetails;
-  AwsBackupBackupVault?: AwsBackupBackupVaultDetails;
-  AwsBackupBackupPlan?: AwsBackupBackupPlanDetails;
-  AwsBackupRecoveryPoint?: AwsBackupRecoveryPointDetails;
-  AwsEc2LaunchTemplate?: AwsEc2LaunchTemplateDetails;
-  AwsSageMakerNotebookInstance?: AwsSageMakerNotebookInstanceDetails;
-  AwsWafv2WebAcl?: AwsWafv2WebAclDetails;
-  AwsWafv2RuleGroup?: AwsWafv2RuleGroupDetails;
-  AwsEc2RouteTable?: AwsEc2RouteTableDetails;
-  AwsAmazonMqBroker?: AwsAmazonMqBrokerDetails;
-  AwsAppSyncGraphQlApi?: AwsAppSyncGraphQlApiDetails;
-  AwsEventSchemasRegistry?: AwsEventSchemasRegistryDetails;
-  AwsGuardDutyDetector?: AwsGuardDutyDetectorDetails;
-  AwsStepFunctionStateMachine?: AwsStepFunctionStateMachineDetails;
-  AwsAthenaWorkGroup?: AwsAthenaWorkGroupDetails;
-  AwsEventsEventbus?: AwsEventsEventbusDetails;
-  AwsDmsEndpoint?: AwsDmsEndpointDetails;
-  AwsEventsEndpoint?: AwsEventsEndpointDetails;
-  AwsDmsReplicationTask?: AwsDmsReplicationTaskDetails;
-  AwsDmsReplicationInstance?: AwsDmsReplicationInstanceDetails;
-  AwsRoute53HostedZone?: AwsRoute53HostedZoneDetails;
-  AwsMskCluster?: AwsMskClusterDetails;
-  AwsS3AccessPoint?: AwsS3AccessPointDetails;
-  AwsEc2ClientVpnEndpoint?: AwsEc2ClientVpnEndpointDetails;
-  CodeRepository?: CodeRepositoryDetails;
-  AzureResource?: any;
+  AwsAutoScalingAutoScalingGroup?: AwsAutoScalingAutoScalingGroupDetails | undefined;
+  AwsCodeBuildProject?: AwsCodeBuildProjectDetails | undefined;
+  AwsCloudFrontDistribution?: AwsCloudFrontDistributionDetails | undefined;
+  AwsEc2Instance?: AwsEc2InstanceDetails | undefined;
+  AwsEc2NetworkInterface?: AwsEc2NetworkInterfaceDetails | undefined;
+  AwsEc2SecurityGroup?: AwsEc2SecurityGroupDetails | undefined;
+  AwsEc2Volume?: AwsEc2VolumeDetails | undefined;
+  AwsEc2Vpc?: AwsEc2VpcDetails | undefined;
+  AwsEc2Eip?: AwsEc2EipDetails | undefined;
+  AwsEc2Subnet?: AwsEc2SubnetDetails | undefined;
+  AwsEc2NetworkAcl?: AwsEc2NetworkAclDetails | undefined;
+  AwsElbv2LoadBalancer?: AwsElbv2LoadBalancerDetails | undefined;
+  AwsElasticBeanstalkEnvironment?: AwsElasticBeanstalkEnvironmentDetails | undefined;
+  AwsElasticsearchDomain?: AwsElasticsearchDomainDetails | undefined;
+  AwsS3Bucket?: AwsS3BucketDetails | undefined;
+  AwsS3AccountPublicAccessBlock?: AwsS3AccountPublicAccessBlockDetails | undefined;
+  AwsS3Object?: AwsS3ObjectDetails | undefined;
+  AwsSecretsManagerSecret?: AwsSecretsManagerSecretDetails | undefined;
+  AwsIamAccessKey?: AwsIamAccessKeyDetails | undefined;
+  AwsIamUser?: AwsIamUserDetails | undefined;
+  AwsIamPolicy?: AwsIamPolicyDetails | undefined;
+  AwsApiGatewayV2Stage?: AwsApiGatewayV2StageDetails | undefined;
+  AwsApiGatewayV2Api?: AwsApiGatewayV2ApiDetails | undefined;
+  AwsDynamoDbTable?: AwsDynamoDbTableDetails | undefined;
+  AwsApiGatewayStage?: AwsApiGatewayStageDetails | undefined;
+  AwsApiGatewayRestApi?: AwsApiGatewayRestApiDetails | undefined;
+  AwsCloudTrailTrail?: AwsCloudTrailTrailDetails | undefined;
+  AwsSsmPatchCompliance?: AwsSsmPatchComplianceDetails | undefined;
+  AwsCertificateManagerCertificate?: AwsCertificateManagerCertificateDetails | undefined;
+  AwsRedshiftCluster?: AwsRedshiftClusterDetails | undefined;
+  AwsElbLoadBalancer?: AwsElbLoadBalancerDetails | undefined;
+  AwsIamGroup?: AwsIamGroupDetails | undefined;
+  AwsIamRole?: AwsIamRoleDetails | undefined;
+  AwsKmsKey?: AwsKmsKeyDetails | undefined;
+  AwsLambdaFunction?: AwsLambdaFunctionDetails | undefined;
+  AwsLambdaLayerVersion?: AwsLambdaLayerVersionDetails | undefined;
+  AwsRdsDbInstance?: AwsRdsDbInstanceDetails | undefined;
+  AwsSnsTopic?: AwsSnsTopicDetails | undefined;
+  AwsSqsQueue?: AwsSqsQueueDetails | undefined;
+  AwsWafWebAcl?: AwsWafWebAclDetails | undefined;
+  AwsRdsDbSnapshot?: AwsRdsDbSnapshotDetails | undefined;
+  AwsRdsDbClusterSnapshot?: AwsRdsDbClusterSnapshotDetails | undefined;
+  AwsRdsDbCluster?: AwsRdsDbClusterDetails | undefined;
+  AwsEcsCluster?: AwsEcsClusterDetails | undefined;
+  AwsEcsContainer?: AwsEcsContainerDetails | undefined;
+  AwsEcsTaskDefinition?: AwsEcsTaskDefinitionDetails | undefined;
+  Container?: ContainerDetails | undefined;
+  Other?: { [key: string]: string | undefined } | undefined;
+  AwsRdsEventSubscription?: AwsRdsEventSubscriptionDetails | undefined;
+  AwsEcsService?: AwsEcsServiceDetails | undefined;
+  AwsAutoScalingLaunchConfiguration?: AwsAutoScalingLaunchConfigurationDetails | undefined;
+  AwsEc2VpnConnection?: AwsEc2VpnConnectionDetails | undefined;
+  AwsEcrContainerImage?: AwsEcrContainerImageDetails | undefined;
+  AwsOpenSearchServiceDomain?: AwsOpenSearchServiceDomainDetails | undefined;
+  AwsEc2VpcEndpointService?: AwsEc2VpcEndpointServiceDetails | undefined;
+  AwsXrayEncryptionConfig?: AwsXrayEncryptionConfigDetails | undefined;
+  AwsWafRateBasedRule?: AwsWafRateBasedRuleDetails | undefined;
+  AwsWafRegionalRateBasedRule?: AwsWafRegionalRateBasedRuleDetails | undefined;
+  AwsEcrRepository?: AwsEcrRepositoryDetails | undefined;
+  AwsEksCluster?: AwsEksClusterDetails | undefined;
+  AwsNetworkFirewallFirewallPolicy?: AwsNetworkFirewallFirewallPolicyDetails | undefined;
+  AwsNetworkFirewallFirewall?: AwsNetworkFirewallFirewallDetails | undefined;
+  AwsNetworkFirewallRuleGroup?: AwsNetworkFirewallRuleGroupDetails | undefined;
+  AwsRdsDbSecurityGroup?: AwsRdsDbSecurityGroupDetails | undefined;
+  AwsKinesisStream?: AwsKinesisStreamDetails | undefined;
+  AwsEc2TransitGateway?: AwsEc2TransitGatewayDetails | undefined;
+  AwsEfsAccessPoint?: AwsEfsAccessPointDetails | undefined;
+  AwsCloudFormationStack?: AwsCloudFormationStackDetails | undefined;
+  AwsCloudWatchAlarm?: AwsCloudWatchAlarmDetails | undefined;
+  AwsEc2VpcPeeringConnection?: AwsEc2VpcPeeringConnectionDetails | undefined;
+  AwsWafRegionalRuleGroup?: AwsWafRegionalRuleGroupDetails | undefined;
+  AwsWafRegionalRule?: AwsWafRegionalRuleDetails | undefined;
+  AwsWafRegionalWebAcl?: AwsWafRegionalWebAclDetails | undefined;
+  AwsWafRule?: AwsWafRuleDetails | undefined;
+  AwsWafRuleGroup?: AwsWafRuleGroupDetails | undefined;
+  AwsEcsTask?: AwsEcsTaskDetails | undefined;
+  AwsBackupBackupVault?: AwsBackupBackupVaultDetails | undefined;
+  AwsBackupBackupPlan?: AwsBackupBackupPlanDetails | undefined;
+  AwsBackupRecoveryPoint?: AwsBackupRecoveryPointDetails | undefined;
+  AwsEc2LaunchTemplate?: AwsEc2LaunchTemplateDetails | undefined;
+  AwsSageMakerNotebookInstance?: AwsSageMakerNotebookInstanceDetails | undefined;
+  AwsWafv2WebAcl?: AwsWafv2WebAclDetails | undefined;
+  AwsWafv2RuleGroup?: AwsWafv2RuleGroupDetails | undefined;
+  AwsEc2RouteTable?: AwsEc2RouteTableDetails | undefined;
+  AwsAmazonMqBroker?: AwsAmazonMqBrokerDetails | undefined;
+  AwsAppSyncGraphQlApi?: AwsAppSyncGraphQlApiDetails | undefined;
+  AwsEventSchemasRegistry?: AwsEventSchemasRegistryDetails | undefined;
+  AwsGuardDutyDetector?: AwsGuardDutyDetectorDetails | undefined;
+  AwsStepFunctionStateMachine?: AwsStepFunctionStateMachineDetails | undefined;
+  AwsAthenaWorkGroup?: AwsAthenaWorkGroupDetails | undefined;
+  AwsEventsEventbus?: AwsEventsEventbusDetails | undefined;
+  AwsDmsEndpoint?: AwsDmsEndpointDetails | undefined;
+  AwsEventsEndpoint?: AwsEventsEndpointDetails | undefined;
+  AwsDmsReplicationTask?: AwsDmsReplicationTaskDetails | undefined;
+  AwsDmsReplicationInstance?: AwsDmsReplicationInstanceDetails | undefined;
+  AwsRoute53HostedZone?: AwsRoute53HostedZoneDetails | undefined;
+  AwsMskCluster?: AwsMskClusterDetails | undefined;
+  AwsS3AccessPoint?: AwsS3AccessPointDetails | undefined;
+  AwsEc2ClientVpnEndpoint?: AwsEc2ClientVpnEndpointDetails | undefined;
+  CodeRepository?: CodeRepositoryDetails | undefined;
+  AzureResource?: any | undefined;
 }
 export interface Resource {
-  Type?: string;
-  Id?: string;
-  Partition?: Partition;
-  Region?: string;
-  Provider?: CloudProviderName;
-  Owner?: ResourceOwner;
-  ResourceRole?: string;
-  Tags?: { [key: string]: string | undefined };
-  DataClassification?: DataClassificationDetails;
-  Details?: ResourceDetails;
-  ApplicationName?: string;
-  ApplicationArn?: string;
+  Type?: string | undefined;
+  Id?: string | undefined;
+  Partition?: Partition | undefined;
+  Region?: string | undefined;
+  Provider?: CloudProviderName | undefined;
+  Owner?: ResourceOwner | undefined;
+  ResourceRole?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  DataClassification?: DataClassificationDetails | undefined;
+  Details?: ResourceDetails | undefined;
+  ApplicationName?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export type ResourceList = Resource[];
 export type ComplianceStatus = "PASSED" | "WARNING" | "FAILED" | "NOT_AVAILABLE" | (string & {});
 export interface StatusReason {
-  ReasonCode?: string;
-  Description?: string;
+  ReasonCode?: string | undefined;
+  Description?: string | undefined;
 }
 export type StatusReasonsList = StatusReason[];
 export interface AssociatedStandard {
-  StandardsId?: string;
+  StandardsId?: string | undefined;
 }
 export type AssociatedStandardsList = AssociatedStandard[];
 export interface SecurityControlParameter {
-  Name?: string;
-  Value?: string[];
+  Name?: string | undefined;
+  Value?: string[] | undefined;
 }
 export type SecurityControlParametersList = SecurityControlParameter[];
 export interface Compliance {
-  Status?: ComplianceStatus;
-  RelatedRequirements?: string[];
-  StatusReasons?: StatusReason[];
-  SecurityControlId?: string;
-  AssociatedStandards?: AssociatedStandard[];
-  SecurityControlParameters?: SecurityControlParameter[];
+  Status?: ComplianceStatus | undefined;
+  RelatedRequirements?: string[] | undefined;
+  StatusReasons?: StatusReason[] | undefined;
+  SecurityControlId?: string | undefined;
+  AssociatedStandards?: AssociatedStandard[] | undefined;
+  SecurityControlParameters?: SecurityControlParameter[] | undefined;
 }
 export type WorkflowState =
   | "NEW"
@@ -4779,371 +4880,373 @@ export type WorkflowState =
   | "RESOLVED"
   | (string & {});
 export interface Workflow {
-  Status?: WorkflowStatus;
+  Status?: WorkflowStatus | undefined;
 }
 export type RecordState = "ACTIVE" | "ARCHIVED" | (string & {});
 export interface Note {
-  Text?: string;
-  UpdatedBy?: string;
-  UpdatedAt?: string;
+  Text?: string | undefined;
+  UpdatedBy?: string | undefined;
+  UpdatedAt?: string | undefined;
 }
 export interface SoftwarePackage {
-  Name?: string;
-  Version?: string;
-  Epoch?: string;
-  Release?: string;
-  Architecture?: string;
-  PackageManager?: string;
-  FilePath?: string;
-  FixedInVersion?: string;
-  Remediation?: string;
-  SourceLayerHash?: string;
-  SourceLayerArn?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  Epoch?: string | undefined;
+  Release?: string | undefined;
+  Architecture?: string | undefined;
+  PackageManager?: string | undefined;
+  FilePath?: string | undefined;
+  FixedInVersion?: string | undefined;
+  Remediation?: string | undefined;
+  SourceLayerHash?: string | undefined;
+  SourceLayerArn?: string | undefined;
 }
 export type SoftwarePackageList = SoftwarePackage[];
 export interface Adjustment {
-  Metric?: string;
-  Reason?: string;
+  Metric?: string | undefined;
+  Reason?: string | undefined;
 }
 export type AdjustmentList = Adjustment[];
 export interface Cvss {
-  Version?: string;
-  BaseScore?: number;
-  BaseVector?: string;
-  Source?: string;
-  Adjustments?: Adjustment[];
+  Version?: string | undefined;
+  BaseScore?: number | undefined;
+  BaseVector?: string | undefined;
+  Source?: string | undefined;
+  Adjustments?: Adjustment[] | undefined;
 }
 export type CvssList = Cvss[];
 export interface VulnerabilityVendor {
-  Name?: string;
-  Url?: string;
-  VendorSeverity?: string;
-  VendorCreatedAt?: string;
-  VendorUpdatedAt?: string;
+  Name?: string | undefined;
+  Url?: string | undefined;
+  VendorSeverity?: string | undefined;
+  VendorCreatedAt?: string | undefined;
+  VendorUpdatedAt?: string | undefined;
 }
 export type VulnerabilityFixAvailable = "YES" | "NO" | "PARTIAL" | (string & {});
 export type VulnerabilityExploitAvailable = "YES" | "NO" | (string & {});
 export interface CodeVulnerabilitiesFilePath {
-  EndLine?: number;
-  FileName?: string;
-  FilePath?: string;
-  StartLine?: number;
+  EndLine?: number | undefined;
+  FileName?: string | undefined;
+  FilePath?: string | undefined;
+  StartLine?: number | undefined;
 }
 export interface VulnerabilityCodeVulnerabilities {
-  Cwes?: string[];
-  FilePath?: CodeVulnerabilitiesFilePath;
-  SourceArn?: string;
+  Cwes?: string[] | undefined;
+  FilePath?: CodeVulnerabilitiesFilePath | undefined;
+  SourceArn?: string | undefined;
 }
 export type VulnerabilityCodeVulnerabilitiesList = VulnerabilityCodeVulnerabilities[];
 export interface Vulnerability {
-  Id?: string;
-  VulnerablePackages?: SoftwarePackage[];
-  Cvss?: Cvss[];
-  RelatedVulnerabilities?: string[];
-  Vendor?: VulnerabilityVendor;
-  ReferenceUrls?: string[];
-  FixAvailable?: VulnerabilityFixAvailable;
-  EpssScore?: number;
-  ExploitAvailable?: VulnerabilityExploitAvailable;
-  LastKnownExploitAt?: string;
-  CodeVulnerabilities?: VulnerabilityCodeVulnerabilities[];
+  Id?: string | undefined;
+  VulnerablePackages?: SoftwarePackage[] | undefined;
+  Cvss?: Cvss[] | undefined;
+  RelatedVulnerabilities?: string[] | undefined;
+  Vendor?: VulnerabilityVendor | undefined;
+  ReferenceUrls?: string[] | undefined;
+  FixAvailable?: VulnerabilityFixAvailable | undefined;
+  EpssScore?: number | undefined;
+  ExploitAvailable?: VulnerabilityExploitAvailable | undefined;
+  LastKnownExploitAt?: string | undefined;
+  CodeVulnerabilities?: VulnerabilityCodeVulnerabilities[] | undefined;
 }
 export type VulnerabilityList = Vulnerability[];
 export interface PatchSummary {
-  Id?: string;
-  InstalledCount?: number;
-  MissingCount?: number;
-  FailedCount?: number;
-  InstalledOtherCount?: number;
-  InstalledRejectedCount?: number;
-  InstalledPendingReboot?: number;
-  OperationStartTime?: string;
-  OperationEndTime?: string;
-  RebootOption?: string;
-  Operation?: string;
+  Id?: string | undefined;
+  InstalledCount?: number | undefined;
+  MissingCount?: number | undefined;
+  FailedCount?: number | undefined;
+  InstalledOtherCount?: number | undefined;
+  InstalledRejectedCount?: number | undefined;
+  InstalledPendingReboot?: number | undefined;
+  OperationStartTime?: string | undefined;
+  OperationEndTime?: string | undefined;
+  RebootOption?: string | undefined;
+  Operation?: string | undefined;
 }
 export interface IpOrganizationDetails {
-  Asn?: number;
-  AsnOrg?: string;
-  Isp?: string;
-  Org?: string;
+  Asn?: number | undefined;
+  AsnOrg?: string | undefined;
+  Isp?: string | undefined;
+  Org?: string | undefined;
 }
 export interface Country {
-  CountryCode?: string;
-  CountryName?: string;
+  CountryCode?: string | undefined;
+  CountryName?: string | undefined;
 }
 export interface City {
-  CityName?: string;
+  CityName?: string | undefined;
 }
 export interface GeoLocation {
-  Lon?: number;
-  Lat?: number;
+  Lon?: number | undefined;
+  Lat?: number | undefined;
 }
 export interface ActionRemoteIpDetails {
-  IpAddressV4?: string;
-  Organization?: IpOrganizationDetails;
-  Country?: Country;
-  City?: City;
-  GeoLocation?: GeoLocation;
+  IpAddressV4?: string | undefined;
+  Organization?: IpOrganizationDetails | undefined;
+  Country?: Country | undefined;
+  City?: City | undefined;
+  GeoLocation?: GeoLocation | undefined;
 }
 export interface ActionRemotePortDetails {
-  Port?: number;
-  PortName?: string;
+  Port?: number | undefined;
+  PortName?: string | undefined;
 }
 export interface ActionLocalPortDetails {
-  Port?: number;
-  PortName?: string;
+  Port?: number | undefined;
+  PortName?: string | undefined;
 }
 export interface NetworkConnectionAction {
-  ConnectionDirection?: string;
-  RemoteIpDetails?: ActionRemoteIpDetails;
-  RemotePortDetails?: ActionRemotePortDetails;
-  LocalPortDetails?: ActionLocalPortDetails;
-  Protocol?: string;
-  Blocked?: boolean;
+  ConnectionDirection?: string | undefined;
+  RemoteIpDetails?: ActionRemoteIpDetails | undefined;
+  RemotePortDetails?: ActionRemotePortDetails | undefined;
+  LocalPortDetails?: ActionLocalPortDetails | undefined;
+  Protocol?: string | undefined;
+  Blocked?: boolean | undefined;
 }
 export interface AwsApiCallActionDomainDetails {
-  Domain?: string;
+  Domain?: string | undefined;
 }
 export interface AwsApiCallAction {
-  Api?: string;
-  ServiceName?: string;
-  CallerType?: string;
-  RemoteIpDetails?: ActionRemoteIpDetails;
-  DomainDetails?: AwsApiCallActionDomainDetails;
-  AffectedResources?: { [key: string]: string | undefined };
-  FirstSeen?: string;
-  LastSeen?: string;
+  Api?: string | undefined;
+  ServiceName?: string | undefined;
+  CallerType?: string | undefined;
+  RemoteIpDetails?: ActionRemoteIpDetails | undefined;
+  DomainDetails?: AwsApiCallActionDomainDetails | undefined;
+  AffectedResources?: { [key: string]: string | undefined } | undefined;
+  FirstSeen?: string | undefined;
+  LastSeen?: string | undefined;
 }
 export interface DnsRequestAction {
-  Domain?: string;
-  Protocol?: string;
-  Blocked?: boolean;
+  Domain?: string | undefined;
+  Protocol?: string | undefined;
+  Blocked?: boolean | undefined;
 }
 export interface ActionLocalIpDetails {
-  IpAddressV4?: string;
+  IpAddressV4?: string | undefined;
 }
 export interface PortProbeDetail {
-  LocalPortDetails?: ActionLocalPortDetails;
-  LocalIpDetails?: ActionLocalIpDetails;
-  RemoteIpDetails?: ActionRemoteIpDetails;
+  LocalPortDetails?: ActionLocalPortDetails | undefined;
+  LocalIpDetails?: ActionLocalIpDetails | undefined;
+  RemoteIpDetails?: ActionRemoteIpDetails | undefined;
 }
 export type PortProbeDetailList = PortProbeDetail[];
 export interface PortProbeAction {
-  PortProbeDetails?: PortProbeDetail[];
-  Blocked?: boolean;
+  PortProbeDetails?: PortProbeDetail[] | undefined;
+  Blocked?: boolean | undefined;
 }
 export interface Action {
-  ActionType?: string;
-  NetworkConnectionAction?: NetworkConnectionAction;
-  AwsApiCallAction?: AwsApiCallAction;
-  DnsRequestAction?: DnsRequestAction;
-  PortProbeAction?: PortProbeAction;
+  ActionType?: string | undefined;
+  NetworkConnectionAction?: NetworkConnectionAction | undefined;
+  AwsApiCallAction?: AwsApiCallAction | undefined;
+  DnsRequestAction?: DnsRequestAction | undefined;
+  PortProbeAction?: PortProbeAction | undefined;
 }
 export interface FindingProviderSeverity {
-  Label?: SeverityLabel;
-  Original?: string;
+  Label?: SeverityLabel | undefined;
+  Original?: string | undefined;
 }
 export interface FindingProviderFields {
-  Confidence?: number;
-  Criticality?: number;
-  RelatedFindings?: RelatedFinding[];
-  Severity?: FindingProviderSeverity;
-  Types?: string[];
+  Confidence?: number | undefined;
+  Criticality?: number | undefined;
+  RelatedFindings?: RelatedFinding[] | undefined;
+  Severity?: FindingProviderSeverity | undefined;
+  Types?: string[] | undefined;
 }
 export interface GeneratorDetails {
-  Name?: string;
-  Description?: string;
-  Labels?: string[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Labels?: string[] | undefined;
 }
 export interface UserAccount {
-  Uid?: string;
-  Name?: string;
+  Uid?: string | undefined;
+  Name?: string | undefined;
 }
 export interface ActorUser {
-  Name?: string;
-  Uid?: string;
-  Type?: string;
-  CredentialUid?: string;
-  Account?: UserAccount;
+  Name?: string | undefined;
+  Uid?: string | undefined;
+  Type?: string | undefined;
+  CredentialUid?: string | undefined;
+  Account?: UserAccount | undefined;
 }
 export type ActorSessionMfaStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface ActorSession {
-  Uid?: string;
-  MfaStatus?: ActorSessionMfaStatus;
-  CreatedTime?: number;
-  Issuer?: string;
+  Uid?: string | undefined;
+  MfaStatus?: ActorSessionMfaStatus | undefined;
+  CreatedTime?: number | undefined;
+  Issuer?: string | undefined;
 }
 export interface Actor {
-  Id?: string;
-  User?: ActorUser;
-  Session?: ActorSession;
+  Id?: string | undefined;
+  User?: ActorUser | undefined;
+  Session?: ActorSession | undefined;
 }
 export type ActorsList = Actor[];
 export interface NetworkGeoLocation {
-  City?: string;
-  Country?: string;
-  Lat?: number;
-  Lon?: number;
+  City?: string | undefined;
+  Country?: string | undefined;
+  Lat?: number | undefined;
+  Lon?: number | undefined;
 }
 export interface NetworkAutonomousSystem {
-  Name?: string;
-  Number?: number;
+  Name?: string | undefined;
+  Number?: number | undefined;
 }
 export type ConnectionDirection = "INBOUND" | "OUTBOUND" | (string & {});
 export interface NetworkConnection {
-  Direction?: ConnectionDirection;
+  Direction?: ConnectionDirection | undefined;
 }
 export interface NetworkEndpoint {
-  Id?: string;
-  Ip?: string;
-  Domain?: string;
-  Port?: number;
-  Location?: NetworkGeoLocation;
-  AutonomousSystem?: NetworkAutonomousSystem;
-  Connection?: NetworkConnection;
+  Id?: string | undefined;
+  Ip?: string | undefined;
+  Domain?: string | undefined;
+  Port?: number | undefined;
+  Location?: NetworkGeoLocation | undefined;
+  AutonomousSystem?: NetworkAutonomousSystem | undefined;
+  Connection?: NetworkConnection | undefined;
 }
 export type NetworkEndpointsList = NetworkEndpoint[];
 export interface Indicator {
-  Key?: string;
-  Values?: string[];
-  Title?: string;
-  Type?: string;
+  Key?: string | undefined;
+  Values?: string[] | undefined;
+  Title?: string | undefined;
+  Type?: string | undefined;
 }
 export type IndicatorsList = Indicator[];
 export interface Signal {
-  Type?: string;
-  Id?: string;
-  Title?: string;
-  ProductArn?: string;
-  ResourceIds?: string[];
-  SignalIndicators?: Indicator[];
-  Name?: string;
-  CreatedAt?: number;
-  UpdatedAt?: number;
-  FirstSeenAt?: number;
-  LastSeenAt?: number;
-  Severity?: number;
-  Count?: number;
-  ActorIds?: string[];
-  EndpointIds?: string[];
+  Type?: string | undefined;
+  Id?: string | undefined;
+  Title?: string | undefined;
+  ProductArn?: string | undefined;
+  ResourceIds?: string[] | undefined;
+  SignalIndicators?: Indicator[] | undefined;
+  Name?: string | undefined;
+  CreatedAt?: number | undefined;
+  UpdatedAt?: number | undefined;
+  FirstSeenAt?: number | undefined;
+  LastSeenAt?: number | undefined;
+  Severity?: number | undefined;
+  Count?: number | undefined;
+  ActorIds?: string[] | undefined;
+  EndpointIds?: string[] | undefined;
 }
 export type SignalsList = Signal[];
 export interface Sequence {
-  Uid?: string;
-  Actors?: Actor[];
-  Endpoints?: NetworkEndpoint[];
-  Signals?: Signal[];
-  SequenceIndicators?: Indicator[];
+  Uid?: string | undefined;
+  Actors?: Actor[] | undefined;
+  Endpoints?: NetworkEndpoint[] | undefined;
+  Signals?: Signal[] | undefined;
+  SequenceIndicators?: Indicator[] | undefined;
 }
 export interface Detection {
-  Sequence?: Sequence;
+  Sequence?: Sequence | undefined;
 }
 export interface AwsSecurityFinding {
-  SchemaVersion?: string;
-  Id?: string;
-  ProductArn?: string;
-  ProductName?: string;
-  CompanyName?: string;
-  Region?: string;
-  GeneratorId?: string;
-  AwsAccountId?: string;
-  Types?: string[];
-  FirstObservedAt?: string;
-  LastObservedAt?: string;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Severity?: Severity;
-  Confidence?: number;
-  Criticality?: number;
-  Title?: string;
-  Description?: string;
-  Remediation?: Remediation;
-  SourceUrl?: string;
-  ProductFields?: { [key: string]: string | undefined };
-  UserDefinedFields?: { [key: string]: string | undefined };
-  Malware?: Malware[];
-  Network?: Network;
-  NetworkPath?: NetworkPathComponent[];
-  Process?: ProcessDetails;
-  Threats?: Threat[];
-  ThreatIntelIndicators?: ThreatIntelIndicator[];
-  Resources?: Resource[];
-  Compliance?: Compliance;
-  VerificationState?: VerificationState;
-  WorkflowState?: WorkflowState;
-  Workflow?: Workflow;
-  RecordState?: RecordState;
-  RelatedFindings?: RelatedFinding[];
-  Note?: Note;
-  Vulnerabilities?: Vulnerability[];
-  PatchSummary?: PatchSummary;
-  Action?: Action;
-  FindingProviderFields?: FindingProviderFields;
-  Sample?: boolean;
-  GeneratorDetails?: GeneratorDetails;
-  ProcessedAt?: string;
-  AwsAccountName?: string;
-  Detection?: Detection;
+  SchemaVersion?: string | undefined;
+  Id?: string | undefined;
+  ProductArn?: string | undefined;
+  ProductName?: string | undefined;
+  CompanyName?: string | undefined;
+  Region?: string | undefined;
+  GeneratorId?: string | undefined;
+  AwsAccountId?: string | undefined;
+  Types?: string[] | undefined;
+  FirstObservedAt?: string | undefined;
+  LastObservedAt?: string | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Severity?: Severity | undefined;
+  Confidence?: number | undefined;
+  Criticality?: number | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  Remediation?: Remediation | undefined;
+  SourceUrl?: string | undefined;
+  ProductFields?: { [key: string]: string | undefined } | undefined;
+  UserDefinedFields?: { [key: string]: string | undefined } | undefined;
+  Malware?: Malware[] | undefined;
+  Network?: Network | undefined;
+  NetworkPath?: NetworkPathComponent[] | undefined;
+  Process?: ProcessDetails | undefined;
+  Threats?: Threat[] | undefined;
+  ThreatIntelIndicators?: ThreatIntelIndicator[] | undefined;
+  Resources?: Resource[] | undefined;
+  Compliance?: Compliance | undefined;
+  VerificationState?: VerificationState | undefined;
+  WorkflowState?: WorkflowState | undefined;
+  Workflow?: Workflow | undefined;
+  RecordState?: RecordState | undefined;
+  RelatedFindings?: RelatedFinding[] | undefined;
+  Note?: Note | undefined;
+  Vulnerabilities?: Vulnerability[] | undefined;
+  PatchSummary?: PatchSummary | undefined;
+  Action?: Action | undefined;
+  FindingProviderFields?: FindingProviderFields | undefined;
+  Sample?: boolean | undefined;
+  GeneratorDetails?: GeneratorDetails | undefined;
+  ProcessedAt?: string | undefined;
+  AwsAccountName?: string | undefined;
+  Detection?: Detection | undefined;
 }
 export type BatchImportFindingsRequestFindingList = AwsSecurityFinding[];
 export interface BatchImportFindingsRequest {
-  Findings?: AwsSecurityFinding[];
+  Findings?: AwsSecurityFinding[] | undefined;
 }
 export interface ImportFindingsError {
-  Id?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  Id?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ImportFindingsErrorList = ImportFindingsError[];
 export interface BatchImportFindingsResponse {
   FailedCount: number;
   SuccessCount: number;
-  FailedFindings?: (ImportFindingsError & {
-    Id: NonEmptyString;
-    ErrorCode: NonEmptyString;
-    ErrorMessage: NonEmptyString;
-  })[];
+  FailedFindings?:
+    | (ImportFindingsError & {
+        Id: NonEmptyString;
+        ErrorCode: NonEmptyString;
+        ErrorMessage: NonEmptyString;
+      })[]
+    | undefined;
 }
 export interface UpdateAutomationRulesRequestItem {
-  RuleArn?: string;
-  RuleStatus?: RuleStatus;
-  RuleOrder?: number;
-  Description?: string;
-  RuleName?: string;
-  IsTerminal?: boolean;
-  Criteria?: AutomationRulesFindingFilters;
-  Actions?: AutomationRulesAction[];
+  RuleArn?: string | undefined;
+  RuleStatus?: RuleStatus | undefined;
+  RuleOrder?: number | undefined;
+  Description?: string | undefined;
+  RuleName?: string | undefined;
+  IsTerminal?: boolean | undefined;
+  Criteria?: AutomationRulesFindingFilters | undefined;
+  Actions?: AutomationRulesAction[] | undefined;
 }
 export type UpdateAutomationRulesRequestItemsList = UpdateAutomationRulesRequestItem[];
 export interface BatchUpdateAutomationRulesRequest {
-  UpdateAutomationRulesRequestItems?: UpdateAutomationRulesRequestItem[];
+  UpdateAutomationRulesRequestItems?: UpdateAutomationRulesRequestItem[] | undefined;
 }
 export interface BatchUpdateAutomationRulesResponse {
-  ProcessedAutomationRules?: string[];
-  UnprocessedAutomationRules?: UnprocessedAutomationRule[];
+  ProcessedAutomationRules?: string[] | undefined;
+  UnprocessedAutomationRules?: UnprocessedAutomationRule[] | undefined;
 }
 export interface AwsSecurityFindingIdentifier {
-  Id?: string;
-  ProductArn?: string;
+  Id?: string | undefined;
+  ProductArn?: string | undefined;
 }
 export type AwsSecurityFindingIdentifierList = AwsSecurityFindingIdentifier[];
 export interface BatchUpdateFindingsRequest {
-  FindingIdentifiers?: AwsSecurityFindingIdentifier[];
-  Note?: NoteUpdate;
-  Severity?: SeverityUpdate;
-  VerificationState?: VerificationState;
-  Confidence?: number;
-  Criticality?: number;
-  Types?: string[];
-  UserDefinedFields?: { [key: string]: string | undefined };
-  Workflow?: WorkflowUpdate;
-  RelatedFindings?: RelatedFinding[];
+  FindingIdentifiers?: AwsSecurityFindingIdentifier[] | undefined;
+  Note?: NoteUpdate | undefined;
+  Severity?: SeverityUpdate | undefined;
+  VerificationState?: VerificationState | undefined;
+  Confidence?: number | undefined;
+  Criticality?: number | undefined;
+  Types?: string[] | undefined;
+  UserDefinedFields?: { [key: string]: string | undefined } | undefined;
+  Workflow?: WorkflowUpdate | undefined;
+  RelatedFindings?: RelatedFinding[] | undefined;
 }
 export interface BatchUpdateFindingsUnprocessedFinding {
-  FindingIdentifier?: AwsSecurityFindingIdentifier;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  FindingIdentifier?: AwsSecurityFindingIdentifier | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchUpdateFindingsUnprocessedFindingsList = BatchUpdateFindingsUnprocessedFinding[];
 export interface BatchUpdateFindingsResponse {
@@ -5162,21 +5265,21 @@ export interface BatchUpdateFindingsResponse {
 }
 export type MetadataUidList = string[];
 export interface OcsfFindingIdentifier {
-  CloudAccountUid?: string;
-  FindingInfoUid?: string;
-  MetadataProductUid?: string;
+  CloudAccountUid?: string | undefined;
+  FindingInfoUid?: string | undefined;
+  MetadataProductUid?: string | undefined;
 }
 export type OcsfFindingIdentifierList = OcsfFindingIdentifier[];
 export interface BatchUpdateFindingsV2Request {
-  MetadataUids?: string[];
-  FindingIdentifiers?: OcsfFindingIdentifier[];
-  Comment?: string;
-  SeverityId?: number;
-  StatusId?: number;
+  MetadataUids?: string[] | undefined;
+  FindingIdentifiers?: OcsfFindingIdentifier[] | undefined;
+  Comment?: string | undefined;
+  SeverityId?: number | undefined;
+  StatusId?: number | undefined;
 }
 export interface BatchUpdateFindingsV2ProcessedFinding {
-  FindingIdentifier?: OcsfFindingIdentifier;
-  MetadataUid?: string;
+  FindingIdentifier?: OcsfFindingIdentifier | undefined;
+  MetadataUid?: string | undefined;
 }
 export type BatchUpdateFindingsV2ProcessedFindingsList = BatchUpdateFindingsV2ProcessedFinding[];
 export type BatchUpdateFindingsV2UnprocessedFindingErrorCode =
@@ -5186,10 +5289,10 @@ export type BatchUpdateFindingsV2UnprocessedFindingErrorCode =
   | "ConflictException"
   | (string & {});
 export interface BatchUpdateFindingsV2UnprocessedFinding {
-  FindingIdentifier?: OcsfFindingIdentifier;
-  MetadataUid?: string;
-  ErrorCode?: BatchUpdateFindingsV2UnprocessedFindingErrorCode;
-  ErrorMessage?: string;
+  FindingIdentifier?: OcsfFindingIdentifier | undefined;
+  MetadataUid?: string | undefined;
+  ErrorCode?: BatchUpdateFindingsV2UnprocessedFindingErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchUpdateFindingsV2UnprocessedFindingsList =
   BatchUpdateFindingsV2UnprocessedFinding[];
@@ -5210,31 +5313,33 @@ export interface BatchUpdateFindingsV2Response {
   })[];
 }
 export interface StandardsControlAssociationUpdate {
-  StandardsArn?: string;
-  SecurityControlId?: string;
-  AssociationStatus?: AssociationStatus;
-  UpdatedReason?: string;
+  StandardsArn?: string | undefined;
+  SecurityControlId?: string | undefined;
+  AssociationStatus?: AssociationStatus | undefined;
+  UpdatedReason?: string | undefined;
 }
 export type StandardsControlAssociationUpdates = StandardsControlAssociationUpdate[];
 export interface BatchUpdateStandardsControlAssociationsRequest {
-  StandardsControlAssociationUpdates?: StandardsControlAssociationUpdate[];
+  StandardsControlAssociationUpdates?: StandardsControlAssociationUpdate[] | undefined;
 }
 export interface UnprocessedStandardsControlAssociationUpdate {
-  StandardsControlAssociationUpdate?: StandardsControlAssociationUpdate;
-  ErrorCode?: UnprocessedErrorCode;
-  ErrorReason?: string;
+  StandardsControlAssociationUpdate?: StandardsControlAssociationUpdate | undefined;
+  ErrorCode?: UnprocessedErrorCode | undefined;
+  ErrorReason?: string | undefined;
 }
 export type UnprocessedStandardsControlAssociationUpdates =
   UnprocessedStandardsControlAssociationUpdate[];
 export interface BatchUpdateStandardsControlAssociationsResponse {
-  UnprocessedAssociationUpdates?: (UnprocessedStandardsControlAssociationUpdate & {
-    StandardsControlAssociationUpdate: StandardsControlAssociationUpdate & {
-      StandardsArn: NonEmptyString;
-      SecurityControlId: NonEmptyString;
-      AssociationStatus: AssociationStatus;
-    };
-    ErrorCode: UnprocessedErrorCode;
-  })[];
+  UnprocessedAssociationUpdates?:
+    | (UnprocessedStandardsControlAssociationUpdate & {
+        StandardsControlAssociationUpdate: StandardsControlAssociationUpdate & {
+          StandardsArn: NonEmptyString;
+          SecurityControlId: NonEmptyString;
+          AssociationStatus: AssociationStatus;
+        };
+        ErrorCode: UnprocessedErrorCode;
+      })[]
+    | undefined;
 }
 export type ExportJobId = string;
 export interface CancelExportJobV2Request {
@@ -5246,9 +5351,9 @@ export interface CancelExportJobV2Response {
   Status: ExportStatus;
 }
 export interface CreateActionTargetRequest {
-  Name?: string;
-  Description?: string;
-  Id?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Id?: string | undefined;
 }
 export interface CreateActionTargetResponse {
   ActionTargetArn: string;
@@ -5258,29 +5363,29 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export type ClientToken = string;
 export interface CreateAggregatorV2Request {
-  RegionLinkingMode?: string;
-  LinkedRegions?: string[];
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  RegionLinkingMode?: string | undefined;
+  LinkedRegions?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateAggregatorV2Response {
-  AggregatorV2Arn?: string;
-  AggregationRegion?: string;
-  RegionLinkingMode?: string;
-  LinkedRegions?: string[];
+  AggregatorV2Arn?: string | undefined;
+  AggregationRegion?: string | undefined;
+  RegionLinkingMode?: string | undefined;
+  LinkedRegions?: string[] | undefined;
 }
 export interface CreateAutomationRuleRequest {
-  Tags?: { [key: string]: string | undefined };
-  RuleStatus?: RuleStatus;
-  RuleOrder?: number;
-  RuleName?: string;
-  Description?: string;
-  IsTerminal?: boolean;
-  Criteria?: AutomationRulesFindingFilters;
-  Actions?: AutomationRulesAction[];
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RuleStatus?: RuleStatus | undefined;
+  RuleOrder?: number | undefined;
+  RuleName?: string | undefined;
+  Description?: string | undefined;
+  IsTerminal?: boolean | undefined;
+  Criteria?: AutomationRulesFindingFilters | undefined;
+  Actions?: AutomationRulesAction[] | undefined;
 }
 export interface CreateAutomationRuleResponse {
-  RuleArn?: string;
+  RuleArn?: string | undefined;
 }
 export type RuleStatusV2 = "ENABLED" | "DISABLED" | (string & {});
 export type RuleOrderValueV2 = number;
@@ -5366,8 +5471,8 @@ export type OcsfStringField =
   | "vendor_attributes.severity"
   | (string & {});
 export interface OcsfStringFilter {
-  FieldName?: OcsfStringField;
-  Filter?: StringFilter;
+  FieldName?: OcsfStringField | undefined;
+  Filter?: StringFilter | undefined;
 }
 export type OcsfStringFilterList = OcsfStringFilter[];
 export type OcsfDateField =
@@ -5380,8 +5485,8 @@ export type OcsfDateField =
   | "resources.modified_time_dt"
   | (string & {});
 export interface OcsfDateFilter {
-  FieldName?: OcsfDateField;
-  Filter?: DateFilter;
+  FieldName?: OcsfDateField | undefined;
+  Filter?: DateFilter | undefined;
 }
 export type OcsfDateFilterList = OcsfDateFilter[];
 export type OcsfBooleanField =
@@ -5390,11 +5495,11 @@ export type OcsfBooleanField =
   | "vulnerabilities.is_fix_available"
   | (string & {});
 export interface BooleanFilter {
-  Value?: boolean;
+  Value?: boolean | undefined;
 }
 export interface OcsfBooleanFilter {
-  FieldName?: OcsfBooleanField;
-  Filter?: BooleanFilter;
+  FieldName?: OcsfBooleanField | undefined;
+  Filter?: BooleanFilter | undefined;
 }
 export type OcsfBooleanFilterList = OcsfBooleanFilter[];
 export type OcsfNumberField =
@@ -5414,8 +5519,8 @@ export type OcsfNumberField =
   | "vendor_attributes.severity_id"
   | (string & {});
 export interface OcsfNumberFilter {
-  FieldName?: OcsfNumberField;
-  Filter?: NumberFilter;
+  FieldName?: OcsfNumberField | undefined;
+  Filter?: NumberFilter | undefined;
 }
 export type OcsfNumberFilterList = OcsfNumberFilter[];
 export type OcsfMapField =
@@ -5425,34 +5530,34 @@ export type OcsfMapField =
   | "finding_info.tags"
   | (string & {});
 export interface OcsfMapFilter {
-  FieldName?: OcsfMapField;
-  Filter?: MapFilter;
+  FieldName?: OcsfMapField | undefined;
+  Filter?: MapFilter | undefined;
 }
 export type OcsfMapFilterList = OcsfMapFilter[];
 export type OcsfIpField = "evidences.dst_endpoint.ip" | "evidences.src_endpoint.ip" | (string & {});
 export interface IpFilter {
-  Cidr?: string;
+  Cidr?: string | undefined;
 }
 export interface OcsfIpFilter {
-  FieldName?: OcsfIpField;
-  Filter?: IpFilter;
+  FieldName?: OcsfIpField | undefined;
+  Filter?: IpFilter | undefined;
 }
 export type OcsfIpFilterList = OcsfIpFilter[];
 export type AllowedOperators = "AND" | "OR" | (string & {});
 export interface CompositeFilter {
-  StringFilters?: OcsfStringFilter[];
-  DateFilters?: OcsfDateFilter[];
-  BooleanFilters?: OcsfBooleanFilter[];
-  NumberFilters?: OcsfNumberFilter[];
-  MapFilters?: OcsfMapFilter[];
-  IpFilters?: OcsfIpFilter[];
-  NestedCompositeFilters?: CompositeFilter[];
-  Operator?: AllowedOperators;
+  StringFilters?: OcsfStringFilter[] | undefined;
+  DateFilters?: OcsfDateFilter[] | undefined;
+  BooleanFilters?: OcsfBooleanFilter[] | undefined;
+  NumberFilters?: OcsfNumberFilter[] | undefined;
+  MapFilters?: OcsfMapFilter[] | undefined;
+  IpFilters?: OcsfIpFilter[] | undefined;
+  NestedCompositeFilters?: CompositeFilter[] | undefined;
+  Operator?: AllowedOperators | undefined;
 }
 export type CompositeFilterList = CompositeFilter[];
 export interface OcsfFindingFilters {
-  CompositeFilters?: CompositeFilter[];
-  CompositeOperator?: AllowedOperators;
+  CompositeFilters?: CompositeFilter[] | undefined;
+  CompositeOperator?: AllowedOperators | undefined;
 }
 export type ResourcesStringField =
   | "ResourceGuid"
@@ -5478,8 +5583,8 @@ export type ResourcesStringField =
   | "ResourceCriticality"
   | (string & {});
 export interface ResourcesStringFilter {
-  FieldName?: ResourcesStringField;
-  Filter?: StringFilter;
+  FieldName?: ResourcesStringField | undefined;
+  Filter?: StringFilter | undefined;
 }
 export type ResourcesStringFilterList = ResourcesStringFilter[];
 export type ResourcesDateField =
@@ -5487,8 +5592,8 @@ export type ResourcesDateField =
   | "ResourceCreationTime"
   | (string & {});
 export interface ResourcesDateFilter {
-  FieldName?: ResourcesDateField;
-  Filter?: DateFilter;
+  FieldName?: ResourcesDateField | undefined;
+  Filter?: DateFilter | undefined;
 }
 export type ResourcesDateFilterList = ResourcesDateFilter[];
 export type ResourcesNumberField =
@@ -5511,44 +5616,44 @@ export type ResourcesNumberField =
   | "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
   | (string & {});
 export interface ResourcesNumberFilter {
-  FieldName?: ResourcesNumberField;
-  Filter?: NumberFilter;
+  FieldName?: ResourcesNumberField | undefined;
+  Filter?: NumberFilter | undefined;
 }
 export type ResourcesNumberFilterList = ResourcesNumberFilter[];
 export type ResourcesMapField = "ResourceTags" | (string & {});
 export interface ResourcesMapFilter {
-  FieldName?: ResourcesMapField;
-  Filter?: MapFilter;
+  FieldName?: ResourcesMapField | undefined;
+  Filter?: MapFilter | undefined;
 }
 export type ResourcesMapFilterList = ResourcesMapFilter[];
 export interface ResourcesCompositeFilter {
-  StringFilters?: ResourcesStringFilter[];
-  DateFilters?: ResourcesDateFilter[];
-  NumberFilters?: ResourcesNumberFilter[];
-  MapFilters?: ResourcesMapFilter[];
-  NestedCompositeFilters?: ResourcesCompositeFilter[];
-  Operator?: AllowedOperators;
+  StringFilters?: ResourcesStringFilter[] | undefined;
+  DateFilters?: ResourcesDateFilter[] | undefined;
+  NumberFilters?: ResourcesNumberFilter[] | undefined;
+  MapFilters?: ResourcesMapFilter[] | undefined;
+  NestedCompositeFilters?: ResourcesCompositeFilter[] | undefined;
+  Operator?: AllowedOperators | undefined;
 }
 export type ResourcesCompositeFilterList = ResourcesCompositeFilter[];
 export interface ResourcesFilters {
-  CompositeFilters?: ResourcesCompositeFilter[];
-  CompositeOperator?: AllowedOperators;
+  CompositeFilters?: ResourcesCompositeFilter[] | undefined;
+  CompositeOperator?: AllowedOperators | undefined;
 }
 export type Criteria =
-  | { OcsfFindingCriteria: OcsfFindingFilters; ResourceCriteria?: never }
-  | { OcsfFindingCriteria?: never; ResourceCriteria: ResourcesFilters };
+  | { OcsfFindingCriteria: OcsfFindingFilters; ResourceCriteria?: undefined }
+  | { OcsfFindingCriteria?: undefined; ResourceCriteria: ResourcesFilters };
 export type AutomationRulesActionTypeV2 =
   | "FINDING_FIELDS_UPDATE"
   | "EXTERNAL_INTEGRATION"
   | "RESOURCE_FIELDS_UPDATE"
   | (string & {});
 export interface AutomationRulesFindingFieldsUpdateV2 {
-  SeverityId?: number;
-  Comment?: string;
-  StatusId?: number;
+  SeverityId?: number | undefined;
+  Comment?: string | undefined;
+  StatusId?: number | undefined;
 }
 export interface ExternalIntegrationConfiguration {
-  ConnectorArn?: string;
+  ConnectorArn?: string | undefined;
 }
 export type ResourceCriticality =
   | "Very High"
@@ -5558,82 +5663,82 @@ export type ResourceCriticality =
   | "Unknown"
   | (string & {});
 export interface AutomationRulesResourceFieldsUpdateV2 {
-  Criticality?: ResourceCriticality;
+  Criticality?: ResourceCriticality | undefined;
 }
 export interface AutomationRulesActionV2 {
-  Type?: AutomationRulesActionTypeV2;
-  FindingFieldsUpdate?: AutomationRulesFindingFieldsUpdateV2;
-  ExternalIntegrationConfiguration?: ExternalIntegrationConfiguration;
-  ResourceFieldsUpdate?: AutomationRulesResourceFieldsUpdateV2;
+  Type?: AutomationRulesActionTypeV2 | undefined;
+  FindingFieldsUpdate?: AutomationRulesFindingFieldsUpdateV2 | undefined;
+  ExternalIntegrationConfiguration?: ExternalIntegrationConfiguration | undefined;
+  ResourceFieldsUpdate?: AutomationRulesResourceFieldsUpdateV2 | undefined;
 }
 export type AutomationRulesActionListV2 = AutomationRulesActionV2[];
 export interface CreateAutomationRuleV2Request {
-  RuleName?: string;
-  RuleStatus?: RuleStatusV2;
-  Description?: string;
-  RuleOrder?: number;
-  Criteria?: Criteria;
-  Actions?: AutomationRulesActionV2[];
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  RuleName?: string | undefined;
+  RuleStatus?: RuleStatusV2 | undefined;
+  Description?: string | undefined;
+  RuleOrder?: number | undefined;
+  Criteria?: Criteria | undefined;
+  Actions?: AutomationRulesActionV2[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateAutomationRuleV2Response {
-  RuleArn?: string;
-  RuleId?: string;
+  RuleArn?: string | undefined;
+  RuleId?: string | undefined;
 }
 export type EnabledStandardIdentifierList = string[];
 export type EnabledSecurityControlIdentifierList = string[];
 export type DisabledSecurityControlIdentifierList = string[];
 export interface SecurityControlCustomParameter {
-  SecurityControlId?: string;
-  Parameters?: { [key: string]: ParameterConfiguration | undefined };
+  SecurityControlId?: string | undefined;
+  Parameters?: { [key: string]: ParameterConfiguration | undefined } | undefined;
 }
 export type SecurityControlCustomParametersList = SecurityControlCustomParameter[];
 export interface SecurityControlsConfiguration {
-  EnabledSecurityControlIdentifiers?: string[];
-  DisabledSecurityControlIdentifiers?: string[];
-  SecurityControlCustomParameters?: SecurityControlCustomParameter[];
+  EnabledSecurityControlIdentifiers?: string[] | undefined;
+  DisabledSecurityControlIdentifiers?: string[] | undefined;
+  SecurityControlCustomParameters?: SecurityControlCustomParameter[] | undefined;
 }
 export interface SecurityHubPolicy {
-  ServiceEnabled?: boolean;
-  EnabledStandardIdentifiers?: string[];
-  SecurityControlsConfiguration?: SecurityControlsConfiguration;
+  ServiceEnabled?: boolean | undefined;
+  EnabledStandardIdentifiers?: string[] | undefined;
+  SecurityControlsConfiguration?: SecurityControlsConfiguration | undefined;
 }
 export type Policy = { SecurityHub: SecurityHubPolicy };
 export interface CreateConfigurationPolicyRequest {
-  Name?: string;
-  Description?: string;
-  ConfigurationPolicy?: Policy;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ConfigurationPolicy?: Policy | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConfigurationPolicyResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  UpdatedAt?: Date;
-  CreatedAt?: Date;
-  ConfigurationPolicy?: Policy;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ConfigurationPolicy?: Policy | undefined;
 }
 export type ScopeType = "TENANT" | "SUBSCRIPTION" | (string & {});
 export type ScopeValueList = string[];
 export interface AzureScopeConfiguration {
-  ScopeType?: ScopeType;
-  ScopeValues?: string[];
+  ScopeType?: ScopeType | undefined;
+  ScopeValues?: string[] | undefined;
 }
 export type AzureRegionList = string[];
 export interface AzureProviderConfiguration {
-  AWSConfigConnectorArn?: string;
-  ScopeConfiguration?: AzureScopeConfiguration;
-  AzureRegions?: string[];
+  AWSConfigConnectorArn?: string | undefined;
+  ScopeConfiguration?: AzureScopeConfiguration | undefined;
+  AzureRegions?: string[] | undefined;
 }
 export type CspmProviderConfiguration = { Azure: AzureProviderConfiguration };
 export interface CreateConnectorRequest {
-  Name?: string;
-  Description?: string;
-  Provider?: CspmProviderConfiguration;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Provider?: CspmProviderConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type CspmConnectorStatus =
   | "CONNECTED"
@@ -5650,27 +5755,27 @@ export type CspmEnablementStatus =
 export interface CreateConnectorResponse {
   ConnectorArn: string;
   ConnectorId: string;
-  ConnectorStatus?: CspmConnectorStatus;
-  EnablementStatus?: CspmEnablementStatus;
+  ConnectorStatus?: CspmConnectorStatus | undefined;
+  EnablementStatus?: CspmEnablementStatus | undefined;
 }
 export interface JiraCloudProviderConfiguration {
-  ProjectKey?: string;
+  ProjectKey?: string | undefined;
 }
 export interface ServiceNowProviderConfiguration {
-  InstanceName?: string;
-  SecretArn?: string;
+  InstanceName?: string | undefined;
+  SecretArn?: string | undefined;
 }
 export type ProviderConfiguration =
-  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: never; Azure?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowProviderConfiguration; Azure?: never }
-  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureProviderConfiguration };
+  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: undefined; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowProviderConfiguration; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureProviderConfiguration };
 export interface CreateConnectorV2Request {
-  Name?: string;
-  Description?: string;
-  Provider?: ProviderConfiguration;
-  KmsKeyArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Provider?: ProviderConfiguration | undefined;
+  KmsKeyArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type ConnectorStatus =
   | "CONNECTED"
@@ -5692,177 +5797,177 @@ export type EnablementStatus =
 export interface CreateConnectorV2Response {
   ConnectorArn: string;
   ConnectorId: string;
-  AuthUrl?: string;
-  ConnectorStatus?: ConnectorStatus;
-  EnablementStatus?: EnablementStatus;
+  AuthUrl?: string | undefined;
+  ConnectorStatus?: ConnectorStatus | undefined;
+  EnablementStatus?: EnablementStatus | undefined;
 }
 export interface CreateFindingAggregatorRequest {
-  RegionLinkingMode?: string;
-  Regions?: string[];
+  RegionLinkingMode?: string | undefined;
+  Regions?: string[] | undefined;
 }
 export interface CreateFindingAggregatorResponse {
-  FindingAggregatorArn?: string;
-  FindingAggregationRegion?: string;
-  RegionLinkingMode?: string;
-  Regions?: string[];
+  FindingAggregatorArn?: string | undefined;
+  FindingAggregationRegion?: string | undefined;
+  RegionLinkingMode?: string | undefined;
+  Regions?: string[] | undefined;
 }
 export type IpFilterList = IpFilter[];
 export interface KeywordFilter {
-  Value?: string;
+  Value?: string | undefined;
 }
 export type KeywordFilterList = KeywordFilter[];
 export type BooleanFilterList = BooleanFilter[];
 export interface AwsSecurityFindingFilters {
-  ProductArn?: StringFilter[];
-  AwsAccountId?: StringFilter[];
-  Id?: StringFilter[];
-  GeneratorId?: StringFilter[];
-  Region?: StringFilter[];
-  Type?: StringFilter[];
-  FirstObservedAt?: DateFilter[];
-  LastObservedAt?: DateFilter[];
-  CreatedAt?: DateFilter[];
-  UpdatedAt?: DateFilter[];
-  SeverityProduct?: NumberFilter[];
-  SeverityNormalized?: NumberFilter[];
-  SeverityLabel?: StringFilter[];
-  Confidence?: NumberFilter[];
-  Criticality?: NumberFilter[];
-  Title?: StringFilter[];
-  Description?: StringFilter[];
-  RecommendationText?: StringFilter[];
-  SourceUrl?: StringFilter[];
-  ProductFields?: MapFilter[];
-  ProductName?: StringFilter[];
-  CompanyName?: StringFilter[];
-  UserDefinedFields?: MapFilter[];
-  MalwareName?: StringFilter[];
-  MalwareType?: StringFilter[];
-  MalwarePath?: StringFilter[];
-  MalwareState?: StringFilter[];
-  NetworkDirection?: StringFilter[];
-  NetworkProtocol?: StringFilter[];
-  NetworkSourceIpV4?: IpFilter[];
-  NetworkSourceIpV6?: IpFilter[];
-  NetworkSourcePort?: NumberFilter[];
-  NetworkSourceDomain?: StringFilter[];
-  NetworkSourceMac?: StringFilter[];
-  NetworkDestinationIpV4?: IpFilter[];
-  NetworkDestinationIpV6?: IpFilter[];
-  NetworkDestinationPort?: NumberFilter[];
-  NetworkDestinationDomain?: StringFilter[];
-  ProcessName?: StringFilter[];
-  ProcessPath?: StringFilter[];
-  ProcessPid?: NumberFilter[];
-  ProcessParentPid?: NumberFilter[];
-  ProcessLaunchedAt?: DateFilter[];
-  ProcessTerminatedAt?: DateFilter[];
-  ThreatIntelIndicatorType?: StringFilter[];
-  ThreatIntelIndicatorValue?: StringFilter[];
-  ThreatIntelIndicatorCategory?: StringFilter[];
-  ThreatIntelIndicatorLastObservedAt?: DateFilter[];
-  ThreatIntelIndicatorSource?: StringFilter[];
-  ThreatIntelIndicatorSourceUrl?: StringFilter[];
-  ResourceType?: StringFilter[];
-  ResourceId?: StringFilter[];
-  ResourcePartition?: StringFilter[];
-  ResourceRegion?: StringFilter[];
-  ResourceTags?: MapFilter[];
-  ResourceAwsEc2InstanceType?: StringFilter[];
-  ResourceAwsEc2InstanceImageId?: StringFilter[];
-  ResourceAwsEc2InstanceIpV4Addresses?: IpFilter[];
-  ResourceAwsEc2InstanceIpV6Addresses?: IpFilter[];
-  ResourceAwsEc2InstanceKeyName?: StringFilter[];
-  ResourceAwsEc2InstanceIamInstanceProfileArn?: StringFilter[];
-  ResourceAwsEc2InstanceVpcId?: StringFilter[];
-  ResourceAwsEc2InstanceSubnetId?: StringFilter[];
-  ResourceAwsEc2InstanceLaunchedAt?: DateFilter[];
-  ResourceAwsS3BucketOwnerId?: StringFilter[];
-  ResourceAwsS3BucketOwnerName?: StringFilter[];
-  ResourceAwsIamAccessKeyUserName?: StringFilter[];
-  ResourceAwsIamAccessKeyPrincipalName?: StringFilter[];
-  ResourceAwsIamAccessKeyStatus?: StringFilter[];
-  ResourceAwsIamAccessKeyCreatedAt?: DateFilter[];
-  ResourceAwsIamUserUserName?: StringFilter[];
-  ResourceContainerName?: StringFilter[];
-  ResourceContainerImageId?: StringFilter[];
-  ResourceContainerImageName?: StringFilter[];
-  ResourceContainerLaunchedAt?: DateFilter[];
-  ResourceDetailsOther?: MapFilter[];
-  ComplianceStatus?: StringFilter[];
-  VerificationState?: StringFilter[];
-  WorkflowState?: StringFilter[];
-  WorkflowStatus?: StringFilter[];
-  RecordState?: StringFilter[];
-  RelatedFindingsProductArn?: StringFilter[];
-  RelatedFindingsId?: StringFilter[];
-  NoteText?: StringFilter[];
-  NoteUpdatedAt?: DateFilter[];
-  NoteUpdatedBy?: StringFilter[];
-  Keyword?: KeywordFilter[];
-  FindingProviderFieldsConfidence?: NumberFilter[];
-  FindingProviderFieldsCriticality?: NumberFilter[];
-  FindingProviderFieldsRelatedFindingsId?: StringFilter[];
-  FindingProviderFieldsRelatedFindingsProductArn?: StringFilter[];
-  FindingProviderFieldsSeverityLabel?: StringFilter[];
-  FindingProviderFieldsSeverityOriginal?: StringFilter[];
-  FindingProviderFieldsTypes?: StringFilter[];
-  Sample?: BooleanFilter[];
-  ComplianceSecurityControlId?: StringFilter[];
-  ComplianceAssociatedStandardsId?: StringFilter[];
-  VulnerabilitiesExploitAvailable?: StringFilter[];
-  VulnerabilitiesFixAvailable?: StringFilter[];
-  ComplianceSecurityControlParametersName?: StringFilter[];
-  ComplianceSecurityControlParametersValue?: StringFilter[];
-  AwsAccountName?: StringFilter[];
-  ResourceApplicationName?: StringFilter[];
-  ResourceApplicationArn?: StringFilter[];
-  ResourceOwnerAccountId?: StringFilter[];
-  ResourceOwnerOrgId?: StringFilter[];
-  ResourceProvider?: StringFilter[];
+  ProductArn?: StringFilter[] | undefined;
+  AwsAccountId?: StringFilter[] | undefined;
+  Id?: StringFilter[] | undefined;
+  GeneratorId?: StringFilter[] | undefined;
+  Region?: StringFilter[] | undefined;
+  Type?: StringFilter[] | undefined;
+  FirstObservedAt?: DateFilter[] | undefined;
+  LastObservedAt?: DateFilter[] | undefined;
+  CreatedAt?: DateFilter[] | undefined;
+  UpdatedAt?: DateFilter[] | undefined;
+  SeverityProduct?: NumberFilter[] | undefined;
+  SeverityNormalized?: NumberFilter[] | undefined;
+  SeverityLabel?: StringFilter[] | undefined;
+  Confidence?: NumberFilter[] | undefined;
+  Criticality?: NumberFilter[] | undefined;
+  Title?: StringFilter[] | undefined;
+  Description?: StringFilter[] | undefined;
+  RecommendationText?: StringFilter[] | undefined;
+  SourceUrl?: StringFilter[] | undefined;
+  ProductFields?: MapFilter[] | undefined;
+  ProductName?: StringFilter[] | undefined;
+  CompanyName?: StringFilter[] | undefined;
+  UserDefinedFields?: MapFilter[] | undefined;
+  MalwareName?: StringFilter[] | undefined;
+  MalwareType?: StringFilter[] | undefined;
+  MalwarePath?: StringFilter[] | undefined;
+  MalwareState?: StringFilter[] | undefined;
+  NetworkDirection?: StringFilter[] | undefined;
+  NetworkProtocol?: StringFilter[] | undefined;
+  NetworkSourceIpV4?: IpFilter[] | undefined;
+  NetworkSourceIpV6?: IpFilter[] | undefined;
+  NetworkSourcePort?: NumberFilter[] | undefined;
+  NetworkSourceDomain?: StringFilter[] | undefined;
+  NetworkSourceMac?: StringFilter[] | undefined;
+  NetworkDestinationIpV4?: IpFilter[] | undefined;
+  NetworkDestinationIpV6?: IpFilter[] | undefined;
+  NetworkDestinationPort?: NumberFilter[] | undefined;
+  NetworkDestinationDomain?: StringFilter[] | undefined;
+  ProcessName?: StringFilter[] | undefined;
+  ProcessPath?: StringFilter[] | undefined;
+  ProcessPid?: NumberFilter[] | undefined;
+  ProcessParentPid?: NumberFilter[] | undefined;
+  ProcessLaunchedAt?: DateFilter[] | undefined;
+  ProcessTerminatedAt?: DateFilter[] | undefined;
+  ThreatIntelIndicatorType?: StringFilter[] | undefined;
+  ThreatIntelIndicatorValue?: StringFilter[] | undefined;
+  ThreatIntelIndicatorCategory?: StringFilter[] | undefined;
+  ThreatIntelIndicatorLastObservedAt?: DateFilter[] | undefined;
+  ThreatIntelIndicatorSource?: StringFilter[] | undefined;
+  ThreatIntelIndicatorSourceUrl?: StringFilter[] | undefined;
+  ResourceType?: StringFilter[] | undefined;
+  ResourceId?: StringFilter[] | undefined;
+  ResourcePartition?: StringFilter[] | undefined;
+  ResourceRegion?: StringFilter[] | undefined;
+  ResourceTags?: MapFilter[] | undefined;
+  ResourceAwsEc2InstanceType?: StringFilter[] | undefined;
+  ResourceAwsEc2InstanceImageId?: StringFilter[] | undefined;
+  ResourceAwsEc2InstanceIpV4Addresses?: IpFilter[] | undefined;
+  ResourceAwsEc2InstanceIpV6Addresses?: IpFilter[] | undefined;
+  ResourceAwsEc2InstanceKeyName?: StringFilter[] | undefined;
+  ResourceAwsEc2InstanceIamInstanceProfileArn?: StringFilter[] | undefined;
+  ResourceAwsEc2InstanceVpcId?: StringFilter[] | undefined;
+  ResourceAwsEc2InstanceSubnetId?: StringFilter[] | undefined;
+  ResourceAwsEc2InstanceLaunchedAt?: DateFilter[] | undefined;
+  ResourceAwsS3BucketOwnerId?: StringFilter[] | undefined;
+  ResourceAwsS3BucketOwnerName?: StringFilter[] | undefined;
+  ResourceAwsIamAccessKeyUserName?: StringFilter[] | undefined;
+  ResourceAwsIamAccessKeyPrincipalName?: StringFilter[] | undefined;
+  ResourceAwsIamAccessKeyStatus?: StringFilter[] | undefined;
+  ResourceAwsIamAccessKeyCreatedAt?: DateFilter[] | undefined;
+  ResourceAwsIamUserUserName?: StringFilter[] | undefined;
+  ResourceContainerName?: StringFilter[] | undefined;
+  ResourceContainerImageId?: StringFilter[] | undefined;
+  ResourceContainerImageName?: StringFilter[] | undefined;
+  ResourceContainerLaunchedAt?: DateFilter[] | undefined;
+  ResourceDetailsOther?: MapFilter[] | undefined;
+  ComplianceStatus?: StringFilter[] | undefined;
+  VerificationState?: StringFilter[] | undefined;
+  WorkflowState?: StringFilter[] | undefined;
+  WorkflowStatus?: StringFilter[] | undefined;
+  RecordState?: StringFilter[] | undefined;
+  RelatedFindingsProductArn?: StringFilter[] | undefined;
+  RelatedFindingsId?: StringFilter[] | undefined;
+  NoteText?: StringFilter[] | undefined;
+  NoteUpdatedAt?: DateFilter[] | undefined;
+  NoteUpdatedBy?: StringFilter[] | undefined;
+  Keyword?: KeywordFilter[] | undefined;
+  FindingProviderFieldsConfidence?: NumberFilter[] | undefined;
+  FindingProviderFieldsCriticality?: NumberFilter[] | undefined;
+  FindingProviderFieldsRelatedFindingsId?: StringFilter[] | undefined;
+  FindingProviderFieldsRelatedFindingsProductArn?: StringFilter[] | undefined;
+  FindingProviderFieldsSeverityLabel?: StringFilter[] | undefined;
+  FindingProviderFieldsSeverityOriginal?: StringFilter[] | undefined;
+  FindingProviderFieldsTypes?: StringFilter[] | undefined;
+  Sample?: BooleanFilter[] | undefined;
+  ComplianceSecurityControlId?: StringFilter[] | undefined;
+  ComplianceAssociatedStandardsId?: StringFilter[] | undefined;
+  VulnerabilitiesExploitAvailable?: StringFilter[] | undefined;
+  VulnerabilitiesFixAvailable?: StringFilter[] | undefined;
+  ComplianceSecurityControlParametersName?: StringFilter[] | undefined;
+  ComplianceSecurityControlParametersValue?: StringFilter[] | undefined;
+  AwsAccountName?: StringFilter[] | undefined;
+  ResourceApplicationName?: StringFilter[] | undefined;
+  ResourceApplicationArn?: StringFilter[] | undefined;
+  ResourceOwnerAccountId?: StringFilter[] | undefined;
+  ResourceOwnerOrgId?: StringFilter[] | undefined;
+  ResourceProvider?: StringFilter[] | undefined;
 }
 export interface CreateInsightRequest {
-  Name?: string;
-  Filters?: AwsSecurityFindingFilters;
-  GroupByAttribute?: string;
+  Name?: string | undefined;
+  Filters?: AwsSecurityFindingFilters | undefined;
+  GroupByAttribute?: string | undefined;
 }
 export interface CreateInsightResponse {
   InsightArn: string;
 }
 export type AccountId = string;
 export interface AccountDetails {
-  AccountId?: string;
-  Email?: string;
+  AccountId?: string | undefined;
+  Email?: string | undefined;
 }
 export type AccountDetailsList = AccountDetails[];
 export interface CreateMembersRequest {
-  AccountDetails?: AccountDetails[];
+  AccountDetails?: AccountDetails[] | undefined;
 }
 export interface Result {
-  AccountId?: string;
-  ProcessingResult?: string;
+  AccountId?: string | undefined;
+  ProcessingResult?: string | undefined;
 }
 export type ResultList = Result[];
 export interface CreateMembersResponse {
-  UnprocessedAccounts?: Result[];
+  UnprocessedAccounts?: Result[] | undefined;
 }
 export type TicketCreationMode = "DRYRUN" | (string & {});
 export interface CreateTicketV2Request {
-  ConnectorId?: string;
-  FindingMetadataUid?: string;
-  ClientToken?: string;
-  Mode?: TicketCreationMode;
+  ConnectorId?: string | undefined;
+  FindingMetadataUid?: string | undefined;
+  ClientToken?: string | undefined;
+  Mode?: TicketCreationMode | undefined;
 }
 export interface CreateTicketV2Response {
   TicketId: string;
-  TicketSrcUrl?: string;
+  TicketSrcUrl?: string | undefined;
 }
 export type AccountIdList = string[];
 export interface DeclineInvitationsRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DeclineInvitationsResponse {
-  UnprocessedAccounts?: Result[];
+  UnprocessedAccounts?: Result[] | undefined;
 }
 export interface DeleteActionTargetRequest {
   ActionTargetArn: string;
@@ -5886,13 +5991,13 @@ export interface DeleteConnectorRequest {
   ConnectorId: string;
 }
 export interface DeleteConnectorResponse {
-  EnablementStatus?: CspmEnablementStatus;
+  EnablementStatus?: CspmEnablementStatus | undefined;
 }
 export interface DeleteConnectorV2Request {
   ConnectorId: string;
 }
 export interface DeleteConnectorV2Response {
-  EnablementStatus?: EnablementStatus;
+  EnablementStatus?: EnablementStatus | undefined;
 }
 export interface DeleteFindingAggregatorRequest {
   FindingAggregatorArn: string;
@@ -5905,29 +6010,29 @@ export interface DeleteInsightResponse {
   InsightArn: string;
 }
 export interface DeleteInvitationsRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DeleteInvitationsResponse {
-  UnprocessedAccounts?: Result[];
+  UnprocessedAccounts?: Result[] | undefined;
 }
 export interface DeleteMembersRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DeleteMembersResponse {
-  UnprocessedAccounts?: Result[];
+  UnprocessedAccounts?: Result[] | undefined;
 }
 export type ArnList = string[];
 export type NextToken = string;
 export type MaxResults = number;
 export interface DescribeActionTargetsRequest {
-  ActionTargetArns?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  ActionTargetArns?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ActionTarget {
-  ActionTargetArn?: string;
-  Name?: string;
-  Description?: string;
+  ActionTargetArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type ActionTargetList = ActionTarget[];
 export interface DescribeActionTargetsResponse {
@@ -5936,37 +6041,37 @@ export interface DescribeActionTargetsResponse {
     Name: NonEmptyString;
     Description: NonEmptyString;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeHubRequest {
-  HubArn?: string;
+  HubArn?: string | undefined;
 }
 export type ControlFindingGenerator = "STANDARD_CONTROL" | "SECURITY_CONTROL" | (string & {});
 export interface DescribeHubResponse {
-  HubArn?: string;
-  SubscribedAt?: string;
-  AutoEnableControls?: boolean;
-  ControlFindingGenerator?: ControlFindingGenerator;
+  HubArn?: string | undefined;
+  SubscribedAt?: string | undefined;
+  AutoEnableControls?: boolean | undefined;
+  ControlFindingGenerator?: ControlFindingGenerator | undefined;
 }
 export interface DescribeOrganizationConfigurationRequest {}
 export type AutoEnableStandards = "NONE" | "DEFAULT" | (string & {});
 export type OrganizationConfigurationConfigurationType = "CENTRAL" | "LOCAL" | (string & {});
 export type OrganizationConfigurationStatus = "PENDING" | "ENABLED" | "FAILED" | (string & {});
 export interface OrganizationConfiguration {
-  ConfigurationType?: OrganizationConfigurationConfigurationType;
-  Status?: OrganizationConfigurationStatus;
-  StatusMessage?: string;
+  ConfigurationType?: OrganizationConfigurationConfigurationType | undefined;
+  Status?: OrganizationConfigurationStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface DescribeOrganizationConfigurationResponse {
-  AutoEnable?: boolean;
-  MemberAccountLimitReached?: boolean;
-  AutoEnableStandards?: AutoEnableStandards;
-  OrganizationConfiguration?: OrganizationConfiguration;
+  AutoEnable?: boolean | undefined;
+  MemberAccountLimitReached?: boolean | undefined;
+  AutoEnableStandards?: AutoEnableStandards | undefined;
+  OrganizationConfiguration?: OrganizationConfiguration | undefined;
 }
 export interface DescribeProductsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  ProductArn?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ProductArn?: string | undefined;
 }
 export type CategoryList = string[];
 export type IntegrationType =
@@ -5976,24 +6081,24 @@ export type IntegrationType =
   | (string & {});
 export type IntegrationTypeList = IntegrationType[];
 export interface Product {
-  ProductArn?: string;
-  ProductName?: string;
-  CompanyName?: string;
-  Description?: string;
-  Categories?: string[];
-  IntegrationTypes?: IntegrationType[];
-  MarketplaceUrl?: string;
-  ActivationUrl?: string;
-  ProductSubscriptionResourcePolicy?: string;
+  ProductArn?: string | undefined;
+  ProductName?: string | undefined;
+  CompanyName?: string | undefined;
+  Description?: string | undefined;
+  Categories?: string[] | undefined;
+  IntegrationTypes?: IntegrationType[] | undefined;
+  MarketplaceUrl?: string | undefined;
+  ActivationUrl?: string | undefined;
+  ProductSubscriptionResourcePolicy?: string | undefined;
 }
 export type ProductsList = Product[];
 export interface DescribeProductsResponse {
   Products: (Product & { ProductArn: NonEmptyString })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeProductsV2Request {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type IntegrationV2Type =
   | "SEND_FINDINGS_TO_SECURITY_HUB"
@@ -6003,78 +6108,78 @@ export type IntegrationV2Type =
   | (string & {});
 export type IntegrationV2TypeList = IntegrationV2Type[];
 export interface ProductV2 {
-  ProductV2Name?: string;
-  CompanyName?: string;
-  Description?: string;
-  Categories?: string[];
-  IntegrationV2Types?: IntegrationV2Type[];
-  MarketplaceUrl?: string;
-  ActivationUrl?: string;
-  MarketplaceProductId?: string;
+  ProductV2Name?: string | undefined;
+  CompanyName?: string | undefined;
+  Description?: string | undefined;
+  Categories?: string[] | undefined;
+  IntegrationV2Types?: IntegrationV2Type[] | undefined;
+  MarketplaceUrl?: string | undefined;
+  ActivationUrl?: string | undefined;
+  MarketplaceProductId?: string | undefined;
 }
 export type ProductsV2List = ProductV2[];
 export interface DescribeProductsV2Response {
   ProductsV2: ProductV2[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeSecurityHubV2Request {}
 export type IsoString = string;
 export type FeatureNameKey = string;
 export type FeatureStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface FeatureDetail {
-  FeatureStatus?: FeatureStatus;
-  UpdatedAt?: Date;
+  FeatureStatus?: FeatureStatus | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type Features = { [key: string]: FeatureDetail | undefined };
 export interface DescribeSecurityHubV2Response {
-  HubV2Arn?: string;
-  SubscribedAt?: string;
-  Features?: { [key: string]: FeatureDetail | undefined };
+  HubV2Arn?: string | undefined;
+  SubscribedAt?: string | undefined;
+  Features?: { [key: string]: FeatureDetail | undefined } | undefined;
 }
 export type StandardsProviders = StandardsProvider[];
 export interface DescribeStandardsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Providers?: StandardsProvider[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Providers?: StandardsProvider[] | undefined;
 }
 export interface StandardsManagedBy {
-  Company?: string;
-  Product?: string;
+  Company?: string | undefined;
+  Product?: string | undefined;
 }
 export interface Standard {
-  StandardsArn?: string;
-  Name?: string;
-  Description?: string;
-  EnabledByDefault?: boolean;
-  Provider?: StandardsProvider;
-  StandardsManagedBy?: StandardsManagedBy;
+  StandardsArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  EnabledByDefault?: boolean | undefined;
+  Provider?: StandardsProvider | undefined;
+  StandardsManagedBy?: StandardsManagedBy | undefined;
 }
 export type Standards = Standard[];
 export interface DescribeStandardsResponse {
-  Standards?: Standard[];
-  NextToken?: string;
+  Standards?: Standard[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeStandardsControlsRequest {
   StandardsSubscriptionArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface StandardsControl {
-  StandardsControlArn?: string;
-  ControlStatus?: ControlStatus;
-  DisabledReason?: string;
-  ControlStatusUpdatedAt?: Date;
-  ControlId?: string;
-  Title?: string;
-  Description?: string;
-  RemediationUrl?: string;
-  SeverityRating?: SeverityRating;
-  RelatedRequirements?: string[];
+  StandardsControlArn?: string | undefined;
+  ControlStatus?: ControlStatus | undefined;
+  DisabledReason?: string | undefined;
+  ControlStatusUpdatedAt?: Date | undefined;
+  ControlId?: string | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  RemediationUrl?: string | undefined;
+  SeverityRating?: SeverityRating | undefined;
+  RelatedRequirements?: string[] | undefined;
 }
 export type StandardsControls = StandardsControl[];
 export interface DescribeStandardsControlsResponse {
-  Controls?: StandardsControl[];
-  NextToken?: string;
+  Controls?: StandardsControl[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DisableImportFindingsForProductRequest {
   ProductSubscriptionArn: string;
@@ -6082,8 +6187,8 @@ export interface DisableImportFindingsForProductRequest {
 export interface DisableImportFindingsForProductResponse {}
 export type SecurityHubFeature = "SecurityHub" | "SecurityHubV2" | (string & {});
 export interface DisableOrganizationAdminAccountRequest {
-  AdminAccountId?: string;
-  Feature?: SecurityHubFeature;
+  AdminAccountId?: string | undefined;
+  Feature?: SecurityHubFeature | undefined;
 }
 export interface DisableOrganizationAdminAccountResponse {}
 export interface DisableSecurityHubRequest {}
@@ -6100,27 +6205,27 @@ export interface DisassociateFromAdministratorAccountResponse {}
 export interface DisassociateFromMasterAccountRequest {}
 export interface DisassociateFromMasterAccountResponse {}
 export interface DisassociateMembersRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DisassociateMembersResponse {}
 export interface EnableImportFindingsForProductRequest {
-  ProductArn?: string;
+  ProductArn?: string | undefined;
 }
 export interface EnableImportFindingsForProductResponse {
-  ProductSubscriptionArn?: string;
+  ProductSubscriptionArn?: string | undefined;
 }
 export interface EnableOrganizationAdminAccountRequest {
-  AdminAccountId?: string;
-  Feature?: SecurityHubFeature;
+  AdminAccountId?: string | undefined;
+  Feature?: SecurityHubFeature | undefined;
 }
 export interface EnableOrganizationAdminAccountResponse {
-  AdminAccountId?: string;
-  Feature?: SecurityHubFeature;
+  AdminAccountId?: string | undefined;
+  Feature?: SecurityHubFeature | undefined;
 }
 export interface EnableSecurityHubRequest {
-  Tags?: { [key: string]: string | undefined };
-  EnableDefaultStandards?: boolean;
-  ControlFindingGenerator?: ControlFindingGenerator;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  EnableDefaultStandards?: boolean | undefined;
+  ControlFindingGenerator?: ControlFindingGenerator | undefined;
 }
 export interface EnableSecurityHubResponse {}
 export interface EnableSecurityHubFeatureV2Request {
@@ -6128,10 +6233,10 @@ export interface EnableSecurityHubFeatureV2Request {
 }
 export interface EnableSecurityHubFeatureV2Response {}
 export interface EnableSecurityHubV2Request {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface EnableSecurityHubV2Response {
-  HubV2Arn?: string;
+  HubV2Arn?: string | undefined;
 }
 export interface GenerateRecommendedPolicyV2Request {
   MetadataUid: string;
@@ -6139,66 +6244,68 @@ export interface GenerateRecommendedPolicyV2Request {
 export interface GenerateRecommendedPolicyV2Response {}
 export interface GetAdministratorAccountRequest {}
 export interface Invitation {
-  AccountId?: string;
-  InvitationId?: string;
-  InvitedAt?: Date;
-  MemberStatus?: string;
+  AccountId?: string | undefined;
+  InvitationId?: string | undefined;
+  InvitedAt?: Date | undefined;
+  MemberStatus?: string | undefined;
 }
 export interface GetAdministratorAccountResponse {
-  Administrator?: Invitation;
+  Administrator?: Invitation | undefined;
 }
 export interface GetAggregatorV2Request {
   AggregatorV2Arn: string;
 }
 export interface GetAggregatorV2Response {
-  AggregatorV2Arn?: string;
-  AggregationRegion?: string;
-  RegionLinkingMode?: string;
-  LinkedRegions?: string[];
+  AggregatorV2Arn?: string | undefined;
+  AggregationRegion?: string | undefined;
+  RegionLinkingMode?: string | undefined;
+  LinkedRegions?: string[] | undefined;
 }
 export interface GetAutomationRuleV2Request {
   Identifier: string;
 }
 export interface GetAutomationRuleV2Response {
-  RuleArn?: string;
-  RuleId?: string;
-  RuleOrder?: number;
-  RuleName?: string;
-  RuleStatus?: RuleStatusV2;
-  Description?: string;
-  Criteria?: Criteria;
-  Actions?: (AutomationRulesActionV2 & {
-    Type: AutomationRulesActionTypeV2;
-    ResourceFieldsUpdate: AutomationRulesResourceFieldsUpdateV2 & {
-      Criticality: ResourceCriticality;
-    };
-  })[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  RuleArn?: string | undefined;
+  RuleId?: string | undefined;
+  RuleOrder?: number | undefined;
+  RuleName?: string | undefined;
+  RuleStatus?: RuleStatusV2 | undefined;
+  Description?: string | undefined;
+  Criteria?: Criteria | undefined;
+  Actions?:
+    | (AutomationRulesActionV2 & {
+        Type: AutomationRulesActionTypeV2;
+        ResourceFieldsUpdate: AutomationRulesResourceFieldsUpdateV2 & {
+          Criticality: ResourceCriticality;
+        };
+      })[]
+    | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetConfigurationPolicyRequest {
   Identifier: string;
 }
 export interface GetConfigurationPolicyResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  UpdatedAt?: Date;
-  CreatedAt?: Date;
-  ConfigurationPolicy?: Policy;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ConfigurationPolicy?: Policy | undefined;
 }
 export interface GetConfigurationPolicyAssociationRequest {
-  Target?: Target;
+  Target?: Target | undefined;
 }
 export interface GetConfigurationPolicyAssociationResponse {
-  ConfigurationPolicyId?: string;
-  TargetId?: string;
-  TargetType?: TargetType;
-  AssociationType?: AssociationType;
-  UpdatedAt?: Date;
-  AssociationStatus?: ConfigurationPolicyAssociationStatus;
-  AssociationStatusMessage?: string;
+  ConfigurationPolicyId?: string | undefined;
+  TargetId?: string | undefined;
+  TargetType?: TargetType | undefined;
+  AssociationType?: AssociationType | undefined;
+  UpdatedAt?: Date | undefined;
+  AssociationStatus?: ConfigurationPolicyAssociationStatus | undefined;
+  AssociationStatusMessage?: string | undefined;
 }
 export interface GetConnectorRequest {
   ConnectorId: string;
@@ -6213,27 +6320,27 @@ export type HealthIssueCode =
   | "NO_HEALTH_DATA"
   | (string & {});
 export interface HealthIssue {
-  Code?: HealthIssueCode;
-  Message?: string;
+  Code?: HealthIssueCode | undefined;
+  Message?: string | undefined;
 }
 export type HealthIssueList = HealthIssue[];
 export interface CspmHealthCheck {
-  ConnectorStatus?: CspmConnectorStatus;
-  Message?: string;
-  LastCheckedAt?: Date;
-  Issues?: HealthIssue[];
+  ConnectorStatus?: CspmConnectorStatus | undefined;
+  Message?: string | undefined;
+  LastCheckedAt?: Date | undefined;
+  Issues?: HealthIssue[] | undefined;
 }
 export interface AzureDetail {
-  AWSConfigConnectorArn?: string;
-  ScopeConfiguration?: AzureScopeConfiguration;
-  AzureRegions?: string[];
+  AWSConfigConnectorArn?: string | undefined;
+  ScopeConfiguration?: AzureScopeConfiguration | undefined;
+  AzureRegions?: string[] | undefined;
 }
 export type CspmProviderDetail = { Azure: AzureDetail };
 export interface GetConnectorResponse {
-  ConnectorArn?: string;
+  ConnectorArn?: string | undefined;
   ConnectorId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
   Health: CspmHealthCheck & {
@@ -6242,41 +6349,41 @@ export interface GetConnectorResponse {
     Issues: (HealthIssue & { Code: HealthIssueCode; Message: NonEmptyString })[];
   };
   ProviderDetail: CspmProviderDetail;
-  CreatedBy?: string;
-  EnablementStatus?: CspmEnablementStatus;
+  CreatedBy?: string | undefined;
+  EnablementStatus?: CspmEnablementStatus | undefined;
 }
 export interface GetConnectorV2Request {
   ConnectorId: string;
 }
 export interface HealthCheck {
-  ConnectorStatus?: ConnectorStatus;
-  Message?: string;
-  LastCheckedAt?: Date;
-  Issues?: HealthIssue[];
+  ConnectorStatus?: ConnectorStatus | undefined;
+  Message?: string | undefined;
+  LastCheckedAt?: Date | undefined;
+  Issues?: HealthIssue[] | undefined;
 }
 export type ConnectorAuthStatus = "ACTIVE" | "FAILED" | (string & {});
 export interface JiraCloudDetail {
-  CloudId?: string;
-  ProjectKey?: string;
-  Domain?: string;
-  AuthUrl?: string;
-  AuthStatus?: ConnectorAuthStatus;
+  CloudId?: string | undefined;
+  ProjectKey?: string | undefined;
+  Domain?: string | undefined;
+  AuthUrl?: string | undefined;
+  AuthStatus?: ConnectorAuthStatus | undefined;
 }
 export interface ServiceNowDetail {
-  InstanceName?: string;
-  SecretArn?: string;
-  AuthStatus?: ConnectorAuthStatus;
+  InstanceName?: string | undefined;
+  SecretArn?: string | undefined;
+  AuthStatus?: ConnectorAuthStatus | undefined;
 }
 export type ProviderDetail =
-  | { JiraCloud: JiraCloudDetail; ServiceNow?: never; Azure?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowDetail; Azure?: never }
-  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureDetail };
+  | { JiraCloud: JiraCloudDetail; ServiceNow?: undefined; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowDetail; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureDetail };
 export interface GetConnectorV2Response {
-  ConnectorArn?: string;
+  ConnectorArn?: string | undefined;
   ConnectorId: string;
   Name: string;
-  Description?: string;
-  KmsKeyArn?: string;
+  Description?: string | undefined;
+  KmsKeyArn?: string | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
   Health: HealthCheck & {
@@ -6285,24 +6392,26 @@ export interface GetConnectorV2Response {
     Issues: (HealthIssue & { Code: HealthIssueCode; Message: NonEmptyString })[];
   };
   ProviderDetail: ProviderDetail;
-  EnablementStatus?: EnablementStatus;
-  EnablementStatusReason?: string;
+  EnablementStatus?: EnablementStatus | undefined;
+  EnablementStatusReason?: string | undefined;
 }
 export interface GetEnabledStandardsRequest {
-  StandardsSubscriptionArns?: string[];
-  NextToken?: string;
-  MaxResults?: number;
-  Providers?: StandardsProvider[];
+  StandardsSubscriptionArns?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Providers?: StandardsProvider[] | undefined;
 }
 export interface GetEnabledStandardsResponse {
-  StandardsSubscriptions?: (StandardsSubscription & {
-    StandardsSubscriptionArn: NonEmptyString;
-    StandardsArn: NonEmptyString;
-    StandardsInput: StandardsInputParameterMap;
-    StandardsStatus: StandardsStatus;
-    StandardsStatusReason: StandardsStatusReason & { StatusReasonCode: StatusReasonCode };
-  })[];
-  NextToken?: string;
+  StandardsSubscriptions?:
+    | (StandardsSubscription & {
+        StandardsSubscriptionArn: NonEmptyString;
+        StandardsArn: NonEmptyString;
+        StandardsInput: StandardsInputParameterMap;
+        StandardsStatus: StandardsStatus;
+        StandardsStatusReason: StandardsStatusReason & { StatusReasonCode: StatusReasonCode };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetExportJobV2Request {
   ExportJobId: string;
@@ -6423,24 +6532,24 @@ export type FindingsSelectableField =
   | (string & {});
 export type FindingsSelectedFieldList = FindingsSelectableField[];
 export interface FindingsOutput {
-  Format?: FindingsExportFormat;
-  Filters?: OcsfFindingFilters;
-  SelectedFields?: FindingsSelectableField[];
+  Format?: FindingsExportFormat | undefined;
+  Filters?: OcsfFindingFilters | undefined;
+  SelectedFields?: FindingsSelectableField[] | undefined;
 }
 export type ExportOutput = { Findings: FindingsOutput };
 export interface AwsOrganizationScope {
-  OrganizationId?: string;
-  OrganizationalUnitId?: string;
+  OrganizationId?: string | undefined;
+  OrganizationalUnitId?: string | undefined;
 }
 export type AwsOrganizationScopeList = AwsOrganizationScope[];
 export interface ExportScopes {
-  AwsOrganizations?: AwsOrganizationScope[];
+  AwsOrganizations?: AwsOrganizationScope[] | undefined;
 }
 export type S3ObjectPrefix = string;
 export interface S3ExportDestination {
-  BucketArn?: string;
-  KmsKeyArn?: string;
-  ObjectPrefix?: string;
+  BucketArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  ObjectPrefix?: string | undefined;
 }
 export type ExportDestination = { S3: S3ExportDestination };
 export type ExportFailureCode =
@@ -6450,76 +6559,78 @@ export type ExportFailureCode =
   | (string & {});
 export interface GetExportJobV2Response {
   ExportJobId: string;
-  Name?: string;
+  Name?: string | undefined;
   Status: ExportStatus;
   DataType: ExportDataType;
-  OutputConfiguration?: ExportOutput;
-  Scopes?: ExportScopes;
+  OutputConfiguration?: ExportOutput | undefined;
+  Scopes?: ExportScopes | undefined;
   Destination: ExportDestination;
-  FailureCode?: ExportFailureCode;
-  FailureMessage?: string;
+  FailureCode?: ExportFailureCode | undefined;
+  FailureMessage?: string | undefined;
   StartedAt: Date;
-  EndedAt?: Date;
+  EndedAt?: Date | undefined;
 }
 export interface GetFindingAggregatorRequest {
   FindingAggregatorArn: string;
 }
 export interface GetFindingAggregatorResponse {
-  FindingAggregatorArn?: string;
-  FindingAggregationRegion?: string;
-  RegionLinkingMode?: string;
-  Regions?: string[];
+  FindingAggregatorArn?: string | undefined;
+  FindingAggregationRegion?: string | undefined;
+  RegionLinkingMode?: string | undefined;
+  Regions?: string[] | undefined;
 }
 export interface GetFindingHistoryRequest {
-  FindingIdentifier?: AwsSecurityFindingIdentifier;
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  FindingIdentifier?: AwsSecurityFindingIdentifier | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FindingHistoryUpdateSourceType =
   | "BATCH_UPDATE_FINDINGS"
   | "BATCH_IMPORT_FINDINGS"
   | (string & {});
 export interface FindingHistoryUpdateSource {
-  Type?: FindingHistoryUpdateSourceType;
-  Identity?: string;
+  Type?: FindingHistoryUpdateSourceType | undefined;
+  Identity?: string | undefined;
 }
 export interface FindingHistoryUpdate {
-  UpdatedField?: string;
-  OldValue?: string;
-  NewValue?: string;
+  UpdatedField?: string | undefined;
+  OldValue?: string | undefined;
+  NewValue?: string | undefined;
 }
 export type FindingHistoryUpdatesList = FindingHistoryUpdate[];
 export interface FindingHistoryRecord {
-  FindingIdentifier?: AwsSecurityFindingIdentifier;
-  UpdateTime?: Date;
-  FindingCreated?: boolean;
-  UpdateSource?: FindingHistoryUpdateSource;
-  Updates?: FindingHistoryUpdate[];
-  NextToken?: string;
+  FindingIdentifier?: AwsSecurityFindingIdentifier | undefined;
+  UpdateTime?: Date | undefined;
+  FindingCreated?: boolean | undefined;
+  UpdateSource?: FindingHistoryUpdateSource | undefined;
+  Updates?: FindingHistoryUpdate[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FindingHistoryRecordList = FindingHistoryRecord[];
 export interface GetFindingHistoryResponse {
-  Records?: (FindingHistoryRecord & {
-    FindingIdentifier: AwsSecurityFindingIdentifier & {
-      Id: NonEmptyString;
-      ProductArn: NonEmptyString;
-    };
-  })[];
-  NextToken?: string;
+  Records?:
+    | (FindingHistoryRecord & {
+        FindingIdentifier: AwsSecurityFindingIdentifier & {
+          Id: NonEmptyString;
+          ProductArn: NonEmptyString;
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type SortOrder = "asc" | "desc" | (string & {});
 export interface SortCriterion {
-  Field?: string;
-  SortOrder?: SortOrder;
+  Field?: string | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type SortCriteria = SortCriterion[];
 export interface GetFindingsRequest {
-  Filters?: AwsSecurityFindingFilters;
-  SortCriteria?: SortCriterion[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: AwsSecurityFindingFilters | undefined;
+  SortCriteria?: SortCriterion[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AwsSecurityFindingList = AwsSecurityFinding[];
 export interface GetFindingsResponse {
@@ -6547,7 +6658,7 @@ export interface GetFindingsResponse {
       RelatedFindings: (RelatedFinding & { ProductArn: NonEmptyString; Id: NonEmptyString })[];
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type GroupByField =
   | "activity_name"
@@ -6586,32 +6697,32 @@ export type GroupByField =
   | "metadata.product.vendor_name"
   | (string & {});
 export interface GroupByRule {
-  Filters?: OcsfFindingFilters;
-  GroupByField?: GroupByField;
+  Filters?: OcsfFindingFilters | undefined;
+  GroupByField?: GroupByField | undefined;
 }
 export type GroupByRules = GroupByRule[];
 export interface FindingScopes {
-  AwsOrganizations?: AwsOrganizationScope[];
+  AwsOrganizations?: AwsOrganizationScope[] | undefined;
 }
 export type MaxStatisticResults = number;
 export interface GetFindingStatisticsV2Request {
-  GroupByRules?: GroupByRule[];
-  Scopes?: FindingScopes;
-  SortOrder?: SortOrder;
-  MaxStatisticResults?: number;
+  GroupByRules?: GroupByRule[] | undefined;
+  Scopes?: FindingScopes | undefined;
+  SortOrder?: SortOrder | undefined;
+  MaxStatisticResults?: number | undefined;
 }
 export interface GroupByValue {
-  FieldValue?: string;
-  Count?: number;
+  FieldValue?: string | undefined;
+  Count?: number | undefined;
 }
 export type GroupByValues = GroupByValue[];
 export interface GroupByResult {
-  GroupByField?: string;
-  GroupByValues?: GroupByValue[];
+  GroupByField?: string | undefined;
+  GroupByValues?: GroupByValue[] | undefined;
 }
 export type GroupByResults = GroupByResult[];
 export interface GetFindingStatisticsV2Response {
-  GroupByResults?: GroupByResult[];
+  GroupByResults?: GroupByResult[] | undefined;
 }
 export type FindingsTrendsStringField =
   | "account_id"
@@ -6630,45 +6741,45 @@ export type FindingsTrendsStringField =
   | "resource_owner_organization_ids"
   | (string & {});
 export interface FindingsTrendsStringFilter {
-  FieldName?: FindingsTrendsStringField;
-  Filter?: StringFilter;
+  FieldName?: FindingsTrendsStringField | undefined;
+  Filter?: StringFilter | undefined;
 }
 export type FindingsTrendsStringFilterList = FindingsTrendsStringFilter[];
 export interface FindingsTrendsCompositeFilter {
-  StringFilters?: FindingsTrendsStringFilter[];
-  NestedCompositeFilters?: FindingsTrendsCompositeFilter[];
-  Operator?: AllowedOperators;
+  StringFilters?: FindingsTrendsStringFilter[] | undefined;
+  NestedCompositeFilters?: FindingsTrendsCompositeFilter[] | undefined;
+  Operator?: AllowedOperators | undefined;
 }
 export type FindingsTrendsCompositeFilterList = FindingsTrendsCompositeFilter[];
 export interface FindingsTrendsFilters {
-  CompositeFilters?: FindingsTrendsCompositeFilter[];
-  CompositeOperator?: AllowedOperators;
+  CompositeFilters?: FindingsTrendsCompositeFilter[] | undefined;
+  CompositeOperator?: AllowedOperators | undefined;
 }
 export interface GetFindingsTrendsV2Request {
-  Filters?: FindingsTrendsFilters;
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: FindingsTrendsFilters | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type GranularityField = "Daily" | "Weekly" | "Monthly" | (string & {});
 export type TrendsValueCount = number;
 export interface SeverityTrendsCount {
-  Unknown?: number;
-  Informational?: number;
-  Low?: number;
-  Medium?: number;
-  High?: number;
-  Critical?: number;
-  Fatal?: number;
-  Other?: number;
+  Unknown?: number | undefined;
+  Informational?: number | undefined;
+  Low?: number | undefined;
+  Medium?: number | undefined;
+  High?: number | undefined;
+  Critical?: number | undefined;
+  Fatal?: number | undefined;
+  Other?: number | undefined;
 }
 export interface TrendsValues {
-  SeverityTrends?: SeverityTrendsCount;
+  SeverityTrends?: SeverityTrendsCount | undefined;
 }
 export interface TrendsMetricsResult {
-  Timestamp?: Date;
-  TrendsValues?: TrendsValues;
+  Timestamp?: Date | undefined;
+  TrendsValues?: TrendsValues | undefined;
 }
 export type TrendsMetrics = TrendsMetricsResult[];
 export interface GetFindingsTrendsV2Response {
@@ -6688,33 +6799,33 @@ export interface GetFindingsTrendsV2Response {
       };
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetFindingsV2Request {
-  Filters?: OcsfFindingFilters;
-  Scopes?: FindingScopes;
-  SortCriteria?: SortCriterion[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: OcsfFindingFilters | undefined;
+  Scopes?: FindingScopes | undefined;
+  SortCriteria?: SortCriterion[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type OcsfFinding = unknown;
 export type OcsfFindingsList = any[];
 export interface GetFindingsV2Response {
-  Findings?: any[];
-  NextToken?: string;
+  Findings?: any[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetInsightResultsRequest {
   InsightArn: string;
 }
 export interface InsightResultValue {
-  GroupByAttributeValue?: string;
-  Count?: number;
+  GroupByAttributeValue?: string | undefined;
+  Count?: number | undefined;
 }
 export type InsightResultValueList = InsightResultValue[];
 export interface InsightResults {
-  InsightArn?: string;
-  GroupByAttribute?: string;
-  ResultValues?: InsightResultValue[];
+  InsightArn?: string | undefined;
+  GroupByAttribute?: string | undefined;
+  ResultValues?: InsightResultValue[] | undefined;
 }
 export interface GetInsightResultsResponse {
   InsightResults: InsightResults & {
@@ -6724,15 +6835,15 @@ export interface GetInsightResultsResponse {
   };
 }
 export interface GetInsightsRequest {
-  InsightArns?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  InsightArns?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Insight {
-  InsightArn?: string;
-  Name?: string;
-  Filters?: AwsSecurityFindingFilters;
-  GroupByAttribute?: string;
+  InsightArn?: string | undefined;
+  Name?: string | undefined;
+  Filters?: AwsSecurityFindingFilters | undefined;
+  GroupByAttribute?: string | undefined;
 }
 export type InsightList = Insight[];
 export interface GetInsightsResponse {
@@ -6742,60 +6853,60 @@ export interface GetInsightsResponse {
     Filters: AwsSecurityFindingFilters;
     GroupByAttribute: NonEmptyString;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetInvitationsCountRequest {}
 export interface GetInvitationsCountResponse {
-  InvitationsCount?: number;
+  InvitationsCount?: number | undefined;
 }
 export interface GetMasterAccountRequest {}
 export interface GetMasterAccountResponse {
-  Master?: Invitation;
+  Master?: Invitation | undefined;
 }
 export interface GetMembersRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface Member {
-  AccountId?: string;
-  Email?: string;
-  MasterId?: string;
-  AdministratorId?: string;
-  MemberStatus?: string;
-  InvitedAt?: Date;
-  UpdatedAt?: Date;
+  AccountId?: string | undefined;
+  Email?: string | undefined;
+  MasterId?: string | undefined;
+  AdministratorId?: string | undefined;
+  MemberStatus?: string | undefined;
+  InvitedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type MemberList = Member[];
 export interface GetMembersResponse {
-  Members?: Member[];
-  UnprocessedAccounts?: Result[];
+  Members?: Member[] | undefined;
+  UnprocessedAccounts?: Result[] | undefined;
 }
 export interface GetRecommendedPolicyV2Request {
   MetadataUid: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type RecommendationType = "UNUSED_PERMISSION_RECOMMENDATION" | (string & {});
 export interface UnusedPermissionsRecommendationStep {
-  RecommendedAction?: string;
-  ExistingPolicy?: string;
-  ExistingPolicyId?: string;
-  PolicyUpdatedAt?: Date;
-  RecommendedPolicy?: string;
+  RecommendedAction?: string | undefined;
+  ExistingPolicy?: string | undefined;
+  ExistingPolicyId?: string | undefined;
+  PolicyUpdatedAt?: Date | undefined;
+  RecommendedPolicy?: string | undefined;
 }
 export type RecommendationStep = { UnusedPermissions: UnusedPermissionsRecommendationStep };
 export type RecommendationSteps = RecommendationStep[];
 export interface RecommendationError {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type RecommendationStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface GetRecommendedPolicyV2Response {
-  NextToken?: string;
-  RecommendationType?: RecommendationType;
-  RecommendationSteps?: RecommendationStep[];
-  Error?: RecommendationError;
-  Status?: RecommendationStatus;
-  ResourceArn?: string;
+  NextToken?: string | undefined;
+  RecommendationType?: RecommendationType | undefined;
+  RecommendationSteps?: RecommendationStep[] | undefined;
+  Error?: RecommendationError | undefined;
+  Status?: RecommendationStatus | undefined;
+  ResourceArn?: string | undefined;
 }
 export type RemediationStringUid = string;
 export type RemediationStringField =
@@ -6807,19 +6918,19 @@ export type RemediationStringField =
   | "Resource.CloudProvider"
   | (string & {});
 export interface RemediationStringFilterCondition {
-  Value?: string;
+  Value?: string | undefined;
 }
 export interface RemediationStringFilter {
-  FieldName?: RemediationStringField;
-  Filter?: RemediationStringFilterCondition;
+  FieldName?: RemediationStringField | undefined;
+  Filter?: RemediationStringFilterCondition | undefined;
 }
 export type RemediationStringFilterList = RemediationStringFilter[];
 export interface RemediationCompositeFilter {
-  StringFilters?: RemediationStringFilter[];
+  StringFilters?: RemediationStringFilter[] | undefined;
 }
 export type RemediationCompositeFilterList = RemediationCompositeFilter[];
 export interface RemediationFilters {
-  CompositeFilters?: RemediationCompositeFilter[];
+  CompositeFilters?: RemediationCompositeFilter[] | undefined;
 }
 export type GuidanceFormat =
   | "All"
@@ -6833,120 +6944,120 @@ export type GuidanceFormat =
   | "Template"
   | (string & {});
 export interface GetRemediationsV2Request {
-  TargetUid?: string;
-  MetadataUid?: string;
-  Filters?: RemediationFilters;
-  ShowGuidance?: boolean;
-  GuidanceFormat?: GuidanceFormat;
-  MaxResults?: number;
-  NextToken?: string;
+  TargetUid?: string | undefined;
+  MetadataUid?: string | undefined;
+  Filters?: RemediationFilters | undefined;
+  ShowGuidance?: boolean | undefined;
+  GuidanceFormat?: GuidanceFormat | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RemediationOutcome {
-  ResolvedFindingsCount?: number;
-  SeverityReductionFindingsCount?: number;
-  SeverityUnchangedCount?: number;
+  ResolvedFindingsCount?: number | undefined;
+  SeverityReductionFindingsCount?: number | undefined;
+  SeverityUnchangedCount?: number | undefined;
 }
 export type RemediationPriority = "Critical" | "High" | "Medium" | "Low" | (string & {});
 export type RemediationStringList = string[];
 export interface KbArticle {
-  Title?: string;
-  Url?: string;
+  Title?: string | undefined;
+  Url?: string | undefined;
 }
 export type KbArticleList = KbArticle[];
 export interface RemediationSummaryDetail {
-  Action?: string;
-  Description?: string;
-  IsImmediate?: boolean;
-  PostRemediationSteps?: string[];
-  KbArticles?: KbArticle[];
+  Action?: string | undefined;
+  Description?: string | undefined;
+  IsImmediate?: boolean | undefined;
+  PostRemediationSteps?: string[] | undefined;
+  KbArticles?: KbArticle[] | undefined;
 }
 export interface RemediationResource {
-  AccountId?: string;
-  Region?: string;
-  ResourceOwnerAccountId?: string;
-  ResourceOwnerOrgId?: string;
-  Type?: string;
-  Name?: string;
-  Id?: string;
-  ResourceGuid?: string;
-  ResourceRegion?: string;
-  CloudProvider?: CloudProviderName;
+  AccountId?: string | undefined;
+  Region?: string | undefined;
+  ResourceOwnerAccountId?: string | undefined;
+  ResourceOwnerOrgId?: string | undefined;
+  Type?: string | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  ResourceGuid?: string | undefined;
+  ResourceRegion?: string | undefined;
+  CloudProvider?: CloudProviderName | undefined;
 }
 export type RemediationStatus = "New" | "Updated" | "Resolved" | (string & {});
 export interface RemediationTrait {
-  Type?: string;
-  Title?: string;
+  Type?: string | undefined;
+  Title?: string | undefined;
 }
 export interface RemediationGuidanceContext {
-  ProblemStatement?: string;
-  RiskAssessment?: string;
-  AffectedScope?: string;
-  Prerequisites?: string[];
+  ProblemStatement?: string | undefined;
+  RiskAssessment?: string | undefined;
+  AffectedScope?: string | undefined;
+  Prerequisites?: string[] | undefined;
 }
 export interface RemediationParameter {
-  Name?: string;
-  Type?: string;
-  Description?: string;
-  Required?: boolean;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Description?: string | undefined;
+  Required?: boolean | undefined;
 }
 export type RemediationParameterList = RemediationParameter[];
 export interface RemediationStep {
-  Phase?: string;
-  Description?: string;
-  Service?: string;
-  Action?: string;
-  Logic?: string;
-  Inverse?: string;
-  VerifyAfter?: string;
+  Phase?: string | undefined;
+  Description?: string | undefined;
+  Service?: string | undefined;
+  Action?: string | undefined;
+  Logic?: string | undefined;
+  Inverse?: string | undefined;
+  VerifyAfter?: string | undefined;
 }
 export type RemediationStepList = RemediationStep[];
 export interface RemediationGuidanceSpecification {
-  Parameters?: RemediationParameter[];
-  Steps?: RemediationStep[];
-  ExpectedEndState?: string;
-  RequiredPermissions?: string[];
+  Parameters?: RemediationParameter[] | undefined;
+  Steps?: RemediationStep[] | undefined;
+  ExpectedEndState?: string | undefined;
+  RequiredPermissions?: string[] | undefined;
 }
 export interface RemediationGuidanceExamples {
-  AwsCli?: string;
-  Cli?: string;
-  Python?: string;
-  Terraform?: string;
-  Cdk?: string;
-  CloudFormation?: string;
-  IaC?: string;
-  Template?: string;
+  AwsCli?: string | undefined;
+  Cli?: string | undefined;
+  Python?: string | undefined;
+  Terraform?: string | undefined;
+  Cdk?: string | undefined;
+  CloudFormation?: string | undefined;
+  IaC?: string | undefined;
+  Template?: string | undefined;
 }
 export interface RemediationGuidanceMetadata {
-  ResourceType?: string;
-  ExposureType?: string;
-  TraitTitles?: string[];
-  Reversibility?: string;
-  FixEffect?: string;
-  RiskLevel?: string;
-  AutomationLevel?: string;
-  HumanReviewRequired?: boolean;
-  GeneratedAt?: Date;
-  VerificationStatus?: string;
+  ResourceType?: string | undefined;
+  ExposureType?: string | undefined;
+  TraitTitles?: string[] | undefined;
+  Reversibility?: string | undefined;
+  FixEffect?: string | undefined;
+  RiskLevel?: string | undefined;
+  AutomationLevel?: string | undefined;
+  HumanReviewRequired?: boolean | undefined;
+  GeneratedAt?: Date | undefined;
+  VerificationStatus?: string | undefined;
 }
 export interface RemediationGuidance {
-  TargetTypeName?: string;
-  Pattern?: string;
-  Version?: string;
-  Context?: RemediationGuidanceContext;
-  Specification?: RemediationGuidanceSpecification;
-  Examples?: RemediationGuidanceExamples;
-  Metadata?: RemediationGuidanceMetadata;
+  TargetTypeName?: string | undefined;
+  Pattern?: string | undefined;
+  Version?: string | undefined;
+  Context?: RemediationGuidanceContext | undefined;
+  Specification?: RemediationGuidanceSpecification | undefined;
+  Examples?: RemediationGuidanceExamples | undefined;
+  Metadata?: RemediationGuidanceMetadata | undefined;
 }
 export interface RemediationV2Item {
-  TargetUid?: string;
-  Outcome?: RemediationOutcome;
-  Priority?: RemediationPriority;
-  RemediationSummary?: RemediationSummaryDetail;
-  Resource?: RemediationResource;
-  Status?: RemediationStatus;
-  Trait?: RemediationTrait;
-  Guidance?: RemediationGuidance;
-  UpdatedAt?: Date;
+  TargetUid?: string | undefined;
+  Outcome?: RemediationOutcome | undefined;
+  Priority?: RemediationPriority | undefined;
+  RemediationSummary?: RemediationSummaryDetail | undefined;
+  Resource?: RemediationResource | undefined;
+  Status?: RemediationStatus | undefined;
+  Trait?: RemediationTrait | undefined;
+  Guidance?: RemediationGuidance | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type RemediationV2ItemList = RemediationV2Item[];
 export interface GetRemediationsV2Response {
@@ -7002,7 +7113,7 @@ export interface GetRemediationsV2Response {
       };
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ResourceGroupByField =
   | "AccountId"
@@ -7024,18 +7135,18 @@ export type ResourceGroupByField =
   | "ResourceCriticality"
   | (string & {});
 export interface ResourceGroupByRule {
-  GroupByField?: ResourceGroupByField;
-  Filters?: ResourcesFilters;
+  GroupByField?: ResourceGroupByField | undefined;
+  Filters?: ResourcesFilters | undefined;
 }
 export type ResourceGroupByRules = ResourceGroupByRule[];
 export interface ResourceScopes {
-  AwsOrganizations?: AwsOrganizationScope[];
+  AwsOrganizations?: AwsOrganizationScope[] | undefined;
 }
 export interface GetResourcesStatisticsV2Request {
-  GroupByRules?: ResourceGroupByRule[];
-  Scopes?: ResourceScopes;
-  SortOrder?: SortOrder;
-  MaxStatisticResults?: number;
+  GroupByRules?: ResourceGroupByRule[] | undefined;
+  Scopes?: ResourceScopes | undefined;
+  SortOrder?: SortOrder | undefined;
+  MaxStatisticResults?: number | undefined;
 }
 export interface GetResourcesStatisticsV2Response {
   GroupByResults: GroupByResult[];
@@ -7051,36 +7162,36 @@ export type ResourcesTrendsStringField =
   | "resource_owner_organization_id"
   | (string & {});
 export interface ResourcesTrendsStringFilter {
-  FieldName?: ResourcesTrendsStringField;
-  Filter?: StringFilter;
+  FieldName?: ResourcesTrendsStringField | undefined;
+  Filter?: StringFilter | undefined;
 }
 export type ResourcesTrendsStringFilterList = ResourcesTrendsStringFilter[];
 export interface ResourcesTrendsCompositeFilter {
-  StringFilters?: ResourcesTrendsStringFilter[];
-  NestedCompositeFilters?: ResourcesTrendsCompositeFilter[];
-  Operator?: AllowedOperators;
+  StringFilters?: ResourcesTrendsStringFilter[] | undefined;
+  NestedCompositeFilters?: ResourcesTrendsCompositeFilter[] | undefined;
+  Operator?: AllowedOperators | undefined;
 }
 export type ResourcesTrendsCompositeFilterList = ResourcesTrendsCompositeFilter[];
 export interface ResourcesTrendsFilters {
-  CompositeFilters?: ResourcesTrendsCompositeFilter[];
-  CompositeOperator?: AllowedOperators;
+  CompositeFilters?: ResourcesTrendsCompositeFilter[] | undefined;
+  CompositeOperator?: AllowedOperators | undefined;
 }
 export interface GetResourcesTrendsV2Request {
-  Filters?: ResourcesTrendsFilters;
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ResourcesTrendsFilters | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ResourcesCount {
-  AllResources?: number;
+  AllResources?: number | undefined;
 }
 export interface ResourcesTrendsValues {
-  ResourcesCount?: ResourcesCount;
+  ResourcesCount?: ResourcesCount | undefined;
 }
 export interface ResourcesTrendsMetricsResult {
-  Timestamp?: Date;
-  TrendsValues?: ResourcesTrendsValues;
+  Timestamp?: Date | undefined;
+  TrendsValues?: ResourcesTrendsValues | undefined;
 }
 export type ResourcesTrendsMetrics = ResourcesTrendsMetricsResult[];
 export interface GetResourcesTrendsV2Response {
@@ -7091,14 +7202,14 @@ export interface GetResourcesTrendsV2Response {
       ResourcesCount: ResourcesCount & { AllResources: TrendsValueCount };
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetResourcesV2Request {
-  Filters?: ResourcesFilters;
-  Scopes?: ResourceScopes;
-  SortCriteria?: SortCriterion[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ResourcesFilters | undefined;
+  Scopes?: ResourceScopes | undefined;
+  SortCriteria?: SortCriterion[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceCategory =
   | "Compute"
@@ -7112,25 +7223,25 @@ export type ResourceCategory =
   | "Other"
   | (string & {});
 export interface ResourceSeverityBreakdown {
-  Other?: number;
-  Fatal?: number;
-  Critical?: number;
-  High?: number;
-  Medium?: number;
-  Low?: number;
-  Informational?: number;
-  Unknown?: number;
+  Other?: number | undefined;
+  Fatal?: number | undefined;
+  Critical?: number | undefined;
+  High?: number | undefined;
+  Medium?: number | undefined;
+  Low?: number | undefined;
+  Informational?: number | undefined;
+  Unknown?: number | undefined;
 }
 export interface ResourceFindingsSummary {
-  FindingType?: string;
-  ProductName?: string;
-  TotalFindings?: number;
-  Severities?: ResourceSeverityBreakdown;
+  FindingType?: string | undefined;
+  ProductName?: string | undefined;
+  TotalFindings?: number | undefined;
+  Severities?: ResourceSeverityBreakdown | undefined;
 }
 export type ResourceFindingsSummaryList = ResourceFindingsSummary[];
 export interface ResourceTag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type ResourceTagList = ResourceTag[];
 export type ResourceConfig = unknown;
@@ -7149,20 +7260,20 @@ export type ResourceSubCategory =
   | (string & {});
 export type DiscoveryType = "Managed" | "SelfHosted" | (string & {});
 export interface AIDetails {
-  HostResourceGuid?: string;
-  HostResourceType?: string;
-  CanonicalId?: string;
-  SelfHostedAIModelResourceCount?: number;
-  SelfHostedAIAgentResourceCount?: number;
-  SelfHostedAIModelServingResourceCount?: number;
-  SelfHostedAIExternalEndpointResourceCount?: number;
-  SelfHostedAIDevelopmentResourceCount?: number;
-  SelfHostedAIAgentFrameworkResourceCount?: number;
-  SelfHostedAIAgentToolsAndIdentityResourceCount?: number;
-  SelfHostedTotalAIResourceCount?: number;
+  HostResourceGuid?: string | undefined;
+  HostResourceType?: string | undefined;
+  CanonicalId?: string | undefined;
+  SelfHostedAIModelResourceCount?: number | undefined;
+  SelfHostedAIAgentResourceCount?: number | undefined;
+  SelfHostedAIModelServingResourceCount?: number | undefined;
+  SelfHostedAIExternalEndpointResourceCount?: number | undefined;
+  SelfHostedAIDevelopmentResourceCount?: number | undefined;
+  SelfHostedAIAgentFrameworkResourceCount?: number | undefined;
+  SelfHostedAIAgentToolsAndIdentityResourceCount?: number | undefined;
+  SelfHostedTotalAIResourceCount?: number | undefined;
 }
 export interface ResourceInfo {
-  AIDetails?: AIDetails;
+  AIDetails?: AIDetails | undefined;
 }
 export type CriticalitySourceType =
   | "AutomationRule"
@@ -7170,34 +7281,34 @@ export type CriticalitySourceType =
   | "TagInference"
   | (string & {});
 export interface CriticalitySource {
-  Source?: CriticalitySourceType;
-  Reason?: string;
+  Source?: CriticalitySourceType | undefined;
+  Reason?: string | undefined;
 }
 export type CriticalitySourceList = CriticalitySource[];
 export interface ResourceResult {
-  ResourceGuid?: string;
-  ResourceId?: string;
-  AccountId?: string;
-  AccountName?: string;
-  Region?: string;
-  ResourceProvider?: string;
-  ResourceOwnerAccountId?: string;
-  ResourceOwnerOrgId?: string;
-  ResourceCloudPartition?: string;
-  ResourceRegion?: string;
-  ResourceCategory?: ResourceCategory;
-  ResourceType?: string;
-  ResourceName?: string;
-  ResourceCreationTimeDt?: string;
-  ResourceDetailCaptureTimeDt?: string;
-  FindingsSummary?: ResourceFindingsSummary[];
-  ResourceTags?: ResourceTag[];
-  ResourceConfig?: any;
-  ResourceSubCategory?: ResourceSubCategory;
-  DiscoveryType?: DiscoveryType;
-  ResourceInfo?: ResourceInfo;
-  ResourceCriticality?: ResourceCriticality;
-  CriticalitySources?: CriticalitySource[];
+  ResourceGuid?: string | undefined;
+  ResourceId?: string | undefined;
+  AccountId?: string | undefined;
+  AccountName?: string | undefined;
+  Region?: string | undefined;
+  ResourceProvider?: string | undefined;
+  ResourceOwnerAccountId?: string | undefined;
+  ResourceOwnerOrgId?: string | undefined;
+  ResourceCloudPartition?: string | undefined;
+  ResourceRegion?: string | undefined;
+  ResourceCategory?: ResourceCategory | undefined;
+  ResourceType?: string | undefined;
+  ResourceName?: string | undefined;
+  ResourceCreationTimeDt?: string | undefined;
+  ResourceDetailCaptureTimeDt?: string | undefined;
+  FindingsSummary?: ResourceFindingsSummary[] | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  ResourceConfig?: any | undefined;
+  ResourceSubCategory?: ResourceSubCategory | undefined;
+  DiscoveryType?: DiscoveryType | undefined;
+  ResourceInfo?: ResourceInfo | undefined;
+  ResourceCriticality?: ResourceCriticality | undefined;
+  CriticalitySources?: CriticalitySource[] | undefined;
 }
 export type Resources = ResourceResult[];
 export interface GetResourcesV2Response {
@@ -7219,149 +7330,149 @@ export interface GetResourcesV2Response {
       Reason: NonEmptyString;
     })[];
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetSecurityControlDefinitionRequest {
-  SecurityControlId?: string;
+  SecurityControlId?: string | undefined;
 }
 export type RegionAvailabilityStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export type SecurityControlProperty = "Parameters" | (string & {});
 export type CustomizableProperties = SecurityControlProperty[];
 export interface IntegerConfigurationOptions {
-  DefaultValue?: number;
-  Min?: number;
-  Max?: number;
+  DefaultValue?: number | undefined;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export interface IntegerListConfigurationOptions {
-  DefaultValue?: number[];
-  Min?: number;
-  Max?: number;
-  MaxItems?: number;
+  DefaultValue?: number[] | undefined;
+  Min?: number | undefined;
+  Max?: number | undefined;
+  MaxItems?: number | undefined;
 }
 export interface DoubleConfigurationOptions {
-  DefaultValue?: number;
-  Min?: number;
-  Max?: number;
+  DefaultValue?: number | undefined;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export interface StringConfigurationOptions {
-  DefaultValue?: string;
-  Re2Expression?: string;
-  ExpressionDescription?: string;
+  DefaultValue?: string | undefined;
+  Re2Expression?: string | undefined;
+  ExpressionDescription?: string | undefined;
 }
 export interface StringListConfigurationOptions {
-  DefaultValue?: string[];
-  Re2Expression?: string;
-  MaxItems?: number;
-  ExpressionDescription?: string;
+  DefaultValue?: string[] | undefined;
+  Re2Expression?: string | undefined;
+  MaxItems?: number | undefined;
+  ExpressionDescription?: string | undefined;
 }
 export interface BooleanConfigurationOptions {
-  DefaultValue?: boolean;
+  DefaultValue?: boolean | undefined;
 }
 export interface EnumConfigurationOptions {
-  DefaultValue?: string;
-  AllowedValues?: string[];
+  DefaultValue?: string | undefined;
+  AllowedValues?: string[] | undefined;
 }
 export interface EnumListConfigurationOptions {
-  DefaultValue?: string[];
-  MaxItems?: number;
-  AllowedValues?: string[];
+  DefaultValue?: string[] | undefined;
+  MaxItems?: number | undefined;
+  AllowedValues?: string[] | undefined;
 }
 export type ConfigurationOptions =
   | {
       Integer: IntegerConfigurationOptions;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
+      Integer?: undefined;
       IntegerList: IntegerListConfigurationOptions;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
       Double: DoubleConfigurationOptions;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
       String: StringConfigurationOptions;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
       StringList: StringListConfigurationOptions;
-      Boolean?: never;
-      Enum?: never;
-      EnumList?: never;
+      Boolean?: undefined;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
       Boolean: BooleanConfigurationOptions;
-      Enum?: never;
-      EnumList?: never;
+      Enum?: undefined;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
       Enum: EnumConfigurationOptions;
-      EnumList?: never;
+      EnumList?: undefined;
     }
   | {
-      Integer?: never;
-      IntegerList?: never;
-      Double?: never;
-      String?: never;
-      StringList?: never;
-      Boolean?: never;
-      Enum?: never;
+      Integer?: undefined;
+      IntegerList?: undefined;
+      Double?: undefined;
+      String?: undefined;
+      StringList?: undefined;
+      Boolean?: undefined;
+      Enum?: undefined;
       EnumList: EnumListConfigurationOptions;
     };
 export interface ParameterDefinition {
-  Description?: string;
-  ConfigurationOptions?: ConfigurationOptions;
+  Description?: string | undefined;
+  ConfigurationOptions?: ConfigurationOptions | undefined;
 }
 export type ParameterDefinitions = { [key: string]: ParameterDefinition | undefined };
 export interface SecurityControlDefinition {
-  SecurityControlId?: string;
-  Title?: string;
-  Description?: string;
-  RemediationUrl?: string;
-  SeverityRating?: SeverityRating;
-  CurrentRegionAvailability?: RegionAvailabilityStatus;
-  CustomizableProperties?: SecurityControlProperty[];
-  ParameterDefinitions?: { [key: string]: ParameterDefinition | undefined };
-  Provider?: SecurityControlsProvider;
+  SecurityControlId?: string | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  RemediationUrl?: string | undefined;
+  SeverityRating?: SeverityRating | undefined;
+  CurrentRegionAvailability?: RegionAvailabilityStatus | undefined;
+  CustomizableProperties?: SecurityControlProperty[] | undefined;
+  ParameterDefinitions?: { [key: string]: ParameterDefinition | undefined } | undefined;
+  Provider?: SecurityControlsProvider | undefined;
 }
 export interface GetSecurityControlDefinitionResponse {
   SecurityControlDefinition: SecurityControlDefinition & {
@@ -7396,43 +7507,43 @@ export type SoftwareStringField =
   | "ResourceCloudPartition"
   | (string & {});
 export interface SoftwareStringFilter {
-  FieldName?: SoftwareStringField;
-  Filter?: StringFilter;
+  FieldName?: SoftwareStringField | undefined;
+  Filter?: StringFilter | undefined;
 }
 export type SoftwareStringFilterList = SoftwareStringFilter[];
 export interface SoftwareCompositeFilter {
-  StringFilters?: SoftwareStringFilter[];
-  NestedCompositeFilters?: SoftwareCompositeFilter[];
-  Operator?: AllowedOperators;
+  StringFilters?: SoftwareStringFilter[] | undefined;
+  NestedCompositeFilters?: SoftwareCompositeFilter[] | undefined;
+  Operator?: AllowedOperators | undefined;
 }
 export type SoftwareCompositeFilterList = SoftwareCompositeFilter[];
 export interface SoftwareFilters {
-  CompositeFilters?: SoftwareCompositeFilter[];
-  CompositeOperator?: AllowedOperators;
+  CompositeFilters?: SoftwareCompositeFilter[] | undefined;
+  CompositeOperator?: AllowedOperators | undefined;
 }
 export interface SoftwareScopes {
-  AwsOrganizations?: AwsOrganizationScope[];
+  AwsOrganizations?: AwsOrganizationScope[] | undefined;
 }
 export interface GetSoftwareResourcesV2Request {
-  PackageName?: string;
-  PackageType?: string;
-  PackageVersion?: string;
-  Filters?: SoftwareFilters;
-  Scopes?: SoftwareScopes;
-  SortCriteria?: SortCriterion[];
-  NextToken?: string;
-  MaxResults?: number;
+  PackageName?: string | undefined;
+  PackageType?: string | undefined;
+  PackageVersion?: string | undefined;
+  Filters?: SoftwareFilters | undefined;
+  Scopes?: SoftwareScopes | undefined;
+  SortCriteria?: SortCriterion[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SoftwareResourceResult {
-  AccountId?: string;
-  ResourceType?: string;
-  Region?: string;
-  ResourceId?: string;
-  ResourceProvider?: string;
-  ResourceOwnerOrgId?: string;
-  ResourceOwnerAccountId?: string;
-  ResourceCloudPartition?: string;
-  ResourceRegion?: string;
+  AccountId?: string | undefined;
+  ResourceType?: string | undefined;
+  Region?: string | undefined;
+  ResourceId?: string | undefined;
+  ResourceProvider?: string | undefined;
+  ResourceOwnerOrgId?: string | undefined;
+  ResourceOwnerAccountId?: string | undefined;
+  ResourceCloudPartition?: string | undefined;
+  ResourceRegion?: string | undefined;
 }
 export type SoftwareResourceResultList = SoftwareResourceResult[];
 export interface GetSoftwareResourcesV2Response {
@@ -7442,7 +7553,7 @@ export interface GetSoftwareResourcesV2Response {
     Region: NonEmptyString;
     ResourceId: NonEmptyString;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SoftwareGroupByField =
   | "AccountId"
@@ -7459,31 +7570,31 @@ export type SoftwareGroupByField =
   | "ResourceCloudPartition"
   | (string & {});
 export interface SoftwareGroupByRule {
-  GroupByField?: SoftwareGroupByField;
-  Filters?: SoftwareFilters;
+  GroupByField?: SoftwareGroupByField | undefined;
+  Filters?: SoftwareFilters | undefined;
 }
 export type SoftwareGroupByRules = SoftwareGroupByRule[];
 export interface GetSoftwareStatisticsV2Request {
-  GroupByRules?: SoftwareGroupByRule[];
-  Scopes?: SoftwareScopes;
-  SortOrder?: SortOrder;
-  MaxStatisticResults?: number;
+  GroupByRules?: SoftwareGroupByRule[] | undefined;
+  Scopes?: SoftwareScopes | undefined;
+  SortOrder?: SortOrder | undefined;
+  MaxStatisticResults?: number | undefined;
 }
 export interface GetSoftwareStatisticsV2Response {
   GroupByResults: GroupByResult[];
 }
 export interface GetSoftwareV2Request {
-  Filters?: SoftwareFilters;
-  Scopes?: SoftwareScopes;
-  SortCriteria?: SortCriterion[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: SoftwareFilters | undefined;
+  Scopes?: SoftwareScopes | undefined;
+  SortCriteria?: SortCriterion[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface SoftwareResult {
-  PackageName?: string;
-  PackageVersion?: string;
-  PackageType?: string;
-  ResourceCount?: number;
+  PackageName?: string | undefined;
+  PackageVersion?: string | undefined;
+  PackageType?: string | undefined;
+  ResourceCount?: number | undefined;
 }
 export type SoftwareList = SoftwareResult[];
 export interface GetSoftwareV2Response {
@@ -7492,156 +7603,156 @@ export interface GetSoftwareV2Response {
     PackageType: NonEmptyString;
     ResourceCount: number;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface InviteMembersRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface InviteMembersResponse {
-  UnprocessedAccounts?: Result[];
+  UnprocessedAccounts?: Result[] | undefined;
 }
 export interface ListAggregatorsV2Request {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AggregatorV2 {
-  AggregatorV2Arn?: string;
+  AggregatorV2Arn?: string | undefined;
 }
 export type AggregatorV2List = AggregatorV2[];
 export interface ListAggregatorsV2Response {
-  AggregatorsV2?: AggregatorV2[];
-  NextToken?: string;
+  AggregatorsV2?: AggregatorV2[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAutomationRulesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AutomationRulesMetadata {
-  RuleArn?: string;
-  RuleStatus?: RuleStatus;
-  RuleOrder?: number;
-  RuleName?: string;
-  Description?: string;
-  IsTerminal?: boolean;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  CreatedBy?: string;
+  RuleArn?: string | undefined;
+  RuleStatus?: RuleStatus | undefined;
+  RuleOrder?: number | undefined;
+  RuleName?: string | undefined;
+  Description?: string | undefined;
+  IsTerminal?: boolean | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
 }
 export type AutomationRulesMetadataList = AutomationRulesMetadata[];
 export interface ListAutomationRulesResponse {
-  AutomationRulesMetadata?: AutomationRulesMetadata[];
-  NextToken?: string;
+  AutomationRulesMetadata?: AutomationRulesMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAutomationRulesV2Request {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AutomationRulesActionTypeObjectV2 {
-  Type?: AutomationRulesActionTypeV2;
+  Type?: AutomationRulesActionTypeV2 | undefined;
 }
 export type AutomationRulesActionTypeListV2 = AutomationRulesActionTypeObjectV2[];
 export interface AutomationRulesMetadataV2 {
-  RuleArn?: string;
-  RuleId?: string;
-  RuleOrder?: number;
-  RuleName?: string;
-  RuleStatus?: RuleStatusV2;
-  Description?: string;
-  Actions?: AutomationRulesActionTypeObjectV2[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  RuleArn?: string | undefined;
+  RuleId?: string | undefined;
+  RuleOrder?: number | undefined;
+  RuleName?: string | undefined;
+  RuleStatus?: RuleStatusV2 | undefined;
+  Description?: string | undefined;
+  Actions?: AutomationRulesActionTypeObjectV2[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type AutomationRulesMetadataListV2 = AutomationRulesMetadataV2[];
 export interface ListAutomationRulesV2Response {
-  Rules?: AutomationRulesMetadataV2[];
-  NextToken?: string;
+  Rules?: AutomationRulesMetadataV2[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConfigurationPoliciesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ConfigurationPolicySummary {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  UpdatedAt?: Date;
-  ServiceEnabled?: boolean;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  ServiceEnabled?: boolean | undefined;
 }
 export type ConfigurationPolicySummaryList = ConfigurationPolicySummary[];
 export interface ListConfigurationPoliciesResponse {
-  ConfigurationPolicySummaries?: ConfigurationPolicySummary[];
-  NextToken?: string;
+  ConfigurationPolicySummaries?: ConfigurationPolicySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface AssociationFilters {
-  ConfigurationPolicyId?: string;
-  AssociationType?: AssociationType;
-  AssociationStatus?: ConfigurationPolicyAssociationStatus;
+  ConfigurationPolicyId?: string | undefined;
+  AssociationType?: AssociationType | undefined;
+  AssociationStatus?: ConfigurationPolicyAssociationStatus | undefined;
 }
 export interface ListConfigurationPolicyAssociationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: AssociationFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: AssociationFilters | undefined;
 }
 export type ConfigurationPolicyAssociationSummaryList = ConfigurationPolicyAssociationSummary[];
 export interface ListConfigurationPolicyAssociationsResponse {
-  ConfigurationPolicyAssociationSummaries?: ConfigurationPolicyAssociationSummary[];
-  NextToken?: string;
+  ConfigurationPolicyAssociationSummaries?: ConfigurationPolicyAssociationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CspmConnectorProviderName = "AZURE" | (string & {});
 export interface ListConnectorsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  ProviderName?: CspmConnectorProviderName;
-  ConnectorStatus?: CspmConnectorStatus;
-  EnablementStatus?: CspmEnablementStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ProviderName?: CspmConnectorProviderName | undefined;
+  ConnectorStatus?: CspmConnectorStatus | undefined;
+  EnablementStatus?: CspmEnablementStatus | undefined;
 }
 export interface CspmProviderSummary {
-  ProviderName?: CspmConnectorProviderName;
-  ConnectorStatus?: CspmConnectorStatus;
-  ProviderConfiguration?: CspmProviderDetail;
+  ProviderName?: CspmConnectorProviderName | undefined;
+  ConnectorStatus?: CspmConnectorStatus | undefined;
+  ProviderConfiguration?: CspmProviderDetail | undefined;
 }
 export interface CspmConnectorSummary {
-  ConnectorArn?: string;
-  ConnectorId?: string;
-  Name?: string;
-  Description?: string;
-  ProviderSummary?: CspmProviderSummary;
-  CreatedAt?: Date;
-  CreatedBy?: string;
-  EnablementStatus?: CspmEnablementStatus;
+  ConnectorArn?: string | undefined;
+  ConnectorId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ProviderSummary?: CspmProviderSummary | undefined;
+  CreatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
+  EnablementStatus?: CspmEnablementStatus | undefined;
 }
 export type CspmConnectorSummaryList = CspmConnectorSummary[];
 export interface ListConnectorsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Connectors: CspmConnectorSummary[];
 }
 export type ConnectorProviderName = "JIRA_CLOUD" | "SERVICENOW" | "AZURE" | (string & {});
 export interface ListConnectorsV2Request {
-  NextToken?: string;
-  MaxResults?: number;
-  ProviderName?: ConnectorProviderName;
-  ConnectorStatus?: ConnectorStatus;
-  EnablementStatus?: EnablementStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ProviderName?: ConnectorProviderName | undefined;
+  ConnectorStatus?: ConnectorStatus | undefined;
+  EnablementStatus?: EnablementStatus | undefined;
 }
 export interface ProviderSummary {
-  ProviderName?: ConnectorProviderName;
-  ConnectorStatus?: ConnectorStatus;
-  ProviderConfiguration?: ProviderDetail;
+  ProviderName?: ConnectorProviderName | undefined;
+  ConnectorStatus?: ConnectorStatus | undefined;
+  ProviderConfiguration?: ProviderDetail | undefined;
 }
 export interface ConnectorSummary {
-  ConnectorArn?: string;
-  ConnectorId?: string;
-  Name?: string;
-  Description?: string;
-  ProviderSummary?: ProviderSummary;
-  CreatedAt?: Date;
-  EnablementStatus?: EnablementStatus;
-  EnablementStatusReason?: string;
+  ConnectorArn?: string | undefined;
+  ConnectorId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ProviderSummary?: ProviderSummary | undefined;
+  CreatedAt?: Date | undefined;
+  EnablementStatus?: EnablementStatus | undefined;
+  EnablementStatusReason?: string | undefined;
 }
 export type ConnectorSummaryList = ConnectorSummary[];
 export interface ListConnectorsV2Response {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Connectors: (ConnectorSummary & {
     ConnectorId: NonEmptyString;
     Name: NonEmptyString;
@@ -7650,37 +7761,37 @@ export interface ListConnectorsV2Response {
   })[];
 }
 export interface ListEnabledProductsForImportRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ProductSubscriptionArnList = string[];
 export interface ListEnabledProductsForImportResponse {
-  ProductSubscriptions?: string[];
-  NextToken?: string;
+  ProductSubscriptions?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ExportMaxResults = number;
 export interface ListExportJobsV2Request {
-  Status?: ExportStatus;
-  DataType?: ExportDataType;
-  MaxResults?: number;
-  NextToken?: string;
+  Status?: ExportStatus | undefined;
+  DataType?: ExportDataType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FindingsOutputSummary {
-  Format?: FindingsExportFormat;
+  Format?: FindingsExportFormat | undefined;
 }
 export type ExportOutputSummary = { Findings: FindingsOutputSummary };
 export interface ExportSummary {
-  ExportJobId?: string;
-  Name?: string;
-  Status?: ExportStatus;
-  DataType?: ExportDataType;
-  OutputConfiguration?: ExportOutputSummary;
-  Scopes?: ExportScopes;
-  Destination?: ExportDestination;
-  FailureCode?: ExportFailureCode;
-  FailureMessage?: string;
-  StartedAt?: Date;
-  EndedAt?: Date;
+  ExportJobId?: string | undefined;
+  Name?: string | undefined;
+  Status?: ExportStatus | undefined;
+  DataType?: ExportDataType | undefined;
+  OutputConfiguration?: ExportOutputSummary | undefined;
+  Scopes?: ExportScopes | undefined;
+  Destination?: ExportDestination | undefined;
+  FailureCode?: ExportFailureCode | undefined;
+  FailureMessage?: string | undefined;
+  StartedAt?: Date | undefined;
+  EndedAt?: Date | undefined;
 }
 export type ExportSummaryList = ExportSummary[];
 export interface ListExportJobsV2Response {
@@ -7691,12 +7802,12 @@ export interface ListExportJobsV2Response {
     Destination: ExportDestination;
     StartedAt: Date;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListExposuresByRemediationV2Request {
-  TargetUid?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  TargetUid?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ExposureSeverity =
   | "Informational"
@@ -7707,11 +7818,11 @@ export type ExposureSeverity =
   | (string & {});
 export type ExposureImpact = "Reduces" | "Resolves" | "Unchanged" | (string & {});
 export interface ExposureFinding {
-  MetadataUid?: string;
-  Title?: string;
-  PreviousSeverity?: ExposureSeverity;
-  ProjectedSeverity?: ExposureSeverity;
-  Impact?: ExposureImpact;
+  MetadataUid?: string | undefined;
+  Title?: string | undefined;
+  PreviousSeverity?: ExposureSeverity | undefined;
+  ProjectedSeverity?: ExposureSeverity | undefined;
+  Impact?: ExposureImpact | undefined;
 }
 export type ExposureFindingItemsList = ExposureFinding[];
 export interface ListExposuresByRemediationV2Response {
@@ -7733,42 +7844,42 @@ export interface ListExposuresByRemediationV2Response {
   };
   TotalCount: number;
   Trait: RemediationTrait & { Type: NonEmptyString; Title: NonEmptyString };
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFindingAggregatorsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FindingAggregator {
-  FindingAggregatorArn?: string;
+  FindingAggregatorArn?: string | undefined;
 }
 export type FindingAggregatorList = FindingAggregator[];
 export interface ListFindingAggregatorsResponse {
-  FindingAggregators?: FindingAggregator[];
-  NextToken?: string;
+  FindingAggregators?: FindingAggregator[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FreeTrialAccountId = string;
 export type FreeTrialAccountIdList = string[];
 export type FreeTrialStatusValue = "ACTIVE" | "INACTIVE" | (string & {});
 export type FreeTrialStatusValueList = FreeTrialStatusValue[];
 export interface ListFreeTrialStatusesV2Request {
-  AccountIds?: string[];
-  Statuses?: FreeTrialStatusValue[];
-  MaxResults?: number;
-  NextToken?: string;
+  AccountIds?: string[] | undefined;
+  Statuses?: FreeTrialStatusValue[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FreeTrialType = "SECURITY_HUB_V2" | "SECURITY_HUB_V2_MULTI_CLOUD_AZURE" | (string & {});
 export interface FreeTrialStatus {
-  FeatureType?: FreeTrialType;
-  Status?: FreeTrialStatusValue;
-  StartedAt?: Date;
-  ExpiresAt?: Date;
+  FeatureType?: FreeTrialType | undefined;
+  Status?: FreeTrialStatusValue | undefined;
+  StartedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export type FreeTrialStatusList = FreeTrialStatus[];
 export interface AccountFreeTrialStatus {
-  AccountId?: string;
-  EvaluatedAt?: Date;
-  FreeTrialStatuses?: FreeTrialStatus[];
+  AccountId?: string | undefined;
+  EvaluatedAt?: Date | undefined;
+  FreeTrialStatuses?: FreeTrialStatus[] | undefined;
 }
 export type AccountFreeTrialStatusList = AccountFreeTrialStatus[];
 export interface ListFreeTrialStatusesV2Response {
@@ -7782,50 +7893,50 @@ export interface ListFreeTrialStatusesV2Response {
       ExpiresAt: Date;
     })[];
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type CrossAccountMaxResults = number;
 export interface ListInvitationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InvitationList = Invitation[];
 export interface ListInvitationsResponse {
-  Invitations?: Invitation[];
-  NextToken?: string;
+  Invitations?: Invitation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMembersRequest {
-  OnlyAssociated?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  OnlyAssociated?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMembersResponse {
-  Members?: Member[];
-  NextToken?: string;
+  Members?: Member[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AdminsMaxResults = number;
 export interface ListOrganizationAdminAccountsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Feature?: SecurityHubFeature;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Feature?: SecurityHubFeature | undefined;
 }
 export type AdminStatus = "ENABLED" | "DISABLE_IN_PROGRESS" | (string & {});
 export interface AdminAccount {
-  AccountId?: string;
-  Status?: AdminStatus;
+  AccountId?: string | undefined;
+  Status?: AdminStatus | undefined;
 }
 export type AdminAccounts = AdminAccount[];
 export interface ListOrganizationAdminAccountsResponse {
-  AdminAccounts?: AdminAccount[];
-  NextToken?: string;
-  Feature?: SecurityHubFeature;
+  AdminAccounts?: AdminAccount[] | undefined;
+  NextToken?: string | undefined;
+  Feature?: SecurityHubFeature | undefined;
 }
 export type SecurityControlsProviders = SecurityControlsProvider[];
 export interface ListSecurityControlDefinitionsRequest {
-  StandardsArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Providers?: SecurityControlsProvider[];
+  StandardsArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Providers?: SecurityControlsProvider[] | undefined;
 }
 export type SecurityControlDefinitions = SecurityControlDefinition[];
 export interface ListSecurityControlDefinitionsResponse {
@@ -7845,23 +7956,23 @@ export interface ListSecurityControlDefinitionsResponse {
         | undefined;
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListStandardsControlAssociationsRequest {
-  SecurityControlId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  SecurityControlId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface StandardsControlAssociationSummary {
-  StandardsArn?: string;
-  SecurityControlId?: string;
-  SecurityControlArn?: string;
-  AssociationStatus?: AssociationStatus;
-  RelatedRequirements?: string[];
-  UpdatedAt?: Date;
-  UpdatedReason?: string;
-  StandardsControlTitle?: string;
-  StandardsControlDescription?: string;
+  StandardsArn?: string | undefined;
+  SecurityControlId?: string | undefined;
+  SecurityControlArn?: string | undefined;
+  AssociationStatus?: AssociationStatus | undefined;
+  RelatedRequirements?: string[] | undefined;
+  UpdatedAt?: Date | undefined;
+  UpdatedReason?: string | undefined;
+  StandardsControlTitle?: string | undefined;
+  StandardsControlDescription?: string | undefined;
 }
 export type StandardsControlAssociationSummaries = StandardsControlAssociationSummary[];
 export interface ListStandardsControlAssociationsResponse {
@@ -7871,183 +7982,183 @@ export interface ListStandardsControlAssociationsResponse {
     SecurityControlArn: NonEmptyString;
     AssociationStatus: AssociationStatus;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterConnectorV2Request {
-  AuthCode?: string;
-  AuthState?: string;
+  AuthCode?: string | undefined;
+  AuthState?: string | undefined;
 }
 export interface RegisterConnectorV2Response {
-  ConnectorArn?: string;
+  ConnectorArn?: string | undefined;
   ConnectorId: string;
 }
 export interface StartConfigurationPolicyAssociationRequest {
-  ConfigurationPolicyIdentifier?: string;
-  Target?: Target;
+  ConfigurationPolicyIdentifier?: string | undefined;
+  Target?: Target | undefined;
 }
 export interface StartConfigurationPolicyAssociationResponse {
-  ConfigurationPolicyId?: string;
-  TargetId?: string;
-  TargetType?: TargetType;
-  AssociationType?: AssociationType;
-  UpdatedAt?: Date;
-  AssociationStatus?: ConfigurationPolicyAssociationStatus;
-  AssociationStatusMessage?: string;
+  ConfigurationPolicyId?: string | undefined;
+  TargetId?: string | undefined;
+  TargetType?: TargetType | undefined;
+  AssociationType?: AssociationType | undefined;
+  UpdatedAt?: Date | undefined;
+  AssociationStatus?: ConfigurationPolicyAssociationStatus | undefined;
+  AssociationStatusMessage?: string | undefined;
 }
 export interface StartConfigurationPolicyDisassociationRequest {
-  Target?: Target;
-  ConfigurationPolicyIdentifier?: string;
+  Target?: Target | undefined;
+  ConfigurationPolicyIdentifier?: string | undefined;
 }
 export interface StartConfigurationPolicyDisassociationResponse {}
 export interface StartExportJobV2Request {
-  Name?: string;
-  Destination?: ExportDestination;
-  OutputConfiguration?: ExportOutput;
-  Scopes?: ExportScopes;
-  ClientToken?: string;
+  Name?: string | undefined;
+  Destination?: ExportDestination | undefined;
+  OutputConfiguration?: ExportOutput | undefined;
+  Scopes?: ExportScopes | undefined;
+  ClientToken?: string | undefined;
 }
 export interface StartExportJobV2Response {
   ExportJobId: string;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateActionTargetRequest {
   ActionTargetArn: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateActionTargetResponse {}
 export interface UpdateAggregatorV2Request {
   AggregatorV2Arn: string;
-  RegionLinkingMode?: string;
-  LinkedRegions?: string[];
+  RegionLinkingMode?: string | undefined;
+  LinkedRegions?: string[] | undefined;
 }
 export interface UpdateAggregatorV2Response {
-  AggregatorV2Arn?: string;
-  AggregationRegion?: string;
-  RegionLinkingMode?: string;
-  LinkedRegions?: string[];
+  AggregatorV2Arn?: string | undefined;
+  AggregationRegion?: string | undefined;
+  RegionLinkingMode?: string | undefined;
+  LinkedRegions?: string[] | undefined;
 }
 export interface UpdateAutomationRuleV2Request {
   Identifier: string;
-  RuleStatus?: RuleStatusV2;
-  RuleOrder?: number;
-  Description?: string;
-  RuleName?: string;
-  Criteria?: Criteria;
-  Actions?: AutomationRulesActionV2[];
+  RuleStatus?: RuleStatusV2 | undefined;
+  RuleOrder?: number | undefined;
+  Description?: string | undefined;
+  RuleName?: string | undefined;
+  Criteria?: Criteria | undefined;
+  Actions?: AutomationRulesActionV2[] | undefined;
 }
 export interface UpdateAutomationRuleV2Response {}
 export interface UpdateConfigurationPolicyRequest {
   Identifier: string;
-  Name?: string;
-  Description?: string;
-  UpdatedReason?: string;
-  ConfigurationPolicy?: Policy;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UpdatedReason?: string | undefined;
+  ConfigurationPolicy?: Policy | undefined;
 }
 export interface UpdateConfigurationPolicyResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  UpdatedAt?: Date;
-  CreatedAt?: Date;
-  ConfigurationPolicy?: Policy;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  ConfigurationPolicy?: Policy | undefined;
 }
 export interface AzureUpdateConfiguration {
-  ScopeConfiguration?: AzureScopeConfiguration;
-  AzureRegions?: string[];
+  ScopeConfiguration?: AzureScopeConfiguration | undefined;
+  AzureRegions?: string[] | undefined;
 }
 export type CspmProviderUpdateConfiguration = { Azure: AzureUpdateConfiguration };
 export interface UpdateConnectorRequest {
   ConnectorId: string;
-  Description?: string;
-  Provider?: CspmProviderUpdateConfiguration;
+  Description?: string | undefined;
+  Provider?: CspmProviderUpdateConfiguration | undefined;
 }
 export interface UpdateConnectorResponse {
-  ConnectorStatus?: CspmConnectorStatus;
-  EnablementStatus?: CspmEnablementStatus;
+  ConnectorStatus?: CspmConnectorStatus | undefined;
+  EnablementStatus?: CspmEnablementStatus | undefined;
 }
 export interface JiraCloudUpdateConfiguration {
-  ProjectKey?: string;
+  ProjectKey?: string | undefined;
 }
 export interface ServiceNowUpdateConfiguration {
-  SecretArn?: string;
+  SecretArn?: string | undefined;
 }
 export type ProviderUpdateConfiguration =
-  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: never; Azure?: never }
-  | { JiraCloud?: never; ServiceNow: ServiceNowUpdateConfiguration; Azure?: never }
-  | { JiraCloud?: never; ServiceNow?: never; Azure: AzureUpdateConfiguration };
+  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: undefined; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowUpdateConfiguration; Azure?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureUpdateConfiguration };
 export interface UpdateConnectorV2Request {
   ConnectorId: string;
-  Description?: string;
-  Provider?: ProviderUpdateConfiguration;
+  Description?: string | undefined;
+  Provider?: ProviderUpdateConfiguration | undefined;
 }
 export interface UpdateConnectorV2Response {
-  ConnectorStatus?: ConnectorStatus;
-  EnablementStatus?: EnablementStatus;
+  ConnectorStatus?: ConnectorStatus | undefined;
+  EnablementStatus?: EnablementStatus | undefined;
 }
 export interface UpdateFindingAggregatorRequest {
-  FindingAggregatorArn?: string;
-  RegionLinkingMode?: string;
-  Regions?: string[];
+  FindingAggregatorArn?: string | undefined;
+  RegionLinkingMode?: string | undefined;
+  Regions?: string[] | undefined;
 }
 export interface UpdateFindingAggregatorResponse {
-  FindingAggregatorArn?: string;
-  FindingAggregationRegion?: string;
-  RegionLinkingMode?: string;
-  Regions?: string[];
+  FindingAggregatorArn?: string | undefined;
+  FindingAggregationRegion?: string | undefined;
+  RegionLinkingMode?: string | undefined;
+  Regions?: string[] | undefined;
 }
 export interface UpdateFindingsRequest {
-  Filters?: AwsSecurityFindingFilters;
-  Note?: NoteUpdate;
-  RecordState?: RecordState;
+  Filters?: AwsSecurityFindingFilters | undefined;
+  Note?: NoteUpdate | undefined;
+  RecordState?: RecordState | undefined;
 }
 export interface UpdateFindingsResponse {}
 export interface UpdateInsightRequest {
   InsightArn: string;
-  Name?: string;
-  Filters?: AwsSecurityFindingFilters;
-  GroupByAttribute?: string;
+  Name?: string | undefined;
+  Filters?: AwsSecurityFindingFilters | undefined;
+  GroupByAttribute?: string | undefined;
 }
 export interface UpdateInsightResponse {}
 export interface UpdateOrganizationConfigurationRequest {
-  AutoEnable?: boolean;
-  AutoEnableStandards?: AutoEnableStandards;
-  OrganizationConfiguration?: OrganizationConfiguration;
+  AutoEnable?: boolean | undefined;
+  AutoEnableStandards?: AutoEnableStandards | undefined;
+  OrganizationConfiguration?: OrganizationConfiguration | undefined;
 }
 export interface UpdateOrganizationConfigurationResponse {}
 export interface UpdateSecurityControlRequest {
-  SecurityControlId?: string;
-  Parameters?: { [key: string]: ParameterConfiguration | undefined };
-  LastUpdateReason?: string;
+  SecurityControlId?: string | undefined;
+  Parameters?: { [key: string]: ParameterConfiguration | undefined } | undefined;
+  LastUpdateReason?: string | undefined;
 }
 export interface UpdateSecurityControlResponse {}
 export interface UpdateSecurityHubConfigurationRequest {
-  AutoEnableControls?: boolean;
-  ControlFindingGenerator?: ControlFindingGenerator;
+  AutoEnableControls?: boolean | undefined;
+  ControlFindingGenerator?: ControlFindingGenerator | undefined;
 }
 export interface UpdateSecurityHubConfigurationResponse {}
 export interface UpdateStandardsControlRequest {
   StandardsControlArn: string;
-  ControlStatus?: ControlStatus;
-  DisabledReason?: string;
+  ControlStatus?: ControlStatus | undefined;
+  DisabledReason?: string | undefined;
 }
 export interface UpdateStandardsControlResponse {}
 export type AcceptAdministratorInvitationError =

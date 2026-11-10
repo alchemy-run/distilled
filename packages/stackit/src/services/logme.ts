@@ -72,14 +72,14 @@ export interface CreateCredentialsRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  parameters?: unknown;
+  parameters?: unknown | undefined;
 }
 export interface Credentials {
   host: string;
   password: string | Redacted.Redacted<string>;
-  port?: number;
-  syslog_drain_url?: string;
-  uri?: string;
+  port?: number | undefined;
+  syslog_drain_url?: string | undefined;
+  uri?: string | undefined;
   username: string;
 }
 export interface RawCredentials {
@@ -87,11 +87,11 @@ export interface RawCredentials {
 }
 export interface CredentialsResponse {
   id: string;
-  raw?: RawCredentials;
+  raw?: RawCredentials | undefined;
   uri: string;
 }
 export interface InstanceParametersGroksItem {
-  pattern?: string;
+  pattern?: string | undefined;
 }
 export type InstanceParametersGroksList = Array<InstanceParametersGroksItem>;
 export type InstanceParametersOpensearchTlsCiphersItem = "TLSv1.2" | "TLSv1.3";
@@ -103,44 +103,44 @@ export type InstanceParametersOpensearchTlsCiphersList = Array<
 export type InstanceParametersOpensearchTlsProtocolsList = Array<string>;
 export type InstanceParametersSyslogList = Array<string>;
 export interface InstanceParameters {
-  enable_monitoring?: boolean;
-  fluentd_tcp?: number;
+  enable_monitoring?: boolean | undefined;
+  fluentd_tcp?: number | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  fluentd_tls?: number;
+  fluentd_tls?: number | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  fluentd_tls_ciphers?: string;
+  fluentd_tls_ciphers?: string | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  fluentd_tls_max_version?: string;
+  fluentd_tls_max_version?: string | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  fluentd_tls_min_version?: string;
+  fluentd_tls_min_version?: string | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  fluentd_tls_version?: string;
-  fluentd_udp?: number;
+  fluentd_tls_version?: string | undefined;
+  fluentd_udp?: number | undefined;
   /** If you want to monitor your service with Graphite, you can set the custom parameter graphite. It expects the host and port where the Graphite metrics should be sent to. */
-  graphite?: string;
-  groks?: InstanceParametersGroksList;
+  graphite?: string | undefined;
+  groks?: InstanceParametersGroksList | undefined;
   /** Combination of an integer and a timerange when an index will be considered 'd' and can be deleted from OpenSearch. Possible values for the timerange are s, m, h and d. */
-  ism_deletion_after?: string;
-  ism_jitter?: number;
-  ism_job_interval?: number;
+  ism_deletion_after?: string | undefined;
+  ism_jitter?: number | undefined;
+  ism_job_interval?: number | undefined;
   /** Default: not set, 46% of available memory will be used. The amount of memory (in MB) allocated as heap by the JVM for OpenSearch. */
-  java_heapspace?: number;
+  java_heapspace?: number | undefined;
   /** The amount of memory (in MB) used by the JVM to store metadata for OpenSearch. */
-  java_maxmetaspace?: number;
+  java_maxmetaspace?: number | undefined;
   /** This component monitors ephemeral and persistent disk usage. If one of these disk usages reaches the default configured threshold of 80%, the a9s Parachute stops all processes on that node. */
-  max_disk_threshold?: number;
+  max_disk_threshold?: number | undefined;
   /** Frequency of metrics being emitted in seconds */
-  metrics_frequency?: number;
+  metrics_frequency?: number | undefined;
   /** Depending on your graphite provider, you might need to prefix the metrics with a certain value, like an API key for example. */
-  metrics_prefix?: string;
-  monitoring_instance_id?: string;
+  metrics_prefix?: string | undefined;
+  monitoring_instance_id?: string | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  opensearch_tls_ciphers?: InstanceParametersOpensearchTlsCiphersList;
+  opensearch_tls_ciphers?: InstanceParametersOpensearchTlsCiphersList | undefined;
   /** This property is deprecated and will be removed in a future release. */
-  opensearch_tls_protocols?: InstanceParametersOpensearchTlsProtocolsList;
+  opensearch_tls_protocols?: InstanceParametersOpensearchTlsProtocolsList | undefined;
   /** Comma separated list of IP networks in CIDR notation which are allowed to access this instance. */
-  sgw_acl?: string;
-  syslog?: InstanceParametersSyslogList;
+  sgw_acl?: string | undefined;
+  syslog?: InstanceParametersSyslogList | undefined;
 }
 export interface CreateInstanceRequest {
   /** Project id on which user has permissions */
@@ -148,7 +148,7 @@ export interface CreateInstanceRequest {
   /** region in which the project resides */
   regionId: string;
   instanceName: string;
-  parameters?: InstanceParameters;
+  parameters?: InstanceParameters | undefined;
   planId: string;
 }
 export interface CreateInstanceResponse {
@@ -227,9 +227,9 @@ export interface Instance {
   cfSpaceGuid: string;
   dashboardUrl: string;
   imageUrl: string;
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Current state of a service instance */
-  instanceStatus?: InstanceInstanceStatus;
+  instanceStatus?: InstanceInstanceStatus | undefined;
   lastOperation: InstanceLastOperation;
   name: string;
   offeringName: string;
@@ -238,7 +238,7 @@ export interface Instance {
   planId: string;
   planName: string;
   /** State of the last operation and this instance */
-  status?: InstanceStatus;
+  status?: InstanceStatus | undefined;
 }
 export interface GetMetricsRequest {
   /** Project id on which user has permissions */
@@ -249,10 +249,10 @@ export interface GetMetricsRequest {
   instanceId: string;
 }
 export interface GetMetricsResponse {
-  cpuIdleTime?: number;
+  cpuIdleTime?: number | undefined;
   cpuLoadPercent: number;
-  cpuSystemTime?: number;
-  cpuUserTime?: number;
+  cpuSystemTime?: number | undefined;
+  cpuUserTime?: number | undefined;
   diskEphemeralTotal: number;
   diskEphemeralUsed: number;
   diskPersistentTotal: number;
@@ -297,12 +297,12 @@ export interface ListBackupsRequest {
   instanceId: string;
 }
 export interface Backup {
-  downloadable?: boolean;
+  downloadable?: boolean | undefined;
   finished_at: string;
   id: number;
-  size?: number;
+  size?: number | undefined;
   status: string;
-  triggered_at?: string;
+  triggered_at?: string | undefined;
 }
 export type ListBackupsResponse = Array<Backup>;
 export type ListBackupsResponse2 = ListBackupsResponse;
@@ -357,11 +357,11 @@ export interface Offering {
   documentationUrl: string;
   imageUrl: string;
   latest: boolean;
-  lifecycle?: string;
+  lifecycle?: string | undefined;
   name: string;
   plans: OfferingPlansList;
   quotaCount: number;
-  schema?: InstanceSchema;
+  schema?: InstanceSchema | undefined;
   version: string;
 }
 export type ListOfferingsResponseOfferingsList = Array<Offering>;
@@ -381,7 +381,7 @@ export interface Restore {
   finished_at: string;
   id: number;
   status: string;
-  triggered_at?: string;
+  triggered_at?: string | undefined;
 }
 export type ListRestoresResponseInstanceRestoresList = Array<Restore>;
 export interface ListRestoresResponse {
@@ -394,9 +394,9 @@ export interface PartialUpdateInstanceRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  instanceName?: string;
-  parameters?: InstanceParameters;
-  planId?: string;
+  instanceName?: string | undefined;
+  parameters?: InstanceParameters | undefined;
+  planId?: string | undefined;
 }
 export interface PartialUpdateInstanceResponse {}
 export interface TriggerRecreateRequest {
@@ -443,7 +443,7 @@ export interface UpdateBackupsConfigRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  encryption_key?: string;
+  encryption_key?: string | undefined;
 }
 export interface UpdateBackupsConfigResponse {
   message: string;

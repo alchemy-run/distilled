@@ -56,9 +56,9 @@ export type ExperimentFlagRolloutGroupPropertiesList = Array<unknown>;
 /** A single release-condition group carrying only the overall rollout percentage, the one groups entry the experiment input applies. */
 export interface ExperimentFlagRolloutGroup {
   /** Percentage of users who enter the experiment (0-100). */
-  rollout_percentage?: number | null;
+  rollout_percentage?: number | null | undefined;
   /** Must be empty or omitted: release-condition properties are not supported via the experiment input. Edit the feature flag directly for targeting. */
-  properties?: ExperimentFlagRolloutGroupPropertiesList;
+  properties?: ExperimentFlagRolloutGroupPropertiesList | undefined;
 }
 /** Overall rollout as a single group: [{"properties": [], "rollout_percentage": N}]. */
 export type ExperimentFeatureFlagFiltersGroupsList = Array<ExperimentFlagRolloutGroup>;
@@ -67,7 +67,7 @@ export interface ExperimentFlagVariant {
   /** Unique variant key. The baseline defaults to the variant keyed 'control' when present, else the first variant. */
   key: string;
   /** Human-readable variant name. */
-  name?: string;
+  name?: string | undefined;
   /** Variant rollout percentage (0-100). Across variants these must sum to 100. */
   rollout_percentage: number;
 }
@@ -83,27 +83,27 @@ export type ExperimentFeatureFlagFiltersPayloadsMap = { [key: string]: string | 
 /** Feature-flag filters accepted by the experiment endpoints: the flag's own filters shape, minus the keys experiments don't apply. */
 export interface ExperimentFeatureFlagFilters {
   /** Overall rollout as a single group: [{"properties": [], "rollout_percentage": N}]. */
-  groups?: ExperimentFeatureFlagFiltersGroupsList;
+  groups?: ExperimentFeatureFlagFiltersGroupsList | undefined;
   /** Multivariate variant configuration. */
-  multivariate?: ExperimentFlagMultivariate | null;
+  multivariate?: ExperimentFlagMultivariate | null | undefined;
   /** Group type index for group-based feature flags. */
-  aggregation_group_type_index?: number | null;
+  aggregation_group_type_index?: number | null | undefined;
   /** Optional payload values keyed by variant key. */
-  payloads?: ExperimentFeatureFlagFiltersPayloadsMap;
+  payloads?: ExperimentFeatureFlagFiltersPayloadsMap | undefined;
 }
 /** Flag config for experiment create/update, sent through the linked feature flag's own shape. Validated both as the OpenAPI request field (via ``ExperimentWriteSerializer``) and at runtime (``ExperimentSerializer._normalize_feature_flag_input`` runs it against the raw feature_flag object). Echoed read-only flag objects (carrying a non-null id) are handled upstream and never reach this validation. */
 export interface ExperimentFeatureFlagInput {
   /** Flag config to apply: `multivariate.variants` (2 to 20 variants; the baseline defaults to the variant keyed 'control' when present, else the first variant), `groups` (a single group with `rollout_percentage` only; release conditions are not supported here, edit the feature flag directly), `aggregation_group_type_index`, and `payloads` (JSON-encoded strings keyed by variant key). On update, config this object omits is preserved from the linked flag's current state. */
-  filters?: ExperimentFeatureFlagFilters;
+  filters?: ExperimentFeatureFlagFilters | undefined;
   /** Whether the flag persists variant assignment across authentication steps. */
-  ensure_experience_continuity?: boolean | null;
+  ensure_experience_continuity?: boolean | null | undefined;
 }
 export type ExperimentParametersVariantNotesMap = { [key: string]: string | undefined };
 export interface ExperimentParameters {
   /** Minimum detectable effect as a percentage. Lower values need more users but catch smaller changes. Suggest 20-30% for most experiments. */
-  minimum_detectable_effect?: number | null;
+  minimum_detectable_effect?: number | null | undefined;
   /** Free-text notes per variant, keyed by variant key. Use to document what each variant does or its reroute URL. */
-  variant_notes?: ExperimentParametersVariantNotesMap | null;
+  variant_notes?: ExperimentParametersVariantNotesMap | null | undefined;
 }
 export type ConversionRateInputType = "manual" | "automatic";
 export type ManualMetricType = "funnel" | "mean_count" | "mean_sum_or_avg";
@@ -111,21 +111,21 @@ export interface ExperimentExposureEstimateConfig {
   /** 'manual' when the baseline value and exposure rate were entered by hand, 'automatic' when derived from live experiment data. */
   conversionRateInputType: ConversionRateInputType | (string & {});
   /** Manually entered baseline metric value (a conversion percentage for funnel metrics). Only used in manual mode. */
-  manualBaselineValue?: number | null;
+  manualBaselineValue?: number | null | undefined;
   /** Manually entered estimate of users exposed to the experiment per day. Only used in manual mode. */
-  manualExposureRate?: number | null;
+  manualExposureRate?: number | null | undefined;
   /** Metric type the manual baseline value refers to. Only used in manual mode. */
-  manualMetricType?: ManualMetricType | (string & {}) | null;
+  manualMetricType?: ManualMetricType | (string & {}) | null | undefined;
 }
 export interface ExperimentRunningTimeCalculation {
   /** How the exposure estimate is configured: manual user-entered values or automatic from live experiment data. */
-  exposure_estimate_config?: ExperimentExposureEstimateConfig | null;
+  exposure_estimate_config?: ExperimentExposureEstimateConfig | null | undefined;
   /** Minimum detectable effect as a percentage. Lower values need more users but catch smaller changes. */
-  minimum_detectable_effect?: number | null;
+  minimum_detectable_effect?: number | null | undefined;
   /** Estimated number of days needed to reach the recommended sample size. */
-  recommended_running_time?: number | null;
+  recommended_running_time?: number | null | undefined;
   /** Recommended number of exposed users needed for statistical significance. */
-  recommended_sample_size?: number | null;
+  recommended_sample_size?: number | null | undefined;
 }
 /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
 export type CreateExperimentRequestExcludedVariantsList = Array<string>;
@@ -182,12 +182,12 @@ export type EventPropertyFilterValue =
   | number
   | boolean;
 export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -197,12 +197,12 @@ export type PersonPropertyFilterValue =
   | number
   | boolean;
 export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -214,11 +214,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -229,11 +229,11 @@ export type ElementPropertyFilterValue =
   | number
   | boolean;
 export interface ElementPropertyFilter {
-  key?: Key10 | (string & {});
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  key?: Key10 | (string & {}) | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -244,11 +244,11 @@ export type EventMetadataPropertyFilterValue =
   | number
   | boolean;
 export interface EventMetadataPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -258,23 +258,23 @@ export type SessionPropertyFilterValue =
   | number
   | boolean;
 export interface SessionPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
   /** Set by the feature flag API when the cohort is deleted or does not exist. */
-  cohort_deleted?: boolean | null;
+  cohort_deleted?: boolean | null | undefined;
   /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
-  cohort_missing?: boolean | null;
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value?: number | undefined;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export type RecordingPropertyFilterKey = DurationType | string;
@@ -286,11 +286,11 @@ export type RecordingPropertyFilterValue =
   | number
   | boolean;
 export interface RecordingPropertyFilter {
-  key?: RecordingPropertyFilterKey;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  key?: RecordingPropertyFilterKey | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -300,11 +300,11 @@ export type LogEntryPropertyFilterValue =
   | number
   | boolean;
 export interface LogEntryPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -315,13 +315,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -331,25 +331,25 @@ export type FeaturePropertyFilterValue =
   | number
   | boolean;
 export interface FeaturePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
-  key?: string;
-  label?: string | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
-  value?: FlagPropertyFilterValue;
+  value?: FlagPropertyFilterValue | undefined;
 }
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
@@ -359,13 +359,13 @@ export type HogQLPropertyFilterValue =
   | number
   | boolean;
 export interface HogQLPropertyFilter {
-  key?: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -376,11 +376,11 @@ export type DataWarehousePropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -391,11 +391,11 @@ export type DataWarehousePersonPropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -405,22 +405,22 @@ export type ErrorTrackingIssueFilterValue =
   | number
   | boolean;
 export interface ErrorTrackingIssueFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
 export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0Item>;
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: LogPropertyFilterType | (string & {}) | undefined;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -431,21 +431,21 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
 export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase0Item>;
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: SpanPropertyFilterType | (string & {}) | undefined;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -456,11 +456,11 @@ export type RevenueAnalyticsPropertyFilterValue =
   | number
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -472,11 +472,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -487,11 +487,11 @@ export type WorkflowVariablePropertyFilterValue =
   | number
   | boolean;
 export interface WorkflowVariablePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -506,25 +506,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type ExperimentApiExposureConfigPropertiesItem =
@@ -557,22 +557,22 @@ export type ExperimentApiExposureConfigPropertiesList =
   Array<ExperimentApiExposureConfigPropertiesItem>;
 export interface ExperimentApiExposureConfig {
   /** Custom exposure event name. Required when kind is 'ExperimentEventExposureConfig'. */
-  event?: string | null;
+  event?: string | null | undefined;
   /** Action ID. Required when kind is 'ActionsNode'. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Defaults to 'ExperimentEventExposureConfig' when omitted. Pass 'ActionsNode' for an action-based exposure. */
-  kind?: Kind2 | (string & {}) | null;
+  kind?: Kind2 | (string & {}) | null | undefined;
   /** Property filters (event, person, and other supported types). Pass an empty array if no filters needed. */
-  properties?: ExperimentApiExposureConfigPropertiesList;
+  properties?: ExperimentApiExposureConfigPropertiesList | undefined;
 }
 export type MultipleVariantHandling = "exclude" | "first_seen";
 export interface ExperimentApiExposureCriteria {
   /** Additional event (or action) an entity must emit at/after their first default exposure event before they count as exposed; exposure time becomes this event's timestamp. Only valid with the default exposure event, not a custom `exposure_config`. */
-  activation_config?: ExperimentApiExposureConfig | null;
-  exposure_config?: ExperimentApiExposureConfig | null;
-  filterTestAccounts?: boolean | null;
+  activation_config?: ExperimentApiExposureConfig | null | undefined;
+  exposure_config?: ExperimentApiExposureConfig | null | undefined;
+  filterTestAccounts?: boolean | null | undefined;
   /** How to handle entities exposed to multiple variants. 'exclude' (default) drops them from the analysis; 'first_seen' assigns them to the variant from their earliest exposure. */
-  multiple_variant_handling?: MultipleVariantHandling | (string & {}) | null;
+  multiple_variant_handling?: MultipleVariantHandling | (string & {}) | null | undefined;
 }
 export type ExperimentApiBreakdownAttributionType = "first_touch" | "last_touch" | "step";
 export type ExperimentApiPropertyBreakdownType = "event" | "person" | "session";
@@ -580,7 +580,7 @@ export interface ExperimentApiPropertyBreakdown {
   /** Property name to break down by. */
   property: string;
   /** Where the property lives. Defaults to 'event'. */
-  type?: ExperimentApiPropertyBreakdownType | (string & {}) | null;
+  type?: ExperimentApiPropertyBreakdownType | (string & {}) | null | undefined;
 }
 export type GroupTypeIndex = 0 | 1 | 2 | 3 | 4;
 export interface ExperimentApiGroupBreakdown {
@@ -588,7 +588,7 @@ export interface ExperimentApiGroupBreakdown {
   group_type_index: GroupTypeIndex | (number & {});
   /** Property name to break down by. */
   property: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type ExperimentApiBreakdownFilterBreakdownsItem =
   | ExperimentApiPropertyBreakdown
@@ -597,9 +597,9 @@ export type ExperimentApiBreakdownFilterBreakdownsList =
   Array<ExperimentApiBreakdownFilterBreakdownsItem>;
 export interface ExperimentApiBreakdownFilter {
   /** Maximum number of breakdown values to compute results for. */
-  breakdown_limit?: number | null;
+  breakdown_limit?: number | null | undefined;
   /** Properties to break the metric results down by. */
-  breakdowns?: ExperimentApiBreakdownFilterBreakdownsList | null;
+  breakdowns?: ExperimentApiBreakdownFilterBreakdownsList | null | undefined;
 }
 export type Kind1 = "EventsNode" | "ActionsNode";
 export type ExperimentMetricMathType =
@@ -616,20 +616,20 @@ export type MathGroupTypeIndex = 0 | 1 | 2 | 3 | 4;
 export type ExperimentApiEventSourcePropertiesList = Array<EventPropertyFilter>;
 export interface ExperimentApiEventSource {
   /** Event name, e.g. '$pageview'. Required for EventsNode. */
-  event?: string | null;
+  event?: string | null | undefined;
   /** Action ID. Required for ActionsNode. */
-  id?: number | null;
-  kind?: Kind1 | (string & {});
+  id?: number | null | undefined;
+  kind?: Kind1 | (string & {}) | undefined;
   /** How to aggregate this source. Defaults to 'total' (event count). Use 'sum' together with math_property to aggregate a numeric property -- e.g. a ratio numerator of revenue per order. Other options: 'avg', 'min', 'max', 'unique_session', 'dau', 'unique_group', 'hogql'. */
-  math?: ExperimentMetricMathType | (string & {}) | null;
+  math?: ExperimentMetricMathType | (string & {}) | null | undefined;
   /** Group type index to aggregate over. Required when math is 'unique_group'. */
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
   /** HogQL aggregation expression. Required when math is 'hogql' -- without it the metric silently falls back to a plain count/sum. */
-  math_hogql?: string | null;
+  math_hogql?: string | null | undefined;
   /** Numeric event property to aggregate when math is 'sum', 'avg', 'min', or 'max' (e.g. 'revenue'). */
-  math_property?: string | null;
+  math_property?: string | null | undefined;
   /** Event property filters to narrow which events are counted. */
-  properties?: ExperimentApiEventSourcePropertiesList | null;
+  properties?: ExperimentApiEventSourcePropertiesList | null | undefined;
 }
 export type FunnelConversionWindowTimeUnit =
   | "second"
@@ -639,11 +639,11 @@ export type FunnelConversionWindowTimeUnit =
   | "week"
   | "month";
 export interface ExperimentMetricOutlierHandling {
-  ignore_zeros?: boolean | null;
+  ignore_zeros?: boolean | null | undefined;
   /** Winsorization lower percentile bound, as a fraction in [0, 1] (e.g. 0.01 for the 1st percentile). */
-  lower_bound_percentile?: number | null;
+  lower_bound_percentile?: number | null | undefined;
   /** Winsorization upper percentile bound, as a fraction in [0, 1] (e.g. 0.99 for the 99th percentile). */
-  upper_bound_percentile?: number | null;
+  upper_bound_percentile?: number | null | undefined;
 }
 export type StepOrderValue = "strict" | "unordered" | "ordered";
 export type ExperimentMetricGoal = "increase" | "decrease";
@@ -653,72 +653,76 @@ export type Kind3 = "EventsNode" | "ActionsNode" | "ExperimentExposureNode";
 export type ExperimentApiRetentionStartPropertiesList = Array<EventPropertyFilter>;
 export interface ExperimentApiRetentionStart {
   /** Event name, e.g. '$pageview'. Required for EventsNode. */
-  event?: string | null;
+  event?: string | null | undefined;
   /** Action ID. Required for ActionsNode. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Pass 'ExperimentExposureNode' to start retention from the experiment's own exposure event; the other fields then stay unset. */
   kind: Kind3 | (string & {});
   /** How to aggregate this source. Defaults to 'total' (event count). Use 'sum' together with math_property to aggregate a numeric property -- e.g. a ratio numerator of revenue per order. Other options: 'avg', 'min', 'max', 'unique_session', 'dau', 'unique_group', 'hogql'. */
-  math?: ExperimentMetricMathType | (string & {}) | null;
+  math?: ExperimentMetricMathType | (string & {}) | null | undefined;
   /** Group type index to aggregate over. Required when math is 'unique_group'. */
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
   /** HogQL aggregation expression. Required when math is 'hogql' -- without it the metric silently falls back to a plain count/sum. */
-  math_hogql?: string | null;
+  math_hogql?: string | null | undefined;
   /** Numeric event property to aggregate when math is 'sum', 'avg', 'min', or 'max' (e.g. 'revenue'). */
-  math_property?: string | null;
+  math_property?: string | null | undefined;
   /** Event property filters to narrow which events are counted. */
-  properties?: ExperimentApiRetentionStartPropertiesList | null;
+  properties?: ExperimentApiRetentionStartPropertiesList | null | undefined;
 }
 export type StartHandling = "first_seen" | "last_seen";
 export interface ExperimentApiMetric {
   /** For funnel metrics with breakdowns: which step the breakdown value is read from. 'all_events' is not supported for experiment funnels. */
-  breakdownAttributionType?: ExperimentApiBreakdownAttributionType | (string & {}) | null;
+  breakdownAttributionType?:
+    | ExperimentApiBreakdownAttributionType
+    | (string & {})
+    | null
+    | undefined;
   /** When breakdownAttributionType is 'step', the 0-indexed step to attribute from. */
-  breakdownAttributionValue?: number | null;
+  breakdownAttributionValue?: number | null | undefined;
   /** Break the metric results down by up to 3 event, person, session or group properties. */
-  breakdownFilter?: ExperimentApiBreakdownFilter | null;
+  breakdownFilter?: ExperimentApiBreakdownFilter | null | undefined;
   /** For retention metrics: completion event. */
-  completion_event?: ExperimentApiEventSource | null;
+  completion_event?: ExperimentApiEventSource | null | undefined;
   /** Only count metric events within this many units after the user's first exposure. Requires conversion_window_unit: a window without a unit is ignored and the metric counts events until the experiment ends. Omit both to count until the experiment ends. */
-  conversion_window?: number | null;
+  conversion_window?: number | null | undefined;
   /** Unit for conversion_window: 'second', 'minute', 'hour', 'day', 'week' or 'month'. Required when conversion_window is set. */
-  conversion_window_unit?: FunnelConversionWindowTimeUnit | (string & {}) | null;
+  conversion_window_unit?: FunnelConversionWindowTimeUnit | (string & {}) | null | undefined;
   /** For ratio metrics: denominator source. */
-  denominator?: ExperimentApiEventSource | null;
+  denominator?: ExperimentApiEventSource | null | undefined;
   /** For ratio metrics: winsorization applied to the denominator aggregate. Leave unset for a binomial-style denominator, which is never clamped. */
-  denominator_outlier_handling?: ExperimentMetricOutlierHandling | null;
+  denominator_outlier_handling?: ExperimentMetricOutlierHandling | null | undefined;
   /** For funnel metrics: how the steps must occur. 'ordered' (default) or 'unordered'. Do not use 'strict': experiment funnels give wrong counts with it. */
-  funnel_order_type?: StepOrderValue | (string & {}) | null;
+  funnel_order_type?: StepOrderValue | (string & {}) | null | undefined;
   /** Whether higher or lower values indicate success. */
-  goal?: ExperimentMetricGoal | (string & {}) | null;
+  goal?: ExperimentMetricGoal | (string & {}) | null | undefined;
   /** For mean metrics: exclude zero values when computing the winsorization percentile thresholds. */
-  ignore_zeros?: boolean | null;
-  kind?: string;
+  ignore_zeros?: boolean | null | undefined;
+  kind?: string | undefined;
   /** For mean metrics: winsorization lower percentile bound, as a fraction in [0, 1] (e.g. 0.01 for the 1st percentile). Per-user values below this percentile are clamped to it before aggregation. */
-  lower_bound_percentile?: number | null;
-  metric_type?: ExperimentMetricType | (string & {});
+  lower_bound_percentile?: number | null | undefined;
+  metric_type?: ExperimentMetricType | (string & {}) | undefined;
   /** Human-readable metric name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** For ratio metrics: numerator source. */
-  numerator?: ExperimentApiEventSource | null;
+  numerator?: ExperimentApiEventSource | null | undefined;
   /** For ratio metrics: winsorization applied to the numerator aggregate, independently of the denominator and each with its own percentile thresholds. */
-  numerator_outlier_handling?: ExperimentMetricOutlierHandling | null;
-  retention_window_end?: number | null;
-  retention_window_start?: number | null;
-  retention_window_unit?: FunnelConversionWindowTimeUnit | (string & {}) | null;
+  numerator_outlier_handling?: ExperimentMetricOutlierHandling | null | undefined;
+  retention_window_end?: number | null | undefined;
+  retention_window_start?: number | null | undefined;
+  retention_window_unit?: FunnelConversionWindowTimeUnit | (string & {}) | null | undefined;
   /** For funnel metrics: array of EventsNode/ActionsNode steps. */
-  series?: ExperimentApiMetricSeriesList | null;
+  series?: ExperimentApiMetricSeriesList | null | undefined;
   /** For mean metrics: event source. */
-  source?: ExperimentApiEventSource | null;
+  source?: ExperimentApiEventSource | null | undefined;
   /** For retention metrics: start event. Pass {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event; a conversion window or 'last_seen' start_handling is rejected then, because the start is always the user's first exposure. */
-  start_event?: ExperimentApiRetentionStart | null;
-  start_handling?: StartHandling | (string & {}) | null;
+  start_event?: ExperimentApiRetentionStart | null | undefined;
+  start_handling?: StartHandling | (string & {}) | null | undefined;
   /** For mean metrics: when set, reports the percentage of users whose per-user summed/counted value reaches or exceeds this threshold. Only meaningful for sum/count math types. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** For mean metrics: winsorization upper percentile bound, as a fraction in [0, 1] (e.g. 0.99 for the 99th percentile). Per-user values above this percentile are clamped to it before aggregation. */
-  upper_bound_percentile?: number | null;
+  upper_bound_percentile?: number | null | undefined;
   /** Unique identifier. Auto-generated if omitted. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 /** List wrapper for OpenAPI schema generation -- the field stores an array of metrics. */
 export type ExperimentApiMetricsList = Array<ExperimentApiMetric>;
@@ -738,60 +742,66 @@ export interface CreateExperimentRequest {
   /** Name of the experiment. */
   name: string;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
   feature_flag_key: string;
   /** Feature-flag config for the experiment, in the flag's own filters shape. The linked flag is the source of truth for variants, rollout, aggregation, payloads, and experience continuity: send config here instead of the deprecated `parameters` keys. On a running experiment, also send `update_feature_flag_params=true`. Cannot be combined with the key of a pre-existing feature flag on create (the experiment links to it as-is). */
-  feature_flag?: ExperimentFeatureFlagInput;
+  feature_flag?: ExperimentFeatureFlagInput | undefined;
   /** ID of a holdout group to exclude from the experiment. */
-  holdout_id?: number | null;
+  holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: CreateExperimentRequestExcludedVariantsList | null;
-  secondary_metrics?: unknown;
+  excluded_variants?: CreateExperimentRequestExcludedVariantsList | null | undefined;
+  secondary_metrics?: unknown | undefined;
   /** IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary). */
-  saved_metrics_ids?: CreateExperimentRequestSavedMetricsIdsList | null;
-  filters?: unknown;
+  saved_metrics_ids?: CreateExperimentRequestSavedMetricsIdsList | null | undefined;
+  filters?: unknown | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | (string & {}) | null;
+  type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
-  exposure_criteria?: ExperimentApiExposureCriteria | null;
+  exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
   /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
-  metrics?: ExperimentApiMetricsList | null;
+  metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
-  metrics_secondary?: ExperimentApiMetricsList | null;
-  stats_config?: unknown;
-  scheduling_config?: unknown;
+  metrics_secondary?: ExperimentApiMetricsList | null | undefined;
+  stats_config?: unknown | undefined;
+  scheduling_config?: unknown | undefined;
   /** Suppresses the validation that rejects metrics referencing events not yet ingested by this project. REQUIRES explicit user confirmation before being set to true -- never flip this silently to retry a failed call. The default validation catches typo'd event names and missing instrumentation. Set this to true only when the user has confirmed the event is intentional (e.g. they are about to instrument it). */
-  allow_unknown_events?: boolean;
-  _create_in_folder?: string;
+  allow_unknown_events?: boolean | undefined;
+  _create_in_folder?: string | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** GitHub repository holding this experiment's feature-flag code, in `organization/repository` format. Used as the target of the flag-cleanup pull request opened via open_cleanup_pr on end/ship_variant. When not set, cleanup targets the team's only connected repository and is skipped if the team has several. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  primary_metrics_ordered_uuids?: CreateExperimentRequestPrimaryMetricsOrderedUuidsList | null;
+  primary_metrics_ordered_uuids?:
+    | CreateExperimentRequestPrimaryMetricsOrderedUuidsList
+    | null
+    | undefined;
   /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  secondary_metrics_ordered_uuids?: CreateExperimentRequestSecondaryMetricsOrderedUuidsList | null;
-  only_count_matured_users?: boolean;
+  secondary_metrics_ordered_uuids?:
+    | CreateExperimentRequestSecondaryMetricsOrderedUuidsList
+    | null
+    | undefined;
+  only_count_matured_users?: boolean | undefined;
   /** When true, sync the flag config sent in this request (via the `feature_flag` object) to the linked feature flag. Draft experiments always sync regardless. On a running experiment, `feature_flag` config without this flag is rejected. */
-  update_feature_flag_params?: boolean;
+  update_feature_flag_params?: boolean | undefined;
   /** Optimistic-concurrency token. Reads return the experiment's current version, bumped on every update. Send the version you last read with an update to detect concurrent edits: a stale update merges concurrent changes where safe -- metric collections per metric uuid, other fields per field -- using the base values sent in `original_experiment`, and fails with HTTP 409 only when the same metric or field changed on both sides (or no base value was sent for a changed field). Omit to skip the check. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value -- and, without this object, any version mismatch -- fail with HTTP 409. */
-  original_experiment?: CreateExperimentRequestOriginalExperimentMap | null;
+  original_experiment?: CreateExperimentRequestOriginalExperimentMap | null | undefined;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: CreateExperimentRequestTagsList;
+  tags?: CreateExperimentRequestTagsList | undefined;
 }
 export type MinimalFeatureFlagFiltersMap = { [key: string]: unknown | undefined };
 /** * `server` - Server * `client` - Client * `all` - All */
@@ -805,20 +815,20 @@ export type BucketingIdentifierEnum = "distinct_id" | "device_id";
 export type MinimalFeatureFlagBucketingIdentifier = BucketingIdentifierEnum | BlankEnum;
 export type MinimalFeatureFlagEvaluationContextsList = Array<string>;
 export interface MinimalFeatureFlag {
-  id?: number;
-  team_id?: number;
-  name?: string;
-  key?: string;
-  filters?: MinimalFeatureFlagFiltersMap;
-  deleted?: boolean;
-  active?: boolean;
-  ensure_experience_continuity?: boolean | null;
-  version?: number | null;
+  id?: number | undefined;
+  team_id?: number | undefined;
+  name?: string | undefined;
+  key?: string | undefined;
+  filters?: MinimalFeatureFlagFiltersMap | undefined;
+  deleted?: boolean | undefined;
+  active?: boolean | undefined;
+  ensure_experience_continuity?: boolean | null | undefined;
+  version?: number | null | undefined;
   /** Specifies where this feature flag should be evaluated * `server` - Server * `client` - Client * `all` - All */
-  evaluation_runtime?: MinimalFeatureFlagEvaluationRuntime | null;
+  evaluation_runtime?: MinimalFeatureFlagEvaluationRuntime | null | undefined;
   /** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
-  bucketing_identifier?: MinimalFeatureFlagBucketingIdentifier | null;
-  evaluation_contexts?: MinimalFeatureFlagEvaluationContextsList;
+  bucketing_identifier?: MinimalFeatureFlagBucketingIdentifier | null | undefined;
+  evaluation_contexts?: MinimalFeatureFlagEvaluationContextsList | undefined;
 }
 /** * `cohort` - cohort * `person` - person * `group` - group */
 export type PropertyGroupTypeEnum = "cohort" | "person" | "group";
@@ -840,49 +850,49 @@ export type FeatureFlagFilterPropertyGenericSchemaOperatorEnum =
   | "lte";
 export interface FeatureFlagFilterPropertyGenericSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum;
+  type?: PropertyGroupTypeEnum | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Comparison value for the property filter. Supports strings, numbers, booleans, and arrays. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Operator used to compare the property value. * `exact` - exact * `is_not` - is_not * `icontains` - icontains * `not_icontains` - not_icontains * `starts_with` - starts_with * `not_starts_with` - not_starts_with * `ends_with` - ends_with * `not_ends_with` - not_ends_with * `regex` - regex * `not_regex` - not_regex * `gt` - gt * `gte` - gte * `lt` - lt * `lte` - lte */
-  operator?: FeatureFlagFilterPropertyGenericSchemaOperatorEnum;
+  operator?: FeatureFlagFilterPropertyGenericSchemaOperatorEnum | undefined;
 }
 /** * `is_set` - is_set * `is_not_set` - is_not_set */
 export type ExistenceOperatorEnum = "is_set" | "is_not_set";
 export interface FeatureFlagFilterPropertyExistsSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum;
+  type?: PropertyGroupTypeEnum | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Existence operator. * `is_set` - is_set * `is_not_set` - is_not_set */
-  operator?: ExistenceOperatorEnum;
+  operator?: ExistenceOperatorEnum | undefined;
   /** Optional value. Runtime behavior determines whether this is ignored. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** * `is_date_exact` - is_date_exact * `is_date_before` - is_date_before * `is_date_after` - is_date_after */
 export type DateOperatorEnum = "is_date_exact" | "is_date_before" | "is_date_after";
 export interface FeatureFlagFilterPropertyDateSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum;
+  type?: PropertyGroupTypeEnum | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Date comparison operator. * `is_date_exact` - is_date_exact * `is_date_after` - is_date_after * `is_date_before` - is_date_before */
-  operator?: DateOperatorEnum;
+  operator?: DateOperatorEnum | undefined;
   /** Date value in ISO format or relative date expression. */
-  value?: string;
+  value?: string | undefined;
 }
 /** * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
 export type SemverOperatorEnum =
@@ -897,17 +907,17 @@ export type SemverOperatorEnum =
   | "semver_wildcard";
 export interface FeatureFlagFilterPropertySemverSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum;
+  type?: PropertyGroupTypeEnum | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Semantic version comparison operator. * `semver_eq` - semver_eq * `semver_neq` - semver_neq * `semver_gt` - semver_gt * `semver_gte` - semver_gte * `semver_lt` - semver_lt * `semver_lte` - semver_lte * `semver_tilde` - semver_tilde * `semver_caret` - semver_caret * `semver_wildcard` - semver_wildcard */
-  operator?: SemverOperatorEnum;
+  operator?: SemverOperatorEnum | undefined;
   /** Semantic version string. */
-  value?: string;
+  value?: string | undefined;
 }
 /** * `icontains_multi` - icontains_multi * `not_icontains_multi` - not_icontains_multi */
 export type FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum =
@@ -917,17 +927,17 @@ export type FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum =
 export type FeatureFlagFilterPropertyMultiContainsSchemaValueList = Array<string>;
 export interface FeatureFlagFilterPropertyMultiContainsSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Property filter type. Set it on every property. Use `group` with `group_type_index` to filter on a group's properties. * `cohort` - cohort * `person` - person * `group` - group */
-  type?: PropertyGroupTypeEnum;
+  type?: PropertyGroupTypeEnum | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Multi-contains operator. * `icontains_multi` - icontains_multi * `not_icontains_multi` - not_icontains_multi */
-  operator?: FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum;
+  operator?: FeatureFlagFilterPropertyMultiContainsSchemaOperatorEnum | undefined;
   /** List of strings to evaluate against. */
-  value?: FeatureFlagFilterPropertyMultiContainsSchemaValueList;
+  value?: FeatureFlagFilterPropertyMultiContainsSchemaValueList | undefined;
 }
 /** * `cohort` - cohort */
 export type FeatureFlagFilterPropertyCohortInSchemaTypeEnum = "cohort";
@@ -935,21 +945,21 @@ export type FeatureFlagFilterPropertyCohortInSchemaTypeEnum = "cohort";
 export type FeatureFlagFilterPropertyCohortInSchemaOperatorEnum = "in" | "not_in";
 export interface FeatureFlagFilterPropertyCohortInSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Cohort property type required for in/not_in operators. * `cohort` - cohort */
-  type?: FeatureFlagFilterPropertyCohortInSchemaTypeEnum;
+  type?: FeatureFlagFilterPropertyCohortInSchemaTypeEnum | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Membership operator for cohort properties. * `in` - in * `not_in` - not_in */
-  operator?: FeatureFlagFilterPropertyCohortInSchemaOperatorEnum;
+  operator?: FeatureFlagFilterPropertyCohortInSchemaOperatorEnum | undefined;
   /** Cohort comparison value (single or list, depending on usage). */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Set to true in responses when the cohort is deleted or does not exist. The flag cannot evaluate this condition. Ignored on write. */
-  cohort_deleted?: boolean;
+  cohort_deleted?: boolean | undefined;
   /** Set to true in responses when no cohort with this id exists in the project, so it cannot be restored. `cohort_deleted` is also true. Absent for a soft-deleted cohort. Ignored on write. */
-  cohort_missing?: boolean;
+  cohort_missing?: boolean | undefined;
 }
 /** * `flag` - flag */
 export type FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum = "flag";
@@ -957,17 +967,17 @@ export type FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum = "flag";
 export type FeatureFlagFilterPropertyFlagEvaluatesSchemaOperatorEnum = "flag_evaluates_to";
 export interface FeatureFlagFilterPropertyFlagEvaluatesSchema {
   /** Property key used in this feature flag condition. */
-  key?: string;
+  key?: string | undefined;
   /** Flag property type required for flag dependency checks. * `flag` - flag */
-  type?: FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum;
+  type?: FeatureFlagFilterPropertyFlagEvaluatesSchemaTypeEnum | undefined;
   /** Resolved cohort name for cohort-type filters. */
-  cohort_name?: string | null;
+  cohort_name?: string | null | undefined;
   /** Group type index a `group` filter reads properties from. Defaults to the condition set's `aggregation_group_type_index`. */
-  group_type_index?: number | null;
+  group_type_index?: number | null | undefined;
   /** Operator for feature flag dependency evaluation. * `flag_evaluates_to` - flag_evaluates_to */
-  operator?: FeatureFlagFilterPropertyFlagEvaluatesSchemaOperatorEnum;
+  operator?: FeatureFlagFilterPropertyFlagEvaluatesSchemaOperatorEnum | undefined;
   /** Value to compare flag evaluation against. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type FeatureFlagFilterPropertySchema =
   | FeatureFlagFilterPropertyGenericSchema
@@ -981,13 +991,13 @@ export type FeatureFlagFilterPropertySchema =
 export type FeatureFlagConditionGroupSchemaPropertiesList = Array<FeatureFlagFilterPropertySchema>;
 export interface FeatureFlagConditionGroupSchema {
   /** Property conditions for this release condition group. */
-  properties?: FeatureFlagConditionGroupSchemaPropertiesList;
+  properties?: FeatureFlagConditionGroupSchemaPropertiesList | undefined;
   /** Rollout percentage for this release condition group. */
-  rollout_percentage?: number;
+  rollout_percentage?: number | undefined;
   /** Variant key override for multivariate flags. */
-  variant?: string | null;
+  variant?: string | null | undefined;
   /** Group type index for this condition set. None means person-level aggregation. */
-  aggregation_group_type_index?: number | null;
+  aggregation_group_type_index?: number | null | undefined;
 }
 /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
 export type ExperimentHoldoutFiltersList = Array<FeatureFlagConditionGroupSchema>;
@@ -1005,30 +1015,30 @@ export type RoleAtOrganizationEnum =
   | "other";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** A holdout group -- a stable slice of users excluded from experiment exposure. */
 export interface ExperimentHoldout {
-  id?: number;
+  id?: number | undefined;
   /** Human-readable name for the holdout group. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description of what this holdout reserves and why. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
-  filters?: ExperimentHoldoutFiltersList;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
+  filters?: ExperimentHoldoutFiltersList | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
 export type ExperimentOutputExcludedVariantsList = Array<string>;
@@ -1061,23 +1071,23 @@ export type MultipleBreakdownType =
   | "data_warehouse"
   | "data_warehouse_person_property";
 export interface Breakdown {
-  group_type_index?: number | null;
-  histogram_bin_count?: number | null;
-  normalize_url?: boolean | null;
+  group_type_index?: number | null | undefined;
+  histogram_bin_count?: number | null | undefined;
+  normalize_url?: boolean | null | undefined;
   property: BreakdownProperty;
-  type?: MultipleBreakdownType | null;
+  type?: MultipleBreakdownType | null | undefined;
 }
 export type BreakdownFilterBreakdownsList = Array<Breakdown>;
 export interface BreakdownFilter {
-  breakdown?: BreakdownFilterBreakdown | null;
-  breakdown_group_type_index?: number | null;
-  breakdown_hide_other_aggregation?: boolean | null;
-  breakdown_histogram_bin_count?: number | null;
-  breakdown_limit?: number | null;
-  breakdown_normalize_url?: boolean | null;
-  breakdown_path_cleaning?: boolean | null;
-  breakdown_type?: BreakdownType | null;
-  breakdowns?: BreakdownFilterBreakdownsList | null;
+  breakdown?: BreakdownFilterBreakdown | null | undefined;
+  breakdown_group_type_index?: number | null | undefined;
+  breakdown_hide_other_aggregation?: boolean | null | undefined;
+  breakdown_histogram_bin_count?: number | null | undefined;
+  breakdown_limit?: number | null | undefined;
+  breakdown_normalize_url?: boolean | null | undefined;
+  breakdown_path_cleaning?: boolean | null | undefined;
+  breakdown_type?: BreakdownType | null | undefined;
+  breakdowns?: BreakdownFilterBreakdownsList | null | undefined;
 }
 export type ExperimentMeanMetricResponseMap = { [key: string]: unknown | undefined };
 export type EventsNodeFixedPropertiesItem =
@@ -1302,8 +1312,8 @@ export type CurrencyCode =
   | "ZAR"
   | "ZMW";
 export interface RevenueCurrencyPropertyConfig {
-  property?: string | null;
-  static?: CurrencyCode | null;
+  property?: string | null | undefined;
+  static?: CurrencyCode | null | undefined;
 }
 export type EventsNodeOrderByList = Array<string>;
 export type EventsNodePropertiesItem =
@@ -1334,29 +1344,29 @@ export type EventsNodePropertiesItem =
 export type EventsNodePropertiesList = Array<EventsNodePropertiesItem>;
 export type EventsNodeResponseMap = { [key: string]: unknown | undefined };
 export interface EventsNode {
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** The event or `null` for all events. */
-  event?: string | null;
+  event?: string | null | undefined;
   /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
-  fixedProperties?: EventsNodeFixedPropertiesList | null;
-  kind?: string;
-  limit?: number | null;
-  math?: EventsNodeMath | null;
-  math_group_type_index?: MathGroupTypeIndex | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
+  fixedProperties?: EventsNodeFixedPropertiesList | null | undefined;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
+  math?: EventsNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
   /** Columns to order by */
-  orderBy?: EventsNodeOrderByList | null;
+  orderBy?: EventsNodeOrderByList | null | undefined;
   /** Properties configurable in the interface */
-  properties?: EventsNodePropertiesList | null;
-  response?: EventsNodeResponseMap | null;
+  properties?: EventsNodePropertiesList | null | undefined;
+  response?: EventsNodeResponseMap | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ActionsNodeFixedPropertiesItem =
   | EventPropertyFilter
@@ -1421,25 +1431,25 @@ export type ActionsNodePropertiesItem =
 export type ActionsNodePropertiesList = Array<ActionsNodePropertiesItem>;
 export type ActionsNodeResponseMap = { [key: string]: unknown | undefined };
 export interface ActionsNode {
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
-  fixedProperties?: ActionsNodeFixedPropertiesList | null;
+  fixedProperties?: ActionsNodeFixedPropertiesList | null | undefined;
   id: number;
-  kind?: string;
-  math?: ActionsNodeMath | null;
-  math_group_type_index?: MathGroupTypeIndex | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
+  kind?: string | undefined;
+  math?: ActionsNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
   /** Properties configurable in the interface */
-  properties?: ActionsNodePropertiesList | null;
-  response?: ActionsNodeResponseMap | null;
+  properties?: ActionsNodePropertiesList | null | undefined;
+  response?: ActionsNodeResponseMap | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ExperimentDataWarehouseNodeFixedPropertiesItem =
   | EventPropertyFilter
@@ -1506,28 +1516,28 @@ export type ExperimentDataWarehouseNodePropertiesList =
   Array<ExperimentDataWarehouseNodePropertiesItem>;
 export type ExperimentDataWarehouseNodeResponseMap = { [key: string]: unknown | undefined };
 export interface ExperimentDataWarehouseNode {
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   data_warehouse_join_key: string;
   events_join_key: string;
   /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
-  fixedProperties?: ExperimentDataWarehouseNodeFixedPropertiesList | null;
-  kind?: string;
-  math?: ExperimentDataWarehouseNodeMath | null;
-  math_group_type_index?: MathGroupTypeIndex | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
+  fixedProperties?: ExperimentDataWarehouseNodeFixedPropertiesList | null | undefined;
+  kind?: string | undefined;
+  math?: ExperimentDataWarehouseNodeMath | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
   /** Properties configurable in the interface */
-  properties?: ExperimentDataWarehouseNodePropertiesList | null;
-  response?: ExperimentDataWarehouseNodeResponseMap | null;
+  properties?: ExperimentDataWarehouseNodePropertiesList | null | undefined;
+  response?: ExperimentDataWarehouseNodeResponseMap | null | undefined;
   table_name: string;
   timestamp_field: string;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ExperimentWarehouseNativeMathType = "total" | "sum";
 export type ExperimentWarehouseNativeNodeResponseMap = { [key: string]: unknown | undefined };
@@ -1540,18 +1550,18 @@ export interface ExperimentWarehouseNativeUnitBinding {
 export interface ExperimentWarehouseNativeNode {
   /** The direct-query source (an ExternalDataSource id) the SQL is written for. */
   connection_id: string;
-  custom_name?: string | null;
-  kind?: string;
+  custom_name?: string | null | undefined;
+  kind?: string | undefined;
   /** How to aggregate the rows per entity. Defaults to `total` (row count). */
-  math?: ExperimentWarehouseNativeMathType | null;
+  math?: ExperimentWarehouseNativeMathType | null | undefined;
   /** The numeric column `math` reads. Required when `math` is `sum`. One SQL relation can serve several metrics, each reading a different column. */
-  math_property?: string | null;
+  math_property?: string | null | undefined;
   /** Read-only SQL in the warehouse's dialect, returning one row per outcome with `entity_id` and `timestamp` columns plus any numeric columns a metric can measure. */
   query: string;
-  response?: ExperimentWarehouseNativeNodeResponseMap | null;
+  response?: ExperimentWarehouseNativeNodeResponseMap | null | undefined;
   unit: ExperimentWarehouseNativeUnitBinding;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ExperimentMeanMetricSource =
   | EventsNode
@@ -1559,28 +1569,28 @@ export type ExperimentMeanMetricSource =
   | ExperimentDataWarehouseNode
   | ExperimentWarehouseNativeNode;
 export interface ExperimentMeanMetric {
-  breakdownFilter?: BreakdownFilter | null;
-  conversion_window?: number | null;
-  conversion_window_unit?: FunnelConversionWindowTimeUnit | null;
-  fingerprint?: string | null;
-  goal?: ExperimentMetricGoal | null;
-  ignore_zeros?: boolean | null;
-  isSharedMetric?: boolean | null;
-  kind?: string;
+  breakdownFilter?: BreakdownFilter | null | undefined;
+  conversion_window?: number | null | undefined;
+  conversion_window_unit?: FunnelConversionWindowTimeUnit | null | undefined;
+  fingerprint?: string | null | undefined;
+  goal?: ExperimentMetricGoal | null | undefined;
+  ignore_zeros?: boolean | null | undefined;
+  isSharedMetric?: boolean | null | undefined;
+  kind?: string | undefined;
   /** Winsorization lower percentile bound, as a fraction in [0, 1] (e.g. 0.01 for the 1st percentile). */
-  lower_bound_percentile?: number | null;
-  metric_type?: string;
-  name?: string | null;
-  response?: ExperimentMeanMetricResponseMap | null;
-  sharedMetricId?: number | null;
+  lower_bound_percentile?: number | null | undefined;
+  metric_type?: string | undefined;
+  name?: string | null | undefined;
+  response?: ExperimentMeanMetricResponseMap | null | undefined;
+  sharedMetricId?: number | null | undefined;
   source: ExperimentMeanMetricSource;
   /** When set, reports the percentage of users whose per-user summed/counted value reaches or exceeds this threshold. Only meaningful for sum/count math types. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Winsorization upper percentile bound, as a fraction in [0, 1] (e.g. 0.99 for the 99th percentile). */
-  upper_bound_percentile?: number | null;
-  uuid?: string | null;
+  upper_bound_percentile?: number | null | undefined;
+  uuid?: string | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type BreakdownAttributionType = "first_touch" | "last_touch" | "all_events" | "step";
 export type ExperimentFunnelMetricResponseMap = { [key: string]: unknown | undefined };
@@ -1591,25 +1601,25 @@ export type ExperimentFunnelMetricSeriesItem =
 export type ExperimentFunnelMetricSeriesList = Array<ExperimentFunnelMetricSeriesItem>;
 export interface ExperimentFunnelMetric {
   /** How to attribute the breakdown value across funnel steps. */
-  breakdownAttributionType?: BreakdownAttributionType | null;
+  breakdownAttributionType?: BreakdownAttributionType | null | undefined;
   /** When breakdownAttributionType is `step`, the 0-indexed step to attribute from. */
-  breakdownAttributionValue?: number | null;
-  breakdownFilter?: BreakdownFilter | null;
-  conversion_window?: number | null;
-  conversion_window_unit?: FunnelConversionWindowTimeUnit | null;
-  fingerprint?: string | null;
-  funnel_order_type?: StepOrderValue | null;
-  goal?: ExperimentMetricGoal | null;
-  isSharedMetric?: boolean | null;
-  kind?: string;
-  metric_type?: string;
-  name?: string | null;
-  response?: ExperimentFunnelMetricResponseMap | null;
+  breakdownAttributionValue?: number | null | undefined;
+  breakdownFilter?: BreakdownFilter | null | undefined;
+  conversion_window?: number | null | undefined;
+  conversion_window_unit?: FunnelConversionWindowTimeUnit | null | undefined;
+  fingerprint?: string | null | undefined;
+  funnel_order_type?: StepOrderValue | null | undefined;
+  goal?: ExperimentMetricGoal | null | undefined;
+  isSharedMetric?: boolean | null | undefined;
+  kind?: string | undefined;
+  metric_type?: string | undefined;
+  name?: string | null | undefined;
+  response?: ExperimentFunnelMetricResponseMap | null | undefined;
   series: ExperimentFunnelMetricSeriesList;
-  sharedMetricId?: number | null;
-  uuid?: string | null;
+  sharedMetricId?: number | null | undefined;
+  uuid?: string | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ExperimentRatioMetricDenominator =
   | EventsNode
@@ -1623,24 +1633,24 @@ export type ExperimentRatioMetricNumerator =
   | ExperimentWarehouseNativeNode;
 export type ExperimentRatioMetricResponseMap = { [key: string]: unknown | undefined };
 export interface ExperimentRatioMetric {
-  breakdownFilter?: BreakdownFilter | null;
-  conversion_window?: number | null;
-  conversion_window_unit?: FunnelConversionWindowTimeUnit | null;
+  breakdownFilter?: BreakdownFilter | null | undefined;
+  conversion_window?: number | null | undefined;
+  conversion_window_unit?: FunnelConversionWindowTimeUnit | null | undefined;
   denominator: ExperimentRatioMetricDenominator;
-  denominator_outlier_handling?: ExperimentMetricOutlierHandling | null;
-  fingerprint?: string | null;
-  goal?: ExperimentMetricGoal | null;
-  isSharedMetric?: boolean | null;
-  kind?: string;
-  metric_type?: string;
-  name?: string | null;
+  denominator_outlier_handling?: ExperimentMetricOutlierHandling | null | undefined;
+  fingerprint?: string | null | undefined;
+  goal?: ExperimentMetricGoal | null | undefined;
+  isSharedMetric?: boolean | null | undefined;
+  kind?: string | undefined;
+  metric_type?: string | undefined;
+  name?: string | null | undefined;
   numerator: ExperimentRatioMetricNumerator;
-  numerator_outlier_handling?: ExperimentMetricOutlierHandling | null;
-  response?: ExperimentRatioMetricResponseMap | null;
-  sharedMetricId?: number | null;
-  uuid?: string | null;
+  numerator_outlier_handling?: ExperimentMetricOutlierHandling | null | undefined;
+  response?: ExperimentRatioMetricResponseMap | null | undefined;
+  sharedMetricId?: number | null | undefined;
+  uuid?: string | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ExperimentRetentionMetricCompletionEvent =
   | EventsNode
@@ -1649,10 +1659,10 @@ export type ExperimentRetentionMetricCompletionEvent =
 export type ExperimentRetentionMetricResponseMap = { [key: string]: unknown | undefined };
 export type ExperimentExposureNodeResponseMap = { [key: string]: unknown | undefined };
 export interface ExperimentExposureNode {
-  kind?: string;
-  response?: ExperimentExposureNodeResponseMap | null;
+  kind?: string | undefined;
+  response?: ExperimentExposureNodeResponseMap | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ExperimentRetentionMetricStartEvent =
   | EventsNode
@@ -1660,26 +1670,26 @@ export type ExperimentRetentionMetricStartEvent =
   | ExperimentDataWarehouseNode
   | ExperimentExposureNode;
 export interface ExperimentRetentionMetric {
-  breakdownFilter?: BreakdownFilter | null;
+  breakdownFilter?: BreakdownFilter | null | undefined;
   completion_event: ExperimentRetentionMetricCompletionEvent;
-  conversion_window?: number | null;
-  conversion_window_unit?: FunnelConversionWindowTimeUnit | null;
-  fingerprint?: string | null;
-  goal?: ExperimentMetricGoal | null;
-  isSharedMetric?: boolean | null;
-  kind?: string;
-  metric_type?: string;
-  name?: string | null;
-  response?: ExperimentRetentionMetricResponseMap | null;
+  conversion_window?: number | null | undefined;
+  conversion_window_unit?: FunnelConversionWindowTimeUnit | null | undefined;
+  fingerprint?: string | null | undefined;
+  goal?: ExperimentMetricGoal | null | undefined;
+  isSharedMetric?: boolean | null | undefined;
+  kind?: string | undefined;
+  metric_type?: string | undefined;
+  name?: string | null | undefined;
+  response?: ExperimentRetentionMetricResponseMap | null | undefined;
   retention_window_end: number;
   retention_window_start: number;
   retention_window_unit: FunnelConversionWindowTimeUnit;
-  sharedMetricId?: number | null;
+  sharedMetricId?: number | null | undefined;
   start_event: ExperimentRetentionMetricStartEvent;
   start_handling: StartHandling;
-  uuid?: string | null;
+  uuid?: string | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ExperimentMetric =
   | ExperimentMeanMetric
@@ -1688,13 +1698,13 @@ export type ExperimentMetric =
   | ExperimentRetentionMetric;
 /** A shared metric's link to one experiment, as the experiment API returns it. */
 export interface ExperimentToSavedMetric {
-  id?: number;
-  experiment?: number;
-  saved_metric?: number;
-  metadata?: unknown;
-  created_at?: string;
-  query?: unknown;
-  name?: string;
+  id?: number | undefined;
+  experiment?: number | undefined;
+  saved_metric?: number | undefined;
+  metadata?: unknown | undefined;
+  created_at?: string | undefined;
+  query?: unknown | undefined;
+  name?: string | undefined;
   /** The metric this experiment calculates for this shared metric: `query` with the per-experiment overrides from `metadata` applied (breakdowns, breakdown_limit, and funnel breakdown attribution). Results, fingerprints and queries for this metric use this definition, not `query`. Null when `query` is not an ExperimentMetric, such as a legacy shared metric (kind ExperimentTrendsQuery or ExperimentFunnelsQuery), which takes no overrides. */
   effective_query: ExperimentMetric | null;
 }
@@ -1908,82 +1918,85 @@ export interface ExperimentHealth {
   /** The result of each health check, in the order the checks run. The checks that read the exposure counts are not here: the exposure query returns them as `health_checks`. */
   checks: ExperimentHealthChecksList;
   /** The settings of the experiment's flag that decide which variant a user gets. Null when the experiment has no flag. */
-  setup?: ExperimentHealthSetup | null;
+  setup?: ExperimentHealthSetup | null | undefined;
 }
 /** Organizational tags for this experiment (up to 100, 255 characters each). */
 export type ExperimentOutputTagsList = Array<string>;
 /** Full experiment representation for the detail, create, and update endpoints. Extends the shared read-side fields in ``ExperimentBaseSerializer`` with the metric definitions (``metrics``/``metrics_secondary``/``saved_metrics``) and the write-side fields, and refreshes stale action names while serializing. The list endpoint uses the leaner ``ExperimentBasicSerializer`` instead. */
 export interface ExperimentOutput {
-  id?: number;
+  id?: number | undefined;
   /** Name of the experiment. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
-  feature_flag_key?: string;
-  feature_flag?: MinimalFeatureFlag;
-  holdout?: ExperimentHoldout;
+  feature_flag_key?: string | undefined;
+  feature_flag?: MinimalFeatureFlag | undefined;
+  holdout?: ExperimentHoldout | undefined;
   /** ID of a holdout group to exclude from the experiment. */
-  holdout_id?: number | null;
-  exposure_cohort?: number | null;
+  holdout_id?: number | null | undefined;
+  exposure_cohort?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: ExperimentOutputExcludedVariantsList | null;
-  secondary_metrics?: unknown;
-  saved_metrics?: ExperimentOutputSavedMetricsList;
+  excluded_variants?: ExperimentOutputExcludedVariantsList | null | undefined;
+  secondary_metrics?: unknown | undefined;
+  saved_metrics?: ExperimentOutputSavedMetricsList | undefined;
   /** IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary). */
-  saved_metrics_ids?: ExperimentOutputSavedMetricsIdsList | null;
-  filters?: unknown;
+  saved_metrics_ids?: ExperimentOutputSavedMetricsIdsList | null | undefined;
+  filters?: unknown | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | null;
+  type?: ExperimentTypeEnum | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
-  exposure_criteria?: ExperimentApiExposureCriteria | null;
+  exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
   /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
-  metrics?: ExperimentApiMetricsList | null;
+  metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
-  metrics_secondary?: ExperimentApiMetricsList | null;
-  stats_config?: unknown;
-  scheduling_config?: unknown;
+  metrics_secondary?: ExperimentApiMetricsList | null | undefined;
+  stats_config?: unknown | undefined;
+  scheduling_config?: unknown | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | null;
+  conclusion?: ConclusionEnum | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** ID of the Desktop task opened to remove the experiment's feature-flag code, when one was requested via open_cleanup_pr on end/ship_variant. Read its status via the flag_cleanup_task action. */
-  flag_cleanup_task_id?: string | null;
+  flag_cleanup_task_id?: string | null | undefined;
   /** GitHub repository holding this experiment's feature-flag code, in `organization/repository` format. Used as the target of the flag-cleanup pull request opened via open_cleanup_pr on end/ship_variant. When not set, cleanup targets the team's only connected repository and is skipped if the team has several. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  primary_metrics_ordered_uuids?: ExperimentOutputPrimaryMetricsOrderedUuidsList | null;
+  primary_metrics_ordered_uuids?: ExperimentOutputPrimaryMetricsOrderedUuidsList | null | undefined;
   /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  secondary_metrics_ordered_uuids?: ExperimentOutputSecondaryMetricsOrderedUuidsList | null;
-  only_count_matured_users?: boolean;
+  secondary_metrics_ordered_uuids?:
+    | ExperimentOutputSecondaryMetricsOrderedUuidsList
+    | null
+    | undefined;
+  only_count_matured_users?: boolean | undefined;
   /** Optimistic-concurrency token. Reads return the experiment's current version, bumped on every update. Send the version you last read with an update to detect concurrent edits: a stale update merges concurrent changes where safe -- metric collections per metric uuid, other fields per field -- using the base values sent in `original_experiment`, and fails with HTTP 409 only when the same metric or field changed on both sides (or no base value was sent for a changed field). Omit to skip the check. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** Experiment lifecycle state: 'draft' (not yet launched), 'running' (launched with active feature flag), 'paused' (running with feature flag deactivated -- virtual state derived from feature_flag.active, not stored), 'exposure_frozen' (running with enrollment frozen to the already-exposed cohort while metrics keep flowing -- virtual state derived from the flag's release groups, not stored), 'stopped' (ended). */
-  status?: ExperimentStatusEnum;
+  status?: ExperimentStatusEnum | undefined;
   /** Whether the experiment uses any legacy-engine metrics (ExperimentTrendsQuery or ExperimentFunnelsQuery). Used to flag legacy experiments and gate actions that don't support them, such as duplicate and copy-to-project. */
-  is_legacy?: boolean;
+  is_legacy?: boolean | undefined;
   /** Whether enrollment can be frozen right now: the experiment must be running (not draft, paused, stopped, or already frozen) and its feature flag must have release conditions that a person cohort can narrow (no group aggregation, no holdout, no early access conditions). */
-  can_freeze_exposure?: boolean;
+  can_freeze_exposure?: boolean | undefined;
   /** The event exposures are actually counted on when the experiment doesn't configure a custom one -- `$feature_flag_called`, or `$experiment_exposure` once the team is in the rollout and the experiment started at or after the cutoff. Resolved server-side so clients display the same event the results queries read. For a draft, this is what the experiment would resolve to if launched now. */
-  resolved_exposure_event?: string;
+  resolved_exposure_event?: string | undefined;
   /** Always null. Read the health findings from `GET /api/projects/{project_id}/experiments/{id}/health/`: problems in this experiment's configuration and its feature flag that keep it from producing trustworthy results, each with a fix. */
   health: ExperimentHealth | null;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: ExperimentOutputTagsList;
+  tags?: ExperimentOutputTagsList | undefined;
 }
 /** * `funnel` - funnel * `mean_count` - mean_count * `mean_sum_or_avg` - mean_sum_or_avg * `ratio` - ratio * `retention` - retention */
 export type MetricTypeEnum = "funnel" | "mean_count" | "mean_sum_or_avg" | "ratio" | "retention";
@@ -1996,15 +2009,15 @@ export interface RunningTimeBaselineStats {
   /** Sum of the metric values across the control group (for funnels, the numerator/conversions). */
   sum: number;
   /** Sum of squared metric values. Mean metrics read their variance from it, and ratio/retention metrics need it. Without it, a mean metric's variance is approximated from the baseline value. */
-  sum_squares?: number;
+  sum_squares?: number | undefined;
   /** Sum of the denominator values. Required for ratio/retention metrics. */
-  denominator_sum?: number | null;
+  denominator_sum?: number | null | undefined;
   /** Sum of squared denominator values (ratio/retention variance). */
-  denominator_sum_squares?: number | null;
+  denominator_sum_squares?: number | null | undefined;
   /** Sum of numerator×denominator products, used for the delta-method covariance term. */
-  numerator_denominator_sum_product?: number | null;
+  numerator_denominator_sum_product?: number | null | undefined;
   /** Per-step counts for funnel metrics; the last entry is the final-step count. */
-  step_counts?: RunningTimeBaselineStatsStepCountsList;
+  step_counts?: RunningTimeBaselineStatsStepCountsList | undefined;
 }
 export interface CreateExperimentsCalculateRunningTimeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2014,15 +2027,15 @@ export interface CreateExperimentsCalculateRunningTimeRequest {
   /** Smallest relative change to detect, as a percentage (e.g. 5 means a 5% lift). Must be > 0. */
   minimum_detectable_effect: number;
   /** Total number of variants including control (default 2, at most 100). */
-  number_of_variants?: number;
+  number_of_variants?: number | undefined;
   /** Expected exposures per day. When provided, the response includes the recommended running time. */
-  exposure_rate_per_day?: number | null;
+  exposure_rate_per_day?: number | null | undefined;
   /** Baseline metric value: conversion rate as a fraction 0-1 (funnel), average per user (mean), or the ratio (ratio/retention). Provide this or baseline_stats. */
-  baseline_value?: number | null;
+  baseline_value?: number | null | undefined;
   /** Pre-computed variance per user. Provide this or baseline_stats when metric_type is ratio/retention and baseline_value is given directly. When given, it replaces the variance the calculator derives for any metric type, including p(1-p) for funnels. */
-  variance?: number | null;
+  variance?: number | null | undefined;
   /** Raw control-group statistics. When provided, the server derives baseline_value and variance. */
-  baseline_stats?: RunningTimeBaselineStats | null;
+  baseline_stats?: RunningTimeBaselineStats | null | undefined;
 }
 /** Estimated sample size and running time for the given inputs. */
 export interface RunningTimeCalculationResult {
@@ -2041,15 +2054,15 @@ export interface CreateExperimentsEndRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** The conclusion of the experiment. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Optional comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** When true, open a draft pull request that removes the experiment's feature-flag code from the linked repository. A personal API key needs the task:write scope (403 otherwise). Skipped when the conclusion is empty, or when no connected repository can be resolved. */
-  open_cleanup_pr?: boolean;
+  open_cleanup_pr?: boolean | undefined;
   /** GitHub repository to open the cleanup pull request in, in `organization/repository` format. Only used when open_cleanup_pr is true. It must be one of the team's connected repositories (see the flag_cleanup_target action); it is then saved as the experiment's repository. When omitted, the experiment's saved repository, the team's default cleanup repository, or the team's only connected repository is used. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** When true, also save `repository` as this environment's default cleanup repository, used for experiments that have no repository of their own. Only acts when open_cleanup_pr is true and `repository` is provided and belongs to the team's GitHub installation. Requires project admin access (403 otherwise). */
-  set_repository_as_team_default?: boolean;
+  set_repository_as_team_default?: boolean | undefined;
 }
 export interface CreateExperimentsFreezeExposureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2078,7 +2091,7 @@ export interface CreateExperimentsMetricsRecalculationRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** What triggered this recalculation (manual is the default for user-initiated runs). Only client triggers are accepted; agent_mcp, timeseries_sync and scheduled are set by the server. * `manual` - Manual * `manual_retry` - Manual Retry * `cold_run` - Cold Run * `stale_refresh` - Stale Refresh * `heal_latest_run` - Heal Latest Run * `experiment_config_change` - Experiment Config Change * `metric_config_change` - Metric Config Change */
-  trigger?: ExperimentMetricsRecalculationRequestTriggerEnum | (string & {});
+  trigger?: ExperimentMetricsRecalculationRequestTriggerEnum | (string & {}) | undefined;
 }
 /** * `pending` - Pending * `in_progress` - In Progress * `completed` - Completed * `failed` - Failed */
 export type MetricsRecalculationStatusEnum = "pending" | "in_progress" | "completed" | "failed";
@@ -2137,60 +2150,75 @@ export interface CreateExperimentsRecalculateTimeseriesRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** Name of the experiment. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
-  feature_flag_key?: string;
+  feature_flag_key?: string | undefined;
   /** ID of a holdout group to exclude from the experiment. */
-  holdout_id?: number | null;
+  holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: CreateExperimentsRecalculateTimeseriesRequestExcludedVariantsList | null;
-  secondary_metrics?: unknown;
+  excluded_variants?:
+    | CreateExperimentsRecalculateTimeseriesRequestExcludedVariantsList
+    | null
+    | undefined;
+  secondary_metrics?: unknown | undefined;
   /** IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary). */
-  saved_metrics_ids?: CreateExperimentsRecalculateTimeseriesRequestSavedMetricsIdsList | null;
-  filters?: unknown;
+  saved_metrics_ids?:
+    | CreateExperimentsRecalculateTimeseriesRequestSavedMetricsIdsList
+    | null
+    | undefined;
+  filters?: unknown | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | (string & {}) | null;
+  type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
-  exposure_criteria?: ExperimentApiExposureCriteria | null;
+  exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
   /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
-  metrics?: ExperimentApiMetricsList | null;
+  metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
-  metrics_secondary?: ExperimentApiMetricsList | null;
-  stats_config?: unknown;
-  scheduling_config?: unknown;
+  metrics_secondary?: ExperimentApiMetricsList | null | undefined;
+  stats_config?: unknown | undefined;
+  scheduling_config?: unknown | undefined;
   /** Suppresses the validation that rejects metrics referencing events not yet ingested by this project. REQUIRES explicit user confirmation before being set to true -- never flip this silently to retry a failed call. The default validation catches typo'd event names and missing instrumentation. Set this to true only when the user has confirmed the event is intentional (e.g. they are about to instrument it). */
-  allow_unknown_events?: boolean;
-  _create_in_folder?: string;
+  allow_unknown_events?: boolean | undefined;
+  _create_in_folder?: string | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** GitHub repository holding this experiment's feature-flag code, in `organization/repository` format. Used as the target of the flag-cleanup pull request opened via open_cleanup_pr on end/ship_variant. When not set, cleanup targets the team's only connected repository and is skipped if the team has several. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  primary_metrics_ordered_uuids?: CreateExperimentsRecalculateTimeseriesRequestPrimaryMetricsOrderedUuidsList | null;
+  primary_metrics_ordered_uuids?:
+    | CreateExperimentsRecalculateTimeseriesRequestPrimaryMetricsOrderedUuidsList
+    | null
+    | undefined;
   /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  secondary_metrics_ordered_uuids?: CreateExperimentsRecalculateTimeseriesRequestSecondaryMetricsOrderedUuidsList | null;
-  only_count_matured_users?: boolean;
+  secondary_metrics_ordered_uuids?:
+    | CreateExperimentsRecalculateTimeseriesRequestSecondaryMetricsOrderedUuidsList
+    | null
+    | undefined;
+  only_count_matured_users?: boolean | undefined;
   /** When true, sync the flag config sent in this request (via the `feature_flag` object) to the linked feature flag. Draft experiments always sync regardless. On a running experiment, `feature_flag` config without this flag is rejected. */
-  update_feature_flag_params?: boolean;
+  update_feature_flag_params?: boolean | undefined;
   /** Optimistic-concurrency token. Reads return the experiment's current version, bumped on every update. Send the version you last read with an update to detect concurrent edits: a stale update merges concurrent changes where safe -- metric collections per metric uuid, other fields per field -- using the base values sent in `original_experiment`, and fails with HTTP 409 only when the same metric or field changed on both sides (or no base value was sent for a changed field). Omit to skip the check. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value -- and, without this object, any version mismatch -- fail with HTTP 409. */
-  original_experiment?: CreateExperimentsRecalculateTimeseriesRequestOriginalExperimentMap | null;
+  original_experiment?:
+    | CreateExperimentsRecalculateTimeseriesRequestOriginalExperimentMap
+    | null
+    | undefined;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: CreateExperimentsRecalculateTimeseriesRequestTagsList;
+  tags?: CreateExperimentsRecalculateTimeseriesRequestTagsList | undefined;
 }
 export interface CreateExperimentsRecalculateTimeseriesResponse {}
 /** * `fired_any` - fired_any * `no_metric_activity` - no_metric_activity * `funnel_dropoff` - funnel_dropoff */
@@ -2205,11 +2233,11 @@ export interface CreateExperimentsSessionBucketRequest {
   /** Which question the returned session set answers. 'fired_any': the session fired at least one event of any listed metric (an OR the recordings query itself can't express). 'no_metric_activity': the session fired none of them. 'funnel_dropoff': the session saw an exposure event but never fired the funnel metric's last step; the exposure is the funnel's implicit first step, the same as in the experiment analysis. All three are session-scoped and goal-free: they say what happened in the session, not whether it helped or hurt the metric. * `fired_any` - fired_any * `no_metric_activity` - no_metric_activity * `funnel_dropoff` - funnel_dropoff */
   bucket: ExperimentSessionBucketEnum | (string & {});
   /** Metrics the bucket is computed over. Exactly one funnel metric for 'funnel_dropoff'. Omit for the other buckets to use every metric of the experiment that can be matched to recordings. */
-  metric_uuids?: CreateExperimentsSessionBucketRequestMetricUuidsList;
+  metric_uuids?: CreateExperimentsSessionBucketRequestMetricUuidsList | undefined;
   /** Restrict to sessions that saw this variant. Omit for every variant. A session that saw more than one variant matches each variant it saw. */
-  variant?: string | null;
+  variant?: string | null | undefined;
   /** Maximum session IDs to return, at most 100. The most recently active matching sessions win. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** IDs of matching sessions that have a recording, most recently active first. Feed these to a recordings query as session_ids; they are a subset of the experiment's exposed sessions, so the exposure filter can stay in place alongside them. */
 export type ExperimentSessionBucketResponseSessionIdsList = Array<string>;
@@ -2456,19 +2484,19 @@ export interface CreateExperimentsSetupContextRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Event that marks a visit to the surface under test, for example '$pageview' or '$screen'. Needed for target_surface and for the baseline in candidate_metric. */
-  target_event?: string | null;
+  target_event?: string | null | undefined;
   /** Only counts target events whose $current_url contains this text, ignoring case. Needs target_event to be '$pageview'. */
-  target_url_contains?: string | null;
+  target_url_contains?: string | null | undefined;
   /** Event or person property filters that narrow the target event, for example an exact $host and $pathname for one page. At most 10 filters, and each needs type 'event' or 'person'. Needs target_event. Combines with target_url_contains. */
-  target_properties?: ExperimentSetupPropertyFilterList | null;
+  target_properties?: ExperimentSetupPropertyFilterList | null | undefined;
   /** Event of the candidate primary metric. With target_event, candidate_metric returns a baseline. Without it, candidate_metric returns only the event's volume. Also marks the shared metrics that count this event. */
-  metric_event?: string | null;
+  metric_event?: string | null | undefined;
   /** Event or person property filters that narrow the metric event, for the metric that counts only some of its occurrences. At most 10 filters, and each needs type 'event' or 'person'. Needs metric_event. */
-  metric_properties?: ExperimentSetupPropertyFilterList | null;
+  metric_properties?: ExperimentSetupPropertyFilterList | null | undefined;
   /** How many experiments to return, most recently launched first, then drafts, 1 to 25. */
-  previous_experiments_limit?: number;
+  previous_experiments_limit?: number | undefined;
   /** How many shared metrics to return, most reused first, 1 to 25. */
-  shared_metrics_limit?: number;
+  shared_metrics_limit?: number | undefined;
 }
 /** * `ok` - Ok * `skipped` - Skipped * `timed_out` - Timed Out * `error` - Error */
 export type SetupContextSectionStatusEnum = "ok" | "skipped" | "timed_out" | "error";
@@ -2901,19 +2929,19 @@ export interface CreateExperimentsShipVariantRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** The conclusion of the experiment. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Optional comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** When true, open a draft pull request that removes the experiment's feature-flag code from the linked repository. A personal API key needs the task:write scope (403 otherwise). Skipped when the conclusion is empty, or when no connected repository can be resolved. */
-  open_cleanup_pr?: boolean;
+  open_cleanup_pr?: boolean | undefined;
   /** GitHub repository to open the cleanup pull request in, in `organization/repository` format. Only used when open_cleanup_pr is true. It must be one of the team's connected repositories (see the flag_cleanup_target action); it is then saved as the experiment's repository. When omitted, the experiment's saved repository, the team's default cleanup repository, or the team's only connected repository is used. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** When true, also save `repository` as this environment's default cleanup repository, used for experiments that have no repository of their own. Only acts when open_cleanup_pr is true and `repository` is provided and belongs to the team's GitHub installation. Requires project admin access (403 otherwise). */
-  set_repository_as_team_default?: boolean;
+  set_repository_as_team_default?: boolean | undefined;
   /** The key of the variant to ship. */
-  variant_key?: string;
+  variant_key?: string | undefined;
   /** If true, prepend a release condition to the feature flag that rolls the variant out to 100% of users, overriding any existing release conditions on the flag. If false (default), only update the variant distribution -- existing release conditions are preserved and the variant is served only to users who already match them. */
-  release_to_everyone?: boolean;
+  release_to_everyone?: boolean | undefined;
 }
 export interface CreateExperimentsUnfreezeExposureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2927,7 +2955,7 @@ export interface ExperimentsArchiveCreateRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** When the linked feature flag is still enabled, also disable and archive it along with the experiment. Has no effect if the flag is already disabled (it is archived either way). */
-  disable_feature_flag?: boolean;
+  disable_feature_flag?: boolean | undefined;
 }
 /** List of object IDs to update tags on. */
 export type ExperimentsBulkUpdateTagsCreateRequestIdsList = Array<number>;
@@ -2939,26 +2967,26 @@ export interface ExperimentsBulkUpdateTagsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** List of object IDs to update tags on. */
-  ids?: ExperimentsBulkUpdateTagsCreateRequestIdsList;
+  ids?: ExperimentsBulkUpdateTagsCreateRequestIdsList | undefined;
   /** 'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags. * `add` - add * `remove` - remove * `set` - set */
-  action?: BulkUpdateTagsActionEnum | (string & {});
+  action?: BulkUpdateTagsActionEnum | (string & {}) | undefined;
   /** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
-  tags?: ExperimentsBulkUpdateTagsCreateRequestTagsList;
+  tags?: ExperimentsBulkUpdateTagsCreateRequestTagsList | undefined;
 }
 export type BulkUpdateTagsItemTagsList = Array<string>;
 export interface BulkUpdateTagsItem {
-  id?: number;
-  tags?: BulkUpdateTagsItemTagsList;
+  id?: number | undefined;
+  tags?: BulkUpdateTagsItemTagsList | undefined;
 }
 export type BulkUpdateTagsResponseUpdatedList = Array<BulkUpdateTagsItem>;
 export interface BulkUpdateTagsError {
-  id?: number;
-  reason?: string;
+  id?: number | undefined;
+  reason?: string | undefined;
 }
 export type BulkUpdateTagsResponseSkippedList = Array<BulkUpdateTagsError>;
 export interface BulkUpdateTagsResponse {
-  updated?: BulkUpdateTagsResponseUpdatedList;
-  skipped?: BulkUpdateTagsResponseSkippedList;
+  updated?: BulkUpdateTagsResponseUpdatedList | undefined;
+  skipped?: BulkUpdateTagsResponseSkippedList | undefined;
 }
 export interface ExperimentsCopyToProjectCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2966,11 +2994,11 @@ export interface ExperimentsCopyToProjectCreateRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** The team ID to copy the experiment to. */
-  target_team_id?: number;
+  target_team_id?: number | undefined;
   /** Optional feature flag key to use in the destination team. */
-  feature_flag_key?: string;
+  feature_flag_key?: string | undefined;
   /** Optional name for the copied experiment. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
 export type ExperimentsCreateExposureCohortForExperimentCreateRequestExcludedVariantsList =
@@ -2996,60 +3024,75 @@ export interface ExperimentsCreateExposureCohortForExperimentCreateRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** Name of the experiment. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
-  feature_flag_key?: string;
+  feature_flag_key?: string | undefined;
   /** ID of a holdout group to exclude from the experiment. */
-  holdout_id?: number | null;
+  holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: ExperimentsCreateExposureCohortForExperimentCreateRequestExcludedVariantsList | null;
-  secondary_metrics?: unknown;
+  excluded_variants?:
+    | ExperimentsCreateExposureCohortForExperimentCreateRequestExcludedVariantsList
+    | null
+    | undefined;
+  secondary_metrics?: unknown | undefined;
   /** IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary). */
-  saved_metrics_ids?: ExperimentsCreateExposureCohortForExperimentCreateRequestSavedMetricsIdsList | null;
-  filters?: unknown;
+  saved_metrics_ids?:
+    | ExperimentsCreateExposureCohortForExperimentCreateRequestSavedMetricsIdsList
+    | null
+    | undefined;
+  filters?: unknown | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | (string & {}) | null;
+  type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
-  exposure_criteria?: ExperimentApiExposureCriteria | null;
+  exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
   /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
-  metrics?: ExperimentApiMetricsList | null;
+  metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
-  metrics_secondary?: ExperimentApiMetricsList | null;
-  stats_config?: unknown;
-  scheduling_config?: unknown;
+  metrics_secondary?: ExperimentApiMetricsList | null | undefined;
+  stats_config?: unknown | undefined;
+  scheduling_config?: unknown | undefined;
   /** Suppresses the validation that rejects metrics referencing events not yet ingested by this project. REQUIRES explicit user confirmation before being set to true -- never flip this silently to retry a failed call. The default validation catches typo'd event names and missing instrumentation. Set this to true only when the user has confirmed the event is intentional (e.g. they are about to instrument it). */
-  allow_unknown_events?: boolean;
-  _create_in_folder?: string;
+  allow_unknown_events?: boolean | undefined;
+  _create_in_folder?: string | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** GitHub repository holding this experiment's feature-flag code, in `organization/repository` format. Used as the target of the flag-cleanup pull request opened via open_cleanup_pr on end/ship_variant. When not set, cleanup targets the team's only connected repository and is skipped if the team has several. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  primary_metrics_ordered_uuids?: ExperimentsCreateExposureCohortForExperimentCreateRequestPrimaryMetricsOrderedUuidsList | null;
+  primary_metrics_ordered_uuids?:
+    | ExperimentsCreateExposureCohortForExperimentCreateRequestPrimaryMetricsOrderedUuidsList
+    | null
+    | undefined;
   /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  secondary_metrics_ordered_uuids?: ExperimentsCreateExposureCohortForExperimentCreateRequestSecondaryMetricsOrderedUuidsList | null;
-  only_count_matured_users?: boolean;
+  secondary_metrics_ordered_uuids?:
+    | ExperimentsCreateExposureCohortForExperimentCreateRequestSecondaryMetricsOrderedUuidsList
+    | null
+    | undefined;
+  only_count_matured_users?: boolean | undefined;
   /** When true, sync the flag config sent in this request (via the `feature_flag` object) to the linked feature flag. Draft experiments always sync regardless. On a running experiment, `feature_flag` config without this flag is rejected. */
-  update_feature_flag_params?: boolean;
+  update_feature_flag_params?: boolean | undefined;
   /** Optimistic-concurrency token. Reads return the experiment's current version, bumped on every update. Send the version you last read with an update to detect concurrent edits: a stale update merges concurrent changes where safe -- metric collections per metric uuid, other fields per field -- using the base values sent in `original_experiment`, and fails with HTTP 409 only when the same metric or field changed on both sides (or no base value was sent for a changed field). Omit to skip the check. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value -- and, without this object, any version mismatch -- fail with HTTP 409. */
-  original_experiment?: ExperimentsCreateExposureCohortForExperimentCreateRequestOriginalExperimentMap | null;
+  original_experiment?:
+    | ExperimentsCreateExposureCohortForExperimentCreateRequestOriginalExperimentMap
+    | null
+    | undefined;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: ExperimentsCreateExposureCohortForExperimentCreateRequestTagsList;
+  tags?: ExperimentsCreateExposureCohortForExperimentCreateRequestTagsList | undefined;
 }
 export interface ExperimentsCreateExposureCohortForExperimentCreateResponse {}
 /** Ordered list of prompt version numbers to assign to experiment variants. The first entry is the control variant. Must contain between 2 and 10 distinct versions. */
@@ -3070,11 +3113,11 @@ export interface ExperimentsCreateFromPromptCreateRequest {
   /** One or more metric templates to attach as primary metrics. Each template becomes one metric on the experiment. Allowed values: cost, latency, eval_pass_rate. */
   templates: ExperimentsCreateFromPromptCreateRequestTemplatesList;
   /** Optional experiment name. If omitted, a name is generated from the prompt and versions. */
-  name?: string;
+  name?: string | undefined;
   /** Optional feature flag key. If omitted, a slug is derived from the experiment name. */
-  feature_flag_key?: string;
+  feature_flag_key?: string | undefined;
   /** Optional experiment description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ExperimentsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3103,60 +3146,66 @@ export interface ExperimentsDuplicateCreateRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** Name of the experiment. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
-  feature_flag_key?: string;
+  feature_flag_key?: string | undefined;
   /** ID of a holdout group to exclude from the experiment. */
-  holdout_id?: number | null;
+  holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: ExperimentsDuplicateCreateRequestExcludedVariantsList | null;
-  secondary_metrics?: unknown;
+  excluded_variants?: ExperimentsDuplicateCreateRequestExcludedVariantsList | null | undefined;
+  secondary_metrics?: unknown | undefined;
   /** IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary). */
-  saved_metrics_ids?: ExperimentsDuplicateCreateRequestSavedMetricsIdsList | null;
-  filters?: unknown;
+  saved_metrics_ids?: ExperimentsDuplicateCreateRequestSavedMetricsIdsList | null | undefined;
+  filters?: unknown | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | (string & {}) | null;
+  type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
-  exposure_criteria?: ExperimentApiExposureCriteria | null;
+  exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
   /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
-  metrics?: ExperimentApiMetricsList | null;
+  metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
-  metrics_secondary?: ExperimentApiMetricsList | null;
-  stats_config?: unknown;
-  scheduling_config?: unknown;
+  metrics_secondary?: ExperimentApiMetricsList | null | undefined;
+  stats_config?: unknown | undefined;
+  scheduling_config?: unknown | undefined;
   /** Suppresses the validation that rejects metrics referencing events not yet ingested by this project. REQUIRES explicit user confirmation before being set to true -- never flip this silently to retry a failed call. The default validation catches typo'd event names and missing instrumentation. Set this to true only when the user has confirmed the event is intentional (e.g. they are about to instrument it). */
-  allow_unknown_events?: boolean;
-  _create_in_folder?: string;
+  allow_unknown_events?: boolean | undefined;
+  _create_in_folder?: string | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** GitHub repository holding this experiment's feature-flag code, in `organization/repository` format. Used as the target of the flag-cleanup pull request opened via open_cleanup_pr on end/ship_variant. When not set, cleanup targets the team's only connected repository and is skipped if the team has several. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  primary_metrics_ordered_uuids?: ExperimentsDuplicateCreateRequestPrimaryMetricsOrderedUuidsList | null;
+  primary_metrics_ordered_uuids?:
+    | ExperimentsDuplicateCreateRequestPrimaryMetricsOrderedUuidsList
+    | null
+    | undefined;
   /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  secondary_metrics_ordered_uuids?: ExperimentsDuplicateCreateRequestSecondaryMetricsOrderedUuidsList | null;
-  only_count_matured_users?: boolean;
+  secondary_metrics_ordered_uuids?:
+    | ExperimentsDuplicateCreateRequestSecondaryMetricsOrderedUuidsList
+    | null
+    | undefined;
+  only_count_matured_users?: boolean | undefined;
   /** When true, sync the flag config sent in this request (via the `feature_flag` object) to the linked feature flag. Draft experiments always sync regardless. On a running experiment, `feature_flag` config without this flag is rejected. */
-  update_feature_flag_params?: boolean;
+  update_feature_flag_params?: boolean | undefined;
   /** Optimistic-concurrency token. Reads return the experiment's current version, bumped on every update. Send the version you last read with an update to detect concurrent edits: a stale update merges concurrent changes where safe -- metric collections per metric uuid, other fields per field -- using the base values sent in `original_experiment`, and fails with HTTP 409 only when the same metric or field changed on both sides (or no base value was sent for a changed field). Omit to skip the check. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value -- and, without this object, any version mismatch -- fail with HTTP 409. */
-  original_experiment?: ExperimentsDuplicateCreateRequestOriginalExperimentMap | null;
+  original_experiment?: ExperimentsDuplicateCreateRequestOriginalExperimentMap | null | undefined;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: ExperimentsDuplicateCreateRequestTagsList;
+  tags?: ExperimentsDuplicateCreateRequestTagsList | undefined;
 }
 export interface ExperimentsDuplicateCreateResponse {}
 export interface ExperimentsMigrateCreateRequest {
@@ -3195,59 +3244,59 @@ export interface GetExperimentsActivityRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** Number of items per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Page number */
-  page?: number;
+  page?: number | undefined;
 }
 export interface Change {
-  type?: string;
-  action?: string;
-  field?: string;
-  before?: unknown;
-  after?: unknown;
+  type?: string | undefined;
+  action?: string | undefined;
+  field?: string | undefined;
+  before?: unknown | undefined;
+  after?: unknown | undefined;
 }
 export type DetailChangesList = Array<Change>;
 export interface Merge {
-  type?: string;
-  source?: unknown;
-  target?: unknown;
+  type?: string | undefined;
+  source?: unknown | undefined;
+  target?: unknown | undefined;
 }
 export interface Trigger {
-  job_type?: string;
-  job_id?: string;
-  payload?: unknown;
+  job_type?: string | undefined;
+  job_id?: string | undefined;
+  payload?: unknown | undefined;
 }
 export interface Detail {
-  id?: string;
-  changes?: DetailChangesList;
-  merge?: Merge;
-  trigger?: Trigger;
-  name?: string;
-  short_id?: string;
-  type?: string;
+  id?: string | undefined;
+  changes?: DetailChangesList | undefined;
+  merge?: Merge | undefined;
+  trigger?: Trigger | undefined;
+  name?: string | undefined;
+  short_id?: string | undefined;
+  type?: string | undefined;
 }
 export interface ActivityLogEntry {
-  id?: string;
-  user?: unknown | null;
-  activity?: string;
-  scope?: string;
-  item_id?: string;
-  detail?: Detail;
-  created_at?: string;
+  id?: string | undefined;
+  user?: unknown | null | undefined;
+  activity?: string | undefined;
+  scope?: string | undefined;
+  item_id?: string | undefined;
+  detail?: Detail | undefined;
+  created_at?: string | undefined;
   /** Whether the activity was performed by the system rather than a user. */
-  is_system?: boolean;
+  is_system?: boolean | undefined;
   /** Whether the acting user was being impersonated by PostHog staff. */
-  was_impersonated?: boolean;
+  was_impersonated?: boolean | undefined;
   /** API client that triggered the activity. Self-reported through the x-posthog-client request header (e.g. 'mcp'), or 'scout:<skill_name>' when a scout run made the change, which the server derives from the run's own token. Null for requests that did neither. */
-  client?: string | null;
+  client?: string | null | undefined;
 }
 export type ActivityLogPaginatedResponseResultsList = Array<ActivityLogEntry>;
 /** Response shape for paginated activity log endpoints. */
 export interface ActivityLogPaginatedResponse {
-  results?: ActivityLogPaginatedResponseResultsList;
-  next?: string | null;
-  previous?: string | null;
-  total_count?: number;
+  results?: ActivityLogPaginatedResponseResultsList | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  total_count?: number | undefined;
 }
 export interface GetExperimentsFlagCleanupTargetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3639,25 +3688,25 @@ export interface GetExperimentsMatchingIdsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by archived state. Defaults to non-archived experiments only. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Filter to experiments created by the given user(s). Accepts a single user ID, or a JSON-encoded / comma-separated list of user IDs to match any of them. */
-  created_by_id?: string;
+  created_by_id?: string | undefined;
   /** Filter to experiments whose metrics reference this event name. Matches events used directly in metric queries as well as events behind any actions those metrics reference. */
-  event?: string;
+  event?: string | undefined;
   /** JSON-encoded list of tag names. Excludes experiments carrying any of the given tags, even when they also carry non-excluded tags. */
-  excluded_tags?: string;
+  excluded_tags?: string | undefined;
   /** Filter to experiments linked to the given feature flag ID. */
-  feature_flag_id?: number;
+  feature_flag_id?: number | undefined;
   /** Field to order by. Prefix with '-' for descending. Allowlisted fields include name, created_at, updated_at, start_date, end_date, duration, and status. */
-  order?: string;
+  order?: string | undefined;
   /** Filter to experiments created from an LLM prompt with this name. Matches experiments whose parameters.prompt_metadata.name equals the given value. */
-  prompt_name?: string;
+  prompt_name?: string | undefined;
   /** Free-text search applied to the experiment name and its feature flag key (case-insensitive). */
-  search?: string;
+  search?: string | undefined;
   /** Filter by experiment status. "running", "paused", and "exposure_frozen" are mutually exclusive: "running" returns launched experiments with an active feature flag, "paused" returns launched experiments whose feature flag is deactivated, and "exposure_frozen" returns launched experiments whose exposure was frozen to the already-enrolled cohort while metrics keep flowing. "complete" is an alias for "stopped". "all" disables status filtering. */
-  status?: GetExperimentsMatchingIdsRequestStatus | (string & {});
+  status?: GetExperimentsMatchingIdsRequestStatus | (string & {}) | undefined;
   /** JSON-encoded list of tag names. Returns experiments carrying at least one of the given tags, e.g. `["growth", "checkout"]`. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** IDs of all experiments matching the current list filters that the user can edit. */
 export type ExperimentMatchingIdsResponseIdsList = Array<number>;
@@ -3719,9 +3768,9 @@ export interface ExperimentMetricsRecalculationRun {
   /** Per-metric results computed by this run, scoped by the run's recalc fingerprint */
   results: ExperimentMetricsRecalculationRunResultsList;
   /** Rows read by the run's metric queries so far, both finished and currently running. Cumulative and roughly monotonic across the run; the primary live progress signal */
-  rows_read?: number | null;
+  rows_read?: number | null | undefined;
   /** ClickHouse's total_rows_approx across running queries plus the final read_rows of finished ones. A soft ceiling revised mid-scan, so it can exceed or trail rows_read; treat rows_read as the reliable signal */
-  estimated_rows_total?: number | null;
+  estimated_rows_total?: number | null | undefined;
 }
 export interface GetExperimentsMetricsRecalculationLatestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3769,9 +3818,9 @@ export interface ExperimentMetricsRecalculationLatest {
   /** Per-metric results computed by this run, scoped by the run's recalc fingerprint */
   results: ExperimentMetricsRecalculationLatestResultsList;
   /** Rows read by the run's metric queries so far, both finished and currently running. Cumulative and roughly monotonic across the run; the primary live progress signal */
-  rows_read?: number | null;
+  rows_read?: number | null | undefined;
   /** ClickHouse's total_rows_approx across running queries plus the final read_rows of finished ones. A soft ceiling revised mid-scan, so it can exceed or trail rows_read; treat rows_read as the reliable signal */
-  estimated_rows_total?: number | null;
+  estimated_rows_total?: number | null | undefined;
   /** Run currently executing for this experiment, if any; poll it by id for live progress */
   active_run: ActiveRecalculationRun | null;
   /** Where these results came from: 'recalculation' for a real metrics-recalculation run, 'timeseries_fallback' for a cold-start placeholder built from the latest daily timeseries data. * `recalculation` - recalculation * `timeseries_fallback` - timeseries_fallback */
@@ -3796,7 +3845,7 @@ export interface GetExperimentsRunningTimeTargetRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** The running time mode to size the target for. Defaults to the experiment's saved mode. 'automatic' sizes it from the results, also for an experiment saved in manual mode. * `automatic` - Sized from the results * `manual` - Saved from a baseline the user entered */
-  mode?: GetExperimentsRunningTimeTargetRequestMode | (string & {});
+  mode?: GetExperimentsRunningTimeTargetRequestMode | (string & {}) | undefined;
 }
 export interface DetectableEffectCheckpoint {
   /** The week mark, in whole weeks since launch. */
@@ -3847,7 +3896,7 @@ export interface GetExperimentsTimeseriesResultRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** Ignored. The server derives the metric's calculation key from the experiment's current settings. Accepted so that existing clients keep working. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** UUID of the metric to fetch timeseries for. Available on each metric in the experiment's metrics array. */
   metric_uuid: string;
 }
@@ -3864,29 +3913,29 @@ export interface ListExperimentsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by archived state. Defaults to non-archived experiments only. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Filter to experiments created by the given user(s). Accepts a single user ID, or a JSON-encoded / comma-separated list of user IDs to match any of them. */
-  created_by_id?: string;
+  created_by_id?: string | undefined;
   /** Filter to experiments whose metrics reference this event name. Matches events used directly in metric queries as well as events behind any actions those metrics reference. */
-  event?: string;
+  event?: string | undefined;
   /** JSON-encoded list of tag names. Excludes experiments carrying any of the given tags, even when they also carry non-excluded tags. */
-  excluded_tags?: string;
+  excluded_tags?: string | undefined;
   /** Filter to experiments linked to the given feature flag ID. */
-  feature_flag_id?: number;
+  feature_flag_id?: number | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Field to order by. Prefix with '-' for descending. Allowlisted fields include name, created_at, updated_at, start_date, end_date, duration, and status. */
-  order?: string;
+  order?: string | undefined;
   /** Filter to experiments created from an LLM prompt with this name. Matches experiments whose parameters.prompt_metadata.name equals the given value. */
-  prompt_name?: string;
+  prompt_name?: string | undefined;
   /** Free-text search applied to the experiment name and its feature flag key (case-insensitive). */
-  search?: string;
+  search?: string | undefined;
   /** Filter by experiment status. "running", "paused", and "exposure_frozen" are mutually exclusive: "running" returns launched experiments with an active feature flag, "paused" returns launched experiments whose feature flag is deactivated, and "exposure_frozen" returns launched experiments whose exposure was frozen to the already-enrolled cohort while metrics keep flowing. "complete" is an alias for "stopped". "all" disables status filtering. */
-  status?: ListExperimentsRequestStatus | (string & {});
+  status?: ListExperimentsRequestStatus | (string & {}) | undefined;
   /** JSON-encoded list of tag names. Returns experiments carrying at least one of the given tags, e.g. `["growth", "checkout"]`. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
 export type ExperimentBasicExcludedVariantsList = Array<string>;
@@ -3898,32 +3947,32 @@ export interface ExperimentBasic {
   /** Name of the experiment. */
   name: string;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
   feature_flag_key: string;
   feature_flag: MinimalFeatureFlag;
   holdout: ExperimentHoldout;
   exposure_cohort: number | null;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: ExperimentBasicExcludedVariantsList | null;
+  excluded_variants?: ExperimentBasicExcludedVariantsList | null | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
   created_by: UserBasic;
   created_at: string;
   updated_at: string;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | null;
+  type?: ExperimentTypeEnum | null | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | null;
+  conclusion?: ConclusionEnum | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** Experiment lifecycle state: 'draft' (not yet launched), 'running' (launched with active feature flag), 'paused' (running with feature flag deactivated -- virtual state derived from feature_flag.active, not stored), 'exposure_frozen' (running with enrollment frozen to the already-exposed cohort while metrics keep flowing -- virtual state derived from the flag's release groups, not stored), 'stopped' (ended). */
   status: ExperimentStatusEnum;
   /** Whether the experiment uses any legacy-engine metrics (ExperimentTrendsQuery or ExperimentFunnelsQuery). Used to flag legacy experiments and gate actions that don't support them, such as duplicate and copy-to-project. */
@@ -3931,13 +3980,13 @@ export interface ExperimentBasic {
   /** The effective access level the user has for this object */
   user_access_level: string | null;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: ExperimentBasicTagsList;
+  tags?: ExperimentBasicTagsList | undefined;
 }
 export type PaginatedExperimentBasicListResultsList = Array<ExperimentBasic>;
 export interface PaginatedExperimentBasicList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedExperimentBasicListResultsList;
 }
 /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
@@ -3960,60 +4009,66 @@ export interface UpdateExperimentRequest {
   /** Name of the experiment. */
   name: string;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
   feature_flag_key: string;
   /** Feature-flag config for the experiment, in the flag's own filters shape. The linked flag is the source of truth for variants, rollout, aggregation, payloads, and experience continuity: send config here instead of the deprecated `parameters` keys. On a running experiment, also send `update_feature_flag_params=true`. Cannot be combined with the key of a pre-existing feature flag on create (the experiment links to it as-is). */
-  feature_flag?: ExperimentFeatureFlagInput;
+  feature_flag?: ExperimentFeatureFlagInput | undefined;
   /** ID of a holdout group to exclude from the experiment. */
-  holdout_id?: number | null;
+  holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: UpdateExperimentRequestExcludedVariantsList | null;
-  secondary_metrics?: unknown;
+  excluded_variants?: UpdateExperimentRequestExcludedVariantsList | null | undefined;
+  secondary_metrics?: unknown | undefined;
   /** IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary). */
-  saved_metrics_ids?: UpdateExperimentRequestSavedMetricsIdsList | null;
-  filters?: unknown;
+  saved_metrics_ids?: UpdateExperimentRequestSavedMetricsIdsList | null | undefined;
+  filters?: unknown | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | (string & {}) | null;
+  type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
-  exposure_criteria?: ExperimentApiExposureCriteria | null;
+  exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
   /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
-  metrics?: ExperimentApiMetricsList | null;
+  metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
-  metrics_secondary?: ExperimentApiMetricsList | null;
-  stats_config?: unknown;
-  scheduling_config?: unknown;
+  metrics_secondary?: ExperimentApiMetricsList | null | undefined;
+  stats_config?: unknown | undefined;
+  scheduling_config?: unknown | undefined;
   /** Suppresses the validation that rejects metrics referencing events not yet ingested by this project. REQUIRES explicit user confirmation before being set to true -- never flip this silently to retry a failed call. The default validation catches typo'd event names and missing instrumentation. Set this to true only when the user has confirmed the event is intentional (e.g. they are about to instrument it). */
-  allow_unknown_events?: boolean;
-  _create_in_folder?: string;
+  allow_unknown_events?: boolean | undefined;
+  _create_in_folder?: string | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** GitHub repository holding this experiment's feature-flag code, in `organization/repository` format. Used as the target of the flag-cleanup pull request opened via open_cleanup_pr on end/ship_variant. When not set, cleanup targets the team's only connected repository and is skipped if the team has several. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  primary_metrics_ordered_uuids?: UpdateExperimentRequestPrimaryMetricsOrderedUuidsList | null;
+  primary_metrics_ordered_uuids?:
+    | UpdateExperimentRequestPrimaryMetricsOrderedUuidsList
+    | null
+    | undefined;
   /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  secondary_metrics_ordered_uuids?: UpdateExperimentRequestSecondaryMetricsOrderedUuidsList | null;
-  only_count_matured_users?: boolean;
+  secondary_metrics_ordered_uuids?:
+    | UpdateExperimentRequestSecondaryMetricsOrderedUuidsList
+    | null
+    | undefined;
+  only_count_matured_users?: boolean | undefined;
   /** When true, sync the flag config sent in this request (via the `feature_flag` object) to the linked feature flag. Draft experiments always sync regardless. On a running experiment, `feature_flag` config without this flag is rejected. */
-  update_feature_flag_params?: boolean;
+  update_feature_flag_params?: boolean | undefined;
   /** Optimistic-concurrency token. Reads return the experiment's current version, bumped on every update. Send the version you last read with an update to detect concurrent edits: a stale update merges concurrent changes where safe -- metric collections per metric uuid, other fields per field -- using the base values sent in `original_experiment`, and fails with HTTP 409 only when the same metric or field changed on both sides (or no base value was sent for a changed field). Omit to skip the check. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value -- and, without this object, any version mismatch -- fail with HTTP 409. */
-  original_experiment?: UpdateExperimentRequestOriginalExperimentMap | null;
+  original_experiment?: UpdateExperimentRequestOriginalExperimentMap | null | undefined;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: UpdateExperimentRequestTagsList;
+  tags?: UpdateExperimentRequestTagsList | undefined;
 }
 /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
 export type UpdateExperimentsPartialRequestExcludedVariantsList = Array<string>;
@@ -4035,62 +4090,68 @@ export interface UpdateExperimentsPartialRequest {
   /** A unique integer value identifying this experiment. */
   id: number;
   /** Name of the experiment. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the experiment hypothesis and expected outcomes. */
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
+  description?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
   /** Unique key for the experiment's feature flag. Letters, numbers, hyphens, and underscores only. Search existing flags with the feature-flag-get-all tool first -- reuse an existing flag when possible. */
-  feature_flag_key?: string;
+  feature_flag_key?: string | undefined;
   /** Feature-flag config for the experiment, in the flag's own filters shape. The linked flag is the source of truth for variants, rollout, aggregation, payloads, and experience continuity: send config here instead of the deprecated `parameters` keys. On a running experiment, also send `update_feature_flag_params=true`. Cannot be combined with the key of a pre-existing feature flag on create (the experiment links to it as-is). */
-  feature_flag?: ExperimentFeatureFlagInput;
+  feature_flag?: ExperimentFeatureFlagInput | undefined;
   /** ID of a holdout group to exclude from the experiment. */
-  holdout_id?: number | null;
+  holdout_id?: number | null | undefined;
   /** Experiment parameters JSON. Supported keys include `custom_exposure_filter` and `variant_notes` (free-text notes per variant, keyed by variant key). Flag config (variants, rollout, aggregation, payloads, experience continuity) belongs on the `feature_flag` object; send it there. For backward compatibility, config still sent through these deprecated keys is copied onto the linked flag rather than rejected, and reads project the flag's current config back into this field. Excluded variants live on the top-level `excluded_variants` field, not here. */
-  parameters?: ExperimentParameters | null;
+  parameters?: ExperimentParameters | null | undefined;
   /** Running-time calculator state: `minimum_detectable_effect`, `recommended_running_time`, `recommended_sample_size`, and `exposure_estimate_config`. Canonical home for these keys, which historically lived in `parameters`. */
-  running_time_calculation?: ExperimentRunningTimeCalculation | null;
+  running_time_calculation?: ExperimentRunningTimeCalculation | null | undefined;
   /** Variant keys to exclude from metric result calculations. Excluded variants are still served to users but omitted from statistical analysis. The baseline variant and holdout pseudo-variants cannot be excluded. Canonical home for what historically lived in `parameters.excluded_variants`. */
-  excluded_variants?: UpdateExperimentsPartialRequestExcludedVariantsList | null;
-  secondary_metrics?: unknown;
+  excluded_variants?: UpdateExperimentsPartialRequestExcludedVariantsList | null | undefined;
+  secondary_metrics?: unknown | undefined;
   /** IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary). */
-  saved_metrics_ids?: UpdateExperimentsPartialRequestSavedMetricsIdsList | null;
-  filters?: unknown;
+  saved_metrics_ids?: UpdateExperimentsPartialRequestSavedMetricsIdsList | null | undefined;
+  filters?: unknown | undefined;
   /** Whether the experiment is archived. */
-  archived?: boolean;
-  deleted?: boolean | null;
+  archived?: boolean | undefined;
+  deleted?: boolean | null | undefined;
   /** Experiment type: web for frontend UI changes, product for backend/API changes. * `web` - web * `product` - product */
-  type?: ExperimentTypeEnum | (string & {}) | null;
+  type?: ExperimentTypeEnum | (string & {}) | null | undefined;
   /** Exposure configuration including filter test accounts and custom exposure events. */
-  exposure_criteria?: ExperimentApiExposureCriteria | null;
+  exposure_criteria?: ExperimentApiExposureCriteria | null | undefined;
   /** Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {"kind": "ExperimentExposureNode"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project. */
-  metrics?: ExperimentApiMetricsList | null;
+  metrics?: ExperimentApiMetricsList | null | undefined;
   /** Secondary metrics for additional measurements. Same format as primary metrics. */
-  metrics_secondary?: ExperimentApiMetricsList | null;
-  stats_config?: unknown;
-  scheduling_config?: unknown;
+  metrics_secondary?: ExperimentApiMetricsList | null | undefined;
+  stats_config?: unknown | undefined;
+  scheduling_config?: unknown | undefined;
   /** Suppresses the validation that rejects metrics referencing events not yet ingested by this project. REQUIRES explicit user confirmation before being set to true -- never flip this silently to retry a failed call. The default validation catches typo'd event names and missing instrumentation. Set this to true only when the user has confirmed the event is intentional (e.g. they are about to instrument it). */
-  allow_unknown_events?: boolean;
-  _create_in_folder?: string;
+  allow_unknown_events?: boolean | undefined;
+  _create_in_folder?: string | undefined;
   /** Experiment conclusion: won, lost, inconclusive, stopped_early, or invalid. * `won` - won * `lost` - lost * `inconclusive` - inconclusive * `stopped_early` - stopped_early * `invalid` - invalid */
-  conclusion?: ConclusionEnum | (string & {}) | null;
+  conclusion?: ConclusionEnum | (string & {}) | null | undefined;
   /** Comment about the experiment conclusion. */
-  conclusion_comment?: string | null;
+  conclusion_comment?: string | null | undefined;
   /** GitHub repository holding this experiment's feature-flag code, in `organization/repository` format. Used as the target of the flag-cleanup pull request opened via open_cleanup_pr on end/ship_variant. When not set, cleanup targets the team's only connected repository and is skipped if the team has several. */
-  repository?: string | null;
+  repository?: string | null | undefined;
   /** Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  primary_metrics_ordered_uuids?: UpdateExperimentsPartialRequestPrimaryMetricsOrderedUuidsList | null;
+  primary_metrics_ordered_uuids?:
+    | UpdateExperimentsPartialRequestPrimaryMetricsOrderedUuidsList
+    | null
+    | undefined;
   /** Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it. */
-  secondary_metrics_ordered_uuids?: UpdateExperimentsPartialRequestSecondaryMetricsOrderedUuidsList | null;
-  only_count_matured_users?: boolean;
+  secondary_metrics_ordered_uuids?:
+    | UpdateExperimentsPartialRequestSecondaryMetricsOrderedUuidsList
+    | null
+    | undefined;
+  only_count_matured_users?: boolean | undefined;
   /** When true, sync the flag config sent in this request (via the `feature_flag` object) to the linked feature flag. Draft experiments always sync regardless. On a running experiment, `feature_flag` config without this flag is rejected. */
-  update_feature_flag_params?: boolean;
+  update_feature_flag_params?: boolean | undefined;
   /** Optimistic-concurrency token. Reads return the experiment's current version, bumped on every update. Send the version you last read with an update to detect concurrent edits: a stale update merges concurrent changes where safe -- metric collections per metric uuid, other fields per field -- using the base values sent in `original_experiment`, and fails with HTTP 409 only when the same metric or field changed on both sides (or no base value was sent for a changed field). Omit to skip the check. */
-  version?: number | null;
+  version?: number | null | undefined;
   /** The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value -- and, without this object, any version mismatch -- fail with HTTP 409. */
-  original_experiment?: UpdateExperimentsPartialRequestOriginalExperimentMap | null;
+  original_experiment?: UpdateExperimentsPartialRequestOriginalExperimentMap | null | undefined;
   /** Organizational tags for this experiment (up to 100, 255 characters each). */
-  tags?: UpdateExperimentsPartialRequestTagsList;
+  tags?: UpdateExperimentsPartialRequestTagsList | undefined;
 }
 export type CreateExperimentError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create a new experiment in draft status with optional metrics. */

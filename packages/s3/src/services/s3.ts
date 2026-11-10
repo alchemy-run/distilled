@@ -2966,13 +2966,13 @@ export interface AbortMultipartUploadRequest {
   Bucket: string;
   Key: string;
   UploadId: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  IfMatchInitiatedTime?: Date;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  IfMatchInitiatedTime?: Date | undefined;
 }
 export type RequestCharged = "requester" | (string & {});
 export interface AbortMultipartUploadOutput {
-  RequestCharged?: RequestCharged;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type ETag = string;
 export type ChecksumCRC32 = string;
@@ -2987,22 +2987,22 @@ export type ChecksumXXHASH3 = string;
 export type ChecksumXXHASH128 = string;
 export type PartNumber = number;
 export interface CompletedPart {
-  ETag?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  PartNumber?: number;
+  ETag?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  PartNumber?: number | undefined;
 }
 export type CompletedPartList = CompletedPart[];
 export interface CompletedMultipartUpload {
-  Parts?: CompletedPart[];
+  Parts?: CompletedPart[] | undefined;
 }
 export type ChecksumType = "COMPOSITE" | "FULL_OBJECT" | (string & {});
 export type MpuObjectSize = number;
@@ -3014,27 +3014,27 @@ export type SSECustomerKeyMD5 = string;
 export interface CompleteMultipartUploadRequest {
   Bucket: string;
   Key: string;
-  MultipartUpload?: CompletedMultipartUpload;
+  MultipartUpload?: CompletedMultipartUpload | undefined;
   UploadId: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
-  MpuObjectSize?: number;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  IfMatch?: string;
-  IfNoneMatch?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  MpuObjectSize?: number | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  IfMatch?: string | undefined;
+  IfNoneMatch?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
 }
 export type Location = string;
 export type Expiration = string;
@@ -3049,27 +3049,27 @@ export type ObjectVersionId = string;
 export type SSEKMSKeyId = string | redacted.Redacted<string>;
 export type BucketKeyEnabled = boolean;
 export interface CompleteMultipartUploadOutput {
-  Location?: string;
-  Bucket?: string;
-  Key?: string;
-  Expiration?: string;
-  ETag?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
-  ServerSideEncryption?: ServerSideEncryption;
-  VersionId?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  RequestCharged?: RequestCharged;
+  Location?: string | undefined;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  Expiration?: string | undefined;
+  ETag?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  VersionId?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type ObjectCannedACL =
   | "private"
@@ -3143,83 +3143,83 @@ export type ObjectLockEventHold = "ON" | "OFF" | (string & {});
 export type ObjectLockEventHoldDurationDays = number;
 export type ObjectLockEventHoldDurationYears = number;
 export interface CopyObjectRequest {
-  ACL?: ObjectCannedACL;
+  ACL?: ObjectCannedACL | undefined;
   Bucket: string;
-  CacheControl?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ContentDisposition?: string;
-  ContentEncoding?: string;
-  ContentLanguage?: string;
-  ContentType?: string;
+  CacheControl?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ContentDisposition?: string | undefined;
+  ContentEncoding?: string | undefined;
+  ContentLanguage?: string | undefined;
+  ContentType?: string | undefined;
   CopySource: string;
-  CopySourceIfMatch?: string;
-  CopySourceIfModifiedSince?: Date;
-  CopySourceIfNoneMatch?: string;
-  CopySourceIfUnmodifiedSince?: Date;
-  Expires?: string;
-  GrantFullControl?: string;
-  GrantRead?: string;
-  GrantReadACP?: string;
-  GrantWriteACP?: string;
-  IfMatch?: string;
-  IfNoneMatch?: string;
+  CopySourceIfMatch?: string | undefined;
+  CopySourceIfModifiedSince?: Date | undefined;
+  CopySourceIfNoneMatch?: string | undefined;
+  CopySourceIfUnmodifiedSince?: Date | undefined;
+  Expires?: string | undefined;
+  GrantFullControl?: string | undefined;
+  GrantRead?: string | undefined;
+  GrantReadACP?: string | undefined;
+  GrantWriteACP?: string | undefined;
+  IfMatch?: string | undefined;
+  IfNoneMatch?: string | undefined;
   Key: string;
-  Metadata?: { [key: string]: string | undefined };
-  MetadataDirective?: MetadataDirective;
-  TaggingDirective?: TaggingDirective;
-  AnnotationDirective?: AnnotationDirective;
-  ServerSideEncryption?: ServerSideEncryption;
-  StorageClass?: StorageClass;
-  WebsiteRedirectLocation?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  CopySourceSSECustomerAlgorithm?: string;
-  CopySourceSSECustomerKey?: string | redacted.Redacted<string>;
-  CopySourceSSECustomerKeyMD5?: string;
-  RequestPayer?: RequestPayer;
-  Tagging?: string;
-  ObjectLockMode?: ObjectLockMode;
-  ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
-  ObjectLockEventHold?: ObjectLockEventHold;
-  ObjectLockEventHoldDurationDays?: number;
-  ObjectLockEventHoldDurationYears?: number;
-  ExpectedBucketOwner?: string;
-  ExpectedSourceBucketOwner?: string;
+  Metadata?: { [key: string]: string | undefined } | undefined;
+  MetadataDirective?: MetadataDirective | undefined;
+  TaggingDirective?: TaggingDirective | undefined;
+  AnnotationDirective?: AnnotationDirective | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  StorageClass?: StorageClass | undefined;
+  WebsiteRedirectLocation?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  CopySourceSSECustomerAlgorithm?: string | undefined;
+  CopySourceSSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  CopySourceSSECustomerKeyMD5?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  Tagging?: string | undefined;
+  ObjectLockMode?: ObjectLockMode | undefined;
+  ObjectLockRetainUntilDate?: Date | undefined;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | undefined;
+  ObjectLockEventHold?: ObjectLockEventHold | undefined;
+  ObjectLockEventHoldDurationDays?: number | undefined;
+  ObjectLockEventHoldDurationYears?: number | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ExpectedSourceBucketOwner?: string | undefined;
 }
 export type LastModified = Date;
 export interface CopyObjectResult {
-  ETag?: string;
-  LastModified?: Date;
-  ChecksumType?: ChecksumType;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
+  ETag?: string | undefined;
+  LastModified?: Date | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
 }
 export type CopySourceVersionId = string;
 export interface CopyObjectOutput {
-  CopyObjectResult?: CopyObjectResult;
-  Expiration?: string;
-  CopySourceVersionId?: string;
-  VersionId?: string;
-  ServerSideEncryption?: ServerSideEncryption;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  RequestCharged?: RequestCharged;
+  CopyObjectResult?: CopyObjectResult | undefined;
+  Expiration?: string | undefined;
+  CopySourceVersionId?: string | undefined;
+  VersionId?: string | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type BucketCannedACL =
   | "private"
@@ -3270,14 +3270,14 @@ export type BucketLocationConstraint =
 export type LocationType = "AvailabilityZone" | "LocalZone" | (string & {});
 export type LocationNameAsString = string;
 export interface LocationInfo {
-  Type?: LocationType;
-  Name?: string;
+  Type?: LocationType | undefined;
+  Name?: string | undefined;
 }
 export type DataRedundancy = "SingleAvailabilityZone" | "SingleLocalZone" | (string & {});
 export type BucketType = "Directory" | (string & {});
 export interface BucketInfo {
-  DataRedundancy?: DataRedundancy;
-  Type?: BucketType;
+  DataRedundancy?: DataRedundancy | undefined;
+  Type?: BucketType | undefined;
 }
 export type Value = string;
 export interface Tag {
@@ -3286,10 +3286,10 @@ export interface Tag {
 }
 export type TagSet = Tag[];
 export interface CreateBucketConfiguration {
-  LocationConstraint?: BucketLocationConstraint;
-  Location?: LocationInfo;
-  Bucket?: BucketInfo;
-  Tags?: Tag[];
+  LocationConstraint?: BucketLocationConstraint | undefined;
+  Location?: LocationInfo | undefined;
+  Bucket?: BucketInfo | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type GrantWrite = string;
 export type ObjectLockEnabledForBucket = boolean;
@@ -3300,63 +3300,63 @@ export type ObjectOwnership =
   | (string & {});
 export type BucketNamespace = "account-regional" | "global" | (string & {});
 export interface CreateBucketRequest {
-  ACL?: BucketCannedACL;
+  ACL?: BucketCannedACL | undefined;
   Bucket: string;
-  CreateBucketConfiguration?: CreateBucketConfiguration;
-  GrantFullControl?: string;
-  GrantRead?: string;
-  GrantReadACP?: string;
-  GrantWrite?: string;
-  GrantWriteACP?: string;
-  ObjectLockEnabledForBucket?: boolean;
-  ObjectOwnership?: ObjectOwnership;
-  BucketNamespace?: BucketNamespace;
+  CreateBucketConfiguration?: CreateBucketConfiguration | undefined;
+  GrantFullControl?: string | undefined;
+  GrantRead?: string | undefined;
+  GrantReadACP?: string | undefined;
+  GrantWrite?: string | undefined;
+  GrantWriteACP?: string | undefined;
+  ObjectLockEnabledForBucket?: boolean | undefined;
+  ObjectOwnership?: ObjectOwnership | undefined;
+  BucketNamespace?: BucketNamespace | undefined;
 }
 export type S3RegionalOrS3ExpressBucketArnString = string;
 export interface CreateBucketOutput {
-  Location?: string;
-  BucketArn?: string;
+  Location?: string | undefined;
+  BucketArn?: string | undefined;
 }
 export type ContentMD5 = string;
 export type ExpirationState = "ENABLED" | "DISABLED" | (string & {});
 export type RecordExpirationDays = number;
 export interface RecordExpiration {
   Expiration: ExpirationState;
-  Days?: number;
+  Days?: number | undefined;
 }
 export type TableSseAlgorithm = "aws:kms" | "AES256" | (string & {});
 export type KmsKeyArn = string;
 export interface MetadataTableEncryptionConfiguration {
   SseAlgorithm: TableSseAlgorithm;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export interface JournalTableConfiguration {
   RecordExpiration: RecordExpiration;
-  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration | undefined;
 }
 export type InventoryConfigurationState = "ENABLED" | "DISABLED" | (string & {});
 export interface InventoryTableConfiguration {
   ConfigurationState: InventoryConfigurationState;
-  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration | undefined;
 }
 export type AnnotationConfigurationState = "ENABLED" | "DISABLED" | (string & {});
 export type Role = string;
 export interface AnnotationTableConfiguration {
   ConfigurationState: AnnotationConfigurationState;
-  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
-  Role?: string;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration | undefined;
+  Role?: string | undefined;
 }
 export interface MetadataConfiguration {
   JournalTableConfiguration: JournalTableConfiguration;
-  InventoryTableConfiguration?: InventoryTableConfiguration;
-  AnnotationTableConfiguration?: AnnotationTableConfiguration;
+  InventoryTableConfiguration?: InventoryTableConfiguration | undefined;
+  AnnotationTableConfiguration?: AnnotationTableConfiguration | undefined;
 }
 export interface CreateBucketMetadataConfigurationRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   MetadataConfiguration: MetadataConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface CreateBucketMetadataConfigurationResponse {}
 export type S3TablesBucketArn = string;
@@ -3370,74 +3370,74 @@ export interface MetadataTableConfiguration {
 }
 export interface CreateBucketMetadataTableConfigurationRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   MetadataTableConfiguration: MetadataTableConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface CreateBucketMetadataTableConfigurationResponse {}
 export interface CreateMultipartUploadRequest {
-  ACL?: ObjectCannedACL;
+  ACL?: ObjectCannedACL | undefined;
   Bucket: string;
-  CacheControl?: string;
-  ContentDisposition?: string;
-  ContentEncoding?: string;
-  ContentLanguage?: string;
-  ContentType?: string;
-  Expires?: string;
-  GrantFullControl?: string;
-  GrantRead?: string;
-  GrantReadACP?: string;
-  GrantWriteACP?: string;
+  CacheControl?: string | undefined;
+  ContentDisposition?: string | undefined;
+  ContentEncoding?: string | undefined;
+  ContentLanguage?: string | undefined;
+  ContentType?: string | undefined;
+  Expires?: string | undefined;
+  GrantFullControl?: string | undefined;
+  GrantRead?: string | undefined;
+  GrantReadACP?: string | undefined;
+  GrantWriteACP?: string | undefined;
   Key: string;
-  Metadata?: { [key: string]: string | undefined };
-  ServerSideEncryption?: ServerSideEncryption;
-  StorageClass?: StorageClass;
-  WebsiteRedirectLocation?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  RequestPayer?: RequestPayer;
-  Tagging?: string;
-  ObjectLockMode?: ObjectLockMode;
-  ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
-  ObjectLockEventHold?: ObjectLockEventHold;
-  ObjectLockEventHoldDurationDays?: number;
-  ObjectLockEventHoldDurationYears?: number;
-  ExpectedBucketOwner?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumType?: ChecksumType;
+  Metadata?: { [key: string]: string | undefined } | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  StorageClass?: StorageClass | undefined;
+  WebsiteRedirectLocation?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  Tagging?: string | undefined;
+  ObjectLockMode?: ObjectLockMode | undefined;
+  ObjectLockRetainUntilDate?: Date | undefined;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | undefined;
+  ObjectLockEventHold?: ObjectLockEventHold | undefined;
+  ObjectLockEventHoldDurationDays?: number | undefined;
+  ObjectLockEventHoldDurationYears?: number | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumType?: ChecksumType | undefined;
 }
 export type AbortDate = Date;
 export type AbortRuleId = string;
 export interface CreateMultipartUploadOutput {
-  AbortDate?: Date;
-  AbortRuleId?: string;
-  Bucket?: string;
-  Key?: string;
-  UploadId?: string;
-  ServerSideEncryption?: ServerSideEncryption;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  RequestCharged?: RequestCharged;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumType?: ChecksumType;
+  AbortDate?: Date | undefined;
+  AbortRuleId?: string | undefined;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  UploadId?: string | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumType?: ChecksumType | undefined;
 }
 export type SessionMode = "ReadOnly" | "ReadWrite" | (string & {});
 export interface CreateSessionRequest {
-  SessionMode?: SessionMode;
+  SessionMode?: SessionMode | undefined;
   Bucket: string;
-  ServerSideEncryption?: ServerSideEncryption;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
 }
 export type AccessKeyIdValue = string;
 export type SessionCredentialValue = string | redacted.Redacted<string>;
@@ -3449,93 +3449,93 @@ export interface SessionCredentials {
   Expiration: Date;
 }
 export interface CreateSessionOutput {
-  ServerSideEncryption?: ServerSideEncryption;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
   Credentials: SessionCredentials;
 }
 export interface DeleteBucketRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketResponse {}
 export type AnalyticsId = string;
 export interface DeleteBucketAnalyticsConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketAnalyticsConfigurationResponse {}
 export interface DeleteBucketCorsRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketCorsResponse {}
 export interface DeleteBucketEncryptionRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketEncryptionResponse {}
 export type IntelligentTieringId = string;
 export interface DeleteBucketIntelligentTieringConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketIntelligentTieringConfigurationResponse {}
 export type InventoryId = string;
 export interface DeleteBucketInventoryConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketInventoryConfigurationResponse {}
 export interface DeleteBucketLifecycleRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketLifecycleResponse {}
 export interface DeleteBucketMetadataConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketMetadataConfigurationResponse {}
 export interface DeleteBucketMetadataTableConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketMetadataTableConfigurationResponse {}
 export type MetricsId = string;
 export interface DeleteBucketMetricsConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketMetricsConfigurationResponse {}
 export interface DeleteBucketOwnershipControlsRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketOwnershipControlsResponse {}
 export interface DeleteBucketPolicyRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketPolicyResponse {}
 export interface DeleteBucketReplicationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketReplicationResponse {}
 export interface DeleteBucketTaggingRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketTaggingResponse {}
 export interface DeleteBucketWebsiteRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteBucketWebsiteResponse {}
 export type MFA = string;
@@ -3545,20 +3545,20 @@ export type IfMatchSize = number;
 export interface DeleteObjectRequest {
   Bucket: string;
   Key: string;
-  MFA?: string;
-  VersionId?: string;
-  RequestPayer?: RequestPayer;
-  BypassGovernanceRetention?: boolean;
-  ExpectedBucketOwner?: string;
-  IfMatch?: string;
-  IfMatchLastModifiedTime?: Date;
-  IfMatchSize?: number;
+  MFA?: string | undefined;
+  VersionId?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  BypassGovernanceRetention?: boolean | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  IfMatch?: string | undefined;
+  IfMatchLastModifiedTime?: Date | undefined;
+  IfMatchSize?: number | undefined;
 }
 export type DeleteMarker = boolean;
 export interface DeleteObjectOutput {
-  DeleteMarker?: boolean;
-  VersionId?: string;
-  RequestCharged?: RequestCharged;
+  DeleteMarker?: boolean | undefined;
+  VersionId?: string | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type AnnotationName = string;
 export type ObjectIfMatch = string;
@@ -3566,114 +3566,114 @@ export interface DeleteObjectAnnotationRequest {
   Bucket: string;
   Key: string;
   AnnotationName: string;
-  VersionId?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  ObjectIfMatch?: string;
+  VersionId?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ObjectIfMatch?: string | undefined;
 }
 export interface DeleteObjectAnnotationOutput {
-  ObjectVersionId?: string;
-  RequestCharged?: RequestCharged;
+  ObjectVersionId?: string | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type LastModifiedTime = Date;
 export type Size = number;
 export interface ObjectIdentifier {
   Key: string;
-  VersionId?: string;
-  ETag?: string;
-  LastModifiedTime?: Date;
-  Size?: number;
+  VersionId?: string | undefined;
+  ETag?: string | undefined;
+  LastModifiedTime?: Date | undefined;
+  Size?: number | undefined;
 }
 export type ObjectIdentifierList = ObjectIdentifier[];
 export type Quiet = boolean;
 export interface Delete {
   Objects: ObjectIdentifier[];
-  Quiet?: boolean;
+  Quiet?: boolean | undefined;
 }
 export interface DeleteObjectsRequest {
   Bucket: string;
   Delete: Delete;
-  MFA?: string;
-  RequestPayer?: RequestPayer;
-  BypassGovernanceRetention?: boolean;
-  ExpectedBucketOwner?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  MFA?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  BypassGovernanceRetention?: boolean | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
 }
 export type DeleteMarkerVersionId = string;
 export interface DeletedObject {
-  Key?: string;
-  VersionId?: string;
-  DeleteMarker?: boolean;
-  DeleteMarkerVersionId?: string;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
+  DeleteMarker?: boolean | undefined;
+  DeleteMarkerVersionId?: string | undefined;
 }
 export type DeletedObjects = DeletedObject[];
 export type Code = string;
 export type Message = string;
 export interface Error {
-  Key?: string;
-  VersionId?: string;
-  Code?: string;
-  Message?: string;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type Errors = Error[];
 export interface DeleteObjectsOutput {
-  Deleted?: DeletedObject[];
-  RequestCharged?: RequestCharged;
-  Errors?: Error[];
+  Deleted?: DeletedObject[] | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  Errors?: Error[] | undefined;
 }
 export interface DeleteObjectTaggingRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  ExpectedBucketOwner?: string;
+  VersionId?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeleteObjectTaggingOutput {
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export interface DeletePublicAccessBlockRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface DeletePublicAccessBlockResponse {}
 export interface GetBucketAbacRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type BucketAbacStatus = "Enabled" | "Disabled" | (string & {});
 export interface AbacStatus {
-  Status?: BucketAbacStatus;
+  Status?: BucketAbacStatus | undefined;
 }
 export interface GetBucketAbacOutput {
-  AbacStatus?: AbacStatus;
+  AbacStatus?: AbacStatus | undefined;
 }
 export interface GetBucketAccelerateConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
-  RequestPayer?: RequestPayer;
+  ExpectedBucketOwner?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
 }
 export type BucketAccelerateStatus = "Enabled" | "Suspended" | (string & {});
 export interface GetBucketAccelerateConfigurationOutput {
-  Status?: BucketAccelerateStatus;
-  RequestCharged?: RequestCharged;
+  Status?: BucketAccelerateStatus | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface GetBucketAclRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type DisplayName = string;
 export type ID = string;
 export interface Owner {
-  DisplayName?: string;
-  ID?: string;
+  DisplayName?: string | undefined;
+  ID?: string | undefined;
 }
 export type EmailAddress = string;
 export type URI = string;
 export type Type = "CanonicalUser" | "AmazonCustomerByEmail" | "Group" | (string & {});
 export interface Grantee {
-  DisplayName?: string;
-  EmailAddress?: string;
-  ID?: string;
-  URI?: string;
+  DisplayName?: string | undefined;
+  EmailAddress?: string | undefined;
+  ID?: string | undefined;
+  URI?: string | undefined;
   Type: Type;
 }
 export type Permission =
@@ -3684,35 +3684,35 @@ export type Permission =
   | "READ_ACP"
   | (string & {});
 export interface Grant {
-  Grantee?: Grantee;
-  Permission?: Permission;
+  Grantee?: Grantee | undefined;
+  Permission?: Permission | undefined;
 }
 export type Grants = Grant[];
 export interface GetBucketAclOutput {
-  Owner?: Owner;
-  Grants?: Grant[];
+  Owner?: Owner | undefined;
+  Grants?: Grant[] | undefined;
 }
 export interface GetBucketAnalyticsConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type Prefix = string;
 export interface AnalyticsAndOperator {
-  Prefix?: string;
-  Tags?: Tag[];
+  Prefix?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AnalyticsFilter =
-  | { Prefix: string; Tag?: never; And?: never }
-  | { Prefix?: never; Tag: Tag; And?: never }
-  | { Prefix?: never; Tag?: never; And: AnalyticsAndOperator };
+  | { Prefix: string; Tag?: undefined; And?: undefined }
+  | { Prefix?: undefined; Tag: Tag; And?: undefined }
+  | { Prefix?: undefined; Tag?: undefined; And: AnalyticsAndOperator };
 export type StorageClassAnalysisSchemaVersion = "V_1" | (string & {});
 export type AnalyticsS3ExportFileFormat = "CSV" | (string & {});
 export interface AnalyticsS3BucketDestination {
   Format: AnalyticsS3ExportFileFormat;
-  BucketAccountId?: string;
+  BucketAccountId?: string | undefined;
   Bucket: string;
-  Prefix?: string;
+  Prefix?: string | undefined;
 }
 export interface AnalyticsExportDestination {
   S3BucketDestination: AnalyticsS3BucketDestination;
@@ -3722,19 +3722,19 @@ export interface StorageClassAnalysisDataExport {
   Destination: AnalyticsExportDestination;
 }
 export interface StorageClassAnalysis {
-  DataExport?: StorageClassAnalysisDataExport;
+  DataExport?: StorageClassAnalysisDataExport | undefined;
 }
 export interface AnalyticsConfiguration {
   Id: string;
-  Filter?: AnalyticsFilter;
+  Filter?: AnalyticsFilter | undefined;
   StorageClassAnalysis: StorageClassAnalysis;
 }
 export interface GetBucketAnalyticsConfigurationOutput {
-  AnalyticsConfiguration?: AnalyticsConfiguration;
+  AnalyticsConfiguration?: AnalyticsConfiguration | undefined;
 }
 export interface GetBucketCorsRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type AllowedHeader = string;
 export type AllowedHeaders = string[];
@@ -3746,55 +3746,55 @@ export type ExposeHeader = string;
 export type ExposeHeaders = string[];
 export type MaxAgeSeconds = number;
 export interface CORSRule {
-  ID?: string;
-  AllowedHeaders?: string[];
+  ID?: string | undefined;
+  AllowedHeaders?: string[] | undefined;
   AllowedMethods: string[];
   AllowedOrigins: string[];
-  ExposeHeaders?: string[];
-  MaxAgeSeconds?: number;
+  ExposeHeaders?: string[] | undefined;
+  MaxAgeSeconds?: number | undefined;
 }
 export type CORSRules = CORSRule[];
 export interface GetBucketCorsOutput {
-  CORSRules?: CORSRule[];
+  CORSRules?: CORSRule[] | undefined;
 }
 export interface GetBucketEncryptionRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface ServerSideEncryptionByDefault {
   SSEAlgorithm: ServerSideEncryption;
-  KMSMasterKeyID?: string | redacted.Redacted<string>;
+  KMSMasterKeyID?: string | redacted.Redacted<string> | undefined;
 }
 export type EncryptionType = "NONE" | "SSE-C" | (string & {});
 export type EncryptionTypeList = EncryptionType[];
 export interface BlockedEncryptionTypes {
-  EncryptionType?: EncryptionType[];
+  EncryptionType?: EncryptionType[] | undefined;
 }
 export interface ServerSideEncryptionRule {
-  ApplyServerSideEncryptionByDefault?: ServerSideEncryptionByDefault;
-  BucketKeyEnabled?: boolean;
-  BlockedEncryptionTypes?: BlockedEncryptionTypes;
+  ApplyServerSideEncryptionByDefault?: ServerSideEncryptionByDefault | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  BlockedEncryptionTypes?: BlockedEncryptionTypes | undefined;
 }
 export type ServerSideEncryptionRules = ServerSideEncryptionRule[];
 export interface ServerSideEncryptionConfiguration {
   Rules: ServerSideEncryptionRule[];
 }
 export interface GetBucketEncryptionOutput {
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
 }
 export interface GetBucketIntelligentTieringConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface IntelligentTieringAndOperator {
-  Prefix?: string;
-  Tags?: Tag[];
+  Prefix?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface IntelligentTieringFilter {
-  Prefix?: string;
-  Tag?: Tag;
-  And?: IntelligentTieringAndOperator;
+  Prefix?: string | undefined;
+  Tag?: Tag | undefined;
+  And?: IntelligentTieringAndOperator | undefined;
 }
 export type IntelligentTieringStatus = "Enabled" | "Disabled" | (string & {});
 export type IntelligentTieringDays = number;
@@ -3806,17 +3806,17 @@ export interface Tiering {
 export type TieringList = Tiering[];
 export interface IntelligentTieringConfiguration {
   Id: string;
-  Filter?: IntelligentTieringFilter;
+  Filter?: IntelligentTieringFilter | undefined;
   Status: IntelligentTieringStatus;
   Tierings: Tiering[];
 }
 export interface GetBucketIntelligentTieringConfigurationOutput {
-  IntelligentTieringConfiguration?: IntelligentTieringConfiguration;
+  IntelligentTieringConfiguration?: IntelligentTieringConfiguration | undefined;
 }
 export interface GetBucketInventoryConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type InventoryFormat = "CSV" | "ORC" | "Parquet" | (string & {});
 export interface SSES3 {}
@@ -3824,15 +3824,15 @@ export interface SSEKMS {
   KeyId: string | redacted.Redacted<string>;
 }
 export interface InventoryEncryption {
-  SSES3?: SSES3;
-  SSEKMS?: SSEKMS;
+  SSES3?: SSES3 | undefined;
+  SSEKMS?: SSEKMS | undefined;
 }
 export interface InventoryS3BucketDestination {
-  AccountId?: string;
+  AccountId?: string | undefined;
   Bucket: string;
   Format: InventoryFormat;
-  Prefix?: string;
-  Encryption?: InventoryEncryption;
+  Prefix?: string | undefined;
+  Encryption?: InventoryEncryption | undefined;
 }
 export interface InventoryDestination {
   S3BucketDestination: InventoryS3BucketDestination;
@@ -3871,40 +3871,40 @@ export interface InventorySchedule {
 export interface InventoryConfiguration {
   Destination: InventoryDestination;
   IsEnabled: boolean;
-  Filter?: InventoryFilter;
+  Filter?: InventoryFilter | undefined;
   Id: string;
   IncludedObjectVersions: InventoryIncludedObjectVersions;
-  OptionalFields?: InventoryOptionalField[];
+  OptionalFields?: InventoryOptionalField[] | undefined;
   Schedule: InventorySchedule;
 }
 export interface GetBucketInventoryConfigurationOutput {
-  InventoryConfiguration?: InventoryConfiguration;
+  InventoryConfiguration?: InventoryConfiguration | undefined;
 }
 export interface GetBucketLifecycleConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type Days = number;
 export type ExpiredObjectDeleteMarker = boolean;
 export interface LifecycleExpiration {
-  Date?: Date;
-  Days?: number;
-  ExpiredObjectDeleteMarker?: boolean;
+  Date?: Date | undefined;
+  Days?: number | undefined;
+  ExpiredObjectDeleteMarker?: boolean | undefined;
 }
 export type ObjectSizeGreaterThanBytes = number;
 export type ObjectSizeLessThanBytes = number;
 export interface LifecycleRuleAndOperator {
-  Prefix?: string;
-  Tags?: Tag[];
-  ObjectSizeGreaterThan?: number;
-  ObjectSizeLessThan?: number;
+  Prefix?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ObjectSizeGreaterThan?: number | undefined;
+  ObjectSizeLessThan?: number | undefined;
 }
 export interface LifecycleRuleFilter {
-  Prefix?: string;
-  Tag?: Tag;
-  ObjectSizeGreaterThan?: number;
-  ObjectSizeLessThan?: number;
-  And?: LifecycleRuleAndOperator;
+  Prefix?: string | undefined;
+  Tag?: Tag | undefined;
+  ObjectSizeGreaterThan?: number | undefined;
+  ObjectSizeLessThan?: number | undefined;
+  And?: LifecycleRuleAndOperator | undefined;
 }
 export type ExpirationStatus = "Enabled" | "Disabled" | (string & {});
 export type TransitionStorageClass =
@@ -3916,36 +3916,36 @@ export type TransitionStorageClass =
   | "GLACIER_IR"
   | (string & {});
 export interface Transition {
-  Date?: Date;
-  Days?: number;
-  StorageClass?: TransitionStorageClass;
+  Date?: Date | undefined;
+  Days?: number | undefined;
+  StorageClass?: TransitionStorageClass | undefined;
 }
 export type TransitionList = Transition[];
 export type VersionCount = number;
 export interface NoncurrentVersionTransition {
-  NoncurrentDays?: number;
-  StorageClass?: TransitionStorageClass;
-  NewerNoncurrentVersions?: number;
+  NoncurrentDays?: number | undefined;
+  StorageClass?: TransitionStorageClass | undefined;
+  NewerNoncurrentVersions?: number | undefined;
 }
 export type NoncurrentVersionTransitionList = NoncurrentVersionTransition[];
 export interface NoncurrentVersionExpiration {
-  NoncurrentDays?: number;
-  NewerNoncurrentVersions?: number;
+  NoncurrentDays?: number | undefined;
+  NewerNoncurrentVersions?: number | undefined;
 }
 export type DaysAfterInitiation = number;
 export interface AbortIncompleteMultipartUpload {
-  DaysAfterInitiation?: number;
+  DaysAfterInitiation?: number | undefined;
 }
 export interface LifecycleRule {
-  Expiration?: LifecycleExpiration;
-  ID?: string;
-  Prefix?: string;
-  Filter?: LifecycleRuleFilter;
+  Expiration?: LifecycleExpiration | undefined;
+  ID?: string | undefined;
+  Prefix?: string | undefined;
+  Filter?: LifecycleRuleFilter | undefined;
   Status: ExpirationStatus;
-  Transitions?: Transition[];
-  NoncurrentVersionTransitions?: NoncurrentVersionTransition[];
-  NoncurrentVersionExpiration?: NoncurrentVersionExpiration;
-  AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload;
+  Transitions?: Transition[] | undefined;
+  NoncurrentVersionTransitions?: NoncurrentVersionTransition[] | undefined;
+  NoncurrentVersionExpiration?: NoncurrentVersionExpiration | undefined;
+  AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload | undefined;
 }
 export type LifecycleRules = LifecycleRule[];
 export type TransitionDefaultMinimumObjectSize =
@@ -3953,102 +3953,102 @@ export type TransitionDefaultMinimumObjectSize =
   | "all_storage_classes_128K"
   | (string & {});
 export interface GetBucketLifecycleConfigurationOutput {
-  Rules?: LifecycleRule[];
-  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
+  Rules?: LifecycleRule[] | undefined;
+  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize | undefined;
 }
 export interface GetBucketLocationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface GetBucketLocationOutput {
-  LocationConstraint?: BucketLocationConstraint;
+  LocationConstraint?: BucketLocationConstraint | undefined;
 }
 export interface GetBucketLoggingRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type TargetBucket = string;
 export type BucketLogsPermission = "FULL_CONTROL" | "READ" | "WRITE" | (string & {});
 export interface TargetGrant {
-  Grantee?: Grantee;
-  Permission?: BucketLogsPermission;
+  Grantee?: Grantee | undefined;
+  Permission?: BucketLogsPermission | undefined;
 }
 export type TargetGrants = TargetGrant[];
 export type TargetPrefix = string;
 export interface SimplePrefix {}
 export type PartitionDateSource = "EventTime" | "DeliveryTime" | (string & {});
 export interface PartitionedPrefix {
-  PartitionDateSource?: PartitionDateSource;
+  PartitionDateSource?: PartitionDateSource | undefined;
 }
 export interface TargetObjectKeyFormat {
-  SimplePrefix?: SimplePrefix;
-  PartitionedPrefix?: PartitionedPrefix;
+  SimplePrefix?: SimplePrefix | undefined;
+  PartitionedPrefix?: PartitionedPrefix | undefined;
 }
 export interface LoggingEnabled {
   TargetBucket: string;
-  TargetGrants?: TargetGrant[];
+  TargetGrants?: TargetGrant[] | undefined;
   TargetPrefix: string;
-  TargetObjectKeyFormat?: TargetObjectKeyFormat;
+  TargetObjectKeyFormat?: TargetObjectKeyFormat | undefined;
 }
 export interface GetBucketLoggingOutput {
-  LoggingEnabled?: LoggingEnabled;
+  LoggingEnabled?: LoggingEnabled | undefined;
 }
 export interface GetBucketMetadataConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type S3TablesBucketType = "aws" | "customer" | (string & {});
 export type S3TablesNamespace = string;
 export interface DestinationResult {
-  TableBucketType?: S3TablesBucketType;
-  TableBucketArn?: string;
-  TableNamespace?: string;
+  TableBucketType?: S3TablesBucketType | undefined;
+  TableBucketArn?: string | undefined;
+  TableNamespace?: string | undefined;
 }
 export type MetadataTableStatus = string;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface ErrorDetails {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type S3TablesArn = string;
 export interface JournalTableConfigurationResult {
   TableStatus: string;
-  Error?: ErrorDetails;
+  Error?: ErrorDetails | undefined;
   TableName: string;
-  TableArn?: string;
+  TableArn?: string | undefined;
   RecordExpiration: RecordExpiration;
 }
 export interface InventoryTableConfigurationResult {
   ConfigurationState: InventoryConfigurationState;
-  TableStatus?: string;
-  Error?: ErrorDetails;
-  TableName?: string;
-  TableArn?: string;
+  TableStatus?: string | undefined;
+  Error?: ErrorDetails | undefined;
+  TableName?: string | undefined;
+  TableArn?: string | undefined;
 }
 export interface AnnotationTableConfigurationResult {
   ConfigurationState: AnnotationConfigurationState;
-  TableStatus?: string;
-  Error?: ErrorDetails;
-  TableName?: string;
-  TableArn?: string;
-  Role?: string;
+  TableStatus?: string | undefined;
+  Error?: ErrorDetails | undefined;
+  TableName?: string | undefined;
+  TableArn?: string | undefined;
+  Role?: string | undefined;
 }
 export interface MetadataConfigurationResult {
   DestinationResult: DestinationResult;
-  JournalTableConfigurationResult?: JournalTableConfigurationResult;
-  InventoryTableConfigurationResult?: InventoryTableConfigurationResult;
-  AnnotationTableConfigurationResult?: AnnotationTableConfigurationResult;
+  JournalTableConfigurationResult?: JournalTableConfigurationResult | undefined;
+  InventoryTableConfigurationResult?: InventoryTableConfigurationResult | undefined;
+  AnnotationTableConfigurationResult?: AnnotationTableConfigurationResult | undefined;
 }
 export interface GetBucketMetadataConfigurationResult {
   MetadataConfigurationResult: MetadataConfigurationResult;
 }
 export interface GetBucketMetadataConfigurationOutput {
-  GetBucketMetadataConfigurationResult?: GetBucketMetadataConfigurationResult;
+  GetBucketMetadataConfigurationResult?: GetBucketMetadataConfigurationResult | undefined;
 }
 export interface GetBucketMetadataTableConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface S3TablesDestinationResult {
   TableBucketArn: string;
@@ -4062,37 +4062,37 @@ export interface MetadataTableConfigurationResult {
 export interface GetBucketMetadataTableConfigurationResult {
   MetadataTableConfigurationResult: MetadataTableConfigurationResult;
   Status: string;
-  Error?: ErrorDetails;
+  Error?: ErrorDetails | undefined;
 }
 export interface GetBucketMetadataTableConfigurationOutput {
-  GetBucketMetadataTableConfigurationResult?: GetBucketMetadataTableConfigurationResult;
+  GetBucketMetadataTableConfigurationResult?: GetBucketMetadataTableConfigurationResult | undefined;
 }
 export interface GetBucketMetricsConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type AccessPointArn = string;
 export interface MetricsAndOperator {
-  Prefix?: string;
-  Tags?: Tag[];
-  AccessPointArn?: string;
+  Prefix?: string | undefined;
+  Tags?: Tag[] | undefined;
+  AccessPointArn?: string | undefined;
 }
 export type MetricsFilter =
-  | { Prefix: string; Tag?: never; AccessPointArn?: never; And?: never }
-  | { Prefix?: never; Tag: Tag; AccessPointArn?: never; And?: never }
-  | { Prefix?: never; Tag?: never; AccessPointArn: string; And?: never }
-  | { Prefix?: never; Tag?: never; AccessPointArn?: never; And: MetricsAndOperator };
+  | { Prefix: string; Tag?: undefined; AccessPointArn?: undefined; And?: undefined }
+  | { Prefix?: undefined; Tag: Tag; AccessPointArn?: undefined; And?: undefined }
+  | { Prefix?: undefined; Tag?: undefined; AccessPointArn: string; And?: undefined }
+  | { Prefix?: undefined; Tag?: undefined; AccessPointArn?: undefined; And: MetricsAndOperator };
 export interface MetricsConfiguration {
   Id: string;
-  Filter?: MetricsFilter;
+  Filter?: MetricsFilter | undefined;
 }
 export interface GetBucketMetricsConfigurationOutput {
-  MetricsConfiguration?: MetricsConfiguration;
+  MetricsConfiguration?: MetricsConfiguration | undefined;
 }
 export interface GetBucketNotificationConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type NotificationId = string;
 export type TopicArn = string;
@@ -4133,49 +4133,49 @@ export type EventList = Event[];
 export type FilterRuleName = "prefix" | "suffix" | (string & {});
 export type FilterRuleValue = string;
 export interface FilterRule {
-  Name?: FilterRuleName;
-  Value?: string;
+  Name?: FilterRuleName | undefined;
+  Value?: string | undefined;
 }
 export type FilterRuleList = FilterRule[];
 export interface S3KeyFilter {
-  FilterRules?: FilterRule[];
+  FilterRules?: FilterRule[] | undefined;
 }
 export interface NotificationConfigurationFilter {
-  Key?: S3KeyFilter;
+  Key?: S3KeyFilter | undefined;
 }
 export interface TopicConfiguration {
-  Id?: string;
+  Id?: string | undefined;
   TopicArn: string;
   Events: Event[];
-  Filter?: NotificationConfigurationFilter;
+  Filter?: NotificationConfigurationFilter | undefined;
 }
 export type TopicConfigurationList = TopicConfiguration[];
 export type QueueArn = string;
 export interface QueueConfiguration {
-  Id?: string;
+  Id?: string | undefined;
   QueueArn: string;
   Events: Event[];
-  Filter?: NotificationConfigurationFilter;
+  Filter?: NotificationConfigurationFilter | undefined;
 }
 export type QueueConfigurationList = QueueConfiguration[];
 export type LambdaFunctionArn = string;
 export interface LambdaFunctionConfiguration {
-  Id?: string;
+  Id?: string | undefined;
   LambdaFunctionArn: string;
   Events: Event[];
-  Filter?: NotificationConfigurationFilter;
+  Filter?: NotificationConfigurationFilter | undefined;
 }
 export type LambdaFunctionConfigurationList = LambdaFunctionConfiguration[];
 export interface EventBridgeConfiguration {}
 export interface NotificationConfiguration {
-  TopicConfigurations?: TopicConfiguration[];
-  QueueConfigurations?: QueueConfiguration[];
-  LambdaFunctionConfigurations?: LambdaFunctionConfiguration[];
-  EventBridgeConfiguration?: EventBridgeConfiguration;
+  TopicConfigurations?: TopicConfiguration[] | undefined;
+  QueueConfigurations?: QueueConfiguration[] | undefined;
+  LambdaFunctionConfigurations?: LambdaFunctionConfiguration[] | undefined;
+  EventBridgeConfiguration?: EventBridgeConfiguration | undefined;
 }
 export interface GetBucketOwnershipControlsRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface OwnershipControlsRule {
   ObjectOwnership: ObjectOwnership;
@@ -4185,40 +4185,40 @@ export interface OwnershipControls {
   Rules: OwnershipControlsRule[];
 }
 export interface GetBucketOwnershipControlsOutput {
-  OwnershipControls?: OwnershipControls;
+  OwnershipControls?: OwnershipControls | undefined;
 }
 export interface GetBucketPolicyRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type Policy = string;
 export interface GetBucketPolicyOutput {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetBucketPolicyStatusRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type IsPublic = boolean;
 export interface PolicyStatus {
-  IsPublic?: boolean;
+  IsPublic?: boolean | undefined;
 }
 export interface GetBucketPolicyStatusOutput {
-  PolicyStatus?: PolicyStatus;
+  PolicyStatus?: PolicyStatus | undefined;
 }
 export interface GetBucketReplicationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type Priority = number;
 export interface ReplicationRuleAndOperator {
-  Prefix?: string;
-  Tags?: Tag[];
+  Prefix?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ReplicationRuleFilter {
-  Prefix?: string;
-  Tag?: Tag;
-  And?: ReplicationRuleAndOperator;
+  Prefix?: string | undefined;
+  Tag?: Tag | undefined;
+  And?: ReplicationRuleAndOperator | undefined;
 }
 export type ReplicationRuleStatus = "Enabled" | "Disabled" | (string & {});
 export type SseKmsEncryptedObjectsStatus = "Enabled" | "Disabled" | (string & {});
@@ -4230,8 +4230,8 @@ export interface ReplicaModifications {
   Status: ReplicaModificationsStatus;
 }
 export interface SourceSelectionCriteria {
-  SseKmsEncryptedObjects?: SseKmsEncryptedObjects;
-  ReplicaModifications?: ReplicaModifications;
+  SseKmsEncryptedObjects?: SseKmsEncryptedObjects | undefined;
+  ReplicaModifications?: ReplicaModifications | undefined;
 }
 export type ExistingObjectReplicationStatus = "Enabled" | "Disabled" | (string & {});
 export interface ExistingObjectReplication {
@@ -4243,12 +4243,12 @@ export interface AccessControlTranslation {
 }
 export type ReplicaKmsKeyID = string;
 export interface EncryptionConfiguration {
-  ReplicaKmsKeyID?: string;
+  ReplicaKmsKeyID?: string | undefined;
 }
 export type ReplicationTimeStatus = "Enabled" | "Disabled" | (string & {});
 export type Minutes = number;
 export interface ReplicationTimeValue {
-  Minutes?: number;
+  Minutes?: number | undefined;
 }
 export interface ReplicationTime {
   Status: ReplicationTimeStatus;
@@ -4257,31 +4257,31 @@ export interface ReplicationTime {
 export type MetricsStatus = "Enabled" | "Disabled" | (string & {});
 export interface Metrics {
   Status: MetricsStatus;
-  EventThreshold?: ReplicationTimeValue;
+  EventThreshold?: ReplicationTimeValue | undefined;
 }
 export interface Destination {
   Bucket: string;
-  Account?: string;
-  StorageClass?: StorageClass;
-  AccessControlTranslation?: AccessControlTranslation;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  ReplicationTime?: ReplicationTime;
-  Metrics?: Metrics;
+  Account?: string | undefined;
+  StorageClass?: StorageClass | undefined;
+  AccessControlTranslation?: AccessControlTranslation | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  ReplicationTime?: ReplicationTime | undefined;
+  Metrics?: Metrics | undefined;
 }
 export type DeleteMarkerReplicationStatus = "Enabled" | "Disabled" | (string & {});
 export interface DeleteMarkerReplication {
-  Status?: DeleteMarkerReplicationStatus;
+  Status?: DeleteMarkerReplicationStatus | undefined;
 }
 export interface ReplicationRule {
-  ID?: string;
-  Priority?: number;
-  Prefix?: string;
-  Filter?: ReplicationRuleFilter;
+  ID?: string | undefined;
+  Priority?: number | undefined;
+  Prefix?: string | undefined;
+  Filter?: ReplicationRuleFilter | undefined;
   Status: ReplicationRuleStatus;
-  SourceSelectionCriteria?: SourceSelectionCriteria;
-  ExistingObjectReplication?: ExistingObjectReplication;
+  SourceSelectionCriteria?: SourceSelectionCriteria | undefined;
+  ExistingObjectReplication?: ExistingObjectReplication | undefined;
   Destination: Destination;
-  DeleteMarkerReplication?: DeleteMarkerReplication;
+  DeleteMarkerReplication?: DeleteMarkerReplication | undefined;
 }
 export type ReplicationRules = ReplicationRule[];
 export interface ReplicationConfiguration {
@@ -4289,42 +4289,42 @@ export interface ReplicationConfiguration {
   Rules: ReplicationRule[];
 }
 export interface GetBucketReplicationOutput {
-  ReplicationConfiguration?: ReplicationConfiguration;
+  ReplicationConfiguration?: ReplicationConfiguration | undefined;
 }
 export interface GetBucketRequestPaymentRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type Payer = "Requester" | "BucketOwner" | (string & {});
 export interface GetBucketRequestPaymentOutput {
-  Payer?: Payer;
+  Payer?: Payer | undefined;
 }
 export interface GetBucketTaggingRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface GetBucketTaggingOutput {
   TagSet: Tag[];
 }
 export interface GetBucketVersioningRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type BucketVersioningStatus = "Enabled" | "Suspended" | (string & {});
 export type MFADeleteStatus = "Enabled" | "Disabled" | (string & {});
 export interface GetBucketVersioningOutput {
-  Status?: BucketVersioningStatus;
-  MFADelete?: MFADeleteStatus;
+  Status?: BucketVersioningStatus | undefined;
+  MFADelete?: MFADeleteStatus | undefined;
 }
 export interface GetBucketWebsiteRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type HostName = string;
 export type Protocol = "http" | "https" | (string & {});
 export interface RedirectAllRequestsTo {
   HostName: string;
-  Protocol?: Protocol;
+  Protocol?: Protocol | undefined;
 }
 export type Suffix = string;
 export interface IndexDocument {
@@ -4336,29 +4336,29 @@ export interface ErrorDocument {
 export type HttpErrorCodeReturnedEquals = string;
 export type KeyPrefixEquals = string;
 export interface Condition {
-  HttpErrorCodeReturnedEquals?: string;
-  KeyPrefixEquals?: string;
+  HttpErrorCodeReturnedEquals?: string | undefined;
+  KeyPrefixEquals?: string | undefined;
 }
 export type HttpRedirectCode = string;
 export type ReplaceKeyPrefixWith = string;
 export type ReplaceKeyWith = string;
 export interface Redirect {
-  HostName?: string;
-  HttpRedirectCode?: string;
-  Protocol?: Protocol;
-  ReplaceKeyPrefixWith?: string;
-  ReplaceKeyWith?: string;
+  HostName?: string | undefined;
+  HttpRedirectCode?: string | undefined;
+  Protocol?: Protocol | undefined;
+  ReplaceKeyPrefixWith?: string | undefined;
+  ReplaceKeyWith?: string | undefined;
 }
 export interface RoutingRule {
-  Condition?: Condition;
+  Condition?: Condition | undefined;
   Redirect: Redirect;
 }
 export type RoutingRules = RoutingRule[];
 export interface GetBucketWebsiteOutput {
-  RedirectAllRequestsTo?: RedirectAllRequestsTo;
-  IndexDocument?: IndexDocument;
-  ErrorDocument?: ErrorDocument;
-  RoutingRules?: RoutingRule[];
+  RedirectAllRequestsTo?: RedirectAllRequestsTo | undefined;
+  IndexDocument?: IndexDocument | undefined;
+  ErrorDocument?: ErrorDocument | undefined;
+  RoutingRules?: RoutingRule[] | undefined;
 }
 export type IfModifiedSince = Date;
 export type IfUnmodifiedSince = Date;
@@ -4372,26 +4372,26 @@ export type ResponseExpires = Date;
 export type ChecksumMode = "ENABLED" | (string & {});
 export interface GetObjectRequest {
   Bucket: string;
-  IfMatch?: string;
-  IfModifiedSince?: Date;
-  IfNoneMatch?: string;
-  IfUnmodifiedSince?: Date;
+  IfMatch?: string | undefined;
+  IfModifiedSince?: Date | undefined;
+  IfNoneMatch?: string | undefined;
+  IfUnmodifiedSince?: Date | undefined;
   Key: string;
-  Range?: string;
-  ResponseCacheControl?: string;
-  ResponseContentDisposition?: string;
-  ResponseContentEncoding?: string;
-  ResponseContentLanguage?: string;
-  ResponseContentType?: string;
-  ResponseExpires?: Date;
-  VersionId?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  RequestPayer?: RequestPayer;
-  PartNumber?: number;
-  ExpectedBucketOwner?: string;
-  ChecksumMode?: ChecksumMode;
+  Range?: string | undefined;
+  ResponseCacheControl?: string | undefined;
+  ResponseContentDisposition?: string | undefined;
+  ResponseContentEncoding?: string | undefined;
+  ResponseContentLanguage?: string | undefined;
+  ResponseContentType?: string | undefined;
+  ResponseExpires?: Date | undefined;
+  VersionId?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  PartNumber?: number | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ChecksumMode?: ChecksumMode | undefined;
 }
 export type AcceptRanges = string;
 export type Restore = string;
@@ -4408,94 +4408,94 @@ export type ReplicationStatus =
 export type PartsCount = number;
 export type TagCount = number;
 export interface GetObjectOutput {
-  Body?: T.StreamingOutputBody;
-  DeleteMarker?: boolean;
-  AcceptRanges?: string;
-  Expiration?: string;
-  Restore?: string;
-  LastModified?: Date;
-  ContentLength?: number;
-  ETag?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
-  MissingMeta?: number;
-  VersionId?: string;
-  CacheControl?: string;
-  ContentDisposition?: string;
-  ContentEncoding?: string;
-  ContentLanguage?: string;
-  ContentRange?: string;
-  ContentType?: string;
-  Expires?: string;
-  WebsiteRedirectLocation?: string;
-  ServerSideEncryption?: ServerSideEncryption;
-  Metadata?: { [key: string]: string | undefined };
-  SSECustomerAlgorithm?: string;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  StorageClass?: StorageClass;
-  RequestCharged?: RequestCharged;
-  ReplicationStatus?: ReplicationStatus;
-  PartsCount?: number;
-  TagCount?: number;
-  ObjectLockMode?: ObjectLockMode;
-  ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
-  ObjectLockEventHold?: ObjectLockEventHold;
-  ObjectLockEventHoldDurationDays?: number;
-  ObjectLockEventHoldDurationYears?: number;
+  Body?: T.StreamingOutputBody | undefined;
+  DeleteMarker?: boolean | undefined;
+  AcceptRanges?: string | undefined;
+  Expiration?: string | undefined;
+  Restore?: string | undefined;
+  LastModified?: Date | undefined;
+  ContentLength?: number | undefined;
+  ETag?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  MissingMeta?: number | undefined;
+  VersionId?: string | undefined;
+  CacheControl?: string | undefined;
+  ContentDisposition?: string | undefined;
+  ContentEncoding?: string | undefined;
+  ContentLanguage?: string | undefined;
+  ContentRange?: string | undefined;
+  ContentType?: string | undefined;
+  Expires?: string | undefined;
+  WebsiteRedirectLocation?: string | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  StorageClass?: StorageClass | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  ReplicationStatus?: ReplicationStatus | undefined;
+  PartsCount?: number | undefined;
+  TagCount?: number | undefined;
+  ObjectLockMode?: ObjectLockMode | undefined;
+  ObjectLockRetainUntilDate?: Date | undefined;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | undefined;
+  ObjectLockEventHold?: ObjectLockEventHold | undefined;
+  ObjectLockEventHoldDurationDays?: number | undefined;
+  ObjectLockEventHoldDurationYears?: number | undefined;
 }
 export interface GetObjectAclRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  VersionId?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface GetObjectAclOutput {
-  Owner?: Owner;
-  Grants?: Grant[];
-  RequestCharged?: RequestCharged;
+  Owner?: Owner | undefined;
+  Grants?: Grant[] | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface GetObjectAnnotationRequest {
   Bucket: string;
   Key: string;
   AnnotationName: string;
-  VersionId?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  ChecksumMode?: ChecksumMode;
+  VersionId?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ChecksumMode?: ChecksumMode | undefined;
 }
 export interface GetObjectAnnotationOutput {
-  AnnotationPayload?: T.StreamingOutputBody;
-  ObjectVersionId?: string;
-  LastModified?: Date;
-  ContentLength?: number;
-  ETag?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
-  ServerSideEncryption?: ServerSideEncryption;
-  RequestCharged?: RequestCharged;
-  ReplicationStatus?: ReplicationStatus;
+  AnnotationPayload?: T.StreamingOutputBody | undefined;
+  ObjectVersionId?: string | undefined;
+  LastModified?: Date | undefined;
+  ContentLength?: number | undefined;
+  ETag?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  ReplicationStatus?: ReplicationStatus | undefined;
 }
 export type MaxParts = number;
 export type PartNumberMarker = string;
@@ -4510,325 +4510,325 @@ export type ObjectAttributesList = ObjectAttributes[];
 export interface GetObjectAttributesRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  MaxParts?: number;
-  PartNumberMarker?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  VersionId?: string | undefined;
+  MaxParts?: number | undefined;
+  PartNumberMarker?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
   ObjectAttributes: ObjectAttributes[];
 }
 export interface Checksum {
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
 }
 export type NextPartNumberMarker = string;
 export type IsTruncated = boolean;
 export interface ObjectPart {
-  PartNumber?: number;
-  Size?: number;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
+  PartNumber?: number | undefined;
+  Size?: number | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
 }
 export type PartsList = ObjectPart[];
 export interface GetObjectAttributesParts {
-  TotalPartsCount?: number;
-  PartNumberMarker?: string;
-  NextPartNumberMarker?: string;
-  MaxParts?: number;
-  IsTruncated?: boolean;
-  Parts?: ObjectPart[];
+  TotalPartsCount?: number | undefined;
+  PartNumberMarker?: string | undefined;
+  NextPartNumberMarker?: string | undefined;
+  MaxParts?: number | undefined;
+  IsTruncated?: boolean | undefined;
+  Parts?: ObjectPart[] | undefined;
 }
 export type ObjectSize = number;
 export interface GetObjectAttributesOutput {
-  DeleteMarker?: boolean;
-  LastModified?: Date;
-  VersionId?: string;
-  RequestCharged?: RequestCharged;
-  ETag?: string;
-  Checksum?: Checksum;
-  ObjectParts?: GetObjectAttributesParts;
-  StorageClass?: StorageClass;
-  ObjectSize?: number;
+  DeleteMarker?: boolean | undefined;
+  LastModified?: Date | undefined;
+  VersionId?: string | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  ETag?: string | undefined;
+  Checksum?: Checksum | undefined;
+  ObjectParts?: GetObjectAttributesParts | undefined;
+  StorageClass?: StorageClass | undefined;
+  ObjectSize?: number | undefined;
 }
 export interface GetObjectLegalHoldRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  VersionId?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface ObjectLockLegalHold {
-  Status?: ObjectLockLegalHoldStatus;
+  Status?: ObjectLockLegalHoldStatus | undefined;
 }
 export interface GetObjectLegalHoldOutput {
-  LegalHold?: ObjectLockLegalHold;
+  LegalHold?: ObjectLockLegalHold | undefined;
 }
 export interface GetObjectLockConfigurationRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type ObjectLockEnabled = "Enabled" | (string & {});
 export type ObjectLockRetentionMode = "GOVERNANCE" | "COMPLIANCE" | (string & {});
 export type Years = number;
 export interface EventHoldDuration {
-  Days?: number;
-  Years?: number;
+  Days?: number | undefined;
+  Years?: number | undefined;
 }
 export interface DefaultRetention {
-  Mode?: ObjectLockRetentionMode;
-  Days?: number;
-  Years?: number;
-  DefaultEventHold?: EventHoldDuration;
+  Mode?: ObjectLockRetentionMode | undefined;
+  Days?: number | undefined;
+  Years?: number | undefined;
+  DefaultEventHold?: EventHoldDuration | undefined;
 }
 export interface ObjectLockRule {
-  DefaultRetention?: DefaultRetention;
+  DefaultRetention?: DefaultRetention | undefined;
 }
 export interface ObjectLockConfiguration {
-  ObjectLockEnabled?: ObjectLockEnabled;
-  Rule?: ObjectLockRule;
+  ObjectLockEnabled?: ObjectLockEnabled | undefined;
+  Rule?: ObjectLockRule | undefined;
 }
 export interface GetObjectLockConfigurationOutput {
-  ObjectLockConfiguration?: ObjectLockConfiguration;
+  ObjectLockConfiguration?: ObjectLockConfiguration | undefined;
 }
 export interface GetObjectRetentionRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  VersionId?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface ObjectLockRetention {
-  Mode?: ObjectLockRetentionMode;
-  RetainUntilDate?: Date;
-  EventHold?: ObjectLockEventHold;
-  EventHoldDuration?: EventHoldDuration;
+  Mode?: ObjectLockRetentionMode | undefined;
+  RetainUntilDate?: Date | undefined;
+  EventHold?: ObjectLockEventHold | undefined;
+  EventHoldDuration?: EventHoldDuration | undefined;
 }
 export interface GetObjectRetentionOutput {
-  Retention?: ObjectLockRetention;
+  Retention?: ObjectLockRetention | undefined;
 }
 export interface GetObjectTaggingRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  ExpectedBucketOwner?: string;
-  RequestPayer?: RequestPayer;
+  VersionId?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
 }
 export interface GetObjectTaggingOutput {
-  VersionId?: string;
-  TagSet?: Tag[];
+  VersionId?: string | undefined;
+  TagSet?: Tag[] | undefined;
 }
 export interface GetObjectTorrentRequest {
   Bucket: string;
   Key: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface GetObjectTorrentOutput {
-  Body?: T.StreamingOutputBody;
-  RequestCharged?: RequestCharged;
+  Body?: T.StreamingOutputBody | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface GetPublicAccessBlockRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type Setting = boolean;
 export interface PublicAccessBlockConfiguration {
-  BlockPublicAcls?: boolean;
-  IgnorePublicAcls?: boolean;
-  BlockPublicPolicy?: boolean;
-  RestrictPublicBuckets?: boolean;
+  BlockPublicAcls?: boolean | undefined;
+  IgnorePublicAcls?: boolean | undefined;
+  BlockPublicPolicy?: boolean | undefined;
+  RestrictPublicBuckets?: boolean | undefined;
 }
 export interface GetPublicAccessBlockOutput {
-  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
+  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration | undefined;
 }
 export interface HeadBucketRequest {
   Bucket: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type BucketLocationName = string;
 export type Region = string;
 export type AccessPointAlias = boolean;
 export interface HeadBucketOutput {
-  BucketArn?: string;
-  BucketLocationType?: LocationType;
-  BucketLocationName?: string;
-  BucketRegion?: string;
-  AccessPointAlias?: boolean;
+  BucketArn?: string | undefined;
+  BucketLocationType?: LocationType | undefined;
+  BucketLocationName?: string | undefined;
+  BucketRegion?: string | undefined;
+  AccessPointAlias?: boolean | undefined;
 }
 export interface HeadObjectRequest {
   Bucket: string;
-  IfMatch?: string;
-  IfModifiedSince?: Date;
-  IfNoneMatch?: string;
-  IfUnmodifiedSince?: Date;
+  IfMatch?: string | undefined;
+  IfModifiedSince?: Date | undefined;
+  IfNoneMatch?: string | undefined;
+  IfUnmodifiedSince?: Date | undefined;
   Key: string;
-  Range?: string;
-  ResponseCacheControl?: string;
-  ResponseContentDisposition?: string;
-  ResponseContentEncoding?: string;
-  ResponseContentLanguage?: string;
-  ResponseContentType?: string;
-  ResponseExpires?: Date;
-  VersionId?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  RequestPayer?: RequestPayer;
-  PartNumber?: number;
-  ExpectedBucketOwner?: string;
-  ChecksumMode?: ChecksumMode;
+  Range?: string | undefined;
+  ResponseCacheControl?: string | undefined;
+  ResponseContentDisposition?: string | undefined;
+  ResponseContentEncoding?: string | undefined;
+  ResponseContentLanguage?: string | undefined;
+  ResponseContentType?: string | undefined;
+  ResponseExpires?: Date | undefined;
+  VersionId?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  PartNumber?: number | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ChecksumMode?: ChecksumMode | undefined;
 }
 export type ArchiveStatus = "ARCHIVE_ACCESS" | "DEEP_ARCHIVE_ACCESS" | (string & {});
 export interface HeadObjectOutput {
-  DeleteMarker?: boolean;
-  AcceptRanges?: string;
-  Expiration?: string;
-  Restore?: string;
-  ArchiveStatus?: ArchiveStatus;
-  LastModified?: Date;
-  ContentLength?: number;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
-  ETag?: string;
-  MissingMeta?: number;
-  VersionId?: string;
-  CacheControl?: string;
-  ContentDisposition?: string;
-  ContentEncoding?: string;
-  ContentLanguage?: string;
-  ContentType?: string;
-  ContentRange?: string;
-  Expires?: string;
-  WebsiteRedirectLocation?: string;
-  ServerSideEncryption?: ServerSideEncryption;
-  Metadata?: { [key: string]: string | undefined };
-  SSECustomerAlgorithm?: string;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  StorageClass?: StorageClass;
-  RequestCharged?: RequestCharged;
-  ReplicationStatus?: ReplicationStatus;
-  PartsCount?: number;
-  TagCount?: number;
-  ObjectLockMode?: ObjectLockMode;
-  ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
-  ObjectLockEventHold?: ObjectLockEventHold;
-  ObjectLockEventHoldDurationDays?: number;
-  ObjectLockEventHoldDurationYears?: number;
+  DeleteMarker?: boolean | undefined;
+  AcceptRanges?: string | undefined;
+  Expiration?: string | undefined;
+  Restore?: string | undefined;
+  ArchiveStatus?: ArchiveStatus | undefined;
+  LastModified?: Date | undefined;
+  ContentLength?: number | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  ETag?: string | undefined;
+  MissingMeta?: number | undefined;
+  VersionId?: string | undefined;
+  CacheControl?: string | undefined;
+  ContentDisposition?: string | undefined;
+  ContentEncoding?: string | undefined;
+  ContentLanguage?: string | undefined;
+  ContentType?: string | undefined;
+  ContentRange?: string | undefined;
+  Expires?: string | undefined;
+  WebsiteRedirectLocation?: string | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  StorageClass?: StorageClass | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  ReplicationStatus?: ReplicationStatus | undefined;
+  PartsCount?: number | undefined;
+  TagCount?: number | undefined;
+  ObjectLockMode?: ObjectLockMode | undefined;
+  ObjectLockRetainUntilDate?: Date | undefined;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | undefined;
+  ObjectLockEventHold?: ObjectLockEventHold | undefined;
+  ObjectLockEventHoldDurationDays?: number | undefined;
+  ObjectLockEventHoldDurationYears?: number | undefined;
 }
 export type Token = string;
 export interface ListBucketAnalyticsConfigurationsRequest {
   Bucket: string;
-  ContinuationToken?: string;
-  ExpectedBucketOwner?: string;
+  ContinuationToken?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type NextToken = string;
 export type AnalyticsConfigurationList = AnalyticsConfiguration[];
 export interface ListBucketAnalyticsConfigurationsOutput {
-  IsTruncated?: boolean;
-  ContinuationToken?: string;
-  NextContinuationToken?: string;
-  AnalyticsConfigurationList?: AnalyticsConfiguration[];
+  IsTruncated?: boolean | undefined;
+  ContinuationToken?: string | undefined;
+  NextContinuationToken?: string | undefined;
+  AnalyticsConfigurationList?: AnalyticsConfiguration[] | undefined;
 }
 export interface ListBucketIntelligentTieringConfigurationsRequest {
   Bucket: string;
-  ContinuationToken?: string;
-  ExpectedBucketOwner?: string;
+  ContinuationToken?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type IntelligentTieringConfigurationList = IntelligentTieringConfiguration[];
 export interface ListBucketIntelligentTieringConfigurationsOutput {
-  IsTruncated?: boolean;
-  ContinuationToken?: string;
-  NextContinuationToken?: string;
-  IntelligentTieringConfigurationList?: IntelligentTieringConfiguration[];
+  IsTruncated?: boolean | undefined;
+  ContinuationToken?: string | undefined;
+  NextContinuationToken?: string | undefined;
+  IntelligentTieringConfigurationList?: IntelligentTieringConfiguration[] | undefined;
 }
 export interface ListBucketInventoryConfigurationsRequest {
   Bucket: string;
-  ContinuationToken?: string;
-  ExpectedBucketOwner?: string;
+  ContinuationToken?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type InventoryConfigurationList = InventoryConfiguration[];
 export interface ListBucketInventoryConfigurationsOutput {
-  ContinuationToken?: string;
-  InventoryConfigurationList?: InventoryConfiguration[];
-  IsTruncated?: boolean;
-  NextContinuationToken?: string;
+  ContinuationToken?: string | undefined;
+  InventoryConfigurationList?: InventoryConfiguration[] | undefined;
+  IsTruncated?: boolean | undefined;
+  NextContinuationToken?: string | undefined;
 }
 export interface ListBucketMetricsConfigurationsRequest {
   Bucket: string;
-  ContinuationToken?: string;
-  ExpectedBucketOwner?: string;
+  ContinuationToken?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type MetricsConfigurationList = MetricsConfiguration[];
 export interface ListBucketMetricsConfigurationsOutput {
-  IsTruncated?: boolean;
-  ContinuationToken?: string;
-  NextContinuationToken?: string;
-  MetricsConfigurationList?: MetricsConfiguration[];
+  IsTruncated?: boolean | undefined;
+  ContinuationToken?: string | undefined;
+  NextContinuationToken?: string | undefined;
+  MetricsConfigurationList?: MetricsConfiguration[] | undefined;
 }
 export type MaxBuckets = number;
 export type BucketRegion = string;
 export interface ListBucketsRequest {
-  MaxBuckets?: number;
-  ContinuationToken?: string;
-  Prefix?: string;
-  BucketRegion?: string;
+  MaxBuckets?: number | undefined;
+  ContinuationToken?: string | undefined;
+  Prefix?: string | undefined;
+  BucketRegion?: string | undefined;
 }
 export type CreationDate = Date;
 export interface Bucket {
-  Name?: string;
-  CreationDate?: Date;
-  BucketRegion?: string;
-  BucketArn?: string;
+  Name?: string | undefined;
+  CreationDate?: Date | undefined;
+  BucketRegion?: string | undefined;
+  BucketArn?: string | undefined;
 }
 const Bucket = /*@__PURE__*/ __L.at(__c80, 0) as any as S.Schema<Bucket>;
 export type Buckets = Bucket[];
 export interface ListBucketsOutput {
-  Buckets?: Bucket[];
-  Owner?: Owner;
-  ContinuationToken?: string;
-  Prefix?: string;
+  Buckets?: Bucket[] | undefined;
+  Owner?: Owner | undefined;
+  ContinuationToken?: string | undefined;
+  Prefix?: string | undefined;
 }
 export type DirectoryBucketToken = string;
 export type MaxDirectoryBuckets = number;
 export interface ListDirectoryBucketsRequest {
-  ContinuationToken?: string;
-  MaxDirectoryBuckets?: number;
+  ContinuationToken?: string | undefined;
+  MaxDirectoryBuckets?: number | undefined;
 }
 export interface ListDirectoryBucketsOutput {
-  Buckets?: Bucket[];
-  ContinuationToken?: string;
+  Buckets?: Bucket[] | undefined;
+  ContinuationToken?: string | undefined;
 }
 export type Delimiter = string;
 export type EncodingType = "url" | (string & {});
@@ -4837,86 +4837,86 @@ export type MaxUploads = number;
 export type UploadIdMarker = string;
 export interface ListMultipartUploadsRequest {
   Bucket: string;
-  Delimiter?: string;
-  EncodingType?: EncodingType;
-  KeyMarker?: string;
-  MaxUploads?: number;
-  Prefix?: string;
-  UploadIdMarker?: string;
-  ExpectedBucketOwner?: string;
-  RequestPayer?: RequestPayer;
+  Delimiter?: string | undefined;
+  EncodingType?: EncodingType | undefined;
+  KeyMarker?: string | undefined;
+  MaxUploads?: number | undefined;
+  Prefix?: string | undefined;
+  UploadIdMarker?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
 }
 export type NextKeyMarker = string;
 export type NextUploadIdMarker = string;
 export type Initiated = Date;
 export interface Initiator {
-  ID?: string;
-  DisplayName?: string;
+  ID?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export interface MultipartUpload {
-  UploadId?: string;
-  Key?: string;
-  Initiated?: Date;
-  StorageClass?: StorageClass;
-  Owner?: Owner;
-  Initiator?: Initiator;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumType?: ChecksumType;
+  UploadId?: string | undefined;
+  Key?: string | undefined;
+  Initiated?: Date | undefined;
+  StorageClass?: StorageClass | undefined;
+  Owner?: Owner | undefined;
+  Initiator?: Initiator | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumType?: ChecksumType | undefined;
 }
 export type MultipartUploadList = MultipartUpload[];
 export interface CommonPrefix {
-  Prefix?: string;
+  Prefix?: string | undefined;
 }
 export type CommonPrefixList = CommonPrefix[];
 export interface ListMultipartUploadsOutput {
-  Bucket?: string;
-  KeyMarker?: string;
-  UploadIdMarker?: string;
-  NextKeyMarker?: string;
-  Prefix?: string;
-  Delimiter?: string;
-  NextUploadIdMarker?: string;
-  MaxUploads?: number;
-  IsTruncated?: boolean;
-  Uploads?: MultipartUpload[];
-  CommonPrefixes?: CommonPrefix[];
-  EncodingType?: EncodingType;
-  RequestCharged?: RequestCharged;
+  Bucket?: string | undefined;
+  KeyMarker?: string | undefined;
+  UploadIdMarker?: string | undefined;
+  NextKeyMarker?: string | undefined;
+  Prefix?: string | undefined;
+  Delimiter?: string | undefined;
+  NextUploadIdMarker?: string | undefined;
+  MaxUploads?: number | undefined;
+  IsTruncated?: boolean | undefined;
+  Uploads?: MultipartUpload[] | undefined;
+  CommonPrefixes?: CommonPrefix[] | undefined;
+  EncodingType?: EncodingType | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type MaxAnnotationResults = number;
 export type AnnotationPrefix = string;
 export interface ListObjectAnnotationsRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  MaxAnnotationResults?: number;
-  AnnotationPrefix?: string;
-  ContinuationToken?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  VersionId?: string | undefined;
+  MaxAnnotationResults?: number | undefined;
+  AnnotationPrefix?: string | undefined;
+  ContinuationToken?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type ChecksumAlgorithmList = ChecksumAlgorithm[];
 export interface AnnotationEntry {
   AnnotationName: string;
   LastModified: Date;
-  ETag?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm[];
+  ETag?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm[] | undefined;
   Size: number;
-  ReplicationStatus?: ReplicationStatus;
+  ReplicationStatus?: ReplicationStatus | undefined;
 }
 export type AnnotationList = AnnotationEntry[];
 export type AnnotationCount = number;
 export interface ListObjectAnnotationsOutput {
-  Annotations?: AnnotationEntry[];
-  Bucket?: string;
-  Key?: string;
-  ObjectVersionId?: string;
-  AnnotationPrefix?: string;
-  MaxAnnotationResults?: number;
-  AnnotationCount?: number;
-  ContinuationToken?: string;
-  NextContinuationToken?: string;
-  RequestCharged?: RequestCharged;
+  Annotations?: AnnotationEntry[] | undefined;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  ObjectVersionId?: string | undefined;
+  AnnotationPrefix?: string | undefined;
+  MaxAnnotationResults?: number | undefined;
+  AnnotationCount?: number | undefined;
+  ContinuationToken?: string | undefined;
+  NextContinuationToken?: string | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type Marker = string;
 export type MaxKeys = number;
@@ -4924,14 +4924,14 @@ export type OptionalObjectAttributes = "RestoreStatus" | (string & {});
 export type OptionalObjectAttributesList = OptionalObjectAttributes[];
 export interface ListObjectsRequest {
   Bucket: string;
-  Delimiter?: string;
-  EncodingType?: EncodingType;
-  Marker?: string;
-  MaxKeys?: number;
-  Prefix?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  OptionalObjectAttributes?: OptionalObjectAttributes[];
+  Delimiter?: string | undefined;
+  EncodingType?: EncodingType | undefined;
+  Marker?: string | undefined;
+  MaxKeys?: number | undefined;
+  Prefix?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  OptionalObjectAttributes?: OptionalObjectAttributes[] | undefined;
 }
 export type NextMarker = string;
 export type ObjectStorageClass =
@@ -4954,207 +4954,207 @@ export type ObjectStorageClass =
 export type IsRestoreInProgress = boolean;
 export type RestoreExpiryDate = Date;
 export interface RestoreStatus {
-  IsRestoreInProgress?: boolean;
-  RestoreExpiryDate?: Date;
+  IsRestoreInProgress?: boolean | undefined;
+  RestoreExpiryDate?: Date | undefined;
 }
 export interface Object {
-  Key?: string;
-  LastModified?: Date;
-  ETag?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm[];
-  ChecksumType?: ChecksumType;
-  Size?: number;
-  StorageClass?: ObjectStorageClass;
-  Owner?: Owner;
-  RestoreStatus?: RestoreStatus;
+  Key?: string | undefined;
+  LastModified?: Date | undefined;
+  ETag?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm[] | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  Size?: number | undefined;
+  StorageClass?: ObjectStorageClass | undefined;
+  Owner?: Owner | undefined;
+  RestoreStatus?: RestoreStatus | undefined;
 }
 export type ObjectList = Object[];
 export interface ListObjectsOutput {
-  IsTruncated?: boolean;
-  Marker?: string;
-  NextMarker?: string;
-  Contents?: Object[];
-  Name?: string;
-  Prefix?: string;
-  Delimiter?: string;
-  MaxKeys?: number;
-  CommonPrefixes?: CommonPrefix[];
-  EncodingType?: EncodingType;
-  RequestCharged?: RequestCharged;
+  IsTruncated?: boolean | undefined;
+  Marker?: string | undefined;
+  NextMarker?: string | undefined;
+  Contents?: Object[] | undefined;
+  Name?: string | undefined;
+  Prefix?: string | undefined;
+  Delimiter?: string | undefined;
+  MaxKeys?: number | undefined;
+  CommonPrefixes?: CommonPrefix[] | undefined;
+  EncodingType?: EncodingType | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type FetchOwner = boolean;
 export type StartAfter = string;
 export interface ListObjectsV2Request {
   Bucket: string;
-  Delimiter?: string;
-  EncodingType?: EncodingType;
-  MaxKeys?: number;
-  Prefix?: string;
-  ContinuationToken?: string;
-  FetchOwner?: boolean;
-  StartAfter?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  OptionalObjectAttributes?: OptionalObjectAttributes[];
+  Delimiter?: string | undefined;
+  EncodingType?: EncodingType | undefined;
+  MaxKeys?: number | undefined;
+  Prefix?: string | undefined;
+  ContinuationToken?: string | undefined;
+  FetchOwner?: boolean | undefined;
+  StartAfter?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  OptionalObjectAttributes?: OptionalObjectAttributes[] | undefined;
 }
 export type KeyCount = number;
 export interface ListObjectsV2Output {
-  IsTruncated?: boolean;
-  Contents?: Object[];
-  Name?: string;
-  Prefix?: string;
-  Delimiter?: string;
-  MaxKeys?: number;
-  CommonPrefixes?: CommonPrefix[];
-  EncodingType?: EncodingType;
-  KeyCount?: number;
-  ContinuationToken?: string;
-  NextContinuationToken?: string;
-  StartAfter?: string;
-  RequestCharged?: RequestCharged;
+  IsTruncated?: boolean | undefined;
+  Contents?: Object[] | undefined;
+  Name?: string | undefined;
+  Prefix?: string | undefined;
+  Delimiter?: string | undefined;
+  MaxKeys?: number | undefined;
+  CommonPrefixes?: CommonPrefix[] | undefined;
+  EncodingType?: EncodingType | undefined;
+  KeyCount?: number | undefined;
+  ContinuationToken?: string | undefined;
+  NextContinuationToken?: string | undefined;
+  StartAfter?: string | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type VersionIdMarker = string;
 export interface ListObjectVersionsRequest {
   Bucket: string;
-  Delimiter?: string;
-  EncodingType?: EncodingType;
-  KeyMarker?: string;
-  MaxKeys?: number;
-  Prefix?: string;
-  VersionIdMarker?: string;
-  ExpectedBucketOwner?: string;
-  RequestPayer?: RequestPayer;
-  OptionalObjectAttributes?: OptionalObjectAttributes[];
+  Delimiter?: string | undefined;
+  EncodingType?: EncodingType | undefined;
+  KeyMarker?: string | undefined;
+  MaxKeys?: number | undefined;
+  Prefix?: string | undefined;
+  VersionIdMarker?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  OptionalObjectAttributes?: OptionalObjectAttributes[] | undefined;
 }
 export type NextVersionIdMarker = string;
 export type ObjectVersionStorageClass = "STANDARD" | (string & {});
 export type IsLatest = boolean;
 export interface ObjectVersion {
-  ETag?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm[];
-  ChecksumType?: ChecksumType;
-  Size?: number;
-  StorageClass?: ObjectVersionStorageClass;
-  Key?: string;
-  VersionId?: string;
-  IsLatest?: boolean;
-  LastModified?: Date;
-  Owner?: Owner;
-  RestoreStatus?: RestoreStatus;
+  ETag?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm[] | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  Size?: number | undefined;
+  StorageClass?: ObjectVersionStorageClass | undefined;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
+  IsLatest?: boolean | undefined;
+  LastModified?: Date | undefined;
+  Owner?: Owner | undefined;
+  RestoreStatus?: RestoreStatus | undefined;
 }
 export type ObjectVersionList = ObjectVersion[];
 export interface DeleteMarkerEntry {
-  Owner?: Owner;
-  Key?: string;
-  VersionId?: string;
-  IsLatest?: boolean;
-  LastModified?: Date;
+  Owner?: Owner | undefined;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
+  IsLatest?: boolean | undefined;
+  LastModified?: Date | undefined;
 }
 export type DeleteMarkers = DeleteMarkerEntry[];
 export interface ListObjectVersionsOutput {
-  IsTruncated?: boolean;
-  KeyMarker?: string;
-  VersionIdMarker?: string;
-  NextKeyMarker?: string;
-  NextVersionIdMarker?: string;
-  Versions?: ObjectVersion[];
-  DeleteMarkers?: DeleteMarkerEntry[];
-  Name?: string;
-  Prefix?: string;
-  Delimiter?: string;
-  MaxKeys?: number;
-  CommonPrefixes?: CommonPrefix[];
-  EncodingType?: EncodingType;
-  RequestCharged?: RequestCharged;
+  IsTruncated?: boolean | undefined;
+  KeyMarker?: string | undefined;
+  VersionIdMarker?: string | undefined;
+  NextKeyMarker?: string | undefined;
+  NextVersionIdMarker?: string | undefined;
+  Versions?: ObjectVersion[] | undefined;
+  DeleteMarkers?: DeleteMarkerEntry[] | undefined;
+  Name?: string | undefined;
+  Prefix?: string | undefined;
+  Delimiter?: string | undefined;
+  MaxKeys?: number | undefined;
+  CommonPrefixes?: CommonPrefix[] | undefined;
+  EncodingType?: EncodingType | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface ListPartsRequest {
   Bucket: string;
   Key: string;
-  MaxParts?: number;
-  PartNumberMarker?: string;
+  MaxParts?: number | undefined;
+  PartNumberMarker?: string | undefined;
   UploadId: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
 }
 export interface Part {
-  PartNumber?: number;
-  LastModified?: Date;
-  ETag?: string;
-  Size?: number;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
+  PartNumber?: number | undefined;
+  LastModified?: Date | undefined;
+  ETag?: string | undefined;
+  Size?: number | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
 }
 export type Parts = Part[];
 export interface ListPartsOutput {
-  AbortDate?: Date;
-  AbortRuleId?: string;
-  Bucket?: string;
-  Key?: string;
-  UploadId?: string;
-  PartNumberMarker?: string;
-  NextPartNumberMarker?: string;
-  MaxParts?: number;
-  IsTruncated?: boolean;
-  Parts?: Part[];
-  Initiator?: Initiator;
-  Owner?: Owner;
-  StorageClass?: StorageClass;
-  RequestCharged?: RequestCharged;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumType?: ChecksumType;
+  AbortDate?: Date | undefined;
+  AbortRuleId?: string | undefined;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  UploadId?: string | undefined;
+  PartNumberMarker?: string | undefined;
+  NextPartNumberMarker?: string | undefined;
+  MaxParts?: number | undefined;
+  IsTruncated?: boolean | undefined;
+  Parts?: Part[] | undefined;
+  Initiator?: Initiator | undefined;
+  Owner?: Owner | undefined;
+  StorageClass?: StorageClass | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumType?: ChecksumType | undefined;
 }
 export interface PutBucketAbacRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ExpectedBucketOwner?: string;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ExpectedBucketOwner?: string | undefined;
   AbacStatus: AbacStatus;
 }
 export interface PutBucketAbacResponse {}
 export interface AccelerateConfiguration {
-  Status?: BucketAccelerateStatus;
+  Status?: BucketAccelerateStatus | undefined;
 }
 export interface PutBucketAccelerateConfigurationRequest {
   Bucket: string;
   AccelerateConfiguration: AccelerateConfiguration;
-  ExpectedBucketOwner?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ExpectedBucketOwner?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
 }
 export interface PutBucketAccelerateConfigurationResponse {}
 export interface AccessControlPolicy {
-  Grants?: Grant[];
-  Owner?: Owner;
+  Grants?: Grant[] | undefined;
+  Owner?: Owner | undefined;
 }
 export interface PutBucketAclRequest {
-  ACL?: BucketCannedACL;
-  AccessControlPolicy?: AccessControlPolicy;
+  ACL?: BucketCannedACL | undefined;
+  AccessControlPolicy?: AccessControlPolicy | undefined;
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  GrantFullControl?: string;
-  GrantRead?: string;
-  GrantReadACP?: string;
-  GrantWrite?: string;
-  GrantWriteACP?: string;
-  ExpectedBucketOwner?: string;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  GrantFullControl?: string | undefined;
+  GrantRead?: string | undefined;
+  GrantReadACP?: string | undefined;
+  GrantWrite?: string | undefined;
+  GrantWriteACP?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketAclResponse {}
 export interface PutBucketAnalyticsConfigurationRequest {
   Bucket: string;
   Id: string;
   AnalyticsConfiguration: AnalyticsConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketAnalyticsConfigurationResponse {}
 export interface CORSConfiguration {
@@ -5163,23 +5163,23 @@ export interface CORSConfiguration {
 export interface PutBucketCorsRequest {
   Bucket: string;
   CORSConfiguration: CORSConfiguration;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ExpectedBucketOwner?: string;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketCorsResponse {}
 export interface PutBucketEncryptionRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketEncryptionResponse {}
 export interface PutBucketIntelligentTieringConfigurationRequest {
   Bucket: string;
   Id: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
   IntelligentTieringConfiguration: IntelligentTieringConfiguration;
 }
 export interface PutBucketIntelligentTieringConfigurationResponse {}
@@ -5187,7 +5187,7 @@ export interface PutBucketInventoryConfigurationRequest {
   Bucket: string;
   Id: string;
   InventoryConfiguration: InventoryConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketInventoryConfigurationResponse {}
 export interface BucketLifecycleConfiguration {
@@ -5195,66 +5195,66 @@ export interface BucketLifecycleConfiguration {
 }
 export interface PutBucketLifecycleConfigurationRequest {
   Bucket: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  LifecycleConfiguration?: BucketLifecycleConfiguration;
-  ExpectedBucketOwner?: string;
-  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  LifecycleConfiguration?: BucketLifecycleConfiguration | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize | undefined;
 }
 export interface PutBucketLifecycleConfigurationOutput {
-  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize;
+  TransitionDefaultMinimumObjectSize?: TransitionDefaultMinimumObjectSize | undefined;
 }
 export interface BucketLoggingStatus {
-  LoggingEnabled?: LoggingEnabled;
+  LoggingEnabled?: LoggingEnabled | undefined;
 }
 export interface PutBucketLoggingRequest {
   Bucket: string;
   BucketLoggingStatus: BucketLoggingStatus;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ExpectedBucketOwner?: string;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketLoggingResponse {}
 export interface PutBucketMetricsConfigurationRequest {
   Bucket: string;
   Id: string;
   MetricsConfiguration: MetricsConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketMetricsConfigurationResponse {}
 export type SkipValidation = boolean;
 export interface PutBucketNotificationConfigurationRequest {
   Bucket: string;
   NotificationConfiguration: NotificationConfiguration;
-  ExpectedBucketOwner?: string;
-  SkipDestinationValidation?: boolean;
+  ExpectedBucketOwner?: string | undefined;
+  SkipDestinationValidation?: boolean | undefined;
 }
 export interface PutBucketNotificationConfigurationResponse {}
 export interface PutBucketOwnershipControlsRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ExpectedBucketOwner?: string;
+  ContentMD5?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
   OwnershipControls: OwnershipControls;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
 }
 export interface PutBucketOwnershipControlsResponse {}
 export type ConfirmRemoveSelfBucketAccess = boolean;
 export interface PutBucketPolicyRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ConfirmRemoveSelfBucketAccess?: boolean;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ConfirmRemoveSelfBucketAccess?: boolean | undefined;
   Policy: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketPolicyResponse {}
 export type ObjectLockToken = string;
 export interface PutBucketReplicationRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   ReplicationConfiguration: ReplicationConfiguration;
-  Token?: string;
-  ExpectedBucketOwner?: string;
+  Token?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketReplicationResponse {}
 export interface RequestPaymentConfiguration {
@@ -5262,10 +5262,10 @@ export interface RequestPaymentConfiguration {
 }
 export interface PutBucketRequestPaymentRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   RequestPaymentConfiguration: RequestPaymentConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketRequestPaymentResponse {}
 export interface Tagging {
@@ -5273,234 +5273,234 @@ export interface Tagging {
 }
 export interface PutBucketTaggingRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   Tagging: Tagging;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketTaggingResponse {}
 export type MFADelete = "Enabled" | "Disabled" | (string & {});
 export interface VersioningConfiguration {
-  MFADelete?: MFADelete;
-  Status?: BucketVersioningStatus;
+  MFADelete?: MFADelete | undefined;
+  Status?: BucketVersioningStatus | undefined;
 }
 export interface PutBucketVersioningRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  MFA?: string;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  MFA?: string | undefined;
   VersioningConfiguration: VersioningConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketVersioningResponse {}
 export interface WebsiteConfiguration {
-  ErrorDocument?: ErrorDocument;
-  IndexDocument?: IndexDocument;
-  RedirectAllRequestsTo?: RedirectAllRequestsTo;
-  RoutingRules?: RoutingRule[];
+  ErrorDocument?: ErrorDocument | undefined;
+  IndexDocument?: IndexDocument | undefined;
+  RedirectAllRequestsTo?: RedirectAllRequestsTo | undefined;
+  RoutingRules?: RoutingRule[] | undefined;
 }
 export interface PutBucketWebsiteRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   WebsiteConfiguration: WebsiteConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutBucketWebsiteResponse {}
 export type WriteOffsetBytes = number;
 export interface PutObjectRequest {
-  ACL?: ObjectCannedACL;
-  Body?: T.StreamingInputBody;
+  ACL?: ObjectCannedACL | undefined;
+  Body?: T.StreamingInputBody | undefined;
   Bucket: string;
-  CacheControl?: string;
-  ContentDisposition?: string;
-  ContentEncoding?: string;
-  ContentLanguage?: string;
-  ContentLength?: number;
-  ContentMD5?: string;
-  ContentType?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  Expires?: string;
-  IfMatch?: string;
-  IfNoneMatch?: string;
-  GrantFullControl?: string;
-  GrantRead?: string;
-  GrantReadACP?: string;
-  GrantWriteACP?: string;
+  CacheControl?: string | undefined;
+  ContentDisposition?: string | undefined;
+  ContentEncoding?: string | undefined;
+  ContentLanguage?: string | undefined;
+  ContentLength?: number | undefined;
+  ContentMD5?: string | undefined;
+  ContentType?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  Expires?: string | undefined;
+  IfMatch?: string | undefined;
+  IfNoneMatch?: string | undefined;
+  GrantFullControl?: string | undefined;
+  GrantRead?: string | undefined;
+  GrantReadACP?: string | undefined;
+  GrantWriteACP?: string | undefined;
   Key: string;
-  WriteOffsetBytes?: number;
-  Metadata?: { [key: string]: string | undefined };
-  ServerSideEncryption?: ServerSideEncryption;
-  StorageClass?: StorageClass;
-  WebsiteRedirectLocation?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  RequestPayer?: RequestPayer;
-  Tagging?: string;
-  ObjectLockMode?: ObjectLockMode;
-  ObjectLockRetainUntilDate?: Date;
-  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
-  ObjectLockEventHold?: ObjectLockEventHold;
-  ObjectLockEventHoldDurationDays?: number;
-  ObjectLockEventHoldDurationYears?: number;
-  ExpectedBucketOwner?: string;
+  WriteOffsetBytes?: number | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  StorageClass?: StorageClass | undefined;
+  WebsiteRedirectLocation?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  Tagging?: string | undefined;
+  ObjectLockMode?: ObjectLockMode | undefined;
+  ObjectLockRetainUntilDate?: Date | undefined;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | undefined;
+  ObjectLockEventHold?: ObjectLockEventHold | undefined;
+  ObjectLockEventHoldDurationDays?: number | undefined;
+  ObjectLockEventHoldDurationYears?: number | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutObjectOutput {
-  Expiration?: string;
-  ETag?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
-  ServerSideEncryption?: ServerSideEncryption;
-  VersionId?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSEKMSEncryptionContext?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  Size?: number;
-  RequestCharged?: RequestCharged;
+  Expiration?: string | undefined;
+  ETag?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  VersionId?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSEKMSEncryptionContext?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  Size?: number | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface PutObjectAclRequest {
-  ACL?: ObjectCannedACL;
-  AccessControlPolicy?: AccessControlPolicy;
+  ACL?: ObjectCannedACL | undefined;
+  AccessControlPolicy?: AccessControlPolicy | undefined;
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  GrantFullControl?: string;
-  GrantRead?: string;
-  GrantReadACP?: string;
-  GrantWrite?: string;
-  GrantWriteACP?: string;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  GrantFullControl?: string | undefined;
+  GrantRead?: string | undefined;
+  GrantReadACP?: string | undefined;
+  GrantWrite?: string | undefined;
+  GrantWriteACP?: string | undefined;
   Key: string;
-  RequestPayer?: RequestPayer;
-  VersionId?: string;
-  ExpectedBucketOwner?: string;
+  RequestPayer?: RequestPayer | undefined;
+  VersionId?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutObjectAclOutput {
-  RequestCharged?: RequestCharged;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface PutObjectAnnotationRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
   AnnotationName: string;
   AnnotationPayload: T.StreamingInputBody;
-  ObjectIfMatch?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ContentMD5?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  ObjectIfMatch?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ContentMD5?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutObjectAnnotationOutput {
-  Key?: string;
-  AnnotationName?: string;
-  ObjectVersionId?: string;
-  ETag?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  ChecksumType?: ChecksumType;
-  ServerSideEncryption?: ServerSideEncryption;
-  RequestCharged?: RequestCharged;
+  Key?: string | undefined;
+  AnnotationName?: string | undefined;
+  ObjectVersionId?: string | undefined;
+  ETag?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  ChecksumType?: ChecksumType | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface PutObjectLegalHoldRequest {
   Bucket: string;
   Key: string;
-  LegalHold?: ObjectLockLegalHold;
-  RequestPayer?: RequestPayer;
-  VersionId?: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ExpectedBucketOwner?: string;
+  LegalHold?: ObjectLockLegalHold | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  VersionId?: string | undefined;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutObjectLegalHoldOutput {
-  RequestCharged?: RequestCharged;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface PutObjectLockConfigurationRequest {
   Bucket: string;
-  ObjectLockConfiguration?: ObjectLockConfiguration;
-  RequestPayer?: RequestPayer;
-  Token?: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ExpectedBucketOwner?: string;
+  ObjectLockConfiguration?: ObjectLockConfiguration | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  Token?: string | undefined;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutObjectLockConfigurationOutput {
-  RequestCharged?: RequestCharged;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface PutObjectRetentionRequest {
   Bucket: string;
   Key: string;
-  Retention?: ObjectLockRetention;
-  RequestPayer?: RequestPayer;
-  VersionId?: string;
-  BypassGovernanceRetention?: boolean;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ExpectedBucketOwner?: string;
+  Retention?: ObjectLockRetention | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  VersionId?: string | undefined;
+  BypassGovernanceRetention?: boolean | undefined;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutObjectRetentionOutput {
-  RequestCharged?: RequestCharged;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface PutObjectTaggingRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  VersionId?: string | undefined;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   Tagging: Tagging;
-  ExpectedBucketOwner?: string;
-  RequestPayer?: RequestPayer;
+  ExpectedBucketOwner?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
 }
 export interface PutObjectTaggingOutput {
-  VersionId?: string;
+  VersionId?: string | undefined;
 }
 export interface PutPublicAccessBlockRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   PublicAccessBlockConfiguration: PublicAccessBlockConfiguration;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface PutPublicAccessBlockResponse {}
 export type RenameSource = string;
@@ -5513,15 +5513,15 @@ export interface RenameObjectRequest {
   Bucket: string;
   Key: string;
   RenameSource: string;
-  DestinationIfMatch?: string;
-  DestinationIfNoneMatch?: string;
-  DestinationIfModifiedSince?: Date;
-  DestinationIfUnmodifiedSince?: Date;
-  SourceIfMatch?: string;
-  SourceIfNoneMatch?: string;
-  SourceIfModifiedSince?: Date;
-  SourceIfUnmodifiedSince?: Date;
-  ClientToken?: string;
+  DestinationIfMatch?: string | undefined;
+  DestinationIfNoneMatch?: string | undefined;
+  DestinationIfModifiedSince?: Date | undefined;
+  DestinationIfUnmodifiedSince?: Date | undefined;
+  SourceIfMatch?: string | undefined;
+  SourceIfNoneMatch?: string | undefined;
+  SourceIfModifiedSince?: Date | undefined;
+  SourceIfUnmodifiedSince?: Date | undefined;
+  ClientToken?: string | undefined;
 }
 export interface RenameObjectOutput {}
 export type Tier = "Standard" | "Bulk" | "Expedited" | (string & {});
@@ -5538,42 +5538,42 @@ export type FieldDelimiter = string;
 export type QuoteCharacter = string;
 export type AllowQuotedRecordDelimiter = boolean;
 export interface CSVInput {
-  FileHeaderInfo?: FileHeaderInfo;
-  Comments?: string;
-  QuoteEscapeCharacter?: string;
-  RecordDelimiter?: string;
-  FieldDelimiter?: string;
-  QuoteCharacter?: string;
-  AllowQuotedRecordDelimiter?: boolean;
+  FileHeaderInfo?: FileHeaderInfo | undefined;
+  Comments?: string | undefined;
+  QuoteEscapeCharacter?: string | undefined;
+  RecordDelimiter?: string | undefined;
+  FieldDelimiter?: string | undefined;
+  QuoteCharacter?: string | undefined;
+  AllowQuotedRecordDelimiter?: boolean | undefined;
 }
 export type CompressionType = "NONE" | "GZIP" | "BZIP2" | (string & {});
 export type JSONType = "DOCUMENT" | "LINES" | (string & {});
 export interface JSONInput {
-  Type?: JSONType;
+  Type?: JSONType | undefined;
 }
 export interface ParquetInput {}
 export interface InputSerialization {
-  CSV?: CSVInput;
-  CompressionType?: CompressionType;
-  JSON?: JSONInput;
-  Parquet?: ParquetInput;
+  CSV?: CSVInput | undefined;
+  CompressionType?: CompressionType | undefined;
+  JSON?: JSONInput | undefined;
+  Parquet?: ParquetInput | undefined;
 }
 export type ExpressionType = "SQL" | (string & {});
 export type Expression = string;
 export type QuoteFields = "ALWAYS" | "ASNEEDED" | (string & {});
 export interface CSVOutput {
-  QuoteFields?: QuoteFields;
-  QuoteEscapeCharacter?: string;
-  RecordDelimiter?: string;
-  FieldDelimiter?: string;
-  QuoteCharacter?: string;
+  QuoteFields?: QuoteFields | undefined;
+  QuoteEscapeCharacter?: string | undefined;
+  RecordDelimiter?: string | undefined;
+  FieldDelimiter?: string | undefined;
+  QuoteCharacter?: string | undefined;
 }
 export interface JSONOutput {
-  RecordDelimiter?: string;
+  RecordDelimiter?: string | undefined;
 }
 export interface OutputSerialization {
-  CSV?: CSVOutput;
-  JSON?: JSONOutput;
+  CSV?: CSVOutput | undefined;
+  JSON?: JSONOutput | undefined;
 }
 export interface SelectParameters {
   InputSerialization: InputSerialization;
@@ -5585,131 +5585,161 @@ export type LocationPrefix = string;
 export type KMSContext = string;
 export interface Encryption {
   EncryptionType: ServerSideEncryption;
-  KMSKeyId?: string | redacted.Redacted<string>;
-  KMSContext?: string;
+  KMSKeyId?: string | redacted.Redacted<string> | undefined;
+  KMSContext?: string | undefined;
 }
 export interface MetadataEntry {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type UserMetadata = MetadataEntry[];
 export interface S3Location {
   BucketName: string;
   Prefix: string;
-  Encryption?: Encryption;
-  CannedACL?: ObjectCannedACL;
-  AccessControlList?: Grant[];
-  Tagging?: Tagging;
-  UserMetadata?: MetadataEntry[];
-  StorageClass?: StorageClass;
+  Encryption?: Encryption | undefined;
+  CannedACL?: ObjectCannedACL | undefined;
+  AccessControlList?: Grant[] | undefined;
+  Tagging?: Tagging | undefined;
+  UserMetadata?: MetadataEntry[] | undefined;
+  StorageClass?: StorageClass | undefined;
 }
 export interface OutputLocation {
-  S3?: S3Location;
+  S3?: S3Location | undefined;
 }
 export interface RestoreRequest {
-  Days?: number;
-  GlacierJobParameters?: GlacierJobParameters;
-  Type?: RestoreRequestType;
-  Tier?: Tier;
-  Description?: string;
-  SelectParameters?: SelectParameters;
-  OutputLocation?: OutputLocation;
+  Days?: number | undefined;
+  GlacierJobParameters?: GlacierJobParameters | undefined;
+  Type?: RestoreRequestType | undefined;
+  Tier?: Tier | undefined;
+  Description?: string | undefined;
+  SelectParameters?: SelectParameters | undefined;
+  OutputLocation?: OutputLocation | undefined;
 }
 export interface RestoreObjectRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
-  RestoreRequest?: RestoreRequest;
-  RequestPayer?: RequestPayer;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ExpectedBucketOwner?: string;
+  VersionId?: string | undefined;
+  RestoreRequest?: RestoreRequest | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type RestoreOutputPath = string;
 export interface RestoreObjectOutput {
-  RequestCharged?: RequestCharged;
-  RestoreOutputPath?: string;
+  RequestCharged?: RequestCharged | undefined;
+  RestoreOutputPath?: string | undefined;
 }
 export type EnableRequestProgress = boolean;
 export interface RequestProgress {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type Start = number;
 export type End = number;
 export interface ScanRange {
-  Start?: number;
-  End?: number;
+  Start?: number | undefined;
+  End?: number | undefined;
 }
 export interface SelectObjectContentRequest {
   Bucket: string;
   Key: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
   Expression: string;
   ExpressionType: ExpressionType;
-  RequestProgress?: RequestProgress;
+  RequestProgress?: RequestProgress | undefined;
   InputSerialization: InputSerialization;
   OutputSerialization: OutputSerialization;
-  ScanRange?: ScanRange;
-  ExpectedBucketOwner?: string;
+  ScanRange?: ScanRange | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type Body = Uint8Array;
 export interface RecordsEvent {
-  Payload?: Uint8Array;
+  Payload?: Uint8Array | undefined;
 }
 export type BytesScanned = number;
 export type BytesProcessed = number;
 export type BytesReturned = number;
 export interface Stats {
-  BytesScanned?: number;
-  BytesProcessed?: number;
-  BytesReturned?: number;
+  BytesScanned?: number | undefined;
+  BytesProcessed?: number | undefined;
+  BytesReturned?: number | undefined;
 }
 export interface StatsEvent {
-  Details?: Stats;
+  Details?: Stats | undefined;
 }
 export interface Progress {
-  BytesScanned?: number;
-  BytesProcessed?: number;
-  BytesReturned?: number;
+  BytesScanned?: number | undefined;
+  BytesProcessed?: number | undefined;
+  BytesReturned?: number | undefined;
 }
 export interface ProgressEvent {
-  Details?: Progress;
+  Details?: Progress | undefined;
 }
 export interface ContinuationEvent {}
 export interface EndEvent {}
 export type SelectObjectContentEventStream =
-  | { Records: RecordsEvent; Stats?: never; Progress?: never; Cont?: never; End?: never }
-  | { Records?: never; Stats: StatsEvent; Progress?: never; Cont?: never; End?: never }
-  | { Records?: never; Stats?: never; Progress: ProgressEvent; Cont?: never; End?: never }
-  | { Records?: never; Stats?: never; Progress?: never; Cont: ContinuationEvent; End?: never }
-  | { Records?: never; Stats?: never; Progress?: never; Cont?: never; End: EndEvent };
+  | {
+      Records: RecordsEvent;
+      Stats?: undefined;
+      Progress?: undefined;
+      Cont?: undefined;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats: StatsEvent;
+      Progress?: undefined;
+      Cont?: undefined;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats?: undefined;
+      Progress: ProgressEvent;
+      Cont?: undefined;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats?: undefined;
+      Progress?: undefined;
+      Cont: ContinuationEvent;
+      End?: undefined;
+    }
+  | {
+      Records?: undefined;
+      Stats?: undefined;
+      Progress?: undefined;
+      Cont?: undefined;
+      End: EndEvent;
+    };
 export interface SelectObjectContentOutput {
-  Payload?: stream.Stream<SelectObjectContentEventStream, Error, never>;
+  Payload?: stream.Stream<SelectObjectContentEventStream, Error, never> | undefined;
 }
 export interface AnnotationTableConfigurationUpdates {
   ConfigurationState: AnnotationConfigurationState;
-  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
-  Role?: string;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration | undefined;
+  Role?: string | undefined;
 }
 export interface UpdateBucketMetadataAnnotationTableConfigurationRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   AnnotationTableConfiguration: AnnotationTableConfigurationUpdates;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface UpdateBucketMetadataAnnotationTableConfigurationResponse {}
 export interface InventoryTableConfigurationUpdates {
   ConfigurationState: InventoryConfigurationState;
-  EncryptionConfiguration?: MetadataTableEncryptionConfiguration;
+  EncryptionConfiguration?: MetadataTableEncryptionConfiguration | undefined;
 }
 export interface UpdateBucketMetadataInventoryTableConfigurationRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   InventoryTableConfiguration: InventoryTableConfigurationUpdates;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface UpdateBucketMetadataInventoryTableConfigurationResponse {}
 export interface JournalTableConfigurationUpdates {
@@ -5717,120 +5747,120 @@ export interface JournalTableConfigurationUpdates {
 }
 export interface UpdateBucketMetadataJournalTableConfigurationRequest {
   Bucket: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
   JournalTableConfiguration: JournalTableConfigurationUpdates;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface UpdateBucketMetadataJournalTableConfigurationResponse {}
 export type NonEmptyKmsKeyArnString = string | redacted.Redacted<string>;
 export interface SSEKMSEncryption {
   KMSKeyArn: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
+  BucketKeyEnabled?: boolean | undefined;
 }
 export type ObjectEncryption = { SSEKMS: SSEKMSEncryption };
 export interface UpdateObjectEncryptionRequest {
   Bucket: string;
   Key: string;
-  VersionId?: string;
+  VersionId?: string | undefined;
   ObjectEncryption: ObjectEncryption;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
 }
 export interface UpdateObjectEncryptionResponse {
-  RequestCharged?: RequestCharged;
+  RequestCharged?: RequestCharged | undefined;
 }
 export interface UploadPartRequest {
-  Body?: T.StreamingInputBody;
+  Body?: T.StreamingInputBody | undefined;
   Bucket: string;
-  ContentLength?: number;
-  ContentMD5?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
+  ContentLength?: number | undefined;
+  ContentMD5?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
   Key: string;
   PartNumber: number;
   UploadId: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface UploadPartOutput {
-  ServerSideEncryption?: ServerSideEncryption;
-  ETag?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  RequestCharged?: RequestCharged;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  ETag?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type CopySourceRange = string;
 export interface UploadPartCopyRequest {
   Bucket: string;
   CopySource: string;
-  CopySourceIfMatch?: string;
-  CopySourceIfModifiedSince?: Date;
-  CopySourceIfNoneMatch?: string;
-  CopySourceIfUnmodifiedSince?: Date;
-  CopySourceRange?: string;
+  CopySourceIfMatch?: string | undefined;
+  CopySourceIfModifiedSince?: Date | undefined;
+  CopySourceIfNoneMatch?: string | undefined;
+  CopySourceIfUnmodifiedSince?: Date | undefined;
+  CopySourceRange?: string | undefined;
   Key: string;
   PartNumber: number;
   UploadId: string;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKey?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  CopySourceSSECustomerAlgorithm?: string;
-  CopySourceSSECustomerKey?: string | redacted.Redacted<string>;
-  CopySourceSSECustomerKeyMD5?: string;
-  RequestPayer?: RequestPayer;
-  ExpectedBucketOwner?: string;
-  ExpectedSourceBucketOwner?: string;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  CopySourceSSECustomerAlgorithm?: string | undefined;
+  CopySourceSSECustomerKey?: string | redacted.Redacted<string> | undefined;
+  CopySourceSSECustomerKeyMD5?: string | undefined;
+  RequestPayer?: RequestPayer | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  ExpectedSourceBucketOwner?: string | undefined;
 }
 export interface CopyPartResult {
-  ETag?: string;
-  LastModified?: Date;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
+  ETag?: string | undefined;
+  LastModified?: Date | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
 }
 export interface UploadPartCopyOutput {
-  CopySourceVersionId?: string;
-  CopyPartResult?: CopyPartResult;
-  ServerSideEncryption?: ServerSideEncryption;
-  SSECustomerAlgorithm?: string;
-  SSECustomerKeyMD5?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  BucketKeyEnabled?: boolean;
-  RequestCharged?: RequestCharged;
+  CopySourceVersionId?: string | undefined;
+  CopyPartResult?: CopyPartResult | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  RequestCharged?: RequestCharged | undefined;
 }
 export type RequestRoute = string;
 export type RequestToken = string;
@@ -5838,50 +5868,50 @@ export type GetObjectResponseStatusCode = number;
 export interface WriteGetObjectResponseRequest {
   RequestRoute: string;
   RequestToken: string;
-  Body?: T.StreamingInputBody;
-  StatusCode?: number;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  AcceptRanges?: string;
-  CacheControl?: string;
-  ContentDisposition?: string;
-  ContentEncoding?: string;
-  ContentLanguage?: string;
-  ContentLength?: number;
-  ContentRange?: string;
-  ContentType?: string;
-  ChecksumCRC32?: string;
-  ChecksumCRC32C?: string;
-  ChecksumCRC64NVME?: string;
-  ChecksumSHA1?: string;
-  ChecksumSHA256?: string;
-  ChecksumSHA512?: string;
-  ChecksumMD5?: string;
-  ChecksumXXHASH64?: string;
-  ChecksumXXHASH3?: string;
-  ChecksumXXHASH128?: string;
-  DeleteMarker?: boolean;
-  ETag?: string;
-  Expires?: string;
-  Expiration?: string;
-  LastModified?: Date;
-  MissingMeta?: number;
-  Metadata?: { [key: string]: string | undefined };
-  ObjectLockMode?: ObjectLockMode;
-  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus;
-  ObjectLockRetainUntilDate?: Date;
-  PartsCount?: number;
-  ReplicationStatus?: ReplicationStatus;
-  RequestCharged?: RequestCharged;
-  Restore?: string;
-  ServerSideEncryption?: ServerSideEncryption;
-  SSECustomerAlgorithm?: string;
-  SSEKMSKeyId?: string | redacted.Redacted<string>;
-  SSECustomerKeyMD5?: string;
-  StorageClass?: StorageClass;
-  TagCount?: number;
-  VersionId?: string;
-  BucketKeyEnabled?: boolean;
+  Body?: T.StreamingInputBody | undefined;
+  StatusCode?: number | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  AcceptRanges?: string | undefined;
+  CacheControl?: string | undefined;
+  ContentDisposition?: string | undefined;
+  ContentEncoding?: string | undefined;
+  ContentLanguage?: string | undefined;
+  ContentLength?: number | undefined;
+  ContentRange?: string | undefined;
+  ContentType?: string | undefined;
+  ChecksumCRC32?: string | undefined;
+  ChecksumCRC32C?: string | undefined;
+  ChecksumCRC64NVME?: string | undefined;
+  ChecksumSHA1?: string | undefined;
+  ChecksumSHA256?: string | undefined;
+  ChecksumSHA512?: string | undefined;
+  ChecksumMD5?: string | undefined;
+  ChecksumXXHASH64?: string | undefined;
+  ChecksumXXHASH3?: string | undefined;
+  ChecksumXXHASH128?: string | undefined;
+  DeleteMarker?: boolean | undefined;
+  ETag?: string | undefined;
+  Expires?: string | undefined;
+  Expiration?: string | undefined;
+  LastModified?: Date | undefined;
+  MissingMeta?: number | undefined;
+  Metadata?: { [key: string]: string | undefined } | undefined;
+  ObjectLockMode?: ObjectLockMode | undefined;
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | undefined;
+  ObjectLockRetainUntilDate?: Date | undefined;
+  PartsCount?: number | undefined;
+  ReplicationStatus?: ReplicationStatus | undefined;
+  RequestCharged?: RequestCharged | undefined;
+  Restore?: string | undefined;
+  ServerSideEncryption?: ServerSideEncryption | undefined;
+  SSECustomerAlgorithm?: string | undefined;
+  SSEKMSKeyId?: string | redacted.Redacted<string> | undefined;
+  SSECustomerKeyMD5?: string | undefined;
+  StorageClass?: StorageClass | undefined;
+  TagCount?: number | undefined;
+  VersionId?: string | undefined;
+  BucketKeyEnabled?: boolean | undefined;
 }
 export interface WriteGetObjectResponseResponse {}
 export type AbortMultipartUploadError =

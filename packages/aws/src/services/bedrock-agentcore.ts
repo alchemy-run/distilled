@@ -155,6 +155,15 @@ export class ServiceQuotaExceededException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
+export class ServiceUnavailableException
+  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+    "ServiceUnavailableException",
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number),
+    },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(503), /*@__PURE__*/ T.Retryable()),
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class SubscriptionRequiredException
   extends /*@__PURE__*/ S.TaggedError<SubscriptionRequiredException>()(
     "SubscriptionRequiredException",
@@ -211,39 +220,59 @@ export type StringValue = string;
 export type StringListMemberValue = string;
 export type StringValueList = string[];
 export type MemoryRecordMetadataValue =
-  | { stringValue: string; stringListValue?: never; numberValue?: never; dateTimeValue?: never }
-  | { stringValue?: never; stringListValue: string[]; numberValue?: never; dateTimeValue?: never }
-  | { stringValue?: never; stringListValue?: never; numberValue: number; dateTimeValue?: never }
-  | { stringValue?: never; stringListValue?: never; numberValue?: never; dateTimeValue: Date };
+  | {
+      stringValue: string;
+      stringListValue?: undefined;
+      numberValue?: undefined;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue: string[];
+      numberValue?: undefined;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      numberValue: number;
+      dateTimeValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      numberValue?: undefined;
+      dateTimeValue: Date;
+    };
 export type MemoryRecordMetadataMap = { [key: string]: MemoryRecordMetadataValue | undefined };
 export interface MemoryRecordCreateInput {
   requestIdentifier: string;
   namespaces: string[];
   content: MemoryContent;
   timestamp: Date;
-  memoryStrategyId?: string;
-  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined };
+  memoryStrategyId?: string | undefined;
+  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined } | undefined;
 }
 export type MemoryRecordsCreateInputList = MemoryRecordCreateInput[];
 export type RecordExpiryDurationDays = number;
 export type RecordExpiryAction = "REMOVE" | (string & {});
 export type RecordExpirySpecification =
-  | { recordExpiryDurationDays: number; action?: never }
-  | { recordExpiryDurationDays?: never; action: RecordExpiryAction };
+  | { recordExpiryDurationDays: number; action?: undefined }
+  | { recordExpiryDurationDays?: undefined; action: RecordExpiryAction };
 export interface BatchCreateMemoryRecordsInput {
   memoryId: string;
   records: MemoryRecordCreateInput[];
-  clientToken?: string;
-  recordExpirySpecification?: RecordExpirySpecification;
+  clientToken?: string | undefined;
+  recordExpirySpecification?: RecordExpirySpecification | undefined;
 }
 export type MemoryRecordId = string;
 export type MemoryRecordStatus = "SUCCEEDED" | "FAILED" | (string & {});
 export interface MemoryRecordOutput {
   memoryRecordId: string;
   status: MemoryRecordStatus;
-  requestIdentifier?: string;
-  errorCode?: number;
-  errorMessage?: string;
+  requestIdentifier?: string | undefined;
+  errorCode?: number | undefined;
+  errorMessage?: string | undefined;
 }
 export type MemoryRecordsOutputList = MemoryRecordOutput[];
 export interface BatchCreateMemoryRecordsOutput {
@@ -252,7 +281,7 @@ export interface BatchCreateMemoryRecordsOutput {
 }
 export interface MemoryRecordDeleteInput {
   memoryRecordId: string;
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type MemoryRecordsDeleteInputList = MemoryRecordDeleteInput[];
 export interface BatchDeleteMemoryRecordsInput {
@@ -266,17 +295,17 @@ export interface BatchDeleteMemoryRecordsOutput {
 export interface MemoryRecordUpdateInput {
   memoryRecordId: string;
   timestamp: Date;
-  content?: MemoryContent;
-  namespaces?: string[];
-  sourceNamespaces?: string[];
-  memoryStrategyId?: string;
-  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined };
+  content?: MemoryContent | undefined;
+  namespaces?: string[] | undefined;
+  sourceNamespaces?: string[] | undefined;
+  memoryStrategyId?: string | undefined;
+  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined } | undefined;
 }
 export type MemoryRecordsUpdateInputList = MemoryRecordUpdateInput[];
 export interface BatchUpdateMemoryRecordsInput {
   memoryId: string;
   records: MemoryRecordUpdateInput[];
-  recordExpirySpecification?: RecordExpirySpecification;
+  recordExpirySpecification?: RecordExpirySpecification | undefined;
 }
 export interface BatchUpdateMemoryRecordsOutput {
   successfulRecords: MemoryRecordOutput[];
@@ -285,8 +314,8 @@ export interface BatchUpdateMemoryRecordsOutput {
 export type UserTokenType = string | redacted.Redacted<string>;
 export type UserIdType = string;
 export type UserIdentifier =
-  | { userToken: string | redacted.Redacted<string>; userId?: never }
-  | { userToken?: never; userId: string };
+  | { userToken: string | redacted.Redacted<string>; userId?: undefined }
+  | { userToken?: undefined; userId: string };
 export type RequestUri = string;
 export interface CompleteResourceTokenAuthRequest {
   userIdentifier: UserIdentifier;
@@ -308,8 +337,8 @@ export interface TargetRef {
   name: string;
 }
 export interface VariantConfiguration {
-  configurationBundle?: ConfigurationBundleRef;
-  target?: TargetRef;
+  configurationBundle?: ConfigurationBundleRef | undefined;
+  target?: TargetRef | undefined;
 }
 export interface Variant {
   name: string;
@@ -320,7 +349,7 @@ export type VariantList = Variant[];
 export type PathPattern = string;
 export type TargetPathList = string[];
 export interface GatewayFilter {
-  targetPaths?: string[];
+  targetPaths?: string[] | undefined;
 }
 export type OnlineEvaluationConfigArn = string;
 export interface PerVariantOnlineEvaluationConfig {
@@ -329,9 +358,9 @@ export interface PerVariantOnlineEvaluationConfig {
 }
 export type PerVariantOnlineEvaluationConfigList = PerVariantOnlineEvaluationConfig[];
 export type ABTestEvaluationConfig =
-  | { onlineEvaluationConfigArn: string; perVariantOnlineEvaluationConfig?: never }
+  | { onlineEvaluationConfigArn: string; perVariantOnlineEvaluationConfig?: undefined }
   | {
-      onlineEvaluationConfigArn?: never;
+      onlineEvaluationConfigArn?: undefined;
       perVariantOnlineEvaluationConfig: PerVariantOnlineEvaluationConfig[];
     };
 export type RoleArn = string;
@@ -341,15 +370,15 @@ export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateABTestRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   gatewayArn: string;
   variants: Variant[];
-  gatewayFilter?: GatewayFilter;
+  gatewayFilter?: GatewayFilter | undefined;
   evaluationConfig: ABTestEvaluationConfig;
   roleArn: string;
-  enableOnCreate?: boolean;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  enableOnCreate?: boolean | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ABTestId = string;
 export type ABTestArn = string;
@@ -372,7 +401,7 @@ export type ABTestExecutionStatus =
 export interface CreateABTestResponse {
   abTestId: string;
   abTestArn: string;
-  name?: string;
+  name?: string | undefined;
   status: ABTestStatus;
   executionStatus: ABTestExecutionStatus;
   createdAt: Date;
@@ -391,14 +420,14 @@ export interface MemoryJsonData {
   content: any;
 }
 export type PayloadType =
-  | { conversational: Conversational; blob?: never; json?: never }
-  | { conversational?: never; blob: any; json?: never }
-  | { conversational?: never; blob?: never; json: MemoryJsonData };
+  | { conversational: Conversational; blob?: undefined; json?: undefined }
+  | { conversational?: undefined; blob: any; json?: undefined }
+  | { conversational?: undefined; blob?: undefined; json: MemoryJsonData };
 export type PayloadTypeList = PayloadType[];
 export type EventId = string;
 export type BranchName = string;
 export interface Branch {
-  rootEventId?: string;
+  rootEventId?: string | undefined;
   name: string;
 }
 export type MetadataValue = { stringValue: string };
@@ -408,19 +437,19 @@ export type NamespaceVariableName = string;
 export type NamespaceVariableValue = string;
 export type NamespaceVariablesMap = { [key: string]: string | undefined };
 export interface ExtractionConfig {
-  namespaceVariables?: { [key: string]: string | undefined };
+  namespaceVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEventInput {
   memoryId: string;
   actorId: string;
-  sessionId?: string;
+  sessionId?: string | undefined;
   eventTimestamp: Date;
   payload: PayloadType[];
-  branch?: Branch;
-  clientToken?: string;
-  metadata?: { [key: string]: MetadataValue | undefined };
-  extractionMode?: ExtractionMode;
-  extractionConfig?: ExtractionConfig;
+  branch?: Branch | undefined;
+  clientToken?: string | undefined;
+  metadata?: { [key: string]: MetadataValue | undefined } | undefined;
+  extractionMode?: ExtractionMode | undefined;
+  extractionConfig?: ExtractionConfig | undefined;
 }
 export interface Event {
   memoryId: string;
@@ -428,9 +457,9 @@ export interface Event {
   sessionId: string;
   eventId: string;
   eventTimestamp: Date;
-  payload?: PayloadType[];
-  branch?: Branch;
-  metadata?: { [key: string]: MetadataValue | undefined };
+  payload?: PayloadType[] | undefined;
+  branch?: Branch | undefined;
+  metadata?: { [key: string]: MetadataValue | undefined } | undefined;
 }
 export interface CreateEventOutput {
   event: Event;
@@ -456,37 +485,72 @@ export interface LinkedAccountDeveloperJwt {
 }
 export interface OAuth2Authentication {
   sub: string;
-  emailAddress?: string | redacted.Redacted<string>;
-  name?: string;
-  username?: string;
+  emailAddress?: string | redacted.Redacted<string> | undefined;
+  name?: string | undefined;
+  username?: string | undefined;
 }
 export type LinkedAccountOAuth2 =
-  | { google: OAuth2Authentication; apple?: never; x?: never; telegram?: never; github?: never }
-  | { google?: never; apple: OAuth2Authentication; x?: never; telegram?: never; github?: never }
-  | { google?: never; apple?: never; x: OAuth2Authentication; telegram?: never; github?: never }
-  | { google?: never; apple?: never; x?: never; telegram: OAuth2Authentication; github?: never }
-  | { google?: never; apple?: never; x?: never; telegram?: never; github: OAuth2Authentication };
+  | {
+      google: OAuth2Authentication;
+      apple?: undefined;
+      x?: undefined;
+      telegram?: undefined;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple: OAuth2Authentication;
+      x?: undefined;
+      telegram?: undefined;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple?: undefined;
+      x: OAuth2Authentication;
+      telegram?: undefined;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple?: undefined;
+      x?: undefined;
+      telegram: OAuth2Authentication;
+      github?: undefined;
+    }
+  | {
+      google?: undefined;
+      apple?: undefined;
+      x?: undefined;
+      telegram?: undefined;
+      github: OAuth2Authentication;
+    };
 export type LinkedAccount =
-  | { email: LinkedAccountEmail; sms?: never; developerJwt?: never; oAuth2?: never }
-  | { email?: never; sms: LinkedAccountSms; developerJwt?: never; oAuth2?: never }
-  | { email?: never; sms?: never; developerJwt: LinkedAccountDeveloperJwt; oAuth2?: never }
-  | { email?: never; sms?: never; developerJwt?: never; oAuth2: LinkedAccountOAuth2 };
+  | { email: LinkedAccountEmail; sms?: undefined; developerJwt?: undefined; oAuth2?: undefined }
+  | { email?: undefined; sms: LinkedAccountSms; developerJwt?: undefined; oAuth2?: undefined }
+  | {
+      email?: undefined;
+      sms?: undefined;
+      developerJwt: LinkedAccountDeveloperJwt;
+      oAuth2?: undefined;
+    }
+  | { email?: undefined; sms?: undefined; developerJwt?: undefined; oAuth2: LinkedAccountOAuth2 };
 export type LinkedAccountList = LinkedAccount[];
 export interface EmbeddedCryptoWallet {
   network: CryptoWalletNetwork;
   linkedAccounts: LinkedAccount[];
-  walletAddress?: string;
-  redirectUrl?: string;
+  walletAddress?: string | undefined;
+  redirectUrl?: string | undefined;
 }
 export type PaymentInstrumentDetails = { embeddedCryptoWallet: EmbeddedCryptoWallet };
 export interface CreatePaymentInstrumentRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
   paymentConnectorId: string;
   paymentInstrumentType: PaymentInstrumentType;
   paymentInstrumentDetails: PaymentInstrumentDetails;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type PaymentInstrumentId = string;
 export type PaymentInstrumentStatus =
@@ -519,26 +583,26 @@ export interface SessionLimits {
   maxSpendAmount: Amount;
 }
 export interface CreatePaymentSessionRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
-  limits?: SessionLimits;
+  limits?: SessionLimits | undefined;
   expiryTimeInMinutes: number;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type PaymentSessionId = string;
 export interface AvailableLimits {
-  availableSpendAmount?: Amount;
-  updatedAt?: Date;
+  availableSpendAmount?: Amount | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface PaymentSession {
   paymentSessionId: string;
   paymentManagerArn: string;
-  limits?: SessionLimits;
+  limits?: SessionLimits | undefined;
   userId: string;
   expiryTimeInMinutes: number;
   createdAt: Date;
-  availableLimits?: AvailableLimits;
+  availableLimits?: AvailableLimits | undefined;
   updatedAt: Date;
 }
 export interface CreatePaymentSessionResponse {
@@ -603,13 +667,13 @@ export interface DeleteEventOutput {
 export interface DeleteMemoryRecordInput {
   memoryId: string;
   memoryRecordId: string;
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface DeleteMemoryRecordOutput {
   memoryRecordId: string;
 }
 export interface DeletePaymentInstrumentRequest {
-  userId?: string;
+  userId?: string | undefined;
   paymentManagerArn: string;
   paymentConnectorId: string;
   paymentInstrumentId: string;
@@ -618,7 +682,7 @@ export interface DeletePaymentInstrumentResponse {
   status: PaymentInstrumentStatus;
 }
 export interface DeletePaymentSessionRequest {
-  userId?: string;
+  userId?: string | undefined;
   paymentManagerArn: string;
   paymentSessionId: string;
 }
@@ -650,12 +714,12 @@ export type SpanIds = string[];
 export type TraceId = string;
 export type TraceIds = string[];
 export type EvaluationTarget =
-  | { spanIds: string[]; traceIds?: never }
-  | { spanIds?: never; traceIds: string[] };
+  | { spanIds: string[]; traceIds?: undefined }
+  | { spanIds?: undefined; traceIds: string[] };
 export interface SpanContext {
   sessionId: string;
-  traceId?: string;
-  spanId?: string;
+  traceId?: string | undefined;
+  spanId?: string | undefined;
 }
 export type Context = { spanContext: SpanContext };
 export type EvaluationContent = { text: string };
@@ -663,29 +727,29 @@ export type EvaluationContentList = EvaluationContent[];
 export type EvaluationToolName = string;
 export type EvaluationToolNames = string[];
 export interface EvaluationExpectedTrajectory {
-  toolNames?: string[];
+  toolNames?: string[] | undefined;
 }
 export interface EvaluationReferenceInput {
   context: Context;
-  expectedResponse?: EvaluationContent;
-  assertions?: EvaluationContent[];
-  expectedTrajectory?: EvaluationExpectedTrajectory;
+  expectedResponse?: EvaluationContent | undefined;
+  assertions?: EvaluationContent[] | undefined;
+  expectedTrajectory?: EvaluationExpectedTrajectory | undefined;
 }
 export type EvaluationReferenceInputs = EvaluationReferenceInput[];
 export interface EvaluateRequest {
   evaluatorId: string;
   evaluationInput: EvaluationInput;
-  evaluationTarget?: EvaluationTarget;
-  evaluationReferenceInputs?: EvaluationReferenceInput[];
+  evaluationTarget?: EvaluationTarget | undefined;
+  evaluationReferenceInputs?: EvaluationReferenceInput[] | undefined;
 }
 export type EvaluatorArn = string;
 export type EvaluatorName = string;
 export type EvaluationDimensionName = string;
 export type EvaluationExplanation = string | redacted.Redacted<string>;
 export interface TokenUsage {
-  inputTokens?: number;
-  outputTokens?: number;
-  totalTokens?: number;
+  inputTokens?: number | undefined;
+  outputTokens?: number | undefined;
+  totalTokens?: number | undefined;
 }
 export type EvaluationErrorMessage = string;
 export type EvaluationErrorCode = string;
@@ -695,15 +759,15 @@ export interface EvaluationResultContent {
   evaluatorArn: string;
   evaluatorId: string;
   evaluatorName: string;
-  evaluationDimensionName?: string;
-  explanation?: string | redacted.Redacted<string>;
+  evaluationDimensionName?: string | undefined;
+  explanation?: string | redacted.Redacted<string> | undefined;
   context: Context;
-  value?: number;
-  label?: string;
-  tokenUsage?: TokenUsage;
-  errorMessage?: string;
-  errorCode?: string;
-  ignoredReferenceInputFields?: string[];
+  value?: number | undefined;
+  label?: string | undefined;
+  tokenUsage?: TokenUsage | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
+  ignoredReferenceInputFields?: string[] | undefined;
 }
 export type EvaluationResults = EvaluationResultContent[];
 export interface EvaluateResponse {
@@ -719,17 +783,17 @@ export interface ControlStats {
   mean: number;
 }
 export interface ConfidenceInterval {
-  lower?: number;
-  upper?: number;
+  lower?: number | undefined;
+  upper?: number | undefined;
 }
 export interface VariantResult {
   variantName: string;
   sampleSize: number;
   mean: number;
-  absoluteChange?: number;
-  percentChange?: number;
-  pValue?: number;
-  confidenceInterval?: ConfidenceInterval;
+  absoluteChange?: number | undefined;
+  percentChange?: number | undefined;
+  pValue?: number | undefined;
+  confidenceInterval?: ConfidenceInterval | undefined;
   isSignificant: boolean;
 }
 export type VariantResultList = VariantResult[];
@@ -740,42 +804,42 @@ export interface EvaluatorMetric {
 }
 export type EvaluatorMetricList = EvaluatorMetric[];
 export interface ABTestResults {
-  analysisTimestamp?: Date;
+  analysisTimestamp?: Date | undefined;
   evaluatorMetrics: EvaluatorMetric[];
 }
 export interface GetABTestResponse {
   abTestId: string;
   abTestArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   status: ABTestStatus;
   executionStatus: ABTestExecutionStatus;
   gatewayArn: string;
   variants: Variant[];
-  gatewayFilter?: GatewayFilter;
+  gatewayFilter?: GatewayFilter | undefined;
   evaluationConfig: ABTestEvaluationConfig;
-  roleArn?: string;
-  currentRunId?: string;
-  errorDetails?: string[];
-  startedAt?: Date;
-  stoppedAt?: Date;
-  maxDurationExpiresAt?: Date;
+  roleArn?: string | undefined;
+  currentRunId?: string | undefined;
+  errorDetails?: string[] | undefined;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
+  maxDurationExpiresAt?: Date | undefined;
   createdAt: Date;
   updatedAt: Date;
-  results?: ABTestResults;
+  results?: ABTestResults | undefined;
 }
 export type SessionType = string;
 export interface GetAgentCardRequest {
-  runtimeSessionId?: string;
+  runtimeSessionId?: string | undefined;
   agentRuntimeArn: string;
-  qualifier?: string;
+  qualifier?: string | undefined;
 }
 export type AgentCard = unknown;
 export type HttpResponseCode = number;
 export interface GetAgentCardResponse {
-  runtimeSessionId?: string;
+  runtimeSessionId?: string | undefined;
   agentCard: any;
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export interface GetBatchEvaluationRequest {
   batchEvaluationId: string;
@@ -796,8 +860,8 @@ export type LogGroupNameList = string[];
 export type LogGroupNamePrefix = string;
 export type LogGroupNamePrefixList = string[];
 export interface SessionFilterConfig {
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type TraceIdList = string[];
 export interface SessionTraceIds {
@@ -806,52 +870,52 @@ export interface SessionTraceIds {
 }
 export type SessionTraceIdsList = SessionTraceIds[];
 export interface CloudWatchFilterConfig {
-  sessionIds?: string[];
-  timeRange?: SessionFilterConfig;
-  sessionTraceIds?: SessionTraceIds[];
+  sessionIds?: string[] | undefined;
+  timeRange?: SessionFilterConfig | undefined;
+  sessionTraceIds?: SessionTraceIds[] | undefined;
 }
 export interface CloudWatchLogsSource {
   serviceNames: string[];
-  logGroupNames?: string[];
-  logGroupNamePrefixes?: string[];
-  filterConfig?: CloudWatchFilterConfig;
+  logGroupNames?: string[] | undefined;
+  logGroupNamePrefixes?: string[] | undefined;
+  filterConfig?: CloudWatchFilterConfig | undefined;
 }
 export interface OnlineEvaluationConfigSource {
   onlineEvaluationConfigArn: string;
-  timeRange?: SessionFilterConfig;
+  timeRange?: SessionFilterConfig | undefined;
 }
 export type DataSourceConfig =
-  | { cloudWatchLogs: CloudWatchLogsSource; onlineEvaluationConfigSource?: never }
-  | { cloudWatchLogs?: never; onlineEvaluationConfigSource: OnlineEvaluationConfigSource };
+  | { cloudWatchLogs: CloudWatchLogsSource; onlineEvaluationConfigSource?: undefined }
+  | { cloudWatchLogs?: undefined; onlineEvaluationConfigSource: OnlineEvaluationConfigSource };
 export type OptionalLogGroupName = string;
 export type LogStreamName = string;
 export type MetricsNamespace = string;
 export type ResultDestination = "DEDICATED_LOG_GROUP" | "SOURCE_LOG_GROUP" | (string & {});
 export interface CloudWatchOutputConfig {
-  logGroupName?: string;
-  logStreamName?: string;
-  metricsNamespace?: string;
-  resultDestination?: ResultDestination;
+  logGroupName?: string | undefined;
+  logStreamName?: string | undefined;
+  metricsNamespace?: string | undefined;
+  resultDestination?: ResultDestination | undefined;
 }
 export type OutputConfig = { cloudWatchConfig: CloudWatchOutputConfig };
 export interface EvaluatorStatistics {
-  averageScore?: number;
+  averageScore?: number | undefined;
 }
 export interface EvaluatorSummary {
-  evaluatorId?: string;
-  evaluationDimensionName?: string;
-  statistics?: EvaluatorStatistics;
-  totalEvaluated?: number;
-  totalFailed?: number;
+  evaluatorId?: string | undefined;
+  evaluationDimensionName?: string | undefined;
+  statistics?: EvaluatorStatistics | undefined;
+  totalEvaluated?: number | undefined;
+  totalFailed?: number | undefined;
 }
 export type EvaluatorSummaryList = EvaluatorSummary[];
 export interface EvaluationJobResults {
-  numberOfSessionsCompleted?: number;
-  numberOfSessionsInProgress?: number;
-  numberOfSessionsFailed?: number;
-  totalNumberOfSessions?: number;
-  numberOfSessionsIgnored?: number;
-  evaluatorSummaries?: EvaluatorSummary[];
+  numberOfSessionsCompleted?: number | undefined;
+  numberOfSessionsInProgress?: number | undefined;
+  numberOfSessionsFailed?: number | undefined;
+  totalNumberOfSessions?: number | undefined;
+  numberOfSessionsIgnored?: number | undefined;
+  evaluatorSummaries?: EvaluatorSummary[] | undefined;
 }
 export type InsightType = "FAILURE" | (string & {});
 export type InsightName = string | redacted.Redacted<string>;
@@ -860,17 +924,17 @@ export type FindingTargetId = string;
 export type FindingTargetType = "SPAN_ID" | "TRACE_ID" | "SPAN_NAME" | (string & {});
 export type FindingDescription = string | redacted.Redacted<string>;
 export interface SessionFinding {
-  targetId?: string;
-  targetType?: FindingTargetType;
+  targetId?: string | undefined;
+  targetType?: FindingTargetType | undefined;
   description: string | redacted.Redacted<string>;
-  category?: string;
-  confidence?: number;
+  category?: string | undefined;
+  confidence?: number | undefined;
 }
 export type SessionFindingList = SessionFinding[];
 export interface SampleSession {
   sessionId: string;
-  lastSeenAt?: Date;
-  findings?: SessionFinding[];
+  lastSeenAt?: Date | undefined;
+  findings?: SessionFinding[] | undefined;
 }
 export type InsightSampleSessionList = SampleSession[];
 export type RootCauseName = string | redacted.Redacted<string>;
@@ -879,9 +943,9 @@ export type SuggestedFix = string | redacted.Redacted<string>;
 export interface InsightRootCause {
   name: string | redacted.Redacted<string>;
   explanation: string | redacted.Redacted<string>;
-  affectedSessionCount?: number;
-  suggestedFix?: string | redacted.Redacted<string>;
-  sampleSessions?: SampleSession[];
+  affectedSessionCount?: number | undefined;
+  suggestedFix?: string | redacted.Redacted<string> | undefined;
+  sampleSessions?: SampleSession[] | undefined;
 }
 export type InsightRootCauseList = InsightRootCause[];
 export interface InsightResult {
@@ -889,9 +953,9 @@ export interface InsightResult {
   name: string | redacted.Redacted<string>;
   description: string | redacted.Redacted<string>;
   createdAt: Date;
-  affectedSessionCount?: number;
-  sampleSessions?: SampleSession[];
-  rootCauses?: InsightRootCause[];
+  affectedSessionCount?: number | undefined;
+  sampleSessions?: SampleSession[] | undefined;
+  rootCauses?: InsightRootCause[] | undefined;
 }
 export type InsightResultList = InsightResult[];
 export type InsightsFailureCategory =
@@ -1020,19 +1084,19 @@ export interface GetBatchEvaluationResponse {
   batchEvaluationName: string;
   status: BatchEvaluationStatus;
   createdAt: Date;
-  evaluators?: Evaluator[];
-  insights?: Insight[];
-  dataSourceConfig?: DataSourceConfig;
-  outputConfig?: OutputConfig;
-  evaluationResults?: EvaluationJobResults;
-  insightResults?: InsightResult[];
-  failureAnalysisResult?: FailureAnalysisResultContent;
-  userIntentResult?: UserIntentClusteringResultContent;
-  executionSummaryResult?: ExecutionSummaryClusteringResultContent;
-  errorDetails?: string[];
-  description?: string;
-  updatedAt?: Date;
-  kmsKeyArn?: string;
+  evaluators?: Evaluator[] | undefined;
+  insights?: Insight[] | undefined;
+  dataSourceConfig?: DataSourceConfig | undefined;
+  outputConfig?: OutputConfig | undefined;
+  evaluationResults?: EvaluationJobResults | undefined;
+  insightResults?: InsightResult[] | undefined;
+  failureAnalysisResult?: FailureAnalysisResultContent | undefined;
+  userIntentResult?: UserIntentClusteringResultContent | undefined;
+  executionSummaryResult?: ExecutionSummaryClusteringResultContent | undefined;
+  errorDetails?: string[] | undefined;
+  description?: string | undefined;
+  updatedAt?: Date | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type BrowserSessionId = string;
 export interface GetBrowserSessionRequest {
@@ -1049,7 +1113,7 @@ export interface ViewPort {
 export interface S3Location {
   bucket: string;
   prefix: string;
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export type ResourceLocation = { s3: S3Location };
 export interface BrowserExtension {
@@ -1059,7 +1123,7 @@ export type BrowserExtensions = BrowserExtension[];
 export type BrowserEnterprisePolicyType = "MANAGED" | "RECOMMENDED" | (string & {});
 export interface BrowserEnterprisePolicy {
   location: ResourceLocation;
-  type?: BrowserEnterprisePolicyType;
+  type?: BrowserEnterprisePolicyType | undefined;
 }
 export type BrowserEnterprisePolicies = BrowserEnterprisePolicy[];
 export type BrowserProfileId = string;
@@ -1075,11 +1139,11 @@ export interface AutomationStream {
   streamStatus: AutomationStreamStatus;
 }
 export interface LiveViewStream {
-  streamEndpoint?: string;
+  streamEndpoint?: string | undefined;
 }
 export interface BrowserSessionStream {
   automationStream: AutomationStream;
-  liveViewStream?: LiveViewStream;
+  liveViewStream?: LiveViewStream | undefined;
 }
 export type HostName = string;
 export type DomainPattern = string;
@@ -1092,17 +1156,17 @@ export type ProxyCredentials = { basicAuth: BasicAuth };
 export interface ExternalProxy {
   server: string;
   port: number;
-  domainPatterns?: string[];
-  credentials?: ProxyCredentials;
+  domainPatterns?: string[] | undefined;
+  credentials?: ProxyCredentials | undefined;
 }
 export type Proxy = { externalProxy: ExternalProxy };
 export type Proxies = Proxy[];
 export interface ProxyBypass {
-  domainPatterns?: string[];
+  domainPatterns?: string[] | undefined;
 }
 export interface ProxyConfiguration {
   proxies: Proxy[];
-  bypass?: ProxyBypass;
+  bypass?: ProxyBypass | undefined;
 }
 export interface SecretsManagerLocation {
   secretArn: string;
@@ -1128,26 +1192,26 @@ export interface EfsConfiguration {
   fileSystemArn: string;
 }
 export type ToolsFileSystemConfiguration =
-  | { s3FilesConfiguration: S3FilesConfiguration; efsConfiguration?: never }
-  | { s3FilesConfiguration?: never; efsConfiguration: EfsConfiguration };
+  | { s3FilesConfiguration: S3FilesConfiguration; efsConfiguration?: undefined }
+  | { s3FilesConfiguration?: undefined; efsConfiguration: EfsConfiguration };
 export type ToolsFileSystemConfigurations = ToolsFileSystemConfiguration[];
 export interface GetBrowserSessionResponse {
   browserIdentifier: string;
   sessionId: string;
-  name?: string;
+  name?: string | undefined;
   createdAt: Date;
-  viewPort?: ViewPort;
-  extensions?: BrowserExtension[];
-  enterprisePolicies?: BrowserEnterprisePolicy[];
-  profileConfiguration?: BrowserProfileConfiguration;
-  sessionTimeoutSeconds?: number;
-  status?: BrowserSessionStatus;
-  streams?: BrowserSessionStream;
-  proxyConfiguration?: ProxyConfiguration;
-  certificates?: Certificate[];
-  filesystemConfigurations?: ToolsFileSystemConfiguration[];
-  sessionReplayArtifact?: string;
-  lastUpdatedAt?: Date;
+  viewPort?: ViewPort | undefined;
+  extensions?: BrowserExtension[] | undefined;
+  enterprisePolicies?: BrowserEnterprisePolicy[] | undefined;
+  profileConfiguration?: BrowserProfileConfiguration | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  status?: BrowserSessionStatus | undefined;
+  streams?: BrowserSessionStream | undefined;
+  proxyConfiguration?: ProxyConfiguration | undefined;
+  certificates?: Certificate[] | undefined;
+  filesystemConfigurations?: ToolsFileSystemConfiguration[] | undefined;
+  sessionReplayArtifact?: string | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type CodeInterpreterSessionId = string;
 export interface GetCodeInterpreterSessionRequest {
@@ -1159,12 +1223,12 @@ export type CodeInterpreterSessionStatus = "READY" | "TERMINATED" | (string & {}
 export interface GetCodeInterpreterSessionResponse {
   codeInterpreterIdentifier: string;
   sessionId: string;
-  name?: string;
+  name?: string | undefined;
   createdAt: Date;
-  sessionTimeoutSeconds?: number;
-  status?: CodeInterpreterSessionStatus;
-  certificates?: Certificate[];
-  filesystemConfigurations?: ToolsFileSystemConfiguration[];
+  sessionTimeoutSeconds?: number | undefined;
+  status?: CodeInterpreterSessionStatus | undefined;
+  certificates?: Certificate[] | undefined;
+  filesystemConfigurations?: ToolsFileSystemConfiguration[] | undefined;
 }
 export interface GetEventInput {
   memoryId: string;
@@ -1178,26 +1242,26 @@ export interface GetEventOutput {
 export interface GetMemoryRecordInput {
   memoryId: string;
   memoryRecordId: string;
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface MemoryRecord {
   memoryRecordId: string;
   content: MemoryContent;
-  memoryStrategyId?: string;
+  memoryStrategyId?: string | undefined;
   namespaces: string[];
   createdAt: Date;
-  timestamp?: Date;
-  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined };
-  expiresAt?: Date;
+  timestamp?: Date | undefined;
+  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined } | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface GetMemoryRecordOutput {
   memoryRecord: MemoryRecord;
 }
 export interface GetPaymentInstrumentRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
-  paymentConnectorId?: string;
+  paymentConnectorId?: string | undefined;
   paymentInstrumentId: string;
 }
 export interface GetPaymentInstrumentResponse {
@@ -1212,8 +1276,8 @@ export type BlockchainChainId =
   | (string & {});
 export type InstrumentBalanceToken = "USDC" | (string & {});
 export interface GetPaymentInstrumentBalanceRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
   paymentConnectorId: string;
   paymentInstrumentId: string;
@@ -1232,8 +1296,8 @@ export interface GetPaymentInstrumentBalanceResponse {
   tokenBalance: TokenBalance;
 }
 export interface GetPaymentSessionRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
   paymentSessionId: string;
 }
@@ -1258,8 +1322,8 @@ export interface SystemPromptConfigurationBundle {
   systemPromptJsonPath: string;
 }
 export type SystemPromptConfig =
-  | { text: string | redacted.Redacted<string>; configurationBundle?: never }
-  | { text?: never; configurationBundle: SystemPromptConfigurationBundle };
+  | { text: string | redacted.Redacted<string>; configurationBundle?: undefined }
+  | { text?: undefined; configurationBundle: SystemPromptConfigurationBundle };
 export type LogGroupArnList = string[];
 export type ServiceName = string;
 export type ServiceNameList = string[];
@@ -1275,9 +1339,9 @@ export type CloudWatchLogsFilterOperator =
   | (string & {});
 export type FilterStringValue = string;
 export type FilterValue =
-  | { stringValue: string; doubleValue?: never; booleanValue?: never }
-  | { stringValue?: never; doubleValue: number; booleanValue?: never }
-  | { stringValue?: never; doubleValue?: never; booleanValue: boolean };
+  | { stringValue: string; doubleValue?: undefined; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue: number; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue?: undefined; booleanValue: boolean };
 export interface CloudWatchLogsFilter {
   key: string;
   operator: CloudWatchLogsFilterOperator;
@@ -1285,14 +1349,14 @@ export interface CloudWatchLogsFilter {
 }
 export type CloudWatchLogsFilterList = CloudWatchLogsFilter[];
 export interface CloudWatchLogsRule {
-  filters?: CloudWatchLogsFilter[];
+  filters?: CloudWatchLogsFilter[] | undefined;
 }
 export interface CloudWatchLogsTraceConfig {
   logGroupArns: string[];
   serviceNames: string[];
   startTime: Date;
   endTime: Date;
-  rule?: CloudWatchLogsRule;
+  rule?: CloudWatchLogsRule | undefined;
 }
 export interface BatchEvaluationTraceConfig {
   batchEvaluationArn: string;
@@ -1305,26 +1369,26 @@ export interface OnlineEvaluationTraceConfig {
 export type AgentTracesConfig =
   | {
       sessionSpans: any[];
-      cloudwatchLogs?: never;
-      batchEvaluation?: never;
-      onlineEvaluation?: never;
+      cloudwatchLogs?: undefined;
+      batchEvaluation?: undefined;
+      onlineEvaluation?: undefined;
     }
   | {
-      sessionSpans?: never;
+      sessionSpans?: undefined;
       cloudwatchLogs: CloudWatchLogsTraceConfig;
-      batchEvaluation?: never;
-      onlineEvaluation?: never;
+      batchEvaluation?: undefined;
+      onlineEvaluation?: undefined;
     }
   | {
-      sessionSpans?: never;
-      cloudwatchLogs?: never;
+      sessionSpans?: undefined;
+      cloudwatchLogs?: undefined;
       batchEvaluation: BatchEvaluationTraceConfig;
-      onlineEvaluation?: never;
+      onlineEvaluation?: undefined;
     }
   | {
-      sessionSpans?: never;
-      cloudwatchLogs?: never;
-      batchEvaluation?: never;
+      sessionSpans?: undefined;
+      cloudwatchLogs?: undefined;
+      batchEvaluation?: undefined;
       onlineEvaluation: OnlineEvaluationTraceConfig;
     };
 export interface RecommendationEvaluatorReference {
@@ -1337,7 +1401,7 @@ export interface RecommendationEvaluationConfig {
 export interface SystemPromptRecommendationConfig {
   systemPrompt: SystemPromptConfig;
   agentTraces: AgentTracesConfig;
-  evaluationConfig?: RecommendationEvaluationConfig;
+  evaluationConfig?: RecommendationEvaluationConfig | undefined;
 }
 export type RecommendationToolName = string;
 export type ToolDescriptionText = string | redacted.Redacted<string>;
@@ -1361,8 +1425,8 @@ export interface ToolDescriptionConfigurationBundle {
   tools: ConfigurationBundleToolEntry[];
 }
 export type ToolDescriptionSource =
-  | { toolDescriptionText: ToolDescriptionTextInput; configurationBundle?: never }
-  | { toolDescriptionText?: never; configurationBundle: ToolDescriptionConfigurationBundle };
+  | { toolDescriptionText: ToolDescriptionTextInput; configurationBundle?: undefined }
+  | { toolDescriptionText?: undefined; configurationBundle: ToolDescriptionConfigurationBundle };
 export interface ToolDescriptionRecommendationConfig {
   toolDescription: ToolDescriptionSource;
   agentTraces: AgentTracesConfig;
@@ -1370,10 +1434,10 @@ export interface ToolDescriptionRecommendationConfig {
 export type RecommendationConfig =
   | {
       systemPromptRecommendationConfig: SystemPromptRecommendationConfig;
-      toolDescriptionRecommendationConfig?: never;
+      toolDescriptionRecommendationConfig?: undefined;
     }
   | {
-      systemPromptRecommendationConfig?: never;
+      systemPromptRecommendationConfig?: undefined;
       toolDescriptionRecommendationConfig: ToolDescriptionRecommendationConfig;
     };
 export interface RecommendationResultConfigurationBundle {
@@ -1384,45 +1448,45 @@ export type RecommendationExplanation = string;
 export type RecommendationErrorCode = string;
 export type RecommendationErrorMessage = string;
 export interface SystemPromptRecommendationResult {
-  recommendedSystemPrompt?: string | redacted.Redacted<string>;
-  configurationBundle?: RecommendationResultConfigurationBundle;
-  explanation?: string;
-  errorCode?: string;
-  errorMessage?: string;
+  recommendedSystemPrompt?: string | redacted.Redacted<string> | undefined;
+  configurationBundle?: RecommendationResultConfigurationBundle | undefined;
+  explanation?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface ToolDescriptionOutput {
   toolName: string;
-  recommendedToolDescription?: string | redacted.Redacted<string>;
-  explanation?: string;
+  recommendedToolDescription?: string | redacted.Redacted<string> | undefined;
+  explanation?: string | undefined;
 }
 export type ToolDescriptionResultList = ToolDescriptionOutput[];
 export interface ToolDescriptionRecommendationResult {
-  tools?: ToolDescriptionOutput[];
-  configurationBundle?: RecommendationResultConfigurationBundle;
-  errorCode?: string;
-  errorMessage?: string;
+  tools?: ToolDescriptionOutput[] | undefined;
+  configurationBundle?: RecommendationResultConfigurationBundle | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type RecommendationResult =
   | {
       systemPromptRecommendationResult: SystemPromptRecommendationResult;
-      toolDescriptionRecommendationResult?: never;
+      toolDescriptionRecommendationResult?: undefined;
     }
   | {
-      systemPromptRecommendationResult?: never;
+      systemPromptRecommendationResult?: undefined;
       toolDescriptionRecommendationResult: ToolDescriptionRecommendationResult;
     };
 export interface GetRecommendationResponse {
   recommendationId: string;
   recommendationArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: RecommendationType;
   recommendationConfig: RecommendationConfig;
   status: RecommendationStatus;
   createdAt: Date;
   updatedAt: Date;
-  recommendationResult?: RecommendationResult;
-  kmsKeyArn?: string;
+  recommendationResult?: RecommendationResult | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type WorkloadIdentityTokenType = string | redacted.Redacted<string>;
 export type CredentialProviderName = string;
@@ -1457,22 +1521,22 @@ export interface GetResourceOauth2TokenRequest {
   resourceCredentialProviderName: string;
   scopes: string[];
   oauth2Flow: Oauth2FlowType;
-  sessionUri?: string;
-  resourceOauth2ReturnUrl?: string;
-  forceAuthentication?: boolean;
-  customParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  customState?: string | redacted.Redacted<string>;
-  resources?: string[];
-  audiences?: string[];
+  sessionUri?: string | undefined;
+  resourceOauth2ReturnUrl?: string | undefined;
+  forceAuthentication?: boolean | undefined;
+  customParameters?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  customState?: string | redacted.Redacted<string> | undefined;
+  resources?: string[] | undefined;
+  audiences?: string[] | undefined;
 }
 export type AuthorizationUrlType = string | redacted.Redacted<string>;
 export type AccessTokenType = string | redacted.Redacted<string>;
 export type SessionStatus = "IN_PROGRESS" | "FAILED" | (string & {});
 export interface GetResourceOauth2TokenResponse {
-  authorizationUrl?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  sessionUri?: string;
-  sessionStatus?: SessionStatus;
+  authorizationUrl?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  sessionUri?: string | undefined;
+  sessionStatus?: SessionStatus | undefined;
 }
 export type PaymentHttpMethodType = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | (string & {});
 export type PaymentRequestHostType = string;
@@ -1480,23 +1544,23 @@ export type PaymentRequestPathType = string;
 export type CoinbaseCdpPaymentRequestBodyType = string;
 export interface CoinbaseCdpTokenRequestInput {
   requestMethod: PaymentHttpMethodType;
-  requestHost?: string;
+  requestHost?: string | undefined;
   requestPath: string;
-  includeWalletAuthToken?: boolean;
-  requestBody?: string;
+  includeWalletAuthToken?: boolean | undefined;
+  requestBody?: string | undefined;
 }
 export type StripePrivyRequestHostType = string;
 export type StripePrivyRequestPathType = string;
 export type StripePrivyRequestBodyType = string | redacted.Redacted<string>;
 export interface StripePrivyTokenRequestInput {
-  requestHost?: string;
+  requestHost?: string | undefined;
   requestPath: string;
   requestBody: string | redacted.Redacted<string>;
-  includeAuthorizationSignature?: boolean;
+  includeAuthorizationSignature?: boolean | undefined;
 }
 export type PaymentTokenRequestInput =
-  | { coinbaseCdpTokenRequest: CoinbaseCdpTokenRequestInput; stripePrivyTokenRequest?: never }
-  | { coinbaseCdpTokenRequest?: never; stripePrivyTokenRequest: StripePrivyTokenRequestInput };
+  | { coinbaseCdpTokenRequest: CoinbaseCdpTokenRequestInput; stripePrivyTokenRequest?: undefined }
+  | { coinbaseCdpTokenRequest?: undefined; stripePrivyTokenRequest: StripePrivyTokenRequestInput };
 export interface GetResourcePaymentTokenRequest {
   workloadIdentityToken: string | redacted.Redacted<string>;
   resourceCredentialProviderName: string;
@@ -1505,20 +1569,26 @@ export interface GetResourcePaymentTokenRequest {
 export type CoinbaseCdpPaymentJwtTokenType = string | redacted.Redacted<string>;
 export interface CoinbaseCdpTokenResponseOutput {
   bearerToken: string | redacted.Redacted<string>;
-  walletAuthToken?: string | redacted.Redacted<string>;
+  walletAuthToken?: string | redacted.Redacted<string> | undefined;
 }
 export type StripePrivyAuthorizationSignatureType = string | redacted.Redacted<string>;
 export type StripePrivyAppIdType = string;
 export type StripePrivyBasicAuthTokenType = string | redacted.Redacted<string>;
 export interface StripePrivyTokenResponseOutput {
-  authorizationSignature?: string | redacted.Redacted<string>;
-  requestExpiry?: number;
+  authorizationSignature?: string | redacted.Redacted<string> | undefined;
+  requestExpiry?: number | undefined;
   appId: string;
   basicAuthToken: string | redacted.Redacted<string>;
 }
 export type PaymentTokenResponseOutput =
-  | { coinbaseCdpTokenResponse: CoinbaseCdpTokenResponseOutput; stripePrivyTokenResponse?: never }
-  | { coinbaseCdpTokenResponse?: never; stripePrivyTokenResponse: StripePrivyTokenResponseOutput };
+  | {
+      coinbaseCdpTokenResponse: CoinbaseCdpTokenResponseOutput;
+      stripePrivyTokenResponse?: undefined;
+    }
+  | {
+      coinbaseCdpTokenResponse?: undefined;
+      stripePrivyTokenResponse: StripePrivyTokenResponseOutput;
+    };
 export interface GetResourcePaymentTokenResponse {
   paymentTokenResponse: PaymentTokenResponseOutput;
 }
@@ -1544,8 +1614,8 @@ export interface GetWorkloadAccessTokenForUserIdResponse {
   workloadAccessToken: string | redacted.Redacted<string>;
 }
 export type IngestPayloadType =
-  | { conversational: Conversational; json?: never }
-  | { conversational?: never; json: MemoryJsonData };
+  | { conversational: Conversational; json?: undefined }
+  | { conversational?: undefined; json: MemoryJsonData };
 export type IngestPayloadList = IngestPayloadType[];
 export interface InlineMemoryContent {
   payload: IngestPayloadType[];
@@ -1556,10 +1626,10 @@ export interface IngestDataInput {
   source: ContentSource;
   contentTimestamp: Date;
   actorId: string;
-  sessionId?: string;
-  extractionConfig?: ExtractionConfig;
-  metadata?: { [key: string]: MetadataValue | undefined };
-  clientToken?: string;
+  sessionId?: string | undefined;
+  extractionConfig?: ExtractionConfig | undefined;
+  metadata?: { [key: string]: MetadataValue | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface IngestDataOutput {
   sessionId: string;
@@ -1568,57 +1638,57 @@ export type MimeType = string;
 export type StringType = string;
 export type Body = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface InvokeAgentRuntimeRequest {
-  contentType?: string;
-  accept?: string;
-  mcpSessionId?: string;
-  runtimeSessionId?: string;
-  mcpProtocolVersion?: string;
-  mcpMethod?: string;
-  mcpName?: string;
-  runtimeUserId?: string;
-  traceId?: string;
-  traceParent?: string;
-  traceState?: string;
-  baggage?: string;
+  contentType?: string | undefined;
+  accept?: string | undefined;
+  mcpSessionId?: string | undefined;
+  runtimeSessionId?: string | undefined;
+  mcpProtocolVersion?: string | undefined;
+  mcpMethod?: string | undefined;
+  mcpName?: string | undefined;
+  runtimeUserId?: string | undefined;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
+  traceState?: string | undefined;
+  baggage?: string | undefined;
   agentRuntimeArn: string;
-  qualifier?: string;
-  accountId?: string;
+  qualifier?: string | undefined;
+  accountId?: string | undefined;
   payload: T.StreamingInputBody;
 }
 export interface InvokeAgentRuntimeResponse {
-  runtimeSessionId?: string;
-  sessionEndpointUrl?: string;
-  mcpSessionId?: string;
-  mcpProtocolVersion?: string;
-  traceId?: string;
-  traceParent?: string;
-  traceState?: string;
-  baggage?: string;
+  runtimeSessionId?: string | undefined;
+  sessionEndpointUrl?: string | undefined;
+  mcpSessionId?: string | undefined;
+  mcpProtocolVersion?: string | undefined;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
+  traceState?: string | undefined;
+  baggage?: string | undefined;
   contentType: string;
-  response?: T.StreamingOutputBody;
-  statusCode?: number;
+  response?: T.StreamingOutputBody | undefined;
+  statusCode?: number | undefined;
 }
 export interface InvokeAgentRuntimeCommandRequestBody {
   command: string;
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface InvokeAgentRuntimeCommandRequest {
-  contentType?: string;
-  accept?: string;
-  runtimeSessionId?: string;
-  traceId?: string;
-  traceParent?: string;
-  traceState?: string;
-  baggage?: string;
+  contentType?: string | undefined;
+  accept?: string | undefined;
+  runtimeSessionId?: string | undefined;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
+  traceState?: string | undefined;
+  baggage?: string | undefined;
   agentRuntimeArn: string;
-  qualifier?: string;
-  accountId?: string;
+  qualifier?: string | undefined;
+  accountId?: string | undefined;
   body: InvokeAgentRuntimeCommandRequestBody;
 }
 export interface ContentStartEvent {}
 export interface ContentDeltaEvent {
-  stdout?: string;
-  stderr?: string;
+  stdout?: string | undefined;
+  stderr?: string | undefined;
 }
 export type CommandExecutionStatus = "COMPLETED" | "TIMED_OUT" | (string & {});
 export interface ContentStopEvent {
@@ -1626,9 +1696,9 @@ export interface ContentStopEvent {
   status: CommandExecutionStatus;
 }
 export interface ResponseChunk {
-  contentStart?: ContentStartEvent;
-  contentDelta?: ContentDeltaEvent;
-  contentStop?: ContentStopEvent;
+  contentStart?: ContentStartEvent | undefined;
+  contentDelta?: ContentDeltaEvent | undefined;
+  contentStop?: ContentStopEvent | undefined;
 }
 export type NonBlankString = string;
 export type ValidationExceptionReason =
@@ -1646,100 +1716,100 @@ export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type InvokeAgentRuntimeCommandStreamOutput =
   | {
       chunk: ResponseChunk;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
+      chunk?: undefined;
       accessDeniedException: AccessDeniedException;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
       internalServerException: InternalServerException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      throttlingException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      validationException?: never;
-      runtimeClientError?: never;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       validationException: ValidationException;
-      runtimeClientError?: never;
+      runtimeClientError?: undefined;
     }
   | {
-      chunk?: never;
-      accessDeniedException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      chunk?: undefined;
+      accessDeniedException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
       runtimeClientError: RuntimeClientError;
     };
 export interface InvokeAgentRuntimeCommandResponse {
-  runtimeSessionId?: string;
-  traceId?: string;
-  traceParent?: string;
-  traceState?: string;
-  baggage?: string;
+  runtimeSessionId?: string | undefined;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
+  traceState?: string | undefined;
+  baggage?: string | undefined;
   contentType: string;
-  statusCode?: number;
+  statusCode?: number | undefined;
   stream: stream.Stream<InvokeAgentRuntimeCommandStreamOutput, Error, never>;
 }
 export type MouseButton = "LEFT" | "RIGHT" | "MIDDLE" | (string & {});
 export interface MouseClickArguments {
   x: number;
   y: number;
-  button?: MouseButton;
-  clickCount?: number;
+  button?: MouseButton | undefined;
+  clickCount?: number | undefined;
 }
 export interface MouseMoveArguments {
   x: number;
@@ -1750,20 +1820,20 @@ export interface MouseDragArguments {
   endY: number;
   startX: number;
   startY: number;
-  button?: MouseButton;
+  button?: MouseButton | undefined;
 }
 export interface MouseScrollArguments {
   x: number;
   y: number;
-  deltaX?: number;
-  deltaY?: number;
+  deltaX?: number | undefined;
+  deltaY?: number | undefined;
 }
 export interface KeyTypeArguments {
   text: string;
 }
 export interface KeyPressArguments {
   key: string;
-  presses?: number;
+  presses?: number | undefined;
 }
 export type KeyList = string[];
 export interface KeyShortcutArguments {
@@ -1771,87 +1841,87 @@ export interface KeyShortcutArguments {
 }
 export type ScreenshotFormat = "PNG" | (string & {});
 export interface ScreenshotArguments {
-  format?: ScreenshotFormat;
+  format?: ScreenshotFormat | undefined;
 }
 export type BrowserAction =
   | {
       mouseClick: MouseClickArguments;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
+      mouseClick?: undefined;
       mouseMove: MouseMoveArguments;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
       mouseDrag: MouseDragArguments;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
       mouseScroll: MouseScrollArguments;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
       keyType: KeyTypeArguments;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
       keyPress: KeyPressArguments;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
       keyShortcut: KeyShortcutArguments;
-      screenshot?: never;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
       screenshot: ScreenshotArguments;
     };
 export interface InvokeBrowserRequest {
@@ -1862,116 +1932,116 @@ export interface InvokeBrowserRequest {
 export type BrowserActionStatus = "SUCCESS" | "FAILED" | (string & {});
 export interface MouseClickResult {
   status: BrowserActionStatus;
-  error?: string;
+  error?: string | undefined;
 }
 export interface MouseMoveResult {
   status: BrowserActionStatus;
-  error?: string;
+  error?: string | undefined;
 }
 export interface MouseDragResult {
   status: BrowserActionStatus;
-  error?: string;
+  error?: string | undefined;
 }
 export interface MouseScrollResult {
   status: BrowserActionStatus;
-  error?: string;
+  error?: string | undefined;
 }
 export interface KeyTypeResult {
   status: BrowserActionStatus;
-  error?: string;
+  error?: string | undefined;
 }
 export interface KeyPressResult {
   status: BrowserActionStatus;
-  error?: string;
+  error?: string | undefined;
 }
 export interface KeyShortcutResult {
   status: BrowserActionStatus;
-  error?: string;
+  error?: string | undefined;
 }
 export interface ScreenshotResult {
   status: BrowserActionStatus;
-  error?: string;
-  data?: Uint8Array;
+  error?: string | undefined;
+  data?: Uint8Array | undefined;
 }
 export type BrowserActionResult =
   | {
       mouseClick: MouseClickResult;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
+      mouseClick?: undefined;
       mouseMove: MouseMoveResult;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
       mouseDrag: MouseDragResult;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
       mouseScroll: MouseScrollResult;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
       keyType: KeyTypeResult;
-      keyPress?: never;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
       keyPress: KeyPressResult;
-      keyShortcut?: never;
-      screenshot?: never;
+      keyShortcut?: undefined;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
       keyShortcut: KeyShortcutResult;
-      screenshot?: never;
+      screenshot?: undefined;
     }
   | {
-      mouseClick?: never;
-      mouseMove?: never;
-      mouseDrag?: never;
-      mouseScroll?: never;
-      keyType?: never;
-      keyPress?: never;
-      keyShortcut?: never;
+      mouseClick?: undefined;
+      mouseMove?: undefined;
+      mouseDrag?: undefined;
+      mouseScroll?: undefined;
+      keyType?: undefined;
+      keyPress?: undefined;
+      keyShortcut?: undefined;
       screenshot: ScreenshotResult;
     };
 export interface InvokeBrowserResponse {
@@ -1994,50 +2064,50 @@ export type ProgrammingLanguage = "python" | "javascript" | "typescript" | (stri
 export type StringList = string[];
 export interface InputContentBlock {
   path: string;
-  text?: string;
-  blob?: Uint8Array | redacted.Redacted<Uint8Array>;
+  text?: string | undefined;
+  blob?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type InputContentBlockList = InputContentBlock[];
 export type LanguageRuntime = "nodejs" | "deno" | "python" | (string & {});
 export interface ToolArguments {
-  code?: string;
-  language?: ProgrammingLanguage;
-  clearContext?: boolean;
-  command?: string;
-  path?: string;
-  paths?: string[];
-  content?: InputContentBlock[];
-  directoryPath?: string;
-  taskId?: string;
-  runtime?: LanguageRuntime;
+  code?: string | undefined;
+  language?: ProgrammingLanguage | undefined;
+  clearContext?: boolean | undefined;
+  command?: string | undefined;
+  path?: string | undefined;
+  paths?: string[] | undefined;
+  content?: InputContentBlock[] | undefined;
+  directoryPath?: string | undefined;
+  taskId?: string | undefined;
+  runtime?: LanguageRuntime | undefined;
 }
 export interface InvokeCodeInterpreterRequest {
   codeInterpreterIdentifier: string;
-  sessionId?: string;
-  traceId?: string;
-  traceParent?: string;
+  sessionId?: string | undefined;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
   name: ToolName;
-  arguments?: ToolArguments;
+  arguments?: ToolArguments | undefined;
 }
 export type ContentBlockType = "text" | "image" | "resource" | "resource_link" | (string & {});
 export type ResourceContentType = "text" | "blob" | (string & {});
 export interface ResourceContent {
   type: ResourceContentType;
-  uri?: string;
-  mimeType?: string;
-  text?: string;
-  blob?: Uint8Array;
+  uri?: string | undefined;
+  mimeType?: string | undefined;
+  text?: string | undefined;
+  blob?: Uint8Array | undefined;
 }
 export interface ContentBlock {
   type: ContentBlockType;
-  text?: string;
-  data?: Uint8Array;
-  mimeType?: string;
-  uri?: string;
-  name?: string;
-  description?: string;
-  size?: number;
-  resource?: ResourceContent;
+  text?: string | undefined;
+  data?: Uint8Array | undefined;
+  mimeType?: string | undefined;
+  uri?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  size?: number | undefined;
+  resource?: ResourceContent | undefined;
 }
 export type ContentBlockList = ContentBlock[];
 export type TaskStatus =
@@ -2048,101 +2118,101 @@ export type TaskStatus =
   | "failed"
   | (string & {});
 export interface ToolResultStructuredContent {
-  taskId?: string;
-  taskStatus?: TaskStatus;
-  stdout?: string;
-  stderr?: string;
-  exitCode?: number;
-  executionTime?: number;
+  taskId?: string | undefined;
+  taskStatus?: TaskStatus | undefined;
+  stdout?: string | undefined;
+  stderr?: string | undefined;
+  exitCode?: number | undefined;
+  executionTime?: number | undefined;
 }
 export interface CodeInterpreterResult {
   content: ContentBlock[];
-  structuredContent?: ToolResultStructuredContent;
-  isError?: boolean;
+  structuredContent?: ToolResultStructuredContent | undefined;
+  isError?: boolean | undefined;
 }
 export type CodeInterpreterStreamOutput =
   | {
       result: CodeInterpreterResult;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
+      result?: undefined;
       accessDeniedException: AccessDeniedException;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
       conflictException: ConflictException;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
       internalServerException: InternalServerException;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
       resourceNotFoundException: ResourceNotFoundException;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
-      validationException?: never;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
       serviceQuotaExceededException: ServiceQuotaExceededException;
-      throttlingException?: never;
-      validationException?: never;
+      throttlingException?: undefined;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
       throttlingException: ThrottlingException;
-      validationException?: never;
+      validationException?: undefined;
     }
   | {
-      result?: never;
-      accessDeniedException?: never;
-      conflictException?: never;
-      internalServerException?: never;
-      resourceNotFoundException?: never;
-      serviceQuotaExceededException?: never;
-      throttlingException?: never;
+      result?: undefined;
+      accessDeniedException?: undefined;
+      conflictException?: undefined;
+      internalServerException?: undefined;
+      resourceNotFoundException?: undefined;
+      serviceQuotaExceededException?: undefined;
+      throttlingException?: undefined;
       validationException: ValidationException;
     };
 export interface InvokeCodeInterpreterResponse {
-  sessionId?: string;
+  sessionId?: string | undefined;
   stream: stream.Stream<CodeInterpreterStreamOutput, Error, never>;
 }
 export type HarnessArn = string;
@@ -2157,40 +2227,50 @@ export interface HarnessToolUseBlock {
   name: string;
   toolUseId: string;
   input: any;
-  type?: HarnessToolUseType;
-  serverName?: string;
+  type?: HarnessToolUseType | undefined;
+  serverName?: string | undefined;
 }
 export type HarnessToolResultContentBlock =
-  | { text: string | redacted.Redacted<string>; json?: never }
-  | { text?: never; json: any };
+  | { text: string | redacted.Redacted<string>; json?: undefined }
+  | { text?: undefined; json: any };
 export type HarnessToolResultContentBlocks = HarnessToolResultContentBlock[];
 export type HarnessToolUseStatus = "success" | "error" | (string & {});
 export interface HarnessToolResultBlock {
   toolUseId: string;
   content: HarnessToolResultContentBlock[];
-  status?: HarnessToolUseStatus;
-  type?: HarnessToolUseType;
+  status?: HarnessToolUseStatus | undefined;
+  type?: HarnessToolUseType | undefined;
 }
 export interface HarnessReasoningTextBlock {
   text: string;
-  signature?: string;
+  signature?: string | undefined;
 }
 export type HarnessReasoningContentBlock =
-  | { reasoningText: HarnessReasoningTextBlock; redactedContent?: never }
-  | { reasoningText?: never; redactedContent: Uint8Array };
+  | { reasoningText: HarnessReasoningTextBlock; redactedContent?: undefined }
+  | { reasoningText?: undefined; redactedContent: Uint8Array };
 export type HarnessContentBlock =
   | {
       text: string | redacted.Redacted<string>;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
     }
-  | { text?: never; toolUse: HarnessToolUseBlock; toolResult?: never; reasoningContent?: never }
-  | { text?: never; toolUse?: never; toolResult: HarnessToolResultBlock; reasoningContent?: never }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      toolUse: HarnessToolUseBlock;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+    }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult: HarnessToolResultBlock;
+      reasoningContent?: undefined;
+    }
+  | {
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       reasoningContent: HarnessReasoningContentBlock;
     };
 export type HarnessContentBlocks = HarnessContentBlock[];
@@ -2210,11 +2290,11 @@ export type HarnessBedrockApiFormat =
   | (string & {});
 export interface HarnessBedrockModelConfig {
   modelId: string;
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  apiFormat?: HarnessBedrockApiFormat;
-  additionalParams?: any;
+  maxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  apiFormat?: HarnessBedrockApiFormat | undefined;
+  additionalParams?: any | undefined;
 }
 export type ApiKeyArn = string;
 export type HarnessOpenAiApiBase = string | redacted.Redacted<string>;
@@ -2222,56 +2302,56 @@ export type HarnessOpenAiApiFormat = "chat_completions" | "responses" | (string 
 export interface HarnessOpenAiModelConfig {
   modelId: string;
   apiKeyArn: string;
-  apiBase?: string | redacted.Redacted<string>;
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  apiFormat?: HarnessOpenAiApiFormat;
-  additionalParams?: any;
+  apiBase?: string | redacted.Redacted<string> | undefined;
+  maxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  apiFormat?: HarnessOpenAiApiFormat | undefined;
+  additionalParams?: any | undefined;
 }
 export type TopK = number;
 export interface HarnessGeminiModelConfig {
   modelId: string;
   apiKeyArn: string;
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  additionalParams?: any;
+  maxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  topK?: number | undefined;
+  additionalParams?: any | undefined;
 }
 export type HarnessLiteLlmApiBase = string | redacted.Redacted<string>;
 export interface HarnessLiteLlmModelConfig {
   modelId: string;
-  apiKeyArn?: string;
-  apiBase?: string | redacted.Redacted<string>;
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  additionalParams?: any;
+  apiKeyArn?: string | undefined;
+  apiBase?: string | redacted.Redacted<string> | undefined;
+  maxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  additionalParams?: any | undefined;
 }
 export type HarnessModelConfiguration =
   | {
       bedrockModelConfig: HarnessBedrockModelConfig;
-      openAiModelConfig?: never;
-      geminiModelConfig?: never;
-      liteLlmModelConfig?: never;
+      openAiModelConfig?: undefined;
+      geminiModelConfig?: undefined;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
+      bedrockModelConfig?: undefined;
       openAiModelConfig: HarnessOpenAiModelConfig;
-      geminiModelConfig?: never;
-      liteLlmModelConfig?: never;
+      geminiModelConfig?: undefined;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
-      openAiModelConfig?: never;
+      bedrockModelConfig?: undefined;
+      openAiModelConfig?: undefined;
       geminiModelConfig: HarnessGeminiModelConfig;
-      liteLlmModelConfig?: never;
+      liteLlmModelConfig?: undefined;
     }
   | {
-      bedrockModelConfig?: never;
-      openAiModelConfig?: never;
-      geminiModelConfig?: never;
+      bedrockModelConfig?: undefined;
+      openAiModelConfig?: undefined;
+      geminiModelConfig?: undefined;
       liteLlmModelConfig: HarnessLiteLlmModelConfig;
     };
 export type HarnessSystemContentBlock = { text: string | redacted.Redacted<string> };
@@ -2289,11 +2369,11 @@ export type HttpHeaderValue = string;
 export type HttpHeadersMap = { [key: string]: string | undefined };
 export interface HarnessRemoteMcpConfig {
   url: string | redacted.Redacted<string>;
-  headers?: { [key: string]: string | undefined };
+  headers?: { [key: string]: string | undefined } | undefined;
 }
 export type HarnessBrowserArn = string;
 export interface HarnessAgentCoreBrowserConfig {
-  browserArn?: string;
+  browserArn?: string | undefined;
 }
 export type OAuthCredentialProviderArn = string;
 export type OAuthScope = string;
@@ -2312,17 +2392,17 @@ export type OAuthDefaultReturnUrl = string;
 export interface OAuthCredentialProvider {
   providerArn: string;
   scopes: string[];
-  customParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  grantType?: OAuthGrantType;
-  defaultReturnUrl?: string;
+  customParameters?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  grantType?: OAuthGrantType | undefined;
+  defaultReturnUrl?: string | undefined;
 }
 export type HarnessGatewayOutboundAuth =
-  | { awsIam: Record<string, never>; none?: never; oauth?: never }
-  | { awsIam?: never; none: Record<string, never>; oauth?: never }
-  | { awsIam?: never; none?: never; oauth: OAuthCredentialProvider };
+  | { awsIam: Record<string, never>; none?: undefined; oauth?: undefined }
+  | { awsIam?: undefined; none: Record<string, never>; oauth?: undefined }
+  | { awsIam?: undefined; none?: undefined; oauth: OAuthCredentialProvider };
 export interface HarnessAgentCoreGatewayConfig {
   gatewayArn: string;
-  outboundAuth?: HarnessGatewayOutboundAuth;
+  outboundAuth?: HarnessGatewayOutboundAuth | undefined;
 }
 export type HarnessInlineFunctionDescription = string | redacted.Redacted<string>;
 export interface HarnessInlineFunctionConfig {
@@ -2331,48 +2411,48 @@ export interface HarnessInlineFunctionConfig {
 }
 export type HarnessCodeInterpreterArn = string;
 export interface HarnessAgentCoreCodeInterpreterConfig {
-  codeInterpreterArn?: string;
+  codeInterpreterArn?: string | undefined;
 }
 export type HarnessToolConfiguration =
   | {
       remoteMcp: HarnessRemoteMcpConfig;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
+      remoteMcp?: undefined;
       agentCoreBrowser: HarnessAgentCoreBrowserConfig;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
       agentCoreGateway: HarnessAgentCoreGatewayConfig;
-      inlineFunction?: never;
-      agentCoreCodeInterpreter?: never;
+      inlineFunction?: undefined;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
       inlineFunction: HarnessInlineFunctionConfig;
-      agentCoreCodeInterpreter?: never;
+      agentCoreCodeInterpreter?: undefined;
     }
   | {
-      remoteMcp?: never;
-      agentCoreBrowser?: never;
-      agentCoreGateway?: never;
-      inlineFunction?: never;
+      remoteMcp?: undefined;
+      agentCoreBrowser?: undefined;
+      agentCoreGateway?: undefined;
+      inlineFunction?: undefined;
       agentCoreCodeInterpreter: HarnessAgentCoreCodeInterpreterConfig;
     };
 export interface HarnessTool {
   type: HarnessToolType;
-  name?: string;
-  config?: HarnessToolConfiguration;
+  name?: string | undefined;
+  config?: HarnessToolConfiguration | undefined;
 }
 export type HarnessTools = HarnessTool[];
 export type HarnessSkillPath = string;
@@ -2383,45 +2463,45 @@ export interface HarnessSkillS3Source {
 export type HarnessSkillGitUrl = string;
 export interface HarnessSkillGitAuth {
   credentialArn: string;
-  username?: string;
+  username?: string | undefined;
 }
 export interface HarnessSkillGitSource {
   url: string;
-  path?: string;
-  auth?: HarnessSkillGitAuth;
+  path?: string | undefined;
+  auth?: HarnessSkillGitAuth | undefined;
 }
 export type HarnessAwsSkillPath = string;
 export type HarnessAwsSkillPaths = string[];
 export interface HarnessSkillAwsSkillsSource {
-  paths?: string[];
+  paths?: string[] | undefined;
 }
 export type HarnessSkill =
-  | { path: string; s3?: never; git?: never; awsSkills?: never }
-  | { path?: never; s3: HarnessSkillS3Source; git?: never; awsSkills?: never }
-  | { path?: never; s3?: never; git: HarnessSkillGitSource; awsSkills?: never }
-  | { path?: never; s3?: never; git?: never; awsSkills: HarnessSkillAwsSkillsSource };
+  | { path: string; s3?: undefined; git?: undefined; awsSkills?: undefined }
+  | { path?: undefined; s3: HarnessSkillS3Source; git?: undefined; awsSkills?: undefined }
+  | { path?: undefined; s3?: undefined; git: HarnessSkillGitSource; awsSkills?: undefined }
+  | { path?: undefined; s3?: undefined; git?: undefined; awsSkills: HarnessSkillAwsSkillsSource };
 export type HarnessSkills = HarnessSkill[];
 export type HarnessAllowedTool = string;
 export type HarnessAllowedTools = string[];
 export interface InvokeHarnessRequest {
   harnessArn: string;
-  qualifier?: string;
+  qualifier?: string | undefined;
   runtimeSessionId: string;
-  runtimeUserId?: string;
-  traceParent?: string;
-  traceState?: string;
-  traceId?: string;
-  baggage?: string;
+  runtimeUserId?: string | undefined;
+  traceParent?: string | undefined;
+  traceState?: string | undefined;
+  traceId?: string | undefined;
+  baggage?: string | undefined;
   messages: HarnessMessage[];
-  model?: HarnessModelConfiguration;
-  systemPrompt?: HarnessSystemContentBlock[];
-  tools?: HarnessTool[];
-  skills?: HarnessSkill[];
-  allowedTools?: string[];
-  maxIterations?: number;
-  maxTokens?: number;
-  timeoutSeconds?: number;
-  actorId?: string;
+  model?: HarnessModelConfiguration | undefined;
+  systemPrompt?: HarnessSystemContentBlock[] | undefined;
+  tools?: HarnessTool[] | undefined;
+  skills?: HarnessSkill[] | undefined;
+  allowedTools?: string[] | undefined;
+  maxIterations?: number | undefined;
+  maxTokens?: number | undefined;
+  timeoutSeconds?: number | undefined;
+  actorId?: string | undefined;
 }
 export interface HarnessMessageStartEvent {
   role: HarnessConversationRole;
@@ -2429,16 +2509,16 @@ export interface HarnessMessageStartEvent {
 export interface HarnessToolUseBlockStart {
   toolUseId: string;
   name: string;
-  type?: HarnessToolUseType;
-  serverName?: string;
+  type?: HarnessToolUseType | undefined;
+  serverName?: string | undefined;
 }
 export interface HarnessToolResultBlockStart {
   toolUseId: string;
-  status?: HarnessToolUseStatus;
+  status?: HarnessToolUseStatus | undefined;
 }
 export type HarnessContentBlockStart =
-  | { toolUse: HarnessToolUseBlockStart; toolResult?: never }
-  | { toolUse?: never; toolResult: HarnessToolResultBlockStart };
+  | { toolUse: HarnessToolUseBlockStart; toolResult?: undefined }
+  | { toolUse?: undefined; toolResult: HarnessToolResultBlockStart };
 export interface HarnessContentBlockStartEvent {
   contentBlockIndex: number;
   start: HarnessContentBlockStart;
@@ -2447,50 +2527,54 @@ export interface HarnessToolUseBlockDelta {
   input: string | redacted.Redacted<string>;
 }
 export type HarnessToolResultBlockDelta =
-  | { text: string | redacted.Redacted<string>; json?: never }
-  | { text?: never; json: any };
+  | { text: string | redacted.Redacted<string>; json?: undefined }
+  | { text?: undefined; json: any };
 export type HarnessToolResultBlocksDelta = HarnessToolResultBlockDelta[];
 export type HarnessReasoningContentBlockDelta =
-  | { text: string; redactedContent?: never; signature?: never }
-  | { text?: never; redactedContent: Uint8Array | redacted.Redacted<Uint8Array>; signature?: never }
-  | { text?: never; redactedContent?: never; signature: string };
+  | { text: string; redactedContent?: undefined; signature?: undefined }
+  | {
+      text?: undefined;
+      redactedContent: Uint8Array | redacted.Redacted<Uint8Array>;
+      signature?: undefined;
+    }
+  | { text?: undefined; redactedContent?: undefined; signature: string };
 export interface HarnessToolResultMetadataBlockDelta {
   metadata: string | redacted.Redacted<string>;
 }
 export type HarnessContentBlockDelta =
   | {
       text: string | redacted.Redacted<string>;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
-      toolResultMetadata?: never;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
+      text?: undefined;
       toolUse: HarnessToolUseBlockDelta;
-      toolResult?: never;
-      reasoningContent?: never;
-      toolResultMetadata?: never;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
+      text?: undefined;
+      toolUse?: undefined;
       toolResult: HarnessToolResultBlockDelta[];
-      reasoningContent?: never;
-      toolResultMetadata?: never;
+      reasoningContent?: undefined;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
       reasoningContent: HarnessReasoningContentBlockDelta;
-      toolResultMetadata?: never;
+      toolResultMetadata?: undefined;
     }
   | {
-      text?: never;
-      toolUse?: never;
-      toolResult?: never;
-      reasoningContent?: never;
+      text?: undefined;
+      toolUse?: undefined;
+      toolResult?: undefined;
+      reasoningContent?: undefined;
       toolResultMetadata: HarnessToolResultMetadataBlockDelta;
     };
 export interface HarnessContentBlockDeltaEvent {
@@ -2524,8 +2608,8 @@ export interface HarnessTokenUsage {
   inputTokens: number;
   outputTokens: number;
   totalTokens: number;
-  cacheReadInputTokens?: number;
-  cacheWriteInputTokens?: number;
+  cacheReadInputTokens?: number | undefined;
+  cacheWriteInputTokens?: number | undefined;
 }
 export interface HarnessStreamMetrics {
   latencyMs: number;
@@ -2547,136 +2631,167 @@ export interface HarnessHookEvent {
   hookEventId: string;
   name: string;
   type: HarnessHookEventType;
-  decision?: HarnessHookDecision;
-  reason?: string;
+  decision?: HarnessHookDecision | undefined;
+  reason?: string | undefined;
 }
 export type InvokeHarnessStreamOutput =
   | {
       messageStart: HarnessMessageStartEvent;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
+      messageStart?: undefined;
       contentBlockStart: HarnessContentBlockStartEvent;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
       contentBlockDelta: HarnessContentBlockDeltaEvent;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
       contentBlockStop: HarnessContentBlockStopEvent;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
       messageStop: HarnessMessageStopEvent;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
       metadata: HarnessMetadataEvent;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
       internalServerException: InternalServerException;
-      validationException?: never;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
       validationException: ValidationException;
-      runtimeClientError?: never;
-      hookEvent?: never;
+      runtimeClientError?: undefined;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
       runtimeClientError: RuntimeClientError;
-      hookEvent?: never;
+      hookEvent?: undefined;
     }
   | {
-      messageStart?: never;
-      contentBlockStart?: never;
-      contentBlockDelta?: never;
-      contentBlockStop?: never;
-      messageStop?: never;
-      metadata?: never;
-      internalServerException?: never;
-      validationException?: never;
-      runtimeClientError?: never;
+      messageStart?: undefined;
+      contentBlockStart?: undefined;
+      contentBlockDelta?: undefined;
+      contentBlockStop?: undefined;
+      messageStop?: undefined;
+      metadata?: undefined;
+      internalServerException?: undefined;
+      validationException?: undefined;
+      runtimeClientError?: undefined;
       hookEvent: HarnessHookEvent;
     };
 export interface InvokeHarnessResponse {
   stream: stream.Stream<InvokeHarnessStreamOutput, Error, never>;
 }
+export type WebSearchId = string;
+export type DomainName = string;
+export type DomainList = string[];
+export interface DomainFilter {
+  include?: string[] | undefined;
+  exclude?: string[] | undefined;
+}
+export interface PublishedDateFilter {
+  publishedAfter?: Date | undefined;
+  publishedBefore?: Date | undefined;
+}
+export interface WebSearchFilters {
+  domainFilter?: DomainFilter | undefined;
+  publishedDateFilter?: PublishedDateFilter | undefined;
+}
+export interface InvokeWebSearchInput {
+  webSearchId: string;
+  searchQuery: string;
+  maxResults?: number | undefined;
+  filters?: WebSearchFilters | undefined;
+}
+export interface WebSearchResult {
+  title?: string | undefined;
+  url?: string | undefined;
+  text: string;
+  publishedAt?: Date | undefined;
+}
+export type WebSearchResultList = WebSearchResult[];
+export interface InvokeWebSearchOutput {
+  results: WebSearchResult[];
+}
 export interface ListABTestsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ABTestSummary {
   abTestId: string;
@@ -2684,22 +2799,22 @@ export interface ABTestSummary {
   name: string;
   status: ABTestStatus;
   executionStatus: ABTestExecutionStatus;
-  description?: string;
-  gatewayArn?: string;
+  description?: string | undefined;
+  gatewayArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type ABTestSummaryList = ABTestSummary[];
 export interface ListABTestsResponse {
   abTests: ABTestSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxResults = number;
 export type PaginationToken = string;
 export interface ListActorsInput {
   memoryId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ActorSummary {
   actorId: string;
@@ -2707,11 +2822,11 @@ export interface ActorSummary {
 export type ActorSummaryList = ActorSummary[];
 export interface ListActorsOutput {
   actorSummaries: ActorSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBatchEvaluationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BatchEvaluationSummary {
   batchEvaluationId: string;
@@ -2719,61 +2834,61 @@ export interface BatchEvaluationSummary {
   batchEvaluationName: string;
   status: BatchEvaluationStatus;
   createdAt: Date;
-  description?: string;
-  evaluators?: Evaluator[];
-  insights?: Insight[];
-  evaluationResults?: EvaluationJobResults;
-  errorDetails?: string[];
-  kmsKeyArn?: string;
-  updatedAt?: Date;
+  description?: string | undefined;
+  evaluators?: Evaluator[] | undefined;
+  insights?: Insight[] | undefined;
+  evaluationResults?: EvaluationJobResults | undefined;
+  errorDetails?: string[] | undefined;
+  kmsKeyArn?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type BatchEvaluationSummaryList = BatchEvaluationSummary[];
 export interface ListBatchEvaluationsResponse {
   batchEvaluations: BatchEvaluationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type NextToken = string;
 export interface ListBrowserSessionsRequest {
   browserIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
-  status?: BrowserSessionStatus;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: BrowserSessionStatus | undefined;
 }
 export interface BrowserSessionSummary {
   browserIdentifier: string;
   sessionId: string;
-  name?: string;
+  name?: string | undefined;
   status: BrowserSessionStatus;
   createdAt: Date;
-  lastUpdatedAt?: Date;
+  lastUpdatedAt?: Date | undefined;
 }
 export type BrowserSessionSummaries = BrowserSessionSummary[];
 export interface ListBrowserSessionsResponse {
   items: BrowserSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListCodeInterpreterSessionsRequest {
   codeInterpreterIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
-  status?: CodeInterpreterSessionStatus;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: CodeInterpreterSessionStatus | undefined;
 }
 export interface CodeInterpreterSessionSummary {
   codeInterpreterIdentifier: string;
   sessionId: string;
-  name?: string;
+  name?: string | undefined;
   status: CodeInterpreterSessionStatus;
   createdAt: Date;
-  lastUpdatedAt?: Date;
+  lastUpdatedAt?: Date | undefined;
 }
 export type CodeInterpreterSessionSummaries = CodeInterpreterSessionSummary[];
 export interface ListCodeInterpreterSessionsResponse {
   items: CodeInterpreterSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface BranchFilter {
   name: string;
-  includeParentBranches?: boolean;
+  includeParentBranches?: boolean | undefined;
 }
 export type LeftExpression = { metadataKey: string };
 export type OperatorType = "EQUALS_TO" | "EXISTS" | "NOT_EXISTS" | (string & {});
@@ -2781,39 +2896,39 @@ export type RightExpression = { metadataValue: MetadataValue };
 export interface EventMetadataFilterExpression {
   left: LeftExpression;
   operator: OperatorType;
-  right?: RightExpression;
+  right?: RightExpression | undefined;
 }
 export type EventMetadataFilterList = EventMetadataFilterExpression[];
 export interface FilterInput {
-  branch?: BranchFilter;
-  eventMetadata?: EventMetadataFilterExpression[];
+  branch?: BranchFilter | undefined;
+  eventMetadata?: EventMetadataFilterExpression[] | undefined;
 }
 export interface ListEventsInput {
   memoryId: string;
   sessionId: string;
   actorId: string;
-  includePayloads?: boolean;
-  filter?: FilterInput;
-  maxResults?: number;
-  nextToken?: string;
+  includePayloads?: boolean | undefined;
+  filter?: FilterInput | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EventList = Event[];
 export interface ListEventsOutput {
   events: Event[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ExtractionJobStatus = "FAILED" | (string & {});
 export interface ExtractionJobFilterInput {
-  strategyId?: string;
-  sessionId?: string;
-  actorId?: string;
-  status?: ExtractionJobStatus;
+  strategyId?: string | undefined;
+  sessionId?: string | undefined;
+  actorId?: string | undefined;
+  status?: ExtractionJobStatus | undefined;
 }
 export interface ListMemoryExtractionJobsInput {
   memoryId: string;
-  maxResults?: number;
-  filter?: ExtractionJobFilterInput;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  filter?: ExtractionJobFilterInput | undefined;
+  nextToken?: string | undefined;
 }
 export interface MessageMetadata {
   eventId: string;
@@ -2824,16 +2939,16 @@ export type ExtractionJobMessages = { messagesList: MessageMetadata[] };
 export interface ExtractionJobMetadata {
   jobID: string;
   messages: ExtractionJobMessages;
-  status?: ExtractionJobStatus;
-  failureReason?: string;
-  strategyId?: string;
-  sessionId?: string;
-  actorId?: string;
+  status?: ExtractionJobStatus | undefined;
+  failureReason?: string | undefined;
+  strategyId?: string | undefined;
+  sessionId?: string | undefined;
+  actorId?: string | undefined;
 }
 export type ExtractionJobMetadataList = ExtractionJobMetadata[];
 export interface ListMemoryExtractionJobsOutput {
   jobs: ExtractionJobMetadata[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MemoryRecordLeftExpression = { metadataKey: string };
 export type MemoryRecordOperatorType =
@@ -2852,40 +2967,40 @@ export type MemoryRecordRightExpression = { metadataValue: MemoryRecordMetadataV
 export interface MemoryMetadataFilterExpression {
   left: MemoryRecordLeftExpression;
   operator: MemoryRecordOperatorType;
-  right?: MemoryRecordRightExpression;
+  right?: MemoryRecordRightExpression | undefined;
 }
 export type MemoryMetadataFilterList = MemoryMetadataFilterExpression[];
 export interface ListMemoryRecordsInput {
   memoryId: string;
-  namespace?: string;
-  namespacePath?: string;
-  memoryStrategyId?: string;
-  maxResults?: number;
-  nextToken?: string;
-  metadataFilters?: MemoryMetadataFilterExpression[];
+  namespace?: string | undefined;
+  namespacePath?: string | undefined;
+  memoryStrategyId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  metadataFilters?: MemoryMetadataFilterExpression[] | undefined;
 }
 export interface MemoryRecordSummary {
   memoryRecordId: string;
   content: MemoryContent;
-  memoryStrategyId?: string;
+  memoryStrategyId?: string | undefined;
   namespaces: string[];
   createdAt: Date;
-  score?: number;
-  timestamp?: Date;
-  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined };
+  score?: number | undefined;
+  timestamp?: Date | undefined;
+  metadata?: { [key: string]: MemoryRecordMetadataValue | undefined } | undefined;
 }
 export type MemoryRecordSummaryList = MemoryRecordSummary[];
 export interface ListMemoryRecordsOutput {
   memoryRecordSummaries: MemoryRecordSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPaymentInstrumentsRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
-  paymentConnectorId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  paymentConnectorId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PaymentInstrumentSummary {
   paymentInstrumentId: string;
@@ -2900,14 +3015,14 @@ export interface PaymentInstrumentSummary {
 export type PaymentInstrumentSummaryList = PaymentInstrumentSummary[];
 export interface ListPaymentInstrumentsResponse {
   paymentInstruments: PaymentInstrumentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPaymentSessionsRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PaymentSessionSummary {
   paymentSessionId: string;
@@ -2920,18 +3035,18 @@ export interface PaymentSessionSummary {
 export type PaymentSessionSummaryList = PaymentSessionSummary[];
 export interface ListPaymentSessionsResponse {
   paymentSessions: PaymentSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRecommendationsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  statusFilter?: RecommendationStatus;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  statusFilter?: RecommendationStatus | undefined;
 }
 export interface RecommendationSummary {
   recommendationId: string;
   recommendationArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: RecommendationType;
   status: RecommendationStatus;
   createdAt: Date;
@@ -2940,18 +3055,18 @@ export interface RecommendationSummary {
 export type RecommendationSummaryList = RecommendationSummary[];
 export interface ListRecommendationsResponse {
   recommendationSummaries: RecommendationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type EventFilterCondition = "HAS_EVENTS" | (string & {});
 export interface SessionFilter {
-  eventFilter?: EventFilterCondition;
+  eventFilter?: EventFilterCondition | undefined;
 }
 export interface ListSessionsInput {
   memoryId: string;
   actorId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filter?: SessionFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: SessionFilter | undefined;
 }
 export interface SessionSummary {
   sessionId: string;
@@ -2961,7 +3076,7 @@ export interface SessionSummary {
 export type SessionSummaryList = SessionSummary[];
 export interface ListSessionsOutput {
   sessionSummaries: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PaymentType = "CRYPTO_X402" | "MPP" | (string & {});
 export type PaymentDocument = unknown;
@@ -2969,7 +3084,7 @@ export type Permit2AllowanceLimit = string;
 export interface CryptoX402PaymentInput {
   version: string;
   payload: any;
-  permit2AllowanceLimit?: string;
+  permit2AllowanceLimit?: string | undefined;
 }
 export type Version = string;
 export type WwwAuthenticateHeader = string;
@@ -2977,20 +3092,20 @@ export type WwwAuthenticateHeaderList = string[];
 export interface MppPaymentInput {
   version: string;
   wwwAuthenticateHeaders: string[];
-  buyerPaysGasFees?: boolean;
+  buyerPaysGasFees?: boolean | undefined;
 }
 export type PaymentInput =
-  | { cryptoX402: CryptoX402PaymentInput; mpp?: never }
-  | { cryptoX402?: never; mpp: MppPaymentInput };
+  | { cryptoX402: CryptoX402PaymentInput; mpp?: undefined }
+  | { cryptoX402?: undefined; mpp: MppPaymentInput };
 export interface ProcessPaymentRequest {
-  userId?: string;
-  agentName?: string;
+  userId?: string | undefined;
+  agentName?: string | undefined;
   paymentManagerArn: string;
   paymentSessionId: string;
   paymentInstrumentId: string;
   paymentType: PaymentType;
   paymentInput: PaymentInput;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ProcessPaymentId = string;
 export type PaymentStatus = "PROOF_GENERATED" | (string & {});
@@ -3005,8 +3120,8 @@ export interface MppPaymentOutput {
   paymentCredential: string | redacted.Redacted<string>;
 }
 export type PaymentOutput =
-  | { cryptoX402: CryptoX402PaymentOutput; mpp?: never }
-  | { cryptoX402?: never; mpp: MppPaymentOutput };
+  | { cryptoX402: CryptoX402PaymentOutput; mpp?: undefined }
+  | { cryptoX402?: undefined; mpp: MppPaymentOutput };
 export interface ProcessPaymentResponse {
   processPaymentId: string;
   paymentManagerArn: string;
@@ -3020,29 +3135,29 @@ export interface ProcessPaymentResponse {
 }
 export interface SearchCriteria {
   searchQuery: string | redacted.Redacted<string>;
-  memoryStrategyId?: string;
-  topK?: number;
-  metadataFilters?: MemoryMetadataFilterExpression[];
+  memoryStrategyId?: string | undefined;
+  topK?: number | undefined;
+  metadataFilters?: MemoryMetadataFilterExpression[] | undefined;
 }
 export interface RetrieveMemoryRecordsInput {
   memoryId: string;
-  namespace?: string;
-  namespacePath?: string;
+  namespace?: string | undefined;
+  namespacePath?: string | undefined;
   searchCriteria: SearchCriteria;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RetrieveMemoryRecordsOutput {
   memoryRecordSummaries: MemoryRecordSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SaveBrowserSessionProfileRequest {
-  traceId?: string;
-  traceParent?: string;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
   profileIdentifier: string;
   browserIdentifier: string;
   sessionId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface SaveBrowserSessionProfileResponse {
   profileIdentifier: string;
@@ -3056,8 +3171,8 @@ export type MetadataFilterExpression = unknown;
 export interface SearchRegistryRecordsRequest {
   searchQuery: string;
   registryIds: string[];
-  maxResults?: number;
-  filters?: any;
+  maxResults?: number | undefined;
+  filters?: any | undefined;
 }
 export type RegistryArn = string;
 export type RegistryRecordArn = string;
@@ -3068,43 +3183,43 @@ export type DescriptorType = "MCP" | "A2A" | "CUSTOM" | "AGENT_SKILLS" | (string
 export type SchemaVersion = string;
 export type InlineContent = string;
 export interface ServerDefinition {
-  schemaVersion?: string;
-  inlineContent?: string;
+  schemaVersion?: string | undefined;
+  inlineContent?: string | undefined;
 }
 export interface ToolsDefinition {
-  protocolVersion?: string;
-  inlineContent?: string;
+  protocolVersion?: string | undefined;
+  inlineContent?: string | undefined;
 }
 export interface McpDescriptor {
   server: ServerDefinition;
   tools: ToolsDefinition;
 }
 export interface AgentCardDefinition {
-  schemaVersion?: string;
-  inlineContent?: string;
+  schemaVersion?: string | undefined;
+  inlineContent?: string | undefined;
 }
 export interface A2aDescriptor {
   agentCard: AgentCardDefinition;
 }
 export interface CustomDescriptor {
-  inlineContent?: string;
+  inlineContent?: string | undefined;
 }
 export interface SkillMdDefinition {
-  inlineContent?: string;
+  inlineContent?: string | undefined;
 }
 export interface SkillDefinition {
-  schemaVersion?: string;
-  inlineContent?: string;
+  schemaVersion?: string | undefined;
+  inlineContent?: string | undefined;
 }
 export interface AgentSkillsDescriptor {
   skillMd: SkillMdDefinition;
-  skillDefinition?: SkillDefinition;
+  skillDefinition?: SkillDefinition | undefined;
 }
 export interface Descriptors {
-  mcp?: McpDescriptor;
-  a2a?: A2aDescriptor;
-  custom?: CustomDescriptor;
-  agentSkills?: AgentSkillsDescriptor;
+  mcp?: McpDescriptor | undefined;
+  a2a?: A2aDescriptor | undefined;
+  custom?: CustomDescriptor | undefined;
+  agentSkills?: AgentSkillsDescriptor | undefined;
 }
 export type RegistryRecordVersion = string;
 export type RegistryRecordStatus =
@@ -3119,7 +3234,7 @@ export interface RegistryRecordSummary {
   recordArn: string;
   recordId: string;
   name: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   descriptorType: DescriptorType;
   descriptors: Descriptors;
   version: string;
@@ -3133,80 +3248,80 @@ export interface SearchRegistryRecordsResponse {
 }
 export type GroundTruthTurnInput = { prompt: string };
 export interface GroundTruthTurn {
-  input?: GroundTruthTurnInput;
-  expectedResponse?: EvaluationContent;
+  input?: GroundTruthTurnInput | undefined;
+  expectedResponse?: EvaluationContent | undefined;
 }
 export type GroundTruthTurnList = GroundTruthTurn[];
 export interface InlineGroundTruth {
-  assertions?: EvaluationContent[];
-  expectedTrajectory?: EvaluationExpectedTrajectory;
-  turns?: GroundTruthTurn[];
+  assertions?: EvaluationContent[] | undefined;
+  expectedTrajectory?: EvaluationExpectedTrajectory | undefined;
+  turns?: GroundTruthTurn[] | undefined;
 }
 export type GroundTruthSource = { inline: InlineGroundTruth };
 export type StringMap = { [key: string]: string | undefined };
 export interface SessionMetadataShape {
   sessionId: string;
-  testScenarioId?: string;
-  groundTruth?: GroundTruthSource;
-  metadata?: { [key: string]: string | undefined };
+  testScenarioId?: string | undefined;
+  groundTruth?: GroundTruthSource | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type SessionMetadataList = SessionMetadataShape[];
 export type EvaluationMetadata = { sessionMetadata: SessionMetadataShape[] };
 export interface StartBatchEvaluationRequest {
   batchEvaluationName: string;
-  evaluators?: Evaluator[];
-  insights?: Insight[];
+  evaluators?: Evaluator[] | undefined;
+  insights?: Insight[] | undefined;
   dataSourceConfig: DataSourceConfig;
-  clientToken?: string;
-  evaluationMetadata?: EvaluationMetadata;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
-  description?: string;
-  outputConfig?: OutputConfig;
+  clientToken?: string | undefined;
+  evaluationMetadata?: EvaluationMetadata | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
+  description?: string | undefined;
+  outputConfig?: OutputConfig | undefined;
 }
 export interface StartBatchEvaluationResponse {
   batchEvaluationId: string;
   batchEvaluationArn: string;
   batchEvaluationName: string;
-  evaluators?: Evaluator[];
-  insights?: Insight[];
+  evaluators?: Evaluator[] | undefined;
+  insights?: Insight[] | undefined;
   status: BatchEvaluationStatus;
   createdAt: Date;
-  outputConfig?: OutputConfig;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
-  description?: string;
+  outputConfig?: OutputConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
+  description?: string | undefined;
 }
 export interface StartBrowserSessionRequest {
-  traceId?: string;
-  traceParent?: string;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
   browserIdentifier: string;
-  name?: string;
-  sessionTimeoutSeconds?: number;
-  viewPort?: ViewPort;
-  extensions?: BrowserExtension[];
-  profileConfiguration?: BrowserProfileConfiguration;
-  proxyConfiguration?: ProxyConfiguration;
-  enterprisePolicies?: BrowserEnterprisePolicy[];
-  certificates?: Certificate[];
-  filesystemConfigurations?: ToolsFileSystemConfiguration[];
-  clientToken?: string;
+  name?: string | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  viewPort?: ViewPort | undefined;
+  extensions?: BrowserExtension[] | undefined;
+  profileConfiguration?: BrowserProfileConfiguration | undefined;
+  proxyConfiguration?: ProxyConfiguration | undefined;
+  enterprisePolicies?: BrowserEnterprisePolicy[] | undefined;
+  certificates?: Certificate[] | undefined;
+  filesystemConfigurations?: ToolsFileSystemConfiguration[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartBrowserSessionResponse {
   browserIdentifier: string;
   sessionId: string;
   createdAt: Date;
-  streams?: BrowserSessionStream;
+  streams?: BrowserSessionStream | undefined;
 }
 export interface StartCodeInterpreterSessionRequest {
-  traceId?: string;
-  traceParent?: string;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
   codeInterpreterIdentifier: string;
-  name?: string;
-  sessionTimeoutSeconds?: number;
-  certificates?: Certificate[];
-  filesystemConfigurations?: ToolsFileSystemConfiguration[];
-  clientToken?: string;
+  name?: string | undefined;
+  sessionTimeoutSeconds?: number | undefined;
+  certificates?: Certificate[] | undefined;
+  filesystemConfigurations?: ToolsFileSystemConfiguration[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartCodeInterpreterSessionResponse {
   codeInterpreterIdentifier: string;
@@ -3219,25 +3334,25 @@ export interface ExtractionJob {
 export interface StartMemoryExtractionJobInput {
   memoryId: string;
   extractionJob: ExtractionJob;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartMemoryExtractionJobOutput {
   jobId: string;
 }
 export interface StartRecommendationRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: RecommendationType;
   recommendationConfig: RecommendationConfig;
-  kmsKeyArn?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  kmsKeyArn?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartRecommendationResponse {
   recommendationId: string;
   recommendationArn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   type: RecommendationType;
   recommendationConfig: RecommendationConfig;
   status: RecommendationStatus;
@@ -3251,14 +3366,14 @@ export interface StopBatchEvaluationResponse {
   batchEvaluationId: string;
   batchEvaluationArn: string;
   status: BatchEvaluationStatus;
-  description?: string;
+  description?: string | undefined;
 }
 export interface StopBrowserSessionRequest {
-  traceId?: string;
-  traceParent?: string;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
   browserIdentifier: string;
   sessionId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StopBrowserSessionResponse {
   browserIdentifier: string;
@@ -3266,11 +3381,11 @@ export interface StopBrowserSessionResponse {
   lastUpdatedAt: Date;
 }
 export interface StopCodeInterpreterSessionRequest {
-  traceId?: string;
-  traceParent?: string;
+  traceId?: string | undefined;
+  traceParent?: string | undefined;
   codeInterpreterIdentifier: string;
   sessionId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StopCodeInterpreterSessionResponse {
   codeInterpreterIdentifier: string;
@@ -3280,23 +3395,23 @@ export interface StopCodeInterpreterSessionResponse {
 export interface StopRuntimeSessionRequest {
   runtimeSessionId: string;
   agentRuntimeArn: string;
-  qualifier?: string;
-  clientToken?: string;
+  qualifier?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface StopRuntimeSessionResponse {
-  runtimeSessionId?: string;
-  statusCode?: number;
+  runtimeSessionId?: string | undefined;
+  statusCode?: number | undefined;
 }
 export interface UpdateABTestRequest {
   abTestId: string;
-  clientToken?: string;
-  name?: string;
-  description?: string;
-  variants?: Variant[];
-  gatewayFilter?: GatewayFilter;
-  evaluationConfig?: ABTestEvaluationConfig;
-  roleArn?: string;
-  executionStatus?: ABTestExecutionStatus;
+  clientToken?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  variants?: Variant[] | undefined;
+  gatewayFilter?: GatewayFilter | undefined;
+  evaluationConfig?: ABTestEvaluationConfig | undefined;
+  roleArn?: string | undefined;
+  executionStatus?: ABTestExecutionStatus | undefined;
 }
 export interface UpdateABTestResponse {
   abTestId: string;
@@ -3306,14 +3421,14 @@ export interface UpdateABTestResponse {
   updatedAt: Date;
 }
 export interface AutomationStreamUpdate {
-  streamStatus?: AutomationStreamStatus;
+  streamStatus?: AutomationStreamStatus | undefined;
 }
 export type StreamUpdate = { automationStreamUpdate: AutomationStreamUpdate };
 export interface UpdateBrowserStreamRequest {
   browserIdentifier: string;
   sessionId: string;
   streamUpdate: StreamUpdate;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateBrowserStreamResponse {
   browserIdentifier: string;
@@ -4777,6 +4892,44 @@ export const invokeHarness: API.OperationMethod<
   span: "InvokeHarness",
 }));
 
+export type InvokeWebSearchError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Searches the web and returns a ranked list of results. Each result includes a text extract from the page.
+ *
+ * You can filter the results by domain and by publication date.
+ *
+ * To use this operation, you must have the `bedrock-agentcore:InvokeWebSearch` permission on the resource `arn:${Partition}:bedrock-agentcore:${Region}:aws:tool/web-search.v1`.
+ */
+export const invokeWebSearch: API.OperationMethod<
+  InvokeWebSearchInput & RegionInput,
+  InvokeWebSearchOutput,
+  InvokeWebSearchError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2211, __c69, 3) as any as S.Schema<InvokeWebSearchInput>,
+  output: __S(2214, __c69, 6) as any as S.Schema<InvokeWebSearchOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "InvokeWebSearch",
+  telemetry: TELEMETRY,
+  span: "InvokeWebSearch",
+}));
+
 export type ListABTestsError =
   | AccessDeniedException
   | InternalServerException
@@ -4794,8 +4947,8 @@ export const listABTests: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ABTestSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListABTestsRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<ListABTestsResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListABTestsRequest>,
+  output: __S(2243, __c70, 3) as any as S.Schema<ListABTestsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4837,8 +4990,8 @@ export const listActors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ActorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListActorsInput>,
-  output: __S(2243, __c70, 3) as any as S.Schema<ListActorsOutput>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListActorsInput>,
+  output: __S(2275, __c71, 3) as any as S.Schema<ListActorsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4878,8 +5031,8 @@ export const listBatchEvaluations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BatchEvaluationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListBatchEvaluationsRequest>,
-  output: __S(2275, __c71, 3) as any as S.Schema<ListBatchEvaluationsResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListBatchEvaluationsRequest>,
+  output: __S(2307, __c72, 3) as any as S.Schema<ListBatchEvaluationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4926,8 +5079,8 @@ export const listBrowserSessions: API.OperationMethod<
   ListBrowserSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListBrowserSessionsRequest>,
-  output: __S(2307, __c72, 3) as any as S.Schema<ListBrowserSessionsResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListBrowserSessionsRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<ListBrowserSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4968,8 +5121,8 @@ export const listCodeInterpreterSessions: API.OperationMethod<
   ListCodeInterpreterSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListCodeInterpreterSessionsRequest>,
-  output: __S(2339, __c73, 3) as any as S.Schema<ListCodeInterpreterSessionsResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListCodeInterpreterSessionsRequest>,
+  output: __S(2371, __c74, 3) as any as S.Schema<ListCodeInterpreterSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5005,8 +5158,8 @@ export const listEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2373, __c74, 5) as any as S.Schema<ListEventsInput>,
-  output: __S(2375, __c74, 7) as any as S.Schema<ListEventsOutput>,
+  input: __S(2405, __c75, 5) as any as S.Schema<ListEventsInput>,
+  output: __S(2407, __c75, 7) as any as S.Schema<ListEventsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5049,8 +5202,8 @@ export const listMemoryExtractionJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExtractionJobMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2433, __c76, 1) as any as S.Schema<ListMemoryExtractionJobsInput>,
-  output: __S(2439, __c76, 7) as any as S.Schema<ListMemoryExtractionJobsOutput>,
+  input: __S(2465, __c77, 1) as any as S.Schema<ListMemoryExtractionJobsInput>,
+  output: __S(2471, __c77, 7) as any as S.Schema<ListMemoryExtractionJobsOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -5093,8 +5246,8 @@ export const listMemoryRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MemoryRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListMemoryRecordsInput>,
-  output: __S(2501, __c78, 5) as any as S.Schema<ListMemoryRecordsOutput>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListMemoryRecordsInput>,
+  output: __S(2533, __c79, 5) as any as S.Schema<ListMemoryRecordsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5133,8 +5286,8 @@ export const listPaymentInstruments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PaymentInstrumentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ListPaymentInstrumentsRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<ListPaymentInstrumentsResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListPaymentInstrumentsRequest>,
+  output: __S(2563, __c80, 3) as any as S.Schema<ListPaymentInstrumentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5170,8 +5323,8 @@ export const listPaymentSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PaymentSessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListPaymentSessionsRequest>,
-  output: __S(2563, __c80, 3) as any as S.Schema<ListPaymentSessionsResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListPaymentSessionsRequest>,
+  output: __S(2595, __c81, 3) as any as S.Schema<ListPaymentSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5207,8 +5360,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecommendationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListRecommendationsRequest>,
-  output: __S(2595, __c81, 3) as any as S.Schema<ListRecommendationsResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListRecommendationsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<ListRecommendationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5251,8 +5404,8 @@ export const listSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<ListSessionsInput>,
-  output: __S(2628, __c82, 4) as any as S.Schema<ListSessionsOutput>,
+  input: __S(2657, __c83, 1) as any as S.Schema<ListSessionsInput>,
+  output: __S(2660, __c83, 4) as any as S.Schema<ListSessionsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5294,8 +5447,8 @@ export const processPayment: API.OperationMethod<
   ProcessPaymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2659, __c83, 3) as any as S.Schema<ProcessPaymentRequest>,
-  output: __S(2663, __c83, 7) as any as S.Schema<ProcessPaymentResponse>,
+  input: __S(2691, __c84, 3) as any as S.Schema<ProcessPaymentRequest>,
+  output: __S(2695, __c84, 7) as any as S.Schema<ProcessPaymentResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5334,8 +5487,8 @@ export const retrieveMemoryRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MemoryRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2689, __c84, 1) as any as S.Schema<RetrieveMemoryRecordsInput>,
-  output: __S(2501, __c78, 5) as any as S.Schema<RetrieveMemoryRecordsOutput>,
+  input: __S(2721, __c85, 1) as any as S.Schema<RetrieveMemoryRecordsInput>,
+  output: __S(2533, __c79, 5) as any as S.Schema<RetrieveMemoryRecordsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5385,8 +5538,8 @@ export const saveBrowserSessionProfile: API.OperationMethod<
   SaveBrowserSessionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<SaveBrowserSessionProfileRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<SaveBrowserSessionProfileResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<SaveBrowserSessionProfileRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<SaveBrowserSessionProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5419,8 +5572,8 @@ export const searchRegistryRecords: API.OperationMethod<
   SearchRegistryRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<SearchRegistryRecordsRequest>,
-  output: __S(2762, __c86, 10) as any as S.Schema<SearchRegistryRecordsResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<SearchRegistryRecordsRequest>,
+  output: __S(2794, __c87, 10) as any as S.Schema<SearchRegistryRecordsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5454,8 +5607,8 @@ export const startBatchEvaluation: API.OperationMethod<
   StartBatchEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2792, __c87, 8) as any as S.Schema<StartBatchEvaluationRequest>,
-  output: __S(2793, __c87, 9) as any as S.Schema<StartBatchEvaluationResponse>,
+  input: __S(2824, __c88, 8) as any as S.Schema<StartBatchEvaluationRequest>,
+  output: __S(2825, __c88, 9) as any as S.Schema<StartBatchEvaluationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5504,8 +5657,8 @@ export const startBrowserSession: API.OperationMethod<
   StartBrowserSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<StartBrowserSessionRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<StartBrowserSessionResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<StartBrowserSessionRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<StartBrowserSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5550,8 +5703,8 @@ export const startCodeInterpreterSession: API.OperationMethod<
   StartCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<StartCodeInterpreterSessionRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<StartCodeInterpreterSessionResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<StartCodeInterpreterSessionRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<StartCodeInterpreterSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5587,8 +5740,8 @@ export const startMemoryExtractionJob: API.OperationMethod<
   StartMemoryExtractionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2881, __c90, 1) as any as S.Schema<StartMemoryExtractionJobInput>,
-  output: __S(2880, __c90, 0) as any as S.Schema<StartMemoryExtractionJobOutput>,
+  input: __S(2913, __c91, 1) as any as S.Schema<StartMemoryExtractionJobInput>,
+  output: __S(2912, __c91, 0) as any as S.Schema<StartMemoryExtractionJobOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -5621,8 +5774,8 @@ export const startRecommendation: API.OperationMethod<
   StartRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<StartRecommendationRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<StartRecommendationResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<StartRecommendationRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<StartRecommendationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5656,8 +5809,8 @@ export const stopBatchEvaluation: API.OperationMethod<
   StopBatchEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<StopBatchEvaluationRequest>,
-  output: __S(2945, __c92, 1) as any as S.Schema<StopBatchEvaluationResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<StopBatchEvaluationRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<StopBatchEvaluationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5700,8 +5853,8 @@ export const stopBrowserSession: API.OperationMethod<
   StopBrowserSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<StopBrowserSessionRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<StopBrowserSessionResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<StopBrowserSessionRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<StopBrowserSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5744,8 +5897,8 @@ export const stopCodeInterpreterSession: API.OperationMethod<
   StopCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<StopCodeInterpreterSessionRequest>,
-  output: __S(3009, __c94, 1) as any as S.Schema<StopCodeInterpreterSessionResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<StopCodeInterpreterSessionRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<StopCodeInterpreterSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5783,8 +5936,8 @@ export const stopRuntimeSession: API.OperationMethod<
   StopRuntimeSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<StopRuntimeSessionRequest>,
-  output: __S(3041, __c95, 1) as any as S.Schema<StopRuntimeSessionResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<StopRuntimeSessionRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<StopRuntimeSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5823,8 +5976,8 @@ export const updateABTest: API.OperationMethod<
   UpdateABTestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<UpdateABTestRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<UpdateABTestResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateABTestRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<UpdateABTestResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5860,8 +6013,8 @@ export const updateBrowserStream: API.OperationMethod<
   UpdateBrowserStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3106, __c97, 2) as any as S.Schema<UpdateBrowserStreamRequest>,
-  output: __S(3107, __c97, 3) as any as S.Schema<UpdateBrowserStreamResponse>,
+  input: __S(3138, __c98, 2) as any as S.Schema<UpdateBrowserStreamRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<UpdateBrowserStreamResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8642,6 +8795,64 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          include: S.optional(__S(128, __c4, 0)),
+          exclude: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "DomainFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          publishedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          publishedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "PublishedDateFilter" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          domainFilter: S.optional(__S(2208, __c69, 0)),
+          publishedDateFilter: S.optional(__S(2209, __c69, 1)),
+        }),
+      ).annotate({ identifier: "WebSearchFilters" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          webSearchId: S.String.pipe(T.HttpLabel("webSearchId")),
+          searchQuery: S.String,
+          maxResults: S.optional(S.Number),
+          filters: S.optional(__S(2210, __c69, 2)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/web-search/{webSearchId}/invoke" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "InvokeWebSearchInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          url: S.optional(S.String),
+          text: S.String,
+          publishedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "WebSearchResult" });
+    case 5:
+      return S.Array(__S(2212, __c69, 4));
+    case 6:
+      return S.suspend(() => S.Struct({ results: __S(2213, __c69, 5) })).annotate({
+        identifier: "InvokeWebSearchOutput",
+      });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
         }).pipe(T.all(T.Http({ method: "GET", uri: "/ab-tests" }), svc, auth, proto, ver, rules)),
@@ -8661,14 +8872,14 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "ABTestSummary" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2241, __c70, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ abTests: __S(2210, __c69, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ abTests: __S(2242, __c70, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListABTestsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8692,14 +8903,14 @@ function __c70(j: number): any {
         identifier: "ActorSummary",
       });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ actorSummaries: __S(2242, __c70, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ actorSummaries: __S(2274, __c71, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListActorsOutput" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8735,14 +8946,14 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "BatchEvaluationSummary" });
     case 2:
-      return S.Array(__S(2273, __c71, 1));
+      return S.Array(__S(2305, __c72, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ batchEvaluations: __S(2274, __c71, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ batchEvaluations: __S(2306, __c72, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBatchEvaluationsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8774,14 +8985,14 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "BrowserSessionSummary" });
     case 2:
-      return S.Array(__S(2305, __c72, 1));
+      return S.Array(__S(2337, __c73, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(2306, __c72, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2338, __c73, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBrowserSessionsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8816,14 +9027,14 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "CodeInterpreterSessionSummary" });
     case 2:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(2338, __c73, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2370, __c74, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListCodeInterpreterSessionsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8834,18 +9045,18 @@ function __c74(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          left: __S(2400, __c75, 0),
+          left: __S(2432, __c76, 0),
           operator: S.String,
-          right: S.optional(__S(2369, __c74, 1)),
+          right: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "EventMetadataFilterExpression" });
     case 3:
-      return S.Array(__S(2370, __c74, 2));
+      return S.Array(__S(2402, __c75, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          branch: S.optional(__S(2368, __c74, 0)),
-          eventMetadata: S.optional(__S(2371, __c74, 3)),
+          branch: S.optional(__S(2400, __c75, 0)),
+          eventMetadata: S.optional(__S(2403, __c75, 3)),
         }),
       ).annotate({ identifier: "FilterInput" });
     case 5:
@@ -8855,7 +9066,7 @@ function __c74(j: number): any {
           sessionId: S.String.pipe(T.HttpLabel("sessionId")),
           actorId: S.String.pipe(T.HttpLabel("actorId")),
           includePayloads: S.optional(S.Boolean),
-          filter: S.optional(__S(2372, __c74, 4)),
+          filter: S.optional(__S(2404, __c75, 4)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(
@@ -8876,17 +9087,17 @@ function __c74(j: number): any {
       return S.Array(__S(547, __c17, 3));
     case 7:
       return S.suspend(() =>
-        S.Struct({ events: __S(2374, __c74, 6), nextToken: S.optional(S.String) }),
+        S.Struct({ events: __S(2406, __c75, 6), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEventsOutput" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ metadataKey: S.String })]);
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8902,7 +9113,7 @@ function __c76(j: number): any {
         S.Struct({
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
           maxResults: S.optional(S.Number),
-          filter: S.optional(__S(2432, __c76, 0)),
+          filter: S.optional(__S(2464, __c77, 0)),
           nextToken: S.optional(S.String),
         }).pipe(
           T.all(
@@ -8920,14 +9131,14 @@ function __c76(j: number): any {
         identifier: "MessageMetadata",
       });
     case 3:
-      return S.Array(__S(2434, __c76, 2));
+      return S.Array(__S(2466, __c77, 2));
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ messagesList: __S(2435, __c76, 3) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ messagesList: __S(2467, __c77, 3) })]);
     case 5:
       return S.suspend(() =>
         S.Struct({
           jobID: S.String,
-          messages: __S(2436, __c76, 4),
+          messages: __S(2468, __c77, 4),
           status: S.optional(S.String),
           failureReason: S.optional(S.String),
           strategyId: S.optional(S.String),
@@ -8936,14 +9147,14 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "ExtractionJobMetadata" });
     case 6:
-      return S.Array(__S(2437, __c76, 5));
+      return S.Array(__S(2469, __c77, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ jobs: __S(2438, __c76, 6), nextToken: S.optional(S.String) }),
+        S.Struct({ jobs: __S(2470, __c77, 6), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMemoryExtractionJobsOutput" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8954,7 +9165,7 @@ function __c77(j: number): any {
           memoryStrategyId: S.optional(S.String),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          metadataFilters: S.optional(__S(2498, __c78, 2)),
+          metadataFilters: S.optional(__S(2530, __c79, 2)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords" }),
@@ -8968,20 +9179,20 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListMemoryRecordsInput" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ metadataValue: __S(192, __c6, 0) })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          left: __S(2400, __c75, 0),
+          left: __S(2432, __c76, 0),
           operator: S.String,
-          right: S.optional(__S(2496, __c78, 0)),
+          right: S.optional(__S(2528, __c79, 0)),
         }),
       ).annotate({ identifier: "MemoryMetadataFilterExpression" });
     case 2:
-      return S.Array(__S(2497, __c78, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8996,14 +9207,14 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "MemoryRecordSummary" });
     case 4:
-      return S.Array(__S(2499, __c78, 3));
+      return S.Array(__S(2531, __c79, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ memoryRecordSummaries: __S(2500, __c78, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ memoryRecordSummaries: __S(2532, __c79, 4), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMemoryRecordsOutput" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9043,14 +9254,14 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "PaymentInstrumentSummary" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2561, __c80, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ paymentInstruments: __S(2530, __c79, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ paymentInstruments: __S(2562, __c80, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPaymentInstrumentsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9087,14 +9298,14 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "PaymentSessionSummary" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2593, __c81, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ paymentSessions: __S(2562, __c80, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ paymentSessions: __S(2594, __c81, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPaymentSessionsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9120,14 +9331,14 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "RecommendationSummary" });
     case 2:
-      return S.Array(__S(2593, __c81, 1));
+      return S.Array(__S(2625, __c82, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ recommendationSummaries: __S(2594, __c81, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ recommendationSummaries: __S(2626, __c82, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRecommendationsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ eventFilter: S.optional(S.String) })).annotate({
@@ -9140,7 +9351,7 @@ function __c82(j: number): any {
           actorId: S.String.pipe(T.HttpLabel("actorId")),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          filter: S.optional(__S(2624, __c82, 0)),
+          filter: S.optional(__S(2656, __c83, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/memories/{memoryId}/actor/{actorId}/sessions" }),
@@ -9161,14 +9372,14 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "SessionSummary" });
     case 3:
-      return S.Array(__S(2626, __c82, 2));
+      return S.Array(__S(2658, __c83, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ sessionSummaries: __S(2627, __c82, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ sessionSummaries: __S(2659, __c83, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSessionsOutput" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9188,8 +9399,8 @@ function __c83(j: number): any {
       ).annotate({ identifier: "MppPaymentInput" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2656, __c83, 0) }),
-        /*@__PURE__*/ S.Struct({ mpp: __S(2657, __c83, 1) }),
+        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2688, __c84, 0) }),
+        /*@__PURE__*/ S.Struct({ mpp: __S(2689, __c84, 1) }),
       ]);
     case 3:
       return S.suspend(() =>
@@ -9204,7 +9415,7 @@ function __c83(j: number): any {
           paymentSessionId: S.String,
           paymentInstrumentId: S.String,
           paymentType: S.String,
-          paymentInput: __S(2658, __c83, 2),
+          paymentInput: __S(2690, __c84, 2),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -9231,8 +9442,8 @@ function __c83(j: number): any {
       ).annotate({ identifier: "MppPaymentOutput" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2660, __c83, 4) }),
-        /*@__PURE__*/ S.Struct({ mpp: __S(2661, __c83, 5) }),
+        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2692, __c84, 4) }),
+        /*@__PURE__*/ S.Struct({ mpp: __S(2693, __c84, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -9243,14 +9454,14 @@ function __c83(j: number): any {
           paymentInstrumentId: S.String,
           paymentType: S.String,
           status: S.String,
-          paymentOutput: __S(2662, __c83, 6),
+          paymentOutput: __S(2694, __c84, 6),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "ProcessPaymentResponse" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9258,7 +9469,7 @@ function __c84(j: number): any {
           searchQuery: SensitiveString,
           memoryStrategyId: S.optional(S.String),
           topK: S.optional(S.Number),
-          metadataFilters: S.optional(__S(2498, __c78, 2)),
+          metadataFilters: S.optional(__S(2530, __c79, 2)),
         }),
       ).annotate({ identifier: "SearchCriteria" });
     case 1:
@@ -9267,7 +9478,7 @@ function __c84(j: number): any {
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
           namespace: S.optional(S.String),
           namespacePath: S.optional(S.String),
-          searchCriteria: __S(2688, __c84, 0),
+          searchCriteria: __S(2720, __c85, 0),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(
@@ -9283,7 +9494,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RetrieveMemoryRecordsInput" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9316,7 +9527,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "SaveBrowserSessionProfileResponse" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9346,10 +9557,10 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ToolsDefinition" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ server: __S(2753, __c86, 1), tools: __S(2754, __c86, 2) }),
+        S.Struct({ server: __S(2785, __c87, 1), tools: __S(2786, __c87, 2) }),
       ).annotate({ identifier: "McpDescriptor" });
     case 4:
-      return S.suspend(() => S.Struct({ agentCard: __S(2753, __c86, 1) })).annotate({
+      return S.suspend(() => S.Struct({ agentCard: __S(2785, __c87, 1) })).annotate({
         identifier: "A2aDescriptor",
       });
     case 5:
@@ -9359,17 +9570,17 @@ function __c86(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          skillMd: __S(2757, __c86, 5),
-          skillDefinition: S.optional(__S(2753, __c86, 1)),
+          skillMd: __S(2789, __c87, 5),
+          skillDefinition: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({ identifier: "AgentSkillsDescriptor" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          mcp: S.optional(__S(2755, __c86, 3)),
-          a2a: S.optional(__S(2756, __c86, 4)),
-          custom: S.optional(__S(2757, __c86, 5)),
-          agentSkills: S.optional(__S(2758, __c86, 6)),
+          mcp: S.optional(__S(2787, __c87, 3)),
+          a2a: S.optional(__S(2788, __c87, 4)),
+          custom: S.optional(__S(2789, __c87, 5)),
+          agentSkills: S.optional(__S(2790, __c87, 6)),
         }),
       ).annotate({ identifier: "Descriptors" });
     case 8:
@@ -9381,7 +9592,7 @@ function __c86(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: __S(2759, __c86, 7),
+          descriptors: __S(2791, __c87, 7),
           version: S.String,
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -9389,49 +9600,49 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "RegistryRecordSummary" });
     case 9:
-      return S.Array(__S(2760, __c86, 8));
+      return S.Array(__S(2792, __c87, 8));
     case 10:
-      return S.suspend(() => S.Struct({ registryRecords: __S(2761, __c86, 9) })).annotate({
+      return S.suspend(() => S.Struct({ registryRecords: __S(2793, __c87, 9) })).annotate({
         identifier: "SearchRegistryRecordsResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ prompt: S.String })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          input: S.optional(__S(2784, __c87, 0)),
+          input: S.optional(__S(2816, __c88, 0)),
           expectedResponse: S.optional(__S(1088, __c34, 0)),
         }),
       ).annotate({ identifier: "GroundTruthTurn" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           assertions: S.optional(__S(1089, __c34, 1)),
           expectedTrajectory: S.optional(__S(1090, __c34, 2)),
-          turns: S.optional(__S(2786, __c87, 2)),
+          turns: S.optional(__S(2818, __c88, 2)),
         }),
       ).annotate({ identifier: "InlineGroundTruth" });
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ inline: __S(2787, __c87, 3) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ inline: __S(2819, __c88, 3) })]);
     case 5:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String,
           testScenarioId: S.optional(S.String),
-          groundTruth: S.optional(__S(2788, __c87, 4)),
+          groundTruth: S.optional(__S(2820, __c88, 4)),
           metadata: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "SessionMetadataShape" });
     case 6:
-      return S.Array(__S(2789, __c87, 5));
+      return S.Array(__S(2821, __c88, 5));
     case 7:
-      return S.Union([/*@__PURE__*/ S.Struct({ sessionMetadata: __S(2790, __c87, 6) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ sessionMetadata: __S(2822, __c88, 6) })]);
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -9440,7 +9651,7 @@ function __c87(j: number): any {
           insights: S.optional(__S(1283, __c40, 3)),
           dataSourceConfig: __S(1318, __c41, 6),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          evaluationMetadata: S.optional(__S(2791, __c87, 7)),
+          evaluationMetadata: S.optional(__S(2823, __c88, 7)),
           tags: S.optional(__S(384, __c12, 0)),
           kmsKeyArn: S.optional(S.String),
           description: S.optional(S.String),
@@ -9474,7 +9685,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "StartBatchEvaluationResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9514,7 +9725,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "StartBrowserSessionResponse" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9551,7 +9762,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "StartCodeInterpreterSessionResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ jobId: S.String })).annotate({
@@ -9561,7 +9772,7 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
-          extractionJob: __S(2880, __c90, 0),
+          extractionJob: __S(2912, __c91, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -9576,7 +9787,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "StartMemoryExtractionJobInput" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9608,7 +9819,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "StartRecommendationResponse" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9634,7 +9845,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "StopBatchEvaluationResponse" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9665,7 +9876,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "StopBrowserSessionResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9699,7 +9910,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "StopCodeInterpreterSessionResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9732,7 +9943,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "StopRuntimeSessionResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9769,20 +9980,20 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateABTestResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ streamStatus: S.optional(S.String) })).annotate({
         identifier: "AutomationStreamUpdate",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ automationStreamUpdate: __S(3104, __c97, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ automationStreamUpdate: __S(3136, __c98, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
           sessionId: S.String.pipe(T.HttpQuery("sessionId")),
-          streamUpdate: __S(3105, __c97, 1),
+          streamUpdate: __S(3137, __c98, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(

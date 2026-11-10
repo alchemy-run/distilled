@@ -47,7 +47,7 @@ export interface VolumeAndToken {
   /** Auth token to use for interacting with volume content */
   token: string | Redacted.Redacted<string>;
   /** Domain to use as the destination for volume content requests, replacing the default `api.<E2B_DOMAIN>`. Only returned when the team is connected to a custom (BYOC) cluster; absent otherwise, in which case the default domain is used. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface DeleteVolumeRequest {
   volumeID: string;

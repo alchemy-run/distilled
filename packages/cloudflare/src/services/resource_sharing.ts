@@ -95,7 +95,7 @@ export interface CreateRecipientRequest {
   /** Share identifier tag. */
   shareId: string;
   /** The account that will receive the share. */
-  recipientAccountId?: string;
+  recipientAccountId?: string | undefined;
 }
 export type RecipientsCreateResponseAssociationStatus =
   | "associating"
@@ -125,7 +125,7 @@ export interface CreateRecipientResponse {
   created: string;
   /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsCreateResponseResourcesList | null;
+  resources?: RecipientsCreateResponseResourcesList | null | undefined;
 }
 export type ResourcesCreateRequestResourceType =
   | "custom-ruleset"
@@ -186,11 +186,11 @@ export interface CreateRequestExcludedRecipientsItem {
 export type CreateRequestExcludedRecipientsList = Array<CreateRequestExcludedRecipientsItem>;
 export interface CreateRequestRecipientsItem {
   /** This field has been renamed to `recipient_account_id`. Both names are accepted during the deprecation period. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Organization identifier. */
-  organizationId?: string;
+  organizationId?: string | undefined;
   /** The account that will receive the share. */
-  recipientAccountId?: string;
+  recipientAccountId?: string | undefined;
 }
 export type CreateRequestRecipientsList = Array<CreateRequestRecipientsItem>;
 export type CreateRequestResourcesItemResourceType =
@@ -219,11 +219,11 @@ export interface CreateResourceSharingRequest {
   /** The name of the share. */
   name: string;
   /** Accounts to exclude from an organization-targeted share. Only allowed when `recipients` contains no account entries. The share owner cannot be excluded. Duplicate entries are ignored. */
-  excludedRecipients?: CreateRequestExcludedRecipientsList;
-  recipients?: CreateRequestRecipientsList;
-  resources?: CreateRequestResourcesList;
+  excludedRecipients?: CreateRequestExcludedRecipientsList | undefined;
+  recipients?: CreateRequestRecipientsList | undefined;
+  resources?: CreateRequestResourcesList | undefined;
   /** Tags associated with the share. */
-  tags?: CreateRequestTagsMap;
+  tags?: CreateRequestTagsMap | undefined;
 }
 export type CreateResponseStatus = "active" | "deleting" | "deleted";
 export type CreateResponseTargetType = "account" | "organization";
@@ -278,18 +278,18 @@ export interface CreateResourceSharingResponse {
   status: CreateResponseStatus;
   targetType: CreateResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: CreateResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: CreateResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: CreateResponseResourcesList | null;
+  resources?: CreateResponseResourcesList | null | undefined;
   /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
-  tags?: CreateResponseTagsMap | null;
+  tags?: CreateResponseTagsMap | null | undefined;
 }
 export interface DeleteRecipientRequest {
   /** Account identifier. */
@@ -318,7 +318,7 @@ export interface DeleteRecipientResponse {
   created: string;
   /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsDeleteResponseResourcesList | null;
+  resources?: RecipientsDeleteResponseResourcesList | null | undefined;
 }
 export interface DeleteResourceRequest {
   /** Account identifier. */
@@ -417,18 +417,18 @@ export interface DeleteResourceSharingResponse {
   status: DeleteResponseStatus;
   targetType: DeleteResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: DeleteResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: DeleteResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: DeleteResponseResourcesList | null;
+  resources?: DeleteResponseResourcesList | null | undefined;
   /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
-  tags?: DeleteResponseTagsMap | null;
+  tags?: DeleteResponseTagsMap | null | undefined;
 }
 export interface GetRecipientRequest {
   /** Account identifier. */
@@ -438,7 +438,7 @@ export interface GetRecipientRequest {
   /** Share Recipient identifier tag. */
   recipientId: string;
   /** Include resources in the response. */
-  includeResources?: boolean;
+  includeResources?: boolean | undefined;
 }
 export type RecipientsGetResponseAssociationStatus =
   | "associating"
@@ -459,7 +459,7 @@ export interface GetRecipientResponse {
   created: string;
   /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsGetResponseResourcesList | null;
+  resources?: RecipientsGetResponseResourcesList | null | undefined;
 }
 export interface GetResourceRequest {
   /** Account identifier. */
@@ -506,11 +506,11 @@ export interface GetResourceSharingRequest {
   /** Share identifier tag. */
   shareId: string;
   /** Include recipient counts in the response. */
-  includeRecipientCounts?: boolean;
+  includeRecipientCounts?: boolean | undefined;
   /** Include resources in the response. */
-  includeResources?: boolean;
+  includeResources?: boolean | undefined;
   /** Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`. */
-  includeTagsFrom?: GetRequestIncludeTagsFrom | (string & {});
+  includeTagsFrom?: GetRequestIncludeTagsFrom | (string & {}) | undefined;
 }
 export type GetResponseStatus = "active" | "deleting" | "deleted";
 export type GetResponseTargetType = "account" | "organization";
@@ -565,18 +565,18 @@ export interface GetResourceSharingResponse {
   status: GetResponseStatus;
   targetType: GetResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: GetResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: GetResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: GetResponseResourcesList | null;
+  resources?: GetResponseResourcesList | null | undefined;
   /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
-  tags?: GetResponseTagsMap | null;
+  tags?: GetResponseTagsMap | null | undefined;
 }
 export interface ListRecipientsRequest {
   /** Account identifier. */
@@ -584,11 +584,11 @@ export interface ListRecipientsRequest {
   /** Share identifier tag. */
   shareId: string;
   /** Include resources in the response. */
-  includeResources?: boolean;
+  includeResources?: boolean | undefined;
   /** Page number. Defaults to `1` when omitted. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects to return per page. Defaults to `20` when omitted. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type RecipientsListResultItemAssociationStatus =
   | "associating"
@@ -608,14 +608,14 @@ export interface RecipientsListResultItem {
   created: string;
   /** When the object was last modified. */
   modified: string;
-  resources?: RecipientsListResultItemResourcesList | null;
+  resources?: RecipientsListResultItemResourcesList | null | undefined;
 }
 export type RecipientsListResultList = Array<RecipientsListResultItem>;
 export interface ListRecipientsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RecipientsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ResourcesListRequestResourceType =
   | "custom-ruleset"
@@ -632,13 +632,13 @@ export interface ListResourcesRequest {
   /** Share identifier tag. */
   shareId: string;
   /** Page number. Defaults to `1` when omitted. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects to return per page. Defaults to `20` when omitted. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter share resources by resource_type. */
-  resourceType?: ResourcesListRequestResourceType | (string & {});
+  resourceType?: ResourcesListRequestResourceType | (string & {}) | undefined;
   /** Filter share resources by status. */
-  status?: ResourcesListRequestStatus | (string & {});
+  status?: ResourcesListRequestStatus | (string & {}) | undefined;
 }
 export type ResourcesListResultItemResourceType =
   | "custom-ruleset"
@@ -674,7 +674,7 @@ export interface ListResourcesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourcesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListRequestDirection = "asc" | "desc";
 export type ListRequestIncludeTagsFrom = "api" | "mirror";
@@ -696,29 +696,29 @@ export interface ListResourceSharingsRequest {
   /** Account identifier. */
   accountId: string;
   /** Direction to sort objects. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Include recipient counts in the response. */
-  includeRecipientCounts?: boolean;
+  includeRecipientCounts?: boolean | undefined;
   /** Include resources in the response. */
-  includeResources?: boolean;
+  includeResources?: boolean | undefined;
   /** Include share tags in the response. `api` reads tags from the tag service; `mirror` reads a local, eventually consistent replica. If the tag lookup fails, the response omits `tags`. */
-  includeTagsFrom?: ListRequestIncludeTagsFrom | (string & {});
+  includeTagsFrom?: ListRequestIncludeTagsFrom | (string & {}) | undefined;
   /** Filter shares by kind. */
-  kind?: ListRequestKind | (string & {});
+  kind?: ListRequestKind | (string & {}) | undefined;
   /** Order shares by values in the given field. */
-  order?: ListRequestOrder | (string & {});
+  order?: ListRequestOrder | (string & {}) | undefined;
   /** Page number. Defaults to `1` when omitted. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects to return per page. Defaults to `20` when omitted. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter share resources by resource_types. */
-  resourceTypes?: ListRequestResourceTypesList;
+  resourceTypes?: ListRequestResourceTypesList | undefined;
   /** Filter shares by status. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
   /** Filter shares by tag. Each value is either `key=value` (matches shares whose tags contain that key/value pair) or `key` alone (matches shares that have any value for that key). May be repeated; multiple `tag` parameters are ANDed together. Maximum 20 `tag` parameters per request. */
-  tag?: ListRequestTagList;
+  tag?: ListRequestTagList | undefined;
   /** Filter shares by target_type. */
-  targetType?: ListRequestTargetType | (string & {});
+  targetType?: ListRequestTargetType | (string & {}) | undefined;
 }
 export type ListResultItemStatus = "active" | "deleting" | "deleted";
 export type ListResultItemTargetType = "account" | "organization";
@@ -772,25 +772,25 @@ export interface ListResultItem {
   status: ListResultItemStatus;
   targetType: ListResultItemTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: ListResultItemKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: ListResultItemKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: ListResultItemResourcesList | null;
+  resources?: ListResultItemResourcesList | null | undefined;
   /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
-  tags?: ListResultItemTagsMap | null;
+  tags?: ListResultItemTagsMap | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListResourceSharingsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateResourceRequest {
   /** Account identifier. */
@@ -841,7 +841,7 @@ export interface UpdateResourceSharingRequest {
   /** The name of the share. */
   name: string;
   /** Tags associated with the share. */
-  tags?: UpdateRequestTagsMap;
+  tags?: UpdateRequestTagsMap | undefined;
 }
 export type UpdateResponseStatus = "active" | "deleting" | "deleted";
 export type UpdateResponseTargetType = "account" | "organization";
@@ -896,18 +896,18 @@ export interface UpdateResourceSharingResponse {
   status: UpdateResponseStatus;
   targetType: UpdateResponseTargetType;
   /** The number of recipients in the 'associated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatedRecipientCount?: number | null;
+  associatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'associating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  associatingRecipientCount?: number | null;
+  associatingRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociated' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatedRecipientCount?: number | null;
+  disassociatedRecipientCount?: number | null | undefined;
   /** The number of recipients in the 'disassociating' state. This field is only included when requested via the 'include_recipient_counts' parameter. */
-  disassociatingRecipientCount?: number | null;
-  kind?: UpdateResponseKind | null;
+  disassociatingRecipientCount?: number | null | undefined;
+  kind?: UpdateResponseKind | null | undefined;
   /** A list of resources that are part of the share. This field is only included when requested via the 'include_resources' parameter. */
-  resources?: UpdateResponseResourcesList | null;
+  resources?: UpdateResponseResourcesList | null | undefined;
   /** Tags associated with the share. Included in create and update responses when tags are supplied, and in read responses when the `include_tags_from` parameter is set. */
-  tags?: UpdateResponseTagsMap | null;
+  tags?: UpdateResponseTagsMap | null | undefined;
 }
 export type CreateRecipientError = ShareNotFound | Forbidden | CloudflareOpError;
 /** Adds a single recipient to an account-targeted resource share, granting them access to the shared resources. The recipient account must belong to the same organization as the share owner. To replace the entire recipient list in one call, use `PUT /accounts/{account_id}/shares/{share_id}/recipients` instead. */

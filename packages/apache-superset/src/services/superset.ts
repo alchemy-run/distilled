@@ -78,14 +78,14 @@ export class UnprocessableEntity
 /** Objects to tag */
 export type TagObjectObjectsToTagList = Array<unknown>;
 export interface TagObject {
-  description?: string | null;
-  name?: string;
+  description?: string | null | undefined;
+  name?: string | undefined;
   /** Objects to tag */
-  objects_to_tag?: TagObjectObjectsToTagList;
+  objects_to_tag?: TagObjectObjectsToTagList | undefined;
 }
 export type BulkTagCreateRequestTagsList = Array<TagObject>;
 export interface BulkTagCreateRequest {
-  tags?: BulkTagCreateRequestTagsList;
+  tags?: BulkTagCreateRequestTagsList | undefined;
 }
 /** Objects to tag */
 export type TagPostBulkResponseObjectObjectsSkippedList = Array<unknown>;
@@ -93,12 +93,12 @@ export type TagPostBulkResponseObjectObjectsSkippedList = Array<unknown>;
 export type TagPostBulkResponseObjectObjectsTaggedList = Array<unknown>;
 export interface TagPostBulkResponseObject {
   /** Objects to tag */
-  objects_skipped?: TagPostBulkResponseObjectObjectsSkippedList;
+  objects_skipped?: TagPostBulkResponseObjectObjectsSkippedList | undefined;
   /** Objects to tag */
-  objects_tagged?: TagPostBulkResponseObjectObjectsTaggedList;
+  objects_tagged?: TagPostBulkResponseObjectObjectsTaggedList | undefined;
 }
 export interface TagPostBulkResponseSchema {
-  result?: TagPostBulkResponseObject;
+  result?: TagPostBulkResponseObject | undefined;
 }
 export interface ClearSemanticLayerCacheRequest {
   uuid: string;
@@ -108,35 +108,35 @@ export interface CopyDashboardRequest {
   /** The dashboard id or slug */
   id_or_slug: string;
   /** Override CSS for the dashboard. */
-  css?: string;
+  css?: string | undefined;
   /** A title for the dashboard. */
-  dashboard_title?: string | null;
+  dashboard_title?: string | null | undefined;
   /** Whether or not to also copy all charts on the dashboard */
-  duplicate_slices?: boolean;
+  duplicate_slices?: boolean | undefined;
   /** This JSON object is generated dynamically when clicking the save or overwrite button in the dashboard view. It is exposed here for reference and for power users who may want to alter specific parameters. */
   json_metadata: string;
   /** Use json_metadata as the complete copy settings instead of merging with the source dashboard's settings. Defaults to false. Chart-specific settings are pruned and remapped in both modes. */
-  replace_metadata?: boolean;
+  replace_metadata?: boolean | undefined;
 }
 export interface CopyDashboardResponse {
-  id?: number;
-  last_modified_time?: number;
+  id?: number | undefined;
+  last_modified_time?: number | undefined;
 }
 export interface CreateAnnotationLayerRequest {
   /** Give a description for this annotation layer */
-  descr?: string | null;
+  descr?: string | null | undefined;
   /** The annotation layer name */
   name: string;
 }
 export interface AnnotationLayerRestApiPost {
   /** Give a description for this annotation layer */
-  descr?: string | null;
+  descr?: string | null | undefined;
   /** The annotation layer name */
   name: string;
 }
 export interface CreateAnnotationLayerResponse {
-  id?: number;
-  result?: AnnotationLayerRestApiPost;
+  id?: number | undefined;
+  result?: AnnotationLayerRestApiPost | undefined;
 }
 export interface CreateAnnotationLayerAnnotationRequest {
   /** The annotation layer pk for this annotation */
@@ -144,9 +144,9 @@ export interface CreateAnnotationLayerAnnotationRequest {
   /** The annotation end date time */
   end_dttm: string;
   /** JSON metadata */
-  json_metadata?: string | null;
+  json_metadata?: string | null | undefined;
   /** A long description */
-  long_descr?: string | null;
+  long_descr?: string | null | undefined;
   /** A short description */
   short_descr: string;
   /** The annotation start date time */
@@ -156,17 +156,17 @@ export interface AnnotationRestApiPost {
   /** The annotation end date time */
   end_dttm: string;
   /** JSON metadata */
-  json_metadata?: string | null;
+  json_metadata?: string | null | undefined;
   /** A long description */
-  long_descr?: string | null;
+  long_descr?: string | null | undefined;
   /** A short description */
   short_descr: string;
   /** The annotation start date time */
   start_dttm: string;
 }
 export interface CreateAnnotationLayerAnnotationResponse {
-  id?: number;
-  result?: AnnotationRestApiPost;
+  id?: number | undefined;
+  result?: AnnotationRestApiPost | undefined;
 }
 export type CreateChartRequestDashboardsList = Array<number>;
 /** The type of dataset/datasource identified on `datasource_id`. */
@@ -195,35 +195,35 @@ export type CreateChartRequestViewersItem = number | CreateChartRequestViewersIt
 export type CreateChartRequestViewersList = Array<CreateChartRequestViewersItem>;
 export interface CreateChartRequest {
   /** Duration (in seconds) of the caching timeout for this chart. Note this defaults to the datasource/table timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this chart */
-  certified_by?: string | null;
-  dashboards?: CreateChartRequestDashboardsList;
+  certified_by?: string | null | undefined;
+  dashboards?: CreateChartRequestDashboardsList | undefined;
   /** The id of the dataset/datasource this new chart will use. A complete datasource identification needs `datasource_id` and `datasource_type`. */
   datasource_id: number;
   /** The datasource name. */
-  datasource_name?: string | null;
+  datasource_name?: string | null | undefined;
   /** The type of dataset/datasource identified on `datasource_id`. */
   datasource_type: CreateChartRequestDatasourceType | (string & {});
   /** A description of the chart propose. */
-  description?: string | null;
-  editors?: CreateChartRequestEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: CreateChartRequestEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** Parameters are generated dynamically when clicking the save or overwrite button in the explore view. This JSON object for power users who may want to alter specific parameters. */
-  params?: string | null;
+  params?: string | null | undefined;
   /** The query context represents the queries that need to run in order to generate the data the visualization, and in what format the data should be returned. */
-  query_context?: string | null;
+  query_context?: string | null | undefined;
   /** The query context generation represents whether the query_contextis user generated or not so that it does not update user modifiedstate. */
-  query_context_generation?: boolean | null;
+  query_context_generation?: boolean | null | undefined;
   /** The name of the chart. */
   slice_name: string;
-  uuid?: string | null;
-  viewers?: CreateChartRequestViewersList;
+  uuid?: string | null | undefined;
+  viewers?: CreateChartRequestViewersList | undefined;
   /** The type of chart visualization used. */
-  viz_type?: string;
+  viz_type?: string | undefined;
 }
 export type ChartRestApiPostDashboardsList = Array<number>;
 /** The type of dataset/datasource identified on `datasource_id`. */
@@ -252,39 +252,39 @@ export type ChartRestApiPostViewersItem = number | ChartRestApiPostViewersItemCa
 export type ChartRestApiPostViewersList = Array<ChartRestApiPostViewersItem>;
 export interface ChartRestApiPost {
   /** Duration (in seconds) of the caching timeout for this chart. Note this defaults to the datasource/table timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this chart */
-  certified_by?: string | null;
-  dashboards?: ChartRestApiPostDashboardsList;
+  certified_by?: string | null | undefined;
+  dashboards?: ChartRestApiPostDashboardsList | undefined;
   /** The id of the dataset/datasource this new chart will use. A complete datasource identification needs `datasource_id` and `datasource_type`. */
   datasource_id: number;
   /** The datasource name. */
-  datasource_name?: string | null;
+  datasource_name?: string | null | undefined;
   /** The type of dataset/datasource identified on `datasource_id`. */
   datasource_type: ChartRestApiPostDatasourceType;
   /** A description of the chart propose. */
-  description?: string | null;
-  editors?: ChartRestApiPostEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: ChartRestApiPostEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** Parameters are generated dynamically when clicking the save or overwrite button in the explore view. This JSON object for power users who may want to alter specific parameters. */
-  params?: string | null;
+  params?: string | null | undefined;
   /** The query context represents the queries that need to run in order to generate the data the visualization, and in what format the data should be returned. */
-  query_context?: string | null;
+  query_context?: string | null | undefined;
   /** The query context generation represents whether the query_contextis user generated or not so that it does not update user modifiedstate. */
-  query_context_generation?: boolean | null;
+  query_context_generation?: boolean | null | undefined;
   /** The name of the chart. */
   slice_name: string;
-  uuid?: string | null;
-  viewers?: ChartRestApiPostViewersList;
+  uuid?: string | null | undefined;
+  viewers?: ChartRestApiPostViewersList | undefined;
   /** The type of chart visualization used. */
-  viz_type?: string;
+  viz_type?: string | undefined;
 }
 export interface CreateChartResponse {
-  id?: number;
-  result?: ChartRestApiPost;
+  id?: number | undefined;
+  result?: ChartRestApiPost | undefined;
 }
 /** Datasource type */
 export type ChartDataDatasourceType =
@@ -298,7 +298,7 @@ export interface ChartDataDatasource {
   /** Datasource id or uuid */
   id: unknown;
   /** Datasource type */
-  type?: ChartDataDatasourceType | (string & {});
+  type?: ChartDataDatasourceType | (string & {}) | undefined;
 }
 /** Type of annotation layer */
 export type AnnotationLayerAnnotationType = "FORMULA" | "INTERVAL" | "EVENT" | "TIME_SERIES";
@@ -314,39 +314,39 @@ export type AnnotationLayerSourceType = "" | "line" | "NATIVE" | "table";
 export type AnnotationLayerStyle = "dashed" | "dotted" | "solid" | "longDashed";
 export interface AnnotationLayer {
   /** Type of annotation layer */
-  annotationType?: AnnotationLayerAnnotationType | (string & {});
+  annotationType?: AnnotationLayerAnnotationType | (string & {}) | undefined;
   /** Layer color */
-  color?: string | null;
+  color?: string | null | undefined;
   /** Columns to use as the description. If none are provided, all will be shown. */
-  descriptionColumns?: AnnotationLayerDescriptionColumnsList;
+  descriptionColumns?: AnnotationLayerDescriptionColumnsList | undefined;
   /** Should line be hidden. Only applies to line annotations */
-  hideLine?: boolean | null;
+  hideLine?: boolean | null | undefined;
   /** Column containing end of interval. Only applies to interval layers */
-  intervalEndColumn?: string | null;
+  intervalEndColumn?: string | null | undefined;
   /** Name of layer */
   name: string;
   /** Opacity of layer */
-  opacity?: AnnotationLayerOpacity | (string & {}) | null;
+  opacity?: AnnotationLayerOpacity | (string & {}) | null | undefined;
   /** which properties should be overridable */
-  overrides?: AnnotationLayerOverridesMap | null;
+  overrides?: AnnotationLayerOverridesMap | null | undefined;
   /** Should the layer be shown */
   show: boolean;
   /** Should the label always be shown */
-  showLabel?: boolean | null;
+  showLabel?: boolean | null | undefined;
   /** Should markers be shown. Only applies to line annotations. */
   showMarkers: boolean;
   /** Type of source for annotation data */
-  sourceType?: AnnotationLayerSourceType | (string & {});
+  sourceType?: AnnotationLayerSourceType | (string & {}) | undefined;
   /** Line style. Only applies to time-series annotations */
-  style?: AnnotationLayerStyle | (string & {});
+  style?: AnnotationLayerStyle | (string & {}) | undefined;
   /** Column with event date or interval start date */
-  timeColumn?: string | null;
+  timeColumn?: string | null | undefined;
   /** Column with title */
-  titleColumn?: string | null;
+  titleColumn?: string | null | undefined;
   /** For formula annotations, this contains the formula. For other types, this is the primary key of the source object. */
   value: unknown;
   /** Width of annotation line */
-  width?: number;
+  width?: number | undefined;
 }
 /** Annotation layers to apply to chart */
 export type ChartDataQueryObjectAnnotationLayersList = Array<AnnotationLayer>;
@@ -360,23 +360,23 @@ export type ChartDataExtrasRelativeEnd = "today" | "now";
 export type ChartDataExtrasRelativeStart = "today" | "now";
 export interface ChartDataExtras {
   /** Ordered list of column names for result ordering. Used to preserve user's column reordering (including mixed dimension columns and metrics) */
-  column_order?: ChartDataExtrasColumnOrderList | null;
+  column_order?: ChartDataExtrasColumnOrderList | null | undefined;
   /** HAVING clause to be added to aggregate queries using AND operator. */
-  having?: string;
+  having?: string | undefined;
   /** This is only set using the new time comparison controls that is made available in some plugins behind the experimental feature flag. */
-  instant_time_comparison_range?: string | null;
+  instant_time_comparison_range?: string | null | undefined;
   /** End time for relative time deltas. Default: `config["DEFAULT_RELATIVE_START_TIME"]` */
-  relative_end?: ChartDataExtrasRelativeEnd | (string & {});
+  relative_end?: ChartDataExtrasRelativeEnd | (string & {}) | undefined;
   /** Start time for relative time deltas. Default: `config["DEFAULT_RELATIVE_START_TIME"]` */
-  relative_start?: ChartDataExtrasRelativeStart | (string & {});
+  relative_start?: ChartDataExtrasRelativeStart | (string & {}) | undefined;
   /** Identity encoding used for semantic member selections. */
-  semantic_selection_version?: string | null;
+  semantic_selection_version?: string | null | undefined;
   /** To what level of granularity should the temporal column be aggregated. Supports [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Durations) durations. */
-  time_grain_sqla?: string | null;
+  time_grain_sqla?: string | null | undefined;
   /** If true, WHERE/HAVING clauses will be transpiled to the target database dialect using SQLGlot. */
-  transpile_to_dialect?: boolean | null;
+  transpile_to_dialect?: boolean | null | undefined;
   /** WHERE clause to be added to queries using AND operator. */
-  where?: string;
+  where?: string | undefined;
 }
 /** The comparison operator. */
 export type ChartDataFilterOp =
@@ -410,13 +410,13 @@ export interface ChartDataFilter {
   /** The column to filter by. Can be either a string (physical or saved expression) or an object (adhoc column) */
   col: unknown;
   /** Optional time grain for temporal filters */
-  grain?: string;
+  grain?: string | undefined;
   /** Indicates if the filter has been added by a filter component as opposed to being a part of the original query. */
-  isExtra?: boolean;
+  isExtra?: boolean | undefined;
   /** The comparison operator. */
   op: ChartDataFilterOp | (string & {});
   /** The value or values to compare against. Can be a string, integer, decimal, None or list, depending on the operator. */
-  val?: unknown | null;
+  val?: unknown | null | undefined;
 }
 export type ChartDataQueryObjectFiltersList = Array<ChartDataFilter>;
 /** Columns by which to group the query. This field is deprecated, use `columns` instead. */
@@ -432,7 +432,7 @@ export interface ChartDataPostProcessingOperation {
   /** Post processing operation type */
   operation: string;
   /** Options specifying how to perform the operation. Please refer to the respective post processing operation option schemas. For example, `ChartDataPostProcessingOperationOptions` specifies the required options for the pivot operation. */
-  options?: unknown;
+  options?: unknown | undefined;
 }
 /** Post processing operations to be applied to the result set. Operations are applied to the result set in sequential order. */
 export type ChartDataQueryObjectPostProcessingList = Array<ChartDataPostProcessingOperation | null>;
@@ -452,69 +452,69 @@ export type ChartDataQueryObjectTimeOffsetsList = Array<string>;
 export type ChartDataQueryObjectUrlParamsMap = { [key: string]: string | undefined };
 export interface ChartDataQueryObject {
   /** Annotation layers to apply to chart */
-  annotation_layers?: ChartDataQueryObjectAnnotationLayersList | null;
+  annotation_layers?: ChartDataQueryObjectAnnotationLayersList | null | undefined;
   /** A mapping of temporal extras that have been applied to the query */
-  applied_time_extras?: unknown | null;
+  applied_time_extras?: unknown | null | undefined;
   /** Add fetch values predicate (where clause) to query if defined in datasource */
-  apply_fetch_values_predicate?: boolean | null;
+  apply_fetch_values_predicate?: boolean | null | undefined;
   /** Columns which to select in the query. */
-  columns?: ChartDataQueryObjectColumnsList | null;
-  datasource?: ChartDataDatasource | null;
+  columns?: ChartDataQueryObjectColumnsList | null | undefined;
+  datasource?: ChartDataDatasource | null | undefined;
   /** Extra parameters to add to the query. */
-  extras?: ChartDataExtras | null;
-  filters?: ChartDataQueryObjectFiltersList | null;
+  extras?: ChartDataExtras | null | undefined;
+  filters?: ChartDataQueryObjectFiltersList | null | undefined;
   /** Per-query forced-refresh idempotency token: the async task's UUID (as returned in the 202 `task_ids`, in query order). Sent on the synchronous read-back of a forced refresh so it reads the result the task warmed instead of recomputing. Because the token is the task's identity, concurrent refreshes joining the same shared task read back under the same token. Ignored when `force` is false. */
-  force_nonce?: string | null;
+  force_nonce?: string | null | undefined;
   /** Name of temporal column used for time filtering. */
-  granularity?: string | null;
+  granularity?: string | null | undefined;
   /** Name of temporal column used for time filtering for SQL datasources. This field is deprecated, use `granularity` instead. */
-  granularity_sqla?: string | null;
+  granularity_sqla?: string | null | undefined;
   /** When true, groups remaining series into an 'Others' category when series limit is reached. Prevents incomplete data. */
-  group_others_when_limit_reached?: boolean | null;
+  group_others_when_limit_reached?: boolean | null | undefined;
   /** Columns by which to group the query. This field is deprecated, use `columns` instead. */
-  groupby?: ChartDataQueryObjectGroupbyList | null;
+  groupby?: ChartDataQueryObjectGroupbyList | null | undefined;
   /** Rollup levels for non-additive totals: each entry is the list of groupby columns to group at that level (e.g. the empty list is the grand total). When set and the engine supports it, the levels are computed in a single GROUPING SETS query. */
-  grouping_sets?: ChartDataQueryObjectGroupingSetsList | null;
+  grouping_sets?: ChartDataQueryObjectGroupingSetsList | null | undefined;
   /** HAVING clause to be added to aggregate queries using AND operator. This field is deprecated and should be passed to `extras`. */
-  having?: string | null;
+  having?: string | null | undefined;
   /** Should the rowcount of the actual query be returned */
-  is_rowcount?: boolean | null;
+  is_rowcount?: boolean | null | undefined;
   /** Is the `query_object` a timeseries. */
-  is_timeseries?: boolean | null;
+  is_timeseries?: boolean | null | undefined;
   /** Aggregate expressions. Metrics can be passed as both references to datasource metrics (strings), or ad-hoc metricswhich are defined only within the query object. See `ChartDataAdhocMetricSchema` for the structure of ad-hoc metrics. */
-  metrics?: ChartDataQueryObjectMetricsList | null;
+  metrics?: ChartDataQueryObjectMetricsList | null | undefined;
   /** Reverse order. Default: `false` */
-  order_desc?: boolean | null;
+  order_desc?: boolean | null | undefined;
   /** Expects a list of lists where the first element is the column name which to sort by, and the second element is a boolean. */
-  orderby?: ChartDataQueryObjectOrderbyList | null;
+  orderby?: ChartDataQueryObjectOrderbyList | null | undefined;
   /** Post processing operations to be applied to the result set. Operations are applied to the result set in sequential order. */
-  post_processing?: ChartDataQueryObjectPostProcessingList | null;
-  result_type?: ChartDataQueryObjectResultType | (string & {}) | null;
+  post_processing?: ChartDataQueryObjectPostProcessingList | null | undefined;
+  result_type?: ChartDataQueryObjectResultType | (string & {}) | null | undefined;
   /** Maximum row count (0=disabled). Default: `config["ROW_LIMIT"]` */
-  row_limit?: number | null;
+  row_limit?: number | null | undefined;
   /** Number of rows to skip. Default: `0` */
-  row_offset?: number | null;
+  row_offset?: number | null | undefined;
   /** Columns to use when limiting series count. All columns must be present in the `columns` property. Requires `series_limit` and `series_limit_metric` to be set. */
-  series_columns?: ChartDataQueryObjectSeriesColumnsList | null;
+  series_columns?: ChartDataQueryObjectSeriesColumnsList | null | undefined;
   /** Maximum number of series. Requires `series` and `series_limit_metric` to be set. */
-  series_limit?: number | null;
+  series_limit?: number | null | undefined;
   /** Metric used to limit timeseries queries by. Requires `series` and `series_limit` to be set. */
-  series_limit_metric?: unknown | null;
+  series_limit_metric?: unknown | null | undefined;
   /** When using a time comparison (time_offsets), plot each shifted series across its full time range instead of truncating it to the main series' range. Useful for comparing a partial current period against complete prior periods. */
-  time_compare_full_range?: boolean | null;
-  time_offsets?: ChartDataQueryObjectTimeOffsetsList | null;
+  time_compare_full_range?: boolean | null | undefined;
+  time_offsets?: ChartDataQueryObjectTimeOffsetsList | null | undefined;
   /** A time rage, either expressed as a colon separated string `since : until` or human readable freeform. Valid formats for `since` and `until` are: - ISO 8601 - X days/years/hours/day/year/weeks - X days/years/hours/day/year/weeks ago - X days/years/hours/day/year/weeks from now Additionally, the following freeform can be used: - Last day - Last week - Last month - Last quarter - Last year - No filter - Last X seconds/minutes/hours/days/weeks/months/years - Next X seconds/minutes/hours/days/weeks/months/years */
-  time_range?: string | null;
+  time_range?: string | null | undefined;
   /** A human-readable date/time string. Please refer to [parsdatetime](https://github.com/bear/parsedatetime) documentation for details on valid values. */
-  time_shift?: string | null;
+  time_shift?: string | null | undefined;
   /** Maximum row count for timeseries queries. This field is deprecated, use `series_limit` instead.Default: `0` */
-  timeseries_limit?: number | null;
+  timeseries_limit?: number | null | undefined;
   /** Metric used to limit timeseries queries by. This field is deprecated, use `series_limit_metric` instead. */
-  timeseries_limit_metric?: unknown | null;
+  timeseries_limit_metric?: unknown | null | undefined;
   /** Optional query parameters passed to a dashboard or Explore view */
-  url_params?: ChartDataQueryObjectUrlParamsMap | null;
+  url_params?: ChartDataQueryObjectUrlParamsMap | null | undefined;
   /** WHERE clause to be added to queries using AND operator.This field is deprecated and should be passed to `extras`. */
-  where?: string | null;
+  where?: string | null | undefined;
 }
 export type CreateChartDataRequestQueriesList = Array<ChartDataQueryObject>;
 export type CreateChartDataRequestResultFormat = "csv" | "json" | "xlsx" | "arrow";
@@ -529,24 +529,24 @@ export type CreateChartDataRequestResultType =
   | "drill_detail";
 export interface CreateChartDataRequest {
   /** Opt this request into asynchronous execution on the Global Task Framework (requires the GLOBAL_ASYNC_QUERIES feature flag). When true the response is HTTP 202 with the query task ids to poll; when absent or false the query runs synchronously (HTTP 200). Default: `false`. */
-  async_mode?: boolean | null;
+  async_mode?: boolean | null | undefined;
   /** Override the default cache timeout */
-  custom_cache_timeout?: number | null;
-  datasource?: ChartDataDatasource;
+  custom_cache_timeout?: number | null | undefined;
+  datasource?: ChartDataDatasource | undefined;
   /** Should the queries be forced to load from the source. Default: `false` */
-  force?: boolean | null;
+  force?: boolean | null | undefined;
   /** Forced-refresh idempotency token for a single-query request: the async task's UUID (as returned in the 202 `task_ids`). Sent on the synchronous read-back of a forced refresh so it reads the result the task warmed instead of recomputing; concurrent refreshes joining the same shared task read back under the same token. Multi-query requests set the per-query `force_nonce` on each query instead. Ignored when `force` is false. */
-  force_nonce?: string | null;
-  form_data?: unknown | null;
-  queries?: CreateChartDataRequestQueriesList;
-  result_format?: CreateChartDataRequestResultFormat | (string & {});
-  result_type?: CreateChartDataRequestResultType | (string & {});
+  force_nonce?: string | null | undefined;
+  form_data?: unknown | null | undefined;
+  queries?: CreateChartDataRequestQueriesList | undefined;
+  result_format?: CreateChartDataRequestResultFormat | (string & {}) | undefined;
+  result_type?: CreateChartDataRequestResultType | (string & {}) | undefined;
   /** Opaque per-browser-tab id (see the frontend `getTabId`). On an async request it ref-counts this tab as a consumer of the shared chart-data task so a cancel/navigate-away from one tab doesn't abort a task another tab still awaits. Read by the API as a request-level routing hint; not part of the query context. */
-  tab_id?: string | null;
+  tab_id?: string | null | undefined;
 }
 export interface DashboardFilterInfo {
   /** Target column name for the filter */
-  column?: string | null;
+  column?: string | null | undefined;
   /** The native filter ID */
   id: string;
   /** The native filter name */
@@ -558,7 +558,7 @@ export interface DashboardFilterInfo {
 export type DashboardFiltersResponseSchemaFiltersList = Array<DashboardFilterInfo>;
 export interface DashboardFiltersResponseSchema {
   /** Metadata about each in-scope dashboard native filter and whether its default value was applied to the query */
-  filters?: DashboardFiltersResponseSchemaFiltersList;
+  filters?: DashboardFiltersResponseSchemaFiltersList | undefined;
 }
 export type ChartDataResponseResultAnnotationDataItemMap = { [key: string]: string | undefined };
 /** All requested annotation data */
@@ -599,9 +599,9 @@ export interface ChartDataTiming {
 }
 export interface ChartDataResponseResult {
   /** All requested annotation data */
-  annotation_data?: ChartDataResponseResultAnnotationDataList | null;
+  annotation_data?: ChartDataResponseResultAnnotationDataList | null | undefined;
   /** A list with applied filters */
-  applied_filters?: ChartDataResponseResultAppliedFiltersList;
+  applied_filters?: ChartDataResponseResultAppliedFiltersList | undefined;
   /** Unique cache key for query object */
   cache_key: string | null;
   /** Cache timeout in following order: custom timeout, datasource timeout, cache default timeout, config default cache timeout. */
@@ -609,65 +609,65 @@ export interface ChartDataResponseResult {
   /** Cache timestamp */
   cached_dttm: string | null;
   /** A list of column names */
-  colnames?: ChartDataResponseResultColnamesList;
+  colnames?: ChartDataResponseResultColnamesList | undefined;
   /** A list of generic data types of each column */
-  coltypes?: ChartDataResponseResultColtypesList;
+  coltypes?: ChartDataResponseResultColtypesList | undefined;
   /** A list with results */
-  data?: ChartDataResponseResultDataList;
+  data?: ChartDataResponseResultDataList | undefined;
   /** Detected ISO 4217 currency code when AUTO mode is used. Returns the currency code if all filtered data contains a single currency or null if multiple currencies are present. */
-  detected_currency?: string | null;
+  detected_currency?: string | null | undefined;
   /** Error */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Start timestamp of time range */
-  from_dttm?: number | null;
+  from_dttm?: number | null | undefined;
   /** Is the result cached */
   is_cached: boolean;
   /** UTC timestamp when the query was executed (ISO 8601 format) */
   queried_dttm: string | null;
   /** The executed query statement. May be absent when validation errors occur. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** A list with rejected filters */
-  rejected_filters?: ChartDataResponseResultRejectedFiltersList;
+  rejected_filters?: ChartDataResponseResultRejectedFiltersList | undefined;
   /** Amount of rows in result set */
-  rowcount?: number;
+  rowcount?: number | undefined;
   /** Semantic containment cache provenance of this query: HIT when every semantic query behind it was served from containment, MISS when none was, MIXED when only some were (for example a time-comparison offset). */
-  semantic_cache_status?: ChartDataResponseResultSemanticCacheStatus | null;
+  semantic_cache_status?: ChartDataResponseResultSemanticCacheStatus | null | undefined;
   /** Stacktrace if there was an error */
-  stacktrace?: string | null;
+  stacktrace?: string | null | undefined;
   /** Status of the query */
-  status?: ChartDataResponseResultStatus;
+  status?: ChartDataResponseResultStatus | undefined;
   /** Optional versioned query lifecycle timing breakdown in milliseconds. Present only when CHART_DATA_INCLUDE_TIMING is enabled; disabled by default. */
-  timing?: ChartDataTiming;
+  timing?: ChartDataTiming | undefined;
   /** End timestamp of time range */
-  to_dttm?: number | null;
+  to_dttm?: number | null | undefined;
   /** Warning message when results were truncated */
-  warning?: string | null;
+  warning?: string | null | undefined;
 }
 /** A list of results for each corresponding query in the request. */
 export type ChartDataResponseSchemaResultList = Array<ChartDataResponseResult>;
 export interface ChartDataResponseSchema {
   /** Metadata about dashboard native filters applied to the query. Only present when filters_dashboard_id is provided. */
-  dashboard_filters?: DashboardFiltersResponseSchema;
+  dashboard_filters?: DashboardFiltersResponseSchema | undefined;
   /** A list of results for each corresponding query in the request. */
-  result?: ChartDataResponseSchemaResultList;
+  result?: ChartDataResponseSchemaResultList | undefined;
 }
 export interface CreateChartFavoriteRequest {
   pk: number;
 }
 export interface CreateChartFavoriteResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface CreateCssTemplateRequest {
-  css?: string | null;
-  template_name?: string | null;
+  css?: string | null | undefined;
+  template_name?: string | null | undefined;
 }
 export interface CssTemplateRestApiPost {
-  css?: string | null;
-  template_name?: string | null;
+  css?: string | null | undefined;
+  template_name?: string | null | undefined;
 }
 export interface CreateCssTemplateResponse {
-  id?: string;
-  result?: CssTemplateRestApiPost;
+  id?: string | undefined;
+  result?: CssTemplateRestApiPost | undefined;
 }
 export type CreateDashboardRequestEditorsItemCase1Type = "user" | "role" | "group" | "subject";
 export interface CreateDashboardRequestEditorsItemCase1 {
@@ -687,30 +687,30 @@ export type CreateDashboardRequestViewersItem = number | CreateDashboardRequestV
 export type CreateDashboardRequestViewersList = Array<CreateDashboardRequestViewersItem>;
 export interface CreateDashboardRequest {
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this dashboard */
-  certified_by?: string | null;
+  certified_by?: string | null | undefined;
   /** Override CSS for the dashboard. */
-  css?: string;
+  css?: string | undefined;
   /** A title for the dashboard. */
-  dashboard_title?: string | null;
+  dashboard_title?: string | null | undefined;
   /** A description for the dashboard. */
-  description?: string | null;
-  editors?: CreateDashboardRequestEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: CreateDashboardRequestEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** This JSON object is generated dynamically when clicking the save or overwrite button in the dashboard view. It is exposed here for reference and for power users who may want to alter specific parameters. */
-  json_metadata?: string;
+  json_metadata?: string | undefined;
   /** This json object describes the positioning of the widgets in the dashboard. It is dynamically generated when adjusting the widgets size and positions by using drag & drop in the dashboard view */
-  position_json?: string;
+  position_json?: string | undefined;
   /** Determines whether or not this dashboard is visible in the list of all dashboards. */
-  published?: boolean;
+  published?: boolean | undefined;
   /** Unique identifying part for the web address of the dashboard. */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** Theme ID for the dashboard */
-  theme_id?: number | null;
-  uuid?: string | null;
-  viewers?: CreateDashboardRequestViewersList;
+  theme_id?: number | null | undefined;
+  uuid?: string | null | undefined;
+  viewers?: CreateDashboardRequestViewersList | undefined;
 }
 export type DashboardRestApiPostEditorsItemCase1Type = "user" | "role" | "group" | "subject";
 export interface DashboardRestApiPostEditorsItemCase1 {
@@ -730,34 +730,34 @@ export type DashboardRestApiPostViewersItem = number | DashboardRestApiPostViewe
 export type DashboardRestApiPostViewersList = Array<DashboardRestApiPostViewersItem>;
 export interface DashboardRestApiPost {
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this dashboard */
-  certified_by?: string | null;
+  certified_by?: string | null | undefined;
   /** Override CSS for the dashboard. */
-  css?: string;
+  css?: string | undefined;
   /** A title for the dashboard. */
-  dashboard_title?: string | null;
+  dashboard_title?: string | null | undefined;
   /** A description for the dashboard. */
-  description?: string | null;
-  editors?: DashboardRestApiPostEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: DashboardRestApiPostEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** This JSON object is generated dynamically when clicking the save or overwrite button in the dashboard view. It is exposed here for reference and for power users who may want to alter specific parameters. */
-  json_metadata?: string;
+  json_metadata?: string | undefined;
   /** This json object describes the positioning of the widgets in the dashboard. It is dynamically generated when adjusting the widgets size and positions by using drag & drop in the dashboard view */
-  position_json?: string;
+  position_json?: string | undefined;
   /** Determines whether or not this dashboard is visible in the list of all dashboards. */
-  published?: boolean;
+  published?: boolean | undefined;
   /** Unique identifying part for the web address of the dashboard. */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** Theme ID for the dashboard */
-  theme_id?: number | null;
-  uuid?: string | null;
-  viewers?: DashboardRestApiPostViewersList;
+  theme_id?: number | null | undefined;
+  uuid?: string | null | undefined;
+  viewers?: DashboardRestApiPostViewersList | undefined;
 }
 export interface CreateDashboardResponse {
-  id?: number;
-  result?: DashboardRestApiPost;
+  id?: number | undefined;
+  result?: DashboardRestApiPost | undefined;
 }
 /** A list representing active tabs. */
 export type CreateDashboardCacheDashboardScreenshotRequestActiveTabsList = Array<string>;
@@ -770,27 +770,27 @@ export type CreateDashboardCacheDashboardScreenshotRequestUrlParamsList = Array<
 export interface CreateDashboardCacheDashboardScreenshotRequest {
   pk: number;
   /** A list representing active tabs. */
-  activeTabs?: CreateDashboardCacheDashboardScreenshotRequestActiveTabsList;
+  activeTabs?: CreateDashboardCacheDashboardScreenshotRequestActiveTabsList | undefined;
   /** A string representing the anchor. */
-  anchor?: string;
+  anchor?: string | undefined;
   /** An object representing the data mask. */
-  dataMask?: CreateDashboardCacheDashboardScreenshotRequestDataMaskMap;
+  dataMask?: CreateDashboardCacheDashboardScreenshotRequestDataMaskMap | undefined;
   /** A list of tuples, each containing two strings. */
-  urlParams?: CreateDashboardCacheDashboardScreenshotRequestUrlParamsList;
+  urlParams?: CreateDashboardCacheDashboardScreenshotRequestUrlParamsList | undefined;
 }
 export interface DashboardCacheScreenshotResponseSchema {
   /** The cache key */
-  cache_key?: string;
+  cache_key?: string | undefined;
   /** The url to render the dashboard */
-  dashboard_url?: string;
+  dashboard_url?: string | undefined;
   /** The url to fetch the screenshot */
-  image_url?: string;
+  image_url?: string | undefined;
   /** The status of the async screenshot */
-  task_status?: string;
+  task_status?: string | undefined;
   /** The client wait budget for the Pending and Computing task states */
-  task_timeout_seconds?: number;
+  task_timeout_seconds?: number | undefined;
   /** The timestamp of the last change in status */
-  task_updated_at?: string;
+  task_updated_at?: string | undefined;
 }
 export type CreateDashboardEmbeddedRequestAllowedDomainsList = Array<string>;
 export interface CreateDashboardEmbeddedRequest {
@@ -800,36 +800,36 @@ export interface CreateDashboardEmbeddedRequest {
 }
 export type EmbeddedDashboardResponseSchemaAllowedDomainsList = Array<string>;
 export interface User1 {
-  first_name?: string;
-  id?: number;
-  last_name?: string;
-  username?: string;
+  first_name?: string | undefined;
+  id?: number | undefined;
+  last_name?: string | undefined;
+  username?: string | undefined;
 }
 export interface EmbeddedDashboardResponseSchema {
-  allowed_domains?: EmbeddedDashboardResponseSchemaAllowedDomainsList;
-  changed_by?: User1;
-  changed_on?: string;
-  dashboard_id?: string;
-  uuid?: string;
+  allowed_domains?: EmbeddedDashboardResponseSchemaAllowedDomainsList | undefined;
+  changed_by?: User1 | undefined;
+  changed_on?: string | undefined;
+  dashboard_id?: string | undefined;
+  uuid?: string | undefined;
 }
 export interface CreateDashboardEmbeddedResponse {
-  result?: EmbeddedDashboardResponseSchema;
+  result?: EmbeddedDashboardResponseSchema | undefined;
 }
 export interface CreateDashboardFavoriteRequest {
   pk: number;
 }
 export interface CreateDashboardFavoriteResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface CreateDashboardFilterStateRequest {
   pk: number;
-  tab_id?: number;
+  tab_id?: number | undefined;
   /** Any type of JSON supported text. */
   value: string;
 }
 export interface CreateDashboardFilterStateResponse {
   /** The key to retrieve the value. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Current active dashboard tabs */
 export type CreateDashboardPermalinkRequestActiveTabsList = Array<string | null>;
@@ -838,21 +838,21 @@ export type CreateDashboardPermalinkRequestUrlParamsList = Array<unknown | null>
 export interface CreateDashboardPermalinkRequest {
   pk: string;
   /** Current active dashboard tabs */
-  activeTabs?: CreateDashboardPermalinkRequestActiveTabsList | null;
+  activeTabs?: CreateDashboardPermalinkRequestActiveTabsList | null | undefined;
   /** Optional anchor link added to url hash */
-  anchor?: string | null;
+  anchor?: string | null | undefined;
   /** Chart-level state for stateful tables (column order, sorting, filtering) */
-  chartStates?: unknown | null;
+  chartStates?: unknown | null | undefined;
   /** Data mask used for native filter state */
-  dataMask?: unknown | null;
+  dataMask?: unknown | null | undefined;
   /** URL Parameters */
-  urlParams?: CreateDashboardPermalinkRequestUrlParamsList | null;
+  urlParams?: CreateDashboardPermalinkRequestUrlParamsList | null | undefined;
 }
 export interface CreateDashboardPermalinkResponse {
   /** The key to retrieve the permanent link data. */
-  key?: string;
+  key?: string | undefined;
   /** permanent link. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
 export type CreateDatabaseRequestConfigurationMethod = "sqlalchemy_form" | "dynamic_form";
@@ -860,57 +860,57 @@ export type CreateDatabaseRequestConfigurationMethod = "sqlalchemy_form" | "dyna
 export type CreateDatabaseRequestParametersMap = { [key: string]: unknown | undefined };
 export interface DatabaseSSHTunnel {
   /** SSH Tunnel ID (for updates) */
-  id?: number | null;
-  password?: string | Redacted.Redacted<string>;
-  private_key?: string | Redacted.Redacted<string>;
-  private_key_password?: string | Redacted.Redacted<string>;
-  server_address?: string;
+  id?: number | null | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  private_key?: string | Redacted.Redacted<string> | undefined;
+  private_key_password?: string | Redacted.Redacted<string> | undefined;
+  server_address?: string | undefined;
   /** Expected SSH server host key in authorized-key form (e.g. 'ssh-ed25519 AAAA...'). When set, the server's host key is verified against it before the tunnel is opened. */
-  server_host_key?: string | null;
-  server_port?: number;
-  username?: string;
+  server_host_key?: string | null | undefined;
+  server_port?: number | undefined;
+  username?: string | undefined;
 }
 export interface CreateDatabaseRequest {
   /** Allow CREATE TABLE AS option in SQL Lab */
-  allow_ctas?: boolean;
+  allow_ctas?: boolean | undefined;
   /** Allow CREATE VIEW AS option in SQL Lab */
-  allow_cvas?: boolean;
+  allow_cvas?: boolean | undefined;
   /** Allow users to run non-SELECT statements (UPDATE, DELETE, CREATE, ...) in SQL Lab */
-  allow_dml?: boolean;
+  allow_dml?: boolean | undefined;
   /** Allow to upload CSV file data into this databaseIf selected, please set the schemas allowed for csv upload in Extra. */
-  allow_file_upload?: boolean;
+  allow_file_upload?: boolean | undefined;
   /** Operate the database in asynchronous mode, meaning that the queries are executed on remote workers as opposed to on the web server itself. This assumes that you have a Celery worker setup as well as a results backend. Refer to the installation docs for more information. */
-  allow_run_async?: boolean;
+  allow_run_async?: boolean | undefined;
   /** Duration (in seconds) of the caching timeout for charts of this database. A timeout of 0 indicates that the cache never expires, and -1 bypasses the cache. Note this defaults to the global timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
-  configuration_method?: CreateDatabaseRequestConfigurationMethod | (string & {});
+  configuration_method?: CreateDatabaseRequestConfigurationMethod | (string & {}) | undefined;
   /** A database name to identify this connection. */
   database_name: string;
   /** SQLAlchemy driver to use */
-  driver?: string | null;
+  driver?: string | null | undefined;
   /** SQLAlchemy engine to use */
-  engine?: string | null;
+  engine?: string | null | undefined;
   /** Expose this database to SQLLab */
-  expose_in_sqllab?: boolean;
-  external_url?: string | null;
+  expose_in_sqllab?: boolean | undefined;
+  external_url?: string | null | undefined;
   /** <p>JSON string containing extra configuration elements.<br>1. The <code>engine_params</code> object gets unpacked into the <a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine" rel="noopener noreferrer">sqlalchemy.create_engine</a> call, while the <code>metadata_params</code> gets unpacked into the <a href="https://docs.sqlalchemy.org/en/rel_1_0/core/metadata.html#sqlalchemy.schema.MetaData" rel="noopener noreferrer">sqlalchemy.MetaData</a> call.<br>2. The <code>metadata_cache_timeout</code> is a cache timeout setting in seconds for metadata fetch of this database. Specify it as <strong>"metadata_cache_timeout": {"schema_cache_timeout": 600, "table_cache_timeout": 600}</strong>. If unset, cache will not be enabled for the functionality. A timeout of 0 indicates that the cache never expires.<br>3. The <code>schemas_allowed_for_file_upload</code> is a comma separated list of schemas that CSVs are allowed to upload to. Specify it as <strong>"schemas_allowed_for_file_upload": ["public", "csv_upload"]</strong>. If database flavor does not support schema or any schema is allowed to be accessed, just leave the list empty<br>4. The <code>version</code> field is a string specifying the this db's version. This should be used with Presto DBs so that the syntax is correct<br>5. The <code>allows_virtual_table_explore</code> field is a boolean specifying whether or not the Explore button in SQL Lab results is shown.<br>6. The <code>disable_data_preview</code> field is a boolean specifying whether or not data preview queries will be run when fetching table metadata in SQL Lab.<br>7. The <code>disable_drill_to_detail</code> field is a boolean specifying whether or not drill to detail is disabled for the database.<br>8. The <code>allow_multi_catalog</code> indicates if the database allows changing the default catalog when running queries and creating datasets.<br>9. The <code>disable_sampling_read_limit_override</code> field is a boolean specifying whether system-generated sampling queries (filter values, samples/preview, datetime format detection) that an engine rejects with a read-limit error should fail outright instead of being retried once with the engine's bounded-read override. Only affects engines that implement such an override.</p> */
-  extra?: string;
+  extra?: string | undefined;
   /** When allowing CREATE TABLE AS option in SQL Lab, this option forces the table to be created in this schema */
-  force_ctas_schema?: string | null;
+  force_ctas_schema?: string | null | undefined;
   /** If Presto, all the queries in SQL Lab are going to be executed as the currently logged on user who must have permission to run them.<br/>If Hive and hive.server2.enable.doAs is enabled, will run the queries as service account, but impersonate the currently logged on user via hive.server2.proxy.user property. */
-  impersonate_user?: boolean;
-  is_managed_externally?: boolean | null;
+  impersonate_user?: boolean | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** <p>JSON string containing additional connection configuration.<br>This is used to provide connection information for systems like Hive, Presto, and BigQuery, which do not conform to the username:password syntax normally used by SQLAlchemy.</p> */
-  masked_encrypted_extra?: string | null;
+  masked_encrypted_extra?: string | null | undefined;
   /** DB-specific parameters for configuration */
-  parameters?: CreateDatabaseRequestParametersMap;
+  parameters?: CreateDatabaseRequestParametersMap | undefined;
   /** <p>Optional CA_BUNDLE contents to validate HTTPS requests. Only available on certain database engines.</p> */
-  server_cert?: string | null;
+  server_cert?: string | null | undefined;
   /** <p>Refer to the <a href="https://docs.sqlalchemy.org/en/rel_1_2/core/engines.html#database-urls" rel="noopener noreferrer">SqlAlchemy docs</a> for more information on how to structure your URI.</p> */
-  sqlalchemy_uri?: string;
-  ssh_tunnel?: DatabaseSSHTunnel | null;
-  uuid?: string;
+  sqlalchemy_uri?: string | undefined;
+  ssh_tunnel?: DatabaseSSHTunnel | null | undefined;
+  uuid?: string | undefined;
 }
 /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
 export type DatabaseRestApiPostOutputConfigurationMethod = "sqlalchemy_form" | "dynamic_form";
@@ -918,58 +918,58 @@ export type DatabaseRestApiPostOutputConfigurationMethod = "sqlalchemy_form" | "
 export type DatabaseRestApiPostOutputParametersMap = { [key: string]: unknown | undefined };
 export interface DatabaseSSHTunnelOutput {
   /** SSH Tunnel ID (for updates) */
-  id?: number | null;
-  server_address?: string;
+  id?: number | null | undefined;
+  server_address?: string | undefined;
   /** Expected SSH server host key in authorized-key form (e.g. 'ssh-ed25519 AAAA...'). When set, the server's host key is verified against it before the tunnel is opened. */
-  server_host_key?: string | null;
-  server_port?: number;
-  username?: string;
+  server_host_key?: string | null | undefined;
+  server_port?: number | undefined;
+  username?: string | undefined;
 }
 export interface DatabaseRestApiPostOutput {
   /** Allow CREATE TABLE AS option in SQL Lab */
-  allow_ctas?: boolean;
+  allow_ctas?: boolean | undefined;
   /** Allow CREATE VIEW AS option in SQL Lab */
-  allow_cvas?: boolean;
+  allow_cvas?: boolean | undefined;
   /** Allow users to run non-SELECT statements (UPDATE, DELETE, CREATE, ...) in SQL Lab */
-  allow_dml?: boolean;
+  allow_dml?: boolean | undefined;
   /** Allow to upload CSV file data into this databaseIf selected, please set the schemas allowed for csv upload in Extra. */
-  allow_file_upload?: boolean;
+  allow_file_upload?: boolean | undefined;
   /** Operate the database in asynchronous mode, meaning that the queries are executed on remote workers as opposed to on the web server itself. This assumes that you have a Celery worker setup as well as a results backend. Refer to the installation docs for more information. */
-  allow_run_async?: boolean;
+  allow_run_async?: boolean | undefined;
   /** Duration (in seconds) of the caching timeout for charts of this database. A timeout of 0 indicates that the cache never expires, and -1 bypasses the cache. Note this defaults to the global timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
-  configuration_method?: DatabaseRestApiPostOutputConfigurationMethod;
+  configuration_method?: DatabaseRestApiPostOutputConfigurationMethod | undefined;
   /** A database name to identify this connection. */
   database_name: string;
   /** SQLAlchemy driver to use */
-  driver?: string | null;
+  driver?: string | null | undefined;
   /** SQLAlchemy engine to use */
-  engine?: string | null;
+  engine?: string | null | undefined;
   /** Expose this database to SQLLab */
-  expose_in_sqllab?: boolean;
-  external_url?: string | null;
+  expose_in_sqllab?: boolean | undefined;
+  external_url?: string | null | undefined;
   /** <p>JSON string containing extra configuration elements.<br>1. The <code>engine_params</code> object gets unpacked into the <a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine" rel="noopener noreferrer">sqlalchemy.create_engine</a> call, while the <code>metadata_params</code> gets unpacked into the <a href="https://docs.sqlalchemy.org/en/rel_1_0/core/metadata.html#sqlalchemy.schema.MetaData" rel="noopener noreferrer">sqlalchemy.MetaData</a> call.<br>2. The <code>metadata_cache_timeout</code> is a cache timeout setting in seconds for metadata fetch of this database. Specify it as <strong>"metadata_cache_timeout": {"schema_cache_timeout": 600, "table_cache_timeout": 600}</strong>. If unset, cache will not be enabled for the functionality. A timeout of 0 indicates that the cache never expires.<br>3. The <code>schemas_allowed_for_file_upload</code> is a comma separated list of schemas that CSVs are allowed to upload to. Specify it as <strong>"schemas_allowed_for_file_upload": ["public", "csv_upload"]</strong>. If database flavor does not support schema or any schema is allowed to be accessed, just leave the list empty<br>4. The <code>version</code> field is a string specifying the this db's version. This should be used with Presto DBs so that the syntax is correct<br>5. The <code>allows_virtual_table_explore</code> field is a boolean specifying whether or not the Explore button in SQL Lab results is shown.<br>6. The <code>disable_data_preview</code> field is a boolean specifying whether or not data preview queries will be run when fetching table metadata in SQL Lab.<br>7. The <code>disable_drill_to_detail</code> field is a boolean specifying whether or not drill to detail is disabled for the database.<br>8. The <code>allow_multi_catalog</code> indicates if the database allows changing the default catalog when running queries and creating datasets.<br>9. The <code>disable_sampling_read_limit_override</code> field is a boolean specifying whether system-generated sampling queries (filter values, samples/preview, datetime format detection) that an engine rejects with a read-limit error should fail outright instead of being retried once with the engine's bounded-read override. Only affects engines that implement such an override.</p> */
-  extra?: string;
+  extra?: string | undefined;
   /** When allowing CREATE TABLE AS option in SQL Lab, this option forces the table to be created in this schema */
-  force_ctas_schema?: string | null;
+  force_ctas_schema?: string | null | undefined;
   /** If Presto, all the queries in SQL Lab are going to be executed as the currently logged on user who must have permission to run them.<br/>If Hive and hive.server2.enable.doAs is enabled, will run the queries as service account, but impersonate the currently logged on user via hive.server2.proxy.user property. */
-  impersonate_user?: boolean;
-  is_managed_externally?: boolean | null;
+  impersonate_user?: boolean | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** <p>JSON string containing additional connection configuration.<br>This is used to provide connection information for systems like Hive, Presto, and BigQuery, which do not conform to the username:password syntax normally used by SQLAlchemy.</p> */
-  masked_encrypted_extra?: string | null;
+  masked_encrypted_extra?: string | null | undefined;
   /** DB-specific parameters for configuration */
-  parameters?: DatabaseRestApiPostOutputParametersMap;
+  parameters?: DatabaseRestApiPostOutputParametersMap | undefined;
   /** <p>Optional CA_BUNDLE contents to validate HTTPS requests. Only available on certain database engines.</p> */
-  server_cert?: string | null;
+  server_cert?: string | null | undefined;
   /** <p>Refer to the <a href="https://docs.sqlalchemy.org/en/rel_1_2/core/engines.html#database-urls" rel="noopener noreferrer">SqlAlchemy docs</a> for more information on how to structure your URI.</p> */
-  sqlalchemy_uri?: string;
-  ssh_tunnel?: DatabaseSSHTunnelOutput | null;
-  uuid?: string;
+  sqlalchemy_uri?: string | undefined;
+  ssh_tunnel?: DatabaseSSHTunnelOutput | null | undefined;
+  uuid?: string | undefined;
 }
 export interface CreateDatabaseResponse {
-  id?: number;
-  result?: DatabaseRestApiPostOutput;
+  id?: number | undefined;
+  result?: DatabaseRestApiPostOutput | undefined;
 }
 export interface CreateDatabaseOauth2TokenAllRequest {
   pk: number;
@@ -983,21 +983,21 @@ export interface CreateDatasetRequestEditorsItemCase1 {
 export type CreateDatasetRequestEditorsItem = number | CreateDatasetRequestEditorsItemCase1;
 export type CreateDatasetRequestEditorsList = Array<CreateDatasetRequestEditorsItem>;
 export interface CreateDatasetRequest {
-  always_filter_main_dttm?: boolean;
-  catalog?: string | null;
-  currency_code_column?: string | null;
+  always_filter_main_dttm?: boolean | undefined;
+  catalog?: string | null | undefined;
+  currency_code_column?: string | null | undefined;
   database: number;
-  editors?: CreateDatasetRequestEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
-  normalize_columns?: boolean;
-  partition_column?: string | null;
-  partition_mapped_column?: string | null;
-  schema?: string | null;
-  sql?: string | null;
+  editors?: CreateDatasetRequestEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
+  normalize_columns?: boolean | undefined;
+  partition_column?: string | null | undefined;
+  partition_mapped_column?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
   table_name: string;
-  template_params?: string | null;
-  uuid?: string | null;
+  template_params?: string | null | undefined;
+  uuid?: string | null | undefined;
 }
 export type DatasetRestApiPostEditorsItemCase1Type = "user" | "role" | "group" | "subject";
 export interface DatasetRestApiPostEditorsItemCase1 {
@@ -1007,42 +1007,44 @@ export interface DatasetRestApiPostEditorsItemCase1 {
 export type DatasetRestApiPostEditorsItem = number | DatasetRestApiPostEditorsItemCase1;
 export type DatasetRestApiPostEditorsList = Array<DatasetRestApiPostEditorsItem>;
 export interface DatasetRestApiPost {
-  always_filter_main_dttm?: boolean;
-  catalog?: string | null;
-  currency_code_column?: string | null;
+  always_filter_main_dttm?: boolean | undefined;
+  catalog?: string | null | undefined;
+  currency_code_column?: string | null | undefined;
   database: number;
-  editors?: DatasetRestApiPostEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
-  normalize_columns?: boolean;
-  partition_column?: string | null;
-  partition_mapped_column?: string | null;
-  schema?: string | null;
-  sql?: string | null;
+  editors?: DatasetRestApiPostEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
+  normalize_columns?: boolean | undefined;
+  partition_column?: string | null | undefined;
+  partition_mapped_column?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
   table_name: string;
-  template_params?: string | null;
-  uuid?: string | null;
+  template_params?: string | null | undefined;
+  uuid?: string | null | undefined;
 }
 export interface CreateDatasetResponse {
-  id?: number;
-  result?: DatasetRestApiPost;
+  id?: number | undefined;
+  result?: DatasetRestApiPost | undefined;
 }
 export type CreateDatasourceCompatibleRequestSelectedDimensionsList = Array<string>;
 export type CreateDatasourceCompatibleRequestSelectedMetricsList = Array<string>;
 export interface CreateDatasourceCompatibleRequest {
   datasource_type: string;
   datasource_id: number;
-  selected_dimensions?: CreateDatasourceCompatibleRequestSelectedDimensionsList;
-  selected_metrics?: CreateDatasourceCompatibleRequestSelectedMetricsList;
+  selected_dimensions?: CreateDatasourceCompatibleRequestSelectedDimensionsList | undefined;
+  selected_metrics?: CreateDatasourceCompatibleRequestSelectedMetricsList | undefined;
 }
 export type CreateDatasourceCompatibleResponseResultCompatibleDimensionsList = Array<string>;
 export type CreateDatasourceCompatibleResponseResultCompatibleMetricsList = Array<string>;
 export interface CreateDatasourceCompatibleResponseResult {
-  compatible_dimensions?: CreateDatasourceCompatibleResponseResultCompatibleDimensionsList;
-  compatible_metrics?: CreateDatasourceCompatibleResponseResultCompatibleMetricsList;
+  compatible_dimensions?:
+    | CreateDatasourceCompatibleResponseResultCompatibleDimensionsList
+    | undefined;
+  compatible_metrics?: CreateDatasourceCompatibleResponseResultCompatibleMetricsList | undefined;
 }
 export interface CreateDatasourceCompatibleResponse {
-  result?: CreateDatasourceCompatibleResponseResult;
+  result?: CreateDatasourceCompatibleResponseResult | undefined;
 }
 /** Dimension/column names to group by. */
 export type CreateDatasourceQueryRequestDimensionsList = Array<unknown>;
@@ -1054,7 +1056,7 @@ export interface DatasourceQueryOrder {
   /** Metric or dimension name to sort by. */
   column: string;
   /** Sort this column descending. */
-  descending?: boolean;
+  descending?: boolean | undefined;
 }
 /** Ordering terms, applied in sequence. Each carries its own direction. */
 export type CreateDatasourceQueryRequestOrderList = Array<DatasourceQueryOrder>;
@@ -1064,35 +1066,35 @@ export interface CreateDatasourceQueryRequest {
   datasource_type: string;
   datasource_id: number;
   /** Seconds to cache for; -1 disables caching. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Dimension/column names to group by. */
-  dimensions?: CreateDatasourceQueryRequestDimensionsList;
+  dimensions?: CreateDatasourceQueryRequestDimensionsList | undefined;
   /** Filters to apply, AND-ed together. */
-  filters?: CreateDatasourceQueryRequestFiltersList;
-  force?: boolean;
+  filters?: CreateDatasourceQueryRequestFiltersList | undefined;
+  force?: boolean | undefined;
   /** Rows to return. Also clamped server-side by ROW_LIMIT. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Saved metric names, or ad-hoc metric objects (datasets only). See ChartDataAdhocMetricSchema. */
-  metrics?: CreateDatasourceQueryRequestMetricsList;
+  metrics?: CreateDatasourceQueryRequestMetricsList | undefined;
   /** Rows to skip, for pagination. */
-  offset?: number;
+  offset?: number | undefined;
   /** Ordering terms, applied in sequence. Each carries its own direction. */
-  order?: CreateDatasourceQueryRequestOrderList;
+  order?: CreateDatasourceQueryRequestOrderList | undefined;
   /** 'json' (default) or 'arrow' for an Arrow IPC stream. */
-  result_format?: CreateDatasourceQueryRequestResultFormat | (string & {});
+  result_format?: CreateDatasourceQueryRequestResultFormat | (string & {}) | undefined;
   /** Identity version from datasource metadata, after selecting its current metric and dimension IDs. Never infer legacy IDs. */
-  semantic_selection_version?: string | null;
+  semantic_selection_version?: string | null | undefined;
   /** Temporal column the time range applies to. Inferred from the datasource when omitted. */
-  time_column?: string | null;
+  time_column?: string | null | undefined;
   /** ISO 8601 duration, e.g. 'P1D' or 'PT1H'. */
-  time_grain?: string | null;
+  time_grain?: string | null | undefined;
   /** e.g. 'Last 30 days' or '2024-01-01 : 2024-12-31'. */
-  time_range?: string | null;
-  use_cache?: boolean;
+  time_range?: string | null | undefined;
+  use_cache?: boolean | undefined;
 }
 export type CreateDatasourceQueryResponseResultList = Array<unknown>;
 export interface CreateDatasourceQueryResponse {
-  result?: CreateDatasourceQueryResponseResultList;
+  result?: CreateDatasourceQueryResponseResultList | undefined;
 }
 /** The datasource type */
 export type CreateExploreFormDataRequestDatasourceType =
@@ -1103,9 +1105,9 @@ export type CreateExploreFormDataRequestDatasourceType =
   | "view"
   | "semantic_view";
 export interface CreateExploreFormDataRequest {
-  tab_id?: number;
+  tab_id?: number | undefined;
   /** The chart ID */
-  chart_id?: number;
+  chart_id?: number | undefined;
   /** The datasource ID */
   datasource_id: number;
   /** The datasource type */
@@ -1115,33 +1117,33 @@ export interface CreateExploreFormDataRequest {
 }
 export interface CreateExploreFormDataResponse {
   /** The key to retrieve the form_data. */
-  key?: string;
+  key?: string | undefined;
 }
 /** URL Parameters */
 export type CreateExplorePermalinkRequestUrlParamsList = Array<unknown | null>;
 export interface CreateExplorePermalinkRequest {
   /** Chart-level state for stateful tables (column filters, sorting, column order) */
-  chartState?: unknown | null;
+  chartState?: unknown | null | undefined;
   /** Chart form data */
   formData: unknown;
   /** URL Parameters */
-  urlParams?: CreateExplorePermalinkRequestUrlParamsList | null;
+  urlParams?: CreateExplorePermalinkRequestUrlParamsList | null | undefined;
 }
 export interface CreateExplorePermalinkResponse {
   /** The key to retrieve the permanent link data. */
-  key?: string;
+  key?: string | undefined;
   /** permanent link. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateLogRequest {
-  id?: number;
+  id?: number | undefined;
 }
 export interface LogRestApiPost {
-  id?: number;
+  id?: number | undefined;
 }
 export interface CreateLogResponse {
-  id?: string;
-  result?: LogRestApiPost;
+  id?: string | undefined;
+  result?: LogRestApiPost | undefined;
 }
 /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
 export type CreateReportRequestCreationMethod = "charts" | "dashboards" | "alerts_reports";
@@ -1154,14 +1156,14 @@ export interface CreateReportRequestEditorsItemCase1 {
 export type CreateReportRequestEditorsItem = number | CreateReportRequestEditorsItemCase1;
 export type CreateReportRequestEditorsList = Array<CreateReportRequestEditorsItem>;
 export interface ReportRecipientConfigJSON {
-  bccTarget?: string;
-  ccTarget?: string;
-  target?: string;
+  bccTarget?: string | undefined;
+  ccTarget?: string | undefined;
+  target?: string | undefined;
 }
 /** The recipient type, check spec for valid options */
 export type ReportRecipientType = "Email" | "Slack" | "SlackV2" | "Webhook";
 export interface ReportRecipient {
-  recipient_config_json?: ReportRecipientConfigJSON;
+  recipient_config_json?: ReportRecipientConfigJSON | undefined;
   /** The recipient type, check spec for valid options */
   type: ReportRecipientType | (string & {});
 }
@@ -1777,71 +1779,75 @@ export type CreateReportRequestType = "Alert" | "Report";
 export type ValidatorConfigJSONOp = "<" | "<=" | ">" | ">=" | "==" | "!=";
 export interface ValidatorConfigJSON {
   /** The operation to compare with a threshold to apply to the SQL output */
-  op?: ValidatorConfigJSONOp | (string & {});
-  threshold?: number;
+  op?: ValidatorConfigJSONOp | (string & {}) | undefined;
+  threshold?: number | undefined;
 }
 /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
 export type CreateReportRequestValidatorType = "not null" | "operator";
 export interface CreateReportRequest {
-  active?: boolean;
-  chart?: number | null;
+  active?: boolean | undefined;
+  chart?: number | null | undefined;
   /** Markdown description */
-  context_markdown?: string | null;
+  context_markdown?: string | null | undefined;
   /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
-  creation_method?: CreateReportRequestCreationMethod | (string & {});
+  creation_method?: CreateReportRequestCreationMethod | (string & {}) | undefined;
   /** A CRON expression.[Crontab Guru](https://crontab.guru/) is a helpful resource that can help you craft a CRON expression. */
   crontab: string;
   /** Custom width of the screenshot in pixels */
-  custom_width?: number | null;
-  dashboard?: number | null;
-  database?: number;
+  custom_width?: number | null | undefined;
+  dashboard?: number | null | undefined;
+  database?: number | undefined;
   /** Use a nice description to give context to this Alert/Report */
-  description?: string | null;
-  editors?: CreateReportRequestEditorsList;
+  description?: string | null | undefined;
+  editors?: CreateReportRequestEditorsList | undefined;
   /** The report schedule subject line */
-  email_subject?: string | null;
-  extra?: unknown;
-  force_screenshot?: boolean;
+  email_subject?: string | null | undefined;
+  extra?: unknown | undefined;
+  force_screenshot?: boolean | undefined;
   /** Once an alert is triggered, how long, in seconds, before Superset nags you again. (in seconds) */
-  grace_period?: number;
+  grace_period?: number | undefined;
   /** Whether to include the call-to-action link back to Superset (e.g. 'Explore in Superset') in the delivered notifications */
-  include_cta?: boolean | null;
+  include_cta?: boolean | null | undefined;
   /** How long to keep the logs around for this report (in days) */
-  log_retention?: number;
+  log_retention?: number | undefined;
   /** The report schedule name. */
   name: string;
-  recipients?: CreateReportRequestRecipientsList;
+  recipients?: CreateReportRequestRecipientsList | undefined;
   /** Attachment format. NONE disables attachments for alerts and makes chart/dashboard optional. Omitted attachment settings are preserved on update. */
-  report_format?: CreateReportRequestReportFormat | (string & {});
+  report_format?: CreateReportRequestReportFormat | (string & {}) | undefined;
   /** Maximum number of retry attempts (1-10) */
-  retry_max_attempts?: number;
+  retry_max_attempts?: number | undefined;
   /** Notify report owners on each retry attempt */
-  retry_notify_owners?: boolean;
+  retry_notify_owners?: boolean | undefined;
   /** Notify report recipients on each retry attempt */
-  retry_notify_recipients?: boolean;
+  retry_notify_recipients?: boolean | undefined;
   /** Enable automatic retries on report failure */
-  retry_on_failure?: boolean;
+  retry_on_failure?: boolean | undefined;
   /** ID of the user whose credentials are used when running the alert condition SQL query, useful when the audience of the alert does not have access to the database. Null inherits the content executor at execution time. */
-  run_alert_query_as?: number | null;
+  run_alert_query_as?: number | null | undefined;
   /** Alert query executor type; null inherits run_as. */
-  run_alert_query_as_type?: CreateReportRequestRunAlertQueryAsType | (string & {}) | null;
+  run_alert_query_as_type?:
+    | CreateReportRequestRunAlertQueryAsType
+    | (string & {})
+    | null
+    | undefined;
   /** ID of the user whose credentials (RBAC permissions, database OAuth2 tokens) are used when rendering the content (screenshot, PDF, CSV, XLSX or text). Admins can set any active user; non-admins can only set themselves. Onlyhonored when the ALERT_REPORT_DYNAMIC_EXECUTOR feature flag is enabled. Admins can set this and run_as_type to null to use ALERT_REPORTS_EXECUTORS. */
-  run_as?: number | null;
+  run_as?: number | null | undefined;
   /** Explicit executor type; fixed_user requires run_as. */
-  run_as_type?: CreateReportRequestRunAsType | (string & {}) | null;
+  run_as_type?: CreateReportRequestRunAsType | (string & {}) | null | undefined;
   /** Send the failed report to all recipients after retries are exhausted */
-  send_failed_reports?: boolean;
+  send_failed_reports?: boolean | undefined;
   /** A SQL statement that defines whether the alert should get triggered or not. The query is expected to return either NULL or a number value. */
-  sql?: string;
+  sql?: string | undefined;
   /** A timezone string that represents the location of the timezone. */
-  timezone?: CreateReportRequestTimezone | (string & {});
+  timezone?: CreateReportRequestTimezone | (string & {}) | undefined;
   /** The report schedule type */
   type: CreateReportRequestType | (string & {});
-  validator_config_json?: ValidatorConfigJSON;
+  validator_config_json?: ValidatorConfigJSON | undefined;
   /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
-  validator_type?: CreateReportRequestValidatorType | (string & {});
+  validator_type?: CreateReportRequestValidatorType | (string & {}) | undefined;
   /** If an alert is staled at a working state, how long until it's state is reset to error */
-  working_timeout?: number;
+  working_timeout?: number | undefined;
 }
 /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
 export type ReportScheduleRestApiPostCreationMethod = "charts" | "dashboards" | "alerts_reports";
@@ -2472,69 +2478,69 @@ export type ReportScheduleRestApiPostType = "Alert" | "Report";
 /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
 export type ReportScheduleRestApiPostValidatorType = "not null" | "operator";
 export interface ReportScheduleRestApiPost {
-  active?: boolean;
-  chart?: number | null;
+  active?: boolean | undefined;
+  chart?: number | null | undefined;
   /** Markdown description */
-  context_markdown?: string | null;
+  context_markdown?: string | null | undefined;
   /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
-  creation_method?: ReportScheduleRestApiPostCreationMethod;
+  creation_method?: ReportScheduleRestApiPostCreationMethod | undefined;
   /** A CRON expression.[Crontab Guru](https://crontab.guru/) is a helpful resource that can help you craft a CRON expression. */
   crontab: string;
   /** Custom width of the screenshot in pixels */
-  custom_width?: number | null;
-  dashboard?: number | null;
-  database?: number;
+  custom_width?: number | null | undefined;
+  dashboard?: number | null | undefined;
+  database?: number | undefined;
   /** Use a nice description to give context to this Alert/Report */
-  description?: string | null;
-  editors?: ReportScheduleRestApiPostEditorsList;
+  description?: string | null | undefined;
+  editors?: ReportScheduleRestApiPostEditorsList | undefined;
   /** The report schedule subject line */
-  email_subject?: string | null;
-  extra?: unknown;
-  force_screenshot?: boolean;
+  email_subject?: string | null | undefined;
+  extra?: unknown | undefined;
+  force_screenshot?: boolean | undefined;
   /** Once an alert is triggered, how long, in seconds, before Superset nags you again. (in seconds) */
-  grace_period?: number;
+  grace_period?: number | undefined;
   /** Whether to include the call-to-action link back to Superset (e.g. 'Explore in Superset') in the delivered notifications */
-  include_cta?: boolean | null;
+  include_cta?: boolean | null | undefined;
   /** How long to keep the logs around for this report (in days) */
-  log_retention?: number;
+  log_retention?: number | undefined;
   /** The report schedule name. */
   name: string;
-  recipients?: ReportScheduleRestApiPostRecipientsList;
+  recipients?: ReportScheduleRestApiPostRecipientsList | undefined;
   /** Attachment format. NONE disables attachments for alerts and makes chart/dashboard optional. Omitted attachment settings are preserved on update. */
-  report_format?: ReportScheduleRestApiPostReportFormat;
+  report_format?: ReportScheduleRestApiPostReportFormat | undefined;
   /** Maximum number of retry attempts (1-10) */
-  retry_max_attempts?: number;
+  retry_max_attempts?: number | undefined;
   /** Notify report owners on each retry attempt */
-  retry_notify_owners?: boolean;
+  retry_notify_owners?: boolean | undefined;
   /** Notify report recipients on each retry attempt */
-  retry_notify_recipients?: boolean;
+  retry_notify_recipients?: boolean | undefined;
   /** Enable automatic retries on report failure */
-  retry_on_failure?: boolean;
+  retry_on_failure?: boolean | undefined;
   /** ID of the user whose credentials are used when running the alert condition SQL query, useful when the audience of the alert does not have access to the database. Null inherits the content executor at execution time. */
-  run_alert_query_as?: number | null;
+  run_alert_query_as?: number | null | undefined;
   /** Alert query executor type; null inherits run_as. */
-  run_alert_query_as_type?: ReportScheduleRestApiPostRunAlertQueryAsType | null;
+  run_alert_query_as_type?: ReportScheduleRestApiPostRunAlertQueryAsType | null | undefined;
   /** ID of the user whose credentials (RBAC permissions, database OAuth2 tokens) are used when rendering the content (screenshot, PDF, CSV, XLSX or text). Admins can set any active user; non-admins can only set themselves. Onlyhonored when the ALERT_REPORT_DYNAMIC_EXECUTOR feature flag is enabled. Admins can set this and run_as_type to null to use ALERT_REPORTS_EXECUTORS. */
-  run_as?: number | null;
+  run_as?: number | null | undefined;
   /** Explicit executor type; fixed_user requires run_as. */
-  run_as_type?: ReportScheduleRestApiPostRunAsType | null;
+  run_as_type?: ReportScheduleRestApiPostRunAsType | null | undefined;
   /** Send the failed report to all recipients after retries are exhausted */
-  send_failed_reports?: boolean;
+  send_failed_reports?: boolean | undefined;
   /** A SQL statement that defines whether the alert should get triggered or not. The query is expected to return either NULL or a number value. */
-  sql?: string;
+  sql?: string | undefined;
   /** A timezone string that represents the location of the timezone. */
-  timezone?: ReportScheduleRestApiPostTimezone;
+  timezone?: ReportScheduleRestApiPostTimezone | undefined;
   /** The report schedule type */
   type: ReportScheduleRestApiPostType;
-  validator_config_json?: ValidatorConfigJSON;
+  validator_config_json?: ValidatorConfigJSON | undefined;
   /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
-  validator_type?: ReportScheduleRestApiPostValidatorType;
+  validator_type?: ReportScheduleRestApiPostValidatorType | undefined;
   /** If an alert is staled at a working state, how long until it's state is reset to error */
-  working_timeout?: number;
+  working_timeout?: number | undefined;
 }
 export interface CreateReportResponse {
-  id?: number;
-  result?: ReportScheduleRestApiPost;
+  id?: number | undefined;
+  result?: ReportScheduleRestApiPost | undefined;
 }
 /** filter_type_description */
 export type CreateRowlevelsecurityRequestFilterType = "Regular" | "Base";
@@ -2546,15 +2552,15 @@ export interface CreateRowlevelsecurityRequest {
   /** clause_description */
   clause: string;
   /** description_description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** filter_type_description */
   filter_type: CreateRowlevelsecurityRequestFilterType | (string & {});
   /** group_key_description */
-  group_key?: string | null;
+  group_key?: string | null | undefined;
   /** name_description */
   name: string;
   /** Subjects (users, roles, groups) associated with this RLS rule. For regular filters, the rule applies to these subjects. For base filters, these subjects are excluded from the filter. */
-  subjects?: CreateRowlevelsecurityRequestSubjectsList;
+  subjects?: CreateRowlevelsecurityRequestSubjectsList | undefined;
   /** tables_description */
   tables: CreateRowlevelsecurityRequestTablesList;
 }
@@ -2568,45 +2574,45 @@ export interface RLSRestApiPost {
   /** clause_description */
   clause: string;
   /** description_description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** filter_type_description */
   filter_type: RLSRestApiPostFilterType;
   /** group_key_description */
-  group_key?: string | null;
+  group_key?: string | null | undefined;
   /** name_description */
   name: string;
   /** Subjects (users, roles, groups) associated with this RLS rule. For regular filters, the rule applies to these subjects. For base filters, these subjects are excluded from the filter. */
-  subjects?: RLSRestApiPostSubjectsList;
+  subjects?: RLSRestApiPostSubjectsList | undefined;
   /** tables_description */
   tables: RLSRestApiPostTablesList;
 }
 export interface CreateRowlevelsecurityResponse {
-  id?: number;
-  result?: RLSRestApiPost;
+  id?: number | undefined;
+  result?: RLSRestApiPost | undefined;
 }
 export interface CreateSavedQueryRequest {
-  catalog?: string | null;
-  db_id?: unknown | null;
-  description?: string | null;
-  extra_json?: string | null;
-  label?: string | null;
-  schema?: string | null;
-  sql?: string | null;
-  template_parameters?: string | null;
+  catalog?: string | null | undefined;
+  db_id?: unknown | null | undefined;
+  description?: string | null | undefined;
+  extra_json?: string | null | undefined;
+  label?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
+  template_parameters?: string | null | undefined;
 }
 export interface SavedQueryRestApiPost {
-  catalog?: string | null;
-  db_id?: unknown | null;
-  description?: string | null;
-  extra_json?: string | null;
-  label?: string | null;
-  schema?: string | null;
-  sql?: string | null;
-  template_parameters?: string | null;
+  catalog?: string | null | undefined;
+  db_id?: unknown | null | undefined;
+  description?: string | null | undefined;
+  extra_json?: string | null | undefined;
+  label?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
+  template_parameters?: string | null | undefined;
 }
 export interface CreateSavedQueryResponse {
-  id?: string;
-  result?: SavedQueryRestApiPost;
+  id?: string | undefined;
+  result?: SavedQueryRestApiPost | undefined;
 }
 export interface CreateSecurityGroupRequest {}
 export interface CreateSecurityGroupResponse {}
@@ -2620,43 +2626,43 @@ export interface Resource {
 export type CreateSecurityGuestTokenRequestResourcesList = Array<Resource>;
 export interface RlsRule {
   clause: string;
-  dataset?: number;
+  dataset?: number | undefined;
 }
 export type CreateSecurityGuestTokenRequestRlsList = Array<RlsRule>;
 export type User2AttributesMap = { [key: string]: unknown | null | undefined };
 export interface User2 {
-  attributes?: User2AttributesMap | null;
-  first_name?: string;
-  last_name?: string;
-  username?: string;
+  attributes?: User2AttributesMap | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  username?: string | undefined;
 }
 export interface CreateSecurityGuestTokenRequest {
   /** Optional allowlist of dataset IDs the guest may access. When omitted all datasets linked to the embedded dashboard are accessible, preserving the default behaviour. */
-  datasets?: CreateSecurityGuestTokenRequestDatasetsList | null;
+  datasets?: CreateSecurityGuestTokenRequestDatasetsList | null | undefined;
   resources: CreateSecurityGuestTokenRequestResourcesList;
   rls: CreateSecurityGuestTokenRequestRlsList;
-  user?: User2;
+  user?: User2 | undefined;
 }
 export interface CreateSecurityGuestTokenResponse {
-  token?: string;
+  token?: string | undefined;
 }
 export interface CreateSecurityPasswordRecoveryRequest {
   email: string;
 }
 export interface CreateSecurityPasswordRecoveryResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface CreateSecurityPermissionsResourceRequest {
-  permission_id?: unknown | null;
-  view_menu_id?: unknown | null;
+  permission_id?: unknown | null | undefined;
+  view_menu_id?: unknown | null | undefined;
 }
 export interface SupersetPermissionViewMenuApiPost {
-  permission_id?: unknown | null;
-  view_menu_id?: unknown | null;
+  permission_id?: unknown | null | undefined;
+  view_menu_id?: unknown | null | undefined;
 }
 export interface CreateSecurityPermissionsResourceResponse {
-  id?: string;
-  result?: SupersetPermissionViewMenuApiPost;
+  id?: string | undefined;
+  result?: SupersetPermissionViewMenuApiPost | undefined;
 }
 export interface CreateSecurityResourceRequest {
   name: string;
@@ -2665,16 +2671,16 @@ export interface ViewMenuApiPost {
   name: string;
 }
 export interface CreateSecurityResourceResponse {
-  id?: string;
-  result?: ViewMenuApiPost;
+  id?: string | undefined;
+  result?: ViewMenuApiPost | undefined;
 }
 export interface CreateSecurityRoleRequest {
   name: string;
 }
 export type SupersetRoleApiPost = ViewMenuApiPost;
 export interface CreateSecurityRoleResponse {
-  id?: string;
-  result?: ViewMenuApiPost;
+  id?: string | undefined;
+  result?: ViewMenuApiPost | undefined;
 }
 /** List of permission view menu id */
 export type CreateSecurityRolePermissionsRequestPermissionViewMenuIdsList = Array<number>;
@@ -2690,144 +2696,144 @@ export interface RolePermissionPostSchema {
   permission_view_menu_ids: RolePermissionPostSchemaPermissionViewMenuIdsList;
 }
 export interface CreateSecurityRolePermissionsResponse {
-  result?: RolePermissionPostSchema;
+  result?: RolePermissionPostSchema | undefined;
 }
 export interface CreateSecurityUserRequest {}
 export interface CreateSecurityUserResponse {}
 export interface CreateSemanticLayerRequest {
-  cache_timeout?: number;
-  configuration?: unknown;
-  description?: string;
-  name?: string;
-  type?: string;
+  cache_timeout?: number | undefined;
+  configuration?: unknown | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export interface CreateSemanticLayerResponse {}
 export interface CreateSemanticLayerSchemaConfigurationRequest {
-  configuration?: unknown;
-  type?: string;
+  configuration?: unknown | undefined;
+  type?: string | undefined;
 }
 export interface CreateSemanticLayerSchemaConfigurationResponse {}
 export interface CreateSemanticLayerSchemaRuntimeRequest {
   uuid: string;
-  runtime_data?: unknown;
+  runtime_data?: unknown | undefined;
 }
 export interface CreateSemanticLayerSchemaRuntimeResponse {}
 export interface CreateSemanticLayerViewRequest {
   uuid: string;
-  runtime_data?: unknown;
+  runtime_data?: unknown | undefined;
 }
 export interface CreateSemanticLayerViewResponse {}
 export interface CreateSemanticViewRequestViewsItem {
-  cache_timeout?: number;
-  configuration?: unknown;
-  description?: string;
-  name?: string;
-  semantic_layer_uuid?: string;
+  cache_timeout?: number | undefined;
+  configuration?: unknown | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
+  semantic_layer_uuid?: string | undefined;
 }
 /** At most SEMANTIC_VIEW_BULK_CREATE_MAX_VIEWS views. Views not validated within SEMANTIC_VIEW_BULK_CREATE_TIMEOUT seconds are reported with error_type TIMEOUT. */
 export type CreateSemanticViewRequestViewsList = Array<CreateSemanticViewRequestViewsItem>;
 export interface CreateSemanticViewRequest {
   /** At most SEMANTIC_VIEW_BULK_CREATE_MAX_VIEWS views. Views not validated within SEMANTIC_VIEW_BULK_CREATE_TIMEOUT seconds are reported with error_type TIMEOUT. */
-  views?: CreateSemanticViewRequestViewsList;
+  views?: CreateSemanticViewRequestViewsList | undefined;
 }
 export interface CreateSemanticViewResponse {}
 export interface CreateSqllabEstimateRequest {
   /** The database catalog */
-  catalog?: string | null;
+  catalog?: string | null | undefined;
   /** The database id */
   database_id: number;
   /** The database schema */
-  schema?: string | null;
+  schema?: string | null | undefined;
   /** The SQL query to estimate */
   sql: string;
   /** The SQL query template params */
-  template_params?: unknown;
+  template_params?: unknown | undefined;
 }
 export interface CreateSqllabEstimateResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface CreateSqllabFormatSqlRequest {
   /** The database id */
-  database_id?: number | null;
-  engine?: string | null;
+  database_id?: number | null | undefined;
+  engine?: string | null | undefined;
   sql: string;
   /** The SQL query template params as JSON string */
-  template_params?: string | null;
+  template_params?: string | null | undefined;
 }
 export interface CreateSqllabFormatSqlResponse {
-  result?: string;
+  result?: string | undefined;
 }
 /** URL Parameters */
 export type CreateSqllabPermalinkRequestUrlParamsList = Array<unknown | null>;
 export interface CreateSqllabPermalinkRequest {
   /** Chart-level state for stateful tables (column filters, sorting, column order) */
-  chartState?: unknown | null;
+  chartState?: unknown | null | undefined;
   /** Chart form data */
   formData: unknown;
   /** URL Parameters */
-  urlParams?: CreateSqllabPermalinkRequestUrlParamsList | null;
+  urlParams?: CreateSqllabPermalinkRequestUrlParamsList | null | undefined;
 }
 export interface CreateSqllabPermalinkResponse {
   /** The key to retrieve the permanent link data. */
-  key?: string;
+  key?: string | undefined;
   /** permanent link. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Objects to tag */
 export type CreateTagRequestObjectsToTagList = Array<unknown>;
 export interface CreateTagRequest {
-  description?: string | null;
-  name?: string;
+  description?: string | null | undefined;
+  name?: string | undefined;
   /** Objects to tag */
-  objects_to_tag?: CreateTagRequestObjectsToTagList;
+  objects_to_tag?: CreateTagRequestObjectsToTagList | undefined;
 }
 /** Objects to tag */
 export type TagRestApiPostObjectsToTagList = Array<unknown>;
 export interface TagRestApiPost {
-  description?: string | null;
-  name?: string;
+  description?: string | null | undefined;
+  name?: string | undefined;
   /** Objects to tag */
-  objects_to_tag?: TagRestApiPostObjectsToTagList;
+  objects_to_tag?: TagRestApiPostObjectsToTagList | undefined;
 }
 export interface CreateTagResponse {
-  id?: number;
-  result?: TagRestApiPost;
+  id?: number | undefined;
+  result?: TagRestApiPost | undefined;
 }
 export interface CreateTagFavoriteRequest {
   pk: number;
 }
 export interface CreateTagFavoriteResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export type CreateThemeRequestEditorsList = Array<number>;
 export interface CreateThemeRequest {
-  editors?: CreateThemeRequestEditorsList;
+  editors?: CreateThemeRequestEditorsList | undefined;
   json_data: string;
   theme_name: string;
 }
 export type ThemeRestApiPostEditorsList = Array<number>;
 export interface ThemeRestApiPost {
-  editors?: ThemeRestApiPostEditorsList;
+  editors?: ThemeRestApiPostEditorsList | undefined;
   json_data: string;
   theme_name: string;
 }
 export interface CreateThemeResponse {
-  id?: number;
-  result?: ThemeRestApiPost;
+  id?: number | undefined;
+  result?: ThemeRestApiPost | undefined;
 }
 export interface DeleteAnnotationLayerRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteAnnotationLayerResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteAnnotationLayerAnnotationRequest {
   /** The annotation layer pk for this annotation */
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteAnnotationLayerAnnotationResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteAnnotationLayerAnnotationByAnnotationIdRequest {
   /** The annotation layer pk for this annotation */
@@ -2836,85 +2842,85 @@ export interface DeleteAnnotationLayerAnnotationByAnnotationIdRequest {
   annotation_id: number;
 }
 export interface DeleteAnnotationLayerAnnotationByAnnotationIdResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteAnnotationLayerByPkRequest {
   /** The annotation layer pk for this annotation */
   pk: number;
 }
 export interface DeleteAnnotationLayerByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteChartRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteChartResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteChartByPkRequest {
   pk: number;
 }
 export interface DeleteChartByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteChartFavoritesRequest {
   pk: number;
 }
 export interface DeleteChartFavoritesResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface DeleteCssTemplateRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteCssTemplateResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteCssTemplateByPkRequest {
   pk: number;
 }
 export interface DeleteCssTemplateByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDashboardRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteDashboardResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDashboardByPkRequest {
   pk: number;
 }
 export interface DeleteDashboardByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDashboardEmbeddedRequest {
   /** The dashboard id or slug */
   id_or_slug: string;
 }
 export interface DeleteDashboardEmbeddedResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDashboardFavoritesRequest {
   pk: number;
 }
 export interface DeleteDashboardFavoritesResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface DeleteDashboardFilterStateRequest {
   pk: number;
   /** The value key. */
   key: string;
-  tab_id?: number;
+  tab_id?: number | undefined;
 }
 export interface DeleteDashboardFilterStateResponse {
   /** The result of the operation */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDatabaseRequest {
   pk: number;
 }
 export interface DeleteDatabaseResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export type DeleteDatabaseOauth2TokenRequestTokenIdsList = Array<number>;
 export interface DeleteDatabaseOauth2TokenRequest {
@@ -2923,16 +2929,16 @@ export interface DeleteDatabaseOauth2TokenRequest {
 }
 export interface DeleteDatabaseOauth2TokenResponse {}
 export interface DeleteDatasetRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteDatasetResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDatasetByPkRequest {
   pk: number;
 }
 export interface DeleteDatasetByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDatasetColumnRequest {
   /** The dataset pk for this column */
@@ -2941,7 +2947,7 @@ export interface DeleteDatasetColumnRequest {
   column_id: number;
 }
 export interface DeleteDatasetColumnResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDatasetMetricRequest {
   /** The dataset pk for this column */
@@ -2950,89 +2956,89 @@ export interface DeleteDatasetMetricRequest {
   metric_id: number;
 }
 export interface DeleteDatasetMetricResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteExploreFormDataRequest {
   /** The form_data key. */
   key: string;
-  tab_id?: number;
+  tab_id?: number | undefined;
 }
 export interface DeleteExploreFormDataResponse {
   /** The result of the operation */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteReportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteReportResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteReportByPkRequest {
   /** The report schedule pk */
   pk: number;
 }
 export interface DeleteReportByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteRowlevelsecurityRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteRowlevelsecurityResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteRowlevelsecurityByPkRequest {
   pk: number;
 }
 export interface DeleteRowlevelsecurityByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSavedQueryRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteSavedQueryResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSavedQueryByPkRequest {
   pk: number;
 }
 export interface DeleteSavedQueryByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityGroupRequest {
   pk: number;
 }
 export interface DeleteSecurityGroupResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityPermissionsResourceRequest {
   pk: number;
 }
 export interface DeleteSecurityPermissionsResourceResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityResourceRequest {
   pk: number;
 }
 export interface DeleteSecurityResourceResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityRoleRequest {
   pk: number;
 }
 export interface DeleteSecurityRoleResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityUserRequest {
   pk: number;
 }
 export interface DeleteSecurityUserResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityUserRegistrationRequest {
   pk: number;
 }
 export interface DeleteSecurityUserRegistrationResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityUserSessionsRequest {
   pk: number;
@@ -3043,20 +3049,20 @@ export interface DeleteSemanticLayerRequest {
 }
 export interface DeleteSemanticLayerResponse {}
 export interface DeleteSemanticViewRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteSemanticViewResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSemanticViewByPkRequest {
   pk: number;
 }
 export interface DeleteSemanticViewByPkResponse {}
 export interface DeleteTagRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteTagResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteTagRequest2 {
   object_type: number;
@@ -3064,39 +3070,39 @@ export interface DeleteTagRequest2 {
   tag: string;
 }
 export interface DeleteTagResponse2 {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteTagByPkRequest {
   pk: number;
 }
 export interface DeleteTagByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteTagFavoritesRequest {
   pk: number;
 }
 export interface DeleteTagFavoritesResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface DeleteThemeRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface DeleteThemeResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteThemeByPkRequest {
   pk: number;
 }
 export interface DeleteThemeByPkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteThemeUnsetSystemDarkRequest {}
 export interface DeleteThemeUnsetSystemDarkResponse {
-  result?: string;
+  result?: string | undefined;
 }
 export interface DeleteThemeUnsetSystemDefaultRequest {}
 export interface DeleteThemeUnsetSystemDefaultResponse {
-  result?: string;
+  result?: string | undefined;
 }
 export interface DuplicateDatasetRequest {
   base_model_id: number;
@@ -3107,8 +3113,8 @@ export interface DatasetDuplicateSchema {
   table_name: string;
 }
 export interface DuplicateDatasetResponse {
-  id?: number;
-  result?: DatasetDuplicateSchema;
+  id?: number | undefined;
+  result?: DatasetDuplicateSchema | undefined;
 }
 export interface ExecuteReportRequest {
   /** The report schedule pk */
@@ -3116,67 +3122,67 @@ export interface ExecuteReportRequest {
 }
 export interface ExecuteReportResponse {
   /** UUID to track the execution status */
-  execution_id?: string;
+  execution_id?: string | undefined;
   /** Success message */
-  message?: string;
+  message?: string | undefined;
 }
 export interface ExecuteSqllabRequest {
-  catalog?: string | null;
-  client_id?: string | null;
-  ctas_method?: string | null;
+  catalog?: string | null | undefined;
+  client_id?: string | null | undefined;
+  ctas_method?: string | null | undefined;
   database_id: number;
-  expand_data?: boolean | null;
-  queryLimit?: number | null;
-  runAsync?: boolean | null;
-  schema?: string | null;
-  select_as_cta?: boolean | null;
+  expand_data?: boolean | null | undefined;
+  queryLimit?: number | null | undefined;
+  runAsync?: boolean | null | undefined;
+  schema?: string | null | undefined;
+  select_as_cta?: boolean | null | undefined;
   sql: string;
-  sql_editor_id?: string | null;
-  tab?: string | null;
-  templateParams?: string | null;
-  tmp_table_name?: string | null;
+  sql_editor_id?: string | null | undefined;
+  tab?: string | null | undefined;
+  templateParams?: string | null | undefined;
+  tmp_table_name?: string | null | undefined;
 }
 export type QueryExecutionResponseSchemaColumnsList = Array<unknown>;
 export type QueryExecutionResponseSchemaDataList = Array<unknown>;
 export type QueryExecutionResponseSchemaExpandedColumnsList = Array<unknown>;
 export interface QueryResult {
-  changed_on?: string;
-  ctas?: boolean;
-  db?: string;
-  dbId?: number;
-  endDttm?: number;
-  errorMessage?: string | null;
-  executedSql?: string;
-  extra?: unknown;
-  id?: string;
-  limit?: number;
-  limitingFactor?: string;
-  progress?: number;
-  queryId?: number;
-  resultsKey?: string;
-  rows?: number;
-  schema?: string;
-  serverId?: number;
-  sql?: string;
-  sqlEditorId?: string;
-  startDttm?: number;
-  state?: string;
-  tab?: string;
-  tempSchema?: string | null;
-  tempTable?: string | null;
-  trackingUrl?: string | null;
-  user?: string;
-  userId?: number;
+  changed_on?: string | undefined;
+  ctas?: boolean | undefined;
+  db?: string | undefined;
+  dbId?: number | undefined;
+  endDttm?: number | undefined;
+  errorMessage?: string | null | undefined;
+  executedSql?: string | undefined;
+  extra?: unknown | undefined;
+  id?: string | undefined;
+  limit?: number | undefined;
+  limitingFactor?: string | undefined;
+  progress?: number | undefined;
+  queryId?: number | undefined;
+  resultsKey?: string | undefined;
+  rows?: number | undefined;
+  schema?: string | undefined;
+  serverId?: number | undefined;
+  sql?: string | undefined;
+  sqlEditorId?: string | undefined;
+  startDttm?: number | undefined;
+  state?: string | undefined;
+  tab?: string | undefined;
+  tempSchema?: string | null | undefined;
+  tempTable?: string | null | undefined;
+  trackingUrl?: string | null | undefined;
+  user?: string | undefined;
+  userId?: number | undefined;
 }
 export type QueryExecutionResponseSchemaSelectedColumnsList = Array<unknown>;
 export interface QueryExecutionResponseSchema {
-  columns?: QueryExecutionResponseSchemaColumnsList;
-  data?: QueryExecutionResponseSchemaDataList;
-  expanded_columns?: QueryExecutionResponseSchemaExpandedColumnsList;
-  query?: QueryResult;
-  query_id?: number;
-  selected_columns?: QueryExecutionResponseSchemaSelectedColumnsList;
-  status?: string;
+  columns?: QueryExecutionResponseSchemaColumnsList | undefined;
+  data?: QueryExecutionResponseSchemaDataList | undefined;
+  expanded_columns?: QueryExecutionResponseSchemaExpandedColumnsList | undefined;
+  query?: QueryResult | undefined;
+  query_id?: number | undefined;
+  selected_columns?: QueryExecutionResponseSchemaSelectedColumnsList | undefined;
+  status?: string | undefined;
 }
 /** Live dashboard filter state keyed by native filter id, each carrying an extraFormData object. */
 export type ExportDashboardXlsxRequestActiveDataMaskMap = { [key: string]: unknown | undefined };
@@ -3186,32 +3192,32 @@ export interface ExportDashboardXlsxRequest {
   /** The dashboard id */
   pk: number;
   /** Live dashboard filter state keyed by native filter id, each carrying an extraFormData object. */
-  active_data_mask?: ExportDashboardXlsxRequestActiveDataMaskMap;
+  active_data_mask?: ExportDashboardXlsxRequestActiveDataMaskMap | undefined;
   /** Export mode: 'data' streams each chart's tabular result (default); 'images' embeds non-table charts as rendered images and keeps table charts tabular. */
-  mode?: ExportDashboardXlsxRequestMode | (string & {});
+  mode?: ExportDashboardXlsxRequestMode | (string & {}) | undefined;
 }
 export interface ExportDashboardXlsxResponse {}
 export interface ExportSqllabStreamingRequest {
   /** The SQL query result identifier */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Optional expected row count for progress tracking */
-  expected_rows?: number;
+  expected_rows?: number | undefined;
   /** Optional filename for the export */
-  filename?: string;
+  filename?: string | undefined;
 }
 export interface ExportSqllabStreamingResponse {}
 export interface GetAnnotationLayerRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetAnnotationLayerResponseDescriptionColumns {
   /** The description for the column name. Will be translated by babel */
-  column_name?: string;
+  column_name?: string | undefined;
 }
 /** A list of item ids, useful when you don't know the column id */
 export type GetAnnotationLayerResponseIdsList = Array<string>;
 export interface GetAnnotationLayerResponseLabelColumns {
   /** The label for the column name. Will be translated by babel */
-  column_name?: string;
+  column_name?: string | undefined;
 }
 /** A list of columns */
 export type GetAnnotationLayerResponseListColumnsList = Array<string>;
@@ -3223,189 +3229,189 @@ export interface AnnotationLayerRestApiGetListUser1 {
 }
 export type AnnotationLayerRestApiGetListUser = AnnotationLayerRestApiGetListUser1;
 export interface AnnotationLayerRestApiGetList {
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on?: string | null;
-  changed_on_delta_humanized?: unknown;
-  created_by?: AnnotationLayerRestApiGetListUser1;
-  created_on?: string | null;
-  descr?: string | null;
-  id?: number;
-  name?: string | null;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on?: string | null | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  created_on?: string | null | undefined;
+  descr?: string | null | undefined;
+  id?: number | undefined;
+  name?: string | null | undefined;
 }
 /** The result from the get list query */
 export type GetAnnotationLayerResponseResultList = Array<AnnotationLayerRestApiGetList>;
 export interface GetAnnotationLayerResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetAnnotationLayerResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetAnnotationLayerResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetAnnotationLayerResponseListColumnsList;
+  list_columns?: GetAnnotationLayerResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetAnnotationLayerResponseOrderColumnsList;
+  order_columns?: GetAnnotationLayerResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetAnnotationLayerResponseResultList;
+  result?: GetAnnotationLayerResponseResultList | undefined;
 }
 export interface GetAnnotationLayerAnnotationRequest {
   /** The annotation layer pk for this annotation */
   pk: number;
   /** The annotation pk */
   annotation_id: number;
-  q?: string;
+  q?: string | undefined;
 }
 export interface AnnotationRestApiGetAnnotationLayer {
-  id?: number;
-  name?: string | null;
+  id?: number | undefined;
+  name?: string | null | undefined;
 }
 export interface AnnotationRestApiGet {
-  end_dttm?: string | null;
-  id?: number;
-  json_metadata?: string | null;
+  end_dttm?: string | null | undefined;
+  id?: number | undefined;
+  json_metadata?: string | null | undefined;
   layer: AnnotationRestApiGetAnnotationLayer;
-  long_descr?: string | null;
-  short_descr?: string | null;
-  start_dttm?: string | null;
+  long_descr?: string | null | undefined;
+  short_descr?: string | null | undefined;
+  start_dttm?: string | null | undefined;
 }
 export interface GetAnnotationLayerAnnotationResponse {
   /** The item id */
-  id?: string;
-  result?: AnnotationRestApiGet;
+  id?: string | undefined;
+  result?: AnnotationRestApiGet | undefined;
 }
 export interface GetAnnotationLayerByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetAnnotationLayerByPkResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
 export type GetAnnotationLayerByPkResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
 export interface AnnotationLayerRestApiGet {
-  descr?: string | null;
-  id?: number;
-  name?: string | null;
+  descr?: string | null | undefined;
+  id?: number | undefined;
+  name?: string | null | undefined;
 }
 /** A list of columns */
 export type GetAnnotationLayerByPkResponseShowColumnsList = Array<string>;
 export interface GetAnnotationLayerByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: AnnotationLayerRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: AnnotationLayerRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetAnnotationLayerByPkResponseShowColumnsList;
+  show_columns?: GetAnnotationLayerByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetAnnotationLayerRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface RelatedResultResponse {
   /** The extra metadata for related item */
-  extra?: unknown;
+  extra?: unknown | undefined;
   /** The related item string representation */
-  text?: string;
+  text?: string | undefined;
   /** The related item identifier */
-  value?: number;
+  value?: number | undefined;
 }
 export type RelatedResponseSchemaResultList = Array<RelatedResultResponse>;
 export interface RelatedResponseSchema {
   /** The total number of related values */
-  count?: number;
-  result?: RelatedResponseSchemaResultList;
+  count?: number | undefined;
+  result?: RelatedResponseSchemaResultList | undefined;
 }
 export interface GetAssetExportRequest {}
 export interface GetAssetExportResponse {}
 export interface GetAvailableDomainsRequest {}
 export type AvailableDomainsSchemaDomainsList = Array<string>;
 export interface AvailableDomainsSchema {
-  domains?: AvailableDomainsSchemaDomainsList;
+  domains?: AvailableDomainsSchemaDomainsList | undefined;
 }
 export interface GetAvailableDomainsResponse {
-  result?: AvailableDomainsSchema;
+  result?: AvailableDomainsSchema | undefined;
 }
 export interface GetChartRequest {
   /** Either the id of the chart, or its uuid */
   id_or_uuid: string;
 }
 export interface Dashboard {
-  dashboard_title?: string;
-  id?: number;
-  json_metadata?: string;
+  dashboard_title?: string | undefined;
+  id?: number | undefined;
+  json_metadata?: string | undefined;
 }
 export type ChartGetResponseSchemaDashboardsList = Array<Dashboard>;
 export interface SubjectResponse {
-  id?: number;
-  img?: string;
-  label?: string;
-  secondary_label?: string;
-  type?: number;
+  id?: number | undefined;
+  img?: string | undefined;
+  label?: string | undefined;
+  secondary_label?: string | undefined;
+  type?: number | undefined;
 }
 export type ChartGetResponseSchemaEditorsList = Array<SubjectResponse>;
 export type TagType = 1 | 2 | 3 | 4;
 export interface Tag {
-  id?: number;
-  name?: string;
-  type?: TagType;
+  id?: number | undefined;
+  name?: string | undefined;
+  type?: TagType | undefined;
 }
 export type ChartGetResponseSchemaTagsList = Array<Tag>;
 export type ChartGetResponseSchemaViewersList = Array<SubjectResponse>;
 export interface ChartGetResponseSchema {
-  cache_timeout?: string;
-  certification_details?: string;
-  certified_by?: string;
-  changed_on_delta_humanized?: string;
-  dashboards?: ChartGetResponseSchemaDashboardsList;
-  datasource_id?: number;
-  datasource_name_text?: unknown;
-  datasource_type?: string;
-  datasource_url?: unknown;
-  datasource_uuid?: string;
-  description?: string;
-  editors?: ChartGetResponseSchemaEditorsList;
+  cache_timeout?: string | undefined;
+  certification_details?: string | undefined;
+  certified_by?: string | undefined;
+  changed_on_delta_humanized?: string | undefined;
+  dashboards?: ChartGetResponseSchemaDashboardsList | undefined;
+  datasource_id?: number | undefined;
+  datasource_name_text?: unknown | undefined;
+  datasource_type?: string | undefined;
+  datasource_url?: unknown | undefined;
+  datasource_uuid?: string | undefined;
+  description?: string | undefined;
+  editors?: ChartGetResponseSchemaEditorsList | undefined;
   /** The id of the chart. */
-  id?: number;
-  is_managed_externally?: boolean;
-  params?: string;
-  query_context?: string;
-  slice_name?: string;
-  tags?: ChartGetResponseSchemaTagsList;
-  thumbnail_url?: string;
-  url?: string;
-  uuid?: string;
-  viewers?: ChartGetResponseSchemaViewersList;
-  viz_type?: string;
+  id?: number | undefined;
+  is_managed_externally?: boolean | undefined;
+  params?: string | undefined;
+  query_context?: string | undefined;
+  slice_name?: string | undefined;
+  tags?: ChartGetResponseSchemaTagsList | undefined;
+  thumbnail_url?: string | undefined;
+  url?: string | undefined;
+  uuid?: string | undefined;
+  viewers?: ChartGetResponseSchemaViewersList | undefined;
+  viz_type?: string | undefined;
 }
 export interface GetChartResponse {
-  result?: ChartGetResponseSchema;
+  result?: ChartGetResponseSchema | undefined;
 }
 export interface GetChartCacheScreenshotRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export interface ChartCacheScreenshotResponseSchema {
   /** The cache key */
-  cache_key?: string;
+  cache_key?: string | undefined;
   /** The url to render the chart */
-  chart_url?: string;
+  chart_url?: string | undefined;
   /** The url to fetch the screenshot */
-  image_url?: string;
+  image_url?: string | undefined;
   /** The status of the async screenshot */
-  task_status?: string;
+  task_status?: string | undefined;
   /** The timestamp of the last change in status */
-  task_updated_at?: string;
+  task_updated_at?: string | undefined;
 }
 export interface GetChartExportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetChartExportResponse {}
 export interface GetChartRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetChartScreenshotRequest {
   pk: number;
@@ -3425,50 +3431,50 @@ export interface GetChartVersionRequest {
   version_uuid_str: string;
 }
 export interface VersionChangedBy {
-  first_name?: string;
-  id?: number;
-  last_name?: string;
+  first_name?: string | undefined;
+  id?: number | undefined;
+  last_name?: string | undefined;
 }
 export interface VersionChangeRecord {
   /** Value at path before the save; null when the field did not exist. */
-  from_value?: unknown | null;
+  from_value?: unknown | null | undefined;
   /** Semantic category of the change. First-class values in V1: 'filter', 'metric', 'dimension', 'column', 'chart', 'time_range', 'color_palette'. Falls back to 'field' for generic scalar changes that don't map to a named kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** The verb for this change: 'add', 'remove', 'move', 'edit', 'update' (a collapsed-summary record for a field whose per-leaf changes exceeded the cap), or 'announce' (a synthetic headline record). Surfaced explicitly so consumers need not infer the verb from from_value/to_value null-tests -- 'move' in particular cannot be derived that way. */
-  operation?: string;
+  operation?: string | undefined;
   /** Array of segments locating the change in the entity's state. Example: ['params', 'adhoc_filters', 'country']. */
-  path?: unknown;
+  path?: unknown | undefined;
   /** Value at path after the save; null when the field was removed. */
-  to_value?: unknown | null;
+  to_value?: unknown | null | undefined;
 }
 /** Structured diff records describing the atomic field-level changes at this version, ordered by emission sequence. Empty for baseline (op=0) transactions per spec M4. */
 export type VersionListItemSchemaChangesList = Array<VersionChangeRecord>;
 export interface VersionListItemSchema {
   /** User who produced the version, or null when the commit had no authenticated Flask user (CLI, Celery, import). */
-  changed_by?: VersionChangedBy | null;
+  changed_by?: VersionChangedBy | null | undefined;
   /** Structured diff records describing the atomic field-level changes at this version, ordered by emission sequence. Empty for baseline (op=0) transactions per spec M4. */
-  changes?: VersionListItemSchemaChangesList;
+  changes?: VersionListItemSchemaChangesList | undefined;
   /** UTC timestamp of the commit that produced the row */
-  issued_at?: string;
+  issued_at?: string | undefined;
   /** One of 'baseline', 'update', or 'delete', derived from the Continuum integer constant. Restore is not a distinct operation_type: a restore surfaces as 'update' carrying ``action_kind='restore'`` (see ACTIVITY_ACTION_KINDS). */
-  operation_type?: string;
+  operation_type?: string | undefined;
   /** Underlying Continuum transaction id */
-  transaction_id?: number;
+  transaction_id?: number | undefined;
   /** 0-based position in the history, oldest first */
-  version_number?: number;
+  version_number?: number | undefined;
   /** Deterministic UUIDv5 derived from the entity UUID and the Continuum transaction id -- stable across replicas and retention pruning. The handle accepted by the get/restore version endpoints. */
-  version_uuid?: string;
+  version_uuid?: string | undefined;
 }
 /** The chart's scalar fields at the target version (entity-specific keys), plus a `_version` block with the version-level metadata. */
 export interface GetChartVersionResponseResult {
-  _version?: VersionListItemSchema;
+  _version?: VersionListItemSchema | undefined;
 }
 export interface GetChartVersionResponse {
   /** The chart's scalar fields at the target version (entity-specific keys), plus a `_version` block with the version-level metadata. */
-  result?: GetChartVersionResponseResult;
+  result?: GetChartVersionResponseResult | undefined;
 }
 export interface GetCssTemplateRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetCssTemplateResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -3480,40 +3486,40 @@ export type GetCssTemplateResponseListColumnsList = Array<string>;
 export type GetCssTemplateResponseOrderColumnsList = Array<string>;
 export interface CssTemplateRestApiGetListUser {
   first_name: string;
-  id?: number;
+  id?: number | undefined;
   last_name: string;
 }
 export type CssTemplateRestApiGetListUser1 = CssTemplateRestApiGetListUser;
 export interface CssTemplateRestApiGetList {
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_on_delta_humanized?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  created_on?: string | null;
-  css?: string | null;
-  id?: number;
-  template_name?: string | null;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  created_on?: string | null | undefined;
+  css?: string | null | undefined;
+  id?: number | undefined;
+  template_name?: string | null | undefined;
 }
 /** The result from the get list query */
 export type GetCssTemplateResponseResultList = Array<CssTemplateRestApiGetList>;
 export interface GetCssTemplateResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetCssTemplateResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetCssTemplateResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetCssTemplateResponseListColumnsList;
+  list_columns?: GetCssTemplateResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetCssTemplateResponseOrderColumnsList;
+  order_columns?: GetCssTemplateResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetCssTemplateResponseResultList;
+  result?: GetCssTemplateResponseResultList | undefined;
 }
 export interface GetCssTemplateByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetCssTemplateByPkResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -3521,107 +3527,107 @@ export type GetCssTemplateByPkResponseLabelColumns = GetAnnotationLayerResponseL
 export type CssTemplateRestApiGetUser = CssTemplateRestApiGetListUser;
 export type CssTemplateRestApiGetUser1 = CssTemplateRestApiGetListUser;
 export interface CssTemplateRestApiGet {
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_on_delta_humanized?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  css?: string | null;
-  id?: number;
-  template_name?: string | null;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  css?: string | null | undefined;
+  id?: number | undefined;
+  template_name?: string | null | undefined;
 }
 /** A list of columns */
 export type GetCssTemplateByPkResponseShowColumnsList = Array<string>;
 export interface GetCssTemplateByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: CssTemplateRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: CssTemplateRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetCssTemplateByPkResponseShowColumnsList;
+  show_columns?: GetCssTemplateByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetCssTemplateRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetDashboardRequest {
   /** Either the id of the dashboard, or its slug */
   id_or_slug: string;
-  q?: string;
+  q?: string | undefined;
 }
 export type User = VersionChangedBy;
 export type DashboardGetResponseSchemaChartsList = Array<string>;
 export type Tag1Type = 1 | 2 | 3 | 4;
 export interface Tag1 {
-  id?: number;
-  name?: string;
-  type?: Tag1Type;
+  id?: number | undefined;
+  name?: string | undefined;
+  type?: Tag1Type | undefined;
 }
 export type DashboardGetResponseSchemaCustomTagsList = Array<Tag1>;
 export type DashboardGetResponseSchemaEditorsList = Array<SubjectResponse>;
 export type DashboardGetResponseSchemaTagsList = Array<Tag1>;
 export interface Theme {
-  id?: number;
-  json_data?: string;
-  theme_name?: string;
+  id?: number | undefined;
+  json_data?: string | undefined;
+  theme_name?: string | undefined;
 }
 export type DashboardGetResponseSchemaViewersList = Array<SubjectResponse>;
 export interface DashboardGetResponseSchema {
   /** Details of the certification */
-  certification_details?: string;
+  certification_details?: string | undefined;
   /** Person or group that has certified this dashboard */
-  certified_by?: string;
-  changed_by?: VersionChangedBy;
-  changed_by_name?: string;
-  changed_on?: string;
-  changed_on_delta_humanized?: string;
-  charts?: DashboardGetResponseSchemaChartsList;
-  created_by?: VersionChangedBy;
-  created_on_delta_humanized?: string;
+  certified_by?: string | undefined;
+  changed_by?: VersionChangedBy | undefined;
+  changed_by_name?: string | undefined;
+  changed_on?: string | undefined;
+  changed_on_delta_humanized?: string | undefined;
+  charts?: DashboardGetResponseSchemaChartsList | undefined;
+  created_by?: VersionChangedBy | undefined;
+  created_on_delta_humanized?: string | undefined;
   /** Override CSS for the dashboard. */
-  css?: string;
-  custom_tags?: DashboardGetResponseSchemaCustomTagsList;
+  css?: string | undefined;
+  custom_tags?: DashboardGetResponseSchemaCustomTagsList | undefined;
   /** A title for the dashboard. */
-  dashboard_title?: string;
-  description?: string | null;
-  editors?: DashboardGetResponseSchemaEditorsList;
-  id?: number;
-  is_managed_externally?: boolean | null;
+  dashboard_title?: string | undefined;
+  description?: string | null | undefined;
+  editors?: DashboardGetResponseSchemaEditorsList | undefined;
+  id?: number | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** This JSON object is generated dynamically when clicking the save or overwrite button in the dashboard view. It is exposed here for reference and for power users who may want to alter specific parameters. */
-  json_metadata?: string;
+  json_metadata?: string | undefined;
   /** This json object describes the positioning of the widgets in the dashboard. It is dynamically generated when adjusting the widgets size and positions by using drag & drop in the dashboard view */
-  position_json?: string;
-  published?: boolean;
-  slug?: string;
-  tags?: DashboardGetResponseSchemaTagsList;
-  theme?: Theme | null;
-  thumbnail_url?: string | null;
-  url?: string;
-  uuid?: string | null;
-  viewers?: DashboardGetResponseSchemaViewersList;
+  position_json?: string | undefined;
+  published?: boolean | undefined;
+  slug?: string | undefined;
+  tags?: DashboardGetResponseSchemaTagsList | undefined;
+  theme?: Theme | null | undefined;
+  thumbnail_url?: string | null | undefined;
+  url?: string | undefined;
+  uuid?: string | null | undefined;
+  viewers?: DashboardGetResponseSchemaViewersList | undefined;
 }
 export interface GetDashboardResponse {
-  result?: DashboardGetResponseSchema;
+  result?: DashboardGetResponseSchema | undefined;
 }
 export interface GetDashboardEmbeddedRequest {
   /** The dashboard id or slug */
   id_or_slug: string;
 }
 export interface GetDashboardEmbeddedResponse {
-  result?: EmbeddedDashboardResponseSchema;
+  result?: EmbeddedDashboardResponseSchema | undefined;
 }
 export interface GetDashboardExportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetDashboardExportResponse {}
 export interface GetDashboardExportAsExampleRequest {
   /** The dashboard id */
   pk: number;
   /** Whether to include Parquet data files */
-  export_data?: boolean;
+  export_data?: boolean | undefined;
   /** Limit data export to this many rows per dataset */
-  sample_rows?: number;
+  sample_rows?: number | undefined;
 }
 export interface GetDashboardExportAsExampleResponse {}
 export interface GetDashboardExportXlsxDownloadRequest {
@@ -3640,26 +3646,26 @@ export interface GetDashboardFilterStateRequest {
 }
 export interface GetDashboardFilterStateResponse {
   /** A map of native filter id to that filter's human-readable label, for the filter ids present in `value`. Cross-referenced from the dashboard's native filter configuration, since the cached `value` itself has no notion of a filter's label. */
-  names?: unknown;
+  names?: unknown | undefined;
   /** The stored value */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetDashboardPermalinkRequest {
   key: string;
 }
 export interface GetDashboardPermalinkResponse {
   /** The stored state */
-  state?: unknown;
+  state?: unknown | undefined;
 }
 export interface GetDashboardRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetDashboardScreenshotRequestDownloadFormat = "png" | "pdf";
 export interface GetDashboardScreenshotRequest {
   pk: number;
   digest: string;
-  download_format?: GetDashboardScreenshotRequestDownloadFormat | (string & {});
+  download_format?: GetDashboardScreenshotRequestDownloadFormat | (string & {}) | undefined;
 }
 export interface GetDashboardScreenshotResponse {}
 export interface GetDashboardThumbnailRequest {
@@ -3678,10 +3684,10 @@ export interface GetDashboardVersionRequest {
 export type GetDashboardVersionResponseResult = GetChartVersionResponseResult;
 export interface GetDashboardVersionResponse {
   /** The dashboard's scalar fields at the target version (entity-specific keys), plus a `_version` block with the version-level metadata. */
-  result?: GetChartVersionResponseResult;
+  result?: GetChartVersionResponseResult | undefined;
 }
 export interface GetDatabaseRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetDatabaseResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -3694,49 +3700,49 @@ export type GetDatabaseResponseOrderColumnsList = Array<string>;
 export type DatabaseRestApiGetListUser = AnnotationLayerRestApiGetListUser1;
 export type DatabaseRestApiGetListUser1 = AnnotationLayerRestApiGetListUser1;
 export interface DatabaseRestApiGetList {
-  allow_ctas?: boolean | null;
-  allow_cvas?: boolean | null;
-  allow_dml?: boolean | null;
-  allow_file_upload?: boolean | null;
-  allow_multi_catalog?: unknown;
-  allow_run_async?: boolean | null;
-  allows_cost_estimate?: unknown;
-  allows_subquery?: unknown;
-  allows_virtual_table_explore?: unknown;
-  backend?: unknown;
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on?: string | null;
-  changed_on_delta_humanized?: unknown;
-  configuration_method?: string | null;
-  created_by?: AnnotationLayerRestApiGetListUser1;
+  allow_ctas?: boolean | null | undefined;
+  allow_cvas?: boolean | null | undefined;
+  allow_dml?: boolean | null | undefined;
+  allow_file_upload?: boolean | null | undefined;
+  allow_multi_catalog?: unknown | undefined;
+  allow_run_async?: boolean | null | undefined;
+  allows_cost_estimate?: unknown | undefined;
+  allows_subquery?: unknown | undefined;
+  allows_virtual_table_explore?: unknown | undefined;
+  backend?: unknown | undefined;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on?: string | null | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  configuration_method?: string | null | undefined;
+  created_by?: AnnotationLayerRestApiGetListUser1 | undefined;
   database_name: string;
-  disable_data_preview?: unknown;
-  disable_drill_to_detail?: unknown;
-  engine_information?: unknown;
-  explore_database_id?: unknown;
-  expose_in_sqllab?: boolean | null;
-  extra?: string | null;
-  force_ctas_schema?: string | null;
-  id?: number;
-  uuid?: string | null;
+  disable_data_preview?: unknown | undefined;
+  disable_drill_to_detail?: unknown | undefined;
+  engine_information?: unknown | undefined;
+  explore_database_id?: unknown | undefined;
+  expose_in_sqllab?: boolean | null | undefined;
+  extra?: string | null | undefined;
+  force_ctas_schema?: string | null | undefined;
+  id?: number | undefined;
+  uuid?: string | null | undefined;
 }
 /** The result from the get list query */
 export type GetDatabaseResponseResultList = Array<DatabaseRestApiGetList>;
 export interface GetDatabaseResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetDatabaseResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetDatabaseResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetDatabaseResponseListColumnsList;
+  list_columns?: GetDatabaseResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetDatabaseResponseOrderColumnsList;
+  order_columns?: GetDatabaseResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetDatabaseResponseResultList;
+  result?: GetDatabaseResponseResultList | undefined;
 }
 export interface GetDatabaseByPkRequest {
   /** The database id */
@@ -3749,29 +3755,29 @@ export interface GetDatabaseConnectionRequest {
 }
 export interface IdentifierQuote {
   /** Character that closes a quoted identifier */
-  end?: string;
+  end?: string | undefined;
   /** Whether an embedded closing-quote character is escaped by doubling it (True) or with a backslash escape (False, e.g. BigQuery's GoogleSQL backtick identifiers) */
-  escape_by_doubling?: boolean;
+  escape_by_doubling?: boolean | undefined;
   /** Character that opens a quoted identifier */
-  start?: string;
+  start?: string | undefined;
 }
 export interface EngineInformation {
   /** SSH tunnel is not available to the database */
-  disable_ssh_tunneling?: boolean;
+  disable_ssh_tunneling?: boolean | undefined;
   /** Characters used to quote identifiers for this dialect */
-  identifier_quote?: IdentifierQuote;
+  identifier_quote?: IdentifierQuote | undefined;
   /** OAuth2 authentication is enabled on this connection */
-  oauth2_enabled?: boolean;
+  oauth2_enabled?: boolean | undefined;
   /** The database supports multiple catalogs in a single connection */
-  supports_dynamic_catalog?: boolean;
+  supports_dynamic_catalog?: boolean | undefined;
   /** Users can upload files to the database */
-  supports_file_upload?: boolean;
+  supports_file_upload?: boolean | undefined;
   /** The database supports OAuth2 */
-  supports_oauth2?: boolean;
+  supports_oauth2?: boolean | undefined;
   /** The database supports OFFSET in SQL queries. Engines like Elasticsearch SQL return False. */
-  supports_offset?: boolean;
+  supports_offset?: boolean | undefined;
   /** The database uses schemas to organize tables */
-  supports_schemas?: boolean;
+  supports_schemas?: boolean | undefined;
 }
 /** DB-specific parameters for configuration */
 export type DatabaseConnectionSchemaOutputParametersMap = { [key: string]: unknown | undefined };
@@ -3781,112 +3787,112 @@ export type DatabaseConnectionSchemaOutputParametersSchemaMap = {
 };
 export interface DatabaseConnectionSchemaOutput {
   /** Allow CREATE TABLE AS option in SQL Lab */
-  allow_ctas?: boolean;
+  allow_ctas?: boolean | undefined;
   /** Allow CREATE VIEW AS option in SQL Lab */
-  allow_cvas?: boolean;
+  allow_cvas?: boolean | undefined;
   /** Allow users to run non-SELECT statements (UPDATE, DELETE, CREATE, ...) in SQL Lab */
-  allow_dml?: boolean;
+  allow_dml?: boolean | undefined;
   /** Allow to upload CSV file data into this databaseIf selected, please set the schemas allowed for csv upload in Extra. */
-  allow_file_upload?: boolean;
+  allow_file_upload?: boolean | undefined;
   /** Operate the database in asynchronous mode, meaning that the queries are executed on remote workers as opposed to on the web server itself. This assumes that you have a Celery worker setup as well as a results backend. Refer to the installation docs for more information. */
-  allow_run_async?: boolean;
+  allow_run_async?: boolean | undefined;
   /** SQLAlchemy engine to use */
-  backend?: string | null;
+  backend?: string | null | undefined;
   /** Duration (in seconds) of the caching timeout for charts of this database. A timeout of 0 indicates that the cache never expires, and -1 bypasses the cache. Note this defaults to the global timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
-  configuration_method?: string;
+  configuration_method?: string | undefined;
   /** A database name to identify this connection. */
-  database_name?: string | null;
+  database_name?: string | null | undefined;
   /** SQLAlchemy driver to use */
-  driver?: string | null;
-  engine_information?: EngineInformation;
+  driver?: string | null | undefined;
+  engine_information?: EngineInformation | undefined;
   /** Expose this database to SQLLab */
-  expose_in_sqllab?: boolean;
+  expose_in_sqllab?: boolean | undefined;
   /** <p>JSON string containing extra configuration elements.<br>1. The <code>engine_params</code> object gets unpacked into the <a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine" rel="noopener noreferrer">sqlalchemy.create_engine</a> call, while the <code>metadata_params</code> gets unpacked into the <a href="https://docs.sqlalchemy.org/en/rel_1_0/core/metadata.html#sqlalchemy.schema.MetaData" rel="noopener noreferrer">sqlalchemy.MetaData</a> call.<br>2. The <code>metadata_cache_timeout</code> is a cache timeout setting in seconds for metadata fetch of this database. Specify it as <strong>"metadata_cache_timeout": {"schema_cache_timeout": 600, "table_cache_timeout": 600}</strong>. If unset, cache will not be enabled for the functionality. A timeout of 0 indicates that the cache never expires.<br>3. The <code>schemas_allowed_for_file_upload</code> is a comma separated list of schemas that CSVs are allowed to upload to. Specify it as <strong>"schemas_allowed_for_file_upload": ["public", "csv_upload"]</strong>. If database flavor does not support schema or any schema is allowed to be accessed, just leave the list empty<br>4. The <code>version</code> field is a string specifying the this db's version. This should be used with Presto DBs so that the syntax is correct<br>5. The <code>allows_virtual_table_explore</code> field is a boolean specifying whether or not the Explore button in SQL Lab results is shown.<br>6. The <code>disable_data_preview</code> field is a boolean specifying whether or not data preview queries will be run when fetching table metadata in SQL Lab.<br>7. The <code>disable_drill_to_detail</code> field is a boolean specifying whether or not drill to detail is disabled for the database.<br>8. The <code>allow_multi_catalog</code> indicates if the database allows changing the default catalog when running queries and creating datasets.<br>9. The <code>disable_sampling_read_limit_override</code> field is a boolean specifying whether system-generated sampling queries (filter values, samples/preview, datetime format detection) that an engine rejects with a read-limit error should fail outright instead of being retried once with the engine's bounded-read override. Only affects engines that implement such an override.</p> */
-  extra?: string;
+  extra?: string | undefined;
   /** When allowing CREATE TABLE AS option in SQL Lab, this option forces the table to be created in this schema */
-  force_ctas_schema?: string | null;
+  force_ctas_schema?: string | null | undefined;
   /** Database ID (for updates) */
-  id?: number;
+  id?: number | undefined;
   /** If Presto, all the queries in SQL Lab are going to be executed as the currently logged on user who must have permission to run them.<br/>If Hive and hive.server2.enable.doAs is enabled, will run the queries as service account, but impersonate the currently logged on user via hive.server2.proxy.user property. */
-  impersonate_user?: boolean;
-  is_managed_externally?: boolean | null;
+  impersonate_user?: boolean | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** <p>JSON string containing additional connection configuration.<br>This is used to provide connection information for systems like Hive, Presto, and BigQuery, which do not conform to the username:password syntax normally used by SQLAlchemy.</p> */
-  masked_encrypted_extra?: string | null;
+  masked_encrypted_extra?: string | null | undefined;
   /** DB-specific parameters for configuration */
-  parameters?: DatabaseConnectionSchemaOutputParametersMap;
+  parameters?: DatabaseConnectionSchemaOutputParametersMap | undefined;
   /** JSONSchema for configuring the database by parameters instead of SQLAlchemy URI */
-  parameters_schema?: DatabaseConnectionSchemaOutputParametersSchemaMap;
+  parameters_schema?: DatabaseConnectionSchemaOutputParametersSchemaMap | undefined;
   /** <p>Optional CA_BUNDLE contents to validate HTTPS requests. Only available on certain database engines.</p> */
-  server_cert?: string | null;
+  server_cert?: string | null | undefined;
   /** <p>Refer to the <a href="https://docs.sqlalchemy.org/en/rel_1_2/core/engines.html#database-urls" rel="noopener noreferrer">SqlAlchemy docs</a> for more information on how to structure your URI.</p> */
-  sqlalchemy_uri?: string;
-  ssh_tunnel?: DatabaseSSHTunnelOutput | null;
-  uuid?: string;
+  sqlalchemy_uri?: string | undefined;
+  ssh_tunnel?: DatabaseSSHTunnelOutput | null | undefined;
+  uuid?: string | undefined;
 }
 export interface GetDatabaseExportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetDatabaseExportResponse {}
 export interface GetDatabaseOauth2Request {
-  state?: string;
-  code?: string;
-  scope?: string;
-  error?: string;
+  state?: string | undefined;
+  code?: string | undefined;
+  scope?: string | undefined;
+  error?: string | undefined;
 }
 export interface GetDatabaseOauth2Response {}
 export interface GetDatabaseRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetDatabaseRelatedObjectsRequest {
   pk: number;
 }
 export interface DatabaseRelatedChart {
-  id?: number;
-  slice_name?: string;
-  viz_type?: string;
+  id?: number | undefined;
+  slice_name?: string | undefined;
+  viz_type?: string | undefined;
 }
 /** A list of dashboards */
 export type DatabaseRelatedChartsResultList = Array<DatabaseRelatedChart>;
 export interface DatabaseRelatedCharts {
   /** Chart count */
-  count?: number;
+  count?: number | undefined;
   /** A list of dashboards */
-  result?: DatabaseRelatedChartsResultList;
+  result?: DatabaseRelatedChartsResultList | undefined;
 }
 export interface DatabaseRelatedDashboard {
-  id?: number;
-  json_metadata?: unknown;
-  slug?: string;
-  title?: string;
+  id?: number | undefined;
+  json_metadata?: unknown | undefined;
+  slug?: string | undefined;
+  title?: string | undefined;
 }
 /** A list of dashboards */
 export type DatabaseRelatedDashboardsResultList = Array<DatabaseRelatedDashboard>;
 export interface DatabaseRelatedDashboards {
   /** Dashboard count */
-  count?: number;
+  count?: number | undefined;
   /** A list of dashboards */
-  result?: DatabaseRelatedDashboardsResultList;
+  result?: DatabaseRelatedDashboardsResultList | undefined;
 }
 export interface DatabaseRelatedDataset {
-  id?: number;
-  schema?: string;
-  table_name?: string;
+  id?: number | undefined;
+  schema?: string | undefined;
+  table_name?: string | undefined;
 }
 /** A list of datasets */
 export type DatabaseRelatedDatasetsResultList = Array<DatabaseRelatedDataset>;
 export interface DatabaseRelatedDatasets {
   /** Dataset count */
-  count?: number;
+  count?: number | undefined;
   /** A list of datasets */
-  result?: DatabaseRelatedDatasetsResultList;
+  result?: DatabaseRelatedDatasetsResultList | undefined;
 }
 export interface DatabaseRelatedObjectsResponse {
-  charts?: DatabaseRelatedCharts;
-  dashboards?: DatabaseRelatedDashboards;
-  datasets?: DatabaseRelatedDatasets;
+  charts?: DatabaseRelatedCharts | undefined;
+  dashboards?: DatabaseRelatedDashboards | undefined;
+  datasets?: DatabaseRelatedDatasets | undefined;
 }
 export interface GetDatabaseSelectStarRequest {
   /** The database id */
@@ -3896,7 +3902,7 @@ export interface GetDatabaseSelectStarRequest {
 }
 export interface SelectStarResponseSchema {
   /** SQL select star */
-  result?: string;
+  result?: string | undefined;
 }
 export interface GetDatabaseSelectStarRequest2 {
   /** The database id */
@@ -3916,35 +3922,35 @@ export interface GetDatabaseTableRequest {
 }
 export type TableMetadataColumnsResponseKeysList = Array<string>;
 export interface TableMetadataColumnsResponse {
-  duplicates_constraint?: string;
-  keys?: TableMetadataColumnsResponseKeysList;
+  duplicates_constraint?: string | undefined;
+  keys?: TableMetadataColumnsResponseKeysList | undefined;
   /** The actual backend long type for the column */
-  longType?: string;
+  longType?: string | undefined;
   /** The column name */
-  name?: string;
+  name?: string | undefined;
   /** The column type */
-  type?: string;
+  type?: string | undefined;
 }
 /** A list of columns and their metadata */
 export type TableMetadataResponseSchemaColumnsList = Array<TableMetadataColumnsResponse>;
 export type TableMetadataForeignKeysIndexesResponseColumnNamesList = Array<string>;
 export interface TableMetadataOptionsResponse {
-  deferrable?: boolean;
-  initially?: boolean;
-  match?: boolean;
-  ondelete?: boolean;
-  onupdate?: boolean;
+  deferrable?: boolean | undefined;
+  initially?: boolean | undefined;
+  match?: boolean | undefined;
+  ondelete?: boolean | undefined;
+  onupdate?: boolean | undefined;
 }
 export type TableMetadataForeignKeysIndexesResponseReferredColumnsList = Array<string>;
 export interface TableMetadataForeignKeysIndexesResponse {
-  column_names?: TableMetadataForeignKeysIndexesResponseColumnNamesList;
+  column_names?: TableMetadataForeignKeysIndexesResponseColumnNamesList | undefined;
   /** The name of the foreign key or index */
-  name?: string;
-  options?: TableMetadataOptionsResponse;
-  referred_columns?: TableMetadataForeignKeysIndexesResponseReferredColumnsList;
-  referred_schema?: string;
-  referred_table?: string;
-  type?: string;
+  name?: string | undefined;
+  options?: TableMetadataOptionsResponse | undefined;
+  referred_columns?: TableMetadataForeignKeysIndexesResponseReferredColumnsList | undefined;
+  referred_schema?: string | undefined;
+  referred_table?: string | undefined;
+  type?: string | undefined;
 }
 /** A list of foreign keys and their metadata */
 export type TableMetadataResponseSchemaForeignKeysList =
@@ -3953,24 +3959,24 @@ export type TableMetadataResponseSchemaForeignKeysList =
 export type TableMetadataResponseSchemaIndexesList = Array<TableMetadataForeignKeysIndexesResponse>;
 export type TableMetadataPrimaryKeyResponseColumnNamesList = Array<string>;
 export interface TableMetadataPrimaryKeyResponse {
-  column_names?: TableMetadataPrimaryKeyResponseColumnNamesList;
+  column_names?: TableMetadataPrimaryKeyResponseColumnNamesList | undefined;
   /** The primary key index name */
-  name?: string;
-  type?: string;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export interface TableMetadataResponseSchema {
   /** A list of columns and their metadata */
-  columns?: TableMetadataResponseSchemaColumnsList;
+  columns?: TableMetadataResponseSchemaColumnsList | undefined;
   /** A list of foreign keys and their metadata */
-  foreignKeys?: TableMetadataResponseSchemaForeignKeysList;
+  foreignKeys?: TableMetadataResponseSchemaForeignKeysList | undefined;
   /** A list of indexes and their metadata */
-  indexes?: TableMetadataResponseSchemaIndexesList;
+  indexes?: TableMetadataResponseSchemaIndexesList | undefined;
   /** The name of the table */
-  name?: string;
+  name?: string | undefined;
   /** Primary keys metadata */
-  primaryKey?: TableMetadataPrimaryKeyResponse;
+  primaryKey?: TableMetadataPrimaryKeyResponse | undefined;
   /** SQL select star */
-  selectStar?: string;
+  selectStar?: string | undefined;
 }
 export interface GetDatabaseTableExtraRequest {
   /** The database id */
@@ -3981,9 +3987,9 @@ export interface GetDatabaseTableExtraRequest {
   schema_name: string;
 }
 export interface TableExtraMetadataResponseSchema {
-  clustering?: unknown;
-  metadata?: unknown;
-  partitions?: unknown;
+  clustering?: unknown | undefined;
+  metadata?: unknown | undefined;
+  partitions?: unknown | undefined;
 }
 export interface GetDatabaseTableMetadataRequest {
   /** The database id */
@@ -3991,9 +3997,9 @@ export interface GetDatabaseTableMetadataRequest {
   /** Table name */
   name: string;
   /** Optional table schema, if not passed default schema will be used */
-  schema?: string;
+  schema?: string | undefined;
   /** Optional table catalog, if not passed default catalog will be used */
-  catalog?: string;
+  catalog?: string | undefined;
 }
 export interface GetDatabaseTableMetadataExtraRequest {
   /** The database id */
@@ -4001,12 +4007,12 @@ export interface GetDatabaseTableMetadataExtraRequest {
   /** Table name */
   name: string;
   /** Optional table schema, if not passed the schema configured in the database will be used */
-  schema?: string;
+  schema?: string | undefined;
   /** Optional table catalog, if not passed the catalog configured in the database will be used */
-  catalog?: string;
+  catalog?: string | undefined;
 }
 export interface GetDatasetRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetDatasetResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -4019,215 +4025,215 @@ export type GetDatasetResponseOrderColumnsList = Array<string>;
 export type DatasetRestApiGetListUser = CssTemplateRestApiGetListUser;
 export interface DatasetRestApiGetListDatabase {
   database_name: string;
-  id?: number;
-  uuid?: string | null;
+  id?: number | undefined;
+  uuid?: string | null | undefined;
 }
 export interface DatasetRestApiGetListSubject {
-  id?: number;
+  id?: number | undefined;
   label: string;
   type: number;
 }
 export type DatasetRestApiGetListEditorsList = Array<DatasetRestApiGetListSubject>;
 export interface DatasetRestApiGetList {
-  catalog?: string | null;
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_by_name?: unknown;
-  changed_on_delta_humanized?: unknown;
-  changed_on_utc?: unknown;
+  catalog?: string | null | undefined;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_by_name?: unknown | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  changed_on_utc?: unknown | undefined;
   database: DatasetRestApiGetListDatabase;
-  datasource_type?: unknown;
-  default_endpoint?: string | null;
-  description?: string | null;
-  editors?: DatasetRestApiGetListEditorsList;
-  explore_url?: unknown;
-  extra?: string | null;
-  id?: number;
-  kind?: unknown;
-  schema?: string | null;
-  sql?: string | null;
+  datasource_type?: unknown | undefined;
+  default_endpoint?: string | null | undefined;
+  description?: string | null | undefined;
+  editors?: DatasetRestApiGetListEditorsList | undefined;
+  explore_url?: unknown | undefined;
+  extra?: string | null | undefined;
+  id?: number | undefined;
+  kind?: unknown | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
   table_name: string;
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 /** The result from the get list query */
 export type GetDatasetResponseResultList = Array<DatasetRestApiGetList>;
 export interface GetDatasetResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetDatasetResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetDatasetResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetDatasetResponseListColumnsList;
+  list_columns?: GetDatasetResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetDatasetResponseOrderColumnsList;
+  order_columns?: GetDatasetResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetDatasetResponseResultList;
+  result?: GetDatasetResponseResultList | undefined;
 }
 export interface GetDatasetByIdOrUuidRequest {
   /** Either the id of the dataset, or its uuid */
   id_or_uuid: string;
-  q?: string;
+  q?: string | undefined;
   /** Should Jinja macros from sql, metrics and columns be rendered and included in the response */
-  include_rendered_sql?: boolean;
+  include_rendered_sql?: boolean | undefined;
 }
 export type DatasetRestApiGetUser1 = AnnotationLayerRestApiGetListUser1;
 export interface DatasetRestApiGetTableColumn {
-  advanced_data_type?: string | null;
-  certification_details?: unknown;
-  certified_by?: unknown;
-  changed_on?: string | null;
+  advanced_data_type?: string | null | undefined;
+  certification_details?: unknown | undefined;
+  certified_by?: unknown | undefined;
+  changed_on?: string | null | undefined;
   column_name: string;
-  created_on?: string | null;
-  description?: string | null;
-  expression?: string | null;
-  extra?: string | null;
-  filterable?: boolean | null;
-  groupby?: boolean | null;
-  id?: number;
-  is_active?: boolean | null;
-  is_certified?: unknown;
-  is_dttm?: boolean | null;
-  partition_transform_is_monotonic?: boolean | null;
-  partition_value_transform?: string | null;
-  python_date_format?: string | null;
-  type?: string | null;
-  type_generic?: unknown;
-  uuid?: string | null;
-  verbose_name?: string | null;
-  warning_markdown?: unknown;
+  created_on?: string | null | undefined;
+  description?: string | null | undefined;
+  expression?: string | null | undefined;
+  extra?: string | null | undefined;
+  filterable?: boolean | null | undefined;
+  groupby?: boolean | null | undefined;
+  id?: number | undefined;
+  is_active?: boolean | null | undefined;
+  is_certified?: unknown | undefined;
+  is_dttm?: boolean | null | undefined;
+  partition_transform_is_monotonic?: boolean | null | undefined;
+  partition_value_transform?: string | null | undefined;
+  python_date_format?: string | null | undefined;
+  type?: string | null | undefined;
+  type_generic?: unknown | undefined;
+  uuid?: string | null | undefined;
+  verbose_name?: string | null | undefined;
+  warning_markdown?: unknown | undefined;
 }
 export type DatasetRestApiGetColumnsList = Array<DatasetRestApiGetTableColumn>;
 export type DatasetRestApiGetUser = AnnotationLayerRestApiGetListUser1;
 export interface DatasetRestApiGetDatabase {
-  allow_multi_catalog?: unknown;
-  backend?: unknown;
+  allow_multi_catalog?: unknown | undefined;
+  backend?: unknown | undefined;
   database_name: string;
-  id?: number;
-  uuid?: string | null;
+  id?: number | undefined;
+  uuid?: string | null | undefined;
 }
 export type DatasetRestApiGetSubject = DatasetRestApiGetListSubject;
 export type DatasetRestApiGetEditorsList = Array<DatasetRestApiGetListSubject>;
 export interface DatasetRestApiGetSqlMetric {
-  certification_details?: unknown;
-  certified_by?: unknown;
-  changed_on?: string | null;
-  created_on?: string | null;
-  currency?: unknown | null;
-  d3format?: string | null;
-  description?: string | null;
+  certification_details?: unknown | undefined;
+  certified_by?: unknown | undefined;
+  changed_on?: string | null | undefined;
+  created_on?: string | null | undefined;
+  currency?: unknown | null | undefined;
+  d3format?: string | null | undefined;
+  description?: string | null | undefined;
   expression: string;
-  extra?: string | null;
-  id?: number;
-  is_certified?: unknown;
+  extra?: string | null | undefined;
+  id?: number | undefined;
+  is_certified?: unknown | undefined;
   metric_name: string;
-  metric_type?: string | null;
-  uuid?: string | null;
-  verbose_name?: string | null;
-  warning_markdown?: unknown;
-  warning_text?: string | null;
+  metric_type?: string | null | undefined;
+  uuid?: string | null | undefined;
+  verbose_name?: string | null | undefined;
+  warning_markdown?: unknown | undefined;
+  warning_text?: string | null | undefined;
 }
 export type DatasetRestApiGetMetricsList = Array<DatasetRestApiGetSqlMetric>;
 export interface DatasetRestApiGet {
-  always_filter_main_dttm?: boolean | null;
-  cache_timeout?: unknown;
-  catalog?: string | null;
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on?: string | null;
-  changed_on_humanized?: unknown;
-  column_formats?: unknown;
+  always_filter_main_dttm?: boolean | null | undefined;
+  cache_timeout?: unknown | undefined;
+  catalog?: string | null | undefined;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on?: string | null | undefined;
+  changed_on_humanized?: unknown | undefined;
+  column_formats?: unknown | undefined;
   columns: DatasetRestApiGetColumnsList;
-  created_by?: AnnotationLayerRestApiGetListUser1;
-  created_on?: string | null;
-  created_on_humanized?: unknown;
-  currency_code_column?: string | null;
+  created_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  created_on?: string | null | undefined;
+  created_on_humanized?: unknown | undefined;
+  currency_code_column?: string | null | undefined;
   database: DatasetRestApiGetDatabase;
-  datasource_name?: unknown;
-  datasource_type?: unknown;
-  default_endpoint?: string | null;
-  description?: string | null;
-  editors?: DatasetRestApiGetEditorsList;
-  extra?: string | null;
-  fetch_values_predicate?: string | null;
-  filter_select_enabled?: boolean | null;
-  folders?: unknown | null;
-  granularity_sqla?: unknown;
-  id?: number;
-  is_managed_externally?: boolean;
-  is_sqllab_view?: boolean | null;
-  kind?: unknown;
-  main_dttm_col?: string | null;
+  datasource_name?: unknown | undefined;
+  datasource_type?: unknown | undefined;
+  default_endpoint?: string | null | undefined;
+  description?: string | null | undefined;
+  editors?: DatasetRestApiGetEditorsList | undefined;
+  extra?: string | null | undefined;
+  fetch_values_predicate?: string | null | undefined;
+  filter_select_enabled?: boolean | null | undefined;
+  folders?: unknown | null | undefined;
+  granularity_sqla?: unknown | undefined;
+  id?: number | undefined;
+  is_managed_externally?: boolean | undefined;
+  is_sqllab_view?: boolean | null | undefined;
+  kind?: unknown | undefined;
+  main_dttm_col?: string | null | undefined;
   metrics: DatasetRestApiGetMetricsList;
-  name?: unknown;
-  normalize_columns?: boolean | null;
-  offset?: number | null;
-  order_by_choices?: unknown;
-  partition_column?: string | null;
-  partition_filter_mapping?: unknown;
-  partition_mapped_column?: string | null;
-  partition_value_transform_default?: unknown;
-  schema?: string | null;
-  select_star?: unknown;
-  sql?: string | null;
+  name?: unknown | undefined;
+  normalize_columns?: boolean | null | undefined;
+  offset?: number | null | undefined;
+  order_by_choices?: unknown | undefined;
+  partition_column?: string | null | undefined;
+  partition_filter_mapping?: unknown | undefined;
+  partition_mapped_column?: string | null | undefined;
+  partition_value_transform_default?: unknown | undefined;
+  schema?: string | null | undefined;
+  select_star?: unknown | undefined;
+  sql?: string | null | undefined;
   table_name: string;
-  template_params?: string | null;
-  time_grain_sqla?: unknown;
-  uid?: unknown;
-  url?: unknown;
-  uuid?: string | null;
-  verbose_map?: unknown;
+  template_params?: string | null | undefined;
+  time_grain_sqla?: unknown | undefined;
+  uid?: unknown | undefined;
+  url?: unknown | undefined;
+  uuid?: string | null | undefined;
+  verbose_map?: unknown | undefined;
 }
 export interface GetDatasetByIdOrUuidResponse {
   /** The item id */
-  id?: string;
-  result?: DatasetRestApiGet;
+  id?: string | undefined;
+  result?: DatasetRestApiGet | undefined;
 }
 export interface GetDatasetDistinctRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface DistinctResultResponse {
   /** The distinct item */
-  text?: string;
+  text?: string | undefined;
 }
 export type DistincResponseSchemaResultList = Array<DistinctResultResponse>;
 export interface DistincResponseSchema {
   /** The total number of distinct values */
-  count?: number;
-  result?: DistincResponseSchemaResultList;
+  count?: number | undefined;
+  result?: DistincResponseSchemaResultList | undefined;
 }
 export interface GetDatasetDrillInfoRequest {
   /** The dataset ID */
   pk: number;
 }
 export interface GetDatasetDrillInfoResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface GetDatasetExportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetDatasetExportResponse {}
 export interface GetDatasetOrCreateRequest {
-  always_filter_main_dttm?: boolean;
+  always_filter_main_dttm?: boolean | undefined;
   /** The catalog the table belongs to */
-  catalog?: string | null;
+  catalog?: string | null | undefined;
   /** ID of database table belongs to */
   database_id: number;
-  normalize_columns?: boolean;
+  normalize_columns?: boolean | undefined;
   /** The schema the table belongs to */
-  schema?: string | null;
+  schema?: string | null | undefined;
   /** Name of table */
   table_name: string;
   /** Template params for the table */
-  template_params?: string;
+  template_params?: string | undefined;
 }
 export interface GetDatasetOrCreateResponseResult {
-  table_id?: number;
+  table_id?: number | undefined;
 }
 export interface GetDatasetOrCreateResponse {
-  result?: GetDatasetOrCreateResponseResult;
+  result?: GetDatasetOrCreateResponseResult | undefined;
 }
 export interface GetDatasetPurgeImpactRequest {
   uuid: string;
@@ -4251,36 +4257,36 @@ export interface DatasetPurgeImpactSchema {
 }
 export interface GetDatasetRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetDatasetRelatedObjectsRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type DatasetRelatedChart = DatabaseRelatedChart;
 /** A list of dashboards */
 export type DatasetRelatedChartsResultList = Array<DatabaseRelatedChart>;
 export interface DatasetRelatedCharts {
   /** Chart count */
-  count?: number;
+  count?: number | undefined;
   /** Charts the current user cannot access */
-  restricted_count?: number;
+  restricted_count?: number | undefined;
   /** A list of dashboards */
-  result?: DatasetRelatedChartsResultList;
+  result?: DatasetRelatedChartsResultList | undefined;
 }
 export type DatasetRelatedDashboard = DatabaseRelatedDashboard;
 /** A list of dashboards */
 export type DatasetRelatedDashboardsResultList = Array<DatabaseRelatedDashboard>;
 export interface DatasetRelatedDashboards {
   /** Dashboard count */
-  count?: number;
+  count?: number | undefined;
   /** Dashboards the current user cannot access */
-  restricted_count?: number;
+  restricted_count?: number | undefined;
   /** A list of dashboards */
-  result?: DatasetRelatedDashboardsResultList;
+  result?: DatasetRelatedDashboardsResultList | undefined;
 }
 export interface DatasetRelatedObjectsResponse {
-  charts?: DatasetRelatedCharts;
-  dashboards?: DatasetRelatedDashboards;
+  charts?: DatasetRelatedCharts | undefined;
+  dashboards?: DatasetRelatedDashboards | undefined;
 }
 export interface GetDatasetRelatedObjectsRequest2 {
   id_or_uuid: string;
@@ -4295,10 +4301,10 @@ export interface GetDatasetVersionRequest {
 export type GetDatasetVersionResponseResult = GetChartVersionResponseResult;
 export interface GetDatasetVersionResponse {
   /** The dataset's scalar fields at the target version (entity-specific keys), plus `columns` / `metrics` as they were at that version, plus a `_version` block with the version-level metadata. */
-  result?: GetChartVersionResponseResult;
+  result?: GetChartVersionResponseResult | undefined;
 }
 export interface GetDatasourceRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetDatasourceResponse {}
 export interface GetDatasourceByDatasourceIdRequest {
@@ -4306,31 +4312,31 @@ export interface GetDatasourceByDatasourceIdRequest {
   datasource_id: number;
 }
 export interface GetDatasourceByDatasourceIdResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface GetEmbeddedDashboardRequest {
   /** The embedded configuration uuid */
   uuid: string;
   /** The ui config of embedded dashboard (optional). */
-  uiConfig?: number;
+  uiConfig?: number | undefined;
   /** Show filters (optional). */
-  show_filters?: boolean;
+  show_filters?: boolean | undefined;
   /** Expand filters (optional). */
-  expand_filters?: boolean;
+  expand_filters?: boolean | undefined;
   /** Native filters key to apply filters. (optional). */
-  native_filters_key?: string;
+  native_filters_key?: string | undefined;
   /** Permalink key to apply filters. (optional). */
-  permalink_key?: string;
+  permalink_key?: string | undefined;
 }
 export interface GetEmbeddedDashboardResponse {
-  result?: EmbeddedDashboardResponseSchema;
+  result?: EmbeddedDashboardResponseSchema | undefined;
 }
 export interface GetExploreRequest {
-  form_data_key?: string;
-  permalink_key?: string;
-  slice_id?: number;
-  datasource_id?: number;
-  datasource_type?: string;
+  form_data_key?: string | undefined;
+  permalink_key?: string | undefined;
+  slice_id?: number | undefined;
+  datasource_id?: number | undefined;
+  datasource_type?: string | undefined;
 }
 /** Columns metadata. */
 export type DatasetColumnsList = Array<unknown>;
@@ -4346,27 +4352,27 @@ export type DatasetOrderByChoicesItemList = Array<string>;
 export type DatasetOrderByChoicesList = Array<DatasetOrderByChoicesItemList>;
 export interface RlsRole {
   /** Role ID. */
-  id?: number;
+  id?: number | undefined;
   /** Role name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Roles associated with the RLS filter. */
 export type RlsFilterRolesList = Array<RlsRole>;
 export interface RlsFilter {
   /** RLS filter clause. */
-  clause?: string | null;
+  clause?: string | null | undefined;
   /** RLS filter type. */
-  filter_type?: string | null;
+  filter_type?: string | null | undefined;
   /** RLS filter group key. */
-  group_key?: string | null;
+  group_key?: string | null | undefined;
   /** RLS filter ID. */
-  id?: number;
+  id?: number | undefined;
   /** If the filter is inherited from underlying physical tables. */
-  inherited?: boolean;
+  inherited?: boolean | undefined;
   /** RLS filter name. */
-  name?: string;
+  name?: string | undefined;
   /** Roles associated with the RLS filter. */
-  roles?: RlsFilterRolesList;
+  roles?: RlsFilterRolesList | undefined;
 }
 /** Row-level security filters applied to this dataset. */
 export type DatasetRlsFiltersList = Array<RlsFilter>;
@@ -4375,136 +4381,136 @@ export type DatasetTimeGrainSqlaItemList = Array<string>;
 export type DatasetTimeGrainSqlaList = Array<DatasetTimeGrainSqlaItemList>;
 export interface Dataset {
   /** Duration (in seconds) of the caching timeout for this dataset. */
-  cache_timeout?: number;
+  cache_timeout?: number | undefined;
   /** Column formats. */
-  column_formats?: unknown;
+  column_formats?: unknown | undefined;
   /** Columns metadata. */
-  columns?: DatasetColumnsList;
+  columns?: DatasetColumnsList | undefined;
   /** Database associated with the dataset. */
-  database?: unknown;
+  database?: unknown | undefined;
   /** Dataset name. */
-  datasource_name?: string;
+  datasource_name?: string | undefined;
   /** Default endpoint for the dataset. */
-  default_endpoint?: string;
+  default_endpoint?: string | undefined;
   /** Dataset description. */
-  description?: string;
+  description?: string | undefined;
   /** The URL for editing the dataset. */
-  edit_url?: string;
+  edit_url?: string | undefined;
   /** List of editors */
-  editors?: DatasetEditorsList;
+  editors?: DatasetEditorsList | undefined;
   /** JSON string containing extra configuration elements. */
-  extra?: unknown;
+  extra?: unknown | undefined;
   /** Predicate used when fetching values from the dataset. */
-  fetch_values_predicate?: string;
+  fetch_values_predicate?: string | undefined;
   /** SELECT filter applied to the dataset. */
-  filter_select?: boolean;
+  filter_select?: boolean | undefined;
   /** If the SELECT filter is enabled. */
-  filter_select_enabled?: boolean;
+  filter_select_enabled?: boolean | undefined;
   /** Name of temporal column used for time filtering for SQL datasources. This field is deprecated, use `granularity` instead. */
-  granularity_sqla?: DatasetGranularitySqlaList;
+  granularity_sqla?: DatasetGranularitySqlaList | undefined;
   /** Health check message. */
-  health_check_message?: string;
+  health_check_message?: string | undefined;
   /** Dataset ID. */
-  id?: number;
+  id?: number | undefined;
   /** If the dataset is a SQL Lab view. */
-  is_sqllab_view?: boolean;
+  is_sqllab_view?: boolean | undefined;
   /** The main temporal column. */
-  main_dttm_col?: string;
+  main_dttm_col?: string | undefined;
   /** Dataset metrics. */
-  metrics?: DatasetMetricsList;
+  metrics?: DatasetMetricsList | undefined;
   /** Dataset name. */
-  name?: string;
+  name?: string | undefined;
   /** Dataset offset. */
-  offset?: number;
+  offset?: number | undefined;
   /** List of order by columns. */
-  order_by_choices?: DatasetOrderByChoicesList;
+  order_by_choices?: DatasetOrderByChoicesList | undefined;
   /** Extra params for the dataset. */
-  params?: unknown;
+  params?: unknown | undefined;
   /** Permission expression. */
-  perm?: string;
+  perm?: string | undefined;
   /** Row-level security filters applied to this dataset. */
-  rls_filters?: DatasetRlsFiltersList;
+  rls_filters?: DatasetRlsFiltersList | undefined;
   /** Dataset schema. */
-  schema?: string;
+  schema?: string | undefined;
   /** Select all clause. */
-  select_star?: string;
+  select_star?: string | undefined;
   /** A SQL statement that defines the dataset. */
-  sql?: string;
+  sql?: string | undefined;
   /** The name of the table associated with the dataset. */
-  table_name?: string;
+  table_name?: string | undefined;
   /** Table template params. */
-  template_params?: unknown;
+  template_params?: unknown | undefined;
   /** List of temporal granularities supported by the dataset. */
-  time_grain_sqla?: DatasetTimeGrainSqlaList;
+  time_grain_sqla?: DatasetTimeGrainSqlaList | undefined;
   /** Dataset type. */
-  type?: string;
+  type?: string | undefined;
   /** Dataset unique identifier. */
-  uid?: string;
+  uid?: string | undefined;
   /** Mapping from raw name to verbose name. */
-  verbose_map?: unknown;
+  verbose_map?: unknown | undefined;
 }
 /** List of editors */
 export type SliceEditorsList = Array<SubjectResponse>;
 export interface Slice {
   /** Duration (in seconds) of the caching timeout for this chart. */
-  cache_timeout?: number;
+  cache_timeout?: number | undefined;
   /** Details of the certification. */
-  certification_details?: string;
+  certification_details?: string | undefined;
   /** Person or group that has certified this dashboard. */
-  certified_by?: string;
+  certified_by?: string | undefined;
   /** Timestamp of the last modification. */
-  changed_on?: string;
+  changed_on?: string | undefined;
   /** Timestamp of the last modification in human readable form. */
-  changed_on_humanized?: string;
+  changed_on_humanized?: string | undefined;
   /** Datasource identifier. */
-  datasource?: string;
+  datasource?: string | undefined;
   /** Slice description. */
-  description?: string;
+  description?: string | undefined;
   /** Sanitized HTML version of the chart description. */
-  description_markeddown?: string;
+  description_markeddown?: string | undefined;
   /** The URL for editing the slice. */
-  edit_url?: string;
+  edit_url?: string | undefined;
   /** List of editors */
-  editors?: SliceEditorsList;
+  editors?: SliceEditorsList | undefined;
   /** Form data associated with the slice. */
-  form_data?: unknown;
+  form_data?: unknown | undefined;
   /** If the chart is managed outside externally. */
-  is_managed_externally?: boolean;
+  is_managed_externally?: boolean | undefined;
   /** Last modification in human readable form. */
-  modified?: string;
+  modified?: string | undefined;
   /** The context associated with the query. */
-  query_context?: unknown;
+  query_context?: unknown | undefined;
   /** The slice ID. */
-  slice_id?: number;
+  slice_id?: number | undefined;
   /** The slice name. */
-  slice_name?: string;
+  slice_name?: string | undefined;
   /** The slice URL. */
-  slice_url?: string;
+  slice_url?: string | undefined;
 }
 export interface ExploreContextSchema {
-  dataset?: Dataset;
+  dataset?: Dataset | undefined;
   /** Form data from the Explore controls used to form the chart's data query. */
-  form_data?: unknown;
+  form_data?: unknown | undefined;
   /** Any message related to the processed request. */
-  message?: string;
-  slice?: Slice;
+  message?: string | undefined;
+  slice?: Slice | undefined;
 }
 export interface GetExploreFormDataRequest {
   key: string;
 }
 export interface GetExploreFormDataResponse {
   /** The stored form_data */
-  form_data?: string;
+  form_data?: string | undefined;
 }
 export interface GetExplorePermalinkRequest {
   key: string;
 }
 export interface GetExplorePermalinkResponse {
   /** The stored state */
-  state?: unknown;
+  state?: unknown | undefined;
 }
 export interface GetLogRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetLogResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -4520,37 +4526,37 @@ export interface LogRestApiGetListUser {
   username: string;
 }
 export interface LogRestApiGetList {
-  action?: string | null;
-  dashboard_id?: number | null;
-  dttm?: string | null;
-  duration_ms?: number | null;
-  json?: string | null;
-  referrer?: string | null;
-  slice_id?: number | null;
-  user?: LogRestApiGetListUser;
-  user_id?: unknown | null;
+  action?: string | null | undefined;
+  dashboard_id?: number | null | undefined;
+  dttm?: string | null | undefined;
+  duration_ms?: number | null | undefined;
+  json?: string | null | undefined;
+  referrer?: string | null | undefined;
+  slice_id?: number | null | undefined;
+  user?: LogRestApiGetListUser | undefined;
+  user_id?: unknown | null | undefined;
 }
 /** The result from the get list query */
 export type GetLogResponseResultList = Array<LogRestApiGetList>;
 export interface GetLogResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetLogResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetLogResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetLogResponseListColumnsList;
+  list_columns?: GetLogResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetLogResponseOrderColumnsList;
+  order_columns?: GetLogResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetLogResponseResultList;
+  result?: GetLogResponseResultList | undefined;
 }
 export interface GetLogByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetLogByPkResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 export type GetLogByPkResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
@@ -4559,42 +4565,42 @@ export type LogRestApiGet = LogRestApiGetList;
 /** A list of columns */
 export type GetLogByPkResponseShowColumnsList = Array<string>;
 export interface GetLogByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: LogRestApiGetList;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: LogRestApiGetList | undefined;
   /** A list of columns */
-  show_columns?: GetLogByPkResponseShowColumnsList;
+  show_columns?: GetLogByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetMeRequest {}
 export interface UserGroup {
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export type UserResponseSchemaGroupsList = Array<UserGroup>;
 export interface UserResponseSchema {
-  email?: string;
-  first_name?: string;
-  groups?: UserResponseSchemaGroupsList;
-  id?: number;
-  is_active?: boolean;
-  is_anonymous?: boolean;
-  last_name?: string;
-  login_count?: number;
-  username?: string;
+  email?: string | undefined;
+  first_name?: string | undefined;
+  groups?: UserResponseSchemaGroupsList | undefined;
+  id?: number | undefined;
+  is_active?: boolean | undefined;
+  is_anonymous?: boolean | undefined;
+  last_name?: string | undefined;
+  login_count?: number | undefined;
+  username?: string | undefined;
 }
 export interface GetMeResponse {
-  result?: UserResponseSchema;
+  result?: UserResponseSchema | undefined;
 }
 export interface GetMeRolesRequest {}
 export interface GetMeRolesResponse {
-  result?: UserResponseSchema;
+  result?: UserResponseSchema | undefined;
 }
 export interface GetQueryRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetQueryResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -4605,101 +4611,101 @@ export type GetQueryResponseListColumnsList = Array<string>;
 /** A list of allowed columns to sort */
 export type GetQueryResponseOrderColumnsList = Array<string>;
 export interface Database1 {
-  database_name?: string;
+  database_name?: string | undefined;
 }
 export interface QueryRestApiGetList {
-  changed_on?: string;
-  database?: Database1;
-  end_time?: number;
-  executed_sql?: string;
-  id?: number;
-  rows?: number;
-  schema?: string;
-  sql?: string;
-  sql_tables?: unknown;
-  start_running_time?: number;
-  start_time?: number;
-  status?: string;
-  tab_name?: string;
-  tmp_table_name?: string;
-  tracking_url?: string;
-  user?: VersionChangedBy;
+  changed_on?: string | undefined;
+  database?: Database1 | undefined;
+  end_time?: number | undefined;
+  executed_sql?: string | undefined;
+  id?: number | undefined;
+  rows?: number | undefined;
+  schema?: string | undefined;
+  sql?: string | undefined;
+  sql_tables?: unknown | undefined;
+  start_running_time?: number | undefined;
+  start_time?: number | undefined;
+  status?: string | undefined;
+  tab_name?: string | undefined;
+  tmp_table_name?: string | undefined;
+  tracking_url?: string | undefined;
+  user?: VersionChangedBy | undefined;
 }
 /** The result from the get list query */
 export type GetQueryResponseResultList = Array<QueryRestApiGetList>;
 export interface GetQueryResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetQueryResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetQueryResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetQueryResponseListColumnsList;
+  list_columns?: GetQueryResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetQueryResponseOrderColumnsList;
+  order_columns?: GetQueryResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetQueryResponseResultList;
+  result?: GetQueryResponseResultList | undefined;
 }
 export interface GetQueryByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetQueryByPkResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 export type GetQueryByPkResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
 export type QueryRestApiGetDatabase = LogRestApiPost;
 export interface QueryRestApiGet {
-  changed_on?: string | null;
+  changed_on?: string | null | undefined;
   client_id: string;
   database: LogRestApiPost;
-  end_result_backend_time?: number | null;
-  end_time?: number | null;
-  error_message?: string | null;
-  executed_sql?: string | null;
-  id?: number;
-  limit?: number | null;
-  progress?: number | null;
-  results_key?: string | null;
-  rows?: number | null;
-  schema?: string | null;
-  select_as_cta?: boolean | null;
-  select_as_cta_used?: boolean | null;
-  select_sql?: string | null;
-  sql?: string | null;
-  sql_editor_id?: string | null;
-  start_running_time?: number | null;
-  start_time?: number | null;
-  status?: string | null;
-  tab_name?: string | null;
-  tmp_schema_name?: string | null;
-  tmp_table_name?: string | null;
-  tracking_url?: unknown;
+  end_result_backend_time?: number | null | undefined;
+  end_time?: number | null | undefined;
+  error_message?: string | null | undefined;
+  executed_sql?: string | null | undefined;
+  id?: number | undefined;
+  limit?: number | null | undefined;
+  progress?: number | null | undefined;
+  results_key?: string | null | undefined;
+  rows?: number | null | undefined;
+  schema?: string | null | undefined;
+  select_as_cta?: boolean | null | undefined;
+  select_as_cta_used?: boolean | null | undefined;
+  select_sql?: string | null | undefined;
+  sql?: string | null | undefined;
+  sql_editor_id?: string | null | undefined;
+  start_running_time?: number | null | undefined;
+  start_time?: number | null | undefined;
+  status?: string | null | undefined;
+  tab_name?: string | null | undefined;
+  tmp_schema_name?: string | null | undefined;
+  tmp_table_name?: string | null | undefined;
+  tracking_url?: unknown | undefined;
 }
 /** A list of columns */
 export type GetQueryByPkResponseShowColumnsList = Array<string>;
 export interface GetQueryByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: QueryRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: QueryRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetQueryByPkResponseShowColumnsList;
+  show_columns?: GetQueryByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetQueryDistinctRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetQueryRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetReportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetReportResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -4714,85 +4720,85 @@ export type ReportScheduleRestApiGetListUser1 = AnnotationLayerRestApiGetListUse
 export type ReportScheduleRestApiGetListSubject = DatasetRestApiGetListSubject;
 export type ReportScheduleRestApiGetListEditorsList = Array<DatasetRestApiGetListSubject>;
 export interface ReportScheduleRestApiGetListReportRecipients {
-  id?: number;
+  id?: number | undefined;
   type: string;
 }
 export type ReportScheduleRestApiGetListRecipientsList =
   Array<ReportScheduleRestApiGetListReportRecipients>;
 export type ReportScheduleRestApiGetListUser2 = LogRestApiPost;
 export interface ReportScheduleRestApiGetList {
-  active?: boolean | null;
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on?: string | null;
-  changed_on_delta_humanized?: unknown;
-  chart_id?: unknown | null;
-  created_by?: AnnotationLayerRestApiGetListUser1;
-  created_on?: string | null;
-  creation_method?: string | null;
+  active?: boolean | null | undefined;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on?: string | null | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  chart_id?: unknown | null | undefined;
+  created_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  created_on?: string | null | undefined;
+  creation_method?: string | null | undefined;
   crontab: string;
-  crontab_humanized?: unknown;
-  dashboard_id?: unknown | null;
-  description?: string | null;
-  editors?: ReportScheduleRestApiGetListEditorsList;
-  extra?: unknown;
-  id?: number;
-  last_eval_dttm?: string | null;
-  last_state?: string | null;
+  crontab_humanized?: unknown | undefined;
+  dashboard_id?: unknown | null | undefined;
+  description?: string | null | undefined;
+  editors?: ReportScheduleRestApiGetListEditorsList | undefined;
+  extra?: unknown | undefined;
+  id?: number | undefined;
+  last_eval_dttm?: string | null | undefined;
+  last_state?: string | null | undefined;
   name: string;
   recipients: ReportScheduleRestApiGetListRecipientsList;
-  report_format?: string | null;
-  retry_max_attempts?: number;
-  retry_notify_owners?: boolean;
-  retry_notify_recipients?: boolean;
-  retry_on_failure?: boolean;
-  run_as?: LogRestApiPost;
-  run_as_type?: string | null;
-  send_failed_reports?: boolean;
-  timezone?: string;
+  report_format?: string | null | undefined;
+  retry_max_attempts?: number | undefined;
+  retry_notify_owners?: boolean | undefined;
+  retry_notify_recipients?: boolean | undefined;
+  retry_on_failure?: boolean | undefined;
+  run_as?: LogRestApiPost | undefined;
+  run_as_type?: string | null | undefined;
+  send_failed_reports?: boolean | undefined;
+  timezone?: string | undefined;
   type: string;
 }
 /** The result from the get list query */
 export type GetReportResponseResultList = Array<ReportScheduleRestApiGetList>;
 export interface GetReportResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetReportResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetReportResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetReportResponseListColumnsList;
+  list_columns?: GetReportResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetReportResponseOrderColumnsList;
+  order_columns?: GetReportResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetReportResponseResultList;
+  result?: GetReportResponseResultList | undefined;
 }
 export interface GetReportByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetReportByPkResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 export type GetReportByPkResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
 export interface ReportScheduleRestApiGetSlice {
-  id?: number;
-  slice_name?: string | null;
-  viz_type?: string | null;
+  id?: number | undefined;
+  slice_name?: string | null | undefined;
+  viz_type?: string | null | undefined;
 }
 export interface ReportScheduleRestApiGetDashboard {
-  dashboard_title?: string | null;
-  id?: number;
+  dashboard_title?: string | null | undefined;
+  id?: number | undefined;
 }
 export interface ReportScheduleRestApiGetDatabase {
   database_name: string;
-  id?: number;
+  id?: number | undefined;
 }
 export type ReportScheduleRestApiGetSubject = DatasetRestApiGetListSubject;
 export type ReportScheduleRestApiGetEditorsList = Array<DatasetRestApiGetListSubject>;
 export interface ReportScheduleRestApiGetReportRecipients {
-  id?: number;
-  recipient_config_json?: string | null;
+  id?: number | undefined;
+  recipient_config_json?: string | null | undefined;
   type: string;
 }
 export type ReportScheduleRestApiGetRecipientsList =
@@ -4800,108 +4806,108 @@ export type ReportScheduleRestApiGetRecipientsList =
 export type ReportScheduleRestApiGetUser = CssTemplateRestApiGetListUser;
 export type ReportScheduleRestApiGetUser1 = CssTemplateRestApiGetListUser;
 export interface ReportScheduleRestApiGet {
-  active?: boolean | null;
-  chart?: ReportScheduleRestApiGetSlice;
-  context_markdown?: string | null;
-  creation_method?: string | null;
+  active?: boolean | null | undefined;
+  chart?: ReportScheduleRestApiGetSlice | undefined;
+  context_markdown?: string | null | undefined;
+  creation_method?: string | null | undefined;
   crontab: string;
-  custom_width?: number | null;
-  dashboard?: ReportScheduleRestApiGetDashboard;
-  database?: ReportScheduleRestApiGetDatabase;
-  description?: string | null;
-  editors?: ReportScheduleRestApiGetEditorsList;
-  email_subject?: string | null;
-  extra?: unknown;
-  force_screenshot?: boolean | null;
-  grace_period?: number | null;
-  id?: number;
-  include_cta?: boolean | null;
-  last_eval_dttm?: string | null;
-  last_state?: string | null;
-  last_value?: number | null;
-  last_value_row_json?: string | null;
-  log_retention?: number | null;
+  custom_width?: number | null | undefined;
+  dashboard?: ReportScheduleRestApiGetDashboard | undefined;
+  database?: ReportScheduleRestApiGetDatabase | undefined;
+  description?: string | null | undefined;
+  editors?: ReportScheduleRestApiGetEditorsList | undefined;
+  email_subject?: string | null | undefined;
+  extra?: unknown | undefined;
+  force_screenshot?: boolean | null | undefined;
+  grace_period?: number | null | undefined;
+  id?: number | undefined;
+  include_cta?: boolean | null | undefined;
+  last_eval_dttm?: string | null | undefined;
+  last_state?: string | null | undefined;
+  last_value?: number | null | undefined;
+  last_value_row_json?: string | null | undefined;
+  log_retention?: number | null | undefined;
   name: string;
   recipients: ReportScheduleRestApiGetRecipientsList;
-  report_format?: string | null;
-  retry_max_attempts?: number;
-  retry_notify_owners?: boolean;
-  retry_notify_recipients?: boolean;
-  retry_on_failure?: boolean;
-  run_alert_query_as?: CssTemplateRestApiGetListUser;
-  run_alert_query_as_type?: string | null;
-  run_as?: CssTemplateRestApiGetListUser;
-  run_as_type?: string | null;
-  send_failed_reports?: boolean;
-  sql?: string | null;
-  timezone?: string;
+  report_format?: string | null | undefined;
+  retry_max_attempts?: number | undefined;
+  retry_notify_owners?: boolean | undefined;
+  retry_notify_recipients?: boolean | undefined;
+  retry_on_failure?: boolean | undefined;
+  run_alert_query_as?: CssTemplateRestApiGetListUser | undefined;
+  run_alert_query_as_type?: string | null | undefined;
+  run_as?: CssTemplateRestApiGetListUser | undefined;
+  run_as_type?: string | null | undefined;
+  send_failed_reports?: boolean | undefined;
+  sql?: string | null | undefined;
+  timezone?: string | undefined;
   type: string;
-  validator_config_json?: string | null;
-  validator_type?: string | null;
-  working_timeout?: number | null;
+  validator_config_json?: string | null | undefined;
+  validator_type?: string | null | undefined;
+  working_timeout?: number | null | undefined;
 }
 /** A list of columns */
 export type GetReportByPkResponseShowColumnsList = Array<string>;
 export interface GetReportByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: ReportScheduleRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: ReportScheduleRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetReportByPkResponseShowColumnsList;
+  show_columns?: GetReportByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetReportConfigurationRequest {}
 /** E-mail domains accepted as recipients. An empty list allows any domain. */
 export type ReportConfigurationSchemaAllowedEmailDomainsList = Array<string>;
 export interface ReportConfigurationSchema {
   /** Minimum interval between alert executions, in seconds. Values below 120 do not restrict schedules. Falls back to ALERT_MINIMUM_INTERVAL only before this setting has been saved. */
-  alert_minimum_interval?: number | null;
+  alert_minimum_interval?: number | null | undefined;
   /** Whether alerts deliver their attachment (screenshot, PDF, CSV or XLSX). When disabled, alerts only send the message and link. Falls back to the FF until a row has first been saved. */
-  alerts_attach_reports?: boolean | null;
+  alerts_attach_reports?: boolean | null | undefined;
   /** E-mail domains accepted as recipients. An empty list allows any domain. */
-  allowed_email_domains?: ReportConfigurationSchemaAllowedEmailDomainsList | null;
+  allowed_email_domains?: ReportConfigurationSchemaAllowedEmailDomainsList | null | undefined;
   /** Render strftime date placeholders in email subjects. Falls back to the DATE_FORMAT_IN_EMAIL_SUBJECT FF until first saved. */
-  date_format_in_email_subject?: boolean | null;
+  date_format_in_email_subject?: boolean | null | undefined;
   /** When enabled, only e-mail addresses of existing active users are accepted as recipients. */
-  limit_recipients_to_users?: boolean | null;
+  limit_recipients_to_users?: boolean | null | undefined;
   /** Minimum interval between report executions, in seconds. Values below 120 do not restrict schedules. Falls back to REPORT_MINIMUM_INTERVAL only before this setting has been saved. */
-  report_minimum_interval?: number | null;
+  report_minimum_interval?: number | null | undefined;
 }
 export interface GetReportConfigurationResponse {
-  result?: ReportConfigurationSchema;
+  result?: ReportConfigurationSchema | undefined;
 }
 export interface GetReportLogRequest {
   /** The report schedule pk for log */
   pk: number;
   /** The log pk */
   log_id: number;
-  q?: string;
+  q?: string | undefined;
 }
 export interface ReportExecutionLogRestApiGet {
-  end_dttm?: string | null;
-  error_message?: string | null;
-  id?: number;
+  end_dttm?: string | null | undefined;
+  error_message?: string | null | undefined;
+  id?: number | undefined;
   scheduled_dttm: string;
-  start_dttm?: string | null;
+  start_dttm?: string | null | undefined;
   state: string;
-  uuid?: string | null;
-  value?: number | null;
-  value_row_json?: string | null;
+  uuid?: string | null | undefined;
+  value?: number | null | undefined;
+  value_row_json?: string | null | undefined;
 }
 export interface GetReportLogResponse {
   /** The log id */
-  id?: string;
-  result?: ReportExecutionLogRestApiGet;
+  id?: string | undefined;
+  result?: ReportExecutionLogRestApiGet | undefined;
 }
 export interface GetReportRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetRowlevelsecurityRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetRowlevelsecurityResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -4918,44 +4924,44 @@ export type RLSRestApiGetListSubjectsList = Array<SubjectResponse>;
 export type Tables = DatabaseRelatedDataset;
 export type RLSRestApiGetListTablesList = Array<DatabaseRelatedDataset>;
 export interface RLSRestApiGetList {
-  changed_by?: VersionChangedBy;
-  changed_on_delta_humanized?: unknown;
+  changed_by?: VersionChangedBy | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
   /** clause_description */
-  clause?: string;
+  clause?: string | undefined;
   /** description_description */
-  description?: string;
+  description?: string | undefined;
   /** filter_type_description */
-  filter_type?: RLSRestApiGetListFilterType;
+  filter_type?: RLSRestApiGetListFilterType | undefined;
   /** group_key_description */
-  group_key?: string;
+  group_key?: string | undefined;
   /** id_description */
-  id?: number;
+  id?: number | undefined;
   /** name_description */
-  name?: string;
-  subjects?: RLSRestApiGetListSubjectsList;
-  tables?: RLSRestApiGetListTablesList;
+  name?: string | undefined;
+  subjects?: RLSRestApiGetListSubjectsList | undefined;
+  tables?: RLSRestApiGetListTablesList | undefined;
 }
 /** The result from the get list query */
 export type GetRowlevelsecurityResponseResultList = Array<RLSRestApiGetList>;
 export interface GetRowlevelsecurityResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetRowlevelsecurityResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetRowlevelsecurityResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetRowlevelsecurityResponseListColumnsList;
+  list_columns?: GetRowlevelsecurityResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetRowlevelsecurityResponseOrderColumnsList;
+  order_columns?: GetRowlevelsecurityResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetRowlevelsecurityResponseResultList;
+  result?: GetRowlevelsecurityResponseResultList | undefined;
 }
 export interface GetRowlevelsecurityByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetRowlevelsecurityByPkResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -4966,39 +4972,39 @@ export type RLSRestApiGetSubjectsList = Array<SubjectResponse>;
 export type RLSRestApiGetTablesList = Array<DatabaseRelatedDataset>;
 export interface RLSRestApiGet {
   /** clause_description */
-  clause?: string;
+  clause?: string | undefined;
   /** description_description */
-  description?: string;
+  description?: string | undefined;
   /** filter_type_description */
-  filter_type?: RLSRestApiGetFilterType;
+  filter_type?: RLSRestApiGetFilterType | undefined;
   /** group_key_description */
-  group_key?: string;
+  group_key?: string | undefined;
   /** id_description */
-  id?: number;
+  id?: number | undefined;
   /** name_description */
-  name?: string;
-  subjects?: RLSRestApiGetSubjectsList;
-  tables?: RLSRestApiGetTablesList;
+  name?: string | undefined;
+  subjects?: RLSRestApiGetSubjectsList | undefined;
+  tables?: RLSRestApiGetTablesList | undefined;
 }
 /** A list of columns */
 export type GetRowlevelsecurityByPkResponseShowColumnsList = Array<string>;
 export interface GetRowlevelsecurityByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: RLSRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: RLSRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetRowlevelsecurityByPkResponseShowColumnsList;
+  show_columns?: GetRowlevelsecurityByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetRowlevelsecurityRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetSavedQueryRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSavedQueryResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -5013,52 +5019,52 @@ export type SavedQueryRestApiGetListUser1 = CssTemplateRestApiGetListUser;
 export type SavedQueryRestApiGetListDatabase = ReportScheduleRestApiGetDatabase;
 export type SavedQueryRestApiGetListTagType = 1 | 2 | 3 | 4;
 export interface SavedQueryRestApiGetListTag {
-  id?: number;
-  name?: string | null;
-  type?: SavedQueryRestApiGetListTagType;
+  id?: number | undefined;
+  name?: string | null | undefined;
+  type?: SavedQueryRestApiGetListTagType | undefined;
 }
 export type SavedQueryRestApiGetListTagsList = Array<SavedQueryRestApiGetListTag>;
 export interface SavedQueryRestApiGetList {
-  catalog?: string | null;
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_on?: string | null;
-  changed_on_delta_humanized?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  created_on?: string | null;
-  database?: ReportScheduleRestApiGetDatabase;
-  db_id?: unknown | null;
-  description?: string | null;
-  extra?: unknown;
-  id?: number;
-  label?: string | null;
-  last_run_delta_humanized?: unknown;
-  rows?: number | null;
-  schema?: string | null;
-  sql?: string | null;
-  sql_tables?: unknown;
-  tags?: SavedQueryRestApiGetListTagsList;
+  catalog?: string | null | undefined;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_on?: string | null | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  created_on?: string | null | undefined;
+  database?: ReportScheduleRestApiGetDatabase | undefined;
+  db_id?: unknown | null | undefined;
+  description?: string | null | undefined;
+  extra?: unknown | undefined;
+  id?: number | undefined;
+  label?: string | null | undefined;
+  last_run_delta_humanized?: unknown | undefined;
+  rows?: number | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
+  sql_tables?: unknown | undefined;
+  tags?: SavedQueryRestApiGetListTagsList | undefined;
 }
 /** The result from the get list query */
 export type GetSavedQueryResponseResultList = Array<SavedQueryRestApiGetList>;
 export interface GetSavedQueryResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSavedQueryResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSavedQueryResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSavedQueryResponseListColumnsList;
+  list_columns?: GetSavedQueryResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSavedQueryResponseOrderColumnsList;
+  order_columns?: GetSavedQueryResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSavedQueryResponseResultList;
+  result?: GetSavedQueryResponseResultList | undefined;
 }
 export interface GetSavedQueryByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSavedQueryByPkResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5067,89 +5073,89 @@ export type SavedQueryRestApiGetUser = CssTemplateRestApiGetListUser;
 export type SavedQueryRestApiGetUser1 = CssTemplateRestApiGetListUser;
 export type SavedQueryRestApiGetDatabase = ReportScheduleRestApiGetDatabase;
 export interface SavedQueryRestApiGet {
-  catalog?: string | null;
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_on?: string | null;
-  changed_on_delta_humanized?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  database?: ReportScheduleRestApiGetDatabase;
-  description?: string | null;
-  id?: number;
-  label?: string | null;
-  schema?: string | null;
-  sql?: string | null;
-  sql_tables?: unknown;
-  template_parameters?: string | null;
+  catalog?: string | null | undefined;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_on?: string | null | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  database?: ReportScheduleRestApiGetDatabase | undefined;
+  description?: string | null | undefined;
+  id?: number | undefined;
+  label?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
+  sql_tables?: unknown | undefined;
+  template_parameters?: string | null | undefined;
 }
 /** A list of columns */
 export type GetSavedQueryByPkResponseShowColumnsList = Array<string>;
 export interface GetSavedQueryByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SavedQueryRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SavedQueryRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetSavedQueryByPkResponseShowColumnsList;
+  show_columns?: GetSavedQueryByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSavedQueryDistinctRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetSavedQueryExportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetSavedQueryExportResponse {}
 export interface GetSavedQueryRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetSecurityCsrfTokenRequest {}
 export interface GetSecurityCsrfTokenResponse {
-  result?: string;
+  result?: string | undefined;
 }
 export interface GetSecurityGroupRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityGroupResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
 export type GetSecurityGroupResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
 export interface SupersetGroupApiGetRole {
-  id?: number;
+  id?: number | undefined;
   name: string;
 }
 export type SupersetGroupApiGetRolesList = Array<SupersetGroupApiGetRole>;
 export interface SupersetGroupApiGetUser {
-  id?: number;
+  id?: number | undefined;
   username: string;
 }
 export type SupersetGroupApiGetUsersList = Array<SupersetGroupApiGetUser>;
 export interface SupersetGroupApiGet {
-  description?: string | null;
-  id?: number;
-  label?: string | null;
+  description?: string | null | undefined;
+  id?: number | undefined;
+  label?: string | null | undefined;
   name: string;
-  roles?: SupersetGroupApiGetRolesList;
-  users?: SupersetGroupApiGetUsersList;
+  roles?: SupersetGroupApiGetRolesList | undefined;
+  users?: SupersetGroupApiGetUsersList | undefined;
 }
 /** A list of columns */
 export type GetSecurityGroupResponseShowColumnsList = Array<string>;
 export interface GetSecurityGroupResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SupersetGroupApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SupersetGroupApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetSecurityGroupResponseShowColumnsList;
+  show_columns?: GetSecurityGroupResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityGroupsRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityGroupsResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5165,33 +5171,33 @@ export type SupersetGroupApiGetListRolesList = Array<SupersetGroupApiGetRole>;
 export type SupersetGroupApiGetListUser = SupersetGroupApiGetUser;
 export type SupersetGroupApiGetListUsersList = Array<SupersetGroupApiGetUser>;
 export interface SupersetGroupApiGetList {
-  description?: string | null;
-  id?: number;
-  label?: string | null;
+  description?: string | null | undefined;
+  id?: number | undefined;
+  label?: string | null | undefined;
   name: string;
-  roles?: SupersetGroupApiGetListRolesList;
-  users?: SupersetGroupApiGetListUsersList;
+  roles?: SupersetGroupApiGetListRolesList | undefined;
+  users?: SupersetGroupApiGetListUsersList | undefined;
 }
 /** The result from the get list query */
 export type GetSecurityGroupsResponseResultList = Array<SupersetGroupApiGetList>;
 export interface GetSecurityGroupsResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecurityGroupsResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecurityGroupsResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecurityGroupsResponseListColumnsList;
+  list_columns?: GetSecurityGroupsResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecurityGroupsResponseOrderColumnsList;
+  order_columns?: GetSecurityGroupsResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecurityGroupsResponseResultList;
+  result?: GetSecurityGroupsResponseResultList | undefined;
 }
 export interface GetSecurityPermissionsRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityPermissionsResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5207,23 +5213,23 @@ export type PermissionApiGetList = SupersetGroupApiGetRole;
 export type GetSecurityPermissionsResponseResultList = Array<SupersetGroupApiGetRole>;
 export interface GetSecurityPermissionsResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecurityPermissionsResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecurityPermissionsResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecurityPermissionsResponseListColumnsList;
+  list_columns?: GetSecurityPermissionsResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecurityPermissionsResponseOrderColumnsList;
+  order_columns?: GetSecurityPermissionsResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecurityPermissionsResponseResultList;
+  result?: GetSecurityPermissionsResponseResultList | undefined;
 }
 export interface GetSecurityPermissionsByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityPermissionsByPkResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5232,19 +5238,19 @@ export type PermissionApiGet = SupersetGroupApiGetRole;
 /** A list of columns */
 export type GetSecurityPermissionsByPkResponseShowColumnsList = Array<string>;
 export interface GetSecurityPermissionsByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SupersetGroupApiGetRole;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SupersetGroupApiGetRole | undefined;
   /** A list of columns */
-  show_columns?: GetSecurityPermissionsByPkResponseShowColumnsList;
+  show_columns?: GetSecurityPermissionsByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityPermissionsResourceRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityPermissionsResourceResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5253,25 +5259,25 @@ export type GetSecurityPermissionsResourceResponseLabelColumns =
 export type SupersetPermissionViewMenuApiGetPermission = ViewMenuApiPost;
 export type SupersetPermissionViewMenuApiGetViewMenu = ViewMenuApiPost;
 export interface SupersetPermissionViewMenuApiGet {
-  id?: number;
+  id?: number | undefined;
   permission: ViewMenuApiPost;
   view_menu: ViewMenuApiPost;
 }
 /** A list of columns */
 export type GetSecurityPermissionsResourceResponseShowColumnsList = Array<string>;
 export interface GetSecurityPermissionsResourceResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SupersetPermissionViewMenuApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SupersetPermissionViewMenuApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetSecurityPermissionsResourceResponseShowColumnsList;
+  show_columns?: GetSecurityPermissionsResourceResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityPermissionsResourcesRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityPermissionsResourcesResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5291,23 +5297,23 @@ export type GetSecurityPermissionsResourcesResponseResultList =
   Array<SupersetPermissionViewMenuApiGet>;
 export interface GetSecurityPermissionsResourcesResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecurityPermissionsResourcesResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecurityPermissionsResourcesResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecurityPermissionsResourcesResponseListColumnsList;
+  list_columns?: GetSecurityPermissionsResourcesResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecurityPermissionsResourcesResponseOrderColumnsList;
+  order_columns?: GetSecurityPermissionsResourcesResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecurityPermissionsResourcesResponseResultList;
+  result?: GetSecurityPermissionsResourcesResponseResultList | undefined;
 }
 export interface GetSecurityResourceRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityResourceResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5316,18 +5322,18 @@ export type ViewMenuApiGet = SupersetGroupApiGetRole;
 /** A list of columns */
 export type GetSecurityResourceResponseShowColumnsList = Array<string>;
 export interface GetSecurityResourceResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SupersetGroupApiGetRole;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SupersetGroupApiGetRole | undefined;
   /** A list of columns */
-  show_columns?: GetSecurityResourceResponseShowColumnsList;
+  show_columns?: GetSecurityResourceResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityResourcesRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityResourcesResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5343,23 +5349,23 @@ export type ViewMenuApiGetList = SupersetGroupApiGetRole;
 export type GetSecurityResourcesResponseResultList = Array<SupersetGroupApiGetRole>;
 export interface GetSecurityResourcesResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecurityResourcesResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecurityResourcesResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecurityResourcesResponseListColumnsList;
+  list_columns?: GetSecurityResourcesResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecurityResourcesResponseOrderColumnsList;
+  order_columns?: GetSecurityResourcesResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecurityResourcesResponseResultList;
+  result?: GetSecurityResourcesResponseResultList | undefined;
 }
 export interface GetSecurityRoleRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityRoleResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5368,18 +5374,18 @@ export type SupersetRoleApiGet = SupersetGroupApiGetRole;
 /** A list of columns */
 export type GetSecurityRoleResponseShowColumnsList = Array<string>;
 export interface GetSecurityRoleResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SupersetGroupApiGetRole;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SupersetGroupApiGetRole | undefined;
   /** A list of columns */
-  show_columns?: GetSecurityRoleResponseShowColumnsList;
+  show_columns?: GetSecurityRoleResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityRolesRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityRolesResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5395,22 +5401,22 @@ export type SupersetRoleApiGetList = SupersetGroupApiGetRole;
 export type GetSecurityRolesResponseResultList = Array<SupersetGroupApiGetRole>;
 export interface GetSecurityRolesResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecurityRolesResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecurityRolesResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecurityRolesResponseListColumnsList;
+  list_columns?: GetSecurityRolesResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecurityRolesResponseOrderColumnsList;
+  order_columns?: GetSecurityRolesResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecurityRolesResponseResultList;
+  result?: GetSecurityRolesResponseResultList | undefined;
 }
 export interface GetSecuritySubjectRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecuritySubjectResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5423,97 +5429,97 @@ export type GetSecuritySubjectResponseListColumnsList = Array<string>;
 export type GetSecuritySubjectResponseOrderColumnsList = Array<string>;
 export type SubjectRestApiGetListUser = AnnotationLayerRestApiGetListUser1;
 export interface SubjectRestApiGetList {
-  active?: boolean | null;
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on?: string | null;
-  created_on?: string | null;
-  extra_search?: string | null;
-  group_id?: unknown | null;
-  id?: number;
-  img?: unknown;
+  active?: boolean | null | undefined;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on?: string | null | undefined;
+  created_on?: string | null | undefined;
+  extra_search?: string | null | undefined;
+  group_id?: unknown | null | undefined;
+  id?: number | undefined;
+  img?: unknown | undefined;
   label: string;
-  role_id?: unknown | null;
-  secondary_label?: string | null;
+  role_id?: unknown | null | undefined;
+  secondary_label?: string | null | undefined;
   type: number;
-  user_id?: unknown | null;
-  uuid?: string | null;
+  user_id?: unknown | null | undefined;
+  uuid?: string | null | undefined;
 }
 /** The result from the get list query */
 export type GetSecuritySubjectResponseResultList = Array<SubjectRestApiGetList>;
 export interface GetSecuritySubjectResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecuritySubjectResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecuritySubjectResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecuritySubjectResponseListColumnsList;
+  list_columns?: GetSecuritySubjectResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecuritySubjectResponseOrderColumnsList;
+  order_columns?: GetSecuritySubjectResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecuritySubjectResponseResultList;
+  result?: GetSecuritySubjectResponseResultList | undefined;
 }
 export interface GetSecuritySubjectByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecuritySubjectByPkResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
 export type GetSecuritySubjectByPkResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
 export type SubjectRestApiGetUser1 = AnnotationLayerRestApiGetListUser1;
 export interface SubjectRestApiGetGroup {
-  description?: string | null;
-  id?: number;
-  label?: string | null;
+  description?: string | null | undefined;
+  id?: number | undefined;
+  label?: string | null | undefined;
   name: string;
 }
 export type SubjectRestApiGetRole = SupersetGroupApiGetRole;
 export interface SubjectRestApiGetUser {
-  active?: boolean | null;
+  active?: boolean | null | undefined;
   email: string;
   first_name: string;
-  id?: number;
+  id?: number | undefined;
   last_name: string;
   username: string;
 }
 export interface SubjectRestApiGet {
-  active?: boolean | null;
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on?: string | null;
-  created_on?: string | null;
-  extra_search?: string | null;
-  group?: SubjectRestApiGetGroup;
-  group_id?: unknown | null;
-  id?: number;
-  img?: unknown;
+  active?: boolean | null | undefined;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on?: string | null | undefined;
+  created_on?: string | null | undefined;
+  extra_search?: string | null | undefined;
+  group?: SubjectRestApiGetGroup | undefined;
+  group_id?: unknown | null | undefined;
+  id?: number | undefined;
+  img?: unknown | undefined;
   label: string;
-  role?: SupersetGroupApiGetRole;
-  role_id?: unknown | null;
-  secondary_label?: string | null;
+  role?: SupersetGroupApiGetRole | undefined;
+  role_id?: unknown | null | undefined;
+  secondary_label?: string | null | undefined;
   type: number;
-  user?: SubjectRestApiGetUser;
-  user_id?: unknown | null;
-  uuid?: string | null;
+  user?: SubjectRestApiGetUser | undefined;
+  user_id?: unknown | null | undefined;
+  uuid?: string | null | undefined;
 }
 /** A list of columns */
 export type GetSecuritySubjectByPkResponseShowColumnsList = Array<string>;
 export interface GetSecuritySubjectByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SubjectRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SubjectRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetSecuritySubjectByPkResponseShowColumnsList;
+  show_columns?: GetSecuritySubjectByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityUserRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityUserResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5525,38 +5531,38 @@ export type SupersetUserApiGetGroupsList = Array<SubjectRestApiGetGroup>;
 export type SupersetUserApiGetRole = SupersetGroupApiGetRole;
 export type SupersetUserApiGetRolesList = Array<SupersetGroupApiGetRole>;
 export interface SupersetUserApiGet {
-  active?: boolean | null;
-  changed_by?: LogRestApiPost;
-  changed_on?: string | null;
-  created_by?: LogRestApiPost;
-  created_on?: string | null;
+  active?: boolean | null | undefined;
+  changed_by?: LogRestApiPost | undefined;
+  changed_on?: string | null | undefined;
+  created_by?: LogRestApiPost | undefined;
+  created_on?: string | null | undefined;
   email: string;
-  fail_login_count?: number | null;
+  fail_login_count?: number | null | undefined;
   first_name: string;
-  groups?: SupersetUserApiGetGroupsList;
-  id?: number;
-  last_login?: string | null;
+  groups?: SupersetUserApiGetGroupsList | undefined;
+  id?: number | undefined;
+  last_login?: string | null | undefined;
   last_name: string;
-  login_count?: number | null;
-  roles?: SupersetUserApiGetRolesList;
+  login_count?: number | null | undefined;
+  roles?: SupersetUserApiGetRolesList | undefined;
   username: string;
 }
 /** A list of columns */
 export type GetSecurityUserResponseShowColumnsList = Array<string>;
 export interface GetSecurityUserResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: SupersetUserApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: SupersetUserApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetSecurityUserResponseShowColumnsList;
+  show_columns?: GetSecurityUserResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityUserRegistrationRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityUserRegistrationResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5566,18 +5572,18 @@ export type UserRegistrationsRestAPIGet = LogRestApiPost;
 /** A list of columns */
 export type GetSecurityUserRegistrationResponseShowColumnsList = Array<string>;
 export interface GetSecurityUserRegistrationResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: LogRestApiPost;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: LogRestApiPost | undefined;
   /** A list of columns */
-  show_columns?: GetSecurityUserRegistrationResponseShowColumnsList;
+  show_columns?: GetSecurityUserRegistrationResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetSecurityUserRegistrationsRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityUserRegistrationsResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5592,31 +5598,31 @@ export type GetSecurityUserRegistrationsResponseOrderColumnsList = Array<string>
 export interface UserRegistrationsRestAPIGetList {
   email: string;
   first_name: string;
-  id?: number;
+  id?: number | undefined;
   last_name: string;
-  registration_date?: string | null;
+  registration_date?: string | null | undefined;
   username: string;
 }
 /** The result from the get list query */
 export type GetSecurityUserRegistrationsResponseResultList = Array<UserRegistrationsRestAPIGetList>;
 export interface GetSecurityUserRegistrationsResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecurityUserRegistrationsResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecurityUserRegistrationsResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecurityUserRegistrationsResponseListColumnsList;
+  list_columns?: GetSecurityUserRegistrationsResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecurityUserRegistrationsResponseOrderColumnsList;
+  order_columns?: GetSecurityUserRegistrationsResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecurityUserRegistrationsResponseResultList;
+  result?: GetSecurityUserRegistrationsResponseResultList | undefined;
 }
 export interface GetSecurityUsersRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetSecurityUsersResponseDescriptionColumns =
   GetAnnotationLayerResponseDescriptionColumns;
@@ -5634,39 +5640,39 @@ export type SupersetUserApiGetListGroupsList = Array<SubjectRestApiGetGroup>;
 export type SupersetUserApiGetListRole = SupersetGroupApiGetRole;
 export type SupersetUserApiGetListRolesList = Array<SupersetGroupApiGetRole>;
 export interface SupersetUserApiGetList {
-  active?: boolean | null;
-  changed_by?: LogRestApiPost;
-  changed_on?: string | null;
-  created_by?: LogRestApiPost;
-  created_on?: string | null;
+  active?: boolean | null | undefined;
+  changed_by?: LogRestApiPost | undefined;
+  changed_on?: string | null | undefined;
+  created_by?: LogRestApiPost | undefined;
+  created_on?: string | null | undefined;
   email: string;
-  fail_login_count?: number | null;
+  fail_login_count?: number | null | undefined;
   first_name: string;
-  groups?: SupersetUserApiGetListGroupsList;
-  id?: number;
-  last_login?: string | null;
+  groups?: SupersetUserApiGetListGroupsList | undefined;
+  id?: number | undefined;
+  last_login?: string | null | undefined;
   last_name: string;
-  login_count?: number | null;
-  roles?: SupersetUserApiGetListRolesList;
+  login_count?: number | null | undefined;
+  roles?: SupersetUserApiGetListRolesList | undefined;
   username: string;
 }
 /** The result from the get list query */
 export type GetSecurityUsersResponseResultList = Array<SupersetUserApiGetList>;
 export interface GetSecurityUsersResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetSecurityUsersResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetSecurityUsersResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetSecurityUsersResponseListColumnsList;
+  list_columns?: GetSecurityUsersResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetSecurityUsersResponseOrderColumnsList;
+  order_columns?: GetSecurityUsersResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetSecurityUsersResponseResultList;
+  result?: GetSecurityUsersResponseResultList | undefined;
 }
 export interface GetSemanticLayerRequest {}
 export interface GetSemanticLayerResponse {}
@@ -5675,7 +5681,7 @@ export interface GetSemanticLayerByUuidRequest {
 }
 export interface GetSemanticLayerByUuidResponse {}
 export interface GetSemanticLayerConnectionsRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetSemanticLayerConnectionsResponse {}
 export interface GetSemanticLayerTypesRequest {}
@@ -5694,10 +5700,10 @@ export interface GetSqllabPermalinkRequest {
 }
 export interface GetSqllabPermalinkResponse {
   /** The stored state */
-  state?: unknown;
+  state?: unknown | undefined;
 }
 export interface GetTagRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetTagResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -5711,36 +5717,36 @@ export type TagRestApiGetListUser = AnnotationLayerRestApiGetListUser1;
 export type TagRestApiGetListUser1 = AnnotationLayerRestApiGetListUser1;
 export type TagRestApiGetListType = 1 | 2 | 3 | 4;
 export interface TagRestApiGetList {
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on_delta_humanized?: unknown;
-  created_by?: AnnotationLayerRestApiGetListUser1;
-  created_on_delta_humanized?: unknown;
-  description?: string | null;
-  id?: number;
-  name?: string | null;
-  type?: TagRestApiGetListType;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  created_on_delta_humanized?: unknown | undefined;
+  description?: string | null | undefined;
+  id?: number | undefined;
+  name?: string | null | undefined;
+  type?: TagRestApiGetListType | undefined;
 }
 /** The result from the get list query */
 export type GetTagResponseResultList = Array<TagRestApiGetList>;
 export interface GetTagResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetTagResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetTagResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetTagResponseListColumnsList;
+  list_columns?: GetTagResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetTagResponseOrderColumnsList;
+  order_columns?: GetTagResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetTagResponseResultList;
+  result?: GetTagResponseResultList | undefined;
 }
 export interface GetTagByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetTagByPkResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 export type GetTagByPkResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
@@ -5748,34 +5754,34 @@ export type TagRestApiGetUser = AnnotationLayerRestApiGetListUser1;
 export type TagRestApiGetUser1 = AnnotationLayerRestApiGetListUser1;
 export type TagRestApiGetType = 1 | 2 | 3 | 4;
 export interface TagRestApiGet {
-  changed_by?: AnnotationLayerRestApiGetListUser1;
-  changed_on_delta_humanized?: unknown;
-  created_by?: AnnotationLayerRestApiGetListUser1;
-  created_on_delta_humanized?: unknown;
-  description?: string | null;
-  id?: number;
-  name?: string | null;
-  type?: TagRestApiGetType;
+  changed_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: AnnotationLayerRestApiGetListUser1 | undefined;
+  created_on_delta_humanized?: unknown | undefined;
+  description?: string | null | undefined;
+  id?: number | undefined;
+  name?: string | null | undefined;
+  type?: TagRestApiGetType | undefined;
 }
 /** A list of columns */
 export type GetTagByPkResponseShowColumnsList = Array<string>;
 export interface GetTagByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: TagRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: TagRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetTagByPkResponseShowColumnsList;
+  show_columns?: GetTagByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetTagRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetThemeRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type GetThemeResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 /** A list of item ids, useful when you don't know the column id */
@@ -5790,41 +5796,41 @@ export type ThemeRestApiGetListUser1 = CssTemplateRestApiGetListUser;
 export type ThemeRestApiGetListSubject = DatasetRestApiGetListSubject;
 export type ThemeRestApiGetListEditorsList = Array<DatasetRestApiGetListSubject>;
 export interface ThemeRestApiGetList {
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_by_name?: unknown;
-  changed_on_delta_humanized?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  created_on?: string | null;
-  editors?: ThemeRestApiGetListEditorsList;
-  id?: number;
-  is_system?: boolean;
-  is_system_dark?: boolean;
-  is_system_default?: boolean;
-  json_data?: string | null;
-  theme_name?: string | null;
-  uuid?: string | null;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_by_name?: unknown | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  created_on?: string | null | undefined;
+  editors?: ThemeRestApiGetListEditorsList | undefined;
+  id?: number | undefined;
+  is_system?: boolean | undefined;
+  is_system_dark?: boolean | undefined;
+  is_system_default?: boolean | undefined;
+  json_data?: string | null | undefined;
+  theme_name?: string | null | undefined;
+  uuid?: string | null | undefined;
 }
 /** The result from the get list query */
 export type GetThemeResponseResultList = Array<ThemeRestApiGetList>;
 export interface GetThemeResponse {
   /** The total record count on the backend */
-  count?: number;
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  count?: number | undefined;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** A list of item ids, useful when you don't know the column id */
-  ids?: GetThemeResponseIdsList;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
+  ids?: GetThemeResponseIdsList | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
   /** A list of columns */
-  list_columns?: GetThemeResponseListColumnsList;
+  list_columns?: GetThemeResponseListColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  list_title?: string;
+  list_title?: string | undefined;
   /** A list of allowed columns to sort */
-  order_columns?: GetThemeResponseOrderColumnsList;
+  order_columns?: GetThemeResponseOrderColumnsList | undefined;
   /** The result from the get list query */
-  result?: GetThemeResponseResultList;
+  result?: GetThemeResponseResultList | undefined;
 }
 export interface GetThemeByPkRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type GetThemeByPkResponseDescriptionColumns = GetAnnotationLayerResponseDescriptionColumns;
 export type GetThemeByPkResponseLabelColumns = GetAnnotationLayerResponseLabelColumns;
@@ -5833,48 +5839,48 @@ export type ThemeRestApiGetUser1 = CssTemplateRestApiGetListUser;
 export type ThemeRestApiGetSubject = DatasetRestApiGetListSubject;
 export type ThemeRestApiGetEditorsList = Array<DatasetRestApiGetListSubject>;
 export interface ThemeRestApiGet {
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_on_delta_humanized?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  editors?: ThemeRestApiGetEditorsList;
-  id?: number;
-  is_system?: boolean;
-  is_system_dark?: boolean;
-  is_system_default?: boolean;
-  json_data?: string | null;
-  theme_name?: string | null;
-  uuid?: string | null;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  editors?: ThemeRestApiGetEditorsList | undefined;
+  id?: number | undefined;
+  is_system?: boolean | undefined;
+  is_system_dark?: boolean | undefined;
+  is_system_default?: boolean | undefined;
+  json_data?: string | null | undefined;
+  theme_name?: string | null | undefined;
+  uuid?: string | null | undefined;
 }
 /** A list of columns */
 export type GetThemeByPkResponseShowColumnsList = Array<string>;
 export interface GetThemeByPkResponse {
-  description_columns?: GetAnnotationLayerResponseDescriptionColumns;
+  description_columns?: GetAnnotationLayerResponseDescriptionColumns | undefined;
   /** The item id */
-  id?: string;
-  label_columns?: GetAnnotationLayerResponseLabelColumns;
-  result?: ThemeRestApiGet;
+  id?: string | undefined;
+  label_columns?: GetAnnotationLayerResponseLabelColumns | undefined;
+  result?: ThemeRestApiGet | undefined;
   /** A list of columns */
-  show_columns?: GetThemeByPkResponseShowColumnsList;
+  show_columns?: GetThemeByPkResponseShowColumnsList | undefined;
   /** A title to render. Will be translated by babel */
-  show_title?: string;
+  show_title?: string | undefined;
 }
 export interface GetThemeExportRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetThemeExportResponse {}
 export interface GetThemeRelatedRequest {
   column_name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetThemeSystemRequest {}
 export interface GetThemeSystemResponseResult {
-  dark?: unknown;
-  default?: unknown;
-  defaultMode?: string;
-  enableUiThemeAdministration?: boolean;
+  dark?: unknown | undefined;
+  default?: unknown | undefined;
+  defaultMode?: string | undefined;
+  enableUiThemeAdministration?: boolean | undefined;
 }
 export interface GetThemeSystemResponse {
-  result?: GetThemeSystemResponseResult;
+  result?: GetThemeSystemResponseResult | undefined;
 }
 export interface GetUserAvatarPngRequest {
   /** The ID of the user */
@@ -5883,132 +5889,132 @@ export interface GetUserAvatarPngRequest {
 export interface GetUserAvatarPngResponse {}
 export interface ImportAssetRequest {
   /** upload file (ZIP or JSON) */
-  bundle?: string;
+  bundle?: string | undefined;
   /** JSON map of secret values for masked encrypted_extra fields. Each key is a database file path and the value is a map of JSONPath expressions to secret values. For example: `{"databases/db.yaml": {"$.credentials_info.secret": "foo"}}`. */
-  encrypted_extra_secrets?: string;
+  encrypted_extra_secrets?: string | undefined;
   /** overwrite existing assets? Defaults to ``true`` for backwards compatibility. When ``false``, the import fails if any of the assets already exist. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** JSON map of passwords for each featured database in the ZIP file. If the ZIP includes a database config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  passwords?: string | Redacted.Redacted<string>;
+  passwords?: string | Redacted.Redacted<string> | undefined;
   /** allow sparse update of resources */
-  sparse?: boolean;
+  sparse?: boolean | undefined;
   /** JSON map of passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  ssh_tunnel_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_key_passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key_password"}`. */
-  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_keys for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key"}`. */
-  ssh_tunnel_private_keys?: string;
+  ssh_tunnel_private_keys?: string | undefined;
 }
 export interface ImportAssetResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImportChartRequest {
   /** JSON map of sensitive values for masked_encrypted_extra fields of featured databases. Keys are file paths (e.g., "databases/db.yaml") and values are JSON objects mapping JSONPath expressions to secrets. */
-  encrypted_extra_secrets?: string;
+  encrypted_extra_secrets?: string | undefined;
   /** upload file (ZIP) */
-  formData?: string;
+  formData?: string | undefined;
   /** overwrite existing charts? */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** JSON map of passwords for each featured database in the ZIP file. If the ZIP includes a database config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  passwords?: string | Redacted.Redacted<string>;
+  passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  ssh_tunnel_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_key_passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key_password"}`. */
-  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_keys for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key"}`. */
-  ssh_tunnel_private_keys?: string;
+  ssh_tunnel_private_keys?: string | undefined;
 }
 export interface ImportChartResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImportDashboardRequest {
   /** JSON map of sensitive values for masked_encrypted_extra fields of featured databases. Keys are file paths (e.g., "databases/db.yaml") and values are JSON objects mapping JSONPath expressions to secrets. */
-  encrypted_extra_secrets?: string;
+  encrypted_extra_secrets?: string | undefined;
   /** upload file (ZIP or JSON) */
-  formData?: string;
+  formData?: string | undefined;
   /** overwrite existing dashboards? */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** overwrite all existing assets within the dashboard? */
-  overwrite_all?: boolean;
+  overwrite_all?: boolean | undefined;
   /** JSON map of passwords for each featured database in the ZIP file. If the ZIP includes a database config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  passwords?: string | Redacted.Redacted<string>;
+  passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  ssh_tunnel_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_key_passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key_password"}`. */
-  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_keys for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key"}`. */
-  ssh_tunnel_private_keys?: string;
+  ssh_tunnel_private_keys?: string | undefined;
 }
 export interface ImportDashboardResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImportDatabaseRequest {
   /** JSON map of sensitive values for masked_encrypted_extra fields. Keys are file paths (e.g., "databases/db.yaml") and values are JSON objects mapping JSONPath expressions to secrets. (e.g., `{"databases/MyDatabase.yaml": {"$.credentials_info.private_key": "actual_key"}}`). */
-  encrypted_extra_secrets?: string;
+  encrypted_extra_secrets?: string | undefined;
   /** upload file (ZIP) */
-  formData?: string;
+  formData?: string | undefined;
   /** overwrite existing databases? */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** JSON map of passwords for each featured database in the ZIP file. If the ZIP includes a database config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  passwords?: string | Redacted.Redacted<string>;
+  passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  ssh_tunnel_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_key_passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key_password"}`. */
-  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_keys for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key"}`. */
-  ssh_tunnel_private_keys?: string;
+  ssh_tunnel_private_keys?: string | undefined;
 }
 export interface ImportDatabaseResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImportDatasetRequest {
   /** JSON map of sensitive values for masked_encrypted_extra fields of featured databases. Keys are file paths (e.g., "databases/db.yaml") and values are JSON objects mapping JSONPath expressions to secrets. */
-  encrypted_extra_secrets?: string;
+  encrypted_extra_secrets?: string | undefined;
   /** upload file (ZIP or YAML) */
-  formData?: string;
+  formData?: string | undefined;
   /** overwrite existing datasets? */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** JSON map of passwords for each featured database in the ZIP file. If the ZIP includes a database config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  passwords?: string | Redacted.Redacted<string>;
+  passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  ssh_tunnel_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_key_passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key_password"}`. */
-  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_keys for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key"}`. */
-  ssh_tunnel_private_keys?: string;
+  ssh_tunnel_private_keys?: string | undefined;
   /** sync columns? */
-  sync_columns?: boolean;
+  sync_columns?: boolean | undefined;
   /** sync metrics? */
-  sync_metrics?: boolean;
+  sync_metrics?: boolean | undefined;
 }
 export interface ImportDatasetResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImportSavedQueryRequest {
   /** JSON map of sensitive values for masked_encrypted_extra fields of featured databases. Keys are file paths (e.g., "databases/db.yaml") and values are JSON objects mapping JSONPath expressions to secrets. */
-  encrypted_extra_secrets?: string;
+  encrypted_extra_secrets?: string | undefined;
   /** upload file (ZIP) */
-  formData?: string;
+  formData?: string | undefined;
   /** overwrite existing saved queries? */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   /** JSON map of passwords for each featured database in the ZIP file. If the ZIP includes a database config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  passwords?: string | Redacted.Redacted<string>;
+  passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the password should be provided in the following format: `{"databases/MyDatabase.yaml": "my_password"}`. */
-  ssh_tunnel_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_key_passwords for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key_password"}`. */
-  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string>;
+  ssh_tunnel_private_key_passwords?: string | Redacted.Redacted<string> | undefined;
   /** JSON map of private_keys for each ssh_tunnel associated to a featured database in the ZIP file. If the ZIP includes a ssh_tunnel config in the path `databases/MyDatabase.yaml`, the private_key should be provided in the following format: `{"databases/MyDatabase.yaml": "my_private_key"}`. */
-  ssh_tunnel_private_keys?: string;
+  ssh_tunnel_private_keys?: string | undefined;
 }
 export interface ImportSavedQueryResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImportThemeRequest {
-  formData?: string;
-  overwrite?: string;
+  formData?: string | undefined;
+  overwrite?: string | undefined;
 }
 export interface ImportThemeResponse {
-  message?: string;
+  message?: string | undefined;
 }
 /** The uid of the dataset/datasource this new chart will use. A complete datasource identification needs `datasource_uid` */
 export type InvalidateCachekeyRequestDatasourceUidsList = Array<string>;
@@ -6022,100 +6028,100 @@ export type DatasourceDatasourceType =
   | "semantic_view";
 export interface Datasource {
   /** Datasource catalog */
-  catalog?: string | null;
+  catalog?: string | null | undefined;
   /** Datasource name */
-  database_name?: string;
+  database_name?: string | undefined;
   /** The datasource name. */
-  datasource_name?: string;
+  datasource_name?: string | undefined;
   /** The type of dataset/datasource identified on `datasource_id`. */
   datasource_type: DatasourceDatasourceType | (string & {});
   /** Datasource schema */
-  schema?: string;
+  schema?: string | undefined;
 }
 /** A list of the data source and database names */
 export type InvalidateCachekeyRequestDatasourcesList = Array<Datasource>;
 export interface InvalidateCachekeyRequest {
   /** The uid of the dataset/datasource this new chart will use. A complete datasource identification needs `datasource_uid` */
-  datasource_uids?: InvalidateCachekeyRequestDatasourceUidsList;
+  datasource_uids?: InvalidateCachekeyRequestDatasourceUidsList | undefined;
   /** A list of the data source and database names */
-  datasources?: InvalidateCachekeyRequestDatasourcesList;
+  datasources?: InvalidateCachekeyRequestDatasourcesList | undefined;
 }
 export interface InvalidateCachekeyResponse {}
 export interface ListAdvancedDataTypeConvertRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type AdvancedDataTypeSchemaValidFilterOperatorsList = Array<string>;
 export type AdvancedDataTypeSchemaValuesList = Array<string>;
 export interface AdvancedDataTypeSchema {
   /** The string representation of the parsed values */
-  display_value?: string;
-  error_message?: string;
-  valid_filter_operators?: AdvancedDataTypeSchemaValidFilterOperatorsList;
-  values?: AdvancedDataTypeSchemaValuesList;
+  display_value?: string | undefined;
+  error_message?: string | undefined;
+  valid_filter_operators?: AdvancedDataTypeSchemaValidFilterOperatorsList | undefined;
+  values?: AdvancedDataTypeSchemaValuesList | undefined;
 }
 export interface ListAdvancedDataTypeTypesRequest {}
 export type ListAdvancedDataTypeTypesResponseResultList = Array<string>;
 export interface ListAdvancedDataTypeTypesResponse {
-  result?: ListAdvancedDataTypeTypesResponseResultList;
+  result?: ListAdvancedDataTypeTypesResponseResultList | undefined;
 }
 export interface ListAnnotationLayerAnnotationRequest {
   /** The annotation layer id for this annotation */
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 /** A list of annotation ids */
 export type ListAnnotationLayerAnnotationResponseIdsList = Array<string>;
 export interface AnnotationRestApiGetListUser {
   first_name: string;
-  id?: number;
+  id?: number | undefined;
 }
 export type AnnotationRestApiGetListUser1 = AnnotationRestApiGetListUser;
 export interface AnnotationRestApiGetList {
-  changed_by?: AnnotationRestApiGetListUser;
-  changed_on_delta_humanized?: unknown;
-  created_by?: AnnotationRestApiGetListUser;
-  end_dttm?: string | null;
-  id?: number;
-  long_descr?: string | null;
-  short_descr?: string | null;
-  start_dttm?: string | null;
+  changed_by?: AnnotationRestApiGetListUser | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  created_by?: AnnotationRestApiGetListUser | undefined;
+  end_dttm?: string | null | undefined;
+  id?: number | undefined;
+  long_descr?: string | null | undefined;
+  short_descr?: string | null | undefined;
+  start_dttm?: string | null | undefined;
 }
 /** The result from the get list query */
 export type ListAnnotationLayerAnnotationResponseResultList = Array<AnnotationRestApiGetList>;
 export interface ListAnnotationLayerAnnotationResponse {
   /** The total record count on the backend */
-  count?: number;
+  count?: number | undefined;
   /** A list of annotation ids */
-  ids?: ListAnnotationLayerAnnotationResponseIdsList;
+  ids?: ListAnnotationLayerAnnotationResponseIdsList | undefined;
   /** The result from the get list query */
-  result?: ListAnnotationLayerAnnotationResponseResultList;
+  result?: ListAnnotationLayerAnnotationResponseResultList | undefined;
 }
 export interface ListAnnotationLayerInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface ListAnnotationLayerInfoResponseFiltersColumnNameItem {
   /** The filter name. Will be translated by babel */
-  name?: string;
+  name?: string | undefined;
   /** The filter operation key to use on list filters */
-  operator?: string;
+  operator?: string | undefined;
 }
 export type ListAnnotationLayerInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListAnnotationLayerInfoResponseFilters {
-  column_name?: ListAnnotationLayerInfoResponseFiltersColumnNameList;
+  column_name?: ListAnnotationLayerInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListAnnotationLayerInfoResponsePermissionsList = Array<string>;
 export interface ListAnnotationLayerInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListAnnotationLayerInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListAnnotationLayerInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListAnnotationLayerInfoResponsePermissionsList;
+  permissions?: ListAnnotationLayerInfoResponsePermissionsList | undefined;
 }
 export interface ListChartRequest {
   /** Rison-encoded list query. viz_type_order may contain up to 256 unique visualization type slugs, each at most 250 characters, in the display-name order to use when sorting by viz_type. */
-  q?: string;
+  q?: string | undefined;
 }
 export type ListChartResponseIdsList = Array<number>;
 export type ChartRestApiGetListUser = CssTemplateRestApiGetListUser;
@@ -6126,72 +6132,72 @@ export type ChartRestApiGetListSubject = DatasetRestApiGetListSubject;
 export type ChartRestApiGetListEditorsList = Array<DatasetRestApiGetListSubject>;
 export type ChartRestApiGetListUser2 = CssTemplateRestApiGetListUser;
 export interface ChartRestApiGetListSqlaTable {
-  default_endpoint?: string | null;
+  default_endpoint?: string | null | undefined;
   table_name: string;
 }
 export type ChartRestApiGetListTagType = 1 | 2 | 3 | 4;
 export interface ChartRestApiGetListTag {
-  id?: number;
-  name?: string | null;
-  type?: ChartRestApiGetListTagType;
+  id?: number | undefined;
+  name?: string | null | undefined;
+  type?: ChartRestApiGetListTagType | undefined;
 }
 export type ChartRestApiGetListTagsList = Array<ChartRestApiGetListTag>;
 export type ChartRestApiGetListSubject1 = DatasetRestApiGetListSubject;
 export type ChartRestApiGetListViewersList = Array<DatasetRestApiGetListSubject>;
 export interface ChartRestApiGetList {
-  cache_timeout?: number | null;
-  certification_details?: string | null;
-  certified_by?: string | null;
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_by_name?: unknown;
-  changed_on_delta_humanized?: unknown;
-  changed_on_dttm?: unknown;
-  changed_on_utc?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  created_by_name?: unknown;
-  created_on_delta_humanized?: unknown;
-  dashboards?: ChartRestApiGetListDashboardsList;
-  datasource_id?: number | null;
-  datasource_name_text?: unknown;
-  datasource_type?: string | null;
-  datasource_url?: unknown;
-  description?: string | null;
-  description_markeddown?: unknown;
-  edit_url?: unknown;
-  editors?: ChartRestApiGetListEditorsList;
-  form_data?: unknown;
-  id?: number;
-  is_managed_externally?: boolean;
-  last_saved_at?: string | null;
-  last_saved_by?: CssTemplateRestApiGetListUser;
-  params?: string | null;
-  slice_name?: string | null;
-  slice_url?: unknown;
-  table?: ChartRestApiGetListSqlaTable;
-  tags?: ChartRestApiGetListTagsList;
-  thumbnail_url?: unknown;
-  url?: unknown;
-  uuid?: string | null;
-  viewers?: ChartRestApiGetListViewersList;
-  viz_type?: string | null;
+  cache_timeout?: number | null | undefined;
+  certification_details?: string | null | undefined;
+  certified_by?: string | null | undefined;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_by_name?: unknown | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  changed_on_dttm?: unknown | undefined;
+  changed_on_utc?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  created_by_name?: unknown | undefined;
+  created_on_delta_humanized?: unknown | undefined;
+  dashboards?: ChartRestApiGetListDashboardsList | undefined;
+  datasource_id?: number | null | undefined;
+  datasource_name_text?: unknown | undefined;
+  datasource_type?: string | null | undefined;
+  datasource_url?: unknown | undefined;
+  description?: string | null | undefined;
+  description_markeddown?: unknown | undefined;
+  edit_url?: unknown | undefined;
+  editors?: ChartRestApiGetListEditorsList | undefined;
+  form_data?: unknown | undefined;
+  id?: number | undefined;
+  is_managed_externally?: boolean | undefined;
+  last_saved_at?: string | null | undefined;
+  last_saved_by?: CssTemplateRestApiGetListUser | undefined;
+  params?: string | null | undefined;
+  slice_name?: string | null | undefined;
+  slice_url?: unknown | undefined;
+  table?: ChartRestApiGetListSqlaTable | undefined;
+  tags?: ChartRestApiGetListTagsList | undefined;
+  thumbnail_url?: unknown | undefined;
+  url?: unknown | undefined;
+  uuid?: string | null | undefined;
+  viewers?: ChartRestApiGetListViewersList | undefined;
+  viz_type?: string | null | undefined;
 }
 export type ListChartResponseResultList = Array<ChartRestApiGetList>;
 export interface ListChartResponse {
-  count?: number;
-  ids?: ListChartResponseIdsList;
-  result?: ListChartResponseResultList;
+  count?: number | undefined;
+  ids?: ListChartResponseIdsList | undefined;
+  result?: ListChartResponseResultList | undefined;
 }
 export type ListChartActivityRequestInclude = "self" | "related" | "all";
 export interface ListChartActivityRequest {
   /** Chart UUID */
   uuid_str: string;
-  since?: string;
-  until?: string;
-  include?: ListChartActivityRequestInclude | (string & {});
+  since?: string | undefined;
+  until?: string | undefined;
+  include?: ListChartActivityRequestInclude | (string & {}) | undefined;
   /** Case-insensitive search over the full history (summary, entity name, kind, path, values) -- applied before pagination, so `count` reflects the matches. */
-  q?: string;
-  page?: number;
-  page_size?: number;
+  q?: string | undefined;
+  page?: number | undefined;
+  page_size?: number | undefined;
 }
 /** Transaction-level avenue that produced this record's batch: ``restore`` / ``import`` / ``clone``. ``null`` for ordinary saves. All records sharing a ``transaction_id`` share the same action_kind. The schema's third ``*_kind`` column (entity_kind / kind / action_kind), at transaction scope. */
 export type ActivityRecordActionKind = "clone" | "import" | "restore";
@@ -6204,17 +6210,17 @@ export type ActivityRecordEntityDeletionState = "soft_deleted";
 export type ActivityRecordEntityKind = "dashboard" | "chart" | "dataset";
 export interface ActivityImpactChart {
   /** Chart id. */
-  id?: number;
+  id?: number | undefined;
   /** Chart name at the change's transaction -- it may differ from the live name if the chart was renamed since. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The affected sibling charts (id + name), sorted by name -- the detail behind the ``charts`` count, rendered as the rollup entry's hover tooltip. Capped at 50 entries per record; ``charts`` always carries the full count. */
 export type ActivityImpactAffectedChartsList = Array<ActivityImpactChart>;
 export interface ActivityImpact {
   /** The affected sibling charts (id + name), sorted by name -- the detail behind the ``charts`` count, rendered as the rollup entry's hover tooltip. Capped at 50 entries per record; ``charts`` always carries the full count. */
-  affected_charts?: ActivityImpactAffectedChartsList;
+  affected_charts?: ActivityImpactAffectedChartsList | undefined;
   /** Number of sibling charts on the path entity affected by the same related-record change at this transaction. */
-  charts?: number;
+  charts?: number | undefined;
 }
 /** Content category -- what kind of thing changed. ``field`` is the fallback for scalar changes without a more specific category. Per-record. */
 export type ActivityRecordKind =
@@ -6242,114 +6248,114 @@ export type ActivityRecordPathList = Array<string>;
 export type ActivityRecordSource = "self" | "related";
 export interface ActivityRecord {
   /** Transaction-level avenue that produced this record's batch: ``restore`` / ``import`` / ``clone``. ``null`` for ordinary saves. All records sharing a ``transaction_id`` share the same action_kind. The schema's third ``*_kind`` column (entity_kind / kind / action_kind), at transaction scope. */
-  action_kind?: ActivityRecordActionKind | null;
+  action_kind?: ActivityRecordActionKind | null | undefined;
   /** User who produced the change, or ``null`` when the saving user no longer exists in ``ab_user``. */
-  changed_by?: VersionChangedBy | null;
+  changed_by?: VersionChangedBy | null | undefined;
   /** Set only on the synthetic starting-version record (``kind == "__creation__"``): how the entity came to exist. ``"pre_tracking"`` -- a retroactive baseline for an entity that predates versioning; ``"created"`` -- a creation with tracking on; ``"imported"`` -- an import, attributed to the importing user; ``"unknown"`` -- an unstamped starting version whose creation provenance cannot be established. Machine values: display copy is owned by the client. */
-  creation_kind?: ActivityRecordCreationKind | null;
+  creation_kind?: ActivityRecordCreationKind | null | undefined;
   /** True iff the source entity is hard-deleted (no live row by ``entity_id``). False for live and soft-deleted entities. */
-  entity_deleted?: boolean;
+  entity_deleted?: boolean | undefined;
   /** Present when the source entity has non-null ``deleted_at`` Absent or ``null`` otherwise. */
-  entity_deletion_state?: ActivityRecordEntityDeletionState | null;
+  entity_deletion_state?: ActivityRecordEntityDeletionState | null | undefined;
   /** User-facing kind of the source entity: one of ``"dashboard"`` / ``"chart"`` / ``"dataset"``. */
-  entity_kind?: ActivityRecordEntityKind;
+  entity_kind?: ActivityRecordEntityKind | undefined;
   /** Name of the source entity *at the time of the change* -- denormalized from the validity-strategy shadow row. Survives entity rename / delete. */
-  entity_name?: string;
+  entity_name?: string | undefined;
   /** UUID of the source entity; ``null`` only when ``entity_deleted: true`` (the entity has been hard-deleted since the change was recorded). */
-  entity_uuid?: string | null;
+  entity_uuid?: string | null | undefined;
   /** True when this record's transaction is the entity's FIRST tracked save (first UPDATE after the retroactive baseline). Such transactions can carry dozens of params-normalization records for entities that predate versioning; clients use the marker to collapse them rather than render each delta as a user edit. Matched against the LIVE row's (id, uuid), so it is always false for hard-deleted entities (no live row) and for shadow rows predating the entity's current uuid. */
-  first_tracked_save?: boolean;
+  first_tracked_save?: boolean | undefined;
   /** Prior value; ``null`` = didn't exist. */
-  from_value?: unknown | null;
+  from_value?: unknown | null | undefined;
   /** Optional dependent-count for ``source: "related"`` records -- e.g., ``{"charts": 4}`` for a dataset edit that affected 4 charts on the path dashboard at the change's transaction. Absent for ``source: "self"`` records and for related records without dependents. */
-  impact?: ActivityImpact | null;
+  impact?: ActivityImpact | null | undefined;
   /** UTC timestamp; primary ordering key (DESC). */
-  issued_at?: string;
+  issued_at?: string | undefined;
   /** Content category -- what kind of thing changed. ``field`` is the fallback for scalar changes without a more specific category. Per-record. */
-  kind?: ActivityRecordKind;
+  kind?: ActivityRecordKind | undefined;
   /** Per-record verb: ``add`` / ``remove`` / ``move`` / ``edit``. Explicit instead of inferred from ``from_value`` / ``to_value`` null-tests. ``move`` only fires for layout records. */
-  operation?: ActivityRecordOperation;
+  operation?: ActivityRecordOperation | undefined;
   /** Pure navigation address -- no verb or kind embedded. Examples: ``['slice_name']``, ``['params', 'adhoc_filters', 'country']``, ``['CHART-x']`` for a layout add/remove/move, ``['HEADER-y', 'text']`` for a layout edit leaf. The verb lives in ``operation``, the element type in ``kind``. */
-  path?: ActivityRecordPathList | null;
+  path?: ActivityRecordPathList | null | undefined;
   /** ``"self"`` if ``(entity_kind, entity_id)`` matches the path entity; else ``"related"``. Drives the frontend's no-group-under-save rendering rule. */
-  source?: ActivityRecordSource;
+  source?: ActivityRecordSource | undefined;
   /** Synthesized headline for ``source: "related"`` records -- e.g., ``"Dataset updated: Sales Transactions"``. Empty string for ``source: "self"`` records, except ``__meta__`` self records (e.g. restore announcements), which carry their own headline. */
-  summary?: string;
+  summary?: string | undefined;
   /** New value; ``null`` = removed. */
-  to_value?: unknown | null;
+  to_value?: unknown | null | undefined;
   /** Stable secondary ordering key; never reused. */
-  transaction_id?: number;
+  transaction_id?: number | undefined;
   /** Stable UUIDv5 identifier for the source version (``derive_version_uuid(entity_uuid, transaction_id)``). Identical to what ``/versions/<version_uuid>/`` would return for the same change. */
-  version_uuid?: string;
+  version_uuid?: string | undefined;
 }
 export type ActivityResponseResultList = Array<ActivityRecord>;
 export interface ActivityResponse {
   /** Total record count across all pages (the filtered + denormalized stream), not just the current page. When ``truncated`` is true this is a floor (the count within the fetched window), not the absolute total. */
-  count?: number;
-  result?: ActivityResponseResultList;
+  count?: number | undefined;
+  result?: ActivityResponseResultList | undefined;
   /** True when the request hit the per-request fetch ceiling and older records exist beyond the returned window. Narrow the time range (``since``/``until``) to see them. */
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export interface ListChartDataRequest {
   /** The chart ID */
   pk: number;
   /** The format in which the data should be returned */
-  format?: string;
+  format?: string | undefined;
   /** The type in which the data should be returned */
-  type?: string;
+  type?: string | undefined;
   /** Should the queries be forced to load from the source */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Dashboard ID whose filter defaults should be applied to the chart's query context. The chart must belong to the specified dashboard. Only in scope filters with static default values are applied; filters that require a database query (I.E. defaultToFirstItem) or have no default are reported in the dashboard_filters response metadata. */
-  filters_dashboard_id?: number;
+  filters_dashboard_id?: number | undefined;
 }
 export interface ListChartDeckLayersRequest {
   /** The id of the Multiple Layers container chart */
   pk: number;
 }
 export interface ListChartDeckLayersResponseResultItem {
-  datasource_id?: number;
-  datasource_type?: string;
-  params?: string;
-  slice_id?: number;
-  viz_type?: string;
+  datasource_id?: number | undefined;
+  datasource_type?: string | undefined;
+  params?: string | undefined;
+  slice_id?: number | undefined;
+  viz_type?: string | undefined;
 }
 export type ListChartDeckLayersResponseResultList = Array<ListChartDeckLayersResponseResultItem>;
 export interface ListChartDeckLayersResponse {
-  result?: ListChartDeckLayersResponseResultList;
+  result?: ListChartDeckLayersResponseResultList | undefined;
 }
 export interface ListChartFavoriteStatusRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface ChartFavStarResponseResult {
   /** The Chart id */
-  id?: number;
+  id?: number | undefined;
   /** The FaveStar value */
-  value?: boolean;
+  value?: boolean | undefined;
 }
 /** A list of results for each corresponding chart in the request */
 export type GetFavStarIdsSchemaResultList = Array<ChartFavStarResponseResult>;
 export interface GetFavStarIdsSchema {
   /** A list of results for each corresponding chart in the request */
-  result?: GetFavStarIdsSchemaResultList;
+  result?: GetFavStarIdsSchemaResultList | undefined;
 }
 export interface ListChartInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListChartInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListChartInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListChartInfoResponseFilters {
-  column_name?: ListChartInfoResponseFiltersColumnNameList;
+  column_name?: ListChartInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListChartInfoResponsePermissionsList = Array<string>;
 export interface ListChartInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListChartInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListChartInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListChartInfoResponsePermissionsList;
+  permissions?: ListChartInfoResponsePermissionsList | undefined;
 }
 export interface ListChartVersionsRequest {
   /** Chart UUID */
@@ -6357,30 +6363,30 @@ export interface ListChartVersionsRequest {
 }
 export type ListChartVersionsResponseResultList = Array<VersionListItemSchema>;
 export interface ListChartVersionsResponse {
-  count?: number;
-  result?: ListChartVersionsResponseResultList;
+  count?: number | undefined;
+  result?: ListChartVersionsResponseResultList | undefined;
 }
 export interface ListCssTemplateInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListCssTemplateInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListCssTemplateInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListCssTemplateInfoResponseFilters {
-  column_name?: ListCssTemplateInfoResponseFiltersColumnNameList;
+  column_name?: ListCssTemplateInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListCssTemplateInfoResponsePermissionsList = Array<string>;
 export interface ListCssTemplateInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListCssTemplateInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListCssTemplateInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListCssTemplateInfoResponsePermissionsList;
+  permissions?: ListCssTemplateInfoResponsePermissionsList | undefined;
 }
 export interface ListDashboardRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListDashboardResponseIdsList = Array<number>;
 export type DashboardRestApiGetListUser = CssTemplateRestApiGetListUser;
@@ -6389,83 +6395,83 @@ export type DashboardRestApiGetListSubject = DatasetRestApiGetListSubject;
 export type DashboardRestApiGetListEditorsList = Array<DatasetRestApiGetListSubject>;
 export type DashboardRestApiGetListTagType = 1 | 2 | 3 | 4;
 export interface DashboardRestApiGetListTag {
-  id?: number;
-  name?: string | null;
-  type?: DashboardRestApiGetListTagType;
+  id?: number | undefined;
+  name?: string | null | undefined;
+  type?: DashboardRestApiGetListTagType | undefined;
 }
 export type DashboardRestApiGetListTagsList = Array<DashboardRestApiGetListTag>;
 export type DashboardRestApiGetListSubject1 = DatasetRestApiGetListSubject;
 export type DashboardRestApiGetListViewersList = Array<DatasetRestApiGetListSubject>;
 export interface DashboardRestApiGetList {
-  certification_details?: string | null;
-  certified_by?: string | null;
-  changed_by?: CssTemplateRestApiGetListUser;
-  changed_by_name?: unknown;
-  changed_on_delta_humanized?: unknown;
-  changed_on_utc?: unknown;
-  created_by?: CssTemplateRestApiGetListUser;
-  created_on_delta_humanized?: unknown;
-  dashboard_title?: string | null;
-  description?: string | null;
-  editors?: DashboardRestApiGetListEditorsList;
-  id?: number;
-  is_managed_externally?: boolean;
-  published?: boolean | null;
-  slug?: string | null;
-  status?: unknown;
-  tags?: DashboardRestApiGetListTagsList;
-  url?: unknown;
-  uuid?: string | null;
-  viewers?: DashboardRestApiGetListViewersList;
+  certification_details?: string | null | undefined;
+  certified_by?: string | null | undefined;
+  changed_by?: CssTemplateRestApiGetListUser | undefined;
+  changed_by_name?: unknown | undefined;
+  changed_on_delta_humanized?: unknown | undefined;
+  changed_on_utc?: unknown | undefined;
+  created_by?: CssTemplateRestApiGetListUser | undefined;
+  created_on_delta_humanized?: unknown | undefined;
+  dashboard_title?: string | null | undefined;
+  description?: string | null | undefined;
+  editors?: DashboardRestApiGetListEditorsList | undefined;
+  id?: number | undefined;
+  is_managed_externally?: boolean | undefined;
+  published?: boolean | null | undefined;
+  slug?: string | null | undefined;
+  status?: unknown | undefined;
+  tags?: DashboardRestApiGetListTagsList | undefined;
+  url?: unknown | undefined;
+  uuid?: string | null | undefined;
+  viewers?: DashboardRestApiGetListViewersList | undefined;
 }
 export type ListDashboardResponseResultList = Array<DashboardRestApiGetList>;
 export interface ListDashboardResponse {
-  count?: number;
-  ids?: ListDashboardResponseIdsList;
-  result?: ListDashboardResponseResultList;
+  count?: number | undefined;
+  ids?: ListDashboardResponseIdsList | undefined;
+  result?: ListDashboardResponseResultList | undefined;
 }
 export type ListDashboardActivityRequestInclude = "self" | "related" | "all";
 export interface ListDashboardActivityRequest {
   /** Dashboard UUID */
   uuid_str: string;
   /** Lower bound on issued_at (ISO 8601, UTC) */
-  since?: string;
+  since?: string | undefined;
   /** Upper bound on issued_at (ISO 8601, UTC) */
-  until?: string;
-  include?: ListDashboardActivityRequestInclude | (string & {});
+  until?: string | undefined;
+  include?: ListDashboardActivityRequestInclude | (string & {}) | undefined;
   /** Case-insensitive search over the full history (summary, entity name, kind, path, values) -- applied before pagination, so `count` reflects the matches. */
-  q?: string;
-  page?: number;
-  page_size?: number;
+  q?: string | undefined;
+  page?: number | undefined;
+  page_size?: number | undefined;
 }
 export interface ListDashboardChartsRequest {
   id_or_slug: string;
 }
 export interface ChartEntityResponseSchema {
   /** Duration (in seconds) of the caching timeout for this chart. Note this defaults to the datasource/table timeout if undefined. */
-  cache_timeout?: number;
+  cache_timeout?: number | undefined;
   /** Details of the certification */
-  certification_details?: string;
+  certification_details?: string | undefined;
   /** Person or group that has certified this chart */
-  certified_by?: string;
+  certified_by?: string | undefined;
   /** The ISO date that the chart was last changed. */
-  changed_on?: string;
+  changed_on?: string | undefined;
   /** A description of the chart propose. */
-  description?: string;
+  description?: string | undefined;
   /** Sanitized HTML version of the chart description. */
-  description_markeddown?: string;
+  description_markeddown?: string | undefined;
   /** Form data from the Explore controls used to form the chart's data query. */
-  form_data?: unknown;
+  form_data?: unknown | undefined;
   /** The id of the chart. */
-  id?: number;
+  id?: number | undefined;
   /** The name of the chart. */
-  slice_name?: string;
+  slice_name?: string | undefined;
   /** The URL of the chart. */
-  slice_url?: string;
+  slice_url?: string | undefined;
 }
 export type ListDashboardChartsResponseResultList = Array<ChartEntityResponseSchema>;
 export interface ListDashboardChartsResponse {
-  result?: ListDashboardChartsResponseResultList;
+  result?: ListDashboardChartsResponseResultList | undefined;
 }
 export interface ListDashboardDatasetsRequest {
   /** Either the id of the dashboard, or its slug */
@@ -6482,16 +6488,16 @@ export type DashboardDatasetSchemaColumnNamesList = Array<string>;
 export type DashboardDatasetSchemaColumnTypesList = Array<number>;
 export type DashboardDatasetSchemaColumnsList = Array<unknown>;
 export interface Database {
-  allow_multi_catalog?: boolean;
-  allows_cost_estimate?: boolean;
-  allows_subquery?: boolean;
-  allows_virtual_table_explore?: boolean;
-  backend?: string;
-  disable_data_preview?: boolean;
-  disable_drill_to_detail?: boolean;
-  explore_database_id?: number;
-  id?: number;
-  name?: string;
+  allow_multi_catalog?: boolean | undefined;
+  allows_cost_estimate?: boolean | undefined;
+  allows_subquery?: boolean | undefined;
+  allows_virtual_table_explore?: boolean | undefined;
+  backend?: string | undefined;
+  disable_data_preview?: boolean | undefined;
+  disable_drill_to_detail?: boolean | undefined;
+  explore_database_id?: number | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export type DashboardDatasetSchemaEditorsList = Array<SubjectResponse>;
 export type DashboardDatasetSchemaGranularitySqlaItemList = Array<string>;
@@ -6507,86 +6513,86 @@ export type DashboardDatasetSchemaTimeGrainSqlaList =
   Array<DashboardDatasetSchemaTimeGrainSqlaItemList>;
 export type DashboardDatasetSchemaVerboseMapMap = { [key: string]: string | undefined };
 export interface DashboardDatasetSchema {
-  always_filter_main_dttm?: boolean;
-  cache_timeout?: number;
+  always_filter_main_dttm?: boolean | undefined;
+  cache_timeout?: number | undefined;
   /** Display labels keyed by member chart ID, then by the raw column or metric ID that chart uses. Only charts the caller can access and labels configured for their saved dimensions and metrics are included; omitted for semantic views, when there are none, or when the caller has datasource access and already receives verbose_map. */
-  chart_display_labels?: DashboardDatasetSchemaChartDisplayLabelsMap;
-  column_formats?: unknown;
-  column_names?: DashboardDatasetSchemaColumnNamesList;
-  column_types?: DashboardDatasetSchemaColumnTypesList;
-  columns?: DashboardDatasetSchemaColumnsList;
-  currency_code_column?: string;
-  database?: Database;
-  datasource_name?: string;
-  default_endpoint?: string;
-  edit_url?: string;
-  editors?: DashboardDatasetSchemaEditorsList;
-  fetch_values_predicate?: string;
-  filter_select?: boolean;
-  filter_select_enabled?: boolean;
-  granularity_sqla?: DashboardDatasetSchemaGranularitySqlaList;
-  health_check_message?: string;
-  id?: number;
-  is_sqllab_view?: boolean;
-  main_dttm_col?: string;
+  chart_display_labels?: DashboardDatasetSchemaChartDisplayLabelsMap | undefined;
+  column_formats?: unknown | undefined;
+  column_names?: DashboardDatasetSchemaColumnNamesList | undefined;
+  column_types?: DashboardDatasetSchemaColumnTypesList | undefined;
+  columns?: DashboardDatasetSchemaColumnsList | undefined;
+  currency_code_column?: string | undefined;
+  database?: Database | undefined;
+  datasource_name?: string | undefined;
+  default_endpoint?: string | undefined;
+  edit_url?: string | undefined;
+  editors?: DashboardDatasetSchemaEditorsList | undefined;
+  fetch_values_predicate?: string | undefined;
+  filter_select?: boolean | undefined;
+  filter_select_enabled?: boolean | undefined;
+  granularity_sqla?: DashboardDatasetSchemaGranularitySqlaList | undefined;
+  health_check_message?: string | undefined;
+  id?: number | undefined;
+  is_sqllab_view?: boolean | undefined;
+  main_dttm_col?: string | undefined;
   /** Validation error for this dataset only. */
-  metadata_error?: string;
-  metrics?: DashboardDatasetSchemaMetricsList;
-  name?: string;
-  normalize_columns?: boolean;
-  offset?: number;
-  order_by_choices?: DashboardDatasetSchemaOrderByChoicesList;
-  params?: string;
-  parent?: unknown;
-  partition_column?: string | null;
-  partition_filter_mapping?: unknown | null;
-  partition_mapped_column?: string | null;
-  perm?: string;
-  schema?: string;
-  select_star?: string;
-  semantic_view_features?: DashboardDatasetSchemaSemanticViewFeaturesList;
-  sql?: string;
-  supports_drill_to_detail?: boolean;
-  supports_samples?: boolean;
-  table_name?: string;
-  template_params?: string;
-  time_grain_sqla?: DashboardDatasetSchemaTimeGrainSqlaList;
-  type?: string;
-  uid?: string;
-  verbose_map?: DashboardDatasetSchemaVerboseMapMap;
+  metadata_error?: string | undefined;
+  metrics?: DashboardDatasetSchemaMetricsList | undefined;
+  name?: string | undefined;
+  normalize_columns?: boolean | undefined;
+  offset?: number | undefined;
+  order_by_choices?: DashboardDatasetSchemaOrderByChoicesList | undefined;
+  params?: string | undefined;
+  parent?: unknown | undefined;
+  partition_column?: string | null | undefined;
+  partition_filter_mapping?: unknown | null | undefined;
+  partition_mapped_column?: string | null | undefined;
+  perm?: string | undefined;
+  schema?: string | undefined;
+  select_star?: string | undefined;
+  semantic_view_features?: DashboardDatasetSchemaSemanticViewFeaturesList | undefined;
+  sql?: string | undefined;
+  supports_drill_to_detail?: boolean | undefined;
+  supports_samples?: boolean | undefined;
+  table_name?: string | undefined;
+  template_params?: string | undefined;
+  time_grain_sqla?: DashboardDatasetSchemaTimeGrainSqlaList | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
+  verbose_map?: DashboardDatasetSchemaVerboseMapMap | undefined;
 }
 export type ListDashboardDatasetsResponseResultList = Array<DashboardDatasetSchema>;
 export interface ListDashboardDatasetsResponse {
-  result?: ListDashboardDatasetsResponseResultList;
+  result?: ListDashboardDatasetsResponseResultList | undefined;
 }
 export interface ListDashboardFavoriteStatusRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface ListDashboardInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListDashboardInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListDashboardInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListDashboardInfoResponseFilters {
-  column_name?: ListDashboardInfoResponseFiltersColumnNameList;
+  column_name?: ListDashboardInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListDashboardInfoResponsePermissionsList = Array<string>;
 export interface ListDashboardInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListDashboardInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListDashboardInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListDashboardInfoResponsePermissionsList;
+  permissions?: ListDashboardInfoResponsePermissionsList | undefined;
 }
 export interface ListDashboardTabsRequest {
   /** Either the id of the dashboard, or its slug */
   id_or_slug: string;
 }
 export interface ListDashboardTabsResponse {
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface ListDashboardVersionsRequest {
   /** Dashboard UUID */
@@ -6594,8 +6600,8 @@ export interface ListDashboardVersionsRequest {
 }
 export type ListDashboardVersionsResponseResultList = Array<VersionListItemSchema>;
 export interface ListDashboardVersionsResponse {
-  count?: number;
-  result?: ListDashboardVersionsResponseResultList;
+  count?: number | undefined;
+  result?: ListDashboardVersionsResponseResultList | undefined;
 }
 export interface ListDatabaseAvailableRequest {}
 /** Installed drivers for the engine */
@@ -6603,68 +6609,68 @@ export type ListDatabaseAvailableResponseBodyItemAvailableDriversList = Array<st
 /** Dict with public properties form the DB Engine */
 export interface ListDatabaseAvailableResponseBodyItemEngineInformation {
   /** Whether the engine supports SSH Tunnels */
-  disable_ssh_tunneling?: boolean;
+  disable_ssh_tunneling?: boolean | undefined;
   /** Whether the engine supports file uploads */
-  supports_file_upload?: boolean;
+  supports_file_upload?: boolean | undefined;
 }
 export interface ListDatabaseAvailableResponseBodyItem {
   /** Installed drivers for the engine */
-  available_drivers?: ListDatabaseAvailableResponseBodyItemAvailableDriversList;
+  available_drivers?: ListDatabaseAvailableResponseBodyItemAvailableDriversList | undefined;
   /** Default driver for the engine */
-  default_driver?: string;
+  default_driver?: string | undefined;
   /** Name of the SQLAlchemy engine */
-  engine?: string;
+  engine?: string | undefined;
   /** Dict with public properties form the DB Engine */
-  engine_information?: ListDatabaseAvailableResponseBodyItemEngineInformation;
+  engine_information?: ListDatabaseAvailableResponseBodyItemEngineInformation | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** JSON schema defining the needed parameters */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** Is the database preferred? */
-  preferred?: boolean;
+  preferred?: boolean | undefined;
   /** Example placeholder for the SQLAlchemy URI */
-  sqlalchemy_uri_placeholder?: string;
+  sqlalchemy_uri_placeholder?: string | undefined;
 }
 export type ListDatabaseAvailableResponseBodyList = Array<ListDatabaseAvailableResponseBodyItem>;
 export type ListDatabaseAvailableResponse = ListDatabaseAvailableResponseBodyList;
 export interface ListDatabaseCatalogsRequest {
   /** The database id */
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type CatalogsResponseSchemaResultList = Array<string>;
 export interface CatalogsResponseSchema {
-  result?: CatalogsResponseSchemaResultList;
+  result?: CatalogsResponseSchemaResultList | undefined;
 }
 export interface ListDatabaseFunctionNamesRequest {
   pk: number;
 }
 export type DatabaseFunctionNamesResponseFunctionNamesList = Array<string>;
 export interface DatabaseFunctionNamesResponse {
-  function_names?: DatabaseFunctionNamesResponseFunctionNamesList;
+  function_names?: DatabaseFunctionNamesResponseFunctionNamesList | undefined;
 }
 export interface ListDatabaseInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListDatabaseInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListDatabaseInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListDatabaseInfoResponseFilters {
-  column_name?: ListDatabaseInfoResponseFiltersColumnNameList;
+  column_name?: ListDatabaseInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListDatabaseInfoResponsePermissionsList = Array<string>;
 export interface ListDatabaseInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListDatabaseInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListDatabaseInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListDatabaseInfoResponsePermissionsList;
+  permissions?: ListDatabaseInfoResponsePermissionsList | undefined;
 }
 export interface ListDatabaseOauth2TokensRequest {
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type ListDatabaseOauth2TokensResponseIdsList = Array<number>;
 export interface DatabaseOAuth2TokensRestApiGetListUser {
@@ -6674,24 +6680,24 @@ export interface DatabaseOAuth2TokensRestApiGetListUser {
   username: string;
 }
 export interface DatabaseOAuth2TokensRestApiGetList {
-  access_token_expiration?: string | null;
-  id?: number;
+  access_token_expiration?: string | null | undefined;
+  id?: number | undefined;
   user: DatabaseOAuth2TokensRestApiGetListUser;
 }
 export type ListDatabaseOauth2TokensResponseResultList = Array<DatabaseOAuth2TokensRestApiGetList>;
 export interface ListDatabaseOauth2TokensResponse {
-  count?: number;
-  ids?: ListDatabaseOauth2TokensResponseIdsList;
-  result?: ListDatabaseOauth2TokensResponseResultList;
+  count?: number | undefined;
+  ids?: ListDatabaseOauth2TokensResponseIdsList | undefined;
+  result?: ListDatabaseOauth2TokensResponseResultList | undefined;
 }
 export interface ListDatabaseSchemasRequest {
   /** The database id */
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export type SchemasResponseSchemaResultList = Array<string>;
 export interface SchemasResponseSchema {
-  result?: SchemasResponseSchemaResultList;
+  result?: SchemasResponseSchemaResultList | undefined;
 }
 export interface ListDatabaseSchemasAccessForFileUploadRequest {
   pk: number;
@@ -6700,58 +6706,58 @@ export interface ListDatabaseSchemasAccessForFileUploadRequest {
 export type DatabaseSchemaAccessForFileUploadResponseSchemasList = Array<string>;
 export interface DatabaseSchemaAccessForFileUploadResponse {
   /** The list of schemas allowed for the database to upload information */
-  schemas?: DatabaseSchemaAccessForFileUploadResponseSchemasList;
+  schemas?: DatabaseSchemaAccessForFileUploadResponseSchemasList | undefined;
 }
 export interface ListDatabaseTablesRequest {
   /** The database id */
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 export interface DatabaseTablesResponse {
   /** Extra data used to specify column metadata */
-  extra?: unknown;
+  extra?: unknown | undefined;
   /** table or view */
-  type?: string;
+  type?: string | undefined;
   /** The table or view name */
-  value?: string;
+  value?: string | undefined;
 }
 /** A List of tables for given database */
 export type ListDatabaseTablesResponseResultList = Array<DatabaseTablesResponse>;
 export interface ListDatabaseTablesResponse {
-  count?: number;
+  count?: number | undefined;
   /** A List of tables for given database */
-  result?: ListDatabaseTablesResponseResultList;
+  result?: ListDatabaseTablesResponseResultList | undefined;
 }
 export type ListDatasetActivityRequestInclude = "self" | "related" | "all";
 export interface ListDatasetActivityRequest {
   /** Dataset UUID */
   uuid_str: string;
-  since?: string;
-  until?: string;
-  include?: ListDatasetActivityRequestInclude | (string & {});
+  since?: string | undefined;
+  until?: string | undefined;
+  include?: ListDatasetActivityRequestInclude | (string & {}) | undefined;
   /** Case-insensitive search over the full history (summary, entity name, kind, path, values) -- applied before pagination, so `count` reflects the matches. */
-  q?: string;
-  page?: number;
-  page_size?: number;
+  q?: string | undefined;
+  page?: number | undefined;
+  page_size?: number | undefined;
 }
 export interface ListDatasetInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListDatasetInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListDatasetInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListDatasetInfoResponseFilters {
-  column_name?: ListDatasetInfoResponseFiltersColumnNameList;
+  column_name?: ListDatasetInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListDatasetInfoResponsePermissionsList = Array<string>;
 export interface ListDatasetInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListDatasetInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListDatasetInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListDatasetInfoResponsePermissionsList;
+  permissions?: ListDatasetInfoResponsePermissionsList | undefined;
 }
 export interface ListDatasetVersionsRequest {
   /** Dataset UUID */
@@ -6759,8 +6765,8 @@ export interface ListDatasetVersionsRequest {
 }
 export type ListDatasetVersionsResponseResultList = Array<VersionListItemSchema>;
 export interface ListDatasetVersionsResponse {
-  count?: number;
-  result?: ListDatasetVersionsResponseResultList;
+  count?: number | undefined;
+  result?: ListDatasetVersionsResponseResultList | undefined;
 }
 export interface ListDatasourceColumnValuesRequest {
   /** The type of datasource */
@@ -6770,9 +6776,9 @@ export interface ListDatasourceColumnValuesRequest {
   /** The name of the column to get values for */
   column_name: string;
   /** Optional substring search for SQL dataset columns and text semantic dimensions. Semantic non-text dimensions return the bounded page without server-side search. Case sensitivity follows the datasource or semantic provider. */
-  q?: string;
+  q?: string | undefined;
   /** Identity version from the saved or explicitly initialized field selections. Required for versioned semantic views; never infer it from current datasource metadata for legacy selections. */
-  semantic_selection_version?: string;
+  semantic_selection_version?: string | undefined;
 }
 export type ListDatasourceColumnValuesResponseResultItem =
   | string
@@ -6785,84 +6791,84 @@ export type ListDatasourceColumnValuesResponseResultList =
 /** Selection provenance is missing or stale for this versioned semantic view; reselect fields or enter values manually. */
 export type ListDatasourceColumnValuesResponseSuggestionsStatus = "unavailable_versioned_view";
 export interface ListDatasourceColumnValuesResponse {
-  result?: ListDatasourceColumnValuesResponseResultList;
+  result?: ListDatasourceColumnValuesResponseResultList | undefined;
   /** Selection provenance is missing or stale for this versioned semantic view; reselect fields or enter values manually. */
-  suggestions_status?: ListDatasourceColumnValuesResponseSuggestionsStatus;
+  suggestions_status?: ListDatasourceColumnValuesResponseSuggestionsStatus | undefined;
 }
 export interface ListLogRecentActivityRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface RecentActivity {
   /** Action taken describing type of activity */
-  action?: string;
+  action?: string | undefined;
   /** Title of item */
-  item_title?: string;
+  item_title?: string | undefined;
   /** Type of item, e.g. slice or dashboard */
-  item_type?: string;
+  item_type?: string | undefined;
   /** URL to item */
-  item_url?: string;
+  item_url?: string | undefined;
   /** Time of activity, in epoch milliseconds */
-  time?: number;
+  time?: number | undefined;
   /** Human-readable description of how long ago activity took place. */
-  time_delta_humanized?: string;
+  time_delta_humanized?: string | undefined;
 }
 /** A list of recent activity objects */
 export type RecentActivityResponseSchemaResultList = Array<RecentActivity>;
 export interface RecentActivityResponseSchema {
   /** A list of recent activity objects */
-  result?: RecentActivityResponseSchemaResultList;
+  result?: RecentActivityResponseSchemaResultList | undefined;
 }
 export interface ListMenuRequest {}
 export type ListMenuResponseResultItemChildsList = Array<unknown>;
 export interface ListMenuResponseResultItem {
-  childs?: ListMenuResponseResultItemChildsList;
+  childs?: ListMenuResponseResultItemChildsList | undefined;
   /** Icon name to show for this menu item */
-  icon?: string;
+  icon?: string | undefined;
   /** Pretty name for the menu item */
-  label?: string;
+  label?: string | undefined;
   /** The internal menu item name, maps to permission_name */
-  name?: string;
+  name?: string | undefined;
   /** The URL for the menu item */
-  url?: string;
+  url?: string | undefined;
 }
 /** Menu items in a forest like data structure */
 export type ListMenuResponseResultList = Array<ListMenuResponseResultItem>;
 export interface ListMenuResponse {
   /** Menu items in a forest like data structure */
-  result?: ListMenuResponseResultList;
+  result?: ListMenuResponseResultList | undefined;
 }
 export interface ListQueryUpdatedSinceRequest {
-  q?: string;
+  q?: string | undefined;
 }
 /** A List of queries that changed after last_updated_ms */
 export type ListQueryUpdatedSinceResponseResultList = Array<QueryRestApiGet>;
 export interface ListQueryUpdatedSinceResponse {
   /** A List of queries that changed after last_updated_ms */
-  result?: ListQueryUpdatedSinceResponseResultList;
+  result?: ListQueryUpdatedSinceResponseResultList | undefined;
 }
 export interface ListReportInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListReportInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListReportInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListReportInfoResponseFilters {
-  column_name?: ListReportInfoResponseFiltersColumnNameList;
+  column_name?: ListReportInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListReportInfoResponsePermissionsList = Array<string>;
 export interface ListReportInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListReportInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListReportInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListReportInfoResponsePermissionsList;
+  permissions?: ListReportInfoResponsePermissionsList | undefined;
 }
 export interface ListReportLogRequest {
   /** The report schedule id for these logs */
   pk: number;
-  q?: string;
+  q?: string | undefined;
 }
 /** A list of log ids */
 export type ListReportLogResponseIdsList = Array<string>;
@@ -6871,309 +6877,309 @@ export type ReportExecutionLogRestApiGetList = ReportExecutionLogRestApiGet;
 export type ListReportLogResponseResultList = Array<ReportExecutionLogRestApiGet>;
 export interface ListReportLogResponse {
   /** The total record count on the backend */
-  count?: number;
+  count?: number | undefined;
   /** A list of log ids */
-  ids?: ListReportLogResponseIdsList;
+  ids?: ListReportLogResponseIdsList | undefined;
   /** The result from the get list query */
-  result?: ListReportLogResponseResultList;
+  result?: ListReportLogResponseResultList | undefined;
 }
 export interface ListReportSlackChannelsRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface ListReportSlackChannelsResponseResultItem {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type ListReportSlackChannelsResponseResultList =
   Array<ListReportSlackChannelsResponseResultItem>;
 export interface ListReportSlackChannelsResponse {
-  result?: ListReportSlackChannelsResponseResultList;
+  result?: ListReportSlackChannelsResponseResultList | undefined;
 }
 export interface ListRowlevelsecurityInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListRowlevelsecurityInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListRowlevelsecurityInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListRowlevelsecurityInfoResponseFilters {
-  column_name?: ListRowlevelsecurityInfoResponseFiltersColumnNameList;
+  column_name?: ListRowlevelsecurityInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListRowlevelsecurityInfoResponsePermissionsList = Array<string>;
 export interface ListRowlevelsecurityInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListRowlevelsecurityInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListRowlevelsecurityInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListRowlevelsecurityInfoResponsePermissionsList;
+  permissions?: ListRowlevelsecurityInfoResponsePermissionsList | undefined;
 }
 export interface ListSavedQueryInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSavedQueryInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSavedQueryInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSavedQueryInfoResponseFilters {
-  column_name?: ListSavedQueryInfoResponseFiltersColumnNameList;
+  column_name?: ListSavedQueryInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSavedQueryInfoResponsePermissionsList = Array<string>;
 export interface ListSavedQueryInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSavedQueryInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSavedQueryInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSavedQueryInfoResponsePermissionsList;
+  permissions?: ListSavedQueryInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityGroupInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecurityGroupInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecurityGroupInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecurityGroupInfoResponseFilters {
-  column_name?: ListSecurityGroupInfoResponseFiltersColumnNameList;
+  column_name?: ListSecurityGroupInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecurityGroupInfoResponsePermissionsList = Array<string>;
 export interface ListSecurityGroupInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecurityGroupInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecurityGroupInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecurityGroupInfoResponsePermissionsList;
+  permissions?: ListSecurityGroupInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityPermissionsInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecurityPermissionsInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecurityPermissionsInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecurityPermissionsInfoResponseFilters {
-  column_name?: ListSecurityPermissionsInfoResponseFiltersColumnNameList;
+  column_name?: ListSecurityPermissionsInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecurityPermissionsInfoResponsePermissionsList = Array<string>;
 export interface ListSecurityPermissionsInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecurityPermissionsInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecurityPermissionsInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecurityPermissionsInfoResponsePermissionsList;
+  permissions?: ListSecurityPermissionsInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityPermissionsResourceInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecurityPermissionsResourceInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecurityPermissionsResourceInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecurityPermissionsResourceInfoResponseFilters {
-  column_name?: ListSecurityPermissionsResourceInfoResponseFiltersColumnNameList;
+  column_name?: ListSecurityPermissionsResourceInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecurityPermissionsResourceInfoResponsePermissionsList = Array<string>;
 export interface ListSecurityPermissionsResourceInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecurityPermissionsResourceInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecurityPermissionsResourceInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecurityPermissionsResourceInfoResponsePermissionsList;
+  permissions?: ListSecurityPermissionsResourceInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityResourceInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecurityResourceInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecurityResourceInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecurityResourceInfoResponseFilters {
-  column_name?: ListSecurityResourceInfoResponseFiltersColumnNameList;
+  column_name?: ListSecurityResourceInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecurityResourceInfoResponsePermissionsList = Array<string>;
 export interface ListSecurityResourceInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecurityResourceInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecurityResourceInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecurityResourceInfoResponsePermissionsList;
+  permissions?: ListSecurityResourceInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityRoleInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecurityRoleInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecurityRoleInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecurityRoleInfoResponseFilters {
-  column_name?: ListSecurityRoleInfoResponseFiltersColumnNameList;
+  column_name?: ListSecurityRoleInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecurityRoleInfoResponsePermissionsList = Array<string>;
 export interface ListSecurityRoleInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecurityRoleInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecurityRoleInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecurityRoleInfoResponsePermissionsList;
+  permissions?: ListSecurityRoleInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityRolePermissionsRequest {
   role_id: number;
 }
 export interface RolePermissionListSchema {
-  id?: number;
-  permission_name?: string;
-  view_menu_name?: string;
+  id?: number | undefined;
+  permission_name?: string | undefined;
+  view_menu_name?: string | undefined;
 }
 export type ListSecurityRolePermissionsResponseResultList = Array<RolePermissionListSchema>;
 export interface ListSecurityRolePermissionsResponse {
-  result?: ListSecurityRolePermissionsResponseResultList;
+  result?: ListSecurityRolePermissionsResponseResultList | undefined;
 }
 export type ListSecurityRoleSearchRequestQFiltersItemCol = "user_ids" | "permission_ids" | "name";
 export interface ListSecurityRoleSearchRequestQFiltersItem {
-  col?: ListSecurityRoleSearchRequestQFiltersItemCol | (string & {});
-  value?: string;
+  col?: ListSecurityRoleSearchRequestQFiltersItemCol | (string & {}) | undefined;
+  value?: string | undefined;
 }
 export type ListSecurityRoleSearchRequestQFiltersList =
   Array<ListSecurityRoleSearchRequestQFiltersItem>;
 export type ListSecurityRoleSearchRequestQOrderColumn = "id" | "name";
 export type ListSecurityRoleSearchRequestQOrderDirection = "asc" | "desc";
 export interface ListSecurityRoleSearchRequestQ {
-  filters?: ListSecurityRoleSearchRequestQFiltersList;
-  order_column?: ListSecurityRoleSearchRequestQOrderColumn | (string & {});
-  order_direction?: ListSecurityRoleSearchRequestQOrderDirection | (string & {});
-  page?: number;
-  page_size?: number;
+  filters?: ListSecurityRoleSearchRequestQFiltersList | undefined;
+  order_column?: ListSecurityRoleSearchRequestQOrderColumn | (string & {}) | undefined;
+  order_direction?: ListSecurityRoleSearchRequestQOrderDirection | (string & {}) | undefined;
+  page?: number | undefined;
+  page_size?: number | undefined;
 }
 export interface ListSecurityRoleSearchRequest {
-  q?: ListSecurityRoleSearchRequestQ;
+  q?: ListSecurityRoleSearchRequestQ | undefined;
 }
 export type RolesResponseSchemaIdsList = Array<number>;
 export type RoleResponseSchemaPermissionIdsList = Array<number>;
 export type RoleResponseSchemaUserIdsList = Array<number>;
 export interface RoleResponseSchema {
-  id?: number;
-  name?: string;
-  permission_ids?: RoleResponseSchemaPermissionIdsList;
-  user_ids?: RoleResponseSchemaUserIdsList;
+  id?: number | undefined;
+  name?: string | undefined;
+  permission_ids?: RoleResponseSchemaPermissionIdsList | undefined;
+  user_ids?: RoleResponseSchemaUserIdsList | undefined;
 }
 export type RolesResponseSchemaResultList = Array<RoleResponseSchema>;
 export interface RolesResponseSchema {
-  count?: number;
-  ids?: RolesResponseSchemaIdsList;
-  result?: RolesResponseSchemaResultList;
+  count?: number | undefined;
+  ids?: RolesResponseSchemaIdsList | undefined;
+  result?: RolesResponseSchemaResultList | undefined;
 }
 export interface ListSecuritySubjectInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecuritySubjectInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecuritySubjectInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecuritySubjectInfoResponseFilters {
-  column_name?: ListSecuritySubjectInfoResponseFiltersColumnNameList;
+  column_name?: ListSecuritySubjectInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecuritySubjectInfoResponsePermissionsList = Array<string>;
 export interface ListSecuritySubjectInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecuritySubjectInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecuritySubjectInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecuritySubjectInfoResponsePermissionsList;
+  permissions?: ListSecuritySubjectInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityUserInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecurityUserInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecurityUserInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecurityUserInfoResponseFilters {
-  column_name?: ListSecurityUserInfoResponseFiltersColumnNameList;
+  column_name?: ListSecurityUserInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecurityUserInfoResponsePermissionsList = Array<string>;
 export interface ListSecurityUserInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecurityUserInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecurityUserInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecurityUserInfoResponsePermissionsList;
+  permissions?: ListSecurityUserInfoResponsePermissionsList | undefined;
 }
 export interface ListSecurityUserRegistrationInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSecurityUserRegistrationInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListSecurityUserRegistrationInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListSecurityUserRegistrationInfoResponseFilters {
-  column_name?: ListSecurityUserRegistrationInfoResponseFiltersColumnNameList;
+  column_name?: ListSecurityUserRegistrationInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListSecurityUserRegistrationInfoResponsePermissionsList = Array<string>;
 export interface ListSecurityUserRegistrationInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListSecurityUserRegistrationInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListSecurityUserRegistrationInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListSecurityUserRegistrationInfoResponsePermissionsList;
+  permissions?: ListSecurityUserRegistrationInfoResponsePermissionsList | undefined;
 }
 export interface ListSqllabRequest {}
 export interface Table {
-  database_id?: number;
-  description?: string;
-  expanded?: boolean;
-  id?: number;
-  schema?: string;
-  tab_state_id?: number;
-  table?: string;
+  database_id?: number | undefined;
+  description?: string | undefined;
+  expanded?: boolean | undefined;
+  id?: number | undefined;
+  schema?: string | undefined;
+  tab_state_id?: number | undefined;
+  table?: string | undefined;
 }
 export type TabStateTableSchemasList = Array<Table>;
 export interface TabState {
-  active?: boolean;
-  autorun?: boolean;
-  database_id?: number;
-  extra_json?: unknown;
-  hide_left_bar?: boolean;
-  id?: string;
-  label?: string;
-  latest_query?: QueryResult;
-  query_limit?: number;
-  saved_query?: unknown | null;
-  schema?: string;
-  sql?: string;
-  table_schemas?: TabStateTableSchemasList;
-  user_id?: number;
+  active?: boolean | undefined;
+  autorun?: boolean | undefined;
+  database_id?: number | undefined;
+  extra_json?: unknown | undefined;
+  hide_left_bar?: boolean | undefined;
+  id?: string | undefined;
+  label?: string | undefined;
+  latest_query?: QueryResult | undefined;
+  query_limit?: number | undefined;
+  saved_query?: unknown | null | undefined;
+  schema?: string | undefined;
+  sql?: string | undefined;
+  table_schemas?: TabStateTableSchemasList | undefined;
+  user_id?: number | undefined;
 }
 export interface SQLLabBootstrapDatabase {
-  allow_ctas?: boolean;
-  allow_cvas?: boolean;
-  allow_dml?: boolean;
-  allow_file_upload?: boolean;
-  allow_multi_catalog?: boolean;
-  allow_run_async?: boolean;
-  allows_cost_estimate?: boolean | null;
-  allows_subquery?: boolean;
-  allows_virtual_table_explore?: boolean;
+  allow_ctas?: boolean | undefined;
+  allow_cvas?: boolean | undefined;
+  allow_dml?: boolean | undefined;
+  allow_file_upload?: boolean | undefined;
+  allow_multi_catalog?: boolean | undefined;
+  allow_run_async?: boolean | undefined;
+  allows_cost_estimate?: boolean | null | undefined;
+  allows_subquery?: boolean | undefined;
+  allows_virtual_table_explore?: boolean | undefined;
   /** The database backend */
-  backend?: string;
+  backend?: string | undefined;
   /** The database name */
-  database_name?: string;
-  disable_data_preview?: boolean;
-  disable_drill_to_detail?: boolean;
+  database_name?: string | undefined;
+  disable_data_preview?: boolean | undefined;
+  disable_drill_to_detail?: boolean | undefined;
   /** Dialect capabilities, including identifier_quote */
-  engine_information?: EngineInformation;
-  expose_in_sqllab?: boolean;
-  force_ctas_schema?: string | null;
+  engine_information?: EngineInformation | undefined;
+  expose_in_sqllab?: boolean | undefined;
+  force_ctas_schema?: string | null | undefined;
   /** The database id */
-  id?: number;
+  id?: number | undefined;
 }
 export type SQLLabBootstrapSchemaDatabasesMap = {
   [key: string]: SQLLabBootstrapDatabase | undefined;
@@ -7181,100 +7187,100 @@ export type SQLLabBootstrapSchemaDatabasesMap = {
 export type SQLLabBootstrapSchemaQueriesMap = { [key: string]: QueryResult | undefined };
 export type SQLLabBootstrapSchemaTabStateIdsList = Array<string>;
 export interface SQLLabBootstrapSchema {
-  active_tab?: TabState;
-  databases?: SQLLabBootstrapSchemaDatabasesMap;
-  queries?: SQLLabBootstrapSchemaQueriesMap;
-  tab_state_ids?: SQLLabBootstrapSchemaTabStateIdsList;
+  active_tab?: TabState | undefined;
+  databases?: SQLLabBootstrapSchemaDatabasesMap | undefined;
+  queries?: SQLLabBootstrapSchemaQueriesMap | undefined;
+  tab_state_ids?: SQLLabBootstrapSchemaTabStateIdsList | undefined;
 }
 export interface ListSqllabResultsRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export interface ListTagFavoriteStatusRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListTagGetObjectsRequestTagIdsList = Array<number>;
 export type ListTagGetObjectsRequestTagsList = Array<string>;
 export type ListTagGetObjectsRequestTypesList = Array<string>;
 export interface ListTagGetObjectsRequest {
-  tagIds?: ListTagGetObjectsRequestTagIdsList;
-  tags?: ListTagGetObjectsRequestTagsList;
-  types?: ListTagGetObjectsRequestTypesList;
+  tagIds?: ListTagGetObjectsRequestTagIdsList | undefined;
+  tags?: ListTagGetObjectsRequestTagsList | undefined;
+  types?: ListTagGetObjectsRequestTypesList | undefined;
 }
 export type TaggedObjectEntityResponseSchemaEditorsList = Array<SubjectResponse>;
 export interface TagGetResponseSchema {
-  id?: number;
-  name?: string;
-  type?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export type TaggedObjectEntityResponseSchemaTagsList = Array<TagGetResponseSchema>;
 export interface TaggedObjectEntityResponseSchema {
-  changed_on?: string;
-  created_by?: VersionChangedBy;
-  creator?: string;
-  editors?: TaggedObjectEntityResponseSchemaEditorsList;
-  id?: number;
-  name?: string;
-  tags?: TaggedObjectEntityResponseSchemaTagsList;
-  type?: string;
-  url?: string;
+  changed_on?: string | undefined;
+  created_by?: VersionChangedBy | undefined;
+  creator?: string | undefined;
+  editors?: TaggedObjectEntityResponseSchemaEditorsList | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  tags?: TaggedObjectEntityResponseSchemaTagsList | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type ListTagGetObjectsResponseResultList = Array<TaggedObjectEntityResponseSchema>;
 export interface ListTagGetObjectsResponse {
-  result?: ListTagGetObjectsResponseResultList;
+  result?: ListTagGetObjectsResponseResultList | undefined;
 }
 export interface ListTagInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListTagInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListTagInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListTagInfoResponseFilters {
-  column_name?: ListTagInfoResponseFiltersColumnNameList;
+  column_name?: ListTagInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListTagInfoResponsePermissionsList = Array<string>;
 export interface ListTagInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListTagInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListTagInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListTagInfoResponsePermissionsList;
+  permissions?: ListTagInfoResponsePermissionsList | undefined;
 }
 export interface ListThemeInfoRequest {
-  q?: string;
+  q?: string | undefined;
 }
 export type ListThemeInfoResponseFiltersColumnNameItem =
   ListAnnotationLayerInfoResponseFiltersColumnNameItem;
 export type ListThemeInfoResponseFiltersColumnNameList =
   Array<ListAnnotationLayerInfoResponseFiltersColumnNameItem>;
 export interface ListThemeInfoResponseFilters {
-  column_name?: ListThemeInfoResponseFiltersColumnNameList;
+  column_name?: ListThemeInfoResponseFiltersColumnNameList | undefined;
 }
 /** The user permissions for this API resource */
 export type ListThemeInfoResponsePermissionsList = Array<string>;
 export interface ListThemeInfoResponse {
-  add_columns?: unknown;
-  edit_columns?: unknown;
-  filters?: ListThemeInfoResponseFilters;
+  add_columns?: unknown | undefined;
+  edit_columns?: unknown | undefined;
+  filters?: ListThemeInfoResponseFilters | undefined;
   /** The user permissions for this API resource */
-  permissions?: ListThemeInfoResponsePermissionsList;
+  permissions?: ListThemeInfoResponsePermissionsList | undefined;
 }
 /** Choose an authentication provider */
 export type LoginSecurityRequestProvider = "db" | "ldap";
 export interface LoginSecurityRequest {
   /** The password for authentication */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Choose an authentication provider */
-  provider?: LoginSecurityRequestProvider | (string & {});
+  provider?: LoginSecurityRequestProvider | (string & {}) | undefined;
   /** If true a refresh token is provided also */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
   /** The username for authentication */
-  username?: string;
+  username?: string | undefined;
 }
 export interface LoginSecurityResponse {
-  access_token?: string | Redacted.Redacted<string>;
-  refresh_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Filter operator being mirrored. Only operators the preview can construct are accepted: TEMPORAL_RANGE is mirrored by the query path as two bounds decomposed from a since/until pair, which this request has no way to express. */
 export type PreviewDatasetPartitionMappingRequestOperator = "<" | "<=" | "==" | ">" | ">=" | "IN";
@@ -7286,24 +7292,27 @@ export interface PreviewDatasetPartitionMappingRequest {
   /** The dataset ID */
   pk: number;
   /** Whether the owner has declared the transform order-preserving. Range operators only mirror when they have. */
-  is_monotonic?: boolean;
+  is_monotonic?: boolean | undefined;
   /** Column whose filters would be mirrored */
   mapped_column: string;
   /** Filter operator being mirrored. Only operators the preview can construct are accepted: TEMPORAL_RANGE is mirrored by the query path as two bounds decomposed from a since/until pair, which this request has no way to express. */
-  operator?: PreviewDatasetPartitionMappingRequestOperator | (string & {});
+  operator?: PreviewDatasetPartitionMappingRequestOperator | (string & {}) | undefined;
   /** Candidate partition column. The editor previews a mapping before it is saved, so this overrides the stored value; omitted, the stored one is used. */
-  partition_column?: string | null;
+  partition_column?: string | null | undefined;
   /** Values to evaluate the transform at. A comparison operator takes one; IN takes the whole list. */
   sample_values: PreviewDatasetPartitionMappingRequestSampleValuesList;
   /** One to three existing integer partition keys for explicit data validation */
-  validation_partition_values?: PreviewDatasetPartitionMappingRequestValidationPartitionValuesList | null;
+  validation_partition_values?:
+    | PreviewDatasetPartitionMappingRequestValidationPartitionValuesList
+    | null
+    | undefined;
   /** SQL expression containing a :value placeholder */
   value_transform: string | null;
 }
 export interface PreviewDatasetPartitionMappingResponseResultDataValidationExamplesItem {
-  source_value?: string;
-  stored_key?: string;
-  transformed_value?: string | null;
+  source_value?: string | undefined;
+  stored_key?: string | undefined;
+  transformed_value?: string | null | undefined;
 }
 export type PreviewDatasetPartitionMappingResponseResultDataValidationExamplesList =
   Array<PreviewDatasetPartitionMappingResponseResultDataValidationExamplesItem>;
@@ -7317,16 +7326,18 @@ export type PreviewDatasetPartitionMappingResponseResultDataValidationStatus =
   | "inconclusive"
   | "refused";
 export interface PreviewDatasetPartitionMappingResponseResultDataValidation {
-  checked_rows?: number;
-  examples?: PreviewDatasetPartitionMappingResponseResultDataValidationExamplesList;
+  checked_rows?: number | undefined;
+  examples?: PreviewDatasetPartitionMappingResponseResultDataValidationExamplesList | undefined;
   /** Partition keys whose rows could not be read, present when the status is inconclusive. */
-  inconclusive_keys?: PreviewDatasetPartitionMappingResponseResultDataValidationInconclusiveKeysList;
-  message?: string;
-  mismatch_count?: number;
-  partitions_checked?: number;
-  partitions_requested?: number;
-  skipped_rows?: number;
-  status?: PreviewDatasetPartitionMappingResponseResultDataValidationStatus;
+  inconclusive_keys?:
+    | PreviewDatasetPartitionMappingResponseResultDataValidationInconclusiveKeysList
+    | undefined;
+  message?: string | undefined;
+  mismatch_count?: number | undefined;
+  partitions_checked?: number | undefined;
+  partitions_requested?: number | undefined;
+  skipped_rows?: number | undefined;
+  status?: PreviewDatasetPartitionMappingResponseResultDataValidationStatus | undefined;
 }
 /** Why predicate evaluation was declined. Absent on evaluation success. The editor branches on this to decide how to present the failure. */
 export type PreviewDatasetPartitionMappingResponseResultReason =
@@ -7342,54 +7353,54 @@ export type PreviewDatasetPartitionMappingResponseResultReason =
   | "engine"
   | "type";
 export interface PreviewDatasetPartitionMappingResponseResult {
-  data_validation?: PreviewDatasetPartitionMappingResponseResultDataValidation;
-  emitted_predicate?: string;
-  error?: string;
+  data_validation?: PreviewDatasetPartitionMappingResponseResultDataValidation | undefined;
+  emitted_predicate?: string | undefined;
+  error?: string | undefined;
   /** Why predicate evaluation was declined. Absent on evaluation success. The editor branches on this to decide how to present the failure. */
-  reason?: PreviewDatasetPartitionMappingResponseResultReason;
-  sample_input?: string;
+  reason?: PreviewDatasetPartitionMappingResponseResultReason | undefined;
+  sample_input?: string | undefined;
   /** Expression/predicate evaluation succeeded; not a guarantee of partition correspondence. */
-  valid?: boolean;
+  valid?: boolean | undefined;
 }
 export interface PreviewDatasetPartitionMappingResponse {
-  result?: PreviewDatasetPartitionMappingResponseResult;
+  result?: PreviewDatasetPartitionMappingResponseResult | undefined;
 }
 export interface PurgeChartRequest {
   uuid: string;
 }
 export interface PurgeChartResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface PurgeDashboardRequest {
   uuid: string;
 }
 export interface PurgeDashboardResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface PurgeDatasetRequest {
   uuid: string;
   confirmed_impact_token: string;
 }
 export interface PurgeDatasetResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface PutAnnotationLayerRequest {
   /** The annotation layer pk for this annotation */
   pk: number;
   /** Give a description for this annotation layer */
-  descr?: string;
+  descr?: string | undefined;
   /** The annotation layer name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface AnnotationLayerRestApiPut {
   /** Give a description for this annotation layer */
-  descr?: string;
+  descr?: string | undefined;
   /** The annotation layer name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutAnnotationLayerResponse {
-  id?: number;
-  result?: AnnotationLayerRestApiPut;
+  id?: number | undefined;
+  result?: AnnotationLayerRestApiPut | undefined;
 }
 export interface PutAnnotationLayerAnnotationRequest {
   /** The annotation layer pk for this annotation */
@@ -7397,31 +7408,31 @@ export interface PutAnnotationLayerAnnotationRequest {
   /** The annotation pk for this annotation */
   annotation_id: number;
   /** The annotation end date time */
-  end_dttm?: string;
+  end_dttm?: string | undefined;
   /** JSON metadata */
-  json_metadata?: string | null;
+  json_metadata?: string | null | undefined;
   /** A long description */
-  long_descr?: string | null;
+  long_descr?: string | null | undefined;
   /** A short description */
-  short_descr?: string;
+  short_descr?: string | undefined;
   /** The annotation start date time */
-  start_dttm?: string;
+  start_dttm?: string | undefined;
 }
 export interface AnnotationRestApiPut {
   /** The annotation end date time */
-  end_dttm?: string;
+  end_dttm?: string | undefined;
   /** JSON metadata */
-  json_metadata?: string | null;
+  json_metadata?: string | null | undefined;
   /** A long description */
-  long_descr?: string | null;
+  long_descr?: string | null | undefined;
   /** A short description */
-  short_descr?: string;
+  short_descr?: string | undefined;
   /** The annotation start date time */
-  start_dttm?: string;
+  start_dttm?: string | undefined;
 }
 export interface PutAnnotationLayerAnnotationResponse {
-  id?: number;
-  result?: AnnotationRestApiPut;
+  id?: number | undefined;
+  result?: AnnotationRestApiPut | undefined;
 }
 export type PutChartRequestDashboardsList = Array<number>;
 /** The type of dataset/datasource identified on `datasource_id`. */
@@ -7443,9 +7454,9 @@ export type PutChartRequestEditorsList = Array<PutChartRequestEditorsItem>;
 export interface PutChartRequestNormalizationChangesItem {
   control: string;
   from_present: boolean;
-  from_value?: unknown;
+  from_value?: unknown | undefined;
   to_present: boolean;
-  to_value?: unknown;
+  to_value?: unknown | undefined;
 }
 /** Optional advisory Explore hydration transitions used only to remove exact automatic normalization changes from human-readable version history. Invalid metadata is ignored. */
 export type PutChartRequestNormalizationChangesList =
@@ -7462,36 +7473,36 @@ export type PutChartRequestViewersList = Array<PutChartRequestViewersItem>;
 export interface PutChartRequest {
   pk: number;
   /** Duration (in seconds) of the caching timeout for this chart. Note this defaults to the datasource/table timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this chart */
-  certified_by?: string | null;
-  dashboards?: PutChartRequestDashboardsList;
+  certified_by?: string | null | undefined;
+  dashboards?: PutChartRequestDashboardsList | undefined;
   /** The id of the dataset/datasource this new chart will use. A complete datasource identification needs `datasource_id` and `datasource_type`. */
-  datasource_id?: number | null;
+  datasource_id?: number | null | undefined;
   /** The type of dataset/datasource identified on `datasource_id`. */
-  datasource_type?: PutChartRequestDatasourceType | (string & {}) | null;
+  datasource_type?: PutChartRequestDatasourceType | (string & {}) | null | undefined;
   /** A description of the chart propose. */
-  description?: string | null;
-  editors?: PutChartRequestEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: PutChartRequestEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** Optional advisory Explore hydration transitions used only to remove exact automatic normalization changes from human-readable version history. Invalid metadata is ignored. */
-  normalization_changes?: PutChartRequestNormalizationChangesList | null;
+  normalization_changes?: PutChartRequestNormalizationChangesList | null | undefined;
   /** Parameters are generated dynamically when clicking the save or overwrite button in the explore view. This JSON object for power users who may want to alter specific parameters. */
-  params?: string | null;
+  params?: string | null | undefined;
   /** The query context represents the queries that need to run in order to generate the data the visualization, and in what format the data should be returned. */
-  query_context?: string | null;
+  query_context?: string | null | undefined;
   /** The query context generation represents whether the query_contextis user generated or not so that it does not update user modifiedstate. */
-  query_context_generation?: boolean | null;
+  query_context_generation?: boolean | null | undefined;
   /** The name of the chart. */
-  slice_name?: string | null;
-  tags?: PutChartRequestTagsList;
-  uuid?: string | null;
-  viewers?: PutChartRequestViewersList;
+  slice_name?: string | null | undefined;
+  tags?: PutChartRequestTagsList | undefined;
+  uuid?: string | null | undefined;
+  viewers?: PutChartRequestViewersList | undefined;
   /** The type of chart visualization used. */
-  viz_type?: string | null;
+  viz_type?: string | null | undefined;
 }
 export type ChartRestApiPutOutputDashboardsList = Array<number>;
 /** The type of dataset/datasource identified on `datasource_id`. */
@@ -7521,81 +7532,81 @@ export type ChartRestApiPutOutputViewersItem = number | ChartRestApiPutOutputVie
 export type ChartRestApiPutOutputViewersList = Array<ChartRestApiPutOutputViewersItem>;
 export interface ChartRestApiPutOutput {
   /** Duration (in seconds) of the caching timeout for this chart. Note this defaults to the datasource/table timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this chart */
-  certified_by?: string | null;
-  dashboards?: ChartRestApiPutOutputDashboardsList;
+  certified_by?: string | null | undefined;
+  dashboards?: ChartRestApiPutOutputDashboardsList | undefined;
   /** The id of the dataset/datasource this new chart will use. A complete datasource identification needs `datasource_id` and `datasource_type`. */
-  datasource_id?: number | null;
+  datasource_id?: number | null | undefined;
   /** The type of dataset/datasource identified on `datasource_id`. */
-  datasource_type?: ChartRestApiPutOutputDatasourceType | null;
+  datasource_type?: ChartRestApiPutOutputDatasourceType | null | undefined;
   /** A description of the chart propose. */
-  description?: string | null;
-  editors?: ChartRestApiPutOutputEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: ChartRestApiPutOutputEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** Parameters are generated dynamically when clicking the save or overwrite button in the explore view. This JSON object for power users who may want to alter specific parameters. */
-  params?: string | null;
+  params?: string | null | undefined;
   /** The query context represents the queries that need to run in order to generate the data the visualization, and in what format the data should be returned. */
-  query_context?: string | null;
+  query_context?: string | null | undefined;
   /** The query context generation represents whether the query_contextis user generated or not so that it does not update user modifiedstate. */
-  query_context_generation?: boolean | null;
+  query_context_generation?: boolean | null | undefined;
   /** The name of the chart. */
-  slice_name?: string | null;
-  tags?: ChartRestApiPutOutputTagsList;
-  uuid?: string | null;
-  viewers?: ChartRestApiPutOutputViewersList;
+  slice_name?: string | null | undefined;
+  tags?: ChartRestApiPutOutputTagsList | undefined;
+  uuid?: string | null | undefined;
+  viewers?: ChartRestApiPutOutputViewersList | undefined;
   /** The type of chart visualization used. */
-  viz_type?: string | null;
+  viz_type?: string | null | undefined;
 }
 export interface PutChartResponse {
-  id?: number;
+  id?: number | undefined;
   /** Continuum transaction_id of the live row after this update. Differs from old_transaction_id when the update produced a new version row. */
-  new_transaction_id?: number | null;
+  new_transaction_id?: number | null | undefined;
   /** 0-based version_number of the newly-live row after this update. Can equal old_version when no versioned column changed, or when retention pruning dropped an older closed row in the same commit. */
-  new_version?: number | null;
+  new_version?: number | null | undefined;
   /** Deterministic version_uuid of the live row after this update. Null when version capture is disabled. */
-  new_version_uuid?: string | null;
+  new_version_uuid?: string | null | undefined;
   /** Continuum transaction_id of the live row before this update. Stable across pruning. */
-  old_transaction_id?: number | null;
+  old_transaction_id?: number | null | undefined;
   /** 0-based version_number of the live row before this update. Unstable under retention pruning -- see old_transaction_id for a stable identifier. */
-  old_version?: number | null;
+  old_version?: number | null | undefined;
   /** Deterministic version_uuid of the live row before this update. Null when version capture is disabled or the entity has no version rows yet. */
-  old_version_uuid?: string | null;
-  result?: ChartRestApiPutOutput;
+  old_version_uuid?: string | null | undefined;
+  result?: ChartRestApiPutOutput | undefined;
 }
 export interface PutChartWarmUpCacheRequest {
   /** The ID of the chart to warm up cache for */
   chart_id: number;
   /** The ID of the dashboard to get filters for when warming cache */
-  dashboard_id?: number;
+  dashboard_id?: number | undefined;
   /** Extra filters to apply when warming up cache */
-  extra_filters?: string;
+  extra_filters?: string | undefined;
 }
 export interface ChartCacheWarmUpResponseSingle {
   /** The ID of the chart the status belongs to */
-  chart_id?: number;
+  chart_id?: number | undefined;
   /** Error that occurred when warming cache for chart */
-  viz_error?: string;
+  viz_error?: string | undefined;
   /** Status of the underlying query for the viz */
-  viz_status?: string;
+  viz_status?: string | undefined;
 }
 /** A list of each chart's warmup status and errors if any */
 export type ChartCacheWarmUpResponseSchemaResultList = Array<ChartCacheWarmUpResponseSingle>;
 export interface ChartCacheWarmUpResponseSchema {
   /** A list of each chart's warmup status and errors if any */
-  result?: ChartCacheWarmUpResponseSchemaResultList;
+  result?: ChartCacheWarmUpResponseSchemaResultList | undefined;
 }
 export interface PutCssTemplateRequest {
   pk: number;
-  css?: string | null;
-  template_name?: string | null;
+  css?: string | null | undefined;
+  template_name?: string | null | undefined;
 }
 export type CssTemplateRestApiPut = CssTemplateRestApiPost;
 export interface PutCssTemplateResponse {
-  result?: CssTemplateRestApiPost;
+  result?: CssTemplateRestApiPost | undefined;
 }
 export type PutDashboardRequestEditorsItemCase1Type = "user" | "role" | "group" | "subject";
 export interface PutDashboardRequestEditorsItemCase1 {
@@ -7617,31 +7628,31 @@ export type PutDashboardRequestViewersList = Array<PutDashboardRequestViewersIte
 export interface PutDashboardRequest {
   pk: number;
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this dashboard */
-  certified_by?: string | null;
+  certified_by?: string | null | undefined;
   /** Override CSS for the dashboard. */
-  css?: string | null;
+  css?: string | null | undefined;
   /** A title for the dashboard. */
-  dashboard_title?: string | null;
+  dashboard_title?: string | null | undefined;
   /** A description for the dashboard. */
-  description?: string | null;
-  editors?: PutDashboardRequestEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: PutDashboardRequestEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** This JSON object is generated dynamically when clicking the save or overwrite button in the dashboard view. It is exposed here for reference and for power users who may want to alter specific parameters. */
-  json_metadata?: string | null;
+  json_metadata?: string | null | undefined;
   /** This json object describes the positioning of the widgets in the dashboard. It is dynamically generated when adjusting the widgets size and positions by using drag & drop in the dashboard view */
-  position_json?: string | null;
+  position_json?: string | null | undefined;
   /** Determines whether or not this dashboard is visible in the list of all dashboards. */
-  published?: boolean | null;
+  published?: boolean | null | undefined;
   /** Unique identifying part for the web address of the dashboard. */
-  slug?: string | null;
-  tags?: PutDashboardRequestTagsList;
+  slug?: string | null | undefined;
+  tags?: PutDashboardRequestTagsList | undefined;
   /** Theme ID for the dashboard */
-  theme_id?: number | null;
-  uuid?: string | null;
-  viewers?: PutDashboardRequestViewersList;
+  theme_id?: number | null | undefined;
+  uuid?: string | null | undefined;
+  viewers?: PutDashboardRequestViewersList | undefined;
 }
 export type DashboardRestApiPutEditorsItemCase1Type = "user" | "role" | "group" | "subject";
 export interface DashboardRestApiPutEditorsItemCase1 {
@@ -7662,77 +7673,77 @@ export type DashboardRestApiPutViewersItem = number | DashboardRestApiPutViewers
 export type DashboardRestApiPutViewersList = Array<DashboardRestApiPutViewersItem | null>;
 export interface DashboardRestApiPut {
   /** Details of the certification */
-  certification_details?: string | null;
+  certification_details?: string | null | undefined;
   /** Person or group that has certified this dashboard */
-  certified_by?: string | null;
+  certified_by?: string | null | undefined;
   /** Override CSS for the dashboard. */
-  css?: string | null;
+  css?: string | null | undefined;
   /** A title for the dashboard. */
-  dashboard_title?: string | null;
+  dashboard_title?: string | null | undefined;
   /** A description for the dashboard. */
-  description?: string | null;
-  editors?: DashboardRestApiPutEditorsList;
-  external_url?: string | null;
-  is_managed_externally?: boolean | null;
+  description?: string | null | undefined;
+  editors?: DashboardRestApiPutEditorsList | undefined;
+  external_url?: string | null | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** This JSON object is generated dynamically when clicking the save or overwrite button in the dashboard view. It is exposed here for reference and for power users who may want to alter specific parameters. */
-  json_metadata?: string | null;
+  json_metadata?: string | null | undefined;
   /** This json object describes the positioning of the widgets in the dashboard. It is dynamically generated when adjusting the widgets size and positions by using drag & drop in the dashboard view */
-  position_json?: string | null;
+  position_json?: string | null | undefined;
   /** Determines whether or not this dashboard is visible in the list of all dashboards. */
-  published?: boolean | null;
+  published?: boolean | null | undefined;
   /** Unique identifying part for the web address of the dashboard. */
-  slug?: string | null;
-  tags?: DashboardRestApiPutTagsList;
+  slug?: string | null | undefined;
+  tags?: DashboardRestApiPutTagsList | undefined;
   /** Theme ID for the dashboard */
-  theme_id?: number | null;
-  uuid?: string | null;
-  viewers?: DashboardRestApiPutViewersList;
+  theme_id?: number | null | undefined;
+  uuid?: string | null | undefined;
+  viewers?: DashboardRestApiPutViewersList | undefined;
 }
 export interface PutDashboardResponse {
-  id?: number;
-  last_modified_time?: number;
+  id?: number | undefined;
+  last_modified_time?: number | undefined;
   /** Continuum transaction_id of the live row after this update. Differs from old_transaction_id when the update produced a new version row. */
-  new_transaction_id?: number | null;
+  new_transaction_id?: number | null | undefined;
   /** 0-based version_number of the newly-live row after this update. Can equal old_version when no versioned column changed, or when retention pruning dropped an older closed row in the same commit. */
-  new_version?: number | null;
+  new_version?: number | null | undefined;
   /** Deterministic version_uuid of the live row after this update. Null when version capture is disabled. */
-  new_version_uuid?: string | null;
+  new_version_uuid?: string | null | undefined;
   /** Continuum transaction_id of the live row before this update. Stable across pruning. */
-  old_transaction_id?: number | null;
+  old_transaction_id?: number | null | undefined;
   /** 0-based version_number of the live row before this update. Unstable under retention pruning -- see old_transaction_id for a stable identifier. */
-  old_version?: number | null;
+  old_version?: number | null | undefined;
   /** Deterministic version_uuid of the live row before this update. Null when version capture is disabled or the entity has no version rows yet. */
-  old_version_uuid?: string | null;
-  result?: DashboardRestApiPut;
+  old_version_uuid?: string | null | undefined;
+  result?: DashboardRestApiPut | undefined;
 }
 export type PutDashboardChartCustomizationsRequestDeletedList = Array<string>;
 export type PutDashboardChartCustomizationsRequestModifiedList = Array<unknown>;
 export type PutDashboardChartCustomizationsRequestReorderedList = Array<string>;
 export interface PutDashboardChartCustomizationsRequest {
   pk: number;
-  deleted?: PutDashboardChartCustomizationsRequestDeletedList;
-  modified?: PutDashboardChartCustomizationsRequestModifiedList;
-  reordered?: PutDashboardChartCustomizationsRequestReorderedList;
+  deleted?: PutDashboardChartCustomizationsRequestDeletedList | undefined;
+  modified?: PutDashboardChartCustomizationsRequestModifiedList | undefined;
+  reordered?: PutDashboardChartCustomizationsRequestReorderedList | undefined;
 }
 export type PutDashboardChartCustomizationsResponseResultList = Array<unknown>;
 export interface PutDashboardChartCustomizationsResponse {
-  result?: PutDashboardChartCustomizationsResponseResultList;
+  result?: PutDashboardChartCustomizationsResponseResultList | undefined;
 }
 export type PutDashboardColorsRequestColorSchemeDomainList = Array<string>;
 export type PutDashboardColorsRequestSharedLabelColorsList = Array<string>;
 export interface PutDashboardColorsRequest {
   pk: number;
-  mark_updated?: boolean;
-  color_namespace?: string | null;
-  color_scheme?: string | null;
-  color_scheme_domain?: PutDashboardColorsRequestColorSchemeDomainList;
-  label_colors?: unknown;
-  map_label_colors?: unknown;
-  shared_label_colors?: PutDashboardColorsRequestSharedLabelColorsList;
+  mark_updated?: boolean | undefined;
+  color_namespace?: string | null | undefined;
+  color_scheme?: string | null | undefined;
+  color_scheme_domain?: PutDashboardColorsRequestColorSchemeDomainList | undefined;
+  label_colors?: unknown | undefined;
+  map_label_colors?: unknown | undefined;
+  shared_label_colors?: PutDashboardColorsRequestSharedLabelColorsList | undefined;
 }
 export type PutDashboardColorsResponseResultList = Array<unknown>;
 export interface PutDashboardColorsResponse {
-  result?: PutDashboardColorsResponseResultList;
+  result?: PutDashboardColorsResponseResultList | undefined;
 }
 export type PutDashboardEmbeddedRequestAllowedDomainsList = Array<string>;
 export interface PutDashboardEmbeddedRequest {
@@ -7741,31 +7752,31 @@ export interface PutDashboardEmbeddedRequest {
   allowed_domains: PutDashboardEmbeddedRequestAllowedDomainsList;
 }
 export interface PutDashboardEmbeddedResponse {
-  result?: EmbeddedDashboardResponseSchema;
+  result?: EmbeddedDashboardResponseSchema | undefined;
 }
 export type PutDashboardFiltersRequestDeletedList = Array<string>;
 export type PutDashboardFiltersRequestModifiedList = Array<unknown>;
 export type PutDashboardFiltersRequestReorderedList = Array<string>;
 export interface PutDashboardFiltersRequest {
   pk: number;
-  deleted?: PutDashboardFiltersRequestDeletedList;
-  modified?: PutDashboardFiltersRequestModifiedList;
-  reordered?: PutDashboardFiltersRequestReorderedList;
+  deleted?: PutDashboardFiltersRequestDeletedList | undefined;
+  modified?: PutDashboardFiltersRequestModifiedList | undefined;
+  reordered?: PutDashboardFiltersRequestReorderedList | undefined;
 }
 export type PutDashboardFiltersResponseResultList = Array<unknown>;
 export interface PutDashboardFiltersResponse {
-  result?: PutDashboardFiltersResponseResultList;
+  result?: PutDashboardFiltersResponseResultList | undefined;
 }
 export interface PutDashboardFilterStateRequest {
   pk: number;
   key: string;
-  tab_id?: number;
+  tab_id?: number | undefined;
   /** Any type of JSON supported text. */
   value: string;
 }
 export interface PutDashboardFilterStateResponse {
   /** The key to retrieve the value. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
 export type PutDatabaseRequestConfigurationMethod = "sqlalchemy_form" | "dynamic_form";
@@ -7774,45 +7785,45 @@ export type PutDatabaseRequestParametersMap = { [key: string]: unknown | undefin
 export interface PutDatabaseRequest {
   pk: number;
   /** Allow CREATE TABLE AS option in SQL Lab */
-  allow_ctas?: boolean;
+  allow_ctas?: boolean | undefined;
   /** Allow CREATE VIEW AS option in SQL Lab */
-  allow_cvas?: boolean;
+  allow_cvas?: boolean | undefined;
   /** Allow users to run non-SELECT statements (UPDATE, DELETE, CREATE, ...) in SQL Lab */
-  allow_dml?: boolean;
+  allow_dml?: boolean | undefined;
   /** Allow to upload CSV file data into this databaseIf selected, please set the schemas allowed for csv upload in Extra. */
-  allow_file_upload?: boolean;
+  allow_file_upload?: boolean | undefined;
   /** Operate the database in asynchronous mode, meaning that the queries are executed on remote workers as opposed to on the web server itself. This assumes that you have a Celery worker setup as well as a results backend. Refer to the installation docs for more information. */
-  allow_run_async?: boolean;
+  allow_run_async?: boolean | undefined;
   /** Duration (in seconds) of the caching timeout for charts of this database. A timeout of 0 indicates that the cache never expires, and -1 bypasses the cache. Note this defaults to the global timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
-  configuration_method?: PutDatabaseRequestConfigurationMethod | (string & {});
+  configuration_method?: PutDatabaseRequestConfigurationMethod | (string & {}) | undefined;
   /** A database name to identify this connection. */
-  database_name?: string | null;
+  database_name?: string | null | undefined;
   /** SQLAlchemy driver to use */
-  driver?: string | null;
+  driver?: string | null | undefined;
   /** SQLAlchemy engine to use */
-  engine?: string | null;
+  engine?: string | null | undefined;
   /** Expose this database to SQLLab */
-  expose_in_sqllab?: boolean;
-  external_url?: string | null;
+  expose_in_sqllab?: boolean | undefined;
+  external_url?: string | null | undefined;
   /** <p>JSON string containing extra configuration elements.<br>1. The <code>engine_params</code> object gets unpacked into the <a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine" rel="noopener noreferrer">sqlalchemy.create_engine</a> call, while the <code>metadata_params</code> gets unpacked into the <a href="https://docs.sqlalchemy.org/en/rel_1_0/core/metadata.html#sqlalchemy.schema.MetaData" rel="noopener noreferrer">sqlalchemy.MetaData</a> call.<br>2. The <code>metadata_cache_timeout</code> is a cache timeout setting in seconds for metadata fetch of this database. Specify it as <strong>"metadata_cache_timeout": {"schema_cache_timeout": 600, "table_cache_timeout": 600}</strong>. If unset, cache will not be enabled for the functionality. A timeout of 0 indicates that the cache never expires.<br>3. The <code>schemas_allowed_for_file_upload</code> is a comma separated list of schemas that CSVs are allowed to upload to. Specify it as <strong>"schemas_allowed_for_file_upload": ["public", "csv_upload"]</strong>. If database flavor does not support schema or any schema is allowed to be accessed, just leave the list empty<br>4. The <code>version</code> field is a string specifying the this db's version. This should be used with Presto DBs so that the syntax is correct<br>5. The <code>allows_virtual_table_explore</code> field is a boolean specifying whether or not the Explore button in SQL Lab results is shown.<br>6. The <code>disable_data_preview</code> field is a boolean specifying whether or not data preview queries will be run when fetching table metadata in SQL Lab.<br>7. The <code>disable_drill_to_detail</code> field is a boolean specifying whether or not drill to detail is disabled for the database.<br>8. The <code>allow_multi_catalog</code> indicates if the database allows changing the default catalog when running queries and creating datasets.<br>9. The <code>disable_sampling_read_limit_override</code> field is a boolean specifying whether system-generated sampling queries (filter values, samples/preview, datetime format detection) that an engine rejects with a read-limit error should fail outright instead of being retried once with the engine's bounded-read override. Only affects engines that implement such an override.</p> */
-  extra?: string;
+  extra?: string | undefined;
   /** When allowing CREATE TABLE AS option in SQL Lab, this option forces the table to be created in this schema */
-  force_ctas_schema?: string | null;
+  force_ctas_schema?: string | null | undefined;
   /** If Presto, all the queries in SQL Lab are going to be executed as the currently logged on user who must have permission to run them.<br/>If Hive and hive.server2.enable.doAs is enabled, will run the queries as service account, but impersonate the currently logged on user via hive.server2.proxy.user property. */
-  impersonate_user?: boolean;
-  is_managed_externally?: boolean | null;
+  impersonate_user?: boolean | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** <p>JSON string containing additional connection configuration.<br>This is used to provide connection information for systems like Hive, Presto, and BigQuery, which do not conform to the username:password syntax normally used by SQLAlchemy.</p> */
-  masked_encrypted_extra?: string | null;
+  masked_encrypted_extra?: string | null | undefined;
   /** DB-specific parameters for configuration */
-  parameters?: PutDatabaseRequestParametersMap;
+  parameters?: PutDatabaseRequestParametersMap | undefined;
   /** <p>Optional CA_BUNDLE contents to validate HTTPS requests. Only available on certain database engines.</p> */
-  server_cert?: string | null;
+  server_cert?: string | null | undefined;
   /** <p>Refer to the <a href="https://docs.sqlalchemy.org/en/rel_1_2/core/engines.html#database-urls" rel="noopener noreferrer">SqlAlchemy docs</a> for more information on how to structure your URI.</p> */
-  sqlalchemy_uri?: string;
-  ssh_tunnel?: DatabaseSSHTunnel | null;
-  uuid?: string;
+  sqlalchemy_uri?: string | undefined;
+  ssh_tunnel?: DatabaseSSHTunnel | null | undefined;
+  uuid?: string | undefined;
 }
 /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
 export type DatabaseRestApiPutOutputConfigurationMethod = "sqlalchemy_form" | "dynamic_form";
@@ -7820,73 +7831,73 @@ export type DatabaseRestApiPutOutputConfigurationMethod = "sqlalchemy_form" | "d
 export type DatabaseRestApiPutOutputParametersMap = { [key: string]: unknown | undefined };
 export interface DatabaseRestApiPutOutput {
   /** Allow CREATE TABLE AS option in SQL Lab */
-  allow_ctas?: boolean;
+  allow_ctas?: boolean | undefined;
   /** Allow CREATE VIEW AS option in SQL Lab */
-  allow_cvas?: boolean;
+  allow_cvas?: boolean | undefined;
   /** Allow users to run non-SELECT statements (UPDATE, DELETE, CREATE, ...) in SQL Lab */
-  allow_dml?: boolean;
+  allow_dml?: boolean | undefined;
   /** Allow to upload CSV file data into this databaseIf selected, please set the schemas allowed for csv upload in Extra. */
-  allow_file_upload?: boolean;
+  allow_file_upload?: boolean | undefined;
   /** Operate the database in asynchronous mode, meaning that the queries are executed on remote workers as opposed to on the web server itself. This assumes that you have a Celery worker setup as well as a results backend. Refer to the installation docs for more information. */
-  allow_run_async?: boolean;
+  allow_run_async?: boolean | undefined;
   /** Duration (in seconds) of the caching timeout for charts of this database. A timeout of 0 indicates that the cache never expires, and -1 bypasses the cache. Note this defaults to the global timeout if undefined. */
-  cache_timeout?: number | null;
+  cache_timeout?: number | null | undefined;
   /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
-  configuration_method?: DatabaseRestApiPutOutputConfigurationMethod;
+  configuration_method?: DatabaseRestApiPutOutputConfigurationMethod | undefined;
   /** A database name to identify this connection. */
-  database_name?: string | null;
+  database_name?: string | null | undefined;
   /** SQLAlchemy driver to use */
-  driver?: string | null;
+  driver?: string | null | undefined;
   /** SQLAlchemy engine to use */
-  engine?: string | null;
+  engine?: string | null | undefined;
   /** Expose this database to SQLLab */
-  expose_in_sqllab?: boolean;
-  external_url?: string | null;
+  expose_in_sqllab?: boolean | undefined;
+  external_url?: string | null | undefined;
   /** <p>JSON string containing extra configuration elements.<br>1. The <code>engine_params</code> object gets unpacked into the <a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine" rel="noopener noreferrer">sqlalchemy.create_engine</a> call, while the <code>metadata_params</code> gets unpacked into the <a href="https://docs.sqlalchemy.org/en/rel_1_0/core/metadata.html#sqlalchemy.schema.MetaData" rel="noopener noreferrer">sqlalchemy.MetaData</a> call.<br>2. The <code>metadata_cache_timeout</code> is a cache timeout setting in seconds for metadata fetch of this database. Specify it as <strong>"metadata_cache_timeout": {"schema_cache_timeout": 600, "table_cache_timeout": 600}</strong>. If unset, cache will not be enabled for the functionality. A timeout of 0 indicates that the cache never expires.<br>3. The <code>schemas_allowed_for_file_upload</code> is a comma separated list of schemas that CSVs are allowed to upload to. Specify it as <strong>"schemas_allowed_for_file_upload": ["public", "csv_upload"]</strong>. If database flavor does not support schema or any schema is allowed to be accessed, just leave the list empty<br>4. The <code>version</code> field is a string specifying the this db's version. This should be used with Presto DBs so that the syntax is correct<br>5. The <code>allows_virtual_table_explore</code> field is a boolean specifying whether or not the Explore button in SQL Lab results is shown.<br>6. The <code>disable_data_preview</code> field is a boolean specifying whether or not data preview queries will be run when fetching table metadata in SQL Lab.<br>7. The <code>disable_drill_to_detail</code> field is a boolean specifying whether or not drill to detail is disabled for the database.<br>8. The <code>allow_multi_catalog</code> indicates if the database allows changing the default catalog when running queries and creating datasets.<br>9. The <code>disable_sampling_read_limit_override</code> field is a boolean specifying whether system-generated sampling queries (filter values, samples/preview, datetime format detection) that an engine rejects with a read-limit error should fail outright instead of being retried once with the engine's bounded-read override. Only affects engines that implement such an override.</p> */
-  extra?: string;
+  extra?: string | undefined;
   /** When allowing CREATE TABLE AS option in SQL Lab, this option forces the table to be created in this schema */
-  force_ctas_schema?: string | null;
+  force_ctas_schema?: string | null | undefined;
   /** If Presto, all the queries in SQL Lab are going to be executed as the currently logged on user who must have permission to run them.<br/>If Hive and hive.server2.enable.doAs is enabled, will run the queries as service account, but impersonate the currently logged on user via hive.server2.proxy.user property. */
-  impersonate_user?: boolean;
-  is_managed_externally?: boolean | null;
+  impersonate_user?: boolean | undefined;
+  is_managed_externally?: boolean | null | undefined;
   /** <p>JSON string containing additional connection configuration.<br>This is used to provide connection information for systems like Hive, Presto, and BigQuery, which do not conform to the username:password syntax normally used by SQLAlchemy.</p> */
-  masked_encrypted_extra?: string | null;
+  masked_encrypted_extra?: string | null | undefined;
   /** DB-specific parameters for configuration */
-  parameters?: DatabaseRestApiPutOutputParametersMap;
+  parameters?: DatabaseRestApiPutOutputParametersMap | undefined;
   /** <p>Optional CA_BUNDLE contents to validate HTTPS requests. Only available on certain database engines.</p> */
-  server_cert?: string | null;
+  server_cert?: string | null | undefined;
   /** <p>Refer to the <a href="https://docs.sqlalchemy.org/en/rel_1_2/core/engines.html#database-urls" rel="noopener noreferrer">SqlAlchemy docs</a> for more information on how to structure your URI.</p> */
-  sqlalchemy_uri?: string;
-  ssh_tunnel?: DatabaseSSHTunnelOutput | null;
-  uuid?: string;
+  sqlalchemy_uri?: string | undefined;
+  ssh_tunnel?: DatabaseSSHTunnelOutput | null | undefined;
+  uuid?: string | undefined;
 }
 export interface PutDatabaseResponse {
-  id?: number;
-  result?: DatabaseRestApiPutOutput;
+  id?: number | undefined;
+  result?: DatabaseRestApiPutOutput | undefined;
 }
 export interface DatasetColumnsPut {
-  advanced_data_type?: string | null;
-  certification_details?: string | null;
-  certified_by?: string | null;
+  advanced_data_type?: string | null | undefined;
+  certification_details?: string | null | undefined;
+  certified_by?: string | null | undefined;
   column_name: string;
-  datetime_format?: string | null;
-  description?: string | null;
-  expression?: string | null;
-  extra?: string | null;
-  filterable?: boolean;
-  groupby?: boolean;
-  id?: number;
-  is_active?: boolean | null;
-  is_certified?: boolean | null;
-  is_dttm?: boolean | null;
-  partition_transform_is_monotonic?: boolean | null;
+  datetime_format?: string | null | undefined;
+  description?: string | null | undefined;
+  expression?: string | null | undefined;
+  extra?: string | null | undefined;
+  filterable?: boolean | undefined;
+  groupby?: boolean | undefined;
+  id?: number | undefined;
+  is_active?: boolean | null | undefined;
+  is_certified?: boolean | null | undefined;
+  is_dttm?: boolean | null | undefined;
+  partition_transform_is_monotonic?: boolean | null | undefined;
   /** SQL expression containing a :value placeholder. Filters on this column are mirrored onto the dataset's partition column with the value passed through this transform. */
-  partition_value_transform?: string | null;
-  python_date_format?: string | null;
-  type?: string | null;
-  uuid?: string | null;
-  verbose_name?: string | null;
-  warning_markdown?: string | null;
+  partition_value_transform?: string | null | undefined;
+  python_date_format?: string | null | undefined;
+  type?: string | null | undefined;
+  uuid?: string | null | undefined;
+  verbose_name?: string | null | undefined;
+  warning_markdown?: string | null | undefined;
 }
 export type PutDatasetRequestColumnsList = Array<DatasetColumnsPut>;
 export type PutDatasetRequestEditorsItemCase1Type = "user" | "role" | "group" | "subject";
@@ -7899,65 +7910,65 @@ export type PutDatasetRequestEditorsList = Array<PutDatasetRequestEditorsItem>;
 export type FolderChildrenList = Array<Folder>;
 export type FolderType = "metric" | "column" | "folder";
 export interface Folder {
-  children?: FolderChildrenList | null;
-  description?: string | null;
-  name?: string;
-  type?: FolderType | (string & {});
+  children?: FolderChildrenList | null | undefined;
+  description?: string | null | undefined;
+  name?: string | undefined;
+  type?: FolderType | (string & {}) | undefined;
   uuid: string;
 }
 export type PutDatasetRequestFoldersList = Array<Folder>;
 export interface DatasetMetricCurrencyPut {
-  symbol?: string;
-  symbolPosition?: string;
+  symbol?: string | undefined;
+  symbolPosition?: string | undefined;
 }
 export interface DatasetMetricsPut {
-  certification_details?: string | null;
-  certified_by?: string | null;
-  currency?: DatasetMetricCurrencyPut | null;
-  d3format?: string | null;
-  description?: string | null;
+  certification_details?: string | null | undefined;
+  certified_by?: string | null | undefined;
+  currency?: DatasetMetricCurrencyPut | null | undefined;
+  d3format?: string | null | undefined;
+  description?: string | null | undefined;
   expression: string;
-  extra?: string | null;
-  id?: number;
-  is_certified?: boolean | null;
+  extra?: string | null | undefined;
+  id?: number | undefined;
+  is_certified?: boolean | null | undefined;
   metric_name: string;
-  metric_type?: string | null;
-  uuid?: string | null;
-  verbose_name?: string | null;
-  warning_markdown?: string | null;
-  warning_text?: string | null;
+  metric_type?: string | null | undefined;
+  uuid?: string | null | undefined;
+  verbose_name?: string | null | undefined;
+  warning_markdown?: string | null | undefined;
+  warning_text?: string | null | undefined;
 }
 export type PutDatasetRequestMetricsList = Array<DatasetMetricsPut>;
 export interface PutDatasetRequest {
   pk: number;
-  override_columns?: boolean;
-  always_filter_main_dttm?: boolean;
-  cache_timeout?: number | null;
-  catalog?: string | null;
-  columns?: PutDatasetRequestColumnsList;
-  currency_code_column?: string | null;
-  database_id?: number;
-  default_endpoint?: string | null;
-  description?: string | null;
-  editors?: PutDatasetRequestEditorsList;
-  external_url?: string | null;
-  extra?: string | null;
-  fetch_values_predicate?: string | null;
-  filter_select_enabled?: boolean | null;
-  folders?: PutDatasetRequestFoldersList;
-  is_managed_externally?: boolean | null;
-  is_sqllab_view?: boolean | null;
-  main_dttm_col?: string | null;
-  metrics?: PutDatasetRequestMetricsList;
-  normalize_columns?: boolean | null;
-  offset?: number | null;
-  partition_column?: string | null;
-  partition_mapped_column?: string | null;
-  schema?: string | null;
-  sql?: string | null;
-  table_name?: string | null;
-  template_params?: string | null;
-  uuid?: string | null;
+  override_columns?: boolean | undefined;
+  always_filter_main_dttm?: boolean | undefined;
+  cache_timeout?: number | null | undefined;
+  catalog?: string | null | undefined;
+  columns?: PutDatasetRequestColumnsList | undefined;
+  currency_code_column?: string | null | undefined;
+  database_id?: number | undefined;
+  default_endpoint?: string | null | undefined;
+  description?: string | null | undefined;
+  editors?: PutDatasetRequestEditorsList | undefined;
+  external_url?: string | null | undefined;
+  extra?: string | null | undefined;
+  fetch_values_predicate?: string | null | undefined;
+  filter_select_enabled?: boolean | null | undefined;
+  folders?: PutDatasetRequestFoldersList | undefined;
+  is_managed_externally?: boolean | null | undefined;
+  is_sqllab_view?: boolean | null | undefined;
+  main_dttm_col?: string | null | undefined;
+  metrics?: PutDatasetRequestMetricsList | undefined;
+  normalize_columns?: boolean | null | undefined;
+  offset?: number | null | undefined;
+  partition_column?: string | null | undefined;
+  partition_mapped_column?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
+  table_name?: string | null | undefined;
+  template_params?: string | null | undefined;
+  uuid?: string | null | undefined;
 }
 export type DatasetRestApiPutColumnsList = Array<DatasetColumnsPut>;
 export type DatasetRestApiPutEditorsItemCase1Type = "user" | "role" | "group" | "subject";
@@ -7970,63 +7981,63 @@ export type DatasetRestApiPutEditorsList = Array<DatasetRestApiPutEditorsItem>;
 export type DatasetRestApiPutFoldersList = Array<Folder>;
 export type DatasetRestApiPutMetricsList = Array<DatasetMetricsPut>;
 export interface DatasetRestApiPut {
-  always_filter_main_dttm?: boolean;
-  cache_timeout?: number | null;
-  catalog?: string | null;
-  columns?: DatasetRestApiPutColumnsList;
-  currency_code_column?: string | null;
-  database_id?: number;
-  default_endpoint?: string | null;
-  description?: string | null;
-  editors?: DatasetRestApiPutEditorsList;
-  external_url?: string | null;
-  extra?: string | null;
-  fetch_values_predicate?: string | null;
-  filter_select_enabled?: boolean | null;
-  folders?: DatasetRestApiPutFoldersList;
-  is_managed_externally?: boolean | null;
-  is_sqllab_view?: boolean | null;
-  main_dttm_col?: string | null;
-  metrics?: DatasetRestApiPutMetricsList;
-  normalize_columns?: boolean | null;
-  offset?: number | null;
-  partition_column?: string | null;
-  partition_mapped_column?: string | null;
-  schema?: string | null;
-  sql?: string | null;
-  table_name?: string | null;
-  template_params?: string | null;
-  uuid?: string | null;
+  always_filter_main_dttm?: boolean | undefined;
+  cache_timeout?: number | null | undefined;
+  catalog?: string | null | undefined;
+  columns?: DatasetRestApiPutColumnsList | undefined;
+  currency_code_column?: string | null | undefined;
+  database_id?: number | undefined;
+  default_endpoint?: string | null | undefined;
+  description?: string | null | undefined;
+  editors?: DatasetRestApiPutEditorsList | undefined;
+  external_url?: string | null | undefined;
+  extra?: string | null | undefined;
+  fetch_values_predicate?: string | null | undefined;
+  filter_select_enabled?: boolean | null | undefined;
+  folders?: DatasetRestApiPutFoldersList | undefined;
+  is_managed_externally?: boolean | null | undefined;
+  is_sqllab_view?: boolean | null | undefined;
+  main_dttm_col?: string | null | undefined;
+  metrics?: DatasetRestApiPutMetricsList | undefined;
+  normalize_columns?: boolean | null | undefined;
+  offset?: number | null | undefined;
+  partition_column?: string | null | undefined;
+  partition_mapped_column?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
+  table_name?: string | null | undefined;
+  template_params?: string | null | undefined;
+  uuid?: string | null | undefined;
 }
 export interface PutDatasetResponse {
-  id?: number;
+  id?: number | undefined;
   /** Continuum transaction_id of the live row after this update. When this differs from ``old_transaction_id`` the update produced a new version row (regardless of whether ``new_version`` changed). */
-  new_transaction_id?: number | null;
+  new_transaction_id?: number | null | undefined;
   /** 0-based version_number of the newly-live row after this update. Can equal ``old_version`` when no versioned column changed, or when retention pruning dropped an older closed row in the same commit. */
-  new_version?: number | null;
+  new_version?: number | null | undefined;
   /** Deterministic version_uuid of the live row after this update. Null when version capture is disabled. */
-  new_version_uuid?: string | null;
+  new_version_uuid?: string | null | undefined;
   /** Continuum transaction_id of the live row before this update. Stable across retention pruning. */
-  old_transaction_id?: number | null;
+  old_transaction_id?: number | null | undefined;
   /** 0-based version_number of the live row before this update (null if the dataset had no prior history). Matches the ``version_number`` field of the list versions endpoint. Unstable under retention pruning -- see ``old_transaction_id`` for a stable identifier. */
-  old_version?: number | null;
+  old_version?: number | null | undefined;
   /** Deterministic version_uuid of the live row before this update. Null when version capture is disabled or the dataset has no version rows yet. */
-  old_version_uuid?: string | null;
-  result?: DatasetRestApiPut;
+  old_version_uuid?: string | null | undefined;
+  result?: DatasetRestApiPut | undefined;
 }
 export interface PutDatasetRefreshRequest {
   pk: number;
 }
 export interface PutDatasetRefreshResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface PutDatasetWarmUpCacheRequest {
   /** The ID of the dashboard to get filters for when warming cache */
-  dashboard_id?: number;
+  dashboard_id?: number | undefined;
   /** The name of the database where the table is located */
   db_name: string;
   /** Extra filters to apply when warming up cache */
-  extra_filters?: string;
+  extra_filters?: string | undefined;
   /** The name of the table to warm up cache for */
   table_name: string;
 }
@@ -8035,7 +8046,7 @@ export type DatasetCacheWarmUpResponseSingle = ChartCacheWarmUpResponseSingle;
 export type DatasetCacheWarmUpResponseSchemaResultList = Array<ChartCacheWarmUpResponseSingle>;
 export interface DatasetCacheWarmUpResponseSchema {
   /** A list of each chart's warmup status and errors if any */
-  result?: DatasetCacheWarmUpResponseSchemaResultList;
+  result?: DatasetCacheWarmUpResponseSchemaResultList | undefined;
 }
 /** The datasource type */
 export type PutExploreFormDataRequestDatasourceType =
@@ -8047,9 +8058,9 @@ export type PutExploreFormDataRequestDatasourceType =
   | "semantic_view";
 export interface PutExploreFormDataRequest {
   key: string;
-  tab_id?: number;
+  tab_id?: number | undefined;
   /** The chart ID */
-  chart_id?: number;
+  chart_id?: number | undefined;
   /** The datasource ID */
   datasource_id: number;
   /** The datasource type */
@@ -8059,20 +8070,20 @@ export interface PutExploreFormDataRequest {
 }
 export interface PutExploreFormDataResponse {
   /** The key to retrieve the form_data. */
-  key?: string;
+  key?: string | undefined;
 }
 export interface PutMeRequest {
   /** The current user's existing password; required when the account has one */
-  current_password?: string | Redacted.Redacted<string>;
+  current_password?: string | Redacted.Redacted<string> | undefined;
   /** The current user's first name */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The current user's last name */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The current user's new password; requires current_password when the account already has one */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PutMeResponse {
-  result?: UserResponseSchema;
+  result?: UserResponseSchema | undefined;
 }
 /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
 export type PutReportRequestCreationMethod = "charts" | "dashboards" | "alerts_reports";
@@ -8697,65 +8708,65 @@ export type PutReportRequestValidatorType = "not null" | "operator";
 export interface PutReportRequest {
   /** The Report Schedule pk */
   pk: number;
-  active?: boolean;
-  chart?: number | null;
+  active?: boolean | undefined;
+  chart?: number | null | undefined;
   /** Markdown description */
-  context_markdown?: string | null;
+  context_markdown?: string | null | undefined;
   /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
-  creation_method?: PutReportRequestCreationMethod | (string & {}) | null;
+  creation_method?: PutReportRequestCreationMethod | (string & {}) | null | undefined;
   /** A CRON expression.[Crontab Guru](https://crontab.guru/) is a helpful resource that can help you craft a CRON expression. */
-  crontab?: string;
+  crontab?: string | undefined;
   /** Custom width of the screenshot in pixels */
-  custom_width?: number | null;
-  dashboard?: number | null;
-  database?: number | null;
+  custom_width?: number | null | undefined;
+  dashboard?: number | null | undefined;
+  database?: number | null | undefined;
   /** Use a nice description to give context to this Alert/Report */
-  description?: string | null;
-  editors?: PutReportRequestEditorsList;
+  description?: string | null | undefined;
+  editors?: PutReportRequestEditorsList | undefined;
   /** The report schedule subject line */
-  email_subject?: string | null;
-  extra?: unknown;
-  force_screenshot?: boolean;
+  email_subject?: string | null | undefined;
+  extra?: unknown | undefined;
+  force_screenshot?: boolean | undefined;
   /** Once an alert is triggered, how long, in seconds, before Superset nags you again. (in seconds) */
-  grace_period?: number;
+  grace_period?: number | undefined;
   /** Whether to include the call-to-action link back to Superset (e.g. 'Explore in Superset') in the delivered notifications */
-  include_cta?: boolean | null;
+  include_cta?: boolean | null | undefined;
   /** How long to keep the logs around for this report (in days) */
-  log_retention?: number;
+  log_retention?: number | undefined;
   /** The report schedule name. */
-  name?: string;
-  recipients?: PutReportRequestRecipientsList;
+  name?: string | undefined;
+  recipients?: PutReportRequestRecipientsList | undefined;
   /** Attachment format. NONE disables attachments for alerts and makes chart/dashboard optional. Omitted attachment settings are preserved on update. */
-  report_format?: PutReportRequestReportFormat | (string & {});
+  report_format?: PutReportRequestReportFormat | (string & {}) | undefined;
   /** Maximum number of retry attempts (1-10) */
-  retry_max_attempts?: number;
+  retry_max_attempts?: number | undefined;
   /** Notify report owners on each retry attempt */
-  retry_notify_owners?: boolean;
+  retry_notify_owners?: boolean | undefined;
   /** Notify report recipients on each retry attempt */
-  retry_notify_recipients?: boolean;
+  retry_notify_recipients?: boolean | undefined;
   /** Enable automatic retries on report failure */
-  retry_on_failure?: boolean;
+  retry_on_failure?: boolean | undefined;
   /** ID of the user whose credentials are used when running the alert condition SQL query, useful when the audience of the alert does not have access to the database. Null inherits the content executor at execution time. */
-  run_alert_query_as?: number | null;
+  run_alert_query_as?: number | null | undefined;
   /** Alert query executor type; null inherits run_as. */
-  run_alert_query_as_type?: PutReportRequestRunAlertQueryAsType | (string & {}) | null;
+  run_alert_query_as_type?: PutReportRequestRunAlertQueryAsType | (string & {}) | null | undefined;
   /** ID of the user whose credentials (RBAC permissions, database OAuth2 tokens) are used when rendering the content (screenshot, PDF, CSV, XLSX or text). Admins can set any active user; non-admins can only set themselves. Onlyhonored when the ALERT_REPORT_DYNAMIC_EXECUTOR feature flag is enabled. Admins can set this and run_as_type to null to use ALERT_REPORTS_EXECUTORS. */
-  run_as?: number | null;
+  run_as?: number | null | undefined;
   /** Explicit executor type; fixed_user requires run_as. */
-  run_as_type?: PutReportRequestRunAsType | (string & {}) | null;
+  run_as_type?: PutReportRequestRunAsType | (string & {}) | null | undefined;
   /** Send the failed report to all recipients after retries are exhausted */
-  send_failed_reports?: boolean;
+  send_failed_reports?: boolean | undefined;
   /** A SQL statement that defines whether the alert should get triggered or not. The query is expected to return either NULL or a number value. */
-  sql?: string | null;
+  sql?: string | null | undefined;
   /** A timezone string that represents the location of the timezone. */
-  timezone?: PutReportRequestTimezone | (string & {});
+  timezone?: PutReportRequestTimezone | (string & {}) | undefined;
   /** The report schedule type */
-  type?: PutReportRequestType | (string & {});
-  validator_config_json?: ValidatorConfigJSON;
+  type?: PutReportRequestType | (string & {}) | undefined;
+  validator_config_json?: ValidatorConfigJSON | undefined;
   /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
-  validator_type?: PutReportRequestValidatorType | (string & {}) | null;
+  validator_type?: PutReportRequestValidatorType | (string & {}) | null | undefined;
   /** If an alert is staled at a working state, how long until it's state is reset to error */
-  working_timeout?: number | null;
+  working_timeout?: number | null | undefined;
 }
 /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
 export type ReportScheduleRestApiPutCreationMethod = "charts" | "dashboards" | "alerts_reports";
@@ -9378,88 +9389,88 @@ export type ReportScheduleRestApiPutType = "Alert" | "Report";
 /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
 export type ReportScheduleRestApiPutValidatorType = "not null" | "operator";
 export interface ReportScheduleRestApiPut {
-  active?: boolean;
-  chart?: number | null;
+  active?: boolean | undefined;
+  chart?: number | null | undefined;
   /** Markdown description */
-  context_markdown?: string | null;
+  context_markdown?: string | null | undefined;
   /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
-  creation_method?: ReportScheduleRestApiPutCreationMethod | null;
+  creation_method?: ReportScheduleRestApiPutCreationMethod | null | undefined;
   /** A CRON expression.[Crontab Guru](https://crontab.guru/) is a helpful resource that can help you craft a CRON expression. */
-  crontab?: string;
+  crontab?: string | undefined;
   /** Custom width of the screenshot in pixels */
-  custom_width?: number | null;
-  dashboard?: number | null;
-  database?: number | null;
+  custom_width?: number | null | undefined;
+  dashboard?: number | null | undefined;
+  database?: number | null | undefined;
   /** Use a nice description to give context to this Alert/Report */
-  description?: string | null;
-  editors?: ReportScheduleRestApiPutEditorsList;
+  description?: string | null | undefined;
+  editors?: ReportScheduleRestApiPutEditorsList | undefined;
   /** The report schedule subject line */
-  email_subject?: string | null;
-  extra?: unknown;
-  force_screenshot?: boolean;
+  email_subject?: string | null | undefined;
+  extra?: unknown | undefined;
+  force_screenshot?: boolean | undefined;
   /** Once an alert is triggered, how long, in seconds, before Superset nags you again. (in seconds) */
-  grace_period?: number;
+  grace_period?: number | undefined;
   /** Whether to include the call-to-action link back to Superset (e.g. 'Explore in Superset') in the delivered notifications */
-  include_cta?: boolean | null;
+  include_cta?: boolean | null | undefined;
   /** How long to keep the logs around for this report (in days) */
-  log_retention?: number;
+  log_retention?: number | undefined;
   /** The report schedule name. */
-  name?: string;
-  recipients?: ReportScheduleRestApiPutRecipientsList;
+  name?: string | undefined;
+  recipients?: ReportScheduleRestApiPutRecipientsList | undefined;
   /** Attachment format. NONE disables attachments for alerts and makes chart/dashboard optional. Omitted attachment settings are preserved on update. */
-  report_format?: ReportScheduleRestApiPutReportFormat;
+  report_format?: ReportScheduleRestApiPutReportFormat | undefined;
   /** Maximum number of retry attempts (1-10) */
-  retry_max_attempts?: number;
+  retry_max_attempts?: number | undefined;
   /** Notify report owners on each retry attempt */
-  retry_notify_owners?: boolean;
+  retry_notify_owners?: boolean | undefined;
   /** Notify report recipients on each retry attempt */
-  retry_notify_recipients?: boolean;
+  retry_notify_recipients?: boolean | undefined;
   /** Enable automatic retries on report failure */
-  retry_on_failure?: boolean;
+  retry_on_failure?: boolean | undefined;
   /** ID of the user whose credentials are used when running the alert condition SQL query, useful when the audience of the alert does not have access to the database. Null inherits the content executor at execution time. */
-  run_alert_query_as?: number | null;
+  run_alert_query_as?: number | null | undefined;
   /** Alert query executor type; null inherits run_as. */
-  run_alert_query_as_type?: ReportScheduleRestApiPutRunAlertQueryAsType | null;
+  run_alert_query_as_type?: ReportScheduleRestApiPutRunAlertQueryAsType | null | undefined;
   /** ID of the user whose credentials (RBAC permissions, database OAuth2 tokens) are used when rendering the content (screenshot, PDF, CSV, XLSX or text). Admins can set any active user; non-admins can only set themselves. Onlyhonored when the ALERT_REPORT_DYNAMIC_EXECUTOR feature flag is enabled. Admins can set this and run_as_type to null to use ALERT_REPORTS_EXECUTORS. */
-  run_as?: number | null;
+  run_as?: number | null | undefined;
   /** Explicit executor type; fixed_user requires run_as. */
-  run_as_type?: ReportScheduleRestApiPutRunAsType | null;
+  run_as_type?: ReportScheduleRestApiPutRunAsType | null | undefined;
   /** Send the failed report to all recipients after retries are exhausted */
-  send_failed_reports?: boolean;
+  send_failed_reports?: boolean | undefined;
   /** A SQL statement that defines whether the alert should get triggered or not. The query is expected to return either NULL or a number value. */
-  sql?: string | null;
+  sql?: string | null | undefined;
   /** A timezone string that represents the location of the timezone. */
-  timezone?: ReportScheduleRestApiPutTimezone;
+  timezone?: ReportScheduleRestApiPutTimezone | undefined;
   /** The report schedule type */
-  type?: ReportScheduleRestApiPutType;
-  validator_config_json?: ValidatorConfigJSON;
+  type?: ReportScheduleRestApiPutType | undefined;
+  validator_config_json?: ValidatorConfigJSON | undefined;
   /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
-  validator_type?: ReportScheduleRestApiPutValidatorType | null;
+  validator_type?: ReportScheduleRestApiPutValidatorType | null | undefined;
   /** If an alert is staled at a working state, how long until it's state is reset to error */
-  working_timeout?: number | null;
+  working_timeout?: number | null | undefined;
 }
 export interface PutReportResponse {
-  id?: number;
-  result?: ReportScheduleRestApiPut;
+  id?: number | undefined;
+  result?: ReportScheduleRestApiPut | undefined;
 }
 /** E-mail domains accepted as recipients. An empty list allows any domain. */
 export type PutReportConfigurationRequestAllowedEmailDomainsList = Array<string>;
 export interface PutReportConfigurationRequest {
   /** Minimum interval between alert executions, in seconds. Values below 120 do not restrict schedules. Falls back to ALERT_MINIMUM_INTERVAL only before this setting has been saved. */
-  alert_minimum_interval?: number | null;
+  alert_minimum_interval?: number | null | undefined;
   /** Whether alerts deliver their attachment (screenshot, PDF, CSV or XLSX). When disabled, alerts only send the message and link. Falls back to the FF until a row has first been saved. */
-  alerts_attach_reports?: boolean | null;
+  alerts_attach_reports?: boolean | null | undefined;
   /** E-mail domains accepted as recipients. An empty list allows any domain. */
-  allowed_email_domains?: PutReportConfigurationRequestAllowedEmailDomainsList | null;
+  allowed_email_domains?: PutReportConfigurationRequestAllowedEmailDomainsList | null | undefined;
   /** Render strftime date placeholders in email subjects. Falls back to the DATE_FORMAT_IN_EMAIL_SUBJECT FF until first saved. */
-  date_format_in_email_subject?: boolean | null;
+  date_format_in_email_subject?: boolean | null | undefined;
   /** When enabled, only e-mail addresses of existing active users are accepted as recipients. */
-  limit_recipients_to_users?: boolean | null;
+  limit_recipients_to_users?: boolean | null | undefined;
   /** Minimum interval between report executions, in seconds. Values below 120 do not restrict schedules. Falls back to REPORT_MINIMUM_INTERVAL only before this setting has been saved. */
-  report_minimum_interval?: number | null;
+  report_minimum_interval?: number | null | undefined;
 }
 export interface PutReportConfigurationResponse {
-  result?: ReportConfigurationSchema;
+  result?: ReportConfigurationSchema | undefined;
 }
 /** filter_type_description */
 export type PutRowlevelsecurityRequestFilterType = "Regular" | "Base";
@@ -9471,19 +9482,19 @@ export interface PutRowlevelsecurityRequest {
   /** The Rule pk */
   pk: number;
   /** clause_description */
-  clause?: string;
+  clause?: string | undefined;
   /** description_description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** filter_type_description */
-  filter_type?: PutRowlevelsecurityRequestFilterType | (string & {});
+  filter_type?: PutRowlevelsecurityRequestFilterType | (string & {}) | undefined;
   /** group_key_description */
-  group_key?: string | null;
+  group_key?: string | null | undefined;
   /** name_description */
-  name?: string;
+  name?: string | undefined;
   /** Subjects (users, roles, groups) associated with this RLS rule. For regular filters, the rule applies to these subjects. For base filters, these subjects are excluded from the filter. */
-  subjects?: PutRowlevelsecurityRequestSubjectsList;
+  subjects?: PutRowlevelsecurityRequestSubjectsList | undefined;
   /** tables_description */
-  tables?: PutRowlevelsecurityRequestTablesList;
+  tables?: PutRowlevelsecurityRequestTablesList | undefined;
 }
 /** filter_type_description */
 export type RLSRestApiPutFilterType = "Regular" | "Base";
@@ -9493,38 +9504,38 @@ export type RLSRestApiPutSubjectsList = Array<number>;
 export type RLSRestApiPutTablesList = Array<number>;
 export interface RLSRestApiPut {
   /** clause_description */
-  clause?: string;
+  clause?: string | undefined;
   /** description_description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** filter_type_description */
-  filter_type?: RLSRestApiPutFilterType;
+  filter_type?: RLSRestApiPutFilterType | undefined;
   /** group_key_description */
-  group_key?: string | null;
+  group_key?: string | null | undefined;
   /** name_description */
-  name?: string;
+  name?: string | undefined;
   /** Subjects (users, roles, groups) associated with this RLS rule. For regular filters, the rule applies to these subjects. For base filters, these subjects are excluded from the filter. */
-  subjects?: RLSRestApiPutSubjectsList;
+  subjects?: RLSRestApiPutSubjectsList | undefined;
   /** tables_description */
-  tables?: RLSRestApiPutTablesList;
+  tables?: RLSRestApiPutTablesList | undefined;
 }
 export interface PutRowlevelsecurityResponse {
-  id?: number;
-  result?: RLSRestApiPut;
+  id?: number | undefined;
+  result?: RLSRestApiPut | undefined;
 }
 export interface PutSavedQueryRequest {
   pk: number;
-  catalog?: string | null;
-  db_id?: unknown | null;
-  description?: string | null;
-  extra_json?: string | null;
-  label?: string | null;
-  schema?: string | null;
-  sql?: string | null;
-  template_parameters?: string | null;
+  catalog?: string | null | undefined;
+  db_id?: unknown | null | undefined;
+  description?: string | null | undefined;
+  extra_json?: string | null | undefined;
+  label?: string | null | undefined;
+  schema?: string | null | undefined;
+  sql?: string | null | undefined;
+  template_parameters?: string | null | undefined;
 }
 export type SavedQueryRestApiPut = SavedQueryRestApiPost;
 export interface PutSavedQueryResponse {
-  result?: SavedQueryRestApiPost;
+  result?: SavedQueryRestApiPost | undefined;
 }
 export interface PutSecurityGroupRequest {
   pk: number;
@@ -9532,12 +9543,12 @@ export interface PutSecurityGroupRequest {
 export interface PutSecurityGroupResponse {}
 export interface PutSecurityPermissionsResourceRequest {
   pk: number;
-  permission_id?: unknown | null;
-  view_menu_id?: unknown | null;
+  permission_id?: unknown | null | undefined;
+  view_menu_id?: unknown | null | undefined;
 }
 export type SupersetPermissionViewMenuApiPut = SupersetPermissionViewMenuApiPost;
 export interface PutSecurityPermissionsResourceResponse {
-  result?: SupersetPermissionViewMenuApiPost;
+  result?: SupersetPermissionViewMenuApiPost | undefined;
 }
 export interface PutSecurityResourceRequest {
   pk: number;
@@ -9545,7 +9556,7 @@ export interface PutSecurityResourceRequest {
 }
 export type ViewMenuApiPut = ViewMenuApiPost;
 export interface PutSecurityResourceResponse {
-  result?: ViewMenuApiPost;
+  result?: ViewMenuApiPost | undefined;
 }
 export interface PutSecurityRoleRequest {
   pk: number;
@@ -9553,7 +9564,7 @@ export interface PutSecurityRoleRequest {
 }
 export type SupersetRoleApiPut = ViewMenuApiPost;
 export interface PutSecurityRoleResponse {
-  result?: ViewMenuApiPost;
+  result?: ViewMenuApiPost | undefined;
 }
 /** List of group ids */
 export type PutSecurityRoleGroupsRequestGroupIdsList = Array<number>;
@@ -9569,7 +9580,7 @@ export interface RoleGroupPutSchema {
   group_ids: RoleGroupPutSchemaGroupIdsList;
 }
 export interface PutSecurityRoleGroupsResponse {
-  result?: RoleGroupPutSchema;
+  result?: RoleGroupPutSchema | undefined;
 }
 /** List of user ids */
 export type PutSecurityRoleUsersRequestUserIdsList = Array<number>;
@@ -9585,7 +9596,7 @@ export interface RoleUserPutSchema {
   user_ids: RoleUserPutSchemaUserIdsList;
 }
 export interface PutSecurityRoleUsersResponse {
-  result?: RoleUserPutSchema;
+  result?: RoleUserPutSchema | undefined;
 }
 export interface PutSecurityUserRequest {
   pk: number;
@@ -9593,96 +9604,96 @@ export interface PutSecurityUserRequest {
 export interface PutSecurityUserResponse {}
 export interface PutSemanticLayerRequest {
   uuid: string;
-  cache_timeout?: number;
-  configuration?: unknown;
-  description?: string;
-  name?: string;
+  cache_timeout?: number | undefined;
+  configuration?: unknown | undefined;
+  description?: string | undefined;
+  name?: string | undefined;
 }
 export interface PutSemanticLayerResponse {}
 export interface PutSemanticViewRequest {
   pk: number;
-  cache_timeout?: number | null;
-  description?: string | null;
+  cache_timeout?: number | null | undefined;
+  description?: string | null | undefined;
 }
 export interface SemanticViewRestApiPut {
-  cache_timeout?: number | null;
-  description?: string | null;
+  cache_timeout?: number | null | undefined;
+  description?: string | null | undefined;
 }
 export interface PutSemanticViewResponse {
-  id?: number;
-  result?: SemanticViewRestApiPut;
+  id?: number | undefined;
+  result?: SemanticViewRestApiPut | undefined;
 }
 /** Objects to tag */
 export type PutTagRequestObjectsToTagList = Array<unknown>;
 export interface PutTagRequest {
   pk: number;
-  description?: string | null;
-  name?: string;
+  description?: string | null | undefined;
+  name?: string | undefined;
   /** Objects to tag */
-  objects_to_tag?: PutTagRequestObjectsToTagList;
+  objects_to_tag?: PutTagRequestObjectsToTagList | undefined;
 }
 /** Objects to tag */
 export type TagRestApiPutObjectsToTagList = Array<unknown>;
 export interface TagRestApiPut {
-  description?: string | null;
-  name?: string;
+  description?: string | null | undefined;
+  name?: string | undefined;
   /** Objects to tag */
-  objects_to_tag?: TagRestApiPutObjectsToTagList;
+  objects_to_tag?: TagRestApiPutObjectsToTagList | undefined;
 }
 export interface PutTagResponse {
-  id?: number;
-  result?: TagRestApiPut;
+  id?: number | undefined;
+  result?: TagRestApiPut | undefined;
 }
 export type PutThemeRequestEditorsList = Array<number>;
 export interface PutThemeRequest {
   pk: number;
-  editors?: PutThemeRequestEditorsList;
+  editors?: PutThemeRequestEditorsList | undefined;
   json_data: string;
   theme_name: string;
 }
 export type ThemeRestApiPutEditorsList = Array<number>;
 export interface ThemeRestApiPut {
-  editors?: ThemeRestApiPutEditorsList;
+  editors?: ThemeRestApiPutEditorsList | undefined;
   json_data: string;
   theme_name: string;
 }
 export interface PutThemeResponse {
-  id?: number;
-  result?: ThemeRestApiPut;
+  id?: number | undefined;
+  result?: ThemeRestApiPut | undefined;
 }
 export interface PutThemeSetSystemDarkRequest {
   /** The theme id */
   pk: number;
 }
 export interface PutThemeSetSystemDarkResponse {
-  id?: number;
-  result?: string;
+  id?: number | undefined;
+  result?: string | undefined;
 }
 export interface PutThemeSetSystemDefaultRequest {
   /** The theme id */
   pk: number;
 }
 export interface PutThemeSetSystemDefaultResponse {
-  id?: number;
-  result?: string;
+  id?: number | undefined;
+  result?: string | undefined;
 }
 export interface RefreshSecurityRequest {}
 export interface RefreshSecurityResponse {
   /** A new refreshed access token */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ResetSecurityPasswordRecoveryRequest {
   password: string | Redacted.Redacted<string>;
   token: string;
 }
 export interface ResetSecurityPasswordRecoveryResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestoreChartRequest {
   uuid: string;
 }
 export interface RestoreChartResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestoreChartVersionRequest {
   /** Chart UUID */
@@ -9691,13 +9702,13 @@ export interface RestoreChartVersionRequest {
   version_uuid_str: string;
 }
 export interface RestoreChartVersionResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestoreDashboardRequest {
   uuid: string;
 }
 export interface RestoreDashboardResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestoreDashboardVersionRequest {
   /** Dashboard UUID */
@@ -9706,13 +9717,13 @@ export interface RestoreDashboardVersionRequest {
   version_uuid_str: string;
 }
 export interface RestoreDashboardVersionResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestoreDatasetRequest {
   uuid: string;
 }
 export interface RestoreDatasetResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestoreDatasetVersionRequest {
   /** Dataset UUID */
@@ -9721,13 +9732,13 @@ export interface RestoreDatasetVersionRequest {
   version_uuid_str: string;
 }
 export interface RestoreDatasetVersionResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface StopQueryRequest {
   client_id: string;
 }
 export interface StopQueryResponse {
-  result?: string;
+  result?: string | undefined;
 }
 /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
 export type SubscribeReportRequestCreationMethod = "charts" | "dashboards" | "alerts_reports";
@@ -10350,76 +10361,80 @@ export type SubscribeReportRequestType = "Alert" | "Report";
 /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
 export type SubscribeReportRequestValidatorType = "not null" | "operator";
 export interface SubscribeReportRequest {
-  active?: boolean;
-  chart?: number | null;
+  active?: boolean | undefined;
+  chart?: number | null | undefined;
   /** Markdown description */
-  context_markdown?: string | null;
+  context_markdown?: string | null | undefined;
   /** Creation method is used to inform the frontend whether the report/alert was created in the dashboard, chart, or alerts and reports UI. */
-  creation_method?: SubscribeReportRequestCreationMethod | (string & {});
+  creation_method?: SubscribeReportRequestCreationMethod | (string & {}) | undefined;
   /** A CRON expression.[Crontab Guru](https://crontab.guru/) is a helpful resource that can help you craft a CRON expression. */
   crontab: string;
   /** Custom width of the screenshot in pixels */
-  custom_width?: number | null;
-  dashboard?: number | null;
-  database?: number;
+  custom_width?: number | null | undefined;
+  dashboard?: number | null | undefined;
+  database?: number | undefined;
   /** Use a nice description to give context to this Alert/Report */
-  description?: string | null;
-  editors?: SubscribeReportRequestEditorsList;
+  description?: string | null | undefined;
+  editors?: SubscribeReportRequestEditorsList | undefined;
   /** The report schedule subject line */
-  email_subject?: string | null;
-  extra?: unknown;
-  force_screenshot?: boolean;
+  email_subject?: string | null | undefined;
+  extra?: unknown | undefined;
+  force_screenshot?: boolean | undefined;
   /** Once an alert is triggered, how long, in seconds, before Superset nags you again. (in seconds) */
-  grace_period?: number;
+  grace_period?: number | undefined;
   /** Whether to include the call-to-action link back to Superset (e.g. 'Explore in Superset') in the delivered notifications */
-  include_cta?: boolean | null;
+  include_cta?: boolean | null | undefined;
   /** How long to keep the logs around for this report (in days) */
-  log_retention?: number;
+  log_retention?: number | undefined;
   /** The report schedule name. */
   name: string;
-  recipients?: SubscribeReportRequestRecipientsList;
+  recipients?: SubscribeReportRequestRecipientsList | undefined;
   /** Attachment format. NONE disables attachments for alerts and makes chart/dashboard optional. Omitted attachment settings are preserved on update. */
-  report_format?: SubscribeReportRequestReportFormat | (string & {});
+  report_format?: SubscribeReportRequestReportFormat | (string & {}) | undefined;
   /** Maximum number of retry attempts (1-10) */
-  retry_max_attempts?: number;
+  retry_max_attempts?: number | undefined;
   /** Notify report owners on each retry attempt */
-  retry_notify_owners?: boolean;
+  retry_notify_owners?: boolean | undefined;
   /** Notify report recipients on each retry attempt */
-  retry_notify_recipients?: boolean;
+  retry_notify_recipients?: boolean | undefined;
   /** Enable automatic retries on report failure */
-  retry_on_failure?: boolean;
+  retry_on_failure?: boolean | undefined;
   /** ID of the user whose credentials are used when running the alert condition SQL query, useful when the audience of the alert does not have access to the database. Null inherits the content executor at execution time. */
-  run_alert_query_as?: number | null;
+  run_alert_query_as?: number | null | undefined;
   /** Alert query executor type; null inherits run_as. */
-  run_alert_query_as_type?: SubscribeReportRequestRunAlertQueryAsType | (string & {}) | null;
+  run_alert_query_as_type?:
+    | SubscribeReportRequestRunAlertQueryAsType
+    | (string & {})
+    | null
+    | undefined;
   /** ID of the user whose credentials (RBAC permissions, database OAuth2 tokens) are used when rendering the content (screenshot, PDF, CSV, XLSX or text). Admins can set any active user; non-admins can only set themselves. Onlyhonored when the ALERT_REPORT_DYNAMIC_EXECUTOR feature flag is enabled. Admins can set this and run_as_type to null to use ALERT_REPORTS_EXECUTORS. */
-  run_as?: number | null;
+  run_as?: number | null | undefined;
   /** Explicit executor type; fixed_user requires run_as. */
-  run_as_type?: SubscribeReportRequestRunAsType | (string & {}) | null;
+  run_as_type?: SubscribeReportRequestRunAsType | (string & {}) | null | undefined;
   /** Send the failed report to all recipients after retries are exhausted */
-  send_failed_reports?: boolean;
+  send_failed_reports?: boolean | undefined;
   /** A SQL statement that defines whether the alert should get triggered or not. The query is expected to return either NULL or a number value. */
-  sql?: string;
+  sql?: string | undefined;
   /** A timezone string that represents the location of the timezone. */
-  timezone?: SubscribeReportRequestTimezone | (string & {});
+  timezone?: SubscribeReportRequestTimezone | (string & {}) | undefined;
   /** The report schedule type */
   type: SubscribeReportRequestType | (string & {});
-  validator_config_json?: ValidatorConfigJSON;
+  validator_config_json?: ValidatorConfigJSON | undefined;
   /** Determines when to trigger alert based off value from alert query. Alerts will be triggered with these validator types: - Not Null - When the return value is Not NULL, Empty, or 0 - Operator - When `sql_return_value comparison_operator threshold` is True e.g. `50 <= 75`<br>Supports the comparison operators <, <=, >, >=, ==, and != */
-  validator_type?: SubscribeReportRequestValidatorType | (string & {});
+  validator_type?: SubscribeReportRequestValidatorType | (string & {}) | undefined;
   /** If an alert is staled at a working state, how long until it's state is reset to error */
-  working_timeout?: number;
+  working_timeout?: number | undefined;
 }
 export interface SubscribeReportResponse {
-  id?: number;
-  result?: ReportScheduleRestApiPost;
+  id?: number | undefined;
+  result?: ReportScheduleRestApiPost | undefined;
 }
 export interface SyncDatabasePermissionsRequest {
   /** The database connection ID */
   pk: number;
 }
 export interface SyncDatabasePermissionsResponse {
-  message?: string;
+  message?: string | undefined;
 }
 /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
 export type TestDatabaseConnectionRequestConfigurationMethod = "sqlalchemy_form" | "dynamic_form";
@@ -10427,29 +10442,32 @@ export type TestDatabaseConnectionRequestConfigurationMethod = "sqlalchemy_form"
 export type TestDatabaseConnectionRequestParametersMap = { [key: string]: unknown | undefined };
 export interface TestDatabaseConnectionRequest {
   /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
-  configuration_method?: TestDatabaseConnectionRequestConfigurationMethod | (string & {});
+  configuration_method?:
+    | TestDatabaseConnectionRequestConfigurationMethod
+    | (string & {})
+    | undefined;
   /** A database name to identify this connection. */
-  database_name?: string | null;
+  database_name?: string | null | undefined;
   /** SQLAlchemy driver to use */
-  driver?: string | null;
+  driver?: string | null | undefined;
   /** SQLAlchemy engine to use */
-  engine?: string | null;
+  engine?: string | null | undefined;
   /** <p>JSON string containing extra configuration elements.<br>1. The <code>engine_params</code> object gets unpacked into the <a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine" rel="noopener noreferrer">sqlalchemy.create_engine</a> call, while the <code>metadata_params</code> gets unpacked into the <a href="https://docs.sqlalchemy.org/en/rel_1_0/core/metadata.html#sqlalchemy.schema.MetaData" rel="noopener noreferrer">sqlalchemy.MetaData</a> call.<br>2. The <code>metadata_cache_timeout</code> is a cache timeout setting in seconds for metadata fetch of this database. Specify it as <strong>"metadata_cache_timeout": {"schema_cache_timeout": 600, "table_cache_timeout": 600}</strong>. If unset, cache will not be enabled for the functionality. A timeout of 0 indicates that the cache never expires.<br>3. The <code>schemas_allowed_for_file_upload</code> is a comma separated list of schemas that CSVs are allowed to upload to. Specify it as <strong>"schemas_allowed_for_file_upload": ["public", "csv_upload"]</strong>. If database flavor does not support schema or any schema is allowed to be accessed, just leave the list empty<br>4. The <code>version</code> field is a string specifying the this db's version. This should be used with Presto DBs so that the syntax is correct<br>5. The <code>allows_virtual_table_explore</code> field is a boolean specifying whether or not the Explore button in SQL Lab results is shown.<br>6. The <code>disable_data_preview</code> field is a boolean specifying whether or not data preview queries will be run when fetching table metadata in SQL Lab.<br>7. The <code>disable_drill_to_detail</code> field is a boolean specifying whether or not drill to detail is disabled for the database.<br>8. The <code>allow_multi_catalog</code> indicates if the database allows changing the default catalog when running queries and creating datasets.<br>9. The <code>disable_sampling_read_limit_override</code> field is a boolean specifying whether system-generated sampling queries (filter values, samples/preview, datetime format detection) that an engine rejects with a read-limit error should fail outright instead of being retried once with the engine's bounded-read override. Only affects engines that implement such an override.</p> */
-  extra?: string;
+  extra?: string | undefined;
   /** If Presto, all the queries in SQL Lab are going to be executed as the currently logged on user who must have permission to run them.<br/>If Hive and hive.server2.enable.doAs is enabled, will run the queries as service account, but impersonate the currently logged on user via hive.server2.proxy.user property. */
-  impersonate_user?: boolean;
+  impersonate_user?: boolean | undefined;
   /** <p>JSON string containing additional connection configuration.<br>This is used to provide connection information for systems like Hive, Presto, and BigQuery, which do not conform to the username:password syntax normally used by SQLAlchemy.</p> */
-  masked_encrypted_extra?: string | null;
+  masked_encrypted_extra?: string | null | undefined;
   /** DB-specific parameters for configuration */
-  parameters?: TestDatabaseConnectionRequestParametersMap;
+  parameters?: TestDatabaseConnectionRequestParametersMap | undefined;
   /** <p>Optional CA_BUNDLE contents to validate HTTPS requests. Only available on certain database engines.</p> */
-  server_cert?: string | null;
+  server_cert?: string | null | undefined;
   /** <p>Refer to the <a href="https://docs.sqlalchemy.org/en/rel_1_2/core/engines.html#database-urls" rel="noopener noreferrer">SqlAlchemy docs</a> for more information on how to structure your URI.</p> */
-  sqlalchemy_uri?: string;
-  ssh_tunnel?: DatabaseSSHTunnel | null;
+  sqlalchemy_uri?: string | undefined;
+  ssh_tunnel?: DatabaseSSHTunnel | null | undefined;
 }
 export interface TestDatabaseConnectionResponse {
-  message?: string;
+  message?: string | undefined;
 }
 /** list of tag names to add to object */
 export type UpdateTagRequestTagsList = Array<string>;
@@ -10457,7 +10475,7 @@ export interface UpdateTagRequest {
   object_type: number;
   object_id: number;
   /** list of tag names to add to object */
-  tags?: UpdateTagRequestTagsList;
+  tags?: UpdateTagRequestTagsList | undefined;
 }
 export interface UpdateTagResponse {}
 /** What to do if the table already exists accepts: fail, replace, append */
@@ -10473,60 +10491,60 @@ export type UploadDatabaseRequestType = "csv" | "excel" | "columnar";
 export interface UploadDatabaseRequest {
   pk: number;
   /** What to do if the table already exists accepts: fail, replace, append */
-  already_exists?: UploadDatabaseRequestAlreadyExists | (string & {});
+  already_exists?: UploadDatabaseRequestAlreadyExists | (string & {}) | undefined;
   /** [CSV only] A dictionary with column names and their data types if you need to change the defaults. Example: {'user_id':'int'}. Check Python Pandas library for supported data types */
-  column_data_types?: string;
+  column_data_types?: string | undefined;
   /** [CSV and Excel only] A list of column names that should be parsed as dates. Example: date,timestamp */
-  column_dates?: UploadDatabaseRequestColumnDatesList;
+  column_dates?: UploadDatabaseRequestColumnDatesList | undefined;
   /** A List of the column names that should be read */
-  columns_read?: UploadDatabaseRequestColumnsReadList;
+  columns_read?: UploadDatabaseRequestColumnsReadList | undefined;
   /** Write dataframe index as a column. */
-  dataframe_index?: boolean;
+  dataframe_index?: boolean | undefined;
   /** [CSV only] DD/MM format dates, international and European format */
-  day_first?: boolean;
+  day_first?: boolean | undefined;
   /** [CSV and Excel only] Character to recognize as decimal point. Default is '.' */
-  decimal_character?: string;
+  decimal_character?: string | undefined;
   /** [CSV only] The character used to separate values in the CSV file (e.g., a comma, semicolon, or tab). */
-  delimiter?: string;
+  delimiter?: string | undefined;
   /** The file to upload */
   file: string;
   /** [CSV and Excel only] Row containing the headers to use as column names (0 is first line of data). Leave empty if there is no header row. */
-  header_row?: number;
+  header_row?: number | undefined;
   /** [CSV and Excel only] Column to use as the row labels of the dataframe. Leave empty if no index column */
-  index_column?: string;
+  index_column?: string | undefined;
   /** Index label for index column. */
-  index_label?: string;
+  index_label?: string | undefined;
   /** [CSV and Excel only] A list of strings that should be treated as null. Examples: '' for empty strings, 'None', 'N/A', Warning: Hive database supports only a single value */
-  null_values?: UploadDatabaseRequestNullValuesList;
+  null_values?: UploadDatabaseRequestNullValuesList | undefined;
   /** [CSV and Excel only] Number of rows to read from the file. If None, reads all rows. */
-  rows_to_read?: number | null;
+  rows_to_read?: number | null | undefined;
   /** The schema to upload the data file to. */
-  schema?: string;
+  schema?: string | undefined;
   /** [Excel only]] Strings used for sheet names (default is the first sheet). */
-  sheet_name?: string;
+  sheet_name?: string | undefined;
   /** [CSV only] Skip blank lines in the CSV file. */
-  skip_blank_lines?: boolean;
+  skip_blank_lines?: boolean | undefined;
   /** [CSV only] Skip spaces after delimiter. */
-  skip_initial_space?: boolean;
+  skip_initial_space?: boolean | undefined;
   /** [CSV and Excel only] Number of rows to skip at start of file. */
-  skip_rows?: number;
+  skip_rows?: number | undefined;
   /** The name of the table to be created/appended */
   table_name: string;
   /** File type to upload */
   type: UploadDatabaseRequestType | (string & {});
 }
 export interface UploadDatabaseResponse {
-  message?: string;
+  message?: string | undefined;
 }
 /** File type to upload */
 export type UploadDatabaseMetadataRequestType = "csv" | "excel" | "columnar";
 export interface UploadDatabaseMetadataRequest {
   /** The character used to separate values in the CSV file (e.g., a comma, semicolon, or tab). */
-  delimiter?: string;
+  delimiter?: string | undefined;
   /** The file to upload */
   file: string;
   /** Row containing the headers to use as column names(0 is first line of data). Leave empty if there is no header row. */
-  header_row?: number;
+  header_row?: number | undefined;
   /** File type to upload */
   type: UploadDatabaseMetadataRequestType | (string & {});
 }
@@ -10534,16 +10552,16 @@ export interface UploadDatabaseMetadataRequest {
 export type UploadFileMetadataItemColumnNamesList = Array<string>;
 export interface UploadFileMetadataItem {
   /** A list of columns names in the sheet */
-  column_names?: UploadFileMetadataItemColumnNamesList;
+  column_names?: UploadFileMetadataItemColumnNamesList | undefined;
   /** The name of the sheet */
-  sheet_name?: string;
+  sheet_name?: string | undefined;
 }
 export type UploadFileMetadataItemsList = Array<UploadFileMetadataItem>;
 export interface UploadFileMetadata {
-  items?: UploadFileMetadataItemsList;
+  items?: UploadFileMetadataItemsList | undefined;
 }
 export interface UploadDatabaseMetadataResponse {
-  result?: UploadFileMetadata;
+  result?: UploadFileMetadata | undefined;
 }
 /** Gsheets specific column for managing label to sheet urls */
 export type ValidateDatabaseParametersRequestCatalogMap = {
@@ -10559,62 +10577,62 @@ export type ValidateDatabaseParametersRequestParametersMap = {
 };
 export interface DatabaseSSHTunnelValidation {
   /** SSH Tunnel ID (for updates) */
-  id?: number | null;
-  password?: string | Redacted.Redacted<string> | null;
-  private_key?: string | Redacted.Redacted<string> | null;
-  private_key_password?: string | Redacted.Redacted<string> | null;
-  server_address?: string | null;
-  server_host_key?: string | null;
-  server_port?: number | null;
-  username?: string | null;
+  id?: number | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
+  private_key?: string | Redacted.Redacted<string> | null | undefined;
+  private_key_password?: string | Redacted.Redacted<string> | null | undefined;
+  server_address?: string | null | undefined;
+  server_host_key?: string | null | undefined;
+  server_port?: number | null | undefined;
+  username?: string | null | undefined;
 }
 export interface ValidateDatabaseParametersRequest {
   /** Gsheets specific column for managing label to sheet urls */
-  catalog?: ValidateDatabaseParametersRequestCatalogMap;
+  catalog?: ValidateDatabaseParametersRequestCatalogMap | undefined;
   /** Configuration_method is used on the frontend to inform the backend whether to explode parameters or to provide only a sqlalchemy_uri. */
   configuration_method: ValidateDatabaseParametersRequestConfigurationMethod | (string & {});
   /** A database name to identify this connection. */
-  database_name?: string | null;
+  database_name?: string | null | undefined;
   /** SQLAlchemy driver to use */
-  driver?: string | null;
+  driver?: string | null | undefined;
   /** SQLAlchemy engine to use */
   engine: string;
   /** <p>JSON string containing extra configuration elements.<br>1. The <code>engine_params</code> object gets unpacked into the <a href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine" rel="noopener noreferrer">sqlalchemy.create_engine</a> call, while the <code>metadata_params</code> gets unpacked into the <a href="https://docs.sqlalchemy.org/en/rel_1_0/core/metadata.html#sqlalchemy.schema.MetaData" rel="noopener noreferrer">sqlalchemy.MetaData</a> call.<br>2. The <code>metadata_cache_timeout</code> is a cache timeout setting in seconds for metadata fetch of this database. Specify it as <strong>"metadata_cache_timeout": {"schema_cache_timeout": 600, "table_cache_timeout": 600}</strong>. If unset, cache will not be enabled for the functionality. A timeout of 0 indicates that the cache never expires.<br>3. The <code>schemas_allowed_for_file_upload</code> is a comma separated list of schemas that CSVs are allowed to upload to. Specify it as <strong>"schemas_allowed_for_file_upload": ["public", "csv_upload"]</strong>. If database flavor does not support schema or any schema is allowed to be accessed, just leave the list empty<br>4. The <code>version</code> field is a string specifying the this db's version. This should be used with Presto DBs so that the syntax is correct<br>5. The <code>allows_virtual_table_explore</code> field is a boolean specifying whether or not the Explore button in SQL Lab results is shown.<br>6. The <code>disable_data_preview</code> field is a boolean specifying whether or not data preview queries will be run when fetching table metadata in SQL Lab.<br>7. The <code>disable_drill_to_detail</code> field is a boolean specifying whether or not drill to detail is disabled for the database.<br>8. The <code>allow_multi_catalog</code> indicates if the database allows changing the default catalog when running queries and creating datasets.<br>9. The <code>disable_sampling_read_limit_override</code> field is a boolean specifying whether system-generated sampling queries (filter values, samples/preview, datetime format detection) that an engine rejects with a read-limit error should fail outright instead of being retried once with the engine's bounded-read override. Only affects engines that implement such an override.</p> */
-  extra?: string;
+  extra?: string | undefined;
   /** Database ID (for updates) */
-  id?: number | null;
+  id?: number | null | undefined;
   /** If Presto, all the queries in SQL Lab are going to be executed as the currently logged on user who must have permission to run them.<br/>If Hive and hive.server2.enable.doAs is enabled, will run the queries as service account, but impersonate the currently logged on user via hive.server2.proxy.user property. */
-  impersonate_user?: boolean;
+  impersonate_user?: boolean | undefined;
   /** <p>JSON string containing additional connection configuration.<br>This is used to provide connection information for systems like Hive, Presto, and BigQuery, which do not conform to the username:password syntax normally used by SQLAlchemy.</p> */
-  masked_encrypted_extra?: string | null;
+  masked_encrypted_extra?: string | null | undefined;
   /** DB-specific parameters for configuration */
-  parameters?: ValidateDatabaseParametersRequestParametersMap;
+  parameters?: ValidateDatabaseParametersRequestParametersMap | undefined;
   /** <p>Optional CA_BUNDLE contents to validate HTTPS requests. Only available on certain database engines.</p> */
-  server_cert?: string | null;
-  ssh_tunnel?: DatabaseSSHTunnelValidation | null;
+  server_cert?: string | null | undefined;
+  ssh_tunnel?: DatabaseSSHTunnelValidation | null | undefined;
 }
 export interface ValidateDatabaseParametersResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ValidateDatabaseSqlRequest {
   pk: number;
-  catalog?: string | null;
-  schema?: string | null;
+  catalog?: string | null | undefined;
+  schema?: string | null | undefined;
   /** SQL statement to validate */
   sql: string;
-  template_params?: unknown | null;
+  template_params?: unknown | null | undefined;
 }
 export interface ValidateSQLResponse {
-  end_column?: number;
-  line_number?: number;
-  message?: string;
-  start_column?: number;
+  end_column?: number | undefined;
+  line_number?: number | undefined;
+  message?: string | undefined;
+  start_column?: number | undefined;
 }
 /** A List of SQL errors found on the statement */
 export type ValidateDatabaseSqlResponseResultList = Array<ValidateSQLResponse>;
 export interface ValidateDatabaseSqlResponse {
   /** A List of SQL errors found on the statement */
-  result?: ValidateDatabaseSqlResponseResultList;
+  result?: ValidateDatabaseSqlResponseResultList | undefined;
 }
 /** SQL clause type for filter expressions */
 export type ValidateDatasourceExpressionRequestClause = "WHERE" | "HAVING";
@@ -10630,18 +10648,18 @@ export interface ValidateDatasourceExpressionRequest {
   /** The id of the datasource */
   datasource_id: number;
   /** SQL clause type for filter expressions */
-  clause?: ValidateDatasourceExpressionRequestClause | (string & {});
+  clause?: ValidateDatasourceExpressionRequestClause | (string & {}) | undefined;
   /** The SQL expression to validate */
   expression: string;
   /** The type of SQL expression */
-  expression_type?: ValidateDatasourceExpressionRequestExpressionType | (string & {});
+  expression_type?: ValidateDatasourceExpressionRequestExpressionType | (string & {}) | undefined;
 }
 export type ValidateDatasourceExpressionResponseResultItem = ValidateSQLResponse;
 /** Empty array for success, errors for failure */
 export type ValidateDatasourceExpressionResponseResultList = Array<ValidateSQLResponse>;
 export interface ValidateDatasourceExpressionResponse {
   /** Empty array for success, errors for failure */
-  result?: ValidateDatasourceExpressionResponseResultList;
+  result?: ValidateDatasourceExpressionResponseResultList | undefined;
 }
 export type BulkTagCreateError = BadRequest | NotFound | ApacheSupersetOpError;
 /** Bulk create tags and tagged objects */

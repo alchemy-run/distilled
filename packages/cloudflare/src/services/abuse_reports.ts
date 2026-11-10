@@ -139,9 +139,9 @@ export interface CreateRequestRegWhoRequest {
   /** The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests. */
   regWhoRequestedDataElements: CreateRequestRegWhoRequestRegWhoRequestedDataElementsList;
   /** Optional authorization statement or power of attorney per RDP 10.2.1.3. */
-  regWhoAuthorizationStatement?: string;
+  regWhoAuthorizationStatement?: string | undefined;
   /** The nature of the requestor per RDP 10.2.1.2. */
-  regWhoRequestorType?: CreateRequestRegWhoRequestRegWhoRequestorType | (string & {});
+  regWhoRequestorType?: CreateRequestRegWhoRequestRegWhoRequestorType | (string & {}) | undefined;
 }
 export interface CreateAbuseReportRequest {
   accountId: string;
@@ -150,65 +150,65 @@ export interface CreateAbuseReportRequest {
   /** The report type for submitted reports. */
   act: CreateRequestAct | (string & {});
   /** Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  address1?: string;
+  address1?: string | undefined;
   /** The name of the copyright holder. Text not exceeding 60 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  agentName?: string;
+  agentName?: string | undefined;
   /** Can be `0` for false or `1` for true. Must be value: 1 for DMCA reports */
-  agree?: CreateRequestAgree | (number & {});
+  agree?: CreateRequestAgree | (number & {}) | undefined;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  city?: string;
+  city?: string | undefined;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  country?: string;
+  country?: string | undefined;
   /** A valid email of the abuse reporter. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   email: string;
   /** Should match the value provided in `email` */
   email2: string;
   /** Notification type based on the abuse type. For delegated reports, the report--including contact information and comments--will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. */
-  hostNotification?: CreateRequestHostNotification | (string & {});
+  hostNotification?: CreateRequestHostNotification | (string & {}) | undefined;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   name: string;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  originalWork?: string;
+  originalWork?: string | undefined;
   /** Notification type based on the abuse type. For delegated reports, the report--including contact information and comments--will be forwarded to the customer in full regardless of this value. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. */
   ownerNotification: CreateRequestOwnerNotification | (string & {});
   /** Required for DMCA reports, should be same as Name. An affirmation that all information in the report is true and accurate while agreeing to the policies of Cloudflare's abuse reports */
-  signature?: string;
+  signature?: string | undefined;
   /** Text not exceeding 255 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  state?: string;
+  state?: string | undefined;
   /** A list of valid URLs separated by '\n' (new line character). The list of the URLs should not exceed 250 URLs. All URLs should have the same hostname. Each URL should be unique. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
   urls: string;
   /** Any additional comments about the infringement not exceeding 2000 characters. With the exception of delegated reports, comments are kept internal to Cloudflare and not shared with the host or customer as part of regular processing. For the limited circumstances where we delegate reports to customers with established abuse-handling programs, comments may be shared in full. */
-  comments?: string;
+  comments?: string | undefined;
   /** Text not exceeding 100 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  company?: string;
+  company?: string | undefined;
   /** Text containing 2 characters */
-  reportedCountry?: string;
+  reportedCountry?: string | undefined;
   /** Text not exceeding 255 characters */
-  reportedUserAgent?: string;
+  reportedUserAgent?: string | undefined;
   /** Text not exceeding 20 characters. This field may be released by Cloudflare to third parties such as the Lumen Database (https://lumendatabase.org/). */
-  tele?: string;
+  tele?: string | undefined;
   /** Text not exceeding 255 characters */
-  title?: string;
+  title?: string | undefined;
   /** A detailed description of the infringement, including any necessary access details and the exact steps needed to view the content, not exceeding 5000 characters. */
-  justification?: string;
+  justification?: string | undefined;
   /** Text not exceeding 1000 characters */
-  trademarkNumber?: string;
+  trademarkNumber?: string | undefined;
   /** Text not exceeding 1000 characters */
-  trademarkOffice?: string;
+  trademarkOffice?: string | undefined;
   /** Text not exceeding 1000 characters */
-  trademarkSymbol?: string;
+  trademarkSymbol?: string | undefined;
   /** A list of IP addresses separated by '\n' (new line character). The list of destination IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique. */
-  destinationIps?: string;
+  destinationIps?: string | undefined;
   /** A comma separated list of ports and protocols e.g. 80/TCP, 22/UDP. The total size of the field should not exceed 2000 characters. Each individual port/protocol should not exceed 100 characters. The list should not have more than 30 unique ports and protocols. */
-  portsProtocols?: string;
+  portsProtocols?: string | undefined;
   /** A list of IP addresses separated by '\n' (new line character). The list of source IPs should not exceed 30 IP addresses. Each one of the IP addresses ought to be unique. */
-  sourceIps?: string;
+  sourceIps?: string | undefined;
   /** Notification type based on the abuse type. NOTE: Copyright (DMCA) and Trademark reports cannot be anonymous. */
-  ncmecNotification?: CreateRequestNcmecNotification | (string & {});
+  ncmecNotification?: CreateRequestNcmecNotification | (string & {}) | undefined;
   /** RDP-mandated fields for registrar WHOIS data disclosure requests. */
-  regWhoRequest?: CreateRequestRegWhoRequest;
+  regWhoRequest?: CreateRequestRegWhoRequest | undefined;
   /** If the submitter is the target of NCSEI in the URLs of the abuse report. */
-  ncseiSubjectRepresentation?: boolean;
+  ncseiSubjectRepresentation?: boolean | undefined;
 }
 export type CreateAbuseReportResponse = string;
 export interface GetRequest {
@@ -239,10 +239,10 @@ export type GetResponseType =
   | "NCSEI"
   | "NETWORK";
 export interface GetResponseSubmitter {
-  company?: string | null;
-  email?: string | null;
-  name?: string | null;
-  telephone?: string | null;
+  company?: string | null | undefined;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  telephone?: string | null | undefined;
 }
 export type GetResponseUrlsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -260,14 +260,14 @@ export interface GetResponse {
   /** The abuse report type */
   type: GetResponseType;
   /** Whether the report is in an open Notice and Takedown notice period: no mitigation is placed yet, but one will take effect when the period ends. */
-  hasPendingNotice?: boolean | null;
+  hasPendingNotice?: boolean | null | undefined;
   /** Justification for the report. */
-  justification?: string | null;
+  justification?: string | null | undefined;
   /** Original work / Targeted brand in the alleged abuse. */
-  originalWork?: string | null;
+  originalWork?: string | null | undefined;
   /** Information about the submitter of the report. */
-  submitter?: GetResponseSubmitter | null;
-  urls?: GetResponseUrlsList | null;
+  submitter?: GetResponseSubmitter | null | undefined;
+  urls?: GetResponseUrlsList | null | undefined;
 }
 export interface GetSubmittedRequest {
   accountId: string;
@@ -338,9 +338,9 @@ export interface GetSubmittedResponseRegWhoRequest {
   /** The specific WHOIS data elements being requested per RDP 10.2.2. Required for all WHOIS requests. */
   regWhoRequestedDataElements: GetSubmittedResponseRegWhoRequestRegWhoRequestedDataElementsList;
   /** Optional authorization statement or power of attorney per RDP 10.2.1.3. */
-  regWhoAuthorizationStatement?: string | null;
+  regWhoAuthorizationStatement?: string | null | undefined;
   /** The nature of the requestor per RDP 10.2.1.2. */
-  regWhoRequestorType?: GetSubmittedResponseRegWhoRequestRegWhoRequestorType | null;
+  regWhoRequestorType?: GetSubmittedResponseRegWhoRequestRegWhoRequestorType | null | undefined;
 }
 export type GetSubmittedResponseSourceIpsList = Array<string>;
 export type GetSubmittedResponseSubmitter = GetResponseSubmitter;
@@ -364,45 +364,45 @@ export interface GetSubmittedResponse {
   /** URLs supplied with the report. */
   urls: GetSubmittedResponseUrlsList;
   /** Authorized agent name supplied with the report. */
-  agentName?: string | null;
+  agentName?: string | null | undefined;
   /** Additional comments supplied with the report. */
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** The string "on" when a court proceeding applies to the report; otherwise omitted. */
-  court?: string | null;
+  court?: string | null | undefined;
   /** Destination IP addresses supplied with a network abuse report. */
-  destinationIps?: GetSubmittedResponseDestinationIpsList | null;
+  destinationIps?: GetSubmittedResponseDestinationIpsList | null | undefined;
   /** Submitter preference for notifying the hosting provider. */
-  hostNotification?: string | null;
+  hostNotification?: string | null | undefined;
   /** Evidence supplied with the report. */
-  justification?: string | null;
+  justification?: string | null | undefined;
   /** Submitter preference for notifying NCMEC. */
-  ncmecNotification?: string | null;
+  ncmecNotification?: string | null | undefined;
   /** Representation supplied for an NCSEI report. */
-  ncseiSubjectRepresentation?: boolean | null;
+  ncseiSubjectRepresentation?: boolean | null | undefined;
   /** Original work or targeted brand supplied with the report. */
-  originalWork?: string | null;
+  originalWork?: string | null | undefined;
   /** Submitter preference for notifying the content owner. */
-  ownerNotification?: string | null;
+  ownerNotification?: string | null | undefined;
   /** Ports and protocols supplied with a network abuse report. */
-  portsProtocols?: GetSubmittedResponsePortsProtocolsList | null;
+  portsProtocols?: GetSubmittedResponsePortsProtocolsList | null | undefined;
   /** RDP-mandated fields for registrar WHOIS data disclosure requests. */
-  regWhoRequest?: GetSubmittedResponseRegWhoRequest | null;
+  regWhoRequest?: GetSubmittedResponseRegWhoRequest | null | undefined;
   /** Country associated with the reported activity. */
-  reportedCountry?: string | null;
+  reportedCountry?: string | null | undefined;
   /** User agent associated with the reported activity. */
-  reportedUserAgent?: string | null;
+  reportedUserAgent?: string | null | undefined;
   /** Source IP addresses supplied with a network abuse report. */
-  sourceIps?: GetSubmittedResponseSourceIpsList | null;
+  sourceIps?: GetSubmittedResponseSourceIpsList | null | undefined;
   /** Information about the submitter of the report. */
-  submitter?: GetResponseSubmitter | null;
+  submitter?: GetResponseSubmitter | null | undefined;
   /** Additional abuse classifications supplied with the report. */
-  subtypes?: GetSubmittedResponseSubtypesList | null;
+  subtypes?: GetSubmittedResponseSubtypesList | null | undefined;
   /** Title supplied with the report. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The string "on" when a UDRP proceeding applies to the report; otherwise omitted. */
-  udrp?: string | null;
+  udrp?: string | null | undefined;
   /** The string "on" when a URS proceeding applies to the report; otherwise omitted. */
-  urs?: string | null;
+  urs?: string | null | undefined;
 }
 export type ListRequestMitigationStatus =
   | "pending"
@@ -424,27 +424,27 @@ export type ListRequestType =
 export interface ListAbuseReportsRequest {
   accountId: string;
   /** Returns reports created after the specified date */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Returns reports created before the specified date */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter by domain name related to the abuse report */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter reports that have any mitigations in the given status. */
-  mitigationStatus?: ListRequestMitigationStatus | (string & {});
+  mitigationStatus?: ListRequestMitigationStatus | (string & {}) | undefined;
   /** Where in pagination to start listing abuse reports */
-  page?: number;
+  page?: number | undefined;
   /** Also include reports in an open Notice and Takedown notice period. Combined with mitigation_status using OR, e.g. ?mitigation_status=active&pending_notice=true. */
-  pendingNotice?: boolean;
+  pendingNotice?: boolean | undefined;
   /** How many abuse reports per page to list */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Free-text search. Returns reports whose report ID starts with the term or whose domain contains the term, both case-insensitively. Surrounding whitespace is ignored, and an empty value is treated as absent. Combined with the other filters using AND. */
-  search?: string;
+  search?: string | undefined;
   /** A property to sort by, followed by the order (id, cdate, domain, type, status) */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter by the status of the report. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
   /** Filter by the type of the report. */
-  type?: ListRequestType | (string & {});
+  type?: ListRequestType | (string & {}) | undefined;
 }
 export type ListResponseReportsItemMitigationSummary = GetResponseMitigationSummary;
 export type ListResponseReportsItemStatus = "accepted" | "in_review";
@@ -474,14 +474,14 @@ export interface ListResponseReportsItem {
   /** The abuse report type */
   type: ListResponseReportsItemType;
   /** Whether the report is in an open Notice and Takedown notice period: no mitigation is placed yet, but one will take effect when the period ends. */
-  hasPendingNotice?: boolean | null;
+  hasPendingNotice?: boolean | null | undefined;
   /** Justification for the report. */
-  justification?: string | null;
+  justification?: string | null | undefined;
   /** Original work / Targeted brand in the alleged abuse. */
-  originalWork?: string | null;
+  originalWork?: string | null | undefined;
   /** Information about the submitter of the report. */
-  submitter?: GetResponseSubmitter | null;
-  urls?: ListResponseReportsItemUrlsList | null;
+  submitter?: GetResponseSubmitter | null | undefined;
+  urls?: ListResponseReportsItemUrlsList | null | undefined;
 }
 export type ListResponseReportsList = Array<ListResponseReportsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -512,21 +512,21 @@ export interface ListMitigationsRequest {
   accountId: string;
   reportId: string;
   /** Returns mitigation that were dispatched after the given date */
-  effectiveAfter?: string;
+  effectiveAfter?: string | undefined;
   /** Returns mitigations that were dispatched before the given date */
-  effectiveBefore?: string;
+  effectiveBefore?: string | undefined;
   /** Filter by the type of entity the mitigation impacts. */
-  entityType?: MitigationsListRequestEntityType | (string & {});
+  entityType?: MitigationsListRequestEntityType | (string & {}) | undefined;
   /** Where in pagination to start listing abuse reports */
-  page?: number;
+  page?: number | undefined;
   /** How many abuse reports per page to list */
-  perPage?: number;
+  perPage?: number | undefined;
   /** A property to sort by, followed by the order */
-  sort?: MitigationsListRequestSort | (string & {});
+  sort?: MitigationsListRequestSort | (string & {}) | undefined;
   /** Filter by the status of the mitigation. */
-  status?: MitigationsListRequestStatus | (string & {});
+  status?: MitigationsListRequestStatus | (string & {}) | undefined;
   /** Filter by the type of mitigation. This filter parameter can be specified multiple times to include multiple types of mitigations in the result set. */
-  type?: string;
+  type?: string | undefined;
 }
 export type MitigationsListResponseMitigationsItemEntityType =
   | "url_pattern"
@@ -574,23 +574,23 @@ export type ListSubmittedRequestTypeList = Array<ListSubmittedRequestType | (str
 export interface ListSubmittedRequest {
   accountId: string;
   /** Filter by report code. */
-  id?: string;
+  id?: string | undefined;
   /** Return reports submitted after this time. */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Return reports submitted before this time. */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter by reported domain. This parameter can be specified multiple times. */
-  domain?: ListSubmittedRequestDomainList;
+  domain?: ListSubmittedRequestDomainList | undefined;
   /** Page of submitted reports to return. */
-  page?: number;
+  page?: number | undefined;
   /** Number of submitted reports per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** A property and direction to sort by (id, cdate, domain, type, status). */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter by submitter-facing status. This parameter can be specified multiple times. */
-  status?: ListSubmittedRequestStatusList;
+  status?: ListSubmittedRequestStatusList | undefined;
   /** Filter by report type. This parameter can be specified multiple times. */
-  type?: ListSubmittedRequestTypeList;
+  type?: ListSubmittedRequestTypeList | undefined;
 }
 export type ListSubmittedResponseReportsItemDenialReason =
   | "unable_to_confirm"
@@ -632,7 +632,7 @@ export interface ListSubmittedResponseReportsItem {
   /** The abuse report type */
   type: ListSubmittedResponseReportsItemType;
   /** Information about the submitter of the report. */
-  submitter?: GetResponseSubmitter | null;
+  submitter?: GetResponseSubmitter | null | undefined;
 }
 export type ListSubmittedResponseReportsList = Array<ListSubmittedResponseReportsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -643,9 +643,9 @@ export interface ListSubmittedEmailsRequest {
   accountId: string;
   reportId: string;
   /** Page number to retrieve (default 1). */
-  page?: number;
+  page?: number | undefined;
   /** Number of emails per page (default 20, max 100). */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface ListSubmittedEmailsResponseEmailsItem {
   /** Unique identifier of the email. */
@@ -686,21 +686,21 @@ export interface MitigationsReviewRequestData {
   streetAddress: string;
   urls: MitigationsReviewRequestDataUrlsList;
   zipCode: string;
-  company?: string;
-  counterNoticeResponse?: string;
+  company?: string | undefined;
+  counterNoticeResponse?: string | undefined;
 }
 export type MitigationsReviewRequestType = "counter_notice" | "content_removed";
 export interface ReviewMitigationRequest {
   accountId: string;
   reportId: string;
   /** List of mitigations to appeal. */
-  appeals?: MitigationsReviewRequestAppealsList;
+  appeals?: MitigationsReviewRequestAppealsList | undefined;
   /** Counter-notice details supporting an appeal. */
-  data?: MitigationsReviewRequestData;
+  data?: MitigationsReviewRequestData | undefined;
   /** Optional explanation for a "content_removed" appeal, such as how the content was removed. Not accepted for other appeal types. */
-  explanation?: string;
+  explanation?: string | undefined;
   /** The type of appeal being submitted. */
-  type?: MitigationsReviewRequestType | (string & {});
+  type?: MitigationsReviewRequestType | (string & {}) | undefined;
 }
 export type MitigationsReviewResultItemEntityType =
   | "url_pattern"
@@ -731,7 +731,7 @@ export interface ReviewMitigationResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MitigationsReviewResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateAbuseReportError = InvalidRequest | CloudflareOpError;
 /** Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). Delegated reports: In limited circumstances, Cloudflare delegates processing of abuse reports to select customers who have established abuse-handling programs. For these customers, Cloudflare may forward abuse reports directly and in full--including reporter contact information, comments, and supporting evidence--without redaction or preprocessing by Cloudflare. This allows the customer to investigate and respond using their own policies and processes. For delegated reports, the report--including contact information and comments--will be forwarded to the customer in full regardless of the `host_notification` and `owner_notification` values. */

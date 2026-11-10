@@ -51,9 +51,9 @@ export interface EngineeringAnalyticsAttentionPullRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface Author {
   /** Login handle of the pull request author. */
@@ -87,7 +87,7 @@ export interface CIStatusRollup {
   /** Latest runs that completed without a pass-or-fail verdict: cancelled, skipped, neutral, or action required. Together with the three counts above this covers every run, so a PR whose CI was entirely cancelled is not readable as passing. */
   inconclusive: number;
   /** The workflow names behind `failing`, sorted - names what is failing instead of leaving a bare count. */
-  failing_workflows?: CIStatusRollupFailingWorkflowsList;
+  failing_workflows?: CIStatusRollupFailingWorkflowsList | undefined;
 }
 export interface PushCISample {
   /** Head commit SHA of this push (CI round). */
@@ -139,9 +139,9 @@ export interface PullRequestListItem {
   /** Workflow runs attributed to this PR that were a 2nd+ attempt (a re-run). */
   rerun_cycles: number;
   /** Estimated CI cost in USD summed over this PR's jobs (billable runners only). Null when nothing was costable or the job-level source isn't synced. */
-  estimated_cost_usd?: number | null;
+  estimated_cost_usd?: number | null | undefined;
   /** Billable (self-hosted) minutes summed over this PR's jobs. Null when the job source isn't synced. */
-  billable_minutes?: number | null;
+  billable_minutes?: number | null | undefined;
 }
 /** Open pull requests needing attention, failing CI first, then newest, capped at `limit`. */
 export type AttentionPullRequestListItemsList = Array<PullRequestListItem>;
@@ -157,11 +157,11 @@ export interface EngineeringAnalyticsAuthorFrictionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub team slug: list only the team's members, through the team membership table. Ranks stay repository-wide. */
-  github_team?: string;
+  github_team?: string | undefined;
   /** 'owner/name' repository, when the selected source syncs several. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** * `ci` - CI * `review` - Review * `queue` - Queue * `rework` - Rework */
 export type FrictionGroupEnum = "ci" | "review" | "queue" | "rework";
@@ -193,7 +193,7 @@ export interface AuthorFriction {
   /** High end of the rank band: the 90th percentile rank over the same resamples, and never below rank. */
   rank_high: number;
   /** The author's GitHub teams. Empty when the membership table isn't synced. */
-  teams?: AuthorFrictionTeamsList;
+  teams?: AuthorFrictionTeamsList | undefined;
 }
 /** Authors by friction, most first. */
 export type AuthorFrictionListItemsList = Array<AuthorFriction>;
@@ -229,9 +229,9 @@ export interface EngineeringAnalyticsAuthorFrictionDetailRequest {
   /** GitHub login of the author to show. */
   author: string;
   /** 'owner/name' repository, when the selected source syncs several. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** The author's teams without the author, each only with at least 2 other scored members. */
 export type AuthorFrictionDetailTeamsList = Array<TeamFriction>;
@@ -277,15 +277,15 @@ export interface EngineeringAnalyticsAuthorLlmSpendRequest {
   /** GitHub handle whose pull requests to list. */
   author: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Maximum pull requests to return, 1 to 200. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface PRLLMSpend {
   /** Total agent LLM token cost in USD attributed to this PR (sum of $ai_total_cost_usd over the matched $ai_generation events). */
@@ -333,13 +333,13 @@ export interface EngineeringAnalyticsAuthorWorkflowCostsRequest {
   /** GitHub handle whose CI spend to break down. */
   author: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface WorkflowCost {
   /** GitHub Actions workflow name this cost is for. */
@@ -362,13 +362,13 @@ export interface EngineeringAnalyticsBrokenTestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact branch name. Keeps only tests that failed on it, but the counts still cover every branch, so a row shows whether the test also fails elsewhere. Applied before the limit. */
-  branch?: string;
+  branch?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Optional case-insensitive substring of the test id to keep, e.g. 'test_cohort' or 'posthog/api/test/test_user.py'. Applied before the limit, so a test past the cap is still found. */
-  test?: string;
+  test?: string | undefined;
 }
 /** * `breaking_master` - Breaking Master * `blocking_merge_queue` - Blocking Merge Queue * `novel_burst` - Novel Burst * `potentially_resolved` - Potentially Resolved * `flaky` - Flaky * `pr_only` - PR Only */
 export type BrokenTestStateEnum =
@@ -410,9 +410,9 @@ export interface BrokenTestRow {
   /** The branch of the most recent failing run. */
   latest_branch: string;
   /** Hourly failure counts over the last 24 hours, oldest first (fixed 24-slot array), for the row sparkline. All zeros when nothing failed in the last day. */
-  trend_24h?: BrokenTestRowTrend24hList;
+  trend_24h?: BrokenTestRowTrend24hList | undefined;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  latest_ci_engine?: CIEngineEnum | null;
+  latest_ci_engine?: CIEngineEnum | null | undefined;
 }
 /** Classified failures ranked by triage urgency: breaking trunk first, single-PR failures last. */
 export type BrokenTestsResultRowsList = Array<BrokenTestRow>;
@@ -434,9 +434,9 @@ export interface EngineeringAnalyticsCiCardsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface CICardSummary {
   /** Count of open pull requests. */
@@ -454,7 +454,7 @@ export interface EngineeringAnalyticsCiDataFreshnessRequest {
   /** 'owner/name' repository to report on. */
   repo: string;
   /** Connected GitHub data warehouse source to read from. Defaults to the source connected for `repo`. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface CIDataFreshness {
   /** When the last completed sync of the stored workflow runs started. Every stored run is at least this fresh. The older of the GitHub and Depot CI times when the repository syncs both. Null when a runs table has never synced. */
@@ -470,7 +470,7 @@ export interface EngineeringAnalyticsCiFailureLogsRequest {
   /** 'owner/name' repository the pull request belongs to. */
   repo: string;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface CIFailureLogLine {
   /** 1-based line number in the full pre-thinning job log, or null for a '... N lines omitted ...' marker. The gap between consecutive values is how many lines were elided. */
@@ -498,7 +498,7 @@ export interface CIJobFailureLog {
   /** True when the job had more failure lines than the per-job cap. */
   truncated: boolean;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: CIEngineEnum | null;
+  ci_engine?: CIEngineEnum | null | undefined;
 }
 /** Failed CI jobs with their thinned failure logs, grouped by job. */
 export type CIFailureLogsJobsList = Array<CIJobFailureLog>;
@@ -524,7 +524,7 @@ export interface EngineeringAnalyticsCiTimingContextRequest {
   /** CI engine that ran the run. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
   ci_engine: EngineeringAnalyticsCiTimingContextRequestCiEngine | (string & {});
   /** Comma-separated job ids from workflow_jobs, at most 200. Required for 'matrix', 'job' and 'step'. Give exactly one id for 'job' and 'step'. Ignored for 'workflow'. */
-  job_ids?: string;
+  job_ids?: string | undefined;
   /** What to compare: the whole 'workflow', a 'matrix' (several jobs of the run), one 'job', or one 'step' of a job. * `workflow` - Workflow * `matrix` - Matrix * `job` - Job * `step` - Step */
   kind: EngineeringAnalyticsCiTimingContextRequestKind | (string & {});
   /** 'owner/name' repository the run belongs to. */
@@ -534,9 +534,9 @@ export interface EngineeringAnalyticsCiTimingContextRequest {
   /** Integer run id of the run that holds the selection. */
   run_id: number;
   /** Connected GitHub data warehouse source to read from. Defaults to the source connected for `repo`. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Number of the step within the job. Required when kind is 'step'. */
-  step_number?: number;
+  step_number?: number | undefined;
 }
 /** * `success` - Success * `failure` - Failure */
 export type CITimingSampleStatusEnum = "success" | "failure";
@@ -605,9 +605,9 @@ export interface EngineeringAnalyticsCurrentBranchHealthRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** Alphabetical preview of failing workflow names, capped at 20; use failing_workflows for the complete count. */
 export type CurrentBranchHealthFailingWorkflowNamesList = Array<string>;
@@ -627,15 +627,15 @@ export interface EngineeringAnalyticsDeliveryComparisonRequest {
   /** GitHub login of the author to compare with their team and the repository. */
   author: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** A pull request by the author. Needs repo. A team of the author's that this pull request asked to review is the team to compare with, and the pull request stays out of the medians. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** 'owner/name' repository. Required with pr_number; otherwise it picks the repository when the selected source syncs several. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface ReadyToMergeMedians {
   /** Pull requests merged in the window, bots and drafts excluded. */
@@ -702,17 +702,17 @@ export interface EngineeringAnalyticsDeliverySummaryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub login: scope the read to this author's pull requests. Pass exactly one scope. */
-  author?: string;
+  author?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** GitHub team slug: scope the read to pull requests authored by the team's members, through the team membership table. Pass exactly one scope. */
-  github_team?: string;
+  github_team?: string | undefined;
   /** 'owner/name' repository. Required with pr_number; otherwise it picks the repository when the selected source syncs several. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface ScopeRepoFigure {
   /** The figure over the pull requests in scope. Null when the scope has nothing to measure. */
@@ -820,9 +820,9 @@ export interface EngineeringAnalyticsDepotCiUsageRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 export interface DepotCIRepoUsage {
   /** Repository the Depot source syncs, as lowercase 'owner/name'. */
@@ -841,19 +841,19 @@ export interface EngineeringAnalyticsDoraRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Deploy environment(s) to scope to, repeatable (from the response's `environments` list). Omit to include all persistent environments marked production or named prod/production (including regional suffixes), falling back to the busiest persistent environment when none match. Explicit names are trimmed, deduplicated, and validated against the source, including transient environments. Blank or unknown names are rejected with a 400 response. */
-  environment?: EngineeringAnalyticsDoraRequestEnvironmentList;
+  environment?: EngineeringAnalyticsDoraRequestEnvironmentList | undefined;
   /** GitHub team slug (from the response's `github_teams` list) to narrow the PR-scoped merge-to-deploy figures to that team's authors. Deploy counts stay repo-wide. Needs the team-membership snapshot synced; without it the merge-to-deploy figures return empty rather than silently unfiltered. */
-  github_team?: string;
+  github_team?: string | undefined;
   /** Bucket width for every series. Omit to pick one that fits the window: hour up to 48h, day up to 90 days, week beyond. */
-  granularity?: EngineeringAnalyticsDoraRequestGranularity | (string & {});
+  granularity?: EngineeringAnalyticsDoraRequestGranularity | (string & {}) | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface DeploymentFrequencyBucket {
   /** Bucket start, aligned to series_granularity (top of hour, midnight, or Monday). */
@@ -964,25 +964,25 @@ export interface EngineeringAnalyticsFlakyTestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact branch name. Keeps only tests that failed on it, but the counts still cover every branch, so a row shows whether the test also fails elsewhere. Applied before the limit. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-7d', '-30d') or ISO8601. Defaults to -7d; the window may span at most 30 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Maximum number of tests to return (1-200). Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** A test with no recorded recovery qualifies once it failed on at least this many distinct pull requests in the window. Minimum 1. Defaults to 3. */
-  min_failed_prs?: number;
+  min_failed_prs?: number | undefined;
   /** Optional pull request number. Keeps only tests that failed in that PR's CI runs, but the counts still cover every PR. Pass min_failed_prs=1 too, so a test that failed on this PR alone qualifies. Applied before the limit. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Optional test runner to return: 'pytest' or 'jest'. */
-  runner?: EngineeringAnalyticsFlakyTestsRequestRunner | (string & {});
+  runner?: EngineeringAnalyticsFlakyTestsRequestRunner | (string & {}) | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Optional case-insensitive substring of the test id to keep, e.g. 'test_cohort' or 'posthog/api/test/test_user.py'. Applied before the limit, so a test past the cap is still found. */
-  test?: string;
+  test?: string | undefined;
 }
 /** * `pytest` - Pytest * `jest` - Jest */
 export type CITestRunnerEnum = "pytest" | "jest";
@@ -1032,17 +1032,17 @@ export interface EngineeringAnalyticsJobAggregatesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact git branch (head_branch) to scope results to, e.g. 'main'. Omit or leave blank to aggregate across all branches. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
-  run_scope?: EngineeringAnalyticsJobAggregatesRequestRunScope | (string & {});
+  run_scope?: EngineeringAnalyticsJobAggregatesRequestRunScope | (string & {}) | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Workflow name to aggregate jobs for. */
   workflow_name: string;
 }
@@ -1080,7 +1080,7 @@ export interface EngineeringAnalyticsJobLogInsightsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** CI engine. Required when job_id exists in both engines. Only GitHub Actions job logs are read. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: EngineeringAnalyticsJobLogInsightsRequestCiEngine | (string & {});
+  ci_engine?: EngineeringAnalyticsJobLogInsightsRequestCiEngine | (string & {}) | undefined;
   /** Job id to read the log of; a row id from workflow_jobs. */
   job_id: number;
   /** 'owner/name' repository the job ran in. */
@@ -1088,7 +1088,7 @@ export interface EngineeringAnalyticsJobLogInsightsRequest {
   /** Workflow run id the job belongs to. */
   run_id: number;
   /** Connected GitHub data warehouse source to read from. Defaults to the source connected for `repo`. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** * `cache` - Cache * `migrations` - Migrations */
 export type JobLogBadgeKindEnum = "cache" | "migrations";
@@ -1128,19 +1128,19 @@ export interface JobLogInsights {
   /** False when the log's step markers did not line up with the job's steps, so the badges are reported for the job only. */
   attributed_to_steps: boolean;
   /** True when only part of the log was parsed, because the log is too large or its download took too long. The badges are then a lower bound: an outcome in the part that was not parsed is missing. */
-  log_truncated?: boolean;
+  log_truncated?: boolean | undefined;
 }
 export interface EngineeringAnalyticsLlmSpendCoverageRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface LLMSpendCoverage {
   /** Total cost in USD of the $ai_generation events stamped with this repository ($ai_git_repo) in the window. Generations with no repository stamp are not counted. */
@@ -1156,15 +1156,15 @@ export interface EngineeringAnalyticsMasterFailuresRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact git branch (head_branch) to scope results to, e.g. 'main'. Omit or leave blank to aggregate across all branches. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-24h', '-7d') or ISO8601. Defaults to -24h. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface MasterFailureGroup {
   /** Repository the failures occurred in. */
@@ -1182,7 +1182,7 @@ export interface MasterFailureGroup {
   /** Run id of the newest failing run: the drill-down anchor. */
   latest_run_id: number;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  latest_ci_engine?: CIEngineEnum | null;
+  latest_ci_engine?: CIEngineEnum | null | undefined;
 }
 export type EngineeringAnalyticsMasterFailuresResponseBodyList = Array<MasterFailureGroup>;
 export type EngineeringAnalyticsMasterFailuresResponse =
@@ -1195,7 +1195,7 @@ export interface EngineeringAnalyticsPrCostRequest {
   /** 'owner/name' repository the pull request belongs to. */
   repo: string;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** Same spend broken down per workflow. */
 export type PRCostSummaryByWorkflowList = Array<WorkflowCost>;
@@ -1209,7 +1209,7 @@ export interface RunCost {
   /** Estimated dollar cost for this run attempt, or null when nothing was costable. */
   estimated_cost_usd: number | null;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: CIEngineEnum | null;
+  ci_engine?: CIEngineEnum | null | undefined;
 }
 /** Same spend broken down per workflow run, keyed by (run_id, run_attempt). */
 export type PRCostSummaryByRunList = Array<RunCost>;
@@ -1219,7 +1219,7 @@ export interface PRCostSummary {
   /** Same spend broken down per workflow run, keyed by (run_id, run_attempt). */
   by_run: PRCostSummaryByRunList;
   /** Agent LLM token spend attributed to this PR by git branch ($ai_git_branch), or null when no generation matched: independent of the CI cost figures, so it can be present even when jobs_available is false. The UI hides the row when null. */
-  llm_spend?: PRLLMSpend | null;
+  llm_spend?: PRLLMSpend | null | undefined;
   /** False when the job-level source (github_workflow_jobs) isn't synced: every figure is then zero/null and the cost cards should be hidden. */
   jobs_available: boolean;
   /** Billable CI minutes: each costed (self-hosted) job's elapsed time, summed. Parallel jobs add up, so this is compute time spent, not wall-clock run duration. */
@@ -1241,7 +1241,7 @@ export interface EngineeringAnalyticsPrLifecycleRequest {
   /** 'owner/name' repository the pull request belongs to. */
   repo: string;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface PullRequest {
   /** The pull request author. */
@@ -1280,11 +1280,11 @@ export interface PRLifecycleEvent {
   /** When the event occurred. */
   at: string;
   /** Optional detail: workflow name and conclusion for CI events, the acting user's login for draft/ready transitions. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** GitHub Actions run id for ci_started/ci_finished events, null otherwise. */
-  run_id?: number | null;
+  run_id?: number | null | undefined;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: CIEngineEnum | null;
+  ci_engine?: CIEngineEnum | null | undefined;
 }
 /** Lifecycle events ordered by time. */
 export type PRLifecycleEventsList = Array<PRLifecycleEvent>;
@@ -1296,7 +1296,7 @@ export interface PRLifecycle {
   /** Lifecycle events ordered by time. */
   events: PRLifecycleEventsList;
   /** Always 'partial': CI events only; reviews and comments are not yet available. * `precise` - Precise * `coarse` - Coarse * `partial` - Partial */
-  metric_quality?: MetricQualityEnum;
+  metric_quality?: MetricQualityEnum | undefined;
 }
 export interface EngineeringAnalyticsPrRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1306,7 +1306,7 @@ export interface EngineeringAnalyticsPrRunsRequest {
   /** 'owner/name' repository the pull request belongs to. */
   repo: string;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface WorkflowRunDetail {
   /** Repository the run belongs to. */
@@ -1338,15 +1338,15 @@ export interface WorkflowRunDetail {
   /** True when a merge queue pushed this run to gate pr_number, rather than the author pushing it. Count it when measuring CI; drop it when counting what the author did. */
   is_merge_queue: boolean;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: CIEngineEnum | null;
+  ci_engine?: CIEngineEnum | null | undefined;
   /** Source-native run id; use with ci_engine for identity. */
-  native_run_id?: string | null;
+  native_run_id?: string | null | undefined;
   /** Source-native workflow run id; use with ci_engine for identity. */
-  native_workflow_run_id?: string | null;
+  native_workflow_run_id?: string | null | undefined;
   /** GitHub's numeric id of the workflow. It stays the same when the workflow is renamed, so use it to follow one workflow over time. Null for a Depot CI run, and for a run whose source does not carry the id. */
-  workflow_id?: number | null;
+  workflow_id?: number | null | undefined;
   /** Event that triggered the run, such as 'push', 'pull_request' or 'schedule'. Null when unknown, as for a Depot CI run. */
-  event?: string | null;
+  event?: string | null | undefined;
 }
 export type EngineeringAnalyticsPrRunsResponseBodyList = Array<WorkflowRunDetail>;
 export type EngineeringAnalyticsPrRunsResponse = EngineeringAnalyticsPrRunsResponseBodyList;
@@ -1358,7 +1358,7 @@ export interface EngineeringAnalyticsPullRequestFrictionRequest {
   /** 'owner/name' repository the pull request belongs to. */
   repo: string;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** The pull request's friction split by kind. */
 export type PullRequestFrictionBreakdownGroupsList = Array<FrictionGroupShare>;
@@ -1405,21 +1405,21 @@ export interface EngineeringAnalyticsPullRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional GitHub login to scope the list to one author's pull requests. */
-  author?: string;
+  author?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Optional exclusive upper bound for merged_at / closed_at: relative or ISO8601. Defaults to now. Set a fixed value when you page, so new merges do not move rows between pages. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Page size, 1 to 1000. Defaults to 1000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of rows to skip. Defaults to 0. While `truncated` is true, add `limit` to offset to read the next page. */
-  offset?: number;
+  offset?: number | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Optional state filter. 'merged' lists PRs merged in the window, newest merged_at first. 'closed' lists PRs closed without a merge in the window, newest closed_at first. 'open' lists all open PRs whatever their age, newest first. Omit it to get open PRs plus any merged or closed in the window. */
-  state?: EngineeringAnalyticsPullRequestsRequestState | (string & {});
+  state?: EngineeringAnalyticsPullRequestsRequestState | (string & {}) | undefined;
 }
 /** This page of pull requests, newest first, capped at `limit`. */
 export type PullRequestListItemsList = Array<PullRequestListItem>;
@@ -1435,19 +1435,19 @@ export interface EngineeringAnalyticsPullRequestTimelinesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub login: scope the read to this author's pull requests. Pass exactly one scope. */
-  author?: string;
+  author?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** GitHub team slug: scope the read to pull requests authored by the team's members, through the team membership table. Pass exactly one scope. */
-  github_team?: string;
+  github_team?: string | undefined;
   /** Pull request number: scope the read to this one pull request. Needs repo. Pass exactly one scope. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** 'owner/name' repository. Required with pr_number; otherwise it picks the repository when the selected source syncs several. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface PRTimelinePush {
   /** The pushed head commit. */
@@ -1549,9 +1549,9 @@ export interface EngineeringAnalyticsQuarantineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional 'owner/name' repository to read the quarantine file from. Defaults to the connected GitHub source's most active repo over the last 30 days. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** * `run` - Run * `skip` - Skip */
 export type QuarantineModeEnum = "run" | "skip";
@@ -1617,19 +1617,19 @@ export interface EngineeringAnalyticsQuarantineRequestRequest {
   /** Test selector to act on: an exact test id, a file, a directory, a class prefix, or 'product:<dashed-name>'. */
   selector: string;
   /** Test runner the selector targets: 'pytest', 'jest', or 'playwright'. Existing entries and Jest file extensions are inferred for older clients that omit it; other selectors default to 'pytest'. * `pytest` - Pytest * `jest` - Jest * `playwright` - Playwright */
-  runner?: QuarantineRunnerEnum | (string & {}) | null;
+  runner?: QuarantineRunnerEnum | (string & {}) | null | undefined;
   /** Optional 'owner/name' repository override; defaults to the team's most active repo. */
-  repo?: string | null;
+  repo?: string | null | undefined;
   /** Why the test is quarantined. Required for quarantine and extend; ignored by remove. */
-  reason?: string;
+  reason?: string | undefined;
   /** GitHub team or user handle responsible for the fix, e.g. '@PostHog/team-x'. Required for quarantine and extend. */
-  owner?: string;
+  owner?: string | undefined;
   /** Existing tracking issue URL, carried forward on extend and remove. Ignored by quarantine, which files a fresh issue. */
-  issue?: string;
+  issue?: string | undefined;
   /** ISO date the quarantine expires (at most 30 days out). Defaults to 14 days from today. Ignored by remove. */
-  expires?: string | null;
+  expires?: string | null | undefined;
   /** 'run' (the test still executes but cannot fail the suite) or 'skip' (not run at all). Defaults to 'run'. * `run` - Run * `skip` - Skip */
-  mode?: QuarantineModeEnum | (string & {});
+  mode?: QuarantineModeEnum | (string & {}) | undefined;
 }
 export interface QuarantineRequestResult {
   /** URL of the opened pull request that edits the quarantine file. */
@@ -1643,15 +1643,15 @@ export interface EngineeringAnalyticsRepoOverviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Set false to skip the chart series (cost_series, time_to_green_series, success_rate_series, open_to_merge_series return empty) and their query cost: for headline-only consumers like the weekly digest. Defaults to true. */
-  include_series?: boolean;
+  include_series?: boolean | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface CostPerMergeBucket {
   /** Bucket start, aligned to cost_series_granularity (top of hour, midnight, or Monday). */
@@ -1865,11 +1865,11 @@ export interface EngineeringAnalyticsResolveBranchRequest {
   /** Git branch (the PR's head ref) to resolve. Open PRs are returned first, then most recently updated. */
   branch: string;
   /** Optional 'owner/name' repository to narrow matching to a single repo. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Optional ISO8601 timestamp, e.g. the trace's capture time. When a branch name has been reused across PRs over time, the PR whose lifetime window contains this moment is ranked first so the result matches the PR that was active when the trace was captured. A preference only, not a filter; omit to rank purely by open state then recency. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface BranchPRMatch {
   /** Repository the pull request belongs to, as 'owner/name'. */
@@ -1896,7 +1896,7 @@ export interface GitHubSource {
   /** User-chosen warehouse table-name prefix for this source, or '' when none. */
   prefix: string;
   /** Whether this repo has both pull_requests and workflow_runs synced (readable now). Default the picker to the first synced entry so its label matches the resolved repo. */
-  synced?: boolean;
+  synced?: boolean | undefined;
 }
 export type EngineeringAnalyticsSourcesResponseBodyList = Array<GitHubSource>;
 export type EngineeringAnalyticsSourcesResponse = EngineeringAnalyticsSourcesResponseBodyList;
@@ -1904,17 +1904,17 @@ export interface EngineeringAnalyticsTeamCiActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window start: relative ('-14d', '-7d') or ISO8601. Defaults to -14d; the window may span at most 30 days. An equal-length prior window feeds the *_prior twins; near the 30-day ceiling that prior window can reach past Traces retention, deflating *_prior counts. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Owning team slug to scope to (as returned by team_ci_health), e.g. 'team-replay', or the literal 'unowned' for tests with no ownership stamp. */
   owner_team: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Maximum number of per-test signal rows to return (1-100). Defaults to 25. */
-  test_limit?: number;
+  test_limit?: number | undefined;
 }
 export interface TeamTestSignal {
   /** Test runner that emitted this signal: 'pytest' or 'jest'. * `pytest` - Pytest * `jest` - Jest */
@@ -1944,19 +1944,19 @@ export interface EngineeringAnalyticsTeamCiHealthRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window start: relative ('-14d', '-7d') or ISO8601. Defaults to -14d; the window may span at most 30 days. An equal-length prior window is scanned for the *_prior twins; near the 30-day ceiling that prior window can reach past Traces retention, deflating *_prior counts and overstating deltas. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Maximum number of teams to return (1-200). Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** An unrecovered test counts toward regression_test_count once it failed on at least this many distinct pull requests in the window. Minimum 1. Defaults to 3. Does not affect flaky_test_count, which needs proof, not a threshold. */
-  min_failed_prs?: number;
+  min_failed_prs?: number | undefined;
   /** Restrict the roster to one owning team slug (or 'unowned'). The cheap way to read a single team's rollup. */
-  owner_team?: string;
+  owner_team?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface TeamCIHealthItem {
   /** Owning team slug from the repo's owners.yaml map (e.g. 'team-replay'), or the literal 'unowned' for tests whose spans carry no ownership stamp. */
@@ -1984,13 +1984,13 @@ export interface TeamCIHealthItem {
   /** Most recent failure, recovery, or quarantined-failure run across the team's owned tests, either window. Null for a team present only through the census (no CI signal recorded). */
   last_seen_at: string | null;
   /** Test files the team owns per the daily owners.yaml census. Null until a census event exists for the repository. */
-  test_file_count?: number | null;
+  test_file_count?: number | null | undefined;
   /** The latest census value at or before the window start, for the trend. */
-  test_file_count_prior?: number | null;
+  test_file_count_prior?: number | null | undefined;
   /** Merged PRs authored by the team's members in the window, bots excluded. Null when the team_members snapshot isn't synced, or for 'unowned'. */
-  merged_pr_count?: number | null;
+  merged_pr_count?: number | null | undefined;
   /** Same count over the prior window. */
-  merged_pr_count_prior?: number | null;
+  merged_pr_count_prior?: number | null | undefined;
 }
 /** Owning teams ranked by current flaky + failure signal, heaviest first, capped at `limit`. Teams are organizational owners of code surfaces; this never aggregates by author. A CI setup break (a run attempt whose tests errored in 3 or more jobs or for 3 or more owning teams, or a job attempt with 100 or more distinct failed or errored tests) excludes every trial of that attempt, not only its failures. */
 export type TeamCIHealthListItemsList = Array<TeamCIHealthItem>;
@@ -2006,9 +2006,9 @@ export interface EngineeringAnalyticsTrunkQuarantineRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface TrunkQuarantineTeamDebt {
   /** Owning team slug, or 'unowned'. */
@@ -2073,19 +2073,19 @@ export interface EngineeringAnalyticsWorkflowHealthRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact git branch (head_branch) to scope results to, e.g. 'main'. Omit or leave blank to aggregate across all branches. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-24h', '-7d') or ISO8601. Defaults to -24h. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
-  run_scope?: EngineeringAnalyticsWorkflowHealthRequestRunScope | (string & {});
+  run_scope?: EngineeringAnalyticsWorkflowHealthRequestRunScope | (string & {}) | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Optional exact workflow name to scope results to, e.g. 'Backend CI'. Omit to rank every workflow. Pass it when you want one workflow's figures over the whole window rather than the top slice. */
-  workflow_name?: string;
+  workflow_name?: string | undefined;
 }
 export interface WorkflowHealthBucket {
   /** Bucket start, aligned to the item's granularity (top of hour, midnight, or Monday). */
@@ -2131,19 +2131,19 @@ export interface WorkflowHealthItem {
   /** Bucket width of the `buckets` series, chosen to fit the window: 'hour', 'day', or 'week'. */
   granularity: string;
   /** Billable (self-hosted) minutes over this workflow's jobs in the window. Null when the job-level source isn't synced. */
-  billable_minutes?: number | null;
+  billable_minutes?: number | null | undefined;
   /** Estimated cost in USD over this workflow's jobs in the window. Null when nothing was costable or the job source isn't synced. */
-  estimated_cost_usd?: number | null;
+  estimated_cost_usd?: number | null | undefined;
   /** Runs in the window that were a 2nd+ attempt - retry pressure, a flakiness proxy. */
-  rerun_cycles?: number;
+  rerun_cycles?: number | undefined;
   /** Conclusive-run success rate over the equal-length window before date_from - the delta baseline. Null when that window had no conclusive runs. */
-  success_rate_prev?: number | null;
+  success_rate_prev?: number | null | undefined;
   /** Successful runs lasting at least 10 seconds. Zero when p50/p95 fall back to shorter successful runs. */
-  percentile_run_count?: number;
+  percentile_run_count?: number | undefined;
   /** Runs on merge-queue gate branches (trunk-merge/**) in the window, counted regardless of branch or run_scope. Non-zero marks a workflow the queue runs before a merge lands, the closest available proxy for a required check. */
-  merge_queue_run_count?: number;
+  merge_queue_run_count?: number | undefined;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  latest_ci_engine?: CIEngineEnum | null;
+  latest_ci_engine?: CIEngineEnum | null | undefined;
 }
 export type EngineeringAnalyticsWorkflowHealthResponseBodyList = Array<WorkflowHealthItem>;
 export type EngineeringAnalyticsWorkflowHealthResponse =
@@ -2153,15 +2153,15 @@ export interface EngineeringAnalyticsWorkflowJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** CI engine. Required when run_id exists in both engines. */
-  ci_engine?: EngineeringAnalyticsWorkflowJobsRequestCiEngine | (string & {});
+  ci_engine?: EngineeringAnalyticsWorkflowJobsRequestCiEngine | (string & {}) | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Which re-run attempt to scope jobs to. Omit to use the run's latest attempt; pass an explicit attempt to avoid mixing jobs across a re-run's attempts. */
-  run_attempt?: number;
+  run_attempt?: number | undefined;
   /** Workflow run id to list jobs for. */
   run_id: number;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface WorkflowJobStep {
   /** 1-based position of the step in the job. */
@@ -2207,15 +2207,15 @@ export interface WorkflowJob {
   /** Estimated cost in USD from runner tier + elapsed time; null when the tier is unknown or the job hasn't finished. */
   estimated_cost_usd: number | null;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: CIEngineEnum | null;
+  ci_engine?: CIEngineEnum | null | undefined;
   /** Source-native run id; use with ci_engine for identity. */
-  native_run_id?: string | null;
+  native_run_id?: string | null | undefined;
   /** Source-native workflow run id; use with ci_engine for identity. */
-  native_workflow_run_id?: string | null;
+  native_workflow_run_id?: string | null | undefined;
   /** Source-native job id; use with ci_engine for identity. */
-  native_job_id?: string | null;
+  native_job_id?: string | null | undefined;
   /** Source-native attempt id; use with ci_engine for identity. */
-  native_attempt_id?: string | null;
+  native_attempt_id?: string | null | undefined;
 }
 export type EngineeringAnalyticsWorkflowJobsResponseBodyList = Array<WorkflowJob>;
 export type EngineeringAnalyticsWorkflowJobsResponse =
@@ -2229,17 +2229,17 @@ export interface EngineeringAnalyticsWorkflowRunnerCostsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact git branch (head_branch) to scope results to, e.g. 'main'. Omit or leave blank to aggregate across all branches. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository the workflow belongs to. */
   repo: string;
   /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
-  run_scope?: EngineeringAnalyticsWorkflowRunnerCostsRequestRunScope | (string & {});
+  run_scope?: EngineeringAnalyticsWorkflowRunnerCostsRequestRunScope | (string & {}) | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Workflow name to break down cost for. */
   workflow_name: string;
 }
@@ -2267,17 +2267,17 @@ export interface EngineeringAnalyticsWorkflowRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact git branch (head_branch) to scope results to, e.g. 'main'. Omit or leave blank to aggregate across all branches. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository the workflow belongs to. */
   repo: string;
   /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
-  run_scope?: EngineeringAnalyticsWorkflowRunsRequestRunScope | (string & {});
+  run_scope?: EngineeringAnalyticsWorkflowRunsRequestRunScope | (string & {}) | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Workflow name to list runs for. */
   workflow_name: string;
 }
@@ -2302,15 +2302,15 @@ export interface MergeEngineeringAnalyticsTeamTrendRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window start: relative ('-14d', '-7d') or ISO8601. Defaults to -14d; the window may span at most 30 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Team slug to scope to (as returned by team_ci_health), matched against the GitHub org team slug of the source's team_members snapshot. The literal 'unowned' names an ownership gap, not an org team, and has no merge trend. */
   owner_team: string;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface TeamMergeTrendPoint {
   /** Start of the day bucket (team timezone), keyed on merged_at. */
@@ -2337,13 +2337,13 @@ export interface RunEngineeringAnalyticsFailureLogsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** CI engine. Required when run_id exists in both engines. */
-  ci_engine?: RunEngineeringAnalyticsFailureLogsRequestCiEngine | (string & {});
+  ci_engine?: RunEngineeringAnalyticsFailureLogsRequestCiEngine | (string & {}) | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Workflow run id whose failure logs to fetch. */
   run_id: number;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 /** Failed CI jobs of this run with their thinned failure logs, grouped by job. */
 export type RunFailureLogsJobsList = Array<CIJobFailureLog>;
@@ -2357,21 +2357,21 @@ export interface RunFailureLogs {
   /** True when the overall line cap across all jobs was hit. */
   truncated: boolean;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: CIEngineEnum | null;
+  ci_engine?: CIEngineEnum | null | undefined;
 }
 export interface RunEngineeringAnalyticsRepoActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact git branch (head_branch) to chart, e.g. 'main'. Omit or leave blank to use the repo's detected default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface WorkflowRunActivityPoint {
   /** Integer run id; unique only together with ci_engine. */
@@ -2389,7 +2389,7 @@ export interface WorkflowRunActivityPoint {
   /** Head commit SHA of the run/commit, or '' when unknown. */
   head_sha: string;
   /** CI execution engine; null when unknown. * `github_actions` - GitHub Actions * `depot_ci` - Depot CI */
-  ci_engine?: CIEngineEnum | null;
+  ci_engine?: CIEngineEnum | null | undefined;
 }
 /** Per-run chart points, newest first, capped at `limit`. */
 export type WorkflowRunActivityPointsList = Array<WorkflowRunActivityPoint>;
@@ -2406,13 +2406,13 @@ export interface RunEngineeringAnalyticsWorkflowRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** CI engine. Required when run_id exists in both engines. */
-  ci_engine?: RunEngineeringAnalyticsWorkflowRequestCiEngine | (string & {});
+  ci_engine?: RunEngineeringAnalyticsWorkflowRequestCiEngine | (string & {}) | undefined;
   /** 'owner/name' repository to scope to when the selected source syncs several repositories (from the `sources` list). Defaults to the source's first repository. */
-  repo?: string;
+  repo?: string | undefined;
   /** Integer run id to inspect; unique only together with ci_engine. */
   run_id: number;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export type RunEngineeringAnalyticsWorkflowActivityRequestRunScope =
   | "all"
@@ -2423,17 +2423,17 @@ export interface RunEngineeringAnalyticsWorkflowActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional exact git branch (head_branch) to scope results to, e.g. 'main'. Omit or leave blank to aggregate across all branches. */
-  branch?: string;
+  branch?: string | undefined;
   /** Window start: relative ('-30d', '-8w') or ISO8601. Defaults to -30d. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Window end: relative or ISO8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** 'owner/name' repository the workflow belongs to. */
   repo: string;
   /** Which group of runs to report on: 'all' (default) is every run; 'default_branch' is runs on master or main; 'pull_request' is runs on PR branches, excluding default-branch and merge-queue runs; 'merge_queue' is the gate runs the merge queue fired before a merge landed. Fork PRs carry no PR attribution (a GitHub limitation), so they appear only under 'all'. Any other value is a 400. */
-  run_scope?: RunEngineeringAnalyticsWorkflowActivityRequestRunScope | (string & {});
+  run_scope?: RunEngineeringAnalyticsWorkflowActivityRequestRunScope | (string & {}) | undefined;
   /** Connected GitHub data warehouse source to read from. Defaults to the oldest connected GitHub source that the `sources` list reports as synced, when the team has more than one. */
-  source_id?: string;
+  source_id?: string | undefined;
   /** Workflow name to load run activity for. */
   workflow_name: string;
 }

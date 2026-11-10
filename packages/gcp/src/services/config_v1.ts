@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -98,11 +98,11 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 export type DeploymentGroupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -117,11 +117,11 @@ export type StringList = Array<string>;
 /** A DeploymentUnit is a container for a deployment and its dependencies. An existing deployment can be provided directly in the unit, or the unit can act as a placeholder to define the DAG, with the deployment specs supplied in a `provisionDeploymentRequest`. */
 export interface DeploymentUnit {
   /** Optional. The name of the deployment to be provisioned. Format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
-  deployment?: string;
+  deployment?: string | undefined;
   /** The id of the deployment unit. Must be unique within the deployment group. */
-  id?: string;
+  id?: string | undefined;
   /** Required. The IDs of the deployment units within the deployment group that this unit depends on. */
-  dependencies?: StringList;
+  dependencies?: StringList | undefined;
 }
 export type DeploymentUnitList = Array<DeploymentUnit>;
 export type StringMap = { [key: string]: string | undefined };
@@ -136,50 +136,50 @@ export type DeploymentGroupProvisioningStateEnum =
 /** A DeploymentGroup is a collection of DeploymentUnits that in a DAG-like structure. */
 export interface DeploymentGroup {
   /** Output only. Time when the deployment group was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The error status of the deployment group provisioning or deprovisioning. */
-  provisioningError?: Status;
+  provisioningError?: Status | undefined;
   /** Identifier. The name of the deployment group. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Current state of the deployment group. */
-  state?: DeploymentGroupStateEnum | (string & {});
+  state?: DeploymentGroupStateEnum | (string & {}) | undefined;
   /** The deployment units of the deployment group in a DAG like structure. When a deployment group is being provisioned, the deployment units are deployed in a DAG order. The provided units must be in a DAG order, otherwise an error will be returned. */
-  deploymentUnits?: DeploymentUnitList;
+  deploymentUnits?: DeploymentUnitList | undefined;
   /** Output only. Time when the deployment group was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Additional information regarding the current state. */
-  stateDescription?: string;
+  stateDescription?: string | undefined;
   /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify deployment group during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. Additional information regarding the current provisioning state. */
-  provisioningStateDescription?: string;
+  provisioningStateDescription?: string | undefined;
   /** Optional. User-defined metadata for the deployment group. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The provisioning state of the deployment group. */
-  provisioningState?: DeploymentGroupProvisioningStateEnum | (string & {});
+  provisioningState?: DeploymentGroupProvisioningStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsDeploymentGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The parent in whose context the Deployment Group is created. The parent value is in the format: 'projects/{project_id}/locations/{location}' */
   parent: string;
   /** Required. The deployment group ID. */
-  deploymentGroupId?: string;
+  deploymentGroupId?: string | undefined;
   /** Request body */
-  body?: DeploymentGroup;
+  body?: DeploymentGroup | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type DeploymentErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -202,46 +202,46 @@ export type ProviderConfigSourceTypeEnum = "PROVIDER_SOURCE_UNSPECIFIED" | "SERV
 /** ProviderConfig contains the provider configurations. */
 export interface ProviderConfig {
   /** Optional. ProviderSource specifies the source type of the provider. */
-  sourceType?: ProviderConfigSourceTypeEnum | (string & {});
+  sourceType?: ProviderConfigSourceTypeEnum | (string & {}) | undefined;
 }
 /** A set of files in a Git repository. */
 export interface GitSource {
   /** Repository URL. Example: 'https://github.com/kubernetes/examples.git' */
-  repo?: string;
+  repo?: string | undefined;
   /** Subdirectory inside the repository. Example: 'staging/my-package' */
-  directory?: string;
+  directory?: string | undefined;
   /** Git reference (e.g. branch or tag). */
-  ref?: string;
+  ref?: string | undefined;
 }
 /** Configuration for a value sourced from a Deployment. */
 export interface DeploymentSource {
   /** Required. The name of the output variable in the source deployment's latest successfully applied revision. */
-  outputName?: string;
+  outputName?: string | undefined;
   /** Required. The resource name of the source Deployment to import the output from. Format: projects/{project}/locations/{location}/deployments/{deployment} The source deployment must be in the same project and location. */
-  deployment?: string;
+  deployment?: string | undefined;
 }
 /** Configuration for a source of an external value. */
 export interface ExternalValueSource {
   /** A source from a Deployment. */
-  deploymentSource?: DeploymentSource;
+  deploymentSource?: DeploymentSource | undefined;
 }
 export type ExternalValueSourceMap = { [key: string]: ExternalValueSource | undefined };
 /** A Terraform input variable. */
 export interface TerraformVariable {
   /** Optional. Input variable value. */
-  inputValue?: unknown;
+  inputValue?: unknown | undefined;
 }
 export type TerraformVariableMap = { [key: string]: TerraformVariable | undefined };
 /** TerraformBlueprint describes the source of a Terraform root module which describes the resources and configs to be deployed. */
 export interface TerraformBlueprint {
   /** URI of an object in Google Cloud Storage. Format: `gs://{bucket}/{object}` URI may also specify an object version for zipped objects. Format: `gs://{bucket}/{object}#{version}` */
-  gcsSource?: string;
+  gcsSource?: string | undefined;
   /** URI of a public Git repo. */
-  gitSource?: GitSource;
+  gitSource?: GitSource | undefined;
   /** Optional. Map of input variable names in this blueprint to configurations for importing values from external sources. */
-  externalValues?: ExternalValueSourceMap;
+  externalValues?: ExternalValueSourceMap | undefined;
   /** Optional. Input variable values for the Terraform blueprint. */
-  inputValues?: TerraformVariableMap;
+  inputValues?: TerraformVariableMap | undefined;
 }
 export type DeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -255,100 +255,100 @@ export type DeploymentStateEnum =
 /** Describes a Terraform output. */
 export interface TerraformOutput {
   /** Identifies whether Terraform has set this output as a potential sensitive value. */
-  sensitive?: boolean;
+  sensitive?: boolean | undefined;
   /** Value of output. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type TerraformOutputMap = { [key: string]: TerraformOutput | undefined };
 /** Outputs and artifacts from applying a deployment. */
 export interface ApplyResults {
   /** Map of output name to output info. */
-  outputs?: TerraformOutputMap;
+  outputs?: TerraformOutputMap | undefined;
   /** Location of artifacts (e.g. logs) in Google Cloud Storage. Format: `gs://{bucket}/{object}` */
-  artifacts?: string;
+  artifacts?: string | undefined;
   /** Location of a blueprint copy and other manifests in Google Cloud Storage. Format: `gs://{bucket}/{object}` */
-  content?: string;
+  content?: string | undefined;
 }
 export type DeploymentQuotaValidationEnum = "QUOTA_VALIDATION_UNSPECIFIED" | "ENABLED" | "ENFORCED";
 /** Errors encountered during actuation using Terraform */
 export interface TerraformError {
   /** HTTP response code returned from Google Cloud Platform APIs when Terraform fails to provision the resource. If unset or 0, no HTTP response code was returned by Terraform. */
-  httpResponseCode?: number;
+  httpResponseCode?: number | undefined;
   /** A human-readable error description. */
-  errorDescription?: string;
+  errorDescription?: string | undefined;
   /** Output only. Original error response from underlying Google API, if available. */
-  error?: Status;
+  error?: Status | undefined;
   /** Address of the resource associated with the error, e.g. `google_compute_network.vpc_network`. */
-  resourceAddress?: string;
+  resourceAddress?: string | undefined;
 }
 export type TerraformErrorList = Array<TerraformError>;
 /** A Deployment is a group of resources and configs managed and provisioned by Infra Manager. */
 export interface Deployment {
   /** Output only. Error code describing errors that may have occurred. */
-  errorCode?: DeploymentErrorCodeEnum | (string & {});
+  errorCode?: DeploymentErrorCodeEnum | (string & {}) | undefined;
   /** The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** Output only. Current lock state of the deployment. */
-  lockState?: DeploymentLockStateEnum | (string & {});
+  lockState?: DeploymentLockStateEnum | (string & {}) | undefined;
   /** Output only. Time when the deployment was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The user-specified Terraform version constraint. Example: "=1.3.10". */
-  tfVersionConstraint?: string;
+  tfVersionConstraint?: string | undefined;
   /** Optional. This field specifies the provider configurations. */
-  providerConfig?: ProviderConfig;
+  providerConfig?: ProviderConfig | undefined;
   /** Output only. Location of Terraform error logs in Google Cloud Storage. Format: `gs://{bucket}/{object}`. */
-  errorLogs?: string;
+  errorLogs?: string | undefined;
   /** User-defined location of Cloud Build logs and artifacts in Google Cloud Storage. Format: `gs://{bucket}/{folder}` A default bucket will be bootstrapped if the field is not set or empty. Default bucket format: `gs://--blueprint-config` Constraints: - The bucket needs to be in the same project as the deployment - The path cannot be within the path of `gcs_source` - The field cannot be updated, including changing its presence */
-  artifactsGcsBucket?: string;
+  artifactsGcsBucket?: string | undefined;
   /** Output only. Time when the deployment was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** A blueprint described using Terraform's HashiCorp Configuration Language as a root module. */
-  terraformBlueprint?: TerraformBlueprint;
+  terraformBlueprint?: TerraformBlueprint | undefined;
   /** Output only. Cloud Build instance UUID associated with deleting this deployment. */
-  deleteBuild?: string;
+  deleteBuild?: string | undefined;
   /** Output only. Current state of the deployment. */
-  state?: DeploymentStateEnum | (string & {});
+  state?: DeploymentStateEnum | (string & {}) | undefined;
   /** Output only. Revision name that was most recently applied. Format: `projects/{project}/locations/{location}/deployments/{deployment}/ revisions/{revision}` */
-  latestRevision?: string;
+  latestRevision?: string | undefined;
   /** Output only. Additional information regarding the current state. */
-  stateDetail?: string;
+  stateDetail?: string | undefined;
   /** Optional. User-defined metadata for the deployment. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Location of artifacts from a DeleteDeployment operation. */
-  deleteResults?: ApplyResults;
+  deleteResults?: ApplyResults | undefined;
   /** By default, Infra Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation. If this flag is set to true, Infra Manager will instead attempt to automatically import the resource into the Terraform state (for supported resource types) and continue actuation. Not all resource types are supported, refer to documentation. */
-  importExistingResources?: boolean;
+  importExistingResources?: boolean | undefined;
   /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify deployments during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. The current Terraform version set on the deployment. It is in the format of "Major.Minor.Patch", for example, "1.3.10". */
-  tfVersion?: string;
+  tfVersion?: string | undefined;
   /** Identifier. Resource name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Input to control quota checks for resources in terraform configuration files. There are limited resources on which quota validation applies. */
-  quotaValidation?: DeploymentQuotaValidationEnum | (string & {});
+  quotaValidation?: DeploymentQuotaValidationEnum | (string & {}) | undefined;
   /** Output only. Errors encountered when deleting this deployment. Errors are truncated to 10 entries, see `delete_results` and `error_logs` for full details. */
-  tfErrors?: TerraformErrorList;
+  tfErrors?: TerraformErrorList | undefined;
   /** Output only. Location of Cloud Build logs in Google Cloud Storage, populated when deleting this deployment. Format: `gs://{bucket}/{object}`. */
-  deleteLogs?: string;
+  deleteLogs?: string | undefined;
   /** Required. User-specified Service Account (SA) credentials to be used when actuating resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
 }
 export interface CreateProjectsLocationsDeploymentsRequest {
   /** Required. The Deployment ID. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Required. The parent in whose context the Deployment is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Deployment;
+  body?: Deployment | undefined;
 }
 /** Artifacts created by preview. */
 export interface PreviewArtifacts {
   /** Output only. Location of artifacts in Google Cloud Storage. Format: `gs://{bucket}/{object}` */
-  artifacts?: string;
+  artifacts?: string | undefined;
   /** Output only. Location of a blueprint copy and other content in Google Cloud Storage. Format: `gs://{bucket}/{object}` */
-  content?: string;
+  content?: string | undefined;
 }
 export type PreviewStateEnum =
   | "STATE_UNSPECIFIED"
@@ -372,57 +372,57 @@ export type PreviewErrorCodeEnum =
 /** A preview represents a set of actions Infra Manager would perform to move the resources towards the desired state as specified in the configuration. */
 export interface Preview {
   /** Output only. Artifacts from preview. */
-  previewArtifacts?: PreviewArtifacts;
+  previewArtifacts?: PreviewArtifacts | undefined;
   /** Optional. User-defined labels for the preview. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The user-specified Worker Pool resource in which the Cloud Build job will execute. Format projects/{project}/locations/{location}/workerPools/{workerPoolId} If this field is unspecified, the default Cloud Build worker pool will be used. If omitted and deployment resource ref provided has worker_pool defined, that worker pool is used. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** Output only. Current state of the preview. */
-  state?: PreviewStateEnum | (string & {});
+  state?: PreviewStateEnum | (string & {}) | undefined;
   /** The terraform blueprint to preview. */
-  terraformBlueprint?: TerraformBlueprint;
+  terraformBlueprint?: TerraformBlueprint | undefined;
   /** Output only. The current Terraform version set on the preview. It is in the format of "Major.Minor.Patch", for example, "1.3.10". */
-  tfVersion?: string;
+  tfVersion?: string | undefined;
   /** Optional. Arbitrary key-value metadata storage e.g. to help client tools identify preview during automation. See https://google.aip.dev/148#annotations for details on format and size limitations. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. Additional information regarding the current state. */
-  errorStatus?: Status;
+  errorStatus?: Status | undefined;
   /** Identifier. Resource name of the preview. Resource name can be user provided or server generated ID if unspecified. Format: `projects/{project}/locations/{location}/previews/{preview}` */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Current mode of preview. */
-  previewMode?: PreviewPreviewModeEnum | (string & {});
+  previewMode?: PreviewPreviewModeEnum | (string & {}) | undefined;
   /** Required. User-specified Service Account (SA) credentials to be used when previewing resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Deployment reference. If specified, the preview will be performed using the provided deployment's current state and use any relevant fields from the deployment unless explicitly specified in the preview create request. */
-  deployment?: string;
+  deployment?: string | undefined;
   /** Output only. Cloud Build instance UUID associated with this preview. */
-  build?: string;
+  build?: string | undefined;
   /** Output only. Link to tf-error.ndjson file, which contains the full list of the errors encountered during a Terraform preview. Format: `gs://{bucket}/{object}`. */
-  errorLogs?: string;
+  errorLogs?: string | undefined;
   /** Output only. Summary of errors encountered during Terraform preview. It has a size limit of 10, i.e. only top 10 errors will be summarized here. */
-  tfErrors?: TerraformErrorList;
+  tfErrors?: TerraformErrorList | undefined;
   /** Output only. Time the preview was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** User-defined location of Cloud Build logs, artifacts, and in Google Cloud Storage. Format: `gs://{bucket}/{folder}` A default bucket will be bootstrapped if the field is not set or empty Default Bucket Format: `gs://--blueprint-config` Constraints: - The bucket needs to be in the same project as the deployment - The path cannot be within the path of `gcs_source` If omitted and deployment resource ref provided has artifacts_gcs_bucket defined, that artifact bucket is used. */
-  artifactsGcsBucket?: string;
+  artifactsGcsBucket?: string | undefined;
   /** Optional. This field specifies the provider configurations. */
-  providerConfig?: ProviderConfig;
+  providerConfig?: ProviderConfig | undefined;
   /** Output only. Code describing any errors that may have occurred. */
-  errorCode?: PreviewErrorCodeEnum | (string & {});
+  errorCode?: PreviewErrorCodeEnum | (string & {}) | undefined;
   /** Output only. Location of preview logs in `gs://{bucket}/{object}` format. */
-  logs?: string;
+  logs?: string | undefined;
   /** The user-specified Terraform version constraint. Example: "=1.3.10". */
-  tfVersionConstraint?: string;
+  tfVersionConstraint?: string | undefined;
 }
 export interface CreateProjectsLocationsPreviewsRequest {
   /** Optional. The preview ID. */
-  previewId?: string;
+  previewId?: string | undefined;
   /** Required. The parent in whose context the Preview is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Preview;
+  body?: Preview | undefined;
 }
 export type DeleteProjectsLocationsDeploymentGroupsDeploymentReferencePolicyEnum =
   | "DEPLOYMENT_REFERENCE_POLICY_UNSPECIFIED"
@@ -435,11 +435,12 @@ export interface DeleteProjectsLocationsDeploymentGroupsRequest {
   /** Optional. Policy on how to handle referenced deployments when deleting the DeploymentGroup. If unspecified, the default behavior is to fail the deletion if any deployments currently referenced in the `deployment_units` of the DeploymentGroup or in the latest revision are not deleted. */
   deploymentReferencePolicy?:
     | DeleteProjectsLocationsDeploymentGroupsDeploymentReferencePolicyEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. If set to true, any revisions for this deployment group will also be deleted. (Otherwise, the request will only work if the deployment group has no revisions.) */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type DeleteProjectsLocationsDeploymentsDeletePolicyEnum =
   | "DELETE_POLICY_UNSPECIFIED"
@@ -447,11 +448,11 @@ export type DeleteProjectsLocationsDeploymentsDeletePolicyEnum =
   | "ABANDON";
 export interface DeleteProjectsLocationsDeploymentsRequest {
   /** Optional. If set to true, any revisions for this deployment will also be deleted. (Otherwise, the request will only work if the deployment has no revisions.) */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Policy on how resources actuated by the deployment should be deleted. If unspecified, the default behavior is to delete the underlying resources. */
-  deletePolicy?: DeleteProjectsLocationsDeploymentsDeletePolicyEnum | (string & {});
+  deletePolicy?: DeleteProjectsLocationsDeploymentsDeletePolicyEnum | (string & {}) | undefined;
   /** Required. The name of the Deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
 }
@@ -461,20 +462,20 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsPreviewsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the Preview in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   name: string;
 }
 /** A request to delete a state file passed to a 'DeleteStatefile' call. */
 export interface DeleteStatefileRequest {
   /** Required. Lock ID of the lock file to verify that the user who is deleting the state file previously locked the Deployment. */
-  lockId?: string;
+  lockId?: string | undefined;
 }
 export interface DeleteStateProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
   /** Request body */
-  body?: DeleteStatefileRequest;
+  body?: DeleteStatefileRequest | undefined;
 }
 export type DeprovisionDeploymentGroupRequestDeletePolicyEnum =
   | "DELETE_POLICY_UNSPECIFIED"
@@ -483,15 +484,15 @@ export type DeprovisionDeploymentGroupRequestDeletePolicyEnum =
 /** The request message for the DeprovisionDeploymentGroup method. */
 export interface DeprovisionDeploymentGroupRequest {
   /** Optional. Policy on how resources within each deployment should be handled during deletion. This policy is applied globally to the deletion of all deployments in this group. This corresponds to the 'delete_policy' field in DeleteDeploymentRequest. */
-  deletePolicy?: DeprovisionDeploymentGroupRequestDeletePolicyEnum | (string & {});
+  deletePolicy?: DeprovisionDeploymentGroupRequestDeletePolicyEnum | (string & {}) | undefined;
   /** Optional. If set to true, this option is propagated to the deletion of each deployment in the group. This corresponds to the 'force' field in DeleteDeploymentRequest. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeprovisionProjectsLocationsDeploymentGroupsRequest {
   /** Required. The name of the deployment group to deprovision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
   /** Request body */
-  body?: DeprovisionDeploymentGroupRequest;
+  body?: DeprovisionDeploymentGroupRequest | undefined;
 }
 export interface ExportLockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
@@ -500,17 +501,17 @@ export interface ExportLockProjectsLocationsDeploymentsRequest {
 /** Details about the lock which locked the deployment. */
 export interface LockInfo {
   /** Terraform operation, provided by the caller. */
-  operation?: string;
+  operation?: string | undefined;
   /** Terraform version */
-  version?: string;
+  version?: string | undefined;
   /** user@hostname when available */
-  who?: string;
+  who?: string | undefined;
   /** Extra information to store with the lock, provided by the caller. */
-  info?: string;
+  info?: string | undefined;
   /** Unique ID for the lock to be overridden with generation ID in the backend. */
-  lockId?: string;
+  lockId?: string | undefined;
   /** Time that the lock was taken. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 /** A request to export preview results. */
 export type ExportPreviewResultRequest = CancelOperationRequest;
@@ -518,35 +519,35 @@ export interface ExportProjectsLocationsPreviewsRequest {
   /** Required. The preview whose results should be exported. The preview value is in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   parent: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Contains a signed Cloud Storage URLs. */
 export interface PreviewResult {
   /** Output only. Plan JSON signed URL */
-  jsonSignedUri?: string;
+  jsonSignedUri?: string | undefined;
   /** Output only. Plan binary signed URL */
-  binarySignedUri?: string;
+  binarySignedUri?: string | undefined;
 }
 /** A response to `ExportPreviewResult` call. Contains preview results. */
 export interface ExportPreviewResultResponse {
   /** Output only. Signed URLs for accessing the plan files. */
-  result?: PreviewResult;
+  result?: PreviewResult | undefined;
 }
 /** A request to export a state file passed to a 'ExportDeploymentStatefile' call. */
 export interface ExportDeploymentStatefileRequest {
   /** Optional. If this flag is set to true, the exported deployment state file will be the draft state. This will enable the draft file to be validated before copying it over to the working state on unlock. */
-  draft?: boolean;
+  draft?: boolean | undefined;
 }
 export interface ExportStateProjectsLocationsDeploymentsRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
   /** Request body */
-  body?: ExportDeploymentStatefileRequest;
+  body?: ExportDeploymentStatefileRequest | undefined;
 }
 /** Contains info about a Terraform state file */
 export interface Statefile {
   /** Output only. Cloud Storage signed URI used for downloading or uploading the state file. */
-  signedUri?: string;
+  signedUri?: string | undefined;
 }
 /** A request to export a state file passed to a 'ExportRevisionStatefile' call. */
 export type ExportRevisionStatefileRequest = CancelOperationRequest;
@@ -554,7 +555,7 @@ export interface ExportStateProjectsLocationsDeploymentsRevisionsRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}'. */
   parent: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface GetAutoMigrationConfigProjectsLocationsRequest {
   /** Required. The name of the AutoMigrationConfig. Format: 'projects/{project_id}/locations/{location}/AutoMigrationConfig'. */
@@ -563,17 +564,17 @@ export interface GetAutoMigrationConfigProjectsLocationsRequest {
 /** AutoMigrationConfig contains the automigration configuration for a project. */
 export interface AutoMigrationConfig {
   /** Optional. Whether the auto migration is enabled for the project. */
-  autoMigrationEnabled?: boolean;
+  autoMigrationEnabled?: boolean | undefined;
   /** Identifier. The name of the AutoMigrationConfig. Format: 'projects/{project_id}/locations/{location}/AutoMigrationConfig'. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Time the AutoMigrationConfig was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -583,50 +584,50 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -635,15 +636,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsDeploymentGroupsRequest {
   /** Required. The name of the deployment group to retrieve. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
@@ -656,13 +657,13 @@ export interface GetProjectsLocationsDeploymentGroupsRevisionsRequest {
 /** A DeploymentGroupRevision represents a snapshot of a DeploymentGroup at a given point in time, created when a DeploymentGroup is provisioned or deprovisioned. */
 export interface DeploymentGroupRevision {
   /** Output only. The alternative IDs of the deployment group revision. */
-  alternativeIds?: StringList;
+  alternativeIds?: StringList | undefined;
   /** Output only. The snapshot of the deployment group at this revision. */
-  snapshot?: DeploymentGroup;
+  snapshot?: DeploymentGroup | undefined;
   /** Identifier. The name of the deployment group revision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}/revisions/{revision}'. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Time when the deployment group revision was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment. Format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
@@ -685,47 +686,47 @@ export type RevisionErrorCodeEnum =
 /** A child resource of a Deployment generated by a 'CreateDeployment' or 'UpdateDeployment' call. Each Revision contains metadata pertaining to a snapshot of a particular Deployment. */
 export interface Revision {
   /** Output only. This field specifies the provider configurations. */
-  providerConfig?: ProviderConfig;
+  providerConfig?: ProviderConfig | undefined;
   /** Output only. Location of Revision operation logs in `gs://{bucket}/{object}` format. */
-  logs?: string;
+  logs?: string | undefined;
   /** Output only. A blueprint described using Terraform's HashiCorp Configuration Language as a root module. */
-  terraformBlueprint?: TerraformBlueprint;
+  terraformBlueprint?: TerraformBlueprint | undefined;
   /** Output only. Time when the revision was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Current state of the revision. */
-  state?: RevisionStateEnum;
+  state?: RevisionStateEnum | undefined;
   /** Output only. Cloud Storage path containing quota validation results. This field is set when a user sets Deployment.quota_validation field to ENABLED or ENFORCED. Format: `gs://{bucket}/{object}`. */
-  quotaValidationResults?: string;
+  quotaValidationResults?: string | undefined;
   /** Output only. The user-specified Terraform version constraint. Example: "=1.3.10". */
-  tfVersionConstraint?: string;
+  tfVersionConstraint?: string | undefined;
   /** Output only. The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** Output only. The version of Terraform used to create the Revision. It is in the format of "Major.Minor.Patch", for example, "1.3.10". */
-  tfVersion?: string;
+  tfVersion?: string | undefined;
   /** Output only. Cloud Build instance UUID associated with this revision. */
-  build?: string;
+  build?: string | undefined;
   /** Output only. By default, Infra Manager will return a failure when Terraform encounters a 409 code (resource conflict error) during actuation. If this flag is set to true, Infra Manager will instead attempt to automatically import the resource into the Terraform state (for supported resource types) and continue actuation. Not all resource types are supported, refer to documentation. */
-  importExistingResources?: boolean;
+  importExistingResources?: boolean | undefined;
   /** Output only. The action which created this revision */
-  action?: RevisionActionEnum;
+  action?: RevisionActionEnum | undefined;
   /** Optional. Input to control quota checks for resources in terraform configuration files. There are limited resources on which quota validation applies. */
-  quotaValidation?: RevisionQuotaValidationEnum;
+  quotaValidation?: RevisionQuotaValidationEnum | undefined;
   /** Output only. User-specified Service Account (SA) to be used as credential to manage resources. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. Outputs and artifacts from applying a deployment. */
-  applyResults?: ApplyResults;
+  applyResults?: ApplyResults | undefined;
   /** Revision name. Format: `projects/{project}/locations/{location}/deployments/{deployment}/ revisions/{revision}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Code describing any errors that may have occurred. */
-  errorCode?: RevisionErrorCodeEnum;
+  errorCode?: RevisionErrorCodeEnum | undefined;
   /** Output only. Additional info regarding the current state. */
-  stateDetail?: string;
+  stateDetail?: string | undefined;
   /** Output only. Location of Terraform error logs in Google Cloud Storage. Format: `gs://{bucket}/{object}`. */
-  errorLogs?: string;
+  errorLogs?: string | undefined;
   /** Output only. Errors encountered when creating or updating this deployment. Errors are truncated to 10 entries, see `delete_results` and `error_logs` for full details. */
-  tfErrors?: TerraformErrorList;
+  tfErrors?: TerraformErrorList | undefined;
   /** Output only. Time when the revision was created. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsDeploymentsRevisionsResourcesRequest {
   /** Required. The name of the Resource in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}/resource/{resource}'. */
@@ -741,11 +742,11 @@ export type ResourceIntentEnum =
 /** Terraform info of a Resource. */
 export interface ResourceTerraformInfo {
   /** TF resource address that uniquely identifies this resource within this deployment. */
-  address?: string;
+  address?: string | undefined;
   /** TF resource type */
-  type?: string;
+  type?: string | undefined;
   /** ID attribute of the TF resource */
-  id?: string;
+  id?: string | undefined;
 }
 export type ResourceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -756,21 +757,21 @@ export type ResourceStateEnum =
 /** CAI info of a Resource. */
 export interface ResourceCAIInfo {
   /** CAI resource name in the format following https://cloud.google.com/apis/design/resource_names#full_resource_name */
-  fullResourceName?: string;
+  fullResourceName?: string | undefined;
 }
 export type ResourceCAIInfoMap = { [key: string]: ResourceCAIInfo | undefined };
 /** Resource represents a Google Cloud Platform resource actuated by IM. Resources are child resources of Revisions. */
 export interface Resource {
   /** Output only. Intent of the resource. */
-  intent?: ResourceIntentEnum;
+  intent?: ResourceIntentEnum | undefined;
   /** Output only. Terraform-specific info if this resource was created using Terraform. */
-  terraformInfo?: ResourceTerraformInfo;
+  terraformInfo?: ResourceTerraformInfo | undefined;
   /** Output only. Current state of the resource. */
-  state?: ResourceStateEnum;
+  state?: ResourceStateEnum | undefined;
   /** Output only. Map of Cloud Asset Inventory (CAI) type to CAI info (e.g. CAI ID). CAI type format follows https://cloud.google.com/asset-inventory/docs/supported-asset-types */
-  caiAssets?: ResourceCAIInfoMap;
+  caiAssets?: ResourceCAIInfoMap | undefined;
   /** Output only. Resource name. Format: `projects/{project}/locations/{location}/deployments/{deployment}/revisions/{revision}/resources/{resource}` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -787,29 +788,29 @@ export interface GetProjectsLocationsPreviewsResourceChangesRequest {
 /** A property change represents a change to a property in the state file. */
 export interface PropertyChange {
   /** Output only. Representations of the object value after the actions. */
-  after?: unknown;
+  after?: unknown | undefined;
   /** Output only. Representations of the object value before the actions. */
-  before?: unknown;
+  before?: unknown | undefined;
   /** Output only. The paths of sensitive fields in `after`. Paths are relative to `path`. */
-  afterSensitivePaths?: StringList;
+  afterSensitivePaths?: StringList | undefined;
   /** Output only. The paths of sensitive fields in `before`. Paths are relative to `path`. */
-  beforeSensitivePaths?: StringList;
+  beforeSensitivePaths?: StringList | undefined;
   /** Output only. The path of the property change. */
-  path?: string;
+  path?: string | undefined;
 }
 export type PropertyChangeList = Array<PropertyChange>;
 /** Terraform info of a ResourceChange. */
 export interface ResourceChangeTerraformInfo {
   /** Output only. TF resource name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Output only. TF resource address that uniquely identifies the resource. */
-  address?: string;
+  address?: string | undefined;
   /** Output only. TF resource actions. */
-  actions?: StringList;
+  actions?: StringList | undefined;
   /** Output only. TF resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** Output only. TF resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 export type ResourceChangeIntentEnum =
   | "INTENT_UNSPECIFIED"
@@ -821,13 +822,13 @@ export type ResourceChangeIntentEnum =
 /** A resource change represents a change to a resource in the state file. */
 export interface ResourceChange {
   /** Output only. The property changes of the resource change. */
-  propertyChanges?: PropertyChangeList;
+  propertyChanges?: PropertyChangeList | undefined;
   /** Identifier. The name of the resource change. Format: 'projects/{project_id}/locations/{location}/previews/{preview}/resourceChanges/{resource_change}'. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Terraform info of the resource change. */
-  terraformInfo?: ResourceChangeTerraformInfo;
+  terraformInfo?: ResourceChangeTerraformInfo | undefined;
   /** Output only. The intent of the resource change. */
-  intent?: ResourceChangeIntentEnum;
+  intent?: ResourceChangeIntentEnum | undefined;
 }
 export interface GetProjectsLocationsPreviewsResourceDriftsRequest {
   /** Required. The name of the resource drift to retrieve. Format: 'projects/{project_id}/locations/{location}/previews/{preview}/resourceDrifts/{resource_drift}'. */
@@ -836,36 +837,36 @@ export interface GetProjectsLocationsPreviewsResourceDriftsRequest {
 /** Terraform info of a ResourceChange. */
 export interface ResourceDriftTerraformInfo {
   /** Output only. The provider of the drifted resource. */
-  provider?: string;
+  provider?: string | undefined;
   /** Output only. The address of the drifted resource. */
-  address?: string;
+  address?: string | undefined;
   /** Output only. The type of the drifted resource. */
-  type?: string;
+  type?: string | undefined;
   /** Output only. TF resource name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** A property drift represents a drift to a property in the state file. */
 export interface PropertyDrift {
   /** Output only. The path of the property drift. */
-  path?: string;
+  path?: string | undefined;
   /** Output only. Representations of the object value after the actions. */
-  after?: unknown;
+  after?: unknown | undefined;
   /** Output only. The paths of sensitive fields in `after`. Paths are relative to `path`. */
-  afterSensitivePaths?: StringList;
+  afterSensitivePaths?: StringList | undefined;
   /** Output only. Representations of the object value before the actions. */
-  before?: unknown;
+  before?: unknown | undefined;
   /** Output only. The paths of sensitive fields in `before`. Paths are relative to `path`. */
-  beforeSensitivePaths?: StringList;
+  beforeSensitivePaths?: StringList | undefined;
 }
 export type PropertyDriftList = Array<PropertyDrift>;
 /** A resource drift represents a drift to a resource in the state file. */
 export interface ResourceDrift {
   /** Identifier. The name of the resource drift. Format: 'projects/{project_id}/locations/{location}/previews/{preview}/resourceDrifts/{resource_drift}'. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Terraform info of the resource drift. */
-  terraformInfo?: ResourceDriftTerraformInfo;
+  terraformInfo?: ResourceDriftTerraformInfo | undefined;
   /** Output only. The property drifts of the resource drift. */
-  propertyDrifts?: PropertyDriftList;
+  propertyDrifts?: PropertyDriftList | undefined;
 }
 export interface GetProjectsLocationsTerraformVersionsRequest {
   /** Required. The name of the TerraformVersion. Format: 'projects/{project_id}/locations/{location}/terraformVersions/{terraform_version}' */
@@ -875,249 +876,249 @@ export type TerraformVersionStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DEPREC
 /** A TerraformVersion represents the support state the corresponding Terraform version. */
 export interface TerraformVersion {
   /** Output only. When the version is supported. */
-  supportTime?: string;
+  supportTime?: string | undefined;
   /** Identifier. The version name is in the format: 'projects/{project_id}/locations/{location}/terraformVersions/{terraform_version}'. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. When the version is obsolete. */
-  obsoleteTime?: string;
+  obsoleteTime?: string | undefined;
   /** Output only. The state of the version, ACTIVE, DEPRECATED or OBSOLETE. */
-  state?: TerraformVersionStateEnum;
+  state?: TerraformVersionStateEnum | undefined;
   /** Output only. When the version is deprecated. */
-  deprecateTime?: string;
+  deprecateTime?: string | undefined;
 }
 /** A request to import a state file passed to a 'ImportStatefile' call. */
 export interface ImportStatefileRequest {
   /** Required. Lock ID of the lock file to verify that the user who is importing the state file previously locked the Deployment. */
-  lockId?: string;
+  lockId?: string | undefined;
 }
 export interface ImportStateProjectsLocationsDeploymentsRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
   /** Request body */
-  body?: ImportStatefileRequest;
+  body?: ImportStatefileRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDeploymentGroupsRequest {
   /** Optional. Token returned by previous call to 'ListDeploymentGroups' which specifies the position in the list from where to continue listing the deployment groups. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of deployment groups. Format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
   /** Optional. When requesting a page of resources, 'page_size' specifies number of resources to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Lists the DeploymentGroups that match the filter expression. A filter expression filters the deployment groups listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/foo/locations/us-central1/deploymentGroups/bar" - Filter by labels: - Resources that have a key called 'foo' labels.foo:* - Resources that have a key called 'foo' whose value is 'bar' labels.foo = bar - Filter by state: - DeploymentGroups in CREATING state. state=CREATING */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type DeploymentGroupList = Array<DeploymentGroup>;
 /** The response message for the ListDeploymentGroups method. */
 export interface ListDeploymentGroupsResponse {
   /** Token to be supplied to the next ListDeploymentGroups request via `page_token` to obtain the next set of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The deployment groups from the specified collection. */
-  deploymentGroups?: DeploymentGroupList;
+  deploymentGroups?: DeploymentGroupList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsDeploymentGroupsRevisionsRequest {
   /** Optional. Token returned by previous call to 'ListDeploymentGroupRevisions' which specifies the position in the list from where to continue listing the deployment group revisions. All other parameters provided to `ListDeploymentGroupRevisions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of deployment group revisions. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   parent: string;
   /** Optional. When requesting a page of resources, 'page_size' specifies number of resources to return. If unspecified, a sensible default will be used by the server. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DeploymentGroupRevisionList = Array<DeploymentGroupRevision>;
 /** The response message for the ListDeploymentGroupRevisions method. */
 export interface ListDeploymentGroupRevisionsResponse {
   /** Token to be supplied to the next ListDeploymentGroupRevisions request via `page_token` to obtain the next set of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The deployment group revisions from the specified collection. */
-  deploymentGroupRevisions?: DeploymentGroupRevisionList;
+  deploymentGroupRevisions?: DeploymentGroupRevisionList | undefined;
 }
 export interface ListProjectsLocationsDeploymentsRequest {
   /** Token returned by previous call to 'ListDeployments' which specifies the position in the list from where to continue listing the resources. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Lists the Deployments that match the filter expression. A filter expression filters the resources listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/foo/locations/us-central1/deployments/bar - Filter by labels: - Resources that have a key called 'foo' labels.foo:* - Resources that have a key called 'foo' whose value is 'bar' labels.foo = bar - Filter by state: - Deployments in CREATING state. state=CREATING */
-  filter?: string;
+  filter?: string | undefined;
   /** When requesting a page of resources, 'page_size' specifies number of resources to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent in whose context the Deployments are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
 }
 export type DeploymentList = Array<Deployment>;
 export interface ListDeploymentsResponse {
   /** Token to be supplied to the next ListDeployments request via `page_token` to obtain the next set of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of Deployments. */
-  deployments?: DeploymentList;
+  deployments?: DeploymentList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsDeploymentsRevisionsRequest {
   /** Required. The parent in whose context the Revisions are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
   /** When requesting a page of resources, `page_size` specifies number of resources to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Lists the Revisions that match the filter expression. A filter expression filters the resources listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/foo/locations/us-central1/deployments/dep/revisions/bar - Filter by labels: - Resources that have a key called 'foo' labels.foo:* - Resources that have a key called 'foo' whose value is 'bar' labels.foo = bar - Filter by state: - Revisions in CREATING state. state=CREATING */
-  filter?: string;
+  filter?: string | undefined;
   /** Token returned by previous call to 'ListRevisions' which specifies the position in the list from where to continue listing the resources. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type RevisionList = Array<Revision>;
 /** A response to a 'ListRevisions' call. Contains a list of Revisions. */
 export interface ListRevisionsResponse {
   /** List of Revisions. */
-  revisions?: RevisionList;
+  revisions?: RevisionList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token to request the next page of resources from the 'ListRevisions' method. The value of an empty string means that there are no more resources to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDeploymentsRevisionsResourcesRequest {
   /** When requesting a page of resources, 'page_size' specifies number of resources to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent in whose context the Resources are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}'. */
   parent: string;
   /** Lists the Resources that match the filter expression. A filter expression filters the resources listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/foo/locations/us-central1/deployments/dep/revisions/bar/resources/baz */
-  filter?: string;
+  filter?: string | undefined;
   /** Token returned by previous call to 'ListResources' which specifies the position in the list from where to continue listing the resources. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ResourceList = Array<Resource>;
 /** A response to a 'ListResources' call. Contains a list of Resources. */
 export interface ListResourcesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of Resources. */
-  resources?: ResourceList;
+  resources?: ResourceList | undefined;
   /** A token to request the next page of resources from the 'ListResources' method. The value of an empty string means that there are no more resources to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPreviewsRequest {
   /** Optional. Token returned by previous call to 'ListDeployments' which specifies the position in the list from where to continue listing the resources. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent in whose context the Previews are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
   /** Optional. When requesting a page of resources, 'page_size' specifies number of resources to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Lists the Deployments that match the filter expression. A filter expression filters the resources listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/foo/locations/us-central1/deployments/bar - Filter by labels: - Resources that have a key called 'foo' labels.foo:* - Resources that have a key called 'foo' whose value is 'bar' labels.foo = bar - Filter by state: - Deployments in CREATING state. state=CREATING */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type PreviewList = Array<Preview>;
 /** A response to a `ListPreviews` call. Contains a list of Previews. */
 export interface ListPreviewsResponse {
   /** Token to be supplied to the next ListPreviews request via `page_token` to obtain the next set of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of Previews. */
-  previews?: PreviewList;
+  previews?: PreviewList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPreviewsResourceChangesRequest {
   /** Optional. Lists the resource changes that match the filter expression. A filter expression filters the resource changes listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/foo/locations/us-central1/previews/dep/resourceChanges/baz */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Token returned by previous call to 'ListResourceChanges' which specifies the position in the list from where to continue listing the resource changes. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent in whose context the ResourceChanges are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   parent: string;
   /** Optional. When requesting a page of resource changes, 'page_size' specifies number of resource changes to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ResourceChangeList = Array<ResourceChange>;
 /** A response to a 'ListResourceChanges' call. Contains a list of ResourceChanges. */
 export interface ListResourceChangesResponse {
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token to request the next page of resources from the 'ListResourceChanges' method. The value of an empty string means that there are no more resources to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of ResourceChanges. */
-  resourceChanges?: ResourceChangeList;
+  resourceChanges?: ResourceChangeList | undefined;
 }
 export interface ListProjectsLocationsPreviewsResourceDriftsRequest {
   /** Required. The parent in whose context the ResourceDrifts are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   parent: string;
   /** Optional. Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Lists the resource drifts that match the filter expression. A filter expression filters the resource drifts listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/foo/locations/us-central1/previews/dep/resourceDrifts/baz */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. When requesting a page of resource drifts, 'page_size' specifies number of resource drifts to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Token returned by previous call to 'ListResourceDrifts' which specifies the position in the list from where to continue listing the resource drifts. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ResourceDriftList = Array<ResourceDrift>;
 /** A response to a 'ListResourceDrifts' call. Contains a list of ResourceDrifts. */
 export interface ListResourceDriftsResponse {
   /** List of ResourceDrifts. */
-  resourceDrifts?: ResourceDriftList;
+  resourceDrifts?: ResourceDriftList | undefined;
   /** A token to request the next page of resources from the 'ListResourceDrifts' method. The value of an empty string means that there are no more resources to return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTerraformVersionsRequest {
   /** Optional. Token returned by previous call to 'ListTerraformVersions' which specifies the position in the list from where to continue listing the terraform versions. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Field to use to sort the list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Lists the TerraformVersions that match the filter expression. A filter expression filters the resources listed in the response. The expression must be of the form '{field} {operator} {value}' where operators: '<', '>', '<=', '>=', '!=', '=', ':' are supported (colon ':' represents a HAS operator which is roughly synonymous with equality). {field} can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. When requesting a page of terraform versions, 'page_size' specifies number of terraform versions to return. If unspecified, at most 500 will be returned. The maximum value is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent in whose context the TerraformVersions are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
 }
@@ -1125,11 +1126,11 @@ export type TerraformVersionList = Array<TerraformVersion>;
 /** The response message for the `ListTerraformVersions` method. */
 export interface ListTerraformVersionsResponse {
   /** Token to be supplied to the next ListTerraformVersions request via `page_token` to obtain the next set of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unreachable resources, if any. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of TerraformVersions. */
-  terraformVersions?: TerraformVersionList;
+  terraformVersions?: TerraformVersionList | undefined;
 }
 /** A request to lock a deployment passed to a 'LockDeployment' call. */
 export type LockDeploymentRequest = CancelOperationRequest;
@@ -1137,94 +1138,94 @@ export interface LockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface PatchProjectsLocationsDeploymentGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Field mask used to specify the fields to be overwritten in the Deployment Group resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The name of the deployment group. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
   /** Request body */
-  body?: DeploymentGroup;
+  body?: DeploymentGroup | undefined;
 }
 export interface PatchProjectsLocationsDeploymentsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. Resource name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
   /** Optional. Field mask used to specify the fields to be overwritten in the Deployment resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Deployment;
+  body?: Deployment | undefined;
 }
 /** Spec for a deployment to be created. */
 export interface DeploymentSpec {
   /** Required. The deployment to be created. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Required. The id of the deployment to be created which doesn't include the project id and location. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
 }
 export type DeploymentSpecMap = { [key: string]: DeploymentSpec | undefined };
 /** The request message for the ProvisionDeploymentGroup method. */
 export interface ProvisionDeploymentGroupRequest {
   /** Optional. The deployment specs of the deployment units to be created within the same project and location of the deployment group. The key is the unit ID, and the value is the `DeploymentSpec`. Provisioning will fail if a `deployment_spec` has a `deployment_id` that matches an existing deployment in the same project and location. If an existing deployment was part of the last successful revision but is no longer in the current DeploymentGroup's `deployment_units`, it will be recreated if included in `deployment_specs`. */
-  deploymentSpecs?: DeploymentSpecMap;
+  deploymentSpecs?: DeploymentSpecMap | undefined;
 }
 export interface ProvisionProjectsLocationsDeploymentGroupsRequest {
   /** Required. The name of the deployment group to provision. Format: 'projects/{project_id}/locations/{location}/deploymentGroups/{deployment_group}'. */
   name: string;
   /** Request body */
-  body?: ProvisionDeploymentGroupRequest;
+  body?: ProvisionDeploymentGroupRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 /** A request to unlock a state file passed to a 'UnlockDeployment' call. */
 export interface UnlockDeploymentRequest {
   /** Required. Lock ID of the lock file to be unlocked. */
-  lockId?: string;
+  lockId?: string | undefined;
 }
 export interface UnlockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
   /** Request body */
-  body?: UnlockDeploymentRequest;
+  body?: UnlockDeploymentRequest | undefined;
 }
 export interface UpdateAutoMigrationConfigProjectsLocationsRequest {
   /** Optional. The update mask applies to the resource. See google.protobuf.FieldMask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The name of the AutoMigrationConfig. Format: 'projects/{project_id}/locations/{location}/AutoMigrationConfig'. */
   name: string;
   /** Request body */
-  body?: AutoMigrationConfig;
+  body?: AutoMigrationConfig | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

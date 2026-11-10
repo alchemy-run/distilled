@@ -85,7 +85,7 @@ export class NotFound
 
 export interface GetGoogleUpdatedLocationsLodgingRequest {
   /** Required. The specific fields to return. Use "*" to include all fields. Repeated field items cannot be individually specified. */
-  readMask?: string;
+  readMask?: string | undefined;
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
 }
@@ -162,61 +162,61 @@ export type PoolsWaterslideExceptionEnum =
 /** Swimming pool or recreational water facilities available at the hotel. */
 export interface Pools {
   /** Lifeguard exception. */
-  lifeguardException?: PoolsLifeguardExceptionEnum | (string & {});
+  lifeguardException?: PoolsLifeguardExceptionEnum | (string & {}) | undefined;
   /** Hot tub exception. */
-  hotTubException?: PoolsHotTubExceptionEnum | (string & {});
+  hotTubException?: PoolsHotTubExceptionEnum | (string & {}) | undefined;
   /** Indoor pool. A pool located inside the hotel and available for guests to use for swimming and/or soaking. Use may or may not be restricted to adults and/or children. */
-  indoorPool?: boolean;
+  indoorPool?: boolean | undefined;
   /** Adult pool exception. */
-  adultPoolException?: PoolsAdultPoolExceptionEnum | (string & {});
+  adultPoolException?: PoolsAdultPoolExceptionEnum | (string & {}) | undefined;
   /** Outdoor pool. A pool located outside on the grounds of the hotel and available for guests to use for swimming, soaking or recreation. Use may or may not be restricted to adults and/or children. */
-  outdoorPool?: boolean;
+  outdoorPool?: boolean | undefined;
   /** Indoor pools count. The sum of all indoor pools at the hotel. */
-  indoorPoolsCount?: number;
+  indoorPoolsCount?: number | undefined;
   /** Indoor pools count exception. */
-  indoorPoolsCountException?: PoolsIndoorPoolsCountExceptionEnum | (string & {});
+  indoorPoolsCountException?: PoolsIndoorPoolsCountExceptionEnum | (string & {}) | undefined;
   /** Adult pool. A pool restricted for use by adults only. Can be indoors or outdoors. */
-  adultPool?: boolean;
+  adultPool?: boolean | undefined;
   /** Wave pool. A large indoor or outdoor pool with a machine that produces water currents to mimic the ocean's crests. */
-  wavePool?: boolean;
+  wavePool?: boolean | undefined;
   /** Lazy river exception. */
-  lazyRiverException?: PoolsLazyRiverExceptionEnum | (string & {});
+  lazyRiverException?: PoolsLazyRiverExceptionEnum | (string & {}) | undefined;
   /** Wave pool exception. */
-  wavePoolException?: PoolsWavePoolExceptionEnum | (string & {});
+  wavePoolException?: PoolsWavePoolExceptionEnum | (string & {}) | undefined;
   /** Pools count exception. */
-  poolsCountException?: PoolsPoolsCountExceptionEnum | (string & {});
+  poolsCountException?: PoolsPoolsCountExceptionEnum | (string & {}) | undefined;
   /** Pools count. The sum of all pools at the hotel. */
-  poolsCount?: number;
+  poolsCount?: number | undefined;
   /** Water park exception. */
-  waterParkException?: PoolsWaterParkExceptionEnum | (string & {});
+  waterParkException?: PoolsWaterParkExceptionEnum | (string & {}) | undefined;
   /** Water park. An aquatic recreation area with a large pool or series of pools that has features such as a water slide or tube, wavepool, fountains, rope swings, and/or obstacle course. Can be indoors or outdoors. Also known as adventure pool. */
-  waterPark?: boolean;
+  waterPark?: boolean | undefined;
   /** Waterslide. A continuously wetted chute positioned by an indoor or outdoor pool which people slide down into the water. */
-  waterslide?: boolean;
+  waterslide?: boolean | undefined;
   /** Wading pool exception. */
-  wadingPoolException?: PoolsWadingPoolExceptionEnum | (string & {});
+  wadingPoolException?: PoolsWadingPoolExceptionEnum | (string & {}) | undefined;
   /** Indoor pool exception. */
-  indoorPoolException?: PoolsIndoorPoolExceptionEnum | (string & {});
+  indoorPoolException?: PoolsIndoorPoolExceptionEnum | (string & {}) | undefined;
   /** Hot tub. A man-made pool containing bubbling water maintained at a higher temperature and circulated by aerating jets for the purpose of soaking, relaxation and hydrotherapy. Can be indoors or outdoors. Not used for active swimming. Also known as Jacuzzi. Hot tub must be in a common area where all guests can access it. Does not apply to room-specific hot tubs that are only accessible to guest occupying that room. */
-  hotTub?: boolean;
+  hotTub?: boolean | undefined;
   /** Outdoor pool exception. */
-  outdoorPoolException?: PoolsOutdoorPoolExceptionEnum | (string & {});
+  outdoorPoolException?: PoolsOutdoorPoolExceptionEnum | (string & {}) | undefined;
   /** Pool. The presence of a pool, either indoors or outdoors, for guests to use for swimming and/or soaking. Use may or may not be restricted to adults and/or children. */
-  pool?: boolean;
+  pool?: boolean | undefined;
   /** Outdoor pools count exception. */
-  outdoorPoolsCountException?: PoolsOutdoorPoolsCountExceptionEnum | (string & {});
+  outdoorPoolsCountException?: PoolsOutdoorPoolsCountExceptionEnum | (string & {}) | undefined;
   /** Lifeguard. A trained member of the hotel staff stationed by the hotel's indoor or outdoor swimming area and responsible for the safety of swimming guests. */
-  lifeguard?: boolean;
+  lifeguard?: boolean | undefined;
   /** Pool exception. */
-  poolException?: PoolsPoolExceptionEnum | (string & {});
+  poolException?: PoolsPoolExceptionEnum | (string & {}) | undefined;
   /** Wading pool. A shallow pool designed for small children to play in. Can be indoors or outdoors. Also known as kiddie pool. */
-  wadingPool?: boolean;
+  wadingPool?: boolean | undefined;
   /** Waterslide exception. */
-  waterslideException?: PoolsWaterslideExceptionEnum | (string & {});
+  waterslideException?: PoolsWaterslideExceptionEnum | (string & {}) | undefined;
   /** Lazy river. A man-made pool or several interconnected recreational pools built to mimic the shape and current of a winding river where guests float in the water on inflated rubber tubes. Can be indoors or outdoors. */
-  lazyRiver?: boolean;
+  lazyRiver?: boolean | undefined;
   /** Outdoor pools count. The sum of all outdoor pools at the hotel. */
-  outdoorPoolsCount?: number;
+  outdoorPoolsCount?: number | undefined;
 }
 export type GuestUnitFeaturesMaxOccupantsCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -266,29 +266,32 @@ export type LivingAreaLayoutBalconyExceptionEnum =
 /** Information about the layout of the living area. */
 export interface LivingAreaLayout {
   /** Non smoking. A guestroom in which the smoking of cigarettes, cigars and pipes is prohibited. */
-  nonSmoking?: boolean;
+  nonSmoking?: boolean | undefined;
   /** Patio exception. */
-  patioException?: LivingAreaLayoutPatioExceptionEnum | (string & {});
+  patioException?: LivingAreaLayoutPatioExceptionEnum | (string & {}) | undefined;
   /** Patio. A paved, outdoor area with seating attached to and accessed through a ground-floor guestroom for use by the occupants of the guestroom. */
-  patio?: boolean;
+  patio?: boolean | undefined;
   /** Loft. A three-walled upper area accessed by stairs or a ladder that overlooks the lower area of a room. */
-  loft?: boolean;
+  loft?: boolean | undefined;
   /** Loft exception. */
-  loftException?: LivingAreaLayoutLoftExceptionEnum | (string & {});
+  loftException?: LivingAreaLayoutLoftExceptionEnum | (string & {}) | undefined;
   /** Stairs. There are steps leading from one level or story to another in the unit. */
-  stairs?: boolean;
+  stairs?: boolean | undefined;
   /** Non smoking exception. */
-  nonSmokingException?: LivingAreaLayoutNonSmokingExceptionEnum | (string & {});
+  nonSmokingException?: LivingAreaLayoutNonSmokingExceptionEnum | (string & {}) | undefined;
   /** Stairs exception. */
-  stairsException?: LivingAreaLayoutStairsExceptionEnum | (string & {});
+  stairsException?: LivingAreaLayoutStairsExceptionEnum | (string & {}) | undefined;
   /** Living area sq meters exception. */
-  livingAreaSqMetersException?: LivingAreaLayoutLivingAreaSqMetersExceptionEnum | (string & {});
+  livingAreaSqMetersException?:
+    | LivingAreaLayoutLivingAreaSqMetersExceptionEnum
+    | (string & {})
+    | undefined;
   /** Balcony. An outdoor platform attached to a building and surrounded by a short wall, fence or other safety railing. The balcony is accessed through a door in a guestroom or suite and is for use by the guest staying in that room. May or may not include seating or outdoor furniture. Is not located on the ground floor. Also lanai. */
-  balcony?: boolean;
+  balcony?: boolean | undefined;
   /** Balcony exception. */
-  balconyException?: LivingAreaLayoutBalconyExceptionEnum | (string & {});
+  balconyException?: LivingAreaLayoutBalconyExceptionEnum | (string & {}) | undefined;
   /** Living area sq meters. The measurement in meters of the area of a guestroom's living space. */
-  livingAreaSqMeters?: number;
+  livingAreaSqMeters?: number | undefined;
 }
 export type LivingAreaAccessibilityHearingAccessibleDoorbellExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -335,49 +338,59 @@ export interface LivingAreaAccessibility {
   /** Hearing-accessible doorbell exception. */
   hearingAccessibleDoorbellException?:
     | LivingAreaAccessibilityHearingAccessibleDoorbellExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Hearing-accessible unit exception. */
   hearingAccessibleUnitException?:
     | LivingAreaAccessibilityHearingAccessibleUnitExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Mobility-accessible unit exception. */
   mobilityAccessibleUnitException?:
     | LivingAreaAccessibilityMobilityAccessibleUnitExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** ADA compliant unit exception. */
-  adaCompliantUnitException?: LivingAreaAccessibilityAdaCompliantUnitExceptionEnum | (string & {});
+  adaCompliantUnitException?:
+    | LivingAreaAccessibilityAdaCompliantUnitExceptionEnum
+    | (string & {})
+    | undefined;
   /** Mobility-accessible shower exception. */
   mobilityAccessibleShowerException?:
     | LivingAreaAccessibilityMobilityAccessibleShowerExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Hearing-accessible unit. A guestroom designed to accommodate the physical challenges of a guest with auditory issues. */
-  hearingAccessibleUnit?: boolean;
+  hearingAccessibleUnit?: boolean | undefined;
   /** Mobility-accessible bathtub. A bathtub that accomodates the physically challenged with additional railings or hand grips, a transfer seat or lift, and/or a door to enable walking into the tub. */
-  mobilityAccessibleBathtub?: boolean;
+  mobilityAccessibleBathtub?: boolean | undefined;
   /** Mobility-accessible bathtub exception. */
   mobilityAccessibleBathtubException?:
     | LivingAreaAccessibilityMobilityAccessibleBathtubExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Hearing-accessible fire alarm. A device that gives warning of a fire through flashing lights. */
-  hearingAccessibleFireAlarm?: boolean;
+  hearingAccessibleFireAlarm?: boolean | undefined;
   /** Mobility-accessible shower. A shower with an enlarged door or access point to accommodate a wheelchair or a waterproof seat for the physically challenged. */
-  mobilityAccessibleShower?: boolean;
+  mobilityAccessibleShower?: boolean | undefined;
   /** Mobility-accessible toilet. A toilet with a higher seat, grab bars, and/or a larger area around it to accommodate the physically challenged. */
-  mobilityAccessibleToilet?: boolean;
+  mobilityAccessibleToilet?: boolean | undefined;
   /** Hearing-accessible doorbell. A visual indicator(s) of a knock or ring at the door. */
-  hearingAccessibleDoorbell?: boolean;
+  hearingAccessibleDoorbell?: boolean | undefined;
   /** ADA compliant unit. A guestroom designed to accommodate the physical challenges of a guest with mobility and/or auditory and/or visual issues, as determined by legislative policy. Usually features enlarged doorways, roll-in showers with seats, bathroom grab bars, and communication equipment for the hearing and sight challenged. */
-  adaCompliantUnit?: boolean;
+  adaCompliantUnit?: boolean | undefined;
   /** Hearing-accessible fire alarm exception. */
   hearingAccessibleFireAlarmException?:
     | LivingAreaAccessibilityHearingAccessibleFireAlarmExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Mobility-accessible toilet exception. */
   mobilityAccessibleToiletException?:
     | LivingAreaAccessibilityMobilityAccessibleToiletExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Mobility-accessible unit. A guestroom designed to accommodate the physical challenges of a guest with mobility and/or auditory and/or visual issues. Usually features enlarged doorways, roll-in showers with seats, bathroom grab bars, and communication equipment for the hearing and sight challenged. */
-  mobilityAccessibleUnit?: boolean;
+  mobilityAccessibleUnit?: boolean | undefined;
 }
 export type LivingAreaSleepingHypoallergenicBeddingExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -454,63 +467,86 @@ export interface LivingAreaSleeping {
   /** Hypoallergenic bedding exception. */
   hypoallergenicBeddingException?:
     | LivingAreaSleepingHypoallergenicBeddingExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Hypoallergenic bedding. Bedding such as linens, pillows, mattress covers and/or mattresses that are made of materials known to be resistant to allergens such as mold, dust and dander. */
-  hypoallergenicBedding?: boolean;
+  hypoallergenicBedding?: boolean | undefined;
   /** Double beds count. The number of medium beds measuring 53"W x 75"L (135cm x 191cm). Also known as full size bed. */
-  doubleBedsCount?: number;
+  doubleBedsCount?: number | undefined;
   /** Cribs count. The number of small beds for an infant or toddler that the guestroom can obtain. The bed is surrounded by a high railing to prevent the child from falling or climbing out of the bed */
-  cribsCount?: number;
+  cribsCount?: number | undefined;
   /** Roll away beds count exception. */
-  rollAwayBedsCountException?: LivingAreaSleepingRollAwayBedsCountExceptionEnum | (string & {});
+  rollAwayBedsCountException?:
+    | LivingAreaSleepingRollAwayBedsCountExceptionEnum
+    | (string & {})
+    | undefined;
   /** Memory foam pillows exception. */
-  memoryFoamPillowsException?: LivingAreaSleepingMemoryFoamPillowsExceptionEnum | (string & {});
+  memoryFoamPillowsException?:
+    | LivingAreaSleepingMemoryFoamPillowsExceptionEnum
+    | (string & {})
+    | undefined;
   /** Roll away beds count. The number of mattresses on wheeled frames that can be folded in half and rolled away for easy storage that the guestroom can obtain upon request. */
-  rollAwayBedsCount?: number;
+  rollAwayBedsCount?: number | undefined;
   /** Feather pillows exception. */
-  featherPillowsException?: LivingAreaSleepingFeatherPillowsExceptionEnum | (string & {});
+  featherPillowsException?:
+    | LivingAreaSleepingFeatherPillowsExceptionEnum
+    | (string & {})
+    | undefined;
   /** Other beds count exception. */
-  otherBedsCountException?: LivingAreaSleepingOtherBedsCountExceptionEnum | (string & {});
+  otherBedsCountException?:
+    | LivingAreaSleepingOtherBedsCountExceptionEnum
+    | (string & {})
+    | undefined;
   /** Single or twin count beds. The number of smaller beds measuring 38"W x 75"L (97cm x 191cm) that can accommodate one adult. */
-  singleOrTwinBedsCount?: number;
+  singleOrTwinBedsCount?: number | undefined;
   /** Single or twin beds count exception. */
   singleOrTwinBedsCountException?:
     | LivingAreaSleepingSingleOrTwinBedsCountExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** King beds count exception. */
-  kingBedsCountException?: LivingAreaSleepingKingBedsCountExceptionEnum | (string & {});
+  kingBedsCountException?: LivingAreaSleepingKingBedsCountExceptionEnum | (string & {}) | undefined;
   /** Memory foam pillows. The option for guests to obtain bed pillows that are stuffed with a man-made foam that responds to body heat by conforming to the body closely, and then recovers its shape when the pillow cools down. */
-  memoryFoamPillows?: boolean;
+  memoryFoamPillows?: boolean | undefined;
   /** Beds count. The number of permanent beds present in a guestroom. Does not include rollaway beds, cribs or sofabeds. */
-  bedsCount?: number;
+  bedsCount?: number | undefined;
   /** Feather pillows. The option for guests to obtain bed pillows that are stuffed with the feathers and down of ducks or geese. */
-  featherPillows?: boolean;
+  featherPillows?: boolean | undefined;
   /** Cribs count exception. */
-  cribsCountException?: LivingAreaSleepingCribsCountExceptionEnum | (string & {});
+  cribsCountException?: LivingAreaSleepingCribsCountExceptionEnum | (string & {}) | undefined;
   /** Sofa beds count exception. */
-  sofaBedsCountException?: LivingAreaSleepingSofaBedsCountExceptionEnum | (string & {});
+  sofaBedsCountException?: LivingAreaSleepingSofaBedsCountExceptionEnum | (string & {}) | undefined;
   /** Double beds count exception. */
-  doubleBedsCountException?: LivingAreaSleepingDoubleBedsCountExceptionEnum | (string & {});
+  doubleBedsCountException?:
+    | LivingAreaSleepingDoubleBedsCountExceptionEnum
+    | (string & {})
+    | undefined;
   /** Beds count exception. */
-  bedsCountException?: LivingAreaSleepingBedsCountExceptionEnum | (string & {});
+  bedsCountException?: LivingAreaSleepingBedsCountExceptionEnum | (string & {}) | undefined;
   /** Synthetic pillows exception. */
-  syntheticPillowsException?: LivingAreaSleepingSyntheticPillowsExceptionEnum | (string & {});
+  syntheticPillowsException?:
+    | LivingAreaSleepingSyntheticPillowsExceptionEnum
+    | (string & {})
+    | undefined;
   /** Synthetic pillows. The option for guests to obtain bed pillows stuffed with polyester material crafted to reproduce the feel of a pillow stuffed with down and feathers. */
-  syntheticPillows?: boolean;
+  syntheticPillows?: boolean | undefined;
   /** Other beds count. The number of beds that are not standard mattress and boxspring setups such as Japanese tatami mats, trundle beds, air mattresses and cots. */
-  otherBedsCount?: number;
+  otherBedsCount?: number | undefined;
   /** Sofa beds count. The number of specially designed sofas that can be made to serve as a bed by lowering its hinged upholstered back to horizontal position or by pulling out a concealed mattress. */
-  sofaBedsCount?: number;
+  sofaBedsCount?: number | undefined;
   /** Bunk beds count exception. */
-  bunkBedsCountException?: LivingAreaSleepingBunkBedsCountExceptionEnum | (string & {});
+  bunkBedsCountException?: LivingAreaSleepingBunkBedsCountExceptionEnum | (string & {}) | undefined;
   /** Queen beds count. The number of medium-large beds measuring 60"W x 80"L (152cm x 102cm). */
-  queenBedsCount?: number;
+  queenBedsCount?: number | undefined;
   /** King beds count. The number of large beds measuring 76"W x 80"L (193cm x 102cm). Most often meant to accompany two people. Includes California king and super king. */
-  kingBedsCount?: number;
+  kingBedsCount?: number | undefined;
   /** Queen beds count exception. */
-  queenBedsCountException?: LivingAreaSleepingQueenBedsCountExceptionEnum | (string & {});
+  queenBedsCountException?:
+    | LivingAreaSleepingQueenBedsCountExceptionEnum
+    | (string & {})
+    | undefined;
   /** Bunk beds count. The number of furniture pieces in which one framed mattress is fixed directly above another by means of a physical frame. This allows one person(s) to sleep in the bottom bunk and one person(s) to sleep in the top bunk. Also known as double decker bed. */
-  bunkBedsCount?: number;
+  bunkBedsCount?: number | undefined;
 }
 export type LivingAreaEatingToasterExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -595,69 +631,72 @@ export type LivingAreaEatingCoffeeMakerExceptionEnum =
 /** Information about eating features in the living area. */
 export interface LivingAreaEating {
   /** Toaster exception. */
-  toasterException?: LivingAreaEatingToasterExceptionEnum | (string & {});
+  toasterException?: LivingAreaEatingToasterExceptionEnum | (string & {}) | undefined;
   /** Dishwasher exception. */
-  dishwasherException?: LivingAreaEatingDishwasherExceptionEnum | (string & {});
+  dishwasherException?: LivingAreaEatingDishwasherExceptionEnum | (string & {}) | undefined;
   /** Kettle. A covered container with a handle and a spout used for boiling water. */
-  kettle?: boolean;
+  kettle?: boolean | undefined;
   /** Sink exception. */
-  sinkException?: LivingAreaEatingSinkExceptionEnum | (string & {});
+  sinkException?: LivingAreaEatingSinkExceptionEnum | (string & {}) | undefined;
   /** Kettle exception. */
-  kettleException?: LivingAreaEatingKettleExceptionEnum | (string & {});
+  kettleException?: LivingAreaEatingKettleExceptionEnum | (string & {}) | undefined;
   /** Minibar exception. */
-  minibarException?: LivingAreaEatingMinibarExceptionEnum | (string & {});
+  minibarException?: LivingAreaEatingMinibarExceptionEnum | (string & {}) | undefined;
   /** Refrigerator exception. */
-  refrigeratorException?: LivingAreaEatingRefrigeratorExceptionEnum | (string & {});
+  refrigeratorException?: LivingAreaEatingRefrigeratorExceptionEnum | (string & {}) | undefined;
   /** Snackbar. A small cabinet in the guestroom containing snacks. The items are most commonly available for a fee. */
-  snackbar?: boolean;
+  snackbar?: boolean | undefined;
   /** Oven exception. */
-  ovenException?: LivingAreaEatingOvenExceptionEnum | (string & {});
+  ovenException?: LivingAreaEatingOvenExceptionEnum | (string & {}) | undefined;
   /** Tea station exception. */
-  teaStationException?: LivingAreaEatingTeaStationExceptionEnum | (string & {});
+  teaStationException?: LivingAreaEatingTeaStationExceptionEnum | (string & {}) | undefined;
   /** Outdoor grill exception. */
-  outdoorGrillException?: LivingAreaEatingOutdoorGrillExceptionEnum | (string & {});
+  outdoorGrillException?: LivingAreaEatingOutdoorGrillExceptionEnum | (string & {}) | undefined;
   /** Refrigerator. A large, climate-controlled electrical cabinet with vertical doors. Built for the purpose of chilling and storing perishable foods. */
-  refrigerator?: boolean;
+  refrigerator?: boolean | undefined;
   /** Dishwasher. A counter-height electrical cabinet containing racks for dirty dishware, cookware and cutlery, and a dispenser for soap built into the pull-down door. The cabinet is attached to the plumbing system to facilitate the automatic cleaning of its contents. */
-  dishwasher?: boolean;
+  dishwasher?: boolean | undefined;
   /** Stove exception. */
-  stoveException?: LivingAreaEatingStoveExceptionEnum | (string & {});
+  stoveException?: LivingAreaEatingStoveExceptionEnum | (string & {}) | undefined;
   /** Coffee maker. An electric appliance that brews coffee by heating and forcing water through ground coffee. */
-  coffeeMaker?: boolean;
+  coffeeMaker?: boolean | undefined;
   /** Kitchen available. An area of the guestroom designated for the preparation and storage of food via the presence of a refrigerator, cook top, oven and sink, as well as cutlery, dishes and cookware. Usually includes small appliances such a coffee maker and a microwave. May or may not include an automatic dishwasher. */
-  kitchenAvailable?: boolean;
+  kitchenAvailable?: boolean | undefined;
   /** Stove. A kitchen appliance powered by gas or electricity for the purpose of creating a flame or hot surface on which pots of food can be cooked. Also known as cooktop or hob. */
-  stove?: boolean;
+  stove?: boolean | undefined;
   /** Microwave. An electric oven that quickly cooks and heats food by microwave energy. Smaller than a standing or wall mounted oven. Usually placed on a kitchen counter, a shelf or tabletop or mounted above a cooktop. */
-  microwave?: boolean;
+  microwave?: boolean | undefined;
   /** Kitchen available exception. */
-  kitchenAvailableException?: LivingAreaEatingKitchenAvailableExceptionEnum | (string & {});
+  kitchenAvailableException?:
+    | LivingAreaEatingKitchenAvailableExceptionEnum
+    | (string & {})
+    | undefined;
   /** Tea station. A small area with the supplies needed to heat water and make tea. */
-  teaStation?: boolean;
+  teaStation?: boolean | undefined;
   /** Oven. A temperature controlled, heated metal cabinet powered by gas or electricity in which food is placed for the purpose of cooking or reheating. */
-  oven?: boolean;
+  oven?: boolean | undefined;
   /** Microwave exception. */
-  microwaveException?: LivingAreaEatingMicrowaveExceptionEnum | (string & {});
+  microwaveException?: LivingAreaEatingMicrowaveExceptionEnum | (string & {}) | undefined;
   /** Indoor grill exception. */
-  indoorGrillException?: LivingAreaEatingIndoorGrillExceptionEnum | (string & {});
+  indoorGrillException?: LivingAreaEatingIndoorGrillExceptionEnum | (string & {}) | undefined;
   /** Toaster. A small, temperature controlled electric appliance with rectangular slots at the top that are lined with heated coils for the purpose of browning slices of bread products. */
-  toaster?: boolean;
+  toaster?: boolean | undefined;
   /** Snackbar exception. */
-  snackbarException?: LivingAreaEatingSnackbarExceptionEnum | (string & {});
+  snackbarException?: LivingAreaEatingSnackbarExceptionEnum | (string & {}) | undefined;
   /** Indoor grill. Metal grates built into an indoor cooktop on which food is cooked over an open flame or electric heat source. */
-  indoorGrill?: boolean;
+  indoorGrill?: boolean | undefined;
   /** Sink. A basin with a faucet attached to a water source and used for the purpose of washing and rinsing. */
-  sink?: boolean;
+  sink?: boolean | undefined;
   /** Cookware exception. */
-  cookwareException?: LivingAreaEatingCookwareExceptionEnum | (string & {});
+  cookwareException?: LivingAreaEatingCookwareExceptionEnum | (string & {}) | undefined;
   /** Minibar. A small refrigerated cabinet in the guestroom containing bottles/cans of soft drinks, mini bottles of alcohol, and snacks. The items are most commonly available for a fee. */
-  minibar?: boolean;
+  minibar?: boolean | undefined;
   /** Coffee maker exception. */
-  coffeeMakerException?: LivingAreaEatingCoffeeMakerExceptionEnum | (string & {});
+  coffeeMakerException?: LivingAreaEatingCoffeeMakerExceptionEnum | (string & {}) | undefined;
   /** Outdoor grill. Metal grates on which food is cooked over an open flame or electric heat source. Part of an outdoor apparatus that supports the grates. Also known as barbecue grill or barbecue. */
-  outdoorGrill?: boolean;
+  outdoorGrill?: boolean | undefined;
   /** Cookware. Kitchen pots, pans and utensils used in connection with the preparation of food. */
-  cookware?: boolean;
+  cookware?: boolean | undefined;
 }
 export type LivingAreaFeaturesIroningEquipmentExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -762,100 +801,119 @@ export type LivingAreaFeaturesPayPerViewMoviesExceptionEnum =
 /** Features in the living area. */
 export interface LivingAreaFeatures {
   /** Ironing equipment exception. */
-  ironingEquipmentException?: LivingAreaFeaturesIroningEquipmentExceptionEnum | (string & {});
+  ironingEquipmentException?:
+    | LivingAreaFeaturesIroningEquipmentExceptionEnum
+    | (string & {})
+    | undefined;
   /** TV exception. */
-  tvCastingException?: LivingAreaFeaturesTvCastingExceptionEnum | (string & {});
+  tvCastingException?: LivingAreaFeaturesTvCastingExceptionEnum | (string & {}) | undefined;
   /** TV streaming exception. */
-  tvStreamingException?: LivingAreaFeaturesTvStreamingExceptionEnum | (string & {});
+  tvStreamingException?: LivingAreaFeaturesTvStreamingExceptionEnum | (string & {}) | undefined;
   /** Air conditioning exception. */
-  airConditioningException?: LivingAreaFeaturesAirConditioningExceptionEnum | (string & {});
+  airConditioningException?:
+    | LivingAreaFeaturesAirConditioningExceptionEnum
+    | (string & {})
+    | undefined;
   /** In-unit Wifi available. Guests can wirelessly connect to the Internet in the guestroom. Can be free or for a fee. */
-  inunitWifiAvailable?: boolean;
+  inunitWifiAvailable?: boolean | undefined;
   /** Dryer. An electrical machine designed to dry clothing. */
-  dryer?: boolean;
+  dryer?: boolean | undefined;
   /** TV exception. */
-  tvException?: LivingAreaFeaturesTvExceptionEnum | (string & {});
+  tvException?: LivingAreaFeaturesTvExceptionEnum | (string & {}) | undefined;
   /** In-unit safe. A strong fireproof cabinet with a programmable lock, used for the protected storage of valuables in a guestroom. Often built into a closet. */
-  inunitSafe?: boolean;
+  inunitSafe?: boolean | undefined;
   /** Universal power adapters. A power supply for electronic devices which plugs into a wall for the purpose of converting AC to a single DC voltage. Also know as AC adapter or charger. */
-  universalPowerAdapters?: boolean;
+  universalPowerAdapters?: boolean | undefined;
   /** Pay per view movies. Televisions with channels that offer films that can be viewed for a fee, and have an interface to allow the viewer to accept the terms and approve payment. */
-  payPerViewMovies?: boolean;
+  payPerViewMovies?: boolean | undefined;
   /** Dryer exception. */
-  dryerException?: LivingAreaFeaturesDryerExceptionEnum | (string & {});
+  dryerException?: LivingAreaFeaturesDryerExceptionEnum | (string & {}) | undefined;
   /** Toilet exception. */
-  toiletException?: LivingAreaFeaturesToiletExceptionEnum | (string & {});
+  toiletException?: LivingAreaFeaturesToiletExceptionEnum | (string & {}) | undefined;
   /** Fireplace. A framed opening (aka hearth) at the base of a chimney in which logs or an electrical fire feature are burned to provide a relaxing ambiance or to heat the room. Often made of bricks or stone. */
-  fireplace?: boolean;
+  fireplace?: boolean | undefined;
   /** In-unit safe exception. */
-  inunitSafeException?: LivingAreaFeaturesInunitSafeExceptionEnum | (string & {});
+  inunitSafeException?: LivingAreaFeaturesInunitSafeExceptionEnum | (string & {}) | undefined;
   /** Electronic room key exception. */
-  electronicRoomKeyException?: LivingAreaFeaturesElectronicRoomKeyExceptionEnum | (string & {});
+  electronicRoomKeyException?:
+    | LivingAreaFeaturesElectronicRoomKeyExceptionEnum
+    | (string & {})
+    | undefined;
   /** Washer. An electrical machine connected to a running water source designed to launder clothing. */
-  washer?: boolean;
+  washer?: boolean | undefined;
   /** Bidet. A plumbing fixture attached to a toilet or a low, fixed sink designed for the purpose of washing after toilet use. */
-  bidet?: boolean;
+  bidet?: boolean | undefined;
   /** Air conditioning. An electrical machine used to cool the temperature of the guestroom. */
-  airConditioning?: boolean;
+  airConditioning?: boolean | undefined;
   /** Bathtub exception. */
-  bathtubException?: LivingAreaFeaturesBathtubExceptionEnum | (string & {});
+  bathtubException?: LivingAreaFeaturesBathtubExceptionEnum | (string & {}) | undefined;
   /** Hairdryer exception. */
-  hairdryerException?: LivingAreaFeaturesHairdryerExceptionEnum | (string & {});
+  hairdryerException?: LivingAreaFeaturesHairdryerExceptionEnum | (string & {}) | undefined;
   /** Universal power adapters exception. */
   universalPowerAdaptersException?:
     | LivingAreaFeaturesUniversalPowerAdaptersExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** TV. A television is available in the guestroom. */
-  tv?: boolean;
+  tv?: boolean | undefined;
   /** Toilet. A fixed bathroom feature connected to a sewer or septic system and consisting of a water-flushed bowl with a seat, as well as a device that elicites the water-flushing action. Used for the process and disposal of human waste. */
-  toilet?: boolean;
+  toilet?: boolean | undefined;
   /** Private bathroom exception. */
-  privateBathroomException?: LivingAreaFeaturesPrivateBathroomExceptionEnum | (string & {});
+  privateBathroomException?:
+    | LivingAreaFeaturesPrivateBathroomExceptionEnum
+    | (string & {})
+    | undefined;
   /** Shower exception. */
-  showerException?: LivingAreaFeaturesShowerExceptionEnum | (string & {});
+  showerException?: LivingAreaFeaturesShowerExceptionEnum | (string & {}) | undefined;
   /** Ironing equipment. A device, usually with a flat metal base, that is heated to smooth, finish, or press clothes and a flat, padded, cloth-covered surface on which the clothes are worked. */
-  ironingEquipment?: boolean;
+  ironingEquipment?: boolean | undefined;
   /** Shower. A fixed plumbing fixture for standing bathing that features a tall spray spout or faucet through which water flows, a knob or knobs that control the water's temperature, and a drain in the floor. */
-  shower?: boolean;
+  shower?: boolean | undefined;
   /** Private bathroom. A bathroom designated for the express use of the guests staying in a specific guestroom. */
-  privateBathroom?: boolean;
+  privateBathroom?: boolean | undefined;
   /** TV streaming. Televisions that embed a range of web-based apps to allow for watching media from those apps. */
-  tvStreaming?: boolean;
+  tvStreaming?: boolean | undefined;
   /** TV casting. A television equipped with a device through which the video entertainment accessed on a personal computer, phone or tablet can be wirelessly delivered to and viewed on the guestroom's television. */
-  tvCasting?: boolean;
+  tvCasting?: boolean | undefined;
   /** Heating exception. */
-  heatingException?: LivingAreaFeaturesHeatingExceptionEnum | (string & {});
+  heatingException?: LivingAreaFeaturesHeatingExceptionEnum | (string & {}) | undefined;
   /** In-unit Wifi available exception. */
-  inunitWifiAvailableException?: LivingAreaFeaturesInunitWifiAvailableExceptionEnum | (string & {});
+  inunitWifiAvailableException?:
+    | LivingAreaFeaturesInunitWifiAvailableExceptionEnum
+    | (string & {})
+    | undefined;
   /** Heating. An electrical machine used to warm the temperature of the guestroom. */
-  heating?: boolean;
+  heating?: boolean | undefined;
   /** Hairdryer. A handheld electric appliance that blows temperature-controlled air for the purpose of drying wet hair. Can be mounted to a bathroom wall or a freestanding device stored in the guestroom's bathroom or closet. */
-  hairdryer?: boolean;
+  hairdryer?: boolean | undefined;
   /** Electronic room key. A card coded by the check-in computer that is read by the lock on the hotel guestroom door to allow for entry. */
-  electronicRoomKey?: boolean;
+  electronicRoomKey?: boolean | undefined;
   /** Bathtub. A fixed plumbing feature set on the floor and consisting of a large container that accommodates the body of an adult for the purpose of seated bathing. Includes knobs or fixtures to control the temperature of the water, a faucet through which the water flows, and a drain that can be closed for filling and opened for draining. */
-  bathtub?: boolean;
+  bathtub?: boolean | undefined;
   /** Bidet exception. */
-  bidetException?: LivingAreaFeaturesBidetExceptionEnum | (string & {});
+  bidetException?: LivingAreaFeaturesBidetExceptionEnum | (string & {}) | undefined;
   /** Washer exception. */
-  washerException?: LivingAreaFeaturesWasherExceptionEnum | (string & {});
+  washerException?: LivingAreaFeaturesWasherExceptionEnum | (string & {}) | undefined;
   /** Fireplace exception. */
-  fireplaceException?: LivingAreaFeaturesFireplaceExceptionEnum | (string & {});
+  fireplaceException?: LivingAreaFeaturesFireplaceExceptionEnum | (string & {}) | undefined;
   /** Pay per view movies exception. */
-  payPerViewMoviesException?: LivingAreaFeaturesPayPerViewMoviesExceptionEnum | (string & {});
+  payPerViewMoviesException?:
+    | LivingAreaFeaturesPayPerViewMoviesExceptionEnum
+    | (string & {})
+    | undefined;
 }
 /** An individual room, such as kitchen, bathroom, bedroom, within a bookable guest unit. */
 export interface LivingArea {
   /** Information about the layout of the living area. */
-  layout?: LivingAreaLayout;
+  layout?: LivingAreaLayout | undefined;
   /** Accessibility features of the living area. */
-  accessibility?: LivingAreaAccessibility;
+  accessibility?: LivingAreaAccessibility | undefined;
   /** Information about sleeping features in the living area. */
-  sleeping?: LivingAreaSleeping;
+  sleeping?: LivingAreaSleeping | undefined;
   /** Information about eating features in the living area. */
-  eating?: LivingAreaEating;
+  eating?: LivingAreaEating | undefined;
   /** Features in the living area. */
-  features?: LivingAreaFeatures;
+  features?: LivingAreaFeatures | undefined;
 }
 export type GuestUnitFeaturesSuiteExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -910,37 +968,37 @@ export type ViewsFromUnitLakeViewExceptionEnum =
 /** Views available from the guest unit itself. */
 export interface ViewsFromUnit {
   /** Beach view. A guestroom that features a window through which guests can see the beach. */
-  beachView?: boolean;
+  beachView?: boolean | undefined;
   /** Valley view exception. */
-  valleyViewException?: ViewsFromUnitValleyViewExceptionEnum | (string & {});
+  valleyViewException?: ViewsFromUnitValleyViewExceptionEnum | (string & {}) | undefined;
   /** Lake view. */
-  lakeView?: boolean;
+  lakeView?: boolean | undefined;
   /** City view. A guestroom that features a window through which guests can see the buildings, parks and/or streets of the city. */
-  cityView?: boolean;
+  cityView?: boolean | undefined;
   /** City view exception. */
-  cityViewException?: ViewsFromUnitCityViewExceptionEnum | (string & {});
+  cityViewException?: ViewsFromUnitCityViewExceptionEnum | (string & {}) | undefined;
   /** Landmark view. A guestroom that features a window through which guests can see a landmark such as the countryside, a golf course, the forest, a park, a rain forst, a mountain or a slope. */
-  landmarkView?: boolean;
+  landmarkView?: boolean | undefined;
   /** Pool view exception. */
-  poolViewException?: ViewsFromUnitPoolViewExceptionEnum | (string & {});
+  poolViewException?: ViewsFromUnitPoolViewExceptionEnum | (string & {}) | undefined;
   /** Landmark view exception. */
-  landmarkViewException?: ViewsFromUnitLandmarkViewExceptionEnum | (string & {});
+  landmarkViewException?: ViewsFromUnitLandmarkViewExceptionEnum | (string & {}) | undefined;
   /** Ocean view exception. */
-  oceanViewException?: ViewsFromUnitOceanViewExceptionEnum | (string & {});
+  oceanViewException?: ViewsFromUnitOceanViewExceptionEnum | (string & {}) | undefined;
   /** Garden view exception. */
-  gardenViewException?: ViewsFromUnitGardenViewExceptionEnum | (string & {});
+  gardenViewException?: ViewsFromUnitGardenViewExceptionEnum | (string & {}) | undefined;
   /** Beach view exception. */
-  beachViewException?: ViewsFromUnitBeachViewExceptionEnum | (string & {});
+  beachViewException?: ViewsFromUnitBeachViewExceptionEnum | (string & {}) | undefined;
   /** Garden view. A guestroom that features a window through which guests can see a garden. */
-  gardenView?: boolean;
+  gardenView?: boolean | undefined;
   /** Pool view. A guestroom that features a window through which guests can see the hotel's swimming pool. */
-  poolView?: boolean;
+  poolView?: boolean | undefined;
   /** Valley view. A guestroom that features a window through which guests can see over a valley. */
-  valleyView?: boolean;
+  valleyView?: boolean | undefined;
   /** Ocean view. A guestroom that features a window through which guests can see the ocean. */
-  oceanView?: boolean;
+  oceanView?: boolean | undefined;
   /** Lake view exception. */
-  lakeViewException?: ViewsFromUnitLakeViewExceptionEnum | (string & {});
+  lakeViewException?: ViewsFromUnitLakeViewExceptionEnum | (string & {}) | undefined;
 }
 export type GuestUnitFeaturesTierExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -966,61 +1024,73 @@ export type GuestUnitFeaturesTierEnum = "UNIT_TIER_UNSPECIFIED" | "STANDARD_UNIT
 /** Features and available amenities in the guest unit. */
 export interface GuestUnitFeatures {
   /** Max occupants count. The total number of guests allowed to stay overnight in the guestroom. */
-  maxOccupantsCount?: number;
+  maxOccupantsCount?: number | undefined;
   /** Executive floor. A floor of the hotel where the guestrooms are only bookable by members of the hotel's frequent guest membership program. Benefits of this room class include access to a designated lounge which may or may not feature free breakfast, cocktails or other perks specific to members of the program. */
-  executiveFloor?: boolean;
+  executiveFloor?: boolean | undefined;
   /** Max occupants count exception. */
-  maxOccupantsCountException?: GuestUnitFeaturesMaxOccupantsCountExceptionEnum | (string & {});
+  maxOccupantsCountException?:
+    | GuestUnitFeaturesMaxOccupantsCountExceptionEnum
+    | (string & {})
+    | undefined;
   /** Connecting unit available exception. */
   connectingUnitAvailableException?:
     | GuestUnitFeaturesConnectingUnitAvailableExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Max adult occupants count exception. */
   maxAdultOccupantsCountException?:
     | GuestUnitFeaturesMaxAdultOccupantsCountExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Bungalow or villa. An independent structure that is part of a hotel or resort that is rented to one party for a vacation stay. The hotel or resort may be completely comprised of bungalows or villas, or they may be one of several guestroom options. Guests in the bungalows or villas most often have the same, if not more, amenities and services offered to guests in other guestroom types. */
-  bungalowOrVilla?: boolean;
+  bungalowOrVilla?: boolean | undefined;
   /** Features available in the living areas in the guest unit. */
-  totalLivingAreas?: LivingArea;
+  totalLivingAreas?: LivingArea | undefined;
   /** Private home. A privately owned home (house, townhouse, apartment, cabin, bungalow etc) that may or not serve as the owner's residence, but is rented out in its entirety or by the room(s) to paying guest(s) for vacation stays. Not for lease-based, long-term residency. */
-  privateHome?: boolean;
+  privateHome?: boolean | undefined;
   /** Suite exception. */
-  suiteException?: GuestUnitFeaturesSuiteExceptionEnum | (string & {});
+  suiteException?: GuestUnitFeaturesSuiteExceptionEnum | (string & {}) | undefined;
   /** Private home exception. */
-  privateHomeException?: GuestUnitFeaturesPrivateHomeExceptionEnum | (string & {});
+  privateHomeException?: GuestUnitFeaturesPrivateHomeExceptionEnum | (string & {}) | undefined;
   /** Views available from the guest unit itself. */
-  views?: ViewsFromUnit;
+  views?: ViewsFromUnit | undefined;
   /** Tier exception. */
-  tierException?: GuestUnitFeaturesTierExceptionEnum | (string & {});
+  tierException?: GuestUnitFeaturesTierExceptionEnum | (string & {}) | undefined;
   /** Max child occupants count. The total number of children allowed to stay overnight in the room. */
-  maxChildOccupantsCount?: number;
+  maxChildOccupantsCount?: number | undefined;
   /** Executive floor exception. */
-  executiveFloorException?: GuestUnitFeaturesExecutiveFloorExceptionEnum | (string & {});
+  executiveFloorException?:
+    | GuestUnitFeaturesExecutiveFloorExceptionEnum
+    | (string & {})
+    | undefined;
   /** Connecting unit available. A guestroom type that features access to an adjacent guestroom for the purpose of booking both rooms. Most often used by families who need more than one room to accommodate the number of people in their group. */
-  connectingUnitAvailable?: boolean;
+  connectingUnitAvailable?: boolean | undefined;
   /** Suite. A guestroom category that implies both a bedroom area and a separate living area. There may or may not be full walls and doors separating the two areas, but regardless, they are very distinct. Does not mean a couch or chair in a bedroom. */
-  suite?: boolean;
+  suite?: boolean | undefined;
   /** Max child occupants count exception. */
   maxChildOccupantsCountException?:
     | GuestUnitFeaturesMaxChildOccupantsCountExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Bungalow or villa exception. */
-  bungalowOrVillaException?: GuestUnitFeaturesBungalowOrVillaExceptionEnum | (string & {});
+  bungalowOrVillaException?:
+    | GuestUnitFeaturesBungalowOrVillaExceptionEnum
+    | (string & {})
+    | undefined;
   /** Max adult occupants count. The total number of adult guests allowed to stay overnight in the guestroom. */
-  maxAdultOccupantsCount?: number;
+  maxAdultOccupantsCount?: number | undefined;
   /** Tier. Classification of the unit based on available features/amenities. A non-standard tier is only permitted if at least one other unit type falls under the standard tier. */
-  tier?: GuestUnitFeaturesTierEnum | (string & {});
+  tier?: GuestUnitFeaturesTierEnum | (string & {}) | undefined;
 }
 export type StringList = Array<string>;
 /** A specific type of unit primarily defined by its features. */
 export interface GuestUnitType {
   /** Required. Short, English label or name of the GuestUnitType. Target <50 chars. */
-  label?: string;
+  label?: string | undefined;
   /** Features and available amenities of the GuestUnitType. */
-  features?: GuestUnitFeatures;
+  features?: GuestUnitFeatures | undefined;
   /** Required. Unit or room code identifiers for a single GuestUnitType. Each code must be unique within a Lodging instance. */
-  codes?: StringList;
+  codes?: StringList | undefined;
 }
 export type GuestUnitTypeList = Array<GuestUnitType>;
 export type ConnectivityWifiAvailableExceptionEnum =
@@ -1046,34 +1116,38 @@ export type ConnectivityPublicInternetTerminalExceptionEnum =
 /** The ways in which the property provides guests with the ability to access the internet. */
 export interface Connectivity {
   /** Wifi available. The hotel provides the ability for guests to wirelessly connect to the internet. Can be in the public areas of the hotel and/or in the guest rooms. Can be free or for a fee. */
-  wifiAvailable?: boolean;
+  wifiAvailable?: boolean | undefined;
   /** Free wifi. The hotel offers guests wifi for free. */
-  freeWifi?: boolean;
+  freeWifi?: boolean | undefined;
   /** Wifi available exception. */
-  wifiAvailableException?: ConnectivityWifiAvailableExceptionEnum | (string & {});
+  wifiAvailableException?: ConnectivityWifiAvailableExceptionEnum | (string & {}) | undefined;
   /** Public internet terminal. An area of the hotel supplied with computers and designated for the purpose of providing guests with the ability to access the internet. */
-  publicInternetTerminal?: boolean;
+  publicInternetTerminal?: boolean | undefined;
   /** Public area wifi available. Guests have the ability to wirelessly connect to the internet in the areas of the hotel accessible to anyone. Can be free or for a fee. */
-  publicAreaWifiAvailable?: boolean;
+  publicAreaWifiAvailable?: boolean | undefined;
   /** Free wifi exception. */
-  freeWifiException?: ConnectivityFreeWifiExceptionEnum | (string & {});
+  freeWifiException?: ConnectivityFreeWifiExceptionEnum | (string & {}) | undefined;
   /** Public area wifi available exception. */
   publicAreaWifiAvailableException?:
     | ConnectivityPublicAreaWifiAvailableExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Public internet terminal exception. */
-  publicInternetTerminalException?: ConnectivityPublicInternetTerminalExceptionEnum | (string & {});
+  publicInternetTerminalException?:
+    | ConnectivityPublicInternetTerminalExceptionEnum
+    | (string & {})
+    | undefined;
 }
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  hours?: number | undefined;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
+  minutes?: number | undefined;
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
+  seconds?: number | undefined;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
+  nanos?: number | undefined;
 }
 export type PoliciesAllInclusiveAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1118,25 +1192,25 @@ export type PaymentOptionsCashExceptionEnum =
 /** Forms of payment accepted at the property. */
 export interface PaymentOptions {
   /** Mobile nfc. The hotel has the compatible computer hardware terminal that reads and charges a payment app on the guest's smartphone without requiring the two devices to make physical contact. Also known as Apple Pay, Google Pay, Samsung Pay. */
-  mobileNfc?: boolean;
+  mobileNfc?: boolean | undefined;
   /** Cheque exception. */
-  chequeException?: PaymentOptionsChequeExceptionEnum | (string & {});
+  chequeException?: PaymentOptionsChequeExceptionEnum | (string & {}) | undefined;
   /** Debit card exception. */
-  debitCardException?: PaymentOptionsDebitCardExceptionEnum | (string & {});
+  debitCardException?: PaymentOptionsDebitCardExceptionEnum | (string & {}) | undefined;
   /** Debit card. The hotel accepts a bank-issued card that immediately deducts the charged funds from the guest's bank account upon processing. */
-  debitCard?: boolean;
+  debitCard?: boolean | undefined;
   /** Mobile nfc exception. */
-  mobileNfcException?: PaymentOptionsMobileNfcExceptionEnum | (string & {});
+  mobileNfcException?: PaymentOptionsMobileNfcExceptionEnum | (string & {}) | undefined;
   /** Credit card. The hotel accepts payment by a card issued by a bank or credit card company. Also known as charge card, debit card, bank card, or charge plate. */
-  creditCard?: boolean;
+  creditCard?: boolean | undefined;
   /** Cash. The hotel accepts payment by paper/coin currency. */
-  cash?: boolean;
+  cash?: boolean | undefined;
   /** Credit card exception. */
-  creditCardException?: PaymentOptionsCreditCardExceptionEnum | (string & {});
+  creditCardException?: PaymentOptionsCreditCardExceptionEnum | (string & {}) | undefined;
   /** Cash exception. */
-  cashException?: PaymentOptionsCashExceptionEnum | (string & {});
+  cashException?: PaymentOptionsCashExceptionEnum | (string & {}) | undefined;
   /** Cheque. The hotel accepts a printed document issued by the guest's bank in the guest's name as a form of payment. */
-  cheque?: boolean;
+  cheque?: boolean | undefined;
 }
 export type PoliciesMaxKidsStayFreeCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1166,39 +1240,45 @@ export type PoliciesSmokeFreePropertyExceptionEnum =
 /** Property rules that impact guests. */
 export interface Policies {
   /** Check-out time. The time of the day on the last day of a guest's reserved stay at which the guest must vacate their room and settle their bill. Some hotels may offer late or early check out for a fee. */
-  checkoutTime?: TimeOfDay;
+  checkoutTime?: TimeOfDay | undefined;
   /** All inclusive available exception. */
-  allInclusiveAvailableException?: PoliciesAllInclusiveAvailableExceptionEnum | (string & {});
+  allInclusiveAvailableException?:
+    | PoliciesAllInclusiveAvailableExceptionEnum
+    | (string & {})
+    | undefined;
   /** Kids stay free exception. */
-  kidsStayFreeException?: PoliciesKidsStayFreeExceptionEnum | (string & {});
+  kidsStayFreeException?: PoliciesKidsStayFreeExceptionEnum | (string & {}) | undefined;
   /** Max child age exception. */
-  maxChildAgeException?: PoliciesMaxChildAgeExceptionEnum | (string & {});
+  maxChildAgeException?: PoliciesMaxChildAgeExceptionEnum | (string & {}) | undefined;
   /** Kids stay free. The children of guests are allowed to stay in the room/suite of a parent or adult without an additional fee. The policy may or may not stipulate a limit of the child's age or the overall number of children allowed. */
-  kidsStayFree?: boolean;
+  kidsStayFree?: boolean | undefined;
   /** Forms of payment accepted at the property. */
-  paymentOptions?: PaymentOptions;
+  paymentOptions?: PaymentOptions | undefined;
   /** Check-in time. The time of the day at which the hotel begins providing guests access to their unit at the beginning of their stay. */
-  checkinTime?: TimeOfDay;
+  checkinTime?: TimeOfDay | undefined;
   /** All inclusive available. The hotel offers a rate option that includes the cost of the room, meals, activities, and other amenities that might otherwise be charged separately. */
-  allInclusiveAvailable?: boolean;
+  allInclusiveAvailable?: boolean | undefined;
   /** Smoke free property. Smoking is not allowed inside the building, on balconies, or in outside spaces. Hotels that offer a designated area for guests to smoke are not considered smoke-free properties. */
-  smokeFreeProperty?: boolean;
+  smokeFreeProperty?: boolean | undefined;
   /** Max kids stay free count exception. */
-  maxKidsStayFreeCountException?: PoliciesMaxKidsStayFreeCountExceptionEnum | (string & {});
+  maxKidsStayFreeCountException?:
+    | PoliciesMaxKidsStayFreeCountExceptionEnum
+    | (string & {})
+    | undefined;
   /** All inclusive only. The only rate option offered by the hotel is a rate that includes the cost of the room, meals, activities and other amenities that might otherwise be charged separately. */
-  allInclusiveOnly?: boolean;
+  allInclusiveOnly?: boolean | undefined;
   /** Check-in time exception. */
-  checkinTimeException?: PoliciesCheckinTimeExceptionEnum | (string & {});
+  checkinTimeException?: PoliciesCheckinTimeExceptionEnum | (string & {}) | undefined;
   /** Max child age. The hotel allows children up to a certain age to stay in the room/suite of a parent or adult without an additional fee. */
-  maxChildAge?: number;
+  maxChildAge?: number | undefined;
   /** All inclusive only exception. */
-  allInclusiveOnlyException?: PoliciesAllInclusiveOnlyExceptionEnum | (string & {});
+  allInclusiveOnlyException?: PoliciesAllInclusiveOnlyExceptionEnum | (string & {}) | undefined;
   /** Max kids stay free count. The hotel allows a specific, defined number of children to stay in the room/suite of a parent or adult without an additional fee. */
-  maxKidsStayFreeCount?: number;
+  maxKidsStayFreeCount?: number | undefined;
   /** Check-out time exception. */
-  checkoutTimeException?: PoliciesCheckoutTimeExceptionEnum | (string & {});
+  checkoutTimeException?: PoliciesCheckoutTimeExceptionEnum | (string & {}) | undefined;
   /** Smoke free property exception. */
-  smokeFreePropertyException?: PoliciesSmokeFreePropertyExceptionEnum | (string & {});
+  smokeFreePropertyException?: PoliciesSmokeFreePropertyExceptionEnum | (string & {}) | undefined;
 }
 export type PetsPetsAllowedExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1223,21 +1303,21 @@ export type PetsDogsAllowedExceptionEnum =
 /** Policies regarding guest-owned animals. */
 export interface Pets {
   /** Pets allowed exception. */
-  petsAllowedException?: PetsPetsAllowedExceptionEnum | (string & {});
+  petsAllowedException?: PetsPetsAllowedExceptionEnum | (string & {}) | undefined;
   /** Cats allowed exception. */
-  catsAllowedException?: PetsCatsAllowedExceptionEnum | (string & {});
+  catsAllowedException?: PetsCatsAllowedExceptionEnum | (string & {}) | undefined;
   /** Dogs allowed. Domesticated canines are permitted at the property and allowed to stay in the guest room of their owner. May or may not require a fee. */
-  dogsAllowed?: boolean;
+  dogsAllowed?: boolean | undefined;
   /** Pets allowed free. Household animals are allowed at the property and in the specific guest room of their owner for free. May or may not include dogs, cats, reptiles, and/or fish. */
-  petsAllowedFree?: boolean;
+  petsAllowedFree?: boolean | undefined;
   /** Pets allowed. Household animals are allowed at the property and in the specific guest room of their owner. May or may not include dogs, cats, reptiles and/or fish. May or may not require a fee. Service animals are not considered to be pets, so not governed by this policy. */
-  petsAllowed?: boolean;
+  petsAllowed?: boolean | undefined;
   /** Pets allowed free exception. */
-  petsAllowedFreeException?: PetsPetsAllowedFreeExceptionEnum | (string & {});
+  petsAllowedFreeException?: PetsPetsAllowedFreeExceptionEnum | (string & {}) | undefined;
   /** Cats allowed. Domesticated felines are permitted at the property and allowed to stay in the guest room of their owner. May or may not require a fee. */
-  catsAllowed?: boolean;
+  catsAllowed?: boolean | undefined;
   /** Dogs allowed exception. */
-  dogsAllowedException?: PetsDogsAllowedExceptionEnum | (string & {});
+  dogsAllowedException?: PetsDogsAllowedExceptionEnum | (string & {}) | undefined;
 }
 export type ServicesConciergeExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1302,11 +1382,11 @@ export type LanguageSpokenSpokenExceptionEnum =
 /** Language spoken by at least one staff member. */
 export interface LanguageSpoken {
   /** Required. The BCP-47 language code for the spoken language. Currently accepted codes: ar, de, en, es, fil, fr, hi, id, it, ja, ko, nl, pt, ru, vi, yue, zh. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Spoken exception. */
-  spokenException?: LanguageSpokenSpokenExceptionEnum | (string & {});
+  spokenException?: LanguageSpokenSpokenExceptionEnum | (string & {}) | undefined;
   /** At least one member of the staff can speak the language. */
-  spoken?: boolean;
+  spoken?: boolean | undefined;
 }
 export type LanguageSpokenList = Array<LanguageSpoken>;
 export type ServicesTwentyFourHourFrontDeskExceptionEnum =
@@ -1317,55 +1397,58 @@ export type ServicesTwentyFourHourFrontDeskExceptionEnum =
 /** Conveniences or help provided by the property to facilitate an easier, more comfortable stay. */
 export interface Services {
   /** Concierge exception. */
-  conciergeException?: ServicesConciergeExceptionEnum | (string & {});
+  conciergeException?: ServicesConciergeExceptionEnum | (string & {}) | undefined;
   /** Currency exchange. A staff member or automated machine tasked with the transaction of providing the native currency of the hotel's locale in exchange for the foreign currency provided by a guest. */
-  currencyExchange?: boolean;
+  currencyExchange?: boolean | undefined;
   /** Baggage storage exception. */
-  baggageStorageException?: ServicesBaggageStorageExceptionEnum | (string & {});
+  baggageStorageException?: ServicesBaggageStorageExceptionEnum | (string & {}) | undefined;
   /** Elevator. A passenger elevator that transports guests from one story to another. Also known as lift. */
-  elevator?: boolean;
+  elevator?: boolean | undefined;
   /** Full service laundry. Laundry and dry cleaning facilitated and handled by the hotel on behalf of the guest. Does not include the provision for guests to do their own laundry in on-site machines. */
-  fullServiceLaundry?: boolean;
+  fullServiceLaundry?: boolean | undefined;
   /** Self service laundry exception. */
-  selfServiceLaundryException?: ServicesSelfServiceLaundryExceptionEnum | (string & {});
+  selfServiceLaundryException?: ServicesSelfServiceLaundryExceptionEnum | (string & {}) | undefined;
   /** Gift shop exception. */
-  giftShopException?: ServicesGiftShopExceptionEnum | (string & {});
+  giftShopException?: ServicesGiftShopExceptionEnum | (string & {}) | undefined;
   /** Elevator exception. */
-  elevatorException?: ServicesElevatorExceptionEnum | (string & {});
+  elevatorException?: ServicesElevatorExceptionEnum | (string & {}) | undefined;
   /** Wake up calls exception. */
-  wakeUpCallsException?: ServicesWakeUpCallsExceptionEnum | (string & {});
+  wakeUpCallsException?: ServicesWakeUpCallsExceptionEnum | (string & {}) | undefined;
   /** Baggage storage. A provision for guests to leave their bags at the hotel when they arrive for their stay before the official check-in time. May or may not apply for guests who wish to leave their bags after check-out and before departing the locale. Also known as bag dropoff. */
-  baggageStorage?: boolean;
+  baggageStorage?: boolean | undefined;
   /** Social hour exception. */
-  socialHourException?: ServicesSocialHourExceptionEnum | (string & {});
+  socialHourException?: ServicesSocialHourExceptionEnum | (string & {}) | undefined;
   /** Concierge. Hotel staff member(s) responsible for facilitating an easy, comfortable stay through making reservations for meals, sourcing theater tickets, arranging tours, finding a doctor, making recommendations, and answering questions. */
-  concierge?: boolean;
+  concierge?: boolean | undefined;
   /** Convenience store exception. */
-  convenienceStoreException?: ServicesConvenienceStoreExceptionEnum | (string & {});
+  convenienceStoreException?: ServicesConvenienceStoreExceptionEnum | (string & {}) | undefined;
   /** Gift shop. An on-site store primarily selling souvenirs, mementos and other gift items. May or may not also sell sundries, magazines and newspapers, clothing, or snacks. */
-  giftShop?: boolean;
+  giftShop?: boolean | undefined;
   /** Front desk exception. */
-  frontDeskException?: ServicesFrontDeskExceptionEnum | (string & {});
+  frontDeskException?: ServicesFrontDeskExceptionEnum | (string & {}) | undefined;
   /** Full service laundry exception. */
-  fullServiceLaundryException?: ServicesFullServiceLaundryExceptionEnum | (string & {});
+  fullServiceLaundryException?: ServicesFullServiceLaundryExceptionEnum | (string & {}) | undefined;
   /** Front desk. A counter or desk in the lobby or the immediate interior of the hotel where a member of the staff greets guests and processes the information related to their stay (including check-in and check-out). May or may not be manned and open 24/7. */
-  frontDesk?: boolean;
+  frontDesk?: boolean | undefined;
   /** Self service laundry. On-site clothes washers and dryers accessible to guests for the purpose of washing and drying their own clothes. May or may not require payment to use the machines. */
-  selfServiceLaundry?: boolean;
+  selfServiceLaundry?: boolean | undefined;
   /** Social hour. A reception with complimentary soft drinks, tea, coffee, wine and/or cocktails in the afternoon or evening. Can be hosted by hotel staff or guests may serve themselves. Also known as wine hour. The availability of coffee/tea in the lobby throughout the day does not constitute a social or wine hour. */
-  socialHour?: boolean;
+  socialHour?: boolean | undefined;
   /** Currency exchange exception. */
-  currencyExchangeException?: ServicesCurrencyExchangeExceptionEnum | (string & {});
+  currencyExchangeException?: ServicesCurrencyExchangeExceptionEnum | (string & {}) | undefined;
   /** Languages spoken by at least one staff member. */
-  languagesSpoken?: LanguageSpokenList;
+  languagesSpoken?: LanguageSpokenList | undefined;
   /** 24hr front desk exception. */
-  twentyFourHourFrontDeskException?: ServicesTwentyFourHourFrontDeskExceptionEnum | (string & {});
+  twentyFourHourFrontDeskException?:
+    | ServicesTwentyFourHourFrontDeskExceptionEnum
+    | (string & {})
+    | undefined;
   /** Wake up calls. By direction of the guest, a hotel staff member will phone the guest unit at the requested hour. Also known as morning call. */
-  wakeUpCalls?: boolean;
+  wakeUpCalls?: boolean | undefined;
   /** 24hr front desk. Front desk is staffed 24 hours a day. */
-  twentyFourHourFrontDesk?: boolean;
+  twentyFourHourFrontDesk?: boolean | undefined;
   /** Convenience store. A shop at the hotel primarily selling snacks, drinks, non-prescription medicines, health and beauty aids, magazines and newspapers. */
-  convenienceStore?: boolean;
+  convenienceStore?: boolean | undefined;
 }
 export type ParkingValetParkingAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1405,35 +1488,42 @@ export type ParkingParkingAvailableExceptionEnum =
 /** Parking options at the property. */
 export interface Parking {
   /** Valet parking available. Hotel staff member parks the cars of guests. Parking with this service can be free or for a fee. */
-  valetParkingAvailable?: boolean;
+  valetParkingAvailable?: boolean | undefined;
   /** Parking available. The hotel allows the cars of guests to be parked. Can be free or for a fee. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Parking may be performed by the guest or by hotel staff. */
-  parkingAvailable?: boolean;
+  parkingAvailable?: boolean | undefined;
   /** Self parking available. Guests park their own cars. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Can be free or for a fee. */
-  selfParkingAvailable?: boolean;
+  selfParkingAvailable?: boolean | undefined;
   /** Valet parking available exception. */
-  valetParkingAvailableException?: ParkingValetParkingAvailableExceptionEnum | (string & {});
+  valetParkingAvailableException?:
+    | ParkingValetParkingAvailableExceptionEnum
+    | (string & {})
+    | undefined;
   /** Free parking exception. */
-  freeParkingException?: ParkingFreeParkingExceptionEnum | (string & {});
+  freeParkingException?: ParkingFreeParkingExceptionEnum | (string & {}) | undefined;
   /** Free parking. The hotel allows the cars of guests to be parked for free. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. Parking may be performed by the guest or by hotel staff. Free parking must be available to all guests (limited conditions does not apply). */
-  freeParking?: boolean;
+  freeParking?: boolean | undefined;
   /** Free self parking. Guests park their own cars for free. Parking facility may be an outdoor lot or an indoor garage, but must be onsite. Nearby parking does not apply. */
-  freeSelfParking?: boolean;
+  freeSelfParking?: boolean | undefined;
   /** Free valet parking. Hotel staff member parks the cars of guests. Parking with this service is free. */
-  freeValetParking?: boolean;
+  freeValetParking?: boolean | undefined;
   /** Free self parking exception. */
-  freeSelfParkingException?: ParkingFreeSelfParkingExceptionEnum | (string & {});
+  freeSelfParkingException?: ParkingFreeSelfParkingExceptionEnum | (string & {}) | undefined;
   /** Free valet parking exception. */
-  freeValetParkingException?: ParkingFreeValetParkingExceptionEnum | (string & {});
+  freeValetParkingException?: ParkingFreeValetParkingExceptionEnum | (string & {}) | undefined;
   /** Electric car charging stations exception. */
   electricCarChargingStationsException?:
     | ParkingElectricCarChargingStationsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Self parking available exception. */
-  selfParkingAvailableException?: ParkingSelfParkingAvailableExceptionEnum | (string & {});
+  selfParkingAvailableException?:
+    | ParkingSelfParkingAvailableExceptionEnum
+    | (string & {})
+    | undefined;
   /** Parking available exception. */
-  parkingAvailableException?: ParkingParkingAvailableExceptionEnum | (string & {});
+  parkingAvailableException?: ParkingParkingAvailableExceptionEnum | (string & {}) | undefined;
   /** Electric car charging stations. Electric power stations, usually located outdoors, into which guests plug their electric cars to receive a charge. */
-  electricCarChargingStations?: boolean;
+  electricCarChargingStations?: boolean | undefined;
 }
 export type AccessibilityMobilityAccessibleElevatorExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1460,25 +1550,31 @@ export interface Accessibility {
   /** Mobility accessible elevator exception. */
   mobilityAccessibleElevatorException?:
     | AccessibilityMobilityAccessibleElevatorExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Mobility accessible pool exception. */
   mobilityAccessiblePoolException?:
     | AccessibilityMobilityAccessiblePoolExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Mobility accessible elevator. A lift that transports people from one level to another and is built to accommodate a wheelchair-using passenger owing to the width of its doors and placement of call buttons. */
-  mobilityAccessibleElevator?: boolean;
+  mobilityAccessibleElevator?: boolean | undefined;
   /** Mobility accessible. Throughout the property there are physical adaptations to ease the stay of a person in a wheelchair, such as auto-opening doors, wide elevators, wide bathrooms or ramps. */
-  mobilityAccessible?: boolean;
+  mobilityAccessible?: boolean | undefined;
   /** Mobility accessible exception. */
-  mobilityAccessibleException?: AccessibilityMobilityAccessibleExceptionEnum | (string & {});
+  mobilityAccessibleException?:
+    | AccessibilityMobilityAccessibleExceptionEnum
+    | (string & {})
+    | undefined;
   /** Mobility accessible parking. The presence of a marked, designated area of prescribed size in which only registered, labeled vehicles transporting a person with physical challenges may park. */
-  mobilityAccessibleParking?: boolean;
+  mobilityAccessibleParking?: boolean | undefined;
   /** Mobility accessible pool. A swimming pool equipped with a mechanical chair that can be lowered and raised for the purpose of moving physically challenged guests into and out of the pool. May be powered by electricity or water. Also known as pool lift. */
-  mobilityAccessiblePool?: boolean;
+  mobilityAccessiblePool?: boolean | undefined;
   /** Mobility accessible parking exception. */
   mobilityAccessibleParkingException?:
     | AccessibilityMobilityAccessibleParkingExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type FoodAndDrinkBreakfastAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1543,60 +1639,64 @@ export type FoodAndDrinkBarExceptionEnum =
 /** Meals, snacks, and beverages available at the property. */
 export interface FoodAndDrink {
   /** Breakfast available exception. */
-  breakfastAvailableException?: FoodAndDrinkBreakfastAvailableExceptionEnum | (string & {});
+  breakfastAvailableException?:
+    | FoodAndDrinkBreakfastAvailableExceptionEnum
+    | (string & {})
+    | undefined;
   /** Room service. A hotel staffer delivers meals prepared onsite to a guest's room as per their request. May or may not be available during specific hours. Services should be available to all guests (not based on rate/room booked/reward program, etc). */
-  roomService?: boolean;
+  roomService?: boolean | undefined;
   /** Buffet. A type of meal where guests serve themselves from a variety of dishes/foods that are put out on a table. Includes lunch and/or dinner meals. A breakfast-only buffet is not sufficient. */
-  buffet?: boolean;
+  buffet?: boolean | undefined;
   /** Restaurant exception. */
-  restaurantException?: FoodAndDrinkRestaurantExceptionEnum | (string & {});
+  restaurantException?: FoodAndDrinkRestaurantExceptionEnum | (string & {}) | undefined;
   /** Breakfast buffet exception. */
-  breakfastBuffetException?: FoodAndDrinkBreakfastBuffetExceptionEnum | (string & {});
+  breakfastBuffetException?: FoodAndDrinkBreakfastBuffetExceptionEnum | (string & {}) | undefined;
   /** Free breakfast exception. */
-  freeBreakfastException?: FoodAndDrinkFreeBreakfastExceptionEnum | (string & {});
+  freeBreakfastException?: FoodAndDrinkFreeBreakfastExceptionEnum | (string & {}) | undefined;
   /** Buffet exception. */
-  buffetException?: FoodAndDrinkBuffetExceptionEnum | (string & {});
+  buffetException?: FoodAndDrinkBuffetExceptionEnum | (string & {}) | undefined;
   /** Restaurants count exception. */
-  restaurantsCountException?: FoodAndDrinkRestaurantsCountExceptionEnum | (string & {});
+  restaurantsCountException?: FoodAndDrinkRestaurantsCountExceptionEnum | (string & {}) | undefined;
   /** Breakfast available. The morning meal is offered to all guests. Can be free or for a fee. */
-  breakfastAvailable?: boolean;
+  breakfastAvailable?: boolean | undefined;
   /** Restaurants count. The number of restaurants at the hotel. */
-  restaurantsCount?: number;
+  restaurantsCount?: number | undefined;
   /** Restaurant. A business onsite at the hotel that is open to the public as well as guests, and offers meals and beverages to consume at tables or counters. May or may not include table service. Also known as cafe, buffet, eatery. A "breakfast room" where the hotel serves breakfast only to guests (not the general public) does not count as a restaurant. */
-  restaurant?: boolean;
+  restaurant?: boolean | undefined;
   /** Table service. A restaurant in which a staff member is assigned to a guest's table to take their order, deliver and clear away food, and deliver the bill, if applicable. Also known as sit-down restaurant. */
-  tableService?: boolean;
+  tableService?: boolean | undefined;
   /** Vending machine. A glass-fronted mechanized cabinet displaying and dispensing snacks and beverages for purchase by coins, paper money and/or credit cards. */
-  vendingMachine?: boolean;
+  vendingMachine?: boolean | undefined;
   /** Room service exception. */
-  roomServiceException?: FoodAndDrinkRoomServiceExceptionEnum | (string & {});
+  roomServiceException?: FoodAndDrinkRoomServiceExceptionEnum | (string & {}) | undefined;
   /** Vending machine exception. */
-  vendingMachineException?: FoodAndDrinkVendingMachineExceptionEnum | (string & {});
+  vendingMachineException?: FoodAndDrinkVendingMachineExceptionEnum | (string & {}) | undefined;
   /** Table service exception. */
-  tableServiceException?: FoodAndDrinkTableServiceExceptionEnum | (string & {});
+  tableServiceException?: FoodAndDrinkTableServiceExceptionEnum | (string & {}) | undefined;
   /** Free breakfast. Breakfast is offered for free to all guests. Does not apply if limited to certain room packages. */
-  freeBreakfast?: boolean;
+  freeBreakfast?: boolean | undefined;
   /** 24hr room service exception. */
   twentyFourHourRoomServiceException?:
     | FoodAndDrinkTwentyFourHourRoomServiceExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Dinner buffet. Dinner meal service where guests serve themselves from a variety of dishes/foods that are put out on a table. */
-  dinnerBuffet?: boolean;
+  dinnerBuffet?: boolean | undefined;
   /** Dinner buffet exception. */
-  dinnerBuffetException?: FoodAndDrinkDinnerBuffetExceptionEnum | (string & {});
+  dinnerBuffetException?: FoodAndDrinkDinnerBuffetExceptionEnum | (string & {}) | undefined;
   /** 24hr room service. Room service is available 24 hours a day. */
-  twentyFourHourRoomService?: boolean;
+  twentyFourHourRoomService?: boolean | undefined;
   /** Bar. A designated room, lounge or area of an on-site restaurant with seating at a counter behind which a hotel staffer takes the guest's order and provides the requested alcoholic drink. Can be indoors or outdoors. Also known as Pub. */
-  bar?: boolean;
+  bar?: boolean | undefined;
   /** Breakfast buffet. Breakfast meal service where guests serve themselves from a variety of dishes/foods that are put out on a table. */
-  breakfastBuffet?: boolean;
+  breakfastBuffet?: boolean | undefined;
   /** Bar exception. */
-  barException?: FoodAndDrinkBarExceptionEnum | (string & {});
+  barException?: FoodAndDrinkBarExceptionEnum | (string & {}) | undefined;
 }
 /** Metadata for the Lodging. */
 export interface LodgingMetadata {
   /** Required. The latest time at which the Lodging data is asserted to be true in the real world. This is not necessarily the time at which the request is made. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export type BusinessMeetingRoomsExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1616,17 +1716,17 @@ export type BusinessMeetingRoomsCountExceptionEnum =
 /** Features of the property of specific interest to the business traveler. */
 export interface Business {
   /** Meeting rooms. Rooms at the hotel designated for business-related gatherings. Rooms are usually equipped with tables or desks, office chairs and audio/visual facilities to allow for presentations and conference calls. Also known as conference rooms. */
-  meetingRooms?: boolean;
+  meetingRooms?: boolean | undefined;
   /** Meeting rooms exception. */
-  meetingRoomsException?: BusinessMeetingRoomsExceptionEnum | (string & {});
+  meetingRoomsException?: BusinessMeetingRoomsExceptionEnum | (string & {}) | undefined;
   /** Business center exception. */
-  businessCenterException?: BusinessBusinessCenterExceptionEnum | (string & {});
+  businessCenterException?: BusinessBusinessCenterExceptionEnum | (string & {}) | undefined;
   /** Meeting rooms count. The number of meeting rooms at the property. */
-  meetingRoomsCount?: number;
+  meetingRoomsCount?: number | undefined;
   /** Meeting rooms count exception. */
-  meetingRoomsCountException?: BusinessMeetingRoomsCountExceptionEnum | (string & {});
+  meetingRoomsCountException?: BusinessMeetingRoomsCountExceptionEnum | (string & {}) | undefined;
   /** Business center. A designated room at the hotel with one or more desks and equipped with guest-use computers, printers, fax machines and/or photocopiers. May or may not be open 24/7. May or may not require a key to access. Not a meeting room or conference room. */
-  businessCenter?: boolean;
+  businessCenter?: boolean | undefined;
 }
 export type HousekeepingHousekeepingAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1646,17 +1746,23 @@ export type HousekeepingTurndownServiceExceptionEnum =
 /** Conveniences provided in guest units to facilitate an easier, more comfortable stay. */
 export interface Housekeeping {
   /** Daily housekeeping. Guest units are cleaned by hotel staff daily during guest's stay. */
-  dailyHousekeeping?: boolean;
+  dailyHousekeeping?: boolean | undefined;
   /** Housekeeping available exception. */
-  housekeepingAvailableException?: HousekeepingHousekeepingAvailableExceptionEnum | (string & {});
+  housekeepingAvailableException?:
+    | HousekeepingHousekeepingAvailableExceptionEnum
+    | (string & {})
+    | undefined;
   /** Daily housekeeping exception. */
-  dailyHousekeepingException?: HousekeepingDailyHousekeepingExceptionEnum | (string & {});
+  dailyHousekeepingException?:
+    | HousekeepingDailyHousekeepingExceptionEnum
+    | (string & {})
+    | undefined;
   /** Turndown service. Hotel staff enters guest units to prepare the bed for sleep use. May or may not include some light housekeeping. May or may not include an evening snack or candy. Also known as evening service. */
-  turndownService?: boolean;
+  turndownService?: boolean | undefined;
   /** Turndown service exception. */
-  turndownServiceException?: HousekeepingTurndownServiceExceptionEnum | (string & {});
+  turndownServiceException?: HousekeepingTurndownServiceExceptionEnum | (string & {}) | undefined;
   /** Housekeeping available. Guest units are cleaned by hotel staff during guest's stay. Schedule may vary from daily, weekly, or specific days of the week. */
-  housekeepingAvailable?: boolean;
+  housekeepingAvailable?: boolean | undefined;
 }
 export type SustainabilityCertificationsLeedCertificationExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1713,11 +1819,11 @@ export type EcoCertificationAwardedExceptionEnum =
 /** An eco certificate awarded to the hotel. Deprecated: this message is no longer populated. All certification data is now provided by BeCause. */
 export interface EcoCertification {
   /** Required. The eco certificate. */
-  ecoCertificate?: EcoCertificationEcoCertificateEnum | (string & {});
+  ecoCertificate?: EcoCertificationEcoCertificateEnum | (string & {}) | undefined;
   /** Whether the eco certificate was awarded or not. */
-  awarded?: boolean;
+  awarded?: boolean | undefined;
   /** Awarded exception. */
-  awardedException?: EcoCertificationAwardedExceptionEnum | (string & {});
+  awardedException?: EcoCertificationAwardedExceptionEnum | (string & {}) | undefined;
 }
 export type EcoCertificationList = Array<EcoCertification>;
 export type SustainabilityCertificationsLeedCertificationEnum =
@@ -1732,17 +1838,22 @@ export interface SustainabilityCertifications {
   /** LEED certification exception. */
   leedCertificationException?:
     | SustainabilityCertificationsLeedCertificationExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** BREEAM certification. */
-  breeamCertification?: SustainabilityCertificationsBreeamCertificationEnum | (string & {});
+  breeamCertification?:
+    | SustainabilityCertificationsBreeamCertificationEnum
+    | (string & {})
+    | undefined;
   /** BREEAM certification exception. */
   breeamCertificationException?:
     | SustainabilityCertificationsBreeamCertificationExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The eco certificates awarded to the hotel. */
-  ecoCertifications?: EcoCertificationList;
+  ecoCertifications?: EcoCertificationList | undefined;
   /** LEED certification. */
-  leedCertification?: SustainabilityCertificationsLeedCertificationEnum | (string & {});
+  leedCertification?: SustainabilityCertificationsLeedCertificationEnum | (string & {}) | undefined;
 }
 export type WaterConservationTowelReuseProgramExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1777,31 +1888,47 @@ export type WaterConservationWaterSavingSinksExceptionEnum =
 /** Water conservation practices implemented at the hotel. */
 export interface WaterConservation {
   /** Water saving sinks. All of the property's guest rooms have bathroom faucets that use a maximum of 1.5 gallons per minute (gpm), public restroom faucets do not exceed 0.5 gpm, and kitchen faucets (excluding faucets used exclusively for filling operations) do not exceed 2.2 gpm. */
-  waterSavingSinks?: boolean;
+  waterSavingSinks?: boolean | undefined;
   /** Water saving showers. All of the property's guest rooms have shower heads that use no more than 2.0 gallons per minute (gpm). */
-  waterSavingShowers?: boolean;
+  waterSavingShowers?: boolean | undefined;
   /** Towel reuse program exception. */
-  towelReuseProgramException?: WaterConservationTowelReuseProgramExceptionEnum | (string & {});
+  towelReuseProgramException?:
+    | WaterConservationTowelReuseProgramExceptionEnum
+    | (string & {})
+    | undefined;
   /** Independent organization audits water use exception. */
   independentOrganizationAuditsWaterUseException?:
     | WaterConservationIndependentOrganizationAuditsWaterUseExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Towel reuse program. The property offers a towel reuse program. */
-  towelReuseProgram?: boolean;
+  towelReuseProgram?: boolean | undefined;
   /** Linen reuse program. The property offers a linen reuse program. */
-  linenReuseProgram?: boolean;
+  linenReuseProgram?: boolean | undefined;
   /** Water saving toilets exception. */
-  waterSavingToiletsException?: WaterConservationWaterSavingToiletsExceptionEnum | (string & {});
+  waterSavingToiletsException?:
+    | WaterConservationWaterSavingToiletsExceptionEnum
+    | (string & {})
+    | undefined;
   /** Linen reuse program exception. */
-  linenReuseProgramException?: WaterConservationLinenReuseProgramExceptionEnum | (string & {});
+  linenReuseProgramException?:
+    | WaterConservationLinenReuseProgramExceptionEnum
+    | (string & {})
+    | undefined;
   /** Independent organization audits water use. The property conducts a water conservation audit every 5 years, the results of which are either verified by a third-party and/or published in external communications. A water conservation audit is a detailed assessment of the facility, providing recommendations to existing operations and procedures to improve water efficiency, available incentives or rebates, and opportunities for improvements through renovations or upgrades. Examples of organizations who conduct credible third party audits include: Engie Impact, and local utility providers (they often provide energy and water audits). */
-  independentOrganizationAuditsWaterUse?: boolean;
+  independentOrganizationAuditsWaterUse?: boolean | undefined;
   /** Water saving showers exception. */
-  waterSavingShowersException?: WaterConservationWaterSavingShowersExceptionEnum | (string & {});
+  waterSavingShowersException?:
+    | WaterConservationWaterSavingShowersExceptionEnum
+    | (string & {})
+    | undefined;
   /** Water saving sinks exception. */
-  waterSavingSinksException?: WaterConservationWaterSavingSinksExceptionEnum | (string & {});
+  waterSavingSinksException?:
+    | WaterConservationWaterSavingSinksExceptionEnum
+    | (string & {})
+    | undefined;
   /** Water saving toilets. All of the property's toilets use 1.6 gallons per flush, or less. */
-  waterSavingToilets?: boolean;
+  waterSavingToilets?: boolean | undefined;
 }
 export type SustainableSourcingResponsiblePurchasingPolicyExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1846,49 +1973,58 @@ export type SustainableSourcingResponsiblySourcesSeafoodExceptionEnum =
 /** Sustainable sourcing practices implemented at the hotel. */
 export interface SustainableSourcing {
   /** Responsibly sources seafood. The property does not source seafood from the Monterey Bay Aquarium Seafood Watch "avoid" list, and must sustainably source seafood listed as "good alternative," "eco-certified," and "best choice". The property has a policy outlining a commitment to source Marine Stewardship Council (MSC) and/or Aquaculture Stewardship Council (ASC) Chain of Custody certified seafood. */
-  responsiblySourcesSeafood?: boolean;
+  responsiblySourcesSeafood?: boolean | undefined;
   /** Vegetarian meals. The property provides vegetarian menu options for guests. Vegetarian food does not contain meat, poultry, fish, or seafood. */
-  vegetarianMeals?: boolean;
+  vegetarianMeals?: boolean | undefined;
   /** Responsible purchasing policy exception. */
   responsiblePurchasingPolicyException?:
     | SustainableSourcingResponsiblePurchasingPolicyExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Vegetarian meals exception. */
-  vegetarianMealsException?: SustainableSourcingVegetarianMealsExceptionEnum | (string & {});
+  vegetarianMealsException?:
+    | SustainableSourcingVegetarianMealsExceptionEnum
+    | (string & {})
+    | undefined;
   /** Eco friendly toiletries exception. */
   ecoFriendlyToiletriesException?:
     | SustainableSourcingEcoFriendlyToiletriesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Vegan meals exception. */
-  veganMealsException?: SustainableSourcingVeganMealsExceptionEnum | (string & {});
+  veganMealsException?: SustainableSourcingVeganMealsExceptionEnum | (string & {}) | undefined;
   /** Organic food and beverages exception. */
   organicFoodAndBeveragesException?:
     | SustainableSourcingOrganicFoodAndBeveragesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Organic food and beverages. At least 25% of food and beverages, by spend, are certified organic. Organic means products that are certified to one of the organic standard listed in the IFOAM family of standards. Qualifying certifications include USDA Organic and EU Organic, among others. */
-  organicFoodAndBeverages?: boolean;
+  organicFoodAndBeverages?: boolean | undefined;
   /** Locally sourced food and beverages. Property sources locally in order to lower the environmental footprint from reduced transportation and to stimulate the local economy. Products produced less than 62 miles from the establishment are normally considered as locally produced. */
-  locallySourcedFoodAndBeverages?: boolean;
+  locallySourcedFoodAndBeverages?: boolean | undefined;
   /** Organic cage free eggs. The property sources 100% certified organic and cage-free eggs (shell, liquid, and egg products). Cage-free means hens are able to walk, spread their wings and lay their eggs in nests). */
-  organicCageFreeEggs?: boolean;
+  organicCageFreeEggs?: boolean | undefined;
   /** Eco friendly toiletries. Soap, shampoo, lotion, and other toiletries provided for guests have a nationally or internationally recognized sustainability certification, such as USDA Organic, EU Organic, or cruelty-free. */
-  ecoFriendlyToiletries?: boolean;
+  ecoFriendlyToiletries?: boolean | undefined;
   /** Responsible purchasing policy. The property has a responsible procurement policy in place. Responsible means integration of social, ethical, and/or environmental performance factors into the procurement process when selecting suppliers. */
-  responsiblePurchasingPolicy?: boolean;
+  responsiblePurchasingPolicy?: boolean | undefined;
   /** Locally sourced food and beverages exception. */
   locallySourcedFoodAndBeveragesException?:
     | SustainableSourcingLocallySourcedFoodAndBeveragesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Organic cage free eggs exception. */
   organicCageFreeEggsException?:
     | SustainableSourcingOrganicCageFreeEggsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Responsibly sources seafood exception. */
   responsiblySourcesSeafoodException?:
     | SustainableSourcingResponsiblySourcesSeafoodExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Vegan meals. The property provides vegan menu options for guests. Vegan food does not contain animal products or byproducts. */
-  veganMeals?: boolean;
+  veganMeals?: boolean | undefined;
 }
 export type WasteReductionToiletryDonationProgramExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -1975,91 +2111,115 @@ export interface WasteReduction {
   /** Toiletry donation program exception. */
   toiletryDonationProgramException?:
     | WasteReductionToiletryDonationProgramExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Refillable toiletry containers exception. */
   refillableToiletryContainersException?:
     | WasteReductionRefillableToiletryContainersExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Toiletry donation program. The property participates in a toiletry donation program such as Clean the World or something similar. */
-  toiletryDonationProgram?: boolean;
+  toiletryDonationProgram?: boolean | undefined;
   /** Recycling program exception. */
-  recyclingProgramException?: WasteReductionRecyclingProgramExceptionEnum | (string & {});
+  recyclingProgramException?:
+    | WasteReductionRecyclingProgramExceptionEnum
+    | (string & {})
+    | undefined;
   /** Donates excess food. The property has a program and/or policy for diverting waste from landfill that may include efforts to donate for human consumption or divert food for animal feed. */
-  donatesExcessFood?: boolean;
+  donatesExcessFood?: boolean | undefined;
   /** Donates excess food exception. */
-  donatesExcessFoodException?: WasteReductionDonatesExcessFoodExceptionEnum | (string & {});
+  donatesExcessFoodException?:
+    | WasteReductionDonatesExcessFoodExceptionEnum
+    | (string & {})
+    | undefined;
   /** No single use plastic straws exception. */
   noSingleUsePlasticStrawsException?:
     | WasteReductionNoSingleUsePlasticStrawsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Safely disposes lightbulbs exception. */
   safelyDisposesLightbulbsException?:
     | WasteReductionSafelyDisposesLightbulbsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Safely disposes batteries exception. */
   safelyDisposesBatteriesException?:
     | WasteReductionSafelyDisposesBatteriesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Composts excess food exception. */
-  compostsExcessFoodException?: WasteReductionCompostsExcessFoodExceptionEnum | (string & {});
+  compostsExcessFoodException?:
+    | WasteReductionCompostsExcessFoodExceptionEnum
+    | (string & {})
+    | undefined;
   /** Food waste reduction program. The property has established a food waste reduction and donation program, aiming to reduce food waste by half. These programs typically use tools such as the Hotel Kitchen Toolkit and others to track waste and measure progress. */
-  foodWasteReductionProgram?: boolean;
+  foodWasteReductionProgram?: boolean | undefined;
   /** Soap donation program. The property participates in a soap donation program such as Clean the World or something similar. */
-  soapDonationProgram?: boolean;
+  soapDonationProgram?: boolean | undefined;
   /** No single use plastic water bottles. The property bans single-use plastic water bottles. */
-  noSingleUsePlasticWaterBottles?: boolean;
+  noSingleUsePlasticWaterBottles?: boolean | undefined;
   /** Composts excess food. The property has a program and/or policy for diverting waste from landfill by composting food and yard waste, either through compost collection and off-site processing or on-site compost processing. */
-  compostsExcessFood?: boolean;
+  compostsExcessFood?: boolean | undefined;
   /** Refillable toiletry containers. The property has replaced miniature individual containers with refillable amenity dispensers for shampoo, conditioner, soap, and lotion. */
-  refillableToiletryContainers?: boolean;
+  refillableToiletryContainers?: boolean | undefined;
   /** Safely disposes electronics exception. */
   safelyDisposesElectronicsException?:
     | WasteReductionSafelyDisposesElectronicsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Safely disposes batteries. The property safely stores and disposes batteries. */
-  safelyDisposesBatteries?: boolean;
+  safelyDisposesBatteries?: boolean | undefined;
   /** No styrofoam food containers exception. */
   noStyrofoamFoodContainersException?:
     | WasteReductionNoStyrofoamFoodContainersExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Safely handles hazardous substances exception. */
   safelyHandlesHazardousSubstancesException?:
     | WasteReductionSafelyHandlesHazardousSubstancesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** No single use plastic straws. The property bans single-use plastic straws. */
-  noSingleUsePlasticStraws?: boolean;
+  noSingleUsePlasticStraws?: boolean | undefined;
   /** Safely disposes electronics. The property has a reputable recycling program that keeps hazardous electronic parts and chemical compounds out of landfills, dumps and other unauthorized abandonment sites, and recycles/reuses applicable materials. (e.g. certified electronics recyclers). */
-  safelyDisposesElectronics?: boolean;
+  safelyDisposesElectronics?: boolean | undefined;
   /** No styrofoam food containers. The property eliminates the use of Styrofoam in disposable food service items. */
-  noStyrofoamFoodContainers?: boolean;
+  noStyrofoamFoodContainers?: boolean | undefined;
   /** Safely handles hazardous substances. The property has a hazardous waste management program aligned wit GreenSeal and LEED requirements, and meets all regulatory requirements for hazardous waste disposal and recycling. Hazardous means substances that are classified as "hazardous" by an authoritative body (such as OSHA or DOT), are labeled with signal words such as "Danger," "Caution," "Warning," or are flammable, corrosive, or ignitable. Requirements include: - The property shall maintain records of the efforts it has made to replace the hazardous substances it uses with less hazardous alternatives. - An inventory of the hazardous materials stored on-site. - Products intended for cleaning, dishwashing, laundry, and pool maintenance shall be stored in clearly labeled containers. These containers shall be checked regularly for leaks, and replaced a necessary. - Spill containment devices shall be installed to collect spills, drips, or leaching of chemicals. */
-  safelyHandlesHazardousSubstances?: boolean;
+  safelyHandlesHazardousSubstances?: boolean | undefined;
   /** Soap donation program exception. */
-  soapDonationProgramException?: WasteReductionSoapDonationProgramExceptionEnum | (string & {});
+  soapDonationProgramException?:
+    | WasteReductionSoapDonationProgramExceptionEnum
+    | (string & {})
+    | undefined;
   /** Recycling program. The property has a recycling program, aligned with LEED waste requirements, and a policy outlining efforts to send less than 50% of waste to landfill. The recycling program includes storage locations for recyclable materials, including mixed paper, corrugated cardboard, glass, plastics, and metals. */
-  recyclingProgram?: boolean;
+  recyclingProgram?: boolean | undefined;
   /** Water bottle filling stations. The property offers water stations throughout the building for guest use. */
-  waterBottleFillingStations?: boolean;
+  waterBottleFillingStations?: boolean | undefined;
   /** Food waste reduction program exception. */
   foodWasteReductionProgramException?:
     | WasteReductionFoodWasteReductionProgramExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Compostable food containers and cutlery exception. */
   compostableFoodContainersAndCutleryException?:
     | WasteReductionCompostableFoodContainersAndCutleryExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** No single use plastic water bottles exception. */
   noSingleUsePlasticWaterBottlesException?:
     | WasteReductionNoSingleUsePlasticWaterBottlesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Water bottle filling stations exception. */
   waterBottleFillingStationsException?:
     | WasteReductionWaterBottleFillingStationsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Compostable food containers and cutlery. 100% of food service containers and to-go cutlery are compostable, and reusable utensils are offered wherever possible. Compostable materials are capable of undergoing biological decomposition in a compost site, such that material is not visually distinguishable and breaks down into carbon dioxide, water, inorganic compounds, and biomass. */
-  compostableFoodContainersAndCutlery?: boolean;
+  compostableFoodContainersAndCutlery?: boolean | undefined;
   /** Safely disposes lightbulbs. The property safely stores and disposes lightbulbs. */
-  safelyDisposesLightbulbs?: boolean;
+  safelyDisposesLightbulbs?: boolean | undefined;
 }
 export type EnergyEfficiencyEnergyConservationProgramExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2099,58 +2259,67 @@ export type EnergyEfficiencyCarbonFreeEnergySourcesExceptionEnum =
 /** Energy efficiency practices implemented at the hotel. */
 export interface EnergyEfficiency {
   /** Energy efficient lighting. At least 75% of the property's lighting is energy efficient, using lighting that is more than 45 lumens per watt - typically LED or CFL lightbulbs. */
-  energyEfficientLighting?: boolean;
+  energyEfficientLighting?: boolean | undefined;
   /** Energy conservation program exception. */
   energyConservationProgramException?:
     | EnergyEfficiencyEnergyConservationProgramExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Carbon free energy sources. Property sources carbon-free electricity via at least one of the following methods: on-site clean energy generation, power purchase agreement(s) with clean energy generators, green power provided by electricity supplier, or purchases of Energy Attribute Certificates (such as Renewable Energy Certificates or Guarantees of Origin). */
-  carbonFreeEnergySources?: boolean;
+  carbonFreeEnergySources?: boolean | undefined;
   /** Energy efficient heating and cooling systems exception. */
   energyEfficientHeatingAndCoolingSystemsException?:
     | EnergyEfficiencyEnergyEfficientHeatingAndCoolingSystemsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Energy efficient heating and cooling systems. The property doesn't use chlorofluorocarbon (CFC)-based refrigerants in heating, ventilating, and air-conditioning systems unless a third-party audit shows it's not economically feasible. The CFC-based refrigerants which are used should have a Global Warming Potential (GWP) <= 10. The property uses occupancy sensors on HVAC systems in back-of-house spaces, meeting rooms, and other low-traffic areas. */
-  energyEfficientHeatingAndCoolingSystems?: boolean;
+  energyEfficientHeatingAndCoolingSystems?: boolean | undefined;
   /** Output only. Green building design exception. */
-  greenBuildingDesignException?: EnergyEfficiencyGreenBuildingDesignExceptionEnum | (string & {});
+  greenBuildingDesignException?:
+    | EnergyEfficiencyGreenBuildingDesignExceptionEnum
+    | (string & {})
+    | undefined;
   /** Independent organization audits energy use. The property conducts an energy audit at least every 5 years, the results of which are either verified by a third-party and/or published in external communications. An energy audit is a detailed assessment of the facility which provides recommendations to existing operations and procedures to improve energy efficiency, available incentives or rebates,and opportunities for improvements through renovations or upgrades. Examples of organizations that conduct credible third party audits include: Engie Impact, DNV GL (EU), Dexma, and local utility providers (they often provide energy and water audits). */
-  independentOrganizationAuditsEnergyUse?: boolean;
+  independentOrganizationAuditsEnergyUse?: boolean | undefined;
   /** Energy saving thermostats. The property installed energy-saving thermostats throughout the building to conserve energy when rooms or areas are not in use. Energy-saving thermostats are devices that control heating/cooling in the building by learning temperature preferences and automatically adjusting to energy-saving temperatures as the default. The thermostats are automatically set to a temperature between 68-78 degrees F (20-26 °C), depending on seasonality. In the winter, set the thermostat to 68°F (20°C) when the room is occupied, lowering room temperature when unoccupied. In the summer, set the thermostat to 78°F (26°C) when the room is occupied. */
-  energySavingThermostats?: boolean;
+  energySavingThermostats?: boolean | undefined;
   /** Independent organization audits energy use exception. */
   independentOrganizationAuditsEnergyUseException?:
     | EnergyEfficiencyIndependentOrganizationAuditsEnergyUseExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Energy efficient lighting exception. */
   energyEfficientLightingException?:
     | EnergyEfficiencyEnergyEfficientLightingExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Energy saving thermostats exception. */
   energySavingThermostatsException?:
     | EnergyEfficiencyEnergySavingThermostatsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Energy conservation program. The property tracks corporate-level Scope 1 and 2 GHG emissions, and Scope 3 emissions if available. The property has a commitment to implement initiatives that reduce GHG emissions year over year. The property has shown an absolute reduction in emissions for at least 2 years. Emissions are either verfied by a third-party and/or published in external communications. */
-  energyConservationProgram?: boolean;
+  energyConservationProgram?: boolean | undefined;
   /** Carbon free energy sources exception. */
   carbonFreeEnergySourcesException?:
     | EnergyEfficiencyCarbonFreeEnergySourcesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. Green building design. True if the property has been awarded a relevant certification. */
-  greenBuildingDesign?: boolean;
+  greenBuildingDesign?: boolean | undefined;
 }
 /** Sustainability practices implemented at the hotel. */
 export interface Sustainability {
   /** Sustainability certifications the hotel has been awarded. Deprecated: this field is no longer populated. All certification data is now provided by BeCause. */
-  sustainabilityCertifications?: SustainabilityCertifications;
+  sustainabilityCertifications?: SustainabilityCertifications | undefined;
   /** Water conservation practices implemented at the hotel. */
-  waterConservation?: WaterConservation;
+  waterConservation?: WaterConservation | undefined;
   /** Sustainable sourcing practices implemented at the hotel. */
-  sustainableSourcing?: SustainableSourcing;
+  sustainableSourcing?: SustainableSourcing | undefined;
   /** Waste reduction practices implemented at the hotel. */
-  wasteReduction?: WasteReduction;
+  wasteReduction?: WasteReduction | undefined;
   /** Energy efficiency practices implemented at the hotel. */
-  energyEfficiency?: EnergyEfficiency;
+  energyEfficiency?: EnergyEfficiency | undefined;
 }
 export type PropertyRoomsCountExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2175,21 +2344,21 @@ export type PropertyBuiltYearExceptionEnum =
 /** General factual information about the property's physical structure and important dates. */
 export interface Property {
   /** Rooms count. The total number of rooms and suites bookable by guests for an overnight stay. Does not include event space, public spaces, conference rooms, fitness rooms, business centers, spa, salon, restaurants/bars, or shops. */
-  roomsCount?: number;
+  roomsCount?: number | undefined;
   /** Rooms count exception. */
-  roomsCountException?: PropertyRoomsCountExceptionEnum | (string & {});
+  roomsCountException?: PropertyRoomsCountExceptionEnum | (string & {}) | undefined;
   /** Last renovated year exception. */
-  lastRenovatedYearException?: PropertyLastRenovatedYearExceptionEnum | (string & {});
+  lastRenovatedYearException?: PropertyLastRenovatedYearExceptionEnum | (string & {}) | undefined;
   /** Floors count. The number of stories the building has from the ground floor to the top floor that are accessible to guests. */
-  floorsCount?: number;
+  floorsCount?: number | undefined;
   /** Floors count exception. */
-  floorsCountException?: PropertyFloorsCountExceptionEnum | (string & {});
+  floorsCountException?: PropertyFloorsCountExceptionEnum | (string & {}) | undefined;
   /** Built year. The year that construction of the property was completed. */
-  builtYear?: number;
+  builtYear?: number | undefined;
   /** Last renovated year. The year when the most recent renovation of the property was completed. Renovation may include all or any combination of the following: the units, the public spaces, the exterior, or the interior. */
-  lastRenovatedYear?: number;
+  lastRenovatedYear?: number | undefined;
   /** Built year exception. */
-  builtYearException?: PropertyBuiltYearExceptionEnum | (string & {});
+  builtYearException?: PropertyBuiltYearExceptionEnum | (string & {}) | undefined;
 }
 export type ActivitiesBicycleRentalExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2279,73 +2448,76 @@ export type ActivitiesWaterSkiingExceptionEnum =
 /** Amenities and features related to leisure and play. */
 export interface Activities {
   /** Scuba. The provision for guests to dive under naturally occurring water fitted with a self-contained underwater breathing apparatus (SCUBA) for the purpose of exploring underwater life. Apparatus consists of a tank providing oxygen to the diver through a mask. Requires certification of the diver and supervision. The hotel may have the activity at its own waterfront or have an affiliation with a nearby facility. Required equipment is most often supplied to guests. Can be free or for a fee. Not snorkeling. Not done in a swimming pool. */
-  scuba?: boolean;
+  scuba?: boolean | undefined;
   /** Bicycle rental. The hotel owns bicycles that it permits guests to borrow and use. Can be free or for a fee. */
-  bicycleRental?: boolean;
+  bicycleRental?: boolean | undefined;
   /** Bicycle rental exception. */
-  bicycleRentalException?: ActivitiesBicycleRentalExceptionEnum | (string & {});
+  bicycleRentalException?: ActivitiesBicycleRentalExceptionEnum | (string & {}) | undefined;
   /** Boutique stores. There are stores selling clothing, jewelry, art and decor either on hotel premises or very close by. Does not refer to the hotel gift shop or convenience store. */
-  boutiqueStores?: boolean;
+  boutiqueStores?: boolean | undefined;
   /** Beach access exception. */
-  beachAccessException?: ActivitiesBeachAccessExceptionEnum | (string & {});
+  beachAccessException?: ActivitiesBeachAccessExceptionEnum | (string & {}) | undefined;
   /** Golf exception. */
-  golfException?: ActivitiesGolfExceptionEnum | (string & {});
+  golfException?: ActivitiesGolfExceptionEnum | (string & {}) | undefined;
   /** Game room. There is a room at the hotel containing electronic machines for play such as pinball, prize machines, driving simulators, and other items commonly found at a family fun center or arcade. May also include non-electronic games like pool, foosball, darts, and more. May or may not be designed for children. Also known as arcade, fun room, or family fun center. */
-  gameRoom?: boolean;
+  gameRoom?: boolean | undefined;
   /** Nightclub exception. */
-  nightclubException?: ActivitiesNightclubExceptionEnum | (string & {});
+  nightclubException?: ActivitiesNightclubExceptionEnum | (string & {}) | undefined;
   /** Nightclub. There is a room at the hotel with a bar, a dance floor, and seating where designated staffers play dance music. There may also be a designated area for the performance of live music, singing and comedy acts. */
-  nightclub?: boolean;
+  nightclub?: boolean | undefined;
   /** Free bicycle rental. The hotel owns bicycles that it permits guests to borrow and use for free. */
-  freeBicycleRental?: boolean;
+  freeBicycleRental?: boolean | undefined;
   /** Beach front exception. */
-  beachFrontException?: ActivitiesBeachFrontExceptionEnum | (string & {});
+  beachFrontException?: ActivitiesBeachFrontExceptionEnum | (string & {}) | undefined;
   /** Private beach. The beach which is in close proximity to the hotel is open only to guests. */
-  privateBeach?: boolean;
+  privateBeach?: boolean | undefined;
   /** Free watercraft rental. The hotel owns watercraft that it permits guests to borrow and use for free. */
-  freeWatercraftRental?: boolean;
+  freeWatercraftRental?: boolean | undefined;
   /** Free bicycle rental exception. */
-  freeBicycleRentalException?: ActivitiesFreeBicycleRentalExceptionEnum | (string & {});
+  freeBicycleRentalException?: ActivitiesFreeBicycleRentalExceptionEnum | (string & {}) | undefined;
   /** Free Watercraft rental exception. */
-  freeWatercraftRentalException?: ActivitiesFreeWatercraftRentalExceptionEnum | (string & {});
+  freeWatercraftRentalException?:
+    | ActivitiesFreeWatercraftRentalExceptionEnum
+    | (string & {})
+    | undefined;
   /** Tennis exception. */
-  tennisException?: ActivitiesTennisExceptionEnum | (string & {});
+  tennisException?: ActivitiesTennisExceptionEnum | (string & {}) | undefined;
   /** Boutique stores exception. */
-  boutiqueStoresException?: ActivitiesBoutiqueStoresExceptionEnum | (string & {});
+  boutiqueStoresException?: ActivitiesBoutiqueStoresExceptionEnum | (string & {}) | undefined;
   /** Snorkeling. The provision for guests to participate in a recreational water activity in which swimmers wear a diving mask, a simple, shaped breathing tube and flippers/swim fins for the purpose of exploring below the surface of an ocean, gulf or lake. Does not usually require user certification or professional supervision. Equipment may or may not be available for rent or purchase. Not scuba diving. */
-  snorkeling?: boolean;
+  snorkeling?: boolean | undefined;
   /** Breach front. The hotel property is physically located on the beach alongside an ocean, sea, gulf, or bay. It is not on a lake, river, stream, or pond. The hotel is not separated from the beach by a public road allowing vehicular, pedestrian, or bicycle traffic. */
-  beachFront?: boolean;
+  beachFront?: boolean | undefined;
   /** Watercraft rental exception. */
-  watercraftRentalException?: ActivitiesWatercraftRentalExceptionEnum | (string & {});
+  watercraftRentalException?: ActivitiesWatercraftRentalExceptionEnum | (string & {}) | undefined;
   /** Private beach exception. */
-  privateBeachException?: ActivitiesPrivateBeachExceptionEnum | (string & {});
+  privateBeachException?: ActivitiesPrivateBeachExceptionEnum | (string & {}) | undefined;
   /** Casino exception. */
-  casinoException?: ActivitiesCasinoExceptionEnum | (string & {});
+  casinoException?: ActivitiesCasinoExceptionEnum | (string & {}) | undefined;
   /** Snorkeling exception. */
-  snorkelingException?: ActivitiesSnorkelingExceptionEnum | (string & {});
+  snorkelingException?: ActivitiesSnorkelingExceptionEnum | (string & {}) | undefined;
   /** Water skiing. The provision of giving guests the opportunity to be pulled across naturally occurring water while standing on skis and holding a tow rope attached to a motorboat. Can occur on hotel premises or at a nearby waterfront. Most often performed in a lake or ocean. */
-  waterSkiing?: boolean;
+  waterSkiing?: boolean | undefined;
   /** Game room exception. */
-  gameRoomException?: ActivitiesGameRoomExceptionEnum | (string & {});
+  gameRoomException?: ActivitiesGameRoomExceptionEnum | (string & {}) | undefined;
   /** Casino. A space designated for gambling and gaming featuring croupier-run table and card games, as well as electronic slot machines. May be on hotel premises or located nearby. */
-  casino?: boolean;
+  casino?: boolean | undefined;
   /** Horseback riding. The hotel has a horse barn onsite or an affiliation with a nearby barn to allow for guests to sit astride a horse and direct it to walk, trot, cantor, gallop and/or jump. Can be in a riding ring, on designated paths, or in the wilderness. May or may not involve instruction. */
-  horsebackRiding?: boolean;
+  horsebackRiding?: boolean | undefined;
   /** Scuba exception. */
-  scubaException?: ActivitiesScubaExceptionEnum | (string & {});
+  scubaException?: ActivitiesScubaExceptionEnum | (string & {}) | undefined;
   /** Tennis. The hotel has the requisite court(s) on site or has an affiliation with a nearby facility for the purpose of providing guests with the opportunity to play a two-sided court-based game in which players use a stringed racquet to hit a ball across a net to the side of the opposing player. The court can be indoors or outdoors. Instructors, racquets and balls may or may not be provided. */
-  tennis?: boolean;
+  tennis?: boolean | undefined;
   /** Watercraft rental. The hotel owns water vessels that it permits guests to borrow and use. Can be free or for a fee. Watercraft may include boats, pedal boats, rowboats, sailboats, powerboats, canoes, kayaks, or personal watercraft (such as a Jet Ski). */
-  watercraftRental?: boolean;
+  watercraftRental?: boolean | undefined;
   /** Beach access. The hotel property is in close proximity to a beach and offers a way to get to that beach. This can include a route to the beach such as stairs down if hotel is on a bluff, or a short trail. Not the same as beachfront (with beach access, the hotel's proximity is close to but not right on the beach). */
-  beachAccess?: boolean;
+  beachAccess?: boolean | undefined;
   /** Golf. There is a golf course on hotel grounds or there is a nearby, independently run golf course that allows use by hotel guests. Can be free or for a fee. */
-  golf?: boolean;
+  golf?: boolean | undefined;
   /** Horseback riding exception. */
-  horsebackRidingException?: ActivitiesHorsebackRidingExceptionEnum | (string & {});
+  horsebackRidingException?: ActivitiesHorsebackRidingExceptionEnum | (string & {}) | undefined;
   /** Water skiing exception. */
-  waterSkiingException?: ActivitiesWaterSkiingExceptionEnum | (string & {});
+  waterSkiingException?: ActivitiesWaterSkiingExceptionEnum | (string & {}) | undefined;
 }
 export type MinimizedContactRoomBookingsBufferExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2385,43 +2557,54 @@ export type MinimizedContactContactlessCheckinCheckoutExceptionEnum =
 /** Minimized contact measures implemented by the hotel during COVID-19. */
 export interface MinimizedContact {
   /** Buffer maintained between room bookings. */
-  roomBookingsBuffer?: boolean;
+  roomBookingsBuffer?: boolean | undefined;
   /** Housekeeping scheduled by request only. */
-  housekeepingScheduledRequestOnly?: boolean;
+  housekeepingScheduledRequestOnly?: boolean | undefined;
   /** High-touch items, such as decorative pillows, removed from guest rooms. */
-  noHighTouchItemsGuestRooms?: boolean;
+  noHighTouchItemsGuestRooms?: boolean | undefined;
   /** Room bookings buffer exception. */
-  roomBookingsBufferException?: MinimizedContactRoomBookingsBufferExceptionEnum | (string & {});
+  roomBookingsBufferException?:
+    | MinimizedContactRoomBookingsBufferExceptionEnum
+    | (string & {})
+    | undefined;
   /** Plastic keycards disinfected exception. */
   plasticKeycardsDisinfectedException?:
     | MinimizedContactPlasticKeycardsDisinfectedExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Digital guest room keys exception. */
-  digitalGuestRoomKeysException?: MinimizedContactDigitalGuestRoomKeysExceptionEnum | (string & {});
+  digitalGuestRoomKeysException?:
+    | MinimizedContactDigitalGuestRoomKeysExceptionEnum
+    | (string & {})
+    | undefined;
   /** No high touch items common areas exception. */
   noHighTouchItemsCommonAreasException?:
     | MinimizedContactNoHighTouchItemsCommonAreasExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** High-touch items, such as magazines, removed from common areas. */
-  noHighTouchItemsCommonAreas?: boolean;
+  noHighTouchItemsCommonAreas?: boolean | undefined;
   /** Keyless mobile entry to guest rooms. */
-  digitalGuestRoomKeys?: boolean;
+  digitalGuestRoomKeys?: boolean | undefined;
   /** No high touch items guest rooms exception. */
   noHighTouchItemsGuestRoomsException?:
     | MinimizedContactNoHighTouchItemsGuestRoomsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** No-contact check-in and check-out. */
-  contactlessCheckinCheckout?: boolean;
+  contactlessCheckinCheckout?: boolean | undefined;
   /** Housekeeping scheduled request only exception. */
   housekeepingScheduledRequestOnlyException?:
     | MinimizedContactHousekeepingScheduledRequestOnlyExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Plastic key cards are disinfected or discarded. */
-  plasticKeycardsDisinfected?: boolean;
+  plasticKeycardsDisinfected?: boolean | undefined;
   /** Contactless check-in check-out exception. */
   contactlessCheckinCheckoutException?:
     | MinimizedContactContactlessCheckinCheckoutExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type PersonalProtectionGuestRoomHygieneKitsAvailableExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2448,25 +2631,31 @@ export interface PersonalProtection {
   /** Guest room hygiene kits available exception. */
   guestRoomHygieneKitsAvailableException?:
     | PersonalProtectionGuestRoomHygieneKitsAvailableExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Protective equipment available exception. */
   protectiveEquipmentAvailableException?:
     | PersonalProtectionProtectiveEquipmentAvailableExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Common areas offer sanitizing items exception. */
   commonAreasOfferSanitizingItemsException?:
     | PersonalProtectionCommonAreasOfferSanitizingItemsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Masks required on the property. */
-  faceMaskRequired?: boolean;
+  faceMaskRequired?: boolean | undefined;
   /** In-room hygiene kits with masks, hand sanitizer, and/or antibacterial wipes. */
-  guestRoomHygieneKitsAvailable?: boolean;
+  guestRoomHygieneKitsAvailable?: boolean | undefined;
   /** Face mask required exception. */
-  faceMaskRequiredException?: PersonalProtectionFaceMaskRequiredExceptionEnum | (string & {});
+  faceMaskRequiredException?:
+    | PersonalProtectionFaceMaskRequiredExceptionEnum
+    | (string & {})
+    | undefined;
   /** Masks and/or gloves available for guests. */
-  protectiveEquipmentAvailable?: boolean;
+  protectiveEquipmentAvailable?: boolean | undefined;
   /** Hand-sanitizer and/or sanitizing wipes are offered in common areas. */
-  commonAreasOfferSanitizingItems?: boolean;
+  commonAreasOfferSanitizingItems?: boolean | undefined;
 }
 export type EnhancedCleaningGuestRoomsEnhancedCleaningExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2501,41 +2690,47 @@ export type EnhancedCleaningCommonAreasEnhancedCleaningExceptionEnum =
 /** Enhanced cleaning measures implemented by the hotel during COVID-19. */
 export interface EnhancedCleaning {
   /** Employees wear masks, face shields, and/or gloves. */
-  employeesWearProtectiveEquipment?: boolean;
+  employeesWearProtectiveEquipment?: boolean | undefined;
   /** Guest rooms enhanced cleaning exception. */
   guestRoomsEnhancedCleaningException?:
     | EnhancedCleaningGuestRoomsEnhancedCleaningExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Employees trained cleaning procedures exception. */
   employeesTrainedCleaningProceduresException?:
     | EnhancedCleaningEmployeesTrainedCleaningProceduresExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Employees trained thorough hand washing exception. */
   employeesTrainedThoroughHandWashingException?:
     | EnhancedCleaningEmployeesTrainedThoroughHandWashingExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Employees trained in COVID-19 cleaning procedures. */
-  employeesTrainedCleaningProcedures?: boolean;
+  employeesTrainedCleaningProcedures?: boolean | undefined;
   /** Employees trained in thorough hand-washing. */
-  employeesTrainedThoroughHandWashing?: boolean;
+  employeesTrainedThoroughHandWashing?: boolean | undefined;
   /** Commercial grade disinfectant cleaning exception. */
   commercialGradeDisinfectantCleaningException?:
     | EnhancedCleaningCommercialGradeDisinfectantCleaningExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Enhanced cleaning of common areas. */
-  commonAreasEnhancedCleaning?: boolean;
+  commonAreasEnhancedCleaning?: boolean | undefined;
   /** Employees wear protective equipment exception. */
   employeesWearProtectiveEquipmentException?:
     | EnhancedCleaningEmployeesWearProtectiveEquipmentExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Commercial-grade disinfectant used to clean the property. */
-  commercialGradeDisinfectantCleaning?: boolean;
+  commercialGradeDisinfectantCleaning?: boolean | undefined;
   /** Enhanced cleaning of guest rooms. */
-  guestRoomsEnhancedCleaning?: boolean;
+  guestRoomsEnhancedCleaning?: boolean | undefined;
   /** Common areas enhanced cleaning exception. */
   commonAreasEnhancedCleaningException?:
     | EnhancedCleaningCommonAreasEnhancedCleaningExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type IncreasedFoodSafetySingleUseFoodMenusExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2565,31 +2760,40 @@ export type IncreasedFoodSafetyFoodPreparationAndServingAdditionalSafetyExceptio
 /** Increased food safety measures implemented by the hotel during COVID-19. */
 export interface IncreasedFoodSafety {
   /** Single use food menus exception. */
-  singleUseFoodMenusException?: IncreasedFoodSafetySingleUseFoodMenusExceptionEnum | (string & {});
+  singleUseFoodMenusException?:
+    | IncreasedFoodSafetySingleUseFoodMenusExceptionEnum
+    | (string & {})
+    | undefined;
   /** Additional safety measures during food prep and serving. */
-  foodPreparationAndServingAdditionalSafety?: boolean;
+  foodPreparationAndServingAdditionalSafety?: boolean | undefined;
   /** Additional sanitation in dining areas. */
-  diningAreasAdditionalSanitation?: boolean;
+  diningAreasAdditionalSanitation?: boolean | undefined;
   /** Dining areas additional sanitation exception. */
   diningAreasAdditionalSanitationException?:
     | IncreasedFoodSafetyDiningAreasAdditionalSanitationExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Disposable flatware. */
-  disposableFlatware?: boolean;
+  disposableFlatware?: boolean | undefined;
   /** Single-use menus. */
-  singleUseFoodMenus?: boolean;
+  singleUseFoodMenus?: boolean | undefined;
   /** Disposable flatware exception. */
-  disposableFlatwareException?: IncreasedFoodSafetyDisposableFlatwareExceptionEnum | (string & {});
+  disposableFlatwareException?:
+    | IncreasedFoodSafetyDisposableFlatwareExceptionEnum
+    | (string & {})
+    | undefined;
   /** Individual packaged meals exception. */
   individualPackagedMealsException?:
     | IncreasedFoodSafetyIndividualPackagedMealsExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Individually-packaged meals. */
-  individualPackagedMeals?: boolean;
+  individualPackagedMeals?: boolean | undefined;
   /** Food preparation and serving additional safety exception. */
   foodPreparationAndServingAdditionalSafetyException?:
     | IncreasedFoodSafetyFoodPreparationAndServingAdditionalSafetyExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type PhysicalDistancingSafetyDividersExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2619,46 +2823,53 @@ export type PhysicalDistancingWellnessAreasHavePrivateSpacesExceptionEnum =
 /** Physical distancing measures implemented by the hotel during COVID-19. */
 export interface PhysicalDistancing {
   /** Safety dividers exception. */
-  safetyDividersException?: PhysicalDistancingSafetyDividersExceptionEnum | (string & {});
+  safetyDividersException?:
+    | PhysicalDistancingSafetyDividersExceptionEnum
+    | (string & {})
+    | undefined;
   /** Private spaces designated in spa and wellness areas. */
-  wellnessAreasHavePrivateSpaces?: boolean;
+  wellnessAreasHavePrivateSpaces?: boolean | undefined;
   /** Guest occupancy limited within shared facilities. */
-  sharedAreasLimitedOccupancy?: boolean;
+  sharedAreasLimitedOccupancy?: boolean | undefined;
   /** Shared areas limited occupancy exception. */
   sharedAreasLimitedOccupancyException?:
     | PhysicalDistancingSharedAreasLimitedOccupancyExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Common areas arranged to maintain physical distancing. */
-  commonAreasPhysicalDistancingArranged?: boolean;
+  commonAreasPhysicalDistancingArranged?: boolean | undefined;
   /** Physical distancing required. */
-  physicalDistancingRequired?: boolean;
+  physicalDistancingRequired?: boolean | undefined;
   /** Safety dividers at front desk and other locations. */
-  safetyDividers?: boolean;
+  safetyDividers?: boolean | undefined;
   /** Common areas physical distancing arranged exception. */
   commonAreasPhysicalDistancingArrangedException?:
     | PhysicalDistancingCommonAreasPhysicalDistancingArrangedExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Physical distancing required exception. */
   physicalDistancingRequiredException?:
     | PhysicalDistancingPhysicalDistancingRequiredExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Wellness areas have private spaces exception. */
   wellnessAreasHavePrivateSpacesException?:
     | PhysicalDistancingWellnessAreasHavePrivateSpacesExceptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Health and safety measures implemented by the hotel during COVID-19. */
 export interface HealthAndSafety {
   /** Minimized contact measures implemented by the hotel during COVID-19. */
-  minimizedContact?: MinimizedContact;
+  minimizedContact?: MinimizedContact | undefined;
   /** Personal protection measures implemented by the hotel during COVID-19. */
-  personalProtection?: PersonalProtection;
+  personalProtection?: PersonalProtection | undefined;
   /** Enhanced cleaning measures implemented by the hotel during COVID-19. */
-  enhancedCleaning?: EnhancedCleaning;
+  enhancedCleaning?: EnhancedCleaning | undefined;
   /** Increased food safety measures implemented by the hotel during COVID-19. */
-  increasedFoodSafety?: IncreasedFoodSafety;
+  increasedFoodSafety?: IncreasedFoodSafety | undefined;
   /** Physical distancing measures implemented by the hotel during COVID-19. */
-  physicalDistancing?: PhysicalDistancing;
+  physicalDistancing?: PhysicalDistancing | undefined;
 }
 export type WellnessDoctorOnCallExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2718,49 +2929,49 @@ export type WellnessEllipticalMachineExceptionEnum =
 /** Guest facilities at the property to promote or maintain health, beauty, and fitness. */
 export interface Wellness {
   /** Doctor on call exception. */
-  doctorOnCallException?: WellnessDoctorOnCallExceptionEnum | (string & {});
+  doctorOnCallException?: WellnessDoctorOnCallExceptionEnum | (string & {}) | undefined;
   /** Weight machine exception. */
-  weightMachineException?: WellnessWeightMachineExceptionEnum | (string & {});
+  weightMachineException?: WellnessWeightMachineExceptionEnum | (string & {}) | undefined;
   /** Free weights exception. */
-  freeWeightsException?: WellnessFreeWeightsExceptionEnum | (string & {});
+  freeWeightsException?: WellnessFreeWeightsExceptionEnum | (string & {}) | undefined;
   /** Free fitness center exception. */
-  freeFitnessCenterException?: WellnessFreeFitnessCenterExceptionEnum | (string & {});
+  freeFitnessCenterException?: WellnessFreeFitnessCenterExceptionEnum | (string & {}) | undefined;
   /** Sauna. A wood-paneled room heated to a high temperature where guests sit on built-in wood benches for the purpose of perspiring and relaxing their muscles. Can be dry or slightly wet heat. Not a steam room. */
-  sauna?: boolean;
+  sauna?: boolean | undefined;
   /** Spa exception. */
-  spaException?: WellnessSpaExceptionEnum | (string & {});
+  spaException?: WellnessSpaExceptionEnum | (string & {}) | undefined;
   /** Massage exception. */
-  massageException?: WellnessMassageExceptionEnum | (string & {});
+  massageException?: WellnessMassageExceptionEnum | (string & {}) | undefined;
   /** Fitness center. A room or building at the hotel containing equipment to promote physical activity, such as treadmills, elliptical machines, stationary bikes, weight machines, free weights, and/or stretching mats. Use of the fitness center can be free or for a fee. May or may not be staffed. May or may not offer instructor-led classes in various styles of physical conditioning. May or may not be open 24/7. May or may not include locker rooms and showers. Also known as health club, gym, fitness room, health center. */
-  fitnessCenter?: boolean;
+  fitnessCenter?: boolean | undefined;
   /** Fitness center exception. */
-  fitnessCenterException?: WellnessFitnessCenterExceptionEnum | (string & {});
+  fitnessCenterException?: WellnessFitnessCenterExceptionEnum | (string & {}) | undefined;
   /** Free weights. Individual handheld fitness equipment of varied weights used for upper body strength training or bodybuilding. Also known as barbells, dumbbells, or kettlebells. Often stored on a rack with the weights arranged from light to heavy. Commonly found in a gym, fitness room, health center, or health club. */
-  freeWeights?: boolean;
+  freeWeights?: boolean | undefined;
   /** Sauna exception. */
-  saunaException?: WellnessSaunaExceptionEnum | (string & {});
+  saunaException?: WellnessSaunaExceptionEnum | (string & {}) | undefined;
   /** Free fitness center. Guests may use the fitness center for free. */
-  freeFitnessCenter?: boolean;
+  freeFitnessCenter?: boolean | undefined;
   /** Elliptical machine. An electric, stationary fitness machine with pedals that simulates climbing, walking or running and provides a user-controlled range of speeds and tensions. May not have arm-controlled levers to work out the upper body as well. Commonly found in a gym, fitness room, health center, or health club. */
-  ellipticalMachine?: boolean;
+  ellipticalMachine?: boolean | undefined;
   /** Massage. A service provided by a trained massage therapist involving the physical manipulation of a guest's muscles in order to achieve relaxation or pain relief. */
-  massage?: boolean;
+  massage?: boolean | undefined;
   /** Salon exception. */
-  salonException?: WellnessSalonExceptionEnum | (string & {});
+  salonException?: WellnessSalonExceptionEnum | (string & {}) | undefined;
   /** Spa. A designated area, room or building at the hotel offering health and beauty treatment through such means as steam baths, exercise equipment, and massage. May also offer facials, nail care, and hair care. Services are usually available by appointment and for an additional fee. Does not apply if hotel only offers a steam room; must offer other beauty and/or health treatments as well. */
-  spa?: boolean;
+  spa?: boolean | undefined;
   /** Weight machine. Non-electronic fitness equipment designed for the user to target the exertion of different muscles. Usually incorporates a padded seat, a stack of flat weights and various bars and pulleys. May be designed for toning a specific part of the body or may involve different user-controlled settings, hardware and pulleys so as to provide an overall workout in one machine. Commonly found in a gym, fitness center, fitness room, or health club. */
-  weightMachine?: boolean;
+  weightMachine?: boolean | undefined;
   /** Treadmill exception. */
-  treadmillException?: WellnessTreadmillExceptionEnum | (string & {});
+  treadmillException?: WellnessTreadmillExceptionEnum | (string & {}) | undefined;
   /** Salon. A room at the hotel where professionals provide hair styling services such as shampooing, blow drying, hair dos, hair cutting and hair coloring. Also known as hairdresser or beauty salon. */
-  salon?: boolean;
+  salon?: boolean | undefined;
   /** Treadmill. An electric stationary fitness machine that simulates a moving path to promote walking or running within a range of user-controlled speeds and inclines. Also known as running machine. Commonly found in a gym, fitness room, health center, or health club. */
-  treadmill?: boolean;
+  treadmill?: boolean | undefined;
   /** Elliptical machine exception. */
-  ellipticalMachineException?: WellnessEllipticalMachineExceptionEnum | (string & {});
+  ellipticalMachineException?: WellnessEllipticalMachineExceptionEnum | (string & {}) | undefined;
   /** Doctor on call. The hotel has a contract with a medical professional who provides services to hotel guests should they fall ill during their stay. The doctor may or may not have an on-site office or be at the hotel at all times. */
-  doctorOnCall?: boolean;
+  doctorOnCall?: boolean | undefined;
 }
 export type TransportationCarRentalOnPropertyExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2800,33 +3011,45 @@ export type TransportationTransferExceptionEnum =
 /** Vehicles or vehicular services facilitated or owned by the property. */
 export interface Transportation {
   /** Car rental on property exception. */
-  carRentalOnPropertyException?: TransportationCarRentalOnPropertyExceptionEnum | (string & {});
+  carRentalOnPropertyException?:
+    | TransportationCarRentalOnPropertyExceptionEnum
+    | (string & {})
+    | undefined;
   /** Transfer. Hotel provides a shuttle service or car service to take guests to and from the nearest airport or train station. Can be free or for a fee. Guests may share the vehicle with other guests unknown to them. */
-  transfer?: boolean;
+  transfer?: boolean | undefined;
   /** Airport shuttle exception. */
-  airportShuttleException?: TransportationAirportShuttleExceptionEnum | (string & {});
+  airportShuttleException?: TransportationAirportShuttleExceptionEnum | (string & {}) | undefined;
   /** Local shuttle exception. */
-  localShuttleException?: TransportationLocalShuttleExceptionEnum | (string & {});
+  localShuttleException?: TransportationLocalShuttleExceptionEnum | (string & {}) | undefined;
   /** Free airport shuttle. Airport shuttle is free to guests. Must be free to all guests without any conditions. */
-  freeAirportShuttle?: boolean;
+  freeAirportShuttle?: boolean | undefined;
   /** Free private car service exception. */
-  freePrivateCarServiceException?: TransportationFreePrivateCarServiceExceptionEnum | (string & {});
+  freePrivateCarServiceException?:
+    | TransportationFreePrivateCarServiceExceptionEnum
+    | (string & {})
+    | undefined;
   /** Private car service exception. */
-  privateCarServiceException?: TransportationPrivateCarServiceExceptionEnum | (string & {});
+  privateCarServiceException?:
+    | TransportationPrivateCarServiceExceptionEnum
+    | (string & {})
+    | undefined;
   /** Airport shuttle. The hotel provides guests with a chauffeured van or bus to and from the airport. Can be free or for a fee. Guests may share the vehicle with other guests unknown to them. Applies if the hotel has a third-party shuttle service (office/desk etc.) within the hotel. As long as hotel provides this service, it doesn't matter if it's directly with them or a third party they work with. Does not apply if guest has to coordinate with an entity outside/other than the hotel. */
-  airportShuttle?: boolean;
+  airportShuttle?: boolean | undefined;
   /** Car rental on property. A branch of a rental car company with a processing desk in the hotel. Available cars for rent may be awaiting at the hotel or in a nearby lot. */
-  carRentalOnProperty?: boolean;
+  carRentalOnProperty?: boolean | undefined;
   /** Private car service. Hotel provides a private chauffeured car to transport guests to destinations. Passengers in the car are either alone or are known to one another and have requested the car together. Service can be free or for a fee and travel distance is usually limited to a specific range. Not a taxi. */
-  privateCarService?: boolean;
+  privateCarService?: boolean | undefined;
   /** Local shuttle. A car, van or bus provided by the hotel to transport guests to destinations within a specified range of distance around the hotel. Usually shopping and/or convention centers, downtown districts, or beaches. Can be free or for a fee. */
-  localShuttle?: boolean;
+  localShuttle?: boolean | undefined;
   /** Free airport shuttle exception. */
-  freeAirportShuttleException?: TransportationFreeAirportShuttleExceptionEnum | (string & {});
+  freeAirportShuttleException?:
+    | TransportationFreeAirportShuttleExceptionEnum
+    | (string & {})
+    | undefined;
   /** Free private car service. Private chauffeured car service is free to guests. */
-  freePrivateCarService?: boolean;
+  freePrivateCarService?: boolean | undefined;
   /** Transfer exception. */
-  transferException?: TransportationTransferExceptionEnum | (string & {});
+  transferException?: TransportationTransferExceptionEnum | (string & {}) | undefined;
 }
 export type FamiliesKidsFriendlyExceptionEnum =
   | "EXCEPTION_UNSPECIFIED"
@@ -2851,91 +3074,91 @@ export type FamiliesKidsActivitiesExceptionEnum =
 /** Services and amenities for families and young guests. */
 export interface Families {
   /** Babysitting. Child care that is offered by hotel staffers or coordinated by hotel staffers with local child care professionals. Can be free or for a fee. */
-  babysitting?: boolean;
+  babysitting?: boolean | undefined;
   /** Kids friendly. The hotel has one or more special features for families with children, such as reduced rates, child-sized beds, kids' club, babysitting service, or suitable place to play on premises. */
-  kidsFriendly?: boolean;
+  kidsFriendly?: boolean | undefined;
   /** Kids friendly exception. */
-  kidsFriendlyException?: FamiliesKidsFriendlyExceptionEnum | (string & {});
+  kidsFriendlyException?: FamiliesKidsFriendlyExceptionEnum | (string & {}) | undefined;
   /** Kids club exception. */
-  kidsClubException?: FamiliesKidsClubExceptionEnum | (string & {});
+  kidsClubException?: FamiliesKidsClubExceptionEnum | (string & {}) | undefined;
   /** Kids club. An organized program of group activities held at the hotel and designed for the enjoyment of children. Facilitated by hotel staff (or staff procured by the hotel) in an area(s) designated for the purpose of entertaining children without their parents. May include games, outings, water sports, team sports, arts and crafts, and films. Usually has set hours. Can be free or for a fee. Also known as Kids Camp or Kids program. */
-  kidsClub?: boolean;
+  kidsClub?: boolean | undefined;
   /** Kids activities. Recreational options such as sports, films, crafts and games designed for the enjoyment of children and offered at the hotel. May or may not be supervised. May or may not be at a designated time or place. Cab be free or for a fee. */
-  kidsActivities?: boolean;
+  kidsActivities?: boolean | undefined;
   /** Babysitting exception. */
-  babysittingException?: FamiliesBabysittingExceptionEnum | (string & {});
+  babysittingException?: FamiliesBabysittingExceptionEnum | (string & {}) | undefined;
   /** Kids activities exception. */
-  kidsActivitiesException?: FamiliesKidsActivitiesExceptionEnum | (string & {});
+  kidsActivitiesException?: FamiliesKidsActivitiesExceptionEnum | (string & {}) | undefined;
 }
 /** Lodging of a location that provides accomodations. */
 export interface Lodging {
   /** Swimming pool or recreational water facilities available at the hotel. */
-  pools?: Pools;
+  pools?: Pools | undefined;
   /** Individual GuestUnitTypes that are available in this Lodging. */
-  guestUnits?: GuestUnitTypeList;
+  guestUnits?: GuestUnitTypeList | undefined;
   /** The ways in which the property provides guests with the ability to access the internet. */
-  connectivity?: Connectivity;
+  connectivity?: Connectivity | undefined;
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Some units on the property have as much as these attributes. */
-  someUnits?: GuestUnitFeatures;
+  someUnits?: GuestUnitFeatures | undefined;
   /** Property rules that impact guests. */
-  policies?: Policies;
+  policies?: Policies | undefined;
   /** Policies regarding guest-owned animals. */
-  pets?: Pets;
+  pets?: Pets | undefined;
   /** Conveniences or help provided by the property to facilitate an easier, more comfortable stay. */
-  services?: Services;
+  services?: Services | undefined;
   /** Parking options at the property. */
-  parking?: Parking;
+  parking?: Parking | undefined;
   /** Physical adaptations made to the property in consideration of varying levels of human physical ability. */
-  accessibility?: Accessibility;
+  accessibility?: Accessibility | undefined;
   /** Output only. All units on the property have at least these attributes. */
-  allUnits?: GuestUnitFeatures;
+  allUnits?: GuestUnitFeatures | undefined;
   /** Meals, snacks, and beverages available at the property. */
-  foodAndDrink?: FoodAndDrink;
+  foodAndDrink?: FoodAndDrink | undefined;
   /** Required. Metadata for the lodging. */
-  metadata?: LodgingMetadata;
+  metadata?: LodgingMetadata | undefined;
   /** Features of the property of specific interest to the business traveler. */
-  business?: Business;
+  business?: Business | undefined;
   /** Conveniences provided in guest units to facilitate an easier, more comfortable stay. */
-  housekeeping?: Housekeeping;
+  housekeeping?: Housekeeping | undefined;
   /** Sustainability practices implemented at the hotel. */
-  sustainability?: Sustainability;
+  sustainability?: Sustainability | undefined;
   /** General factual information about the property's physical structure and important dates. */
-  property?: Property;
+  property?: Property | undefined;
   /** Amenities and features related to leisure and play. */
-  activities?: Activities;
+  activities?: Activities | undefined;
   /** Health and safety measures implemented by the hotel during COVID-19. */
-  healthAndSafety?: HealthAndSafety;
+  healthAndSafety?: HealthAndSafety | undefined;
   /** Guest facilities at the property to promote or maintain health, beauty, and fitness. */
-  wellness?: Wellness;
+  wellness?: Wellness | undefined;
   /** Vehicles or vehicular services facilitated or owned by the property. */
-  transportation?: Transportation;
+  transportation?: Transportation | undefined;
   /** Features of the shared living areas available in this Lodging. */
-  commonLivingArea?: LivingArea;
+  commonLivingArea?: LivingArea | undefined;
   /** Services and amenities for families and young guests. */
-  families?: Families;
+  families?: Families | undefined;
 }
 /** Response message for LodgingService.GetGoogleUpdatedLodging */
 export interface GetGoogleUpdatedLodgingResponse {
   /** Required. The fields in the Lodging that have been updated by Google. Repeated field items are not individually specified. */
-  diffMask?: string;
+  diffMask?: string | undefined;
   /** Required. The Google updated Lodging. */
-  lodging?: Lodging;
+  lodging?: Lodging | undefined;
 }
 export interface GetLodgingLocationsRequest {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
   /** Required. The specific fields to return. Use "*" to include all fields. Repeated field items cannot be individually specified. */
-  readMask?: string;
+  readMask?: string | undefined;
 }
 export interface UpdateLodgingLocationsRequest {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
   /** Required. The specific fields to update. Use "*" to update all fields, which may include unsetting empty fields in the request. Repeated field items cannot be individually updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Lodging;
+  body?: Lodging | undefined;
 }
 export type GetGoogleUpdatedLocationsLodgingError = NotFound | Forbidden | GcpOpError;
 /** Returns the Google updated Lodging of a specific location. */

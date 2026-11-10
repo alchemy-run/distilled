@@ -59,7 +59,7 @@ export interface CreateUploadedMediaRequest {
   /** Image file. Must be under 4MB and a real, decodable image. */
   image: string;
   /** Library to add this image to. Omit to upload without joining a library (as dashboard text cards and notebooks do). */
-  purpose?: CreateUploadedMediaRequestPurpose | (string & {});
+  purpose?: CreateUploadedMediaRequestPurpose | (string & {}) | undefined;
 }
 export interface UploadedMediaCreated {
   /** Id of the uploaded image. */
@@ -78,13 +78,13 @@ export interface ListUploadedMediaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** The library to list. */
   purpose: ListUploadedMediaRequestPurpose | (string & {});
   /** Only list images whose name contains this text, ignoring case. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface UploadedMedia2 {
   id: string;
@@ -104,8 +104,8 @@ export interface UploadedMedia2 {
 export type PaginatedUploadedMediaListResultsList = Array<UploadedMedia2>;
 export interface PaginatedUploadedMediaList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedUploadedMediaListResultsList;
 }
 export interface UploadedMediaCompleteUploadCreateRequest {

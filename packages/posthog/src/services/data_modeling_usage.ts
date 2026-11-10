@@ -36,25 +36,25 @@ export interface ListDataModelingUsageRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Inclusive UTC start date for a custom range, up to 366 complete days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Inclusive UTC end date for a custom range. Today is always excluded. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Number of complete UTC days, up to 90. */
-  days?: number;
+  days?: number | undefined;
   /** Materialization engine. All combines ClickHouse and managed warehouse usage. * `all` - All * `clickhouse` - ClickHouse * `managed_warehouse` - Managed warehouse */
-  engine?: ListDataModelingUsageRequestEngine | (string & {});
+  engine?: ListDataModelingUsageRequestEngine | (string & {}) | undefined;
   /** Model breakdown page, starting at 1. */
-  page?: number;
+  page?: number | undefined;
   /** Models per page, up to 100. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Limit usage to one accessible materialized view. */
-  saved_query_id?: string;
+  saved_query_id?: string | undefined;
   /** Comma-separated materialized view IDs. Usage is limited to accessible views. */
-  saved_query_ids?: string;
+  saved_query_ids?: string | undefined;
   /** Column to sort models by. * `name` - Model * `read_bytes` - Bytes read * `clickhouse_read_bytes` - ClickHouse bytes * `managed_warehouse_read_bytes` - Managed warehouse bytes * `cpu_microseconds` - CPU time * `runs` - Runs */
-  sort_by?: ListDataModelingUsageRequestSortBy | (string & {});
+  sort_by?: ListDataModelingUsageRequestSortBy | (string & {}) | undefined;
   /** Sort direction. Unmeasured values are always last. * `asc` - Ascending * `desc` - Descending */
-  sort_direction?: ListDataModelingUsageRequestSortDirection | (string & {});
+  sort_direction?: ListDataModelingUsageRequestSortDirection | (string & {}) | undefined;
 }
 export interface ModelUsageTotals {
   /** Finished materialization runs, including failures and cancellations. */

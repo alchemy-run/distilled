@@ -55,11 +55,11 @@ export interface ServiceTCPHealthCheckHttp {
   /** HTTP path to use for health checks. May not contain literal spaces, use percent-encoding instead. */
   path: string;
   /** String that must be contained in HTTP response in order to pass the health check. */
-  response?: string;
+  response?: string | undefined;
   /** List of returned HTTP status codes in order to pass the health check. Supports the wildcards `?` for exactly one character and `*` for multiple ones. */
-  status_codes?: ServiceTCPHealthCheckHttpStatusCodesList;
+  status_codes?: ServiceTCPHealthCheckHttpStatusCodesList | undefined;
   /** Use HTTPS for health check. */
-  tls?: boolean;
+  tls?: boolean | undefined;
 }
 /** Service health check. */
 export interface ServiceTCPHealthCheck {
@@ -74,7 +74,7 @@ export interface ServiceTCPHealthCheck {
   /** Unsuccessful retries needed until a target is considered unhealthy; an unhealthy target needs the same number of successful retries to become healthy again. */
   retries: number;
   /** Additional configuration for protocol http. */
-  http?: ServiceTCPHealthCheckHttp;
+  http?: ServiceTCPHealthCheckHttp | undefined;
 }
 export interface ServiceTCP {
   /** Protocol of the Load Balancer. */
@@ -101,11 +101,11 @@ export interface ServiceHTTPProtocolHealthCheckHttp {
   /** HTTP path to use for health checks. May not contain literal spaces, use percent-encoding instead. */
   path: string;
   /** String that must be contained in HTTP response in order to pass the health check. */
-  response?: string;
+  response?: string | undefined;
   /** List of returned HTTP status codes in order to pass the health check. Supports the wildcards `?` for exactly one character and `*` for multiple ones. */
-  status_codes?: ServiceHTTPProtocolHealthCheckHttpStatusCodesList;
+  status_codes?: ServiceHTTPProtocolHealthCheckHttpStatusCodesList | undefined;
   /** Use HTTPS for health check. */
-  tls?: boolean;
+  tls?: boolean | undefined;
 }
 /** Service health check. */
 export interface ServiceHTTPProtocolHealthCheck {
@@ -120,7 +120,7 @@ export interface ServiceHTTPProtocolHealthCheck {
   /** Unsuccessful retries needed until a target is considered unhealthy; an unhealthy target needs the same number of successful retries to become healthy again. */
   retries: number;
   /** Additional configuration for protocol http. */
-  http?: ServiceHTTPProtocolHealthCheckHttp;
+  http?: ServiceHTTPProtocolHealthCheckHttp | undefined;
 }
 /** Configuration option for protocol http. */
 export interface ServiceHTTPProtocolHttp {
@@ -160,11 +160,11 @@ export interface ServiceHTTPSProtocolHealthCheckHttp {
   /** HTTP path to use for health checks. May not contain literal spaces, use percent-encoding instead. */
   path: string;
   /** String that must be contained in HTTP response in order to pass the health check. */
-  response?: string;
+  response?: string | undefined;
   /** List of returned HTTP status codes in order to pass the health check. Supports the wildcards `?` for exactly one character and `*` for multiple ones. */
-  status_codes?: ServiceHTTPSProtocolHealthCheckHttpStatusCodesList;
+  status_codes?: ServiceHTTPSProtocolHealthCheckHttpStatusCodesList | undefined;
   /** Use HTTPS for health check. */
-  tls?: boolean;
+  tls?: boolean | undefined;
 }
 /** Service health check. */
 export interface ServiceHTTPSProtocolHealthCheck {
@@ -179,7 +179,7 @@ export interface ServiceHTTPSProtocolHealthCheck {
   /** Unsuccessful retries needed until a target is considered unhealthy; an unhealthy target needs the same number of successful retries to become healthy again. */
   retries: number;
   /** Additional configuration for protocol http. */
-  http?: ServiceHTTPSProtocolHealthCheckHttp;
+  http?: ServiceHTTPSProtocolHealthCheckHttp | undefined;
 }
 /** IDs of the Certificates to use for TLS/SSL termination by the Load Balancer; empty for TLS/SSL passthrough. */
 export type ServiceHTTPSProtocolHttpCertificatesList = Array<number>;
@@ -225,7 +225,7 @@ export interface CreateLoadBalancerRequestTargetsItemServer {
   /** ID of the Server. */
   id: number;
   /** Optional public IP of the Server to use as target. Must be the Primary IPv4 of the Server, or an IPv6 host address within IPv6 /64 subnet of the Server. If omitted, the Primary IPv4 of the Server is used. Must not be a private IP and is only valid for public targets. */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** Configuration for label selector targets, only valid and required if type is `label_selector`. */
 export interface CreateLoadBalancerRequestTargetsItemLabelSelector {
@@ -241,13 +241,13 @@ export interface CreateLoadBalancerRequestTargetsItem {
   /** Type of the resource. */
   type: CreateLoadBalancerRequestTargetsItemType | (string & {});
   /** Configuration for type Server, only valid and required if type is `server`. */
-  server?: CreateLoadBalancerRequestTargetsItemServer;
+  server?: CreateLoadBalancerRequestTargetsItemServer | undefined;
   /** Configuration for label selector targets, only valid and required if type is `label_selector`. */
-  label_selector?: CreateLoadBalancerRequestTargetsItemLabelSelector;
+  label_selector?: CreateLoadBalancerRequestTargetsItemLabelSelector | undefined;
   /** Configuration for an IP target. It is only possible to use the (Public or vSwitch) IPs of Hetzner Online Root Servers belonging to the project owner. IPs belonging to other users are blocked. Additionally IPs belonging to services provided by Hetzner Cloud (Servers, Load Balancers, ...) are blocked as well. Only valid and required if type is `ip`. */
-  ip?: CreateLoadBalancerRequestTargetsItemIp;
+  ip?: CreateLoadBalancerRequestTargetsItemIp | undefined;
   /** Use the private network IP instead of the public IP of the Server, requires the Server and Load Balancer to be in the same network. Only valid for target types `server` and `label_selector`. */
-  use_private_ip?: boolean;
+  use_private_ip?: boolean | undefined;
 }
 /** Array of targets. */
 export type CreateLoadBalancerRequestTargetsList = Array<CreateLoadBalancerRequestTargetsItem>;
@@ -256,9 +256,9 @@ export type CreateLoadBalancerRequestLabelsMap = { [key: string]: string | undef
 /** Public network options of the Load Balancer. Only allowed if the public interface is enabled. */
 export interface CreateLoadBalancerRequestPublicNet {
   /** ID of an existing [Primary IP](#tag/primary-ips) of type `ipv4` to assign to the Load Balancer. The [Primary IP](#tag/primary-ips) must be unassigned, must not be blocked and must be bound to the same Location as the Load Balancer. Omit or set to `null` to get a system managed IP address instead. System managed IP addresses are not [Primary IPs](#tag/primary-ips) and are created and deleted together with the Load Balancer. */
-  ipv4?: number | null;
+  ipv4?: number | null | undefined;
   /** ID of an existing [Primary IP](#tag/primary-ips) of type `ipv6` to assign to the Load Balancer. The [Primary IP](#tag/primary-ips) must be unassigned, must not be blocked and must be bound to the same Location as the Load Balancer. Omit or set to `null` to get a system managed IP address instead. System managed IP addresses are not [Primary IPs](#tag/primary-ips) and are created and deleted together with the Load Balancer. */
-  ipv6?: number | null;
+  ipv6?: number | null | undefined;
 }
 export interface CreateLoadBalancerRequest {
   /** Name of the Load Balancer. */
@@ -266,23 +266,23 @@ export interface CreateLoadBalancerRequest {
   /** ID or name of the Load Balancer type this Load Balancer should be created with. */
   load_balancer_type: string;
   /** Algorithm of the Load Balancer. */
-  algorithm?: CreateLoadBalancerRequestAlgorithm;
+  algorithm?: CreateLoadBalancerRequestAlgorithm | undefined;
   /** Array of services. */
-  services?: CreateLoadBalancerRequestServicesList;
+  services?: CreateLoadBalancerRequestServicesList | undefined;
   /** Array of targets. */
-  targets?: CreateLoadBalancerRequestTargetsList;
+  targets?: CreateLoadBalancerRequestTargetsList | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateLoadBalancerRequestLabelsMap;
+  labels?: CreateLoadBalancerRequestLabelsMap | undefined;
   /** Enable or disable the public interface of the Load Balancer. */
-  public_interface?: boolean;
+  public_interface?: boolean | undefined;
   /** Public network options of the Load Balancer. Only allowed if the public interface is enabled. */
-  public_net?: CreateLoadBalancerRequestPublicNet;
+  public_net?: CreateLoadBalancerRequestPublicNet | undefined;
   /** ID of the network the Load Balancer should be attached to on creation. */
-  network?: number;
+  network?: number | undefined;
   /** Name of network zone. */
-  network_zone?: string;
+  network_zone?: string | undefined;
   /** ID or name of Location to create Load Balancer in. */
-  location?: string;
+  location?: string | undefined;
 }
 /** IP address (v4). */
 export interface CreateLoadBalancerResponseLoadBalancerPublicNetIpv4 {
@@ -433,9 +433,9 @@ export interface TargetTypeServerHealthStatusItem {
   listen_port: number;
   status: TargetTypeServerHealthStatusItemStatus;
   /** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
-  detail?: TargetTypeServerHealthStatusItemDetail;
+  detail?: TargetTypeServerHealthStatusItemDetail | undefined;
   /** HTTP status code returned by the target during the last health check. Only present when `status` is `unhealthy` and `detail` is `unexpected_http_status`. */
-  http_status_code?: number;
+  http_status_code?: number | undefined;
 }
 /** List of health statuses of the services on this target. Only present for target types "server" and "ip". */
 export type TargetTypeServerHealthStatusList = Array<TargetTypeServerHealthStatusItem>;
@@ -472,9 +472,9 @@ export interface TargetTypeLabelSelectorTargetsItemHealthStatusItem {
   listen_port: number;
   status: TargetTypeLabelSelectorTargetsItemHealthStatusItemStatus;
   /** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
-  detail?: TargetTypeLabelSelectorTargetsItemHealthStatusItemDetail;
+  detail?: TargetTypeLabelSelectorTargetsItemHealthStatusItemDetail | undefined;
   /** HTTP status code returned by the target during the last health check. Only present when `status` is `unhealthy` and `detail` is `unexpected_http_status`. */
-  http_status_code?: number;
+  http_status_code?: number | undefined;
 }
 /** List of health statuses of the services on this target. Only present for target types "server" and "ip". */
 export type TargetTypeLabelSelectorTargetsItemHealthStatusList =
@@ -518,9 +518,9 @@ export interface TargetTypeIPHealthStatusItem {
   listen_port: number;
   status: TargetTypeIPHealthStatusItemStatus;
   /** Additional details about why the health check failed. Only present when `status` is `unhealthy`. */
-  detail?: TargetTypeIPHealthStatusItemDetail;
+  detail?: TargetTypeIPHealthStatusItemDetail | undefined;
   /** HTTP status code returned by the target during the last health check. Only present when `status` is `unhealthy` and `detail` is `unexpected_http_status`. */
-  http_status_code?: number;
+  http_status_code?: number | undefined;
 }
 /** List of health statuses of the services on this target. Only present for target types "server" and "ip". */
 export type TargetTypeIPHealthStatusList = Array<TargetTypeIPHealthStatusItem>;
@@ -786,7 +786,7 @@ export interface GetLoadBalancerMetricsRequest {
   /** End of period to get Metrics for (must be in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   end: string;
   /** Resolution of results in seconds. */
-  step?: string;
+  step?: string | undefined;
 }
 export type GetLoadBalancerMetricsResponseMetricsTimeSeriesValueValuesItemList = Array<unknown>;
 /** Metrics timestamps with values. */
@@ -828,15 +828,15 @@ export type ListLoadBalancersRequestSortList = Array<
 >;
 export interface ListLoadBalancersRequest {
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListLoadBalancersRequestSortList;
+  sort?: ListLoadBalancersRequestSortList | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** IP address (v4). */
 export type ListLoadBalancersResponseLoadBalancersItemPublicNetIpv4 =
@@ -982,9 +982,9 @@ export interface UpdateLoadBalancerRequest {
   /** ID of the Load Balancer. */
   id: number;
   /** New Load Balancer name. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateLoadBalancerRequestLabelsMap;
+  labels?: UpdateLoadBalancerRequestLabelsMap | undefined;
 }
 /** IP address (v4). */
 export type UpdateLoadBalancerResponseLoadBalancerPublicNetIpv4 =

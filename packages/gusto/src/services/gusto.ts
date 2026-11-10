@@ -202,33 +202,33 @@ export interface BulkReportCustomReportItem {
   /** UUID of the company to generate the report for. The partner must be mapped to this company. */
   company_uuid: string;
   /** Display name for the report. */
-  custom_name?: string;
+  custom_name?: string | undefined;
   /** Which payroll date `start_date` and `end_date` filter against. */
-  date_filter_type?: BulkReportCustomReportItemDateFilterType | (string & {});
+  date_filter_type?: BulkReportCustomReportItemDateFilterType | (string & {}) | undefined;
   /** Departments to filter by. */
-  department_uuids?: BulkReportCustomReportItemDepartmentUuidsList;
+  department_uuids?: BulkReportCustomReportItemDepartmentUuidsList | undefined;
   /** Employees to filter by. */
-  employee_uuids?: BulkReportCustomReportItemEmployeeUuidsList | null;
+  employee_uuids?: BulkReportCustomReportItemEmployeeUuidsList | null | undefined;
   /** Employee employment status to filter by. */
-  employment_status?: BulkReportCustomReportItemEmploymentStatus | (string & {});
+  employment_status?: BulkReportCustomReportItemEmploymentStatus | (string & {}) | undefined;
   /** Employee employment type to filter by. */
-  employment_type?: BulkReportCustomReportItemEmploymentType | (string & {});
+  employment_type?: BulkReportCustomReportItemEmploymentType | (string & {}) | undefined;
   /** End date of data to filter by. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The type of file to generate. */
   file_type: BulkReportCustomReportItemFileType | (string & {});
   /** How to group the report. If omitted, defaults are derived from the requested `columns`. */
-  groupings?: BulkReportCustomReportItemGroupingsList;
+  groupings?: BulkReportCustomReportItemGroupingsList | undefined;
   /** Payment method to filter by. */
-  payment_method?: BulkReportCustomReportItemPaymentMethod | (string & {});
+  payment_method?: BulkReportCustomReportItemPaymentMethod | (string & {}) | undefined;
   /** Identifies this batch item as a custom report. */
   report_type: BulkReportCustomReportItemReportType;
   /** Start date of data to filter by. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Whether to include subtotals and grand totals. */
-  with_totals?: boolean;
+  with_totals?: boolean | undefined;
   /** Work addresses to filter by. */
-  work_address_uuids?: BulkReportCustomReportItemWorkAddressUuidsList;
+  work_address_uuids?: BulkReportCustomReportItemWorkAddressUuidsList | undefined;
 }
 /** The breakdown of the report. Use `default` for no split. */
 export type BulkReportGeneralLedgerItemAggregation =
@@ -245,7 +245,7 @@ export interface BulkReportGeneralLedgerItem {
   /** UUID of the company to generate the report for. The partner must be mapped to this company. */
   company_uuid: string;
   /** The kind of integration set up for the company. Required when `aggregation` is `integration`; must be null otherwise. */
-  integration_type?: string | null;
+  integration_type?: string | null | undefined;
   /** The UUID of the payroll to generate the general ledger for. */
   payroll_uuid: string;
   /** Identifies this batch item as a general ledger report. */
@@ -303,13 +303,13 @@ export interface CreateCompanyAdminRequest {
 /** The representation of an admin user in Gusto. */
 export interface Admin {
   /** The email of the admin for Gusto's system. */
-  email?: string;
+  email?: string | undefined;
   /** The first name of the admin. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The last name of the admin. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The phone number of the admin. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The unique id of the admin. */
   uuid: string;
 }
@@ -338,46 +338,46 @@ export type CompanyBankAccountVerificationType = "bank_deposits" | "plaid" | "pl
 /** The company bank account */
 export interface CompanyBankAccount {
   /** Bank account type */
-  account_type?: CompanyBankAccountAccountType;
+  account_type?: CompanyBankAccountAccountType | undefined;
   /** The balance fetch date associated with the last_cached_balance. Only applies when verification type is Plaid. */
-  balance_fetched_date?: string | null;
+  balance_fetched_date?: string | null | undefined;
   /** UUID of the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Masked bank account number */
-  hidden_account_number?: string;
+  hidden_account_number?: string | undefined;
   /** The last fetch balance for the bank account. Please be aware that this amount does not reflect the most up-to-date balance and only applies when the verification type is Plaid. */
-  last_cached_balance?: string | null;
+  last_cached_balance?: string | null | undefined;
   /** Name of bank account */
-  name?: string;
+  name?: string | undefined;
   /** The Plaid connection status of the bank account. Only applies when verification type is Plaid. */
-  plaid_status?: CompanyBankAccountPlaidStatus | null;
+  plaid_status?: CompanyBankAccountPlaidStatus | null | undefined;
   /** Whether the company has at least one bank account with active reverse-wire funding. The same value is returned on every bank-account row in this response. */
-  reverse_wire_enabled?: boolean | null;
+  reverse_wire_enabled?: boolean | null | undefined;
   /** The bank account's routing number */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** UUID of the bank account */
   uuid: string;
   /** The verification status of the bank account. 'awaiting_deposits' means the bank account is just created and money is being transferred. 'ready_for_verification' means the micro-deposits are completed and the verification process can begin by using the verify endpoint. 'verified' means the bank account is verified. */
-  verification_status?: CompanyBankAccountVerificationStatus;
+  verification_status?: CompanyBankAccountVerificationStatus | undefined;
   /** The verification type of the bank account. 'bank_deposits' means the bank account is connected by entering routing and accounting numbers and verifying through micro-deposits. 'plaid' means the bank account is connected through Plaid. */
-  verification_type?: CompanyBankAccountVerificationType;
+  verification_type?: CompanyBankAccountVerificationType | undefined;
 }
 export type CreateCompanyCompanyBenefitRequestCatchUpType = "elective" | "deemed";
 export interface CreateCompanyCompanyBenefitRequest {
   /** The UUID of the company */
   company_id: string;
   /** Whether this benefit is active for employee participation. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The ID of the benefit to which the company benefit belongs. */
-  benefit_type?: number;
+  benefit_type?: number | undefined;
   /** The type of catch-up contribution for this benefit, as required by Section 603 of the SECURE 2.0 Act. Only applicable to pre-tax 401(k) and 403(b) benefits. */
-  catch_up_type?: CreateCompanyCompanyBenefitRequestCatchUpType | (string & {}) | null;
+  catch_up_type?: CreateCompanyCompanyBenefitRequestCatchUpType | (string & {}) | null | undefined;
   /** The description of the company benefit.For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like "Kaiser Permanente" or "Blue Cross/ Blue Shield". */
   description: string;
   /** Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to third party sick pay benefits. */
-  responsible_for_employee_w2?: boolean;
+  responsible_for_employee_w2?: boolean | undefined;
   /** Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to third party sick pay benefits. */
-  responsible_for_employer_taxes?: boolean;
+  responsible_for_employer_taxes?: boolean | undefined;
 }
 export type CompanyBenefitCatchUpType = "elective" | "deemed";
 /** The source of the company benefit. This can be "internal", "external", or "partnered". Company benefits created via the API default to "external". Certain partners can create company benefits with a source of "partnered". */
@@ -385,33 +385,33 @@ export type CompanyBenefitSource = "internal" | "external" | "partnered";
 /** The representation of a company benefit. */
 export interface CompanyBenefit {
   /** Whether this benefit is active for employee participation. Company benefits may only be deactivated if no employees are actively participating. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The type of the benefit to which the company benefit belongs. */
-  benefit_type?: number;
+  benefit_type?: number | undefined;
   /** The type of catch-up contribution for this benefit, as required by Section 603 of the SECURE 2.0 Act. Only applicable to pre-tax 401(k) and 403(b) benefits. */
-  catch_up_type?: CompanyBenefitCatchUpType | null;
+  catch_up_type?: CompanyBenefitCatchUpType | null | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Whether this company benefit can be deleted. Deletable will be set to true if the benefit has not been used in payroll, has no employee benefits associated, and the benefit is not owned by Gusto or a Partner */
-  deletable?: boolean;
+  deletable?: boolean | undefined;
   /** The description of the company benefit. For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like "Kaiser Permanente" or "Blue Cross/ Blue Shield". */
-  description?: string;
+  description?: string | undefined;
   /** The number of employees enrolled in the benefit, only returned when enrollment_count query param is set to true. */
-  enrollment_count?: number;
+  enrollment_count?: number | undefined;
   /** The partner name of the partner that created the company benefit. For example, "XYZ Corp". */
-  partner_name?: string | null;
+  partner_name?: string | null | undefined;
   /** Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to third party sick pay benefits. */
-  responsible_for_employee_w2?: boolean;
+  responsible_for_employee_w2?: boolean | undefined;
   /** Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to third party sick pay benefits. */
-  responsible_for_employer_taxes?: boolean;
+  responsible_for_employer_taxes?: boolean | undefined;
   /** The source of the company benefit. This can be "internal", "external", or "partnered". Company benefits created via the API default to "external". Certain partners can create company benefits with a source of "partnered". */
-  source?: CompanyBenefitSource;
+  source?: CompanyBenefitSource | undefined;
   /** Whether employee deductions and company contributions can be set as percentages of payroll for an individual employee. This is determined by the type of benefit and is not configurable by the company. */
-  supports_percentage_amounts?: boolean;
+  supports_percentage_amounts?: boolean | undefined;
   /** The UUID of the company benefit. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The contractor type. */
 export type CreateCompanyContractorRequestType = "Individual" | "Business";
@@ -421,27 +421,27 @@ export interface CreateCompanyContractorRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** The name of the contractor business. This attribute is required for `Business` contractors and will be ignored for `Individual` contractors. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The employer identification number of the contractor business. This attribute is optional for `Business` contractors and will be ignored for `Individual` contractors. */
-  ein?: string;
+  ein?: string | undefined;
   /** The contractor's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The boolean flag indicating whether Gusto will file a new hire report for the contractor. This attribute is optional for `Individual` contractors and will be ignored for `Business` contractors. */
-  file_new_hire_report?: boolean;
+  file_new_hire_report?: boolean | undefined;
   /** The contractor's first name. This attribute is required for `Individual` contractors and will be ignored for `Business` contractors. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The contractor's hourly rate. This attribute is required if the wage_type is `Hourly`. */
-  hourly_rate?: string;
+  hourly_rate?: string | undefined;
   /** The status of the contractor. If the contractor's start date is in the future, updating this field to true means we are setting the start date to today. Attempting to deactivate a contractor while a dismissal is already scheduled, or reactivate while a rehire is already scheduled, will return a 422 error. Cancel the pending transition first using the appropriate cancel endpoint. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** The contractor's last name. This attribute is required for `Individual` contractors and will be ignored for `Business` contractors. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The contractor's middle initial. This attribute is optional for `Individual` contractors and will be ignored for `Business` contractors. */
-  middle_initial?: string;
+  middle_initial?: string | undefined;
   /** Whether the contractor or the payroll admin will complete onboarding in Gusto. Self-onboarding is recommended so that contractors receive Gusto accounts. If self_onboarding is true, then email is required. */
-  self_onboarding?: boolean;
+  self_onboarding?: boolean | undefined;
   /** This attribute is optional for `Individual` contractors and will be ignored for `Business` contractors. Social security number is needed to file the annual 1099 tax form. */
-  ssn?: string;
+  ssn?: string | undefined;
   /** The day when the contractor will start working for the company. */
   start_date: string;
   /** The contractor type. */
@@ -449,18 +449,18 @@ export interface CreateCompanyContractorRequest {
   /** The contractor's wage type. */
   wage_type: CreateCompanyContractorRequestWageType | (string & {});
   /** The work email address of the contractor. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing). */
-  work_email?: string;
+  work_email?: string | undefined;
   /** State where the contractor will be conducting the majority of their work for the company. This value is used when generating the new hire report. This attribute is required for `Individual` contractors if `file_new_hire_report` is true and will be ignored for `Business` contractors. */
-  work_state?: string | null;
+  work_state?: string | null | undefined;
 }
 /** The contractor's home address. */
 export interface ContractorAddress {
-  city?: string;
-  country?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
-  zip?: string;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
+  zip?: string | undefined;
 }
 /** The current status of the member portal invitation. */
 export type ContractorMemberPortalInvitationStatusStatus =
@@ -472,13 +472,13 @@ export type ContractorMemberPortalInvitationStatusStatus =
 /** Member portal invitation status information. Only included when the include param has the portal_invitations value set. */
 export interface ContractorMemberPortalInvitationStatus {
   /** The date and time when the password reset was last resent. */
-  last_password_resent_at?: string | Redacted.Redacted<string> | null;
+  last_password_resent_at?: string | Redacted.Redacted<string> | null | undefined;
   /** The current status of the member portal invitation. */
-  status?: ContractorMemberPortalInvitationStatusStatus;
+  status?: ContractorMemberPortalInvitationStatusStatus | undefined;
   /** Whether the invitation token has expired. */
-  token_expired?: boolean | null;
+  token_expired?: boolean | null | undefined;
   /** The date and time when the welcome email was sent. */
-  welcome_email_sent_at?: string | null;
+  welcome_email_sent_at?: string | null | undefined;
 }
 /** One of the "onboarding_status" enum values. */
 export type ContractorOnboardingStatus =
@@ -495,78 +495,78 @@ export type ContractorType = "Individual" | "Business";
 /** The contractor's upcoming employment details, if a rehire is scheduled. */
 export interface ContractorUpcomingEmployment {
   /** The setup status of the upcoming employment. */
-  setup_status?: string | null;
+  setup_status?: string | null | undefined;
   /** The start date of the upcoming employment. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 /** The contractor's wage type, either "Fixed" or "Hourly". */
 export type ContractorWageType = "Fixed" | "Hourly";
 /** The representation of a contractor (individual or business) in Gusto. */
 export interface Contractor {
   /** The contractor's home address. */
-  address?: ContractorAddress | null;
+  address?: ContractorAddress | null | undefined;
   /** The name of the contractor business. This attribute is required for "Business" contractors and will be ignored for "Individual" contractors. */
-  business_name?: string | null;
+  business_name?: string | null | undefined;
   /** The UUID of the company the contractor is employed by. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The contractor's department in the company. */
-  department?: string | null;
+  department?: string | null | undefined;
   /** The title of the contractor's department. */
-  department_title?: string | null;
+  department_title?: string | null | undefined;
   /** The UUID of the department the contractor is under */
-  department_uuid?: string | null;
+  department_uuid?: string | null | undefined;
   /** Whether the contractor's pending dismissal can be cancelled. */
-  dismissal_cancellation_eligible?: boolean;
+  dismissal_cancellation_eligible?: boolean | undefined;
   /** The contractor's dismissal date. */
-  dismissal_date?: string | null;
+  dismissal_date?: string | null | undefined;
   /** The Federal Employer Identification Number of the contractor business. This attribute is optional for "Business" contractors and will be ignored for "Individual" contractors. */
-  ein?: string | null;
+  ein?: string | null | undefined;
   /** The contractor's email address. This attribute is optional for "Individual" contractors and will be ignored for "Business" contractors. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The boolean flag indicating whether Gusto will file a new hire report for the contractor */
-  file_new_hire_report?: boolean | null;
+  file_new_hire_report?: boolean | null | undefined;
   /** The contractor's first name. This attribute is required for "Individual" contractors and will be ignored for "Business" contractors. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** Whether company's Employer Identification Number (EIN) is present */
-  has_ein?: boolean | null;
+  has_ein?: boolean | null | undefined;
   /** Indicates whether the contractor has an SSN in Gusto. */
-  has_ssn?: boolean;
+  has_ssn?: boolean | undefined;
   /** The contractor's hourly rate. This attribute is required if the wage_type is "Hourly". */
-  hourly_rate?: string;
+  hourly_rate?: string | undefined;
   /** The status of the contractor with the company. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** The contractor's last name. This attribute is required for "Individual" contractors and will be ignored for "Business" contractors. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Member portal invitation status information. Only included when the include param has the portal_invitations value set. */
-  member_portal_invitation_status?: ContractorMemberPortalInvitationStatus | null;
+  member_portal_invitation_status?: ContractorMemberPortalInvitationStatus | null | undefined;
   /** The contractor's middle initial. This attribute is optional for "Individual" contractors and will be ignored for "Business" contractors. */
-  middle_initial?: string | null;
+  middle_initial?: string | null | undefined;
   /** The updated onboarding status for the contractor */
-  onboarded?: boolean;
+  onboarded?: boolean | undefined;
   /** One of the "onboarding_status" enum values. */
-  onboarding_status?: ContractorOnboardingStatus;
+  onboarding_status?: ContractorOnboardingStatus | undefined;
   /** Whether an external partner portal invitation webhook has been sent for this contractor. Only included when the include param has the portal_invitations value set. */
-  partner_portal_invitation_sent?: boolean | null;
+  partner_portal_invitation_sent?: boolean | null | undefined;
   /** The contractor's payment method. */
-  payment_method?: ContractorPaymentMethod | null;
+  payment_method?: ContractorPaymentMethod | null | undefined;
   /** Whether the contractor's pending rehire can be cancelled. */
-  rehire_cancellation_eligible?: boolean;
+  rehire_cancellation_eligible?: boolean | undefined;
   /** The contractor's start date. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The contractor's type, either "Individual" or "Business". */
-  type?: ContractorType;
+  type?: ContractorType | undefined;
   /** The contractor's upcoming employment details, if a rehire is scheduled. */
-  upcoming_employment?: ContractorUpcomingEmployment | null;
+  upcoming_employment?: ContractorUpcomingEmployment | null | undefined;
   /** The UUID of the contractor in Gusto. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The contractor's wage type, either "Fixed" or "Hourly". */
-  wage_type?: ContractorWageType;
+  wage_type?: ContractorWageType | undefined;
   /** The work email address of the contractor. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing). */
-  work_email?: string | null;
+  work_email?: string | null | undefined;
   /** State where the contractor will be conducting the majority of their work for the company. This value is used when generating the new hire report. */
-  work_state?: string | null;
+  work_state?: string | null | undefined;
 }
 export type CreateCompanyContractorPaymentRequestPaymentMethod =
   | "Direct Deposit"
@@ -576,22 +576,22 @@ export interface CreateCompanyContractorPaymentRequest {
   /** The UUID of the company */
   company_id: string;
   /** If the contractor is on an hourly wage, this is the bonus the contractor earned. */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The contractor receiving the payment. */
   contractor_uuid: string;
   /** Date of contractor payment. */
   date: string;
   /** If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment. */
-  hours?: string;
+  hours?: string | undefined;
   /** An optional invoice number to associate with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
-  memo?: string;
-  payment_method?: CreateCompanyContractorPaymentRequestPaymentMethod | (string & {});
+  memo?: string | undefined;
+  payment_method?: CreateCompanyContractorPaymentRequestPaymentMethod | (string & {}) | undefined;
   /** Reimbursed wages for the contractor. */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked. */
-  wage?: string;
+  wage?: string | undefined;
 }
 /** The payment method. */
 export type ContractorPaymentPaymentMethod =
@@ -606,35 +606,35 @@ export type ContractorPaymentWageType = "Hourly" | "Fixed";
 /** The representation of a single contractor payment. */
 export interface ContractorPayment {
   /** The bonus amount in the payment. */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The UUID of the contractor. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** The payment date. */
-  date?: string;
+  date?: string | undefined;
   /** The rate per hour worked for the payment. */
-  hourly_rate?: string;
+  hourly_rate?: string | undefined;
   /** The number of hours worked for the payment. */
-  hours?: string;
+  hours?: string | undefined;
   /** An optional invoice number associated with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
-  invoice_number?: string | null;
+  invoice_number?: string | null | undefined;
   /** Determine if the contractor payment can be cancelled. */
-  may_cancel?: boolean;
+  may_cancel?: boolean | undefined;
   /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** The payment method. */
-  payment_method?: ContractorPaymentPaymentMethod;
+  payment_method?: ContractorPaymentPaymentMethod | undefined;
   /** The reimbursement amount in the payment. */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** Contractor payment status */
-  status?: ContractorPaymentStatus;
+  status?: ContractorPaymentStatus | undefined;
   /** The unique identifier of the contractor payment in Gusto. */
   uuid: string;
   /** The fixed wage of the payment, regardless of hours worked. */
-  wage?: string;
+  wage?: string | undefined;
   /** (hours * hourly_rate) + wage + bonus */
-  wage_total?: string;
+  wage_total?: string | undefined;
   /** The wage type for the payment. */
-  wage_type?: ContractorPaymentWageType;
+  wage_type?: ContractorPaymentWageType | undefined;
 }
 export type CreateCompanyContractorPaymentGroupRequestContractorPaymentsItemPaymentMethod =
   | "Direct Deposit"
@@ -642,43 +642,44 @@ export type CreateCompanyContractorPaymentGroupRequestContractorPaymentsItemPaym
   | "Historical Payment";
 export interface CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem {
   /** If the contractor is on an hourly wage, this is the bonus the contractor earned */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The contractor receiving the payment */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment */
-  hours?: string;
+  hours?: string | undefined;
   /** An optional invoice number to associate with this contractor payment. This will be visible to the contractor on their paystub. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
-  memo?: string;
+  memo?: string | undefined;
   payment_method?:
     | CreateCompanyContractorPaymentGroupRequestContractorPaymentsItemPaymentMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Reimbursed wages for the contractor */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked */
-  wage?: string;
+  wage?: string | undefined;
 }
 export type CreateCompanyContractorPaymentGroupRequestContractorPaymentsList =
   Array<CreateCompanyContractorPaymentGroupRequestContractorPaymentsItem>;
 export interface CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem {
   /** Message for the option */
-  message?: string;
+  message?: string | undefined;
   /** The type of option */
-  type?: string;
+  type?: string | undefined;
 }
 /** Optional array of additional options for the blocker */
 export type CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList =
   Array<CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsItem>;
 export interface CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItem {
   /** The type of blocker that is blocking the payment submission */
-  blocker_type?: string;
+  blocker_type?: string | undefined;
   /** Optional message related to the blocker */
-  message?: string;
+  message?: string | undefined;
   /** Optional array of additional options for the blocker */
-  options?: CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList;
+  options?: CreateCompanyContractorPaymentGroupRequestSubmissionBlockersItemOptionsList | undefined;
   /** The unblock option selected to resolve the submission blocker */
-  selected_option?: string | null;
+  selected_option?: string | null | undefined;
 }
 /** Optional array of submission blockers with selected unblock options. Returned from the preview endpoint and can be submitted with selected_option to resolve blockers. */
 export type CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList =
@@ -692,7 +693,9 @@ export interface CreateCompanyContractorPaymentGroupRequest {
   /** A token used to make contractor payment group creation idempotent. The string must be unique for each group you intend to create. */
   creation_token: string;
   /** Optional array of submission blockers with selected unblock options. Returned from the preview endpoint and can be submitted with selected_option to resolve blockers. */
-  submission_blockers?: CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList;
+  submission_blockers?:
+    | CreateCompanyContractorPaymentGroupRequestSubmissionBlockersList
+    | undefined;
 }
 /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
 export type CreateCompanyContractorPaymentGroupResponseStatus = "Unfunded" | "Funded";
@@ -709,33 +712,33 @@ export type ContractorPaymentForGroupWageType = "Hourly" | "Fixed";
 /** The representation of a single contractor payment. */
 export interface ContractorPaymentForGroup {
   /** The bonus amount in the payment. */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The UUID of the contractor. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** The rate per hour worked for the payment. */
-  hourly_rate?: string;
+  hourly_rate?: string | undefined;
   /** The number of hours worked for the payment. */
-  hours?: string;
+  hours?: string | undefined;
   /** An optional invoice number associated with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
-  invoice_number?: string | null;
+  invoice_number?: string | null | undefined;
   /** Determine if the contractor payment can be cancelled. */
-  may_cancel?: boolean;
+  may_cancel?: boolean | undefined;
   /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** The payment method. */
-  payment_method?: ContractorPaymentForGroupPaymentMethod;
+  payment_method?: ContractorPaymentForGroupPaymentMethod | undefined;
   /** The reimbursement amount in the payment. */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** The status of the contractor payment. Will transition to `Funded` during payments processing if the payment should be funded, i.e. has `Direct Deposit` for payment method. Contractors payments with `Check` payment method will remain `Unfunded`. */
-  status?: ContractorPaymentForGroupStatus;
+  status?: ContractorPaymentForGroupStatus | undefined;
   /** The unique identifier of the contractor payment in Gusto. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The fixed wage of the payment, regardless of hours worked. */
-  wage?: string;
+  wage?: string | undefined;
   /** (hours * hourly_rate) + wage + bonus */
-  wage_total?: string;
+  wage_total?: string | undefined;
   /** The wage type for the payment. */
-  wage_type?: ContractorPaymentForGroupWageType;
+  wage_type?: ContractorPaymentForGroupWageType | undefined;
 }
 export type CreateCompanyContractorPaymentGroupResponseContractorPaymentsList =
   Array<ContractorPaymentForGroup>;
@@ -765,7 +768,7 @@ export interface PayrollCreditBlockerUnblockOptionSubmitWire {
 }
 export interface PayrollCreditBlockerUnblockOptionSubmitBankScreenshotMetadata {
   /** Last 4 digits of the bank account number for the bank screenshot RFI */
-  bank_account_last_four_digits?: string | null;
+  bank_account_last_four_digits?: string | null | undefined;
   /** UUID of the information request */
   information_request_uuid: string;
 }
@@ -817,15 +820,15 @@ export type PayrollCreditBlockerTypeUnblockOptionsList =
 /** A blocker that prevents payment crediting. */
 export interface PayrollCreditBlockerType {
   /** The name of the credit blocker. */
-  blocker_name?: string;
+  blocker_name?: string | undefined;
   /** The type of blocker that's blocking the payment from being credited. */
-  blocker_type?: string;
+  blocker_type?: string | undefined;
   /** The unblock option that's been selected to resolve the credit blocker. */
-  selected_option?: string | null;
+  selected_option?: string | null | undefined;
   /** The status of the credit blocker */
-  status?: PayrollCreditBlockerTypeStatus;
+  status?: PayrollCreditBlockerTypeStatus | undefined;
   /** The available options to unblock a credit blocker. */
-  unblock_options?: PayrollCreditBlockerTypeUnblockOptionsList;
+  unblock_options?: PayrollCreditBlockerTypeUnblockOptionsList | undefined;
 }
 /** List of credit blockers for the contractor payment group. */
 export type CreateCompanyContractorPaymentGroupResponseCreditBlockersList =
@@ -838,11 +841,11 @@ export type PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap = {
 };
 export interface PayrollSubmissionBlockerTypeUnblockOptionsItem {
   /** The payment check date associated with the unblock option. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** Additional data associated with the unblock option. */
-  metadata?: PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap;
+  metadata?: PayrollSubmissionBlockerTypeUnblockOptionsItemMetadataMap | undefined;
   /** The type of unblock option for the submission blocker. */
-  unblock_type?: string;
+  unblock_type?: string | undefined;
 }
 /** The available options to unblock a submission blocker. */
 export type PayrollSubmissionBlockerTypeUnblockOptionsList =
@@ -850,52 +853,56 @@ export type PayrollSubmissionBlockerTypeUnblockOptionsList =
 /** A blocker that prevents payment submission. */
 export interface PayrollSubmissionBlockerType {
   /** The name of the submission blocker. */
-  blocker_name?: string;
+  blocker_name?: string | undefined;
   /** The type of blocker that's blocking the payment submission. */
-  blocker_type?: string;
+  blocker_type?: string | undefined;
   /** The unblock option that's been selected to resolve the submission blocker. */
-  selected_option?: string | null;
+  selected_option?: string | null | undefined;
   /** The status of the submission blocker. */
-  status?: PayrollSubmissionBlockerTypeStatus;
+  status?: PayrollSubmissionBlockerTypeStatus | undefined;
   /** The available options to unblock a submission blocker. */
-  unblock_options?: PayrollSubmissionBlockerTypeUnblockOptionsList;
+  unblock_options?: PayrollSubmissionBlockerTypeUnblockOptionsList | undefined;
 }
 /** List of submission blockers for the contractor payment group. */
 export type CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList =
   Array<PayrollSubmissionBlockerType>;
 export interface CreateCompanyContractorPaymentGroupResponseTotals {
   /** The total amount for the group of contractor payments. */
-  amount?: string;
+  amount?: string | undefined;
   /** The total check amount for the group of contractor payments. */
-  check_amount?: string;
+  check_amount?: string | undefined;
   /** The total debit amount for the group of contractor payments. Sum of wage & reimbursement amount. */
-  debit_amount?: string;
+  debit_amount?: string | undefined;
   /** The total reimbursement amount for the group of contractor payments. */
-  reimbursement_amount?: string;
+  reimbursement_amount?: string | undefined;
   /** The total wage amount for the group of contractor payments. */
-  wage_amount?: string;
+  wage_amount?: string | undefined;
 }
 export interface CreateCompanyContractorPaymentGroupResponse {
   /** The check date of the contractor payment group. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
-  creation_token?: string | null;
+  creation_token?: string | null | undefined;
   /** The debit date of the contractor payment group. */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
-  status?: CreateCompanyContractorPaymentGroupResponseStatus;
+  status?: CreateCompanyContractorPaymentGroupResponseStatus | undefined;
   /** The unique identifier of the contractor payment group. */
-  uuid?: string;
-  contractor_payments?: CreateCompanyContractorPaymentGroupResponseContractorPaymentsList;
+  uuid?: string | undefined;
+  contractor_payments?:
+    | CreateCompanyContractorPaymentGroupResponseContractorPaymentsList
+    | undefined;
   /** List of credit blockers for the contractor payment group. */
-  credit_blockers?: CreateCompanyContractorPaymentGroupResponseCreditBlockersList;
+  credit_blockers?: CreateCompanyContractorPaymentGroupResponseCreditBlockersList | undefined;
   /** Whether the disbursement is partner owned. */
-  partner_owned_disbursement?: boolean | null;
+  partner_owned_disbursement?: boolean | null | undefined;
   /** List of submission blockers for the contractor payment group. */
-  submission_blockers?: CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList;
-  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+  submission_blockers?:
+    | CreateCompanyContractorPaymentGroupResponseSubmissionBlockersList
+    | undefined;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals | undefined;
 }
 export type CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItemPaymentMethod =
   | "Direct Deposit"
@@ -903,22 +910,23 @@ export type CreateCompanyContractorPaymentGroupsPreviewRequestContractorPayments
   | "Historical Payment";
 export interface CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem {
   /** If the contractor is on an hourly wage, this is the bonus the contractor earned */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The contractor receiving the payment */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** If the contractor is on an hourly wage, this is the number of hours that the contractor worked for the payment */
-  hours?: string;
+  hours?: string | undefined;
   /** An optional invoice number to associate with this contractor payment. This will be visible to the contractor on their paystub. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
-  memo?: string;
+  memo?: string | undefined;
   payment_method?:
     | CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItemPaymentMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Reimbursed wages for the contractor */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** If the contractor is on a fixed wage, this is the fixed wage payment for the contractor, regardless of hours worked */
-  wage?: string;
+  wage?: string | undefined;
 }
 export type CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsList =
   Array<CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsItem>;
@@ -926,7 +934,7 @@ export interface CreateCompanyContractorPaymentGroupsPreviewRequest {
   /** The UUID of the company */
   company_id: string;
   /** Date when payments should be processed */
-  check_date?: string;
+  check_date?: string | undefined;
   contractor_payments: CreateCompanyContractorPaymentGroupsPreviewRequestContractorPaymentsList;
 }
 /** The payment method. */
@@ -942,33 +950,33 @@ export type ContractorPaymentForGroupPreviewWageType = "Hourly" | "Fixed";
 /** Preview representation of a single contractor payment with nullable uuid. */
 export interface ContractorPaymentForGroupPreview {
   /** The bonus amount in the payment. */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The UUID of the contractor. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** The rate per hour worked for the payment. */
-  hourly_rate?: string;
+  hourly_rate?: string | undefined;
   /** The number of hours worked for the payment. */
-  hours?: string;
+  hours?: string | undefined;
   /** An optional invoice number associated with this contractor payment. This will be visible to the contractor on their paystub. Maximum 25 characters. */
-  invoice_number?: string | null;
+  invoice_number?: string | null | undefined;
   /** Determine if the contractor payment can be cancelled. */
-  may_cancel?: boolean;
+  may_cancel?: boolean | undefined;
   /** An optional note or memo for this contractor payment. This will be visible to the contractor on their paystub. */
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** The payment method. */
-  payment_method?: ContractorPaymentForGroupPreviewPaymentMethod;
+  payment_method?: ContractorPaymentForGroupPreviewPaymentMethod | undefined;
   /** The reimbursement amount in the payment. */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** The status of the contractor payment. Will transition to `Funded` during payments processing if the payment should be funded, i.e. has `Direct Deposit` for payment method. Contractors payments with `Check` payment method will remain `Unfunded`. */
-  status?: ContractorPaymentForGroupPreviewStatus;
+  status?: ContractorPaymentForGroupPreviewStatus | undefined;
   /** The unique identifier of the contractor payment in Gusto. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
   /** The fixed wage of the payment, regardless of hours worked. */
-  wage?: string;
+  wage?: string | undefined;
   /** (hours * hourly_rate) + wage + bonus */
-  wage_total?: string;
+  wage_total?: string | undefined;
   /** The wage type for the payment. */
-  wage_type?: ContractorPaymentForGroupPreviewWageType;
+  wage_type?: ContractorPaymentForGroupPreviewWageType | undefined;
 }
 export type ContractorPaymentGroupPreviewContractorPaymentsList =
   Array<ContractorPaymentForGroupPreview>;
@@ -983,25 +991,25 @@ export type ContractorPaymentGroupPreviewTotals = CreateCompanyContractorPayment
 /** Preview of a contractor payment group */
 export interface ContractorPaymentGroupPreview {
   /** The check date of the contractor payment group. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
-  contractor_payments?: ContractorPaymentGroupPreviewContractorPaymentsList;
+  company_uuid?: string | undefined;
+  contractor_payments?: ContractorPaymentGroupPreviewContractorPaymentsList | undefined;
   /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
-  creation_token?: string | null;
+  creation_token?: string | null | undefined;
   /** List of credit blockers for the contractor payment group. */
-  credit_blockers?: ContractorPaymentGroupPreviewCreditBlockersList;
+  credit_blockers?: ContractorPaymentGroupPreviewCreditBlockersList | undefined;
   /** The debit date of the contractor payment group. */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** Whether the disbursement is partner owned. */
-  partner_owned_disbursement?: boolean | null;
+  partner_owned_disbursement?: boolean | null | undefined;
   /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
-  status?: ContractorPaymentGroupPreviewStatus;
+  status?: ContractorPaymentGroupPreviewStatus | undefined;
   /** List of submission blockers for the contractor payment group. */
-  submission_blockers?: ContractorPaymentGroupPreviewSubmissionBlockersList;
-  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+  submission_blockers?: ContractorPaymentGroupPreviewSubmissionBlockersList | undefined;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals | undefined;
   /** The unique identifier of the contractor payment group. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 export interface CreateCompanyEarningTypeRequest {
   /** The UUID of the company */
@@ -1012,14 +1020,14 @@ export interface CreateCompanyEarningTypeRequest {
 /** The representation of an earning type in Gusto. */
 export interface EarningType {
   /** Whether the earning type is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The name of the earning type. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the earning type. */
   uuid: string;
 }
 export interface CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay {
-  selected?: boolean;
+  selected?: boolean | undefined;
 }
 export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysColumbusDay =
   CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
@@ -1043,33 +1051,33 @@ export type CreateCompanyHolidayPayPolicyRequestFederalHolidaysVeteransDay =
   CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
 /** An object containing federal holiday objects, each containing a boolean selected property. */
 export interface CreateCompanyHolidayPayPolicyRequestFederalHolidays {
-  christmas_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  columbus_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  independence_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  juneteenth?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  labor_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  memorial_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  mlk_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  new_years_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  presidents_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  thanksgiving?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
-  veterans_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay;
+  christmas_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  columbus_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  independence_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  juneteenth?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  labor_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  memorial_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  mlk_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  new_years_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  presidents_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  thanksgiving?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
+  veterans_day?: CreateCompanyHolidayPayPolicyRequestFederalHolidaysChristmasDay | undefined;
 }
 export interface CreateCompanyHolidayPayPolicyRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** An object containing federal holiday objects, each containing a boolean selected property. */
-  federal_holidays?: CreateCompanyHolidayPayPolicyRequestFederalHolidays;
+  federal_holidays?: CreateCompanyHolidayPayPolicyRequestFederalHolidays | undefined;
 }
 export interface HolidayPayPolicyEmployeesItem {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** List of employee uuids under a holiday pay policy */
 export type HolidayPayPolicyEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export interface HolidayPayPolicyFederalHolidaysChristmasDay {
-  date?: string;
-  name?: string;
-  selected?: boolean;
+  date?: string | undefined;
+  name?: string | undefined;
+  selected?: boolean | undefined;
 }
 export type HolidayPayPolicyFederalHolidaysColumbusDay =
   HolidayPayPolicyFederalHolidaysChristmasDay;
@@ -1090,17 +1098,17 @@ export type HolidayPayPolicyFederalHolidaysVeteransDay =
   HolidayPayPolicyFederalHolidaysChristmasDay;
 /** List of the eleven supported federal holidays and their details */
 export interface HolidayPayPolicyFederalHolidays {
-  christmas_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  columbus_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  independence_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  juneteenth?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  labor_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  memorial_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  mlk_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  new_years_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  presidents_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  thanksgiving?: HolidayPayPolicyFederalHolidaysChristmasDay;
-  veterans_day?: HolidayPayPolicyFederalHolidaysChristmasDay;
+  christmas_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  columbus_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  independence_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  juneteenth?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  labor_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  memorial_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  mlk_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  new_years_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  presidents_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  thanksgiving?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
+  veterans_day?: HolidayPayPolicyFederalHolidaysChristmasDay | undefined;
 }
 /** Representation of a Holiday Pay Policy */
 export interface HolidayPayPolicy {
@@ -1119,11 +1127,11 @@ export interface CreateCompanyLocationRequest {
   /** City. */
   city: string;
   /** Country code. Defaults to USA. */
-  country?: string;
+  country?: string | undefined;
   /** Specify if this location is the company's filing address. */
-  filing_address?: boolean;
+  filing_address?: boolean | undefined;
   /** Specify if this location is the company's mailing address. */
-  mailing_address?: boolean;
+  mailing_address?: boolean | undefined;
   /** Phone number. Must be 10 digits. */
   phone_number: string;
   /** State code (e.g. CA). Must be a valid two-letter state code. */
@@ -1131,50 +1139,50 @@ export interface CreateCompanyLocationRequest {
   /** Street address line 1. */
   street_1: string;
   /** Street address line 2. */
-  street_2?: string | null;
+  street_2?: string | null | undefined;
   /** ZIP code. Must be a valid US zip (e.g. 12345 or 12345-6789). */
   zip: string;
 }
 export interface WarningObject {
   /** Specifies the type of warning. Can be used to build custom warning handling. */
-  category?: string;
+  category?: string | undefined;
   /** Specifies where the warning occurs. Typically identifies the attribute or parameter related to the warning. */
-  error_key?: string;
+  error_key?: string | undefined;
   /** Provides details about the warning. The message can be surfaced directly to the end user. */
-  message?: string;
+  message?: string | undefined;
 }
 /** An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved. */
 export type LocationWarningsList = Array<WarningObject>;
 /** The representation of an address in Gusto. */
 export interface Location {
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  active?: boolean;
-  city?: string;
+  active?: boolean | undefined;
+  city?: string | undefined;
   /** The UUID for the company to which the location belongs. Only included if the location belongs to a company. */
-  company_uuid?: string;
-  country?: string;
+  company_uuid?: string | undefined;
+  country?: string | undefined;
   /** Datetime for when location is created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Specifies if the location is the company's filing address. Only included if the location belongs to a company. */
-  filing_address?: boolean;
+  filing_address?: boolean | undefined;
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  inactive?: boolean;
+  inactive?: boolean | undefined;
   /** Specifies if the location is the company's mailing address. Only included if the location belongs to a company. */
-  mailing_address?: boolean;
+  mailing_address?: boolean | undefined;
   /** The phone number for the location. Required for company locations. Optional for employee locations. */
-  phone_number?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
+  phone_number?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
   /** Datetime for when location is updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The UUID of the location object. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved. */
-  warnings?: LocationWarningsList;
-  zip?: string;
+  warnings?: LocationWarningsList | undefined;
+  zip?: string | undefined;
 }
 /** A list of employee UUIDs to include on the payroll. At least one UUID is required for non-termination off-cycle payrolls. */
 export type CreateCompanyPayrollRequestEmployeeUuidsList = Array<string>;
@@ -1198,27 +1206,30 @@ export interface CreateCompanyPayrollRequest {
   /** The UUID of the company */
   company_id: string;
   /** Payment date. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** A list of employee UUIDs to include on the payroll. At least one UUID is required for non-termination off-cycle payrolls. */
-  employee_uuids?: CreateCompanyPayrollRequestEmployeeUuidsList;
+  employee_uuids?: CreateCompanyPayrollRequestEmployeeUuidsList | undefined;
   /** Pay period end date. */
   end_date: string;
   /** Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages. */
-  fixed_withholding_rate?: boolean;
+  fixed_withholding_rate?: boolean | undefined;
   /** When true, all employees in the payroll will be paid by check and the check date can be set to today or any future business day (rather than requiring ACH lead time). Payment methods cannot be changed on check-only payrolls. */
-  is_check_only_payroll?: boolean;
+  is_check_only_payroll?: boolean | undefined;
   /** Whether it is an off cycle payroll. */
   off_cycle: boolean;
   /** An off cycle payroll reason. Select one from the following list. */
   off_cycle_reason: CreateCompanyPayrollRequestOffCycleReason | (string & {});
   /** A pay schedule is required for transition from old pay schedule payroll to identify the matching transition pay period. */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
   /** Block regular deductions and contributions for this payroll. */
-  skip_regular_deductions?: boolean;
+  skip_regular_deductions?: boolean | undefined;
   /** Pay period start date. */
   start_date: string;
   /** The payment schedule tax rate the payroll is based on. */
-  withholding_pay_period?: CreateCompanyPayrollRequestWithholdingPayPeriod | (string & {});
+  withholding_pay_period?:
+    | CreateCompanyPayrollRequestWithholdingPayPeriod
+    | (string & {})
+    | undefined;
 }
 /** How to interpret the amount. */
 export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalAmountType =
@@ -1230,11 +1241,15 @@ export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal
 /** Federal one-time custom withholding override applied to this payroll. */
 export interface PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal {
   /** The amount that was withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
-  amount_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalAmountType;
+  amount_type?:
+    | PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalAmountType
+    | undefined;
   /** Override mode. Only `one_time` is currently exposed. */
-  override_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType;
+  override_type?:
+    | PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType
+    | undefined;
 }
 /** How to interpret the amount. */
 export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType =
@@ -1245,13 +1260,17 @@ export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateIt
   "one_time";
 export interface PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItem {
   /** The amount that was withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
-  amount_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType;
+  amount_type?:
+    | PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType
+    | undefined;
   /** The UUID of the EmployeeStateField this withholding applies to. */
-  employee_state_field_uuid?: string;
+  employee_state_field_uuid?: string | undefined;
   /** Override mode. Only `one_time` is currently exposed. */
-  override_type?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType;
+  override_type?:
+    | PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType
+    | undefined;
 }
 /** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
 export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList =
@@ -1259,47 +1278,47 @@ export type PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateLi
 /** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
 export interface PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings {
   /** Federal one-time custom withholding override applied to this payroll. */
-  federal?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal | null;
+  federal?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsFederal | null | undefined;
   /** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
-  state?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList;
+  state?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdingsStateList | undefined;
 }
 export interface PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem {
   /** The amount of the compensation for the pay period. */
-  amount?: string;
+  amount?: string | undefined;
   /** The UUID of the job for the compensation. */
-  job_uuid?: string;
+  job_uuid?: string | undefined;
   /** The name of the compensation. This also serves as the unique, immutable identifier for this compensation. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
 export type PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList =
   Array<PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem>;
 export interface PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem {
   /** The amount of the compensation. This field is only available after the payroll is calculated and cannot be used for updating hourly compensations. */
-  amount?: string;
+  amount?: string | undefined;
   /** The amount multiplied by the base rate to calculate total compensation per hour worked. */
-  compensation_multiplier?: number;
+  compensation_multiplier?: number | undefined;
   /** The FLSA Status of the employee's primary job compensation */
-  flsa_status?: string;
+  flsa_status?: string | undefined;
   /** The number of hours to be compensated for this pay period. */
-  hours?: string;
+  hours?: string | undefined;
   /** The UUID of the job for the compensation. */
-  job_uuid?: string;
+  job_uuid?: string | undefined;
   /** The name of the compensation. This also serves as the unique, immutable identifier for this compensation. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
 export type PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList =
   Array<PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsItem>;
 export interface PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffItem {
   /** The dollar amount paid for this PTO entry during the pay period (as a string-formatted decimal, e.g. "1234.56"). Only available for processed payrolls. */
-  amount?: string | null;
+  amount?: string | null | undefined;
   /** The outstanding hours paid upon termination. This field is only applicable for termination payrolls. */
-  final_payout_unused_hours_input?: string | null;
+  final_payout_unused_hours_input?: string | null | undefined;
   /** The hours of this PTO taken during the pay period. */
-  hours?: string;
+  hours?: string | undefined;
   /** The name of the PTO. This also serves as the unique, immutable identifier for the PTO. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array of all paid time off the employee is eligible for this pay period. */
 export type PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList =
@@ -1314,52 +1333,56 @@ export interface PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem {
   /** The description of the reimbursement. Null for unnamed reimbursements. */
   description: string | null;
   /** Whether the reimbursement is recurring. This field is only available for unprocessed payrolls. */
-  recurring?: boolean;
+  recurring?: boolean | undefined;
   /** The UUID of the reimbursement. Null for unnamed reimbursements. This field is only available for unprocessed payrolls. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 /** An array of reimbursements for the employee. */
 export type PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList =
   Array<PayrollUnprocessedEmployeeCompensationsTypeReimbursementsItem>;
 export interface PayrollUnprocessedEmployeeCompensationsType {
   /** The employee's check amount (as a string-formatted decimal, e.g. "1234.56"), equal to net_pay + reimbursements. This value is only available for processed payrolls. */
-  check_amount?: string | null;
+  check_amount?: string | null | undefined;
   /** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
-  custom_withholdings?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings;
+  custom_withholdings?: PayrollUnprocessedEmployeeCompensationsTypeCustomWithholdings | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** This employee will be excluded (skipped) from payroll calculation and will not be paid for the payroll. Cancelling a payroll would reset all employees' excluded back to false. */
-  excluded?: boolean;
+  excluded?: boolean | undefined;
   /** The first name of the employee. Requires `employees:read` scope. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
-  fixed_compensations?: PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList;
+  fixed_compensations?:
+    | PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsList
+    | undefined;
   /** The employee's gross pay (as a string-formatted decimal, e.g. "1234.56"), equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls. */
-  gross_pay?: string | null;
+  gross_pay?: string | null | undefined;
   /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
-  hourly_compensations?: PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList;
+  hourly_compensations?:
+    | PayrollUnprocessedEmployeeCompensationsTypeHourlyCompensationsList
+    | undefined;
   /** The last name of the employee. Requires `employees:read` scope. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Custom text that will be printed as a personal note to the employee on a paystub. */
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** The employee's net pay (as a string-formatted decimal, e.g. "1234.56"), equal to gross_pay - employee taxes - employee deductions or garnishments - cash tips. This value is only available for processed payrolls. */
-  net_pay?: string | null;
+  net_pay?: string | null | undefined;
   /** An array of all paid time off the employee is eligible for this pay period. */
-  paid_time_off?: PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList;
+  paid_time_off?: PayrollUnprocessedEmployeeCompensationsTypePaidTimeOffList | undefined;
   /** The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto. */
-  payment_method?: PayrollUnprocessedEmployeeCompensationsTypePaymentMethod | null;
+  payment_method?: PayrollUnprocessedEmployeeCompensationsTypePaymentMethod | null | undefined;
   /** The preferred first name of the employee. Requires `employees:read` scope. */
-  preferred_first_name?: string | null;
+  preferred_first_name?: string | null | undefined;
   /** An array of reimbursements for the employee. */
-  reimbursements?: PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList;
+  reimbursements?: PayrollUnprocessedEmployeeCompensationsTypeReimbursementsList | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export type PayrollUnprocessedEmployeeCompensationsList =
   Array<PayrollUnprocessedEmployeeCompensationsType>;
 export interface PayrollFixedCompensationTypesTypeItem {
   /** The name of an available type of fixed compensation. */
-  name?: string;
+  name?: string | undefined;
 }
 export type PayrollFixedCompensationTypesType = Array<PayrollFixedCompensationTypesTypeItem>;
 export type OffCycleReasonType =
@@ -1376,62 +1399,62 @@ export type OffCycleReasonType =
   | "Transition from old pay schedule";
 export interface PayrollPayPeriodType {
   /** The start date, inclusive, of the pay period. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The UUID of the pay schedule for the payroll. */
-  pay_schedule_uuid?: string | null;
+  pay_schedule_uuid?: string | null | undefined;
   /** The start date, inclusive, of the pay period. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 /** Only applicable when a payroll is moved to four day processing instead of fast ach. */
 export interface PayrollPaymentSpeedChangedType {
   /** Current check date. */
-  current_check_date?: string;
+  current_check_date?: string | undefined;
   /** Current debit date. */
-  current_debit_date?: string;
+  current_debit_date?: string | undefined;
   /** Original check date when fast ach applies. */
-  original_check_date?: string;
+  original_check_date?: string | undefined;
   /** Original debit date when fast ach applies. */
-  original_debit_date?: string;
+  original_debit_date?: string | undefined;
   /** The reason why the payroll is moved to four day. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Information about the payroll's status and expected dates */
 export interface PayrollPayrollStatusMetaType {
   /** true if the payroll may be cancelled. */
-  cancellable?: boolean;
+  cancellable?: boolean | undefined;
   /** The date an employee will be paid if the payroll is submitted now. */
-  expected_check_date?: string;
+  expected_check_date?: string | undefined;
   /** The time the employer's account will be debited if the payroll is submitted now. */
-  expected_debit_time?: string;
+  expected_debit_time?: string | undefined;
   /** The normal check date for the associated pay period. Returns `null` for off-cycle payrolls (not meaningful for off-cycle). */
-  initial_check_date?: string | null;
+  initial_check_date?: string | null | undefined;
   /** Payroll must be submitted at or before this time to avoid late payroll. */
-  initial_debit_cutoff_time?: string;
+  initial_debit_cutoff_time?: string | undefined;
   /** expected_check_date > initial_check_date. Returns `null` for off-cycle payrolls (not meaningful for off-cycle). */
-  payroll_late?: boolean | null;
+  payroll_late?: boolean | null | undefined;
 }
 export interface EntityErrorObjectErrorsItem {
   /** Specifies the type of error. The category provides error groupings and can be used to build custom error handling in your integration. If category is `nested_errors`, the object will contain a nested `errors` property with entity errors. */
-  category?: string;
+  category?: string | undefined;
   /** Specifies where the error occurs. Typically this key identifies the attribute/parameter related to the error. */
-  error_key?: string;
+  error_key?: string | undefined;
   /** Provides details about the error - generally this message can be surfaced to an end user. */
-  message?: string;
+  message?: string | undefined;
   /** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** Will only exist if category is `nested_errors`. It is possible to have multiple levels of nested errors. */
 export type EntityErrorObjectErrorsList = Array<EntityErrorObjectErrorsItem>;
 /** single entity */
 export interface MetadataWithOneEntity {
   /** Name of the entity that the error corresponds to. */
-  entity_type?: string;
+  entity_type?: string | undefined;
   /** Unique identifier for the entity. */
-  entity_uuid?: string;
-  key?: string | null;
-  state?: string | null;
-  valid_from?: string | null;
-  valid_up_to?: string | null;
+  entity_uuid?: string | undefined;
+  key?: string | null | undefined;
+  state?: string | null | undefined;
+  valid_from?: string | null | undefined;
+  valid_up_to?: string | null | undefined;
   [key: string]: unknown;
 }
 export type MetadataWithMultipleEntitiesEntitiesList = Array<MetadataWithOneEntity>;
@@ -1447,11 +1470,11 @@ export interface EntityErrorObject {
   /** Specifies where the error occurs. Typically this key identifies the attribute/parameter related to the error. */
   error_key: string;
   /** Will only exist if category is `nested_errors`. It is possible to have multiple levels of nested errors. */
-  errors?: EntityErrorObjectErrorsList;
+  errors?: EntityErrorObjectErrorsList | undefined;
   /** Provides details about the error - generally this message can be surfaced to an end user. */
-  message?: string;
+  message?: string | undefined;
   /** Contains relevant data to identify the resource in question when applicable. For example, to identify an entity `entity_type` and `entity_uuid` will be provided. */
-  metadata?: EntityErrorObjectMetadata;
+  metadata?: EntityErrorObjectMetadata | undefined;
 }
 /** Errors that occurred during async payroll processing */
 export type PayrollProcessingRequestErrorsList = Array<EntityErrorObject>;
@@ -1464,9 +1487,9 @@ export type PayrollProcessingRequestStatus =
   | "processing_failed";
 export interface PayrollProcessingRequest {
   /** Errors that occurred during async payroll processing */
-  errors?: PayrollProcessingRequestErrorsList;
+  errors?: PayrollProcessingRequestErrorsList | undefined;
   /** The status of the payroll processing request */
-  status?: PayrollProcessingRequestStatus;
+  status?: PayrollProcessingRequestStatus | undefined;
 }
 export type PayrollWithholdingPayPeriodType =
   | "Every week"
@@ -1478,30 +1501,30 @@ export type PayrollWithholdingPayPeriodType =
   | "Annually";
 /** An unprocessed payroll with employee compensations. */
 export interface PayrollUnprocessed {
-  auto_payroll?: boolean;
-  calculated_at?: string | null;
-  check_date?: string;
-  company_uuid?: string;
-  created_at?: string;
-  employee_compensations?: PayrollUnprocessedEmployeeCompensationsList;
-  external?: boolean;
-  final_termination_payroll?: boolean;
-  fixed_compensation_types?: PayrollFixedCompensationTypesType;
-  fixed_withholding_rate?: boolean | null;
-  off_cycle?: boolean;
-  off_cycle_reason?: OffCycleReasonType | null;
-  partner_owned_disbursement?: boolean | null;
-  pay_period?: PayrollPayPeriodType;
-  payment_speed_changed?: PayrollPaymentSpeedChangedType;
-  payroll_deadline?: string;
-  payroll_status_meta?: PayrollPayrollStatusMetaType;
-  payroll_uuid?: string;
-  processed?: boolean;
-  processed_date?: string | null;
-  processing_request?: PayrollProcessingRequest | null;
-  skip_regular_deductions?: boolean | null;
-  uuid?: string;
-  withholding_pay_period?: PayrollWithholdingPayPeriodType | null;
+  auto_payroll?: boolean | undefined;
+  calculated_at?: string | null | undefined;
+  check_date?: string | undefined;
+  company_uuid?: string | undefined;
+  created_at?: string | undefined;
+  employee_compensations?: PayrollUnprocessedEmployeeCompensationsList | undefined;
+  external?: boolean | undefined;
+  final_termination_payroll?: boolean | undefined;
+  fixed_compensation_types?: PayrollFixedCompensationTypesType | undefined;
+  fixed_withholding_rate?: boolean | null | undefined;
+  off_cycle?: boolean | undefined;
+  off_cycle_reason?: OffCycleReasonType | null | undefined;
+  partner_owned_disbursement?: boolean | null | undefined;
+  pay_period?: PayrollPayPeriodType | undefined;
+  payment_speed_changed?: PayrollPaymentSpeedChangedType | undefined;
+  payroll_deadline?: string | undefined;
+  payroll_status_meta?: PayrollPayrollStatusMetaType | undefined;
+  payroll_uuid?: string | undefined;
+  processed?: boolean | undefined;
+  processed_date?: string | null | undefined;
+  processing_request?: PayrollProcessingRequest | null | undefined;
+  skip_regular_deductions?: boolean | null | undefined;
+  uuid?: string | undefined;
+  withholding_pay_period?: PayrollWithholdingPayPeriodType | null | undefined;
 }
 /** The frequency that employees on this pay schedule are paid with Gusto. Only weekly, bi-weekly, twice per month, and monthly are supported on create and update. - `Every week`: Weekly pay. - `Every other week`: Biweekly pay. - `Twice per month`: Two pay dates per month; require day_1 and day_2 (use 31 for last day of month). - `Monthly`: One pay date per month; require day_1 (1-31). */
 export type PayScheduleFrequencyCreateUpdate =
@@ -1515,19 +1538,19 @@ export interface CreateCompanyPayScheduleRequest {
   anchor_end_of_pay_period: string;
   anchor_pay_date: string;
   /** A custom pay schedule name; defaults to the pay frequency description when null or omitted. When null or omitted, the system generates a description from the pay frequency and pay days (e.g. "every 1st and 15th of the month" for twice-monthly, "every 11th of the month" for monthly, "every Friday" for weekly). The response returns this generated value in `custom_name` when no custom name was set. When provided, the value you set is stored and returned. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies. On create: required for Twice per month and Monthly; omit or null for Every week and Every other week. */
-  day_1?: number | null;
+  day_1?: number | null | undefined;
   /** An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies. On create: only for Twice per month; omit or null for other frequencies. */
-  day_2?: number | null;
+  day_2?: number | null | undefined;
   frequency: PayScheduleFrequencyCreateUpdate | (string & {});
 }
 /** A single blocker preventing Autopayroll enablement. */
 export interface PayScheduleAutoPayrollEnablementBlocker {
   /** The blocker type. Possible values: employees_not_on_direct_deposit, employees_not_salaried, missing_state_tax_requirements, missing_funding_method, one_day_ach_speed_not_supported, company_suspended, earned_fast_ach_not_met, hourly_employees_missing_default_hours. */
-  key?: string;
+  key?: string | undefined;
   /** Blocker-specific metadata (e.g. employee_uuids, states). */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** List of blockers preventing automatic payroll from being enabled. If automatic payroll is already enabled, this field is null. */
 export type PayScheduleAutoPayrollEnablementBlockers =
@@ -1542,33 +1565,33 @@ export type PayScheduleFrequency =
   | "Annually";
 /** Pay schedule returned from pay schedule endpoints (GET by ID, POST create, PUT update). Same fields as Pay-Schedule with a required `version` for [optimistic concurrency](https://docs.gusto.com/embedded-payroll/docs/api-fundamentals#optimistic-version-control). For API version 2025-11-15 and later, responses use `auto_payroll`; earlier versions use `auto_pilot` for the same semantic. */
 export interface PayScheduleShow {
-  active?: boolean;
-  anchor_end_of_pay_period?: string;
-  anchor_pay_date?: string;
-  auto_payroll?: boolean;
-  auto_payroll_enablement_blockers?: PayScheduleAutoPayrollEnablementBlockers | null;
-  custom_name?: string;
-  day_1?: number | null;
-  day_2?: number | null;
-  frequency?: PayScheduleFrequency;
-  name?: string | null;
+  active?: boolean | undefined;
+  anchor_end_of_pay_period?: string | undefined;
+  anchor_pay_date?: string | undefined;
+  auto_payroll?: boolean | undefined;
+  auto_payroll_enablement_blockers?: PayScheduleAutoPayrollEnablementBlockers | null | undefined;
+  custom_name?: string | undefined;
+  day_1?: number | null | undefined;
+  day_2?: number | null | undefined;
+  frequency?: PayScheduleFrequency | undefined;
+  name?: string | null | undefined;
   uuid: string;
   version: string;
 }
 export interface CreateCompanyPaySchedulesAssignRequestDepartmentsItem {
   /** Department UUID */
-  department_uuid?: string;
+  department_uuid?: string | undefined;
   /** Pay schedule UUID */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
 }
 /** List of departments and their pay schedules. */
 export type CreateCompanyPaySchedulesAssignRequestDepartmentsList =
   Array<CreateCompanyPaySchedulesAssignRequestDepartmentsItem>;
 export interface CreateCompanyPaySchedulesAssignRequestEmployeesItem {
   /** Employee UUID */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** Pay schedule UUID */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
 }
 /** List of employees and their pay schedules. */
 export type CreateCompanyPaySchedulesAssignRequestEmployeesList =
@@ -1582,17 +1605,17 @@ export interface CreateCompanyPaySchedulesAssignRequest {
   /** The UUID of the company */
   company_id: string;
   /** Default pay schedule for employees. */
-  default_pay_schedule_uuid?: string;
+  default_pay_schedule_uuid?: string | undefined;
   /** List of departments and their pay schedules. */
-  departments?: CreateCompanyPaySchedulesAssignRequestDepartmentsList;
+  departments?: CreateCompanyPaySchedulesAssignRequestDepartmentsList | undefined;
   /** List of employees and their pay schedules. */
-  employees?: CreateCompanyPaySchedulesAssignRequestEmployeesList;
+  employees?: CreateCompanyPaySchedulesAssignRequestEmployeesList | undefined;
   /** Pay schedule for hourly employees. */
-  hourly_pay_schedule_uuid?: string;
+  hourly_pay_schedule_uuid?: string | undefined;
   /** Indicates whether the request provides pay schedule assignments for a partial list of employees or departments of the company. By default, this is set to false. */
-  partial_assignment?: boolean;
+  partial_assignment?: boolean | undefined;
   /** Pay schedule for salaried employees. */
-  salaried_pay_schedule_uuid?: string;
+  salaried_pay_schedule_uuid?: string | undefined;
   /** The pay schedule assignment type. */
   type: CreateCompanyPaySchedulesAssignRequestType | (string & {}) | null;
 }
@@ -1616,49 +1639,49 @@ export interface CreateCompanyPaySchedulesAssignmentPreviewRequest {
   /** The UUID of the company */
   company_id: string;
   /** Default pay schedule for employees. */
-  default_pay_schedule_uuid?: string;
+  default_pay_schedule_uuid?: string | undefined;
   /** List of departments and their pay schedules. */
-  departments?: CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsList;
+  departments?: CreateCompanyPaySchedulesAssignmentPreviewRequestDepartmentsList | undefined;
   /** List of employees and their pay schedules. */
-  employees?: CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesList;
+  employees?: CreateCompanyPaySchedulesAssignmentPreviewRequestEmployeesList | undefined;
   /** Pay schedule for hourly employees. */
-  hourly_pay_schedule_uuid?: string;
+  hourly_pay_schedule_uuid?: string | undefined;
   /** Indicates whether the request provides pay schedule assignments for a partial list of employees or departments of the company. By default, this is set to false. */
-  partial_assignment?: boolean;
+  partial_assignment?: boolean | undefined;
   /** Pay schedule for salaried employees. */
-  salaried_pay_schedule_uuid?: string;
+  salaried_pay_schedule_uuid?: string | undefined;
   /** The pay schedule assignment type. */
   type: CreateCompanyPaySchedulesAssignmentPreviewRequestType | (string & {}) | null;
 }
 /** Pay schedule assignment first pay period information. */
 export interface PayScheduleAssignmentPayPeriod {
   /** Pay period check date. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** Pay period end date. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The pay schedule UUID. */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
   /** Pay period start date. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 /** Pay schedule assignment transition pay period information. */
 export interface PayScheduleAssignmentTransitionPayPeriod {
   /** Pay period end date. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Pay period start date. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 export interface PayScheduleAssignmentEmployeeChange {
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The employee's first name. */
-  first_name?: string;
-  first_pay_period?: PayScheduleAssignmentPayPeriod;
+  first_name?: string | undefined;
+  first_pay_period?: PayScheduleAssignmentPayPeriod | undefined;
   /** The employee's last name. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** New pay schedule frequency and name. */
-  pay_frequency?: string;
-  transition_pay_period?: PayScheduleAssignmentTransitionPayPeriod;
+  pay_frequency?: string | undefined;
+  transition_pay_period?: PayScheduleAssignmentTransitionPayPeriod | undefined;
 }
 /** A list of pay schedule changes including pay period and transition pay period. */
 export type PayScheduleAssignmentPreviewEmployeeChangesList =
@@ -1671,9 +1694,9 @@ export type PayScheduleAssignmentPreviewType =
 /** The representation of a pay schedule assignment preview. */
 export interface PayScheduleAssignmentPreview {
   /** A list of pay schedule changes including pay period and transition pay period. */
-  employee_changes?: PayScheduleAssignmentPreviewEmployeeChangesList;
+  employee_changes?: PayScheduleAssignmentPreviewEmployeeChangesList | undefined;
   /** The pay schedule assignment type. */
-  type?: PayScheduleAssignmentPreviewType | null;
+  type?: PayScheduleAssignmentPreviewType | null | undefined;
 }
 /** Type of bank account */
 export type CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemAccountType =
@@ -1691,11 +1714,11 @@ export interface CreateCompanyPeopleBatchRequestBatchItemBankAccountsItem {
   /** Type of bank account */
   account_type: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemAccountType | (string & {});
   /** Account nickname */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Bank routing number */
   routing_number: string;
   /** Split amount in percentage or CENTS (`null` for remainder account) */
-  split_amount?: string | null;
+  split_amount?: string | null | undefined;
   /** How to split deposits, must be the same for all bank accounts. If split_by is `Percentage`, then the split_amounts must add up to exactly 100. */
   split_by: CreateCompanyPeopleBatchRequestBatchItemBankAccountsItemSplitBy | (string & {});
   /** Payment type (must be Direct Deposit) */
@@ -1740,15 +1763,15 @@ export interface CreateCompanyPeopleBatchRequestBatchItemHomeAddress {
   /** City */
   city: string;
   /** Country (defaults to USA) */
-  country?: string;
+  country?: string | undefined;
   /** State abbreviation */
   state: string;
   /** Street address line 1 */
   street_1: string;
   /** Street address line 2 */
-  street_2?: string;
+  street_2?: string | undefined;
   /** If true, a company work address will be created based on this home address and the `work_address` property is not allowed. */
-  work_from_home?: boolean;
+  work_from_home?: boolean | undefined;
   /** ZIP code */
   zip: string;
 }
@@ -1757,19 +1780,19 @@ export interface CreateCompanyPeopleBatchRequestBatchItemJob {
   /** The date when the employee was hired or rehired for the job. */
   hire_date: string;
   /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
-  state_wc_class_code?: string | null;
+  state_wc_class_code?: string | null | undefined;
   /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
-  state_wc_covered?: boolean | null;
+  state_wc_covered?: boolean | null | undefined;
   /** Job title */
   title: string;
   /** Whether the employee owns at least 2% of the company. Can only be `true` for S-Corp companies. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
 }
 export interface CreateCompanyPeopleBatchRequestBatchItemPerson {
   /** Date of birth (YYYY-MM-DD) */
-  date_of_birth?: string | null;
+  date_of_birth?: string | null | undefined;
   /** Personal email address */
-  email?: string | null;
+  email?: string | null | undefined;
   /** External identifier for the person */
   external_id: string;
   /** Legal first name */
@@ -1777,15 +1800,15 @@ export interface CreateCompanyPeopleBatchRequestBatchItemPerson {
   /** Legal last name */
   last_name: string;
   /** Middle initial */
-  middle_initial?: string | null;
+  middle_initial?: string | null | undefined;
   /** Preferred first name */
-  preferred_first_name?: string | null;
+  preferred_first_name?: string | null | undefined;
   /** Whether the employee will complete their own onboarding */
-  self_onboarding?: boolean | null;
+  self_onboarding?: boolean | null | undefined;
   /** Social Security Number (format: xxx-xx-xxxx) */
-  ssn?: string | null;
+  ssn?: string | null | undefined;
   /** Work email address */
-  work_email?: string | null;
+  work_email?: string | null | undefined;
 }
 /** Specify the company work location for the employee */
 export interface CreateCompanyPeopleBatchRequestBatchItemWorkAddress {
@@ -1794,20 +1817,20 @@ export interface CreateCompanyPeopleBatchRequestBatchItemWorkAddress {
 }
 export interface CreateCompanyPeopleBatchRequestBatchItem {
   /** Creates employee bank account(s) and payment method(s) for direct deposit. Payments can be split across accounts by Percentage or by Amount. If splitting payments by `Percentage`, all splits must have a `split_amount` and the percentages must add up to `100`. If splitting payments by `Amount`, the priority is set based on the order of the bank accounts in the array and the last bank account is the remainder account (should have `split_amount` set to `null`). */
-  bank_accounts?: CreateCompanyPeopleBatchRequestBatchItemBankAccountsList;
+  bank_accounts?: CreateCompanyPeopleBatchRequestBatchItemBankAccountsList | undefined;
   /** Compensation details for the employee (requires job to be provided) */
-  compensation?: CreateCompanyPeopleBatchRequestBatchItemCompensation;
+  compensation?: CreateCompanyPeopleBatchRequestBatchItemCompensation | undefined;
   /** Department details for the employee */
-  department?: CreateCompanyPeopleBatchRequestBatchItemDepartment;
+  department?: CreateCompanyPeopleBatchRequestBatchItemDepartment | undefined;
   /** The type of entity to create */
   entity_type: CreateCompanyPeopleBatchRequestBatchItemEntityType | (string & {});
   /** Home address for the employee */
-  home_address?: CreateCompanyPeopleBatchRequestBatchItemHomeAddress;
+  home_address?: CreateCompanyPeopleBatchRequestBatchItemHomeAddress | undefined;
   /** Job details for the employee (required if compensation is provided) */
-  job?: CreateCompanyPeopleBatchRequestBatchItemJob;
+  job?: CreateCompanyPeopleBatchRequestBatchItemJob | undefined;
   person: CreateCompanyPeopleBatchRequestBatchItemPerson;
   /** Specify the company work location for the employee */
-  work_address?: CreateCompanyPeopleBatchRequestBatchItemWorkAddress;
+  work_address?: CreateCompanyPeopleBatchRequestBatchItemWorkAddress | undefined;
 }
 /** Array of people to create */
 export type CreateCompanyPeopleBatchRequestBatchList =
@@ -1979,45 +2002,45 @@ export interface CreateCompanyReportRequest {
   /** Columns to include in the report */
   columns: CreateCompanyReportRequestColumnsList;
   /** The title of the report */
-  custom_name?: string;
+  custom_name?: string | undefined;
   /** Which payroll date `start_date` and `end_date` filter against. */
-  date_filter_type?: CreateCompanyReportRequestDateFilterType | (string & {});
+  date_filter_type?: CreateCompanyReportRequestDateFilterType | (string & {}) | undefined;
   /** Departments to filter by */
-  department_uuids?: CreateCompanyReportRequestDepartmentUuidsList;
+  department_uuids?: CreateCompanyReportRequestDepartmentUuidsList | undefined;
   /** Dismissed end date of employees to filter by */
-  dismissed_end_date?: string;
+  dismissed_end_date?: string | undefined;
   /** Dismissed start date of employees to filter by */
-  dismissed_start_date?: string;
+  dismissed_start_date?: string | undefined;
   /** Employees to filter by */
-  employee_uuids?: CreateCompanyReportRequestEmployeeUuidsList | null;
+  employee_uuids?: CreateCompanyReportRequestEmployeeUuidsList | null | undefined;
   /** Employee employment status to filter by */
-  employment_status?: CreateCompanyReportRequestEmploymentStatus | (string & {});
+  employment_status?: CreateCompanyReportRequestEmploymentStatus | (string & {}) | undefined;
   /** Employee employment type to filter by */
-  employment_type?: CreateCompanyReportRequestEmploymentType | (string & {});
+  employment_type?: CreateCompanyReportRequestEmploymentType | (string & {}) | undefined;
   /** End date of data to filter by */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The type of file to generate */
   file_type: CreateCompanyReportRequestFileType | (string & {});
   /** Optional. How to group the report. If omitted, sensible defaults are derived from the `columns` requested. */
-  groupings?: CreateCompanyReportRequestGroupingsList;
+  groupings?: CreateCompanyReportRequestGroupingsList | undefined;
   /** Payment method to filter by */
-  payment_method?: CreateCompanyReportRequestPaymentMethod | (string & {});
+  payment_method?: CreateCompanyReportRequestPaymentMethod | (string & {}) | undefined;
   /** Start date of data to filter by */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Whether to include subtotals and grand totals in the report */
-  with_totals?: boolean;
+  with_totals?: boolean | undefined;
   /** Work addresses to filter by */
-  work_address_uuids?: CreateCompanyReportRequestWorkAddressUuidsList;
+  work_address_uuids?: CreateCompanyReportRequestWorkAddressUuidsList | undefined;
 }
 export interface CreateReport {
   /** Company UUID */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Title of the report */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** File type */
-  file_type?: string;
+  file_type?: string | undefined;
   /** A unique identifier of the report request */
-  request_uuid?: string;
+  request_uuid?: string | undefined;
 }
 export interface CreateCompanyReportsEmployeesAnnualFicaWageRequest {
   /** The UUID of the company */
@@ -2030,62 +2053,62 @@ export interface CreateCompanyReportsEmployeesAnnualFicaWageRequest {
 export interface CreateCompanyReportsEmployeesAnnualFicaWageResponse {}
 /** The signatory's home address. */
 export interface CreateCompanySignatoriesInviteRequestHomeAddress {
-  city?: string;
-  country?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string;
-  zip?: string;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | undefined;
+  zip?: string | undefined;
 }
 export interface CreateCompanySignatoriesInviteRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** The signatory's date of birth. */
-  birthday?: string;
+  birthday?: string | undefined;
   /** The signatory's email address. */
   email: string;
   /** The signatory's first name. */
   first_name: string;
   /** The signatory's home address. */
-  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress;
+  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress | undefined;
   /** The signatory's last name. */
   last_name: string;
-  middle_initial?: string;
+  middle_initial?: string | undefined;
   /** The signatory's phone number. */
-  phone?: string;
+  phone?: string | undefined;
   /** The signatory's SSN. Required for create with complete information; not used for invite. */
-  ssn?: string;
+  ssn?: string | undefined;
   /** The signatory's title (e.g. CEO, President). */
-  title?: string;
+  title?: string | undefined;
 }
 export type SignatoryHomeAddress = CreateCompanySignatoriesInviteRequestHomeAddress;
 export type SignatoryIdentityVerificationStatus = "Pass" | "Fail" | "Skipped";
 /** The representation of a company's signatory */
 export interface Signatory {
-  birthday?: string | null;
-  email?: string;
-  first_name?: string | null;
+  birthday?: string | null | undefined;
+  email?: string | undefined;
+  first_name?: string | null | undefined;
   /** Indicates whether the signatory has an SSN in Gusto. */
-  has_ssn?: boolean;
-  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress | null;
+  has_ssn?: boolean | undefined;
+  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress | null | undefined;
   /** | | | |---|---| |__Status__| __Description__ | | Pass | Signatory can sign all forms | | Fail | Signatory cannot sign forms | | Skipped | Signatory cannot sign Form 8655 until the form is manually uploaded as wet-signed | | null | Identity verification process has not been completed | */
-  identity_verification_status?: SignatoryIdentityVerificationStatus | null;
+  identity_verification_status?: SignatoryIdentityVerificationStatus | null | undefined;
   /** Whether or not the signatory is also the payroll admin of the company. */
-  is_admin?: boolean;
-  last_name?: string | null;
-  phone?: string | null;
-  title?: string | null;
+  is_admin?: boolean | undefined;
+  last_name?: string | null | undefined;
+  phone?: string | null | undefined;
+  title?: string | null | undefined;
   uuid: string;
   /** The current version of the signatory. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The signatory's home address. */
 export interface CreateCompanySignatoryRequestHomeAddress {
   city: string;
-  country?: string;
+  country?: string | undefined;
   state: string;
   street_1: string;
-  street_2?: string;
+  street_2?: string | undefined;
   zip: string;
 }
 export interface CreateCompanySignatoryRequest {
@@ -2101,7 +2124,7 @@ export interface CreateCompanySignatoryRequest {
   home_address: CreateCompanySignatoryRequestHomeAddress;
   /** The signatory's last name. */
   last_name: string;
-  middle_initial?: string;
+  middle_initial?: string | undefined;
   /** The signatory's phone number. */
   phone: string;
   /** The signatory's SSN. */
@@ -2154,13 +2177,13 @@ export interface CreateCompanySuspensionRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** User-supplied comments describing why they are suspending their account. Required if the user is leaving for another provider and selects "other" instead of a defined provider. */
-  comments?: string;
+  comments?: string | undefined;
   /** Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
   file_quarterly_forms: boolean;
   /** Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
   file_yearly_forms: boolean;
   /** The competitor the company is switching to. Required if `reason` is `'switching_provider'`. > U+1F6A7 Switching to Gusto requires Customer Support > If `'gusto_com'` is selected, this change must be completed by Gusto Customer Support and cannot be performed via the API. This endpoint will return a 422 error in that case. */
-  leaving_for?: CreateCompanySuspensionRequestLeavingFor | (string & {});
+  leaving_for?: CreateCompanySuspensionRequestLeavingFor | (string & {}) | undefined;
   /** Explanation for why the company is suspending their account. > U+1F6A7 FEIN or entity type changes require Customer Support > If a company is switching FEIN or changing their entity type, this change must be performed by Gusto Customer Support and cannot be performed via the API at this time. */
   reason: CreateCompanySuspensionRequestReason | (string & {});
   /** How Gusto will handle taxes already collected. */
@@ -2170,34 +2193,34 @@ export interface CreateCompanySuspensionRequest {
 export type CompanySuspensionReconcileTaxMethod = "pay_taxes" | "refund_taxes";
 export interface CompanySuspensionTaxRefundsItem {
   /** Dollar amount. */
-  amount?: string;
+  amount?: string | undefined;
   /** What kind of tax this is. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Describes the taxes which are refundable to the company for this suspension. These may be refunded or paid by Gusto depending on the value in `reconcile_tax_method`. */
 export type CompanySuspensionTaxRefundsList = Array<CompanySuspensionTaxRefundsItem>;
 /** Record representing the suspension of a company's Gusto account. */
 export interface CompanySuspension {
   /** User-supplied comments describing why they are suspending their account. */
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Unique identifier for the company which is suspended. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Date that the suspension took effect. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Should Gusto file quarterly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
-  file_quarterly_forms?: boolean;
+  file_quarterly_forms?: boolean | undefined;
   /** Should Gusto file yearly tax forms on behalf of the company? The correct answer can depend on why the company is suspending their account, and how taxes are being reconciled. */
-  file_yearly_forms?: boolean;
+  file_yearly_forms?: boolean | undefined;
   /** Which competitor the company is joining instead. Only required if `reason` is `'switching_provider'`. */
-  leaving_for?: string | null;
+  leaving_for?: string | null | undefined;
   /** Explanation for why the company's account was suspended. */
-  reason?: string;
+  reason?: string | undefined;
   /** How Gusto will handle taxes already collected. */
-  reconcile_tax_method?: CompanySuspensionReconcileTaxMethod;
+  reconcile_tax_method?: CompanySuspensionReconcileTaxMethod | undefined;
   /** Describes the taxes which are refundable to the company for this suspension. These may be refunded or paid by Gusto depending on the value in `reconcile_tax_method`. */
-  tax_refunds?: CompanySuspensionTaxRefundsList;
+  tax_refunds?: CompanySuspensionTaxRefundsList | undefined;
   /** Unique identifier for this suspension. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
 export type CreateCompanyTimeOffAdminApprovedRequestRequestDaysMap = {
@@ -2207,13 +2230,13 @@ export interface CreateCompanyTimeOffAdminApprovedRequestRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** The UUID of the approving admin. Defaults to the primary payroll admin. */
-  approver_uuid?: string;
+  approver_uuid?: string | undefined;
   /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
   days: CreateCompanyTimeOffAdminApprovedRequestRequestDaysMap;
   /** The UUID of the employee */
   employee_uuid: string;
   /** A note from the employer about the request */
-  employer_note?: string;
+  employer_note?: string | undefined;
   /** The end date of the time off request (YYYY-MM-DD) */
   end_date: string;
   /** The UUID of the time off policy */
@@ -2224,23 +2247,23 @@ export interface CreateCompanyTimeOffAdminApprovedRequestRequest {
 /** This value will be null if the request has not been approved. */
 export interface EmbeddedTimeOffRequestApprover {
   /** The full name of the employee who approved the time off request. */
-  full_name?: string;
+  full_name?: string | undefined;
   /** The UUID of the employee who approved the time off request. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). */
 export type EmbeddedTimeOffRequestDaysMap = { [key: string]: string | undefined };
 export interface EmbeddedTimeOffRequestEmployee {
   /** The full name of the employee the time off request is for. */
-  full_name?: string;
+  full_name?: string | undefined;
   /** The UUID of the employee the time off request is for. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface EmbeddedTimeOffRequestInitiator {
   /** The full name of the employee who initiated the time off request. */
-  full_name?: string;
+  full_name?: string | undefined;
   /** The UUID of the employee who initiated the time off request. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** The status of the time off request. */
 export type EmbeddedTimeOffRequestStatus = "pending" | "approved" | "declined" | "consumed";
@@ -2283,32 +2306,32 @@ export interface CreateCompanyTimeOffPolicyRequest {
   /** Accrual method of the time off policy */
   accrual_method: CreateCompanyTimeOffPolicyRequestAccrualMethod | (string & {});
   /** The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0". */
-  accrual_rate?: string | null;
+  accrual_rate?: string | null | undefined;
   /** The number of hours an employee has to work or be paid for to accrue the number of hours set in the accrual rate. Only used for hourly policies (per_hour_paid, per_hour_paid_no_overtime, per_hour_work, per_hour_worked_no_overtime). Represented as a float, e.g. "40.0". */
-  accrual_rate_unit?: string | null;
+  accrual_rate_unit?: string | null | undefined;
   /** Number of days before an employee on the policy will begin accruing time off hours. If accrual_method is per_anniversary_year, per_calendar_year, or unlimited, then accrual_waiting_period_days should be 0. */
-  accrual_waiting_period_days?: number | null;
+  accrual_waiting_period_days?: number | null | undefined;
   /** The max number of hours an employee can carryover from one year to the next. If accrual_method is unlimited, then carryover_limit_hours must be blank. */
-  carryover_limit_hours?: string | null;
+  carryover_limit_hours?: string | null | undefined;
   /** boolean representing if a policy has completed configuration */
-  complete?: boolean;
+  complete?: boolean | undefined;
   /** The max number of hours an employee can accrue in a year. If accrual_method is yearly (per_anniversary_year, per_calendar_year) or unlimited, then max_accrual_hours_per_year must be blank. */
-  max_accrual_hours_per_year?: string | null;
+  max_accrual_hours_per_year?: string | null | undefined;
   /** The max number of hours an employee can accrue. If accrual_method is unlimited, then max_hours must be blank. */
-  max_hours?: string | null;
+  max_hours?: string | null | undefined;
   /** Name of the time off policy */
   name: string;
   /** Boolean representing if an employee's accrued time off hours will be paid out on termination. If accrual_method is unlimited, then paid_out_on_termination must be `false`. */
-  paid_out_on_termination?: boolean;
+  paid_out_on_termination?: boolean | undefined;
   /** The date the policy resets. Format MM-DD */
-  policy_reset_date?: string | null;
+  policy_reset_date?: string | null | undefined;
   /** Type of the time off policy. Currently only "vacation" and "sick" are supported */
   policy_type: CreateCompanyTimeOffPolicyRequestPolicyType | (string & {});
 }
 export interface TimeOffPolicyEmployeesItem {
   /** The time off balance for the employee */
-  balance?: string;
-  uuid?: string;
+  balance?: string | undefined;
+  uuid?: string | undefined;
 }
 /** List of employee UUIDs under a time off policy */
 export type TimeOffPolicyEmployeesList = Array<TimeOffPolicyEmployeesItem>;
@@ -2330,37 +2353,37 @@ export interface TimeOffPolicy {
   /** Policy time off accrual method */
   accrual_method: string;
   /** The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0". */
-  accrual_rate?: string | null;
+  accrual_rate?: string | null | undefined;
   /** The number of hours an employee has to work or be paid for to accrue the number of hours set in the accrual rate. Only used for hourly policies (per_hour_paid, per_hour_paid_no_overtime, per_hour_work, per_hour_worked_no_overtime). Represented as a float, e.g. "40.0". */
-  accrual_rate_unit?: string | null;
+  accrual_rate_unit?: string | null | undefined;
   /** Number of days before an employee on the policy will begin accruing time off hours */
-  accrual_waiting_period_days?: number | null;
+  accrual_waiting_period_days?: number | null | undefined;
   /** The max number of hours an employee can carryover from one year to the next */
-  carryover_limit_hours?: string | null;
+  carryover_limit_hours?: string | null | undefined;
   /** Unique identifier for the company owning the time off policy */
   company_uuid: string;
   /** boolean representing if a policy has completed configuration */
-  complete?: boolean;
+  complete?: boolean | undefined;
   /** List of employee UUIDs under a time off policy */
   employees: TimeOffPolicyEmployeesList;
   /** boolean representing if a policy is active or not */
   is_active: boolean;
   /** The max number of hours an employee can accrue in a year */
-  max_accrual_hours_per_year?: string | null;
+  max_accrual_hours_per_year?: string | null | undefined;
   /** The max number of hours an employee can accrue */
-  max_hours?: string | null;
+  max_hours?: string | null | undefined;
   /** Name of the time off policy */
   name: string;
   /** Boolean representing if an employee's accrued time off hours will be paid out on termination */
-  paid_out_on_termination?: boolean;
+  paid_out_on_termination?: boolean | undefined;
   /** The date the policy resets. Format MM-DD */
-  policy_reset_date?: string | null;
+  policy_reset_date?: string | null | undefined;
   /** Type of the time off policy. Only "vacation" and "sick" can be created through the API, but other types may be present if the company was previously a Gusto.com customer. */
   policy_type: TimeOffPolicyPolicyType;
   /** Unique identifier of a time off policy */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. The version will be null if the policy is no longer active. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
 export type CreateCompanyTimeOffRequestRequestDaysMap = { [key: string]: string | undefined };
@@ -2370,7 +2393,7 @@ export interface CreateCompanyTimeOffRequestRequest {
   /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}) */
   days: CreateCompanyTimeOffRequestRequestDaysMap;
   /** A note from the employee about the request */
-  employee_note?: string;
+  employee_note?: string | undefined;
   /** The UUID of the employee */
   employee_uuid: string;
   /** The end date of the time off request (YYYY-MM-DD) */
@@ -2396,7 +2419,7 @@ export interface CreateCompanyTimeOffRequestsPreviewRequest {
   /** The UUID of the time off policy */
   policy_uuid: string;
   /** The UUID of an existing time off request to preview changes for */
-  request_uuid?: string;
+  request_uuid?: string | undefined;
   /** The start date of the time off request (YYYY-MM-DD) */
   start_date: string;
 }
@@ -2422,11 +2445,12 @@ export type CreateCompanyTimeTrackingTimeSheetRequestEntriesItemPayClassificatio
   | "Double overtime";
 export interface CreateCompanyTimeTrackingTimeSheetRequestEntriesItem {
   /** Hours worked for this pay classification. Should be passed as number with up to 3 decimal places. */
-  hours_worked?: number;
+  hours_worked?: number | undefined;
   /** Pay classification for the entry. */
   pay_classification?:
     | CreateCompanyTimeTrackingTimeSheetRequestEntriesItemPayClassification
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Entries associated with the time sheet. */
 export type CreateCompanyTimeTrackingTimeSheetRequestEntriesList =
@@ -2443,13 +2467,13 @@ export interface CreateCompanyTimeTrackingTimeSheetRequest {
   /** Unique identifier of the entity associated with the time sheet. */
   entity_uuid: string;
   /** Entries associated with the time sheet. */
-  entries?: CreateCompanyTimeTrackingTimeSheetRequestEntriesList;
+  entries?: CreateCompanyTimeTrackingTimeSheetRequestEntriesList | undefined;
   /** Unique identifier of the job for which time is tracked. */
-  job_uuid?: string;
+  job_uuid?: string | undefined;
   /** Metadata associated with the time sheet. Key-value pairs of arbitrary data. Both keys and values must be strings. */
-  metadata?: CreateCompanyTimeTrackingTimeSheetRequestMetadataMap;
+  metadata?: CreateCompanyTimeTrackingTimeSheetRequestMetadataMap | undefined;
   /** ISO 8601 timestamp of when the shift was ended. If the shift is still ongoing you can omit this field. */
-  shift_ended_at?: string;
+  shift_ended_at?: string | undefined;
   /** ISO 8601 timestamp of when the shift was started. */
   shift_started_at: string;
   /** Time zone of where the time is tracked. */
@@ -2461,11 +2485,11 @@ export type TimeSheetEntityType = "Employee" | "Contractor";
 export type TimeSheetEntriesItemPayClassification = "Regular" | "Overtime" | "Double overtime";
 export interface TimeSheetEntriesItem {
   /** Hours worked for this pay classification. Represented as a string, e.g. "1.500". */
-  hours_worked?: string;
+  hours_worked?: string | undefined;
   /** Pay classification for the entry. */
-  pay_classification?: TimeSheetEntriesItemPayClassification;
+  pay_classification?: TimeSheetEntriesItemPayClassification | undefined;
   /** Unique identifier of the entry. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Entries associated with the time sheet. */
 export type TimeSheetEntriesList = Array<TimeSheetEntriesItem>;
@@ -2476,35 +2500,35 @@ export type TimeSheetStatus = "pending" | "rejected" | "approved";
 /** Record representing an employee/contractor's time sheet */
 export interface TimeSheet {
   /** Unique identifier of the company to which the time sheet belongs. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Datetime for when time sheet was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Type of entity associated with the time sheet. */
-  entity_type?: TimeSheetEntityType;
+  entity_type?: TimeSheetEntityType | undefined;
   /** Unique identifier of the entity associated with the time sheet. */
-  entity_uuid?: string;
+  entity_uuid?: string | undefined;
   /** Entries associated with the time sheet. */
-  entries?: TimeSheetEntriesList;
+  entries?: TimeSheetEntriesList | undefined;
   /** Unique identifier of the job for which time was reported. */
-  job_uuid?: string;
+  job_uuid?: string | undefined;
   /** Metadata associated with the time sheet. Key-value pairs of arbitrary data. Both keys and values must be strings. */
-  metadata?: TimeSheetMetadataMap;
+  metadata?: TimeSheetMetadataMap | undefined;
   /** The end time of the shift. If the shift is still ongoing this field will be null. */
-  shift_ended_at?: string;
+  shift_ended_at?: string | undefined;
   /** The start time of the shift. */
-  shift_started_at?: string;
+  shift_started_at?: string | undefined;
   /** Status of the time sheet. */
-  status?: TimeSheetStatus;
+  status?: TimeSheetStatus | undefined;
   /** Datetime for when time sheet was synced to payroll. Null if the time sheet has not yet been synced to payroll. */
-  synced_to_payroll_at?: string | null;
+  synced_to_payroll_at?: string | null | undefined;
   /** Time zone of where the time was tracked. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Datetime for when time sheet was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Unique identifier of the time sheet. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/app-integrations/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Bank account type */
 export type CreateContractorBankAccountRequestAccountType = "Checking" | "Savings";
@@ -2573,15 +2597,15 @@ export interface CreateEmployeeBankAccountRequest {
 export type EmployeeBankAccountAccountType = "Checking" | "Savings";
 export interface EmployeeBankAccount {
   /** Bank account type */
-  account_type?: EmployeeBankAccountAccountType;
+  account_type?: EmployeeBankAccountAccountType | undefined;
   /** UUID of the employee */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** Masked bank account number */
-  hidden_account_number?: string;
+  hidden_account_number?: string | undefined;
   /** Name for the bank account */
-  name?: string;
+  name?: string | undefined;
   /** The bank account's routing number */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** UUID of the bank account */
   uuid: string;
 }
@@ -2593,9 +2617,9 @@ export type CreateEmployeeEmployeeBenefitRequestContributionType =
 /** A single tier of a tiered matching scheme. */
 export interface CreateEmployeeEmployeeBenefitRequestContributionValueCase1Item {
   /** The percentage of employee deduction within this tier the company contribution will match. */
-  rate?: string;
+  rate?: string | undefined;
   /** Specifies the upper limit (inclusive) percentage of the employee contribution that this tier applies to. Use threshold to define each tier's end point, with tiers applied cumulatively from 0% upwards. For example: If the first tier has a threshold of "3", and rate of "100", the company will match 100% of employee contributions from 0% up to and including 3% of payroll. If the next tier has a threshold of "5" and a rate of "50", the company will match 50% of contributions from above 3% up to and including 5% of payroll. */
-  threshold?: string;
+  threshold?: string | undefined;
 }
 /** For `tiered` contribution types, an array of tiers. */
 export type CreateEmployeeEmployeeBenefitRequestContributionValueCase1List =
@@ -2607,9 +2631,9 @@ export type CreateEmployeeEmployeeBenefitRequestContributionValue =
 /** An object representing the company contribution type and value. */
 export interface CreateEmployeeEmployeeBenefitRequestContribution {
   /** The company contribution scheme. `amount`: The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. `percentage`: The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. `tiered`: The size of the company contribution corresponds to the size of the employee deduction relative to a tiered matching scheme. */
-  type?: CreateEmployeeEmployeeBenefitRequestContributionType | (string & {});
+  type?: CreateEmployeeEmployeeBenefitRequestContributionType | (string & {}) | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: CreateEmployeeEmployeeBenefitRequestContributionValue;
+  value?: CreateEmployeeEmployeeBenefitRequestContributionValue | undefined;
 }
 export type CreateEmployeeEmployeeBenefitRequestDeductionReducesTaxableIncome =
   | "unset"
@@ -2624,56 +2648,57 @@ export interface CreateEmployeeEmployeeBenefitRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: boolean;
+  catch_up?: boolean | undefined;
   /** The UUID of the company benefit. */
   company_benefit_uuid: string;
   /** The amount to be paid, per pay period, by the company. */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: string | null;
+  company_contribution_annual_maximum?: string | null | undefined;
   /** Whether the company contribution amount should be treated as a percentage to be deducted from each payroll. */
-  contribute_as_percentage?: boolean;
+  contribute_as_percentage?: boolean | undefined;
   /** An object representing the company contribution type and value. */
-  contribution?: CreateEmployeeEmployeeBenefitRequestContribution;
+  contribution?: CreateEmployeeEmployeeBenefitRequestContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: string | null;
+  coverage_amount?: string | null | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: string;
+  coverage_salary_multiplier?: string | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored. */
   deduction_reduces_taxable_income?:
     | CreateEmployeeEmployeeBenefitRequestDeductionReducesTaxableIncome
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** The date the employee benefit will start. If not provided, the benefit will be effective from 1970-01-01 (unix epoch). */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Whether the company contribution is elective (aka "matching"). For `tiered`, `elective_amount`, and `elective_percentage` contribution types this is ignored and assumed to be `true`. */
-  elective?: boolean;
+  elective?: boolean | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The maximum employee deduction amount per year. A null value signifies no limit. */
-  employee_deduction_annual_maximum?: string | null;
+  employee_deduction_annual_maximum?: string | null | undefined;
   /** The date the employee benefit will expire. A null value indicates the benefit will not expire. */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Some benefits require additional information to determine their limit. `Family` or `Individual`: Applicable to HSA benefit. `Joint Filing or Single` or `Married and Filing Separately`: Applicable to Dependent Care FSA benefit. */
-  limit_option?: CreateEmployeeEmployeeBenefitRequestLimitOption | (string & {}) | null;
+  limit_option?: CreateEmployeeEmployeeBenefitRequestLimitOption | (string & {}) | null | undefined;
 }
 /** A single tier of a tiered matching scheme. */
 export interface CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersItem {
   /** The percentage of employee deduction within this tier the company contribution will match. */
-  rate?: string;
+  rate?: string | undefined;
   /** Specifies the upper limit (inclusive) percentage of the employee contribution that this tier applies to. Use threshold to define each tier's end point, with tiers applied cumulatively from 0% upwards. For example: If the first tier has a threshold of "3", and `rate` of "100", the company will match 100% of employee contributions from 0% up to and including 3% of payroll. If the next tier has a threshold of "5" and a rate of "50", the company will match 50% of contributions from above 3% up to and including 5% of payroll. */
-  threshold?: string;
+  threshold?: string | undefined;
   /** The step up difference between this tier's threshold and the previous tier's threshold. In the first tier, this is equivalent to threshold. */
-  threshold_delta?: string;
+  threshold_delta?: string | undefined;
 }
 export type CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersList =
   Array<CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersItem>;
 export interface CreateEmployeeEmployeeBenefitResponseContributionValueCase1 {
-  tiers?: CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersList;
+  tiers?: CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersList | undefined;
 }
 /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
 export type CreateEmployeeEmployeeBenefitResponseContributionValue =
@@ -2682,9 +2707,9 @@ export type CreateEmployeeEmployeeBenefitResponseContributionValue =
 /** An object representing the type and value of the company contribution. */
 export interface CreateEmployeeEmployeeBenefitResponseContribution {
   /** The company contribution scheme. "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. "tiered": The company contribution varies according to the size of the employee deduction. */
-  type?: string;
+  type?: string | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: CreateEmployeeEmployeeBenefitResponseContributionValue;
+  value?: CreateEmployeeEmployeeBenefitResponseContributionValue | undefined;
 }
 export type CreateEmployeeEmployeeBenefitResponseDeductionReducesTaxableIncome =
   | "unset"
@@ -2692,45 +2717,48 @@ export type CreateEmployeeEmployeeBenefitResponseDeductionReducesTaxableIncome =
   | "does_not_reduce_taxable_income";
 export interface CreateEmployeeEmployeeBenefitResponse {
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: boolean | null;
+  catch_up?: boolean | null | undefined;
   /** The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types. */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: string | null;
+  company_contribution_annual_maximum?: string | null | undefined;
   /** Whether the company_contribution value should be treated as a percentage to be added to each payroll. This field will not appear for tiered contribution types. */
-  contribute_as_percentage?: boolean;
+  contribute_as_percentage?: boolean | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: CreateEmployeeEmployeeBenefitResponseContribution;
+  contribution?: CreateEmployeeEmployeeBenefitResponseContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: string | null;
+  coverage_amount?: string | null | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: string | null;
+  coverage_salary_multiplier?: string | null | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored. */
-  deduction_reduces_taxable_income?: CreateEmployeeEmployeeBenefitResponseDeductionReducesTaxableIncome | null;
+  deduction_reduces_taxable_income?:
+    | CreateEmployeeEmployeeBenefitResponseDeductionReducesTaxableIncome
+    | null
+    | undefined;
   /** The date the employee benefit will start. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Whether the company contribution is elective (aka matching). For "tiered" contribution types, this is always true. */
-  elective?: boolean;
+  elective?: boolean | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The maximum employee deduction amount per year. A null value signifies no limit. */
-  employee_deduction_annual_maximum?: string | null;
+  employee_deduction_annual_maximum?: string | null | undefined;
   /** The date the employee benefit will expire. A null value indicates the benefit will not expire. */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Some benefits require additional information to determine their limit. `Family` and `Individual` are applicable to HSA benefit. `Joint Filing or Single` and `Married and Filing Separately` are applicable to Dependent Care FSA benefit. */
-  limit_option?: string | null;
+  limit_option?: string | null | undefined;
   /** Identifier for a 401(k) loan assigned by the 401(k) provider */
-  retirement_loan_identifier?: string | null;
+  retirement_loan_identifier?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company benefit. */
-  company_benefit_uuid?: string;
+  company_benefit_uuid?: string | undefined;
   /** The UUID of the employee to which the benefit belongs. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The UUID of the employee benefit. */
   uuid: string;
 }
@@ -2743,17 +2771,17 @@ export type GarnishmentChildSupportPaymentPeriod =
 /** Additional child support order details */
 export interface GarnishmentChildSupport {
   /** Child Support Enforcement Case Number associated with this child support obligation - required for most states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API. */
-  case_number?: string | null;
+  case_number?: string | null | undefined;
   /** The FIPS code associated with the state or county agency issuing the child support order. Agency data is available in the `GET /v1/garnishments/child_support` API. */
-  fips_code?: string;
+  fips_code?: string | undefined;
   /** Order Identifier or Order ID associated with this child support obligation - required for some states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API. */
-  order_number?: string | null;
+  order_number?: string | null | undefined;
   /** How often the agency collects the withholding amount. e.g. $500 monthly -> `Monthly`. */
-  payment_period?: GarnishmentChildSupportPaymentPeriod | (string & {});
+  payment_period?: GarnishmentChildSupportPaymentPeriod | (string & {}) | undefined;
   /** Child Support Enforcement Remittance ID associated with this child support obligation - required for some states. Agency specific requirements are available in the `GET /v1/garnishments/child_support` API. */
-  remittance_number?: string | null;
+  remittance_number?: string | null | undefined;
   /** The two letter state abbreviation for the state issuing the child support order. Agency data is available in the `GET /v1/garnishments/child_support` API. */
-  state?: string;
+  state?: string | undefined;
 }
 export type CreateEmployeeGarnishmentRequestGarnishmentType =
   | "child_support"
@@ -2767,28 +2795,32 @@ export interface CreateEmployeeGarnishmentRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** Whether or not this garnishment is currently active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00". */
   amount: string;
   /** The maximum deduction per annum. A null value indicates no maximum. Represented as a float, e.g. "200.00". */
-  annual_maximum?: string | null;
-  child_support?: GarnishmentChildSupport | null;
+  annual_maximum?: string | null | undefined;
+  child_support?: GarnishmentChildSupport | null | undefined;
   /** Whether the garnishment is court ordered. */
   court_ordered: boolean;
   /** Whether the amount should be treated as a percentage to be deducted per pay period. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** The description of the garnishment. */
-  description?: string;
+  description?: string | undefined;
   /** The specific type of garnishment for court ordered garnishments. */
-  garnishment_type?: CreateEmployeeGarnishmentRequestGarnishmentType | (string & {}) | null;
+  garnishment_type?:
+    | CreateEmployeeGarnishmentRequestGarnishmentType
+    | (string & {})
+    | null
+    | undefined;
   /** The maximum deduction per pay period. A null value indicates no maximum. Represented as a float, e.g. "16.00". */
-  pay_period_maximum?: string | null;
+  pay_period_maximum?: string | null | undefined;
   /** Whether the garnishment should recur indefinitely. */
-  recurring?: boolean;
+  recurring?: boolean | undefined;
   /** The number of times to apply the garnishment. Ignored if recurring is true. */
-  times?: number | null;
+  times?: number | null | undefined;
   /** A maximum total deduction for the lifetime of this garnishment. A null value indicates no maximum. */
-  total_amount?: string | null;
+  total_amount?: string | null | undefined;
 }
 export type GarnishmentGarnishmentType =
   | "child_support"
@@ -2801,69 +2833,69 @@ export type GarnishmentGarnishmentType =
 /** Garnishments, or employee deductions, are fixed amounts or percentages deducted from an employee's pay. They can be deducted a specific number of times or on a recurring basis. Garnishments can also have maximum deductions on a yearly or per-pay-period bases. Common uses for garnishments are court-ordered payments for child support or back taxes. Some companies provide loans to their employees that are repaid via garnishments. */
 export interface Garnishment {
   /** Whether or not this garnishment is currently active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00". */
-  amount?: string;
+  amount?: string | undefined;
   /** The maximum deduction per annum. A null value indicates no maximum. Represented as a float, e.g. "200.00". */
-  annual_maximum?: string | null;
-  child_support?: GarnishmentChildSupport | null;
+  annual_maximum?: string | null | undefined;
+  child_support?: GarnishmentChildSupport | null | undefined;
   /** Whether the garnishment is court ordered. */
-  court_ordered?: boolean;
+  court_ordered?: boolean | undefined;
   /** Whether the amount should be treated as a percentage to be deducted per pay period. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** The description of the garnishment. */
-  description?: string;
+  description?: string | undefined;
   /** The UUID of the employee to which this garnishment belongs. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The specific type of garnishment for court ordered garnishments. */
-  garnishment_type?: GarnishmentGarnishmentType | null;
+  garnishment_type?: GarnishmentGarnishmentType | null | undefined;
   /** The maximum deduction per pay period. A null value indicates no maximum. Represented as a float, e.g. "16.00". */
-  pay_period_maximum?: string | null;
+  pay_period_maximum?: string | null | undefined;
   /** Whether the garnishment should recur indefinitely. */
-  recurring?: boolean;
+  recurring?: boolean | undefined;
   /** The number of times to apply the garnishment. Ignored if recurring is true. */
-  times?: number | null;
+  times?: number | null | undefined;
   /** A maximum total deduction for the lifetime of this garnishment. A null value indicates no maximum. */
-  total_amount?: string | null;
+  total_amount?: string | null | undefined;
   /** The UUID of the garnishment in Gusto. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateEmployeeHomeAddressRequest {
   /** The UUID of the employee */
   employee_id: string;
-  city?: string;
-  courtesy_withholding?: boolean;
-  effective_date?: string | null;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
-  zip?: string;
+  city?: string | undefined;
+  courtesy_withholding?: boolean | undefined;
+  effective_date?: string | null | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
+  zip?: string | undefined;
 }
 /** An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved. */
 export type EmployeeAddressWarningsList = Array<WarningObject>;
 export interface EmployeeAddress {
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  active?: boolean;
-  city?: string;
-  country?: string;
+  active?: boolean | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
   /** Determines if home taxes should be withheld and paid for employee. */
-  courtesy_withholding?: boolean;
+  courtesy_withholding?: boolean | undefined;
   /** The date the employee started living at the address. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** The UUID of the employee */
-  employee_uuid?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
+  employee_uuid?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
   /** The UUID of the employee address */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved. */
-  warnings?: EmployeeAddressWarningsList;
-  zip?: string;
+  warnings?: EmployeeAddressWarningsList | undefined;
+  zip?: string | undefined;
 }
 export interface CreateEmployeeJobRequest {
   /** The UUID of the employee */
@@ -2871,13 +2903,13 @@ export interface CreateEmployeeJobRequest {
   /** The date when the employee was hired or rehired for the job. */
   hire_date: string;
   /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
-  state_wc_class_code?: string | null;
+  state_wc_class_code?: string | null | undefined;
   /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
-  state_wc_covered?: boolean | null;
+  state_wc_covered?: boolean | null | undefined;
   /** The job title. */
   title: string | null;
   /** Whether the employee owns at least 2% of the company. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
 }
 /** The FLSA status for this compensation. Salaried ('Exempt') employees are paid a fixed salary every pay period. Salaried with overtime ('Salaried Nonexempt') employees are paid a fixed salary every pay period, and receive overtime pay when applicable. Hourly ('Nonexempt') employees are paid for the hours they work, and receive overtime pay when applicable. Commissioned employees ('Commission Only Exempt') earn wages based only on commission. Commissioned with overtime ('Commission Only Nonexempt') earn wages based on commission, and receive overtime pay when applicable. Owners ('Owner') are employees that own at least twenty percent of the company. */
 export type FlsaStatusType =
@@ -2889,11 +2921,11 @@ export type FlsaStatusType =
   | "Commission Only Nonexempt";
 export interface CompensationMinimumWagesItem {
   /** The effective date of the minimum wage. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** The UUID of the minimum wage. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The wage amount. */
-  wage?: string;
+  wage?: string | undefined;
 }
 /** The minimum wages associated with the compensation. */
 export type CompensationMinimumWagesList = Array<CompensationMinimumWagesItem>;
@@ -2902,60 +2934,60 @@ export type CompensationPaymentUnit = "Hour" | "Week" | "Month" | "Year" | "Payc
 /** The representation of compensation in Gusto. */
 export interface Compensation {
   /** Indicates if the compensation could be adjusted to minimum wage during payroll calculation. */
-  adjust_for_minimum_wage?: boolean;
+  adjust_for_minimum_wage?: boolean | undefined;
   /** The effective date for this compensation. For the first compensation, this defaults to the job's hire date. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** The UUID of the employee to which the compensation belongs. */
-  employee_uuid?: string;
-  flsa_status?: FlsaStatusType;
+  employee_uuid?: string | undefined;
+  flsa_status?: FlsaStatusType | undefined;
   /** The UUID of the job to which the compensation belongs. */
-  job_uuid?: string;
+  job_uuid?: string | undefined;
   /** The minimum wages associated with the compensation. */
-  minimum_wages?: CompensationMinimumWagesList;
+  minimum_wages?: CompensationMinimumWagesList | undefined;
   /** The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'. */
-  payment_unit?: CompensationPaymentUnit;
+  payment_unit?: CompensationPaymentUnit | undefined;
   /** The dollar amount paid per payment unit. */
-  rate?: string;
+  rate?: string | undefined;
   /** The job title for this compensation. */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the compensation in Gusto. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The compensation history for this job, including pay rate, payment unit, FLSA status, and effective dates. This is sensitive pay information and requires the `compensations:read` scope. */
 export type JobCompensationsList = Array<Compensation>;
 /** The representation of a job in Gusto. */
 export interface Job {
   /** The compensation history for this job, including pay rate, payment unit, FLSA status, and effective dates. This is sensitive pay information and requires the `compensations:read` scope. */
-  compensations?: JobCompensationsList;
+  compensations?: JobCompensationsList | undefined;
   /** The UUID of the current active compensation record for this job. Requires the `compensations:read` scope. */
-  current_compensation_uuid?: string;
+  current_compensation_uuid?: string | undefined;
   /** The UUID of the employee to which the job belongs. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The date when the employee was hired or rehired for the job. */
-  hire_date?: string;
-  location?: Location;
+  hire_date?: string | undefined;
+  location?: Location | undefined;
   /** The uuid of the employee's work location. */
-  location_uuid?: string;
+  location_uuid?: string | undefined;
   /** How the employee is paid for this job (e.g., Hour, Week, Month, Year, Paycheck). This is sensitive compensation data and requires the `compensations:read` scope. */
-  payment_unit?: string | null;
+  payment_unit?: string | null | undefined;
   /** Whether this is the employee's primary job. The value will be set to true unless an existing job exists for the employee. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The employee's pay rate for this job (e.g., hourly wage or annual salary). This is sensitive compensation data and requires the `compensations:read` scope. */
-  rate?: string;
+  rate?: string | undefined;
   /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
-  state_wc_class_code?: string | null;
+  state_wc_class_code?: string | null | undefined;
   /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
-  state_wc_covered?: boolean | null;
+  state_wc_covered?: boolean | null | undefined;
   /** The title for the job. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Whether the employee owns at least 2% of the company. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
   /** The UUID of the job. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateEmployeeMemberPortalInvitationRequest {
   /** The UUID of the employee */
@@ -2974,13 +3006,13 @@ export interface RecurringReimbursement {
   /** The dollar amount of the reimbursement. */
   amount: string;
   /** The timestamp when this reimbursement was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The description of the reimbursement. */
   description: string;
   /** The UUID of the employee. */
   employee_uuid: string;
   /** The timestamp when this reimbursement was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The unique identifier of this recurring reimbursement. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
@@ -3000,11 +3032,11 @@ export interface CreateEmployeeRehireRequest {
   /** The day when the employee returns to work. */
   effective_date: string;
   /** The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*. */
-  employment_status?: CreateEmployeeRehireRequestEmploymentStatus | (string & {});
+  employment_status?: CreateEmployeeRehireRequestEmploymentStatus | (string & {}) | undefined;
   /** The boolean flag indicating whether Gusto will file a new hire report for the employee. */
   file_new_hire_report: boolean;
   /** Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
   /** The uuid of the employee's work location. */
   work_location_uuid: string;
 }
@@ -3018,21 +3050,21 @@ export type RehireEmploymentStatus =
   | "not_set";
 export interface Rehire {
   /** Whether the employee's rehire has gone into effect. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The day when the employee returns to work. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*. */
-  employment_status?: RehireEmploymentStatus;
+  employment_status?: RehireEmploymentStatus | undefined;
   /** The boolean flag indicating whether Gusto will file a new hire report for the employee. */
-  file_new_hire_report?: boolean;
+  file_new_hire_report?: boolean | undefined;
   /** Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The uuid of the employee's work location. */
-  work_location_uuid?: string;
+  work_location_uuid?: string | undefined;
 }
 /** Experience level for this occupation */
 export type CreateEmployeeSalaryEstimateRequestOccupationsItemExperienceLevel =
@@ -3049,7 +3081,7 @@ export interface CreateEmployeeSalaryEstimateRequestOccupationsItem {
     | CreateEmployeeSalaryEstimateRequestOccupationsItemExperienceLevel
     | (string & {});
   /** Whether this is the primary occupation */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Percentage of time spent in this occupation (as decimal, e.g., 1.0 = 100%) */
   time_percentage: string;
 }
@@ -3060,7 +3092,7 @@ export interface CreateEmployeeSalaryEstimateRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The annual net revenue of the business (must be greater than 0) */
-  annual_net_revenue?: number | null;
+  annual_net_revenue?: number | null | undefined;
   /** Array of occupations. Time percentages must sum to 100%. */
   occupations: CreateEmployeeSalaryEstimateRequestOccupationsList;
   /** The ZIP code for location-based salary calculations */
@@ -3077,13 +3109,13 @@ export interface SalaryEstimateOccupationsItem {
   /** Bureau of Labor Statistics (BLS) occupation code. */
   code: string;
   /** Occupation description. */
-  description?: string;
+  description?: string | undefined;
   /** Experience level for this occupation. */
   experience_level: SalaryEstimateOccupationsItemExperienceLevel;
   /** Occupation name. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is the primary occupation. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Percentage of time spent in this occupation (as decimal string, 0-1). */
   time_percentage: string;
 }
@@ -3092,19 +3124,19 @@ export type SalaryEstimateOccupationsList = Array<SalaryEstimateOccupationsItem>
 /** A salary estimate calculation for an S-Corp owner based on occupation, experience level, location, and business revenue. */
 export interface SalaryEstimate {
   /** The timestamp when this salary estimate was accepted and finalized. */
-  accepted_at?: string | null;
+  accepted_at?: string | null | undefined;
   /** The annual net revenue of the business used for salary calculations. */
   annual_net_revenue: string | null;
   /** The timestamp when this salary estimate was created. */
   created_at: string;
   /** The UUID of the employee job this salary estimate is associated with (once accepted). */
-  employee_job_uuid?: string | null;
+  employee_job_uuid?: string | null | undefined;
   /** The UUID of the employee this salary estimate is for. */
   employee_uuid: string | null;
   /** Array of occupations with their experience levels and time allocations. */
   occupations: SalaryEstimateOccupationsList;
   /** The calculated reasonable salary estimate in cents. Null if not yet calculated. */
-  result?: number | null;
+  result?: number | null | undefined;
   /** The timestamp when this salary estimate was last updated. */
   updated_at: string;
   /** The UUID of the salary estimate. */
@@ -3135,52 +3167,52 @@ export interface CreateEmployeeTerminationRequest {
   /** The employee's last day of work. */
   effective_date: string;
   /** If true, the employee should receive their final wages via an off-cycle payroll. If false, they should receive their final wages on their current pay schedule. */
-  run_termination_payroll?: boolean;
+  run_termination_payroll?: boolean | undefined;
 }
 /** The representation of a termination in Gusto. */
 export interface Termination {
   /** Whether the employee's termination has gone into effect. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee's termination is cancelable. Cancelable is true if `run_termination_payroll` is false and `effective_date` is in the future. */
-  cancelable?: boolean;
+  cancelable?: boolean | undefined;
   /** The employee's last day of work. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** The UUID of the employee to which this termination is attached. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** If true, the employee should receive their final wages via an off-cycle payroll. If false, they should receive their final wages on their current pay schedule. */
-  run_termination_payroll?: boolean;
+  run_termination_payroll?: boolean | undefined;
   /** The UUID of the termination object. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateEmployeeWorkAddressRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** Date the employee began working at the company location */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Reference to a company location */
-  location_uuid?: string;
+  location_uuid?: string | undefined;
 }
 export interface EmployeeWorkAddress {
   /** Signifies if this address is the active work address for the current date */
-  active?: boolean;
-  city?: string;
-  country?: string;
+  active?: boolean | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
   /** The date the employee began working at this location. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** UUID reference to the employee for this work address. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** UUID reference to the company location for this work address. */
-  location_uuid?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
+  location_uuid?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
   /** The unique identifier of this work address. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
-  zip?: string;
+  zip?: string | undefined;
 }
 export interface CreateEmployeeYtdBenefitAmountsFromDifferentCompanyRequest {
   /** The UUID of the employee */
@@ -3197,13 +3229,13 @@ export interface CreateEmployeeYtdBenefitAmountsFromDifferentCompanyRequest {
 export interface CreateEmployeeYtdBenefitAmountsFromDifferentCompanyResponse {}
 export interface CreatePartnerManagedCompanyRequestCompany {
   /** Whether the company only supports contractors. Should be set to true if the company has no W-2 employees. If not passed, will default to false (i.e. the company will support both contractors and employees). */
-  contractor_only?: boolean;
+  contractor_only?: boolean | undefined;
   /** The employer identification number (EIN) of the company. */
-  ein?: string;
+  ein?: string | undefined;
   /** The legal name of the company. */
   name: string;
   /** The name of the company. */
-  trade_name?: string;
+  trade_name?: string | undefined;
 }
 /** Information for the user who will be the primary payroll administrator for the new company. */
 export interface CreatePartnerManagedCompanyRequestUser {
@@ -3214,7 +3246,7 @@ export interface CreatePartnerManagedCompanyRequestUser {
   /** The last name of the user who will be the primary payroll admin. */
   last_name: string;
   /** The phone number of the user who will be the primary payroll admin. */
-  phone?: string;
+  phone?: string | undefined;
 }
 export interface CreatePartnerManagedCompanyRequest {
   company: CreatePartnerManagedCompanyRequestCompany;
@@ -3224,13 +3256,13 @@ export interface CreatePartnerManagedCompanyRequest {
 /** Object returned when creating a partner managed company */
 export interface PartnerManagedCompany {
   /** Access token that can be used for OAuth access to the account. Access tokens expire 2 hours after they are issued. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** Gusto's UUID for the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Time of access_token expiration in seconds */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Refresh token that can be exchanged for a new access token. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** The type of entity to act on. */
 export type CreatePayrollBatchRequestBatchItemEntityType = "payroll";
@@ -3316,30 +3348,30 @@ export interface CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequest {
     | CreatePayrollGeneratedDocumentsPrintablePayrollCheckRequestPrintingFormat
     | (string & {});
   /** The starting check number we will start generating checks from. Use to override the sequence that will be used to generate check numbers. */
-  starting_check_number?: number;
+  starting_check_number?: number | undefined;
 }
 export interface PayrollCheckEmployeeCheckNumberMappingItem {
   /** The check number for the relevant employee */
-  check_number?: number;
+  check_number?: number | undefined;
   /** The UUID for an employee */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
 }
 /** An array of mapping employee uuids to their check numbers */
 export type PayrollCheckEmployeeCheckNumberMappingList =
   Array<PayrollCheckEmployeeCheckNumberMappingItem>;
 export interface PayrollCheck {
   /** An array of mapping employee uuids to their check numbers */
-  employee_check_number_mapping?: PayrollCheckEmployeeCheckNumberMappingList;
+  employee_check_number_mapping?: PayrollCheckEmployeeCheckNumberMappingList | undefined;
   /** A unique identifier of the payroll. */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** The format the checks will be printed. */
-  printing_format?: string;
+  printing_format?: string | undefined;
   /** A unique identifier of the Generated Document request */
-  request_uuid?: string;
+  request_uuid?: string | undefined;
   /** The starting check number for the checks being printed. */
-  starting_check_number?: number | null;
+  starting_check_number?: number | null | undefined;
   /** Current status of the Generated Document */
-  status?: string;
+  status?: string | undefined;
 }
 /** The breakdown of the report. Use 'default' for no split. */
 export type CreatePayrollReportsGeneralLedgerRequestAggregation =
@@ -3354,20 +3386,24 @@ export interface CreatePayrollReportsGeneralLedgerRequest {
   /** The breakdown of the report. Use 'default' for no split. */
   aggregation: CreatePayrollReportsGeneralLedgerRequestAggregation | (string & {});
   /** The kind of integration set up for the company. Required when `aggregation` is 'integration'. Must be null if `aggregation` is not 'integration'. */
-  integration_type?: CreatePayrollReportsGeneralLedgerRequestIntegrationType | (string & {}) | null;
+  integration_type?:
+    | CreatePayrollReportsGeneralLedgerRequestIntegrationType
+    | (string & {})
+    | null
+    | undefined;
 }
 /** The breakdown level used for the report. */
 export type GeneralLedgerReportAggregation = "default" | "job" | "department" | "integration";
 /** A request for a general ledger report. The report is generated asynchronously and the URL is available via the report GET endpoint using the returned `request_uuid`. */
 export interface GeneralLedgerReport {
   /** The breakdown level used for the report. */
-  aggregation?: GeneralLedgerReportAggregation;
+  aggregation?: GeneralLedgerReportAggregation | undefined;
   /** The `integration_type` used for the report when `aggregation` is 'integration' (e.g., `xero`, `qbo`). Otherwise, this will be null or an empty string. */
-  integration_type?: string | null;
+  integration_type?: string | null | undefined;
   /** The UUID of the payroll record for which the report was generated. */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** UUID to use for polling the report status. */
-  request_uuid?: string;
+  request_uuid?: string | undefined;
 }
 /** The owner type of the bank account */
 export type CreatePlaidProcessorTokenRequestOwnerType = "Company";
@@ -3380,14 +3416,14 @@ export interface CreatePlaidProcessorTokenRequest {
   processor_token: string;
 }
 export interface CreateProvisionRequestCompanyAddressesItem {
-  city?: string;
+  city?: string | undefined;
   /** Whether or not this is a primary address for the company. If set to true, the address will be used as the mailing and filing address for the company and will be added as a work location. If set to false or not included, the address will only be added as a work location for the company. If multiple addresses are included, only one should be marked as primary. */
-  is_primary?: string;
-  phone?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
-  zip?: string;
+  is_primary?: string | undefined;
+  phone?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
+  zip?: string | undefined;
 }
 /** The locations for the company. This includes mailing, work, and filing addresses. */
 export type CreateProvisionRequestCompanyAddressesList =
@@ -3396,17 +3432,17 @@ export type CreateProvisionRequestCompanyAddressesList =
 export type CreateProvisionRequestCompanyStatesList = Array<string>;
 export interface CreateProvisionRequestCompany {
   /** The locations for the company. This includes mailing, work, and filing addresses. */
-  addresses?: CreateProvisionRequestCompanyAddressesList;
+  addresses?: CreateProvisionRequestCompanyAddressesList | undefined;
   /** The employer identification number (EIN) of the company. */
-  ein?: string;
+  ein?: string | undefined;
   /** The legal name of the company. */
   name: string;
   /** The number of employees in the company. */
-  number_employees?: number;
+  number_employees?: number | undefined;
   /** The states in which the company operates. States should be included by their two letter code, i.e. NY for New York. */
-  states?: CreateProvisionRequestCompanyStatesList;
+  states?: CreateProvisionRequestCompanyStatesList | undefined;
   /** The name of the company. */
-  trade_name?: string;
+  trade_name?: string | undefined;
 }
 /** Information for the user who will be the primary payroll administrator for the new company. */
 export type CreateProvisionRequestUser = CreatePartnerManagedCompanyRequestUser;
@@ -3417,7 +3453,7 @@ export interface CreateProvisionRequest {
 }
 export interface ProvisionCreated {
   /** A URL where the user should be redirected to complete their account setup inside of Gusto. */
-  account_claim_url?: string;
+  account_claim_url?: string | undefined;
 }
 export interface CreateSalaryEstimateAcceptRequest {
   /** The UUID of the salary estimate */
@@ -3429,55 +3465,55 @@ export interface CreateSandboxGenerate1099Request {
   /** The contractor UUID. */
   contractor_id: string;
   /** Must be equal to or more recent than 2015. If not specified, defaults to the previous year. */
-  year?: number;
+  year?: number | undefined;
 }
 export interface Form1099 {
   /** The contractor UUID */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** The description of the form */
-  description?: string;
-  document_content_type?: string | null;
+  description?: string | undefined;
+  document_content_type?: string | null | undefined;
   /** If the form is in a draft state. E.g. End of year tax forms may be provided in a draft state prior to being finalized. */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** The type identifier of the form */
-  name?: string;
+  name?: string | undefined;
   /** The quarter of this form. This value is currently always null since it is not present on any contractor forms. */
-  quarter?: number | null;
+  quarter?: number | null | undefined;
   /** A boolean flag that indicates whether the form needs signing or not. Note that this value will change after the form is signed. */
-  requires_signing?: boolean;
+  requires_signing?: boolean | undefined;
   /** The title of the form */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the form */
   uuid: string;
   /** The year of this form. For some forms, e.g. tax forms, this is the year which the form represents. A 1099 for January - December 2022 would be delivered in January 2023 and have a year value of 2022. This value is nullable and will not be present on all forms. */
-  year?: number | null;
+  year?: number | null | undefined;
 }
 export interface CreateSandboxGenerateW2Request {
   /** The employee UUID. */
   employee_id: string;
   /** Must be equal to or more recent than 2015. If not specified, defaults to the previous year. */
-  year?: number;
+  year?: number | undefined;
 }
 export interface Form {
   /** The description of the form */
-  description?: string;
-  document_content_type?: string | null;
+  description?: string | undefined;
+  document_content_type?: string | null | undefined;
   /** If the form is in a draft state. E.g. End of year tax forms may be provided in a draft state prior to being finalized. */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** The UUID of the employee to which the form belongs, if applicable. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The type identifier of the form */
-  name?: string;
+  name?: string | undefined;
   /** The quarter of this form. For some forms, e.g. tax forms, this is the calendar quarter which this form represents. An Employer's Quarterly Federal Tax Return (Form 941) for April, May, June 2022 would have a quarter value of 2 (and a year value of 2022). This value is nullable and will not be present on all forms. */
-  quarter?: number | null;
+  quarter?: number | null | undefined;
   /** A boolean flag that indicates whether the form needs signing or not. Note that this value will change after the form is signed. */
-  requires_signing?: boolean;
+  requires_signing?: boolean | undefined;
   /** The title of the form */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the form */
   uuid: string;
   /** The year of this form. For some forms, e.g. tax forms, this is the year which the form represents. A W2 for January - December 2022 would be delivered in January 2023 and have a year value of 2022. This value is nullable and will not be present on all forms. */
-  year?: number | null;
+  year?: number | null | undefined;
 }
 export type CreateWebhookSubscriptionRequestSubscriptionTypesItem =
   | "BankAccount"
@@ -3534,11 +3570,11 @@ export type WebhookSubscriptionSubscriptionTypesList =
 /** The representation of webhook subscription. */
 export interface WebhookSubscription {
   /** The status of the webhook subscription. */
-  status?: WebhookSubscriptionStatus;
+  status?: WebhookSubscriptionStatus | undefined;
   /** Receive updates for these types. */
-  subscription_types?: WebhookSubscriptionSubscriptionTypesList;
+  subscription_types?: WebhookSubscriptionSubscriptionTypesList | undefined;
   /** The webhook subscriber URL. Updates will be POSTed to this URL. */
-  url?: string;
+  url?: string | undefined;
   /** The UUID of the webhook subscription. */
   uuid: string;
 }
@@ -3579,7 +3615,7 @@ export interface DeleteCompanyPayrollsRequest {
   /** The UUID of the payroll */
   payroll_id: string;
   /** When true, request an asynchronous delete of the payroll. */
-  async?: boolean;
+  async?: boolean | undefined;
 }
 export interface DeleteCompanyPayrollsResponse {}
 export interface DeleteCompanySignatoryRequest {
@@ -3711,17 +3747,17 @@ export interface GetAchTransactionsRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** The UUID of the contractor payment */
-  contractor_payment_uuid?: string;
+  contractor_payment_uuid?: string | undefined;
   /** The UUID of the payroll */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** Used to filter the ACH transactions to only include those with a specific transaction type, such as "Credit employee pay". */
-  transaction_type?: string;
+  transaction_type?: string | undefined;
   /** Used to filter the ACH transactions to only include those with a specific payment direction, either "credit" or "debit". */
-  payment_direction?: string;
+  payment_direction?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The direction of the payment */
 export type AchTransactionPaymentDirection = "credit" | "debit";
@@ -3733,31 +3769,31 @@ export type AchTransactionRecipientType = "Employee" | "Contractor";
 /** Representation of an ACH transaction */
 export interface AchTransaction {
   /** The amount of money moved by the ACH transaction. This amount is always non-negative. */
-  amount?: string;
+  amount?: string | undefined;
   /** Unique identifier of the company to which the ACH transaction belongs */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The description of the ACH transaction. Can be used to identify the ACH transaction on the recipient's bank statement. */
-  description?: string;
+  description?: string | undefined;
   /** The error code associated with the ACH transaction, if any. If there is no error on the ACH transaction, this field will be nil. See [this article](https://engineering.gusto.com/how-ach-works-a-developer-perspective-part-2/) for a complete list of ACH return codes. */
-  error_code?: string | null;
+  error_code?: string | null | undefined;
   /** The date of the payment associated with the ACH transaction */
-  payment_date?: string;
+  payment_date?: string | undefined;
   /** The direction of the payment */
-  payment_direction?: AchTransactionPaymentDirection;
+  payment_direction?: AchTransactionPaymentDirection | undefined;
   /** The date of the payment event check associated with the ACH transaction */
-  payment_event_check_date?: string;
+  payment_event_check_date?: string | undefined;
   /** The type of payment event associated with the ACH transaction */
-  payment_event_type?: AchTransactionPaymentEventType;
+  payment_event_type?: AchTransactionPaymentEventType | undefined;
   /** Unique identifier for the payment event associated with the ACH transaction */
-  payment_event_uuid?: string;
+  payment_event_uuid?: string | undefined;
   /** The status of the ACH transaction */
-  payment_status?: AchTransactionPaymentStatus;
+  payment_status?: AchTransactionPaymentStatus | undefined;
   /** The type of recipient associated with the ACH transaction */
-  recipient_type?: AchTransactionRecipientType | null;
+  recipient_type?: AchTransactionRecipientType | null | undefined;
   /** Unique identifier for the recipient associated with the ACH transaction */
-  recipient_uuid?: string;
+  recipient_uuid?: string | undefined;
   /** The type of transaction associated with the ACH transaction */
-  transaction_type?: string;
+  transaction_type?: string | undefined;
   /** Unique identifier of an ACH transaction */
   uuid: string;
 }
@@ -3769,27 +3805,27 @@ export interface GetBenefitRequest {
 }
 export interface SupportedBenefit {
   /** The benefit type in Gusto. */
-  benefit_type?: number;
+  benefit_type?: number | undefined;
   /** Category where the benefit belongs to. */
-  category?: string;
+  category?: string | undefined;
   /** The description of the benefit. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the benefit is healthcare related. */
-  healthcare?: boolean;
+  healthcare?: boolean | undefined;
   /** Whether the benefit is considered imputed income. */
-  imputed?: boolean;
+  imputed?: boolean | undefined;
   /** The name of the benefit. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the benefit is deducted after tax calculations. */
-  posttax?: boolean;
+  posttax?: boolean | undefined;
   /** Whether the benefit is deducted before tax calculations, thus reducing one's taxable income */
-  pretax?: boolean;
+  pretax?: boolean | undefined;
   /** Whether the benefit is associated with retirement planning. */
-  retirement?: boolean;
+  retirement?: boolean | undefined;
   /** Whether this benefit can be written (created, updated, or destroyed). Returns true if the benefit type is permitted for the application, false otherwise. */
-  writable_by_application?: boolean;
+  writable_by_application?: boolean | undefined;
   /** Whether the benefit has a government mandated yearly limit. If the benefit has a government mandated yearly limit, employees cannot be added to more than one benefit of this type. */
-  yearly_limit?: boolean;
+  yearly_limit?: boolean | undefined;
 }
 export interface GetBenefitsRequest {}
 export type SupportedBenefitList = Array<SupportedBenefit>;
@@ -3800,103 +3836,105 @@ export interface GetBenefitsBenefitRequirementsRequest {
 }
 export type BenefitTypeRequirementsCatchUpChoicesList = Array<string>;
 export interface BenefitTypeRequirementsCatchUpDefaultValue {
-  type?: string;
-  value?: string;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 /** Whether the employee should use a benefit's 'catch up' rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
 export interface BenefitTypeRequirementsCatchUp {
-  choices?: BenefitTypeRequirementsCatchUpChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsCatchUpChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export type BenefitTypeRequirementsCompanyContributionAnnualMaximumChoicesList = Array<string>;
 export type BenefitTypeRequirementsCompanyContributionAnnualMaximumDefaultValue =
   BenefitTypeRequirementsCatchUpDefaultValue;
 /** The maximum company contribution amount per year. A null value signifies no limit. */
 export interface BenefitTypeRequirementsCompanyContributionAnnualMaximum {
-  choices?: BenefitTypeRequirementsCompanyContributionAnnualMaximumChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsCompanyContributionAnnualMaximumChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export type BenefitTypeRequirementsContributionChoicesList = Array<string>;
 export type BenefitTypeRequirementsContributionDefaultValue =
   BenefitTypeRequirementsCatchUpDefaultValue;
 /** An object representing the type and value of the company contribution. */
 export interface BenefitTypeRequirementsContribution {
-  choices?: BenefitTypeRequirementsContributionChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsContributionChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export type BenefitTypeRequirementsCoverageAmountChoicesList = Array<string>;
 export type BenefitTypeRequirementsCoverageAmountDefaultValue =
   BenefitTypeRequirementsCatchUpDefaultValue;
 /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
 export interface BenefitTypeRequirementsCoverageAmount {
-  choices?: BenefitTypeRequirementsCoverageAmountChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsCoverageAmountChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export type BenefitTypeRequirementsCoverageSalaryMultiplierChoicesList = Array<string>;
 export type BenefitTypeRequirementsCoverageSalaryMultiplierDefaultValue =
   BenefitTypeRequirementsCatchUpDefaultValue;
 /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
 export interface BenefitTypeRequirementsCoverageSalaryMultiplier {
-  choices?: BenefitTypeRequirementsCoverageSalaryMultiplierChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsCoverageSalaryMultiplierChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export type BenefitTypeRequirementsDeductAsPercentageChoicesList = Array<string>;
 export type BenefitTypeRequirementsDeductAsPercentageDefaultValue =
   BenefitTypeRequirementsCatchUpDefaultValue;
 /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
 export interface BenefitTypeRequirementsDeductAsPercentage {
-  choices?: BenefitTypeRequirementsDeductAsPercentageChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsDeductAsPercentageChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export type BenefitTypeRequirementsEmployeeDeductionChoicesList = Array<string>;
 export type BenefitTypeRequirementsEmployeeDeductionDefaultValue =
   BenefitTypeRequirementsCatchUpDefaultValue;
 /** The amount to be deducted, per pay period, from the employee's pay. */
 export interface BenefitTypeRequirementsEmployeeDeduction {
-  choices?: BenefitTypeRequirementsEmployeeDeductionChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsEmployeeDeductionChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export type BenefitTypeRequirementsLimitOptionChoicesList = Array<string>;
 export type BenefitTypeRequirementsLimitOptionDefaultValue =
   BenefitTypeRequirementsCatchUpDefaultValue;
 /** Some benefits require additional information to determine their limit. For example, for an HSA benefit, the limit option should be either 'Family' or 'Individual'. For a Dependent Care FSA benefit, the limit option should be either 'Joint Filing or Single' or 'Married and Filing Separately'. */
 export interface BenefitTypeRequirementsLimitOption {
-  choices?: BenefitTypeRequirementsLimitOptionChoicesList | null;
-  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null;
-  editable?: boolean;
-  required?: boolean;
+  choices?: BenefitTypeRequirementsLimitOptionChoicesList | null | undefined;
+  default_value?: BenefitTypeRequirementsCatchUpDefaultValue | null | undefined;
+  editable?: boolean | undefined;
+  required?: boolean | undefined;
 }
 export interface BenefitTypeRequirements {
   /** Whether the employee should use a benefit's 'catch up' rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: BenefitTypeRequirementsCatchUp;
+  catch_up?: BenefitTypeRequirementsCatchUp | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: BenefitTypeRequirementsCompanyContributionAnnualMaximum;
+  company_contribution_annual_maximum?:
+    | BenefitTypeRequirementsCompanyContributionAnnualMaximum
+    | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: BenefitTypeRequirementsContribution;
+  contribution?: BenefitTypeRequirementsContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: BenefitTypeRequirementsCoverageAmount;
+  coverage_amount?: BenefitTypeRequirementsCoverageAmount | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: BenefitTypeRequirementsCoverageSalaryMultiplier;
+  coverage_salary_multiplier?: BenefitTypeRequirementsCoverageSalaryMultiplier | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: BenefitTypeRequirementsDeductAsPercentage;
+  deduct_as_percentage?: BenefitTypeRequirementsDeductAsPercentage | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: BenefitTypeRequirementsEmployeeDeduction;
+  employee_deduction?: BenefitTypeRequirementsEmployeeDeduction | undefined;
   /** Some benefits require additional information to determine their limit. For example, for an HSA benefit, the limit option should be either 'Family' or 'Individual'. For a Dependent Care FSA benefit, the limit option should be either 'Joint Filing or Single' or 'Married and Filing Separately'. */
-  limit_option?: BenefitTypeRequirementsLimitOption;
+  limit_option?: BenefitTypeRequirementsLimitOption | undefined;
 }
 export interface GetBulkReportRequest {
   /** The UUID of the bulk report batch. */
@@ -3934,15 +3972,15 @@ export type BulkReportCompaniesList = Array<BulkReportCompany>;
 export type BulkReportStatus = "pending" | "processing" | "success" | "partial_success" | "failed";
 export interface BulkReport {
   /** Per-company breakdown. Returned only once the batch has finished; omitted while in progress. */
-  companies?: BulkReportCompaniesList;
+  companies?: BulkReportCompaniesList | undefined;
   /** When the batch reached a terminal state. Null while non-terminal. */
   completed_at: string | null;
   /** UUID of the partner that owns this batch. Returned only once the batch has finished; omitted while in progress. */
-  partner_uuid?: string;
+  partner_uuid?: string | undefined;
   /** How many reports succeeded. Returned only once the batch has finished; omitted while in progress. */
-  processed_items?: number;
+  processed_items?: number | undefined;
   /** Signed S3 URL to a zip containing every successfully-generated report, valid for 10 minutes. Returned only once the batch has finished; omitted while in progress. */
-  report_url?: string | null;
+  report_url?: string | null | undefined;
   /** Overall batch status. `pending`/`processing` while in progress; once finished, `success` (all reports succeeded), `partial_success` (some succeeded, some failed), or `failed` (none succeeded). */
   status: BulkReportStatus;
   /** When the batch was accepted. */
@@ -3960,38 +3998,38 @@ export interface GetCompaniesRequest {
 export type CompanyCompanyStatus = "Approved" | "Not Approved" | "Suspended";
 export interface CompanyCompensationsFixedItem {
   /** The name of the fixed compensation. */
-  name?: string;
+  name?: string | undefined;
   /** The UUID of the fixed compensation. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 /** The available fixed compensation rates for the company. */
 export type CompanyCompensationsFixedList = Array<CompanyCompensationsFixedItem>;
 export interface CompanyCompensationsHourlyItem {
   /** The amount multiplied by the base rate of a job to calculate compensation. */
-  multiple?: number;
+  multiple?: number | undefined;
   /** The name of the hourly compensation rate. */
-  name?: string;
+  name?: string | undefined;
   /** The UUID of the hourly compensation rate. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 /** The available hourly compensation rates for the company. */
 export type CompanyCompensationsHourlyList = Array<CompanyCompensationsHourlyItem>;
 export interface CompanyCompensationsPaidTimeOffItem {
   /** The name of the paid time off type. */
-  name?: string;
+  name?: string | undefined;
   /** The UUID of the paid time off type. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 /** The available types of paid time off for the company. */
 export type CompanyCompensationsPaidTimeOffList = Array<CompanyCompensationsPaidTimeOffItem>;
 /** The available company-wide compensation rates for the company. */
 export interface CompanyCompensations {
   /** The available fixed compensation rates for the company. */
-  fixed?: CompanyCompensationsFixedList;
+  fixed?: CompanyCompensationsFixedList | undefined;
   /** The available hourly compensation rates for the company. */
-  hourly?: CompanyCompensationsHourlyList;
+  hourly?: CompanyCompensationsHourlyList | undefined;
   /** The available types of paid time off for the company. */
-  paid_time_off?: CompanyCompensationsPaidTimeOffList;
+  paid_time_off?: CompanyCompensationsPaidTimeOffList | undefined;
 }
 export type CompanyEntityType =
   | "C-Corporation"
@@ -4016,15 +4054,15 @@ export type CompanyFundingType =
 /** The representation of a company's address in Gusto. */
 export interface CompanyAddress {
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  active?: boolean;
-  city?: string;
-  country?: string;
+  active?: boolean | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  inactive?: boolean;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
-  zip?: string;
+  inactive?: boolean | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
+  zip?: string | undefined;
 }
 /** The locations of the company. */
 export type CompanyLocationsList = Array<CompanyAddress>;
@@ -4032,32 +4070,32 @@ export type CompanyPayScheduleType = "single" | "hourly_salaried" | "by_employee
 /** The primary payroll admin of the company. */
 export interface CompanyPrimaryPayrollAdmin {
   /** The company's primary payroll admin's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The company's primary payroll admin's first name. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The company's primary payroll admin's last name. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The company's primary payroll admin's phone number. */
-  phone?: string | null;
+  phone?: string | null | undefined;
 }
 /** The company's primary signatory's home address. */
 export type CompanyPrimarySignatoryHomeAddress = ContractorAddress;
 /** The primary signatory of the company. */
 export interface CompanyPrimarySignatory {
   /** The company's primary signatory's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The company's primary signatory's first name. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The company's primary signatory's home address. */
-  home_address?: ContractorAddress;
+  home_address?: ContractorAddress | undefined;
   /** The company's primary signatory's last name. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The company's primary signatory's middle initial. */
-  middle_initial?: string | null;
+  middle_initial?: string | null | undefined;
   /** The company's primary signatory's phone number. */
-  phone?: string;
+  phone?: string | undefined;
   /** The UUID of the company's primary signatory. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** The Gusto product tier of the company (not applicable to Embedded partner managed companies). */
 export type CompanyTier =
@@ -4072,43 +4110,43 @@ export type CompanyTier =
 /** The representation of a company in Gusto. */
 export interface Company {
   /** The status of the company in Gusto. "Approved" companies are approved to run payroll from a risk and compliance perspective. However, an approved company may still need to resolve other [payroll blockers](https://docs.gusto.com/embedded-payroll/docs/payroll-blockers) to be able to run payroll. "Not Approved" companies may not yet run payroll with Gusto and may need to complete onboarding or contact support. "Suspended" companies may not run payroll with Gusto. In order to unsuspend their account, the company must contact support. */
-  company_status?: CompanyCompanyStatus;
+  company_status?: CompanyCompanyStatus | undefined;
   /** The available company-wide compensation rates for the company. */
-  compensations?: CompanyCompensations;
+  compensations?: CompanyCompensations | undefined;
   /** Whether the company only supports contractors. */
-  contractor_only?: boolean;
+  contractor_only?: boolean | undefined;
   /** The Federal Employer Identification Number of the company. */
-  ein?: string;
+  ein?: string | undefined;
   /** The tax payer type of the company. */
-  entity_type?: CompanyEntityType | null;
+  entity_type?: CompanyEntityType | null | undefined;
   /** Company's default funding type */
-  funding_type?: CompanyFundingType | null;
+  funding_type?: CompanyFundingType | null | undefined;
   /** Whether or not Gusto has identified the company as representing a high fraud risk. */
-  is_high_risk_business?: boolean;
+  is_high_risk_business?: boolean | undefined;
   /** Whether or not the company is a marijuana-related business. */
-  is_marijuana_business?: boolean;
+  is_marijuana_business?: boolean | undefined;
   /** Whether the company is fully managed by a partner via the API */
-  is_partner_managed?: boolean;
+  is_partner_managed?: boolean | undefined;
   /** Whether or not the company is suspended in Gusto. Suspended companies may not run payroll. */
-  is_suspended?: boolean;
+  is_suspended?: boolean | undefined;
   /** Company's first invoiceable event date */
-  join_date?: string | null;
+  join_date?: string | null | undefined;
   /** The locations of the company. */
-  locations?: CompanyLocationsList;
+  locations?: CompanyLocationsList | undefined;
   /** The name of the company. */
-  name?: string;
+  name?: string | undefined;
   /** The pay schedule assignment type. */
-  pay_schedule_type?: CompanyPayScheduleType | null;
+  pay_schedule_type?: CompanyPayScheduleType | null | undefined;
   /** The primary payroll admin of the company. */
-  primary_payroll_admin?: CompanyPrimaryPayrollAdmin;
+  primary_payroll_admin?: CompanyPrimaryPayrollAdmin | undefined;
   /** The primary signatory of the company. */
-  primary_signatory?: CompanyPrimarySignatory | null;
+  primary_signatory?: CompanyPrimarySignatory | null | undefined;
   /** The slug of the name of the company. */
-  slug?: string;
+  slug?: string | undefined;
   /** The Gusto product tier of the company (not applicable to Embedded partner managed companies). */
-  tier?: CompanyTier | null;
+  tier?: CompanyTier | null | undefined;
   /** The trade name of the company. */
-  trade_name?: string | null;
+  trade_name?: string | null | undefined;
   /** A unique identifier of the company in Gusto. */
   uuid: string;
 }
@@ -4128,9 +4166,9 @@ export interface GetCompaniesCompanyUuidWireInRequestUuidRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** Type of payment for the wire in */
 export type WireInRequestPaymentType = "Payroll" | "ContractorPaymentGroup";
@@ -4139,39 +4177,39 @@ export type WireInRequestStatus = "awaiting_funds" | "pending_review" | "approve
 /** Representation of a wire in request */
 export interface WireInRequest {
   /** Notes for the wire in request */
-  additional_notes?: string | null;
+  additional_notes?: string | null | undefined;
   /** Amount sent through wire in */
-  amount_sent?: string | null;
+  amount_sent?: string | null | undefined;
   /** Name of the bank initiating the wire in */
-  bank_name?: string | null;
+  bank_name?: string | null | undefined;
   /** Date the wire in was sent */
-  date_sent?: string | null;
+  date_sent?: string | null | undefined;
   /** Name of bank receiving the wire in */
-  origination_bank?: string;
+  origination_bank?: string | undefined;
   /** Address of bank receiving the wire in */
-  origination_bank_address?: string;
+  origination_bank_address?: string | undefined;
   /** Type of payment for the wire in */
-  payment_type?: WireInRequestPaymentType;
+  payment_type?: WireInRequestPaymentType | undefined;
   /** Unique identifier of the payment */
-  payment_uuid?: string;
+  payment_uuid?: string | undefined;
   /** Recipient bank account number */
-  recipient_account_number?: string;
+  recipient_account_number?: string | undefined;
   /** Address of the recipient of the wire in */
-  recipient_address?: string;
+  recipient_address?: string | undefined;
   /** Name of the recipient of the wire In */
-  recipient_name?: string;
+  recipient_name?: string | undefined;
   /** Recipient bank routing number */
-  recipient_routing_number?: string;
+  recipient_routing_number?: string | undefined;
   /** Requested amount for the payment */
-  requested_amount?: string;
+  requested_amount?: string | undefined;
   /** Status of the wire in */
-  status?: WireInRequestStatus;
+  status?: WireInRequestStatus | undefined;
   /** Include in note with bank to track payment */
-  unique_tracking_code?: string;
+  unique_tracking_code?: string | undefined;
   /** Unique identifier of a wire in request */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Deadline to submit the wire in */
-  wire_in_deadline?: string;
+  wire_in_deadline?: string | undefined;
 }
 export type WireInRequestList = Array<WireInRequest>;
 export type GetCompaniesCompanyUuidWireInRequestUuidResponse = WireInRequestList;
@@ -4187,17 +4225,17 @@ export type DepartmentEmployeesItem = HolidayPayPolicyEmployeesItem;
 export type DepartmentEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export interface Department {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Array of contractors assigned to the department. */
-  contractors?: DepartmentContractorsList;
+  contractors?: DepartmentContractorsList | undefined;
   /** Array of employees assigned to the department. */
-  employees?: DepartmentEmployeesList;
+  employees?: DepartmentEmployeesList | undefined;
   /** Name of the department */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the department */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type DepartmentList = Array<Department>;
 export type GetCompaniesDepartmentsResponse = DepartmentList;
@@ -4205,9 +4243,9 @@ export interface GetCompanyAdminsRequest {
   /** The UUID of the company */
   company_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type GetCompanyAdminsResponseBodyList = Array<Admin>;
 export type GetCompanyAdminsResponse = GetCompanyAdminsResponseBodyList;
@@ -4222,9 +4260,9 @@ export interface GetCompanyBenefitRequest {
   /** The UUID of the company benefit */
   company_benefit_id: string;
   /** Whether to return employee benefits associated with the benefit */
-  with_employee_benefits?: boolean;
+  with_employee_benefits?: boolean | undefined;
   /** Available options: - all_benefits: If with_employee_benefits=true, include all effective dated benefits for each employee instead of only the current benefits. */
-  include?: GetCompanyBenefitRequestInclude | (string & {});
+  include?: GetCompanyBenefitRequestInclude | (string & {}) | undefined;
 }
 export type CompanyBenefitWithEmployeeBenefitsCatchUpType = "elective" | "deemed";
 /** A single tier of a tiered matching scheme. */
@@ -4233,7 +4271,9 @@ export type CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionVa
 export type CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionValueCase1TiersList =
   Array<CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersItem>;
 export interface CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionValueCase1 {
-  tiers?: CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionValueCase1TiersList;
+  tiers?:
+    | CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionValueCase1TiersList
+    | undefined;
 }
 /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
 export type CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionValue =
@@ -4242,29 +4282,29 @@ export type CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionVa
 /** An object representing the type and value of the company contribution. */
 export interface CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContribution {
   /** The company contribution scheme. "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. "tiered": The company contribution varies according to the size of the employee deduction. */
-  type?: string;
+  type?: string | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionValue;
+  value?: CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContributionValue | undefined;
 }
 export interface CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItem {
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The UUID of the company benefit. */
-  company_benefit_uuid?: string;
+  company_benefit_uuid?: string | undefined;
   /** The value of the company contribution */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContribution;
+  contribution?: CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItemContribution | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** The date when the employee benefit becomes effective. If not provided, the benefit will be effective from 1970-01-01 (unix epoch). */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The UUID of the employee to which the benefit belongs. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The date when the employee benefit expires. If not provided, the benefit will have no expiration date. */
-  expiration_date?: string;
+  expiration_date?: string | undefined;
 }
 export type CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsList =
   Array<CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsItem>;
@@ -4273,32 +4313,32 @@ export type CompanyBenefitWithEmployeeBenefitsSource = "internal" | "external" |
 /** The representation of a company benefit. */
 export interface CompanyBenefitWithEmployeeBenefits {
   /** Whether this benefit is active for employee participation. Company benefits may only be deactivated if no employees are actively participating. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The type of the benefit to which the company benefit belongs (same as benefit_id). */
-  benefit_type?: number;
+  benefit_type?: number | undefined;
   /** The type of catch-up contribution for this benefit, as required by Section 603 of the SECURE 2.0 Act. Only applicable to pre-tax 401(k) and 403(b) benefits. */
-  catch_up_type?: CompanyBenefitWithEmployeeBenefitsCatchUpType | null;
+  catch_up_type?: CompanyBenefitWithEmployeeBenefitsCatchUpType | null | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Whether this company benefit can be deleted. Deletable will be set to true if the benefit has not been used in payroll, has no employee benefits associated, and the benefit is not owned by Gusto or a Partner */
-  deletable?: boolean;
+  deletable?: boolean | undefined;
   /** The description of the company benefit. For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like "Kaiser Permanente" or "Blue Cross/ Blue Shield". */
-  description?: string;
-  employee_benefits?: CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsList;
+  description?: string | undefined;
+  employee_benefits?: CompanyBenefitWithEmployeeBenefitsEmployeeBenefitsList | undefined;
   /** The partner name of the partner that created the company benefit. For example, "XYZ Corp". */
-  partner_name?: string | null;
+  partner_name?: string | null | undefined;
   /** Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to third party sick pay benefits. */
-  responsible_for_employee_w2?: boolean;
+  responsible_for_employee_w2?: boolean | undefined;
   /** Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to third party sick pay benefits. */
-  responsible_for_employer_taxes?: boolean;
+  responsible_for_employer_taxes?: boolean | undefined;
   /** The source of the company benefit. This can be "internal", "external", or "partnered". Company benefits created via the API default to "external". Certain partners can create company benefits with a source of "partnered". */
-  source?: CompanyBenefitWithEmployeeBenefitsSource;
+  source?: CompanyBenefitWithEmployeeBenefitsSource | undefined;
   /** Whether employee deductions and company contributions can be set as percentages of payroll for an individual employee. This is determined by the type of benefit and is not configurable by the company. */
-  supports_percentage_amounts?: boolean;
+  supports_percentage_amounts?: boolean | undefined;
   /** The UUID of the company benefit. */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetCompanyBenefitContributionExclusionsRequest {
   /** The UUID of the company benefit */
@@ -4321,11 +4361,11 @@ export interface GetCompanyBenefitEmployeeBenefitsRequest {
   /** The UUID of the company benefit */
   company_benefit_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** Available options: - all_benefits: Include all effective dated benefits for each employee instead of only the current benefits. */
-  include?: GetCompanyBenefitEmployeeBenefitsRequestInclude | (string & {});
+  include?: GetCompanyBenefitEmployeeBenefitsRequestInclude | (string & {}) | undefined;
 }
 /** A single tier of a tiered matching scheme. */
 export type EmployeeBenefitContributionValueCase1TiersItem =
@@ -4333,16 +4373,16 @@ export type EmployeeBenefitContributionValueCase1TiersItem =
 export type EmployeeBenefitContributionValueCase1TiersList =
   Array<CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersItem>;
 export interface EmployeeBenefitContributionValueCase1 {
-  tiers?: EmployeeBenefitContributionValueCase1TiersList;
+  tiers?: EmployeeBenefitContributionValueCase1TiersList | undefined;
 }
 /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
 export type EmployeeBenefitContributionValue = string | EmployeeBenefitContributionValueCase1;
 /** An object representing the type and value of the company contribution. */
 export interface EmployeeBenefitContribution {
   /** The company contribution scheme. "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. "tiered": The company contribution varies according to the size of the employee deduction. */
-  type?: string;
+  type?: string | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: EmployeeBenefitContributionValue;
+  value?: EmployeeBenefitContributionValue | undefined;
 }
 export type EmployeeBenefitDeductionReducesTaxableIncome =
   | "unset"
@@ -4351,45 +4391,48 @@ export type EmployeeBenefitDeductionReducesTaxableIncome =
 /** The representation of an employee benefit. */
 export interface EmployeeBenefit {
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: boolean | null;
+  catch_up?: boolean | null | undefined;
   /** The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types. */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: string | null;
+  company_contribution_annual_maximum?: string | null | undefined;
   /** Whether the company_contribution value should be treated as a percentage to be added to each payroll. This field will not appear for tiered contribution types. */
-  contribute_as_percentage?: boolean;
+  contribute_as_percentage?: boolean | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: EmployeeBenefitContribution;
+  contribution?: EmployeeBenefitContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: string | null;
+  coverage_amount?: string | null | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: string | null;
+  coverage_salary_multiplier?: string | null | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored. */
-  deduction_reduces_taxable_income?: EmployeeBenefitDeductionReducesTaxableIncome | null;
+  deduction_reduces_taxable_income?:
+    | EmployeeBenefitDeductionReducesTaxableIncome
+    | null
+    | undefined;
   /** The date the employee benefit will start. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Whether the company contribution is elective (aka matching). For "tiered" contribution types, this is always true. */
-  elective?: boolean;
+  elective?: boolean | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The maximum employee deduction amount per year. A null value signifies no limit. */
-  employee_deduction_annual_maximum?: string | null;
+  employee_deduction_annual_maximum?: string | null | undefined;
   /** The date the employee benefit will expire. A null value indicates the benefit will not expire. */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Some benefits require additional information to determine their limit. `Family` and `Individual` are applicable to HSA benefit. `Joint Filing or Single` and `Married and Filing Separately` are applicable to Dependent Care FSA benefit. */
-  limit_option?: string | null;
+  limit_option?: string | null | undefined;
   /** Identifier for a 401(k) loan assigned by the 401(k) provider */
-  retirement_loan_identifier?: string | null;
+  retirement_loan_identifier?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company benefit. */
-  company_benefit_uuid?: string;
+  company_benefit_uuid?: string | undefined;
   /** The UUID of the employee to which the benefit belongs. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The UUID of the employee benefit. */
   uuid: string;
   [key: string]: unknown;
@@ -4401,11 +4444,11 @@ export interface GetCompanyCompanyBenefitsRequest {
   /** The UUID of the company */
   company_id: string;
   /** Whether the benefit is currently active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether to return employee enrollment count */
-  enrollment_count?: boolean;
+  enrollment_count?: boolean | undefined;
   /** Filter by benefit type. Comma-separated list of benefit type IDs, i.e. `?benefit_type=5,105` */
-  benefit_type?: string;
+  benefit_type?: string | undefined;
 }
 export type GetCompanyCompanyBenefitsResponseBodyList = Array<CompanyBenefit>;
 export type GetCompanyCompanyBenefitsResponse = GetCompanyCompanyBenefitsResponseBodyList;
@@ -4419,13 +4462,13 @@ export interface GetCompanyContractorPaymentGroupsRequest {
   /** The UUID of the company */
   company_id: string;
   /** The time period for which to retrieve contractor payment groups. Defaults to 6 months ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The time period for which to retrieve contractor payment groups. Defaults to today's date. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
 export type ContractorPaymentGroupWithBlockersStatus = "Unfunded" | "Funded";
@@ -4439,24 +4482,24 @@ export type ContractorPaymentGroupWithBlockersTotals =
 /** Contractor payment group with submission and credit blockers, but without individual contractor payments. */
 export interface ContractorPaymentGroupWithBlockers {
   /** The check date of the contractor payment group. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
-  creation_token?: string | null;
+  creation_token?: string | null | undefined;
   /** The debit date of the contractor payment group. */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
-  status?: ContractorPaymentGroupWithBlockersStatus;
+  status?: ContractorPaymentGroupWithBlockersStatus | undefined;
   /** The unique identifier of the contractor payment group. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** List of credit blockers for the contractor payment group. */
-  credit_blockers?: ContractorPaymentGroupWithBlockersCreditBlockersList;
+  credit_blockers?: ContractorPaymentGroupWithBlockersCreditBlockersList | undefined;
   /** Whether the disbursement is partner owned. */
-  partner_owned_disbursement?: boolean | null;
+  partner_owned_disbursement?: boolean | null | undefined;
   /** List of submission blockers for the contractor payment group. */
-  submission_blockers?: ContractorPaymentGroupWithBlockersSubmissionBlockersList;
-  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+  submission_blockers?: ContractorPaymentGroupWithBlockersSubmissionBlockersList | undefined;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals | undefined;
 }
 export type GetCompanyContractorPaymentGroupsResponseBodyList =
   Array<ContractorPaymentGroupWithBlockers>;
@@ -4470,25 +4513,25 @@ export interface GetCompanyContractorPaymentsRequest {
   /** The time period for which to retrieve contractor payments. If left empty, defaults to today's date. */
   end_date: string;
   /** The UUID of the contractor. When specified, will load all payments for that contractor. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** Display contractor payments results group by check date if set to true. */
-  group_by_date?: boolean;
+  group_by_date?: boolean | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The contractor's payments within a given time period. */
 export type ContractorPaymentSummaryContractorPaymentsItemPaymentsList = Array<ContractorPayment>;
 export interface ContractorPaymentSummaryContractorPaymentsItem {
   /** The UUID of the contractor. */
-  contractor_uuid?: number;
+  contractor_uuid?: number | undefined;
   /** The contractor's payments within a given time period. */
-  payments?: ContractorPaymentSummaryContractorPaymentsItemPaymentsList;
+  payments?: ContractorPaymentSummaryContractorPaymentsItemPaymentsList | undefined;
   /** The total reimbursements for the contractor within a given time period. */
-  reimbursement_total?: string;
+  reimbursement_total?: string | undefined;
   /** The total wages for the contractor within a given time period. */
-  wage_total?: string;
+  wage_total?: string | undefined;
 }
 /** The individual contractor payments, within a given time period, grouped by contractor. */
 export type ContractorPaymentSummaryContractorPaymentsList =
@@ -4496,31 +4539,31 @@ export type ContractorPaymentSummaryContractorPaymentsList =
 /** The wage and reimbursement totals for all contractor payments within a given time period. */
 export interface ContractorPaymentSummaryTotal {
   /** The total reimbursements for contractor payments within a given time period. */
-  reimbursements?: string;
+  reimbursements?: string | undefined;
   /** The total wages for contractor payments within a given time period. */
-  wages?: string;
+  wages?: string | undefined;
 }
 /** The representation of the summary of contractor payments for a given company in a given time period. */
 export interface ContractorPaymentSummary {
   /** The individual contractor payments, within a given time period, grouped by contractor. */
-  contractor_payments?: ContractorPaymentSummaryContractorPaymentsList;
+  contractor_payments?: ContractorPaymentSummaryContractorPaymentsList | undefined;
   /** The wage and reimbursement totals for all contractor payments within a given time period. */
-  total?: ContractorPaymentSummaryTotal;
+  total?: ContractorPaymentSummaryTotal | undefined;
 }
 /** The contractor's payments within a given time period. */
 export type ContractorPaymentSummaryByDatesContractorPaymentsItemPaymentsList =
   Array<ContractorPayment>;
 export interface ContractorPaymentSummaryByDatesContractorPaymentsItem {
   /** The payment check date. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the contractor. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** The contractor's payments within a given time period. */
-  payments?: ContractorPaymentSummaryByDatesContractorPaymentsItemPaymentsList;
+  payments?: ContractorPaymentSummaryByDatesContractorPaymentsItemPaymentsList | undefined;
   /** The total reimbursements for the contractor within a given time period. */
-  reimbursement_total?: string;
+  reimbursement_total?: string | undefined;
   /** The total wages for the contractor within a given time period. */
-  wage_total?: string;
+  wage_total?: string | undefined;
 }
 /** The individual contractor payments, within a given time period, grouped by check date. */
 export type ContractorPaymentSummaryByDatesContractorPaymentsList =
@@ -4530,9 +4573,9 @@ export type ContractorPaymentSummaryByDatesTotal = ContractorPaymentSummaryTotal
 /** The representation of the summary of contractor payments for a given company in a given time period. */
 export interface ContractorPaymentSummaryByDates {
   /** The individual contractor payments, within a given time period, grouped by check date. */
-  contractor_payments?: ContractorPaymentSummaryByDatesContractorPaymentsList;
+  contractor_payments?: ContractorPaymentSummaryByDatesContractorPaymentsList | undefined;
   /** The wage and reimbursement totals for all contractor payments within a given time period. */
-  total?: ContractorPaymentSummaryTotal;
+  total?: ContractorPaymentSummaryTotal | undefined;
 }
 export type GetCompanyContractorPaymentsResponseBody =
   | ContractorPaymentSummary
@@ -4545,23 +4588,24 @@ export type GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItemPaym
   | "Historical Payment";
 export interface GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItem {
   /** Bonus amount for the payment. */
-  bonus?: number;
+  bonus?: number | undefined;
   /** The contractor receiving the payment. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** Date of the contractor payment (check date). */
-  date?: string;
+  date?: string | undefined;
   /** Hourly rate for the payment. */
-  hourly_rate?: number;
+  hourly_rate?: number | undefined;
   /** Number of hours worked for the payment. */
-  hours?: number;
+  hours?: number | undefined;
   /** The payment method. */
   payment_method?:
     | GetCompanyContractorPaymentsPreviewRequestContractorPaymentsItemPaymentMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Reimbursement amount for the payment. */
-  reimbursement?: number;
+  reimbursement?: number | undefined;
   /** Fixed wage amount for the payment. */
-  wage?: number;
+  wage?: number | undefined;
 }
 /** A list of contractor payments to preview. */
 export type GetCompanyContractorPaymentsPreviewRequestContractorPaymentsList =
@@ -4575,7 +4619,7 @@ export interface GetCompanyContractorPaymentsPreviewRequest {
 /** The expected debit date computed for a set of previewed contractor payments. */
 export interface ContractorPaymentsPreview {
   /** The calculated debit date. If the payment method is Direct Deposit, the debit date will account for the company's ACH speed. If the payment method is Check, the debit date will be the same as the check date. */
-  expected_debit_date?: string;
+  expected_debit_date?: string | undefined;
 }
 export type GetCompanyContractorsRequestIncludeItem = "company_name" | "portal_invitations";
 export type GetCompanyContractorsRequestIncludeList = Array<
@@ -4585,23 +4629,23 @@ export interface GetCompanyContractorsRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** A string to search for in the object's names */
-  search_term?: string;
+  search_term?: string | undefined;
   /** Sort by one or more fields. Options: created_at, type, onboarding_status, name. Append `:asc` or `:desc` to specify direction (e.g., `created_at:asc`). Defaults to ascending. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Filters contractors by those who have completed onboarding */
-  onboarded?: boolean;
+  onboarded?: boolean | undefined;
   /** Filters contractors who are ready to work (onboarded AND active today) */
-  onboarded_active?: boolean;
+  onboarded_active?: boolean | undefined;
   /** Filters contractors by those who have been or are scheduled to be dismissed */
-  terminated?: boolean;
+  terminated?: boolean | undefined;
   /** Filters contractors by those who have been dismissed and whose dismissal is in effect today (excludes active and scheduled to be dismissed) */
-  terminated_today?: boolean;
+  terminated_today?: boolean | undefined;
   /** Include the requested attribute(s) in each contractor response. Multiple options are comma separated. */
-  include?: GetCompanyContractorsRequestIncludeList;
+  include?: GetCompanyContractorsRequestIncludeList | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type GetCompanyContractorsResponseBodyList = Array<Contractor>;
 export type GetCompanyContractorsResponse = GetCompanyContractorsResponseBodyList;
@@ -4609,36 +4653,36 @@ export interface GetCompanyContractorsPaymentDetailsRequest {
   /** The UUID of the company. This identifies the company whose contractor payment details you want to retrieve. */
   company_id: string;
   /** Optional filter to get payment details for a specific contractor. When provided, the response will only include payment details for this contractor. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** Optional filter to get payment details for contractors in a specific payment group. When provided, the response will only include payment details for contractors in this group. */
-  contractor_payment_group_uuid?: string;
+  contractor_payment_group_uuid?: string | undefined;
 }
 export type ContractorPaymentDetailsListItemPaymentMethod = "Direct Deposit" | "Check";
 export type ContractorPaymentDetailsListItemSplitBy = "Amount" | "Percentage";
 export interface ContractorPaymentDetailsListItemSplitsItem {
-  account_type?: string;
-  bank_account_uuid?: string;
+  account_type?: string | undefined;
+  bank_account_uuid?: string | undefined;
   /** Ciphertext containing the full bank account number, which must be decrypted using a key provided by Gusto. Only visible with the `contractor_payment_methods:read:account_number` scope. */
-  encrypted_account_number?: string | null;
+  encrypted_account_number?: string | null | undefined;
   /** An obfuscated version of the account number which can be used for display purposes. */
-  hidden_account_number?: string;
-  name?: string;
+  hidden_account_number?: string | undefined;
+  name?: string | undefined;
   /** The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential. */
-  priority?: number;
-  routing_number?: string;
+  priority?: number | undefined;
+  routing_number?: string | undefined;
   /** If `split_by` is 'Amount', this is in cents (e.g., 500 for $5.00) and exactly one account must have a `split_amount` of `null` to capture the remainder. If `split_by` is 'Percentage', this is the percentage value (e.g., 60 for 60%). */
-  split_amount?: number | null;
+  split_amount?: number | null | undefined;
 }
 export type ContractorPaymentDetailsListItemSplitsList =
   Array<ContractorPaymentDetailsListItemSplitsItem>;
 export interface ContractorPaymentDetailsListItem {
-  contractor_uuid?: string;
-  first_name?: string;
-  last_name?: string;
-  payment_method?: ContractorPaymentDetailsListItemPaymentMethod;
+  contractor_uuid?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  payment_method?: ContractorPaymentDetailsListItemPaymentMethod | undefined;
   /** Describes how the payment will be split. If split_by is Percentage, then the split amounts must add up to exactly 100. If split_by is Amount, then the amount represents cents and the last split amount must be `null` to capture the remainder. */
-  split_by?: ContractorPaymentDetailsListItemSplitBy | null;
-  splits?: ContractorPaymentDetailsListItemSplitsList | null;
+  split_by?: ContractorPaymentDetailsListItemSplitBy | null | undefined;
+  splits?: ContractorPaymentDetailsListItemSplitsList | null | undefined;
 }
 export type ContractorPaymentDetailsList = Array<ContractorPaymentDetailsListItem>;
 export type GetCompanyContractorsPaymentDetailsResponse = ContractorPaymentDetailsList;
@@ -4646,9 +4690,9 @@ export interface GetCompanyCustomFieldsRequest {
   /** The UUID of the company */
   company_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** An array of options for fields of type radio. Otherwise, null. */
 export type CompanyCustomFieldSelectionOptionsList = Array<string>;
@@ -4657,18 +4701,18 @@ export type CustomFieldType = "text" | "currency" | "number" | "date" | "radio";
 /** A custom field on a company */
 export interface CompanyCustomField {
   /** Description of the company custom field */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the company custom field */
   name: string;
   /** An array of options for fields of type radio. Otherwise, null. */
-  selection_options?: CompanyCustomFieldSelectionOptionsList | null;
+  selection_options?: CompanyCustomFieldSelectionOptionsList | null | undefined;
   type: CustomFieldType;
   /** UUID of the company custom field */
   uuid: string;
 }
 export type CompanyCustomFieldListCustomFieldsList = Array<CompanyCustomField>;
 export interface CompanyCustomFieldList {
-  custom_fields?: CompanyCustomFieldListCustomFieldsList;
+  custom_fields?: CompanyCustomFieldListCustomFieldsList | undefined;
 }
 export interface GetCompanyEarningTypesRequest {
   /** The UUID of the company */
@@ -4681,9 +4725,9 @@ export type EarningTypeListDefaultList = Array<EarningType>;
 /** Lists of default and custom earning types for a company. */
 export interface EarningTypeList {
   /** The custom earning types for the company. */
-  custom?: EarningTypeListCustomList;
+  custom?: EarningTypeListCustomList | undefined;
   /** The default earning types for the company. */
-  default?: EarningTypeListDefaultList;
+  default?: EarningTypeListDefaultList | undefined;
 }
 export type GetCompanyEmployeesRequestIncludeItem =
   | "all_compensations"
@@ -4700,29 +4744,29 @@ export interface GetCompanyEmployeesRequest {
   /** The UUID of the company */
   company_id: string;
   /** Filter employees by a specific primary work location */
-  location_uuid?: string;
+  location_uuid?: string | undefined;
   /** Filter employees by a specific payroll */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** A string to search for in the object's names */
-  search_term?: string;
+  search_term?: string | undefined;
   /** Sort employees by a given field. Cannot be used with search_term. Append `:asc` or `:desc` to specify direction (e.g., `name:desc`). Defaults to ascending. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** Include the requested attribute(s) in each employee response. Multiple options are comma separated. */
-  include?: GetCompanyEmployeesRequestIncludeList;
+  include?: GetCompanyEmployeesRequestIncludeList | undefined;
   /** Filters employees by those who have completed onboarding */
-  onboarded?: boolean;
+  onboarded?: boolean | undefined;
   /** Filters employees who are ready to work (onboarded AND active today) */
-  onboarded_active?: boolean;
+  onboarded_active?: boolean | undefined;
   /** Filters employees by those who have been or are scheduled to be terminated */
-  terminated?: boolean;
+  terminated?: boolean | undefined;
   /** Filters employees by those who have been terminated and whose termination is in effect today (excludes active and scheduled to be terminated) */
-  terminated_today?: boolean;
+  terminated_today?: boolean | undefined;
   /** Optional subset of employees to fetch. */
-  uuids?: GetCompanyEmployeesRequestUuidsList;
+  uuids?: GetCompanyEmployeesRequestUuidsList | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type ShowEmployeesItemApplicableTaxIdsList = Array<number>;
 export type ShowEmployeesItemCurrentEmploymentStatus =
@@ -4737,11 +4781,11 @@ export type EmployeeCustomFieldSelectionOptionsList = Array<string>;
 export interface EmployeeCustomField {
   /** This is the id of the response object from when you get the company custom fields */
   company_custom_field_id: string;
-  description?: string | null;
+  description?: string | null | undefined;
   id: string;
   name: string;
   /** An array of options for fields of type radio. Otherwise, null. */
-  selection_options?: EmployeeCustomFieldSelectionOptionsList | null;
+  selection_options?: EmployeeCustomFieldSelectionOptionsList | null | undefined;
   type: CustomFieldType;
   value: string;
 }
@@ -4751,25 +4795,25 @@ export type PaidTimeOffName = "Vacation Hours" | "Sick Hours" | "Holiday Hours";
 /** The representation of paid time off in Gusto. */
 export interface PaidTimeOff {
   /** The number of accrual units accrued. */
-  accrual_balance?: string | null;
+  accrual_balance?: string | null | undefined;
   /** The accrual method of the time off policy */
-  accrual_method?: string | null;
+  accrual_method?: string | null | undefined;
   /** The frequency at which the PTO type is accrued. */
-  accrual_period?: string | null;
+  accrual_period?: string | null | undefined;
   /** The number of accrual units accrued per accrual period. */
-  accrual_rate?: string | null;
+  accrual_rate?: string | null | undefined;
   /** The unit the PTO type is accrued in. */
-  accrual_unit?: string | null;
+  accrual_unit?: string | null | undefined;
   /** The maximum number of accrual units allowed. A null value signifies no maximum. */
-  maximum_accrual_balance?: string | null;
+  maximum_accrual_balance?: string | null | undefined;
   /** The name of the paid time off type. */
-  name?: PaidTimeOffName | null;
+  name?: PaidTimeOffName | null | undefined;
   /** Whether the accrual balance is paid to the employee upon termination. */
-  paid_at_termination?: boolean;
+  paid_at_termination?: boolean | undefined;
   /** The name of the time off policy. */
-  policy_name?: string | null;
+  policy_name?: string | null | undefined;
   /** The UUID of the time off policy. */
-  policy_uuid?: string | null;
+  policy_uuid?: string | null | undefined;
 }
 export type ShowEmployeesItemEligiblePaidTimeOffList = Array<PaidTimeOff>;
 export type ShowEmployeesItemGarnishmentsList = Array<Garnishment>;
@@ -4784,20 +4828,20 @@ export type ShowEmployeesItemMemberPortalInvitationStatusStatus =
 /** Member portal invitation status information. Only included when the include param has the portal_invitations value set. */
 export interface ShowEmployeesItemMemberPortalInvitationStatus {
   /** The date and time when the password reset was last resent. */
-  last_password_resent_at?: string | Redacted.Redacted<string> | null;
+  last_password_resent_at?: string | Redacted.Redacted<string> | null | undefined;
   /** The current status of the member portal invitation. */
-  status?: ShowEmployeesItemMemberPortalInvitationStatusStatus;
+  status?: ShowEmployeesItemMemberPortalInvitationStatusStatus | undefined;
   /** Whether the invitation token has expired. */
-  token_expired?: boolean | null;
+  token_expired?: boolean | null | undefined;
   /** The date and time when the welcome email was sent. */
-  welcome_email_sent_at?: string | null;
+  welcome_email_sent_at?: string | null | undefined;
 }
 /** Configuration for an employee onboarding documents during onboarding */
 export interface ShowEmployeesItemOnboardingDocumentsConfig {
   /** Whether to include Form I-9 for an employee during onboarding */
-  i9_document?: boolean;
+  i9_document?: boolean | undefined;
   /** The UUID of the onboarding documents config */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 export type ShowEmployeesItemOnboardingStatus =
   | "onboarding_completed"
@@ -4814,93 +4858,96 @@ export type ShowEmployeesItemTerminationsList = Array<Termination>;
 /** A single entry in an employee's home-address history. Returned in the `all_home_addresses` array; includes the `effective_date` the address became active in addition to the shared `Employee-Home-Address` fields. */
 export interface EmployeeHomeAddressHistoryEntry {
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  active?: boolean;
-  city?: string | null;
-  country?: string | null;
-  state?: string | null;
-  street_1?: string | null;
-  street_2?: string | null;
+  active?: boolean | undefined;
+  city?: string | null | undefined;
+  country?: string | null | undefined;
+  state?: string | null | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
   /** Unique identifier for this address. */
-  uuid?: string;
-  zip?: string | null;
+  uuid?: string | undefined;
+  zip?: string | null | undefined;
   /** The date the address became effective. */
-  effective_date?: string;
+  effective_date?: string | undefined;
 }
 export type ShowEmployeesItemAllHomeAddressesList = Array<EmployeeHomeAddressHistoryEntry>;
 export interface EmployeeHomeAddress {
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  active?: boolean;
-  city?: string | null;
-  country?: string | null;
-  state?: string | null;
-  street_1?: string | null;
-  street_2?: string | null;
+  active?: boolean | undefined;
+  city?: string | null | undefined;
+  country?: string | null | undefined;
+  state?: string | null | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
   /** Unique identifier for this address. */
-  uuid?: string;
-  zip?: string | null;
+  uuid?: string | undefined;
+  zip?: string | null | undefined;
 }
 export interface ShowEmployeesItem {
-  applicable_tax_ids?: ShowEmployeesItemApplicableTaxIdsList;
+  applicable_tax_ids?: ShowEmployeesItemApplicableTaxIdsList | undefined;
   /** The UUID of the company the employee is employed by. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less. */
-  current_employment_status?: ShowEmployeesItemCurrentEmploymentStatus | null;
+  current_employment_status?: ShowEmployeesItemCurrentEmploymentStatus | null | undefined;
   /** Custom fields are only included for the employee if the include param has the custom_fields value set */
-  custom_fields?: ShowEmployeesItemCustomFieldsList;
-  date_of_birth?: string | null;
+  custom_fields?: ShowEmployeesItemCustomFieldsList | undefined;
+  date_of_birth?: string | null | undefined;
   /** The employee's department in the company. */
-  department?: string | null;
+  department?: string | null | undefined;
   /** The UUID of the department the employee is under */
-  department_uuid?: string | null;
-  eligible_paid_time_off?: ShowEmployeesItemEligiblePaidTimeOffList;
+  department_uuid?: string | null | undefined;
+  eligible_paid_time_off?: ShowEmployeesItemEligiblePaidTimeOffList | undefined;
   /** The personal email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing). */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The short format code of the employee */
-  employee_code?: string;
+  employee_code?: string | undefined;
   first_name: string;
-  flsa_status?: FlsaStatusType;
-  garnishments?: ShowEmployeesItemGarnishmentsList;
+  flsa_status?: FlsaStatusType | undefined;
+  garnishments?: ShowEmployeesItemGarnishmentsList | undefined;
   /** Indicates whether the employee has an SSN in Gusto. */
-  has_ssn?: boolean;
-  hidden_ssn?: string;
+  has_ssn?: boolean | undefined;
+  hidden_ssn?: string | undefined;
   /** The date when the employee was hired to the company */
-  hired_at?: string;
-  historical?: boolean;
-  jobs?: ShowEmployeesItemJobsList;
+  hired_at?: string | undefined;
+  historical?: boolean | undefined;
+  jobs?: ShowEmployeesItemJobsList | undefined;
   last_name: string;
   /** The UUID of the employee's manager. */
-  manager_uuid?: string | null;
+  manager_uuid?: string | null | undefined;
   /** Member portal invitation status information. Only included when the include param has the portal_invitations value set. */
-  member_portal_invitation_status?: ShowEmployeesItemMemberPortalInvitationStatus | null;
-  middle_initial?: string | null;
+  member_portal_invitation_status?:
+    | ShowEmployeesItemMemberPortalInvitationStatus
+    | null
+    | undefined;
+  middle_initial?: string | null | undefined;
   /** Whether the employee has completed onboarding. */
-  onboarded?: boolean;
+  onboarded?: boolean | undefined;
   /** Configuration for an employee onboarding documents during onboarding */
-  onboarding_documents_config?: ShowEmployeesItemOnboardingDocumentsConfig;
+  onboarding_documents_config?: ShowEmployeesItemOnboardingDocumentsConfig | undefined;
   /** The current onboarding status of the employee */
-  onboarding_status?: ShowEmployeesItemOnboardingStatus | null;
+  onboarding_status?: ShowEmployeesItemOnboardingStatus | null | undefined;
   /** Whether an external partner portal invitation webhook has been sent for this employee. Only included when the include param has the portal_invitations value set. */
-  partner_portal_invitation_sent?: boolean | null;
+  partner_portal_invitation_sent?: boolean | null | undefined;
   /** The employee's payment method */
-  payment_method?: ShowEmployeesItemPaymentMethod;
-  phone?: string | null;
-  preferred_first_name?: string | null;
+  payment_method?: ShowEmployeesItemPaymentMethod | undefined;
+  phone?: string | null | undefined;
+  preferred_first_name?: string | null | undefined;
   /** Deprecated. This field always returns an empty string. */
-  ssn?: string;
+  ssn?: string | undefined;
   /** Whether the employee is terminated. */
-  terminated?: boolean;
-  terminations?: ShowEmployeesItemTerminationsList;
-  title?: string;
+  terminated?: boolean | undefined;
+  terminations?: ShowEmployeesItemTerminationsList | undefined;
+  title?: string | undefined;
   /** Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type. */
-  two_percent_shareholder?: boolean | null;
+  two_percent_shareholder?: boolean | null | undefined;
   /** The UUID of the employee in Gusto. */
   uuid: string;
   /** The current version of the employee. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The work email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing). */
-  work_email?: string | null;
-  all_home_addresses?: ShowEmployeesItemAllHomeAddressesList;
-  current_home_address?: EmployeeHomeAddress;
+  work_email?: string | null | undefined;
+  all_home_addresses?: ShowEmployeesItemAllHomeAddressesList | undefined;
+  current_home_address?: EmployeeHomeAddress | undefined;
   [key: string]: unknown;
 }
 export type ShowEmployees = Array<ShowEmployeesItem>;
@@ -4909,51 +4956,51 @@ export interface GetCompanyEmployeesPaymentDetailsRequest {
   /** The UUID of the company */
   company_id: string;
   /** The UUID of a specific employee to fetch payment details for. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The UUID of a specific payroll to fetch payment details for employees on that payroll. */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The type of payment method. */
 export type EmployeePaymentDetailsListItemPaymentMethod = "Direct Deposit" | "Check";
 export type EmployeePaymentDetailsListItemSplitBy = "Amount" | "Percentage";
 export interface EmployeePaymentDetailsListItemSplitsItem {
   /** The bank account type (e.g., "Checking" or "Savings"). */
-  account_type?: string;
+  account_type?: string | undefined;
   /** The UUID of the bank account. */
-  bank_account_uuid?: string;
+  bank_account_uuid?: string | undefined;
   /** Ciphertext containing the full bank account number, which must be decrypted using a key provided by Gusto. Only visible with the `employee_payment_methods:read:account_number` scope. */
-  encrypted_account_number?: string | null;
+  encrypted_account_number?: string | null | undefined;
   /** An obfuscated version of the account number which can be used for display purposes. */
-  hidden_account_number?: string;
+  hidden_account_number?: string | undefined;
   /** The name of the bank account. */
-  name?: string;
+  name?: string | undefined;
   /** The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential. */
-  priority?: number;
+  priority?: number | undefined;
   /** The routing number of the bank account. */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** If `split_by` is 'Amount', this is in cents (e.g., 500 for $5.00) and exactly one account must have a `split_amount` of `null` to capture the remainder. If `split_by` is 'Percentage', this is the percentage value (e.g., 60 for 60%). */
-  split_amount?: number | null;
+  split_amount?: number | null | undefined;
 }
 /** An array of payment splits. This field is applicable when `payment_method` is "Direct Deposit". */
 export type EmployeePaymentDetailsListItemSplitsList =
   Array<EmployeePaymentDetailsListItemSplitsItem>;
 export interface EmployeePaymentDetailsListItem {
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The legal first name of the employee. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The last name of the employee. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The type of payment method. */
-  payment_method?: EmployeePaymentDetailsListItemPaymentMethod;
+  payment_method?: EmployeePaymentDetailsListItemPaymentMethod | undefined;
   /** How the payment is split. This field is applicable when `payment_method` is "Direct Deposit". If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, the last split amount must be `null` to capture the remainder. */
-  split_by?: EmployeePaymentDetailsListItemSplitBy | null;
+  split_by?: EmployeePaymentDetailsListItemSplitBy | null | undefined;
   /** An array of payment splits. This field is applicable when `payment_method` is "Direct Deposit". */
-  splits?: EmployeePaymentDetailsListItemSplitsList | null;
+  splits?: EmployeePaymentDetailsListItemSplitsList | null | undefined;
 }
 /** A list of employee payment details. */
 export type EmployeePaymentDetailsList = Array<EmployeePaymentDetailsListItem>;
@@ -4962,24 +5009,24 @@ export interface GetCompanyExternalPayrollsRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
 export type ExternalPayrollBasicStatus = "unprocessed" | "processed";
 /** The representation of an external payroll with minimal information. */
 export interface ExternalPayrollBasic {
   /** External payroll's check date. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** External payroll's pay period end date. */
-  payment_period_end_date?: string;
+  payment_period_end_date?: string | undefined;
   /** External payroll's pay period start date. */
-  payment_period_start_date?: string;
+  payment_period_start_date?: string | undefined;
   /** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
-  status?: ExternalPayrollBasicStatus;
+  status?: ExternalPayrollBasicStatus | undefined;
   /** The UUID of the external payroll. */
   uuid: string;
 }
@@ -4994,7 +5041,7 @@ export type FederalTaxDetailsEinVerificationStatus = "pending" | "verified" | "f
 /** Information about the status of verifying the company's Employer Identification Number (EIN) */
 export interface FederalTaxDetailsEinVerification {
   /** The status of EIN verification: - `pending`: The EIN verification process has not completed (or the company does not yet have an EIN). - `verified`: The EIN has been successfully verified as a valid EIN with the IRS. - `failed`: The company's EIN did not pass verification. Common issues are being entered incorrectly or not matching the company's legal name. */
-  status?: FederalTaxDetailsEinVerificationStatus;
+  status?: FederalTaxDetailsEinVerificationStatus | undefined;
 }
 /** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
 export type FederalTaxDetailsFilingForm = "941" | "944";
@@ -5013,35 +5060,35 @@ export type FederalTaxDetailsTaxPayerType =
   | "Non-Profit";
 export interface FederalTaxDetails {
   /** How often the company sends money to the IRS. One of: - Semiweekly - Monthly */
-  deposit_schedule?: string;
+  deposit_schedule?: string | undefined;
   /** The date that these details took effect. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Information about the status of verifying the company's Employer Identification Number (EIN) */
-  ein_verification?: FederalTaxDetailsEinVerification;
+  ein_verification?: FederalTaxDetailsEinVerification | undefined;
   /** Whether the EIN has been successfully verified as a valid EIN with the IRS. */
-  ein_verified?: boolean;
+  ein_verified?: boolean | undefined;
   /** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
-  filing_form?: FederalTaxDetailsFilingForm;
+  filing_form?: FederalTaxDetailsFilingForm | undefined;
   /** Whether company's Employer Identification Number (EIN) is present */
-  has_ein?: boolean;
+  has_ein?: boolean | undefined;
   /** The legal name of the company */
-  legal_name?: string;
+  legal_name?: string | undefined;
   /** What type of tax entity the company is. One of: - C-Corporation - S-Corporation - Sole proprietor - LLC - LLP - Limited partnership - Co-ownership - Association - Trusteeship - General partnership - Joint venture - Non-Profit */
-  tax_payer_type?: FederalTaxDetailsTaxPayerType | null;
+  tax_payer_type?: FederalTaxDetailsTaxPayerType | null | undefined;
   /** Whether the company is taxed as an S-Corporation. Tax payer types that may be taxed as an S-Corporation include: - S-Corporation - C-Corporation - LLC */
-  taxable_as_scorp?: boolean;
+  taxable_as_scorp?: boolean | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetCompanyFormsRequest {
   /** The UUID of the company */
   company_id: string;
   /** Sort by one or more fields. Options: created_at, name, year, quarter, draft, document_content_type. Append `:asc` or `:desc` to specify direction (e.g., `created_at:asc`). Defaults to ascending. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type GetCompanyFormsResponseBodyList = Array<Form>;
 export type GetCompanyFormsResponse = GetCompanyFormsResponseBodyList;
@@ -5053,9 +5100,9 @@ export interface GetCompanyLocationsRequest {
   /** The UUID of the company */
   company_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type CompanyLocationsList2 = Array<Location>;
 export type GetCompanyLocationsResponse = CompanyLocationsList2;
@@ -5063,11 +5110,11 @@ export type GetCompanyNotificationsRequestStatus = "open" | "expired" | "resolve
 export interface GetCompanyNotificationsRequest {
   /** The UUID of the company for which you would like to return notifications */
   company_uuid: string;
-  status?: GetCompanyNotificationsRequestStatus | (string & {});
+  status?: GetCompanyNotificationsRequestStatus | (string & {}) | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The type of entity being described. */
 export type NotificationResourcesItemEntityType =
@@ -5086,9 +5133,9 @@ export interface NotificationResourcesItem {
   /** Unique identifier of the entity */
   entity_uuid: string;
   /** Optional. The type of a resource that is related to the one described by entity_type and entity_uuid. For instance, if the entity_type is "BankAccount", the reference_type could be the "Employee" or "Contractor" to whom the bank account belongs. */
-  reference_type?: string;
+  reference_type?: string | undefined;
   /** Optional. Unique identifier of the reference. */
-  reference_uuid?: string;
+  reference_uuid?: string | undefined;
 }
 /** An array of entities relevant to the notification */
 export type NotificationResourcesList = Array<NotificationResourcesItem>;
@@ -5116,7 +5163,7 @@ export interface Notification {
   /** Represents the notification's status as managed by our system. It is updated based on observable system events and internal business logic, and does not reflect resolution steps taken outside our system. This field is read-only and cannot be modified via the API. */
   status: NotificationStatus;
   /** An object containing template variables used to render the notification. The structure of this object depends on the notification category. Each category defines a fixed set of variable names (keys), which are always present. The values of these variables can vary depending on the specific notification instance. */
-  template_variables?: NotificationTemplateVariablesMap;
+  template_variables?: NotificationTemplateVariablesMap | undefined;
   /** The title of the notification. This highlights the actionable component of the notification. */
   title: string;
   /** Unique identifier of a notification. */
@@ -5128,7 +5175,7 @@ export interface GetCompanyOnboardingStatusRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** Comma-delimited string of additional onboarding steps to include. Currently only supports the value "external_payroll". */
-  additional_steps?: string;
+  additional_steps?: string | undefined;
 }
 /** The string identifier for each onboarding step */
 export type CompanyOnboardingStatusOnboardingStepsItemId =
@@ -5158,19 +5205,19 @@ export type CompanyOnboardingStatusOnboardingStepsItemRequirementsList =
   Array<CompanyOnboardingStatusOnboardingStepsItemRequirementsItem>;
 export interface CompanyOnboardingStatusOnboardingStepsItem {
   /** The boolean flag indicating whether the step is completed or not. */
-  completed?: boolean;
+  completed?: boolean | undefined;
   /** The ISO 8601 timestamp indicating when the onboarding step was completed. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The string identifier for each onboarding step */
-  id?: CompanyOnboardingStatusOnboardingStepsItemId;
+  id?: CompanyOnboardingStatusOnboardingStepsItemId | undefined;
   /** The boolean flag indicating whether the step is required or optional */
-  required?: boolean;
+  required?: boolean | undefined;
   /** A list of onboarding steps that are required to be completed in order to proceed with the current onboarding step. */
-  requirements?: CompanyOnboardingStatusOnboardingStepsItemRequirementsList;
+  requirements?: CompanyOnboardingStatusOnboardingStepsItemRequirementsList | undefined;
   /** The boolean flag indicating whether the step can be skipped or not. */
-  skippable?: boolean;
+  skippable?: boolean | undefined;
   /** The display name of the onboarding step */
-  title?: string;
+  title?: string | undefined;
 }
 /** a list of company onboarding steps */
 export type CompanyOnboardingStatusOnboardingStepsList =
@@ -5178,9 +5225,9 @@ export type CompanyOnboardingStatusOnboardingStepsList =
 /** The representation of a company's onboarding status */
 export interface CompanyOnboardingStatus {
   /** a boolean flag for the company's onboarding status */
-  onboarding_completed?: boolean;
+  onboarding_completed?: boolean | undefined;
   /** a list of company onboarding steps */
-  onboarding_steps?: CompanyOnboardingStatusOnboardingStepsList;
+  onboarding_steps?: CompanyOnboardingStatusOnboardingStepsList | undefined;
   /** the UUID of the company */
   uuid: string;
 }
@@ -5188,18 +5235,18 @@ export interface GetCompanyPaidHolidaysRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** If a year is passed, paid holidays for that year will be returned. Otherwise, paid holidays for the next three years will be returned. */
-  year?: string;
+  year?: string | undefined;
 }
 /** A paid holiday derived from the company's holiday pay policy */
 export interface PaidHoliday {
   /** The holiday's end date (YYYY-MM-DD) */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The holiday's identifier (null for custom holidays) */
-  holiday_key?: string | null;
+  holiday_key?: string | null | undefined;
   /** The holiday's official name */
-  holiday_name?: string;
+  holiday_name?: string | undefined;
   /** The holiday's start date (YYYY-MM-DD) */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 export type GetCompanyPaidHolidaysResponseBodyList = Array<PaidHoliday>;
 export type GetCompanyPaidHolidaysResponse = GetCompanyPaidHolidaysResponseBodyList;
@@ -5213,9 +5260,9 @@ export type PaymentConfigsEarnedFastAchBlockersItemBlockerType =
   | "minimum_funded_payments";
 export interface PaymentConfigsEarnedFastAchBlockersItem {
   /** The type of blocker */
-  blocker_type?: PaymentConfigsEarnedFastAchBlockersItemBlockerType;
+  blocker_type?: PaymentConfigsEarnedFastAchBlockersItemBlockerType | undefined;
   /** The threshold needed to unblock */
-  threshold?: number;
+  threshold?: number | undefined;
 }
 /** Blockers preventing the company from earning fast ACH payments */
 export type PaymentConfigsEarnedFastAchBlockersList =
@@ -5224,17 +5271,17 @@ export type PaymentConfigsEarnedFastAchBlockersList =
 export type PaymentConfigsPaymentSpeed = "1-day" | "2-day" | "4-day";
 export interface PaymentConfigs {
   /** Company uuid */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Blockers preventing the company from earning fast ACH payments */
-  earned_fast_ach_blockers?: PaymentConfigsEarnedFastAchBlockersList;
+  earned_fast_ach_blockers?: PaymentConfigsEarnedFastAchBlockersList | undefined;
   /** Payment limit for 1-day or 2-day payroll (string representation of decimal). */
-  fast_payment_limit?: string | null;
+  fast_payment_limit?: string | null | undefined;
   /** Whether the company is configured to use the partner-owned disbursement payment rail */
-  partner_owned_disbursement?: boolean;
+  partner_owned_disbursement?: boolean | undefined;
   /** Partner uuid */
-  partner_uuid?: string;
+  partner_uuid?: string | undefined;
   /** Payment speed. READ-ONLY. - `1-day`: Next-day ACH (only for partners that opt in). - `2-day`: Two-day ACH. - `4-day`: Standard ACH. */
-  payment_speed?: PaymentConfigsPaymentSpeed;
+  payment_speed?: PaymentConfigsPaymentSpeed | undefined;
 }
 /** Comma-separated list of payroll types to include (regular, transition). Defaults to regular only. */
 export type GetCompanyPayPeriodsRequestPayrollTypes =
@@ -5245,36 +5292,36 @@ export interface GetCompanyPayPeriodsRequest {
   /** The UUID of the company */
   company_id: string;
   /** Start date (YYYY-MM-DD) for the pay periods range. Defaults to 6 months ago. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** End date (YYYY-MM-DD) for the pay periods range. Cannot be more than 3 months in the future. Defaults to today. */
-  end_date?: string;
-  payroll_types?: GetCompanyPayPeriodsRequestPayrollTypes | (string & {});
+  end_date?: string | undefined;
+  payroll_types?: GetCompanyPayPeriodsRequestPayrollTypes | (string & {}) | undefined;
 }
 /** Whether it is regular pay period or transition pay period. */
 export type PayPeriodPayrollPayrollType = "regular" | "transition";
 /** Information about the payroll for the pay period. */
 export interface PayPeriodPayroll {
   /** The date on which employees will be paid for the payroll if the payroll is submitted on time. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The date by which payroll should be run for employees to be paid on time. Payroll data, such as time and attendance data, should be submitted on or before this date. */
-  payroll_deadline?: string;
+  payroll_deadline?: string | undefined;
   /** Whether it is regular pay period or transition pay period. */
-  payroll_type?: PayPeriodPayrollPayrollType;
+  payroll_type?: PayPeriodPayrollPayrollType | undefined;
   /** The UUID of the payroll for this pay period. */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** Whether or not the payroll has been successfully processed. Note that processed payrolls cannot be updated. Additionally, a payroll is not guaranteed to be processed just because the payroll deadline has passed. Late payrolls are not uncommon. Conversely, users may choose to run payroll before the payroll deadline. */
-  processed?: boolean;
+  processed?: boolean | undefined;
 }
 /** The representation of a pay period. */
 export interface PayPeriod {
   /** The end date, inclusive, of the pay period. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** A unique identifier of the pay schedule to which the pay period belongs. */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
   /** Information about the payroll for the pay period. */
-  payroll?: PayPeriodPayroll;
+  payroll?: PayPeriodPayroll | undefined;
   /** The start date, inclusive, of the pay period. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 export type GetCompanyPayPeriodsResponseBodyList = Array<PayPeriod>;
 export type GetCompanyPayPeriodsResponse = GetCompanyPayPeriodsResponseBodyList;
@@ -5296,21 +5343,21 @@ export interface GetCompanyPayrollRequest {
   /** The UUID of the payroll */
   payroll_id: string;
   /** Include the requested attribute in the response, for multiple attributes comma separate the values, i.e. `?include=benefits,deductions,taxes` */
-  include?: GetCompanyPayrollRequestIncludeList;
+  include?: GetCompanyPayrollRequestIncludeList | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** Sort employee compensations by one or more fields. Options: first_name, last_name. Append `:asc` or `:desc` to specify direction (e.g., `last_name:asc` or `last_name:asc,first_name:asc`). Defaults to ascending. */
-  sort_by?: string;
+  sort_by?: string | undefined;
 }
 export interface PayrollCompanyTaxesTypeItem {
   /** The amount of this tax for the payroll */
-  amount?: string;
+  amount?: string | undefined;
   /** Whether this tax is an employer or employee tax */
-  employer?: boolean;
+  employer?: boolean | undefined;
   /** The tax name */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array of taxes applicable to this payroll in addition to taxes included in `employee_compensations`. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter. */
 export type PayrollCompanyTaxesType = Array<PayrollCompanyTaxesTypeItem>;
@@ -5325,11 +5372,13 @@ export type PayrollShowEmployeeCompensationsItemCustomWithholdingsFederalOverrid
 /** Federal one-time custom withholding override applied to this payroll. */
 export interface PayrollShowEmployeeCompensationsItemCustomWithholdingsFederal {
   /** The amount that was withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
-  amount_type?: PayrollShowEmployeeCompensationsItemCustomWithholdingsFederalAmountType;
+  amount_type?: PayrollShowEmployeeCompensationsItemCustomWithholdingsFederalAmountType | undefined;
   /** Override mode. Only `one_time` is currently exposed. */
-  override_type?: PayrollShowEmployeeCompensationsItemCustomWithholdingsFederalOverrideType;
+  override_type?:
+    | PayrollShowEmployeeCompensationsItemCustomWithholdingsFederalOverrideType
+    | undefined;
 }
 /** How to interpret the amount. */
 export type PayrollShowEmployeeCompensationsItemCustomWithholdingsStateItemAmountType =
@@ -5340,13 +5389,17 @@ export type PayrollShowEmployeeCompensationsItemCustomWithholdingsStateItemOverr
   "one_time";
 export interface PayrollShowEmployeeCompensationsItemCustomWithholdingsStateItem {
   /** The amount that was withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
-  amount_type?: PayrollShowEmployeeCompensationsItemCustomWithholdingsStateItemAmountType;
+  amount_type?:
+    | PayrollShowEmployeeCompensationsItemCustomWithholdingsStateItemAmountType
+    | undefined;
   /** The UUID of the EmployeeStateField this withholding applies to. */
-  employee_state_field_uuid?: string;
+  employee_state_field_uuid?: string | undefined;
   /** Override mode. Only `one_time` is currently exposed. */
-  override_type?: PayrollShowEmployeeCompensationsItemCustomWithholdingsStateItemOverrideType;
+  override_type?:
+    | PayrollShowEmployeeCompensationsItemCustomWithholdingsStateItemOverrideType
+    | undefined;
 }
 /** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
 export type PayrollShowEmployeeCompensationsItemCustomWithholdingsStateList =
@@ -5354,9 +5407,9 @@ export type PayrollShowEmployeeCompensationsItemCustomWithholdingsStateList =
 /** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
 export interface PayrollShowEmployeeCompensationsItemCustomWithholdings {
   /** Federal one-time custom withholding override applied to this payroll. */
-  federal?: PayrollShowEmployeeCompensationsItemCustomWithholdingsFederal | null;
+  federal?: PayrollShowEmployeeCompensationsItemCustomWithholdingsFederal | null | undefined;
   /** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
-  state?: PayrollShowEmployeeCompensationsItemCustomWithholdingsStateList;
+  state?: PayrollShowEmployeeCompensationsItemCustomWithholdingsStateList | undefined;
 }
 export type PayrollShowEmployeeCompensationsItemFixedCompensationsItem =
   PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
@@ -5386,24 +5439,24 @@ export type PayrollShowEmployeeCompensationsItemReimbursementsList =
 export type PayrollShowEmployeeCompensationsItemDeductionsItemAmountType = "fixed" | "percent";
 export interface PayrollShowEmployeeCompensationsItemDeductionsItem {
   /** The amount of the deduction for the pay period. */
-  amount?: number;
+  amount?: number | undefined;
   /** The amount type of the deduction for the pay period. Only present for unprocessed payrolls. */
-  amount_type?: PayrollShowEmployeeCompensationsItemDeductionsItemAmountType;
+  amount_type?: PayrollShowEmployeeCompensationsItemDeductionsItemAmountType | undefined;
   /** The name of the deduction. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the deduction can be updated via the payroll update endpoint. Only present for unprocessed payrolls. */
-  updatable_via_payroll?: boolean;
+  updatable_via_payroll?: boolean | undefined;
   /** The UUID of the deduction. Only present for unprocessed payrolls. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** An array of deductions for the employee. This field is included by default for regular payrolls in version `v2025-06-15` and later. */
 export type PayrollShowEmployeeCompensationsItemDeductionsList =
   Array<PayrollShowEmployeeCompensationsItemDeductionsItem>;
 export interface PayrollShowEmployeeCompensationsItemBenefitsItem {
-  company_contribution?: string;
-  employee_deduction?: string;
-  imputed?: boolean;
-  name?: string;
+  company_contribution?: string | undefined;
+  employee_deduction?: string | undefined;
+  imputed?: boolean | undefined;
+  name?: string | undefined;
 }
 /** An array of employee benefits for the pay period. Benefits are only included for processed payroll when the include parameter is present. */
 export type PayrollShowEmployeeCompensationsItemBenefitsList =
@@ -5418,53 +5471,53 @@ export type PayrollShowEmployeeCompensationsItemTaxesList =
   Array<PayrollShowEmployeeCompensationsItemTaxesItem>;
 export interface PayrollShowEmployeeCompensationsItem {
   /** The employee's check amount (as a string-formatted decimal, e.g. "1234.56"), equal to net_pay + reimbursements. This value is only available for processed payrolls. */
-  check_amount?: string | null;
+  check_amount?: string | null | undefined;
   /** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
-  custom_withholdings?: PayrollShowEmployeeCompensationsItemCustomWithholdings;
+  custom_withholdings?: PayrollShowEmployeeCompensationsItemCustomWithholdings | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** This employee will be excluded (skipped) from payroll calculation and will not be paid for the payroll. Cancelling a payroll would reset all employees' excluded back to false. */
-  excluded?: boolean;
+  excluded?: boolean | undefined;
   /** The first name of the employee. Requires `employees:read` scope. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
-  fixed_compensations?: PayrollShowEmployeeCompensationsItemFixedCompensationsList;
+  fixed_compensations?: PayrollShowEmployeeCompensationsItemFixedCompensationsList | undefined;
   /** The employee's gross pay (as a string-formatted decimal, e.g. "1234.56"), equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls. */
-  gross_pay?: string | null;
+  gross_pay?: string | null | undefined;
   /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
-  hourly_compensations?: PayrollShowEmployeeCompensationsItemHourlyCompensationsList;
+  hourly_compensations?: PayrollShowEmployeeCompensationsItemHourlyCompensationsList | undefined;
   /** The last name of the employee. Requires `employees:read` scope. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Custom text that will be printed as a personal note to the employee on a paystub. */
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** The employee's net pay (as a string-formatted decimal, e.g. "1234.56"), equal to gross_pay - employee taxes - employee deductions or garnishments - cash tips. This value is only available for processed payrolls. */
-  net_pay?: string | null;
+  net_pay?: string | null | undefined;
   /** An array of all paid time off the employee is eligible for this pay period. */
-  paid_time_off?: PayrollShowEmployeeCompensationsItemPaidTimeOffList;
+  paid_time_off?: PayrollShowEmployeeCompensationsItemPaidTimeOffList | undefined;
   /** The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto. */
-  payment_method?: PayrollShowEmployeeCompensationsItemPaymentMethod | null;
+  payment_method?: PayrollShowEmployeeCompensationsItemPaymentMethod | null | undefined;
   /** The preferred first name of the employee. Requires `employees:read` scope. */
-  preferred_first_name?: string | null;
+  preferred_first_name?: string | null | undefined;
   /** An array of reimbursements for the employee. */
-  reimbursements?: PayrollShowEmployeeCompensationsItemReimbursementsList;
+  reimbursements?: PayrollShowEmployeeCompensationsItemReimbursementsList | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** An array of deductions for the employee. This field is included by default for regular payrolls in version `v2025-06-15` and later. */
-  deductions?: PayrollShowEmployeeCompensationsItemDeductionsList;
+  deductions?: PayrollShowEmployeeCompensationsItemDeductionsList | undefined;
   /** An array of employee benefits for the pay period. Benefits are only included for processed payroll when the include parameter is present. */
-  benefits?: PayrollShowEmployeeCompensationsItemBenefitsList;
+  benefits?: PayrollShowEmployeeCompensationsItemBenefitsList | undefined;
   /** An array of employer and employee taxes for the pay period. Only included for processed or calculated payrolls when `taxes` is present in the `include` parameter. */
-  taxes?: PayrollShowEmployeeCompensationsItemTaxesList;
+  taxes?: PayrollShowEmployeeCompensationsItemTaxesList | undefined;
   [key: string]: unknown;
 }
 export type PayrollShowEmployeeCompensationsList = Array<PayrollShowEmployeeCompensationsItem>;
 export interface PayrollTaxesTypeItem {
   /** The total tax for the payroll */
-  amount?: number;
+  amount?: number | undefined;
   /** Whether this tax is an employer or employee tax */
-  employer?: boolean;
+  employer?: boolean | undefined;
   /** The tax name */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array of tax totals applicable to this payroll. Only included for processed or calculated payrolls when `payroll_taxes` is present in the `include` parameter. */
 export type PayrollTaxesType = Array<PayrollTaxesTypeItem>;
@@ -5473,79 +5526,79 @@ export type PayrollSubmissionBlockersType = Array<PayrollSubmissionBlockerType>;
 /** The subtotals for the payroll. */
 export interface PayrollTotalsType {
   /** The total additional earnings amount for the payroll. */
-  additional_earnings?: string;
+  additional_earnings?: string | undefined;
   /** The total amount of company contributed benefits for the payroll. */
-  benefits?: string;
+  benefits?: string | undefined;
   /** The total check amount for the payroll. */
-  check_amount?: string;
+  check_amount?: string | undefined;
   /** The total child support debit for the payroll. */
-  child_support_debit?: string;
+  child_support_debit?: string | undefined;
   /** The total company debit for the payroll. */
-  company_debit?: string;
+  company_debit?: string | undefined;
   /** The total amount of payroll taxes deferred for the payroll, such as allowed by the CARES act. */
-  deferred_payroll_taxes?: string;
+  deferred_payroll_taxes?: string | undefined;
   /** The total amount of employee deducted benefits for the payroll. */
-  employee_benefits_deductions?: string;
+  employee_benefits_deductions?: string | undefined;
   /** The total employee bonuses amount for the payroll. */
-  employee_bonuses?: string;
+  employee_bonuses?: string | undefined;
   /** The total employee cash tips amount for the payroll. */
-  employee_cash_tips?: string;
+  employee_cash_tips?: string | undefined;
   /** The total employee commissions amount for the payroll. */
-  employee_commissions?: string;
+  employee_commissions?: string | undefined;
   /** The total employee paycheck tips amount for the payroll. */
-  employee_paycheck_tips?: string;
+  employee_paycheck_tips?: string | undefined;
   /** The total amount of employee paid taxes for the payroll. */
-  employee_taxes?: string;
+  employee_taxes?: string | undefined;
   /** The total amount of employer paid taxes for the payroll. */
-  employer_taxes?: string;
+  employer_taxes?: string | undefined;
   /** The gross pay amount for the payroll. */
-  gross_pay?: string;
+  gross_pay?: string | undefined;
   /** The total amount of imputed pay for the payroll. */
-  imputed_pay?: string;
+  imputed_pay?: string | undefined;
   /** The net pay amount for the payroll. */
-  net_pay?: string;
+  net_pay?: string | undefined;
   /** The total company net pay for the payroll. */
-  net_pay_debit?: string;
+  net_pay_debit?: string | undefined;
   /** The total amount of deductions for the payroll. */
-  other_deductions?: string;
+  other_deductions?: string | undefined;
   /** The total owner's draw for the payroll. */
-  owners_draw?: string;
+  owners_draw?: string | undefined;
   /** The total reimbursement debit for the payroll. */
-  reimbursement_debit?: string;
+  reimbursement_debit?: string | undefined;
   /** The total reimbursements for the payroll. */
-  reimbursements?: string;
+  reimbursements?: string | undefined;
   /** The total tax debit for the payroll. */
-  tax_debit?: string;
+  tax_debit?: string | undefined;
 }
 export interface PayrollShow {
-  auto_payroll?: boolean;
-  calculated_at?: string | null;
-  check_date?: string;
-  company_taxes?: PayrollCompanyTaxesType;
-  company_uuid?: string;
-  created_at?: string;
-  credit_blockers?: PayrollCreditBlockersType;
-  employee_compensations?: PayrollShowEmployeeCompensationsList;
-  external?: boolean;
-  final_termination_payroll?: boolean;
-  fixed_withholding_rate?: boolean | null;
-  off_cycle?: boolean;
-  off_cycle_reason?: OffCycleReasonType | null;
-  partner_owned_disbursement?: boolean | null;
-  pay_period?: PayrollPayPeriodType;
-  payment_speed_changed?: PayrollPaymentSpeedChangedType;
-  payroll_deadline?: string;
-  payroll_status_meta?: PayrollPayrollStatusMetaType;
-  payroll_taxes?: PayrollTaxesType;
-  payroll_uuid?: string;
-  processed?: boolean;
-  processed_date?: string | null;
-  processing_request?: PayrollProcessingRequest | null;
-  skip_regular_deductions?: boolean | null;
-  submission_blockers?: PayrollSubmissionBlockersType;
-  totals?: PayrollTotalsType;
-  uuid?: string;
-  withholding_pay_period?: PayrollWithholdingPayPeriodType | null;
+  auto_payroll?: boolean | undefined;
+  calculated_at?: string | null | undefined;
+  check_date?: string | undefined;
+  company_taxes?: PayrollCompanyTaxesType | undefined;
+  company_uuid?: string | undefined;
+  created_at?: string | undefined;
+  credit_blockers?: PayrollCreditBlockersType | undefined;
+  employee_compensations?: PayrollShowEmployeeCompensationsList | undefined;
+  external?: boolean | undefined;
+  final_termination_payroll?: boolean | undefined;
+  fixed_withholding_rate?: boolean | null | undefined;
+  off_cycle?: boolean | undefined;
+  off_cycle_reason?: OffCycleReasonType | null | undefined;
+  partner_owned_disbursement?: boolean | null | undefined;
+  pay_period?: PayrollPayPeriodType | undefined;
+  payment_speed_changed?: PayrollPaymentSpeedChangedType | undefined;
+  payroll_deadline?: string | undefined;
+  payroll_status_meta?: PayrollPayrollStatusMetaType | undefined;
+  payroll_taxes?: PayrollTaxesType | undefined;
+  payroll_uuid?: string | undefined;
+  processed?: boolean | undefined;
+  processed_date?: string | null | undefined;
+  processing_request?: PayrollProcessingRequest | null | undefined;
+  skip_regular_deductions?: boolean | null | undefined;
+  submission_blockers?: PayrollSubmissionBlockersType | undefined;
+  totals?: PayrollTotalsType | undefined;
+  uuid?: string | undefined;
+  withholding_pay_period?: PayrollWithholdingPayPeriodType | null | undefined;
 }
 export interface GetCompanyPayrollPartnerDisbursementsRequest {
   /** The UUID of the company */
@@ -5563,11 +5616,11 @@ export type PayrollPartnerDisbursementsDisbursementsItemPaymentStatus =
   | "Converted to check";
 export interface PayrollPartnerDisbursementsDisbursementsItem {
   /** The UUID of the employee */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The payment method for the disbursement */
-  payment_method?: PayrollPartnerDisbursementsDisbursementsItemPaymentMethod;
+  payment_method?: PayrollPartnerDisbursementsDisbursementsItemPaymentMethod | undefined;
   /** The status of the payment */
-  payment_status?: PayrollPartnerDisbursementsDisbursementsItemPaymentStatus;
+  payment_status?: PayrollPartnerDisbursementsDisbursementsItemPaymentStatus | undefined;
 }
 /** List of disbursements for the payroll */
 export type PayrollPartnerDisbursementsDisbursementsList =
@@ -5575,33 +5628,33 @@ export type PayrollPartnerDisbursementsDisbursementsList =
 /** Partner disbursements for a payroll */
 export interface PayrollPartnerDisbursements {
   /** List of disbursements for the payroll */
-  disbursements?: PayrollPartnerDisbursementsDisbursementsList;
+  disbursements?: PayrollPartnerDisbursementsDisbursementsList | undefined;
   /** The UUID of the payroll */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
 }
 export interface GetCompanyPayrollReversalsRequest {
   /** The UUID of the company */
   company_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** Array of affected employee UUIDs. */
 export type PayrollReversalReversedEmployeeUuidsList = Array<string>;
 export interface PayrollReversal {
   /** Timestamp of when the reversal was approved. */
-  approved_at?: string | null;
+  approved_at?: string | null | undefined;
   /** Category chosen by the admin who requested the reversal. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** A reason provided by the admin who created the reversal. */
-  reason?: string;
+  reason?: string | undefined;
   /** The UUID of the payroll where the reversal was applied. */
-  reversal_payroll_uuid?: string | null;
+  reversal_payroll_uuid?: string | null | undefined;
   /** Array of affected employee UUIDs. */
-  reversed_employee_uuids?: PayrollReversalReversedEmployeeUuidsList;
+  reversed_employee_uuids?: PayrollReversalReversedEmployeeUuidsList | undefined;
   /** The UUID for the payroll run being reversed. */
-  reversed_payroll_uuid?: string;
+  reversed_payroll_uuid?: string | undefined;
 }
 export type PayrollReversalList = Array<PayrollReversal>;
 export type GetCompanyPayrollReversalsResponse = PayrollReversalList;
@@ -5628,56 +5681,56 @@ export interface GetCompanyPayrollsRequest {
   /** The UUID of the company */
   company_id: string;
   /** Whether to include processed and/or unprocessed payrolls in the response, defaults to processed, for multiple attributes comma separate the values, i.e. `?processing_statuses=processed,unprocessed` */
-  processing_statuses?: GetCompanyPayrollsRequestProcessingStatusesList;
+  processing_statuses?: GetCompanyPayrollsRequestProcessingStatusesList | undefined;
   /** Whether to include regular and/or off_cycle payrolls in the response, defaults to regular, for multiple attributes comma separate the values, i.e. `?payroll_types=regular,off_cycle` */
-  payroll_types?: GetCompanyPayrollsRequestPayrollTypesList;
+  payroll_types?: GetCompanyPayrollsRequestPayrollTypesList | undefined;
   /** Whether to return processed or unprocessed payrolls */
-  processed?: boolean;
+  processed?: boolean | undefined;
   /** Whether to include off cycle payrolls in the response */
-  include_off_cycle?: boolean;
+  include_off_cycle?: boolean | undefined;
   /** Include the requested attribute in the response, for multiple attributes comma separate the values, i.e. `?include=benefits,deductions,taxes` */
-  include?: GetCompanyPayrollsRequestIncludeList;
+  include?: GetCompanyPayrollsRequestIncludeList | undefined;
   /** Return payrolls whose pay period is after the start date */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Return payrolls whose pay period is before the end date. If left empty, defaults to today's date. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Specifies which date field to use when filtering payrolls with start_date and end_date. This field applies only to regular processed payrolls and defaults to pay period if not provided. */
-  date_filter_by?: GetCompanyPayrollsRequestDateFilterBy | (string & {});
+  date_filter_by?: GetCompanyPayrollsRequestDateFilterBy | (string & {}) | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** A string indicating whether to sort resulting events in ascending (asc) or descending (desc) chronological order. Events are sorted by their `timestamp`. Defaults to asc if left empty. */
-  sort_order?: GetCompanyPayrollsRequestSortOrder | (string & {});
+  sort_order?: GetCompanyPayrollsRequestSortOrder | (string & {}) | undefined;
 }
 export interface Payroll {
-  auto_payroll?: boolean;
-  calculated_at?: string | null;
-  check_date?: string;
-  company_taxes?: PayrollCompanyTaxesType;
-  company_uuid?: string;
-  created_at?: string;
-  credit_blockers?: PayrollCreditBlockersType;
-  external?: boolean;
-  final_termination_payroll?: boolean;
-  fixed_withholding_rate?: boolean | null;
-  off_cycle?: boolean;
-  off_cycle_reason?: OffCycleReasonType | null;
-  partner_owned_disbursement?: boolean | null;
-  pay_period?: PayrollPayPeriodType;
-  payment_speed_changed?: PayrollPaymentSpeedChangedType;
-  payroll_deadline?: string;
-  payroll_status_meta?: PayrollPayrollStatusMetaType;
-  payroll_taxes?: PayrollTaxesType;
-  payroll_uuid?: string;
-  processed?: boolean;
-  processed_date?: string | null;
-  processing_request?: PayrollProcessingRequest | null;
-  skip_regular_deductions?: boolean | null;
-  submission_blockers?: PayrollSubmissionBlockersType;
-  totals?: PayrollTotalsType;
-  uuid?: string;
-  withholding_pay_period?: PayrollWithholdingPayPeriodType | null;
+  auto_payroll?: boolean | undefined;
+  calculated_at?: string | null | undefined;
+  check_date?: string | undefined;
+  company_taxes?: PayrollCompanyTaxesType | undefined;
+  company_uuid?: string | undefined;
+  created_at?: string | undefined;
+  credit_blockers?: PayrollCreditBlockersType | undefined;
+  external?: boolean | undefined;
+  final_termination_payroll?: boolean | undefined;
+  fixed_withholding_rate?: boolean | null | undefined;
+  off_cycle?: boolean | undefined;
+  off_cycle_reason?: OffCycleReasonType | null | undefined;
+  partner_owned_disbursement?: boolean | null | undefined;
+  pay_period?: PayrollPayPeriodType | undefined;
+  payment_speed_changed?: PayrollPaymentSpeedChangedType | undefined;
+  payroll_deadline?: string | undefined;
+  payroll_status_meta?: PayrollPayrollStatusMetaType | undefined;
+  payroll_taxes?: PayrollTaxesType | undefined;
+  payroll_uuid?: string | undefined;
+  processed?: boolean | undefined;
+  processed_date?: string | null | undefined;
+  processing_request?: PayrollProcessingRequest | null | undefined;
+  skip_regular_deductions?: boolean | null | undefined;
+  submission_blockers?: PayrollSubmissionBlockersType | undefined;
+  totals?: PayrollTotalsType | undefined;
+  uuid?: string | undefined;
+  withholding_pay_period?: PayrollWithholdingPayPeriodType | null | undefined;
 }
 /** A list of payrolls for a company. */
 export type PayrollList = Array<Payroll>;
@@ -5692,9 +5745,9 @@ export interface GetCompanyPaySchedulesRequest {
   /** The UUID of the company */
   company_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** List of pay schedules for a company, as returned from [GET /v1/companies/{company_id}/pay_schedules](https://docs.gusto.com/app-integrations/reference/get-v1-companies-company_id-pay_schedules). Each entry matches Pay-Schedule-Show (includes `version`). */
 export type PayScheduleShowResponse = Array<PayScheduleShow>;
@@ -5705,17 +5758,17 @@ export interface GetCompanyPaySchedulesAssignmentsRequest {
 }
 export interface PayScheduleAssignmentDepartment {
   /** The UUID of the department. */
-  department_uuid?: string;
+  department_uuid?: string | undefined;
   /** The department's pay schedule UUID. */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
 }
 /** List of departments and their pay schedules. */
 export type PayScheduleAssignmentDepartmentsList = Array<PayScheduleAssignmentDepartment>;
 export interface PayScheduleAssignmentEmployee {
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The employee's pay schedule UUID. */
-  pay_schedule_uuid?: string | null;
+  pay_schedule_uuid?: string | null | undefined;
 }
 /** List of employees and their pay schedules. */
 export type PayScheduleAssignmentEmployeesList = Array<PayScheduleAssignmentEmployee>;
@@ -5727,17 +5780,17 @@ export type PayScheduleAssignmentType =
 /** The representation of a pay schedule assignment. */
 export interface PayScheduleAssignment {
   /** Default pay schedule for employees. */
-  default_pay_schedule_uuid?: string | null;
+  default_pay_schedule_uuid?: string | null | undefined;
   /** List of departments and their pay schedules. */
-  departments?: PayScheduleAssignmentDepartmentsList | null;
+  departments?: PayScheduleAssignmentDepartmentsList | null | undefined;
   /** List of employees and their pay schedules. */
-  employees?: PayScheduleAssignmentEmployeesList | null;
+  employees?: PayScheduleAssignmentEmployeesList | null | undefined;
   /** Pay schedule for hourly employees. */
-  hourly_pay_schedule_uuid?: string | null;
+  hourly_pay_schedule_uuid?: string | null | undefined;
   /** Pay schedule for salaried employees. */
-  salaried_pay_schedule_uuid?: string | null;
+  salaried_pay_schedule_uuid?: string | null | undefined;
   /** The pay schedule assignment type. */
-  type?: PayScheduleAssignmentType | null;
+  type?: PayScheduleAssignmentType | null | undefined;
 }
 export type GetCompanyPaySchedulesPreviewRequestFrequency =
   | "Every week"
@@ -5754,13 +5807,13 @@ export interface GetCompanyPaySchedulesPreviewRequest {
   /** The last date of the first pay period. This can be the same date as the anchor pay date. */
   anchor_end_of_pay_period: string;
   /** An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies. */
-  day_1?: number;
+  day_1?: number | undefined;
   /** An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies. */
-  day_2?: number;
+  day_2?: number | undefined;
   /** End date for the preview range. If given, this date must be in the future. When unspecified, defaults to 18 months from today. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Optional UUID of an existing pay schedule. When supplied, the preview is seeded from the persisted schedule -- including internal flags (such as arrears handling) that affect period boundaries but are not exposed as request parameters. Any other query parameters override individual attributes on top of the loaded schedule. */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
 }
 /** A list of dates for bank closures (ISO date strings); may affect payroll processing. */
 export type PaySchedulePreviewHolidaysList = Array<string>;
@@ -5780,9 +5833,9 @@ export type PaySchedulePreviewPayPeriodsList = Array<PaySchedulePreviewPayPeriod
 /** Preview of pay schedule dates for the next 18 months. Use this to show partners expected pay dates, pay period boundaries, and payroll deadlines before they create or change a pay schedule. See [Preview pay schedule dates](https://docs.gusto.com/embedded-payroll/reference/get-v1-companies-company_id-pay_schedules-preview) for usage. - **pay_periods**: One entry per pay period in the range; each includes check_date, start_date, end_date, and run_payroll_by. - **holidays**: Observed bank holidays (ISO date strings) that may affect payroll timing. */
 export interface PaySchedulePreview {
   /** A list of dates for bank closures (ISO date strings); may affect payroll processing. */
-  holidays?: PaySchedulePreviewHolidaysList;
+  holidays?: PaySchedulePreviewHolidaysList | undefined;
   /** A list of pay periods for the previewed pay schedule (default range is 18 months from today, or up to end_date when provided). */
-  pay_periods?: PaySchedulePreviewPayPeriodsList;
+  pay_periods?: PaySchedulePreviewPayPeriodsList | undefined;
 }
 export interface GetCompanyReportTemplatesReportTypeRequest {
   /** The UUID of the company */
@@ -5796,13 +5849,13 @@ export type ReportTemplateColumnsList = Array<string>;
 export type ReportTemplateGroupingsList = Array<string>;
 export interface ReportTemplate {
   /** List of columns recommended */
-  columns?: ReportTemplateColumnsList;
+  columns?: ReportTemplateColumnsList | undefined;
   /** Company UUID */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** List of groupings recommended */
-  groupings?: ReportTemplateGroupingsList;
+  groupings?: ReportTemplateGroupingsList | undefined;
   /** Type of report template */
-  report_type?: string;
+  report_type?: string | undefined;
 }
 export interface GetCompanySignatoriesRequest {
   /** The UUID of the company */
@@ -5823,14 +5876,14 @@ export interface GetCompanyTaxRequirementRequest {
   /** The two-letter state abbreviation */
   state: string;
   /** When true, return "new" requirement sets with valid `effective_from` dates that are available to save new effective-dated values. */
-  scheduling?: boolean;
+  scheduling?: boolean | undefined;
 }
 /** The required value of the requirement identified by `key` */
 export type TaxRequirementApplicableIfItemValue = boolean | string | number;
 export interface TaxRequirementApplicableIfItem {
-  key?: string;
+  key?: string | undefined;
   /** The required value of the requirement identified by `key` */
-  value?: TaxRequirementApplicableIfItemValue | null;
+  value?: TaxRequirementApplicableIfItemValue | null | undefined;
 }
 /** An array of references to other requirements within the requirement set. This requirement is only applicable if all referenced requirements have values matching the corresponding `value`. The primary use-case is dynamically hiding and showing requirements as values change. E.g. Show Requirement-B when Requirement-A has been answered with `false`. To be explicit, an empty array means the requirement is applicable. */
 export type TaxRequirementApplicableIfList = Array<TaxRequirementApplicableIfItem>;
@@ -5840,7 +5893,7 @@ export interface TaxRequirementMetadataOptionsItem {
   /** A customer facing label for the answer */
   label: string;
   /** A less verbose label that may sometimes be available */
-  short_label?: string | null;
+  short_label?: string | null | undefined;
   /** The actual value to be submitted */
   value: TaxRequirementMetadataOptionsItemValue;
 }
@@ -5865,65 +5918,65 @@ export type TaxRequirementMetadataValidationType = "one_of" | "min_max";
 /** [for `tax_rate`] Describes the validation required for the tax rate */
 export interface TaxRequirementMetadataValidation {
   /** [for `min_max`] The inclusive upper bound of the tax rate */
-  max?: string;
+  max?: string | undefined;
   /** [for `min_max`] The inclusive lower bound of the tax rate */
-  min?: string;
+  min?: string | undefined;
   /** [for `one_of`] The possible, unformatted tax rates for selection. - e.g. ["0.0", "0.001"] representing 0% and 0.1% */
-  rates?: TaxRequirementMetadataValidationRatesList;
+  rates?: TaxRequirementMetadataValidationRatesList | undefined;
   /** Describes the type of tax_rate validation rule */
   type: TaxRequirementMetadataValidationType;
 }
 export interface TaxRequirementMetadata {
   /** [for `account_number`] A pattern describing the format of the account number The mask is a sequence of characters representing the requirements of the actual account number. Each character in the mask represents a single character in the account number as follows: - `#`: a digit (`\d`) - `@`: a upper or lower case letter (`[a-zA-Z]`) - `^`: an uppercase letter (`[A-Z]`) - `%`: a digit or uppercase letter (`[0-9A-Z]`) - any other character represents the literal character Examples: - mask: `WHT-######` represents `WHT-` followed by 5 digits, e.g. `WHT-33421` - mask: `%####-^^` supports values of `75544-AB` and `Z7654-HK` */
-  mask?: string | null;
+  mask?: string | null | undefined;
   /** [for `select` or `radio`] An array of objects describing the possible values. */
-  options?: TaxRequirementMetadataOptionsList;
+  options?: TaxRequirementMetadataOptionsList | undefined;
   /** [for `account_number`] A value that precedes the value to be collected - useful for display, but should not be submitted as part of the value. E.g. some tax agencies use an account number that is a company's federal ein plus two digits. In that case the mask would be `##` and the prefix `XXXXX1234`. */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** [for `workers_compensation_rate`] The type of rate being collected. Either: - `percent`: A percentage formatted as a decimal, e.g. `0.01` for 1% - `currency_per_hour`: A dollar amount per hour, e.g. `3.24` for $3.24/hr */
-  rate_type?: TaxRequirementMetadataRateType;
+  rate_type?: TaxRequirementMetadataRateType | undefined;
   /** [for `workers_compensation_rate`] The industry risk class code for the rate being requested */
-  risk_class_code?: string;
+  risk_class_code?: string | undefined;
   /** [for `workers_compensation_rate`] A description of the industry risk class for the rate being requested */
-  risk_class_description?: string;
+  risk_class_description?: string | undefined;
   /** Describes the type of requirement - each type may have additional metadata properties to describe possible values, formats, etc. - `text`: free-text input, no additional requirements - `currency`: a value representing a dollar amount, e.g. `374.55` representing `$374.55` - `radio`: choose one of options provided, see `options` - `select`: choose one of options provided, see `options` - `percent`: A decimal value representing a percentage, e.g. `0.034` representing `3.4%` - `account_number`: An account number for a tax agency, more information provided by `mask` and `prefix` - `tax_rate`: A decimal value representing a tax rate, e.g. `0.034` representing a tax rate of `3.4%`, see `validation` for additional validation guidance - `workers_compensation_rate`: A decimal value representing a percentage, see `risk_class_code`, `risk_class_description`, and `rate_type` */
   type: TaxRequirementMetadataType;
   /** [for `tax_rate`] Describes the validation required for the tax rate */
-  validation?: TaxRequirementMetadataValidation;
+  validation?: TaxRequirementMetadataValidation | undefined;
 }
 /** The value or "answer" for a tax requirement. Type depends on the requirement metadata type (e.g. string for text/account_number, boolean for radio/checkbox, number for percent/currency/tax_rate). Null when the requirement has not been answered. */
 export type TaxRequirementsValue = boolean | string | number;
 export interface TaxRequirement {
   /** An array of references to other requirements within the requirement set. This requirement is only applicable if all referenced requirements have values matching the corresponding `value`. The primary use-case is dynamically hiding and showing requirements as values change. E.g. Show Requirement-B when Requirement-A has been answered with `false`. To be explicit, an empty array means the requirement is applicable. */
-  applicable_if?: TaxRequirementApplicableIfList;
+  applicable_if?: TaxRequirementApplicableIfList | undefined;
   /** Whether the current `value` is a default rather than an explicitly set one. */
-  default_value_applied?: boolean;
+  default_value_applied?: boolean | undefined;
   /** A more detailed customer facing description of the requirement */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the value of this requirement can be updated */
-  editable?: boolean;
-  key?: string;
+  editable?: boolean | undefined;
+  key?: string | undefined;
   /** A customer facing description of the requirement */
-  label?: string;
-  metadata?: TaxRequirementMetadata;
+  label?: string | undefined;
+  metadata?: TaxRequirementMetadata | undefined;
   /** Whether this requirement, when blank, would block payroll processing for the company in this state. Stable across changes to the field's value: a `payroll_blocking: true` field reports `true` whether currently empty or populated. */
-  payroll_blocking?: boolean;
-  value?: TaxRequirementsValue | null;
+  payroll_blocking?: boolean | undefined;
+  value?: TaxRequirementsValue | null | undefined;
 }
 export type TaxRequirementSetRequirementsList = Array<TaxRequirement>;
 export interface TaxRequirementSet {
-  effective_from?: string | null;
-  key?: string;
+  effective_from?: string | null | undefined;
+  key?: string | undefined;
   /** Customer facing label for the requirement set, e.g. "Registrations" */
-  label?: string;
-  requirements?: TaxRequirementSetRequirementsList;
-  state?: string;
+  label?: string | undefined;
+  requirements?: TaxRequirementSetRequirementsList | undefined;
+  state?: string | undefined;
 }
 export type TaxRequirementsStateRequirementSetsList = Array<TaxRequirementSet>;
 export interface TaxRequirementsState {
-  company_uuid?: string;
-  requirement_sets?: TaxRequirementsStateRequirementSetsList;
-  state?: string;
+  company_uuid?: string | undefined;
+  requirement_sets?: TaxRequirementsStateRequirementSetsList | undefined;
+  state?: string | undefined;
 }
 export interface GetCompanyTaxRequirementsRequest {
   /** The UUID of the company */
@@ -5933,12 +5986,12 @@ export interface GetCompanyTaxRequirementsRequest {
 export type TaxRequirementStatesListItemSetupStatus = "not_started" | "in_progress" | "complete";
 export interface TaxRequirementStatesListItem {
   /** Whether the state is using system-assigned default SUI rates rather than employer-specific rates. */
-  default_rates_applied?: boolean;
+  default_rates_applied?: boolean | undefined;
   /** Whether the state tax setup is sufficiently complete for the company to run payroll. */
-  ready_to_run_payroll?: boolean;
+  ready_to_run_payroll?: boolean | undefined;
   /** The current status of the state tax setup. - `not_started`: No requirements have been filled - `in_progress`: Some requirements have been filled, or default rates are applied - `complete`: All requirements have been filled without default rates */
-  setup_status?: TaxRequirementStatesListItemSetupStatus;
-  state?: string;
+  setup_status?: TaxRequirementStatesListItemSetupStatus | undefined;
+  state?: string | undefined;
 }
 export type TaxRequirementStatesList = Array<TaxRequirementStatesListItem>;
 export type GetCompanyTaxRequirementsResponse = TaxRequirementStatesList;
@@ -5946,34 +5999,34 @@ export interface GetCompanyTimeOffBalancesRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** Filter by employee UUIDs (comma-separated) */
-  employee_uuids?: string;
+  employee_uuids?: string | undefined;
   /** Filter by time off policy UUIDs (comma-separated) */
-  policy_uuids?: string;
+  policy_uuids?: string | undefined;
   /** The page that is requested */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page */
-  per?: number;
+  per?: number | undefined;
 }
 export interface EmbeddedTimeOffBalanceBalancesItem {
   /** The total hours accrued year-to-date for this policy. */
-  accrued_hours?: string;
+  accrued_hours?: string | undefined;
   /** The employee's current available balance hours for this policy. */
-  balance_hours?: string;
+  balance_hours?: string | undefined;
   /** The total hours from pending time off requests for this policy. */
-  pending_hours?: string | null;
+  pending_hours?: string | null | undefined;
   /** The UUID of the time off policy. */
-  policy_uuid?: string;
+  policy_uuid?: string | undefined;
   /** The total hours used year-to-date for this policy. */
-  used_hours?: string;
+  used_hours?: string | undefined;
 }
 /** The employee's time off balances, one entry per policy. */
 export type EmbeddedTimeOffBalanceBalancesList = Array<EmbeddedTimeOffBalanceBalancesItem>;
 /** Time off balance for an employee, grouped by policy. */
 export interface EmbeddedTimeOffBalance {
   /** The employee's time off balances, one entry per policy. */
-  balances?: EmbeddedTimeOffBalanceBalancesList;
+  balances?: EmbeddedTimeOffBalanceBalancesList | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
 }
 export type GetCompanyTimeOffBalancesResponseBodyList = Array<EmbeddedTimeOffBalance>;
 export type GetCompanyTimeOffBalancesResponse = GetCompanyTimeOffBalancesResponseBodyList;
@@ -5987,9 +6040,9 @@ export interface GetCompanyTimeOffRequestsRequest {
   /** The company UUID */
   company_id: string;
   /** Filter time off requests starting on or after this date */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filter time off requests ending on or before this date */
-  end_date?: string;
+  end_date?: string | undefined;
 }
 /** This value will be null if the request has not been approved. */
 export type TimeOffRequestApprover = EmbeddedTimeOffRequestApprover;
@@ -6002,25 +6055,25 @@ export type TimeOffRequestStatus = "pending" | "approved" | "declined" | "consum
 /** The representation of a time off request. */
 export interface TimeOffRequest {
   /** This value will be null if the request has not been approved. */
-  approver?: EmbeddedTimeOffRequestApprover | null;
+  approver?: EmbeddedTimeOffRequestApprover | null | undefined;
   /** An object that represents the days in the time off request. The keys of the object are the dates, formatted as a YYYY-MM-DD string. The values of the object are the number of hours requested off for each day, formatted as a string representation of a numeric decimal to the thousands place. */
-  days?: unknown;
-  employee?: EmbeddedTimeOffRequestEmployee;
+  days?: unknown | undefined;
+  employee?: EmbeddedTimeOffRequestEmployee | undefined;
   /** A note about the time off request, from the employee to the employer. */
-  employee_note?: string;
+  employee_note?: string | undefined;
   /** A note about the time off request, from the employer to the employee. */
-  employer_note?: string;
-  initiator?: EmbeddedTimeOffRequestInitiator | null;
+  employer_note?: string | undefined;
+  initiator?: EmbeddedTimeOffRequestInitiator | null | undefined;
   /** The type of the time off policy (e.g. vacation, sick). */
-  policy_type?: string;
+  policy_type?: string | undefined;
   /** The UUID of the time off policy associated with this request. */
-  policy_uuid?: string | null;
+  policy_uuid?: string | null | undefined;
   /** The type of time off request. */
-  request_type?: TimeOffRequestRequestType;
+  request_type?: TimeOffRequestRequestType | undefined;
   /** The status of the time off request. */
-  status?: TimeOffRequestStatus;
+  status?: TimeOffRequestStatus | undefined;
   /** The UUID of the time off request. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type TimeOffRequestList = Array<TimeOffRequest>;
 export type GetCompanyTimeOffRequestsResponse = TimeOffRequestList;
@@ -6028,19 +6081,19 @@ export interface GetCompanyTimeOffRequestsRequest2 {
   /** The UUID of the company */
   company_uuid: string;
   /** Filter by employee UUIDs. Comma-separated for multiple values. */
-  employee_uuids?: string;
+  employee_uuids?: string | undefined;
   /** Filter by request status. Comma-separated for multiple values (e.g. pending,approved,declined,consumed). */
-  status?: string;
+  status?: string | undefined;
   /** Filter requests that overlap with this start date */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filter requests that overlap with this end date */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Sort order by start_date (asc or desc, defaults to desc) */
-  sort_order?: string;
+  sort_order?: string | undefined;
   /** The page that is requested */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page */
-  per?: number;
+  per?: number | undefined;
 }
 export type GetCompanyTimeOffRequestsResponseBodyList = Array<EmbeddedTimeOffRequest>;
 export type GetCompanyTimeOffRequestsResponse2 = GetCompanyTimeOffRequestsResponseBodyList;
@@ -6057,23 +6110,23 @@ export interface GetCompanyTimeTrackingTimeSheetsRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** Entity UUIDs that reported time sheets */
-  entity_uuids?: GetCompanyTimeTrackingTimeSheetsRequestEntityUuidsList;
+  entity_uuids?: GetCompanyTimeTrackingTimeSheetsRequestEntityUuidsList | undefined;
   /** Type of entities to filter. One of: "Employee", "Contractor" */
-  entity_type?: GetCompanyTimeTrackingTimeSheetsRequestEntityType | (string & {});
+  entity_type?: GetCompanyTimeTrackingTimeSheetsRequestEntityType | (string & {}) | undefined;
   /** Status of time sheets. One of: "approved", "pending", "rejected" */
-  status?: GetCompanyTimeTrackingTimeSheetsRequestStatus | (string & {});
+  status?: GetCompanyTimeTrackingTimeSheetsRequestStatus | (string & {}) | undefined;
   /** Field to sort by. One of: "created_at", "updated_at", "shift_started_at", "shift_ended_at" */
-  sort_by?: GetCompanyTimeTrackingTimeSheetsRequestSortBy | (string & {});
+  sort_by?: GetCompanyTimeTrackingTimeSheetsRequestSortBy | (string & {}) | undefined;
   /** Sorting order. One of: "asc", "desc" */
-  sort_order?: GetCompanyTimeTrackingTimeSheetsRequestSortOrder | (string & {});
+  sort_order?: GetCompanyTimeTrackingTimeSheetsRequestSortOrder | (string & {}) | undefined;
   /** time sheets that were created before ISO 8601 timestamp. Filtering by "created_at" */
-  before?: string;
+  before?: string | undefined;
   /** time sheets that were created after ISO 8601 timestamp. Filtering by "created_at" */
-  after?: string;
+  after?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type GetCompanyTimeTrackingTimeSheetsResponseBodyList = Array<TimeSheet>;
 export type GetCompanyTimeTrackingTimeSheetsResponse =
@@ -6090,7 +6143,7 @@ export interface GetContractorRequest {
   /** The UUID of the contractor */
   contractor_uuid: string;
   /** Include the requested attribute(s) in each contractor response. Multiple options are comma separated. */
-  include?: GetContractorRequestIncludeList;
+  include?: GetContractorRequestIncludeList | undefined;
 }
 export interface GetContractorAddressRequest {
   /** The UUID of the contractor */
@@ -6100,19 +6153,19 @@ export interface GetContractorAddressRequest {
 export type ContractorAddressWarningsList = Array<WarningObject>;
 export interface ContractorAddress2 {
   /** The status of the location. Inactive locations have been deleted, but may still have historical data associated with them. */
-  active?: boolean;
-  city?: string | null;
+  active?: boolean | undefined;
+  city?: string | null | undefined;
   /** The UUID of the contractor */
-  contractor_uuid?: string;
-  country?: string | null;
-  state?: string | null;
-  street_1?: string | null;
-  street_2?: string | null;
+  contractor_uuid?: string | undefined;
+  country?: string | null | undefined;
+  state?: string | null | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** An array of warning objects that provide additional information about the address. Warnings do not prevent the address from being saved. */
-  warnings?: ContractorAddressWarningsList;
-  zip?: string | null;
+  warnings?: ContractorAddressWarningsList | undefined;
+  zip?: string | null | undefined;
 }
 export interface GetContractorBankAccountsRequest {
   /** The UUID of the contractor */
@@ -6126,31 +6179,31 @@ export interface GetContractorDocumentsRequest {
 }
 export interface DocumentFieldsItem {
   /** The field's data type */
-  data_type?: string;
+  data_type?: string | undefined;
   /** Height of the field. May be null when the field has no positioning information. */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Unique identifier of the field. May be null for custom fields that do not correspond to a known Gusto-managed key mapping. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Page number of the field. May be null when the field has no positioning information. */
-  page_number?: number | null;
+  page_number?: number | null | undefined;
   /** Whether the field is required */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Auto-filled value of the field */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Width of the field. May be null when the field has no positioning information. */
-  width?: number | null;
+  width?: number | null | undefined;
   /** X-coordinate location of the field on the page. May be null when the field has no positioning information. */
-  x?: number | null;
+  x?: number | null | undefined;
   /** Y-coordinate location of the field on the page. May be null when the field has no positioning information. */
-  y?: number | null;
+  y?: number | null | undefined;
 }
 /** List of the document's fields and associated data. Values are set for auto-filled fields. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
 export type DocumentFieldsList = Array<DocumentFieldsItem>;
 export interface DocumentPagesItem {
   /** Image URL for the page */
-  image_url?: string;
+  image_url?: string | undefined;
   /** Page number */
-  page_number?: number;
+  page_number?: number | undefined;
 }
 /** List of the document's pages and associated image URLs. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
 export type DocumentPagesList = Array<DocumentPagesItem>;
@@ -6158,31 +6211,31 @@ export type DocumentPagesList = Array<DocumentPagesItem>;
 export type DocumentRecipientType = "Company" | "Employee" | "Contractor";
 export interface Document {
   /** The description of the document */
-  description?: string;
+  description?: string | undefined;
   /** If the document is in a draft state */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** List of the document's fields and associated data. Values are set for auto-filled fields. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
-  fields?: DocumentFieldsList;
+  fields?: DocumentFieldsList | undefined;
   /** The type identifier of the document */
-  name?: string;
+  name?: string | undefined;
   /** List of the document's pages and associated image URLs. This is only returned for documents with `required_signing` = `true`, and can be used for signing preparation. */
-  pages?: DocumentPagesList;
+  pages?: DocumentPagesList | undefined;
   /** The quarter of this document. This value is nullable and will not be present on all documents. */
-  quarter?: number | null;
+  quarter?: number | null | undefined;
   /** The type of recipient associated with the document (will be `Contractor` for Contractor Documents) */
-  recipient_type?: DocumentRecipientType;
+  recipient_type?: DocumentRecipientType | undefined;
   /** Unique identifier for the recipient associated with the document */
-  recipient_uuid?: string;
+  recipient_uuid?: string | undefined;
   /** A boolean flag that indicates whether the document needs signing or not. Note that this value will change after the document is signed. */
-  requires_signing?: boolean;
+  requires_signing?: boolean | undefined;
   /** When the document was signed (will be `null` if unsigned) */
-  signed_at?: string | null;
+  signed_at?: string | null | undefined;
   /** The title of the document */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the document */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The year of this document. This value is nullable and will not be present on all documents. */
-  year?: number | null;
+  year?: number | null | undefined;
 }
 export type GetContractorDocumentsResponseBodyList = Array<Document>;
 export type GetContractorDocumentsResponse = GetContractorDocumentsResponseBodyList;
@@ -6199,9 +6252,9 @@ export interface GetContractorFormPdfRequest {
   form_id: string;
 }
 export interface FormPdf {
-  document_content_type?: string | null;
+  document_content_type?: string | null | undefined;
   /** the URL of the form */
-  document_url?: string | null;
+  document_url?: string | null | undefined;
   /** the UUID of the form */
   uuid: string;
 }
@@ -6246,15 +6299,15 @@ export type ContractorOnboardingStatusOnboardingStatus =
 export type ContractorOnboardingStatusOnboardingStepsItemRequirementsList = Array<string>;
 export interface ContractorOnboardingStatusOnboardingStepsItem {
   /** When true, this step has been completed. */
-  completed?: boolean;
+  completed?: boolean | undefined;
   /** String identifier for the onboarding step. */
-  id?: string;
+  id?: string | undefined;
   /** When true, this step is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** A list of onboarding steps required to begin this step. */
-  requirements?: ContractorOnboardingStatusOnboardingStepsItemRequirementsList;
+  requirements?: ContractorOnboardingStatusOnboardingStepsItemRequirementsList | undefined;
   /** User-friendly description of the onboarding step. */
-  title?: string;
+  title?: string | undefined;
 }
 /** List of steps required to onboard a contractor. */
 export type ContractorOnboardingStatusOnboardingStepsList =
@@ -6262,9 +6315,9 @@ export type ContractorOnboardingStatusOnboardingStepsList =
 /** The representation of an contractor's onboarding status. */
 export interface ContractorOnboardingStatus2 {
   /** One of the "onboarding_status" enum values. */
-  onboarding_status?: ContractorOnboardingStatusOnboardingStatus;
+  onboarding_status?: ContractorOnboardingStatusOnboardingStatus | undefined;
   /** List of steps required to onboard a contractor. */
-  onboarding_steps?: ContractorOnboardingStatusOnboardingStepsList;
+  onboarding_steps?: ContractorOnboardingStatusOnboardingStepsList | undefined;
   /** Unique identifier for this contractor. */
   uuid: string;
 }
@@ -6284,13 +6337,17 @@ export type ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentSt
   | "Converted to check";
 export interface ContractorPaymentGroupPartnerDisbursementsDisbursementsItem {
   /** The UUID of the contractor payment */
-  contractor_payment_uuid?: string;
+  contractor_payment_uuid?: string | undefined;
   /** The UUID of the contractor */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** The payment method for the disbursement */
-  payment_method?: ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentMethod;
+  payment_method?:
+    | ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentMethod
+    | undefined;
   /** The status of the payment */
-  payment_status?: ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentStatus;
+  payment_status?:
+    | ContractorPaymentGroupPartnerDisbursementsDisbursementsItemPaymentStatus
+    | undefined;
 }
 /** List of disbursements for the contractor payment group */
 export type ContractorPaymentGroupPartnerDisbursementsDisbursementsList =
@@ -6298,9 +6355,9 @@ export type ContractorPaymentGroupPartnerDisbursementsDisbursementsList =
 /** Partner disbursements for a contractor payment group */
 export interface ContractorPaymentGroupPartnerDisbursements {
   /** The UUID of the contractor payment group */
-  contractor_payment_group_uuid?: string;
+  contractor_payment_group_uuid?: string | undefined;
   /** List of disbursements for the contractor payment group */
-  disbursements?: ContractorPaymentGroupPartnerDisbursementsDisbursementsList;
+  disbursements?: ContractorPaymentGroupPartnerDisbursementsDisbursementsList | undefined;
 }
 export interface GetContractorPaymentMethodRequest {
   /** The UUID of the contractor */
@@ -6310,13 +6367,13 @@ export type ContractorPaymentMethodSplitBy = "Amount" | "Percentage";
 /** Representation of a bank account item */
 export interface PaymentMethodBankAccount {
   /** Masked bank account number */
-  hidden_account_number?: string;
+  hidden_account_number?: string | undefined;
   /** The bank account name */
-  name?: string;
+  name?: string | undefined;
   /** The order of priority for each payment split, with priority 1 being the first bank account paid. Priority must be unique and sequential. */
-  priority?: number;
+  priority?: number | undefined;
   /** If `split_by` is 'Amount', this is in cents (e.g., 500 for $5.00) and exactly one account must have a `split_amount` of `null` to capture the remainder. If `split_by` is 'Percentage', this is the percentage value (e.g., 60 for 60%). */
-  split_amount?: number | null;
+  split_amount?: number | null | undefined;
   /** The bank account ID */
   uuid: string;
 }
@@ -6324,12 +6381,12 @@ export type ContractorPaymentMethodSplitsList = Array<PaymentMethodBankAccount>;
 export type ContractorPaymentMethodType = "Direct Deposit" | "Check";
 export interface ContractorPaymentMethod2 {
   /** Describes how the payment will be split. If `split_by` is Percentage, then the `split` amounts must add up to exactly 100. If `split_by` is Amount, then values are in cents and the last split amount must be `null` to capture the remainder. */
-  split_by?: ContractorPaymentMethodSplitBy | null;
-  splits?: ContractorPaymentMethodSplitsList | null;
+  split_by?: ContractorPaymentMethodSplitBy | null | undefined;
+  splits?: ContractorPaymentMethodSplitsList | null | undefined;
   /** The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required. */
-  type?: ContractorPaymentMethodType | null;
+  type?: ContractorPaymentMethodType | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetContractorPaymentPdfRequest {
   /** The UUID of the contractor payment */
@@ -6348,23 +6405,23 @@ export type ContractorPaymentReceiptContractorPaymentsItemPaymentMethod =
   | "Correction Payment";
 export interface ContractorPaymentReceiptContractorPaymentsItem {
   /** The bonus amount in the payment. */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The business name of the contractor. Applies when `contractor_type` is `Business`. */
-  contractor_business_name?: string;
+  contractor_business_name?: string | undefined;
   /** The first name of the contractor. Applies when `contractor_type` is `Individual`. */
-  contractor_first_name?: string;
+  contractor_first_name?: string | undefined;
   /** The last name of the contractor. Applies when `contractor_type` is `Individual`. */
-  contractor_last_name?: string;
+  contractor_last_name?: string | undefined;
   /** The type of contractor. `Individual` `Business` */
-  contractor_type?: string;
+  contractor_type?: string | undefined;
   /** The UUID of the contractor. */
-  contractor_uuid?: string;
+  contractor_uuid?: string | undefined;
   /** The payment method. */
-  payment_method?: ContractorPaymentReceiptContractorPaymentsItemPaymentMethod;
+  payment_method?: ContractorPaymentReceiptContractorPaymentsItemPaymentMethod | undefined;
   /** The reimbursement amount in the payment. */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** The fixed wage of the payment, regardless of hours worked. */
-  wage?: string;
+  wage?: string | undefined;
 }
 /** An array of contractor payments for this contractor payment. */
 export type ContractorPaymentReceiptContractorPaymentsList =
@@ -6372,58 +6429,58 @@ export type ContractorPaymentReceiptContractorPaymentsList =
 /** The licensed payroll processor */
 export interface ContractorPaymentReceiptLicensee {
   /** Always the fixed string "525 20th St" */
-  address?: string;
+  address?: string | undefined;
   /** Always the fixed string "San Francisco" */
-  city?: string;
+  city?: string | undefined;
   /** Always the fixed string "Gusto, Zenpayroll Inc." */
-  name?: string;
+  name?: string | undefined;
   /** Always the fixed string "4157778888" */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Always the fixed string "94107" */
-  postal_code?: string;
+  postal_code?: string | undefined;
   /** Always the fixed string "CA" */
-  state?: string;
+  state?: string | undefined;
 }
 /** The subtotals for the contractor payment. */
 export interface ContractorPaymentReceiptTotals {
   /** The total company debit for the contractor payment. */
-  company_debit?: string;
+  company_debit?: string | undefined;
 }
 export interface ContractorPaymentReceipt {
   /** A unique identifier of the company making the contractor payment. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** A unique identifier of the contractor payment receipt. */
-  contractor_payment_uuid?: string;
+  contractor_payment_uuid?: string | undefined;
   /** An array of contractor payments for this contractor payment. */
-  contractor_payments?: ContractorPaymentReceiptContractorPaymentsList;
+  contractor_payments?: ContractorPaymentReceiptContractorPaymentsList | undefined;
   /** The debit date for the contractor payment. */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** URL for information related to right to liability of licensee. Always the fixed string "https://gusto.com/about/licenses" */
-  liability_of_licensee?: string;
+  liability_of_licensee?: string | undefined;
   /** Always the fixed string "Your payroll provider partners with Gusto Inc. for payments processing. Gusto Inc. is a licensed money transmitter. Learn more on our license page." */
-  license?: string;
+  license?: string | undefined;
   /** URL for the license information for the licensed payroll processor. Always the fixed string "https://gusto.com/about/licenses" */
-  license_uri?: string;
+  license_uri?: string | undefined;
   /** The licensed payroll processor */
-  licensee?: ContractorPaymentReceiptLicensee;
+  licensee?: ContractorPaymentReceiptLicensee | undefined;
   /** The individual or company name of the contractor receiving payment. */
-  name_of_recipient?: string;
+  name_of_recipient?: string | undefined;
   /** The name of the company making the contractor payment. */
-  name_of_sender?: string;
+  name_of_sender?: string | undefined;
   /** URL for information related to right to refund. Always the fixed string "https://gusto.com/about/licenses" */
-  right_to_refund?: string;
+  right_to_refund?: string | undefined;
   /** The subtotals for the contractor payment. */
-  totals?: ContractorPaymentReceiptTotals;
+  totals?: ContractorPaymentReceiptTotals | undefined;
 }
 export interface GetContractorPaymentsRequest {
   /** The UUID of the contractor */
   contractor_uuid: string;
   /** Sort the results. Format: `field` or `field:direction` where `field` is `check_date` or `created_at` and `direction` is `asc` or `desc`. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The payment method. */
 export type ContractorPaymentListingPaymentMethod =
@@ -6438,27 +6495,27 @@ export type ContractorPaymentListingWageType = "Hourly" | "Fixed";
 /** The representation of a contractor payment as it appears in a contractor's payment history. */
 export interface ContractorPaymentListing {
   /** The bonus amount in the payment. */
-  bonus?: string;
+  bonus?: string | undefined;
   /** The check date for the payment. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The rate per hour worked for the payment. */
-  hourly_rate?: string;
+  hourly_rate?: string | undefined;
   /** The number of hours worked for the payment. */
-  hours?: string;
+  hours?: string | undefined;
   /** The payment method. */
-  payment_method?: ContractorPaymentListingPaymentMethod;
+  payment_method?: ContractorPaymentListingPaymentMethod | undefined;
   /** The reimbursement amount in the payment. */
-  reimbursement?: string;
+  reimbursement?: string | undefined;
   /** Contractor payment status */
-  status?: ContractorPaymentListingStatus;
+  status?: ContractorPaymentListingStatus | undefined;
   /** The unique identifier of the contractor payment in Gusto. */
   uuid: string;
   /** The fixed wage of the payment, regardless of hours worked. */
-  wage?: string;
+  wage?: string | undefined;
   /** (hours * hourly_rate) + wage + bonus */
-  wage_total?: string;
+  wage_total?: string | undefined;
   /** The wage type for the payment. */
-  wage_type?: ContractorPaymentListingWageType;
+  wage_type?: ContractorPaymentListingWageType | undefined;
 }
 export type GetContractorPaymentsResponseBodyList = Array<ContractorPaymentListing>;
 export type GetContractorPaymentsResponse = GetContractorPaymentsResponseBodyList;
@@ -6474,25 +6531,25 @@ export type GetDepartmentResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
 export type GetDepartmentResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export interface GetDepartmentResponse {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Array of contractors assigned to the department. */
-  contractors?: GetDepartmentResponseContractorsList;
+  contractors?: GetDepartmentResponseContractorsList | undefined;
   /** Array of employees assigned to the department. */
-  employees?: GetDepartmentResponseEmployeesList;
+  employees?: GetDepartmentResponseEmployeesList | undefined;
   /** Name of the department */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the department */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface GetEmployeeBankAccountsRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type GetEmployeeBankAccountsResponseBodyList = Array<EmployeeBankAccount>;
 export type GetEmployeeBankAccountsResponse = GetEmployeeBankAccountsResponseBodyList;
@@ -6506,7 +6563,7 @@ export type GetEmployeeBenefitResponseContributionValueCase1TiersItem =
 export type GetEmployeeBenefitResponseContributionValueCase1TiersList =
   Array<CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersItem>;
 export interface GetEmployeeBenefitResponseContributionValueCase1 {
-  tiers?: GetEmployeeBenefitResponseContributionValueCase1TiersList;
+  tiers?: GetEmployeeBenefitResponseContributionValueCase1TiersList | undefined;
 }
 /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
 export type GetEmployeeBenefitResponseContributionValue =
@@ -6515,9 +6572,9 @@ export type GetEmployeeBenefitResponseContributionValue =
 /** An object representing the type and value of the company contribution. */
 export interface GetEmployeeBenefitResponseContribution {
   /** The company contribution scheme. "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. "tiered": The company contribution varies according to the size of the employee deduction. */
-  type?: string;
+  type?: string | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: GetEmployeeBenefitResponseContributionValue;
+  value?: GetEmployeeBenefitResponseContributionValue | undefined;
 }
 export type GetEmployeeBenefitResponseDeductionReducesTaxableIncome =
   | "unset"
@@ -6525,45 +6582,48 @@ export type GetEmployeeBenefitResponseDeductionReducesTaxableIncome =
   | "does_not_reduce_taxable_income";
 export interface GetEmployeeBenefitResponse {
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: boolean | null;
+  catch_up?: boolean | null | undefined;
   /** The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types. */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: string | null;
+  company_contribution_annual_maximum?: string | null | undefined;
   /** Whether the company_contribution value should be treated as a percentage to be added to each payroll. This field will not appear for tiered contribution types. */
-  contribute_as_percentage?: boolean;
+  contribute_as_percentage?: boolean | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: GetEmployeeBenefitResponseContribution;
+  contribution?: GetEmployeeBenefitResponseContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: string | null;
+  coverage_amount?: string | null | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: string | null;
+  coverage_salary_multiplier?: string | null | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored. */
-  deduction_reduces_taxable_income?: GetEmployeeBenefitResponseDeductionReducesTaxableIncome | null;
+  deduction_reduces_taxable_income?:
+    | GetEmployeeBenefitResponseDeductionReducesTaxableIncome
+    | null
+    | undefined;
   /** The date the employee benefit will start. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Whether the company contribution is elective (aka matching). For "tiered" contribution types, this is always true. */
-  elective?: boolean;
+  elective?: boolean | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The maximum employee deduction amount per year. A null value signifies no limit. */
-  employee_deduction_annual_maximum?: string | null;
+  employee_deduction_annual_maximum?: string | null | undefined;
   /** The date the employee benefit will expire. A null value indicates the benefit will not expire. */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Some benefits require additional information to determine their limit. `Family` and `Individual` are applicable to HSA benefit. `Joint Filing or Single` and `Married and Filing Separately` are applicable to Dependent Care FSA benefit. */
-  limit_option?: string | null;
+  limit_option?: string | null | undefined;
   /** Identifier for a 401(k) loan assigned by the 401(k) provider */
-  retirement_loan_identifier?: string | null;
+  retirement_loan_identifier?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company benefit. */
-  company_benefit_uuid?: string;
+  company_benefit_uuid?: string | undefined;
   /** The UUID of the employee to which the benefit belongs. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The UUID of the employee benefit. */
   uuid: string;
 }
@@ -6571,25 +6631,25 @@ export interface GetEmployeeCustomFieldsRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type EmployeeCustomFieldListCustomFieldsList = Array<EmployeeCustomField>;
 /** A list of an employee's custom fields */
 export interface EmployeeCustomFieldList {
-  custom_fields?: EmployeeCustomFieldListCustomFieldsList;
+  custom_fields?: EmployeeCustomFieldListCustomFieldsList | undefined;
 }
 export type GetEmployeeEmployeeBenefitsRequestInclude = "all_benefits";
 export interface GetEmployeeEmployeeBenefitsRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** Available options: - all_benefits: Include all effective dated benefits for each employee instead of only the current benefits. */
-  include?: GetEmployeeEmployeeBenefitsRequestInclude | (string & {});
+  include?: GetEmployeeEmployeeBenefitsRequestInclude | (string & {}) | undefined;
 }
 export type GetEmployeeEmployeeBenefitsResponseBodyList = Array<EmployeeBenefit>;
 export type GetEmployeeEmployeeBenefitsResponse = GetEmployeeEmployeeBenefitsResponseBodyList;
@@ -6607,15 +6667,15 @@ export type EmploymentHistoryListItemEmploymentStatus =
 /** The representation of an employee's individual employements. */
 export interface EmploymentHistoryListItem {
   /** The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*. */
-  employment_status?: EmploymentHistoryListItemEmploymentStatus;
+  employment_status?: EmploymentHistoryListItemEmploymentStatus | undefined;
   /** The boolean flag indicating whether Gusto will file a new hire report for the employee. */
-  file_new_hire_report?: boolean;
+  file_new_hire_report?: boolean | undefined;
   /** The employee's start day of work for an employment. */
-  hire_date?: string;
+  hire_date?: string | undefined;
   /** The employee's last day of work for an employment. */
-  termination_date?: string | null;
+  termination_date?: string | null | undefined;
   /** Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
 }
 export type EmploymentHistoryList = Array<EmploymentHistoryListItem>;
 export type GetEmployeeEmploymentHistoryResponse = EmploymentHistoryList;
@@ -6641,9 +6701,9 @@ export interface GetEmployeeGarnishmentsRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type GetEmployeeGarnishmentsResponseBodyList = Array<Garnishment>;
 export type GetEmployeeGarnishmentsResponse = GetEmployeeGarnishmentsResponseBodyList;
@@ -6670,25 +6730,25 @@ export type I9AuthorizationDocumentType =
 /** An employee's I-9 authorization */
 export interface I9Authorization {
   /** Any additional notes */
-  additional_info?: string | null;
+  additional_info?: string | null | undefined;
   /** Whether an alternative procedure authorized by DHS to examine documents was used */
-  alt_procedure?: boolean | null;
+  alt_procedure?: boolean | null | undefined;
   /** The employee's authorization status */
   authorization_status: I9AuthorizationAuthorizationStatus;
   /** The document's country of issuance */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The document's document type */
-  document_type?: I9AuthorizationDocumentType | null;
+  document_type?: I9AuthorizationDocumentType | null | undefined;
   /** Whether the employee has signed the Form I-9 */
   employee_signed: boolean;
   /** Whether the employer has signed the Form I-9 */
   employer_signed: boolean;
   /** The document's expiration date */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** The UUID of the Form associated with this I-9 authorization. Use this with "Employee Forms" API endpoints. */
-  form_uuid?: string | null;
+  form_uuid?: string | null | undefined;
   /** Whether or not a `document_number` exists for this document. */
-  has_document_number?: boolean | null;
+  has_document_number?: boolean | null | undefined;
   /** The UUID of the I-9 authorization */
   uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
@@ -6730,7 +6790,7 @@ export interface I9AuthorizationDocument {
   /** The document's document type */
   document_type: string;
   /** The document's expiration date */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** The document's issuing authority */
   issuing_authority: string;
   /** The UUID of the I-9 verification document */
@@ -6744,11 +6804,11 @@ export interface GetEmployeeJobsRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** Available options: - all_compensations: Include all effective dated compensations for each job instead of only the current compensation */
-  include?: GetEmployeeJobsRequestInclude | (string & {});
+  include?: GetEmployeeJobsRequestInclude | (string & {}) | undefined;
 }
 export type GetEmployeeJobsResponseBodyList = Array<Job>;
 export type GetEmployeeJobsResponse = GetEmployeeJobsResponseBodyList;
@@ -6766,11 +6826,11 @@ export type EmployeeOnboardingStatusBlockersItemCategory = "duplicate_value";
 export type EmployeeOnboardingStatusBlockersItemField = "ssn";
 export interface EmployeeOnboardingStatusBlockersItem {
   /** Category of the blocker. See the array-level description for resolution guidance. */
-  category?: EmployeeOnboardingStatusBlockersItemCategory;
+  category?: EmployeeOnboardingStatusBlockersItemCategory | undefined;
   /** The employee field affected. */
-  field?: EmployeeOnboardingStatusBlockersItemField;
+  field?: EmployeeOnboardingStatusBlockersItemField | undefined;
   /** Human-readable description of the blocker. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Validation issues that should be resolved before this employee's onboarding is complete. Each entry identifies an affected field, a category describing the type of problem, and a human-readable message. Supported categories: - `duplicate_value`: Another employee in the same company already has this value. To resolve, cancel this onboarding and initiate a rehire if it's a returning employee, or contact support to investigate the conflict. This list may grow over time as new validation rules are added. */
 export type EmployeeOnboardingStatusBlockersList = Array<EmployeeOnboardingStatusBlockersItem>;
@@ -6778,15 +6838,15 @@ export type EmployeeOnboardingStatusBlockersList = Array<EmployeeOnboardingStatu
 export type EmployeeOnboardingStatusOnboardingStepsItemRequirementsList = Array<string>;
 export interface EmployeeOnboardingStatusOnboardingStepsItem {
   /** When true, this step has been completed. */
-  completed?: boolean;
+  completed?: boolean | undefined;
   /** String identifier for the onboarding step. */
-  id?: string;
+  id?: string | undefined;
   /** When true, this step is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** A list of onboarding steps required to begin this step. */
-  requirements?: EmployeeOnboardingStatusOnboardingStepsItemRequirementsList;
+  requirements?: EmployeeOnboardingStatusOnboardingStepsItemRequirementsList | undefined;
   /** User-friendly description of the onboarding step. */
-  title?: string;
+  title?: string | undefined;
 }
 /** List of steps required to onboard an employee. */
 export type EmployeeOnboardingStatusOnboardingStepsList =
@@ -6794,11 +6854,11 @@ export type EmployeeOnboardingStatusOnboardingStepsList =
 /** The representation of an employee's onboarding status. */
 export interface EmployeeOnboardingStatus2 {
   /** Validation issues that should be resolved before this employee's onboarding is complete. Each entry identifies an affected field, a category describing the type of problem, and a human-readable message. Supported categories: - `duplicate_value`: Another employee in the same company already has this value. To resolve, cancel this onboarding and initiate a rehire if it's a returning employee, or contact support to investigate the conflict. This list may grow over time as new validation rules are added. */
-  blockers?: EmployeeOnboardingStatusBlockersList;
+  blockers?: EmployeeOnboardingStatusBlockersList | undefined;
   /** One of the "onboarding_status" enum values. */
-  onboarding_status?: string;
+  onboarding_status?: string | undefined;
   /** List of steps required to onboard an employee. */
-  onboarding_steps?: EmployeeOnboardingStatusOnboardingStepsList;
+  onboarding_steps?: EmployeeOnboardingStatusOnboardingStepsList | undefined;
   /** Unique identifier for this employee. */
   uuid: string;
 }
@@ -6812,20 +6872,20 @@ export type EmployeePaymentMethodSplitsList = Array<PaymentMethodBankAccount>;
 export type EmployeePaymentMethodType = "Direct Deposit" | "Check";
 export interface EmployeePaymentMethod2 {
   /** Describes how the payment will be split. If `split_by` is Percentage, then the split amounts must add up to exactly 100. If `split_by` is Amount, then the last split `amount` must be `null` to capture the remainder. */
-  split_by?: EmployeePaymentMethodSplitBy | null;
-  splits?: EmployeePaymentMethodSplitsList | null;
+  split_by?: EmployeePaymentMethodSplitBy | null | undefined;
+  splits?: EmployeePaymentMethodSplitsList | null | undefined;
   /** The payment method type. If type is Check, then `split_by` and `splits` do not need to be populated. If type is Direct Deposit, `split_by` and `splits` are required. */
-  type?: EmployeePaymentMethodType;
+  type?: EmployeePaymentMethodType | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetEmployeeRecurringReimbursementsRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type RecurringReimbursementList = Array<RecurringReimbursement>;
 export type GetEmployeeRecurringReimbursementsResponse = RecurringReimbursementList;
@@ -6845,7 +6905,7 @@ export interface GetEmployeesRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** Include the requested attribute(s) in each employee response. Multiple options are comma separated. */
-  include?: GetEmployeesRequestIncludeList;
+  include?: GetEmployeesRequestIncludeList | undefined;
 }
 export type EmployeeApplicableTaxIdsList = Array<number>;
 export type EmployeeCurrentEmploymentStatus =
@@ -6869,13 +6929,13 @@ export type EmployeeMemberPortalInvitationStatusStatus =
 /** Member portal invitation status information. Only included when the include param has the portal_invitations value set. */
 export interface EmployeeMemberPortalInvitationStatus {
   /** The date and time when the password reset was last resent. */
-  last_password_resent_at?: string | Redacted.Redacted<string> | null;
+  last_password_resent_at?: string | Redacted.Redacted<string> | null | undefined;
   /** The current status of the member portal invitation. */
-  status?: EmployeeMemberPortalInvitationStatusStatus;
+  status?: EmployeeMemberPortalInvitationStatusStatus | undefined;
   /** Whether the invitation token has expired. */
-  token_expired?: boolean | null;
+  token_expired?: boolean | null | undefined;
   /** The date and time when the welcome email was sent. */
-  welcome_email_sent_at?: string | null;
+  welcome_email_sent_at?: string | null | undefined;
 }
 /** Configuration for an employee onboarding documents during onboarding */
 export type EmployeeOnboardingDocumentsConfig = ShowEmployeesItemOnboardingDocumentsConfig;
@@ -6893,65 +6953,65 @@ export type EmployeePaymentMethod = "Direct Deposit" | "Check";
 export type EmployeeTerminationsList = Array<Termination>;
 /** The representation of an employee in Gusto. */
 export interface Employee {
-  applicable_tax_ids?: EmployeeApplicableTaxIdsList;
+  applicable_tax_ids?: EmployeeApplicableTaxIdsList | undefined;
   /** The UUID of the company the employee is employed by. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The current employment status of the employee. Full-time employees work 30+ hours per week. Part-time employees are split into two groups: those that work 20-29 hours a week, and those that work under 20 hours a week. Variable employees have hours that vary each week. Seasonal employees are hired for 6 months of the year or less. */
-  current_employment_status?: EmployeeCurrentEmploymentStatus | null;
+  current_employment_status?: EmployeeCurrentEmploymentStatus | null | undefined;
   /** Custom fields are only included for the employee if the include param has the custom_fields value set */
-  custom_fields?: EmployeeCustomFieldsList;
-  date_of_birth?: string | null;
+  custom_fields?: EmployeeCustomFieldsList | undefined;
+  date_of_birth?: string | null | undefined;
   /** The employee's department in the company. */
-  department?: string | null;
+  department?: string | null | undefined;
   /** The UUID of the department the employee is under */
-  department_uuid?: string | null;
-  eligible_paid_time_off?: EmployeeEligiblePaidTimeOffList;
+  department_uuid?: string | null | undefined;
+  eligible_paid_time_off?: EmployeeEligiblePaidTimeOffList | undefined;
   /** The personal email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing). */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The short format code of the employee */
-  employee_code?: string;
+  employee_code?: string | undefined;
   first_name: string;
-  flsa_status?: FlsaStatusType;
-  garnishments?: EmployeeGarnishmentsList;
+  flsa_status?: FlsaStatusType | undefined;
+  garnishments?: EmployeeGarnishmentsList | undefined;
   /** Indicates whether the employee has an SSN in Gusto. */
-  has_ssn?: boolean;
-  hidden_ssn?: string;
+  has_ssn?: boolean | undefined;
+  hidden_ssn?: string | undefined;
   /** The date when the employee was hired to the company */
-  hired_at?: string;
-  historical?: boolean;
-  jobs?: EmployeeJobsList;
+  hired_at?: string | undefined;
+  historical?: boolean | undefined;
+  jobs?: EmployeeJobsList | undefined;
   last_name: string;
   /** The UUID of the employee's manager. */
-  manager_uuid?: string | null;
+  manager_uuid?: string | null | undefined;
   /** Member portal invitation status information. Only included when the include param has the portal_invitations value set. */
-  member_portal_invitation_status?: EmployeeMemberPortalInvitationStatus | null;
-  middle_initial?: string | null;
+  member_portal_invitation_status?: EmployeeMemberPortalInvitationStatus | null | undefined;
+  middle_initial?: string | null | undefined;
   /** Whether the employee has completed onboarding. */
-  onboarded?: boolean;
+  onboarded?: boolean | undefined;
   /** Configuration for an employee onboarding documents during onboarding */
-  onboarding_documents_config?: ShowEmployeesItemOnboardingDocumentsConfig;
+  onboarding_documents_config?: ShowEmployeesItemOnboardingDocumentsConfig | undefined;
   /** The current onboarding status of the employee */
-  onboarding_status?: EmployeeOnboardingStatus | null;
+  onboarding_status?: EmployeeOnboardingStatus | null | undefined;
   /** Whether an external partner portal invitation webhook has been sent for this employee. Only included when the include param has the portal_invitations value set. */
-  partner_portal_invitation_sent?: boolean | null;
+  partner_portal_invitation_sent?: boolean | null | undefined;
   /** The employee's payment method */
-  payment_method?: EmployeePaymentMethod;
-  phone?: string | null;
-  preferred_first_name?: string | null;
+  payment_method?: EmployeePaymentMethod | undefined;
+  phone?: string | null | undefined;
+  preferred_first_name?: string | null | undefined;
   /** Deprecated. This field always returns an empty string. */
-  ssn?: string;
+  ssn?: string | undefined;
   /** Whether the employee is terminated. */
-  terminated?: boolean;
-  terminations?: EmployeeTerminationsList;
-  title?: string;
+  terminated?: boolean | undefined;
+  terminations?: EmployeeTerminationsList | undefined;
+  title?: string | undefined;
   /** Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type. */
-  two_percent_shareholder?: boolean | null;
+  two_percent_shareholder?: boolean | null | undefined;
   /** The UUID of the employee in Gusto. */
   uuid: string;
   /** The current version of the employee. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The work email address of the employee. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing). */
-  work_email?: string | null;
+  work_email?: string | null | undefined;
 }
 export interface GetEmployeeSection603HighEarnerStatusRequest {
   /** The UUID of the employee */
@@ -6982,7 +7042,7 @@ export interface GetEmployeeYtdBenefitAmountsFromDifferentCompanyRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The tax year for which to retrieve YTD benefit amounts. Defaults to current year if not specified. */
-  tax_year?: number;
+  tax_year?: number | undefined;
 }
 /** Ytd Benefit Amounts From Different Company */
 export interface YtdBenefitAmountsFromDifferentCompany {
@@ -7002,32 +7062,32 @@ export type GetEmployeeYtdBenefitAmountsFromDifferentCompanyResponse =
 export type GetEventsRequestSortOrder = "asc" | "desc";
 export interface GetEventsRequest {
   /** A cursor for pagination. Returns all events occuring after the specified UUID (exclusive). Events are sorted according to the provided sort_order param. */
-  starting_after_uuid?: string;
+  starting_after_uuid?: string | undefined;
   /** The UUID of the company. If not specified, will return all events for all companies. */
-  resource_uuid?: string;
+  resource_uuid?: string | undefined;
   /** Limits the number of objects returned in a single response, between 1 and 100. The default is 25 */
-  limit?: string;
+  limit?: string | undefined;
   /** A string containing the exact event name (e.g. `employee.created`), or use a wildcard match to filter for a group of events (e.g. `employee.*`, `*.created`, `notification.*.created` etc.) */
-  event_type?: string;
+  event_type?: string | undefined;
   /** A string indicating whether to sort resulting events in ascending (asc) or descending (desc) chronological order. Events are sorted by their `timestamp`. Defaults to asc if left empty. */
-  sort_order?: GetEventsRequestSortOrder | (string & {});
+  sort_order?: GetEventsRequestSortOrder | (string & {}) | undefined;
 }
 /** Name of the parent resource of the described entity. */
 export type EventResourceType = "Company";
 /** Representation of an Event */
 export interface Event {
   /** Name of the entity that the event corresponds to. */
-  entity_type?: string;
+  entity_type?: string | undefined;
   /** Unique identifier for the entity. */
-  entity_uuid?: string;
+  entity_uuid?: string | undefined;
   /** Description of the event (e.g., payroll.submitted, or company.form.signed). */
-  event_type?: string;
+  event_type?: string | undefined;
   /** Name of the parent resource of the described entity. */
-  resource_type?: EventResourceType;
+  resource_type?: EventResourceType | undefined;
   /** Unique identifier for the parent resource. */
-  resource_uuid?: string;
+  resource_uuid?: string | undefined;
   /** Time at which this event was created. Measured in seconds since the Unix epoch. */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** Unique identifier for the event. */
   uuid: string;
 }
@@ -7041,9 +7101,9 @@ export interface GetGarnishmentRequest {
 export interface GetGarnishmentsChildSupportRequest {}
 export interface ChildSupportDataAgenciesItemFipsCodesItem {
   /** FIPS code for state or county */
-  code?: string;
+  code?: string | undefined;
   /** Name of county in the state for the corresponding FIPS code. When `null` the FIPS code applies state wide. */
-  county?: string | null;
+  county?: string | null | undefined;
 }
 /** FIPS codes for state or county child support orders */
 export type ChildSupportDataAgenciesItemFipsCodesList =
@@ -7055,31 +7115,31 @@ export type ChildSupportDataAgenciesItemRequiredAttributesItemKey =
   | "remittance_number";
 export interface ChildSupportDataAgenciesItemRequiredAttributesItem {
   /** A required attribute when creating a garnishment for this state agency. The current values are listed as an enum; though unlikely, values could be added if state agency requirements change in the future. */
-  key?: ChildSupportDataAgenciesItemRequiredAttributesItemKey;
+  key?: ChildSupportDataAgenciesItemRequiredAttributesItemKey | undefined;
   /** A human readable name of the attribute, e.g. CSE Case Number */
-  label?: string;
+  label?: string | undefined;
 }
 /** Describes which child support case identifying attributes are required for this agency. While most agencies only require a single identifier, some (e.g. OH) require multiple identifiers. */
 export type ChildSupportDataAgenciesItemRequiredAttributesList =
   Array<ChildSupportDataAgenciesItemRequiredAttributesItem>;
 export interface ChildSupportDataAgenciesItem {
   /** FIPS codes for state or county child support orders */
-  fips_codes?: ChildSupportDataAgenciesItemFipsCodesList;
+  fips_codes?: ChildSupportDataAgenciesItemFipsCodesList | undefined;
   /** Specifies if remitting payment to the agency is required outside of Gusto. If true, Gusto includes garnishment amounts for this agency in payroll calculation, but does not debit for or remit payment to the agency automatically. As of September 2024, only garnishments for South Carolina Integrated Child Support Services require manual payment. */
-  manual_payment_required?: boolean;
+  manual_payment_required?: boolean | undefined;
   /** Name of state child support agency */
-  name?: string;
+  name?: string | undefined;
   /** Describes which child support case identifying attributes are required for this agency. While most agencies only require a single identifier, some (e.g. OH) require multiple identifiers. */
-  required_attributes?: ChildSupportDataAgenciesItemRequiredAttributesList;
+  required_attributes?: ChildSupportDataAgenciesItemRequiredAttributesList | undefined;
   /** Two letter state abbreviation */
-  state?: string;
+  state?: string | undefined;
 }
 /** State child support agencies */
 export type ChildSupportDataAgenciesList = Array<ChildSupportDataAgenciesItem>;
 /** Child Support agency data */
 export interface ChildSupportData {
   /** State child support agencies */
-  agencies?: ChildSupportDataAgenciesList;
+  agencies?: ChildSupportDataAgenciesList | undefined;
 }
 export type GetGeneratedDocumentRequestDocumentType = "printable_payroll_checks";
 export interface GetGeneratedDocumentRequest {
@@ -7094,11 +7154,11 @@ export type GeneratedDocumentDocumentUrlsList = Array<string>;
 export type GeneratedDocumentStatus = "pending" | "started" | "succeeded" | "failed";
 export interface GeneratedDocument {
   /** The array of urls to access the documents. */
-  document_urls?: GeneratedDocumentDocumentUrlsList;
+  document_urls?: GeneratedDocumentDocumentUrlsList | undefined;
   /** A unique identifier of the Generated Document request */
-  request_uuid?: string;
+  request_uuid?: string | undefined;
   /** Current status of the Generated Document */
-  status?: GeneratedDocumentStatus;
+  status?: GeneratedDocumentStatus | undefined;
 }
 export interface GetHomeAddressRequest {
   /** The UUID of the home address */
@@ -7108,7 +7168,7 @@ export interface GetInformationRequestsRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** Sort by one or more fields. Options: payroll_blocker, status, type. Append `:asc` or `:desc` to specify direction (e.g., `payroll_blocker:asc`). Defaults to ascending. */
-  sort_by?: string;
+  sort_by?: string | undefined;
 }
 export interface InformationRequestRequiredQuestionsItem {
   question_text: string;
@@ -7128,17 +7188,17 @@ export type InformationRequestType =
 /** Representation of an information request */
 export interface InformationRequest {
   /** If true, this information request is blocking payroll, and may require response or requires review from our Risk Ops team. */
-  blocking_payroll?: boolean;
+  blocking_payroll?: boolean | undefined;
   /** Unique identifier of the company to which the information requests belongs */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Questions the partner must answer or collect documents for */
-  required_questions?: InformationRequestRequiredQuestionsList;
+  required_questions?: InformationRequestRequiredQuestionsList | undefined;
   /** The status of the information request */
-  status?: InformationRequestStatus;
+  status?: InformationRequestStatus | undefined;
   /** The type of information request */
-  type?: InformationRequestType | null;
+  type?: InformationRequestType | null | undefined;
   /** Unique identifier of an information request */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type GetInformationRequestsResponseBodyList = Array<InformationRequest>;
 export type GetInformationRequestsResponse = GetInformationRequestsResponseBodyList;
@@ -7146,46 +7206,46 @@ export interface GetInvoiceRequest {
   /** The month we are calculating the invoice for. Must be in YYYY-MM format */
   invoice_period: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** Filter companies returned in the active_companies response, will return an error if company not active during provided invoice period. i.e. `?company_uuids=781922d8-e780-4b6b-bf74-ee303166d022,bbbca930-7322-491c-ba7f-98707a52a9c5` */
-  company_uuids?: string;
+  company_uuids?: string | undefined;
 }
 export interface InvoiceDataActiveCompaniesItem {
   /** The number of active contractors the company was or will be invoiced for that invoice period. Active contractors are calculated as any contractor with an active contractor payment during the invoice period. */
-  active_contractors?: number;
+  active_contractors?: number | undefined;
   /** The number of active employees the company was or will be invoiced for that invoice period. Active employees are calculated as the count of onboarded employees hired before the end of the invoice period and not terminated before the start of the invoice period. */
-  active_employees?: number;
+  active_employees?: number | undefined;
   /** unique identifier for the company associated with the invoice data */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The first invoice period for the company. This will either be the invoice period of the first invoice-able event (first payroll or contractor payment) or the date they migrated to embedded, whichever is later. */
-  initial_invoice_period?: string;
+  initial_invoice_period?: string | undefined;
 }
 /** The list of companies that are active within the invoice period */
 export type InvoiceDataActiveCompaniesList = Array<InvoiceDataActiveCompaniesItem>;
 /** Representation of a partners invoice data */
 export interface InvoiceData {
   /** The list of companies that are active within the invoice period */
-  active_companies?: InvoiceDataActiveCompaniesList;
+  active_companies?: InvoiceDataActiveCompaniesList | undefined;
 }
 export type GetJobRequestInclude = "all_compensations";
 export interface GetJobRequest {
   /** The UUID of the job */
   job_id: string;
   /** Available options: - all_compensations: Include all effective dated compensations for each job instead of only the current compensation */
-  include?: GetJobRequestInclude | (string & {});
+  include?: GetJobRequestInclude | (string & {}) | undefined;
 }
 export type GetJobCompensationsRequestInclude = "all_compensations";
 export interface GetJobCompensationsRequest {
   /** The UUID of the job */
   job_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** Available options: - all_compensations: Include all effective dated compensations for each job instead of only the current compensation */
-  include?: GetJobCompensationsRequestInclude | (string & {});
+  include?: GetJobCompensationsRequestInclude | (string & {}) | undefined;
 }
 export type GetJobCompensationsResponseBodyList = Array<Compensation>;
 export type GetJobCompensationsResponse = GetJobCompensationsResponseBodyList;
@@ -7196,7 +7256,7 @@ export interface GetLocationRequest {
 export interface GetLocationMinimumWagesRequest {
   /** The UUID of the location */
   location_uuid: string;
-  effective_date?: string;
+  effective_date?: string | undefined;
 }
 /** Representation of a Minimum Wage */
 export interface MinimumWage {
@@ -7205,7 +7265,7 @@ export interface MinimumWage {
   /** The date the minimum wage rule is effective on. */
   effective_date: string;
   /** Description of parties the minimum wage applies to. */
-  notes?: string;
+  notes?: string | undefined;
   /** unique identifier of a minimum wage */
   uuid: string;
   /** The wage rate for a minimum wage record. Represented as a float, e.g. "15.0". */
@@ -7225,41 +7285,41 @@ export interface GetPartnerManagedCompanyMigrationReadinessRequest {
 }
 export interface GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata {
   /** A categorization of the migration blocker, e.g. "migrated_company" */
-  key?: string;
+  key?: string | undefined;
 }
 export interface GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem {
   /** Error category */
-  category?: string;
+  category?: string | undefined;
   /** Error key */
-  error_key?: string;
+  error_key?: string | undefined;
   /** Blocker message */
-  message?: string;
-  metadata?: GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata;
+  message?: string | undefined;
+  metadata?: GetPartnerManagedCompanyMigrationReadinessResponseErrorsItemMetadata | undefined;
 }
 export type GetPartnerManagedCompanyMigrationReadinessResponseErrorsList =
   Array<GetPartnerManagedCompanyMigrationReadinessResponseErrorsItem>;
 export interface GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata {
   /** A categorization of the migration warning, e.g. "marijuana_related_business" */
-  key?: string;
+  key?: string | undefined;
 }
 export interface GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem {
   /** Error category */
-  category?: string;
+  category?: string | undefined;
   /** Error key */
-  error_key?: string;
+  error_key?: string | undefined;
   /** Warning message */
-  message?: string;
-  metadata?: GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata;
+  message?: string | undefined;
+  metadata?: GetPartnerManagedCompanyMigrationReadinessResponseWarningsItemMetadata | undefined;
 }
 export type GetPartnerManagedCompanyMigrationReadinessResponseWarningsList =
   Array<GetPartnerManagedCompanyMigrationReadinessResponseWarningsItem>;
 export interface GetPartnerManagedCompanyMigrationReadinessResponse {
   /** The company UUID */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Indicates if the company is ready to be migrated. */
-  ready_to_migrate?: boolean;
-  errors?: GetPartnerManagedCompanyMigrationReadinessResponseErrorsList;
-  warnings?: GetPartnerManagedCompanyMigrationReadinessResponseWarningsList;
+  ready_to_migrate?: boolean | undefined;
+  errors?: GetPartnerManagedCompanyMigrationReadinessResponseErrorsList | undefined;
+  warnings?: GetPartnerManagedCompanyMigrationReadinessResponseWarningsList | undefined;
 }
 export interface GetPayrollBatchRequest {
   /** The UUID of the payroll cancellation batch returned by `POST /v1/payroll_batches`. */
@@ -7273,19 +7333,19 @@ export type PayrollBatchResultsExclusionsItemEntityType = "payroll";
 export type PayrollBatchResultsExclusionsItemStatus = "failed";
 export interface PayrollBatchResultsExclusionsItem {
   /** Machine-readable category for why the payroll was excluded. - `not_found`: the payroll does not exist, or is not associated with a company the partner is mapped to - `duplicate_operation`: the same payroll UUID appeared more than once in the request; only the first occurrence is processed */
-  category?: PayrollBatchResultsExclusionsItemCategory;
+  category?: PayrollBatchResultsExclusionsItemCategory | undefined;
   /** The UUID of the company asserted to own the payroll. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The type of entity this exclusion represents. */
-  entity_type?: PayrollBatchResultsExclusionsItemEntityType;
+  entity_type?: PayrollBatchResultsExclusionsItemEntityType | undefined;
   /** The index of this payroll in the original POST batch array. */
-  idx?: number;
+  idx?: number | undefined;
   /** Human-readable explanation for the exclusion. */
-  message?: string;
+  message?: string | undefined;
   /** Always `failed` for an excluded payroll. */
-  status?: PayrollBatchResultsExclusionsItemStatus;
+  status?: PayrollBatchResultsExclusionsItemStatus | undefined;
   /** The UUID of the excluded payroll. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Payrolls that could not be processed, determined at submission time. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
 export type PayrollBatchResultsExclusionsList = Array<PayrollBatchResultsExclusionsItem>;
@@ -7293,11 +7353,11 @@ export type PayrollBatchResultsExclusionsList = Array<PayrollBatchResultsExclusi
 export type PayrollBatchResultsResultsItemErrorsItemCategory = "not_cancellable" | "internal_error";
 export interface PayrollBatchResultsResultsItemErrorsItem {
   /** Machine-readable reason the cancellation failed. - `not_cancellable`: the payroll is past the point where it can be cancelled - `internal_error`: an unexpected error occurred; the request can be retried */
-  category?: PayrollBatchResultsResultsItemErrorsItemCategory;
+  category?: PayrollBatchResultsResultsItemErrorsItemCategory | undefined;
   /** The key identifying the error source. */
-  error_key?: string;
+  error_key?: string | undefined;
   /** Human-readable explanation of the failure. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Present only when `status` is `failed`. A cancel is a single atomic operation, so this is a flat array with exactly one error. */
 export type PayrollBatchResultsResultsItemErrorsList =
@@ -7306,13 +7366,13 @@ export type PayrollBatchResultsResultsItemErrorsList =
 export type PayrollBatchResultsResultsItemStatus = "success" | "failed";
 export interface PayrollBatchResultsResultsItem {
   /** Present only when `status` is `failed`. A cancel is a single atomic operation, so this is a flat array with exactly one error. */
-  errors?: PayrollBatchResultsResultsItemErrorsList;
+  errors?: PayrollBatchResultsResultsItemErrorsList | undefined;
   /** The index of this payroll in the original POST batch array. */
-  idx?: number;
+  idx?: number | undefined;
   /** The outcome of cancelling this payroll. A cancel is atomic -- there is no per-payroll `partial_success`. - `success`: the payroll was cancelled, or required no action (already cancelled / never run) - `failed`: the payroll could not be cancelled; see `errors` */
-  status?: PayrollBatchResultsResultsItemStatus;
+  status?: PayrollBatchResultsResultsItemStatus | undefined;
   /** The UUID of the payroll. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Per-payroll cancellation results. Only present once the batch reaches a terminal status. One entry per authorized payroll. */
 export type PayrollBatchResultsResultsList = Array<PayrollBatchResultsResultsItem>;
@@ -7321,23 +7381,23 @@ export type PayrollBatchResultsStatus = "pending" | "processing" | "completed" |
 /** A payroll cancellation batch with per-payroll results. */
 export interface PayrollBatchResults {
   /** The timestamp when the batch processing completed. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The number of payrolls excluded from processing. Only present once the batch reaches a terminal status. */
-  excluded_items?: number;
+  excluded_items?: number | undefined;
   /** Payrolls that could not be processed, determined at submission time. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
-  exclusions?: PayrollBatchResultsExclusionsList;
+  exclusions?: PayrollBatchResultsExclusionsList | undefined;
   /** The idempotency key provided when creating the batch. */
   idempotency_key: string;
   /** The number of payrolls processed (cancelled or attempted). Only present once the batch reaches a terminal status. */
-  processed_items?: number;
+  processed_items?: number | undefined;
   /** Per-payroll cancellation results. Only present once the batch reaches a terminal status. One entry per authorized payroll. */
-  results?: PayrollBatchResultsResultsList;
+  results?: PayrollBatchResultsResultsList | undefined;
   /** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished -- inspect `results` and `exclusions` for per-payroll outcomes) and `failed` (the batch crashed at the system level; can be retried). This is distinct from the per-payroll `status` returned inside `results[]`. A `completed` batch does not imply every payroll was cancelled. */
   status: PayrollBatchResultsStatus;
   /** The timestamp when the batch was submitted. */
   submitted_at: string;
   /** The number of payrolls submitted in the batch. */
-  submitted_items?: number | null;
+  submitted_items?: number | null | undefined;
   /** The unique identifier of the payroll cancellation batch. */
   uuid: string;
 }
@@ -7357,25 +7417,25 @@ export type PayrollDigestResultsExclusionsItemEntityType = "company";
 export type PayrollDigestResultsExclusionsItemStatus = "failed";
 export interface PayrollDigestResultsExclusionsItem {
   /** Machine-readable category for why the company was excluded. */
-  category?: PayrollDigestResultsExclusionsItemCategory;
+  category?: PayrollDigestResultsExclusionsItemCategory | undefined;
   /** The type of entity this exclusion represents. */
-  entity_type?: PayrollDigestResultsExclusionsItemEntityType;
+  entity_type?: PayrollDigestResultsExclusionsItemEntityType | undefined;
   /** The index of this company in the original POST batch array. */
-  idx?: number;
+  idx?: number | undefined;
   /** Human-readable explanation for the exclusion. */
-  message?: string;
+  message?: string | undefined;
   /** The status of this company's digest computation. */
-  status?: PayrollDigestResultsExclusionsItemStatus;
+  status?: PayrollDigestResultsExclusionsItemStatus | undefined;
   /** The UUID of the excluded company. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Companies that could not be processed. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
 export type PayrollDigestResultsExclusionsList = Array<PayrollDigestResultsExclusionsItem>;
 export interface PayrollDigestResultsResultsItemBlockersItem {
   /** Human-readable description of the blocker. */
-  description?: string;
+  description?: string | undefined;
   /** A machine-readable blocker key (e.g. `missing_bank_account`). */
-  type?: string;
+  type?: string | undefined;
 }
 /** Reasons the company cannot currently run payroll. Applies to every payroll in this company's `payrolls` array -- blockers are evaluated at the company level, not per payroll. Empty when there are no blockers. */
 export type PayrollDigestResultsResultsItemBlockersList =
@@ -7384,46 +7444,46 @@ export type PayrollDigestResultsResultsItemBlockersList =
 export type PayrollDigestResultsResultsItemEntityType = "company";
 export interface PayrollDigestResultsResultsItemPayrollsItemPayPeriod {
   /** The date employees get paid. */
-  check_date?: string | null;
+  check_date?: string | null | undefined;
   /** Last day of the pay period. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The deadline to run payroll for this pay period. */
-  run_payroll_by?: string | null;
+  run_payroll_by?: string | null | undefined;
   /** First day of the pay period. */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
 }
 export interface PayrollDigestResultsResultsItemPayrollsItemPaySchedule {
   /** Custom name for the pay schedule, when set. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** Human-friendly pay frequency (e.g. "Every other week"). */
-  frequency?: string;
+  frequency?: string | undefined;
   /** UUID of the pay schedule. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Pay totals. `null` when the payroll has not been calculated, or when the calculation is stale (the partner edited hours/earnings after the last calculation). */
 export interface PayrollDigestResultsResultsItemPayrollsItemTotals {
   /** Total net pay across all employees on this payroll (string-formatted decimal). */
-  net_pay?: string;
+  net_pay?: string | undefined;
   /** Total amount debited from the company bank account (string-formatted decimal). */
-  total_debit_amount?: string;
+  total_debit_amount?: string | undefined;
   /** Total employer cost including taxes and benefits (string-formatted decimal). */
-  total_employer_cost?: string;
+  total_employer_cost?: string | undefined;
 }
 export interface PayrollDigestResultsResultsItemPayrollsItem {
   /** Whether the company has auto-payroll enabled for this pay schedule. */
-  auto_payroll?: boolean;
+  auto_payroll?: boolean | undefined;
   /** Partner-facing display title for this payroll (e.g. "Run biweekly payroll"). */
-  display_title?: string;
-  pay_period?: PayrollDigestResultsResultsItemPayrollsItemPayPeriod;
-  pay_schedule?: PayrollDigestResultsResultsItemPayrollsItemPaySchedule | null;
+  display_title?: string | undefined;
+  pay_period?: PayrollDigestResultsResultsItemPayrollsItemPayPeriod | undefined;
+  pay_schedule?: PayrollDigestResultsResultsItemPayrollsItemPaySchedule | null | undefined;
   /** The type of payroll (e.g. `regular`, `new_hire`, `termination`, `transition`, `bonus`, `correction`). */
-  payroll_type?: string;
+  payroll_type?: string | undefined;
   /** UUID of the payroll. `null` for upcoming pay periods that have not been started yet (the `payrolls` API has not yet created a payroll record). Once a payroll is created, subsequent digest requests will include the real `payroll_uuid`. */
-  payroll_uuid?: string | null;
+  payroll_uuid?: string | null | undefined;
   /** The lifecycle status of the payroll (e.g. `ready_to_start`, `in_progress`, `submitted`, `completed`, `failed`). */
-  status?: string;
+  status?: string | undefined;
   /** Pay totals. `null` when the payroll has not been calculated, or when the calculation is stale (the partner edited hours/earnings after the last calculation). */
-  totals?: PayrollDigestResultsResultsItemPayrollsItemTotals | null;
+  totals?: PayrollDigestResultsResultsItemPayrollsItemTotals | null | undefined;
 }
 /** Payrolls for this company within the digest date window (7 days past, 30-60 days future). May be empty. */
 export type PayrollDigestResultsResultsItemPayrollsList =
@@ -7432,19 +7492,19 @@ export type PayrollDigestResultsResultsItemPayrollsList =
 export type PayrollDigestResultsResultsItemStatus = "success" | "partial_success" | "failed";
 export interface PayrollDigestResultsResultsItem {
   /** Reasons the company cannot currently run payroll. Applies to every payroll in this company's `payrolls` array -- blockers are evaluated at the company level, not per payroll. Empty when there are no blockers. */
-  blockers?: PayrollDigestResultsResultsItemBlockersList;
+  blockers?: PayrollDigestResultsResultsItemBlockersList | undefined;
   /** The type of entity this result represents. */
-  entity_type?: PayrollDigestResultsResultsItemEntityType;
+  entity_type?: PayrollDigestResultsResultsItemEntityType | undefined;
   /** The index of this company in the original POST batch array. */
-  idx?: number;
+  idx?: number | undefined;
   /** The legal/display name of the company. */
-  name?: string;
+  name?: string | undefined;
   /** Payrolls for this company within the digest date window (7 days past, 30-60 days future). May be empty. */
-  payrolls?: PayrollDigestResultsResultsItemPayrollsList;
+  payrolls?: PayrollDigestResultsResultsItemPayrollsList | undefined;
   /** The status of this company's digest computation. */
-  status?: PayrollDigestResultsResultsItemStatus;
+  status?: PayrollDigestResultsResultsItemStatus | undefined;
   /** The UUID of the company. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Per-company results. Only present once the batch reaches a terminal status. Includes successfully processed companies (with their `payrolls` array, which may be empty when the company has no payrolls in the date window). */
 export type PayrollDigestResultsResultsList = Array<PayrollDigestResultsResultsItem>;
@@ -7453,23 +7513,23 @@ export type PayrollDigestResultsStatus = "pending" | "processing" | "completed" 
 /** A payroll digest batch with processing results. */
 export interface PayrollDigestResults {
   /** The timestamp when the batch processing completed. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The number of companies excluded from processing. Only present once the batch reaches a terminal status. */
-  excluded_items?: number;
+  excluded_items?: number | undefined;
   /** Companies that could not be processed. Only present once the batch reaches a terminal status. Every UUID submitted in the POST batch appears in exactly one of `results` or `exclusions`. */
-  exclusions?: PayrollDigestResultsExclusionsList;
+  exclusions?: PayrollDigestResultsExclusionsList | undefined;
   /** The idempotency key provided when creating the batch. */
   idempotency_key: string;
   /** The number of companies successfully processed. Only present once the batch reaches a terminal status. */
-  processed_items?: number;
+  processed_items?: number | undefined;
   /** Per-company results. Only present once the batch reaches a terminal status. Includes successfully processed companies (with their `payrolls` array, which may be empty when the company has no payrolls in the date window). */
-  results?: PayrollDigestResultsResultsList;
+  results?: PayrollDigestResultsResultsList | undefined;
   /** The lifecycle status of the batch request itself. Terminal values are `completed` (processing finished -- inspect `results` and `exclusions` for per-company outcomes) and `failed` (request failed; can be retried). This is distinct from the per-company `status` returned inside `results[]` and `exclusions[]`. */
   status: PayrollDigestResultsStatus;
   /** The timestamp when the batch was submitted. */
   submitted_at: string;
   /** The number of companies submitted in the batch. */
-  submitted_items?: number | null;
+  submitted_items?: number | null | undefined;
   /** The unique identifier of the payroll digest batch. */
   uuid: string;
 }
@@ -7479,13 +7539,13 @@ export interface GetPeopleBatchRequest {
 }
 export interface PeopleBatchResultsExclusionsItem {
   /** The exclusion category. */
-  category?: string;
+  category?: string | undefined;
   /** The external ID of the excluded item(s). */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Number of items affected by this exclusion. */
-  item_count?: number;
+  item_count?: number | undefined;
   /** Human-readable explanation for exclusion. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Items excluded from processing due to validation errors. */
 export type PeopleBatchResultsExclusionsList = Array<PeopleBatchResultsExclusionsItem>;
@@ -7493,13 +7553,13 @@ export type PeopleBatchResultsExclusionsList = Array<PeopleBatchResultsExclusion
 export type PeopleBatchResultsResultsItemErrorsItemErrorsList = Array<unknown>;
 export interface PeopleBatchResultsResultsItemErrorsItem {
   /** The error category. */
-  category?: string;
+  category?: string | undefined;
   /** The key identifying the error source. */
-  error_key?: string;
+  error_key?: string | undefined;
   /** Nested errors for sub-operations. */
-  errors?: PeopleBatchResultsResultsItemErrorsItemErrorsList | null;
+  errors?: PeopleBatchResultsResultsItemErrorsItemErrorsList | null | undefined;
   /** Human-readable error message. */
-  message?: string | null;
+  message?: string | null | undefined;
 }
 /** Errors encountered while processing this batch item. */
 export type PeopleBatchResultsResultsItemErrorsList =
@@ -7510,19 +7570,19 @@ export type PeopleBatchResultsResultsItemRole = "employee";
 export type PeopleBatchResultsResultsItemStatus = "success" | "partial_success" | "failed";
 export interface PeopleBatchResultsResultsItem {
   /** The UUID of the created employee (if role is employee). */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** Errors encountered while processing this batch item. */
-  errors?: PeopleBatchResultsResultsItemErrorsList | null;
+  errors?: PeopleBatchResultsResultsItemErrorsList | null | undefined;
   /** The external ID provided in the batch request. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The index of this item in the original batch request. */
-  idx?: number;
+  idx?: number | undefined;
   /** The type of person created. */
-  role?: PeopleBatchResultsResultsItemRole;
+  role?: PeopleBatchResultsResultsItemRole | undefined;
   /** The status of this batch item. */
-  status?: PeopleBatchResultsResultsItemStatus;
+  status?: PeopleBatchResultsResultsItemStatus | undefined;
   /** The UUID of the created person. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** The results for each batch item. */
 export type PeopleBatchResultsResultsList = Array<PeopleBatchResultsResultsItem>;
@@ -7536,23 +7596,23 @@ export type PeopleBatchResultsStatus =
 /** A people batch with processing results. */
 export interface PeopleBatchResults {
   /** The timestamp when the batch processing completed. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The number of items excluded from processing. */
-  excluded_items?: number;
+  excluded_items?: number | undefined;
   /** Items excluded from processing due to validation errors. */
-  exclusions?: PeopleBatchResultsExclusionsList | null;
+  exclusions?: PeopleBatchResultsExclusionsList | null | undefined;
   /** The idempotency key provided when creating the batch. */
   idempotency_key: string;
   /** The number of items successfully processed. */
-  processed_items?: number;
+  processed_items?: number | undefined;
   /** The results for each batch item. */
-  results?: PeopleBatchResultsResultsList;
+  results?: PeopleBatchResultsResultsList | undefined;
   /** The current status of the batch processing. */
   status: PeopleBatchResultsStatus;
   /** The timestamp when the batch was submitted. */
-  submitted_at?: string;
+  submitted_at?: string | undefined;
   /** The number of items submitted in the batch. */
-  submitted_items?: number | null;
+  submitted_items?: number | null | undefined;
   /** The unique identifier of the people batch. */
   uuid: string;
 }
@@ -7560,9 +7620,9 @@ export interface GetRecoveryCasesRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The uuids of the associated contractor payments for which the recovery case was created. If the recovery case was created for a payroll, this field will be null. */
 export type RecoveryCaseContractorPaymentUuidsList = Array<string>;
@@ -7576,23 +7636,23 @@ export type RecoveryCaseStatus =
 /** Representation of a recovery case */
 export interface RecoveryCase {
   /** Amount outstanding for the recovery case */
-  amount_outstanding?: string;
+  amount_outstanding?: string | undefined;
   /** Check date for the associated payroll or contractor payments */
-  check_date?: string;
+  check_date?: string | undefined;
   /** Unique identifier of the company to which the recovery case belongs */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The uuids of the associated contractor payments for which the recovery case was created. If the recovery case was created for a payroll, this field will be null. */
-  contractor_payment_uuids?: RecoveryCaseContractorPaymentUuidsList | null;
+  contractor_payment_uuids?: RecoveryCaseContractorPaymentUuidsList | null | undefined;
   /** Total amount to be debited from the payroll or contractor payments */
-  event_total_amount?: string;
+  event_total_amount?: string | undefined;
   /** The latest bank error code for the recovery case. See [this doc](https://docs.gusto.com/embedded-payroll/docs/ach-codes-and-transaction-types) for a list of common ACH return codes. */
-  latest_error_code?: string | null;
+  latest_error_code?: string | null | undefined;
   /** Date when funds were originally debited from the company's bank account */
-  original_debit_date?: string | null;
+  original_debit_date?: string | null | undefined;
   /** The uuid of the associated payroll for which the recovery case was created. If the recovery case was created for a contractor payment, this field will be null. */
-  payroll_uuid?: string | null;
+  payroll_uuid?: string | null | undefined;
   /** Status of the recovery case */
-  status?: RecoveryCaseStatus;
+  status?: RecoveryCaseStatus | undefined;
   /** Unique identifier of an recovery case */
   uuid: string;
 }
@@ -7610,21 +7670,21 @@ export interface GetReportRequest {
 export type ReportReportUrlsList = Array<string>;
 export interface Report {
   /** The array of urls to access the report */
-  report_urls?: ReportReportUrlsList;
+  report_urls?: ReportReportUrlsList | undefined;
   /** A unique identifier of the report request */
-  request_uuid?: string;
+  request_uuid?: string | undefined;
   /** Current status of the report, possible values are 'succeeded', 'pending', or 'failed' */
-  status?: string;
+  status?: string | undefined;
 }
 export interface GetReverseWireTransactionsRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** Filter results to reverse wires associated with a specific payroll */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The direction of the payment. Reverse wires are always debits from the company's account. */
 export type ReverseWireTransactionPaymentDirection = "debit";
@@ -7640,7 +7700,7 @@ export interface ReverseWireTransaction {
   /** The amount of money moved by the reverse wire, as a decimal string. Always non-negative. */
   amount: string;
   /** Name of the receiving bank. Null when the bank is not known. */
-  bank_name?: string | null;
+  bank_name?: string | null | undefined;
   /** Unique identifier of the company the reverse wire transaction belongs to */
   company_uuid: string;
   /** The date the reverse wire record was created. */
@@ -7648,11 +7708,11 @@ export interface ReverseWireTransaction {
   /** The direction of the payment. Reverse wires are always debits from the company's account. */
   payment_direction: ReverseWireTransactionPaymentDirection;
   /** The check date of the associated payment event. Null when the wire is not linked to a payment event. */
-  payment_event_check_date?: string | null;
+  payment_event_check_date?: string | null | undefined;
   /** The type of payment event this reverse wire is associated with. Null when the wire is not linked to a payroll or contractor payment. */
-  payment_event_type?: ReverseWireTransactionPaymentEventType | null;
+  payment_event_type?: ReverseWireTransactionPaymentEventType | null | undefined;
   /** Unique identifier of the associated payroll or contractor payment. Null when the wire is not linked to a payment event. */
-  payment_event_uuid?: string | null;
+  payment_event_uuid?: string | null | undefined;
   /** Current status of the reverse wire transaction. - `pending_processing`: The reverse wire has been initiated and is awaiting processing by the banking network. - `processed`: The reverse wire was successfully settled and funds have been received. - `rejected`: The reverse wire was rejected by the receiving bank (e.g. invalid account, insufficient funds). - `failed`: The reverse wire failed during processing due to a system or network error. */
   status: ReverseWireTransactionStatus;
 }
@@ -7667,7 +7727,7 @@ export interface BLSOccupation {
   /** Bureau of Labor Statistics (BLS) occupation code. */
   code: string;
   /** Occupation description. */
-  description?: string;
+  description?: string | undefined;
   /** Occupation title. */
   title: string;
 }
@@ -7705,9 +7765,9 @@ export interface TaxPayment {
   /** The tax jurisdiction this payment is for. A two-letter state code, or US for federal. */
   jurisdiction: string;
   /** The payroll tax liabilities that make up this payment. Empty array when the payment has no associated payroll taxes. Only included in the response of GET /v1/companies/{company_uuid}/tax_payments/{uuid}. It is omitted from the list endpoint response. */
-  line_items?: TaxPaymentLineItemsList;
+  line_items?: TaxPaymentLineItemsList | undefined;
   /** The date Gusto submitted this payment to the tax agency. It is null until submitted, and also if the payment is returned or cancelled after being sent. It is not guaranteed to stay set once populated. */
-  payment_sent_on?: string | null;
+  payment_sent_on?: string | null | undefined;
   /** The end date of the period this payment covers */
   period_end: string;
   /** The start date of the period this payment covers */
@@ -7721,35 +7781,35 @@ export interface GetTaxPaymentsRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** Filter by tax jurisdiction. Accepts one or more two-letter state codes, or `US` for federal, as a comma-separated list (e.g. `IL,CA`). Codes are case-insensitive. */
-  jurisdiction?: GetTaxPaymentsRequestJurisdictionList;
+  jurisdiction?: GetTaxPaymentsRequestJurisdictionList | undefined;
   /** Filter to tax payments associated with one or more payrolls, given as a comma-separated list of payroll UUIDs. */
-  payroll_uuids?: GetTaxPaymentsRequestPayrollUuidsList;
+  payroll_uuids?: GetTaxPaymentsRequestPayrollUuidsList | undefined;
   /** Lower-bound (inclusive) date filter on due_date. */
-  due_date_from?: string;
+  due_date_from?: string | undefined;
   /** Upper-bound (inclusive) date filter on due_date. */
-  due_date_to?: string;
+  due_date_to?: string | undefined;
   /** Lower-bound (inclusive) date filter on payment_sent_on. */
-  payment_sent_on_from?: string;
+  payment_sent_on_from?: string | undefined;
   /** Upper-bound (inclusive) date filter on payment_sent_on. */
-  payment_sent_on_to?: string;
+  payment_sent_on_to?: string | undefined;
   /** Lower-bound (inclusive) date filter on period_start. */
-  period_start_from?: string;
+  period_start_from?: string | undefined;
   /** Upper-bound (inclusive) date filter on period_start. */
-  period_start_to?: string;
+  period_start_to?: string | undefined;
   /** Lower-bound (inclusive) date filter on period_end. */
-  period_end_from?: string;
+  period_end_from?: string | undefined;
   /** Upper-bound (inclusive) date filter on period_end. */
-  period_end_to?: string;
+  period_end_to?: string | undefined;
   /** Lower-bound (inclusive) filter on amount. */
-  amount_min?: number;
+  amount_min?: number | undefined;
   /** Upper-bound (inclusive) filter on amount. */
-  amount_max?: number;
+  amount_max?: number | undefined;
   /** Sort by one or more fields. Options: amount, due_date, payment_sent_on, period_end, period_start. Append `:asc` or `:desc` to specify direction (e.g., `amount:asc`). Defaults to ascending. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 export type TaxPaymentList = Array<TaxPayment>;
 export type GetTaxPaymentsResponse = TaxPaymentList;
@@ -7773,91 +7833,91 @@ export interface GetTokenInfoRequest {}
 /** The resource associated with this access token. Null when the token has no associated resource. */
 export interface TokenInfoResource {
   /** The type of resource associated with the access token, e.g. `Company` for a company-level token or `Oauth::Application` for a system-level token. */
-  type?: string;
+  type?: string | undefined;
   /** The UUID of the associated resource */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** The type of resource owner: - `CompanyAdmin`: A company administrator - `Employee`: An employee - `Contractor`: A contractor */
 export type TokenInfoResourceOwnerType = "CompanyAdmin" | "Employee" | "Contractor";
 /** The resource owner (user) who authorized this access token. Null for system-level tokens or when the owner cannot be determined. */
 export interface TokenInfoResourceOwner {
   /** The type of resource owner: - `CompanyAdmin`: A company administrator - `Employee`: An employee - `Contractor`: A contractor */
-  type?: TokenInfoResourceOwnerType;
+  type?: TokenInfoResourceOwnerType | undefined;
   /** The UUID of the resource owner */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface TokenInfo {
   /** The resource associated with this access token. Null when the token has no associated resource. */
-  resource?: TokenInfoResource | null;
+  resource?: TokenInfoResource | null | undefined;
   /** The resource owner (user) who authorized this access token. Null for system-level tokens or when the owner cannot be determined. */
-  resource_owner?: TokenInfoResourceOwner | null;
+  resource_owner?: TokenInfoResourceOwner | null | undefined;
   /** Space-separated list of OAuth scopes granted to this access token. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface GetV1BenefitsCompanyBenefitIdSummaryRequest {
   /** The UUID of the company benefit */
   company_benefit_id: string;
   /** The start date for which to retrieve company benefit summary */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The end date for which to retrieve company benefit summary. If left empty, defaults to today's date. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Display employee payroll item summary */
-  detailed?: boolean;
+  detailed?: boolean | undefined;
 }
 export interface BenefitSummaryEmployeesItemPayrollBenefitsItemPayPeriod {
   /** The end of the payroll's pay period. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The beginning of the payroll's pay period. */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
 }
 export interface BenefitSummaryEmployeesItemPayrollBenefitsItem {
   /** Check date of this payroll. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The company contribution amount for this employee on the payroll. */
-  company_benefit_contribution?: string;
+  company_benefit_contribution?: string | undefined;
   /** The employee benefit deduction amount for this employee on the payroll. */
-  company_benefit_deduction?: string;
+  company_benefit_deduction?: string | undefined;
   /** Gross pay for this employee on the payroll. */
-  gross_pay?: string;
+  gross_pay?: string | undefined;
   /** Total imputed pay for this employee on the payroll. */
-  imputed_pay?: string;
-  pay_period?: BenefitSummaryEmployeesItemPayrollBenefitsItemPayPeriod;
+  imputed_pay?: string | undefined;
+  pay_period?: BenefitSummaryEmployeesItemPayrollBenefitsItemPayPeriod | undefined;
   /** Whether it is regular or bonus payroll */
-  payroll_type?: string;
-  payroll_uuid?: string;
+  payroll_type?: string | undefined;
+  payroll_uuid?: string | undefined;
 }
 export type BenefitSummaryEmployeesItemPayrollBenefitsList =
   Array<BenefitSummaryEmployeesItemPayrollBenefitsItem>;
 export interface BenefitSummaryEmployeesItem {
   /** The sum of company contribution for this employee given the period of time and the benefit type. */
-  benefit_contribution?: string;
+  benefit_contribution?: string | undefined;
   /** The sum of employee benefit deduction for this employee given the period of time and the benefit type. */
-  benefit_deduction?: string;
+  benefit_deduction?: string | undefined;
   /** The sum of company contribution for this employee given the period of time and the specific company benefit. */
-  company_benefit_contribution?: string;
+  company_benefit_contribution?: string | undefined;
   /** The sum of employee deduction for this employee given the period of time and the specific company benefit. */
-  company_benefit_deduction?: string;
+  company_benefit_deduction?: string | undefined;
   /** Gross pay for this employee given the period of time. */
-  gross_pay?: string;
+  gross_pay?: string | undefined;
   /** Total imputed pay for this employee given the period of time (not scoped to a benefit type). */
-  imputed_pay?: string;
-  payroll_benefits?: BenefitSummaryEmployeesItemPayrollBenefitsList;
+  imputed_pay?: string | undefined;
+  payroll_benefits?: BenefitSummaryEmployeesItemPayrollBenefitsList | undefined;
   /** The UUID of the employee */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type BenefitSummaryEmployeesList = Array<BenefitSummaryEmployeesItem>;
 export interface BenefitSummary {
   /** The aggregate of company contribution for all employees given the period of time and the specific company benefit. */
-  company_benefit_contribution?: string;
+  company_benefit_contribution?: string | undefined;
   /** The aggregate of employee deduction for all employees given the period of time and the specific company benefit. */
-  company_benefit_deduction?: string;
+  company_benefit_deduction?: string | undefined;
   /** Description of the benefit. */
-  description?: string;
-  employees?: BenefitSummaryEmployeesList;
+  description?: string | undefined;
+  employees?: BenefitSummaryEmployeesList | undefined;
   /** The end date of benefit summary. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The start date of benefit summary. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 export interface GetV1CompaniesAttachmentUrlRequest {
   /** The UUID of the company */
@@ -7877,19 +7937,19 @@ export interface GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsRequest 
 /** The representation of an unprocessed termination pay period. */
 export interface UnprocessedTerminationPayPeriod {
   /** The check date of the pay period. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The debit date of the pay period. */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** The full name of the employee. */
-  employee_name?: string;
+  employee_name?: string | undefined;
   /** A unique identifier of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The end date of the pay period. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** A unique identifier of the pay schedule to which the pay period belongs. */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
   /** The start date of the pay period. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 export type GetV1CompaniesCompanyIdUnprocessedTerminationPayPeriodsResponseBodyList =
   Array<UnprocessedTerminationPayPeriod>;
@@ -7950,13 +8010,13 @@ export interface GetV1CompanyIndustryRequest {
 export type IndustrySicCodesList = Array<string>;
 export interface Industry {
   /** Company UUID */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs. */
-  naics_code?: string | null;
+  naics_code?: string | null | undefined;
   /** A list of Standard Industrial Classification (SIC) codes, which are four digit numbers that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with `naics_code`. */
-  sic_codes?: IndustrySicCodesList;
+  sic_codes?: IndustrySicCodesList | undefined;
   /** Industry title */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 export interface GetV1ContractorDocumentRequest {
   /** The UUID of the document */
@@ -7968,9 +8028,9 @@ export interface GetV1ContractorDocumentPdfRequest {
 }
 export interface DocumentPdf {
   /** the URL of the document */
-  document_url?: string;
+  document_url?: string | undefined;
   /** the UUID of the document */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface GetV1ContractorPaymentGroupsContractorPaymentGroupIdRequest {
   /** The UUID of the contractor payment group */
@@ -7992,25 +8052,31 @@ export type GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseTotals =
   CreateCompanyContractorPaymentGroupResponseTotals;
 export interface GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponse {
   /** The check date of the contractor payment group. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
-  creation_token?: string | null;
+  creation_token?: string | null | undefined;
   /** The debit date of the contractor payment group. */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
-  status?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseStatus;
+  status?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseStatus | undefined;
   /** The unique identifier of the contractor payment group. */
-  uuid?: string;
-  contractor_payments?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseContractorPaymentsList;
+  uuid?: string | undefined;
+  contractor_payments?:
+    | GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseContractorPaymentsList
+    | undefined;
   /** List of credit blockers for the contractor payment group. */
-  credit_blockers?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseCreditBlockersList;
+  credit_blockers?:
+    | GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseCreditBlockersList
+    | undefined;
   /** Whether the disbursement is partner owned. */
-  partner_owned_disbursement?: boolean | null;
+  partner_owned_disbursement?: boolean | null | undefined;
   /** List of submission blockers for the contractor payment group. */
-  submission_blockers?: GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseSubmissionBlockersList;
-  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+  submission_blockers?:
+    | GetV1ContractorPaymentGroupsContractorPaymentGroupIdResponseSubmissionBlockersList
+    | undefined;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals | undefined;
 }
 export interface GetV1ContractorPaymentsContractorPaymentUuidFundRequest {
   /** The UUID of the contractor payment */
@@ -8027,15 +8093,15 @@ export interface EmployeeFederalTaxPre2020 {
   /** An additional withholding dollar amount. */
   additional_withholding: string;
   /** The internal ID of the company. */
-  company_id?: number;
+  company_id?: number | undefined;
   /** The internal ID of the employee. */
-  employee_id?: number;
+  employee_id?: number | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** An exemption from paying a certain amount of income tax. May be null when filing_status is "Exempt from withholding". */
-  federal_withholding_allowance?: number | null;
+  federal_withholding_allowance?: number | null | undefined;
   /** It determines which tax return form an individual will use and is an important factor in computing taxable income. One of: - Single - Married - Head of Household - Exempt from withholding - Married, but withhold as Single */
-  filing_status?: string | null;
+  filing_status?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** The version of w4 form. */
@@ -8046,15 +8112,15 @@ export type EmployeeFederalTaxRev2020W4DataType = "rev_2020_w4";
 /** Federal tax information for employees using the revised 2020 W4 form. */
 export interface EmployeeFederalTaxRev2020 {
   /** The internal ID of the company. */
-  company_id?: number;
+  company_id?: number | undefined;
   /** Deductions other than the standard deduction to reduce withholding. */
   deductions: string | null;
   /** A dependent is a person other than the taxpayer or spouse who entitles the taxpayer to claim a dependency exemption. */
   dependents_amount: string | null;
   /** The internal ID of the employee. */
-  employee_id?: number;
+  employee_id?: number | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** An employee can request an additional amount to be withheld from each paycheck. */
   extra_withholding: string | null;
   /** It determines which tax return form an individual will use and is an important factor in computing taxable income. One of: - Single - Married - Head of Household - Exempt from withholding */
@@ -8079,11 +8145,11 @@ export interface GetV1EmployeesEmployeeIdStateTaxesRequest {
 export type EmployeeStateTaxAnswerValue = string | number | boolean;
 export interface EmployeeStateTaxAnswer {
   /** The effective date of the answer - currently always "2010-01-01". */
-  valid_from?: string;
+  valid_from?: string | undefined;
   /** The effective end date of the answer - currently always null. */
-  valid_up_to?: string | null;
+  valid_up_to?: string | null | undefined;
   /** The answer to the corresponding question - this may be a string, number, boolean, or null. */
-  value?: EmployeeStateTaxAnswerValue | null;
+  value?: EmployeeStateTaxAnswerValue | null | undefined;
 }
 export type EmployeeStateTaxQuestionAnswersList = Array<EmployeeStateTaxAnswer>;
 /** An allowed value to answer the question */
@@ -8092,14 +8158,14 @@ export interface EmployeeStateTaxInputQuestionFormatOptionsItem {
   /** A display label that corresponds to the answer value */
   label: string;
   /** An allowed value to answer the question */
-  value?: EmployeeStateTaxInputQuestionFormatOptionsItemValue;
+  value?: EmployeeStateTaxInputQuestionFormatOptionsItemValue | undefined;
 }
 /** For "Select" type questions, the allowed values and display labels. */
 export type EmployeeStateTaxInputQuestionFormatOptionsList =
   Array<EmployeeStateTaxInputQuestionFormatOptionsItem>;
 export interface EmployeeStateTaxInputQuestionFormat {
   /** For "Select" type questions, the allowed values and display labels. */
-  options?: EmployeeStateTaxInputQuestionFormatOptionsList;
+  options?: EmployeeStateTaxInputQuestionFormatOptionsList | undefined;
   /** Describes the type of question - Text, Number, Select, Currency, Date */
   type: string;
 }
@@ -8117,14 +8183,14 @@ export interface EmployeeStateTaxQuestion {
 export type EmployeeStateTaxesListItemQuestionsList = Array<EmployeeStateTaxQuestion>;
 export interface EmployeeStateTaxesListItem {
   /** The employee's uuid */
-  employee_uuid?: string;
-  file_new_hire_report?: boolean | null;
-  is_work_state?: boolean;
-  questions?: EmployeeStateTaxesListItemQuestionsList;
+  employee_uuid?: string | undefined;
+  file_new_hire_report?: boolean | null | undefined;
+  is_work_state?: boolean | undefined;
+  questions?: EmployeeStateTaxesListItemQuestionsList | undefined;
   /** Two letter US state abbreviation */
-  state?: string;
+  state?: string | undefined;
   /** The uuid of the employee state field. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type EmployeeStateTaxesList = Array<EmployeeStateTaxesListItem>;
 export type GetV1EmployeesEmployeeIdStateTaxesResponse = EmployeeStateTaxesList;
@@ -8132,26 +8198,26 @@ export interface GetV1EmployeesEmployeeUuidPayStubsRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The payment method for the pay stub. */
 export type EmployeePayStubsListItemPaymentMethod = "Direct Deposit" | "Check";
 /** The representation of an employee pay stub information. */
 export interface EmployeePayStubsListItem {
   /** The check amount for the pay stub. */
-  check_amount?: string;
+  check_amount?: string | undefined;
   /** The check date of the pay stub. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The gross pay amount for the pay stub. */
-  gross_pay?: string;
+  gross_pay?: string | undefined;
   /** The net pay amount for the pay stub. */
-  net_pay?: string;
+  net_pay?: string | undefined;
   /** The payment method for the pay stub. */
-  payment_method?: EmployeePayStubsListItemPaymentMethod;
+  payment_method?: EmployeePayStubsListItemPaymentMethod | undefined;
   /** A unique identifier of the payroll to which the pay stub belongs. */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** The UUID of the employee pay stub. */
   uuid: string;
 }
@@ -8164,57 +8230,57 @@ export interface GetV1ExternalPayrollRequest {
   external_payroll_id: string;
 }
 export interface ExternalPayrollApplicableBenefitsItem {
-  active?: boolean;
-  description?: string;
-  id?: number;
+  active?: boolean | undefined;
+  description?: string | undefined;
+  id?: number | undefined;
 }
 /** Applicable benefits based on company provisioning. */
 export type ExternalPayrollApplicableBenefitsList = Array<ExternalPayrollApplicableBenefitsItem>;
 export interface ExternalPayrollApplicableEarningsItem {
-  category?: string;
-  earning_id?: number;
-  earning_type?: string;
-  input_type?: string;
-  name?: string;
+  category?: string | undefined;
+  earning_id?: number | undefined;
+  earning_type?: string | undefined;
+  input_type?: string | undefined;
+  name?: string | undefined;
 }
 /** Applicable earnings based on company provisioning. */
 export type ExternalPayrollApplicableEarningsList = Array<ExternalPayrollApplicableEarningsItem>;
 export interface ExternalPayrollApplicableTaxesItem {
   /** Some taxes may have an amount withheld from the employee and an amount withheld from the employer, e.g. Social Security. A `true` value indicates this is the employer's amount. */
-  employer_tax?: boolean;
-  id?: number;
-  name?: string;
+  employer_tax?: boolean | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
   /** Some taxes may have different rates or reporting requirements depending on if the employee is a resident or non-resident of the tax jurisdiction. */
-  resident_tax?: boolean;
+  resident_tax?: boolean | undefined;
 }
 /** Applicable taxes based on company provisioning. */
 export type ExternalPayrollApplicableTaxesList = Array<ExternalPayrollApplicableTaxesItem>;
 export interface ExternalPayrollExternalPayrollItemsItemBenefitsItem {
-  benefit_id?: number;
-  company_contribution_amount?: string;
-  employee_deduction_amount?: string;
+  benefit_id?: number | undefined;
+  company_contribution_amount?: string | undefined;
+  employee_deduction_amount?: string | undefined;
 }
 export type ExternalPayrollExternalPayrollItemsItemBenefitsList =
   Array<ExternalPayrollExternalPayrollItemsItemBenefitsItem>;
 export interface ExternalPayrollExternalPayrollItemsItemEarningsItem {
-  amount?: string;
-  earning_id?: number;
-  earning_type?: string;
-  hours?: string;
+  amount?: string | undefined;
+  earning_id?: number | undefined;
+  earning_type?: string | undefined;
+  hours?: string | undefined;
 }
 export type ExternalPayrollExternalPayrollItemsItemEarningsList =
   Array<ExternalPayrollExternalPayrollItemsItemEarningsItem>;
 export interface ExternalPayrollExternalPayrollItemsItemTaxesItem {
-  amount?: string;
-  tax_id?: number;
+  amount?: string | undefined;
+  tax_id?: number | undefined;
 }
 export type ExternalPayrollExternalPayrollItemsItemTaxesList =
   Array<ExternalPayrollExternalPayrollItemsItemTaxesItem>;
 export interface ExternalPayrollExternalPayrollItemsItem {
-  benefits?: ExternalPayrollExternalPayrollItemsItemBenefitsList;
-  earnings?: ExternalPayrollExternalPayrollItemsItemEarningsList;
-  employee_uuid?: string;
-  taxes?: ExternalPayrollExternalPayrollItemsItemTaxesList;
+  benefits?: ExternalPayrollExternalPayrollItemsItemBenefitsList | undefined;
+  earnings?: ExternalPayrollExternalPayrollItemsItemEarningsList | undefined;
+  employee_uuid?: string | undefined;
+  taxes?: ExternalPayrollExternalPayrollItemsItemTaxesList | undefined;
 }
 /** External payroll items for employees */
 export type ExternalPayrollExternalPayrollItemsList =
@@ -8222,32 +8288,32 @@ export type ExternalPayrollExternalPayrollItemsList =
 /** Stores metadata of the external payroll. */
 export interface ExternalPayrollMetadata {
   /** Determines if the external payroll can be deleted. */
-  deletable?: boolean;
+  deletable?: boolean | undefined;
 }
 /** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
 export type ExternalPayrollStatus = "unprocessed" | "processed";
 /** The representation of an external payroll. */
 export interface ExternalPayroll {
   /** Applicable benefits based on company provisioning. */
-  applicable_benefits?: ExternalPayrollApplicableBenefitsList | null;
+  applicable_benefits?: ExternalPayrollApplicableBenefitsList | null | undefined;
   /** Applicable earnings based on company provisioning. */
-  applicable_earnings?: ExternalPayrollApplicableEarningsList;
+  applicable_earnings?: ExternalPayrollApplicableEarningsList | undefined;
   /** Applicable taxes based on company provisioning. */
-  applicable_taxes?: ExternalPayrollApplicableTaxesList;
+  applicable_taxes?: ExternalPayrollApplicableTaxesList | undefined;
   /** External payroll's check date. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** External payroll items for employees */
-  external_payroll_items?: ExternalPayrollExternalPayrollItemsList;
+  external_payroll_items?: ExternalPayrollExternalPayrollItemsList | undefined;
   /** Stores metadata of the external payroll. */
-  metadata?: ExternalPayrollMetadata;
+  metadata?: ExternalPayrollMetadata | undefined;
   /** External payroll's pay period end date. */
-  payment_period_end_date?: string;
+  payment_period_end_date?: string | undefined;
   /** External payroll's pay period start date. */
-  payment_period_start_date?: string;
+  payment_period_start_date?: string | undefined;
   /** The status of the external payroll. The status will be `unprocessed` when the external payroll is created and transition to `processed` once tax liabilities are entered and finalized. Once in the `processed` status all actions that can edit an external payroll will be disabled. */
-  status?: ExternalPayrollStatus;
+  status?: ExternalPayrollStatus | undefined;
   /** The UUID of the external payroll. */
   uuid: string;
 }
@@ -8259,9 +8325,9 @@ export interface GetV1ExternalPayrollCalculateTaxesRequest {
 }
 export interface ExternalPayrollTaxSuggestionsTaxSuggestionsItem {
   /** Calculated tax amount. */
-  amount?: string;
+  amount?: string | undefined;
   /** The ID of the tax. */
-  tax_id?: number;
+  tax_id?: number | undefined;
 }
 /** Possible tax liabilities selections. */
 export type ExternalPayrollTaxSuggestionsTaxSuggestionsList =
@@ -8269,9 +8335,9 @@ export type ExternalPayrollTaxSuggestionsTaxSuggestionsList =
 /** The representation of an external payroll with minimal information. */
 export interface ExternalPayrollTaxSuggestions {
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** Possible tax liabilities selections. */
-  tax_suggestions?: ExternalPayrollTaxSuggestionsTaxSuggestionsList;
+  tax_suggestions?: ExternalPayrollTaxSuggestionsTaxSuggestionsList | undefined;
 }
 export type GetV1ExternalPayrollCalculateTaxesResponseBodyList =
   Array<ExternalPayrollTaxSuggestions>;
@@ -8283,37 +8349,37 @@ export interface GetV1PartnerManagedCompaniesCompanyUuidTermsOfServiceRequest {
 }
 export interface PartnerManagedCompanyTermsOfServiceResponse {
   /** Whether the latest terms have been accepted by the user. */
-  latest_terms_accepted?: boolean;
+  latest_terms_accepted?: boolean | undefined;
 }
 export interface GetV1PaymentReceiptsPayrollsPayrollUuidRequest {
   /** The UUID of the payroll */
   payroll_uuid: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
 }
 /** The employee's compensation payment method. */
 export type PayrollReceiptEmployeeCompensationsItemPaymentMethod = "Direct Deposit" | "Check";
 export interface PayrollReceiptEmployeeCompensationsItem {
   /** The total child support garnishment for the pay period. */
-  child_support_garnishment?: string;
+  child_support_garnishment?: string | undefined;
   /** The first name of the employee. */
-  employee_first_name?: string;
+  employee_first_name?: string | undefined;
   /** The last name of the employee. */
-  employee_last_name?: string;
+  employee_last_name?: string | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The employee's net pay. Net pay paid by check is available for reference but is not included in the `["totals"]["net_pay_debit"]` amount. */
-  net_pay?: string;
+  net_pay?: string | undefined;
   /** The employee's compensation payment method. */
-  payment_method?: PayrollReceiptEmployeeCompensationsItemPaymentMethod;
+  payment_method?: PayrollReceiptEmployeeCompensationsItemPaymentMethod | undefined;
   /** The total garnishments for the pay period. */
-  total_garnishments?: string;
+  total_garnishments?: string | undefined;
   /** The total reimbursement for the pay period. */
-  total_reimbursement?: string;
+  total_reimbursement?: string | undefined;
   /** The total of employer and employee taxes for the pay period. */
-  total_tax?: string;
+  total_tax?: string | undefined;
 }
 /** An array of employee compensations and withholdings for this payroll */
 export type PayrollReceiptEmployeeCompensationsList =
@@ -8322,52 +8388,52 @@ export type PayrollReceiptEmployeeCompensationsList =
 export type PayrollReceiptLicensee = ContractorPaymentReceiptLicensee;
 export interface PayrollReceiptTaxesItem {
   /** The total amount paid by both employer and employee for this tax. */
-  amount?: string;
+  amount?: string | undefined;
   /** The amount paid for this tax. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An array of totaled employer and employee taxes for the pay period. */
 export type PayrollReceiptTaxesList = Array<PayrollReceiptTaxesItem>;
 /** The subtotals for the payroll. */
 export interface PayrollReceiptTotals {
   /** The total child support debit for the payroll. */
-  child_support_debit?: string;
+  child_support_debit?: string | undefined;
   /** The total company debit for the payroll. */
-  company_debit?: string;
+  company_debit?: string | undefined;
   /** The total company net pay for the payroll. */
-  net_pay_debit?: string;
+  net_pay_debit?: string | undefined;
   /** The total reimbursements for the payroll. */
-  reimbursement_debit?: string;
+  reimbursement_debit?: string | undefined;
   /** The total tax debit for the payroll. */
-  tax_debit?: string;
+  tax_debit?: string | undefined;
 }
 export interface PayrollReceipt {
   /** A unique identifier of the company for the payroll. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** The debit or funding date for the payroll */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** An array of employee compensations and withholdings for this payroll */
-  employee_compensations?: PayrollReceiptEmployeeCompensationsList;
-  liability_of_licensee?: string;
+  employee_compensations?: PayrollReceiptEmployeeCompensationsList | undefined;
+  liability_of_licensee?: string | undefined;
   /** Always the fixed string "ZenPayroll, Inc., dba Gusto is a licensed money transmitter. For more about Gusto's licenses and your state-specific rights to request information, submit complaints, dispute errors, or cancel transactions, visit our license page." */
-  license?: string;
+  license?: string | undefined;
   /** URL for the license information for the licensed payroll processor. Always the fixed string "https://gusto.com/about/licenses" */
-  license_uri?: string;
+  license_uri?: string | undefined;
   /** The licensed payroll processor */
-  licensee?: ContractorPaymentReceiptLicensee;
+  licensee?: ContractorPaymentReceiptLicensee | undefined;
   /** Always the fixed string "Payroll Recipients" */
-  name_of_recipient?: string;
+  name_of_recipient?: string | undefined;
   /** The name of the company by whom the payroll was paid */
-  name_of_sender?: string;
+  name_of_sender?: string | undefined;
   /** A unique identifier of the payroll receipt. */
-  payroll_uuid?: string;
+  payroll_uuid?: string | undefined;
   /** Always the fixed string "Payroll recipients include the employees listed below plus the tax agencies for the taxes listed below." */
-  recipient_notice?: string;
-  right_to_refund?: string;
+  recipient_notice?: string | undefined;
+  right_to_refund?: string | undefined;
   /** An array of totaled employer and employee taxes for the pay period. */
-  taxes?: PayrollReceiptTaxesList;
+  taxes?: PayrollReceiptTaxesList | undefined;
   /** The subtotals for the payroll. */
-  totals?: PayrollReceiptTotals;
+  totals?: PayrollReceiptTotals | undefined;
 }
 export interface GetV1PayrollsPayrollUuidEmployeesEmployeeUuidPayStubRequest {
   /** The UUID of the payroll */
@@ -8386,11 +8452,11 @@ export interface GetV1TaxLiabilitiesRequest {
 }
 export interface TaxLiabilitiesSelectionsPossibleLiabilitiesItem {
   /** The UUID of the external payroll. */
-  external_payroll_uuid?: string | null;
+  external_payroll_uuid?: string | null | undefined;
   /** Liability amount. */
-  liability_amount?: string;
+  liability_amount?: string | undefined;
   /** The external payroll check date. */
-  payroll_check_date?: string | null;
+  payroll_check_date?: string | null | undefined;
 }
 /** Possible tax liabilities selections. */
 export type TaxLiabilitiesSelectionsPossibleLiabilitiesList =
@@ -8398,15 +8464,15 @@ export type TaxLiabilitiesSelectionsPossibleLiabilitiesList =
 /** The representation of tax liabilities selections. */
 export interface TaxLiabilitiesSelections {
   /** A description of the tax, providing additional detail about the tax type. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The UUID of last unpaid external payroll. */
-  last_unpaid_external_payroll_uuid?: string | null;
+  last_unpaid_external_payroll_uuid?: string | null | undefined;
   /** Possible tax liabilities selections. */
-  possible_liabilities?: TaxLiabilitiesSelectionsPossibleLiabilitiesList;
+  possible_liabilities?: TaxLiabilitiesSelectionsPossibleLiabilitiesList | undefined;
   /** The ID of the tax. */
-  tax_id?: number;
+  tax_id?: number | undefined;
   /** The name of the tax. */
-  tax_name?: string;
+  tax_name?: string | undefined;
 }
 export type GetV1TaxLiabilitiesResponseBodyList = Array<TaxLiabilitiesSelections>;
 export type GetV1TaxLiabilitiesResponse = GetV1TaxLiabilitiesResponseBodyList;
@@ -8417,7 +8483,7 @@ export interface GetV1WebhookSubscriptionVerificationTokenUuidRequest {
 /** The response from requesting a webhook subscription verification token. */
 export interface WebhookVerificationTokenResponse {
   /** A message indicating the verification token has been sent. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetVersionEmployeesTimeOffActivitiesRequest {
   /** The UUID of the employee */
@@ -8430,21 +8496,21 @@ export type TimeOffActivityTimeOffType = "vacation" | "sick";
 /** Representation of a Time Off Activity */
 export interface TimeOffActivity {
   /** The time off balance at the time of the activity */
-  balance?: string | null;
+  balance?: string | null | undefined;
   /** The amount the time off balance changed as a result of the activity */
-  balance_change?: string | null;
+  balance_change?: string | null | undefined;
   /** The datetime of the time off activity */
-  effective_time?: string | null;
+  effective_time?: string | null | undefined;
   /** A description for the time off event/activity */
-  event_description?: string | null;
+  event_description?: string | null | undefined;
   /** The type of the time off event/activity */
-  event_type?: string;
+  event_type?: string | undefined;
   /** The name of the time off policy for this activity */
-  policy_name?: string | null;
+  policy_name?: string | null | undefined;
   /** unique identifier of a time off policy */
-  policy_uuid?: string | null;
+  policy_uuid?: string | null | undefined;
   /** Type of the time off activity */
-  time_off_type?: TimeOffActivityTimeOffType;
+  time_off_type?: TimeOffActivityTimeOffType | undefined;
 }
 /** A list of time off activities for an employee */
 export type TimeOffActivityList = Array<TimeOffActivity>;
@@ -8455,9 +8521,9 @@ export type WebhooksHealthCheckStatusStatus = "healthy" | "unhealthy" | "unknown
 /** The representation of a webhooks health check response */
 export interface WebhooksHealthCheckStatus {
   /** ISO8601 timestamp of the last successful health check with millisecond precision */
-  last_checked_at?: string;
+  last_checked_at?: string | undefined;
   /** Latest health status of the webhooks system */
-  status?: WebhooksHealthCheckStatusStatus;
+  status?: WebhooksHealthCheckStatusStatus | undefined;
 }
 export interface GetWebhookSubscriptionsRequest {}
 export type GetWebhookSubscriptionsResponseBodyList = Array<WebhookSubscription>;
@@ -8484,7 +8550,7 @@ export interface OauthAccessTokenRequestBodyCase0 {
   /** Set system_access to create a system access token, refresh_token to refresh an existing token */
   grant_type: OauthAccessTokenRequestBodyCase0GrantType;
   /** The redirect URI you set up via the Developer Portal */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   refresh_token: string | Redacted.Redacted<string>;
 }
 /** Set system_access to create a system access token, refresh_token to refresh an existing token */
@@ -8511,7 +8577,7 @@ export interface CreateTokenAuthentication {
   /** The TTL of this token. After this amount of time, you must hit the refresh token endpoint to continue making authenticated requests. */
   expires_in: number;
   /** A token that must be passed to the refresh token endpoint to get a new authenticated token. Only present when refresh token is provided. */
-  refresh_token?: string | Redacted.Redacted<string> | null;
+  refresh_token?: string | Redacted.Redacted<string> | null | undefined;
   /** The literal string 'Bearer' */
   token_type: string;
 }
@@ -8523,11 +8589,11 @@ export interface RefreshTokenAuthentication {
   /** The TTL of this token. After this amount of time, you must hit the refresh token endpoint to continue making authenticated requests. */
   expires_in: number;
   /** A token that must be passed to the refresh token endpoint to get a new authenticated token. Only present when refresh token is provided. */
-  refresh_token?: string | Redacted.Redacted<string> | null;
+  refresh_token?: string | Redacted.Redacted<string> | null | undefined;
   /** The literal string 'Bearer' */
   token_type: string;
   /** All of the scopes for which the access token provides access. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export type Authentication = CreateTokenAuthentication | RefreshTokenAuthentication;
 export type OauthAccessTokenResponse = Authentication;
@@ -8543,15 +8609,15 @@ export interface PostCompaniesPayrollSkipCompanyUuidRequest {
   /** The UUID of the company */
   company_uuid: string;
   /** An array of employees. This field is only applicable to new hire payroll and termination payroll */
-  employee_uuids?: PostCompaniesPayrollSkipCompanyUuidRequestEmployeeUuidsList | null;
+  employee_uuids?: PostCompaniesPayrollSkipCompanyUuidRequestEmployeeUuidsList | null | undefined;
   /** Pay period end date. If left empty, defaults to today's date. Required when skipping a termination payroll (`payroll_type` = `Dismissed employee`). */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The UUID of the pay schedule. Required when skipping a termination payroll (`payroll_type` = `Dismissed employee`). */
-  pay_schedule_uuid?: string;
+  pay_schedule_uuid?: string | undefined;
   /** Payroll type */
   payroll_type: PostCompaniesPayrollSkipCompanyUuidRequestPayrollType | (string & {});
   /** Pay period start date */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 export interface PostCompaniesPayrollSkipCompanyUuidResponse {}
 export interface PostDepartmentsRequest {
@@ -8568,17 +8634,17 @@ export type PostDepartmentsResponseEmployeesItem = HolidayPayPolicyEmployeesItem
 export type PostDepartmentsResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export interface PostDepartmentsResponse {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Array of contractors assigned to the department. */
-  contractors?: PostDepartmentsResponseContractorsList;
+  contractors?: PostDepartmentsResponseContractorsList | undefined;
   /** Array of employees assigned to the department. */
-  employees?: PostDepartmentsResponseEmployeesList;
+  employees?: PostDepartmentsResponseEmployeesList | undefined;
   /** Name of the department */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the department */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface PostPayrollsGrossUpPayrollUuidRequest {
   /** The UUID of the payroll */
@@ -8591,11 +8657,11 @@ export interface PostPayrollsGrossUpPayrollUuidRequest {
 /** Response containing the calculated gross up amount */
 export interface PayrollGrossUpResponse {
   /** Gross up earnings. */
-  gross_up?: string;
+  gross_up?: string | undefined;
 }
 export interface PostV1CompensationsCompensationIdRequestMinimumWagesItem {
   /** The UUID of the minimum wage. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type PostV1CompensationsCompensationIdRequestMinimumWagesList =
   Array<PostV1CompensationsCompensationIdRequestMinimumWagesItem>;
@@ -8610,17 +8676,17 @@ export interface PostV1CompensationsCompensationIdRequest {
   /** The UUID of the job */
   job_id: string;
   /** Whether the compensation should be adjusted to minimum wage during payroll calculation. */
-  adjust_for_minimum_wage?: boolean;
+  adjust_for_minimum_wage?: boolean | undefined;
   /** The effective date for this compensation. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   flsa_status: FlsaStatusType | (string & {});
-  minimum_wages?: PostV1CompensationsCompensationIdRequestMinimumWagesList;
+  minimum_wages?: PostV1CompensationsCompensationIdRequestMinimumWagesList | undefined;
   /** The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'. */
   payment_unit: PostV1CompensationsCompensationIdRequestPaymentUnit | (string & {});
   /** The dollar amount paid per payment unit. */
   rate: string;
   /** The job title for this compensation. */
-  title?: string;
+  title?: string | undefined;
 }
 export interface PostV1DisconnectAppIntegrationRequest {
   /** The UUID of the company */
@@ -8630,18 +8696,18 @@ export interface PostV1DisconnectAppIntegrationResponse {}
 export interface PostV1EmployeesRequest {
   /** Company ID */
   company_id: string;
-  date_of_birth?: string;
+  date_of_birth?: string | undefined;
   /** The employee's personal email address. Required if self_onboarding is true. */
-  email?: string | null;
+  email?: string | null | undefined;
   first_name: string;
   last_name: string;
-  middle_initial?: string;
-  preferred_first_name?: string;
+  middle_initial?: string | undefined;
+  preferred_first_name?: string | undefined;
   /** If true, employee is expected to self-onboard. If false, payroll admin is expected to enter in the employee's onboarding information */
-  self_onboarding?: boolean;
-  ssn?: string;
+  self_onboarding?: boolean | undefined;
+  ssn?: string | undefined;
   /** The employee's work email address. */
-  work_email?: string;
+  work_email?: string | undefined;
 }
 export interface PostV1ExternalPayrollRequest {
   /** The UUID of the company */
@@ -8656,9 +8722,9 @@ export interface PostV1ExternalPayrollRequest {
 /** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
 export interface PostV1HistoricalEmployeesRequestEmployeeStateTaxes {
   /** The risk class code for workers' compensation in Washington or Wyoming state. For Washington, visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. For Wyoming you can search for the code online using [WY Workforce Services website](https://dws.wyo.gov/dws-division/workers-compensation/) or call the agency at (307) 235-3217. */
-  wc_class_code?: string;
+  wc_class_code?: string | undefined;
   /** Whether this job is eligible for workers' compensation coverage in the states of Washington (WA) or Wyoming (WY). */
-  wc_covered?: boolean;
+  wc_covered?: boolean | undefined;
 }
 /** Residential address on file for tax withholding and compliance mail. */
 export interface PostV1HistoricalEmployeesRequestHomeAddress {
@@ -8669,7 +8735,7 @@ export interface PostV1HistoricalEmployeesRequestHomeAddress {
   /** Street address line 1. */
   street_1: string;
   /** Apartment, suite, unit, or building (optional). */
-  street_2?: string | null;
+  street_2?: string | null | undefined;
   /** ZIP or ZIP+4. */
   zip: string;
 }
@@ -8694,9 +8760,9 @@ export interface PostV1HistoricalEmployeesRequest {
   /** Date of birth (YYYY-MM-DD). */
   date_of_birth: string;
   /** Optional. When provided, stored on the employee record for notifications and profile. */
-  email?: string;
+  email?: string | undefined;
   /** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
-  employee_state_taxes?: PostV1HistoricalEmployeesRequestEmployeeStateTaxes;
+  employee_state_taxes?: PostV1HistoricalEmployeesRequestEmployeeStateTaxes | undefined;
   /** Legal first name as it appears on government-issued identification. */
   first_name: string;
   /** Residential address on file for tax withholding and compliance mail. */
@@ -8706,9 +8772,9 @@ export interface PostV1HistoricalEmployeesRequest {
   /** Legal last name as it appears on government-issued identification. */
   last_name: string;
   /** Single middle initial, if any. */
-  middle_initial?: string;
+  middle_initial?: string | undefined;
   /** Preferred given name for display; omit when the same as legal first name. */
-  preferred_first_name?: string;
+  preferred_first_name?: string | undefined;
   /** Nine-digit U.S. Social Security number **without** dashes or spaces. Must pass Gusto/SSA validation in production; use a valid test SSN in sandbox environments. */
   ssn: string;
   /** End of the historical employment period. */
@@ -8732,21 +8798,21 @@ export interface PostV1PayrollsPayrollIdCalculateAccruingTimeOffHoursRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** Double overtime hours worked in this pay period */
-  double_overtime_hours_worked?: string | null;
+  double_overtime_hours_worked?: string | null | undefined;
   /** Overtime hours worked in this pay period */
-  overtime_hours_worked?: string | null;
+  overtime_hours_worked?: string | null | undefined;
   /** Paid time off hours used in this pay period */
-  pto_hours_used?: string | null;
+  pto_hours_used?: string | null | undefined;
   /** Regular hours worked in this pay period */
-  regular_hours_worked?: string | null;
+  regular_hours_worked?: string | null | undefined;
   /** Sick hours used in this pay period */
-  sick_hours_used?: string | null;
+  sick_hours_used?: string | null | undefined;
 }
 export interface PayrollCalculateAccruingTimeOffHoursResponseHoursEarnedItem {
   /** Hours accrued during this pay period. */
-  hours?: string;
+  hours?: string | undefined;
   /** The UUID of the time off policy */
-  time_off_policy_uuid?: string;
+  time_off_policy_uuid?: string | undefined;
 }
 /** Accruing time off hours earned for each time off policy */
 export type PayrollCalculateAccruingTimeOffHoursResponseHoursEarnedList =
@@ -8768,9 +8834,9 @@ export interface PutAddPeopleToDepartmentRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** Array of contractors to add or remove from the department */
-  contractors?: PutAddPeopleToDepartmentRequestContractorsList;
+  contractors?: PutAddPeopleToDepartmentRequestContractorsList | undefined;
   /** Array of employees to add or remove from the department */
-  employees?: PutAddPeopleToDepartmentRequestEmployeesList;
+  employees?: PutAddPeopleToDepartmentRequestEmployeesList | undefined;
 }
 export type PutAddPeopleToDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
 /** Array of contractors assigned to the department. */
@@ -8780,17 +8846,17 @@ export type PutAddPeopleToDepartmentResponseEmployeesItem = HolidayPayPolicyEmpl
 export type PutAddPeopleToDepartmentResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export interface PutAddPeopleToDepartmentResponse {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Array of contractors assigned to the department. */
-  contractors?: PutAddPeopleToDepartmentResponseContractorsList;
+  contractors?: PutAddPeopleToDepartmentResponseContractorsList | undefined;
   /** Array of employees assigned to the department. */
-  employees?: PutAddPeopleToDepartmentResponseEmployeesList;
+  employees?: PutAddPeopleToDepartmentResponseEmployeesList | undefined;
   /** Name of the department */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the department */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest {
   /** The UUID of the company */
@@ -8800,21 +8866,21 @@ export interface PutApiV1CompaniesCompanyIdPayrollsPayrollIdCancelRequest {
 }
 /** A payroll that has been transitioned back to unprocessed state after cancellation. */
 export interface UnprocessedPayroll {
-  auto_payroll?: boolean;
-  calculated_at?: string | null;
-  check_date?: string;
-  company_uuid?: string;
-  created_at?: string;
-  external?: boolean;
-  off_cycle?: boolean;
-  off_cycle_reason?: OffCycleReasonType | null;
-  partner_owned_disbursement?: boolean | null;
-  pay_period?: PayrollPayPeriodType;
-  payroll_deadline?: string;
-  payroll_uuid?: string;
-  processed?: boolean;
-  processed_date?: string | null;
-  uuid?: string;
+  auto_payroll?: boolean | undefined;
+  calculated_at?: string | null | undefined;
+  check_date?: string | undefined;
+  company_uuid?: string | undefined;
+  created_at?: string | undefined;
+  external?: boolean | undefined;
+  off_cycle?: boolean | undefined;
+  off_cycle_reason?: OffCycleReasonType | null | undefined;
+  partner_owned_disbursement?: boolean | null | undefined;
+  pay_period?: PayrollPayPeriodType | undefined;
+  payroll_deadline?: string | undefined;
+  payroll_uuid?: string | undefined;
+  processed?: boolean | undefined;
+  processed_date?: string | null | undefined;
+  uuid?: string | undefined;
 }
 export interface PutCompaniesRequest {
   /** The UUID of the company */
@@ -8837,15 +8903,15 @@ export interface PutCompanyBenefitRequest {
   /** The UUID of the company benefit */
   company_benefit_id: string;
   /** Whether this benefit is active for employee participation. Company benefits may only be deactivated if no employees are actively participating. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The type of catch-up contribution for this benefit, as required by Section 603 of the SECURE 2.0 Act. Only applicable to pre-tax 401(k) and 403(b) benefits. */
-  catch_up_type?: PutCompanyBenefitRequestCatchUpType | (string & {}) | null;
+  catch_up_type?: PutCompanyBenefitRequestCatchUpType | (string & {}) | null | undefined;
   /** The description of the company benefit.For example, a company may offer multiple benefits with an ID of 1 (for Medical Insurance). The description would show something more specific like "Kaiser Permanente" or "Blue Cross/ Blue Shield". */
-  description?: string;
+  description?: string | undefined;
   /** Whether the employer is subject to file W-2 forms for an employee on leave. Only applicable to short-term and long-term disability benefits (different from voluntary disability). */
-  responsible_for_employee_w2?: boolean;
+  responsible_for_employee_w2?: boolean | undefined;
   /** Whether the employer is subject to pay employer taxes when an employee is on leave. Only applicable to short-term and long-term disability benefits (different from voluntary disability). */
-  responsible_for_employer_taxes?: boolean;
+  responsible_for_employer_taxes?: boolean | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
   version: string;
 }
@@ -8867,7 +8933,7 @@ export type EmployeeBenefitForCompanyBenefitInputContributionValueCase1TiersItem
 export type EmployeeBenefitForCompanyBenefitInputContributionValueCase1TiersList =
   Array<CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersItem>;
 export interface EmployeeBenefitForCompanyBenefitInputContributionValueCase1 {
-  tiers?: EmployeeBenefitForCompanyBenefitInputContributionValueCase1TiersList;
+  tiers?: EmployeeBenefitForCompanyBenefitInputContributionValueCase1TiersList | undefined;
 }
 /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
 export type EmployeeBenefitForCompanyBenefitInputContributionValue =
@@ -8876,9 +8942,9 @@ export type EmployeeBenefitForCompanyBenefitInputContributionValue =
 /** An object representing the type and value of the company contribution. */
 export interface EmployeeBenefitForCompanyBenefitInputContribution {
   /** The company contribution scheme. "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. "tiered": The company contribution varies according to the size of the employee deduction. */
-  type?: string;
+  type?: string | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: EmployeeBenefitForCompanyBenefitInputContributionValue;
+  value?: EmployeeBenefitForCompanyBenefitInputContributionValue | undefined;
 }
 export type EmployeeBenefitForCompanyBenefitInputDeductionReducesTaxableIncome =
   | "unset"
@@ -8889,50 +8955,51 @@ export type EmployeeBenefitForCompanyBenefitInputAction = "create" | "update";
 /** The representation of an employee benefit for a company benefit. */
 export interface EmployeeBenefitForCompanyBenefitInput {
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: boolean | null;
+  catch_up?: boolean | null | undefined;
   /** The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types. */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: string | null;
+  company_contribution_annual_maximum?: string | null | undefined;
   /** Whether the company_contribution value should be treated as a percentage to be added to each payroll. This field will not appear for tiered contribution types. */
-  contribute_as_percentage?: boolean;
+  contribute_as_percentage?: boolean | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: EmployeeBenefitForCompanyBenefitInputContribution;
+  contribution?: EmployeeBenefitForCompanyBenefitInputContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: string | null;
+  coverage_amount?: string | null | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: string | null;
+  coverage_salary_multiplier?: string | null | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored. */
   deduction_reduces_taxable_income?:
     | EmployeeBenefitForCompanyBenefitInputDeductionReducesTaxableIncome
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** The date the employee benefit will start. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Whether the company contribution is elective (aka matching). For "tiered" contribution types, this is always true. */
-  elective?: boolean;
+  elective?: boolean | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The maximum employee deduction amount per year. A null value signifies no limit. */
-  employee_deduction_annual_maximum?: string | null;
+  employee_deduction_annual_maximum?: string | null | undefined;
   /** The date the employee benefit will expire. A null value indicates the benefit will not expire. */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Some benefits require additional information to determine their limit. `Family` and `Individual` are applicable to HSA benefit. `Joint Filing or Single` and `Married and Filing Separately` are applicable to Dependent Care FSA benefit. */
-  limit_option?: string | null;
+  limit_option?: string | null | undefined;
   /** Identifier for a 401(k) loan assigned by the 401(k) provider */
-  retirement_loan_identifier?: string | null;
+  retirement_loan_identifier?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The action to perform on the employee benefit. Required for creating/updating an effective dated employee benefit. */
-  action?: EmployeeBenefitForCompanyBenefitInputAction | (string & {});
+  action?: EmployeeBenefitForCompanyBenefitInputAction | (string & {}) | undefined;
   /** The UUID of the employee to which the benefit belongs. */
   employee_uuid: string;
   /** The UUID of the employee benefit. Required for updating an effective dated employee benefit. */
-  uuid?: string;
+  uuid?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of employee benefits to create or update */
@@ -8953,7 +9020,7 @@ export interface PutCompanyEarningTypeRequest {
   /** The UUID of the earning type */
   earning_type_uuid: string;
   /** The name of the custom earning type. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
 export type PutCompanyFederalTaxDetailsRequestFilingForm = "941" | "944";
@@ -8975,15 +9042,15 @@ export interface PutCompanyFederalTaxDetailsRequest {
   /** The UUID of the company */
   company_id: string;
   /** The company's Employer Identification Number (EIN). Must be 9 digits. Dashes are optional (e.g., '12-3456789' or '123456789'). */
-  ein?: string;
+  ein?: string | undefined;
   /** The form used by the company for federal tax filing. One of: - 941 (Quarterly federal tax return form) - 944 (Annual federal tax return form) */
-  filing_form?: PutCompanyFederalTaxDetailsRequestFilingForm | (string & {});
+  filing_form?: PutCompanyFederalTaxDetailsRequestFilingForm | (string & {}) | undefined;
   /** The legal name of the company */
-  legal_name?: string;
+  legal_name?: string | undefined;
   /** What type of tax entity the company is. One of: - C-Corporation - S-Corporation - Sole proprietor - LLC - LLP - Limited partnership - Co-ownership - Association - Trusteeship - General partnership - Joint venture - Non-Profit */
-  tax_payer_type?: PutCompanyFederalTaxDetailsRequestTaxPayerType | (string & {});
+  tax_payer_type?: PutCompanyFederalTaxDetailsRequestTaxPayerType | (string & {}) | undefined;
   /** Whether the company is taxed as an S-Corporation */
-  taxable_as_scorp?: boolean;
+  taxable_as_scorp?: boolean | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
 }
@@ -9018,7 +9085,7 @@ export interface PutCompanyHolidayPayPolicyRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** An object containing federal holiday objects, each containing a boolean selected property. */
-  federal_holidays?: CreateCompanyHolidayPayPolicyRequestFederalHolidays;
+  federal_holidays?: CreateCompanyHolidayPayPolicyRequestFederalHolidays | undefined;
 }
 export type PutCompanyHolidayPayPolicyAddRequestEmployeesItem = HolidayPayPolicyEmployeesItem;
 /** An array of employee objects, each containing an employee_uuid. */
@@ -9048,16 +9115,19 @@ export interface PutCompanyHolidayPayPolicyRemoveRequest {
 export type PutCompanyPaymentConfigsRequestPaymentConfigsPaymentSpeed = "1-day" | "2-day" | "4-day";
 export interface PutCompanyPaymentConfigsRequestPaymentConfigs {
   /** Payment limit for 1-day or 2-day payroll (in dollars). */
-  fast_payment_limit?: number | null;
+  fast_payment_limit?: number | null | undefined;
   /** Whether to use the partner-owned disbursement payment rail. */
-  partner_owned_disbursement?: boolean;
+  partner_owned_disbursement?: boolean | undefined;
   /** Desired payment speed. 1-day is only applicable to partners that opt in. */
-  payment_speed?: PutCompanyPaymentConfigsRequestPaymentConfigsPaymentSpeed | (string & {});
+  payment_speed?:
+    | PutCompanyPaymentConfigsRequestPaymentConfigsPaymentSpeed
+    | (string & {})
+    | undefined;
 }
 export interface PutCompanyPaymentConfigsRequest {
   /** The UUID of the company */
   company_uuid: string;
-  payment_configs?: PutCompanyPaymentConfigsRequestPaymentConfigs;
+  payment_configs?: PutCompanyPaymentConfigsRequestPaymentConfigs | undefined;
 }
 export interface PutCompanyPayrollCalculateRequest {
   /** The UUID of the company */
@@ -9074,13 +9144,13 @@ export interface PutCompanyPayrollPrepareRequest {
   /** The UUID of the payroll */
   payroll_id: string;
   /** The page that is requested. When unspecified, will load all objects unless endpoint forces pagination. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects per page. For majority of endpoints will default to 25 */
-  per?: number;
+  per?: number | undefined;
   /** Sort employee compensations by one or more fields. Options: first_name, last_name. Append `:asc` or `:desc` to specify direction (e.g., `last_name:asc` or `last_name:asc,first_name:asc`). Defaults to ascending. */
-  sort_by?: string;
+  sort_by?: string | undefined;
   /** The employees to prepare, identified by UUID. If omitted, every employee currently on the payroll is prepared. **Off-cycle payrolls that support multiple employees (`Bonus`, `Correction`, `Adhoc`):** passing `employee_uuids` also adds eligible employees who aren't yet on the payroll - a listed employee not on the payroll is added, while one already on it is simply prepared. A request may include up to 100 UUIDs, of which at most 25 may be employees not already on the payroll; an ineligible or unknown UUID, or more than 25 new employees, is rejected with a 422. **All other payrolls:** `employee_uuids` selects which of the payroll's existing employees to prepare; a UUID for an employee not on the payroll is rejected with a 422. */
-  employee_uuids?: PutCompanyPayrollPrepareRequestEmployeeUuidsList | null;
+  employee_uuids?: PutCompanyPayrollPrepareRequestEmployeeUuidsList | null | undefined;
 }
 /** How to interpret the amount. */
 export type PayrollEmployeeCompensationsTypeCustomWithholdingsFederalAmountType =
@@ -9091,11 +9161,11 @@ export type PayrollEmployeeCompensationsTypeCustomWithholdingsFederalOverrideTyp
 /** Federal one-time custom withholding override applied to this payroll. */
 export interface PayrollEmployeeCompensationsTypeCustomWithholdingsFederal {
   /** The amount that was withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
-  amount_type?: PayrollEmployeeCompensationsTypeCustomWithholdingsFederalAmountType;
+  amount_type?: PayrollEmployeeCompensationsTypeCustomWithholdingsFederalAmountType | undefined;
   /** Override mode. Only `one_time` is currently exposed. */
-  override_type?: PayrollEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType;
+  override_type?: PayrollEmployeeCompensationsTypeCustomWithholdingsFederalOverrideType | undefined;
 }
 /** How to interpret the amount. */
 export type PayrollEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType =
@@ -9105,13 +9175,15 @@ export type PayrollEmployeeCompensationsTypeCustomWithholdingsStateItemAmountTyp
 export type PayrollEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType = "one_time";
 export interface PayrollEmployeeCompensationsTypeCustomWithholdingsStateItem {
   /** The amount that was withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
-  amount_type?: PayrollEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType;
+  amount_type?: PayrollEmployeeCompensationsTypeCustomWithholdingsStateItemAmountType | undefined;
   /** The UUID of the EmployeeStateField this withholding applies to. */
-  employee_state_field_uuid?: string;
+  employee_state_field_uuid?: string | undefined;
   /** Override mode. Only `one_time` is currently exposed. */
-  override_type?: PayrollEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType;
+  override_type?:
+    | PayrollEmployeeCompensationsTypeCustomWithholdingsStateItemOverrideType
+    | undefined;
 }
 /** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
 export type PayrollEmployeeCompensationsTypeCustomWithholdingsStateList =
@@ -9119,9 +9191,9 @@ export type PayrollEmployeeCompensationsTypeCustomWithholdingsStateList =
 /** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
 export interface PayrollEmployeeCompensationsTypeCustomWithholdings {
   /** Federal one-time custom withholding override applied to this payroll. */
-  federal?: PayrollEmployeeCompensationsTypeCustomWithholdingsFederal | null;
+  federal?: PayrollEmployeeCompensationsTypeCustomWithholdingsFederal | null | undefined;
   /** State one-time custom withholding overrides applied to this payroll, one entry per state field. */
-  state?: PayrollEmployeeCompensationsTypeCustomWithholdingsStateList;
+  state?: PayrollEmployeeCompensationsTypeCustomWithholdingsStateList | undefined;
 }
 export type PayrollEmployeeCompensationsTypeFixedCompensationsItem =
   PayrollUnprocessedEmployeeCompensationsTypeFixedCompensationsItem;
@@ -9151,82 +9223,82 @@ export type PayrollEmployeeCompensationsTypeReimbursementsList =
 export type PayrollEmployeeCompensationsTypeDeductionsItemAmountType = "fixed" | "percent";
 export interface PayrollEmployeeCompensationsTypeDeductionsItem {
   /** The amount of the deduction for the pay period. */
-  amount?: number;
+  amount?: number | undefined;
   /** The amount type of the deduction for the pay period. Only present for unprocessed payrolls. */
-  amount_type?: PayrollEmployeeCompensationsTypeDeductionsItemAmountType;
+  amount_type?: PayrollEmployeeCompensationsTypeDeductionsItemAmountType | undefined;
   /** The name of the deduction. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the deduction can be updated via the payroll update endpoint. Only present for unprocessed payrolls. */
-  updatable_via_payroll?: boolean;
+  updatable_via_payroll?: boolean | undefined;
   /** The UUID of the deduction. Only present for unprocessed payrolls. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** An array of deductions for the employee. This field is included by default for regular payrolls in version `v2025-06-15` and later. */
 export type PayrollEmployeeCompensationsTypeDeductionsList =
   Array<PayrollEmployeeCompensationsTypeDeductionsItem>;
 export interface PayrollEmployeeCompensationsType {
   /** The employee's check amount (as a string-formatted decimal, e.g. "1234.56"), equal to net_pay + reimbursements. This value is only available for processed payrolls. */
-  check_amount?: string | null;
+  check_amount?: string | null | undefined;
   /** The one-time custom withholding overrides applied to this payroll for this employee. `federal` is null when no federal one-time override is set; `state` is an empty array when no state one-time overrides are set. */
-  custom_withholdings?: PayrollEmployeeCompensationsTypeCustomWithholdings;
+  custom_withholdings?: PayrollEmployeeCompensationsTypeCustomWithholdings | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** This employee will be excluded (skipped) from payroll calculation and will not be paid for the payroll. Cancelling a payroll would reset all employees' excluded back to false. */
-  excluded?: boolean;
+  excluded?: boolean | undefined;
   /** The first name of the employee. Requires `employees:read` scope. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** An array of fixed compensations for the employee. Fixed compensations include tips and bonuses. On regular payrolls, reimbursements are sent via the dedicated `reimbursements` array instead. Off-cycle payrolls continue to include reimbursements in `fixed_compensations`. If this payroll has been processed, only fixed compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active fixed compensations are returned. */
-  fixed_compensations?: PayrollEmployeeCompensationsTypeFixedCompensationsList;
+  fixed_compensations?: PayrollEmployeeCompensationsTypeFixedCompensationsList | undefined;
   /** The employee's gross pay (as a string-formatted decimal, e.g. "1234.56"), equal to regular wages + cash tips + payroll tips + any other additional earnings, excluding imputed income. This value is only available for processed payrolls. */
-  gross_pay?: string | null;
+  gross_pay?: string | null | undefined;
   /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. If this payroll has been processed, only hourly compensations with a value greater than 0.00 are returned. For an unprocessed payroll, all active hourly compensations are returned. */
-  hourly_compensations?: PayrollEmployeeCompensationsTypeHourlyCompensationsList;
+  hourly_compensations?: PayrollEmployeeCompensationsTypeHourlyCompensationsList | undefined;
   /** The last name of the employee. Requires `employees:read` scope. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Custom text that will be printed as a personal note to the employee on a paystub. */
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** The employee's net pay (as a string-formatted decimal, e.g. "1234.56"), equal to gross_pay - employee taxes - employee deductions or garnishments - cash tips. This value is only available for processed payrolls. */
-  net_pay?: string | null;
+  net_pay?: string | null | undefined;
   /** An array of all paid time off the employee is eligible for this pay period. */
-  paid_time_off?: PayrollEmployeeCompensationsTypePaidTimeOffList;
+  paid_time_off?: PayrollEmployeeCompensationsTypePaidTimeOffList | undefined;
   /** The employee's compensation payment method. Is *only* `Historical` when retrieving external payrolls initially run outside of Gusto, then put into Gusto. */
-  payment_method?: PayrollEmployeeCompensationsTypePaymentMethod | null;
+  payment_method?: PayrollEmployeeCompensationsTypePaymentMethod | null | undefined;
   /** The preferred first name of the employee. Requires `employees:read` scope. */
-  preferred_first_name?: string | null;
+  preferred_first_name?: string | null | undefined;
   /** An array of reimbursements for the employee. */
-  reimbursements?: PayrollEmployeeCompensationsTypeReimbursementsList;
+  reimbursements?: PayrollEmployeeCompensationsTypeReimbursementsList | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** An array of deductions for the employee. This field is included by default for regular payrolls in version `v2025-06-15` and later. */
-  deductions?: PayrollEmployeeCompensationsTypeDeductionsList;
+  deductions?: PayrollEmployeeCompensationsTypeDeductionsList | undefined;
 }
 export type PayrollPreparedEmployeeCompensationsList = Array<PayrollEmployeeCompensationsType>;
 /** The response from preparing a payroll for update. Contains refreshed employee compensations, updated payroll dates, and version information needed for subsequent payroll updates. */
 export interface PayrollPrepared {
-  auto_payroll?: boolean;
-  calculated_at?: string | null;
-  check_date?: string;
-  company_uuid?: string;
-  created_at?: string;
-  employee_compensations?: PayrollPreparedEmployeeCompensationsList;
-  external?: boolean;
-  final_termination_payroll?: boolean;
-  fixed_compensation_types?: PayrollFixedCompensationTypesType;
-  fixed_withholding_rate?: boolean | null;
-  off_cycle?: boolean;
-  off_cycle_reason?: OffCycleReasonType | null;
-  partner_owned_disbursement?: boolean | null;
-  pay_period?: PayrollPayPeriodType;
-  payment_speed_changed?: PayrollPaymentSpeedChangedType;
-  payroll_deadline?: string;
-  payroll_status_meta?: PayrollPayrollStatusMetaType;
-  payroll_uuid?: string;
-  processed?: boolean;
-  processed_date?: string | null;
-  processing_request?: PayrollProcessingRequest | null;
-  skip_regular_deductions?: boolean | null;
-  uuid?: string;
-  withholding_pay_period?: PayrollWithholdingPayPeriodType | null;
+  auto_payroll?: boolean | undefined;
+  calculated_at?: string | null | undefined;
+  check_date?: string | undefined;
+  company_uuid?: string | undefined;
+  created_at?: string | undefined;
+  employee_compensations?: PayrollPreparedEmployeeCompensationsList | undefined;
+  external?: boolean | undefined;
+  final_termination_payroll?: boolean | undefined;
+  fixed_compensation_types?: PayrollFixedCompensationTypesType | undefined;
+  fixed_withholding_rate?: boolean | null | undefined;
+  off_cycle?: boolean | undefined;
+  off_cycle_reason?: OffCycleReasonType | null | undefined;
+  partner_owned_disbursement?: boolean | null | undefined;
+  pay_period?: PayrollPayPeriodType | undefined;
+  payment_speed_changed?: PayrollPaymentSpeedChangedType | undefined;
+  payroll_deadline?: string | undefined;
+  payroll_status_meta?: PayrollPayrollStatusMetaType | undefined;
+  payroll_uuid?: string | undefined;
+  processed?: boolean | undefined;
+  processed_date?: string | null | undefined;
+  processing_request?: PayrollProcessingRequest | null | undefined;
+  skip_regular_deductions?: boolean | null | undefined;
+  uuid?: string | undefined;
+  withholding_pay_period?: PayrollWithholdingPayPeriodType | null | undefined;
 }
 /** How to interpret the amount. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsFederalAmountType =
@@ -9238,15 +9310,17 @@ export type PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdings
 /** Federal one-time custom withholding override. */
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsFederal {
   /** The amount to be withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
   amount_type?:
     | PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsFederalAmountType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Override mode. Only `one_time` is currently supported. */
   override_type?:
     | PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsFederalOverrideType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** How to interpret the amount. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsStateItemAmountType =
@@ -9257,17 +9331,19 @@ export type PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdings
   "one_time";
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsStateItem {
   /** The amount to be withheld for this payroll. */
-  amount?: string;
+  amount?: string | undefined;
   /** How to interpret the amount. */
   amount_type?:
     | PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsStateItemAmountType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The UUID of the EmployeeStateField this withholding applies to. */
-  employee_state_field_uuid?: string;
+  employee_state_field_uuid?: string | undefined;
   /** Override mode. Only `one_time` is currently supported. */
   override_type?:
     | PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsStateItemOverrideType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** State one-time custom withholding overrides, one entry per state field. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsStateList =
@@ -9275,9 +9351,9 @@ export type PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdings
 /** Optional per-payroll one-time custom withholdings for federal and/or state income tax. When provided, the supplied override takes precedence over any persistent withholding schedule for this run. This field is in limited release; if your application does not have access, requests including it are silently ignored. */
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdings {
   /** Federal one-time custom withholding override. */
-  federal?: PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsFederal;
+  federal?: PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsFederal | undefined;
   /** State one-time custom withholding overrides, one entry per state field. */
-  state?: PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsStateList;
+  state?: PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdingsStateList | undefined;
 }
 /** The amount type of the deduction for the pay period. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsItemAmountType =
@@ -9286,15 +9362,16 @@ export type PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsItemAmou
 /** An array of deductions for the employee. */
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsItem {
   /** The amount of the deduction for the pay period. */
-  amount?: number;
+  amount?: number | undefined;
   /** The amount type of the deduction for the pay period. */
   amount_type?:
     | PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsItemAmountType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The name of the deduction. */
-  name?: string;
+  name?: string | undefined;
   /** The UUID of the deduction. This parameter is optional and can be provided in order to update an existing deduction. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsList =
   Array<PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsItem>;
@@ -9306,23 +9383,23 @@ export type PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensations
 /** An array of hourly compensations for the employee. Hourly compensations include regular, overtime, and double overtime hours. */
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItemHourlyCompensationsItem {
   /** The number of hours to be compensated for this pay period. */
-  hours?: string;
+  hours?: string | undefined;
   /** The UUIDs of the job for the compensation. */
-  job_uuid?: string;
+  job_uuid?: string | undefined;
   /** The name of the compensation. This also serves as the unique, immutable identifier for this compensation. */
-  name?: string;
+  name?: string | undefined;
 }
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemHourlyCompensationsList =
   Array<PutCompanyPayrollsRequestEmployeeCompensationsItemHourlyCompensationsItem>;
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItemPaidTimeOffItem {
   /** The outstanding hours paid upon termination. This field is only applicable for termination payrolls. */
-  final_payout_unused_hours_input?: string | null;
+  final_payout_unused_hours_input?: string | null | undefined;
   /** The hours of this PTO taken during the pay period. */
-  hours?: string;
+  hours?: string | undefined;
   /** The name of the PTO. This also serves as the unique, immutable identifier for the PTO. Must pass in name or policy_uuid but not both. */
-  name?: string;
+  name?: string | undefined;
   /** The uuid of the PTO policy. Must pass in name or policy_uuid but not both. */
-  policy_uuid?: string;
+  policy_uuid?: string | undefined;
 }
 /** An array of all paid time off the employee is eligible for this pay period. Each paid time off object can be the name or the specific policy_uuid. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemPaidTimeOffList =
@@ -9333,35 +9410,44 @@ export type PutCompanyPayrollsRequestEmployeeCompensationsItemPaymentMethod =
   | "Check";
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItemReimbursementsItem {
   /** The dollar amount of the reimbursement for the pay period. */
-  amount?: string;
+  amount?: string | undefined;
   /** The description of the reimbursement. If not provided, the reimbursement will be unnamed. */
-  description?: string;
+  description?: string | undefined;
   /** The UUID of an existing reimbursement. This parameter is optional and can be provided in order to update an existing reimbursement. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** An array of reimbursements for the employee. */
 export type PutCompanyPayrollsRequestEmployeeCompensationsItemReimbursementsList =
   Array<PutCompanyPayrollsRequestEmployeeCompensationsItemReimbursementsItem>;
 export interface PutCompanyPayrollsRequestEmployeeCompensationsItem {
   /** Optional per-payroll one-time custom withholdings for federal and/or state income tax. When provided, the supplied override takes precedence over any persistent withholding schedule for this run. This field is in limited release; if your application does not have access, requests including it are silently ignored. */
-  custom_withholdings?: PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdings;
-  deductions?: PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsList;
+  custom_withholdings?:
+    | PutCompanyPayrollsRequestEmployeeCompensationsItemCustomWithholdings
+    | undefined;
+  deductions?: PutCompanyPayrollsRequestEmployeeCompensationsItemDeductionsList | undefined;
   /** The UUID of the employee. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** This employee will be excluded from payroll calculation and will not be paid for the payroll. */
-  excluded?: boolean;
-  fixed_compensations?: PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensationsList;
-  hourly_compensations?: PutCompanyPayrollsRequestEmployeeCompensationsItemHourlyCompensationsList;
+  excluded?: boolean | undefined;
+  fixed_compensations?:
+    | PutCompanyPayrollsRequestEmployeeCompensationsItemFixedCompensationsList
+    | undefined;
+  hourly_compensations?:
+    | PutCompanyPayrollsRequestEmployeeCompensationsItemHourlyCompensationsList
+    | undefined;
   /** Custom text that will be printed as a personal note to the employee on a paystub. */
-  memo?: string;
+  memo?: string | undefined;
   /** An array of all paid time off the employee is eligible for this pay period. Each paid time off object can be the name or the specific policy_uuid. */
-  paid_time_off?: PutCompanyPayrollsRequestEmployeeCompensationsItemPaidTimeOffList;
+  paid_time_off?: PutCompanyPayrollsRequestEmployeeCompensationsItemPaidTimeOffList | undefined;
   /** The employee's compensation payment method. Invalid values will be ignored. */
-  payment_method?: PutCompanyPayrollsRequestEmployeeCompensationsItemPaymentMethod | (string & {});
+  payment_method?:
+    | PutCompanyPayrollsRequestEmployeeCompensationsItemPaymentMethod
+    | (string & {})
+    | undefined;
   /** An array of reimbursements for the employee. */
-  reimbursements?: PutCompanyPayrollsRequestEmployeeCompensationsItemReimbursementsList;
+  reimbursements?: PutCompanyPayrollsRequestEmployeeCompensationsItemReimbursementsList | undefined;
   /** The current version of this employee compensation from the prepared payroll. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
 }
 export type PutCompanyPayrollsRequestEmployeeCompensationsList =
   Array<PutCompanyPayrollsRequestEmployeeCompensationsItem>;
@@ -9381,11 +9467,14 @@ export interface PutCompanyPayrollsRequest {
   payroll_id: string;
   employee_compensations: PutCompanyPayrollsRequestEmployeeCompensationsList;
   /** Enable taxes to be withheld at the IRS's required rate of 22% for federal income taxes. State income taxes will be taxed at the state's supplemental tax rate. Otherwise, we'll sum the entirety of the employee's wages and withhold taxes on the entire amount at the rate for regular wages. Only relevant for off-cycle payrolls. */
-  fixed_withholding_rate?: boolean;
+  fixed_withholding_rate?: boolean | undefined;
   /** Block regular deductions and contributions for this payroll. Only relevant for off-cycle payrolls. */
-  skip_regular_deductions?: boolean;
+  skip_regular_deductions?: boolean | undefined;
   /** The payment schedule tax rate the payroll is based on. Only relevant for off-cycle payrolls. */
-  withholding_pay_period?: PutCompanyPayrollsRequestWithholdingPayPeriod | (string & {});
+  withholding_pay_period?:
+    | PutCompanyPayrollsRequestWithholdingPayPeriod
+    | (string & {})
+    | undefined;
 }
 /** Request object for resolving a submission blocker. Each submission_blocker should include a selected unblock option. */
 export interface PayrollSubmissionBlockerRequestType {
@@ -9403,7 +9492,7 @@ export interface PutCompanyPayrollSubmitRequest {
   /** The UUID of the payroll */
   payroll_id: string;
   /** An array of submission_blockers, each with a selected unblock option. */
-  submission_blockers?: PutCompanyPayrollSubmitRequestSubmissionBlockersList;
+  submission_blockers?: PutCompanyPayrollSubmitRequestSubmissionBlockersList | undefined;
 }
 export interface PutCompanyPayrollSubmitResponse {}
 export interface PutCompanyPayScheduleRequest {
@@ -9411,17 +9500,17 @@ export interface PutCompanyPayScheduleRequest {
   company_id: string;
   /** The UUID of the pay schedule */
   pay_schedule_id: string;
-  anchor_end_of_pay_period?: string;
-  anchor_pay_date?: string;
+  anchor_end_of_pay_period?: string | undefined;
+  anchor_pay_date?: string | undefined;
   /** With automatic payroll enabled, payroll runs automatically one day before payroll deadlines. When false, payroll does not run automatically and must be run manually. For API versions before 2025-11-15 the request field is auto_pilot. */
-  auto_payroll?: boolean;
+  auto_payroll?: boolean | undefined;
   /** A custom pay schedule name; null clears any custom name so the default frequency description applies. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** An integer between 1 and 31 indicating the first day of the month that employees are paid. This field is only relevant for pay schedules with the "Twice per month" and "Monthly" frequencies. It will be null for pay schedules with other frequencies. */
-  day_1?: number | null;
+  day_1?: number | null | undefined;
   /** An integer between 1 and 31 indicating the second day of the month that employees are paid. This field is the second pay date for pay schedules with the "Twice per month" frequency. For semi-monthly pay schedules, set this field to 31. For months shorter than 31 days, the second pay date is set to the last day of the month. It will be null for pay schedules with other frequencies. */
-  day_2?: number | null;
-  frequency?: PayScheduleFrequencyCreateUpdate | (string & {});
+  day_2?: number | null | undefined;
+  frequency?: PayScheduleFrequencyCreateUpdate | (string & {}) | undefined;
   /** Current version of the pay schedule from the GET response; required for optimistic concurrency. Mismatch returns 409 Conflict. */
   version: string;
 }
@@ -9432,28 +9521,28 @@ export interface PutCompanySignatoryRequest {
   company_uuid: string;
   /** The UUID of the signatory */
   signatory_uuid: string;
-  birthday?: string;
-  first_name?: string;
-  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress;
-  last_name?: string;
-  middle_initial?: string;
-  phone?: string;
+  birthday?: string | undefined;
+  first_name?: string | undefined;
+  home_address?: CreateCompanySignatoriesInviteRequestHomeAddress | undefined;
+  last_name?: string | undefined;
+  middle_initial?: string | undefined;
+  phone?: string | undefined;
   /** The signatory's SSN. */
-  ssn?: string;
-  title?: string;
+  ssn?: string | undefined;
+  title?: string | undefined;
   /** Current version of the signatory (required for optimistic concurrency). */
   version: string;
 }
 export interface TaxRequirementSetUpdateItemRequirementsItem {
   key: string;
-  value?: TaxRequirementsValue | null;
+  value?: TaxRequirementsValue | null | undefined;
 }
 export type TaxRequirementSetUpdateItemRequirementsList =
   Array<TaxRequirementSetUpdateItemRequirementsItem>;
 export interface TaxRequirementSetUpdateItem {
-  effective_from?: string | null;
+  effective_from?: string | null | undefined;
   key: string;
-  requirements?: TaxRequirementSetUpdateItemRequirementsList;
+  requirements?: TaxRequirementSetUpdateItemRequirementsList | undefined;
   state: string;
 }
 /** Array of requirement sets to update. Each set corresponds to a category of requirements for the state. */
@@ -9463,7 +9552,7 @@ export interface PutCompanyTaxRequirementRequest {
   company_uuid: string;
   /** The two-letter state abbreviation */
   state: string;
-  requirement_sets?: TaxRequirementSetUpdate;
+  requirement_sets?: TaxRequirementSetUpdate | undefined;
 }
 export interface PutCompanyTaxRequirementResponse {}
 export type PutCompensationRequestMinimumWagesItem =
@@ -9478,17 +9567,17 @@ export interface PutCompensationRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** Whether the compensation should be adjusted to minimum wage during payroll calculation. */
-  adjust_for_minimum_wage?: boolean;
+  adjust_for_minimum_wage?: boolean | undefined;
   /** The effective date for this compensation. */
-  effective_date?: string;
-  flsa_status?: FlsaStatusType | (string & {});
-  minimum_wages?: PutCompensationRequestMinimumWagesList;
+  effective_date?: string | undefined;
+  flsa_status?: FlsaStatusType | (string & {}) | undefined;
+  minimum_wages?: PutCompensationRequestMinimumWagesList | undefined;
   /** The unit accompanying the compensation rate. If the employee is an owner, rate should be 'Paycheck'. */
-  payment_unit?: PutCompensationRequestPaymentUnit | (string & {});
+  payment_unit?: PutCompensationRequestPaymentUnit | (string & {}) | undefined;
   /** The dollar amount paid per payment unit. */
-  rate?: string;
+  rate?: string | undefined;
   /** The job title for this compensation. */
-  title?: string;
+  title?: string | undefined;
 }
 /** The contractor type. */
 export type PutContractorRequestType = "Individual" | "Business";
@@ -9500,48 +9589,48 @@ export interface PutContractorRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** The name of the contractor business. This attribute is required for `Business` contractors and will be ignored for `Individual` contractors. */
-  business_name?: string;
+  business_name?: string | undefined;
   /** The employer identification number of the contractor business. This attribute is optional for `Business` contractors and will be ignored for `Individual` contractors. */
-  ein?: string;
+  ein?: string | undefined;
   /** The contractor's email address. */
-  email?: string;
+  email?: string | undefined;
   /** The boolean flag indicating whether Gusto will file a new hire report for the contractor. This attribute is optional for `Individual` contractors and will be ignored for `Business` contractors. */
-  file_new_hire_report?: boolean;
+  file_new_hire_report?: boolean | undefined;
   /** The contractor's first name. This attribute is required for `Individual` contractors and will be ignored for `Business` contractors. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** The contractor's hourly rate. This attribute is required if the wage_type is `Hourly`. */
-  hourly_rate?: string;
+  hourly_rate?: string | undefined;
   /** The status of the contractor. If the contractor's start date is in the future, updating this field to true means we are setting the start date to today. Attempting to deactivate a contractor while a dismissal is already scheduled, or reactivate while a rehire is already scheduled, will return a 422 error. Cancel the pending transition first using the appropriate cancel endpoint. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** The contractor's last name. This attribute is required for `Individual` contractors and will be ignored for `Business` contractors. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The contractor's middle initial. This attribute is optional for `Individual` contractors and will be ignored for `Business` contractors. */
-  middle_initial?: string;
+  middle_initial?: string | undefined;
   /** Whether the contractor or the payroll admin will complete onboarding in Gusto. Self-onboarding is recommended so that contractors receive Gusto accounts. If self_onboarding is true, then email is required. */
-  self_onboarding?: boolean;
+  self_onboarding?: boolean | undefined;
   /** This attribute is optional for `Individual` contractors and will be ignored for `Business` contractors. Social security number is needed to file the annual 1099 tax form. */
-  ssn?: string;
+  ssn?: string | undefined;
   /** The day when the contractor will start working for the company. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The contractor type. */
-  type?: PutContractorRequestType | (string & {});
+  type?: PutContractorRequestType | (string & {}) | undefined;
   /** The contractor's wage type. */
-  wage_type?: PutContractorRequestWageType | (string & {});
+  wage_type?: PutContractorRequestWageType | (string & {}) | undefined;
   /** The work email address of the contractor. This is provided to support syncing users between our system and yours. You may not use this email address for any other purpose (e.g. marketing). */
-  work_email?: string;
+  work_email?: string | undefined;
   /** State where the contractor will be conducting the majority of their work for the company. This value is used when generating the new hire report. This attribute is required for `Individual` contractors if `file_new_hire_report` is true and will be ignored for `Business` contractors. */
-  work_state?: string | null;
+  work_state?: string | null | undefined;
 }
 export interface PutContractorAddressRequest {
   /** The UUID of the contractor */
   contractor_uuid: string;
-  city?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string;
+  city?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
-  zip?: string;
+  zip?: string | undefined;
 }
 /** The updated onboarding status for the contractor. */
 export type PutContractorOnboardingStatusRequestOnboardingStatus =
@@ -9574,17 +9663,17 @@ export type PutDepartmentsResponseEmployeesItem = HolidayPayPolicyEmployeesItem;
 export type PutDepartmentsResponseEmployeesList = Array<HolidayPayPolicyEmployeesItem>;
 export interface PutDepartmentsResponse {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Array of contractors assigned to the department. */
-  contractors?: PutDepartmentsResponseContractorsList;
+  contractors?: PutDepartmentsResponseContractorsList | undefined;
   /** Array of employees assigned to the department. */
-  employees?: PutDepartmentsResponseEmployeesList;
+  employees?: PutDepartmentsResponseEmployeesList | undefined;
   /** Name of the department */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the department */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** The bank account type. */
 export type PutEmployeeBankAccountsRequestAccountType = "Checking" | "Savings";
@@ -9617,9 +9706,9 @@ export type PutEmployeeBenefitRequestContributionValue =
 /** An object representing the type and value of the company contribution. */
 export interface PutEmployeeBenefitRequestContribution {
   /** The company contribution scheme. `amount`: The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. `percentage`: The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. `tiered`: The size of the company contribution corresponds to the size of the employee deduction relative to a tiered matching scheme. */
-  type?: PutEmployeeBenefitRequestContributionType | (string & {});
+  type?: PutEmployeeBenefitRequestContributionType | (string & {}) | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: PutEmployeeBenefitRequestContributionValue;
+  value?: PutEmployeeBenefitRequestContributionValue | undefined;
 }
 export type PutEmployeeBenefitRequestDeductionReducesTaxableIncome =
   | "unset"
@@ -9634,40 +9723,41 @@ export interface PutEmployeeBenefitRequest {
   /** The UUID of the employee benefit. */
   employee_benefit_id: string;
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: boolean;
+  catch_up?: boolean | undefined;
   /** The amount to be paid, per pay period, by the company. */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: string | null;
+  company_contribution_annual_maximum?: string | null | undefined;
   /** Whether the company contribution amount should be treated as a percentage to be deducted from each payroll. */
-  contribute_as_percentage?: boolean;
+  contribute_as_percentage?: boolean | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: PutEmployeeBenefitRequestContribution;
+  contribution?: PutEmployeeBenefitRequestContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: string | null;
+  coverage_amount?: string | null | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: string;
+  coverage_salary_multiplier?: string | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored. */
   deduction_reduces_taxable_income?:
     | PutEmployeeBenefitRequestDeductionReducesTaxableIncome
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** The date the employee benefit will start. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Whether the company contribution is elective (aka "matching"). For `tiered`, `elective_amount`, and `elective_percentage` contribution types this is ignored and assumed to be `true`. */
-  elective?: boolean;
+  elective?: boolean | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The maximum employee deduction amount per year. A null value signifies no limit. */
-  employee_deduction_annual_maximum?: string | null;
+  employee_deduction_annual_maximum?: string | null | undefined;
   /** The date the employee benefit will expire. A null value indicates the benefit will not expire. */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Some benefits require additional information to determine their limit. `Family` or `Individual`: Applicable to HSA benefit. `Joint Filing or Single` or `Married and Filing Separately`: Applicable to Dependent Care FSA benefit. */
-  limit_option?: PutEmployeeBenefitRequestLimitOption | (string & {}) | null;
+  limit_option?: PutEmployeeBenefitRequestLimitOption | (string & {}) | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
   version: string;
 }
@@ -9677,7 +9767,7 @@ export type PutEmployeeBenefitResponseContributionValueCase1TiersItem =
 export type PutEmployeeBenefitResponseContributionValueCase1TiersList =
   Array<CreateEmployeeEmployeeBenefitResponseContributionValueCase1TiersItem>;
 export interface PutEmployeeBenefitResponseContributionValueCase1 {
-  tiers?: PutEmployeeBenefitResponseContributionValueCase1TiersList;
+  tiers?: PutEmployeeBenefitResponseContributionValueCase1TiersList | undefined;
 }
 /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
 export type PutEmployeeBenefitResponseContributionValue =
@@ -9686,9 +9776,9 @@ export type PutEmployeeBenefitResponseContributionValue =
 /** An object representing the type and value of the company contribution. */
 export interface PutEmployeeBenefitResponseContribution {
   /** The company contribution scheme. "amount": The company contributes a fixed amount per payroll. If elective is true, the contribution is matching, dollar-for-dollar. "percentage": The company contributes a percentage of the payroll amount per payroll period. If elective is true, the contribution is matching, dollar-for-dollar. "tiered": The company contribution varies according to the size of the employee deduction. */
-  type?: string;
+  type?: string | undefined;
   /** For the `amount` and `percentage` contribution types, the value of the corresponding amount or percentage. For the `tiered` contribution type, an array of tiers. */
-  value?: PutEmployeeBenefitResponseContributionValue;
+  value?: PutEmployeeBenefitResponseContributionValue | undefined;
 }
 export type PutEmployeeBenefitResponseDeductionReducesTaxableIncome =
   | "unset"
@@ -9696,45 +9786,48 @@ export type PutEmployeeBenefitResponseDeductionReducesTaxableIncome =
   | "does_not_reduce_taxable_income";
 export interface PutEmployeeBenefitResponse {
   /** Whether the employee benefit is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the employee should use a benefit's "catch up" rate. Only Roth 401k and 401k benefits use this value for employees over 50. */
-  catch_up?: boolean | null;
+  catch_up?: boolean | null | undefined;
   /** The amount to be paid, per pay period, by the company. This field will not appear for tiered contribution types. */
-  company_contribution?: string;
+  company_contribution?: string | undefined;
   /** The maximum company contribution amount per year. A null value signifies no limit. */
-  company_contribution_annual_maximum?: string | null;
+  company_contribution_annual_maximum?: string | null | undefined;
   /** Whether the company_contribution value should be treated as a percentage to be added to each payroll. This field will not appear for tiered contribution types. */
-  contribute_as_percentage?: boolean;
+  contribute_as_percentage?: boolean | undefined;
   /** An object representing the type and value of the company contribution. */
-  contribution?: PutEmployeeBenefitResponseContribution;
+  contribution?: PutEmployeeBenefitResponseContribution | undefined;
   /** The amount that the employee is insured for. Note: company contribution cannot be present if coverage amount is set. */
-  coverage_amount?: string | null;
+  coverage_amount?: string | null | undefined;
   /** The coverage amount as a multiple of the employee's salary. Only applicable for Group Term Life benefits. Note: cannot be set if coverage amount is also set. */
-  coverage_salary_multiplier?: string | null;
+  coverage_salary_multiplier?: string | null | undefined;
   /** Whether the employee deduction amount should be treated as a percentage to be deducted from each payroll. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** Whether the employee deduction reduces taxable income or not. Only valid for Group Term Life benefits. Note: when the value is not "unset", coverage amount and coverage salary multiplier are ignored. */
-  deduction_reduces_taxable_income?: PutEmployeeBenefitResponseDeductionReducesTaxableIncome | null;
+  deduction_reduces_taxable_income?:
+    | PutEmployeeBenefitResponseDeductionReducesTaxableIncome
+    | null
+    | undefined;
   /** The date the employee benefit will start. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Whether the company contribution is elective (aka matching). For "tiered" contribution types, this is always true. */
-  elective?: boolean;
+  elective?: boolean | undefined;
   /** The amount to be deducted, per pay period, from the employee's pay. */
-  employee_deduction?: string;
+  employee_deduction?: string | undefined;
   /** The maximum employee deduction amount per year. A null value signifies no limit. */
-  employee_deduction_annual_maximum?: string | null;
+  employee_deduction_annual_maximum?: string | null | undefined;
   /** The date the employee benefit will expire. A null value indicates the benefit will not expire. */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Some benefits require additional information to determine their limit. `Family` and `Individual` are applicable to HSA benefit. `Joint Filing or Single` and `Married and Filing Separately` are applicable to Dependent Care FSA benefit. */
-  limit_option?: string | null;
+  limit_option?: string | null | undefined;
   /** Identifier for a 401(k) loan assigned by the 401(k) provider */
-  retirement_loan_identifier?: string | null;
+  retirement_loan_identifier?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company benefit. */
-  company_benefit_uuid?: string;
+  company_benefit_uuid?: string | undefined;
   /** The UUID of the employee to which the benefit belongs. */
-  employee_uuid?: string;
+  employee_uuid?: string | undefined;
   /** The UUID of the employee benefit. */
   uuid: string;
 }
@@ -9746,53 +9839,53 @@ export interface PutEmployeeFormSignRequest {
   /** Whether you agree to sign electronically */
   agree: boolean;
   /** Whether there is a preparer */
-  preparer?: boolean;
+  preparer?: boolean | undefined;
   /** Whether there is a 2nd preparer */
-  preparer2?: boolean;
+  preparer2?: boolean | undefined;
   /** Whether 2nd preparer agrees to sign electronically */
-  preparer2_agree?: string;
-  preparer2_city?: string;
-  preparer2_first_name?: string;
-  preparer2_last_name?: string;
-  preparer2_state?: string;
-  preparer2_street_1?: string;
-  preparer2_street_2?: string;
-  preparer2_zip?: string;
+  preparer2_agree?: string | undefined;
+  preparer2_city?: string | undefined;
+  preparer2_first_name?: string | undefined;
+  preparer2_last_name?: string | undefined;
+  preparer2_state?: string | undefined;
+  preparer2_street_1?: string | undefined;
+  preparer2_street_2?: string | undefined;
+  preparer2_zip?: string | undefined;
   /** Whether there is a 3rd preparer */
-  preparer3?: boolean;
+  preparer3?: boolean | undefined;
   /** Whether 3rd preparer agrees to sign electronically */
-  preparer3_agree?: string;
-  preparer3_city?: string;
-  preparer3_first_name?: string;
-  preparer3_last_name?: string;
-  preparer3_state?: string;
-  preparer3_street_1?: string;
-  preparer3_street_2?: string;
-  preparer3_zip?: string;
+  preparer3_agree?: string | undefined;
+  preparer3_city?: string | undefined;
+  preparer3_first_name?: string | undefined;
+  preparer3_last_name?: string | undefined;
+  preparer3_state?: string | undefined;
+  preparer3_street_1?: string | undefined;
+  preparer3_street_2?: string | undefined;
+  preparer3_zip?: string | undefined;
   /** Whether there is a 4th preparer */
-  preparer4?: boolean;
+  preparer4?: boolean | undefined;
   /** Whether 4th preparer agrees to sign electronically */
-  preparer4_agree?: string;
-  preparer4_city?: string;
-  preparer4_first_name?: string;
-  preparer4_last_name?: string;
-  preparer4_state?: string;
-  preparer4_street_1?: string;
-  preparer4_street_2?: string;
-  preparer4_zip?: string;
+  preparer4_agree?: string | undefined;
+  preparer4_city?: string | undefined;
+  preparer4_first_name?: string | undefined;
+  preparer4_last_name?: string | undefined;
+  preparer4_state?: string | undefined;
+  preparer4_street_1?: string | undefined;
+  preparer4_street_2?: string | undefined;
+  preparer4_zip?: string | undefined;
   /** Whether preparer agrees to sign electronically */
-  preparer_agree?: string;
-  preparer_city?: string;
-  preparer_first_name?: string;
-  preparer_last_name?: string;
-  preparer_state?: string;
-  preparer_street_1?: string;
-  preparer_street_2?: string;
-  preparer_zip?: string;
+  preparer_agree?: string | undefined;
+  preparer_city?: string | undefined;
+  preparer_first_name?: string | undefined;
+  preparer_last_name?: string | undefined;
+  preparer_state?: string | undefined;
+  preparer_street_1?: string | undefined;
+  preparer_street_2?: string | undefined;
+  preparer_zip?: string | undefined;
   /** The signature */
   signature_text: string;
   /** The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
-  signed_by_ip_address?: string;
+  signed_by_ip_address?: string | undefined;
 }
 /** The employee's authorization status. - `citizen`: A citizen is someone who was born in the United States or is a naturalized citizen living in the United States. - `noncitizen`: A noncitizen national is someone born in American Samoa, certain former citizens of the former Trust Territory of the Pacific Islands, and certain children of noncitizen nationals born abroad. - `permanent_resident`: A lawful permanent resident is someone who is not a US citizen and who resides under legally recognized and lawfully recorded permanent residence as an immigrant. - `alien`: Also referred to as a "noncitizen authorized to work". This includes anyone who is authorized to work in the United States but is not a US citizen, US national or lawful permanent resident. */
 export type PutEmployeeI9AuthorizationRequestAuthorizationStatus =
@@ -9811,25 +9904,25 @@ export interface PutEmployeeI9AuthorizationRequest {
   /** The employee's authorization status. - `citizen`: A citizen is someone who was born in the United States or is a naturalized citizen living in the United States. - `noncitizen`: A noncitizen national is someone born in American Samoa, certain former citizens of the former Trust Territory of the Pacific Islands, and certain children of noncitizen nationals born abroad. - `permanent_resident`: A lawful permanent resident is someone who is not a US citizen and who resides under legally recognized and lawfully recorded permanent residence as an immigrant. - `alien`: Also referred to as a "noncitizen authorized to work". This includes anyone who is authorized to work in the United States but is not a US citizen, US national or lawful permanent resident. */
   authorization_status: PutEmployeeI9AuthorizationRequestAuthorizationStatus | (string & {});
   /** The document's country of issuance. This is required when the document type is `foreign_passport`. */
-  country?: string;
+  country?: string | undefined;
   /** The document number. Formatting depends on the employee's document type. - For `document_type:'uscis_alien_registration_number'`, this must be a USCIS Number/A-Number, which is 7 to 9 digits. - For `document_type:'form_i94'`, this must be a Form I-94 Admission Number, which is 11 digits. - For `document_type:'foreign_passport'`, this must be the passport number. This is required when the document type is present. */
-  document_number?: string;
+  document_number?: string | undefined;
   /** The type of document an employee holds, based on their authorization status. - This is unused for authorization status `citizen` or `noncitizen`. - If the authorization status is `permanent_resident`, this must be `uscis_alien_registration_number`. - If the authorization status is `alien`, this is required and may be any of the valid values. */
-  document_type?: PutEmployeeI9AuthorizationRequestDocumentType | (string & {});
+  document_type?: PutEmployeeI9AuthorizationRequestDocumentType | (string & {}) | undefined;
   /** The document's expiration date. This may only be used when the authorization status is `alien`. */
-  expiration_date?: string;
+  expiration_date?: string | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. If supplied, this endpoint will update the existing I-9 authorization if it exists. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface PutEmployeeI9AuthorizationDocumentsRequestDocumentsItem {
   /** The document's document number */
-  document_number?: string;
+  document_number?: string | undefined;
   /** The document title associated with the document type */
   document_title: string;
   /** The document type. Use the document options endpoint to get the possible values. */
   document_type: string;
   /** The document's expiration date */
-  expiration_date?: string;
+  expiration_date?: string | undefined;
   /** The document's issuing authority */
   issuing_authority: string;
 }
@@ -9849,15 +9942,15 @@ export interface PutEmployeeI9AuthorizationEmployerSignRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** Any additional notes */
-  additional_info?: string;
+  additional_info?: string | undefined;
   /** Whether you agree to sign electronically */
   agree: boolean;
   /** Whether an alternative procedure authorized by DHS to examine documents was used */
-  alt_procedure?: boolean;
+  alt_procedure?: boolean | undefined;
   /** The signature */
   signature_text: string;
   /** The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
-  signed_by_ip_address?: string;
+  signed_by_ip_address?: string | undefined;
   /** The signer's job title */
   signer_title: string;
 }
@@ -9865,14 +9958,14 @@ export interface PutEmployeeOnboardingDocumentsConfigRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** Whether to include Form I-9 for this employee during onboarding. When true, the employee will be prompted to complete Form I-9 as part of their onboarding. */
-  i9_document?: boolean;
+  i9_document?: boolean | undefined;
 }
 /** Configuration for which onboarding documents (e.g. Form I-9) are required for an employee during onboarding. */
 export interface EmployeeOnboardingDocument {
   /** Whether to include Form I-9 for this employee during onboarding. When true, the employee will be prompted to complete Form I-9 as part of their onboarding. */
-  i9_document?: boolean;
+  i9_document?: boolean | undefined;
   /** The UUID of the onboarding documents config record. Null when no config has been saved yet. */
-  uuid?: string | null;
+  uuid?: string | null | undefined;
 }
 /** Onboarding status value */
 export type PutEmployeeOnboardingStatusRequestOnboardingStatus =
@@ -9893,13 +9986,13 @@ export interface PutEmployeeOnboardingStatusRequest {
 export type PutEmployeePaymentMethodRequestSplitBy = "Percentage" | "Amount";
 export interface PutEmployeePaymentMethodRequestSplitsItem {
   /** The bank account name. */
-  name?: string;
+  name?: string | undefined;
   /** Order of priority for each payment split; priority 1 is the first account paid. Must be unique and sequential. */
-  priority?: number;
+  priority?: number | undefined;
   /** If split_by is Amount, value is in cents (e.g., 500 for $5.00) and exactly one account must have null to capture the remainder. If split_by is Percentage, value is the percentage (e.g., 60 for 60%). */
-  split_amount?: number | null;
+  split_amount?: number | null | undefined;
   /** The bank account UUID. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Array of payment splits. Required when type is Direct Deposit. */
 export type PutEmployeePaymentMethodRequestSplitsList =
@@ -9910,9 +10003,9 @@ export interface PutEmployeePaymentMethodRequest {
   /** The UUID of the employee */
   employee_id: string;
   /** How the payment will be split. If Percentage, split amounts must add up to exactly 100. If Amount, values are in cents and the last split amount must be null to capture the remainder. */
-  split_by?: PutEmployeePaymentMethodRequestSplitBy | (string & {}) | null;
+  split_by?: PutEmployeePaymentMethodRequestSplitBy | (string & {}) | null | undefined;
   /** Array of payment splits. Required when type is Direct Deposit. */
-  splits?: PutEmployeePaymentMethodRequestSplitsList | null;
+  splits?: PutEmployeePaymentMethodRequestSplitsList | null | undefined;
   /** The payment method type. If type is Check, split_by and splits do not need to be populated. If type is Direct Deposit, split_by and splits are required. */
   type: PutEmployeePaymentMethodRequestType | (string & {});
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
@@ -9934,11 +10027,11 @@ export interface PutEmployeeRehireRequest {
   /** The day when the employee returns to work. */
   effective_date: string;
   /** The employee's employment status. Supplying an invalid option will set the employment_status to *not_set*. */
-  employment_status?: PutEmployeeRehireRequestEmploymentStatus | (string & {});
+  employment_status?: PutEmployeeRehireRequestEmploymentStatus | (string & {}) | undefined;
   /** The boolean flag indicating whether Gusto will file a new hire report for the employee. */
   file_new_hire_report: boolean;
   /** Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
   /** The uuid of the employee's work location. */
   work_location_uuid: string;
 }
@@ -9947,16 +10040,16 @@ export interface PutEmployeesRequest {
   employee_id: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
-  date_of_birth?: string;
-  email?: string;
-  first_name?: string;
-  last_name?: string;
-  middle_initial?: string | null;
-  preferred_first_name?: string | null;
-  ssn?: string;
+  date_of_birth?: string | undefined;
+  email?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  middle_initial?: string | null | undefined;
+  preferred_first_name?: string | null | undefined;
+  ssn?: string | undefined;
   /** Whether the employee is a two percent shareholder of the company. This field only applies to companies with an S-Corp entity type. */
-  two_percent_shareholder?: boolean;
-  work_email?: string;
+  two_percent_shareholder?: boolean | undefined;
+  work_email?: string | undefined;
 }
 export type PutGarnishmentRequestGarnishmentType =
   | "child_support"
@@ -9970,28 +10063,28 @@ export interface PutGarnishmentRequest {
   /** The UUID of the garnishment */
   garnishment_id: string;
   /** Whether or not this garnishment is currently active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** The amount of the garnishment. Either a percentage or a fixed dollar amount. Represented as a float, e.g. "8.00". */
-  amount?: string;
+  amount?: string | undefined;
   /** The maximum deduction per annum. A null value indicates no maximum. Represented as a float, e.g. "200.00". */
-  annual_maximum?: string | null;
-  child_support?: GarnishmentChildSupport | null;
+  annual_maximum?: string | null | undefined;
+  child_support?: GarnishmentChildSupport | null | undefined;
   /** Whether the garnishment is court ordered. */
-  court_ordered?: boolean;
+  court_ordered?: boolean | undefined;
   /** Whether the amount should be treated as a percentage to be deducted per pay period. */
-  deduct_as_percentage?: boolean;
+  deduct_as_percentage?: boolean | undefined;
   /** The description of the garnishment. */
-  description?: string;
+  description?: string | undefined;
   /** The specific type of garnishment for court ordered garnishments. */
-  garnishment_type?: PutGarnishmentRequestGarnishmentType | (string & {}) | null;
+  garnishment_type?: PutGarnishmentRequestGarnishmentType | (string & {}) | null | undefined;
   /** The maximum deduction per pay period. A null value indicates no maximum. Represented as a float, e.g. "16.00". */
-  pay_period_maximum?: string | null;
+  pay_period_maximum?: string | null | undefined;
   /** Whether the garnishment should recur indefinitely. */
-  recurring?: boolean;
+  recurring?: boolean | undefined;
   /** The number of times to apply the garnishment. Ignored if recurring is true. */
-  times?: number | null;
+  times?: number | null | undefined;
   /** A maximum total deduction for the lifetime of this garnishment. A null value indicates no maximum. */
-  total_amount?: string | null;
+  total_amount?: string | null | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
 }
@@ -10000,13 +10093,13 @@ export interface PutHomeAddressRequest {
   home_address_uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
-  city?: string;
-  courtesy_withholding?: boolean;
-  effective_date?: string | null;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
-  zip?: string;
+  city?: string | undefined;
+  courtesy_withholding?: boolean | undefined;
+  effective_date?: string | null | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
+  zip?: string | undefined;
 }
 export interface PutJobRequest {
   /** The UUID of the job */
@@ -10014,32 +10107,32 @@ export interface PutJobRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** The date when the employee was hired or rehired for the job. */
-  hire_date?: string;
+  hire_date?: string | undefined;
   /** The risk class code for workers' compensation in Washington state. Please visit [Washington state's Risk Class page](https://www.lni.wa.gov/insurance/rates-risk-classes/risk-classes-for-workers-compensation/risk-class-lookup#/) to learn more. */
-  state_wc_class_code?: string | null;
+  state_wc_class_code?: string | null | undefined;
   /** Whether this job is eligible for workers' compensation coverage in the state of Washington (WA). */
-  state_wc_covered?: boolean | null;
+  state_wc_covered?: boolean | null | undefined;
   /** The job title. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Whether the employee owns at least 2% of the company. */
-  two_percent_shareholder?: boolean;
+  two_percent_shareholder?: boolean | undefined;
 }
 export interface PutLocationRequest {
   /** The UUID of the location */
   location_id: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
-  city?: string;
-  country?: string;
+  city?: string | undefined;
+  country?: string | undefined;
   /** For a company location, specify if this location is the company's filing address. A company has a single filing address, so this designation will override any previous selection. */
-  filing_address?: boolean;
+  filing_address?: boolean | undefined;
   /** For a company location, specify if this location is the company's mailing address. A company has a single mailing address, so this designation will override any previous selection. */
-  mailing_address?: boolean;
-  phone_number?: string;
-  state?: string;
-  street_1?: string;
-  street_2?: string | null;
-  zip?: string;
+  mailing_address?: boolean | undefined;
+  phone_number?: string | undefined;
+  state?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | null | undefined;
+  zip?: string | undefined;
 }
 export interface PutPartnerManagedCompanyDisassociateRequest {
   /** The UUID of the company */
@@ -10060,14 +10153,14 @@ export interface PutPartnerManagedCompanyMigrateRequest {
 export type PartnerManagedCompanyMigrateResponseErrorsItemCategory = "migration_blocker";
 export interface PartnerManagedCompanyMigrateResponseErrorsItemMetadata {
   /** Issue key (e.g., `company_suspended`, `terms_of_service`, `gusto_managed_benefits`). */
-  key?: string;
+  key?: string | undefined;
 }
 export interface PartnerManagedCompanyMigrateResponseErrorsItem {
   /** Returns `migration_blocker` for blockers. */
-  category?: PartnerManagedCompanyMigrateResponseErrorsItemCategory;
-  error_key?: string;
-  message?: string;
-  metadata?: PartnerManagedCompanyMigrateResponseErrorsItemMetadata;
+  category?: PartnerManagedCompanyMigrateResponseErrorsItemCategory | undefined;
+  error_key?: string | undefined;
+  message?: string | undefined;
+  metadata?: PartnerManagedCompanyMigrateResponseErrorsItemMetadata | undefined;
 }
 /** Migration blockers preventing the migration. Empty array when `migration_status` is `true`. */
 export type PartnerManagedCompanyMigrateResponseErrorsList =
@@ -10075,27 +10168,27 @@ export type PartnerManagedCompanyMigrateResponseErrorsList =
 /** Returns `migration_warning` for warnings. */
 export type PartnerManagedCompanyMigrateResponseWarningsItemCategory = "migration_warning";
 export interface PartnerManagedCompanyMigrateResponseWarningsItemMetadata {
-  key?: string;
+  key?: string | undefined;
 }
 export interface PartnerManagedCompanyMigrateResponseWarningsItem {
   /** Returns `migration_warning` for warnings. */
-  category?: PartnerManagedCompanyMigrateResponseWarningsItemCategory;
-  error_key?: string;
-  message?: string;
-  metadata?: PartnerManagedCompanyMigrateResponseWarningsItemMetadata;
+  category?: PartnerManagedCompanyMigrateResponseWarningsItemCategory | undefined;
+  error_key?: string | undefined;
+  message?: string | undefined;
+  metadata?: PartnerManagedCompanyMigrateResponseWarningsItemMetadata | undefined;
 }
 /** Non-blocking issues surfaced during migration (e.g., suspended company, active integrations). May be present even when `migration_status` is `true`. */
 export type PartnerManagedCompanyMigrateResponseWarningsList =
   Array<PartnerManagedCompanyMigrateResponseWarningsItem>;
 export interface PartnerManagedCompanyMigrateResponse {
   /** The company UUID. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Migration blockers preventing the migration. Empty array when `migration_status` is `true`. */
-  errors?: PartnerManagedCompanyMigrateResponseErrorsList;
+  errors?: PartnerManagedCompanyMigrateResponseErrorsList | undefined;
   /** Returns `true` when the migration completed successfully, `false` otherwise. */
-  migration_status?: boolean;
+  migration_status?: boolean | undefined;
   /** Non-blocking issues surfaced during migration (e.g., suspended company, active integrations). May be present even when `migration_status` is `true`. */
-  warnings?: PartnerManagedCompanyMigrateResponseWarningsList;
+  warnings?: PartnerManagedCompanyMigrateResponseWarningsList | undefined;
 }
 export interface PutRecurringReimbursementsRequest {
   /** The UUID of the reimbursement */
@@ -10103,9 +10196,9 @@ export interface PutRecurringReimbursementsRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** The dollar amount of the reimbursement */
-  amount?: number;
+  amount?: number | undefined;
   /** The description of the reimbursement */
-  description?: string;
+  description?: string | undefined;
 }
 export type PutRemovePeopleFromDepartmentRequestContractorsItem = HolidayPayPolicyEmployeesItem;
 /** Array of contractors to add or remove from the department */
@@ -10121,9 +10214,9 @@ export interface PutRemovePeopleFromDepartmentRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** Array of contractors to add or remove from the department */
-  contractors?: PutRemovePeopleFromDepartmentRequestContractorsList;
+  contractors?: PutRemovePeopleFromDepartmentRequestContractorsList | undefined;
   /** Array of employees to add or remove from the department */
-  employees?: PutRemovePeopleFromDepartmentRequestEmployeesList;
+  employees?: PutRemovePeopleFromDepartmentRequestEmployeesList | undefined;
 }
 export type PutRemovePeopleFromDepartmentResponseContractorsItem = HolidayPayPolicyEmployeesItem;
 /** Array of contractors assigned to the department. */
@@ -10135,17 +10228,17 @@ export type PutRemovePeopleFromDepartmentResponseEmployeesList =
   Array<HolidayPayPolicyEmployeesItem>;
 export interface PutRemovePeopleFromDepartmentResponse {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
-  version?: string;
+  version?: string | undefined;
   /** The UUID of the company */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Array of contractors assigned to the department. */
-  contractors?: PutRemovePeopleFromDepartmentResponseContractorsList;
+  contractors?: PutRemovePeopleFromDepartmentResponseContractorsList | undefined;
   /** Array of employees assigned to the department. */
-  employees?: PutRemovePeopleFromDepartmentResponseEmployeesList;
+  employees?: PutRemovePeopleFromDepartmentResponseEmployeesList | undefined;
   /** Name of the department */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the department */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface PutTerminationRequest {
   /** The UUID of the employee */
@@ -10155,7 +10248,7 @@ export interface PutTerminationRequest {
   /** The employee's last day of work. */
   effective_date: string;
   /** If true, the employee should receive their final wages via an off-cycle payroll. If false, they should receive their final wages on their current pay schedule. */
-  run_termination_payroll?: boolean;
+  run_termination_payroll?: boolean | undefined;
 }
 /** Accrual method of the time off policy */
 export type PutTimeOffPolicyRequestAccrualMethod =
@@ -10175,33 +10268,33 @@ export interface PutTimeOffPolicyRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** Accrual method of the time off policy */
-  accrual_method?: PutTimeOffPolicyRequestAccrualMethod | (string & {});
+  accrual_method?: PutTimeOffPolicyRequestAccrualMethod | (string & {}) | undefined;
   /** The rate at which the time off hours will accrue for an employee on the policy. Represented as a float, e.g. "40.0". */
-  accrual_rate?: string | null;
+  accrual_rate?: string | null | undefined;
   /** The number of hours an employee has to work or be paid for to accrue the number of hours set in the accrual rate. Only used for hourly policies (per_hour_paid, per_hour_paid_no_overtime, per_hour_work, per_hour_worked_no_overtime). Represented as a float, e.g. "40.0". */
-  accrual_rate_unit?: string | null;
+  accrual_rate_unit?: string | null | undefined;
   /** Number of days before an employee on the policy will begin accruing time off hours. If accrual_method is per_anniversary_year, per_calendar_year, or unlimited, then accrual_waiting_period_days should be 0. */
-  accrual_waiting_period_days?: number | null;
+  accrual_waiting_period_days?: number | null | undefined;
   /** The max number of hours an employee can carryover from one year to the next. If accrual_method is unlimited, then carryover_limit_hours must be blank. */
-  carryover_limit_hours?: string | null;
+  carryover_limit_hours?: string | null | undefined;
   /** boolean representing if a policy has completed configuration */
-  complete?: boolean;
+  complete?: boolean | undefined;
   /** The max number of hours an employee can accrue in a year. If accrual_method is yearly (per_anniversary_year, per_calendar_year) or unlimited, then max_accrual_hours_per_year must be blank. */
-  max_accrual_hours_per_year?: string | null;
+  max_accrual_hours_per_year?: string | null | undefined;
   /** The max number of hours an employee can accrue. If accrual_method is unlimited, then max_hours must be blank. */
-  max_hours?: string | null;
+  max_hours?: string | null | undefined;
   /** Name of the time off policy */
-  name?: string;
+  name?: string | undefined;
   /** Boolean representing if an employee's accrued time off hours will be paid out on termination. If accrual_method is unlimited, then paid_out_on_termination must be `false`. */
-  paid_out_on_termination?: boolean;
+  paid_out_on_termination?: boolean | undefined;
   /** The date the policy resets. Format MM-DD */
-  policy_reset_date?: string | null;
+  policy_reset_date?: string | null | undefined;
   /** Type of the time off policy. Currently only "vacation" and "sick" are supported */
-  policy_type?: PutTimeOffPolicyRequestPolicyType | (string & {});
+  policy_type?: PutTimeOffPolicyRequestPolicyType | (string & {}) | undefined;
 }
 export interface PutTimeOffPolicyAddEmployeesRequestEmployeesItem {
   /** The starting balance for the employee */
-  balance?: string | null;
+  balance?: string | null | undefined;
   /** The UUID of the employee */
   uuid: string;
 }
@@ -10246,17 +10339,17 @@ export interface PutTimeOffRequestApproveRequest {
   /** The UUID of the time off request */
   time_off_request_uuid: string;
   /** The UUID of the admin approving the request. Defaults to the company's primary payroll admin. */
-  approver_uuid?: string;
+  approver_uuid?: string | undefined;
   /** An object where keys are dates in YYYY-MM-DD format and values are hours as string decimals (e.g. {"2025-01-20": "8.000"}). Use this to override the requested hours. */
-  days?: PutTimeOffRequestApproveRequestDaysMap;
+  days?: PutTimeOffRequestApproveRequestDaysMap | undefined;
   /** A note from the employer about the approval */
-  employer_note?: string;
+  employer_note?: string | undefined;
 }
 export interface PutTimeOffRequestDeclineRequest {
   /** The UUID of the time off request */
   time_off_request_uuid: string;
   /** The UUID of the admin declining the request. Defaults to the company's primary payroll admin. */
-  approver_uuid?: string;
+  approver_uuid?: string | undefined;
   /** Note explaining why the request was declined */
   employer_note: string;
 }
@@ -10267,11 +10360,14 @@ export type PutTimeTrackingTimeSheetRequestEntriesItemPayClassification =
   | "Double overtime";
 export interface PutTimeTrackingTimeSheetRequestEntriesItem {
   /** Hours worked for this pay classification. Should be passed as number with up to 3 decimal places. */
-  hours_worked?: number;
+  hours_worked?: number | undefined;
   /** Pay classification for the entry. */
-  pay_classification?: PutTimeTrackingTimeSheetRequestEntriesItemPayClassification | (string & {});
+  pay_classification?:
+    | PutTimeTrackingTimeSheetRequestEntriesItemPayClassification
+    | (string & {})
+    | undefined;
   /** Unique identifier of the entry. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Entries associated with the time sheet. */
 export type PutTimeTrackingTimeSheetRequestEntriesList =
@@ -10284,21 +10380,21 @@ export interface PutTimeTrackingTimeSheetRequest {
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
   /** Type of entity associated with the time sheet. */
-  entity_type?: string;
+  entity_type?: string | undefined;
   /** Unique identifier of the entity associated with the time sheet. */
-  entity_uuid?: string;
+  entity_uuid?: string | undefined;
   /** Entries associated with the time sheet. */
-  entries?: PutTimeTrackingTimeSheetRequestEntriesList;
+  entries?: PutTimeTrackingTimeSheetRequestEntriesList | undefined;
   /** Unique identifier of the job for which time was tracked. Currently is only supported for employees. */
-  job_uuid?: string;
+  job_uuid?: string | undefined;
   /** Metadata associated with the time sheet. Key-value pairs of arbitrary data. Both keys and values must be strings. */
-  metadata?: PutTimeTrackingTimeSheetRequestMetadataMap;
+  metadata?: PutTimeTrackingTimeSheetRequestMetadataMap | undefined;
   /** The end time of the shift. If the shift is still ongoing this will be null. */
-  shift_ended_at?: string;
+  shift_ended_at?: string | undefined;
   /** The start time of the shift. Timestamp should be in ISO8601 */
-  shift_started_at?: string;
+  shift_started_at?: string | undefined;
   /** Time zone of where the time was tracked. */
-  time_zone?: string;
+  time_zone?: string | undefined;
 }
 export interface PutV1CompanyFormSignRequest {
   /** The UUID of the form */
@@ -10308,7 +10404,7 @@ export interface PutV1CompanyFormSignRequest {
   /** The signature */
   signature_text: string;
   /** The IP address of the signatory who signed the form. Both IPv4 AND IPv6 are supported. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
-  signed_by_ip_address?: string;
+  signed_by_ip_address?: string | undefined;
 }
 /** A list of Standard Industrial Classification (SIC) codes, which are four digit numbers that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with `naics_code`. */
 export type PutV1CompanyIndustryRequestSicCodesList = Array<string>;
@@ -10318,15 +10414,15 @@ export interface PutV1CompanyIndustryRequest {
   /** North American Industry Classification System (NAICS) is used to classify businesses with a six digit number based on the primary type of work the business performs. */
   naics_code: string;
   /** A list of Standard Industrial Classification (SIC) codes, which are four digit numbers that categorize the industries that companies belong to based on their business activities. If sic_codes is not passed in, we will perform an internal lookup with `naics_code`. */
-  sic_codes?: PutV1CompanyIndustryRequestSicCodesList;
+  sic_codes?: PutV1CompanyIndustryRequestSicCodesList | undefined;
   /** Industry title */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 export interface PutV1ContractorDocumentSignRequestFieldsItem {
   /** Unique identifier of the field */
-  key?: string;
+  key?: string | undefined;
   /** Value for the field */
-  value?: string;
+  value?: string | undefined;
 }
 /** List of fields and the values they will be set to. */
 export type PutV1ContractorDocumentSignRequestFieldsList =
@@ -10339,27 +10435,27 @@ export interface PutV1ContractorDocumentSignRequest {
   /** List of fields and the values they will be set to. */
   fields: PutV1ContractorDocumentSignRequestFieldsList;
   /** The IP address of the signatory who signed the form. You must provide the IP address with either this parameter OR you can leave out this parameter and set the IP address in the request header using the `x-gusto-client-ip` header instead. */
-  signed_by_ip_address?: string;
+  signed_by_ip_address?: string | undefined;
 }
 export interface DocumentSignedFieldsItem {
   /** The field's data type */
-  data_type?: string;
+  data_type?: string | undefined;
   /** Height of the field. May be null when the field has no positioning information. */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Unique identifier of the field. May be null for custom fields that do not correspond to a known Gusto-managed key mapping. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Page number of the field. May be null when the field has no positioning information. */
-  page_number?: number | null;
+  page_number?: number | null | undefined;
   /** Whether the field is required */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Value of the field */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Width of the field. May be null when the field has no positioning information. */
-  width?: number | null;
+  width?: number | null | undefined;
   /** X-coordinate location of the field on the page. May be null when the field has no positioning information. */
-  x?: number | null;
+  x?: number | null | undefined;
   /** Y-coordinate location of the field on the page. May be null when the field has no positioning information. */
-  y?: number | null;
+  y?: number | null | undefined;
 }
 /** List of the document's fields and associated data. Values reflect the data provided at signing. */
 export type DocumentSignedFieldsList = Array<DocumentSignedFieldsItem>;
@@ -10370,31 +10466,31 @@ export type DocumentSignedPagesList = Array<DocumentPagesItem>;
 export type DocumentSignedRecipientType = "Company" | "Employee" | "Contractor";
 export interface DocumentSigned {
   /** The description of the document */
-  description?: string;
+  description?: string | undefined;
   /** If the document is in a draft state */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** List of the document's fields and associated data. Values reflect the data provided at signing. */
-  fields?: DocumentSignedFieldsList;
+  fields?: DocumentSignedFieldsList | undefined;
   /** The type identifier of the document */
-  name?: string;
+  name?: string | undefined;
   /** List of the document's pages and associated image URLs. */
-  pages?: DocumentSignedPagesList;
+  pages?: DocumentSignedPagesList | undefined;
   /** The quarter of this document. This value is nullable and will not be present on all documents. */
-  quarter?: number | null;
+  quarter?: number | null | undefined;
   /** The type of recipient associated with the document (will be `Contractor` for Contractor Documents) */
-  recipient_type?: DocumentSignedRecipientType;
+  recipient_type?: DocumentSignedRecipientType | undefined;
   /** Unique identifier for the recipient associated with the document */
-  recipient_uuid?: string;
+  recipient_uuid?: string | undefined;
   /** A boolean flag that indicates whether the document needs signing or not. Note that this value will change after the document is signed. */
-  requires_signing?: boolean;
+  requires_signing?: boolean | undefined;
   /** When the document was signed (will be `null` if unsigned) */
-  signed_at?: string | null;
+  signed_at?: string | null | undefined;
   /** The title of the document */
-  title?: string;
+  title?: string | undefined;
   /** The UUID of the document */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The year of this document. This value is nullable and will not be present on all documents. */
-  year?: number | null;
+  year?: number | null | undefined;
 }
 export interface PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundRequest {
   /** The UUID of the contractor payment group */
@@ -10416,25 +10512,31 @@ export type PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseTota
   CreateCompanyContractorPaymentGroupResponseTotals;
 export interface PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponse {
   /** The check date of the contractor payment group. */
-  check_date?: string;
+  check_date?: string | undefined;
   /** The UUID of the company. */
-  company_uuid?: string;
+  company_uuid?: string | undefined;
   /** Token used to make contractor payment group creation idempotent. Will error if attempting to create a group with a duplicate token. */
-  creation_token?: string | null;
+  creation_token?: string | null | undefined;
   /** The debit date of the contractor payment group. */
-  debit_date?: string;
+  debit_date?: string | undefined;
   /** The status of the contractor payment group. Will be `Funded` if all payments that should be funded (i.e. have `Direct Deposit` for payment method) are funded. A group can have status `Funded` while having associated payments that have status `Unfunded`, i.e. payment with `Check` payment method. */
-  status?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseStatus;
+  status?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseStatus | undefined;
   /** The unique identifier of the contractor payment group. */
-  uuid?: string;
-  contractor_payments?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseContractorPaymentsList;
+  uuid?: string | undefined;
+  contractor_payments?:
+    | PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseContractorPaymentsList
+    | undefined;
   /** List of credit blockers for the contractor payment group. */
-  credit_blockers?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseCreditBlockersList;
+  credit_blockers?:
+    | PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseCreditBlockersList
+    | undefined;
   /** Whether the disbursement is partner owned. */
-  partner_owned_disbursement?: boolean | null;
+  partner_owned_disbursement?: boolean | null | undefined;
   /** List of submission blockers for the contractor payment group. */
-  submission_blockers?: PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseSubmissionBlockersList;
-  totals?: CreateCompanyContractorPaymentGroupResponseTotals;
+  submission_blockers?:
+    | PutV1ContractorPaymentGroupsContractorPaymentGroupIdFundResponseSubmissionBlockersList
+    | undefined;
+  totals?: CreateCompanyContractorPaymentGroupResponseTotals | undefined;
 }
 /** The payment method type. If type is Direct Deposit, the contractor is required to have a bank account. See [Bank account endpoint](./post-v1-contractors-contractor_uuid-bank_accounts). */
 export type PutV1ContractorsContractorIdPaymentMethodRequestType = "Direct Deposit" | "Check";
@@ -10458,21 +10560,21 @@ export interface PutV1EmployeesEmployeeIdFederalTaxesRequest {
   /** The UUID of the employee */
   employee_uuid: string;
   /** Only applicable when w4_data_type is 'pre_2020_w4' (pre-2020 W4 forms are deprecated for updates). */
-  additional_withholding?: number;
+  additional_withholding?: number | undefined;
   /** Deductions other than the standard deduction to reduce withholding. */
-  deductions?: number;
+  deductions?: number | undefined;
   /** Amount for dependents; a dependent entitles the taxpayer to claim a dependency exemption. */
-  dependents_amount?: number;
+  dependents_amount?: number | undefined;
   /** Additional amount to be withheld from each paycheck. */
-  extra_withholding?: number;
+  extra_withholding?: number | undefined;
   /** Only applicable when w4_data_type is 'pre_2020_w4' (pre-2020 W4 forms are deprecated for updates). */
-  federal_withholding_allowance?: number;
+  federal_withholding_allowance?: number | undefined;
   /** Determines which tax return form an individual will use. One of: Single, Married, Head of Household, Exempt from withholding. */
   filing_status: PutV1EmployeesEmployeeIdFederalTaxesRequestFilingStatus | (string & {});
   /** Other income amount. */
-  other_income?: number;
+  other_income?: number | undefined;
   /** If there are only two jobs (e.g., you and your spouse each have a job), set to true. */
-  two_jobs?: boolean;
+  two_jobs?: boolean | undefined;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/versioning#object-layer) for information on how to use this field. */
   version: string;
   /** The version of the W4 form. Only rev_2020_w4 is accepted for updates. */
@@ -10485,19 +10587,19 @@ export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnsw
   | boolean;
 export interface PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem {
   valid_from: string;
-  valid_up_to?: string | null;
+  valid_up_to?: string | null | undefined;
   value: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItemValue | null;
 }
 export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList =
   Array<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersItem>;
 export interface PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem {
-  answers?: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList;
+  answers?: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItemAnswersList | undefined;
   key: string;
 }
 export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList =
   Array<PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsItem>;
 export interface PutV1EmployeesEmployeeIdStateTaxesRequestStatesItem {
-  questions?: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList;
+  questions?: PutV1EmployeesEmployeeIdStateTaxesRequestStatesItemQuestionsList | undefined;
   state: string;
 }
 export type PutV1EmployeesEmployeeIdStateTaxesRequestStatesList =
@@ -10510,11 +10612,11 @@ export interface PutV1EmployeesEmployeeIdStateTaxesRequest {
 export type PutV1EmployeesEmployeeIdStateTaxesResponse = EmployeeStateTaxesList;
 export interface PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsItem {
   /** The ID of the company benefit. */
-  benefit_id?: number;
+  benefit_id?: number | undefined;
   /** The company contribution amount in dollars. */
-  company_contribution_amount?: string;
+  company_contribution_amount?: string | undefined;
   /** The employee deduction amount in dollars. */
-  employee_deduction_amount?: string;
+  employee_deduction_amount?: string | undefined;
 }
 /** Benefits for the employee. */
 export type PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList =
@@ -10525,37 +10627,38 @@ export type PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItemEarni
   | "CompanyEarningType";
 export interface PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem {
   /** The earning amount in dollars. */
-  amount?: string;
+  amount?: string | undefined;
   /** The ID of the earning type. */
-  earning_id?: number;
+  earning_id?: number | undefined;
   /** The earning type class name. */
   earning_type?:
     | PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItemEarningType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The number of hours worked. */
-  hours?: string;
+  hours?: string | undefined;
 }
 /** Earnings for the employee. */
 export type PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList =
   Array<PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsItem>;
 export interface PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem {
   /** The tax amount in dollars. */
-  amount?: string;
+  amount?: string | undefined;
   /** The ID of the tax. */
-  tax_id?: number;
+  tax_id?: number | undefined;
 }
 /** Taxes for the employee. */
 export type PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList =
   Array<PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesItem>;
 export interface PutV1ExternalPayrollRequestExternalPayrollItemsItem {
   /** Benefits for the employee. */
-  benefits?: PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList;
+  benefits?: PutV1ExternalPayrollRequestExternalPayrollItemsItemBenefitsList | undefined;
   /** Earnings for the employee. */
-  earnings?: PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList;
+  earnings?: PutV1ExternalPayrollRequestExternalPayrollItemsItemEarningsList | undefined;
   /** The UUID of the employee. */
   employee_uuid: string;
   /** Taxes for the employee. */
-  taxes?: PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList;
+  taxes?: PutV1ExternalPayrollRequestExternalPayrollItemsItemTaxesList | undefined;
 }
 /** Payroll items for each employee in the external payroll. */
 export type PutV1ExternalPayrollRequestExternalPayrollItemsList =
@@ -10568,7 +10671,7 @@ export interface PutV1ExternalPayrollRequest {
   /** Payroll items for each employee in the external payroll. */
   external_payroll_items: PutV1ExternalPayrollRequestExternalPayrollItemsList;
   /** Patch update external payroll items when set to true, otherwise it will overwrite the previous changes. */
-  replace_fields?: boolean;
+  replace_fields?: boolean | undefined;
 }
 /** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
 export type PutV1HistoricalEmployeesRequestEmployeeStateTaxes =
@@ -10594,9 +10697,9 @@ export interface PutV1HistoricalEmployeesRequest {
   /** Date of birth (YYYY-MM-DD). */
   date_of_birth: string;
   /** Optional. When provided, stored on the employee record for notifications and profile. */
-  email?: string;
+  email?: string | undefined;
   /** Workers' compensation fields for Washington (WA) or Wyoming (WY) when the work address is in those states; omit when not applicable. */
-  employee_state_taxes?: PostV1HistoricalEmployeesRequestEmployeeStateTaxes;
+  employee_state_taxes?: PostV1HistoricalEmployeesRequestEmployeeStateTaxes | undefined;
   /** Legal first name as it appears on government-issued identification. */
   first_name: string;
   /** Residential address on file for tax withholding and compliance mail. */
@@ -10606,9 +10709,9 @@ export interface PutV1HistoricalEmployeesRequest {
   /** Legal last name as it appears on government-issued identification. */
   last_name: string;
   /** Single middle initial, if any. */
-  middle_initial?: string;
+  middle_initial?: string | undefined;
   /** Preferred given name for display; omit when the same as legal first name. */
-  preferred_first_name?: string;
+  preferred_first_name?: string | undefined;
   /** Nine-digit U.S. Social Security number **without** dashes or spaces. Must pass Gusto/SSA validation in production; use a valid test SSN in sandbox environments. */
   ssn: string;
   /** End of the historical employment period. */
@@ -10635,7 +10738,7 @@ export interface PutV1SalaryEstimatesIdRequestOccupationsItem {
   /** Experience level for this occupation */
   experience_level: PutV1SalaryEstimatesIdRequestOccupationsItemExperienceLevel | (string & {});
   /** Whether this is the primary occupation */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Percentage of time spent in this occupation (as decimal, e.g., 0.5 = 50%) */
   time_percentage: string;
 }
@@ -10646,7 +10749,7 @@ export interface PutV1SalaryEstimatesIdRequest {
   /** The UUID of the salary estimate */
   uuid: string;
   /** The annual net revenue of the business (must be greater than 0) */
-  annual_net_revenue?: number | null;
+  annual_net_revenue?: number | null | undefined;
   /** Array of occupations. Time percentages must sum to 100%. */
   occupations: PutV1SalaryEstimatesIdRequestOccupationsList;
   /** The ZIP code for location-based salary calculations */
@@ -10715,7 +10818,7 @@ export interface PutWireInRequestsWireInRequestUuidRequest {
   /** The UUID of the Wire In Request */
   wire_in_request_uuid: string;
   /** Additional notes */
-  additional_notes?: string;
+  additional_notes?: string | undefined;
   /** Amount of money sent */
   amount_sent: string;
   /** Name of the bank sending the wire */
@@ -10728,9 +10831,9 @@ export interface PutWorkAddressRequest {
   work_address_uuid: string;
   /** The current version of the object. See the [versioning guide](https://docs.gusto.com/embedded-payroll/docs/idempotency) for information on how to use this field. */
   version: string;
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Reference to a company location */
-  location_uuid?: string;
+  location_uuid?: string | undefined;
 }
 export interface RedebitRecoveryCaseRequest {
   /** The UUID of the recovery case */
@@ -10762,11 +10865,13 @@ export interface UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsIte
   /** Payment method for the employee */
   payment_method?:
     | UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Status of the payment disbursement */
   payment_status?:
     | UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItemPaymentStatus
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsList =
   Array<UpdateCompanyPayrollPartnerDisbursementsRequestDisbursementsItem>;
@@ -10795,11 +10900,13 @@ export interface UpdateContractorPaymentGroupPartnerDisbursementsRequestDisburse
   /** Payment method for the contractor */
   payment_method?:
     | UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Status of the payment disbursement */
   payment_status?:
     | UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItemPaymentStatus
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsList =
   Array<UpdateContractorPaymentGroupPartnerDisbursementsRequestDisbursementsItem>;

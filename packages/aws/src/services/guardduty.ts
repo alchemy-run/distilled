@@ -143,21 +143,21 @@ export class ResourceNotFoundException
 export type DetectorId = string;
 export interface AcceptAdministratorInvitationRequest {
   DetectorId: string;
-  AdministratorId?: string;
-  InvitationId?: string;
+  AdministratorId?: string | undefined;
+  InvitationId?: string | undefined;
 }
 export interface AcceptAdministratorInvitationResponse {}
 export interface AcceptInvitationRequest {
   DetectorId: string;
-  MasterId?: string;
-  InvitationId?: string;
+  MasterId?: string | undefined;
+  InvitationId?: string | undefined;
 }
 export interface AcceptInvitationResponse {}
 export type FindingId = string;
 export type FindingIds = string[];
 export interface ArchiveFindingsRequest {
   DetectorId: string;
-  FindingIds?: string[];
+  FindingIds?: string[] | undefined;
 }
 export interface ArchiveFindingsResponse {}
 export type RuleId = string;
@@ -167,23 +167,23 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateCustomDetectionRuleAssociationRequest {
-  RuleId?: string;
-  Mode?: AssociationMode;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  RuleId?: string | undefined;
+  Mode?: AssociationMode | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssociationId = string;
 export type DetectionRuleArn = string;
 export type AccountId = string;
 export interface AssociationDetail {
-  AssociationId?: string;
-  Arn?: string;
-  RuleId?: string;
-  AccountId?: string;
-  Mode?: AssociationMode;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ExpiresAt?: Date;
+  AssociationId?: string | undefined;
+  Arn?: string | undefined;
+  RuleId?: string | undefined;
+  AccountId?: string | undefined;
+  Mode?: AssociationMode | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export interface CreateCustomDetectionRuleAssociationResponse {
   RuleAssociation: AssociationDetail & {
@@ -198,11 +198,11 @@ export interface CreateCustomDetectionRuleAssociationResponse {
 }
 export type DetectionRuleAccountIds = string[];
 export interface CreateCustomDetectionRuleOrgConfigurationRequest {
-  RuleId?: string;
-  Mode?: AssociationMode;
-  IncludeAccountIds?: string[];
-  ExcludeAccountIds?: string[];
-  ClientToken?: string;
+  RuleId?: string | undefined;
+  Mode?: AssociationMode | undefined;
+  IncludeAccountIds?: string[] | undefined;
+  ExcludeAccountIds?: string[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateCustomDetectionRuleOrgConfigurationResponse {}
 export type FindingPublishingFrequency =
@@ -211,24 +211,24 @@ export type FindingPublishingFrequency =
   | "SIX_HOURS"
   | (string & {});
 export interface S3LogsConfiguration {
-  Enable?: boolean;
+  Enable?: boolean | undefined;
 }
 export interface KubernetesAuditLogsConfiguration {
-  Enable?: boolean;
+  Enable?: boolean | undefined;
 }
 export interface KubernetesConfiguration {
-  AuditLogs?: KubernetesAuditLogsConfiguration;
+  AuditLogs?: KubernetesAuditLogsConfiguration | undefined;
 }
 export interface ScanEc2InstanceWithFindings {
-  EbsVolumes?: boolean;
+  EbsVolumes?: boolean | undefined;
 }
 export interface MalwareProtectionConfiguration {
-  ScanEc2InstanceWithFindings?: ScanEc2InstanceWithFindings;
+  ScanEc2InstanceWithFindings?: ScanEc2InstanceWithFindings | undefined;
 }
 export interface DataSourceConfigurations {
-  S3Logs?: S3LogsConfiguration;
-  Kubernetes?: KubernetesConfiguration;
-  MalwareProtection?: MalwareProtectionConfiguration;
+  S3Logs?: S3LogsConfiguration | undefined;
+  Kubernetes?: KubernetesConfiguration | undefined;
+  MalwareProtection?: MalwareProtectionConfiguration | undefined;
 }
 export type DetectorFeature =
   | "S3_DATA_EVENTS"
@@ -249,42 +249,42 @@ export type FeatureAdditionalConfiguration =
   | "RDS_DATA_RISK"
   | (string & {});
 export interface DetectorAdditionalConfiguration {
-  Name?: FeatureAdditionalConfiguration;
-  Status?: FeatureStatus;
+  Name?: FeatureAdditionalConfiguration | undefined;
+  Status?: FeatureStatus | undefined;
 }
 export type DetectorAdditionalConfigurations = DetectorAdditionalConfiguration[];
 export interface DetectorFeatureConfiguration {
-  Name?: DetectorFeature;
-  Status?: FeatureStatus;
-  AdditionalConfiguration?: DetectorAdditionalConfiguration[];
+  Name?: DetectorFeature | undefined;
+  Status?: FeatureStatus | undefined;
+  AdditionalConfiguration?: DetectorAdditionalConfiguration[] | undefined;
 }
 export type DetectorFeatureConfigurations = DetectorFeatureConfiguration[];
 export interface CreateDetectorRequest {
-  Enable?: boolean;
-  ClientToken?: string;
-  FindingPublishingFrequency?: FindingPublishingFrequency;
-  DataSources?: DataSourceConfigurations;
-  Tags?: { [key: string]: string | undefined };
-  Features?: DetectorFeatureConfiguration[];
+  Enable?: boolean | undefined;
+  ClientToken?: string | undefined;
+  FindingPublishingFrequency?: FindingPublishingFrequency | undefined;
+  DataSources?: DataSourceConfigurations | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Features?: DetectorFeatureConfiguration[] | undefined;
 }
 export type DataSourceStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface EbsVolumesResult {
-  Status?: DataSourceStatus;
-  Reason?: string;
+  Status?: DataSourceStatus | undefined;
+  Reason?: string | undefined;
 }
 export interface ScanEc2InstanceWithFindingsResult {
-  EbsVolumes?: EbsVolumesResult;
+  EbsVolumes?: EbsVolumesResult | undefined;
 }
 export interface MalwareProtectionConfigurationResult {
-  ScanEc2InstanceWithFindings?: ScanEc2InstanceWithFindingsResult;
-  ServiceRole?: string;
+  ScanEc2InstanceWithFindings?: ScanEc2InstanceWithFindingsResult | undefined;
+  ServiceRole?: string | undefined;
 }
 export interface UnprocessedDataSourcesResult {
-  MalwareProtection?: MalwareProtectionConfigurationResult;
+  MalwareProtection?: MalwareProtectionConfigurationResult | undefined;
 }
 export interface CreateDetectorResponse {
-  DetectorId?: string;
-  UnprocessedDataSources?: UnprocessedDataSourcesResult;
+  DetectorId?: string | undefined;
+  UnprocessedDataSources?: UnprocessedDataSourcesResult | undefined;
 }
 export type FilterName = string;
 export type FilterDescription = string;
@@ -299,34 +299,34 @@ export type Matches = string[];
 export type NotMatch = string;
 export type NotMatches = string[];
 export interface Condition {
-  Eq?: string[];
-  Neq?: string[];
-  Gt?: number;
-  Gte?: number;
-  Lt?: number;
-  Lte?: number;
-  Equals?: string[];
-  NotEquals?: string[];
-  GreaterThan?: number;
-  GreaterThanOrEqual?: number;
-  LessThan?: number;
-  LessThanOrEqual?: number;
-  Matches?: string[];
-  NotMatches?: string[];
+  Eq?: string[] | undefined;
+  Neq?: string[] | undefined;
+  Gt?: number | undefined;
+  Gte?: number | undefined;
+  Lt?: number | undefined;
+  Lte?: number | undefined;
+  Equals?: string[] | undefined;
+  NotEquals?: string[] | undefined;
+  GreaterThan?: number | undefined;
+  GreaterThanOrEqual?: number | undefined;
+  LessThan?: number | undefined;
+  LessThanOrEqual?: number | undefined;
+  Matches?: string[] | undefined;
+  NotMatches?: string[] | undefined;
 }
 export type Criterion = { [key: string]: Condition | undefined };
 export interface FindingCriteria {
-  Criterion?: { [key: string]: Condition | undefined };
+  Criterion?: { [key: string]: Condition | undefined } | undefined;
 }
 export interface CreateFilterRequest {
   DetectorId: string;
-  Name?: string;
-  Description?: string;
-  Action?: FilterAction;
-  Rank?: number;
-  FindingCriteria?: FindingCriteria;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Action?: FilterAction | undefined;
+  Rank?: number | undefined;
+  FindingCriteria?: FindingCriteria | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFilterResponse {
   Name: string;
@@ -334,8 +334,8 @@ export interface CreateFilterResponse {
 export type TriggerPrompt = string;
 export interface CreateInvestigationRequest {
   DetectorId: string;
-  TriggerPrompt?: string;
-  ClientToken?: string;
+  TriggerPrompt?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export type InvestigationId = string;
 export interface CreateInvestigationResponse {
@@ -353,55 +353,55 @@ export type IpSetFormat =
 export type Location = string;
 export interface CreateIPSetRequest {
   DetectorId: string;
-  Name?: string;
-  Format?: IpSetFormat;
-  Location?: string;
-  Activate?: boolean;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  ExpectedBucketOwner?: string;
+  Name?: string | undefined;
+  Format?: IpSetFormat | undefined;
+  Location?: string | undefined;
+  Activate?: boolean | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface CreateIPSetResponse {
   IpSetId: string;
 }
 export type MalwareProtectionPlanObjectPrefixesList = string[];
 export interface CreateS3BucketResource {
-  BucketName?: string;
-  ObjectPrefixes?: string[];
+  BucketName?: string | undefined;
+  ObjectPrefixes?: string[] | undefined;
 }
 export interface CreateProtectedResource {
-  S3Bucket?: CreateS3BucketResource;
+  S3Bucket?: CreateS3BucketResource | undefined;
 }
 export type MalwareProtectionPlanTaggingActionStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface MalwareProtectionPlanTaggingAction {
-  Status?: MalwareProtectionPlanTaggingActionStatus;
+  Status?: MalwareProtectionPlanTaggingActionStatus | undefined;
 }
 export interface MalwareProtectionPlanActions {
-  Tagging?: MalwareProtectionPlanTaggingAction;
+  Tagging?: MalwareProtectionPlanTaggingAction | undefined;
 }
 export interface CreateMalwareProtectionPlanRequest {
-  ClientToken?: string;
-  Role?: string;
-  ProtectedResource?: CreateProtectedResource;
-  Actions?: MalwareProtectionPlanActions;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Role?: string | undefined;
+  ProtectedResource?: CreateProtectedResource | undefined;
+  Actions?: MalwareProtectionPlanActions | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMalwareProtectionPlanResponse {
-  MalwareProtectionPlanId?: string;
+  MalwareProtectionPlanId?: string | undefined;
 }
 export type Email = string | redacted.Redacted<string>;
 export interface AccountDetail {
-  AccountId?: string;
-  Email?: string | redacted.Redacted<string>;
+  AccountId?: string | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
 }
 export type AccountDetails = AccountDetail[];
 export interface CreateMembersRequest {
   DetectorId: string;
-  AccountDetails?: AccountDetail[];
+  AccountDetails?: AccountDetail[] | undefined;
 }
 export interface UnprocessedAccount {
-  AccountId?: string;
-  Result?: string;
+  AccountId?: string | undefined;
+  Result?: string | undefined;
 }
 export type UnprocessedAccounts = UnprocessedAccount[];
 export interface CreateMembersResponse {
@@ -409,16 +409,16 @@ export interface CreateMembersResponse {
 }
 export type DestinationType = "S3" | (string & {});
 export interface DestinationProperties {
-  DestinationArn?: string;
-  KmsKeyArn?: string;
-  ExpectedBucketOwner?: string;
+  DestinationArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface CreatePublishingDestinationRequest {
   DetectorId: string;
-  DestinationType?: DestinationType;
-  DestinationProperties?: DestinationProperties;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  DestinationType?: DestinationType | undefined;
+  DestinationProperties?: DestinationProperties | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePublishingDestinationResponse {
   DestinationId: string;
@@ -427,7 +427,7 @@ export type FindingType = string;
 export type FindingTypes = string[];
 export interface CreateSampleFindingsRequest {
   DetectorId: string;
-  FindingTypes?: string[];
+  FindingTypes?: string[] | undefined;
 }
 export interface CreateSampleFindingsResponse {}
 export type ThreatEntitySetFormat =
@@ -441,13 +441,13 @@ export type ThreatEntitySetFormat =
 export type ExpectedBucketOwner = string;
 export interface CreateThreatEntitySetRequest {
   DetectorId: string;
-  Name?: string;
-  Format?: ThreatEntitySetFormat;
-  Location?: string;
-  ExpectedBucketOwner?: string;
-  Activate?: boolean;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Format?: ThreatEntitySetFormat | undefined;
+  Location?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  Activate?: boolean | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateThreatEntitySetResponse {
   ThreatEntitySetId: string;
@@ -462,13 +462,13 @@ export type ThreatIntelSetFormat =
   | (string & {});
 export interface CreateThreatIntelSetRequest {
   DetectorId: string;
-  Name?: string;
-  Format?: ThreatIntelSetFormat;
-  Location?: string;
-  Activate?: boolean;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  ExpectedBucketOwner?: string;
+  Name?: string | undefined;
+  Format?: ThreatIntelSetFormat | undefined;
+  Location?: string | undefined;
+  Activate?: boolean | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface CreateThreatIntelSetResponse {
   ThreatIntelSetId: string;
@@ -483,20 +483,20 @@ export type TrustedEntitySetFormat =
   | (string & {});
 export interface CreateTrustedEntitySetRequest {
   DetectorId: string;
-  Name?: string;
-  Format?: TrustedEntitySetFormat;
-  Location?: string;
-  ExpectedBucketOwner?: string;
-  Activate?: boolean;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Format?: TrustedEntitySetFormat | undefined;
+  Location?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  Activate?: boolean | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTrustedEntitySetResponse {
   TrustedEntitySetId: string;
 }
 export type AccountIds = string[];
 export interface DeclineInvitationsRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DeclineInvitationsResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
@@ -508,7 +508,7 @@ export interface DeleteCustomDetectionRuleAssociationRequest {
 export interface DeleteCustomDetectionRuleAssociationResponse {}
 export interface DeleteCustomDetectionRuleOrgConfigurationRequest {
   RuleId: string;
-  Mode?: AssociationMode;
+  Mode?: AssociationMode | undefined;
 }
 export interface DeleteCustomDetectionRuleOrgConfigurationResponse {}
 export interface DeleteDetectorRequest {
@@ -521,23 +521,23 @@ export interface DeleteFilterRequest {
 }
 export interface DeleteFilterResponse {}
 export interface DeleteInvitationsRequest {
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DeleteInvitationsResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
 }
 export interface DeleteIPSetRequest {
   DetectorId: string;
-  IpSetId?: string;
+  IpSetId?: string | undefined;
 }
 export interface DeleteIPSetResponse {}
 export interface DeleteMalwareProtectionPlanRequest {
-  MalwareProtectionPlanId?: string;
+  MalwareProtectionPlanId?: string | undefined;
 }
 export interface DeleteMalwareProtectionPlanResponse {}
 export interface DeleteMembersRequest {
   DetectorId: string;
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DeleteMembersResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
@@ -549,7 +549,7 @@ export interface DeletePublishingDestinationRequest {
 export interface DeletePublishingDestinationResponse {}
 export interface DeleteThreatEntitySetRequest {
   DetectorId: string;
-  ThreatEntitySetId?: string;
+  ThreatEntitySetId?: string | undefined;
 }
 export interface DeleteThreatEntitySetResponse {}
 export interface DeleteThreatIntelSetRequest {
@@ -575,107 +575,107 @@ export type CriterionKey =
 export type NonEmptyString = string;
 export type LongValue = number;
 export interface FilterCondition {
-  EqualsValue?: string;
-  GreaterThan?: number;
-  LessThan?: number;
+  EqualsValue?: string | undefined;
+  GreaterThan?: number | undefined;
+  LessThan?: number | undefined;
 }
 export interface FilterCriterion {
-  CriterionKey?: CriterionKey;
-  FilterCondition?: FilterCondition;
+  CriterionKey?: CriterionKey | undefined;
+  FilterCondition?: FilterCondition | undefined;
 }
 export type FilterCriterionList = FilterCriterion[];
 export interface FilterCriteria {
-  FilterCriterion?: FilterCriterion[];
+  FilterCriterion?: FilterCriterion[] | undefined;
 }
 export type OrderBy = "ASC" | "DESC" | (string & {});
 export interface SortCriteria {
-  AttributeName?: string;
-  OrderBy?: OrderBy;
+  AttributeName?: string | undefined;
+  OrderBy?: OrderBy | undefined;
 }
 export interface DescribeMalwareScansRequest {
   DetectorId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  FilterCriteria?: FilterCriteria;
-  SortCriteria?: SortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  FilterCriteria?: FilterCriteria | undefined;
+  SortCriteria?: SortCriteria | undefined;
 }
 export type ScanStatus = "RUNNING" | "COMPLETED" | "FAILED" | "SKIPPED" | (string & {});
 export type TriggerType = "BACKUP" | "GUARDDUTY" | (string & {});
 export interface TriggerDetails {
-  GuardDutyFindingId?: string;
-  Description?: string;
-  TriggerType?: TriggerType;
+  GuardDutyFindingId?: string | undefined;
+  Description?: string | undefined;
+  TriggerType?: TriggerType | undefined;
 }
 export type InstanceArn = string;
 export interface ResourceDetails {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
 }
 export type ScanResult = "CLEAN" | "INFECTED" | (string & {});
 export interface ScanResultDetails {
-  ScanResult?: ScanResult;
+  ScanResult?: ScanResult | undefined;
 }
 export type PositiveLong = number;
 export interface VolumeDetail {
-  VolumeArn?: string;
-  VolumeType?: string;
-  DeviceName?: string;
-  VolumeSizeInGB?: number;
-  EncryptionType?: string;
-  SnapshotArn?: string;
-  KmsKeyArn?: string;
+  VolumeArn?: string | undefined;
+  VolumeType?: string | undefined;
+  DeviceName?: string | undefined;
+  VolumeSizeInGB?: number | undefined;
+  EncryptionType?: string | undefined;
+  SnapshotArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type VolumeDetails = VolumeDetail[];
 export type ScanType = "GUARDDUTY_INITIATED" | "ON_DEMAND" | (string & {});
 export interface Scan {
-  DetectorId?: string;
-  AdminDetectorId?: string;
-  ScanId?: string;
-  ScanStatus?: ScanStatus;
-  FailureReason?: string;
-  ScanStartTime?: Date;
-  ScanEndTime?: Date;
-  TriggerDetails?: TriggerDetails;
-  ResourceDetails?: ResourceDetails;
-  ScanResultDetails?: ScanResultDetails;
-  AccountId?: string;
-  TotalBytes?: number;
-  FileCount?: number;
-  AttachedVolumes?: VolumeDetail[];
-  ScanType?: ScanType;
+  DetectorId?: string | undefined;
+  AdminDetectorId?: string | undefined;
+  ScanId?: string | undefined;
+  ScanStatus?: ScanStatus | undefined;
+  FailureReason?: string | undefined;
+  ScanStartTime?: Date | undefined;
+  ScanEndTime?: Date | undefined;
+  TriggerDetails?: TriggerDetails | undefined;
+  ResourceDetails?: ResourceDetails | undefined;
+  ScanResultDetails?: ScanResultDetails | undefined;
+  AccountId?: string | undefined;
+  TotalBytes?: number | undefined;
+  FileCount?: number | undefined;
+  AttachedVolumes?: VolumeDetail[] | undefined;
+  ScanType?: ScanType | undefined;
 }
 export type Scans = Scan[];
 export interface DescribeMalwareScansResponse {
   Scans: Scan[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface DescribeOrganizationConfigurationRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface OrganizationS3LogsConfigurationResult {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface OrganizationKubernetesAuditLogsConfigurationResult {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface OrganizationKubernetesConfigurationResult {
-  AuditLogs?: OrganizationKubernetesAuditLogsConfigurationResult;
+  AuditLogs?: OrganizationKubernetesAuditLogsConfigurationResult | undefined;
 }
 export interface OrganizationEbsVolumesResult {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface OrganizationScanEc2InstanceWithFindingsResult {
-  EbsVolumes?: OrganizationEbsVolumesResult;
+  EbsVolumes?: OrganizationEbsVolumesResult | undefined;
 }
 export interface OrganizationMalwareProtectionConfigurationResult {
-  ScanEc2InstanceWithFindings?: OrganizationScanEc2InstanceWithFindingsResult;
+  ScanEc2InstanceWithFindings?: OrganizationScanEc2InstanceWithFindingsResult | undefined;
 }
 export interface OrganizationDataSourceConfigurationsResult {
-  S3Logs?: OrganizationS3LogsConfigurationResult;
-  Kubernetes?: OrganizationKubernetesConfigurationResult;
-  MalwareProtection?: OrganizationMalwareProtectionConfigurationResult;
+  S3Logs?: OrganizationS3LogsConfigurationResult | undefined;
+  Kubernetes?: OrganizationKubernetesConfigurationResult | undefined;
+  MalwareProtection?: OrganizationMalwareProtectionConfigurationResult | undefined;
 }
 export type OrgFeature =
   | "S3_DATA_EVENTS"
@@ -695,30 +695,32 @@ export type OrgFeatureAdditionalConfiguration =
   | "RDS_DATA_RISK"
   | (string & {});
 export interface OrganizationAdditionalConfigurationResult {
-  Name?: OrgFeatureAdditionalConfiguration;
-  AutoEnable?: OrgFeatureStatus;
+  Name?: OrgFeatureAdditionalConfiguration | undefined;
+  AutoEnable?: OrgFeatureStatus | undefined;
 }
 export type OrganizationAdditionalConfigurationResults =
   OrganizationAdditionalConfigurationResult[];
 export interface OrganizationFeatureConfigurationResult {
-  Name?: OrgFeature;
-  AutoEnable?: OrgFeatureStatus;
-  AdditionalConfiguration?: OrganizationAdditionalConfigurationResult[];
+  Name?: OrgFeature | undefined;
+  AutoEnable?: OrgFeatureStatus | undefined;
+  AdditionalConfiguration?: OrganizationAdditionalConfigurationResult[] | undefined;
 }
 export type OrganizationFeaturesConfigurationsResults = OrganizationFeatureConfigurationResult[];
 export type AutoEnableMembers = "NEW" | "ALL" | "NONE" | (string & {});
 export interface DescribeOrganizationConfigurationResponse {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
   MemberAccountLimitReached: boolean;
-  DataSources?: OrganizationDataSourceConfigurationsResult & {
-    S3Logs: OrganizationS3LogsConfigurationResult & { AutoEnable: boolean };
-    Kubernetes: OrganizationKubernetesConfigurationResult & {
-      AuditLogs: OrganizationKubernetesAuditLogsConfigurationResult & { AutoEnable: boolean };
-    };
-  };
-  Features?: OrganizationFeatureConfigurationResult[];
-  NextToken?: string;
-  AutoEnableOrganizationMembers?: AutoEnableMembers;
+  DataSources?:
+    | (OrganizationDataSourceConfigurationsResult & {
+        S3Logs: OrganizationS3LogsConfigurationResult & { AutoEnable: boolean };
+        Kubernetes: OrganizationKubernetesConfigurationResult & {
+          AuditLogs: OrganizationKubernetesAuditLogsConfigurationResult & { AutoEnable: boolean };
+        };
+      })
+    | undefined;
+  Features?: OrganizationFeatureConfigurationResult[] | undefined;
+  NextToken?: string | undefined;
+  AutoEnableOrganizationMembers?: AutoEnableMembers | undefined;
 }
 export interface DescribePublishingDestinationRequest {
   DetectorId: string;
@@ -736,10 +738,10 @@ export interface DescribePublishingDestinationResponse {
   Status: PublishingStatus;
   PublishingFailureStartTimestamp: number;
   DestinationProperties: DestinationProperties;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DisableOrganizationAdminAccountRequest {
-  AdminAccountId?: string;
+  AdminAccountId?: string | undefined;
 }
 export interface DisableOrganizationAdminAccountResponse {}
 export interface DisassociateFromAdministratorAccountRequest {
@@ -752,23 +754,23 @@ export interface DisassociateFromMasterAccountRequest {
 export interface DisassociateFromMasterAccountResponse {}
 export interface DisassociateMembersRequest {
   DetectorId: string;
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface DisassociateMembersResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
 }
 export interface EnableOrganizationAdminAccountRequest {
-  AdminAccountId?: string;
+  AdminAccountId?: string | undefined;
 }
 export interface EnableOrganizationAdminAccountResponse {}
 export interface GetAdministratorAccountRequest {
   DetectorId: string;
 }
 export interface Administrator {
-  AccountId?: string;
-  InvitationId?: string;
-  RelationshipStatus?: string;
-  InvitedAt?: string;
+  AccountId?: string | undefined;
+  InvitationId?: string | undefined;
+  RelationshipStatus?: string | undefined;
+  InvitedAt?: string | undefined;
 }
 export interface GetAdministratorAccountResponse {
   Administrator: Administrator;
@@ -787,16 +789,16 @@ export type CoverageFilterCriterionKey =
   | "CLUSTER_ARN"
   | (string & {});
 export interface CoverageFilterCondition {
-  Equals?: string[];
-  NotEquals?: string[];
+  Equals?: string[] | undefined;
+  NotEquals?: string[] | undefined;
 }
 export interface CoverageFilterCriterion {
-  CriterionKey?: CoverageFilterCriterionKey;
-  FilterCondition?: CoverageFilterCondition;
+  CriterionKey?: CoverageFilterCriterionKey | undefined;
+  FilterCondition?: CoverageFilterCondition | undefined;
 }
 export type CoverageFilterCriterionList = CoverageFilterCriterion[];
 export interface CoverageFilterCriteria {
-  FilterCriterion?: CoverageFilterCriterion[];
+  FilterCriterion?: CoverageFilterCriterion[] | undefined;
 }
 export type CoverageStatisticsType =
   | "COUNT_BY_RESOURCE_TYPE"
@@ -805,19 +807,19 @@ export type CoverageStatisticsType =
 export type CoverageStatisticsTypeList = CoverageStatisticsType[];
 export interface GetCoverageStatisticsRequest {
   DetectorId: string;
-  FilterCriteria?: CoverageFilterCriteria;
-  StatisticsType?: CoverageStatisticsType[];
+  FilterCriteria?: CoverageFilterCriteria | undefined;
+  StatisticsType?: CoverageStatisticsType[] | undefined;
 }
 export type ResourceType = "EKS" | "ECS" | "EC2" | (string & {});
-export type CountByResourceType = { [key in ResourceType]?: number };
+export type CountByResourceType = { [key in ResourceType]?: number | undefined };
 export type CoverageStatus = "HEALTHY" | "UNHEALTHY" | (string & {});
-export type CountByCoverageStatus = { [key in CoverageStatus]?: number };
+export type CountByCoverageStatus = { [key in CoverageStatus]?: number | undefined };
 export interface CoverageStatistics {
-  CountByResourceType?: { [key: string]: number | undefined };
-  CountByCoverageStatus?: { [key: string]: number | undefined };
+  CountByResourceType?: { [key: string]: number | undefined } | undefined;
+  CountByCoverageStatus?: { [key: string]: number | undefined } | undefined;
 }
 export interface GetCoverageStatisticsResponse {
-  CoverageStatistics?: CoverageStatistics;
+  CoverageStatistics?: CoverageStatistics | undefined;
 }
 export interface GetCustomDetectionRuleRequest {
   RuleId: string;
@@ -834,44 +836,44 @@ export type MitreTechnique = string;
 export type DetectionRuleServiceName = string;
 export type RuleExpression = string;
 export interface RuleDefinition {
-  Expression?: string;
+  Expression?: string | undefined;
 }
 export type RuleLanguage = "SQL" | (string & {});
 export type RuleSchema = "CloudTrail" | (string & {});
 export type DetectionRuleAgentVersion = string;
 export interface DetectionRuleEksRequirements {
-  MinAgentVersion?: string;
+  MinAgentVersion?: string | undefined;
 }
 export interface DetectionRuleEc2Requirements {
-  MinAgentVersion?: string;
+  MinAgentVersion?: string | undefined;
 }
 export interface DetectionRuleEcsFargateRequirements {
-  MinAgentVersion?: string;
+  MinAgentVersion?: string | undefined;
 }
 export interface DetectionRuleRuntimePlatforms {
-  Eks?: DetectionRuleEksRequirements;
-  Ec2?: DetectionRuleEc2Requirements;
-  EcsFargate?: DetectionRuleEcsFargateRequirements;
+  Eks?: DetectionRuleEksRequirements | undefined;
+  Ec2?: DetectionRuleEc2Requirements | undefined;
+  EcsFargate?: DetectionRuleEcsFargateRequirements | undefined;
 }
 export interface DetectionRuleRuntimeMonitoringDetails {
-  Platforms?: DetectionRuleRuntimePlatforms;
+  Platforms?: DetectionRuleRuntimePlatforms | undefined;
 }
 export interface RuleDetail {
-  RuleId?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  Severity?: DetectionRuleSeverity;
-  DataSource?: DetectionRuleDataSource;
-  Tactic?: string;
-  Technique?: string;
-  Service?: string;
-  Definition?: RuleDefinition;
-  Language?: RuleLanguage;
-  Schema?: RuleSchema;
-  RuntimeMonitoringDetails?: DetectionRuleRuntimeMonitoringDetails;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  RuleId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Severity?: DetectionRuleSeverity | undefined;
+  DataSource?: DetectionRuleDataSource | undefined;
+  Tactic?: string | undefined;
+  Technique?: string | undefined;
+  Service?: string | undefined;
+  Definition?: RuleDefinition | undefined;
+  Language?: RuleLanguage | undefined;
+  Schema?: RuleSchema | undefined;
+  RuntimeMonitoringDetails?: DetectionRuleRuntimeMonitoringDetails | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetCustomDetectionRuleResponse {
   Rule: RuleDetail & {
@@ -902,23 +904,23 @@ export interface GetCustomDetectionRuleAssociationResponse {
     CreatedAt: Date;
     UpdatedAt: Date;
   };
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCustomDetectionRuleOrgConfigurationRequest {
   RuleId: string;
-  Mode?: AssociationMode;
+  Mode?: AssociationMode | undefined;
 }
 export type DetectionRuleConfigurationStatus = "ACTIVE" | "PROCESSING" | "FAILED" | (string & {});
 export interface DetectionRuleOrgConfiguration {
-  RuleId?: string;
-  Mode?: AssociationMode;
-  Status?: DetectionRuleConfigurationStatus;
-  StatusReason?: string;
-  IncludeAccountIds?: string[];
-  ExcludeAccountIds?: string[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ExpiresAt?: Date;
+  RuleId?: string | undefined;
+  Mode?: AssociationMode | undefined;
+  Status?: DetectionRuleConfigurationStatus | undefined;
+  StatusReason?: string | undefined;
+  IncludeAccountIds?: string[] | undefined;
+  ExcludeAccountIds?: string[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export interface GetCustomDetectionRuleOrgConfigurationResponse {
   Configuration: DetectionRuleOrgConfiguration & {
@@ -936,30 +938,30 @@ export interface GetDetectorRequest {
 }
 export type DetectorStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface CloudTrailConfigurationResult {
-  Status?: DataSourceStatus;
+  Status?: DataSourceStatus | undefined;
 }
 export interface DNSLogsConfigurationResult {
-  Status?: DataSourceStatus;
+  Status?: DataSourceStatus | undefined;
 }
 export interface FlowLogsConfigurationResult {
-  Status?: DataSourceStatus;
+  Status?: DataSourceStatus | undefined;
 }
 export interface S3LogsConfigurationResult {
-  Status?: DataSourceStatus;
+  Status?: DataSourceStatus | undefined;
 }
 export interface KubernetesAuditLogsConfigurationResult {
-  Status?: DataSourceStatus;
+  Status?: DataSourceStatus | undefined;
 }
 export interface KubernetesConfigurationResult {
-  AuditLogs?: KubernetesAuditLogsConfigurationResult;
+  AuditLogs?: KubernetesAuditLogsConfigurationResult | undefined;
 }
 export interface DataSourceConfigurationsResult {
-  CloudTrail?: CloudTrailConfigurationResult;
-  DNSLogs?: DNSLogsConfigurationResult;
-  FlowLogs?: FlowLogsConfigurationResult;
-  S3Logs?: S3LogsConfigurationResult;
-  Kubernetes?: KubernetesConfigurationResult;
-  MalwareProtection?: MalwareProtectionConfigurationResult;
+  CloudTrail?: CloudTrailConfigurationResult | undefined;
+  DNSLogs?: DNSLogsConfigurationResult | undefined;
+  FlowLogs?: FlowLogsConfigurationResult | undefined;
+  S3Logs?: S3LogsConfigurationResult | undefined;
+  Kubernetes?: KubernetesConfigurationResult | undefined;
+  MalwareProtection?: MalwareProtectionConfigurationResult | undefined;
 }
 export type DetectorFeatureResult =
   | "FLOW_LOGS"
@@ -977,37 +979,39 @@ export type DetectorFeatureResult =
   | (string & {});
 export type ManagedBy = "GUARDDUTY_POLICY" | (string & {});
 export interface DetectorAdditionalConfigurationResult {
-  Name?: FeatureAdditionalConfiguration;
-  Status?: FeatureStatus;
-  UpdatedAt?: Date;
-  ManagedBy?: ManagedBy;
+  Name?: FeatureAdditionalConfiguration | undefined;
+  Status?: FeatureStatus | undefined;
+  UpdatedAt?: Date | undefined;
+  ManagedBy?: ManagedBy | undefined;
 }
 export type DetectorAdditionalConfigurationResults = DetectorAdditionalConfigurationResult[];
 export interface DetectorFeatureConfigurationResult {
-  Name?: DetectorFeatureResult;
-  Status?: FeatureStatus;
-  UpdatedAt?: Date;
-  AdditionalConfiguration?: DetectorAdditionalConfigurationResult[];
-  ManagedBy?: ManagedBy;
+  Name?: DetectorFeatureResult | undefined;
+  Status?: FeatureStatus | undefined;
+  UpdatedAt?: Date | undefined;
+  AdditionalConfiguration?: DetectorAdditionalConfigurationResult[] | undefined;
+  ManagedBy?: ManagedBy | undefined;
 }
 export type DetectorFeatureConfigurationsResults = DetectorFeatureConfigurationResult[];
 export interface GetDetectorResponse {
-  CreatedAt?: string;
-  FindingPublishingFrequency?: FindingPublishingFrequency;
+  CreatedAt?: string | undefined;
+  FindingPublishingFrequency?: FindingPublishingFrequency | undefined;
   ServiceRole: string;
   Status: DetectorStatus;
-  UpdatedAt?: string;
-  DataSources?: DataSourceConfigurationsResult & {
-    CloudTrail: CloudTrailConfigurationResult & { Status: DataSourceStatus };
-    DNSLogs: DNSLogsConfigurationResult & { Status: DataSourceStatus };
-    FlowLogs: FlowLogsConfigurationResult & { Status: DataSourceStatus };
-    S3Logs: S3LogsConfigurationResult & { Status: DataSourceStatus };
-    Kubernetes: KubernetesConfigurationResult & {
-      AuditLogs: KubernetesAuditLogsConfigurationResult & { Status: DataSourceStatus };
-    };
-  };
-  Tags?: { [key: string]: string | undefined };
-  Features?: DetectorFeatureConfigurationResult[];
+  UpdatedAt?: string | undefined;
+  DataSources?:
+    | (DataSourceConfigurationsResult & {
+        CloudTrail: CloudTrailConfigurationResult & { Status: DataSourceStatus };
+        DNSLogs: DNSLogsConfigurationResult & { Status: DataSourceStatus };
+        FlowLogs: FlowLogsConfigurationResult & { Status: DataSourceStatus };
+        S3Logs: S3LogsConfigurationResult & { Status: DataSourceStatus };
+        Kubernetes: KubernetesConfigurationResult & {
+          AuditLogs: KubernetesAuditLogsConfigurationResult & { Status: DataSourceStatus };
+        };
+      })
+    | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Features?: DetectorFeatureConfigurationResult[] | undefined;
 }
 export interface GetFilterRequest {
   DetectorId: string;
@@ -1016,288 +1020,288 @@ export interface GetFilterRequest {
 export type FilterVersion = number;
 export interface GetFilterResponse {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Action: FilterAction;
-  Rank?: number;
+  Rank?: number | undefined;
   FindingCriteria: FindingCriteria;
-  Tags?: { [key: string]: string | undefined };
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Version?: number;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Version?: number | undefined;
 }
 export interface GetFindingsRequest {
   DetectorId: string;
-  FindingIds?: string[];
-  SortCriteria?: SortCriteria;
+  FindingIds?: string[] | undefined;
+  SortCriteria?: SortCriteria | undefined;
 }
 export interface AccessKeyDetails {
-  AccessKeyId?: string;
-  PrincipalId?: string;
-  UserName?: string;
-  UserType?: string;
+  AccessKeyId?: string | undefined;
+  PrincipalId?: string | undefined;
+  UserName?: string | undefined;
+  UserType?: string | undefined;
 }
 export interface Owner {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface DefaultServerSideEncryption {
-  EncryptionType?: string;
-  KmsMasterKeyArn?: string;
+  EncryptionType?: string | undefined;
+  KmsMasterKeyArn?: string | undefined;
 }
 export interface AccessControlList {
-  AllowsPublicReadAccess?: boolean;
-  AllowsPublicWriteAccess?: boolean;
+  AllowsPublicReadAccess?: boolean | undefined;
+  AllowsPublicWriteAccess?: boolean | undefined;
 }
 export interface BucketPolicy {
-  AllowsPublicReadAccess?: boolean;
-  AllowsPublicWriteAccess?: boolean;
+  AllowsPublicReadAccess?: boolean | undefined;
+  AllowsPublicWriteAccess?: boolean | undefined;
 }
 export interface BlockPublicAccess {
-  IgnorePublicAcls?: boolean;
-  RestrictPublicBuckets?: boolean;
-  BlockPublicAcls?: boolean;
-  BlockPublicPolicy?: boolean;
+  IgnorePublicAcls?: boolean | undefined;
+  RestrictPublicBuckets?: boolean | undefined;
+  BlockPublicAcls?: boolean | undefined;
+  BlockPublicPolicy?: boolean | undefined;
 }
 export interface BucketLevelPermissions {
-  AccessControlList?: AccessControlList;
-  BucketPolicy?: BucketPolicy;
-  BlockPublicAccess?: BlockPublicAccess;
+  AccessControlList?: AccessControlList | undefined;
+  BucketPolicy?: BucketPolicy | undefined;
+  BlockPublicAccess?: BlockPublicAccess | undefined;
 }
 export interface AccountLevelPermissions {
-  BlockPublicAccess?: BlockPublicAccess;
+  BlockPublicAccess?: BlockPublicAccess | undefined;
 }
 export interface PermissionConfiguration {
-  BucketLevelPermissions?: BucketLevelPermissions;
-  AccountLevelPermissions?: AccountLevelPermissions;
+  BucketLevelPermissions?: BucketLevelPermissions | undefined;
+  AccountLevelPermissions?: AccountLevelPermissions | undefined;
 }
 export interface PublicAccess {
-  PermissionConfiguration?: PermissionConfiguration;
-  EffectivePermission?: string;
+  PermissionConfiguration?: PermissionConfiguration | undefined;
+  EffectivePermission?: string | undefined;
 }
 export interface S3ObjectDetail {
-  ObjectArn?: string;
-  Key?: string;
-  ETag?: string;
-  Hash?: string;
-  VersionId?: string;
+  ObjectArn?: string | undefined;
+  Key?: string | undefined;
+  ETag?: string | undefined;
+  Hash?: string | undefined;
+  VersionId?: string | undefined;
 }
 export type S3ObjectDetails = S3ObjectDetail[];
 export interface S3BucketDetail {
-  Arn?: string;
-  Name?: string;
-  Type?: string;
-  CreatedAt?: Date;
-  Owner?: Owner;
-  Tags?: Tag[];
-  DefaultServerSideEncryption?: DefaultServerSideEncryption;
-  PublicAccess?: PublicAccess;
-  S3ObjectDetails?: S3ObjectDetail[];
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Owner?: Owner | undefined;
+  Tags?: Tag[] | undefined;
+  DefaultServerSideEncryption?: DefaultServerSideEncryption | undefined;
+  PublicAccess?: PublicAccess | undefined;
+  S3ObjectDetails?: S3ObjectDetail[] | undefined;
 }
 export type S3BucketDetails = S3BucketDetail[];
 export interface IamInstanceProfile {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type Ipv6Addresses = string[];
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface PrivateIpAddressDetails {
-  PrivateDnsName?: string;
-  PrivateIpAddress?: string | redacted.Redacted<string>;
+  PrivateDnsName?: string | undefined;
+  PrivateIpAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type PrivateIpAddresses = PrivateIpAddressDetails[];
 export interface SecurityGroup {
-  GroupId?: string;
-  GroupName?: string;
+  GroupId?: string | undefined;
+  GroupName?: string | undefined;
 }
 export type SecurityGroups = SecurityGroup[];
 export interface NetworkInterface {
-  Ipv6Addresses?: string[];
-  NetworkInterfaceId?: string;
-  PrivateDnsName?: string;
-  PrivateIpAddress?: string | redacted.Redacted<string>;
-  PrivateIpAddresses?: PrivateIpAddressDetails[];
-  PublicDnsName?: string;
-  PublicIp?: string;
-  SecurityGroups?: SecurityGroup[];
-  SubnetId?: string;
-  VpcId?: string;
+  Ipv6Addresses?: string[] | undefined;
+  NetworkInterfaceId?: string | undefined;
+  PrivateDnsName?: string | undefined;
+  PrivateIpAddress?: string | redacted.Redacted<string> | undefined;
+  PrivateIpAddresses?: PrivateIpAddressDetails[] | undefined;
+  PublicDnsName?: string | undefined;
+  PublicIp?: string | undefined;
+  SecurityGroups?: SecurityGroup[] | undefined;
+  SubnetId?: string | undefined;
+  VpcId?: string | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export interface ProductCode {
-  Code?: string;
-  ProductType?: string;
+  Code?: string | undefined;
+  ProductType?: string | undefined;
 }
 export type ProductCodes = ProductCode[];
 export interface InstanceDetails {
-  AvailabilityZone?: string;
-  IamInstanceProfile?: IamInstanceProfile;
-  ImageDescription?: string;
-  ImageId?: string;
-  InstanceId?: string;
-  InstanceState?: string;
-  InstanceType?: string;
-  OutpostArn?: string;
-  LaunchTime?: string;
-  NetworkInterfaces?: NetworkInterface[];
-  Platform?: string;
-  ProductCodes?: ProductCode[];
-  Tags?: Tag[];
+  AvailabilityZone?: string | undefined;
+  IamInstanceProfile?: IamInstanceProfile | undefined;
+  ImageDescription?: string | undefined;
+  ImageId?: string | undefined;
+  InstanceId?: string | undefined;
+  InstanceState?: string | undefined;
+  InstanceType?: string | undefined;
+  OutpostArn?: string | undefined;
+  LaunchTime?: string | undefined;
+  NetworkInterfaces?: NetworkInterface[] | undefined;
+  Platform?: string | undefined;
+  ProductCodes?: ProductCode[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface EksClusterDetails {
-  Name?: string;
-  Arn?: string;
-  VpcId?: string;
-  Status?: string;
-  Tags?: Tag[];
-  CreatedAt?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  VpcId?: string | undefined;
+  Status?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type Groups = string[];
 export type SessionNameList = string[];
 export interface ImpersonatedUser {
-  Username?: string;
-  Groups?: string[];
+  Username?: string | undefined;
+  Groups?: string[] | undefined;
 }
 export interface KubernetesUserDetails {
-  Username?: string;
-  Uid?: string;
-  Groups?: string[];
-  SessionName?: string[];
-  ImpersonatedUser?: ImpersonatedUser;
+  Username?: string | undefined;
+  Uid?: string | undefined;
+  Groups?: string[] | undefined;
+  SessionName?: string[] | undefined;
+  ImpersonatedUser?: ImpersonatedUser | undefined;
 }
 export interface VolumeMount {
-  Name?: string;
-  MountPath?: string;
+  Name?: string | undefined;
+  MountPath?: string | undefined;
 }
 export type VolumeMounts = VolumeMount[];
 export interface SecurityContext {
-  Privileged?: boolean;
-  AllowPrivilegeEscalation?: boolean;
+  Privileged?: boolean | undefined;
+  AllowPrivilegeEscalation?: boolean | undefined;
 }
 export interface Container {
-  ContainerRuntime?: string;
-  Id?: string;
-  Name?: string;
-  Image?: string;
-  ImagePrefix?: string;
-  VolumeMounts?: VolumeMount[];
-  SecurityContext?: SecurityContext;
+  ContainerRuntime?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Image?: string | undefined;
+  ImagePrefix?: string | undefined;
+  VolumeMounts?: VolumeMount[] | undefined;
+  SecurityContext?: SecurityContext | undefined;
 }
 export type Containers = Container[];
 export interface HostPath {
-  Path?: string;
+  Path?: string | undefined;
 }
 export interface Volume {
-  Name?: string;
-  HostPath?: HostPath;
+  Name?: string | undefined;
+  HostPath?: HostPath | undefined;
 }
 export type Volumes = Volume[];
 export interface KubernetesWorkloadDetails {
-  Name?: string;
-  Type?: string;
-  Uid?: string;
-  Namespace?: string;
-  HostNetwork?: boolean;
-  ServiceAccountName?: string;
-  Containers?: Container[];
-  Volumes?: Volume[];
-  HostIPC?: boolean;
-  HostPID?: boolean;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Uid?: string | undefined;
+  Namespace?: string | undefined;
+  HostNetwork?: boolean | undefined;
+  ServiceAccountName?: string | undefined;
+  Containers?: Container[] | undefined;
+  Volumes?: Volume[] | undefined;
+  HostIPC?: boolean | undefined;
+  HostPID?: boolean | undefined;
 }
 export interface KubernetesDetails {
-  KubernetesUserDetails?: KubernetesUserDetails;
-  KubernetesWorkloadDetails?: KubernetesWorkloadDetails;
+  KubernetesUserDetails?: KubernetesUserDetails | undefined;
+  KubernetesWorkloadDetails?: KubernetesWorkloadDetails | undefined;
 }
 export interface EbsVolumeDetails {
-  ScannedVolumeDetails?: VolumeDetail[];
-  SkippedVolumeDetails?: VolumeDetail[];
+  ScannedVolumeDetails?: VolumeDetail[] | undefined;
+  SkippedVolumeDetails?: VolumeDetail[] | undefined;
 }
 export interface EcsTaskDetails {
-  Arn?: string;
-  DefinitionArn?: string;
-  Version?: string;
-  TaskCreatedAt?: Date;
-  StartedAt?: Date;
-  StartedBy?: string;
-  Tags?: Tag[];
-  Volumes?: Volume[];
-  Containers?: Container[];
-  Group?: string;
-  LaunchType?: string;
+  Arn?: string | undefined;
+  DefinitionArn?: string | undefined;
+  Version?: string | undefined;
+  TaskCreatedAt?: Date | undefined;
+  StartedAt?: Date | undefined;
+  StartedBy?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Volumes?: Volume[] | undefined;
+  Containers?: Container[] | undefined;
+  Group?: string | undefined;
+  LaunchType?: string | undefined;
 }
 export interface EcsClusterDetails {
-  Name?: string;
-  Arn?: string;
-  Status?: string;
-  ActiveServicesCount?: number;
-  RegisteredContainerInstancesCount?: number;
-  RunningTasksCount?: number;
-  Tags?: Tag[];
-  TaskDetails?: EcsTaskDetails;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Status?: string | undefined;
+  ActiveServicesCount?: number | undefined;
+  RegisteredContainerInstancesCount?: number | undefined;
+  RunningTasksCount?: number | undefined;
+  Tags?: Tag[] | undefined;
+  TaskDetails?: EcsTaskDetails | undefined;
 }
 export type SubnetIds = string[];
 export interface VpcConfig {
-  SubnetIds?: string[];
-  VpcId?: string;
-  SecurityGroups?: SecurityGroup[];
+  SubnetIds?: string[] | undefined;
+  VpcId?: string | undefined;
+  SecurityGroups?: SecurityGroup[] | undefined;
 }
 export interface LambdaDetails {
-  FunctionArn?: string;
-  FunctionName?: string;
-  Description?: string;
-  LastModifiedAt?: Date;
-  RevisionId?: string;
-  FunctionVersion?: string;
-  Role?: string;
-  VpcConfig?: VpcConfig;
-  Tags?: Tag[];
+  FunctionArn?: string | undefined;
+  FunctionName?: string | undefined;
+  Description?: string | undefined;
+  LastModifiedAt?: Date | undefined;
+  RevisionId?: string | undefined;
+  FunctionVersion?: string | undefined;
+  Role?: string | undefined;
+  VpcConfig?: VpcConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface RdsDbInstanceDetails {
-  DbInstanceIdentifier?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  DbClusterIdentifier?: string;
-  DbInstanceArn?: string;
-  DbiResourceId?: string;
-  Tags?: Tag[];
+  DbInstanceIdentifier?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DbClusterIdentifier?: string | undefined;
+  DbInstanceArn?: string | undefined;
+  DbiResourceId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface RdsLimitlessDbDetails {
-  DbShardGroupIdentifier?: string;
-  DbShardGroupResourceId?: string;
-  DbShardGroupArn?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  DbClusterIdentifier?: string;
-  Tags?: Tag[];
+  DbShardGroupIdentifier?: string | undefined;
+  DbShardGroupResourceId?: string | undefined;
+  DbShardGroupArn?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  DbClusterIdentifier?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface RdsDbUserDetails {
-  User?: string;
-  Application?: string;
-  Database?: string;
-  Ssl?: string;
-  AuthMethod?: string;
+  User?: string | undefined;
+  Application?: string | undefined;
+  Database?: string | undefined;
+  Ssl?: string | undefined;
+  AuthMethod?: string | undefined;
 }
 export interface EbsSnapshotDetails {
-  SnapshotArn?: string;
+  SnapshotArn?: string | undefined;
 }
 export interface Ec2ImageDetails {
-  ImageArn?: string;
+  ImageArn?: string | undefined;
 }
 export interface ScanConfigurationContinuousScanDetails {
-  StartTime?: Date;
+  StartTime?: Date | undefined;
   EndTime: Date;
 }
 export interface RecoveryPointDetails {
-  RecoveryPointArn?: string;
-  BackupVaultName?: string;
-  ContinuousScanDetails?: ScanConfigurationContinuousScanDetails;
+  RecoveryPointArn?: string | undefined;
+  BackupVaultName?: string | undefined;
+  ContinuousScanDetails?: ScanConfigurationContinuousScanDetails | undefined;
 }
 export interface BedrockGuardrail {
-  Arn?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  Version?: string | undefined;
 }
 export type BedrockGuardrails = BedrockGuardrail[];
 export type GuardrailAction = "GUARDRAIL_INTERVENED" | "NONE" | (string & {});
@@ -1314,308 +1318,308 @@ export type ContentPolicyFilterType =
 export type ConfidenceLevel = "HIGH" | "MEDIUM" | "LOW" | "NONE" | (string & {});
 export type ContentPolicyFilterAction = "BLOCKED" | "NONE" | (string & {});
 export interface ContentPolicyFilter {
-  Type?: ContentPolicyFilterType;
-  Confidence?: ConfidenceLevel;
-  Action?: ContentPolicyFilterAction;
+  Type?: ContentPolicyFilterType | undefined;
+  Confidence?: ConfidenceLevel | undefined;
+  Action?: ContentPolicyFilterAction | undefined;
 }
 export type ContentPolicyFilters = ContentPolicyFilter[];
 export interface BedrockGuardrailDetails {
-  GuardrailArn?: string;
-  GuardrailVersion?: string;
-  Guardrails?: BedrockGuardrail[];
-  GuardrailAction?: GuardrailAction;
-  GuardrailSource?: GuardrailSource;
-  ContentPolicyFilters?: ContentPolicyFilter[];
+  GuardrailArn?: string | undefined;
+  GuardrailVersion?: string | undefined;
+  Guardrails?: BedrockGuardrail[] | undefined;
+  GuardrailAction?: GuardrailAction | undefined;
+  GuardrailSource?: GuardrailSource | undefined;
+  ContentPolicyFilters?: ContentPolicyFilter[] | undefined;
 }
 export interface ModelDetail {
-  ModelId?: string;
+  ModelId?: string | undefined;
 }
 export type ModelDetails = ModelDetail[];
 export interface Resource {
-  AccessKeyDetails?: AccessKeyDetails;
-  S3BucketDetails?: S3BucketDetail[];
-  InstanceDetails?: InstanceDetails;
-  EksClusterDetails?: EksClusterDetails;
-  KubernetesDetails?: KubernetesDetails;
-  ResourceType?: string;
-  EbsVolumeDetails?: EbsVolumeDetails;
-  EcsClusterDetails?: EcsClusterDetails;
-  ContainerDetails?: Container;
-  LambdaDetails?: LambdaDetails;
-  RdsDbInstanceDetails?: RdsDbInstanceDetails;
-  RdsLimitlessDbDetails?: RdsLimitlessDbDetails;
-  RdsDbUserDetails?: RdsDbUserDetails;
-  EbsSnapshotDetails?: EbsSnapshotDetails;
-  Ec2ImageDetails?: Ec2ImageDetails;
-  RecoveryPointDetails?: RecoveryPointDetails;
-  BedrockGuardrailDetails?: BedrockGuardrailDetails;
-  ModelDetails?: ModelDetail[];
+  AccessKeyDetails?: AccessKeyDetails | undefined;
+  S3BucketDetails?: S3BucketDetail[] | undefined;
+  InstanceDetails?: InstanceDetails | undefined;
+  EksClusterDetails?: EksClusterDetails | undefined;
+  KubernetesDetails?: KubernetesDetails | undefined;
+  ResourceType?: string | undefined;
+  EbsVolumeDetails?: EbsVolumeDetails | undefined;
+  EcsClusterDetails?: EcsClusterDetails | undefined;
+  ContainerDetails?: Container | undefined;
+  LambdaDetails?: LambdaDetails | undefined;
+  RdsDbInstanceDetails?: RdsDbInstanceDetails | undefined;
+  RdsLimitlessDbDetails?: RdsLimitlessDbDetails | undefined;
+  RdsDbUserDetails?: RdsDbUserDetails | undefined;
+  EbsSnapshotDetails?: EbsSnapshotDetails | undefined;
+  Ec2ImageDetails?: Ec2ImageDetails | undefined;
+  RecoveryPointDetails?: RecoveryPointDetails | undefined;
+  BedrockGuardrailDetails?: BedrockGuardrailDetails | undefined;
+  ModelDetails?: ModelDetail[] | undefined;
 }
 export interface DomainDetails {
-  Domain?: string;
+  Domain?: string | undefined;
 }
 export interface City {
-  CityName?: string;
+  CityName?: string | undefined;
 }
 export interface Country {
-  CountryCode?: string;
-  CountryName?: string;
+  CountryCode?: string | undefined;
+  CountryName?: string | undefined;
 }
 export interface GeoLocation {
-  Lat?: number;
-  Lon?: number;
+  Lat?: number | undefined;
+  Lon?: number | undefined;
 }
 export interface Organization {
-  Asn?: string;
-  AsnOrg?: string;
-  Isp?: string;
-  Org?: string;
+  Asn?: string | undefined;
+  AsnOrg?: string | undefined;
+  Isp?: string | undefined;
+  Org?: string | undefined;
 }
 export interface RemoteIpDetails {
-  City?: City;
-  Country?: Country;
-  GeoLocation?: GeoLocation;
-  IpAddressV4?: string | redacted.Redacted<string>;
-  IpAddressV6?: string | redacted.Redacted<string>;
-  Organization?: Organization;
+  City?: City | undefined;
+  Country?: Country | undefined;
+  GeoLocation?: GeoLocation | undefined;
+  IpAddressV4?: string | redacted.Redacted<string> | undefined;
+  IpAddressV6?: string | redacted.Redacted<string> | undefined;
+  Organization?: Organization | undefined;
 }
 export interface RemoteAccountDetails {
-  AccountId?: string;
-  Affiliated?: boolean;
-  AwsServiceName?: string;
+  AccountId?: string | undefined;
+  Affiliated?: boolean | undefined;
+  AwsServiceName?: string | undefined;
 }
 export type AffectedResources = { [key: string]: string | undefined };
 export interface AwsApiCallAction {
-  Api?: string;
-  CallerType?: string;
-  DomainDetails?: DomainDetails;
-  ErrorCode?: string;
-  UserAgent?: string;
-  RemoteIpDetails?: RemoteIpDetails;
-  ServiceName?: string;
-  RemoteAccountDetails?: RemoteAccountDetails;
-  AffectedResources?: { [key: string]: string | undefined };
+  Api?: string | undefined;
+  CallerType?: string | undefined;
+  DomainDetails?: DomainDetails | undefined;
+  ErrorCode?: string | undefined;
+  UserAgent?: string | undefined;
+  RemoteIpDetails?: RemoteIpDetails | undefined;
+  ServiceName?: string | undefined;
+  RemoteAccountDetails?: RemoteAccountDetails | undefined;
+  AffectedResources?: { [key: string]: string | undefined } | undefined;
 }
 export interface DnsRequestAction {
-  Domain?: string;
-  Protocol?: string;
-  Blocked?: boolean;
-  DomainWithSuffix?: string;
-  VpcOwnerAccountId?: string;
+  Domain?: string | undefined;
+  Protocol?: string | undefined;
+  Blocked?: boolean | undefined;
+  DomainWithSuffix?: string | undefined;
+  VpcOwnerAccountId?: string | undefined;
 }
 export interface LocalPortDetails {
-  Port?: number;
-  PortName?: string;
+  Port?: number | undefined;
+  PortName?: string | undefined;
 }
 export interface LocalIpDetails {
-  IpAddressV4?: string | redacted.Redacted<string>;
-  IpAddressV6?: string | redacted.Redacted<string>;
+  IpAddressV4?: string | redacted.Redacted<string> | undefined;
+  IpAddressV6?: string | redacted.Redacted<string> | undefined;
 }
 export interface RemotePortDetails {
-  Port?: number;
-  PortName?: string;
+  Port?: number | undefined;
+  PortName?: string | undefined;
 }
 export interface NetworkConnectionAction {
-  Blocked?: boolean;
-  ConnectionDirection?: string;
-  LocalPortDetails?: LocalPortDetails;
-  Protocol?: string;
-  LocalIpDetails?: LocalIpDetails;
-  LocalNetworkInterface?: string;
-  RemoteIpDetails?: RemoteIpDetails;
-  RemotePortDetails?: RemotePortDetails;
+  Blocked?: boolean | undefined;
+  ConnectionDirection?: string | undefined;
+  LocalPortDetails?: LocalPortDetails | undefined;
+  Protocol?: string | undefined;
+  LocalIpDetails?: LocalIpDetails | undefined;
+  LocalNetworkInterface?: string | undefined;
+  RemoteIpDetails?: RemoteIpDetails | undefined;
+  RemotePortDetails?: RemotePortDetails | undefined;
 }
 export interface PortProbeDetail {
-  LocalPortDetails?: LocalPortDetails;
-  LocalIpDetails?: LocalIpDetails;
-  RemoteIpDetails?: RemoteIpDetails;
+  LocalPortDetails?: LocalPortDetails | undefined;
+  LocalIpDetails?: LocalIpDetails | undefined;
+  RemoteIpDetails?: RemoteIpDetails | undefined;
 }
 export type PortProbeDetails = PortProbeDetail[];
 export interface PortProbeAction {
-  Blocked?: boolean;
-  PortProbeDetails?: PortProbeDetail[];
+  Blocked?: boolean | undefined;
+  PortProbeDetails?: PortProbeDetail[] | undefined;
 }
 export type SourceIps = string[];
 export interface KubernetesApiCallAction {
-  RequestUri?: string;
-  Verb?: string;
-  Resource?: string;
-  Subresource?: string;
-  Namespace?: string;
-  ResourceName?: string;
-  SourceIps?: string[];
-  UserAgent?: string;
-  RemoteIpDetails?: RemoteIpDetails;
-  StatusCode?: number;
-  Parameters?: string;
+  RequestUri?: string | undefined;
+  Verb?: string | undefined;
+  Resource?: string | undefined;
+  Subresource?: string | undefined;
+  Namespace?: string | undefined;
+  ResourceName?: string | undefined;
+  SourceIps?: string[] | undefined;
+  UserAgent?: string | undefined;
+  RemoteIpDetails?: RemoteIpDetails | undefined;
+  StatusCode?: number | undefined;
+  Parameters?: string | undefined;
 }
 export interface KubernetesPermissionCheckedDetails {
-  Verb?: string;
-  Resource?: string;
-  Namespace?: string;
-  Allowed?: boolean;
+  Verb?: string | undefined;
+  Resource?: string | undefined;
+  Namespace?: string | undefined;
+  Allowed?: boolean | undefined;
 }
 export interface KubernetesRoleBindingDetails {
-  Kind?: string;
-  Name?: string;
-  Uid?: string;
-  RoleRefName?: string;
-  RoleRefKind?: string;
+  Kind?: string | undefined;
+  Name?: string | undefined;
+  Uid?: string | undefined;
+  RoleRefName?: string | undefined;
+  RoleRefKind?: string | undefined;
 }
 export interface KubernetesRoleDetails {
-  Kind?: string;
-  Name?: string;
-  Uid?: string;
+  Kind?: string | undefined;
+  Name?: string | undefined;
+  Uid?: string | undefined;
 }
 export interface LoginAttribute {
-  User?: string;
-  Application?: string;
-  FailedLoginAttempts?: number;
-  SuccessfulLoginAttempts?: number;
+  User?: string | undefined;
+  Application?: string | undefined;
+  FailedLoginAttempts?: number | undefined;
+  SuccessfulLoginAttempts?: number | undefined;
 }
 export type LoginAttributes = LoginAttribute[];
 export interface RdsLoginAttemptAction {
-  RemoteIpDetails?: RemoteIpDetails;
-  LoginAttributes?: LoginAttribute[];
+  RemoteIpDetails?: RemoteIpDetails | undefined;
+  LoginAttributes?: LoginAttribute[] | undefined;
 }
 export interface Action {
-  ActionType?: string;
-  AwsApiCallAction?: AwsApiCallAction;
-  DnsRequestAction?: DnsRequestAction;
-  NetworkConnectionAction?: NetworkConnectionAction;
-  PortProbeAction?: PortProbeAction;
-  KubernetesApiCallAction?: KubernetesApiCallAction;
-  KubernetesPermissionCheckedDetails?: KubernetesPermissionCheckedDetails;
-  KubernetesRoleBindingDetails?: KubernetesRoleBindingDetails;
-  KubernetesRoleDetails?: KubernetesRoleDetails;
-  RdsLoginAttemptAction?: RdsLoginAttemptAction;
+  ActionType?: string | undefined;
+  AwsApiCallAction?: AwsApiCallAction | undefined;
+  DnsRequestAction?: DnsRequestAction | undefined;
+  NetworkConnectionAction?: NetworkConnectionAction | undefined;
+  PortProbeAction?: PortProbeAction | undefined;
+  KubernetesApiCallAction?: KubernetesApiCallAction | undefined;
+  KubernetesPermissionCheckedDetails?: KubernetesPermissionCheckedDetails | undefined;
+  KubernetesRoleBindingDetails?: KubernetesRoleBindingDetails | undefined;
+  KubernetesRoleDetails?: KubernetesRoleDetails | undefined;
+  RdsLoginAttemptAction?: RdsLoginAttemptAction | undefined;
 }
 export type ThreatNames = string[];
 export interface ThreatIntelligenceDetail {
-  ThreatListName?: string;
-  ThreatNames?: string[];
-  ThreatFileSha256?: string;
+  ThreatListName?: string | undefined;
+  ThreatNames?: string[] | undefined;
+  ThreatFileSha256?: string | undefined;
 }
 export type ThreatIntelligenceDetails = ThreatIntelligenceDetail[];
 export interface Evidence {
-  ThreatIntelligenceDetails?: ThreatIntelligenceDetail[];
+  ThreatIntelligenceDetails?: ThreatIntelligenceDetail[] | undefined;
 }
 export interface ServiceAdditionalInfo {
-  Value?: string;
-  Type?: string;
+  Value?: string | undefined;
+  Type?: string | undefined;
 }
 export type Sources = string[];
 export interface ScannedItemCount {
-  TotalGb?: number;
-  Files?: number;
-  Volumes?: number;
+  TotalGb?: number | undefined;
+  Files?: number | undefined;
+  Volumes?: number | undefined;
 }
 export interface ThreatsDetectedItemCount {
-  Files?: number;
+  Files?: number | undefined;
 }
 export interface HighestSeverityThreatDetails {
-  Severity?: string;
-  ThreatName?: string;
-  Count?: number;
+  Severity?: string | undefined;
+  ThreatName?: string | undefined;
+  Count?: number | undefined;
 }
 export interface ScanFilePath {
-  FilePath?: string;
-  VolumeArn?: string;
-  Hash?: string;
-  FileName?: string;
+  FilePath?: string | undefined;
+  VolumeArn?: string | undefined;
+  Hash?: string | undefined;
+  FileName?: string | undefined;
 }
 export type FilePaths = ScanFilePath[];
 export interface ScanThreatName {
-  Name?: string;
-  Severity?: string;
-  ItemCount?: number;
-  FilePaths?: ScanFilePath[];
+  Name?: string | undefined;
+  Severity?: string | undefined;
+  ItemCount?: number | undefined;
+  FilePaths?: ScanFilePath[] | undefined;
 }
 export type ScanThreatNames = ScanThreatName[];
 export interface ThreatDetectedByName {
-  ItemCount?: number;
-  UniqueThreatNameCount?: number;
-  Shortened?: boolean;
-  ThreatNames?: ScanThreatName[];
+  ItemCount?: number | undefined;
+  UniqueThreatNameCount?: number | undefined;
+  Shortened?: boolean | undefined;
+  ThreatNames?: ScanThreatName[] | undefined;
 }
 export interface ScanDetections {
-  ScannedItemCount?: ScannedItemCount;
-  ThreatsDetectedItemCount?: ThreatsDetectedItemCount;
-  HighestSeverityThreatDetails?: HighestSeverityThreatDetails;
-  ThreatDetectedByName?: ThreatDetectedByName;
+  ScannedItemCount?: ScannedItemCount | undefined;
+  ThreatsDetectedItemCount?: ThreatsDetectedItemCount | undefined;
+  HighestSeverityThreatDetails?: HighestSeverityThreatDetails | undefined;
+  ThreatDetectedByName?: ThreatDetectedByName | undefined;
 }
 export interface EbsVolumeScanDetails {
-  ScanId?: string;
-  ScanStartedAt?: Date;
-  ScanCompletedAt?: Date;
-  TriggerFindingId?: string;
-  Sources?: string[];
-  ScanDetections?: ScanDetections;
-  ScanType?: ScanType;
+  ScanId?: string | undefined;
+  ScanStartedAt?: Date | undefined;
+  ScanCompletedAt?: Date | undefined;
+  TriggerFindingId?: string | undefined;
+  Sources?: string[] | undefined;
+  ScanDetections?: ScanDetections | undefined;
+  ScanType?: ScanType | undefined;
 }
 export interface LineageObject {
-  StartTime?: Date;
-  NamespacePid?: number;
-  UserId?: number;
-  Name?: string;
-  Pid?: number;
-  Uuid?: string;
-  ExecutablePath?: string;
-  Euid?: number;
-  ParentUuid?: string;
+  StartTime?: Date | undefined;
+  NamespacePid?: number | undefined;
+  UserId?: number | undefined;
+  Name?: string | undefined;
+  Pid?: number | undefined;
+  Uuid?: string | undefined;
+  ExecutablePath?: string | undefined;
+  Euid?: number | undefined;
+  ParentUuid?: string | undefined;
 }
 export type Lineage = LineageObject[];
 export interface ProcessDetails {
-  Name?: string;
-  ExecutablePath?: string;
-  ExecutableSha256?: string;
-  NamespacePid?: number;
-  Pwd?: string;
-  Pid?: number;
-  StartTime?: Date;
-  Uuid?: string;
-  ParentUuid?: string;
-  User?: string;
-  UserId?: number;
-  Euid?: number;
-  Lineage?: LineageObject[];
+  Name?: string | undefined;
+  ExecutablePath?: string | undefined;
+  ExecutableSha256?: string | undefined;
+  NamespacePid?: number | undefined;
+  Pwd?: string | undefined;
+  Pid?: number | undefined;
+  StartTime?: Date | undefined;
+  Uuid?: string | undefined;
+  ParentUuid?: string | undefined;
+  User?: string | undefined;
+  UserId?: number | undefined;
+  Euid?: number | undefined;
+  Lineage?: LineageObject[] | undefined;
 }
 export type FlagsList = string[];
 export type MemoryRegionsList = string[];
 export type RelatedFilePathsList = string[];
 export interface RuntimeContext {
-  ModifyingProcess?: ProcessDetails;
-  ModifiedAt?: Date;
-  ScriptPath?: string;
-  LibraryPath?: string;
-  LdPreloadValue?: string;
-  SocketPath?: string;
-  RuncBinaryPath?: string;
-  ReleaseAgentPath?: string;
-  MountSource?: string;
-  MountTarget?: string;
-  FileSystemType?: string;
-  Flags?: string[];
-  ModuleName?: string;
-  ModuleFilePath?: string;
-  ModuleSha256?: string;
-  ShellHistoryFilePath?: string;
-  TargetProcess?: ProcessDetails;
-  AddressFamily?: string;
-  IanaProtocolNumber?: number;
-  MemoryRegions?: string[];
-  ToolName?: string;
-  ToolCategory?: string;
-  ServiceName?: string;
-  CommandLineExample?: string;
-  ThreatFilePath?: string;
-  FileOperation?: string;
-  FilePath?: string;
-  RelatedFilePaths?: string[];
+  ModifyingProcess?: ProcessDetails | undefined;
+  ModifiedAt?: Date | undefined;
+  ScriptPath?: string | undefined;
+  LibraryPath?: string | undefined;
+  LdPreloadValue?: string | undefined;
+  SocketPath?: string | undefined;
+  RuncBinaryPath?: string | undefined;
+  ReleaseAgentPath?: string | undefined;
+  MountSource?: string | undefined;
+  MountTarget?: string | undefined;
+  FileSystemType?: string | undefined;
+  Flags?: string[] | undefined;
+  ModuleName?: string | undefined;
+  ModuleFilePath?: string | undefined;
+  ModuleSha256?: string | undefined;
+  ShellHistoryFilePath?: string | undefined;
+  TargetProcess?: ProcessDetails | undefined;
+  AddressFamily?: string | undefined;
+  IanaProtocolNumber?: number | undefined;
+  MemoryRegions?: string[] | undefined;
+  ToolName?: string | undefined;
+  ToolCategory?: string | undefined;
+  ServiceName?: string | undefined;
+  CommandLineExample?: string | undefined;
+  ThreatFilePath?: string | undefined;
+  FileOperation?: string | undefined;
+  FilePath?: string | undefined;
+  RelatedFilePaths?: string[] | undefined;
 }
 export interface RuntimeDetails {
-  Process?: ProcessDetails;
-  Context?: RuntimeContext;
+  Process?: ProcessDetails | undefined;
+  Context?: RuntimeContext | undefined;
 }
 export type ProfileType = "FREQUENCY" | "VOLUME" | (string & {});
 export type ProfileSubtype =
@@ -1629,13 +1633,13 @@ export type ProfileSubtype =
 export type ObservationTexts = string[];
 export type ObservationNumbers = number[];
 export interface Observations {
-  Text?: string[];
-  Number?: number[];
+  Text?: string[] | undefined;
+  Number?: number[] | undefined;
 }
 export interface AnomalyObject {
-  ProfileType?: ProfileType;
-  ProfileSubtype?: ProfileSubtype;
-  Observations?: Observations;
+  ProfileType?: ProfileType | undefined;
+  ProfileSubtype?: ProfileSubtype | undefined;
+  Observations?: Observations | undefined;
 }
 export type AnomalyProfileFeatureObjects = AnomalyObject[];
 export type AnomalyProfileFeatures = { [key: string]: AnomalyObject[] | undefined };
@@ -1645,44 +1649,48 @@ export type AnomalyProfiles = {
 export type AnomalyUnusualBehaviorFeature = { [key: string]: AnomalyObject | undefined };
 export type Behavior = { [key: string]: { [key: string]: AnomalyObject | undefined } | undefined };
 export interface AnomalyUnusual {
-  Behavior?: { [key: string]: { [key: string]: AnomalyObject | undefined } | undefined };
+  Behavior?:
+    | { [key: string]: { [key: string]: AnomalyObject | undefined } | undefined }
+    | undefined;
 }
 export interface Anomaly {
-  Profiles?: { [key: string]: { [key: string]: AnomalyObject[] | undefined } | undefined };
-  Unusual?: AnomalyUnusual;
+  Profiles?:
+    | { [key: string]: { [key: string]: AnomalyObject[] | undefined } | undefined }
+    | undefined;
+  Unusual?: AnomalyUnusual | undefined;
 }
 export type SequenceDescription = string;
 export interface Account {
-  Uid?: string;
-  Name?: string;
+  Uid?: string | undefined;
+  Name?: string | undefined;
 }
 export interface User {
-  Name?: string;
-  Uid?: string;
-  Type?: string;
-  CredentialUid?: string;
-  Account?: Account;
+  Name?: string | undefined;
+  Uid?: string | undefined;
+  Type?: string | undefined;
+  CredentialUid?: string | undefined;
+  Account?: Account | undefined;
 }
 export type MfaStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface Session {
-  Uid?: string;
-  MfaStatus?: MfaStatus;
-  CreatedTime?: Date;
-  Issuer?: string;
+  Uid?: string | undefined;
+  MfaStatus?: MfaStatus | undefined;
+  CreatedTime?: Date | undefined;
+  Issuer?: string | undefined;
 }
 export type ProcessName = string;
 export type ProcessPath = string;
 export type ProcessSha256 = string;
 export interface ActorProcess {
-  Name?: string;
-  Path?: string;
-  Sha256?: string;
+  Name?: string | undefined;
+  Path?: string | undefined;
+  Sha256?: string | undefined;
 }
 export interface Actor {
-  Id?: string;
-  User?: User;
-  Session?: Session;
-  Process?: ActorProcess;
+  Id?: string | undefined;
+  User?: User | undefined;
+  Session?: Session | undefined;
+  Process?: ActorProcess | undefined;
 }
 export type Actors = Actor[];
 export type FindingResourceType =
@@ -1717,53 +1725,53 @@ export type PublicAccessStatus = "BLOCKED" | "ALLOWED" | (string & {});
 export type PublicAclIgnoreBehavior = "IGNORED" | "NOT_IGNORED" | (string & {});
 export type PublicBucketRestrictBehavior = "RESTRICTED" | "NOT_RESTRICTED" | (string & {});
 export interface PublicAccessConfiguration {
-  PublicAclAccess?: PublicAccessStatus;
-  PublicPolicyAccess?: PublicAccessStatus;
-  PublicAclIgnoreBehavior?: PublicAclIgnoreBehavior;
-  PublicBucketRestrictBehavior?: PublicBucketRestrictBehavior;
+  PublicAclAccess?: PublicAccessStatus | undefined;
+  PublicPolicyAccess?: PublicAccessStatus | undefined;
+  PublicAclIgnoreBehavior?: PublicAclIgnoreBehavior | undefined;
+  PublicBucketRestrictBehavior?: PublicBucketRestrictBehavior | undefined;
 }
 export type S3ObjectUids = string[];
 export interface S3Bucket {
-  OwnerId?: string;
-  CreatedAt?: Date;
-  EncryptionType?: string;
-  EncryptionKeyArn?: string;
-  EffectivePermission?: string;
-  PublicReadAccess?: PublicAccessStatus;
-  PublicWriteAccess?: PublicAccessStatus;
-  AccountPublicAccess?: PublicAccessConfiguration;
-  BucketPublicAccess?: PublicAccessConfiguration;
-  S3ObjectUids?: string[];
+  OwnerId?: string | undefined;
+  CreatedAt?: Date | undefined;
+  EncryptionType?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  EffectivePermission?: string | undefined;
+  PublicReadAccess?: PublicAccessStatus | undefined;
+  PublicWriteAccess?: PublicAccessStatus | undefined;
+  AccountPublicAccess?: PublicAccessConfiguration | undefined;
+  BucketPublicAccess?: PublicAccessConfiguration | undefined;
+  S3ObjectUids?: string[] | undefined;
 }
 export type Ec2NetworkInterfaceUids = string[];
 export interface Ec2Instance {
-  AvailabilityZone?: string;
-  ImageDescription?: string;
-  InstanceState?: string;
-  IamInstanceProfile?: IamInstanceProfile;
-  InstanceType?: string;
-  OutpostArn?: string;
-  Platform?: string;
-  ProductCodes?: ProductCode[];
-  Ec2NetworkInterfaceUids?: string[];
+  AvailabilityZone?: string | undefined;
+  ImageDescription?: string | undefined;
+  InstanceState?: string | undefined;
+  IamInstanceProfile?: IamInstanceProfile | undefined;
+  InstanceType?: string | undefined;
+  OutpostArn?: string | undefined;
+  Platform?: string | undefined;
+  ProductCodes?: ProductCode[] | undefined;
+  Ec2NetworkInterfaceUids?: string[] | undefined;
 }
 export interface AccessKey {
-  PrincipalId?: string;
-  UserName?: string;
-  UserType?: string;
+  PrincipalId?: string | undefined;
+  UserName?: string | undefined;
+  UserType?: string | undefined;
 }
 export interface Ec2NetworkInterface {
-  Ipv6Addresses?: string[];
-  PrivateIpAddresses?: PrivateIpAddressDetails[];
-  PublicIp?: string;
-  SecurityGroups?: SecurityGroup[];
-  SubNetId?: string;
-  VpcId?: string;
+  Ipv6Addresses?: string[] | undefined;
+  PrivateIpAddresses?: PrivateIpAddressDetails[] | undefined;
+  PublicIp?: string | undefined;
+  SecurityGroups?: SecurityGroup[] | undefined;
+  SubNetId?: string | undefined;
+  VpcId?: string | undefined;
 }
 export interface S3Object {
-  ETag?: string;
-  Key?: string;
-  VersionId?: string;
+  ETag?: string | undefined;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
 }
 export type ClusterStatus =
   | "CREATING"
@@ -1776,11 +1784,11 @@ export type ClusterStatus =
 export type Ec2InstanceUid = string;
 export type Ec2InstanceUids = string[];
 export interface EksCluster {
-  Arn?: string;
-  CreatedAt?: Date;
-  Status?: ClusterStatus;
-  VpcId?: string;
-  Ec2InstanceUids?: string[];
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Status?: ClusterStatus | undefined;
+  VpcId?: string | undefined;
+  Ec2InstanceUids?: string[] | undefined;
 }
 export type ContainerUid = string;
 export type ContainerUids = string[];
@@ -1795,14 +1803,14 @@ export type KubernetesResourcesTypes =
   | "REPLICATIONCONTROLLERS"
   | (string & {});
 export interface KubernetesWorkload {
-  ContainerUids?: string[];
-  Namespace?: string;
-  KubernetesResourcesTypes?: KubernetesResourcesTypes;
+  ContainerUids?: string[] | undefined;
+  Namespace?: string | undefined;
+  KubernetesResourcesTypes?: KubernetesResourcesTypes | undefined;
 }
 export type ContainerImageUid = string;
 export interface ContainerFindingResource {
-  Image?: string;
-  ImageUid?: string;
+  Image?: string | undefined;
+  ImageUid?: string | undefined;
 }
 export type EcsClusterStatus =
   | "ACTIVE"
@@ -1812,94 +1820,94 @@ export type EcsClusterStatus =
   | "INACTIVE"
   | (string & {});
 export interface EcsCluster {
-  Status?: EcsClusterStatus;
-  Ec2InstanceUids?: string[];
+  Status?: EcsClusterStatus | undefined;
+  Ec2InstanceUids?: string[] | undefined;
 }
 export type EcsLaunchType = "FARGATE" | "EC2" | (string & {});
 export interface EcsTask {
-  CreatedAt?: Date;
-  TaskDefinitionArn?: string;
-  LaunchType?: EcsLaunchType;
-  ContainerUids?: string[];
+  CreatedAt?: Date | undefined;
+  TaskDefinitionArn?: string | undefined;
+  LaunchType?: EcsLaunchType | undefined;
+  ContainerUids?: string[] | undefined;
 }
 export interface IamInstanceProfileV2 {
-  Ec2InstanceUids?: string[];
+  Ec2InstanceUids?: string[] | undefined;
 }
 export interface AutoscalingAutoScalingGroup {
-  Ec2InstanceUids?: string[];
+  Ec2InstanceUids?: string[] | undefined;
 }
 export type LaunchTemplateVersion = string;
 export interface Ec2LaunchTemplate {
-  Ec2InstanceUids?: string[];
-  Version?: string;
+  Ec2InstanceUids?: string[] | undefined;
+  Version?: string | undefined;
 }
 export interface Ec2Vpc {
-  Ec2InstanceUids?: string[];
+  Ec2InstanceUids?: string[] | undefined;
 }
 export interface Ec2Image {
-  Ec2InstanceUids?: string[];
+  Ec2InstanceUids?: string[] | undefined;
 }
 export interface CloudformationStack {
-  Ec2InstanceUids?: string[];
+  Ec2InstanceUids?: string[] | undefined;
 }
 export interface BedrockGuardrailResource {
-  Version?: string;
-  GuardrailAction?: GuardrailAction;
-  GuardrailSource?: GuardrailSource;
+  Version?: string | undefined;
+  GuardrailAction?: GuardrailAction | undefined;
+  GuardrailSource?: GuardrailSource | undefined;
 }
 export interface ResourceData {
-  S3Bucket?: S3Bucket;
-  Ec2Instance?: Ec2Instance;
-  AccessKey?: AccessKey;
-  Ec2NetworkInterface?: Ec2NetworkInterface;
-  S3Object?: S3Object;
-  EksCluster?: EksCluster;
-  KubernetesWorkload?: KubernetesWorkload;
-  Container?: ContainerFindingResource;
-  EcsCluster?: EcsCluster;
-  EcsTask?: EcsTask;
-  IamInstanceProfile?: IamInstanceProfileV2;
-  AutoscalingAutoScalingGroup?: AutoscalingAutoScalingGroup;
-  Ec2LaunchTemplate?: Ec2LaunchTemplate;
-  Ec2Vpc?: Ec2Vpc;
-  Ec2Image?: Ec2Image;
-  CloudformationStack?: CloudformationStack;
-  BedrockGuardrail?: BedrockGuardrailResource;
+  S3Bucket?: S3Bucket | undefined;
+  Ec2Instance?: Ec2Instance | undefined;
+  AccessKey?: AccessKey | undefined;
+  Ec2NetworkInterface?: Ec2NetworkInterface | undefined;
+  S3Object?: S3Object | undefined;
+  EksCluster?: EksCluster | undefined;
+  KubernetesWorkload?: KubernetesWorkload | undefined;
+  Container?: ContainerFindingResource | undefined;
+  EcsCluster?: EcsCluster | undefined;
+  EcsTask?: EcsTask | undefined;
+  IamInstanceProfile?: IamInstanceProfileV2 | undefined;
+  AutoscalingAutoScalingGroup?: AutoscalingAutoScalingGroup | undefined;
+  Ec2LaunchTemplate?: Ec2LaunchTemplate | undefined;
+  Ec2Vpc?: Ec2Vpc | undefined;
+  Ec2Image?: Ec2Image | undefined;
+  CloudformationStack?: CloudformationStack | undefined;
+  BedrockGuardrail?: BedrockGuardrailResource | undefined;
 }
 export interface ResourceV2 {
-  Uid?: string;
-  Name?: string;
-  AccountId?: string;
-  ResourceType?: FindingResourceType;
-  Region?: string;
-  Service?: string;
-  CloudPartition?: string;
-  Tags?: Tag[];
-  Data?: ResourceData;
+  Uid?: string | undefined;
+  Name?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceType?: FindingResourceType | undefined;
+  Region?: string | undefined;
+  Service?: string | undefined;
+  CloudPartition?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Data?: ResourceData | undefined;
 }
 export type Resources = ResourceV2[];
 export interface NetworkGeoLocation {
-  City?: string;
-  Country?: string;
-  Latitude?: number;
-  Longitude?: number;
+  City?: string | undefined;
+  Country?: string | undefined;
+  Latitude?: number | undefined;
+  Longitude?: number | undefined;
 }
 export interface AutonomousSystem {
-  Name?: string;
-  Number?: number;
+  Name?: string | undefined;
+  Number?: number | undefined;
 }
 export type NetworkDirection = "INBOUND" | "OUTBOUND" | (string & {});
 export interface NetworkConnection {
-  Direction?: NetworkDirection;
+  Direction?: NetworkDirection | undefined;
 }
 export interface NetworkEndpoint {
-  Id?: string;
-  Ip?: string;
-  Domain?: string;
-  Port?: number;
-  Location?: NetworkGeoLocation;
-  AutonomousSystem?: AutonomousSystem;
-  Connection?: NetworkConnection;
+  Id?: string | undefined;
+  Ip?: string | undefined;
+  Domain?: string | undefined;
+  Port?: number | undefined;
+  Location?: NetworkGeoLocation | undefined;
+  AutonomousSystem?: AutonomousSystem | undefined;
+  Connection?: NetworkConnection | undefined;
 }
 export type NetworkEndpoints = NetworkEndpoint[];
 export type SignalType =
@@ -1943,79 +1951,79 @@ export type IndicatorValueString = string;
 export type IndicatorValues = string[];
 export type IndicatorTitle = string;
 export interface Indicator {
-  Key?: IndicatorType;
-  Values?: string[];
-  Title?: string;
+  Key?: IndicatorType | undefined;
+  Values?: string[] | undefined;
+  Title?: string | undefined;
 }
 export type Indicators = Indicator[];
 export type ActivityType = "API_CALL" | (string & {});
 export interface ApiCall {
-  Operation?: string;
-  Service?: string;
-  Error?: string;
-  UserAgent?: string;
+  Operation?: string | undefined;
+  Service?: string | undefined;
+  Error?: string | undefined;
+  UserAgent?: string | undefined;
 }
 export interface Activity {
-  Type?: ActivityType;
-  Api?: ApiCall;
+  Type?: ActivityType | undefined;
+  Api?: ApiCall | undefined;
 }
 export type Activities = Activity[];
 export interface Signal {
-  Uid?: string;
-  Type?: SignalType;
-  Description?: string;
-  Name?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  FirstSeenAt?: Date;
-  LastSeenAt?: Date;
-  Severity?: number;
-  Count?: number;
-  ResourceUids?: string[];
-  ActorIds?: string[];
-  EndpointIds?: string[];
-  SignalIndicators?: Indicator[];
-  Activities?: Activity[];
+  Uid?: string | undefined;
+  Type?: SignalType | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  FirstSeenAt?: Date | undefined;
+  LastSeenAt?: Date | undefined;
+  Severity?: number | undefined;
+  Count?: number | undefined;
+  ResourceUids?: string[] | undefined;
+  ActorIds?: string[] | undefined;
+  EndpointIds?: string[] | undefined;
+  SignalIndicators?: Indicator[] | undefined;
+  Activities?: Activity[] | undefined;
 }
 export type Signals = Signal[];
 export type AdditionalSequenceTypes = string[];
 export interface Sequence {
-  Uid?: string;
-  Description?: string;
-  Actors?: Actor[];
-  Resources?: ResourceV2[];
-  Endpoints?: NetworkEndpoint[];
-  Signals?: Signal[];
-  SequenceIndicators?: Indicator[];
-  AdditionalSequenceTypes?: string[];
+  Uid?: string | undefined;
+  Description?: string | undefined;
+  Actors?: Actor[] | undefined;
+  Resources?: ResourceV2[] | undefined;
+  Endpoints?: NetworkEndpoint[] | undefined;
+  Signals?: Signal[] | undefined;
+  SequenceIndicators?: Indicator[] | undefined;
+  AdditionalSequenceTypes?: string[] | undefined;
 }
 export interface Detection {
-  Anomaly?: Anomaly;
-  Sequence?: Sequence;
+  Anomaly?: Anomaly | undefined;
+  Sequence?: Sequence | undefined;
 }
 export interface ItemPath {
-  NestedItemPath?: string;
-  Hash?: string;
+  NestedItemPath?: string | undefined;
+  Hash?: string | undefined;
 }
 export type ItemPaths = ItemPath[];
 export interface AdditionalInfo {
-  VersionId?: string;
-  DeviceName?: string;
+  VersionId?: string | undefined;
+  DeviceName?: string | undefined;
 }
 export interface ItemDetails {
-  ResourceArn?: string;
-  ItemPath?: string;
-  Hash?: string;
-  AdditionalInfo?: AdditionalInfo;
+  ResourceArn?: string | undefined;
+  ItemPath?: string | undefined;
+  Hash?: string | undefined;
+  AdditionalInfo?: AdditionalInfo | undefined;
 }
 export type ItemDetailsList = ItemDetails[];
 export interface Threat {
-  Name?: string;
-  Source?: string;
-  ItemPaths?: ItemPath[];
-  Count?: number;
-  Hash?: string;
-  ItemDetails?: ItemDetails[];
+  Name?: string | undefined;
+  Source?: string | undefined;
+  ItemPaths?: ItemPath[] | undefined;
+  Count?: number | undefined;
+  Hash?: string | undefined;
+  ItemDetails?: ItemDetails[] | undefined;
 }
 export type Threats = Threat[];
 export type MalwareProtectionScanType =
@@ -2025,56 +2033,56 @@ export type MalwareProtectionScanType =
   | (string & {});
 export type ScanCategory = "FULL_SCAN" | "INCREMENTAL_SCAN" | (string & {});
 export interface IncrementalScanDetails {
-  BaselineResourceArn?: string;
+  BaselineResourceArn?: string | undefined;
 }
 export interface MalwareProtectionFindingsScanConfiguration {
-  TriggerType?: TriggerType;
-  IncrementalScanDetails?: IncrementalScanDetails;
+  TriggerType?: TriggerType | undefined;
+  IncrementalScanDetails?: IncrementalScanDetails | undefined;
 }
 export interface MalwareScanDetails {
-  Threats?: Threat[];
-  ScanId?: string;
-  ScanType?: MalwareProtectionScanType;
-  ScanCategory?: ScanCategory;
-  ScanConfiguration?: MalwareProtectionFindingsScanConfiguration;
-  UniqueThreatCount?: number;
+  Threats?: Threat[] | undefined;
+  ScanId?: string | undefined;
+  ScanType?: MalwareProtectionScanType | undefined;
+  ScanCategory?: ScanCategory | undefined;
+  ScanConfiguration?: MalwareProtectionFindingsScanConfiguration | undefined;
+  UniqueThreatCount?: number | undefined;
 }
 export interface Service {
-  Action?: Action;
-  Evidence?: Evidence;
-  Archived?: boolean;
-  Count?: number;
-  DetectorId?: string;
-  EventFirstSeen?: string;
-  EventLastSeen?: string;
-  ResourceRole?: string;
-  ServiceName?: string;
-  UserFeedback?: string;
-  AdditionalInfo?: ServiceAdditionalInfo;
-  FeatureName?: string;
-  EbsVolumeScanDetails?: EbsVolumeScanDetails;
-  RuntimeDetails?: RuntimeDetails;
-  Detection?: Detection;
-  MalwareScanDetails?: MalwareScanDetails;
+  Action?: Action | undefined;
+  Evidence?: Evidence | undefined;
+  Archived?: boolean | undefined;
+  Count?: number | undefined;
+  DetectorId?: string | undefined;
+  EventFirstSeen?: string | undefined;
+  EventLastSeen?: string | undefined;
+  ResourceRole?: string | undefined;
+  ServiceName?: string | undefined;
+  UserFeedback?: string | undefined;
+  AdditionalInfo?: ServiceAdditionalInfo | undefined;
+  FeatureName?: string | undefined;
+  EbsVolumeScanDetails?: EbsVolumeScanDetails | undefined;
+  RuntimeDetails?: RuntimeDetails | undefined;
+  Detection?: Detection | undefined;
+  MalwareScanDetails?: MalwareScanDetails | undefined;
 }
 export interface Finding {
-  AccountId?: string;
-  Arn?: string;
-  Confidence?: number;
-  CreatedAt?: string;
-  Description?: string;
-  Id?: string;
-  Partition?: string;
-  Region?: string;
-  Resource?: Resource;
-  SchemaVersion?: string;
-  Service?: Service;
-  Severity?: number;
-  Title?: string;
-  Type?: string;
-  UpdatedAt?: string;
-  AssociatedAttackSequenceArn?: string;
-  CustomDetectionRuleName?: string;
+  AccountId?: string | undefined;
+  Arn?: string | undefined;
+  Confidence?: number | undefined;
+  CreatedAt?: string | undefined;
+  Description?: string | undefined;
+  Id?: string | undefined;
+  Partition?: string | undefined;
+  Region?: string | undefined;
+  Resource?: Resource | undefined;
+  SchemaVersion?: string | undefined;
+  Service?: Service | undefined;
+  Severity?: number | undefined;
+  Title?: string | undefined;
+  Type?: string | undefined;
+  UpdatedAt?: string | undefined;
+  AssociatedAttackSequenceArn?: string | undefined;
+  CustomDetectionRuleName?: string | undefined;
 }
 export type Findings = Finding[];
 export interface GetFindingsResponse {
@@ -2155,57 +2163,57 @@ export type GroupByType =
 export type MaxResults100 = number;
 export interface GetFindingsStatisticsRequest {
   DetectorId: string;
-  FindingStatisticTypes?: FindingStatisticType[];
-  FindingCriteria?: FindingCriteria;
-  GroupBy?: GroupByType;
-  OrderBy?: OrderBy;
-  MaxResults?: number;
+  FindingStatisticTypes?: FindingStatisticType[] | undefined;
+  FindingCriteria?: FindingCriteria | undefined;
+  GroupBy?: GroupByType | undefined;
+  OrderBy?: OrderBy | undefined;
+  MaxResults?: number | undefined;
 }
 export type CountBySeverity = { [key: string]: number | undefined };
 export interface AccountStatistics {
-  AccountId?: string;
-  LastGeneratedAt?: Date;
-  TotalFindings?: number;
+  AccountId?: string | undefined;
+  LastGeneratedAt?: Date | undefined;
+  TotalFindings?: number | undefined;
 }
 export type GroupedByAccount = AccountStatistics[];
 export interface DateStatistics {
-  Date?: Date;
-  LastGeneratedAt?: Date;
-  Severity?: number;
-  TotalFindings?: number;
+  Date?: Date | undefined;
+  LastGeneratedAt?: Date | undefined;
+  Severity?: number | undefined;
+  TotalFindings?: number | undefined;
 }
 export type GroupedByDate = DateStatistics[];
 export interface FindingTypeStatistics {
-  FindingType?: string;
-  LastGeneratedAt?: Date;
-  TotalFindings?: number;
+  FindingType?: string | undefined;
+  LastGeneratedAt?: Date | undefined;
+  TotalFindings?: number | undefined;
 }
 export type GroupedByFindingType = FindingTypeStatistics[];
 export interface ResourceStatistics {
-  AccountId?: string;
-  LastGeneratedAt?: Date;
-  ResourceId?: string;
-  ResourceType?: string;
-  TotalFindings?: number;
+  AccountId?: string | undefined;
+  LastGeneratedAt?: Date | undefined;
+  ResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  TotalFindings?: number | undefined;
 }
 export type GroupedByResource = ResourceStatistics[];
 export interface SeverityStatistics {
-  LastGeneratedAt?: Date;
-  Severity?: number;
-  TotalFindings?: number;
+  LastGeneratedAt?: Date | undefined;
+  Severity?: number | undefined;
+  TotalFindings?: number | undefined;
 }
 export type GroupedBySeverity = SeverityStatistics[];
 export interface FindingStatistics {
-  CountBySeverity?: { [key: string]: number | undefined };
-  GroupedByAccount?: AccountStatistics[];
-  GroupedByDate?: DateStatistics[];
-  GroupedByFindingType?: FindingTypeStatistics[];
-  GroupedByResource?: ResourceStatistics[];
-  GroupedBySeverity?: SeverityStatistics[];
+  CountBySeverity?: { [key: string]: number | undefined } | undefined;
+  GroupedByAccount?: AccountStatistics[] | undefined;
+  GroupedByDate?: DateStatistics[] | undefined;
+  GroupedByFindingType?: FindingTypeStatistics[] | undefined;
+  GroupedByResource?: ResourceStatistics[] | undefined;
+  GroupedBySeverity?: SeverityStatistics[] | undefined;
 }
 export interface GetFindingsStatisticsResponse {
   FindingStatistics: FindingStatistics;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetInvestigationRequest {
   DetectorId: string;
@@ -2214,37 +2222,37 @@ export interface GetInvestigationRequest {
 export type InvestigationStatus = "RUNNING" | "COMPLETED" | "FAILED" | (string & {});
 export type TriggeredBy = string;
 export interface Product {
-  Name?: string;
-  Feature?: string;
+  Name?: string | undefined;
+  Feature?: string | undefined;
 }
 export interface InvestigationMetadata {
-  Version?: string;
-  Product?: Product;
+  Version?: string | undefined;
+  Product?: Product | undefined;
 }
 export type CloudProvider = "AWS" | (string & {});
 export interface CloudDetails {
-  Provider?: CloudProvider;
-  Region?: string;
-  Account?: string;
+  Provider?: CloudProvider | undefined;
+  Region?: string | undefined;
+  Account?: string | undefined;
 }
 export type RiskLevel = "Info" | "Low" | "Medium" | "High" | "Critical" | (string & {});
 export type RiskDetails = string;
 export type Confidence = "Unknown" | "Low" | "Medium" | "High" | (string & {});
 export type InvestigationErrorDetails = string;
 export interface Investigation {
-  InvestigationId?: string;
-  Status?: InvestigationStatus;
-  TriggerPrompt?: string;
-  TriggeredBy?: string;
-  Metadata?: InvestigationMetadata;
-  Cloud?: CloudDetails;
-  RiskLevel?: RiskLevel;
-  Risk?: string;
-  Confidence?: Confidence;
-  Summary?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Error?: string;
+  InvestigationId?: string | undefined;
+  Status?: InvestigationStatus | undefined;
+  TriggerPrompt?: string | undefined;
+  TriggeredBy?: string | undefined;
+  Metadata?: InvestigationMetadata | undefined;
+  Cloud?: CloudDetails | undefined;
+  RiskLevel?: RiskLevel | undefined;
+  Risk?: string | undefined;
+  Confidence?: Confidence | undefined;
+  Summary?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Error?: string | undefined;
 }
 export interface GetInvestigationResponse {
   Investigation: Investigation & {
@@ -2258,11 +2266,11 @@ export interface GetInvestigationResponse {
 }
 export interface GetInvitationsCountRequest {}
 export interface GetInvitationsCountResponse {
-  InvitationsCount?: number;
+  InvitationsCount?: number | undefined;
 }
 export interface GetIPSetRequest {
   DetectorId: string;
-  IpSetId?: string;
+  IpSetId?: string | undefined;
 }
 export type IpSetStatus =
   | "INACTIVE"
@@ -2278,30 +2286,30 @@ export interface GetIPSetResponse {
   Format: IpSetFormat;
   Location: string;
   Status: IpSetStatus;
-  Tags?: { [key: string]: string | undefined };
-  ExpectedBucketOwner?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface GetMalwareProtectionPlanRequest {
-  MalwareProtectionPlanId?: string;
+  MalwareProtectionPlanId?: string | undefined;
 }
 export type MalwareProtectionPlanStatus = "ACTIVE" | "WARNING" | "ERROR" | (string & {});
 export interface MalwareProtectionPlanStatusReason {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type MalwareProtectionPlanStatusReasonsList = MalwareProtectionPlanStatusReason[];
 export interface GetMalwareProtectionPlanResponse {
-  Arn?: string;
-  Role?: string;
-  ProtectedResource?: CreateProtectedResource;
-  Actions?: MalwareProtectionPlanActions;
-  CreatedAt?: Date;
-  Status?: MalwareProtectionPlanStatus;
-  StatusReasons?: MalwareProtectionPlanStatusReason[];
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Role?: string | undefined;
+  ProtectedResource?: CreateProtectedResource | undefined;
+  Actions?: MalwareProtectionPlanActions | undefined;
+  CreatedAt?: Date | undefined;
+  Status?: MalwareProtectionPlanStatus | undefined;
+  StatusReasons?: MalwareProtectionPlanStatusReason[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetMalwareScanRequest {
-  ScanId?: string;
+  ScanId?: string | undefined;
 }
 export type MalwareProtectionResourceType =
   | "EBS_RECOVERY_POINT"
@@ -2342,139 +2350,143 @@ export type ScanStatusReason =
   | "ALL_FILES_SKIPPED_OR_FAILED"
   | (string & {});
 export interface EbsSnapshot {
-  DeviceName?: string;
+  DeviceName?: string | undefined;
 }
 export interface ScannedResourceDetails {
-  EbsVolume?: VolumeDetail;
-  EbsSnapshot?: EbsSnapshot;
+  EbsVolume?: VolumeDetail | undefined;
+  EbsSnapshot?: EbsSnapshot | undefined;
 }
 export interface ScannedResource {
-  ScannedResourceArn?: string;
-  ScannedResourceType?: MalwareProtectionResourceType;
-  ScannedResourceStatus?: MalwareProtectionScanStatus;
-  ScanStatusReason?: ScanStatusReason;
-  ResourceDetails?: ScannedResourceDetails;
+  ScannedResourceArn?: string | undefined;
+  ScannedResourceType?: MalwareProtectionResourceType | undefined;
+  ScannedResourceStatus?: MalwareProtectionScanStatus | undefined;
+  ScanStatusReason?: ScanStatusReason | undefined;
+  ResourceDetails?: ScannedResourceDetails | undefined;
 }
 export type ScannedResources = ScannedResource[];
 export interface ScanConfigurationRecoveryPoint {
-  BackupVaultName?: string;
-  ContinuousScanDetails?: ScanConfigurationContinuousScanDetails;
+  BackupVaultName?: string | undefined;
+  ContinuousScanDetails?: ScanConfigurationContinuousScanDetails | undefined;
 }
 export interface ScanConfiguration {
-  Role?: string;
-  TriggerDetails?: TriggerDetails;
-  IncrementalScanDetails?: IncrementalScanDetails;
-  RecoveryPoint?: ScanConfigurationRecoveryPoint;
+  Role?: string | undefined;
+  TriggerDetails?: TriggerDetails | undefined;
+  IncrementalScanDetails?: IncrementalScanDetails | undefined;
+  RecoveryPoint?: ScanConfigurationRecoveryPoint | undefined;
 }
 export type ScanResultStatus = "NO_THREATS_FOUND" | "THREATS_FOUND" | (string & {});
 export type DetectionSource = "AMAZON" | "BITDEFENDER" | (string & {});
 export interface ScanResultThreat {
-  Name?: string;
-  Source?: DetectionSource;
-  Count?: number;
-  Hash?: string;
-  ItemDetails?: ItemDetails[];
+  Name?: string | undefined;
+  Source?: DetectionSource | undefined;
+  Count?: number | undefined;
+  Hash?: string | undefined;
+  ItemDetails?: ItemDetails[] | undefined;
 }
 export type ScanResultThreats = ScanResultThreat[];
 export interface GetMalwareScanResultDetails {
-  ScanResultStatus?: ScanResultStatus;
-  SkippedFileCount?: number;
-  FailedFileCount?: number;
-  ThreatFoundFileCount?: number;
-  TotalFileCount?: number;
-  TotalBytes?: number;
-  UniqueThreatCount?: number;
-  Threats?: ScanResultThreat[];
+  ScanResultStatus?: ScanResultStatus | undefined;
+  SkippedFileCount?: number | undefined;
+  FailedFileCount?: number | undefined;
+  ThreatFoundFileCount?: number | undefined;
+  TotalFileCount?: number | undefined;
+  TotalBytes?: number | undefined;
+  UniqueThreatCount?: number | undefined;
+  Threats?: ScanResultThreat[] | undefined;
 }
 export interface GetMalwareScanResponse {
-  ScanId?: string;
-  DetectorId?: string;
-  AdminDetectorId?: string;
-  ResourceArn?: string;
-  ResourceType?: MalwareProtectionResourceType;
-  ScannedResourcesCount?: number;
-  SkippedResourcesCount?: number;
-  FailedResourcesCount?: number;
-  ScannedResources?: ScannedResource[];
-  ScanConfiguration?: ScanConfiguration & {
-    IncrementalScanDetails: IncrementalScanDetails & { BaselineResourceArn: NonEmptyString };
-  };
-  ScanCategory?: ScanCategory;
-  ScanStatus?: MalwareProtectionScanStatus;
-  ScanStatusReason?: ScanStatusReason;
-  ScanType?: MalwareProtectionScanType;
-  ScanStartedAt?: Date;
-  ScanCompletedAt?: Date;
-  ScanResultDetails?: GetMalwareScanResultDetails;
+  ScanId?: string | undefined;
+  DetectorId?: string | undefined;
+  AdminDetectorId?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: MalwareProtectionResourceType | undefined;
+  ScannedResourcesCount?: number | undefined;
+  SkippedResourcesCount?: number | undefined;
+  FailedResourcesCount?: number | undefined;
+  ScannedResources?: ScannedResource[] | undefined;
+  ScanConfiguration?:
+    | (ScanConfiguration & {
+        IncrementalScanDetails: IncrementalScanDetails & { BaselineResourceArn: NonEmptyString };
+      })
+    | undefined;
+  ScanCategory?: ScanCategory | undefined;
+  ScanStatus?: MalwareProtectionScanStatus | undefined;
+  ScanStatusReason?: ScanStatusReason | undefined;
+  ScanType?: MalwareProtectionScanType | undefined;
+  ScanStartedAt?: Date | undefined;
+  ScanCompletedAt?: Date | undefined;
+  ScanResultDetails?: GetMalwareScanResultDetails | undefined;
 }
 export interface GetMalwareScanSettingsRequest {
   DetectorId: string;
 }
 export type ScanCriterionKey = "EC2_INSTANCE_TAG" | (string & {});
 export interface ScanConditionPair {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type MapEquals = ScanConditionPair[];
 export interface ScanCondition {
-  MapEquals?: ScanConditionPair[];
+  MapEquals?: ScanConditionPair[] | undefined;
 }
-export type ScanCriterion = { [key in ScanCriterionKey]?: ScanCondition };
+export type ScanCriterion = { [key in ScanCriterionKey]?: ScanCondition | undefined };
 export interface ScanResourceCriteria {
-  Include?: { [key: string]: ScanCondition | undefined };
-  Exclude?: { [key: string]: ScanCondition | undefined };
+  Include?: { [key: string]: ScanCondition | undefined } | undefined;
+  Exclude?: { [key: string]: ScanCondition | undefined } | undefined;
 }
 export type EbsSnapshotPreservation = "NO_RETENTION" | "RETENTION_WITH_FINDING" | (string & {});
 export interface GetMalwareScanSettingsResponse {
-  ScanResourceCriteria?: ScanResourceCriteria & {
-    Include: {
-      [key: string]:
-        | (ScanCondition & { MapEquals: (ScanConditionPair & { Key: TagKey })[] })
-        | undefined;
-    };
-    Exclude: {
-      [key: string]:
-        | (ScanCondition & { MapEquals: (ScanConditionPair & { Key: TagKey })[] })
-        | undefined;
-    };
-  };
-  EbsSnapshotPreservation?: EbsSnapshotPreservation;
+  ScanResourceCriteria?:
+    | (ScanResourceCriteria & {
+        Include: {
+          [key: string]:
+            | (ScanCondition & { MapEquals: (ScanConditionPair & { Key: TagKey })[] })
+            | undefined;
+        };
+        Exclude: {
+          [key: string]:
+            | (ScanCondition & { MapEquals: (ScanConditionPair & { Key: TagKey })[] })
+            | undefined;
+        };
+      })
+    | undefined;
+  EbsSnapshotPreservation?: EbsSnapshotPreservation | undefined;
 }
 export interface GetMasterAccountRequest {
   DetectorId: string;
 }
 export interface Master {
-  AccountId?: string;
-  InvitationId?: string;
-  RelationshipStatus?: string;
-  InvitedAt?: string;
+  AccountId?: string | undefined;
+  InvitationId?: string | undefined;
+  RelationshipStatus?: string | undefined;
+  InvitedAt?: string | undefined;
 }
 export interface GetMasterAccountResponse {
   Master: Master;
 }
 export interface GetMemberDetectorsRequest {
   DetectorId: string;
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface MemberAdditionalConfigurationResult {
-  Name?: OrgFeatureAdditionalConfiguration;
-  Status?: FeatureStatus;
-  UpdatedAt?: Date;
-  ManagedBy?: ManagedBy;
+  Name?: OrgFeatureAdditionalConfiguration | undefined;
+  Status?: FeatureStatus | undefined;
+  UpdatedAt?: Date | undefined;
+  ManagedBy?: ManagedBy | undefined;
 }
 export type MemberAdditionalConfigurationResults = MemberAdditionalConfigurationResult[];
 export interface MemberFeaturesConfigurationResult {
-  Name?: OrgFeature;
-  Status?: FeatureStatus;
-  UpdatedAt?: Date;
-  AdditionalConfiguration?: MemberAdditionalConfigurationResult[];
-  ManagedBy?: ManagedBy;
+  Name?: OrgFeature | undefined;
+  Status?: FeatureStatus | undefined;
+  UpdatedAt?: Date | undefined;
+  AdditionalConfiguration?: MemberAdditionalConfigurationResult[] | undefined;
+  ManagedBy?: ManagedBy | undefined;
 }
 export type MemberFeaturesConfigurationsResults = MemberFeaturesConfigurationResult[];
 export interface MemberDataSourceConfiguration {
-  AccountId?: string;
-  DataSources?: DataSourceConfigurationsResult;
-  Features?: MemberFeaturesConfigurationResult[];
+  AccountId?: string | undefined;
+  DataSources?: DataSourceConfigurationsResult | undefined;
+  Features?: MemberFeaturesConfigurationResult[] | undefined;
 }
 export type MemberDataSourceConfigurations = MemberDataSourceConfiguration[];
 export interface GetMemberDetectorsResponse {
@@ -2494,17 +2506,17 @@ export interface GetMemberDetectorsResponse {
 }
 export interface GetMembersRequest {
   DetectorId: string;
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface Member {
-  AccountId?: string;
-  DetectorId?: string;
-  MasterId?: string;
-  Email?: string | redacted.Redacted<string>;
-  RelationshipStatus?: string;
-  InvitedAt?: string;
-  UpdatedAt?: string;
-  AdministratorId?: string;
+  AccountId?: string | undefined;
+  DetectorId?: string | undefined;
+  MasterId?: string | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  RelationshipStatus?: string | undefined;
+  InvitedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  AdministratorId?: string | undefined;
 }
 export type Members = Member[];
 export interface GetMembersResponse {
@@ -2519,51 +2531,51 @@ export interface GetMembersResponse {
 }
 export interface GetOrganizationStatisticsRequest {}
 export interface OrganizationFeatureStatisticsAdditionalConfiguration {
-  Name?: OrgFeatureAdditionalConfiguration;
-  EnabledAccountsCount?: number;
+  Name?: OrgFeatureAdditionalConfiguration | undefined;
+  EnabledAccountsCount?: number | undefined;
 }
 export type OrganizationFeatureStatisticsAdditionalConfigurations =
   OrganizationFeatureStatisticsAdditionalConfiguration[];
 export interface OrganizationFeatureStatistics {
-  Name?: OrgFeature;
-  EnabledAccountsCount?: number;
-  AdditionalConfiguration?: OrganizationFeatureStatisticsAdditionalConfiguration[];
+  Name?: OrgFeature | undefined;
+  EnabledAccountsCount?: number | undefined;
+  AdditionalConfiguration?: OrganizationFeatureStatisticsAdditionalConfiguration[] | undefined;
 }
 export type OrganizationFeatureStatisticsResults = OrganizationFeatureStatistics[];
 export interface OrganizationStatistics {
-  TotalAccountsCount?: number;
-  MemberAccountsCount?: number;
-  ActiveAccountsCount?: number;
-  EnabledAccountsCount?: number;
-  CountByFeature?: OrganizationFeatureStatistics[];
+  TotalAccountsCount?: number | undefined;
+  MemberAccountsCount?: number | undefined;
+  ActiveAccountsCount?: number | undefined;
+  EnabledAccountsCount?: number | undefined;
+  CountByFeature?: OrganizationFeatureStatistics[] | undefined;
 }
 export interface OrganizationDetails {
-  UpdatedAt?: Date;
-  OrganizationStatistics?: OrganizationStatistics;
+  UpdatedAt?: Date | undefined;
+  OrganizationStatistics?: OrganizationStatistics | undefined;
 }
 export interface GetOrganizationStatisticsResponse {
-  OrganizationDetails?: OrganizationDetails;
+  OrganizationDetails?: OrganizationDetails | undefined;
 }
 export interface GetRemainingFreeTrialDaysRequest {
   DetectorId: string;
   AccountIds: string[];
 }
 export interface DataSourceFreeTrial {
-  FreeTrialDaysRemaining?: number;
+  FreeTrialDaysRemaining?: number | undefined;
 }
 export interface KubernetesDataSourceFreeTrial {
-  AuditLogs?: DataSourceFreeTrial;
+  AuditLogs?: DataSourceFreeTrial | undefined;
 }
 export interface MalwareProtectionDataSourceFreeTrial {
-  ScanEc2InstanceWithFindings?: DataSourceFreeTrial;
+  ScanEc2InstanceWithFindings?: DataSourceFreeTrial | undefined;
 }
 export interface DataSourcesFreeTrial {
-  CloudTrail?: DataSourceFreeTrial;
-  DnsLogs?: DataSourceFreeTrial;
-  FlowLogs?: DataSourceFreeTrial;
-  S3Logs?: DataSourceFreeTrial;
-  Kubernetes?: KubernetesDataSourceFreeTrial;
-  MalwareProtection?: MalwareProtectionDataSourceFreeTrial;
+  CloudTrail?: DataSourceFreeTrial | undefined;
+  DnsLogs?: DataSourceFreeTrial | undefined;
+  FlowLogs?: DataSourceFreeTrial | undefined;
+  S3Logs?: DataSourceFreeTrial | undefined;
+  Kubernetes?: KubernetesDataSourceFreeTrial | undefined;
+  MalwareProtection?: MalwareProtectionDataSourceFreeTrial | undefined;
 }
 export type FreeTrialFeatureResult =
   | "FLOW_LOGS"
@@ -2580,23 +2592,25 @@ export type FreeTrialFeatureResult =
   | "AI_PROTECTION"
   | (string & {});
 export interface FreeTrialFeatureConfigurationResult {
-  Name?: FreeTrialFeatureResult;
-  FreeTrialDaysRemaining?: number;
+  Name?: FreeTrialFeatureResult | undefined;
+  FreeTrialDaysRemaining?: number | undefined;
 }
 export type FreeTrialFeatureConfigurationsResults = FreeTrialFeatureConfigurationResult[];
 export interface AccountFreeTrialInfo {
-  AccountId?: string;
-  DataSources?: DataSourcesFreeTrial;
-  Features?: FreeTrialFeatureConfigurationResult[];
+  AccountId?: string | undefined;
+  DataSources?: DataSourcesFreeTrial | undefined;
+  Features?: FreeTrialFeatureConfigurationResult[] | undefined;
 }
 export type AccountFreeTrialInfos = AccountFreeTrialInfo[];
 export interface GetRemainingFreeTrialDaysResponse {
-  Accounts?: AccountFreeTrialInfo[];
-  UnprocessedAccounts?: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
+  Accounts?: AccountFreeTrialInfo[] | undefined;
+  UnprocessedAccounts?:
+    | (UnprocessedAccount & { AccountId: AccountId; Result: string })[]
+    | undefined;
 }
 export interface GetThreatEntitySetRequest {
   DetectorId: string;
-  ThreatEntitySetId?: string;
+  ThreatEntitySetId?: string | undefined;
 }
 export type ThreatEntitySetStatus =
   | "INACTIVE"
@@ -2611,12 +2625,12 @@ export interface GetThreatEntitySetResponse {
   Name: string;
   Format: ThreatEntitySetFormat;
   Location: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
   Status: ThreatEntitySetStatus;
-  Tags?: { [key: string]: string | undefined };
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ErrorDetails?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ErrorDetails?: string | undefined;
 }
 export interface GetThreatIntelSetRequest {
   DetectorId: string;
@@ -2636,8 +2650,8 @@ export interface GetThreatIntelSetResponse {
   Format: ThreatIntelSetFormat;
   Location: string;
   Status: ThreatIntelSetStatus;
-  Tags?: { [key: string]: string | undefined };
-  ExpectedBucketOwner?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface GetTrustedEntitySetRequest {
   DetectorId: string;
@@ -2656,12 +2670,12 @@ export interface GetTrustedEntitySetResponse {
   Name: string;
   Format: TrustedEntitySetFormat;
   Location: string;
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
   Status: TrustedEntitySetStatus;
-  Tags?: { [key: string]: string | undefined };
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ErrorDetails?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ErrorDetails?: string | undefined;
 }
 export type UsageStatisticType =
   | "SUM_BY_ACCOUNT"
@@ -2703,70 +2717,70 @@ export type UsageFeature =
   | (string & {});
 export type UsageFeatureList = UsageFeature[];
 export interface UsageCriteria {
-  AccountIds?: string[];
-  DataSources?: DataSource[];
-  Resources?: string[];
-  Features?: UsageFeature[];
+  AccountIds?: string[] | undefined;
+  DataSources?: DataSource[] | undefined;
+  Resources?: string[] | undefined;
+  Features?: UsageFeature[] | undefined;
 }
 export interface GetUsageStatisticsRequest {
   DetectorId: string;
-  UsageStatisticType?: UsageStatisticType;
-  UsageCriteria?: UsageCriteria;
-  Unit?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  UsageStatisticType?: UsageStatisticType | undefined;
+  UsageCriteria?: UsageCriteria | undefined;
+  Unit?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Total {
-  Amount?: string;
-  Unit?: string;
+  Amount?: string | undefined;
+  Unit?: string | undefined;
 }
 export interface UsageAccountResult {
-  AccountId?: string;
-  Total?: Total;
+  AccountId?: string | undefined;
+  Total?: Total | undefined;
 }
 export type UsageAccountResultList = UsageAccountResult[];
 export interface UsageTopAccountResult {
-  AccountId?: string;
-  Total?: Total;
+  AccountId?: string | undefined;
+  Total?: Total | undefined;
 }
 export type UsageTopAccountsByFeatureList = UsageTopAccountResult[];
 export interface UsageTopAccountsResult {
-  Feature?: UsageFeature;
-  Accounts?: UsageTopAccountResult[];
+  Feature?: UsageFeature | undefined;
+  Accounts?: UsageTopAccountResult[] | undefined;
 }
 export type UsageTopAccountsResultList = UsageTopAccountsResult[];
 export interface UsageDataSourceResult {
-  DataSource?: DataSource;
-  Total?: Total;
+  DataSource?: DataSource | undefined;
+  Total?: Total | undefined;
 }
 export type UsageDataSourceResultList = UsageDataSourceResult[];
 export interface UsageResourceResult {
-  Resource?: string;
-  Total?: Total;
+  Resource?: string | undefined;
+  Total?: Total | undefined;
 }
 export type UsageResourceResultList = UsageResourceResult[];
 export interface UsageFeatureResult {
-  Feature?: UsageFeature;
-  Total?: Total;
+  Feature?: UsageFeature | undefined;
+  Total?: Total | undefined;
 }
 export type UsageFeatureResultList = UsageFeatureResult[];
 export interface UsageStatistics {
-  SumByAccount?: UsageAccountResult[];
-  TopAccountsByFeature?: UsageTopAccountsResult[];
-  SumByDataSource?: UsageDataSourceResult[];
-  SumByResource?: UsageResourceResult[];
-  TopResources?: UsageResourceResult[];
-  SumByFeature?: UsageFeatureResult[];
+  SumByAccount?: UsageAccountResult[] | undefined;
+  TopAccountsByFeature?: UsageTopAccountsResult[] | undefined;
+  SumByDataSource?: UsageDataSourceResult[] | undefined;
+  SumByResource?: UsageResourceResult[] | undefined;
+  TopResources?: UsageResourceResult[] | undefined;
+  SumByFeature?: UsageFeatureResult[] | undefined;
 }
 export interface GetUsageStatisticsResponse {
-  UsageStatistics?: UsageStatistics;
-  NextToken?: string;
+  UsageStatistics?: UsageStatistics | undefined;
+  NextToken?: string | undefined;
 }
 export interface InviteMembersRequest {
   DetectorId: string;
-  AccountIds?: string[];
-  DisableEmailNotification?: boolean;
-  Message?: string;
+  AccountIds?: string[] | undefined;
+  DisableEmailNotification?: boolean | undefined;
+  Message?: string | undefined;
 }
 export interface InviteMembersResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
@@ -2783,87 +2797,87 @@ export type CoverageSortKey =
   | "INSTANCE_ID"
   | (string & {});
 export interface CoverageSortCriteria {
-  AttributeName?: CoverageSortKey;
-  OrderBy?: OrderBy;
+  AttributeName?: CoverageSortKey | undefined;
+  OrderBy?: OrderBy | undefined;
 }
 export interface ListCoverageRequest {
   DetectorId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  FilterCriteria?: CoverageFilterCriteria;
-  SortCriteria?: CoverageSortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  FilterCriteria?: CoverageFilterCriteria | undefined;
+  SortCriteria?: CoverageSortCriteria | undefined;
 }
 export interface AddonDetails {
-  AddonVersion?: string;
-  AddonStatus?: string;
+  AddonVersion?: string | undefined;
+  AddonStatus?: string | undefined;
 }
 export type ManagementType = "AUTO_MANAGED" | "MANUAL" | "DISABLED" | (string & {});
 export interface CoverageEksClusterDetails {
-  ClusterName?: string;
-  CoveredNodes?: number;
-  CompatibleNodes?: number;
-  AddonDetails?: AddonDetails;
-  ManagementType?: ManagementType;
+  ClusterName?: string | undefined;
+  CoveredNodes?: number | undefined;
+  CompatibleNodes?: number | undefined;
+  AddonDetails?: AddonDetails | undefined;
+  ManagementType?: ManagementType | undefined;
 }
 export type Issues = string[];
 export interface FargateDetails {
-  Issues?: string[];
-  ManagementType?: ManagementType;
+  Issues?: string[] | undefined;
+  ManagementType?: ManagementType | undefined;
 }
 export interface ContainerInstanceDetails {
-  CoveredContainerInstances?: number;
-  CompatibleContainerInstances?: number;
+  CoveredContainerInstances?: number | undefined;
+  CompatibleContainerInstances?: number | undefined;
 }
 export interface CoverageEcsClusterDetails {
-  ClusterName?: string;
-  FargateDetails?: FargateDetails;
-  ContainerInstanceDetails?: ContainerInstanceDetails;
+  ClusterName?: string | undefined;
+  FargateDetails?: FargateDetails | undefined;
+  ContainerInstanceDetails?: ContainerInstanceDetails | undefined;
 }
 export interface AgentDetails {
-  Version?: string;
+  Version?: string | undefined;
 }
 export interface CoverageEc2InstanceDetails {
-  InstanceId?: string;
-  InstanceType?: string;
-  ClusterArn?: string;
-  AgentDetails?: AgentDetails;
-  ManagementType?: ManagementType;
+  InstanceId?: string | undefined;
+  InstanceType?: string | undefined;
+  ClusterArn?: string | undefined;
+  AgentDetails?: AgentDetails | undefined;
+  ManagementType?: ManagementType | undefined;
 }
 export interface CoverageResourceDetails {
-  EksClusterDetails?: CoverageEksClusterDetails;
-  EcsClusterDetails?: CoverageEcsClusterDetails;
-  Ec2InstanceDetails?: CoverageEc2InstanceDetails;
-  ResourceType?: ResourceType;
+  EksClusterDetails?: CoverageEksClusterDetails | undefined;
+  EcsClusterDetails?: CoverageEcsClusterDetails | undefined;
+  Ec2InstanceDetails?: CoverageEc2InstanceDetails | undefined;
+  ResourceType?: ResourceType | undefined;
 }
 export interface CoverageResource {
-  ResourceId?: string;
-  DetectorId?: string;
-  AccountId?: string;
-  ResourceDetails?: CoverageResourceDetails;
-  CoverageStatus?: CoverageStatus;
-  Issue?: string;
-  UpdatedAt?: Date;
+  ResourceId?: string | undefined;
+  DetectorId?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceDetails?: CoverageResourceDetails | undefined;
+  CoverageStatus?: CoverageStatus | undefined;
+  Issue?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type CoverageResources = CoverageResource[];
 export interface ListCoverageResponse {
   Resources: CoverageResource[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type DetectionRuleMaxResults = number;
 export interface ListCustomDetectionRuleAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  RuleId?: string;
-  Mode?: AssociationMode;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RuleId?: string | undefined;
+  Mode?: AssociationMode | undefined;
 }
 export interface AssociationSummary {
-  AssociationId?: string;
-  Arn?: string;
-  RuleId?: string;
-  Mode?: AssociationMode;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ExpiresAt?: Date;
+  AssociationId?: string | undefined;
+  Arn?: string | undefined;
+  RuleId?: string | undefined;
+  Mode?: AssociationMode | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export type AssociationSummaryList = AssociationSummary[];
 export interface ListCustomDetectionRuleAssociationsResponse {
@@ -2875,21 +2889,21 @@ export interface ListCustomDetectionRuleAssociationsResponse {
     CreatedAt: Date;
     UpdatedAt: Date;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListCustomDetectionRuleOrgConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Status?: DetectionRuleConfigurationStatus;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Status?: DetectionRuleConfigurationStatus | undefined;
 }
 export interface DetectionRuleOrgConfigurationSummary {
-  RuleId?: string;
-  Mode?: AssociationMode;
-  Status?: DetectionRuleConfigurationStatus;
-  StatusReason?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ExpiresAt?: Date;
+  RuleId?: string | undefined;
+  Mode?: AssociationMode | undefined;
+  Status?: DetectionRuleConfigurationStatus | undefined;
+  StatusReason?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ExpiresAt?: Date | undefined;
 }
 export type DetectionRuleOrgConfigurationSummaryList = DetectionRuleOrgConfigurationSummary[];
 export interface ListCustomDetectionRuleOrgConfigurationsResponse {
@@ -2900,7 +2914,7 @@ export interface ListCustomDetectionRuleOrgConfigurationsResponse {
     CreatedAt: Date;
     UpdatedAt: Date;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type FilterFieldName =
   | "name"
@@ -2915,30 +2929,30 @@ export type DetectionRuleFilterValue = string;
 export type DetectionRuleFilterValues = string[];
 export type DetectionRuleFilterCondition = "EQUALS" | "CONTAINS" | (string & {});
 export interface DetectionRuleFilter {
-  Name?: FilterFieldName;
-  Values?: string[];
-  Condition?: DetectionRuleFilterCondition;
+  Name?: FilterFieldName | undefined;
+  Values?: string[] | undefined;
+  Condition?: DetectionRuleFilterCondition | undefined;
 }
 export type DetectionRuleFilterList = DetectionRuleFilter[];
 export interface ListCustomDetectionRulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: DetectionRuleFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: DetectionRuleFilter[] | undefined;
 }
 export interface RuleSummary {
-  RuleId?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  Severity?: DetectionRuleSeverity;
-  DataSource?: DetectionRuleDataSource;
-  Tactic?: string;
-  Technique?: string;
-  Service?: string;
-  Language?: RuleLanguage;
-  Schema?: RuleSchema;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  RuleId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Severity?: DetectionRuleSeverity | undefined;
+  DataSource?: DetectionRuleDataSource | undefined;
+  Tactic?: string | undefined;
+  Technique?: string | undefined;
+  Service?: string | undefined;
+  Language?: RuleLanguage | undefined;
+  Schema?: RuleSchema | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type RuleSummaryList = RuleSummary[];
 export interface ListCustomDetectionRulesResponse {
@@ -2954,37 +2968,37 @@ export interface ListCustomDetectionRulesResponse {
     Service: DetectionRuleServiceName;
     CreatedAt: Date;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListDetectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DetectorIds = string[];
 export interface ListDetectorsResponse {
   DetectorIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFiltersRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FilterNames = string[];
 export interface ListFiltersResponse {
   FilterNames: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListFindingsRequest {
   DetectorId: string;
-  FindingCriteria?: FindingCriteria;
-  SortCriteria?: SortCriteria;
-  MaxResults?: number;
-  NextToken?: string;
+  FindingCriteria?: FindingCriteria | undefined;
+  SortCriteria?: SortCriteria | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFindingsResponse {
   FindingIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type InvestigationSortField =
   | "START_TIME"
@@ -2994,68 +3008,68 @@ export type InvestigationSortField =
   | "CONFIDENCE"
   | (string & {});
 export interface InvestigationSortCriteria {
-  AttributeName?: InvestigationSortField;
-  OrderBy?: OrderBy;
+  AttributeName?: InvestigationSortField | undefined;
+  OrderBy?: OrderBy | undefined;
 }
 export type NextToken = string;
 export interface ListInvestigationsRequest {
   DetectorId: string;
-  SortCriteria?: InvestigationSortCriteria;
-  MaxResults?: number;
-  NextToken?: string;
+  SortCriteria?: InvestigationSortCriteria | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InvestigationTitle = string;
 export interface InvestigationSummary {
-  InvestigationId?: string;
-  Status?: InvestigationStatus;
-  TriggerPrompt?: string;
-  RiskLevel?: RiskLevel;
-  Confidence?: Confidence;
-  Title?: string;
-  AccountId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
+  InvestigationId?: string | undefined;
+  Status?: InvestigationStatus | undefined;
+  TriggerPrompt?: string | undefined;
+  RiskLevel?: RiskLevel | undefined;
+  Confidence?: Confidence | undefined;
+  Title?: string | undefined;
+  AccountId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type InvestigationSummaries = InvestigationSummary[];
 export interface ListInvestigationsResponse {
   Investigations: InvestigationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListInvitationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Invitation {
-  AccountId?: string;
-  InvitationId?: string;
-  RelationshipStatus?: string;
-  InvitedAt?: string;
+  AccountId?: string | undefined;
+  InvitationId?: string | undefined;
+  RelationshipStatus?: string | undefined;
+  InvitedAt?: string | undefined;
 }
 export type Invitations = Invitation[];
 export interface ListInvitationsResponse {
-  Invitations?: Invitation[];
-  NextToken?: string;
+  Invitations?: Invitation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIPSetsRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type IpSetIds = string[];
 export interface ListIPSetsResponse {
   IpSetIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListMalwareProtectionPlansRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface MalwareProtectionPlanSummary {
-  MalwareProtectionPlanId?: string;
+  MalwareProtectionPlanId?: string | undefined;
 }
 export type MalwareProtectionPlansSummary = MalwareProtectionPlanSummary[];
 export interface ListMalwareProtectionPlansResponse {
-  MalwareProtectionPlans?: MalwareProtectionPlanSummary[];
-  NextToken?: string;
+  MalwareProtectionPlans?: MalwareProtectionPlanSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListMalwareScansCriterionKey =
   | "RESOURCE_ARN"
@@ -3068,73 +3082,75 @@ export type ListMalwareScansCriterionKey =
   | "SCAN_TYPE"
   | (string & {});
 export interface ListMalwareScansFilterCriterion {
-  ListMalwareScansCriterionKey?: ListMalwareScansCriterionKey;
-  FilterCondition?: FilterCondition;
+  ListMalwareScansCriterionKey?: ListMalwareScansCriterionKey | undefined;
+  FilterCondition?: FilterCondition | undefined;
 }
 export type ListMalwareScansFilterCriterionList = ListMalwareScansFilterCriterion[];
 export interface ListMalwareScansFilterCriteria {
-  ListMalwareScansFilterCriterion?: ListMalwareScansFilterCriterion[];
+  ListMalwareScansFilterCriterion?: ListMalwareScansFilterCriterion[] | undefined;
 }
 export interface ListMalwareScansRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  FilterCriteria?: ListMalwareScansFilterCriteria;
-  SortCriteria?: SortCriteria;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  FilterCriteria?: ListMalwareScansFilterCriteria | undefined;
+  SortCriteria?: SortCriteria | undefined;
 }
 export interface MalwareScan {
-  ResourceArn?: string;
-  ResourceType?: MalwareProtectionResourceType;
-  ScanId?: string;
-  ScanStatus?: MalwareProtectionScanStatus;
-  ScanResultStatus?: ScanResultStatus;
-  ScanType?: MalwareProtectionScanType;
-  ScanStartedAt?: Date;
-  ScanCompletedAt?: Date;
+  ResourceArn?: string | undefined;
+  ResourceType?: MalwareProtectionResourceType | undefined;
+  ScanId?: string | undefined;
+  ScanStatus?: MalwareProtectionScanStatus | undefined;
+  ScanResultStatus?: ScanResultStatus | undefined;
+  ScanType?: MalwareProtectionScanType | undefined;
+  ScanStartedAt?: Date | undefined;
+  ScanCompletedAt?: Date | undefined;
 }
 export type MalwareScans = MalwareScan[];
 export interface ListMalwareScansResponse {
   Scans: MalwareScan[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListMembersRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  OnlyAssociated?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  OnlyAssociated?: string | undefined;
 }
 export interface ListMembersResponse {
-  Members?: (Member & {
-    AccountId: AccountId;
-    MasterId: string;
-    Email: Email;
-    RelationshipStatus: string;
-    UpdatedAt: string;
-  })[];
-  NextToken?: string;
+  Members?:
+    | (Member & {
+        AccountId: AccountId;
+        MasterId: string;
+        Email: Email;
+        RelationshipStatus: string;
+        UpdatedAt: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOrganizationAdminAccountsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AdminStatus = "ENABLED" | "DISABLE_IN_PROGRESS" | (string & {});
 export interface AdminAccount {
-  AdminAccountId?: string;
-  AdminStatus?: AdminStatus;
+  AdminAccountId?: string | undefined;
+  AdminStatus?: AdminStatus | undefined;
 }
 export type AdminAccounts = AdminAccount[];
 export interface ListOrganizationAdminAccountsResponse {
-  AdminAccounts?: AdminAccount[];
-  NextToken?: string;
+  AdminAccounts?: AdminAccount[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPublishingDestinationsRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Destination {
-  DestinationId?: string;
-  DestinationType?: DestinationType;
-  Status?: PublishingStatus;
+  DestinationId?: string | undefined;
+  DestinationType?: DestinationType | undefined;
+  Status?: PublishingStatus | undefined;
 }
 export type Destinations = Destination[];
 export interface ListPublishingDestinationsResponse {
@@ -3143,134 +3159,134 @@ export interface ListPublishingDestinationsResponse {
     DestinationType: DestinationType;
     Status: PublishingStatus;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type GuardDutyArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListThreatEntitySetsRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ThreatEntitySetIds = string[];
 export interface ListThreatEntitySetsResponse {
   ThreatEntitySetIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListThreatIntelSetsRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ThreatIntelSetIds = string[];
 export interface ListThreatIntelSetsResponse {
   ThreatIntelSetIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTrustedEntitySetsRequest {
   DetectorId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TrustedEntitySetIds = string[];
 export interface ListTrustedEntitySetsResponse {
   TrustedEntitySetIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface S3ObjectForSendObjectMalwareScan {
-  Bucket?: string;
-  Key?: string;
-  VersionId?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  VersionId?: string | undefined;
 }
 export interface SendObjectMalwareScanRequest {
-  S3Object?: S3ObjectForSendObjectMalwareScan;
+  S3Object?: S3ObjectForSendObjectMalwareScan | undefined;
 }
 export interface SendObjectMalwareScanResponse {}
 export type ResourceArn = string;
 export interface ContinuousScanDetails {
-  StartTime?: Date;
+  StartTime?: Date | undefined;
   EndTime: Date;
 }
 export interface RecoveryPoint {
-  BackupVaultName?: string;
-  ContinuousScanDetails?: ContinuousScanDetails;
+  BackupVaultName?: string | undefined;
+  ContinuousScanDetails?: ContinuousScanDetails | undefined;
 }
 export interface StartMalwareScanConfiguration {
-  Role?: string;
-  IncrementalScanDetails?: IncrementalScanDetails;
-  RecoveryPoint?: RecoveryPoint;
+  Role?: string | undefined;
+  IncrementalScanDetails?: IncrementalScanDetails | undefined;
+  RecoveryPoint?: RecoveryPoint | undefined;
 }
 export interface StartMalwareScanRequest {
-  ResourceArn?: string;
-  ClientToken?: string;
-  ScanConfiguration?: StartMalwareScanConfiguration;
+  ResourceArn?: string | undefined;
+  ClientToken?: string | undefined;
+  ScanConfiguration?: StartMalwareScanConfiguration | undefined;
 }
 export interface StartMalwareScanResponse {
-  ScanId?: string;
+  ScanId?: string | undefined;
 }
 export interface StartMonitoringMembersRequest {
   DetectorId: string;
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface StartMonitoringMembersResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
 }
 export interface StopMonitoringMembersRequest {
   DetectorId: string;
-  AccountIds?: string[];
+  AccountIds?: string[] | undefined;
 }
 export interface StopMonitoringMembersResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
 }
 export interface TagResourceRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
   Tags: { [key: string]: string | undefined };
 }
 export interface TagResourceResponse {}
 export interface UnarchiveFindingsRequest {
   DetectorId: string;
-  FindingIds?: string[];
+  FindingIds?: string[] | undefined;
 }
 export interface UnarchiveFindingsResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateCustomDetectionRuleAssociationRequest {
   RuleId: string;
   AssociationId: string;
-  Mode?: AssociationMode;
+  Mode?: AssociationMode | undefined;
 }
 export interface UpdateCustomDetectionRuleAssociationResponse {}
 export interface UpdateCustomDetectionRuleOrgConfigurationRequest {
   RuleId: string;
-  Mode?: AssociationMode;
-  IncludeAccountIds?: string[];
-  ExcludeAccountIds?: string[];
+  Mode?: AssociationMode | undefined;
+  IncludeAccountIds?: string[] | undefined;
+  ExcludeAccountIds?: string[] | undefined;
 }
 export interface UpdateCustomDetectionRuleOrgConfigurationResponse {}
 export interface UpdateDetectorRequest {
   DetectorId: string;
-  Enable?: boolean;
-  FindingPublishingFrequency?: FindingPublishingFrequency;
-  DataSources?: DataSourceConfigurations;
-  Features?: DetectorFeatureConfiguration[];
+  Enable?: boolean | undefined;
+  FindingPublishingFrequency?: FindingPublishingFrequency | undefined;
+  DataSources?: DataSourceConfigurations | undefined;
+  Features?: DetectorFeatureConfiguration[] | undefined;
 }
 export interface UpdateDetectorResponse {}
 export interface UpdateFilterRequest {
   DetectorId: string;
   FilterName: string;
-  Description?: string;
-  Action?: FilterAction;
-  Rank?: number;
-  FindingCriteria?: FindingCriteria;
+  Description?: string | undefined;
+  Action?: FilterAction | undefined;
+  Rank?: number | undefined;
+  FindingCriteria?: FindingCriteria | undefined;
 }
 export interface UpdateFilterResponse {
   Name: string;
@@ -3278,132 +3294,132 @@ export interface UpdateFilterResponse {
 export type Feedback = "USEFUL" | "NOT_USEFUL" | (string & {});
 export interface UpdateFindingsFeedbackRequest {
   DetectorId: string;
-  FindingIds?: string[];
-  Feedback?: Feedback;
-  Comments?: string | redacted.Redacted<string>;
+  FindingIds?: string[] | undefined;
+  Feedback?: Feedback | undefined;
+  Comments?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateFindingsFeedbackResponse {}
 export interface UpdateIPSetRequest {
   DetectorId: string;
-  IpSetId?: string;
-  Name?: string;
-  Location?: string;
-  Activate?: boolean;
-  ExpectedBucketOwner?: string;
+  IpSetId?: string | undefined;
+  Name?: string | undefined;
+  Location?: string | undefined;
+  Activate?: boolean | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface UpdateIPSetResponse {}
 export interface UpdateS3BucketResource {
-  ObjectPrefixes?: string[];
+  ObjectPrefixes?: string[] | undefined;
 }
 export interface UpdateProtectedResource {
-  S3Bucket?: UpdateS3BucketResource;
+  S3Bucket?: UpdateS3BucketResource | undefined;
 }
 export interface UpdateMalwareProtectionPlanRequest {
   MalwareProtectionPlanId: string;
-  Role?: string;
-  Actions?: MalwareProtectionPlanActions;
-  ProtectedResource?: UpdateProtectedResource;
+  Role?: string | undefined;
+  Actions?: MalwareProtectionPlanActions | undefined;
+  ProtectedResource?: UpdateProtectedResource | undefined;
 }
 export interface UpdateMalwareProtectionPlanResponse {}
 export interface UpdateMalwareScanSettingsRequest {
   DetectorId: string;
-  ScanResourceCriteria?: ScanResourceCriteria;
-  EbsSnapshotPreservation?: EbsSnapshotPreservation;
+  ScanResourceCriteria?: ScanResourceCriteria | undefined;
+  EbsSnapshotPreservation?: EbsSnapshotPreservation | undefined;
 }
 export interface UpdateMalwareScanSettingsResponse {}
 export interface MemberAdditionalConfiguration {
-  Name?: OrgFeatureAdditionalConfiguration;
-  Status?: FeatureStatus;
+  Name?: OrgFeatureAdditionalConfiguration | undefined;
+  Status?: FeatureStatus | undefined;
 }
 export type MemberAdditionalConfigurations = MemberAdditionalConfiguration[];
 export interface MemberFeaturesConfiguration {
-  Name?: OrgFeature;
-  Status?: FeatureStatus;
-  AdditionalConfiguration?: MemberAdditionalConfiguration[];
+  Name?: OrgFeature | undefined;
+  Status?: FeatureStatus | undefined;
+  AdditionalConfiguration?: MemberAdditionalConfiguration[] | undefined;
 }
 export type MemberFeaturesConfigurations = MemberFeaturesConfiguration[];
 export interface UpdateMemberDetectorsRequest {
   DetectorId: string;
-  AccountIds?: string[];
-  DataSources?: DataSourceConfigurations;
-  Features?: MemberFeaturesConfiguration[];
+  AccountIds?: string[] | undefined;
+  DataSources?: DataSourceConfigurations | undefined;
+  Features?: MemberFeaturesConfiguration[] | undefined;
 }
 export interface UpdateMemberDetectorsResponse {
   UnprocessedAccounts: (UnprocessedAccount & { AccountId: AccountId; Result: string })[];
 }
 export interface OrganizationS3LogsConfiguration {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface OrganizationKubernetesAuditLogsConfiguration {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface OrganizationKubernetesConfiguration {
-  AuditLogs?: OrganizationKubernetesAuditLogsConfiguration;
+  AuditLogs?: OrganizationKubernetesAuditLogsConfiguration | undefined;
 }
 export interface OrganizationEbsVolumes {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface OrganizationScanEc2InstanceWithFindings {
-  EbsVolumes?: OrganizationEbsVolumes;
+  EbsVolumes?: OrganizationEbsVolumes | undefined;
 }
 export interface OrganizationMalwareProtectionConfiguration {
-  ScanEc2InstanceWithFindings?: OrganizationScanEc2InstanceWithFindings;
+  ScanEc2InstanceWithFindings?: OrganizationScanEc2InstanceWithFindings | undefined;
 }
 export interface OrganizationDataSourceConfigurations {
-  S3Logs?: OrganizationS3LogsConfiguration;
-  Kubernetes?: OrganizationKubernetesConfiguration;
-  MalwareProtection?: OrganizationMalwareProtectionConfiguration;
+  S3Logs?: OrganizationS3LogsConfiguration | undefined;
+  Kubernetes?: OrganizationKubernetesConfiguration | undefined;
+  MalwareProtection?: OrganizationMalwareProtectionConfiguration | undefined;
 }
 export interface OrganizationAdditionalConfiguration {
-  Name?: OrgFeatureAdditionalConfiguration;
-  AutoEnable?: OrgFeatureStatus;
+  Name?: OrgFeatureAdditionalConfiguration | undefined;
+  AutoEnable?: OrgFeatureStatus | undefined;
 }
 export type OrganizationAdditionalConfigurations = OrganizationAdditionalConfiguration[];
 export interface OrganizationFeatureConfiguration {
-  Name?: OrgFeature;
-  AutoEnable?: OrgFeatureStatus;
-  AdditionalConfiguration?: OrganizationAdditionalConfiguration[];
+  Name?: OrgFeature | undefined;
+  AutoEnable?: OrgFeatureStatus | undefined;
+  AdditionalConfiguration?: OrganizationAdditionalConfiguration[] | undefined;
 }
 export type OrganizationFeaturesConfigurations = OrganizationFeatureConfiguration[];
 export interface UpdateOrganizationConfigurationRequest {
   DetectorId: string;
-  AutoEnable?: boolean;
-  DataSources?: OrganizationDataSourceConfigurations;
-  Features?: OrganizationFeatureConfiguration[];
-  AutoEnableOrganizationMembers?: AutoEnableMembers;
+  AutoEnable?: boolean | undefined;
+  DataSources?: OrganizationDataSourceConfigurations | undefined;
+  Features?: OrganizationFeatureConfiguration[] | undefined;
+  AutoEnableOrganizationMembers?: AutoEnableMembers | undefined;
 }
 export interface UpdateOrganizationConfigurationResponse {}
 export interface UpdatePublishingDestinationRequest {
   DetectorId: string;
   DestinationId: string;
-  DestinationProperties?: DestinationProperties;
+  DestinationProperties?: DestinationProperties | undefined;
 }
 export interface UpdatePublishingDestinationResponse {}
 export interface UpdateThreatEntitySetRequest {
   DetectorId: string;
-  ThreatEntitySetId?: string;
-  Name?: string;
-  Location?: string;
-  ExpectedBucketOwner?: string;
-  Activate?: boolean;
+  ThreatEntitySetId?: string | undefined;
+  Name?: string | undefined;
+  Location?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  Activate?: boolean | undefined;
 }
 export interface UpdateThreatEntitySetResponse {}
 export interface UpdateThreatIntelSetRequest {
   DetectorId: string;
   ThreatIntelSetId: string;
-  Name?: string;
-  Location?: string;
-  Activate?: boolean;
-  ExpectedBucketOwner?: string;
+  Name?: string | undefined;
+  Location?: string | undefined;
+  Activate?: boolean | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export interface UpdateThreatIntelSetResponse {}
 export interface UpdateTrustedEntitySetRequest {
   DetectorId: string;
   TrustedEntitySetId: string;
-  Name?: string;
-  Location?: string;
-  ExpectedBucketOwner?: string;
-  Activate?: boolean;
+  Name?: string | undefined;
+  Location?: string | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  Activate?: boolean | undefined;
 }
 export interface UpdateTrustedEntitySetResponse {}
 export type AcceptAdministratorInvitationError =

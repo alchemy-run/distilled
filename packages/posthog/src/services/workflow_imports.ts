@@ -36,7 +36,7 @@ export interface CustomerioCampaign {
   /** The top-level `actions` array from the same response, every step of the automation. */
   actions: CustomerioCampaignActionsList;
   /** The message templates the actions point at, from `GET /v1/environments/{environment_id}/templates/{template_id}`: a list of template objects, or an object keyed by template id. Leave them out when the project stored a Customer.io App API key: PostHog then reads the content from Customer.io itself. Without either, messages import with empty content. */
-  templates?: unknown;
+  templates?: unknown | undefined;
 }
 /** The automations to import, at most 50. People are never read from these objects. */
 export type CreateWorkflowImportRequestCampaignsList = Array<CustomerioCampaign>;
@@ -52,7 +52,7 @@ export interface CustomerioSenderIdentity {
   /** The address the sender sends from. */
   email: string;
   /** The sender's display name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Customer.io sender identities, from `GET /v1/environments/{environment_id}/identities?type=email`. Each email gets the PostHog sender with the same address. */
 export type CreateWorkflowImportRequestSenderIdentitiesList = Array<CustomerioSenderIdentity>;
@@ -74,17 +74,17 @@ export interface CreateWorkflowImportRequest {
   /** The automations to import, at most 50. People are never read from these objects. */
   campaigns: CreateWorkflowImportRequestCampaignsList;
   /** Customer.io snippet name to its content, inlined where a message uses `{{ snippets.name }}`. When PostHog reads the message content with a stored Customer.io App API key, it reads the snippets too. */
-  snippets?: CreateWorkflowImportRequestSnippetsMap;
+  snippets?: CreateWorkflowImportRequestSnippetsMap | undefined;
   /** Customer.io segment id to the PostHog cohort that replaces it. Segment triggers and segment conditions with no cohort here are left for the team to set. */
-  segment_cohorts?: CreateWorkflowImportRequestSegmentCohortsMap;
+  segment_cohorts?: CreateWorkflowImportRequestSegmentCohortsMap | undefined;
   /** Customer.io layout id to the layout's `body`, from `GET /v1/environments/{environment_id}/layouts/{layout_id}`. An email whose template names a `layout_id` is wrapped in that layout at `{{ content }}`. */
-  layouts?: CreateWorkflowImportRequestLayoutsMap;
+  layouts?: CreateWorkflowImportRequestLayoutsMap | undefined;
   /** Customer.io sender identities, from `GET /v1/environments/{environment_id}/identities?type=email`. Each email gets the PostHog sender with the same address. */
-  sender_identities?: CreateWorkflowImportRequestSenderIdentitiesList;
+  sender_identities?: CreateWorkflowImportRequestSenderIdentitiesList | undefined;
   /** Customer.io segment ids, names and types, without members, so the notes can name each segment and flag static ones. */
-  segments?: CreateWorkflowImportRequestSegmentsList;
+  segments?: CreateWorkflowImportRequestSegmentsList | undefined;
   /** When true, translate and check the automations but save nothing, to preview the import. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 /** * `preview` - Preview * `created` - Created * `updated` - Updated * `skipped` - Skipped * `failed` - Failed */
 export type WorkflowImportStatusEnum = "preview" | "created" | "updated" | "skipped" | "failed";
